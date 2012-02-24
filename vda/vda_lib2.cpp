@@ -27,7 +27,11 @@ CHUNK::CHUNK(META_CHUNK* mc, double s, int index) {
     parent = mc;
     present_on_server = true;
     size = s;
-    sprintf(name, "%s.%d", parent->name, index);
+    if (strlen(parent->name)) {
+        sprintf(name, "%s.%d", parent->name, index);
+    } else {
+        sprintf(name, "%d", index);
+    }
 }
 
 // assign this chunk to a host

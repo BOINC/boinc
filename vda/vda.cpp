@@ -52,7 +52,7 @@ int handle_add(const char* path) {
     *p = 0;
     strcpy(filename, p+1);
 
-    // make sure there's a policy file in the dir
+    // make sure there's a valid policy file in the dir
     //
     sprintf(buf, "%s/boinc_meta.txt", dir);
     retval = policy.parse(buf);
@@ -61,7 +61,7 @@ int handle_add(const char* path) {
         return -1;
     }
 
-    // add a DB record and schedule it for updating
+    // add a DB record and mark it for update
     //
     vf.create_time = dtime();
     strcpy(vf.dir, dir);

@@ -147,12 +147,9 @@ struct META_CHUNK : DATA_UNIT {
     );
 
     // used by vdad
-    META_CHUNK(VDA_FILE_AUX* d, META_CHUNK* p) {
-        dfile = d;
-        parent = p;
-    }
-    int init(const char* dir, const char* fname, POLICY&, int level);
-    int get_state(const char* dir, const char* fname, POLICY&, int level);
+    META_CHUNK(VDA_FILE_AUX* d, META_CHUNK* p, int index);
+    int init(const char* dir, POLICY&, int level);
+    int get_state(const char* dir, POLICY&, int level);
 
     virtual int recovery_plan();
     virtual int recovery_action(double);

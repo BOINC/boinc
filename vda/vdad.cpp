@@ -44,6 +44,8 @@ using std::vector;
 // Coding/fname_k01.ext
 // Coding/fname_m01.ext
 //
+// Assume there's no extension
+//
 void encoder_filename(
     const char* base, const char* ext, CODING& c, int i, char* buf
 ) {
@@ -60,23 +62,26 @@ void encoder_filename(
         j = i+1;
         ch = 'k';
     }
-    sprintf(buf, "%s_%c%0*d%s", base, ch, ndigits, j, ext);
+    sprintf(buf, "%s_%c%0*d.%s", base, ch, ndigits, j, ext);
 }
 
+#define DATA_FILENAME "data"
+#define DATA_EXT "ext"
+
 // encode a meta-chunk.
-// precondition: "dir" contains a file "fname".
+// precondition: "dir" contains a file "data".
 // postcondition: dir contains
 //   a subdir Coding with encoded chunks
-//   subdirs fname_0 ... fname_m,
+//   subdirs data.0 .. data.m
 //     each containing a same-named symbolic link to the corresponding chunk
 //
 // The size of these chunks is returned in "size"
 //
-int encode(const char* dir, const char* fname, CODING& c, double& size) {
+int encode(const char* dir, CODING& c, double& size) {
     char cmd[1024];
     sprintf(cmd,
-        "cd %s; /mydisks/b/users/boincadm/vda_test/encoder %s %d %d cauchy_good 32 1024 500000",
-        dir, fname, c.n, c.k
+        "cd %s; /mydisks/b/users/boincadm/vda_test/encoder %s.%s %d %d cauchy_good 32 1024 500000",
+        dir, DATA_FILENAME, DATA_EXT, c.n, c.k
     );
     printf("%s\n", cmd);
     int s = system(cmd);
@@ -85,28 +90,21 @@ int encode(const char* dir, const char* fname, CODING& c, double& size) {
         if (status != 32) return -1;    // encoder returns 32 for some reason
     }
 
-    char base[256], ext[256];
-    strcpy(base, fname);
-    char* p = strchr(base, '.');
-    if (p) {
-        strcpy(ext, p);
-        *p = 0;
-    } else {
-        strcpy(ext, "");
-    }
+    // make symlinks
+    //
     for (int i=0; i<c.m; i++) {
         char enc_filename[1024], target_path[1024], chunk_name[1024];
         char dir_name[1024], link_name[1024];
-        encoder_filename(base, ext, c, i, enc_filename);
+        encoder_filename(DATA_FILENAME, DATA_EXT, c, i, enc_filename);
         sprintf(target_path, "%s/Coding/%s", dir, enc_filename);
-        sprintf(chunk_name, "%s_%d", fname, i);
+        sprintf(chunk_name, "%s.%d", DATA_FILENAME, i);
         sprintf(dir_name, "%s/%s", dir, chunk_name);
         int retval = mkdir(dir_name, 0777);
         if (retval) {
             perror("mkdir");
             return retval;
         }
-        sprintf(link_name, "%s/%s", dir_name, chunk_name);
+        sprintf(link_name, "%s/%s.%s", dir_name, DATA_FILENAME, DATA_EXT);
         retval = symlink(target_path, link_name);
         if (retval) {
             perror("symlink");
@@ -119,22 +117,37 @@ int encode(const char* dir, const char* fname, CODING& c, double& size) {
     return 0;
 }
 
-// initialize a meta-chunk: encode it,
-// then recursively initialize its meta-chunk children
+META_CHUNK::META_CHUNK(VDA_FILE_AUX* d, META_CHUNK* p, int index) {
+    dfile = d;
+    parent = p;
+    if (parent) {
+        if (strlen(parent->name)) {
+            sprintf(name, "%s.%d", parent->name, index);
+        } else {
+            sprintf(name, "%d", index);
+        }
+    } else {
+        strcpy(name, "");
+    }
+}
+
+// initialize a meta-chunk:
+// encode it, then recursively initialize its meta-chunk children
 //
-int META_CHUNK::init(const char* dir, const char* fname, POLICY& p, int level) {
+int META_CHUNK::init(const char* dir, POLICY& p, int level) {
     double size;
+
     CODING& c = p.codings[level];
-    int retval = encode(dir, fname, c, size);
+    int retval = encode(dir, c, size);
     if (retval) return retval;
     p.chunk_sizes[level] = size;
+
     if (level+1 < p.coding_levels) {
         for (int i=0; i<c.m; i++) {
-            char child_dir[1024], child_fname[1024];
-            sprintf(child_fname, "%s_%d", fname, i);
-            sprintf(child_dir, "%s/%s", dir, child_fname);
-            META_CHUNK* mc = new META_CHUNK(dfile, parent);
-            retval = mc->init(child_dir, child_fname, p, level+1);
+            char child_dir[1024];
+            sprintf(child_dir, "%s/%s.%d", dir, DATA_FILENAME, i);
+            META_CHUNK* mc = new META_CHUNK(dfile, parent, i);
+            retval = mc->init(child_dir, p, level+1);
             if (retval) return retval;
             children.push_back(mc);
         }
@@ -152,9 +165,15 @@ int META_CHUNK::init(const char* dir, const char* fname, POLICY& p, int level) {
 // leaving only the bottom-level chunks
 //
 int VDA_FILE_AUX::init() {
-    char buf[1024];
-    meta_chunk = new META_CHUNK(this, NULL);
-    int retval = meta_chunk->init(dir, name, policy, 0);
+    char buf[1024], buf2[1024];
+    sprintf(buf, "%s/%s.%s", dir, DATA_FILENAME, DATA_EXT);
+    sprintf(buf2, "%s/%s", dir, name);
+    int retval = symlink(buf2, buf);
+    if (retval) {
+        return ERR_SYMLINK;
+    }
+    meta_chunk = new META_CHUNK(this, NULL, 0);
+    retval = meta_chunk->init(dir, policy, 0);
     if (retval) return retval;
     sprintf(buf, "%s/chunk_sizes.txt", dir);
     FILE* f = fopen(buf, "w");
@@ -165,19 +184,16 @@ int VDA_FILE_AUX::init() {
     return 0;
 }
 
-int META_CHUNK::get_state(
-    const char* dir, const char* fname, POLICY& p, int level
-) {
+int META_CHUNK::get_state(const char* dir, POLICY& p, int level) {
     int retval;
 
     CODING& c = p.codings[level];
     if (level+1 < p.coding_levels) {
         for (int i=0; i<c.m; i++) {
-            char child_dir[1024], child_fname[1024];
-            sprintf(child_fname, "%s_%d", fname, i);
-            sprintf(child_dir, "%s/%s", dir, child_fname);
-            META_CHUNK* mc = new META_CHUNK(dfile, parent);
-            retval = mc->get_state(child_dir, child_fname, p, level+1);
+            char child_dir[1024];
+            sprintf(child_dir, "%s/%s.%d", dir, DATA_FILENAME, i);
+            META_CHUNK* mc = new META_CHUNK(dfile, this, i);
+            retval = mc->get_state(child_dir, p, level+1);
             if (retval) return retval;
             children.push_back(mc);
         }
@@ -191,25 +207,13 @@ int META_CHUNK::get_state(
 }
 
 int get_chunk_numbers(VDA_CHUNK_HOST& vch, vector<int>& chunk_numbers) {
-    char* p, *q;
-    p = vch.name;
-
-    // find the last __ in filename
-    //
+    char* p = vch.name;
     while (1) {
-        q = strstr(p, "__");
-        if (!q) {
-            if (p == vch.name) return ERR_NOT_FOUND;
-        } else {
-            break;
-        }
-        p = q;
-    }
-    p += 2;
-    while (p) {
+        p = strchr(p, '.');
+        if (!p) break;
+        p++;
         int i = atoi(p);
         chunk_numbers.push_back(i);
-        p = strchr(p, '_');
     }
     return 0;
 }
@@ -230,8 +234,8 @@ int VDA_FILE_AUX::get_state() {
         if (n != 1) return -1;
     }
     fclose(f);
-    meta_chunk = new META_CHUNK(this, NULL);
-    int retval = meta_chunk->get_state(dir, name, policy, 0);
+    meta_chunk = new META_CHUNK(this, NULL, 0);
+    int retval = meta_chunk->get_state(dir, policy, 0);
     if (retval) return retval;
     DB_VDA_CHUNK_HOST vch;
     sprintf(buf, "where vda_file_id=%d", id);
@@ -248,7 +252,10 @@ int VDA_FILE_AUX::get_state() {
             return retval;
         }
         if ((int)(chunk_numbers.size()) != policy.coding_levels) {
-            log_messages.printf(MSG_CRITICAL, "too many get_chunk_numbers\n");
+            log_messages.printf(MSG_CRITICAL,
+                "wrong get_chunk_numbers: got %d, expected %d\n",
+                (int)(chunk_numbers.size()), policy.coding_levels
+            );
             return -1;
         }
         META_CHUNK* mc = meta_chunk;
@@ -271,7 +278,7 @@ int handle_file(VDA_FILE_AUX& vf, DB_VDA_FILE& dvf) {
     int retval;
     char buf[1024];
 
-    log_messages.printf(MSG_NORMAL, "processing file%d\n", vf.id);
+    log_messages.printf(MSG_NORMAL, "processing file %s\n", vf.name);
 
     // read the policy file
     //

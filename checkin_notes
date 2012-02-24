@@ -2156,3 +2156,12 @@ David  24 Feb 2012
 
     client/
         work_fetch.cpp
+
+David  24 Feb 2012
+    - storage stuff
+
+    vda/
+        vdad.cpp
+        vda.cpp
+        vda_lib2.cpp
+        vda_lib.h
