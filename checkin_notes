@@ -7274,3 +7274,15 @@ Charlie 23 Feb 2012
     
     clientgui/skins/Progress Thru Processors/
         skin.xml
+
+Charlie 23 Feb 2012
+    - Mac installer: If installing under OS 10.4, create users and groups 
+        boinc_master and boinc_project at first available UserIDs and 
+        GroupIDs starting at 25 instead of 501 to prevent problems with 
+        Accounts pane of System Preferences.
+
+    client/
+        check_security.cpp
+    clientgui/
+        mac/
+            SetupSecurity.cpp

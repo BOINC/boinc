@@ -721,6 +721,15 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
     char            buf1[80];
     char            buf2[80];
     char            buf3[80];
+    SInt32          response;
+   
+    err = Gestalt(gestaltSystemVersion, &response);
+    if (err) return err;
+    
+    // OS 10.4 has problems with Accounts pane if we create uid or gid > 501
+    if (response < 0x1050) {
+        start_id = 25;
+    }
     
     pw = getpwnam(user_name);
     if (pw) {
