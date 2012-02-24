@@ -109,7 +109,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    retval = delete_host_file(host_id, file_name);
+    retval = create_delete_file_msg(host_id, file_name);
     boinc_db.close();
     return retval;
 }

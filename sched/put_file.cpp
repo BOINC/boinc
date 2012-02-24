@@ -129,7 +129,7 @@ int main(int argc, char** argv) {
         }
     }
 
-    retval = put_file(
+    retval = create_put_file_msg(
         host_id, file_name, urls, md5, nbytes, dtime()+max_latency
     );
 

@@ -131,7 +131,7 @@ int main(int argc, char** argv) {
         }
     }
 
-    retval = get_file(
+    retval = create_get_file_msg(
         host_id, file_name, urls, max_nbytes,
         dtime() + max_latency,
         generate_upload_certificate, key

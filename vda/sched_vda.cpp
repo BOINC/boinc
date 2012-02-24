@@ -34,6 +34,14 @@ static int mark_for_update(int vda_file_id) {
     return f.update_field("need_update=1");
 }
 
+// handle a scheduler request:
+// - handle completed uploads
+// - handle set of files present on client
+//   (update or create VDA_CHUNK_HOST record)
+// - handle files expected but not present
+// - issue delete commands if needed to enforce share
+// - issue upload or download commands to client
+//
 // relevant fields of SCHEDULER_REQUEST
 // file_infos: list of sticky files
 // file_xfer_results: list of completed file xfers
@@ -115,6 +123,20 @@ void handle_vda() {
             strcpy(fi.name, ch.name);
             g_reply->file_deletes.push_back(fi);
             it++;
+        }
+    }
+
+    // issue upload and download commands
+    //
+    it = chunks.begin();
+    while (it != chunks.end()) {
+        DB_VDA_CHUNK_HOST& ch = (*it).second;
+        if (!ch.transfer_in_progress) continue;
+        if (!ch.transfer_wait) continue;
+        if (ch.present_on_host) {
+            // upload
+        } else {
+            // download
         }
     }
 }

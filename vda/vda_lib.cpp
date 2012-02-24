@@ -19,51 +19,15 @@
 #include <string.h>
 
 #include <vector>
+#include <set>
 #include <algorithm>
 #include <math.h>
 #include <limits.h>
 
 using std::vector;
+using std::set;
 
 #include "vda_lib.h"
-
-int POLICY::parse(const char* filename) {
-    int n;
-    char buf[256];
-
-    strcpy(description, "");
-
-    FILE* f = fopen(filename, "r");
-    if (!f) {
-        fprintf(stderr, "No policy file %s\n", filename);
-        return -1;
-    }
-    n = fscanf(f, "%d", &replication);
-    if (n != 1) {
-        fprintf(stderr, "parse error in %s\n", filename);
-        return -1;
-    }
-    n = fscanf(f, "%d", &coding_levels);
-    if (n != 1) {
-        fprintf(stderr, "parse error in %s\n", filename);
-        return -1;
-    }
-    for (int i=0; i<coding_levels; i++) {
-        CODING& c = codings[i];
-        n = fscanf(f, "%d %d %d", &c.n, &c.k, &c.n_upload);
-        if (n != 3) {
-            fprintf(stderr, "parse error in %s\n", filename);
-            return -1;
-        }
-        c.m = c.n + c.k;
-
-        sprintf(buf, "(%d %d %d) ", c.n, c.k, c.n_upload);
-        strcat(description, buf);
-    }
-    sprintf(buf, "X%d", replication);
-    strcat(description, buf);
-    return 0;
-}
 
 char* time_str(double t) {
     static char buf[256];
@@ -416,6 +380,15 @@ int META_CHUNK::recovery_action(double now) {
     return 0;
 }
 
+bool CHUNK::download_in_progress() {
+    set<VDA_CHUNK_HOST*>::iterator i;
+    for (i=hosts.begin(); i!=hosts.end(); i++) {
+        VDA_CHUNK_HOST* ch = *i;
+        if (ch->download_in_progress()) return true;
+    }
+    return false;
+}
+
 int CHUNK::recovery_action(double now) {
     int retval;
     VDA_FILE_AUX* fp = parent->dfile;
@@ -442,7 +415,8 @@ int CHUNK::recovery_action(double now) {
 #endif
     if (data_needed) {
         if (!present_on_server) {
-            start_upload();
+            retval = start_upload();
+            if (retval) return retval;
         }
     } else {
         if (present_on_server) {

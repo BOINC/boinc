@@ -26,8 +26,10 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <vector>
+#include <set>
 
 using std::vector;
+using std::set;
 
 #include "boinc_db.h"
 #include "sched_config.h"
@@ -114,6 +116,167 @@ int encode(const char* dir, CODING& c, double& size) {
             file_size(target_path, size);
         }
     }
+    return 0;
+}
+
+CHUNK::CHUNK(META_CHUNK* mc, double s, int index) {
+    parent = mc;
+    present_on_server = true;
+    size = s;
+    if (strlen(parent->name)) {
+        sprintf(name, "%s.%d", parent->name, index);
+    } else {
+        sprintf(name, "%d", index);
+    }
+}
+
+// assign this chunk to a host
+//
+int CHUNK::assign() {
+    int host_id = parent->dfile->choose_host();
+    if (!host_id) {
+        return ERR_NOT_FOUND;
+    }
+    DB_VDA_CHUNK_HOST ch;
+    ch.create_time = dtime();
+    ch.vda_file_id = parent->dfile->id;
+    strcpy(ch.name, name);
+    ch.host_id = host_id;
+    ch.present_on_host = 0;
+    ch.transfer_in_progress = true;
+    ch.transfer_wait = true;
+    ch.transfer_request_time = ch.create_time;
+    ch.transfer_send_time = 0;
+    int retval = ch.insert();
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL, "ch.insert() failed\n");
+        return retval;
+    }
+    return 0;
+}
+
+int CHUNK::start_upload() {
+    // if no upload of this chunk is in progress, start one.
+    // NOTE: all instances are inherently present_on_host,
+    // since this is only called if chunk is not present on server
+    //
+    VDA_CHUNK_HOST* chp;
+    set<VDA_CHUNK_HOST*>::iterator i;
+    for (i=hosts.begin(); i!=hosts.end(); i++) {
+        chp = *i;
+        if (chp->transfer_in_progress) return 0;
+    }
+    chp = *(hosts.begin());
+    DB_VDA_CHUNK_HOST dch;
+    char set_clause[256], where_clause[256];
+    sprintf(set_clause,
+        "transfer_in_progress=1, transfer_wait=1, transfer_request_time=%f",
+        dtime()
+    );
+    sprintf(where_clause,
+        "where vda_file_id=%d and host_id=%d and name='%s'",
+        chp->vda_file_id,
+        chp->host_id,
+        name
+    );
+    int retval = dch.update_fields_noid(set_clause, where_clause);
+    return retval;
+}
+
+
+inline bool alive(DB_HOST& h) {
+    return (h.rpc_time > dtime()-VDA_HOST_TIMEOUT);
+}
+
+char* host_alive_clause() {
+    static char buf[256];
+    sprintf(buf, "rpc_time > %f", dtime() - VDA_HOST_TIMEOUT);
+    return buf;
+}
+
+// Pick a host to send a chunk of this file to.
+// The host must:
+// 1) be alive (recent RPC time)
+// 2) not have any chunks of this file
+//
+// We maintain a cache of such hosts
+// The policy is:
+//
+// - scan the cache, removing hosts that are no longer alive;
+//   return if find a live host
+// - pick a random starting point in host ID space,
+//   and enumerate 100 live hosts; wrap around if needed.
+//   Return one and put the rest in cache
+//
+int VDA_FILE_AUX::choose_host() {
+    int retval;
+    DB_HOST host;
+
+    // replenish cache if needed
+    //
+    if (!available_hosts.size()) {
+        int nhosts_scanned = 0;
+        int rand_id;
+        for (int i=0; i<2; i++) {
+            char buf[256];
+            if (i == 0) {
+                retval = host.max_id(rand_id, "");
+                if (retval) {
+                    log_messages.printf(MSG_CRITICAL, "host.max_id() failed\n");
+                    return 0;
+                }
+                rand_id = (int)(((double)id)*drand());
+                sprintf(buf,
+                    "where %s and id>=%d order by id limit 100",
+                    host_alive_clause(), rand_id
+                );
+            } else {
+                sprintf(buf,
+                    "where %s and id<%d order by id limit %d",
+                    host_alive_clause(), rand_id, 100-nhosts_scanned
+                );
+            }
+            while (1) {
+                retval = host.enumerate(buf);
+                if (retval == ERR_DB_NOT_FOUND) break;
+                if (retval) {
+                    log_messages.printf(MSG_CRITICAL, "host enum failed\n");
+                    return 0;
+                }
+                nhosts_scanned++;
+                DB_VDA_CHUNK_HOST ch;
+                char buf2[256];
+                int count;
+                sprintf(buf2, "where vda_file_id=%d and host_id=%d", id, host.id);
+#if 0
+                retval = ch.count(count, buf2);
+                if (retval) {
+                    log_messages.printf(MSG_CRITICAL, "ch.count failed\n");
+                    return 0;
+                }
+#else
+                count = 0;
+#endif
+                if (count == 0) {
+                    available_hosts.push_back(host.id);
+                }
+                if (nhosts_scanned == 100) break;
+            }
+            if (nhosts_scanned == 100) break;
+        }
+    }
+
+    while (available_hosts.size()) {
+        int hostid = available_hosts.back();
+        available_hosts.pop_back();
+        retval = host.lookup_id(hostid);
+        if (retval || !alive(host)) {
+            continue;
+        }
+        return hostid;
+    }
+
+    log_messages.printf(MSG_CRITICAL, "No hosts available\n");
     return 0;
 }
 

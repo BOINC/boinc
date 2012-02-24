@@ -1160,6 +1160,10 @@ struct VDA_CHUNK_HOST {
     bool found;
 
     void clear();
+    inline bool download_in_progress() {
+        return (transfer_in_progress && !present_on_host);
+    }
+
 };
 
 struct DB_VDA_FILE : public DB_BASE, public VDA_FILE {

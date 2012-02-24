@@ -169,9 +169,6 @@ struct CHUNK_ON_HOST : VDA_CHUNK_HOST, EVENT {
     virtual void handle();
     void start_upload();
     void start_download();
-    inline bool download_in_progress() {
-        return (transfer_in_progress && !present_on_host);
-    }
     void remove();
 };
 
@@ -397,16 +394,7 @@ int CHUNK::assign() {
     return 0;
 }
 
-bool CHUNK::download_in_progress() {
-    set<VDA_CHUNK_HOST*>::iterator i;
-    for (i=hosts.begin(); i!=hosts.end(); i++) {
-        CHUNK_ON_HOST* c = (CHUNK_ON_HOST*)*i;
-        if (c->download_in_progress()) return true;
-    }
-    return false;
-}
-
-void CHUNK::start_upload() {
+int CHUNK::start_upload() {
     // if no upload of this chunk is in progress, start one.
     // NOTE: all instances are inherently present_on_host,
     // since this is only called if chunk is not present on server
@@ -414,10 +402,11 @@ void CHUNK::start_upload() {
     set<VDA_CHUNK_HOST*>::iterator i;
     for (i=hosts.begin(); i!=hosts.end(); i++) {
         CHUNK_ON_HOST* c = (CHUNK_ON_HOST*)*i;
-        if (c->transfer_in_progress) return;
+        if (c->transfer_in_progress) return 0;
     }
     CHUNK_ON_HOST* c = (CHUNK_ON_HOST*)*(hosts.begin());
     c->start_upload();
+    return 0;
 }
 
 void CHUNK::host_failed(VDA_CHUNK_HOST* p) {

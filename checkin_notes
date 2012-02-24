@@ -2165,3 +2165,22 @@ David  24 Feb 2012
         vda.cpp
         vda_lib2.cpp
         vda_lib.h
+
+David  24 Feb 2012
+    - storage stuff
+
+    db/
+        boinc_db.h
+        schema_vda.sql
+    sched/
+        delete_file.cpp
+        put_file.cpp
+        get_file.cpp
+    tools/
+        backend_lib.cpp,h
+    vda/
+        vda.cpp
+        vda_policy.cpp,h (new)
+        vda_lib.cpp,h
+        Makefile.am
+        ssim.cpp

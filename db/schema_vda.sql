@@ -24,8 +24,8 @@ create table vda_chunk_host (
 ) engine = InnoDB;
 
 alter table vda_chunk_host
-     add index vch_file (vda_file_id),
-     add index vch_host (host_id);
+    add index vch_file (vda_file_id),
+    add index vch_host (host_id);
 
 alter table host
     add index host_cpu_eff (cpu_efficiency);

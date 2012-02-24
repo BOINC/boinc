@@ -73,16 +73,38 @@ extern int create_work(
 
 extern int stage_file(const char*, bool);
 
-// the following 3 functions are for programs other than the schedule
-// to do file operations.
-// They work by creating MSG_TO_HOST records in the DB
+// the following functions return XML that can be put in
+// scheduler replies to do file operations
 //
-extern int put_file(
+extern int put_file_xml(
+    const char* file_name, vector<const char*> urls,
+    const char* md5, double nbytes, double report_deadline,
+    char* buf
+);
+extern int get_file_xml(
+    const char* file_name, vector<const char*> urls,
+    double max_nbytes,
+    double report_deadline,
+    bool generate_upload_certificate,
+    R_RSA_PRIVATE_KEY& key,
+    char* buf
+);
+extern int delete_file_xml(
+    const char* file_name,
+    char* buf
+);
+
+// the following 3 functions are for programs other than the scheduler
+// to do file operations.
+// They work by creating MSG_TO_HOST records in the DB,
+// containing the needed XML
+//
+extern int create_put_file_msg(
     int host_id, const char* file_name, vector<const char*> urls,
     const char* md5, double nbytes, double report_deadline
 );
 
-extern int get_file(
+extern int create_get_file_msg(
     int host_id, const char* file_name, vector<const char*> urls,
     double max_nbytes,
     double report_deadline,
@@ -90,7 +112,10 @@ extern int get_file(
     R_RSA_PRIVATE_KEY& key
 );
 
-extern int delete_host_file(int host_id, const char* file_name);
+extern int create_delete_file_msg(
+    int host_id,
+    const char* file_name
+);
 
 // cancel jobs from min_id to max_id inclusive
 //

@@ -25,33 +25,12 @@
 
 #include "boinc_db.h"
 
+#include "vda_policy.h"
+
 // a host with rpc_time < now-HOST_TIMEOUT is considered dead.
 // Make sure you set next_rpc_delay accordingly (e.g., to 86400)
 //
 #define VDA_HOST_TIMEOUT (86400*4)
-
-// parameters of 1 level of coding
-//
-struct CODING {
-    int n;
-    int k;
-    int m;  // n + k
-    int n_upload;
-};
-
-// description of overall coding
-// (possibly w/ multiple coding levels and replication)
-//
-struct POLICY {
-    int replication;
-    int coding_levels;
-    CODING codings[10];
-    double chunk_sizes[10];
-
-    char description[256];  // derived from the above
-
-    int parse(const char*);
-};
 
 // keeps track of a time-varying property of a file
 // (server disk usage, up/download rate, fault tolerance level)
@@ -163,7 +142,7 @@ struct CHUNK : DATA_UNIT {
 
     CHUNK(META_CHUNK* mc, double s, int index);
 
-    void start_upload();
+    int start_upload();
     void host_failed(VDA_CHUNK_HOST* p);
     bool download_in_progress();
     void upload_complete();
