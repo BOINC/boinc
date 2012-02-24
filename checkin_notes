@@ -7287,10 +7287,19 @@ Charlie 23 Feb 2012
         mac/
             SetupSecurity.cpp
 
-Charlie 22 Jan 2012
+Charlie 23 Feb 2012
     - Tag for 6.8.41 release, all platforms
       boinc_core_release_6_8_41
 
     /
         configure.ac
         version.h
+
+Charlie 24 Feb 2012
+    - Mac installer: Create RealName field for users boinc_master and 
+        boinc_project and set it to empty string (following new advice from 
+        Apple Developer technical Suport.)
+
+    clientgui/
+        mac/
+            SetupSecurity.cpp
