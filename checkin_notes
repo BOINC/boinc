@@ -2115,3 +2115,14 @@ David  22 Feb 2012
         vda_lib.cpp
         vda_lib2.cpp
         vda.cpp
+
+David  22 Feb 2012
+    - install antique file deleter as periodic task (24 hours)
+        when create new project
+
+    sched/
+        antique_file_deleter.cpp
+    tools/
+        make_project
+    py/Boinc/
+        setup_project.py

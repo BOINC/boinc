@@ -374,7 +374,8 @@ sys.path.insert(0, os.path.join('%s', 'py'))
     map(lambda (s): install(builddir('sched',s), dir('bin',s)),
         [ 'make_work', 'feeder', 'transitioner', 'transitioner_catchup.php',
           'sample_bitwise_validator', 'sample_trivial_validator',
-          'file_deleter', 'sample_dummy_assimilator',
+          'file_deleter', 'antique_file_deleter',
+          'sample_dummy_assimilator',
           'sample_assimilator', 'sample_work_generator',
           'single_job_assimilator', 
           'assimilator.py', 'pymw_assimilator.py',
@@ -594,6 +595,8 @@ class Project:
             _check_vars(kwargs)
             each_app = True
         elif progname == 'file_deleter':
+            _check_vars(kwargs)
+        elif progname == 'antique_file_deleter':
             _check_vars(kwargs)
         elif progname == 'sample_dummy_assimilator':
             _check_vars(kwargs)

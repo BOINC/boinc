@@ -239,6 +239,12 @@ if options.test_app:
 
 t = project.config.tasks.make_node_and_append("task")
 t.period = '24 hours'
+t.output = 'antique_file_deleter.out'
+t.cmd = 'antique_file_deleter -d 2'
+t.disabled = 0
+
+t = project.config.tasks.make_node_and_append("task")
+t.period = '24 hours'
 t.output = 'db_dump.out'
 t.cmd = 'db_dump -d 2 --dump_spec ../db_dump_spec.xml'
 t.disabled = 1

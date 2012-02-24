@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2012 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,7 +16,10 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 
-// antique_file deleter. Stripped down from file_deleter.cpp. See usage() below for usage.
+// antique_file deleter
+// removes files from the upload/download hierarchies that are
+// older than any WU
+// See usage() below for usage.
 
 // how long to wait until delete antiques, and how often to do it
 //
@@ -68,10 +71,10 @@ void usage(char *name) {
         "  -d N | --debug_level N          set debug output level (1 to 4)\n"
         "  --dry_run                       don't delete any files, just log what would be deleted\n"
         "  --usleep N                      sleep this number of usecs after each examined file.\n"
-	"                                  Throttles I/O if there are many files. Defaults to %d.\n"
+        "                                  Throttles I/O if there are many files. Defaults to %d.\n"
         "  [ -h | --help ]                 shows this help text\n"
         "  [ -v | --version ]              shows version information\n",
-	name, ANTIQUE_USLEEP
+        name, ANTIQUE_USLEEP
     );
 }
 
@@ -95,180 +98,189 @@ int get_file_path(
 }
 
 // return ctime() w/o \n
+//
 static inline char* actime(time_t t) {
-  char*p=ctime(&t);
-  char*c=strchr(p,'\n');
-  if(c) *c='\0';
-  return p;
+    char*p=ctime(&t);
+    char*c=strchr(p,'\n');
+    if(c) *c='\0';
+    return p;
 }
 
-/*
-  returns:
-  0 if all went ok;
-  1 on a transient error affecting only a single file;
- -1 on a serious error that should switch off antique file deletion
-*/
+//  returns:
+//  0 if all went ok;
+//  1 on a transient error affecting only a single file;
+// -1 on a serious error that should switch off antique file deletion
+//
 int delete_antiques_from_dir(char*dirpath, time_t mtime, uid_t uid) {
-  DIR*dir;
-  struct dirent*entry;
-  struct stat fstat;
-  int ret;
-  char path[2*256];
+    DIR*dir;
+    struct dirent*entry;
+    struct stat fstat;
+    int ret;
+    char path[2*256];
 
-  // open directory
-  errno = 0;
-  dir = opendir(dirpath);
-  if(!dir) {
-    log_messages.printf(MSG_CRITICAL,
-			"delete_antiques_from_dir(): "
-			"Couldn't open dir '%s': %s (%d)\n",
-			dirpath, strerror(errno), errno);
-    return -1;
-  }
-
-  // scan directory
-  errno = 0;
-  while ( ( entry = readdir(dir) ) ) {
-
-    // might be woken by a signal
-    check_stop_daemons();
-
-    // construct absolute path of this entry
-    strcpy(path, dirpath);
-    strcat(path, "/");
-    strcat(path, entry->d_name);
-
-    // examomine file
-    log_messages.printf(MSG_DEBUG,
-			"delete_antiques_from_dir(): "
-			"examining file: '%s'\n",
-			path
-			);
-
-    // stat
+    // open directory
     errno = 0;
-    if ( lstat(path, &fstat) ) {
-      log_messages.printf(MSG_NORMAL,
-			  "delete_antiques_from_dir(): "
-			  "couldn't stat '%s: %s (%d)'\n",
-			  path, strerror(errno), errno);
-
-    // regular file
-    } else if (fstat.st_mode & S_IFMT != S_IFREG) {
-      log_messages.printf(MSG_DEBUG,"not a regular plain file\n");
-
-    // skip hidden files such as ".nfs"
-    } else if (entry->d_name[0] == '.') {
-      log_messages.printf(MSG_DEBUG,"hidden file or directory\n");
-
-    // modification time
-    } else if (fstat.st_mtime > mtime) {
-      log_messages.printf(MSG_DEBUG,"too young: %s\n", actime(fstat.st_mtime));
-
-    // check owner (must be apache)
-    } else if (fstat.st_uid != uid) {
-      log_messages.printf(MSG_DEBUG,"wrong owner: id %d\n", fstat.st_uid);
-
-    // skip if dry_run
-    } else if (antiques_deletion_dry_run) {
-      log_messages.printf(MSG_NORMAL,
-			  "Would delete '%s/%s' (%s)\n",
-			  dirpath, entry->d_name, actime(fstat.st_mtime));
-
-    // found no reason to skip, actually delete this file
-    } else {
-      log_messages.printf(MSG_NORMAL, "Deleting file '%s' (%s)\n",
-			  path, actime(fstat.st_mtime));
-      errno = 0;
-      if ( unlink(path) ) {
-	log_messages.printf(MSG_CRITICAL,
-			    "delete_antiques_from_dir(): "
-			    "Couldn't unlink '%s: %s (%d)'\n",
-			    path, strerror(errno), errno);
-	closedir(dir);
-	return 1;
-      }
+    dir = opendir(dirpath);
+    if (!dir) {
+        log_messages.printf(MSG_CRITICAL,
+            "delete_antiques_from_dir(): "
+            "Couldn't open dir '%s': %s (%d)\n",
+            dirpath, strerror(errno), errno
+        );
+        return -1;
     }
 
-    // throttle I/O if told to
-    if (antique_usleep)
-      usleep(antique_usleep);
+    // scan directory
+    errno = 0;
+    while ((entry = readdir(dir))) {
 
-  } // while (readdir())
+        // might be woken by a signal
+        check_stop_daemons();
 
-  // if the loop terminated because of an error
-  if (errno) {
-    log_messages.printf(MSG_CRITICAL,
-			"delete_antiques_from_dir(): "
-			"Couldn't read dir '%s': %s (%d)\n",
-			dirpath, strerror(errno), errno);
-    closedir(dir);
-    return 1;
-  }
+        // construct absolute path of this entry
+        strcpy(path, dirpath);
+        strcat(path, "/");
+        strcat(path, entry->d_name);
 
-  // close dir
-  errno = 0;
-  ret = closedir(dir);
-  if (ret)
-    log_messages.printf(MSG_CRITICAL,
-			"delete_antiques_from_dir(): "
-			"Couldn't close dir '%s': %s (%d)\n",
-			dirpath, strerror(errno), errno);
-  return ret;
+        // examine file
+        log_messages.printf(MSG_DEBUG,
+            "delete_antiques_from_dir(): examining file: '%s'\n",
+            path
+        );
+
+        // stat
+        errno = 0;
+        if (lstat(path, &fstat) ) {
+            log_messages.printf(MSG_NORMAL,
+                "delete_antiques_from_dir(): couldn't stat '%s: %s (%d)'\n",
+                path, strerror(errno), errno
+            );
+
+        // regular file
+        } else if (fstat.st_mode & S_IFMT != S_IFREG) {
+            log_messages.printf(MSG_DEBUG,"not a regular plain file\n");
+
+        // skip hidden files such as ".nfs"
+        } else if (entry->d_name[0] == '.') {
+            log_messages.printf(MSG_DEBUG,"hidden file or directory\n");
+
+        // modification time
+        } else if (fstat.st_mtime > mtime) {
+            log_messages.printf(MSG_DEBUG,"too young: %s\n", actime(fstat.st_mtime));
+
+        // check owner (must be apache)
+        } else if (fstat.st_uid != uid) {
+            log_messages.printf(MSG_DEBUG,"wrong owner: id %d\n", fstat.st_uid);
+
+        // skip if dry_run
+        } else if (antiques_deletion_dry_run) {
+            log_messages.printf(MSG_NORMAL,
+                  "Would delete '%s/%s' (%s)\n",
+                dirpath, entry->d_name, actime(fstat.st_mtime));
+
+        // found no reason to skip, actually delete this file
+        } else {
+            log_messages.printf(MSG_NORMAL, "Deleting file '%s' (%s)\n",
+                path, actime(fstat.st_mtime)
+            );
+            errno = 0;
+            if (unlink(path)) {
+                log_messages.printf(MSG_CRITICAL,
+                    "delete_antiques_from_dir(): "
+                    "Couldn't unlink '%s: %s (%d)'\n",
+                    path, strerror(errno), errno
+                );
+                closedir(dir);
+                return 1;
+            }
+        }
+
+        // throttle I/O if told to
+        if (antique_usleep) {
+            usleep(antique_usleep);
+        }
+
+    } // while (readdir())
+
+    // if the loop terminated because of an error
+    if (errno) {
+        log_messages.printf(MSG_CRITICAL,
+            "delete_antiques_from_dir(): "
+            "Couldn't read dir '%s': %s (%d)\n",
+            dirpath, strerror(errno), errno
+        );
+        closedir(dir);
+        return 1;
+    }
+
+    // close dir
+    errno = 0;
+    ret = closedir(dir);
+    if (ret) {
+        log_messages.printf(MSG_CRITICAL,
+            "delete_antiques_from_dir(): "
+            "Couldn't close dir '%s': %s (%d)\n",
+            dirpath, strerror(errno), errno
+        );
+    }
+    return ret;
 }
 
 
-/* collect information and call delete_antiques_from_dir() for every relevant directory */
+// collect information and call delete_antiques_from_dir()
+// for every relevant directory
+//
 static int delete_antiques() {
-  DB_WORKUNIT wu;
-  time_t t = 0;
-  int ret = 0;
+    DB_WORKUNIT wu;
+    time_t t = 0;
+    int ret = 0;
 
-  // t = min (create_time_of_oldest_wu, 31days_ago)
-  t = time(0) - 32*86400;
-  if (!wu.enumerate("order by id limit 1") && (t > wu.create_time))
-      t = wu.create_time + 86400;
-
-  // find numerical userid of apache
-  struct passwd *apache_info = getpwnam(config.httpd_user);
-
-  if (!apache_info) {
-    log_messages.printf(MSG_CRITICAL,
-			"Couldn't find http_user '%s' in passwd\n",
-			config.httpd_user
-			);
-    return -1;
-  }
-
-  log_messages.printf(MSG_DEBUG,
-		      "delete_antiques(): "
-		      "Deleting files older than epoch %lu (%s) with userid %u\n",
-		      (unsigned long)t,
-		      actime(t),
-		      apache_info->pw_uid);
-
-  // if fanout is configured, scan every fanout directory,
-  // else just the plain upload directory
-  if(config.uldl_dir_fanout) {
-    for(int d = 0; d < config.uldl_dir_fanout; d++) {
-      char buf[270];
-      snprintf(buf, sizeof(buf), "%s/%x", config.upload_dir, d);
-      log_messages.printf(MSG_DEBUG,
-			  "delete_antiques(): "
-			  "scanning upload fanout directory '%s'\n",
-			  buf);
-      ret = delete_antiques_from_dir(buf, t, apache_info->pw_uid);
-      if (ret < 0)
-	return ret;
+    // t = min (create_time_of_oldest_wu, 31days_ago)
+    t = time(0) - 32*86400;
+    if (!wu.enumerate("order by id limit 1") && (t > wu.create_time)) {
+        t = wu.create_time + 86400;
     }
-  } else {
+
+    // find numerical userid of apache
+    struct passwd *apache_info = getpwnam(config.httpd_user);
+
+    if (!apache_info) {
+        log_messages.printf(MSG_CRITICAL,
+            "Couldn't find http_user '%s' in passwd\n",
+            config.httpd_user
+        );
+        return -1;
+    }
+
     log_messages.printf(MSG_DEBUG,
-			"delete_antiques(): "
-			"scanning upload directory '%s'\n",
-			config.upload_dir);
-    ret = delete_antiques_from_dir(config.upload_dir, t, apache_info->pw_uid);
-  }
-  return ret;
+         "delete_antiques(): "
+         "Deleting files older than epoch %lu (%s) with userid %u\n",
+         (unsigned long)t,
+         actime(t),
+         apache_info->pw_uid
+    );
+
+    // if fanout is configured, scan every fanout directory,
+    // else just the plain upload directory
+    if (config.uldl_dir_fanout) {
+        for(int d = 0; d < config.uldl_dir_fanout; d++) {
+            char buf[270];
+            snprintf(buf, sizeof(buf), "%s/%x", config.upload_dir, d);
+            log_messages.printf(MSG_DEBUG,
+                "delete_antiques(): scanning upload fanout directory '%s'\n",
+                buf
+            );
+            ret = delete_antiques_from_dir(buf, t, apache_info->pw_uid);
+            if (ret < 0) return ret;
+        }
+    } else {
+        log_messages.printf(MSG_DEBUG,
+            "delete_antiques(): scanning upload directory '%s'\n",
+            config.upload_dir
+        );
+        ret = delete_antiques_from_dir(config.upload_dir, t, apache_info->pw_uid);
+    }
+    return ret;
 }
 
 
@@ -335,7 +347,8 @@ int main(int argc, char** argv) {
 
     install_stop_signal_handler();
 
-    if ( ( retval = delete_antiques() ) ) {
+    retval = delete_antiques();
+    if (retval) {
         log_messages.printf(MSG_CRITICAL,
             "delete_antiques() returned with error %d\n",
             retval
