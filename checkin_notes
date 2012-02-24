@@ -7303,3 +7303,12 @@ Charlie 24 Feb 2012
     clientgui/
         mac/
             SetupSecurity.cpp
+            SetupSecurity.cpp
+
+Charlie 24 Feb 2012
+    - Tag for 6.8.42 release, all platforms
+      boinc_core_release_6_8_42
+
+    /
+        configure.ac
+        version.h
