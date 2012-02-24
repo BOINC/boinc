@@ -7259,3 +7259,11 @@ Charlie 13 Feb 2012
         
     client/
         check_security.cpp
+
+Charlie 23 Feb 2012
+    - Mac Sandbox: Fix bug in my changes of 26 Jan 2010 to set projects directory 
+        and slots directory to group boinc_project, not boinc_master.  This was 
+        fixed in 6.10.38 on 16 Mar 2010 but never backported to the 6.8 branch.
+                
+    client/
+        file_names.cpp
