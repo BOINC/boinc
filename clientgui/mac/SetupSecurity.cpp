@@ -845,13 +845,16 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
 
 setRealName:
     // Always set the RealName field to an empty string
+    // Note: create RealName with empty string fails under OS 10.7, but 
+    // creating it with non-empty string and changing to empty string does work.
+    //
     // Something like "dscl . -create /users/boinc_master RealName tempName"
-    err = DoPrivilegedExec(dsclPath, ".", "-create", buf2, "RealName", "tempName", NULL);
+    err = DoPrivilegedExec(dsclPath, ".", "-create", buf2, "RealName", user_name, NULL);
     if (err)
         return err;
 
     // Something like 'dscl . -change /users/boinc_master RealName ""'
-    err = DoPrivilegedExec(dsclPath, ".", "-change", buf2, "RealName", "tempName", "");
+    err = DoPrivilegedExec(dsclPath, ".", "-change", buf2, "RealName", user_name, "");
     if (err)
         return err;
 
