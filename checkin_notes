@@ -2126,3 +2126,10 @@ David  22 Feb 2012
         make_project
     py/Boinc/
         setup_project.py
+
+Charlie 23 Feb 2012
+    - MGR: Update <organization_help_url> in Progress Through Processor's 
+        skin file again as requested by Matt Blumberg on 17 February 2012.
+    
+    clientgui/skins/Progress Thru Processors/
+        skin.xml

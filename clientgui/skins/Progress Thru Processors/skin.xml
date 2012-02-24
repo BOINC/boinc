@@ -230,7 +230,7 @@
 			<organization_name>Progress Thru Processors</organization_name> 
 			<!-- web site displayed in about box -->
 			<organization_website>http://www.facebook.com/progressthruprocessors</organization_website>
-			<organization_help_url>http://www.facebook.com/progressthruprocessors?sk=app_210013072415352</organization_help_url>
+			<organization_help_url>http://apps.facebook.com/processors/faq.php</organization_help_url>
 			<!-- this setting makes the BOINC manager automatically open to a particular tab on the -->
 			<!-- advanced view, overriding a users last displayed view.  0 means use users last open tab -->
 			<open_tab>0</open_tab>  
