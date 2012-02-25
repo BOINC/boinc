@@ -2184,3 +2184,33 @@ David  24 Feb 2012
         vda_lib.cpp,h
         Makefile.am
         ssim.cpp
+
+David  24 Feb 2012
+    - scheduler: when choosing the best app version,
+        by default we skip app versions that use a resource
+        for which work has not been requested.
+        This is determined by the "check_req" arg to get_app_version().
+        This flag is cleared whenever we want to send a job
+        regardless of whether a requested resource can be used:
+        namely, when resending lost jobs, and when sending assigned jobs.
+
+        Fix a bug that could skip unrequested versions even
+        when check_req is false.
+
+        NOTES:
+
+        1) The current semantics aren't right.
+        When check_req is false, we selected the fastest of all app versions,
+        including those for which no work is requested.
+        Instead, we should select the fastest of the versions
+        for which work is requested if there are any;
+        otherwise, select the fastest version.
+
+        2) The mechanism isn't implemented for anonymous platform.
+        It should be.
+
+        3) If we've cached an answer (including NULL) for a given
+        value of check_req, that answer may be wrong for a different value.
+
+    sched/
+        sched_version.cpp

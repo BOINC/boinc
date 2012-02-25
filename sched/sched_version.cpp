@@ -488,10 +488,12 @@ static BEST_APP_VERSION* check_homogeneous_app_version(
     return &bav;
 }
 
-// return BEST_APP_VERSION for the given job and host, or NULL if none
+// return the app version with greatest projected FLOPS
+// for the given job and host, or NULL if none is available
 //
-// check_req: check whether we still need work for the resource
-// This check is not done for:
+// check_req: if set, return only app versions that use resources
+//  for which the work request is nonzero.
+//  This check is not done for:
 //    - assigned jobs
 //    - resent jobs
 // reliable_only: use only versions for which this host is "reliable"
@@ -785,7 +787,7 @@ BEST_APP_VERSION* get_app_version(
 
             // skip versions for resources we don't need
             //
-            if (!need_this_resource(host_usage, &av, NULL)) {
+            if (check_req && !need_this_resource(host_usage, &av, NULL)) {
                 continue;
             }
 
