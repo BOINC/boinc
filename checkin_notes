@@ -2221,3 +2221,8 @@ Bernd  27 feb 2012
     sched/
         db_purge.cpp
 
+Bernd  27 feb 2012
+    - validator: output the version string even when not in project directory
+
+    sched/
+        validator.cpp

@@ -700,9 +700,14 @@ int main(int argc, char** argv) {
       "  -h | --help             Show this\n"
       "  -v | --version          Show version information\n";
 
-    if ((argc > 1) && (!strcmp(argv[1], "-h") || !strcmp(argv[1], "--help"))) {
+    if (argc > 1) {
+      if (is_arg(argv[1], "h") || is_arg(argv[1], "help")) {
         printf (usage, argv[0] );
         exit(0);
+      } else if (is_arg(argv[1], "v") || is_arg(argv[1], "version")) {
+        printf("%s\n", SVN_VERSION);
+        exit(0);
+      }
     }
 
     check_stop_daemons();
@@ -735,9 +740,6 @@ int main(int argc, char** argv) {
             max_runtime = atof(argv[++i]);
         } else if (is_arg(argv[i], "no_credit")) {
             no_credit = true;
-        } else if (is_arg(argv[i], "v") || is_arg(argv[i], "version")) {
-            printf("%s\n", SVN_VERSION);
-            exit(0);
         } else {
             fprintf(stderr,
                 "Invalid option '%s'\nTry `%s --help` for more information\n",
