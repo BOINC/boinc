@@ -2214,3 +2214,10 @@ David  24 Feb 2012
 
     sched/
         sched_version.cpp
+
+Bernd  27 feb 2012
+    - db_purge: record result and workunit name in index file
+
+    sched/
+        db_purge.cpp
+

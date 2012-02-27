@@ -344,10 +344,13 @@ int archive_result(DB_RESULT& result) {
         "</result_archive>\n"
     );
 
-    if (n >= 0) n = fprintf(re_index_stream,
-        "%d     %d\n",
-        result.id, time_int
-    );
+    if (n >= 0) {
+        n = fprintf(re_index_stream,
+            "%d     %d    %s\n",
+            result.id, time_int, result.name
+        );
+    }
+
     if (n < 0) fail("fprintf() failed\n");
 
     return 0;
@@ -421,10 +424,12 @@ int archive_wu(DB_WORKUNIT& wu) {
         "</workunit_archive>\n"
     );
 
-    if (n >= 0) n = fprintf(wu_index_stream,
-        "%d     %d\n",
-        wu.id, time_int
-    );
+    if (n >= 0) {
+        n = fprintf(wu_index_stream,
+            "%d     %d    %s\n",
+            wu.id, time_int, wu.name
+        );
+    }
 
     if (n < 0) fail("fprintf() failed\n");
 
