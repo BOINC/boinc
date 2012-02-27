@@ -199,7 +199,7 @@ int SCHED_CONFIG::parse(FILE* f) {
             }
             continue;
         }
-        if (xp.parse_int(tag, "dont_search_host_for_user", retval)) {
+        if (xp.parse_int("dont_search_host_for_user", retval)) {
             dont_search_host_for_userid.push_back(retval);
             continue;
         }

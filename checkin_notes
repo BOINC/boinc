@@ -2239,3 +2239,9 @@ Bernd  27 feb 2012
         sched_config.h
         sched_config.cpp
         handle_request.cpp
+
+Bernd  27 Feb 2012
+    - scheduler: fix typo in previous commit (patch was using old parser)
+
+    sched/
+        sched_config.cpp
