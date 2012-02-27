@@ -68,11 +68,11 @@ static bool find_host_by_other(DB_USER& user, HOST req_host, DB_HOST& host) {
     char buf[2048];
     char dn[512], ip[512], os[512], pm[512];
 
-#ifdef EINSTEIN_AT_HOME
-    // This is to prevent GRID hosts that manipulate their hostids from flooding E@H's DB with slow queries
-    if ((user.id == 282952) || (user.id == 243543))
-      return false;
-#endif
+    // don't dig through hosts of these users
+    // prevents flooding the DB with slow queries from users with many hosts
+    for(unsigned int i=0; i < config.dont_search_host_for_userid.size(); i++)
+      if (user.id == config.dont_search_host_for_userid[i])
+        return false;
 
     // Only check if the fields are populated
     if (strlen(req_host.domain_name) && strlen(req_host.last_ip_addr) && strlen(req_host.os_name) && strlen(req_host.p_model)) {

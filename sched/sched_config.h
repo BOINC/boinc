@@ -104,6 +104,7 @@ struct SCHED_CONFIG {
 
     vector<regex_t> *ban_cpu;
     vector<regex_t> *ban_os;
+    vector<int> dont_search_host_for_userid;
     int daily_result_quota;         // max results per day is this * mult
     double default_disk_max_used_gb;
     double default_disk_max_used_pct;

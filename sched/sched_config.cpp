@@ -199,6 +199,10 @@ int SCHED_CONFIG::parse(FILE* f) {
             }
             continue;
         }
+        if (xp.parse_int(tag, "dont_search_host_for_user", retval)) {
+            dont_search_host_for_userid.push_back(retval);
+            continue;
+        }
         if (xp.parse_int("daily_result_quota", daily_result_quota)) continue;
         if (xp.parse_double("default_disk_max_used_gb", default_disk_max_used_gb)) continue;
         if (xp.parse_double("default_disk_max_used_pct", default_disk_max_used_pct)) continue;

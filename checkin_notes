@@ -2226,3 +2226,16 @@ Bernd  27 feb 2012
 
     sched/
         validator.cpp
+
+Bernd  27 feb 2012
+    - scheduler: allow to configure userids for which the scheduler should
+        not scan the host table. This was previously hardcoded for
+        Einstein@home to prevent some users with many (identical) hosts
+        from flooding the DB with slow queries. Now add
+        <dont_search_host_for_userid>userid</dont_search_host_for_userid>
+        to the project config (in config.xml) for each such userid.
+
+    sched/
+        sched_config.h
+        sched_config.cpp
+        handle_request.cpp
