@@ -190,6 +190,8 @@ struct SCHED_CONFIG {
     bool debug_user_messages;
     bool debug_version_select;
 
+    char debug_req_reply_dir[256];  // keep sched_request and sched_reply
+                                    // in files in this directory
     int parse(FILE*);
     int parse_aux(FILE*);
     int parse_file(const char *dir = 0);

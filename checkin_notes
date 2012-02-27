@@ -2262,3 +2262,30 @@ Bernd  27 Feb 2012
         sched_config.h
         sched_config.cpp
         sched_main.cpp
+
+Bernd  27 Feb 2012
+    - scheduler: Another feature for debugging the scheduler.
+        Previously (little known) the scheduler could be hacked to preserve
+        the sched_request.xml and sched_reply.xml in own directories
+        (you had to modify the initial value of use_files in sched_main.cpp).
+        This feature could now be switched on and off on the fly just by
+        changing the project config.
+        When there is an (existing) directory configured as
+        <debug_req_reply_dir>, each schduler instance will write three
+        files in there: PID_C_sched.log, PID_C_sched_request.xml and (if all
+        goes well) PID_C_sched_reply.xml. PID is the process id of this
+        scheduler instance, C is an internal counter within the process if
+        FCGI is used. The sched.log will contain nothing else than the
+        pid and the IP address of the client. This should allow for
+        identifying the scheduler instance responsible for a given
+        apache error log message ("premature end of script headers") when
+        a scheduler crashed. sched_request.xml (obviously) is the scheduler
+        request, and if the scheduler doesn't crash in between, there will
+        also be the reply to the client kept in sched_reply.xml
+        Remove the <debug_req_reply_dir> tag from the project config
+        to turn this feature off.
+
+    sched/
+        sched_config.h
+        sched_config.cpp
+        sched_main.cpp

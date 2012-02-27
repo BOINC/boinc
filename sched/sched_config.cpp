@@ -320,6 +320,8 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool("debug_user_messages", debug_user_messages)) continue;
         if (xp.parse_bool("debug_version_select", debug_version_select)) continue;
 
+        if (xp.parse_str("debug_req_reply_dir", debug_req_reply_dir, sizeof(debug_req_reply_dir))) continue;
+
         // don't complain about unparsed XML;
         // there are lots of tags the scheduler doesn't know about
 
