@@ -2245,3 +2245,20 @@ Bernd  27 Feb 2012
 
     sched/
         sched_config.cpp
+
+Bernd  27 Feb 2012
+    - scheduler: the scheduler (stderr) log is buffered to keep the output of
+        one instance together in the scheduler.log when multiple instances are
+        running. Currently the buffer has a fixed size of 32768 charaters.
+        On one hand with much debug output this buffer may turn out to be
+        too small. OTOH the log of this instance is completely lost in case
+        of a crash, which doesn't help with debugging. Thus make the
+        scheduler log buffer size configurable using the tag
+        <scheduler_log_buffer> in project config. The default value is
+        still the old size (32768), set it to 0 to disable buffering
+        completely, e.g. for debugging.
+
+    sched/
+        sched_config.h
+        sched_config.cpp
+        sched_main.cpp

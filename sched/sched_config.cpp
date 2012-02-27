@@ -90,6 +90,7 @@ int SCHED_CONFIG::parse(FILE* f) {
     fuh_debug_level = MSG_NORMAL;
     strcpy(httpd_user, "apache");
     max_ncpus = MAX_NCPUS;
+    scheduler_log_buffer = 32768;
     version_select_random_factor = .1;
 
     if (!xp.parse_start("boinc")) return ERR_XML_PARSE;
@@ -290,6 +291,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool("request_time_stats_log", request_time_stats_log)) continue;
         if (xp.parse_bool("resend_lost_results", resend_lost_results)) continue;
         if (xp.parse_int("sched_debug_level", sched_debug_level)) continue;
+        if (xp.parse_int("scheduler_log_buffer", scheduler_log_buffer)) continue;
         if (xp.parse_str("sched_lockfile_dir", sched_lockfile_dir, sizeof(sched_lockfile_dir))) continue;
         if (xp.parse_bool("send_result_abort", send_result_abort)) continue;
         if (xp.parse_str("symstore", symstore, sizeof(symstore))) continue;

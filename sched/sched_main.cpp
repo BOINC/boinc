@@ -417,10 +417,13 @@ int main(int argc, char** argv) {
         // log information from different scheduler requests running
         // in parallel don't collide in the log file and appear intermingled.
         //
-        if (!(stderr_buffer=(char *)malloc(32768)) || setvbuf(stderr, stderr_buffer, _IOFBF, 32768)) {
-            log_messages.printf(MSG_CRITICAL,
-                "Unable to change stderr buffering preferences\n"
-            );
+        if (config.scheduler_log_buffer) {
+            if (!(stderr_buffer=(char *)malloc(config.scheduler_log_buffer)) ||
+                setvbuf(stderr, stderr_buffer, _IOFBF, 32768)) {
+                log_messages.printf(MSG_CRITICAL,
+                    "Unable to change stderr buffering preferences\n"
+                );
+            }
         }
 #else
         FCGI_FILE* f = FCGI::fopen(path, "a");

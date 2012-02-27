@@ -161,6 +161,7 @@ struct SCHED_CONFIG {
     bool request_time_stats_log;
     bool resend_lost_results;
     int sched_debug_level;
+    int scheduler_log_buffer;
     char sched_lockfile_dir[256];
     bool send_result_abort;
     char symstore[256];
