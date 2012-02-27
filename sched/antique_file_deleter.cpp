@@ -238,7 +238,7 @@ static int delete_antiques() {
     // t = min (create_time_of_oldest_wu, 31days_ago)
     t = time(0) - 32*86400;
     if (!wu.enumerate("order by id limit 1") && (t > wu.create_time)) {
-        t = wu.create_time + 86400;
+        t = wu.create_time - 86400;
     }
 
     // find numerical userid of apache

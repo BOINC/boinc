@@ -2289,3 +2289,10 @@ Bernd  27 Feb 2012
         sched_config.h
         sched_config.cpp
         sched_main.cpp
+
+Rytis  27 Feb 2012
+    - change antique_file_deleter logic not to delete files that still have
+        workunit records
+    
+    sched/
+        antique_file_deleter.cpp
