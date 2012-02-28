@@ -2316,3 +2316,12 @@ David  27 Feb 2012
     vda/
         vda.cpp
         sched_vda.cpp,h
+
+Charlie 28 Feb 2012
+    - MGR: Change strings in Simple View to match changes in Advanced View: 
+        "Remaining" -> "Remaining (Estimated)", "Home page" instead of project 
+        name in web links.
+
+    clientgui/
+        sg_ProjectWebSitesPopup.cpp
+        sg_TaskPanel.cpp

@@ -64,7 +64,7 @@ void CSimpleProjectWebSitesPopupButton::AddMenuItems()
 	size_t urlCount = project->gui_urls.size();
 
 	// Add the home page link
-    wxMenuItem *urlItem = new wxMenuItem(m_ProjectWebSitesPopUpMenu, WEBSITE_URL_MENU_ID_HOMEPAGE,wxString(project->project_name.c_str(), wxConvUTF8));
+    wxMenuItem *urlItem = new wxMenuItem(m_ProjectWebSitesPopUpMenu, WEBSITE_URL_MENU_ID_HOMEPAGE, wxString("Home page", wxConvUTF8));
 	Connect( WEBSITE_URL_MENU_ID_HOMEPAGE,  wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(CSimpleProjectWebSitesPopupButton::OnMenuLinkClicked) );
 	m_ProjectWebSitesPopUpMenu->Append(urlItem);
 
