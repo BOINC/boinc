@@ -836,7 +836,7 @@ wxString CSimpleTaskPanel::GetTimeRemainingString(double f) {
     } else {
         s = FormatTime(f);
     }
-    str.Printf(_("Remaining (Estimated): %s"), s.c_str());
+    str.Printf(_("Remaining (estimated): %s"), s.c_str());
     return str;
 }
 
