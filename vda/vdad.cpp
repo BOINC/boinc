@@ -212,6 +212,8 @@ int VDA_FILE_AUX::choose_host() {
     int retval;
     DB_HOST host;
 
+    return 467;
+
     // replenish cache if needed
     //
     if (!available_hosts.size()) {

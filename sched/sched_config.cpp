@@ -318,6 +318,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool("debug_resend", debug_resend)) continue;
         if (xp.parse_bool("debug_send", debug_send)) continue;
         if (xp.parse_bool("debug_user_messages", debug_user_messages)) continue;
+        if (xp.parse_bool("debug_vda", debug_vda)) continue;
         if (xp.parse_bool("debug_version_select", debug_version_select)) continue;
 
         if (xp.parse_str("debug_req_reply_dir", debug_req_reply_dir, sizeof(debug_req_reply_dir))) continue;

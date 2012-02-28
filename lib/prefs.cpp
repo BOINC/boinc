@@ -219,7 +219,7 @@ void GLOBAL_PREFS::defaults() {
     hangup_if_dialed = false;
     dont_verify_images = false;
     work_buf_min_days = 0.1;
-    work_buf_additional_days = 0.25;
+    work_buf_additional_days = 0.5;
     max_ncpus_pct = 0;
     max_ncpus = 0;
     cpu_scheduling_period_minutes = 60;

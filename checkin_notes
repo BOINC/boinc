@@ -2296,3 +2296,23 @@ Rytis  27 Feb 2012
     
     sched/
         antique_file_deleter.cpp
+
+David  27 Feb 2012
+    - VDA: add some log messages
+    - scheduler: add VDA
+    - client, web: change default prefs to min_buf=.1 days, max_buf=.5 days
+    - scheduler: app plan function for vbox requires 7.0+ client
+
+    Makefile.incl
+    sched/
+        antique_file_deleter.cpp
+        sched_config.cpp,h
+        sched_customize.cpp
+        handle_request.cpp
+    html/inc/
+        prefs.inc
+    lib/
+        prefs.cpp
+    vda/
+        vda.cpp
+        sched_vda.cpp,h

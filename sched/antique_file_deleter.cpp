@@ -150,14 +150,14 @@ int delete_antiques_from_dir(char*dirpath, time_t mtime, uid_t uid) {
 
         // stat
         errno = 0;
-        if (lstat(path, &fstat) ) {
+        if (lstat(path, &fstat)) {
             log_messages.printf(MSG_NORMAL,
                 "delete_antiques_from_dir(): couldn't stat '%s: %s (%d)'\n",
                 path, strerror(errno), errno
             );
 
         // regular file
-        } else if (fstat.st_mode & S_IFMT != S_IFREG) {
+        } else if ((fstat.st_mode & S_IFMT) != S_IFREG) {
             log_messages.printf(MSG_DEBUG,"not a regular plain file\n");
 
         // skip hidden files such as ".nfs"

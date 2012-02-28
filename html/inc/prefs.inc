@@ -219,12 +219,12 @@ $net_prefs = array(
             "</span>"
         ),
         "work_buf_min_days",
-        new NUM_SPEC(tra("days"), 0, 10, 0)
+        new NUM_SPEC(tra("days"), 0, 10, .1)
     ),
     new PREF_NUM(
         tra("... and up to an additional"),
         "work_buf_additional_days",
-        new NUM_SPEC(tra("days"), 0, 10, .25)
+        new NUM_SPEC(tra("days"), 0, 10, .5)
     ),
     new PREF_BOOL(
         tra(

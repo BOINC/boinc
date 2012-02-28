@@ -21,8 +21,9 @@
 #include <map>
 #include <string>
 
-#include "sched_types.h"
+#include "sched_config.h"
 #include "sched_msgs.h"
+#include "sched_types.h"
 
 using std::map;
 using std::string;
@@ -68,6 +69,11 @@ void handle_vda() {
             );
             return;
         }
+        if (config.debug_vda) {
+            log_messages.printf(MSG_NORMAL,
+                "[vda] DB: has chunk %s\n", ch.name
+            );
+        }
         chunks.insert(pair<string, DB_VDA_CHUNK_HOST>(string(ch.name), ch));
     }
 
@@ -80,8 +86,13 @@ void handle_vda() {
     for (i=0; i<g_request->file_xfer_results.size(); i++) {
         RESULT& r = g_request->file_xfer_results[i];
         if (!starts_with(r.name, "upload_")) continue;
-        char* file_name = r.name + strlen("upload_");
-        if (!strstr(file_name, "vdafile")) continue;
+        //char* file_name = r.name + strlen("upload_");
+        if (!strstr(r.name, "vdafile")) continue;
+        if (config.debug_vda) {
+            log_messages.printf(MSG_NORMAL,
+                "[vda] DB: completed upload %s\n", r.name
+            );
+        }
     }
 
     // process list of present files;
@@ -92,6 +103,11 @@ void handle_vda() {
     //
     for (i=0; i<g_request->file_infos.size(); i++) {
         FILE_INFO& fi = g_request->file_infos[i];
+        if (config.debug_vda) {
+            log_messages.printf(MSG_NORMAL,
+                "[vda] request: client has file %s\n", fi.name
+            );
+        }
     }
 
     // for each vda_chunk_host not in file list:
@@ -103,6 +119,11 @@ void handle_vda() {
     while (it != chunks.end()) {
         DB_VDA_CHUNK_HOST& ch = (*it).second;
         if (!ch.found) {
+            if (config.debug_vda) {
+                log_messages.printf(MSG_NORMAL,
+                    "[vda] in DB but not on client: %s\n", ch.name
+                );
+            }
             ch.delete_from_db();
             chunks.erase(it);
             mark_for_update(ch.vda_file_id);
@@ -116,11 +137,23 @@ void handle_vda() {
     //
     if (g_request->host.d_project_share) {
         double x = g_request->host.d_boinc_used_project;
+        if (config.debug_vda) {
+            log_messages.printf(MSG_NORMAL,
+                "[vda] share: %f used: %f\n",
+                g_request->host.d_project_share, x
+            );
+        }
         it = chunks.begin();
         while (x > g_request->host.d_project_share && it != chunks.end()) {
             DB_VDA_CHUNK_HOST& ch = (*it).second;
             FILE_INFO fi;
             strcpy(fi.name, ch.name);
+            if (config.debug_vda) {
+                log_messages.printf(MSG_NORMAL,
+                    "[vda] deleting: %s\n", ch.name
+                );
+            }
+            //x -= ch.size;
             g_reply->file_deletes.push_back(fi);
             it++;
         }
@@ -134,8 +167,18 @@ void handle_vda() {
         if (!ch.transfer_in_progress) continue;
         if (!ch.transfer_wait) continue;
         if (ch.present_on_host) {
+            if (config.debug_vda) {
+                log_messages.printf(MSG_NORMAL,
+                    "[vda] sending upload command: %s\n", ch.name
+                );
+            }
             // upload
         } else {
+            if (config.debug_vda) {
+                log_messages.printf(MSG_NORMAL,
+                    "[vda] sending download command: %s\n", ch.name
+                );
+            }
             // download
         }
     }

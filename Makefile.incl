@@ -18,13 +18,13 @@ RSA_LIBS = -lcrypto
 AM_LIBTOOLFLAGS =
 
 AM_CPPFLAGS =					\
-        -I$(top_srcdir)/lib			\
         -I$(top_srcdir)/api			\
         -I$(top_srcdir)/db			\
-        -I$(top_srcdir)/client			\
-        -I$(top_srcdir)/tools			\
-        -I$(top_srcdir)/sched			\
+        -I$(top_srcdir)/lib			\
         -I$(top_srcdir)/lib/mac			\
+        -I$(top_srcdir)/sched			\
+        -I$(top_srcdir)/tools			\
+        -I$(top_srcdir)/vda			\
 	$(PTHREAD_CFLAGS)
 
 AM_CFLAGS = -Wall -Wextra -Wshadow -Wredundant-decls -Wdisabled-optimization -Wpointer-arith -Wstrict-aliasing

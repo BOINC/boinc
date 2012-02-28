@@ -188,6 +188,7 @@ struct SCHED_CONFIG {
     bool debug_resend;
     bool debug_send;
     bool debug_user_messages;
+    bool debug_vda;
     bool debug_version_select;
 
     char debug_req_reply_dir[256];  // keep sched_request and sched_reply

@@ -523,6 +523,13 @@ static inline bool app_plan_vbox(
 ) {
     bool can_use_multicore = true;
 
+    // host must run 7.0+ client
+    //
+    if (sreq.core_client_major_version < 7) {
+        add_no_work_message("BOINC client 7.0+ required for Virtualbox jobs");
+        return false;
+    }
+
     // host must have VirtualBox 3.2 or later
     //
     if (strlen(sreq.host.virtualbox_version) == 0) {
