@@ -212,10 +212,10 @@ static int issue_transfer_commands(CHUNK_LIST& chunks) {
     char xml_buf[8192], file_name[1024];
     int retval;
     char url[1024];
-    vector<const char*> urls;
 
-    CHUNK_LIST::iterator it = chunks.begin();
-    while (it != chunks.end()) {
+    CHUNK_LIST::iterator it;
+    for (it = chunks.begin(); it != chunks.end(); it++) {
+        vector<const char*> urls;
         DB_VDA_CHUNK_HOST& ch = it->second;
         if (!ch.transfer_in_progress) continue;
         if (!ch.transfer_wait) continue;

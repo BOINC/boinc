@@ -195,17 +195,28 @@ struct SIM_FILE : VDA_FILE_AUX, EVENT {
         fault_tolerance.init("Fault tolerance", "fault_tol.dat", FAULT_TOLERANCE);
     }
 
-    // the creation of a file
+    // the first event is the creation of a file;
+    // the 2nd is its retrieval
     //
     virtual void handle() {
-        meta_chunk = new META_CHUNK(this, NULL, size, 0, id);
+        if (meta_chunk) {
+            printf("%s: Retrieving file\n", now_str());
+            meta_chunk->data_needed = true;
+        } else {
+            meta_chunk = new META_CHUNK(this, NULL, size, 0, id);
 #ifdef EVENT_DEBUG
-        printf("created file %d: size %f encoded size %f\n",
-            id, size, disk_usage.value
-        );
+            printf("created file %d: size %f encoded size %f\n",
+                id, size, disk_usage.value
+            );
+            t = sim.now + 500.*86400;
+            sim.insert(this);
 #endif
+        }
         meta_chunk->recovery_plan();
         meta_chunk->recovery_action(sim.now);
+        if (meta_chunk->data_now_present) {
+            printf("File is present on server\n");
+        }
     }
 
     void recover() {

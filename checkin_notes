@@ -2349,3 +2349,18 @@ David  28 Feb 2012
         vda_policy.h
         sched_vda.cpp
         vda.cpp
+
+David  29 Feb 2012
+    - wrapper: compute final CPU time correctly for multi-process apps
+    - storage stuff
+
+    db/
+        boinc_db.cpp,h
+        schema_vda.sql
+    samples/wrapper/
+        wrapper.cpp
+    vda/
+        vda_lib.cpp,h
+        sched_vda.cpp
+        vda.cpp
+        ssim.cpp

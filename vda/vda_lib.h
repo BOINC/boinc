@@ -63,8 +63,10 @@ struct VDA_FILE_AUX : VDA_FILE {
     POLICY policy;
     META_CHUNK* meta_chunk;
 
-    VDA_FILE_AUX(){}
-    VDA_FILE_AUX(DB_VDA_FILE f) :VDA_FILE(f){}
+    VDA_FILE_AUX(){
+        meta_chunk = NULL;
+    }
+    VDA_FILE_AUX(DB_VDA_FILE f) : VDA_FILE(f){}
 
     // the following stuff is for the simulator
     //

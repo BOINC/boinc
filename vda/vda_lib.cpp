@@ -197,13 +197,12 @@ bool compare_min_failures(const DATA_UNIT* d1, const DATA_UNIT* d2) {
 // with each node in the file's tree,
 // and do things by local tree traversal.
 //
-// However, it's a lot simpler (for me, the programmer)
-// to store minimal state info,
+// However, it's simpler to store minimal state info,
 // and to reconstruct state info using
 // a top-down tree traversal in response to each event.
 // Actually we do 2 traversals:
 // 1) plan phase:
-//      We see whether every node recoverable,
+//      We see whether each node is recoverable,
 //      and if so compute its "recovery set":
 //      the set of children from which it can be recovered
 //      with minimal cost (i.e. network traffic).
@@ -334,8 +333,9 @@ int META_CHUNK::recovery_action(double now) {
         if (retval) return retval;
     }
 
-    // because of recovery action, some of our children may have changed
-    // status and fault tolerance, source may have changed too.
+    // because of recovery action,
+    // some of our children may have changed status and fault tolerance,
+    // so ours may have changed too.
     // Recompute them.
     //
     vector<DATA_UNIT*> recoverable;

@@ -101,6 +101,25 @@ int handle_remove(const char* name) {
     return 0;
 }
 
+int handle_retrieve(const char* name) {
+    DB_VDA_FILE vf;
+    char buf[1024];
+    sprintf(buf, "where name='%s'", name);
+    int retval = vf.lookup(buf);
+    if (retval) return retval;
+    retval = vf.update_field("retrieving=1");
+    return retval;
+}
+
+int handle_status(const char* name) {
+    DB_VDA_FILE vf;
+    char buf[1024];
+    sprintf(buf, "where name='%s'", name);
+    int retval = vf.lookup(buf);
+    if (retval) return retval;
+    return 0;
+}
+
 int main(int argc, char** argv) {
     int retval = config.parse_file();
     if (retval) {
@@ -132,6 +151,24 @@ int main(int argc, char** argv) {
                 fprintf(stderr, "error %d\n", retval);
             } else {
                 printf("file removed successfully\n");
+            }
+            exit(retval);
+        }
+        if (!strcmp(argv[i], "retrieve")) {
+            if (argc != 3) usage();
+            retval = handle_retrieve(argv[++i]);
+            if (retval) {
+                fprintf(stderr, "error %d\n", retval);
+            } else {
+                printf("file retrieval started\n");
+            }
+            exit(retval);
+        }
+        if (!strcmp(argv[i], "status")) {
+            if (argc != 3) usage();
+            retval = handle_status(argv[++i]);
+            if (retval) {
+                fprintf(stderr, "error %d\n", retval);
             }
             exit(retval);
         }

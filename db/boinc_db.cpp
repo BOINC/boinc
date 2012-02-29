@@ -2321,10 +2321,12 @@ int DB_FILESET_SCHED_TRIGGER_ITEM_SET::select_by_name_state(
     return 0;
 }
 
-int DB_FILESET_SCHED_TRIGGER_ITEM_SET::contains_trigger(const char* fileset_name) {
+int DB_FILESET_SCHED_TRIGGER_ITEM_SET::contains_trigger(
+    const char* fileset_name
+) {
     // iterate over item vector
-    for(unsigned int i=0; i<items.size(); ++i) {
-        if(strcmp(items[i].fileset.name, fileset_name) == 0) {
+    for (unsigned int i=0; i<items.size(); ++i) {
+        if (strcmp(items[i].fileset.name, fileset_name) == 0) {
             // return 1-indexed position for boolean tests
             return i+1;
         }
@@ -2339,13 +2341,15 @@ void DB_VDA_FILE::db_print(char* buf){
         "name='%s', "
         "size=%f, "
         "need_update=%d, "
-        "initialized=%d",
+        "initialized=%d, "
+        "retrieving=%d",
         create_time,
         dir,
         name,
         size,
         need_update?1:0,
-        initialized?1:0
+        initialized?1:0,
+        retrieving?1:0
     );
 }
 
@@ -2359,6 +2363,7 @@ void DB_VDA_FILE::db_parse(MYSQL_ROW &r) {
     size = atof(r[i++]);
     need_update = (atoi(r[i++]) != 0);
     initialized = (atoi(r[i++]) != 0);
+    retrieving = (atoi(r[i++]) != 0);
 }
 
 void DB_VDA_CHUNK_HOST::db_print(char* buf) {

@@ -1139,6 +1139,7 @@ struct VDA_FILE {
     double size;
     bool need_update;
     bool initialized;
+    bool retrieving;
     void clear();
 };
 
