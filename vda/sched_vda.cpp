@@ -158,9 +158,9 @@ static int process_present_file(FILE_INFO& fi, CHUNK_LIST& chunks) {
 //
 static int process_missing_chunks(CHUNK_LIST& chunks) {
     CHUNK_LIST::iterator it;
-    it = chunks.begin();
-    while (it != chunks.end()) {
+    for (it = chunks.begin(); it != chunks.end(); it++) {
         DB_VDA_CHUNK_HOST& ch = it->second;
+        if (!ch.present_on_host && ch.transfer_in_progress) continue;
         if (!ch.found) {
             if (config.debug_vda) {
                 log_messages.printf(MSG_NORMAL,
@@ -168,10 +168,8 @@ static int process_missing_chunks(CHUNK_LIST& chunks) {
                 );
             }
             ch.delete_from_db();
-            chunks.erase(it);
+            ch.transfer_in_progress = false;
             mark_for_update(ch.vda_file_id);
-        } else {
-            it++;
         }
     }
     return 0;
@@ -193,6 +191,7 @@ static int enforce_quota(CHUNK_LIST& chunks) {
     CHUNK_LIST::iterator it = chunks.begin();
     while (x > g_request->host.d_project_share && it != chunks.end()) {
         DB_VDA_CHUNK_HOST& ch = it->second;
+        if (!ch.found) continue;
         FILE_INFO fi;
         strcpy(fi.name, ch.name);
         if (config.debug_vda) {
@@ -210,7 +209,7 @@ static int enforce_quota(CHUNK_LIST& chunks) {
 // issue upload and download commands
 //
 static int issue_transfer_commands(CHUNK_LIST& chunks) {
-    char xml_buf[1024], file_name[1024];
+    char xml_buf[8192], file_name[1024];
     int retval;
     char url[1024];
     vector<const char*> urls;
@@ -256,7 +255,8 @@ static int issue_transfer_commands(CHUNK_LIST& chunks) {
             get_chunk_url(vf, ch.name, url);
             urls.push_back(url);
             get_chunk_dir(vf, ch.name, chunk_dir);
-            get_chunk_md5(chunk_dir, md5);
+            retval = get_chunk_md5(chunk_dir, md5);
+            if (retval) return retval;
             retval = put_file_xml(
                 file_name,
                 urls,
@@ -294,7 +294,7 @@ void handle_vda() {
     //
     DB_VDA_CHUNK_HOST ch;
     char buf[256];
-    sprintf(buf, "host_id=%d", g_reply->host.id);
+    sprintf(buf, "where host_id=%d", g_reply->host.id);
     while (1) {
         retval = ch.enumerate(buf);
         if (retval == ERR_DB_NOT_FOUND) break;

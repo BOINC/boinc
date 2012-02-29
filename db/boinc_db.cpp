@@ -2367,7 +2367,7 @@ void DB_VDA_CHUNK_HOST::db_print(char* buf) {
         "vda_file_id=%d, "
         "host_id=%d, "
         "name='%s', "
-        "size=%f "
+        "size=%f, "
         "present_on_host=%d, "
         "transfer_in_progress=%d, "
         "transfer_wait=%d, "

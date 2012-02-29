@@ -2336,3 +2336,16 @@ David  28 Feb 2012
         sched_types.cpp,h
     vda/
         sched_vda.cpp
+
+David  28 Feb 2012
+    - storage stuff.  Getting there.
+
+    db/
+        boinc_db.cpp
+    sched/
+        handle_request.cpp
+    vda/
+        vdad.cpp
+        vda_policy.h
+        sched_vda.cpp
+        vda.cpp

@@ -36,6 +36,9 @@ struct POLICY {
     int coding_levels;
     CODING codings[10];
     double chunk_sizes[10];
+    double chunk_size() {
+        return chunk_sizes[coding_levels-1];
+    }
 
     char description[256];  // derived from the above
 

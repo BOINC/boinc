@@ -25,6 +25,7 @@
 #include "boinc_db.h"
 #include "filesys.h"
 #include "sched_config.h"
+#include "sched_util.h"
 #include "util.h"
 
 #include "vda_lib.h"
@@ -77,6 +78,29 @@ int handle_add(const char* path) {
     return 0;
 }
 
+int handle_remove(const char* name) {
+    DB_VDA_FILE vf;
+    char buf[1024];
+    sprintf(buf, "where name='%s'", name);
+    int retval = vf.lookup(buf);
+    if (retval) return retval;
+
+    // delete DB records
+    //
+    DB_VDA_CHUNK_HOST ch;
+    sprintf(buf, "vda_file_id=%d", vf.id);
+    ch.delete_from_db_multi(buf);
+    vf.delete_from_db();
+
+    dir_hier_path(name, config.download_dir, config.uldl_dir_fanout, buf);
+    unlink(buf);
+    retval = chdir(vf.dir);
+    if (retval) perror("chdir");
+    retval = system("/bin/rm -r [0-9]* Coding data.vda");
+    if (retval) perror("system");
+    return 0;
+}
+
 int main(int argc, char** argv) {
     int retval = config.parse_file();
     if (retval) {
@@ -98,6 +122,16 @@ int main(int argc, char** argv) {
                 fprintf(stderr, "error %d\n", retval);
             } else {
                 printf("file added successfully\n");
+            }
+            exit(retval);
+        }
+        if (!strcmp(argv[i], "remove")) {
+            if (argc != 3) usage();
+            retval = handle_remove(argv[++i]);
+            if (retval) {
+                fprintf(stderr, "error %d\n", retval);
+            } else {
+                printf("file removed successfully\n");
             }
             exit(retval);
         }

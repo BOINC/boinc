@@ -1141,7 +1141,7 @@ void process_request(char* code_sign_key) {
     ) {
         g_reply->insert_message("No work available", "low");
         g_reply->set_delay(DELAY_NO_WORK_SKIP);
-        if (!config.msg_to_host) {
+        if (!config.msg_to_host && !config.enable_vda) {
             log_messages.printf(MSG_NORMAL, "No work - skipping DB access\n");
             return;
         }

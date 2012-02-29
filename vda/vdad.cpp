@@ -33,6 +33,8 @@ using std::set;
 
 #include "boinc_db.h"
 #include "sched_config.h"
+#include "sched_util.h"
+#include "md5_file.h"
 
 #include "error_numbers.h"
 #include "util.h"
@@ -67,23 +69,22 @@ void encoder_filename(
     sprintf(buf, "%s_%c%0*d.%s", base, ch, ndigits, j, ext);
 }
 
-#define DATA_FILENAME "data"
-#define DATA_EXT "ext"
+#define DATA_FILENAME "data.vda"
 
 // encode a meta-chunk.
-// precondition: "dir" contains a file "data".
+// precondition: "dir" contains a file "data.vda".
 // postcondition: dir contains
 //   a subdir Coding with encoded chunks
-//   subdirs data.0 .. data.m
-//     each containing a same-named symbolic link to the corresponding chunk
+//   subdirs 0/ .. m/
+//     each containing a symbolic link "data.vda" to the corresponding chunk
 //
 // The size of these chunks is returned in "size"
 //
 int encode(const char* dir, CODING& c, double& size) {
     char cmd[1024];
     sprintf(cmd,
-        "cd %s; /mydisks/b/users/boincadm/vda_test/encoder %s.%s %d %d cauchy_good 32 1024 500000",
-        dir, DATA_FILENAME, DATA_EXT, c.n, c.k
+        "cd %s; /mydisks/b/users/boincadm/vda_test/encoder %s %d %d cauchy_good 32 1024 500000",
+        dir, DATA_FILENAME, c.n, c.k
     );
     printf("%s\n", cmd);
     int s = system(cmd);
@@ -95,21 +96,22 @@ int encode(const char* dir, CODING& c, double& size) {
     // make symlinks
     //
     for (int i=0; i<c.m; i++) {
-        char enc_filename[1024], target_path[1024], chunk_name[1024];
+        char enc_filename[1024], target_path[1024];
         char dir_name[1024], link_name[1024];
-        encoder_filename(DATA_FILENAME, DATA_EXT, c, i, enc_filename);
+        encoder_filename("data", "vda", c, i, enc_filename);
         sprintf(target_path, "%s/Coding/%s", dir, enc_filename);
-        sprintf(chunk_name, "%s.%d", DATA_FILENAME, i);
-        sprintf(dir_name, "%s/%s", dir, chunk_name);
+        sprintf(dir_name, "%s/%d", dir, i);
         int retval = mkdir(dir_name, 0777);
         if (retval) {
             perror("mkdir");
             return retval;
         }
-        sprintf(link_name, "%s/%s.%s", dir_name, DATA_FILENAME, DATA_EXT);
+        sprintf(link_name, "%s/%s", dir_name, DATA_FILENAME);
         retval = symlink(target_path, link_name);
         if (retval) {
-            perror("symlink");
+            log_messages.printf(MSG_CRITICAL,
+                "encode(): symlink %s %s failed\n", target_path, link_name
+            );
             return retval;
         }
         if (i == 0) {
@@ -140,8 +142,9 @@ int CHUNK::assign() {
     DB_VDA_CHUNK_HOST ch;
     ch.create_time = dtime();
     ch.vda_file_id = parent->dfile->id;
-    strcpy(ch.name, name);
     ch.host_id = host_id;
+    strcpy(ch.name, name);
+    ch.size = parent->dfile->policy.chunk_size();
     ch.present_on_host = 0;
     ch.transfer_in_progress = true;
     ch.transfer_wait = true;
@@ -301,6 +304,7 @@ META_CHUNK::META_CHUNK(VDA_FILE_AUX* d, META_CHUNK* p, int index) {
 //
 int META_CHUNK::init(const char* dir, POLICY& p, int level) {
     double size;
+    char child_dir[1024];
 
     CODING& c = p.codings[level];
     int retval = encode(dir, c, size);
@@ -309,8 +313,7 @@ int META_CHUNK::init(const char* dir, POLICY& p, int level) {
 
     if (level+1 < p.coding_levels) {
         for (int i=0; i<c.m; i++) {
-            char child_dir[1024];
-            sprintf(child_dir, "%s/%s.%d", dir, DATA_FILENAME, i);
+            sprintf(child_dir, "%s/%d", dir, i);
             META_CHUNK* mc = new META_CHUNK(dfile, parent, i);
             retval = mc->init(child_dir, p, level+1);
             if (retval) return retval;
@@ -320,6 +323,17 @@ int META_CHUNK::init(const char* dir, POLICY& p, int level) {
         for (int i=0; i<c.m; i++) {
             CHUNK* cp = new CHUNK(this, p.chunk_sizes[level], i);
             children.push_back(cp);
+
+            // write the chunk's MD5 to a file
+            //
+            char file_path[1024], md5_file_path[1024];
+            sprintf(file_path, "%s/%d/%s", dir, i, DATA_FILENAME);
+            sprintf(md5_file_path, "%s/%d/md5.txt", dir, i);
+            char md5[64];
+            md5_file(file_path, md5, size);
+            FILE* f = fopen(md5_file_path, "w");
+            fprintf(f, "%s\n", md5);
+            fclose(f);
         }
     }
     return 0;
@@ -331,12 +345,14 @@ int META_CHUNK::init(const char* dir, POLICY& p, int level) {
 //
 int VDA_FILE_AUX::init() {
     char buf[1024], buf2[1024];
-    sprintf(buf, "%s/%s.%s", dir, DATA_FILENAME, DATA_EXT);
+    sprintf(buf, "%s/%s", dir, DATA_FILENAME);
     sprintf(buf2, "%s/%s", dir, name);
     int retval = symlink(buf2, buf);
     if (retval) {
+        log_messages.printf(MSG_CRITICAL, "symlink %s %s failed\n", buf2, buf);
         return ERR_SYMLINK;
     }
+
     meta_chunk = new META_CHUNK(this, NULL, 0);
     retval = meta_chunk->init(dir, policy, 0);
     if (retval) return retval;
@@ -346,6 +362,16 @@ int VDA_FILE_AUX::init() {
         fprintf(f, "%.0f\n", policy.chunk_sizes[i]);
     }
     fclose(f);
+
+    // create symlink from download dir
+    //
+    dir_hier_path(name, config.download_dir, config.uldl_dir_fanout, buf);
+    retval = symlink(buf2, buf);
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL, "symlink %s %s failed\n", buf2, buf);
+        return ERR_SYMLINK;
+    }
+
     return 0;
 }
 
