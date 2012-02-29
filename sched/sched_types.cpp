@@ -889,6 +889,9 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
             file_deletes[i].name
         );
     }
+    for (i=0; i<file_transfer_requests.size(); i++) {
+        fprintf(fout, "%s", file_transfer_requests[i].c_str());
+    }
 
     fprintf(fout,
         "<no_cpu_apps>%d</no_cpu_apps>\n"

@@ -2365,8 +2365,9 @@ void DB_VDA_CHUNK_HOST::db_print(char* buf) {
     sprintf(buf,
         "create_time=%f, "
         "vda_file_id=%d, "
-        "name='%s', "
         "host_id=%d, "
+        "name='%s', "
+        "size=%f "
         "present_on_host=%d, "
         "transfer_in_progress=%d, "
         "transfer_wait=%d, "
@@ -2374,8 +2375,9 @@ void DB_VDA_CHUNK_HOST::db_print(char* buf) {
         "transfer_send_time=%f ",
         create_time,
         vda_file_id,
-        name,
         host_id,
+        name,
+        size,
         present_on_host,
         transfer_in_progress,
         transfer_wait,
@@ -2389,8 +2391,9 @@ void DB_VDA_CHUNK_HOST::db_parse(MYSQL_ROW &r) {
     clear();
     create_time = atof(r[i++]);
     vda_file_id = atoi(r[i++]);
-    strcpy(name, r[i++]);
     host_id = atoi(r[i++]);
+    strcpy(name, r[i++]);
+    size = atof(r[i++]);
     present_on_host = (atoi(r[i++]) != 0);
     transfer_in_progress = (atoi(r[i++]) != 0);
     transfer_wait = (atoi(r[i++]) != 0);

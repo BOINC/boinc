@@ -510,6 +510,7 @@ struct SCHEDULER_REPLY {
     std::vector<std::string>result_abort_if_not_starteds;
     std::vector<MSG_TO_HOST>msgs_to_host;
     std::vector<FILE_INFO>file_deletes;
+    std::vector<std::string> file_transfer_requests;
     char code_sign_key[4096];
     char code_sign_key_signature[4096];
     bool send_msg_ack;

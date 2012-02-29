@@ -1145,8 +1145,9 @@ struct VDA_FILE {
 struct VDA_CHUNK_HOST {
     double create_time;
     int vda_file_id;
-    char name[256];     // C1.C2.Cn
     int host_id;
+    char name[256];     // C1.C2.Cn
+    double size;
     bool present_on_host;
     bool transfer_in_progress;
     bool transfer_wait;

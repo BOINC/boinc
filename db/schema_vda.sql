@@ -14,8 +14,9 @@ alter table vda_file add unique(name);
 create table vda_chunk_host (
     create_time             double not null default 0,
     vda_file_id             integer not null default 0,
-    name                    varchar(254) not null,
     host_id                 integer not null default 0,
+    name                    varchar(254) not null,
+    size                    double not null default 0,
     present_on_host         tinyint not null default 0,
     transfer_in_progress    tinyint not null default 0,
     transfer_wait           tinyint not null default 0,

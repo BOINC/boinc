@@ -2325,3 +2325,14 @@ Charlie 28 Feb 2012
     clientgui/
         sg_ProjectWebSitesPopup.cpp
         sg_TaskPanel.cpp
+
+David  28 Feb 2012
+    - storage stuff
+
+    db/
+        boinc_db.cpp,h
+        schema_vda.sql
+    sched/
+        sched_types.cpp,h
+    vda/
+        sched_vda.cpp
