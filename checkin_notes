@@ -2364,3 +2364,14 @@ David  29 Feb 2012
         sched_vda.cpp
         vda.cpp
         ssim.cpp
+
+Charlie 29 Feb 2012
+    - client: On Mac only, get ATI RAM sizes from OpenGL.
+    
+    client/
+        coproc_detect.cpp
+    lib/
+        coproc.h
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
