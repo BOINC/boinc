@@ -1322,8 +1322,9 @@ void VBOX_VM::reset_vm_process_priority() {
 //
 int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool log_error, bool retry_failures) {
     int retval = 0;
-    char buf[256];
     int retry_count = 0;
+    double sleep_interval = 1.0;
+    char buf[256];
     string retry_notes;
 
     do {
@@ -1344,13 +1345,21 @@ int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool
             //
             // If we detect that condition retry the desired command.
             //
-            if ((output.find("VBOX_E_INVALID_OBJECT_STATE") != string::npos) &&
-                (output.find("already locked") != string::npos))
-            {
+            // Experiments performed by jujube suggest changing the sleep interval to an exponential
+            // style backoff would increase our chances of success in situations where the previous
+            // lock is held by a previous instance of vboxmanage whos instance data hasn't been
+            // cleaned up within vboxsvc yet.
+            //
+            // Error Code: VBOX_E_INVALID_OBJECT_STATE (0x80bb0007) 
+            //
+            if (0x80bb0007 == retval) {
                 if (retry_notes.find("Another VirtualBox management") == string::npos) {
                     retry_notes += "Another VirtualBox management application has locked the session for\n";
                     retry_notes += "this virtual machine. BOINC cannot properly monitor this virtual machine\n";
                     retry_notes += "and so this job will be aborted.\n\n";
+                }
+                if (retry_count) {
+                    sleep_internal *= 2;
                 }
             }
             
@@ -1358,10 +1367,10 @@ int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool
             if (!retry_failures) break;
 
             // Timeout?
-            if (retry_count >= 6) break;
+            if (retry_count >= 5) break;
 
             retry_count++;
-            boinc_sleep(5.0);
+            boinc_sleep(sleep_interval);
         }
     }
     while (retval);

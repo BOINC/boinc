@@ -2375,3 +2375,16 @@ Charlie 29 Feb 2012
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    29 Feb 2012
+    - VBOX: Implement an exponential backoff scheme of sleeping between
+        commands if a session lock error has been detected.  Cap the overall
+        delay to 30 seconds total for a single command.
+    
+        Experiments performed by jujube(T4T) suggest changing the sleep interval
+        to an exponential style backoff would increase our chances of recovering in
+        situations where the previous lock is held by a previous instance of
+        vboxmanage whos instance data hasn't been cleaned up within vboxsvc yet.
+    
+    client/
+        vbox.cpp
