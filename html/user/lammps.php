@@ -342,7 +342,7 @@ function submit_batch($user, $app) {
     $batch_name = $info->area."_".date("Y-M-d H:m:s");
 
     $batch_id = BoincBatch::insert(
-        "(user_id, create_time, njobs, name, app_id) values ($user->id, $now, $njobs, '$batch_name', $app->id)"
+        "(user_id, create_time, njobs, name, app_id, state) values ($user->id, $now, $njobs, '$batch_name', $app->id, ".BATCH_STATE_IN_PROGRESS.")"
     );
 //    $batch_id=99;
 
