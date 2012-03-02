@@ -35,7 +35,7 @@ function handle_main($user) {
     page_head("Job submission and control");
 
     $first = true;
-    $batches = BoincBatch::enum("user_id = $user->id");
+    $batches = BoincBatch::enum("user_id = $user->id order by id desc");
 
     foreach ($batches as $batch) {
         if ($batch->state < BATCH_STATE_COMPLETE) {
