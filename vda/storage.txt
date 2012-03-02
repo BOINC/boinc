@@ -1,0 +1,303 @@
+Volunteer storage
+
+There is a range of possible types applications of volunteer storage.
+Each type of application has certain demands.
+
+1) Data archival
+Data originates at a server.
+Stored on and retrieved from clients.
+
+subgoals:
+- support large files and lots of small files
+- availability
+- capacity
+- bandwidth (put and/or get)
+
+2) storage of computational inputs
+
+have a large data set
+want to balance storage and computation;
+i.e., the amount of data stored on a host is proportional
+to its available computing power.
+
+may retain central copy of data.
+in that case don't care about retrieval.
+
+3) storage of computational outputs
+
+E.g. Folding@Home, CPDN
+
+-----------------------
+
+Batches and multiple users
+
+new DB fields
+    user.share_rate
+    user.share_value
+    maybe put this stuff in a new table?
+
+    need to maintain "avg share rate of users w/ active jobs"
+    (to estimate the throughput that a given user will get)
+
+simple batch policy
+    - what jobs to send?
+    - what deadlines to assign?
+
+new mechanism
+    require periodic callbacks
+    if a host doesn't contact in 2X period,
+    mark its outstanding jobs as timed out
+------------------
+
+Data archival
+
+API:
+    ret = put_file(file)
+        returns error if insuff resources
+    ret = get_file(file)
+    ret = get_file_status(file)
+        has file been retrieved yet?
+    ret = release_file(file)
+        done w/ retrieved file
+    ret = delete_file(file)
+
+Suppose:
+    - we have a 1TB file
+    - each client can store only 1 GB
+    - each client has same lifetime distribution
+
+Single-level coding
+    Split file into 1000 + 200 packets
+    tolerate loss of any 200 packets
+    however, if lose any packet, need to reassemble entire file
+
+Single-level coding + replication
+    Like the above, but replicate each packet to achieve
+        a target MTBF
+    If lose a packet
+        try to retrieve a replicate
+    Problems:
+        - space overhead
+        - may still need to reassemble sometimes
+
+Two-level coding
+    Split file into 100+20 10-GB 1st-level packets
+    Split each 1st-level packet into 10+2 2nd-level packets
+    (space overhead: 1.2*1.2)
+
+    Store 2nd-level packets on hosts
+
+    If lose a 2nd-level packet,
+        recreate it by reassembling the 1st-level packet on the server
+
+    If lose a 1st-level packet
+        recreate it by reassembling the file
+
+Two-level coding + replication
+    Same, but replicate 2nd-level packets
+    If lose a 2nd-level packet,
+        try to retrieve a replica
+        else reassemble the 1st-level packet and recreate 2nd-level packet
+
+Simulator to compare these policies
+    want to be able to simulate:
+        - nothing
+        - plain replication
+        - N-level coding, with or without replication
+    sim parameters:
+        - n: # of file chunks
+        - k: n + # of checksum chunks
+        - m: if need to recover a unit, start upload of this many subunits
+            (n <= m <= k)
+        - ratio between host lifetime and network speed
+
+experiments
+    things to vary
+        file transfer time parameter
+            may as well use exponential distribution;
+            combine unavailability
+        mean host lifetime
+
+    policies
+        levels of encoding
+
+    Ideally we'd like to divide each file so that
+        there is 1 chunk per host on average.
+        In practice, we need
+
+Other ideas
+    variable chunk sizes
+        send large chunks to hosts with lots of space,
+        high expected availability
+
+-----------------------
+dir structure example
+
+dir/
+    [ filename.ext (original file) ]
+    data.vda
+        symbolic link to filename.ext
+        NOTE: "encoder" crashes unless there's an extension
+    boinc_meta.txt
+        coding info
+    chunk_sizes.txt
+        size of chunks (each level on a separate line)
+    Coding/
+        jerasure_meta.txt
+        data_k001.vda   (the number of digits depends on N)
+        ...
+        data_k100.vda
+        data_m001.vda
+        data_m040.vda
+    0/
+        data.vda (symlink to ../Coding/data_k001.vda)
+
+        if this is a meta-chunk:
+        Coding/
+            data_k001.vda
+            ...
+        0/
+        1/
+        ...
+
+        else:
+        md5.txt
+    1/
+    ...
+    139/
+    ...
+
+other naming:
+download dir has link to filename.ext
+
+VDA_CHUNK_HOST::name: c1.c2.cn__filename.ext
+
+physical file name for copy on a host:
+    vda_hostid_c1.c2.cn__filename.ext
+    
+uploads
+    result name is vda_upload_c1.c2.cn__filename.ext
+    client uploads to
+        upload/dir/vda_hostid_c1.c2.cn__filename.ext
+        when done, scheduler verifies checksum and moves to file dir
+downloads
+    create symbolic link from download/ to (top level) file dir
+
+------------
+DB tables
+
+vda_file
+    int id
+    create_time
+    char dir
+    char name
+    double size
+    double chunk_size;
+    need_update
+    initialized
+    retrieving
+    deleting
+
+vda_chunk_host
+    create_time
+    int vda_file_id
+    int hostid
+    char name[256]
+    size
+    bool present_on_host
+    bool transfer_in_progress
+    bool transfer_wait
+    double transfer_request_time
+    double transfer_send_time
+
+----------------
+logic
+
+scheduler RPC
+    enumerate vda_chunk_hosts for this host
+        use map based on physical name
+    completion of upload or download
+        lookup, update vda_chunk_host
+    process list of present files
+        if no vda_chunk_host
+            create one, mark file for update
+        update
+    foreach vda_chunk_host not in file list
+        delete, mark file for update
+    if project share is less than used space
+        decision to remove files
+
+vda_transitioner
+    (put as much logic here as possible)
+
+    foreach archived_file with need_update
+        traverse its directory, build tree of CHUNKs, META_CHUNKs
+        NOTE: can cache these
+        enumerate vda_chunk_hosts from DB
+        do recovery_plan, recovery_action
+        to assign a chunk
+            select host (see below)
+            create vda_chunk_host record
+
+    foreach newly dead host
+        enumerate vda_chunk_hosts
+        delete them, mark files as need_update
+
+------------------
+encoding and decoding
+
+principle: only store chunks (and possibly the entire file) on server
+    everything else gets created and deleted on the fly,
+    during one pass of vdad.
+
+phases:
+1) plan:
+    for each node
+        - set "status" as one of
+            PRESENT: can reconstruct from chunks on server
+                (chunk: is present on server)
+            RECOVERABLE: can recover by uploading chunks on hosts
+                (plus possibly some chunks already on server)
+                in this case, compute
+                "recovery cost": number of chunk uploads
+                    needed to recover this node
+                "recovery set":
+                    cheapest set of children to recover from
+                (chunk: a replica exists)
+            UNRECOVERABLE: neither
+                (chunk: no replica exists, and not present on server)
+        - compute fault tolerance
+
+        - for each chunk
+            set "need_data" if not PRESENT and not enough replicas exist
+                (this means we need to get the chunk on the server,
+                either by uploading it or reconstructing it)
+            set "need_reconstruct" if need_data and no replicas
+
+        - identify metachunks M that we should reconstruct now,
+            namely those that
+            - are PRESENT
+            - have a descendant chunk C with need_reconstruct
+            - all metachunks between M and C are UNRECOVERABLE
+
+            Note: minimizing disk usage has higher priority than
+            minimizing network transfer.
+            If we can recover C without reconstructing M, do so.
+
+do_reconstruction(U)
+    do the reconstruction bottom-up.
+    At each stage do as much downward encoding as possible,
+    and clean up unused files
+
+    if not bottom level
+        for each child C
+            do_reconstruction(C)
+
+    if PRESENT and some child has need_reconstruct
+
+plan_reconstruction(U)
+        - identify metachunks that we need to reconstruct in the future.
+            working down the recovery lists,
+            mark chunks as need_data
+
+2) start transfers

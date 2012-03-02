@@ -117,12 +117,13 @@ struct BUSY_TIME_ESTIMATOR {
     // on that and following instances
     //
     inline void update(double dur, double nused) {
+        if (ninstances==0) return;
         int i, j;
         if (nused < 1) return;
-        double best = busy_time[0];
+        double best;
         int ibest = 0;
-        for (i=1; i<ninstances; i++) {
-            if (busy_time[i] < best) {
+        for (i=0; i<ninstances; i++) {
+            if (!i || busy_time[i] < best) {
                 best = busy_time[i];
                 ibest = i;
             }
@@ -138,10 +139,9 @@ struct BUSY_TIME_ESTIMATOR {
     // the least busy instance
     //
     inline double get_busy_time() {
-        if (!ninstances) return 0;
-        double best = busy_time[0];
-        for (int i=1; i<ninstances; i++) {
-            if (busy_time[i] < best) {
+        double best = 0;
+        for (int i=0; i<ninstances; i++) {
+            if (!i || busy_time[i] < best) {
                 best = busy_time[i];
             }
         }

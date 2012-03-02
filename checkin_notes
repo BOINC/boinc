@@ -2388,3 +2388,14 @@ Rom    29 Feb 2012
     
     client/
         vbox.cpp
+
+David  1 Mar 2012
+    - client: fix crashing bug when there is 1 instance of a resources.
+        I'm not sure how this every worked.
+
+    client/
+        work_fetch.h
+    sched/
+        feeder.cpp
+    vda/
+        storage.txt
