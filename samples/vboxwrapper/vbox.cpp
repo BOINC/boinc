@@ -1359,7 +1359,7 @@ int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool
                     retry_notes += "and so this job will be aborted.\n\n";
                 }
                 if (retry_count) {
-                    sleep_internal *= 2;
+                    sleep_interval *= 2;
                 }
             }
             
