@@ -178,11 +178,11 @@ function show_submit_form($user) {
         <input type=hidden name=action value=prepare>
     ";
     start_table();
-    row2("Structure file", sandbox_file_select($user, "structure_file"));
-    row2("Script file", sandbox_file_select($user, "command_file"));
-    row2("Command-line file<br><span class=note>List of command lines, one per job</span>", sandbox_file_select($user, "cmdline_file"));
-    row2("Zipped potential files", sandbox_file_select($user, "pot_files"));
-    row2("Area", area_select());
+    row2("<strong>structure_file</strong><br><span class=note>structure_file*</span>", sandbox_file_select($user, "structure_file"));
+    row2("<strong>lammps_script</strong><br><span class=note>lammps_script*</span>", sandbox_file_select($user, "lammps_script"));
+    row2("<strong>cmdline_file</strong><br><span class=note>cmdline_file*</span><span class=note> ( List of command lines, one per job )</span>", sandbox_file_select($user, "cmdline_file"));
+    row2("<strong>pot.zip</strong><br><span class=note>*.zip</span><span class-note> ( Zipped Potential files )</span>", sandbox_file_select($user, "zip"));
+    row2("<strong>Area</strong>", area_select());
     row2("", "<input type=submit value=Prepare>");
     end_table();
     echo "</form>
@@ -244,9 +244,9 @@ function estimated_makespan($njobs, $flops_per_job) {
 
 function prepare_batch($user) {
     $structure_file_path = get_file_path($user, 'structure_file');
-    $command_file_path = get_file_path($user, 'command_file');
+    $command_file_path = get_file_path($user, 'lammps_script');
     $cmdline_file_path = get_file_path($user, 'cmdline_file');
-    $pot_files_path = get_file_path($user, 'pot_files');
+    $pot_files_path = get_file_path($user, 'zip');
 
     $info = null;
     $info->structure_file_path = $structure_file_path;
@@ -293,7 +293,7 @@ function prepare_batch($user) {
     $secs_est = estimated_makespan($njobs, $info->rsc_fpops_est);
     $hrs_est = number_format($secs_est/3600, 1);
     $client_mb = number_format($info->rsc_disk_bound/1e6,1);
-    $server_mb = $njobs*$client_mb;
+    $server_mb = number_format($njobs*$info->rsc_disk_bound/1e6,1);
 
     page_head("Batch prepared");
     echo "

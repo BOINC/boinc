@@ -79,7 +79,9 @@ function sandbox_file_select($user, $select_name) {
     $x = "<select name=$select_name>\n";
     $files = sandbox_file_names($user);
     foreach ($files as $f) {
-        $x .= "<option value=\"$f\">$f</option>\n";
+        if(preg_match("/$select_name/",$f)){
+            $x .= "<option value=\"$f\">$f</option>\n";
+        }
     }
     $x .= "</select>\n";
     return $x;
