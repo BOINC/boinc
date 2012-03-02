@@ -2399,3 +2399,12 @@ David  1 Mar 2012
         feeder.cpp
     vda/
         storage.txt
+
+Rom    2 Mar 2012
+    - Tag for 7.0.19 release, all platforms
+      boinc_core_release_7_0_19
+
+    /
+        configure.ac
+        version.h
+
