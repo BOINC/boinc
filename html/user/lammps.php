@@ -332,11 +332,14 @@ function submit_batch($user, $app) {
     $x = file_get_contents("$tmpfile");
     $info = unserialize($x);
 
+    $njobs=0;
     $cmdlines = file($info->cmdline_file_path);
-    $njobs = count($cmdlines);
-
+    foreach($cmdlines as $cmdline){
+        if(preg_match("/^\s*-var/",$cmdline))$njobs++;
+    }
+    
     $now = time();
-    $batch_name = $info->area;
+    $batch_name = $info->area."_".date("Y-M-d H:m:s");
 
     $batch_id = BoincBatch::insert(
         "(user_id, create_time, njobs, name, app_id) values ($user->id, $now, $njobs, '$batch_name', $app->id)"
@@ -345,8 +348,10 @@ function submit_batch($user, $app) {
 
     $i = 0;
     foreach ($cmdlines as $cmdline) {
-        submit_job($app, $batch_id, $info, $cmdline, $i);
-        $i++;
+        if(preg_match("/^\s*-var/",$cmdline)){
+            submit_job($app, $batch_id, $info, $cmdline, $i);
+            $i++;
+        }
     }
 }
 
