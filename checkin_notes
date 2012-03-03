@@ -2408,3 +2408,10 @@ Rom    2 Mar 2012
         configure.ac
         version.h
 
+Charlie 3 Mar 2012
+    - Mac installer: Utility shell script creates RealName field for users 
+        boinc_master and boinc_project and sets it to empty string (following 
+        recent advice from Apple Developer technical Suport.)
+
+    mac_build/
+        Mac_SA_Secure.sh

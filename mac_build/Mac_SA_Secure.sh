@@ -63,7 +63,9 @@
 # 
 
 # Updated 1/28/10 for BOINC version 6.8.20, 6.10.30 and 6.11.1
-# Last updated 10/24/11 for OS 10.7.2 Lion
+# Updated 10/24/11 for OS 10.7.2 Lion
+# Last updated 3/3/12 to create RealName key with empty string as value
+#
 # WARNING: do not use this script with versions of BOINC older 
 # than 6.8.20 and 6.10.30
 
@@ -111,6 +113,13 @@ function make_boinc_user() {
         dscl . -create /users/$1 home /var/empty
         dscl . -create /users/$1 gid $gid
     fi
+    
+    
+    ## Under OS 10.7 dscl won't directly create RealName key with empty 
+    ## string as value but will allow changing value to empty string.
+    ## -create replaces any previous value of the key if it already exists
+    dscl . -create /users/boinc_master RealName $1
+    dscl . -change /users/boinc_master RealName $1 ""
 }
 
 function make_boinc_users() {
