@@ -64,19 +64,43 @@
 
 # Updated 1/28/10 for BOINC version 6.8.20, 6.10.30 and 6.11.1
 # Updated 10/24/11 for OS 10.7.2 Lion
-# Last updated 3/3/12 to create RealName key with empty string as value
+# Last updated 3/3/12 to create users and groups with IDs > 500 
+# and to create RealName key with empty string as value (for users)
 #
 # WARNING: do not use this script with versions of BOINC older 
 # than 6.8.20 and 6.10.30
 
 function make_boinc_user() {
+    DarwinVersion=`uname -r`;
+    DarwinMajorVersion=`echo $DarwinVersion | sed 's/\([0-9]*\)[.].*/\1/' `;
+    # DarwinMinorVersion=`echo $version | sed 's/[0-9]*[.]\([0-9]*\).*/\1/' `;
+    #
+    # echo "major = $DarwinMajorVersion"
+    # echo "minor = $DarwinMinorVersion"
+    #
+    # Darwin version 11.x.y corresponds to OS 10.7.x
+    # Darwin version 10.x.y corresponds to OS 10.6.x
+    # Darwin version 8.x.y corresponds to OS 10.4.x
+    # Darwin version 7.x.y corresponds to OS 10.3.x
+    # Darwin version 6.x corresponds to OS 10.2.x
+
+    # Apple Developer Tech Support recommends using UID and GID greater 
+    # than 500, but this causes problems on OS 10.4
+    if [ "$DarwinMajorVersion" -gt 8 ]; then
+        baseID="501"
+    else
+        baseID="25"
+    fi
+
+
+
     # Check whether group already exists
     name=$(dscl . search /groups RecordName $1 | cut -f1 -s)
     if [ "$name" = "$1" ] ; then
         gid=$(dscl . read /groups/$1 PrimaryGroupID | cut -d" " -f2 -s)
     else
         # Find an unused group ID
-        gid="501"
+        gid="$baseID"
         while true; do
             name=$(dscl . search /groups PrimaryGroupID $gid | cut -f1 -s)
             if [ -z "$name" ] ; then
@@ -97,7 +121,7 @@ function make_boinc_user() {
         name=$(dscl . search /users UniqueID $uid | cut -f1 -s)
         if [ -n "$name" ] ; then
             # uid=gid already in use, so find an unused user ID
-            uid="501"
+            uid="$baseID"
             while true; do
                 name=$(dscl . search /users UniqueID $uid | cut -f1 -s)
                 if [ -z "$name" ] ; then
