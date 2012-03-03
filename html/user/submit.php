@@ -118,7 +118,10 @@ function handle_main($user) {
         end_table();
     }
 
-    echo "<p><a href=submit.php>Return to job control page</a>\n";
+    echo "<p>
+        <a href=sandbox.php><strong> File_Sandbox </strong></a>
+        <a href=lammps.php><strong> Job_Submit </strong></a>
+        <a href=submit.php><strong> Job_Control </strong></a>";
     page_tail();
 }
 

@@ -36,7 +36,7 @@ function lammps_est() {
     $pipes = array();
     $options = file("cmd_variables");
     $cmd = "../lmp_linux ".$options[0];
-    echo $cmd;
+    //echo $cmd;
     $p = proc_open("$cmd", $descs, $pipes);
     system("unzip pot.zip");
     while (1) {
@@ -187,7 +187,9 @@ function show_submit_form($user) {
     end_table();
     echo "</form>
         <p>
-        <a href=sandbox.php>File sandbox</a>
+        <a href=sandbox.php><strong> File_Sandbox </strong></a>
+        <a href=lammps.php><strong> Job_Submit </strong></a>
+        <a href=submit.php><strong> Job_Control </strong></a>
     ";
     
     page_tail();
@@ -319,11 +321,15 @@ function submit_job($app, $batch_id, $info, $cmdline, $i) {
     $cmd .= " ".basename($info->structure_file_path);
     $cmd .= " ".basename($info->command_file_path);
     $cmd .= " ".basename($info->pot_files_path);
-    echo "<br> $cmd\n"; 
+    //echo "<br> $cmd\n"; 
 
     $ret = system($cmd);
     if ($ret === FALSE) {
         error_page("can't create job");
+    }
+    else
+    {
+        header('Location: submit.php');
     }
 }
 

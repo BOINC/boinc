@@ -86,7 +86,11 @@ function list_files($user) {
         end_table();
     }
     echo "
-        <p><a href=lammps.php>Submit LAMMPS jobs</a>
+        <p>
+        <a href=sandbox.php><strong> File_Sandbox </strong></a>
+        <a href=lammps.php><strong> Job_Submit </strong></a>
+        <a href=submit.php><strong> Job_Control </strong></a>
+
     ";
     page_tail();
 }
