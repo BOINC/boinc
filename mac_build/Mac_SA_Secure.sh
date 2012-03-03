@@ -76,7 +76,7 @@ function make_boinc_user() {
         gid=$(dscl . read /groups/$1 PrimaryGroupID | cut -d" " -f2 -s)
     else
         # Find an unused group ID
-        gid="25"
+        gid="501"
         while true; do
             name=$(dscl . search /groups PrimaryGroupID $gid | cut -f1 -s)
             if [ -z "$name" ] ; then
@@ -97,7 +97,7 @@ function make_boinc_user() {
         name=$(dscl . search /users UniqueID $uid | cut -f1 -s)
         if [ -n "$name" ] ; then
             # uid=gid already in use, so find an unused user ID
-            uid="25"
+            uid="501"
             while true; do
                 name=$(dscl . search /users UniqueID $uid | cut -f1 -s)
                 if [ -z "$name" ] ; then

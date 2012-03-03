@@ -2409,9 +2409,10 @@ Rom    2 Mar 2012
         version.h
 
 Charlie 3 Mar 2012
-    - Mac installer: Utility shell script creates RealName field for users 
-        boinc_master and boinc_project and sets it to empty string (following 
-        recent advice from Apple Developer technical Suport.)
+    - Mac installer: Utility shell script creates users & groups boinc_master 
+        and boinc_project with IDs at 501 or above; also creates RealName field 
+        for users boinc_master and boinc_project and sets it to empty string 
+        (following advice from Apple Developer technical Suport.)
 
     mac_build/
         Mac_SA_Secure.sh
