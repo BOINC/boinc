@@ -283,6 +283,7 @@ function prepare_batch($user) {
 
     system("rm *");
     $info->rsc_fpops_est = $est_cpu_time * 5e9;
+    $info->rsc_fpops_bound = $rsc_fpops_est * 20;
 
     $info->rsc_disk_bound = $disk;
 
@@ -313,7 +314,7 @@ function prepare_batch($user) {
 }
 
 function submit_job($app, $batch_id, $info, $cmdline, $i) {
-    $cmd = "cd ../..; ./bin/create_work --appname $app->name --batch $batch_id --rsc_fpops_est $info->rsc_fpops_est";
+    $cmd = "cd ../..; ./bin/create_work --appname $app->name --batch $batch_id --rsc_fpops_est $info->rsc_fpops_est --rsc_fpops_bound $info->rsc_fpops_bound";
     if ($cmdline) {
         $cmd .= " --command_line \"$cmdline\"";
     }

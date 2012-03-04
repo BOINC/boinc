@@ -2441,3 +2441,8 @@ David  3 Mar 2012
     lib/
         gui_rpc_client_ops.cpp
         gui_rpc_client.h
+
+David  3 Mar 2012
+    - LAMMPS job submission: set rsc_fpops_bound to 20 times rsc_fpops_est
+    html/user/
+        lammps.php
