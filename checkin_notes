@@ -2446,3 +2446,11 @@ David  3 Mar 2012
     - LAMMPS job submission: set rsc_fpops_bound to 20 times rsc_fpops_est
     html/user/
         lammps.php
+
+David  4 Mar 2012
+    - web: open BBCode instructions in new window (or tab).
+        Otherwise, on IE, you lose the text you already entered
+        when you go back.
+
+    html/inc/
+        util.inc
