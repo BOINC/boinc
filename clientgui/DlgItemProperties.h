@@ -46,6 +46,7 @@ public:
     //
 	void renderInfos(PROJECT* project);
 	void renderInfos(RESULT* result);
+    void show_rsc(wxString rsc_name, RSC_DESC rsc_desc);
 private:
 	int m_current_row;
 	//formatting methods

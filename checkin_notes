@@ -2416,3 +2416,10 @@ Charlie 3 Mar 2012
 
     mac_build/
         Mac_SA_Secure.sh
+
+David  3 Mar 2012
+	- Manager: small code cleanup
+	client/
+		client_state.cpp
+	clientgui/
+		DltItemProperties.cpp,h

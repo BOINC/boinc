@@ -610,6 +610,10 @@ int CLIENT_STATE::init() {
     //
     check_too_large_jobs();
 
+    // initialize project priorities (for the GUI, in case we're suspended)
+    //
+    project_priority_init(false);
+
     initialized = true;
     return 0;
 }

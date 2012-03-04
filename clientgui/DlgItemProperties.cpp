@@ -165,6 +165,23 @@ bool CDlgItemProperties::RestoreState() {
 
     return true;
 }
+
+void CDlgItemProperties::show_rsc(wxString rsc_name, RSC_DESC rsc_desc) {
+    if (rsc_desc.no_rsc_pref) {
+        addProperty(_("Don't fetch tasks for ") + rsc_name, _("Project preference"));
+    }
+    if (rsc_desc.no_rsc_ams) {
+        addProperty(_("Don't fetch tasks for ") + rsc_name, _("Account manager preference"));
+    }
+    if (rsc_desc.no_rsc_apps) {
+        addProperty(_("Don't fetch tasks for ") + rsc_name, _("Project has no CPU apps"));
+    }
+    double x = rsc_desc.backoff_time - dtime();
+    if (x<0) x = 0;
+    addProperty(rsc_name + _(" work fetch deferred for"), FormatTime(x));
+    addProperty(rsc_name + _(" work fetch deferral interval"), FormatTime(rsc_desc.backoff_interval));
+}
+
 // show project properties
 //
 void CDlgItemProperties::renderInfos(PROJECT* project_in) {
@@ -257,61 +274,13 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
     
     if (!project->non_cpu_intensive) {
         addSection(_("Scheduling"));
-        if (project->rsc_desc_cpu.no_rsc_pref) {
-            addProperty(_("Don't fetch CPU tasks"), _("Project preference"));
-        }
-        if (project->rsc_desc_cpu.no_rsc_ams) {
-            addProperty(_("Don't fetch CPU tasks"), _("Account manager preference"));
-        }
-        if (project->rsc_desc_cpu.no_rsc_apps) {
-            addProperty(_("Don't fetch CPU tasks"), _("Project has no CPU apps"));
-        }
         addProperty(_("Scheduling priority"),wxString::Format(wxT("%0.2f"), project->sched_priority));
-        double x = project->rsc_desc_cpu.backoff_time - dtime();
-        if (x<0) x = 0;
-        addProperty(_("CPU work fetch deferred for"), FormatTime(x));
-        addProperty(_("CPU work fetch deferral interval"), FormatTime(project->rsc_desc_cpu.backoff_interval));
+        show_rsc(_("CPU"), project->rsc_desc_cpu);
         if (pDoc->state.have_nvidia) {
-            if (project->rsc_desc_nvidia.no_rsc_pref) {
-                addProperty(
-                    _("Don't fetch NVIDIA GPU tasks"), _("Project preference")
-                );
-            }
-            if (project->rsc_desc_nvidia.no_rsc_ams) {
-                addProperty(
-                    _("Don't fetch NVIDIA GPU tasks"), _("Account manager preference")
-                );
-            }
-            if (project->rsc_desc_nvidia.no_rsc_pref) {
-                addProperty(
-                    _("Don't fetch NVIDIA GPU tasks"), _("Project preference")
-                );
-            }
-            x = project->rsc_desc_nvidia.backoff_time - dtime();
-            if (x<0) x = 0;
-            addProperty(_("NVIDIA GPU work fetch deferred for"), FormatTime(x));
-            addProperty(_("NVIDIA GPU work fetch deferral interval"), FormatTime(project->rsc_desc_nvidia.backoff_interval));
+            show_rsc(_("NVIDIA GPU"), project->rsc_desc_nvidia);
         }
         if (pDoc->state.have_ati) {
-            if (project->rsc_desc_ati.no_rsc_pref) {
-                addProperty(
-                    _("Don't fetch ATI GPU tasks"), _("Project preference")
-                );
-            }
-            if (project->rsc_desc_ati.no_rsc_ams) {
-                addProperty(
-                    _("Don't fetch ATI GPU tasks"), _("Account manager preference")
-                );
-            }
-            if (project->rsc_desc_ati.no_rsc_pref) {
-                addProperty(
-                    _("Don't fetch ATI GPU tasks"), _("Project preference")
-                );
-            }
-            x = project->rsc_desc_ati.backoff_time - dtime();
-            if (x<0) x = 0;
-            addProperty(_("ATI GPU work fetch deferred for"), FormatTime(x));
-            addProperty(_("ATI GPU work fetch deferral interval"), FormatTime(project->rsc_desc_ati.backoff_interval));
+            show_rsc(_("ATI GPU"), project->rsc_desc_ati);
         }
         addProperty(_("Duration correction factor"),wxString::Format(wxT("%0.4f"), project->duration_correction_factor));
     }
