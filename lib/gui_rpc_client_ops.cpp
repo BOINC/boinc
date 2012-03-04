@@ -342,6 +342,12 @@ int PROJECT::parse(XML_PARSER& xp) {
             else if (!strcmp(buf, "ati")) rsc_desc_ati.no_rsc_pref = true;
             continue;
         }
+        if (xp.parse_str("no_rsc_config", buf, sizeof(buf))) {
+            if (!strcmp(buf, "cpu")) rsc_desc_cpu.no_rsc_config = true;
+            else if (!strcmp(buf, "nvidia")) rsc_desc_nvidia.no_rsc_config = true;
+            else if (!strcmp(buf, "ati")) rsc_desc_ati.no_rsc_config = true;
+            continue;
+        }
 
         if (xp.parse_double("duration_correction_factor", duration_correction_factor)) continue;
         if (xp.parse_bool("anonymous_platform", anonymous_platform)) continue;
@@ -381,6 +387,7 @@ void RSC_DESC::clear() {
     no_rsc_ams = false;
     no_rsc_apps = false;
     no_rsc_pref = false;
+    no_rsc_config = false;
 }
 
 void PROJECT::clear() {

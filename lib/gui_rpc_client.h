@@ -110,6 +110,7 @@ struct RSC_DESC {
     bool no_rsc_ams;
     bool no_rsc_apps;
     bool no_rsc_pref;
+    bool no_rsc_config;
 
     void clear();
 };

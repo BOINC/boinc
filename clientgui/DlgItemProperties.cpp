@@ -174,7 +174,10 @@ void CDlgItemProperties::show_rsc(wxString rsc_name, RSC_DESC rsc_desc) {
         addProperty(_("Don't fetch tasks for ") + rsc_name, _("Account manager preference"));
     }
     if (rsc_desc.no_rsc_apps) {
-        addProperty(_("Don't fetch tasks for ") + rsc_name, _("Project has no CPU apps"));
+        addProperty(_("Don't fetch tasks for ") + rsc_name, _("Project has no apps for ") + rsc_name);
+    }
+    if (rsc_desc.no_rsc_config) {
+        addProperty(_("Don't fetch tasks for ") + rsc_name, _("Client configuration excludes ") + rsc_name);
     }
     double x = rsc_desc.backoff_time - dtime();
     if (x<0) x = 0;

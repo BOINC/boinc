@@ -243,6 +243,9 @@ PROJECT* RSC_WORK_FETCH::choose_project_hyst(bool enforce_hyst) {
         // computing shortfall etc. on a per-project basis
         //
         if (rsc_type) {
+            if (p->ncoprocs_excluded[rsc_type] == ninstances) {
+                continue;
+            }
             if (p->ncoprocs_excluded[rsc_type]
                 && p->rsc_pwf[rsc_type].has_runnable_jobs
             ){

@@ -2423,3 +2423,21 @@ David  3 Mar 2012
 		client_state.cpp
 	clientgui/
 		DltItemProperties.cpp,h
+
+David  3 Mar 2012
+    - Manager: in Project Properties page,
+        show if a GPU type is excluded by configuration
+    - client: don't fetch work for a resource type if all instances
+        of that type are excluded
+    - web: don't use filter_var(, FILTER_SANITIZE_STRING)
+        to strip HTML tags from a string.
+        This escapes singles quotes also.
+        Use strip_tags() instead.
+
+    clientgui/
+        DltItemProperties.cpp
+    html/inc/
+        util.inc
+    lib/
+        gui_rpc_client_ops.cpp
+        gui_rpc_client.h
