@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: 1.05\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-09 12:37-0500\n"
-"PO-Revision-Date: 2012-02-13 10:35-0000\n"
-"Last-Translator: Miguel Veiga <Miguel.veig@gmail.com>\n"
+"PO-Revision-Date: 2012-02-24 19:31+0200\n"
+"Last-Translator: Miguel Filipe Paulino de Sousa <Miguel.veig@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pt_PT\n"
 "MIME-Version: 1.0\n"
@@ -250,7 +250,7 @@ msgstr "&Estatísticas\tCtrl+Shift+S"
 
 #: clientgui/AdvancedFrame.cpp:383
 msgid "Display statistics"
-msgstr "Mostrar Estatísticas"
+msgstr "Mostrar estatísticas"
 
 #: clientgui/AdvancedFrame.cpp:388
 msgid "&Disk usage\tCtrl+Shift+D"
@@ -1178,7 +1178,7 @@ msgstr "limpar todas as preferências locais e fechar janela"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:81
 msgid "processor usage"
-msgstr "Uso do processador"
+msgstr "uso do processador"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:84
 msgid "network usage"
@@ -1210,7 +1210,7 @@ msgstr "Ajuda"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:113
 msgid "shows the preferences web page"
-msgstr "Mostrar página web das preferências"
+msgstr "mostrar página web das preferências"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:135
 msgid "Computing allowed"
@@ -1362,11 +1362,11 @@ msgstr "Usar no máximo"
 #: clientgui/DlgAdvPreferencesBase.cpp:356
 #, no-c-format
 msgid "% CPU time"
-msgstr "%s tempo de CPU"
+msgstr "% tempo de CPU"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:377
 msgid "General options"
-msgstr "Opções Gerais"
+msgstr "Opções gerais"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:385
 msgid "Maximum download rate"
@@ -1425,11 +1425,11 @@ msgstr "assinale aqui se o seu provedor de Internet modifica os ficheiros de ima
 
 #: clientgui/DlgAdvPreferencesBase.cpp:475
 msgid "Connect options"
-msgstr "Opções de Conexão"
+msgstr "Opções de conexão"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:477
 msgid "Confirm before connecting to internet"
-msgstr "Confirme antes de se conectar à Internet"
+msgstr "Confirme antes de se conectar à internet"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:479
 msgid "if checked, a confirmation dialog will be displayed before trying to connect to the Internet"
@@ -1696,7 +1696,7 @@ msgstr "Nome de utilizador"
 
 #: clientgui/DlgItemProperties.cpp:203
 msgid "Team name"
-msgstr "Nome da Equipa"
+msgstr "Nome da equipa"
 
 #: clientgui/DlgItemProperties.cpp:204
 msgid "Resource share"
@@ -1948,7 +1948,7 @@ msgstr "Que linguagem deve o BOINC usar?"
 
 #: clientgui/DlgOptions.cpp:172
 msgid "Notice reminder interval:"
-msgstr "lembrete de intervalo de comunicação:"
+msgstr "Lembrete de intervalo de comunicação:"
 
 #: clientgui/DlgOptions.cpp:179
 msgid "How often should BOINC remind you of new notices?"
@@ -2101,7 +2101,7 @@ msgstr ""
 
 #: clientgui/DlgSelectComputer.cpp:142
 msgid "Host name:"
-msgstr "Nome do Anfitrião:"
+msgstr "Nome do anfitrião:"
 
 #: clientgui/Localization.cpp:31
 #: clientgui/Localization.cpp:69
@@ -2176,7 +2176,7 @@ msgstr "Ler a lista das Questões mais Frequentes no Einstein@Home"
 
 #: clientgui/Localization.cpp:65
 msgid "Screensaver info"
-msgstr "Informação da Protecção de Ecrã"
+msgstr "Informação da protecção de ecrã"
 
 #: clientgui/Localization.cpp:67
 msgid "Read a detailed description of the Einstein@Home screensaver"
@@ -2188,7 +2188,7 @@ msgstr "Corresponder-se com administradores e outros utilizadores nos fóruns do
 
 #: clientgui/Localization.cpp:73
 msgid "Einstein status"
-msgstr "Estado do Einstein"
+msgstr "Estado do einstein"
 
 #: clientgui/Localization.cpp:75
 msgid "Current status of the Einstein@Home server"
@@ -2439,7 +2439,7 @@ msgstr "(Aguardando acesso à rede)"
 
 #: clientgui/MainDocument.cpp:2489
 msgid "Computation error"
-msgstr "Erro de Computação"
+msgstr "Erro de computação"
 
 #: clientgui/MainDocument.cpp:2493
 msgid "Upload failed"
@@ -2715,7 +2715,7 @@ msgstr ""
 
 #: clientgui/ProxyPage.cpp:331
 msgid "Proxy configuration"
-msgstr "Configuração da Proxy"
+msgstr "Configuração da proxy"
 
 #: clientgui/ProxyPage.cpp:334
 msgid "HTTP proxy"
@@ -2728,7 +2728,7 @@ msgstr "Servidor:"
 
 #: clientgui/ProxyPage.cpp:350
 msgid "Autodetect"
-msgstr "Detectar Automaticamente"
+msgstr "Detectar automaticamente"
 
 #: clientgui/ProxyPage.cpp:354
 msgid "SOCKS proxy"
@@ -2993,7 +2993,7 @@ msgstr "Executar trabalho apenas entre:"
 
 #: clientgui/sg_DlgPreferences.cpp:354
 msgid "Connect to internet only between:"
-msgstr "Conectar-se à Internet apenas entre:"
+msgstr "Conectar-se à internet apenas entre:"
 
 #: clientgui/sg_DlgPreferences.cpp:376
 #: clientgui/sg_DlgPreferences.cpp:393
@@ -3196,7 +3196,7 @@ msgstr "Seleccione o projecto para aceder com os controles em baixo"
 #: clientgui/sg_ProjectPanel.cpp:262
 #, c-format
 msgid "%s: %.0f"
-msgstr "%s: %0.f"
+msgstr "%s: %.0f"
 
 #: clientgui/sg_ProjectPanel.cpp:145
 msgid "Project Web Pages"
@@ -3716,7 +3716,7 @@ msgstr "Média do Anfitrião"
 #: clientgui/ViewStatistics.cpp:1345
 #, c-format
 msgid "Last update: %.0f days ago"
-msgstr "Ultima actualização: %s.0f dias atrás"
+msgstr "Ultima actualização: %.0f dias atrás"
 
 #: clientgui/ViewStatistics.cpp:1966
 msgid "Show user total"
@@ -4046,8 +4046,7 @@ msgstr ""
 "%s website.\n"
 "\n"
 "Projectos adicionados através do assistente não ficarão\n"
-"listados ou possiveis de gerir através do %s.%s website.\n"
-"\n"
+"listados ou possiveis de gerir através do %s"
 
 #: clientgui/WelcomePage.cpp:275
 msgid ""

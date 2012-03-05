@@ -263,7 +263,6 @@ msgid "You haven't read this message yet"
 msgstr "Sie haben diese Nachricht noch nicht gelesen"
 
 #: ../inc/forum.inc:574
-#, fuzzy
 msgid "Unread"
 msgstr "ungelesen"
 
@@ -422,7 +421,6 @@ msgid "Hide"
 msgstr "Verstecken"
 
 #: ../inc/forum.inc:1010
-#, fuzzy
 msgid "Hide this post"
 msgstr "Beitrag verstecken"
 
@@ -737,7 +735,6 @@ msgid "Tasks"
 msgstr "Aufgaben"
 
 #: ../inc/host.inc:179 ../inc/host.inc:200
-#, fuzzy
 msgid "Number of times client has contacted server"
 msgstr "Anzahl der Verbindungen zum Server"
 
@@ -933,7 +930,6 @@ msgid "Preview"
 msgstr "Vorschau"
 
 #: ../inc/pm.inc:48 ../user/pm.php:131
-#, fuzzy
 msgid "no such message"
 msgstr "Keine entsprechende Nachricht gefunden"
 
@@ -2496,7 +2492,6 @@ msgid "Item 2"
 msgstr "Element 2"
 
 #: ../user/bbcode.php:45
-#, fuzzy
 msgid "use to link to Trac ticket on BOINC website"
 msgstr "benutzen um auf ein Trac-Ticket der BOINC Webseite zu verweisen"
 
@@ -4960,7 +4955,6 @@ msgstr ""
 "des Urhebers, verlinken."
 
 #: ../user/html.php:35
-#, fuzzy
 msgid "You can also use ampersand notation for special characters."
 msgstr ""
 "Sie können auch die Kaufmännisch-Und Notation für spezielle Zeichen "
@@ -5251,7 +5245,6 @@ msgid "Merged %1 into %2"
 msgstr "PC %1 in PC %2 integriert"
 
 #: ../user/merge_by_name.php:74
-#, fuzzy
 msgid "Return to the list of your computers"
 msgstr "Zurück zur Liste der Computer"
 
@@ -5276,7 +5269,6 @@ msgid "Go ahead and do this"
 msgstr "Mit der Aktion fortfahren"
 
 #: ../user/merge_by_name.php:85
-#, fuzzy
 msgid "Return to the list of computers"
 msgstr "Zurück zur Liste der Computer"
 
@@ -5626,7 +5618,6 @@ msgid "Joined project"
 msgstr "beigetreten am"
 
 #: ../user/profile_search_action.php:44
-#, fuzzy
 msgid "Recent credit"
 msgstr "Zuletzt verdiente Punkte"
 
@@ -5775,7 +5766,6 @@ msgid "Users"
 msgstr "Benutzer"
 
 #: ../user/server_status.php:382 ../user/server_status.php:398
-#, fuzzy
 msgid "with recent credit"
 msgstr "mit zuletzt verdienten Punkten"
 
@@ -6967,7 +6957,6 @@ msgstr "Mindestanzahl"
 
 # Das ist ein eher technischer Begriff der die Anzahl der zu Beginn erzeugten Kopien des Jobs ausdrückt.
 #: ../user/workunit.php:59
-#, fuzzy
 msgid "initial replication"
 msgstr "Anfängliche Kopien"
 
@@ -6996,7 +6985,6 @@ msgid "Generated"
 msgstr "Erstellt"
 
 #: ../project.sample/project.inc:82
-#, fuzzy
 msgid "Your personal background."
 msgstr "Informationen zu ihrer Person."
 

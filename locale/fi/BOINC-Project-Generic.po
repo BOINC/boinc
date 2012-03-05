@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2012-02-11 14:00+0200\n"
+"PO-Revision-Date: 2012-02-22 16:59+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -300,7 +300,7 @@ msgstr ""
 
 #: ../inc/forum.inc:626
 msgid "rate: "
-msgstr ""
+msgstr "arvioi: "
 
 #: ../inc/forum.inc:629
 msgid "Click if you like this message"
@@ -5087,7 +5087,6 @@ msgid "Merged %1 into %2"
 msgstr "Sulautettiin kone %1 koneeseen %2"
 
 #: ../user/merge_by_name.php:74
-#, fuzzy
 msgid "Return to the list of your computers"
 msgstr "Takaisin tietokonelistaasi"
 
@@ -5207,7 +5206,6 @@ msgid "Result ID"
 msgstr "Tehtävän tunniste"
 
 #: ../user/pending.php:66
-#, fuzzy
 msgid "Workunit ID"
 msgstr "Työpaketin tunniste"
 

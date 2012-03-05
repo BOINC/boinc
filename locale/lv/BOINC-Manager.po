@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-09 12:37-0500\n"
-"PO-Revision-Date: 2012-02-19 23:30+0200\n"
+"POT-Creation-Date: 2012-03-05 10:58-0500\n"
+"PO-Revision-Date: 2012-02-19 23:33+0200\n"
 "Last-Translator: Atis <boinc_at_latvia@mac.com>\n"
 "Language-Team: BOINC@Latvia <boinc_at_latvia at mac.com>\n"
 "Language: lv\n"
@@ -77,13 +77,11 @@ msgstr ""
 msgid "Find login information"
 msgstr "Atrast pieteikšanās informāciju"
 
-#: clientgui/AccountInfoPage.cpp:435
-#: clientgui/AccountInfoPage.cpp:635
+#: clientgui/AccountInfoPage.cpp:435 clientgui/AccountInfoPage.cpp:635
 msgid "&Password:"
 msgstr "&Parole:"
 
-#: clientgui/AccountInfoPage.cpp:442
-#: clientgui/AccountInfoPage.cpp:659
+#: clientgui/AccountInfoPage.cpp:442 clientgui/AccountInfoPage.cpp:659
 msgid "Choose a &password:"
 msgstr "Izvēlieties &paroli:"
 
@@ -128,7 +126,6 @@ msgid "Account manager website"
 msgstr "Konta menedžera tīmekļa vietne"
 
 #: clientgui/AccountInfoPage.cpp:571
-#, fuzzy
 msgid "Add project"
 msgstr "Pievienot projektu"
 
@@ -141,23 +138,26 @@ msgid "Use account manager"
 msgstr "Lietot konta menedžeri"
 
 #: clientgui/AccountInfoPage.cpp:583
-#, c-format
 #, fuzzy, c-format
-msgid "The minimum password length for this project is %d. Please enter a different password."
+msgid ""
+"The minimum password length for this project is %d. Please enter a different "
+"password."
 msgstr ""
 "Minimālais paroles garums šim projektam ir %d. Lūdzu, izvēlieties citu "
 "paroli."
 
 #: clientgui/AccountInfoPage.cpp:589
-#, c-format
 #, fuzzy, c-format
-msgid "The minimum password length for this account manager is %d. Please enter a different password."
+msgid ""
+"The minimum password length for this account manager is %d. Please enter a "
+"different password."
 msgstr ""
 "Minimālais paroles garums šim konta menedžerim ir %d. Lūdzu, izvēlieties "
 "citu paroli."
 
 #: clientgui/AccountInfoPage.cpp:601
-msgid "The password and confirmation password do not match. Please type them again."
+msgid ""
+"The password and confirmation password do not match. Please type them again."
 msgstr "Abas ievadītās paroles nesakrīt. Lūdzu, ievadiet tās no jauna."
 
 #: clientgui/AccountManagerInfoPage.cpp:248
@@ -213,8 +213,7 @@ msgstr "Aizvērt %s logu"
 msgid "&Close Window"
 msgstr "&Aizvērt logu"
 
-#: clientgui/AdvancedFrame.cpp:329
-#: clientgui/AdvancedFrame.cpp:336
+#: clientgui/AdvancedFrame.cpp:329 clientgui/AdvancedFrame.cpp:336
 #: clientgui/AdvancedFrame.cpp:343
 #, c-format
 msgid "Exit %s"
@@ -301,12 +300,11 @@ msgid "&Add project..."
 msgstr "P&ievienot projektu..."
 
 #: clientgui/AdvancedFrame.cpp:431
-#, fuzzy
 msgid "Add a project"
 msgstr "Pievienot projektu"
 
 #: clientgui/AdvancedFrame.cpp:434
-#, c-format, c-format
+#, c-format
 msgid "S&top using %s..."
 msgstr "Nelie&tot %s..."
 
@@ -371,7 +369,6 @@ msgid "Allow GPU work according to preferences"
 msgstr "Atļaut GPU darbu saskaņā ar jūsu preferencēm"
 
 #: clientgui/AdvancedFrame.cpp:505
-#, fuzzy
 msgid "Suspend GPU"
 msgstr "Atlikt GPU"
 
@@ -380,7 +377,6 @@ msgid "Stop GPU work regardless of preferences"
 msgstr "Pārstāt izpildīt GPU darbu neskatoties uz preferencēm"
 
 #: clientgui/AdvancedFrame.cpp:530
-#, fuzzy
 msgid "Network activity always available"
 msgstr "&Tīkls vienmēr pieejams"
 
@@ -389,7 +385,6 @@ msgid "Allow network activity regardless of preferences"
 msgstr "Atļaut lietot tīklu neskatoties uz preferencēm"
 
 #: clientgui/AdvancedFrame.cpp:535
-#, fuzzy
 msgid "Network activity based on preferences"
 msgstr "&Pieslēgties tīklam balstoties uz preferencēm"
 
@@ -398,7 +393,6 @@ msgid "Allow network activity according to preferences"
 msgstr "Lietot tīklu saskaņā ar jūsu preferencēm"
 
 #: clientgui/AdvancedFrame.cpp:540
-#, fuzzy
 msgid "Network activity suspended"
 msgstr "Pi&eslēgums tīklam atlikts"
 
@@ -407,7 +401,7 @@ msgid "Stop BOINC network activity"
 msgstr "Aptur BOINC tīkla aktivitātes"
 
 #: clientgui/AdvancedFrame.cpp:551
-#, c-format, c-format
+#, c-format
 msgid "Connect to another computer running %s"
 msgstr "Pieslēgties citam datoram, kas izpilda %s"
 
@@ -499,7 +493,7 @@ msgid "%s &website"
 msgstr "%s &tīmekļa vietne"
 
 #: clientgui/AdvancedFrame.cpp:654
-#, c-format, c-format
+#, c-format
 msgid "Show information about BOINC and %s"
 msgstr "Parādīt informāciju par BOINC un %s"
 
@@ -591,7 +585,7 @@ msgid "Connecting to %s"
 msgstr "Pieslēdzas pie %s"
 
 #: clientgui/AdvancedFrame.cpp:1861
-#, c-format, c-format
+#, c-format
 msgid "Connected to %s (%s)"
 msgstr "Pieslēdzās pie %s (%s)"
 
@@ -600,7 +594,6 @@ msgid "Username already in use"
 msgstr "Lietotājvārds jau tiek lietots"
 
 #: clientgui/AlreadyExistsPage.cpp:187
-#, fuzzy
 msgid ""
 "An account with that username already exists and has a\n"
 "different password than the one you entered.\n"
@@ -661,7 +654,8 @@ msgstr "%s - Savienojuma kļūda"
 #: clientgui/BOINCBaseFrame.cpp:508
 msgid ""
 "You currently are not authorized to manage the client.\n"
-"Please contact your administrator to add you to the 'boinc_users' local user group."
+"Please contact your administrator to add you to the 'boinc_users' local user "
+"group."
 msgstr ""
 "Pašlaik jūs neesat autorizēts pārvaldīt klientu.\n"
 "Lūdzu, sazinieties ar jūsu administratoru, lai pievieno jūs 'boinc_users' "
@@ -690,7 +684,6 @@ msgstr "%s - Savienojums neizdevās"
 
 #: clientgui/BOINCBaseFrame.cpp:580
 #, c-format
-#, fuzzy, c-format
 msgid ""
 "%s is not able to connect to a %s client.\n"
 "Would you like to try to connect again?"
@@ -707,7 +700,8 @@ msgstr "%s - Dēmona startēšana neizdevās"
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
-"Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
+"Please launch the Control Panel->Administative Tools->Services applet and "
+"start the BOINC service."
 msgstr ""
 "%s nespēja startēt %s klientu.\n"
 "Lūdzu palaidiet Vadības panelis->Administratīvie rīki->Services un "
@@ -728,15 +722,16 @@ msgid "%s - Connection Status"
 msgstr "%s - Savienojuma statuss"
 
 #: clientgui/BOINCBaseFrame.cpp:694
-#, c-format, c-format
+#, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
-"Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
+"Please use the 'Advanced\\Select Computer...' menu option to connect up to a "
+"%s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 "%s pašlaik nav savienots ar %s klientu.\n"
-"Lūdzu lietojiet 'Papildu\\Izvēlēties datoru...' izvēlni, lai savienotos ar %s "
-"klientu.\n"
+"Lūdzu lietojiet 'Papildu\\Izvēlēties datoru...' izvēlni, lai savienotos ar "
+"%s klientu.\n"
 "Lai savienotos ar pašreizējo datoru izmantojiet vārdu 'localhost'."
 
 #: clientgui/BOINCBaseView.cpp:774
@@ -749,7 +744,7 @@ msgid "%s - Unexpected Exit"
 msgstr "%s - Neparedzēta iziešana"
 
 #: clientgui/BOINCClientManager.cpp:580
-#, c-format, c-format
+#, c-format
 msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
 "Would you like to restart it again?"
@@ -763,7 +758,7 @@ msgid "%s - Network Status"
 msgstr "%s - Tīkla statuss"
 
 #: clientgui/BOINCDialupManager.cpp:241
-#, c-format, c-format
+#, c-format
 msgid ""
 "%s needs to connect to the Internet.\n"
 "May it do so now?"
@@ -772,22 +767,22 @@ msgstr ""
 "Vai drīkst to darīt tagad?"
 
 #: clientgui/BOINCDialupManager.cpp:254
-#, c-format, c-format
+#, c-format
 msgid "%s is connecting to the Internet."
 msgstr "%s savienojas ar Internet."
 
 #: clientgui/BOINCDialupManager.cpp:303
-#, c-format, c-format
+#, c-format
 msgid "%s has successfully connected to the Internet."
 msgstr "%s veiksmīgi savienojās ar Internet."
 
 #: clientgui/BOINCDialupManager.cpp:331
-#, c-format, c-format
+#, c-format
 msgid "%s failed to connect to the Internet."
 msgstr "%s neizdevās savienoties ar Internet."
 
 #: clientgui/BOINCDialupManager.cpp:372
-#, c-format, c-format
+#, c-format
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
 "Updating all projects and retrying all transfers."
@@ -796,12 +791,12 @@ msgstr ""
 "Aktualizē visus projektus un atjauno datu pārsūtīšanu."
 
 #: clientgui/BOINCDialupManager.cpp:417
-#, c-format, c-format
+#, c-format
 msgid "%s has successfully disconnected from the Internet."
 msgstr "%s veiksmīgi atvienojās no Internet."
 
 #: clientgui/BOINCDialupManager.cpp:433
-#, c-format, c-format
+#, c-format
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s neizdevās atvienoties no Internet."
 
@@ -919,78 +914,76 @@ msgstr "(Nezināms)"
 msgid "(User Defined)"
 msgstr "(Lietotāja definēts)"
 
-#: clientgui/BOINCTaskBar.cpp:490
+#: clientgui/BOINCTaskBar.cpp:502
 #, c-format
 msgid "Open %s Web..."
 msgstr "Atvērt %s tīmekli..."
 
-#: clientgui/BOINCTaskBar.cpp:497
+#: clientgui/BOINCTaskBar.cpp:509
 #, c-format
 msgid "Open %s..."
 msgstr "Atvērt %s..."
 
-#: clientgui/BOINCTaskBar.cpp:504
-#: clientgui/BOINCTaskBar.cpp:600
-#: clientgui/BOINCTaskBar.cpp:608
+#: clientgui/BOINCTaskBar.cpp:516 clientgui/BOINCTaskBar.cpp:612
+#: clientgui/BOINCTaskBar.cpp:620
 msgid "Snooze"
 msgstr "Iesnaust"
 
-#: clientgui/BOINCTaskBar.cpp:506
-#: clientgui/BOINCTaskBar.cpp:627
-#: clientgui/BOINCTaskBar.cpp:635
+#: clientgui/BOINCTaskBar.cpp:518 clientgui/BOINCTaskBar.cpp:639
+#: clientgui/BOINCTaskBar.cpp:647
 msgid "Snooze GPU"
 msgstr "Iesnaust GPU"
 
-#: clientgui/BOINCTaskBar.cpp:522
+#: clientgui/BOINCTaskBar.cpp:534
 msgid "E&xit"
 msgstr "I&ziet"
 
-#: clientgui/BOINCTaskBar.cpp:593
+#: clientgui/BOINCTaskBar.cpp:605
 msgid "Resume"
 msgstr "Atsākt"
 
-#: clientgui/BOINCTaskBar.cpp:620
+#: clientgui/BOINCTaskBar.cpp:632
 msgid "Resume GPU"
 msgstr "Atsākt GPU"
 
-#: clientgui/BOINCTaskBar.cpp:696
+#: clientgui/BOINCTaskBar.cpp:708
 msgid "Computing is enabled"
 msgstr "Skaitļošana atļauta"
 
-#: clientgui/BOINCTaskBar.cpp:699
+#: clientgui/BOINCTaskBar.cpp:711
 msgid "Computing is suspended - "
 msgstr "Skaitļošana atlikta - "
 
-#: clientgui/BOINCTaskBar.cpp:709
+#: clientgui/BOINCTaskBar.cpp:721
 msgid "GPU computing is enabled"
 msgstr "GPU skaitļošana atļauta"
 
-#: clientgui/BOINCTaskBar.cpp:712
+#: clientgui/BOINCTaskBar.cpp:724
 msgid "GPU computing is suspended - "
 msgstr "GPU skaitļošana atlikta - "
 
-#: clientgui/BOINCTaskBar.cpp:721
+#: clientgui/BOINCTaskBar.cpp:733
 msgid "Network is enabled"
 msgstr "Pi&eslēgums tīklam atļauts"
 
-#: clientgui/BOINCTaskBar.cpp:724
+#: clientgui/BOINCTaskBar.cpp:736
 msgid "Network is suspended - "
 msgstr "P&ieslēgums tīklam atlikts - "
 
-#: clientgui/BOINCTaskBar.cpp:732
+#: clientgui/BOINCTaskBar.cpp:744
 msgid "Reconnecting to client."
 msgstr "Atjauno saikni ar klientu."
 
-#: clientgui/BOINCTaskBar.cpp:734
+#: clientgui/BOINCTaskBar.cpp:746
 msgid "Not connected to a client."
 msgstr "Nav savienots ar klientu."
 
-#: clientgui/BOINCTaskBar.cpp:787
+#: clientgui/BOINCTaskBar.cpp:799
 #, c-format
 msgid "%s Notices"
 msgstr "%s Paziņojumi"
 
-#: clientgui/BOINCTaskBar.cpp:793
+#: clientgui/BOINCTaskBar.cpp:805
 msgid "There are new notices - click to view."
 msgstr "Ir jauni paziņojumi - klikšķināt, lai skatītu."
 
@@ -1022,10 +1015,8 @@ msgstr ""
 "\n"
 "Noklikšķiniet Beigt, lai aizvērtu."
 
-#: clientgui/CompletionErrorPage.cpp:225
-#: clientgui/CompletionPage.cpp:222
-#: clientgui/CompletionPage.cpp:242
-#: clientgui/CompletionPage.cpp:273
+#: clientgui/CompletionErrorPage.cpp:225 clientgui/CompletionPage.cpp:222
+#: clientgui/CompletionPage.cpp:242 clientgui/CompletionPage.cpp:273
 msgid "Click Finish to close."
 msgstr "Noklikšķiniet Beigt, lai aizvērtu."
 
@@ -1101,13 +1092,11 @@ msgstr ""
 "(C) 2003-2011 Kalifornijas Universitāte Berklijā.\n"
 "Visas tiesības aizsargātas."
 
-#: clientgui/DlgAbout.cpp:185
-#: clientgui/DlgAbout.cpp:189
+#: clientgui/DlgAbout.cpp:185 clientgui/DlgAbout.cpp:189
 msgid "Berkeley Open Infrastructure for Network Computing"
 msgstr "Berklijas atvērtā infrastruktūra tīklskaitļošanai"
 
-#: clientgui/DlgAbout.cpp:201
-#: clientgui/DlgExitMessage.cpp:173
+#: clientgui/DlgAbout.cpp:201 clientgui/DlgExitMessage.cpp:173
 #: clientgui/DlgGenericMessage.cpp:120
 msgid "&OK"
 msgstr "&Labi"
@@ -1132,8 +1121,7 @@ msgstr "noteikta nederīga ievadītā vērtība"
 msgid "Validation Error"
 msgstr "Validācijas kļūda"
 
-#: clientgui/DlgAdvPreferences.cpp:788
-#: clientgui/DlgAdvPreferences.cpp:793
+#: clientgui/DlgAdvPreferences.cpp:788 clientgui/DlgAdvPreferences.cpp:793
 #: clientgui/DlgAdvPreferences.cpp:798
 msgid "Applications to add"
 msgstr "Pievienojamie lietojumi"
@@ -1143,8 +1131,7 @@ msgstr "Pievienojamie lietojumi"
 msgid "'%s' is not an executable application."
 msgstr "'%s' nav izpildāma lietojumprogramma."
 
-#: clientgui/DlgAdvPreferences.cpp:815
-#: clientgui/DlgAdvPreferences.cpp:848
+#: clientgui/DlgAdvPreferences.cpp:815 clientgui/DlgAdvPreferences.cpp:848
 #: clientgui/DlgAdvPreferences.cpp:872
 msgid "Add Exclusive App"
 msgstr "Pievienot īpašu lietojumu"
@@ -1248,7 +1235,8 @@ msgid "While computer is on batteries"
 msgstr "Kamēr dators lieto akumulatoru"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:142
-msgid "check this if you want this computer to do work while it runs on batteries"
+msgid ""
+"check this if you want this computer to do work while it runs on batteries"
 msgstr ""
 "atzīmējiet šo, ja vēlaties, ka šis dators izpilda darbu, kamēr strādā no "
 "akumulatora"
@@ -1258,7 +1246,8 @@ msgid "While computer is in use"
 msgstr "Kamēr dators tiek lietots"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:151
-msgid "check this if you want this computer to do work even when you're using it"
+msgid ""
+"check this if you want this computer to do work even when you're using it"
 msgstr ""
 "atzīmējiet šo, ja vēlaties, ka šis dators izpilda darbu, kamēr jūs to "
 "lietojat"
@@ -1268,7 +1257,9 @@ msgid "Use GPU while computer is in use"
 msgstr "Lietot GPU kamēr dators ir lietošanā"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:160
-msgid "check this if you want your GPU to do work even when you're using the computer"
+msgid ""
+"check this if you want your GPU to do work even when you're using the "
+"computer"
 msgstr ""
 "atzīmējiet šo, ja vēlaties, ka GPU veic darbu, pat tad, ja jūs lietojat "
 "datoru"
@@ -1278,7 +1269,8 @@ msgid "Only after computer has been idle for"
 msgstr "Tikai pēc tam, kad dators bijis dīkstāvē"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:182
-msgid "do work only after you haven't used the computer for this number of minutes"
+msgid ""
+"do work only after you haven't used the computer for this number of minutes"
 msgstr "veikt darbu tikai, ja neesat lietojis datoru norādīto minūšu skaitu"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:187
@@ -1393,7 +1385,7 @@ msgid "Use at most"
 msgstr "Lietot ne vairāk kā"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:356
-#, no-c-format, no-c-format
+#, no-c-format
 msgid "% CPU time"
 msgstr "% CPU laiks"
 
@@ -1466,7 +1458,9 @@ msgid "Confirm before connecting to internet"
 msgstr "Apstiprināt pirms pievienoties Internet"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:479
-msgid "if checked, a confirmation dialog will be displayed before trying to connect to the Internet"
+msgid ""
+"if checked, a confirmation dialog will be displayed before trying to connect "
+"to the Internet"
 msgstr ""
 "ja atzīmēts, pirms pieslēgties Internet tiks parādīts apstiprināšanas "
 "dialoga logs"
@@ -1495,8 +1489,7 @@ msgstr "tīkla lietošanas sākumstunda"
 msgid "network usage stop hour"
 msgstr "tīkla lietošanas beigu stunda"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:597
-#: clientgui/DlgItemProperties.cpp:214
+#: clientgui/DlgAdvPreferencesBase.cpp:597 clientgui/DlgItemProperties.cpp:234
 msgid "Disk usage"
 msgstr "Diska izlietojums"
 
@@ -1565,7 +1558,8 @@ msgid "if checked, suspended work units are left in memory"
 msgstr "ja atzīmēts, atliktie darbi tiek paturēti atmiņā"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:712
-msgid "Suspend processor and network usage when these applications are running:"
+msgid ""
+"Suspend processor and network usage when these applications are running:"
 msgstr ""
 "Pārtraukt procesora un tīkla lietošanu, ja tiek lietotas šīs "
 "lietojumprogrammas:"
@@ -1607,8 +1601,7 @@ msgstr "Laiks"
 msgid "Message"
 msgstr "Ziņojums"
 
-#: clientgui/DlgEventLog.cpp:263
-#: clientgui/DlgEventLog.cpp:327
+#: clientgui/DlgEventLog.cpp:263 clientgui/DlgEventLog.cpp:327
 msgid "&Show only this project"
 msgstr "&Rādīt tikai šo projektu"
 
@@ -1616,8 +1609,7 @@ msgstr "&Rādīt tikai šo projektu"
 msgid "Copy &All"
 msgstr "Kopēt &visu"
 
-#: clientgui/DlgEventLog.cpp:269
-#: clientgui/DlgEventLog.cpp:273
+#: clientgui/DlgEventLog.cpp:269 clientgui/DlgEventLog.cpp:273
 msgid "Copy all the messages to the clipboard."
 msgstr "Kopēt visus ziņojumus starpliktuvē."
 
@@ -1625,22 +1617,23 @@ msgstr "Kopēt visus ziņojumus starpliktuvē."
 msgid "Copy &Selected"
 msgstr "Kopēt &atlasīto"
 
-#: clientgui/DlgEventLog.cpp:281
-#: clientgui/DlgEventLog.cpp:289
-msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
+#: clientgui/DlgEventLog.cpp:281 clientgui/DlgEventLog.cpp:289
+msgid ""
+"Copy the selected messages to the clipboard. You can select multiple "
+"messages by holding down the shift or command key while clicking on messages."
 msgstr ""
 "Kopēt atlasītos ziņojumus starpliktuvē. Jūs varat atlasīt vairākas ziņas "
 "pieturot Shift vai komandas taustiņus, kamēr spiežat uz ziņojumiem."
 
-#: clientgui/DlgEventLog.cpp:283
-#: clientgui/DlgEventLog.cpp:291
-msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
+#: clientgui/DlgEventLog.cpp:283 clientgui/DlgEventLog.cpp:291
+msgid ""
+"Copy the selected messages to the clipboard. You can select multiple "
+"messages by holding down the shift or control key while clicking on messages."
 msgstr ""
 "Kopēt atlasītos ziņojumus starpliktuvē. Jūs varat atlasīt vairākas ziņas "
 "pieturot Shift vai Ctrl taustiņus, kamēr spiežat uz ziņojuma."
 
-#: clientgui/DlgEventLog.cpp:298
-#: clientgui/DlgItemProperties.cpp:66
+#: clientgui/DlgEventLog.cpp:298 clientgui/DlgItemProperties.cpp:66
 msgid "&Close"
 msgstr "&Aizvērt"
 
@@ -1653,13 +1646,11 @@ msgstr "Saņemt palīdzību par %s"
 msgid "Show all &messages"
 msgstr "Rādīt visus &ziņojumus"
 
-#: clientgui/DlgEventLog.cpp:322
-#: clientgui/DlgEventLog.cpp:324
+#: clientgui/DlgEventLog.cpp:322 clientgui/DlgEventLog.cpp:324
 msgid "Show messages for all projects"
 msgstr "Rādīt ziņojumus visiem projektiem"
 
-#: clientgui/DlgEventLog.cpp:328
-#: clientgui/DlgEventLog.cpp:330
+#: clientgui/DlgEventLog.cpp:328 clientgui/DlgEventLog.cpp:330
 msgid "Show only the messages for the selected project"
 msgstr "Rādīt ziņojumus tikai atlasītajiem projektiem"
 
@@ -1711,8 +1702,7 @@ msgstr "Apturēt izpildāmos uzdevumus, kad iziet no %s"
 msgid "Remember this decision and do not show this dialog."
 msgstr "Atcerēties šo lēmumu un nerādīt vairs dialoga logu."
 
-#: clientgui/DlgExitMessage.cpp:178
-#: clientgui/DlgGenericMessage.cpp:125
+#: clientgui/DlgExitMessage.cpp:178 clientgui/DlgGenericMessage.cpp:125
 msgid "&Cancel"
 msgstr "&Atcelt"
 
@@ -1720,264 +1710,240 @@ msgstr "&Atcelt"
 msgid "Don't show this dialog again."
 msgstr "Vairs nerādīt šo dialoga logu."
 
-#: clientgui/DlgItemProperties.cpp:196
-msgid "Properties of project "
-msgstr "Projekta īpašības "
-
-#: clientgui/DlgItemProperties.cpp:200
-msgid "General"
-msgstr "Vispārējais"
-
-#: clientgui/DlgItemProperties.cpp:201
-msgid "Master URL"
-msgstr "Centrālais URL"
-
-#: clientgui/DlgItemProperties.cpp:202
-msgid "User name"
-msgstr "Lietotāja vārds"
-
-#: clientgui/DlgItemProperties.cpp:203
-msgid "Team name"
-msgstr "Komandas vārds"
-
-#: clientgui/DlgItemProperties.cpp:204
-msgid "Resource share"
-msgstr "Resursu daļa"
-
-#: clientgui/DlgItemProperties.cpp:206
-msgid "Scheduler RPC deferred for"
-msgstr "Plānotāja RPC atlikts uz"
-
-#: clientgui/DlgItemProperties.cpp:209
-msgid "File downloads deferred for"
-msgstr "Faila lejupielāde atlikta uz"
-
-#: clientgui/DlgItemProperties.cpp:212
-msgid "File uploads deferred for"
-msgstr "Failu augšupielāde atlikta uz"
-
-#: clientgui/DlgItemProperties.cpp:215
-msgid "Computer ID"
-msgstr "Datora ID"
-
-#: clientgui/DlgItemProperties.cpp:217
-msgid "Non CPU intensive"
-msgstr "CPU neintensitīvs"
-
-#: clientgui/DlgItemProperties.cpp:217
-#: clientgui/DlgItemProperties.cpp:219
-#: clientgui/DlgItemProperties.cpp:220
-#: clientgui/DlgItemProperties.cpp:222
-#: clientgui/DlgItemProperties.cpp:225
-#: clientgui/DlgItemProperties.cpp:234
-#: clientgui/DlgItemProperties.cpp:237
-#: clientgui/DlgItemProperties.cpp:240
-msgid "yes"
-msgstr "jā"
-
-#: clientgui/DlgItemProperties.cpp:219
-msgid "Suspended via GUI"
-msgstr "Atlikts caur GUI"
-
-#: clientgui/DlgItemProperties.cpp:219
-#: clientgui/DlgItemProperties.cpp:220
-msgid "no"
-msgstr "nē"
-
-#: clientgui/DlgItemProperties.cpp:220
-msgid "Don't request more work"
-msgstr "Nepieprasīt vairāk darbu"
-
-#: clientgui/DlgItemProperties.cpp:222
-msgid "Scheduler call in progress"
-msgstr "Izveic plānotāja pieprasījumu"
-
-#: clientgui/DlgItemProperties.cpp:225
-msgid "Trickle-up pending"
-msgstr "Sūkties līdz"
-
-#: clientgui/DlgItemProperties.cpp:228
-#: clientgui/DlgItemProperties.cpp:230
-msgid "Host location"
-msgstr "Hosta atrašanās vieta"
-
-#: clientgui/DlgItemProperties.cpp:230
-msgid "default"
-msgstr "noklusētais"
-
-#: clientgui/DlgItemProperties.cpp:234
-msgid "Added via account manager"
-msgstr "Pievienots caur konta pārvaldnieku"
-
-#: clientgui/DlgItemProperties.cpp:237
-msgid "Remove when tasks done"
-msgstr "Noņemt, kad uzdevums pabeigts"
-
-#: clientgui/DlgItemProperties.cpp:240
-msgid "Ended"
-msgstr "Pabeigts"
-
-#: clientgui/DlgItemProperties.cpp:242
-msgid "Credit"
-msgstr "Kredīts"
-
-#: clientgui/DlgItemProperties.cpp:243
-msgid "User"
-msgstr "Lietotājs"
-
-#: clientgui/DlgItemProperties.cpp:250
-msgid "Host"
-msgstr "Hosts"
-
-#: clientgui/DlgItemProperties.cpp:259
-msgid "Scheduling"
-msgstr "Plānošana"
-
-#: clientgui/DlgItemProperties.cpp:261
-#: clientgui/DlgItemProperties.cpp:264
-#: clientgui/DlgItemProperties.cpp:267
-msgid "Don't fetch CPU tasks"
+#: clientgui/DlgItemProperties.cpp:171 clientgui/DlgItemProperties.cpp:174
+#: clientgui/DlgItemProperties.cpp:177 clientgui/DlgItemProperties.cpp:180
+#, fuzzy
+msgid "Don't fetch tasks for "
 msgstr "Neņemt CPU-bāzētus uzdevumus"
 
-#: clientgui/DlgItemProperties.cpp:261
-#: clientgui/DlgItemProperties.cpp:277
-#: clientgui/DlgItemProperties.cpp:287
-#: clientgui/DlgItemProperties.cpp:298
-#: clientgui/DlgItemProperties.cpp:308
+#: clientgui/DlgItemProperties.cpp:171
 msgid "Project preference"
 msgstr "Projekta preferences"
 
-#: clientgui/DlgItemProperties.cpp:264
-#: clientgui/DlgItemProperties.cpp:282
-#: clientgui/DlgItemProperties.cpp:303
+#: clientgui/DlgItemProperties.cpp:174
 msgid "Account manager preference"
 msgstr "Konta pārvaldnieka preferences"
 
-#: clientgui/DlgItemProperties.cpp:267
-msgid "Project has no CPU apps"
+#: clientgui/DlgItemProperties.cpp:177
+#, fuzzy
+msgid "Project has no apps for "
 msgstr "Projektam nav CPU lietojumu"
 
-#: clientgui/DlgItemProperties.cpp:269
+#: clientgui/DlgItemProperties.cpp:180
+#, fuzzy
+msgid "Client configuration excludes "
+msgstr "Klienta konta izveidošana nav iespējama"
+
+#: clientgui/DlgItemProperties.cpp:184
+#, fuzzy
+msgid " work fetch deferred for"
+msgstr "CPU uzdevumu ņemšana atlikta uz"
+
+#: clientgui/DlgItemProperties.cpp:185
+#, fuzzy
+msgid " work fetch deferral interval"
+msgstr "CPU uzdevumu ņemšanas atlikšanas intervāls"
+
+#: clientgui/DlgItemProperties.cpp:216
+msgid "Properties of project "
+msgstr "Projekta īpašības "
+
+#: clientgui/DlgItemProperties.cpp:220
+msgid "General"
+msgstr "Vispārējais"
+
+#: clientgui/DlgItemProperties.cpp:221
+msgid "Master URL"
+msgstr "Centrālais URL"
+
+#: clientgui/DlgItemProperties.cpp:222
+msgid "User name"
+msgstr "Lietotāja vārds"
+
+#: clientgui/DlgItemProperties.cpp:223
+msgid "Team name"
+msgstr "Komandas vārds"
+
+#: clientgui/DlgItemProperties.cpp:224
+msgid "Resource share"
+msgstr "Resursu daļa"
+
+#: clientgui/DlgItemProperties.cpp:226
+msgid "Scheduler RPC deferred for"
+msgstr "Plānotāja RPC atlikts uz"
+
+#: clientgui/DlgItemProperties.cpp:229
+msgid "File downloads deferred for"
+msgstr "Faila lejupielāde atlikta uz"
+
+#: clientgui/DlgItemProperties.cpp:232
+msgid "File uploads deferred for"
+msgstr "Failu augšupielāde atlikta uz"
+
+#: clientgui/DlgItemProperties.cpp:235
+msgid "Computer ID"
+msgstr "Datora ID"
+
+#: clientgui/DlgItemProperties.cpp:237
+msgid "Non CPU intensive"
+msgstr "CPU neintensitīvs"
+
+#: clientgui/DlgItemProperties.cpp:237 clientgui/DlgItemProperties.cpp:239
+#: clientgui/DlgItemProperties.cpp:240 clientgui/DlgItemProperties.cpp:242
+#: clientgui/DlgItemProperties.cpp:245 clientgui/DlgItemProperties.cpp:254
+#: clientgui/DlgItemProperties.cpp:257 clientgui/DlgItemProperties.cpp:260
+msgid "yes"
+msgstr "jā"
+
+#: clientgui/DlgItemProperties.cpp:239
+msgid "Suspended via GUI"
+msgstr "Atlikts caur GUI"
+
+#: clientgui/DlgItemProperties.cpp:239 clientgui/DlgItemProperties.cpp:240
+msgid "no"
+msgstr "nē"
+
+#: clientgui/DlgItemProperties.cpp:240
+msgid "Don't request more work"
+msgstr "Nepieprasīt vairāk darbu"
+
+#: clientgui/DlgItemProperties.cpp:242
+msgid "Scheduler call in progress"
+msgstr "Izveic plānotāja pieprasījumu"
+
+#: clientgui/DlgItemProperties.cpp:245
+msgid "Trickle-up pending"
+msgstr "Sūkties līdz"
+
+#: clientgui/DlgItemProperties.cpp:248 clientgui/DlgItemProperties.cpp:250
+msgid "Host location"
+msgstr "Hosta atrašanās vieta"
+
+#: clientgui/DlgItemProperties.cpp:250
+msgid "default"
+msgstr "noklusētais"
+
+#: clientgui/DlgItemProperties.cpp:254
+msgid "Added via account manager"
+msgstr "Pievienots caur konta pārvaldnieku"
+
+#: clientgui/DlgItemProperties.cpp:257
+msgid "Remove when tasks done"
+msgstr "Noņemt, kad uzdevums pabeigts"
+
+#: clientgui/DlgItemProperties.cpp:260
+msgid "Ended"
+msgstr "Pabeigts"
+
+#: clientgui/DlgItemProperties.cpp:262
+msgid "Credit"
+msgstr "Kredīts"
+
+#: clientgui/DlgItemProperties.cpp:263
+msgid "User"
+msgstr "Lietotājs"
+
+#: clientgui/DlgItemProperties.cpp:270
+msgid "Host"
+msgstr "Hosts"
+
+#: clientgui/DlgItemProperties.cpp:279
+msgid "Scheduling"
+msgstr "Plānošana"
+
+#: clientgui/DlgItemProperties.cpp:280
 msgid "Scheduling priority"
 msgstr "Plānošanas prioritāte"
 
-#: clientgui/DlgItemProperties.cpp:272
-msgid "CPU work fetch deferred for"
-msgstr "CPU uzdevumu ņemšana atlikta uz"
+#: clientgui/DlgItemProperties.cpp:281
+msgid "CPU"
+msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:273
-msgid "CPU work fetch deferral interval"
-msgstr "CPU uzdevumu ņemšanas atlikšanas intervāls"
+#: clientgui/DlgItemProperties.cpp:283
+msgid "NVIDIA GPU"
+msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:277
-#: clientgui/DlgItemProperties.cpp:282
-#: clientgui/DlgItemProperties.cpp:287
-msgid "Don't fetch NVIDIA GPU tasks"
-msgstr "Neņemt NVIDIA GPU uzdevumus"
+#: clientgui/DlgItemProperties.cpp:286
+msgid "ATI GPU"
+msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:292
-msgid "NVIDIA GPU work fetch deferred for"
-msgstr "NVIDIA GPU darbu ņemšana atlikta uz"
-
-#: clientgui/DlgItemProperties.cpp:293
-msgid "NVIDIA GPU work fetch deferral interval"
-msgstr "NVIDIA GPU darbu ņemšanas atlikšanas intervāls"
-
-#: clientgui/DlgItemProperties.cpp:298
-#: clientgui/DlgItemProperties.cpp:303
-#: clientgui/DlgItemProperties.cpp:308
-msgid "Don't fetch ATI GPU tasks"
-msgstr "Neņemt ATI GPU uzdevumus"
-
-#: clientgui/DlgItemProperties.cpp:313
-msgid "ATI GPU work fetch deferred for"
-msgstr "ATI GPU darbu ņemšana atlikta uz"
-
-#: clientgui/DlgItemProperties.cpp:314
-msgid "ATI GPU work fetch deferral interval"
-msgstr "ATI GPU darbu ņemšanas atlikšanas intevāls"
-
-#: clientgui/DlgItemProperties.cpp:316
+#: clientgui/DlgItemProperties.cpp:288
 msgid "Duration correction factor"
 msgstr "Ilguma korekcijas faktors"
 
-#: clientgui/DlgItemProperties.cpp:327
+#: clientgui/DlgItemProperties.cpp:299
 msgid "Properties of task "
 msgstr "Īpašības uzdevumam "
 
-#: clientgui/DlgItemProperties.cpp:339
+#: clientgui/DlgItemProperties.cpp:311
 msgid "Application"
 msgstr "Lietojums"
 
-#: clientgui/DlgItemProperties.cpp:340
+#: clientgui/DlgItemProperties.cpp:312
 msgid "Workunit name"
 msgstr "Darba vienības vārds"
 
-#: clientgui/DlgItemProperties.cpp:341
+#: clientgui/DlgItemProperties.cpp:313
 msgid "State"
 msgstr "Stāvoklis"
 
-#: clientgui/DlgItemProperties.cpp:344
+#: clientgui/DlgItemProperties.cpp:316
 msgid "Received"
 msgstr "Saņemts"
 
-#: clientgui/DlgItemProperties.cpp:347
+#: clientgui/DlgItemProperties.cpp:319
 msgid "Report deadline"
 msgstr "Termiņš"
 
-#: clientgui/DlgItemProperties.cpp:349
+#: clientgui/DlgItemProperties.cpp:321
 msgid "Resources"
 msgstr "Resursi"
 
-#: clientgui/DlgItemProperties.cpp:352
+#: clientgui/DlgItemProperties.cpp:324
 msgid "Estimated computation size"
 msgstr "Plānotais skaitļošanas izmērs"
 
-#: clientgui/DlgItemProperties.cpp:355
+#: clientgui/DlgItemProperties.cpp:327
 msgid "CPU time at last checkpoint"
 msgstr "CPU laiks kopš pēdējā kontrolpunkta"
 
-#: clientgui/DlgItemProperties.cpp:356
-#: clientgui/DlgItemProperties.cpp:371
+#: clientgui/DlgItemProperties.cpp:328 clientgui/DlgItemProperties.cpp:343
 msgid "CPU time"
 msgstr "CPU laiks"
 
-#: clientgui/DlgItemProperties.cpp:358
-#: clientgui/DlgItemProperties.cpp:372
-#, fuzzy
+#: clientgui/DlgItemProperties.cpp:330 clientgui/DlgItemProperties.cpp:344
 msgid "Elapsed time"
 msgstr "Pavadītais laiks"
 
-#: clientgui/DlgItemProperties.cpp:360
+#: clientgui/DlgItemProperties.cpp:332
 msgid "Estimated time remaining"
 msgstr "Plānotais atlikušais laiks"
 
-#: clientgui/DlgItemProperties.cpp:361
+#: clientgui/DlgItemProperties.cpp:333
 msgid "Fraction done"
 msgstr "Daļa pabeigta"
 
-#: clientgui/DlgItemProperties.cpp:362
+#: clientgui/DlgItemProperties.cpp:334
 msgid "Virtual memory size"
 msgstr "Virtuālās atmiņas izmērs"
 
-#: clientgui/DlgItemProperties.cpp:363
+#: clientgui/DlgItemProperties.cpp:335
 msgid "Working set size"
 msgstr "Darba kopuma izmērs"
 
-#: clientgui/DlgItemProperties.cpp:365
+#: clientgui/DlgItemProperties.cpp:337
 msgid "Directory"
 msgstr "Katalogs"
 
-#: clientgui/DlgItemProperties.cpp:368
+#: clientgui/DlgItemProperties.cpp:340
 msgid "Process ID"
 msgstr "Precesa ID"
 
-#: clientgui/DlgItemProperties.cpp:442
+#: clientgui/DlgItemProperties.cpp:414
 msgid "Local: "
 msgstr "Lokāls: "
 
-#: clientgui/DlgOptions.cpp:115
-#: clientgui/DlgOptions.cpp:121
+#: clientgui/DlgOptions.cpp:115 clientgui/DlgOptions.cpp:121
 msgid "Options"
 msgstr "Opcijas"
 
@@ -2041,39 +2007,30 @@ msgstr "Pieslēgties caur HTTP proxy serveri"
 msgid "HTTP Proxy Server Configuration"
 msgstr "HTTP proxy servera konfigurācija"
 
-#: clientgui/DlgOptions.cpp:266
-#: clientgui/DlgOptions.cpp:330
+#: clientgui/DlgOptions.cpp:266 clientgui/DlgOptions.cpp:330
 msgid "Address:"
 msgstr "Adrese:"
 
-#: clientgui/DlgOptions.cpp:274
-#: clientgui/DlgOptions.cpp:338
-#: clientgui/ProxyPage.cpp:340
-#: clientgui/ProxyPage.cpp:360
+#: clientgui/DlgOptions.cpp:274 clientgui/DlgOptions.cpp:338
+#: clientgui/ProxyPage.cpp:340 clientgui/ProxyPage.cpp:360
 msgid "Port:"
 msgstr "Ports:"
 
-#: clientgui/DlgOptions.cpp:282
-#: clientgui/DlgOptions.cpp:346
+#: clientgui/DlgOptions.cpp:282 clientgui/DlgOptions.cpp:346
 msgid "Don't use proxy for:"
 msgstr "Nelietot proxy priekš:"
 
-#: clientgui/DlgOptions.cpp:289
-#: clientgui/DlgOptions.cpp:353
+#: clientgui/DlgOptions.cpp:289 clientgui/DlgOptions.cpp:353
 msgid "Leave these blank if not needed"
 msgstr "Atstājiet laukus tukšus, ja nevajag"
 
-#: clientgui/DlgOptions.cpp:295
-#: clientgui/DlgOptions.cpp:359
-#: clientgui/ProxyPage.cpp:343
-#: clientgui/ProxyPage.cpp:363
+#: clientgui/DlgOptions.cpp:295 clientgui/DlgOptions.cpp:359
+#: clientgui/ProxyPage.cpp:343 clientgui/ProxyPage.cpp:363
 msgid "User Name:"
 msgstr "Lietotāja vārds:"
 
-#: clientgui/DlgOptions.cpp:303
-#: clientgui/DlgOptions.cpp:367
-#: clientgui/DlgSelectComputer.cpp:151
-#: clientgui/ProxyPage.cpp:346
+#: clientgui/DlgOptions.cpp:303 clientgui/DlgOptions.cpp:367
+#: clientgui/DlgSelectComputer.cpp:151 clientgui/ProxyPage.cpp:346
 #: clientgui/ProxyPage.cpp:366
 msgid "Password:"
 msgstr "Parole:"
@@ -2124,13 +2081,15 @@ msgid "%s - Language Selection"
 msgstr "%s - valodas atlase"
 
 #: clientgui/DlgOptions.cpp:681
-#, c-format, c-format
-msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
+#, c-format
+msgid ""
+"The %s's default language has been changed, in order for this change to take "
+"affect you must restart the %s."
 msgstr ""
 "%s noklusētā valoda tika izmainīta. Lai tā stātos spēkā ir jāpārstartē %s."
 
 #: clientgui/DlgSelectComputer.cpp:90
-#, c-format, c-format
+#, c-format
 msgid "%s - Select Computer"
 msgstr "%s - Izvēlieties datoru"
 
@@ -2147,8 +2106,7 @@ msgstr ""
 msgid "Host name:"
 msgstr "Hosta vārds:"
 
-#: clientgui/Localization.cpp:31
-#: clientgui/Localization.cpp:69
+#: clientgui/Localization.cpp:31 clientgui/Localization.cpp:69
 msgid "Message boards"
 msgstr "Ziņojumu dēļi"
 
@@ -2160,15 +2118,12 @@ msgstr "Sarakstīties ar citiem lietotājiem SETI@home ziņojumu dēļos"
 msgid "Ask questions and report problems"
 msgstr "Jautājiet un nosūtiet problēmas"
 
-#: clientgui/Localization.cpp:39
-#: clientgui/Localization.cpp:81
-#: clientgui/Localization.cpp:111
-#: clientgui/Localization.cpp:129
+#: clientgui/Localization.cpp:39 clientgui/Localization.cpp:81
+#: clientgui/Localization.cpp:111 clientgui/Localization.cpp:129
 msgid "Your account"
 msgstr "Jūsu konts"
 
-#: clientgui/Localization.cpp:41
-#: clientgui/Localization.cpp:87
+#: clientgui/Localization.cpp:41 clientgui/Localization.cpp:87
 #: clientgui/Localization.cpp:113
 msgid "View your account information and credit totals"
 msgstr "Skatīt informāciju par jūsu kontu un kredītpunktiem"
@@ -2181,18 +2136,15 @@ msgstr "Jūsu preferences"
 msgid "View and modify your SETI@home account profile and preferences"
 msgstr "Skatīt un modificēt jūsu SETI@home konta profilu un preferences"
 
-#: clientgui/Localization.cpp:47
-#: clientgui/Localization.cpp:89
+#: clientgui/Localization.cpp:47 clientgui/Localization.cpp:89
 msgid "Your results"
 msgstr "Jūsu rezultāti"
 
-#: clientgui/Localization.cpp:49
-#: clientgui/Localization.cpp:91
+#: clientgui/Localization.cpp:49 clientgui/Localization.cpp:91
 msgid "View your last week (or more) of computational results and work"
 msgstr "Apskatīt (vismaz) pēdējās nedēļas skaitļošanas rezultātus un darbus"
 
-#: clientgui/Localization.cpp:51
-#: clientgui/Localization.cpp:93
+#: clientgui/Localization.cpp:51 clientgui/Localization.cpp:93
 msgid "Your computers"
 msgstr "Jūsu datori"
 
@@ -2200,13 +2152,11 @@ msgstr "Jūsu datori"
 msgid "View a listing of all the computers on which you are running SETI@Home"
 msgstr "Apskatīt visu datoru sarakstu uz kuriem jūs izpildāt SETI@Home"
 
-#: clientgui/Localization.cpp:55
-#: clientgui/Localization.cpp:97
+#: clientgui/Localization.cpp:55 clientgui/Localization.cpp:97
 msgid "Your team"
 msgstr "Jūsu komanda"
 
-#: clientgui/Localization.cpp:57
-#: clientgui/Localization.cpp:99
+#: clientgui/Localization.cpp:57 clientgui/Localization.cpp:99
 msgid "View information about your team"
 msgstr "Apskatīt informāciju par jūsu komandu"
 
@@ -2227,7 +2177,8 @@ msgid "Read a detailed description of the Einstein@Home screensaver"
 msgstr "Lasīt detalizētu aprakstu par Einstein@Home ekrānsaudzētāju"
 
 #: clientgui/Localization.cpp:71
-msgid "Correspond with admins and other users on the Einstein@Home message boards"
+msgid ""
+"Correspond with admins and other users on the Einstein@Home message boards"
 msgstr ""
 "Sarakstīties ar administratoriem un citiem lietotājiem Einstein@Home "
 "ziņojumu dēļos"
@@ -2257,7 +2208,8 @@ msgid "Account summary"
 msgstr "Konta kopsavilkums"
 
 #: clientgui/Localization.cpp:95
-msgid "View a listing of all the computers on which you are running Einstein@Home"
+msgid ""
+"View a listing of all the computers on which you are running Einstein@Home"
 msgstr "Apskatīt visu datoru sarakstu uz kuriem jūs izpildāt Einstein@Home"
 
 #: clientgui/Localization.cpp:101
@@ -2265,7 +2217,9 @@ msgid "LIGO project"
 msgstr "LIGO projekts"
 
 #: clientgui/Localization.cpp:103
-msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
+msgid ""
+"The home page of the Laser Interferometer Gravitational-wave Observatory "
+"(LIGO) project"
 msgstr ""
 "Gravitācijas viļņu lāzerinterferometrijas observatorijas (LIGO projekta) "
 "mājas lapa"
@@ -2278,8 +2232,7 @@ msgstr "GEO-600 projekts"
 msgid "The home page of the GEO-600 project"
 msgstr "GEO-600 projekta mājas lapa"
 
-#: clientgui/Localization.cpp:115
-#: clientgui/Localization.cpp:133
+#: clientgui/Localization.cpp:115 clientgui/Localization.cpp:133
 msgid "Team"
 msgstr "Komanda"
 
@@ -2360,170 +2313,175 @@ msgid "Missing application"
 msgstr "Trūkstošs lietojums"
 
 #: clientgui/MainDocument.cpp:1793
-msgid "Please download and install the CoRD application from http://cord.sourceforge.net"
+msgid ""
+"Please download and install the CoRD application from http://cord."
+"sourceforge.net"
 msgstr ""
-"Lūdzu, lejupielādējiet un instalējiet CoRD lietojumu no "
-"http://cord.sourceforge.net"
+"Lūdzu, lejupielādējiet un instalējiet CoRD lietojumu no http://cord."
+"sourceforge.net"
 
-#: clientgui/MainDocument.cpp:2394
+#: clientgui/MainDocument.cpp:2390
 msgid "on batteries"
 msgstr "uz akumulatoriem"
 
-#: clientgui/MainDocument.cpp:2395
+#: clientgui/MainDocument.cpp:2391
 msgid "computer is in use"
 msgstr "dators ir lietošanā"
 
-#: clientgui/MainDocument.cpp:2396
+#: clientgui/MainDocument.cpp:2392
 msgid "user request"
 msgstr "lietotāja pieprasījums"
 
-#: clientgui/MainDocument.cpp:2397
+#: clientgui/MainDocument.cpp:2393
 msgid "time of day"
 msgstr "dienas laiks"
 
-#: clientgui/MainDocument.cpp:2398
+#: clientgui/MainDocument.cpp:2394
 msgid "CPU benchmarks in progress"
 msgstr "Izpilda CPU veiktspējas testu"
 
-#: clientgui/MainDocument.cpp:2399
+#: clientgui/MainDocument.cpp:2395
 msgid "need disk space - check preferences"
 msgstr "vajag diska vietu - pārbaudīt preferences"
 
-#: clientgui/MainDocument.cpp:2400
+#: clientgui/MainDocument.cpp:2396
 msgid "computer is not in use"
 msgstr "dators nav ielietots"
 
-#: clientgui/MainDocument.cpp:2401
+#: clientgui/MainDocument.cpp:2397
 msgid "starting up"
 msgstr "startējas"
 
-#: clientgui/MainDocument.cpp:2402
+#: clientgui/MainDocument.cpp:2398
 msgid "an exclusive app is running"
 msgstr "strādā īpašais lietojums"
 
-#: clientgui/MainDocument.cpp:2403
+#: clientgui/MainDocument.cpp:2399
 msgid "CPU is busy"
 msgstr "CPU ir aizņemts"
 
-#: clientgui/MainDocument.cpp:2404
+#: clientgui/MainDocument.cpp:2400
 msgid "network bandwidth limit exceeded"
 msgstr "pārsniegts tīkla joslas platuma limits"
 
-#: clientgui/MainDocument.cpp:2405
+#: clientgui/MainDocument.cpp:2401
 msgid "requested by operating system"
 msgstr "pieprasījums no operētājsistēmas"
 
-#: clientgui/MainDocument.cpp:2407
+#: clientgui/MainDocument.cpp:2403
 msgid "unknown reason"
 msgstr "nezināms iemesls"
 
-#: clientgui/MainDocument.cpp:2424
+#: clientgui/MainDocument.cpp:2420
 msgid "GPU missing, "
 msgstr "trūkst GPU, "
 
-#: clientgui/MainDocument.cpp:2431
+#: clientgui/MainDocument.cpp:2427
 msgid "New"
 msgstr "Jauns"
 
-#: clientgui/MainDocument.cpp:2435
+#: clientgui/MainDocument.cpp:2431
 msgid "Download failed"
 msgstr "Lejupielāde neizdevās"
 
-#: clientgui/MainDocument.cpp:2437
+#: clientgui/MainDocument.cpp:2433
 msgid "Downloading"
 msgstr "Lejupielādē"
 
-#: clientgui/MainDocument.cpp:2439
-#: clientgui/MainDocument.cpp:2497
+#: clientgui/MainDocument.cpp:2435 clientgui/MainDocument.cpp:2499
 msgid " (suspended - "
 msgstr " (atlikts - "
 
-#: clientgui/MainDocument.cpp:2447
+#: clientgui/MainDocument.cpp:2443
 msgid "Project suspended by user"
 msgstr "Lietotājs atlika projektu"
 
-#: clientgui/MainDocument.cpp:2449
+#: clientgui/MainDocument.cpp:2445
 msgid "Task suspended by user"
 msgstr "Lietotājs atlika uzdevumu"
 
-#: clientgui/MainDocument.cpp:2451
+#: clientgui/MainDocument.cpp:2447
 msgid "Suspended - "
 msgstr "Atlikts - "
 
-#: clientgui/MainDocument.cpp:2458
+#: clientgui/MainDocument.cpp:2454
 msgid "Waiting for memory"
 msgstr "Gaida atmiņu"
 
-#: clientgui/MainDocument.cpp:2460
+#: clientgui/MainDocument.cpp:2456
 msgid "Waiting for shared memory"
 msgstr "Gaida koplietojamo atmiņu"
 
-#: clientgui/MainDocument.cpp:2463
+#: clientgui/MainDocument.cpp:2459
 msgid "Running, high priority"
 msgstr "Izpildās, augsta prioritāte"
 
-#: clientgui/MainDocument.cpp:2465
+#: clientgui/MainDocument.cpp:2461
 msgid "Running"
 msgstr "Izpildās"
 
-#: clientgui/MainDocument.cpp:2468
+#: clientgui/MainDocument.cpp:2464
 msgid " (non-CPU-intensive)"
 msgstr " (CPU neintensīvs)"
 
-#: clientgui/MainDocument.cpp:2471
+#: clientgui/MainDocument.cpp:2467
 msgid "Waiting to run"
 msgstr "Gaida uz izpildi"
 
-#: clientgui/MainDocument.cpp:2473
-#: clientgui/MainDocument.cpp:2479
+#: clientgui/MainDocument.cpp:2469 clientgui/MainDocument.cpp:2475
 msgid "Ready to start"
 msgstr "Gatavs sākt"
 
-#: clientgui/MainDocument.cpp:2482
+#: clientgui/MainDocument.cpp:2479
+#, fuzzy
+msgid " (Scheduler wait: "
+msgstr " (Plānotāja gaidišana)"
+
+#: clientgui/MainDocument.cpp:2483
 msgid " (Scheduler wait)"
 msgstr " (Plānotāja gaidišana)"
 
-#: clientgui/MainDocument.cpp:2485
+#: clientgui/MainDocument.cpp:2487
 msgid " (Waiting for network access)"
 msgstr " (Gaida uz pieeju tīklam)"
 
-#: clientgui/MainDocument.cpp:2489
+#: clientgui/MainDocument.cpp:2491
 msgid "Computation error"
 msgstr "Aprēķinu kļūda"
 
-#: clientgui/MainDocument.cpp:2493
+#: clientgui/MainDocument.cpp:2495
 msgid "Upload failed"
 msgstr "Augšupielāde neizdevās"
 
-#: clientgui/MainDocument.cpp:2495
+#: clientgui/MainDocument.cpp:2497
 msgid "Uploading"
 msgstr "Augšupielādē"
 
-#: clientgui/MainDocument.cpp:2506
+#: clientgui/MainDocument.cpp:2508
 msgid "Aborted by user"
 msgstr "Lietotāja pārtraukts"
 
-#: clientgui/MainDocument.cpp:2509
+#: clientgui/MainDocument.cpp:2511
 msgid "Aborted by project"
 msgstr "Projekta pārtraukts"
 
-#: clientgui/MainDocument.cpp:2512
+#: clientgui/MainDocument.cpp:2514
 msgid "Aborted: not started by deadline"
 msgstr "Pārtraukts: nav termiņa startēts"
 
-#: clientgui/MainDocument.cpp:2515
+#: clientgui/MainDocument.cpp:2517
 msgid "Aborted"
 msgstr "Pārtraukts"
 
-#: clientgui/MainDocument.cpp:2520
+#: clientgui/MainDocument.cpp:2522
 msgid "Acknowledged"
 msgstr "Atzīts"
 
-#: clientgui/MainDocument.cpp:2522
+#: clientgui/MainDocument.cpp:2524
 msgid "Ready to report"
 msgstr "Gatavs ziņošanai"
 
-#: clientgui/MainDocument.cpp:2524
+#: clientgui/MainDocument.cpp:2526
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "Kļūda: nederīgs stāvoklis '%d'"
@@ -2592,8 +2550,7 @@ msgstr "%s; saņemts uz %s"
 msgid "%s; received from %s; on %s"
 msgstr "%s; saņemts no %s; uz %s"
 
-#: clientgui/NoticeListCtrl.cpp:271
-#: clientgui/ProjectListCtrl.cpp:283
+#: clientgui/NoticeListCtrl.cpp:271 clientgui/ProjectListCtrl.cpp:283
 msgid "Click"
 msgstr "Noklišķināt"
 
@@ -2605,8 +2562,7 @@ msgstr "Pašlaik nav jaunu paziņojumu"
 msgid "more..."
 msgstr "vairāk..."
 
-#: clientgui/ProjectInfoPage.cpp:451
-#: clientgui/ProjectInfoPage.cpp:734
+#: clientgui/ProjectInfoPage.cpp:451 clientgui/ProjectInfoPage.cpp:734
 #: clientgui/ProjectInfoPage.cpp:738
 msgid "All"
 msgstr "Viss"
@@ -2617,7 +2573,8 @@ msgstr "Izvēlieties projektu"
 
 #: clientgui/ProjectInfoPage.cpp:580
 msgid "To choose a project, click its name or type its URL below."
-msgstr "Lai izvēlētos projektu noklikšķiniet uz tā vārda vai ierakstiet tā URL."
+msgstr ""
+"Lai izvēlētos projektu noklikšķiniet uz tā vārda vai ierakstiet tā URL."
 
 #: clientgui/ProjectInfoPage.cpp:584
 msgid "Categories:"
@@ -2652,7 +2609,9 @@ msgid "Project URL:"
 msgstr "Projekta URL:"
 
 #: clientgui/ProjectInfoPage.cpp:782
-msgid "This project may not have work for your type of computer.  Do you want to add it anyway?"
+msgid ""
+"This project may not have work for your type of computer.  Do you want to "
+"add it anyway?"
 msgstr ""
 "Šim projektam var nebūt darba priekš jūsu tipa datora.  Vai jūs vēlaties to "
 "pievienot tik un tā? "
@@ -2773,8 +2732,7 @@ msgstr "Proxy konfigurācija"
 msgid "HTTP proxy"
 msgstr "HTTP proxy"
 
-#: clientgui/ProxyPage.cpp:337
-#: clientgui/ProxyPage.cpp:357
+#: clientgui/ProxyPage.cpp:337 clientgui/ProxyPage.cpp:357
 msgid "Server:"
 msgstr "Serveris:"
 
@@ -2836,70 +2794,57 @@ msgstr ""
 msgid "Display the advanced (accessible) graphical interface."
 msgstr ""
 
-#: clientgui/sg_ClientStateIndicator.cpp:288
-#: clientgui/sg_TaskPanel.cpp:1191
+#: clientgui/sg_ClientStateIndicator.cpp:288 clientgui/sg_TaskPanel.cpp:1191
 msgid "Retrieving current status."
 msgstr ""
 
-#: clientgui/sg_ClientStateIndicator.cpp:291
-#: clientgui/sg_TaskPanel.cpp:443
+#: clientgui/sg_ClientStateIndicator.cpp:291 clientgui/sg_TaskPanel.cpp:443
 msgid "You don't have any projects.  Please Add a Project."
 msgstr ""
 
-#: clientgui/sg_ClientStateIndicator.cpp:294
-#: clientgui/sg_TaskPanel.cpp:1197
+#: clientgui/sg_ClientStateIndicator.cpp:294 clientgui/sg_TaskPanel.cpp:1197
 msgid "Downloading work from the server."
 msgstr ""
 
-#: clientgui/sg_ClientStateIndicator.cpp:299
-#: clientgui/sg_TaskPanel.cpp:1202
+#: clientgui/sg_ClientStateIndicator.cpp:299 clientgui/sg_TaskPanel.cpp:1202
 msgid "Processing Suspended:  Running On Batteries."
 msgstr ""
 
-#: clientgui/sg_ClientStateIndicator.cpp:301
-#: clientgui/sg_TaskPanel.cpp:1204
+#: clientgui/sg_ClientStateIndicator.cpp:301 clientgui/sg_TaskPanel.cpp:1204
 msgid "Processing Suspended:  User Active."
 msgstr ""
 
-#: clientgui/sg_ClientStateIndicator.cpp:303
-#: clientgui/sg_TaskPanel.cpp:1206
+#: clientgui/sg_ClientStateIndicator.cpp:303 clientgui/sg_TaskPanel.cpp:1206
 msgid "Processing Suspended:  User paused processing."
 msgstr ""
 
-#: clientgui/sg_ClientStateIndicator.cpp:305
-#: clientgui/sg_TaskPanel.cpp:1208
+#: clientgui/sg_ClientStateIndicator.cpp:305 clientgui/sg_TaskPanel.cpp:1208
 msgid "Processing Suspended:  Time of Day."
 msgstr ""
 
-#: clientgui/sg_ClientStateIndicator.cpp:307
-#: clientgui/sg_TaskPanel.cpp:1210
+#: clientgui/sg_ClientStateIndicator.cpp:307 clientgui/sg_TaskPanel.cpp:1210
 msgid "Processing Suspended:  Benchmarks Running."
 msgstr ""
 
-#: clientgui/sg_ClientStateIndicator.cpp:309
-#: clientgui/sg_TaskPanel.cpp:1212
+#: clientgui/sg_ClientStateIndicator.cpp:309 clientgui/sg_TaskPanel.cpp:1212
 msgid "Processing Suspended."
 msgstr ""
 
-#: clientgui/sg_ClientStateIndicator.cpp:313
-#: clientgui/sg_TaskPanel.cpp:1216
+#: clientgui/sg_ClientStateIndicator.cpp:313 clientgui/sg_TaskPanel.cpp:1216
 msgid "Waiting to contact project servers."
 msgstr ""
 
 #: clientgui/sg_ClientStateIndicator.cpp:317
-#: clientgui/sg_ClientStateIndicator.cpp:325
-#: clientgui/sg_TaskPanel.cpp:1220
+#: clientgui/sg_ClientStateIndicator.cpp:325 clientgui/sg_TaskPanel.cpp:1220
 #: clientgui/sg_TaskPanel.cpp:1229
 msgid "Retrieving current status"
 msgstr ""
 
-#: clientgui/sg_ClientStateIndicator.cpp:320
-#: clientgui/sg_TaskPanel.cpp:1224
+#: clientgui/sg_ClientStateIndicator.cpp:320 clientgui/sg_TaskPanel.cpp:1224
 msgid "No work available to process"
 msgstr ""
 
-#: clientgui/sg_ClientStateIndicator.cpp:322
-#: clientgui/sg_TaskPanel.cpp:1226
+#: clientgui/sg_ClientStateIndicator.cpp:322 clientgui/sg_TaskPanel.cpp:1226
 msgid "Unable to connect to the core client"
 msgstr ""
 
@@ -3048,8 +2993,7 @@ msgstr ""
 msgid "Connect to internet only between:"
 msgstr ""
 
-#: clientgui/sg_DlgPreferences.cpp:376
-#: clientgui/sg_DlgPreferences.cpp:393
+#: clientgui/sg_DlgPreferences.cpp:376 clientgui/sg_DlgPreferences.cpp:393
 msgid "Use no more than:"
 msgstr ""
 
@@ -3069,14 +3013,10 @@ msgstr ""
 msgid "Do work after idle for:"
 msgstr ""
 
-#: clientgui/sg_DlgPreferences.cpp:621
-#: clientgui/sg_DlgPreferences.cpp:624
-#: clientgui/sg_DlgPreferences.cpp:683
-#: clientgui/sg_DlgPreferences.cpp:687
-#: clientgui/sg_DlgPreferences.cpp:699
-#: clientgui/sg_DlgPreferences.cpp:703
-#: clientgui/sg_DlgPreferences.cpp:846
-#: clientgui/sg_DlgPreferences.cpp:857
+#: clientgui/sg_DlgPreferences.cpp:621 clientgui/sg_DlgPreferences.cpp:624
+#: clientgui/sg_DlgPreferences.cpp:683 clientgui/sg_DlgPreferences.cpp:687
+#: clientgui/sg_DlgPreferences.cpp:699 clientgui/sg_DlgPreferences.cpp:703
+#: clientgui/sg_DlgPreferences.cpp:846 clientgui/sg_DlgPreferences.cpp:857
 msgid "Anytime"
 msgstr ""
 
@@ -3150,7 +3090,9 @@ msgstr "Aktualizēt"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:62
 #, fuzzy
-msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
+msgid ""
+"Report all completed tasks, get latest credit, get latest preferences, and "
+"possibly get more tasks."
 msgstr ""
 "Ziņot par paveikto, aktualizēt kredītpunktus un preferences, kā arī, "
 "iespējams, iegūt jaunus uzdevumus"
@@ -3177,7 +3119,9 @@ msgstr "Atjaunināt projektu"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:80
 #, fuzzy
-msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
+msgid ""
+"Delete all files and tasks associated with this project, and get new tasks.  "
+"You can update the project first to report any completed tasks."
 msgstr ""
 "Izdzēst visus failus un uzdevumus, kas saistās ar šo projektu un iegūt "
 "jaunus.\n"
@@ -3186,7 +3130,9 @@ msgstr ""
 
 #: clientgui/sg_ProjectCommandPopup.cpp:86
 #, fuzzy
-msgid "Remove this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
+msgid ""
+"Remove this project.  Tasks in progress will be lost (use 'Update' first to "
+"report any completed tasks)."
 msgstr ""
 "Atvienot datoru no šī projekta. Nepabeigtie uzdevumi tiks zaudēti (lietojiet "
 "vispirms 'Aktualizēt', lai ziņotu par jau izpildītajiem)."
@@ -3230,14 +3176,12 @@ msgstr "Atjaunināt projektu"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:251
 #: clientgui/sg_StatImageLoader.cpp:192
-#, c-format
 #, fuzzy, c-format
 msgid "Are you sure you want to remove project '%s'?"
 msgstr "Vai tiešām vēlaties atjaunināt projektu '%s'?"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:257
-#: clientgui/sg_StatImageLoader.cpp:138
-#: clientgui/sg_StatImageLoader.cpp:198
+#: clientgui/sg_StatImageLoader.cpp:138 clientgui/sg_StatImageLoader.cpp:198
 msgid "Remove Project"
 msgstr ""
 
@@ -3254,8 +3198,7 @@ msgstr ""
 msgid "Work done for this project"
 msgstr ""
 
-#: clientgui/sg_ProjectPanel.cpp:77
-#: clientgui/sg_ProjectsComponent.cpp:123
+#: clientgui/sg_ProjectPanel.cpp:77 clientgui/sg_ProjectsComponent.cpp:123
 msgid "Synchronize projects with account manager system"
 msgstr ""
 
@@ -3263,8 +3206,7 @@ msgstr ""
 msgid "Select a project to access with the controls below"
 msgstr ""
 
-#: clientgui/sg_ProjectPanel.cpp:134
-#: clientgui/sg_ProjectPanel.cpp:262
+#: clientgui/sg_ProjectPanel.cpp:134 clientgui/sg_ProjectPanel.cpp:262
 #, c-format
 msgid "%s: %.0f"
 msgstr ""
@@ -3308,9 +3250,11 @@ msgstr ""
 msgid "Switch to the BOINC advanced view"
 msgstr ""
 
+# 75%
 #: clientgui/sg_ProjectsComponent.cpp:298
+#, fuzzy
 msgid "My Projects:"
-msgstr ""
+msgstr "Projekti"
 
 #: clientgui/sg_StatImageLoader.cpp:101
 #, c-format
@@ -3394,7 +3338,6 @@ msgid "Pop up a menu of commands to apply to this task"
 msgstr ""
 
 #: clientgui/sg_TaskPanel.cpp:680
-#, c-format
 #, fuzzy, c-format
 msgid "Application: %s"
 msgstr "Lietojums"
@@ -3419,7 +3362,7 @@ msgstr ""
 
 #: clientgui/sg_TaskPanel.cpp:839
 #, c-format
-msgid "Remaining: %s"
+msgid "Remaining (estimated): %s"
 msgstr ""
 
 #: clientgui/sg_TaskPanel.cpp:854
@@ -3427,8 +3370,7 @@ msgstr ""
 msgid "Status: %s"
 msgstr ""
 
-#: clientgui/sg_ViewTabPage.cpp:140
-#: clientgui/sg_ViewTabPage.cpp:280
+#: clientgui/sg_ViewTabPage.cpp:140 clientgui/sg_ViewTabPage.cpp:280
 #, c-format
 msgid "%.1lf"
 msgstr ""
@@ -3447,8 +3389,7 @@ msgstr "Vai tiešām vēlaties rādīt grafiku uz attālinātā datora?"
 msgid "Application: "
 msgstr "Lietojums"
 
-#: clientgui/sg_ViewTabPage.cpp:449
-#: clientgui/sg_ViewTabPage.cpp:453
+#: clientgui/sg_ViewTabPage.cpp:449 clientgui/sg_ViewTabPage.cpp:453
 msgid "Time Remaining: "
 msgstr ""
 
@@ -3509,8 +3450,7 @@ msgstr "Lūdzu, norādiet konta atslēgu, lai turpinātu."
 msgid "Invalid Account Key; please enter a valid Account Key"
 msgstr "Nederīga konta atslēga. Lūdzu, ievadiet derīgu konta atslēgu"
 
-#: clientgui/ValidateAccountKey.cpp:82
-#: clientgui/ValidateEmailAddress.cpp:86
+#: clientgui/ValidateAccountKey.cpp:82 clientgui/ValidateEmailAddress.cpp:86
 msgid "Validation conflict"
 msgstr "Validācijas konflikts"
 
@@ -3536,17 +3476,13 @@ msgstr ""
 "Piemēram:\n"
 "http://www.example.com/"
 
-#: clientgui/ValidateURL.cpp:83
-#: clientgui/ValidateURL.cpp:87
-#: clientgui/ValidateURL.cpp:91
-#: clientgui/ValidateURL.cpp:103
-#: clientgui/ValidateURL.cpp:107
-#: clientgui/ValidateURL.cpp:110
+#: clientgui/ValidateURL.cpp:83 clientgui/ValidateURL.cpp:87
+#: clientgui/ValidateURL.cpp:91 clientgui/ValidateURL.cpp:103
+#: clientgui/ValidateURL.cpp:107 clientgui/ValidateURL.cpp:110
 msgid "Invalid URL"
 msgstr "Nederīgs URL"
 
-#: clientgui/ValidateURL.cpp:84
-#: clientgui/ValidateURL.cpp:88
+#: clientgui/ValidateURL.cpp:84 clientgui/ValidateURL.cpp:88
 #: clientgui/ValidateURL.cpp:92
 msgid ""
 "Please specify a valid URL.\n"
@@ -3557,8 +3493,7 @@ msgstr ""
 "Piemēram:\n"
 "http://boincprojekts.example.com"
 
-#: clientgui/ValidateURL.cpp:104
-#: clientgui/ValidateURL.cpp:108
+#: clientgui/ValidateURL.cpp:104 clientgui/ValidateURL.cpp:108
 #, c-format
 msgid "'%s' does not contain a valid host name."
 msgstr "'%s' nesatur derīgu datora vārdu."
@@ -3568,10 +3503,8 @@ msgstr "'%s' nesatur derīgu datora vārdu."
 msgid "'%s' does not contain a valid path."
 msgstr "'%s' nesatur derīgu ceļu."
 
-#: clientgui/ViewMessages.cpp:84
-#: clientgui/ViewProjects.cpp:169
-#: clientgui/ViewStatistics.cpp:1962
-#: clientgui/ViewTransfers.cpp:159
+#: clientgui/ViewMessages.cpp:84 clientgui/ViewProjects.cpp:169
+#: clientgui/ViewStatistics.cpp:1962 clientgui/ViewTransfers.cpp:159
 #: clientgui/ViewWork.cpp:182
 #, fuzzy
 msgid "Commands"
@@ -3585,13 +3518,11 @@ msgstr "Kopēt visus ziņojumus"
 msgid "Copy selected messages"
 msgstr "Kopēt atzīmētos ziņojumus"
 
-#: clientgui/ViewMessages.cpp:106
-#: clientgui/ViewMessages.cpp:502
+#: clientgui/ViewMessages.cpp:106 clientgui/ViewMessages.cpp:502
 msgid "Show only this project"
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:107
-#: clientgui/ViewMessages.cpp:503
+#: clientgui/ViewMessages.cpp:107 clientgui/ViewMessages.cpp:503
 #, fuzzy
 msgid "Show only the messages for the selected project."
 msgstr "Kopēt visus ziņojumus starpliktuvē"
@@ -3622,8 +3553,7 @@ msgstr "Kopēt visus ziņojumus"
 msgid "Show messages for all projects."
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:219
-#: clientgui/ViewStatistics.cpp:442
+#: clientgui/ViewProjects.cpp:219 clientgui/ViewStatistics.cpp:442
 msgid "Account"
 msgstr "Konts"
 
@@ -3635,8 +3565,7 @@ msgstr ""
 msgid "Avg. work done"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:224
-#: clientgui/ViewTransfers.cpp:187
+#: clientgui/ViewProjects.cpp:224 clientgui/ViewTransfers.cpp:187
 #: clientgui/ViewWork.cpp:233
 msgid "Status"
 msgstr "Statuss"
@@ -3676,8 +3605,7 @@ msgstr "Atjaunina projektu..."
 msgid "Removing project..."
 msgstr "Atsāk projektu..."
 
-#: clientgui/ViewProjects.cpp:542
-#: clientgui/ViewWork.cpp:598
+#: clientgui/ViewProjects.cpp:542 clientgui/ViewWork.cpp:598
 msgid "Launching browser..."
 msgstr "Palaiž pārlūkprogrammu..."
 
@@ -3858,13 +3786,11 @@ msgstr "Nākamais projekts"
 msgid "Show chart for next project"
 msgstr ""
 
-#: clientgui/ViewStatistics.cpp:2010
-#: clientgui/ViewStatistics.cpp:2407
+#: clientgui/ViewStatistics.cpp:2010 clientgui/ViewStatistics.cpp:2407
 msgid "Hide project list"
 msgstr ""
 
-#: clientgui/ViewStatistics.cpp:2011
-#: clientgui/ViewStatistics.cpp:2407
+#: clientgui/ViewStatistics.cpp:2011 clientgui/ViewStatistics.cpp:2407
 msgid "Use entire area for graphs"
 msgstr ""
 
@@ -3908,16 +3834,11 @@ msgstr ""
 msgid "Statistics"
 msgstr "Statistika"
 
-#: clientgui/ViewStatistics.cpp:2094
-#: clientgui/ViewStatistics.cpp:2115
-#: clientgui/ViewStatistics.cpp:2136
-#: clientgui/ViewStatistics.cpp:2158
-#: clientgui/ViewStatistics.cpp:2179
-#: clientgui/ViewStatistics.cpp:2200
-#: clientgui/ViewStatistics.cpp:2221
-#: clientgui/ViewStatistics.cpp:2242
-#: clientgui/ViewStatistics.cpp:2263
-#: clientgui/ViewStatistics.cpp:2287
+#: clientgui/ViewStatistics.cpp:2094 clientgui/ViewStatistics.cpp:2115
+#: clientgui/ViewStatistics.cpp:2136 clientgui/ViewStatistics.cpp:2158
+#: clientgui/ViewStatistics.cpp:2179 clientgui/ViewStatistics.cpp:2200
+#: clientgui/ViewStatistics.cpp:2221 clientgui/ViewStatistics.cpp:2242
+#: clientgui/ViewStatistics.cpp:2263 clientgui/ViewStatistics.cpp:2287
 msgid "Updating charts..."
 msgstr "Aktualizē diagrammas..."
 
@@ -3942,7 +3863,9 @@ msgid "Abort Transfer"
 msgstr "Pārtraukt pārsūtīšanu"
 
 #: clientgui/ViewTransfers.cpp:171
-msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
+msgid ""
+"Click 'Abort transfer' to delete the file from the transfer queue. This will "
+"prevent you from being granted credit for this result."
 msgstr ""
 "Klikšķiniet uz 'Pārtraukt pārsūtīšanu', lai dzēstu failu no pārsūtīšanas "
 "rindas. Tas arī neļaus jums saņemt kredītpunktus par šo uzdevumu."
@@ -3951,8 +3874,7 @@ msgstr ""
 msgid "File"
 msgstr "Fails"
 
-#: clientgui/ViewTransfers.cpp:183
-#: clientgui/ViewWork.cpp:232
+#: clientgui/ViewTransfers.cpp:183 clientgui/ViewWork.cpp:232
 msgid "Progress"
 msgstr "Progress"
 
@@ -4040,13 +3962,11 @@ msgstr ""
 msgid " (project backoff: "
 msgstr ""
 
-#: clientgui/ViewWork.cpp:186
-#: clientgui/ViewWork.cpp:766
+#: clientgui/ViewWork.cpp:186 clientgui/ViewWork.cpp:766
 msgid "Show active tasks"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:187
-#: clientgui/ViewWork.cpp:767
+#: clientgui/ViewWork.cpp:187 clientgui/ViewWork.cpp:767
 msgid "Show only active tasks."
 msgstr ""
 
@@ -4066,7 +3986,7 @@ msgstr ""
 
 #: clientgui/ViewWork.cpp:235
 #, fuzzy
-msgid "Remaining"
+msgid "Remaining (estimated)"
 msgstr "Izpildās"
 
 #: clientgui/ViewWork.cpp:236
@@ -4109,7 +4029,6 @@ msgid ""
 msgstr ""
 
 #: clientgui/ViewWork.cpp:484
-#, c-format
 #, fuzzy, c-format
 msgid "Are you sure you want to abort these %d tasks?"
 msgstr "Vai tiešām vēlaties pārtaukt apstrādāt šo uzdevumu '%s'?"
@@ -4153,7 +4072,8 @@ msgstr ""
 #: clientgui/WelcomePage.cpp:283
 msgid ""
 "You have chosen to add a new BOINC project.  Adding a new\n"
-"project means that you will be connecting your computer to a new organization.\n"
+"project means that you will be connecting your computer to a new "
+"organization.\n"
 "If this is what you wanted to do, please click on\n"
 "the 'Next' button below.\n"
 "\n"
@@ -4182,8 +4102,7 @@ msgstr "Vai tiešām vēlaties atcelt?"
 msgid "Question"
 msgstr "Jautājums"
 
-#: clientgui/wizardex.cpp:377
-#: clientgui/wizardex.cpp:553
+#: clientgui/wizardex.cpp:377 clientgui/wizardex.cpp:553
 msgid "&Next >"
 msgstr "&Nākamais >"
 
@@ -4220,7 +4139,9 @@ msgid "Pie Ctrl"
 msgstr ""
 
 #: clientgui/mac/MacAccessiblity.cpp:257
-msgid "for accessibility support, please select advanced from the view menu or type command shift a"
+msgid ""
+"for accessibility support, please select advanced from the view menu or type "
+"command shift a"
 msgstr ""
 
 #: clientgui/mac/MacAccessiblity.cpp:302
@@ -4268,8 +4189,7 @@ msgstr ""
 msgid "list is empty"
 msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:858
-#: clientgui/mac/MacAccessiblity.cpp:870
+#: clientgui/mac/MacAccessiblity.cpp:858 clientgui/mac/MacAccessiblity.cpp:870
 #, c-format
 msgid "; row %d; "
 msgstr ""
@@ -4341,6 +4261,24 @@ msgstr ""
 #: clientgui/DlgAdvPreferences.h:31
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr ""
+
+#~ msgid "Don't fetch NVIDIA GPU tasks"
+#~ msgstr "Neņemt NVIDIA GPU uzdevumus"
+
+#~ msgid "NVIDIA GPU work fetch deferred for"
+#~ msgstr "NVIDIA GPU darbu ņemšana atlikta uz"
+
+#~ msgid "NVIDIA GPU work fetch deferral interval"
+#~ msgstr "NVIDIA GPU darbu ņemšanas atlikšanas intervāls"
+
+#~ msgid "Don't fetch ATI GPU tasks"
+#~ msgstr "Neņemt ATI GPU uzdevumus"
+
+#~ msgid "ATI GPU work fetch deferred for"
+#~ msgstr "ATI GPU darbu ņemšana atlikta uz"
+
+#~ msgid "ATI GPU work fetch deferral interval"
+#~ msgstr "ATI GPU darbu ņemšanas atlikšanas intevāls"
 
 #~ msgid "Web sites"
 #~ msgstr "Tīmekļa vietnes"
@@ -4416,9 +4354,6 @@ msgstr ""
 
 #~ msgid "Account Creation Disabled"
 #~ msgstr "Konta izveidošana nav iespējama"
-
-#~ msgid "Client Account Creation Disabled"
-#~ msgstr "Klienta konta izveidošana nav iespējama"
 
 #~ msgid "Account Already Exists"
 #~ msgstr "Konts jau eksistē"

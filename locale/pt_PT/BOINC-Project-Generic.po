@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: 1.03\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2012-02-15 12:35-0000\n"
-"Last-Translator: Miguel Veiga <Miguel.veig@gmail.com>\n"
+"PO-Revision-Date: 2012-02-24 19:28+0200\n"
+"Last-Translator: Miguel Filipe Paulino de Sousa <Miguel.veig@gmail.com>\n"
 "Language-Team: Portuguese <LL@li.org>\n"
 "Language: pt_PT\n"
 "MIME-Version: 1.0\n"
@@ -37,7 +37,7 @@ msgstr "Sublinhar texto: [u]text[/u]  (alt+u)"
 
 #: ../inc/bbcode_html.inc:20
 msgid "Quote text: [quote]text[/quote]  (alt+q)"
-msgstr "Citar texto: [quote]text[/quote]  (alt+q)"
+msgstr "Citar texto: [quote]texto[/quote]  (alt+q)"
 
 #: ../inc/bbcode_html.inc:23
 msgid "Code display: [code]code[/code]  (alt+c)"
@@ -45,7 +45,7 @@ msgstr "Exibição do código: [code]código[/code]  (alt+c)"
 
 #: ../inc/bbcode_html.inc:26
 msgid "List: [list]text[/list] (alt+l)"
-msgstr "Lista: [list]text[/list] (alt+l)"
+msgstr "Lista: [list]texot[/list] (alt+l)"
 
 #: ../inc/bbcode_html.inc:29
 msgid "Ordered list: [list=]text[/list]  (alt+o)"

@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2012-01-17 13:14+0200\n"
+"PO-Revision-Date: 2012-02-12 21:18+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -645,9 +645,11 @@ msgstr ""
 msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
 msgstr ""
 
+# 75%
 #: projects.inc:302
+#, fuzzy
 msgid "NFS@home"
-msgstr ""
+msgstr "CAS@home"
 
 #: projects.inc:304
 msgid "California State University Fullerton"

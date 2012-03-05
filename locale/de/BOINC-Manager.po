@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-09 12:37-0500\n"
-"PO-Revision-Date: 2012-02-12 17:51+0200\n"
+"PO-Revision-Date: 2012-02-12 21:18+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -1874,7 +1874,6 @@ msgid "Project has no CPU apps"
 msgstr "Projekt hat keine CPU Anwendungen"
 
 #: clientgui/DlgItemProperties.cpp:269
-#, fuzzy
 msgid "Scheduling priority"
 msgstr "Planungspriorität"
 
