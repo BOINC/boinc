@@ -2454,3 +2454,9 @@ David  4 Mar 2012
 
     html/inc/
         util.inc
+
+Bernd  5 Mar 2012
+    - scheduler: fix/augment file_deleter usage message
+
+    sched/
+        file_deleter.cpp
