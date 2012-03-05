@@ -1,0 +1,190 @@
+things we need to do:
+- decide what nodes to decode and encode
+- of the resulting (and existing) chunks,
+  decide which to keep on the server
+- decide what uploads and downloads to start
+
+1) classify nodes as PRESENT/RECOVERABLE/UNRECOVERABLE,
+    and compute recovery sets and recovery cost
+
+2) decide which nodes we eventually want to reconstruct
+
+3) decide which nodes we're going to reconstruct right now
+--------------------------------
+// decide
+// - which metachunks should be reconstructed right now
+//   (i.e. decoded from some of their children),
+//   META_CHUNK::need_reconstruct
+//
+// - of those, which should then be encoded
+//   (to create other children)
+//   META_CHUNK::need_expand
+//
+// - which metachunks are needed to reconstruct their parent,
+//   and hence should not be deleted immediately
+//   META_CHUNK::needed_by_parent
+
+
+First: clear all need_ flags.
+
+META_CHUNK::decide_reconstruct()
+    if not bottom-level
+        for each child C
+            C.decide_reconstruct()
+	if !need_reconstruct and status = PRESENT
+		if there children C with status = UNRECOVERABLE
+			need_reconstruct = true
+            if not bottom-level
+                for all such C
+                    C.need_expand = true
+
+	if need_reconstruct and not bottom-level
+		a = # of children C with C.need_reconstruct
+		if a < N
+			for (N-a) children C with C.status = PRESENT
+				C.need_reconstruct = true
+				C.decide_reconstruct()
+		for N children C such that C.need_reconstruct
+			C.needed_by_parent = true
+
+// reconstruct and expand metachunks as needed
+//
+META_CHUNK::do_reconstruct()
+    if not bottom-level
+        for each child C
+            do_reconstruct(C)
+	if need_reconstruct
+		decode this data unit
+        if bottom-level
+            if some child C has status UNRECOVERABLE
+            encode this data unit
+        else
+            if some child C has C.need_expand
+                encode this data unit
+                for each child C with C.need_expand
+                    expand(C)
+		if !needed_by_parent
+			delete this data unit
+		for each child C
+			delete C.data unit
+
+// expand (encode) a metachunk
+//
+META_CHUNK::expand()
+	encode this data unit
+	for each child C with C.need_expand
+		expand(C)
+	delete this data unit
+
+
+==============================
+scenario 1:
+
+0: REC
+    0.0: REC
+        0.0.0: REC
+        0.0.1: REC
+        0.0.2: REC
+    0.1: PRES
+        0.1.0: PRES
+        0.1.1: PRES
+        0.1.2: UNREC
+    0.2: UNREC
+        0.2.0: REC
+        0.2.1: UNREC
+        0.2.2: UNREC
+
+- decode 0.1
+- delete 0.1.0 or 0.1.1
+- start upload of 2 of (0.0.*)
+- start download of 0.1.2
+
+scenario 2:
+
+0: REC
+    0.0: PRES
+        0.0.0: PRES
+        0.0.1: PRES
+        0.0.2: UNREC
+    0.1: REC
+        0.1.0: REC
+        0.1.1: REC
+        0.1.2: REC
+    0.2: REC
+        0.2.0: REC
+        0.2.1: REC
+        0.2.2: REC
+
+- decode 0.0
+- encode 0.0
+- delete 0.0.0, 0.0.1
+
+scenario 3:
+
+0: PRES
+    0.0: PRES
+        0.0.0: PRES
+        0.0.1: PRES
+        0.0.2: REC
+    0.1: PRES
+        0.1.0: PRES
+        0.1.1: PRES
+        0.1.2: UNREC
+    0.2: UNREC
+        0.2.0: REC
+        0.2.1: UNREC
+        0.2.2: UNREC
+
+- decode 0.0
+- delete 0.0.0, 0.0.1
+- decode 0.1
+- encode 0.1
+- delete 0.1.0, 0.1.1
+- decode 0
+- encode 0
+- delete 0.0, 0.1
+- encode 0.2
+- delete 0.2.0
+- delete 0.2
+==============================
+
+MC::decide_recon
+    if some child is UNREC
+        if PRESENT
+            need_recon = true
+            mark N PRESENT children as needed_by_parent
+        else
+            mark all PRESENT children as keep_present
+    if keep_present
+        mark N PRESENT children as keep_present
+
+    recurse
+
+MC::do_recon
+    recurse
+    if need_recon
+        decode
+        delete all non-UNREC children
+    for each UNREC child C
+        expand(C)
+        delete C
+    if !needed_by_parent
+        delete this
+
+MC::expand
+	encode
+	delete this
+	for each child C
+        if C.need_reconstruct
+            expand(C)
+        delete C
+
+MC::start_xfers
+    if bottom level
+        for each child C
+            if C.present and need more replicas
+                start downloads of C
+            if C.keep_present and not present
+                start upload(s) of C
+    else
+        recurse
