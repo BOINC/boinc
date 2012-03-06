@@ -2466,3 +2466,11 @@ David  5 Mar 2012
 
     html/user/
         lammps.php
+
+Rom    6 Mar 2012
+    - Tag for 7.0.20 release, all platforms
+      boinc_core_release_7_0_20
+
+    /
+        configure.ac
+        version.h
