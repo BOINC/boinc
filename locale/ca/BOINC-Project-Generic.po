@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2012-02-17 00:55+0200\n"
+"PO-Revision-Date: 2012-03-06 00:08+0200\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -2951,7 +2951,7 @@ msgstr "Les instruccions per instal·lar i executar BOINC es troben %1aquí%2."
 
 #: ../user/download_network.php:38
 msgid "This list is managed centrally at %1the BOINC website%2."
-msgstr "Aquesta llista està gestionada en el servidor %1pagína web de BOINC%2."
+msgstr "Aquesta llista està gestionada en la %1pagína web de BOINC%2."
 
 #: ../user/edit_email_action.php:31
 msgid "Change email address of account"

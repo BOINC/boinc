@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2011-08-29 20:55+0200\n"
+"PO-Revision-Date: 2012-03-06 00:00+0200\n"
 "Last-Translator: aceman <acelists@atlas.sk>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sk\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Pootle 2.1.1\n"
+"X-Generator: Pootle 2.1.6\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 msgid "LANG_NAME_NATIVE"
@@ -221,7 +221,7 @@ msgstr ""
 #: ../inc/forum.inc:535
 #, fuzzy
 msgid "Send %1 a private message"
-msgstr "Súkromné správy"
+msgstr "Poslať %1 súkromnú správu"
 
 #: ../inc/forum.inc:536
 msgid "Joined: %1"
@@ -230,7 +230,7 @@ msgstr ""
 #: ../inc/forum.inc:545
 #, fuzzy
 msgid "Posts: %1"
-msgstr "Príspevkov"
+msgstr "Príspevkov: %1"
 
 #: ../inc/forum.inc:551
 msgid "Credit: %1"
@@ -252,7 +252,7 @@ msgstr "Vlákno"
 #: ../inc/forum.inc:577 ../inc/forum.inc:582 ../inc/forum.inc:681
 #, fuzzy
 msgid "Message %1"
-msgstr "Nástenky"
+msgstr "Správa %1"
 
 #: ../inc/forum.inc:578 ../inc/user.inc:324 ../user/forum_forum.php:172
 msgid "hidden"
@@ -261,7 +261,7 @@ msgstr ""
 #: ../inc/forum.inc:579
 #, fuzzy
 msgid "Posted: %1"
-msgstr "Príspevkov"
+msgstr "Uverejnené: %1"
 
 #: ../inc/forum.inc:582
 msgid " - in response to "
@@ -342,7 +342,7 @@ msgstr ""
 #: ../inc/forum.inc:683
 #, fuzzy
 msgid "Posted %1 by %2"
-msgstr "Príspevkov"
+msgstr "Uverejnené %1 od %2"
 
 #: ../inc/forum.inc:701
 msgid "You may not post or rate messages until %1"
@@ -484,7 +484,7 @@ msgstr ""
 
 #: ../inc/forum.inc:1204
 msgid "Mark all threads as read"
-msgstr "Označiť všetky vlákna ako prečítané."
+msgstr "Označiť všetky vlákna ako prečítané"
 
 #: ../inc/forum.inc:1205
 #, fuzzy
@@ -621,7 +621,7 @@ msgstr "%1 MB"
 
 #: ../inc/host.inc:129
 msgid "Cache"
-msgstr "Cache"
+msgstr "Vyrovnávacia pamäť"
 
 #: ../inc/host.inc:129
 msgid "%1 KB"
@@ -837,7 +837,7 @@ msgstr ""
 #: ../inc/host.inc:630 ../inc/host.inc:633
 #, fuzzy
 msgid "Show:"
-msgstr "Zobraziť"
+msgstr "Zobraziť:"
 
 #: ../inc/host.inc:630 ../inc/host.inc:633
 msgid "All computers"
@@ -855,7 +855,7 @@ msgstr "Informácie o počítači"
 #: ../inc/host.inc:655
 #, fuzzy
 msgid "BOINC<br>version"
-msgstr "Verzia BOINC"
+msgstr "BOINC<br>verzia"
 
 #: ../inc/host.inc:711 ../user/merge_by_name.php:67
 msgid "Merge computers by name"
@@ -3012,12 +3012,12 @@ msgstr ""
 #: ../user/edit_forum_preferences_form.php:139
 #, fuzzy
 msgid "Threads:"
-msgstr "Vlákno"
+msgstr "Vlákna:"
 
 #: ../user/edit_forum_preferences_form.php:139
 #, fuzzy
 msgid "Posts:"
-msgstr "Príspevkov"
+msgstr "Príspevkov:"
 
 #: ../user/edit_forum_preferences_form.php:140
 msgid "Jump to first new post in thread automatically"
@@ -3668,12 +3668,12 @@ msgstr ""
 #: ../user/forum_moderate_post.php:81
 #, fuzzy
 msgid "4 hours"
-msgstr "UTC %1 hodín"
+msgstr "4 hodiny"
 
 #: ../user/forum_moderate_post.php:82 ../user/forum_search.php:45
 #, fuzzy
 msgid "1 day"
-msgstr "%1 dní"
+msgstr "1 deň"
 
 #: ../user/forum_moderate_post.php:83
 msgid "1 week"
@@ -3845,7 +3845,7 @@ msgstr ""
 #: ../user/forum_reply.php:127
 #, fuzzy
 msgid "Message:"
-msgstr "Nástenky"
+msgstr "Správa:"
 
 #: ../user/forum_reply.php:130
 msgid "reply to %1Message ID%2:"
@@ -3954,7 +3954,7 @@ msgstr "Prehľadať fóra"
 #: ../user/forum_search.php:32
 #, fuzzy
 msgid "Search for keywords:"
-msgstr "Prehľadať fóra"
+msgstr "Hľadať kľúčové slová:"
 
 #: ../user/forum_search.php:33
 msgid "Posts that contain all the specified words will be displayed"
@@ -3967,7 +3967,7 @@ msgstr ""
 #: ../user/forum_search.php:36
 #, fuzzy
 msgid "Search for author ID:"
-msgstr "Prehľadať fóra"
+msgstr "Hľadať ID autora:"
 
 #: ../user/forum_search.php:37
 msgid "Only posts by this author will be displayed"
@@ -4200,9 +4200,8 @@ msgid "The status has been updated."
 msgstr ""
 
 #: ../user/forum_user_posts.php:73
-#, fuzzy
 msgid "Posts by %1"
-msgstr "Príspevkov"
+msgstr "Príspevky od %1"
 
 #: ../user/friend.php:33
 msgid "Already friends"
@@ -4471,9 +4470,8 @@ msgid "Application details for host %1"
 msgstr ""
 
 #: ../user/host_delete.php:31
-#, fuzzy
 msgid "We have no record of that computer."
-msgstr "Spojiť duplicitné záznamy tohto počítača"
+msgstr "Nemáme žiadne záznamy o tomto počítači."
 
 #: ../user/host_delete.php:38
 msgid ""
@@ -5380,7 +5378,7 @@ msgstr ""
 #: ../user/show_host_detail.php:40
 #, fuzzy
 msgid "Computer %1"
-msgstr "Informácie o počítači"
+msgstr "Počítač %1"
 
 #: ../user/stats.php:21
 msgid "Statistics and leaderboards"
@@ -6299,7 +6297,7 @@ msgstr ""
 #: ../user/userw.php:54
 #, fuzzy
 msgid "Team:"
-msgstr "Úlohy"
+msgstr "Tým:"
 
 #: ../user/userw.php:55
 msgid "Team TotCred:"

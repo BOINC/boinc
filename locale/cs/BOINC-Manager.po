@@ -18,11 +18,11 @@ msgstr ""
 "X-Generator: Pootle 2.1.6\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -75,11 +75,13 @@ msgstr ""
 msgid "Find login information"
 msgstr "Získat přihlašovací informace"
 
-#: clientgui/AccountInfoPage.cpp:435 clientgui/AccountInfoPage.cpp:635
+#: clientgui/AccountInfoPage.cpp:435
+#: clientgui/AccountInfoPage.cpp:635
 msgid "&Password:"
 msgstr "Heslo:"
 
-#: clientgui/AccountInfoPage.cpp:442 clientgui/AccountInfoPage.cpp:659
+#: clientgui/AccountInfoPage.cpp:442
+#: clientgui/AccountInfoPage.cpp:659
 msgid "Choose a &password:"
 msgstr "Zvolte si heslo:"
 
@@ -137,25 +139,20 @@ msgstr "Použít Správce účtu"
 
 #: clientgui/AccountInfoPage.cpp:583
 #, c-format
-msgid ""
-"The minimum password length for this project is %d. Please enter a different "
-"password."
+msgid "The minimum password length for this project is %d. Please enter a different password."
 msgstr ""
 "Minimální délka hesla pro tento projekt je %d znaků. Zadejte prosím jiné "
 "heslo."
 
 #: clientgui/AccountInfoPage.cpp:589
 #, c-format
-msgid ""
-"The minimum password length for this account manager is %d. Please enter a "
-"different password."
+msgid "The minimum password length for this account manager is %d. Please enter a different password."
 msgstr ""
 "Minimální délka hesla pro tohoto Správce účtu je %d znaků. Zadejte prosím "
 "jiné heslo."
 
 #: clientgui/AccountInfoPage.cpp:601
-msgid ""
-"The password and confirmation password do not match. Please type them again."
+msgid "The password and confirmation password do not match. Please type them again."
 msgstr "Zadaná hesla se neshodují. Prosím napište je znovu."
 
 #: clientgui/AccountManagerInfoPage.cpp:248
@@ -211,7 +208,8 @@ msgstr "Zavřít %s okno"
 msgid "&Close Window"
 msgstr "Zavřít okno"
 
-#: clientgui/AdvancedFrame.cpp:329 clientgui/AdvancedFrame.cpp:336
+#: clientgui/AdvancedFrame.cpp:329
+#: clientgui/AdvancedFrame.cpp:336
 #: clientgui/AdvancedFrame.cpp:343
 #, c-format
 msgid "Exit %s"
@@ -493,8 +491,7 @@ msgstr "&Webové stránky %s"
 #: clientgui/AdvancedFrame.cpp:654
 #, c-format
 msgid "Show information about BOINC and %s"
-msgstr ""
-"Zobrazit webovou stránku s informacemi o projektu BOINC a o programu %s"
+msgstr "Zobrazit webovou stránku s informacemi o projektu BOINC a o programu %s"
 
 #: clientgui/AdvancedFrame.cpp:666
 #, c-format
@@ -651,8 +648,7 @@ msgstr "%s - Chyba připojení"
 #: clientgui/BOINCBaseFrame.cpp:508
 msgid ""
 "You currently are not authorized to manage the client.\n"
-"Please contact your administrator to add you to the 'boinc_users' local user "
-"group."
+"Please contact your administrator to add you to the 'boinc_users' local user group."
 msgstr ""
 "Momentálně nejste oprávněn spravovat tohoto klienta.\n"
 "Kontaktujte prosím vašeho administrátora, aby vás přidal do lokální "
@@ -697,8 +693,7 @@ msgstr "%s - Start daemona selhal"
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
-"Please launch the Control Panel->Administative Tools->Services applet and "
-"start the BOINC service."
+"Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
 msgstr ""
 "%s není schopen spustit klienta %s.\n"
 "Spusťte prosím 'Ovládací panely -> Nástroje pro správu -> Služby' a spusťte "
@@ -722,13 +717,11 @@ msgstr "%s - Stav připojení"
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
-"Please use the 'Advanced\\Select Computer...' menu option to connect up to a "
-"%s client.\n"
+"Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 "%s není momentálně připojen ke klientu %s.\n"
-"Pro připojení ke klientu %s použijte volbu 'Nastavení -> Volba "
-"počítače...'.\n"
+"Pro připojení ke klientu %s použijte volbu 'Nastavení -> Volba počítače...'.\n"
 "Chcete-li se připojit ke klientu běžícímu na vašem počítači, \n"
 "do kolonky 'Jméno počítače' zadejte 'localhost'."
 
@@ -921,12 +914,14 @@ msgstr "Otevřít webové stránky %s..."
 msgid "Open %s..."
 msgstr "Otevřít %s..."
 
-#: clientgui/BOINCTaskBar.cpp:516 clientgui/BOINCTaskBar.cpp:612
+#: clientgui/BOINCTaskBar.cpp:516
+#: clientgui/BOINCTaskBar.cpp:612
 #: clientgui/BOINCTaskBar.cpp:620
 msgid "Snooze"
 msgstr "Uspat"
 
-#: clientgui/BOINCTaskBar.cpp:518 clientgui/BOINCTaskBar.cpp:639
+#: clientgui/BOINCTaskBar.cpp:518
+#: clientgui/BOINCTaskBar.cpp:639
 #: clientgui/BOINCTaskBar.cpp:647
 msgid "Snooze GPU"
 msgstr "Uspat GPU"
@@ -1012,8 +1007,10 @@ msgstr ""
 "\n"
 "Okno zavřete kliknutím na Dokončit."
 
-#: clientgui/CompletionErrorPage.cpp:225 clientgui/CompletionPage.cpp:222
-#: clientgui/CompletionPage.cpp:242 clientgui/CompletionPage.cpp:273
+#: clientgui/CompletionErrorPage.cpp:225
+#: clientgui/CompletionPage.cpp:222
+#: clientgui/CompletionPage.cpp:242
+#: clientgui/CompletionPage.cpp:273
 msgid "Click Finish to close."
 msgstr "Okno zavřete kliknutím na Dokončit."
 
@@ -1091,13 +1088,15 @@ msgstr ""
 "Všechna práva vyhrazena.\n"
 "Překlad do češtiny: Spok a Necroman"
 
-#: clientgui/DlgAbout.cpp:185 clientgui/DlgAbout.cpp:189
+#: clientgui/DlgAbout.cpp:185
+#: clientgui/DlgAbout.cpp:189
 msgid "Berkeley Open Infrastructure for Network Computing"
 msgstr ""
 "Berkeley Open Infrastructure for Network Computing \n"
 "(Berkeleyská Otevřená Infrastruktura pro Síťové Výpočty)"
 
-#: clientgui/DlgAbout.cpp:201 clientgui/DlgExitMessage.cpp:173
+#: clientgui/DlgAbout.cpp:201
+#: clientgui/DlgExitMessage.cpp:173
 #: clientgui/DlgGenericMessage.cpp:120
 msgid "&OK"
 msgstr "&OK"
@@ -1122,7 +1121,8 @@ msgstr "zadaná neplatná vstupní hodnota"
 msgid "Validation Error"
 msgstr "Chyba při validaci"
 
-#: clientgui/DlgAdvPreferences.cpp:788 clientgui/DlgAdvPreferences.cpp:793
+#: clientgui/DlgAdvPreferences.cpp:788
+#: clientgui/DlgAdvPreferences.cpp:793
 #: clientgui/DlgAdvPreferences.cpp:798
 msgid "Applications to add"
 msgstr "Aplikace, které lze přidat"
@@ -1132,7 +1132,8 @@ msgstr "Aplikace, které lze přidat"
 msgid "'%s' is not an executable application."
 msgstr "'%s' není exkluzivní aplikace."
 
-#: clientgui/DlgAdvPreferences.cpp:815 clientgui/DlgAdvPreferences.cpp:848
+#: clientgui/DlgAdvPreferences.cpp:815
+#: clientgui/DlgAdvPreferences.cpp:848
 #: clientgui/DlgAdvPreferences.cpp:872
 msgid "Add Exclusive App"
 msgstr "Přidat exkluzivní aplikaci"
@@ -1236,8 +1237,7 @@ msgid "While computer is on batteries"
 msgstr "Při provozu počítače na baterie"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:142
-msgid ""
-"check this if you want this computer to do work while it runs on batteries"
+msgid "check this if you want this computer to do work while it runs on batteries"
 msgstr ""
 "Zaškrtněte, pokud si přejete, aby výpočty na tomto počítači probíhaly i při "
 "provozu na baterie"
@@ -1247,8 +1247,7 @@ msgid "While computer is in use"
 msgstr "Je-li počítač používán"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:151
-msgid ""
-"check this if you want this computer to do work even when you're using it"
+msgid "check this if you want this computer to do work even when you're using it"
 msgstr ""
 "zaškrtněte, pokud si přejete, aby výpočty na tomto počítači probíhaly, i "
 "když jej právě používáte"
@@ -1258,9 +1257,7 @@ msgid "Use GPU while computer is in use"
 msgstr "Používat GPU pro výpočty, i když je počítač právě používán"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:160
-msgid ""
-"check this if you want your GPU to do work even when you're using the "
-"computer"
+msgid "check this if you want your GPU to do work even when you're using the computer"
 msgstr ""
 "zaškrtněte, pokud si přejete, aby výpočty na GPU probíhaly, i když je "
 "počítač právě používán"
@@ -1270,8 +1267,7 @@ msgid "Only after computer has been idle for"
 msgstr "Pouze pokud je počítač nečinný po dobu"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:182
-msgid ""
-"do work only after you haven't used the computer for this number of minutes"
+msgid "do work only after you haven't used the computer for this number of minutes"
 msgstr ""
 "výpočty budou zahájeny až poté, co počítač nebyl používán po stanovenou dobu "
 "(minuty)"
@@ -1463,9 +1459,7 @@ msgid "Confirm before connecting to internet"
 msgstr "Zobrazit dotaz před připojením k Internetu"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:479
-msgid ""
-"if checked, a confirmation dialog will be displayed before trying to connect "
-"to the Internet"
+msgid "if checked, a confirmation dialog will be displayed before trying to connect to the Internet"
 msgstr ""
 "Je-li zaškrtnuto, bude před každým pokusem o připojení k Internetu zobrazeno "
 "okno vyžadující potvrzení"
@@ -1495,7 +1489,8 @@ msgstr "Povolit přístup v tuto dobu"
 msgid "network usage stop hour"
 msgstr "Ukončit přístup v tuto dobu"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:597 clientgui/DlgItemProperties.cpp:234
+#: clientgui/DlgAdvPreferencesBase.cpp:597
+#: clientgui/DlgItemProperties.cpp:234
 msgid "Disk usage"
 msgstr "Využití disku"
 
@@ -1566,8 +1561,7 @@ msgstr ""
 "ponechány v paměti"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:712
-msgid ""
-"Suspend processor and network usage when these applications are running:"
+msgid "Suspend processor and network usage when these applications are running:"
 msgstr "Přerušit výpočty a přistup na Internet, pokud běží tyto aplikace:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:721
@@ -1607,7 +1601,8 @@ msgstr "Čas"
 msgid "Message"
 msgstr "Zpráva"
 
-#: clientgui/DlgEventLog.cpp:263 clientgui/DlgEventLog.cpp:327
+#: clientgui/DlgEventLog.cpp:263
+#: clientgui/DlgEventLog.cpp:327
 msgid "&Show only this project"
 msgstr "Zobrazit jen tento projekt"
 
@@ -1615,7 +1610,8 @@ msgstr "Zobrazit jen tento projekt"
 msgid "Copy &All"
 msgstr "Kopírov&at vše"
 
-#: clientgui/DlgEventLog.cpp:269 clientgui/DlgEventLog.cpp:273
+#: clientgui/DlgEventLog.cpp:269
+#: clientgui/DlgEventLog.cpp:273
 msgid "Copy all the messages to the clipboard."
 msgstr "Zkopíruje všechny zprávy do schránky."
 
@@ -1623,23 +1619,22 @@ msgstr "Zkopíruje všechny zprávy do schránky."
 msgid "Copy &Selected"
 msgstr "Kopírovat vybrané"
 
-#: clientgui/DlgEventLog.cpp:281 clientgui/DlgEventLog.cpp:289
-msgid ""
-"Copy the selected messages to the clipboard. You can select multiple "
-"messages by holding down the shift or command key while clicking on messages."
+#: clientgui/DlgEventLog.cpp:281
+#: clientgui/DlgEventLog.cpp:289
+msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
 msgstr ""
 "Zkopíruje označené zprávy do schránky. Označit více zpráv je možno klikáním "
 "na zprávy se současně stisknutou klávesou Shift nebo Command."
 
-#: clientgui/DlgEventLog.cpp:283 clientgui/DlgEventLog.cpp:291
-msgid ""
-"Copy the selected messages to the clipboard. You can select multiple "
-"messages by holding down the shift or control key while clicking on messages."
+#: clientgui/DlgEventLog.cpp:283
+#: clientgui/DlgEventLog.cpp:291
+msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
 msgstr ""
 "Zkopíruje označené zprávy do schránky. Označit více zpráv je možno klikáním "
 "na zprávy se současně stisknutou klávesou Shift nebo Ctrl."
 
-#: clientgui/DlgEventLog.cpp:298 clientgui/DlgItemProperties.cpp:66
+#: clientgui/DlgEventLog.cpp:298
+#: clientgui/DlgItemProperties.cpp:66
 msgid "&Close"
 msgstr "Zavřít"
 
@@ -1652,11 +1647,13 @@ msgstr "Zobrazit nápovědu pro %s"
 msgid "Show all &messages"
 msgstr "Zobrazit všechny zprávy"
 
-#: clientgui/DlgEventLog.cpp:322 clientgui/DlgEventLog.cpp:324
+#: clientgui/DlgEventLog.cpp:322
+#: clientgui/DlgEventLog.cpp:324
 msgid "Show messages for all projects"
 msgstr "Zobrazit zprávy všech projektů."
 
-#: clientgui/DlgEventLog.cpp:328 clientgui/DlgEventLog.cpp:330
+#: clientgui/DlgEventLog.cpp:328
+#: clientgui/DlgEventLog.cpp:330
 msgid "Show only the messages for the selected project"
 msgstr "Zobrazit pouze zprávy vybraného projektu"
 
@@ -1708,7 +1705,8 @@ msgstr "Ukončit běžící výpočy při ukončení %s"
 msgid "Remember this decision and do not show this dialog."
 msgstr "Zapamatovat si toto rozhodnutí a tuto nabídku již nezobrazovat."
 
-#: clientgui/DlgExitMessage.cpp:178 clientgui/DlgGenericMessage.cpp:125
+#: clientgui/DlgExitMessage.cpp:178
+#: clientgui/DlgGenericMessage.cpp:125
 msgid "&Cancel"
 msgstr "Zrušit"
 
@@ -1716,8 +1714,10 @@ msgstr "Zrušit"
 msgid "Don't show this dialog again."
 msgstr "Toto okno již nezobrazovat."
 
-#: clientgui/DlgItemProperties.cpp:171 clientgui/DlgItemProperties.cpp:174
-#: clientgui/DlgItemProperties.cpp:177 clientgui/DlgItemProperties.cpp:180
+#: clientgui/DlgItemProperties.cpp:171
+#: clientgui/DlgItemProperties.cpp:174
+#: clientgui/DlgItemProperties.cpp:177
+#: clientgui/DlgItemProperties.cpp:180
 #, fuzzy
 msgid "Don't fetch tasks for "
 msgstr "Nepřijímat úkoly pro CPU"
@@ -1793,10 +1793,14 @@ msgstr "ID počítače"
 msgid "Non CPU intensive"
 msgstr "Nenáročné na procesor"
 
-#: clientgui/DlgItemProperties.cpp:237 clientgui/DlgItemProperties.cpp:239
-#: clientgui/DlgItemProperties.cpp:240 clientgui/DlgItemProperties.cpp:242
-#: clientgui/DlgItemProperties.cpp:245 clientgui/DlgItemProperties.cpp:254
-#: clientgui/DlgItemProperties.cpp:257 clientgui/DlgItemProperties.cpp:260
+#: clientgui/DlgItemProperties.cpp:237
+#: clientgui/DlgItemProperties.cpp:239
+#: clientgui/DlgItemProperties.cpp:240
+#: clientgui/DlgItemProperties.cpp:242
+#: clientgui/DlgItemProperties.cpp:245
+#: clientgui/DlgItemProperties.cpp:254
+#: clientgui/DlgItemProperties.cpp:257
+#: clientgui/DlgItemProperties.cpp:260
 msgid "yes"
 msgstr "ano"
 
@@ -1804,7 +1808,8 @@ msgstr "ano"
 msgid "Suspended via GUI"
 msgstr "Pozastaveno přes GUI"
 
-#: clientgui/DlgItemProperties.cpp:239 clientgui/DlgItemProperties.cpp:240
+#: clientgui/DlgItemProperties.cpp:239
+#: clientgui/DlgItemProperties.cpp:240
 msgid "no"
 msgstr "ne"
 
@@ -1820,7 +1825,8 @@ msgstr "Zpracovávám požadavek plánovače"
 msgid "Trickle-up pending"
 msgstr "Vyčkávající zpráva o průběhu"
 
-#: clientgui/DlgItemProperties.cpp:248 clientgui/DlgItemProperties.cpp:250
+#: clientgui/DlgItemProperties.cpp:248
+#: clientgui/DlgItemProperties.cpp:250
 msgid "Host location"
 msgstr "Umístění počítače"
 
@@ -1912,11 +1918,13 @@ msgstr "Odhadovaná doba výpočtu"
 msgid "CPU time at last checkpoint"
 msgstr "Procesorový čas při posledním uložení "
 
-#: clientgui/DlgItemProperties.cpp:328 clientgui/DlgItemProperties.cpp:343
+#: clientgui/DlgItemProperties.cpp:328
+#: clientgui/DlgItemProperties.cpp:343
 msgid "CPU time"
 msgstr "Procesorový čas"
 
-#: clientgui/DlgItemProperties.cpp:330 clientgui/DlgItemProperties.cpp:344
+#: clientgui/DlgItemProperties.cpp:330
+#: clientgui/DlgItemProperties.cpp:344
 msgid "Elapsed time"
 msgstr "Čas"
 
@@ -1948,7 +1956,8 @@ msgstr "ID procesu"
 msgid "Local: "
 msgstr "Místní:"
 
-#: clientgui/DlgOptions.cpp:115 clientgui/DlgOptions.cpp:121
+#: clientgui/DlgOptions.cpp:115
+#: clientgui/DlgOptions.cpp:121
 msgid "Options"
 msgstr "Možnosti"
 
@@ -2012,30 +2021,39 @@ msgstr "Připojit přes HTTP proxy server"
 msgid "HTTP Proxy Server Configuration"
 msgstr "Nastavení HTTP proxy serveru"
 
-#: clientgui/DlgOptions.cpp:266 clientgui/DlgOptions.cpp:330
+#: clientgui/DlgOptions.cpp:266
+#: clientgui/DlgOptions.cpp:330
 msgid "Address:"
 msgstr "Adresa:"
 
-#: clientgui/DlgOptions.cpp:274 clientgui/DlgOptions.cpp:338
-#: clientgui/ProxyPage.cpp:340 clientgui/ProxyPage.cpp:360
+#: clientgui/DlgOptions.cpp:274
+#: clientgui/DlgOptions.cpp:338
+#: clientgui/ProxyPage.cpp:340
+#: clientgui/ProxyPage.cpp:360
 msgid "Port:"
 msgstr "Port:"
 
-#: clientgui/DlgOptions.cpp:282 clientgui/DlgOptions.cpp:346
+#: clientgui/DlgOptions.cpp:282
+#: clientgui/DlgOptions.cpp:346
 msgid "Don't use proxy for:"
 msgstr "Nepoužívat proxy pro:"
 
-#: clientgui/DlgOptions.cpp:289 clientgui/DlgOptions.cpp:353
+#: clientgui/DlgOptions.cpp:289
+#: clientgui/DlgOptions.cpp:353
 msgid "Leave these blank if not needed"
 msgstr "Ponechte prázdné, pokud není vyžadováno"
 
-#: clientgui/DlgOptions.cpp:295 clientgui/DlgOptions.cpp:359
-#: clientgui/ProxyPage.cpp:343 clientgui/ProxyPage.cpp:363
+#: clientgui/DlgOptions.cpp:295
+#: clientgui/DlgOptions.cpp:359
+#: clientgui/ProxyPage.cpp:343
+#: clientgui/ProxyPage.cpp:363
 msgid "User Name:"
 msgstr "Uživatelské jméno:"
 
-#: clientgui/DlgOptions.cpp:303 clientgui/DlgOptions.cpp:367
-#: clientgui/DlgSelectComputer.cpp:151 clientgui/ProxyPage.cpp:346
+#: clientgui/DlgOptions.cpp:303
+#: clientgui/DlgOptions.cpp:367
+#: clientgui/DlgSelectComputer.cpp:151
+#: clientgui/ProxyPage.cpp:346
 #: clientgui/ProxyPage.cpp:366
 msgid "Password:"
 msgstr "Heslo:"
@@ -2087,9 +2105,7 @@ msgstr "%s - Volba jazyka"
 
 #: clientgui/DlgOptions.cpp:681
 #, c-format
-msgid ""
-"The %s's default language has been changed, in order for this change to take "
-"affect you must restart the %s."
+msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
 msgstr "Jazyk %s byl změněn. Aby se změna projevila, je nutné restartovat %s."
 
 #: clientgui/DlgSelectComputer.cpp:90
@@ -2110,7 +2126,8 @@ msgstr ""
 msgid "Host name:"
 msgstr "Jméno počítače:"
 
-#: clientgui/Localization.cpp:31 clientgui/Localization.cpp:69
+#: clientgui/Localization.cpp:31
+#: clientgui/Localization.cpp:69
 msgid "Message boards"
 msgstr "Diskuzní fóra"
 
@@ -2122,12 +2139,15 @@ msgstr "Diskutovat s ostatními uživateli na diskuzním fóru SETI@home"
 msgid "Ask questions and report problems"
 msgstr "Položit otázku nebo ohlásit problém"
 
-#: clientgui/Localization.cpp:39 clientgui/Localization.cpp:81
-#: clientgui/Localization.cpp:111 clientgui/Localization.cpp:129
+#: clientgui/Localization.cpp:39
+#: clientgui/Localization.cpp:81
+#: clientgui/Localization.cpp:111
+#: clientgui/Localization.cpp:129
 msgid "Your account"
 msgstr "Váš účet "
 
-#: clientgui/Localization.cpp:41 clientgui/Localization.cpp:87
+#: clientgui/Localization.cpp:41
+#: clientgui/Localization.cpp:87
 #: clientgui/Localization.cpp:113
 msgid "View your account information and credit totals"
 msgstr "Zobrazit informaci o vašem účtu a kreditech"
@@ -2141,15 +2161,18 @@ msgid "View and modify your SETI@home account profile and preferences"
 msgstr ""
 "Zobrazit či změnit nastavení profilu či předvoleb u vašeho SETI@home účtu"
 
-#: clientgui/Localization.cpp:47 clientgui/Localization.cpp:89
+#: clientgui/Localization.cpp:47
+#: clientgui/Localization.cpp:89
 msgid "Your results"
 msgstr "Vaše výsledky"
 
-#: clientgui/Localization.cpp:49 clientgui/Localization.cpp:91
+#: clientgui/Localization.cpp:49
+#: clientgui/Localization.cpp:91
 msgid "View your last week (or more) of computational results and work"
 msgstr "Zobrazit výsledky vaší práce za poslední týden, či déle"
 
-#: clientgui/Localization.cpp:51 clientgui/Localization.cpp:93
+#: clientgui/Localization.cpp:51
+#: clientgui/Localization.cpp:93
 msgid "Your computers"
 msgstr "Vaše počítače"
 
@@ -2157,11 +2180,13 @@ msgstr "Vaše počítače"
 msgid "View a listing of all the computers on which you are running SETI@Home"
 msgstr "Zobrazit seznam všech počítačů, na kterých provozujete SETI@home"
 
-#: clientgui/Localization.cpp:55 clientgui/Localization.cpp:97
+#: clientgui/Localization.cpp:55
+#: clientgui/Localization.cpp:97
 msgid "Your team"
 msgstr "Váš tým"
 
-#: clientgui/Localization.cpp:57 clientgui/Localization.cpp:99
+#: clientgui/Localization.cpp:57
+#: clientgui/Localization.cpp:99
 msgid "View information about your team"
 msgstr "Zobrazit informace o vašem týmu"
 
@@ -2182,8 +2207,7 @@ msgid "Read a detailed description of the Einstein@Home screensaver"
 msgstr "Přečtěte si podrobný popis spořiče obrazovky Einstein@Home"
 
 #: clientgui/Localization.cpp:71
-msgid ""
-"Correspond with admins and other users on the Einstein@Home message boards"
+msgid "Correspond with admins and other users on the Einstein@Home message boards"
 msgstr ""
 "Diskutovat se správci a ostatními uživateli na diskuzních fórech "
 "Einstein@Home"
@@ -2207,15 +2231,15 @@ msgstr "Odkaz na stránky pro nahlašování problémů a chyb Einstein@Home"
 #: clientgui/Localization.cpp:83
 msgid "View and modify your Einstein@Home account profile and preferences"
 msgstr ""
-"Zobrazit či změnit nastavení profilu či předvoleb u vašeho Einstein@Home účtu"
+"Zobrazit či změnit nastavení profilu či předvoleb u vašeho Einstein@Home "
+"účtu"
 
 #: clientgui/Localization.cpp:85
 msgid "Account summary"
 msgstr "Přehled účtu "
 
 #: clientgui/Localization.cpp:95
-msgid ""
-"View a listing of all the computers on which you are running Einstein@Home"
+msgid "View a listing of all the computers on which you are running Einstein@Home"
 msgstr "Zobrazit seznam všech počítačů, na kterých provozujete Einstein@home"
 
 #: clientgui/Localization.cpp:101
@@ -2223,9 +2247,7 @@ msgid "LIGO project"
 msgstr "Projekt LIGO"
 
 #: clientgui/Localization.cpp:103
-msgid ""
-"The home page of the Laser Interferometer Gravitational-wave Observatory "
-"(LIGO) project"
+msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
 msgstr ""
 "Domovská stránka projektu LIGO (Laser Interferometer Gravitational-wave "
 "Observatory)"
@@ -2238,7 +2260,8 @@ msgstr "Projekt GEO-600"
 msgid "The home page of the GEO-600 project"
 msgstr "Domovská stránka projektu GEO-600"
 
-#: clientgui/Localization.cpp:115 clientgui/Localization.cpp:133
+#: clientgui/Localization.cpp:115
+#: clientgui/Localization.cpp:133
 msgid "Team"
 msgstr "Tým"
 
@@ -2319,12 +2342,10 @@ msgid "Missing application"
 msgstr "Chybějící aplikace"
 
 #: clientgui/MainDocument.cpp:1793
-msgid ""
-"Please download and install the CoRD application from http://cord."
-"sourceforge.net"
+msgid "Please download and install the CoRD application from http://cord.sourceforge.net"
 msgstr ""
-"Stáhněte si prosím a naistalujte aplikaci CoRD z adresy http://cord."
-"sourceforge.net"
+"Stáhněte si prosím a naistalujte aplikaci CoRD z adresy "
+"http://cord.sourceforge.net"
 
 #: clientgui/MainDocument.cpp:2390
 msgid "on batteries"
@@ -2394,7 +2415,8 @@ msgstr "Chyba při stahování"
 msgid "Downloading"
 msgstr "Stahuji"
 
-#: clientgui/MainDocument.cpp:2435 clientgui/MainDocument.cpp:2499
+#: clientgui/MainDocument.cpp:2435
+#: clientgui/MainDocument.cpp:2499
 msgid " (suspended - "
 msgstr " (pozastaveno - "
 
@@ -2434,7 +2456,8 @@ msgstr " (nenáročný na procesor)"
 msgid "Waiting to run"
 msgstr "Čekám na zpracování"
 
-#: clientgui/MainDocument.cpp:2469 clientgui/MainDocument.cpp:2475
+#: clientgui/MainDocument.cpp:2469
+#: clientgui/MainDocument.cpp:2475
 msgid "Ready to start"
 msgstr "Připraven"
 
@@ -2555,7 +2578,8 @@ msgstr "%s; doručena v %s"
 msgid "%s; received from %s; on %s"
 msgstr "%s; doručena od %s; v %s"
 
-#: clientgui/NoticeListCtrl.cpp:271 clientgui/ProjectListCtrl.cpp:283
+#: clientgui/NoticeListCtrl.cpp:271
+#: clientgui/ProjectListCtrl.cpp:283
 msgid "Click"
 msgstr "Klik"
 
@@ -2567,7 +2591,8 @@ msgstr "Nejsou dostupné žádné zprávy."
 msgid "more..."
 msgstr "více..."
 
-#: clientgui/ProjectInfoPage.cpp:451 clientgui/ProjectInfoPage.cpp:734
+#: clientgui/ProjectInfoPage.cpp:451
+#: clientgui/ProjectInfoPage.cpp:734
 #: clientgui/ProjectInfoPage.cpp:738
 msgid "All"
 msgstr "Vše"
@@ -2615,9 +2640,7 @@ msgid "Project URL:"
 msgstr "URL adresa projektu:"
 
 #: clientgui/ProjectInfoPage.cpp:782
-msgid ""
-"This project may not have work for your type of computer.  Do you want to "
-"add it anyway?"
+msgid "This project may not have work for your type of computer.  Do you want to add it anyway?"
 msgstr ""
 "Tento projekt nemusí mít práci pro váš typ počítače. Chcete ho i tak přidat?"
 
@@ -2740,7 +2763,8 @@ msgstr "Nastavení proxy serveru"
 msgid "HTTP proxy"
 msgstr "HTTP proxy server"
 
-#: clientgui/ProxyPage.cpp:337 clientgui/ProxyPage.cpp:357
+#: clientgui/ProxyPage.cpp:337
+#: clientgui/ProxyPage.cpp:357
 msgid "Server:"
 msgstr "Server:"
 
@@ -2801,57 +2825,70 @@ msgstr "Otevřít okno s informačními zprávami projektů nebo BOINC"
 msgid "Display the advanced (accessible) graphical interface."
 msgstr "Zobrazit rozšířené grafické rozhraní."
 
-#: clientgui/sg_ClientStateIndicator.cpp:288 clientgui/sg_TaskPanel.cpp:1191
+#: clientgui/sg_ClientStateIndicator.cpp:288
+#: clientgui/sg_TaskPanel.cpp:1191
 msgid "Retrieving current status."
 msgstr "Zjišťuji aktuální stav."
 
-#: clientgui/sg_ClientStateIndicator.cpp:291 clientgui/sg_TaskPanel.cpp:443
+#: clientgui/sg_ClientStateIndicator.cpp:291
+#: clientgui/sg_TaskPanel.cpp:443
 msgid "You don't have any projects.  Please Add a Project."
 msgstr "Nemáte žádný projekt. Přidejte si prosím nějaký projekt."
 
-#: clientgui/sg_ClientStateIndicator.cpp:294 clientgui/sg_TaskPanel.cpp:1197
+#: clientgui/sg_ClientStateIndicator.cpp:294
+#: clientgui/sg_TaskPanel.cpp:1197
 msgid "Downloading work from the server."
 msgstr "Stahuji práci ze serveru."
 
-#: clientgui/sg_ClientStateIndicator.cpp:299 clientgui/sg_TaskPanel.cpp:1202
+#: clientgui/sg_ClientStateIndicator.cpp:299
+#: clientgui/sg_TaskPanel.cpp:1202
 msgid "Processing Suspended:  Running On Batteries."
 msgstr "Výpočty pozastaveny:  Provoz na baterie."
 
-#: clientgui/sg_ClientStateIndicator.cpp:301 clientgui/sg_TaskPanel.cpp:1204
+#: clientgui/sg_ClientStateIndicator.cpp:301
+#: clientgui/sg_TaskPanel.cpp:1204
 msgid "Processing Suspended:  User Active."
 msgstr "Výpočty pozastaveny:  Uživatel je aktivní."
 
-#: clientgui/sg_ClientStateIndicator.cpp:303 clientgui/sg_TaskPanel.cpp:1206
+#: clientgui/sg_ClientStateIndicator.cpp:303
+#: clientgui/sg_TaskPanel.cpp:1206
 msgid "Processing Suspended:  User paused processing."
 msgstr "Výpočty pozastaveny:  Pozastaveno uživatelem."
 
-#: clientgui/sg_ClientStateIndicator.cpp:305 clientgui/sg_TaskPanel.cpp:1208
+#: clientgui/sg_ClientStateIndicator.cpp:305
+#: clientgui/sg_TaskPanel.cpp:1208
 msgid "Processing Suspended:  Time of Day."
 msgstr "Výpočty pozastaveny:  Denní doba."
 
-#: clientgui/sg_ClientStateIndicator.cpp:307 clientgui/sg_TaskPanel.cpp:1210
+#: clientgui/sg_ClientStateIndicator.cpp:307
+#: clientgui/sg_TaskPanel.cpp:1210
 msgid "Processing Suspended:  Benchmarks Running."
 msgstr "Výpočty pozastaveny:  Probíhají testy procesoru."
 
-#: clientgui/sg_ClientStateIndicator.cpp:309 clientgui/sg_TaskPanel.cpp:1212
+#: clientgui/sg_ClientStateIndicator.cpp:309
+#: clientgui/sg_TaskPanel.cpp:1212
 msgid "Processing Suspended."
 msgstr "Výpočty pozastaveny."
 
-#: clientgui/sg_ClientStateIndicator.cpp:313 clientgui/sg_TaskPanel.cpp:1216
+#: clientgui/sg_ClientStateIndicator.cpp:313
+#: clientgui/sg_TaskPanel.cpp:1216
 msgid "Waiting to contact project servers."
 msgstr "Čekám na kontakt se servery projektu."
 
 #: clientgui/sg_ClientStateIndicator.cpp:317
-#: clientgui/sg_ClientStateIndicator.cpp:325 clientgui/sg_TaskPanel.cpp:1220
+#: clientgui/sg_ClientStateIndicator.cpp:325
+#: clientgui/sg_TaskPanel.cpp:1220
 #: clientgui/sg_TaskPanel.cpp:1229
 msgid "Retrieving current status"
 msgstr "Zjišťuji aktuální stav"
 
-#: clientgui/sg_ClientStateIndicator.cpp:320 clientgui/sg_TaskPanel.cpp:1224
+#: clientgui/sg_ClientStateIndicator.cpp:320
+#: clientgui/sg_TaskPanel.cpp:1224
 msgid "No work available to process"
 msgstr "Není k dispozici žádná práce"
 
-#: clientgui/sg_ClientStateIndicator.cpp:322 clientgui/sg_TaskPanel.cpp:1226
+#: clientgui/sg_ClientStateIndicator.cpp:322
+#: clientgui/sg_TaskPanel.cpp:1226
 msgid "Unable to connect to the core client"
 msgstr "Selhalo spojení s klientem"
 
@@ -3000,7 +3037,8 @@ msgstr "Počítej pouze mezi: "
 msgid "Connect to internet only between:"
 msgstr "Připojuj se k Internetu pouze mezi: "
 
-#: clientgui/sg_DlgPreferences.cpp:376 clientgui/sg_DlgPreferences.cpp:393
+#: clientgui/sg_DlgPreferences.cpp:376
+#: clientgui/sg_DlgPreferences.cpp:393
 msgid "Use no more than:"
 msgstr "Použij nejvýše "
 
@@ -3020,10 +3058,14 @@ msgstr "Počítat při běhu na baterie?"
 msgid "Do work after idle for:"
 msgstr "Počítat po nečinnosti: "
 
-#: clientgui/sg_DlgPreferences.cpp:621 clientgui/sg_DlgPreferences.cpp:624
-#: clientgui/sg_DlgPreferences.cpp:683 clientgui/sg_DlgPreferences.cpp:687
-#: clientgui/sg_DlgPreferences.cpp:699 clientgui/sg_DlgPreferences.cpp:703
-#: clientgui/sg_DlgPreferences.cpp:846 clientgui/sg_DlgPreferences.cpp:857
+#: clientgui/sg_DlgPreferences.cpp:621
+#: clientgui/sg_DlgPreferences.cpp:624
+#: clientgui/sg_DlgPreferences.cpp:683
+#: clientgui/sg_DlgPreferences.cpp:687
+#: clientgui/sg_DlgPreferences.cpp:699
+#: clientgui/sg_DlgPreferences.cpp:703
+#: clientgui/sg_DlgPreferences.cpp:846
+#: clientgui/sg_DlgPreferences.cpp:857
 msgid "Anytime"
 msgstr "Kdykoliv"
 
@@ -3097,9 +3139,7 @@ msgid "Update"
 msgstr "Aktualizovat"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:62
-msgid ""
-"Report all completed tasks, get latest credit, get latest preferences, and "
-"possibly get more tasks."
+msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
 msgstr ""
 "Nahlásit veškerou dokončenou práci, získat aktuální údaj o kreditu a "
 "nastavení a je-li možno, přijmout další práci."
@@ -3123,18 +3163,14 @@ msgid "Reset project"
 msgstr "Restartovat projekt"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:80
-msgid ""
-"Delete all files and tasks associated with this project, and get new tasks.  "
-"You can update the project first to report any completed tasks."
+msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
 msgstr ""
 "Smazat všechny soubory a úkoly související s tímto projektem a stáhnout "
 "nové. Před restartováním doporučujeme projekt aktualizovat, čímž odešlete a "
 "ohlásíte všechny dokončené úkoly."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:86
-msgid ""
-"Remove this project.  Tasks in progress will be lost (use 'Update' first to "
-"report any completed tasks)."
+msgid "Remove this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
 msgstr ""
 "Odebrat tento projekt. Započatá práce bude ztracena. Před odebráním "
 "doporučujeme projekt aktualizovat, čímž odešlete a ohlásíte všechny "
@@ -3181,7 +3217,8 @@ msgid "Are you sure you want to remove project '%s'?"
 msgstr "Opravdu chcete odebrat projekt '%s'?"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:257
-#: clientgui/sg_StatImageLoader.cpp:138 clientgui/sg_StatImageLoader.cpp:198
+#: clientgui/sg_StatImageLoader.cpp:138
+#: clientgui/sg_StatImageLoader.cpp:198
 msgid "Remove Project"
 msgstr "Odebrat projekt"
 
@@ -3197,7 +3234,8 @@ msgstr "Synchronizovat"
 msgid "Work done for this project"
 msgstr "Práce hotova pro tento projekt"
 
-#: clientgui/sg_ProjectPanel.cpp:77 clientgui/sg_ProjectsComponent.cpp:123
+#: clientgui/sg_ProjectPanel.cpp:77
+#: clientgui/sg_ProjectsComponent.cpp:123
 msgid "Synchronize projects with account manager system"
 msgstr "Synchronizovat projekty se systémem Správce účtu"
 
@@ -3205,7 +3243,8 @@ msgstr "Synchronizovat projekty se systémem Správce účtu"
 msgid "Select a project to access with the controls below"
 msgstr "Zvolte projekt, který chcete ovládat prvky dole"
 
-#: clientgui/sg_ProjectPanel.cpp:134 clientgui/sg_ProjectPanel.cpp:262
+#: clientgui/sg_ProjectPanel.cpp:134
+#: clientgui/sg_ProjectPanel.cpp:262
 #, c-format
 msgid "%s: %.0f"
 msgstr "%s: %.0f"
@@ -3355,6 +3394,7 @@ msgid "Elapsed: %s"
 msgstr "Uplynulo: &s"
 
 #: clientgui/sg_TaskPanel.cpp:839
+#, c-format
 #, fuzzy, c-format
 msgid "Remaining (estimated): %s"
 msgstr "Zbývá: &s"
@@ -3364,7 +3404,8 @@ msgstr "Zbývá: &s"
 msgid "Status: %s"
 msgstr "Stav: %s"
 
-#: clientgui/sg_ViewTabPage.cpp:140 clientgui/sg_ViewTabPage.cpp:280
+#: clientgui/sg_ViewTabPage.cpp:140
+#: clientgui/sg_ViewTabPage.cpp:280
 #, c-format
 msgid "%.1lf"
 msgstr "%.1lf"
@@ -3382,7 +3423,8 @@ msgstr "Opravdu chcete zobrazit grafické okno na vzdáleném počítači?"
 msgid "Application: "
 msgstr "Aplikace: "
 
-#: clientgui/sg_ViewTabPage.cpp:449 clientgui/sg_ViewTabPage.cpp:453
+#: clientgui/sg_ViewTabPage.cpp:449
+#: clientgui/sg_ViewTabPage.cpp:453
 msgid "Time Remaining: "
 msgstr "Zbývající čas: "
 
@@ -3442,7 +3484,8 @@ msgstr "Zadej prosím klíč k účtu pro pokračování."
 msgid "Invalid Account Key; please enter a valid Account Key"
 msgstr "Neplatný klíč k účtu - vložte prosím platný klíč"
 
-#: clientgui/ValidateAccountKey.cpp:82 clientgui/ValidateEmailAddress.cpp:86
+#: clientgui/ValidateAccountKey.cpp:82
+#: clientgui/ValidateEmailAddress.cpp:86
 msgid "Validation conflict"
 msgstr "Chyba při validaci"
 
@@ -3468,13 +3511,17 @@ msgstr ""
 "Například:\n"
 "http://www.example.com/"
 
-#: clientgui/ValidateURL.cpp:83 clientgui/ValidateURL.cpp:87
-#: clientgui/ValidateURL.cpp:91 clientgui/ValidateURL.cpp:103
-#: clientgui/ValidateURL.cpp:107 clientgui/ValidateURL.cpp:110
+#: clientgui/ValidateURL.cpp:83
+#: clientgui/ValidateURL.cpp:87
+#: clientgui/ValidateURL.cpp:91
+#: clientgui/ValidateURL.cpp:103
+#: clientgui/ValidateURL.cpp:107
+#: clientgui/ValidateURL.cpp:110
 msgid "Invalid URL"
 msgstr "Neplatná URL adresa"
 
-#: clientgui/ValidateURL.cpp:84 clientgui/ValidateURL.cpp:88
+#: clientgui/ValidateURL.cpp:84
+#: clientgui/ValidateURL.cpp:88
 #: clientgui/ValidateURL.cpp:92
 msgid ""
 "Please specify a valid URL.\n"
@@ -3485,7 +3532,8 @@ msgstr ""
 "Například:\n"
 "http://boincproject.example.com"
 
-#: clientgui/ValidateURL.cpp:104 clientgui/ValidateURL.cpp:108
+#: clientgui/ValidateURL.cpp:104
+#: clientgui/ValidateURL.cpp:108
 #, c-format
 msgid "'%s' does not contain a valid host name."
 msgstr "'%s' neobsahuje platné jméno počítače."
@@ -3495,8 +3543,10 @@ msgstr "'%s' neobsahuje platné jméno počítače."
 msgid "'%s' does not contain a valid path."
 msgstr "'%s' neobsahuje platnou cestu."
 
-#: clientgui/ViewMessages.cpp:84 clientgui/ViewProjects.cpp:169
-#: clientgui/ViewStatistics.cpp:1962 clientgui/ViewTransfers.cpp:159
+#: clientgui/ViewMessages.cpp:84
+#: clientgui/ViewProjects.cpp:169
+#: clientgui/ViewStatistics.cpp:1962
+#: clientgui/ViewTransfers.cpp:159
 #: clientgui/ViewWork.cpp:182
 msgid "Commands"
 msgstr "Příkazy"
@@ -3509,11 +3559,13 @@ msgstr "Zkopírovat všechny zprávy"
 msgid "Copy selected messages"
 msgstr "Zkopírovat označené zprávy"
 
-#: clientgui/ViewMessages.cpp:106 clientgui/ViewMessages.cpp:502
+#: clientgui/ViewMessages.cpp:106
+#: clientgui/ViewMessages.cpp:502
 msgid "Show only this project"
 msgstr "Zobrazit jen tento projekt"
 
-#: clientgui/ViewMessages.cpp:107 clientgui/ViewMessages.cpp:503
+#: clientgui/ViewMessages.cpp:107
+#: clientgui/ViewMessages.cpp:503
 msgid "Show only the messages for the selected project."
 msgstr "Zobrazit pouze zprávy vybraného projektu."
 
@@ -3541,7 +3593,8 @@ msgstr "Zobrazit všechny zprávy"
 msgid "Show messages for all projects."
 msgstr "Zobrazit zprávy všech projektů."
 
-#: clientgui/ViewProjects.cpp:219 clientgui/ViewStatistics.cpp:442
+#: clientgui/ViewProjects.cpp:219
+#: clientgui/ViewStatistics.cpp:442
 msgid "Account"
 msgstr "Účet"
 
@@ -3553,7 +3606,8 @@ msgstr "Kredit"
 msgid "Avg. work done"
 msgstr "Průměrný kredit"
 
-#: clientgui/ViewProjects.cpp:224 clientgui/ViewTransfers.cpp:187
+#: clientgui/ViewProjects.cpp:224
+#: clientgui/ViewTransfers.cpp:187
 #: clientgui/ViewWork.cpp:233
 msgid "Status"
 msgstr "Stav"
@@ -3590,7 +3644,8 @@ msgstr "Restartuji projekt..."
 msgid "Removing project..."
 msgstr "Odebírám projekt..."
 
-#: clientgui/ViewProjects.cpp:542 clientgui/ViewWork.cpp:598
+#: clientgui/ViewProjects.cpp:542
+#: clientgui/ViewWork.cpp:598
 msgid "Launching browser..."
 msgstr "Spouštím internetový prohlížeč..."
 
@@ -3763,11 +3818,13 @@ msgstr "Další projekt >"
 msgid "Show chart for next project"
 msgstr "Zobrazit graf následujícího projektu"
 
-#: clientgui/ViewStatistics.cpp:2010 clientgui/ViewStatistics.cpp:2407
+#: clientgui/ViewStatistics.cpp:2010
+#: clientgui/ViewStatistics.cpp:2407
 msgid "Hide project list"
 msgstr "Schovat seznam projektů"
 
-#: clientgui/ViewStatistics.cpp:2011 clientgui/ViewStatistics.cpp:2407
+#: clientgui/ViewStatistics.cpp:2011
+#: clientgui/ViewStatistics.cpp:2407
 msgid "Use entire area for graphs"
 msgstr "Použít celou oblast pro grafy"
 
@@ -3811,11 +3868,16 @@ msgstr "Zobrazit jeden graf se součtem všech projektů"
 msgid "Statistics"
 msgstr "Statistiky"
 
-#: clientgui/ViewStatistics.cpp:2094 clientgui/ViewStatistics.cpp:2115
-#: clientgui/ViewStatistics.cpp:2136 clientgui/ViewStatistics.cpp:2158
-#: clientgui/ViewStatistics.cpp:2179 clientgui/ViewStatistics.cpp:2200
-#: clientgui/ViewStatistics.cpp:2221 clientgui/ViewStatistics.cpp:2242
-#: clientgui/ViewStatistics.cpp:2263 clientgui/ViewStatistics.cpp:2287
+#: clientgui/ViewStatistics.cpp:2094
+#: clientgui/ViewStatistics.cpp:2115
+#: clientgui/ViewStatistics.cpp:2136
+#: clientgui/ViewStatistics.cpp:2158
+#: clientgui/ViewStatistics.cpp:2179
+#: clientgui/ViewStatistics.cpp:2200
+#: clientgui/ViewStatistics.cpp:2221
+#: clientgui/ViewStatistics.cpp:2242
+#: clientgui/ViewStatistics.cpp:2263
+#: clientgui/ViewStatistics.cpp:2287
 msgid "Updating charts..."
 msgstr "Aktualizuji grafy..."
 
@@ -3840,9 +3902,7 @@ msgid "Abort Transfer"
 msgstr "Zrušit přenos"
 
 #: clientgui/ViewTransfers.cpp:171
-msgid ""
-"Click 'Abort transfer' to delete the file from the transfer queue. This will "
-"prevent you from being granted credit for this result."
+msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
 msgstr ""
 "Klikněte na 'Zrušit přenos' pro odstranění souboru z fronty. Za odstraněný "
 "výsledek nebude přidělen žádný kredit."
@@ -3851,7 +3911,8 @@ msgstr ""
 msgid "File"
 msgstr "Soubor"
 
-#: clientgui/ViewTransfers.cpp:183 clientgui/ViewWork.cpp:232
+#: clientgui/ViewTransfers.cpp:183
+#: clientgui/ViewWork.cpp:232
 msgid "Progress"
 msgstr "Průběh"
 
@@ -3942,11 +4003,13 @@ msgstr "vyčkává"
 msgid " (project backoff: "
 msgstr " (odložení projektu: "
 
-#: clientgui/ViewWork.cpp:186 clientgui/ViewWork.cpp:766
+#: clientgui/ViewWork.cpp:186
+#: clientgui/ViewWork.cpp:766
 msgid "Show active tasks"
 msgstr "Zobrazit aktivní úkoly "
 
-#: clientgui/ViewWork.cpp:187 clientgui/ViewWork.cpp:767
+#: clientgui/ViewWork.cpp:187
+#: clientgui/ViewWork.cpp:767
 msgid "Show only active tasks."
 msgstr "Zobrazit pouze aktivní úkoly."
 
@@ -4057,8 +4120,7 @@ msgstr ""
 #: clientgui/WelcomePage.cpp:283
 msgid ""
 "You have chosen to add a new BOINC project.  Adding a new\n"
-"project means that you will be connecting your computer to a new "
-"organization.\n"
+"project means that you will be connecting your computer to a new organization.\n"
 "If this is what you wanted to do, please click on\n"
 "the 'Next' button below.\n"
 "\n"
@@ -4104,7 +4166,8 @@ msgstr "Opravdu chcete operaci zrušit?"
 msgid "Question"
 msgstr "Dotaz"
 
-#: clientgui/wizardex.cpp:377 clientgui/wizardex.cpp:553
+#: clientgui/wizardex.cpp:377
+#: clientgui/wizardex.cpp:553
 msgid "&Next >"
 msgstr "Další >"
 
@@ -4141,9 +4204,7 @@ msgid "Pie Ctrl"
 msgstr "Pie Ctrl"
 
 #: clientgui/mac/MacAccessiblity.cpp:257
-msgid ""
-"for accessibility support, please select advanced from the view menu or type "
-"command shift a"
+msgid "for accessibility support, please select advanced from the view menu or type command shift a"
 msgstr ""
 "pro usnadnění přístupu vyberte režim rozšířeného zobrazení v menu, nebo "
 "použijte zkratku Command + Shift + A"
@@ -4193,7 +4254,8 @@ msgstr "; sloupec %d z %d; "
 msgid "list is empty"
 msgstr "seznam je prázdný"
 
-#: clientgui/mac/MacAccessiblity.cpp:858 clientgui/mac/MacAccessiblity.cpp:870
+#: clientgui/mac/MacAccessiblity.cpp:858
+#: clientgui/mac/MacAccessiblity.cpp:870
 #, c-format
 msgid "; row %d; "
 msgstr "; řádka %d; "
@@ -4260,14 +4322,14 @@ msgstr "Opustit %s"
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
 msgstr ""
-"určete časové rozmezí, kdy bude povoleno provádět výpočty - ve formátu HH:MM-"
-"HH:MM"
+"určete časové rozmezí, kdy bude povoleno provádět výpočty - ve formátu HH"
+":MM-HH:MM"
 
 #: clientgui/DlgAdvPreferences.h:31
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr ""
-"určete časové rozmezí, kdy bude povolen přístup k Internetu - ve formátu HH:"
-"MM-HH:MM"
+"určete časové rozmezí, kdy bude povolen přístup k Internetu - ve formátu HH"
+":MM-HH:MM"
 
 #~ msgid "Don't fetch NVIDIA GPU tasks"
 #~ msgstr "Nepřijímat úkoly pro nVidia GPU"

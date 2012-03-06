@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2011-12-11 21:32+0200\n"
+"PO-Revision-Date: 2011-12-11 21:39+0200\n"
 "Last-Translator: Dead J. Dona <deadjdona@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: uk\n"
@@ -434,9 +434,11 @@ msgstr ""
 msgid "Quantum Monte Carlo at Home"
 msgstr ""
 
+# 75%
 #: projects.inc:224
+#, fuzzy
 msgid "University of Muenster (Germany)"
-msgstr ""
+msgstr "Університет Карлсруе (Німеччина)"
 
 #: projects.inc:226
 msgid ""
@@ -674,9 +676,11 @@ msgstr ""
 msgid "PrimeGrid"
 msgstr ""
 
+# 85%
 #: projects.inc:344
+#, fuzzy
 msgid "Private"
-msgstr ""
+msgstr "приватний"
 
 #: projects.inc:346
 msgid ""

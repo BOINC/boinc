@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: boinc 1.10\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2011-09-06 15:52+0200\n"
+"PO-Revision-Date: 2012-03-06 00:03+0200\n"
 "Last-Translator: aceman <acelists@atlas.sk>\n"
 "Language-Team: boinc.sk\n"
 "Language: sk\n"
@@ -24,11 +24,11 @@ msgstr ""
 
 #: projects.inc:14
 msgid "Cognitive science and artifical intelligence"
-msgstr ""
+msgstr "Kognitívna veda a umelá inteligencia"
 
 #: projects.inc:17
 msgid "FreeHAL"
-msgstr ""
+msgstr "FreeHAL"
 
 #: projects.inc:19 projects.inc:254 projects.inc:290 projects.inc:297
 msgid "private"
@@ -52,15 +52,15 @@ msgstr "Biológia a Medicína"
 
 #: projects.inc:30
 msgid "POEM@HOME"
-msgstr ""
+msgstr "POEM@HOME"
 
 #: projects.inc:32
 msgid "University of Karlsruhe (Germany)"
-msgstr ""
+msgstr "Univerzita v Karlsruhe (Nemecko)"
 
 #: projects.inc:33
 msgid "Protein structure prediction"
-msgstr ""
+msgstr "Predpoklad štruktúry proteínu"
 
 #: projects.inc:34
 msgid ""
@@ -77,11 +77,11 @@ msgstr ""
 
 #: projects.inc:40
 msgid "University of Delaware"
-msgstr ""
+msgstr "Univerzita v Delaware"
 
 #: projects.inc:41
 msgid "Study of protein - ligand interactions"
-msgstr ""
+msgstr "Štúdia proteínov - súčinnosť ligandov"
 
 #: projects.inc:42
 msgid ""
@@ -97,11 +97,11 @@ msgstr ""
 
 #: projects.inc:48
 msgid "Barcelona Biomedical Research Park (PRBB)"
-msgstr ""
+msgstr "Biomedicínsky výskumný park v Barcelone (PRBB)"
 
 #: projects.inc:49
 msgid "Molecular simulations of proteins"
-msgstr ""
+msgstr "Molekulárna simulácia proteínov"
 
 #: projects.inc:50
 msgid ""
@@ -113,15 +113,15 @@ msgstr ""
 
 #: projects.inc:54
 msgid "Superlink@Technion"
-msgstr ""
+msgstr "Superlink@Technion"
 
 #: projects.inc:56
 msgid "Technion, Israel"
-msgstr ""
+msgstr "Technion, Izrael"
 
 #: projects.inc:57
 msgid "Genetic linkage analysis"
-msgstr ""
+msgstr "Analýza genetických väzieb"
 
 #: projects.inc:58
 msgid ""
@@ -129,19 +129,22 @@ msgid ""
 "provoking genes causing some types of diabetes, hypertension (high blood "
 "pressure), cancer, schizophrenia and many others."
 msgstr ""
+"Superlink@Technion pomáha genetikom na celom svete nájsť gény vyvolávajúce "
+"niektoré typy cukrovky, vysoký krvný tlak, rakovinu, schizofréniu a veľa "
+"ďalších."
 
 #: projects.inc:70
 msgid "The Lattice Project"
-msgstr ""
+msgstr "Projekt Lattice"
 
 #: projects.inc:72
 msgid ""
 "University of Maryland Center for Bioinformatics and Computational Biology"
-msgstr ""
+msgstr "Univerzita v Marylande, centrum bioinformatiky a výpočtovej biológie"
 
 #: projects.inc:73
 msgid "Life science research"
-msgstr ""
+msgstr "Výskum životných vied"
 
 #: projects.inc:74
 msgid ""
@@ -150,18 +153,22 @@ msgid ""
 "bacterial, plasmid, and virus protein sequences; and biological diversity in "
 "nature reserves. "
 msgstr ""
+"Projekt Lattice poskytuje výpočtovú silu vedcom z univerzity v Marylande, "
+"ktorí študujú vývojové vzťahy založené na sekvenčných dátach DNA; sekvencie "
+"proteínov baktérií, plasmidov a vírusov; a biologickú rozmanitosť v "
+"prirodzených podmienkach."
 
 #: projects.inc:78
 msgid "Malariacontrol.net"
-msgstr ""
+msgstr "Malariacontrol.net"
 
 #: projects.inc:80
 msgid "The Swiss Tropical Institute"
-msgstr ""
+msgstr "Švajčiarsky inštitút trópov"
 
 #: projects.inc:81
 msgid "Epidemiology"
-msgstr ""
+msgstr "Epidemiológia"
 
 #: projects.inc:82
 msgid ""

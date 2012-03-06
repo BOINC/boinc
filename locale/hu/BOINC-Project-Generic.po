@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2012-02-12 10:29+0200\n"
+"PO-Revision-Date: 2012-02-12 10:30+0200\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: \n"
 "Language: hu\n"
@@ -1018,7 +1018,6 @@ msgid "minutes"
 msgstr "percben"
 
 #: ../inc/prefs.inc:104
-#, fuzzy
 msgid ""
 "Suspend work if no mouse/keyboard activity in last %1 Needed to enter low-"
 "power mode on some computers %2"
@@ -1041,7 +1040,6 @@ msgid "Do work only between the hours of %1 No restriction if equal %2"
 msgstr "Csak ezen időszakban dolgozzon: %1 Nincs korlátozás, ha megegyeznek %2"
 
 #: ../inc/prefs.inc:129
-#, fuzzy
 msgid ""
 "Leave tasks in memory while suspended? %1 Suspended tasks will consume swap "
 "space if 'yes' %2"
@@ -1105,7 +1103,6 @@ msgid "% of total"
 msgstr "%-a a teljesnek"
 
 #: ../inc/prefs.inc:193
-#, fuzzy
 msgid "Tasks checkpoint to disk at most every"
 msgstr "Feladat lemezre mentése legfeljebb ennyi időnként:"
 
@@ -1130,7 +1127,6 @@ msgstr ""
 "Memória: ha a számítógép nincs használatban, legfeljebb ennyit használjon:"
 
 #: ../inc/prefs.inc:217
-#, fuzzy
 msgid ""
 "Computer is connected to the Internet about every %1 Leave blank or 0 if "
 "always connected. %2 BOINC will try to maintain at least this much work (max "
@@ -1187,6 +1183,7 @@ msgid "Transfer at most %1 Enforced by version 6.10.46+ %2"
 msgstr "Legfeljebb %1 adatot vigyen át. Kényszerítve 6.10.46 verzió felett. %2"
 
 #: ../inc/prefs.inc:269
+#, fuzzy
 msgid "Mbytes every"
 msgstr "Megabájtonként"
 
@@ -1207,10 +1204,15 @@ msgid ""
 "with resource shares of 100 and 200, the first will get 1/3 of your "
 "resources and the second will get 2/3. %2"
 msgstr ""
+"Erőforrás-megosztás %1 Meghatározza, a számítógépe erőforrásainak mekkora "
+"része legyen ehhez a projekthez rendelve. Például ha két BOINC projektben "
+"vesz részt 100 és 200 erőforrás-megosztással, az első az erőforrások 1/3-át, "
+"a második a 2/3-át kapja. %2"
 
 #: ../inc/prefs.inc:298
 msgid "Accelerate GPU tasks by dedicating a CPU to each one?"
 msgstr ""
+"Felgyorsítsa a GPU-feladatokat úgy, hogy egy-egy CPU-t rendel mindegyikhez?"
 
 #: ../inc/prefs.inc:308
 msgid "Use CPU %1 Enforced by version 6.10+ %2"
