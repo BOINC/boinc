@@ -148,43 +148,73 @@ scenario 3:
 - delete 0.2
 ==============================
 
+// set need_recon, needed_by_parent, keep_present, need_present
+//
 MC::decide_recon
     if some child is UNREC
         if PRESENT
             need_recon = true
-            mark N PRESENT children as needed_by_parent
+            if not bottom-level
+                mark N PRESENT children as needed_by_parent
         else
-            mark all PRESENT children as keep_present
+            need_present = true
+            for children C in recovery set
+            if C is PRESENT
+                C.keep_present = true
+            else
+                C.need_present = true;
     if keep_present
         mark N PRESENT children as keep_present
+    if not bottom-level
+        recurse 
 
-    recurse
-
-MC::do_recon
-    recurse
-    if need_recon
-        decode
-        delete all non-UNREC children
-    for each UNREC child C
-        expand(C)
-        delete C
+// - do encoding and decoding;
+// - delete all meta-chunk files when done;
+// - delete unneeded chunks
+// - set new_present_on_server
+//
+MC::do_recon_and_cleanup
+    if bottom-level
+        for each child C
+            C.new_present_on_server = C.present_on_server
+    else
+        recurse
+    if !need_recon
+        return
+    decode
+    if some child is UNREC
+        this.expand()
     if !needed_by_parent
         delete this
 
+// called if this unit is now present and has an UNREC child.
+// expand (i.e. encode) it to regenerate all children
+//
 MC::expand
 	encode
-	delete this
-	for each child C
-        if C.need_reconstruct
-            expand(C)
-        delete C
+    if bottom-level
+        npresent = M
+        for each child C
+            C.new_present_on_server = true
+            if C.status != UNREC
+                if !keep_present or npresent > N
+                    delete C
+                    npresent--
+                    C.new_present_on_server = false
+    else
+        for each child C
+            if C.status = UNREC
+                C.expand()
+            delete C
 
-MC::start_xfers
+MC::start_xfers_and_update_db
     if bottom level
         for each child C
             if C.present and need more replicas
                 start downloads of C
             if C.keep_present and not present
                 start upload(s) of C
+            if C.new_present_on_server != C.present_on_server
+                C.update()
     else
         recurse

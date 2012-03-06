@@ -2460,3 +2460,9 @@ Bernd  5 Mar 2012
 
     sched/
         file_deleter.cpp
+
+David  5 Mar 2012
+    - LAMMPS: fix code formatting
+
+    html/user/
+        lammps.php

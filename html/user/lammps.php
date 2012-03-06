@@ -52,45 +52,53 @@ function lammps_est() {
         //echo "sleeping\n";
         sleep(1);
     }
-    $total_steps=get_total_steps("cmd_variables");
-    $disk_space=calc_est_size("lammps_script","structure_file","cmd_variables");
-    $total_cpu=$total_steps*$avg_cpu;
+    $total_steps = get_total_steps("cmd_variables");
+    $disk_space = calc_est_size(
+        "lammps_script", "structure_file", "cmd_variables"
+    );
+    $total_cpu = $total_steps*$avg_cpu;
     return array($test_result, $total_cpu, $disk_space);
 }
-function get_total_steps($cmd_file)
-{
-        $fd=fopen($cmd_file,"r");
-        if(!$fd){
-            echo "can not open file $cmd_file\n";
-            exit(-1);
+
+function get_total_steps($cmd_file) {
+    $fd = fopen($cmd_file,"r");
+    if (!$fd) {
+        echo "can not open file $cmd_file\n";
+        exit(-1);
+    }
+    $loopno = 1;
+    $looprun = 1;
+    while (!feof($fd)) {
+        $line = fgets($fd,4096);
+        if (preg_match("/loopnumber\s+\d+/", $line, $matches)
+            && preg_match("/\d+/", $matches[0], $no)
+        ) {
+            $loopno=$no[0];
         }
-        $loopno=1;
-        $looprun=1;
-        while(!feof($fd)){
-            $line=fgets($fd,4096);
-            if(preg_match("/loopnumber\s+\d+/",$line,$matches) and preg_match("/\d+/",$matches[0],$no)){
-                $loopno=$no[0];
-            }
-            if(preg_match("/looprun\s+\d+/",$line,$matches)   and preg_match("/\d+/",$matches[0],$no)){
+        if (preg_match("/looprun\s+\d+/", $line, $matches)
+            and preg_match("/\d+/", $matches[0], $no)
+        ) {
             $looprun=$no[0];
-            }
         }
-        fclose($fd);
-        $total_steps=$loopno*$looprun;
-        print "total_steps=".$total_steps;
-        return $total_steps;
+    }
+    fclose($fd);
+    $total_steps = $loopno*$looprun;
+    print "total_steps = ".$total_steps;
+    return $total_steps;
 }
 
-function calc_est_size($lammps_script,$structure_file,$cmd_file){
-    $dump_types=0;
-    $fd=fopen($lammps_script,"r");
-    if(!$fd){
+function calc_est_size($lammps_script, $structure_file, $cmd_file){
+    $dump_types = 0;
+    $fd = fopen($lammps_script,"r");
+    if (!$fd){
         echo "can not open file $lammps_script\n";
         exit(-1);
     }
-    while(!feof($fd)){
-        $line=fgets($fd,4096);
-        if(preg_match("/^\s*dump/",$line) and preg_match_all("/dump\S+\.\w{3}/",$line,$matches,PREG_PATTERN_ORDER)){
+    while (!feof($fd)){
+        $line = fgets($fd, 4096);
+        if (preg_match("/^\s*dump/", $line)
+            and preg_match_all("/dump\S+\.\w{3}/", $line, $matches, PREG_PATTERN_ORDER)
+        ) {
             $dump_types=count($matches[0]);
             break;
         }
@@ -98,26 +106,26 @@ function calc_est_size($lammps_script,$structure_file,$cmd_file){
     fclose($fd);
     print "dump_types= ".$dump_types;
 
-    $structure_file_size=filesize($structure_file);
-    $fd=fopen($cmd_file,"r");
-    if(!$fd){
+    $structure_file_size = filesize($structure_file);
+    $fd = fopen($cmd_file,"r");
+    if (!$fd){
         echo "can not open file $cmd_file\n";
         exit(-1);
     }
     print "structure_file_size=".$structure_file_size;
    
     $loopno=1;
-    while(!feof($fd)){
-        $line=fgets($fd,4096);
-        if(preg_match("/loopnumber\s+\d+/",$line,$matches)){
-            if(preg_match("/\d+/",$matches[0],$no)){
-                $loopno=$no[0];                                                               
+    while (!feof($fd)){
+        $line = fgets($fd,4096);
+        if(preg_match("/loopnumber\s+\d+/", $line, $matches)){
+            if(preg_match("/\d+/", $matches[0], $no)){
+                $loopno=$no[0];
             }
         }
     }
     fclose($fd);
     print "loopno=".$loopno;
-    $est_size=$loopno*$structure_file_size*0.8*$dump_types;
+    $est_size = $loopno*$structure_file_size*0.8*$dump_types;
     return $est_size;
 }
 
@@ -295,8 +303,8 @@ function prepare_batch($user) {
     $njobs = count(file($cmdline_file_path));
     $secs_est = estimated_makespan($njobs, $info->rsc_fpops_est);
     $hrs_est = number_format($secs_est/3600, 1);
-    $client_mb = number_format($info->rsc_disk_bound/1e6,1);
-    $server_mb = number_format($njobs*$info->rsc_disk_bound/1e6,1);
+    $client_mb = number_format($info->rsc_disk_bound/1e6, 1);
+    $server_mb = number_format($njobs*$info->rsc_disk_bound/1e6, 1);
 
     page_head("Batch prepared");
     echo "
@@ -327,9 +335,7 @@ function submit_job($app, $batch_id, $info, $cmdline, $i) {
     $ret = system($cmd);
     if ($ret === FALSE) {
         error_page("can't create job");
-    }
-    else
-    {
+    } else {
         header('Location: submit.php');
     }
 }
@@ -341,8 +347,10 @@ function submit_batch($user, $app) {
 
     $njobs=0;
     $cmdlines = file($info->cmdline_file_path);
-    foreach($cmdlines as $cmdline){
-        if(preg_match("/^\s*-var/",$cmdline))$njobs++;
+    foreach ($cmdlines as $cmdline){
+        if (preg_match("/^\s*-var/", $cmdline)) {
+            $njobs++;
+        }
     }
     
     $now = time();
@@ -355,7 +363,7 @@ function submit_batch($user, $app) {
 
     $i = 0;
     foreach ($cmdlines as $cmdline) {
-        if(preg_match("/^\s*-var/",$cmdline)){
+        if (preg_match("/^\s*-var/", $cmdline)){
             submit_job($app, $batch_id, $info, $cmdline, $i);
             $i++;
         }
