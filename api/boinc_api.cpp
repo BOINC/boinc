@@ -812,39 +812,34 @@ int boinc_wu_cpu_time(double& cpu_t) {
     return 0;
 }
 
-// make static eventually
 int suspend_activities() {
-    BOINCINFO("Received Suspend Message");
 #ifdef _WIN32
     static DWORD pid;
     if (!pid) pid = GetCurrentProcessId();
-    if (options.direct_process_action) {
-        if (options.multi_thread) {
-            suspend_or_resume_threads(pid, timer_thread_id, false);
-        } else {
-            SuspendThread(worker_thread_handle);
-        }
+    if (options.multi_thread) {
+        suspend_or_resume_threads(pid, timer_thread_id, false);
+    } else {
+        SuspendThread(worker_thread_handle);
     }
 #else
-    if (options.multi_process && options.direct_process_action) {
+    // don't need to do anything in single-process case;
+    // suspension is done by signal handler in worker thread
+    //
+    if (options.multi_process) {
         suspend_or_resume_descendants(0, false);
     }
 #endif
     return 0;
 }
 
-// make static eventually
 int resume_activities() {
-    BOINCINFO("Received Resume Message");
 #ifdef _WIN32
     static DWORD pid;
     if (!pid) pid = GetCurrentProcessId();
-    if (options.direct_process_action) {
-        if (options.multi_thread) {
-            suspend_or_resume_threads(pid, timer_thread_id, true);
-        } else {
-            ResumeThread(worker_thread_handle);
-        }
+    if (options.multi_thread) {
+        suspend_or_resume_threads(pid, timer_thread_id, true);
+    } else {
+        ResumeThread(worker_thread_handle);
     }
 #else
     if (options.multi_process) {
@@ -852,16 +847,6 @@ int resume_activities() {
     }
 #endif
     return 0;
-}
-
-int restore_activities() {
-    int retval;
-    if (boinc_status.suspended) {
-        retval = suspend_activities();
-    } else {
-        retval = resume_activities();
-    }
-    return retval;
 }
 
 static void handle_upload_file_status() {
@@ -925,22 +910,19 @@ static void handle_process_control_msg() {
         );
 #endif
         if (match_tag(buf, "<suspend/>")) {
-            if (in_critical_section) {
-                boinc_status.suspend_request = true;
+            BOINCINFO("Received suspend message");
+            if (!in_critical_section && options.direct_process_action) {
+                    boinc_status.suspended = true;
+                    boinc_status.suspend_request = false;
+                    suspend_activities();
             } else {
-                boinc_status.suspended = true;
-                suspend_activities();
+                boinc_status.suspend_request = true;
             }
         }
 
-        if (!in_critical_section && boinc_status.suspend_request) {
-            boinc_status.suspended = true;
-            boinc_status.suspend_request = false;
-            suspend_activities();
-        }
-
         if (match_tag(buf, "<resume/>")) {
-            if (boinc_status.suspended) {
+            BOINCINFO("Received resume message");
+            if (boinc_status.suspended && options.direct_process_action) {
                 boinc_status.suspended = false;
                 resume_activities();
             }
@@ -973,6 +955,23 @@ static void handle_process_control_msg() {
         }
         if (match_tag(buf, "<network_available/>")) {
             have_network = 1;
+        }
+    }
+
+    // if we got a suspend/quit/abort msg while in critical section,
+    // and we've left the critical section, suspend/quit/abort now
+    //
+    if (options.direct_process_action && !in_critical_section) {
+        if (boinc_status.quit_request) {
+            exit_from_timer_thread(0);
+        }
+        if (boinc_status.abort_request) {
+            exit_from_timer_thread(EXIT_ABORTED_BY_CLIENT);
+        }
+        if (boinc_status.suspend_request) {
+            boinc_status.suspended = true;
+            boinc_status.suspend_request = false;
+            suspend_activities();
         }
     }
 }

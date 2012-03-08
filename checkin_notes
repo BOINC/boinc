@@ -2467,10 +2467,16 @@ David  5 Mar 2012
     html/user/
         lammps.php
 
-Rom    6 Mar 2012
-    - Tag for 7.0.20 release, all platforms
-      boinc_core_release_7_0_20
+David  8 Mar 2012
+    - API: fix various bugs related to process control and critical sections.
+    - client: code cleanup (no functional change)
 
-    /
-        configure.ac
-        version.h
+    api/
+        boinc_api.cpp
+        windows_opengl.cpp
+    client/
+        app.cpp
+        app_control.cpp
+    vda/
+        *
+

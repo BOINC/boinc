@@ -4,20 +4,24 @@
 DATA_UNIT
 	int status (PRESENT, RECOVERABLE, UNRECOVERABLE)
     bool keep_present
+        unit is currently PRESENT
         keep enough descendant chunks on server so that
         this unit will be PRESENT after this pass
-        (unit is currently PRESENT)
+    bool need_present
+        unit is currently REC
+        start enough uploads to make it PRESENT
 
     META_CHUNK
 		bool need_reconstruct
             decode this unit during this pass.
+            This is set only if some child is UNREC
 		bool needed_by_parent
             this unit is needed to reconstruct parent.
             (don't delete it after reconstructing)
 
         invariant: if need_reconstruct is set,
             then either needed_by_parent is set
-            or their are UNREC children
+            or there are UNREC children
 
     CHUNK
         bool present_on_server (from DB)

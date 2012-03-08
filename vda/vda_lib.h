@@ -25,37 +25,13 @@
 
 #include "boinc_db.h"
 
+#include "stats.h"
 #include "vda_policy.h"
 
 // a host with rpc_time < now-HOST_TIMEOUT is considered dead.
 // Make sure you set next_rpc_delay accordingly (e.g., to 86400)
 //
 #define VDA_HOST_TIMEOUT (86400*4)
-
-// keeps track of a time-varying property of a file
-// (server disk usage, up/download rate, fault tolerance level)
-//
-
-typedef enum {DISK, NETWORK, FAULT_TOLERANCE} STATS_KIND;
-
-struct STATS_ITEM {
-    STATS_KIND kind;
-    double value;
-    double integral;
-    double extreme_val;
-    double extreme_val_time;
-    double prev_t;
-    double start_time;
-    bool first;
-    char name[256];
-    FILE* f;
-
-    void init(const char* n, const char* filename, STATS_KIND k);
-    void sample(double v, bool collecting_stats, double now);
-    void sample_inc(double inc, bool collecting_stats, double now);
-    void print(double now);
-    void print_summary(FILE* f, double now);
-};
 
 struct META_CHUNK;
 
@@ -153,5 +129,3 @@ struct CHUNK : DATA_UNIT {
     virtual int recovery_plan();
     virtual int recovery_action(double);
 };
-
-extern char* time_str(double);

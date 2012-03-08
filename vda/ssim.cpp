@@ -101,7 +101,6 @@ struct PARAMS {
 // initial downloads have all succeeded or failed
 
 #define EVENT_DEBUG
-#define SAMPLE_DEBUG
 //#define RECOVERY_DEBUG
 
 SIMULATOR sim;

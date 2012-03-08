@@ -1,0 +1,97 @@
+scenario 1:
+
+0: REC
+    0.0: PRES
+        0.0.0: PRES
+        0.0.1: PRES
+        0.0.2: UNREC
+    0.1: REC
+        0.1.0: REC
+        0.1.1: REC
+        0.1.2: REC
+    0.2: REC
+        0.2.0: REC
+        0.2.1: REC
+        0.2.2: REC
+
+- decode 0.0
+- encode 0.0
+- delete 0.0
+- delete 0.0.0, 0.0.1
+
+after decide:
+0.0: need_recon
+
+---------------------------------
+scenario 2:
+
+0: REC
+    0.0: REC
+        0.0.0: REC, upload in progress
+        0.0.1: REC
+        0.0.2: REC
+    0.1: PRES
+        0.1.0: PRES, download in progress
+        0.1.1: PRES
+        0.1.2: UNREC
+    0.2: UNREC
+        0.2.0: REC
+        0.2.1: UNREC
+        0.2.2: UNREC
+
+- decode 0.1
+- encode 0.1
+- delete 0.1
+- delete 0.1.1
+- start upload of 0.0.1 or 0.0.2
+- start download of 0.1.2
+
+after decide:
+0: need_present
+    0.0: need_present
+        0.0.0: need_present
+        0.0.1: need_present
+    0.1: keep_present, need_recon
+        0.1.0: keep_present
+        0.1.1: keep_present
+
+---------------------------------
+scenario 3:
+
+0: PRES
+    0.0: PRES
+        0.0.0: PRES
+        0.0.1: PRES
+        0.0.2: REC
+    0.1: PRES
+        0.1.0: PRES
+        0.1.1: PRES
+        0.1.2: UNREC
+    0.2: UNREC
+        0.2.0: REC
+        0.2.1: UNREC
+        0.2.2: UNREC
+
+- decode 0.0
+- delete 0.0.0, 0.0.1, 0.0.2
+- decode 0.1
+- encode 0.1
+- delete 0.1.0, 0.1.1
+- decode 0
+- encode 0
+- delete 0.0, 0.1
+- encode 0.2
+- delete 0.2.0
+- delete 0.2
+- start download of 0.1.2, 0.2.1, 0.2.2
+
+after decide:
+0: need_recon
+    0.0: needed_by_parent, need_recon
+    0.1: needed_by_parent, need_recon
+---------------------------------
+scenario 4:
+    same as 3, but 0.2.1 is REC
+    In this case we don't reconstruct 0;
+    we just start uploads of 0.2.0 and 0.2.1
+    (minimize disk usage)

@@ -1,3 +1,5 @@
+// DEPRECATED - DO NOT USE
+
 // Event loop and support functions for Windows versions
 // of BOINC applications w/ graphics.
 // Platform-independent code should NOT be here.

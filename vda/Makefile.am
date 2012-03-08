@@ -8,8 +8,8 @@ AM_LDFLAGS += -static
 vda_SOURCES = vda.cpp vda_policy.cpp
 vda_LDADD = $(SERVERLIBS)
 
-vdad_SOURCES = vdad.cpp vda_lib.cpp vda_policy.cpp
+vdad_SOURCES = vdad.cpp vda_lib.cpp vda_policy.cpp stats.cpp
 vdad_LDADD = $(SERVERLIBS)
 
-ssim_SOURCES = ssim.cpp vda_lib.cpp vda_policy.cpp
+ssim_SOURCES = ssim.cpp vda_lib.cpp vda_policy.cpp stats.cpp
 ssim_LDADD = $(SERVERLIBS)
