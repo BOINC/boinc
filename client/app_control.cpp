@@ -1083,8 +1083,9 @@ void ACTIVE_TASK_SET::kill_tasks(PROJECT* proj) {
 int ACTIVE_TASK::suspend() {
     if (!app_client_shm.shm) return 0;
     if (task_state() != PROCESS_EXECUTING) {
-        msg_printf(result->project, MSG_INFO,
-            "Internal error: expected process %s to be executing", result->name
+        msg_printf(result->project, MSG_INTERNAL_ERROR,
+            "ACTIVE_TASK::SUSPEND(): expected task %s to be executing",
+            result->name
         );
     }
     int n = process_control_queue.msg_queue_purge("<resume/>");
