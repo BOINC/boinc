@@ -551,7 +551,6 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
 int boinc_get_status(BOINC_STATUS *s) {
     s->no_heartbeat = boinc_status.no_heartbeat;
     s->suspended = boinc_status.suspended;
-    s->suspend_request = boinc_status.suspend_request;
     s->quit_request = boinc_status.quit_request;
     s->reread_init_data_file = boinc_status.reread_init_data_file;
     s->abort_request = boinc_status.abort_request;
@@ -898,6 +897,12 @@ static void handle_trickle_down_msg() {
     }
 }
 
+// This flag is set of we get a suspend request while in a critical section,
+// and options.direct_process_action is set.
+// As soon as we're not in the critical section we'll do the suspend.
+//
+static bool suspend_request = false;
+
 // runs in timer thread
 //
 static void handle_process_control_msg() {
@@ -911,22 +916,25 @@ static void handle_process_control_msg() {
 #endif
         if (match_tag(buf, "<suspend/>")) {
             BOINCINFO("Received suspend message");
-            if (!in_critical_section && options.direct_process_action) {
+            if (options.direct_process_action) {
+                if (in_critical_section) {
+                    suspend_request = true;
+                } else {
                     boinc_status.suspended = true;
-                    boinc_status.suspend_request = false;
+                    suspend_request = false;
                     suspend_activities();
+                }
             } else {
-                boinc_status.suspend_request = true;
+                boinc_status.suspended = true;
             }
         }
 
         if (match_tag(buf, "<resume/>")) {
             BOINCINFO("Received resume message");
             if (boinc_status.suspended && options.direct_process_action) {
-                boinc_status.suspended = false;
                 resume_activities();
             }
-            boinc_status.suspend_request = false;
+            boinc_status.suspended = false;
         }
 
         if (boinc_status.quit_request || match_tag(buf, "<quit/>")) {
@@ -968,11 +976,11 @@ static void handle_process_control_msg() {
         if (boinc_status.abort_request) {
             exit_from_timer_thread(EXIT_ABORTED_BY_CLIENT);
         }
-        if (boinc_status.suspend_request) {
+        if (suspend_request && !boinc_status.suspended) {
             boinc_status.suspended = true;
-            boinc_status.suspend_request = false;
             suspend_activities();
         }
+        suspend_request = false;
     }
 }
 

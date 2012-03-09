@@ -2490,3 +2490,14 @@ Rom    8 Mar 2012
         vboxwrapper.cpp
         vbox.cpp
 
+David  9 Mar 2012
+    - API: remove BOINC_STATUS::suspend_request;
+        it's an implementation thing, not intended for export.
+        Fix a related bug.
+
+    samples/vboxwrapper/
+        vboxwrapper.cpp
+    api/
+        boinc_api.cpp
+    vda/
+        vda_lib.cpp
