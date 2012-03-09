@@ -2479,4 +2479,13 @@ David  8 Mar 2012
         app_control.cpp
     vda/
         *
+Rom    8 Mar 2012
+    - VBOX: Parse the vboxmanage error code for *nix as well.
+    - VBOX: Switch to using status.suspend_request instead of status.suspend
+        when determining when to suspend/resume a VM.  status.suspended is
+        now only changed when direct_process_action is set to true.
+
+    samples/vboxwrapper/
+        vboxwrapper.cpp
+        vbox.cpp
 

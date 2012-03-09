@@ -1413,6 +1413,9 @@ int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool
 int VBOX_VM::vbm_popen_raw(string& arguments, string& output) {
     char buf[256];
     string command;
+    size_t errcode_start;
+    size_t errcode_end;
+    string errcode;
     int retval = 0;
 
     // Initialize command line
@@ -1432,9 +1435,6 @@ int VBOX_VM::vbm_popen_raw(string& arguments, string& output) {
     DWORD dwCount = 0;
     unsigned long ulExitCode = 0;
     unsigned long ulExitTimeout = 0;
-    size_t errcode_start;
-    size_t errcode_end;
-    string errcode;
 
     memset(&si, 0, sizeof(si));
     memset(&pi, 0, sizeof(pi));
@@ -1571,6 +1571,17 @@ CLEANUP:
 
         // Close stream
         pclose(fp);
+
+        // Determine the real error code by parsing the output
+        errcode_start = output.find("(0x");
+        if (errcode_start) {
+            errcode_start += 1;
+            errcode_end = output.find(")", errcode_start);
+            errcode = output.substr(errcode_start, errcode_end - errcode_start);
+
+            sscanf(errcode.c_str(), "%x", &retval);
+        }
+
         retval = 0;
     }
 

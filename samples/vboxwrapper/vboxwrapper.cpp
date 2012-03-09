@@ -569,7 +569,7 @@ int main(int argc, char** argv) {
                 boinc_finish(0);
             }
         }
-        if (boinc_status.suspended) {
+        if (boinc_status.suspend_request) {
             if (!vm.suspended) {
                 vm.pause();
             }
