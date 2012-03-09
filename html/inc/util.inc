@@ -137,6 +137,12 @@ function page_head(
     $stylesheet = URL_BASE.STYLESHEET;
     $rssname = PROJECT . " RSS 2.0";
     $rsslink = URL_BASE."rss_main.php";
+    if (defined('STYLESHEET2')) {
+        $stylesheet2 = URL_BASE.STYLESHEET2;
+    } else {
+        $stylesheet2 = null;
+    }
+
 
     header("Content-type: text/html; charset=utf-8");
     if (!$caching) {
@@ -159,6 +165,11 @@ function page_head(
     }
     echo "<link rel=stylesheet type=\"text/css\" href=\"".URL_BASE."main.css\" media=\"all\">
         <link rel=stylesheet type=\"text/css\" href=\"$stylesheet\">
+    ";
+    if ($stylesheet2) {
+        echo "<link rel=stylesheet type=\"text/css\" href=\"$stylesheet2\">\n";
+    }
+    echo "
         <link rel=alternate type=\"application/rss+xml\" title=\"$rssname\" href=\"$rsslink\">
         </head>
     ";

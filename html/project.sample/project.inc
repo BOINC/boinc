@@ -17,6 +17,7 @@ define("PROFILE_PATH", "../user_profile/");
 define("PROFILE_URL", "user_profile/");
 define("LANGUAGE_FILE", "languages.txt");
 define("STYLESHEET", "white.css");
+//define("STYLESHEET2", "xxx.css");
 define("FORUM_QA_MERGED_MODE", false); // Set to true to merge Message boards and Q&A section
 define("COPYRIGHT_HOLDER", "REPLACE WITH COPYRIGHT HOLDER");
 define("SYS_ADMIN_EMAIL", "admin@$master_url");
