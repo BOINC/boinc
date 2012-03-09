@@ -2518,3 +2518,11 @@ David  9 Mar 2012
             util.inc
         project.sample/
             project.inc
+
+Rom    9 Mar 2012
+    - VBOX: Allow the CPU execution cap to be set back to 100% after it had
+        alreadly been set lower.
+
+    samples/vboxwrapper/
+        vbox.cpp
+        vboxwrapper.cpp

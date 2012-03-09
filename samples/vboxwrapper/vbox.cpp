@@ -1247,14 +1247,15 @@ int VBOX_VM::set_cpu_usage_fraction(double x) {
     char buf[256];
     int retval;
 
-    // the arg to modifyvm is percentage
+    // the arg to controlvm is percentage
     //
     fprintf(
         stderr,
-        "%s Setting cpu throttle for virtual machine.\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf))
+        "%s Setting cpu throttle for virtual machine. (%d%%)\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+        (int)x
     );
-    sprintf(buf, "%d", (int)(x*100.));
+    sprintf(buf, "%d", (int)x);
     command  = "controlvm \"" + vm_name + "\" ";
     command += "cpuexecutioncap ";
     command += buf;

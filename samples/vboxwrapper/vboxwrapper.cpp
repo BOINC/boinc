@@ -191,8 +191,8 @@ void read_checkpoint(double& cpu, VBOX_VM& vm) {
 //
 void set_throttles(APP_INIT_DATA& aid, VBOX_VM& vm) {
     double x = aid.global_prefs.cpu_usage_limit;
-    if (x && x<100) {
-        vm.set_cpu_usage_fraction(x/100.);
+    if (x) {
+        vm.set_cpu_usage_fraction(x);
     }
 
     // vbox doesn't distinguish up and down bandwidth; use the min of the prefs
