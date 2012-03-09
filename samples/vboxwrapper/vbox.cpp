@@ -1255,8 +1255,8 @@ int VBOX_VM::set_cpu_usage_fraction(double x) {
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
     sprintf(buf, "%d", (int)(x*100.));
-    command  = "modifyvm \"" + vm_name + "\" ";
-    command += "--cpuexecutioncap ";
+    command  = "controlvm \"" + vm_name + "\" ";
+    command += "cpuexecutioncap ";
     command += buf;
     command += " ";
 

@@ -2501,3 +2501,11 @@ David  9 Mar 2012
         boinc_api.cpp
     vda/
         vda_lib.cpp
+
+Rom    9 Mar 2012
+    - VBOX: Setting the CPU Execution Cap should be done with the controlvm
+        command after the VM has entered a running state instead of using
+        modifyvm.
+        
+    samples/vboxwrapper/
+        vbox.cpp
