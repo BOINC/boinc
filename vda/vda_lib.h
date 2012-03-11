@@ -86,6 +86,11 @@ struct DATA_UNIT {
     int min_failures;
         // min # of host failures that would make this unrecoverable
     char name[64];
+    char dir[1024];
+    bool keep_present;
+    bool need_present;
+
+    int delete_file();
 };
 
 struct META_CHUNK : DATA_UNIT {
@@ -96,6 +101,10 @@ struct META_CHUNK : DATA_UNIT {
     VDA_FILE_AUX* dfile;
     bool uploading;
     CODING coding;
+    bool bottom_level;
+    bool need_reconstruct;
+    bool needed_by_parent;
+    double child_size;
 
     // used by ssim
     META_CHUNK(
@@ -110,6 +119,19 @@ struct META_CHUNK : DATA_UNIT {
 
     virtual int recovery_plan();
     virtual int recovery_action(double);
+
+    void decide_reconstruct();
+    int reconstruct_and_cleanup();
+    int expand();
+    bool some_child_is_unrecoverable() {
+        for (unsigned int i=0; i<children.size(); i++) {
+            DATA_UNIT& d = *(children[i]);
+            if (d.status == UNRECOVERABLE) return true;
+        }
+        return false;
+    }
+    int decode();
+    int encode();
 };
 
 struct CHUNK : DATA_UNIT {
@@ -117,6 +139,7 @@ struct CHUNK : DATA_UNIT {
     META_CHUNK* parent;
     double size;
     bool present_on_server;
+    bool new_present_on_server;
 
     CHUNK(META_CHUNK* mc, double s, int index);
 
@@ -128,4 +151,7 @@ struct CHUNK : DATA_UNIT {
     int assign();
     virtual int recovery_plan();
     virtual int recovery_action(double);
+    bool need_more_replicas() {
+        return ((int)hosts.size() < parent->dfile->policy.replication);
+    }
 };

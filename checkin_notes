@@ -2526,3 +2526,11 @@ Rom    9 Mar 2012
     samples/vboxwrapper/
         vbox.cpp
         vboxwrapper.cpp
+
+David  10 Mar 2012
+    - storage: add some code
+
+    vda/
+        vda_lib.cpp,h
+        ssim.cpp
+        vdad.cpp

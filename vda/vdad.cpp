@@ -80,25 +80,25 @@ void encoder_filename(
 //
 // The size of these chunks is returned in "size"
 //
-int encode(const char* dir, CODING& c, double& size) {
+int META_CHUNK::encode() {
     char cmd[1024];
     sprintf(cmd,
         "cd %s; /mydisks/b/users/boincadm/vda_test/encoder %s %d %d cauchy_good 32 1024 500000",
-        dir, DATA_FILENAME, c.n, c.k
+        dir, DATA_FILENAME, coding.n, coding.k
     );
     printf("%s\n", cmd);
     int s = system(cmd);
     if (WIFEXITED(s)) {
-        int status = WEXITSTATUS(s);
-        if (status != 32) return -1;    // encoder returns 32 for some reason
+        int st = WEXITSTATUS(s);
+        if (st != 32) return -1;    // encoder returns 32 for some reason
     }
 
     // make symlinks
     //
-    for (int i=0; i<c.m; i++) {
+    for (int i=0; i<coding.m; i++) {
         char enc_filename[1024], target_path[1024];
         char dir_name[1024], link_name[1024];
-        encoder_filename("data", "vda", c, i, enc_filename);
+        encoder_filename("data", "vda", coding, i, enc_filename);
         sprintf(target_path, "%s/Coding/%s", dir, enc_filename);
         sprintf(dir_name, "%s/%d", dir, i);
         int retval = mkdir(dir_name, 0777);
@@ -115,10 +115,33 @@ int encode(const char* dir, CODING& c, double& size) {
             return retval;
         }
         if (i == 0) {
-            file_size(target_path, size);
+            file_size(target_path, child_size);
         }
     }
     return 0;
+}
+
+int META_CHUNK::decode() {
+    char cmd[1024];
+    sprintf(cmd,
+        "cd %s; /mydisks/b/users/boincadm/vda_test/decoder %s",
+        dir, DATA_FILENAME
+    );
+    printf("%s\n", cmd);
+    int s = system(cmd);
+    if (WIFEXITED(s)) {
+        int st = WEXITSTATUS(s);
+        if (st != 32) return -1;    // encoder returns 32 for some reason
+    }
+    return 0;
+}
+
+int DATA_UNIT::delete_file() {
+    char path[1024], buf[1024];
+    sprintf(path, "%s/data.vda", dir);
+    size_t n = readlink(path, buf, 1024);
+    buf[n] = 0;
+    return unlink(buf);
 }
 
 CHUNK::CHUNK(META_CHUNK* mc, double s, int index) {
@@ -130,6 +153,7 @@ CHUNK::CHUNK(META_CHUNK* mc, double s, int index) {
     } else {
         sprintf(name, "%d", index);
     }
+    sprintf(dir, "%s/%d", mc->dir, index);
 }
 
 // assign this chunk to a host
@@ -302,17 +326,18 @@ META_CHUNK::META_CHUNK(VDA_FILE_AUX* d, META_CHUNK* p, int index) {
 // initialize a meta-chunk:
 // encode it, then recursively initialize its meta-chunk children
 //
-int META_CHUNK::init(const char* dir, POLICY& p, int level) {
+int META_CHUNK::init(const char* _dir, POLICY& p, int level) {
     double size;
     char child_dir[1024];
 
-    CODING& c = p.codings[level];
-    int retval = encode(dir, c, size);
+    strcpy(dir, _dir);
+    coding = p.codings[level];
+    int retval = encode();
     if (retval) return retval;
-    p.chunk_sizes[level] = size;
+    p.chunk_sizes[level] = child_size;
 
     if (level+1 < p.coding_levels) {
-        for (int i=0; i<c.m; i++) {
+        for (int i=0; i<coding.m; i++) {
             sprintf(child_dir, "%s/%d", dir, i);
             META_CHUNK* mc = new META_CHUNK(dfile, parent, i);
             retval = mc->init(child_dir, p, level+1);
@@ -320,7 +345,7 @@ int META_CHUNK::init(const char* dir, POLICY& p, int level) {
             children.push_back(mc);
         }
     } else {
-        for (int i=0; i<c.m; i++) {
+        for (int i=0; i<coding.m; i++) {
             CHUNK* cp = new CHUNK(this, p.chunk_sizes[level], i);
             children.push_back(cp);
 
@@ -375,12 +400,13 @@ int VDA_FILE_AUX::init() {
     return 0;
 }
 
-int META_CHUNK::get_state(const char* dir, POLICY& p, int level) {
+int META_CHUNK::get_state(const char* _dir, POLICY& p, int level) {
     int retval;
 
-    CODING& c = p.codings[level];
+    strcpy(dir, _dir);
+    coding = p.codings[level];
     if (level+1 < p.coding_levels) {
-        for (int i=0; i<c.m; i++) {
+        for (int i=0; i<coding.m; i++) {
             char child_dir[1024];
             sprintf(child_dir, "%s/%s.%d", dir, DATA_FILENAME, i);
             META_CHUNK* mc = new META_CHUNK(dfile, this, i);
@@ -389,7 +415,7 @@ int META_CHUNK::get_state(const char* dir, POLICY& p, int level) {
             children.push_back(mc);
         }
     } else {
-        for (int i=0; i<c.m; i++) {
+        for (int i=0; i<coding.m; i++) {
             CHUNK* ch = new CHUNK(this, p.chunk_sizes[level], i);
             children.push_back(ch);
         }

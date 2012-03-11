@@ -450,6 +450,18 @@ void CHUNK::download_complete() {
     sfp->recover();
 }
 
+int META_CHUNK::encode() {
+    return 0;
+}
+
+int META_CHUNK::decode() {
+    return 0;
+}
+
+int DATA_UNIT::delete_file() {
+    return 0;
+}
+
 const char* status_str(int status) {
     switch (status) {
     case PRESENT: return "present";

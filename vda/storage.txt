@@ -151,6 +151,7 @@ dir/
         data_m040.vda
     0/
         data.vda (symlink to ../Coding/data_k001.vda)
+            these are retained even when the file is deleted
 
         if this is a meta-chunk:
         Coding/

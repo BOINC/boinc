@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// Code that's shared by the simulator and vdad
+
 #include <stdio.h>
 #include <string.h>
 
@@ -51,12 +53,14 @@ META_CHUNK::META_CHUNK(
                 j
             ));
         }
+        bottom_level = false;
     } else {
         for (int j=0; j<coding.m; j++) {
             children.push_back(
                 new CHUNK(this, size/coding.n, j)
             );
         }
+        bottom_level = true;
     }
 }
 
@@ -318,15 +322,16 @@ int CHUNK::recovery_action(double now) {
     return 0;
 }
 
-#if 0
 void META_CHUNK::decide_reconstruct() {
+    unsigned int i;
+
     if (some_child_is_unrecoverable()) {
         if (status == PRESENT) {
             need_reconstruct = true;
         } else if (status == RECOVERABLE) {
             need_present = true;
             for (i=0; i<children.size(); i++) {
-                DATA_UNIT* c = children[i];
+                DATA_UNIT& c = *(children[i]);
                 if (c.in_recovery_set) {
                     if (c.status == PRESENT) {
                         c.keep_present = true;
@@ -340,10 +345,10 @@ void META_CHUNK::decide_reconstruct() {
     if (needed_by_parent) {
         need_reconstruct = true;
     }
-    if (need_reconstruct and !bottom_level()) {
+    if (need_reconstruct and !bottom_level) {
         int n = 0;
         for (i=0; i<children.size(); i++) {
-            DATA_UNIT* c = children[i];
+            META_CHUNK& c = *(META_CHUNK*)children[i];
             if (c.status == PRESENT) {
                 c.needed_by_parent = true;
                 n++;
@@ -356,7 +361,7 @@ void META_CHUNK::decide_reconstruct() {
     if (keep_present) {
         int n = 0;
         for (i=0; i<children.size(); i++) {
-            DATA_UNIT* c = children[i];
+            DATA_UNIT& c = *(children[i]);
             if (c.status == PRESENT) {
                 c.keep_present = true;
                 n++;
@@ -366,12 +371,103 @@ void META_CHUNK::decide_reconstruct() {
             }
         }
     }
-    if (!bottom_level()) {
+    if (!bottom_level) {
         for (i=0; i<children.size(); i++) {
-            META_CHUNK* c = (META_CHUNK*)children[i];
+            META_CHUNK& c = *(META_CHUNK*)children[i];
             c.decide_reconstruct();
         }
     }
 }
 
-#endif
+int META_CHUNK::reconstruct_and_cleanup() {
+    unsigned int i;
+    int retval;
+
+    if (!bottom_level) {
+        for (i=0; i<children.size(); i++) {
+            META_CHUNK& c = *(META_CHUNK*)children[i];
+            retval = c.reconstruct_and_cleanup();
+            if (retval) return retval;
+        }
+    }
+    if (need_reconstruct) {
+        retval = decode();
+        if (retval) return retval;
+        retval = expand();
+        if (retval) return retval;
+        if (!needed_by_parent) {
+            delete_file();
+        }
+    }
+    if (bottom_level) {
+        int npresent = coding.m;
+        for (i=0; i<children.size(); i++) {
+            CHUNK& c = *(CHUNK*)children[i];
+            if (c.status != UNRECOVERABLE && !c.keep_present) {
+                if (!keep_present || npresent > coding.n) {
+                    c.delete_file();
+                    npresent--;
+                    c.new_present_on_server = false;
+                }
+            }
+        }
+    }
+    return 0;
+}
+
+int META_CHUNK::expand() {
+    unsigned int i;
+    int retval;
+
+    if (bottom_level) {
+        bool do_encode = false;
+        for (i=0; i<children.size(); i++) {
+            CHUNK& c = *(CHUNK*)children[i];
+            if (c.status != PRESENT && c.need_more_replicas()) {
+                do_encode = true;
+                break;
+            }
+        }
+        if (do_encode) {
+            retval = encode();
+            if (retval) return retval;
+        }
+        for (i=0; i<children.size(); i++) {
+            CHUNK& c = *(CHUNK*)children[i];
+            if (c.need_more_replicas() || c.download_in_progress()) {
+                c.new_present_on_server = true;
+            } else {
+                c.new_present_on_server = false;
+                c.delete_file();
+            }
+        }
+    } else {
+        bool do_encode = false;
+        for (i=0; i<children.size(); i++) {
+            META_CHUNK& c = *(META_CHUNK*)children[i];
+            if (c.status == UNRECOVERABLE) {
+                do_encode = true;
+                break;
+            }
+        }
+        if (do_encode) {
+            retval = encode();
+            if (retval) return retval;
+            for (i=0; i<children.size(); i++) {
+                META_CHUNK& c = *(META_CHUNK*)children[i];
+                if (c.status != UNRECOVERABLE) {
+                    c.delete_file();
+                }
+            }
+            for (i=0; i<children.size(); i++) {
+                META_CHUNK& c = *(META_CHUNK*)children[i];
+                if (c.status == UNRECOVERABLE) {
+                    retval = c.expand();
+                    if (retval) return retval;
+                    c.delete_file();
+                }
+            }
+        }
+    }
+    return 0;
+}
