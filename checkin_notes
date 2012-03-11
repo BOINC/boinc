@@ -2534,3 +2534,9 @@ David  10 Mar 2012
         vda_lib.cpp,h
         ssim.cpp
         vdad.cpp
+
+David  10 Mar 2012
+    - forgot to add files
+
+    vda/
+        stats.cpp,h (new)
