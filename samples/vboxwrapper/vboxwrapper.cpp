@@ -332,6 +332,7 @@ int main(int argc, char** argv) {
     double ncpus = 0.0;
     bool report_vm_pid = false;
     bool report_net_usage = false;
+    bool unrecoverable_error = false;
     int vm_pid = 0;
     unsigned long vm_exit_code = 0;
     std::string vm_log;
@@ -448,13 +449,12 @@ int main(int argc, char** argv) {
 
     retval = vm.run();
     if (retval) {
+        // All failure to start error are unrecoverable by default
+        unrecoverable_error = true;
+
         // Get logs before cleanup
         vm.get_system_log(system_log);
         vm.get_vm_log(vm_log);
-
-        // Cleanup
-        vm.cleanup();
-        write_checkpoint(elapsed_time, vm);
 
         fprintf(
             stderr,
@@ -491,6 +491,14 @@ int main(int argc, char** argv) {
                 "    Please report this issue to the project so that it can be addresssed.\n",
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
+        } else if (vm_log.find("VERR_EM_NO_MEMORY") != std::string::npos) {
+            fprintf(
+                stderr,
+                "%s NOTE: VirtualBox has failed to allocate enough memory to start the configured virtual machine.\n"
+                "    This might be a temporary problem and so this job will be rescheduled for another time.\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf))
+            );
+            unrecoverable_error = false;
         } else {
             fprintf(
                 stderr,
@@ -505,7 +513,13 @@ int main(int argc, char** argv) {
             );
         }
 
-        boinc_finish(retval);
+        if (unrecoverable_error) {
+            vm.cleanup();
+            write_checkpoint(elapsed_time, vm);
+            boinc_finish(retval);
+        } else {
+            boinc_temporary_exit(0);
+        }
     }
 
     set_floppy_image(aid, vm);

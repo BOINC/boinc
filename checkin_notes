@@ -2554,3 +2554,11 @@ Rom    12 Mar 2012
         
     samples/vboxsamples/
         vboxwrapper.cpp
+
+Rom    12 Mar 2012
+    - VBOX: If a VM fails to start because the machine is low on memory,
+        temporarily exit so BOINC can reschedule it for a later time.
+        If the problem doesn't go away it'll just time out eventually anyway.
+        
+    samples/vboxsamples/
+        vboxwrapper.cpp
