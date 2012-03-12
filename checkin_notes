@@ -2562,3 +2562,9 @@ Rom    12 Mar 2012
         
     samples/vboxsamples/
         vboxwrapper.cpp
+
+David  12 Mar 2012
+    - server: allow <db_host> to include a :port
+
+    db/
+        db_base.cpp

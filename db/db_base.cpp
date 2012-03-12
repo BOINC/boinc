@@ -37,7 +37,9 @@ DB_CONN::DB_CONN() {
     mysql = 0;
 }
 
-int DB_CONN::open(char* db_name, char* db_host, char* db_user, char* dbpassword) {
+int DB_CONN::open(
+    char* db_name, char* db_host, char* db_user, char* dbpassword
+) {
     mysql = mysql_init(0);
     if (!mysql) return ERR_DB_CANT_INIT;
 
@@ -68,11 +70,23 @@ int DB_CONN::open(char* db_name, char* db_host, char* db_user, char* dbpassword)
         my_bool mbReconnect = 1;
         mysql_options(mysql, MYSQL_OPT_RECONNECT, &mbReconnect);
     }
+
+    // parse hostname:port
+    //
+    char host[256];
+    int port = 0;
+    strcpy(host, db_host);
+    char* p = strchr(host, ':');
+    if (p) {
+        *p = 0;
+        port = atoi(p+1);
+    }
+
     // CLIENT_FOUND_ROWS means that the # of affected rows for an update
     // is the # matched by the where, rather than the # actually changed
     //
     mysql = mysql_real_connect(
-        mysql, db_host, db_user, dbpassword, db_name, 0, 0, CLIENT_FOUND_ROWS
+        mysql, host, db_user, dbpassword, db_name, port, 0, CLIENT_FOUND_ROWS
     );
     if (mysql == 0) return ERR_DB_CANT_CONNECT;
 
