@@ -651,6 +651,20 @@ int main(int argc, char** argv) {
                 }
             }
 
+            if (boinc_status.reread_init_data_file) {
+                boinc_status.reread_init_data_file = false;
+
+                fprintf(
+                    stderr,
+                    "%s Preference change detected\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf))
+                );
+
+                boinc_parse_init_data_file();
+                boinc_get_init_data_p(&aid);
+                set_throttles(aid, vm);
+            }
+
             // if the VM has a maximum amount of time it is allowed to run,
             // shut it down gacefully and exit.
             //
@@ -670,19 +684,6 @@ int main(int argc, char** argv) {
                     vm.set_network_access(true);
                 }
             }
-        }
-        if (boinc_status.reread_init_data_file) {
-            boinc_status.reread_init_data_file = false;
-
-            fprintf(
-                stderr,
-                "%s Preference change detected\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf))
-            );
-
-            boinc_parse_init_data_file();
-            boinc_get_init_data_p(&aid);
-            set_throttles(aid, vm);
         }
 
         // report network usage every 10 min so the client can enforce quota

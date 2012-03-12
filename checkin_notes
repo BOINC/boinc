@@ -2547,3 +2547,10 @@ Bernd  12 Mar 2012
     sched/
         handle_request.h
         sched_main.cpp
+
+Rom    12 Mar 2012
+    - VBOX: Only attempt to reset throttle values if the VM is in
+        a running state, otherwise controlvm throws an error.
+        
+    samples/vboxsamples/
+        vboxwrapper.cpp
