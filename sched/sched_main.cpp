@@ -210,6 +210,7 @@ void sigterm_handler(int /*signo*/) {
     log_messages.printf(MSG_CRITICAL,
         "Caught SIGTERM (sent by Apache); exiting\n"
     );
+    unlock_sched();
     fflush((FILE*)NULL);
     exit(1);
     return;

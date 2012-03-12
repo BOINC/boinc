@@ -2540,3 +2540,10 @@ David  10 Mar 2012
 
     vda/
         stats.cpp,h (new)
+
+Bernd  12 Mar 2012
+    - scheduler: remove lock file when scheduler caught SIGTERM
+
+    sched/
+        handle_request.h
+        sched_main.cpp

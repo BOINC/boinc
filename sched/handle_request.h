@@ -20,3 +20,5 @@
 extern void handle_request(
     FILE* fin, FILE* fout, char* code_sign_key
 );
+
+extern void unlock_sched(void);
