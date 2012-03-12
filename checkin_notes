@@ -2568,3 +2568,9 @@ David  12 Mar 2012
 
     db/
         db_base.cpp
+
+David  12 Mar 2012
+    - client: message tweak
+
+    client/
+        client_types.cpp
