@@ -320,7 +320,7 @@ void strip_whitespace(char *str) {
     }
     if (s != str) strcpy_overlap(str, s);
 
-    int n = strlen(str);
+    size_t n = strlen(str);
     while (n>0) {
         n--;
         if (!isascii(str[n])) break;

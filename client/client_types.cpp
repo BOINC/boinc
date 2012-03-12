@@ -2053,13 +2053,13 @@ int RESULT::write_gui(MIOFILE& out) {
         if (avp->gpu_usage.rsc_type) {
             if (avp->gpu_usage.usage == 1) {
                 sprintf(resources,
-                    "%f CPUs + 1 %s GPU",
+                    "%.4f CPUs + 1 %s GPU",
                     avp->avg_ncpus,
                     rsc_name(avp->gpu_usage.rsc_type)
                 );
             } else {
                 sprintf(resources,
-                    "%f CPUs + %f %s GPUs",
+                    "%.4f CPUs + %f %s GPUs",
                     avp->avg_ncpus,
                     avp->gpu_usage.usage,
                     rsc_name(avp->gpu_usage.rsc_type)

@@ -120,7 +120,7 @@ struct BUSY_TIME_ESTIMATOR {
         if (ninstances==0) return;
         int i, j;
         if (nused < 1) return;
-        double best;
+        double best = 0;
         int ibest = 0;
         for (i=0; i<ninstances; i++) {
             if (!i || busy_time[i] < best) {

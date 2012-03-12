@@ -295,7 +295,7 @@ struct COPROC_NVIDIA : public COPROC {
     COPROC_NVIDIA(): COPROC(GPU_TYPE_NVIDIA){}
     void get(
         bool use_all,
-        std::vector<std::string>&, std::vector<std::string>&,
+        std::vector<std::string>&,
         std::vector<int>& ignore_devs
     );
     void description(char*);
@@ -332,7 +332,7 @@ struct COPROC_ATI : public COPROC {
     COPROC_ATI(): COPROC(GPU_TYPE_ATI){}
     void get(
         bool use_all,
-        std::vector<std::string>&, std::vector<std::string>&,
+        std::vector<std::string>&,
         std::vector<int>& ignore_devs
     );
     void description(char*);
@@ -359,7 +359,6 @@ struct COPROCS {
     );
     void get_opencl(
         bool use_all, 
-        std::vector<std::string>& descs, 
         std::vector<std::string> &warnings,
         std::vector<int>& ignore_nvidia_dev, 
         std::vector<int>& ignore_ati_dev

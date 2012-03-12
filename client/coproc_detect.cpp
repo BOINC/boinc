@@ -81,19 +81,19 @@ void COPROCS::get(
 
 #ifdef _WIN32
     try {
-        nvidia.get(use_all, descs, warnings, ignore_nvidia_dev);
+        nvidia.get(use_all, warnings, ignore_nvidia_dev);
     }
     catch (...) {
         warnings.push_back("Caught SIGSEGV in NVIDIA GPU detection");
     }
     try {
-        ati.get(use_all, descs, warnings, ignore_ati_dev);
+        ati.get(use_all, warnings, ignore_ati_dev);
     } 
     catch (...) {
         warnings.push_back("Caught SIGSEGV in ATI GPU detection");
     }
     try {
-        get_opencl(use_all, descs, warnings, ignore_ati_dev, ignore_nvidia_dev);
+        get_opencl(use_all, warnings, ignore_ati_dev, ignore_nvidia_dev);
     } 
     catch (...) {
         warnings.push_back("Caught SIGSEGV in OpenCL detection");
@@ -240,7 +240,6 @@ int opencl_compare(OPENCL_DEVICE_PROP& c1, OPENCL_DEVICE_PROP& c2, bool loose) {
 
 void COPROCS::get_opencl(
     bool use_all,
-    vector<string>& descs, 
     vector<string>& warnings, 
     vector<int>& ignore_ati_dev,
     vector<int>& ignore_nvidia_dev
@@ -852,7 +851,6 @@ int (*__cuMemGetInfo)(unsigned int*, unsigned int*);
 
 void COPROC_NVIDIA::get(
     bool use_all,    // if false, use only those equivalent to most capable
-    vector<string>& descs,
     vector<string>& warnings,
     vector<int>& ignore_devs
 ) {
@@ -1256,7 +1254,8 @@ int (*__calDeviceClose)(CALdevice);
 
 void COPROC_ATI::get(
     bool use_all,
-    vector<string>& descs, vector<string>& warnings, vector<int>& ignore_devs
+    vector<string>& warnings,
+	vector<int>& ignore_devs
 ) {
     CALuint numDevices, cal_major, cal_minor, cal_imp;
     char buf[256];
