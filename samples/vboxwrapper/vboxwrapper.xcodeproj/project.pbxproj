@@ -16,7 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		8DD76FB20486AB0100D96B5E /* vboxwrapper_1686 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = vboxwrapper_1686; sourceTree = BUILT_PRODUCTS_DIR; };
+		8DD76FB20486AB0100D96B5E /* vboxwrapper_i686 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = vboxwrapper_i686; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD3B6783140CF9470088683F /* vboxwrapper_x86_64 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = vboxwrapper_x86_64; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD52C39414A2D73900FC2A32 /* floppyio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = floppyio.cpp; sourceTree = "<group>"; };
 		DD52C39514A2D73900FC2A32 /* floppyio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = floppyio.h; sourceTree = "<group>"; };
@@ -67,7 +67,7 @@
 		1AB674ADFE9D54B511CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8DD76FB20486AB0100D96B5E /* vboxwrapper_1686 */,
+				8DD76FB20486AB0100D96B5E /* vboxwrapper_i686 */,
 				DD3B6783140CF9470088683F /* vboxwrapper_x86_64 */,
 			);
 			name = Products;
@@ -91,7 +91,7 @@
 			name = vboxwrapper_i686;
 			productInstallPath = "$(HOME)/bin";
 			productName = vboxwrapper;
-			productReference = 8DD76FB20486AB0100D96B5E /* vboxwrapper_1686 */;
+			productReference = 8DD76FB20486AB0100D96B5E /* vboxwrapper_i686 */;
 			productType = "com.apple.product-type.tool";
 		};
 		DD3B6779140CF9470088683F /* vboxwrapper_x86_64 */ = {
@@ -193,7 +193,7 @@
 		1DEB928608733DD80010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = vboxwrapper_1686;
+				PRODUCT_NAME = vboxwrapper_i686;
 				SDKROOT = macosx10.6;
 				USER_HEADER_SEARCH_PATHS = ../../clientgui/mac;
 			};
@@ -202,7 +202,7 @@
 		1DEB928708733DD80010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = vboxwrapper_1686;
+				PRODUCT_NAME = vboxwrapper_i686;
 				SDKROOT = macosx10.6;
 				USER_HEADER_SEARCH_PATHS = ../../clientgui/mac;
 			};

@@ -2593,3 +2593,10 @@ Charlie 12 Mar 2012
     
     client/
         coproc_detect.cpp
+
+Charlie 12 Mar 2012
+    - VBOX: Fix typo in Mac wrapper name (1686 -> i686).
+
+    samples/vboxwrapper/
+        vboxwrapper.xcodeproj
+            project.pbxproj
