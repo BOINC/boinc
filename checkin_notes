@@ -2570,7 +2570,18 @@ David  12 Mar 2012
         db_base.cpp
 
 David  12 Mar 2012
-    - client: message tweak
+    - client: msg tweak and fix compile warnings
+
+    client/
+        client_types.cpp
+        coproc_detect.cpp
+        work_fetch.h
+    lib/
+        coproc.h
+        str_util.cpp
+
+Charlie 12 Mar 2012
+    - client: fix compile errors.
 
     client/
         client_types.cpp

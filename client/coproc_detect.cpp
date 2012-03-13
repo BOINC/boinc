@@ -103,19 +103,19 @@ void COPROCS::get(
     if (setjmp(resume)) {
         warnings.push_back("Caught SIGSEGV in NVIDIA GPU detection");
     } else {
-        nvidia.get(use_all, descs, warnings, ignore_nvidia_dev);
+        nvidia.get(use_all, warnings, ignore_nvidia_dev);
     }
 #ifndef __APPLE__       // ATI does not yet support CAL on Macs
     if (setjmp(resume)) {
         warnings.push_back("Caught SIGSEGV in ATI GPU detection");
     } else {
-        ati.get(use_all, descs, warnings, ignore_ati_dev);
+        ati.get(use_all, warnings, ignore_ati_dev);
     }
 #endif
     if (setjmp(resume)) {
         warnings.push_back("Caught SIGSEGV in OpenCL detection");
     } else {
-        get_opencl(use_all, descs, warnings, ignore_ati_dev, ignore_nvidia_dev);
+        get_opencl(use_all, warnings, ignore_ati_dev, ignore_nvidia_dev);
     }
     signal(SIGSEGV, old_sig);
 #endif
