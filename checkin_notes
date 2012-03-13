@@ -2585,3 +2585,11 @@ Charlie 12 Mar 2012
 
     client/
         client_types.cpp
+
+Charlie 12 Mar 2012
+    - client: In COPROCS::get_ati_mem_size_from_opengl() on Mac, compare ATI 
+        model names from OpenGL with those from IOKit only if coproc_debug 
+        flag is set.
+    
+    client/
+        coproc_detect.cpp
