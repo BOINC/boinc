@@ -1688,12 +1688,10 @@ void COPROCS::get_ati_mem_size_from_opengl() {
                                     if (strcmp((char *)CFDataGetBytePtr(modelName[j]), 
                                                 ati_opencls[ati_gpu_index].name)
                                         ) {
-                                        if (log_flags.coproc_debug) {
-                                            msg_printf(0, MSG_INFO,
-                                            "[coproc] get_ati_mem_size_from_opengl model name mismatch: %s vs %s\n", 
-                                            ati_opencls[ati_gpu_index].name, (char *)CFDataGetBytePtr(modelName[j])
-                                            );
-                                        }
+                                        msg_printf(0, MSG_INFO,
+                                        "[coproc] get_ati_mem_size_from_opengl model name mismatch: %s vs %s\n", 
+                                        ati_opencls[ati_gpu_index].name, (char *)CFDataGetBytePtr(modelName[j])
+                                        );
                                     }
                                 } else {
                                     // Could not get model name from IOKit, so use renderer name
