@@ -64,6 +64,7 @@ using std::string;
 #include "sched_shmem.h"
 #include "sched_version.h"
 #include "sched_customize.h"
+#include "plan_class_spec.h"
 
 bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
 #if 0
@@ -593,10 +594,55 @@ static inline bool app_plan_vbox(
     return true;
 }
 
+PLAN_CLASS_SPECS plan_class_specs;
+
 // app planning function.
 // See http://boinc.berkeley.edu/trac/wiki/AppPlan
 //
 bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
+    char buf[256];
+    static bool check_plan_class_spec = true;
+    static bool have_plan_class_spec = false;
+    static bool bad_plan_class_spec = false;
+
+    if (config.debug_version_select) {
+        log_messages.printf(MSG_NORMAL,
+            "[version] Checking plan class '%s'\n", plan_class
+        );
+    }
+
+    if (check_plan_class_spec) {
+        check_plan_class_spec = false;
+        strcpy(buf, config.project_dir);
+        strcat(buf, "/plan_class_spec.xml");
+        int retval = plan_class_specs.parse_file(buf);
+        if (retval == ERR_FOPEN) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] Couldn't open plan class spec file '%s'\n", buf
+                );
+            }
+        } else if (retval) {
+            log_messages.printf(MSG_CRITICAL,
+                "Error parsing plan class spec file '%s'\n", buf
+            );
+            bad_plan_class_spec = true;
+        } else {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] reading plan classes from file '%s'\n", buf
+                );
+            }
+            have_plan_class_spec = true;
+        }
+    }
+    if (bad_plan_class_spec) {
+        return false;
+    }
+    if (have_plan_class_spec) {
+        return plan_class_specs.check(sreq, plan_class, hu);
+    }
+
     if (!strcmp(plan_class, "mt")) {
         return app_plan_mt(sreq, hu);
     } else if (strstr(plan_class, "opencl")) {

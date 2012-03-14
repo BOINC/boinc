@@ -2640,3 +2640,14 @@ Rom    14 Mar 2012
        
     samples/vboxwrapper
         vboxwrapper.cpp
+
+David  14 Mar 2012
+    - scheduler: add an alternative way of defining app plan functions
+        that uses an XML configuration file;
+        see http://boinc.berkeley.edu/trac/wiki/AppPlanConfig
+        From Bernd.
+
+    sched/
+        sched_customize.cpp
+        plan_class_spec.cpp,h
+        Makefile.am
