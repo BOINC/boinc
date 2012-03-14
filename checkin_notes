@@ -2651,3 +2651,9 @@ David  14 Mar 2012
         sched_customize.cpp
         plan_class_spec.cpp,h
         Makefile.am
+
+David  14 Mar 2012
+    - scheduler: code cleanup for the above
+
+    sched/
+        plan_class_spec.cpp,h

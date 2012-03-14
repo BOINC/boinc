@@ -352,7 +352,7 @@ int create_shmem_mmap(const char *path, size_t size, void** pp) {
     return 0;
 }
 
-int destroy_shmem_mmap(key_t key){
+int destroy_shmem_mmap(key_t /*key*/){
     return 0;
 }
 
