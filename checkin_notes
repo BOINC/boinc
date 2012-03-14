@@ -2607,3 +2607,10 @@ David  13 Mar 2012
 
     sched/
         sched_send.cpp,h
+
+David  13 Mar 2012
+    - transitioner: don't clear a WU's HR and HAV class if there are
+        timed-out instances; they could still be returned.
+
+    sched/
+        transitioner.cpp

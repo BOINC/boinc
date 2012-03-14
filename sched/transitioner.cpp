@@ -330,11 +330,14 @@ int handle_wu(
         wu_item.error_mask |= WU_ERROR_COULDNT_SEND_RESULT;
     }
 
-    // if WU has results with errors and no success yet,
+    // if WU has results with errors and there are no results that are
+    // - successful
+    // - in progress
+    // - timed out (but could still be returned)
     // reset homogeneous redundancy class to give other platforms a try;
     // also reset app version ID if using HAV
     //
-    if (nerrors && !(nsuccess || ninprogress)) {
+    if (nerrors && !(nsuccess || ninprogress || nno_reply)) {
         wu_item.hr_class = 0;
         wu_item.app_version_id = 0;
     }
