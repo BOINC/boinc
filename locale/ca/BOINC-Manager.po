@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-05 10:58-0500\n"
-"PO-Revision-Date: 2012-03-06 00:05+0200\n"
+"PO-Revision-Date: 2012-03-08 23:30+0200\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -97,7 +97,7 @@ msgstr "Ja està executant %s?"
 
 #: clientgui/AccountInfoPage.cpp:481
 msgid "&Username:"
-msgstr "Nom d'&usuari:"
+msgstr "Nom de l'&usuari:"
 
 #: clientgui/AccountInfoPage.cpp:507
 msgid "&Email address:"
@@ -259,7 +259,7 @@ msgstr "Mostrar les estadístiques"
 
 #: clientgui/AdvancedFrame.cpp:388
 msgid "&Disk usage\tCtrl+Shift+D"
-msgstr "Utilització de &Disc\tCtrl+Shift+D"
+msgstr "Utilització de &Disc\t Ctrl+Shift+D"
 
 #: clientgui/AdvancedFrame.cpp:389
 msgid "Display disk usage"
@@ -267,7 +267,7 @@ msgstr "Mostrar la utilització de disc"
 
 #: clientgui/AdvancedFrame.cpp:396
 msgid "Simple &View...\tCtrl+Shift+V"
-msgstr "&Vista Senzilla...\tCtrl+Shift+V"
+msgstr "&Vista Senzilla...\t Ctrl+Shift+V"
 
 #: clientgui/AdvancedFrame.cpp:397
 msgid "Display the simple graphical interface."
@@ -1740,17 +1740,15 @@ msgstr "El projecte no té aplicacions per "
 
 #: clientgui/DlgItemProperties.cpp:180
 msgid "Client configuration excludes "
-msgstr ""
+msgstr "La configuració del client exclou "
 
 #: clientgui/DlgItemProperties.cpp:184
-#, fuzzy
 msgid " work fetch deferred for"
-msgstr "Feina de la CPU ajornada durant"
+msgstr " feina ajornada durant"
 
 #: clientgui/DlgItemProperties.cpp:185
-#, fuzzy
 msgid " work fetch deferral interval"
-msgstr "Interval d'ajornament de la feina de la CPU"
+msgstr " interval d'ajornament de la feina"
 
 #: clientgui/DlgItemProperties.cpp:216
 msgid "Properties of project "
@@ -1871,15 +1869,15 @@ msgstr "Planificació prioritària"
 
 #: clientgui/DlgItemProperties.cpp:281
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 #: clientgui/DlgItemProperties.cpp:283
 msgid "NVIDIA GPU"
-msgstr ""
+msgstr "NVIDIA GPU"
 
 #: clientgui/DlgItemProperties.cpp:286
 msgid "ATI GPU"
-msgstr ""
+msgstr "ATI GPU"
 
 #: clientgui/DlgItemProperties.cpp:288
 msgid "Duration correction factor"
@@ -2222,7 +2220,7 @@ msgstr ""
 
 #: clientgui/Localization.cpp:73
 msgid "Einstein status"
-msgstr "estat de Einstein"
+msgstr "Estat de Einstein"
 
 #: clientgui/Localization.cpp:75
 msgid "Current status of the Einstein@Home server"
@@ -3990,7 +3988,7 @@ msgstr "Descarregar"
 
 #: clientgui/ViewTransfers.cpp:773
 msgid "retry in "
-msgstr "Re-intentar en "
+msgstr "re-intentar en "
 
 #: clientgui/ViewTransfers.cpp:775
 msgid "failed"

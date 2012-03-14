@@ -3226,9 +3226,11 @@ msgstr ""
 msgid "%s: %.0f"
 msgstr ""
 
+# 88%
 #: clientgui/sg_ProjectPanel.cpp:145
+#, fuzzy
 msgid "Project Web Pages"
-msgstr ""
+msgstr "Prisijungta prie projekto"
 
 #: clientgui/sg_ProjectPanel.cpp:149
 msgid "Project Commands"

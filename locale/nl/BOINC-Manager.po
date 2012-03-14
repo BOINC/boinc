@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-05 10:58-0500\n"
-"PO-Revision-Date: 2012-02-09 21:21+0200\n"
+"PO-Revision-Date: 2012-03-07 21:20+0200\n"
 "Last-Translator: Rene <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nl\n"
@@ -1709,9 +1709,8 @@ msgstr "Laat dit venster niet meer zien."
 #: clientgui/DlgItemProperties.cpp:174
 #: clientgui/DlgItemProperties.cpp:177
 #: clientgui/DlgItemProperties.cpp:180
-#, fuzzy
 msgid "Don't fetch tasks for "
-msgstr "Vraag geen nieuwe CPU taken"
+msgstr "Download geen taken voor "
 
 #: clientgui/DlgItemProperties.cpp:171
 msgid "Project preference"
@@ -1722,24 +1721,20 @@ msgid "Account manager preference"
 msgstr "Accountmanager voorkeuren"
 
 #: clientgui/DlgItemProperties.cpp:177
-#, fuzzy
 msgid "Project has no apps for "
-msgstr "Project heeft geen CPU taken"
+msgstr "Projectapplicaties niet beschikbaar voor "
 
 #: clientgui/DlgItemProperties.cpp:180
-#, fuzzy
 msgid "Client configuration excludes "
-msgstr "Client Aanmaak Gesloten"
+msgstr "Clientspecifieke configuratie omvat geen "
 
 #: clientgui/DlgItemProperties.cpp:184
-#, fuzzy
 msgid " work fetch deferred for"
-msgstr "CPU werkverzoek uitgesteld voor"
+msgstr " werkverzoek uitgesteld voor"
 
 #: clientgui/DlgItemProperties.cpp:185
-#, fuzzy
 msgid " work fetch deferral interval"
-msgstr "Interval voor CPU werkverzoek"
+msgstr " werkverzoek interval"
 
 #: clientgui/DlgItemProperties.cpp:216
 msgid "Properties of project "
@@ -1860,15 +1855,15 @@ msgstr "Prioriteit voor taakverdeling"
 
 #: clientgui/DlgItemProperties.cpp:281
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 #: clientgui/DlgItemProperties.cpp:283
 msgid "NVIDIA GPU"
-msgstr ""
+msgstr "NVIDIA GPU"
 
 #: clientgui/DlgItemProperties.cpp:286
 msgid "ATI GPU"
-msgstr ""
+msgstr "ATI GPU"
 
 #: clientgui/DlgItemProperties.cpp:288
 msgid "Duration correction factor"
@@ -2453,9 +2448,8 @@ msgid "Ready to start"
 msgstr "Staat in de wacht"
 
 #: clientgui/MainDocument.cpp:2479
-#, fuzzy
 msgid " (Scheduler wait: "
-msgstr " (Taakverdeling wacht)"
+msgstr " (Taakverdeling wacht: "
 
 #: clientgui/MainDocument.cpp:2483
 msgid " (Scheduler wait)"
@@ -3382,10 +3376,9 @@ msgid "Elapsed: %s"
 msgstr "Verstreken: %s"
 
 #: clientgui/sg_TaskPanel.cpp:839
-#, c-format
-#, fuzzy, c-format
+#, c-format, c-format
 msgid "Remaining (estimated): %s"
-msgstr "Nog te gaan: %s"
+msgstr "Nog te gaan (geschat): %s"
 
 #: clientgui/sg_TaskPanel.cpp:854
 #, c-format
@@ -4016,9 +4009,8 @@ msgid "Elapsed"
 msgstr "Verstreken tijd"
 
 #: clientgui/ViewWork.cpp:235
-#, fuzzy
 msgid "Remaining (estimated)"
-msgstr "Nog te gaan: %s"
+msgstr "Nog te gaan (geschat)"
 
 #: clientgui/ViewWork.cpp:236
 msgid "Deadline"

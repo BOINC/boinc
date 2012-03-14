@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2012-01-05 17:55+0200\n"
+"PO-Revision-Date: 2012-01-05 17:57+0200\n"
 "Last-Translator: Erik <ersi@digitalfractions.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sv_SE\n"
@@ -682,9 +682,13 @@ msgstr ""
 msgid "PrimeGrid"
 msgstr ""
 
+# 85%
+# 100%
+# 100%
 #: projects.inc:344
+#, fuzzy
 msgid "Private"
-msgstr ""
+msgstr "privat"
 
 #: projects.inc:346
 msgid ""

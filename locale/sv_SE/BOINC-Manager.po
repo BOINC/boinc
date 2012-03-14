@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-05 10:58-0500\n"
-"PO-Revision-Date: 2012-01-05 13:16+0200\n"
+"PO-Revision-Date: 2012-01-05 17:57+0200\n"
 "Last-Translator: Erik <ersi@digitalfractions.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sv_SE\n"
@@ -595,10 +595,13 @@ msgstr ""
 msgid "&Quit %s"
 msgstr ""
 
+# 87%
+# 100%
+# 100%
 #: clientgui/AsyncRPC.cpp:1240
-#, c-format
+#, c-format, fuzzy
 msgid "E&xit %s"
-msgstr ""
+msgstr "Avsluta %s"
 
 #: clientgui/AsyncRPC.cpp:1244
 #, c-format
@@ -2616,9 +2619,13 @@ msgstr ""
 msgid "Advanced View...\tCtrl+Shift+A"
 msgstr ""
 
+# 82%
+# 100%
+# 100%
 #: clientgui/sg_BoincSimpleFrame.cpp:135
+#, fuzzy
 msgid "Display the advanced graphical interface."
-msgstr ""
+msgstr "Visa det förenklade grafiska gränssnittet."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:142
 msgid "Skin"
@@ -2657,9 +2664,13 @@ msgstr ""
 msgid "Open a window to view notices from projects or BOINC"
 msgstr ""
 
+# 82%
+# 75%
+# 100%
 #: clientgui/sg_BoincSimpleGUI.cpp:120
+#, fuzzy
 msgid "Display the advanced (accessible) graphical interface."
-msgstr ""
+msgstr "Visa det förenklade grafiska gränssnittet."
 
 #: clientgui/sg_ClientStateIndicator.cpp:288
 #: clientgui/sg_TaskPanel.cpp:1191
@@ -3077,9 +3088,12 @@ msgstr ""
 msgid "%s: %.0f"
 msgstr ""
 
+# 88%
+# 100%
 #: clientgui/sg_ProjectPanel.cpp:145
+#, fuzzy
 msgid "Project Web Pages"
-msgstr ""
+msgstr "Projekt"
 
 #: clientgui/sg_ProjectPanel.cpp:149
 msgid "Project Commands"
@@ -3116,9 +3130,13 @@ msgstr ""
 msgid "Switch to the BOINC advanced view"
 msgstr ""
 
+# 75%
+# 100%
+# 100%
 #: clientgui/sg_ProjectsComponent.cpp:298
+#, fuzzy
 msgid "My Projects:"
-msgstr ""
+msgstr "Projekt"
 
 #: clientgui/sg_StatImageLoader.cpp:101
 #, c-format

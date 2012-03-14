@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-09 09:39-0800\n"
-"PO-Revision-Date: 2012-02-17 22:22+0100\n"
+"PO-Revision-Date: 2012-03-07 21:34+0100\n"
 "Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: cs\n"
@@ -17,7 +17,8 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Pootle 2.1.6\n"
 
-#: acct_mgr.cpp:435 acct_mgr.cpp:444
+#: acct_mgr.cpp:435
+#: acct_mgr.cpp:444
 msgid "Message from account manager"
 msgstr "Zpráva ze správce účtu"
 
@@ -26,12 +27,8 @@ msgid "Message from server"
 msgstr "Zpráva ze serveru"
 
 #: client_state.cpp:246
-msgid ""
-"Some tasks need more memory than allowed by your preferences.  Please check "
-"the preferences."
-msgstr ""
-"Některé úlohy vyžadují více operační paměti, než máte povoleno. Zkontrolujte "
-"prosím vaše předvolby."
+msgid "Some tasks need more memory than allowed by your preferences.  Please check the preferences."
+msgstr "Některé úlohy vyžadují více operační paměti, než máte povoleno. Zkontrolujte prosím vaše předvolby."
 
 #: client_state.cpp:482
 msgid "Couldn't write state file; check directory permissions"
@@ -43,14 +40,11 @@ msgstr "Proměnná prostředí HTTP_PROXY musí obsahovat HTTP proxy adresu."
 
 #: cs_scheduler.cpp:546
 #, c-format
-msgid ""
-"You used the wrong URL for this project.  When convenient, remove this "
-"project, then add %s"
-msgstr ""
-"Použili jste neplatnou URL adresu pro tento projekt. Až to bude vhodné, "
-"odeberte tento projekt a poté přidejte %s"
+msgid "You used the wrong URL for this project.  When convenient, remove this project, then add %s"
+msgstr "Použili jste neplatnou URL adresu pro tento projekt. Až to bude vhodné, odeberte tento projekt a poté přidejte %s"
 
-#: cs_statefile.cpp:810 ../sched/sched_types.cpp:252
+#: cs_statefile.cpp:810
+#: ../sched/sched_types.cpp:252
 msgid "Syntax error in app_info.xml"
 msgstr "Chyba syntaxe v app_info.xml"
 
@@ -66,11 +60,13 @@ msgstr "Je dostupná nová verze BOINC."
 msgid "Download it."
 msgstr "Stáhnout."
 
-#: log_flags.cpp:256 log_flags.cpp:427
+#: log_flags.cpp:256
+#: log_flags.cpp:427
 msgid "Unexpected text in cc_config.xml"
 msgstr "Nečekaný text v cc_config.xml"
 
-#: log_flags.cpp:401 log_flags.cpp:453
+#: log_flags.cpp:401
+#: log_flags.cpp:453
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Nečekaný tag v cc_config.xml"
 
@@ -88,23 +84,15 @@ msgstr "Chybějící koncový tag v cc_config.xml"
 
 #: ../sched/handle_request.cpp:299
 msgid "Invalid or missing account key.  To fix, remove and add this project."
-msgstr ""
-"Klíč k účtu buď chybí nebo je neplatný. Pro opravu prosím odeberte a znova "
-"přidejte tento projekt."
+msgstr "Klíč k účtu buď chybí nebo je neplatný. Pro opravu prosím odeberte a znova přidejte tento projekt."
 
 #: ../sched/handle_request.cpp:831
 msgid "Invalid code signing key.  To fix, remove and add this project."
-msgstr ""
-"Neplatný podepisovací klíč. Pro opravu prosím odeberte a znova přidejte "
-"tento projekt."
+msgstr "Neplatný podepisovací klíč. Pro opravu prosím odeberte a znova přidejte tento projekt."
 
 #: ../sched/handle_request.cpp:841
-msgid ""
-"The project has changed its security key.  Please remove and add this "
-"project."
-msgstr ""
-"Projekt změnil svůj bezpečnostní klíč. Pro opravu prosím odeberte a znova "
-"přidejte tento projekt."
+msgid "The project has changed its security key.  Please remove and add this project."
+msgstr "Projekt změnil svůj bezpečnostní klíč. Pro opravu prosím odeberte a znova přidejte tento projekt."
 
 #: ../sched/handle_request.cpp:925
 msgid "This project doesn't support operating system"
@@ -115,10 +103,8 @@ msgid "This project doesn't support CPU type"
 msgstr "Tento projekt nepodporuje typ CPU"
 
 #: ../sched/handle_request.cpp:975
-msgid ""
-"Your BOINC client software is too old.  Please install the current version."
-msgstr ""
-"Váš program BOINC je příliš starý. Nainstalujte si prosím aktuální verzi."
+msgid "Your BOINC client software is too old.  Please install the current version."
+msgstr "Váš program BOINC je příliš starý. Nainstalujte si prosím aktuální verzi."
 
 #: ../sched/handle_request.cpp:1235
 msgid "This project doesn't support computers of type"
@@ -126,27 +112,19 @@ msgstr "Tento projekt nepodporuje počítače typu"
 
 #: ../sched/sched_send.cpp:1365
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
-msgstr ""
-"Pro zpracování úkolů pomoci GPU si prosím nainstalujte nejnovější ovladače."
+msgstr "Pro zpracování úkolů pomoci GPU si prosím nainstalujte nejnovější ovladače."
 
 #: ../sched/sched_send.cpp:1372
-msgid ""
-"Upgrade to the latest driver to use all of this project's GPU applications"
-msgstr ""
-"Pro využití všech GPU aplikací tohoto projektu si prosím nainstalujte "
-"nejnovější ovladače."
+msgid "Upgrade to the latest driver to use all of this project's GPU applications"
+msgstr "Pro využití všech GPU aplikací tohoto projektu si prosím nainstalujte nejnovější ovladače."
 
 #: ../sched/sched_send.cpp:1391
-msgid ""
-"A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
-"the current version"
-msgstr ""
-"Pro využití vaší nVidia GPU je zapotřebí stáhnout si aktuální verzi programu "
-"BOINC."
+msgid "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to the current version"
+msgstr "Pro využití vaší nVidia GPU je zapotřebí stáhnout si aktuální verzi programu BOINC."
 
 #: ../sched/sched_send.cpp:1404
 msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
-msgstr "Pro počítání úkolů u tohoto projektu je zapotřebí nVidia nebo ATI GPU"
+msgstr "Pro počítání úkolů u tohoto projektu je zapotřebí nVidia nebo AMD GPU"
 
 #: ../sched/sched_send.cpp:1409
 msgid "An NVIDIA GPU is required to run tasks for this project"
@@ -154,7 +132,7 @@ msgstr "Pro počítání úkolů u tohoto projektu je zapotřebí nVidia GPU"
 
 #: ../sched/sched_send.cpp:1415
 msgid "An ATI GPU is required to run tasks for this project"
-msgstr "Pro počítání úkolů u tohoto projektu je zapotřebí ATI GPU"
+msgstr "Pro počítání úkolů u tohoto projektu je zapotřebí AMD GPU"
 
 #: ../sched/sched_send.cpp:1523
 msgid "No tasks are available for the applications you have selected."
@@ -169,23 +147,15 @@ msgid "Newer BOINC version required; please install current version"
 msgstr "Nainstalujte si prosím novou verzi BOINC, která je vyžadována."
 
 #: ../sched/sched_send.cpp:1565
-msgid ""
-"Tasks for NVIDIA GPU are available, but your preferences are set to not "
-"accept them"
-msgstr ""
-"Jsou dostupné úkoly pro nVidia GPU, ale vaše nastavení je nedovoluje "
-"přijímat"
+msgid "Tasks for NVIDIA GPU are available, but your preferences are set to not accept them"
+msgstr "Jsou dostupné úkoly pro nVidia GPU, ale vaše nastavení je nedovoluje přijímat"
 
 #: ../sched/sched_send.cpp:1571
-msgid ""
-"Tasks for ATI GPU are available, but your preferences are set to not accept "
-"them"
-msgstr ""
-"Jsou dostupné úkoly pro ATI GPU, ale vaše nastavení je nedovoluje přijímat."
+msgid "Tasks for ATI GPU are available, but your preferences are set to not accept them"
+msgstr "Jsou dostupné úkoly pro AMD GPU, ale vaše nastavení je nedovoluje přijímat."
 
 #: ../sched/sched_send.cpp:1577
-msgid ""
-"Tasks for CPU are available, but your preferences are set to not accept them"
+msgid "Tasks for CPU are available, but your preferences are set to not accept them"
 msgstr "Jsou dostupné úkoly pro CPU, ale vaše nastavení je nedovoluje přijímat"
 
 #: ../sched/sched_types.cpp:247
