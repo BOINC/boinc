@@ -2628,3 +2628,15 @@ Charlie 14 Mar 2012
     
     client/
         coproc_detect.cpp
+
+Rom    14 Mar 2012
+    - VBOX: Use the boinc_temporary_exit API properly.  Wait for 5 minutes
+       before allowing another attempt to start the VM when the hypervisor
+       cannot allocate enough memory.
+    - VBOX: Print out a trace statement about the suspend/resume directive
+       from the vboxwrapper perspective.  This in conjuction with the
+       BOINC API trace statements should provide a better idea with
+       what is going on.
+       
+    samples/vboxwrapper
+        vboxwrapper.cpp

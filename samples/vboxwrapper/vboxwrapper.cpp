@@ -332,7 +332,6 @@ int main(int argc, char** argv) {
     double ncpus = 0.0;
     bool report_vm_pid = false;
     bool report_net_usage = false;
-    bool unrecoverable_error = false;
     int vm_pid = 0;
     unsigned long vm_exit_code = 0;
     std::string vm_log;
@@ -450,11 +449,17 @@ int main(int argc, char** argv) {
     retval = vm.run();
     if (retval) {
         // All failure to start error are unrecoverable by default
-        unrecoverable_error = true;
+        bool  unrecoverable_error = true;
+        char* temp_reason = "";
+        int   temp_delay = 300;
 
         // Get logs before cleanup
         vm.get_system_log(system_log);
         vm.get_vm_log(vm_log);
+
+        // Attempt to cleanup the VM
+        vm.cleanup();
+        write_checkpoint(elapsed_time, vm);
 
         fprintf(
             stderr,
@@ -499,6 +504,7 @@ int main(int argc, char** argv) {
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
             unrecoverable_error = false;
+            temp_reason = "VM Hypervisor was unable to allocate enough memory to start VM.";
         } else {
             fprintf(
                 stderr,
@@ -514,11 +520,9 @@ int main(int argc, char** argv) {
         }
 
         if (unrecoverable_error) {
-            vm.cleanup();
-            write_checkpoint(elapsed_time, vm);
             boinc_finish(retval);
         } else {
-            boinc_temporary_exit(0);
+            boinc_temporary_exit(temp_delay, temp_reason);
         }
     }
 
@@ -585,10 +589,20 @@ int main(int argc, char** argv) {
         }
         if (boinc_status.suspended) {
             if (!vm.suspended) {
+                fprintf(
+                    stderr,
+                    "%s Suspending VM.\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf))
+                );
                 vm.pause();
             }
         } else {
             if (vm.suspended) {
+                fprintf(
+                    stderr,
+                    "%s Resuming VM.\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf))
+                );
                 vm.resume();
             }
 
