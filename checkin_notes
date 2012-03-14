@@ -2664,3 +2664,9 @@ Charlie 14 Mar 2012
     
     client/
         coproc_detect.cpp
+
+David  14 Mar 2012
+    - scheduler: fix FCGI compile
+
+    vda/
+        sched_vda.cpp
