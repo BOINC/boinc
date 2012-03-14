@@ -2620,3 +2620,11 @@ Charlie 14 Mar 2012
     
     locale/fr/
         BOINC_Manager.po
+
+Charlie 14 Mar 2012
+    - client: When comparing ATI model names from OpenCL and IOKit on a 
+        Mac, substitute "AMD" for "ATI" because sometimes one API returns 
+        "ATI" but the other API returns "AMD".
+    
+    client/
+        coproc_detect.cpp

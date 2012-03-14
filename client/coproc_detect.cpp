@@ -1603,6 +1603,8 @@ void COPROCS::get_ati_mem_size_from_opengl() {
     int ati_gpu_index = 0;
     GLint rendererIDs[32];
     CFDataRef modelName[32];
+    char opencl_name[1024], iokit_name[1024];
+    char *p;
 
     if (log_flags.coproc_debug) {
 
@@ -1679,15 +1681,26 @@ void COPROCS::get_ati_mem_size_from_opengl() {
                             ati_opencls[ati_gpu_index].global_mem_size = deviceVRAM;
 
                             if (log_flags.coproc_debug) {
+                                // For some GPUs, one API returns "ATI" but the other API returns
+                                // "AMD" in the model name, so we normalize both to "AMD"
+                                strlcpy(opencl_name, ati_opencls[ati_gpu_index].name, sizeof(opencl_name));
+                                if ((p = strstr(opencl_name, "ATI")) != NULL) {
+                                    *++p='M';
+                                    *++p='D';
+                                }
+                                
                                 for (j=0; j<32; j++) {
                                     if ((rendererID == rendererIDs[j]) && (modelName[j] != NULL)) {
                                         break;
                                     }
                                 }
                                 if (j < 32) {
-                                    if (strcmp((char *)CFDataGetBytePtr(modelName[j]), 
-                                                ati_opencls[ati_gpu_index].name)
-                                        ) {
+                                    strlcpy(iokit_name, (char *)CFDataGetBytePtr(modelName[j]), sizeof(iokit_name));
+                                    if ((p = strstr(iokit_name, "ATI")) != NULL) {
+                                        *++p='M';
+                                        *++p='D';
+                                    }
+                                    if (strcmp(iokit_name, opencl_name)) {
                                         msg_printf(0, MSG_INFO,
                                         "[coproc] get_ati_mem_size_from_opengl model name mismatch: %s vs %s\n", 
                                         ati_opencls[ati_gpu_index].name, (char *)CFDataGetBytePtr(modelName[j])
@@ -1696,8 +1709,16 @@ void COPROCS::get_ati_mem_size_from_opengl() {
                                 } else {
                                     // Could not get model name from IOKit, so use renderer name
                                     const GLubyte * strRend = glGetString (GL_RENDERER);
+                                    if (strRend != NULL) {
+                                        strlcpy(iokit_name, (char *)strRend, sizeof(iokit_name));
+                                        if ((p = strstr(iokit_name, "ATI")) != NULL) {
+                                            *++p='M';
+                                            *++p='D';
+                                        }
+                                    }
+                                    
                                     if ((strRend == NULL) || 
-                                        (!strstr((char *)strRend, ati_opencls[ati_gpu_index].name))) {
+                                        (!strstr(iokit_name, opencl_name))) {
                                         msg_printf(0, MSG_INFO,
                                         "[coproc] get_ati_mem_size_from_opengl model name to renderer mismatch: %s vs %s\n", 
                                         strRend, ati_opencls[ati_gpu_index].name
