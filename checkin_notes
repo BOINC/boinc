@@ -2600,3 +2600,10 @@ Charlie 12 Mar 2012
     samples/vboxwrapper/
         vboxwrapper.xcodeproj
             project.pbxproj
+
+David  13 Mar 2012
+    - scheduler: do homogeneous app version check before rereading WU
+        as well as after.
+
+    sched/
+        sched_send.cpp,h
