@@ -1679,6 +1679,7 @@ void COPROCS::get_ati_mem_size_from_opengl() {
                             (strstr((char *)strVend, "Advanced Micro Devices, Inc.")))
                         ) {
                             ati_opencls[ati_gpu_index].global_mem_size = deviceVRAM;
+                            ati_opencls[ati_gpu_index].opencl_available_ram = deviceVRAM;
 
                             if (log_flags.coproc_debug) {
                                 // For some GPUs, one API returns "ATI" but the other API returns

@@ -2657,3 +2657,10 @@ David  14 Mar 2012
 
     sched/
         plan_class_spec.cpp,h
+
+Charlie 14 Mar 2012
+    - client: On Mac only, update ATI available RAM after getting ATI total 
+        RAM size from OpenGL.
+    
+    client/
+        coproc_detect.cpp
