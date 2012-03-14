@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2012-03-06 00:08+0200\n"
+"PO-Revision-Date: 2012-03-11 00:09+0200\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -28,50 +28,54 @@ msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Catalan"
 
 #: ../inc/bbcode_html.inc:11
+#, fuzzy
 msgid "Bold text: [b]text[/b]  (alt+b)"
-msgstr ""
+msgstr "Text en negreta: [b]text[/b]  (alt+b)"
 
 #: ../inc/bbcode_html.inc:14
 msgid "Italic text: [i]text[/i]  (alt+i)"
-msgstr ""
+msgstr "Text en cursiva: [i]text[/i]  (alt+i)"
 
 #: ../inc/bbcode_html.inc:17
 msgid "Underline text: [u]text[/u]  (alt+u)"
-msgstr ""
+msgstr "Subratllar el text: [u]text[/u]  (alt+u)"
 
 #: ../inc/bbcode_html.inc:20
 msgid "Quote text: [quote]text[/quote]  (alt+q)"
-msgstr ""
+msgstr "Cita el text: [quote]text[/quote]  (alt+q)"
 
 #: ../inc/bbcode_html.inc:23
 msgid "Code display: [code]code[/code]  (alt+c)"
-msgstr ""
+msgstr "Mostrar el codi: [code]code[/code]  (alt+c)"
 
 #: ../inc/bbcode_html.inc:26
 msgid "List: [list]text[/list] (alt+l)"
-msgstr ""
+msgstr "Llista: [list]text[/list] (alt+l)"
 
 #: ../inc/bbcode_html.inc:29
 msgid "Ordered list: [list=]text[/list]  (alt+o)"
-msgstr ""
+msgstr "Llista ordenada: [list=]text[/list]  (alt+o)"
 
 #: ../inc/bbcode_html.inc:32
 msgid "Insert image: [img]http://image_url[/img]  (alt+p)"
-msgstr ""
+msgstr "Insereix una imatge: [img]http://image_url[/img]  (alt+p)"
 
 #: ../inc/bbcode_html.inc:35
 msgid ""
 "Insert URL: [url]http://url[/url] or [url=http://url]URL text[/url]  (alt+w)"
 msgstr ""
+"Inserta URL: [url]http://url[/url] o [url=http://url]URL text[/url]  (alt+w)"
 
 #: ../inc/bbcode_html.inc:42
 msgid "Font color"
-msgstr ""
+msgstr "Color de la font"
 
 #: ../inc/bbcode_html.inc:43
 msgid ""
 "Font color: [color=red]text[/color]  Tip: you can also use color=#FF0000"
 msgstr ""
+"Color de la font: [color=red]text[/color]  Tip: you can also use "
+"color=#FF0000"
 
 #: ../inc/bbcode_html.inc:44 ../inc/bbcode_html.inc:59 ../inc/prefs.inc:625
 msgid "Default"
@@ -79,80 +83,79 @@ msgstr "Defecte"
 
 #: ../inc/bbcode_html.inc:45
 msgid "Dark Red"
-msgstr ""
+msgstr "Vermell fosc"
 
 #: ../inc/bbcode_html.inc:46
 msgid "Red"
-msgstr ""
+msgstr "Vermell"
 
 #: ../inc/bbcode_html.inc:47
-#, fuzzy
 msgid "Orange"
-msgstr "Canviar"
+msgstr "Taronja"
 
 #: ../inc/bbcode_html.inc:48
 msgid "Brown"
-msgstr ""
+msgstr "Marró"
 
 #: ../inc/bbcode_html.inc:49
 msgid "Yellow"
-msgstr ""
+msgstr "Groc"
 
 #: ../inc/bbcode_html.inc:50
 msgid "Green"
-msgstr ""
+msgstr "Verd"
 
 #: ../inc/bbcode_html.inc:51
 msgid "Olive"
-msgstr ""
+msgstr "Oliva"
 
 #: ../inc/bbcode_html.inc:52
 msgid "Cyan"
-msgstr ""
+msgstr "Cyan"
 
 #: ../inc/bbcode_html.inc:53
 msgid "Blue"
-msgstr ""
+msgstr "Blau"
 
 #: ../inc/bbcode_html.inc:54
 msgid "Dark Blue"
-msgstr ""
+msgstr "Blau fosc"
 
 #: ../inc/bbcode_html.inc:55
 msgid "Indigo"
-msgstr ""
+msgstr "Indi"
 
 #: ../inc/bbcode_html.inc:56
 msgid "Violet"
-msgstr ""
+msgstr "Violeta"
 
 #: ../inc/bbcode_html.inc:57
 msgid "Font size"
-msgstr ""
+msgstr "Mida de la lletra"
 
 #: ../inc/bbcode_html.inc:58
 msgid "Font size: [size=x-small]small text[/size]"
-msgstr ""
+msgstr "Mida de la lletra: [size=x-small]small text[/size]"
 
 #: ../inc/bbcode_html.inc:60
 msgid "Small"
-msgstr ""
+msgstr "Petita"
 
 #: ../inc/bbcode_html.inc:61
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #: ../inc/bbcode_html.inc:62
 msgid "Large"
-msgstr ""
+msgstr "Gran"
 
 #: ../inc/bbcode_html.inc:65
 msgid "Close all open bbCode tags"
-msgstr ""
+msgstr "Tancar totes les etiquetes bbCode obertes"
 
 #: ../inc/bbcode_html.inc:65
 msgid "Close Tags"
-msgstr ""
+msgstr "Tancar les etiquetes"
 
 #: ../inc/forum.inc:37
 msgid "Oldest first"
@@ -219,18 +222,16 @@ msgid "Next"
 msgstr "Següent"
 
 #: ../inc/forum.inc:535
-#, fuzzy
 msgid "Send&nbsp;message"
-msgstr "Enviar missatge"
+msgstr "Enviar&nbsp;missatge"
 
 #: ../inc/forum.inc:535
 msgid "Send %1 a private message"
 msgstr "Enviar %1 un missatge privat"
 
 #: ../inc/forum.inc:536
-#, fuzzy
 msgid "Joined: %1"
-msgstr "Antiguitat %1"
+msgstr "Unit: %1"
 
 #: ../inc/forum.inc:545
 msgid "Posts: %1"
@@ -242,17 +243,15 @@ msgstr "Crèdit: %1"
 
 #: ../inc/forum.inc:552
 msgid "RAC: %1"
-msgstr ""
+msgstr "RAC: %1"
 
 #: ../inc/forum.inc:574
-#, fuzzy
 msgid "You haven't read this message yet"
-msgstr "Encara no has llegit aquest fil"
+msgstr "Encara no ha llegit aquest missatge"
 
 #: ../inc/forum.inc:574
-#, fuzzy
 msgid "Unread"
-msgstr "no llegit"
+msgstr "No llegit"
 
 #: ../inc/forum.inc:577 ../inc/forum.inc:582 ../inc/forum.inc:681
 msgid "Message %1"
@@ -263,9 +262,8 @@ msgid "hidden"
 msgstr "ocult"
 
 #: ../inc/forum.inc:579
-#, fuzzy
 msgid "Posted: %1"
-msgstr "Missatges de %1"
+msgstr "Publicat: %1"
 
 #: ../inc/forum.inc:582
 msgid " - in response to "
@@ -276,9 +274,8 @@ msgid "Edit"
 msgstr "Editar"
 
 #: ../inc/forum.inc:585
-#, fuzzy
 msgid "Edit this message"
-msgstr "Edita el teu missatge"
+msgstr "Edita aquest missatge"
 
 #: ../inc/forum.inc:591
 msgid "Last modified: %1"
@@ -289,41 +286,41 @@ msgid ""
 "This post is not shown because the sender is on your 'ignore' list.  Click "
 "%1here%2 to view this post"
 msgstr ""
+"Aquest missatge no es mostra perquè el remitent es troba a la seva llista "
+"\"ignorar\".  Feu clic a %1aqui%2 per veure aquest missatge"
 
 #: ../inc/forum.inc:622 ../inc/forum.inc:633
-#, fuzzy
 msgid "Report this post as offensive"
-msgstr "Exportar aquesta noticia com a Avís"
+msgstr "Avisa d'aquest missatge com ofensiu"
 
 #: ../inc/forum.inc:622 ../inc/forum.inc:633
-#, fuzzy
 msgid "Report as offensive"
-msgstr "Informar d'un missatge"
+msgstr "Informa com ofensiu"
 
 #: ../inc/forum.inc:626
 msgid "Rating: %1"
-msgstr ""
+msgstr "Qualificació: %1"
 
 #: ../inc/forum.inc:626
 msgid "rate: "
-msgstr ""
+msgstr "qualifica: "
 
+# 83%
 #: ../inc/forum.inc:629
 msgid "Click if you like this message"
-msgstr ""
+msgstr "Fes clic aquí si t'agrada aquest missatge"
 
 #: ../inc/forum.inc:629
 msgid "Rate +"
-msgstr ""
+msgstr "Qualifica +"
 
 #: ../inc/forum.inc:631
-#, fuzzy
 msgid "Click if you don't like this message"
-msgstr "No s'ha pogut crear el missatge"
+msgstr "Fes clic aquí si no t'agrada aquest missatge"
 
 #: ../inc/forum.inc:631
 msgid "Rate -"
-msgstr ""
+msgstr "Qualifica -"
 
 #: ../inc/forum.inc:639 ../user/pm.php:106 ../user/pm.php:146
 msgid "Reply"
@@ -331,20 +328,19 @@ msgstr "Contestar"
 
 #: ../inc/forum.inc:639
 msgid "Post a reply to this message"
-msgstr ""
+msgstr "Respon aquest missatge"
 
 #: ../inc/forum.inc:641
-#, fuzzy
 msgid "Quote"
-msgstr "Text remarcat"
+msgstr "Remarca"
 
 #: ../inc/forum.inc:641
 msgid "Post a reply by quoting this message"
-msgstr ""
+msgstr "Respon remarcant aquest missatge"
 
 #: ../inc/forum.inc:662
 msgid "Hidden by a moderator"
-msgstr ""
+msgstr "Ocult per un moderador"
 
 #: ../inc/forum.inc:683
 msgid "Posted %1 by %2"
@@ -371,67 +367,76 @@ msgid ""
 "            nationality, gender, class or sexuality.\n"
 "        "
 msgstr ""
+"\n"
+"        <ul>\n"
+"        <li> Els missatges han de ser \"adequat per a nens\": no poden tenir\n"
+"            contingut que sigui obscè, d'odi inte-recial,\n"
+"            sexualment explícit o suggerent.\n"
+"        <li> No hi haurà anuncis comercials.\n"
+"        <li> No hi haurà enllaços a llocs web relacionats amb contingut "
+"sexual,\n"
+"            jocs d'atzar, o la intolerància dels altres.\n"
+"        <li> No hi haurà missatges destinats a molestar o antagonitzar a "
+"altres persones,\n"
+"            o per segrestar un fil.\n"
+"        <li> No hi haurà missatges que siguin deliberadament hostils o "
+"insultants.\n"
+"        <li> Cap comentari abusives en relació amb la raça, la religió,\n"
+"            nacionalitat, gènere, classe o sexualitat.\n"
+"        "
 
 #: ../inc/forum.inc:734
 msgid "Rules:"
-msgstr ""
+msgstr "Regles:"
 
 #: ../inc/forum.inc:735
-#, fuzzy
 msgid "More info"
-msgstr "Informació de l'equip"
+msgstr "Més informació"
 
 #: ../inc/forum.inc:1008 ../user/forum_thread.php:185
 msgid "Unhide"
 msgstr "Fer visible"
 
 #: ../inc/forum.inc:1008
-#, fuzzy
 msgid "Unhide this post"
-msgstr "Fer visible aquest fil"
+msgstr "Fer visible aquest missatge"
 
 #: ../inc/forum.inc:1010 ../user/forum_thread.php:191
 msgid "Hide"
 msgstr "Ocultar"
 
 #: ../inc/forum.inc:1010
-#, fuzzy
 msgid "Hide this post"
-msgstr "Ocultar el missatge"
+msgstr "Ocultar aquest missatge"
 
 #: ../inc/forum.inc:1015 ../user/forum_thread.php:224
 msgid "Move"
 msgstr "Moure"
 
 #: ../inc/forum.inc:1015
-#, fuzzy
 msgid "Move post to a different thread"
-msgstr "Moure aquest fil a un altre fil"
+msgstr "Moure el missatge a un altre fil"
 
 #: ../inc/forum.inc:1020
-#, fuzzy
 msgid "Banish author"
-msgstr "Expulsar l'usuari"
+msgstr "Expulsar l'autor"
 
 #: ../inc/forum.inc:1027
-#, fuzzy
 msgid "Vote to banish author"
-msgstr "No tens permís per expulsar usuaris"
+msgstr "Voti per expulsar l'autor"
 
 #: ../inc/forum.inc:1031
-#, fuzzy
 msgid "Vote not to banish author"
-msgstr "No tens permís per expulsar usuaris"
+msgstr "Voti per no expulsar l'autor"
 
 #: ../inc/forum.inc:1036
-#, fuzzy
 msgid "Start vote to banish author"
-msgstr "No tens permís per expulsar usuaris"
+msgstr "Iniciar votació per expulsar l'autor"
 
 #: ../inc/forum.inc:1069
-#, fuzzy
 msgid "Only team members can post to the team message board"
-msgstr "Crear o gestionar un taulell de missatges de l'equip"
+msgstr ""
+"Només els membres de l'equip poden publicar al tauler d'anuncis de l'equip"
 
 #: ../inc/forum.inc:1079
 msgid ""
@@ -456,10 +461,12 @@ msgid ""
 "This thread is locked. Only forum moderators and administrators are allowed "
 "to post there."
 msgstr ""
+"Aquest fil està bloquejat. Només els moderadors del fòrum i els "
+"administradors poden publicar-hi."
 
 #: ../inc/forum.inc:1098
 msgid "Can't post to a hidden thread."
-msgstr ""
+msgstr "No es pot publicar en un fil ocult."
 
 #: ../inc/forum.inc:1126
 msgid "Thread"
@@ -490,9 +497,8 @@ msgid "New posts in the thread %1"
 msgstr "Nous missatges en el fil %1"
 
 #: ../inc/forum.inc:1193
-#, fuzzy
 msgid "New posts in subscribed thread"
-msgstr "Fils subscrits"
+msgstr "Nous missatges en el fil subscrit"
 
 #: ../inc/forum.inc:1194
 msgid "There are new posts in the thread '%1'"
@@ -503,9 +509,8 @@ msgid "Mark all threads as read"
 msgstr "Marcar tots el fils com a llegits"
 
 #: ../inc/forum.inc:1205
-#, fuzzy
 msgid "Mark all threads in all message boards as read."
-msgstr "Marcar com a 'llegits' tots els fils a tots els taulers de missatges."
+msgstr "Marcar com a llegits tots els fils a tots els taulers de missatges."
 
 #: ../inc/host.inc:24
 msgid "No host"
@@ -712,9 +717,8 @@ msgid "Tasks"
 msgstr "Feines"
 
 #: ../inc/host.inc:179 ../inc/host.inc:200
-#, fuzzy
 msgid "Number of times client has contacted server"
-msgstr "Nombre de vegades que BOINC s'ha posat en contacte amb el servidor"
+msgstr "Nombre de vegades que el client s'ha posat en contacte amb el servidor"
 
 #: ../inc/host.inc:180
 msgid "Last time contacted server"
@@ -906,9 +910,8 @@ msgid "Preview"
 msgstr "Vista prèvia"
 
 #: ../inc/pm.inc:48 ../user/pm.php:131
-#, fuzzy
 msgid "no such message"
-msgstr "aquest usuari no existeix"
+msgstr "no existeix aquest missatge"
 
 #: ../inc/pm.inc:82
 msgid "To"
@@ -1510,9 +1513,8 @@ msgid "Aborted by user"
 msgstr "Avortada per l'usuari"
 
 #: ../inc/result.inc:186 ../inc/result.inc:239
-#, fuzzy
 msgid "Upload failed"
-msgstr "Error en l'actualització"
+msgstr "Error en la càrrega"
 
 #: ../inc/result.inc:189
 msgid "Timed out - no response"
@@ -2216,7 +2218,7 @@ msgstr "Afegir com amic"
 
 #: ../inc/util.inc:113
 msgid "log out"
-msgstr "Finalitzar la sessió"
+msgstr "finalitzar la sessió"
 
 #: ../inc/util.inc:115
 msgid "log in"
@@ -2391,9 +2393,8 @@ msgid "Underline"
 msgstr "Subratllar"
 
 #: ../user/bbcode.php:35
-#, fuzzy
 msgid "Superscript"
-msgstr "Descripció"
+msgstr "Super-índex"
 
 #: ../user/bbcode.php:36
 msgid "Big text"
@@ -2534,14 +2535,12 @@ msgid "Account creation is currently disabled. Please try again later."
 msgstr "La creació de comptes està desactivada. Si us plau provi-ho mes tard."
 
 #: ../user/create_account_form.php:53
-#, fuzzy
 msgid ""
 "Don't use this form. Just run BOINC, select Add Project, and enter an email "
 "address and password."
 msgstr ""
-"NOTA: Si utilitzeu l'Administrador de BOINC, no utilitzi aquest formulari. "
-"Simplement executeu BOINC, seleccioneu Afegir projecte, entreu una adreça de "
-"correu electrònic i contrasenya."
+"No utilitzi aquest formulari. Simplement executeu BOINC, seleccioneu Afegeix "
+"projecte i introduïu una adreça de correu electrònic i contrasenya."
 
 #: ../user/create_account_form.php:71
 msgid ""
@@ -2800,12 +2799,11 @@ msgstr ""
 "si vol un altre perfil en el futur."
 
 #: ../user/delete_profile.php:48
-#, fuzzy
 msgid ""
 "If you're sure, click 'Yes'\n"
 "to remove your profile from our database."
 msgstr ""
-"Si està segur, feu clic a 'Eliminar'\n"
+"Si esteu segur, premeu 'Si'\n"
 "per eliminar el vostre perfil de la nostra base de dades."
 
 #: ../user/delete_profile.php:52
@@ -2951,7 +2949,7 @@ msgstr "Les instruccions per instal·lar i executar BOINC es troben %1aquí%2."
 
 #: ../user/download_network.php:38
 msgid "This list is managed centrally at %1the BOINC website%2."
-msgstr "Aquesta llista està gestionada en la %1pagína web de BOINC%2."
+msgstr "Aquesta llista està gestionada en la %1pàgina web de BOINC%2."
 
 #: ../user/edit_email_action.php:31
 msgid "Change email address of account"
@@ -4074,9 +4072,8 @@ msgstr ""
 "trigar una mica, així que si us plau sigui pacient"
 
 #: ../user/forum_report_post.php:70
-#, fuzzy
 msgid "Report a forum post"
-msgstr "Informar d'un missatge"
+msgstr "Informar d'un missatge en el fòrum"
 
 #: ../user/forum_report_post.php:72
 msgid ""
@@ -4385,9 +4382,8 @@ msgid "Edit thread title"
 msgstr "Editar el títol del fil"
 
 #: ../user/forum_thread.php:241
-#, fuzzy
 msgid "Export as Notice"
-msgstr "Exportar aquesta noticia com a Avís"
+msgstr "Exportar com a Avís"
 
 #: ../user/forum_thread.php:242
 msgid "Export this news item as a Notice"
@@ -4625,17 +4621,19 @@ msgstr "Registrar-se amb autenticador"
 
 #: ../user/gpu_list.php:126 ../user/gpu_list.php:152
 msgid "No GPU tasks reported"
-msgstr ""
+msgstr "No s'ha informat cap tasca GPU"
 
 #: ../user/gpu_list.php:182 ../user/stats.php:33
 msgid "Top GPU models"
-msgstr ""
+msgstr "Els millors models de GPU"
 
 #: ../user/gpu_list.php:183
 msgid ""
 "The following lists show the most productive GPU models on different "
 "platforms.  Relative speeds are shown in parentheses."
 msgstr ""
+"Les llistes següents mostren els models de GPU més productius en diferents "
+"plataformes.  Les velocitats relatives es mostren entre parèntesis."
 
 #: ../user/home.php:42
 msgid "Welcome to %1"
@@ -5140,14 +5138,12 @@ msgid "Processing %1"
 msgstr "Processant %1"
 
 #: ../user/merge_by_name.php:45
-#, fuzzy
 msgid "Merged %1 into %2"
-msgstr "Combinant el host %1 en el host %2"
+msgstr "Combinat %1 a %2"
 
 #: ../user/merge_by_name.php:74
-#, fuzzy
 msgid "Return to the list of your computers"
-msgstr "Tornar a la llista dels equips"
+msgstr "Tornar a la llista dels seus equips"
 
 #: ../user/merge_by_name.php:78
 msgid ""
@@ -5158,10 +5154,17 @@ msgid ""
 "        Incompatible computers will not be merged.\n"
 "        <p>"
 msgstr ""
+"Aquesta operació combina els equips en base al seu nom de domini.\n"
+"        <p>\n"
+"        Per a cada nom de domini, es combinaran tots els ordinadors més "
+"antics\n"
+"        amb aquest nom amb el nou equip que tingui aquest nom.\n"
+"        Els ordinadors no compatibles no es poden combinar.\n"
+"        <p>"
 
 #: ../user/merge_by_name.php:84
 msgid "Go ahead and do this"
-msgstr ""
+msgstr "Seguir endavant i fer això"
 
 #: ../user/merge_by_name.php:85
 #, fuzzy
@@ -5175,6 +5178,10 @@ msgid ""
 "our message boards are moderated.\n"
 "Message board postings are subject to the following posting rules:\n"
 msgstr ""
+"\n"
+"Per augmentar al màxim la discussió i el flux d'informació,\n"
+"els taulers de missatges són moderats.\n"
+"Els missatges publicats estan subjectes a les següents normes:\n"
 
 #: ../user/moderation.php:30
 msgid ""
@@ -6365,7 +6372,7 @@ msgstr ""
 
 #: ../user/team_manage.php:26
 msgid "Team administration for %1"
-msgstr "Equip d'administració d'%1"
+msgstr "Equip d'administració de %1"
 
 #: ../user/team_manage.php:29
 msgid "Edit team info"
