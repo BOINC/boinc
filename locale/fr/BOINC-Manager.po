@@ -3415,7 +3415,7 @@ msgstr "Ecoulé: %s"
 #, c-format
 #, fuzzy, c-format
 msgid "Remaining (estimated): %s"
-msgstr "Restant: %s"
+msgstr "Restant estimé: %s"
 
 #: clientgui/sg_TaskPanel.cpp:854
 #, c-format
@@ -4061,7 +4061,7 @@ msgstr "Ecoulé"
 #: clientgui/ViewWork.cpp:235
 #, fuzzy
 msgid "Remaining (estimated)"
-msgstr "Restant: %s"
+msgstr "Restant estimé"
 
 #: clientgui/ViewWork.cpp:236
 msgid "Deadline"

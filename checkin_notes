@@ -2614,3 +2614,9 @@ David  13 Mar 2012
 
     sched/
         transitioner.cpp
+
+Charlie 14 Mar 2012
+    - MGR: fix French translations of Remaining (estimated).
+    
+    locale/fr/
+        BOINC_Manager.po
