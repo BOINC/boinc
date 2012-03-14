@@ -1603,7 +1603,7 @@ void COPROCS::get_ati_mem_size_from_opengl() {
     int ati_gpu_index = 0;
     GLint rendererIDs[32];
     CFDataRef modelName[32];
-    char opencl_name[1024], iokit_name[1024];
+    char opencl_name[256], iokit_name[256];
     char *p;
 
     if (log_flags.coproc_debug) {
