@@ -208,15 +208,6 @@ int ACTIVE_TASK::kill_task(bool restart) {
     get_descendants(pid, pids);
     pids.push_back(pid);
     kill_processes(pids);
-    cleanup_task();
-    if (restart) {
-        set_task_state(PROCESS_UNINITIALIZED, "kill_task");
-        char buf[256];
-        sprintf(buf, "restarting %s", result->name);
-        gstate.request_schedule_cpus(buf);
-    } else {
-        set_task_state(PROCESS_ABORTED, "kill_task");
-    }
     return 0;
 }
 

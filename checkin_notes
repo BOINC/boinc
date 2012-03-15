@@ -2678,3 +2678,11 @@ David  14 Mar 2012
 
     client/
         client_types.cpp
+
+David  15 Mar 2012
+    - client: when killing a task, don't delete its shmem or change its state.
+        These mess up the logic for dealing with exited processes.
+
+    client/
+        app.cpp
+        app_control.cpp
