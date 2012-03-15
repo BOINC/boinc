@@ -1,0 +1,14 @@
+; $Id: imce_wysiwyg.info,v 1.2 2009/02/23 12:49:16 sun Exp $
+name = IMCE Wysiwyg API bridge
+description = Makes IMCE available as plugin for client-side editors integrated via Wysiwyg API.
+package = User interface
+core = 6.x
+dependencies[] = imce
+dependencies[] = wysiwyg
+
+; Information added by drupal.org packaging script on 2010-03-12
+version = "6.x-1.1"
+core = "6.x"
+project = "imce_wysiwyg"
+datestamp = "1268433606"
+

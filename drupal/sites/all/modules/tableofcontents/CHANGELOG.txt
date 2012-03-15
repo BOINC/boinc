@@ -1,0 +1,14 @@
+2009 Jul 19:
+ * Updated French translation
+ * Fixed problems with collapsed text
+ * Added support for scrolling back to top
+
+2009 July 1:
+ * Taken over by Alexis Wilke (alexis@m2osw.com)
+ * Adding many of the patches, mine and others
+
+2007 February 4:
+ * Added <div class="toc">...</div> for theming
+
+2006 December 4:
+ * Initial release to CVS

@@ -1,0 +1,46 @@
+/* Table of Contents CSS
+ */
+.toc {
+  background-color: #F9F9F9;
+  border: 1px solid #B5C9D8;
+  font-size: 95%;
+  text-align: left;
+}
+
+.content .toc {
+  max-width: 50%;
+}
+/* cancel the width formatting in the block */
+.block .toc {
+  max-width: 100%;
+}
+
+.toc-title {
+  text-align: center;
+  font-weight: bold;
+}
+
+.toc-list {
+  padding: 0 10px 0 0;
+}
+
+.toc-toggle-message {
+}
+
+.toc ul {
+  list-style-image: none;
+  list-style-type: none;
+}
+
+.toc-number {
+  display: block;
+  margin-left: -30px;
+  float: left;
+}
+
+.toc-back-to-top {
+  padding-right: 25px;
+  text-align: right;
+  font-style: italic;
+  background: transparent url(back-to-top.gif) no-repeat 100% 50%;
+}

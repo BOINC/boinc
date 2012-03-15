@@ -1,0 +1,210 @@
+<?php
+
+/**
+ * @file
+ * Implements the necessary hooks for the file browser to work properly.
+ */
+
+/**
+ * Implementation of hook_menu().
+ */
+function imce_menu() {
+  $items = array();
+  $access = array('administer imce(execute PHP)');
+  $items['imce'] = array(
+    'title' => 'File browser',
+    'page callback' => 'imce',
+    'access callback' => 'imce_access',
+    'file' => 'inc/imce.page.inc',
+    'type' => MENU_CALLBACK,
+  );
+  $items['user/%user/imce'] = array(
+    'title' => 'File browser',
+    'page callback' => 'imce_user_page',
+    'page arguments' => array(1),
+    'access callback' => 'imce_user_page_access',
+    'access arguments' => array(1),
+    'file' => 'inc/imce.page.inc',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 10,
+  );
+  $items['admin/settings/imce'] = array(
+    'title' => 'IMCE',
+    'description' => 'Control how your image/file browser works.',
+    'page callback' => 'imce_admin',
+    'access arguments' => $access,
+    'file' => 'inc/imce.admin.inc',
+  );
+  $items['admin/settings/imce/profile'] = array(
+    'title' => 'Add new profile',
+    'page callback' => 'imce_profile_operations',
+    'access arguments' => $access,
+    'type' => MENU_CALLBACK,
+    'file' => 'inc/imce.admin.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implementation of hook_perm().
+ */
+function imce_perm() {
+  return array('administer imce(execute PHP)');
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function imce_theme() {
+  $path = drupal_get_path('module', 'imce') .'/tpl';
+  $theme['imce_admin']['function'] = 'imce_admin_theme';
+  $theme['imce_directories']['function'] = 'imce_directories_theme';
+  $theme['imce_thumbnails']['function'] = 'imce_thumbnails_theme';
+  $theme['imce_root_text'] = array(
+    'arguments' => array('imce_ref' => NULL),
+  );
+  $theme['imce_user_page'] = array(
+    'arguments' => array('account' => NULL),
+  );
+  $theme['imce_file_list'] = array(
+    'template' => 'imce-file-list',
+    'arguments' => array('imce_ref' => NULL),
+    'path' => $path,
+  );
+  $theme['imce_content'] = array(
+    'template' => 'imce-content',
+    'arguments' => array('tree' => NULL, 'forms' => NULL, 'imce_ref' => NULL),
+    'path' => $path,
+  );
+  $theme['imce_page'] = array(
+    'template' => 'imce-page',
+    'arguments' => array('content' => NULL),
+    'path' => $path,
+  );
+  return $theme;
+}
+
+/**
+ * Implementation of hook_file_download().
+ */
+function imce_file_download($file) {
+  $serve = variable_get('file_downloads', '') == FILE_DOWNLOADS_PRIVATE && !variable_get('imce_settings_disable_private', 0) && ($path = file_create_path($file)) && file_exists($path) && strpos(basename($path), '.');
+  if ($serve) {
+    if ($result = db_result(db_query("SELECT filemime FROM {files} WHERE filepath = '%s'", $path))) {
+      $type = $result;
+    }
+    elseif (function_exists('file_get_mimetype')) {
+      $type = file_get_mimetype($path);
+    }
+    else {
+      $type = 'application/x-download';
+    }
+    return array('Content-type: '. $type, 'Content-Length: '. filesize($path));
+  }
+}
+
+/**
+ * Implementation of hook_file_delete().
+ */
+function imce_file_delete($file) {
+  db_query('DELETE FROM {imce_files} WHERE fid = %d', $file->fid);
+}
+
+/**
+ * Implementation of hook_file_references().
+ */
+function imce_file_references($file) {
+  //do not report reference count on internal file deletion
+  if (isset($file->imce_noref) && $file->imce_noref) {
+    return;
+  }
+  if (db_fetch_array(db_query('SELECT 1 FROM {imce_files} WHERE fid = %d', $file->fid))) {
+    return array('imce' => 1);
+  }
+}
+
+/**
+ * Implementation of hook_elements().
+ */
+function imce_elements() {
+  return array('textarea' => array('#process' => array('imce_textarea')));
+}
+
+/**
+ * Inline image/link insertion to textareas.
+ */
+function imce_textarea($element) {
+  static $ids;
+  if (!isset($ids)) {
+    $ids = FALSE;
+    if (imce_access() && $setting = str_replace(' ', '', variable_get('imce_settings_textarea', ''))) {
+      $ids = array();
+      foreach (explode(',', $setting) as $id) {
+        $ids[$id] = 1;
+      }
+    }
+  }
+  if ($ids && isset($ids[$element['#id']])) {
+    drupal_add_js(drupal_get_path('module', 'imce') .'/js/imce_set_inline.js');
+    $element['#description'] .= '<div class="imce-inline-wrapper" style="display:none">'. t('Insert !image or !link.', array('!image' => l(t('image'), 'imce', array('attributes' => array('name' => $element['#id'] .'-IMCE-image', 'class' => 'imce-inline-image'))), '!link' => l(t('link'), 'imce', array('attributes' => array('name' => $element['#id'] .'-IMCE-link', 'class' => 'imce-inline-link'))))) .'</div>';
+  }
+  return $element;
+}
+
+/**
+ * Get the profile for the user.
+ */
+function imce_user_profile($user) {
+  $profiles = variable_get('imce_profiles', array());
+  if ($user->uid == 1 && isset($profiles[1])) {
+    return $profiles[1];
+  }
+  else {
+    foreach (variable_get('imce_roles_profiles', array()) as $rid => $role) {
+      if (isset($user->roles[$rid]) && isset($profiles[$role['pid']])) {
+        return $profiles[$role['pid']];
+      }
+    }
+  }
+  return FALSE;
+}
+
+/**
+ * Checks if the user has access to imce.
+ */
+function imce_access($user = FALSE) {
+  if ($user === FALSE) {
+    global $user;
+  }
+
+  if ($user->uid == 1) {
+    return TRUE;
+  }
+
+  $roles_profiles = variable_get('imce_roles_profiles', array());
+  foreach ($user->roles as $rid => $name) {
+    if (isset($roles_profiles[$rid]['pid']) && $roles_profiles[$rid]['pid']) {
+      return TRUE;
+    }
+  }
+
+  return FALSE;
+}
+
+/**
+ * Checks access to user/{$account->uid}/imce for the $user.
+ */
+function imce_user_page_access($account, $user = FALSE) {
+  if ($user === FALSE) {
+    global $user;
+  }
+
+  return ($user->uid == 1 || $account->uid == $user->uid) && ($profile = imce_user_profile($account)) && $profile['usertab'];
+}
+
+/**
+ * Check if the directory name is regular.
+ */
+function imce_reg_dir($dirname) {
+  return $dirname == '.' || (is_string($dirname) && $dirname != '' && !preg_match('@(^\s)|(^/)|(^\./)|(\s$)|(/$)|(/\.$)|(\.\.)|(//)|(\\\\)|(/\./)@', $dirname));
+}

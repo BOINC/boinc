@@ -1,0 +1,143 @@
+<?php
+// $Id: context.reactions.test,v 1.1.2.3 2010/08/04 18:40:56 jmiccolis Exp $
+
+class ContextReactionBlockTest extends DrupalWebTestCase {
+  function getInfo() {
+    return array(
+      'name' => t('Reaction: block'),
+      'description' => t('Test block reaction.'),
+      'group' => t('Context'),
+    );
+  }
+
+  function setUp() {
+    parent::setUp('context', 'ctools');
+    $admin_user = $this->drupalCreateUser(array('administer site configuration'));
+    $this->drupalLogin($admin_user);
+  }
+
+  function test() {
+    ctools_include('export');
+    $context = ctools_export_new_object('context');
+    $context->name = 'testcontext';
+    $context->conditions = array('sitewide' => array('values' => array(1)));
+    $context->reactions = array('block' => array('blocks' => array(
+      'user-3' => array(
+        'module' => 'user',
+        'delta' => 3,
+        'region' => 'right',
+        'weight' => 0,
+      ),
+    )));
+    $saved = context_save($context);
+    $this->assertTrue($saved, "Context 'testcontext' saved.");
+
+    $this->drupalGet('node');
+    $this->assertText('Who\'s online');
+
+    // Cleanup
+    context_delete($context);
+
+    // @TODO:
+    // - Implement & test title overrides (if we plan to support them).
+    // - Implement & test core + context block visibility conditions
+  }
+}
+
+class ContextReactionBlockAjaxTest extends DrupalWebTestCase {
+  function getInfo() {
+    return array(
+      'name' => t('Reaction: block ajax'),
+      'description' => t('Test block reaction ajax behavior.'),
+      'group' => t('Context'),
+    );
+  }
+
+  function setUp() {
+    parent::setUp('context', 'ctools');
+  }
+
+  function test() {
+    $this->drupalGet('node', array(
+      'query' => array('context_block' => 'user-3,testcontext')
+    ));
+
+    $this->assertText('"status": 1');
+    $this->assertText("Who\'s online");
+  }
+}
+
+class ContextReactionMenuTest extends DrupalWebTestCase {
+  function getInfo() {
+    return array(
+      'name' => t('Reaction: menu'),
+      'description' => t('Test menu reaction.'),
+      'group' => t('Context'),
+    );
+  }
+
+  function setUp() {
+    parent::setUp('context', 'ctools');
+    $admin_user = $this->drupalCreateUser(array('administer nodes', 'administer site configuration'));
+    $this->drupalLogin($admin_user);
+  }
+
+  function test() {
+    ctools_include('export');
+    $context = ctools_export_new_object('context');
+    $context->name = 'testcontext';
+    $context->conditions = array('sitewide' => array('values' => array(1)));
+    $context->reactions = array('menu' => 'node/add');
+    $saved = context_save($context);
+    $this->assertTrue($saved, "Context 'testcontext' saved.");
+
+    variable_set('menu_primary_links_source', 'navigation');
+    variable_set('theme_default', 'garland');
+    $this->refreshVariables();
+
+    $output = $this->drupalGet('user');
+    $url = url('node/add');
+    $active = $this->xpath('//li[contains(@class, "active")]/a[@href="'. $url .'"]');
+    $this->assertTrue(!empty($active), t('Active menu item found.'));
+
+    // Cleanup
+    context_delete($context);
+  }
+}
+
+class ContextReactionBreadcrumbTest extends DrupalWebTestCase {
+  function getInfo() {
+    return array(
+      'name' => t('Reaction: breadcrumb'),
+      'description' => t('Test breadcrumb reaction.'),
+      'group' => t('Context'),
+    );
+  }
+
+  function setUp() {
+    parent::setUp('context', 'ctools');
+    $admin_user = $this->drupalCreateUser(array('administer nodes', 'administer site configuration'));
+    $this->drupalLogin($admin_user);
+  }
+
+  function test() {
+    ctools_include('export');
+    $context = ctools_export_new_object('context');
+    $context->name = 'testcontext';
+    $context->conditions = array('path' => array('values' => array('node')));
+    $context->reactions = array('breadcrumb' => 'admin/build');
+    $saved = context_save($context);
+    $this->assertTrue($saved, "Context 'testcontext' saved.");
+
+    variable_set('theme_default', 'garland');
+    $this->refreshVariables();
+
+    $output = $this->drupalGet('node');
+    $this->assertText('Home › Administer › Site building');
+    $output = $this->drupalGet('user');
+    $this->assertNoText('Home › Administer › Site building');
+
+    // Cleanup
+    context_delete($context);
+  }
+}

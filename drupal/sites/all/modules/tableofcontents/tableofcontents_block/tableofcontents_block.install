@@ -1,0 +1,31 @@
+<?php
+
+/**
+ * @file tableofcontents_block.install
+ *
+ * Handle the variables used for the table of contents block.
+ */
+
+
+/**
+ * Implementation of hook_install()
+ */
+function tableofcontents_block_install() {
+  variable_set('tableofcontents_hide_table_block', FALSE);
+  variable_set('tableofcontents_automatic_block', 1);
+  variable_set('tableofcontents_allow_override_block', FALSE);
+  variable_set('tableofcontents_back_to_top_block', '');
+  variable_set('tableofcontents_back_to_top_location_block', 'header');
+  variable_set('tableofcontents_back_to_top_anchor_block', 'toc');
+  variable_set('tableofcontents_scroll_back_to_top_block', 'FALSE');
+  variable_set('tableofcontents_number_headers_block', FALSE);
+}
+
+/**
+ * Implementation of hook_uninstall()
+ */
+function tableofcontents_block_uninstall() {
+  db_query("DELETE FROM {variable} WHERE name LIKE 'tableofcontents_%%_block'");
+}
+
+// vim: syntax=php

@@ -1,0 +1,457 @@
+
+/*Body*/
+body.imce {
+  padding: 2px;
+  background: none;
+  text-align: left;
+  height: auto;
+}
+
+/*Main container*/
+/*reset all tags.*/
+#imce-content, #imce-content * {
+  font: 11px/16px Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #444;
+  background: none;
+  border: none;
+  float: none;
+  list-style: none;
+}
+#imce-content {
+  position: relative;
+  background-color: #fff;
+}
+#imce-content a {
+  text-decoration: none;
+}
+#imce-content label {
+  font-weight: bold;
+}
+#imce-content label.option {
+  font-weight: normal;
+}
+#imce-content input.form-text, #imce-content input[type=text], #imce-content input.form-file, #imce-content input[type=file], #imce-content select, #imce-content textarea {
+  border: 1px inset #aaa;
+  padding: 2px;
+  background-color: #fff;
+  margin: 1px;
+  width: auto;
+}
+#imce-content input.form-submit, #imce-content input[type=submit], #imce-content button {
+  border: 2px groove #fff;
+  padding: 2px 6px 2px 20px;
+  margin: 2px 0;
+  background: #e8e8d8 url(submit.png) no-repeat 2px 50%;
+}
+#imce-content [disabled], #imce-content .disabled {
+  color: #999;
+  cursor: default;
+  text-decoration: none !important;
+}
+#imce-content input.loading {
+  background-image: url(loading.gif) !important;
+}
+#imce-content .form-item {
+  margin: 4px 0;
+}
+#imce-content .form-item .description {
+  font-size: 0.9em;
+}
+#imce-content strong, #imce-content h4 {
+  font-weight: bold;
+}
+#imce-content em {
+  font-style: italic;
+}
+#imce-content ul.tips {
+  margin: 2px 8px;
+}
+#imce-content ul.tips li {
+  list-style: circle inside;
+  line-height: 18px;
+}
+
+/*Main sections under imce-content*/
+#ops-wrapper {
+  margin-bottom: 2px;
+  background: #d0d7e7 url(ops.png) repeat-x;
+  border: 1px solid #a5b9cd;
+}
+#browse-wrapper {
+  overflow: hidden;
+  height: 260px;
+  clear: both;
+}
+#browse-resizer {}
+#preview-wrapper {
+  height: 180px;
+  overflow: auto;
+}
+
+/*columns of browse-wrapper*/
+#navigation-wrapper {
+  width: 25%;
+  height: 100%;
+  overflow: auto;
+  float: left;
+  position: relative;
+}
+#navigation-resizer {
+  height: 100%;
+  float: left;
+}
+#sub-browse-wrapper {
+  height: 100%;
+  overflow: auto;
+  position: relative;
+}
+
+/*rows of sub-browse wrapper*/
+#file-header-wrapper {
+  height: 25px;
+  background: url(header.png) repeat-x 0 0;
+  position: relative;
+}
+#file-list-wrapper {
+  padding-bottom: 20px;/*#dir-stat height*/
+  outline: none;
+}
+#dir-stat {
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  padding: 2px 5px;
+  background-color: #e9ecef;
+}
+
+#dir-stat, #dir-stat * {
+  font-size: 0.9em;
+}
+
+/*Navigation header*/
+#navigation-header {
+  background: url(header.png) repeat-x 0 0;
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 25px;
+}
+#navigation-header span {
+  display: inline-block;
+  padding: 4px 4px 5px 20px;
+  font-weight: bold;
+  background: url(tree.png) no-repeat 0 50%;
+}
+
+/*Navigation tree (ul)*/
+#navigation-tree {
+  margin-top: 25px;/*navigation-header height*/
+}
+#navigation-tree ul {
+  margin-left: 15px;
+}
+#navigation-tree li {
+  padding: 2px;
+  background: transparent url(collapsed.png) no-repeat 3px 6px;
+  white-space: nowrap;
+}
+#navigation-tree li.expanded {
+  background-image: url(expanded.png);
+}
+#navigation-tree li.leaf {
+  background-image: url(leaf.png);
+}
+#navigation-tree li.loading {
+  background-image: url(loading.gif);
+  background-position: 0 2px;
+}
+#navigation-tree li span.expander {
+  display: inline-block;
+  width: 12px;
+  cursor: pointer;
+  margin-right: 1px;
+}
+#navigation-tree li a {
+  display: inline-block;
+}
+#navigation-tree li a:hover {
+  text-decoration: underline;
+}
+#navigation-tree li a.folder {
+  margin-left: 2px;
+  padding-left: 18px;
+  background: transparent url(folder.png) no-repeat 0 50%;
+}
+#navigation-tree li a.active {
+  font-weight: bold;
+  background-image: url(folder-open.png);
+  background-color: #ecf0f4;
+}
+#navigation-tree li.root > a.folder {
+  background-image: url(folder-root.png);
+}
+
+/*File list and header. (Accessible by #file-list and #file-header. Both have the classname "files")*/
+#file-header, #file-list {
+  table-layout: fixed;
+  width: 100%;
+}
+#file-header td {
+  padding: 4px;
+  font-weight: bold;
+  cursor: default;
+}
+#file-header td.asc {
+  color: #f60;
+}
+#file-header td.asc:after {
+  content: "\2193";
+  font-weight: normal;
+}
+#file-header td.desc {
+  color: #09f;
+}
+#file-header td.desc:after {
+  content: "\2191";
+  font-weight: normal;
+}
+#file-list td {
+  overflow: hidden;
+  border-top: 1px solid #ccf;
+  border-bottom: 1px solid #ccf;
+  padding: 4px;
+  cursor: default;
+}
+#file-list td.name, #file-header td.name {
+  min-width: 12em;
+  white-space: nowrap;
+}
+#file-list td.size, #file-header td.size {
+  width: 6.5em;
+  text-align: right;
+}
+#file-list td.width, #file-header td.width {
+  width: 5em;
+  text-align: right;
+}
+#file-list td.height, #file-header td.height {
+  width: 5em;
+}
+#file-list td.date, #file-header td.date {
+  width: 12em;
+  text-align: center;
+}
+#file-list tr:hover td {
+  background-color: #e9ecef;
+}
+#file-list tr.selected td {
+  background-color: #07f;
+  color: #fff;
+}
+#file-list tr.selected span {
+  color: #fff;
+}
+#file-list td.name img {
+  vertical-align: middle;
+  margin-right: 3px;
+}
+
+
+/*File operations*/
+#op-items {
+  min-height: 26px;
+}
+#op-contents {
+  position: absolute;
+  z-index: 2;
+}
+#op-contents .op-content {
+  display: none;
+  padding: 16px;
+  border: 2px solid #344454;
+  background-color: #f5f5f5;
+  position: relative;
+}
+#op-close-link {
+  display: none;
+  position: absolute;
+  z-index: 3;
+  top: 2px;
+  right: 2px;
+  width: 16px;
+  height: 16px;
+  background: url(close.png) no-repeat 50% 50%;
+}
+#ops-list {
+}
+#ops-list li {
+  display: block;
+  float: left;
+}
+#ops-list a {
+  display: block;
+  padding: 5px 8px 5px 20px;
+  text-decoration: none;
+  background: url(op.png) no-repeat 2px 50%;
+}
+#ops-list a:hover {
+  background-color: #e9ecef;
+}
+#ops-list li.active a {
+  background-color: #f9f8f7;
+}
+#ops-list a span {
+  display: inline-block;
+  color: #0e1f43;
+  padding-left: 1px;
+}
+#ops-list li.loading a {
+  background-image: url(loading.gif);
+}
+
+/*Custom op styles*/
+#op-item-upload a, #imce-content #edit-upload {
+  background-image: url(upload.png);
+}
+#op-item-thumb a, #imce-content #edit-thumb {
+  background-image: url(thumb.png);
+}
+#op-item-resize a, #imce-content #edit-resize {
+  background-image: url(resize.png);
+}
+#op-item-delete a {
+  background-image: url(delete.png);
+}
+#op-item-sendto a {
+  background-image: url(sendto.png);
+}
+#op-item-help a {
+  background-image: url(help.png);
+}
+#op-item-changeview a {
+  background-image: url(view-box.png);
+}
+.box-view #op-item-changeview a {
+  background-image: url(view-list.png);
+}
+#op-item-help a, #op-item-changeview a {
+  white-space: nowrap;
+  overflow: hidden;
+  width: 1px;
+  padding: 5px 0 5px 25px;
+  background-position: 5px 50%;
+}
+#op-item-help, #op-item-changeview {
+  float: right !important;
+}
+
+/*resizers*/
+#imce-content .y-resizer {
+  height: 5px;
+  cursor: n-resize;
+  background: #f4f5f6 url(y-resizer.png) no-repeat 50% 50%;
+  border-top: 1px solid #e0e3e5;
+  border-bottom: 1px solid #e0e3e5;
+}
+#imce-content .x-resizer {
+  width: 5px;
+  cursor: e-resize;
+  background: #f4f5f6 url(x-resizer.png) no-repeat 50% 50%;
+  border-left: 1px solid #e0e3e5;
+  border-right: 1px solid #e0e3e5;
+}
+
+/*Message box*/
+#message-box {
+  display: none;
+  position: absolute;
+  width: 60%;
+  left: 20%;
+  top: 32%;
+  z-index: 10;
+  padding: 5px;
+  background-color: #fff;
+  border: 2px solid #000;
+}
+#message-box  * {
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #000;
+}
+#imce-content div.message {
+  background: url(status.png) no-repeat 0 0;
+  padding-left: 20px;
+  margin: 2px 0;
+}
+#imce-content div.error {
+  background: url(error.png) no-repeat 0 0;
+  padding-left: 20px;
+}
+#imce-content div.warning {
+  background: url(warning.png) no-repeat 0 0;
+  padding-left: 20px;
+}
+#log-messages {
+  height: 60px;
+  overflow: auto;
+  border: 1px solid #000;
+  padding: 2px 4px;
+}
+#log-messages * {
+  font-family: monospace;
+}
+
+#file-preview {
+  text-align: center;
+}
+.imce-hide, .js #forms-wrapper, #help-box {
+  display: none;
+}
+
+/*IE*/
+.ie #imce-content input, .ie #imce-content select {
+  vertical-align: middle;
+  line-height: 1.2em;
+}
+.ie-7 #navigation-tree li {
+  list-style-image: none;
+}
+.ie-7 #imce-content input.form-submit, .ie-7 #imce-content input[type=submit], .ie-7 #imce-content button {
+  border-style: outset;
+}
+.ie-7 #ops-list a span {
+  cursor: pointer;
+}
+.ie-7 #file-list-wrapper {
+  display: inline-block; /* Gives hasLayout */
+}
+
+/* File list in box view */
+.box-view #file-list tr {
+  display: block;
+  float: left;
+  border: 1px solid #ccf;
+  margin: 10px;
+}
+.box-view #file-list td {
+  border: 0;
+}
+.box-view #file-list td.name {
+  min-width: 0;
+  padding: 5px;
+  text-align: center;
+  vertical-align: middle;
+}
+.box-view #file-list td.name img {
+  margin: 0;
+}
+.box-view #file-list td.name span {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.box-view #file-list td.size, .box-view #file-list td.date, .box-view #file-list td.width, .box-view #file-list td.height {
+  display: none;
+}

@@ -1,0 +1,82 @@
+$Id: API.txt,v 1.1.2.2 2010/07/29 14:31:36 yhahn Exp $
+
+Context 3.x API
+---------------
+The following is an overview of using the Context API.
+
+
+The context static cache
+------------------------
+Context provides a centralized set of API functions for setting and retrieving a
+static cache:
+
+    // Set a static cache value at [my_namspace][mykey]
+    context_set('my_namespace', 'mykey', $value);
+
+    // Retrieve a static cache value at [my_namespace][mykey]
+    context_get('my_namespace', 'mykey'); // $value
+
+    // Boolean for whether there is a value at [my_namespace][mykey]
+    context_isset('my_namespace', 'mykey'); // TRUE
+
+These are used internally by context but may also be used by other modules. Just
+do not use the namespace `context` unless you want to affect things that context
+is up to.
+
+
+Adding a condition or reaction plugin
+-------------------------------------
+Both context conditions and reactions utilize the CTools plugins API. In order
+to add a new condition or reaction for your module, follow these steps:
+
+1. Implement `hook_context_plugins()` to define your plugins, classes, and class
+  hierarchy.
+
+        function mymodule_context_plugins() {
+          $plugins = array();
+          $plugins['mymodule_context_condition_bar'] = array(
+            'handler' => array(
+              'path' => drupal_get_path('module', 'mymodule') .'/plugins',
+              'file' => 'mymodule_context_condition_bar.inc',
+              'class' => 'mymodule_context_condition_bar',
+              'parent' => 'context_condition',
+            ),
+          );
+          return $plugins;
+        }
+
+2. Implement `hook_context_registry()` to define your conditions and/or
+  reactions and map them to plugins.
+
+        function mymodule_context_registry() {
+          return array(
+            'conditions' => array(
+              'bar' => array(
+                'title' => t('Name of condition "bar"'),
+                'plugin' => 'mymodule_context_condition_bar',
+              ),
+            ),
+          );
+        }
+
+3. Write your condition or reaction plugin class. It's best to look at one of
+  the included plugins as a starting point.
+
+4. Add in a Drupal integration point for your plugin. A node page condition
+  plugin, for example, may be invoked from `hook_nodeapi()`.
+
+
+Replacing or extending existing plugins
+---------------------------------------
+You can replace a condition or reaction plugin with your own plugin class using
+`hook_context_registry_alter()`:
+
+    function mymodule_context_registry_alter(&$registry) {
+      if (!empty($registry['conditions']['node'])) {
+        $registry['conditions']['node']['plugin'] = 'mymodule_context_condition_customnode';
+      }
+    }
+
+This entry would swap out the default node condition plugin for a custom one
+provided by `mymodule`. Note that any replacement plugins must have an entry in
+`hook_context_plugins()`.
