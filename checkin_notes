@@ -2681,8 +2681,23 @@ David  14 Mar 2012
 
 David  15 Mar 2012
     - client: when killing a task, don't delete its shmem or change its state.
-        These mess up the logic for dealing with exited processes.
+        These mess up the logic for dealing with exited processes,
+        resulting in incorrect log messages.
 
     client/
         app.cpp
         app_control.cpp
+
+David  15 Mar 2012
+    - scheduler: when HR is being used,
+        make per-HR slot allocation an option rather than the default.
+        Kevin reported that slot allocation wasn't working for WCG.
+        The default is now no slot allocation,
+        and use the regular result enumeration function
+        rather than the once that scans the entire table.
+        The config flag for enabling slot allocation is <hr_allocate_slots/>.
+
+    sched/
+        sched_config.cpp,h
+        feeder.cpp
+        hr_info.cpp

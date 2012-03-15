@@ -252,7 +252,7 @@ static bool get_job_from_db(
     int hrt = ssp->apps[app_index].homogeneous_redundancy;
 
     while (1) {
-        if (hrt) {
+        if (hrt && config.hr_allocate_slots) {
             retval = wi.enumerate_all(enum_size, select_clause);
         } else {
             retval = wi.enumerate(enum_size, select_clause, order_clause);
@@ -326,7 +326,7 @@ static bool get_job_from_db(
 
             // if using HR, check whether we've exceeded quota for this class
             //
-            if (hrt) {
+            if (hrt && config.hr_allocate_slots) {
                 if (!hr_info.accept(hrt, wi.wu.hr_class)) {
                     log_messages.printf(MSG_DEBUG,
                         "rejecting [RESULT#%u] because HR class %d/%d over quota\n",
@@ -420,7 +420,7 @@ static bool scan_work_array(vector<DB_WORK_ITEM> &work_items) {
         }
     }
 
-    if (using_hr) {
+    if (using_hr && config.hr_allocate_slots) {
         hr_count_slots();
     }
 
@@ -616,34 +616,38 @@ void hr_init() {
         }
     }
     using_hr = true;
-    hr_info.init();
-    retval = hr_info.read_file();
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL,
-            "Can't read HR info file: %s\n", boincerror(retval)
-        );
-        exit(1);
-    }
+    if (config.hr_allocate_slots) {
+        hr_info.init();
+        retval = hr_info.read_file();
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL,
+                "Can't read HR info file: %s\n", boincerror(retval)
+            );
+            exit(1);
+        }
 
-    // find the weight for each HR type
-    //
-    for (i=0; i<ssp->napps; i++) {
-        hrt = ssp->apps[i].homogeneous_redundancy;
-        hr_info.type_weights[hrt] += ssp->apps[i].weight;
-        hr_info.type_being_used[hrt] = true;
-    }
+        // find the weight for each HR type
+        //
+        for (i=0; i<ssp->napps; i++) {
+            hrt = ssp->apps[i].homogeneous_redundancy;
+            hr_info.type_weights[hrt] += ssp->apps[i].weight;
+            hr_info.type_being_used[hrt] = true;
+        }
 
-    // compute the slot allocations for HR classes
-    //
-    hr_info.allocate(ssp->max_wu_results);
-    hr_info.show(stderr);
+        // compute the slot allocations for HR classes
+        //
+        hr_info.allocate(ssp->max_wu_results);
+        hr_info.show(stderr);
+    }
 }
 
 // write a summary of feeder state to stderr
 //
 void show_state(int) {
     ssp->show(stderr);
-    hr_info.show(stderr);
+    if (config.hr_allocate_slots) {
+        hr_info.show(stderr);
+    }
 }
 
 void show_version() {
