@@ -56,12 +56,14 @@ function boincwork_menu() {
     'type' => MENU_CALLBACK
   );
   $items['stats'] = array(
-    'page callback' => 'boincwork_stats_overview',
+    'page callback' => 'boincwork_view_page',
+    'page arguments' => array('8938'),
     'access arguments' => array('access content')
   );
   $items['stats/overview'] = array(
     'title' => t('Overview'),
-    'type' => MENU_DEFAULT_LOCAL_TASK
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10
   );
   return $items;
 }
@@ -108,11 +110,11 @@ function generalprefs_page($action = null, $venue = null) {
       $prefs[$pref_set] = drupal_retrieve_form('boincwork_generalprefs_form', $form_state, $pref_set);
       drupal_prepare_form('boincwork_generalprefs_form', $prefs[$pref_set], $form_state);
     }
-    krumo($prefs);
+    //krumo($prefs);
     $output .= '<p>' . t('These apply to all BOINC projects in which you participate.') . '<br/>';
     $output .= t('On computers attached to multiple projects, the most recently modified preferences will be used.') . '</p>';
     $output .= '<p>' . t('Preferences last modified: @mod_time', array('@mod_time' => pretty_time_str($prefs['default']['modified']['#value']))) . '</p>';
-    $output .= '<p>' . t('Combined preferences') . ' ' . l('(' . t('Switch View') . ')', 'account/prefs/general') . '</p>';
+    $output .= '<h2>' . t('Combined preferences') . ' ' . l('(' . t('Switch View') . ')', 'account/prefs/general') . '</h2>';
     
     $output .= '<table>';
     
@@ -122,7 +124,7 @@ function generalprefs_page($action = null, $venue = null) {
       'network'
     );
     foreach ($sections as $section) {
-      $output .= '<tr class="section heading">';
+      $output .= '<tr class="section-heading">';
       $output .= "<td>{$prefs['default'][$section]['#title']}</td>";
       foreach ($pref_sets as $pref_set) $output .= '<td>' . ucwords($pref_set) . '</td>';
       $output .= '</tr>';
@@ -167,10 +169,10 @@ function generalprefs_page($action = null, $venue = null) {
         if ($pref_set == 'default') {
           // Global preferences
           $output .= '<p>' . t('Preferences last modified: @mod_time', array('@mod_time' => pretty_time_str($prefs['modified']['#value']))) . '</p>';
-          $output .= '<p>' . t('Primary (default) preferences') . ' ' . l('(' . t('Switch View') . ')', 'account/prefs/general/combined') . '</p>';
+          $output .= '<h2>' . t('Primary (default) preferences') . ' ' . l('(' . t('Switch View') . ')', 'account/prefs/general/combined') . '</h2>';
         } else {
           // Venue specific preferences
-          $output .= '<p>' . t('Separate preferences for @venue', array('@venue' => $pref_set)) . '</p>';
+          $output .= '<h2>' . t('Separate preferences for @venue', array('@venue' => $pref_set)) . '</h2>';
         }
         $output .= '<table>';
         
@@ -180,7 +182,7 @@ function generalprefs_page($action = null, $venue = null) {
           'network' => $prefs['network']
         );
         foreach ($sections as $section) {
-          $output .= '<tr class="section heading">';
+          $output .= '<tr class="section-heading">';
           $output .= "<td>{$section['#title']}</td></tr>";
           foreach ($section as $name => $setting) {
             if ($name{0} == '#') continue;
@@ -246,7 +248,7 @@ function projectprefs_page($action = null, $venue = null) {
     );
     if ($project_has_beta) $sections[] ='beta';
     foreach ($sections as $section) {
-      $output .= '<tr class="section heading">';
+      $output .= '<tr class="section-heading">';
       $output .= "<td>{$prefs['default'][$section]['#title']}</td>";
       foreach ($pref_sets as $pref_set) $output .= '<td>' . ucwords($pref_set) . '</td>';
       $output .= '</tr>';
@@ -282,13 +284,13 @@ function projectprefs_page($action = null, $venue = null) {
     foreach ($pref_sets as $pref_set) {
       $prefs = drupal_retrieve_form('boincwork_projectprefs_form', $form_state, $pref_set);
       drupal_prepare_form('boincwork_projectprefs_form', $prefs, $form_state);
-      if (isset($prefs['venue'])) { krumo($prefs);
+      if (isset($prefs['venue'])) {
         if ($pref_set == 'default') {
           // Global preferences
-          $output .= '<p>' . t('Primary (default) preferences') . ' ' . l('(' . t('Switch View') . ')', 'account/prefs/project/combined') . '</p>';
+          $output .= '<h2>' . t('Primary (default) preferences') . ' ' . l('(' . t('Switch View') . ')', 'account/prefs/project/combined') . '</h2>';
         } else {
           // Venue specific preferences
-          $output .= '<p>' . t('Separate preferences for @venue', array('@venue' => $pref_set)) . '</p>';
+          $output .= '<h2>' . t('Separate preferences for @venue', array('@venue' => $pref_set)) . '</h2>';
         }
         $output .= '<table>';
         
@@ -301,7 +303,7 @@ function projectprefs_page($action = null, $venue = null) {
         
         if ($project_has_beta) $sections['beta'] = $prefs['beta'];
         foreach ($sections as $section) {
-          $output .= '<tr class="section heading">';
+          $output .= '<tr class="section-heading">';
           $output .= "<td>{$section['#title']}</td></tr>";
           foreach ($section as $name => $setting) {
             if ($name{0} == '#') continue;
@@ -319,7 +321,7 @@ function projectprefs_page($action = null, $venue = null) {
         }
         
         // Application settings
-        $output .= '<tr class="section heading">';
+        $output .= '<tr class="section-heading">';
         $output .= "<td>{$prefs['applications']['#title']}</td></tr>";
         $output .= '<tr>';
         $output .= "<td>{$prefs['applications']['#description']}</td>";
@@ -531,10 +533,10 @@ function boincwork_server_status() {
 
 
 /**
- * 
- * 
+ * Generic page callback
+ * Take a node ID and render that node as a page
  */
-function boincwork_stats_overview() {
-  $node = node_load(8938);
+function boincwork_view_page($nid) {
+  $node = node_load($nid);
   return node_page_view($node);
 }
