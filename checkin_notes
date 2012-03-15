@@ -2670,3 +2670,11 @@ David  14 Mar 2012
 
     vda/
         sched_vda.cpp
+
+David  14 Mar 2012
+    - client: on each scheduler RPC,
+        make sure that files flagged as executable in the reply,
+        and that are present, are actually executable.
+
+    client/
+        client_types.cpp

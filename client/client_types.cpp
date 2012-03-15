@@ -1255,6 +1255,21 @@ int FILE_INFO::merge_info(FILE_INFO& new_info) {
         strcpy(xml_signature, new_info.xml_signature);
     }
 
+    // If the file is supposed to be executable and is PRESENT,
+    // make sure it's actually executable.
+    // This deals with cases where somehow a file didn't
+    // get protected right when it was initially downloaded.
+    //
+    if (status == FILE_PRESENT && new_info.executable) {
+        int retval = set_permissions();
+        if (retval) {
+            msg_printf(project, MSG_INTERNAL_ERROR,
+                "merge_info(): failed to change permissions of %s", name
+            );
+        }
+        return retval;
+    }
+
     return 0;
 }
 
