@@ -18,11 +18,11 @@ function boincwork_generalprefs_form(&$form_state, $bilge, $venue, $initialize_i
   require_boinc(array('user', 'prefs'));
   
   global $user;
-  $drupuser = user_load($user->uid);
+  $drupaluser = user_load($user->uid);
   $prefs = null;
   
   // Load preferences from BOINC account
-  $boincuser = BoincUser::lookup_id($drupuser->boincuser_id);
+  $boincuser = BoincUser::lookup_id($drupaluser->boincuser_id);
   $main_prefs = prefs_parse_global($boincuser->global_prefs);
   
   if (!$venue OR $venue == 'default') $prefs = $main_prefs;
@@ -33,9 +33,9 @@ function boincwork_generalprefs_form(&$form_state, $bilge, $venue, $initialize_i
   $disk_space_config = get_disk_space_config();
   $default = array(
     'processor' => array(
-      'suspend_while_on_batteries' => (isset($prefs->suspend_while_on_batteries) AND !$prefs->suspend_while_on_batteries) ? 0 : 1,
-      'suspend_if_user_active' => (isset($prefs->suspend_if_user_active) AND $prefs->suspend_if_user_active) ? 1 : 0,
-      'suspend_gpu_if_user_active' => (isset($prefs->suspend_gpu_if_user_active) AND !$prefs->suspend_gpu_if_user_active) ? 0 : 1,
+      'run_on_batteries' => (isset($prefs->run_on_batteries) AND !$prefs->run_on_batteries) ? 0 : 1,
+      'run_if_user_active' => (isset($prefs->run_if_user_active) AND $prefs->run_if_user_active) ? 1 : 0,
+      'run_gpu_if_user_active' => (isset($prefs->run_gpu_if_user_active) AND !$prefs->run_gpu_if_user_active) ? 0 : 1,
       'idle_time_to_run' => isset($prefs->idle_time_to_run) ? $prefs->idle_time_to_run : 3,
       'suspend_if_no_recent_input' => isset($prefs->suspend_if_no_recent_input) ? $prefs->suspend_if_no_recent_input : 0,
       'suspend_cpu_usage' => isset($prefs->suspend_cpu_usage) ? $prefs->suspend_cpu_usage : 0,
@@ -102,26 +102,26 @@ function boincwork_generalprefs_form(&$form_state, $bilge, $venue, $initialize_i
     '#collapsible' => TRUE,
     '#collapsed' => FALSE
   );
-  $form['processor']['suspend_while_on_batteries'] = array(
-    '#title' => t('Suspend work while computer is on battery power?'),
+  $form['processor']['run_on_batteries'] = array(
+    '#title' => t('Run while computer is on battery power?'),
     '#type' => 'radios',
     '#description' => t('Matters only for portable computers'),
     '#options' => $form['boolean_options']['#value'],
-    '#default_value' => $default['processor']['suspend_while_on_batteries']
+    '#default_value' => $default['processor']['run_on_batteries']
   );
-  $form['processor']['suspend_if_user_active'] = array(
-    '#title' => t('Suspend work while computer is in use?'),
+  $form['processor']['run_if_user_active'] = array(
+    '#title' => t('Run while computer is in use?'),
     '#type' => 'radios',
     '#description' => t(''),
     '#options' => $form['boolean_options']['#value'],
-    '#default_value' => $default['processor']['suspend_if_user_active']
+    '#default_value' => $default['processor']['run_if_user_active']
   );
-  $form['processor']['suspend_gpu_if_user_active'] = array(
-    '#title' => t('Suspend GPU work while computer is in use?'),
+  $form['processor']['run_gpu_if_user_active'] = array(
+    '#title' => t('Run GPU work while computer is in use?'),
     '#type' => 'radios',
     '#description' => t('Enforced by version 6.6.21+'),
     '#options' => $form['boolean_options']['#value'],
-    '#default_value' => $default['processor']['suspend_gpu_if_user_active']
+    '#default_value' => $default['processor']['run_gpu_if_user_active']
   );
   $form['processor']['idle_time_to_run'] = array(
     '#title' => t('&apos;In use&apos; means mouse/keyboard activity in last'),
@@ -398,20 +398,20 @@ function boincwork_generalprefs_form_submit($form, &$form_state) {
   require_boinc(array('user', 'prefs'));
   
   global $user;
-  $drupuser = user_load($user->uid);
+  $drupaluser = user_load($user->uid);
   
   $venue = $form_state['values']['venue'];
   
   // Load preferences from BOINC account
-  $boincuser = BoincUser::lookup_id($drupuser->boincuser_id);
+  $boincuser = BoincUser::lookup_id($drupaluser->boincuser_id);
   $main_prefs = prefs_parse_global($boincuser->global_prefs);
   $venue = (isset($main_prefs->$venue)) ? $venue : null;
   $prefs = ($venue) ? $main_prefs->$venue : $main_prefs;
   
   // Processing preferences
-  $prefs->suspend_while_on_batteries = ($form_state['values']['suspend_while_on_batteries']) ? true : false;
-  $prefs->suspend_if_user_active = ($form_state['values']['suspend_if_user_active']) ? true : false;
-  $prefs->suspend_gpu_if_user_active = ($form_state['values']['suspend_gpu_if_user_active']) ? true: false;
+  $prefs->run_on_batteries = ($form_state['values']['run_on_batteries']) ? true : false;
+  $prefs->run_if_user_active = ($form_state['values']['run_if_user_active']) ? true : false;
+  $prefs->run_gpu_if_user_active = ($form_state['values']['run_gpu_if_user_active']) ? true: false;
   $prefs->idle_time_to_run = $form_state['values']['idle_time_to_run'];
   $prefs->suspend_if_no_recent_input = $form_state['values']['suspend_if_no_recent_input'];
   $prefs->suspend_cpu_usage = $form_state['values']['suspend_cpu_usage'];
@@ -447,12 +447,21 @@ function boincwork_generalprefs_form_submit($form, &$form_state) {
   
   if ($venue) $main_prefs->$venue = $prefs;
   else $main_prefs = $prefs;
-  global_prefs_update($boincuser, $main_prefs);
   
-  drupal_set_message(t('Your preferences have been updated.
+  // Update BOINC DB (using BOINC prefs.inc)
+  $prefs_xml = mysql_real_escape_string(global_prefs_make_xml($main_prefs));
+  $result = mysql_query("UPDATE user SET global_prefs = '{$prefs_xml}' WHERE id = '{$boincuser->id}'");
+  
+  if (!$result) {
+    watchdog('boincwork', 'Error updating global prefs for user @id: @message', array('@id' => $drupaluser->id, '@message' => mysql_error()), WATCHDOG_ERROR);
+    drupal_set_message(t('Your changes could not be saved. Please contact support!'), 'error');
+  }
+  else {
+    drupal_set_message(t('Your preferences have been updated.
       Client-related preferences will take effect when your computer 
       communicates with @project or you issue the "Update"
       command from the BOINC client.', array('@project' => PROJECT)));
+  }
 }
 
 
@@ -467,10 +476,10 @@ function boincwork_projectprefs_form(&$form_state, $bilge, $venue, $initialize_i
   require_boinc(array('user', 'prefs', 'util'));
   
   global $user;
-  $drupuser = user_load($user->uid);
+  $drupaluser = user_load($user->uid);
   
   // Load preferences from BOINC account
-  $boincuser = BoincUser::lookup_id($drupuser->boincuser_id);
+  $boincuser = BoincUser::lookup_id($drupaluser->boincuser_id);
   $main_prefs = prefs_parse_project($boincuser->project_prefs);
   
   if (!$venue OR $venue == 'default') $prefs = $main_prefs;
@@ -715,12 +724,12 @@ function boincwork_projectprefs_form_submit($form, &$form_state) {
   require_boinc(array('user', 'prefs'));
   
   global $user, $app_types, $app_array;
-  $drupuser = user_load($user->uid);
+  $drupaluser = user_load($user->uid);
   
   $venue = $form_state['values']['venue'];
   
   // Load preferences from BOINC account
-  $boincuser = BoincUser::lookup_id($drupuser->boincuser_id);
+  $boincuser = BoincUser::lookup_id($drupaluser->boincuser_id);
   $main_prefs = prefs_parse_project($boincuser->project_prefs);
   $venue = (isset($main_prefs->$venue)) ? $venue : null;
   $prefs = ($venue) ? $main_prefs->$venue : $main_prefs;
