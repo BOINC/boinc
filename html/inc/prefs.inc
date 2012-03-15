@@ -68,6 +68,11 @@ include_once("../inc/prefs_util.inc");
 include_once("../project/project_specific_prefs.inc");
 
 global $app_types;
+global $cpu_prefs;
+global $disk_prefs;
+global $net_prefs;
+global $project_pref_descs;
+
 $app_types = get_app_types();
 
 $venues = array("home", "school", "work");
