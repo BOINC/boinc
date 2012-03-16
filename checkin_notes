@@ -2715,3 +2715,11 @@ Rom    15 Mar 2012
     samples/vboxwrapper/
         vbox.cpp, .h
         vboxwrapper.cpp
+
+Rom    16 Mar 2012
+    - Tag for 7.0.21 release, all platforms
+      boinc_core_release_7_0_21
+
+    /
+        configure.ac
+        version.h
