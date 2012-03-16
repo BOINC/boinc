@@ -126,6 +126,7 @@ struct VBOX_VM {
     int read_floppy(std::string& data);
     int write_floppy(std::string& data);
 
+    void lower_vm_process_priority();
     void reset_vm_process_priority();
 
     int vbm_popen(

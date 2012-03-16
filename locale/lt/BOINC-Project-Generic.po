@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2012-01-15 17:44+0200\n"
+"PO-Revision-Date: 2012-03-10 18:30+0200\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: \n"
 "Language: lt\n"
@@ -81,18 +81,16 @@ msgid "Default"
 msgstr "Įprastiniai"
 
 #: ../inc/bbcode_html.inc:45
-#, fuzzy
 msgid "Dark Red"
-msgstr "Pažymėti kaip perskaitytus"
+msgstr "Tamsiai raudona"
 
 #: ../inc/bbcode_html.inc:46
 msgid "Red"
 msgstr ""
 
 #: ../inc/bbcode_html.inc:47
-#, fuzzy
 msgid "Orange"
-msgstr "Pakeisti"
+msgstr "Oranžinė"
 
 #: ../inc/bbcode_html.inc:48
 msgid "Brown"
@@ -227,52 +225,44 @@ msgid "Next"
 msgstr ""
 
 #: ../inc/forum.inc:535
-#, fuzzy
 msgid "Send&nbsp;message"
-msgstr "Siųsti žinutę"
+msgstr "Siųsti&nbsp;žinutę"
 
 # ########################################
 # Private messages
 #: ../inc/forum.inc:535
-#, fuzzy
 msgid "Send %1 a private message"
-msgstr "Siųsti asmeninę žinutę"
+msgstr "Siųsti %1 asmeninę žinutę"
 
 #: ../inc/forum.inc:536
-#, fuzzy
 msgid "Joined: %1"
-msgstr "Prisijungė"
+msgstr "Prisijungė: %1"
 
 # ########################################
 # Forum
 #: ../inc/forum.inc:545
-#, fuzzy
 msgid "Posts: %1"
-msgstr "Žinutės"
+msgstr "Žinutės: %1"
 
 #: ../inc/forum.inc:551
-#, fuzzy
 msgid "Credit: %1"
-msgstr "Kreditas"
+msgstr "Kreditai: %1"
 
 #: ../inc/forum.inc:552
 msgid "RAC: %1"
 msgstr ""
 
 #: ../inc/forum.inc:574
-#, fuzzy
 msgid "You haven't read this message yet"
-msgstr "Neturite asmeninių žinučių."
+msgstr "Šios žinutės dar neperskaitėte"
 
 #: ../inc/forum.inc:574
-#, fuzzy
 msgid "Unread"
-msgstr "neskaityta"
+msgstr "Neskaityta"
 
 #: ../inc/forum.inc:577 ../inc/forum.inc:582 ../inc/forum.inc:681
-#, fuzzy
 msgid "Message %1"
-msgstr "Žinutė"
+msgstr "Žinutė %1"
 
 #: ../inc/forum.inc:578 ../inc/user.inc:324 ../user/forum_forum.php:172
 msgid "hidden"
@@ -281,9 +271,8 @@ msgstr "paslėptas"
 # ########################################
 # Forum
 #: ../inc/forum.inc:579
-#, fuzzy
 msgid "Posted: %1"
-msgstr "Žinutės"
+msgstr "Paskelbta: %1"
 
 #: ../inc/forum.inc:582
 msgid " - in response to "
@@ -294,9 +283,8 @@ msgid "Edit"
 msgstr ""
 
 #: ../inc/forum.inc:585
-#, fuzzy
 msgid "Edit this message"
-msgstr "Taisyti žinutę"
+msgstr "Redaguoti žinutę"
 
 #: ../inc/forum.inc:591
 msgid "Last modified: %1"
@@ -313,9 +301,8 @@ msgid "Report this post as offensive"
 msgstr ""
 
 #: ../inc/forum.inc:622 ../inc/forum.inc:633
-#, fuzzy
 msgid "Report as offensive"
-msgstr "Paskutinė žinutė"
+msgstr "Pranešti apie įžeidžiančią"
 
 #: ../inc/forum.inc:626
 msgid "Rating: %1"
@@ -350,9 +337,8 @@ msgid "Post a reply to this message"
 msgstr ""
 
 #: ../inc/forum.inc:641
-#, fuzzy
 msgid "Quote"
-msgstr "Palikti komandą"
+msgstr "Citata"
 
 #: ../inc/forum.inc:641
 msgid "Post a reply by quoting this message"
@@ -365,14 +351,12 @@ msgstr ""
 # ########################################
 # Forum
 #: ../inc/forum.inc:683
-#, fuzzy
 msgid "Posted %1 by %2"
-msgstr "Žinutės"
+msgstr "Paskelbta %1 (%2)"
 
 #: ../inc/forum.inc:701
-#, fuzzy
 msgid "You may not post or rate messages until %1"
-msgstr "Neturite asmeninių žinučių."
+msgstr "Negalite skelbti ar vertinti žinučių iki %1"
 
 #: ../inc/forum.inc:712
 msgid ""
@@ -397,9 +381,8 @@ msgid "Rules:"
 msgstr ""
 
 #: ../inc/forum.inc:735
-#, fuzzy
 msgid "More info"
-msgstr "Komandos informacija"
+msgstr "Daugiau informacijos"
 
 #: ../inc/forum.inc:1008 ../user/forum_thread.php:185
 msgid "Unhide"
@@ -426,9 +409,8 @@ msgid "Move post to a different thread"
 msgstr ""
 
 #: ../inc/forum.inc:1020
-#, fuzzy
 msgid "Banish author"
-msgstr "tokio vartotojo nėra"
+msgstr "Nubausti vartotoją"
 
 #: ../inc/forum.inc:1027
 msgid "Vote to banish author"
@@ -501,14 +483,12 @@ msgid "Last post"
 msgstr "Paskutinė žinutė"
 
 #: ../inc/forum.inc:1188
-#, fuzzy
 msgid "New posts in the thread %1"
-msgstr "Rašyti į temą"
+msgstr "Naujos žinutės temoje %1"
 
 #: ../inc/forum.inc:1193
-#, fuzzy
 msgid "New posts in subscribed thread"
-msgstr "Pranešti apie naujas žinutes"
+msgstr "Naujos žinutės prenumeruotoje temoje"
 
 #: ../inc/forum.inc:1194
 msgid "There are new posts in the thread '%1'"
@@ -519,9 +499,8 @@ msgid "Mark all threads as read"
 msgstr "Pažymėti visas temas kaip perskaitytas"
 
 #: ../inc/forum.inc:1205
-#, fuzzy
 msgid "Mark all threads in all message boards as read."
-msgstr "Pažymėti visas temas forumuose kaip perskaitytas."
+msgstr "Pažymėti visas temas visuose forumuose kaip perskaitytas."
 
 #: ../inc/host.inc:24
 msgid "No host"
@@ -870,28 +849,24 @@ msgid "Retired old computer %1"
 msgstr ""
 
 #: ../inc/host.inc:630 ../inc/host.inc:633
-#, fuzzy
 msgid "Show:"
-msgstr "Rodyti"
+msgstr "Rodyti:"
 
 #: ../inc/host.inc:630 ../inc/host.inc:633
-#, fuzzy
 msgid "All computers"
-msgstr "Kompiuteriai"
+msgstr "Visi kompiuteriai"
 
 #: ../inc/host.inc:630 ../inc/host.inc:633
 msgid "Only computers active in past 30 days"
 msgstr ""
 
 #: ../inc/host.inc:642 ../inc/result.inc:600
-#, fuzzy
 msgid "Computer ID"
-msgstr "Kompiuteris"
+msgstr "Kompiuterio ID"
 
 #: ../inc/host.inc:655
-#, fuzzy
 msgid "BOINC<br>version"
-msgstr "BOINC versija"
+msgstr "BOINC<br />versija"
 
 #: ../inc/host.inc:711 ../user/merge_by_name.php:67
 msgid "Merge computers by name"
@@ -931,9 +906,8 @@ msgid "Preview"
 msgstr "Peržiūra"
 
 #: ../inc/pm.inc:48 ../user/pm.php:131
-#, fuzzy
 msgid "no such message"
-msgstr "Žinutė nerasta"
+msgstr "žinutė nerasta"
 
 #: ../inc/pm.inc:82
 msgid "To"
@@ -989,9 +963,8 @@ msgstr ""
 # ########################################
 # Private messages
 #: ../inc/pm.inc:198
-#, fuzzy
 msgid "Private message"
-msgstr "Asmeninės žinutės"
+msgstr "Asmeninė žinutė"
 
 #: ../inc/prefs.inc:76
 msgid ""
@@ -1578,9 +1551,8 @@ msgid "Couldn't send result"
 msgstr ""
 
 #: ../inc/result.inc:285
-#, fuzzy
 msgid "Too many errors (may have bug)"
-msgstr "Per daug klaidų (gali būti klaidingas užduočių rinkinys)"
+msgstr "Per daug klaidų (gali būti problema)"
 
 #: ../inc/result.inc:289
 msgid "Too many results (may be nondeterministic)"
@@ -1632,9 +1604,8 @@ msgid "Sent"
 msgstr "Išsiųsta"
 
 #: ../inc/result.inc:346
-#, fuzzy
 msgid "Time reported<br />or deadline"
-msgstr "Galutinis atlikimo terminas"
+msgstr "Atlikimo laikas<br />arba galutinis terminas"
 
 #: ../inc/result.inc:347
 msgid "explain"
@@ -2207,9 +2178,8 @@ msgid "Add as friend"
 msgstr "Pridėti draugą"
 
 #: ../inc/util.inc:113
-#, fuzzy
 msgid "log out"
-msgstr "Atsijungti"
+msgstr "atsijungti"
 
 #: ../inc/util.inc:115
 msgid "log in"
@@ -2226,9 +2196,8 @@ msgid "Create an account"
 msgstr "Sukurti abonementą"
 
 #: ../inc/util.inc:176
-#, fuzzy
 msgid "Server status page"
-msgstr "Būsena serveryje"
+msgstr "Serverio būsenos puslapis"
 
 #: ../inc/util.inc:218
 msgid ""
@@ -2277,9 +2246,8 @@ msgid "Unable to connect to database - please try again later"
 msgstr ""
 
 #: ../inc/util.inc:772
-#, fuzzy
 msgid "Error:"
-msgstr "Klaida"
+msgstr "Klaida:"
 
 #: ../inc/util.inc:776
 msgid "Unable to select database - please try again later"
@@ -2314,9 +2282,8 @@ msgid "Optional"
 msgstr "Nebūtinas"
 
 #: ../user/account_finish_action.php:27 ../user/create_account_action.php:86
-#, fuzzy
 msgid "You must supply a name for your account"
-msgstr "Privalote pateikti pakvietimo kodą, kad sukurtumėte abonementą."
+msgstr "Privalote pateikti abonemento vardą"
 
 #: ../user/account_finish_action.php:30 ../user/create_account_action.php:89
 msgid "HTML tags not allowed in name"
@@ -2385,9 +2352,8 @@ msgid "Underline"
 msgstr ""
 
 #: ../user/bbcode.php:35
-#, fuzzy
 msgid "Superscript"
-msgstr "Aprašymas"
+msgstr "Pakeltas tekstas"
 
 #: ../user/bbcode.php:36
 msgid "Big text"
@@ -2402,9 +2368,8 @@ msgid "link to website"
 msgstr ""
 
 #: ../user/bbcode.php:39
-#, fuzzy
 msgid "Quoted text"
-msgstr "Palikti komandą"
+msgstr "Cituotas tekstas"
 
 #: ../user/bbcode.php:39
 msgid "use for quoted blocks of text"
@@ -2463,9 +2428,8 @@ msgstr ""
 # ########################################
 # "Your account" page (home.php)
 #: ../user/create_account_action.php:26
-#, fuzzy
 msgid "Can't create account"
-msgstr "Sukurti abonementą"
+msgstr "Nepavyksta sukurti abonemento"
 
 #: ../user/create_account_action.php:29
 msgid "Click your browser's <b>Back</b> button to try again."
@@ -2477,12 +2441,12 @@ msgid "Account creation is disabled"
 msgstr "Abonementų kūrimas yra išjungtas"
 
 #: ../user/create_account_action.php:41
-#, fuzzy
 msgid ""
 "Sorry, this project has disabled the creation of new accounts.\n"
 "Please try again later."
 msgstr ""
-"Abonementų kūrimas %1 šiuo metu yra išjungtas. Pabandykite dar kartą vėliau."
+"Abonementų kūrimas projekte šiuo metu yra išjungtas.\n"
+"Pabandykite dar kartą vėliau."
 
 #: ../user/create_account_action.php:53
 msgid "Your reCAPTCHA response was not correct. Please try again."
@@ -2522,22 +2486,19 @@ msgstr ""
 # ########################################
 # "Your account" page (home.php)
 #: ../user/create_account_action.php:137
-#, fuzzy
 msgid "Couldn't create account"
-msgstr "Sukurti abonementą"
+msgstr "Nepavyksta sukurti abonemento"
 
 #: ../user/create_account_form.php:44
 msgid "Account creation is currently disabled. Please try again later."
 msgstr "Abonementų kūrimas šiuo metu išjungtas. Pamėginkite vėliau."
 
 #: ../user/create_account_form.php:53
-#, fuzzy
 msgid ""
 "Don't use this form. Just run BOINC, select Add Project, and enter an email "
 "address and password."
 msgstr ""
-"PASTABA: jei naudojate BOINC 5.2 ar naujesnę versiją su BOINC valdikliu, "
-"nenaudokite šios formos. Tiesiog paleiskite BOINC, pasirinkite \"Prisijungti "
+"Nenaudokite šios formos. Tiesiog paleiskite BOINC, pasirinkite \"Prisijungti "
 "prie projekto\" ir įveskite savo elektroninio pašto adresą bei slaptažodį."
 
 #: ../user/create_account_form.php:71
@@ -2697,26 +2658,22 @@ msgstr ""
 # ########################################
 # "Your account" page (home.php)
 #: ../user/delete_account.php:57
-#, fuzzy
 msgid "Couldn't delete account"
-msgstr "Sukurti abonementą"
+msgstr "Nepavyko ištrinti abonemento"
 
 #: ../user/delete_account.php:59
-#, fuzzy
 msgid "Account deleted"
-msgstr "Abonemento raktas"
+msgstr "Abonementas ištrintas"
 
 #: ../user/delete_account.php:60
-#, fuzzy
 msgid "Your account has been deleted."
-msgstr "Jūsų žinutė išsiųsta."
+msgstr "Jūsų abonementas ištrintas."
 
 # ########################################
 # "Your account" page (home.php)
 #: ../user/delete_account.php:64
-#, fuzzy
 msgid "Confirm delete account"
-msgstr "Sukurti abonementą"
+msgstr "Patvirtinkite abonemento trynimą"
 
 #: ../user/delete_account.php:67
 msgid ""
@@ -2745,9 +2702,8 @@ msgid "Yes"
 msgstr ""
 
 #: ../user/delete_account.php:79
-#, fuzzy
 msgid "Delete this account"
-msgstr "Pašalinti šį kompiuterį"
+msgstr "Pašalinti šį abonementą"
 
 #: ../user/delete_account.php:80 ../user/delete_profile.php:53
 #: ../user/friend.php:239 ../user/user_search.php:128
@@ -2756,24 +2712,20 @@ msgid "No"
 msgstr ""
 
 #: ../user/delete_account.php:80
-#, fuzzy
 msgid "Do not delete this account"
-msgstr "Pašalinti šį kompiuterį"
+msgstr "Nešalinti šio abonemento"
 
 #: ../user/delete_profile.php:30
-#, fuzzy
 msgid "couldn't delete profile - please try again later"
-msgstr "Abonementų kūrimas šiuo metu išjungtas. Pamėginkite vėliau."
+msgstr ""
 
 #: ../user/delete_profile.php:33
-#, fuzzy
 msgid "Delete Confirmation"
-msgstr "Kompiuterio informacija"
+msgstr "Šalinimo patvirtinimas"
 
 #: ../user/delete_profile.php:35
-#, fuzzy
 msgid "Your profile has been deleted."
-msgstr "Jūsų žinutė išsiųsta."
+msgstr "Aprašymas ištrintas."
 
 #: ../user/delete_profile.php:40
 msgid "Profile delete confirmation"
@@ -2797,14 +2749,12 @@ msgid ""
 msgstr ""
 
 #: ../user/delete_profile.php:52
-#, fuzzy
 msgid "Delete my profile"
-msgstr "Keisti aprašymą"
+msgstr "Ištrinti mano aprašymą"
 
 #: ../user/delete_profile.php:53
-#, fuzzy
 msgid "Do not delete my profile"
-msgstr "Man šis aprašymas %1nepatinka%2"
+msgstr "Netrinti mano aprašymo"
 
 #: ../user/donated.php:25
 msgid "PayPal - Transaction Completed"
@@ -2832,9 +2782,8 @@ msgid "This project is not accepting donations."
 msgstr ""
 
 #: ../user/donations.php:34
-#, fuzzy
 msgid "%1 donations"
-msgstr "%1 dienų"
+msgstr "%1 paramų"
 
 #: ../user/donations.php:39
 msgid ""
@@ -2866,9 +2815,8 @@ msgid "Estimated value in"
 msgstr ""
 
 #: ../user/donations.php:320 ../user/donations.php:324
-#, fuzzy
 msgid "Anonymous donation"
-msgstr "Anonimas"
+msgstr "Anoniminė parama"
 
 #: ../user/donations.php:320
 msgid ""
@@ -2918,9 +2866,8 @@ msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr ""
 
 #: ../user/edit_email_action.php:31
-#, fuzzy
 msgid "Change email address of account"
-msgstr "Naujas el. pašto adresas"
+msgstr "Pakeisti abonemento pašto adresą"
 
 #: ../user/edit_email_action.php:34 ../user/edit_email_action.php:36
 msgid "New email address '%1' is invalid."
@@ -3312,9 +3259,8 @@ msgid "In Progress"
 msgstr "Vykdomas"
 
 #: ../user/explain_state.php:41
-#, fuzzy
 msgid "The task has been sent; waiting for completion."
-msgstr "Užduočių rinkiniai, laukiantys patikrinimo"
+msgstr "Užduotis išsiųsta, laukiama užbaigimo."
 
 #: ../user/explain_state.php:44
 msgid ""
@@ -3701,9 +3647,11 @@ msgstr ""
 msgid "unread/locked"
 msgstr "neskaityta"
 
+# 81%
 #: ../user/forum_forum.php:184
+#, fuzzy
 msgid "You haven't read this thread yet"
-msgstr ""
+msgstr "Neturite asmeninių žinučių."
 
 #: ../user/forum_forum.php:190
 msgid "This thread is sticky and locked"
@@ -5504,7 +5452,7 @@ msgstr ""
 
 #: ../user/server_status.php:236
 msgid "Project status"
-msgstr ""
+msgstr "Projekto būsena"
 
 #: ../user/server_status.php:238
 msgid "Server software version: %1"
@@ -5580,18 +5528,16 @@ msgid "Workunits waiting for validation"
 msgstr "Užduočių rinkiniai, laukiantys patikrinimo"
 
 #: ../user/server_status.php:346
-#, fuzzy
 msgid "Workunits waiting for assimilation"
-msgstr "Užduočių rinkiniai, laukiantys patikrinimo"
+msgstr "Užduočių rinkiniai, laukiantys apdorojimo"
 
 #: ../user/server_status.php:351
-#, fuzzy
 msgid "Workunits waiting for file deletion"
-msgstr "Užduočių rinkiniai, laukiantys patikrinimo"
+msgstr "Užduočių rinkiniai, laukiantys failų trynimo"
 
 #: ../user/server_status.php:356
 msgid "Tasks waiting for file deletion"
-msgstr "Užduočių rinkiniai, laukiantys failų trynimo"
+msgstr "Užduotys, laukiančios failų trynimo"
 
 #: ../user/server_status.php:373
 msgid "Transitioner backlog (hours)"
@@ -6207,9 +6153,11 @@ msgstr ""
 msgid "Couldn't join team - please try again later."
 msgstr ""
 
+# 90%
 #: ../user/team_join_action.php:40
+#, fuzzy
 msgid "Joined %1"
-msgstr ""
+msgstr "Prisijungė"
 
 #: ../user/team_join_action.php:41
 msgid "You have joined %1."

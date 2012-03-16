@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-05 10:58-0500\n"
-"PO-Revision-Date: 2012-02-12 19:04+0200\n"
+"PO-Revision-Date: 2012-03-06 21:51+0200\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -847,7 +847,7 @@ msgstr ""
 
 #: clientgui/BOINCGUIApp.cpp:351
 msgid " at "
-msgstr "на"
+msgstr " на "
 
 #: clientgui/BOINCGUIApp.cpp:354
 msgid ")"
@@ -1779,9 +1779,8 @@ msgstr "Больше не показывать данное окно."
 #: clientgui/DlgItemProperties.cpp:174
 #: clientgui/DlgItemProperties.cpp:177
 #: clientgui/DlgItemProperties.cpp:180
-#, fuzzy
 msgid "Don't fetch tasks for "
-msgstr "Не запрашивать задания для ЦП"
+msgstr "Не запрашивать задания для"
 
 #: clientgui/DlgItemProperties.cpp:171
 msgid "Project preference"
@@ -1792,23 +1791,20 @@ msgid "Account manager preference"
 msgstr "Настройка менеджера проектов"
 
 #: clientgui/DlgItemProperties.cpp:177
-#, fuzzy
 msgid "Project has no apps for "
-msgstr "У проекта нет приложений для ЦП"
+msgstr "У проекта нет приложений для"
 
 #: clientgui/DlgItemProperties.cpp:180
 msgid "Client configuration excludes "
-msgstr ""
+msgstr "Конфигурация клиента исключает"
 
 #: clientgui/DlgItemProperties.cpp:184
-#, fuzzy
 msgid " work fetch deferred for"
-msgstr "Запрос заданий для ЦП отложен на"
+msgstr "запрос заданий  отложен на"
 
 #: clientgui/DlgItemProperties.cpp:185
-#, fuzzy
 msgid " work fetch deferral interval"
-msgstr "Интервал задержки запроса заданий для ЦП"
+msgstr "интервал задержки запроса заданий"
 
 # ???? уточнить
 #: clientgui/DlgItemProperties.cpp:216
@@ -1935,15 +1931,15 @@ msgstr "Приоритет планировщика"
 
 #: clientgui/DlgItemProperties.cpp:281
 msgid "CPU"
-msgstr ""
+msgstr "ЦП"
 
 #: clientgui/DlgItemProperties.cpp:283
 msgid "NVIDIA GPU"
-msgstr ""
+msgstr "ГП NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:286
 msgid "ATI GPU"
-msgstr ""
+msgstr "ГП ATI"
 
 #: clientgui/DlgItemProperties.cpp:288
 msgid "Duration correction factor"
@@ -2576,9 +2572,8 @@ msgid "Ready to start"
 msgstr "Готово к запуску"
 
 #: clientgui/MainDocument.cpp:2479
-#, fuzzy
 msgid " (Scheduler wait: "
-msgstr " (Планировщик ожидает)"
+msgstr "(Планировщик ожидает:"
 
 #: clientgui/MainDocument.cpp:2483
 msgid " (Scheduler wait)"
@@ -3541,10 +3536,9 @@ msgid "Elapsed: %s"
 msgstr "Затрачено: %s"
 
 #: clientgui/sg_TaskPanel.cpp:839
-#, c-format
-#, fuzzy, c-format
+#, c-format, c-format
 msgid "Remaining (estimated): %s"
-msgstr "Осталось: %s"
+msgstr "Осталось (приблизительно): %s"
 
 #: clientgui/sg_TaskPanel.cpp:854
 #, c-format
@@ -4196,9 +4190,8 @@ msgid "Elapsed"
 msgstr "Затрачено времени"
 
 #: clientgui/ViewWork.cpp:235
-#, fuzzy
 msgid "Remaining (estimated)"
-msgstr "Осталось: %s"
+msgstr "Осталось (приблизительно)"
 
 #: clientgui/ViewWork.cpp:236
 msgid "Deadline"

@@ -332,7 +332,6 @@ int main(int argc, char** argv) {
     double ncpus = 0.0;
     bool report_vm_pid = false;
     bool report_net_usage = false;
-    bool unrecoverable_error = false;
     int vm_pid = 0;
     unsigned long vm_exit_code = 0;
     std::string vm_log;
@@ -450,11 +449,17 @@ int main(int argc, char** argv) {
     retval = vm.run();
     if (retval) {
         // All failure to start error are unrecoverable by default
-        unrecoverable_error = true;
+        bool  unrecoverable_error = true;
+        char* temp_reason = "";
+        int   temp_delay = 300;
 
         // Get logs before cleanup
         vm.get_system_log(system_log);
         vm.get_vm_log(vm_log);
+
+        // Attempt to cleanup the VM
+        vm.cleanup();
+        write_checkpoint(elapsed_time, vm);
 
         fprintf(
             stderr,
@@ -499,6 +504,7 @@ int main(int argc, char** argv) {
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
             unrecoverable_error = false;
+            temp_reason = "VM Hypervisor was unable to allocate enough memory to start VM.";
         } else {
             fprintf(
                 stderr,
@@ -514,11 +520,9 @@ int main(int argc, char** argv) {
         }
 
         if (unrecoverable_error) {
-            vm.cleanup();
-            write_checkpoint(elapsed_time, vm);
             boinc_finish(retval);
         } else {
-            boinc_temporary_exit(0);
+            boinc_temporary_exit(temp_delay, temp_reason);
         }
     }
 
@@ -536,6 +540,7 @@ int main(int argc, char** argv) {
         vm.poll();
 
         if (boinc_status.no_heartbeat || boinc_status.quit_request) {
+            vm.reset_vm_process_priority();
             vm.stop();
             write_checkpoint(checkpoint_cpu_time, vm);
             boinc_temporary_exit(0);
@@ -597,7 +602,7 @@ int main(int argc, char** argv) {
             if (!vm_pid) {
                 vm.get_vm_process_id(vm_pid);
                 if (vm_pid) {
-                    vm.reset_vm_process_priority();
+                    vm.lower_vm_process_priority();
                     report_vm_pid = true;
                 }
             }

@@ -2774,9 +2774,11 @@ msgstr "SOCKS proxy"
 msgid "Advanced View...\tCtrl+Shift+A"
 msgstr ""
 
+# 82%
 #: clientgui/sg_BoincSimpleFrame.cpp:135
+#, fuzzy
 msgid "Display the advanced graphical interface."
-msgstr ""
+msgstr "Parādīt vienkāršu grafisko interfeisu."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:142
 msgid "Skin"
@@ -2887,14 +2889,17 @@ msgstr ""
 msgid "Unable to connect to the core client"
 msgstr ""
 
+# 83%
 #: clientgui/sg_DlgMessages.cpp:135
+#, fuzzy
 msgid "Close"
-msgstr ""
+msgstr "&Aizvērt"
 
+# 83%
 #: clientgui/sg_DlgMessages.cpp:332
-#, c-format
+#, c-format, fuzzy
 msgid "%s - Notices"
-msgstr ""
+msgstr "%s Paziņojumi"
 
 #: clientgui/sg_DlgPreferences.cpp:94
 msgid "100 MB"
@@ -3041,9 +3046,11 @@ msgstr ""
 msgid "of disk space"
 msgstr ""
 
+# 84%
 #: clientgui/sg_DlgPreferences.cpp:406
+#, fuzzy
 msgid "of the processor"
-msgstr ""
+msgstr "% procesoru"
 
 #: clientgui/sg_DlgPreferences.cpp:410
 msgid "Do work while on battery?"
@@ -3253,9 +3260,11 @@ msgstr ""
 msgid "%s: %.0f"
 msgstr ""
 
+# 88%
 #: clientgui/sg_ProjectPanel.cpp:145
+#, fuzzy
 msgid "Project Web Pages"
-msgstr ""
+msgstr "Projekta web lapas"
 
 #: clientgui/sg_ProjectPanel.cpp:149
 msgid "Project Commands"
@@ -3571,10 +3580,12 @@ msgstr "Kopēt visus ziņojumus"
 msgid "Copy selected messages"
 msgstr "Kopēt atzīmētos ziņojumus"
 
+# 95%
 #: clientgui/ViewMessages.cpp:106
 #: clientgui/ViewMessages.cpp:502
+#, fuzzy
 msgid "Show only this project"
-msgstr ""
+msgstr "&Rādīt tikai šo projektu"
 
 #: clientgui/ViewMessages.cpp:107
 #: clientgui/ViewMessages.cpp:503
@@ -3604,9 +3615,11 @@ msgstr ""
 msgid "Show all messages"
 msgstr "Kopēt visus ziņojumus"
 
+# 96%
 #: clientgui/ViewMessages.cpp:495
+#, fuzzy
 msgid "Show messages for all projects."
-msgstr ""
+msgstr "Rādīt ziņojumus visiem projektiem"
 
 #: clientgui/ViewProjects.cpp:219
 #: clientgui/ViewStatistics.cpp:442
@@ -3718,17 +3731,21 @@ msgstr "Nesaņems jaunus uzdevumus"
 msgid "Project ended - OK to remove"
 msgstr ""
 
+# 77%
 #: clientgui/ViewProjects.cpp:1078
+#, fuzzy
 msgid "Will remove when tasks done"
-msgstr ""
+msgstr "Noņemt, kad uzdevums pabeigts"
 
 #: clientgui/ViewProjects.cpp:1081
 msgid "Scheduler request pending"
 msgstr "Gaida plānotāja pieprasījuma rezultātu"
 
+# 75%
 #: clientgui/ViewProjects.cpp:1087
+#, fuzzy
 msgid "Scheduler request in progress"
-msgstr ""
+msgstr "Izveic plānotāja pieprasījumu"
 
 #: clientgui/ViewProjects.cpp:1090
 msgid "Trickle up message pending"
@@ -4315,10 +4332,11 @@ msgstr ""
 msgid "Show All"
 msgstr ""
 
+# 87%
 #: clientgui/mac/Mac_GUI.cpp:181
-#, c-format
+#, c-format, fuzzy
 msgid "Quit %s"
-msgstr ""
+msgstr "&Beigt %s"
 
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify work start and stop hours in format HH:MM-HH:MM"

@@ -309,9 +309,11 @@ msgstr ""
 msgid "rate: "
 msgstr ""
 
+# 83%
 #: ../inc/forum.inc:629
+#, fuzzy
 msgid "Click if you like this message"
-msgstr ""
+msgstr "mesaj yaratılamadı"
 
 #: ../inc/forum.inc:629
 msgid "Rate +"
@@ -3751,9 +3753,11 @@ msgstr ""
 msgid "unread/locked"
 msgstr "okunmamış"
 
+# 81%
 #: ../user/forum_forum.php:184
+#, fuzzy
 msgid "You haven't read this thread yet"
-msgstr ""
+msgstr "Özel mesajınız bulunmuyor."
 
 #: ../user/forum_forum.php:190
 #, fuzzy

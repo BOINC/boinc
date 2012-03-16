@@ -727,7 +727,8 @@ int wu_is_infeasible_fast(
     }
 
     // homogeneous redundancy: can't send if app uses HR and
-    // 1) host is of unknown HR class
+    // 1) host is of unknown HR class, or
+    // 2) WU is already committed to different HR class
     //
     if (app_hr_type(app)) {
         if (hr_unknown_class(g_reply->host, app_hr_type(app))) {
@@ -747,6 +748,21 @@ int wu_is_infeasible_fast(
                 );
             }
             return INFEASIBLE_HR;
+        }
+    }
+
+    // homogeneous app version
+    //
+    if (app.homogeneous_app_version) {
+        int avid = wu.app_version_id;
+        if (avid && bav.avp->id != avid) {
+            if (config.debug_send) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send] [HOST#%d] [WU#%d %s] failed homogeneous app version check: %d %d\n",
+                    g_reply->host.id, wu.id, wu.name, avid, bav.avp->id
+                );
+            }
+            return INFEASIBLE_HAV;
         }
     }
 

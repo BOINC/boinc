@@ -49,6 +49,7 @@ extern bool app_core_compatible(WORK_REQ& wreq, APP_VERSION& av);
 #define INFEASIBLE_BANDWIDTH    9
 #define INFEASIBLE_CUSTOM       10
 #define INFEASIBLE_USER_FILTER  11
+#define INFEASIBLE_HAV          12
 
 extern int wu_is_infeasible_fast(
     WORKUNIT&,

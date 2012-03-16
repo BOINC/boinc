@@ -184,7 +184,7 @@ int ACTIVE_TASK::preempt(int preempt_type) {
     return 0;
 }
 
-// called when a process has exited or we've killed it
+// called when a process has exited
 //
 void ACTIVE_TASK::cleanup_task() {
 #ifdef _WIN32

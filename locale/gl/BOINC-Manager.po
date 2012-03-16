@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-05 10:58-0500\n"
-"PO-Revision-Date: 2011-10-23 17:03+0200\n"
+"PO-Revision-Date: 2012-03-05 18:07+0200\n"
 "Last-Translator: Anonymous Pootle User\n"
 "Language-Team: Galician <LL@li.org>\n"
 "Language: gl\n"
@@ -3300,9 +3300,11 @@ msgstr ""
 msgid "%s: %.0f"
 msgstr ""
 
+# 88%
 #: clientgui/sg_ProjectPanel.cpp:145
+#, fuzzy
 msgid "Project Web Pages"
-msgstr ""
+msgstr "Proxecto"
 
 #: clientgui/sg_ProjectPanel.cpp:149
 msgid "Project Commands"

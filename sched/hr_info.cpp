@@ -175,7 +175,7 @@ void HR_INFO::allocate(int total_slots) {
 }
 
 // Decide if job of the given HR type and class should be added to array,
-// and if to update counts
+// and if so update counts
 //
 bool HR_INFO::accept(int hrt, int hrc) {
     if (cur_slots[hrt][hrc] >= max_slots[hrt][hrc]) {

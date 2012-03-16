@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2012-02-12 10:30+0200\n"
+"PO-Revision-Date: 2012-03-07 16:26+0200\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: \n"
 "Language: hu\n"
@@ -1216,21 +1216,24 @@ msgstr ""
 
 #: ../inc/prefs.inc:308
 msgid "Use CPU %1 Enforced by version 6.10+ %2"
-msgstr ""
+msgstr "Használja a CPU-t %1 Erőltetve a 6.10 verzió felett %2"
 
 #: ../inc/prefs.inc:320
 msgid "Use ATI GPU %1 Enforced by version 6.10+ %2"
-msgstr ""
+msgstr "Használja az ATI GPU-t %1 Erőltetve a 6.10 verzió felett %2"
 
 #: ../inc/prefs.inc:332
 msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
-msgstr ""
+msgstr "Használja az NVIDIA GPU-t %1 Erőltetve a 6.10 verzió felett %2"
 
 #: ../inc/prefs.inc:346
+#, fuzzy
 msgid ""
 "Run test applications? %1 This helps us develop applications, but may cause "
 "jobs to fail on your computer %2"
 msgstr ""
+"Futtat teszt-alkalmazásokat? %1 Ez segít nekünk jobb alkalmazásokat "
+"fejleszteni, de ez feladatok elvesztését okozhatja számítógépén. %2"
 
 #: ../inc/prefs.inc:355
 msgid ""
@@ -1243,7 +1246,7 @@ msgstr ""
 
 #: ../inc/prefs.inc:368
 msgid "Should %1 show your computers on its web site?"
-msgstr ""
+msgstr "Megjelenítheti a(z) %1 weboldalán az Ön számítógépét?"
 
 #: ../inc/prefs.inc:375
 msgid "Disk and memory usage"

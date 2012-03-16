@@ -2600,3 +2600,118 @@ Charlie 12 Mar 2012
     samples/vboxwrapper/
         vboxwrapper.xcodeproj
             project.pbxproj
+
+David  13 Mar 2012
+    - scheduler: do homogeneous app version check before rereading WU
+        as well as after.
+
+    sched/
+        sched_send.cpp,h
+
+David  13 Mar 2012
+    - transitioner: don't clear a WU's HR and HAV class if there are
+        timed-out instances; they could still be returned.
+
+    sched/
+        transitioner.cpp
+
+Charlie 14 Mar 2012
+    - MGR: fix French translations of Remaining (estimated).
+    
+    locale/fr/
+        BOINC_Manager.po
+
+Charlie 14 Mar 2012
+    - client: When comparing ATI model names from OpenCL and IOKit on a 
+        Mac, substitute "AMD" for "ATI" because sometimes one API returns 
+        "ATI" but the other API returns "AMD".
+    
+    client/
+        coproc_detect.cpp
+
+Rom    14 Mar 2012
+    - VBOX: Use the boinc_temporary_exit API properly.  Wait for 5 minutes
+       before allowing another attempt to start the VM when the hypervisor
+       cannot allocate enough memory.
+    - VBOX: Print out a trace statement about the suspend/resume directive
+       from the vboxwrapper perspective.  This in conjuction with the
+       BOINC API trace statements should provide a better idea with
+       what is going on.
+       
+    samples/vboxwrapper
+        vboxwrapper.cpp
+
+David  14 Mar 2012
+    - scheduler: add an alternative way of defining app plan functions
+        that uses an XML configuration file;
+        see http://boinc.berkeley.edu/trac/wiki/AppPlanConfig
+        From Bernd.
+
+    sched/
+        sched_customize.cpp
+        plan_class_spec.cpp,h
+        Makefile.am
+
+David  14 Mar 2012
+    - scheduler: code cleanup for the above
+
+    sched/
+        plan_class_spec.cpp,h
+
+Charlie 14 Mar 2012
+    - client: On Mac only, update ATI available RAM after getting ATI total 
+        RAM size from OpenGL.
+    
+    client/
+        coproc_detect.cpp
+
+David  14 Mar 2012
+    - scheduler: fix FCGI compile
+
+    vda/
+        sched_vda.cpp
+
+David  14 Mar 2012
+    - client: on each scheduler RPC,
+        make sure that files flagged as executable in the reply,
+        and that are present, are actually executable.
+
+    client/
+        client_types.cpp
+
+David  15 Mar 2012
+    - client: when killing a task, don't delete its shmem or change its state.
+        These mess up the logic for dealing with exited processes,
+        resulting in incorrect log messages.
+
+    client/
+        app.cpp
+        app_control.cpp
+
+David  15 Mar 2012
+    - scheduler: when HR is being used,
+        make per-HR slot allocation an option rather than the default.
+        Kevin reported that slot allocation wasn't working for WCG.
+        The default is now no slot allocation,
+        and use the regular result enumeration function
+        rather than the once that scans the entire table.
+        The config flag for enabling slot allocation is <hr_allocate_slots/>.
+
+    sched/
+        sched_config.cpp,h
+        feeder.cpp
+        hr_info.cpp
+
+Rom    15 Mar 2012
+    - VBOX: Give the VM process a short priority boost when responding
+        to a quit request.  On older XP machines it might speed up the memory
+        dump to disk.
+    - client: Increase the quit request timeout from 10 seconds to 60 seconds for
+        machines running VMs and slow disk drives.  It should give the VM enough
+        time to gracefully shutdown and not give boinc reason to kill the wrapper.
+
+    client/
+        app.h
+    samples/vboxwrapper/
+        vbox.cpp, .h
+        vboxwrapper.cpp

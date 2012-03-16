@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-05 10:58-0500\n"
-"PO-Revision-Date: 2012-02-12 10:22+0200\n"
+"PO-Revision-Date: 2012-03-16 12:20+0200\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -797,8 +797,7 @@ msgid "%s failed to disconnected from the Internet."
 msgstr "%s nem tudott lekapcsolódni az internetről."
 
 #: clientgui/BOINCGUIApp.cpp:339
-#, c-format
-#, fuzzy, c-format
+#, c-format, c-format
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "\n"
@@ -811,23 +810,22 @@ msgid ""
 msgstr ""
 "Jelenleg nem jogosult a kliens kezelésére.\n"
 "\n"
-"A BOINC használata ezzel a felhasználóval:\n"
-"- telepítse újra a BOINCot és válaszoljon \"Igen\"-nel a\n"
+"%s használata ezzel a felhasználóval:\n"
+"- telepítse újra %s-t és válaszoljon \"Igen\"-nel a\n"
 "nem adminisztratív felhasználóra vonatkozó kérdésre\n"
 "vagy\n"
 "- lépjen kapcsolatba a rendszergazdával és kérje meg, hogy adja hozzá a\n"
 "'boinc_master' felhasználói csoporthoz."
 
 #: clientgui/BOINCGUIApp.cpp:345
-#, c-format
-#, fuzzy, c-format
+#, c-format, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
 msgstr ""
-"A BOINC tulajdonosi és hozzáférési jogai nincsenek megfelelően beállítva; "
-"kérjük, telepítse újra a BOINCot.\n"
-"(Hibakód %d)"
+"A(z) %s tulajdonosi és hozzáférési jogai nincsenek megfelelően beállítva; "
+"kérjük, telepítse újra a(z) %s-t.\n"
+"(Hibakód %d"
 
 #: clientgui/BOINCGUIApp.cpp:351
 msgid " at "
@@ -896,8 +894,9 @@ msgid "multiple instances of BOINC Manager allowed"
 msgstr "a BOINC Kezelő több példányának futása engedélyezett"
 
 #: clientgui/BOINCGUIApp.cpp:544
+#, fuzzy
 msgid "Not used: workaround for bug in XCode 4.2"
-msgstr ""
+msgstr "Nem használt: az XCode 4.2-ben található megoldás"
 
 #: clientgui/BOINCGUIApp.cpp:762
 msgid "(Automatic Detection)"
@@ -944,7 +943,7 @@ msgstr "Folytatás"
 #: clientgui/BOINCTaskBar.cpp:632
 #, fuzzy
 msgid "Resume GPU"
-msgstr "Folytatás"
+msgstr "GPU folytatása"
 
 #: clientgui/BOINCTaskBar.cpp:708
 msgid "Computing is enabled"
@@ -1431,18 +1430,17 @@ msgid "days"
 msgstr "nap"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:428
-#, fuzzy
 msgid "Minimum work buffer"
-msgstr "További munka buffer"
+msgstr "Minimum munka buffer"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:437
+#, fuzzy
 msgid "Try to maintain enough tasks to keep busy for this many days"
-msgstr ""
+msgstr "Próbáljon annyi feladatot tartani, hogy ennyi napig elfoglalt legyen:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:449
-#, fuzzy
 msgid "Max additional work buffer"
-msgstr "További munka buffer"
+msgstr "Max kiegészítő munka buffer"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:458
 msgid "In addition, maintain enough tasks for up to this many days"
@@ -1727,7 +1725,7 @@ msgstr "Ne mutassa újra ezt a párbeszédablakot."
 #: clientgui/DlgItemProperties.cpp:180
 #, fuzzy
 msgid "Don't fetch tasks for "
-msgstr "Ne töltsön le CPU feladatokat"
+msgstr "Ne töltsön le feladatokat"
 
 #: clientgui/DlgItemProperties.cpp:171
 msgid "Project preference"
@@ -1736,12 +1734,12 @@ msgstr "Projektbeállítások"
 #: clientgui/DlgItemProperties.cpp:174
 #, fuzzy
 msgid "Account manager preference"
-msgstr "Fiókkezelő honlap"
+msgstr "Fiókkezelő beállítás"
 
 #: clientgui/DlgItemProperties.cpp:177
 #, fuzzy
 msgid "Project has no apps for "
-msgstr "A projekt weboldalai"
+msgstr "A projektnek nincs alkalmazása"
 
 #: clientgui/DlgItemProperties.cpp:180
 #, fuzzy
@@ -1827,9 +1825,8 @@ msgid "Don't request more work"
 msgstr "Ne kérjen több feladatot"
 
 #: clientgui/DlgItemProperties.cpp:242
-#, fuzzy
 msgid "Scheduler call in progress"
-msgstr "Ütemező által indított kérés folyamatban"
+msgstr "Ütemező hívása folyamatban"
 
 #: clientgui/DlgItemProperties.cpp:245
 msgid "Trickle-up pending"
@@ -1878,15 +1875,15 @@ msgstr "Ütemezés prioritása"
 
 #: clientgui/DlgItemProperties.cpp:281
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 #: clientgui/DlgItemProperties.cpp:283
 msgid "NVIDIA GPU"
-msgstr ""
+msgstr "NVIDIA GPU"
 
 #: clientgui/DlgItemProperties.cpp:286
 msgid "ATI GPU"
-msgstr ""
+msgstr "ATI GPU"
 
 #: clientgui/DlgItemProperties.cpp:288
 msgid "Duration correction factor"
@@ -3383,7 +3380,7 @@ msgstr "Válasszon ki egy feladatot, amelyhez hozzá kíván férni"
 
 #: clientgui/sg_TaskPanel.cpp:472
 msgid "From:"
-msgstr ""
+msgstr "Innen:"
 
 #: clientgui/sg_TaskPanel.cpp:526
 msgid "This task's progress"
