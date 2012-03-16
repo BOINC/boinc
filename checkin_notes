@@ -2715,3 +2715,18 @@ Rom    15 Mar 2012
     samples/vboxwrapper/
         vbox.cpp, .h
         vboxwrapper.cpp
+
+David  16 Mar 2012
+    - client: small changes to make client compile on Android,
+        and to report the platform as "arm-android".
+        From Carl Christensen.
+    - Add a script for building BOINC and library dependencies on Android
+        From Peter Hanappe.
+
+    lib/
+        mac_address.cpp
+    client/
+        android/
+            AndroidBuild.sh (new)
+        cs_platforms.cpp
+        hostinfo_unix.cpp
