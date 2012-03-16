@@ -540,6 +540,7 @@ int main(int argc, char** argv) {
         vm.poll();
 
         if (boinc_status.no_heartbeat || boinc_status.quit_request) {
+            vm.reset_vm_process_priority();
             vm.stop();
             write_checkpoint(checkpoint_cpu_time, vm);
             boinc_temporary_exit(0);
@@ -589,20 +590,10 @@ int main(int argc, char** argv) {
         }
         if (boinc_status.suspended) {
             if (!vm.suspended) {
-                fprintf(
-                    stderr,
-                    "%s Suspending VM.\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf))
-                );
                 vm.pause();
             }
         } else {
             if (vm.suspended) {
-                fprintf(
-                    stderr,
-                    "%s Resuming VM.\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf))
-                );
                 vm.resume();
             }
 
@@ -611,7 +602,7 @@ int main(int argc, char** argv) {
             if (!vm_pid) {
                 vm.get_vm_process_id(vm_pid);
                 if (vm_pid) {
-                    vm.reset_vm_process_priority();
+                    vm.lower_vm_process_priority();
                     report_vm_pid = true;
                 }
             }

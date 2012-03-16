@@ -81,13 +81,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="libcmt.lib libcpmt.lib kernel32.lib user32.lib gdi32.lib ole32.lib wsock32.lib"
-				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\vboxwrapper_25404_windows_intelx86.exe"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\vboxwrapper_25425_windows_intelx86.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
 				IgnoreAllDefaultLibraries="true"
 				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\vboxwrapper_25404_windows_intelx86.pdb"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\vboxwrapper_25425_windows_intelx86.pdb"
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -182,13 +182,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="libcmt.lib libcpmt.lib  kernel32.lib user32.lib gdi32.lib ole32.lib wsock32.lib"
-				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\vboxwrapper_25404_windows_x86_64.exe"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\vboxwrapper_25425_windows_x86_64.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
 				IgnoreAllDefaultLibraries="true"
 				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\vboxwrapper_25404_windows_x86_64.pdb"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\vboxwrapper_25425_windows_x86_64.pdb"
 				SubSystem="2"
 				TargetMachine="17"
 			/>

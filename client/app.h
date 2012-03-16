@@ -32,8 +32,8 @@
     // if we send app <abort> request, wait this long before killing it.
     // This gives it time to download symbol files (which can be several MB)
     // and write stack trace to stderr
-#define QUIT_TIMEOUT    10
-    // Same, for <quit>.  Shorter because no stack trace is generated
+#define QUIT_TIMEOUT    60
+    // Same, for <quit>.
 
 // values for preempt_type
 //

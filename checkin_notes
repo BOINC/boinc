@@ -2701,3 +2701,17 @@ David  15 Mar 2012
         sched_config.cpp,h
         feeder.cpp
         hr_info.cpp
+
+Rom    15 Mar 2012
+    - VBOX: Give the VM process a short priority boost when responding
+        to a quit request.  On older XP machines it might speed up the memory
+        dump to disk.
+    - client: Increase the quit request timeout from 10 seconds to 60 seconds for
+        machines running VMs and slow disk drives.  It should give the VM enough
+        time to gracefully shutdown and not give boinc reason to kill the wrapper.
+
+    client/
+        app.h
+    samples/vboxwrapper/
+        vbox.cpp, .h
+        vboxwrapper.cpp

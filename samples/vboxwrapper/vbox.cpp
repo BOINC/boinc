@@ -1307,7 +1307,7 @@ int VBOX_VM::write_floppy(std::string& data) {
     return 1;
 }
 
-void VBOX_VM::reset_vm_process_priority() {
+void VBOX_VM::lower_vm_process_priority() {
 #ifndef _WIN32
     if (vm_pid) {
         setpriority(PRIO_PROCESS, vm_pid, PROCESS_IDLE_PRIORITY);
@@ -1315,6 +1315,18 @@ void VBOX_VM::reset_vm_process_priority() {
 #else
     if (vm_pid_handle) {
         SetPriorityClass(vm_pid_handle, BELOW_NORMAL_PRIORITY_CLASS);
+    }
+#endif
+}
+
+void VBOX_VM::reset_vm_process_priority() {
+#ifndef _WIN32
+    if (vm_pid) {
+        setpriority(PRIO_PROCESS, vm_pid, PROCESS_MEDIUM_PRIORITY);
+    }
+#else
+    if (vm_pid_handle) {
+        SetPriorityClass(vm_pid_handle, NORMAL_PRIORITY_CLASS);
     }
 #endif
 }
