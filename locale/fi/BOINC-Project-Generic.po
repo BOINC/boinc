@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2012-02-22 16:59+0200\n"
+"PO-Revision-Date: 2012-03-14 20:15+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -296,7 +296,7 @@ msgstr "Raportoi loukkaavana"
 
 #: ../inc/forum.inc:626
 msgid "Rating: %1"
-msgstr ""
+msgstr "Arviointi: %1"
 
 #: ../inc/forum.inc:626
 msgid "rate: "
@@ -418,14 +418,12 @@ msgid "Banish author"
 msgstr "Torju kirjoittaja"
 
 #: ../inc/forum.inc:1027
-#, fuzzy
 msgid "Vote to banish author"
-msgstr "Ei oikeutta torjua käyttäjiä"
+msgstr "Äänestä, että kirjoittaja torjutaan"
 
 #: ../inc/forum.inc:1031
-#, fuzzy
 msgid "Vote not to banish author"
-msgstr "Ei oikeutta torjua käyttäjiä"
+msgstr "Äänestä, ettei kirjoittajaa torjuta"
 
 #: ../inc/forum.inc:1036
 msgid "Start vote to banish author"

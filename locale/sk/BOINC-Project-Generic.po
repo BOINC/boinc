@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2012-03-06 00:00+0200\n"
+"PO-Revision-Date: 2012-03-14 23:21+0200\n"
 "Last-Translator: aceman <acelists@atlas.sk>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sk\n"
@@ -272,9 +272,8 @@ msgid "Edit"
 msgstr ""
 
 #: ../inc/forum.inc:585
-#, fuzzy
 msgid "Edit this message"
-msgstr "Súkromné správy"
+msgstr "Upraviť správu"
 
 #: ../inc/forum.inc:591
 msgid "Last modified: %1"
@@ -291,9 +290,8 @@ msgid "Report this post as offensive"
 msgstr ""
 
 #: ../inc/forum.inc:622 ../inc/forum.inc:633
-#, fuzzy
 msgid "Report as offensive"
-msgstr "Posledný príspevok"
+msgstr "Nahlásiť ako urážlivý"
 
 #: ../inc/forum.inc:626
 msgid "Rating: %1"
@@ -371,9 +369,8 @@ msgid "Rules:"
 msgstr ""
 
 #: ../inc/forum.inc:735
-#, fuzzy
 msgid "More info"
-msgstr "Informácie o počítači"
+msgstr "Viac informácií"
 
 #: ../inc/forum.inc:1008 ../user/forum_thread.php:185
 msgid "Unhide"
@@ -696,9 +693,8 @@ msgid "Tasks"
 msgstr "Úlohy"
 
 #: ../inc/host.inc:179 ../inc/host.inc:200
-#, fuzzy
 msgid "Number of times client has contacted server"
-msgstr "Počet koľkokrát BOINC skontaktoval server"
+msgstr "Koľkokrát BOINC klient skontaktoval server"
 
 #: ../inc/host.inc:180
 msgid "Last time contacted server"
@@ -848,9 +844,8 @@ msgid "Only computers active in past 30 days"
 msgstr ""
 
 #: ../inc/host.inc:642 ../inc/result.inc:600
-#, fuzzy
 msgid "Computer ID"
-msgstr "Informácie o počítači"
+msgstr "ID počítača"
 
 #: ../inc/host.inc:655
 #, fuzzy
@@ -941,16 +936,15 @@ msgstr ""
 
 #: ../inc/pm.inc:176 ../user/forum_forum.php:184
 msgid "unread"
-msgstr ""
+msgstr "neprečítané"
 
 #: ../inc/pm.inc:186
 msgid "For email notification, %1edit community prefs%2"
 msgstr ""
 
 #: ../inc/pm.inc:198
-#, fuzzy
 msgid "Private message"
-msgstr "Súkromné správy"
+msgstr "Súkromná správa"
 
 #: ../inc/prefs.inc:76
 msgid ""
@@ -1006,9 +1000,8 @@ msgid "On multiprocessors, use at most"
 msgstr ""
 
 #: ../inc/prefs.inc:148
-#, fuzzy
 msgid "processors"
-msgstr "Koprocesory"
+msgstr "procesorov"
 
 #: ../inc/prefs.inc:152
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
@@ -1575,9 +1568,8 @@ msgid "Show names"
 msgstr ""
 
 #: ../inc/result.inc:336
-#, fuzzy
 msgid "Task"
-msgstr "Úlohy"
+msgstr "Úloha"
 
 #: ../inc/result.inc:339
 msgid "Work unit"

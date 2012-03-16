@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2012-03-07 16:26+0200\n"
+"PO-Revision-Date: 2012-03-16 12:43+0200\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: \n"
 "Language: hu\n"
@@ -32,27 +32,27 @@ msgstr "Hungarian"
 
 #: ../inc/bbcode_html.inc:11
 msgid "Bold text: [b]text[/b]  (alt+b)"
-msgstr ""
+msgstr "Félkövér szöveg: [b]szöveg[/b] (alt+b)"
 
 #: ../inc/bbcode_html.inc:14
 msgid "Italic text: [i]text[/i]  (alt+i)"
-msgstr ""
+msgstr "Dőlt szöveg: [i]szöveg[/i] (alt+i)"
 
 #: ../inc/bbcode_html.inc:17
 msgid "Underline text: [u]text[/u]  (alt+u)"
-msgstr ""
+msgstr "Aláhúzott szöveg: [u]szöveg[/u] (alt+u)"
 
 #: ../inc/bbcode_html.inc:20
 msgid "Quote text: [quote]text[/quote]  (alt+q)"
-msgstr ""
+msgstr "Idézett szöveg: [quote]szöveg[/quote] (alt+q)"
 
 #: ../inc/bbcode_html.inc:23
 msgid "Code display: [code]code[/code]  (alt+c)"
-msgstr ""
+msgstr "Kód megjelenítése: [code]kód[/code] (alt+c)"
 
 #: ../inc/bbcode_html.inc:26
 msgid "List: [list]text[/list] (alt+l)"
-msgstr ""
+msgstr "Lista: [list]szöveg[/list] (alt+l)"
 
 #: ../inc/bbcode_html.inc:29
 msgid "Ordered list: [list=]text[/list]  (alt+o)"
@@ -81,82 +81,80 @@ msgid "Default"
 msgstr "Alapértelmezett"
 
 #: ../inc/bbcode_html.inc:45
-#, fuzzy
 msgid "Dark Red"
-msgstr "Megjelölés olvasottként"
+msgstr "Sötétpiros"
 
 #: ../inc/bbcode_html.inc:46
 msgid "Red"
-msgstr ""
+msgstr "Piros"
 
 #: ../inc/bbcode_html.inc:47
-#, fuzzy
 msgid "Orange"
-msgstr "Változtat"
+msgstr "Narancssárga"
 
 #: ../inc/bbcode_html.inc:48
 msgid "Brown"
-msgstr ""
+msgstr "Barna"
 
 #: ../inc/bbcode_html.inc:49
 msgid "Yellow"
-msgstr ""
+msgstr "Citromsárga"
 
 #: ../inc/bbcode_html.inc:50
 msgid "Green"
-msgstr ""
+msgstr "Zöld"
 
 #: ../inc/bbcode_html.inc:51
 msgid "Olive"
-msgstr ""
+msgstr "Oliva"
 
 #: ../inc/bbcode_html.inc:52
 msgid "Cyan"
-msgstr ""
+msgstr "Cián"
 
 #: ../inc/bbcode_html.inc:53
 msgid "Blue"
-msgstr ""
+msgstr "Kék"
 
 #: ../inc/bbcode_html.inc:54
 msgid "Dark Blue"
-msgstr ""
+msgstr "Sötétkék"
 
 #: ../inc/bbcode_html.inc:55
 msgid "Indigo"
-msgstr ""
+msgstr "Indigó"
 
 #: ../inc/bbcode_html.inc:56
 msgid "Violet"
-msgstr ""
+msgstr "Ibolya"
 
 #: ../inc/bbcode_html.inc:57
 msgid "Font size"
-msgstr ""
+msgstr "Betűméret"
 
 #: ../inc/bbcode_html.inc:58
 msgid "Font size: [size=x-small]small text[/size]"
-msgstr ""
+msgstr "Betűméret: [size=x-small]kis méretű szöveg[/size]"
 
 #: ../inc/bbcode_html.inc:60
 msgid "Small"
-msgstr ""
+msgstr "Kicsi"
 
 #: ../inc/bbcode_html.inc:61
 msgid "Normal"
-msgstr ""
+msgstr "Normál"
 
 #: ../inc/bbcode_html.inc:62
 msgid "Large"
-msgstr ""
+msgstr "Nagy"
 
 #: ../inc/bbcode_html.inc:65
 msgid "Close all open bbCode tags"
-msgstr ""
+msgstr "Minden nyitott bbKód címke bezárása"
 
 #: ../inc/bbcode_html.inc:65
 msgid "Close Tags"
-msgstr ""
+msgstr "Címkék bezárása"
 
 #: ../inc/forum.inc:37
 msgid "Oldest first"
@@ -1239,10 +1237,12 @@ msgstr ""
 msgid ""
 "Emails will be sent from %1; make sure your spam filter accepts this address."
 msgstr ""
+"Az emailek erről a címről fognak érkezni: %1; bizonyosodjon meg róla, hogy a "
+"spamszűrője elfogadja ezt a címet!"
 
 #: ../inc/prefs.inc:362
 msgid "Is it OK for %1 and your team (if any) to email you?"
-msgstr ""
+msgstr "Jóváhagyja, hogy %1 és az Ön csapata (ha van) emailt küldhessen Önnek?"
 
 #: ../inc/prefs.inc:368
 msgid "Should %1 show your computers on its web site?"
@@ -1264,20 +1264,23 @@ msgstr "Hálózathasználat"
 msgid ""
 "These preferences apply to all the BOINC projects in which you participate."
 msgstr ""
+"Ezek a beállítások minden BOINC projektre vonatkoznak, amiben részt vesz."
 
 #: ../inc/prefs.inc:383
 msgid ""
 "%1Unable to update preferences.%2 The values marked in red below were out of "
 "range or not numeric."
 msgstr ""
+"%1 Nem sikerült frissíteni a beállításokat. %2 A pirossal jelöl értékek az "
+"elfogadható tartományon kívül esnek, vagy nem számok."
 
 #: ../inc/prefs.inc:432
 msgid "bad venue: %1"
-msgstr ""
+msgstr "hibás hely: %1"
 
 #: ../inc/prefs.inc:438
 msgid "bad subset: %1"
-msgstr ""
+msgstr "hibás halmaz: %1"
 
 #: ../inc/prefs.inc:657 ../inc/prefs.inc:660 ../inc/prefs.inc:1003
 #: ../inc/prefs_util.inc:93 ../project.sample/project_specific_prefs.inc:75
@@ -1308,7 +1311,7 @@ msgstr "Számítás"
 
 #: ../inc/prefs.inc:809
 msgid "Separate preferences for %1"
-msgstr ""
+msgstr "Külön beállítások %1 számára"
 
 #: ../inc/prefs.inc:818 ../inc/prefs.inc:893
 msgid "Edit preferences"
@@ -1316,7 +1319,7 @@ msgstr "Beállítások szerkesztése"
 
 #: ../inc/prefs.inc:822
 msgid "Add separate preferences for %1"
-msgstr ""
+msgstr "Külön beállítások hozzáadása ehhez: %1"
 
 #: ../inc/prefs.inc:830 ../inc/prefs.inc:875
 msgid "(Switch View)"
@@ -1348,6 +1351,9 @@ msgid ""
 "             On computers participating in multiple projects, the most "
 "recently modified preferences will be used."
 msgstr ""
+"Ezek minden BOINC projektre vonatkoznak, amiben részt vesz.<br>\n"
+"Több projektben résztvevő számítógépeknél a legutóbb módosított beállítások "
+"lesznek érvényben."
 
 #: ../inc/prefs.inc:872
 msgid "Preferences last modified:"
@@ -1364,7 +1370,7 @@ msgstr "Beállítások frissítése"
 #: ../inc/prefs.inc:1014 ../inc/prefs.inc:1023
 #, fuzzy
 msgid "Default computer location"
-msgstr "Az alapértelmezett számítógép helye"
+msgstr "A számítógép alapértelmezett helye"
 
 #: ../inc/prefs.inc:1174
 msgid "Update failed: "
@@ -1379,12 +1385,16 @@ msgid ""
 "Your profile will be made visible to other people as soon as it has been "
 "approved by the project. This may take up to a few days."
 msgstr ""
+"A profilját láthatóvá tesszük másoknak is, amint a projekt jóváhagyja azt. "
+"Ez akár néhány napba is telhet."
 
 #: ../inc/profile.inc:92
 msgid ""
 "Your profile has been marked as unacceptable. It is not visible to other "
 "people. Please change it."
 msgstr ""
+"A profilja elfogadhatatlannak lett jelölve. Mások nem láthatják. Kérjük, "
+"változtassa meg."
 
 #: ../inc/profile.inc:172 ../user/friend.php:105 ../user/friend.php:172
 msgid "Database error"
@@ -1395,14 +1405,17 @@ msgid ""
 "To prevent spam, profiles of users with an average credit of less than %1 "
 "are displayed only to logged-in users. We apologize for this inconvenience."
 msgstr ""
+"A levélszemét elleni intézkedések részeként a(z) %1 átlagos kredit alatti "
+"felhasználók profiljait csak bejelentkezett felhasználók láthatják. Elnézést "
+"kérünk a kényelmetlenségért."
 
 #: ../inc/profile.inc:196
 msgid "User is banished"
-msgstr ""
+msgstr "Felhasználó száműzve"
 
 #: ../inc/profile.inc:210
 msgid "No profile exists for that user ID."
-msgstr ""
+msgstr "Ilyen felhasználói azonosítóval nem létezik profil."
 
 #: ../inc/profile.inc:218 ../user/create_profile.php:313
 msgid "Edit your profile"
@@ -1410,7 +1423,7 @@ msgstr "Profil szerkesztése"
 
 #: ../inc/profile.inc:261
 msgid "Your feedback on this profile"
-msgstr ""
+msgstr "Az Ön véleménye erről a profilról"
 
 #: ../inc/profile.inc:263
 #, fuzzy
@@ -1443,7 +1456,7 @@ msgstr "ATI GPU"
 
 #: ../inc/result.inc:56
 msgid "Not in DB"
-msgstr ""
+msgstr "Nincs az adatbázisban"
 
 #: ../inc/result.inc:82
 msgid "pending"
@@ -1614,11 +1627,11 @@ msgstr "Munkacsomag hiba - ellenőrzés kihagyva"
 
 #: ../inc/result.inc:254
 msgid "Checked, but no consensus yet"
-msgstr "Elelenőrizve, de még nincs megegyezés"
+msgstr "Ellenőrizve, de még nincs megegyezés"
 
 #: ../inc/result.inc:255
 msgid "Task was reported too late to validate"
-msgstr ""
+msgstr "A feladat elfogadásának határideje lejárt"
 
 #: ../inc/result.inc:281
 msgid "Couldn't send result"
@@ -1680,11 +1693,11 @@ msgstr "Elküldve"
 
 #: ../inc/result.inc:346
 msgid "Time reported<br />or deadline"
-msgstr ""
+msgstr "A jelentés ideje<br />vagy határidő"
 
 #: ../inc/result.inc:347
 msgid "explain"
-msgstr ""
+msgstr "megmagyaráz"
 
 #: ../inc/result.inc:349 ../user/server_status.php:246
 msgid "Status"
@@ -1692,11 +1705,11 @@ msgstr "Állapot"
 
 #: ../inc/result.inc:350
 msgid "Run time<br />(sec)"
-msgstr ""
+msgstr "Futási idő<br />(mp)"
 
 #: ../inc/result.inc:351
 msgid "CPU time<br />(sec)"
-msgstr ""
+msgstr "CPU idő<br />(mp)"
 
 #: ../inc/result.inc:352 ../inc/result.inc:605
 msgid "Credit"
@@ -1723,7 +1736,7 @@ msgstr "Szerver állapot"
 
 #: ../inc/result.inc:597
 msgid "Outcome"
-msgstr ""
+msgstr "Kimenet"
 
 #: ../inc/result.inc:598
 msgid "Client state"
@@ -1731,15 +1744,15 @@ msgstr "Kliens állapot"
 
 #: ../inc/result.inc:599
 msgid "Exit status"
-msgstr ""
+msgstr "Kilépési állapot"
 
 #: ../inc/result.inc:601
 msgid "Report deadline"
-msgstr ""
+msgstr "Jelentési határidő"
 
 #: ../inc/result.inc:602
 msgid "Run time"
-msgstr ""
+msgstr "Futási idő"
 
 #: ../inc/result.inc:603
 msgid "CPU time"
@@ -1755,7 +1768,7 @@ msgstr "Az alkalmazás verziója"
 
 #: ../inc/result.inc:619
 msgid "Output files"
-msgstr ""
+msgstr "Kimeneti fájlok"
 
 #: ../inc/result.inc:622
 msgid "Stderr output"
@@ -1763,11 +1776,11 @@ msgstr "Stderr kimenet"
 
 #: ../inc/result.inc:669
 msgid "State"
-msgstr ""
+msgstr "Állapot"
 
 #: ../inc/team.inc:33
 msgid "Search criteria (use one or more)"
-msgstr ""
+msgstr "Keresési feltétel(ek)"
 
 #: ../inc/team.inc:34
 msgid "Key words"
