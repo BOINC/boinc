@@ -1,0 +1,31 @@
+.schedule-list-disabled {
+  filter:alpha(opacity=50);
+  -moz-opacity: .50;
+  opacity: .50;
+}
+
+.backup-migrate-cache-time {
+  font-size: 0.85em;
+}
+
+.backup-migrate-tables-checkboxes .form-item label {
+  width: 15em;
+  float: left;
+  overflow: hidden;
+  white-space: nowrap;
+  height: 1.75em;
+  margin: .25em .25em 0 0;
+}
+.backup-migrate-tables-checkboxes .form-item label.checked {
+  background-color: #eee;
+}
+div.backup-migrate-tables-checkboxes {
+  height: 20em;
+  overflow: auto;
+}
+
+div.row-error {
+  color: #FF0000;
+  font-weight: bold;
+}
+

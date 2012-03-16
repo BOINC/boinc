@@ -1,0 +1,10 @@
+name = Backup and Migrate
+description = "Backup or migrate the Drupal Database quickly and without unnecessary data."
+core = 6.x
+
+; Information added by drupal.org packaging script on 2012-03-05
+version = "6.x-2.5"
+core = "6.x"
+project = "backup_migrate"
+datestamp = "1330970437"
+

@@ -1,0 +1,171 @@
+<?php
+
+
+/**
+* Unit tests for Backup and Migrate module.
+*/
+class BackupMigrateFunctionalityTest extends DrupalWebTestCase {
+
+  /**
+   * Drupal SimpleTest method: return metadata about the test.
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'Backup and Migrate Functionality',
+      'desc' => 'Executes the functionality test suite for backup and migrate.',
+      'group' => 'Backup and Migrate module',
+    );
+  }
+
+  var $admin_user;
+  var $directory_backup;
+  var $directory;
+
+  /**
+   * SimpleTest core method: code run before each and every test method.
+   */
+  function setUp() {
+    parent::setUp('backup_migrate');
+/*
+    // Create an administrative user with permission to do all functions
+    $permissions = array(
+      'access backup and migrate', 'perform backup', 'access backup files', 'delete backup files', 'restore from backup', 'administer backup and migrate',
+    );
+    $this->admin_user = $this->drupalCreateUser($permissions);
+*/
+    $directory = $this->directory = file_directory_path() .'/backup_migrate/';
+
+    // move the existing backup dir out of the way
+    if (is_dir($directory)) {
+      $this->directory_backup = $directory . $this->randomName(5, '_');
+      rename($directory, $this->directory_backup);
+    }
+  }
+
+  /**
+   * SimpleTest core method: code run after each and every test method.
+   */
+  function tearDown() {
+    //
+    if ($this->directory_backup) {
+      //$directory = $this->directory;
+      //$this->delete_directory($this->directory);
+      //rename($this->directory_backup, $directory);
+    }
+    parent::tearDown();
+  }
+
+
+  function testRestoreFromUpload() {
+    $file       = file_directory_temp() .'/'. $this->randomName(10, '') .'.sql';
+    $test_table = $this->randomName(10, 'testtable_');
+    file_put_contents($file, "CREATE TABLE $test_table (testid int(10));");
+    $this->assertTrue(file_exists($file), t("Reality checking that the test file was created"));
+
+    $edit = array();
+    $edit['files[backup_migrate_restore_upload]'] = $file;
+
+    // Not logged in
+    $this->drupalGet("admin/content/backup_migrate/restore");
+    $this->assertResponse(array("401", "403"), t("Checking that an anonymous user was access denied"));
+
+    // user without restore access
+    // check access only permissions
+    $permissions = array(
+      'access backup files',
+    );
+    $user = $this->drupalCreateUser($permissions);
+    $this->drupalLogin($user);
+
+    $this->drupalGet("admin/content/backup_migrate/restore");
+    $this->assertResponse(array("401", "403"), t("Checking that a user without 'restore from backup' permission was access denied"));
+
+    // user with restore access
+    // check access only permissions
+    $permissions = array(
+      'access backup files',
+      'restore from backup',
+    );
+    $user = $this->drupalCreateUser($permissions);
+    $this->drupalLogin($user);
+
+    $this->drupalGet("admin/content/backup_migrate/restore");
+    $this->drupalPost("admin/content/backup_migrate/restore", $edit, t('Restore now'));
+
+    // check that the file was imported into the db
+    $tables = $this->database_tables();
+    $this->assertTrue(isset($tables[$test_table]), t("Checking that the test table is present."));
+
+    db_query("DROP TABLE $test_table;");
+
+    $test_table = $this->randomName(10, 'testtable_');
+    $file       = file_directory_temp() .'/'. $this->randomName(10, '') .'.sql';
+    file_put_contents($file, "CREATE TABLE $test_table (testid int(10));");
+    $this->assertTrue(file_exists($file), t("Reality checking that the test file was created"));
+
+    $edit = array();
+    $edit['files[backup_migrate_restore_upload]'] = $file;
+    $edit['filters[utils_site_offline]'] = 1;
+    $this->drupalGet("admin/content/backup_migrate/restore");
+    $this->assertFieldByName('filters[utils_site_offline]', '', t('Checking that the take site offline checbox is present and unchecked.'));
+    $this->drupalPost("admin/content/backup_migrate/restore", $edit, t('Restore now'));
+
+    // check that the file was imported into the db
+    $tables = $this->database_tables();
+    $this->assertTrue(isset($tables[$test_table]), t("Checking that the test table is present after site offline test."));
+
+    $this->assertText(t('Site was taken offline.'));
+    $this->assertText(t('Site was taken online.'));
+
+    $this->drupalGet("logout");
+  }
+
+
+  // utlility functions
+  function assertDrupalMessage($type, $drupal_message, $message) {
+    foreach (@$_SESSION['messages'][$type] as $session_message) {
+      if ($session_message == $drupal_message) {
+        $this->assertTrue(true, $message);
+        return;
+      }
+    }
+    $this->assertTrue(false, $message);
+  }
+
+  function removeDrupalMessage($type, $drupal_message) {
+    foreach (@$_SESSION['messages'][$type] as $key => $session_message) {
+      if ($session_message == $drupal_message) {
+        unset($_SESSION['messages'][$type][$key]);
+      }
+    }
+  }
+
+  function delete_directory($dirname) {
+    if (is_dir($dirname) && $dir_handle = opendir($dirname)) {
+      while ($file = readdir($dir_handle)) {
+        if ($file != '.' && $file != '..') {
+          if (!is_dir($dirname .'/'. $file)) {
+            unlink($dirname .'/'. $file);
+          }
+          else {
+            $this->delete_directory($dirname .'/'. $file);
+          }
+        }
+      }
+      closedir($dir_handle);
+      rmdir($dirname);
+    }
+  }
+
+  function database_tables() {
+    $out = array();
+    // get auto_increment values and names of all tables
+    $tables = db_query("show table status");
+    while ($table = db_fetch_array($tables)) {
+      $out[$table['Name']] = $table;
+    }
+    return $out;
+  }
+}
+
+

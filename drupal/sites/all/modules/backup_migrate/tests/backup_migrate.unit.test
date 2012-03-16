@@ -1,0 +1,99 @@
+<?php
+
+
+/**
+* Unit tests for Backup and Migrate module.
+*/
+class BackupMigrateUnitTest extends DrupalWebTestCase {
+
+  /**
+   * Drupal SimpleTest method: return metadata about the test.
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'Backup and Migrate Unit Testing',
+      'desc' => 'Executes the unit test suite for backup and migrate.',
+      'group' => 'Backup and Migrate module',
+    );
+  }
+
+  /**
+   * SimpleTest core method: code run before each and every test method.
+   */
+  function setUp() {
+  }
+
+  /**
+   * SimpleTest core method: code run after each and every test method.
+   */
+  function tearDown() {
+  }
+
+
+  function testTakeOfflineOnline() {
+    require_once './' . drupal_get_path('module', 'backup_migrate') . "/includes/filters.inc";
+    require_once './' . drupal_get_path('module', 'backup_migrate') . "/includes/filters.utils.inc";
+
+    $offline_message = filter_xss_admin(variable_get('site_offline_message', t('@site is currently under maintenance. We should be back shortly. Thank you for your patience.', array('@site' => variable_get('site_name', 'Drupal')))));
+ 
+    $util = new backup_migrate_filter_utils();
+ 
+    $settings = (object)array(
+      'filters' => array(
+        'utils_site_offline' => TRUE
+      )
+    ); 
+
+    $util->take_site_offline($settings);
+
+    // Logout and verify that offline message is displayed.
+    $this->drupalGet('');
+    $this->assertText($offline_message);
+
+    $util->take_site_online($settings);
+
+    $this->drupalGet('');
+    $this->assertNoText($offline_message);
+
+    // Test a custom message
+    $custom_message = $this->randomName(50);
+    $settings = (object)array(
+      'filters' => array(
+        'utils_site_offline' => TRUE,
+        'utils_site_offline_message' => $custom_message,
+      )
+    ); 
+
+    $util->take_site_offline($settings);
+
+    // Logout and verify that offline message is displayed.
+    $this->drupalGet('');
+    $this->assertText($custom_message);
+
+    $util->take_site_online($settings);
+
+    $this->drupalGet('');
+    $this->assertNoText($custom_message);
+
+    // Test that the standard message was restored.
+    $this->assertEqual(variable_get('site_offline_message', ''), $offline_message, t('Checking that the offline message was set back to what it was.'));
+  }
+  
+  /**
+   * A utility function that dumps an HTML page into a folder in the files directory.
+   * Provides a link in the test interface. This will allow you to see what the invisible 
+   * web browser could see.
+   */
+  private function outputScreenContents($description, $basename) {
+    // This is a hack to get a directory that won't be cleaned up by simpletest
+    $file_dir = file_directory_path().'/../simpletest_output_pages';
+    if (!is_dir($file_dir)) {
+      mkdir($file_dir, 0777, TRUE);
+    }
+    $output_path = "$file_dir/$basename." . $this->randomName(10) . '.html';
+    $rv = file_put_contents($output_path, $this->drupalGetContent());
+    $this->pass("$description: Contents of result page are ".l('here',$output_path));
+  }  
+}
+
+
