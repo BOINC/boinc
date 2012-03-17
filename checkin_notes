@@ -2730,3 +2730,10 @@ David  16 Mar 2012
             AndroidBuild.sh (new)
         cs_platforms.cpp
         hostinfo_unix.cpp
+
+David  17 Mar 2012
+    - client: use %g to format job resources (#CPUs, #GPUs).
+        This suppresses trailing zeroes and (if integer) the .
+
+    client/
+        client_types.cpp
