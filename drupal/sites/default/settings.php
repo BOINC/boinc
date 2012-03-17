@@ -91,11 +91,10 @@
  *   $db_url = 'pgsql://username:password@localhost/databasename';
  */
 require_once('dbconfig.php');
-if (!isset($dbserver) || empty($dbserver))
-	$dbserver='localhost';
-$db_url['default'] = "$dbtype://$dbuser:$dbpass@$dbserver/$dbname";
-$db_url['boinc'] = "mysql://einstein:einstein@127.0.0.1/EinsteinAtHome";
-$db_prefix = '';
+$db_url = array(
+  'default' => "{$dbtype}://{$dbuser}:{$dbpass}@{$dbserver}/{$dbname}",
+  'boinc' => "{$boinc_dbtype}://{$boinc_dbuser}:{$boinc_dbpass}@{$boinc_dbserver}/{$boinc_dbname}"
+);
 
 /**
  * Base URL (optional).
