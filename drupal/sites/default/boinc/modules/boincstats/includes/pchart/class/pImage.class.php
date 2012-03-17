@@ -52,7 +52,7 @@
    var $ScaleMinDivHeight = 20;				// Minimum height for scame divs
 
    /* Font properties */
-   var $FontName	= "fonts/DejaVuSans.ttf";	// Default font file
+   var $FontName	= "sites/all/libraries/fonts/DejaVuSans.ttf";	// Default font file
    var $FontSize	= 12;				// Default font size
    var $FontBox		= NULL;				// Return the bounding box of the last written string
    var $FontColorR	= 0;				// Default color settings
