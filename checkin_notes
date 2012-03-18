@@ -2467,6 +2467,14 @@ David  5 Mar 2012
     html/user/
         lammps.php
 
+Rom    6 Mar 2012
+    - Tag for 7.0.20 release, all platforms
+      boinc_core_release_7_0_20
+
+    /
+        configure.ac
+        version.h
+
 David  8 Mar 2012
     - API: fix various bugs related to process control and critical sections.
     - client: code cleanup (no functional change)
@@ -2715,6 +2723,14 @@ Rom    15 Mar 2012
     samples/vboxwrapper/
         vbox.cpp, .h
         vboxwrapper.cpp
+
+Rom    16 Mar 2012
+    - Tag for 7.0.21 release, all platforms
+      boinc_core_release_7_0_21
+
+    /
+        configure.ac
+        version.h
 
 David  16 Mar 2012
     - client: small changes to make client compile on Android,
