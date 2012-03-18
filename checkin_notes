@@ -2725,12 +2725,13 @@ Rom    15 Mar 2012
         vboxwrapper.cpp
 
 Rom    16 Mar 2012
-    - Tag for 7.0.21 release, all platforms
-      boinc_core_release_7_0_21
+    - Moving trunk back into a development branch, further stabilization of the 7.0.x
+        client is now in the boinc_core_release_7_0a branch.
 
     /
         configure.ac
         version.h
+        version.h.in
 
 David  16 Mar 2012
     - client: small changes to make client compile on Android,
