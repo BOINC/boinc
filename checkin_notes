@@ -1084,7 +1084,7 @@ Charlie 27 Jan 2012
     clientgui/
         BOINCTaskBar.cpp,.h
         mac/
-            macSysMenu.cpp
+            MacSysMenu.cpp
 
 David  27 Jan 2012
     - manager: in Disk View, try to make colors more distinct.
@@ -2749,3 +2749,14 @@ David  17 Mar 2012
                 a 0.5-CPU GPU job and 1 4-CPU job
     client/
         cpu_sched.cpp
+
+Charlie 18 Mar 2012
+    - MGR: Fix a Mac-only bug which sometimes failed to show the snooze icon 
+        after closing and opening the Manager windows.  This was caused by  
+        having a second instance of CTaskBarIcon.
+    
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCGUIApp.cpp,.h
+        mac/
+            MacSysMenu.cpp
