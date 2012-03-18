@@ -2723,3 +2723,14 @@ Rom    16 Mar 2012
     /
         configure.ac
         version.h
+
+Charlie 18 Mar 2012
+    - MGR: Fix a Mac-only bug which sometimes failed to show the snooze icon 
+        after closing and opening the Manager windows.  This was caused by  
+        having a second instance of CTaskBarIcon.
+    
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCGUIApp.cpp,.h
+        mac/
+            MacSysMenu.cpp

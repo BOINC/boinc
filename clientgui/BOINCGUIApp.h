@@ -138,7 +138,6 @@ public:
 
 #ifdef __WXMAC__
     CMacSystemMenu*     GetMacSystemMenu()          { return m_pMacSystemMenu; }
-    void                DeleteMacSystemMenu();
     int                 ShouldShutdownCoreClient()  { return true; }
 #else
     int                 ShouldShutdownCoreClient()  { return m_iShutdownCoreClient; }

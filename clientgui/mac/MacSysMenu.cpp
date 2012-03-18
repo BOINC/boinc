@@ -363,7 +363,6 @@ pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
                 // Note that if the main window is open, CBOINCBaseFrame::OnExit() will be 
                 // called and SysMenuEventHandler() (i.e., this code) will not be called.
                 if (commandID == wxID_EXIT) {
-                    wxGetApp().DeleteMacSystemMenu();
                     wxGetApp().DeleteTaskBarIcon();
                 }
                 return noErr ;
