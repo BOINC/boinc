@@ -2737,3 +2737,15 @@ David  17 Mar 2012
 
     client/
         client_types.cpp
+
+David  17 Mar 2012
+    - client: changes to job scheduling policy:
+        - fix bug that could greatly overcommit CPUs
+            if there are several EDF jobs and several non-EDF GPU jobs.
+        - don't overcommit CPUs if any job is MT (MT means avg_ncpus > 1).
+            For example, on a 4-CPU machine we will run:
+                a 0.5-CPU GPU job and 4 1-CPU jobs
+                but not
+                a 0.5-CPU GPU job and 1 4-CPU job
+    client/
+        cpu_sched.cpp
