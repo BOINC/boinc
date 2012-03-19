@@ -124,6 +124,12 @@ void procinfo_non_boinc(PROCINFO& pi, PROC_MAP& pm) {
         if (p.is_boinc_app) continue;
         if (p.is_low_priority) continue;
 
+        // count VirtualBox process as BOINC;
+        // on some systems they use nontrivial CPU time
+        // TODO: do this only if we're running a vbox app
+        //
+        if (strstr(p.command, "VBox")) continue;
+
 #if 0
         if (p.user_time > .1) {
             fprintf(stderr, "non-boinc: %s (%d) %f %f\n", p.command, p.id, p.user_time, p.kernel_time);

@@ -2785,3 +2785,11 @@ David  19 Mar 2011
 
     client/
         cpu_sched.cpp
+
+David  19 Mar 2011
+    - client: Don't include VBox executive processes as non-BOINC CPU time.
+        On some systems they use significant CPU time while VMs are running.
+        TODO: do this only if we're actually running a VBox app
+
+    lib/
+        procinfo.cpp
