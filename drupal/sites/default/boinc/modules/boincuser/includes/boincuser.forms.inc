@@ -119,9 +119,15 @@ function boincuser_create_drupal_user($boinc_user) {
   BoincForumPrefs::lookup($boinc_user);
   $account = null;
   $module = 'boincuser';
-  // Convert non-unique name to effectively-unique
-  $timestamp = dechex(substr(microtime(),2,6));
-  $unique_name =  substr($boinc_user->name, 0, 54) . "_{$timestamp}";
+  
+  // Make sure name is unique
+  $unique_name = $boinc_user->name;
+  $same_name_tally = 1;
+  while (db_result(db_query("SELECT uid FROM users WHERE name = '{$unique_name}' LIMIT 1"))) {
+    $same_name_tally++;
+    $unique_name = "{$boinc_user->name} {$same_name_tally}";
+  }
+  
   // Email is limited to 64 characters...
   $boinc_email = substr($boinc_user->email_addr, 0, 64);
   $userinfo = array(
