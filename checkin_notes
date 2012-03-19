@@ -2777,3 +2777,11 @@ Charlie 18 Mar 2012
         BOINCGUIApp.cpp,.h
         mac/
             MacSysMenu.cpp
+
+David  19 Mar 2011
+    - client: job scheduling policy tweak:
+        if CPUs are fully committed (e.g. with EDF jobs)
+        allow GPU jobs but only up to CPU usage of ncpus+1
+
+    client/
+        cpu_sched.cpp
