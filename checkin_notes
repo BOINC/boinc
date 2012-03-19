@@ -2808,3 +2808,13 @@ David  19 Mar 2011
 
     sched/
         sched_send.cpp
+
+David  19 Mar 2011
+    - client: if an app process exits because of a signal,
+        don't show the "no finish file" message;
+        not sure why this was there in the first place.
+    - client: if an app process exits because of a signal,
+        show the signal correctly
+
+    client/
+        app_control.cpp

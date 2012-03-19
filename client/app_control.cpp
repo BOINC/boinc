@@ -250,18 +250,16 @@ static void limbo_message(ACTIVE_TASK& at) {
         msg_printf(at.result->project, MSG_INFO,
             "If this happens repeatedly you may need to reboot your computer."
         );
-    } else {
-#endif
-        msg_printf(at.result->project, MSG_INFO,
-            "Task %s exited with zero status but no 'finished' file",
-            at.result->name
-        );
-        msg_printf(at.result->project, MSG_INFO,
-            "If this happens repeatedly you may need to reset the project."
-        );
-#ifdef _WIN32
+        return;
     }
 #endif
+    msg_printf(at.result->project, MSG_INFO,
+        "Task %s exited with zero status but no 'finished' file",
+        at.result->name
+    );
+    msg_printf(at.result->project, MSG_INFO,
+        "If this happens repeatedly you may need to reset the project."
+    );
 }
 
 // the job just exited.  If it's a GPU job,
@@ -441,11 +439,11 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
 
             if (log_flags.task_debug) {
                 msg_printf(result->project, MSG_INFO,
-                    "[task] process got signal %d", signal
+                    "[task] process got signal %d", got_signal
                 );
             }
 
-            // if the process was externally killed, allow it to restart.
+            // if the process was externally killed, let it restart.
             //
             switch (got_signal) {
             case SIGHUP:
@@ -456,7 +454,6 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             case SIGSTOP:
                 will_restart = true;
                 set_task_state(PROCESS_UNINITIALIZED, "handle_exited_app");
-                limbo_message(*this);
                 break;
             default:
                 result->exit_status = stat;
