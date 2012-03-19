@@ -743,10 +743,34 @@ bool work_needed(bool locality_sched) {
         // if we've failed to send a result because of a transient condition,
         // return false to preserve invariant
         //
-        if (g_wreq->disk.insufficient || g_wreq->speed.insufficient || g_wreq->mem.insufficient || g_wreq->no_allowed_apps_available) {
+        if (g_wreq->disk.insufficient) {
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] stopping work search - locality condition\n"
+                    "[send] stopping work search - insufficient disk space\n"
+                );
+            }
+            return false;
+        }
+        if (g_wreq->speed.insufficient) {
+            if (config.debug_send) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send] stopping work search - host too slow\n"
+                );
+            }
+            return false;
+        }
+        if (g_wreq->mem.insufficient) {
+            if (config.debug_send) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send] stopping work search - insufficient memory\n"
+                );
+            }
+            return false;
+        }
+        if (g_wreq->no_allowed_apps_available) {
+            if (config.debug_send) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send] stopping work search - no locality app selected\n"
                 );
             }
             return false;
