@@ -2799,3 +2799,12 @@ David  19 Mar 2011
 
     lib/
         procinfo.cpp
+
+David  19 Mar 2011
+    - scheduler: fix a bug in assigning deadlines to resent jobs.
+        From Kevin.
+        NOTE: Kevin also reported a bug that resulted in
+        way too large (e.g. year) deadlines.
+
+    sched/
+        sched_send.cpp

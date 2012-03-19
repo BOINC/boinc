@@ -591,6 +591,7 @@ static void get_delay_bound_range(
             // if original deadline has passed, return zeros
             // This will skip deadline check.
             opt = pess = 0;
+            return;
         }
         opt = res_report_deadline - now;
         pess = wu.delay_bound;
@@ -604,6 +605,7 @@ static void get_delay_bound_range(
         ) {
             opt = wu.delay_bound*config.reliable_reduced_delay_bound;
             double est_wallclock_duration = estimate_duration(wu, bav);
+
             // Check to see how reasonable this reduced time is.
             // Increase it to twice the estimated delay bound
             // if all the following apply:
