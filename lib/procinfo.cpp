@@ -154,6 +154,7 @@ double process_tree_cpu_time(int pid) {
     retval = procinfo_setup(pm);
     if (retval) return 0;
 
+    pi.clear();
     pi.id = pid;
     procinfo_app(pi, NULL, pm, NULL);
     return pi.user_time + pi.kernel_time;

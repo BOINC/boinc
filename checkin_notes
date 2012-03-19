@@ -2793,3 +2793,9 @@ David  19 Mar 2011
 
     lib/
         procinfo.cpp
+
+David  19 Mar 2011
+    - wrapper: fix bug that reported wildly wrong CPU time
+
+    lib/
+        procinfo.cpp
