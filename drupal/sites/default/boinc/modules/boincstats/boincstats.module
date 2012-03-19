@@ -278,11 +278,12 @@ function boincstats_get_project_avg_credit() {
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
 
 function boincstats_get_project_stats_overview() {
+  global $base_path;
   $output = '';
   $output .= '<div class="stats"><label>' . t('Total credit: ') . '</label><span>' . number_format(boincstats_get_project_total_credit()) . '</span></div>' . "\n";
   $output .= '<div class="stats"><label>' . t('Avg credit: ') . '</label><span>' . number_format(boincstats_get_project_avg_credit()) . '</span></div>' . "\n";
   //$output .= '<div class="stats"><a href="#">' . t('Pending credits') . '</a></div>' . "\n";
-  $output .= '<div class="chart"><img src="/charts/project" /></div>' . "\n";
+  $output .= '<div class="chart"><img src="' . $base_path . 'charts/project" /></div>' . "\n";
   
   return $output;
 }
