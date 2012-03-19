@@ -2724,6 +2724,13 @@ Rom    16 Mar 2012
         configure.ac
         version.h
 
+David  17 Mar 2012
+    - client: use %g to format job resources (#CPUs, #GPUs).
+        This suppresses trailing zeroes and (if integer) the .
+
+    client/
+        client_types.cpp
+
 Charlie 18 Mar 2012
     - MGR: Fix a Mac-only bug which sometimes failed to show the snooze icon 
         after closing and opening the Manager windows.  This was caused by  

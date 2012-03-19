@@ -2068,24 +2068,24 @@ int RESULT::write_gui(MIOFILE& out) {
         if (avp->gpu_usage.rsc_type) {
             if (avp->gpu_usage.usage == 1) {
                 sprintf(resources,
-                    "%.4f CPUs + 1 %s GPU",
+                    "%.3g CPUs + 1 %s GPU",
                     avp->avg_ncpus,
                     rsc_name(avp->gpu_usage.rsc_type)
                 );
             } else {
                 sprintf(resources,
-                    "%.4f CPUs + %f %s GPUs",
+                    "%.3g CPUs + %.3g %s GPUs",
                     avp->avg_ncpus,
                     avp->gpu_usage.usage,
                     rsc_name(avp->gpu_usage.rsc_type)
                 );
             }
         } else if (avp->missing_coproc) {
-            sprintf(resources, "%.2f CPUs + %s GPU (missing)",
+            sprintf(resources, "%.3g CPUs + %s GPU (missing)",
                 avp->avg_ncpus, avp->missing_coproc_name
             );
         } else if (!project->non_cpu_intensive && (avp->avg_ncpus != 1)) {
-            sprintf(resources, "%.2f CPUs", avp->avg_ncpus);
+            sprintf(resources, "%.3g CPUs", avp->avg_ncpus);
         } else {
             strcpy(resources, " ");
         }
