@@ -122,6 +122,7 @@ struct PROC_RESOURCES {
     }
 
     // should we consider scheduling this job?
+    // (i.e add it to the runnable list; not actually run it)
     //
     bool can_schedule(RESULT* rp, ACTIVE_TASK* atp) {
         double wss;
@@ -159,7 +160,7 @@ struct PROC_RESOURCES {
         }
     }
 
-    // we've decided to run this - update bookkeeping
+    // we've decided to add this to the runnable list; update bookkeeping
     //
     void schedule(RESULT* rp, ACTIVE_TASK* atp, const char* description) {
         if (log_flags.cpu_sched_debug) {
@@ -1462,7 +1463,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
     unsigned int i;
     vector<ACTIVE_TASK*> preemptable_tasks;
     int retval;
-    double ncpus_used=0, ncpus_used_non_gpu=0;
+    double ncpus_used=0;
     ACTIVE_TASK* atp;
 
     bool action = false;
@@ -1558,6 +1559,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
     // and prune those that can't be assigned
     //
     assign_coprocs(run_list);
+    bool scheduled_mt = false;
 
     // prune jobs that don't fit in RAM or that exceed CPU usage limits.
     // Mark the rest as SCHEDULED
@@ -1566,14 +1568,26 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         RESULT* rp = run_list[i];
         atp = lookup_active_task_by_result(rp);
 
-        if (!rp->uses_coprocs()) {
-            // skip if we're already using all the CPUs
-            //
-            if (ncpus_used >= ncpus) {
+        // skip if we're already using all the CPUs
+        //
+        if (ncpus_used >= ncpus) {
+            if (log_flags.cpu_sched_debug) {
+                msg_printf(rp->project, MSG_INFO,
+                    "[cpu_sched_debug] all CPUs used (%.2f >= %d), skipping %s",
+                    ncpus_used, ncpus,
+                    rp->name
+                );
+            }
+            continue;
+        }
+
+        // don't overcommit CPUs if a MT job is scheduled
+        //
+        if (scheduled_mt || (rp->avp->avg_ncpus > 1)) {
+            if (ncpus_used + rp->avp->avg_ncpus > ncpus) {
                 if (log_flags.cpu_sched_debug) {
                     msg_printf(rp->project, MSG_INFO,
-                        "[cpu_sched_debug] all CPUs used (%.2f >= %d), skipping %s",
-                        ncpus_used, ncpus,
+                        "[cpu_sched_debug] avoid MT overcommit: skipping %s",
                         rp->name
                     );
                 }
@@ -1613,9 +1627,8 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
             atp = get_task(rp);
         }
 
-        // don't count CPU usage by GPU jobs
-        if (!rp->uses_coprocs()) {
-            ncpus_used_non_gpu += rp->avp->avg_ncpus;
+        if (rp->avp->avg_ncpus > 1) {
+            scheduled_mt = true;
         }
         ncpus_used += rp->avp->avg_ncpus;
         atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
