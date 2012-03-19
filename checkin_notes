@@ -2753,3 +2753,11 @@ Charlie 18 Mar 2012
         BOINCGUIApp.cpp,.h
         mac/
             MacSysMenu.cpp
+
+Rom    19 Mar 2012
+    - Tag for 7.0.22 release, all platforms
+      boinc_core_release_7_0_22
+
+    /
+        configure.ac
+        version.h
