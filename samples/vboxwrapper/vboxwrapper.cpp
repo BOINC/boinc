@@ -692,8 +692,8 @@ int main(int argc, char** argv) {
                 write_checkpoint(elapsed_time, vm);
 
                 if (vm.enable_cern_dataformat) {
-                    FILE* output = fopen("output");
-                    if (f) {
+                    FILE* output = fopen("output", "w");
+                    if (output) {
                         fprintf(
                             output,
                             "Work Unit completed!\n"

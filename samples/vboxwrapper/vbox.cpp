@@ -273,7 +273,6 @@ int VBOX_VM::start() {
 int VBOX_VM::stop() {
     string command;
     string output;
-    double timeout;
     char buf[256];
     int retval = 0;
 
