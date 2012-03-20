@@ -2837,4 +2837,11 @@ Rom    20 Mar 2012
 
     samples/vboxwrapper/
         vbox.cpp
-    
+
+Rom    20 Mar 2012
+    - VBOX: On successful completion, create the same output file that
+        the CernVMWrapper would.  This allows both wrapppers to work with
+        the same BOINC job generation system.
+
+    samples/vboxwrapper/
+        vbox.cpp

@@ -690,6 +690,18 @@ int main(int argc, char** argv) {
             if (vm.job_duration && (elapsed_time > vm.job_duration)) {
                 vm.cleanup();
                 write_checkpoint(elapsed_time, vm);
+
+                if (vm.enable_cern_dataformat) {
+                    FILE* output = fopen("output");
+                    if (f) {
+                        fprintf(
+                            output,
+                            "Work Unit completed!\n"
+                        );
+                        fclose(output);
+                    }
+                }
+
                 boinc_finish(0);
             }
         }
