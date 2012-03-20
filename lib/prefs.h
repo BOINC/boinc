@@ -126,7 +126,7 @@ struct TIME_PREFS : public TIME_SPAN {
     }
     
     void clear();
-    bool suspended() const;
+    bool suspended(double t);
     
 };
 

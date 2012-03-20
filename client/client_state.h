@@ -413,7 +413,7 @@ struct CLIENT_STATE {
     PROJECT* next_project_master_pending();
     PROJECT* next_project_sched_rpc_pending();
     PROJECT* next_project_trickle_up_pending();
-    PROJECT* find_project_with_overdue_results();
+    PROJECT* find_project_with_overdue_results(bool network_suspend_soon);
     bool had_or_requested_work;
     bool scheduler_rpc_poll();
 

@@ -2845,3 +2845,16 @@ Rom    20 Mar 2012
 
     samples/vboxwrapper/
         vbox.cpp
+
+David  20 Mar 2012
+    - client: report completed results if a time-of-day network suspend is
+        scheduled within the next 30 minutes
+
+    client/
+        app.h
+        client_state.h
+        cs_prefs.cpp
+        cs_scheduler.cpp
+        app_control.cpp
+    lib/
+        prefs.cpp,h

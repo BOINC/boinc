@@ -96,12 +96,12 @@ bool ACTIVE_TASK_SET::poll() {
         ACTIVE_TASK* atp = active_tasks[i];
         if (atp->task_state() == PROCESS_ABORT_PENDING) {
             if (gstate.now > atp->abort_time + ABORT_TIMEOUT) {
-                atp->kill_task(false);
+                atp->kill_task();
             }
         }
         if (atp->task_state() == PROCESS_QUIT_PENDING) {
             if (gstate.now > atp->quit_time + QUIT_TIMEOUT) {
-                atp->kill_task(true);
+                atp->kill_task();
             }
         }
     }
@@ -192,7 +192,7 @@ static inline void kill_processes(vector<int> pids) {
 
 // Kill the task (and descendants) by OS-specific means.
 //
-int ACTIVE_TASK::kill_task(bool restart) {
+int ACTIVE_TASK::kill_task() {
     vector<int>pids;
 #ifdef _WIN32
     // On Win, in protected mode we won't be able to get
@@ -594,7 +594,7 @@ void ACTIVE_TASK_SET::process_control_poll() {
                     "Restarting %s - message timeout", atp->result->name
                 );
             }
-            atp->kill_task(true);
+            atp->kill_task();
         } else {
             atp->process_control_queue.msg_queue_poll(
                 atp->app_client_shm.shm->process_control_request
@@ -1062,7 +1062,7 @@ void ACTIVE_TASK_SET::kill_tasks(PROJECT* proj) {
         atp = active_tasks[i];
         if (proj && atp->wup->project != proj) continue;
         if (!atp->process_exists()) continue;
-        atp->kill_task(false);
+        atp->kill_task();
     }
 }
 
