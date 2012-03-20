@@ -242,7 +242,7 @@ int VBOX_VM::start() {
 
     // Wait for up to 5 minutes for the VM to switch states.  A system
     // under load can take a while.  Since the poll function can wait for up
-    // to a minute to execute a command we need to make this time based instead
+    // to 45 seconds to execute a command we need to make this time based instead
     // of interation based.
     timeout = dtime() + 300;
     do {
@@ -251,16 +251,23 @@ int VBOX_VM::start() {
         boinc_sleep(1.0);
     } while (timeout >= dtime());
 
-    if (!online) {
+    if (online) {
+        fprintf(
+            stderr,
+            "%s Successfully started virtual machine.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+        retval = BOINC_SUCCESS;
+    } else {
         fprintf(
             stderr,
             "%s VM did not start in a timely fashion, aborting job.\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
-        return ERR_EXEC;
+        retval = ERR_EXEC;
     }
 
-    return 0;
+    return retval;
 }
 
 int VBOX_VM::stop() {
@@ -268,7 +275,7 @@ int VBOX_VM::stop() {
     string output;
     double timeout;
     char buf[256];
-    int retval;
+    int retval = 0;
 
     fprintf(
         stderr,
@@ -277,31 +284,29 @@ int VBOX_VM::stop() {
     );
     if (online) {
         command = "controlvm \"" + vm_name + "\" savestate";
-        retval = vbm_popen(command, output, "stop VM");
+        retval = vbm_popen(command, output, "stop VM", true, false);
         if (retval) return retval;
 
-        // Wait for up to 5 minutes for the VM to switch states.  A system
-        // under load can take a while.  Since the poll function can wait for up
-        // to a minute to execute a command we need to make this time based instead
-        // of interation based.
-        timeout = dtime() + 300;
-        do {
-            poll(false);
-            if (!online) break;
-            boinc_sleep(1.0);
-        } while (timeout >= dtime());
+        poll(false);
 
-        if (online) {
+        if (!online) {
+            fprintf(
+                stderr,
+                "%s Successfully stopped virtual machine.\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf))
+            );
+            retval = BOINC_SUCCESS;
+        } else {
             fprintf(
                 stderr,
                 "%s VM did not stop in a timely fashion.\n",
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
-            return ERR_EXEC;
+            retval = ERR_EXEC;
         }
     }
 
-    return 0;
+    return retval;
 }
 
 int VBOX_VM::pause() {
@@ -1522,7 +1527,7 @@ int VBOX_VM::vbm_popen_raw(string& arguments, string& output) {
         if (ulExitCode != STILL_ACTIVE) break;
 
         // Timeout?
-        if (ulExitTimeout >= 60000) {
+        if (ulExitTimeout >= 45000) {
             fprintf(
                 stderr,
                 "%s Process Timeout!.\n",

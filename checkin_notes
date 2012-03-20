@@ -2778,7 +2778,7 @@ Charlie 18 Mar 2012
         mac/
             MacSysMenu.cpp
 
-David  19 Mar 2011
+David  19 Mar 2012
     - client: job scheduling policy tweak:
         if CPUs are fully committed (e.g. with EDF jobs)
         allow GPU jobs but only up to CPU usage of ncpus+1
@@ -2786,7 +2786,7 @@ David  19 Mar 2011
     client/
         cpu_sched.cpp
 
-David  19 Mar 2011
+David  19 Mar 2012
     - client: Don't include VBox executive processes as non-BOINC CPU time.
         On some systems they use significant CPU time while VMs are running.
         TODO: do this only if we're actually running a VBox app
@@ -2794,13 +2794,13 @@ David  19 Mar 2011
     lib/
         procinfo.cpp
 
-David  19 Mar 2011
+David  19 Mar 2012
     - wrapper: fix bug that reported wildly wrong CPU time
 
     lib/
         procinfo.cpp
 
-David  19 Mar 2011
+David  19 Mar 2012
     - scheduler: fix a bug in assigning deadlines to resent jobs.
         From Kevin.
         NOTE: Kevin also reported a bug that resulted in
@@ -2809,7 +2809,7 @@ David  19 Mar 2011
     sched/
         sched_send.cpp
 
-David  19 Mar 2011
+David  19 Mar 2012
     - client: if an app process exits because of a signal,
         don't show the "no finish file" message;
         not sure why this was there in the first place.
@@ -2819,12 +2819,22 @@ David  19 Mar 2011
     client/
         app_control.cpp
 
-David  19 Mar 2011
+David  19 Mar 2012
     - scheduler: if we can't resend a job (e.g. it's for an app
         for which the anonymous-platform client doesn't have a version)
         mark it as sent so the transitioner can do its thing
 
     sched/
         sched_resend.cpp
-    sched/
-        sched_resend.cpp
+
+Rom    20 Mar 2012
+    - VBOX: Make it explicily clear what the result of a start/stop
+        request was.  Hopefully this will give us insight into whether
+        the core client is terminating the wrapper or something else is
+        going on.
+    - VBOX: Shorten the command execution timeout to 45 seconds.
+    - VBOX: Don't attempt to re-execute the close/savestate commands.
+
+    samples/vboxwrapper/
+        vbox.cpp
+    
