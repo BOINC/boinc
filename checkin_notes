@@ -2818,3 +2818,13 @@ David  19 Mar 2011
 
     client/
         app_control.cpp
+
+David  19 Mar 2011
+    - scheduler: if we can't resend a job (e.g. it's for an app
+        for which the anonymous-platform client doesn't have a version)
+        mark it as sent so the transitioner can do its thing
+
+    sched/
+        sched_resend.cpp
+    sched/
+        sched_resend.cpp

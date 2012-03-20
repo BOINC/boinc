@@ -108,7 +108,8 @@ bool resend_lost_work() {
     bool did_any = false;
     int num_eligible_to_resend=0;
     int num_resent=0;
-    BEST_APP_VERSION* bavp;
+    BEST_APP_VERSION* bavp = NULL;
+    APP* app = NULL;
     int retval;
 
     sprintf(buf, " where hostid=%d and server_state=%d ",
@@ -139,34 +140,37 @@ bool resend_lost_work() {
         }
 
         DB_WORKUNIT wu;
+        bool cant_resend = false;
         retval = wu.lookup_id(result.workunitid);
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
                 "[HOST#%d] WU not found for [RESULT#%d]\n",
                 g_reply->host.id, result.id
             );
-            continue;
+            cant_resend = true;
+        } else {
+            app = ssp->lookup_app(wu.appid);
+            bavp = get_app_version(wu, false, false);
+            if (!bavp) {
+                log_messages.printf(MSG_CRITICAL,
+                    "[HOST#%d] can't resend [RESULT#%d]: no app version for %s\n",
+                    g_reply->host.id, result.id, app->name
+                );
+                cant_resend = true;
+            }
         }
 
-        APP* app = ssp->lookup_app(wu.appid);
-        bavp = get_app_version(wu, false, false);
-        if (!bavp) {
-            log_messages.printf(MSG_CRITICAL,
-                "[HOST#%d] can't resend [RESULT#%d]: no app version for %s\n",
-                g_reply->host.id, result.id, app->name
-            );
-            continue;
-        }
-
-        // If time is too close to the deadline,
+        // If error occurred,
+        // or time is too close to the deadline,
         // or we already have a canonical result,
         // or WU error flag is set,
-        // then don't bother to resend this result.
+        // then don't resend this result.
         // Instead make it time out right away
         // so that the transitioner does 'the right thing'.
         //
         if (
-            wu.error_mask
+            cant_resend
+            || wu.error_mask
             || wu.canonical_resultid
             || wu_is_infeasible_fast(
                 wu, result.server_state, result.priority, result.report_deadline,
