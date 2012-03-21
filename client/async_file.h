@@ -42,13 +42,16 @@ struct ACTIVE_TASK;
 //
 struct ASYNC_COPY {
     ACTIVE_TASK* atp;
+    FILE_INFO* fip;
     FILE* in, *out;
     char to_path[1024], temp_path[1024];
 
     ASYNC_COPY();
     ~ASYNC_COPY();
 
-    int init(ACTIVE_TASK* _atp, const char* from_path, const char* _to_path);
+    int init(
+        ACTIVE_TASK*, FILE_INFO*, const char* from_path, const char* _to_path
+    );
     int copy_chunk();
     void error(int);
 };

@@ -2876,3 +2876,18 @@ Bernd  21 Mar 2012
     sched/
         sched_customize.cpp,h
         plan_class_spec.cpp,h
+
+David  21 Mar 2012
+    - client: set file ownership and permissions after an async verify.
+        This was presumably the cause of the recent Einstein@home problem.
+    - client: set file ownership and permissions after an async copy.
+    - client: set file ownership and permissions after a
+        regular (non-async) copy.
+
+        The latter 2 bugs would affect a VM app that copies
+        its executable to slot/x/shared
+
+    client/
+        client_types.cpp,h
+        async_file.cpp,h
+        app_start.cpp

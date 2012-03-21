@@ -142,7 +142,7 @@ struct FILE_INFO {
     FILE_INFO();
     ~FILE_INFO();
     void reset();
-    int set_permissions();
+    int set_permissions(const char* path=0);
     int parse(XML_PARSER&);
     int write(MIOFILE&, bool to_server);
     int write_gui(MIOFILE&);

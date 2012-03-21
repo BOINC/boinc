@@ -384,7 +384,7 @@ int ACTIVE_TASK::setup_file(
             }
             if (fip->nbytes > ASYNC_FILE_THRESHOLD) {
                 ASYNC_COPY* ac = new ASYNC_COPY;
-                retval = ac->init(this, file_path, link_path);
+                retval = ac->init(this, fip, file_path, link_path);
                 if (retval) return retval;
                 return ERR_IN_PROGRESS;
             } else {
@@ -396,10 +396,9 @@ int ACTIVE_TASK::setup_file(
                     );
                     return retval;
                 }
+                retval = fip->set_permissions(link_path);
+                if (retval) return retval;
             }
-#ifdef SANDBOX
-            return set_to_project_group(link_path);
-#endif
         }
         return 0;
     }
