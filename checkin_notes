@@ -2932,3 +2932,12 @@ Rom    21 Mar 2012
 
     samples/vboxwrapper/
         vbox.cpp, .h
+
+Rom    21 Mar 2012
+    - VBOX: Before attempting to take the snapshot for a VM, pause it first.
+        This changes the snapshot type from a live snapshot to an online
+        snapshot.  Presumably difference might make it easier to do and
+        prevent the VM from asserting.
+        
+    samples/vboxwrapper/
+        vbox.cpp, .h

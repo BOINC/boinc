@@ -395,6 +395,10 @@ int VBOX_VM::createsnapshot(double elapsed_time, double checkpoint_cpu_time) {
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
 
+    // Pause VM - Try and avoid the live snapshot and trigger an online
+    // snapshot instead.
+    pause();
+
     // Create new snapshot
     sprintf(buf, "%d", (int)elapsed_time);
     command = "snapshot \"" + vm_name + "\" ";
@@ -403,13 +407,18 @@ int VBOX_VM::createsnapshot(double elapsed_time, double checkpoint_cpu_time) {
     retval = vbm_popen(command, output, "create new snapshot");
     if (retval) return retval;
 
-    // Delete stale snapshot
-    sprintf(buf, "%d", (int)checkpoint_cpu_time);
-    command = "snapshot \"" + vm_name + "\" ";
-    command += "delete boinc_";
-    command += buf;
-    retval = vbm_popen(command, output, "delete stale snapshot");
-    if (retval) return retval;
+    // Delete stale snapshot, if one exists
+    if (checkpoint_cpu_time) {
+        sprintf(buf, "%d", (int)checkpoint_cpu_time);
+        command = "snapshot \"" + vm_name + "\" ";
+        command += "delete boinc_";
+        command += buf;
+        retval = vbm_popen(command, output, "delete stale snapshot");
+        if (retval) return retval;
+    }
+
+    // Resume VM
+    resume();
 
     fprintf(
         stderr,
