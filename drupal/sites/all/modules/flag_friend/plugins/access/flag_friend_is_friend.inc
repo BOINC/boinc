@@ -1,5 +1,4 @@
 <?php
-// $Id: flag_friend_is_friend.inc,v 1.1.2.1 2010/03/24 17:06:15 sirkitree Exp $
 
 /**
  * @file

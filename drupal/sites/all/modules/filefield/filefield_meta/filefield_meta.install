@@ -1,5 +1,4 @@
 <?php
-// $Id: filefield_meta.install,v 1.10 2010/06/17 19:37:17 pwolanin Exp $
 /**
  * @file
  * FileField Meta: Add Video Support to File Field.

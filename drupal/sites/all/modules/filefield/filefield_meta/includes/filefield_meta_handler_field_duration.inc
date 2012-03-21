@@ -1,5 +1,4 @@
 <?php
-// $Id: filefield_meta_handler_field_duration.inc,v 1.3 2010/04/24 06:28:03 quicksketch Exp $
 
 /**
  * @file
@@ -50,16 +49,16 @@ class filefield_meta_handler_field_duration extends views_handler_field_numeric 
 
     switch ($this->options['format']) {
       case 'hours':
-        $value = date('g', (int) $value);
+        $output = date('g', (int) $value);
         break;
       case 'minutes':
-        $value = date('i', (int) $value);
+        $output = date('i', (int) $value);
         break;
       case 'seconds':
-        $value = date('s', (int) $value);
+        $output = date('s', (int) $value);
         break;
       case 'total':
-        $value = $value;
+        $output = check_plain($value);
         break;
       default:
         $output = theme('filefield_meta_duration', $value);

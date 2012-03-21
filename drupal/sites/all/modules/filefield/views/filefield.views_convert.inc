@@ -1,5 +1,4 @@
 <?php
-// $Id: filefield.views_convert.inc,v 1.1 2009/07/03 22:14:14 quicksketch Exp $
 
 /**
  * @file

@@ -1,5 +1,4 @@
 <?php
-// $Id: filefield.install,v 1.40 2010/06/29 19:27:05 quicksketch Exp $
 /**
  * @file
  * FileField: Defines a CCK file field type.
@@ -54,6 +53,7 @@ function filefield_requirements($phase) {
 
   // Report Drupal version
   if ($phase == 'runtime') {
+    drupal_load('module', 'filefield');
     $implementation = filefield_progress_implementation();
     $apache = strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== FALSE;
     $fastcgi = strpos($_SERVER['SERVER_SOFTWARE'], 'mod_fastcgi') !== FALSE || strpos($_SERVER["SERVER_SOFTWARE"], 'mod_fcgi') !== FALSE;
@@ -294,21 +294,35 @@ function filefield_update_6104() {
  */
 function _filefield_update_6001_move_operation($field, &$context) {
   // Setup the first through
-  if (!isset($context['sandbox']['progress'])) {
+  if (!isset($context['sandbox']['processed_files'])) {
     $db_info = content_database_info($field);
     $context['sandbox']['db_info'] = $db_info;
     $context['sandbox']['table'] = $db_info['table'];
     $context['sandbox']['col_data'] = $db_info['columns']['data']['column'];
     $context['sandbox']['col_desc'] = $db_info['columns']['description']['column'];
     $context['sandbox']['max'] = db_result(db_query("SELECT COUNT(*) FROM {". $db_info['table'] ."}"));
-    $context['sandbox']['progress'] = 0;
     $context['sandbox']['current_node'] = 0;
+    $context['sandbox']['current_delta'] = 0;
+    $context['sandbox']['processed_files'] = array();
   }
 
   // Work our way through the field values 50 rows at a time.
   $limit = 50;
-  $result = db_query_range("SELECT * FROM {{$context['sandbox']['table']}} WHERE vid > %d ORDER BY nid ASC", $context['sandbox']['current_node'], 0, $limit);
+  $result = NULL;
+  if ($field['multiple']) {
+    $result = db_query_range("SELECT * FROM {{$context['sandbox']['table']}} WHERE (vid = %d AND delta > %d) OR vid > %d ORDER BY vid ASC, delta ASC", $context['sandbox']['current_node'], $context['sandbox']['current_delta'], $context['sandbox']['current_node'], 0, $limit);
+  }
+  else {
+    $result = db_query_range("SELECT * FROM {{$context['sandbox']['table']}} WHERE vid >= %d ORDER BY vid ASC", $context['sandbox']['current_node'], 0, $limit);
+  }
   while ($row = db_fetch_array($result)) {
+    // Do not process the same file twice. This may happen when a node's files
+    // are split across two separate batch update HTTP requests.
+    $delta = isset($row['delta']) ? $row['delta'] : 0;
+    if (isset($context['sandbox']['processed_files'][$row['vid'] . '_' . $delta])) {
+      continue;
+    }
+
     // Try to unserialize the data column.
     if (!empty($row[$context['sandbox']['col_data']])) {
       $data = unserialize($row[$context['sandbox']['col_data']]);
@@ -324,14 +338,16 @@ function _filefield_update_6001_move_operation($field, &$context) {
     db_query("UPDATE {{$context['sandbox']['table']}} SET {$context['sandbox']['col_data']} = '%s' WHERE vid = %d", serialize($data), $row['vid']);
 
     // Update our progress information.
-    $context['sandbox']['progress']++;
+    $context['sandbox']['processed_files'][$row['vid'] . '_' . $delta] = TRUE;
     $context['sandbox']['current_node'] = $row['vid'];
+    $context['sandbox']['current_delta'] = $delta;
   }
 
   // Inform the batch engine that we are not finished,
   // and provide an estimation of the completion level we reached.
-  if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
-    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+  $processed_count = count($context['sandbox']['processed_files']);
+  if ($processed_count != $context['sandbox']['max']) {
+    $context['finished'] = $processed_count / $context['sandbox']['max'];
   }
 }
 

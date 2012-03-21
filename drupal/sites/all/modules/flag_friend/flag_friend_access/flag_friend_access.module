@@ -1,5 +1,4 @@
 <?php
-// $Id: flag_friend_access.module,v 1.1.2.4 2010/03/24 15:18:35 sirkitree Exp $
 
 /**
  * @file: provides access control for nodes. Allow only the users friends to

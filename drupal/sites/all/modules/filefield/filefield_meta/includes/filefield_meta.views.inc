@@ -1,5 +1,4 @@
 <?php
-// $Id: filefield_meta.views.inc,v 1.3 2010/06/16 22:06:44 quicksketch Exp $
 /**
  * @file
  * Provide views data for filefield_meta.module.
@@ -165,7 +164,7 @@ function filefield_meta_views_data() {
   // Tags.
   $data['filefield_meta']['tags'] = array(
     'title' => t('ID3 tags'),
-    'help' => t('ID3 tags include embedded information such as artist, album, year, genre and other informaiton.'),
+    'help' => t('ID3 tags include embedded information such as artist, album, year, genre and other information.'),
     'field' => array(
       'handler' => 'filefield_meta_handler_field_tags',
       'click sortable' => FALSE,

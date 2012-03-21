@@ -1,5 +1,4 @@
 <?php
-// $Id: filefield_field.inc,v 1.41 2010/06/30 23:52:45 quicksketch Exp $
 
 /**
  * @file
@@ -19,7 +18,7 @@ function filefield_field_settings_form($field) {
     '#title' => t('List field'),
     '#options' => array(0 => t('Disabled'), 1 => t('Enabled')),
     '#default_value' => $field['list_field'] === '' ? 0 : (int) $field['list_field'],
-    '#description' => t('The "list" option lets a user choose if a file should be shown in a list when viewing the content after creation.'),
+    '#description' => t('Display a checkbox where users may choose if a file should be shown when viewing the content. Most formatters other than <em>Generic file</em> do not support this option.'),
     '#attributes' => array('class' => 'filefield-list-field'),
   );
   $form['list_default'] = array(
@@ -32,7 +31,7 @@ function filefield_field_settings_form($field) {
     '#title' => t('Description field'),
     '#default_value' => $field['description_field'] === '' ? 0 : (int) $field['description_field'],
     '#options' => array(0 => t('Disabled'), 1 => t('Enabled')),
-    '#description' => t('When enabled, will display a text field where users may enter a description about the uploaded file.'),
+    '#description' => t('Display a text field where users may enter a description about the uploaded file. The description text is used when using the <em>Generic file</em> formatter to link to the file, the file name will be used otherwise. Most other formatters do not use the description field on output.'),
   );
 
   return $form;
@@ -86,6 +85,7 @@ function filefield_field_settings_views_data($field) {
   $data[$table_alias][$field['field_name'] .'_data']['field'] = array(
     'title' => $data[$table_alias][$field['field_name'] .'_data']['title'],
     'title short' => $data[$table_alias][$field['field_name'] .'_data']['title short'],
+    'help' => t('Can be used to display specific alt, title, or description information. May cause duplicate rows if grouping fields.'),
     'field' => $db_info['columns']['data']['column'],
     'table' => $db_info['table'],
     'handler' => 'filefield_handler_field_data',
@@ -135,7 +135,9 @@ function filefield_field_load($node, $field, &$items, $teaser, $page) {
       $items[$delta] = NULL;
     }
     else {
-      $item['data'] = unserialize($item['data']);
+      if (isset($item['data']) && !empty($item['data'])) {
+        $item['data'] = unserialize($item['data']);
+      }
       // Temporary fix to unserialize data serialized multiple times.
       // See the FileField issue http://drupal.org/node/402860.
       // And the CCK issue http://drupal.org/node/407446.
@@ -144,9 +146,9 @@ function filefield_field_load($node, $field, &$items, $teaser, $page) {
       }
       // Merge any data added by modules in hook_file_load().
       if (isset($file['data']) && isset($item['data'])) {
-        $file['data'] = array_merge((array) $item['data'], (array) $file['data']);
+        $file['data'] = array_merge((array) $file['data'], (array) $item['data']);
       }
-      $items[$delta] = array_merge($item, $file);
+      $items[$delta] = array_merge($file, $item);
     }
   }
 
@@ -205,11 +207,13 @@ function filefield_field_update($node, $field, &$items, $teaser, $page) {
  */
 function filefield_field_delete_revision($node, $field, &$items, $teaser, $page) {
   foreach ($items as $delta => $item) {
-    // For hook_file_references, remember that this is being deleted.
-    $item['field_name'] = $field['field_name'];
-    $item['delete_vid'] = $node->vid;
-    if (filefield_field_delete_file($item, $field)) {
-      $items[$delta] = NULL;
+    if (isset($item['fid'])) {
+      // For hook_file_references, remember that this is being deleted.
+      $item['field_name'] = $field['field_name'];
+      $item['delete_vid'] = $node->vid;
+      if (filefield_field_delete_file($item, $field)) {
+        $items[$delta] = NULL;
+      }
     }
   }
 }
@@ -219,12 +223,25 @@ function filefield_field_delete_revision($node, $field, &$items, $teaser, $page)
  */
 function filefield_field_delete($node, $field, &$items, $teaser, $page) {
   foreach ($items as $delta => $item) {
-    // For hook_file_references(), remember that this is being deleted.
-    $item['field_name'] = $field['field_name'];
-    // Pass in the nid of the node that is being removed so all references can
-    // be counted in hook_file_references().
-    $item['delete_nid'] = $node->nid;
-    filefield_field_delete_file($item, $field);
+    if (isset($item['fid'])) {
+      // For hook_file_references(), remember that this is being deleted.
+      $item['field_name'] = $field['field_name'];
+      // Pass in the nid of the node that is being removed so all references can
+      // be counted in hook_file_references().
+      $item['delete_nid'] = $node->nid;
+      filefield_field_delete_file($item, $field);
+    }
+  }
+
+  // Delete all the remaining items present only in older revisions.
+  $db_info = content_database_info($field);
+  $result = db_query('SELECT vid, f.* FROM {' . $db_info['table'] . '} t INNER JOIN {files} f ON t.' . $db_info['columns']['fid']['column'] . ' = f.fid WHERE nid = %d AND vid != %d', $node->nid, $node->vid);
+  while ($item = db_fetch_array($result)) {
+    if (isset($item['fid'])) {
+      $item['field_name'] = $field['field_name'];
+      $item['delete_vid'] = $item['vid'];
+      filefield_field_delete_file($item, $field); 
+    }
   }
 }
 
@@ -289,9 +306,9 @@ function filefield_field_sanitize($node, $field, &$items, $teaser, $page) {
     if (!empty($item['fid']) && empty($item['filepath'])) {
       $file = (array) field_file_load($item['fid']);
       if (isset($file['data'])) {
-        $file['data'] = array_merge($items[$delta]['data'], $file['data']);
+        $file['data'] = array_merge($file['data'], $items[$delta]['data']);
       }
-      $items[$delta] = array_merge($items[$delta], $file);
+      $items[$delta] = array_merge($file, $items[$delta]);
     }
 
     // Verify the file exists on the server.

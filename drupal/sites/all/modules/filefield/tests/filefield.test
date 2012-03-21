@@ -1,5 +1,4 @@
 <?php
-// $Id: filefield.test,v 1.8 2010/06/29 19:14:16 quicksketch Exp $
 
 class FileFieldTestCase extends DrupalWebTestCase {
   protected $admin_user;
@@ -526,7 +525,21 @@ class FileFieldValidateTestCase extends FileFieldTestCase {
     $this->assertFileEntryExists($node_file, t('File entry exists after uploading a file with extension checking.'));
 
     // Check that a mismatched extension cannot be uploaded.
+    $mimedetect = FALSE;
     if (module_exists('mimedetect')) {
+      $mimedetect = TRUE;
+      module_load_include('install', 'mimedetect');
+      if (!extension_loaded('fileinfo')) {
+        variable_set('mimedetect_enable_file_binary', 1);
+      }
+      $requirements = mimedetect_requirements('runtime');
+      foreach ($requirements as $requirement) {
+        if (isset($requirement['severity']) && $requirement['severity'] == REQUIREMENT_ERROR) {
+          $mimedetect = FALSE;
+        }
+      }
+    }
+    if ($mimedetect) {
       $this->uploadNodeFile($wrong_extension_file, $field, $type->name);
       $error_pattern = "/The file contents \([a-z\-\/]+\) do not match its extension \([a-z]+\)\./";
       $this->assertPattern($error_pattern, t('File prevented from uploading because its extension does not match its content.'));

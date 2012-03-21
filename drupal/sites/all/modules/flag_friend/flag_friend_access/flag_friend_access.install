@@ -1,5 +1,4 @@
 <?php
-// $Id: flag_friend_access.install,v 1.1.2.2 2010/03/24 15:18:35 sirkitree Exp $
 
 /**
  * @file flag_friend_access.install

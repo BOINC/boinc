@@ -1,5 +1,4 @@
 <?php
-// $Id: filefield_meta.module,v 1.18 2010/06/29 19:14:17 quicksketch Exp $
 
 /**
  * @file
@@ -141,7 +140,7 @@ function filefield_meta(&$file) {
       // Typically $type may be IDv2 (for MP3s) or quicktime (for AAC).
       foreach ($values as $key => $value) {
         $value = isset($value[0]) ? (string) $value[0] : (string) $value;
-        if (!empty($value) && $key != 'coverart') {
+        if (!empty($value) && $key != 'coverart' && $key != 'music_cd_identifier') {
           $file->data['tags'][$key] = html_entity_decode($value, ENT_QUOTES, 'UTF-8');
         }
       }

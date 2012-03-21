@@ -1,35 +1,9 @@
-// $Id: filefield.js,v 1.25 2010/04/24 02:47:49 quicksketch Exp $
 
 /**
  * Auto-attach standard client side file input validation.
  */
 Drupal.behaviors.filefieldValidateAutoAttach = function(context) {
-  $("input[type='file'][accept]", context).change( function() {
-    // Remove any previous errors.
-    $('.file-upload-js-error').remove();
-
-    /**
-     * Add client side validation for the input[type=file] accept attribute.
-     */
-    var accept = this.accept.replace(/,\s*/g, '|');
-    if (accept.length > 1 && this.value.length > 0) {
-      var v = new RegExp('\\.(' + accept + ')$', 'gi');
-      if (!v.test(this.value)) {
-        var error = Drupal.t("The selected file %filename cannot be uploaded. Only files with the following extensions are allowed: %extensions.",
-          { '%filename' : this.value, '%extensions' : accept.replace(/\|/g, ', ') }
-        );
-        // What do I prepend this to?
-        $(this).before('<div class="messages error file-upload-js-error">' + error + '</div>');
-        this.value = '';
-        return false;
-      }
-    }
-
-    /**
-     * Add filesize validation where possible.
-     */
-    /* @todo */
-  });
+  $("input[type=file]", context).bind('change', Drupal.filefield.validateExtensions);
 };
 
 
@@ -72,7 +46,28 @@ Drupal.behaviors.filefieldAdmin = function(context) {
  * @param {Object} event
  */
 Drupal.filefield = {
-  disableFields: function(event){
+  validateExtensions: function(event) {
+    // Remove any previous errors.
+    $('.file-upload-js-error').remove();
+
+    var fieldName = this.name.replace(/^files\[([a-z0-9_]+)_\d+\]$/, '$1');
+    var extensions = '';
+    if (Drupal.settings.filefield && Drupal.settings.filefield[fieldName]) {
+      extensions = Drupal.settings.filefield[fieldName].replace(/[, ]+/g, '|');
+    }
+    if (extensions.length > 1 && this.value.length > 0) {
+      var extensionPattern = new RegExp('\\.(' + extensions + ')$', 'gi');
+      if (!extensionPattern.test(this.value)) {
+        var error = Drupal.t("The selected file %filename cannot be uploaded. Only files with the following extensions are allowed: %extensions.",
+          { '%filename' : this.value, '%extensions' : extensions.replace(/\|/g, ', ') }
+        );
+        $(this).parent().before('<div class="messages error file-upload-js-error">' + error + '</div>');
+        this.value = '';
+        return false;
+      }
+    }
+  },
+  disableFields: function(event) {
     var clickedButton = this;
 
     // Only disable upload fields for AHAH buttons.
@@ -116,13 +111,12 @@ Drupal.filefield = {
       setTimeout(function() {
         $progressId.attr('name', originalName);
       }, 1000);
-
-      // Show the progress bar if the upload takes longer than 3 seconds.
-      setTimeout(function() {
-        $(clickedButton).parents('div.filefield-element').find('div.ahah-progress-bar').slideDown();
-      }, 500);
-
     }
+
+    // Show the progress bar if the upload takes longer than 3 seconds.
+    setTimeout(function() {
+      $(clickedButton).parents('div.filefield-element').find('div.ahah-progress-bar').slideDown();
+    }, 500);
   },
   openInNewWindow: function(event) {
     window.open(this.href, 'filefieldPreview', 'toolbar=0,scrollbars=1,location=1,statusbar=1,menubar=0,resizable=1,width=500,height=550');

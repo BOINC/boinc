@@ -1,5 +1,4 @@
 <?php
-// $Id: imagefield.module,v 1.112 2010/06/29 23:04:42 quicksketch Exp $
 
 /**
  * @file
@@ -295,6 +294,22 @@ function imagefield_form_content_field_overview_submit(&$form, &$form_state) {
 }
 
 /**
+ * Implementation of hook_filefield_data_info().
+ */
+function imagefield_filefield_data_info() {
+  return array(
+    'alt' => array(
+      'title' => t('Alt text'),
+      'callback' => 'check_plain',
+    ),
+    'title' => array(
+      'title' => t('Title'),
+      'callback' => 'check_plain',
+    ),
+  );
+}
+
+/**
  * @defgroup "Theme Callbacks"
  * @{
  * @see imagefield_theme().
@@ -329,13 +344,10 @@ function theme_imagefield_image($file, $alt = '', $title = '', $attributes = NUL
     $query_string = $query_character . $file['timestamp'];
   }
 
-  // Encode the parts of the path.
-  $parts = explode('/', $file['filepath']);
-  foreach ($parts as $n => $part) {
-    $parts[$n] = rawurlencode($part);
-  }
-  $path = implode('/', $parts);
+  // Encode the path so that unusual characters are printed correctly.
+  $path = field_file_urlencode_path($file['filepath']);
 
+  // Construct the URL.
   $url = file_create_url($path) . $query_string;
   $attributes['src'] = $url;
   $attributes = drupal_attributes($attributes);
@@ -360,12 +372,8 @@ function theme_imagefield_admin_thumbnail($item = NULL) {
   }
   $thumb_path = imagefield_file_admin_thumb_path($item);
 
-  // Encode the parts of the path.
-  $parts = explode('/', $thumb_path);
-  foreach ($parts as $n => $part) {
-    $parts[$n] = rawurlencode($part);
-  }
-  $thumb_path = implode('/', $parts);
+  // Encode the path so that unusual characters are printed correctly.
+  $thumb_path = field_file_urlencode_path($thumb_path);
 
   // Add a timestamp to the URL to ensure it is immediately updated after editing.
   $query_string = '';

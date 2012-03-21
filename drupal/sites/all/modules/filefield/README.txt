@@ -1,4 +1,3 @@
-// $Id: README.txt,v 1.6 2009/03/27 03:56:37 quicksketch Exp $
 
 FileField provides an "File" field type to CCK. It provides many advantages over
 the Drupal core "Upload" module including:

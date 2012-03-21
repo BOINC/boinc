@@ -3,9 +3,9 @@ description = Allows users to specify that only their friends can view this piec
 package = Flags
 dependencies[] = flag_friend
 core = 6.x
-; Information added by drupal.org packaging script on 2010-08-08
-version = "6.x-1.0"
+; Information added by drupal.org packaging script on 2012-02-05
+version = "6.x-1.1"
 core = "6.x"
 project = "flag_friend"
-datestamp = "1281273674"
+datestamp = "1328465442"
 

@@ -1,5 +1,4 @@
 <?php
-// $Id: filefield.test,v 1.4 2009/03/27 04:22:58 quicksketch Exp $
 
 class ImageFieldTestCase extends FileFieldTestCase {
   /**

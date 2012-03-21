@@ -1,5 +1,4 @@
 <?php
-// $Id: imagefield_file.inc,v 1.19 2010/02/28 16:21:01 quicksketch Exp $
 
 /**
  * @file
@@ -22,6 +21,30 @@ function imagefield_file_delete($file) {
   if (imagefield_file_is_image($file)) {
     file_delete(imagefield_file_admin_thumb_path($file, FALSE));
   }
+}
+
+/**
+ * Implementation of hook_file_references().
+ */
+function imagefield_file_references($file) {
+  $file = (object) $file;
+  $count = 0;
+
+  // We currently only check if images are in use when deleting from content
+  // type default images. All other reference counting is left to FileField.
+  if (isset($file->imagefield_type_name)) {
+    $content_types = content_types();
+    foreach ($content_types as $type_name => $content_type) {
+      if ($type_name != $file->imagefield_type_name) {
+        foreach ($content_type['fields'] as $field_name => $field) {
+          if ($field['widget']['default_image'] && $field['widget']['default_image']['fid'] == $file->fid) {
+            $count++;
+          }
+        }
+      }
+    }
+  }
+  return $count ? array('imagefield' => $count) : NULL;
 }
 
 /**

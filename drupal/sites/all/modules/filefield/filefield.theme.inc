@@ -1,5 +1,4 @@
 <?php
-// $Id: filefield.theme.inc,v 1.12 2010/06/30 01:37:29 quicksketch Exp $
 
 /**
  * @file
@@ -164,6 +163,7 @@ function _filefield_generic_icon_map($file) {
     case 'application/vnd.oasis.opendocument.presentation':
     case 'application/vnd.oasis.opendocument.presentation-template':
     case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+    case 'application/vnd.openxmlformats-officedocument.presentationml.slideshow':
     case 'application/vnd.stardivision.impress':
     case 'application/vnd.sun.xml.impress':
     case 'application/vnd.sun.xml.impress.template':
@@ -226,6 +226,15 @@ function _filefield_generic_icon_map($file) {
     // HTML aliases.
     case 'application/xhtml+xml':
       return 'text-html';
+
+    // RTF files.
+    case 'application/rtf':
+      return 'text-rtf';
+
+    // Google earth files.
+    case 'application/vnd.google-earth.kml+xml':
+    case 'application/vnd.google-earth.kmz':
+      return 'application-google-earth';
 
     // Executable types.
     case 'application/x-macbinary':

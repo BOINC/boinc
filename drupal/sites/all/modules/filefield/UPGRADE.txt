@@ -1,4 +1,3 @@
-// $Id: UPGRADE.txt,v 1.2 2009/03/27 03:56:08 quicksketch Exp $
 
 Upgrading from previous versions of FileField does not differ from the
 recommended approach for other modules.
