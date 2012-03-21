@@ -2910,3 +2910,16 @@ Rom    21 Mar 2012
     samples/vboxwrapper/
         vbox.cpp, .h
         vboxwrapper.cpp
+
+David  21 Mar 2012
+    - client: change timeout for job quit/abort from 60 back to 15
+        (time between sending app a quit/abort message
+        and, if not exited yet, killing it)
+    - client: if app has reported an "other PID"
+        (e.g., vboxwrapper reports the VBoxHeadless PID)
+        then include it (along with descendants) in the
+        list of processes we kill when killing the job.
+
+    client/
+        app.h
+        app_control.cpp

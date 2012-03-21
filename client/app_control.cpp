@@ -207,6 +207,9 @@ int ACTIVE_TASK::kill_task() {
 #endif
     get_descendants(pid, pids);
     pids.push_back(pid);
+    for (unsigned int i=0; i<other_pids.size(); i++) {
+        pids.push_back(other_pids[i]);
+    }
     kill_processes(pids);
     return 0;
 }
