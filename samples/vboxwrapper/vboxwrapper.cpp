@@ -446,7 +446,7 @@ int main(int argc, char** argv) {
         return ERR_RSC_LIMIT_EXCEEDED;
     }
 
-    retval = vm.run();
+    retval = vm.run(elapsed_time);
     if (retval) {
         // All failure to start error are unrecoverable by default
         bool  unrecoverable_error = true;
@@ -541,13 +541,12 @@ int main(int argc, char** argv) {
 
         if (boinc_status.no_heartbeat || boinc_status.quit_request) {
             vm.reset_vm_process_priority();
-            vm.stop();
-            write_checkpoint(checkpoint_cpu_time, vm);
-            boinc_temporary_exit(0);
+            vm.poweroff();
+            boinc_temporary_exit(300);
         }
         if (boinc_status.abort_request) {
+            vm.reset_vm_process_priority();
             vm.cleanup();
-            write_checkpoint(elapsed_time, vm);
             boinc_finish(EXIT_ABORTED_BY_CLIENT);
         }
         if (!vm.online) {
@@ -557,7 +556,6 @@ int main(int argc, char** argv) {
                 vm.get_vm_exit_code(vm_exit_code);
             }
             vm.cleanup();
-            write_checkpoint(elapsed_time, vm);
 
             if (vm.crashed || (elapsed_time < vm.job_duration)) {
                 fprintf(
@@ -608,42 +606,51 @@ int main(int argc, char** argv) {
             }
 
             if (boinc_time_to_checkpoint()) {
-                checkpoint_cpu_time = elapsed_time;
-                write_checkpoint(checkpoint_cpu_time, vm);
-                if (vm.job_duration) {
-                    fraction_done = elapsed_time / vm.job_duration;
-                    if (fraction_done > 1.0) {
-                        fraction_done = 1.0;
+                // Only peform a VM checkpoint every ten minutes or so.
+                //
+                if (elapsed_time >= checkpoint_cpu_time + 600.0) {
+                    // Basic bookkeeping
+                    if (vm.job_duration) {
+                        fraction_done = elapsed_time / vm.job_duration;
+                        if (fraction_done > 1.0) {
+                            fraction_done = 1.0;
+                        }
                     }
-                }
-                boinc_report_app_status(
-                    elapsed_time,
-                    checkpoint_cpu_time,
-                    fraction_done
-                );
-                if ((elapsed_time - last_status_report_time) >= 6000.0) {
-                    last_status_report_time = elapsed_time;
-                    if (aid.global_prefs.daily_xfer_limit_mb) {
-                        fprintf(
-                            stderr,
-                            "%s Status Report: Job Duration: '%f', Elapsed Time: '%f', Network Bytes Sent (Total): '%f', Network Bytes Received (Total): '%f'\n",
-                            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                            vm.job_duration,
+                    if ((elapsed_time - last_status_report_time) >= 6000.0) {
+                        last_status_report_time = elapsed_time;
+                        if (aid.global_prefs.daily_xfer_limit_mb) {
+                            fprintf(
+                                stderr,
+                                "%s Status Report: Job Duration: '%f', Elapsed Time: '%f', Network Bytes Sent (Total): '%f', Network Bytes Received (Total): '%f'\n",
+                                vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                                vm.job_duration,
+                                elapsed_time,
+                                bytes_sent,
+                                bytes_received
+                            );
+                        } else {
+                            fprintf(
+                                stderr,
+                                "%s Status Report: Job Duration: '%f', Elapsed Time: '%f'\n",
+                                vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                                vm.job_duration,
+                                elapsed_time
+                            );
+                        }
+                    }
+
+                    // Checkpoint
+                    if (!vm.createsnapshot(elapsed_time, checkpoint_cpu_time)) {
+                        checkpoint_cpu_time = elapsed_time;
+                        write_checkpoint(checkpoint_cpu_time, vm);
+                        boinc_report_app_status(
                             elapsed_time,
-                            bytes_sent,
-                            bytes_received
+                            checkpoint_cpu_time,
+                            fraction_done
                         );
-                    } else {
-                        fprintf(
-                            stderr,
-                            "%s Status Report: Job Duration: '%f', Elapsed Time: '%f'\n",
-                            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                            vm.job_duration,
-                            elapsed_time
-                        );
+                        boinc_checkpoint_completed();
                     }
                 }
-                boinc_checkpoint_completed();
             }
 
             if (report_vm_pid || report_net_usage) {
@@ -689,7 +696,6 @@ int main(int argc, char** argv) {
             //
             if (vm.job_duration && (elapsed_time > vm.job_duration)) {
                 vm.cleanup();
-                write_checkpoint(elapsed_time, vm);
 
                 if (vm.enable_cern_dataformat) {
                     FILE* output = fopen("output", "w");

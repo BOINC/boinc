@@ -191,7 +191,7 @@ int VBOX_VM::initialize() {
     return 0;
 }
 
-int VBOX_VM::run() {
+int VBOX_VM::run(double elapsed_time) {
     int retval;
 
     retval = initialize();
@@ -218,6 +218,19 @@ int VBOX_VM::run() {
     // various other functions will work.
     vm_name = vm_master_name;
 
+    // Check to see if the VM is already in a running state, if so, poweroff.
+    poll();
+    if (online) {
+        poweroff();
+    }
+
+    // If our last checkpoint time is greater than 0, restore from the previously
+    // saved snapshot
+    if (elapsed_time) {
+        restoresnapshot();
+    }
+
+    // Start the VM
     retval = start();
     if (retval) return retval;
 
@@ -308,6 +321,44 @@ int VBOX_VM::stop() {
     return retval;
 }
 
+int VBOX_VM::poweroff() {
+    string command;
+    string output;
+    char buf[256];
+    int retval = 0;
+
+    fprintf(
+        stderr,
+        "%s Powering off virtual machine.\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf))
+    );
+    if (online) {
+        command = "controlvm \"" + vm_name + "\" poweroff";
+        retval = vbm_popen(command, output, "poweroff VM", true, false);
+        if (retval) return retval;
+
+        poll(false);
+
+        if (!online) {
+            fprintf(
+                stderr,
+                "%s Successfully powered off virtual machine.\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf))
+            );
+            retval = BOINC_SUCCESS;
+        } else {
+            fprintf(
+                stderr,
+                "%s VM did not poweroff in a timely fashion.\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf))
+            );
+            retval = ERR_EXEC;
+        }
+    }
+
+    return retval;
+}
+
 int VBOX_VM::pause() {
     string command;
     string output;
@@ -332,8 +383,74 @@ int VBOX_VM::resume() {
     return 0;
 }
 
+int VBOX_VM::createsnapshot(double elapsed_time, double checkpoint_cpu_time) {
+    string command;
+    string output;
+    char buf[256];
+    int retval;
+
+    fprintf(
+        stderr,
+        "%s Creating new snapshot for virtual machine.\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf))
+    );
+
+    // Create new snapshot
+    sprintf(buf, "%d", (int)elapsed_time);
+    command = "snapshot \"" + vm_name + "\" ";
+    command += "take \"";
+    command += buf;
+    command += "\" ";
+    retval = vbm_popen(command, output, "create new snapshot");
+    if (retval) return retval;
+
+    // Delete stale snapshot
+    sprintf(buf, "%d", (int)checkpoint_cpu_time);
+    command = "snapshot \"" + vm_name + "\" ";
+    command += "delete \"";
+    command += buf;
+    command += "\" ";
+    retval = vbm_popen(command, output, "delete stale snapshot");
+    if (retval) return retval;
+
+    fprintf(
+        stderr,
+        "%s Checkpoint completed.\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf))
+    );
+
+    return 0;
+}
+
+int VBOX_VM::restoresnapshot() {
+    string command;
+    string output;
+    char buf[256];
+    int retval;
+
+    fprintf(
+        stderr,
+        "%s Restore from previously saved snapshot.\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf))
+    );
+
+    // Create from snapshot
+    command = "snapshot \"" + vm_name + "\" ";
+    command += "restorecurrent ";
+    retval = vbm_popen(command, output, "restore current snapshot");
+    if (retval) return retval;
+
+    fprintf(
+        stderr,
+        "%s Restore completed.\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf))
+    );
+
+    return 0;
+}
+
 void VBOX_VM::cleanup() {
-    stop();
+    poweroff();
     deregister_vm();
 
     // Give time enough for external processes to finish the cleanup process

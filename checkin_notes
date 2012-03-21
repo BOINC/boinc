@@ -2891,3 +2891,22 @@ David  21 Mar 2012
         client_types.cpp,h
         async_file.cpp,h
         app_start.cpp
+
+Rom    21 Mar 2012
+    - VBOX: Introduce the use of VM snapshots as a form of checkpoint.
+        - Perform snapshots at most once every ten minutes.
+        - Client suspend/resume messages behave the same.
+        - Client no heartbeat/quit messages cause the wrapper to just
+          poweroff the VM.
+        
+        On startup check to see if the last checkpoint time is greater than 0,
+        if so, start from the most recent snapshot.
+    - VBOX: If we receieve the status message of no heartbeat or quit, set
+        the temporary delay to 5 minutes.  If the wrapper is terminated during
+        the middle of a snapshot, hopefully this will give VirtualBox enough
+        time to complete the snapshot.  Restarting the BOINC job should then
+        poweroff the VM and restore from the last snapshot.
+    
+    samples/vboxwrapper/
+        vbox.cpp, .h
+        vboxwrapper.cpp

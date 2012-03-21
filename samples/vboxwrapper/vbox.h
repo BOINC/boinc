@@ -92,11 +92,14 @@ struct VBOX_VM {
 #endif
 
     int initialize();
-    int run();
+    int run(double elapsed_time);
     int start();
     int stop();
+    int poweroff();
     int pause();
     int resume();
+    int createsnapshot(double elapsed_time, double checkpoint_cpu_time);
+    int restoresnapshot();
     void cleanup();
     void poll(bool log_state = true);
 
