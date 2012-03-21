@@ -348,6 +348,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             }
             double x;
             char buf[256];
+            strcpy(buf, "");
             if (temporary_exit_file_present(x, buf)) {
                 if (log_flags.task_debug) {
                     msg_printf(result->project, MSG_INFO,

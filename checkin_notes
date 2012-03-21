@@ -2858,3 +2858,11 @@ David  20 Mar 2012
         app_control.cpp
     lib/
         prefs.cpp,h
+
+Rom    20 Mar 2012
+    - client: Initialize buffer which is used to hold the temporary exit reason.
+        If somebody didn't populate the reason when calling boinc_temporary_exit
+        the buffer contained junk.
+
+    client/
+        app_control.cpp
