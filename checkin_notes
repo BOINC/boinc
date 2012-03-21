@@ -2923,3 +2923,12 @@ David  21 Mar 2012
     client/
         app.h
         app_control.cpp
+
+Rom    21 Mar 2012
+    - VBOX: We don't need to display the state of the VM before startup.
+    - VBOX: Change the snapshot naming scheme by removing the quotes and
+        prefixing the checkpoint time with 'boinc_'.  Hopefully this will
+        prevent the VM from asserting during the snapshot process.
+
+    samples/vboxwrapper/
+        vbox.cpp, .h
