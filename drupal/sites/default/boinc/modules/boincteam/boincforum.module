@@ -357,6 +357,7 @@ function boincforum_import_users() {
   $batches_without_update = 0;
   
   echo t('Importing %user_count users from BOINC database', array('%user_count' => $user_count));
+  ob_flush();
   flush();
   
   for ($batch = 0; $batch < $batch_limit; $batch+=$batch_size) {
@@ -366,6 +367,7 @@ function boincforum_import_users() {
     $accounts_imported = (int) exec("php {$import_script} {$import_spammers} {$batch} {$batch_size}");
     $processing_time = round(microtime(true) - $start_time, 2);
     echo '.';
+    ob_flush();
     flush();
     
     // Keep a running tally of things and provide occasional status updates
@@ -376,6 +378,7 @@ function boincforum_import_users() {
     if ($last_status_update > 60 OR $batches_without_update > 50 OR $batch + $batch_size >= $batch_limit) {
       $progress = round(100*($batch+$batch_size)/$batch_limit, 1);
       echo "<br/>\n" . t("%num_accounts accounts imported in %time (%progress% complete)", array('%num_accounts' => $total_accounts_imported, '%time' => gmdate('H:i:s', $total_runtime), '%progress' => $progress));
+      ob_flush();
       flush();
       $last_status_update = 0;
       $batches_without_update = 0;
@@ -390,20 +393,23 @@ function boincforum_import_users() {
   // Indicate that the process is complete and return to the main migration page
   echo "<br/>\n<br/>\n";
   echo 'complete. redirecting';
+  ob_flush();
   flush();
   for ($i = 0; $i < 3; $i++) {
     sleep(1);
     echo '.';
+    ob_flush();
     flush();
   }
   echo "<script>location.replace('{$_SERVER['REQUEST_URI']}');</script>";
+  ob_flush();
   flush();
 }
 
 function boincforum_import_teams() {
   // Check whether the team table has been successfully imported already
   //variable_set('boincforum_import_team_successful', 0);
-  variable_set('boincforum_import_team_successful', 0);
+  
   if (variable_get('boincforum_import_team_successful', 0)) {
     drupal_set_message(t('Teams already imported successfully'));
     return;
@@ -467,6 +473,7 @@ function boincforum_import_teams() {
   $teams_without_update = 0;
   
   echo t('Importing %team_count teams from BOINC database', array('%team_count' => $team_count));
+  ob_flush();
   flush();
   
   // Create each team as organic group content
@@ -530,11 +537,13 @@ function boincforum_import_teams() {
     
     if ($teams_without_update % 20 == 0) {
       echo '.';
+      ob_flush();
       flush();
     }
     if ($last_status_update > 60 OR $teams_without_update >= 500) {
       $progress = round(100*$teams_imported/$team_count, 1);
       echo "<br/>\n" . t("%teams_imported teams imported in %time (%progress% complete) -- %member_count members", array('%teams_imported' => $teams_imported, '%time' => gmdate('H:i:s', $total_runtime), '%progress' => $progress, '%member_count' => $total_memberships_assigned));
+      ob_flush();
       flush();
       $last_status_update = 0;
       $teams_without_update = 0;
@@ -549,13 +558,16 @@ function boincforum_import_teams() {
   // Indicate that the process is complete and return to the main migration page
   echo "<br/>\n<br/>\n";
   echo 'complete. redirecting';
+  ob_flush();
   flush();
   for ($i = 0; $i < 3; $i++) {
     sleep(1);
     echo '.';
+    ob_flush();
     flush();
   }
   echo "<script>location.replace('{$_SERVER['REQUEST_URI']}');</script>";
+  ob_flush();
   flush();
 }
 
@@ -671,6 +683,7 @@ function boincforum_import_topics() {
   $topics_without_update = 0;
   
   echo t('Importing %topic_count discussion topics from BOINC database', array('%topic_count' => $topic_count));
+  ob_flush();
   flush();
   
   // Import the topics into Drupal
@@ -760,11 +773,13 @@ function boincforum_import_topics() {
     if ($last_status_update > 60 OR $topics_without_update >= 1000) {
       $progress = round(100*($total_topics_imported/$topic_count), 1);
       echo "<br/>\n" . t("%num_topics topics imported in %time (%progress% complete)", array('%num_topics' => $total_topics_imported, '%time' => gmdate('H:i:s', $total_runtime), '%progress' => $progress));
+      ob_flush();
       flush();
       $last_status_update = 0;
       $topics_without_update = 0;
     } elseif ($topics_without_update % 50 == 0) {
       echo '.';
+      ob_flush();
       flush();
     }
   }
@@ -778,13 +793,16 @@ function boincforum_import_topics() {
   // Indicate that the process is complete and return to the main migration page
   echo "<br/>\n<br/>\n";
   echo 'complete. redirecting';
+  ob_flush();
   flush();
   for ($i = 0; $i < 3; $i++) {
     sleep(1);
     echo '.';
+    ob_flush();
     flush();
   }
   echo "<script>location.replace('{$_SERVER['REQUEST_URI']}');</script>";
+  ob_flush();
   flush();
 }
 
@@ -821,6 +839,7 @@ function boincforum_import_posts() {
   $errors = 0;
   
   echo t('Importing %post_count posts in %topic_count threads from BOINC database', array('%post_count' => $post_count, '%topic_count' => $topic_count));
+  ob_flush();
   flush();
   
   // Import the posts into Drupal by discussion thread
@@ -920,11 +939,13 @@ function boincforum_import_posts() {
     if ($last_status_update > 60 OR $topics_without_update >= 500) {
       $progress = round(100*($total_posts_imported/$post_count), 1);
       echo "<br/>\n" . t("%num_posts posts imported in %time (%progress% complete)", array('%num_posts' => $total_posts_imported, '%time' => gmdate('H:i:s', $total_runtime), '%progress' => $progress));
+      ob_flush();
       flush();
       $last_status_update = 0;
       $topics_without_update = 0;
     } elseif ($topics_without_update % 20 == 0) {
       echo '.';
+      ob_flush();
       flush();
     }
   }
@@ -937,13 +958,16 @@ function boincforum_import_posts() {
   // Indicate that the process is complete and return to the main migration page
   echo "<br/>\n<br/>\n";
   echo 'complete. redirecting';
+  ob_flush();
   flush();
   for ($i = 0; $i < 3; $i++) {
     sleep(1);
     echo '.';
+    ob_flush();
     flush();
   }
   echo "<script>location.replace('{$_SERVER['REQUEST_URI']}');</script>";
+  ob_flush();
   flush();
 }
 
