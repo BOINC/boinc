@@ -20,13 +20,8 @@
 // see http://boinc.berkeley.edu/trac/wiki/AppPlanConfig
 
 #include <string>
-#include <cstring>
 #include <vector>
 #include <regex.h>
-
-#include "str_util.h"
-#include "parse.h"
-#include "util.h"
 
 using std::vector;
 using std::string;

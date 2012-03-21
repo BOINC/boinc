@@ -101,24 +101,6 @@ bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
     return false;
 }
 
-// Suppose we have a computation that uses two devices alternately.
-// The devices have speeds s1 and s2.
-// The fraction of work done on device 1 is frac.
-//
-// This function returns:
-// 1) the overall speed
-// 2) the utilization of device 1, which is always in (0, 1).
-//
-static inline void coproc_perf(
-    double s1, double s2, double frac,
-    double& speed, double& u1
-) {
-    double y = (frac*s2 + (1-frac)*s1);
-    speed = s1*s2/y;
-        // do the math
-    u1 = frac*s2/y;
-}
-
 // the following is for an app that can use anywhere from 1 to 64 threads
 //
 static inline bool app_plan_mt(SCHEDULER_REQUEST&, HOST_USAGE& hu) {

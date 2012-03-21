@@ -15,20 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <string>
-
-using std::string;
-
-#include "str_util.h"
 #include "util.h"
-
 #include "sched_config.h"
-#include "sched_main.h"
-#include "sched_msgs.h"
-#include "sched_send.h"
-#include "sched_score.h"
-#include "sched_shmem.h"
-#include "sched_version.h"
 #include "sched_customize.h"
 #include "plan_class_spec.h"
 
@@ -299,13 +287,22 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
             hu.ncudas = gpu_utilization;
         }
 
-        cp.set_peak_flops();
-        hu.peak_flops = cp.peak_flops * hu.ncudas * peak_flops_factor;
+        double cpu_frac = 1.0;
         if (gpu_flops && cpu_flops) {
-            hu.avg_ncpus = avg_ncpus * sreq.host.p_fpops / cpu_flops;
-            hu.projected_flops = cp.peak_flops / gpu_flops * speedup + 1.0 / hu.avg_ncpus;
-        } else {
-            hu.projected_flops = sreq.host.p_fpops * speedup;
+            cpu_frac = cpu_flops / gpu_flops;
+        } else if (speedup) {
+            cpu_frac = 1.0 / speedup;
+        }
+
+        cp.set_peak_flops();
+        coproc_perf(
+            capped_host_fpops(),
+            peak_flops_factor * hu.ncudas * cp.peak_flops,
+            cpu_frac,
+            hu.projected_flops,
+            hu.avg_ncpus
+        );
+        if (avg_ncpus) {
             hu.avg_ncpus = avg_ncpus;
         }
 
@@ -404,13 +401,22 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
             hu.ncudas = gpu_utilization;
         }
 
-        cp.set_peak_flops();
-        hu.peak_flops = cp.peak_flops * hu.ncudas * peak_flops_factor;
+        double cpu_frac = 1.0;
         if (gpu_flops && cpu_flops) {
-            hu.avg_ncpus = avg_ncpus * sreq.host.p_fpops / cpu_flops;
-            hu.projected_flops = cp.peak_flops / gpu_flops * speedup + 1.0 / hu.avg_ncpus;
-        } else {
-            hu.projected_flops = sreq.host.p_fpops * speedup;
+            cpu_frac = cpu_flops / gpu_flops;
+        } else if (speedup) {
+            cpu_frac = 1.0 / speedup;
+        }
+
+        cp.set_peak_flops();
+        coproc_perf(
+            capped_host_fpops(),
+            peak_flops_factor * hu.ncudas * cp.peak_flops,
+            cpu_frac,
+            hu.projected_flops,
+            hu.avg_ncpus
+        );
+        if (avg_ncpus) {
             hu.avg_ncpus = avg_ncpus;
         }
 
@@ -536,20 +542,37 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
             hu.natis = gpu_utilization;
         }
 
-        cp.set_peak_flops();
-        hu.peak_flops = cp.peak_flops * hu.natis * peak_flops_factor;
+        double cpu_frac = 1.0;
         if (gpu_flops && cpu_flops) {
-            hu.avg_ncpus = avg_ncpus * sreq.host.p_fpops / cpu_flops;
-            hu.projected_flops = cp.peak_flops / gpu_flops * speedup + 1.0 / hu.avg_ncpus;
-        } else {
-            hu.projected_flops = sreq.host.p_fpops * speedup;
+            cpu_frac = cpu_flops / gpu_flops;
+        } else if (speedup) {
+            cpu_frac = 1.0 / speedup;
+        }
+
+        cp.set_peak_flops();
+        coproc_perf(
+            capped_host_fpops(),
+            peak_flops_factor * hu.natis * cp.peak_flops,
+            cpu_frac,
+            hu.projected_flops,
+            hu.avg_ncpus
+        );
+        if (avg_ncpus) {
             hu.avg_ncpus = avg_ncpus;
         }
 
-    } else { // CPU only
-        hu.avg_ncpus = avg_ncpus;
-        hu.peak_flops = sreq.host.p_fpops * hu.max_ncpus;
-        hu.projected_flops = sreq.host.p_fpops * speedup * peak_flops_factor;
+    } // ATI OpenCL
+
+
+    else { // CPU only
+        if (avg_ncpus) {
+            hu.avg_ncpus = avg_ncpus;
+        } else {
+            hu.avg_ncpus = max_ncpus;
+        }
+
+        hu.peak_flops = capped_host_fpops() * hu.avg_ncpus;
+        hu.projected_flops = capped_host_fpops() * hu.avg_ncpus * speedup;
     }
     hu.max_ncpus = max_ncpus;
 

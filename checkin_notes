@@ -2866,3 +2866,13 @@ Rom    20 Mar 2012
 
     client/
         app_control.cpp
+
+Bernd  21 Mar 2012
+    - scheduler: fix hu.peak_flops and hu.projected_flops caclculation
+        in plan_class_spec by using coproc_pref() and capped_host_fpops()
+        (moved coproc_perf() to sched_customize.h to make it available
+        in plan_class_spec.cpp, and cleaned up includes)
+
+    sched/
+        sched_customize.cpp,h
+        plan_class_spec.cpp,h
