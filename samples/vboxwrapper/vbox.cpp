@@ -407,6 +407,13 @@ int VBOX_VM::createsnapshot(double elapsed_time, double checkpoint_cpu_time) {
     retval = vbm_popen(command, output, "create new snapshot");
     if (retval) return retval;
 
+    // Resume VM
+    resume();
+
+    // Set the suspended flag back to false before deleting the stale
+    // snapshot
+    poll(false);
+
     // Delete stale snapshot, if one exists
     if (checkpoint_cpu_time) {
         sprintf(buf, "%d", (int)checkpoint_cpu_time);
@@ -416,9 +423,6 @@ int VBOX_VM::createsnapshot(double elapsed_time, double checkpoint_cpu_time) {
         retval = vbm_popen(command, output, "delete stale snapshot");
         if (retval) return retval;
     }
-
-    // Resume VM
-    resume();
 
     fprintf(
         stderr,
@@ -441,7 +445,6 @@ int VBOX_VM::restoresnapshot() {
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
 
-    // Create from snapshot
     command = "snapshot \"" + vm_name + "\" ";
     command += "restorecurrent ";
     retval = vbm_popen(command, output, "restore current snapshot");
@@ -505,6 +508,15 @@ void VBOX_VM::poll(bool log_state) {
                 online = true;
             } else if (vmstate == "restoring") {
                 online = true;
+            } else if (vmstate == "livesnapshotting") {
+                online = true;
+            } else if (vmstate == "deletingsnapshotlive") {
+                online = true;
+            } else if (vmstate == "deletingsnapshotlivepaused") {
+                online = true;
+            } else if (vmstate == "aborted") {
+                online = false;
+                crashed = true;
             } else if (vmstate == "gurumeditation") {
                 online = false;
                 crashed = true;

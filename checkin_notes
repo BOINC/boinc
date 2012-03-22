@@ -2941,3 +2941,16 @@ Rom    21 Mar 2012
         
     samples/vboxwrapper/
         vbox.cpp, .h
+
+Rom    22 Mar 2012
+    - VBOX: Detect another form of out of memory error from VirtualBox.
+        Reschedule the job for some time in the future when there might
+        be enough memory.
+    - VBOX: Resume the VM's execution after the creation of the snapshot
+        but before we attempt to delete the previous, now stale, snapshot.
+    - VBOX: Treat the 'livesnapshotting', 'deletingsnapshotlive', and
+        'deletingsnapshotlivepaused' states as online states.
+        
+    samples/vboxwrapper/
+        vbox.cpp
+        vboxwrapper.cpp

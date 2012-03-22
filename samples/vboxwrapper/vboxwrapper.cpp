@@ -496,7 +496,7 @@ int main(int argc, char** argv) {
                 "    Please report this issue to the project so that it can be addresssed.\n",
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
-        } else if (vm_log.find("VERR_EM_NO_MEMORY") != std::string::npos) {
+        } else if ((vm_log.find("VERR_EM_NO_MEMORY") != std::string::npos) || (vm_log.find("VERR_NO_MEMORY") != std::string::npos)) {
             fprintf(
                 stderr,
                 "%s NOTE: VirtualBox has failed to allocate enough memory to start the configured virtual machine.\n"
@@ -555,35 +555,48 @@ int main(int argc, char** argv) {
                 vm.get_vm_log(vm_log);
                 vm.get_vm_exit_code(vm_exit_code);
             }
-            vm.cleanup();
 
-            if (vm.crashed || (elapsed_time < vm.job_duration)) {
+            // Is this a type of event we can recover from?
+            if ((vm_log.find("VERR_EM_NO_MEMORY") != std::string::npos) || (vm_log.find("VERR_NO_MEMORY") != std::string::npos)) {
                 fprintf(
                     stderr,
-                    "%s VM Premature Shutdown Detected.\n"
-                    "    Hypervisor System Log:\n\n"
-                    "%s\n"
-                    "    VM Execution Log:\n\n"
-                    "%s\n"
-                    "    VM Exit Code: %d (0x%x)\n\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    system_log.c_str(),
-                    vm_log.c_str(),
-                    (unsigned int)vm_exit_code,
-                    (unsigned int)vm_exit_code
-                );
-                if (vm_exit_code) {
-                    boinc_finish(vm_exit_code);
-                } else {
-                    boinc_finish(EXIT_ABORTED_BY_CLIENT);
-                }
-            } else {
-                fprintf(
-                    stderr,
-                    "%s Virtual machine exited.\n",
+                    "%s NOTE: VirtualBox has failed to allocate enough memory to continue.\n"
+                    "    This might be a temporary problem and so this job will be rescheduled for another time.\n",
                     vboxwrapper_msg_prefix(buf, sizeof(buf))
                 );
-                boinc_finish(0);
+                vm.reset_vm_process_priority();
+                vm.poweroff();
+                boinc_temporary_exit(300, "VM Hypervisor was unable to allocate enough memory.");
+            } else {
+                vm.cleanup();
+                if (vm.crashed || (elapsed_time < vm.job_duration)) {
+                    fprintf(
+                        stderr,
+                        "%s VM Premature Shutdown Detected.\n"
+                        "    Hypervisor System Log:\n\n"
+                        "%s\n"
+                        "    VM Execution Log:\n\n"
+                        "%s\n"
+                        "    VM Exit Code: %d (0x%x)\n\n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                        system_log.c_str(),
+                        vm_log.c_str(),
+                        (unsigned int)vm_exit_code,
+                        (unsigned int)vm_exit_code
+                    );
+                    if (vm_exit_code) {
+                        boinc_finish(vm_exit_code);
+                    } else {
+                        boinc_finish(EXIT_ABORTED_BY_CLIENT);
+                    }
+                } else {
+                    fprintf(
+                        stderr,
+                        "%s Virtual machine exited.\n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf))
+                    );
+                    boinc_finish(0);
+                }
             }
         }
         if (boinc_status.suspended) {
