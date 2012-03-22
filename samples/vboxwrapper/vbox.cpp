@@ -420,8 +420,10 @@ int VBOX_VM::createsnapshot(double elapsed_time, double checkpoint_cpu_time) {
         command = "snapshot \"" + vm_name + "\" ";
         command += "delete boinc_";
         command += buf;
-        retval = vbm_popen(command, output, "delete stale snapshot");
-        if (retval) return retval;
+        retval = vbm_popen(command, output, "delete stale snapshot", true, false);
+        if (retval) {
+            if (retval != ERR_TIMEOUT) return retval;
+        }
     }
 
     fprintf(
@@ -1663,13 +1665,9 @@ int VBOX_VM::vbm_popen_raw(string& arguments, string& output) {
 
         // Timeout?
         if (ulExitTimeout >= 45000) {
-            fprintf(
-                stderr,
-                "%s Process Timeout!.\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf))
-            );
-
             TerminateProcess(pi.hProcess, EXIT_FAILURE);
+            ulExitCode = 0;
+            retval = ERR_TIMEOUT;
             Sleep(1000);
         }
 
@@ -1697,6 +1695,7 @@ CLEANUP:
 
         // If something couldn't be found, just return ERR_FOPEN
         if (!retval) retval = ERR_FOPEN;
+
     }
 
 #else

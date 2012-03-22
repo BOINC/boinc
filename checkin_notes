@@ -2954,3 +2954,11 @@ Rom    22 Mar 2012
     samples/vboxwrapper/
         vbox.cpp
         vboxwrapper.cpp
+
+Rom    22 Mar 2012
+    - VBOX: Do not treat the timeout error as a fatal error when attempting
+        to delete stale snapshots.  Slower machines can take longer than
+        45 seconds to complete the deletion of old snapshots.
+
+    samples/vboxwrapper/
+        vbox.cpp
