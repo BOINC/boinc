@@ -2851,3 +2851,11 @@ David  21 Mar 2012
     client/
         app.h
         app_control.cpp
+
+Rom    23 Mar 2012
+    - Tag for 7.0.23 release, all platforms
+      boinc_core_release_7_0_23
+
+    /
+        configure.ac
+        version.h
