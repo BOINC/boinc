@@ -210,6 +210,7 @@ void RSC_WORK_FETCH::update_busy_time(double dur, double nused) {
 }
 
 static bool wacky_dcf(PROJECT* p) {
+    if (p->dont_use_dcf) return false;
     double dcf = p->duration_correction_factor;
     return (dcf < 0.02 || dcf > 80.0);
 }
@@ -1025,7 +1026,10 @@ double RESULT::estimated_duration_uncorrected() {
 // estimate how long a result will take on this host
 //
 double RESULT::estimated_duration() {
-    return estimated_duration_uncorrected()*project->duration_correction_factor;
+    double x = estimated_duration_uncorrected();
+    if (!project->dont_use_dcf) {
+        x *= project->duration_correction_factor;
+    }
 }
 
 double RESULT::estimated_time_remaining() {
@@ -1092,6 +1096,7 @@ void CLIENT_STATE::scale_duration_correction_factors(double factor) {
     if (factor <= 0) return;
     for (unsigned int i=0; i<projects.size(); i++) {
         PROJECT* p = projects[i];
+        if (p->dont_use_dcf) continue;
         p->duration_correction_factor *= factor;
     }
     if (log_flags.dcf_debug) {

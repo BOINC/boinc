@@ -2962,3 +2962,15 @@ Rom    22 Mar 2012
 
     samples/vboxwrapper/
         vbox.cpp
+
+David  22 Mar 2012
+    - client/server:
+
+    sched/
+        sched_types.cpp,h
+    client/
+        client_types.cpp,h
+        scheduler_op.cpp,h
+        work_fetch.cpp
+        cs_scheduler.cpp
+        cpu_sched.cpp

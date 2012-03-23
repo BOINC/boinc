@@ -520,7 +520,7 @@ struct SCHEDULER_REPLY {
         // homogeneous app version.
 
     SCHEDULER_REPLY();
-    ~SCHEDULER_REPLY();
+    ~SCHEDULER_REPLY(){};
     int write(FILE*, SCHEDULER_REQUEST&);
     void insert_app_unique(APP&);
     void insert_app_version_unique(APP_VERSION&);

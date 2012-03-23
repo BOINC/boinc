@@ -967,6 +967,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (sr.send_full_workload) {
         project->send_full_workload = true;
     }
+    project->dont_use_dcf = sr.dont_use_dcf;
     project->send_time_stats_log = sr.send_time_stats_log;
     project->send_job_log = sr.send_job_log;
     project->trickle_up_pending = false;

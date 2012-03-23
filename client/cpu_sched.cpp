@@ -470,7 +470,7 @@ static RESULT* earliest_deadline_result(int rsc_type) {
 
         // treat projects with DCF>90 as if they had deadline misses
         //
-        if (p->duration_correction_factor < 90.0) {
+        if (!p->dont_use_dcf && p->duration_correction_factor < 90.0) {
             if (p->rsc_pwf[rsc_type].deadlines_missed_copy <= 0) {
                 continue;
             }
@@ -1988,6 +1988,7 @@ void CLIENT_STATE::set_ncpus() {
 // completion time for this project's results
 //
 void PROJECT::update_duration_correction_factor(ACTIVE_TASK* atp) {
+    if (dont_use_dcf) return;
     RESULT* rp = atp->result;
     double raw_ratio = atp->elapsed_time/rp->estimated_duration_uncorrected();
     double adj_ratio = atp->elapsed_time/rp->estimated_duration();
