@@ -377,7 +377,7 @@ static bool is_project_dir(const char* dir) {
     sprintf(buf, "%s/%s", dir, CONFIG_FILE);
     if (!is_file(buf)) return false;
     sprintf(buf, "%s/cgi-bin", dir);
-    if (!is_dir(buf)) return false;
+    if (!is_dir_follow_symlinks(buf)) return false;
     return true;
 }
 

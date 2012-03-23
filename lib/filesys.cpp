@@ -105,6 +105,12 @@ int is_dir(const char* path) {
     return (!retval && (((sbuf.st_mode) & S_IFMT) == S_IFDIR));
 }
 
+int is_dir_follow_symlinks(const char* path) {
+    struct stat sbuf;
+    int retval = stat(path, &sbuf);
+    return (!retval && (((sbuf.st_mode) & S_IFMT) == S_IFDIR));
+}
+
 #ifndef _WIN32
 int is_symlink(const char* path) {
     struct stat sbuf;

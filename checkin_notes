@@ -2964,7 +2964,11 @@ Rom    22 Mar 2012
         vbox.cpp
 
 David  22 Mar 2012
-    - client/server:
+    - client/server: add optional <dont_use_dcf/> to schedule reply.
+        If set, client won't use DCF for this project.
+        Make this the default in server code;
+        we now do runtime estimation entirely on the server side,
+        and the client-side mechanism is counterproductive.
 
     sched/
         sched_types.cpp,h
@@ -2974,3 +2978,13 @@ David  22 Mar 2012
         work_fetch.cpp
         cs_scheduler.cpp
         cpu_sched.cpp
+
+David  23 Mar 2012
+    - server: is_project_dir() was checking that cgi-bin is a directory.
+        This doesn't work if it's a symlink to a dir.
+        Check for that too.
+
+    lib/
+        filesys.cpp,h
+    sched/
+        sched_config.cpp
