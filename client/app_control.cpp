@@ -301,6 +301,7 @@ void ACTIVE_TASK::handle_premature_exit(bool& will_restart) {
     //
     premature_exit_count++;
     if (premature_exit_count > 100) {
+        will_restart = false;
         set_task_state(PROCESS_ABORTED, "handle_premature_exit");
         result->exit_status = ERR_TOO_MANY_EXITS;
         gstate.report_result_error(*result, "too many exit(0)s");
@@ -309,6 +310,31 @@ void ACTIVE_TASK::handle_premature_exit(bool& will_restart) {
         will_restart = true;
         limbo_message(*this);
         set_task_state(PROCESS_UNINITIALIZED, "handle_premature_exit");
+    }
+}
+
+// handle a temporary exit
+//
+void ACTIVE_TASK::handle_temporary_exit(
+    bool& will_restart, double backoff, const char* reason
+) {
+    premature_exit_count++;
+    if (premature_exit_count > 100) {
+        will_restart = false;
+        set_task_state(PROCESS_ABORTED, "handle_temporary_exit");
+        result->exit_status = ERR_TOO_MANY_EXITS;
+        gstate.report_result_error(*result, "too many boinc_temporary_exit()s");
+        result->set_state(RESULT_ABORTED, "handle_temporary_exit");
+    } else {
+        if (log_flags.task_debug) {
+            msg_printf(result->project, MSG_INFO,
+                "[task] task called temporary_exit(%f, %s)", backoff, reason
+            );
+        }
+        will_restart = true;
+        result->schedule_backoff = gstate.now + backoff;
+        strcpy(result->schedule_backoff_reason, reason);
+        set_task_state(PROCESS_UNINITIALIZED, "handle_temporary_exit");
     }
 }
 
@@ -353,16 +379,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             char buf[256];
             strcpy(buf, "");
             if (temporary_exit_file_present(x, buf)) {
-                if (log_flags.task_debug) {
-                    msg_printf(result->project, MSG_INFO,
-                        "[task] task called temporary_exit(%f, %s)", x, buf
-                    );
-                }
-                set_task_state(PROCESS_UNINITIALIZED, "temporary exit");
-                will_restart = true;
-                result->schedule_backoff = gstate.now + x;
-                strcpy(result->schedule_backoff_reason, buf);
-                break;
+                handle_temporary_exit(will_restart, x, buf);
             }
             handle_premature_exit(will_restart);
             break;

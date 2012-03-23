@@ -2988,3 +2988,12 @@ David  23 Mar 2012
         filesys.cpp,h
     sched/
         sched_config.cpp
+
+David  23 Mar 2012
+    - client: if a job calls boinc_temporary_exit() 100 times, abort it.
+        Otherwise it could keep doing it forever
+        (e.g. if there's not ever enough available GPU RAM)
+
+    client/
+        app.h
+        app_control.cpp
