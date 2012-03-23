@@ -2997,3 +2997,12 @@ David  23 Mar 2012
     client/
         app.h
         app_control.cpp
+
+David  23 Mar 2012
+    - scheduler: fix bug that could cause zero credit for
+        the first few jobs of a new application
+        (in wu_estimated_pfc(), only multiply by app.min_avg_pfc
+        if it's nonzero).
+
+    sched/
+        credit.cpp

@@ -330,7 +330,11 @@ DB_APP_VERSION* av_lookup(int id, vector<DB_APP_VERSION>& app_versions) {
 // the estimated PFC for a given WU, in the absence of any other info
 //
 inline double wu_estimated_pfc(WORKUNIT& wu, DB_APP& app) {
-    return wu.rsc_fpops_est*app.min_avg_pfc;
+    double x = wu.rsc_fpops_est;
+    if (app.min_avg_pfc) {
+        x *= app.min_avg_pfc;
+    }
+    return x;
 }
 inline double wu_estimated_credit(WORKUNIT& wu, DB_APP& app) {
     return wu_estimated_pfc(wu, app)*COBBLESTONE_SCALE;
@@ -347,7 +351,7 @@ inline bool is_pfc_sane(double x, WORKUNIT& wu, DB_APP& app) {
     return true;
 }
 
-// Compute or estimate "claimed peak FLOP count".
+// Compute or estimate "claimed peak FLOP count" for a completed job.
 // Possibly update host_app_version records and write to DB.
 // Possibly update app_version records in memory and let caller write to DB,
 // to merge DB writes
@@ -402,7 +406,7 @@ int get_pfc(
 
     int gavid = generalized_app_version_id(r.app_version_id, r.appid);
 
-    // transition case
+    // transition case: there's no host_app_version record
     //
     if (!hav.host_id) {
         mode = PFC_MODE_WU_EST;
