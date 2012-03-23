@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-05 10:58-0500\n"
-"PO-Revision-Date: 2012-03-16 12:20+0200\n"
+"PO-Revision-Date: 2012-03-20 16:21+0200\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -894,9 +894,8 @@ msgid "multiple instances of BOINC Manager allowed"
 msgstr "a BOINC Kezelő több példányának futása engedélyezett"
 
 #: clientgui/BOINCGUIApp.cpp:544
-#, fuzzy
 msgid "Not used: workaround for bug in XCode 4.2"
-msgstr "Nem használt: az XCode 4.2-ben található megoldás"
+msgstr "Nem használt: az XCode 4.2-ben található megoldás a hibára"
 
 #: clientgui/BOINCGUIApp.cpp:762
 msgid "(Automatic Detection)"
@@ -1434,9 +1433,8 @@ msgid "Minimum work buffer"
 msgstr "Minimum munka buffer"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:437
-#, fuzzy
 msgid "Try to maintain enough tasks to keep busy for this many days"
-msgstr "Próbáljon annyi feladatot tartani, hogy ennyi napig elfoglalt legyen:"
+msgstr "Próbáljon ennyi napra elegendő feladatot készenlétben tartani:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:449
 msgid "Max additional work buffer"

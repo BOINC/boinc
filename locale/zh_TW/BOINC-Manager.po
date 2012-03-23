@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-05 10:58-0500\n"
-"PO-Revision-Date: 2012-01-21 18:37+0200\n"
-"Last-Translator: Anonymous Pootle User\n"
+"PO-Revision-Date: 2012-02-18 03:33+0200\n"
+"Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
@@ -3241,9 +3241,11 @@ msgstr ""
 msgid "%s: %.0f"
 msgstr ""
 
+# 88%
 #: clientgui/sg_ProjectPanel.cpp:145
+#, fuzzy
 msgid "Project Web Pages"
-msgstr ""
+msgstr "計畫"
 
 #: clientgui/sg_ProjectPanel.cpp:149
 msgid "Project Commands"

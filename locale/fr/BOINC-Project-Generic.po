@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2011-11-26 18:49+0200\n"
+"PO-Revision-Date: 2012-03-23 14:54+0200\n"
 "Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fr\n"
@@ -26,49 +26,53 @@ msgstr "LANG_NAME_INTERNATIONAL"
 
 #: ../inc/bbcode_html.inc:11
 msgid "Bold text: [b]text[/b]  (alt+b)"
-msgstr ""
+msgstr "Texte en gras: [b]texte[/b]  (alt+b)"
 
 #: ../inc/bbcode_html.inc:14
 msgid "Italic text: [i]text[/i]  (alt+i)"
-msgstr ""
+msgstr "Texte en italique: [i]texte[/i]  (alt+i)"
 
 #: ../inc/bbcode_html.inc:17
 msgid "Underline text: [u]text[/u]  (alt+u)"
-msgstr ""
+msgstr "Texte souligné: [u]texte[/u]  (alt+u)"
 
 #: ../inc/bbcode_html.inc:20
 msgid "Quote text: [quote]text[/quote]  (alt+q)"
-msgstr ""
+msgstr "Texte cité: [quote]texte[/quote]  (alt+q)"
 
 #: ../inc/bbcode_html.inc:23
 msgid "Code display: [code]code[/code]  (alt+c)"
-msgstr ""
+msgstr "Affichage de code: [code]code[/code]  (alt+c)"
 
 #: ../inc/bbcode_html.inc:26
 msgid "List: [list]text[/list] (alt+l)"
-msgstr ""
+msgstr "Liste: [list]texte[/list]  (alt+l)"
 
 #: ../inc/bbcode_html.inc:29
 msgid "Ordered list: [list=]text[/list]  (alt+o)"
-msgstr ""
+msgstr "Liste triée: [list=]texte[/list]  (alt+o)"
 
 #: ../inc/bbcode_html.inc:32
 msgid "Insert image: [img]http://image_url[/img]  (alt+p)"
-msgstr ""
+msgstr "Insérer une image: [img]http://image_url[/img]  (alt+p)"
 
 #: ../inc/bbcode_html.inc:35
 msgid ""
 "Insert URL: [url]http://url[/url] or [url=http://url]URL text[/url]  (alt+w)"
 msgstr ""
+"Insérer une adresse: [url]http://url[/url] ou [url=http://url]Texte de "
+"l'URL[/url]  (alt+w)"
 
 #: ../inc/bbcode_html.inc:42
 msgid "Font color"
-msgstr ""
+msgstr "Couleur de la police"
 
 #: ../inc/bbcode_html.inc:43
 msgid ""
 "Font color: [color=red]text[/color]  Tip: you can also use color=#FF0000"
 msgstr ""
+"Couleur de la police: [color=red]texte[/color] Astuce: vous pouvez aussi "
+"utiliser color=#FF0000"
 
 #: ../inc/bbcode_html.inc:44 ../inc/bbcode_html.inc:59 ../inc/prefs.inc:625
 msgid "Default"
@@ -76,80 +80,80 @@ msgstr "Par défaut"
 
 #: ../inc/bbcode_html.inc:45
 msgid "Dark Red"
-msgstr ""
+msgstr "Rouge foncé"
 
 #: ../inc/bbcode_html.inc:46
 msgid "Red"
-msgstr ""
+msgstr "Rouge"
 
 #: ../inc/bbcode_html.inc:47
 #, fuzzy
 msgid "Orange"
-msgstr "Changer"
+msgstr "Orange"
 
 #: ../inc/bbcode_html.inc:48
 msgid "Brown"
-msgstr ""
+msgstr "Marron"
 
 #: ../inc/bbcode_html.inc:49
 msgid "Yellow"
-msgstr ""
+msgstr "Jaune"
 
 #: ../inc/bbcode_html.inc:50
 msgid "Green"
-msgstr ""
+msgstr "Vert"
 
 #: ../inc/bbcode_html.inc:51
 msgid "Olive"
-msgstr ""
+msgstr "Vert olive"
 
 #: ../inc/bbcode_html.inc:52
 msgid "Cyan"
-msgstr ""
+msgstr "Violet rosé (cyan)"
 
 #: ../inc/bbcode_html.inc:53
 msgid "Blue"
-msgstr ""
+msgstr "Bleu"
 
 #: ../inc/bbcode_html.inc:54
 msgid "Dark Blue"
-msgstr ""
+msgstr "Bleu foncé"
 
 #: ../inc/bbcode_html.inc:55
 msgid "Indigo"
-msgstr ""
+msgstr "Bleu foncé violacé (indigo)"
 
 #: ../inc/bbcode_html.inc:56
 msgid "Violet"
-msgstr ""
+msgstr "Violet"
 
 #: ../inc/bbcode_html.inc:57
 msgid "Font size"
-msgstr ""
+msgstr "Taille de la police"
 
 #: ../inc/bbcode_html.inc:58
 msgid "Font size: [size=x-small]small text[/size]"
-msgstr ""
+msgstr "Taille de la police: [size=x-small]texte en petit[/size]"
 
 #: ../inc/bbcode_html.inc:60
 msgid "Small"
-msgstr ""
+msgstr "Petit"
 
 #: ../inc/bbcode_html.inc:61
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #: ../inc/bbcode_html.inc:62
 msgid "Large"
-msgstr ""
+msgstr "Grand"
 
 #: ../inc/bbcode_html.inc:65
 msgid "Close all open bbCode tags"
-msgstr ""
+msgstr "Fermer toutes les balises bbCode ouvertes"
 
 #: ../inc/bbcode_html.inc:65
 msgid "Close Tags"
-msgstr ""
+msgstr "Fermer les balises"
 
 #: ../inc/forum.inc:37
 msgid "Oldest first"
@@ -216,62 +220,52 @@ msgid "Next"
 msgstr "Suivant"
 
 #: ../inc/forum.inc:535
-#, fuzzy
 msgid "Send&nbsp;message"
-msgstr "Envoyer message"
+msgstr "Envoyer&nbsp; message"
 
 #: ../inc/forum.inc:535
-#, fuzzy
 msgid "Send %1 a private message"
-msgstr "Envoyer un message privé"
+msgstr "Envoyer à %1 un message privé"
 
 #: ../inc/forum.inc:536
-#, fuzzy
 msgid "Joined: %1"
-msgstr "A rejoint %1"
+msgstr "A rejoint: %1"
 
 #: ../inc/forum.inc:545
-#, fuzzy
 msgid "Posts: %1"
-msgstr "Messages:"
+msgstr "Messages: %1"
 
 #: ../inc/forum.inc:551
-#, fuzzy
 msgid "Credit: %1"
-msgstr "Crédit"
+msgstr "Crédit: %1"
 
 #: ../inc/forum.inc:552
 msgid "RAC: %1"
-msgstr ""
+msgstr "RAC: %1"
 
 #: ../inc/forum.inc:574
-#, fuzzy
 msgid "You haven't read this message yet"
-msgstr "Vous n'avez pas encore lu ce sujet"
+msgstr "Vous n'avez pas encore lu ce message"
 
 #: ../inc/forum.inc:574
-#, fuzzy
 msgid "Unread"
-msgstr "non lu"
+msgstr "Non lu"
 
 #: ../inc/forum.inc:577 ../inc/forum.inc:582 ../inc/forum.inc:681
-#, fuzzy
 msgid "Message %1"
-msgstr "Message"
+msgstr "Message %1"
 
 #: ../inc/forum.inc:578 ../inc/user.inc:324 ../user/forum_forum.php:172
 msgid "hidden"
 msgstr "caché"
 
 #: ../inc/forum.inc:579
-#, fuzzy
 msgid "Posted: %1"
-msgstr "Publié par %1"
+msgstr "Publié par: %1"
 
 #: ../inc/forum.inc:582
-#, fuzzy
 msgid " - in response to "
-msgstr "Délai expiré - aucune réponse"
+msgstr " - en réponse à "
 
 #: ../inc/forum.inc:585 ../inc/prefs.inc:691 ../inc/prefs.inc:693
 msgid "Edit"
@@ -280,53 +274,52 @@ msgstr "Editer"
 #: ../inc/forum.inc:585
 #, fuzzy
 msgid "Edit this message"
-msgstr "Éditer votre message"
+msgstr "Éditez ce message"
 
 #: ../inc/forum.inc:591
-#, fuzzy
 msgid "Last modified: %1"
-msgstr "Dernière modification des préférences :"
+msgstr "Dernière modification: %1"
 
 #: ../inc/forum.inc:594
 msgid ""
 "This post is not shown because the sender is on your 'ignore' list.  Click "
 "%1here%2 to view this post"
 msgstr ""
+"Ce message n'est pas affiché car l'expéditeur est dans votre liste "
+"d'expéditeurs ignorés.   Cliquez %1ici%2 pour afficher ce message."
 
 #: ../inc/forum.inc:622 ../inc/forum.inc:633
-#, fuzzy
 msgid "Report this post as offensive"
-msgstr "Exporter cette nouvelle en tant que Notification"
+msgstr "Signaler ce message offensant"
 
 #: ../inc/forum.inc:622 ../inc/forum.inc:633
-#, fuzzy
 msgid "Report as offensive"
-msgstr "Signaler un message"
+msgstr "Signaler un message offensant"
 
 #: ../inc/forum.inc:626
 msgid "Rating: %1"
-msgstr ""
+msgstr "Classement: %1"
 
 #: ../inc/forum.inc:626
 msgid "rate: "
-msgstr ""
+msgstr "classer: "
 
+# 83%
 #: ../inc/forum.inc:629
 msgid "Click if you like this message"
-msgstr ""
+msgstr "Cliquez si vous aimez ce message"
 
 #: ../inc/forum.inc:629
 msgid "Rate +"
-msgstr ""
+msgstr "Classement +"
 
 #: ../inc/forum.inc:631
-#, fuzzy
 msgid "Click if you don't like this message"
-msgstr "Impossible de créer le message"
+msgstr "Cliquez si vous n'aimez pas ce message"
 
 #: ../inc/forum.inc:631
 msgid "Rate -"
-msgstr ""
+msgstr "Classement -"
 
 #: ../inc/forum.inc:639 ../user/pm.php:106 ../user/pm.php:146
 msgid "Reply"
@@ -334,30 +327,27 @@ msgstr "Répondre"
 
 #: ../inc/forum.inc:639
 msgid "Post a reply to this message"
-msgstr ""
+msgstr "Répondre à ce message"
 
 #: ../inc/forum.inc:641
-#, fuzzy
 msgid "Quote"
-msgstr "Texte cité"
+msgstr "Citer"
 
 #: ../inc/forum.inc:641
 msgid "Post a reply by quoting this message"
-msgstr ""
+msgstr "Répondre en citant ce message"
 
 #: ../inc/forum.inc:662
 msgid "Hidden by a moderator"
-msgstr ""
+msgstr "Caché par le modérateur"
 
 #: ../inc/forum.inc:683
-#, fuzzy
 msgid "Posted %1 by %2"
-msgstr "Publié par %1"
+msgstr "%1 Publié par %2"
 
 #: ../inc/forum.inc:701
-#, fuzzy
 msgid "You may not post or rate messages until %1"
-msgstr "Vous n'avez pas de message privé."
+msgstr "Vous ne pouvez pas répondre ou classer de message jusqu'au %1"
 
 #: ../inc/forum.inc:712
 msgid ""
@@ -376,42 +366,54 @@ msgid ""
 "            nationality, gender, class or sexuality.\n"
 "        "
 msgstr ""
+"                                 <ul>                                 <li> "
+"Les messages doivent être «adapté aux enfants»: ils ne peuvent pas contenir "
+"                                             de contenu obscène, incitant à "
+"la haine,                                               sexuellement "
+"explicite ou suggestif.                                 <li> Pas de "
+"publicité commerciale.                                 <li> Pas de liens "
+"vers des sites Web ayant un contenu sexuel, "
+"                                             lié aux jeux d'argent ou à "
+"l'intolérance envers les autres.                                 <li> Aucun "
+"messages destinés à gêner ou contrarier d'autres personnes, "
+"                                             ou à détourner un sujet de "
+"conversation.                                 <li> Pas de messages "
+"délibérément hostiles ou insultants.                                 <li> "
+"Pas de commentaires abusifs impliquant la race, la religion, "
+"                                             la nationalité, le sexe, la "
+"classe ou la sexualité.                            "
 
 #: ../inc/forum.inc:734
 msgid "Rules:"
-msgstr ""
+msgstr "Règles:"
 
 #: ../inc/forum.inc:735
-#, fuzzy
 msgid "More info"
-msgstr "Info équipe"
+msgstr "Plus d'informations"
 
 #: ../inc/forum.inc:1008 ../user/forum_thread.php:185
 msgid "Unhide"
 msgstr "Démasquer"
 
 #: ../inc/forum.inc:1008
-#, fuzzy
 msgid "Unhide this post"
-msgstr "Démasquer ce sujet"
+msgstr "Ré-afficher ce message"
 
 #: ../inc/forum.inc:1010 ../user/forum_thread.php:191
 msgid "Hide"
 msgstr "Masquer"
 
 #: ../inc/forum.inc:1010
-#, fuzzy
 msgid "Hide this post"
-msgstr "Masquer le message"
+msgstr "Masquer ce message"
 
 #: ../inc/forum.inc:1015 ../user/forum_thread.php:224
 msgid "Move"
 msgstr "Déplacer"
 
 #: ../inc/forum.inc:1015
-#, fuzzy
 msgid "Move post to a different thread"
-msgstr "Déplacer ce sujet vers un forum différent"
+msgstr "Déplacer ce message vers une autre discussion"
 
 #: ../inc/forum.inc:1020
 #, fuzzy
@@ -419,24 +421,20 @@ msgid "Banish author"
 msgstr "Bannir l'utilisateur"
 
 #: ../inc/forum.inc:1027
-#, fuzzy
 msgid "Vote to banish author"
-msgstr "Non autorisé à bannir des utilisateurs"
+msgstr "Voter pour bannir cet utilisateur"
 
 #: ../inc/forum.inc:1031
-#, fuzzy
 msgid "Vote not to banish author"
-msgstr "Non autorisé à bannir des utilisateurs"
+msgstr "Voter pour ne pas bannir cet utilisateur"
 
 #: ../inc/forum.inc:1036
-#, fuzzy
 msgid "Start vote to banish author"
-msgstr "Non autorisé à bannir des utilisateurs"
+msgstr "Débuter un vote pour bannir cet utilisateur"
 
 #: ../inc/forum.inc:1069
-#, fuzzy
 msgid "Only team members can post to the team message board"
-msgstr "Créer ou gérer un forum d'équipe"
+msgstr "Seuls les membres d'équipes peuvent écrire dans le forum d'équipe"
 
 #: ../inc/forum.inc:1079
 msgid ""
@@ -461,10 +459,12 @@ msgid ""
 "This thread is locked. Only forum moderators and administrators are allowed "
 "to post there."
 msgstr ""
+"Ce sujet est verrouillé. Seul les modérateurs et administrateurs du forum "
+"sont autorisés à écrire ici."
 
 #: ../inc/forum.inc:1098
 msgid "Can't post to a hidden thread."
-msgstr ""
+msgstr "Vous ne pouvez pas écrire dans une discussion masquée."
 
 #: ../inc/forum.inc:1126
 msgid "Thread"
@@ -491,21 +491,16 @@ msgid "Last post"
 msgstr "Dernier message"
 
 #: ../inc/forum.inc:1188
-#, fuzzy
 msgid "New posts in the thread %1"
-msgstr "Écrire un message dans la discussion"
+msgstr "Nouveaux messages dans la discussion %1"
 
 #: ../inc/forum.inc:1193
-#, fuzzy
 msgid "New posts in subscribed thread"
-msgstr "Sujets souscrits"
+msgstr "Nouveaux messages dans une discussion suivie"
 
 #: ../inc/forum.inc:1194
-#, fuzzy
 msgid "There are new posts in the thread '%1'"
-msgstr ""
-"Cliquez ici pour être averti par email lorsque de nouveaux messages sont "
-"ajoutés à ce sujet"
+msgstr "Il y a de nouveaux messages dans la discussion '%1'"
 
 #: ../inc/forum.inc:1204
 msgid "Mark all threads as read"
@@ -919,9 +914,8 @@ msgid "Preview"
 msgstr "Prévisualisation"
 
 #: ../inc/pm.inc:48 ../user/pm.php:131
-#, fuzzy
 msgid "no such message"
-msgstr "Utilisateur inexistant"
+msgstr "message inexistant"
 
 #: ../inc/pm.inc:82
 msgid "To"
@@ -1535,9 +1529,8 @@ msgid "Aborted by user"
 msgstr "Annulé par l'utilisateur"
 
 #: ../inc/result.inc:186 ../inc/result.inc:239
-#, fuzzy
 msgid "Upload failed"
-msgstr "Échec de la mise à jour"
+msgstr "Échec du chargement "
 
 #: ../inc/result.inc:189
 msgid "Timed out - no response"
@@ -2426,9 +2419,8 @@ msgid "Underline"
 msgstr "Souligné"
 
 #: ../user/bbcode.php:35
-#, fuzzy
 msgid "Superscript"
-msgstr "Description"
+msgstr "Superscript"
 
 #: ../user/bbcode.php:36
 msgid "Big text"
@@ -2575,14 +2567,13 @@ msgstr ""
 "plus tard."
 
 #: ../user/create_account_form.php:53
-#, fuzzy
 msgid ""
 "Don't use this form. Just run BOINC, select Add Project, and enter an email "
 "address and password."
 msgstr ""
-"NOTE: Si vous utilisez le BOINC Manager n'utilisez pas ce formulaire. Lancez "
-"simplement BOINC, sélectionnez \"Ajouter un projet\", et saisissez votre "
-"adresse email et votre mot de passe."
+"N'utilisez pas ce formulaire. Lancez simplement le BOINC manager, "
+"sélectionnez \"Ajouter un projet\", et saisissez votre adresse email et votre "
+"mot de passe."
 
 #: ../user/create_account_form.php:71
 msgid ""
@@ -2839,13 +2830,12 @@ msgstr ""
 "recommencer si vous voulez un nouveau profil par la suite."
 
 #: ../user/delete_profile.php:48
-#, fuzzy
 msgid ""
 "If you're sure, click 'Yes'\n"
 "to remove your profile from our database."
 msgstr ""
-"Si vous êtes sûr, cliquez sur 'Supprimer'\n"
-"pour retirer votre profil de nos bases de données."
+"Si vous êtes sûr, cliquez sur 'Oui'pour supprimer votre profil de nos bases "
+"de données."
 
 #: ../user/delete_profile.php:52
 msgid "Delete my profile"
@@ -2910,16 +2900,16 @@ msgid ""
 "         and the actual amount may differ)."
 msgstr ""
 "Pour faire un don, remplir le montant que voulez donner dans les champs ci-"
-"dessous.PayPal accepte diverses devises (Dollars Canadiens, Euros, Livres "
-"Sterling, U.S. Dollars,\n"
-"Yen, Dollars Australiens, Dollars Néo Zélandais,\n"
-"Francs Suisses, Dollars de Hong Kong, Dollars de Singapore, Couronnes "
-"Suédoises,\n"
-"Couronnes Danoises, Zloty Polonais, Couronnes Norvégiennes,\n"
-"Florins Hongrois, Couronnes Tchèques).\n"
-"Vous pouvez utiliser le convertisseur de devises intégré(veuillez noter que "
-"les taux de conversion sont estiméset que le montant réel peut légèrement "
-"différer)."
+"dessous.\n"
+"            PayPal accepte diverses devises (Dollars Canadiens, Euros, \n"
+"            Livres Sterling, U.S. Dollars, Yen, Dollars Australiens, Dollars "
+"Néo Zélandais,\n"
+"            Francs Suisses, Dollars de Hong Kong, Dollars de Singapore, \n"
+"            Couronnes Suédoises, Couronnes Danoises, Zloty Polonais, \n"
+"            Couronnes Norvégiennes, Florins Hongrois, Couronnes Tchèques).\n"
+"            Vous pouvez utiliser le convertisseur de devises intégré\n"
+"             (veuillez noter que les taux de conversion sont estimés et que \n"
+"               le montant réel peut légèrement différer)."
 
 #: ../user/donations.php:316
 msgid "Amount you would like to donate"
@@ -4117,9 +4107,8 @@ msgstr ""
 "doit se passer - cela peut prendre du temps, merci d'être patient."
 
 #: ../user/forum_report_post.php:70
-#, fuzzy
 msgid "Report a forum post"
-msgstr "Signaler un message"
+msgstr "Signaler un message du forum"
 
 #: ../user/forum_report_post.php:72
 msgid ""
@@ -4434,9 +4423,8 @@ msgid "Edit thread title"
 msgstr "Éditer le titre du sujet"
 
 #: ../user/forum_thread.php:241
-#, fuzzy
 msgid "Export as Notice"
-msgstr "Exporter cette nouvelle en tant que Notification"
+msgstr "Exporter en tant que Notification"
 
 #: ../user/forum_thread.php:242
 msgid "Export this news item as a Notice"
@@ -4674,17 +4662,20 @@ msgstr "Connectez vous avec l'authentificateur"
 
 #: ../user/gpu_list.php:126 ../user/gpu_list.php:152
 msgid "No GPU tasks reported"
-msgstr ""
+msgstr "Pas de tâche GPU rapportée "
 
 #: ../user/gpu_list.php:182 ../user/stats.php:33
 msgid "Top GPU models"
-msgstr ""
+msgstr "Meilleurs modèles GPU"
 
 #: ../user/gpu_list.php:183
 msgid ""
 "The following lists show the most productive GPU models on different "
 "platforms.  Relative speeds are shown in parentheses."
 msgstr ""
+"Les listes suivantes présentent les modèles de GPU les plus productifs sur "
+"les différentes plates-formes. Les vitesses relatives sont indiquées entre "
+"parenthèses."
 
 #: ../user/home.php:42
 msgid "Welcome to %1"
@@ -5196,14 +5187,12 @@ msgid "or %1create an account%2."
 msgstr "ou %1créer un compte%2"
 
 #: ../user/merge_by_name.php:33
-#, fuzzy
 msgid "Processing %1"
-msgstr "En cours de calculs"
+msgstr "En cours de calcul sur %1"
 
 #: ../user/merge_by_name.php:45
-#, fuzzy
 msgid "Merged %1 into %2"
-msgstr "Fusion du hôte %1 dans le hôte %2 en cours"
+msgstr "Fusion de %1 dans %2"
 
 #: ../user/merge_by_name.php:74
 #, fuzzy
@@ -5219,15 +5208,20 @@ msgid ""
 "        Incompatible computers will not be merged.\n"
 "        <p>"
 msgstr ""
+"Cette opération fusionne les ordinateurs en fonction de leur nom de domaine. "
+"                      <p>                        Pour chaque nom de "
+"domaine, tous les ordinateurs les plus anciens ayant ce nom "
+"                      seront fusionnés avec les ordinateurs les plus "
+"récents ayant ce nom.                       Les ordinateurs incompatibles ne "
+"seront pas fusionnés.                       <p>"
 
 #: ../user/merge_by_name.php:84
 msgid "Go ahead and do this"
-msgstr ""
+msgstr "Faites ceci"
 
 #: ../user/merge_by_name.php:85
-#, fuzzy
 msgid "Return to the list of computers"
-msgstr "Retourner à la liste de vos ordinateurs"
+msgstr "Retourner à la liste des ordinateurs"
 
 #: ../user/moderation.php:26
 msgid ""
@@ -5236,6 +5230,9 @@ msgid ""
 "our message boards are moderated.\n"
 "Message board postings are subject to the following posting rules:\n"
 msgstr ""
+"Afin de maximiser la discussion et la circulation de l'information, nos "
+"forums sont modérés.Les messages des forums sont soumis aux règles "
+"suivantes:"
 
 #: ../user/moderation.php:30
 msgid ""
@@ -5275,6 +5272,52 @@ msgid ""
 "If you have comments about the policy, email %2.\n"
 "\n"
 msgstr ""
+"\n"
+"<p>Les modérateurs peuvent supprimer les messages qui ne respectent pas "
+"l'une de ces règles.\n"
+"Les auteurs des messages supprimés seront avisés par e-mail.\n"
+"Les auteurs offensants peuvent avoir leur capacité à envoyer des messages "
+"temporairement\n"
+"révoquée(mais pour éviter les abus seuls les administrateurs de projets ont "
+"la capacité de le\n"
+"faire).\n"
+"D'autres types de mauvais comportement («messages piégés» pour  pour "
+"récupérer les \n"
+"Adresses IP des autres participants, création de sujets excessive pour "
+"spammerles forums, etc),\n"
+"bien que ne figurant pas dans les règles formelles, peuvent conduire à des "
+"sanctions similaires.\n"
+"<p>\n"
+" Si vous pensez qu'un message viole l'une des règles du forum,cliquez sur le "
+"X rouge\n"
+" sur le message et remplissez le formulaire,les modérateurs seront avisés de "
+"votre plainte.\n"
+"Veuillez n'utiliser ce bouton que pour des violations claires - pas des "
+"conflits personnels.\n"
+"<p>\n"
+"Nous essayons d'être aussi justes que possible dans la modération,mais dans "
+"une large\n"
+" communauté d'utilisateurs avec de nombreux points de vue différents,il y "
+"aura toujours\n"
+" certaines personnes qui ne seront pas satisfaites de nos décisions de "
+"modération.\n"
+"Bien que nous regrettions que cela se produise,comprennez que nous ne "
+"pouvons pas\n"
+" satisfaire tout le monde tout le temps et devons prendre des décisions "
+"basées sur nos\n"
+" ressources et sur ce qui est le mieux pour le forum dans son ensemble.\n"
+"Merci de ne pas critiquer notre politique de modération sur les forums. Nous "
+"ne sommes pas\n"
+"un projet d'ingénierie sociale et nous ne sommes dans le domaine de la "
+"créationd'un système\n"
+" tout à fait juste. Donc ce type de discussion tend à être contre-"
+"productiveet potentiellement incendiaire.\n"
+" Si vous avez une réclamation légitime,envoyez un courriel à l'adresse ci-"
+"dessous.\n"
+"<p>\n"
+" Cette politique de modération est fixée par le projet 1%.\n"
+"Si vous avez des commentaires au sujet de cette politique, envoyez un e-mail "
+"à 2%.\n"
 
 #: ../user/pending.php:66
 msgid "Result ID"
