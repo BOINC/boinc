@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-09 09:39-0800\n"
-"PO-Revision-Date: 2011-11-23 18:32+0200\n"
+"PO-Revision-Date: 2012-03-22 14:15+0200\n"
 "Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fr\n"
@@ -20,7 +20,7 @@ msgstr ""
 #: acct_mgr.cpp:435 acct_mgr.cpp:444
 #, fuzzy
 msgid "Message from account manager"
-msgstr "Message du serveur de projet"
+msgstr "Message du gestionnaire de compte"
 
 #: client_msgs.cpp:79
 msgid "Message from server"
@@ -83,7 +83,7 @@ msgstr "Balise de debut manquante dans cc_config.xml"
 #: log_flags.cpp:443
 #, fuzzy
 msgid "Error in cc_config.xml options"
-msgstr "Balise non reconnue dans cc_config.xml"
+msgstr "Erreur dans les options cc_config.xml"
 
 #: log_flags.cpp:461
 msgid "Missing end tag in cc_config.xml"
@@ -171,8 +171,7 @@ msgstr ""
 #, fuzzy
 msgid "No tasks are available for the applications you have selected."
 msgstr ""
-"Pas de travail disponible pour les applications que vous avez sélectionné. "
-"Merci de vérifier les préférences du projet sur le site web."
+"Aucune tâche disponible pour les applications que vous avez sélectionnées."
 
 #: ../sched/sched_send.cpp:1549
 msgid "Your computer type is not supported by this project"

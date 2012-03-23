@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2012-03-16 12:43+0200\n"
+"PO-Revision-Date: 2012-03-20 16:19+0200\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: \n"
 "Language: hu\n"
@@ -1803,11 +1803,11 @@ msgstr "Ország"
 
 #: ../inc/team.inc:42 ../inc/team.inc:447
 msgid "Type of team"
-msgstr ""
+msgstr "Csapat típusa"
 
 #: ../inc/team.inc:44
 msgid "Show only active teams"
-msgstr ""
+msgstr "Csak az aktív csapatokat mutassa"
 
 #: ../inc/team.inc:45 ../user/profile_menu.php:77 ../user/user_search.php:136
 msgid "Search"
@@ -1815,19 +1815,19 @@ msgstr "Keresés"
 
 #: ../inc/team.inc:54
 msgid "Requested by you, and founder response deadline has passed."
-msgstr ""
+msgstr "Ön kérte, és az alapító válaszadási határideje lejárt."
 
 #: ../inc/team.inc:56
 msgid "Complete foundership transfer"
-msgstr ""
+msgstr "Teljes alapítói jogkör átvitele"
 
 #: ../inc/team.inc:60
 msgid "Requested by you"
-msgstr ""
+msgstr "Ön kérte"
 
 #: ../inc/team.inc:60
 msgid "founder response deadline is %1"
-msgstr ""
+msgstr "alapítói válaszadási határidő: %1"
 
 #: ../inc/team.inc:65 ../inc/team.inc:549 ../inc/user.inc:278
 #: ../inc/user.inc:366
@@ -1836,19 +1836,19 @@ msgstr "Nincs"
 
 #: ../inc/team.inc:67
 msgid "Initiate request"
-msgstr ""
+msgstr "Kérés elküldése"
 
 #: ../inc/team.inc:70
 msgid "Deferred"
-msgstr ""
+msgstr "Elhalasztva"
 
 #: ../inc/team.inc:80
 msgid "Team info"
-msgstr ""
+msgstr "Csapat infó"
 
 #: ../inc/team.inc:82 ../user/team_forum.php:70 ../user/team_search.php:69
 msgid "Description"
-msgstr ""
+msgstr "Leírás"
 
 #: ../inc/team.inc:90
 msgid "Web site"
@@ -1861,7 +1861,7 @@ msgstr "Projekt-közti statisztikák"
 
 #: ../inc/team.inc:115 ../inc/team.inc:366 ../user/team_search.php:71
 msgid "Type"
-msgstr ""
+msgstr "Típus"
 
 #: ../inc/team.inc:119 ../user/team_manage.php:63
 #, fuzzy
@@ -1874,7 +1874,7 @@ msgstr "Témák"
 
 #: ../inc/team.inc:128
 msgid "Join this team"
-msgstr ""
+msgstr "Csatlakozzon ehhez a csapathoz"
 
 #: ../inc/team.inc:129
 msgid ""
@@ -1884,7 +1884,7 @@ msgstr ""
 
 #: ../inc/team.inc:132
 msgid "Not accepting new members"
-msgstr ""
+msgstr "Nem fogad új tagokat"
 
 #: ../inc/team.inc:139
 msgid "Foundership change requested"
@@ -1896,7 +1896,7 @@ msgstr ""
 
 #: ../inc/team.inc:144
 msgid "Team foundership change"
-msgstr ""
+msgstr "Csapat alapítójának megváltoztatása"
 
 #: ../inc/team.inc:148 ../inc/team.inc:351
 msgid "Members"
@@ -1911,12 +1911,13 @@ msgid "Admins"
 msgstr "Adminok"
 
 #: ../inc/team.inc:176
+#, fuzzy
 msgid "New members in last day"
-msgstr ""
+msgstr "Új tagok tegnap"
 
 #: ../inc/team.inc:177
 msgid "Total members"
-msgstr ""
+msgstr "Összes tag"
 
 #: ../inc/team.inc:177 ../inc/team.inc:178 ../inc/team.inc:179
 msgid "view"
@@ -1952,11 +1953,11 @@ msgstr "Nincs ilyen csapat."
 
 #: ../inc/team.inc:294
 msgid "This operation requires foundership."
-msgstr ""
+msgstr "Ehhez a művelethez alapítói jogkör szükséges."
 
 #: ../inc/team.inc:318
 msgid "This operation requires team admin privileges"
-msgstr ""
+msgstr "Ehhez a művelthez csapat adminisztrátori jogosultság szükséges"
 
 #: ../inc/team.inc:415
 msgid ""

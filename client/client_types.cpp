@@ -881,17 +881,26 @@ void FILE_INFO::reset() {
     error_msg = "";
 }
 
-// Set the appropriate permissions depending on whether
-// it's an executable file
-// This doesn't seem to exist in Windows
+// Set file ownership if using account-based sandbox;
+// set permissions depending on whether it's an executable file.
 //
-int FILE_INFO::set_permissions() {
+// If "path" is non-null, use it instead of the file's
+// path in the project directory
+// (this is used for files copied into a slot directory)
+//
 #ifdef _WIN32
-    return 0;
+int FILE_INFO::set_permissions(const char*) {
+    return 0;       // Not relevant in Windows.
+}
 #else
+int FILE_INFO::set_permissions(const char* path) {
     int retval;
-    char pathname[256];
-    get_pathname(this, pathname, sizeof(pathname));
+    char pathname[1024];
+    if (path) {
+        strcpy(pathname, path);
+    } else {
+        get_pathname(this, pathname, sizeof(pathname));
+    }
 
     if (g_use_sandbox) {
         // give exec permissions for user, group and others but give
@@ -928,8 +937,8 @@ int FILE_INFO::set_permissions() {
         }
     }
     return retval;
-#endif
 }
+#endif
 
 int FILE_INFO::parse(XML_PARSER& xp) {
     char buf2[1024];
@@ -1168,7 +1177,7 @@ int FILE_INFO::write_gui(MIOFILE& out) {
 // delete physical underlying file associated with FILE_INFO
 //
 int FILE_INFO::delete_file() {
-    char path[256];
+    char path[1024];
 
     get_pathname(this, path, sizeof(path));
     int retval = delete_project_owned_file(path, true);
@@ -1310,7 +1319,7 @@ void FILE_INFO::failure_message(string& s) {
 #define BUFSIZE 16384
 int FILE_INFO::gzip() {
     char buf[BUFSIZE];
-    char inpath[256], outpath[256];
+    char inpath[1024], outpath[1024];
 
     get_pathname(this, inpath, sizeof(inpath));
     strcpy(outpath, inpath);
@@ -1339,7 +1348,7 @@ int FILE_INFO::gzip() {
 //
 int FILE_INFO::gunzip(char* md5_buf) {
     unsigned char buf[BUFSIZE];
-    char inpath[256], outpath[256], tmppath[256];
+    char inpath[1024], outpath[1024], tmppath[1024];
     md5_state_t md5_state;
 
     md5_init(&md5_state);

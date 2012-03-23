@@ -190,7 +190,7 @@ int CLIENT_STATE::check_suspend_processing() {
         if (!global_prefs.run_if_user_active && user_active) {
             return SUSPEND_REASON_USER_ACTIVE;
         }
-        if (global_prefs.cpu_times.suspended()) {
+        if (global_prefs.cpu_times.suspended(now)) {
             return SUSPEND_REASON_TIME_OF_DAY;
         }
         if (global_prefs.suspend_if_no_recent_input) {
@@ -343,7 +343,7 @@ void CLIENT_STATE::check_suspend_network() {
         if (!recent_rpc) network_suspended = true;
         network_suspend_reason = SUSPEND_REASON_USER_ACTIVE;
     }
-    if (global_prefs.net_times.suspended()) {
+    if (global_prefs.net_times.suspended(now)) {
         file_xfers_suspended = true;
         if (!recent_rpc) network_suspended = true;
         network_suspend_reason = SUSPEND_REASON_TIME_OF_DAY;

@@ -62,9 +62,15 @@
 #endif
 
 #include <sys/stat.h>
+
 #if HAVE_SYS_SWAP_H
+#ifdef ANDROID
+#include <linux/swap.h>
+#else
 #include <sys/swap.h>
 #endif
+#endif
+
 #if HAVE_SYS_SYSCTL_H
 #include <sys/sysctl.h>
 #endif

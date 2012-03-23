@@ -41,9 +41,11 @@ vector<ASYNC_COPY*> async_copies;
 #define BUFSIZE 64*1024
 
 int ASYNC_COPY::init(
-    ACTIVE_TASK* _atp, const char* from_path, const char* _to_path
+    ACTIVE_TASK* _atp, FILE_INFO* _fip,
+    const char* from_path, const char* _to_path
 ) {
     atp = _atp;
+    fip = _fip;
     strcpy(to_path, _to_path);
 
     if (log_flags.async_file_debug) {
@@ -69,6 +71,7 @@ int ASYNC_COPY::init(
 ASYNC_COPY::ASYNC_COPY() {
     in = out = NULL;
     atp = NULL;
+    fip = NULL;
 }
 
 ASYNC_COPY::~ASYNC_COPY() {
@@ -106,6 +109,7 @@ int ASYNC_COPY::copy_chunk() {
         }
     
         atp->async_copy = NULL;
+        fip->set_permissions(to_path);
 
         // If task is still scheduled, start it.
         //
@@ -219,6 +223,7 @@ void ASYNC_VERIFY::finish() {
     }
     fip->async_verify = NULL;
     fip->status = FILE_PRESENT;
+    fip->set_permissions();
 }
 
 void ASYNC_VERIFY::error(int retval) {

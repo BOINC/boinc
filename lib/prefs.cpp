@@ -162,9 +162,9 @@ void TIME_PREFS::clear() {
     week.clear();
 }
 
-bool TIME_PREFS::suspended() const {
-    time_t now = time(0);
-    struct tm* tmp = localtime(&now);
+bool TIME_PREFS::suspended(double now) {
+    time_t t = (time_t)now;
+    struct tm* tmp = localtime(&t);
     double hour = (tmp->tm_hour * 3600 + tmp->tm_min * 60 + tmp->tm_sec) / 3600.;
     int day = tmp->tm_wday;
 

@@ -2761,3 +2761,93 @@ Rom    19 Mar 2012
     /
         configure.ac
         version.h
+
+David  16 Mar 2012
+    - client: small changes to make client compile on Android,
+        and to report the platform as "arm-android".
+        From Carl Christensen.
+    - Add a script for building BOINC and library dependencies on Android
+        From Peter Hanappe.
+
+    lib/
+        mac_address.cpp
+    client/
+        android/
+            AndroidBuild.sh (new)
+        cs_platforms.cpp
+        hostinfo_unix.cpp
+
+David  19 Mar 2011
+    - client: job scheduling policy tweak:
+        if CPUs are fully committed (e.g. with EDF jobs)
+        allow GPU jobs but only up to CPU usage of ncpus+1
+
+    client/
+        cpu_sched.cpp
+
+David  19 Mar 2011
+    - client: Don't include VBox executive processes as non-BOINC CPU time.
+        On some systems they use significant CPU time while VMs are running.
+        TODO: do this only if we're actually running a VBox app
+
+    lib/
+        procinfo.cpp
+
+David  19 Mar 2011
+    - client: if an app process exits because of a signal,
+        don't show the "no finish file" message;
+        not sure why this was there in the first place.
+    - client: if an app process exits because of a signal,
+        show the signal correctly
+
+    client/
+        app_control.cpp
+
+David  20 Mar 2012
+    - client: report completed results if a time-of-day network suspend is
+        scheduled within the next 30 minutes
+
+    client/
+        app.h
+        client_state.h
+        cs_prefs.cpp
+        cs_scheduler.cpp
+        app_control.cpp
+    lib/
+        prefs.cpp,h
+
+Rom    20 Mar 2012
+    - client: Initialize buffer which is used to hold the temporary exit reason.
+        If somebody didn't populate the reason when calling boinc_temporary_exit
+        the buffer contained junk.
+
+    client/
+        app_control.cpp
+
+David  21 Mar 2012
+    - client: set file ownership and permissions after an async verify.
+        This was presumably the cause of the recent Einstein@home problem.
+    - client: set file ownership and permissions after an async copy.
+    - client: set file ownership and permissions after a
+        regular (non-async) copy.
+
+        The latter 2 bugs would affect a VM app that copies
+        its executable to slot/x/shared
+
+    client/
+        client_types.cpp,h
+        async_file.cpp,h
+        app_start.cpp
+
+David  21 Mar 2012
+    - client: change timeout for job quit/abort from 60 back to 15
+        (time between sending app a quit/abort message
+        and, if not exited yet, killing it)
+    - client: if app has reported an "other PID"
+        (e.g., vboxwrapper reports the VBoxHeadless PID)
+        then include it (along with descendants) in the
+        list of processes we kill when killing the job.
+
+    client/
+        app.h
+        app_control.cpp

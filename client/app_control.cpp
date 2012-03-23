@@ -96,12 +96,12 @@ bool ACTIVE_TASK_SET::poll() {
         ACTIVE_TASK* atp = active_tasks[i];
         if (atp->task_state() == PROCESS_ABORT_PENDING) {
             if (gstate.now > atp->abort_time + ABORT_TIMEOUT) {
-                atp->kill_task(false);
+                atp->kill_task();
             }
         }
         if (atp->task_state() == PROCESS_QUIT_PENDING) {
             if (gstate.now > atp->quit_time + QUIT_TIMEOUT) {
-                atp->kill_task(true);
+                atp->kill_task();
             }
         }
     }
@@ -192,7 +192,7 @@ static inline void kill_processes(vector<int> pids) {
 
 // Kill the task (and descendants) by OS-specific means.
 //
-int ACTIVE_TASK::kill_task(bool restart) {
+int ACTIVE_TASK::kill_task() {
     vector<int>pids;
 #ifdef _WIN32
     // On Win, in protected mode we won't be able to get
@@ -207,6 +207,9 @@ int ACTIVE_TASK::kill_task(bool restart) {
 #endif
     get_descendants(pid, pids);
     pids.push_back(pid);
+    for (unsigned int i=0; i<other_pids.size(); i++) {
+        pids.push_back(other_pids[i]);
+    }
     kill_processes(pids);
     return 0;
 }
@@ -250,18 +253,16 @@ static void limbo_message(ACTIVE_TASK& at) {
         msg_printf(at.result->project, MSG_INFO,
             "If this happens repeatedly you may need to reboot your computer."
         );
-    } else {
-#endif
-        msg_printf(at.result->project, MSG_INFO,
-            "Task %s exited with zero status but no 'finished' file",
-            at.result->name
-        );
-        msg_printf(at.result->project, MSG_INFO,
-            "If this happens repeatedly you may need to reset the project."
-        );
-#ifdef _WIN32
+        return;
     }
 #endif
+    msg_printf(at.result->project, MSG_INFO,
+        "Task %s exited with zero status but no 'finished' file",
+        at.result->name
+    );
+    msg_printf(at.result->project, MSG_INFO,
+        "If this happens repeatedly you may need to reset the project."
+    );
 }
 
 // the job just exited.  If it's a GPU job,
@@ -350,6 +351,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             }
             double x;
             char buf[256];
+            strcpy(buf, "");
             if (temporary_exit_file_present(x, buf)) {
                 if (log_flags.task_debug) {
                     msg_printf(result->project, MSG_INFO,
@@ -441,11 +443,11 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
 
             if (log_flags.task_debug) {
                 msg_printf(result->project, MSG_INFO,
-                    "[task] process got signal %d", signal
+                    "[task] process got signal %d", got_signal
                 );
             }
 
-            // if the process was externally killed, allow it to restart.
+            // if the process was externally killed, let it restart.
             //
             switch (got_signal) {
             case SIGHUP:
@@ -456,7 +458,6 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             case SIGSTOP:
                 will_restart = true;
                 set_task_state(PROCESS_UNINITIALIZED, "handle_exited_app");
-                limbo_message(*this);
                 break;
             default:
                 result->exit_status = stat;
@@ -597,7 +598,7 @@ void ACTIVE_TASK_SET::process_control_poll() {
                     "Restarting %s - message timeout", atp->result->name
                 );
             }
-            atp->kill_task(true);
+            atp->kill_task();
         } else {
             atp->process_control_queue.msg_queue_poll(
                 atp->app_client_shm.shm->process_control_request
@@ -1065,7 +1066,7 @@ void ACTIVE_TASK_SET::kill_tasks(PROJECT* proj) {
         atp = active_tasks[i];
         if (proj && atp->wup->project != proj) continue;
         if (!atp->process_exists()) continue;
-        atp->kill_task(false);
+        atp->kill_task();
     }
 }
 

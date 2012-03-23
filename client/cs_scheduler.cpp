@@ -440,7 +440,8 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
 
     // report overdue results
     //
-    p = find_project_with_overdue_results();
+    bool network_suspend_soon = global_prefs.net_times.suspended(now + 1800);
+    p = find_project_with_overdue_results(network_suspend_soon);
     if (p && !actively_uploading(p)) {
         work_fetch.compute_work_request(p);
         scheduler_op->init_op_project(p, RPC_REASON_RESULTS_DUE);
@@ -1169,13 +1170,17 @@ PROJECT* CLIENT_STATE::next_project_trickle_up_pending() {
 // find a project with finished results that should be reported.
 // This means:
 //    - we're not backing off contacting the project
+//    - no upload for that project is active
 //    - the result is ready_to_report (compute done; files uploaded)
 //    - we're within a day of the report deadline,
 //      or at least a day has elapsed since the result was completed,
 //      or we have a sporadic connection
 //      or the project is in "don't request more work" state
+//      or a network suspend period is coming up soon
 //
-PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
+PROJECT* CLIENT_STATE::find_project_with_overdue_results(
+    bool network_suspend_soon
+) {
     unsigned int i;
     RESULT* r;
 
@@ -1186,6 +1191,7 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
         PROJECT* p = r->project;
         if (p->waiting_until_min_rpc_time()) continue;
         if (p->suspended_via_gui) continue;
+        if (actively_uploading(p)) continue;
 
         if (p->dont_request_more_work) {
             return p;
@@ -1200,6 +1206,10 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
         }
 
         if (net_status.have_sporadic_connection) {
+            return p;
+        }
+
+        if (network_suspend_soon) {
             return p;
         }
 

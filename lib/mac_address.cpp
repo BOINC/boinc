@@ -267,7 +267,11 @@ get_mac_addresses(char* addresses) {
         strcat(addresses, delimiter);
         delimiter[0] = ':';
         delimiter[1] = '\0';
+#ifdef ANDROID
+        strcat(addresses, "00");
+#else
         strcat(addresses, ether_ntoa(hw_addr));
+#endif
     }
 
     return true;

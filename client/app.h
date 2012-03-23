@@ -28,11 +28,11 @@
 #include "app_ipc.h"
 #include "procinfo.h"
 
-#define ABORT_TIMEOUT   60
+#define ABORT_TIMEOUT   15
     // if we send app <abort> request, wait this long before killing it.
     // This gives it time to download symbol files (which can be several MB)
     // and write stack trace to stderr
-#define QUIT_TIMEOUT    60
+#define QUIT_TIMEOUT    15
     // Same, for <quit>.
 
 // values for preempt_type
@@ -207,11 +207,9 @@ struct ACTIVE_TASK {
     //
     int request_exit();
     int request_abort();
-    int kill_task(bool restart);
-        // Kill process forcibly,
-		// otherwise it ends with an error
+    int kill_task();
+        // Kill process and descendants forcibly.
         // Unix: send a SIGKILL signal, Windows: TerminateProcess()
-		// if restart is true, arrange for result to get restarted;
     int abort_task(int exit_status, const char*);
         // can be called whether or not process exists
 

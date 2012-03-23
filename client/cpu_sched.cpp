@@ -1568,15 +1568,29 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         RESULT* rp = run_list[i];
         atp = lookup_active_task_by_result(rp);
 
-        // skip if we're already using all the CPUs
+        // if we're already using all the CPUs,
+        // don't allow additional CPU jobs;
+        // allow GPU jobs if the resulting CPU load is at most ncpus+1
         //
         if (ncpus_used >= ncpus) {
-            if (log_flags.cpu_sched_debug) {
-                msg_printf(rp->project, MSG_INFO,
-                    "[cpu_sched_debug] all CPUs used (%.2f >= %d), skipping %s",
-                    ncpus_used, ncpus,
-                    rp->name
-                );
+            if (rp->uses_coprocs()) {
+                if (ncpus_used + rp->avp->avg_ncpus > ncpus+1) {
+                    if (log_flags.cpu_sched_debug) {
+                        msg_printf(rp->project, MSG_INFO,
+                            "[cpu_sched_debug] skipping GPU job %s; CPU committed",
+                            rp->name
+                        );
+                    }
+                    continue;
+                }
+            } else {
+                if (log_flags.cpu_sched_debug) {
+                    msg_printf(rp->project, MSG_INFO,
+                        "[cpu_sched_debug] all CPUs used (%.2f >= %d), skipping %s",
+                        ncpus_used, ncpus,
+                        rp->name
+                    );
+                }
             }
             continue;
         }

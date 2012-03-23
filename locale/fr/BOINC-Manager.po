@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-05 10:58-0500\n"
-"PO-Revision-Date: 2011-11-26 18:49+0200\n"
+"PO-Revision-Date: 2012-03-22 14:29+0200\n"
 "Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
@@ -735,7 +735,7 @@ msgstr ""
 #: clientgui/BOINCBaseView.cpp:774
 #, fuzzy
 msgid "Project web pages"
-msgstr "Sites Web du projet"
+msgstr "Pages Web du projet"
 
 #: clientgui/BOINCClientManager.cpp:570
 #, c-format
@@ -812,26 +812,28 @@ msgid ""
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
 msgstr ""
-"Vous n'êtes actuellement pas autorisé à gérer le client.Pour exécuter BOINC "
-"en tant que cet utilisateur, merci de : - réinstaller BOINC en répondant "
-"\"oui\" à la question sur les utilisateurs non-administrateurs- contacter "
-"votre administrateur pour qu'il vous ajoute au groupe utilisateur "
-"\"boinc_master\""
+"Vous n'êtes pas autorisé actuellement à gérer le client.\n"
+"\n"
+"Pour exécuter BOINC à l'aide de ce compte, merci de :\n"
+"- réinstaller BOINC en répondant \"Oui\" à la question sur\n"
+"les utilisateurs non-administrateurs\n"
+"ou\n"
+"- contacter votre administrateur pour qu'il ajoute ce compte au\n"
+"groupe utilisateur \"boinc_master\"."
 
 #: clientgui/BOINCGUIApp.cpp:345
-#, c-format
-#, fuzzy, c-format
+#, c-format, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
 msgstr ""
-"Les autorisations des fichiers BOINC ne sont pas réglées correctement; "
+"Les autorisations des fichiers BOINC ne sont pas paramétrées correctement; "
 "veuillez réinstaller BOINC.\n"
 "(Code erreur %d)"
 
 #: clientgui/BOINCGUIApp.cpp:351
 msgid " at "
-msgstr ""
+msgstr " chez "
 
 #: clientgui/BOINCGUIApp.cpp:354
 msgid ")"
@@ -898,7 +900,7 @@ msgstr "instances multiples du gestionnaire BOINC autorisées"
 
 #: clientgui/BOINCGUIApp.cpp:544
 msgid "Not used: workaround for bug in XCode 4.2"
-msgstr ""
+msgstr "Non utilisé: contournement du bogue dans XCode 4.2"
 
 #: clientgui/BOINCGUIApp.cpp:762
 msgid "(Automatic Detection)"
@@ -943,9 +945,8 @@ msgid "Resume"
 msgstr "Reprendre"
 
 #: clientgui/BOINCTaskBar.cpp:632
-#, fuzzy
 msgid "Resume GPU"
-msgstr "Reprendre"
+msgstr "Reprendre l'activité GPU"
 
 #: clientgui/BOINCTaskBar.cpp:708
 msgid "Computing is enabled"
@@ -1429,22 +1430,24 @@ msgid "days"
 msgstr "jours"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:428
-#, fuzzy
 msgid "Minimum work buffer"
-msgstr "Réserve de travail supplémentaire"
+msgstr "Réserve de travail minimale"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:437
 msgid "Try to maintain enough tasks to keep busy for this many days"
 msgstr ""
+"Essayer d'avoir suffisamment de tâches pour rester actif durant ce nombre de "
+"jours"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:449
-#, fuzzy
 msgid "Max additional work buffer"
-msgstr "Réserve de travail supplémentaire"
+msgstr "Réserve de travail maximale"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:458
 msgid "In addition, maintain enough tasks for up to this many days"
 msgstr ""
+"Additionnellement, avoir suffisamment de tâches pour au plus ce nombre de "
+"jours"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:465
 msgid "Skip image file verification"
@@ -1725,9 +1728,8 @@ msgstr "Ne plus afficher cette fenêtre."
 #: clientgui/DlgItemProperties.cpp:174
 #: clientgui/DlgItemProperties.cpp:177
 #: clientgui/DlgItemProperties.cpp:180
-#, fuzzy
 msgid "Don't fetch tasks for "
-msgstr "Ne pas charger de tâches CPU"
+msgstr "Ne pas charger de tâches pour "
 
 #: clientgui/DlgItemProperties.cpp:171
 msgid "Project preference"
@@ -1736,26 +1738,23 @@ msgstr "Préférences du projet"
 #: clientgui/DlgItemProperties.cpp:174
 #, fuzzy
 msgid "Account manager preference"
-msgstr "Site du gestionnaire de compte"
+msgstr "Préférence du gestionnaire de compte"
 
 #: clientgui/DlgItemProperties.cpp:177
-#, fuzzy
 msgid "Project has no apps for "
-msgstr "Sites Web du projet"
+msgstr "Le projet n'a pas d'application pour "
 
 #: clientgui/DlgItemProperties.cpp:180
 msgid "Client configuration excludes "
-msgstr ""
+msgstr "La configuration du client exclue "
 
 #: clientgui/DlgItemProperties.cpp:184
-#, fuzzy
 msgid " work fetch deferred for"
-msgstr "Demande de travail CPU différé de"
+msgstr "Demande de travail différée de"
 
 #: clientgui/DlgItemProperties.cpp:185
-#, fuzzy
 msgid " work fetch deferral interval"
-msgstr "Intervalle d'ajournement de demande de travail CPU"
+msgstr "Intervalle d'ajournement de demande de travail"
 
 #: clientgui/DlgItemProperties.cpp:216
 msgid "Properties of project "
@@ -1877,15 +1876,15 @@ msgstr "Priorité de planification"
 
 #: clientgui/DlgItemProperties.cpp:281
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 #: clientgui/DlgItemProperties.cpp:283
 msgid "NVIDIA GPU"
-msgstr ""
+msgstr "Processeur graphique NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:286
 msgid "ATI GPU"
-msgstr ""
+msgstr "Processeur graphique ATI"
 
 #: clientgui/DlgItemProperties.cpp:288
 msgid "Duration correction factor"
@@ -2353,13 +2352,13 @@ msgid "Retrieving system state; please wait..."
 msgstr "Recherche de l'état du système; veuillez patienter..."
 
 #: clientgui/MainDocument.cpp:1792
-#, fuzzy
 msgid "Missing application"
-msgstr "applications exclusives"
+msgstr "Application manquante"
 
 #: clientgui/MainDocument.cpp:1793
 msgid "Please download and install the CoRD application from http://cord.sourceforge.net"
 msgstr ""
+"Merci d'installer l'application CorD à partir de http://cord.sourceforge.net"
 
 #: clientgui/MainDocument.cpp:2390
 msgid "on batteries"
@@ -2476,18 +2475,16 @@ msgid "Ready to start"
 msgstr "Prêt à démarrer"
 
 #: clientgui/MainDocument.cpp:2479
-#, fuzzy
 msgid " (Scheduler wait: "
-msgstr "(En attente de planification)"
+msgstr " (Attente de planification: "
 
 #: clientgui/MainDocument.cpp:2483
 msgid " (Scheduler wait)"
 msgstr "(En attente de planification)"
 
 #: clientgui/MainDocument.cpp:2487
-#, fuzzy
 msgid " (Waiting for network access)"
-msgstr "En attente de mémoire"
+msgstr " (En attente d’accès réseau)"
 
 #: clientgui/MainDocument.cpp:2491
 msgid "Computation error"
@@ -3415,7 +3412,7 @@ msgstr "Ecoulé: %s"
 #, c-format
 #, fuzzy, c-format
 msgid "Remaining (estimated): %s"
-msgstr "Restant estimé: %s"
+msgstr "Restant (estimation): %s"
 
 #: clientgui/sg_TaskPanel.cpp:854
 #, c-format
@@ -4045,14 +4042,12 @@ msgid "Show only active tasks."
 msgstr "Ne montre que les tâches actives."
 
 #: clientgui/ViewWork.cpp:200
-#, fuzzy
 msgid "Show VM Console"
-msgstr "Total de l'hôte"
+msgstr "Montrer la console VM"
 
 #: clientgui/ViewWork.cpp:201
-#, fuzzy
 msgid "Show VM Console in a window."
-msgstr "Montre les graphiques de l'application dans une fenêtre."
+msgstr "Montrer la console VM dans une fenêtre."
 
 #: clientgui/ViewWork.cpp:234
 msgid "Elapsed"
@@ -4061,7 +4056,7 @@ msgstr "Ecoulé"
 #: clientgui/ViewWork.cpp:235
 #, fuzzy
 msgid "Remaining (estimated)"
-msgstr "Restant estimé"
+msgstr "Restant (estimation)"
 
 #: clientgui/ViewWork.cpp:236
 msgid "Deadline"
@@ -4088,9 +4083,8 @@ msgid "Showing graphics for task..."
 msgstr "Affichage des graphiques de cette tâche en cours..."
 
 #: clientgui/ViewWork.cpp:425
-#, fuzzy
 msgid "Showing VM console for task..."
-msgstr "Affichage des graphiques de cette tâche en cours..."
+msgstr "Montrer la console VM pour la tâche..."
 
 #: clientgui/ViewWork.cpp:478
 #, c-format
