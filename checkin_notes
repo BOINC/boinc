@@ -3029,3 +3029,10 @@ David  23 Mar 2012
         error_numbers.h
     client/
         coproc_detect.cpp
+
+Rytis  24 Mar 2012
+    - web: fix previous commit.
+
+    html/
+        inc/
+            user.inc

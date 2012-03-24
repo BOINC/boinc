@@ -439,7 +439,7 @@ function is_banned_email_addr($email_addr) {
 }
 
 function is_valid_user_name($name, &$reason) {
-    if (trim($name) !== name) {
+    if (trim($name) !== $name) {
         $reason = tra("user name cannot have leading or trailing white space");
         return false;
     }
@@ -447,7 +447,7 @@ function is_valid_user_name($name, &$reason) {
         $reason = tra("user name must be nonempty");
         return false;
     }
-    if (sanitize_tags($name) !== name)) {
+    if (sanitize_tags($name) !== $name) {
         $reason = tra("user name may not contain HTML tags");
         return false;
     }
