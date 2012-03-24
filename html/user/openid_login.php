@@ -102,6 +102,9 @@ try {
         exit();
 
         $new_name = $data['namePerson/friendly'];
+        if (!is_valid_user_name($new_name, $reason)) {
+            show_error($reason);
+        }
         $new_email_addr = $data['contact/email'];
         $new_email_addr = strtolower($new_email_addr);
         if (!is_valid_email_addr($new_email_addr)) {
@@ -112,7 +115,6 @@ try {
         }
         $user = lookup_user_email_addr($new_email_addr);
         if (!$user) {
-        
             $passwd_hash = random_string();
             
             $country = $data['contact/country/home'];

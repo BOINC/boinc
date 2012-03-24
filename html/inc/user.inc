@@ -438,6 +438,22 @@ function is_banned_email_addr($email_addr) {
     return false;
 }
 
+function is_valid_user_name($name, &$reason) {
+    if (trim($name) !== name) {
+        $reason = tra("user name cannot have leading or trailing white space");
+        return false;
+    }
+    if (strlen($name) == 0) {
+        $reason = tra("user name must be nonempty");
+        return false;
+    }
+    if (sanitize_tags($name) !== name)) {
+        $reason = tra("user name may not contain HTML tags");
+        return false;
+    }
+    return true;
+}
+
 // the following DB-escapes its args
 //
 function make_user(

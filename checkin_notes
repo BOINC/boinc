@@ -3006,3 +3006,26 @@ David  23 Mar 2012
 
     sched/
         credit.cpp
+
+David  23 Mar 2012
+    - client/server: estimate FLOPS for NVIDIA GPUs with
+        compute capability 3.x.
+        Not sure if the parameters are right
+        (128 cores/proc, 2 flops/clock)
+        but they're better than nothing.
+    - web: don't allow user names that have leading or trailing white space,
+        or HTML tags, or are empty
+
+    html/
+        inc/
+            user.inc
+        user/
+            openid_login.php
+            create_account_action.php
+            edit_user_info_action.php
+            create_account.php
+    lib/
+        coproc.cpp
+        error_numbers.h
+    client/
+        coproc_detect.cpp

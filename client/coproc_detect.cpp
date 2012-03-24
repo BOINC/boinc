@@ -196,24 +196,32 @@ CL_INFO         __clGetDeviceInfo = NULL;
 
 void* opencl_lib = NULL;
 
-cl_int (*__clGetPlatformIDs)(cl_uint    /* num_entries */,
-                 cl_platform_id * /* platforms */,
-                 cl_uint *        /* num_platforms */);
-cl_int (*__clGetPlatformInfo)(cl_platform_id   /* platform */,
-                  cl_platform_info /* param_name */,
-                  size_t           /* param_value_size */,
-                  void *           /* param_value */,
-                  size_t *         /* param_value_size_ret */);
-cl_int (*__clGetDeviceIDs)(cl_platform_id   /* platform */,
-               cl_device_type   /* device_type */,
-               cl_uint          /* num_entries */,
-               cl_device_id *   /* devices */,
-               cl_uint *        /* num_devices */);
-cl_int (*__clGetDeviceInfo)(cl_device_id    /* device */,
-                cl_device_info  /* param_name */,
-                size_t          /* param_value_size */,
-                void *          /* param_value */,
-                size_t *        /* param_value_size_ret */);
+cl_int (*__clGetPlatformIDs)(
+    cl_uint    /* num_entries */,
+    cl_platform_id * /* platforms */,
+    cl_uint *        /* num_platforms */
+);
+cl_int (*__clGetPlatformInfo)(
+    cl_platform_id   /* platform */,
+    cl_platform_info /* param_name */,
+    size_t           /* param_value_size */,
+    void *           /* param_value */,
+    size_t *         /* param_value_size_ret */
+);
+cl_int (*__clGetDeviceIDs)(
+    cl_platform_id   /* platform */,
+    cl_device_type   /* device_type */,
+    cl_uint          /* num_entries */,
+    cl_device_id *   /* devices */,
+    cl_uint *        /* num_devices */
+);
+cl_int (*__clGetDeviceInfo)(
+    cl_device_id    /* device */,
+    cl_device_info  /* param_name */,
+    size_t          /* param_value_size */,
+    void *          /* param_value */,
+    size_t *        /* param_value_size_ret */
+);
 
 #endif
 
@@ -456,11 +464,11 @@ strcpy(prop.opencl_driver_version, "CLH 1.0");
 
 
 #ifdef __APPLE__
-                // Work around a bug in OpenCL which returns only 
-                // 1/2 of total global RAM size. 
-                // This bug applies only to ATI GPUs, not to NVIDIA
-                // This has already been fixed on latest Catalyst 
-                // drivers, but Mac does not use Catalyst drivers.
+    // Work around a bug in OpenCL which returns only 
+    // 1/2 of total global RAM size. 
+    // This bug applies only to ATI GPUs, not to NVIDIA
+    // This has already been fixed on latest Catalyst 
+    // drivers, but Mac does not use Catalyst drivers.
 
     get_ati_mem_size_from_opengl();
 

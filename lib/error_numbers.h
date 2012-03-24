@@ -143,6 +143,7 @@
 #define ERR_RESULT_START    -185
 #define ERR_RESULT_DOWNLOAD -186
 #define ERR_RESULT_UPLOAD   -187
+#define ERR_BAD_USER_NAME   -188
 #define ERR_INVALID_URL     -189
 #define ERR_MAJOR_VERSION   -190
 #define ERR_NO_OPTION       -191

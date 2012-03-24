@@ -82,11 +82,8 @@ if(defined('INVITE_CODES')) {
 } 
 
 $new_name = post_str("new_name");
-if (strlen($new_name)==0) {
-    show_error(tra("You must supply a name for your account"));
-}
-if ($new_name != sanitize_tags($new_name)) {
-    show_error(tra("HTML tags not allowed in name"));
+if (!is_valid_user_name($new_name, $reason)) {
+    show_error($reason);
 }
 
 $new_email_addr = strtolower(post_str("new_email_addr"));

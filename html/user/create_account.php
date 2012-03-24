@@ -48,9 +48,14 @@ $passwd_hash = get_str("passwd_hash");
 $user_name = get_str("user_name");
 $team_name = get_str("team_name", true);
 
+if (!is_valid_user_name($name, $reason)) {
+    xml_error(-188, $reason);
+}
+
 if (!is_valid_email_addr($email_addr)) {
     xml_error(-205);
 }
+
 if (is_banned_email_addr($email_addr)) {
     xml_error(-205);
 }
