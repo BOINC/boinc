@@ -20,8 +20,7 @@
 #include "stdwx.h"
 
 #include <libnotify/notify.h>
-#include <glib/gtypes.h>
-#include <glib-object.h>
+#include <glib.h>
 #include <dlfcn.h>
 
 #include "BOINCGUIApp.h"
@@ -216,6 +215,23 @@ bool wxTaskBarIconEx::SetIcon(const wxIcon& icon, const wxString& message)
     return true;
 }
 
+static const char* SetBalloon__returnIcon(const unsigned int iconballoon) {
+    switch(iconballoon)
+    {
+        case BALLOONTYPE_INFO:
+            return(GTK_STOCK_DIALOG_INFO);
+            break;
+        case BALLOONTYPE_WARNING:
+            return(GTK_STOCK_DIALOG_WARNING);
+            break;
+        case BALLOONTYPE_ERROR:
+        default:
+            return(GTK_STOCK_DIALOG_ERROR);
+            break;
+    }
+    return(NULL);
+}
+
 bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const wxString message, unsigned int iconballoon)
 {
     wxLogTrace(wxT("Function Start/End"), wxT("wxTaskBarIconEx::SetBalloon - Function Begin"));
@@ -232,19 +248,7 @@ bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const
     if (!SetIcon(icon, wxEmptyString))
         return false;
 
-    gchar* desired_icon = NULL;
-    switch(iconballoon)
-    {
-        case BALLOONTYPE_INFO:
-            desired_icon = GTK_STOCK_DIALOG_INFO;
-            break;
-        case BALLOONTYPE_WARNING:
-            desired_icon = GTK_STOCK_DIALOG_WARNING;
-            break;
-        case BALLOONTYPE_ERROR:
-            desired_icon = GTK_STOCK_DIALOG_ERROR;
-            break;
-    }
+    const char* desired_icon = SetBalloon__returnIcon(iconballoon);
 
     if (!g_pNotification)
     {

@@ -3036,3 +3036,9 @@ Rytis  24 Mar 2012
     html/
         inc/
             user.inc
+
+David  25 Mar 2012
+    - compile fix for redhat, from Steffen Moller
+
+    clientgui/gtk/
+        taskbarex.cpp,h
