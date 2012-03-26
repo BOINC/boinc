@@ -3048,3 +3048,9 @@ David  26 Mar 2012
 
     sched/
         sched_version.cpp
+
+David  26 Mar 2012
+    - client: report results if CPU suspend pending in next 30 min
+
+    client/
+        cs_scheduler.cpp
