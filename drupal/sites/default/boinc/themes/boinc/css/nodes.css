@@ -67,12 +67,16 @@
 }
 
 .node .submitted /* The "posted by" information */ {
+  font-style: italic;
+  font-size: 10px;
+  color: #808080;
 }
 
 .node .terms /* Node terms (taxonomy) */ {
 }
 
 .node .content /* Node's content wrapper */ {
+  position: relative;
 }
 
 .node ul.links /* Node links. See also the ul.links declaration in the pages.css. */ {

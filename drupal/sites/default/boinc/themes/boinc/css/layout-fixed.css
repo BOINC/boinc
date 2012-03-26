@@ -24,7 +24,7 @@
 body {
 }
 
-#page-wrapper,
+/*#page-wrapper,*/
 .region-page-closure {
   /*
    * If you want to make the page a fixed width and centered in the viewport,
@@ -37,12 +37,15 @@ body {
 }
 
 #page {
+	margin: 0px;
 }
 
 /*
  * Header
  */
 #header {
+	height: 94px;
+	clear: both;
 }
 
 #header .section {
@@ -59,7 +62,8 @@ body {
  * Main (container for everything else)
  */
 #main-wrapper {
-  position: relative;
+  margin: 16px auto 0;
+  width: 960px;
 }
 
 #main {
@@ -97,41 +101,87 @@ body {
 
 #content .section {
   margin: 0;
-  padding: 0;
+  /*padding: 0;*/
 }
 
 /*
  * Navigation
  */
 #navigation {
-  float: left; /* LTR */
+  /*float: left; /* LTR */
   width: 100%;
   margin-left: 0; /* LTR */
   margin-right: -100%; /* LTR */ /* Negative value of #navigation's width + left margin. */
   padding: 0; /* DO NOT CHANGE. Add padding or margin to #navigation .section. */
-  height: 2.3em; /* The navigation can have any arbritrary height. We picked one
+  /*height: 30px; /* The navigation can have any arbritrary height. We picked one
                     that is the line-height plus 1em: 1.3 + 1 = 2.3
                     Set this to the same value as the margin-top below. */
+  background: #fff url(../images/orange-bars-nav.png) repeat-x left top;
 }
 
 .with-navigation #content,
 .with-navigation .region-sidebar-first,
 .with-navigation .region-sidebar-second {
-  margin-top: 2.3em; /* Set this to the same value as the navigation height above. */
+  /*margin-top: 31px; /* Set this to the same value as the navigation height above. */
 }
 
 #navigation .section {
+  margin: 0 auto;
+  width: 980px;
 }
 
 #navigation ul /* Primary and secondary links */ {
   margin: 0;
   padding: 0;
   text-align: left; /* LTR */
+  height: 31px;
+  float: left;
 }
 
 #navigation li /* A simple method to get navigation links to appear in one line. */ {
   float: left; /* LTR */
-  padding: 0 10px 0 0; /* LTR */
+  padding: 0; /* LTR */
+  list-style: none;
+}
+#navigation li a {
+  padding: 0 12px;
+  /* background: transparent url(../images/menu-separator.png) no-repeat bottom left; */
+  height: 31px;
+  line-height: 28px;
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+#navigation li a:hover {
+  text-decoration: none;
+}
+#navigation li a.active, #navigation li.active-trail a {
+  background: #FFF;
+}
+#navigation li a, 
+#navigation li a.visited,
+#action-links a {
+  color: #000;
+}
+
+#action-links {
+  float: right;
+}
+#action-links li a {
+  padding: 0;
+}
+#action-links .tab {
+  height: 24px;
+  font-size: 14px;
+}
+#action-links .search .tab {
+  color: #808080;
+  padding-left: 28px;
+  background: url(../images/search.png) no-repeat 12px 2px;
+}
+#action-links li.last .tab {
+  padding-right: 10px;
 }
 
 /*

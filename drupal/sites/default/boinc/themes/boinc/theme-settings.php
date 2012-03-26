@@ -13,10 +13,10 @@ include_once './' . drupal_get_path('theme', 'zen') . '/theme-settings.php';
  * @return
  *   A form array.
  */
-function STARTERKIT_settings($saved_settings) {
+function boinc_settings($saved_settings) {
 
   // Get the default values from the .info file.
-  $defaults = zen_theme_get_default_settings('STARTERKIT');
+  $defaults = zen_theme_get_default_settings('boinc');
 
   // Merge the saved variables and their default values.
   $settings = array_merge($defaults, $saved_settings);
@@ -26,10 +26,10 @@ function STARTERKIT_settings($saved_settings) {
    */
   $form = array();
   /* -- Delete this line if you want to use this setting
-  $form['STARTERKIT_example'] = array(
+  $form['boinc_example'] = array(
     '#type'          => 'checkbox',
     '#title'         => t('Use this sample setting'),
-    '#default_value' => $settings['STARTERKIT_example'],
+    '#default_value' => $settings['boinc_example'],
     '#description'   => t("This option doesn't do anything; it's just an example."),
   );
   // */

@@ -98,9 +98,32 @@ function boinc_preprocess(&$vars, $hook) {
  * @param $hook
  *   The name of the template being rendered ("page" in this case.)
  */
-/* -- Delete this line if you want to use this function
+///* -- Delete this line if you want to use this function
 function boinc_preprocess_page(&$vars, $hook) {
-  $vars['sample_variable'] = t('Lorem ipsum.');
+    $tabs = explode("\n", $vars['tabs']);
+    array_pop($tabs);
+    end($tabs);
+    $last_key = key($tabs);
+
+    foreach ($tabs as $key => &$tab) {
+        if (strpos($tab, 'li class=')) {
+            if ($key == 0) {
+                $tab = str_replace('li class="', 'li class="first ', $tab);
+            }
+            if ($key == $last_key) {
+                $tab = str_replace('li class="', 'li class="last ', $tab) . '</ul>';
+            }
+        }
+        elseif (strpos($tab, 'li ')) {
+            if ($key == 0) {
+                $tab = str_replace('li ', 'li class="first" ', $tab);
+            }
+            if ($key == $last_key) {
+                $tab = str_replace('li ', 'li class="last" ', $tab) . '</ul>';
+            }
+        }
+    }
+    $vars['tabs'] = implode("\n", $tabs);
 }
 // */
 

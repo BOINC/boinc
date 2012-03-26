@@ -75,20 +75,20 @@ body {
 
 h1#site-name,
 div#site-name /* The name of the website */ {
-  margin: 0;
-  font-size: 2em;
-  line-height: 1.3em;
+  margin: 0 auto;
+  width: 960px;
+  font-size: 45px;
+  line-height: 96px;
 }
 
 #site-name a:link,
 #site-name a:visited {
-  color: #000;
+  color: #FFF;
   text-decoration: none;
 }
 
 #site-name a:hover,
 #site-name a:focus {
-  text-decoration: underline;
 }
 
 #site-slogan /* The slogan (or tagline) of a website */ {
@@ -101,6 +101,7 @@ div#site-name /* The name of the website */ {
  * Main (container for everything else)
  */
 #main-wrapper {
+  clear: both;
 }
 
 #main {
@@ -125,21 +126,57 @@ div#site-name /* The name of the website */ {
   padding-bottom: 0; /* Undo system.css */
 }
 
+a:link, a:visited {
+  color: #faa341;
+  text-decoration: none;
+}
+a:link:hover {
+  text-decoration: underline;
+}
+
 h1.title, /* The title of the page */
 h2.title, /* Block title or the title of a piece of content when it is given in a list of content */
 h3.title /* Comment title */ {
   margin: 0;
 }
 
+thead th {
+  /*background: #fff url(../images/heading-bg.png) repeat-x bottom;
+  border-bottom: 1px solid #ccc;
+  color: #494949;
+  font-weight: bold;
+  text-align: center;*/
+}
+
+td, th {
+  padding: .3em .5em;
+}
+td {
+  padding: 7px 5px;
+  border-bottom: 1px dotted #aaa;
+}
+tr.even, tr.odd {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+}
 tr.even /* Some tables have rows marked even or odd. */ {
-  /* background-color: #eee; */ /* Drupal core uses a #eee background */
+  /*background-color: #f2f2f2;*/
 }
 
 tr.odd {
-  /* background-color: #eee; */ /* Drupal core uses a #eee background */
+  /*background-color: #dedede; */
+}
+tr.even td.active,
+tr.odd td.active {
+  background-color: transparent;
+}
+tbody tr:hover {
+  background-color: #f0f0f0;
 }
 
 div.messages /* Important messages (status, warning, and error) for the user. See also the declarations in messages.css. */ {
+  margin: 0 0 16px;
 }
 
 div.status /* Normal priority messages */ {
@@ -163,6 +200,20 @@ tr.error /* High priority messages. See also the .error declaration below. */ {
 }
 
 div.tabs /* See also the tabs.css file. */ {
+  height: 34px;
+}
+
+.framing {
+  padding: 25px 25px 40px;
+}
+.framing .view {
+  padding-top: 20px;
+}
+
+.shadow {
+  -webkit-box-shadow:0 0 16px #ebebeb;
+  -moz-box-shadow:0 0 16px #ebebeb;
+  box-shadow: 0 0 16px #ebebeb;
 }
 
 .help /* Help text on a page */ {
@@ -193,6 +244,48 @@ ul.links li {
   padding: 0 0.5em;
 }
 
+.toc {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px dotted #aaa;
+  padding: 10px 0;
+  margin-bottom: 30px;
+  font-size: 100%;
+}
+.toc .toc-title {
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 95%;
+}
+.toc ul {
+  list-style-type: disc;
+  margin: 0 0 16px;
+  padding-left: 16px;
+}
+.toc ul li {
+  padding-top: 5px;
+}
+.toc,
+.toc a {
+  color: #777;
+}
+.toc a:hover {
+  color: #faa341;
+  text-decoration: none;
+}
+.toc-back-to-top {
+  background: transparent;
+  font-style: inherit;
+  padding: 0 0 10px;
+  margin: 0;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: bold;
+  font-size: 10px;
+}
+
 .pager /* A list of page numbers when more than 1 page of content is available */ {
   clear: both;
   margin: 1em 0;
@@ -209,7 +302,16 @@ ul.links li {
 }
 
 .more-link /* Aggregator, blog, and forum more link */ {
-  text-align: right; /* LTR */
+  /*text-align: right; /* LTR */
+  text-align: left;
+  padding: 10px 0 0 5px;
+  clear: both;
+}
+.more-link a {
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .region-content-bottom /* Wrapper for any blocks placed in the "content bottom" region */ {
@@ -243,9 +345,73 @@ ul.links li {
  * Footer
  */
 #footer {
+  width: 960px;
+  margin: 0 auto;
+  padding: 50px 5px;
 }
 
 #footer .section {
+}
+
+#footer-menu {
+  background: #ebebeb;
+}
+#footer-menu a {
+  color: #000;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+#footer-menu a:hover {
+  text-decoration: none;
+}
+
+#server-status {
+  float: right;
+  line-height: 40px;
+  margin: 0 12px;
+}
+#server-status li {
+  display: inline;
+  padding-top: 4px;
+  padding-bottom: 5px;
+  letter-spacing: 0;
+  /*background: url(../images/menu-divider.png) no-repeat left middle;*/
+}
+#server-status .tab {
+  font-size: 11px;
+}
+#server-status li a {
+  text-transform: none;
+}
+#server-status-highlights {
+  display: inline;
+  padding: 0;
+}
+#server-status-highlights li {
+  background: url(../images/icon-yellow-light.png) no-repeat left;
+  border: none;
+  margin-left: 12px;
+  padding-left: 18px;
+}
+#server-status-highlights li.first {
+  margin-left: 0;
+}
+#server-status-highlights li.good {
+  background: url(../images/icon-green-light.png) no-repeat left;
+}
+#server-status-highlights li.bad {
+  background: url(../images/icon-red-light.png) no-repeat left;
+}
+
+#footer-info {
+  margin: 15px 0;
+}
+#language {
+  font-size: 12px;
+  float: right;
+  padding: 0 28px 0 0;
+  background: url(../images/icon-us.png) no-repeat right;
 }
 
 #footer-message /* Wrapper for the footer message from Drupal's "Site information"
@@ -313,4 +479,128 @@ ul.links li {
   position: absolute !important;
   clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
   clip: rect(1px, 1px, 1px, 1px);
+}
+
+
+/**
+ *
+ */
+a.button {
+  color: #fff;
+  font-size: 22px;
+  font-weight: bold;
+  text-transform: uppercase;
+  height: 36px;
+  line-height: 36px;
+  padding: 0 15px;
+  background: #faa341;
+  display: inline-block;
+}
+a.button:hover {
+  text-decoration: none;
+}
+
+/**
+ * Home page elements
+ */
+a.join.button {
+  margin: 60px 0 0;
+}
+
+a.help.button {
+  margin: 60px 0;
+}
+
+.stats, .stats .tab {
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: normal;
+}
+/*.stats .tab {
+  padding-left: 12px;
+  padding-right: 12px;
+}*/
+.stats .first .tab, .stats .first.tab {
+  padding-left: 0;
+}
+.stats .last .tab, .stats .last.tab {
+  padding-right: 0;
+}
+.stats label, .stats a,
+.stats .tab label, .stats .tab a {
+  font-weight: bold;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+
+table tr.inactive {
+  color: #d0d0d0;
+}
+table.user-projects {
+  margin: 0;
+}
+
+.item-count-wrapper {
+  display: inline-block;
+  margin-left: 10px;
+  padding-bottom: 3px;
+  background: url(../images/speech-bubble-tail.png) no-repeat bottom center
+}
+.item-count {
+  color: #fff;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 3px 5px 1px;
+  background: #747477;
+}
+
+.item-list .pager {
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px; 
+}
+.item-list .pager-item a,
+.item-list .pager-first a,
+.item-list .pager-previous a,
+.item-list .pager-next a,
+.item-list .pager-last a {
+  color: #808080;
+}
+.item-list .pager-current a {
+  color: #000;
+}
+.item-list .pager a:hover {
+  text-decoration: none;
+  color: #000;
+}
+
+/* Forums */
+.forum-topic-navigation {
+  padding: 1em 0 0 3em; /* LTR */
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
+  text-align: center;
+  padding: 0.5em;
+  margin: 2em 0;
+}
+.forum-topic-navigation .topic-previous,
+.forum-topic-navigation .topic-next {
+  text-align: right; /* LTR */
+  float: left; /* LTR */
+  width: 46%;
+  color: #808080;
+}
+.forum-topic-navigation .topic-next {
+  text-align: left; /* LTR */
+  float: right; /* LTR */
+}
+
+.node-type-forum .links {
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #808080;
+  letter-spacing: 1px; 
 }

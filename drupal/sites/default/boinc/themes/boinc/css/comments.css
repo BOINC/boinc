@@ -14,6 +14,7 @@
 }
 
 .comment /* Wrapper for a single comment */ {
+  padding: 16px;
 }
 
 .comment-preview /* Preview of the comment before submitting new or updated comment */ {
@@ -23,12 +24,17 @@
 }
 
 .comment.first /* The first comment in the list of comments */ {
+  border: none;
 }
 
 .comment.last /* The last comment in the list of comments */ {
 }
 
 .comment.odd /* An odd-numbered comment in the list of comments */ {
+  background-color: #f9f8f4;
+  border-style: dotted;
+  border-color: #aaa;
+  border-width: 1px 0;
 }
 
 .comment.even /* An even-numbered comment in the list of comments */ {
@@ -51,6 +57,13 @@
 }
 
 .comment h3.title /* Comment title */ {
+  padding: 20px 0 0;
+}
+.comment h3.title a {
+  color: #000;
+}
+.comment h3.title a:hover {
+  text-decoration: none;
 }
 
 .new /* "New" marker for comments that are new for the current user */ {
@@ -58,18 +71,29 @@
 }
 
 .comment .picture /* The picture of the comment author */ {
+  float: right;
+  margin: 0 0 20px 20px;
 }
 
 .comment .submitted /* The "posted by" information */ {
+  font-style: italic;
+  font-size: 10px;
+  color: #808080;
 }
 
 .comment .content /* Comment's content wrapper */ {
+  padding: 30px 0 0;
 }
 
 .comment .user-signature /* The user's signature */ {
 }
 
 .comment ul.links /* Comment links. See also the ul.links declaration in the pages.css. */ {
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #808080;
+  letter-spacing: 1px; 
 }
 
 .indented /* Nested comments are indented */ {
@@ -79,3 +103,29 @@
 .preview .comment /* Preview of the comment before submitting new or updated comment */ {
   /* background-color: #ffffea; */ /* Drupal core uses a #ffffea background */
 }
+
+/* BBcode styling */
+.bb-code {
+  width: 100%;
+  border: 1px solid #bfd0d9;
+  border-left: 4px solid #bfd0d9; 666699;
+}
+.bb-code-block {}
+.bb-list {}
+.bb-url {}
+.bb-email {}
+.bb-image {
+  max-width: 100%;
+  width: expression(this.width > 500 ? "500px" : this.width);
+}
+.bb-quote {}
+.bb-quote-body {
+  border: 1px dashed #ccc;
+  padding: 16px;
+  background-color: #f8f8f8;
+}
+.bb-table {
+  border: 1px solid #660000;
+}
+.bb-hr {}
+.bb-br {}

@@ -5,4 +5,102 @@
  * Panels Styling
  */
 
+.zen-one-sidebar-second .panel-content {
+  width: 648px;
+}
+.zen-one-sidebar-second .panel-sidebar-first {
+  width: 308px;
+}
+.zen-one-sidebar-second .panel-sidebar-first .panel-sidebar-first-inner {
+  margin-left: 12px;
+}
+.panel-primary {
+  padding: 25px 25px 40px;
+}
+.front .panel-primary {
+  padding: 30px 36px 45px;
+}
 
+.panel-secondary {
+  padding: 15px 18px;
+  margin-bottom: 16px;
+}
+
+.pane-title {
+  margin-top: 0;
+}
+.panel-primary .pane-title {
+  font-size: 18px;
+  text-transform: uppercase;
+  border-bottom: 1px dotted #aaa;
+  padding-bottom: 5px;
+}
+.front .panel-primary .pane-title {
+  font-size: 36px;
+  text-transform: none;
+  border: none;
+  padding-bottom: 0;
+}
+.panel-secondary h2 {
+  font-size: 12px;
+  text-transform: uppercase;
+  margin-top: 0;
+}
+
+.boinc-overview {
+  font-size: 24px;
+  line-height: 28px;
+}
+
+.boinc-overview-details {
+  height: 200px;
+  position: relative;
+}
+.boinc-overview-details .detail-container {
+  background: url(../images/icon-screensaver.png) no-repeat top left;
+  padding: 5px 0;
+  position: absolute;
+  bottom: 0;
+}
+.boinc-overview-details .detail-section {
+  float: left;
+  margin: 0 0 0 20px;
+}
+.boinc-overview-details .text {
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 17px;
+}
+.boinc-overview-details .about {
+  width: 120px;
+  margin: 0 0 0 65px;
+}
+.boinc-overview-details .platforms {
+  padding: 1px 0;
+}
+.boinc-overview-details .platform {
+  font-size: 12px;
+  font-weight: bold;
+  color: #faa341;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  float: left;
+  padding: 5px 16px 5px 30px;
+}
+.platform.linux {
+  background: url(../images/icon-linux.png) no-repeat top left;
+}
+.platform.mac {
+  background: url(../images/icon-mac.png) no-repeat top left;
+}
+.platform.windows {
+  background: url(../images/icon-windows.png) no-repeat top left;
+}
+
+.panel-secondary.pane-news {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.panel-secondary.pane-news .more-link {
+  padding-top: 16px;
+}

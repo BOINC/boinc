@@ -134,3 +134,11 @@ form thead th {
 form tbody th {
   border-bottom: 1px solid #ccc;
 }
+
+
+/*
+ * Rich text editor
+ */
+#tinymce {
+  margin: 16px;
+}

@@ -22,6 +22,7 @@ body {
 }
 
 #header {
+  background: #f2f2f2 url('../images/orange-bars.png') repeat-x left bottom;
 }
 
 #header .section {

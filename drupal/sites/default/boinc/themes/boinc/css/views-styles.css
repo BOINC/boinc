@@ -5,4 +5,114 @@
  * Views Styling
  */
 
+.view-empty h2 {
+  margin-top: 0;
+}
+.view-content div {
+  padding: 0 0 5px;
+  clear: left;
+}
+.view-content label {
+  width: 200px;
+  display: block;
+  float: left;
+  margin: 0 10px 0 0;
+}
+.view-content table {
+  margin: 0;
+}
+.view-content span.field-content {
+  
+}
 
+/**
+ * News
+ */
+.view-news .views-row {
+  border-bottom: 1px dotted #aaa;
+  padding: 15px 0 0 5px;
+}
+.view-news .views-row-first {
+  padding-top: 0;
+}
+.view-news .views-field-title h2 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.view-news .views-field-created, .view-news .views-field-name {
+  font-size: 11px;
+}
+.view-news .views-field-created {
+  float: left;
+  margin-right: 5px;
+}
+.view-news .views-field-name {
+  clear: none;
+}
+.view-news .views-field-view-node {
+  float: left;
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  line-height: 18px;
+}
+.view-news .views-field-comment-count {
+  clear: none;
+  float: left;
+  margin-left: 10px;
+  padding-bottom: 3px;
+  background: url(../images/speech-bubble-tail.png) no-repeat bottom center
+}
+.view-news .views-field-comment-count .field-content {
+  color: #fff;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 3px 5px 1px;
+  background: #747477;
+}
+
+/**
+ * Account stats
+ */
+.view-boinc-account-stats {
+  padding-bottom: 5px;
+  margin-bottom: 35px;
+  border-bottom: 1px dotted #aaa;
+}
+.view-boinc-account-stats .view-content {
+  padding-bottom: 20px;
+  border-bottom: 1px dotted #aaa;
+}
+.view-boinc-account-stats ul.stats {
+  padding: 16px 0 30px;
+}
+.view-boinc-account-stats ul.stats li {
+  display: inline-block;
+}
+.view-boinc-account-stats ul.stats li label {
+  display: inline;
+  float: none;
+  margin: 0;
+}
+
+.view-boinc-account-computers {
+
+}
+
+/**
+ * Friends block
+ */
+.view-friends .imagefield {
+  width: 50px;
+  height: 50px;
+  margin: 0 1px;
+}
+.view-friends .views-row {
+  float: left;
+  clear: none;
+  padding: 0;
+}
+.view-friends .more-link {
+  clear: both;
+}

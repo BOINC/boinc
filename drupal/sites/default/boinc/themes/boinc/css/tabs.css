@@ -14,111 +14,161 @@
 div.tabs {
   margin: 0 0 5px 0;
 }
+div.tabs .tab {
+  font-size: 11px;
+}
 
-ul.primary {
+.tab {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-left: 1px solid #5a5758;
+  padding-left: 14px;
+  padding-right: 14px;
+}
+.first .tab, .first.tab {
+  border: none;
+  padding-left: 0;
+}
+.last .tab, .last.tab {
+  padding-right: 0;
+}
+.tab a {
+  font-weight: bold;
+}
+li.tab {
+  display: inline-block;
+}
+
+ul.tab-list {
   margin: 0;
-  padding: 0 0 0 10px; /* LTR */
+  padding: 0;
+}
+ul.tab-list a {
+  display: inline-block;
+}
+
+ul.primary, ul.secondary {
+  width: 980px;
+  margin: 0 auto;
+  padding: 0 0 0 12px; /* LTR */
   border-width: 0;
   list-style: none;
   white-space: nowrap;
   line-height: normal;
-  background: url(../images/tab-bar.png) repeat-x left bottom;
+  /*background: url(../images/tab-bar.png) repeat-x left bottom;*/
 }
 
-ul.primary li {
+ul.primary li, ul.secondary li {
   float: left; /* LTR */
   margin: 0;
   padding: 0;
 }
 
-ul.primary li a {
+ul.primary li a, ul.secondary li a {
   display: block;
-  height: 24px;
+  height: 33px;
   margin: 0;
-  padding: 0 0 0 5px; /* width of tab-left.png */
+  padding: 0; /* width of tab-left.png */
   border-width: 0;
   font-weight: bold;
   text-decoration: none;
-  color: #777;
+  color: #808080;
   background-color: transparent;
-  background: url(../images/tab-left.png) no-repeat left -38px;
+  /*background: url(../images/tab-left.png) no-repeat left -38px;*/
 }
 
-ul.primary li a .tab {
+ul.primary li a .tab, ul.secondary li a .tab {
   display: block;
-  height: 20px; /* 24px (parent) - 4px (padding) */
-  margin: 0;
-  padding: 4px 13px 0 6px;
-  border-width: 0;
+  height: 18px; /* 33px (parent) - 4px (padding) */
   line-height: 20px;
-  background: url(../images/tab-right.png) no-repeat right -38px;
+  margin: 7px 0 0 0;
+  padding: 0 12px;
+  /*background: url(../images/tab-right.png) no-repeat right -38px;*/
+}
+ul.primary li.first a .tab, ul.secondary li.first a .tab {
+  padding-left: 5px;
 }
 
 ul.primary li a:hover {
   border-width: 0;
   background-color: transparent;
-  background: url(../images/tab-left.png) no-repeat left -76px;
+  text-decoration: none;
+  color: #000;
+  /*background: url(../images/tab-left.png) no-repeat left -76px;*/
 }
 
 ul.primary li a:hover .tab {
-  background: url(../images/tab-right.png) no-repeat right -76px;
+  /*background: url(../images/tab-right.png) no-repeat right -76px;*/
 }
 
 ul.primary li.active a,
-ul.primary li.active a:hover {
+ul.primary li.active a:hover,
+ul.secondary li.active a,
+ul.secondary li.active a:hover {
   border-width: 0;
   color: #000;
   background-color: transparent;
-  background: url(../images/tab-left.png) no-repeat left 0;
+  /*background: url(../images/tab-left.png) no-repeat left 0;*/
 }
 
 ul.primary li.active a .tab,
 ul.primary li.active a:hover .tab {
-  background: url(../images/tab-right.png) no-repeat right 0;
+  /*background: url(../images/tab-right.png) no-repeat right 0;*/
 }
 
 ul.secondary {
-  margin: 0;
-  padding: 0 0 0 5px; /* LTR */
-  border-bottom: 1px solid #c0c0c0;
-  list-style: none;
-  white-space: nowrap;
-  background: url(../images/tab-secondary-bg.png) repeat-x left bottom;
+  padding-left: 0;
 }
 
 ul.secondary li {
-  float: left; /* LTR */
-  margin: 0 5px 0 0;
-  padding: 5px 0;
-  border-right: none; /* LTR */
+  border-right: none;
 }
 
 ul.secondary a {
-  display: block;
-  height: 24px;
-  margin: 0;
-  padding: 0;
-  border: 1px solid #c0c0c0;
-  text-decoration: none;
-  color: #777;
-  background: url(../images/tab-secondary.png) repeat-x left -56px;
 }
 
 ul.secondary a .tab {
-  display: block;
-  height: 18px; /* 24px (parent) - 6px (padding) */
-  margin: 0;
-  padding: 3px 8px;
-  line-height: 18px;
+  border: none;
+  border-right: 1px solid #5a5758;
+}
+ul.secondary .last .tab, ul.secondary .last.tab {
+  border-right: none;
 }
 
 ul.secondary a:hover {
-  background: url(../images/tab-secondary.png) repeat-x left bottom;
+  color: #000;
+  text-decoration: none;
 }
 
 ul.secondary a.active,
 ul.secondary a.active:hover {
-  border: 1px solid #c0c0c0;
+  border-bottom: none;
+}
+
+
+
+ul.content-sub-menu {
+  padding: 1em 0 5px;
+  margin: 0 0 30px;
+  border-bottom: 1px dotted #aaa;
+}
+ul.content-sub-menu li {
+  color: gray;
+  font-size: 9px;
+  font-weight: bold;
+  border: none;
+}
+ul.content-sub-menu li.active {
   color: #000;
-  background: url(../images/tab-secondary.png) repeat-x left top;
+}
+
+ul.content-footer-menu {
+  position: absolute;
+  bottom: -40px;
+  right: 0;
+  
+}
+ul.content-footer-menu li {
+  font-size: 9px;
 }

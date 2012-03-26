@@ -41,8 +41,8 @@ body {
   line-height: 1.333em; /* 12px x 1.333 = 16px */
 
   /* Use a 14px base font size with a 18px line height */
-  font-size: 0.875em; /* 16px x .875 = 14px */
-  line-height: 1.286em; /* 14px x 1.286 = 18px */
+  /*font-size: 0.875em; /* 16px x .875 = 14px */
+  l/*ine-height: 1.286em; /* 14px x 1.286 = 18px */
 }
 
 body,
@@ -79,8 +79,18 @@ fieldset {
 
    */
 
-  font-family: Verdana, Tahoma, "DejaVu Sans", sans-serif;
+  font-family: "DejaVu Sans", Verdana, Tahoma, sans-serif;
 }
+/*@font-face {
+  font-family: 'DejaVuSans';
+  src: url('DejaVuSans.eot');
+  src: url('WC_DejaVuSans.eot?#iefix') format('embedded-opentype'),
+    url('DejaVuSans.woff') format('woff'),
+    url('DejaVuSans.ttf') format('truetype'),
+    url('DejaVuSans.svg#DejaVuSans') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}*/
 
 pre,
 code {
@@ -239,10 +249,22 @@ table {
 
 th,
 thead th,
-tbody th {
+tbody th,
+tbody tr.section-heading {
   text-align: left; /* LTR */
-  padding: 0;
-  border-bottom: none;
+  padding: 0 5px 10px;
+  border-bottom: 1px dotted #aaa;
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  vertical-align: bottom;
+}
+th.numeric,
+thead th.numeric,
+tbody th.numeric,
+td.numeric,
+tbody td.numeric {
+  text-align: right;
 }
 
 tbody {
@@ -269,6 +291,7 @@ abbr.created /* Date-based "abbreviations" show computer-friendly timestamps whi
  */
 img {
   border: 0;
+  margin: 5px;
 }
 
 /*
@@ -290,4 +313,5 @@ form {
 fieldset {
   margin: 1em 0;
   padding: 0.5em;
+  border: none;
 }
