@@ -50,22 +50,23 @@ inline void dont_need_message(
 bool need_this_resource(
     HOST_USAGE& host_usage, APP_VERSION* avp, CLIENT_APP_VERSION* cavp
 ) {
-    if (g_wreq->rsc_spec_request) {
-        if (host_usage.ncudas) {
-            if (!g_wreq->need_cuda()) {
-                dont_need_message("CUDA", avp, cavp);
-                return false;
-            }
-        } else if (host_usage.natis) {
-            if (!g_wreq->need_ati()) {
-                dont_need_message("ATI", avp, cavp);
-                return false;
-            }
-        } else {
-            if (!g_wreq->need_cpu()) {
-                dont_need_message("CPU", avp, cavp);
-                return false;;
-            }
+    if (!g_wreq->rsc_spec_request) {
+        return true;
+    }
+    if (host_usage.ncudas) {
+        if (!g_wreq->need_cuda()) {
+            dont_need_message("CUDA", avp, cavp);
+            return false;
+        }
+    } else if (host_usage.natis) {
+        if (!g_wreq->need_ati()) {
+            dont_need_message("ATI", avp, cavp);
+            return false;
+        }
+    } else {
+        if (!g_wreq->need_cpu()) {
+            dont_need_message("CPU", avp, cavp);
+            return false;;
         }
     }
     return true;
@@ -694,6 +695,15 @@ BEST_APP_VERSION* get_app_version(
                     );
                 }
                 g_wreq->outdated_client = true;
+                continue;
+            }
+            if (g_request->core_client_version > av.max_core_version) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] [AV#%d] client version %d > max core version %d\n",
+                        av.id, g_request->core_client_version, av.max_core_version
+                    );
+                }
                 continue;
             }
             if (strlen(av.plan_class)) {

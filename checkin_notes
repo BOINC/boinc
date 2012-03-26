@@ -3042,3 +3042,9 @@ David  25 Mar 2012
 
     clientgui/gtk/
         taskbarex.cpp,h
+
+David  26 Mar 2012
+    - scheduler: enforce app_version.max_core_version
+
+    sched/
+        sched_version.cpp
