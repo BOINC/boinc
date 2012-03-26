@@ -3054,3 +3054,15 @@ David  26 Mar 2012
 
     client/
         cs_scheduler.cpp
+
+David  26 Mar 2012
+    - client: set PROJECT::last_upload_start whenever an upload starts,
+        not just when a result becomes ready to upload.
+        Fix bug where a scheduler RPC to report results is done
+        even though uploads are active.
+    - client: cpu_sched_debug enables messages about not scheduling jobs
+        because of insufficient RAM
+        
+    client/
+        pers_file_xfer.cpp
+        cpu_sched.cpp

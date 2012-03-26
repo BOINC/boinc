@@ -166,6 +166,9 @@ int PERS_FILE_XFER::create_xfer() {
             ul.get_current_url(*fip)
         );
     }
+    if (is_upload) {
+        fip->project->last_upload_start = gstate.now;
+    }
     return 0;
 }
 
