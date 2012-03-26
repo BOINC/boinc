@@ -3066,3 +3066,9 @@ David  26 Mar 2012
     client/
         pers_file_xfer.cpp
         cpu_sched.cpp
+
+David  26 Mar 2012
+    - web: add script for replacing blank user names with the user ID
+
+    html/ops/
+        fix_blank_user_names.php
