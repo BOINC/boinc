@@ -3098,3 +3098,12 @@ David  27 Mar 2012
         boinc_api.h
     client/
         app_control.cpp
+
+David  27 Mar 2012
+    - client: fix bug in reading reason for temporary exit
+    - lib: fix a valgrind warning
+
+    lib/
+        parse.cpp
+    client/
+        app_control.cpp

@@ -531,9 +531,9 @@ bool ACTIVE_TASK::temporary_exit_file_present(double& x, char* buf) {
     sprintf(path, "%s/%s", slot_dir, TEMPORARY_EXIT_FILE);
     FILE* f = fopen(path, "r");
     if (!f) return false;
+    strcpy(buf, "");
     int y;
     int n = fscanf(f, "%d", &y);
-    fclose(f);
     if (n != 1 || y < 0 || y > 86400) {
         x = 300;
     } else {
@@ -542,6 +542,7 @@ bool ACTIVE_TASK::temporary_exit_file_present(double& x, char* buf) {
     fgets(buf, 256, f);     // read the \n
     fgets(buf, 256, f);
     strip_whitespace(buf);
+    fclose(f);
     return true;
 }
 
