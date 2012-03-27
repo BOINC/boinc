@@ -3107,3 +3107,9 @@ David  27 Mar 2012
         parse.cpp
     client/
         app_control.cpp
+
+David  27 Mar 2012
+    - scheduler: zero host.nsame_ip_addr if IP addr differs from previous
+
+    sched/
+        handle_request.cpp

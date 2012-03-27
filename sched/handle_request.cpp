@@ -506,7 +506,11 @@ static int modify_host_struct(HOST& host) {
         strlcat(host.serialnum, buf2, sizeof(host.serialnum));
     }
     if (strcmp(host.last_ip_addr, g_request->host.last_ip_addr)) {
-        strncpy(host.last_ip_addr, g_request->host.last_ip_addr, sizeof(host.last_ip_addr));
+        strncpy(
+            host.last_ip_addr, g_request->host.last_ip_addr,
+            sizeof(host.last_ip_addr)
+        );
+        host.nsame_ip_addr = 0;
     } else {
         host.nsame_ip_addr++;
     }
