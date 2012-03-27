@@ -3072,3 +3072,10 @@ David  26 Mar 2012
 
     html/ops/
         fix_blank_user_names.php
+
+David  26 Mar 2012
+    - client/server: set cores/proc for NVIDIA compute capability 3.0 to 192
+        Why can't NVIDIA provide an API for this?????
+
+    lib/
+        coproc.cpp
