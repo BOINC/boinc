@@ -1591,8 +1591,8 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
                         rp->name
                     );
                 }
+                continue;
             }
-            continue;
         }
 
         // don't overcommit CPUs if a MT job is scheduled

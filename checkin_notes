@@ -3079,3 +3079,10 @@ David  26 Mar 2012
 
     lib/
         coproc.cpp
+
+David  27 Mar 2012
+    - client: fix typo that prevented GPU jobs from running
+        if CPUs were filled with EDF jobs
+
+    client/
+        cpu_sched.cpp
