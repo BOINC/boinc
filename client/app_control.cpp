@@ -145,28 +145,33 @@ bool ACTIVE_TASK::kill_all_children() {
 #endif
 #endif
 
-// Send a quit message.
+// Send a quit message, start timer, get descendants
 //
 int ACTIVE_TASK::request_exit() {
-    if (!app_client_shm.shm) return 1;
-    process_control_queue.msg_queue_send(
-        "<quit/>",
-        app_client_shm.shm->process_control_request
-    );
+    if (app_client_shm.shm) {
+        process_control_queue.msg_queue_send(
+            "<quit/>",
+            app_client_shm.shm->process_control_request
+        );
+    }
     set_task_state(PROCESS_QUIT_PENDING, "request_exit()");
     quit_time = gstate.now;
     get_descendants(pid, descendants);
     return 0;
 }
 
-// Send an abort message.
+// Send an abort message, start timer, get descendants
 //
 int ACTIVE_TASK::request_abort() {
-    if (!app_client_shm.shm) return 1;
-    process_control_queue.msg_queue_send(
-        "<abort/>",
-        app_client_shm.shm->process_control_request
-    );
+    if (app_client_shm.shm) {
+        process_control_queue.msg_queue_send(
+            "<abort/>",
+            app_client_shm.shm->process_control_request
+        );
+    }
+    set_task_state(PROCESS_ABORT_PENDING, "request_abort");
+    abort_time = gstate.now;
+    get_descendants(pid, descendants);
     return 0;
 }
 
@@ -283,21 +288,8 @@ static void clear_schedule_backoffs(ACTIVE_TASK* atp) {
 // handle a task that exited prematurely (i.e. no finish file)
 //
 void ACTIVE_TASK::handle_premature_exit(bool& will_restart) {
-    switch (task_state()) {
-    case PROCESS_QUIT_PENDING:
-        set_task_state(PROCESS_UNINITIALIZED, "handle_premature_exit");
-        will_restart = true;
-        kill_processes(descendants);
-        return;
-    case PROCESS_ABORT_PENDING:
-        set_task_state(PROCESS_UNINITIALIZED, "handle_premature_exit");
-        will_restart = false;
-        kill_processes(descendants);
-        return;
-    }
-
-    // otherwise keep count of exits;
-    // restart it unless this happens 100 times w/o a checkpoint
+    // keep count of premature exits;
+    // if this happens 100 times w/o a checkpoint, abort job
     //
     premature_exit_count++;
     if (premature_exit_count > 100) {
@@ -341,7 +333,8 @@ void ACTIVE_TASK::handle_temporary_exit(
 // deal with a process that has exited, for whatever reason:
 // - completion
 // - crash
-// - preemption via quit
+// - quit or abort message sent by client
+// - killed by client
 //
 #ifdef _WIN32
 void ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
@@ -361,8 +354,18 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
     get_trickle_up_msg();
     result->final_cpu_time = current_cpu_time;
     result->final_elapsed_time = elapsed_time;
+
+    // if an abort or quit is pending,
+    // the process may have exited itself, or we may have killed it.
+    // Ignore exit status.
+    //
     if (task_state() == PROCESS_ABORT_PENDING) {
         set_task_state(PROCESS_ABORTED, "handle_exited_app");
+        kill_processes(descendants);
+    } else if (task_state() == PROCESS_QUIT_PENDING) {
+        set_task_state(PROCESS_UNINITIALIZED, "handle_exited_app");
+        kill_processes(descendants);
+        will_restart = true;
     } else {
 #ifdef _WIN32
         result->exit_status = exit_code;
@@ -778,10 +781,7 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
 //
 int ACTIVE_TASK::abort_task(int exit_status, const char* msg) {
     if (task_state() == PROCESS_EXECUTING || task_state() == PROCESS_SUSPENDED) {
-        set_task_state(PROCESS_ABORT_PENDING, "abort_task");
-        abort_time = gstate.now;
         request_abort();
-        get_descendants(pid, descendants);
     } else {
         set_task_state(PROCESS_ABORTED, "abort_task");
     }

@@ -3086,3 +3086,15 @@ David  27 Mar 2012
 
     client/
         cpu_sched.cpp
+
+David  27 Mar 2012
+    - client: fix bug where if we sent app a <quit> message,
+        and it timed out and we killed it, we'd treat it as a job error.
+        (This was a major bug).
+    - API: remove BOINC_STATUS::suspend_request.
+        I meant to do this before.
+
+    api/
+        boinc_api.h
+    client/
+        app_control.cpp
