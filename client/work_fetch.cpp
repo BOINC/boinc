@@ -1026,6 +1026,7 @@ double RESULT::estimated_duration_uncorrected() {
 //
 double RESULT::estimated_duration() {
     return estimated_duration_uncorrected()*project->duration_correction_factor;
+	return x;
 }
 
 double RESULT::estimated_time_remaining() {

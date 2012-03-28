@@ -1591,8 +1591,8 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
                         rp->name
                     );
                 }
+                continue;
             }
-            continue;
         }
 
         // don't overcommit CPUs if a MT job is scheduled
@@ -1620,9 +1620,9 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
             if (atp) {
                 atp->too_large = true;
             }
-            if (log_flags.mem_usage_debug) {
+            if (log_flags.cpu_sched_debug || log_flags.mem_usage_debug) {
                 msg_printf(rp->project, MSG_INFO,
-                    "[mem_usage] enforce: result %s can't run, too big %.2fMB > %.2fMB",
+                    "[cpu_sched_debug] enforce: result %s can't run, too big %.2fMB > %.2fMB",
                     rp->name,  wss/MEGA, ram_left/MEGA
                 );
             }

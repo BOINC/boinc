@@ -440,8 +440,9 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
 
     // report overdue results
     //
-    bool network_suspend_soon = global_prefs.net_times.suspended(now + 1800);
-    p = find_project_with_overdue_results(network_suspend_soon);
+    bool suspend_soon = global_prefs.net_times.suspended(now + 1800);
+    suspend_soon |= global_prefs.cpu_times.suspended(now + 1800);
+    p = find_project_with_overdue_results(suspend_soon);
     if (p && !actively_uploading(p)) {
         work_fetch.compute_work_request(p);
         scheduler_op->init_op_project(p, RPC_REASON_RESULTS_DUE);

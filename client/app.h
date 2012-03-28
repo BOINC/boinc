@@ -236,6 +236,7 @@ struct ACTIVE_TASK {
     void handle_exited_app(int stat);
 #endif
     void handle_premature_exit(bool&);
+    void handle_temporary_exit(bool&, double, const char*);
 
     bool check_max_disk_exceeded();
 

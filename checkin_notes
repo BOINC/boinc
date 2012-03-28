@@ -2859,3 +2859,160 @@ Rom    23 Mar 2012
     /
         configure.ac
         version.h
+
+David  22 Mar 2012
+    - client/server: add optional <dont_use_dcf/> to schedule reply.
+        If set, client won't use DCF for this project.
+        Make this the default in server code;
+        we now do runtime estimation entirely on the server side,
+        and the client-side mechanism is counterproductive.
+
+    sched/
+        sched_types.cpp,h
+    client/
+        client_types.cpp,h
+        scheduler_op.cpp,h
+        work_fetch.cpp
+        cs_scheduler.cpp
+        cpu_sched.cpp
+
+David  23 Mar 2012
+    - server: is_project_dir() was checking that cgi-bin is a directory.
+        This doesn't work if it's a symlink to a dir.
+        Check for that too.
+
+    lib/
+        filesys.cpp,h
+    sched/
+        sched_config.cpp
+
+David  23 Mar 2012
+    - client: if a job calls boinc_temporary_exit() 100 times, abort it.
+        Otherwise it could keep doing it forever
+        (e.g. if there's not ever enough available GPU RAM)
+
+    client/
+        app.h
+        app_control.cpp
+
+David  23 Mar 2012
+    - scheduler: fix bug that could cause zero credit for
+        the first few jobs of a new application
+        (in wu_estimated_pfc(), only multiply by app.min_avg_pfc
+        if it's nonzero).
+
+    sched/
+        credit.cpp
+
+David  23 Mar 2012
+    - client/server: estimate FLOPS for NVIDIA GPUs with
+        compute capability 3.x.
+        Not sure if the parameters are right
+        (128 cores/proc, 2 flops/clock)
+        but they're better than nothing.
+    - web: don't allow user names that have leading or trailing white space,
+        or HTML tags, or are empty
+
+    html/
+        inc/
+            user.inc
+        user/
+            openid_login.php
+            create_account_action.php
+            edit_user_info_action.php
+            create_account.php
+    lib/
+        coproc.cpp
+        error_numbers.h
+    client/
+        coproc_detect.cpp
+
+Rytis  24 Mar 2012
+    - web: fix previous commit.
+
+    html/
+        inc/
+            user.inc
+
+David  25 Mar 2012
+    - compile fix for redhat, from Steffen Moller
+
+    clientgui/gtk/
+        taskbarex.cpp,h
+
+David  26 Mar 2012
+    - scheduler: enforce app_version.max_core_version
+
+    sched/
+        sched_version.cpp
+
+David  26 Mar 2012
+    - client: report results if CPU suspend pending in next 30 min
+
+    client/
+        cs_scheduler.cpp
+
+David  26 Mar 2012
+    - client: set PROJECT::last_upload_start whenever an upload starts,
+        not just when a result becomes ready to upload.
+        Fix bug where a scheduler RPC to report results is done
+        even though uploads are active.
+    - client: cpu_sched_debug enables messages about not scheduling jobs
+        because of insufficient RAM
+        
+    client/
+        pers_file_xfer.cpp
+        cpu_sched.cpp
+
+David  26 Mar 2012
+    - web: add script for replacing blank user names with the user ID
+
+    html/ops/
+        fix_blank_user_names.php
+
+David  26 Mar 2012
+    - client/server: set cores/proc for NVIDIA compute capability 3.0 to 192
+        Why can't NVIDIA provide an API for this?????
+
+    lib/
+        coproc.cpp
+
+David  27 Mar 2012
+    - client: fix typo that prevented GPU jobs from running
+        if CPUs were filled with EDF jobs
+
+    client/
+        cpu_sched.cpp
+
+David  27 Mar 2012
+    - client: fix bug where if we sent app a <quit> message,
+        and it timed out and we killed it, we'd treat it as a job error.
+        (This was a major bug).
+    - API: remove BOINC_STATUS::suspend_request.
+        I meant to do this before.
+
+    api/
+        boinc_api.h
+    client/
+        app_control.cpp
+
+David  27 Mar 2012
+    - client: fix bug in reading reason for temporary exit
+    - lib: fix a valgrind warning
+
+    lib/
+        parse.cpp
+    client/
+        app_control.cpp
+
+David  27 Mar 2012
+    - scheduler: zero host.nsame_ip_addr if IP addr differs from previous
+
+    sched/
+        handle_request.cpp
+
+David  27 Mar 2012
+    - client/scheduler: fix error in NVIDIA peak flops calculation
+
+    lib/
+        coproc.cpp

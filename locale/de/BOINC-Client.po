@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-09 09:39-0800\n"
-"PO-Revision-Date: 2012-02-12 17:27+0200\n"
+"PO-Revision-Date: 2012-03-23 18:45+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -109,7 +109,7 @@ msgstr ""
 # Im Quellcode folgt nach diesem Text die Angabe des erkannten Betriebssystems!
 #: ../sched/handle_request.cpp:925
 msgid "This project doesn't support operating system"
-msgstr "Dieses Projekt unterstützt kein Betriebssystem"
+msgstr "Dieses Projekt unterstützt nicht das Betriebssystem"
 
 # Im Quellcode folgt nach diesem Satz die Angabe des erkannten Prozessortyps!
 #: ../sched/handle_request.cpp:951
@@ -120,7 +120,7 @@ msgstr "Dieses Projekt unterstützt nicht den Prozessortyp"
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
 msgstr ""
-"Die BOINC Installation ist zu alt. Bitte die neueste Version installieren."
+"Die BOINC Installation ist zu alt. Bitte die aktuelle Version installieren."
 
 #: ../sched/handle_request.cpp:1235
 msgid "This project doesn't support computers of type"
@@ -169,7 +169,8 @@ msgstr "Der Computertyp wird von diesem Projekt nicht unterstützt."
 
 #: ../sched/sched_send.cpp:1555
 msgid "Newer BOINC version required; please install current version"
-msgstr "Neuere BOINC Version benötigt. Bitte die neueste Software installieren."
+msgstr ""
+"Neuere BOINC Version wird benötigt. Bitte die aktuelle Version installieren."
 
 #: ../sched/sched_send.cpp:1565
 msgid ""

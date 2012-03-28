@@ -31,7 +31,7 @@
 #include "vda_lib.h"
 
 void usage() {
-    fprintf(stderr, "Usage: vda {add} path\n");
+    fprintf(stderr, "Usage: vda [add|remove|retrieve|status] path\n");
     exit(1);
 }
 

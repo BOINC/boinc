@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2012-02-12 21:18+0200\n"
+"PO-Revision-Date: 2012-03-23 19:00+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -177,7 +177,7 @@ msgstr "Malariacontrol.net"
 
 #: projects.inc:80
 msgid "The Swiss Tropical Institute"
-msgstr "Schweizerisches Tropen- und Public Health-Institut"
+msgstr "Schweizer Tropeninstitut"
 
 #: projects.inc:81
 msgid "Epidemiology"
@@ -297,6 +297,15 @@ msgid ""
 "cycle. This will allow us to explore how climate may change in the next "
 "century under a wide range of different scenarios."
 msgstr ""
+"Berechne die Näherungen die für die modernen Klima Modelle gemacht werden "
+"müssen. Vom tausendfachen Durchrechnen erhoffen wir uns herauszufinden, wie "
+"das Modell aus minimale Änderungen dieser Näherungen reagiert - so minimal, "
+"dass die Näherungen nicht unrealistisch werden. Das wird uns ermöglichen "
+"unser Verständnis über die Sensibilität unsere Modelle auf kleine "
+"Veränderungen und auch Dinge wie Veränderungen im CO2- und Schwefel-"
+"Kreislauf zu vergrößern. Dies wird uns erlauben zu ergründen, wie sich das "
+"Klima vielleicht im nächsten Jahrhundert unter einer weiten Bandbreite von "
+"verschiedenen Szenarien verändern wird."
 
 #: projects.inc:148
 msgid "Astronomy/Physics/Chemistry"
@@ -349,7 +358,7 @@ msgstr "Cosmology@Home"
 
 #: projects.inc:168
 msgid "University of Illinois at Urbana-Chamapign"
-msgstr ""
+msgstr "Universität von Illinois in Urbana (bei Champaign)"
 
 #: projects.inc:170
 msgid ""
@@ -438,6 +447,11 @@ msgid ""
 "supported by the American Physical Society (APS) and by a number of "
 "international organizations."
 msgstr ""
+"Suche nach rotierenden Neutronensternen (auch Pulsare genannt) unter "
+"Verwendung von Daten der LIGO und GEO Gravitationswellen-Detektoren sowie "
+"dem Arecibo Radioteleskop. Einstein@Home ist ein \"World Year of Physics "
+"2005\" Projekt, welches von der American Physical Society (APS) und von "
+"verschiedenen internationalen Organisationen unterstützt wird."
 
 #: projects.inc:206
 msgid "LHC@home"
@@ -485,6 +499,12 @@ msgid ""
 "signals from space. Such signals are not known to occur naturally, so a "
 "detection would provide evidence of extraterrestrial technology."
 msgstr ""
+"SETI (Search for Extraterrestrial Intelligence) ist ein Bereich der "
+"Wissenschaft mit dem Ziel Leben ausserhalb der Erde zu finden. Eine Methode, "
+"bekannt als Radio-SETI, benutzt Radio Teleskope, um Signale von geringer "
+"Bandbreite aus dem Weltall aufzuspüren. Es sind keine natürlichen Quellen "
+"für solche Strahlung bekannt, daher wäre sie der Beweis für außerirdische "
+"Technologie."
 
 #: projects.inc:222
 msgid "Quantum Monte Carlo at Home"
@@ -520,10 +540,14 @@ msgid ""
 "applications in medicine (such as local tumor chemotherapy) and "
 "biotechnology."
 msgstr ""
+"Die Forschung für Molekular-Magneten und Magnetismus auf Nano-Ebene. Diese "
+"Magnetischen Moleküle könnten benutzt werden um winzige Magnet-Schalter zu "
+"entwickeln, die Anwendung in der Medizin( z.B. in der lokalen Therapierung "
+"von Tumoren durch Chemotherapie) und Biotechnologie."
 
 #: projects.inc:241
 msgid "Multiple applications"
-msgstr ""
+msgstr "Mehrere Anwendungen"
 
 #: projects.inc:244
 msgid "CAS@home"
@@ -564,12 +588,12 @@ msgstr ""
 
 #: projects.inc:261 projects.inc:360
 msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
-msgstr ""
+msgstr "MTA-SZTAKI - Labor für Parallele und Verteilte Systeme (Ungarn)"
 
 #: projects.inc:262
 #, fuzzy
 msgid "European research projects"
-msgstr "Forschungsprojekte"
+msgstr "Europäische Forschungsprojekte"
 
 #: projects.inc:263
 msgid ""
@@ -585,16 +609,16 @@ msgstr ""
 
 #: projects.inc:269
 msgid "Spanish universities and research centers"
-msgstr ""
+msgstr "Spanische Universitäten und Forschungszentren"
 
 #: projects.inc:270
 #, fuzzy
 msgid "Various Spanish research projects"
-msgstr "Forschungsprojekte"
+msgstr "Verschiedene spanische Forschungsprojekte"
 
 #: projects.inc:271
 msgid "Research in physics, material science, and biomedicine"
-msgstr ""
+msgstr "Forschung im Bereich der Physik, Materialforschung und Biomedizin"
 
 #: projects.inc:275
 msgid "World Community Grid"
@@ -607,6 +631,8 @@ msgstr ""
 #: projects.inc:278
 msgid "Humanitarian research on disease, natural disasters and hunger."
 msgstr ""
+"Humanitäre Forschung im Bereich von Krankheiten, Naturkatastrophen und "
+"Hungersnöten."
 
 #: projects.inc:279
 msgid ""
@@ -617,7 +643,7 @@ msgstr ""
 
 #: projects.inc:285
 msgid "Mathematics, computing, and games"
-msgstr ""
+msgstr "Mathematik, Berechnungen und Spiele"
 
 #: projects.inc:288
 msgid "Enigma@Home"
@@ -625,13 +651,16 @@ msgstr ""
 
 #: projects.inc:291 projects.inc:345
 msgid "Cryptography"
-msgstr ""
+msgstr "Kryptographie"
 
 #: projects.inc:292
 msgid ""
 "Attempt to decode 3 original Enigma messages. The signals were intercepted "
 "in the North Atlantic in 1942 and are believed to be unbroken."
 msgstr ""
+"Der Versuch drei original Enigma Nachrichten zu entschlüsseln. Die Signale "
+"wurden 1942 im Nordatlantik abgefangen und es wird angenommen, dass sie noch "
+"nicht geknackt wurden."
 
 #: projects.inc:295
 msgid "Collatz Conjecture"
@@ -639,7 +668,7 @@ msgstr ""
 
 #: projects.inc:298 projects.inc:337 projects.inc:353 projects.inc:361
 msgid "Mathematics"
-msgstr ""
+msgstr "Mathematik"
 
 #: projects.inc:299
 msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
@@ -647,9 +676,8 @@ msgstr ""
 
 # 75%
 #: projects.inc:302
-#, fuzzy
 msgid "NFS@home"
-msgstr "CAS@home"
+msgstr ""
 
 #: projects.inc:304
 msgid "California State University Fullerton"
@@ -668,6 +696,12 @@ msgid ""
 "NFS@Home is a continuation of that experience, only with integers that are "
 "hundreds of digits long."
 msgstr ""
+"NFS@Home ist ein Forschungsprojekt welches die mit dem Internet verbundenen "
+"Computer dazu benutzt eine schrittweise Primfaktorzerlegung einer großen "
+"ganzen Zahl durchzuführen. Als junger Schüler hast du deine ersten Erfahrung "
+"damit gemacht ganze Zahlen in Primzahlfaktoren zu zerlegen, wie 15= 3+5 "
+"oder 35= 5*7. NFS@Home setzt diese Erfahrung fort, lediglich mit ganzen "
+"Zahlen welche hunderte von Stellen lang sind."
 
 #: projects.inc:310
 msgid "VTU@home"
@@ -682,7 +716,7 @@ msgstr ""
 #: projects.inc:313
 #, fuzzy
 msgid "Software testing"
-msgstr "Programmaktualisierungen"
+msgstr "Software tests"
 
 #: projects.inc:314
 msgid ""

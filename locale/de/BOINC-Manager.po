@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-05 10:58-0500\n"
-"PO-Revision-Date: 2012-02-12 21:18+0200\n"
+"PO-Revision-Date: 2012-03-23 19:02+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -34,7 +34,7 @@ msgid ""
 "(to create an account, visit the project's web site)"
 msgstr ""
 "Bitte geben Sie Ihre Kontoinformationen ein.\n"
-"(Bitte besuchen sie die Projektwebseite, um ein Teilnehmerkonto "
+"(Bitte besuchen Sie die Projektwebseite, um ein Teilnehmerkonto "
 "einzurichten.)"
 
 #: clientgui/AccountInfoPage.cpp:396
@@ -42,7 +42,7 @@ msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can add it only if you already have an account."
 msgstr ""
-"Dieses Projekt akzeptiert zurzeit keine neuen Teilnehmerkonten.\n"
+"Dieses Projekt kann zur Zeit keine weiteren Teilnehmerkonten aufnehmen.\n"
 "Sie können es nur hinzufügen, wenn Sie bereits über ein\n"
 "Teilnehmerkonto verfügen."
 
@@ -56,7 +56,7 @@ msgstr "&Nein, neuer Teilnehmer"
 
 #: clientgui/AccountInfoPage.cpp:407
 msgid "&Yes, existing user"
-msgstr "&Ja, existierender Benutzer"
+msgstr "&Ja, existierender Teilnehmer"
 
 #: clientgui/AccountInfoPage.cpp:412
 msgid ""
@@ -85,7 +85,7 @@ msgstr "&Passwort:"
 #: clientgui/AccountInfoPage.cpp:442
 #: clientgui/AccountInfoPage.cpp:659
 msgid "Choose a &password:"
-msgstr "P&asswort wählen:"
+msgstr "&Passwort wählen:"
 
 #: clientgui/AccountInfoPage.cpp:445
 msgid "C&onfirm password:"
@@ -383,7 +383,7 @@ msgstr "Stoppt GPU-Arbeit ungeachtet der Voreinstellungen."
 
 #: clientgui/AdvancedFrame.cpp:530
 msgid "Network activity always available"
-msgstr "Netzwerkzugriff immer a&usführen"
+msgstr "Netzwerkzugriff immer &erlaubt"
 
 #: clientgui/AdvancedFrame.cpp:531
 msgid "Allow network activity regardless of preferences"
@@ -808,8 +808,7 @@ msgid "%s failed to disconnected from the Internet."
 msgstr "%s konnte die Internetverbindung nicht beenden."
 
 #: clientgui/BOINCGUIApp.cpp:339
-#, c-format
-#, c-format, fuzzy
+#, c-format, c-format
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "\n"
@@ -820,14 +819,14 @@ msgid ""
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
 msgstr ""
-"Sie sind im Moment nicht befugt diesen Client zu verwalten.\n"
+"Sie sind momentan nicht befugt diesen Client zu verwalten.\n"
 "\n"
-"Um %s als aktueller Nutzer zu bedienen müssen Sie:\n"
+"Um %s mit dem aktuellen Nutzer auszuführen müssen Sie:\n"
 "  - %s neu installieren und die Frage bezüglich\n"
-"     \"non-administrative users\" mit \"Yes\" beantworten\n"
+"     \"non-administrative users\" mit \"Ja\" beantworten\n"
 " oder\n"
 "  - Ihren Administrator kontaktieren damit Sie in die\n"
-"     'boinc_master' Benutzergruppe aufgenommen werden."
+"    Benutzergruppe 'boinc_master'  aufgenommen werden."
 
 #: clientgui/BOINCGUIApp.cpp:345
 #, c-format
@@ -908,7 +907,7 @@ msgstr "mehrere Instanzen des BOINC Managers erlauben"
 
 #: clientgui/BOINCGUIApp.cpp:544
 msgid "Not used: workaround for bug in XCode 4.2"
-msgstr ""
+msgstr "Nicht verwendet: Workaround für den Fehler in XCode 4.2"
 
 #: clientgui/BOINCGUIApp.cpp:762
 msgid "(Automatic Detection)"
@@ -1442,7 +1441,7 @@ msgstr "Tage"
 #: clientgui/DlgAdvPreferencesBase.cpp:428
 #, fuzzy
 msgid "Minimum work buffer"
-msgstr "Minimaler Arbeitspuffer"
+msgstr "Mindest Arbeitspuffer"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:437
 msgid "Try to maintain enough tasks to keep busy for this many days"
@@ -1742,7 +1741,7 @@ msgstr "Diesen Dialog nicht wieder anzeigen."
 #: clientgui/DlgItemProperties.cpp:177
 #: clientgui/DlgItemProperties.cpp:180
 msgid "Don't fetch tasks for "
-msgstr ""
+msgstr "Keine Aufgaben mehr für "
 
 #: clientgui/DlgItemProperties.cpp:171
 msgid "Project preference"
@@ -1754,19 +1753,19 @@ msgstr "Kontomanager-Einstellungen"
 
 #: clientgui/DlgItemProperties.cpp:177
 msgid "Project has no apps for "
-msgstr ""
+msgstr "Projekt hat keine Anwendungen für "
 
 #: clientgui/DlgItemProperties.cpp:180
 msgid "Client configuration excludes "
-msgstr ""
+msgstr "Die Konfiguration des Clients schließt aus, dass"
 
 #: clientgui/DlgItemProperties.cpp:184
 msgid " work fetch deferred for"
-msgstr ""
+msgstr " CPU Arbeitsabruf verzögert für"
 
 #: clientgui/DlgItemProperties.cpp:185
 msgid " work fetch deferral interval"
-msgstr ""
+msgstr " Verzögerungsintervall für CPU Arbeitsabruf"
 
 #: clientgui/DlgItemProperties.cpp:216
 msgid "Properties of project "
@@ -2493,7 +2492,7 @@ msgstr "Zur Ausführung bereit"
 
 #: clientgui/MainDocument.cpp:2479
 msgid " (Scheduler wait: "
-msgstr ""
+msgstr " (Planungspause: "
 
 #: clientgui/MainDocument.cpp:2483
 msgid " (Scheduler wait)"
@@ -2513,7 +2512,7 @@ msgstr "Hochladen fehlgeschlagen"
 
 #: clientgui/MainDocument.cpp:2497
 msgid "Uploading"
-msgstr "Am hochladen"
+msgstr "Lädt hoch"
 
 #: clientgui/MainDocument.cpp:2508
 msgid "Aborted by user"
@@ -3451,7 +3450,7 @@ msgstr "Vergangen: %s"
 #: clientgui/sg_TaskPanel.cpp:839
 #, c-format
 msgid "Remaining (estimated): %s"
-msgstr ""
+msgstr "Verbleibend (geschätzt): %s"
 
 #: clientgui/sg_TaskPanel.cpp:854
 #, c-format
@@ -4086,7 +4085,7 @@ msgstr "Vergangen"
 
 #: clientgui/ViewWork.cpp:235
 msgid "Remaining (estimated)"
-msgstr ""
+msgstr "Verbleibend (geschätzt)"
 
 #: clientgui/ViewWork.cpp:236
 msgid "Deadline"

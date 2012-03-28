@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2012-03-23 14:54+0200\n"
+"PO-Revision-Date: 2012-03-23 19:04+0200\n"
 "Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fr\n"
@@ -5321,7 +5321,7 @@ msgstr ""
 
 #: ../user/pending.php:66
 msgid "Result ID"
-msgstr ""
+msgstr "ID Résultat"
 
 #: ../user/pending.php:66
 #, fuzzy
@@ -5329,27 +5329,24 @@ msgid "Workunit ID"
 msgstr "ID d'unité de travail (WU)"
 
 #: ../user/pending.php:66
-#, fuzzy
 msgid "Host ID"
-msgstr "Hôte"
+msgstr "ID Hôte"
 
 #: ../user/pending.php:66
 msgid "Claimed credit"
 msgstr "Crédit demandé"
 
 #: ../user/pending.php:79
-#, fuzzy
 msgid "Pending credit: %1"
-msgstr "Crédit en suspens"
+msgstr "Crédit en suspens: %1"
 
 #: ../user/pm.php:32
 msgid "Block messages from this user"
-msgstr ""
+msgstr "Bloquer les messages de cet utilisateur"
 
 #: ../user/pm.php:32
-#, fuzzy
 msgid "Block user"
-msgstr "Utilisateur inexistant"
+msgstr "Bloquer un utilisateur"
 
 #: ../user/pm.php:73
 msgid "Your message has been sent."
@@ -5364,22 +5361,20 @@ msgid "Sender and date"
 msgstr "Émetteur et date"
 
 #: ../user/pm.php:106
-#, fuzzy
 msgid "Reply to this message"
-msgstr "répondre au %1Message ID%2:"
+msgstr "Répondre à ce message"
 
 #: ../user/pm.php:107
-#, fuzzy
 msgid "Delete this message"
-msgstr "Supprimer le message sélectionné"
+msgstr "Supprimer ce message"
 
 #: ../user/pm.php:112
 msgid "Select all"
-msgstr ""
+msgstr "Sélectionner tout "
 
 #: ../user/pm.php:114
 msgid "Unselect all"
-msgstr ""
+msgstr "Dé-sélectionner tout"
 
 #: ../user/pm.php:117
 msgid "Delete selected messages"
@@ -5398,14 +5393,13 @@ msgid "You need to fill all fields to send a private message"
 msgstr "Vous devez remplir tous les champs pour envoyer un message privé"
 
 #: ../user/pm.php:188
-#, fuzzy
 msgid ""
 "Your message was flagged as spam\n"
 "                by the Akismet anti-spam system.\n"
 "                Please modify your text and try again."
 msgstr ""
-"Votre réponse a été marquée comme spam par le système anti-spam Akismet. "
-"Veuillez modifier votre texte et réessayer."
+"Votre réponse a été marquée comme spam par le système anti-spam Akismet.\n"
+" Veuillez modifier votre texte et réessayer."
 
 #: ../user/pm.php:205
 msgid "Could not find user with id %1"
@@ -5478,9 +5472,8 @@ msgid "To unblock, visit %1message board preferences%2"
 msgstr "Pour débloquer, aller sur les %1préférences de messages%2"
 
 #: ../user/pm.php:302
-#, fuzzy
 msgid "Unknown action"
-msgstr "Action d'abonnement inconnue"
+msgstr "Action inconnue"
 
 #: ../user/prefs.php:36
 msgid ""

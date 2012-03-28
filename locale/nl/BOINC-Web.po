@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: $Id: nl.po 13216 2007-07-25 15:11:14Z davea $\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2011-05-14 20:25+0200\n"
+"PO-Revision-Date: 2012-03-25 18:55+0200\n"
 "Last-Translator: Rene <oskamjr@wanadoo.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.1\n"
+"X-Generator: Pootle 2.1.6\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
@@ -32,7 +32,7 @@ msgstr "FreeHAL"
 
 #: projects.inc:19 projects.inc:254 projects.inc:290 projects.inc:297
 msgid "private"
-msgstr "privé"
+msgstr "particulier project"
 
 #: projects.inc:20
 msgid "Artificial intelligence"
@@ -281,9 +281,8 @@ msgid ""
 "Provide ecological guidelines on the design of prairies with the best "
 "potential for water purification."
 msgstr ""
-"Bepaal de ecologische richtlijnen die voor de karakteristieken van een "
-"prairielandschap de best mogelijke waterzuivering opleveren. (rephrase "
-"source. makes no sense.)"
+"Bepaal de ecologische richtlijnen die een optimale waterzuivering opleveren "
+"voor de ontwikkeling van prairielandschappen."
 
 #: projects.inc:137
 msgid "Climateprediction.net"
@@ -372,8 +371,8 @@ msgstr "Astronomie"
 #: projects.inc:162
 msgid "Monitor and study the hazard posed by near-Earth asteroids"
 msgstr ""
-"Het in beeld brengen en bestuderen van gevaren veroorzaakt door meteorieten "
-"die in de buurt van de aarde zijn"
+"Controleer en bestudeer de dreiging van meteorieten in de directe omgeving "
+"van de aarde"
 
 #: projects.inc:166
 msgid "Cosmology@Home"
@@ -389,8 +388,8 @@ msgid ""
 "our Universe and to find the range of models that agree with the available "
 "astronomical particle physics data."
 msgstr ""
-"Cosmology@Home heeft als doel het model dat ons universum het best "
-"omschrijft te vinden, alsmede het spectrum van modellen die met de "
+"De doelstelling van Cosmology@Home betreft het model te vinden dat ons "
+"universum het best omschrijft, alsmede het spectrum van modellen die met de "
 "beschikbare data inzake deeltjes astrofysica overweg kunnen."
 
 #: projects.inc:174
@@ -407,9 +406,9 @@ msgid ""
 "model of the Milky Way galaxy using data gathered by the Sloan Digital Sky "
 "Survey."
 msgstr ""
-"Het doel van Milkyway@home is een zeer accuraat drie-dimensionaal model te "
-"maken van het melkwegstelsel door middel van gegevens die door het Sloan "
-"Digital Sky Survey zijn verzameld."
+"De doelstelling van Milkyway@home betreft de ontwikkeling van een zeer "
+"accuraat drie-dimensionaal model van het melkwegstelsel middels de gegevens "
+"van het Sloan Digital Sky Survey."
 
 #: projects.inc:182
 msgid "Leiden Classical"
@@ -585,7 +584,7 @@ msgstr ""
 
 #: projects.inc:241
 msgid "Multiple applications"
-msgstr "Meerdere applicaties"
+msgstr "Diverse applicaties"
 
 #: projects.inc:244
 msgid "CAS@home"
@@ -597,7 +596,7 @@ msgstr "Chinese Academie voor wetenschappen"
 
 #: projects.inc:247
 msgid "Physics, biochemistry, and others"
-msgstr "Natuurkunde, biochemie en anders"
+msgstr "Natuurkunde, biochemie en diverse andere wetenschappen"
 
 #: projects.inc:248
 msgid ""
@@ -605,9 +604,9 @@ msgid ""
 "adopt the technologies of volunteer computing and volunteer thinking for "
 "their research."
 msgstr ""
-"Het doel van CAS@home is het aanmoedigen en helpen van wetenschappers in "
-"China om de technologieën van volunteer computing en vrijwilligers in te "
-"zetten als hulp bij hun onderzoek."
+"De doelstelling van CAS@home betreft het aanmoedigen en helpen van "
+"wetenschappers in China om technologieën als volunteer computing en "
+"volunteer thinking in te zetten bij hun wetenschappelijk onderzoek."
 
 #: projects.inc:252
 msgid "Yoyo@home"
@@ -635,7 +634,7 @@ msgstr "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
 
 #: projects.inc:262
 msgid "European research projects"
-msgstr "Europese onderzoek projecten"
+msgstr "Europees wetenschappelijk onderzoek"
 
 #: projects.inc:263
 msgid ""
@@ -647,7 +646,7 @@ msgstr ""
 "Het EDGeS@Home Beta project integreert volunteer computing in hun netwerk "
 "van computerclusters in Europa door via deze clusters de taken te verdelen "
 "en te laten verwerken door de vrijwilligers bij dit project. De "
-"wetenschappelijke projecten omvatten o.a. wiskunde, natuurkunde, biologie."
+"wetenschappelijke projecten omvatten o.a. wiskunde, natuurkunde en biologie."
 
 #: projects.inc:267
 msgid "Ibercivis"
@@ -683,11 +682,11 @@ msgid ""
 "problems by creating the world's largest volunteer computing grid.  Research "
 "includes HIV/AIDS, cancer, muscular dystrophy, dengue fever, and many more."
 msgstr ""
-"Om zonder winstbejag het verrichten van essentieel wetenschappelijk "
-"onderzoek naar enkele van de meest urgente problemen der mensheid te "
-"stimuleren, door als vrijwilliger deel te nemen aan ’s werelds meest "
-"omvangrijke computercluster. Het onderzoek betreft hiv/aids, kanker, "
-"musculaire dystrofie, knokkelkoorts en vele andere ziektes."
+"Om het verrichten van essentieel wetenschappelijk onderzoek naar enkele van "
+"de meest urgente problemen der mensheid belangeloos te stimuleren, door als "
+"vrijwilliger deel te nemen aan ’s werelds meest omvangrijke computercluster. "
+"Het onderzoek betreft hiv/aids, kanker, musculaire dystrofie, knokkelkoorts "
+"en vele andere ziektes."
 
 #: projects.inc:285
 msgid "Mathematics, computing, and games"
@@ -843,7 +842,7 @@ msgstr "PrimeGrid"
 
 #: projects.inc:344
 msgid "Private"
-msgstr "Persoonlijke"
+msgstr "Particulier project"
 
 #: projects.inc:346
 msgid ""
@@ -880,8 +879,8 @@ msgid ""
 "Find all the generalized binary number systems (in which bases are matrices "
 "and digits are vectors) up to dimension 11."
 msgstr ""
-"Zoek alle algemene binaire nummersystemen (gebaseerd op matrixen met "
-"decimalen als vectors) tot in de 11e dimensie."
+"Zoek alle algemene binaire getalsystemen (met matrices als basis en cijfers "
+"als vectoren) tot in de 11e dimensie."
 
 #: projects.inc:382
 msgid "Chess960@home"
@@ -903,9 +902,9 @@ msgid ""
 "pieces is determined randomly."
 msgstr ""
 "Dit project onderzoekt Chess 960; een variant op het gewone schaakspel. Bij "
-"het conventionele schaakspel is de beginsituatie bij elk spel gelijk. Bij "
-"Chess 960 wordt, net voor het begin van elk spel, de opstelling van de "
-"schaakstukken willekeurig bepaald."
+"het conventionele schaakspel is de beginsituatie bij elk spel identiek. Bij "
+"Chess 960 wordt bij aanvang van elk spel de opstelling van de schaakstukken "
+"willekeurig bepaald."
 
 #: versions.inc:6
 msgid "The current release is known to work with these Linux versions:"
@@ -1142,11 +1141,11 @@ msgid ""
 "scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %"
 "sDownload%s and run BOINC software  %sEnter%s an email address and password. "
 msgstr ""
-" Gebruik de ongebruikte tijd van je computer (Windows, Mac, of Linux) om "
-"ziektes te genezen, de opwarming van de aarde te bestuderen, pulsars te "
-"ontdekken en vele andere vormen van onderzoek te doen.  Het is veilig, en "
-"makkelijk:  %sKies%s een project  %sDownload%s en gebruik BOINC software  %"
-"sVul%s een e-mailadres en wachtwoord in. "
+" Gebruik uw computer's onbenutte processorcapaciteit (Windows, Mac, of "
+"Linux) om ziektes te genezen, de opwarming van de aarde te bestuderen, "
+"pulsars te ontdekken, evenals voor vele andere vormen van onderzoek.  Het is "
+"veilig en makkelijk:  %sKies%s een project  %sDownload%s en gebruik BOINC "
+"software  %sVul%s een e-mailadres en wachtwoord in. "
 
 #: index.php:100
 #, php-format
@@ -1249,7 +1248,7 @@ msgstr "APIs voor add-on software"
 
 #: index.php:207
 msgid "Browser default"
-msgstr "Browser standaard"
+msgstr "Standaard browser"
 
 #: index.php:259
 #, php-format
