@@ -3113,3 +3113,9 @@ David  27 Mar 2012
 
     sched/
         handle_request.cpp
+
+David  27 Mar 2012
+    - client/scheduler: fix error in NVIDIA peak flops calculation
+
+    lib/
+        coproc.cpp
