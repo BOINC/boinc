@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-05 10:58-0500\n"
-"PO-Revision-Date: 2012-03-07 21:20+0200\n"
+"PO-Revision-Date: 2012-03-25 18:50+0200\n"
 "Last-Translator: Rene <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nl\n"
@@ -1699,7 +1699,7 @@ msgstr "Onthoud deze keuze en laat dit venster niet meer zien."
 #: clientgui/DlgExitMessage.cpp:178
 #: clientgui/DlgGenericMessage.cpp:125
 msgid "&Cancel"
-msgstr "Annuleer"
+msgstr "&Annuleren"
 
 #: clientgui/DlgGenericMessage.cpp:112
 msgid "Don't show this dialog again."
@@ -1738,7 +1738,7 @@ msgstr " werkverzoek interval"
 
 #: clientgui/DlgItemProperties.cpp:216
 msgid "Properties of project "
-msgstr "Eigenschappen van project "
+msgstr "Projecteigenschappen van"
 
 #: clientgui/DlgItemProperties.cpp:220
 msgid "General"

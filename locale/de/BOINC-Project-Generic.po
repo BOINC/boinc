@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2012-02-12 21:18+0200\n"
+"PO-Revision-Date: 2012-03-23 18:53+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -283,7 +283,7 @@ msgstr "Geschrieben: %1"
 #: ../inc/forum.inc:582
 #, fuzzy
 msgid " - in response to "
-msgstr " - als Antwort zu "
+msgstr " - als Antwort für "
 
 #: ../inc/forum.inc:585 ../inc/prefs.inc:691 ../inc/prefs.inc:693
 msgid "Edit"
@@ -4156,7 +4156,7 @@ msgid ""
 msgstr ""
 "Bevor sie diesen Beitrag melden, überlegen Sie sich vielleicht stattdessen "
 "das Bewertungssystem (+/-) zu benutzen. Wenn genug Benutzer einen Beitrag "
-"negativ bewerten wird er evtl. versteckt werden.<br/>Sie können das "
+"negativ bewerten wird er evtl. versteckt werden.<br />Sie können das "
 "Bewertungssystem am Ende des Beitrags finden."
 
 #: ../user/forum_report_post.php:79
