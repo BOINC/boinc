@@ -24,29 +24,52 @@ require_once('includes/boincwork.helpers.inc');
   */
 function boincwork_menu() {
   require_boinc('util');
-  $items['account/prefs/general'] = array(
-    'title' => t('Computing preferences'),
+  $items['account/prefs'] = array(
+    'title' => 'Preferences',
+    'description' => '',
+    'page callback' => 'generalprefs_page', 
+    'access callback' => 'user_is_logged_in',
+    'type' => MENU_NORMAL_ITEM
+  );
+  $items['account/prefs/computing'] = array(
+    'title' => t('Computing'),
     'page callback' => 'generalprefs_page',
-    'access arguments' => array('access content'),
-    'type' => MENU_CALLBACK
+    'access callback' => 'user_is_logged_in',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => 0
   );
   $items['account/prefs/project'] = array(
-    'title' => t('@project preferences', array('@project' => PROJECT)),
+    'title' => t('Project'),
     'page callback' => 'projectprefs_page',
-    'access arguments' => array('access content'),
-    'type' => MENU_CALLBACK
+    'access callback' => 'user_is_logged_in',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 5
   );
-  $items['account/certs'] = array(
+  $items['account/prefs/community'] = array(
+    'title' => t('Community'),
+    'page callback' => 'communityprefs_page',
+    'access callback' => 'user_is_logged_in',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 10
+  );
+  $items['account/prefs/privacy'] = array(
+    'title' => t('Privacy'),
+    'page callback' => 'privacyprefs_page',
+    'access callback' => 'user_is_logged_in',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 15
+  );
+  /*$items['account/certs'] = array(
     'title' => t('Account certificate'),
     'page callback' => 'boincwork_certificates',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK
-  ); 
+  );*/
   $items['user/%/mobile'] = array(
     'title' => t('Mobile stats'),
     'page callback' => 'boincwork_mobile_stats',
     'page arguments' => array(1),
-    'access arguments' => array('access content'),
+    'access callback' => 'user_is_logged_in',
     'type' => MENU_CALLBACK
   );
   $items['server_status.php'] = array(
