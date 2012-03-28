@@ -55,16 +55,6 @@ function boincwork_menu() {
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK
   );
-  $items['stats'] = array(
-    'page callback' => 'boincwork_view_page',
-    'page arguments' => array('8938'),
-    'access arguments' => array('access content')
-  );
-  $items['stats/overview'] = array(
-    'title' => t('Overview'),
-    'type' => MENU_DEFAULT_LOCAL_TASK,
-    'weight' => -10
-  );
   return $items;
 }
 
