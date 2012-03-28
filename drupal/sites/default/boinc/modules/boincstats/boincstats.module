@@ -87,11 +87,11 @@ function boincstats_get_user_stats_chart($cpid = null) {
   }
   
   $MyData->addPoints($dataset, 'series1');
-  $MyData->setPalette('series1',array('R' => 250,'G' => 163,'B' => 65));
+  $MyData->setPalette('series1',array('R' => 94,'G' => 190,'B' => 225));
   $MyData->setAxisPosition(0,AXIS_POSITION_RIGHT);
 
   // Create the pChart object
-  $myPicture = new pImage(598,155,$MyData);
+  $myPicture = new pImage(589,155,$MyData);
 
   // Turn on Antialiasing
   $myPicture->Antialias = true;
@@ -100,7 +100,7 @@ function boincstats_get_user_stats_chart($cpid = null) {
   //$myPicture->setFontProperties(array('FontName'=>'../fonts/pf_arma_five.ttf','FontSize'=>6));
 
   // Define the chart area
-  $myPicture->setGraphArea(0,3,598,155);
+  $myPicture->setGraphArea(0,3,589,155);
 
   // Draw the scale
   $scaleSettings = array(
@@ -128,7 +128,7 @@ function boincstats_get_user_stats_chart($cpid = null) {
   
   for ($i = 5; $i >= 0; $i--) {
     $label = ($i) ? -10*$i : 'Today';
-    $myPicture->drawText(598-596*($i/6)-5, 2, $label, array('Align' => TEXT_ALIGN_TOPRIGHT));
+    $myPicture->drawText(589-587*($i/6)-5, 2, $label, array('Align' => TEXT_ALIGN_TOPRIGHT));
   }
 
   // Draw the area chart
@@ -170,7 +170,7 @@ function boincstats_get_project_stats_chart() {
   }
   
   $MyData->addPoints($dataset, 'series1');
-  $MyData->setPalette('series1',array('R' => 250,'G' => 163,'B' => 65));
+  $MyData->setPalette('series1',array('R' => 94,'G' => 190,'B' => 225));
   $MyData->setAxisPosition(0,AXIS_POSITION_RIGHT);
 
   // Create the pChart object
@@ -184,6 +184,7 @@ function boincstats_get_project_stats_chart() {
 
   // Define the chart area
   $myPicture->setGraphArea(0,0,266,80);
+  $myPicture->drawFilledRectangle(0,0,266,80,array('R'=>209,'G'=>209,'B'=>209));
 
   // Draw the scale
   $scaleSettings = array(
