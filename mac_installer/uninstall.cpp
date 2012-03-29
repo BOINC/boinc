@@ -29,6 +29,12 @@
 #include <pwd.h>	// passwd, getpwnam
 #include <dirent.h>
 #include <sys/param.h>  // for MAXPATHLEN
+#include <string.h>
+#include <vector>
+#include <string>
+
+using std::vector;
+using std::string;
 
 #include "LoginItemAPI.h"
 
@@ -369,13 +375,19 @@ static OSStatus DeleteOurBundlesFromDirectory(CFStringRef bundleID, char *extens
 // For now, don't delete user's BOINC Preferences file.
 static OSStatus CleanupAllVisibleUsers(void)
 {
-    DIR                 *dirp;
-    dirent              *dp;
+    long                OSVersion = 0;
     passwd              *pw;
+    vector<string>      human_user_names;
+    vector<uid_t>       human_user_IDs;
     uid_t               saved_uid, saved_euid;
+    char                human_user_name[256];
+    int                 userIndex;
+    int                 flag;
+    char                buf[256];
     char                s[1024];
     FILE                *f;
-    long                OSVersion = 0;
+    char                *p;
+    int                 id;
     OSStatus            err;
     Boolean             changeSaver;
 
@@ -384,36 +396,93 @@ static OSStatus CleanupAllVisibleUsers(void)
         OSVersion = 0;
     }
 
-    dirp = opendir("/Users");
-    if (dirp == NULL) {      // Should never happen
-        ShowMessage(false, "opendir(\"/Users\") failed");
-        return -1;
-    }
-    
     saved_uid = getuid();
     saved_euid = geteuid();
 
-    while (true) {
-        dp = readdir(dirp);
-        if (dp == NULL)
-            break;                  // End of list
-            
-        if (dp->d_name[0] == '.')
-            continue;               // Ignore names beginning with '.'
+    // First, find all users on system
+    f = popen("dscl . list /Users UniqueID", "r");
+    if (f) {
+        while (PersistentFGets(buf, sizeof(buf), f)) {
+            p = strrchr(buf, ' ');
+            if (p) {
+                id = atoi(p+1);
+                if (id < 501) {
+#if TESTING
+//                    printf("skipping user ID %d\n", id);
+//                    fflush(stdout);
+#endif
+                    continue;
+                }
+            }
+            p = strchr(buf, ' ');
+            if (p) {
+                *p = '\0';
+                human_user_names.push_back(string(buf));
+                human_user_IDs.push_back((uid_t)id);
+#if TESTING
+                ShowMessage(false, "user ID %d: %s\n", id, buf);
+#endif
+                *p = ' ';
+            }
+        }
+        pclose(f);
+    }
     
-        pw = getpwnam(dp->d_name);
+    for (userIndex=human_user_names.size(); userIndex>0; --userIndex) {
+        flag = 0;
+        strlcpy(human_user_name, human_user_names[userIndex-1].c_str(), sizeof(human_user_name));
+
+        // Check whether this user is a login (human) user 
+        sprintf(s, "dscl . -read /Users/%s NFSHomeDirectory", human_user_name);    
+        f = popen(s, "r");
+        if (f) {
+            while (PersistentFGets(buf, sizeof(buf), f)) {
+                p = strrchr(buf, ' ');
+                if (p) {
+                    if (strcmp(p, " /var/empty\n") == 0) flag = 1;
+                }
+            }
+            pclose(f);
+        }
+
+        sprintf(s, "dscl . -read /Users/%s UserShell", human_user_name);    
+        f = popen(s, "r");
+        if (f) {
+            while (PersistentFGets(buf, sizeof(buf), f)) {
+                p = strrchr(buf, ' ');
+                if (p) {
+                    if (strcmp(p, " /usr/bin/false\n") == 0) flag |= 2;
+                }
+            }
+            pclose(f);
+        }
+        
+        // Skip all non-human (non-login) users
+        if (flag == 3) { // if (Home Directory == "/var/empty") && (UserShell == "/usr/bin/false")
+#if TESTING
+            ShowMessage(false, "Flag=3: skipping user ID %d: %s\n", human_user_IDs[userIndex-1], buf);
+#endif
+            continue;
+        }
+
+        pw = getpwnam(human_user_name);
         if (pw == NULL)             // "Deleted Users", "Shared", etc.
             continue;
 
+#if TESTING
+        ShowMessage(false, "Deleting login item for user %s: Posix name=%s, Full name=%s, UID=%d\n", 
+                human_user_name, pw->pw_name, pw->pw_gecos, pw->pw_uid);
+#endif
+
         // Remove user from groups boinc_master and boinc_project
-        sprintf(s, "dscl . -delete /groups/boinc_master users %s", dp->d_name);
+        sprintf(s, "dscl . -delete /groups/boinc_master users %s", human_user_name);
         system (s);
 
-        sprintf(s, "dscl . -delete /groups/boinc_project users %s", dp->d_name);
+        sprintf(s, "dscl . -delete /groups/boinc_project users %s", human_user_name);
         system (s);
 
 #if TESTING
-//    ShowMessage(false, "Before seteuid(%d) for user %s, euid = %d", pw->pw_uid, dp->d_name, geteuid());
+//    ShowMessage(false, "Before seteuid(%d) for user %s, euid = %d", pw->pw_uid, human_user_name, geteuid());
 #endif
         
         if (OSVersion >= 0x1060) {
@@ -423,14 +492,14 @@ static OSStatus CleanupAllVisibleUsers(void)
 
         // Delete our login item(s) for this user
         if (OSVersion >= 0x1070) {
-            DeleteLoginItemOSAScript(dp->d_name, "BOINCManager");
-            DeleteLoginItemOSAScript(dp->d_name, "GridRepublic Desktop");
-            DeleteLoginItemOSAScript(dp->d_name, "Progress Thru Processors Desktop");
-            DeleteLoginItemOSAScript(dp->d_name, "Charity Engine Desktop");
+            DeleteLoginItemOSAScript(human_user_name, "BOINCManager");
+            DeleteLoginItemOSAScript(human_user_name, "GridRepublic Desktop");
+            DeleteLoginItemOSAScript(human_user_name, "Progress Thru Processors Desktop");
+            DeleteLoginItemOSAScript(human_user_name, "Charity Engine Desktop");
         } else {
             DeleteLoginItemAPI();
         }
-//        sprintf(s, "rm -f \"/Users/%s/Library/Preferences/BOINC Manager Preferences\"", dp->d_name);
+//        sprintf(s, "rm -f \"/Users/%s/Library/Preferences/BOINC Manager Preferences\"", human_user_name);
 //        system (s);
         
         //  Set screensaver to "Computer Name" default screensaver only 
@@ -440,7 +509,7 @@ static OSStatus CleanupAllVisibleUsers(void)
             f = popen("defaults -currentHost read com.apple.screensaver moduleName", "r");
         } else {
             sprintf(s, "sudo -u %s defaults -currentHost read com.apple.screensaver moduleDict -dict", 
-                    dp->d_name); 
+                    human_user_name); 
             f = popen(s, "r");
         }
         if (f) {
@@ -472,18 +541,17 @@ static OSStatus CleanupAllVisibleUsers(void)
             } else {
                 sprintf(s, 
                     "sudo -u %s defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName \"Computer Name\" path \"/System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/Computer Name.saver\"", 
-                    dp->d_name);
+                    human_user_name);
                 system (s);
             }
         }
         
         seteuid(saved_euid);                         // Set effective uid back to privileged user
 #if TESTING
-//    ShowMessage(false, "After seteuid(%d) for user %s, euid = %d, saved_uid = %d", pw->pw_uid, dp->d_name, geteuid(), saved_uid);
+//    ShowMessage(false, "After seteuid(%d) for user %s, euid = %d, saved_uid = %d", pw->pw_uid, human_user_name, geteuid(), saved_uid);
 #endif
     }
     
-    closedir(dirp);
     return noErr;
 }
 
