@@ -3129,3 +3129,11 @@ David  27 Mar 2012
         vda.cpp
         vdad.cpp
         sched_vda.cpp
+
+Charlie 29 Mar 2012
+    - Mac installer: When checking for duplicate group membership entries, 
+        count only whole words (preceded and followed by white space) so
+        that if we have both 'jon' and 'jones' we don't count 'jon' twice.
+
+    mac_installer/
+        PostInstall.cpp
