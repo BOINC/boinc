@@ -1598,15 +1598,14 @@ inline bool user_idle(time_t t, struct utmp* u) {
 // CGEventSourceSecondsSinceLastEventType() API does work with ARD and VNC, 
 // except when BOINC is a pre-login launchd daemon running as user boinc_master.
 //
-// So as a workaround in OS 10.7, we use CGEventSourceSecondsSinceLastEventType 
-// unless running as a daemon.  Therefore BOINC still won't detect activity from
-// remote via Apple Remote Desktop or Screen Sharing (VNC) when run as a daemon 
-// under OS 10.7.
+// Also, CGEventSourceSecondsSinceLastEventType() does not detect user activity 
+// when the user who launched the client is switched out by fast user switching.
 //
 // So we use weak-linking of NxIdleTime() to prevent a run-time crash from the 
 // dynamic linker and use it if it exists. 
-// If NXIdleTime does not exist, use CGEventSourceSecondsSinceLastEventType() 
-// under OS 10.7, or IOHIDGetParameter() under OS 10.6.
+// If NXIdleTime does not exist, we call both IOHIDGetParameter() and 
+// CGEventSourceSecondsSinceLastEventType().  If both return without error, 
+// we use the lower of the two returned values.
 //
 bool HOST_INFO::users_idle(
     bool check_all_logins, double idle_time_to_run, double *actual_idle_time
@@ -1615,6 +1614,7 @@ bool HOST_INFO::users_idle(
     static long     OSVersionInfo = 0;
     OSStatus        err = noErr;
     double          idleTime = 0;
+    double          idleTimeFromCG = 0;
     io_service_t    service;
     kern_return_t   kernResult = kIOReturnError; 
     UInt64          params;
@@ -1656,38 +1656,41 @@ bool HOST_INFO::users_idle(
             }
         }
     } else {        // NXIdleTime API does not exist in OS 10.6 and later
-    if ((OSVersionInfo >= 0x1070) && (! gstate.executing_as_daemon)) {
-                
-            idleTime =  CGEventSourceSecondsSinceLastEventType  
+        if (gEventHandle) {
+            kernResult = IOHIDGetParameter( gEventHandle, CFSTR(EVSIOIDLE), sizeof(UInt64), &params, &rcnt );
+            if ( kernResult != kIOReturnSuccess ) {
+                msg_printf(NULL, MSG_INFO,
+                    "User idle time measurement failed because IOHIDGetParameter failed."
+                );
+                error_posted = true;
+                goto bail;
+            }
+            idleTime = ((double)params) / 1000.0 / 1000.0 / 1000.0;
+            
+             if (!gstate.executing_as_daemon) {
+                idleTimeFromCG =  CGEventSourceSecondsSinceLastEventType  
                         (kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType);
-    } else {        // OS Version < 10.7
-       if (gEventHandle) {
-                kernResult = IOHIDGetParameter( gEventHandle, CFSTR(EVSIOIDLE), sizeof(UInt64), &params, &rcnt );
-                if ( kernResult != kIOReturnSuccess ) {
-                    msg_printf(NULL, MSG_INFO,
-                        "User idle time measurement failed because IOHIDGetParameter failed."
+        
+                if (idleTimeFromCG < idleTime) {
+                    idleTime = idleTimeFromCG;
+                }
+            }
+        } else {
+            service = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching(kIOHIDSystemClass));
+            if (service) {
+                 kernResult = IOServiceOpen(service, mach_task_self(), kIOHIDParamConnectType, &gEventHandle);
+            }
+            if ( (!service) || (kernResult != KERN_SUCCESS) ) {
+                // When the system first starts up, allow time for HIDSystem to be available if needed
+                if (TickCount() > (120*60)) {        // If system has been up for more than 2 minutes 
+                     msg_printf(NULL, MSG_INFO,
+                        "Could not connect to HIDSystem: user idle detection is disabled."
                     );
                     error_posted = true;
                     goto bail;
                 }
-                idleTime = ((double)params) / 1000.0 / 1000.0 / 1000.0;
-            } else {
-                service = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching(kIOHIDSystemClass));
-                if (service) {
-                     kernResult = IOServiceOpen(service, mach_task_self(), kIOHIDParamConnectType, &gEventHandle);
-                }
-                if ( (!service) || (kernResult != KERN_SUCCESS) ) {
-                    // When the system first starts up, allow time for HIDSystem to be available if needed
-                    if (TickCount() > (120*60)) {        // If system has been up for more than 2 minutes 
-                         msg_printf(NULL, MSG_INFO,
-                            "Could not connect to HIDSystem: user idle detection is disabled."
-                        );
-                        error_posted = true;
-                        goto bail;
-                    }
-                }
-            }   // End (gEventHandle == NULL)
-        }       // End (OSVersionInfo < 0x1070)
+            }
+        }   // End (gEventHandle == NULL)
     }           // End NXIdleTime API does not exist
     
  bail:   

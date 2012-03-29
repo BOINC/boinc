@@ -3141,3 +3141,10 @@ Charlie 29 Mar 2012
     mac_installer/
         PostInstall.cpp
         Uninstall.cpp
+
+Charlie 10 Jan 2012
+    - client: Fix idle detection during fast user switching.  See comments 
+        in HOST_INFO::users_idle() for details.
+    
+    client/
+        hostinfo_unix.cpp
