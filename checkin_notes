@@ -3119,3 +3119,13 @@ David  27 Mar 2012
 
     lib/
         coproc.cpp
+
+David  27 Mar 2012
+    - scheduler: ignore app_version.max_core_version if it's zero
+
+    sched/
+        sched_version.cpp
+    vda/
+        vda.cpp
+        vdad.cpp
+        sched_vda.cpp

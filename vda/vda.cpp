@@ -70,6 +70,7 @@ int handle_add(const char* path) {
     vf.size = size;
     vf.need_update = 1;
     vf.initialized = 0;
+    vf.retrieving = 0;
     retval = vf.insert();
     if (retval) {
         fprintf(stderr, "Can't insert DB record\n");
@@ -92,8 +93,13 @@ int handle_remove(const char* name) {
     ch.delete_from_db_multi(buf);
     vf.delete_from_db();
 
+    // remove symlink from download hier
+    //
     dir_hier_path(name, config.download_dir, config.uldl_dir_fanout, buf);
     unlink(buf);
+
+    // remove encoded data and directories
+    //
     retval = chdir(vf.dir);
     if (retval) perror("chdir");
     retval = system("/bin/rm -r [0-9]* Coding data.vda");

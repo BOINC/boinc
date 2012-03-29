@@ -68,14 +68,15 @@ static void get_chunk_dir(DB_VDA_FILE& vf, const char* chunk_name, char* dir) {
 }
 
 static void get_chunk_url(DB_VDA_FILE& vf, const char* chunk_name, char* url) {
-    char chunk_dirs[256];
+    char chunk_dirs[256], buf[1024];
     strcpy(chunk_dirs, chunk_name);
     while (1) {
         char* p = strchr(chunk_dirs, '.');
         if (!p) break;
         *p = '/';
     }
-    sprintf(url, "%s/%s/%s/data.vda", config.download_url, vf.name, chunk_dirs);
+    dir_hier_url(vf.name, config.download_url, config.uldl_dir_fanout, buf);
+    sprintf(url, "%s/%s/data.vda", buf, chunk_dirs);
 }
 
 // read the chunk's MD5 file into a buffer

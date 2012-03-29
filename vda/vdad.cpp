@@ -391,7 +391,7 @@ int VDA_FILE_AUX::init() {
     // create symlink from download dir
     //
     dir_hier_path(name, config.download_dir, config.uldl_dir_fanout, buf);
-    retval = symlink(buf2, buf);
+    retval = symlink(dir, buf);
     if (retval) {
         log_messages.printf(MSG_CRITICAL, "symlink %s %s failed\n", buf2, buf);
         return ERR_SYMLINK;

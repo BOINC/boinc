@@ -697,7 +697,7 @@ BEST_APP_VERSION* get_app_version(
                 g_wreq->outdated_client = true;
                 continue;
             }
-            if (g_request->core_client_version > av.max_core_version) {
+            if (av.max_core_version && g_request->core_client_version > av.max_core_version) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
                         "[version] [AV#%d] client version %d > max core version %d\n",
