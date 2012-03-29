@@ -1071,7 +1071,7 @@ int CountGroupMembershipEntries(const char *userName, const char *groupName) {
     int                 count = 0;
     char                cmd[512], buf[2048];
     FILE                *f;
-    char                *p;
+    char                *p, *q;
     
     // getgrnam(groupName)->gr_mem[] only returns one entry, so we must use dscl
     sprintf(cmd, "dscl . -read /Groups/%s GroupMembership", groupName);
@@ -1085,9 +1085,13 @@ int CountGroupMembershipEntries(const char *userName, const char *groupName) {
         while (p) {
             p = strstr(p, userName);
             if (p) {
-                ++ count;
+                q = p-1;
                 p += strlen(userName);
-                
+                // Count only whole words (preceded and followed by white space) so 
+                // that if we have both 'jon' and 'jones' we don't count 'jon' twice
+                if (isspace(*q) && isspace(*p)) {
+                    ++ count;
+               }
             }
         }
     }
