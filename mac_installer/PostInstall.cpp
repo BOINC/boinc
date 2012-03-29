@@ -1414,8 +1414,12 @@ OSErr UpdateAllVisibleUsers(long brandID)
             deleteLoginItem = true;
         }
 
-     // Set login item for this user
+        // Set login item for this user
         if (OSVersion == 0x1070) {
+            // LoginItemAPI.c does not set hidden property for login items
+            // under OS 10.7.0, so use AppleScript instead to prevent Lion 
+            // from opening BOINC windows at system startup.  This was 
+            // apparently fixed in OS 10.7.1.
             printf("[2] calling SetLoginItemOSAScript for user %s, euid = %d, deleteLoginItem = %d\n", 
                 pw->pw_name, geteuid(), deleteLoginItem);
             fflush(stdout);
