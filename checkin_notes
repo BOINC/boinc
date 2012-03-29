@@ -3134,6 +3134,10 @@ Charlie 29 Mar 2012
     - Mac installer: When checking for duplicate group membership entries, 
         count only whole words (preceded and followed by white space) so
         that if we have both 'jon' and 'jones' we don't count 'jon' twice.
-
+    - Mac uninstaller: Use Directory Services to find the user names of 
+        all human users instead of stepping through the entries in the 
+        /Users directory.
+    
     mac_installer/
         PostInstall.cpp
+        Uninstall.cpp
