@@ -1,5 +1,4 @@
 <?php
-// $Id: pathauto.inc,v 1.45.2.27 2010/08/10 23:09:01 davereid Exp $
 
 /**
  * @file
@@ -53,13 +52,14 @@ function _pathauto_alias_exists($alias, $source, $language = '') {
  *   - alias: The URL alias.
  */
 function _pathauto_existing_alias_data($source, $language = '') {
-  return db_fetch_array(db_query_range("SELECT pid, dst AS alias FROM {url_alias} WHERE src = '%s' AND language IN ('%s', '') ORDER BY language DESC, pid DESC", $source, $language, 0, 1));
+  return db_fetch_array(db_query_range("SELECT pid, dst AS alias, language FROM {url_alias} WHERE src = '%s' AND language IN ('%s', '') ORDER BY language DESC, pid DESC", $source, $language, 0, 1));
 }
 
 /**
  * Clean up a string segment to be used in an URL alias.
  *
  * Performs the following possible alterations:
+ * - Remove all HTML tags.
  * - Process the string through the transliteration module.
  * - Replace or remove punctuation with the separator character.
  * - Remove back-slashes.
@@ -79,7 +79,21 @@ function _pathauto_existing_alias_data($source, $language = '') {
  *   The cleaned string.
  */
 function pathauto_cleanstring($string) {
-  $output = $string;
+  static $strings = array();
+
+  // Empty strings do not need any proccessing.
+  if ($string === '' || $string === NULL) {
+    return '';
+  }
+
+  // Check if the string has already been processed, and if so return the
+  // cached result.
+  if (isset($strings[$string])) {
+    return $strings[$string];
+  }
+
+  // Remove all HTML tags from the string.
+  $output = strip_tags(decode_entities($string));
 
   // Optionally remove accents and transliterate
   if (variable_get('pathauto_transliterate', FALSE)) {
@@ -157,6 +171,9 @@ function pathauto_cleanstring($string) {
   // Enforce the maximum component length.
   $maxlength = min(variable_get('pathauto_max_component_length', 100), _pathauto_get_schema_alias_maxlength());
   $output = drupal_substr($output, 0, $maxlength);
+
+  // Cache this result in the static array.
+  $strings[$string] = $output;
 
   return $output;
 }
@@ -362,7 +379,7 @@ function pathauto_create_alias($module, $op, $placeholders, $source, $entity_id,
     'alias' => $alias,
     'language' => $language,
   );
-  _pathauto_set_alias($path, $existing_alias, $op);
+  $success = _pathauto_set_alias($path, $existing_alias, $op);
 
   // Also create a related feed alias if requested and supported.
   $feedappend = trim(variable_get('pathauto_' . $module . '_applytofeeds', ''));
@@ -382,7 +399,7 @@ function pathauto_create_alias($module, $op, $placeholders, $source, $entity_id,
     _pathauto_set_alias($path, $existing_alias, $op);
   }
 
-  return $alias;
+  return $success ? $alias : NULL;
 }
 
 /**
@@ -398,6 +415,12 @@ function pathauto_create_alias($module, $op, $placeholders, $source, $entity_id,
 function _pathauto_path_is_callback($path) {
   $menu = menu_get_item($path);
   if (isset($menu['path']) && $menu['path'] == $path) {
+    return TRUE;
+  }
+  elseif (is_file('./' . $path) || is_dir('./' . $path)) {
+    // Do not allow existing files or directories to get assigned an automatic
+    // alias. Note that we do not need to use is_link() to check for symbolic
+    // links since this returns TRUE for either is_file() or is_dir() already.
     return TRUE;
   }
   return FALSE;
@@ -461,6 +484,7 @@ function _pathauto_set_alias($path, $existing_alias = NULL, $op = NULL) {
           if (module_exists('path_redirect') && function_exists('path_redirect_save')) {
             $redirect = array(
               'source' => $existing_alias['alias'],
+              'language' => $existing_alias['language'],
               'redirect' => $path['source'],
             );
             path_redirect_save($redirect);
@@ -543,9 +567,11 @@ function pathauto_get_placeholders($type, $object) {
     watchdog('Pathauto', 'It appears that you have installed Pathauto, which depends on token, but token is either not installed or not installed properly.');
     return array('tokens' => array(), 'values' => array());
   }
-  $full = token_get_values($type, $object, TRUE);
+
+  $options = array('pathauto' => TRUE);
+  $full = token_get_values($type, $object, TRUE, $options);
   $tokens = token_prepare_tokens($full->tokens);
-  $values = pathauto_clean_token_values($full);
+  $values = pathauto_clean_token_values($full, $options);
   return array('tokens' => $tokens, 'values' => $values);
 }
 
@@ -559,16 +585,25 @@ function pathauto_get_placeholders($type, $object) {
  * @return
  *   An array of the cleaned tokens.
  */
-function pathauto_clean_token_values($full) {
+function pathauto_clean_token_values($full, $options = array()) {
   $replacements = array();
   foreach ($full->values as $key => $value) {
-    // Only clean non-path tokens.
     $token = $full->tokens[$key];
-    if (!preg_match('/(path|alias|url|url-brief)(-raw)?$/', $token)) {
-      $replacements[$token] = pathauto_cleanstring($value);
+    if (strpos($token, 'path') !== FALSE && is_array($value) && !empty($options['pathauto'])) {
+      // If the token name contains 'path', the token value is an array, and
+      // the 'pathauto' option was passed to token_get_values(), then the token
+      // should have each segment cleaned, and then glued back together to
+      // construct a value resembling an URL.
+      $segments = array_map('pathauto_cleanstring', $value);
+      $replacements[$token] = implode('/', $segments);
+    }
+    elseif (preg_match('/(path|alias|url|url-brief)(-raw)?$/', $token)) {
+      // Token name matches an URL-type name and should be left raw.
+      $replacements[$token] = $value;
     }
     else {
-      $replacements[$token] = $value;
+      // Token is not an URL, so it should have its value cleaned.
+      $replacements[$token] = pathauto_cleanstring($value);
     }
   }
   return $replacements;

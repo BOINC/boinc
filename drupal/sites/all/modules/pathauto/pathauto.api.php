@@ -1,5 +1,4 @@
 <?php
-// $Id: pathauto.api.php,v 1.2.4.2 2010/08/09 19:01:33 davereid Exp $
 
 /**
  * @file

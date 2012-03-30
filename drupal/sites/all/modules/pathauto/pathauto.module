@@ -1,5 +1,4 @@
 <?php
-// $Id: pathauto.module,v 1.118.2.29 2010/08/11 19:38:26 davereid Exp $
 
 /**
  * @defgroup pathauto Pathauto: Automatically generates aliases for content
@@ -162,16 +161,14 @@ function pathauto_token_values($type, $object = NULL, $options = array(), $label
 
       // Tokens [catpath] and [catpath-raw].
       if (isset($object->tid)) {
-        module_load_include('inc', 'pathauto');
         $parents = taxonomy_get_parents_all($object->tid);
         $catpath = $catpath_raw = array();
         foreach ($parents as $parent) {
-          $term_name_cleaned = pathauto_cleanstring($parent->name);
-          array_unshift($catpath, check_plain($term_name_cleaned));
-          array_unshift($catpath_raw, $term_name_cleaned);
+          array_unshift($catpath, check_plain($parent->name));
+          array_unshift($catpath_raw, $parent->name);
         }
-        $values[$label . 'path'] = implode('/', $catpath);
-        $values[$label . 'path-raw'] = implode('/', $catpath_raw);
+        $values[$label . 'path'] = !empty($options['pathauto']) ? $catpath : implode('/', $catpath);
+        $values[$label . 'path-raw'] = !empty($options['pathauto']) ? $catpath_raw : implode('/', $catpath_raw);
 
         // Token [catalias-raw] and [catalias].
         $values[$label . 'alias-raw'] = drupal_get_path_alias(taxonomy_term_path($object));
@@ -209,6 +206,51 @@ function pathauto_path_alias_types() {
   return $objects;
 }
 
+/**
+ * Return the proper SQL to perform cross-db and field-type concatenation.
+ *
+ * @return
+ *   A string of SQL with the concatenation.
+ */
+function _pathauto_sql_concat() {
+  $args = func_get_args();
+  switch ($GLOBALS['db_type']) {
+    case 'mysql':
+    case 'mysqli':
+      return 'CONCAT(' . implode(', ', $args) . ')';
+    default:
+      // The ANSI standard of concatentation uses the double-pipe.
+      return '(' . implode(' || ', $args) . ')';
+  }
+}
+
+/**
+ * Implements hook_field_attach_rename_bundle().
+ *
+ * Respond to machine name changes for pattern variables.
+ */
+function pathauto_field_attach_rename_bundle($entity_type, $bundle_old, $bundle_new) {
+  $result = db_query("SELECT name FROM {variable} WHERE name LIKE '%s%%'", "pathauto_{$entity_type}_{$bundle_old}_");
+  while ($variable = db_result($result)) {
+    $value = variable_get($variable, '');
+    variable_del($variable);
+    $variable = strtr($variable, array("{$entity_type}_{$bundle_old}" => "{$entity_type}_{$bundle_new}"));
+    variable_set($variable, $value);
+  }
+}
+
+/**
+ * Implements hook_field_attach_delete_bundle().
+ *
+ * Respond to sub-types being deleted, their patterns can be removed.
+ */
+function pathauto_field_attach_delete_bundle($entity_type, $bundle) {
+  $result = db_query("SELECT name FROM {variable} WHERE name LIKE '%s%%'", "pathauto_{$entity_type}_{$bundle}_");
+  while ($variable = db_result($result)) {
+    variable_del($variable);
+  }
+}
+
 //==============================================================================
 // Some node related functions.
 
@@ -232,6 +274,11 @@ function pathauto_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
       break;
     case 'insert':
     case 'update':
+      // Skip processing if the user has disabled pathauto for the node.
+      if (isset($node->pathauto_perform_alias) && empty($node->pathauto_perform_alias)) {
+        return;
+      }
+
       _pathauto_include();
       // Get the specific pattern or the default
       if (variable_get('language_content_type_'. $node->type, 0)) {
@@ -245,17 +292,32 @@ function pathauto_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
       }
       // Only do work if there's a pattern
       if ($pattern) {
-        // Only create an alias if the checkbox was not provided or if the checkbox was provided and is checked
-        if (!isset($node->pathauto_perform_alias) || $node->pathauto_perform_alias) {
-          $placeholders = pathauto_get_placeholders('node', $node);
-          $src = "node/$node->nid";
-          $node->path = pathauto_create_alias('node', $op, $placeholders, $src, $node->nid, $node->type, $node->language);
+        $placeholders = pathauto_get_placeholders('node', $node);
+        $src = "node/$node->nid";
+        if ($alias = pathauto_create_alias('node', $op, $placeholders, $src, $node->nid, $node->type, $node->language)) {
+          $node->path = $alias;
         }
       }
       break;
     case 'delete':
       path_set_alias('node/'. $node->nid);
       path_set_alias('node/'. $node->nid .'/feed');
+      break;
+  }
+}
+
+/**
+ * Implements hook_node_type().
+ */
+function pathauto_node_type($op, $info) {
+  switch ($op) {
+    case 'update':
+      if (!empty($info->old_type) && $info->old_type != $info->type) {
+        pathauto_field_attach_rename_bundle('node', $info->old_type, $info->type);
+      }
+      break;
+    case 'delete':
+      pathauto_field_attach_delete_bundle('node', $info->type);
       break;
   }
 }
@@ -361,7 +423,9 @@ function pathauto_node_operations() {
 function pathauto_node_update_alias($node, $op) {
   module_load_include('inc', 'pathauto');
   $placeholders = pathauto_get_placeholders('node', $node);
-  pathauto_create_alias('node', $op, $placeholders, "node/{$node->nid}", $node->nid, $node->type, $node->language);
+  if ($alias = pathauto_create_alias('node', $op, $placeholders, "node/{$node->nid}", $node->nid, $node->type, $node->language)) {
+    $node->path = $alias;
+  }
 }
 
 /**
@@ -411,15 +475,20 @@ function pathauto_taxonomy($op, $type, $object = NULL) {
       switch ($op) {
         case 'insert':
         case 'update':
-          _pathauto_include();
-          // Use the category info to automatically create an alias
           $term = (object) $object;
+
+          // Skip processing if the user has disabled pathauto for the term.
+          if (isset($term->pathauto_perform_alias) && empty($term->pathauto_perform_alias)) {
+            return;
+          }
 
           // Clear the taxonomy term's static cache.
           if ($op == 'update') {
             taxonomy_get_term($term->tid, TRUE);
           }
 
+          // Use the category info to automatically create an alias
+          _pathauto_include();
           if ($term->name) {
             $count = _taxonomy_pathauto_alias($term, $op);
           }
@@ -430,6 +499,7 @@ function pathauto_taxonomy($op, $type, $object = NULL) {
           }
 
           break;
+
         case 'delete':
           // If the category is deleted, remove the path aliases
           $term = (object) $object;
@@ -437,6 +507,15 @@ function pathauto_taxonomy($op, $type, $object = NULL) {
           path_set_alias(taxonomy_term_path($term));
           path_set_alias('forum/'. $term->tid);
           path_set_alias('taxonomy/term/'. $term->tid .'/0/feed');
+          break;
+      }
+      break;
+
+    case 'vocabulary':
+      $vocabulary = (object) $object;
+      switch ($op) {
+        case 'delete':
+          pathauto_field_attach_delete_bundle('taxonomy', $vocabulary->vid);
           break;
       }
       break;
@@ -453,9 +532,16 @@ function pathauto_user($op, &$edit, &$user, $category = NULL) {
   switch ($op) {
     case 'insert':
     case 'update':
-      _pathauto_include();
-      // Use the username to automatically create an alias
+      // Build the user object.
       $pathauto_user = (object) array_merge((array) $user, $edit);
+
+      // Skip processing if the user has disabled pathauto for the account.
+      if (isset($pathauto_user->pathauto_perform_alias) && empty($pathauto_user->pathauto_perform_alias)) {
+        return;
+      }
+
+      // Use the username to automatically create an alias
+      _pathauto_include();
       if ($user->name) {
         $placeholders = pathauto_get_placeholders('user', $pathauto_user);
         $src = 'user/'. $user->uid;
@@ -497,8 +583,6 @@ function pathauto_user($op, &$edit, &$user, $category = NULL) {
       path_set_alias('user/'. $user->uid .'/track');
       path_set_alias('user/'. $user->uid .'/track/feed');
       path_set_alias('user/'. $user->uid .'/contact');
-      break;
-    default:
       break;
   }
 }
