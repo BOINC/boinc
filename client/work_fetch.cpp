@@ -1025,7 +1025,10 @@ double RESULT::estimated_duration_uncorrected() {
 // estimate how long a result will take on this host
 //
 double RESULT::estimated_duration() {
-    return estimated_duration_uncorrected()*project->duration_correction_factor;
+    double x = estimated_duration_uncorrected();
+    if (!project->dont_use_dcf) {
+        x *= project->duration_correction_factor;
+    }
 	return x;
 }
 
