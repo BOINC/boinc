@@ -3036,3 +3036,11 @@ Charlie 29 Mar 2012
     
     client/
         hostinfo_unix.cpp
+
+Rom    30 Mar 2012
+    - Tag for 7.0.24 release, all platforms
+      boinc_core_release_7_0_24
+
+    /
+        configure.ac
+        version.h
