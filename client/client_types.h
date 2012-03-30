@@ -381,6 +381,7 @@ struct PROJECT : PROJ_AM {
     int send_job_log;
         // if nonzero, send this project's job log from that point on
     bool send_full_workload;
+    bool dont_use_dcf;
 
     bool suspended_via_gui;
     bool dont_request_more_work; 

@@ -112,6 +112,7 @@ void PROJECT::init() {
     send_time_stats_log = 0;
     send_job_log = 0;
     send_full_workload = false;
+    dont_use_dcf = false;
     suspended_via_gui = false;
     dont_request_more_work = false;
     detach_when_done = false;
@@ -240,6 +241,7 @@ int PROJECT::parse_state(XML_PARSER& xp) {
         if (xp.parse_int("send_time_stats_log", send_time_stats_log)) continue;
         if (xp.parse_int("send_job_log", send_job_log)) continue;
         if (xp.parse_bool("send_full_workload", send_full_workload)) continue;
+        if (xp.parse_bool("dont_use_dcf", dont_use_dcf)) continue;
         if (xp.parse_bool("non_cpu_intensive", non_cpu_intensive)) continue;
         if (xp.parse_bool("verify_files_on_app_start", verify_files_on_app_start)) continue;
         if (xp.parse_bool("suspended_via_gui", suspended_via_gui)) continue;
@@ -376,7 +378,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <sched_rpc_pending>%d</sched_rpc_pending>\n"
         "    <send_time_stats_log>%d</send_time_stats_log>\n"
         "    <send_job_log>%d</send_job_log>\n"
-        "%s%s%s%s%s%s%s%s%s%s%s%s%s",
+        "%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
         master_url,
         project_name,
         symstore,
@@ -411,6 +413,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
         trickle_up_pending?"    <trickle_up_pending/>\n":"",
         send_full_workload?"    <send_full_workload/>\n":"",
+        dont_use_dcf?"    <dont_use_dcf/>\n":"",
         non_cpu_intensive?"    <non_cpu_intensive/>\n":"",
         verify_files_on_app_start?"    <verify_files_on_app_start/>\n":"",
         suspended_via_gui?"    <suspended_via_gui/>\n":"",
@@ -542,6 +545,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     }
     pwf = p.pwf;
     send_full_workload = p.send_full_workload;
+    dont_use_dcf = p.dont_use_dcf;
     send_time_stats_log = p.send_time_stats_log;
     send_job_log = p.send_job_log;
     non_cpu_intensive = p.non_cpu_intensive;

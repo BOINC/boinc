@@ -608,9 +608,6 @@ SCHEDULER_REPLY::SCHEDULER_REPLY() {
     strcpy(email_hash, "");
 }
 
-SCHEDULER_REPLY::~SCHEDULER_REPLY() {
-}
-
 int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
     unsigned int i;
     char buf[BLOB_SIZE];
@@ -623,7 +620,8 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
     fprintf(fout,
         "Content-type: text/xml\n\n"
         "<scheduler_reply>\n"
-        "<scheduler_version>%d</scheduler_version>\n",
+        "<scheduler_version>%d</scheduler_version>\n"
+        "<dont_use_dcf/>\n",
         BOINC_MAJOR_VERSION*100+BOINC_MINOR_VERSION
     );
     if (strlen(config.master_url)) {
