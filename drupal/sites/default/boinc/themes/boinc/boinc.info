@@ -50,6 +50,7 @@ conditional-stylesheets[if IE][all][]       = css/ie.css
 conditional-stylesheets[if lte IE 6][all][] = css/ie6.css
 
   ; Optionally add some JavaScripts to your theme.
+scripts[] = js/fancy-radios.js
 ; scripts[] = js/script.js
 
   ; The regions defined in Zen's default page.tpl.php file.  The name in

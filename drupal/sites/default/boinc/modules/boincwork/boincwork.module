@@ -25,35 +25,35 @@ require_once('includes/boincwork.helpers.inc');
 function boincwork_menu() {
   require_boinc('util');
   $items['account/prefs'] = array(
-    'title' => 'Preferences',
+    'title' => 'Computing',
     'description' => '',
     'page callback' => 'generalprefs_page', 
     'access callback' => 'user_is_logged_in',
     'type' => MENU_NORMAL_ITEM
   );
   $items['account/prefs/computing'] = array(
-    'title' => t('Computing'),
+    'title' => 'Computing',
     'page callback' => 'generalprefs_page',
     'access callback' => 'user_is_logged_in',
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'weight' => 0
   );
   $items['account/prefs/project'] = array(
-    'title' => t('Project'),
+    'title' => 'Project',
     'page callback' => 'projectprefs_page',
     'access callback' => 'user_is_logged_in',
     'type' => MENU_LOCAL_TASK,
     'weight' => 5
   );
   $items['account/prefs/community'] = array(
-    'title' => t('Community'),
+    'title' => 'Community',
     'page callback' => 'communityprefs_page',
     'access callback' => 'user_is_logged_in',
     'type' => MENU_LOCAL_TASK,
     'weight' => 10
   );
   $items['account/prefs/privacy'] = array(
-    'title' => t('Privacy'),
+    'title' => 'Privacy',
     'page callback' => 'privacyprefs_page',
     'access callback' => 'user_is_logged_in',
     'type' => MENU_LOCAL_TASK,
@@ -104,14 +104,16 @@ function generalprefs_page($action = null, $venue = null) {
   
   $pref_sets = array('default', 'home', 'school', 'work');
   $output = null;
+  // Set the page title
+  //$title = t('Edit computing preferences @for-venue', array('@for-venue' => ($venue ? "for {$venue}" : '')));
+  $title = 'Computing';
+  drupal_set_title($title);
   
   switch ($action) {
   case 'edit':
     require_boinc('util');
-    // Set the page title
-    $title = t('Edit computing preferences @for-venue', array('@for-venue' => ($venue ? "for {$venue}" : '')));
-    drupal_set_title($title);
-    $output .= t('These preferences apply to all the BOINC projects in which you participate.');
+    
+    //$output .= t('These preferences apply to all the BOINC projects in which you participate.');
     // Return the HTML generated from the $form data structure.
     $output .= drupal_get_form('boincwork_generalprefs_form', null, $venue, true);
     break;
@@ -127,7 +129,7 @@ function generalprefs_page($action = null, $venue = null) {
     $output .= '<p>' . t('These apply to all BOINC projects in which you participate.') . '<br/>';
     $output .= t('On computers attached to multiple projects, the most recently modified preferences will be used.') . '</p>';
     $output .= '<p>' . t('Preferences last modified: @mod_time', array('@mod_time' => pretty_time_str($prefs['default']['modified']['#value']))) . '</p>';
-    $output .= '<h2>' . t('Combined preferences') . ' ' . l('(' . t('Switch View') . ')', 'account/prefs/general') . '</h2>';
+    $output .= '<h2>' . t('Combined preferences') . ' ' . l('(' . t('Switch View') . ')', 'account/prefs/computing') . '</h2>';
     
     $output .= '<table>';
     
@@ -161,7 +163,7 @@ function generalprefs_page($action = null, $venue = null) {
     }
     $output .= '<tr>';
     $output .= '<td></td>';
-    foreach ($pref_sets as $pref_set) $output .= '<td>' . (($prefs[$pref_set]) ? l(t('Edit'), "account/prefs/general/edit/{$pref_set}") : l(t('Add'), "account/prefs/general/edit/{$pref_set}")) . '</td>';
+    foreach ($pref_sets as $pref_set) $output .= '<td>' . (($prefs[$pref_set]) ? l(t('Edit'), "account/prefs/computing/edit/{$pref_set}") : l(t('Add'), "account/prefs/computing/edit/{$pref_set}")) . '</td>';
     $output .= '</tr>';
     $output .= '</table>';
     
@@ -182,7 +184,7 @@ function generalprefs_page($action = null, $venue = null) {
         if ($pref_set == 'default') {
           // Global preferences
           $output .= '<p>' . t('Preferences last modified: @mod_time', array('@mod_time' => pretty_time_str($prefs['modified']['#value']))) . '</p>';
-          $output .= '<h2>' . t('Primary (default) preferences') . ' ' . l('(' . t('Switch View') . ')', 'account/prefs/general/combined') . '</h2>';
+          $output .= '<h2>' . t('Primary (default) preferences') . ' ' . l('(' . t('Switch View') . ')', 'account/prefs/computing/combined') . '</h2>';
         } else {
           // Venue specific preferences
           $output .= '<h2>' . t('Separate preferences for @venue', array('@venue' => $pref_set)) . '</h2>';
@@ -213,7 +215,7 @@ function generalprefs_page($action = null, $venue = null) {
         $output .= '</table>';
       } else {
         // Venue preferences not defined
-        $output .= '<p>' . l(t('Add separate preferences for @venue', array('@venue' => $pref_set)), "account/prefs/general/edit/{$pref_set}") . '</p>';
+        $output .= '<p>' . l(t('Add separate preferences for @venue', array('@venue' => $pref_set)), "account/prefs/computing/edit/{$pref_set}") . '</p>';
       }
     }
   }
@@ -231,13 +233,14 @@ function projectprefs_page($action = null, $venue = null) {
   global $project_has_beta;
   $pref_sets = array('default', 'home', 'school', 'work');
   $output = null;
+  // Set the page title
+  //$title = t('Edit @project preferences @for-venue', array('@project' => PROJECT, '@for-venue' => ($venue ? "for {$venue}" : '')));
+  $title = 'Project';
+  drupal_set_title($title);
   
   switch ($action) {
   case 'edit':
     require_boinc('util');
-    // Set the page title
-    $title = t('Edit @project preferences @for-venue', array('@project' => PROJECT, '@for-venue' => ($venue ? "for {$venue}" : '')));
-    drupal_set_title($title);
     // Return the HTML generated from the $form data structure.
     $output .= drupal_get_form('boincwork_projectprefs_form', null, $venue, true);
     break;
