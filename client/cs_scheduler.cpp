@@ -1193,7 +1193,9 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results(
         PROJECT* p = r->project;
         if (p->waiting_until_min_rpc_time()) continue;
         if (p->suspended_via_gui) continue;
+#ifndef SIM
         if (actively_uploading(p)) continue;
+#endif
 
         if (p->dont_request_more_work) {
             return p;

@@ -671,11 +671,7 @@ static inline int check_deadline(
     } else {
         double ewd = estimate_duration(wu, bav);
         if (hard_app(app)) ewd *= 1.3;
-        double est_completion_delay = get_estimated_delay(bav) + ewd;
-        double est_report_delay = std::max(
-            est_completion_delay,
-            g_request->global_prefs.work_buf_min()
-        );
+        double est_report_delay = get_estimated_delay(bav) + ewd;
         double diff = est_report_delay - wu.delay_bound;
         if (diff > 0) {
             if (config.debug_send) {

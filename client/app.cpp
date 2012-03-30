@@ -79,9 +79,11 @@ int gpu_suspend_reason;
 double non_boinc_cpu_usage;
 
 ACTIVE_TASK::~ACTIVE_TASK() {
+#ifndef SIM
     if (async_copy) {
         remove_async_copy(async_copy);
     }
+#endif
 }
 
 ACTIVE_TASK::ACTIVE_TASK() {

@@ -874,9 +874,11 @@ FILE_INFO::FILE_INFO() {
 }
 
 FILE_INFO::~FILE_INFO() {
+#ifndef SIM
     if (async_verify) {
         remove_async_verify(async_verify);
     }
+#endif
 }
 
 void FILE_INFO::reset() {

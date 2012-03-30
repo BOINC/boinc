@@ -3148,3 +3148,20 @@ Charlie 29 Mar 2012
     
     client/
         hostinfo_unix.cpp
+
+David  30 Mar 2012
+    - scheduler: don't max with min_work_buffer() in estimating
+        job turnaround time.
+        min_work_buffer doesn't necessarily reflect network disconnect periods
+    - client simulator: compile fixes
+
+    sched/
+        sched_send.cpp
+    vda/
+        vdad.cpp
+    client/
+        sim.cpp
+        sim_util.cpp
+        client_types.cpp
+        cs_scheduler.cpp
+        app.cpp
