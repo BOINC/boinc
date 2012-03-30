@@ -354,3 +354,9 @@ Charlie 10 Jan 2012
     
     client/
         hostinfo_unix.cpp
+
+David  30 Mar 2012
+    - scheduler: don't max work_buf_min() in job turnaround estimate
+
+    sched/
+        sched_send.cpp
