@@ -1,0 +1,10 @@
+Installation Instructions
+=====
+- Download the module and place in your /sites/all/modules or wherever you kids are installing your contrib modules these days.
+- Go to /admin/build/modules and enable Flag and Flag Friend in the "Flags" category/fieldset.
+- Go to /admin/build/flags and enable the 'friend' flag.
+- Some default values are entered for you in this flag's configuration. Feel free to modify what is available.
+- If you have Views installed, you should see a new tab when you go to your /user/N page titled 'Friends'. Underneath you will have two sub-tabs titled 'Flagged' and 'Pending'. Feel free to modify these views as you see fit, but I wouldn't mess too much with the arguments and/or relationships unless you really know what you are doing.
+-- Friends lists your current friend relationships.
+-- Flagged lists other users you have flagged and are awaiting a response from.
+-- Pending lists other users that have flagged you are are awaiting your response.
