@@ -526,8 +526,8 @@ function boincwork_projectprefs_form(&$form_state, $bilge, $venue, $initialize_i
       'use_ati' => (isset($prefs->no_ati) AND !$prefs->no_ati) ? 1 : 0
     ),
     'privacy' => array(
-      'send_email' => (isset($prefs->send_email) AND $prefs->send_email) ? 1 : 0,
-      'show_hosts' => (isset($prefs->show_hosts) AND $prefs->show_hosts) ? 1 : 0
+      'send_email' => ($boincuser->send_email) ? 1 : 0,
+      'show_hosts' => ($boincuser->show_hosts) ? 1 : 0
     ),
     'default_venue' => array(
       'default_venue' => isset($boincuser->venue) ? $boincuser->venue : '',
@@ -666,77 +666,6 @@ function boincwork_projectprefs_form(&$form_state, $bilge, $venue, $initialize_i
       '#description' => t('This helps us develop applications, but may cause jobs to fail on your computer')
     );
   }
-  /*
-  // Project specific preferences
-  global $app_array;
-  $project_specific_prefs = project_specific_prefs_parse($prefs->project_specific);
-  
-  $form['graphics'] = array(
-    '#title' => t('Graphics settings'),
-    '#type' => 'fieldset',
-    '#description' => null,
-    '#collapsible' => TRUE,
-    '#collapsed' => FALSE
-  );
-  $form['gfx_quality_options'] = array(
-    '#type' => 'value',
-    '#value' => array('low' => t('Low'), 'medium' => t('Medium'), 'high' => t('High'))
-  );
-  $form['graphics']['gfx_fps'] = array(
-    '#title' => t('Frames per second (FPS)'),
-    '#type' => 'textfield',
-    '#default_value' => (int) $project_specific_prefs->gfx_fps,
-    '#size' => 5,
-    '#description' => t('Warning: affects CPU consuption! Default value: @default', array('@default' => '20'))
-  );
-  $gfx_quality = (string) $project_specific_prefs->gfx_quality['quality'];
-  $form['graphics']['gfx_quality'] = array(
-    '#title' => t('Render quality'),
-    '#type' => 'radios',
-    '#options' => $form['gfx_quality_options']['#value'],
-    '#default_value' => $gfx_quality,
-    '#description' => t('Warning: requires hardware 3D acceleration! Default value: @default', array('@default' => t('low')))
-  );
-  $form['graphics']['gfx_width'] = array(
-    '#title' => t('Window width (pixels)'),
-    '#type' => 'textfield',
-    '#default_value' => (int) $project_specific_prefs->gfx_width,
-    '#size' => 5,
-    '#description' => t('Default value: @default', array('@default' => '800'))
-  );
-  $form['graphics']['gfx_height'] = array(
-    '#title' => t('Window height (pixels)'),
-    '#type' => 'textfield',
-    '#default_value' => (int) $project_specific_prefs->gfx_height,
-    '#size' => 5,
-    '#description' => t('Default value: @default', array('@default' => '600'))
-  );
-  if ($app_array) {
-    $form['applications'] = array(
-      '#title' => t('Applications'),
-      '#type' => 'fieldset',
-      '#description' => t('Run only the selected applications'),
-      '#collapsible' => TRUE,
-      '#collapsed' => FALSE
-    );
-    foreach ($app_array as $app) {
-      $app_id = $app[0];
-      $app_name = $app[1];
-      $app_enabled = $app[2];
-      if (isset($project_specific_prefs->app_ids)) {
-        $checked = in_array($app_id, $project_specific_prefs->app_ids);
-      } else {
-        $checked = true;
-      }
-      $form['applications']["app_{$app_id}"] = array(
-        '#title' => $app_name,
-        '#type' => 'checkbox',
-        '#default_value' => $checked,
-        '#disabled' => !$app_enabled
-      );
-    }
-  }
-  */
   
   return $form;
 }
