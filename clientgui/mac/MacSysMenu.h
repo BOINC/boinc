@@ -32,7 +32,7 @@ public:
     CMacSystemMenu(wxString title, wxIcon* icon, wxIcon* iconDisconnected, wxIcon* iconSnooze);
     ~CMacSystemMenu();
 
-    bool SetIcon(const wxIcon& icon);
+    bool SetMacMenuIcon(const wxIcon& icon);
 
     void LoadPrivateFrameworkBundle( CFStringRef framework, CFBundleRef *bundlePtr );
     //	Function pointer prototypes to the Mach-O Cocoa wrappers

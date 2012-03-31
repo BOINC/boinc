@@ -162,7 +162,7 @@ CMacSystemMenu::~CMacSystemMenu() {
 
 
 // Set the System Menu Icon from XPM data
-bool CMacSystemMenu::SetIcon(const wxIcon& icon) {
+bool CMacSystemMenu::SetMacMenuIcon(const wxIcon& icon) {
     wxBitmap theBits;
 
     // For unknown reasons, menus won't work if we call BuildMenu() directly 
@@ -363,6 +363,7 @@ pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
                 // Note that if the main window is open, CBOINCBaseFrame::OnExit() will be 
                 // called and SysMenuEventHandler() (i.e., this code) will not be called.
                 if (commandID == wxID_EXIT) {
+                    wxGetApp().DeleteMacSystemMenu();
                     wxGetApp().DeleteTaskBarIcon();
                 }
                 return noErr ;

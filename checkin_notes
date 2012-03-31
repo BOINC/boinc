@@ -2768,9 +2768,9 @@ David  17 Mar 2012
         cpu_sched.cpp
 
 Charlie 18 Mar 2012
-    - MGR: Fix a Mac-only bug which sometimes failed to show the snooze icon 
-        after closing and opening the Manager windows.  This was caused by  
-        having a second instance of CTaskBarIcon.
+    - MGR: Fix a Mac-only bug which sometimes failed to show the suspended 
+        icon after closing and opening the Manager windows.  This was caused 
+        by having a second instance of CTaskBarIcon.
     
     clientgui/
         BOINCBaseFrame.cpp
@@ -3165,3 +3165,16 @@ David  30 Mar 2012
         client_types.cpp
         cs_scheduler.cpp
         app.cpp
+
+Charlie 31 Mar 2012
+    - MGR: Revert my changes of 18 March to Mac Task Bar Icon because the 
+        second instance is needed to handle our Dock menu.  Fix the earlier 
+        problem of losing the suspended icon by ensuring that we always 
+        call the same instance of CTaskBarIcon::SetIcon().
+    
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCGUIApp.cpp,.h
+        BOINCTaskBar.cpp,.h
+        mac/
+            MacSysMenu.cpp,.h

@@ -70,7 +70,8 @@ private:
 
     void MacRequestUserAttention();
     void MacCancelUserAttentionRequest();
-    
+    bool SetMacTaskBarIcon(const wxIcon& icon);
+
 public:
     wxMenu *CreatePopupMenu();
     bool SetIcon(const wxIcon& icon, const wxString& message = wxEmptyString);
