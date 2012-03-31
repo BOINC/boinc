@@ -361,6 +361,9 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
         SaveState();
 
         // Under wxWidgets 2.8.0, the task bar icons must be deleted for app to exit its main loop
+#ifdef __WXMAC__
+        wxGetApp().DeleteMacSystemMenu();
+#endif
         wxGetApp().DeleteTaskBarIcon();
 
         CDlgEventLog*   eventLog = wxGetApp().GetEventLog();

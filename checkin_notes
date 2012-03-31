@@ -3044,3 +3044,16 @@ Rom    30 Mar 2012
     /
         configure.ac
         version.h
+
+Charlie 31 Mar 2012
+    - MGR: Revert my changes of 18 March to Mac Task Bar Icon because the 
+        second instance is needed to handle our Dock menu.  Fix the earlier 
+        problem of losing the suspended icon by ensuring that we always 
+        call the same instance of CTaskBarIcon::SetIcon().
+    
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCGUIApp.cpp,.h
+        BOINCTaskBar.cpp,.h
+        mac/
+            MacSysMenu.cpp,.h

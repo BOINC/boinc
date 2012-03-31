@@ -419,6 +419,13 @@ bool CBOINCGUIApp::OnInit() {
 
 
     // Initialize the task bar icon
+	m_pTaskBarIcon = new CTaskBarIcon(
+        m_pSkinManager->GetAdvanced()->GetApplicationName(), 
+        m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
+        m_pSkinManager->GetAdvanced()->GetApplicationDisconnectedIcon(),
+        m_pSkinManager->GetAdvanced()->GetApplicationSnoozeIcon()
+    );
+    wxASSERT(m_pTaskBarIcon);
 #ifdef __WXMAC__
     m_pMacSystemMenu = new CMacSystemMenu(
         m_pSkinManager->GetAdvanced()->GetApplicationName(), 
@@ -427,17 +434,7 @@ bool CBOINCGUIApp::OnInit() {
         m_pSkinManager->GetAdvanced()->GetApplicationSnoozeIcon()
     );
     wxASSERT(m_pMacSystemMenu);
-    m_pTaskBarIcon = (CTaskBarIcon*)m_pMacSystemMenu;
-#else
-	m_pTaskBarIcon = new CTaskBarIcon(
-        m_pSkinManager->GetAdvanced()->GetApplicationName(), 
-        m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
-        m_pSkinManager->GetAdvanced()->GetApplicationDisconnectedIcon(),
-        m_pSkinManager->GetAdvanced()->GetApplicationSnoozeIcon()
-    );
-    
 #endif
-    wxASSERT(m_pTaskBarIcon);
 
 
     // Startup the System Idle Detection code
@@ -1256,18 +1253,21 @@ bool CBOINCGUIApp::IsModalDialogDisplayed() {
 }
 
 void CBOINCGUIApp::DeleteTaskBarIcon() {
+    if (m_pTaskBarIcon) {
+        delete m_pTaskBarIcon;
+    }
+    m_pTaskBarIcon = NULL;
+}
+
 #ifdef __WXMAC__
-     if (m_pMacSystemMenu) {
+void CBOINCGUIApp::DeleteMacSystemMenu() {
+    if (m_pMacSystemMenu) {
         delete m_pMacSystemMenu;
     }
     m_pMacSystemMenu = NULL;
-#else
-   if (m_pTaskBarIcon) {
-        delete m_pTaskBarIcon;
-    }
-#endif
-    m_pTaskBarIcon = NULL;
 }
+#endif
+
 
 // Prevent recursive entry of CMainDocument::RequestRPC()
 int CBOINCGUIApp::FilterEvent(wxEvent &event) {

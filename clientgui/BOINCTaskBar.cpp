@@ -378,6 +378,15 @@ wxMenu *CTaskBarIcon::CreatePopupMenu() {
 // Rather than using an entire separate icon, overlay the Dock icon with a badge 
 // so we don't need additional Snooze and Disconnected icons for branding.
 bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& ) {
+    CTaskBarIcon* pTaskbar = wxGetApp().GetTaskBarIcon();
+    if (pTaskbar) {
+        return pTaskbar->SetMacTaskBarIcon(icon);
+    }
+    return false;
+}
+
+
+bool CTaskBarIcon::SetMacTaskBarIcon(const wxIcon& icon) {
     wxIcon macIcon;
     bool result;
     OSStatus err = noErr ;
@@ -391,7 +400,7 @@ bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& ) {
     CMacSystemMenu* sysMenu = wxGetApp().GetMacSystemMenu();
     if (sysMenu == NULL) return 0;
     
-    result = sysMenu->SetIcon(icon);
+    result = sysMenu->SetMacMenuIcon(icon);
 
     RestoreApplicationDockTileImage();      // Remove any previous badge
 
