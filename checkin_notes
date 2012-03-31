@@ -3057,3 +3057,11 @@ Charlie 31 Mar 2012
         BOINCTaskBar.cpp,.h
         mac/
             MacSysMenu.cpp,.h
+
+Charlie 31 Mar 2012
+    - Tag for 7.0.25 release, all platforms
+      boinc_core_release_7_0_25
+
+    /
+        configure.ac
+        version.h
