@@ -171,8 +171,8 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
   case 'update':
     if (isset($edit['update_source'])) {
       if ($edit['update_source'] == 'user_account') {
-        // Verify that BOINC data has been altered
-        $boinc_user = lookup_user_email_addr($account->mail);
+        // Ensure that BOINC data is altered
+        $boinc_user = lookup_user_id($account->boincuser_id);
         if ($edit['pass']) {
           // Update user account information
           $passwd_hash = md5($edit['pass'].$edit['mail']);
