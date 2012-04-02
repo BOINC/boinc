@@ -3178,3 +3178,16 @@ Charlie 31 Mar 2012
         BOINCTaskBar.cpp,.h
         mac/
             MacSysMenu.cpp,.h
+
+David  2 Apr 2012
+    - client: change some unsigned int to size_t in our versions
+        of NVIDIA APIs.  This apparently caused crashes
+        (in app, not client, which I don't understand) for Einstein@Home.
+        From Steffen Moller.
+
+    html/ops/
+        db_update.php
+    lib/
+        coproc.h
+    client/
+        coproc_detect.cpp

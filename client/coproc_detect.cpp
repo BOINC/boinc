@@ -845,13 +845,13 @@ int (*__cuDriverGetVersion)(int*);
 int (*__cuDeviceGet)(int*, int);
 int (*__cuDeviceGetAttribute)(int*, int, int);
 int (*__cuDeviceGetName)(char*, int, int);
-int (*__cuDeviceTotalMem)(unsigned int*, int);
+int (*__cuDeviceTotalMem)(size_t*, int);
 int (*__cuDeviceComputeCapability)(int*, int*, int);
 int (*__cuCtxCreate)(void**, unsigned int, unsigned int);
 int (*__cuCtxDestroy)(void*);
-int (*__cuMemAlloc)(unsigned int*, unsigned int);
+int (*__cuMemAlloc)(unsigned int*, size_t);
 int (*__cuMemFree)(unsigned int);
-int (*__cuMemGetInfo)(unsigned int*, unsigned int*);
+int (*__cuMemGetInfo)(size_t*, size_t*);
 #endif
 
 // NVIDIA interfaces are documented here:
@@ -911,13 +911,13 @@ void COPROC_NVIDIA::get(
     __cuDeviceGet = (int(*)(int*, int)) dlsym( cudalib, "cuDeviceGet" );
     __cuDeviceGetAttribute = (int(*)(int*, int, int)) dlsym( cudalib, "cuDeviceGetAttribute" );
     __cuDeviceGetName = (int(*)(char*, int, int)) dlsym( cudalib, "cuDeviceGetName" );
-    __cuDeviceTotalMem = (int(*)(unsigned int*, int)) dlsym( cudalib, "cuDeviceTotalMem" );
+    __cuDeviceTotalMem = (int(*)(size_t*, int)) dlsym( cudalib, "cuDeviceTotalMem" );
     __cuDeviceComputeCapability = (int(*)(int*, int*, int)) dlsym( cudalib, "cuDeviceComputeCapability" );
     __cuCtxCreate = (int(*)(void**, unsigned int, unsigned int)) dlsym( cudalib, "cuCtxCreate" );
     __cuCtxDestroy = (int(*)(void*)) dlsym( cudalib, "cuCtxDestroy" );
-    __cuMemAlloc = (int(*)(unsigned int*, unsigned int)) dlsym( cudalib, "cuMemAlloc" );
+    __cuMemAlloc = (int(*)(unsigned int*, size_t)) dlsym( cudalib, "cuMemAlloc" );
     __cuMemFree = (int(*)(unsigned int)) dlsym( cudalib, "cuMemFree" );
-    __cuMemGetInfo = (int(*)(unsigned int*, unsigned int*)) dlsym( cudalib, "cuMemGetInfo" );
+    __cuMemGetInfo = (int(*)(size_t*, size_t*)) dlsym( cudalib, "cuMemGetInfo" );
 #endif
 
     if (!__cuDriverGetVersion) {
@@ -1134,7 +1134,7 @@ void COPROC_NVIDIA::fake(
 //
 void COPROC_NVIDIA::get_available_ram() {
     int retval;
-    unsigned int memfree, memtotal;
+    size_t memfree, memtotal;
 	int device;
     void* ctx;
     
