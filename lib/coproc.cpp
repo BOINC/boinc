@@ -397,7 +397,6 @@ void COPROC_NVIDIA::write_xml(MIOFILE& f, bool include_request) {
         "   <peak_flops>%f</peak_flops>\n"
         "   <cudaVersion>%d</cudaVersion>\n"
         "   <drvVersion>%d</drvVersion>\n"
-        "   <deviceHandle>%p</deviceHandle>\n"
         "   <totalGlobalMem>%u</totalGlobalMem>\n"
         "   <sharedMemPerBlock>%u</sharedMemPerBlock>\n"
         "   <regsPerBlock>%d</regsPerBlock>\n"
@@ -416,7 +415,6 @@ void COPROC_NVIDIA::write_xml(MIOFILE& f, bool include_request) {
         peak_flops,
         cuda_version,
         display_driver_version,
-        prop.deviceHandle,
         (unsigned int)prop.totalGlobalMem,
         (unsigned int)prop.sharedMemPerBlock,
         prop.regsPerBlock,
@@ -499,7 +497,7 @@ int COPROC_NVIDIA::parse(XML_PARSER& xp) {
         if (xp.parse_str("name", prop.name, sizeof(prop.name))) continue;
         if (xp.parse_int("deviceHandle", prop.deviceHandle)) continue;
         if (xp.parse_double("totalGlobalMem", prop.dtotalGlobalMem)) {
-            prop.totalGlobalMem = (int)prop.dtotalGlobalMem;
+            prop.totalGlobalMem = (size_t)prop.dtotalGlobalMem;
             continue;
         }
         if (xp.parse_int("sharedMemPerBlock", (int&)prop.sharedMemPerBlock)) continue;

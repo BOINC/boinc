@@ -3191,3 +3191,10 @@ David  2 Apr 2012
         coproc.h
     client/
         coproc_detect.cpp
+
+David  2 Apr 2012
+    - client: don't write deviceHandle to NVIDIA XML description.
+        Um, pointers don't have any meaning outside the process
+
+    lib/
+        coproc.cpp
