@@ -34,7 +34,7 @@ if (!file_exists("../../stop_daemons")) {
 function reset_app($app) {
     $avs = BoincAppVersion::enum("appid=$app->id");
     foreach ($avs as $av) {
-        $av->update("pfc_n=0, pfc_avg=0, pfc_scale=0, expavg_credit=0, expavg_time=0");
+        $av->update("pfc_n=0, pfc_avg=0, pfc_scale=0, et_n=0, et_avg=0, et_var=0, et_q=0, expavg_credit=0, expavg_time=0");
         BoincHostAppVersion::update_aux("pfc_n=0, pfc_avg=0 where app_version_id=$av->id");
     }
     $app->update("min_avg_pfc = 0");

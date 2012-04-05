@@ -3198,3 +3198,14 @@ David  2 Apr 2012
 
     lib/
         coproc.cpp
+
+David  5 Apr 2012
+    - admin web: when resetting app statistics,
+        clear elapsed time stats as well as PFC stats
+
+    db/
+        boinc_db.h
+    sched/
+        sched_version.cpp
+    html/ops/
+        app_reset.php

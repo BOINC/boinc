@@ -238,7 +238,7 @@ CLIENT_APP_VERSION* get_app_version_anonymous(
 
 #define ET_RATIO_LIMIT  10.
     // if the FLOPS estimate based on elapsed time
-    // exceeds project_flops by more than this factor, cap it.
+    // exceeds projected_flops by more than this factor, cap it.
     // The host may have received a bunch of short jobs recently
 
 // input:

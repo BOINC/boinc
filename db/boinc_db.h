@@ -709,6 +709,7 @@ struct HOST_APP_VERSION {
     int n_jobs_today;
     AVERAGE_VAR turnaround;
         // the stats of turnaround time (received - sent)
+        // (NOT normalized by wu.rsc_fpops_est)
     int consecutive_valid;
         // number of consecutive validated relicated results.
         // reset to zero on timeouts, errors, invalid
