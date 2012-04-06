@@ -498,7 +498,7 @@ function boincwork_generalprefs_form_submit($form, &$form_state) {
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Project preferences form handlers and functions
- *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */ 
 
 /**
  * The structure of the project preferences form
@@ -506,35 +506,23 @@ function boincwork_generalprefs_form_submit($form, &$form_state) {
 function boincwork_projectprefs_form(&$form_state, $bilge, $venue, $initialize_if_empty = false) {
   require_boinc(array('user', 'prefs', 'util'));
   
-  global $user;
-  $drupaluser = user_load($user->uid);
-  
   // Load preferences from BOINC account
-  $boincuser = BoincUser::lookup_id($drupaluser->boincuser_id);
-  $main_prefs = prefs_parse_project($boincuser->project_prefs);
-  
-  if (!$venue OR $venue == 'default') $prefs = $main_prefs;
-  elseif (isset($main_prefs->$venue)) $prefs = $main_prefs->$venue;
-  elseif (!$initialize_if_empty) return null;
+  $prefs = boincwork_load_project_prefs($venue);
   
   // Define form defaults
   $default = array(
     'resource' => array(
-      'resource_share' => isset($prefs->resource_share) ? $prefs->resource_share : 100,
-      'use_cpu' => (isset($prefs->no_cpu) AND !$prefs->no_cpu) ? 1 : 0,
-      'use_cuda' => (isset($prefs->no_cuda) AND !$prefs->no_cuda) ? 1 : 0,
-      'use_ati' => (isset($prefs->no_ati) AND !$prefs->no_ati) ? 1 : 0
-    ),
-    'privacy' => array(
-      'send_email' => ($boincuser->send_email) ? 1 : 0,
-      'show_hosts' => ($boincuser->show_hosts) ? 1 : 0
+      'resource_share' => isset($prefs['resource_share']) ? $prefs['resource_share'] : 100,
+      'use_cpu' => (isset($prefs['no_cpu']) AND $prefs['no_cpu'] == false) ? 1 : 0,
+      'use_cuda' => (isset($prefs['no_cuda']) AND $prefs['no_cuda'] == false) ? 1 : 0,
+      'use_ati' => (isset($prefs['no_ati']) AND $prefs['no_ati'] == false) ? 1 : 0
     ),
     'default_venue' => array(
       'default_venue' => isset($boincuser->venue) ? $boincuser->venue : '',
     )
   );
   
-  // Get availability for special BOINC preferences
+  // Get availability of special BOINC preferences
   global $app_types, $project_has_beta;
   
   // Standard option sets
@@ -550,7 +538,7 @@ function boincwork_projectprefs_form(&$form_state, $bilge, $venue, $initialize_i
   );
   $form['modified'] = array(
     '#type' => 'hidden',
-    '#value' => (isset($prefs->mod_time) ? $prefs->mod_time : null)
+    '#value' => (isset($prefs['mod_time']) ? $prefs['mod_time'] : null)
   );
   
   $form['form control tabs prefix'] = array(
@@ -611,26 +599,6 @@ function boincwork_projectprefs_form(&$form_state, $bilge, $venue, $initialize_i
     }
   }
   
-  $form['privacy'] = array(
-    '#title' => t('Privacy settings'),
-    '#type' => 'fieldset',
-    '#description' => null,
-    '#collapsible' => TRUE,
-    '#collapsed' => FALSE
-  );
-  $form['privacy']['send_email'] = array(
-    '#title' => t('Is it OK for @project and your team (if any) to email you?', array('@project' => PROJECT)),
-    '#type' => 'radios',
-    '#options' => $form['boolean_options']['#value'],
-    '#default_value' => $default['privacy']['send_email']
-  );
-  $form['privacy']['show_hosts'] = array(
-    '#title' => t('Should @project show your computers on its web site?', array('@project' => PROJECT)),
-    '#type' => 'radios',
-    '#options' => $form['boolean_options']['#value'],
-    '#default_value' => $default['privacy']['show_hosts']
-  );
-  
   $form['default_venue'] = array(
     '#title' => t('Venue settings'),
     '#type' => 'fieldset',
@@ -687,35 +655,27 @@ function boincwork_projectprefs_form_validate($form, &$form_state) {
 function boincwork_projectprefs_form_submit($form, &$form_state) {
   require_boinc(array('user', 'prefs'));
   
-  global $user, $app_types, $app_array;
-  $drupaluser = user_load($user->uid);
+  global $site_name, $app_types, $app_array;
   
   $venue = $form_state['values']['venue'];
   
   // Load preferences from BOINC account
-  $boincuser = BoincUser::lookup_id($drupaluser->boincuser_id);
-  $main_prefs = prefs_parse_project($boincuser->project_prefs);
-  $venue = (isset($main_prefs->$venue)) ? $venue : null;
-  $prefs = ($venue) ? $main_prefs->$venue : $main_prefs;
+  $prefs = boincwork_load_project_prefs($venue);
   
   // Resource preferences
-  $prefs->resource_share = $form_state['values']['resource_share'];
+  $prefs['resource_share'] = $form_state['values']['resource_share'];
   if ($app_types->count > 1) {
-    if ($app_types->cpu) $prefs->no_cpu = ($form_state['values']['use_cpu']) ? false : true;
-    if ($app_types->cuda) $prefs->no_cuda = ($form_state['values']['use_cuda']) ? false : true;
-    if ($app_types->ati) $prefs->no_ati = ($form_state['values']['use_ati']) ? false : true;
+    if ($app_types->cpu) $prefs['no_cpu'] = ($form_state['values']['use_cpu']) ? false : true;
+    if ($app_types->cuda) $prefs['no_cuda'] = ($form_state['values']['use_cuda']) ? false : true;
+    if ($app_types->ati) $prefs['no_ati'] = ($form_state['values']['use_ati']) ? false : true;
   }
   
   // Beta preferences
-  $prefs->allow_beta_work = ($form_state['values']['allow_beta_work']) ? true : false;
+  $prefs['allow_beta_work'] = ($form_state['values']['allow_beta_work']) ? true : false;
   
-  // Privacy preferences
-  $boincuser->send_email = ($form_state['values']['send_email']) ? true : false;
-  $boincuser->show_hosts = ($form_state['values']['show_hosts']) ? true : false;
+  // Save preferences back to the BOINC account
+  boincwork_save_project_prefs($prefs, $venue);
   
-  if ($venue) $main_prefs->$venue = $prefs;
-  else $main_prefs = $prefs;
-  project_prefs_update($boincuser, $main_prefs);
   if (!$venue) {
     $boincuser->venue = $form_state['values']['default_venue'];
     venue_update($boincuser);
@@ -724,5 +684,110 @@ function boincwork_projectprefs_form_submit($form, &$form_state) {
   drupal_set_message(t('Your preferences have been updated.
       Client-related preferences will take effect when your computer 
       communicates with @project or you issue the "Update"
-      command from the BOINC client.', array('@project' => PROJECT)));
+      command from the BOINC client.', array('@project' => $site_name)));
+}
+
+/**
+ * The structure of the privacy preferences form
+ */
+function boincwork_privacyprefs_form(&$form_state, $bilge, $initialize_if_empty = false) {
+  require_boinc(array('user', 'prefs', 'util'));
+  
+  global $user;
+  $drupaluser = user_load($user->uid);
+  $boincuser = BoincUser::lookup_id($drupaluser->boincuser_id);
+  
+  // Load preferences from BOINC account
+  $prefs = boincwork_load_project_prefs();
+  
+  if (!$prefs AND !$initialize_if_empty) return null;
+  
+  // Define form defaults
+  $default = array(
+    'privacy' => array(
+      'send_email' => ($boincuser->send_email) ? 1 : 0,
+      'show_hosts' => ($boincuser->show_hosts) ? 1 : 0
+    )
+  );
+  
+  // Standard option sets
+  $form['boolean_options'] = array(
+    '#type' => 'value',
+    '#value' => array(1 => t('yes'), 0 => t('no'))
+  );
+  
+  $form['modified'] = array(
+    '#type' => 'hidden',
+    '#value' => (isset($prefs['mod_time']) ? $prefs['mod_time'] : null)
+  );
+  
+  $form['form control tabs prefix'] = array(
+    '#value' => '<ul class="tab-list">'
+  );
+  $form['submit'] = array(
+    '#prefix' => '<li class="first tab">',
+    '#type' => 'submit',
+    '#value' => t('Save changes'),
+    '#suffix' => '</li>'
+  );
+  $form['form control tabs'] = array(
+    '#value' => '<li class="tab">' . l(t('Cancel'), $_GET['q']) . '</li></ul>'
+  );
+  
+  $form['privacy'] = array(
+    '#title' => t('Privacy settings'),
+    '#type' => 'fieldset',
+    '#description' => null,
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE
+  );
+  $form['privacy']['send_email'] = array(
+    '#title' => t('Is it OK for @project and your team (if any) to email you?', array('@project' => variable_get('site_name', 'BOINC'))),
+    '#type' => 'radios',
+    '#options' => $form['boolean_options']['#value'],
+    '#default_value' => $default['privacy']['send_email']
+  );
+  $form['privacy']['show_hosts'] = array(
+    '#title' => t('Should @project show your computers on its web site?', array('@project' => variable_get('site_name', 'BOINC'))),
+    '#type' => 'radios',
+    '#options' => $form['boolean_options']['#value'],
+    '#default_value' => $default['privacy']['show_hosts']
+  );
+  
+  return $form;
+}
+
+/**
+  * Validate the privacy preferences form.
+  */
+function boincwork_privacyprefs_form_validate($form, &$form_state) {
+  require_boinc('util');
+  
+  // Verify all non-boolean user input values and notify form API of failures
+  // ... currently there are no non-boolean values!
+}
+
+/**
+  * Handle post-validation submission of privacy preferences form.
+  */
+function boincwork_privacyprefs_form_submit($form, &$form_state) {
+  require_boinc(array('user', 'prefs'));
+  
+  global $user;
+  $drupaluser = user_load($user->uid);
+  
+  // Load BOINC account
+  $boincuser = BoincUser::lookup_id($drupaluser->boincuser_id);
+  
+  // Privacy preferences
+  $boincuser->send_email = ($form_state['values']['send_email']) ? true : false;
+  $boincuser->show_hosts = ($form_state['values']['show_hosts']) ? true : false;
+  
+  //project_prefs_update($boincuser, $main_prefs);
+  
+  db_set_active('boinc');
+  db_query("UPDATE user SET send_email = '{$boincuser->send_email}', show_hosts = '{$boincuser->show_hosts}' WHERE id = '{$boincuser->id}'");
+  db_set_active('default');
+  
+  drupal_set_message(t('Your privacy preferences have been updated.'));
 }

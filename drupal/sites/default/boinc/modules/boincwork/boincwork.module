@@ -233,8 +233,7 @@ function projectprefs_page($action = null, $venue = null) {
   global $project_has_beta;
   $pref_sets = array('default', 'home', 'school', 'work');
   $output = null;
-  // Set the page title
-  //$title = t('Edit @project preferences @for-venue', array('@project' => PROJECT, '@for-venue' => ($venue ? "for {$venue}" : '')));
+  
   $title = 'Project';
   drupal_set_title($title);
   
@@ -258,10 +257,13 @@ function projectprefs_page($action = null, $venue = null) {
     
     $sections = array(
       'resource',
-      'privacy',
-      'default_venue',
-      'graphics'
-    );
+      'default_venue'
+    ); 
+    if (isset($prefs['default']['#project specific'])) {
+      foreach ($prefs['default']['#project specific'] as $project_specific) {
+        $sections[] = $project_specific;
+      }
+    }
     if ($project_has_beta) $sections[] ='beta';
     foreach ($sections as $section) {
       $output .= '<tr class="section-heading">';
@@ -309,18 +311,22 @@ function projectprefs_page($action = null, $venue = null) {
           $output .= '<h2>' . t('Separate preferences for @venue', array('@venue' => $pref_set)) . '</h2>';
         }
         $output .= '<table>';
-        
         $sections = array(
           'resource' => $prefs['resource'],
-          'privacy' => $prefs['privacy'],
-          'default_venue' => $prefs['default_venue'],
-          'graphics' => $prefs['graphics']
+          'default_venue' => $prefs['default_venue']
         );
+        if (isset($prefs['#project specific'])) {
+          foreach ((array) $prefs['#project specific'] as $project_specific_section) {
+            $sections[$project_specific_section] = $prefs[$project_specific_section];
+          }
+        }
         
         if ($project_has_beta) $sections['beta'] = $prefs['beta'];
+        
         foreach ($sections as $section) {
           $output .= '<tr class="section-heading">';
           $output .= "<td>{$section['#title']}</td></tr>";
+          
           foreach ($section as $name => $setting) {
             if ($name{0} == '#') continue;
             $value = isset($setting['#default_value']) ? $setting['#default_value'] : '';
@@ -336,21 +342,6 @@ function projectprefs_page($action = null, $venue = null) {
           }
         }
         
-        // Application settings
-        $output .= '<tr class="section-heading">';
-        $output .= "<td>{$prefs['applications']['#title']}</td></tr>";
-        $output .= '<tr>';
-        $output .= "<td>{$prefs['applications']['#description']}</td>";
-        $app_settings = null;
-        $apps_not_selected = 0;
-        foreach ($prefs['applications'] as $name => $app) {
-          if ($name{0} == '#') continue;
-          if (!$app['#default_value']) $apps_not_selected++;
-          $app_settings[] = $app['#title'] . ': ' . ($app['#default_value'] ? 'yes' : 'no');
-        }
-        $output .= '<td>' . ($apps_not_selected ? implode($app_settings, '<br/>') : '(' . t('all applications') . ')') . '</td>';
-        $output .= '</tr>';
-        
         // Edit preferences link
         $output .= '<tr>';
         $output .= '<td></td>';
@@ -358,12 +349,121 @@ function projectprefs_page($action = null, $venue = null) {
         $output .= '</tr>';
         
         $output .= '</table>';
-      } else {
+      }
+      else {
         // Venue preferences not defined
         $output .= '<p>' . l(t('Add separate preferences for @venue', array('@venue' => $pref_set)), "account/prefs/project/edit/{$pref_set}") . '</p>';
       }
     }
   }
+  return $output;
+}
+
+/**
+  * Community preferences menu callback
+  * Called when user goes to edit community preferences page.
+  */
+function communityprefs_page($action = null) {
+  
+  require_boinc(array('util', 'prefs'));
+  $output = null;
+  
+  $title = 'Community';
+  drupal_set_title($title);
+  
+  //$output .= '<h2>Community preferences</h2>';
+  
+  $output .= drupal_get_form('communityprefs_form');
+  
+  return $output;
+}
+
+function communityprefs_form(&$form_state) {
+  global $user;
+  $form = pm_email_notify_user('form', $edit, $user, 'account');
+  $form += flag_friend_user('form', $edit, $user, 'account');
+  $form['form control tabs prefix'] = array(
+    '#value' => '<ul class="tab-list">'
+  );
+  $form['submit'] = array(
+    '#prefix' => '<li class="first tab">',
+    '#type' => 'submit',
+    '#value' => t('Save changes'),
+    '#suffix' => '</li>'
+  );
+  $form['form control tabs'] = array(
+    '#value' => '<li class="tab">' . l(t('Cancel'), $_GET['q']) . '</li></ul>'
+  );
+  $form['friend_notification']['#weight'] = 11;
+  
+  return $form;
+}
+
+function communityprefs_form_submit($form, &$form_state) {
+  global $user;
+  $edit= $form_state['values'];
+  pm_email_notify_user('submit', $edit, $user);
+  user_save($user, array('friend_notification' => $edit['friend_notification']));
+}
+
+/**
+  * Privacy preferences menu callback
+  * Called when user goes to edit privacy preferences page.
+  */
+function privacyprefs_page($action = null) {
+  
+  require_boinc(array('util', 'prefs'));
+  $output = null;
+  $title = 'Privacy';
+  drupal_set_title($title);
+  
+  switch ($action) {
+  case 'view':
+    $prefs = drupal_retrieve_form('boincwork_privacyprefs_form', $form_state);
+    drupal_prepare_form('boincwork_privacyprefs_form', $prefs, $form_state);
+    $output .= '<table>';
+    
+    $sections = array(
+      'privacy' => $prefs['privacy']
+    );
+    
+    foreach ($sections as $section) {
+      $output .= '<tr class="section-heading">';
+      $output .= "<td>{$section['#title']}</td></tr>";
+      foreach ($section as $name => $setting) {
+        if ($name{0} == '#') continue;
+        $value = isset($setting['#default_value']) ? $setting['#default_value'] : '';
+        if ($value AND isset($setting['#options'])) $value = $setting['#options'][$value];
+        elseif ($value == '') $value = '---';
+        if (!isset($setting['#title'])) $setting['#title'] = '';
+        if (!isset($setting['#description'])) $setting['#description'] = '';
+        if (!isset($setting['#field_suffix'])) $setting['#field_suffix'] = '';
+        $output .= '<tr>';
+        $output .= "<td>{$setting['#title']}<br/>{$setting['#description']}</td>";
+        $output .= "<td>{$value} {$setting['#field_suffix']}</td>";
+        $output .= '</tr>';
+      }
+    }
+    
+    // Edit preferences link
+    $output .= '<tr>';
+    $output .= '<td></td>';
+    $output .= '<td>' . l(t('Edit privacy preferences', array('@project' => PROJECT)), "account/prefs/privacy/edit") . '</td>';
+    $output .= '</tr>';
+    
+    $output .= '</table>';
+    
+    break;
+    
+  case 'edit':
+  default:
+    require_boinc('util');
+    // Return the HTML generated from the $form data structure.
+    $output .= drupal_get_form('boincwork_privacyprefs_form', null, true);
+    break;
+    
+  }
+  
   return $output;
 }
 
