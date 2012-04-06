@@ -257,7 +257,6 @@ function boincuser_account_validate($form_values, $account, &$error) {
  * Password request validation handler.
  */
 function boincuser_request_pass_validate($form, &$form_state) {
-  drupal_set_message('<pre>' . print_r($form_state, true) . '</pre>');
   $form_values = $form_state['values'];
   // The Drupal submit function expects a "name" field, even though
   // it contains an email address and we will not allow a user name
