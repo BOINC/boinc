@@ -110,13 +110,6 @@ function generalprefs_page($action = null, $venue = null) {
   drupal_set_title($title);
   
   switch ($action) {
-  case 'edit':
-    require_boinc('util');
-    
-    //$output .= t('These preferences apply to all the BOINC projects in which you participate.');
-    // Return the HTML generated from the $form data structure.
-    $output .= drupal_get_form('boincwork_generalprefs_form', null, $venue, true);
-    break;
     
   case 'combined':
     // Compare preference sets; tabular view
@@ -170,7 +163,6 @@ function generalprefs_page($action = null, $venue = null) {
     break;
     
   case 'view':
-  default:
     require_boinc('util');
     
     $output .= '<p>' . t('These apply to all BOINC projects in which you participate.') . '<br/>';
@@ -218,6 +210,18 @@ function generalprefs_page($action = null, $venue = null) {
         $output .= '<p>' . l(t('Add separate preferences for @venue', array('@venue' => $pref_set)), "account/prefs/computing/edit/{$pref_set}") . '</p>';
       }
     }
+    break;
+    
+    
+  case 'edit':
+  default:
+    require_boinc('util');
+    
+    //$output .= t('These preferences apply to all the BOINC projects in which you participate.');
+    // Return the HTML generated from the $form data structure.
+    $output .= drupal_get_form('boincwork_generalprefs_form', null, $venue, true);
+    $output .= '<p>' . l('(' . t('Show comparison view') . ')', 'account/prefs/computing/combined') . '</p>';
+    break;
   }
   
   return $output;
@@ -238,12 +242,6 @@ function projectprefs_page($action = null, $venue = null) {
   drupal_set_title($title);
   
   switch ($action) {
-  case 'edit':
-    require_boinc('util');
-    // Return the HTML generated from the $form data structure.
-    $output .= drupal_get_form('boincwork_projectprefs_form', null, $venue, true);
-    break;
-    
   case 'combined':
     // Compare preference sets; tabular view
     foreach ($pref_sets as $pref_set) {
@@ -297,7 +295,6 @@ function projectprefs_page($action = null, $venue = null) {
     break;
     
   case 'view':
-  default:
     if ($venue) $pref_sets = array($venue);
     foreach ($pref_sets as $pref_set) {
       $prefs = drupal_retrieve_form('boincwork_projectprefs_form', $form_state, $pref_set);
@@ -355,6 +352,16 @@ function projectprefs_page($action = null, $venue = null) {
         $output .= '<p>' . l(t('Add separate preferences for @venue', array('@venue' => $pref_set)), "account/prefs/project/edit/{$pref_set}") . '</p>';
       }
     }
+    break;
+    
+  case 'edit':
+  default:
+    require_boinc('util');
+    // Return the HTML generated from the $form data structure.
+    $output .= drupal_get_form('boincwork_projectprefs_form', null, $venue, true);
+    $output .= '<p>' . l('(' . t('Show comparison view') . ')', 'account/prefs/project/combined') . '</p>';
+    break;
+    
   }
   return $output;
 }
