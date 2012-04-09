@@ -43,7 +43,7 @@ if ($target == "notice") {
 	}
 } else if  ($target == "advanced_preferences") {
     header('Location: http://boinc.berkeley.edu/wiki/Preferences');
-} else if (($target == "advanced") && version_compare($version, "5.10.0", ">=") && version_compare($version, "6.12.0", "<=")) {
+} else if (($target == "advanced") && version_compare($version, "5.10.0", ">=") && version_compare($version, "6.12.0", "<")) {
 	if ($controlid == "6024") {
 		header('Location: http://boinc.berkeley.edu');
 	} else if ($controlid == "6025") {
@@ -53,11 +53,31 @@ if ($target == "notice") {
 	} else {
 		header('Location: http://boinc.berkeley.edu/wiki/Advanced_view_6_10');
 	}
-} else if (($target == "simple") && version_compare($version, "5.10.0", ">=") && version_compare($version, "6.12.0", "<=")) {
+} else if (($target == "simple") && version_compare($version, "5.10.0", ">=") && version_compare($version, "6.12.0", "<")) {
 	if ($controlid == "6024") {
 		header('Location: http://boinc.berkeley.edu');
 	} else if ($controlid == "6025") {
 		header('Location: http://boinc.berkeley.edu/wiki/Simple_view');
+	} else if ($controlid == "6035") {
+		header('Location: http://boinc.berkeley.edu/wiki/BOINC_Help');
+	} else {
+		header('Location: http://boinc.berkeley.edu/wiki/BOINC_Help');
+	}
+} else if (($target == "advanced") && version_compare($version, "6.12.0", ">=") && version_compare($version, "7.0.0", "<")) {
+	if ($controlid == "6024") {
+		header('Location: http://boinc.berkeley.edu');
+	} else if ($controlid == "6025") {
+		header('Location: http://boinc.berkeley.edu/wiki/Advanced_view_6_12');
+	} else if ($controlid == "6035") {
+		header('Location: http://boinc.berkeley.edu/wiki/BOINC_Help');
+	} else {
+		header('Location: http://boinc.berkeley.edu/wiki/Advanced_view_6_12');
+	}
+} else if (($target == "simple") && version_compare($version, "6.12.0", ">=") && version_compare($version, "7.0.0", "<")) {
+	if ($controlid == "6024") {
+		header('Location: http://boinc.berkeley.edu');
+	} else if ($controlid == "6025") {
+		header('Location: http://boinc.berkeley.edu/wiki/Simple_view_6_12');
 	} else if ($controlid == "6035") {
 		header('Location: http://boinc.berkeley.edu/wiki/BOINC_Help');
 	} else {
