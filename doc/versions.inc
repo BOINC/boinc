@@ -162,7 +162,7 @@ $l612ubuntu = array(
 $l70ubuntux64 = array(
 	"num"=>"7.0.25",
 	"status"=>"Recommended version",
-	"file"=>"boinc_7.0.23_x86_64-pc-linux-gnu.sh",
+	"file"=>"boinc_7.0.25_x86_64-pc-linux-gnu.sh",
 	"date"=>"5 Apr 2012",
 	"type"=>"sea",
 );
