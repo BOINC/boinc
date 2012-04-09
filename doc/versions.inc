@@ -106,7 +106,7 @@ $m66 = array(
 $m70c = array(
 	"num"=>"7.0.25",
 	"status"=>"Recommended version (Unix command-line version)",
-	"file"=>"boinc_7.0.23_i686-apple-darwin.zip",
+	"file"=>"boinc_7.0.25_i686-apple-darwin.zip",
 	"date"=>"5 Apr 2012",
 	"type"=>"bare_core",
 );
