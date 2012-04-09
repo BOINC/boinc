@@ -27,6 +27,13 @@ require_once('includes/boincuser.helpers.inc');
  * with defined URL paths
  */
 function boincuser_menu() {
+  $items['account/profile'] = array(
+    'title' => 'Profile',
+    'description' => 'Show a user profile',
+    'page callback' => 'boincuser_view_profile',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK
+  );
   $items['admin/settings/boincuser'] = array(
     'title' => 'BOINC user settings',
     'description' => 'Change configuration of BOINC account features.',
@@ -225,7 +232,7 @@ function boincuser_node_update($node) {
     require_boinc('db');
     $boinc_user = lookup_user_email_addr($user->mail);
     $db_result = $boinc_user->update("
-      country = '{$node->field_country[0]['value']}',
+      country = '{$node->field_country[0]['value']}',en
       postal_code = '{$node->field_zip[0]['value']}',
       url = '{$node->field_url[0]['value']}'"
     );
@@ -414,6 +421,22 @@ function boincuser_theme($existing, $type, $theme, $path) {
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Page callbacks from hook_menu()
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+ * Page callback for displaying a user profile
+ * For some reason, menu context cannot be configured as expected for
+ * user profile pages, so use a wrapper for display
+ */
+function boincuser_view_profile($account = null) {
+  // Create the user profile page
+  if (!$account) {
+    global $user;
+    $account = $user;
+  }
+  // For now, just call the user module profile view function
+  user_build_content($account);
+  return theme('user_profile', $account);
+}
  
 /**
  * Page callback for the create account RPC (create_account.php).
