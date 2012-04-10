@@ -1434,7 +1434,7 @@ void send_gpu_messages() {
 
     if (g_request->coprocs.nvidia.count && ssp->have_cuda_apps) {
         send_gpu_property_messages(cuda_requirements,
-            g_request->coprocs.nvidia.prop.dtotalGlobalMem,
+            g_request->coprocs.nvidia.prop.totalGlobalMem,
             g_request->coprocs.nvidia.display_driver_version,
             "NVIDIA GPU"
         );

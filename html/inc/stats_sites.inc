@@ -69,10 +69,6 @@ $stats_sites = array(
         "BOINC Combined Statistics",
         "developed by James Drews"
     ),
-    array("http://home.btconnect.com/Gabys_Bazar/hwupgrade.html",
-        "Every Earthly Hour",
-        "developed by Hydnum Repandum."
-    ),
     array("http://www.boincstats.com/",
         "BOINCstats",
         "by Willy de Zutter"

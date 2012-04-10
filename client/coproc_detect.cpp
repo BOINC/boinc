@@ -994,6 +994,7 @@ void COPROC_NVIDIA::get(
 
     int j;
     unsigned int i;
+    size_t global_mem;
     COPROC_NVIDIA cc;
     string s;
     for (j=0; j<cuda_ndevs; j++) {
@@ -1020,7 +1021,8 @@ if (j == 0) {
             return;
         }
         (*__cuDeviceComputeCapability)(&cc.prop.major, &cc.prop.minor, device);
-        (*__cuDeviceTotalMem)(&cc.prop.totalGlobalMem, device);
+        (*__cuDeviceTotalMem)(&global_mem, device);
+        cc.prop.totalGlobalMem = (double) global_mem;
         (*__cuDeviceGetAttribute)(&cc.prop.sharedMemPerBlock, CU_DEVICE_ATTRIBUTE_SHARED_MEMORY_PER_BLOCK, device);
         (*__cuDeviceGetAttribute)(&cc.prop.regsPerBlock, CU_DEVICE_ATTRIBUTE_REGISTERS_PER_BLOCK, device);
         (*__cuDeviceGetAttribute)(&cc.prop.warpSize, CU_DEVICE_ATTRIBUTE_WARP_SIZE, device);
@@ -1106,7 +1108,7 @@ void COPROC_NVIDIA::fake(
    display_driver_version = driver_version;
    cuda_version = 2020;
    strcpy(prop.name, "Fake NVIDIA GPU");
-   prop.totalGlobalMem = (unsigned int)ram;
+   prop.totalGlobalMem = ram;
    prop.sharedMemPerBlock = 100;
    prop.regsPerBlock = 8;
    prop.warpSize = 10;
@@ -1138,7 +1140,7 @@ void COPROC_NVIDIA::get_available_ram() {
 	int device;
     void* ctx;
     
-    available_ram = prop.dtotalGlobalMem;
+    available_ram = prop.totalGlobalMem;
     retval = (*__cuDeviceGet)(&device, device_num);
     if (retval) {
         if (log_flags.coproc_debug) {

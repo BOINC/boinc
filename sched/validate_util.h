@@ -21,8 +21,7 @@
 #include <vector>
 #include <string>
 
-#include "boinc_db.h"
-#include "parse.h"
+#include "boinc_db_types.h"
 
 // bit of a misnomer - this actually taken from the <file_ref> elements
 // of result.xml_doc_in

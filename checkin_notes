@@ -3209,3 +3209,42 @@ David  5 Apr 2012
         sched_version.cpp
     html/ops/
         app_reset.php
+
+David  9 Apr 2012
+    - server: create a harness for testing validator code.
+        If you link your functions (init_result(), compare_results(),
+        cleanup_result()) with validate_test.cpp,
+        you'll get a program that you can run as
+            validate_test file1 file2
+        and it will compare the two files
+        (this works only for validators that expect 1 file per result).
+
+        I added a makefile, sched/makefile_validator_test,
+        that you can use for this.
+    - server: shuffle code so that the above doesn't need to
+        link MySQL libraries
+    - client: if we fetch a master file and it contains no scheduler URLs,
+        show a message of class INTERNAL_ERROR
+    - client/scheduler: make CUDA_DEVICE_PROP.totalGlobalMem a double,
+        and remove dtotalGlobalMem.
+        Although NVIDIA reports RAM size as a size_t,
+        there's no reason to store it as an integer after that.
+
+    db/
+        boinc_db.h
+        boinc_db_types.h
+    sched/
+        validate_util2.h
+        validate_util.h
+        makefile_validator_test
+        plan_class_spec.cpp
+        sched_send.cpp
+        validator_test.cpp
+        validator.cpp
+    html/inc/
+        stats_sites.inc
+    lib/
+        coproc.cpp,h
+    client/
+        coproc_detect.cpp
+        scheduler_op.cpp

@@ -20,7 +20,7 @@
 
 #include <vector>
 
-#include "boinc_db.h"
+#include "boinc_db_types.h"
 
 extern int init_result(RESULT&, void*&);
 extern int compare_results(RESULT &, void*, RESULT const&, void*, bool&);

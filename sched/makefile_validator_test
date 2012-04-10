@@ -1,0 +1,2 @@
+validator_test: validator_test.cpp sample_trivial_validator.cpp
+	g++ -I.. -I../lib -I../db -o validator_test validator_test.cpp sample_trivial_validator.cpp

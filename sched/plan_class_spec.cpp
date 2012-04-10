@@ -197,11 +197,11 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         }
 
         // GPU RAM
-        if (min_gpu_ram_mb && min_gpu_ram_mb * MEGA > cp.prop.dtotalGlobalMem) {
+        if (min_gpu_ram_mb && min_gpu_ram_mb * MEGA > cp.prop.totalGlobalMem) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
                     "[version] GPU RAM required min: %f, supplied: %f\n",
-                    min_gpu_ram_mb * MEGA, cp.prop.dtotalGlobalMem
+                    min_gpu_ram_mb * MEGA, cp.prop.totalGlobalMem
                 );
             }
             return false;
@@ -278,8 +278,8 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         // i.e. fill the device memory with tasks
         if (ngpus < 0) {
             hu.ncudas =
-                (floor(cp.prop.dtotalGlobalMem / hu.gpu_ram) * hu.gpu_ram) /
-                cp.prop.dtotalGlobalMem
+                (floor(cp.prop.totalGlobalMem / hu.gpu_ram) * hu.gpu_ram) /
+                cp.prop.totalGlobalMem
             ;
         } else if (ngpus > 0) {
             hu.ncudas = ngpus * gpu_utilization;

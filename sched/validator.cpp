@@ -16,6 +16,17 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // validator - check and validate results, and grant credit
+//
+// Must be linked with two functions
+// check_set(): find a canonical result from a set of results
+// check_pair(): compare a result with a canonical result
+//
+// We recommend that you use the versions of these in validate_util2.cpp,
+// in which case you have to supply 3 simpler functions
+// init_result()
+// compare_results()
+// cleanup_result()
+
 //  --app appname
 //  [-d N] [--debug_level N]    log verbosity (1=least, 4=most)
 //  [--one_pass_N_WU N]         Validate only N WU in one pass, then exit
@@ -676,7 +687,7 @@ int main_loop() {
     return 0;
 }
 
-// For use by project-supplied routines check_set() and check_match()
+// For use by project-supplied routines check_set() and check_pair()
 //
 int debug_level=0;
 
