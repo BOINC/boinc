@@ -1,0 +1,135 @@
+#! /usr/bin/env php
+<?php
+
+// Job submission and control script for TreeThreader application
+// from the Institute for Computing Technology in Beijing
+//
+
+define("PROJECT", "http://test.foo.bar");
+
+function usage() {
+    die("
+Usage:
+tt_boinc submit sequence_file authenticator
+    submit batch, print batch ID
+tt_boinc abort batchid auth
+    abort batch, delete files
+tt_boinc status batchid auth
+    show fraction done
+tt_boinc get_output batchid auth
+    show URL of output file
+tt_boinc retire batchid auth
+");
+}
+
+function do_http_op($xml) {
+    $ch = curl_init(PROJECT."/tree_threader.php");
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, "request=$xml");
+    $reply = curl_exec($ch);
+    if (!$reply) return array(null, "HTTP error");
+    $r = simplexml_load_string($reply);
+    if (!$r) return array(null, "Can't parse reply XML: <pre>".htmlentities($reply)."</pre>");
+    return array($r, null);
+}
+
+function handle_submit() {
+    global $argc, $argv;
+    if ($argc != 4) usage();
+    $seq = file_get_contents($argv[2]);
+    if ($seq === false) {
+        die("Can't read sequence file ".$argv[2]."\n");
+    }
+    $auth = $argv[3];
+    $req_xml = "
+<tt_request>
+    <action>submit</action>
+    <sequence><![CDATA[
+$seq
+]]></sequence>
+    <auth>$auth</auth>
+</tt_request>
+";
+    list($reply, $errmsg) = do_http_op($req_xml);
+    if ($errmsg) die("Error: $errmsg\n");
+    $id = (int)$reply->id;
+    echo "batch ID: %d\n";
+}
+
+function handle_abort() {
+    global $argc, $argv;
+    if ($argc != 4) usage();
+    $batchid = $argv[3];
+    $auth = $argv[4];
+    $req_xml = "
+<tt_request>
+    <action>abort</action>
+    <batchid>$batchid</batchid>
+    <auth>$auth</auth>
+</tt_request>
+";
+    list($reply, $errmsg) = do_http_op($req_xml);
+    if ($errmsg) die("Error: $errmsg\n");
+    echo "success\n";
+}
+
+function handle_status() {
+    global $argc, $argv;
+    if ($argc != 4) usage();
+    $batchid = $argv[3];
+    $auth = $argv[4];
+    $req_xml = "
+<tt_request>
+    <action>status</action>
+    <batchid>$batchid</batchid>
+    <auth>$auth</auth>
+</tt_request>
+";
+    list($reply, $errmsg) = do_http_op($req_xml);
+    if ($errmsg) die("Error: $errmsg\n");
+}
+
+function handle_get_output() {
+    global $argc, $argv;
+    if ($argc != 4) usage();
+    $batchid = $argv[3];
+    $auth = $argv[4];
+    $req_xml = "
+<tt_request>
+    <action>get_output</action>
+    <batchid>$batchid</batchid>
+    <auth>$auth</auth>
+</tt_request>
+";
+    list($reply, $errmsg) = do_http_op($req_xml);
+    if ($errmsg) die("Error: $errmsg\n");
+}
+
+function handle_retire() {
+    global $argc, $argv;
+    if ($argc != 4) usage();
+    $batchid = $argv[3];
+    $auth = $argv[4];
+    $req_xml = "
+<tt_request>
+    <action>retire</action>
+    <batchid>$batchid</batchid>
+    <auth>$auth</auth>
+</tt_request>
+";
+    list($reply, $errmsg) = do_http_op($req_xml);
+    if ($errmsg) die("Error: $errmsg\n");
+}
+
+if ($argc < 2) usage();
+switch ($argv[1]) {
+case "submit": handle_submit(); break;
+case "abort": handle_abort(); break;
+case "status": handle_status(); break;
+case "get_output": handle_get_output(); break;
+case "retire": handle_retire(); break;
+default: usage();
+}
+   
+?>

@@ -3248,3 +3248,14 @@ David  9 Apr 2012
     client/
         coproc_detect.cpp
         scheduler_op.cpp
+
+David  9 Apr 2012
+    - API: fix C compile error
+    - initial checkin of remote job stuff for app from ICT
+
+    tools/
+        tt_boinc
+    api/
+        boinc_api.h
+    html/user/
+        tree_threader.php
