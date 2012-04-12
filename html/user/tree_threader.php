@@ -19,7 +19,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 
-$app_name = "uppercase";
+$app_name = "treeThreader";
 
 function error($s) {
     echo "<error>\n<message>$s</message>\n</error>\n";
@@ -27,6 +27,8 @@ function error($s) {
 }
 
 function handle_submit($r, $user, $app) {
+    global $app_name;
+
 	// read the list of template filenames
 	//
 	$files = file("../../tree_threader_template_files");
@@ -34,16 +36,37 @@ function handle_submit($r, $user, $app) {
 	$njobs = sizeof($files);
 	$now = time();
     $batch_id = BoincBatch::insert(
-		"(user_id, create_time, njobs, name, app_id, state) values ($user->id, $now, $njobs, 'test batch', $app->id, ".BATCH_STATE_IN_PROGRESS.")"
+		"(user_id, create_time, njobs, name, app_id, state) values ($user->id, $now, $njobs, 'tree_threader batch', $app->id, ".BATCH_STATE_IN_PROGRESS.")"
     );
+    if (!$batch_id) die("couldn't create batch\n");
+
+    // write the sequence to a file
+    //
+    $seq_fname = "three_threader_seq_$batch_id";
+    $config = simplexml_load_string(file_get_contents("../../config.xml"));
+    $fanout = (int)$config->config->uldl_dir_fanout;
+    $download_dir = trim((string)$config->config->download_dir);
+
+    $seq_path = dir_hier_path($seq_fname, $download_dir, $fanout);
+    $ret = file_put_contents($seq_path, (string)$r->sequence);
+    if ($ret === false) {
+        error("couldn't write sequence file");
+    }
+    echo "write sequence file to $seq_path\n";
+
+    $i = 0;
 	foreach ($files as $file) {
-		$cmd = "cd ../..; ./bin/create_work --appname tree_thread --batch $batch_id $file";
+        $file = trim($file);
+        $wu_name = "ICT_".$batch_id."_$i";
+		$cmd = "cd ../..; ./bin/create_work --appname $app_name --batch $batch_id --wu_name $wu_name --wu_template templates/ICT_in --result_template templates/ICT_out $file ss3.kmeans.8 $seq_fname";
 		$ret = system($cmd);
 		if ($ret === false) {
 			error("can't create job");
-		}
+		} else {
+            echo "created job: $ret\n";
+        }
 	}
-	echo "<batchid>$batchid</batchid>\n";
+	echo "<batch_id>$batch_id</batch_id>\n";
 }
 
 // Enumerate all the successfully completed WUs for this batch.
@@ -52,7 +75,7 @@ function handle_submit($r, $user, $app) {
 // and return the resulting URL
 //
 function handle_get_output($r, $batch) {
-	$wus = BoincWorkUnit::enum("batchid=$batch->id");
+	$wus = BoincWorkUnit::enum("batch=$batch->id");
 	$outdir = "/tmp/tree_threader_".$batch->id;
 	foreach ($wus as $wu) {
 		if (!$wu->canonical_resultid) continue;
@@ -126,7 +149,7 @@ database.connect()
 projectxml.default_project().commit_all()
 
 ]]></sequence>
-    <auth>157f96a018b0b2f2b466e2ce3c7f54db</auth>
+    <auth>06e5740fb78352852cd8aeef6cdd2893</auth>
 </tt_request>
 EOF;
 $r = simplexml_load_string($x);
@@ -156,7 +179,7 @@ if (!$user_submit->submit_all) {
 switch ((string)$r->action) {
     case 'submit': handle_submit($r, $user, $app); break;
     case 'get_output':
-		$batch_id = (int)$r->batchid;
+		$batch_id = (int)$r->batch_id;
 		$batch = BoincBatch::lookup_id($batch_id);
 		if (!$batch) error("no such batch");
 		if ($batch->user_id != $user->id) error("not owner of batch");

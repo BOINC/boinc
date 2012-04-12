@@ -3259,3 +3259,10 @@ David  9 Apr 2012
         boinc_api.h
     html/user/
         tree_threader.php
+
+David  12 Apr 2012
+    - CAS@home stuff
+    tools/
+        tt_boinc.cpp
+    html/user/
+        tree_threader.cpp
