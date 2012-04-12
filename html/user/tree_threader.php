@@ -19,6 +19,8 @@ error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 
+$app_name = "uppercase";
+
 function error($s) {
     echo "<error>\n<message>$s</message>\n</error>\n";
     exit;
@@ -90,7 +92,45 @@ function handle_get_output($r, $batch) {
 
 xml_header();
 
+if (0) {
 $r = simplexml_load_string($_POST['request']);
+} else {
+$x = <<<EOF
+<tt_request>
+    <action>submit</action>
+    <sequence><![CDATA[
+#!/usr/bin/env python
+
+'''
+Add platform and application records to the BOINC database.
+Reads info from "project.xml", e.g.:
+
+<boinc>
+    <platform>
+        <name>i686-pc-linux-gnu</name>
+        <user_friendly_name>Linux/x86</user_friendly_name>
+    </platform>
+    <app>
+        <name>astropulse</name>
+        <user_friendly_name>AstroPulse</user_friendly_name>
+    </app>
+</boinc>
+
+See http://boinc.berkeley.edu/tool_xadd.php
+'''
+
+import boinc_path_config
+from Boinc import database, db_mid, projectxml
+
+database.connect()
+projectxml.default_project().commit_all()
+
+]]></sequence>
+    <auth>157f96a018b0b2f2b466e2ce3c7f54db</auth>
+</tt_request>
+EOF;
+$r = simplexml_load_string($x);
+}
 
 if (!$r) {
     error("can't parse request message");
@@ -99,11 +139,11 @@ if (!$r) {
 // authenticate the user
 //
 $auth = (string)$r->auth;
-$user = BoincUser::lookup("auth='$auth'");
+$user = BoincUser::lookup("authenticator='$auth'");
 if (!$user) error("invalid authenticator");
 $user_submit = BoincUserSubmit::lookup_userid($user->id);
 if (!$user_submit) error("no submit access");
-$app = BoincApp::lookup("name='tree_threader'");
+$app = BoincApp::lookup("name='$app_name'");
 if (!$app) error("no tree_threader app");
 
 if (!$user_submit->submit_all) {
@@ -113,7 +153,7 @@ if (!$user_submit->submit_all) {
     }
 }
 
-switch ($r->getName()) {
+switch ((string)$r->action) {
     case 'submit': handle_submit($r, $user, $app); break;
     case 'get_output':
 		$batch_id = (int)$r->batchid;

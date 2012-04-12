@@ -1,0 +1,82 @@
+#! /usr/bin/env php
+<?php
+
+// ./bin/tree_threader_splitter input_dir
+//
+// input_dir: a directory with a number of template files
+//
+// Split these into N groups, make each group into a zip file
+// named "tree_threader_template_T_i"
+// where T is the current time and i is the index.
+// Put these in the download hierarchy,
+// and write a file "tree_threader_template_files"
+// containing the file names
+
+$files_per_group = 10;
+
+require_once("html/inc/dir_hier.inc");
+
+if ($argc != 2) die("usage: tree_threader_splitter dir\n");
+if (!is_dir($argv[1])) die("usage: tree_threader_splitter dir\n");
+
+$now = time();
+$flist = fopen("tree_threader_template_files", "w");
+
+function start_group($i) {
+	global $now;
+	mkdir("/tmp/tree_threader_template_".$now."_$i");
+}
+
+function add_file_to_group($i, $path) {
+	global $now;
+	$dir = "/tmp/tree_threader_template_".$now."_$i";
+	$cmd = "cp $path $dir";
+	system($cmd);
+}
+
+$config = simplexml_load_string(file_get_contents("config.xml"));
+if (!$config) die("can't parse config.xml");
+$fanout = (int)$config->config->uldl_dir_fanout;
+
+function finish_group($i) {
+	global $now, $fanout, $flist;
+	$dir = "tree_threader_template_".$now."_$i";
+    $dirpath = "/tmp/$dir";
+	$cmd = "zip -r $dirpath $dirpath";
+	system($cmd);
+	$f = "$dir.zip";
+	$path = dir_hier_path($f, "download", $fanout);
+	if (rename("/tmp/$f", $path)) {
+        echo "renamed /tmp/$f to $path\n";
+    } else {
+		die("can't rename /tmp/$f to $path\n");
+	}
+    fprintf($flist, "$f\n");
+}
+
+$dir = $argv[1];
+$d = opendir($dir);
+$igp = 0;
+$gpsize = 0;
+while (($f = readdir($d)) !== false) {
+    $p = "$dir/$f";
+    echo "processing $p\n";
+    if (!is_file($p)) continue;
+	if ($gpsize == 0) {
+		start_group($igp);
+	}
+	add_file_to_group($igp, $p);
+	$gpsize++;
+	if ($gpsize == $files_per_group) {
+		finish_group($igp);
+		$gpsize = 0;
+		$igp++;
+	}
+}
+if ($gpsize) {
+	finish_group($igp);
+}
+fclose($flist);
+
+?>
+

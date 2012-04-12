@@ -5,7 +5,7 @@
 // from the Institute for Computing Technology in Beijing
 //
 
-define("PROJECT", "http://test.foo.bar");
+define("PROJECT", "http://isaac.ssl.berkeley.edu/test/");
 
 function usage() {
     die("
@@ -23,7 +23,7 @@ tt_boinc retire batchid auth
 }
 
 function do_http_op($xml) {
-    $ch = curl_init(PROJECT."/tree_threader.php");
+    $ch = curl_init(PROJECT."tree_threader.php");
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, "request=$xml");
@@ -54,7 +54,7 @@ $seq
     list($reply, $errmsg) = do_http_op($req_xml);
     if ($errmsg) die("Error: $errmsg\n");
     $id = (int)$reply->id;
-    echo "batch ID: %d\n";
+    echo "batch ID: $id\n";
 }
 
 function handle_abort() {
