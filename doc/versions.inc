@@ -95,6 +95,14 @@ $m612 = array(
 	"type"=>"mac_advanced",
 );
 
+$m612_ppc = array(
+	"num"=>"6.12.35",
+	"status"=>"Recommended version (standard GUI)",
+	"file"=>"boinc_6.12.35_macOSX_universal.zip",
+	"date"=>"11 Aug 2011",
+	"type"=>"mac_advanced",
+);
+
 $m66 = array(
     "num"=>"6.6.36",
     "status"=>"Older version (standard GUI) (works on OS 10.3.9 - OS 10.5.8)",
@@ -114,6 +122,14 @@ $m70c = array(
 $m612c = array(
 	"num"=>"6.12.35",
 	"status"=>"Older version (Unix command-line version)",
+	"file"=>"boinc_6.12.35_universal-apple-darwin.zip",
+	"date"=>"11 Aug 2011",
+	"type"=>"bare_core",
+);
+
+$m612c_ppc = array(
+	"num"=>"6.12.35",
+	"status"=>"Recommended version (Unix command-line version)",
 	"file"=>"boinc_6.12.35_universal-apple-darwin.zip",
 	"date"=>"11 Aug 2011",
 	"type"=>"bare_core",
@@ -202,14 +218,24 @@ $windowsx64 = array(
 );
 
 $mac = array(
-    "name"=>"Mac OS X",
+    "name"=>"Mac OS X (Intel only)",
     "description"=>"Version 10.4.0+",
-    "dbname" => "powerpc-apple-darwin",
+    "dbname" => "i686-apple-darwin",
     "versions"=>array(
 		$m70,
 		$m70c,
 		$m612,
 		$m612c,
+    )
+);
+
+$macppc = array(
+    "name"=>"Mac OS X (PowerPC & Intel)",
+    "description"=>"Version 10.4.0+",
+    "dbname" => "powerpc-apple-darwin",
+    "versions"=>array(
+		$m612_ppc,
+		$m612c_ppc,
         $m66,
         $m66c,
     )
@@ -258,6 +284,7 @@ $platforms = array(
     "win"=>$windows,
     "winx64"=>$windowsx64,
     "mac"=>$mac,
+    "macppc" = $macppc,
     "linux"=>$linux,
     "linuxx64"=>$linuxx64,
     "linuxcompat"=>$linuxcompat,

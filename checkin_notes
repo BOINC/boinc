@@ -3282,3 +3282,11 @@ David  12 Apr 2012
         user/
             tree_threader.php
             
+Charlie 12 Apr 2012
+    - web: separate Intel-only from Universal (PowerPC & Intel) clients 
+        on download-all page so that PowerPC clients don't tell users 
+        to upgrade to intel-only version.
+    
+    doc/
+        versions.inc
+
