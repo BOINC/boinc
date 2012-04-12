@@ -40,19 +40,20 @@ function handle_submit($r, $user, $app) {
     );
     if (!$batch_id) die("couldn't create batch\n");
 
-    // write the sequence to a file
+    // move the sequence file to the download hier
     //
-    $seq_fname = "three_threader_seq_$batch_id";
     $config = simplexml_load_string(file_get_contents("../../config.xml"));
     $fanout = (int)$config->config->uldl_dir_fanout;
     $download_dir = trim((string)$config->config->download_dir);
 
+    $seq_fname = "three_threader_seq_$batch_id";
     $seq_path = dir_hier_path($seq_fname, $download_dir, $fanout);
-    $ret = file_put_contents($seq_path, (string)$r->sequence);
+    $tmp_name = $_FILES['seq_file']['tmp_name'];
+    $ret = rename($tmp_name, $seq_path);
     if ($ret === false) {
-        error("couldn't write sequence file");
+        error("couldn't rename sequence file");
     }
-    echo "write sequence file to $seq_path\n";
+    echo "renamed sequence file to $seq_path\n";
 
     $i = 0;
 	foreach ($files as $file) {
@@ -115,44 +116,11 @@ function handle_get_output($r, $batch) {
 
 xml_header();
 
-if (0) {
-$r = simplexml_load_string($_POST['request']);
+if (1) {
+    $r = simplexml_load_string($_POST['request']);
 } else {
-$x = <<<EOF
-<tt_request>
-    <action>submit</action>
-    <sequence><![CDATA[
-#!/usr/bin/env python
-
-'''
-Add platform and application records to the BOINC database.
-Reads info from "project.xml", e.g.:
-
-<boinc>
-    <platform>
-        <name>i686-pc-linux-gnu</name>
-        <user_friendly_name>Linux/x86</user_friendly_name>
-    </platform>
-    <app>
-        <name>astropulse</name>
-        <user_friendly_name>AstroPulse</user_friendly_name>
-    </app>
-</boinc>
-
-See http://boinc.berkeley.edu/tool_xadd.php
-'''
-
-import boinc_path_config
-from Boinc import database, db_mid, projectxml
-
-database.connect()
-projectxml.default_project().commit_all()
-
-]]></sequence>
-    <auth>06e5740fb78352852cd8aeef6cdd2893</auth>
-</tt_request>
-EOF;
-$r = simplexml_load_string($x);
+    $x = file_get_contents("xml_req");
+    $r = simplexml_load_string($x);
 }
 
 if (!$r) {

@@ -5,7 +5,7 @@
 // from the Institute for Computing Technology in Beijing
 //
 
-define("PROJECT", "http://isaac.ssl.berkeley.edu/test/");
+define("PROJECT", "http://casbak.ihep.ac.cn/castest/");
 
 function usage() {
     die("
@@ -17,11 +17,18 @@ tt_boinc get_output batch_id auth
 ");
 }
 
-function do_http_op($xml) {
+function do_http_op($xml, $file=null) {
     $ch = curl_init(PROJECT."tree_threader.php");
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, "request=$xml");
+    if ($file) {
+        $fields = array('request' => $xml, 'seq_file' => "@$file");
+    } else {
+        $fields = "request=$xml";
+    }
+    if (!curl_setopt($ch, CURLOPT_POSTFIELDS, $fields)) {
+        die("curl_setopt failed\n");
+    }
     $reply = curl_exec($ch);
     if (!$reply) return array(null, "HTTP error");
     $r = simplexml_load_string($reply);
@@ -32,22 +39,15 @@ function do_http_op($xml) {
 function handle_submit() {
     global $argc, $argv;
     if ($argc != 4) usage();
-    $seq = file_get_contents($argv[2]);
-    if ($seq === false) {
-        die("Can't read sequence file ".$argv[2]."\n");
-    }
+    if (!is_file($argv[2])) die("seq file missing");
     $auth = $argv[3];
     $req_xml = "
 <tt_request>
     <action>submit</action>
-    <sequence><![CDATA[
-$seq
-]]></sequence>
     <auth>$auth</auth>
 </tt_request>
 ";
-    echo $req_xml; exit;
-    list($reply, $errmsg) = do_http_op($req_xml);
+    list($reply, $errmsg) = do_http_op($req_xml, $argv[2]);
     if ($errmsg) die("Error: $errmsg\n");
     $id = (int)$reply->id;
     echo "batch ID: $id\n";

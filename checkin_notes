@@ -3266,3 +3266,19 @@ David  12 Apr 2012
         tt_boinc.cpp
     html/user/
         tree_threader.cpp
+
+David  12 Apr 2012
+    - add script for canceling jobs
+    - CAS@home stuff
+
+    tools/
+        tt_boinc
+    html/
+        ops/
+            cancel_wu_action.php
+            cancel_wus.php
+        inc/
+            util_ops.inc
+        user/
+            tree_threader.php
+            
