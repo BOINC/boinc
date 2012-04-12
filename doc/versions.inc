@@ -220,7 +220,7 @@ $windowsx64 = array(
 $mac = array(
     "name"=>"Mac OS X (Intel only)",
     "description"=>"Version 10.4.0+",
-    "dbname" => "i686-apple-darwin",
+    "dbname" => "x86_64-apple-darwin",
     "versions"=>array(
 		$m70,
 		$m70c,
