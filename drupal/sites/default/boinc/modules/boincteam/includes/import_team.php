@@ -17,13 +17,8 @@
   
   // Parse arguments
   $team_id = isset($argv[1]) ? $argv[1] : null;
-  $team_type_map_id = isset($argv[2]) ? $argv[2] : null;
+  $team_type_tid = isset($argv[2]) ? $argv[2] : null;
   $input_format = isset($argv[3]) ? $argv[3] : null;
-  //$record_offset = isset($argv[1]) ? $argv[1] : 0;
-  //$chunk_size = isset($argv[2]) ? $argv[2] : 100;
-  
-  // Construct sql conditions
-  //$limit = sprintf('LIMIT %d,%d', $record_offset, $chunk_size);
   
   $count = 0;
   
@@ -34,52 +29,64 @@
   $boincteam_admin = (int) db_result(db_query('SELECT userid FROM team_admin WHERE teamid=%d', array($team_id)));
   db_set_active('default');
   
-  $boincteam->description = _boincforum_text_sanitise($boincteam->description);
-  $teaser = node_teaser($boincteam->description);
-  
-  // Construct the team as an organic group node
-  $node = array(
-    'type' => 'team',
-    'title' => $boincteam->name,
-    'body' => $boincteam->description,
-    'teaser' => $teaser,
-    'uid' => get_drupal_id($boincteam->userid),
-    'path' => null,
-    'status' => 1,  // published or not - always publish
-    'promote' => 0,
-    'created' => $boincteam->create_time,
-    'comment' => 0,  // comments disabled
-    'moderate' => 0,
-    'sticky' => 0,
-    'format' => $input_format
-  );
-  
-  // Use pathauto function, if available, to clean up the path
-  if (module_exists('pathauto')) {
-    module_load_include('inc', 'pathauto', 'pathauto');
-    $node['path'] = pathauto_cleanstring($boincteam->name);
+  if (!$team_exists = db_query("SELECT team_id FROM {boincteam} WHERE team_id = '%d')", $boincteam->id)) {
+    $boincteam->description = _boincforum_text_sanitise($boincteam->description);
+    $teaser = node_teaser($boincteam->description);
+    
+    // Construct the team as an organic group node
+    $node = array(
+      'type' => 'team',
+      'title' => $boincteam->name,
+      'body' => '',
+      'teaser' => $teaser,
+      'uid' => get_drupal_id($boincteam->userid),
+      'path' => null,
+      'status' => 1,  // published or not - always publish
+      'promote' => 0,
+      'created' => $boincteam->create_time,
+      'comment' => 0,  // comments disabled
+      'moderate' => 0,
+      'sticky' => 0,
+      'format' => $input_format
+    );
+    
+    // Use pathauto function, if available, to clean up the path
+    if (module_exists('pathauto')) {
+      module_load_include('inc', 'pathauto', 'pathauto');
+      $node['path'] = pathauto_cleanstring($boincteam->name);
+    }
+    else {
+      echo 'fail'; exit;
+      //$node['path'] = check_plain($boincteam->name);
+    }
+    
+    // Add special organic group properties
+    $node['og_description'] = strip_tags($boincteam->description);
+    $node['og_selective'] = OG_OPEN;
+    $node['og_register'] = OG_REGISTRATION_NEVER;
+    $node['og_directory'] = OG_DIRECTORY_CHOOSE_FALSE;
+    $node['og_private'] = 0;
+    
+    $node = (object) $node; // node_save requires an object form
+    
+    $node->field_description[]['value'] = $boincteam->description;
+    $node->field_url[]['value'] = $boincteam->url;
+    $node->field_country[]['value'] = $boincteam->country;
+    
+    $node->taxonomy[] = taxonomy_get_term($team_type_tid);
+    
+    // Save the team node
+    node_save($node);
+    
+    // Save the team IDs to a BOINC <--> Drupal reference table.
+    db_query('INSERT INTO {boincteam} (team_id, nid) VALUES (%d, %d)', $boincteam->id, $node->nid);
   }
-  else {
-    echo 'fail'; exit;
-    //$node['path'] = check_plain($boincteam->name);
-  }
-  
-  // Add special organic group properties
-  //$node->og_initial_groups[0][$node->nid];
-  //$node->og_groups[0] = $node->nid;
-  $node['og_public'] = 0;
-  //$node->og_groups_names[0] = $node->title;
-  
-  // Save the team node
-  $node = (object) $node; // node_save requires an object form
-  node_save($node);
-  
-  // Save the team IDs to a BOINC <--> Drupal reference table.
-  db_query('INSERT INTO {boincteam} (team_id, nid) VALUES (%d, %d)', $boincteam->id, $node->nid);
   
   // Determine team membership
+  db_set_active('boinc');
   $boincteam_member_ids = array();
   while ($boincuser = db_fetch_object($boincteam_members)) $boincteam_member_ids[] = $boincuser->id;
+  db_set_active('default');
   $team_members = db_query('SELECT uid FROM {boincuser} WHERE boinc_id IN(%s)', implode(',', $boincteam_member_ids));
   $team_admin = (int) db_result(db_query('SELECT uid FROM {boincuser} WHERE boinc_id=%d', $boincteam_admin));
   
@@ -90,3 +97,4 @@
   }
   
   echo $count;
+  

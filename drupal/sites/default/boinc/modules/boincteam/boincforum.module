@@ -299,7 +299,7 @@ function boincforum_migrate_form_submit($form, $form_state) {
 }
 
 /**
- * User Import Functions
+ * Import users (at least those required for further data import)
  */
 function boincforum_import_users() {
   // Check whether the user table has been successfully imported already
@@ -406,13 +406,18 @@ function boincforum_import_users() {
   flush();
 }
 
+
+/**
+ * Create teams and assign members
+ */
 function boincforum_import_teams() {
-  // Check whether the team table has been successfully imported already
-  //variable_set('boincforum_import_team_successful', 0);
   
+  $input_format = variable_get('boincforum_input_format', 0);
+  
+  // Check whether the team table has been successfully imported already
   if (variable_get('boincforum_import_team_successful', 0)) {
-    drupal_set_message(t('Teams already imported successfully'));
-    return;
+    //drupal_set_message(t('Teams already imported successfully'));
+    //return;
   } 
   
   require_once (drupal_get_path('module', 'pathauto') .'/pathauto.inc');
@@ -427,16 +432,37 @@ function boincforum_import_teams() {
     // Import team types from BOINC to a Drupal vocabulary
     require_boinc('team_types');
     global $team_types;
+    
+    // Create vocabulary if it isn't set
     $team_vid = db_result(db_query('SELECT vid FROM {vocabulary} WHERE name="%s"', 'Teams'));
-    foreach ($team_types as $boinc_type_id => $name) {
-      if (!$name) $name = 'n/a';
-      $team_type = array(
-        'name' => _boincforum_text_sanitise($name),
-        'vid' => $team_vid,
-        'description' => '',
-        'parent' => 0
+    if (!$team_vid) {
+      $team_vocab = array(
+        'name' => t('Teams'),
+        'description' => t('Types of BOINC teams'),
       );
-      taxonomy_save_term($team_type);
+      taxonomy_save_vocabulary($team_vocab);
+      $team_vid = db_result(db_query('SELECT vid FROM {vocabulary} WHERE name="%s"', 'Teams'));
+    }
+    
+    foreach ($team_types as $boinc_type_id => $name) {
+      // Check for an existing term in the vocabulary
+      $team_type_id = db_result(db_query("SELECT tid FROM {term_data} WHERE vid = '{$team_vid}' AND LOWER(name) = LOWER('%s')", trim($name)));
+      if ($team_type_id) {
+        $team_type = array(
+          'tid' => $team_type_id
+        );
+      }
+      else {
+        //if (!$name) $name = 'n/a';
+        if (!$name) continue;
+        $team_type = array(
+          'name' => _boincforum_text_sanitise($name),
+          'vid' => $team_vid,
+          'description' => '',
+          'parent' => 0
+        );
+        taxonomy_save_term($team_type);
+      }
       // Note the taxonomy ID for mapping forums to categories
       $team_type_map[$boinc_type_id] = $team_type['tid'];
     }
@@ -461,9 +487,7 @@ function boincforum_import_teams() {
   db_set_active('boinc');
   $boincteams = db_query('SELECT * FROM %steam', $pre);
   db_set_active('default');
-  /*
-  $membership_script_path = dirname(__FILE__) . '/includes';
-  $membership_script = "{$membership_script_path}/assign_teams.php"; */
+  
   $team_import_script_path = dirname(__FILE__) . '/includes';
   $team_import_script = "{$team_import_script_path}/import_team.php";
   $teams_imported = 0;
@@ -480,50 +504,8 @@ function boincforum_import_teams() {
   while ($boincteam = db_fetch_object($boincteams)) {
     $start_time = microtime(true);
     
-    if (db_result(db_query('SELECT COUNT(*) FROM {boincteam} WHERE team_id=%d', $boincteam->id))) continue;
-   /* $boincteam->description = _boincforum_text_sanitise($boincteam->description);
-    $teaser = node_teaser($boincteam->description);
-
-    // Construct the team as an organic group node
-    $node = array(
-      'type' => 'team',
-      'title' => $boincteam->name,
-      'body' => $boincteam->description,
-      'teaser' => $teaser,
-      'uid' => get_drupal_id($boincteam->userid),
-      'path' => pathauto_cleanstring($node->title),
-      'status' => 1,  // published or not - always publish
-      'promote' => 0,
-      'created' => $boincteam->create_time,
-      'comment' => 0,  // comments disabled
-      'moderate' => 0,
-      'sticky' => $topic->sticky,
-      'format' => $input_format
-    );
-    
-    // Add special organic group properties
-    //$node->og_initial_groups[0][$node->nid];
-    //$node->og_groups[0] = $node->nid;
-    $node['og_public'] = 0;
-    //$node->og_groups_names[0] = $node->title;
-    
-    // Save the team node
-    $node = (object) $node; // node_save requires an object form
-    node_save($node);
-    */
     // Save the team type affiliation 
     $tid = $team_type_map[$boincteam->type];
-    /*taxonomy_node_save($node, array($tid));
-    
-    //$sql = "INSERT INTO {og_ancestry} (nid, group_nid) VALUES (%d, %d)";
-    //db_query($sql, $node_facts->nid, $node->nid);
-    
-    // Save the team IDs to a BOINC <--> Drupal reference table.
-    db_query('INSERT INTO {boincteam} (team_id, nid) VALUES (%d, %d)', $boincteam->id, $node->nid);
-    //$node = (object) array(); $node->nid = db_result(db_query('select nid from {boincteam} where team_id=%d', $boincteam->id));
-    // Retrieve all users who are members of this team
-    $memberships_assigned = (int) exec("php {$membership_script} {$boincteam->id}");
-    */
     
     $memberships_assigned = (int) exec("php {$team_import_script} {$boincteam->id} {$tid} {$input_format}");
     
@@ -572,7 +554,7 @@ function boincforum_import_teams() {
 }
 
 /**
- * Create Forum Containers and Forums
+ * Create forum containers and forums
  */
 function boincforum_import_categories() {
   $pre = variable_get('boincforum_table_prefix', '');
@@ -587,7 +569,14 @@ function boincforum_import_categories() {
   // Retrieve the vocabulary vid named "Forums"
   //$forum_vid = variable_get('forum_nav_vocabulary', 0);
   $forum_vid = db_result(db_query('SELECT vid FROM {vocabulary} WHERE name="%s"', 'Forums'));
-  
+  if (!$forum_vid) {
+    $forum_vocab = array(
+      'name' => t('Forums'),
+      'description' => t('The different forum categories / containers'),
+    );
+    taxonomy_save_vocabulary($team_vocab);
+    $forum_vid = db_result(db_query('SELECT vid FROM {vocabulary} WHERE name="%s"', 'Forums'));
+  }
   drupal_set_message(t('Forum vid: %forum_vid', array('%forum_vid' => $forum_vid)));
 
   // Get both categories and forums from BOINC
