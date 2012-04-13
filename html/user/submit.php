@@ -119,9 +119,9 @@ function handle_main($user) {
     }
 
     echo "<p>
-        <a href=sandbox.php><strong> File_Sandbox </strong></a>
-        <a href=lammps.php><strong> Job_Submit </strong></a>
-        <a href=submit.php><strong> Job_Control </strong></a>";
+        <a href=sandbox.php><strong> File sandbox </strong></a>
+        | <a href=lammps.php><strong> Job submission </strong></a>
+        | <a href=submit.php><strong> Job control </strong></a>";
     page_tail();
 }
 

@@ -127,10 +127,19 @@ struct TASK {
         if (fraction_done_filename.size() == 0) return 0;
         FILE* f = fopen(fraction_done_filename.c_str(), "r");
         if (!f) return 0;
-        double frac;
-        int n = fscanf(f, "%lf", &frac);
+
+        // read the last line of the file
+        //
+        fseek(f, -32, SEEK_END);
+        double temp, frac = 0;
+        while (!feof(f)) {
+            char buf[256];
+            char* p = fgets(buf, 256, f);
+            if (p == NULL) break;
+            int n = sscanf(buf, "%lf", &temp);
+            if (n == 1) frac = temp;
+        }
         fclose(f);
-        if (n != 1) return 0;
         if (frac < 0) return 0;
         if (frac > 1) return 1;
         return frac;

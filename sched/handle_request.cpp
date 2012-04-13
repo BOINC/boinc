@@ -1210,13 +1210,13 @@ void process_request(char* code_sign_key) {
     x = drand()*86400;
     srand(retval);
     last_rpc_time = g_reply->host.rpc_time;
-    t = g_reply->host.rpc_time + x;
+    t = (time_t)(g_reply->host.rpc_time + x);
     rpc_time_tm = localtime(&t);
     g_request->last_rpc_dayofyear = rpc_time_tm->tm_yday;
 
     t = time(0);
     g_reply->host.rpc_time = t;
-    t += x;
+    t += (time_t)x;
     rpc_time_tm = localtime(&t);
     g_request->current_rpc_dayofyear = rpc_time_tm->tm_yday;
 

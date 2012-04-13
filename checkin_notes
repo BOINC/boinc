@@ -3297,3 +3297,21 @@ David  13 Apr 2012
         tt_boinc
     html/user/
         tree_threader.php
+
+David  13 Apr 2012
+    - wrapper: when reading fraction-done file, read the last line
+        (or at least the last double).
+        This accommodates a particular application (LAMMPS)
+        that can only append to this file.
+    - CAS@home stuff
+
+    sched/
+        sched_util.cpp
+        sched_send.cpp
+    tools/
+        tt_boinc
+    html/user/
+        submit.php
+        tree_threader.php
+    samples/wrapper/
+        wrapper.cpp

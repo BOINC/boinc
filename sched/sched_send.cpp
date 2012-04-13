@@ -800,6 +800,12 @@ int wu_is_infeasible_fast(
     return retval;
 }
 
+// return true if the client has a sticky file used by this job
+//
+bool host_has_job_file(WORKUNIT& wu) {
+    return false;
+}
+
 // insert "text" right after "after" in the given buffer
 //
 static int insert_after(char* buffer, const char* after, const char* text) {

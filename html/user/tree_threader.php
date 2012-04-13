@@ -53,7 +53,6 @@ function handle_submit($r, $user, $app) {
     if ($ret === false) {
         error("couldn't rename sequence file");
     }
-    echo "renamed sequence file to $seq_path\n";
 
     $i = 0;
 	foreach ($files as $file) {
@@ -63,8 +62,6 @@ function handle_submit($r, $user, $app) {
 		$ret = system($cmd);
 		if ($ret === false) {
 			error("can't create job");
-		} else {
-            echo "created job: $ret\n";
         }
 	}
 	echo "<tt_reply>\n<batch_id>$batch_id</batch_id>\n</tt_reply>\n";

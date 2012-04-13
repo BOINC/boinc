@@ -31,7 +31,6 @@ function do_http_op($xml, $file=null) {
     }
     $reply = curl_exec($ch);
     if (!$reply) return array(null, "HTTP error");
-    echo $reply; exit;
     $r = simplexml_load_string($reply);
     if (!$r) return array(null, "Can't parse reply XML: <pre>".htmlentities($reply)."</pre>");
     return array($r, null);
@@ -50,8 +49,7 @@ function handle_submit() {
 ";
     list($reply, $errmsg) = do_http_op($req_xml, $argv[2]);
     if ($errmsg) die("Error: $errmsg\n");
-    $id = (int)$reply->id;
-    echo "batch ID: $id\n";
+    echo "batch ID: ".(int)$reply->batch_id."\n";
 }
 
 function handle_get_output() {
@@ -68,6 +66,7 @@ function handle_get_output() {
 ";
     list($reply, $errmsg) = do_http_op($req_xml);
     if ($errmsg) die("Error: $errmsg\n");
+    echo (string)$reply->url, "\n";
 }
 
 if ($argc < 2) usage();
