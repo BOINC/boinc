@@ -56,7 +56,8 @@
       $node['path'] = pathauto_cleanstring($boincteam->name);
     }
     else {
-      echo 'fail'; exit;
+      echo 'Pathauto module is required!';
+      exit;
       //$node['path'] = check_plain($boincteam->name);
     }
     

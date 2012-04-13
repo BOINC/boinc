@@ -209,6 +209,7 @@ function boincforum_migrate_form() {
   $BOINCFORUM_FUNCTIONS = array(
     'users' => t('Import Users'),
     'teams' => t('Import Teams'),
+    'friends' => t('Import Friendships'),
     'categories' => t('Import Forum Containers'),
     'topics' => t('Import Topics'),
     'posts' => t('Import Posts'),
@@ -245,6 +246,16 @@ function boincforum_migrate_form_submit($form, $form_state) {
       boincforum_import_teams();
       if (!variable_get('boincforum_import_team_successful', 0)) {
         $_SESSION['boincforum_selected'] = 'teams';
+      }
+      else {
+        $_SESSION['boincforum_selected'] = 'friends';
+      }
+      break;
+
+    case 'friends':
+      boincforum_import_friends();
+      if (!variable_get('boincforum_import_friend_successful', 0)) {
+        $_SESSION['boincforum_selected'] = 'friends';
       }
       else {
         $_SESSION['boincforum_selected'] = 'categories';
@@ -552,6 +563,100 @@ function boincforum_import_teams() {
   ob_flush();
   flush();
 }
+
+
+/**
+ * Create friend relationships between users
+ */
+function boincforum_import_friends() {
+  $pre = variable_get('boincforum_table_prefix', '');
+  $friendships_imported = 0;
+  $start_time = microtime(true);
+  $total_runtime = 0;
+  $last_status_update = time();
+  
+  // See how many friendships need to be processed
+  db_set_active('boinc');
+  $friendship_count = db_result(db_query('SELECT COUNT(*) FROM %sfriend WHERE reciprocated = 1', $pre));
+  db_set_active('default');
+
+  if (!$friendship_count) {
+      drupal_set_message(t('There were no friendships found: Aborting script'), 'error');
+      return t('There were no friendships found: Aborting script.');
+  }
+
+  drupal_set_message(t('Found %friendship_count friend relationships: Beginning Import', array('%friendship_count' => $friendship_count)));
+  
+  echo t('Importing %friendship_count friend relationships from BOINC database', array('%friendship_count' => $friendship_count));
+  ob_flush();
+  flush();
+  
+  // Grab the source data
+  db_set_active('boinc');
+  $friendships = db_query('
+    SELECT user_src, user_dest, message, create_time
+    FROM {friend}
+    WHERE reciprocated = 1');
+  db_set_active('default');
+  
+  // Convert BOINC friends to Drupal friends
+  while ($friendship = db_fetch_object($friendships)) {
+    $uid = get_drupal_id($friendship->user_src);
+    $friend_uid = get_drupal_id($friendship->user_dest);
+    db_query("
+      INSERT IGNORE INTO {flag_friend}
+      SET uid = '%d', friend_uid = '%d', created = '%d'",
+      $uid, $friend_uid, $friendship->create_time
+    );
+    
+    $friendships_imported++;
+    if ($friendships_imported % 100 == 0) {
+      echo '.';
+      ob_flush();
+      flush();
+    }
+    
+    // Keep a running tally of things and provide occasional status updates
+    $total_runtime += $processing_time;
+    $last_status_update += $processing_time;
+    $batches_without_update++;
+    if (time() - $last_status_update > 60) {
+      $progress = round(100*($friendships_imported)/$friendship_count, 1);
+      echo "<br/>\n" . t("%num_friends friend relationships imported
+        in %time (%progress% complete)",
+        array(
+          '%num_friends' => $friendships_imported,
+          '%time' => gmdate('H:i:s', microtime(true) - $start_time),
+          '%progress' => $progress
+        )
+      );
+      ob_flush();
+      flush();
+      $last_status_update = time();
+    }
+  }
+  
+  // Get the final count of friends
+  variable_set('boincforum_import_friend_successful', 1);
+  $count = db_result(db_query('SELECT COUNT(*) FROM {flag_friend}'));
+  drupal_set_message(t('Successfully imported %count friend relationships', array('%count' => $count)));
+  
+  // Indicate that the process is complete and return to the main migration page
+  echo "<br/>\n<br/>\n";
+  echo 'complete. redirecting';
+  ob_flush();
+  flush();
+  for ($i = 0; $i < 3; $i++) {
+    sleep(1);
+    echo '.';
+    ob_flush();
+    flush();
+  }
+  echo "<script>location.replace('{$_SERVER['REQUEST_URI']}');</script>";
+  ob_flush();
+  flush();
+}
+
 
 /**
  * Create forum containers and forums
