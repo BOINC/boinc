@@ -67,17 +67,19 @@ function handle_submit($r, $user, $app) {
             echo "created job: $ret\n";
         }
 	}
-	echo "<batch_id>$batch_id</batch_id>\n";
+	echo "<tt_reply>\n<batch_id>$batch_id</batch_id>\n</tt_reply>\n";
 }
 
 // Enumerate all the successfully completed WUs for this batch.
+// Each output file is a .zip that unzips into a directory ali/.
 // Combine their output files into a zip file in /tmp,
 // make a symbolic link to this from /download,
 // and return the resulting URL
 //
 function handle_get_output($r, $batch) {
 	$wus = BoincWorkUnit::enum("batch=$batch->id");
-	$outdir = "/tmp/tree_threader_".$batch->id;
+	$outdir = "/tmp/tree_threader_output_".$batch->id;
+    @mkdir($outdir);
 	foreach ($wus as $wu) {
 		if (!$wu->canonical_resultid) continue;
 		$result = BoincResult::lookup_id($wu->canonical_resultid);
@@ -91,27 +93,32 @@ function handle_get_output($r, $batch) {
 
 		// unzip it into a directory in /tmp
 		//
-		$dir = tmpdir();
-		$cmd = "cd $dir; unzip -r $path";
+		$dir = "/tmp/$wu->name";
+        @mkdir($dir);
+		$cmd = "cd $dir; unzip -q $path";
 		$ret = system($cmd);
 		if ($ret === false) {
 			error("can't unzip output file");
 		}
-		$cmd = "cp $dir/* $outdir";
+		$cmd = "cp $dir/ali/* $outdir";
 		$ret = system($cmd);
 		if ($ret === false) {
 			error("can't copy output files");
 		}
 
+        //system("rm -rf $dir");
 	}
-	$cmd = "cd /tmp ; zip -r $outdir $outdir";
+
+	$cmd = "zip -r -q $outdir $outdir";
 	$ret = system($cmd);
 	if ($ret === false) {
 		error("can't zip output files");
 	}
-	$fname = "tree_threader_".$batch_id.".zip";
-	symlink($outdir, "../../download/$fname");
-	echo "<url>$fname</url>";
+	$fname = "tree_threader_output_".$batch->id.".zip";
+	@symlink($outdir, "../../download/$fname");
+    $config = simplexml_load_string(file_get_contents("../../config.xml"));
+    $download_url = trim((string)$config->config->download_url);
+	echo "<tt_reply>\n<url>$download_url/$fname</url>\n</tt_reply>\n";
 }
 
 xml_header();
@@ -145,7 +152,9 @@ if (!$user_submit->submit_all) {
 }
 
 switch ((string)$r->action) {
-    case 'submit': handle_submit($r, $user, $app); break;
+    case 'submit':
+        handle_submit($r, $user, $app);
+        break;
     case 'get_output':
 		$batch_id = (int)$r->batch_id;
 		$batch = BoincBatch::lookup_id($batch_id);

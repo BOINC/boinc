@@ -31,6 +31,7 @@ function do_http_op($xml, $file=null) {
     }
     $reply = curl_exec($ch);
     if (!$reply) return array(null, "HTTP error");
+    echo $reply; exit;
     $r = simplexml_load_string($reply);
     if (!$r) return array(null, "Can't parse reply XML: <pre>".htmlentities($reply)."</pre>");
     return array($r, null);
@@ -56,8 +57,8 @@ function handle_submit() {
 function handle_get_output() {
     global $argc, $argv;
     if ($argc != 4) usage();
-    $batch_id = $argv[3];
-    $auth = $argv[4];
+    $batch_id = $argv[2];
+    $auth = $argv[3];
     $req_xml = "
 <tt_request>
     <action>get_output</action>
