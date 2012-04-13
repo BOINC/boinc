@@ -103,6 +103,7 @@ function show_download($pname) {
         download_link('win');
         download_link('winx64');
         download_link('mac');
+        download_link('macppc');
         download_link('linux');
         download_link('linuxx64');
         download_link('linuxcompat');
@@ -150,7 +151,11 @@ if (get_str2('all_platforms')) {
         show_download('win');
     }
 } else if (strstr($client_info, 'Mac')) {
-    show_download('mac');
+	if (strstr($client_info, 'PPC Mac OS X')) {
+		show_download('macppc');
+	} else {
+		show_download('mac');
+	}
 } else if (strstr($client_info, 'Linux')) {
     if (strstr($client_info, 'x86_64')) {
         show_download('linuxx64');
