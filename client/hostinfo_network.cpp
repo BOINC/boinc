@@ -19,6 +19,7 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
+#define getpid _getpid
 #else 
 #include "config.h"
 #include <cstdio>
