@@ -44,10 +44,10 @@ function friendly_name($p) {
 }
 
 function canonical_plan_class($pc) {
-    if (strstr($pc, "mt")) return "mt";
+    //if (strstr($pc, "mt")) return "mt";
     if (strstr($pc, "cuda")) return "cuda";
     if (strstr($pc, "ati")) return "ati";
-    return $pc;
+    return null;
 }
 
 // get platforms from get_project_config.php (preferred method)
@@ -102,12 +102,14 @@ function get_platforms(&$url) {
         }
     } else {
         foreach ($p->platform as $r) {
+            $plat = (string)$r->platform_name;
             if (array_key_exists('plan_class', $r)) {
                 $pc = canonical_plan_class((string)$r->plan_class);
-                $list[] = (string)$r->platform_name."[".$pc."]";
-            } else {
-                $list[] = (string)$r->platform_name;
+                if ($pc) {
+                    $plat .= "[".$pc."]";
+                }
             }
+            $list[] = $plat;
         }
     }
     return array_unique($list);
@@ -130,7 +132,6 @@ function get_platforms2($url) {
             if (array_key_exists('plan_class', $v)) {
                 $pc = (string)$v->plan_class;
                 $pc = canonical_plan_class($pc);
-                echo "pc: $pc\n";
             }
             if (strlen($pc)) {
                 $p = $p.'['.$pc.']';
@@ -198,13 +199,13 @@ function get_platforms_string($url) {
 //$u = "http://www.worldcommunitygrid.org/";
 //$u = "http://setiathome.berkeley.edu/";
 //$u = "http://aqua.dwavesys.com/";
+//$u = "http://lhcathome2.cern.ch/test4theory";
 //$x = get_platforms($u);
 //print_r($x);
 //echo get_platforms_string("http://setiathome.berkeley.edu/");
 //$x = "http://sat.isa.ru/pdsat/";
 //print_r( get_platforms($x));
 
-//print_r(get_platforms2("http://www.primegrid.com/"));
 
 function wfPlatforms() {
     global $wgParser;

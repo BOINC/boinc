@@ -3315,3 +3315,10 @@ David  13 Apr 2012
         tree_threader.php
     samples/wrapper/
         wrapper.cpp
+
+David  13 Apr 2012
+    - client: add PID to random stuff used to make host CPID,
+        in case running multiple clients on same host
+
+    client/
+        hostinfo_network.cpp

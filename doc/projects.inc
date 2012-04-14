@@ -211,6 +211,14 @@ $astro_phys_chem = array(
             "lhc.jpg"
         ),
         array(
+            "LHC@home Test4Theory",
+            "http://lhcathome2.cern.ch/test4theory/",
+            tra("CERN (European Organization for Nuclear Research)"),
+            tra("Physics"),
+            tra("This project uses CERN-developed virtual machine technology for full-fledged LHC event physics simulation on volunteer computers.  Requires that you install VirtualBox on your computer"),
+            "t4t.png"
+        ),
+        array(
             "SETI@home",
             "http://setiathome.berkeley.edu/",
             tra("University of California, Berkeley"),

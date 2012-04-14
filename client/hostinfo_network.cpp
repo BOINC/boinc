@@ -92,7 +92,9 @@ int HOST_INFO::get_local_network_info() {
 void HOST_INFO::make_random_string(const char* salt, char* out) {
     char buf[1024];
 
-    sprintf(buf, "%.15e%s%s%f%s", dtime(), domain_name, ip_addr, d_free, salt);
+    sprintf(buf, "%d%.15e%s%s%f%s",
+        getpid(), dtime(), domain_name, ip_addr, d_free, salt
+    );
     md5_block((const unsigned char*) buf, (int)strlen(buf), out);
 }
 
