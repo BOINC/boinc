@@ -3114,3 +3114,11 @@ David  13 Apr 2012
 
     client/
         hostinfo_network.cpp
+
+Rom    16 Apr 2012
+    - Tag for 7.0.26 release, all platforms
+      boinc_core_release_7_0_26
+
+    /
+        configure.ac
+        version.h
