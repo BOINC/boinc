@@ -3107,3 +3107,10 @@ David  9 Apr 2012
     client/
         coproc_detect.cpp
         scheduler_op.cpp
+
+David  13 Apr 2012
+    - client: add PID to random stuff used to make host CPID,
+        in case running multiple clients on same host
+
+    client/
+        hostinfo_network.cpp
