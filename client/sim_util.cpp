@@ -100,6 +100,7 @@ void show_message(PROJ_AM *p, char* msg, int priority, bool, const char*) {
 
 APP_CLIENT_SHM::APP_CLIENT_SHM() {}
 GRAPHICS_MSG::GRAPHICS_MSG() {}
+int FILE_INFO::verify_file(bool, bool, bool) {return 0;}
 
 
 //////////////// FUNCTIONS WE NEED TO IMPLEMENT /////////////

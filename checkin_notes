@@ -3065,3 +3065,13 @@ Charlie 31 Mar 2012
     /
         configure.ac
         version.h
+
+David  30 Mar 2012
+    - client simulator: compile fixes
+
+    client/
+        sim.cpp
+        sim_util.cpp
+        client_types.cpp
+        cs_scheduler.cpp
+        app.cpp

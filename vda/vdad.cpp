@@ -93,7 +93,7 @@ int META_CHUNK::encode() {
         if (st != 32) return -1;    // encoder returns 32 for some reason
     }
 
-    // make symlinks
+    // make links
     //
     for (int i=0; i<coding.m; i++) {
         char enc_filename[1024], target_path[1024];
@@ -107,10 +107,10 @@ int META_CHUNK::encode() {
             return retval;
         }
         sprintf(link_name, "%s/%s", dir_name, DATA_FILENAME);
-        retval = symlink(target_path, link_name);
+        retval = link(target_path, link_name);
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
-                "encode(): symlink %s %s failed\n", target_path, link_name
+                "encode(): link %s %s failed\n", target_path, link_name
             );
             return retval;
         }
