@@ -373,6 +373,9 @@ int SCHEDULER_OP::parse_master_file(PROJECT* p, vector<std::string> &urls) {
     // couldn't find any scheduler URLs in the master file?
     //
     if ((int) urls.size() == 0) {
+        msg_printf(p, MSG_INTERNAL_ERROR,
+            "No scheduler URLs found in master file\n"
+        );
         p->sched_rpc_pending = 0;
         return ERR_XML_PARSE;
     }

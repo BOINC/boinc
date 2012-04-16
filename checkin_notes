@@ -3093,3 +3093,17 @@ David  2 Apr 2012
 
     lib/
         coproc.cpp
+
+David  9 Apr 2012
+    - client: if we fetch a master file and it contains no scheduler URLs,
+        show a message of class INTERNAL_ERROR
+    - client/scheduler: make CUDA_DEVICE_PROP.totalGlobalMem a double,
+        and remove dtotalGlobalMem.
+        Although NVIDIA reports RAM size as a size_t,
+        there's no reason to store it as an integer after that.
+
+    lib/
+        coproc.cpp,h
+    client/
+        coproc_detect.cpp
+        scheduler_op.cpp

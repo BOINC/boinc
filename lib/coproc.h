@@ -263,9 +263,7 @@ struct COPROC {
 struct CUDA_DEVICE_PROP {
   char  name[256];
   int   deviceHandle;
-  size_t totalGlobalMem;
-    // not used on the server; dtotalGlobalMem is used instead
-    // (since some boards have >= 4GB)
+  double totalGlobalMem;
   int   sharedMemPerBlock;
   int   regsPerBlock;
   int   warpSize;
@@ -280,7 +278,6 @@ struct CUDA_DEVICE_PROP {
   int   textureAlignment;
   int   deviceOverlap;
   int   multiProcessorCount;
-  double dtotalGlobalMem;   // not defined in client
 };
 
 struct COPROC_NVIDIA : public COPROC {
