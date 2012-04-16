@@ -263,7 +263,7 @@ struct COPROC {
 struct CUDA_DEVICE_PROP {
   char  name[256];
   int   deviceHandle;
-  unsigned int totalGlobalMem;
+  size_t totalGlobalMem;
     // not used on the server; dtotalGlobalMem is used instead
     // (since some boards have >= 4GB)
   int   sharedMemPerBlock;

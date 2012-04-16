@@ -3075,3 +3075,14 @@ David  30 Mar 2012
         client_types.cpp
         cs_scheduler.cpp
         app.cpp
+
+David  2 Apr 2012
+    - client: change some unsigned int to size_t in our versions
+        of NVIDIA APIs.  This apparently caused crashes
+        (in app, not client, which I don't understand) for Einstein@Home.
+        From Steffen Moller.
+
+    lib/
+        coproc.h
+    client/
+        coproc_detect.cpp

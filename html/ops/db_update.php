@@ -833,6 +833,4 @@ $db_updates = array (
     array(25169, "update_1_30_2012"),
 );
 
-
-
 ?>
