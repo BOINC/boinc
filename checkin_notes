@@ -3340,3 +3340,10 @@ David  17 Apr 2012
 
     sched/
         target_batch.cpp
+
+David  17 Apr 2012
+    - scheduler: handling of allow_multiple_clients flag from client
+        was wrong.  From Bernd.
+
+    sched/
+        handle_request.cpp

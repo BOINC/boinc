@@ -409,7 +409,7 @@ make_new_host:
         //
         // NOTE: If the client was run with --allow_multiple_clients, skip this.
         //
-        if ((g_request->allow_multiple_clients==1)
+        if ((g_request->allow_multiple_clients != 1)
             && find_host_by_other(user, g_request->host, host)
         ) {
             log_messages.printf(MSG_NORMAL,
