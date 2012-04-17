@@ -3332,3 +3332,11 @@ David  17 Apr 2012
     client/
         client_types.h
         gui_rpc_server_ops.cpp
+
+David  17 Apr 2012
+    - scheduler: add a program that targets remaining jobs in a batch
+        to a particular user (e.g. for cloud execution).
+        From Derrick Kondo.
+
+    sched/
+        target_batch.cpp
