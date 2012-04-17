@@ -3322,3 +3322,13 @@ David  13 Apr 2012
 
     client/
         hostinfo_network.cpp
+
+David  17 Apr 2012
+    - scheduler: fix bug in assigned-job logic (from Derrick Kondo)
+    - client: only send active tasks in get_simple_gui_info GUI RPC
+
+    sched/
+        sched_assign.cpp
+    client/
+        client_types.h
+        gui_rpc_server_ops.cpp

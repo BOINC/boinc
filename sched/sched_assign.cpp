@@ -196,7 +196,7 @@ bool send_assigned_jobs() {
         //
         sprintf(buf, "where workunitid=%d and hostid=%d",
             asg.workunitid,
-            g_request->host.id
+            g_reply->host.id
         );
         retval = result.lookup(buf);
         if (retval != ERR_DB_NOT_FOUND) continue;
