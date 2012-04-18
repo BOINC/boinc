@@ -138,6 +138,7 @@ function generalprefs_page($action = null, $venue = null) {
       $output .= '</tr>';
       foreach ($prefs['default'][$section] as $name => $setting) {
         if ($name{0} == '#') continue;
+        if (!isset($setting['#type'])) continue;
         if (!isset($setting['#title'])) $setting['#title'] = '';
         if (!isset($setting['#description'])) $setting['#description'] = '';
         $output .= '<tr>';
@@ -270,6 +271,7 @@ function projectprefs_page($action = null, $venue = null) {
       $output .= '</tr>';
       foreach ($prefs['default'][$section] as $name => $setting) {
         if ($name{0} == '#') continue;
+        if (!isset($setting['#type'])) continue;
         if (!isset($setting['#title'])) $setting['#title'] = '';
         if (!isset($setting['#description'])) $setting['#description'] = '';
         $output .= '<tr>';

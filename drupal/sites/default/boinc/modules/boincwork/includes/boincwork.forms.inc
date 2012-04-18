@@ -323,7 +323,7 @@ function boincwork_generalprefs_form(&$form_state, $bilge, $venue, $initialize_i
     '#description' => t('Matters only if you have a modem, ISDN, or VPN connection')
   );
   $form['network']['max_bytes_sec_down'] = array(
-    '#title' => t('Maximum download rate:'),
+    '#title' => t('Maximum download rate'),
     '#type' => 'textfield',
     '#field_suffix' => t('Kbytes/sec'),
     '#default_value' => $default['network']['max_bytes_sec_down']/1000,
@@ -331,7 +331,7 @@ function boincwork_generalprefs_form(&$form_state, $bilge, $venue, $initialize_i
     '#description' => ' '
   ); 
   $form['network']['max_bytes_sec_up'] = array(
-    '#title' => t('Maximum upload rate:'),
+    '#title' => t('Maximum upload rate'),
     '#type' => 'textfield',
     '#field_suffix' => t('Kbytes/sec'),
     '#default_value' => $default['network']['max_bytes_sec_up']/1000,
@@ -630,7 +630,7 @@ function boincwork_projectprefs_form(&$form_state, $bilge, $venue, $initialize_i
       '#title' => t('Run test applications?'),
       '#type' => 'radios',
       '#options' => $form['boolean_options']['#value'],
-      '#default_value' => ($prefs->allow_beta_work) ? 1 : 0,
+      '#default_value' => ($prefs['allow_beta_work']) ? 1 : 0,
       '#description' => t('This helps us develop applications, but may cause jobs to fail on your computer')
     );
   }
