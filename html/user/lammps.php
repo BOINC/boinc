@@ -30,6 +30,23 @@ $debug=0;
 //
 // output: success flag, CPU time per step, est. disk usage per job
 //
+function terminate_job($p)
+{
+        $pstatus=proc_get_status($p);
+        $ppid=$pstatus['pid'];
+        $ret=`ps -o pid --no-heading --ppid $ppid`;
+        //echo "parent pid is $ppid\nterninate it\n";
+         proc_terminate($p);
+        // echo "child process is $ret\n";
+        $pids=preg_split('/\s+/',$ret);
+        foreach($pids as $pid){
+            if(is_numeric($pid)){
+                if($GLOBALS["debug"])echo "killing child process $pid\n";
+                posix_kill($pid,9);
+            }
+        }
+}
+
 function lammps_est() {
     $avg_cpu = 0;
     $test_result = 0;
@@ -46,14 +63,14 @@ function lammps_est() {
         $ctime=time();
         if($ctime-$stime >=2 and ! file_exists("log.1")){
            if($GLOBALS["debug"]) echo "time out "."<br>";
-           proc_terminate($p);
+           terminate_job($p);
            break;
         } 
         if (file_exists("log.1")) {
             $avg_cpu = calc_step_cpu("log.1");
             if ($avg_cpu != 0) {
-                 if($GLOBALS["debug"])echo "avg_cpu is ".$avg_cpu."<br>";
-                proc_terminate($p);
+                if($GLOBALS["debug"])echo "avg_cpu is ".$avg_cpu."<br>";
+                terminate_job($p);
                 $test_result = 1;
                 break;
             }
@@ -127,12 +144,20 @@ function calc_step_cpu($filename) {
         //echo "step=".$step." cpu=".$cpu."\n";
         if ($cpu==0) {
            $count=0;
+           $start_step=$step;
         } else {
             $count+=1;
-            if($GLOBALS["debug"])echo "step=".$step." cpu=".$cpu."count=".$count."\n";
+            if($GLOBALS["debug"])echo "step=".$step." cpu=".$cpu."count=".$count."<br>";
            if($count >= 10) {
-                $avg_cpu=$cpu/$count;
-                if($GLOBALS["debug"])echo "avg_cpu is ".$avg_cpu;
+                $end_step=$step;
+                $steps=$end_step-$start_step;
+                $avg_cpu=$cpu/$steps;
+                #$avg_cpu=$cpu/$count;
+                if($GLOBALS["debug"]){
+                    echo "test steps is ".$steps."<br>";
+                    echo "avg_cpu is ".$avg_cpu."<br>";
+                    
+                }
                 break;
             }
         }
@@ -210,9 +235,9 @@ function show_submit_form($user) {
     end_table();
     echo "</form>
         <p>
-        <a href=sandbox.php><strong> File_Sandbox </strong></a>
-        <a href=lammps.php><strong> Job_Submit </strong></a>
-        <a href=submit.php><strong> Job_Control </strong></a>
+        <a href=sandbox.php><strong> File sandbox </strong></a>
+        | <a href=lammps.php><strong> Job submit </strong></a>
+        | <a href=submit.php><strong> Job control </strong></a>
     ";
     
     page_tail();
