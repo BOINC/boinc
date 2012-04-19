@@ -3377,3 +3377,21 @@ David  19 Apr 2012
         validate_util.cpp,h
         validator_test.cpp
         sample_assimilator.cpp
+
+Rom    19 Apr 2012
+    - Update copyrights.
+
+    client/win/
+        boinc_cli.rc
+        boinc_cmd.rc
+        boinc_log.rc
+    clientctrl/
+        boincsvcctrl.rc
+    clientgui/
+        BOINCGUIApp.rc
+        DlgAbout.cpp
+    clientscr/
+        boinc_ss.rc
+        boinc_ss_opengl.rc
+    clienttray/
+        boinc_tray.rc
