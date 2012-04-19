@@ -55,13 +55,13 @@ int assimilate_handler(
     if (retval) return retval;
 
     if (wu.canonical_resultid) {
-        vector<FILE_INFO> output_files;
+        vector<OUTPUT_FILE_INFO> output_files;
         const char *copy_path;
         get_output_file_infos(canonical_result, output_files);
         unsigned int n = output_files.size();
         bool file_copied = false;
         for (i=0; i<n; i++) {
-            FILE_INFO& fi = output_files[i];
+            OUTPUT_FILE_INFO& fi = output_files[i];
             if (n==1) {
                 copy_path = config.project_path("sample_results/%s", wu.name);
             } else {

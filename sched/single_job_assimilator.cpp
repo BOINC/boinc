@@ -96,12 +96,12 @@ int assimilate_handler(
             canonical_result.hostid,
             canonical_result.cpu_time
         );
-        vector<FILE_INFO> output_files;
+        vector<OUTPUT_FILE_INFO> output_files;
         char copy_path[256];
         get_output_file_infos(canonical_result, output_files);
         unsigned int n = output_files.size();
         for (i=0; i<n; i++) {
-            FILE_INFO& fi = output_files[i];
+            OUTPUT_FILE_INFO& fi = output_files[i];
             string logical_name;
             retval = get_logical_name(canonical_result, fi.path, logical_name);
             if (retval) {

@@ -37,7 +37,7 @@ int assimilate_handler(
     SCOPE_MSG_LOG scope_messages(log_messages, MSG_NORMAL);
     scope_messages.printf("[%s] Assimilating\n", wu.name);
     if (wu.canonical_resultid) {
-        FILE_INFO output_file;
+        OUTPUT_FILE_INFO output_file;
 
         scope_messages.printf("[%s] Found canonical result\n", wu.name);
         log_messages.printf_multiline(

@@ -37,9 +37,11 @@
 using std::vector;
 using std::string;
 
+bool standalone = false;
+
 ////////// functions for locating output files ///////////////
 
-int FILE_INFO::parse(XML_PARSER& xp) {
+int OUTPUT_FILE_INFO::parse(XML_PARSER& xp) {
     bool found=false;
     optional = false;
     no_validate = false;
@@ -58,7 +60,7 @@ int FILE_INFO::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
-int get_output_file_info(RESULT& result, FILE_INFO& fi) {
+int get_output_file_info(RESULT& result, OUTPUT_FILE_INFO& fi) {
     char path[1024];
     string name;
     MIOFILE mf;
@@ -69,9 +71,14 @@ int get_output_file_info(RESULT& result, FILE_INFO& fi) {
         if (xp.match_tag("file_ref")) {
             int retval = fi.parse(xp);
             if (retval) return retval;
-            dir_hier_path(
-                fi.name.c_str(), config.upload_dir, config.uldl_dir_fanout, path
-            );
+            if (standalone) {
+                strcpy(path, fi.name.c_str());
+            } else {
+                dir_hier_path(
+                    fi.name.c_str(), config.upload_dir,
+                    config.uldl_dir_fanout, path
+                );
+            }
             fi.path = path;
             return 0;
         }
@@ -79,7 +86,7 @@ int get_output_file_info(RESULT& result, FILE_INFO& fi) {
     return ERR_XML_PARSE;
 }
 
-int get_output_file_infos(RESULT& result, vector<FILE_INFO>& fis) {
+int get_output_file_infos(RESULT& result, vector<OUTPUT_FILE_INFO>& fis) {
     char path[1024];
     MIOFILE mf;
     string name;
@@ -89,12 +96,17 @@ int get_output_file_infos(RESULT& result, vector<FILE_INFO>& fis) {
     while (!xp.get_tag()) {
         if (!xp.is_tag) continue;
         if (xp.match_tag("file_ref")) {
-            FILE_INFO fi;
+            OUTPUT_FILE_INFO fi;
             int retval =  fi.parse(xp);
             if (retval) return retval;
-            dir_hier_path(
-                fi.name.c_str(), config.upload_dir, config.uldl_dir_fanout, path
-            );
+            if (standalone) {
+                strcpy(path, fi.name.c_str());
+            } else {
+                dir_hier_path(
+                    fi.name.c_str(), config.upload_dir,
+                    config.uldl_dir_fanout, path
+                );
+            }
             fi.path = path;
             fis.push_back(fi);
         }
@@ -103,7 +115,7 @@ int get_output_file_infos(RESULT& result, vector<FILE_INFO>& fis) {
 }
 
 int get_output_file_path(RESULT& result, string& path) {
-    FILE_INFO fi;
+    OUTPUT_FILE_INFO fi;
     int retval = get_output_file_info(result, fi);
     if (retval) return retval;
     path = fi.path;
@@ -111,7 +123,7 @@ int get_output_file_path(RESULT& result, string& path) {
 }
 
 int get_output_file_paths(RESULT& result, vector<string>& paths) {
-    vector<FILE_INFO> fis;
+    vector<OUTPUT_FILE_INFO> fis;
     int retval = get_output_file_infos(result, fis);
     if (retval) return retval;
     paths.clear();

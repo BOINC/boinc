@@ -36,7 +36,7 @@ void usage(char* prog) {
     exit(1);
 }
 
-int get_output_file_info(RESULT r, FILE_INFO& fi) {
+int get_output_file_info(RESULT r, OUTPUT_FILE_INFO& fi) {
     fi.path = r.name;
     return 0;
 }
@@ -49,8 +49,10 @@ int main(int argc, char** argv) {
     RESULT r1, r2;
     bool match;
 
-    strcpy(r1.name, argv[1]);
-    strcpy(r2.name, argv[2]);
+    standalone = true;
+
+    sprintf(r1.xml_doc_in, "<file_ref><file_name>%s</file_name></file_ref>", argv[1]);
+    sprintf(r2.xml_doc_in, "<file_ref><file_name>%s</file_name></file_ref>", argv[2]);
     int retval;
     retval = init_result(r1, data1);
     if (retval) {

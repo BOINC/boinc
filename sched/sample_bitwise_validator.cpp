@@ -47,7 +47,7 @@ bool files_match(FILE_CKSUM_LIST& f1, FILE_CKSUM_LIST& f2) {
 int init_result(RESULT& result, void*& data) {
     int retval;
     FILE_CKSUM_LIST* fcl = new FILE_CKSUM_LIST;
-    vector<FILE_INFO> files;
+    vector<OUTPUT_FILE_INFO> files;
     char md5_buf[MD5_LEN];
     double nbytes;
 
@@ -61,7 +61,7 @@ int init_result(RESULT& result, void*& data) {
     }
 
     for (unsigned int i=0; i<files.size(); i++) {
-        FILE_INFO& fi = files[i];
+        OUTPUT_FILE_INFO& fi = files[i];
         if (fi.no_validate) continue;
         retval = md5_file(fi.path.c_str(), md5_buf, nbytes);
         if (retval) {

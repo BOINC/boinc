@@ -308,9 +308,11 @@ bool app_plan_uses_gpu(const char* plan_class) {
 // This could be used, for example, so that late workunits
 // are sent only to cloud or cluster resources
 //
-int restrict_wu_to_user(DB_WORKUNIT& wu, int userid) {
+int restrict_wu_to_user(WORKUNIT& _wu, int userid) {
     DB_RESULT result;
     DB_ASSIGNMENT asg;
+    DB_WORKUNIT wu;
+    wu = _wu;
     char buf[256];
     int retval;
 

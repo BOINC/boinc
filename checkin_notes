@@ -3363,3 +3363,17 @@ David  19 Apr 2012
         cc_config.cpp,h
     client/
         log_flags.cpp
+
+David  19 Apr 2012
+    - fix many problems with validator_test
+
+    sched/
+        sched_util.h
+        makefile_validator_test
+        sample_dummy_assimilator.cpp
+        single_job_assimilator.cpp
+        sched_util.cpp
+        sample_bitwise_validator.cpp
+        validate_util.cpp,h
+        validator_test.cpp
+        sample_assimilator.cpp

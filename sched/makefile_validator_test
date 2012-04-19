@@ -1,2 +1,8 @@
-validator_test: validator_test.cpp sample_trivial_validator.cpp
-	g++ -I.. -I../lib -I../db -o validator_test validator_test.cpp sample_trivial_validator.cpp
+# the compiled file containing result_init() etc
+VALIDATOR_OBJ = sample_bitwise_validator.o
+
+# where libmysqlclient is
+MYSQL_LIB_DIR = /usr/lib64/mysql
+
+validator_test: validator_test.cpp $(VALIDATOR_OBJ)
+	g++ -g -I.. -I../lib -I../db -o validator_test validator_test.cpp $(VALIDATOR_OBJ) validate_util.o -L . -lsched -L ../lib -lboinc -L $(MYSQL_LIB_DIR) -lmysqlclient

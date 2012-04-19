@@ -26,7 +26,7 @@
 // bit of a misnomer - this actually taken from the <file_ref> elements
 // of result.xml_doc_in
 //
-struct FILE_INFO {
+struct OUTPUT_FILE_INFO {
     std::string name;
     std::string path;
     bool optional;
@@ -35,8 +35,8 @@ struct FILE_INFO {
     int parse(XML_PARSER&);
 };
 
-extern int get_output_file_info(RESULT& result, FILE_INFO&);
-extern int get_output_file_infos(RESULT& result, std::vector<FILE_INFO>&);
+extern int get_output_file_info(RESULT& result, OUTPUT_FILE_INFO&);
+extern int get_output_file_infos(RESULT& result, std::vector<OUTPUT_FILE_INFO>&);
 extern int get_output_file_path(RESULT& result, std::string&);
 extern int get_output_file_paths(RESULT& result, std::vector<std::string>&);
 extern int get_logical_name(
@@ -44,4 +44,6 @@ extern int get_logical_name(
 );
 
 extern int get_credit_from_wu(WORKUNIT&, std::vector<RESULT>& results, double&);
+
+extern bool standalone;
 #endif
