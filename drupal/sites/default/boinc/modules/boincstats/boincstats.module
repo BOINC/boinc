@@ -50,6 +50,7 @@ function boincstats_get_user_stats_chart($cpid = null) {
   module_load_include('php', 'boincstats', 'includes/pchart/class/pData.class');
   module_load_include('php', 'boincstats', 'includes/pchart/class/pDraw.class');
   module_load_include('php', 'boincstats', 'includes/pchart/class/pImage.class');
+  module_load_include('php', 'boincstats', 'includes/pchart/class/pCache.class');
   
   // Get CPID and fetch stats for data to plot
   // [TODO] Set this stuff in site config!
@@ -57,87 +58,99 @@ function boincstats_get_user_stats_chart($cpid = null) {
   $stats_rpc = 'rpc/get_user_credit_history_by_project.php';
   $project_id = 2;
   
-  // Construct query string
-  $get = array(
-    'cpid' => $cpid,
-    'projectid' => $project_id
-  );
-  $args = array();
-  foreach ($get as $arg => $value) $args[] = "{$arg}=" . rawurlencode($value);
-  $query = '?' . implode('&', $args);
+  // Initialize the cache object and flush stale images
+  $myCache = new pCache(array('CacheFolder' => realpath('.') . '/sites/default/files/cache'));
+  $myCache->removeOlderThan(60*60*24);
   
-  // Load XML from RPC
-  $stats_xml = simplexml_load_file("http://{$stats_server}/{$stats_rpc}{$query}");
-  
-  // Create and populate the pData object
-  $MyData = new pData();
-  
-  // Initialize dataset
-  $dataset = array();
-  if ($stats_xml) {
-    $credit = null;
-    for ($i = 0, $j = 31; $j <= 91; $i++, $j++) {
-      $day = "day_{$j}";
-      $credit[$i] = isset($stats_xml->total_credit_history_last_91_days->$day) ? (int) $stats_xml->total_credit_history_last_91_days->$day : 0;
-      $dataset[$i] = ($i) ? ($credit[$i] - $credit[$i-1]) : 0;
-    }
+  if ($myCache->isInCache($cpid)) {
+    $myCache->strokeFromCache($cpid);
   }
   else {
-    for ($i = 0; $i <= 60; $i++) $dataset[] = 0;
+    
+    // Construct query string
+    $get = array(
+      'cpid' => $cpid,
+      'projectid' => $project_id
+    );
+    $args = array();
+    foreach ($get as $arg => $value) $args[] = "{$arg}=" . rawurlencode($value);
+    $query = '?' . implode('&', $args);
+    
+    // Load XML from RPC
+    $stats_xml = simplexml_load_file("http://{$stats_server}/{$stats_rpc}{$query}");
+    
+    // Create and populate the pData object
+    $MyData = new pData();
+    
+    // Initialize dataset
+    $dataset = array();
+    if ($stats_xml) {
+      $credit = null;
+      for ($i = 0, $j = 31; $j <= 91; $i++, $j++) {
+        $day = "day_{$j}";
+        $credit[$i] = isset($stats_xml->total_credit_history_last_91_days->$day) ? (int) $stats_xml->total_credit_history_last_91_days->$day : 0;
+        $dataset[$i] = ($i) ? ($credit[$i] - $credit[$i-1]) : 0;
+      }
+    }
+    else {
+      for ($i = 0; $i <= 60; $i++) $dataset[] = 0;
+    }
+    
+    $MyData->addPoints($dataset, 'series1');
+    $MyData->setPalette('series1',array('R' => 94,'G' => 190,'B' => 225));
+    $MyData->setAxisPosition(0,AXIS_POSITION_RIGHT);
+    
+    // Create the pChart object
+    $myPicture = new pImage(589,155,$MyData);
+
+    // Turn on Antialiasing
+    $myPicture->Antialias = true;
+
+    // Set the default font
+    //$myPicture->setFontProperties(array('FontName'=>'../fonts/pf_arma_five.ttf','FontSize'=>6));
+
+    // Define the chart area
+    $myPicture->setGraphArea(0,3,589,155);
+
+    // Draw the scale
+    $scaleSettings = array(
+      'Mode' => SCALE_MODE_START0,
+      'DrawYLines' => false,
+      'GridTicks' => 2,
+      'LabelSkip' => 9,
+      'SkippedAxisAlpha' => 0,
+      'SkippedInnerTickWidth' => 0,
+      'SkippedOuterTickWidth' => 0,
+      'AxisAlpha' => 0,
+      'InnerTickWidth' => 0,
+      'OuterTickWidth' => 0,
+      'XMargin' => 1,
+      'YMargin' => 0,
+      'Floating' => TRUE,
+      'GridR' => 200,
+      'GridG' => 200,
+      'GridB' => 200,
+      'DrawSubTicks' => false,
+      'CycleBackground' => false
+    );
+    $myPicture->setFontProperties(array('FontSize' => 10));
+    $myPicture->drawScale($scaleSettings);
+    
+    for ($i = 5; $i >= 0; $i--) {
+      $label = ($i) ? -10*$i : 'Today';
+      $myPicture->drawText(589-587*($i/6)-5, 2, $label, array('Align' => TEXT_ALIGN_TOPRIGHT));
+    }
+
+    // Draw the area chart
+    $myPicture->drawAreaChart(array('ForceTransparency' => 100));
+    
+    // Write the chart to the cache
+    $myCache->writeToCache($cpid, $myPicture);
+    
+    // Render the picture (choose the best way)
+    //$myPicture->autoOutput('pictures/example.drawAreaChart.simple.png');
+    $myPicture->stroke();
   }
-  
-  $MyData->addPoints($dataset, 'series1');
-  $MyData->setPalette('series1',array('R' => 94,'G' => 190,'B' => 225));
-  $MyData->setAxisPosition(0,AXIS_POSITION_RIGHT);
-
-  // Create the pChart object
-  $myPicture = new pImage(589,155,$MyData);
-
-  // Turn on Antialiasing
-  $myPicture->Antialias = true;
-
-  // Set the default font
-  //$myPicture->setFontProperties(array('FontName'=>'../fonts/pf_arma_five.ttf','FontSize'=>6));
-
-  // Define the chart area
-  $myPicture->setGraphArea(0,3,589,155);
-
-  // Draw the scale
-  $scaleSettings = array(
-    'Mode' => SCALE_MODE_START0,
-    'DrawYLines' => false,
-    'GridTicks' => 2,
-    'LabelSkip' => 9,
-    'SkippedAxisAlpha' => 0,
-    'SkippedInnerTickWidth' => 0,
-    'SkippedOuterTickWidth' => 0,
-    'AxisAlpha' => 0,
-    'InnerTickWidth' => 0,
-    'OuterTickWidth' => 0,
-    'XMargin' => 1,
-    'YMargin' => 0,
-    'Floating' => TRUE,
-    'GridR' => 200,
-    'GridG' => 200,
-    'GridB' => 200,
-    'DrawSubTicks' => false,
-    'CycleBackground' => false
-  );
-  $myPicture->setFontProperties(array('FontSize' => 10));
-  $myPicture->drawScale($scaleSettings);
-  
-  for ($i = 5; $i >= 0; $i--) {
-    $label = ($i) ? -10*$i : 'Today';
-    $myPicture->drawText(589-587*($i/6)-5, 2, $label, array('Align' => TEXT_ALIGN_TOPRIGHT));
-  }
-
-  // Draw the area chart
-  $myPicture->drawAreaChart(array('ForceTransparency' => 100));
-
-  // Render the picture (choose the best way)
-  //$myPicture->autoOutput('pictures/example.drawAreaChart.simple.png');
-  $myPicture->stroke();  
-  
 }
 
 /**
@@ -149,79 +162,94 @@ function boincstats_get_project_stats_chart() {
   module_load_include('php', 'boincstats', 'includes/pchart/class/pData.class');
   module_load_include('php', 'boincstats', 'includes/pchart/class/pDraw.class');
   module_load_include('php', 'boincstats', 'includes/pchart/class/pImage.class');
+  module_load_include('php', 'boincstats', 'includes/pchart/class/pCache.class');
   
   $stats_xml = boincstats_get_project_stats();
   
   // Create and populate the pData object
   $MyData = new pData();
   
-  // Initialize dataset
-  $dataset = array();
-  if ($stats_xml) {
-    $credit = null;
-    for ($i = 0, $j = 31; $j <= 91; $i++, $j++) {
-      $day = "day_{$j}";
-      $credit[$i] = isset($stats_xml->$day) ? (int) $stats_xml->$day : 0;
-      $dataset[$i] = ($i) ? ($credit[$i] - $credit[$i-1]) : 0;
-    }
+  // Initialize the cache object and flush stale images
+  $myCache = new pCache(array('CacheFolder' => realpath('.') . '/sites/default/files/cache'));
+  $myCache->removeOlderThan(60*60*24);
+  
+  if ($myCache->isInCache('project chart')) {
+    $myCache->strokeFromCache('project chart');
   }
+  
   else {
-    for ($i = 0; $i <= 30; $i++) $dataset[] = 0;
+    
+    // Initialize dataset
+    $dataset = array();
+    if ($stats_xml) {
+      $credit = null;
+      for ($i = 0, $j = 31; $j <= 91; $i++, $j++) {
+        $day = "day_{$j}";
+        $credit[$i] = isset($stats_xml->$day) ? (int) $stats_xml->$day : 0;
+        $dataset[$i] = ($i) ? ($credit[$i] - $credit[$i-1]) : 0;
+      }
+    }
+    else {
+      for ($i = 0; $i <= 30; $i++) $dataset[] = 0;
+    }
+    
+    $MyData->addPoints($dataset, 'series1');
+    $MyData->setPalette('series1',array('R' => 94,'G' => 190,'B' => 225));
+    $MyData->setAxisPosition(0,AXIS_POSITION_RIGHT);
+
+    // Create the pChart object
+    $myPicture = new pImage(266,80,$MyData);
+
+    // Turn on Antialiasing
+    $myPicture->Antialias = true;
+
+    // Set the default font
+    //$myPicture->setFontProperties(array('FontName' => '../fonts/pf_arma_five.ttf','FontSize' => 6));
+
+    // Define the chart area
+    $myPicture->setGraphArea(0,0,266,80);
+    $myPicture->drawFilledRectangle(0,0,266,80,array('R'=>209,'G'=>209,'B'=>209));
+
+    // Draw the scale
+    $scaleSettings = array(
+      'Mode' => SCALE_MODE_START0,
+      'DrawYLines' => false,
+      'DrawXLines' => false,
+      'GridTicks' => 2,
+      'LabelSkip' => 9,
+      'SkippedAxisAlpha' => 0,
+      'SkippedInnerTickWidth' => 0,
+      'SkippedOuterTickWidth' => 0,
+      'AxisAlpha' => 0,
+      'InnerTickWidth' => 0,
+      'OuterTickWidth' => 0,
+      'XMargin' => 1,
+      'YMargin' => 0,
+      'Floating' => TRUE,
+      'GridR' => 200,
+      'GridG' => 200,
+      'GridB' => 200,
+      'DrawSubTicks' => false,
+      'CycleBackground' => false
+    );
+    $myPicture->setFontProperties(array('FontSize' => 10));
+    $myPicture->drawScale($scaleSettings);
+    
+    /*for ($i = 5; $i >= 0; $i--) {
+      $label = ($i) ? -10*$i : 'Today';
+      $myPicture->drawText(598-596*($i/6)-5, 2, $label, array('Align' => TEXT_ALIGN_TOPRIGHT));
+    }*/
+
+    // Draw the area chart */
+    $myPicture->drawAreaChart(array('ForceTransparency' => 100));
+    
+    // Write the chart to the cache
+    $myCache->writeToCache('project chart', $myPicture);
+
+    // Render the picture (choose the best way)
+    //$myPicture->autoOutput('pictures/example.drawAreaChart.simple.png');
+    $myPicture->stroke();
   }
-  
-  $MyData->addPoints($dataset, 'series1');
-  $MyData->setPalette('series1',array('R' => 94,'G' => 190,'B' => 225));
-  $MyData->setAxisPosition(0,AXIS_POSITION_RIGHT);
-
-  // Create the pChart object
-  $myPicture = new pImage(266,80,$MyData);
-
-  // Turn on Antialiasing
-  $myPicture->Antialias = true;
-
-  // Set the default font
-  //$myPicture->setFontProperties(array('FontName' => '../fonts/pf_arma_five.ttf','FontSize' => 6));
-
-  // Define the chart area
-  $myPicture->setGraphArea(0,0,266,80);
-  $myPicture->drawFilledRectangle(0,0,266,80,array('R'=>209,'G'=>209,'B'=>209));
-
-  // Draw the scale
-  $scaleSettings = array(
-    'Mode' => SCALE_MODE_START0,
-    'DrawYLines' => false,
-    'DrawXLines' => false,
-    'GridTicks' => 2,
-    'LabelSkip' => 9,
-    'SkippedAxisAlpha' => 0,
-    'SkippedInnerTickWidth' => 0,
-    'SkippedOuterTickWidth' => 0,
-    'AxisAlpha' => 0,
-    'InnerTickWidth' => 0,
-    'OuterTickWidth' => 0,
-    'XMargin' => 1,
-    'YMargin' => 0,
-    'Floating' => TRUE,
-    'GridR' => 200,
-    'GridG' => 200,
-    'GridB' => 200,
-    'DrawSubTicks' => false,
-    'CycleBackground' => false
-  );
-  $myPicture->setFontProperties(array('FontSize' => 10));
-  $myPicture->drawScale($scaleSettings);
-  
-  /*for ($i = 5; $i >= 0; $i--) {
-    $label = ($i) ? -10*$i : 'Today';
-    $myPicture->drawText(598-596*($i/6)-5, 2, $label, array('Align' => TEXT_ALIGN_TOPRIGHT));
-  }*/
-
-  // Draw the area chart */
-  $myPicture->drawAreaChart(array('ForceTransparency' => 100));
-
-  // Render the picture (choose the best way)
-  //$myPicture->autoOutput('pictures/example.drawAreaChart.simple.png');
-  $myPicture->stroke();
 }
 
 /*
