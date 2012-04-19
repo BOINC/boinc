@@ -94,7 +94,6 @@ void LOG_FLAGS::show() {
     show_flag(buf, slot_debug, "slot_debug");
     show_flag(buf, state_debug, "state_debug");
     show_flag(buf, statefile_debug, "statefile_debug");
-    show_flag(buf, std_debug, "std_debug");
     show_flag(buf, task_debug, "task_debug");
     show_flag(buf, time_debug, "time_debug");
     show_flag(buf, unparsed_xml, "unparsed_xml");
@@ -183,9 +182,6 @@ void CONFIG::show() {
     }
     if (use_all_gpus) {
         msg_printf(NULL, MSG_INFO, "Config: use all coprocessors");
-    }
-    if (zero_debts) {
-        msg_printf(NULL, MSG_INFO, "Config: zero long-term debts on startup");
     }
     if (fetch_minimal_work) {
         msg_printf(NULL, MSG_INFO, "Config: fetch minimal work");
@@ -394,7 +390,6 @@ int CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.parse_bool("use_all_gpus", use_all_gpus)) continue;
         if (xp.parse_bool("use_certs", use_certs)) continue;
         if (xp.parse_bool("use_certs_only", use_certs_only)) continue;
-        if (xp.parse_bool("zero_debts", zero_debts)) continue;
 
         msg_printf_notice(NULL, false,
             "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",

@@ -99,8 +99,6 @@ struct LOG_FLAGS {
         // also show actions of garbage collector
     bool statefile_debug;
         // show when and why state file is written
-    bool std_debug;
-        // changes to short-term debt
     bool task_debug;
         // task start and control details, and when apps checkpoint
     bool time_debug;
@@ -184,7 +182,6 @@ struct CONFIG {
     bool use_certs;
     bool use_certs_only;
         // overrides use_certs
-    bool zero_debts;
 
     CONFIG();
     void defaults();

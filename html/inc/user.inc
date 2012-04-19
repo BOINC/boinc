@@ -213,7 +213,10 @@ function show_user_info_private($user) {
     );
     row2(tra("User ID")."<br/><span class=\"note\">".tra("Used in community functions")."</span>", $user->id);
     if (!no_computing()) {
-        row2(tra("Weak account key")."<br/><span class=\"note\">".tra("Provides %1limited access%2 to your account", "<a href=\"weak_auth.php\">", "</a> ")."</span>", weak_auth($user));
+        row2(
+            tra("Account keys"),
+            "<a href=\"weak_auth.php\">".tra("View")."</a>"
+        );
     }
 
     row1("<a name=\"prefs\"></a>".tra("Preferences"));

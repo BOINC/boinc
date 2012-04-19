@@ -3347,3 +3347,19 @@ David  17 Apr 2012
 
     sched/
         handle_request.cpp
+
+David  19 Apr 2012
+    - web: don't show account keys on account page;
+        rewrite the page explaining and showing account keys.
+    - client: remove <std_debug> log flag
+    - client: remove <zero_debts> config option
+
+    html/
+        inc/
+            user.inc
+        user/
+            weak_auth.php
+    lib/
+        cc_config.cpp,h
+    client/
+        log_flags.cpp

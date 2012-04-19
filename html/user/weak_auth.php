@@ -19,54 +19,67 @@
 require_once("../inc/util.inc");
 require_once("../inc/user.inc");
 
-check_get_args(array());
-
 $url = parse_config(get_config(), "<master_url>");
 
 $user = get_logged_in_user();
-page_head(tra("Weak account key"));
+page_head(tra("Account keys"));
 
 $weak_auth = weak_auth($user);
 
 // figure out the name of this project's account file.
 
 // strip http://
+//
 $idx = strpos($url, '://');
 if ($idx) {
     $url = substr($url, $idx+strlen('://'));
 }
 
-//convert invalid characters into underscores
+// convert invalid characters into underscores
+//
 for ($i=0; $i<strlen($url); $i++) {
     $c = $url[$i];
     if (!ctype_alnum($c) && $c != '.' && $c != '-' && $c != '_') {
         $url[$i] = '_';
     }
 }
+
 //remove trailing underscore(s)
+//
 $account_file = "account_" . rtrim($url, '_') . ".xml";
 
 echo "<table><tr><td>",
-    tra("Your 'weak account key' lets you link a computer to your account without giving it the ability to log in to your account or to change it in any way."),
-    " ",
-    tra("This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."),
-    "<p>",
-    tra("Your weak account key for this project is:"),
-    "<pre>$weak_auth</pre>",
-    "<p>" ,
-    tra("To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>.", PROJECT, $account_file),
-    "<p>",
-    tra("Create this file if needed. Set its contents to:"),
-    "<pre>",
+    tra("You can access your account either by using your email address and password,
+    or by using an assigned 'account key'.
+    Your account key is:"),
+    "<pre>$user->authenticator</pre>
+    <p>",
+    tra("This key can be used to:"),
+    "<ul>
+    <li><a href=get_passwd.php>",tra("log in to your account on the web"),"</a>;
+    <li>",
+        tra("to attach a computer to your account without using the BOINC Manager.
+       To do so, install BOINC,
+       create a file named %1 in the BOINC
+       data directory, and set its contents to:","<b>$account_file</b>"),"
+    <pre>",
     htmlspecialchars(
 "<account>
     <master_url>".URL_BASE."</master_url>
     <authenticator>".$weak_auth."</authenticator>
 </account>"),
-    "</pre>",
-    "<p>",
-    tra("Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."),
-    "</td></tr></table>"
+    "</pre>
+    </ul>
+    <h2>", tra("Weak account key"), "</h2>",
+    tra("Your 'weak account key' can be used to attach computers to your account
+    as described above, but cannot be used to log in to your account or change it in any way.
+    If you want to attach untrusted or insecure computers to your account,
+    do so using your weak account key.
+    Your weak account key is:"),"
+    <pre>$weak_auth</pre>
+    <p>",
+    tra("If you change your password, your weak account key changes, and your previous weak account key becomes invalid."),"
+    </td></tr></table>"
 ;
 
 page_tail();
