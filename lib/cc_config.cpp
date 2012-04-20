@@ -89,6 +89,7 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool("slot_debug", slot_debug)) continue;
         if (xp.parse_bool("state_debug", state_debug)) continue;
         if (xp.parse_bool("statefile_debug", statefile_debug)) continue;
+        if (xp.parse_bool("suspend_debug", suspend_debug)) continue;
         if (xp.parse_bool("task_debug", task_debug)) continue;
         if (xp.parse_bool("time_debug", time_debug)) continue;
         if (xp.parse_bool("trickle_debug", trickle_debug)) continue;
@@ -134,6 +135,7 @@ int LOG_FLAGS::write(MIOFILE& out) {
         "        <slot_debug>%d</slot_debug>\n"
         "        <state_debug>%d</state_debug>\n"
         "        <statefile_debug>%d</statefile_debug>\n"
+        "        <suspend_debug>%d</suspend_debug>\n"
         "        <task_debug>%d</task_debug>\n"
         "        <time_debug>%d</time_debug>\n"
         "        <trickle_debug>%d</trickle_debug>\n"
@@ -172,6 +174,7 @@ int LOG_FLAGS::write(MIOFILE& out) {
         slot_debug ? 1 : 0,
         state_debug ? 1 : 0,
         statefile_debug ? 1 : 0,
+        suspend_debug ? 1 : 0,
         task_debug ? 1 : 0,
         time_debug ? 1 : 0,
         trickle_debug ? 1 : 0,

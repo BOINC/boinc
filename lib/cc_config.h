@@ -99,6 +99,8 @@ struct LOG_FLAGS {
         // also show actions of garbage collector
     bool statefile_debug;
         // show when and why state file is written
+    bool suspend_debug;
+        // details of processing and network suspend/resume
     bool task_debug;
         // task start and control details, and when apps checkpoint
     bool time_debug;

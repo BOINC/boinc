@@ -3405,3 +3405,9 @@ David  20 Apr 2012
         process_input_template.cpp
         dir_hier_path.cpp
         create_work.cpp
+
+David  20 Apr 2012
+    - client: add <suspend_debug> log flag
+
+    lib/
+        cc_config.cpp,h
