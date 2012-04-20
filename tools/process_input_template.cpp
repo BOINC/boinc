@@ -214,7 +214,10 @@ static int process_file_info(
                 if (!config_loc.cache_md5_info || !got_md5_info(path, md5, &nbytes)) {
                     retval = md5_file(path, md5, nbytes);
                     if (retval) {
-                        fprintf(stderr, "process_input_template: md5_file %d\n", retval);
+                        fprintf(stderr,
+                            "process_input_template: md5_file %s\n",
+                            boincerror(retval)
+                        );
                         return retval;
                     } else if (config_loc.cache_md5_info) {
                         write_md5_info(path, md5, nbytes);

@@ -3395,3 +3395,13 @@ Rom    19 Apr 2012
         boinc_ss_opengl.rc
     clienttray/
         boinc_tray.rc
+
+David  20 Apr 2012
+    - back end: print error messages instead of numbers in several places
+
+    tools/
+        dir_hier_move.cpp
+        backend_lib.cpp
+        process_input_template.cpp
+        dir_hier_path.cpp
+        create_work.cpp

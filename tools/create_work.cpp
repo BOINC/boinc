@@ -227,7 +227,7 @@ int main(int argc, const char** argv) {
 
     retval = config.parse_file(config_dir);
     if (retval) {
-        fprintf(stderr, "Can't parse config file: %d\n", retval);
+        fprintf(stderr, "Can't parse config file: %s\n", boincerror(retval));
         exit(1);
     } else {
         strcpy(db_name, config.db_name);
@@ -239,7 +239,9 @@ int main(int argc, const char** argv) {
 
     retval = boinc_db.open(db_name, db_host, db_user, db_passwd);
     if (retval) {
-        fprintf(stderr, "create_work: error opening database: %d\n", retval );
+        fprintf(stderr,
+            "create_work: error opening database: %s\n", boincerror(retval)
+        );
         exit(1);
     }
     sprintf(buf, "where name='%s'", app.name);
@@ -273,7 +275,7 @@ int main(int argc, const char** argv) {
         additional_xml
     );
     if (retval) {
-        fprintf(stderr, "create_work: %d\n", retval);
+        fprintf(stderr, "create_work: %s\n", boincerror(retval));
         exit(1);
     } else {
         if (show_wu_name) {
@@ -290,7 +292,9 @@ int main(int argc, const char** argv) {
         assignment.workunitid = wu.id;
         retval = assignment.insert();
         if (retval) {
-            fprintf(stderr, "assignment.insert() failed: %d\n", retval);
+            fprintf(stderr,
+                "assignment.insert() failed: %s\n", boincerror(retval)
+            );
             exit(1);
         }
         sprintf(buf, "transitioner_flags=%d",
@@ -298,7 +302,7 @@ int main(int argc, const char** argv) {
         );
         retval = wu.update_field(buf);
         if (retval) {
-            fprintf(stderr, "wu.update() failed: %d\n", retval);
+            fprintf(stderr, "wu.update() failed: %s\n", boincerror(retval));
             exit(1);
         }
     }

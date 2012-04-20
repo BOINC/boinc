@@ -55,7 +55,7 @@ int main(int argc, char** argv) {
         argv[1], config.download_dir, config.uldl_dir_fanout, path, true
     );
     if (retval) {
-        fprintf(stderr, "dir_hier_path(): %d\n", retval);
+        fprintf(stderr, "dir_hier_path(): %s\n", boincerror(retval));
         exit(1);
     }
     printf("%s\n", path);

@@ -26,6 +26,7 @@
 #include <cstdlib>
 #include <cerrno>
 
+#include "error_numbers.h"
 #include "filesys.h"
 #include "util.h"
 #include "sched_util.h"
@@ -57,13 +58,13 @@ int main(int argc, char** argv) {
     while (scanner.scan(filename)) {
         retval = dir_hier_path(filename.c_str(), dst_dir, fanout, dst_path, true);
         if (retval) {
-            fprintf(stderr, "dir_hier_path: %d\n", retval);
+            fprintf(stderr, "dir_hier_path: %s\n", boincerror(retval));
             exit(1);
         }
         sprintf(src_path, "%s/%s", src_dir, filename.c_str());
         retval = rename(src_path, dst_path);
         if (retval) {
-            fprintf(stderr, "rename: %d, errno is %d\n", retval, errno);
+            perror("rename");
             exit(1);
         }
     }
