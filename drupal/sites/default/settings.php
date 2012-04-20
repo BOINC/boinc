@@ -91,10 +91,13 @@
  *   $db_url = 'pgsql://username:password@localhost/databasename';
  */
 require_once('dbconfig.php');
+if (!isset($dbserver) || empty($dbserver))
+  $dbserver='localhost';
 $db_url = array(
   'default' => "{$dbtype}://{$dbuser}:{$dbpass}@{$dbserver}/{$dbname}",
   'boinc' => "{$boinc_dbtype}://{$boinc_dbuser}:{$boinc_dbpass}@{$boinc_dbserver}/{$boinc_dbname}"
 );
+$db_prefix = '';
 
 /**
  * Base URL (optional).
@@ -141,6 +144,8 @@ ini_set('session.use_only_cookies', 1);
 ini_set('session.use_trans_sid',    0);
 ini_set('url_rewriter.tags',        '');
 ini_set('memory_limit', '128M');
+ini_set('post_max_size', '8MB');
+ini_set('upload_max_filesize', '8MB');
 
 /**
  * Drupal automatically generates a unique session cookie name for each site
@@ -168,4 +173,3 @@ ini_set('memory_limit', '128M');
 #   'theme_default' => 'minnelli',
 #   'anonymous' => 'Visitor',
 # );
-
