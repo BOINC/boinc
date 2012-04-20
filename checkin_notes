@@ -3431,3 +3431,13 @@ Rom    20 Apr 2012
     clientgui/
         BOINCBaseFrame.cpp
         BOINCGUIApp.cpp
+
+David  20 Apr 2012
+    - client: if we're contacting a project to ask it for work
+        of a particular processor type,
+        ask it for work of other types only if we're below
+        max buffer for those types.
+
+    client/
+        work_fetch.cpp
+        cs_prefs.cpp
