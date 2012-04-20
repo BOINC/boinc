@@ -3417,3 +3417,9 @@ David  20 Apr 2012
 	
 	client/
 		cs_prefs.cpp
+
+David  20 Apr 2012
+    - client/server: remove assert()s from message log code
+
+    lib/
+        msg_log.cpp
