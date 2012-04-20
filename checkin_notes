@@ -3411,3 +3411,9 @@ David  20 Apr 2012
 
     lib/
         cc_config.cpp,h
+
+David  20 Apr 2012
+	- client: add <suspend_debug> log flag
+	
+	client/
+		cs_prefs.cpp
