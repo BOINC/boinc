@@ -3441,3 +3441,11 @@ David  20 Apr 2012
     client/
         work_fetch.cpp
         cs_prefs.cpp
+
+David  21 Apr 2012
+    - client: fix bug that could erroneously cause a GPU to
+        be "blocked by config file".
+
+    client/
+        work_fetch.cpp
+        coproc_detect.cpp

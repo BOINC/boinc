@@ -98,7 +98,7 @@ void set_no_rsc_config() {
             }
             p.no_rsc_config[j] = true;
             for (int k=0; k<c.count; k++) {
-                if (allowed[k]) {
+                if (allowed[c.device_nums[k]]) {
                     p.no_rsc_config[j] = false;
                     break;
                 }
