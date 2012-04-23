@@ -3449,3 +3449,9 @@ David  21 Apr 2012
     client/
         work_fetch.cpp
         coproc_detect.cpp
+
+Rom    23 Apr 2012
+    - client: fix function prototypes for CUDA detection.
+    
+    client/
+        coproc_detect.cpp

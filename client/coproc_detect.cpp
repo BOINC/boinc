@@ -818,13 +818,13 @@ typedef int (__stdcall *CUDA_GDI)(int);
 typedef int (__stdcall *CUDA_GDG)(int*, int);
 typedef int (__stdcall *CUDA_GDA)(int*, int, int);
 typedef int (__stdcall *CUDA_GDN)(char*, int, int);
-typedef int (__stdcall *CUDA_GDM)(unsigned int*, int);
+typedef int (__stdcall *CUDA_GDM)(size_t*, int);
 typedef int (__stdcall *CUDA_GDCC)(int*, int*, int);
 typedef int (__stdcall *CUDA_CC)(void**, unsigned int, unsigned int);
 typedef int (__stdcall *CUDA_CD)(void*);
-typedef int (__stdcall *CUDA_MA)(unsigned int*, unsigned int);
+typedef int (__stdcall *CUDA_MA)(unsigned int*, size_t);
 typedef int (__stdcall *CUDA_MF)(unsigned int);
-typedef int (__stdcall *CUDA_MGI)(unsigned int*, unsigned int*);
+typedef int (__stdcall *CUDA_MGI)(size_t*, size_t*);
 
 CUDA_GDC __cuDeviceGetCount = NULL;
 CUDA_GDV __cuDriverGetVersion = NULL;
