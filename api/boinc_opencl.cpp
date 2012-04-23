@@ -72,6 +72,10 @@ int boinc_get_opencl_ids_aux(
             strcpy(vendor, GPU_TYPE_ATI);
         }
         
+	if (strcasestr(vendor, "nvidia"))
+	{
+            strcpy(vendor, GPU_TYPE_NVIDIA);
+	}
         if (!strcmp(vendor, type)) {
             *device = device_id;
             *platform = platforms[platform_index];
