@@ -3455,3 +3455,10 @@ Rom    23 Apr 2012
     
     client/
         coproc_detect.cpp
+
+David  23 Apr 2012
+	- client: fix bug that caused a project's jobs to all be run EDF
+		if the project has the <dont_use_dcf> flag set.
+
+	client/
+		cpu_sched.cpp
