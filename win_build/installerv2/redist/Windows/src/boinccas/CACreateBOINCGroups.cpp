@@ -130,31 +130,39 @@ UINT CACreateBOINCGroups::OnExecution()
     }
 
     // Create a SID for the 'boinc_master' user account.
-    if(!GetAccountSid(NULL, strBOINCMasterAccountUsername.c_str(), &pBOINCMasterSID))
-    {
-        LogMessage(
-            INSTALLMESSAGE_ERROR,
-            NULL, 
-            NULL,
-            NULL,
-            GetLastError(),
-            _T("GetAccountSid Error for 'boinc_master' user account")
-        );
-        return ERROR_INSTALL_FAILURE;
+    if (_T("1") == strEnableProtectedApplicationExecution) {
+
+        if(!GetAccountSid(NULL, strBOINCMasterAccountUsername.c_str(), &pBOINCMasterSID))
+        {
+            LogMessage(
+                INSTALLMESSAGE_ERROR,
+                NULL, 
+                NULL,
+                NULL,
+                GetLastError(),
+                _T("GetAccountSid Error for 'boinc_master' user account")
+            );
+            return ERROR_INSTALL_FAILURE;
+        }
+
     }
 
     // Create a SID for the 'boinc_project' user account.
-    if(!GetAccountSid(NULL, strBOINCProjectAccountUsername.c_str(), &pBOINCProjectSID))
-    {
-        LogMessage(
-            INSTALLMESSAGE_ERROR,
-            NULL, 
-            NULL,
-            NULL,
-            GetLastError(),
-            _T("GetAccountSid Error for 'boinc_master' user account")
-        );
-        return ERROR_INSTALL_FAILURE;
+    if (_T("1") == strEnableProtectedApplicationExecution) {
+
+        if(!GetAccountSid(NULL, strBOINCProjectAccountUsername.c_str(), &pBOINCProjectSID))
+        {
+            LogMessage(
+                INSTALLMESSAGE_ERROR,
+                NULL, 
+                NULL,
+                NULL,
+                GetLastError(),
+                _T("GetAccountSid Error for 'boinc_master' user account")
+            );
+            return ERROR_INSTALL_FAILURE;
+        }
+
     }
 
 
@@ -259,34 +267,38 @@ UINT CACreateBOINCGroups::OnExecution()
         return ERROR_INSTALL_FAILURE;
     }
 
-    lgrmiAdmins.lgrmi0_sid = pBOINCMasterSID;
+    if (_T("1") == strEnableProtectedApplicationExecution) {
 
-    nasReturnValue = NetLocalGroupAddMembers(
-        NULL,
-        _T("boinc_admins"),
-        0,
-        (LPBYTE)&lgrmiAdmins,
-        1
-    );
+        lgrmiAdmins.lgrmi0_sid = pBOINCMasterSID;
 
-    if ((NERR_Success != nasReturnValue) && (ERROR_MEMBER_IN_ALIAS != nasReturnValue)) {
-        LogMessage(
-            INSTALLMESSAGE_INFO,
-            NULL, 
+        nasReturnValue = NetLocalGroupAddMembers(
             NULL,
-            NULL,
-            nasReturnValue,
-            _T("NetLocalGroupAddMembers retval")
+            _T("boinc_admins"),
+            0,
+            (LPBYTE)&lgrmiAdmins,
+            1
         );
-        LogMessage(
-            INSTALLMESSAGE_ERROR,
-            NULL, 
-            NULL,
-            NULL,
-            nasReturnValue,
-            _T("Failed to add user to the 'boinc_admins' group (BOINC Master).")
-        );
-        return ERROR_INSTALL_FAILURE;
+
+        if ((NERR_Success != nasReturnValue) && (ERROR_MEMBER_IN_ALIAS != nasReturnValue)) {
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                nasReturnValue,
+                _T("NetLocalGroupAddMembers retval")
+            );
+            LogMessage(
+                INSTALLMESSAGE_ERROR,
+                NULL, 
+                NULL,
+                NULL,
+                nasReturnValue,
+                _T("Failed to add user to the 'boinc_admins' group (BOINC Master).")
+            );
+            return ERROR_INSTALL_FAILURE;
+        }
+
     }
 
 

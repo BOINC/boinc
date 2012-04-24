@@ -3462,3 +3462,21 @@ David  23 Apr 2012
 
 	client/
 		cpu_sched.cpp
+
+Rom    24 Apr 2012
+    - WINSETUP: Fix long standing installer bug where we were attempting
+        to add the boinc_master account to the boinc_admins group when
+        installing in the non-service install mode.  boinc_master is only
+        created during service installs.  This was causing a setup failure
+        on Windows 8. As far as I can tell it should have also been failing
+        on Win7 and WinVista.
+        
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.rc
+        CACreateBOINCGroups.cpp
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
