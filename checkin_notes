@@ -3480,3 +3480,9 @@ Rom    24 Apr 2012
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+David  24 Apr 2012
+    - update_versions: eliminate PHP warnings when no version.xml file
+
+    tools/
+        update_versions

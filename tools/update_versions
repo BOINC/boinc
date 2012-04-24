@@ -379,6 +379,9 @@ function process_version($a, $v, $p) {
     } else {
         $vers = null;
         $vers->files = array();
+        $vers->dont_throttle = false;
+        $vers->needs_network = false;
+        $vers->file_prefix = false;
     }
 
     $fds = process_files($a, $v, $p, $vers->files);
