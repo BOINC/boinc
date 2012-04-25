@@ -119,7 +119,7 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
     //
     int fd = open(path,
         O_WRONLY|O_CREAT,
-        S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH
+        S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH
     );
     if (fd<0) {
         return return_error(ERR_TRANSIENT,

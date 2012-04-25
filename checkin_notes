@@ -3528,3 +3528,26 @@ David  25 Apr 2012
         scheduler_op.cpp,h
         cs_scheduler.cpp
         cs_statefile.cpp
+
+David  25 Apr 2012
+    - Bad logic in Win code:
+        if you have
+            *pbuf = HeapAlloc(...)
+        then you need
+            if (*pbuf == NULL)
+        not
+            if (pbuf == NULL)
+    - various code cleanups from 
+    - Makefile.am: don't include clientgui/res; nothing to make there
+
+    from Steffen Moeller
+
+    sched/
+        file_upload_handler.cpp
+    lib/
+        diagnostics_win.cpp
+        procinfo_win.cpp
+    Makefile.am
+    client/
+        coproc_detect.cpp
+        client_types.cpp

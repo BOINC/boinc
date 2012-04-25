@@ -1800,10 +1800,13 @@ int RESULT::parse_name(XML_PARSER& xp, const char* end_tag) {
 void RESULT::clear() {
     strcpy(name, "");
     strcpy(wu_name, "");
-    report_deadline = 0;
     received_time = 0;
+    report_deadline = 0;
+    version_num = 0;
+    strcpy(plan_class, "");
+    strcpy(platform, "");
+    avp = NULL;
     output_files.clear();
-    _state = RESULT_NEW;
     ready_to_report = false;
     completed_time = 0;
     got_server_ack = false;
@@ -1812,22 +1815,21 @@ void RESULT::clear() {
 #ifdef SIM
     peak_flop_count = 0;
 #endif
-    exit_status = 0;
-    stderr_out = "";
-    suspended_via_gui = false;
-    rr_sim_misses_deadline = false;
     fpops_per_cpu_sec = 0;
     fpops_cumulative = 0;
     intops_per_cpu_sec = 0;
     intops_cumulative = 0;
+    _state = RESULT_NEW;
+    exit_status = 0;
+    stderr_out = "";
+    suspended_via_gui = false;
+    coproc_missing = false;
+    report_immediately = false;
+    rr_sim_misses_deadline = false;
     app = NULL;
     wup = NULL;
     project = NULL;
-    version_num = 0;
-    strcpy(platform, "");
-    strcpy(plan_class, "");
     strcpy(resources, "");
-    coproc_missing = false;
     report_immediately = false;
     schedule_backoff = 0;
     strcpy(schedule_backoff_reason, "");

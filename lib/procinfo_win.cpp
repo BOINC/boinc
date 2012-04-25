@@ -30,7 +30,7 @@ static int get_process_information(PVOID* ppBuffer, PULONG pcbBuffer) {
         cbBuffer = *pcbBuffer;
 
         *ppBuffer = HeapAlloc(hHeap, HEAP_ZERO_MEMORY, *pcbBuffer);
-        if (ppBuffer == NULL) {
+        if (*ppBuffer == NULL) {
             return ERR_MALLOC;
         }
 

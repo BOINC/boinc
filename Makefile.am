@@ -21,7 +21,7 @@ if ENABLE_CLIENT
 endif
 
 if ENABLE_MANAGER
-   CLIENTGUI_SUBDIRS = clientgui clientgui/res locale
+   CLIENTGUI_SUBDIRS = clientgui locale
 #if BUILD_X11_SCREENSAVER
 #   CLIENTGUI_SUBDIRS += clientscr
 #endif
