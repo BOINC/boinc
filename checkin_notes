@@ -3537,7 +3537,7 @@ David  25 Apr 2012
             if (*pbuf == NULL)
         not
             if (pbuf == NULL)
-    - various code cleanups from 
+    - various code cleanups
     - Makefile.am: don't include clientgui/res; nothing to make there
 
     from Steffen Moeller
@@ -3551,3 +3551,10 @@ David  25 Apr 2012
     client/
         coproc_detect.cpp
         client_types.cpp
+
+David  26 Apr 2012
+    - client: enforce <no_gpus> in config file not just at startup,
+        but also when config file is re-read.
+
+    client/
+        log_flags.cpp
