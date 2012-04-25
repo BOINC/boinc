@@ -1003,7 +1003,9 @@ int CLIENT_STATE::handle_scheduler_reply(
     }
 #endif
 
-    project->link_project_files(true);
+    project->project_files = sr.project_files;
+    project->link_project_files();
+    project->create_project_file_symlinks();
 
     if (log_flags.state_debug) {
         msg_printf(project, MSG_INFO,

@@ -400,9 +400,10 @@ struct PROJECT : PROJ_AM {
     std::vector<FILE_REF> project_files;
         // files not specific to apps or work - e.g. icons
     int parse_preferences_for_user_files();
-    int parse_project_files(XML_PARSER&, bool delete_existing_symlinks);
     void write_project_files(MIOFILE&);
-    void link_project_files(bool recreate_symlink_files);
+    void link_project_files();
+    void create_project_file_symlinks();
+    void delete_project_file_symlinks();
     int write_symlink_for_project_file(FILE_INFO*);
     double project_files_downloaded_time;
         // when last project file download finished
@@ -845,5 +846,7 @@ struct RUN_MODE {
 struct PLATFORM {
     std::string name;
 };
+
+extern int parse_project_files(XML_PARSER&, std::vector<FILE_REF>&);
 
 #endif

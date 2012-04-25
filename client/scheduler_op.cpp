@@ -885,7 +885,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
         } else if (xp.parse_int("scheduler_version", scheduler_version)) {
             continue;
         } else if (xp.match_tag("project_files")) {
-            retval = project->parse_project_files(xp, true);
+            retval = parse_project_files(xp, project_files);
 #ifdef ENABLE_AUTO_UPDATE
         } else if (xp.match_tag("auto_update")) {
             retval = auto_update.parse(xp);

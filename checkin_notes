@@ -3510,3 +3510,21 @@ David  25 Apr 2012
         rr_sim.cpp
         cs_scheduler.cpp
         cpu_sched.cpp
+
+David  25 Apr 2012
+    - client: fix crashing bug that happened when a scheduler reply
+        had a parse error, and it included project files.
+        While parsing the scheduler reply we'd add FILE_REFs to
+        PROJECT::project_files,
+        but wouldn't link them to FILE_INFOs since this is done
+        only if the reply parses correctly.
+        The next garbage_collect() would dereference these NULL pointers.
+
+        Solution: parse the FILE_REFS into SCHEDULER_REPLY::project_files.
+        Copy this to PROJECT::project_files only if the reply parses.
+
+    client/
+        client_types.cpp,h
+        scheduler_op.cpp,h
+        cs_scheduler.cpp
+        cs_statefile.cpp
