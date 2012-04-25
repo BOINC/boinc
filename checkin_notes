@@ -3486,3 +3486,27 @@ David  24 Apr 2012
 
     tools/
         update_versions
+
+David  25 Apr 2012
+    - scheduler: fix bug that tried to open  plan class spec file
+        on each request.
+    - client: when showing how much work a scheduler request returned,
+        scale by availability (as is done to show the amount of the request)
+    - client in account manager request, <not_started_dur> and
+        <in_progress_dur> are in wall time, not run time
+        (i.e. scale them by availability)
+
+    Note: there's some confusion in the code between runtime and wall time,
+        where in general wall time = runtime / availability.
+        New convention: let's use "runtime" for the former,
+        and "duration" for the latter.
+
+    sched/
+        sched_customize.cpp
+    client/
+        client_types.cpp,h
+        time_stats.h
+        work_fetch.cpp
+        rr_sim.cpp
+        cs_scheduler.cpp
+        cpu_sched.cpp

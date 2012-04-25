@@ -389,7 +389,7 @@ void RR_SIM::simulate() {
                 // update busy time of relevant processor types
                 //
                 double frac = rpbest->uses_coprocs()?gstate.overall_gpu_frac():gstate.overall_cpu_frac();
-                double dur = rpbest->estimated_time_remaining() / frac;
+                double dur = rpbest->estimated_runtime_remaining() / frac;
                 rsc_work_fetch[0].update_busy_time(dur, rpbest->avp->avg_ncpus);
                 int rt = rpbest->avp->gpu_usage.rsc_type;
                 if (rt) {

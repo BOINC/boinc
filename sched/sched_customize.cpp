@@ -604,6 +604,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                     "[version] Couldn't open plan class spec file '%s'\n", buf
                 );
             }
+            have_plan_class_spec = false;
         } else if (retval) {
             log_messages.printf(MSG_CRITICAL,
                 "Error parsing plan class spec file '%s'\n", buf
