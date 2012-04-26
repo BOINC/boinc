@@ -802,7 +802,7 @@ int wu_is_infeasible_fast(
 
 // return true if the client has a sticky file used by this job
 //
-bool host_has_job_file(WORKUNIT& wu) {
+bool host_has_job_file(WORKUNIT&) {
     return false;
 }
 
@@ -1640,6 +1640,14 @@ void send_work_setup() {
     g_wreq->cpu_req_instances = g_request->cpu_req_instances;
     g_wreq->anonymous_platform = is_anonymous(g_request->platforms.list[0]);
 
+    // decide on attributes of HOST_APP_VERSIONS
+    //
+    get_reliability_and_trust();
+
+    // parse project preferences (e.g. no GPUs)
+    //
+    get_prefs_info();
+
     if (g_wreq->anonymous_platform) {
         estimate_flops_anon_platform();
 
@@ -1855,12 +1863,6 @@ void send_work() {
         g_wreq->hr_reject_perm = true;
         return;
     }
-
-    // decide on attributes of HOST_APP_VERSIONS
-    //
-    get_reliability_and_trust();
-
-    get_prefs_info();
 
     if (config.enable_assignment) {
         if (send_assigned_jobs()) {

@@ -3602,3 +3602,12 @@ David  27 Apr 2012
 
     lib/
         str_util.cpp
+
+David  27 Apr 2012
+    - scheduler: call get_reliability_and_trust() and get_prefs_info()
+        in send_work_setup(), so that they run before lost jobs are resent.
+        Otherwise lost jobs could get sent using an app version
+        that's prohibited by prefs
+
+    sched/
+        sched_send.cpp
