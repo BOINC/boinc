@@ -2504,13 +2504,13 @@ wxString result_description(RESULT* result, bool show_resources) {
         break;
     case RESULT_ABORTED:
         switch(result->exit_status) {
-        case ERR_ABORTED_VIA_GUI:
+        case EXIT_ABORTED_VIA_GUI:
             strBuffer += _("Aborted by user");
             break;
-        case ERR_ABORTED_BY_PROJECT:
+        case EXIT_ABORTED_BY_PROJECT:
             strBuffer += _("Aborted by project");
             break;
-        case ERR_UNSTARTED_LATE:
+        case EXIT_UNSTARTED_LATE:
             strBuffer += _("Aborted: not started by deadline");
             break;
         default:
