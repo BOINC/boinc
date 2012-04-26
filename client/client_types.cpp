@@ -612,7 +612,7 @@ void PROJECT::abort_not_started() {
         RESULT* rp = gstate.results[i];
         if (rp->project != this) continue;
         if (rp->is_not_started()) {
-            rp->abort_inactive(ERR_ABORTED_VIA_GUI);
+            rp->abort_inactive(EXIT_ABORTED_VIA_GUI);
         }
     }
 }

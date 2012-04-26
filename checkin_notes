@@ -3558,3 +3558,41 @@ David  26 Apr 2012
 
     client/
         log_flags.cpp
+
+David  26 Apr 2012
+    - A first attempt to fix the bug where apps die with exit(1)
+        (whereas they didn't do this w/ older clients).
+        On Windows, the client uses TerminateProcess(h, 1) to kill processes;
+        the 1 is the exit code the process will appear to have.
+
+        So instead, add a "will_restart" bool arg to the various kill
+        functions, and if set use 0 (= STATUS_SUCCESS),
+        otherwise use EXIT_ABORTED_BY_CLIENT.
+
+        Note: in principle this shouldn't make any difference
+        for quitting tasks,
+        since handle_exited_app() checks for task state QUIT_PENDING
+        and ignores the exit code in that case.
+        The only place I can see where it would make any difference
+        is when we kill a process because it hasn't been handling
+        queued shared-memory messages for 180 seconds.
+
+    - client: add more info to the message about an exited app
+
+    - client: function return values (ERR_*) are different from
+        process exit codes (EXIT_*).
+        But in many places we were using return values as exit codes.
+        Fix these.
+        Also, break out the different types of limits a job can exceed
+        (time, disk, memory) into difference exit codes.
+
+    lib/
+        error_numbers.h
+    client/
+        client_state.cpp
+        app.h
+        gui_rpc_server_ops.cpp
+        cs_apps.cpp
+        client_types.cpp
+        cs_scheduler.cpp
+        app_control.cpp

@@ -521,9 +521,9 @@ static void handle_result_op(GUI_RPC_CONN& grc, const char* op) {
         msg_printf(p, MSG_INFO, "task %s aborted by user", result_name);
         atp = gstate.lookup_active_task_by_result(rp);
         if (atp) {
-            atp->abort_task(ERR_ABORTED_VIA_GUI, "aborted by user");
+            atp->abort_task(EXIT_ABORTED_VIA_GUI, "aborted by user");
         } else {
-            rp->abort_inactive(ERR_ABORTED_VIA_GUI);
+            rp->abort_inactive(EXIT_ABORTED_VIA_GUI);
         }
         gstate.request_work_fetch("result aborted by user");
     } else if (!strcmp(op, "suspend")) {
