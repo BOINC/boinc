@@ -1,5 +1,4 @@
 <?php
-// $Id: taxonomy.views.inc,v 1.57.2.6 2010/04/29 18:17:37 merlinofchaos Exp $
 /**
  * @file
  *
@@ -104,6 +103,7 @@ function taxonomy_views_data() {
     ),
     'argument' => array(
       'handler' => 'views_handler_argument_numeric',
+      'name field' => 'name',
       'skip base' => array('node', 'node_revision'),
       'zero is null' => TRUE,
     ),
@@ -276,7 +276,7 @@ function taxonomy_views_data() {
     'argument' => array(
       'help' => t('A related term of the term.'),
       'handler' => 'views_handler_argument_numeric',
-    ),    
+    ),
   );
 
   // ----------------------------------------------------------------------
@@ -320,7 +320,7 @@ function taxonomy_views_data() {
     'argument' => array(
       'help' => t('The parent term of the term.'),
       'handler' => 'views_handler_argument_numeric',
-    ),    
+    ),
   );
 
   // ----------------------------------------------------------------------
@@ -364,7 +364,7 @@ function taxonomy_views_data() {
 function taxonomy_views_data_alter(&$data) {
   $data['node']['term_node_tid'] = array(
     'group' => t('Taxonomy'),
-    'title' => t('Related terms'),
+    'title' => t('Terms on node'),
     'help' => t('Relate nodes to taxonomy terms, specifiying which vocabulary or vocabularies to use. This relationship will cause duplicated records if there are multiple terms.'),
     'relationship' => array(
       'handler' => 'views_handler_relationship_node_term_data',
@@ -457,14 +457,14 @@ function taxonomy_views_plugins() {
         'path' => drupal_get_path('module', 'views') . '/modules/taxonomy',
       ),
     ),
-    'argument default' => array(
-      'taxonomy_tid' => array(
-        'title' => t('Taxonomy Term ID from URL'),
-        'handler' => 'views_plugin_argument_default_taxonomy_tid',
-        'path' => drupal_get_path('module', 'views') . '/modules/taxonomy',
-        'parent' => 'fixed',
-      ),
-    ),
+   'argument default' => array(
+     'taxonomy_tid' => array(
+       'title' => t('Taxonomy Term ID from URL'),
+       'handler' => 'views_plugin_argument_default_taxonomy_tid',
+       'path' => drupal_get_path('module', 'views') . '/modules/taxonomy',
+       'parent' => 'fixed',
+     ),
+   ),
   );
 }
 

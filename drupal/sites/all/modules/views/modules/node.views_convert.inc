@@ -1,5 +1,4 @@
 <?php
-//$Id: node.views_convert.inc,v 1.7 2009/06/30 19:14:27 merlinofchaos Exp $
 
 /**
  * @file

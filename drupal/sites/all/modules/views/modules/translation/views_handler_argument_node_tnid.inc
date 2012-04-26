@@ -1,5 +1,4 @@
 <?php
-// $Id: views_handler_argument_node_tnid.inc,v 1.1 2008/09/30 22:07:15 merlinofchaos Exp $
 /**
  * @file
  * Provide node tnid argument handler.

@@ -1,5 +1,4 @@
 <?php
-// $Id: views_handler_filter_date.inc,v 1.3.4.1 2010/03/10 20:28:26 merlinofchaos Exp $
 
 /**
  * Filter to handle dates stored as a timestamp.
@@ -24,7 +23,7 @@ class views_handler_filter_date extends views_handler_filter_numeric {
         '#title' => t('Value type'),
         '#options' => array(
           'date' => t('A date in any machine readable format. CCYY-MM-DD HH:MM:SS is preferred.'),
-          'offset' => t('An offset from the current time such as "+1 day" or "-2 hours -30 minutes"'),
+          'offset' => t('An offset from the current time such as "!example1" or "!example2"', array('!example1' => '+1 day', '!example2' => '-2 hours -30 minutes')),
         ),
         '#default_value' => !empty($this->value['type']) ? $this->value['type'] : 'date',
       );
@@ -73,7 +72,7 @@ class views_handler_filter_date extends views_handler_filter_numeric {
 
     if ($operators[$operator]['values'] == 1) {
       $convert = strtotime($value['value']);
-      if ($convert == -1 || $convert === FALSE) {
+      if (!empty($form['value']) && ($convert == -1 || $convert === FALSE)) {
         form_error($form['value'], t('Invalid date format.'));
       }
     }
@@ -139,8 +138,13 @@ class views_handler_filter_date extends views_handler_filter_numeric {
     }
     // %s is safe here because strtotime scrubbed the input and we might
     // have a string if using offset.
-    $this->query->add_where($this->options['group'], "$field >= %s", $a);
-    $this->query->add_where($this->options['group'], "$field <= %s", $b);
+    if ($this->operator == 'between') {
+      $this->query->add_where($this->options['group'], "$field >= %s", $a);
+      $this->query->add_where($this->options['group'], "$field <= %s", $b);
+    }
+    else {
+      $this->query->add_where($this->options['group'], "$field >= %s OR $field <= %s", array($a, $b));
+    }
   }
 
   function op_simple($field) {

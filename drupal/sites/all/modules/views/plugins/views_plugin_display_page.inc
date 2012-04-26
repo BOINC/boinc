@@ -1,5 +1,4 @@
 <?php
-// $Id: views_plugin_display_page.inc,v 1.8.2.4 2010/03/11 00:01:34 merlinofchaos Exp $
 /**
  * @file
  * Contains the page display plugin.
@@ -28,7 +27,7 @@ class views_plugin_display_page extends views_plugin_display {
         'title' => array('default' => '', 'translatable' => FALSE),
         'description' => array('default' => '', 'translatable' => FALSE),
         'weight' => array('default' => 0),
-        'name' => array('default' => 'navigation'),
+        'name' => array('default' => variable_get('menu_default_node_menu', 'navigation')),
        ),
     );
     $options['tab_options'] = array(
@@ -55,12 +54,16 @@ class views_plugin_display_page extends views_plugin_display {
 
     $bits = explode('/', $this->get_option('path'));
     $page_arguments = array($this->view->name, $this->display->id);
+    $view_arguments = $this->get_option('arguments');
 
     // Replace % with %views_arg for menu autoloading and add to the
     // page arguments so the argument actually comes through.
     foreach($bits as $pos => $bit) {
       if ($bit == '%') {
-        $bits[$pos] = '%views_arg';
+        $argument = array_shift($view_arguments);
+        if ($argument['validate_type'] != 'none') {
+          $bits[$pos] = '%views_arg';
+        }
         $page_arguments[] = $pos;
       }
     }

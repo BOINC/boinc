@@ -1,4 +1,3 @@
-<!-- $Id: api-tables.html,v 1.8 2009/08/22 09:22:43 dww Exp $ -->
 Tables are described to Views via hook_views_data(), which returns an array of table information, keyed by the name of the table. For example, if your module is describing three tables, 'foo', 'bar' and 'baz', your array will look like this:
 <pre>$data = array(
   'foo' =&gt; array(
@@ -51,7 +50,9 @@ In general, having 'title' and 'help' at the table level doesn't make a lot of s
   $data['foo']['table']['group'] = t('Foo');
 </pre>
 
-<h3>Base table</h3>
+The other items in the 'table' section are described in the following sections.
+
+<h3>'base': Base table</h3>
 If your table is a base table -- meaning it can be the primary, central table for a View to use, you can declare it to be a base table. This primarily provides UI information so that it can be selected. 
 For example:
 <pre>
@@ -64,7 +65,7 @@ For example:
   );
 </pre>
 
-The following tags are available in the 
+The following items are available in the base section :
 <dl>
 <dt>field</dt>
 <dd>The primary key field for this table. For Views to treat any table as a base table, it <b>must</b> have a primary field. For node this is the 'nid', for users this is the 'uid', etc. <strong>Without a single primary key field (i.e. not a composite key), Views will not be able to utilize the table as a base table.</strong> If your table does not have a primary key field, it is not too difficult to just add a serial field to it, usually.</dd>
@@ -93,7 +94,7 @@ Then when you are describing the external database in your base table you would 
 </dd>
 </dl>
 
-<h3>Linking your table to existing base tables</h3>
+<h3>'join': Linking your table to existing base tables</h3>
 For Views to use your table, it has to either be a base table, or know how to link to an existing base table. Or sometimes both. Views uses this information to create a path to the base table; when the table is added to the query, Views will walk along this path, adding all tables required into the query.
 
 <div class="help-box" style="text-align:center">
@@ -147,10 +148,10 @@ Quite a few more fields are available in this definition:
       <dd>Must be set. If an array, operator will be defaulted to IN.</dd>
       <dt>numeric</dt>
       <dd>If true, the value will not be surrounded in quotes, and %d will be used for its placeholder.</dd>
-      <dt>extra type</dt>
-      <dd> How all the extras will be combined. Either AND or OR. Defaults to AND.</dd>
     </dl>
   </dd>
+  <dt>extra type</dt>
+  <dd> How all the extras will be combined. Either AND or OR. Defaults to AND.</dd>
 </dl>
 
 <h2>Describing fields on tables</h2>

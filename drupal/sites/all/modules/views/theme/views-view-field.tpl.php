@@ -1,5 +1,4 @@
 <?php
-// $Id: views-view-field.tpl.php,v 1.1 2008/05/16 22:22:32 merlinofchaos Exp $
  /**
   * This template is used to print a single field in a view. It is not
   * actually used in default Views, as this is registered as a theme

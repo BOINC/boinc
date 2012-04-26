@@ -1,5 +1,4 @@
 <?php
-// $Id: views_handler_filter_locale_group.inc,v 1.1 2009/02/20 23:02:09 merlinofchaos Exp $
 
 /**
  * Filter by locale group.

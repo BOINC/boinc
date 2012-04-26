@@ -1,5 +1,4 @@
 <?php
-// $Id: views_plugin_argument_default_node.inc,v 1.1 2008/09/03 19:21:29 merlinofchaos Exp $
 /**
  * @file
  * Contains the node from URL argument default plugin.

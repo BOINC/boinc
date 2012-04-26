@@ -1,5 +1,4 @@
 <?php
-// $Id: views_handler_filter_node_language.inc,v 1.1 2008/09/30 22:07:15 merlinofchaos Exp $
 /**
  * Filter by language
  */

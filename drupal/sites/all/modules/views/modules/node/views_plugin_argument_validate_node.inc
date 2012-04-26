@@ -1,5 +1,4 @@
 <?php
-// $Id: views_plugin_argument_validate_node.inc,v 1.2 2009/06/10 22:04:57 merlinofchaos Exp $
 /**
  * @file
  * Contains the 'node' argument validator plugin.

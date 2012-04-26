@@ -1,5 +1,4 @@
 <?php
-//$Id: contact.views.inc,v 1.1 2009/06/01 21:55:36 merlinofchaos Exp $
 /**
  * @file
  * Provide views data and handlers for contact.module

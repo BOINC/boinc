@@ -1,5 +1,4 @@
 <?php
-// $Id: views_handler_field_user_roles.inc,v 1.2 2009/07/01 23:07:14 merlinofchaos Exp $
 /**
  * Field handler to provide a list of roles.
  */

@@ -1,5 +1,4 @@
 <?php
-// $Id: convert.inc,v 1.17 2009/09/25 17:06:14 merlinofchaos Exp $
 /**
  * @file convert.inc
  *
@@ -352,17 +351,23 @@ function views1_import($imported) {
       module_invoke($module, 'views_convert', 'default', 'argument', $view, $field, NULL);
     }
   }
-  foreach ($imported->filter as $field) {
+  foreach ($imported->filter as $key => $field) {
     $options = $field['value'] == '' ? array() : array('value' => $field['value']);
     $id = $view->add_item('default', 'filter', $field['tablename'], $field['field'], $options);
     foreach (module_implements('views_convert') as $module) {
       module_invoke($module, 'views_convert', 'default', 'filter', $view, $field, $id);
     }
+    // Store the id in the exposed filter if there is one.
+    foreach ($imported->exposed_filter as $key => $filter) {
+      if ($field['tablename'] == $filter['tablename'] && $field['field'] == $filter['field']) {
+        $imported->exposed_filter[$key]['id'] = $id;
+      }
+    }
   }
   // Exposed filters now get added to the filter array, not as a separate array.
   $count = 0;
   foreach ($imported->exposed_filter as $field) {
-    list(, $id) = explode('.', $field['field'], 2);
+    $id = $field['id'];
     $item = $view->get_item('default', 'filter', $id);
     if (views_get_handler($item['table'], $item['field'], 'filter')) {
       $item['exposed'] = TRUE;

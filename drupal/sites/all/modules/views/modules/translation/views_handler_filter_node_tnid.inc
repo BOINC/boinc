@@ -1,5 +1,4 @@
 <?php
-// $Id: views_handler_filter_node_tnid.inc,v 1.1 2008/12/02 16:34:24 merlinofchaos Exp $
 /**
  * Filter by whether the node is the original translation.
  */

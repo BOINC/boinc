@@ -1,5 +1,4 @@
 <?php
-// $Id: views_handler_argument_many_to_one.inc,v 1.1.4.2 2010/03/22 20:40:41 merlinofchaos Exp $
 /**
  * An argument handler for use in fields that have a many to one relationship
  * with the table(s) to the left. This adds a bunch of options that are

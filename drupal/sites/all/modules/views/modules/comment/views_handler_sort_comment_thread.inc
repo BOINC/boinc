@@ -1,5 +1,4 @@
 <?php
-// $Id: views_handler_sort_comment_thread.inc,v 1.1 2008/09/03 19:21:29 merlinofchaos Exp $
 /**
  * Sort handler for ordering by thread
  */

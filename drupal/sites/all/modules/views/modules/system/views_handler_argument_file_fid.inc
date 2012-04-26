@@ -1,5 +1,4 @@
 <?php
-// $Id: views_handler_argument_file_fid.inc,v 1.1 2008/09/03 19:21:30 merlinofchaos Exp $
 /**
  * Argument handler to accept a file id.
  */

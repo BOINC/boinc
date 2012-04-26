@@ -1,5 +1,4 @@
 <?php
-// $Id: views_handler_argument_date.inc,v 1.3.4.2 2010/03/11 00:49:52 merlinofchaos Exp $
 /**
  * Abstract argument handler for dates.
  *

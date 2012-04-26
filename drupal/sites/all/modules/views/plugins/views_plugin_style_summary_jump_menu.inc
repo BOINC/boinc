@@ -1,5 +1,4 @@
 <?php
-// $Id: views_plugin_style_summary_jump_menu.inc,v 1.1.2.2 2009/10/28 02:22:47 merlinofchaos Exp $
 /**
  * @file
  * Contains the default summary style plugin, which displays items in an HTML list.
@@ -14,20 +13,39 @@ class views_plugin_style_summary_jump_menu extends views_plugin_style {
   function option_definition() {
     $options = parent::option_definition();
 
+    $options['base_path'] = array('default' => '');
     $options['count'] = array('default' => TRUE);
     $options['hide'] = array('default' => FALSE);
-    $options['text'] = array('default' => t('Go'), 'translatable' => TRUE);
+    $options['text'] = array('default' => 'Go', 'translatable' => TRUE);
+    $options['choose'] = array('default' => '- Choose -', 'translatable' => TRUE);
+    $options['default_value'] = array('default' => FALSE);
 
     return $options;
   }
 
   function query() {
-    $this->view->set_items_per_page(0);
-    $this->view->set_use_pager(0);
+    // We can't have an offset without a limit, so provide a very large limit instead.
+    if (!empty($this->display->handler->options['offset'])) {
+      $this->view->set_items_per_page(999999);
+    }
+    else {
+      $this->view->set_items_per_page(0);
+      $this->view->set_use_pager(0);
+    }
   }
 
   function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
+    $form['base_path'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Base path'),
+      '#default_value' => $this->options['base_path'],
+      '#description' => t('Define the base path for links in this summary
+        view, i.e. http://example.com/<strong>your_view_path/archive</strong>.
+        Do not include beginning and ending forward slash. If this value
+        is empty, views will use the first path found as the base path,
+        in page displays, or / if no path could be found.'),
+    );
     $form['count'] = array(
       '#type' => 'checkbox',
       '#default_value' => !empty($this->options['count']),
@@ -46,6 +64,20 @@ class views_plugin_style_summary_jump_menu extends views_plugin_style {
       '#title' => t('Button text'),
       '#default_value' => $this->options['text'],
     );
+
+    $form['choose'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Choose text'),
+      '#default_value' => $this->options['choose'],
+      '#description' => t('The text that will appear as the selected option in the jump menu.'),
+    );
+
+    $form['default_value'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Select the current argument.'),
+      '#default_value' => !empty($this->options['default_value']),
+      '#description' => t('If checked, the current argument setting will be displayed as the default option in the jump menu, if applicable.'),
+    );
   }
 
   function render() {
@@ -58,14 +90,22 @@ class views_plugin_style_summary_jump_menu extends views_plugin_style {
     }
 
     $options = array();
+    $default_value = '';
     foreach ($this->view->result as $id => $row) {
       $args = $this->view->args;
       $args[$argument->position] = $argument->summary_argument($row);
-      $path = url($this->view->get_url($args), $url_options);
+      $base_path = NULL;
+      if (!empty($argument->options['style_options']['base_path'])) {
+        $base_path = $argument->options['style_options']['base_path'];
+      }
+      $path = url($this->view->get_url($args, $base_path), $url_options);
 
       $options[$path] = strip_tags($argument->summary_name($row));
       if (!empty($this->options['count'])) {
         $options[$path] .= ' (' . intval($row->{$argument->count_alias}) . ')';
+      }
+      if ($this->options['default_value'] && $_GET['q'] == $this->view->get_url($args)) {
+        $default_value = $path;
       }
     }
 
@@ -73,6 +113,8 @@ class views_plugin_style_summary_jump_menu extends views_plugin_style {
     $settings = array(
       'hide' => $this->options['hide'],
       'button' => $this->options['text'],
+      'choose' => $this->options['choose'],
+      'default_value' => $default_value,
     );
 
     return drupal_get_form('ctools_jump_menu', $options, $settings);

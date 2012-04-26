@@ -1,4 +1,3 @@
-<!-- $Id: new.html,v 1.5 2008/10/14 18:20:25 merlinofchaos Exp $ -->
 Views 2 is the newest major release of Views and it is specifically coded for Drupal 6. Views 2 retains all of the core functionality of Views 1, together with a completely revamped user interface and a large set of new features which greatly expand upon the original feature-set of Views 1. This document is a side-by-side comparison of Views 1 versus Views 2 from a user's perspective, detailing the UI changes, some new ways to perform old tasks, the cool new features of Views 2 and how these features can be used to address some of the shortcomings of Views 1.
 
 <h2>Admin interface</h2>
@@ -21,7 +20,7 @@ Context-help is available by clicking the small blue question-mark icon. Context
 
 Several new attributes of each view are visible in the filter header:
 <ol>
-<li><strong>Tag</strong> - This is just another label for organizing and sorting views. Tags can be any text. Views that are provided by modules will often be tagged together to make it easy to find them.</li>
+<li><strong>Tag</strong> - This is just another label for organizing and sorting views. Tags can be any text. Views that are provided by modules will often be tagged together to make it easy to find them. Tags are also added to your template suggestions, so take care what you set here. For example setting the tag <i>Page</i> will give all your views the Page template.</li>
 <li><strong>Display</strong> - In Views 1 each view query was tied to its display; in other words your fields, sorts, filters, and arguments could only be displayed in the single page or block display provided in the view definition. In Views 2, view displays have been decoupled from view queries - it is now possible to have multiple page, block, and feed displays from a single view. More on view displays later. </li>
 <li><strong>Type</strong> - Views 2 view types are radically different from Views 1 types. Views 1 types basically defined how the node list displays were <i>styled</i> - you had Full Nodes, Teaser List, Table View, and so on. In Views 2 view display styles have been broken out into the separate <i>Style</i> attribute. View types now refer to the primary table on which information for the query will be retrieved which controls what arguments, fields, sort criteria and filters are available. Views 2 view types are discussed later.
 </li>

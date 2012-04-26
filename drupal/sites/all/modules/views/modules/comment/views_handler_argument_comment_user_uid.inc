@@ -1,5 +1,4 @@
 <?php
-// $Id: views_handler_argument_comment_user_uid.inc,v 1.2 2009/06/02 18:50:56 merlinofchaos Exp $
 
 /**
  * Argument handler to accept a user id to check for nodes that

@@ -1,4 +1,3 @@
-// $Id: README.txt,v 1.26 2008/10/20 19:34:53 merlinofchaos Exp $
 
 Welcome to Views 2. Please see the advanced help for more information.
 

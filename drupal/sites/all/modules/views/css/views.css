@@ -1,4 +1,3 @@
-/* $Id: views.css,v 1.11.4.2 2010/03/12 00:25:37 merlinofchaos Exp $ */
 .views-exposed-form .views-exposed-widget {
   float: left; /* LTR */
   padding: .5em 1em 0 0; /* LTR */
@@ -42,16 +41,27 @@ div.view div.views-admin-links {
 }
 
 div.view div.views-admin-links ul {
-  padding-left: 0;
-}
-
-div.view div.views-admin-links li a {
-  color: #ccc;
+  margin: 0;
+  padding: 0;
 }
 
 div.view div.views-admin-links li {
-  padding-bottom: 2px;
+  margin: 0;
+  padding: 0 0 2px 0;
   z-index: 201;
+}
+
+div.view div.views-admin-links li a {
+  padding: 0;
+  margin: 0;
+  color: #ccc;
+}
+
+div.view div.views-admin-links li a:before {
+  content: "[";
+}
+div.view div.views-admin-links li a:after {
+  content: "]";
 }
 
 div.view div.views-admin-links-hover a,
@@ -61,15 +71,7 @@ div.view div.views-admin-links:hover a {
 
 div.view div.views-admin-links-hover,
 div.view div.views-admin-links:hover {
-  background: transparent;;
-}
-
-div.view div.views-admin-links a:before {
-  content: "[";
-}
-
-div.view div.views-admin-links a:after {
-  content: "]";
+  background: transparent;
 }
 
 div.view div.views-hide {

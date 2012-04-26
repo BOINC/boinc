@@ -1,5 +1,4 @@
 <?php
-// $Id: views-view-table.tpl.php,v 1.8 2009/01/28 00:43:43 merlinofchaos Exp $
 /**
  * @file views-view-table.tpl.php
  * Template to display a view as a table.
@@ -15,7 +14,7 @@
  * @ingroup views_templates
  */
 ?>
-<table class="<?php print $class; ?>">
+<table class="<?php print $class; ?>"<?php print $attributes; ?>>
   <?php if (!empty($title)) : ?>
     <caption><?php print $title; ?></caption>
   <?php endif; ?>

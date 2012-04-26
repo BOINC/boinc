@@ -1,5 +1,4 @@
 <?php
-// $Id: handlers.inc,v 1.119.2.4 2009/12/24 01:08:31 merlinofchaos Exp $
 /**
  * @file handlers.inc
  * Defines the various handler objects to help build and display views.
@@ -850,7 +849,10 @@ function views_get_timezone() {
       if ($GLOBALS['db_type'] == 'pgsql') {
         db_query("SET TIME ZONE INTERVAL '$offset' HOUR TO MINUTE");
       }
-      elseif ($GLOBALS['db_type'] == 'mysqli' || version_compare(mysql_get_server_info(), '4.1.3', '>=')) {
+      elseif ($GLOBALS['db_type'] == 'mysqli') {
+        db_query("SET @@session.time_zone = '$offset'");
+      }
+      elseif ($GLOBALS['db_type'] == 'mysql' && version_compare(db_version(), '4.1.3', '>=')) {
         db_query("SET @@session.time_zone = '$offset'");
       }
 
@@ -931,22 +933,42 @@ function views_date_sql_format($format, $field, $field_type = 'int', $set_offset
     case 'mysqli':
       $replace = array(
         'Y' => '%Y',
+        'y' => '%y',
+        'M' => '%%b',
         'm' => '%m',
+        'n' => '%c',
+        'F' => '%M',
+        'D' => '%a',
         'd' => '%%d',
+        'l' => '%W',
+        'j' => '%e',
+        'W' => '%v',
         'H' => '%H',
+        'h' => '%h',
         'i' => '%i',
-        's' => '%s',
+        's' => '%%s',
+        'A' => '%p',
         );
       $format = strtr($format, $replace);
       return "DATE_FORMAT($field, '$format')";
     case 'pgsql':
       $replace = array(
         'Y' => 'YYYY',
+        'y' => 'YY',
+        'M' => 'Mon',
         'm' => 'MM',
+        'n' => 'MM', // no format for Numeric representation of a month, without leading zeros
+        'F' => 'Month',
+        'D' => 'Dy',
         'd' => 'DD',
+        'l' => 'Day',
+        'j' => 'DD', // no format for Day of the month without leading zeros
+        'W' => 'WW',
         'H' => 'HH24',
+        'h' => 'HH12',
         'i' => 'MI',
         's' => 'SS',
+        'A' => 'AM',
         );
       $format = strtr($format, $replace);
       return "TO_CHAR($field, '$format')";
@@ -1052,6 +1074,9 @@ function views_views_handlers() {
       'views_handler_argument_null' => array(
         'parent' => 'views_handler_argument',
       ),
+      'views_handler_argument_broken' => array(
+        'parent' => 'views_handler_argument',
+      ),
 
       // field handlers
       'views_handler_field' => array(
@@ -1089,6 +1114,12 @@ function views_views_handlers() {
       'views_handler_field_counter' => array(
         'parent' => 'views_handler_field',
       ),
+      'views_handler_field_math' => array(
+        'parent' => 'views_handler_field_numeric',
+      ),
+      'views_handler_field_broken' => array(
+        'parent' => 'views_handler_field',
+      ),
 
       // filter handlers
       'views_handler_filter' => array(
@@ -1121,10 +1152,16 @@ function views_views_handlers() {
       'views_handler_filter_many_to_one' => array(
         'parent' => 'views_handler_filter_in_operator',
       ),
+      'views_handler_filter_broken' => array(
+        'parent' => 'views_handler_filter',
+      ),
 
       // relationship handlers
       'views_handler_relationship' => array(
         'parent' => 'views_handler',
+      ),
+      'views_handler_relationship_broken' => array(
+        'parent' => 'views_handler_relationship',
       ),
 
 
@@ -1142,6 +1179,9 @@ function views_views_handlers() {
         'parent' => 'views_handler_sort',
       ),
       'views_handler_sort_random' => array(
+        'parent' => 'views_handler_sort',
+      ),
+      'views_handler_sort_broken' => array(
         'parent' => 'views_handler_sort',
       ),
     ),
@@ -1165,15 +1205,15 @@ function views_views_handlers() {
  *   // PHP 4 doesn't call constructors of the base class automatically from a
  *   // constructor of a derived class. It is your responsibility to propagate
  *   // the call to constructors upstream where appropriate.
- *   function construct($table, $left_table, $left_field, $field, $extra = array(), $type = 'LEFT') {
+ *   function construct($table = NULL, $left_table = NULL, $left_field = NULL, $field = NULL, $extra = array(), $type = 'LEFT') {
  *     parent::construct($table, $left_table, $left_field, $field, $extra, $type);
  *   }
  *
  *   function join($table, &$query) {
  *     $output = parent::join($table, $query);
+ *     $output .= "AND foo.bar = baz.boing";
+ *     return $output;
  *   }
- *   $output .= "AND foo.bar = baz.boing";
- *   return $output;
  * }
  * @endcode
  */
@@ -1255,6 +1295,17 @@ class views_join {
     }
 
     $output = " $this->type JOIN $right_table $table[alias] ON $left_field = $table[alias].$this->field";
+
+    // Load query tokens replacements.
+    $view = views_get_current_view();
+    $replacements = array();
+    if (!empty($view)) {
+      $replacements = $view->substitutions();
+    }
+    else {
+      vpr('The current view is not set, maybe some code missed to execute $view->pre_execute()');
+    }
+
     // Tack on the extra.
     if (isset($this->extra)) {
       if (is_array($this->extra)) {
@@ -1271,10 +1322,13 @@ class views_join {
             $join_table = $info['table'] . '.';
           }
 
+          // Apply query token replacements.
+          $info['value'] = str_replace(array_keys($replacements), $replacements, $info['value']);
+
           // And now deal with the value and the operator.  Set $q to
           // a single-quote for non-numeric values and the
           // empty-string for numeric values, then wrap all values in $q.
-          $raw_value = $this->db_safe($info['value']);
+          $raw_value = $this->db_safe($info['value'], $info);
           $q = (empty($info['numeric']) ? "'" : '');
 
           if (is_array($raw_value)) {
@@ -1316,7 +1370,7 @@ class views_join {
    * so something that needs floats in their joins needs to do their
    * own type checking.
    */
-  function db_safe($input) {
+  function db_safe($input, $info) {
     if (is_array($input)) {
       $output = array();
       foreach ($input as $value) {
@@ -1357,34 +1411,66 @@ function views_views_api() {
   );
 }
 
-function aggregator_views_api() { return views_views_api(); }
+if (!function_exists('aggregator_views_api')) {
+  function aggregator_views_api() { return views_views_api(); }
+}
 
-function book_views_api() { return views_views_api(); }
+if (!function_exists('book_views_api')) {
+  function book_views_api() { return views_views_api(); }
+}
 
-function comment_views_api() { return views_views_api(); }
+if (!function_exists('comment_views_api')) {
+  function comment_views_api() { return views_views_api(); }
+}
 
-function locale_views_api() { return views_views_api(); }
+if (!function_exists('locale_views_api')) {
+  function locale_views_api() { return views_views_api(); }
+}
 
-function filter_views_api() { return views_views_api(); }
+if (!function_exists('filter_views_api')) {
+  function filter_views_api() { return views_views_api(); }
+}
 
-function node_views_api() { return views_views_api(); }
+if (!function_exists('node_views_api')) {
+  function node_views_api() { return views_views_api(); }
+}
 
-function poll_views_api() { return views_views_api(); }
+if (!function_exists('poll_views_api')) {
+  function poll_views_api() { return views_views_api(); }
+}
 
-function profile_views_api() { return views_views_api(); }
+if (!function_exists('profile_views_api')) {
+  function profile_views_api() { return views_views_api(); }
+}
 
-function search_views_api() { return views_views_api(); }
+if (!function_exists('search_views_api')) {
+  function search_views_api() { return views_views_api(); }
+}
 
-function statistics_views_api() { return views_views_api(); }
+if (!function_exists('statistics_views_api')) {
+  function statistics_views_api() { return views_views_api(); }
+}
 
-function system_views_api() { return views_views_api(); }
+if (!function_exists('system_views_api')) {
+  function system_views_api() { return views_views_api(); }
+}
 
-function taxonomy_views_api() { return views_views_api(); }
+if (!function_exists('taxonomy_views_api')) {
+  function taxonomy_views_api() { return views_views_api(); }
+}
 
-function translation_views_api() { return views_views_api(); }
+if (!function_exists('translation_views_api')) {
+  function translation_views_api() { return views_views_api(); }
+}
 
-function upload_views_api() { return views_views_api(); }
+if (!function_exists('upload_views_api')) {
+  function upload_views_api() { return views_views_api(); }
+}
 
-function user_views_api() { return views_views_api(); }
+if (!function_exists('user_views_api')) {
+  function user_views_api() { return views_views_api(); }
+}
 
-function contact_views_api() { return views_views_api(); }
+if (!function_exists('contact_views_api')) {
+  function contact_views_api() { return views_views_api(); }
+}

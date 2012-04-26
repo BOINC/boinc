@@ -1,5 +1,4 @@
 <?php
-// $Id: views_handler_field_profile_list.inc,v 1.4.2.1 2010/03/22 19:28:29 merlinofchaos Exp $
 /**
  * Field handler display a profile list item.
  */

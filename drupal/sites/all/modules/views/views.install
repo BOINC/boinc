@@ -1,5 +1,4 @@
 <?php
-// $Id: views.install,v 1.50.2.4 2010/06/16 20:37:29 merlinofchaos Exp $
 /**
  * @file views.install
  * Contains install and update functions for Views.
@@ -282,7 +281,7 @@ function views_update_6001() {
     if (strlen($new) >= 32) {
       $new = md5($new);
     }
-    update_sql($ret, "UPDATE {blocks} SET delta = '$new' WHERE bid = $block->bid");
+    $ret[] = update_sql("UPDATE {blocks} SET delta = '$new' WHERE bid = $block->bid");
   }
 
   return $ret;
@@ -453,3 +452,67 @@ function views_update_6009() {
 
   return $ret;
 }
+
+/**
+ * Remove the view_php field
+ */
+function views_schema_6010() {
+  $schema = views_schema(__FUNCTION__);
+  unset($schema['views_view']['fields']['view_php']);
+  unset($schema['views_view']['fields']['is_cacheable']);
+  return $schema;
+}
+
+/**
+ * Remove the view_php and is_cacheable field
+ */
+function views_update_6010() {
+  $ret = array();
+
+  db_drop_field($ret, 'views_view', 'view_php');
+  db_drop_field($ret, 'views_view', 'is_cacheable');
+
+
+  return $ret;
+}
+
+/**
+ * Correct the cache setting for exposed filter blocks.
+ *
+ * @see http://drupal.org/node/910864
+ */
+function views_update_6011() {
+  $ret = array();
+
+  // There is only one simple query to run.
+  $ret[] = update_sql("UPDATE {blocks} SET cache = " . BLOCK_NO_CACHE . " WHERE module = 'views' AND delta LIKE '-exp-%'");
+  
+  return $ret;
+}
+
+function views_schema_6013() {
+  $schema = views_schema(__FUNCTION__);
+  $schema['views_view']['fields']['core'] = array(
+    'type' => 'int',
+    'default' => 0,
+    'description' => 'Stores the drupal core version of the view.',
+  );
+  return $schema;
+}
+
+/**
+ * Add a drupal core version field.
+ */
+function views_update_6013() {
+  $ret = array();
+  $new_field = array(
+    'type' => 'int',
+    'default' => 0,
+    'description' => 'Stores the drupal core version of the view.',
+  );
+
+  db_add_field($ret, 'views_view', 'core', $new_field);
+
+  return $ret;
+}
+

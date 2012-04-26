@@ -1,5 +1,4 @@
 <?php
-// $Id: views-view.tpl.php,v 1.13.2.2 2010/03/25 20:25:28 merlinofchaos Exp $
 /**
  * @file views-view.tpl.php
  * Main view template

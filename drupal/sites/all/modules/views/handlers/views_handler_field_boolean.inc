@@ -1,5 +1,4 @@
 <?php
-// $Id: views_handler_field_boolean.inc,v 1.3.2.1 2010/03/25 01:14:22 merlinofchaos Exp $
 
 /**
  * A handler to provide proper displays for booleans.
@@ -7,11 +6,11 @@
  * Allows for display of true/false, yes/no, on/off.
  *
  * Definition terms:
- *   - output formats: An array where the first entry is displayed on boolean false
- *      and the second is displayed on boolean true. An example for sticky is:
+ *   - output formats: An array where the first entry is displayed on boolean true
+ *      and the second is displayed on boolean false. An example for sticky is:
  *      @code
  *      'output formats' => array(
- *        'sticky' => array('', t('Sticky')),
+ *        'sticky' => array(t('Sticky'), ''),
  *      ),
  *      @endcode
  *

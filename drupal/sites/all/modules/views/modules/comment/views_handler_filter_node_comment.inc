@@ -1,5 +1,4 @@
 <?php
-// $Id: views_handler_filter_node_comment.inc,v 1.1 2008/09/03 19:21:29 merlinofchaos Exp $
 
 /**
  * Filter based on comment node status

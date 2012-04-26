@@ -1,5 +1,4 @@
 <?php
-// $Id: views-view-row-node.tpl.php,v 1.3 2008/07/09 18:31:26 merlinofchaos Exp $
 /**
  * @file views-view-row-node.tpl.php
  * Default simple view template to display a single node.

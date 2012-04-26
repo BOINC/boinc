@@ -1,5 +1,4 @@
 <?php
-// $Id: base.inc,v 1.3 2009/06/25 22:15:39 merlinofchaos Exp $
 /**
  * @file
  *
@@ -76,8 +75,8 @@ class views_object {
    * Unpack options over our existing defaults, drilling down into arrays
    * so that defaults don't get totally blown away.
    */
-  function unpack_options(&$storage, $options, $definition = NULL) {
-    if (!is_array($options)) {
+  function unpack_options(&$storage, $options, $definition = NULL, $check = TRUE) {
+    if ($check && !is_array($options)) {
       return;
     }
 
@@ -91,7 +90,7 @@ class views_object {
           $storage[$key] = array();
         }
 
-        $this->unpack_options($storage[$key], $value, isset($definition[$key]['contains']) ? $definition[$key]['contains'] : array());
+        $this->unpack_options($storage[$key], $value, isset($definition[$key]['contains']) ? $definition[$key]['contains'] : array(), FALSE);
       }
       else if (!empty($definition[$key]['translatable']) && !empty($value)) {
         $storage[$key] = t($value);

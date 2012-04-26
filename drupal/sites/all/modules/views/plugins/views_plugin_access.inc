@@ -1,5 +1,4 @@
 <?php
-// $Id: views_plugin_access.inc,v 1.1 2008/09/08 22:50:17 merlinofchaos Exp $
 
 /**
  * The base plugin to handle access control.

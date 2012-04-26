@@ -1,5 +1,4 @@
 <?php
-// $Id: views_plugin_style_grid.inc,v 1.1.4.1 2010/06/16 19:18:24 merlinofchaos Exp $
 /**
  * @file
  * Contains the grid style plugin.
@@ -20,6 +19,7 @@ class views_plugin_style_grid extends views_plugin_style {
     $options['columns'] = array('default' => '4');
     $options['alignment'] = array('default' => 'horizontal');
     $options['fill_single_line'] = array('default' => TRUE);
+    $options['summary'] = array('default' => '');
 
     return $options;
   }
@@ -47,6 +47,13 @@ class views_plugin_style_grid extends views_plugin_style {
       '#title' => t('Fill up single line'),
       '#description' => t('If you disable this option a grid with only one row will have the amount of items as tds. If you disable it this can cause problems with your css.'),
       '#default_value' => !empty($this->options['fill_single_line']),
+    );
+
+    $form['summary'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Table summary'),
+      '#description' => t('This value will be displayed as table-summary attribute in the html. Set this for better accessiblity of your site.'),
+      '#default_value' => $this->options['summary'],
     );
   }
 }

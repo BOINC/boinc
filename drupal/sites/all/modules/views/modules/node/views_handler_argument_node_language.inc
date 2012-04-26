@@ -1,5 +1,4 @@
 <?php
-// $Id: views_handler_argument_node_language.inc,v 1.1 2008/09/03 19:21:29 merlinofchaos Exp $
 /**
  * Argument handler to accept a language.
  */

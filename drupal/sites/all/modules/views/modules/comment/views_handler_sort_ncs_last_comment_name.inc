@@ -1,5 +1,4 @@
 <?php
-// $Id: views_handler_sort_ncs_last_comment_name.inc,v 1.1 2008/09/03 19:21:29 merlinofchaos Exp $
 /**
  * Sort handler to sort by last comment name which might be in 2 different
  * fields

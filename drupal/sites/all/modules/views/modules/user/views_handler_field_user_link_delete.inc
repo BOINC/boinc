@@ -1,5 +1,4 @@
 <?php
-// $Id: views_handler_field_user_link_delete.inc,v 1.1 2008/09/03 19:21:30 merlinofchaos Exp $
 /**
  * Field handler to present a link to user delete.
  */

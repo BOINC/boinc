@@ -1,5 +1,4 @@
 <?php
-// $Id: views_handler_filter_upload_fid.inc,v 1.1 2008/09/03 19:21:30 merlinofchaos Exp $
 
 /**
  * Filter by whether or not a node has attached files from the upload module

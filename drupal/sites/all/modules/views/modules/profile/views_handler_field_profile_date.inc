@@ -1,5 +1,4 @@
 <?php
-// $Id: views_handler_field_profile_date.inc,v 1.1 2008/09/03 19:21:29 merlinofchaos Exp $
 /**
  * Field handler display a profile date
  *

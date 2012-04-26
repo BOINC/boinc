@@ -1,5 +1,4 @@
 <?php
-// $Id: views_handler_sort.inc,v 1.2 2009/06/26 00:23:42 merlinofchaos Exp $
 /**
  * @defgroup views_sort_handlers Views' sort handlers
  * @{

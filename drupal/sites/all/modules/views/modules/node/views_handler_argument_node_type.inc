@@ -1,5 +1,4 @@
 <?php
-// $Id: views_handler_argument_node_type.inc,v 1.2 2009/06/02 17:57:48 merlinofchaos Exp $
 /**
  * Argument handler to accept a node type.
  */

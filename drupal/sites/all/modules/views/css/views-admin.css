@@ -1,4 +1,3 @@
-/* $Id: views-admin.css,v 1.14.2.1 2009/11/18 20:24:22 merlinofchaos Exp $ */
 
 /*
  * Summary pad
@@ -639,6 +638,7 @@ html.js .views-hidden {
   max-width: 95%;
 }
 
+.clone-display,
 .remove-display {
   float: right;
   margin: 0;
@@ -648,7 +648,9 @@ html.js .views-hidden {
 }
 
 .views-display .remove-display form,
-.remove-display input {
+.remove-display input,
+.views-display .clone-display form,
+.clone-display input {
   margin: 0 !important;
 }
 

@@ -1,5 +1,4 @@
 <?php
-// $Id: views_handler_filter_profile_selection.inc,v 1.1 2008/09/03 19:21:29 merlinofchaos Exp $
 
 /**
  * Filter by a selection widget in the profile.

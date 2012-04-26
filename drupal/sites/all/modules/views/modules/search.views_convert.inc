@@ -1,5 +1,4 @@
 <?php
-// $Id: search.views_convert.inc,v 1.2 2009/06/30 19:14:27 merlinofchaos Exp $
 
 /**
  * @file

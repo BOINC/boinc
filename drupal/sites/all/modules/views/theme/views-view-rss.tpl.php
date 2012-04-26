@@ -1,5 +1,4 @@
 <?php
-// $Id: views-view-rss.tpl.php,v 1.3 2008/12/02 00:02:06 merlinofchaos Exp $
 /**
  * @file views-view-rss.tpl.php
  * Default template for feed displays that use the RSS style.

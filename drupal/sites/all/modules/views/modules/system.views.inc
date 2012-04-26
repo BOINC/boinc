@@ -1,5 +1,4 @@
 <?php
-// $Id: system.views.inc,v 1.7 2008/09/03 19:21:29 merlinofchaos Exp $
 /**
  * @file
  *
@@ -166,6 +165,18 @@ function system_views_data() {
     ),
     'filter' => array(
       'handler' => 'views_handler_filter_date',
+    ),
+  );
+
+  // uid field
+  $data['files']['uid'] = array(
+    'title' => t('User'),
+    'help' => t('The user, who uploaded the file.'),
+    'relationship' => array(
+      'base' => 'users',
+      'base field' => 'uid',
+      'handler' => 'views_handler_relationship',
+      'label' => t('User'),
     ),
   );
 

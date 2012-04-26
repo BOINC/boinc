@@ -1,5 +1,4 @@
 <?php
-// $Id: views_handler_filter_numeric.inc,v 1.7.4.1 2010/03/08 19:53:49 merlinofchaos Exp $
 
 /**
  * Simple filter to handle greater than/less than filters

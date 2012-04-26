@@ -1,5 +1,4 @@
 <?php
-// $Id: views_handler_field_user.inc,v 1.3 2009/01/30 00:01:42 merlinofchaos Exp $
 
 /**
  * Field handler to provide simple renderer that allows linking to a user.

@@ -1,5 +1,4 @@
 <?php
-// $Id: views_handler_filter_ncs_last_updated.inc,v 1.1 2008/09/03 19:21:29 merlinofchaos Exp $
 /**
  * Filter handler for the newer of last comment / node updated
  */

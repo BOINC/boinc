@@ -1,4 +1,3 @@
-// $Id: tabs.js,v 1.4.2.1 2010/03/10 20:08:58 merlinofchaos Exp $
 
 /**
  * @file tabs.js

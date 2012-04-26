@@ -1,5 +1,4 @@
 <?php
-// $Id: views_handler_field_custom.inc,v 1.1 2009/01/30 00:01:41 merlinofchaos Exp $
 
 /**
  * A handler to provide a field that is completely custom by the administrator.
@@ -29,7 +28,7 @@ class views_handler_field_custom extends views_handler_field {
   }
 
   function render($values) {
-    // Nothing to render.
-    return '';
+    // Return the text, so the code never thinks the value is empty.
+    return $this->options['alter']['text'];
   }
 }

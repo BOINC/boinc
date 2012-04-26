@@ -1,5 +1,4 @@
 <?php
-// $Id: views_handler_field_history_user_timestamp.inc,v 1.1 2008/09/03 19:21:29 merlinofchaos Exp $
 /**
  * Field handler to display the marker for new content.
  */

@@ -1,5 +1,4 @@
 <?php
-// $Id: views_handler_field_comment_link.inc,v 1.2 2008/09/10 00:16:14 merlinofchaos Exp $
 /**
  * Base field handler to present a link.
  */

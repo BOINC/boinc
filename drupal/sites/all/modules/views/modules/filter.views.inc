@@ -1,5 +1,4 @@
 <?php
-// $Id: filter.views.inc,v 1.1 2009/06/03 19:06:05 merlinofchaos Exp $
 /**
  * @file
  * Provide basic views data for filter.module.
