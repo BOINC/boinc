@@ -3596,3 +3596,9 @@ David  26 Apr 2012
         client_types.cpp
         cs_scheduler.cpp
         app_control.cpp
+
+David  27 Apr 2012
+    - compile fix
+
+    lib/
+        str_util.cpp

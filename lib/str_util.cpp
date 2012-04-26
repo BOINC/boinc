@@ -497,7 +497,6 @@ const char* boincerror(int which_error) {
         case ERR_SOCKS_CANT_REACH_HOST: return "SOCKS: can't reach host";
         case ERR_SOCKS_CONN_REFUSED: return "SOCKS: connection refused";
         case ERR_TIMER_INIT: return "timer init";
-        case ERR_RSC_LIMIT_EXCEEDED: return "resource limit exceeded";
         case ERR_INVALID_PARAM: return "invalid parameter";
         case ERR_SIGNAL_OP: return "signal op";
         case ERR_BIND: return "bind() failed";
@@ -534,7 +533,6 @@ const char* boincerror(int which_error) {
         case ERR_FFLUSH: return "fflush() failed";
         case ERR_FSYNC: return "fsync() failed";
         case ERR_TRUNCATE: return "truncate() failed";
-        case ERR_ABORTED_BY_PROJECT: return "Aborted by project";
         case ERR_GETGRNAM: return "getgrnam() failed";
         case ERR_CHOWN: return "chown() failed";
         case ERR_HTTP_PERMANENT: return "permanent HTTP error";
@@ -546,8 +544,6 @@ const char* boincerror(int which_error) {
         case ERR_DB_CONN_LOST: return "DB connection lost during enumeration";
         case ERR_CRYPTO: return "encryption error";
         case ERR_ABORTED_ON_EXIT: return "job was aborted on client exit";
-        case ERR_UNSTARTED_LATE: return "job is unstarted and past deadline";
-        case ERR_MISSING_COPROC: return "an expected GPU was not found";
         case ERR_PROC_PARSE: return "a /proc entry was not parsed correctly";
         case 404: return "HTTP file not found";
         case 407: return "HTTP proxy authentication failure";
