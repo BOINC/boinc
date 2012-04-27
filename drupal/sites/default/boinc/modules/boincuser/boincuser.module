@@ -403,6 +403,10 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       array_unshift($form['#validate'], 'boincuser_request_pass_validate');
     }
     break;
+    
+  case 'views_exposed_form':
+    $form['submit']['#value'] = t('Search');
+    break;
   }
 }
 
