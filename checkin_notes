@@ -3623,3 +3623,12 @@ David  27 Apr 2012
 
     sched/
         sched_version.cpp
+
+Rom    27 Apr 2012
+    - WINSCR: Use the DefProcHandler function when processing WM_CLOSE/WM_DESTROY
+        window messages.  In effect, let Windows do the default thing.  This removes
+        the hacks which kept the screensaver running with old versions of
+        Microsoft's keyboard/mouse driver software installed.
+        
+    clientscr/
+        screensaver_win.cpp, .h

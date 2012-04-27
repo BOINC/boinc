@@ -348,11 +348,6 @@ HRESULT CScreensaver::Run() {
             DestroyGraphicsWindowPromotionThread();
             DestroyInputActivityThread();
 
-            // Resetting the primary display.  We need to do this because abnormally
-            // terminating graphics applications can sometimes leave a ghosted image
-            // on the primary display which leaves users believing that their machines
-            // are locked up.
-            ResetPrimaryDisplay();
             break;
     }
     return S_OK;
@@ -1235,135 +1230,6 @@ HRESULT CScreensaver::CreateSaverWindow() {
 
 
 
-// Register and create the appropriate window(s)
-//
-HRESULT CScreensaver::ResetPrimaryDisplay() {
-    // Register an appropriate window class for the primary display
-    WNDCLASS    cls;
-    cls.hCursor        = LoadCursor(NULL, IDC_ARROW);
-    cls.hIcon          = LoadIcon(m_hInstance, MAKEINTRESOURCE(IDI_MAIN_ICON)); 
-    cls.lpszMenuName   = NULL;
-    cls.lpszClassName  = _T("BOINCPrimaryResetWndClass");
-    cls.hbrBackground  = (HBRUSH) GetStockObject(BLACK_BRUSH);
-    cls.hInstance      = m_hInstance; 
-    cls.style          = CS_VREDRAW|CS_HREDRAW;
-    cls.lpfnWndProc    = ResetProcStub;
-    cls.cbWndExtra     = 0; 
-    cls.cbClsExtra     = 0; 
-    RegisterClass(&cls);
-
-    // Create the window
-    INTERNALMONITORINFO* pMonitorInfo;
-    pMonitorInfo = &m_Monitors[0];
-	
-    pMonitorInfo->hWnd = CreateWindowEx(
-        NULL, 
-        _T("BOINCPrimaryResetWndClass"), 
-		m_strWindowTitle,
-        WS_VISIBLE | WS_POPUP,
-        pMonitorInfo->rcScreen.left,
-        pMonitorInfo->rcScreen.top,
-        pMonitorInfo->rcScreen.right - pMonitorInfo->rcScreen.left,
-        pMonitorInfo->rcScreen.bottom - pMonitorInfo->rcScreen.top,
-        NULL,
-        NULL,
-        m_hInstance,
-        this
-    );
-
-    if (pMonitorInfo->hWnd == NULL) {
-		return E_FAIL;
-    }
-	
-    HDC hWindowDC = GetDC(pMonitorInfo->hWnd);
-    if (!hWindowDC) {
-    	BOINCTRACE(_T("CScreensaver::ResetPrimaryDisplay: Failed to get the device context '%d'\n"), GetLastError());
-    }
-
-    static PIXELFORMATDESCRIPTOR pfd = {
-        sizeof(PIXELFORMATDESCRIPTOR),   // size of structure.
-        1,                               // always 1.
-        PFD_DRAW_TO_WINDOW |             // support window
-        PFD_SUPPORT_OPENGL |             // support OpenGl
-        PFD_DOUBLEBUFFER,                // support double buffering
-        PFD_TYPE_RGBA,                   // support RGBA
-        32,                              // 32 bit color mode
-        0, 0, 0, 0, 0, 0,                // ignore color bits
-        0,                               // no alpha buffer
-        0,                               // ignore shift bit
-        0,                               // no accumulation buffer
-        0, 0, 0, 0,                      // ignore accumulation bits.
-        16,                              // number of depth buffer bits.
-        0,                               // number of stencil buffer bits.
-        0,                               // 0 means no auxiliary buffer
-        PFD_MAIN_PLANE,                  // The main drawing plane
-        0,                               // this is reserved
-        0, 0, 0                          // layer masks ignored.
-    };
-
-    // chooses the best pixel format
-    //
-    int nPixelFormat = ChoosePixelFormat(hWindowDC, &pfd);
-
-    // set pixel format to device context.
-    //
-    if (!SetPixelFormat(hWindowDC, nPixelFormat, &pfd)) {
-    	BOINCTRACE(_T("CScreensaver::ResetPrimaryDisplay: Failed to set pixel format for device context '%d'\n"), GetLastError());
-    }
-
-    HGLRC hOpenGLDC = wglCreateContext(hWindowDC);
-    if (!hOpenGLDC) {
-    	BOINCTRACE(_T("CScreensaver::ResetPrimaryDisplay: wglCreateContext() failed '%d'\n"), GetLastError());
-        ReleaseDC(pMonitorInfo->hWnd, hWindowDC);
-        return E_FAIL;
-    }
-
-    if(!wglMakeCurrent(hWindowDC, hOpenGLDC)) {
-    	BOINCTRACE(_T("CScreensaver::ResetPrimaryDisplay: wglMakeCurrent() failed '%d'\n"), GetLastError());
-        ReleaseDC(pMonitorInfo->hWnd, hWindowDC);
-        wglDeleteContext(hOpenGLDC);
-        return E_FAIL;
-    }
-
-    // Init Colors
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
-    // Init Lights
-    GLfloat ambient[] = {1., 1., 1., 1.0};
-    GLfloat position[] = {-13.0, 6.0, 20.0, 1.0};
-    GLfloat dir[] = {-1, -.5, -3, 1.0};
-    glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
-    glLightfv(GL_LIGHT0, GL_POSITION, position);
-    glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, dir);
-
-	SetTimer(pMonitorInfo->hWnd, 1, 250, NULL);
-
-    if (m_hWnd == NULL) {
-        return E_FAIL;
-    }
-
-    // Message pump
-    BOOL bGotMsg;
-    MSG msg;
-    msg.message = WM_NULL;
-    while (msg.message != WM_QUIT) {
-        bGotMsg = PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
-        if (bGotMsg) {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
-        } else {
-            Sleep(10);
-        }
-    }
-
-    wglMakeCurrent(NULL, NULL);
-    wglDeleteContext(hOpenGLDC);
-    ReleaseDC(pMonitorInfo->hWnd, hWindowDC);
-
-    return S_OK;
-}
-
-
 
 // Run the screensaver graphics - may be preview, test or full-on mode
 //
@@ -1427,10 +1293,6 @@ LRESULT CScreensaver::SaverProc(
                     return 0;
                     break;
 				case 2:
-                    // Create a screen saver window on the primary display if 
-                    //   the boinc client crashes
-	                CreateSaverWindow();
-
                     // Update the position of the box every second so that it
                     //   does not end up off the visible area of the screen.
 				    UpdateErrorBox();
@@ -1497,18 +1359,6 @@ LRESULT CScreensaver::SaverProc(
             return 0;
             break;
 
-        case WM_CLOSE:
-            BOINCTRACE(_T("CScreensaver::SaverProc Received WM_CLOSE\n"));
-            if (m_SaverMode == sm_preview || m_SaverMode == sm_test) {
-                FireInterruptSaverEvent();
-            }
-            break;
-
-        case WM_DESTROY:
-            BOINCTRACE(_T("CScreensaver::SaverProc Received WM_DESTROY\n"));
-            PostQuitMessage(0);
-            break;
-
         case WM_SYSCOMMAND: 
             BOINCTRACE(_T("CScreensaver::SaverProc Received WM_SYSCOMMAND\n"));
             if (m_SaverMode == sm_full) {
@@ -1536,15 +1386,6 @@ LRESULT CScreensaver::SaverProc(
             if (wParam == PBT_APMQUERYSUSPEND)
                 FireInterruptSaverEvent();
             break;
-
-        case WM_QUIT:
-            BOINCTRACE(_T("CScreensaver::SaverProc Received WM_QUIT\n"));
-#ifdef _DEBUG
-            DebugBreak();
-#else
-            TerminateProcess(GetCurrentProcess(), 0);
-#endif
-            break;
     }
 
     if (WM_SETTIMER == uMsg) {
@@ -1558,6 +1399,9 @@ LRESULT CScreensaver::SaverProc(
 
         BOINCTRACE(_T("CScreensaver::SaverProc Received WM_INTERRUPTSAVER\n"));
         ShutdownSaver();
+        CloseWindow(hWnd);
+        DestroyWindow(hWnd);
+        PostQuitMessage(0);
 
     }
 
@@ -1593,10 +1437,6 @@ LRESULT CScreensaver::GenericSaverProc(
                     return 0;
                     break;
 				case 2:
-                    // Create a screen saver window on the primary display if 
-                    //   the boinc client crashes
-	                CreateSaverWindow();
-
                     // Update the position of the box every second so that it
                     //   does not end up off the visible area of the screen.
 				    UpdateErrorBox();
@@ -1663,13 +1503,6 @@ LRESULT CScreensaver::GenericSaverProc(
             return 0;
             break;
 
-        case WM_CLOSE:
-            BOINCTRACE(_T("CScreensaver::GenericSaverProc Received WM_CLOSE\n"));
-            if (m_SaverMode == sm_preview || m_SaverMode == sm_test) {
-                FireInterruptSaverEvent();
-            }
-            break;
-
         case WM_SYSCOMMAND: 
             BOINCTRACE(_T("CScreensaver::GenericSaverProc Received WM_SYSCOMMAND\n"));
             if (m_SaverMode == sm_full) {
@@ -1706,44 +1539,14 @@ LRESULT CScreensaver::GenericSaverProc(
         // 500ms of idle time, then proceed with initialization.
         SetTimer(hWnd, 1, 500, NULL);
 
+    } else if (WM_INTERRUPTSAVER == uMsg) {
+
+        BOINCTRACE(_T("CScreensaver::GenericSaverProc Received WM_INTERRUPTSAVER\n"));
+        CloseWindow(hWnd);
+        DestroyWindow(hWnd);
+
     }
 
-    return DefWindowProc(hWnd, uMsg, wParam, lParam);
-}
-
-
-
-
-// Handle window messages for resetting the primary display.
-//
-LRESULT CScreensaver::ResetProc(
-    HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
-) {
-#ifdef _DEBUG
-    DWORD dwMonitor = 0;
-    for(DWORD iIndex = 0; iIndex < m_dwNumMonitors; iIndex++) {
-		if (hWnd == m_Monitors[iIndex].hWnd ) {
-            dwMonitor = iIndex;
-        }
-    }
-    BOINCTRACE(_T("CScreensaver::ResetProc [%d] hWnd '%d' uMsg '%X' wParam '%d' lParam '%d'\n"), dwMonitor, hWnd, uMsg, wParam, lParam);
-#endif
-
-    switch (uMsg) {
-        case WM_TIMER:
-            BOINCTRACE(_T("CScreensaver::ResetProc Received WM_TIMER\n"));
-			switch (wParam) { 
-				case 1: 
-					KillTimer(hWnd, 1);
-                    DestroyWindow(hWnd);
-                    return 0;
-                    break;
-            }
-            break;
-        case WM_CLOSE:
-            BOINCTRACE(_T("CScreensaver::ResetProc Received WM_CLOSE\n"));
-            break;
-    }
     return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
@@ -1910,18 +1713,6 @@ LRESULT CALLBACK CScreensaver::GenericSaverProcStub(
 
 
 
-// This function forwards all window messages to ResetProc, which has
-//       access to the "this" pointer.
-//
-LRESULT CALLBACK CScreensaver::ResetProcStub(
-    HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
-) {
-    return gspScreensaver->ResetProc(hWnd, uMsg, wParam, lParam);
-}
-
-
-
-
 INT_PTR CALLBACK CScreensaver::ConfigureDialogProcStub(
     HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
 ) {
@@ -1943,13 +1734,6 @@ VOID CScreensaver::ShutdownSaver() {
     // Kill the currently executing graphics application
     terminate_screensaver(m_hGraphicsApplication, &m_running_result);
 
-    // Close all screensaver windows
-    for(DWORD iIndex = 0; iIndex < m_dwNumMonitors; iIndex++) {
-		if ( m_Monitors[iIndex].hWnd ) {
-            DestroyWindow(m_Monitors[iIndex].hWnd);
-        }
-    }
-
     BOINCTRACE(_T("CScreensaver::ShutdownSaver Function End\n"));
 }
 
@@ -1959,11 +1743,15 @@ VOID CScreensaver::ShutdownSaver() {
 VOID CScreensaver::FireInterruptSaverEvent() {
     BOINCTRACE(_T("CScreensaver::FireInterruptSaverEvent Function Begin\n"));
 
-    for(DWORD iIndex = 0; iIndex < m_dwNumMonitors; iIndex++) {
+    // Handle secondary curtains first
+    for(DWORD iIndex = 1; iIndex < m_dwNumMonitors; iIndex++) {
 		if ( m_Monitors[iIndex].hWnd ) {
             PostMessage(m_Monitors[iIndex].hWnd, WM_INTERRUPTSAVER, NULL, NULL);
         }
     }
+
+    // Handle primary curtain
+    PostMessage(m_Monitors[0].hWnd, WM_INTERRUPTSAVER, NULL, NULL);
 
     BOINCTRACE(_T("CScreensaver::FireInterruptSaverEvent Function End\n"));
 }
