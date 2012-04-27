@@ -3611,3 +3611,9 @@ David  27 Apr 2012
 
     sched/
         sched_send.cpp
+
+David  27 Apr 2012
+    - web: put <nobr> around username | log in
+
+    html/inc/
+        util.inc
