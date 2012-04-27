@@ -3617,3 +3617,9 @@ David  27 Apr 2012
 
     html/inc/
         util.inc
+
+David  27 Apr 2012
+    - scheduler: change ET_RATIO_LIMIT to 250
+
+    sched/
+        sched_version.cpp
