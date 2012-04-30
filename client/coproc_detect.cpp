@@ -197,30 +197,30 @@ CL_INFO         __clGetDeviceInfo = NULL;
 void* opencl_lib = NULL;
 
 cl_int (*__clGetPlatformIDs)(
-    cl_uint    /* num_entries */,
-    cl_platform_id * /* platforms */,
-    cl_uint *        /* num_platforms */
+    cl_uint,         // num_entries,
+    cl_platform_id*, // platforms
+    cl_uint *        // num_platforms
 );
 cl_int (*__clGetPlatformInfo)(
-    cl_platform_id   /* platform */,
-    cl_platform_info /* param_name */,
-    size_t           /* param_value_size */,
-    void *           /* param_value */,
-    size_t *         /* param_value_size_ret */
+    cl_platform_id,  // platform
+    cl_platform_info, // param_name
+    size_t,          // param_value_size
+    void*,           // param_value
+    size_t*          // param_value_size_ret
 );
 cl_int (*__clGetDeviceIDs)(
-    cl_platform_id   /* platform */,
-    cl_device_type   /* device_type */,
-    cl_uint          /* num_entries */,
-    cl_device_id *   /* devices */,
-    cl_uint *        /* num_devices */
+    cl_platform_id,  // platform
+    cl_device_type,  // device_type
+    cl_uint,         // num_entries
+    cl_device_id*,   // devices
+    cl_uint*         // num_devices
 );
 cl_int (*__clGetDeviceInfo)(
-    cl_device_id    /* device */,
-    cl_device_info  /* param_name */,
-    size_t          /* param_value_size */,
-    void *          /* param_value */,
-    size_t *        /* param_value_size_ret */
+    cl_device_id,    // device
+    cl_device_info,  // param_name
+    size_t,          // param_value_size
+    void*,           // param_value
+    size_t*          // param_value_size_ret
 );
 
 #endif
@@ -670,6 +670,7 @@ cl_int COPROCS::get_opencl_info(
 // the OpenCL info into the CAL or CUDA data for the "best" CAL or CUDA GPU.
 // This assumes that, for each GPU, we have previously correlated its CAL 
 // or CUDA device_num with its opencl_device_index.
+//
 void COPROC::merge_opencl(
     vector<OPENCL_DEVICE_PROP> &opencls, 
     vector<int>& ignore_dev
@@ -703,6 +704,7 @@ void COPROC::merge_opencl(
 }
 
 // This is called for ATI GPUs without CAL or NVIDIA GPUs without CUDA
+//
 void COPROC::find_best_opencls(
     bool use_all,
     vector<OPENCL_DEVICE_PROP> &opencls, 
@@ -1137,7 +1139,7 @@ void COPROC_NVIDIA::fake(
 void COPROC_NVIDIA::get_available_ram() {
     int retval;
     size_t memfree, memtotal;
-	int device;
+    int device;
     void* ctx;
     
     available_ram = prop.totalGlobalMem;
@@ -1265,7 +1267,7 @@ int (*__calDeviceClose)(CALdevice);
 void COPROC_ATI::get(
     bool use_all,
     vector<string>& warnings,
-	vector<int>& ignore_devs
+    vector<int>& ignore_devs
 ) {
     CALuint numDevices, cal_major, cal_minor, cal_imp;
     char buf[256];
@@ -1624,22 +1626,21 @@ void COPROCS::get_ati_mem_size_from_opengl() {
             
             CGOpenGLDisplayMask myMask = 1 << i;
             CGDirectDisplayID displayID = CGOpenGLDisplayMaskToDisplayID(myMask);
-            theErr2 = CGLQueryRendererInfo (myMask, 
-                                      &info, 
-                                      &numRenderers);
-
+            theErr2 = CGLQueryRendererInfo(myMask, &info, &numRenderers); 
             if ((displayID != kCGNullDirectDisplay) && (theErr2 == kCGLNoError)) {
                 // Get the I/O Kit service port for the display
                 io_registry_entry_t dspPort = CGDisplayIOServicePort(displayID);
                 for (j = 0; j < numRenderers; j++) {
-                  // find accelerated renderer (assume only one)
+                    // find accelerated renderer (assume only one)
                     CGLDescribeRenderer (info, j, kCGLRPAcceleratedCompute, &rv); 
                     if (true == rv) { // if openCL-capable
                         // what is the renderer ID
                         CGLDescribeRenderer (info, j, kCGLRPRendererID, &rendererIDs[i]);
-                        modelName[i] = (CFDataRef)IORegistryEntrySearchCFProperty(dspPort,
+                        modelName[i] = (CFDataRef)IORegistryEntrySearchCFProperty(
+                            dspPort,
                             kIOServicePlane, CFSTR("model"), kCFAllocatorDefault,
-                            kIORegistryIterateRecursively | kIORegistryIterateParents);
+                            kIORegistryIterateRecursively | kIORegistryIterateParents
+                        );
                     }
                     if (modelName[i] != NULL) break;
                 }
@@ -1647,9 +1648,7 @@ void COPROCS::get_ati_mem_size_from_opengl() {
         }
     }   // End if (log_flags.coproc_debug) {
 
-    theErr2 = CGLQueryRendererInfo (0xffffffff, 
-                                  &info, 
-                                  &numRenderers);
+    theErr2 = CGLQueryRendererInfo( 0xffffffff, &info, &numRenderers);
     if (theErr2 == kCGLNoError) {
         CGLDescribeRenderer (info, 0, kCGLRPRendererCount, &numRenderers);
         for (i = 0; i < numRenderers; i++) {
@@ -1660,17 +1659,17 @@ void COPROCS::get_ati_mem_size_from_opengl() {
             CGLDescribeRenderer (info, i, kCGLRPAcceleratedCompute, &rv); 
             if (true == rv) { // if openCL-capable
                 // what is the renderer ID
-                CGLDescribeRenderer (info, i, kCGLRPRendererID,
-                                     &rendererID);
+                CGLDescribeRenderer (info, i, kCGLRPRendererID, &rendererID);
                // what is the VRAM?
-                CGLDescribeRenderer (info, i, kCGLRPVideoMemory,
-                                     &deviceVRAM);
+                CGLDescribeRenderer (info, i, kCGLRPVideoMemory, &deviceVRAM);
 
                 // build context and context specific info
-                CGLPixelFormatAttribute attribs[] = { kCGLPFARendererID,
-                                                    (CGLPixelFormatAttribute)rendererID, 
-                                                    kCGLPFAAllowOfflineRenderers,
-                                                    (CGLPixelFormatAttribute)0 };
+                CGLPixelFormatAttribute attribs[] = {
+                    kCGLPFARendererID,
+                    (CGLPixelFormatAttribute)rendererID, 
+                    kCGLPFAAllowOfflineRenderers,
+                    (CGLPixelFormatAttribute)0
+                };
                 CGLPixelFormatObj pixelFormat = NULL;
                 GLint numPixelFormats = 0;
                 CGLContextObj cglContext;
@@ -1713,8 +1712,8 @@ void COPROCS::get_ati_mem_size_from_opengl() {
                                     }
                                     if (strcmp(iokit_name, opencl_name)) {
                                         msg_printf(0, MSG_INFO,
-                                        "[coproc] get_ati_mem_size_from_opengl model name mismatch: %s vs %s\n", 
-                                        ati_opencls[ati_gpu_index].name, (char *)CFDataGetBytePtr(modelName[j])
+                                            "[coproc] get_ati_mem_size_from_opengl model name mismatch: %s vs %s\n", 
+                                            ati_opencls[ati_gpu_index].name, (char *)CFDataGetBytePtr(modelName[j])
                                         );
                                     }
                                 } else {
@@ -1731,8 +1730,8 @@ void COPROCS::get_ati_mem_size_from_opengl() {
                                     if ((strRend == NULL) || 
                                         (!strstr(iokit_name, opencl_name))) {
                                         msg_printf(0, MSG_INFO,
-                                        "[coproc] get_ati_mem_size_from_opengl model name to renderer mismatch: %s vs %s\n", 
-                                        strRend, ati_opencls[ati_gpu_index].name
+                                            "[coproc] get_ati_mem_size_from_opengl model name to renderer mismatch: %s vs %s\n", 
+                                            strRend, ati_opencls[ati_gpu_index].name
                                         );
                                     }
                                 }
@@ -1745,16 +1744,16 @@ void COPROCS::get_ati_mem_size_from_opengl() {
                     } else {
                         if (log_flags.coproc_debug) {
                             msg_printf(0, MSG_INFO,
-                            "[coproc] get_ati_mem_size_from_opengl failed to create context\n"
+                                "[coproc] get_ati_mem_size_from_opengl failed to create context\n"
                             );
                         }
                     }
                 } else {
-                        if (log_flags.coproc_debug) {
-                            msg_printf(0, MSG_INFO,
+                    if (log_flags.coproc_debug) {
+                        msg_printf(0, MSG_INFO,
                             "[coproc] get_ati_mem_size_from_opengl failed to create PixelFormat\n"
-                            );
-                        }
+                        );
+                    }
                 }
             }       // End if kCGLRPAcceleratedCompute attribute
         }   // End loop: for (i = 0; i < numRenderers; i++)
