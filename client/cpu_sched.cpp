@@ -468,9 +468,11 @@ static RESULT* earliest_deadline_result(int rsc_type) {
         if (rp->non_cpu_intensive()) continue;
         PROJECT* p = rp->project;
 
-        // treat projects with DCF>90 as if they had deadline misses
+        // Skip this job if the project's deadline-miss count is zero.
+        // If the project's DCF is > 90 (and we're not ignoring it)
+        // treat all jobs as deadline misses
         //
-        if (!p->dont_use_dcf && p->duration_correction_factor < 90.0) {
+        if (p->dont_use_dcf || p->duration_correction_factor < 90.0) {
             if (p->rsc_pwf[rsc_type].deadlines_missed_copy <= 0) {
                 continue;
             }

@@ -3203,6 +3203,13 @@ Rom    23 Apr 2012
     client/
         coproc_detect.cpp
 
+David  23 Apr 2012
+	- client: fix bug that caused a project's jobs to all be run EDF
+		if the project has the <dont_use_dcf> flag set.
+
+	client/
+		cpu_sched.cpp
+
 Rom    24 Apr 2012
     - WINSETUP: Fix long standing installer bug where we were attempting
         to add the boinc_master account to the boinc_admins group when
