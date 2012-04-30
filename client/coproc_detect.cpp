@@ -814,7 +814,7 @@ enum CUdevice_attribute_enum {
 #ifdef _WIN32
 typedef int (__stdcall *CUDA_GDC)(int *count);
 typedef int (__stdcall *CUDA_GDV)(int* version);
-typedef int (__stdcall *CUDA_GDI)(int);
+typedef int (__stdcall *CUDA_GDI)(unsigned int);
 typedef int (__stdcall *CUDA_GDG)(int*, int);
 typedef int (__stdcall *CUDA_GDA)(int*, int, int);
 typedef int (__stdcall *CUDA_GDN)(char*, int, int);
@@ -841,7 +841,7 @@ CUDA_MF __cuMemFree = NULL;
 CUDA_MGI __cuMemGetInfo = NULL;
 #else
 void* cudalib;
-int (*__cuInit)(int);
+int (*__cuInit)(unsigned int);
 int (*__cuDeviceGetCount)(int*);
 int (*__cuDriverGetVersion)(int*);
 int (*__cuDeviceGet)(int*, int);
@@ -909,7 +909,7 @@ void COPROC_NVIDIA::get(
     }
     __cuDeviceGetCount = (int(*)(int*)) dlsym(cudalib, "cuDeviceGetCount");
     __cuDriverGetVersion = (int(*)(int*)) dlsym( cudalib, "cuDriverGetVersion" );
-    __cuInit = (int(*)(int)) dlsym( cudalib, "cuInit" );
+    __cuInit = (int(*)(unsigned int)) dlsym( cudalib, "cuInit" );
     __cuDeviceGet = (int(*)(int*, int)) dlsym( cudalib, "cuDeviceGet" );
     __cuDeviceGetAttribute = (int(*)(int*, int, int)) dlsym( cudalib, "cuDeviceGetAttribute" );
     __cuDeviceGetName = (int(*)(char*, int, int)) dlsym( cudalib, "cuDeviceGetName" );

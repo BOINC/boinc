@@ -3262,3 +3262,22 @@ David  25 Apr 2012
         scheduler_op.cpp,h
         cs_scheduler.cpp
         cs_statefile.cpp
+
+David  25 Apr 2012
+    - Bad logic in Win code:
+        if you have
+            *pbuf = HeapAlloc(...)
+        then you need
+            if (*pbuf == NULL)
+        not
+            if (pbuf == NULL)
+    - various code cleanups from 
+
+    from Steffen Moeller
+
+    lib/
+        diagnostics_win.cpp
+        procinfo_win.cpp
+    client/
+        coproc_detect.cpp
+        client_types.cpp

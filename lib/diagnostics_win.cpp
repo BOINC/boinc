@@ -329,7 +329,7 @@ int diagnostics_get_process_information(PVOID* ppBuffer, PULONG pcbBuffer) {
 
     do {
         *ppBuffer = HeapAlloc(hHeap, HEAP_ZERO_MEMORY, *pcbBuffer);
-        if (ppBuffer == NULL) {
+        if (*ppBuffer == NULL) {
             retval = ERROR_NOT_ENOUGH_MEMORY;
         }
 
