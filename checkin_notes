@@ -3139,6 +3139,24 @@ David  19 Apr 2012
     client/
         log_flags.cpp
 
+Rom    19 Apr 2012
+    - Update copyrights.
+
+    client/win/
+        boinc_cli.rc
+        boinc_cmd.rc
+        boinc_log.rc
+    clientctrl/
+        boincsvcctrl.rc
+    clientgui/
+        BOINCGUIApp.rc
+        DlgAbout.cpp
+    clientscr/
+        boinc_ss.rc
+        boinc_ss_opengl.rc
+    clienttray/
+        boinc_tray.rc
+
 Rom    24 Apr 2012
     - WINSETUP: Fix long standing installer bug where we were attempting
         to add the boinc_master account to the boinc_admins group when
