@@ -116,7 +116,7 @@ static void handle_get_simple_gui_info(GUI_RPC_CONN& grc) {
         PROJECT* p = gstate.projects[i];
         p->write_state(grc.mfout, true);
     }
-    gstate.write_tasks_gui(grc.mfout, false);
+    gstate.write_tasks_gui(grc.mfout, true);
     grc.mfout.printf("</simple_gui_info>\n");
 }
 

@@ -354,6 +354,8 @@ struct PROJECT : PROJ_AM {
         // have trickle up to send
     double last_rpc_time;
         // when last RPC finished
+        // not maintained across client sessions
+        // used by Manager (simple view)
 
     // Other stuff
 

@@ -3123,6 +3123,13 @@ Rom    16 Apr 2012
         configure.ac
         version.h
 
+David  17 Apr 2012
+    - client: only send active tasks in get_simple_gui_info GUI RPC
+
+    client/
+        client_types.h
+        gui_rpc_server_ops.cpp
+
 Rom    24 Apr 2012
     - WINSETUP: Fix long standing installer bug where we were attempting
         to add the boinc_master account to the boinc_admins group when
