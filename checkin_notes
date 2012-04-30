@@ -3197,6 +3197,12 @@ David  21 Apr 2012
         work_fetch.cpp
         coproc_detect.cpp
 
+Rom    23 Apr 2012
+    - client: fix function prototypes for CUDA detection.
+    
+    client/
+        coproc_detect.cpp
+
 Rom    24 Apr 2012
     - WINSETUP: Fix long standing installer bug where we were attempting
         to add the boinc_master account to the boinc_admins group when
