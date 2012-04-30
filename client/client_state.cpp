@@ -1203,7 +1203,7 @@ bool CLIENT_STATE::abort_unstarted_late_jobs() {
             "Aborting task %s; not started and deadline has passed",
             rp->name
         );
-        rp->abort_inactive(ERR_UNSTARTED_LATE);
+        rp->abort_inactive(EXIT_UNSTARTED_LATE);
         action = true;
     }
     return action;
@@ -2034,9 +2034,9 @@ void CLIENT_STATE::start_abort_sequence() {
         if (rp->computing_done()) continue;
         ACTIVE_TASK* atp = lookup_active_task_by_result(rp);
         if (atp) {
-            atp->abort_task(ERR_ABORTED_ON_EXIT, "aborting on client exit");
+            atp->abort_task(EXIT_CLIENT_EXITING, "aborting on client exit");
         } else {
-            rp->abort_inactive(ERR_ABORTED_ON_EXIT);
+            rp->abort_inactive(EXIT_CLIENT_EXITING);
         }
     }
     for (i=0; i<projects.size(); i++) {

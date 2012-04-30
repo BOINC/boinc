@@ -876,7 +876,7 @@ int CLIENT_STATE::handle_scheduler_reply(
             msg_printf(project, MSG_INTERNAL_ERROR,
                 "Missing coprocessor for task %s; aborting", rp->name
             );
-            rp->abort_inactive(ERR_MISSING_COPROC);
+            rp->abort_inactive(EXIT_MISSING_COPROC);
             continue;
         } else {
             rp->set_state(RESULT_NEW, "handle_scheduler_reply");
@@ -934,11 +934,11 @@ int CLIENT_STATE::handle_scheduler_reply(
         if (rp) {
             ACTIVE_TASK* atp = lookup_active_task_by_result(rp);
             if (atp) {
-                atp->abort_task(ERR_ABORTED_BY_PROJECT,
+                atp->abort_task(EXIT_ABORTED_BY_PROJECT,
                     "aborted by project - no longer usable"
                 );
             } else {
-                rp->abort_inactive(ERR_ABORTED_BY_PROJECT);
+                rp->abort_inactive(EXIT_ABORTED_BY_PROJECT);
             }
         } else {
             msg_printf(project, MSG_INTERNAL_ERROR,
@@ -957,7 +957,7 @@ int CLIENT_STATE::handle_scheduler_reply(
             continue;
         }
         if (rp->not_started) {
-            rp->abort_inactive(ERR_ABORTED_BY_PROJECT);
+            rp->abort_inactive(EXIT_ABORTED_BY_PROJECT);
         }
     }
 

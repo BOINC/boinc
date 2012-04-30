@@ -207,7 +207,7 @@ struct ACTIVE_TASK {
     //
     int request_exit();
     int request_abort();
-    int kill_task();
+    int kill_task(bool will_restart);
         // Kill process and descendants forcibly.
         // Unix: send a SIGKILL signal, Windows: TerminateProcess()
     int abort_task(int exit_status, const char*);

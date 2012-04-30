@@ -108,8 +108,8 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
     // Don't bother doing this if result was aborted via GUI or by project
     //
     switch (rp->exit_status) {
-    case ERR_ABORTED_VIA_GUI:
-    case ERR_ABORTED_BY_PROJECT:
+    case EXIT_ABORTED_VIA_GUI:
+    case EXIT_ABORTED_BY_PROJECT:
         break;
     default:
         for (i=0; i<rp->output_files.size(); i++) {
@@ -180,8 +180,8 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
 
     if (had_error) {
         switch (rp->exit_status) {
-        case ERR_ABORTED_VIA_GUI:
-        case ERR_ABORTED_BY_PROJECT:
+        case EXIT_ABORTED_VIA_GUI:
+        case EXIT_ABORTED_BY_PROJECT:
             rp->set_state(RESULT_ABORTED, "CS::app_finished");
             break;
         default:

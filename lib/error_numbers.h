@@ -23,10 +23,21 @@
 // NOTE: Unix passes only 8 bits of exit code,
 // and Unix uses roughly 1-137, so let's start at 192
 
-#define EXIT_STATEFILE_WRITE    192
-#define EXIT_SIGNAL             193
-#define EXIT_ABORTED_BY_CLIENT  194
-#define EXIT_CHILD_FAILED       195
+#define EXIT_STATEFILE_WRITE        192
+    // client exit when can't write statefile
+#define EXIT_SIGNAL                 193
+    // app was killed by signal
+#define EXIT_ABORTED_BY_CLIENT      194
+#define EXIT_CHILD_FAILED           195
+#define EXIT_DISK_LIMIT_EXCEEDED    196
+#define EXIT_TIME_LIMIT_EXCEEDED    197
+#define EXIT_MEM_LIMIT_EXCEEDED     198
+#define EXIT_CLIENT_EXITING         199
+#define EXIT_UNSTARTED_LATE         200
+#define EXIT_MISSING_COPROC         201
+#define EXIT_ABORTED_BY_PROJECT     202
+#define EXIT_ABORTED_VIA_GUI        203
+#define EXIT_UNKNOWN                204
 
 // Function return values.
 // NOTE:  add new errors to the end of the list and don't change
@@ -131,7 +142,6 @@
 #define ERR_SOCKS_CANT_REACH_HOST -174
 #define ERR_SOCKS_CONN_REFUSED    -175
 #define ERR_TIMER_INIT            -176
-#define ERR_RSC_LIMIT_EXCEEDED  -177
 #define ERR_INVALID_PARAM   -178
 #define ERR_SIGNAL_OP       -179
 #define ERR_BIND            -180
@@ -177,7 +187,6 @@
 #define ERR_TRUNCATE        -218
 #define ERR_WRONG_URL       -219
 #define ERR_DUP_NAME        -220
-#define ERR_ABORTED_BY_PROJECT  -221
 #define ERR_GETGRNAM        -222
 #define ERR_CHOWN           -223
 #define ERR_HTTP_PERMANENT  -224
@@ -189,8 +198,6 @@
 #define ERR_DB_CONN_LOST    -230
 #define ERR_CRYPTO          -231
 #define ERR_ABORTED_ON_EXIT -232
-#define ERR_UNSTARTED_LATE  -233
-#define ERR_MISSING_COPROC  -234
 #define ERR_PROC_PARSE      -235
 
 // PLEASE: add a text description of your error to 
