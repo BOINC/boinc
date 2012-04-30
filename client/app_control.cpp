@@ -341,7 +341,7 @@ void ACTIVE_TASK::handle_temporary_exit(
 void ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
     if (log_flags.task_debug) {
         msg_printf(result->project, MSG_INFO,
-            "[task] Process for %s exited, exit code %ul, task state %d",
+            "[task] Process for %s exited, exit code %lu, task state %d",
             result->name, exit_code, task_state()
         );
     }
