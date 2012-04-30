@@ -3341,3 +3341,10 @@ Rom    27 Apr 2012
         
     clientscr/
         screensaver_win.cpp, .h
+
+David  30 Apr 2012
+    - client: if acct mgr sends us an account with no authenticator,
+        show an error message instead of trying to attach
+
+    client/
+        acct_mgr.cpp
