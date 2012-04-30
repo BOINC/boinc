@@ -73,7 +73,6 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool("dcf_debug", dcf_debug)) continue;
         if (xp.parse_bool("disk_usage_debug", disk_usage_debug)) continue;
         if (xp.parse_bool("priority_debug", priority_debug)) continue;
-        if (xp.parse_bool("std_debug", std_debug)) continue;
         if (xp.parse_bool("file_xfer_debug", file_xfer_debug)) continue;
         if (xp.parse_bool("gui_rpc_debug", gui_rpc_debug)) continue;
         if (xp.parse_bool("heartbeat_debug", heartbeat_debug)) continue;
@@ -135,7 +134,6 @@ int LOG_FLAGS::write(MIOFILE& out) {
         "        <slot_debug>%d</slot_debug>\n"
         "        <state_debug>%d</state_debug>\n"
         "        <statefile_debug>%d</statefile_debug>\n"
-        "        <std_debug>%d</std_debug>\n"
         "        <task_debug>%d</task_debug>\n"
         "        <time_debug>%d</time_debug>\n"
         "        <trickle_debug>%d</trickle_debug>\n"
@@ -174,7 +172,6 @@ int LOG_FLAGS::write(MIOFILE& out) {
         slot_debug ? 1 : 0,
         state_debug ? 1 : 0,
         statefile_debug ? 1 : 0,
-        std_debug ? 1 : 0,
         task_debug ? 1 : 0,
         time_debug ? 1 : 0,
         trickle_debug ? 1 : 0,
@@ -242,7 +239,6 @@ void CONFIG::defaults() {
     use_all_gpus = false;
     use_certs = false;
     use_certs_only = false;
-    zero_debts = false;
 }
 
 int EXCLUDE_GPU::parse(XML_PARSER& xp) {
@@ -405,7 +401,6 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool("use_all_gpus", use_all_gpus)) continue;
         if (xp.parse_bool("use_certs", use_certs)) continue;
         if (xp.parse_bool("use_certs_only", use_certs_only)) continue;
-        if (xp.parse_bool("zero_debts", zero_debts)) continue;
 
         xp.skip_unexpected(true, "CONFIG::parse_options");
     }
@@ -592,8 +587,7 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         "        <unsigned_apps_ok>%d</unsigned_apps_ok>\n"
         "        <use_all_gpus>%d</use_all_gpus>\n"
         "        <use_certs>%d</use_certs>\n"
-        "        <use_certs_only>%d</use_certs_only>\n"
-        "        <zero_debts>%d</zero_debts>\n",
+        "        <use_certs_only>%d</use_certs_only>\n",
         rec_half_life/86400,
         report_results_immediately,
         run_apps_manually,
@@ -606,8 +600,7 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         unsigned_apps_ok,
         use_all_gpus,
         use_certs,
-        use_certs_only,
-        zero_debts
+        use_certs_only
     );
 
     out.printf("    </options>\n</cc_config>\n");

@@ -3130,6 +3130,15 @@ David  17 Apr 2012
         client_types.h
         gui_rpc_server_ops.cpp
 
+David  19 Apr 2012
+    - client: remove <std_debug> log flag
+    - client: remove <zero_debts> config option
+
+    lib/
+        cc_config.cpp,h
+    client/
+        log_flags.cpp
+
 Rom    24 Apr 2012
     - WINSETUP: Fix long standing installer bug where we were attempting
         to add the boinc_master account to the boinc_admins group when
