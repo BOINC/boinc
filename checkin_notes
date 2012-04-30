@@ -3645,3 +3645,11 @@ David  30 Apr 2012
             show_user.php
     client/
         acct_mgr.cpp
+
+David  30 Apr 2012
+    - client: code cleanup.  Move RESULT and PROJECT to separate files
+
+    client/
+        project.cpp,h (new)
+        result.cpp,h (new)
+        *.cpp

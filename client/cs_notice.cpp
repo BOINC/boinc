@@ -32,6 +32,7 @@
 #include "client_state.h"
 #include "client_msgs.h"
 #include "file_names.h"
+#include "project.h"
 
 #include "cs_notice.h"
 

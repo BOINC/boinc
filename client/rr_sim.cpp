@@ -40,9 +40,11 @@
 #include "config.h"
 #endif
 
+#include "client_msgs.h"
 #include "client_state.h"
 #include "coproc.h"
-#include "client_msgs.h"
+#include "project.h"
+#include "result.h"
 
 using std::vector;
 

@@ -47,6 +47,8 @@
 #include "client_msgs.h"
 #include "cs_notice.h"
 #include "cs_trickle.h"
+#include "project.h"
+#include "result.h"
 #include "scheduler_op.h"
 #include "sandbox.h"
 

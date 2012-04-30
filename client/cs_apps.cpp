@@ -29,15 +29,18 @@
 #include <csignal>
 #endif
 
-#include "md5_file.h"
-#include "util.h"
 #include "error_numbers.h"
-#include "file_names.h"
 #include "filesys.h"
+#include "md5_file.h"
 #include "shmem.h"
-#include "log_flags.h"
+#include "util.h"
+
 #include "client_msgs.h"
 #include "client_state.h"
+#include "file_names.h"
+#include "log_flags.h"
+#include "project.h"
+#include "result.h"
 
 using std::vector;
 

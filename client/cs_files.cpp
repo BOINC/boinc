@@ -43,6 +43,7 @@
 #include "client_state.h"
 #include "client_msgs.h"
 #include "file_xfer.h"
+#include "project.h"
 #include "sandbox.h"
 
 using std::vector;

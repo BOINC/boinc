@@ -25,10 +25,12 @@
 
 #include "util.h"
 
-#include "client_state.h"
 #include "client_msgs.h"
-
+#include "client_state.h"
+#include "project.h"
+#include "result.h"
 #include "scheduler_op.h"
+
 #include "work_fetch.h"
 
 using std::vector;
@@ -905,152 +907,6 @@ void CLIENT_STATE::compute_nuploading_results() {
             projects[i]->too_many_uploading_results = true;
         }
     }
-}
-
-bool PROJECT::runnable(int rsc_type) {
-    if (suspended_via_gui) return false;
-    for (unsigned int i=0; i<gstate.results.size(); i++) {
-        RESULT* rp = gstate.results[i];
-        if (rp->project != this) continue;
-        if (rsc_type != RSC_TYPE_ANY) {
-            if (rp->avp->gpu_usage.rsc_type != rsc_type) {
-                continue;
-            }
-        }
-        if (rp->runnable()) return true;
-    }
-    return false;
-}
-
-bool PROJECT::uploading() {
-    for (unsigned int i=0; i<gstate.file_xfers->file_xfers.size(); i++) {
-        FILE_XFER& fx = *gstate.file_xfers->file_xfers[i];
-        if (fx.fip->project == this && fx.is_upload) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool PROJECT::downloading() {
-    if (suspended_via_gui) return false;
-    for (unsigned int i=0; i<gstate.results.size(); i++) {
-        RESULT* rp = gstate.results[i];
-        if (rp->project != this) continue;
-        if (rp->downloading()) return true;
-    }
-    return false;
-}
-
-bool PROJECT::has_results() {
-    for (unsigned i=0; i<gstate.results.size(); i++) {
-        RESULT *rp = gstate.results[i];
-        if (rp->project == this) return true;
-    }
-    return false;
-}
-
-bool PROJECT::some_result_suspended() {
-    unsigned int i;
-    for (i=0; i<gstate.results.size(); i++) {
-        RESULT *rp = gstate.results[i];
-        if (rp->project != this) continue;
-        if (rp->suspended_via_gui) return true;
-    }
-    return false;
-}
-
-bool PROJECT::can_request_work() {
-    if (suspended_via_gui) return false;
-    if (master_url_fetch_pending) return false;
-    if (min_rpc_time > gstate.now) return false;
-    if (dont_request_more_work) return false;
-    if (gstate.in_abort_sequence) return false;
-    return true;
-}
-
-bool PROJECT::potentially_runnable() {
-    if (runnable(RSC_TYPE_ANY)) return true;
-    if (can_request_work()) return true;
-    if (downloading()) return true;
-    return false;
-}
-
-bool PROJECT::nearly_runnable() {
-    if (runnable(RSC_TYPE_ANY)) return true;
-    if (downloading()) return true;
-    return false;
-}
-
-// whether this task can be run right now
-//
-bool RESULT::runnable() {
-    if (suspended_via_gui) return false;
-    if (project->suspended_via_gui) return false;
-    if (state() != RESULT_FILES_DOWNLOADED) return false;
-    if (coproc_missing) return false;
-    if (schedule_backoff > gstate.now) return false;
-    if (avp->needs_network && gstate.network_suspended) return false;
-    return true;
-}
-
-// whether this task should be included in RR simulation
-// Like runnable, except downloading backoff is OK
-// Schedule-backoff is not OK;
-// we should be able to get GPU jobs from project A
-// even if project B has backed-off jobs.
-//
-bool RESULT::nearly_runnable() {
-    if (suspended_via_gui) return false;
-    if (project->suspended_via_gui) return false;
-    switch (state()) {
-    case RESULT_FILES_DOWNLOADED:
-    case RESULT_FILES_DOWNLOADING:
-        break;
-    default:
-        return false;
-    }
-    if (coproc_missing) return false;
-    if (schedule_backoff > gstate.now) return false;
-    return true;
-}
-
-// Return true if the result is waiting for its files to download,
-// and nothing prevents this from happening soon
-//
-bool RESULT::downloading() {
-    if (suspended_via_gui) return false;
-    if (project->suspended_via_gui) return false;
-    if (state() > RESULT_FILES_DOWNLOADING) return false;
-    if (some_download_stalled()) return false;
-    return true;
-}
-
-double RESULT::estimated_runtime_uncorrected() {
-    return wup->rsc_fpops_est/avp->flops;
-}
-
-// estimate how long a result will take on this host
-//
-double RESULT::estimated_runtime() {
-    double x = estimated_runtime_uncorrected();
-    if (!project->dont_use_dcf) {
-        x *= project->duration_correction_factor;
-    }
-	return x;
-}
-
-double RESULT::estimated_runtime_remaining() {
-    if (computing_done()) return 0;
-    ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(this);
-    if (atp) {
-#ifdef SIM
-        return sim_flops_left/avp->flops;
-#else
-        return atp->est_dur() - atp->elapsed_time;
-#endif
-    }
-    return estimated_runtime();
 }
 
 // Returns the estimated total elapsed time of this task.

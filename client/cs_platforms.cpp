@@ -45,16 +45,16 @@ LPFN_ISWOW64PROCESS fnIsWow64Process;
 #include <sys/sysctl.h>
 #endif
 
-
-
-#include "client_types.h"
-#include "client_state.h"
 #include "error_numbers.h"
-#include "log_flags.h"
 #include "filesys.h"
 #include "str_util.h"
 #include "str_replace.h"
 #include "util.h"
+
+#include "client_types.h"
+#include "client_state.h"
+#include "log_flags.h"
+#include "project.h"
 
 // return the primary platform id.
 //

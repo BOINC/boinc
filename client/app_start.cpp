@@ -81,6 +81,7 @@ using std::string;
 #include "client_msgs.h"
 #include "client_state.h"
 #include "file_names.h"
+#include "result.h"
 #include "sandbox.h"
 #include "unix_util.h"
 

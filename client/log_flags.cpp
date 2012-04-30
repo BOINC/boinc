@@ -36,10 +36,12 @@
 #include "parse.h"
 #include "str_util.h"
 
-#include "file_names.h"
 #include "client_state.h"
 #include "client_msgs.h"
 #include "cs_proxy.h"
+#include "file_names.h"
+#include "project.h"
+#include "result.h"
 
 using std::string;
 

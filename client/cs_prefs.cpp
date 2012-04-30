@@ -33,15 +33,17 @@
 #endif
 #endif
 
+#include "filesys.h"
+#include "parse.h"
 #include "str_util.h"
 #include "str_replace.h"
 #include "util.h"
-#include "filesys.h"
-#include "parse.h"
-#include "file_names.h"
-#include "cpu_benchmark.h"
+
 #include "client_msgs.h"
 #include "client_state.h"
+#include "cpu_benchmark.h"
+#include "file_names.h"
+#include "project.h"
 
 using std::min;
 using std::string;

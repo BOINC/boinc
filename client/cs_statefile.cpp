@@ -30,10 +30,12 @@
 #include "str_util.h"
 #include "util.h"
 
-#include "cs_proxy.h"
-#include "file_names.h"
 #include "client_msgs.h"
 #include "client_state.h"
+#include "cs_proxy.h"
+#include "file_names.h"
+#include "project.h"
+#include "result.h"
 
 #define MAX_STATE_FILE_WRITE_ATTEMPTS 2
 

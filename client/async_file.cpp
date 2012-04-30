@@ -29,6 +29,7 @@
 #include "app.h"
 #include "client_msgs.h"
 #include "client_state.h"
+#include "project.h"
 #include "sandbox.h"
 
 #include "async_file.h"
