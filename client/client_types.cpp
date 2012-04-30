@@ -675,25 +675,25 @@ void FILE_XFER_BACKOFF::file_xfer_succeeded() {
     next_xfer_time  = 0;
 }
 
-int PROJECT::parse_project_files(XML_PARSER& xp, bool delete_existing_symlinks) {
+// delete current sym links.
+// This is done when parsing scheduler reply,
+// to ensure that we get rid of sym links for
+// project files no longer in use
+//
+void PROJECT::delete_project_file_symlinks() {
     unsigned int i;
     char project_dir[256], path[256];
-    int retval;
 
-    if (delete_existing_symlinks) {
-        // delete current sym links.
-        // This is done when parsing scheduler reply,
-        // to ensure that we get rid of sym links for
-        // project files no longer in use
-        //
-        get_project_dir(this, project_dir, sizeof(project_dir));
-        for (i=0; i<project_files.size(); i++) {
-            FILE_REF& fref = project_files[i];
-            sprintf(path, "%s/%s", project_dir, fref.open_name);
-            delete_project_owned_file(path, false);
-        }
+    get_project_dir(this, project_dir, sizeof(project_dir));
+    for (i=0; i<project_files.size(); i++) {
+        FILE_REF& fref = project_files[i];
+        sprintf(path, "%s/%s", project_dir, fref.open_name);
+        delete_project_owned_file(path, false);
     }
+}
 
+int parse_project_files(XML_PARSER& xp, vector<FILE_REF>& project_files) {
+    int retval;
     project_files.clear();
     while (!xp.get_tag()) {
         if (xp.match_tag("/project_files")) return 0;
@@ -719,7 +719,7 @@ int PROJECT::parse_project_files(XML_PARSER& xp, bool delete_existing_symlinks) 
 // install pointers from FILE_REFs to FILE_INFOs for project files,
 // and flag FILE_INFOs as being project files.
 //
-void PROJECT::link_project_files(bool recreate_symlink_files) {
+void PROJECT::link_project_files() {
     FILE_INFO* fip;
     vector<FILE_REF>::iterator fref_iter;
     fref_iter = project_files.begin();
@@ -737,13 +737,13 @@ void PROJECT::link_project_files(bool recreate_symlink_files) {
         fip->is_project_file = true;
         fref_iter++;
     }
+}
 
-    if (recreate_symlink_files) {
-        for (unsigned i=0; i<gstate.file_infos.size(); i++) {
-            fip = gstate.file_infos[i];
-            if (fip->project == this && fip->is_project_file && fip->status == FILE_PRESENT) {
-                write_symlink_for_project_file(fip);
-            }
+void PROJECT::create_project_file_symlinks() {
+    for (unsigned i=0; i<gstate.file_infos.size(); i++) {
+        FILE_INFO* fip = gstate.file_infos[i];
+        if (fip->project == this && fip->is_project_file && fip->status == FILE_PRESENT) {
+            write_symlink_for_project_file(fip);
         }
     }
 }

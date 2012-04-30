@@ -392,8 +392,8 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
                 xp.skip_unexpected();
                 continue;
             }
-            project->parse_project_files(xp, false);
-            project->link_project_files(false);
+            parse_project_files(xp, project->project_files);
+            project->link_project_files();
             continue;
         }
         if (xp.match_tag("host_info")) {
