@@ -24,6 +24,10 @@
 #include "config.h"
 #endif
 
+#ifdef __APPLE__
+#include <ctype.h>
+#endif
+
 #if !HAVE_STRLCPY
 extern size_t strlcpy(char*, const char*, size_t);
 #endif

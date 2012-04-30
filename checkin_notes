@@ -3672,3 +3672,10 @@ David  30 Apr 2012
 
     client/
         client_types.cpp
+
+Charlie 30 Apr 2012
+    - lib: Fix compile break on Mac.
+    
+    lib/
+        str_replace.h
+
