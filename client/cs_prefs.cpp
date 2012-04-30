@@ -295,6 +295,7 @@ void CLIENT_STATE::check_suspend_network() {
     network_suspended = false;
     file_xfers_suspended = false;
     network_suspend_reason = 0;
+    bool recent_rpc;
 
     // don't start network ops if system is shutting down
     //
@@ -315,7 +316,7 @@ void CLIENT_STATE::check_suspend_network() {
 
     // was there a recent GUI RPC that needs network?
     //
-    bool recent_rpc = gui_rpcs.recent_rpc_needs_network(
+    recent_rpc = gui_rpcs.recent_rpc_needs_network(
         ALLOW_NETWORK_IF_RECENT_RPC_PERIOD
     );
 

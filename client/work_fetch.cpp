@@ -514,9 +514,16 @@ void WORK_FETCH::set_all_requests_hyst(PROJECT* p, int rsc_type) {
         if (i == rsc_type) {
             rsc_work_fetch[i].set_request(p);
         } else {
-            if (i==0 || gpus_usable) {
-                rsc_work_fetch[i].supplement(p);
+            // don't fetch work for a resource if the buffer is above max
+            //
+            if (rsc_work_fetch[i].saturated_time > gstate.work_buf_total()) {
+                continue;
             }
+
+            if (i>0 && !gpus_usable) {
+                continue;
+            }
+            rsc_work_fetch[i].supplement(p);
         }
     }
 }
