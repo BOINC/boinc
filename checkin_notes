@@ -3663,3 +3663,12 @@ David  30 Apr 2012
         client_state.h
         cs_scheduler.cpp
         cpu_sched.cpp
+
+David  30 Apr 2012
+    - client: if an app version needs OpenCL/CUDA/CAL,
+        make sure that the GPU supports it
+        (fix bug where sometimes, e.g. CUDA detection fails
+        but OpenCL succeeds, and we have a CUDA app).
+
+    client/
+        client_types.cpp

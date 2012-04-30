@@ -723,6 +723,7 @@ int FILE_INFO::gunzip(char* md5_buf) {
 int APP_VERSION::parse(XML_PARSER& xp) {
     FILE_REF file_ref;
     double dtemp;
+    int rt;
 
     strcpy(app_name, "");
     strcpy(api_version, "");
@@ -745,7 +746,40 @@ int APP_VERSION::parse(XML_PARSER& xp) {
     needs_network = false;
 
     while (!xp.get_tag()) {
-        if (xp.match_tag("/app_version")) return 0;
+        if (xp.match_tag("/app_version")) {
+            rt = gpu_usage.rsc_type;
+            if (rt) {
+                if (strstr(plan_class, "opencl")) {
+                    if (!coprocs.coprocs[rt].have_opencl) {
+                        msg_printf(0, MSG_INFO,
+                            "App version needs OpenCL but GPU doesn't support it"
+                        );
+                        missing_coproc = true;
+                        missing_coproc_usage = gpu_usage.usage;
+                        strcpy(missing_coproc_name, coprocs.coprocs[rt].type);
+                    }
+                } else if (strstr(plan_class, "cuda")) {
+                    if (!coprocs.coprocs[rt].have_cuda) {
+                        msg_printf(0, MSG_INFO,
+                            "App version needs CUDA but GPU doesn't support it"
+                        );
+                        missing_coproc = true;
+                        missing_coproc_usage = gpu_usage.usage;
+                        strcpy(missing_coproc_name, coprocs.coprocs[rt].type);
+                    }
+                } else if (strstr(plan_class, "ati")) {
+                    if (!coprocs.coprocs[rt].have_cal) {
+                        msg_printf(0, MSG_INFO,
+                            "App version needs CAL but GPU doesn't support it"
+                        );
+                        missing_coproc = true;
+                        missing_coproc_usage = gpu_usage.usage;
+                        strcpy(missing_coproc_name, coprocs.coprocs[rt].type);
+                    }
+                }
+            }
+            return 0;
+        }
         if (xp.parse_str("app_name", app_name, sizeof(app_name))) continue;
         if (xp.match_tag("file_ref")) {
             file_ref.parse(xp);
@@ -775,15 +809,15 @@ int APP_VERSION::parse(XML_PARSER& xp) {
             COPROC_REQ cp;
             int retval = cp.parse(xp);
             if (!retval) {
-                int rt = rsc_index(cp.type);
-                if (rt > 0) {
-                    gpu_usage.rsc_type = rt;
-                    gpu_usage.usage = cp.count;
-                } else {
+                rt = rsc_index(cp.type);
+                if (rt <= 0) {
                     missing_coproc = true;
                     missing_coproc_usage = cp.count;
                     strcpy(missing_coproc_name, cp.type);
+                    continue;
                 }
+                gpu_usage.rsc_type = rt;
+                gpu_usage.usage = cp.count;
             } else {
                 msg_printf(0, MSG_INTERNAL_ERROR, "Error parsing <coproc>");
             }
