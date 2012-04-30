@@ -3653,3 +3653,13 @@ David  30 Apr 2012
         project.cpp,h (new)
         result.cpp,h (new)
         *.cpp
+
+David  30 Apr 2012
+    - client: minor code shuffle
+
+    client/
+        project.cpp
+        result.cpp
+        client_state.h
+        cs_scheduler.cpp
+        cpu_sched.cpp

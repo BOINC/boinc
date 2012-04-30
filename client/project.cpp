@@ -793,3 +793,22 @@ bool PROJECT::nearly_runnable() {
     return false;
 }
 
+void PROJECT::set_min_rpc_time(double future_time, const char* reason) {
+    if (future_time <= min_rpc_time) return;
+    min_rpc_time = future_time;
+    possibly_backed_off = true;
+    if (log_flags.sched_op_debug) {
+        msg_printf(this, MSG_INFO,
+            "[sched_op] Deferring communication for %s",
+            timediff_format(min_rpc_time - gstate.now).c_str()
+        );
+        msg_printf(this, MSG_INFO, "[sched_op] Reason: %s\n", reason);
+    }
+}
+
+// Return true if we should not contact the project yet.
+//
+bool PROJECT::waiting_until_min_rpc_time() {
+    return (min_rpc_time > gstate.now);
+}
+
