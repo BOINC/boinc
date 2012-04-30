@@ -854,9 +854,12 @@ bool CBOINCBaseFrame::RestoreState() {
     return true;
 }
 
-
 bool CBOINCBaseFrame::Show(bool bShow) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::Show - Function Begin"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::Show - Show: '%d'"), (int)bShow);
+
     bool    retval;
+
     if (bShow) {
         wxGetApp().ShowApplication(true);
     } else {
@@ -867,22 +870,23 @@ bool CBOINCBaseFrame::Show(bool bShow) {
         }
     }
     
-    CDlgEventLog*   eventLog = wxGetApp().GetEventLog();
-    if (eventLog) {
+    CDlgEventLog* pEventLog = wxGetApp().GetEventLog();
+    if (pEventLog) {
 #ifdef __WXMAC__
         if (bShow) {
-            eventLog->Show(bShow);
+            pEventLog->Show(bShow);
         }
 #else
-        eventLog->Show(bShow);
+        pEventLog->Show(bShow);
 #endif
     }
 
     retval = wxFrame::Show(bShow);
     wxFrame::Raise();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::Show - Function End"));
     return retval;
 }
-
 
 int CBOINCBaseFrame::_GetCurrentViewPage() {
     wxASSERT(false);

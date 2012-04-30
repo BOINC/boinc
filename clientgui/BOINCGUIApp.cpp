@@ -902,6 +902,9 @@ void CBOINCGUIApp::FireReloadSkin() {
 
 
 bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCGUIApp::SetActiveGUI - Function Begin"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCGUIApp::SetActiveGUI - GUI Selection: '%d', Show: %d'"), iGUISelection, (int)bShowWindow);
+
     CBOINCBaseFrame* pNewFrame = NULL;
     CBOINCBaseFrame* pOldFrame = m_pFrame;
     wxInt32          iTop = 0;
@@ -1004,9 +1007,6 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             // Delete the old one if it exists
             // Note: this has the side effect of hiding the Event Log
             if (pOldFrame) pOldFrame->Destroy();
-
-            // Show the new frame if needed (and show the Event Log if open)
-            if (pNewFrame && bShowWindow) pNewFrame->Show();
         }
     }
 
@@ -1023,6 +1023,9 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
         if (!m_pFrame->IsShown()) {
             m_pFrame->Show();
         }
+        if (m_pFrame->IsIconized()) {
+            m_pFrame->Maximize(false);
+        }
         m_pFrame->Raise();
 
 #ifdef __WXMSW__
@@ -1034,6 +1037,7 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
     m_pConfig->SetPath(wxT("/"));
     m_pConfig->Write(wxT("GUISelection"), iGUISelection);
 
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCGUIApp::SetActiveGUI - Function End"));
     return true;
 }
 

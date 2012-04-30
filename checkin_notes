@@ -3171,6 +3171,14 @@ David  20 Apr 2012
     lib/
         msg_log.cpp
 
+Rom    20 Apr 2012
+    - MGR: Show() does not restore the window state from a minimized state.  Use
+        maximize(false) to handle that situation.
+        
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCGUIApp.cpp
+
 Rom    24 Apr 2012
     - WINSETUP: Fix long standing installer bug where we were attempting
         to add the boinc_master account to the boinc_admins group when
