@@ -589,6 +589,14 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                     }
                 }
             } else {
+                if (acct.authenticator.empty()) {
+                    msg_printf(NULL, MSG_INFO,
+                        "Account manager reply missing authenticator for %s",
+                        acct.url.c_str()
+                    );
+                    continue;
+                }
+
                 // here we don't already have the project.
                 // Attach to it, unless the acct mgr is telling us to detach
                 //

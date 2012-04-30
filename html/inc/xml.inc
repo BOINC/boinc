@@ -35,11 +35,14 @@ function xml_header() {
     $generating_xml = true;
 }
 
+// used only if host owner is the requesting user
+//
 function show_host_xml($host) {
     echo "    <host>
         <id>$host->id</id>
         <create_time>$host->create_time</create_time>
         <rpc_seqno>$host->rpc_seqno</rpc_seqno>
+        <rpc_time>$host->rpc_time</rpc_time>
         <host_cpid>$host->host_cpid</host_cpid>
         <total_credit>$host->total_credit</total_credit>
         <expavg_credit>$host->expavg_credit</expavg_credit>
@@ -60,6 +63,8 @@ function show_host_xml($host) {
 ";
 }
 
+// $show_hosts is true only if $user is the logged-in user
+//
 function show_user_xml($user, $show_hosts) {
     $cpid = md5($user->cross_project_id.$user->email_addr);
     echo "<user>

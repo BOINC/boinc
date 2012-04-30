@@ -3632,3 +3632,16 @@ Rom    27 Apr 2012
         
     clientscr/
         screensaver_win.cpp, .h
+
+David  30 Apr 2012
+    - web RPC: include rpc_time in XML host description
+    - client: if acct mgr sends us an account with no authenticator,
+        show an error message instead of trying to attach
+
+    html/
+        inc/
+            xml.inc
+        user/
+            show_user.php
+    client/
+        acct_mgr.cpp
