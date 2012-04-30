@@ -3679,3 +3679,9 @@ Charlie 30 Apr 2012
     lib/
         str_replace.h
 
+Charlie 30 Apr 2012
+    - Mac: Update XCode project with new source files.
+    
+       mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
