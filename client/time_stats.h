@@ -49,6 +49,15 @@ public:
     int write(MIOFILE&, bool to_server);
     int parse(XML_PARSER&);
 
+    double availability_frac(int rsc_type) {
+        double x;
+        if (rsc_type == 0) {
+            x = on_frac*active_frac;
+        } else {
+            x = on_frac*gpu_active_frac;
+        }
+        return x>0?x:1;
+    }
     void log_append(const char*, double);
     void log_append_net(int);
     void trim_stats_log();

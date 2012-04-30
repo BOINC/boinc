@@ -1026,21 +1026,21 @@ bool RESULT::downloading() {
     return true;
 }
 
-double RESULT::estimated_duration_uncorrected() {
+double RESULT::estimated_runtime_uncorrected() {
     return wup->rsc_fpops_est/avp->flops;
 }
 
 // estimate how long a result will take on this host
 //
-double RESULT::estimated_duration() {
-    double x = estimated_duration_uncorrected();
+double RESULT::estimated_runtime() {
+    double x = estimated_runtime_uncorrected();
     if (!project->dont_use_dcf) {
         x *= project->duration_correction_factor;
     }
 	return x;
 }
 
-double RESULT::estimated_time_remaining() {
+double RESULT::estimated_runtime_remaining() {
     if (computing_done()) return 0;
     ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(this);
     if (atp) {
@@ -1050,7 +1050,7 @@ double RESULT::estimated_time_remaining() {
         return atp->est_dur() - atp->elapsed_time;
 #endif
     }
-    return estimated_duration();
+    return estimated_runtime();
 }
 
 // Returns the estimated total elapsed time of this task.
@@ -1060,7 +1060,7 @@ double RESULT::estimated_time_remaining() {
 //
 double ACTIVE_TASK::est_dur() {
     if (fraction_done >= 1) return elapsed_time;
-    double wu_est = result->estimated_duration();
+    double wu_est = result->estimated_runtime();
     if (fraction_done <= 0) return wu_est;
     if (wu_est < elapsed_time) wu_est = elapsed_time;
     double frac_est = fraction_done_elapsed_time / fraction_done;

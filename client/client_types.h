@@ -751,14 +751,14 @@ struct RESULT {
     // stuff related to CPU scheduling
 
     bool is_not_started();
-    double estimated_duration();
-    double estimated_duration_uncorrected();
-    double estimated_time_remaining();
+    double estimated_runtime();
+    double estimated_runtime_uncorrected();
+    double estimated_runtime_remaining();
     inline double estimated_flops_remaining() {
 #ifdef SIM
         return sim_flops_left;
 #else
-        return estimated_time_remaining()*avp->flops;
+        return estimated_runtime_remaining()*avp->flops;
 #endif
     }
 

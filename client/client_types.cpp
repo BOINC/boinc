@@ -623,7 +623,8 @@ void PROJECT::get_task_durs(double& not_started_dur, double& in_progress_dur) {
     for (unsigned int i=0; i<gstate.results.size(); i++) {
         RESULT* rp = gstate.results[i];
         if (rp->project != this) continue;
-        double d = rp->estimated_time_remaining();
+        double d = rp->estimated_runtime_remaining();
+        d /= gstate.time_stats.availability_frac(rp->avp->gpu_usage.rsc_type);
         if (rp->is_not_started()) {
             not_started_dur += d;
         } else {
@@ -2053,7 +2054,7 @@ int RESULT::write_gui(MIOFILE& out) {
         state(),
         report_deadline,
         received_time,
-        estimated_time_remaining()
+        estimated_runtime_remaining()
     );
     if (got_server_ack) out.printf("    <got_server_ack/>\n");
     if (ready_to_report) out.printf("    <ready_to_report/>\n");
@@ -2240,7 +2241,7 @@ void RESULT::append_log_record() {
     FILE* f = fopen(filename, "ab");
     if (!f) return;
     fprintf(f, "%.0f ue %f ct %f fe %.0f nm %s et %f\n",
-        gstate.now, estimated_duration_uncorrected(), final_cpu_time,
+        gstate.now, estimated_runtime_uncorrected(), final_cpu_time,
         wup->rsc_fpops_est, name, final_elapsed_time
     );
     fclose(f);
