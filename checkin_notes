@@ -12,7 +12,7 @@ Rom    1 Jan 2012
     - OPS: Update failure_result_summary_by_platform.php to include
         plan class information.
     - OPS: Update error code translation table
-        
+    
     html/inc
         result.inc
     html/ops
@@ -40,7 +40,7 @@ Rom    2 Jan 2012
         thinks we have crashed.
     - VBOX: Strip carriage returns from all the vboxmanage output on
         Windows.
-        
+    
     samples/vboxwrapper/
         vbox.cpp, .h
         vboxwrapper.cpp
@@ -90,7 +90,7 @@ Rom    2 Jan 2012
         extract the hypervisor system log.
     - VBOX: Report the hypervisor system log with any failed vboxmanage
         command that happens during the phase where we setup the VM.
-        
+    
     samples/vboxwrapper/
         vbox.cpp, .h
 
@@ -122,10 +122,10 @@ Rom    3 Jan 2012
     - client: Remove scaling factor for AMD OpenCL devices.  Latest
         generation of drivers now report the correct memory size.
         They didn't wait for the next OpenCL spec change.
-    
+
     client/
         coproc_detect.cpp
-        
+    
 Rom    3 Jan 2012
     - VBOX: Per tester feedback, at an hourly status report to track
         network usage.
@@ -140,7 +140,7 @@ Rom    3 Jan 2012
     - VBOX: Change the session lock text to make it clearer that the
         use of other VirtualBox management tools can cause a problem.
 
-        
+    
     samples/vboxwrapper/
         vbox.cpp, .h
         vboxwrapper.cpp
@@ -149,7 +149,7 @@ Rom    3 Jan 2012
     - VBOX: Restore the elapsed time from the checkpoint file instead of
         aid.starting_elapsed_time.  It appears some older client versions
         are giving erratic results.
-        
+    
     samples/vboxwrapper/
         vboxwrapper.cpp
 
@@ -172,12 +172,12 @@ Rom    4 Jan 2012
 Rom    4 Jan 2012
     - VBOX: Move start state change detection code from run() function to
         start() function and use similar code to handle stop as well.
-        
+    
         Weird stuff happens when people start/stop BOINC quickly,
         it looks as though the previous VM instance isn't shutdown before we
         attempt to start it again.  Hopefully enough of a wait is in there
         for the VM to fully halt before the wrapper is terminated.
-        
+    
     samples/vboxwrapper/
         vbox.cpp
 
@@ -193,7 +193,7 @@ Rom    4 Jan 2012
 Rom    5 Jan 2012
     - VBOX: Extract the various logs before attempting to cleanup if the
         registration process fails.
-        
+    
     samples/vboxwrapper/
         vboxwrapper.cpp
 
@@ -206,13 +206,13 @@ David  5 Jan 2012
 Charlie 5 Jan 2012
     - client: Restore scaling factor for AMD OpenCL devices on Macs with 
         OpenCL version < 1.2.
-    
+
     client/
         coproc_detect.cpp
 
 Charlie 6 Jan 2012
     - Mac Installer: Changes for integrated BOINC+VirtualBox Mac installer.
-    
+
     clientgui/
         mac/
             SetVersion.cpp
@@ -226,7 +226,7 @@ Rom    6 Jan 2012
         in the advanced view. Retain the ability to dynamically adjust the
         width of the task panel based on widest button.
     - LIB: Use parse string instead of copy contents for messages RPC.
-    
+
     clientgui/
         BOINCBaseView.cpp, .h
         ViewNotices.cpp
@@ -264,7 +264,7 @@ David  6 Jan 2012
 Rom    6 Jan 2012
     - MGR: Derive from the correct base class to make the sizers work
         properly.
-        
+    
     clientgui/
         BOINCBaseView.cpp, .h
         ViewNotices.cpp
@@ -295,7 +295,7 @@ Rom    8 Jan 2012
     - VBOX: Fix regression where the ERR_CPU_VM_EXTENSIONS_DISABLED error
         message wasn't being written to stderr when the VM extensions
         were disabled via the BIOS.
-        
+    
     samples/vboxwrapper/
         vboxwrapper.cpp
 
@@ -317,14 +317,14 @@ Charlie 9 Jan 2012
     - client: OpenCL 1.1 has no API for determining available GPU RAM, so if 
         CAL is not present for ATI / AMD GPU or if CUDA is not present for 
         NVIDIA GPU, set available GPU RAM equal to total GPU RAM.
-    
+
     client/
         coproc_detect.cpp
 
 Rom    9 Jan 2012
     - VBOX: Fix one last regression related to failed start detection.  If
         only one CPU is allocated, manually disable VM hardware acceleration.
-        
+    
     samples/vboxwrapper/
         vbox.cpp
 
@@ -351,7 +351,7 @@ Charlie 10 Jan 2012
     - client: Fix idle detection for Apple Remote Desktop and screen sharing 
         (VNC) under Mac OS 10.7.  See comments in HOST_INFO::users_idle() for 
         details.
-    
+
     client/
         hostinfo_unix.cpp
 
@@ -395,10 +395,10 @@ David  12 Jan 2012
 Rom    12 Jan 2012
     - VBOX: Enable remote desktop functionality for a VM that has
         <enable_remotedesktop/> specified in its vbox_job.xml file.
-        
+    
       NOTE: It does require the VirtualBox extension pack, but that
         is freely available on the VirtualBox download page.
-        
+    
     samples/vboxwrapper
         vbox.cpp, .h
         vboxwrapper.cpp, .h
@@ -445,7 +445,7 @@ Charlie 13 Jan 2012
         when BOINC was run as a pre-login daemon.  So use the old method 
         when running as a daemon.  This means that idle detection for Apple 
         Remote Desktop and screen sharing (VNC) under Mac OS 10.7 works only 
-        when not running BOINC as a daemon.    
+        when not running BOINC as a daemon.
 
     client/
         hostinfo_unix.cpp
@@ -453,7 +453,7 @@ Charlie 13 Jan 2012
 Rom    13 Jan 2012
     - VBOX: Cleanup a few messages stating port numbers in the stderr spew.
     - VBOX: Send configuration settings in one message instead of piece meal.
-    
+
     api/
         boinc_api.cpp, .h
     samples/vboxwrapper
@@ -461,7 +461,7 @@ Rom    13 Jan 2012
 
 Rom    13 Jan 2012
     - VBOX: It helps to remove the older send msg routines. Oooops.
-    
+
     samples/vboxwrapper
         vboxwrapper.cpp
 
@@ -487,7 +487,7 @@ David  13 Jan 2012
 
 Rom    13 Jan 2012
     - MGR: Add RDP client support for Linux.
-    
+
     clientgui/
         MainDocument.cpp
 
@@ -501,7 +501,7 @@ Rom    13 Jan 2012
     - MGR: Launch the RDP client on Windows in full-screen mode to avoid
         a bug where the screen doesn't refresh and keyboard/mouse events
         don't manifest until you close down the client and restart it.
-        
+    
     clientgui/
         MainDocument.cpp
 
@@ -510,7 +510,7 @@ Charlie 13 Jan 2012
         to pass the IP address and port to Microsoft's Remote Desktop 
         Connection application for the Mac, so I'm using CoRD.  Unfortunately, 
         CoRD does not seem to be as reliable as I would like either.
-        
+    
     clientgui/
         MainDocument.cpp
 
@@ -519,7 +519,7 @@ Rom    13 Jan 2012
       now important to have for the 7.0 release.  The existing 7.0 branch
       will no longer be maintained, we'll create a new branch for the 7.0
       client line at a later date.
-    
+
     - Tag for 7.0.8 release, all platforms
       boinc_core_release_7_0_8
 
@@ -538,7 +538,7 @@ David  13 Jan 2012
 
 David  13 Jan 2012
     - GUI RPC: add <xml> tag to the start of HTTP replies.
-    
+
     client/
         gui_rpc_server_ops.cpp
 
@@ -574,7 +574,7 @@ Rom    15 Jan 2012
     - MGR: Remove the fullscreen flag on Windows.  It might only be
         my machine which has refresh problems when launching in
         windowed mode.
-        
+    
     clientgui/
         MainDocument.cpp
 
@@ -597,7 +597,7 @@ David  15 Jan 2012
 Charlie 16 Jan 2012
     - client, lib: Improve available GPU RAM detection, include it in 
         display of GPU description.
-        
+    
     client/
         coproc_detect.cpp
     lib/
@@ -633,7 +633,7 @@ Charlie 17 Jan 2012
 Charlie 17 Jan 2012
     - client: Save all CUDA and CAL GPU info until done with OpenCL detection 
         so we have available GPU RAM for all OpenCL GPU descriptions.
-        
+    
     client/
         coproc_detect.cpp
 
@@ -676,7 +676,7 @@ David  18 Jan 2012
 
 Charlie 18 Jan 2012
     - client: add debugging aids to coproc_detect logic.
-        
+    
     client/
         coproc_detect.cpp
 
@@ -692,7 +692,7 @@ Charlie 18 Jan 2012
     - client: ATI available RAM is in bytes, not MB; if no CAL, don't divide 
         OpenCL global_mem_size by MEGA to fill in ATI available RAM.
         (Checked in to 7.0.11 tag.)
-        
+    
     client/
         coproc_detect.cpp
 
@@ -717,7 +717,7 @@ David  18 Jan 2012
 Rom    18 Jan 2012
     - VBOX: Use the documented way to reset the UUID of a virtual hard
         disk.  Thanks Daniel.
-        
+    
      samples/vboxwrapper
         vbox.cpp
 
@@ -759,7 +759,7 @@ David  19 Jan 2012
 
 Charlie 20 Jan 2012
     - client: Show GPU number in "GPU is OpenCL-capable" message.
-    
+
     client/
         client_state.cpp
 
@@ -769,7 +769,7 @@ Charlie 20 Jan 2012
         by CUDA.  Since there is no CAL for Mac, this is not an issue 
         for ATI / AMD GPUs.  On other platforms, the CUDA and CAL drivers 
         also provide OpenCL support, so we don't expect the problem there.
-        
+    
         Solution: I believe that CUDA and OpenCL return identical GPU 
         model names for the same GPU, and that both return the GPUs in the 
         same order (but with some possibly omitted from the OpenCL sequence.)
@@ -779,12 +779,12 @@ Charlie 20 Jan 2012
         equal unless we have CUDA devices not recognized by OpenCL.  We 
         add a new array opencl_device_indexes[] to the COPROC struct, 
         corresponding to the entries in device_nums[].
-        
+    
         The init_data.xml file now has a new field gpu_opencl_device_index.  
         If this field exists, the boinc_get_opencl_ids() API uses this to 
         find the cl_device_id and cl_platform_id, otherwise it continues 
         to use the value in gpu_device_num.
-        
+    
     api/
         boinc_opencl.cpp
     client/
@@ -849,7 +849,7 @@ Rom    21 Jan 2012
     - VBOX: Enable the wrapper to handle fractional CPU usage.  If
         the server specifies 1.1 CPUs used, allocate 2 CPUs to be used
         in VirtualBox.
-        
+    
     samples/vboxwrapper
         vboxwrapper.cpp
 
@@ -860,7 +860,7 @@ Rom    21 Jan 2012
         client-side scheduler to use the remaining fraction of the CPU
         for GPU data transfer which will then free up one whole CPU for
         another job.  All without over-commiting anything.
-        
+    
     sched/
         sched_customize.cpp
 
@@ -900,13 +900,13 @@ Rom    23 Jan 2012
         make sure the event log comes forward as well.  The event log
         should appear behind the main window in the case they are
         overlapped.
-        
+    
     clientgui/
         BOINCGUIApp.cpp, .h
 
 Rom    23 Jan 2012
     - client - Remove Mac OSX 10.3.9 hack, it is no longer needed.
-    
+
     client/
         http_curl.cpp
 
@@ -954,7 +954,7 @@ Rom    24 Jan 2012
     - client: treat the gzt file extension like we do for the gz file extension.
         Disable libcurls ability to decompress on-the-fly and let the CC decompress
         it after it has been fully downloaded.
-        
+    
     client/
         http_curl.cpp
 
@@ -980,7 +980,7 @@ Rom    24 Jan 2012
 
 Rom    24 Jan 2012
     - VBOX: Fix build breaks for Linux and Mac.
-    
+
     samples/vboxwrapper/
         vbox.cpp
 
@@ -1000,7 +1000,7 @@ David  24 Jan 2012
 
 Charlie 25 Jan 2012
     - VBOX: Fix compiler warnings on Mac.
-    
+
     samples/vboxwrapper/
         vboxwrapper.cpp
 
@@ -1034,7 +1034,7 @@ David  26 Jan 2012
 
 Charlie 26 Jan 2012
     - client: disable temporary debugging aids in coproc_detect logic.
-        
+    
     client/
         coproc_detect.cpp
 
@@ -1069,7 +1069,7 @@ David  26 Jan 2012
 
 Charlie 26 Jan 2012
     - Mac: Update the build instructions with the current URL for c-ares-1.7.4.
-    
+
     mac_build/
         HowToBuildBOINC_XCode.rtf
 
@@ -1077,7 +1077,7 @@ Charlie 27 Jan 2012
     - MGR: If CPU or GPU is suspended from Activity Menu, change "Snooze" items 
         to "Resume" in system tray menu.
     - client: Always remember previous CPU and GPU activity settings.
-    
+
     client/
         client_types.cpp,h
         cs_statefile.cpp
@@ -1127,10 +1127,10 @@ Charlie 30 Jan 2012
         relevant code is guarded by a "#define DEFER_ON_GPU_AVAIL_RAM 0" 
         so we can easily restore it if we find a reliable way to get the 
         value of available GPU RAM periodically. 
-        
+    
         NOTE: we are still sending this unreliable value to project 
         servers in the sched_request file.  Does it make sense to do so?
-        
+    
     client/
         cpu_sched.cpp
     lib/
@@ -1280,7 +1280,7 @@ Rom    2 Feb 2012
     - MGR: Fix cookie detection problem when using the
         IEGetProtectedModeCookie API.  Function prototype changed from the
         InternetGetCookieEx function.  HRESULT != BOOL.
-        
+    
     clientgui/
         browser.cpp
 
@@ -1310,7 +1310,7 @@ David  3 Feb 2012
 
 Rom    3 Feb 2012
     - client: add async file copy stuff to Windows project file.
-    
+
     client/
         async_file.cpp
     win_build/
@@ -1328,7 +1328,7 @@ David  3 Feb 2012
 
 Charlie 3 Feb 2012
     - client: add async file copy stuff to Xcode project.
-    
+
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
@@ -1371,7 +1371,7 @@ Rom    6 Feb 2012
         .gzb file extension.  I was wrong in how I read the conditional and
         it turns out that libcurl does not attempt to honor the content-encoding
         if it was disabled as part of the request. My bad.
-        
+    
     client/
         http_curl.cpp
 
@@ -1415,7 +1415,7 @@ Charlie 6 Feb 2012
     - client: remove "GPU n is OpenCL-capable" messages.  They were 
         redundant with new OPENCL_DEVICE_PROP::description() and were 
         confusing because they only listed the "best" CUDA / CAL GPUs.
-        
+    
     client/
         client_state.cpp
 
@@ -1512,7 +1512,7 @@ David  8 Feb 2012
 Rom    8 Feb 2012
     - VBOX: Remove the renaming of the vm disk image code. It isn't needed
         and it complicates things in the CC.
-        
+    
     samples/vboxwrapper/
         vboxwrapper.cpp
 
@@ -1640,7 +1640,7 @@ David  12 Feb 2012
 Charlie 13 Feb 2012
     - MGR: Fix bad <organization_help_url> in Progress Through Processor's 
         skin files provided by Matt Blumberg on 9 December 2011.
-    
+
     clientgui/skins/Progress Thru Processors/
         skin.xml
 
@@ -1653,7 +1653,7 @@ Charlie 13 Feb 2012
 Charlie 13 Feb 2012
     - MGR: Update <organization_*> tags in 3 branded skins (GR, PtP, CE) to 
         new values from Matt Blumberg.
-    
+
     clientgui/skins/
         GridRepublic/
             skin.xml
@@ -1667,7 +1667,7 @@ Charlie 13 Feb 2012
         don't check project-created subdirectories under project or slot 
         directories because we have not told projects these must be readable and 
         executable by group.
-        
+    
     client/
         check_security.cpp
 
@@ -1804,10 +1804,10 @@ Charlie 16 Feb 2012
         coproc_detect.cpp
 
 David  17 Feb 2012
-	- client: fix bug where WCG downloads were getting wrong size errors.
-		To be honest, I don't know that the problem was or why my change fixed it.
-	client/
-		http_curl.cpp
+    - client: fix bug where WCG downloads were getting wrong size errors.
+        To be honest, I don't know that the problem was or why my change fixed it.
+    client/
+        http_curl.cpp
 
 Charlie 17 Feb 2012
     - client: Prevent an unlikely but possible crash.
@@ -1855,7 +1855,7 @@ David  17 Feb 2012
 Charlie 17 Feb 2012
     - Mac: Fix back trace to work under OS > 10.5.
     (Checked in to boinc_core_release_7_0_16 tag)
-    
+
     lib/
         mac/
             mac_backtrace.cpp
@@ -1883,11 +1883,11 @@ David  18 Feb 2012
         vdad.cpp
 
 David  19 Feb 2012
-	- client: fix bug in notices where, after a notice is deleted,
-		the notices tab refreshes once/second forever after
+    - client: fix bug in notices where, after a notice is deleted,
+        the notices tab refreshes once/second forever after
 
-	client/
-		cs_notice.cpp
+    client/
+        cs_notice.cpp
 
 Rom    20 Feb 2012
     - Tag for 7.0.17 release, all platforms
@@ -1919,10 +1919,10 @@ David  20 Feb 2012
         boinc_cmd.cpp
 
 David  20 Feb 2012
-	- Manager: compile fix
+    - Manager: compile fix
 
-	clientgui/
-		MainDocument.cpp
+    clientgui/
+        MainDocument.cpp
 
 David  20 Feb 2012
     - scheduler: fix a couple of assigned-job bugs
@@ -1987,7 +1987,7 @@ David  21 Feb 2012
 Rom    21 Feb 2012
     - Vbox: Include date component in log messages to ease debugging long
         running VM tasks.
-        
+    
     samples/vboxwrapper/
         vbox.cpp
         vboxwrapper.cpp, .h
@@ -2084,7 +2084,7 @@ David  22 Feb 2012
 
 Charlie 22 Feb 2012
     - API: fix compile error on Mac.
-    
+
     api/
         macglutfix.m
 
@@ -2092,7 +2092,7 @@ Charlie 22 Feb 2012
     - client: When available, use total RAM value from CAL for all ATI 
         OpenCL GPUs, not only for the "best" GPU, so the descriptions 
         show this value.
-        
+    
     client/
         coproc_detect.cpp
 
@@ -2130,7 +2130,7 @@ David  22 Feb 2012
 Charlie 23 Feb 2012
     - MGR: Update <organization_help_url> in Progress Through Processor's 
         skin file again as requested by Matt Blumberg on 17 February 2012.
-    
+
     clientgui/skins/Progress Thru Processors/
         skin.xml
 
@@ -2146,7 +2146,7 @@ Charlie 24 Feb 2012
 Rom    24 Feb 2012
     - MGR: Rename the "Remaining" column to "Remaining (Estimated)" in the
         Advanced GUI/Work view.
-        
+    
     clientgui/
         ViewWork.cpp
 
@@ -2293,7 +2293,7 @@ Bernd  27 Feb 2012
 Rytis  27 Feb 2012
     - change antique_file_deleter logic not to delete files that still have
         workunit records
-    
+
     sched/
         antique_file_deleter.cpp
 
@@ -2367,7 +2367,7 @@ David  29 Feb 2012
 
 Charlie 29 Feb 2012
     - client: On Mac only, get ATI RAM sizes from OpenGL.
-    
+
     client/
         coproc_detect.cpp
     lib/
@@ -2380,12 +2380,12 @@ Rom    29 Feb 2012
     - VBOX: Implement an exponential backoff scheme of sleeping between
         commands if a session lock error has been detected.  Cap the overall
         delay to 30 seconds total for a single command.
-    
+
         Experiments performed by jujube(T4T) suggest changing the sleep interval
         to an exponential style backoff would increase our chances of recovering in
         situations where the previous lock is held by a previous instance of
         vboxmanage whos instance data hasn't been cleaned up within vboxsvc yet.
-    
+
     client/
         vbox.cpp
 
@@ -2418,11 +2418,11 @@ Charlie 3 Mar 2012
         Mac_SA_Secure.sh
 
 David  3 Mar 2012
-	- Manager: small code cleanup
-	client/
-		client_state.cpp
-	clientgui/
-		DltItemProperties.cpp,h
+    - Manager: small code cleanup
+    client/
+        client_state.cpp
+    clientgui/
+        DltItemProperties.cpp,h
 
 David  3 Mar 2012
     - Manager: in Project Properties page,
@@ -2487,7 +2487,7 @@ David  8 Mar 2012
         app_control.cpp
     vda/
         *
-        
+    
 Rom    8 Mar 2012
     - VBOX: Parse the vboxmanage error code for *nix as well.
     - VBOX: Switch to using status.suspend_request instead of status.suspend
@@ -2514,7 +2514,7 @@ Rom    9 Mar 2012
     - VBOX: Setting the CPU Execution Cap should be done with the controlvm
         command after the VM has entered a running state instead of using
         modifyvm.
-        
+    
     samples/vboxwrapper/
         vbox.cpp
 
@@ -2559,7 +2559,7 @@ Bernd  12 Mar 2012
 Rom    12 Mar 2012
     - VBOX: Only attempt to reset throttle values if the VM is in
         a running state, otherwise controlvm throws an error.
-        
+    
     samples/vboxsamples/
         vboxwrapper.cpp
 
@@ -2567,7 +2567,7 @@ Rom    12 Mar 2012
     - VBOX: If a VM fails to start because the machine is low on memory,
         temporarily exit so BOINC can reschedule it for a later time.
         If the problem doesn't go away it'll just time out eventually anyway.
-        
+    
     samples/vboxsamples/
         vboxwrapper.cpp
 
@@ -2598,7 +2598,7 @@ Charlie 12 Mar 2012
     - client: In COPROCS::get_ati_mem_size_from_opengl() on Mac, compare ATI 
         model names from OpenGL with those from IOKit only if coproc_debug 
         flag is set.
-    
+
     client/
         coproc_detect.cpp
 
@@ -2625,7 +2625,7 @@ David  13 Mar 2012
 
 Charlie 14 Mar 2012
     - MGR: fix French translations of Remaining (estimated).
-    
+
     locale/fr/
         BOINC_Manager.po
 
@@ -2633,7 +2633,7 @@ Charlie 14 Mar 2012
     - client: When comparing ATI model names from OpenCL and IOKit on a 
         Mac, substitute "AMD" for "ATI" because sometimes one API returns 
         "ATI" but the other API returns "AMD".
-    
+
     client/
         coproc_detect.cpp
 
@@ -2645,7 +2645,7 @@ Rom    14 Mar 2012
        from the vboxwrapper perspective.  This in conjuction with the
        BOINC API trace statements should provide a better idea with
        what is going on.
-       
+   
     samples/vboxwrapper
         vboxwrapper.cpp
 
@@ -2669,7 +2669,7 @@ David  14 Mar 2012
 Charlie 14 Mar 2012
     - client: On Mac only, update ATI available RAM after getting ATI total 
         RAM size from OpenGL.
-    
+
     client/
         coproc_detect.cpp
 
@@ -2771,7 +2771,7 @@ Charlie 18 Mar 2012
     - MGR: Fix a Mac-only bug which sometimes failed to show the suspended 
         icon after closing and opening the Manager windows.  This was caused 
         by having a second instance of CTaskBarIcon.
-    
+
     clientgui/
         BOINCBaseFrame.cpp
         BOINCGUIApp.cpp,.h
@@ -2898,7 +2898,7 @@ Rom    21 Mar 2012
         - Client suspend/resume messages behave the same.
         - Client no heartbeat/quit messages cause the wrapper to just
           poweroff the VM.
-        
+    
         On startup check to see if the last checkpoint time is greater than 0,
         if so, start from the most recent snapshot.
     - VBOX: If we receieve the status message of no heartbeat or quit, set
@@ -2906,7 +2906,7 @@ Rom    21 Mar 2012
         the middle of a snapshot, hopefully this will give VirtualBox enough
         time to complete the snapshot.  Restarting the BOINC job should then
         poweroff the VM and restore from the last snapshot.
-    
+
     samples/vboxwrapper/
         vbox.cpp, .h
         vboxwrapper.cpp
@@ -2938,7 +2938,7 @@ Rom    21 Mar 2012
         This changes the snapshot type from a live snapshot to an online
         snapshot.  Presumably difference might make it easier to do and
         prevent the VM from asserting.
-        
+    
     samples/vboxwrapper/
         vbox.cpp, .h
 
@@ -2950,7 +2950,7 @@ Rom    22 Mar 2012
         but before we attempt to delete the previous, now stale, snapshot.
     - VBOX: Treat the 'livesnapshotting', 'deletingsnapshotlive', and
         'deletingsnapshotlivepaused' states as online states.
-        
+    
     samples/vboxwrapper/
         vbox.cpp
         vboxwrapper.cpp
@@ -3062,7 +3062,7 @@ David  26 Mar 2012
         even though uploads are active.
     - client: cpu_sched_debug enables messages about not scheduling jobs
         because of insufficient RAM
-        
+    
     client/
         pers_file_xfer.cpp
         cpu_sched.cpp
@@ -3137,7 +3137,7 @@ Charlie 29 Mar 2012
     - Mac uninstaller: Use Directory Services to find the user names of 
         all human users instead of stepping through the entries in the 
         /Users directory.
-    
+
     mac_installer/
         PostInstall.cpp
         Uninstall.cpp
@@ -3145,7 +3145,7 @@ Charlie 29 Mar 2012
 Charlie 29 Mar 2012
     - client: Fix idle detection during fast user switching.  See comments 
         in HOST_INFO::users_idle() for details.
-    
+
     client/
         hostinfo_unix.cpp
 
@@ -3171,7 +3171,7 @@ Charlie 31 Mar 2012
         second instance is needed to handle our Dock menu.  Fix the earlier 
         problem of losing the suspended icon by ensuring that we always 
         call the same instance of CTaskBarIcon::SetIcon().
-    
+
     clientgui/
         BOINCBaseFrame.cpp
         BOINCGUIApp.cpp,.h
@@ -3281,12 +3281,12 @@ David  12 Apr 2012
             util_ops.inc
         user/
             tree_threader.php
-            
+        
 Charlie 12 Apr 2012
     - web: separate Intel-only from Universal (PowerPC & Intel) clients 
         on download-all page so that PowerPC clients don't tell users 
         to upgrade to intel-only version.
-    
+
     doc/
         versions.inc
 
@@ -3413,10 +3413,10 @@ David  20 Apr 2012
         cc_config.cpp,h
 
 David  20 Apr 2012
-	- client: add <suspend_debug> log flag
-	
-	client/
-		cs_prefs.cpp
+    - client: add <suspend_debug> log flag
+
+    client/
+        cs_prefs.cpp
 
 David  20 Apr 2012
     - client/server: remove assert()s from message log code
@@ -3427,7 +3427,7 @@ David  20 Apr 2012
 Rom    20 Apr 2012
     - MGR: Show() does not restore the window state from a minimized state.  Use
         maximize(false) to handle that situation.
-        
+    
     clientgui/
         BOINCBaseFrame.cpp
         BOINCGUIApp.cpp
@@ -3452,16 +3452,16 @@ David  21 Apr 2012
 
 Rom    23 Apr 2012
     - client: fix function prototypes for CUDA detection.
-    
+
     client/
         coproc_detect.cpp
 
 David  23 Apr 2012
-	- client: fix bug that caused a project's jobs to all be run EDF
-		if the project has the <dont_use_dcf> flag set.
+    - client: fix bug that caused a project's jobs to all be run EDF
+        if the project has the <dont_use_dcf> flag set.
 
-	client/
-		cpu_sched.cpp
+    client/
+        cpu_sched.cpp
 
 Rom    24 Apr 2012
     - WINSETUP: Fix long standing installer bug where we were attempting
@@ -3470,7 +3470,7 @@ Rom    24 Apr 2012
         created during service installs.  This was causing a setup failure
         on Windows 8. As far as I can tell it should have also been failing
         on Win7 and WinVista.
-        
+    
     win_build/installerv2/redist/Windows/src/boinccas/
         boinccas.rc
         CACreateBOINCGroups.cpp
@@ -3629,7 +3629,7 @@ Rom    27 Apr 2012
         window messages.  In effect, let Windows do the default thing.  This removes
         the hacks which kept the screensaver running with old versions of
         Microsoft's keyboard/mouse driver software installed.
-        
+    
     clientscr/
         screensaver_win.cpp, .h
 
@@ -3675,13 +3675,22 @@ David  30 Apr 2012
 
 Charlie 30 Apr 2012
     - lib: Fix compile break on Mac.
-    
+
     lib/
         str_replace.h
 
 Charlie 30 Apr 2012
     - Mac: Update XCode project with new source files.
-    
+
        mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  1 May 2012
+    - Manager: message tweak
+    - add new files to Win project
+
+    clientgui/
+        MainDocument.cpp
+    win_build/
+        boinc_cli.vcproj
