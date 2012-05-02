@@ -732,6 +732,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\client\project.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\client\result.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\client\rr_sim.cpp"
 				>
 			</File>
@@ -898,6 +906,14 @@
 			</File>
 			<File
 				RelativePath="..\lib\procinfo.h"
+				>
+			</File>
+			<File
+				RelativePath="..\client\project.h"
+				>
+			</File>
+			<File
+				RelativePath="..\client\result.h"
 				>
 			</File>
 			<File
