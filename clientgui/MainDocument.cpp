@@ -2513,6 +2513,15 @@ wxString result_description(RESULT* result, bool show_resources) {
         case EXIT_UNSTARTED_LATE:
             strBuffer += _("Aborted: not started by deadline");
             break;
+        case EXIT_DISK_LIMIT_EXCEEDED:
+            strBuffer += _("Aborted: disk limit exceeded");
+            break;
+        case EXIT_TIME_LIMIT_EXCEEDED:
+            strBuffer += _("Aborted: run time limit exceeded");
+            break;
+        case EXIT_MEM_LIMIT_EXCEEDED:
+            strBuffer += _("Aborted: memory limit exceeded");
+            break;
         default:
             strBuffer += _("Aborted");
         }
