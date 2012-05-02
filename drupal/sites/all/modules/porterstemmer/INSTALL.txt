@@ -1,0 +1,38 @@
+// $Id: INSTALL.txt,v 1.2.2.1 2009/10/21 23:39:54 jhodgdon Exp $
+
+For general information about this module, check the README.txt file.
+
+Installation
+------------
+
+1. Unzip the files, and upload them as a subdirectory of the
+sites/all/modules directory of your Drupal installation (or the
+location you normally use for contributed modules).
+
+2. Go to 'Administer > Site building > Modules', and enable the Porter
+Stemmer module.
+
+3. Go to 'Administer > Site configuration > Search settings' and click
+'Re-index site'.  You should do this step whenever you upgrade to a
+new version of the Porter Stemmer module, so that the search index is
+rebuilt with any changes to the stemming algorithm.
+
+4. Ensure that cron has run at least once, to build the search
+index. On larger sites, it may take several cron runs to complete the
+search index. You can check progress on the Search Settings page, and
+you can run cron manually by visiting 'Reports > Status report', and
+clicking on 'Run cron manually'.
+
+5. This module will use the PECL "stem" library for PHP, if it is installed
+on your server. If you have full administrative/root access to your server, and
+are comfortable with Apache/PHP configuration and system administration, you
+can install this library by following the instructions at:
+  http://us3.php.net/manual/en/install.pecl.php
+Once the library is installed, you will need to add a line to your php.ini
+file to enable the module:
+  extension=stem.so
+If the PECL "stem" library is not available, the module uses a PHP
+implementation of the stemming algorithm. The output is identical.
+More information about the PECL "stem" library:
+  http://pecl.php.net/package/stem
+  

@@ -1,0 +1,60 @@
+// $Id: CHANGELOG.txt,v 1.1.2.13 2010/08/30 16:40:44 jhodgdon Exp $
+
+Porter Stemmer x.x-x.x, xxxx-xx-xx
+----------------------------------
+
+Porter Stemmer 6.x-2.x, xxxx-xx-xx
+----------------------------------
+
+
+
+Porter Stemmer 6.x-2.6, 2010-08-30
+----------------------------------
+#850950 by jhodgdon, gpk: Fix problems in excerpt matching function.
+
+#699170 by jhodgdon: Clean up a few Coder warnings (no functionality change)
+
+by jhodgdon: Fix the hook_help() implementation (help was broken).
+
+
+Porter Stemmer 6.x-2.5, 2009-12-07
+----------------------------------
+#651850 by Archnemysis: Remove by-reference argument in hook_search_preprocess.
+
+#651850 by jhodgdon: Add functional test for module.
+
+
+Porter Stemmer 6.x-2.4, 2009-11-19
+----------------------------------
+#610716 by jhodgdon, alex_b: Use the PECL stemming library if available.
+
+
+Porter Stemmer 6.x-2.3, 2009-10-08
+----------------------------------
+#599058 by Dave Sherohman, jhodgdon: Fix critical issue causing Porter Stemmer
+to hang in infinite loop with PHP prior to 5.1.0
+
+
+Porter Stemmer 6.x-2.2, 2009-10-01
+----------------------------------
+#493270, #437084, #492892 by jhodgdon: Implement hook from Search by Page
+module to highlight stemmed keyword matches in search excerpts.
+
+
+Porter Stemmer 6.x-2.1, 2009-09-09
+----------------------------------
+#558842 by jhodgdon: Minimum word size is now taken from Search setting.
+
+
+Porter Stemmer 6.x-2.0, 2009-08-04
+----------------------------------
+#511930 #437094 #219335 by jhodgdon: Upgrade to the Porter 2 Stemmer 
+algorithm; minimum word size 3 characters. Also updated install instructions 
+and Readme, updated for coding standards, and added SimpleTest tests.
+
+
+Porter Stemmer 6.x-1.0, 2008-02-28
+----------------------------------
+#198226 by ceejayoz: D6 compatability and also merging d5 changes to HEAD
+
+by unconed: Initial 6.x port of Porter Stemmer
