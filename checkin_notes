@@ -2839,8 +2839,6 @@ David  21 Mar 2012
         async_file.cpp,h
         app_start.cpp
 
-<<<<<<< .working
-=======
 Rom    21 Mar 2012
     - VBOX: Introduce the use of VM snapshots as a form of checkpoint.
         - Perform snapshots at most once every ten minutes.
@@ -2860,7 +2858,6 @@ Rom    21 Mar 2012
         vbox.cpp, .h
         vboxwrapper.cpp
 
->>>>>>> .merge-right.r25635
 David  21 Mar 2012
     - client: change timeout for job quit/abort from 60 back to 15
         (time between sending app a quit/abort message
@@ -2882,8 +2879,6 @@ Rom    23 Mar 2012
         configure.ac
         version.h
 
-<<<<<<< .working
-=======
 Rom    21 Mar 2012
     - VBOX: Before attempting to take the snapshot for a VM, pause it first.
         This changes the snapshot type from a live snapshot to an online
@@ -2914,7 +2909,6 @@ Rom    22 Mar 2012
     samples/vboxwrapper/
         vbox.cpp
 
->>>>>>> .merge-right.r25635
 David  22 Mar 2012
     - client/server: add optional <dont_use_dcf/> to schedule reply.
         If set, client won't use DCF for this project.
@@ -3163,8 +3157,6 @@ David  9 Apr 2012
         coproc_detect.cpp
         scheduler_op.cpp
 
-<<<<<<< .working
-=======
 David  9 Apr 2012
     - API: fix C compile error
     - initial checkin of remote job stuff for app from ICT
@@ -3206,7 +3198,6 @@ Charlie 12 Apr 2012
     doc/
         versions.inc
 
->>>>>>> .merge-right.r25635
 David  13 Apr 2012
     - client: add PID to random stuff used to make host CPID,
         in case running multiple clients on same host
@@ -3265,15 +3256,12 @@ David  20 Apr 2012
         cc_config.cpp,h
 
 David  20 Apr 2012
-<<<<<<< .working
-=======
     - client: add <suspend_debug> log flag
 
     client/
         cs_prefs.cpp
 
 David  20 Apr 2012
->>>>>>> .merge-right.r25635
     - client/server: remove assert()s from message log code
 
     lib/
