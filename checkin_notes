@@ -3493,3 +3493,11 @@ David  1 May 2012
         MainDocument.cpp
     win_build/
         boinc_cli.vcproj
+
+Rom    2 May 2012
+    - Tag for 7.0.27 release, all platforms
+      boinc_core_release_7_0_27
+
+    /
+        configure.ac
+        version.h
