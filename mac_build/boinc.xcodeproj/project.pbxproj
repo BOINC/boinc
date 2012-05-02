@@ -61,6 +61,8 @@
 		DD1AFEB00A512D8700EE5B82 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DD1AFEE80A51301C00EE5B82 /* Installer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1AFEE70A51301C00EE5B82 /* Installer.cpp */; };
 		DD1B4C3114FEFA0000ABB13F /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD89165E0F3B1BC200DE5B1C /* OpenGL.framework */; };
+		DD1CB232154F5BF700BFF282 /* project.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1CB22E154F5BF700BFF282 /* project.cpp */; };
+		DD1CB233154F5BF700BFF282 /* result.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1CB230154F5BF700BFF282 /* result.cpp */; };
 		DD1E4B7B14DCA83F0093C711 /* async_file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1E4B7914DCA83F0093C711 /* async_file.cpp */; };
 		DD205A1A0BAF596E0008D473 /* ProjectListCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD205A180BAF596E0008D473 /* ProjectListCtrl.cpp */; };
 		DD21B49D0D750FC600AFFEE5 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDFE854A0B60CFD0009B43D9 /* AppKit.framework */; };
@@ -770,6 +772,10 @@
 		DD1AFEE70A51301C00EE5B82 /* Installer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Installer.cpp; path = ../mac_installer/Installer.cpp; sourceTree = SOURCE_ROOT; };
 		DD1C822F0AF372D900F709AC /* sg_CustomControls.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_CustomControls.cpp; path = ../clientgui/sg_CustomControls.cpp; sourceTree = SOURCE_ROOT; };
 		DD1C82300AF372D900F709AC /* sg_CustomControls.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_CustomControls.h; path = ../clientgui/sg_CustomControls.h; sourceTree = SOURCE_ROOT; };
+		DD1CB22E154F5BF700BFF282 /* project.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = project.cpp; sourceTree = "<group>"; };
+		DD1CB22F154F5BF700BFF282 /* project.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = project.h; sourceTree = "<group>"; };
+		DD1CB230154F5BF700BFF282 /* result.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = result.cpp; sourceTree = "<group>"; };
+		DD1CB231154F5BF700BFF282 /* result.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = result.h; sourceTree = "<group>"; };
 		DD1E4B7914DCA83F0093C711 /* async_file.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = async_file.cpp; sourceTree = "<group>"; };
 		DD1E4B7A14DCA83F0093C711 /* async_file.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = async_file.h; sourceTree = "<group>"; };
 		DD1F0ACD0822069E00AFC5FA /* MacGUI.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MacGUI.pch; path = ../clientgui/mac/MacGUI.pch; sourceTree = SOURCE_ROOT; };
@@ -1948,6 +1954,10 @@
 				F54B8FDB02AC0A0C01FB7237 /* net_stats.h */,
 				F51CCF1F02EFD37D018DB99A /* pers_file_xfer.cpp */,
 				F51CCF1E02EFD37D018DB99A /* pers_file_xfer.h */,
+				DD1CB22E154F5BF700BFF282 /* project.cpp */,
+				DD1CB22F154F5BF700BFF282 /* project.h */,
+				DD1CB230154F5BF700BFF282 /* result.cpp */,
+				DD1CB231154F5BF700BFF282 /* result.h */,
 				DD9AB0320EB7D5DE00AF1616 /* rr_sim.cpp */,
 				DD9AB0330EB7D5DE00AF1616 /* rr_sim.h */,
 				DD80C83D0CBAEB4F00F1121D /* sandbox.cpp */,
@@ -3379,6 +3389,8 @@
 				DD4AE04D13652BD700285859 /* cc_config.cpp in Sources */,
 				DDB4A91E1411840800032E5D /* proc_control.cpp in Sources */,
 				DD1E4B7B14DCA83F0093C711 /* async_file.cpp in Sources */,
+				DD1CB232154F5BF700BFF282 /* project.cpp in Sources */,
+				DD1CB233154F5BF700BFF282 /* result.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
