@@ -87,9 +87,6 @@ using std::isnan;
 
 static double rec_sum;
 
-#define DEADLINE_CUSHION    0
-    // try to finish jobs this much in advance of their deadline
-
 // used in schedule_cpus() to keep track of resources used
 // by jobs tentatively scheduled so far
 //
@@ -1919,40 +1916,6 @@ ACTIVE_TASK* CLIENT_STATE::get_task(RESULT* rp) {
     return atp;
 }
 
-// Results must be complete early enough to report before the report deadline.
-// Not all hosts are connected all of the time.
-//
-double RESULT::computation_deadline() {
-    return report_deadline - (
-        gstate.work_buf_min()
-            // Seconds that the host will not be connected to the Internet
-        + DEADLINE_CUSHION
-    );
-}
-
-static const char* result_state_name(int val) {
-    switch (val) {
-    case RESULT_NEW: return "NEW";
-    case RESULT_FILES_DOWNLOADING: return "FILES_DOWNLOADING";
-    case RESULT_FILES_DOWNLOADED: return "FILES_DOWNLOADED";
-    case RESULT_COMPUTE_ERROR: return "COMPUTE_ERROR";
-    case RESULT_FILES_UPLOADING: return "FILES_UPLOADING";
-    case RESULT_FILES_UPLOADED: return "FILES_UPLOADED";
-    case RESULT_ABORTED: return "ABORTED";
-    }
-    return "Unknown";
-}
-
-void RESULT::set_state(int val, const char* where) {
-    _state = val;
-    if (log_flags.task_debug) {
-        msg_printf(project, MSG_INFO,
-            "[task] result state=%s for %s from %s",
-            result_state_name(val), name, where
-        );
-    }
-}
-
 // called at startup (after get_host_info())
 // and when general prefs have been parsed.
 // NOTE: GSTATE.NCPUS MUST BE 1 OR MORE; WE DIVIDE BY IT IN A COUPLE OF PLACES
@@ -2027,4 +1990,3 @@ void PROJECT::update_duration_correction_factor(ACTIVE_TASK* atp) {
         );
     }
 }
-

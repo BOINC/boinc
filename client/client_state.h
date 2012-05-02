@@ -556,6 +556,9 @@ extern void print_suspend_tasks_message(int);
     // debt is adjusted at least this often,
     // since adjust_debts() is called from enforce_schedule()
 
+#define DEADLINE_CUSHION    0
+    // try to finish jobs this much in advance of their deadline
+
 #define MAX_EXIT_TIME   15
     // if an app takes this long to exit, kill it
 
