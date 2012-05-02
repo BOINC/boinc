@@ -35,11 +35,12 @@
 #include "str_replace.h"
 #include "util.h"
 
-#include "main.h"
 #include "client_msgs.h"
 #include "client_state.h"
-#include "sandbox.h"
 #include "cs_proxy.h"
+#include "main.h"
+#include "project.h"
+#include "sandbox.h"
 
 static void print_options(char* prog) {
     printf(

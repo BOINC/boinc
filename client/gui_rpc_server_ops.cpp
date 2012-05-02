@@ -50,20 +50,22 @@
 #endif
 #endif
 
+#include "error_numbers.h"
+#include "filesys.h"
+#include "network.h"
+#include "parse.h"
 #include "str_util.h"
 #include "url.h"
-#include "client_state.h"
 #include "util.h"
-#include "error_numbers.h"
-#include "parse.h"
-#include "network.h"
-#include "filesys.h"
 
-#include "file_names.h"
+#include "client_state.h"
 #include "client_msgs.h"
 #include "client_state.h"
 #include "cs_proxy.h"
 #include "cs_notice.h"
+#include "file_names.h"
+#include "project.h"
+#include "result.h"
 
 using std::string;
 using std::vector;

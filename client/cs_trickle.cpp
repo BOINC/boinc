@@ -33,9 +33,11 @@
 #include "parse.h"
 #include "util.h"
 #include "str_util.h"
-#include "sandbox.h"
-#include "client_state.h"
+
 #include "client_msgs.h"
+#include "client_state.h"
+#include "project.h"
+#include "sandbox.h"
 
 using std::string;
 

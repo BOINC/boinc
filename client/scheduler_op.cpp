@@ -27,12 +27,12 @@
 #include <ctime>
 #endif
 
+#include "error_numbers.h"
+#include "filesys.h"
+#include "parse.h"
 #include "str_util.h"
 #include "str_replace.h"
 #include "util.h"
-#include "parse.h"
-#include "error_numbers.h"
-#include "filesys.h"
 
 #include "client_state.h"
 #include "client_types.h"
@@ -40,6 +40,8 @@
 #include "file_names.h"
 #include "log_flags.h"
 #include "main.h"
+#include "project.h"
+#include "result.h"
 #include "scheduler_op.h"
 
 using std::vector;

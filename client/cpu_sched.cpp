@@ -70,11 +70,13 @@
 #include "str_util.h"
 #include "util.h"
 
-#include "client_msgs.h"
-#include "log_flags.h"
 #include "app.h"
-
+#include "client_msgs.h"
 #include "client_state.h"
+#include "log_flags.h"
+#include "project.h"
+#include "result.h"
+
 
 using std::vector;
 using std::list;

@@ -56,6 +56,8 @@
 #include "hostinfo_network.h"
 #include "http_curl.h"
 #include "network.h"
+#include "project.h"
+#include "result.h"
 #include "sandbox.h"
 #include "shmem.h"
 

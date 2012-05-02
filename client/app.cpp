@@ -66,6 +66,7 @@
 #include "client_msgs.h"
 #include "client_state.h"
 #include "procinfo.h"
+#include "result.h"
 #include "sandbox.h"
 
 #include "app.h"

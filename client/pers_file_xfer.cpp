@@ -32,11 +32,12 @@
 #include "str_util.h"
 #include "filesys.h"
 
-#include "log_flags.h"
-#include "file_names.h"
 #include "client_state.h"
 #include "client_types.h"
 #include "client_msgs.h"
+#include "file_names.h"
+#include "log_flags.h"
+#include "project.h"
 
 using std::vector;
 

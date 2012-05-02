@@ -33,15 +33,17 @@
 #include "shmem.h"
 #endif
 
-#include "filesys.h"
 #include "error_numbers.h"
+#include "filesys.h"
 #include "str_util.h"
 #include "str_replace.h"
 #include "url.h"
 #include "util.h"
+
 #include "client_msgs.h"
-#include "sandbox.h"
 #include "client_state.h"
+#include "project.h"
+#include "sandbox.h"
 
 #include "file_names.h"
 

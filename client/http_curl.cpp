@@ -36,22 +36,22 @@
 #endif
 #endif
 
+#include "base64.h"
 #include "error_numbers.h"
 #include "filesys.h"
-#include "client_msgs.h"
-#include "log_flags.h"
 #include "str_util.h"
 #include "str_replace.h"
 #include "url.h"
 #include "util.h"
 
-#include "network.h"
-#include "file_names.h"
 #include "client_msgs.h"
-#include "base64.h"
 #include "client_state.h"
 #include "cs_proxy.h"
+#include "file_names.h"
+#include "log_flags.h"
+#include "network.h"
 #include "net_stats.h"
+#include "project.h"
 
 #include "http_curl.h"
 

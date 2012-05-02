@@ -29,6 +29,7 @@
 
 #include "client_msgs.h"
 #include "client_state.h"
+#include "result.h"
 
 void CLIENT_STATE::check_project_pointer(PROJECT* p) {
     unsigned int i;
