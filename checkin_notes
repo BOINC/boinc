@@ -3501,3 +3501,10 @@ Rom    2 May 2012
     /
         configure.ac
         version.h
+
+Charlie 3 May 2012
+    - Mac installer: changes for OS 10.8 compatibility.
+
+    mac_installer/
+        PostInstall.cpp
+        Uninstall.cpp

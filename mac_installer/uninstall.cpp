@@ -17,7 +17,7 @@
 
 /*  uninstall.cpp */
 
-#define TESTING 0    /* for debugging */
+#define TESTING 1    /* for debugging */
     
 #include <Carbon/Carbon.h>
 #include <Security/Authorization.h>
@@ -47,8 +47,9 @@ static OSStatus DoPrivilegedExec(char *brandName, const char *pathToTool, char *
 static void DeleteLoginItemOSAScript(char* user, char* appName);
 static void DeleteLoginItemAPI(void);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
+static OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN);
 static pid_t FindProcessPID(char* name, pid_t thePID);
-static OSStatus QuitBOINCManager(OSType signature);
+static OSStatus QuitOneProcess(OSType signature);
 //static void SleepTicks(UInt32 ticksToSleep);
 static Boolean ShowMessage(Boolean allowCancel, const char *format, ...);
 
@@ -147,7 +148,7 @@ static OSStatus DoUninstall(void) {
     ShowMessage(false, "Permission OK after relaunch");
 #endif
 
-    QuitBOINCManager('BNC!'); // Quit any old instance of BOINC manager
+    QuitOneProcess('BNC!'); // Quit any old instance of BOINC manager
     sleep(2);
 
     // Core Client may still be running if it was started without Manager
@@ -155,6 +156,7 @@ static OSStatus DoUninstall(void) {
     if (coreClientPID)
         kill(coreClientPID, SIGTERM);   // boinc catches SIGTERM & exits gracefully
 
+#if 0
     // Phase 1: try to find all our applications using LaunchServices
     for (i=0; i<100; i++) {
         strlcpy(myRmCommand, "rm -rf \"", 10);
@@ -196,6 +198,7 @@ static OSStatus DoUninstall(void) {
             system(myRmCommand);
         }
     }
+#endif
 
     // Phase 2: step through default Applications directory searching for our applications
     err = DeleteOurBundlesFromDirectory(CFSTR("edu.berkeley.boinc"), "app", "/Applications");
@@ -370,6 +373,11 @@ static OSStatus DeleteOurBundlesFromDirectory(CFStringRef bundleID, char *extens
 }
 
 
+enum {
+	kSystemEventsCreator = 'sevs'
+};
+
+
 // Find all visible users and delete their login item to launch BOINC Manager.
 // Remove each user from groups boinc_master and boinc_project.
 // For now, don't delete user's BOINC Preferences file.
@@ -385,6 +393,10 @@ static OSStatus CleanupAllVisibleUsers(void)
     int                 flag;
     char                buf[256];
     char                s[1024];
+    char                cmd[2048];
+    char                systemEventsPath[1024];
+    ProcessSerialNumber SystemEventsPSN;
+	FSRef               appRef;
     FILE                *f;
     char                *p;
     int                 id;
@@ -460,7 +472,7 @@ static OSStatus CleanupAllVisibleUsers(void)
         // Skip all non-human (non-login) users
         if (flag == 3) { // if (Home Directory == "/var/empty") && (UserShell == "/usr/bin/false")
 #if TESTING
-            ShowMessage(false, "Flag=3: skipping user ID %d: %s\n", human_user_IDs[userIndex-1], buf);
+            ShowMessage(false, "Flag=3: skipping user ID %d: %s", human_user_IDs[userIndex-1], buf);
 #endif
             continue;
         }
@@ -470,7 +482,7 @@ static OSStatus CleanupAllVisibleUsers(void)
             continue;
 
 #if TESTING
-        ShowMessage(false, "Deleting login item for user %s: Posix name=%s, Full name=%s, UID=%d\n", 
+        ShowMessage(false, "Deleting login item for user %s: Posix name=%s, Full name=%s, UID=%d", 
                 human_user_name, pw->pw_name, pw->pw_gecos, pw->pw_uid);
 #endif
 
@@ -488,17 +500,60 @@ static OSStatus CleanupAllVisibleUsers(void)
         if (OSVersion >= 0x1060) {
             setuid(0);
         }
-        seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
-
         // Delete our login item(s) for this user
-        if (OSVersion >= 0x1070) {
+        if (OSVersion < 0x1070) {
+            seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
+            DeleteLoginItemAPI();
+            seteuid(saved_euid);    // Set effective uid back to privileged user
+        } else {
+            // We must leave effective user ID as privileged user (root) 
+            // because the target user may not be in the sudoers file.
+
+            // We must launch the System Events application for the target user
+
+            // Find SystemEvents process.  If found, quit it in case 
+            // it is running under a different user.
+            err = FindProcess ('APPL', kSystemEventsCreator, &SystemEventsPSN);
+            if (err == noErr) {
+#if TESTING
+                ShowMessage(false, "Telling System Events to quit (before DeleteLoginItemOSAScript)");
+#endif
+                err = QuitOneProcess(kSystemEventsCreator);
+#if TESTING
+                if (err != noErr) {
+                    ShowMessage(false, "QuitOneProcess(kSystemEventsCreator) returned error %d ", (int) err);
+                }
+#endif
+            }
+            
+            err = LSFindApplicationForInfo(kSystemEventsCreator, NULL, NULL, &appRef, NULL);
+            if (err != noErr) {
+#if TESTING
+                ShowMessage(false, "LSFindApplicationForInfo(kSystemEventsCreator) returned error %d ", (int) err);
+#endif
+            } else {
+#if TESTING
+                FSRefMakePath(&appRef, (UInt8*)systemEventsPath, sizeof(systemEventsPath));
+                ShowMessage(false, "SystemEvents is at %s", systemEventsPath);
+                ShowMessage(false, "Lunching SystemEvents for user %s", human_user_name);
+#endif
+
+                sprintf(cmd, "sudo -u %s \"%s/Contents/MacOS/System Events\" &", human_user_name, systemEventsPath);
+                err = system(cmd);
+#if TESTING
+                if (err) {
+                    ShowMessage(false, "[2] Command: %s returned error %d", cmd, (int) err);
+                }
+#endif
+            }
+
             DeleteLoginItemOSAScript(human_user_name, "BOINCManager");
             DeleteLoginItemOSAScript(human_user_name, "GridRepublic Desktop");
             DeleteLoginItemOSAScript(human_user_name, "Progress Thru Processors Desktop");
             DeleteLoginItemOSAScript(human_user_name, "Charity Engine Desktop");
-        } else {
-            DeleteLoginItemAPI();
         }
+        
+        // We don't delete the user's BOINC Manager preferences
 //        sprintf(s, "rm -f \"/Users/%s/Library/Preferences/BOINC Manager Preferences\"", human_user_name);
 //        system (s);
         
@@ -506,8 +561,11 @@ static OSStatus CleanupAllVisibleUsers(void)
         //  if it was BOINC, GridRepublic, Progress Thru Processors or Charity Engine.
         changeSaver = false;
         if (OSVersion < 0x1060) {
+            seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
             f = popen("defaults -currentHost read com.apple.screensaver moduleName", "r");
         } else {
+            // We must leave effective user ID as privileged user (root) 
+            // because the target user may not be in the sudoers file.
             sprintf(s, "sudo -u %s defaults -currentHost read com.apple.screensaver moduleDict -dict", 
                     human_user_name); 
             f = popen(s, "r");
@@ -545,13 +603,28 @@ static OSStatus CleanupAllVisibleUsers(void)
                 system (s);
             }
         }
+
+        if (OSVersion < 0x1060) {
+            seteuid(saved_euid);    // Set effective uid back to privileged user
+        }
         
-        seteuid(saved_euid);                         // Set effective uid back to privileged user
 #if TESTING
 //    ShowMessage(false, "After seteuid(%d) for user %s, euid = %d, saved_uid = %d", pw->pw_uid, human_user_name, geteuid(), saved_uid);
 #endif
     }
     
+    if (OSVersion >= 0x1070) {
+#if TESTING
+        ShowMessage(false, "Telling System Events to quit (at end)");
+#endif
+        err = QuitOneProcess(kSystemEventsCreator);
+#if TESTING
+        if (err != noErr) {
+            ShowMessage(false, "QuitOneProcess(kSystemEventsCreator) returned error %d ", (int) err);
+        }
+#endif
+    }
+
     return noErr;
 }
 
@@ -664,9 +737,11 @@ static void DeleteLoginItemOSAScript(char* user, char* appName)
 
     sprintf(cmd, "sudo -u %s osascript -e 'tell application \"System Events\"' -e 'delete (every login item whose name contains \"%s\")' -e 'end tell'", user, appName);
     err = system(cmd);
+#if TESTING
     if (err) {
-        printf("[2] Delete login item containing %s for user %s returned error %d\n", appName, user, err);
+        ShowMessage(false, "Command: %s returned error %d", cmd, err);
     }
+#endif
 }
     
     
@@ -723,6 +798,37 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
 }
 
 
+// ---------------------------------------------------------------------------
+/* This runs through the process list looking for the indicated application */
+/*  Searches for process by file type and signature (creator code)          */
+// ---------------------------------------------------------------------------
+static OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN)
+{
+    ProcessInfoRec tempInfo;
+    FSSpec procSpec;
+    Str31 processName;
+    OSErr myErr = noErr;
+    /* null out the PSN so we're starting at the beginning of the list */
+    processSN->lowLongOfPSN = kNoProcess;
+    processSN->highLongOfPSN = kNoProcess;
+    /* initialize the process information record */
+    tempInfo.processInfoLength = sizeof(ProcessInfoRec);
+    tempInfo.processName = processName;
+    tempInfo.processAppSpec = &procSpec;
+    /* loop through all the processes until we */
+    /* 1) find the process we want */
+    /* 2) error out because of some reason (usually, no more processes) */
+    do {
+        myErr = GetNextProcess(processSN);
+        if (myErr == noErr)
+            GetProcessInformation(processSN, &tempInfo);
+    }
+            while ((tempInfo.processSignature != creatorToFind || tempInfo.processType != typeToFind) &&
+                   myErr == noErr);
+    return(myErr);
+}
+
+
 static pid_t FindProcessPID(char* name, pid_t thePID)
 {
     FILE *f;
@@ -759,7 +865,7 @@ static pid_t FindProcessPID(char* name, pid_t thePID)
 }
 
 
-static OSStatus QuitBOINCManager(OSType signature) {
+static OSStatus QuitOneProcess(OSType signature) {
     bool			done = false;
     ProcessSerialNumber         thisPSN;
     ProcessInfoRec		thisPIR;
