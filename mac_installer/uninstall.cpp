@@ -36,10 +36,11 @@
 using std::vector;
 using std::string;
 
+#define SEARCHFORALLBOINCMANAGERS 0
+
 #include "LoginItemAPI.h"
 
 static OSStatus DoUninstall(void);
-static OSStatus GetpathToBOINCManagerApp(char* path, int maxLen, FSRef *theFSRef);
 static OSStatus CleanupAllVisibleUsers(void);
 static OSStatus DeleteOurBundlesFromDirectory(CFStringRef bundleID, char *extension, char *dirPath);
 static OSStatus GetAuthorization(AuthorizationRef * authRef, const char *pathToTool, char *brandName);
@@ -52,6 +53,9 @@ static pid_t FindProcessPID(char* name, pid_t thePID);
 static OSStatus QuitOneProcess(OSType signature);
 //static void SleepTicks(UInt32 ticksToSleep);
 static Boolean ShowMessage(Boolean allowCancel, const char *format, ...);
+#if SEARCHFORALLBOINCMANAGERS
+static OSStatus GetpathToBOINCManagerApp(char* path, int maxLen, FSRef *theFSRef);
+#endif
 
 
 int main(int argc, char *argv[])
@@ -136,13 +140,16 @@ int main(int argc, char *argv[])
 
 static OSStatus DoUninstall(void) {
     pid_t                   coreClientPID = 0;
-    char                    myRmCommand[MAXPATHLEN+10], plistRmCommand[MAXPATHLEN+10], *p;
-    char                    notBoot[] = "/Volumes/";
     char                    cmd[1024];
-    FSRef                   theFSRef;
-    int                     pathOffset, i;
+    char                    *p;
     passwd                  *pw;
     OSStatus                err = noErr;
+#if SEARCHFORALLBOINCMANAGERS
+    char                    myRmCommand[MAXPATHLEN+10], plistRmCommand[MAXPATHLEN+10];
+    char                    notBoot[] = "/Volumes/";
+    FSRef                   theFSRef;
+    int                     pathOffset, i;
+#endif
 
 #if TESTING
     ShowMessage(false, "Permission OK after relaunch");
@@ -156,7 +163,7 @@ static OSStatus DoUninstall(void) {
     if (coreClientPID)
         kill(coreClientPID, SIGTERM);   // boinc catches SIGTERM & exits gracefully
 
-#if 0
+#if SEARCHFORALLBOINCMANAGERS
     // Phase 1: try to find all our applications using LaunchServices
     for (i=0; i<100; i++) {
         strlcpy(myRmCommand, "rm -rf \"", 10);
@@ -255,30 +262,6 @@ static OSStatus DoUninstall(void) {
 
 
     return 0;
-}
-
-
-static OSStatus GetpathToBOINCManagerApp(char* path, int maxLen, FSRef *theFSRef)
-{
-    CFStringRef             bundleID = CFSTR("edu.berkeley.boinc");
-    OSType                  creator = 'BNC!';
-    OSStatus                status = noErr;
-
-        status = LSFindApplicationForInfo(creator, bundleID, NULL, theFSRef, NULL);
-        if (status) {
-#if TESTING
-            ShowMessage(false, "LSFindApplicationForInfo returned error %d", status);
-#endif 
-            return status;
-        }
-    
-        status = FSRefMakePath(theFSRef, (unsigned char *)path, maxLen);
-#if TESTING
-        if (status)
-            ShowMessage(false, "GetpathToBOINCManagerApp FSRefMakePath returned error %d, %s", status, path);
-#endif
-    
-    return status;
 }
 
 
@@ -974,3 +957,29 @@ static Boolean ShowMessage(Boolean allowCancel, const char *format, ...) {
     
     return (itemHit == kAlertStdAlertOKButton);
 }
+
+
+#if SEARCHFORALLBOINCMANAGERS
+static OSStatus GetpathToBOINCManagerApp(char* path, int maxLen, FSRef *theFSRef)
+{
+    CFStringRef             bundleID = CFSTR("edu.berkeley.boinc");
+    OSType                  creator = 'BNC!';
+    OSStatus                status = noErr;
+
+        status = LSFindApplicationForInfo(creator, bundleID, NULL, theFSRef, NULL);
+        if (status) {
+#if TESTING
+            ShowMessage(false, "LSFindApplicationForInfo returned error %d", status);
+#endif 
+            return status;
+        }
+    
+        status = FSRefMakePath(theFSRef, (unsigned char *)path, maxLen);
+#if TESTING
+        if (status)
+            ShowMessage(false, "GetpathToBOINCManagerApp FSRefMakePath returned error %d, %s", status, path);
+#endif
+    
+    return status;
+}
+#endif  // SEARCHFORALLBOINCMANAGERS
