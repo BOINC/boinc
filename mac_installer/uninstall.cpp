@@ -17,7 +17,7 @@
 
 /*  uninstall.cpp */
 
-#define TESTING 1    /* for debugging */
+#define TESTING 0    /* for debugging */
     
 #include <Carbon/Carbon.h>
 #include <Security/Authorization.h>
