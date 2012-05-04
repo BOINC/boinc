@@ -21,6 +21,24 @@ if (!function_exists('user_load_by_mail')) {
 
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * General user functions
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+ * Determine the first unique name from a given base
+ */
+function find_unique_name($requested_name) {
+  $same_name_tally = 1;
+  $unique_name = $requested_name;
+  while (db_result(db_query("SELECT uid FROM users WHERE name = '{$unique_name}' LIMIT 1"))) {
+    $same_name_tally++;
+    $unique_name = "{$requested_name} {$same_name_tally}";
+  }
+  return $unique_name;
+}
+
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * General BOINC functions
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
 

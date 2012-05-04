@@ -389,7 +389,36 @@ function communityprefs_page($action = null) {
 
 function communityprefs_form(&$form_state) {
   global $user;
-  $form = pm_email_notify_user('form', $edit, $user, 'account');
+  $form = array();
+  
+  // Signature (pulled from user_edit_form):
+  if (variable_get('user_signatures', 0) && module_exists('comment')) {
+    $form['signature_settings'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Signature settings'),
+      '#weight' => 1,
+    );
+    $form['signature_settings']['signature'] = array(
+      '#type' => 'textarea',
+      '#title' => t('Signature'),
+      '#default_value' => $user->signature,
+      '#description' => t('Your signature will be publicly displayed at the end of your comments.'),
+    );
+
+    // Prevent a "validation error" message when the user attempts to save with a default value they
+    // do not have access to.
+    if (!filter_access($user->signature_format) && empty($_POST)) {
+      drupal_set_message(t("The signature input format has been set to a format you don't have access to. It will be changed to a format you have access to when you save this page."));
+      $edit['signature_format'] = FILTER_FORMAT_DEFAULT;
+    }
+
+    $form['signature_settings']['signature_format'] = filter_form($user->signature_format, NULL, array('signature_format'));
+  }
+  
+  // Pull in private message notification options
+  $form += pm_email_notify_user('form', $edit, $user, 'account');
+  
+  // Pull in friend request notification options
   $form += flag_friend_user('form', $edit, $user, 'account');
   $form['form control tabs prefix'] = array(
     '#value' => '<ul class="tab-list">'
@@ -412,7 +441,11 @@ function communityprefs_form_submit($form, &$form_state) {
   global $user;
   $edit= $form_state['values'];
   pm_email_notify_user('submit', $edit, $user);
-  user_save($user, array('friend_notification' => $edit['friend_notification']));
+  user_save($user, array(
+    'signature' => $edit['signature'],
+    'signature_format' => $edit['signature_format'],
+    'friend_notification' => $edit['friend_notification']
+  ));
 }
 
 /**

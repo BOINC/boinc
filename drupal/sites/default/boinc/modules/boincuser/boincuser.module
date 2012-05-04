@@ -95,7 +95,8 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
         if (!boincuser_register_validate($edit)) {
           // BOINC user validation failed for registration; set an error accordingly
           form_set_error('mail', t('An account already exists for @email. Log in or request password assistance to access your @project account.', array('@email' => $edit['mail'], '@project' => PROJECT)));
-        } else {
+        }
+        else {
           // Save profile information for use during Insert
           $_SESSION['profileInfo'] = array(
             'country' => $edit['field_country'][0]['value'],
@@ -104,23 +105,14 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
             'background' => $edit['field_background'][0]['value'],
             'opinions' => $edit['field_opinions'][0]['value']
           );
-          // With BOINC validation passed, add a suffix to the the Drupal user
-          // name, since it must be unique
-          $timestamp = dechex(time());
-          $edit['name'] = "{$edit['boincuser_name']}.{$timestamp}";
+          // With BOINC validation passed, make sure name is unique
+          $edit['name'] = find_unique_name($edit['boincuser_name']);
         }
         break;
         
       case 'user_account':
-        $error = null;
-        // Data being checked before updating user account info
-        if (!boincuser_account_validate($edit, $account, $error)) {
-          // BOINC user validation failed; set an error accordingly
-          if ($error) {
-            if ($error == 101) form_set_error('mail', t('A BOINC account already exists for @email.', array('@email' => $edit['mail'])));
-            elseif ($error == 102) form_set_error('pass[pass1]', t('Password is required when changing E-mail address.'));
-          }
-        }
+        // Validate data before updating user account info
+        boincuser_account_validate($edit, $account);
         break;
       
       default:
@@ -181,10 +173,12 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
       if ($edit['update_source'] == 'user_account') {
         // Ensure that BOINC data is altered
         $boinc_user = lookup_user_id($account->boincuser_id);
-        if ($edit['pass']) {
-          // Update user account information
-          $passwd_hash = md5($edit['pass'].$edit['mail']);
+        if ($edit['pass'] OR $edit['mail']) {
+          // Set password hash appropriately
+          $passwd = ($edit['pass']) ? $edit['pass'] : $edit['current_pass'];
+          $passwd_hash = md5($passwd.$edit['mail']);
           $email_addr = $edit['mail'];
+          // Update user account information
           $result = $boinc_user->update(
               "email_addr='{$email_addr}', passwd_hash='{$passwd_hash}'"
           );
@@ -233,7 +227,7 @@ function boincuser_node_update($node) {
     require_boinc('db');
     $boinc_user = lookup_user_email_addr($user->mail);
     $db_result = $boinc_user->update("
-      country = '{$node->field_country[0]['value']}',en
+      country = '{$node->field_country[0]['value']}',
       postal_code = '{$node->field_zip[0]['value']}',
       url = '{$node->field_url[0]['value']}'"
     );
@@ -325,19 +319,43 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
   // User profile form
   case 'user_profile_form':
     global $user;
-    // Initialize the name field with BOINC user name
+    
+    // Add the BOINC user name (non-unique, user editable)
     $account = user_load($user->uid);
     if (!$edit['boincuser_name']) $edit['boincuser_name'] = $account->boincuser_name;
-    array_unshift($form['account'], array(
-      'boincuser_name' => array(
-        '#type' => 'textfield',
-        '#title' => t('Name'),
-        '#default_value' => $edit['boincuser_name'],
-        '#maxlength' => USERNAME_MAX_LENGTH,
-        '#required' => TRUE,
-        '#description' => t('Spaces are allowed; punctuation is not allowed except for periods, hyphens, and underscores.')
-      )
-    ));
+    $form['account']['boincuser_name'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Name'),
+      '#default_value' => $edit['boincuser_name'],
+      '#maxlength' => USERNAME_MAX_LENGTH,
+      '#required' => TRUE,
+      '#description' => t('Spaces are allowed; punctuation is not allowed except for periods, hyphens, and underscores.')
+    );
+    
+    // Add a password authenticator, required to change email or pw
+    $form['account']['current_pass'] = array(
+      '#type' => 'password',
+      '#title' => t('Current password'),
+      '#description' => t('Enter your current password if changing your email
+        address or password.'),
+      '#size' => 25
+    );
+    
+    $form['account']['boincuser_name']['#weight'] = 0;
+    $form['account']['mail']['#weight'] = 5;
+    $form['account']['current_pass']['#weight'] = 10;
+    $form['account']['pass']['#weight'] = 15;
+    
+    // Remove redundant / unnecessary form elements
+    //echo '<pre>' . print_r($form, true) . '</pre>';
+    unset($form['theme_select']);
+    
+    // These are on the Community preferences form (boincwork module)
+    unset($form['signature_settings']);
+    unset($form['enable_pm_mail']);
+    unset($form['friend_notification']);
+    
+    // Internal fields to indicate where these user changes are taking place
     array_unshift($form, array(
       'validation_source' => array(
         '#type' => 'hidden',
@@ -348,6 +366,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
         '#value' => 'user_account'
       )
     ));
+    
     break;
   
   // Registration form

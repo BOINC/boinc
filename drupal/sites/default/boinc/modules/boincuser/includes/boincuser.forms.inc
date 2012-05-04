@@ -121,12 +121,7 @@ function boincuser_create_drupal_user($boinc_user) {
   $module = 'boincuser';
   
   // Make sure name is unique
-  $unique_name = $boinc_user->name;
-  $same_name_tally = 1;
-  while (db_result(db_query("SELECT uid FROM users WHERE name = '{$unique_name}' LIMIT 1"))) {
-    $same_name_tally++;
-    $unique_name = "{$boinc_user->name} {$same_name_tally}";
-  }
+  $unique_name = find_unique_name($boinc_user->name);
   
   // Email is limited to 64 characters...
   $boinc_email = substr($boinc_user->email_addr, 0, 64);
@@ -229,20 +224,31 @@ function boincuser_account_cross_reference($uid, $boinc_id) {
 /**
  * User account update validation handler.
  */
-function boincuser_account_validate($form_values, $account, &$error) {            
-  // Include BOINC user library
+function boincuser_account_validate($edit, $account) {            
+  // Include BOINC user library, load BOINC account data
   require_boinc('user');
-  if ($form_values['mail'] AND $form_values['mail'] != $account->mail) {
+  $boinc_user = lookup_user_email_addr($account->mail);
+  $changing_email = ($edit['mail'] AND $edit['mail'] != $account->mail) ? true : false;
+  $changing_pass = ($edit['pass']['pass1']) ? true : false;
+  // 
+  if ($changing_email) {
     // E-mail address is set to change; check for an existing BOINC user
-    $boinc_user = lookup_user_email_addr($form_values['mail']);
-    if ($boinc_user) $error = 101;
-    else {
-      // Ensure that a password was entered
-      if (!$form_values['pass']['pass1']) $error = 102;
+    $boinc_user_already_exists = lookup_user_email_addr($edit['mail']);
+    if ($boinc_user_already_exists) {
+      form_set_error('mail', t('A BOINC account already exists for @email.', array('@email' => $edit['mail'])));
     }
   }
-  if ($error) return false;
-  return true;
+  
+  if ($changing_email OR $changing_pass) {
+    // If changing email or password, require current password
+    $given_hash = md5($edit['current_pass'] . $account->mail);
+    if (!$edit['current_pass']) {
+      form_set_error('current_pass', t('Authentication is required when changing E-mail address or setting new password.'));
+    }
+    elseif ($given_hash != $boinc_user->passwd_hash) {
+      form_set_error('current_pass', t('Password entered is not valid. Please verify that it is correct.'));
+    }
+  }
   
   // Expansion required to allow account key in place of passwd...?
   
@@ -257,23 +263,23 @@ function boincuser_account_validate($form_values, $account, &$error) {
  * Password request validation handler.
  */
 function boincuser_request_pass_validate($form, &$form_state) {
-  $form_values = $form_state['values'];
+  $edit = $form_state['values'];
   // The Drupal submit function expects a "name" field, even though
   // it contains an email address and we will not allow a user name
-  if (!$form_values['name']) form_set_error('name', t('Please enter your email address'));
-  elseif (!valid_email_address($form_values['name'])) form_set_error('name', t('@email is not a well formed email address, please verify', array('@email' => $form_values['name'])));
+  if (!$edit['name']) form_set_error('name', t('Please enter your email address'));
+  elseif (!valid_email_address($edit['name'])) form_set_error('name', t('@email is not a well formed email address, please verify', array('@email' => $edit['name'])));
   else {
     // First look for an existing Drupal account
-    if ($account = user_load_by_mail($form_values['name'])) return;
+    if ($account = user_load_by_mail($edit['name'])) return;
     // Otherwise, check the BOINC db for this email address
     require_boinc('db');
-    $boinc_user = lookup_user_email_addr($form_values['name']);
+    $boinc_user = lookup_user_email_addr($edit['name']);
     if ($boinc_user) {
       // If the user is in BOINC but not Drupal, bring them over...
       boincuser_register_make_drupal_user($boinc_user);
     } else {
       // If there is no existing BOINC user either, show an error
-      form_set_error('name', t('No account exists for @email -- select &quot;Create new account&quot; to register', array('@email' => $form_values['name'])));
+      form_set_error('name', t('No account exists for @email -- select &quot;Create new account&quot; to register', array('@email' => $edit['name'])));
     }
   }
 }
