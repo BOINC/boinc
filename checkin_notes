@@ -3708,3 +3708,11 @@ Charlie 6 May 2012
     mac_installer/
         PostInstall.cpp
         Uninstall.cpp
+
+David  6 May 2012
+    - client: fix bug where coproc name could be set incorrectly when:
+        a) there are multiple GPU vendors
+        b) one of them is detected via OpenCL but not "native" (CUDA/CAL)
+
+    client/
+        coproc_detect.cpp
