@@ -106,6 +106,7 @@ int TestRPCBind(void);
 static OSStatus ResynchSystem(void);
 OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN);
 pid_t FindProcessPID(char* name, pid_t thePID);
+static void SleepTicks(UInt32 ticksToSleep);
 int FindSkinName(char *name, size_t len);
 static OSErr QuitOneProcess(OSType signature);
 static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
@@ -826,15 +827,22 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
 
     // Find SystemEvents process.  If found, quit it in case 
     // it is running under a different user.
-    err = FindProcess ('APPL', kSystemEventsCreator, &SystemEventsPSN);
-    if (err == noErr) {
-        fprintf(stdout, "Telling System Events to quit (at start of SetLoginItemOSAScript)\n");
+    fprintf(stdout, "Telling System Events to quit (at start of SetLoginItemOSAScript)\n");
+    fflush(stdout);
+    err = QuitOneProcess(kSystemEventsCreator);
+    if (err != noErr) {
+        fprintf(stdout, "QuitOneProcess(kSystemEventsCreator) returned error %d \n", (int) err);
         fflush(stdout);
-        err = QuitOneProcess(kSystemEventsCreator);
-        if (err != noErr) {
-            fprintf(stdout, "QuitOneProcess(kSystemEventsCreator) returned error %d \n", (int) err);
-            fflush(stdout);
-        }
+    }
+    // Wait for the process to be gone
+    for (i=0; i<50; ++i) {      // 5 seconds max delay
+        SleepTicks(6);  // 6 Ticks == 1/10 second
+        err = FindProcess ('APPL', kSystemEventsCreator, &SystemEventsPSN);
+        if (err != noErr) break;
+    }
+    if (i > 50) {
+        fprintf(stdout, "Failed to make System Events quit\n");
+        fflush(stdout);
     }
     
     err = LSFindApplicationForInfo(kSystemEventsCreator, NULL, NULL, &appRef, NULL);
@@ -852,6 +860,16 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
         if (err) {
             fprintf(stdout, "[2] Command: %s returned error %d\n", cmd, (int) err);
         }
+    }
+    // Wait for the process to start
+    for (i=0; i<50; ++i) {      // 5 seconds max delay
+        SleepTicks(6);  // 6 Ticks == 1/10 second
+        err = FindProcess ('APPL', kSystemEventsCreator, &SystemEventsPSN);
+        if (err == noErr) break;
+    }
+    if (i > 50) {
+        fprintf(stdout, "Failed to launch System Events for user %s\n", userName);
+        fflush(stdout);
     }
     
     for (i=0; i<NUMBRANDS; i++) {
@@ -1631,6 +1649,21 @@ OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberP
             while ((tempInfo.processSignature != creatorToFind || tempInfo.processType != typeToFind) &&
                    myErr == noErr);
     return(myErr);
+}
+
+
+// Uses usleep to sleep for full duration even if a signal is received
+static void SleepTicks(UInt32 ticksToSleep) {
+    UInt32 endSleep, timeNow, ticksRemaining;
+
+    timeNow = TickCount();
+    ticksRemaining = ticksToSleep;
+    endSleep = timeNow + ticksToSleep;
+    while ( (timeNow < endSleep) && (ticksRemaining <= ticksToSleep) ) {
+        usleep(16667 * ticksRemaining);
+        timeNow = TickCount();
+        ticksRemaining = endSleep - timeNow;
+    } 
 }
 
 

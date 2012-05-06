@@ -51,7 +51,7 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
 static OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN);
 static pid_t FindProcessPID(char* name, pid_t thePID);
 static OSStatus QuitOneProcess(OSType signature);
-//static void SleepTicks(UInt32 ticksToSleep);
+static void SleepTicks(UInt32 ticksToSleep);
 static Boolean ShowMessage(Boolean allowCancel, const char *format, ...);
 #if SEARCHFORALLBOINCMANAGERS
 static OSStatus GetpathToBOINCManagerApp(char* path, int maxLen, FSRef *theFSRef);
@@ -372,6 +372,7 @@ static OSStatus CleanupAllVisibleUsers(void)
     vector<uid_t>       human_user_IDs;
     uid_t               saved_uid, saved_euid;
     char                human_user_name[256];
+    int                 i;
     int                 userIndex;
     int                 flag;
     char                buf[256];
@@ -494,20 +495,28 @@ static OSStatus CleanupAllVisibleUsers(void)
 
             // We must launch the System Events application for the target user
 
+#if TESTING
+            ShowMessage(false, "Telling System Events to quit (before DeleteLoginItemOSAScript)");
+#endif
             // Find SystemEvents process.  If found, quit it in case 
             // it is running under a different user.
-            err = FindProcess ('APPL', kSystemEventsCreator, &SystemEventsPSN);
-            if (err == noErr) {
+            err = QuitOneProcess(kSystemEventsCreator);
 #if TESTING
-                ShowMessage(false, "Telling System Events to quit (before DeleteLoginItemOSAScript)");
-#endif
-                err = QuitOneProcess(kSystemEventsCreator);
-#if TESTING
-                if (err != noErr) {
-                    ShowMessage(false, "QuitOneProcess(kSystemEventsCreator) returned error %d ", (int) err);
-                }
-#endif
+            if (err != noErr) {
+                ShowMessage(false, "QuitOneProcess(kSystemEventsCreator) returned error %d ", (int) err);
             }
+#endif
+            // Wait for the process to be gone
+            for (i=0; i<50; ++i) {      // 5 seconds max delay
+                SleepTicks(6);  // 6 Ticks == 1/10 second
+                err = FindProcess ('APPL', kSystemEventsCreator, &SystemEventsPSN);
+                if (err != noErr) break;
+            }
+#if TESTING
+            if (i > 50) {
+                ShowMessage(false, "Failed to make System Events quit");
+            }
+#endif
             
             err = LSFindApplicationForInfo(kSystemEventsCreator, NULL, NULL, &appRef, NULL);
             if (err != noErr) {
@@ -526,6 +535,17 @@ static OSStatus CleanupAllVisibleUsers(void)
 #if TESTING
                 if (err) {
                     ShowMessage(false, "[2] Command: %s returned error %d", cmd, (int) err);
+                }
+#endif
+                // Wait for the process to start
+                for (i=0; i<50; ++i) {      // 5 seconds max delay
+                    SleepTicks(6);  // 6 Ticks == 1/10 second
+                    err = FindProcess ('APPL', kSystemEventsCreator, &SystemEventsPSN);
+                    if (err == noErr) break;
+                }
+#if TESTING
+                if (i > 50) {
+                    ShowMessage(false, "Failed to launch System Events for user %s", human_user_name);
                 }
 #endif
             }
@@ -596,6 +616,7 @@ static OSStatus CleanupAllVisibleUsers(void)
 #endif
     }
     
+sleep(1);
     if (OSVersion >= 0x1070) {
 #if TESTING
         ShowMessage(false, "Telling System Events to quit (at end)");
@@ -911,7 +932,7 @@ bail:
     return err;
 }
 
-#if 0
+
 // Uses usleep to sleep for full duration even if a signal is received
 static void SleepTicks(UInt32 ticksToSleep) {
     UInt32 endSleep, timeNow, ticksRemaining;
@@ -925,7 +946,6 @@ static void SleepTicks(UInt32 ticksToSleep) {
         ticksRemaining = endSleep - timeNow;
     } 
 }
-#endif
 
 
 static Boolean ShowMessage(Boolean allowCancel, const char *format, ...) {
