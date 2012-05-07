@@ -3716,3 +3716,10 @@ David  6 May 2012
 
     client/
         coproc_detect.cpp
+
+David  7 May 2012
+    - web: if user.has_profile = 0 but there actually is a profile,
+        update user.has_profile
+
+    html/user/
+        view_profile.php

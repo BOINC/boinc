@@ -26,7 +26,15 @@ if (!$user) {
     error_page(tra("No such user"));
 }
 if (!$user->has_profile) {
-    error_page(tra("This user has no profile"));
+    // check whether user.has_profile is out of synch w/ profile table
+    //
+    $profile = BoincProfile::lookup("userid=$user->id");
+    if ($profile) {
+        $user->update("has_profile=1");
+        $user->has_profile = 1;
+    } else {
+        error_page(tra("This user has no profile"));
+    }
 }
  
 $logged_in_user = get_logged_in_user(false);
