@@ -36,6 +36,7 @@ extern void strip_whitespace(std::string&);
 #define safe_strcat(x, y) if (strlen(x)+strlen(y)<sizeof(x)) strcat(x, y)
 extern char* time_to_string(double);
 extern char* precision_time_to_string(double);
+extern void secs_to_hmsf(double, char*);
 extern std::string timediff_format(double);
 
 inline bool ends_with(std::string const& s, std::string const& suffix) {

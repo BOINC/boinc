@@ -211,6 +211,17 @@ int ndays_to_string (double x, int smallest_timescale, char *buf) {
     return 0;
 }
 
+// convert seconds into a string "0h00m00s00"
+void secs_to_hmsf(double secs, char*buf) {
+  uint s = secs;
+  uint f = (secs - s) * 100.0;
+  uint h = s / 3600;
+  s -= h * 3600;
+  uint m = s / 60;
+  s -= m * 60;
+  sprintf(buf, "%uh%02um%02us%02u", h, m, s, f);
+}
+
 // Convert nbytes into a string.  If total_bytes is non-zero,
 // convert the two into a fractional display (i.e. 4/16 KB)
 //

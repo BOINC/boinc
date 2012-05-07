@@ -3723,3 +3723,10 @@ David  7 May 2012
 
     html/user/
         view_profile.php
+
+Bernd  7 May 2012
+    - lib: added function secs_to_hmsf() which converts (double) seconds
+        to a string 0h00m00s00
+
+    lib/
+        str_util.cpp, .h
