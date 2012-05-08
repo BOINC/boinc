@@ -3730,3 +3730,10 @@ Bernd  7 May 2012
 
     lib/
         str_util.cpp, .h
+
+Bernd  8 May 2012
+    - scheduler: no functional change, just got rid of DOS linebreaks
+
+    sched/
+        plan_class_spec.cpp,h
+
