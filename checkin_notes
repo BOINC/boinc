@@ -3737,3 +3737,9 @@ Bernd  8 May 2012
     sched/
         plan_class_spec.cpp,h
 
+Bernd  8 May 2012
+    - scheduler: don't override avg_ncpus per default
+
+    sched/
+        plan_class_spec.cpp
+

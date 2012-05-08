@@ -780,7 +780,7 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     peak_flops_factor = 1.0;
     cpu_flops = 0;
     gpu_flops = 0;
-    avg_ncpus = 1.0;
+    avg_ncpus = 0;
     max_ncpus = 1.0;
     ngpus = 0; /* defaults to CPU plan classes */
 }
