@@ -47,7 +47,7 @@ using std::string;
 //
 int CLIENT_STATE::read_trickle_files(PROJECT* project, FILE* f) {
     char project_dir[256], *p, *q, result_name[256], fname[256];
-    char* file_contents, path[256], newpath[256];
+    char* file_contents, path[MAXPATHLEN], newpath[MAXPATHLEN];
     string fn;
     time_t t;
     int retval;
@@ -99,7 +99,7 @@ int CLIENT_STATE::read_trickle_files(PROJECT* project, FILE* f) {
 // (others arrived from application while RPC was happening)
 //
 int CLIENT_STATE::remove_trickle_files(PROJECT* project) {
-    char project_dir[256], path[256], fname[256];
+    char project_dir[256], path[MAXPATHLEN], fname[256];
     string fn;
 
     get_project_dir(project, project_dir, sizeof(project_dir));
@@ -122,7 +122,7 @@ int CLIENT_STATE::remove_trickle_files(PROJECT* project) {
 //
 int CLIENT_STATE::handle_trickle_down(PROJECT* project, FILE* in) {
     char buf[256];
-    char result_name[256], path[256];
+    char result_name[256], path[MAXPATHLEN];
     string body;
     int send_time=0;
 

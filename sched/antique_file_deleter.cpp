@@ -116,7 +116,7 @@ int delete_antiques_from_dir(char*dirpath, time_t mtime, uid_t uid) {
     struct dirent*entry;
     struct stat fstat;
     int ret;
-    char path[2*256];
+    char path[MAXPATHLEN];
 
     // open directory
     errno = 0;

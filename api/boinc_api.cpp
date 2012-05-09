@@ -849,7 +849,7 @@ int resume_activities() {
 }
 
 static void handle_upload_file_status() {
-    char path[256], buf[256], log_name[256], *p, log_buf[256];
+    char path[MAXPATHLEN], buf[256], log_name[256], *p, log_buf[256];
     std::string filename;
     int status;
 
@@ -1000,7 +1000,7 @@ struct GRAPHICS_APP {
     void run(char* path) {
         int argc;
         char* argv[4];
-        char abspath[1024];
+        char abspath[MAXPATHLEN];
 #ifdef _WIN32
         GetFullPathName(path, 1024, abspath, NULL);
 #else
@@ -1039,7 +1039,7 @@ static bool have_graphics_app;
 // The following is for backwards compatibility with version 5 clients.
 //
 static inline void handle_graphics_messages() {
-    static char graphics_app_path[1024];
+    static char graphics_app_path[MAXPATHLEN];
     char buf[MSG_CHANNEL_SIZE];
     GRAPHICS_MSG m;
     static bool first=true;
@@ -1389,7 +1389,7 @@ int boinc_fraction_done(double x) {
 
 int boinc_receive_trickle_down(char* buf, int len) {
     std::string filename;
-    char path[256];
+    char path[MAXPATHLEN];
 
     if (!options.handle_trickle_downs) return false;
 

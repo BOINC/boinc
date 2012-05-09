@@ -516,7 +516,7 @@ static int get_client_mutex(const char*) {
     }
 #else
 static int get_client_mutex(const char* dir) {
-    char path[1024];
+    char path[MAXPATHLEN];
     static FILE_LOCK file_lock;
 
     sprintf(path, "%s/%s", dir, LOCK_FILE_NAME);

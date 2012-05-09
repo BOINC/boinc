@@ -108,7 +108,7 @@ int try_fopen(const char* path, FCGI_FILE*& f, const char *mode) {
 #endif
     const char* p;
     DIR* d;
-    char dirpath[256];
+    char dirpath[MAXPATHLEN];
 
 #ifndef _USING_FCGI_
     f = fopen(path, mode);
@@ -163,7 +163,7 @@ int dir_hier_path(
     const char* filename, const char* root, int fanout,
     char* path, bool create
 ) {
-    char dir[256], dirpath[256];
+    char dir[256], dirpath[MAXPATHLEN];
     int retval;
 
     if (fanout==0) {

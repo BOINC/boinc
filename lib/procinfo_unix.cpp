@@ -32,6 +32,7 @@
 
 #include <cstdio>
 #include <string.h>
+#include <sys/param.h>
 #include <ctype.h>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -170,7 +171,7 @@ int procinfo_setup(PROC_MAP& pm) {
     FILE* fd;
     PROC_STAT ps;
     PROCINFO p;
-    char pidpath[1024];
+    char pidpath[MAXPATHLEN];
     char buf[1024];
     int pid = getpid();
     int retval, final_retval = 0;

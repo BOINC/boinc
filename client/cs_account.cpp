@@ -55,7 +55,7 @@ using std::sort;
 // (which normally is undefined) is valid
 //
 int PROJECT::write_account_file() {
-    char path[256];
+    char path[MAXPATHLEN];
     FILE* f;
     int retval;
 
@@ -183,7 +183,7 @@ int PROJECT::parse_account(FILE* in) {
 // (so that we know the host venue)
 //
 int PROJECT::parse_account_file_venue() {
-    char attr_buf[256], venue[256], path[256], buf2[256];
+    char attr_buf[256], venue[256], path[MAXPATHLEN], buf2[256];
     int retval;
     bool in_right_venue = false, btemp;
 
@@ -258,7 +258,7 @@ int PROJECT::parse_account_file_venue() {
 }
 
 int PROJECT::parse_account_file() {
-    char path[256];
+    char path[MAXPATHLEN];
     int retval;
     FILE* f;
 
@@ -427,7 +427,7 @@ int CLIENT_STATE::parse_statistics_files() {
 }
 
 int PROJECT::write_statistics_file() {
-    char path[256];
+    char path[MAXPATHLEN];
     FILE* f;
     int retval;
 
@@ -473,7 +473,7 @@ int CLIENT_STATE::add_project(
     const char* master_url, const char* _auth, const char* project_name,
     bool attached_via_acct_mgr
 ) {
-    char path[256], canonical_master_url[256], auth[256], dir[256];
+    char path[MAXPATHLEN], canonical_master_url[256], auth[256], dir[256];
     PROJECT* project;
     FILE* f;
     int retval;

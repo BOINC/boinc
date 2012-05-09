@@ -23,6 +23,7 @@
 // NOTE 2: should rewrite to enumerate WUs, not results
 
 #include "config.h"
+#include <sys/param.h>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -57,7 +58,7 @@ int get_file_path(WORKUNIT& wu, char* path) {
 int handle_result(DB_RESULT& result) {
     DB_WORKUNIT wu;
     int retval;
-    char path[256];
+    char path[MAXPATHLEN];
     char buf[256];
     FILE* f;
 

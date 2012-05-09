@@ -97,7 +97,7 @@ int assimilate_handler(
             canonical_result.cpu_time
         );
         vector<OUTPUT_FILE_INFO> output_files;
-        char copy_path[256];
+        char copy_path[MAXPATHLEN];
         get_output_file_infos(canonical_result, output_files);
         unsigned int n = output_files.size();
         for (i=0; i<n; i++) {

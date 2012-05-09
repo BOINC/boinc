@@ -44,7 +44,7 @@ struct ASYNC_COPY {
     ACTIVE_TASK* atp;
     FILE_INFO* fip;
     FILE* in, *out;
-    char to_path[1024], temp_path[1024];
+    char to_path[MAXPATHLEN], temp_path[MAXPATHLEN];
 
     ASYNC_COPY();
     ~ASYNC_COPY();
@@ -65,7 +65,7 @@ struct ASYNC_VERIFY {
     md5_state_t md5_state;
     FILE* in, *out;
     gzFile gzin;
-    char inpath[1024], temp_path[1024], outpath[1024];
+    char inpath[MAXPATHLEN], temp_path[MAXPATHLEN], outpath[MAXPATHLEN];
 
 	ASYNC_VERIFY(){};
 	~ASYNC_VERIFY(){};

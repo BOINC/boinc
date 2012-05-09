@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
     char* src_dir, *dst_dir;
     int fanout=0;
     std::string filename;
-    char dst_path[256], src_path[256];
+    char dst_path[MAXPATHLEN], src_path[MAXPATHLEN];
     int retval;
     
     if ( (argc == 1) || !strcmp(argv[1], "-h")  || !strcmp(argv[1],"--help") || (argc != 4) ) {

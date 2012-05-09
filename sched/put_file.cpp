@@ -53,7 +53,7 @@ void usage() {
 
 int main(int argc, char** argv) {
     int i, retval;
-    char file_name[256], url[1024], path[1024];
+    char file_name[256], url[1024], path[MAXPATHLEN];
     int host_id;
     vector<const char*> urls;
     double nbytes = -1;

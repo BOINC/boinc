@@ -821,7 +821,7 @@ int handle_global_prefs() {
 bool send_code_sign_key(char* code_sign_key) {
     char* oldkey, *signature;
     int i, retval;
-    char path[256];
+    char path[MAXPATHLEN];
 
     if (strlen(g_request->code_sign_key)) {
         if (strcmp(g_request->code_sign_key, code_sign_key)) {

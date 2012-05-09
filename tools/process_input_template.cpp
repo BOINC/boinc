@@ -143,7 +143,7 @@ static int process_file_info(
     int retval, file_number = -1;
     double nbytes, nbytesdef = -1;
     string md5str, urlstr, tmpstr;
-    char buf[BLOB_SIZE], path[256], top_download_path[256], md5[33], url[256];
+    char buf[BLOB_SIZE], path[MAXPATHLEN], top_download_path[MAXPATHLEN], md5[33], url[256];
 
     out += "<file_info>\n";
     while (!xp.get_tag()) {

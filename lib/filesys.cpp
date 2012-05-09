@@ -354,7 +354,7 @@ int boinc_truncate(const char* path, double size) {
 // remove everything from specified directory
 //
 int clean_out_dir(const char* dirpath) {
-    char filename[256], path[256];
+    char filename[256], path[MAXPATHLEN];
     int retval;
     DIRREF dirp;
 
@@ -802,7 +802,7 @@ int get_filesystem_info(double &total_space, double &free_space, char* path) {
 #ifndef _WIN32
 
 int get_file_dir(char* filename, char* dir) {
-    char buf[8192], *p, path[256];
+    char buf[8192], *p, path[MAXPATHLEN];
     struct stat sbuf;
     int retval;
 

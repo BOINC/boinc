@@ -1059,7 +1059,7 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
         }
 
         if (!strcmp(file_ref.open_name, GRAPHICS_APP_FILENAME)) {
-            char relpath[512], path[512];
+            char relpath[MAXPATHLEN], path[MAXPATHLEN];
             get_pathname(fip, relpath, sizeof(relpath));
             relative_to_absolute(relpath, path);
             strlcpy(avp->graphics_exec_path, path, sizeof(avp->graphics_exec_path));
@@ -1831,7 +1831,7 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
     vector<FILE_INFO*>::iterator fi_iter;
     FILE_INFO* fip;
     PROJECT* p;
-    char path[256];
+    char path[MAXPATHLEN];
     int retval;
 
     reset_project(project, true);

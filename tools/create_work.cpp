@@ -21,6 +21,7 @@
 // This program must be run in the project's root directory
 //
 #include "config.h"
+#include <sys/param.h>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -82,7 +83,7 @@ int main(int argc, const char** argv) {
     DB_WORKUNIT wu;
     int retval;
     char wu_template[BLOB_SIZE];
-    char wu_template_file[256], result_template_file[256], result_template_path[1024];
+    char wu_template_file[256], result_template_file[256], result_template_path[MAXPATHLEN];
     const char* command_line=NULL;
     const char** infiles = NULL;
     int i, ninfiles;

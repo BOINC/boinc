@@ -101,6 +101,7 @@
 #include <math.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/param.h>
 #include <vector>
 using std::vector;
 
@@ -681,7 +682,7 @@ void usage(char *name) {
 int main(int argc, char** argv) {
     int i, retval;
     void* p;
-    char path[256];
+    char path[MAXPATHLEN];
 
     for (i=1; i<argc; i++) {
         if (is_arg(argv[i], "d") || is_arg(argv[i], "debug_level")) {

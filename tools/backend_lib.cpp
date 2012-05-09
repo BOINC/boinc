@@ -203,7 +203,7 @@ int create_result(
 //
 int check_files(char** infiles, int ninfiles, SCHED_CONFIG& config_loc) {
     int i;
-    char path[256];
+    char path[MAXPATHLEN];
 
     for (i=0; i<ninfiles; i++) {
         dir_hier_path(

@@ -26,6 +26,7 @@
 #include <cstdio>
 #endif
 
+#include <sys/param.h>
 #include <unistd.h>
 
 #include "boinc_db.h"
@@ -46,7 +47,7 @@
 static int send_assigned_job(ASSIGNMENT& asg) {
     int retval;
     DB_WORKUNIT wu;
-    char suffix[256], path[256];
+    char suffix[256], path[MAXPATHLEN];
     const char *rtfpath;
     static bool first=true;
     static int seqno=0;

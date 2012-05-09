@@ -511,7 +511,7 @@ int FILE_INFO::write_gui(MIOFILE& out) {
 // delete physical underlying file associated with FILE_INFO
 //
 int FILE_INFO::delete_file() {
-    char path[1024];
+    char path[MAXPATHLEN];
 
     get_pathname(this, path, sizeof(path));
     int retval = delete_project_owned_file(path, true);
@@ -653,7 +653,7 @@ void FILE_INFO::failure_message(string& s) {
 #define BUFSIZE 16384
 int FILE_INFO::gzip() {
     char buf[BUFSIZE];
-    char inpath[1024], outpath[1024];
+    char inpath[MAXPATHLEN], outpath[MAXPATHLEN];
 
     get_pathname(this, inpath, sizeof(inpath));
     strcpy(outpath, inpath);
@@ -682,7 +682,7 @@ int FILE_INFO::gzip() {
 //
 int FILE_INFO::gunzip(char* md5_buf) {
     unsigned char buf[BUFSIZE];
-    char inpath[1024], outpath[1024], tmppath[1024];
+    char inpath[MAXPATHLEN], outpath[MAXPATHLEN], tmppath[MAXPATHLEN];
     md5_state_t md5_state;
 
     md5_init(&md5_state);

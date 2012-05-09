@@ -25,6 +25,7 @@
 #include <string>
 #include <vector>
 #include <sys/socket.h>
+#include <sys/param.h>
 #include <netinet/in.h>
 #include <netinet/tcp.h>
 #include <arpa/inet.h>
@@ -274,10 +275,10 @@ struct RESULT {
     bool too_large;
     bool needs_shmem;
     bool edf_scheduled;
-    char graphics_exec_path[512];
+    char graphics_exec_path[MAXPATHLEN];
     char web_graphics_url[256];
     char remote_desktop_addr[256];
-    char slot_path[512];
+    char slot_path[MAXPATHLEN];
         // only present if graphics_exec_path is
     char resources[256];
 

@@ -333,7 +333,7 @@ int SCHED_CONFIG::parse(FILE* f) {
 }
 
 int SCHED_CONFIG::parse_file(const char* dir) {
-    char path[256], path_aux[256];
+    char path[MAXPATHLEN], path_aux[MAXPATHLEN];
     int retval;
 
     if (dir && strlen(dir)) {
@@ -390,7 +390,7 @@ static bool is_project_dir(const char* dir) {
 //      specified by a format string + args
 //
 const char *SCHED_CONFIG::project_path(const char *fmt, ...) {
-    static char path[1024];
+    static char path[MAXPATHLEN];
     va_list ap;
 
     if (!strlen(project_dir)) {

@@ -245,7 +245,7 @@ void copy_socket_to_null(FILE* in) {
 // ALWAYS generates an HTML reply
 //
 int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
-    char buf[256], path[512], signed_xml[1024];
+    char buf[256], path[MAXPATHLEN], signed_xml[1024];
     char name[256], stemp[256];
     double max_nbytes=-1;
     char xml_signature[1024];
@@ -407,7 +407,7 @@ bool volume_full(char* path) {
 //
 int handle_get_file_size(char* file_name) {
     struct stat sbuf;
-    char path[512], buf[256];
+    char path[MAXPATHLEN], buf[256];
     int retval, pid, fd;
 
     // TODO: check to ensure path doesn't point somewhere bad
@@ -614,7 +614,7 @@ void usage(char *name) {
 int main(int argc, char *argv[]) {
     int retval;
     R_RSA_PUBLIC_KEY key;
-    char log_path[256];
+    char log_path[MAXPATHLEN];
 #ifdef _USING_FCGI_
     unsigned int counter=0;
 #endif
