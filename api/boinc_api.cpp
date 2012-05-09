@@ -1002,7 +1002,7 @@ struct GRAPHICS_APP {
         char* argv[4];
         char abspath[MAXPATHLEN];
 #ifdef _WIN32
-        GetFullPathName(path, 1024, abspath, NULL);
+        GetFullPathName(path, MAXPATHLEN, abspath, NULL);
 #else
         strcpy(abspath, path);
 #endif
