@@ -3743,3 +3743,11 @@ Bernd  8 May 2012
     sched/
         plan_class_spec.cpp
 
+Bernd  9 May 2012
+    - scheduler: get app_version info for validator items
+
+    db/
+        boinc_db.cpp
+
+
+

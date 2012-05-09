@@ -1526,6 +1526,8 @@ void VALIDATOR_ITEM::parse(MYSQL_ROW& r) {
     res.sent_time = atoi(r[i++]);
     res.received_time = atoi(r[i++]);
     res.appid = atoi(r[i++]);
+    res.app_version_id = atoi(r[i++]);
+    res.app_version_num = atoi(r[i++]);
     res.elapsed_time = atof(r[i++]);
     res.flops_estimate = atof(r[i++]);
     res.app_version_id = atoi(r[i++]);
@@ -1587,6 +1589,8 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
             "   res.sent_time, "
             "   res.received_time, "
             "   res.appid, "
+            "   res.app_version_id, "
+            "   res.app_version_num, "
             "   res.elapsed_time, "
             "   res.flops_estimate, "
             "   res.app_version_id, "
