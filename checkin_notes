@@ -3769,3 +3769,20 @@ David  9 May 2012
 		filesys.cpp
 	samples/vboxwrapper/
 		vboxwrapper.cpp
+
+Rom    9 May 2012
+    - lib: Fix a bug where information that was meant for stdout was
+        being written to stderr instead.
+    - lib: Keep track of the rough estimate of stdout and stderr by
+        incrementing internal variables instead of doing a stat on
+        each log write.  stat() on Windows is converted to a FindFirstFile()
+        call which in turn looks up the file size information in the
+        directory structure file system entry.  The directory structure 
+        information is only updated periodically.  This lead to larger
+        than expected log file for both the manager and core client.
+        
+        This has the added advantage of reducing the overall number of
+        file I/O operations when logging information.
+        
+    lib/
+        diagnostics.cpp
