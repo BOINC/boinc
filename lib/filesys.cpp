@@ -19,6 +19,7 @@
 #include "boinc_win.h"
 #elif defined(_WIN32) && defined(__STDWX_H__)
 #include "stdwx.h"
+#define MAXPATHLEN 4096
 #endif
 
 #if defined(__MINGW32__)

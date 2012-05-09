@@ -443,7 +443,7 @@ int main(int argc, char** argv) {
 
     // Should we even try to start things up?
     if (vm.job_duration && (elapsed_time > vm.job_duration)) {
-        return ERR_RSC_LIMIT_EXCEEDED;
+        return EXIT_TIME_LIMIT_EXCEEDED;
     }
 
     retval = vm.run(elapsed_time);
