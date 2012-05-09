@@ -30,8 +30,11 @@
 #include <string>
 
 #include "error_numbers.h"
-#include "boinc_api.h"
 #include "coproc.h"
+#include "str_replace.h"
+
+#include "boinc_api.h"
+
 #include "boinc_opencl.h"
 
 // returns an OpenCL error num or zero
@@ -72,10 +75,9 @@ int boinc_get_opencl_ids_aux(
             strcpy(vendor, GPU_TYPE_ATI);
         }
         
-	if (strcasestr(vendor, "nvidia"))
-	{
+        if (strcasestr(vendor, "nvidia")) {
             strcpy(vendor, GPU_TYPE_NVIDIA);
-	}
+        }
         if (!strcmp(vendor, type)) {
             *device = device_id;
             *platform = platforms[platform_index];

@@ -3754,3 +3754,9 @@ David  9 May 2012
     - C++ code: use MAXPATHLEN for char arrays that hold paths
 
     (many .cpp files)
+
+David  9 May 2012
+    - compile fix
+
+    api/
+        boinc_opencl.cpp,h
