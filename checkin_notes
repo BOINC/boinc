@@ -3762,13 +3762,13 @@ David  9 May 2012
         boinc_opencl.cpp,h
 
 David  9 May 2012
-	- Win compile fixes
+    - Win compile fixes
 
-	lib/
-		boinc_win.h
-		filesys.cpp
-	samples/vboxwrapper/
-		vboxwrapper.cpp
+    lib/
+        boinc_win.h
+        filesys.cpp
+    samples/vboxwrapper/
+        vboxwrapper.cpp
 
 Rom    9 May 2012
     - lib: Fix a bug where information that was meant for stdout was
@@ -3797,3 +3797,14 @@ Charlie 10 May 2012
         sg_DlgMessages.cpp
         mac/
             MacGUI.cpp,.h
+
+David  10 May 2012
+    - diagnostics lib:
+        - store file sizes as double rather than int
+        - if we're appending to log files, initialize the
+            size variables to the current size
+        - check return value of fprintf, only increment size if it's +
+        - when rotate log file, reset size var to zero
+
+    lib/
+        diagnostics.cpp
