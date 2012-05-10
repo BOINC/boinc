@@ -145,22 +145,11 @@ bool CDlgItemProperties::RestoreState() {
     // Now make sure window is on screen
     GetScreenPosition(&iLeft, &iTop);
     GetSize(&iWidth, &iHeight);
-    
-    Rect titleRect = {iTop, iLeft, iTop+22, iLeft+iWidth };
-    InsetRect(&titleRect, 5, 5);                // Make sure at least a 5X5 piece visible
-    RgnHandle displayRgn = NewRgn();
-    CopyRgn(GetGrayRgn(), displayRgn);          // Region encompassing all displays
-    Rect menuRect = ((**GetMainDevice())).gdRect;
-    menuRect.bottom = GetMBarHeight() + menuRect.top;
-    RgnHandle menuRgn = NewRgn();
-    RectRgn(menuRgn, &menuRect);                // Region hidden by menu bar
-    DiffRgn(displayRgn, menuRgn, displayRgn);   // Subtract menu bar region
-    if (!RectInRgn(&titleRect, displayRgn)) {
+
+    if (!IsWindowOnScreen(iLeft, iTop, iWidth, iHeight)) {
         iTop = iLeft = 30;
         SetSize(iLeft, iTop, iWidth, iHeight, wxSIZE_USE_EXISTING);
     }
-    DisposeRgn(menuRgn);
-    DisposeRgn(displayRgn);
 #endif
 
     return true;

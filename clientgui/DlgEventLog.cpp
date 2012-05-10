@@ -165,19 +165,9 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
 #ifdef __WXMAC__
         // If the user has changed the arrangement of multiple 
         // displays, make sure the window title bar is still on-screen.
-        Rect titleRect = {oTempPoint.y, oTempPoint.x, oTempPoint.y+22, oTempPoint.x+oTempSize.x };
-        InsetRect(&titleRect, 5, 5);    // Make sure at least a 5X5 piece visible
-        RgnHandle displayRgn = NewRgn();
-        CopyRgn(GetGrayRgn(), displayRgn);  // Region encompassing all displays
-        Rect menuRect = ((**GetMainDevice())).gdRect;
-        menuRect.bottom = GetMBarHeight() + menuRect.top;
-        RgnHandle menuRgn = NewRgn();
-        RectRgn(menuRgn, &menuRect);                // Region hidden by menu bar
-        DiffRgn(displayRgn, menuRgn, displayRgn);   // Subtract menu bar retion
-        if (!RectInRgn(&titleRect, displayRgn))
-            oTempPoint.y = oTempPoint.x = 30;
-        DisposeRgn(menuRgn);
-        DisposeRgn(displayRgn);
+    if (!IsWindowOnScreen(oTempPoint.x, oTempPoint.y, oTempSize.GetWidth(), oTempSize.GetHeight())) {
+        oTempPoint.y = oTempPoint.x = 30;
+    }
 #endif  // ! __WXMAC__
     } else {
         oTempPoint = pos;

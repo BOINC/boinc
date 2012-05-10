@@ -26,6 +26,10 @@
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 
+using std::min;
+using std::max;
+
+
 // Determine if the currently logged-in user is auhorized to 
 // perform operations which have potential security risks.  
 // An example is "Attach to Project", where a dishonest user might
@@ -188,4 +192,45 @@ void MacLocalizeBOINCMenu() {
             }
         }
     }
+}
+
+
+#define MAX_DISPLAYS 32
+
+// Returns true if at least a 5 X 5 pixel area of the 
+// window's title bar is entirely on the displays
+// Note: Arguments are Quickdraw-style coordinates, 
+// but CGDisplayBounds() sets top left corner as (0, 0)
+Boolean IsWindowOnScreen(int iLeft, int iTop, int iWidth, int iHeight) {
+    CGDirectDisplayID displays[MAX_DISPLAYS];
+    CGDisplayCount numDisplays;
+    CGDisplayCount i;
+    CGRect displayRect, intersectedRect;
+    CGFloat mBarHeight = GetMBarHeight();
+
+    CGRect titleRect = CGRectMake(iLeft, iTop, iWidth, 22);
+    // Make sure at least a 5X5 piece of title bar is visible
+    titleRect = CGRectInset(titleRect, 5, 5);   
+
+    CGGetActiveDisplayList (MAX_DISPLAYS, displays, &numDisplays);
+ 
+    // The geometries of windows and display arangements are such
+    // that even if the title bar spans multiple windows, a 5X5
+    // section is on-screen only if at least one 5X5 section is
+    // entirely on one or more displays, so this test is sufficient.
+    for (i = 0; i < numDisplays; i++)
+    {
+        displayRect = CGDisplayBounds(displays[i]);
+        if (i == 0) {   // CGDisplayBounds returns main display first
+            displayRect.origin.y += mBarHeight;
+            displayRect.size.height -= mBarHeight;
+        }
+    
+        intersectedRect = CGRectIntersection(displayRect, titleRect);
+        if (! CGRectIsNull(intersectedRect)) {
+            return true;
+        }
+    }
+
+    return false;
 }

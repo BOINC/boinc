@@ -85,5 +85,6 @@
 // Prototypes for Mac_GUI.cpp
 Boolean Mac_Authorize(void);
 void MacLocalizeBOINCMenu();
+Boolean IsWindowOnScreen(int iLeft, int iTop, int iWidth, int iHeight);
 
 #endif
