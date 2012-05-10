@@ -941,19 +941,9 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
         // Make sure that the new window is going to be visible
         //   on a screen
 #ifdef __WXMAC__
-        Rect titleRect = {iTop, iLeft, iTop+22, iLeft+iWidth };
-        InsetRect(&titleRect, 5, 5);                // Make sure at least a 5X5 piece visible
-        RgnHandle displayRgn = NewRgn();
-        CopyRgn(GetGrayRgn(), displayRgn);          // Region encompassing all displays
-        Rect menuRect = ((**GetMainDevice())).gdRect;
-        menuRect.bottom = GetMBarHeight() + menuRect.top;
-        RgnHandle menuRgn = NewRgn();
-        RectRgn(menuRgn, &menuRect);                // Region hidden by menu bar
-        DiffRgn(displayRgn, menuRgn, displayRgn);   // Subtract menu bar retion
-        if (!RectInRgn(&titleRect, displayRgn))
-            iTop = iLeft = 30;
-        DisposeRgn(menuRgn);
-        DisposeRgn(displayRgn);
+    if (!IsWindowOnScreen(iLeft, iTop, iWidth, iHeight)) {
+        iTop = iLeft = 30;
+    }
 #else
 	    // If either co-ordinate is less then 0 then set it equal to 0 to ensure
 	    // it displays on the screen.

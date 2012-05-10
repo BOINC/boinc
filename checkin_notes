@@ -3515,3 +3515,14 @@ Charlie 6 May 2012
     mac_installer/
         PostInstall.cpp
         Uninstall.cpp
+
+Charlie 10 May 2012
+    - MGR: Eliminate QuickDraw calls for OS 10.8 compatibility.
+
+    clientgui/
+        BOINCGUIApp.cpp
+        DlgEventLog.cpp
+        DlgitemProperties.cpp
+        sg_DlgMessages.cpp
+        mac/
+            MacGUI.cpp,.h

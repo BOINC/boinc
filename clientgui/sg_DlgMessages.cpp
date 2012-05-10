@@ -566,22 +566,10 @@ void CDlgMessages::RestoreWindowDimensions() {
 
     // If the user has changed the arrangement of multiple 
     // displays, make sure the window title bar is still on-screen.
-    Rect titleRect = {iTop, iLeft, iTop+22, iLeft+iWidth };
-    InsetRect(&titleRect, 5, 5);    // Make sure at least a 5X5 piece visible
-    RgnHandle displayRgn = NewRgn();
-    CopyRgn(GetGrayRgn(), displayRgn);  // Region encompassing all displays
-    Rect menuRect = ((**GetMainDevice())).gdRect;
-    menuRect.bottom = GetMBarHeight() + menuRect.top;
-    RgnHandle menuRgn = NewRgn();
-    RectRgn(menuRgn, &menuRect);                // Region hidden by menu bar
-    DiffRgn(displayRgn, menuRgn, displayRgn);   // Subtract menu bar retion
-    if (!RectInRgn(&titleRect, displayRgn))
+    if (!IsWindowOnScreen(iLeft, iTop, iWidth, iHeight)) {
         iTop = iLeft = 30;
-    DisposeRgn(menuRgn);
-    DisposeRgn(displayRgn);
-
-    SetSize(iLeft, iTop, iWidth, iHeight);
-
+    }
+        SetSize(iLeft, iTop, iWidth, iHeight);
 #endif  // ! __WXMAC__
 }
 
