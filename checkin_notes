@@ -3808,3 +3808,10 @@ David  10 May 2012
 
     lib/
         diagnostics.cpp
+
+Bernd  8 May 2012
+    - scheduler: don't try to send_file_deletes() with an incomplete request
+
+    sched/
+        handle_request.cpp
+

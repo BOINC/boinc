@@ -1382,14 +1382,14 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
     double start_time = dtime();
     if (!p){
         process_request(code_sign_key);
+
+        if ((config.locality_scheduling || config.locality_scheduler_fraction) && !sreply.nucleus_only) {
+            send_file_deletes();
+        }
     } else {
         sprintf(buf, "Error in request message: %s", p);
         log_incomplete_request();
         sreply.insert_message(buf, "low");
-    }
-
-    if ((config.locality_scheduling || config.locality_scheduler_fraction) && !sreply.nucleus_only) {
-        send_file_deletes();
     }
 
     if (config.debug_user_messages) {
