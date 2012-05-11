@@ -913,7 +913,7 @@ DWORD WINAPI CScreensaver::InputActivityProc() {
             SetError(TRUE, SCRAPPERR_BOINCSHUTDOWNEVENT);
             FireInterruptSaverEvent();
             bAutoBreak = true;
-       }
+        }
         dwCounter++;
         boinc_sleep(0.25);
     }
