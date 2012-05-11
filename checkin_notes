@@ -3809,9 +3809,17 @@ David  10 May 2012
     lib/
         diagnostics.cpp
 
-Bernd  8 May 2012
+Bernd  11 May 2012
     - scheduler: don't try to send_file_deletes() with an incomplete request
 
     sched/
         handle_request.cpp
 
+
+Rom    11 May 2012
+    - VBOX: When the system confirms our port number request or assigns us a
+        new port number to work with convert it from network byte order 
+        (big endian) to the host byte order (little endian on x86/x64 processors).
+
+    samples/vboxwrapper/
+        vbox.cpp

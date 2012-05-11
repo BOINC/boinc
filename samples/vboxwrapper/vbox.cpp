@@ -297,7 +297,6 @@ int VBOX_VM::stop() {
     if (online) {
         command = "controlvm \"" + vm_name + "\" savestate";
         retval = vbm_popen(command, output, "stop VM", true, false);
-        if (retval) return retval;
 
         poll(false);
 
@@ -335,7 +334,6 @@ int VBOX_VM::poweroff() {
     if (online) {
         command = "controlvm \"" + vm_name + "\" poweroff";
         retval = vbm_popen(command, output, "poweroff VM", true, false);
-        if (retval) return retval;
 
         poll(false);
 
@@ -872,7 +870,7 @@ int VBOX_VM::deregister_vm() {
         vbm_popen(command, output, "deregister storage controller (floppy disk)");
     }
 
-    // Next delete VM
+    // Next, delete VM
     //
     fprintf(
         stderr,
@@ -1266,14 +1264,14 @@ int VBOX_VM::get_vm_process_id(int& process_id) {
 }
 
 int VBOX_VM::get_port_forwarding_port() {
-    struct sockaddr_in addr;
+    sockaddr_in addr;
     BOINC_SOCKLEN_T addrsize;
     int sock;
     int retval;
 
-    addrsize = sizeof(struct sockaddr_in);
+    addrsize = sizeof(sockaddr_in);
 
-    memset(&addr, 0, sizeof(addr));
+    memset(&addr, 0, sizeof(sockaddr_in));
     addr.sin_family = AF_INET;
     addr.sin_port = htons(pf_host_port);
     addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
@@ -1281,12 +1279,12 @@ int VBOX_VM::get_port_forwarding_port() {
     retval = boinc_socket(sock);
     if (retval) return retval;
  
-    retval = bind(sock, (struct sockaddr *)&addr, addrsize);
+    retval = bind(sock, (const sockaddr*)&addr, addrsize);
     if (retval < 0) {
         boinc_close_socket(sock);
 
         // Lets see if we can get anything useable at this point
-        memset(&addr, 0, sizeof(addr));
+        memset(&addr, 0, sizeof(sockaddr_in));
         addr.sin_family = AF_INET;
         addr.sin_port = htons(0);
         addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
@@ -1294,29 +1292,29 @@ int VBOX_VM::get_port_forwarding_port() {
         retval = boinc_socket(sock);
         if (retval) return retval;
      
-        retval = bind(sock, (struct sockaddr *)&addr, addrsize);
+        retval = bind(sock, (const sockaddr*)&addr, addrsize);
         if (retval < 0) {
             boinc_close_socket(sock);
             return ERR_BIND;
         }
     }
 
-    getsockname(sock, (struct sockaddr *)&addr, &addrsize);
-    pf_host_port = addr.sin_port;
+    getsockname(sock, (sockaddr*)&addr, &addrsize);
+    pf_host_port = ntohs(addr.sin_port);
 
     boinc_close_socket(sock);
     return 0;
 }
 
 int VBOX_VM::get_remote_desktop_port() {
-    struct sockaddr_in addr;
+    sockaddr_in addr;
     BOINC_SOCKLEN_T addrsize;
     int sock;
     int retval;
 
-    addrsize = sizeof(struct sockaddr_in);
+    addrsize = sizeof(sockaddr_in);
 
-    memset(&addr, 0, sizeof(addr));
+    memset(&addr, 0, sizeof(sockaddr_in));
     addr.sin_family = AF_INET;
     addr.sin_port = htons(0);
     addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
@@ -1324,14 +1322,14 @@ int VBOX_VM::get_remote_desktop_port() {
     retval = boinc_socket(sock);
     if (retval) return retval;
  
-    retval = bind(sock, (struct sockaddr *)&addr, addrsize);
+    retval = bind(sock, (const sockaddr*)&addr, addrsize);
     if (retval < 0) {
         boinc_close_socket(sock);
         return ERR_BIND;
     }
 
-    getsockname(sock, (struct sockaddr *)&addr, &addrsize);
-    rd_host_port = addr.sin_port;
+    getsockname(sock, (sockaddr*)&addr, &addrsize);
+    rd_host_port = ntohs(addr.sin_port);
 
     boinc_close_socket(sock);
     return 0;
