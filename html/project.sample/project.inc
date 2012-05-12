@@ -46,7 +46,7 @@ function project_footer($show_return, $show_date, $prefix) {
     if ($show_return) {
         echo "<a href=".$prefix."index.php>".tra("Main page")."</a> &middot; <a href=".$prefix."home.php>".tra("Your account")."</a> &middot; <a href=".$prefix."forum_index.php>".tra("Message boards")."</a><br>\n";
     }
-    echo "<br><br>".tra("Copyright")." &copy; ".date("Y ").COPYRIGHT_HOLDER."</center>\n";
+    echo "<br><br>".tra("Copyright")." &copy; ".gmdate("Y ").COPYRIGHT_HOLDER."</center>\n";
     if ($show_date) {
         $t = time_str(time());
         echo "<span class=\"note\">".tra("Generated")." $t</span>\n";

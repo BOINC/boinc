@@ -28,7 +28,7 @@ $profile = get_current_uotd();
 if (!$profile) {
     echo tra("No user of the day has been chosen.");
 } else {
-    $d = date("d F Y", time());
+    $d = gmdate("d F Y", time());
     $user = lookup_user_id($profile->userid);
     page_head(tra("User of the Day for %1: %2", $d, $user->name));
     start_table();

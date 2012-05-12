@@ -212,7 +212,7 @@ function language_log($message, $loglevel=0){
     if ($loglevel==2) $msg = "[ CRITICAL ]";
 
     if ($loglevel >= $lang_log_level){
-        echo date("Y-m-d H:i:s",time())." ".$msg." ".$message."\n";
+        echo gmdate("Y-m-d H:i:s", time())." ".$msg." ".$message."\n";
     }
 }
 

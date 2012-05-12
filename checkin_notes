@@ -3823,3 +3823,17 @@ Rom    11 May 2012
 
     samples/vboxwrapper/
         vbox.cpp
+
+David  11 May 2012
+    - web: use gmdate() instead date() to avoid time zone warning
+    html/
+        inc/
+            uotd.inc
+            translation.inc
+        user/
+            cert_team.php
+            cert1.php
+            uotd.php
+            cert_all.php
+        project.sample/
+            project.inc

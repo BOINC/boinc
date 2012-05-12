@@ -25,8 +25,8 @@ $user = get_logged_in_user();
 $team = BoincTeam::lookup_id($user->teamid);
 if (!$team) error_page("no team");
 
-$join = date('j F Y', $team->create_time);
-$today = date('j F Y', time(0));
+$join = gmdate('j F Y', $team->create_time);
+$today = gmdate('j F Y', time(0));
 
 credit_to_ops($team->total_credit, $ops, $unit);
 

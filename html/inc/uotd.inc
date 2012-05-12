@@ -52,7 +52,7 @@ function get_current_uotd() {
 // Select a (possibly new) UOTD
 //
 function select_uotd() {
-    echo date("F d Y", time()).": Starting\n";
+    echo gmdate("F d Y", time())." UTC: Starting\n";
     $current_uotd = get_current_uotd();
     if ($current_uotd) {
         $assigned = getdate($current_uotd->uotd_time);
