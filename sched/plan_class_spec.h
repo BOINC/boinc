@@ -45,6 +45,7 @@ struct PLAN_CLASS_SPEC {
 
     // GPU apps
     //
+    double cpu_frac;
     double min_gpu_ram_mb;
         // for older clients that don't report available RAM
     double gpu_ram_used_mb;

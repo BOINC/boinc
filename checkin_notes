@@ -3843,3 +3843,10 @@ David  13 May 2012
 
     html/user/
         lammps.php
+
+David  14 May 2012
+    - scheduler: revision of app_plan_spec mechanism.
+        Not debugged, but it compiles now.
+
+    sched/
+        plan_class_space.cpp,h
