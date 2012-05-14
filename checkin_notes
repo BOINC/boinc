@@ -3837,3 +3837,9 @@ David  11 May 2012
             cert_all.php
         project.sample/
             project.inc
+
+David  13 May 2012
+    - LAMMPS script: chdir back to html/user, else page_head() breaks
+
+    html/user/
+        lammps.php

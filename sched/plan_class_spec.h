@@ -23,54 +23,60 @@
 #include <vector>
 #include <regex.h>
 
-using std::vector;
-using std::string;
-
 struct PLAN_CLASS_SPEC {
-    char   name[256];
-    int    type; // 0 = CPU, 1 = CUDA, 2 = ATI
-
-    int    min_cuda_compcap; // CUDA-specific
-    int    max_cuda_compcap;
-    int    min_cuda_version;
-    int    max_cuda_version;
-
-    int    min_opencl_version; // OpenCL specific
-
-    int    min_driver_version; // GPU only
-    int    max_driver_version; // WARNING: for CUDA the display driver version is only reported on Windows!!
-    double min_gpu_ram_mb;
-    double gpu_ram_used_mb;
-    double gpu_flops;
-    double cpu_flops;
-
-    char   project_prefs_tag[256]; // name of a tag from the project specific prefs
-    char   gpu_utilization_tag[256]; // the project prefs tag for user-supplied gpu_utilization factor
-    double project_prefs_min; // min value this tag can have to allow this plan-class
-    double project_prefs_max; // max value this tag can have to allow this plan-class
-
-    std::vector<string> cpu_features;
-        // list of CPU features required for this plan class
-        // each feature in a separate tag <cpu_feature> ..  </cpu_feature>
-        // all features must be lowercase(!)
-    int    min_macos_version;
-        // min OS version required for this plan class, 0 = no check
-    int    max_macos_version;
-        // max OS version allowed for this plan class, 0 = no limit
-    regex_t os_version_regex;
-        // specifying a regexp should work for all OS
-    char   os_version_string[256];
-
-    double speedup;
-        // speedup over standard "sequential" App for this platform
-    double peak_flops_factor;
+    char name[256];
+    char gpu_type[256];
+    bool cuda;
+    bool cal;
+    bool opencl;
+    bool virtualbox;
+    bool is64bit;
+    std::vector<std::string> cpu_features;
+    int min_ncpus;
+    int max_threads;
+    double projected_flops_scale;
+    bool have_os_regex;
+    regex_t os_regex;
+    char project_prefs_tag[256];
+    bool have_project_prefs_regex;
+    regex_t project_prefs_regex;
     double avg_ncpus;
-    double max_ncpus;
-    double ngpus;
-        // defaults to CPU plan classes for type 0, 1 otherwise
+        // for non-compute-intensive, or override for GPU apps
 
+    // GPU apps
+    //
+    double min_gpu_ram_mb;
+        // for older clients that don't report available RAM
+    double gpu_ram_used_mb;
+    double gpu_peak_flops_scale;
+    double ngpus;
+    int min_driver_version;
+    int max_driver_version;
+    char gpu_utilization_tag[256];
+        // the project prefs tag for user-supplied gpu_utilization factor
+
+    // NVIDIA apps
+    //
+    int min_nvidia_compcap;
+    int max_nvidia_compcap;
+
+    // CUDA apps
+    //
+    int min_cuda_version;
+    int max_cuda_version;
+
+    // OpenCL apps
+    //
+    int min_opencl_version;
+    int max_opencl_version;
+
+    // VirtualBox apps
+    //
+    int min_vbox_version;
+    int max_vbox_version;
+
+    int parse(XML_PARSER&);
     bool check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu);
-    void print(void);
     PLAN_CLASS_SPEC();
 };
 
@@ -79,6 +85,5 @@ struct PLAN_CLASS_SPECS {
     int parse_file(char*);
     int parse_specs(FILE*);
     bool check(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu);
-    void print(void);
     PLAN_CLASS_SPECS(){};
 };

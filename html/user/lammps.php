@@ -30,8 +30,7 @@ $debug=0;
 //
 // output: success flag, CPU time per step, est. disk usage per job
 //
-function terminate_job($p)
-{
+function terminate_job($p) {
         $pstatus=proc_get_status($p);
         $ppid=$pstatus['pid'];
         $ret=`ps -o pid --no-heading --ppid $ppid`;
@@ -314,6 +313,7 @@ function prepare_batch($user) {
     if (!is_dir($test_dir)) {
         mkdir($test_dir);
     }
+    $old_dir = getcwd();
     if (!chdir($test_dir)) {
         error_page("Can't chdir");
     }
@@ -358,6 +358,7 @@ function prepare_batch($user) {
     $client_mb = number_format($info->rsc_disk_bound/1e6, 1);
     $server_mb = number_format($njobs*$info->rsc_disk_bound/1e6, 1);
 
+    chdir($old_dir);
     page_head("Batch prepared");
     echo "
         Your batch has $njobs jobs.
