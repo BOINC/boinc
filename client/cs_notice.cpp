@@ -457,7 +457,7 @@ int NOTICES::read_archive_file(const char* path, RSS_FEED* rfp) {
 // (or, if NULL, non-RSS notices)
 //
 void NOTICES::write_archive(RSS_FEED* rfp) {
-    char path[256];
+    char path[MAXPATHLEN];
 
     if (rfp) {
         rfp->archive_file_name(path);
@@ -564,7 +564,7 @@ void RSS_FEED::archive_file_name(char* path) {
 // insert items in NOTICES
 //
 int RSS_FEED::read_archive_file() {
-    char path[256];
+    char path[MAXPATHLEN];
     archive_file_name(path);
     return notices.read_archive_file(path, this);
 }
@@ -775,7 +775,7 @@ void RSS_FEED_OP::handle_reply(int http_op_retval) {
 static void init_proj_am(PROJ_AM* p) {
     FILE* f;
     MIOFILE fin;
-    char path[256];
+    char path[MAXPATHLEN];
 
     project_feed_list_file_name(p, path);
     f = fopen(path, "r");

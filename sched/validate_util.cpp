@@ -59,7 +59,7 @@ int FILE_INFO::parse(XML_PARSER& xp) {
 }
 
 int get_output_file_info(RESULT& result, FILE_INFO& fi) {
-    char path[1024];
+    char path[MAXPATHLEN];
     string name;
     MIOFILE mf;
     mf.init_buf_read(result.xml_doc_in);
@@ -80,7 +80,7 @@ int get_output_file_info(RESULT& result, FILE_INFO& fi) {
 }
 
 int get_output_file_infos(RESULT& result, vector<FILE_INFO>& fis) {
-    char path[1024];
+    char path[MAXPATHLEN];
     MIOFILE mf;
     string name;
     mf.init_buf_read(result.xml_doc_in);

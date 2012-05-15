@@ -206,7 +206,7 @@ int DUMP_SPEC::parse(FILE* in) {
 class ZFILE {
 protected:
     string tag;     // enclosing XML tag
-    char current_path[256];
+    char current_path[MAXPATHLEN];
     int compression;
 public:
     FILE* f;
@@ -621,7 +621,7 @@ int ENUMERATION::make_it_happen(char* output_dir) {
     DB_TEAM team;
     DB_HOST host;
     char clause[256];
-    char path[256];
+    char path[MAXPATHLEN];
 
     sprintf(path, "%s/%s", output_dir, filename);
 

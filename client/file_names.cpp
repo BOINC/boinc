@@ -230,7 +230,7 @@ int make_slot_dir(int slot) {
 // delete unused stuff in the slots/ directory
 //
 void delete_old_slot_dirs() {
-    char filename[1024], path[1024];
+    char filename[1024], path[MAXPATHLEN];
     DIRREF dirp;
     int retval;
 
@@ -243,7 +243,7 @@ void delete_old_slot_dirs() {
         snprintf(path, sizeof(path), "%s/%s", SLOTS_DIR, filename);
         if (is_dir(path)) {
 #ifndef _WIN32
-            char init_data_path[1024];
+            char init_data_path[MAXPATHLEN];
             SHMEM_SEG_NAME shmem_seg_name;
 
             // If BOINC crashes or exits suddenly (e.g., due to

@@ -78,7 +78,7 @@ int prepare_prev_dir() {
 }
 
 int move_file(const char* file, char* old_dir, char* new_dir) {
-    char old_path[1024], new_path[1024];
+    char old_path[MAXPATHLEN], new_path[MAXPATHLEN];
     sprintf(old_path, "%s/%s", old_dir, file);
     sprintf(new_path, "%s/%s", new_dir, file);
     int retval = boinc_rename(old_path, new_path);
@@ -104,7 +104,7 @@ int move_files(vector<const char*> files, char* old_dir, char* new_dir) {
 
 int main(int argc, char** argv) {
     int i, retval, argc2;
-    char filepath[512];
+    char filepath[MAXPATHLEN];
 #ifdef _WIN32
     HANDLE core_pid, mgr_pid;
 #else

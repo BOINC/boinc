@@ -176,7 +176,7 @@ int FILE_INFO::verify_file(
     // see if we need to unzip it
     //
     if (download_gzipped && !boinc_file_exists(pathname)) {
-        char gzpath[256];
+        char gzpath[MAXPATHLEN];
         sprintf(gzpath, "%s.gz", pathname);
         if (boinc_file_exists(gzpath) ) {
 			if (allow_async && nbytes > ASYNC_FILE_THRESHOLD) {
@@ -401,7 +401,7 @@ bool CLIENT_STATE::create_and_delete_pers_file_xfers() {
                 // If this was a compressed download, rename .gzt to .gz
                 //
                 if (fip->download_gzipped) {
-                    char path[256], from_path[256], to_path[256];
+                    char path[MAXPATHLEN], from_path[MAXPATHLEN], to_path[MAXPATHLEN];
                     get_pathname(fip, path, sizeof(path));
                     sprintf(from_path, "%s.gzt", path);
                     sprintf(to_path, "%s.gz", path);
@@ -459,7 +459,7 @@ bool CLIENT_STATE::create_and_delete_pers_file_xfers() {
 //
 void CLIENT_STATE::check_file_existence() {
     unsigned int i;
-    char path[1024];
+    char path[MAXPATHLEN];
 
     for (i=0; i<file_infos.size(); i++) {
         FILE_INFO* fip = file_infos[i];

@@ -413,7 +413,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
 // Move it from slot dir to project dir
 //
 int ACTIVE_TASK::move_trickle_file() {
-    char project_dir[256], new_path[1024], old_path[1024];
+    char project_dir[256], new_path[MAXPATHLEN], old_path[MAXPATHLEN];
     int retval;
 
     get_project_dir(result->project, project_dir, sizeof(project_dir));
@@ -440,7 +440,7 @@ int ACTIVE_TASK::current_disk_usage(double& size) {
     unsigned int i;
     int retval;
     FILE_INFO* fip;
-    char path[1024];
+    char path[MAXPATHLEN];
 
     retval = dir_size(slot_dir, size);
     if (retval) return retval;
@@ -464,7 +464,7 @@ bool ACTIVE_TASK_SET::is_slot_in_use(int slot) {
 }
 
 bool ACTIVE_TASK_SET::is_slot_dir_in_use(char* dir) {
-    char path[1024];
+    char path[MAXPATHLEN];
     unsigned int i;
     for (i=0; i<active_tasks.size(); i++) {
         get_slot_dir(active_tasks[i]->slot, path, sizeof(path));
@@ -479,7 +479,7 @@ bool ACTIVE_TASK_SET::is_slot_dir_in_use(char* dir) {
 void ACTIVE_TASK::get_free_slot(RESULT* rp) {
 #ifndef SIM
     int j, retval;
-    char path[1024];
+    char path[MAXPATHLEN];
 
     for (j=0; ; j++) {
         if (gstate.active_tasks.is_slot_in_use(j)) continue;
@@ -886,7 +886,7 @@ void ACTIVE_TASK_SET::report_overdue() {
 //
 int ACTIVE_TASK::handle_upload_files() {
     std::string filename;
-    char buf[256], path[1024];
+    char buf[256], path[MAXPATHLEN];
     int retval;
 
     DirScanner dirscan(slot_dir);
@@ -942,7 +942,7 @@ void ACTIVE_TASK_SET::network_available() {
 }
 
 void ACTIVE_TASK::upload_notify_app(const FILE_INFO* fip, const FILE_REF* frp) {
-    char path[256];
+    char path[MAXPATHLEN];
     sprintf(path, "%s/%s%s", slot_dir, UPLOAD_FILE_STATUS_PREFIX, frp->open_name);
     FILE* f = boinc_fopen(path, "w");
     if (!f) return;

@@ -529,13 +529,13 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
 }
 
 bool ACTIVE_TASK::finish_file_present() {
-    char path[256];
+    char path[MAXPATHLEN];
     sprintf(path, "%s/%s", slot_dir, BOINC_FINISH_CALLED_FILE);
     return (boinc_file_exists(path) != 0);
 }
 
 bool ACTIVE_TASK::temporary_exit_file_present(double& x, char* buf) {
-    char path[256];
+    char path[MAXPATHLEN];
     sprintf(path, "%s/%s", slot_dir, TEMPORARY_EXIT_FILE);
     FILE* f = fopen(path, "r");
     if (!f) return false;
@@ -805,7 +805,7 @@ int ACTIVE_TASK::abort_task(int exit_status, const char* msg) {
 //
 int ACTIVE_TASK::read_stderr_file() {
     char* buf1, *buf2;
-    char path[256];
+    char path[MAXPATHLEN];
 
     // truncate stderr output to the last 63KB;
     // it's unlikely that more than that will be useful
@@ -1341,7 +1341,7 @@ void ACTIVE_TASK_SET::get_msgs() {
 // (this avoids rewriting the state file on each checkpoint)
 //
 void ACTIVE_TASK::write_task_state_file() {
-    char path[1024];
+    char path[MAXPATHLEN];
     sprintf(path, "%s/%s", slot_dir, TASK_STATE_FILENAME);
     FILE* f = fopen(path, "w");
     if (!f) return;
@@ -1366,7 +1366,7 @@ void ACTIVE_TASK::write_task_state_file() {
 // then the main state file
 //
 void ACTIVE_TASK::read_task_state_file() {
-    char buf[4096], path[1024], s[1024];
+    char buf[4096], path[MAXPATHLEN], s[1024];
     sprintf(path, "%s/%s", slot_dir, TASK_STATE_FILENAME);
     FILE* f = fopen(path, "r");
     if (!f) return;

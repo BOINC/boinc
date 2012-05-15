@@ -616,7 +616,7 @@ const char* PROJECT::get_scheduler_url(int index, double r) {
 //
 void PROJECT::delete_project_file_symlinks() {
     unsigned int i;
-    char project_dir[256], path[256];
+    char project_dir[256], path[MAXPATHLEN];
 
     get_project_dir(this, project_dir, sizeof(project_dir));
     for (i=0; i<project_files.size(); i++) {
@@ -675,7 +675,7 @@ void PROJECT::write_project_files(MIOFILE& f) {
 // has several logical names, so try them all
 //
 int PROJECT::write_symlink_for_project_file(FILE_INFO* fip) {
-    char project_dir[256], link_path[256], file_path[256];
+    char project_dir[256], link_path[MAXPATHLEN], file_path[MAXPATHLEN];
     unsigned int i;
 
     get_project_dir(this, project_dir, sizeof(project_dir));

@@ -103,7 +103,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
 #ifndef SIM
     FILE_INFO* fip;
     unsigned int i;
-    char path[256];
+    char path[MAXPATHLEN];
     int retval;
     double size;
 

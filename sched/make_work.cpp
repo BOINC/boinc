@@ -28,6 +28,7 @@
 //
 
 #include "config.h"
+#include <sys/param.h>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -172,7 +173,7 @@ void wait_for_results(int wu_id) {
 
 void make_work(vector<string> &wu_names) {
     int retval, start_time=time(0);
-    char keypath[256];
+    char keypath[MAXPATHLEN];
     char buf[BLOB_SIZE];
     R_RSA_PRIVATE_KEY key;
     int nwu_names = wu_names.size();

@@ -232,7 +232,7 @@ void CONFIG::show() {
 // KEEP IN SYNCH WITH CONFIG::parse_options()!!
 
 int CONFIG::parse_options_client(XML_PARSER& xp) {
-    char path[256];
+    char path[MAXPATHLEN];
     string s;
     int n, retval;
 

@@ -801,7 +801,7 @@ int CLIENT_STATE::write_state_file_if_needed() {
 //
 void CLIENT_STATE::check_anonymous() {
     unsigned int i;
-    char dir[256], path[256];
+    char dir[256], path[MAXPATHLEN];
     FILE* f;
     int retval;
 
@@ -832,7 +832,7 @@ void CLIENT_STATE::check_anonymous() {
 // parse a project's app_info.xml (anonymous platform) file
 //
 int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
-    char buf[256], path[1024];
+    char buf[256], path[MAXPATHLEN];
     MIOFILE mf;
     mf.init_file(in);
     XML_PARSER xp(&mf);

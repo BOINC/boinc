@@ -23,4 +23,6 @@
 // NOTE: Compile and link this function with your application;
 // it is not included in the standard BOINC libraries.
 
+#include "cl_boinc.h"
+
 int boinc_get_opencl_ids(cl_device_id*, cl_platform_id*);

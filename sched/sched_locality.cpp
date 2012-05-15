@@ -212,7 +212,7 @@ bool host_has_file(char *filename, bool skip_last_wu) {
 // routine, in the same way as if there was no scheduling locality.
 //
 int decrement_disk_space_locality( WORKUNIT& wu) {
-    char filename[256], path[512];
+    char filename[256], path[MAXPATHLEN];
     int filesize;
     struct stat buf;
 

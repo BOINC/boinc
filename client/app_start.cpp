@@ -160,7 +160,7 @@ int ACTIVE_TASK::get_shmem_seg_name() {
     if (!shm_handle) return ERR_SHMGET;
     sprintf(shmem_seg_name, "boinc_%d", i);
 #else
-    char init_data_path[256];
+    char init_data_path[MAXPATHLEN];
 #ifndef __EMX__
     // shmem_seg_name is not used with mmap() shared memory
     if (app_version->api_major_version() >= 6) {
@@ -195,7 +195,7 @@ int ACTIVE_TASK::get_shmem_seg_name() {
 }
 
 void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
-    char project_dir[256], project_path[256];
+    char project_dir[256], project_path[MAXPATHLEN];
 
     aid.major_version = BOINC_MAJOR_VERSION;
     aid.minor_version = BOINC_MINOR_VERSION;
@@ -279,7 +279,7 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
 //
 int ACTIVE_TASK::write_app_init_file(APP_INIT_DATA& aid) {
     FILE *f;
-    char init_data_path[256];
+    char init_data_path[MAXPATHLEN];
 
     sprintf(init_data_path, "%s/%s", slot_dir, INIT_DATA_FILE);
 
@@ -308,7 +308,7 @@ static int create_dirs_for_logical_name(
     const char* name, const char* slot_dir
 ) {
     char buf[1024];
-    char dir_path[1024];
+    char dir_path[MAXPATHLEN];
     int retval;
 
     strcpy(buf, name);
@@ -353,7 +353,7 @@ bool ACTIVE_TASK::must_copy_file(FILE_REF& fref, bool is_io_file) {
 int ACTIVE_TASK::setup_file(
     FILE_INFO* fip, FILE_REF& fref, char* file_path, bool input, bool is_io_file
 ) {
-    char link_path[256], rel_file_path[256], open_name[256];
+    char link_path[MAXPATHLEN], rel_file_path[MAXPATHLEN], open_name[256];
     int retval;
     PROJECT* project = result->project;
 
@@ -426,7 +426,7 @@ int ACTIVE_TASK::link_user_files() {
     unsigned int i;
     FILE_REF fref;
     FILE_INFO* fip;
-    char file_path[1024];
+    char file_path[MAXPATHLEN];
 
     for (i=0; i<project->user_files.size(); i++) {
         fref = project->user_files[i];
@@ -481,7 +481,7 @@ int ACTIVE_TASK::copy_output_files() {
 //   ACTIVE_TASK::task_state is PROCESS_EXECUTING
 //
 int ACTIVE_TASK::start() {
-    char exec_name[256], file_path[256], buf[256], exec_path[256];
+    char exec_name[256], file_path[MAXPATHLEN], buf[256], exec_path[MAXPATHLEN];
     char cmdline[80000];    // 64KB plus some extra
     unsigned int i;
     FILE_REF fref;
@@ -628,7 +628,7 @@ int ACTIVE_TASK::start() {
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
     LPVOID environment_block = NULL;
-    char slotdirpath[256];
+    char slotdirpath[MAXPATHLEN];
     char error_msg[1024];
     char error_msg2[1024];
 
@@ -1004,7 +1004,7 @@ int ACTIVE_TASK::start() {
         }
         sprintf(buf, "../../%s", exec_path);
         if (g_use_sandbox) {
-            char switcher_path[100];
+            char switcher_path[MAXPATHLEN];
             sprintf(switcher_path, "../../%s/%s",
                 SWITCHER_DIR, SWITCHER_FILE_NAME
             );

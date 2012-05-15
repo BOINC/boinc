@@ -27,6 +27,7 @@
 //   the file (and the workunit names) contain a timestamp
 //   and sequence number, so they're unique.
 
+#include <sys/param.h>
 #include <unistd.h>
 #include <cstdlib>
 #include <string>
@@ -61,7 +62,7 @@ int seqno;
 //
 int make_job() {
     DB_WORKUNIT wu;
-    char name[256], path[256];
+    char name[256], path[MAXPATHLEN];
     const char* infiles[1];
     int retval;
 

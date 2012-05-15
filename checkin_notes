@@ -3534,3 +3534,15 @@ David  6 May 2012
 
     client/
         coproc_detect.cpp
+
+Bernd  7 May 2012
+    - lib: added function secs_to_hmsf() which converts (double) seconds
+        to a string 0h00m00s00
+
+    lib/
+        str_util.cpp, .h
+
+David  9 May 2012
+    - C++ code: use MAXPATHLEN for char arrays that hold paths
+
+    (many .cpp files)

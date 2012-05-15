@@ -19,6 +19,7 @@
 // download servers based on its time zone
 
 #include "config.h"
+#include <sys/param.h>
 #include <string>
 #include <cstdio>
 #include <cstring>
@@ -216,7 +217,7 @@ int add_download_servers(char *old_xml, char *new_xml, int tz) {
         // q is at beginning of next "<url>" tag
 
         char *s;
-        char path[1024];
+        char path[MAXPATHLEN];
         int  len = q-p;
 
         // copy everything from p to q to new_xml

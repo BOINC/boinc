@@ -604,7 +604,7 @@ char *check_validity(
 
     char file[256];
     while (dir_scan(file, dir, sizeof(file))) {
-        char fpath[512];
+        char fpath[MAXPATHLEN];
 	    snprintf(fpath, sizeof(fpath), "%s/%s", certPath, file);
         // TODO : replace '128'  
 	    if (check_validity_of_cert(fpath, md5_md, signature, 128, caPath)) {
@@ -624,7 +624,7 @@ int cert_verify_file(
     int rbytes;
     unsigned char md5_md[MD5_DIGEST_LENGTH],  rbuf[2048];
     char buf[256];
-    char fbuf[512];
+    char fbuf[MAXPATHLEN];
     int verified = false;
     int file_counter = 0;
     DATA_BLOCK sig_db;
@@ -657,7 +657,7 @@ int cert_verify_file(
         sscan_hex_data(signatures->signatures.at(i).signature, sig_db);
         file_counter = 0;
         while (1) {
-            snprintf(fbuf, 512, "%s/%s.%d", trustLocation, signatures->signatures.at(i).hash,
+            snprintf(fbuf, MAXPATHLEN, "%s/%s.%d", trustLocation, signatures->signatures.at(i).hash,
                 file_counter);
 #ifndef _USING_FCGI_
             FILE *f = fopen(fbuf, "r");

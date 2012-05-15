@@ -146,7 +146,7 @@ static void handle_get_disk_usage(GUI_RPC_CONN& grc) {
         // If launched by Manager, get Manager's size on disk
         ProcessSerialNumber managerPSN;
         FSRef ourFSRef;
-        char path[1024];
+        char path[MAXPATHLEN];
         double manager_size = 0.0;
         OSStatus err;
         err = GetProcessForPID(getppid(), &managerPSN);

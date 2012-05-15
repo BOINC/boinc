@@ -35,6 +35,7 @@
 #include <string>
 #include <signal.h>
 #include <sys/time.h>
+#include <sys/param.h>
 
 #include "boinc_db.h"
 #include "util.h"
@@ -753,7 +754,7 @@ void usage(char *name) {
 
 int main(int argc, char** argv) {
     int i, retval;
-    char path[256];
+    char path[MAXPATHLEN];
 
     startup_time = time(0);
     for (i=1; i<argc; i++) {
