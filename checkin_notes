@@ -3589,3 +3589,9 @@ David  10 May 2012
 
     lib/
         diagnostics.cpp
+
+David  13 May 2012
+    - lib: down case processor features
+
+    lib/
+        hostinfo.cpp

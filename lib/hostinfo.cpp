@@ -103,7 +103,10 @@ int HOST_INFO::parse(XML_PARSER& xp, bool benchmarks_only) {
         if (xp.parse_int("p_ncpus", p_ncpus)) continue;
         if (xp.parse_str("p_vendor", p_vendor, sizeof(p_vendor))) continue;
         if (xp.parse_str("p_model", p_model, sizeof(p_model))) continue;
-        if (xp.parse_str("p_features", p_features, sizeof(p_features))) continue;
+        if (xp.parse_str("p_features", p_features, sizeof(p_features))) {
+            downcase_string(p_features);
+            continue;
+        }
         if (xp.parse_double("m_nbytes", m_nbytes)) continue;
         if (xp.parse_double("m_cache", m_cache)) continue;
         if (xp.parse_double("m_swap", m_swap)) continue;
