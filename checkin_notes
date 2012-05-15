@@ -3869,3 +3869,13 @@ Rom    15 May 2012
         
     doc/
         get_platforms.inc
+
+Rom    15 May 2012
+    - MGR: Fix the icon we use to represent OpenCL.
+    - client: Update the stock all_project_list.xml file we send out
+        with new client software.
+
+    clientgui/res/
+        openclicon.xpm
+    win_build/installerv2/redist/
+        all_projects_list.xml
