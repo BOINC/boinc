@@ -3526,3 +3526,11 @@ Charlie 10 May 2012
         sg_DlgMessages.cpp
         mac/
             MacGUI.cpp,.h
+
+David  6 May 2012
+    - client: fix bug where coproc name could be set incorrectly when:
+        a) there are multiple GPU vendors
+        b) one of them is detected via OpenCL but not "native" (CUDA/CAL)
+
+    client/
+        coproc_detect.cpp

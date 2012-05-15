@@ -316,7 +316,8 @@ void COPROCS::get_opencl(
     
     for (platform_index=0; platform_index<num_platforms; ++platform_index) {
         ciErrNum = (*__clGetPlatformInfo)(
-            platforms[platform_index], CL_PLATFORM_VERSION, sizeof(platform_version), &platform_version, NULL
+            platforms[platform_index], CL_PLATFORM_VERSION,
+            sizeof(platform_version), &platform_version, NULL
         );
         if (ciErrNum != CL_SUCCESS) {
             sprintf(buf, "clGetPlatformInfo CL_PLATFORM_VERSION for platform #%d returned error %d", platform_index, ciErrNum);
@@ -325,7 +326,8 @@ void COPROCS::get_opencl(
         }
 
         ciErrNum = (*__clGetDeviceIDs)(
-            platforms[platform_index], CL_DEVICE_TYPE_GPU, MAX_COPROC_INSTANCES, devices, &num_devices
+            platforms[platform_index], CL_DEVICE_TYPE_GPU,
+            MAX_COPROC_INSTANCES, devices, &num_devices
         );
         if (ciErrNum != CL_SUCCESS) {
             sprintf(buf, "clGetDeviceIDs for platform #%d returned error %d", platform_index, ciErrNum);
@@ -339,12 +341,16 @@ devices[2] = devices[1];
 #endif
 
         // Mac OpenCL does not recognize all NVIDIA GPUs returned by CUDA
+        //
         current_CUDA_index = 0;
 
         for (device_index=0; device_index<num_devices; ++device_index) {
             memset(&prop, 0, sizeof(prop));
             prop.device_id = devices[device_index];
-            strncpy(prop.opencl_platform_version, platform_version, sizeof(prop.opencl_platform_version)-1);
+            strncpy(
+                prop.opencl_platform_version, platform_version,
+                sizeof(prop.opencl_platform_version)-1
+            );
             
 //TODO: Should we store the platform(s) for each GPU found?
 //TODO: Must we check if multiple platforms found the same GPU and merge the records?
@@ -376,10 +382,11 @@ strcpy(prop.opencl_driver_version, "CLH 1.0");
 
             if (strstr(prop.vendor, GPU_TYPE_NVIDIA)) {
                 if (nvidia.have_cuda) {
-                    // Mac OpenCL does not recognize all NVIDIA GPUs returned by 
-                    // CUDA but we assume that OpenCL and CUDA return devices in 
+                    // Mac OpenCL does not recognize all NVIDIA GPUs returned by
+                    // CUDA but we assume that OpenCL and CUDA return devices in
                     // the same order and with identical model name strings
-                    while(1) {
+                    //
+                    while (1) {
                         if (current_CUDA_index >= (int)(nvidia_gpus.size())) {
                             if (log_flags.coproc_debug) {
                                 msg_printf(0, MSG_INFO,
@@ -392,7 +399,9 @@ strcpy(prop.opencl_driver_version, "CLH 1.0");
                         if (!strcmp(prop.name, nvidia_gpus[current_CUDA_index].prop.name)) {
                             break;  // We have a match
                         }
-                        // This CUDA GPU is not recognized by OpenCL, so try the next
+                        // This CUDA GPU is not recognized by OpenCL,
+                        // so try the next
+                        //
                         ++current_CUDA_index;
                     }
                     prop.device_num = current_CUDA_index;
@@ -408,7 +417,9 @@ strcpy(prop.opencl_driver_version, "CLH 1.0");
                     prop.peak_flops = c.peak_flops;
                 }
                 if (nvidia_gpus.size()) {
-                    // Assumes OpenCL and CUDA return the devices in the same order
+                    // Assumes OpenCL and CUDA return the devices
+                    // in the same order
+                    //
                     prop.opencl_available_ram = nvidia_gpus[prop.device_num].available_ram;
                 } else {
                     prop.opencl_available_ram = prop.global_mem_size;
@@ -425,13 +436,16 @@ strcpy(prop.opencl_driver_version, "CLH 1.0");
                 
                 if (ati.have_cal) {
                     if (prop.device_num < (int)(ati_gpus.size())) {
-                        // Always use GPU model name from OpenCL if available for ATI / AMD 
-                        // GPUs because (we believe) it is more reliable and user-friendly.
-                        // Assumes OpenCL and CAL return the devices in the same order
+                        // Always use GPU model name from OpenCL if available
+                        // for ATI / AMD  GPUs because
+                        // (we believe) it is more reliable and user-friendly.
+                        // Assumes OpenCL and CAL return the devices
+                        // in the same order
+                        //
                         strcpy(ati_gpus[prop.device_num].name, prop.name);
 
                         // Work around a bug in OpenCL which returns only 
-                        // 1/2 of total global RAM size: use the value from CAL. 
+                        // 1/2 of total global RAM size: use the value from CAL.
                         // This bug applies only to ATI GPUs, not to NVIDIA
                         // See also further workaround code for Macs.
                         //
@@ -475,7 +489,9 @@ strcpy(prop.opencl_driver_version, "CLH 1.0");
 #endif
 
     if ((nvidia_opencls.size() == 0) && (ati_opencls.size() == 0)) {
-        warnings.push_back("OpenCL library present but no OpenCL-capable GPUs found");
+        warnings.push_back(
+            "OpenCL library present but no OpenCL-capable GPUs found"
+        );
         return;
     }
         
@@ -486,7 +502,7 @@ strcpy(prop.opencl_driver_version, "CLH 1.0");
         nvidia.prop.totalGlobalMem = nvidia.opencl_prop.global_mem_size;
         nvidia.available_ram = nvidia.opencl_prop.global_mem_size;
         nvidia.prop.clockRate = nvidia.opencl_prop.max_clock_frequency * 1000;
-        strcpy(nvidia.prop.name, prop.name);
+        strcpy(nvidia.prop.name, nvidia.opencl_prop.name);
     }
 
     if (ati.have_cal) { // If CAL already found the "best" CAL GPU
@@ -496,10 +512,10 @@ strcpy(prop.opencl_driver_version, "CLH 1.0");
         ati.attribs.localRAM = ati.opencl_prop.global_mem_size/MEGA;
         ati.available_ram = ati.opencl_prop.global_mem_size;
         ati.attribs.engineClock = ati.opencl_prop.max_clock_frequency;
-        strcpy(ati.name, prop.name);
-    }           // End if (! ati.have_cal)
+        strcpy(ati.name, ati.opencl_prop.name);
+    }
 
-//TODO: Add code to allow adding other GPU vendors
+// TODO: Add code to allow adding other GPU vendors
 }
 
 cl_int COPROCS::get_opencl_info(
@@ -691,7 +707,9 @@ void COPROC::merge_opencl(
     }
     
     opencl_device_count = 0;
+
     // Fill in info for other GPUs which CAL or CUDA found equivalent to best
+    //
     for (i=0; i<(unsigned int)count; ++i) {
         for (j=0; j<opencls.size(); j++) {
             if (device_nums[i] == opencls[j].device_num) {
