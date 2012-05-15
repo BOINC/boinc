@@ -3617,3 +3617,11 @@ Rom    15 May 2012
         openclicon.xpm
     win_build/installerv2/redist/
         all_projects_list.xml
+
+Rom    2 May 2012
+    - Tag for 7.0.28 release, all platforms
+      boinc_core_release_7_0_28
+
+    /
+        configure.ac
+        version.h
