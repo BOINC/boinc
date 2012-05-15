@@ -3862,3 +3862,10 @@ Rom    15 May 2012
         openclicon.png
     lib/
         diagnostics.cpp
+
+Rom    15 May 2012
+    - Normalize the way E@H returns OpenCL information to the client
+        software.
+        
+    doc/
+        get_platforms.inc

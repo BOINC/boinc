@@ -45,8 +45,11 @@ function friendly_name($p) {
 
 function canonical_plan_class($pc) {
     //if (strstr($pc, "mt")) return "mt";
-    if (strstr($pc, "cuda")) return "cuda";
-    if (strstr($pc, "ati")) return "ati";
+	if (strstr($pc, "atiOpenCL")) return "opencl_ati";
+	if (strstr($pc, "nvidiaOpenCL")) return "opencl_nvidia";
+	if (strstr($pc, "intelOpenCL")) return "opencl_intel";
+	if (strstr($pc, "cuda")) return "cuda";
+	if (strstr($pc, "ati")) return "ati";
     return null;
 }
 
