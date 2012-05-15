@@ -87,7 +87,9 @@ static int         boinc_proxy_enabled;
 static char        boinc_proxy[256];
 static char        symstore[256];
 static int         aborted_via_gui;
+static int         stderr_file_size = 0;
 static int         max_stderr_file_size = 2048*1024;
+static int         stdout_file_size = 0;
 static int         max_stdout_file_size = 2048*1024;
 
 
@@ -104,17 +106,17 @@ int __cdecl boinc_message_reporting(int reportType, char *szMsg, int *retVal){
     case _CRT_ERROR:
 
         if (flags & BOINC_DIAG_TRACETOSTDERR) {
-            fprintf(stderr, szMsg);
+            stderr_file_size += fprintf(stderr, szMsg);
         }
 
         if (flags & BOINC_DIAG_TRACETOSTDOUT) {
-            fprintf(stdout, szMsg);
+            stdout_file_size += fprintf(stdout, szMsg);
         }
 
         break;
     case _CRT_ASSERT:
 
-        fprintf(stderr, "ASSERT: %s\n", szMsg);
+        stderr_file_size += fprintf(stderr, "ASSERT: %s\n", szMsg);
 
         (*retVal) = 1;
         break;
@@ -501,23 +503,10 @@ int diagnostics_is_aborted_via_gui() {
 // Cycle the log files at regular events.
 //
 int diagnostics_cycle_logs() {
-    double f_size;
-
-    fflush(stdout);
-    fflush(stderr);
-
     // If the stderr.txt or stdout.txt files are too big, cycle them
     //
     if (flags & BOINC_DIAG_REDIRECTSTDERR) {
-#ifdef __EMX__
-        // OS/2 can't stat() open files!
-        struct stat sbuf;
-        fstat(fileno(stderr_file), &sbuf);
-        f_size = (double)sbuf.st_size;
-#else
-        file_size(stderr_log, f_size);
-#endif
-        if (f_size > max_stderr_file_size) {
+        if (stderr_file_size > max_stderr_file_size) {
             if (NULL == stderr_file) return ERR_FOPEN;
             fclose(stderr_file);
             boinc_copy(stderr_log, stderr_archive);
@@ -527,15 +516,7 @@ int diagnostics_cycle_logs() {
     }
 
     if (flags & BOINC_DIAG_REDIRECTSTDOUT) {
-#ifdef __EMX__
-        // OS/2 can't stat() open files!
-        struct stat sbuf;
-        fstat(fileno(stdout_file), &sbuf);
-        f_size = (double)sbuf.st_size;
-#else
-        file_size(stdout_log, f_size);
-#endif
-        if (f_size > max_stdout_file_size) {
+        if (stdout_file_size > max_stdout_file_size) {
             if (NULL == stdout_file) return ERR_FOPEN;
             fclose(stdout_file);
             boinc_copy(stdout_log, stdout_archive);
@@ -543,7 +524,6 @@ int diagnostics_cycle_logs() {
             if (NULL == stdout_file) return ERR_FOPEN;
         }
     }
-
     return BOINC_SUCCESS;
 }
 
@@ -552,7 +532,6 @@ int diagnostics_cycle_logs() {
 //
 
 #if HAVE_SIGNAL_H
-
 
 // Set a signal handler only if it is not currently ignored
 //
@@ -696,17 +675,17 @@ void boinc_trace(const char *pszFormat, ...) {
 #else
         if (flags & BOINC_DIAG_TRACETOSTDERR) {
 #ifdef _WIN32
-            fprintf(stderr, "[%s %s] TRACE [%d]: %s\n", szDate, szTime, GetCurrentThreadId(), szBuffer);
+            stderr_file_size += fprintf(stderr, "[%s %s] TRACE [%d]: %s\n", szDate, szTime, GetCurrentThreadId(), szBuffer);
 #else
-            fprintf(stderr, "[%s] TRACE: %s\n", szTime, szBuffer);
+            stderr_file_size += fprintf(stderr, "[%s] TRACE: %s\n", szTime, szBuffer);
 #endif
         }
 
         if (flags & BOINC_DIAG_TRACETOSTDOUT) {
 #ifdef _WIN32
-            fprintf(stdout, "[%s %s] TRACE [%d]: %s\n", szDate, szTime, GetCurrentThreadId(), szBuffer);
+            stdout_file_size += fprintf(stdout, "[%s %s] TRACE [%d]: %s\n", szDate, szTime, GetCurrentThreadId(), szBuffer);
 #else
-            fprintf(stderr, "[%s] TRACE: %s\n", szTime, szBuffer);
+            stdout_file_size += fprintf(stdout, "[%s] TRACE: %s\n", szTime, szBuffer);
 #endif
         }
 #endif
@@ -743,11 +722,11 @@ void boinc_info(const char* pszFormat, ...){
     _CrtDbgReport(_CRT_WARN, NULL, NULL, NULL, "[%s %s] BOINCMSG: %s\n", szDate, szTime, szBuffer);
 #else
     if (flags & BOINC_DIAG_TRACETOSTDERR) {
-        fprintf(stderr, "[%s %s] BOINCMSG: %s\n", szDate, szTime, szBuffer);
+        stderr_file_size += fprintf(stderr, "[%s %s] BOINCMSG: %s\n", szDate, szTime, szBuffer);
     }
 
     if (flags & BOINC_DIAG_TRACETOSTDOUT) {
-        fprintf(stdout, "[%s %s] BOINCMSG: %s\n", szDate, szTime, szBuffer);
+        stdout_file_size += fprintf(stdout, "[%s %s] BOINCMSG: %s\n", szDate, szTime, szBuffer);
     }
 #endif
 }
