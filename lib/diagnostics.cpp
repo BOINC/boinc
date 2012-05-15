@@ -87,10 +87,10 @@ static int         boinc_proxy_enabled;
 static char        boinc_proxy[256];
 static char        symstore[256];
 static int         aborted_via_gui;
-static int         stderr_file_size = 0;
-static int         max_stderr_file_size = 2048*1024;
-static int         stdout_file_size = 0;
-static int         max_stdout_file_size = 2048*1024;
+static double      stderr_file_size = 0;
+static double      max_stderr_file_size = 2048*1024;
+static double      stdout_file_size = 0;
+static double      max_stdout_file_size = 2048*1024;
 
 
 #if defined(_WIN32) && defined(_DEBUG)
@@ -98,6 +98,7 @@ static int         max_stdout_file_size = 2048*1024;
 // Trap ASSERTs and TRACEs from the CRT and spew them to stderr.
 //
 int __cdecl boinc_message_reporting(int reportType, char *szMsg, int *retVal){
+    int n;
     (*retVal) = 0;
 
     switch(reportType){
@@ -106,17 +107,20 @@ int __cdecl boinc_message_reporting(int reportType, char *szMsg, int *retVal){
     case _CRT_ERROR:
 
         if (flags & BOINC_DIAG_TRACETOSTDERR) {
-            stderr_file_size += fprintf(stderr, szMsg);
+            n = fprintf(stderr, szMsg);
+            if (n > 0) stderr_file_size += n;
         }
 
         if (flags & BOINC_DIAG_TRACETOSTDOUT) {
-            stdout_file_size += fprintf(stdout, szMsg);
+            n = fprintf(stdout, szMsg);
+            if (n > 0) stdout_file_size += n;
         }
 
         break;
     case _CRT_ASSERT:
 
-        stderr_file_size += fprintf(stderr, "ASSERT: %s\n", szMsg);
+        n = fprintf(stderr, "ASSERT: %s\n", szMsg);
+        if (n > 0) stderr_file_size += n;
 
         (*retVal) = 1;
         break;
@@ -186,9 +190,8 @@ int diagnostics_init(
     // Check to see if we have already been called
     if (diagnostics_initialized) {
         return ERR_INVALID_PARAM;
-    } else {
-        diagnostics_initialized = true;
     }
+    diagnostics_initialized = true;
 
     // Setup initial values
     flags = _flags;
@@ -225,6 +228,7 @@ int diagnostics_init(
     // Redirect stderr and/or stdout, if requested
     //
     if (flags & BOINC_DIAG_REDIRECTSTDERR) {
+        file_size(stderr_log, stderr_file_size);
         stderr_file = freopen(stderr_log, "a", stderr);
         if (!stderr_file) {
             return ERR_FOPEN;
@@ -241,6 +245,7 @@ int diagnostics_init(
     }
 
     if (flags & BOINC_DIAG_REDIRECTSTDOUT) {
+        file_size(stdout_log, stdout_file_size);
         stdout_file = freopen(stdout_log, "a", stdout);
         if (!stdout_file) {
             return ERR_FOPEN;
@@ -510,6 +515,7 @@ int diagnostics_cycle_logs() {
             if (NULL == stderr_file) return ERR_FOPEN;
             fclose(stderr_file);
             boinc_copy(stderr_log, stderr_archive);
+            stderr_file_size = 0;
             stderr_file = freopen(stderr_log, "w", stderr);
             if (NULL == stderr_file) return ERR_FOPEN;
         }
@@ -519,6 +525,7 @@ int diagnostics_cycle_logs() {
         if (stdout_file_size > max_stdout_file_size) {
             if (NULL == stdout_file) return ERR_FOPEN;
             fclose(stdout_file);
+            stdout_file_size = 0;
             boinc_copy(stdout_log, stdout_archive);
             stdout_file = freopen(stdout_log, "w", stdout);
             if (NULL == stdout_file) return ERR_FOPEN;
@@ -654,6 +661,7 @@ void boinc_trace(const char *pszFormat, ...) {
 #else
         time_t t;
         char *theCR;
+        int n;
     
         time(&t);
         strcpy(szTime, asctime(localtime(&t)));
@@ -675,18 +683,20 @@ void boinc_trace(const char *pszFormat, ...) {
 #else
         if (flags & BOINC_DIAG_TRACETOSTDERR) {
 #ifdef _WIN32
-            stderr_file_size += fprintf(stderr, "[%s %s] TRACE [%d]: %s\n", szDate, szTime, GetCurrentThreadId(), szBuffer);
+            n = fprintf(stderr, "[%s %s] TRACE [%d]: %s\n", szDate, szTime, GetCurrentThreadId(), szBuffer);
 #else
-            stderr_file_size += fprintf(stderr, "[%s] TRACE: %s\n", szTime, szBuffer);
+            n = fprintf(stderr, "[%s] TRACE: %s\n", szTime, szBuffer);
 #endif
+            if (n > 0) stderr_file_size += n;
         }
 
         if (flags & BOINC_DIAG_TRACETOSTDOUT) {
 #ifdef _WIN32
-            stdout_file_size += fprintf(stdout, "[%s %s] TRACE [%d]: %s\n", szDate, szTime, GetCurrentThreadId(), szBuffer);
+            n = fprintf(stdout, "[%s %s] TRACE [%d]: %s\n", szDate, szTime, GetCurrentThreadId(), szBuffer);
 #else
-            stdout_file_size += fprintf(stdout, "[%s] TRACE: %s\n", szTime, szBuffer);
+            n = fprintf(stdout, "[%s] TRACE: %s\n", szTime, szBuffer);
 #endif
+            if (n > 0) stdout_file_size += n;
         }
 #endif
     }
@@ -703,6 +713,7 @@ void boinc_info(const char* pszFormat, ...){
     static char szBuffer[4096];
     static char szDate[64];
     static char szTime[64];
+    int n;
 
     memset(szBuffer, 0, sizeof(szBuffer));
     memset(szDate, 0, sizeof(szDate));
@@ -722,11 +733,13 @@ void boinc_info(const char* pszFormat, ...){
     _CrtDbgReport(_CRT_WARN, NULL, NULL, NULL, "[%s %s] BOINCMSG: %s\n", szDate, szTime, szBuffer);
 #else
     if (flags & BOINC_DIAG_TRACETOSTDERR) {
-        stderr_file_size += fprintf(stderr, "[%s %s] BOINCMSG: %s\n", szDate, szTime, szBuffer);
+        n = fprintf(stderr, "[%s %s] BOINCMSG: %s\n", szDate, szTime, szBuffer);
+        if (n > 0) stderr_file_size += n;
     }
 
     if (flags & BOINC_DIAG_TRACETOSTDOUT) {
-        stdout_file_size += fprintf(stdout, "[%s %s] BOINCMSG: %s\n", szDate, szTime, szBuffer);
+        n = fprintf(stdout, "[%s %s] BOINCMSG: %s\n", szDate, szTime, szBuffer);
+        if (n > 0) stdout_file_size += n;
     }
 #endif
 }
