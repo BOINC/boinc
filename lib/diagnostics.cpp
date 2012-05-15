@@ -645,6 +645,7 @@ void boinc_trace(const char *pszFormat, ...) {
     static char szBuffer[4096];
     static char szDate[64];
     static char szTime[64];
+    int n;
 
     // Trace messages should only be reported if running as a standalone
     //   application or told too.
@@ -661,7 +662,6 @@ void boinc_trace(const char *pszFormat, ...) {
 #else
         time_t t;
         char *theCR;
-        int n;
     
         time(&t);
         strcpy(szTime, asctime(localtime(&t)));
@@ -679,7 +679,7 @@ void boinc_trace(const char *pszFormat, ...) {
         va_end(ptr);
 
 #if defined(_WIN32) && defined(_DEBUG)
-        _CrtDbgReport(_CRT_WARN, NULL, NULL, NULL, "[%s %s] TRACE [%d]: %s", szDate, szTime, GetCurrentThreadId(), szBuffer);
+        n = _CrtDbgReport(_CRT_WARN, NULL, NULL, NULL, "[%s %s] TRACE [%d]: %s", szDate, szTime, GetCurrentThreadId(), szBuffer);
 #else
         if (flags & BOINC_DIAG_TRACETOSTDERR) {
 #ifdef _WIN32

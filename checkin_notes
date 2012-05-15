@@ -3595,3 +3595,15 @@ David  13 May 2012
 
     lib/
         hostinfo.cpp
+
+Rom    15 May 2012
+    - MGR: Add OpenCL icon to the ProjectInfo wizard page.
+
+    clientgui/
+        ProjectInfoPage.cpp, .h
+    clientgui/res/
+        openclicon.xpm
+    clientgui/res/templates/
+        openclicon.png
+    lib/
+        diagnostics.cpp
