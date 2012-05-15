@@ -3850,3 +3850,15 @@ David  14 May 2012
 
     sched/
         plan_class_space.cpp,h
+
+Rom    15 May 2012
+    - MGR: Add OpenCL icon to the ProjectInfo wizard page.
+
+    clientgui/
+        ProjectInfoPage.cpp, .h
+    clientgui/res/
+        openclicon.xpm
+    clientgui/res/templates/
+        openclicon.png
+    lib/
+        diagnostics.cpp
