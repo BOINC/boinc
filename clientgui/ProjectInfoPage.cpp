@@ -715,7 +715,7 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
                     if (strProjectPlatform.Find(_T("[opencl")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsOpenCL = true;
-						if (!pDoc->state.have_ati) continue;
+						if (!pDoc->state.have_ati && !pDoc->state.have_nvidia) continue;
                     }
 
                     if (strProjectPlatform.Find(_T("[mt")) != wxNOT_FOUND) {
