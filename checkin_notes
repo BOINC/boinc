@@ -3881,7 +3881,8 @@ Rom    15 May 2012
         all_projects_list.xml
 
 David  18 May 2012
-	- client/API/vboxwrapper: add an optional <vbox_window> element to cc_config.xml.
+	- client/API/vboxwrapper: add an optional <vbox_window> element
+        to cc_config.xml.
 		If present, run VMs without the --headless option.
 
 	client/
@@ -3892,3 +3893,11 @@ David  18 May 2012
 	samples/vboxwrapper/
 		vbox.cpp,h
 		vboxwrapper.cpp
+
+David  18 May 2012
+    - web: show "run beta apps?" project pref if the project
+        has any beta applications
+        (don't require project to specify this in project_specific_prefs.inc)
+
+    html/project.sample/
+        project_specific_prefs.inc

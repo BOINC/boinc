@@ -64,6 +64,16 @@ if (APP_SELECT_PREFS) {
     $app_array = null;
 }
 
+// see if we have any beta apps
+//
+$apps = BoincApp::enum("deprecated=0");
+foreach($apps as $app) {
+    if ($app->beta) {
+        $project_has_beta = true;
+        break;
+    }
+}
+
 function selected_app_text($prefs) {
     global $app_array;
     if (isset($prefs->app_ids)) {
