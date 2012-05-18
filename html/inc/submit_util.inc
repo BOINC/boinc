@@ -100,7 +100,7 @@ function abort_batch($batch) {
 }
 
 function retire_batch($batch) {
-    $wus = BoincWorkunit::enum("batch=$batch_id");
+    $wus = BoincWorkunit::enum("batch=$batch->id");
     $now = time();
     foreach ($wus as $wu) {
         $wu->update("assimilate_state=2, transition_time=$now");

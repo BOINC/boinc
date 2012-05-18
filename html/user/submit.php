@@ -165,7 +165,7 @@ function handle_query_batch($user) {
         );
         break;
     }
-    
+
     echo "<h2>Jobs</h2>\n";
     start_table();
     table_header(
@@ -197,7 +197,7 @@ function handle_query_batch($user) {
 }
 
 // show the details of a job, including links to see the output files
-// 
+//
 function handle_query_job($user) {
     $wuid = get_int('wuid');
 
@@ -282,12 +282,12 @@ function handle_abort_batch_confirm() {
     page_tail();
 }
 
-function handle_abort_batch() {
+function handle_abort_batch($user) {
     $batch_id = get_int('batch_id');
     $batch = BoincBatch::lookup_id($batch_id);
-    if (!$batch) error("no such batch");
+    if (!$batch) error_page("no such batch");
     if ($batch->user_id != $user->id) {
-        error("not owner");
+        error_page("not owner");
     }
     abort_batch($batch);
     page_head("Batch aborted");
@@ -311,9 +311,10 @@ function handle_retire_batch_confirm() {
     page_tail();
 }
 
-function handle_retire_batch() {
+function handle_retire_batch($user) {
     $batch_id = get_int('batch_id');
     $batch = BoincBatch::lookup_id($batch_id);
+    if (!$batch) error_page("no such batch");
     if ($batch->user_id != $user->id) {
         error_page("not owner");
     }
@@ -329,11 +330,11 @@ $action = get_str('action', true);
 
 switch ($action) {
 case '': handle_main($user); break;
-case 'abort_batch': handle_abort_batch(); break;
+case 'abort_batch': handle_abort_batch($user); break;
 case 'abort_batch_confirm': handle_abort_batch_confirm(); break;
 case 'query_batch': handle_query_batch($user); break;
 case 'query_job': handle_query_job($user); break;
-case 'retire_batch': handle_retire_batch(); break;
+case 'retire_batch': handle_retire_batch($user); break;
 case 'retire_batch_confirm': handle_retire_batch_confirm(); break;
 default:
     error_page('no such action');

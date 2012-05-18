@@ -3901,3 +3901,15 @@ David  18 May 2012
 
     html/project.sample/
         project_specific_prefs.inc
+
+David  18 May 2012
+    - web: fix PHP warnings by calling date_default_timezone_set().
+        Set it to the timezone specified by the constant TIMEZONE
+        (in project.inc) or "UTC" if none specified.
+    - web: fix bugs in submit.php
+    html/
+        inc/
+            submit_util.inc
+            util.inc
+        user/
+            submit.php

@@ -36,6 +36,14 @@ if (!defined('SECURE_URL_BASE')) {
     define('SECURE_URL_BASE', URL_BASE);
 }
 
+// define TIMEZONE in project.inc
+//
+if (defined('TIMEZONE')) {
+        date_default_timezone_set(TIMEZONE);
+} else {
+        date_default_timezone_set('UTC');
+}
+
 $generating_xml = false;
 $caching = false;
 $did_page_head = false;
