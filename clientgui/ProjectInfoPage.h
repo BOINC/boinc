@@ -128,8 +128,6 @@ public:
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformLinuxCtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformATICtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformNvidiaCtrl;
-    wxStaticBitmap* m_pProjectDetailsSupportedPlatformMultiCoreCtrl;
-    wxStaticBitmap* m_pProjectDetailsSupportedPlatformOpenCLCtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformBlankCtrl;
     wxStaticText* m_pProjectURLStaticCtrl;
     wxTextCtrl* m_pProjectURLCtrl;

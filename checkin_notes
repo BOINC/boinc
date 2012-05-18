@@ -3924,3 +3924,14 @@ David  18 May 2012
     - vboxwrapper: don't run headful if client is sandboxed (it won't work).
     samples/vboxwrapper/
         vboxwrapper.cpp
+
+Rom    18 May 2012
+    - MGR: Remove the visuals in the wizard for multi-core and opencl.  This area
+        will get a bunch of work in a future commit.
+        
+    clientgui/
+        ProjectInfoPage.cpp, .h
+    clientgui/res/
+        openclicon.xpm (deleted)
+        multicore.xpm (deleted)
+     
