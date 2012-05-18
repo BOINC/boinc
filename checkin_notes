@@ -3919,3 +3919,8 @@ David  18 May 2012
 
     sched/
         sched_array.cpp
+
+David  18 May 2012
+    - vboxwrapper: don't run headful if client is sandboxed (it won't work).
+    samples/vboxwrapper/
+        vboxwrapper.cpp

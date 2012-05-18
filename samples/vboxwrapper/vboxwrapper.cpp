@@ -433,7 +433,7 @@ int main(int argc, char** argv) {
         vm.vm_cpu_count = "1";
     }
 
-    if (aid.vbox_window) {
+    if (aid.vbox_window && !aid.using_sandbox) {
         vm.headless = false;
     }
 
