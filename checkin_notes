@@ -3913,3 +3913,9 @@ David  18 May 2012
             util.inc
         user/
             submit.php
+
+David  18 May 2012
+    - scheduler: add a lot more debug messages if <debug_array> is set
+
+    sched/
+        sched_array.cpp

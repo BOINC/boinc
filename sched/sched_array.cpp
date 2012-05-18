@@ -56,6 +56,10 @@ static bool quick_check(
 
     app = ssp->lookup_app(wu_result.workunit.appid);
     if (app == NULL) {
+        log_messages.printf(MSG_CRITICAL,
+            "[WU#%d] no app\n",
+            wu_result.workunit.id
+        );
         return false; // this should never happen
     }
 
@@ -65,6 +69,9 @@ static bool quick_check(
     //
     if (g_wreq->beta_only) {
         if (!app->beta) {
+            if (config.debug_array) {
+                log_messages.printf(MSG_NORMAL, "[array] not beta\n");
+            }
             return false;
         }
         if (config.debug_send) {
@@ -75,6 +82,9 @@ static bool quick_check(
         }
     } else {
         if (app->beta) {
+            if (config.debug_array) {
+                log_messages.printf(MSG_NORMAL, "[array] is beta\n");
+            }
             return false;
         }
     }
@@ -85,8 +95,14 @@ static bool quick_check(
     //
     if (!app->beta) {
         if (g_wreq->reliable_only && (!wu_result.need_reliable)) {
+            if (config.debug_array) {
+                log_messages.printf(MSG_NORMAL, "[array] don't need reliable\n");
+            }
             return false;
         } else if (!g_wreq->reliable_only && wu_result.need_reliable) {
+            if (config.debug_array) {
+                log_messages.printf(MSG_NORMAL, "[array] need reliable\n");
+            }
             return false;
         }
     }
@@ -95,6 +111,9 @@ static bool quick_check(
     // and the result is not infeasible
     //
     if (g_wreq->infeasible_only && (wu_result.infeasible_count==0)) {
+        if (config.debug_array) {
+            log_messages.printf(MSG_NORMAL, "[array] not infeasible\n");
+        }
         return false;
     }
 
@@ -119,10 +138,10 @@ static bool quick_check(
     ) {
         if (app_not_selected(wu)) {
             g_wreq->no_allowed_apps_available = true;
-#if 0
-            if (config.debug_send) {
+#if 1
+            if (config.debug_array) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] [USER#%d] [WU#%d] user doesn't want work for app %s\n",
+                    "[array] [USER#%d] [WU#%d] user doesn't want work for app %s\n",
                     g_reply->user.id, wu.id, app->name
                 );
             }
@@ -325,6 +344,11 @@ static bool scan_work_array() {
 
         WU_RESULT& wu_result = ssp->wu_results[i];
 
+        if (config.debug_array) {
+            log_messages.printf(MSG_NORMAL,
+                "[array] scanning slot %d\n", i
+            );
+        }
         // make a copy of the WORKUNIT part,
         // which we can modify without affecting the cache
         //
@@ -334,6 +358,11 @@ static bool scan_work_array() {
         // This may modify wu.rsc_fpops_est
         //
         if (!quick_check(wu_result, wu, bavp, app, last_retval)) {
+            if (config.debug_array) {
+                log_messages.printf(MSG_NORMAL,
+                    "[array] failed quick check\n"
+                );
+            }
             continue;
         }
 
