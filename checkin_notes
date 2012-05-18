@@ -3879,3 +3879,16 @@ Rom    15 May 2012
         openclicon.xpm
     win_build/installerv2/redist/
         all_projects_list.xml
+
+David  18 May 2012
+	- client/API/vboxwrapper: add an optional <vbox_window> element to cc_config.xml.
+		If present, run VMs without the --headless option.
+
+	client/
+		app_start.cpp
+	lib/
+		app_ipc.cpp,h
+		cc_config.cpp,h
+	samples/vboxwrapper/
+		vbox.cpp,h
+		vboxwrapper.cpp

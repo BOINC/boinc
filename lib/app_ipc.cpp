@@ -127,6 +127,7 @@ void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
     } else {
         project_preferences = NULL;
     }
+    vbox_window                   = a.vbox_window;
 }
 
 int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
@@ -211,7 +212,8 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         "<rsc_fpops_bound>%f</rsc_fpops_bound>\n"
         "<rsc_memory_bound>%f</rsc_memory_bound>\n"
         "<rsc_disk_bound>%f</rsc_disk_bound>\n"
-        "<computation_deadline>%f</computation_deadline>\n",
+        "<computation_deadline>%f</computation_deadline>\n"
+        "<vbox_window>%d</vbox_window>\n",
         ai.slot,
         ai.wu_cpu_time,
         ai.starting_elapsed_time,
@@ -232,7 +234,8 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         ai.rsc_fpops_bound,
         ai.rsc_memory_bound,
         ai.rsc_disk_bound,
-        ai.computation_deadline
+        ai.computation_deadline,
+        ai.vbox_window
     );
     MIOFILE mf;
     mf.init_file(f);
@@ -288,6 +291,7 @@ void APP_INIT_DATA::clear() {
     ncpus = 0;
     memset(&shmem_seg_name, 0, sizeof(shmem_seg_name));
     wu_cpu_time = 0;
+    vbox_window = false;
 }
 
 int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
@@ -387,6 +391,7 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         if (xp.parse_double("ncpus", ai.ncpus)) continue;
         if (xp.parse_double("fraction_done_start", ai.fraction_done_start)) continue;
         if (xp.parse_double("fraction_done_end", ai.fraction_done_end)) continue;
+        if (xp.parse_bool("vbox_window", ai.vbox_window)) continue;
         xp.skip_unexpected(false, "parse_init_data_file");
     }
     fprintf(stderr, "parse_init_data_file: no end tag\n");

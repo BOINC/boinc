@@ -201,6 +201,10 @@ struct APP_INIT_DATA {
     //
     double ncpus;
 
+    // client configuration info
+    //
+    bool vbox_window;
+
     // Items below here are for BOINC runtime system,
     // and should not be directly accessed by apps
     //

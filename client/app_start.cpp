@@ -262,6 +262,7 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
 
     }
     aid.ncpus = app_version->avg_ncpus;
+    aid.vbox_window = config.vbox_window;
     aid.checkpoint_period = gstate.global_prefs.disk_interval;
     aid.fraction_done_start = 0;
     aid.fraction_done_end = 1;

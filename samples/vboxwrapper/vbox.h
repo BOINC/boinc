@@ -78,6 +78,7 @@ struct VBOX_VM {
     // the following for optional remote desktop
     int rd_host_port;
         // dynamically assigned
+    bool headless;
 #ifdef _WIN32
     // the handle to the process for the VM
     // NOTE: we get a handle to the pid right after we parse it from the

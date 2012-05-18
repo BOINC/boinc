@@ -83,10 +83,6 @@ char* vboxwrapper_msg_prefix(char* sbuf, int len) {
     int n;
 
     time_t x = time(0);
-    if (x == -1) {
-        strcpy(sbuf, "time() failed");
-        return sbuf;
-    }
 #ifdef _WIN32
 #ifdef __MINGW32__
     if ((tmp = localtime(&x)) == NULL) {
@@ -319,17 +315,17 @@ int main(int argc, char** argv) {
     BOINC_OPTIONS boinc_options;
     VBOX_VM vm;
     APP_INIT_DATA aid;
-    double elapsed_time = 0.0;
-    double trickle_period = 0.0;
-    double trickle_cpu_time = 0.0;
-    double fraction_done = 0.0;
-    double checkpoint_cpu_time = 0.0;
-    double last_status_report_time = 0.0;
-    double stopwatch_time = 0.0;
-    double sleep_time = 0.0;
-    double bytes_sent = 0.0;
-    double bytes_received = 0.0;
-    double ncpus = 0.0;
+    double elapsed_time = 0;
+    double trickle_period = 0;
+    double trickle_cpu_time = 0;
+    double fraction_done = 0;
+    double checkpoint_cpu_time = 0;
+    double last_status_report_time = 0;
+    double stopwatch_time = 0;
+    double sleep_time = 0;
+    double bytes_sent = 0;
+    double bytes_received = 0;
+    double ncpus = 0;
     bool report_vm_pid = false;
     bool report_net_usage = false;
     int vm_pid = 0;
@@ -435,6 +431,10 @@ int main(int argc, char** argv) {
         vm.vm_cpu_count = buf;
     } else {
         vm.vm_cpu_count = "1";
+    }
+
+    if (aid.vbox_window) {
+        vm.headless = false;
     }
 
     // Restore from checkpoint
