@@ -3935,3 +3935,11 @@ Rom    18 May 2012
         openclicon.xpm (deleted)
         multicore.xpm (deleted)
      
+David  18 May 2012
+    - client: show <vbox_window> option in log,
+        and give warning if include this while in sandbox mode
+    - web: update URLs for BOINCstats
+    html/inc/
+        stats_sites.inc
+    client/
+        log_flags.cpp

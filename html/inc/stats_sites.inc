@@ -26,7 +26,7 @@ $cpid_stats_sites = array(
         "http://www.allprojectstats.com/showuser.php?id=%s"
     ),
     array("BOINCstats",
-        "http://www.boincstats.com/stats/boinc_user_graph.php?pr=bo&amp;id=%s"
+        "http://www.boincstats.com/en/stats/-1/user/detail/%s"
     ),
     array("BOINC Statistics for the WORLD!",
         "http://www.boincsynergy.com/stats/boinc-individual.php?cpid=%s"
@@ -151,14 +151,14 @@ $sig_sites = array(
     ),
 );
 
-// the following sites generate cross-project team stats based on name
+// the following sites generate cross-project team stats based on CPID
 //
 $team_name_sites = array(
     array("http://stats.free-dc.org/stats.php?page=teambycpid&team=",
         "Free-DC",
         ""
     ),
-    array("http://boincstats.com/stats/boinc_team_graph.php?pr=bo&teamcpid=",
+    array("http://boincstats.com/en/stats/-1/team/detail/",
         "BOINCstats.com",
         "hashlc"
     ),
@@ -170,7 +170,7 @@ $team_name_sites = array(
 
 $host_sites = array(
     array(
-        "http://boincstats.com/stats/boinc_host_graph.php?pr=bo&id=",
+        "http://boincstats.com/en/stats/-1/detail/",
         "BOINCstats.com",
         "boincstats_icon.png"
     ),

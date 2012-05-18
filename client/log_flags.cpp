@@ -42,6 +42,7 @@
 #include "file_names.h"
 #include "project.h"
 #include "result.h"
+#include "sandbox.h"
 
 using std::string;
 
@@ -213,18 +214,31 @@ void CONFIG::show() {
     FILE* f = fopen(REMOTEHOST_FILE_NAME, "r");
     if (f) {
         msg_printf(NULL, MSG_INFO,
-            "Config: GUI RPC allowed from:"
+            "Config: GUI RPCs allowed from:"
         );
         char buf[256];
         while (fgets(buf, 256, f)) {
             strip_whitespace(buf);
             if (!(buf[0] =='#' || buf[0] == ';') && strlen(buf) > 0 ) {
                 msg_printf(NULL, MSG_INFO,
-                    "Config:   %s", buf
+                    "    %s", buf
                 );
             }
         }
         fclose(f);
+    }
+    if (vbox_window) {
+        msg_printf(NULL, MSG_INFO,
+            "Config: open console window for VirtualBox applications"
+        );
+        if (g_use_sandbox) {
+            msg_printf(NULL, MSG_INFO,
+                "    NOTE: the client is running in protected mode,"
+            );
+            msg_printf(NULL, MSG_INFO,
+                "    so VirtualBox console windows cannot be opened."
+            );
+        }
     }
 }
 
