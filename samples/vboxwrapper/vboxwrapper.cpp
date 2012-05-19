@@ -450,7 +450,7 @@ int main(int argc, char** argv) {
     if (retval) {
         // All failure to start error are unrecoverable by default
         bool  unrecoverable_error = true;
-        char* temp_reason = "";
+        char* temp_reason = (char*)"";
         int   temp_delay = 300;
 
         // Get logs before cleanup
@@ -504,7 +504,7 @@ int main(int argc, char** argv) {
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
             unrecoverable_error = false;
-            temp_reason = "VM Hypervisor was unable to allocate enough memory to start VM.";
+            temp_reason = (char*)"VM Hypervisor was unable to allocate enough memory to start VM.";
         } else {
             fprintf(
                 stderr,

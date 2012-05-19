@@ -3943,3 +3943,10 @@ David  18 May 2012
         stats_sites.inc
     client/
         log_flags.cpp
+
+Charlie 18 May 2012
+    - VBOX: Fix Mac compiler warnings (deprecated conversion from string constant 
+        to 'char*').
+
+    samples/vboxwrapper/
+        vboxwrapper.cpp
