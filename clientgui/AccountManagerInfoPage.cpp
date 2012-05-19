@@ -274,7 +274,6 @@ void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                 wxString(pl.account_managers[i]->description.c_str(), wxConvUTF8),
                 false,
                 false,
-                false,
                 true
             );
         }

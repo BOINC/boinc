@@ -3950,3 +3950,11 @@ Charlie 18 May 2012
 
     samples/vboxwrapper/
         vboxwrapper.cpp
+
+Rom    18 May 2012
+    - MGR: Fix build breaks
+    
+    clientgui/
+        AccountManagerInfoPage.cpp
+    clientgui/
+        ProjectListCtrl.cpp, .h
