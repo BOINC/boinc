@@ -3958,3 +3958,18 @@ Rom    18 May 2012
         AccountManagerInfoPage.cpp
     clientgui/
         ProjectListCtrl.cpp, .h
+
+David  20 May 2012
+    - API: add boinc_network_usage();
+        lets an application report its network usage to BOINC,
+        and hence take it into account with monthly limits etc.
+    - API: get rid of deprecated boinc_ops_per_cpu_sec(),
+        boinc_ops_cumulative(), and
+        boinc_set_credit_claim();
+    - admin web: update manage_apps.php;
+        add the ability to set homogeneous app version
+
+    html/ops/
+        manage_apps.php
+    api/
+        boinc_api.cpp,h

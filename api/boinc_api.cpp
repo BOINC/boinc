@@ -141,12 +141,10 @@ static volatile int interrupt_count = 0;
 static volatile int running_interrupt_count = 0;
     // number of timer interrupts while not suspended.
     // Used to compute elapsed time
-static double fpops_per_cpu_sec = 0;
-static double fpops_cumulative = 0;
-static double intops_per_cpu_sec = 0;
-static double intops_cumulative = 0;
 static int want_network = 0;
 static int have_network = 1;
+static double bytes_sent = 0;
+static double bytes_received = 0;
 bool g_sleep = false;
     // simulate unresponsive app by setting to true (debugging)
 static FUNC_PTR timer_callback = 0;
@@ -336,21 +334,13 @@ static bool update_app_progress(double cpu_t, double cp_cpu_t) {
         sprintf(buf, "<fraction_done>%e</fraction_done>\n", fdone);
         strlcat(msg_buf, buf, MSG_CHANNEL_SIZE);
     }
-    if (fpops_per_cpu_sec) {
-        sprintf(buf, "<fpops_per_cpu_sec>%e</fpops_per_cpu_sec>\n", fpops_per_cpu_sec);
-        strlcat(msg_buf, buf, MSG_CHANNEL_SIZE);
+    if (bytes_sent) {
+        sprintf(buf, "<bytes_sent>%f</bytes_sent>\n", bytes_sent);
+        strcat(msg_buf, buf);
     }
-    if (fpops_cumulative) {
-        sprintf(buf, "<fpops_cumulative>%e</fpops_cumulative>\n", fpops_cumulative);
-        strlcat(msg_buf, buf, MSG_CHANNEL_SIZE);
-    }
-    if (intops_per_cpu_sec) {
-        sprintf(buf, "<intops_per_cpu_sec>%e</intops_per_cpu_sec>\n", intops_per_cpu_sec);
-        strlcat(msg_buf, buf, MSG_CHANNEL_SIZE);
-    }
-    if (intops_cumulative) {
-        sprintf(buf, "<intops_cumulative>%e</intops_cumulative>\n", intops_cumulative);
-        strlcat(msg_buf, buf, MSG_CHANNEL_SIZE);
+    if (bytes_received) {
+        sprintf(buf, "<bytes_received>%f</bytes_received>\n", bytes_received);
+        strcat(msg_buf, buf);
     }
     return app_client_shm->shm->app_status.send_msg(msg_buf);
 }
@@ -684,6 +674,11 @@ void boinc_exit(int status) {
 #endif
 }
 
+void boinc_network_usage(double sent, double received) {
+    bytes_sent = sent;
+    bytes_received = received;
+}
+
 int boinc_is_standalone() {
     if (standalone) return 1;
     return 0;
@@ -754,8 +749,8 @@ int boinc_report_app_status_aux(
     double checkpoint_cpu_time,
     double _fraction_done,
     int other_pid,
-    double bytes_sent,
-    double bytes_received
+    double _bytes_sent,
+    double _bytes_received
 ) {
     char msg_buf[MSG_CHANNEL_SIZE], buf[256];
     if (standalone) return 0;
@@ -772,12 +767,12 @@ int boinc_report_app_status_aux(
         sprintf(buf, "<other_pid>%d</other_pid>\n", other_pid);
         strcat(msg_buf, buf);
     }
-    if (bytes_sent) {
-        sprintf(buf, "<bytes_sent>%f</bytes_sent>\n", bytes_sent);
+    if (_bytes_sent) {
+        sprintf(buf, "<bytes_sent>%f</bytes_sent>\n", _bytes_sent);
         strcat(msg_buf, buf);
     }
-    if (bytes_received) {
-        sprintf(buf, "<bytes_received>%f</bytes_received>\n", bytes_received);
+    if (_bytes_received) {
+        sprintf(buf, "<bytes_received>%f</bytes_received>\n", _bytes_received);
         strcat(msg_buf, buf);
     }
     if (app_client_shm->shm->app_status.send_msg(msg_buf)) {
@@ -1431,20 +1426,6 @@ int boinc_upload_status(std::string& name) {
         }
     }
     return ERR_NOT_FOUND;
-}
-
-void boinc_ops_per_cpu_sec(double fp, double i) {
-    fpops_per_cpu_sec = fp;
-    intops_per_cpu_sec = i;
-}
-
-void boinc_ops_cumulative(double fp, double i) {
-    fpops_cumulative = fp;
-    intops_cumulative = i;
-}
-
-void boinc_set_credit_claim(double credit) {
-    boinc_ops_cumulative(credit*8.64000e+11, 0);
 }
 
 void boinc_need_network() {
