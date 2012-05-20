@@ -65,7 +65,7 @@ function do_updates() {
             $app->update("homogeneous_redundancy=$new_v");
         }
 
-        $field = "homogeneous_app_version".$id;
+        $field = "homogeneous_app_version_".$id;
         $new_v = (post_str($field, true)=='on') ? 1 : 0;
         $old_v = $app->homogeneous_app_version;
         if ($new_v != $old_v ) {
