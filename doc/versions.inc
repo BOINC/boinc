@@ -215,7 +215,7 @@ $l612ubuntu = array(
 	"type"=>"sea",
 );
 
-$l70ubuntux64 = array(
+$l70ubuntux64dev = array(
 	"num"=>"7.0.28",
 	"status"=>"Development version",
 	"file"=>"boinc_7.0.28_x86_64-pc-linux-gnu.sh",
