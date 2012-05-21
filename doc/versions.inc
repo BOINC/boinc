@@ -135,7 +135,7 @@ $m66 = array(
     "type"=>"mac_advanced",
 );
 
-$m70c = array(
+$m70cdev = array(
 	"num"=>"7.0.28",
 	"status"=>"Development version (Unix command-line version)",
 	"file"=>"boinc_7.0.28_i686-apple-darwin.zip",
