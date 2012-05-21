@@ -3973,3 +3973,11 @@ David  20 May 2012
         manage_apps.php
     api/
         boinc_api.cpp,h
+
+Rom    21 May 2012
+    - MGR: Fix menu redraw issue under Ubuntu's new interface.
+      fixes #1180
+      (From Huibert)
+
+    clientgui/
+        AdvancedFrame.cpp
