@@ -166,7 +166,7 @@ void wait_for_results(int wu_id) {
             exit(1);
         }
         if (count > 0) return;
-        sleep(10);
+        daemon_sleep(10);
         check_stop_daemons();
     }
 }
@@ -238,7 +238,7 @@ void make_work(vector<string> &wu_names) {
             unsent_results, cushion
         );
         if (unsent_results > cushion) {
-            sleep(10);
+            daemon_sleep(10);
             continue;
         }
 

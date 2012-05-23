@@ -92,8 +92,6 @@ bool do_pass(APP& app) {
     int retval;
     int num_assimilated=0;
 
-    check_stop_daemons();
-
     if (wu_id_modulus) {
         sprintf(mod_clause, " and workunit.id %% %d = %d ",
                 wu_id_modulus, wu_id_remainder
@@ -300,9 +298,10 @@ int main(int argc, char** argv) {
     do {
         if (!do_pass(app)) {
             if (!one_pass) {
-                sleep(sleep_interval);
+                daemon_sleep(sleep_interval);
             }
         }
+        check_stop_daemons();
     } while (!one_pass);
 }
 

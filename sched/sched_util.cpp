@@ -89,6 +89,15 @@ void check_stop_daemons() {
     }
 }
 
+// sleep for n seconds, but check every second for trigger file
+//
+void daemon_sleep(int nsecs) {
+    for (int i=0; i<nsecs; i++) {
+        check_stop_daemons();
+        sleep(1);
+    }
+}
+
 bool check_stop_sched() {
     return boinc_file_exists(config.project_path(STOP_SCHED_FILENAME));
 }

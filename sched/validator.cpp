@@ -680,7 +680,7 @@ int main_loop() {
             signal(SIGUSR2, simulator_signal_handler);
             pause();
 #else
-            sleep(sleep_interval);
+            daemon_sleep(sleep_interval);
 #endif
         }
     }

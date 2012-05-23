@@ -137,7 +137,7 @@ SCHED_SHMEM* ssp;
 key_t sema_key;
 const char* order_clause="";
 char mod_select_clause[256];
-double sleep_interval = DEFAULT_SLEEP_INTERVAL;
+int sleep_interval = DEFAULT_SLEEP_INTERVAL;
 bool all_apps = false;
 int purge_stale_time = 0;
 int num_work_items = MAX_WU_RESULTS;
@@ -534,9 +534,9 @@ void feeder_loop() {
             pause();
 #else
             log_messages.printf(MSG_DEBUG,
-                "No action; sleeping %.2f sec\n", sleep_interval
+                "No action; sleeping %d sec\n", sleep_interval
             );
-            boinc_sleep(sleep_interval);
+            daemon_sleep(sleep_interval);
 #endif
         } else {
             if (config.job_size_matching) {
@@ -739,7 +739,7 @@ int main(int argc, char** argv) {
                 usage(argv[0]);
                 exit(1);
             }
-            sleep_interval = atof(argv[i]);
+            sleep_interval = atoi(argv[i]);
         } else if (is_arg(argv[i], "v") || is_arg(argv[i], "version")) {
             show_version();
             exit(0);

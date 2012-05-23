@@ -728,7 +728,7 @@ void main_loop() {
             pause();
 #else
             log_messages.printf(MSG_DEBUG, "sleeping %d\n", sleep_interval);
-            sleep(sleep_interval);
+            daemon_sleep(sleep_interval);
 #endif
         }
     }

@@ -269,6 +269,7 @@ int result_delete_files(RESULT& result) {
 }
 
 // set by corresponding command line arguments.
+//
 static bool preserve_wu_files=false;
 static bool preserve_result_files=false;
 
@@ -549,7 +550,7 @@ int main(int argc, char** argv) {
         }
         if (one_pass) break;
         if (!got_any) {
-            sleep(sleep_interval);
+            daemon_sleep(sleep_interval);
         }
         if (!dont_retry_errors && !retry_errors_now && (dtime() > next_error_time)) {
             retry_errors_now = true;

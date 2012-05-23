@@ -80,7 +80,7 @@ int main_loop(bool one_pass) {
         bool did_something = do_trickle_scan();
         if (one_pass) break;
         if (!did_something) {
-            sleep(5);
+            daemon_sleep(5);
         }
     }
     return 0;
