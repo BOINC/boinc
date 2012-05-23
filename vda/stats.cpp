@@ -59,10 +59,10 @@ void STATS_ITEM::sample(double v, bool collecting_stats, double now) {
 #ifdef SAMPLE_DEBUG
     switch (kind) {
     case DISK:
-        printf("%s: %s: %fGB -> %fGB\n", now_str(), name, value/1e9, v/1e9);
+        printf("%s: %s: %f GB -> %f GB\n", now_str(), name, value/1e9, v/1e9);
         break;
     case NETWORK:
-        printf("%s: %s: %fMbps -> %fMbps\n", now_str(), name, value/1e6, v/1e6);
+        printf("%s: %s: %f Mbps -> %f Mbps\n", now_str(), name, value/1e6, v/1e6);
         break;
     case FAULT_TOLERANCE:
         printf("%s: %s: %.0f -> %.0f\n", now_str(), name, value, v);
@@ -109,12 +109,12 @@ void STATS_ITEM::print(double now) {
     double dt = now - start_time;
     switch (kind) {
     case DISK:
-        printf("    mean: %fGB.  Max: %fGB at %s\n",
+        printf("    mean: %f GB.  Max: %f GB at %s\n",
             (integral/dt)/1e9, extreme_val/1e9, time_str(extreme_val_time)
         );
         break;
     case NETWORK:
-        printf("    mean: %fMbps.  Max: %fMbps at %s\n",
+        printf("    mean: %f Mbps.  Max: %f Mbps at %s\n",
             (integral/dt)/1e6, extreme_val/1e6, time_str(extreme_val_time)
         );
         break;

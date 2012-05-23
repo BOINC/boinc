@@ -5,12 +5,18 @@
 // usage: ssim.php infile
 //
 // format of infile
-// policy policyfile1
+// policy policy_file_1
 // ...
-// policy policyfilen
+// policy policy_file_n
 // host_life_mean x1 ... xn
 // connect_interval x
 // mean_xfer_rate x
+
+// output graphs:
+// infile_ft.png: fault tolerance level vs time
+// infile_du.png: disk usage vs time
+// infile_ub.png: upload BW vs time
+// infile_db.png: download BW vs time
 
 function parse_input_file($filename) {
     $x = null;

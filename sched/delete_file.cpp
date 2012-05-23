@@ -43,12 +43,13 @@
 
 void usage(char* name) {
     fprintf(stderr,
-        "Usage: delete_file [options] : delete a file from a host \n\n"
+        "Usage: %s [options] : delete a file from a host \n\n"
         "Options:\n"
         "  --file_name F                 file name\n"
         "  --host_id H                   host DB ID\n"
         "  [-h | --help]                 Show this help text.\n"
-        "  [-v | --version]              Show version information.\n"
+        "  [-v | --version]              Show version information.\n",
+        name
     );
 }
 

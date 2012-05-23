@@ -17,7 +17,7 @@ require_once("../html/inc/translation.inc");
 function show_participant() {
     $i = rand(0, 99);
     $j = $i+1;
-    echo "<table cellpadding=8 cellspacing=0>
+    echo "<table cellpadding=8 cellspacing=0 width=100%>
         <tr><td class=heading_right>
         <center>
         <span class=section_title>".tra("Computing power")."</span>
@@ -36,7 +36,7 @@ function show_participant() {
 function show_totals() {
     $fn = "boinc_state.xml";
     if (!file_exists($fn) || filemtime($fn) < time()-86400) {
-        $x = file_get_contents("http://www.boincstats.com/xml/boinc_state.php");
+        $x = file_get_contents("http://boincstats.com/en/xml/boincState");
         if ($x) {
             $f = fopen($fn, "w");
             fwrite($f, $x);

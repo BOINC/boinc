@@ -426,7 +426,7 @@ static double max_32b_address_space() {
 // - check if we need work for the resource
 //
 static BEST_APP_VERSION* check_homogeneous_app_version(
-    WORKUNIT& wu, bool reliable_only
+    WORKUNIT& wu, bool /* reliable_only */
     // TODO: enforce reliable_only
 ) {
     static BEST_APP_VERSION bav;

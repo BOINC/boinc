@@ -3981,3 +3981,16 @@ Rom    21 May 2012
 
     clientgui/
         AdvancedFrame.cpp
+
+David  22 May 2012
+    - add script to repair damaged user.global_prefs fields
+    - compile warning fixes
+
+    sched/
+        delete_file.cpp
+        sched_version.cpp
+    html/ops/
+        fix_venue.php
+    vda/
+        stats.cpp
+        ssim.php
