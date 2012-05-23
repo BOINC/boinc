@@ -54,9 +54,7 @@ extern int get_socket_error(int fd);
 extern const char* socket_error_str();
 extern void reset_dns();
 
-#if defined(_WIN32) && defined(USE_WINSOCK)
-typedef int BOINC_SOCKLEN_T;
-#endif
+typedef socklen_t BOINC_SOCKLEN_T;
 
 #if defined(_WIN32) && defined(USE_WINSOCK)
 extern int WinsockInitialize();

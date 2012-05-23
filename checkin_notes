@@ -3995,7 +3995,7 @@ David  22 May 2012
         stats.cpp
         ssim.php
 
-David  22 May 2012
+David  23 May 2012
     - server daemons: add daemon_sleep(n), which sleeps for n secs
         but checks for the "stop_daemons" trigger file every 1 sec.
         Use this instead of sleep() in daemons.
@@ -4004,3 +4004,10 @@ David  22 May 2012
     sched/
         sched_util.cpp,h
         (daemons).cpp
+
+David  23 May 2012
+    - get rid of BOINC_SOCKLEN_T stuff; just use socklen_t
+
+    configure.ac
+    lib/
+        network.h

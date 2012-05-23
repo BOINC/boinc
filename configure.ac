@@ -379,9 +379,6 @@ case ${target} in
 	;;
 esac
 
-dnl m4/boinc_getsockopt.m4
-BOINC_GETSOCKOPT_TYPE
-
 if test "x${enable_fcgi}" = xyes ; then
 dnl m4/boinc_check_fcgi.m4
 BOINC_CHECK_FCGI
