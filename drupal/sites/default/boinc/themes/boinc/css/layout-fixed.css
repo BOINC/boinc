@@ -88,15 +88,15 @@ body {
 }
 
 .sidebar-second #content {
-  width: 760px;
+  width: 660px;
   margin-left: 0; /* LTR */
-  margin-right: -760px; /* LTR */ /* Negative value of #content's width + left margin. */
+  margin-right: -660px; /* LTR */ /* Negative value of #content's width + left margin. */
 }
 
 .two-sidebars #content {
-  width: 560px;
+  width: 460px;
   margin-left: 200px; /* LTR */ /* The width of .region-sidebar-first */
-  margin-right: -760px; /* LTR */ /* Negative value of #content's width + left margin. */
+  margin-right: -660px; /* LTR */ /* Negative value of #content's width + left margin. */
 }
 
 #content .section {

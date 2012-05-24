@@ -191,7 +191,7 @@
               endif;
             ?>
             </li>
-            <li class="last"><a class="search" href="<?php print $base_path; ?>find"><span class="tab">Search</span></a></li>
+            <li class="last"><a class="search" href="<?php print $base_path; ?>search"><span class="tab">Search</span></a></li>
         </div>
         
         <?php print theme(array('links__system_secondary_menu', 'links'), $secondary_links,
