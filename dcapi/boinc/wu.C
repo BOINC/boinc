@@ -1322,14 +1322,14 @@ static char *generate_wu_template(DC_Workunit *wu)
 }
 
 static void append_result_file_info(GString *tmpl, int idx, int auto_upload,
-	int max_output)
+	double max_output)
 {
 	g_string_append(tmpl, "<file_info>\n");
 	g_string_append_printf(tmpl, "\t<name><OUTFILE_%d/></name>\n", idx);
 	g_string_append(tmpl, "\t<generated_locally/>\n");
 	if (auto_upload)
 		g_string_append(tmpl, "\t<upload_when_present/>\n");
-	g_string_append_printf(tmpl, "\t<max_nbytes>%d</max_nbytes>\n", max_output);
+	g_string_append_printf(tmpl, "\t<max_nbytes>%g</max_nbytes>\n", max_output);
 
 	gchar *uploadURL = DC_getCfgStr(CFG_UPLOADURL);
 	if (!uploadURL)
@@ -1366,7 +1366,9 @@ static void append_result_file_ref(GString *tmpl, int idx, const char *fmt, ...)
 static char *generate_result_template(DC_Workunit *wu)
 {
 	unsigned char digest[SHA_DIGEST_LENGTH];
-	int i, file_cnt, max_output_size;
+	int i, file_cnt;
+    // support output files larger than 2GB
+    double max_output_size;
 	GString *path, *tmpl;
 	char *file, *cfgval;
 	SHA_CTX sha;
@@ -1380,7 +1382,7 @@ static char *generate_result_template(DC_Workunit *wu)
 		return NULL;
 	}
 
-	max_output_size = DC_getClientCfgInt(wu->client_name, CFG_MAXOUTPUT,
+	max_output_size = DC_getClientCfgDouble(wu->client_name, CFG_MAXOUTPUT,
 		256 * 1024, TRUE);
 	file_cnt = 0;
 
