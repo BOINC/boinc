@@ -37,7 +37,7 @@ function friendly_name($p) {
     }
     if (strlen($pc)) {
         if (strstr($pc, 'cuda')) $q .= " (NVIDIA GPU)";
-        else if (strstr($pc, 'ati')) $q .= " (ATI GPU)";
+        else if (strstr($pc, 'ati')) $q .= " (AMD/ATI GPU)";
         else if (strstr($pc, 'mt')) $q .= " (multicore)";
     }
     return $q;

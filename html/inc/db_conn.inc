@@ -152,6 +152,14 @@ class DbConn {
         if ($cnt) return (double)$cnt->total;
         return null;
     }
+    function max($table, $field, $clause="") {
+        $query = "select max($field) as total from ".$this->db_name.".$table $clause";
+        $result = $this->do_query($query);
+        $cnt = mysql_fetch_object($result);
+        mysql_free_result($result);
+        if ($cnt) return (double)$cnt->total;
+        return null;
+    }
     function replace($table, $clause) {
         $query = "replace into ".$this->db_name.".$table set $clause";
         return $this->do_query($query);
