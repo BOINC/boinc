@@ -393,8 +393,8 @@ struct WORKUNIT {
         // used for 2 purposes:
         // 1) for scheduling (don't send this WU to a host w/ insuff. disk)
         // 2) abort task if it uses more than this disk
-    bool need_validate;         // this WU has at least 1 result in
-                                // validate state = NEED_CHECK
+    bool need_validate;         // this WU has at least 1 successful result in
+                                // validate state = INIT
     int canonical_resultid;     // ID of canonical result, or zero
     double canonical_credit;    // credit that all correct results get
         // TODO: deprecate and remove code

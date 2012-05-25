@@ -132,12 +132,17 @@ echo "
     <ul>
         <li><a href=\"manage_apps.php\">Manage applications</a></li>
         <li><a href=\"manage_app_versions.php\">Manage application versions</a></li>
-        <li><a href=\"cancel_wu_form.php\">Cancel workunits</a></li>
+        <li> Manage jobs
+        <ul>
+            <li><a href=\"cancel_wu_form.php\">Cancel jobs</a></li>
+            <li><a href=transition_all.php>Transition jobs</a>
+              <br><span class=note>(this can 'unstick' old jobs)</span>
+            <li><a href=\"revalidate.php\">Re-validate jobs</a></li>
+
+        </ul>
         <li><a href=\"job_times.php\">FLOP count statistics</a>
         <li><a href=\"$stripchart_cgi_url/stripchart.cgi\">Stripcharts</a>
         <li><a href=\"show_log.php\">Show/Grep logs</a>
-        <li><a href=transition_all.php>Transition all WUs</a>
-          <br><span class=note>(this can 'unstick' old WUs)</span>
         <li>
             <form method=\"get\" action=\"clear_host.php\">
             <input type=\"submit\" value=\"Clear RPC seqno\">

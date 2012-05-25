@@ -4021,8 +4021,22 @@ David  23 May 2012
         ops/
             fix_venue.php
 
-David  23 May 2012
+David  25 May 2012
     - server: rename fix_venue.php to fix_prefs.php
 
     html/ops/
         fix_prefs.php
+
+David  25 May 2012
+    - admin web: add a function for "revalidating" a given set of jobs.
+        This reruns validation for instances that are successful
+        but marked as invalid or inconclusive.
+        Use this if you changed your validator to be more permissive,
+        and you want to grant credit for instances that were
+        originally marked as invalid.
+
+    html/ops/
+        index.php
+        revalidate.php (new)
+    db/
+        boinc_db_types.h
