@@ -120,6 +120,10 @@ class BoincUser {
         $db = BoincDb::get();
         return $db->count('user', $clause);
     }
+    static function max($field) {
+        $db = BoincDb::get();
+        return $db->max('user', $field);
+    }
     function update($clause) {
         $db = BoincDb::get();
         return $db->update($this, 'user', $clause);

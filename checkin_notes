@@ -4011,3 +4011,12 @@ David  23 May 2012
     configure.ac
     lib/
         network.h
+
+David  23 May 2012
+    - server: make fix_venue.php work faster
+
+    html/
+        inc/
+            boinc_db.inc
+        ops/
+            fix_venue.php
