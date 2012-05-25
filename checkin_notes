@@ -4020,3 +4020,9 @@ David  23 May 2012
             boinc_db.inc
         ops/
             fix_venue.php
+
+David  23 May 2012
+    - server: rename fix_venue.php to fix_prefs.php
+
+    html/ops/
+        fix_prefs.php
