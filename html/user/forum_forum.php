@@ -201,11 +201,11 @@ function show_forum($forum, $start, $sort_style, $user) {
         }
         echo "</nobr></td>";
 
-        $titlelength = 48;
         $title = cleanup_title($thread->title);
-        if (strlen($title) > $titlelength) {
-            $title = substr($title, 0, $titlelength)."...";
-        }
+        //$titlelength = 9999;
+        //if (strlen($title) > $titlelength) {
+        //    $title = substr($title, 0, $titlelength)."...";
+        //}
         echo "<td class=\"threadline\"><a href=\"forum_thread.php?id=$thread->id\"><b>$title</b></a><br></td>";
         $n = ($n+1)%2;
 

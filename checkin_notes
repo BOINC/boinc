@@ -4047,3 +4047,9 @@ David  25 May 2012
     html/ops/
         repair_forums.php
         notify.php
+
+David  26 May 2012
+    - web: don't truncate thread titles
+
+    html/user/
+        forum_forum.php
