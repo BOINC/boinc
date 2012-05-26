@@ -62,7 +62,7 @@ function send_notify_emails() {
     $db = BoincDb::get();
 
     $t = time() - (86400 + 3600);  // 1-hour slop factor
-    $query = "select notify.* from ".$db->name.".notify, ".$db->name.".forum_preferences where forum_preferences.pm_notification=2 and notify.userid = forum_preferences.userid and notify.create_time > $t";
+    $query = "select notify.* from ".$db->db_name.".notify, ".$db->db_name.".forum_preferences where forum_preferences.pm_notification=2 and notify.userid = forum_preferences.userid and notify.create_time > $t";
 
     $notifies = BoincNotify::enum_general($query);
     $userid = 0;

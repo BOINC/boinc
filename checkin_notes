@@ -4040,3 +4040,10 @@ David  25 May 2012
         revalidate.php (new)
     db/
         boinc_db_types.h
+
+David  25 May 2012
+    - fix typos in two PHP scripts
+
+    html/ops/
+        repair_forums.php
+        notify.php
