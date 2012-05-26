@@ -109,7 +109,7 @@ if ($force_title && $title){
     row2(tra("Title"), htmlspecialchars($title)."<input type=\"hidden\" name=\"title\" value=\"".htmlspecialchars($title)."\">");
 } else {
     row2(tra("Title").$submit_help,
-    "<input type=\"text\" name=\"title\" size=\"62\" value=\"".htmlspecialchars($title)."\">"
+    "<input type=\"text\" name=\"title\" size=80 value=\"".htmlspecialchars($title)."\">"
     );
 }
 

@@ -4053,3 +4053,10 @@ David  26 May 2012
 
     html/user/
         forum_forum.php
+
+David  26 May 2012
+    - web: increase size of thread title input field to 80
+
+    html/user/
+        team_forum.php
+        forum_post.php
