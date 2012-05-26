@@ -4060,3 +4060,10 @@ David  26 May 2012
     html/user/
         team_forum.php
         forum_post.php
+
+David  26 May 2012
+    - web RPC: make am_set_info available by POST as well as GET,
+        since its args can be too long for a URL
+
+    html/user/
+        am_set_info.php

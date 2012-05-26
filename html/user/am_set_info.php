@@ -52,21 +52,49 @@ xml_header();
 $retval = db_init_xml();
 if ($retval) xml_error($retval);
 
-$auth = get_str("account_key");
+$auth = get_str("account_key", true);
+if ($auth) {
+    $name = get_str("name", true);
+    $country = get_str("country", true);
+    $postal_code = get_str("postal_code", true);
+    $global_prefs = get_str("global_prefs", true);
+    $project_prefs = get_str("project_prefs", true);
+    $url = get_str("url", true);
+    $send_email = get_str("send_email", true);
+    $show_hosts = get_str("show_hosts", true);
+    $teamid = get_int("teamid", true);
+    $venue = get_str("venue", true);
+    $email_addr = get_str("email_addr", true);
+    $password_hash = get_str("password_hash", true);
+} else {
+    $auth = post_str("account_key");
+    $name = post_str("name", true);
+    $country = post_str("country", true);
+    $postal_code = post_str("postal_code", true);
+    $global_prefs = post_str("global_prefs", true);
+    $project_prefs = post_str("project_prefs", true);
+    $url = post_str("url", true);
+    $send_email = post_str("send_email", true);
+    $show_hosts = post_str("show_hosts", true);
+    $teamid = post_int("teamid", true);
+    $venue = post_str("venue", true);
+    $email_addr = post_str("email_addr", true);
+    $password_hash = post_str("password_hash", true);
+}
+
 $user = lookup_user_auth($auth);
 if (!$user) {
     xml_error(-136);
 }
 
-$name = BoincDb::escape_string(get_str("name", true));
-$country = get_str("country", true);
+$name = BoincDb::escape_string($name);
 if ($country && !is_valid_country($country)) {
     xml_error(-1, "invalid country");
 }
 $country = BoincDb::escape_string($country);
-$postal_code = BoincDb::escape_string(get_str("postal_code", true));
-$global_prefs = BoincDb::escape_string(get_str("global_prefs", true));
-$project_prefs = BoincDb::escape_string(get_str("project_prefs", true));
+$postal_code = BoincDb::escape_string($postal_code);
+$global_prefs = BoincDb::escape_string($global_prefs);
+$project_prefs = BoincDb::escape_string($project_prefs);
 
 // Do processing on project prefs so that we don't overwrite project-specific
 // settings if AMS has no idea about them
@@ -78,12 +106,10 @@ if (stripos($project_prefs, "<project_specific>") === false) {
     $project_prefs = str_ireplace("<project_preferences>", "<project_preferences>\n".$orig_project_specific, $project_prefs);
 }
 
-$url = BoincDb::escape_string(get_str("url", true));
-$send_email = BoincDb::escape_string(get_str("send_email", true));
-$show_hosts = BoincDb::escape_string(get_str("show_hosts", true));
-$teamid = get_int("teamid", true);
-$venue = BoincDb::escape_string(get_str("venue", true));
-$email_addr = get_str("email_addr", true);
+$url = BoincDb::escape_string($url);
+$send_email = BoincDb::escape_string($send_email);
+$show_hosts = BoincDb::escape_string($show_hosts);
+$venue = BoincDb::escape_string($venue);
 if ($email_addr) {
     if (!is_valid_email_addr($email_addr)) {
         xml_error(-205, "Invalid email address");
@@ -93,7 +119,7 @@ if ($email_addr) {
     }
     $email_addr = strtolower(BoincDb::escape_string($email_addr));
 }
-$password_hash = BoincDb::escape_string(get_str("password_hash", true));
+$password_hash = BoincDb::escape_string($password_hash);
 
 $query = "";
 if ($name) {
