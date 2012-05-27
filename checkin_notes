@@ -4073,3 +4073,9 @@ David  26 May 2012
 
     html/ops/
         revalidate.cpp
+
+David  26 May 2012
+    - web RPC: in am_set_info, if both GET and POST args are present, use POST
+
+    html/user/
+        am_set_info.php

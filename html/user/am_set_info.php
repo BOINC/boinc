@@ -52,22 +52,8 @@ xml_header();
 $retval = db_init_xml();
 if ($retval) xml_error($retval);
 
-$auth = get_str("account_key", true);
+$auth = post_str("account_key", true);
 if ($auth) {
-    $name = get_str("name", true);
-    $country = get_str("country", true);
-    $postal_code = get_str("postal_code", true);
-    $global_prefs = get_str("global_prefs", true);
-    $project_prefs = get_str("project_prefs", true);
-    $url = get_str("url", true);
-    $send_email = get_str("send_email", true);
-    $show_hosts = get_str("show_hosts", true);
-    $teamid = get_int("teamid", true);
-    $venue = get_str("venue", true);
-    $email_addr = get_str("email_addr", true);
-    $password_hash = get_str("password_hash", true);
-} else {
-    $auth = post_str("account_key");
     $name = post_str("name", true);
     $country = post_str("country", true);
     $postal_code = post_str("postal_code", true);
@@ -80,6 +66,20 @@ if ($auth) {
     $venue = post_str("venue", true);
     $email_addr = post_str("email_addr", true);
     $password_hash = post_str("password_hash", true);
+} else {
+    $auth = get_str("account_key");
+    $name = get_str("name", true);
+    $country = get_str("country", true);
+    $postal_code = get_str("postal_code", true);
+    $global_prefs = get_str("global_prefs", true);
+    $project_prefs = get_str("project_prefs", true);
+    $url = get_str("url", true);
+    $send_email = get_str("send_email", true);
+    $show_hosts = get_str("show_hosts", true);
+    $teamid = get_int("teamid", true);
+    $venue = get_str("venue", true);
+    $email_addr = get_str("email_addr", true);
+    $password_hash = get_str("password_hash", true);
 }
 
 $user = lookup_user_auth($auth);
