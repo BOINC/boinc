@@ -55,7 +55,7 @@ function revalidate($clause) {
         $n = 0;
         foreach ($results as $result) {
             if ($result->server_state != 5) continue;
-            if ($result->outcome != 0) continue;
+            if ($result->outcome != 1) continue;
             if ($result->validate_state < 2) continue;
             $result->update("validate_state=0");
             echo "<br>updated result $result->id\n";

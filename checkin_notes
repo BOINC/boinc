@@ -4067,3 +4067,9 @@ David  26 May 2012
 
     html/user/
         am_set_info.php
+
+David  26 May 2012
+    - admin web: fix revalidated script
+
+    html/ops/
+        revalidate.cpp
