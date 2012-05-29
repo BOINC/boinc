@@ -4102,3 +4102,11 @@ David  28 May 2012
 
     html/user/
         submit.php
+
+David  28 May 2012
+    - feeder: if we purge a stale job, and it's commited to an HR class,
+        un-commit it since that's probably the reason why it's stuck
+        (and it may never get unstuck)
+
+    sched/
+        feeder.cpp

@@ -403,6 +403,26 @@ static void update_job_stats() {
     }
 }
 
+// We're purging this item because it's been in shared mem too long.
+// In general it will get added again soon.
+// But if it's committed to an HR class,
+// it could be because it got sent to a rare host.
+// Un-commit it by zeroing out the WU's hr class,
+// and incrementing target_nresults
+//
+static void purge_stale(WU_RESULT& wu_result) {
+    DB_WORKUNIT wu;
+    wu.id = wu_result.workunit.id;
+    if (wu_result.workunit.hr_class) {
+        char buf[256];
+        sprintf(buf,
+            "hr_class=0, target_nresults=target_nresults+1, transition_time=%ld",
+            time(0)
+        );
+        wu.update_field(buf);
+    }
+}
+
 // Make one pass through the work array, filling in empty slots.
 // Return true if we filled in any.
 //
@@ -433,11 +453,12 @@ static bool scan_work_array(vector<DB_WORK_ITEM> &work_items) {
         switch (wu_result.state) {
         case WR_STATE_PRESENT:
             if (purge_stale_time && wu_result.time_added_to_shared_memory < (time(0) - purge_stale_time)) {
-                wu_result.state = WR_STATE_EMPTY;
                 log_messages.printf(MSG_NORMAL,
                     "remove result [RESULT#%d] from slot %d because it is stale\n",
                     wu_result.resultid, i
                 );
+                purge_stale(wu_result);
+                wu_result.state = WR_STATE_EMPTY;
                 // fall through, refill this array slot
             } else {
                 break;
