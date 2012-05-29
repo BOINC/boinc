@@ -66,7 +66,7 @@ function lammps_est() {
            break;
         } 
         if (file_exists("log.1")) {
-            $avg_cpu = calc_step_cpu("log.1");
+            list($avg_cpu,$test_steps) = calc_step_cpu("log.1");
             if ($avg_cpu != 0) {
                 if($GLOBALS["debug"])echo "avg_cpu is ".$avg_cpu."<br>";
                 terminate_job($p);
@@ -77,9 +77,10 @@ function lammps_est() {
         //echo "sleeping\n";
         sleep(1);
     }
+
     $total_steps = get_total_steps("cmd_variables");
     $disk_space = calc_est_size(
-        "lammps_script", "structure_file", "cmd_variables"
+        "lammps_script", "structure_file", "cmd_variables",$test_steps
     );
     $total_cpu = $total_steps*$avg_cpu;
     return array($test_result, $total_cpu, $disk_space);
@@ -91,23 +92,26 @@ function get_total_steps($cmd_file) {
         echo "can not open file $cmd_file\n";
         exit(-1);
     }
-    $loopno = 1;
-    $looprun = 1;
+    $this_loopno = 1;
+    $this_looprun = 1;
+    $total_steps=1;
     while (!feof($fd)) {
         $line = fgets($fd,4096);
         if (preg_match("/loopnumber\s+\d+/", $line, $matches)
             && preg_match("/\d+/", $matches[0], $no)
         ) {
-            $loopno=$no[0];
+            $this_loopno=$no[0];
         }
         if (preg_match("/looprun\s+\d+/", $line, $matches)
             and preg_match("/\d+/", $matches[0], $no)
         ) {
-            $looprun=$no[0];
+            $this_looprun=$no[0];
+            if($this_loopno*$this_looprun>$total_steps)$total_steps=$this_loopno*$this_looprun;
         }
+
     }
     fclose($fd);
-    $total_steps = $loopno*$looprun;
+    //$total_steps = $loopno*$looprun;
      if($GLOBALS["debug"])print "total_steps = ".$total_steps."<br>";
     return $total_steps;
 }
@@ -119,6 +123,7 @@ function calc_step_cpu($filename) {
     $start_step = 1;
     $cur_step = 1;
     $avg_cpu = 0;
+    $test_steps=0;
     if (!$fd) {
         echo "fail to open file log.1";
         exit(-1);
@@ -155,16 +160,16 @@ function calc_step_cpu($filename) {
                 if($GLOBALS["debug"]){
                     echo "test steps is ".$steps."<br>";
                     echo "avg_cpu is ".$avg_cpu."<br>";
-                    
                 }
+                $test_steps=$steps;
                 break;
             }
         }
     }
-    return $avg_cpu;
+    return array($avg_cpu,$test_steps);
 }
 
-function calc_est_size($lammps_script, $structure_file, $cmd_file){
+function calc_est_size($lammps_script, $structure_file, $cmd_file,$test_steps){
     $dump_types = 0;
     $fd = fopen($lammps_script,"r");
     if (!$fd){
@@ -173,10 +178,14 @@ function calc_est_size($lammps_script, $structure_file, $cmd_file){
     }
     while (!feof($fd)){
         $line = fgets($fd, 4096);
-        if (preg_match("/^\s*dump/", $line)
-            and preg_match_all("/dump\S+\.\w{3}/", $line, $matches, PREG_PATTERN_ORDER)
-        ) {
-            $dump_types=count($matches[0]);
+        //if (preg_match("/^\s*dump/", $line)
+        //    and preg_match_all("/dump\S+\.\w{3}/", $line, $matches, PREG_PATTERN_ORDER))
+        
+        if(preg_match("/^\s*dump\s+(\d)\s+/", $line,$matches))
+        {        
+             if($GLOBALS["debug"]){print "matches=";print_r($matches);}
+
+            $dump_types=(int)$matches[1];
             break;
         }
     }
@@ -192,18 +201,47 @@ function calc_est_size($lammps_script, $structure_file, $cmd_file){
      if($GLOBALS["debug"]) print "structure_file_size=".$structure_file_size."<br>";
    
     $loopno=1;
+    $looprun=1;
     while (!feof($fd)){
         $line = fgets($fd,4096);
         if(preg_match("/loopnumber\s+\d+/", $line, $matches)){
             if(preg_match("/\d+/", $matches[0], $no)){
-                $loopno=$no[0];
+                //$loopno=$no[0];
+                if($no[0]>$loopno)$loopno=$no[0];
             }
+        }
+        if (preg_match("/looprun\s+\d+/", $line, $matches) and preg_match("/\d+/", $matches[0], $no)) {
+            if($no[0]>$looprun)$looprun=$no[0];
         }
     }
     fclose($fd);
-    if($GLOBALS["debug"])print "loopno=".$loopno."<br>";
-
-    $est_size = $loopno*$structure_file_size*0.8*$dump_types;
+    if($GLOBALS["debug"]){
+         print "max loopno(number of loops to run)=".$loopno."<br>";
+         print "max looprun(steps for each loop)=".$looprun."<br>";
+    }
+    //$est_size = $loopno*$structure_file_size*0.8*$dump_types;
+    $test_log_size=filesize("log.1");
+    $log_size1=ceil($looprun/$test_steps)*$test_log_size;
+    $log_size=$loopno*$log_size1;
+    $dump_files=glob("dump1*");
+    $test_dump_file=$dump_files[0];
+    $test_dump_size=filesize($test_dump_file);
+    $dump_size1=$test_dump_size+0.5*$test_dump_size*ceil(($looprun-$test_steps)/$test_steps);
+    $dump_size=$loopno*$dump_size1*$dump_types;
+    $app_fixed_size=5e7;
+    $est_size=$log_size+$dump_size+$app_fixed_size;
+    
+    if($GLOBALS["debug"]){
+        print "test_steps=".$test_steps."<br>";
+        print "test_log_size=".$test_log_size."<br>";
+        print "log_size1=".$log_size1."<br>";
+        print "log_size=".$log_size."<br>";
+        print "test_dump_size=".$test_dump_size."<br>";
+        print "dump_size1=".$dump_size1."<br>";
+        print "dump_size=".$dump_size."<br>";
+        print "est_size=".$est_size."<br>";
+    }
+    //$est_size = $loopno*$structure_file_size*$dump_types;
     return $est_size;
 }
 
@@ -353,8 +391,10 @@ function prepare_batch($user) {
     //
     $njobs = count(file($cmdline_file_path));
     $secs_est = estimated_makespan($njobs, $info->rsc_fpops_est);
+     if($GLOBALS["debug"])echo "secs_est is $secs_est\n";
     //assume the server's flops is 1.5G and the average client's flops is 1G
     $hrs_est = number_format($secs_est*1.5/60, 2);
+    //$hrs_est = number_format($secs_est, 2);
     $client_mb = number_format($info->rsc_disk_bound/1e6, 1);
     $server_mb = number_format($njobs*$info->rsc_disk_bound/1e6, 1);
 
@@ -376,7 +416,7 @@ function prepare_batch($user) {
 
 function submit_job($app, $batch_id, $info, $cmdline, $i) {
     $client_disk=$info->rsc_disk_bound*2;
-    if($client_disk<50000000) $client_disk=50000000;
+    if($client_disk<500000000) $client_disk=500000000;
     $cmd = "cd ../..; ./bin/create_work --appname $app->name --batch $batch_id --rsc_fpops_est $info->rsc_fpops_est --rsc_fpops_bound $info->rsc_fpops_bound --rsc_disk_bound $client_disk";
     if ($cmdline) {
         $cmd .= " --command_line \"$cmdline\"";
@@ -385,14 +425,14 @@ function submit_job($app, $batch_id, $info, $cmdline, $i) {
     $cmd .= " ".basename($info->structure_file_path);
     $cmd .= " ".basename($info->command_file_path);
     $cmd .= " ".basename($info->pot_files_path);
-    echo "<br> $cmd\n"; 
+    //echo "<br> $cmd\n"; 
 
     $ret = system($cmd);
-    //if ($ret === FALSE) {
-    //    error_page("can't create job");
-   // } else {
-   //     header('Location: submit.php');
-   // }
+    if ($ret === FALSE) {
+        error_page("can't create job");
+    } else {
+        header('Location: submit.php');
+    }
 }
 
 function submit_batch($user, $app) {
