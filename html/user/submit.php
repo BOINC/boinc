@@ -333,13 +333,20 @@ function handle_abort_batch_confirm() {
     page_tail();
 }
 
+function check_access($user, $batch) {
+    if ($user->id == $batch->user_id) return;
+    $user_submit = BoincUserSubmit::lookup_userid($user->id);
+    if ($user_submit->manage_all) return;
+    $usa = BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$batch->app_id");
+    if ($usa->manage) return;
+    error_page("no access");
+}
+
 function handle_abort_batch($user) {
     $batch_id = get_int('batch_id');
     $batch = BoincBatch::lookup_id($batch_id);
     if (!$batch) error_page("no such batch");
-    if ($batch->user_id != $user->id) {
-        error_page("not owner");
-    }
+    check_access($user, $batch);
     abort_batch($batch);
     page_head("Batch aborted");
     echo "<p><a href=submit.php>Return to job control page</a>\n";
@@ -366,9 +373,7 @@ function handle_retire_batch($user) {
     $batch_id = get_int('batch_id');
     $batch = BoincBatch::lookup_id($batch_id);
     if (!$batch) error_page("no such batch");
-    if ($batch->user_id != $user->id) {
-        error_page("not owner");
-    }
+    check_access($user, $batch);
     retire_batch($batch);
     page_head("Batch retired");
     echo "<p><a href=submit.php>Return to job control page</a>\n";

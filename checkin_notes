@@ -4096,3 +4096,9 @@ David  28 May 2012
             submit_db.inc
         user/
             manage_project.inc
+
+David  28 May 2012
+    - web: allow users with admin privileges to abort or retire batches
+
+    html/user/
+        submit.php
