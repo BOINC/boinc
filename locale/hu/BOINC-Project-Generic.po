@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2012-03-20 16:19+0200\n"
-"Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
+"PO-Revision-Date: 2012-05-29 16:06+0200\n"
+"Last-Translator: Gabor <csega@mailbox.hu>\n"
 "Language-Team: \n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
@@ -1789,6 +1789,8 @@ msgstr "Kulcsszavak"
 #: ../inc/team.inc:34
 msgid "Find teams with these words in their names or descriptions"
 msgstr ""
+"Keressen csapatokat, amiknek nevében vagy leírásában benne vannak a "
+"következő szavak"
 
 #: ../inc/team.inc:36 ../inc/team.inc:114 ../inc/team.inc:225
 #: ../inc/team.inc:365 ../inc/team.inc:449 ../inc/user.inc:206
@@ -1881,6 +1883,9 @@ msgid ""
 "Note: if 'OK to email' is set in your project preferences, joining a team "
 "gives its founder access to your email address."
 msgstr ""
+"Megjegyzés: ha a projekt beállításoknál az email engedélyezve van, a "
+"csapathoz való csatlakozás láthatóvá teszi emailcímét a csapat alapítója "
+"számára."
 
 #: ../inc/team.inc:132
 msgid "Not accepting new members"
@@ -1888,11 +1893,11 @@ msgstr "Nem fogad új tagokat"
 
 #: ../inc/team.inc:139
 msgid "Foundership change requested"
-msgstr ""
+msgstr "Alapító megváltoztatása kérve"
 
 #: ../inc/team.inc:140
 msgid "Respond by %1"
-msgstr ""
+msgstr "Válaszoljon %1-el"
 
 #: ../inc/team.inc:144
 msgid "Team foundership change"
@@ -1964,12 +1969,17 @@ msgid ""
 "WARNING: this is a BOINC-wide team. If you make changes here, they will soon "
 "be overwritten. Edit the %1BOINC-wide team%2 instead."
 msgstr ""
+"FIGYELEM: ez egy BOINC-közi csapat. Ha itt változtatásokat eszközöl, azok "
+"hamarosan felül lesznek írva. Szerkessze inkább a %1BOINC-közi csapatot%2."
 
 #: ../inc/team.inc:422
 msgid ""
 "%1Privacy note%2: if you create a team, your project preferences (resource "
 "share, graphics preferences) will be visible to the public."
 msgstr ""
+"%1Adatvédelmi megjegyzés%2: ha létrehoz egy csapatot, az Ön projekt "
+"beállításai (erőforrás-megosztás, megjelenítési beállítások) mindenki "
+"számára láthatóak lesznek."
 
 #: ../inc/team.inc:426
 msgid "Team name, text version"
@@ -1985,55 +1995,55 @@ msgstr "Csapatnév, HTML változat"
 
 #: ../inc/team.inc:432 ../inc/team.inc:442
 msgid "You may use %1limited HTML tags%2."
-msgstr ""
+msgstr "Használhat %1bizonyos HTML címkéket%2."
 
 #: ../inc/team.inc:433
 msgid "If you don't know HTML, leave this box blank."
-msgstr ""
+msgstr "Ha nem ismeri a HTML-t, hagyja üresen ezt a négyzetet."
 
 #: ../inc/team.inc:436
 msgid "URL of team web page, if any"
-msgstr ""
+msgstr "A csapat honlapja, ha van"
 
 #: ../inc/team.inc:436
 msgid "without \"http://\""
-msgstr ""
+msgstr "\"http://\" nélkül"
 
 #: ../inc/team.inc:437
 msgid "This URL will be linked to from the team's page on this site."
-msgstr ""
+msgstr "Erre az URL-re fog hivatkozni a csapat oldala ezen a honlapon."
 
 #: ../inc/team.inc:440
 msgid "Description of team"
-msgstr ""
+msgstr "A csapat leírása"
 
 #: ../inc/team.inc:456
 msgid "Accept new members?"
-msgstr ""
+msgstr "Fogad új tagokat?"
 
 #: ../inc/uotd.inc:27
 msgid "User profile"
-msgstr ""
+msgstr "Felhasználói profil"
 
 #: ../inc/user.inc:116
 msgid "Projects in which you are participating"
-msgstr ""
+msgstr "Projektek, amikben részt vesz"
 
 #: ../inc/user.inc:118
 msgid "Projects in which %1 is participating"
-msgstr ""
+msgstr "Projektek, amikben %1 részt vesz"
 
 #: ../inc/user.inc:122
 msgid "Project"
-msgstr ""
+msgstr "Projekt"
 
 #: ../inc/user.inc:122
 msgid "Click for user page"
-msgstr ""
+msgstr "Kattintson a felhasználó oldalához"
 
 #: ../inc/user.inc:122
 msgid "Since"
-msgstr ""
+msgstr "Ennyi ideje:"
 
 #: ../inc/user.inc:146
 msgid "Computing and credit"
@@ -2073,11 +2083,11 @@ msgstr "Csapat"
 #: ../inc/user.inc:168
 #, fuzzy
 msgid "Cross-project"
-msgstr "Projekt-közti ID"
+msgstr "Projekt-közti"
 
 #: ../inc/user.inc:169
 msgid "Certificate"
-msgstr ""
+msgstr "Tanúsítvány"
 
 #: ../inc/user.inc:170
 msgid "Stats on your cell phone"
@@ -2085,7 +2095,7 @@ msgstr "Statisztikák a mobiltelefonján"
 
 #: ../inc/user.inc:184
 msgid "Unknown notification type: %1"
-msgstr ""
+msgstr "Ismeretlen értesítési típus: %1"
 
 #: ../inc/user.inc:199
 msgid "Account information"
@@ -2126,19 +2136,19 @@ msgstr "egyéb fiókinformáció"
 
 #: ../inc/user.inc:214 ../inc/user.inc:312
 msgid "User ID"
-msgstr ""
+msgstr "Felhasználói azonosító"
 
 #: ../inc/user.inc:214
 msgid "Used in community functions"
-msgstr ""
+msgstr "Közösségi funkciókhoz használt"
 
 #: ../inc/user.inc:216 ../user/weak_auth.php:27
 msgid "Weak account key"
-msgstr ""
+msgstr "Pót fiókkulcs"
 
 #: ../inc/user.inc:216
 msgid "Provides %1limited access%2 to your account"
-msgstr ""
+msgstr "%1Korlátozott%2 hozzáférést biztosít a fiókjához"
 
 #: ../inc/user.inc:219
 msgid "Preferences"
@@ -2162,7 +2172,7 @@ msgstr "Közösségi beállítások"
 
 #: ../inc/user.inc:230
 msgid "Preferences for this project"
-msgstr ""
+msgstr "Ezen projekt beállításai"
 
 #: ../inc/user.inc:231 ../user/prefs.php:33
 msgid "%1 preferences"
@@ -2190,7 +2200,7 @@ msgstr "%1 üzenet"
 
 #: ../inc/user.inc:259 ../user/edit_forum_preferences_form.php:51
 msgid "Notifications"
-msgstr ""
+msgstr "Értesítések"
 
 #: ../inc/user.inc:266
 msgid "Quit team"
@@ -2202,7 +2212,7 @@ msgstr "Igazgató"
 
 #: ../inc/user.inc:274 ../inc/user.inc:287
 msgid "(foundership change request pending)"
-msgstr ""
+msgstr "(alapító változtatási kérelem folyamatban)"
 
 #: ../inc/user.inc:276
 msgid "Member of team"
@@ -2218,7 +2228,7 @@ msgstr "Alapítója, de nem tagja ennek a csapatnak:"
 
 #: ../inc/user.inc:295
 msgid "Find friends"
-msgstr ""
+msgstr "Ismerősök keresése"
 
 #: ../inc/user.inc:302 ../inc/user.inc:304 ../inc/user.inc:380
 #: ../inc/user.inc:382 ../inc/user.inc:391
@@ -2231,27 +2241,27 @@ msgstr "Számítógépek"
 
 #: ../inc/user.inc:331
 msgid "Donor"
-msgstr ""
+msgstr "Donor"
 
 #: ../inc/user.inc:373
 msgid "Contact"
-msgstr ""
+msgstr "Kapcsolat"
 
 #: ../inc/user.inc:376
 msgid "This person is a friend"
-msgstr ""
+msgstr "Ez a személy ismerőse Önnek"
 
 #: ../inc/user.inc:377 ../user/friend.php:238
 msgid "Cancel friendship"
-msgstr ""
+msgstr "Barátság megszüntetése"
 
 #: ../inc/user.inc:380 ../user/friend.php:37
 msgid "Request pending"
-msgstr ""
+msgstr "Kérés folyamatban"
 
 #: ../inc/user.inc:382
 msgid "Add as friend"
-msgstr ""
+msgstr "Barátokhoz ad"
 
 #: ../inc/util.inc:113
 #, fuzzy
@@ -2282,30 +2292,33 @@ msgid ""
 "A database error occurred while handling your request; please try again "
 "later."
 msgstr ""
+"Kérése feldolgozásakor adatbázis hiba történt; kérjük, próbálja újra később."
 
 #: ../inc/util.inc:227
 msgid "Unable to handle request"
-msgstr ""
+msgstr "A kérés teljesítése sikertelen"
 
 #: ../inc/util.inc:247
 msgid "hours"
-msgstr ""
+msgstr "óra"
 
 #: ../inc/util.inc:250
 msgid "min"
-msgstr ""
+msgstr "perc"
 
 #: ../inc/util.inc:253
 msgid "sec"
-msgstr ""
+msgstr "mp"
 
 #: ../inc/util.inc:414
 msgid "Link has timed out. Please click Back, refresh the page, and try again."
 msgstr ""
+"A link lejárt. Kattintson a Vissza gombra, frissítse a lapot, és próbálja "
+"újra."
 
 #: ../inc/util.inc:483
 msgid "View the profile of %1"
-msgstr ""
+msgstr "%1 profiljának megtekintése"
 
 #: ../inc/util.inc:539
 msgid "Use BBCode tags to format your text"
@@ -2313,15 +2326,15 @@ msgstr "BBCode használata a szöveg formázásához"
 
 #: ../inc/util.inc:750
 msgid "Project down for maintenance"
-msgstr ""
+msgstr "A projekt karbantartás miatt szünetel"
 
 #: ../inc/util.inc:753
 msgid "%1 is temporarily shut down for maintenance.  Please try again later."
-msgstr ""
+msgstr "%1 karbantartás miatt szünetel. Próbálja újra később."
 
 #: ../inc/util.inc:771
 msgid "Unable to connect to database - please try again later"
-msgstr ""
+msgstr "Az adatbázishoz csatlakozás sikertelen - kérjük, próbálja újra később"
 
 #: ../inc/util.inc:772
 msgid "Error:"
@@ -2329,15 +2342,15 @@ msgstr "Hiba:"
 
 #: ../inc/util.inc:776
 msgid "Unable to select database - please try again later"
-msgstr ""
+msgstr "Az adatbázis kiválasztása sikertelen - kérjük, próbálja újra később"
 
 #: ../inc/util_ops.inc:130 ../user/get_passwd.php:72
 msgid "Stay logged in on this computer"
-msgstr ""
+msgstr "Maradjon bejelentkezve ezen a gépen"
 
 #: ../user/account_finish.php:34
 msgid "Finish account setup"
-msgstr ""
+msgstr "Fiókbeállítás befejezése"
 
 #: ../user/account_finish.php:41 ../user/create_account_form.php:89
 msgid "Identifies you on our web site. Use your real name or a nickname."
@@ -2359,17 +2372,16 @@ msgid "Optional"
 msgstr "Választható"
 
 #: ../user/account_finish_action.php:27 ../user/create_account_action.php:86
-#, fuzzy
 msgid "You must supply a name for your account"
-msgstr "Új fiók létrehozásához Önnek meghívókóddal kell rendelkeznie."
+msgstr "A fióknév megadása kötelező"
 
 #: ../user/account_finish_action.php:30 ../user/create_account_action.php:89
 msgid "HTML tags not allowed in name"
-msgstr ""
+msgstr "HTML címkék nem használhatóak a névben"
 
 #: ../user/add_venue.php:85
 msgid "Add %1 preferences for %2"
-msgstr ""
+msgstr "Adjon %1 beállításokat ehhez: %2"
 
 # #######################################
 # Apps page (apps.php)
@@ -2399,11 +2411,11 @@ msgstr "Verzió"
 
 #: ../user/apps.php:51
 msgid "Installation time"
-msgstr "Telepítve"
+msgstr "Telepítve ekkor:"
 
 #: ../user/bbcode.php:23
 msgid "BBCode tags"
-msgstr ""
+msgstr "BBCode címkék"
 
 #: ../user/bbcode.php:25
 msgid ""
@@ -2412,108 +2424,111 @@ msgid ""
 "have used %1 in HTML) and end with ] (where you would have used %2 in\n"
 "HTML)."
 msgstr ""
+"BBCode-al formázhatja a profilján és a hozzászólásaiban megjelenő szöveget.\n"
+"A BBCode a HTML-hez hasonló nyelv, de egyszerűbb. A tag-ek [-el kezdődnek\n"
+"(ahol HTML-ben %1 lenne)  és ]-el végződnek (ahol HTML-ben %2 lenne)."
 
 #: ../user/bbcode.php:31
 msgid "Examples"
-msgstr ""
+msgstr "Példák"
 
 #: ../user/bbcode.php:32
 msgid "Bold"
-msgstr ""
+msgstr "Félkövér"
 
 #: ../user/bbcode.php:33
 #, fuzzy
 msgid "Italic"
-msgstr "Érvénytelen"
+msgstr "Dőlt"
 
 #: ../user/bbcode.php:34
 msgid "Underline"
-msgstr ""
+msgstr "Aláhúzott"
 
 #: ../user/bbcode.php:35
-#, fuzzy
 msgid "Superscript"
-msgstr "Feliratkozás"
+msgstr "Felső index"
 
 #: ../user/bbcode.php:36
 msgid "Big text"
-msgstr ""
+msgstr "Nagy betűk"
 
 #: ../user/bbcode.php:37
 msgid "Red text"
-msgstr ""
+msgstr "Piros betűk"
 
 #: ../user/bbcode.php:38
 msgid "link to website"
-msgstr ""
+msgstr "hivatkozás egy weboldalra"
 
 #: ../user/bbcode.php:39
 #, fuzzy
 msgid "Quoted text"
-msgstr "Kilépés a csapatból"
+msgstr "Idézet"
 
 #: ../user/bbcode.php:39
 msgid "use for quoted blocks of text"
-msgstr ""
+msgstr "idézett szövegblokkokhoz használható"
 
 #: ../user/bbcode.php:40
 msgid "use to display an image"
-msgstr ""
+msgstr "kép megjelenítéséhez használható"
 
 #: ../user/bbcode.php:41
 msgid "Code snippet here"
-msgstr ""
+msgstr "Megjelenítendő kódrészlet"
 
 #: ../user/bbcode.php:41
 msgid "use to display some code"
-msgstr ""
+msgstr "kód megjelenítéséhez használható"
 
 #: ../user/bbcode.php:42
 msgid "Pre-formatted text"
-msgstr ""
+msgstr "Előre formázott szöveg"
 
 #: ../user/bbcode.php:42
 msgid "use to display pre-formatted (usually monospaced) text"
-msgstr ""
+msgstr "előre formázott (írógépbetűs) szöveghez használható"
 
 #: ../user/bbcode.php:43
 msgid "Item 1"
-msgstr ""
+msgstr "1. elem"
 
 #: ../user/bbcode.php:43
 msgid "Item2"
-msgstr ""
+msgstr "2. elem"
 
 #: ../user/bbcode.php:43
 msgid "Item 2"
-msgstr ""
+msgstr "2. elem"
 
 #: ../user/bbcode.php:45
 msgid "use to link to Trac ticket on BOINC website"
-msgstr ""
+msgstr "használja a BOINC oldalon levő Trac jegyre való hivatkozáshoz"
 
 #: ../user/bbcode.php:47
 msgid "use to link to Trac Wiki on BOINC website"
-msgstr ""
+msgstr "használja a BOINC oldalon levő Trac Wiki-re való hivatkozáshoz"
 
 #: ../user/bbcode.php:49
 msgid "use to link to SVN changeset on BOINC website"
-msgstr ""
+msgstr "használja a BOINC oldalon levő SVN változtatásokra való hivatkozáshoz"
 
 #: ../user/bbcode.php:53
 msgid ""
 "If you don't close a tag or don't specify a parameter correctly,\n"
 "the raw tag itself will display instead of the formatted text."
 msgstr ""
+"Ha nem zár le egy címkét, vagy nem megfelelően ad meg egy paramétert,\n"
+"a nyers címke fog megjelenni a formázott szöveg helyett."
 
 #: ../user/create_account_action.php:26
-#, fuzzy
 msgid "Can't create account"
-msgstr "Fiók létrehozása"
+msgstr "A fiók létrehozása sikertelen"
 
 #: ../user/create_account_action.php:29
 msgid "Click your browser's <b>Back</b> button to try again."
-msgstr ""
+msgstr "Kattintson a böngésző <b>Vissza</b> gombjára az újra próbáláshoz."
 
 #: ../user/create_account_action.php:38 ../user/create_account_action.php:40
 #: ../user/create_account_form.php:43
@@ -2521,17 +2536,16 @@ msgid "Account creation is disabled"
 msgstr "Fiók létrehozása letiltva."
 
 #: ../user/create_account_action.php:41
-#, fuzzy
 msgid ""
 "Sorry, this project has disabled the creation of new accounts.\n"
 "Please try again later."
 msgstr ""
-"A fióklétrehozás a(z) %1 projekthez jelenleg le van tiltva. Kérjük, próbálja "
-"újra később."
+"A fióklétrehozás ehhez a projekthez jelenleg le van tiltva.\n"
+"Kérjük, próbálja újra később."
 
 #: ../user/create_account_action.php:53
 msgid "Your reCAPTCHA response was not correct. Please try again."
-msgstr ""
+msgstr "A reCAPTCHA válasza hibás volt. Kérjük, próbálja újra."
 
 #: ../user/create_account_action.php:77
 msgid "You must supply an invitation code to create an account."
@@ -2549,24 +2563,23 @@ msgstr "Az emailcímnek 'név@szolgáltató' alakúnak kell lennie!"
 
 #: ../user/create_account_action.php:98
 msgid "There's already an account with that email address."
-msgstr ""
+msgstr "Már létezik fiók ezzel az emailcímmel."
 
 #: ../user/create_account_action.php:104 ../user/edit_passwd_action.php:33
 msgid "New passwords are different"
-msgstr ""
+msgstr "Az új jelszavak nem egyeznek"
 
 #: ../user/create_account_action.php:111 ../user/edit_passwd_action.php:41
 msgid "Passwords may only include ASCII characters."
-msgstr ""
+msgstr "A jelszavak csak ASCII karakterekből állhatnak."
 
 #: ../user/create_account_action.php:116 ../user/edit_passwd_action.php:45
 msgid "New password is too short: minimum password length is %1 characters."
-msgstr ""
+msgstr "Az új jelszó túl rövid: legalább %1 karakter hosszúnak kell lennie."
 
 #: ../user/create_account_action.php:137
-#, fuzzy
 msgid "Couldn't create account"
-msgstr "Fiók létrehozása"
+msgstr "Nem sikerült a fiókot létrehozni"
 
 #: ../user/create_account_form.php:44
 msgid "Account creation is currently disabled. Please try again later."
@@ -2622,7 +2635,7 @@ msgstr "Jelszó megerősítése"
 
 #: ../user/create_account_form.php:123
 msgid "Please enter the words shown in the image"
-msgstr ""
+msgstr "Kérjük, írja be a képen látható betűket"
 
 #: ../user/create_account_form.php:129
 msgid "Create account"
@@ -2630,128 +2643,137 @@ msgstr "Fiók létrehozása"
 
 #: ../user/create_profile.php:50
 msgid "Picture"
-msgstr ""
+msgstr "Kép"
 
 #: ../user/create_profile.php:64
 msgid "%1 Your profile picture is shown to the left."
-msgstr ""
+msgstr "%1 Az Ön profilképe balra látható."
 
 #: ../user/create_profile.php:66
 msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
+"Megváltoztatásához kattintson a \"Tallózás\" gombra, és válasszon egy JPEG "
+"vagy PNG fájlt. (max. %1)."
 
 #: ../user/create_profile.php:69
 msgid "To remove it from your profile, check this box:"
-msgstr ""
+msgstr "A profiljából való törléshez válassza ezt a dobozt:"
 
 #: ../user/create_profile.php:77
 msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
+"Ha szeretne képet mellékelni a profiljához, kattintson a \"Tallózás\" gombra "
+"és válasszon egy JPEG vagy PNG fájlt. Legfeljebb %1 méretű képet válasszon."
 
 #: ../user/create_profile.php:89
 msgid "Language"
-msgstr ""
+msgstr "Nyelv"
 
 #: ../user/create_profile.php:92
 msgid "Select the language in which your profile is written:"
-msgstr ""
+msgstr "Válassza ki, milyen nyelven írodott a profilja:"
 
 #: ../user/create_profile.php:104
 msgid "Submit profile"
-msgstr ""
+msgstr "Profil mentése"
 
 #: ../user/create_profile.php:110
 msgid "Please enter the words shown in the image."
-msgstr ""
+msgstr "Kérjük írja be a képen látható szavakat."
 
 #: ../user/create_profile.php:115
 msgid "Create/edit profile"
-msgstr ""
+msgstr "Profil létrehozása/szerkesztése"
 
 #: ../user/create_profile.php:137
 msgid "The format of your uploaded image is not supported."
-msgstr ""
+msgstr "A feltöltött kép formátuma nem támogatott."
 
 #: ../user/create_profile.php:166
 msgid ""
 "Your %1profile%2 lets you share your opinions and background with the %3 "
 "community."
 msgstr ""
+"A %1profilján%2 megoszthatja véleményét és ismereteit a(z) %3 közösséggel."
 
 #: ../user/create_profile.php:213
 msgid "Your ReCaptcha response was not correct.  Please try again."
-msgstr ""
+msgstr "Nem volt jó a ReCaptcha felismerése. Kérjük, próbálja újra."
 
 #: ../user/create_profile.php:222
 msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
+"Az első válaszát spam-nek érzékelte az Akismet spam-szűrő. Kérjük, módosítsa "
+"a szöveget és próbálja újra."
 
 #: ../user/create_profile.php:230
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
+"A második válaszát spam-nek érzékelte az Akismet spam-szűrő. Kérjük "
+"módosítsa a szöveget és próbálja újra."
 
 #: ../user/create_profile.php:246
 msgid "Your profile submission was empty."
-msgstr ""
+msgstr "A beküldött profilja üres volt."
 
 #: ../user/create_profile.php:285
 msgid "Could not update the profile: database error"
-msgstr ""
+msgstr "Nem tudtam frissíteni a profilt: adatbázishiba"
 
 #: ../user/create_profile.php:297
 msgid "Could not create the profile: database error"
-msgstr ""
+msgstr "Nem tudtam létrehozni a profilt: adatbázishiba"
 
 #: ../user/create_profile.php:302
 msgid "Profile saved"
-msgstr ""
+msgstr "Profil elmentve"
 
 #: ../user/create_profile.php:304
 msgid ""
 "Congratulations! Your profile was successfully entered into our database."
-msgstr ""
+msgstr "Gratulálunk! A profilja sikeresen bekerült az adatbázisunkba."
 
 #: ../user/create_profile.php:306
 msgid "%1View your profile%2"
-msgstr ""
+msgstr "%1Profiljának megtekintése%2"
 
 #: ../user/create_profile.php:315
 msgid "Create a profile"
-msgstr ""
+msgstr "Profil létrehozása"
 
 #: ../user/create_profile.php:343
 msgid ""
 "To prevent spam, an average credit of %1 or greater is required to create or "
 "edit a profile.  We apologize for this inconvenience."
 msgstr ""
+"A visszaélések megakadályozására legalább %1 kredit szükséges profil "
+"létrehozásához vagy szerkesztéséhez. Elnézést kérünk a kényelmetlenségért."
 
 #: ../user/delete_account.php:57
 #, fuzzy
 msgid "Couldn't delete account"
-msgstr "A régi számítógép nem leválaszható"
+msgstr "Nem tudtam törölni a fiókot."
 
 #: ../user/delete_account.php:59
-#, fuzzy
 msgid "Account deleted"
-msgstr "Fiókkulcs"
+msgstr "Fiók törölve"
 
 #: ../user/delete_account.php:60
 #, fuzzy
 msgid "Your account has been deleted."
-msgstr "Üzenet elküldve."
+msgstr "Az Ön fiókját töröltük."
 
 #: ../user/delete_account.php:64
-#, fuzzy
 msgid "Confirm delete account"
-msgstr "Fiók létrehozása"
+msgstr "Fiók törlésének jóváhagyása"
 
 #: ../user/delete_account.php:67
 msgid ""

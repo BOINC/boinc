@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2011-11-17 16:07+0200\n"
+"PO-Revision-Date: 2012-04-18 22:34+0200\n"
 "Last-Translator: Gianfranco <costamagnagianfranco@yahoo.it>\n"
 "Language-Team: \n"
 "Language: it\n"
@@ -29,27 +29,27 @@ msgstr "Italian"
 
 #: ../inc/bbcode_html.inc:11
 msgid "Bold text: [b]text[/b]  (alt+b)"
-msgstr ""
+msgstr "Testo in grassetto: [b]testo[/b]  (alt+b)"
 
 #: ../inc/bbcode_html.inc:14
 msgid "Italic text: [i]text[/i]  (alt+i)"
-msgstr ""
+msgstr "Testo in corsivo: [i]testo[/i]  (alt+i)"
 
 #: ../inc/bbcode_html.inc:17
 msgid "Underline text: [u]text[/u]  (alt+u)"
-msgstr ""
+msgstr "Testo sottolineato: [u]testo[/u]  (alt+u)"
 
 #: ../inc/bbcode_html.inc:20
 msgid "Quote text: [quote]text[/quote]  (alt+q)"
-msgstr ""
+msgstr "Testo citato: [quote]testo[/quote]  (alt+q)"
 
 #: ../inc/bbcode_html.inc:23
 msgid "Code display: [code]code[/code]  (alt+c)"
-msgstr ""
+msgstr "Codice display: [code]codice[/code]  (alt+c)"
 
 #: ../inc/bbcode_html.inc:26
 msgid "List: [list]text[/list] (alt+l)"
-msgstr ""
+msgstr "Lista: [list]testo[/list] (alt+l)"
 
 #: ../inc/bbcode_html.inc:29
 msgid "Ordered list: [list=]text[/list]  (alt+o)"
@@ -66,7 +66,7 @@ msgstr ""
 
 #: ../inc/bbcode_html.inc:42
 msgid "Font color"
-msgstr ""
+msgstr "Colore font"
 
 #: ../inc/bbcode_html.inc:43
 msgid ""
@@ -79,11 +79,11 @@ msgstr "Predefinito"
 
 #: ../inc/bbcode_html.inc:45
 msgid "Dark Red"
-msgstr ""
+msgstr "Rosso Scuro"
 
 #: ../inc/bbcode_html.inc:46
 msgid "Red"
-msgstr ""
+msgstr "Rosso"
 
 #: ../inc/bbcode_html.inc:47
 #, fuzzy
@@ -92,43 +92,43 @@ msgstr "Cambia"
 
 #: ../inc/bbcode_html.inc:48
 msgid "Brown"
-msgstr ""
+msgstr "Marrone"
 
 #: ../inc/bbcode_html.inc:49
 msgid "Yellow"
-msgstr ""
+msgstr "Giallo"
 
 #: ../inc/bbcode_html.inc:50
 msgid "Green"
-msgstr ""
+msgstr "Verde"
 
 #: ../inc/bbcode_html.inc:51
 msgid "Olive"
-msgstr ""
+msgstr "Oliva"
 
 #: ../inc/bbcode_html.inc:52
 msgid "Cyan"
-msgstr ""
+msgstr "Ciano"
 
 #: ../inc/bbcode_html.inc:53
 msgid "Blue"
-msgstr ""
+msgstr "Blu"
 
 #: ../inc/bbcode_html.inc:54
 msgid "Dark Blue"
-msgstr ""
+msgstr "Blu Scuro"
 
 #: ../inc/bbcode_html.inc:55
 msgid "Indigo"
-msgstr ""
+msgstr "Indaco"
 
 #: ../inc/bbcode_html.inc:56
 msgid "Violet"
-msgstr ""
+msgstr "Viola"
 
 #: ../inc/bbcode_html.inc:57
 msgid "Font size"
-msgstr ""
+msgstr "Dimensione font"
 
 #: ../inc/bbcode_html.inc:58
 msgid "Font size: [size=x-small]small text[/size]"
@@ -136,15 +136,15 @@ msgstr ""
 
 #: ../inc/bbcode_html.inc:60
 msgid "Small"
-msgstr ""
+msgstr "Piccolo"
 
 #: ../inc/bbcode_html.inc:61
 msgid "Normal"
-msgstr ""
+msgstr "Normale"
 
 #: ../inc/bbcode_html.inc:62
 msgid "Large"
-msgstr ""
+msgstr "Grande"
 
 #: ../inc/bbcode_html.inc:65
 msgid "Close all open bbCode tags"
@@ -152,7 +152,7 @@ msgstr ""
 
 #: ../inc/bbcode_html.inc:65
 msgid "Close Tags"
-msgstr ""
+msgstr "Chiudi Tag"
 
 #: ../inc/forum.inc:37
 msgid "Oldest first"
@@ -255,7 +255,7 @@ msgstr "Crediti"
 
 #: ../inc/forum.inc:552
 msgid "RAC: %1"
-msgstr ""
+msgstr "RAC: %1"
 
 #: ../inc/forum.inc:574
 #, fuzzy
@@ -350,7 +350,7 @@ msgstr "Rispondi"
 
 #: ../inc/forum.inc:639
 msgid "Post a reply to this message"
-msgstr ""
+msgstr "Replica a questo messaggio"
 
 #: ../inc/forum.inc:641
 #, fuzzy
@@ -359,11 +359,11 @@ msgstr "Abbandona il team"
 
 #: ../inc/forum.inc:641
 msgid "Post a reply by quoting this message"
-msgstr ""
+msgstr "Replica a questo messaggio citandolo"
 
 #: ../inc/forum.inc:662
 msgid "Hidden by a moderator"
-msgstr ""
+msgstr "Nascosto da un moderatore"
 
 # ########################################
 # Forum
@@ -438,15 +438,15 @@ msgstr "Nessun utente"
 
 #: ../inc/forum.inc:1027
 msgid "Vote to banish author"
-msgstr ""
+msgstr "Vota per bannare l'utente"
 
 #: ../inc/forum.inc:1031
 msgid "Vote not to banish author"
-msgstr ""
+msgstr "Vota per non bannare l'utente"
 
 #: ../inc/forum.inc:1036
 msgid "Start vote to banish author"
-msgstr ""
+msgstr "Inizia la votazione per bannare l'utente"
 
 #: ../inc/forum.inc:1069
 #, fuzzy
@@ -479,7 +479,7 @@ msgstr ""
 
 #: ../inc/forum.inc:1098
 msgid "Can't post to a hidden thread."
-msgstr ""
+msgstr "Non posso scrivere in un thread nascosto."
 
 #: ../inc/forum.inc:1126
 msgid "Thread"
@@ -2443,9 +2443,11 @@ msgstr ""
 msgid "Examples"
 msgstr ""
 
+# 75%
 #: ../user/bbcode.php:32
+#, fuzzy
 msgid "Bold"
-msgstr ""
+msgstr "grassetto"
 
 #: ../user/bbcode.php:33
 #, fuzzy
@@ -3277,7 +3279,7 @@ msgstr "Aggiorna le preferenze"
 #: ../user/edit_forum_preferences_form.php:176
 #: ../user/edit_forum_preferences_form.php:178
 msgid "Reset"
-msgstr ""
+msgstr "Reset"
 
 #: ../user/edit_forum_preferences_form.php:177
 msgid "Or click here to reset preferences to the defaults"
@@ -3675,7 +3677,7 @@ msgstr ""
 #: ../user/forum_banishment_vote_action.php:57
 #: ../user/forum_moderate_post.php:55 ../user/forum_moderate_thread.php:52
 msgid "Obscene"
-msgstr ""
+msgstr "Osceno"
 
 #: ../user/forum_banishment_vote.php:65
 #: ../user/forum_banishment_vote_action.php:59
@@ -3730,7 +3732,7 @@ msgstr "Tu ora sei amico/a di %1."
 
 #: ../user/forum_edit.php:86 ../user/forum_search.php:72
 msgid "Forum"
-msgstr ""
+msgstr "Forum"
 
 #: ../user/forum_edit.php:110
 #, fuzzy
@@ -3907,11 +3909,11 @@ msgstr "Nascondi"
 
 #: ../user/forum_moderate_post.php:57 ../user/forum_moderate_thread.php:54
 msgid "Commercial spam"
-msgstr ""
+msgstr "Spam commerciale"
 
 #: ../user/forum_moderate_post.php:58
 msgid "Doublepost"
-msgstr ""
+msgstr "Post doppio"
 
 #: ../user/forum_moderate_post.php:63
 #, fuzzy
@@ -3930,7 +3932,7 @@ msgstr "Nessun utente"
 
 #: ../user/forum_moderate_post.php:80
 msgid "Ban duration"
-msgstr ""
+msgstr "Durata del ban"
 
 #: ../user/forum_moderate_post.php:81
 #, fuzzy
@@ -3944,11 +3946,11 @@ msgstr "%1 giorni"
 
 #: ../user/forum_moderate_post.php:83
 msgid "1 week"
-msgstr ""
+msgstr "1 settimana"
 
 #: ../user/forum_moderate_post.php:84
 msgid "2 weeks"
-msgstr ""
+msgstr "2 settimane"
 
 #: ../user/forum_moderate_post.php:85
 #, fuzzy
@@ -3957,7 +3959,7 @@ msgstr "%1 minuti"
 
 #: ../user/forum_moderate_post.php:86
 msgid "Forever"
-msgstr ""
+msgstr "Per sempre"
 
 #: ../user/forum_moderate_post.php:96
 msgid "Optional explanation %1 This is included in email to user.%2"
@@ -3968,7 +3970,7 @@ msgstr ""
 #: ../user/forum_rss.php:55 ../user/friend.php:81 ../user/get_passwd.php:41
 #: ../user/get_passwd.php:75
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: ../user/forum_moderate_post_action.php:57
 #, fuzzy
@@ -3977,11 +3979,11 @@ msgstr "Tu ora sei amico/a di %1."
 
 #: ../user/forum_moderate_post_action.php:85
 msgid "Can't move to different category type"
-msgstr ""
+msgstr "Non posso muoverlo in una categoria differente"
 
 #: ../user/forum_moderate_post_action.php:89
 msgid "Can't move to different category"
-msgstr ""
+msgstr "Non posso muoverlo in una categoria differente"
 
 #: ../user/forum_moderate_post_action.php:110
 msgid "Not authorized to banish users"
@@ -4273,7 +4275,7 @@ msgstr ""
 
 #: ../user/forum_search.php:39
 msgid "For example: \"43214\""
-msgstr ""
+msgstr "Per esempio:\"43214\""
 
 #: ../user/forum_search.php:41
 #, fuzzy
@@ -4296,7 +4298,7 @@ msgstr "%1 minuti"
 
 #: ../user/forum_search.php:52
 msgid "1 year"
-msgstr ""
+msgstr "1 anno"
 
 #: ../user/forum_search.php:73
 msgid "Only display posts from this forum"
@@ -4953,11 +4955,11 @@ msgstr ""
 
 #: ../user/html.php:27
 msgid "bold"
-msgstr ""
+msgstr "grassetto"
 
 #: ../user/html.php:28
 msgid "italics"
-msgstr ""
+msgstr "corsivo"
 
 #: ../user/html.php:29
 msgid "hyperlink"
@@ -5337,7 +5339,7 @@ msgstr ""
 
 #: ../user/pending.php:66
 msgid "Result ID"
-msgstr ""
+msgstr "ID Risultato"
 
 #: ../user/pending.php:66
 #, fuzzy
@@ -5361,7 +5363,7 @@ msgstr "Crediti non ancora assegnati"
 
 #: ../user/pm.php:32
 msgid "Block messages from this user"
-msgstr ""
+msgstr "Blocca i messaggi da questo utente"
 
 #: ../user/pm.php:32
 #, fuzzy
@@ -5392,11 +5394,11 @@ msgstr "Cancella i messaggi selezionati"
 
 #: ../user/pm.php:112
 msgid "Select all"
-msgstr ""
+msgstr "Seleziona tutto"
 
 #: ../user/pm.php:114
 msgid "Unselect all"
-msgstr ""
+msgstr "Deseleziona tutto"
 
 #: ../user/pm.php:117
 msgid "Delete selected messages"
@@ -5641,7 +5643,7 @@ msgstr "con crediti recenti"
 
 #: ../user/profile_search_action.php:54
 msgid "No profiles found containing '%1'"
-msgstr ""
+msgstr "Nessun profilo contenente '%1' trovato"
 
 #: ../user/result.php:30
 #, fuzzy
@@ -5720,7 +5722,7 @@ msgstr "Server di upload/download"
 
 #: ../user/server_status.php:266
 msgid "scheduler"
-msgstr ""
+msgstr "schedulatore"
 
 #: ../user/server_status.php:299
 msgid "Running:"
@@ -6396,7 +6398,7 @@ msgstr ""
 
 #: ../user/team_founder_transfer_form.php:50
 msgid "Assume foundership"
-msgstr ""
+msgstr "Assumi ruolo di fondatore"
 
 #: ../user/team_founder_transfer_form.php:54
 msgid ""

@@ -7,171 +7,172 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-09 09:39-0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2012-05-04 14:32+0200\n"
+"Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 2.1.6\n"
 
 #: acct_mgr.cpp:435 acct_mgr.cpp:444
 msgid "Message from account manager"
-msgstr ""
+msgstr "來至於帳戶管理服務的訊息"
 
 #: client_msgs.cpp:79
 msgid "Message from server"
-msgstr ""
+msgstr "來至於專案的訊息"
 
 #: client_state.cpp:246
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
-msgstr ""
+msgstr "部分工作所需要的記憶體超過您設定允許使用的量。 請檢查您的設定值。"
 
 #: client_state.cpp:482
 msgid "Couldn't write state file; check directory permissions"
-msgstr ""
+msgstr "無法寫入狀態文件，請檢查目錄權限"
 
 #: cs_cmdline.cpp:291
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
-msgstr ""
+msgstr "在 HTTP_PROXY 中必須指定一個 HTTP 代理伺服器"
 
 #: cs_scheduler.cpp:546
 #, c-format
 msgid ""
 "You used the wrong URL for this project.  When convenient, remove this "
 "project, then add %s"
-msgstr ""
+msgstr "你使用了錯誤的專案網址。請在你方便的時候退出並再一次的加入 %s"
 
 #: cs_statefile.cpp:810 ../sched/sched_types.cpp:252
 msgid "Syntax error in app_info.xml"
-msgstr ""
+msgstr "app_info.xml 語法錯誤"
 
 #: cs_statefile.cpp:850
 msgid "File referenced in app_info.xml does not exist: "
-msgstr ""
+msgstr "app_info.xml 中所引用的檔案並不存在："
 
 #: current_version.cpp:89
 msgid "A new version of BOINC is available."
-msgstr ""
+msgstr "有新的 BOINC 版本。"
 
 #: current_version.cpp:91
 msgid "Download it."
-msgstr ""
+msgstr "下載他。"
 
 #: log_flags.cpp:256 log_flags.cpp:427
 msgid "Unexpected text in cc_config.xml"
-msgstr ""
+msgstr "cc_config.xml 中有異常的文件"
 
 #: log_flags.cpp:401 log_flags.cpp:453
 msgid "Unrecognized tag in cc_config.xml"
-msgstr ""
+msgstr "cc_config.xml 中有無法辨識的標籤"
 
 #: log_flags.cpp:418
 msgid "Missing start tag in cc_config.xml"
-msgstr ""
+msgstr "cc_config.xml 中缺少了起始標籤"
 
 #: log_flags.cpp:443
 msgid "Error in cc_config.xml options"
-msgstr ""
+msgstr "cc_config.xml 中有錯誤的設定"
 
 #: log_flags.cpp:461
 msgid "Missing end tag in cc_config.xml"
-msgstr ""
+msgstr "cc_config.xml 中缺少了結束標籤"
 
 #: ../sched/handle_request.cpp:299
 msgid "Invalid or missing account key.  To fix, remove and add this project."
-msgstr ""
+msgstr "帳號密碼錯誤或不存在。 請退出並再一次的加入專案以修復這問題。"
 
 #: ../sched/handle_request.cpp:831
 msgid "Invalid code signing key.  To fix, remove and add this project."
-msgstr ""
+msgstr "錯誤的代碼簽名鑰匙。 請退出並再一次的加入專案以修復這問題。"
 
 #: ../sched/handle_request.cpp:841
 msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
-msgstr ""
+msgstr "該專案更新了他的安全鑰匙。 請退出並再一次的加入專案以修復這問題。"
 
 #: ../sched/handle_request.cpp:925
 msgid "This project doesn't support operating system"
-msgstr ""
+msgstr "該專案不支援您的作業系統"
 
 #: ../sched/handle_request.cpp:951
 msgid "This project doesn't support CPU type"
-msgstr ""
+msgstr "該專案不支援您的 CPU 類型"
 
 #: ../sched/handle_request.cpp:975
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
-msgstr ""
+msgstr "你的 BOINC 客戶端軟體太舊了。請安裝目前最新的版本。"
 
 #: ../sched/handle_request.cpp:1235
 msgid "This project doesn't support computers of type"
-msgstr ""
+msgstr "該專案不支援您的電腦類型"
 
 #: ../sched/sched_send.cpp:1365
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
-msgstr ""
+msgstr "將您的 GPU 驅動程式升級到最新的版本之後，才可以執行工作"
 
 #: ../sched/sched_send.cpp:1372
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
-msgstr ""
+msgstr "將您的 GPU 驅動程式升級到最新的版本之後，才可以執行專案中的 GPU 應用程式"
 
 #: ../sched/sched_send.cpp:1391
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
 "the current version"
-msgstr ""
+msgstr "當你使用 NVIDIA GPU 來進行運算的時候，請將 BOINC 升級至最新的版本"
 
 #: ../sched/sched_send.cpp:1404
 msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
-msgstr ""
+msgstr "該專案的工作需要 NVIDIA 或 ATI 的 GPU 才可以執行"
 
 #: ../sched/sched_send.cpp:1409
 msgid "An NVIDIA GPU is required to run tasks for this project"
-msgstr ""
+msgstr "該專案的工作需要 NVIDIA 的 GPU 才可以執行"
 
 #: ../sched/sched_send.cpp:1415
 msgid "An ATI GPU is required to run tasks for this project"
-msgstr ""
+msgstr "該專案的工作需要 ATI 的 GPU 才可以執行"
 
 #: ../sched/sched_send.cpp:1523
 msgid "No tasks are available for the applications you have selected."
-msgstr ""
+msgstr "你目前設定的應用程式類型沒有工作可以運算。"
 
 #: ../sched/sched_send.cpp:1549
 msgid "Your computer type is not supported by this project"
-msgstr ""
+msgstr "該專案不支援您的電腦類型"
 
 #: ../sched/sched_send.cpp:1555
 msgid "Newer BOINC version required; please install current version"
-msgstr ""
+msgstr "請更新至最新版的 BOINC 軟體"
 
 #: ../sched/sched_send.cpp:1565
 msgid ""
 "Tasks for NVIDIA GPU are available, but your preferences are set to not "
 "accept them"
-msgstr ""
+msgstr "目前還有 NVIDIA GPU 的工作，但您的設定中不允許執行"
 
 #: ../sched/sched_send.cpp:1571
 msgid ""
 "Tasks for ATI GPU are available, but your preferences are set to not accept "
 "them"
-msgstr ""
+msgstr "目前還有 ATI GPU 的工作，但您的設定中不允許執行"
 
 #: ../sched/sched_send.cpp:1577
 msgid ""
 "Tasks for CPU are available, but your preferences are set to not accept them"
-msgstr ""
+msgstr "目前還有 CPU 的工作，但您的設定中不允許執行"
 
 #: ../sched/sched_types.cpp:247
 msgid "Unknown app name in app_info.xml"
-msgstr ""
+msgstr "在 app_info.xml 中有未知的應用程式名稱"
 
 #: ../sched/sched_version.cpp:230
 msgid "Your app_info.xml file doesn't have a usable version of"
-msgstr ""
+msgstr "你的 app_info.xml 中沒有可以使用的版本"

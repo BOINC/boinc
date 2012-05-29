@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC 6.10.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-05 10:58-0500\n"
-"PO-Revision-Date: 2011-12-12 00:01+0200\n"
+"PO-Revision-Date: 2012-04-26 04:04+0200\n"
 "Last-Translator: Ido <dj_legolas1@hotmail.com>\n"
 "Language-Team: IOPanel.net\n"
 "Language: he\n"
@@ -785,8 +785,7 @@ msgid "%s failed to disconnected from the Internet."
 msgstr "%s כשל בהתנתקות מהאינטרנט."
 
 #: clientgui/BOINCGUIApp.cpp:339
-#, c-format
-#, fuzzy, c-format
+#, c-format, c-format
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "\n"
@@ -797,28 +796,28 @@ msgid ""
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
 msgstr ""
-"אין לך הרשאות לנהל את הקליינט.\n"
+"אין לך כרגע הרשאות לנהל את הקליינט.\n"
 "\n"
-"כדי להריץ את BOINC כמשתמש זה, אנא:\n"
-" -התקן מחדש את BOINC  וענה\"כן\" לשאלה הקשורה\n"
-"  למשתמשים לא-מנהלים.\n"
-"או\n"
-" -צור קשר עם מנהל הרשת על מנת להוסיף אותך לקבוצת\n"
-"  המשתמשים 'boinc_master'."
+"כדי להריץ את %s כמשתמש זה, אנא:\n"
+"  -התקן מחדש את %s וענה \"כן\" לשאלה הקשורה\n"
+"     למשתמשים לא-מנהלים.\n"
+" או\n"
+"  -צור קשר עם מנהל הרשת על מנת להוסיף אותך לקבוצת\n"
+"     המשתמשים 'boinc_master'."
 
 #: clientgui/BOINCGUIApp.cpp:345
-#, c-format
-#, fuzzy, c-format
+#, c-format, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
 msgstr ""
-"הבעלות או ההרשאות של BOINC אינן מוגדרות כראוי; אנא התקן מחדש את BOINC.\n"
-"(קוד שגיאה: %d)"
+"הבעלות או ההרשאות של %s אינן מוגדרות כראוי; אנא התקן מחדש את %s.\n"
+"(קוד שגיאה: %d"
 
 #: clientgui/BOINCGUIApp.cpp:351
+#, fuzzy
 msgid " at "
-msgstr ""
+msgstr " ב "
 
 #: clientgui/BOINCGUIApp.cpp:354
 msgid ")"
@@ -929,7 +928,7 @@ msgstr "המשך"
 #: clientgui/BOINCTaskBar.cpp:632
 #, fuzzy
 msgid "Resume GPU"
-msgstr "המשך"
+msgstr "המשך שימוש  במעבד הגרפי"
 
 #: clientgui/BOINCTaskBar.cpp:708
 msgid "Computing is enabled"
@@ -1113,9 +1112,8 @@ msgstr "תקלת אימות"
 #: clientgui/DlgAdvPreferences.cpp:788
 #: clientgui/DlgAdvPreferences.cpp:793
 #: clientgui/DlgAdvPreferences.cpp:798
-#, fuzzy
 msgid "Applications to add"
-msgstr "רשימת אפליקציות להוספה"
+msgstr "אפליקציות להוספה"
 
 #: clientgui/DlgAdvPreferences.cpp:814
 #, c-format
@@ -1173,7 +1171,7 @@ msgid ""
 "Click OK to set preferences.\n"
 "Click Clear to restore web-based settings (except exclusive apps)."
 msgstr ""
-"דיאלוג זה שולט בעדפות של מחשב זה בלבד.\n"
+"דיאלוג זה שולט בעדיפות של מחשב זה בלבד.\n"
 "לחץ 'אישור' כדי לקבוע את ההעדפות.\n"
 "לחץ 'נקה' כדי לשחזר הגדרות מבוססות-אתר (למעט אפליקציות מיוחדות)."
 
@@ -1412,20 +1410,22 @@ msgstr "ימים"
 #: clientgui/DlgAdvPreferencesBase.cpp:428
 #, fuzzy
 msgid "Minimum work buffer"
-msgstr "הקצה מאגר עבודה נוסף למשך"
+msgstr "מאגר עבודה מינימלי"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:437
+#, fuzzy
 msgid "Try to maintain enough tasks to keep busy for this many days"
-msgstr ""
+msgstr "נסה לשמור על מספיק משימות כדי לשמור על מצב עסוק למשך כמות ימים של"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:449
 #, fuzzy
 msgid "Max additional work buffer"
-msgstr "הקצה מאגר עבודה נוסף למשך"
+msgstr "מאגר עבודה נוסף מקסימלי"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:458
+#, fuzzy
 msgid "In addition, maintain enough tasks for up to this many days"
-msgstr ""
+msgstr "בנוסף, שמור על מספיק משימות למשך עד כמות ימים של"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:465
 msgid "Skip image file verification"

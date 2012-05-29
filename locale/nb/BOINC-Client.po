@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-09 09:39-0800\n"
-"PO-Revision-Date: 2011-09-09 17:15+0200\n"
+"PO-Revision-Date: 2012-04-07 15:06+0200\n"
 "Last-Translator: Kenneth <kenneth@skjold.biz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nb\n"
@@ -48,8 +48,8 @@ msgid ""
 "You used the wrong URL for this project.  When convenient, remove this "
 "project, then add %s"
 msgstr ""
-"Du brukte en feil nettadresse for dette prosjektet, fjern dette prosjektet "
-"og legg til %s"
+"Du brukte en gal nettadresse for dette prosjektet, fjern dette prosjektet og "
+"legg til %s"
 
 #: cs_statefile.cpp:810 ../sched/sched_types.cpp:252
 msgid "Syntax error in app_info.xml"
@@ -120,7 +120,7 @@ msgstr "Dette prosjektet støtter ikke prosessortype"
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
 msgstr ""
-"Du bruker en for gammel versjon av BOINC klienten. Vær vennlig å installere "
+"Du bruker en for gammel versjon av BOINC klienten.  Vær vennlig å installere "
 "den siste versjonen."
 
 #: ../sched/handle_request.cpp:1235
@@ -131,47 +131,45 @@ msgstr "Dette prosjektet støtter ikke datamaskiner av type"
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr ""
 "Oppgradere til den siste versjon av grafikkdriver for å bruke PCens "
-"grafikkkort til å gjøre beregninger"
+"grafikkkort (GPU) til å gjøre beregninger"
 
 #: ../sched/sched_send.cpp:1372
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr ""
-"Oppgradere til siste versjon av grafikkdriver for bruke dette prosjektets "
-"applikasjoner for grafikkprosessorer"
+"Oppgradere til siste versjon av grafikkdriver (GPU) for bruke dette "
+"prosjektets applikasjoner for grafikkprosessorer"
 
 #: ../sched/sched_send.cpp:1391
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
 "the current version"
 msgstr ""
-"For å bruke din NVIDIA grafikkprosessor trenger du en nyere versjon av "
-"BOINC. Oppgrader til nyeste versjon"
+"For å bruke din NVIDIA grafikkprosessor (GPU) trenger du en nyere versjon av "
+"BOINC, vennligst oppgrader til nyeste versjon"
 
 #: ../sched/sched_send.cpp:1404
 msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
 msgstr ""
 "For å utføre oppgaver til dette prosjektet trenger du en NVIDIA eller ATI "
-"grafikkprosessor"
+"grafikkprosessor (GPU)"
 
 #: ../sched/sched_send.cpp:1409
 msgid "An NVIDIA GPU is required to run tasks for this project"
 msgstr ""
 "For å utføre oppgaver til dette prosjektet trenger du en NVIDIA "
-"grafikkprosessor"
+"grafikkprosessor (GPU)"
 
 #: ../sched/sched_send.cpp:1415
 msgid "An ATI GPU is required to run tasks for this project"
 msgstr ""
 "For å utføre oppgaver til dette prosjektet trenger du en ATI "
-"grafikkprosessor"
+"grafikkprosessor (GPU)"
 
 #: ../sched/sched_send.cpp:1523
 #, fuzzy
 msgid "No tasks are available for the applications you have selected."
-msgstr ""
-"Det er ikke tilgjengelig noe arbeid for programmene du har valgt. Sjekk "
-"prosjektenes innstillinger på nettsiden deres."
+msgstr "Det er ikke tilgjengelig noe arbeid for programmene du har valgt."
 
 #: ../sched/sched_send.cpp:1549
 msgid "Your computer type is not supported by this project"

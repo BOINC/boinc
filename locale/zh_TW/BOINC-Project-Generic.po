@@ -7,337 +7,338 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2012-05-27 14:33+0200\n"
+"Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 2.1.6\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 msgid "LANG_NAME_NATIVE"
-msgstr "English"
+msgstr "繁體中文（台灣）"
 
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "English"
+msgstr "Traditional Chinese ( Taiwan )"
 
 #: ../inc/bbcode_html.inc:11
 msgid "Bold text: [b]text[/b]  (alt+b)"
-msgstr ""
+msgstr "粗體：[b]文本[/b] (alt+b)"
 
 #: ../inc/bbcode_html.inc:14
 msgid "Italic text: [i]text[/i]  (alt+i)"
-msgstr ""
+msgstr "斜體：[i]文本[/i] (alt+i)"
 
 #: ../inc/bbcode_html.inc:17
 msgid "Underline text: [u]text[/u]  (alt+u)"
-msgstr ""
+msgstr "底線：[u]文本[/u] (alt+u)"
 
 #: ../inc/bbcode_html.inc:20
 msgid "Quote text: [quote]text[/quote]  (alt+q)"
-msgstr ""
+msgstr "引用：[quote]文本[/quote] (alt+q)"
 
 #: ../inc/bbcode_html.inc:23
 msgid "Code display: [code]code[/code]  (alt+c)"
-msgstr ""
+msgstr "代碼： [code]代碼[/code] (alt+c)"
 
 #: ../inc/bbcode_html.inc:26
 msgid "List: [list]text[/list] (alt+l)"
-msgstr ""
+msgstr "表格：[list]本文[/list] (alt+l)"
 
 #: ../inc/bbcode_html.inc:29
 msgid "Ordered list: [list=]text[/list]  (alt+o)"
-msgstr ""
+msgstr "排序表格：[list=]文本[/list] (alt+o)"
 
 #: ../inc/bbcode_html.inc:32
 msgid "Insert image: [img]http://image_url[/img]  (alt+p)"
-msgstr ""
+msgstr "插入圖片：[img]圖片網址[/img] (alt+p)"
 
 #: ../inc/bbcode_html.inc:35
 msgid ""
 "Insert URL: [url]http://url[/url] or [url=http://url]URL text[/url]  (alt+w)"
-msgstr ""
+msgstr "插入連結：[url]連結[/url] 或 [url=連結]文本[/url] (alt+w)"
 
 #: ../inc/bbcode_html.inc:42
 msgid "Font color"
-msgstr ""
+msgstr "字體顏色"
 
 #: ../inc/bbcode_html.inc:43
 msgid ""
 "Font color: [color=red]text[/color]  Tip: you can also use color=#FF0000"
-msgstr ""
+msgstr "字體顏色：[color=red]文本[/color] 訣竅：你也可以用 #FF0000 來表示紅色"
 
 #: ../inc/bbcode_html.inc:44 ../inc/bbcode_html.inc:59 ../inc/prefs.inc:625
 msgid "Default"
-msgstr ""
+msgstr "預設"
 
 #: ../inc/bbcode_html.inc:45
 msgid "Dark Red"
-msgstr ""
+msgstr "深紅"
 
 #: ../inc/bbcode_html.inc:46
 msgid "Red"
-msgstr ""
+msgstr "紅"
 
 #: ../inc/bbcode_html.inc:47
 msgid "Orange"
-msgstr ""
+msgstr "橙"
 
 #: ../inc/bbcode_html.inc:48
 msgid "Brown"
-msgstr ""
+msgstr "棕"
 
 #: ../inc/bbcode_html.inc:49
 msgid "Yellow"
-msgstr ""
+msgstr "黃"
 
 #: ../inc/bbcode_html.inc:50
 msgid "Green"
-msgstr ""
+msgstr "綠"
 
 #: ../inc/bbcode_html.inc:51
 msgid "Olive"
-msgstr ""
+msgstr "橄欖"
 
 #: ../inc/bbcode_html.inc:52
 msgid "Cyan"
-msgstr ""
+msgstr "藍綠"
 
 #: ../inc/bbcode_html.inc:53
 msgid "Blue"
-msgstr ""
+msgstr "藍"
 
 #: ../inc/bbcode_html.inc:54
 msgid "Dark Blue"
-msgstr ""
+msgstr "深藍"
 
 #: ../inc/bbcode_html.inc:55
 msgid "Indigo"
-msgstr ""
+msgstr "靛藍"
 
 #: ../inc/bbcode_html.inc:56
 msgid "Violet"
-msgstr ""
+msgstr "紫"
 
 #: ../inc/bbcode_html.inc:57
 msgid "Font size"
-msgstr ""
+msgstr "字體大小"
 
 #: ../inc/bbcode_html.inc:58
 msgid "Font size: [size=x-small]small text[/size]"
-msgstr ""
+msgstr "字體大小：[size=x-small]本文[/size]"
 
 #: ../inc/bbcode_html.inc:60
 msgid "Small"
-msgstr ""
+msgstr "小"
 
 #: ../inc/bbcode_html.inc:61
 msgid "Normal"
-msgstr ""
+msgstr "正常"
 
 #: ../inc/bbcode_html.inc:62
 msgid "Large"
-msgstr ""
+msgstr "大"
 
 #: ../inc/bbcode_html.inc:65
 msgid "Close all open bbCode tags"
-msgstr ""
+msgstr "關閉所有 bbCode 代碼"
 
 #: ../inc/bbcode_html.inc:65
 msgid "Close Tags"
-msgstr ""
+msgstr "關閉標籤"
 
 #: ../inc/forum.inc:37
 msgid "Oldest first"
-msgstr ""
+msgstr "舊文章顯示在前面"
 
 #: ../inc/forum.inc:38 ../inc/forum.inc:44
 msgid "Newest first"
-msgstr ""
+msgstr "新文章顯示在前面"
 
 #: ../inc/forum.inc:39
 msgid "Highest rated posts first"
-msgstr ""
+msgstr "最高評分的顯示在前面"
 
 #: ../inc/forum.inc:41
 msgid "Newest post first"
-msgstr ""
+msgstr "最新的文章顯示在前面"
 
 #: ../inc/forum.inc:42
 msgid "Most views first"
-msgstr ""
+msgstr "點閱次數最多的在前面"
 
 #: ../inc/forum.inc:43
 msgid "Most posts first"
-msgstr ""
+msgstr "回覆數量最多的在前面"
 
 #: ../inc/forum.inc:125
 msgid "Search for words in forum messages"
-msgstr ""
+msgstr "搜尋留言版中的訊息"
 
 #: ../inc/forum.inc:125
 msgid "Search forums"
-msgstr ""
+msgstr "搜尋討論版"
 
 #: ../inc/forum.inc:126
 msgid "Advanced search"
-msgstr ""
+msgstr "進階搜尋"
 
 #: ../inc/forum.inc:132 ../inc/user.inc:250 ../user/pm.php:69
 #: ../user/pm.php:133
 msgid "Private messages"
-msgstr ""
+msgstr "私人訊息"
 
 #: ../inc/forum.inc:151 ../user/forum_forum.php:71
 #: ../user/sample_index.php:119
 msgid "Questions and Answers"
-msgstr ""
+msgstr "問與答"
 
 #: ../inc/forum.inc:151 ../inc/forum.inc:183 ../inc/user.inc:247
 #: ../inc/user.inc:370 ../user/forum_forum.php:73 ../user/sample_index.php:118
 #: ../project.sample/project.inc:46
 msgid "Message boards"
-msgstr ""
+msgstr "留言版"
 
 #: ../inc/forum.inc:187 ../inc/forum.inc:195
 msgid "%1 message board"
-msgstr ""
+msgstr "%1 留言版"
 
 #: ../inc/forum.inc:238 ../inc/result.inc:658
 msgid "Previous"
-msgstr ""
+msgstr "上一個"
 
 #: ../inc/forum.inc:260 ../inc/result.inc:667
 msgid "Next"
-msgstr ""
+msgstr "下一個"
 
 #: ../inc/forum.inc:535
 msgid "Send&nbsp;message"
-msgstr ""
+msgstr "傳送&nbsp;訊息"
 
 #: ../inc/forum.inc:535
 msgid "Send %1 a private message"
-msgstr ""
+msgstr "傳送私人訊息給 %1"
 
 #: ../inc/forum.inc:536
 msgid "Joined: %1"
-msgstr ""
+msgstr "以加入：%1"
 
 #: ../inc/forum.inc:545
 msgid "Posts: %1"
-msgstr ""
+msgstr "文章：%1"
 
 #: ../inc/forum.inc:551
 msgid "Credit: %1"
-msgstr ""
+msgstr "積分：%1"
 
 #: ../inc/forum.inc:552
 msgid "RAC: %1"
-msgstr ""
+msgstr "近期平均績分：%1"
 
 #: ../inc/forum.inc:574
 msgid "You haven't read this message yet"
-msgstr ""
+msgstr "您尚未閱讀此訊息"
 
 #: ../inc/forum.inc:574
 msgid "Unread"
-msgstr ""
+msgstr "未讀"
 
 #: ../inc/forum.inc:577 ../inc/forum.inc:582 ../inc/forum.inc:681
 msgid "Message %1"
-msgstr ""
+msgstr "訊息%1"
 
 #: ../inc/forum.inc:578 ../inc/user.inc:324 ../user/forum_forum.php:172
 msgid "hidden"
-msgstr ""
+msgstr "隱藏"
 
 #: ../inc/forum.inc:579
 msgid "Posted: %1"
-msgstr ""
+msgstr "發表於：%1"
 
 #: ../inc/forum.inc:582
 msgid " - in response to "
-msgstr ""
+msgstr "- 回覆"
 
 #: ../inc/forum.inc:585 ../inc/prefs.inc:691 ../inc/prefs.inc:693
 msgid "Edit"
-msgstr ""
+msgstr "編輯"
 
 #: ../inc/forum.inc:585
 msgid "Edit this message"
-msgstr ""
+msgstr "編輯此訊息"
 
 #: ../inc/forum.inc:591
 msgid "Last modified: %1"
-msgstr ""
+msgstr "最近修改日期：%1"
 
 #: ../inc/forum.inc:594
 msgid ""
 "This post is not shown because the sender is on your 'ignore' list.  Click "
 "%1here%2 to view this post"
-msgstr ""
+msgstr "這篇文章未能顯示是因為作者將您加到忽略列表裡。點擊%1這裡%2查看"
 
 #: ../inc/forum.inc:622 ../inc/forum.inc:633
 msgid "Report this post as offensive"
-msgstr ""
+msgstr "檢舉違規文章"
 
 #: ../inc/forum.inc:622 ../inc/forum.inc:633
 msgid "Report as offensive"
-msgstr ""
+msgstr "檢舉違規文章"
 
 #: ../inc/forum.inc:626
 msgid "Rating: %1"
-msgstr ""
+msgstr "評分：%1"
 
 #: ../inc/forum.inc:626
 msgid "rate: "
-msgstr ""
+msgstr "評分："
 
 #: ../inc/forum.inc:629
 msgid "Click if you like this message"
-msgstr ""
+msgstr "如果你喜歡此訊息請點擊"
 
 #: ../inc/forum.inc:629
 msgid "Rate +"
-msgstr ""
+msgstr "加分 +"
 
 #: ../inc/forum.inc:631
 msgid "Click if you don't like this message"
-msgstr ""
+msgstr "如果你不喜歡此訊息請點擊"
 
 #: ../inc/forum.inc:631
 msgid "Rate -"
-msgstr ""
+msgstr "扣分 -"
 
 #: ../inc/forum.inc:639 ../user/pm.php:106 ../user/pm.php:146
 msgid "Reply"
-msgstr ""
+msgstr "回覆"
 
 #: ../inc/forum.inc:639
 msgid "Post a reply to this message"
-msgstr ""
+msgstr "回覆此訊息"
 
 #: ../inc/forum.inc:641
 msgid "Quote"
-msgstr ""
+msgstr "引用"
 
 #: ../inc/forum.inc:641
 msgid "Post a reply by quoting this message"
-msgstr ""
+msgstr "回覆並引用此消息"
 
 #: ../inc/forum.inc:662
 msgid "Hidden by a moderator"
-msgstr ""
+msgstr "被管理員隱藏"
 
 #: ../inc/forum.inc:683
 msgid "Posted %1 by %2"
-msgstr ""
+msgstr "發表於：%1 作者：%2"
 
 #: ../inc/forum.inc:701
 msgid "You may not post or rate messages until %1"
-msgstr ""
+msgstr "你必須等到 %1後才能回覆或給帖子評分"
 
 #: ../inc/forum.inc:712
 msgid ""
@@ -356,183 +357,191 @@ msgid ""
 "            nationality, gender, class or sexuality.\n"
 "        "
 msgstr ""
+"\n"
+"<ul>\n"
+"<li> 文章內容健康，不包含猥褻、仇恨或者與性有關的內容。 \n"
+"<li> 禁止商業廣告。 \n"
+"<li> 禁止連接到與性、賭博等內容有關的網站。 \n"
+"<li> 禁止打擾、敵對其他用戶的文章，禁止破壞主題。 \n"
+"<li> 禁止有敵意或侮辱性的文章。 \n"
+"<li> 禁止與種族、宗教、國籍、性別、階層或性相關的辱罵評論。 \n"
 
 #: ../inc/forum.inc:734
 msgid "Rules:"
-msgstr ""
+msgstr "規定："
 
 #: ../inc/forum.inc:735
 msgid "More info"
-msgstr ""
+msgstr "更多訊息"
 
 #: ../inc/forum.inc:1008 ../user/forum_thread.php:185
 msgid "Unhide"
-msgstr ""
+msgstr "取消隱藏"
 
 #: ../inc/forum.inc:1008
 msgid "Unhide this post"
-msgstr ""
+msgstr "取消隱藏文章"
 
 #: ../inc/forum.inc:1010 ../user/forum_thread.php:191
 msgid "Hide"
-msgstr ""
+msgstr "隱藏"
 
 #: ../inc/forum.inc:1010
 msgid "Hide this post"
-msgstr ""
+msgstr "隱藏這篇文章"
 
 #: ../inc/forum.inc:1015 ../user/forum_thread.php:224
 msgid "Move"
-msgstr ""
+msgstr "移動"
 
 #: ../inc/forum.inc:1015
 msgid "Move post to a different thread"
-msgstr ""
+msgstr "移動文章到其他主題"
 
 #: ../inc/forum.inc:1020
 msgid "Banish author"
-msgstr ""
+msgstr "封禁作者"
 
 #: ../inc/forum.inc:1027
 msgid "Vote to banish author"
-msgstr ""
+msgstr "投票封禁作者"
 
 #: ../inc/forum.inc:1031
 msgid "Vote not to banish author"
-msgstr ""
+msgstr "投票不要封禁作者"
 
 #: ../inc/forum.inc:1036
 msgid "Start vote to banish author"
-msgstr ""
+msgstr "開始投票封禁作者"
 
 #: ../inc/forum.inc:1069
 msgid "Only team members can post to the team message board"
-msgstr ""
+msgstr "只有團隊成員才能在團隊的留言板中發文"
 
 #: ../inc/forum.inc:1079
 msgid ""
 "In order to create a new thread in %1 you must have a certain amount of "
 "credit. This is to prevent and protect against abuse of the system."
-msgstr ""
+msgstr "%1 中製作新的線程需要一定額度的積分,這是為了預防及保護對於系統的濫用"
 
 #: ../inc/forum.inc:1086
 msgid ""
 "You cannot create any more threads right now. Please wait a while before "
 "trying again. This delay has been enforced to protect against abuse of the "
 "system."
-msgstr ""
+msgstr "您暫時不能發表更多的新主題。請稍後再試，這是為了防止對論壇系統的濫用而採取的延​​時。"
 
 #: ../inc/forum.inc:1093
 msgid ""
 "This thread is locked. Only forum moderators and administrators are allowed "
 "to post there."
-msgstr ""
+msgstr "此主題已被鎖定，只有論壇管理員能夠在該主題下發文。"
 
 #: ../inc/forum.inc:1098
 msgid "Can't post to a hidden thread."
-msgstr ""
+msgstr "不能回覆隱藏主題"
 
 #: ../inc/forum.inc:1126
 msgid "Thread"
-msgstr ""
+msgstr "主題"
 
 #: ../inc/forum.inc:1127 ../inc/team.inc:120 ../user/forum_forum.php:135
 #: ../user/forum_index.php:94
 msgid "Posts"
-msgstr ""
+msgstr "投稿"
 
 #: ../inc/forum.inc:1128 ../user/forum_forum.php:136
 #: ../user/forum_reply.php:115 ../user/forum_report_post.php:75
 #: ../user/forum_thread.php:263
 msgid "Author"
-msgstr ""
+msgstr "作者"
 
 #: ../inc/forum.inc:1129 ../user/forum_forum.php:137
 msgid "Views"
-msgstr ""
+msgstr "瀏覽數"
 
 #: ../inc/forum.inc:1130 ../inc/team.inc:120 ../user/forum_forum.php:138
 #: ../user/forum_help_desk.php:46 ../user/forum_index.php:95
 msgid "Last post"
-msgstr ""
+msgstr "最新的文章"
 
 #: ../inc/forum.inc:1188
 msgid "New posts in the thread %1"
-msgstr ""
+msgstr "主題 %1 的新回覆"
 
 #: ../inc/forum.inc:1193
 msgid "New posts in subscribed thread"
-msgstr ""
+msgstr "已訂閱主題的新回覆"
 
 #: ../inc/forum.inc:1194
 msgid "There are new posts in the thread '%1'"
-msgstr ""
+msgstr "主題 “%1” 有新回覆"
 
 #: ../inc/forum.inc:1204
 msgid "Mark all threads as read"
-msgstr ""
+msgstr "標示所有已閱讀的文章"
 
 #: ../inc/forum.inc:1205
 msgid "Mark all threads in all message boards as read."
-msgstr ""
+msgstr "標記留言板的所有主題為已閱讀。"
 
 #: ../inc/host.inc:24
 msgid "No host"
-msgstr ""
+msgstr "沒有主機"
 
 #: ../inc/host.inc:26
 msgid "Unavailable"
-msgstr ""
+msgstr "無法使用"
 
 #: ../inc/host.inc:55 ../inc/prefs.inc:626 ../inc/prefs.inc:1026
 msgid "Home"
-msgstr ""
+msgstr "家庭"
 
 #: ../inc/host.inc:56 ../inc/prefs.inc:628 ../inc/prefs.inc:1027
 #: ../user/server_status.php:319
 msgid "Work"
-msgstr ""
+msgstr "工作"
 
 #: ../inc/host.inc:57 ../inc/prefs.inc:627 ../inc/prefs.inc:1028
 msgid "School"
-msgstr ""
+msgstr "學校"
 
 #: ../inc/host.inc:59 ../user/edit_forum_preferences_form.php:173
 #: ../user/edit_forum_preferences_form.php:174
 msgid "Update"
-msgstr ""
+msgstr "更新"
 
 #: ../inc/host.inc:83
 msgid "Computer information"
-msgstr ""
+msgstr "電腦訊息"
 
 #: ../inc/host.inc:87 ../inc/host.inc:92
 msgid "IP address"
-msgstr ""
+msgstr "IP位址"
 
 #: ../inc/host.inc:87
 msgid "(same the last %1 times)"
-msgstr ""
+msgstr "（與最新的%1次一樣）"
 
 #: ../inc/host.inc:89
 msgid "External IP address"
-msgstr ""
+msgstr "外部IP位址"
 
 #: ../inc/host.inc:92
 msgid "Show IP address"
-msgstr ""
+msgstr "表示IP地址"
 
 #: ../inc/host.inc:94
 msgid "Domain name"
-msgstr ""
+msgstr "網域名稱"
 
 #: ../inc/host.inc:97
 msgid "Local Standard Time"
-msgstr ""
+msgstr "當地標準時間"
 
 #: ../inc/host.inc:97
 msgid "UTC %1 hours"
-msgstr ""
+msgstr "UCT %1 小時"
 
 #: ../inc/host.inc:98 ../inc/host.inc:645 ../inc/result.inc:591
 #: ../inc/team.inc:202 ../inc/team.inc:350 ../inc/user.inc:200
@@ -541,19 +550,19 @@ msgstr ""
 #: ../user/team_email_list.php:64 ../user/top_users.php:49
 #: ../user/user_search.php:105 ../user/user_search.php:163
 msgid "Name"
-msgstr ""
+msgstr "用戶名"
 
 #: ../inc/host.inc:102 ../inc/host.inc:104 ../inc/host.inc:216
 msgid "Owner"
-msgstr ""
+msgstr "用戶"
 
 #: ../inc/host.inc:104 ../inc/host.inc:333
 msgid "Anonymous"
-msgstr ""
+msgstr "匿名"
 
 #: ../inc/host.inc:108 ../inc/result.inc:593
 msgid "Created"
-msgstr ""
+msgstr "建立日期"
 
 #: ../inc/host.inc:109 ../inc/host.inc:220 ../inc/host.inc:225
 #: ../inc/host.inc:654 ../inc/team.inc:94 ../inc/team.inc:207
@@ -565,184 +574,184 @@ msgstr ""
 #: ../user/top_users.php:59 ../user/user_search.php:105
 #: ../user/user_search.php:163
 msgid "Total credit"
-msgstr ""
+msgstr "總積分"
 
 #: ../inc/host.inc:110 ../inc/user.inc:122 ../user/team_search.php:70
 #: ../user/user_search.php:105 ../user/user_search.php:163
 msgid "Average credit"
-msgstr ""
+msgstr "平均積分"
 
 #: ../inc/host.inc:112
 msgid "Cross project credit"
-msgstr ""
+msgstr "跨專案積分"
 
 #: ../inc/host.inc:114
 msgid "CPU type"
-msgstr ""
+msgstr "CPU 類型"
 
 #: ../inc/host.inc:115
 msgid "Number of processors"
-msgstr ""
+msgstr "處理器數量"
 
 #: ../inc/host.inc:117
 msgid "Coprocessors"
-msgstr ""
+msgstr "共處理器"
 
 #: ../inc/host.inc:119 ../inc/host.inc:660
 msgid "Operating System"
-msgstr ""
+msgstr "作業系統"
 
 #: ../inc/host.inc:122 ../inc/host.inc:229
 msgid "BOINC version"
-msgstr ""
+msgstr "Boinc 版本"
 
 #: ../inc/host.inc:126
 msgid "Memory"
-msgstr ""
+msgstr "記憶體"
 
 #: ../inc/host.inc:126 ../inc/host.inc:134
 msgid "%1 MB"
-msgstr ""
+msgstr "%1 MB"
 
 #: ../inc/host.inc:129
 msgid "Cache"
-msgstr ""
+msgstr "快速緩衝貯存區"
 
 #: ../inc/host.inc:129
 msgid "%1 KB"
-msgstr ""
+msgstr "%1 KB"
 
 #: ../inc/host.inc:134
 msgid "Swap space"
-msgstr ""
+msgstr "交換區域"
 
 #: ../inc/host.inc:137
 msgid "Total disk space"
-msgstr ""
+msgstr "總硬碟容量"
 
 #: ../inc/host.inc:137 ../inc/host.inc:140
 msgid "%1 GB"
-msgstr ""
+msgstr "%1 GB"
 
 #: ../inc/host.inc:140
 msgid "Free Disk Space"
-msgstr ""
+msgstr "可用的硬碟空間"
 
 #: ../inc/host.inc:144
 msgid "Measured floating point speed"
-msgstr ""
+msgstr "浮點運算速度"
 
 #: ../inc/host.inc:144 ../inc/host.inc:147
 msgid "%1 million ops/sec"
-msgstr ""
+msgstr "%1 百萬次運算/秒"
 
 #: ../inc/host.inc:147
 msgid "Measured integer speed"
-msgstr ""
+msgstr "整數運算速度"
 
 #: ../inc/host.inc:151 ../inc/host.inc:153
 msgid "Average upload rate"
-msgstr ""
+msgstr "平均上傳速度"
 
 #: ../inc/host.inc:151 ../inc/host.inc:158
 msgid "%1 KB/sec"
-msgstr ""
+msgstr "%1 KB/s"
 
 #: ../inc/host.inc:153 ../inc/host.inc:160 ../inc/result.inc:195
 #: ../inc/result.inc:205 ../inc/result.inc:223 ../inc/result.inc:241
 #: ../inc/result.inc:257 ../user/explain_state.php:56
 #: ../user/host_app_versions.php:29
 msgid "Unknown"
-msgstr ""
+msgstr "未知"
 
 #: ../inc/host.inc:158 ../inc/host.inc:160
 msgid "Average download rate"
-msgstr ""
+msgstr "平均下載速度"
 
 #: ../inc/host.inc:163 ../user/host_app_versions.php:65
 msgid "Average turnaround time"
-msgstr ""
+msgstr "平均任務周轉時間"
 
 #: ../inc/host.inc:163 ../user/forum_search.php:46 ../user/forum_search.php:47
 #: ../user/forum_search.php:48 ../user/forum_search.php:49
 msgid "%1 days"
-msgstr ""
+msgstr "%1 天"
 
 #: ../inc/host.inc:164
 msgid "Application details"
-msgstr ""
+msgstr "應用程式詳細資料"
 
 #: ../inc/host.inc:165
 msgid "Show"
-msgstr ""
+msgstr "查看"
 
 #: ../inc/host.inc:175 ../inc/host.inc:317 ../inc/user.inc:153
 msgid "Tasks"
-msgstr ""
+msgstr "任務"
 
 #: ../inc/host.inc:179 ../inc/host.inc:200
 msgid "Number of times client has contacted server"
-msgstr ""
+msgstr "客戶端連接服務端的次數"
 
 #: ../inc/host.inc:180
 msgid "Last time contacted server"
-msgstr ""
+msgstr "最後一次連接伺服器的時間"
 
 #: ../inc/host.inc:181
 #, php-format
 msgid "% of time BOINC is running"
-msgstr ""
+msgstr "BOINC 客戶端執行的時間比"
 
 #: ../inc/host.inc:183
 #, php-format
 msgid "While BOINC running, % of time host has an Internet connection"
-msgstr ""
+msgstr "當 BOINC 正在運作時，主機連接網路的時間比（％）"
 
 #: ../inc/host.inc:185
 #, php-format
 msgid "While BOINC running, % of time work is allowed"
-msgstr ""
+msgstr "當 BONC 執行時，允許處理工作的時間比（％）"
 
 #: ../inc/host.inc:187
 msgid "Average CPU efficiency"
-msgstr ""
+msgstr "平均 CPU 效率"
 
 #: ../inc/host.inc:190
 msgid "Task duration correction factor"
-msgstr ""
+msgstr "任務持續修正的原因"
 
 #: ../inc/host.inc:192 ../inc/host.inc:647
 msgid "Location"
-msgstr ""
+msgstr "位置"
 
 #: ../inc/host.inc:194
 msgid "Delete this computer"
-msgstr ""
+msgstr "刪除此電腦"
 
 #: ../inc/host.inc:198
 msgid "Merge duplicate records of this computer"
-msgstr ""
+msgstr "合併此電腦的重覆記錄"
 
 #: ../inc/host.inc:198
 msgid "Merge"
-msgstr ""
+msgstr "合併"
 
 #: ../inc/host.inc:201 ../inc/host.inc:662
 msgid "Last contact"
-msgstr ""
+msgstr "最後的連接"
 
 #: ../inc/host.inc:214
 msgid "Computer info"
-msgstr ""
+msgstr "電腦訊息"
 
 #: ../inc/host.inc:215 ../inc/host.inc:649 ../inc/team.inc:349
 #: ../user/top_users.php:48
 msgid "Rank"
-msgstr ""
+msgstr "排行"
 
 #: ../inc/host.inc:219 ../inc/host.inc:652
 msgid "Avg. credit"
-msgstr ""
+msgstr "平均積分"
 
 #: ../inc/host.inc:224 ../inc/team.inc:95 ../inc/team.inc:208
 #: ../inc/team.inc:217 ../inc/team.inc:219 ../inc/team.inc:355
@@ -751,117 +760,117 @@ msgstr ""
 #: ../user/team_remove_inactive_form.php:42 ../user/top_users.php:53
 #: ../user/top_users.php:58
 msgid "Recent average credit"
-msgstr ""
+msgstr "最近平均積分"
 
 #: ../inc/host.inc:230 ../inc/host.inc:657 ../inc/result.inc:47
 #: ../user/host_app_versions.php:25
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 #: ../inc/host.inc:231 ../inc/host.inc:658
 msgid "GPU"
-msgstr ""
+msgstr "GPU"
 
 #: ../inc/host.inc:232
 msgid "Operating system"
-msgstr ""
+msgstr "作業系統"
 
 #: ../inc/host.inc:296
 msgid "(%1 processors)"
-msgstr ""
+msgstr "（%1 處理器）"
 
 #: ../inc/host.inc:316
 msgid "Details"
-msgstr ""
+msgstr "細節"
 
 #: ../inc/host.inc:321
 msgid "Cross-project stats:"
-msgstr ""
+msgstr "跨專案的統計訊息："
 
 #: ../inc/host.inc:493
 msgid "Host %1 has overlapping lifetime:"
-msgstr ""
+msgstr "主機 %1 的活躍期有重疊："
 
 #: ../inc/host.inc:500
 msgid "Host %1 has an incompatible OS:"
-msgstr ""
+msgstr "主機 %1 的作業系統不相容"
 
 #: ../inc/host.inc:506
 msgid "Host %1 has an incompatible CPU:"
-msgstr ""
+msgstr "主機 %1 的 CPU 不相容"
 
 #: ../inc/host.inc:573
 msgid "same host"
-msgstr ""
+msgstr "相同的主機"
 
 #: ../inc/host.inc:576
 msgid "Can't merge host %1 into %2 - they're incompatible"
-msgstr ""
+msgstr "無法將主機 %1 合併到主機%2 - 主機不相容"
 
 #: ../inc/host.inc:579
 msgid "Merging host %1 into host %2"
-msgstr ""
+msgstr "正在將主機 %1 合併到主機 %2"
 
 #: ../inc/host.inc:596
 msgid "Couldn't update credit of new computer"
-msgstr ""
+msgstr "無法從新電腦更新積分"
 
 #: ../inc/host.inc:600
 msgid "Couldn't update results"
-msgstr ""
+msgstr "無法上傳任務"
 
 #: ../inc/host.inc:605
 msgid "Couldn't retire old computer"
-msgstr ""
+msgstr "無法移除舊電腦"
 
 #: ../inc/host.inc:607
 msgid "Retired old computer %1"
-msgstr ""
+msgstr "已移除舊電腦 %1"
 
 #: ../inc/host.inc:630 ../inc/host.inc:633
 msgid "Show:"
-msgstr ""
+msgstr "顯示："
 
 #: ../inc/host.inc:630 ../inc/host.inc:633
 msgid "All computers"
-msgstr ""
+msgstr "所有電腦"
 
 #: ../inc/host.inc:630 ../inc/host.inc:633
 msgid "Only computers active in past 30 days"
-msgstr ""
+msgstr "只顯示過去 30 天內活躍的電腦"
 
 #: ../inc/host.inc:642 ../inc/result.inc:600
 msgid "Computer ID"
-msgstr ""
+msgstr "電腦 ID"
 
 #: ../inc/host.inc:655
 msgid "BOINC<br>version"
-msgstr ""
+msgstr "BOINC<br>版本"
 
 #: ../inc/host.inc:711 ../user/merge_by_name.php:67
 msgid "Merge computers by name"
-msgstr ""
+msgstr "透過名稱合併電腦"
 
 #: ../inc/news.inc:40
 msgid "Comment"
-msgstr ""
+msgstr "意見"
 
 #: ../inc/news.inc:111
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr ""
+msgstr "新聞還可以透過 %RSS feed%s 閱讀"
 
 #: ../inc/pm.inc:25 ../inc/pm.inc:174 ../user/pm.php:69 ../user/pm.php:148
 msgid "Inbox"
-msgstr ""
+msgstr "信箱"
 
 #: ../inc/pm.inc:26 ../inc/pm.inc:178
 msgid "Write"
-msgstr ""
+msgstr "寫信"
 
 #: ../inc/pm.inc:33 ../inc/user.inc:373
 msgid "Send private message"
-msgstr ""
+msgstr "傳送私人訊息"
 
 #: ../inc/pm.inc:35 ../inc/pm.inc:37 ../inc/pm.inc:89
 #: ../user/ffmail_form.php:59 ../user/forum_edit.php:99
@@ -871,229 +880,229 @@ msgstr ""
 #: ../user/forum_reply.php:77 ../user/forum_reply.php:106
 #: ../user/forum_reply.php:108 ../user/forum_reply.php:153 ../user/pm.php:181
 msgid "Preview"
-msgstr ""
+msgstr "預覽"
 
 #: ../inc/pm.inc:48 ../user/pm.php:131
 msgid "no such message"
-msgstr ""
+msgstr "訊息不存在"
 
 #: ../inc/pm.inc:82
 msgid "To"
-msgstr ""
+msgstr "收件人"
 
 #: ../inc/pm.inc:82
 msgid "User IDs or unique usernames, separated with commas"
-msgstr ""
+msgstr "用戶 ID 或唯一的用戶名，多個收件人之間用逗號分開"
 
 #: ../inc/pm.inc:85 ../user/pm.php:90 ../user/pm.php:139
 msgid "Subject"
-msgstr ""
+msgstr "標題"
 
 #: ../inc/pm.inc:86 ../user/forum_edit.php:128 ../user/forum_edit.php:133
 #: ../user/forum_post.php:116 ../user/forum_reply.php:115
 #: ../user/forum_report_post.php:75 ../user/forum_thread.php:263
 #: ../user/pm.php:90 ../user/pm.php:144
 msgid "Message"
-msgstr ""
+msgstr "訊息"
 
 #: ../inc/pm.inc:89
 msgid "Send message"
-msgstr ""
+msgstr "傳送訊息"
 
 #: ../inc/pm.inc:121
 msgid "sent you a private message; subject:"
-msgstr ""
+msgstr "給你發送了一條私人訊息，標題："
 
 #: ../inc/pm.inc:127
 msgid "Private message%1 from %2, subject:"
-msgstr ""
+msgstr "私人訊息 %1 來自 %2，標題："
 
 #: ../inc/pm.inc:135
 msgid "Couldn't create message"
-msgstr ""
+msgstr "無法建立訊息"
 
 #: ../inc/pm.inc:166
 msgid ""
 "You are not allowed to send privates messages so often. Please wait some "
 "time before sending more messages."
-msgstr ""
+msgstr "你傳送訊息的間隔時間太短，請等待一段時間再發送更多的訊息。"
 
 #: ../inc/pm.inc:176 ../user/forum_forum.php:184
 msgid "unread"
-msgstr ""
+msgstr "未讀"
 
 #: ../inc/pm.inc:186
 msgid "For email notification, %1edit community prefs%2"
-msgstr ""
+msgstr "如需要電子郵件通知，請 %1 編輯社區偏好設定 %2。"
 
 #: ../inc/pm.inc:198
 msgid "Private message"
-msgstr ""
+msgstr "私人訊息"
 
 #: ../inc/prefs.inc:76
 msgid ""
 "Suspend work while computer is on battery power? %1 Matters only for "
 "portable computers %2"
-msgstr ""
+msgstr "當電腦透過電池供電時暫停計算？ %1 只有筆記型電腦需要使用此設定 %2"
 
 #: ../inc/prefs.inc:84
 msgid "Suspend work while computer is in use?"
-msgstr ""
+msgstr "當電腦在使用的時候暫止運算？"
 
 #: ../inc/prefs.inc:90
 msgid ""
 "Suspend GPU work while computer is in use? %1 Enforced by version 6.6.21+ %2"
-msgstr ""
+msgstr "當電腦在使用的時候暫止 GPU 運算？ %1 在6.6.21 之後的版本有了此設定%2"
 
 #: ../inc/prefs.inc:98
 msgid "'In use' means mouse/keyboard activity in last"
-msgstr ""
+msgstr "如果在多少時間內有滑鼠或鍵盤操作則認為電腦正在使用中"
 
 #: ../inc/prefs.inc:100 ../inc/prefs.inc:109 ../inc/prefs.inc:143
 msgid "minutes"
-msgstr ""
+msgstr "分鐘"
 
 #: ../inc/prefs.inc:104
 msgid ""
 "Suspend work if no mouse/keyboard activity in last %1 Needed to enter low-"
 "power mode on some computers %2"
-msgstr ""
+msgstr "如果在多少時間內沒有滑鼠或鍵盤操作則暫止運算%1 在某些運算上如果要進入低消耗模式必須設定 %2"
 
 #: ../inc/prefs.inc:113
 msgid ""
 "Suspend work when non-BOINC CPU usage is above %1 0 means no "
 "restriction<br>Enforced by version 6.10.30+ %2"
-msgstr ""
+msgstr "如果非 BOINC 的 CPU 佔用率高於指定值則暫止運算%10 表示不限制<br>6.10.30 之後的版本有了此設定%2"
 
 #: ../inc/prefs.inc:121
 msgid "Do work only between the hours of %1 No restriction if equal %2"
-msgstr ""
+msgstr "運算時間段%1如果相同則表示不限制%2"
 
 #: ../inc/prefs.inc:129
 msgid ""
 "Leave tasks in memory while suspended? %1 Suspended tasks will consume swap "
 "space if 'yes' %2"
-msgstr ""
+msgstr "暫止運算時將任務留在記憶體？ %1選擇是的話，暫止的記憶體將佔用交換空間%2"
 
 #: ../inc/prefs.inc:138
 msgid "Switch between tasks every %1 Recommended: 60 minutes %2"
-msgstr ""
+msgstr "運算任務的切換時間間隔%1推薦設定：60 分鐘%2"
 
 #: ../inc/prefs.inc:146
 msgid "On multiprocessors, use at most"
-msgstr ""
+msgstr "在多核心的電腦上，最多使用"
 
 #: ../inc/prefs.inc:148
 msgid "processors"
-msgstr ""
+msgstr "處理器"
 
 #: ../inc/prefs.inc:152
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
-msgstr ""
+msgstr "在多核心的電腦上，最多使用%16.1 之後的版本有了此設定%2"
 
 #: ../inc/prefs.inc:157
 #, php-format
 msgid "% of the processors"
-msgstr ""
+msgstr "% 的處理器"
 
 #: ../inc/prefs.inc:161
 msgid "Use at most %1 Can be used to reduce CPU heat %2"
-msgstr ""
+msgstr "最多使用%1可用於減少 CPU 的發熱量%2"
 
 #: ../inc/prefs.inc:166
 #, php-format
 msgid "% of CPU time"
-msgstr ""
+msgstr "% 的處理器時間"
 
 #: ../inc/prefs.inc:174 ../inc/prefs.inc:188
 msgid "Disk: use at most"
-msgstr ""
+msgstr "硬碟：最多使用"
 
 #: ../inc/prefs.inc:176 ../inc/prefs.inc:185
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: ../inc/prefs.inc:179
 msgid "Disk: leave free at least %1 Values smaller than %2 are ignored %3"
-msgstr ""
+msgstr "硬碟：至少保留%1小於%2 的設定值將被忽略%3"
 
 #: ../inc/prefs.inc:190 ../inc/prefs.inc:200 ../inc/prefs.inc:205
 #: ../inc/prefs.inc:210
 #, php-format
 msgid "% of total"
-msgstr ""
+msgstr "% "
 
 #: ../inc/prefs.inc:193
 msgid "Tasks checkpoint to disk at most every"
-msgstr ""
+msgstr "運算任務最小的硬碟時間間隔"
 
 #: ../inc/prefs.inc:195
 msgid "seconds"
-msgstr ""
+msgstr "秒"
 
 #: ../inc/prefs.inc:198
 msgid "Swap space: use at most"
-msgstr ""
+msgstr "交換空間：最多使用"
 
 #: ../inc/prefs.inc:203
 msgid "Memory: when computer is in use, use at most"
-msgstr ""
+msgstr "記憶體：如果電腦正在使用，最多使用"
 
 #: ../inc/prefs.inc:208
 msgid "Memory: when computer is not in use, use at most"
-msgstr ""
+msgstr "記憶體：如果電腦未使用，最多使用"
 
 #: ../inc/prefs.inc:217
 msgid ""
 "Computer is connected to the Internet about every %1 Leave blank or 0 if "
 "always connected. %2 BOINC will try to maintain at least this much work (max "
 "10 days). %3"
-msgstr ""
+msgstr "電腦連結網路的時間間隔%1留空或0 即表示一直連線。 %2 BOINC 將根據此設定值決定在本地多少額外運算任務（最多十天）。 %3"
 
 #: ../inc/prefs.inc:223 ../inc/prefs.inc:228 ../inc/prefs.inc:270
 #: ../inc/util.inc:244
 msgid "days"
-msgstr ""
+msgstr "天"
 
 #: ../inc/prefs.inc:226
 msgid "Maintain enough work for an additional"
-msgstr ""
+msgstr "維護足夠的額外任務"
 
 #: ../inc/prefs.inc:232
 msgid ""
 "Confirm before connecting to Internet? %1 Matters only if you have a modem, "
 "ISDN or VPN connection %2"
-msgstr ""
+msgstr "連線到網路前要求用戶確認？ %1僅 Modem、ISDN 和 VPN 用戶需要使用此設定%2"
 
 #: ../inc/prefs.inc:241
 msgid ""
 "Disconnect when done? %1 Matters only if you have a modem, ISDN or VPN "
 "connection %2"
-msgstr ""
+msgstr "傳輸完成時斷線？ %1僅 Modem、ISDN 和 VPN 用戶需要使用此設定%2"
 
 #: ../inc/prefs.inc:249
 msgid "Maximum download rate:"
-msgstr ""
+msgstr "最快下載速度："
 
 #: ../inc/prefs.inc:251 ../inc/prefs.inc:256
 msgid "Kbytes/sec"
-msgstr ""
+msgstr "KB/s"
 
 #: ../inc/prefs.inc:254
 msgid "Maximum upload rate:"
-msgstr ""
+msgstr "最快上傳速度："
 
 #: ../inc/prefs.inc:259
 msgid "Use network only between the hours of"
-msgstr ""
+msgstr "允許使用網路的時間"
 
 #: ../inc/prefs.inc:263
 msgid "Transfer at most %1 Enforced by version 6.10.46+ %2"
-msgstr ""
+msgstr "最多傳輸%16.10.46 之後的版本有了此設定%2"
 
 #: ../inc/prefs.inc:269
 msgid "Mbytes every"
-msgstr ""
+msgstr "MB/每"
 
 #: ../inc/prefs.inc:274
 msgid ""
@@ -1101,6 +1110,8 @@ msgid ""
 "modifies image files (UMTS does this, for example). %2 Skipping verification "
 "reduces the security of BOINC. %3"
 msgstr ""
+"跳過映像文件驗證？ %1僅在你的 ISP 會修改映像文件的情況下（比如 UMTS 就會這樣）需要選中這個。 %2跳過驗證會影響 BOINC 的安全性。 "
+"%3"
 
 #: ../inc/prefs.inc:287
 msgid ""
@@ -1109,133 +1120,135 @@ msgid ""
 "with resource shares of 100 and 200, the first will get 1/3 of your "
 "resources and the second will get 2/3. %2"
 msgstr ""
+"資源分享%1此設定決定你的電腦分配給本專案的資源比例。舉例：你參加了兩個專案，其資源分享率分別是100 和200，則第一個專案將得到 1/3 "
+"的運算資源，第二個專案將得到 2/3。 %2"
 
 #: ../inc/prefs.inc:298
 msgid "Accelerate GPU tasks by dedicating a CPU to each one?"
-msgstr ""
+msgstr "給每個 GPU 任務保留一個 CPU 內核？"
 
 #: ../inc/prefs.inc:308
 msgid "Use CPU %1 Enforced by version 6.10+ %2"
-msgstr ""
+msgstr "使用 CPU%16.10 之後的版本有了此設定%2"
 
 #: ../inc/prefs.inc:320
 msgid "Use ATI GPU %1 Enforced by version 6.10+ %2"
-msgstr ""
+msgstr "使用 ATI GPU%16.10 之後的版本有了此設定%2"
 
 #: ../inc/prefs.inc:332
 msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
-msgstr ""
+msgstr "使用 NVIDIA GPU%16.10 之後的版本有了此設定%2"
 
 #: ../inc/prefs.inc:346
 msgid ""
 "Run test applications? %1 This helps us develop applications, but may cause "
 "jobs to fail on your computer %2"
-msgstr ""
+msgstr "運行測試用途的應用程式？ %1這可以幫助我們開發運算程式，但可能會導致您電腦上的運算任務失敗%2"
 
 #: ../inc/prefs.inc:355
 msgid ""
 "Emails will be sent from %1; make sure your spam filter accepts this address."
-msgstr ""
+msgstr "電子郵件將從 %1 發送，請確保您的垃圾郵件過濾器不會過濾這個地址。"
 
 #: ../inc/prefs.inc:362
 msgid "Is it OK for %1 and your team (if any) to email you?"
-msgstr ""
+msgstr "是否允許 %1 和您所在的團隊傳送電子郵件給您？"
 
 #: ../inc/prefs.inc:368
 msgid "Should %1 show your computers on its web site?"
-msgstr ""
+msgstr "%1 是否可以將您的電腦顯示在它的網站上？"
 
 #: ../inc/prefs.inc:375
 msgid "Disk and memory usage"
-msgstr ""
+msgstr "硬碟和記憶體使用"
 
 #: ../inc/prefs.inc:376
 msgid "Processor usage"
-msgstr ""
+msgstr "處理器使用"
 
 #: ../inc/prefs.inc:377
 msgid "Network usage"
-msgstr ""
+msgstr "網路使用"
 
 #: ../inc/prefs.inc:380
 msgid ""
 "These preferences apply to all the BOINC projects in which you participate."
-msgstr ""
+msgstr "這些偏好設定對你參加的所有 BOINC 專案均有效。"
 
 #: ../inc/prefs.inc:383
 msgid ""
 "%1Unable to update preferences.%2 The values marked in red below were out of "
 "range or not numeric."
-msgstr ""
+msgstr "%1無法更新偏好設定。 %2下面標紅的為超出範圍的或類型錯誤的數值。"
 
 #: ../inc/prefs.inc:432
 msgid "bad venue: %1"
-msgstr ""
+msgstr "錯誤的偏好設定位置：%1"
 
 #: ../inc/prefs.inc:438
 msgid "bad subset: %1"
-msgstr ""
+msgstr "錯誤的偏好設定子集：%1"
 
 #: ../inc/prefs.inc:657 ../inc/prefs.inc:660 ../inc/prefs.inc:1003
 #: ../inc/prefs_util.inc:93 ../project.sample/project_specific_prefs.inc:75
 msgid "yes"
-msgstr ""
+msgstr "是"
 
 #: ../inc/prefs.inc:657 ../inc/prefs.inc:660 ../inc/prefs.inc:1005
 #: ../inc/prefs_util.inc:93 ../project.sample/project_specific_prefs.inc:77
 msgid "no"
-msgstr ""
+msgstr "否"
 
 #: ../inc/prefs.inc:665 ../user/forum_search.php:53
 msgid "no limit"
-msgstr ""
+msgstr "不限制"
 
 #: ../inc/prefs.inc:690 ../user/team_admins.php:79
 msgid "Add"
-msgstr ""
+msgstr "新增"
 
 #: ../inc/prefs.inc:692 ../inc/prefs.inc:818
 #: ../user/edit_forum_preferences_form.php:161 ../user/team_admins.php:34
 msgid "Remove"
-msgstr ""
+msgstr "移除"
 
 #: ../inc/prefs.inc:798 ../user/explain_state.php:94
 msgid "Computing"
-msgstr ""
+msgstr "運算"
 
 #: ../inc/prefs.inc:809
 msgid "Separate preferences for %1"
-msgstr ""
+msgstr "用於％1環境的偏好設定"
 
 #: ../inc/prefs.inc:818 ../inc/prefs.inc:893
 msgid "Edit preferences"
-msgstr ""
+msgstr "編輯偏好設定"
 
 #: ../inc/prefs.inc:822
 msgid "Add separate preferences for %1"
-msgstr ""
+msgstr "新增%1環境的偏好設定"
 
 #: ../inc/prefs.inc:830 ../inc/prefs.inc:875
 msgid "(Switch View)"
-msgstr ""
+msgstr "(切換視圖)"
 
 #: ../inc/prefs.inc:832 ../inc/prefs.inc:878
 msgid "Combined preferences"
-msgstr ""
+msgstr "以合併的偏好設定"
 
 #: ../inc/prefs.inc:837
 msgid "Project specific settings"
-msgstr ""
+msgstr "專案特定的偏好設定"
 
 #: ../inc/prefs.inc:845 ../inc/prefs.inc:887
 msgid "Primary (default) preferences"
-msgstr ""
+msgstr "預設的偏好設定"
 
 #: ../inc/prefs.inc:854 ../user/add_venue.php:43 ../user/add_venue.php:67
 #: ../user/prefs_edit.php:40 ../user/prefs_edit.php:64
 #: ../user/prefs_edit.php:92
 msgid "Edit %1 preferences"
-msgstr ""
+msgstr "編輯 %1 的偏好設定"
 
 #: ../inc/prefs.inc:868
 msgid ""
@@ -1243,425 +1256,427 @@ msgid ""
 "             On computers participating in multiple projects, the most "
 "recently modified preferences will be used."
 msgstr ""
+"此處的偏好設定對你參加的所有 BOINC 專案均有效。 <br>\n"
+"如果一台電腦參加了多個專案，以最近修改過的偏好設定為準。"
 
 #: ../inc/prefs.inc:872
 msgid "Preferences last modified:"
-msgstr ""
+msgstr "最後修改日期："
 
 #: ../inc/prefs.inc:922
 msgid "Add preferences"
-msgstr ""
+msgstr "新增偏好設定"
 
 #: ../inc/prefs.inc:926
 msgid "Update preferences"
-msgstr ""
+msgstr "更新偏好設定"
 
 #: ../inc/prefs.inc:1014 ../inc/prefs.inc:1023
 msgid "Default computer location"
-msgstr ""
+msgstr "預設的電腦位置"
 
 #: ../inc/prefs.inc:1174
 msgid "Update failed: "
-msgstr ""
+msgstr "更新失敗："
 
 #: ../inc/prefs_util.inc:305 ../inc/prefs_util.inc:315
 msgid "and"
-msgstr ""
+msgstr "和"
 
 #: ../inc/profile.inc:86
 msgid ""
 "Your profile will be made visible to other people as soon as it has been "
 "approved by the project. This may take up to a few days."
-msgstr ""
+msgstr "你的用戶檔案在經過審核後就可以被其他用戶看到，這可能需要幾天的時間。"
 
 #: ../inc/profile.inc:92
 msgid ""
 "Your profile has been marked as unacceptable. It is not visible to other "
 "people. Please change it."
-msgstr ""
+msgstr "你的用戶檔案已標識為不核准，其他用戶也將無法查看，請進行適當的修改。"
 
 #: ../inc/profile.inc:172 ../user/friend.php:105 ../user/friend.php:172
 msgid "Database error"
-msgstr ""
+msgstr "資料庫錯誤"
 
 #: ../inc/profile.inc:192
 msgid ""
 "To prevent spam, profiles of users with an average credit of less than %1 "
 "are displayed only to logged-in users. We apologize for this inconvenience."
-msgstr ""
+msgstr "為了防止垃圾訊息，平均積分低於 %1 的用戶檔案將只能被已登入的用戶看到，由此帶來的不便之處我們很抱歉。"
 
 #: ../inc/profile.inc:196
 msgid "User is banished"
-msgstr ""
+msgstr "用戶已禁言"
 
 #: ../inc/profile.inc:210
 msgid "No profile exists for that user ID."
-msgstr ""
+msgstr "沒有和此用戶 ID 對應的用戶檔案訊息。"
 
 #: ../inc/profile.inc:218 ../user/create_profile.php:313
 msgid "Edit your profile"
-msgstr ""
+msgstr "編輯您的用戶檔案"
 
 #: ../inc/profile.inc:261
 msgid "Your feedback on this profile"
-msgstr ""
+msgstr "您對此用戶檔案的意見"
 
 #: ../inc/profile.inc:263
 msgid "Recommend this profile for User of the Day:"
-msgstr ""
+msgstr "推薦此檔案的主人為今日用戶："
 
 #: ../inc/profile.inc:264
 msgid "I %1like%2 this profile"
-msgstr ""
+msgstr "我%1喜歡%2這個用戶檔案"
 
 #: ../inc/profile.inc:267
 msgid "Alert administrators to an offensive profile:"
-msgstr ""
+msgstr "向管理員舉報有冒犯性的用戶檔案："
 
 #: ../inc/profile.inc:268
 msgid "I %1do not like%2 this profile"
-msgstr ""
+msgstr "我%1不喜歡%2這個用戶檔案"
 
 #: ../inc/result.inc:34
 msgid "Anonymous platform"
-msgstr ""
+msgstr "匿名平台"
 
 #: ../inc/result.inc:48
 msgid "NVIDIA GPU"
-msgstr ""
+msgstr "NVIDIA GPU"
 
 #: ../inc/result.inc:49 ../user/host_app_versions.php:27
 msgid "ATI GPU"
-msgstr ""
+msgstr "ATI GPU"
 
 #: ../inc/result.inc:56
 msgid "Not in DB"
-msgstr ""
+msgstr "資料庫中不存在"
 
 #: ../inc/result.inc:82
 msgid "pending"
-msgstr ""
+msgstr "等待中"
 
 #: ../inc/result.inc:104 ../user/forum_search.php:60
 msgid "All"
-msgstr ""
+msgstr "所有"
 
 #: ../inc/result.inc:105 ../inc/result.inc:162 ../inc/result.inc:202
 msgid "In progress"
-msgstr ""
+msgstr "運算中"
 
 #: ../inc/result.inc:106 ../user/workunit.php:67
 msgid "Pending"
-msgstr ""
+msgstr "等待中"
 
 #: ../inc/result.inc:107 ../inc/result.inc:247
 msgid "Valid"
-msgstr ""
+msgstr "有效結果"
 
 #: ../inc/result.inc:108 ../inc/result.inc:250
 msgid "Invalid"
-msgstr ""
+msgstr "無效結果"
 
 #: ../inc/result.inc:109 ../inc/result.inc:188
 msgid "Error"
-msgstr ""
+msgstr "錯誤"
 
 #: ../inc/result.inc:160 ../inc/result.inc:200 ../user/explain_state.php:34
 msgid "Inactive"
-msgstr ""
+msgstr "不活躍的"
 
 #: ../inc/result.inc:161 ../inc/result.inc:201 ../user/explain_state.php:37
 msgid "Unsent"
-msgstr ""
+msgstr "未傳送的"
 
 #: ../inc/result.inc:167
 msgid "Completed, waiting for validation"
-msgstr ""
+msgstr "已完成，等待驗證"
 
 #: ../inc/result.inc:168
 msgid "Completed and validated"
-msgstr ""
+msgstr "已完成，通過驗證"
 
 #: ../inc/result.inc:169
 msgid "Completed, marked as invalid"
-msgstr ""
+msgstr "已完成，標記為錯誤"
 
 #: ../inc/result.inc:170
 msgid "Completed, can't validate"
-msgstr ""
+msgstr "已完成，無法驗證"
 
 #: ../inc/result.inc:171
 msgid "Completed, validation inconclusive"
-msgstr ""
+msgstr "已完成，驗證未完成"
 
 #: ../inc/result.inc:172
 msgid "Completed, too late to validate"
-msgstr ""
+msgstr "已完成，超出上傳期限而無法驗證"
 
 #: ../inc/result.inc:174
 msgid "Completed"
-msgstr ""
+msgstr "已完成"
 
 #: ../inc/result.inc:175 ../inc/result.inc:212 ../user/explain_state.php:62
 msgid "Couldn't send"
-msgstr ""
+msgstr "無法傳送"
 
 #: ../inc/result.inc:178 ../inc/result.inc:236
 msgid "Cancelled by server"
-msgstr ""
+msgstr "被伺服器取消"
 
 #: ../inc/result.inc:181
 msgid "Error while downloading"
-msgstr ""
+msgstr "下載過程錯誤"
 
 #: ../inc/result.inc:183
 msgid "Error while computing"
-msgstr ""
+msgstr "運算過程錯誤"
 
 #: ../inc/result.inc:184
 msgid "Error while uploading"
-msgstr ""
+msgstr "上傳過程錯誤"
 
 #: ../inc/result.inc:185 ../inc/result.inc:238
 msgid "Aborted by user"
-msgstr ""
+msgstr "被用戶中止"
 
 #: ../inc/result.inc:186 ../inc/result.inc:239
 msgid "Upload failed"
-msgstr ""
+msgstr "上傳失敗"
 
 #: ../inc/result.inc:189
 msgid "Timed out - no response"
-msgstr ""
+msgstr "超時 - 無回應"
 
 #: ../inc/result.inc:190 ../inc/result.inc:219 ../user/explain_state.php:71
 msgid "Didn't need"
-msgstr ""
+msgstr "不需要"
 
 #: ../inc/result.inc:191 ../inc/result.inc:220 ../user/explain_state.php:74
 msgid "Validate error"
-msgstr ""
+msgstr "驗證錯誤"
 
 #: ../inc/result.inc:192 ../inc/result.inc:221
 msgid "Abandoned"
-msgstr ""
+msgstr "已丟棄"
 
 #: ../inc/result.inc:203 ../user/explain_state.php:43
 msgid "Over"
-msgstr ""
+msgstr "完成"
 
 #: ../inc/result.inc:211 ../user/explain_state.php:59
 msgid "Success"
-msgstr ""
+msgstr "成功"
 
 #: ../inc/result.inc:215
 msgid "Computation error"
-msgstr ""
+msgstr "運算錯誤"
 
 #: ../inc/result.inc:217
 msgid "Redundant result"
-msgstr ""
+msgstr "多餘結果"
 
 #: ../inc/result.inc:218 ../user/explain_state.php:68
 msgid "No reply"
-msgstr ""
+msgstr "無回應"
 
 #: ../inc/result.inc:228 ../user/explain_state.php:85
 msgid "New"
-msgstr ""
+msgstr "新建任務"
 
 #: ../inc/result.inc:229 ../user/explain_state.php:91
 msgid "Downloading"
-msgstr ""
+msgstr "下載中"
 
 #: ../inc/result.inc:230
 msgid "Processing"
-msgstr ""
+msgstr "處理中"
 
 #: ../inc/result.inc:231
 msgid "Compute error"
-msgstr ""
+msgstr "運算錯誤"
 
 #: ../inc/result.inc:232 ../user/explain_state.php:97
 msgid "Uploading"
-msgstr ""
+msgstr "上傳中"
 
 #: ../inc/result.inc:233 ../user/explain_state.php:88
 msgid "Done"
-msgstr ""
+msgstr "已完成"
 
 #: ../inc/result.inc:246
 msgid "Initial"
-msgstr ""
+msgstr "初始結果"
 
 #: ../inc/result.inc:252
 msgid "Not necessary"
-msgstr ""
+msgstr "不需要"
 
 #: ../inc/result.inc:253
 msgid "Workunit error - check skipped"
-msgstr ""
+msgstr "任務單元錯誤 - 跳過檢查"
 
 #: ../inc/result.inc:254
 msgid "Checked, but no consensus yet"
-msgstr ""
+msgstr "已檢查，未取得一致"
 
 #: ../inc/result.inc:255
 msgid "Task was reported too late to validate"
-msgstr ""
+msgstr "任務超出上傳期限而無法驗證"
 
 #: ../inc/result.inc:281
 msgid "Couldn't send result"
-msgstr ""
+msgstr "無法發送任務"
 
 #: ../inc/result.inc:285
 msgid "Too many errors (may have bug)"
-msgstr ""
+msgstr "過多錯誤（可能存在BUG）"
 
 #: ../inc/result.inc:289
 msgid "Too many results (may be nondeterministic)"
-msgstr ""
+msgstr "太多任務（可能因為結果不確定）"
 
 #: ../inc/result.inc:293
 msgid "Too many total results"
-msgstr ""
+msgstr "過多總合的任務"
 
 #: ../inc/result.inc:297
 msgid "WU cancelled"
-msgstr ""
+msgstr "已取消 WU"
 
 #: ../inc/result.inc:301
 msgid "Unrecognized Error: %1"
-msgstr ""
+msgstr "無法辨識的錯誤：%1"
 
 #: ../inc/result.inc:328
 msgid "Task name"
-msgstr ""
+msgstr "任務名稱"
 
 #: ../inc/result.inc:328 ../inc/result.inc:333 ../inc/result.inc:336
 #: ../inc/result.inc:339
 msgid "click for details"
-msgstr ""
+msgstr "點擊詳細查看"
 
 #: ../inc/result.inc:328
 msgid "Show IDs"
-msgstr ""
+msgstr "顯示 ID"
 
 #: ../inc/result.inc:333
 msgid "Show names"
-msgstr ""
+msgstr "顯示名稱"
 
 #: ../inc/result.inc:336
 msgid "Task"
-msgstr ""
+msgstr "任務"
 
 #: ../inc/result.inc:339
 msgid "Work unit"
-msgstr ""
+msgstr "任務單元"
 
 #: ../inc/result.inc:342
 msgid "Computer"
-msgstr ""
+msgstr "電腦"
 
 #: ../inc/result.inc:345 ../inc/result.inc:594
 msgid "Sent"
-msgstr ""
+msgstr "傳送時間"
 
 #: ../inc/result.inc:346
 msgid "Time reported<br />or deadline"
-msgstr ""
+msgstr "上傳時間<br />或者上傳期限"
 
 #: ../inc/result.inc:347
 msgid "explain"
-msgstr ""
+msgstr "說明"
 
 #: ../inc/result.inc:349 ../user/server_status.php:246
 msgid "Status"
-msgstr ""
+msgstr "狀態"
 
 #: ../inc/result.inc:350
 msgid "Run time<br />(sec)"
-msgstr ""
+msgstr "執行時間<br /> (秒)"
 
 #: ../inc/result.inc:351
 msgid "CPU time<br />(sec)"
-msgstr ""
+msgstr "CPU 時間<br /> (秒)"
 
 #: ../inc/result.inc:352 ../inc/result.inc:605
 msgid "Credit"
-msgstr ""
+msgstr "積分"
 
 #: ../inc/result.inc:353 ../inc/result.inc:687
 msgid "Application"
-msgstr ""
+msgstr "應用程式"
 
 #: ../inc/result.inc:592
 msgid "Workunit"
-msgstr ""
+msgstr "任務單元"
 
 #: ../inc/result.inc:595
 msgid "Received"
-msgstr ""
+msgstr "接收時間"
 
 #: ../inc/result.inc:596
 msgid "Server state"
-msgstr ""
+msgstr "伺服器狀態"
 
 #: ../inc/result.inc:597
 msgid "Outcome"
-msgstr ""
+msgstr "結果"
 
 #: ../inc/result.inc:598
 msgid "Client state"
-msgstr ""
+msgstr "客戶端狀態"
 
 #: ../inc/result.inc:599
 msgid "Exit status"
-msgstr ""
+msgstr "離開狀態"
 
 #: ../inc/result.inc:601
 msgid "Report deadline"
-msgstr ""
+msgstr "上傳期限"
 
 #: ../inc/result.inc:602
 msgid "Run time"
-msgstr ""
+msgstr "執行時間"
 
 #: ../inc/result.inc:603
 msgid "CPU time"
-msgstr ""
+msgstr "CPU 時間"
 
 #: ../inc/result.inc:604
 msgid "Validate state"
-msgstr ""
+msgstr "驗證狀態"
 
 #: ../inc/result.inc:606
 msgid "Application version"
-msgstr ""
+msgstr "應用程式版本"
 
 #: ../inc/result.inc:619
 msgid "Output files"
-msgstr ""
+msgstr "檔案輸出"
 
 #: ../inc/result.inc:622
 msgid "Stderr output"
-msgstr ""
+msgstr "標準錯誤輸出"
 
 #: ../inc/result.inc:669
 msgid "State"
-msgstr ""
+msgstr "狀態"
 
 #: ../inc/team.inc:33
 msgid "Search criteria (use one or more)"
-msgstr ""
+msgstr "搜尋條件 (可以使用一個或多個)"
 
 #: ../inc/team.inc:34
 msgid "Key words"
-msgstr ""
+msgstr "關鍵字"
 
 #: ../inc/team.inc:34
 msgid "Find teams with these words in their names or descriptions"
-msgstr ""
+msgstr "尋找名稱或描述中包含這些關鍵字的團隊"
 
 #: ../inc/team.inc:36 ../inc/team.inc:114 ../inc/team.inc:225
 #: ../inc/team.inc:365 ../inc/team.inc:449 ../inc/user.inc:206
@@ -1672,569 +1687,569 @@ msgstr ""
 #: ../user/user_search.php:105 ../user/user_search.php:123
 #: ../user/user_search.php:163
 msgid "Country"
-msgstr ""
+msgstr "國家"
 
 #: ../inc/team.inc:42 ../inc/team.inc:447
 msgid "Type of team"
-msgstr ""
+msgstr "團隊類型"
 
 #: ../inc/team.inc:44
 msgid "Show only active teams"
-msgstr ""
+msgstr "只顯示活躍的團隊"
 
 #: ../inc/team.inc:45 ../user/profile_menu.php:77 ../user/user_search.php:136
 msgid "Search"
-msgstr ""
+msgstr "搜尋"
 
 #: ../inc/team.inc:54
 msgid "Requested by you, and founder response deadline has passed."
-msgstr ""
+msgstr "你已發起過請求，而且原創始人的回覆期限已過。"
 
 #: ../inc/team.inc:56
 msgid "Complete foundership transfer"
-msgstr ""
+msgstr "完成創始人的轉換"
 
 #: ../inc/team.inc:60
 msgid "Requested by you"
-msgstr ""
+msgstr "你已發起過請求"
 
 #: ../inc/team.inc:60
 msgid "founder response deadline is %1"
-msgstr ""
+msgstr "原創始人的回覆期限是 %1"
 
 #: ../inc/team.inc:65 ../inc/team.inc:549 ../inc/user.inc:278
 #: ../inc/user.inc:366
 msgid "None"
-msgstr ""
+msgstr "未加入團隊"
 
 #: ../inc/team.inc:67
 msgid "Initiate request"
-msgstr ""
+msgstr "發起請求"
 
 #: ../inc/team.inc:70
 msgid "Deferred"
-msgstr ""
+msgstr "延期處理中"
 
 #: ../inc/team.inc:80
 msgid "Team info"
-msgstr ""
+msgstr "團隊訊息"
 
 #: ../inc/team.inc:82 ../user/team_forum.php:70 ../user/team_search.php:69
 msgid "Description"
-msgstr ""
+msgstr "描述"
 
 #: ../inc/team.inc:90
 msgid "Web site"
-msgstr ""
+msgstr "網站"
 
 #: ../inc/team.inc:112
 msgid "Cross-project stats"
-msgstr ""
+msgstr "跨專案的統計網站"
 
 #: ../inc/team.inc:115 ../inc/team.inc:366 ../user/team_search.php:71
 msgid "Type"
-msgstr ""
+msgstr "類型"
 
 #: ../inc/team.inc:119 ../user/team_manage.php:63
 msgid "Message board"
-msgstr ""
+msgstr "留言版"
 
 #: ../inc/team.inc:120 ../user/forum_forum.php:134 ../user/forum_index.php:93
 msgid "Threads"
-msgstr ""
+msgstr "主題"
 
 #: ../inc/team.inc:128
 msgid "Join this team"
-msgstr ""
+msgstr "加入此團隊"
 
 #: ../inc/team.inc:129
 msgid ""
 "Note: if 'OK to email' is set in your project preferences, joining a team "
 "gives its founder access to your email address."
-msgstr ""
+msgstr "如果您在專案偏好中設定了允許接收電子郵件，加入團隊後該團隊的創始人將可以取得您的電子郵件地址。"
 
 #: ../inc/team.inc:132
 msgid "Not accepting new members"
-msgstr ""
+msgstr "不接受新成員加入"
 
 #: ../inc/team.inc:139
 msgid "Foundership change requested"
-msgstr ""
+msgstr "創始人改變請求"
 
 #: ../inc/team.inc:140
 msgid "Respond by %1"
-msgstr ""
+msgstr "回覆期限 %1"
 
 #: ../inc/team.inc:144
 msgid "Team foundership change"
-msgstr ""
+msgstr "團隊創始人改變"
 
 #: ../inc/team.inc:148 ../inc/team.inc:351
 msgid "Members"
-msgstr ""
+msgstr "成員"
 
 #: ../inc/team.inc:149 ../inc/team.inc:246
 msgid "Founder"
-msgstr ""
+msgstr "創始人"
 
 #: ../inc/team.inc:161
 msgid "Admins"
-msgstr ""
+msgstr "管理員"
 
 #: ../inc/team.inc:176
 msgid "New members in last day"
-msgstr ""
+msgstr "昨天新加入的成員"
 
 #: ../inc/team.inc:177
 msgid "Total members"
-msgstr ""
+msgstr "所有成員"
 
 #: ../inc/team.inc:177 ../inc/team.inc:178 ../inc/team.inc:179
 msgid "view"
-msgstr ""
+msgstr "查看"
 
 #: ../inc/team.inc:178
 msgid "Active members"
-msgstr ""
+msgstr "活躍的成員"
 
 #: ../inc/team.inc:179
 msgid "Members with credit"
-msgstr ""
+msgstr "有積分的成員"
 
 #: ../inc/team.inc:248
 msgid "Admin"
-msgstr ""
+msgstr "管理員"
 
 #: ../inc/team.inc:269 ../user/forum_user_posts.php:122
 #: ../user/top_hosts.php:93 ../user/top_teams.php:121
 #: ../user/top_users.php:127
 msgid "Previous %1"
-msgstr ""
+msgstr "前 %1"
 
 #: ../inc/team.inc:273 ../user/forum_user_posts.php:131
 #: ../user/profile_search_action.php:61 ../user/top_hosts.php:98
 #: ../user/top_teams.php:126 ../user/top_users.php:132
 msgid "Next %1"
-msgstr ""
+msgstr "後 %1"
 
 #: ../inc/team.inc:281
 msgid "No such team."
-msgstr ""
+msgstr "沒有這個團隊。"
 
 #: ../inc/team.inc:294
 msgid "This operation requires foundership."
-msgstr ""
+msgstr "本操作需要創始人權限。"
 
 #: ../inc/team.inc:318
 msgid "This operation requires team admin privileges"
-msgstr ""
+msgstr "本操作需要團隊創始人的權限"
 
 #: ../inc/team.inc:415
 msgid ""
 "WARNING: this is a BOINC-wide team. If you make changes here, they will soon "
 "be overwritten. Edit the %1BOINC-wide team%2 instead."
-msgstr ""
+msgstr "警告：這是一個 BOINC 自動建立的團隊，您在此處做出的修改將很快會被覆蓋，請直接在 %1這裡%2 進行編輯。"
 
 #: ../inc/team.inc:422
 msgid ""
 "%1Privacy note%2: if you create a team, your project preferences (resource "
 "share, graphics preferences) will be visible to the public."
-msgstr ""
+msgstr "%1隱私事項%2：如果你要建立一個團隊，則你的專案偏好（資源分享率，圖形偏好設定等）將會對團隊成員公開。"
 
 #: ../inc/team.inc:426
 msgid "Team name, text version"
-msgstr ""
+msgstr "團隊名稱，文字版本"
 
 #: ../inc/team.inc:427
 msgid "Don't use HTML tags."
-msgstr ""
+msgstr "請不要使用 HTML 標籤。"
 
 #: ../inc/team.inc:430
 msgid "Team name, HTML version"
-msgstr ""
+msgstr "團隊名稱，HTML 版本"
 
 #: ../inc/team.inc:432 ../inc/team.inc:442
 msgid "You may use %1limited HTML tags%2."
-msgstr ""
+msgstr "您可以使用 %1有限的 HTML 標籤%2。"
 
 #: ../inc/team.inc:433
 msgid "If you don't know HTML, leave this box blank."
-msgstr ""
+msgstr "如果您不了解 HTML，請保持本編輯框為空。"
 
 #: ../inc/team.inc:436
 msgid "URL of team web page, if any"
-msgstr ""
+msgstr "團隊的網站 (如果有的話)；"
 
 #: ../inc/team.inc:436
 msgid "without \"http://\""
-msgstr ""
+msgstr "不含 “ http:// ”"
 
 #: ../inc/team.inc:437
 msgid "This URL will be linked to from the team's page on this site."
-msgstr ""
+msgstr "這個網址將會從這個網頁連到團隊網站"
 
 #: ../inc/team.inc:440
 msgid "Description of team"
-msgstr ""
+msgstr "團隊描述"
 
 #: ../inc/team.inc:456
 msgid "Accept new members?"
-msgstr ""
+msgstr "是否接受新隊員加入?"
 
 #: ../inc/uotd.inc:27
 msgid "User profile"
-msgstr ""
+msgstr "用戶檔案"
 
 #: ../inc/user.inc:116
 msgid "Projects in which you are participating"
-msgstr ""
+msgstr "您已加入的專案"
 
 #: ../inc/user.inc:118
 msgid "Projects in which %1 is participating"
-msgstr ""
+msgstr "%1 已加入的專案"
 
 #: ../inc/user.inc:122
 msgid "Project"
-msgstr ""
+msgstr "專案"
 
 #: ../inc/user.inc:122
 msgid "Click for user page"
-msgstr ""
+msgstr "點擊進入用戶頁面"
 
 #: ../inc/user.inc:122
 msgid "Since"
-msgstr ""
+msgstr "加入日期"
 
 #: ../inc/user.inc:146
 msgid "Computing and credit"
-msgstr ""
+msgstr "運算和積分"
 
 #: ../inc/user.inc:150 ../user/pending.php:64
 msgid "Pending credit"
-msgstr ""
+msgstr "待授予的積分"
 
 #: ../inc/user.inc:150 ../inc/user.inc:152 ../inc/user.inc:153
 #: ../inc/user.inc:240 ../inc/user.inc:322 ../inc/user.inc:397
 #: ../user/view_profile.php:56
 msgid "View"
-msgstr ""
+msgstr "查看"
 
 #: ../inc/user.inc:152
 msgid "Computers on this account"
-msgstr ""
+msgstr "本帳號所屬的電腦"
 
 #: ../inc/user.inc:162
 msgid "Cross-project ID"
-msgstr ""
+msgstr "跨專案辨識碼 (CPID)"
 
 #: ../inc/user.inc:163
 msgid "Cross-project statistics"
-msgstr ""
+msgstr "跨專案的統計網站"
 
 #: ../inc/user.inc:164
 msgid "Account"
-msgstr ""
+msgstr "帳號"
 
 #: ../inc/user.inc:166 ../inc/user.inc:278 ../inc/user.inc:364
 #: ../inc/user.inc:366 ../user/user_search.php:105 ../user/user_search.php:163
 msgid "Team"
-msgstr ""
+msgstr "團隊"
 
 #: ../inc/user.inc:168
 msgid "Cross-project"
-msgstr ""
+msgstr "跨專案"
 
 #: ../inc/user.inc:169
 msgid "Certificate"
-msgstr ""
+msgstr "證書"
 
 #: ../inc/user.inc:170
 msgid "Stats on your cell phone"
-msgstr ""
+msgstr "用手機查看您的統計訊息"
 
 #: ../inc/user.inc:184
 msgid "Unknown notification type: %1"
-msgstr ""
+msgstr "未知的通知類型：%1"
 
 #: ../inc/user.inc:199
 msgid "Account information"
-msgstr ""
+msgstr "帳號資訊"
 
 #: ../inc/user.inc:201 ../user/edit_passwd_form.php:48
 #: ../user/get_passwd.php:40 ../user/team_email_list.php:64
 msgid "Email address"
-msgstr ""
+msgstr "電子郵件地址"
 
 #: ../inc/user.inc:204 ../inc/user.inc:316
 msgid "URL"
-msgstr ""
+msgstr "網址"
 
 #: ../inc/user.inc:207
 msgid "Postal code"
-msgstr ""
+msgstr "郵遞區號"
 
 #: ../inc/user.inc:208 ../inc/user.inc:313
 msgid "%1 member since"
-msgstr ""
+msgstr "加入 %1 的日期"
 
 #: ../inc/user.inc:210
 msgid "Change"
-msgstr ""
+msgstr "修改"
 
 #: ../inc/user.inc:210
 msgid "email address"
-msgstr ""
+msgstr "電子郵件地址"
 
 #: ../inc/user.inc:211
 msgid "password"
-msgstr ""
+msgstr "密碼"
 
 #: ../inc/user.inc:212
 msgid "other account info"
-msgstr ""
+msgstr "其他帳號訊息"
 
 #: ../inc/user.inc:214 ../inc/user.inc:312
 msgid "User ID"
-msgstr ""
+msgstr "用戶 ID"
 
 #: ../inc/user.inc:214
 msgid "Used in community functions"
-msgstr ""
+msgstr "在社群功能中使用"
 
 #: ../inc/user.inc:216 ../user/weak_auth.php:27
 msgid "Weak account key"
-msgstr ""
+msgstr "帳號密碼太弱"
 
 #: ../inc/user.inc:216
 msgid "Provides %1limited access%2 to your account"
-msgstr ""
+msgstr "僅可以%1部分查看%2您的帳號"
 
 #: ../inc/user.inc:219
 msgid "Preferences"
-msgstr ""
+msgstr "偏好設定"
 
 #: ../inc/user.inc:222
 msgid "When and how BOINC uses your computer"
-msgstr ""
+msgstr "BOINC 何時如何用您的電腦?"
 
 #: ../inc/user.inc:223
 msgid "Computing preferences"
-msgstr ""
+msgstr "運算偏好設定"
 
 #: ../inc/user.inc:226
 msgid "Message boards and private messages"
-msgstr ""
+msgstr "留言板和私人訊息"
 
 #: ../inc/user.inc:227 ../user/edit_forum_preferences_form.php:31
 msgid "Community preferences"
-msgstr ""
+msgstr "社群偏好設定"
 
 #: ../inc/user.inc:230
 msgid "Preferences for this project"
-msgstr ""
+msgstr "本專案的偏好設定"
 
 #: ../inc/user.inc:231 ../user/prefs.php:33
 msgid "%1 preferences"
-msgstr ""
+msgstr "%1 偏好設定"
 
 #: ../inc/user.inc:237 ../user/sample_index.php:114
 msgid "Community"
-msgstr ""
+msgstr "社群"
 
 #: ../inc/user.inc:240 ../user/pm.php:107 ../user/pm.php:147
 msgid "Delete"
-msgstr ""
+msgstr "刪除"
 
 #: ../inc/user.inc:242
 msgid "Create"
-msgstr ""
+msgstr "建立"
 
 #: ../inc/user.inc:244 ../inc/user.inc:397 ../inc/util.inc:484
 msgid "Profile"
-msgstr ""
+msgstr "用戶檔案"
 
 #: ../inc/user.inc:247 ../inc/user.inc:370
 msgid "%1 posts"
-msgstr ""
+msgstr "%1 個文章"
 
 #: ../inc/user.inc:259 ../user/edit_forum_preferences_form.php:51
 msgid "Notifications"
-msgstr ""
+msgstr "通知"
 
 #: ../inc/user.inc:266
 msgid "Quit team"
-msgstr ""
+msgstr "退出團隊"
 
 #: ../inc/user.inc:268 ../inc/user.inc:285
 msgid "Administer"
-msgstr ""
+msgstr "管理員"
 
 #: ../inc/user.inc:274 ../inc/user.inc:287
 msgid "(foundership change request pending)"
-msgstr ""
+msgstr "(創始人轉換請求待處理)"
 
 #: ../inc/user.inc:276
 msgid "Member of team"
-msgstr ""
+msgstr "團隊成員"
 
 #: ../inc/user.inc:278
 msgid "find a team"
-msgstr ""
+msgstr "搜尋團隊"
 
 #: ../inc/user.inc:289
 msgid "Founder but not member of"
-msgstr ""
+msgstr "創始人 (已退出團隊)"
 
 #: ../inc/user.inc:295
 msgid "Find friends"
-msgstr ""
+msgstr "搜尋好友"
 
 #: ../inc/user.inc:302 ../inc/user.inc:304 ../inc/user.inc:380
 #: ../inc/user.inc:382 ../inc/user.inc:391
 msgid "Friends"
-msgstr ""
+msgstr "好友"
 
 #: ../inc/user.inc:322 ../inc/user.inc:324 ../user/server_status.php:396
 msgid "Computers"
-msgstr ""
+msgstr "電腦"
 
 #: ../inc/user.inc:331
 msgid "Donor"
-msgstr ""
+msgstr "贊助者"
 
 #: ../inc/user.inc:373
 msgid "Contact"
-msgstr ""
+msgstr "聯繫"
 
 #: ../inc/user.inc:376
 msgid "This person is a friend"
-msgstr ""
+msgstr "這是一位好友"
 
 #: ../inc/user.inc:377 ../user/friend.php:238
 msgid "Cancel friendship"
-msgstr ""
+msgstr "刪除此好友"
 
 #: ../inc/user.inc:380 ../user/friend.php:37
 msgid "Request pending"
-msgstr ""
+msgstr "請求待處理"
 
 #: ../inc/user.inc:382
 msgid "Add as friend"
-msgstr ""
+msgstr "新增為好友"
 
 #: ../inc/util.inc:113
 msgid "log out"
-msgstr ""
+msgstr "登出"
 
 #: ../inc/util.inc:115
 msgid "log in"
-msgstr ""
+msgstr "登入"
 
 #: ../inc/util.inc:174 ../user/login_form.php:37 ../user/login_form.php:62
 msgid "Log in"
-msgstr ""
+msgstr "登入"
 
 #: ../inc/util.inc:175 ../user/create_account_form.php:38
 msgid "Create an account"
-msgstr ""
+msgstr "建立一個帳號"
 
 #: ../inc/util.inc:176
 msgid "Server status page"
-msgstr ""
+msgstr "伺服器狀態頁"
 
 #: ../inc/util.inc:218
 msgid ""
 "A database error occurred while handling your request; please try again "
 "later."
-msgstr ""
+msgstr "資料庫在處理你的請求過程中發生一次資料庫錯誤，請稍後重試。"
 
 #: ../inc/util.inc:227
 msgid "Unable to handle request"
-msgstr ""
+msgstr "無法處理請求"
 
 #: ../inc/util.inc:247
 msgid "hours"
-msgstr ""
+msgstr "小時"
 
 #: ../inc/util.inc:250
 msgid "min"
-msgstr ""
+msgstr "分鐘"
 
 #: ../inc/util.inc:253
 msgid "sec"
-msgstr ""
+msgstr "秒"
 
 #: ../inc/util.inc:414
 msgid "Link has timed out. Please click Back, refresh the page, and try again."
-msgstr ""
+msgstr "連線已超時，請點擊返回並刷新頁面後再重試。"
 
 #: ../inc/util.inc:483
 msgid "View the profile of %1"
-msgstr ""
+msgstr "查看 %1 的用戶檔案"
 
 #: ../inc/util.inc:539
 msgid "Use BBCode tags to format your text"
-msgstr ""
+msgstr "用 BBCode 代碼來格式化您的文本"
 
 #: ../inc/util.inc:750
 msgid "Project down for maintenance"
-msgstr ""
+msgstr "專案已停止維護"
 
 #: ../inc/util.inc:753
 msgid "%1 is temporarily shut down for maintenance.  Please try again later."
-msgstr ""
+msgstr "%1 已經臨時關閉並進行維護工作，請稍候再重試。"
 
 #: ../inc/util.inc:771
 msgid "Unable to connect to database - please try again later"
-msgstr ""
+msgstr "無法連接資料庫 - 請稍候重試"
 
 #: ../inc/util.inc:772
 msgid "Error:"
-msgstr ""
+msgstr "錯誤："
 
 #: ../inc/util.inc:776
 msgid "Unable to select database - please try again later"
-msgstr ""
+msgstr "無法選擇資料庫 - 請稍候重試"
 
 #: ../inc/util_ops.inc:130 ../user/get_passwd.php:72
 msgid "Stay logged in on this computer"
-msgstr ""
+msgstr "保持這台電腦的登入狀態"
 
 #: ../user/account_finish.php:34
 msgid "Finish account setup"
-msgstr ""
+msgstr "完成帳號設定"
 
 #: ../user/account_finish.php:41 ../user/create_account_form.php:89
 msgid "Identifies you on our web site. Use your real name or a nickname."
-msgstr ""
+msgstr "您在我們網站上的標識，可以使用您的真實姓名或是暱稱。"
 
 #: ../user/account_finish.php:45 ../user/create_account_form.php:108
 msgid "Select the country you want to represent, if any."
-msgstr ""
+msgstr "選擇您想代表的國家 (如果有的話)"
 
 #: ../user/account_finish.php:51 ../user/create_account_form.php:114
 msgid "Postal or ZIP Code"
-msgstr ""
+msgstr "郵遞區號"
 
 #: ../user/account_finish.php:51 ../user/create_account_form.php:114
 msgid "Optional"
-msgstr ""
+msgstr "可選擇"
 
 #: ../user/account_finish_action.php:27 ../user/create_account_action.php:86
 msgid "You must supply a name for your account"
-msgstr ""
+msgstr "您必須為您的帳號取一個名字"
 
 #: ../user/account_finish_action.php:30 ../user/create_account_action.php:89
 msgid "HTML tags not allowed in name"
-msgstr ""
+msgstr "名字中不允許使用 HTML 語法"
 
 #: ../user/add_venue.php:85
 msgid "Add %1 preferences for %2"
-msgstr ""
+msgstr "增加 %1 偏好設定（用於 %2）"
 
 #: ../user/apps.php:32 ../user/sample_index.php:109
 msgid "Applications"
-msgstr ""
+msgstr "應用程式"
 
 #: ../user/apps.php:33
 msgid ""
@@ -2243,22 +2258,24 @@ msgid ""
 "computer. The current version of the application will be downloaded to your "
 "computer. This happens automatically; you don't have to do anything."
 msgstr ""
+"%1 目前有如下幾個應用程式。當您參與%1 "
+"專案時，適用於這些應用程式的任務將會分發給您的電腦。當前版本的應用程式也會下載到您的電腦上。這一切都是自動的，您不需要做任何操作。"
 
 #: ../user/apps.php:49
 msgid "Platform"
-msgstr ""
+msgstr "平台"
 
 #: ../user/apps.php:50
 msgid "Version"
-msgstr ""
+msgstr "版本"
 
 #: ../user/apps.php:51
 msgid "Installation time"
-msgstr ""
+msgstr "發佈時間"
 
 #: ../user/bbcode.php:23
 msgid "BBCode tags"
-msgstr ""
+msgstr "BBCode 語法"
 
 #: ../user/bbcode.php:25
 msgid ""
@@ -2267,325 +2284,332 @@ msgid ""
 "have used %1 in HTML) and end with ] (where you would have used %2 in\n"
 "HTML)."
 msgstr ""
+"BBCode 語法可以用來對個人檔案和留言板文章內的文本進行格式化。 \n"
+"它和 HTML 類似，但更為簡單。這些標記一般以 [ 開頭\n"
+"（如果在HTML 中一般是 %1）並且以] 結尾（HTML 中則是 %2）。"
 
 #: ../user/bbcode.php:31
 msgid "Examples"
-msgstr ""
+msgstr "範例"
 
 #: ../user/bbcode.php:32
 msgid "Bold"
-msgstr ""
+msgstr "粗體"
 
 #: ../user/bbcode.php:33
 msgid "Italic"
-msgstr ""
+msgstr "斜體"
 
 #: ../user/bbcode.php:34
 msgid "Underline"
-msgstr ""
+msgstr "底線"
 
 #: ../user/bbcode.php:35
 msgid "Superscript"
-msgstr ""
+msgstr "上標"
 
 #: ../user/bbcode.php:36
 msgid "Big text"
-msgstr ""
+msgstr "大字體"
 
 #: ../user/bbcode.php:37
 msgid "Red text"
-msgstr ""
+msgstr "紅字"
 
 #: ../user/bbcode.php:38
 msgid "link to website"
-msgstr ""
+msgstr "超連結到網站"
 
 #: ../user/bbcode.php:39
 msgid "Quoted text"
-msgstr ""
+msgstr "引用文"
 
 #: ../user/bbcode.php:39
 msgid "use for quoted blocks of text"
-msgstr ""
+msgstr "用於文本塊的引用"
 
 #: ../user/bbcode.php:40
 msgid "use to display an image"
-msgstr ""
+msgstr "用於顯示一張圖片"
 
 #: ../user/bbcode.php:41
 msgid "Code snippet here"
-msgstr ""
+msgstr "這是代碼片段"
 
 #: ../user/bbcode.php:41
 msgid "use to display some code"
-msgstr ""
+msgstr "用於顯示一些代碼"
 
 #: ../user/bbcode.php:42
 msgid "Pre-formatted text"
-msgstr ""
+msgstr "預設文本"
 
 #: ../user/bbcode.php:42
 msgid "use to display pre-formatted (usually monospaced) text"
-msgstr ""
+msgstr "用於顯示預設文本（一般是等寬字體）"
 
 #: ../user/bbcode.php:43
 msgid "Item 1"
-msgstr ""
+msgstr "項目1"
 
 #: ../user/bbcode.php:43
 msgid "Item2"
-msgstr ""
+msgstr "項目2"
 
 #: ../user/bbcode.php:43
 msgid "Item 2"
-msgstr ""
+msgstr "項目2"
 
 #: ../user/bbcode.php:45
 msgid "use to link to Trac ticket on BOINC website"
-msgstr ""
+msgstr "用於連接到 BOINC 網站上的 Trac 傳票"
 
 #: ../user/bbcode.php:47
 msgid "use to link to Trac Wiki on BOINC website"
-msgstr ""
+msgstr "用於連接到 BOINC 網站上的 Trac 維基"
 
 #: ../user/bbcode.php:49
 msgid "use to link to SVN changeset on BOINC website"
-msgstr ""
+msgstr "用於連接到 BOINC 網站上的 SVN 修改集"
 
 #: ../user/bbcode.php:53
 msgid ""
 "If you don't close a tag or don't specify a parameter correctly,\n"
 "the raw tag itself will display instead of the formatted text."
 msgstr ""
+"如果你沒有正確的關閉語法或者指定參數，\n"
+"語法自身將被顯示出來，而不是預設的文本。"
 
 #: ../user/create_account_action.php:26
 msgid "Can't create account"
-msgstr ""
+msgstr "無法建立帳號"
 
 #: ../user/create_account_action.php:29
 msgid "Click your browser's <b>Back</b> button to try again."
-msgstr ""
+msgstr "點擊瀏覽器的<b>返回</b>按鈕來重試。"
 
 #: ../user/create_account_action.php:38 ../user/create_account_action.php:40
 #: ../user/create_account_form.php:43
 msgid "Account creation is disabled"
-msgstr ""
+msgstr "帳號建立功能已停用"
 
 #: ../user/create_account_action.php:41
 msgid ""
 "Sorry, this project has disabled the creation of new accounts.\n"
 "Please try again later."
 msgstr ""
+"對不起，該專案已經禁止建立新帳號。 \n"
+"請稍後重試。"
 
 #: ../user/create_account_action.php:53
 msgid "Your reCAPTCHA response was not correct. Please try again."
-msgstr ""
+msgstr "您輸入的驗證字不符，請重試。"
 
 #: ../user/create_account_action.php:77
 msgid "You must supply an invitation code to create an account."
-msgstr ""
+msgstr "您必須提供一個邀請碼才能建立帳號。"
 
 #: ../user/create_account_action.php:80
 msgid "The invitation code you gave is not valid."
-msgstr ""
+msgstr "您提供的邀請碼是錯誤的。"
 
 #: ../user/create_account_action.php:94
 msgid ""
 "Invalid email address: you must enter a valid address of the form name@domain"
-msgstr ""
+msgstr "電子郵件地址錯誤：您必須輸入一個合法的地址，例如 用戶名@域名"
 
 #: ../user/create_account_action.php:98
 msgid "There's already an account with that email address."
-msgstr ""
+msgstr "已有帳號連結至此電子郵件地址。"
 
 #: ../user/create_account_action.php:104 ../user/edit_passwd_action.php:33
 msgid "New passwords are different"
-msgstr ""
+msgstr "新密碼不符"
 
 #: ../user/create_account_action.php:111 ../user/edit_passwd_action.php:41
 msgid "Passwords may only include ASCII characters."
-msgstr ""
+msgstr "登入密碼只允許包含 ASCII 字符。"
 
 #: ../user/create_account_action.php:116 ../user/edit_passwd_action.php:45
 msgid "New password is too short: minimum password length is %1 characters."
-msgstr ""
+msgstr "新密碼長度過短：最短的密碼長度為 %1 字符。"
 
 #: ../user/create_account_action.php:137
 msgid "Couldn't create account"
-msgstr ""
+msgstr "無法建立帳號"
 
 #: ../user/create_account_form.php:44
 msgid "Account creation is currently disabled. Please try again later."
-msgstr ""
+msgstr "帳號建立功能目前已暫停，請稍候再試。"
 
 #: ../user/create_account_form.php:53
 msgid ""
 "Don't use this form. Just run BOINC, select Add Project, and enter an email "
 "address and password."
-msgstr ""
+msgstr "請不要使用這個表單。在BOINC Manager 內選擇 “ 新增專案 ”，然後輸入電子郵件地址並設定一個用戶密碼就可以了。"
 
 #: ../user/create_account_form.php:71
 msgid ""
 "This account will belong to the team %1 and will have the project "
 "preferences of its founder."
-msgstr ""
+msgstr "此帳號將屬於 %1 團隊並且其專案偏好設定和團隊創始人的專案偏好設定相同。"
 
 #: ../user/create_account_form.php:83
 msgid "Invitation Code"
-msgstr ""
+msgstr "邀請碼"
 
 #: ../user/create_account_form.php:83
 msgid "A valid invitation code is required to create an account."
-msgstr ""
+msgstr "建立帳號時需要一個正確的邀請碼。"
 
 #: ../user/create_account_form.php:93
 msgid "Email Address"
-msgstr ""
+msgstr "電子郵件地址"
 
 #: ../user/create_account_form.php:93
 msgid "Must be a valid address of the form 'name@domain'."
-msgstr ""
+msgstr "必須是有效的電子郵件地址，例如：用戶名@域名。"
 
 #: ../user/create_account_form.php:102 ../user/edit_email_form.php:48
 msgid "Password"
-msgstr ""
+msgstr "密碼"
 
 #: ../user/create_account_form.php:103
 msgid "Must be at least %1 characters"
-msgstr ""
+msgstr "至少必須包含 %1 個字符"
 
 #: ../user/create_account_form.php:106
 msgid "Confirm password"
-msgstr ""
+msgstr "確定密碼"
 
 #: ../user/create_account_form.php:123
 msgid "Please enter the words shown in the image"
-msgstr ""
+msgstr "請輸入圖片中顯示的文字"
 
 #: ../user/create_account_form.php:129
 msgid "Create account"
-msgstr ""
+msgstr "建立帳號"
 
 #: ../user/create_profile.php:50
 msgid "Picture"
-msgstr ""
+msgstr "照片"
 
 #: ../user/create_profile.php:64
 msgid "%1 Your profile picture is shown to the left."
-msgstr ""
+msgstr "%1您的用戶檔案圖片將顯示在左邊"
 
 #: ../user/create_profile.php:66
 msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
-msgstr ""
+msgstr "要變更的話，點擊 “ 瀏覽 ” 按鈕並選擇一個JPEG 或PNG 圖檔（大小不超過 %1）。"
 
 #: ../user/create_profile.php:69
 msgid "To remove it from your profile, check this box:"
-msgstr ""
+msgstr "如果想從用戶檔案中刪除它，請選擇："
 
 #: ../user/create_profile.php:77
 msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
-msgstr ""
+msgstr "如果您想在用戶檔案中加入一張照片，點擊 “ 瀏覽 ” 按鈕並選擇一個JPEG 或PNG 圖檔。大小不能超過 %1。"
 
 #: ../user/create_profile.php:89
 msgid "Language"
-msgstr ""
+msgstr "語言"
 
 #: ../user/create_profile.php:92
 msgid "Select the language in which your profile is written:"
-msgstr ""
+msgstr "請選擇您編輯用戶檔案的語言："
 
 #: ../user/create_profile.php:104
 msgid "Submit profile"
-msgstr ""
+msgstr "提交用戶檔案"
 
 #: ../user/create_profile.php:110
 msgid "Please enter the words shown in the image."
-msgstr ""
+msgstr "請輸入圖片中顯示的文字。"
 
 #: ../user/create_profile.php:115
 msgid "Create/edit profile"
-msgstr ""
+msgstr "建立/編輯用戶檔案"
 
 #: ../user/create_profile.php:137
 msgid "The format of your uploaded image is not supported."
-msgstr ""
+msgstr "不支援您上傳的圖片格式。"
 
 #: ../user/create_profile.php:166
 msgid ""
 "Your %1profile%2 lets you share your opinions and background with the %3 "
 "community."
-msgstr ""
+msgstr "透過 %1用戶檔案%2，你可以和%3 社群分享您的觀點和背景。"
 
 #: ../user/create_profile.php:213
 msgid "Your ReCaptcha response was not correct.  Please try again."
-msgstr ""
+msgstr "您的驗證文字不正確，請重試。"
 
 #: ../user/create_profile.php:222
 msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
-msgstr ""
+msgstr "您的第一次回覆已被 Akismet 防垃圾郵件系統標記為垃圾郵件，請修改您輸入的內容並重試。"
 
 #: ../user/create_profile.php:230
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
-msgstr ""
+msgstr "您的第二次回覆已被 Akismet 防垃圾郵件系統標記為垃圾郵件，請修改您輸入的內容並重試。"
 
 #: ../user/create_profile.php:246
 msgid "Your profile submission was empty."
-msgstr ""
+msgstr "您提交的用戶檔案內容為空。"
 
 #: ../user/create_profile.php:285
 msgid "Could not update the profile: database error"
-msgstr ""
+msgstr "無法更新該用戶檔案：資料庫錯誤"
 
 #: ../user/create_profile.php:297
 msgid "Could not create the profile: database error"
-msgstr ""
+msgstr "無法建立該用戶檔案：資料庫錯誤"
 
 #: ../user/create_profile.php:302
 msgid "Profile saved"
-msgstr ""
+msgstr "用戶檔案已儲存"
 
 #: ../user/create_profile.php:304
 msgid ""
 "Congratulations! Your profile was successfully entered into our database."
-msgstr ""
+msgstr "恭喜！您的用戶檔案已經成功進入了我們的資料庫。"
 
 #: ../user/create_profile.php:306
 msgid "%1View your profile%2"
-msgstr ""
+msgstr "1%查看您的用戶檔案%2"
 
 #: ../user/create_profile.php:315
 msgid "Create a profile"
-msgstr ""
+msgstr "建立一個用戶檔案"
 
 #: ../user/create_profile.php:343
 msgid ""
 "To prevent spam, an average credit of %1 or greater is required to create or "
 "edit a profile.  We apologize for this inconvenience."
-msgstr ""
+msgstr "為了防止垃圾郵件，如果要建立或編譯用戶檔案，近期平均積分不能小於 %1，不便之處我們深感抱歉。"
 
 #: ../user/delete_account.php:57
 msgid "Couldn't delete account"
-msgstr ""
+msgstr "無法刪除帳號"
 
 #: ../user/delete_account.php:59
 msgid "Account deleted"
-msgstr ""
+msgstr "帳號已刪除"
 
 #: ../user/delete_account.php:60
 msgid "Your account has been deleted."
-msgstr ""
+msgstr "您的帳號已刪除"
 
 #: ../user/delete_account.php:64
 msgid "Confirm delete account"
-msgstr ""
+msgstr "確定刪除帳號"
 
 #: ../user/delete_account.php:67
 msgid ""
@@ -2595,57 +2619,62 @@ msgid ""
 "No jobs will be issued to any computers attached\n"
 "to this account."
 msgstr ""
+"刪除帳號操作將從服務器上移除你所有的個人訊息，\n"
+"包括你的個人檔案和留言板中的文章。 \n"
+"該帳號名下的電腦也將不再下載新的運算任務。"
 
 #: ../user/delete_account.php:73
 msgid ""
 "This cannot be undone.\n"
 "Once your account has been deleted, you cannot get it back."
 msgstr ""
+"該操作無法撤銷。 \n"
+"一旦帳號被刪除，將無法還原。"
 
 #: ../user/delete_account.php:76
 msgid "Are you sure you want to delete your account?"
-msgstr ""
+msgstr "您確定要刪除您的帳號嗎?"
 
 #: ../user/delete_account.php:79 ../user/delete_profile.php:52
 #: ../user/donations.php:322 ../user/donations.php:326 ../user/friend.php:238
 #: ../user/prefs_remove.php:55 ../user/user_search.php:129
 #: ../user/user_search.php:134
 msgid "Yes"
-msgstr ""
+msgstr "是"
 
 #: ../user/delete_account.php:79
 msgid "Delete this account"
-msgstr ""
+msgstr "刪除這個帳號"
 
 #: ../user/delete_account.php:80 ../user/delete_profile.php:53
 #: ../user/friend.php:239 ../user/user_search.php:128
 #: ../user/user_search.php:133
 msgid "No"
-msgstr ""
+msgstr "否"
 
 #: ../user/delete_account.php:80
 msgid "Do not delete this account"
-msgstr ""
+msgstr "不要刪除這個帳號"
 
 #: ../user/delete_profile.php:30
 msgid "couldn't delete profile - please try again later"
-msgstr ""
+msgstr "無法刪除用戶檔案 - 請稍候再試。"
 
 #: ../user/delete_profile.php:33
 msgid "Delete Confirmation"
-msgstr ""
+msgstr "刪除確認"
 
 #: ../user/delete_profile.php:35
 msgid "Your profile has been deleted."
-msgstr ""
+msgstr "您的用戶檔案已刪除。"
 
 #: ../user/delete_profile.php:40
 msgid "Profile delete confirmation"
-msgstr ""
+msgstr "用戶檔案刪除確認"
 
 #: ../user/delete_profile.php:43
 msgid "Are you sure?"
-msgstr ""
+msgstr "您確定嗎?"
 
 #: ../user/delete_profile.php:44
 msgid ""
@@ -2653,55 +2682,61 @@ msgid ""
 "you will have to start from scratch\n"
 "if you want another profile in the future."
 msgstr ""
+"刪除的用戶檔案將永遠無法恢復 --\n"
+"如果您以後想要重新使用用戶檔案，必須從頭開始建立。"
 
 #: ../user/delete_profile.php:48
 msgid ""
 "If you're sure, click 'Yes'\n"
 "to remove your profile from our database."
 msgstr ""
+"如果您確定的話，請點擊 “ 是 ” \n"
+"從我們的資料庫中刪除你的用戶檔案。"
 
 #: ../user/delete_profile.php:52
 msgid "Delete my profile"
-msgstr ""
+msgstr "刪除我的用戶檔案"
 
 #: ../user/delete_profile.php:53
 msgid "Do not delete my profile"
-msgstr ""
+msgstr "不要刪除我的用戶檔案"
 
 #: ../user/donated.php:25
 msgid "PayPal - Transaction Completed"
-msgstr ""
+msgstr "PayPal - 交易已完成"
 
 #: ../user/donated.php:28
 msgid "Thank you for donating!"
-msgstr ""
+msgstr "感謝您的捐贈!!"
 
 #: ../user/donated.php:29
 msgid "Your donation for has been completed."
-msgstr ""
+msgstr "您的捐贈已完成。"
 
 #: ../user/donated.php:30
 msgid ""
 "Your donation will be added to the progress bar after confirmation by PayPal."
-msgstr ""
+msgstr "您的捐贈將在我們收到 PayPal 的確認後再添加到進度中。"
 
 #: ../user/donated.php:32
 msgid "You have canceled your donation."
-msgstr ""
+msgstr "您已經取消捐贈。"
 
 #: ../user/donations.php:24
 msgid "This project is not accepting donations."
-msgstr ""
+msgstr "此專案目前不接受捐贈。"
 
 #: ../user/donations.php:34
 msgid "%1 donations"
-msgstr ""
+msgstr "%1 捐贈"
 
 #: ../user/donations.php:39
 msgid ""
 "This project is accepting donations via\n"
 "%1."
 msgstr ""
+"此專案接受的捐贈方式\n"
+"%1。"
 
 #: ../user/donations.php:42
 msgid ""
@@ -2717,49 +2752,60 @@ msgid ""
 "        (please note that the rates are only estimates\n"
 "         and the actual amount may differ)."
 msgstr ""
+"請在下方的表格中填入您所要捐贈的金額。 \n"
+"PayPal 接受多種貨幣\n"
+"（加元，歐元，英鎊，美元，\n"
+"日元，澳元，新西蘭元，\n"
+"瑞士法郎，港幣，新加坡元，瑞典克朗，\n"
+"丹麥克朗，波蘭茲羅提，挪威克朗，\n"
+"匈牙利福林，捷克克朗）。 \n"
+"您可以使用匯率換算器來查看不同幣種的等值金額\n"
+"（請注意匯率為估計值，實際匯率可能會稍有不同）"
 
 #: ../user/donations.php:316
 msgid "Amount you would like to donate"
-msgstr ""
+msgstr "您想要捐贈的金額"
 
 #: ../user/donations.php:317
 msgid "Estimated value in"
-msgstr ""
+msgstr "匯率換算（估計）"
 
 #: ../user/donations.php:320 ../user/donations.php:324
 msgid "Anonymous donation"
-msgstr ""
+msgstr "匿名捐贈"
 
 #: ../user/donations.php:320
 msgid ""
 "Select this if you dont want your name and account number displayed in\n"
 "donator lists.<br>If not checked, you will be recorded as user ID %1"
 msgstr ""
+"如果您不希望將您的名稱和帳號顯示在捐贈者列表中，請選擇此項。 \n"
+"如果不選擇的話，你將被記錄為 “ 用戶 ID %1 ”"
 
 #: ../user/donations.php:324
 msgid "To assign the donation with your user ID, please log in."
-msgstr ""
+msgstr "要用指定的用戶 ID 進行捐贈的話，請先登入。"
 
 #: ../user/donations.php:328
 msgid "Proceed"
-msgstr ""
+msgstr "繼續"
 
 #: ../user/donations.php:329
 msgid "Donations are accepted through"
-msgstr ""
+msgstr "接受捐贈的方式"
 
 #: ../user/download_network.php:25
 msgid "Download BOINC add-on software"
-msgstr ""
+msgstr "下載 BOINC 的輔助軟體"
 
 #: ../user/download_network.php:28
 msgid "You can download applications in several categories."
-msgstr ""
+msgstr "您可以下載下面幾個類別的應用程式。"
 
 #: ../user/download_network.php:31
 msgid ""
 "These applications are not endorsed by %1 and you use them at your own risk."
-msgstr ""
+msgstr "這些應用程式未經過 %1 的仔細檢查，若使用請自擔風險。"
 
 #: ../user/download_network.php:33
 msgid ""
@@ -2768,153 +2814,156 @@ msgid ""
 "uninstalling the application. \n"
 "If this is not enough you should contact the author."
 msgstr ""
+"我們不能提供這些應用程式的安裝及使用說明。 \n"
+"但應用程式的作者可能提供了安裝及卸載相關的幫助說明。 \n"
+"如果還需要進一步的說明，請聯繫相關作者。"
 
 #: ../user/download_network.php:36
 msgid "Instructions for installing and running BOINC are %1here%2."
-msgstr ""
+msgstr "安裝及運行 BOINC 的說明 請看%1這裡%2"
 
 #: ../user/download_network.php:38
 msgid "This list is managed centrally at %1the BOINC website%2."
-msgstr ""
+msgstr "本頁面中的列表內容由%1BOINC 官方網站%2 集中管理。"
 
 #: ../user/edit_email_action.php:31
 msgid "Change email address of account"
-msgstr ""
+msgstr "修改帳號的電子郵件地址"
 
 #: ../user/edit_email_action.php:34 ../user/edit_email_action.php:36
 msgid "New email address '%1' is invalid."
-msgstr ""
+msgstr "新的電子郵件地址 ‘ %1 ’ 錯誤。"
 
 #: ../user/edit_email_action.php:38
 msgid "New email address is same as existing address. Nothing is changed."
-msgstr ""
+msgstr "新的電子郵件地址和原來的相同，不需要修改。"
 
 #: ../user/edit_email_action.php:42
 msgid "There's already an account with that email address"
-msgstr ""
+msgstr "已有帳號連結至此電子郵件地址。"
 
 #: ../user/edit_email_action.php:54
 msgid "Invalid password."
-msgstr ""
+msgstr "密碼錯誤。"
 
 #: ../user/edit_email_action.php:62
 msgid "The email address of your account is now %1."
-msgstr ""
+msgstr "您的帳號現在所連結的電子郵件地址是 %1。"
 
 #: ../user/edit_email_action.php:64
 msgid "Please %1validate this email address%2."
-msgstr ""
+msgstr "請%1驗證此電子郵件地址%2。"
 
 #: ../user/edit_email_action.php:67
 msgid ""
 "We can't update your email address due to a database problem.  Please try "
 "again later."
-msgstr ""
+msgstr "因為資料庫的問題，我們目前無法更新你的電子郵件地址，請稍後重試。"
 
 #: ../user/edit_email_form.php:28 ../user/edit_email_form.php:52
 msgid "Change email address"
-msgstr ""
+msgstr "修改電子郵件地址"
 
 #: ../user/edit_email_form.php:37
 msgid "Change the email address of your account"
-msgstr ""
+msgstr "修改您的帳號所連結的電子郵件地址"
 
 #: ../user/edit_email_form.php:38
 msgid "New email address"
-msgstr ""
+msgstr "新的電子郵件地址"
 
 #: ../user/edit_email_form.php:39
 msgid "Must be a valid address of the form 'name@domain'"
-msgstr ""
+msgstr "必須是有效的電子郵件地址，例如 用戶名@域名"
 
 #: ../user/edit_email_form.php:49
 msgid "No password?"
-msgstr ""
+msgstr "沒有設定密碼?"
 
 #: ../user/edit_forum_preferences_action.php:35
 msgid "Confirm reset"
-msgstr ""
+msgstr "確定重設"
 
 #: ../user/edit_forum_preferences_action.php:36
 msgid ""
 "This action will erase any changes you have made in your community "
 "preferences. To cancel, click your browser's Back button."
-msgstr ""
+msgstr "此操作將清除您對所修改的社群偏好設定，要取消操作的話，請點擊瀏覽器的返回按鈕。"
 
 #: ../user/edit_forum_preferences_action.php:40
 msgid "Reset preferences"
-msgstr ""
+msgstr "重設偏好設定"
 
 #: ../user/edit_forum_preferences_action.php:90
 msgid "Error: Not the right kind of file, only PNG and JPEG are supported."
-msgstr ""
+msgstr "錯誤：圖檔類型錯誤，只支持PNG 和JPEG 格式。"
 
 #: ../user/edit_forum_preferences_action.php:116
 msgid "Your signature was too long, please keep it less than 250 characters."
-msgstr ""
+msgstr "您的簽名太長，請將其限制在250 個字符內。"
 
 #: ../user/edit_forum_preferences_action.php:139
 #: ../user/edit_forum_preferences_action.php:153
 msgid "No such user: %1"
-msgstr ""
+msgstr "沒有此用戶：%1"
 
 #: ../user/edit_forum_preferences_form.php:56
 msgid ""
 "How should we notify you of new private messages, friend requests, posts in "
 "subscribed threads, and other events?"
-msgstr ""
+msgstr "當您接收到新的私人訊息、好友請求、訂閱主題更新...等時，您希望我們如何通知您？"
 
 #: ../user/edit_forum_preferences_form.php:57
 msgid "On my Account page (no email)"
-msgstr ""
+msgstr "在我的帳號頁面（不發送電子郵件）"
 
 #: ../user/edit_forum_preferences_form.php:58
 msgid "Immediately, by email"
-msgstr ""
+msgstr "立即，通過電子郵件"
 
 #: ../user/edit_forum_preferences_form.php:59
 msgid "In a single daily email"
-msgstr ""
+msgstr "通過電子郵件，每天最多一封"
 
 #: ../user/edit_forum_preferences_form.php:75
 msgid "Message-board identity"
-msgstr ""
+msgstr "留言板標識"
 
 #: ../user/edit_forum_preferences_form.php:76
 msgid "Avatar"
-msgstr ""
+msgstr "大頭貼"
 
 #: ../user/edit_forum_preferences_form.php:77
 msgid "An image representing you on the message boards."
-msgstr ""
+msgstr "在留言板上代表你身份的圖片。"
 
 #: ../user/edit_forum_preferences_form.php:78
 msgid "Format: JPG or PNG. Size: at most 4 KB, 100x100 pixels"
-msgstr ""
+msgstr "格式：JPG 或 PNG。尺寸：最大 4KB，100x100像素"
 
 #: ../user/edit_forum_preferences_form.php:80
 msgid "Don't use an avatar"
-msgstr ""
+msgstr "不使用大頭貼"
 
 #: ../user/edit_forum_preferences_form.php:82
 msgid "Use a Globally Recognized Avatar provided by %1"
-msgstr ""
+msgstr "使用由 %1 提供的個人全球統一標識"
 
 #: ../user/edit_forum_preferences_form.php:84
 msgid "Use this uploaded avatar:"
-msgstr ""
+msgstr "使用上傳的大頭貼："
 
 #: ../user/edit_forum_preferences_form.php:87
 msgid "Avatar preview"
-msgstr ""
+msgstr "預覽大頭貼"
 
 #: ../user/edit_forum_preferences_form.php:87
 msgid "This is how your avatar will look"
-msgstr ""
+msgstr "您的大頭貼將顯示為"
 
 #: ../user/edit_forum_preferences_form.php:96
 msgid "Signature for message board posts"
-msgstr ""
+msgstr "留言板發布簽名"
 
 #: ../user/edit_forum_preferences_form.php:99
 msgid ""
@@ -2922,1377 +2971,1380 @@ msgid ""
 "<br> providing dynamic 'signature images'\n"
 "<br> showing your latest credit info, project news, etc."
 msgstr ""
+"查看 %1所有的免費服務%2\n"
+"<br> 提供動態簽名圖片\n"
+"<br> 顯示你最新的積分訊息，專案新聞等。"
 
 #: ../user/edit_forum_preferences_form.php:104
 msgid "characters remaining"
-msgstr ""
+msgstr "剩餘字符數"
 
 #: ../user/edit_forum_preferences_form.php:105
 msgid "Attach signature by default"
-msgstr ""
+msgstr "默認使用簽名"
 
 #: ../user/edit_forum_preferences_form.php:108
 msgid "Signature preview"
-msgstr ""
+msgstr "預覽簽名"
 
 #: ../user/edit_forum_preferences_form.php:109
 msgid "This is how your signature will look in the forums"
-msgstr ""
+msgstr "你的簽名將在論壇中顯示為"
 
 #: ../user/edit_forum_preferences_form.php:127
 msgid "Message display"
-msgstr ""
+msgstr "顯示訊息"
 
 #: ../user/edit_forum_preferences_form.php:129
 msgid "What to display"
-msgstr ""
+msgstr "顯示內容"
 
 #: ../user/edit_forum_preferences_form.php:130
 msgid "Hide avatar images"
-msgstr ""
+msgstr "隱藏大頭貼"
 
 #: ../user/edit_forum_preferences_form.php:131
 msgid "Hide signatures"
-msgstr ""
+msgstr "隱藏簽名"
 
 #: ../user/edit_forum_preferences_form.php:132
 msgid "Show images as links"
-msgstr ""
+msgstr "將圖片顯示為連結"
 
 #: ../user/edit_forum_preferences_form.php:133
 msgid "Open links in new window/tab"
-msgstr ""
+msgstr "在新視窗/分頁中打開連結"
 
 #: ../user/edit_forum_preferences_form.php:134
 msgid "Highlight special users"
-msgstr ""
+msgstr "高亮指定用戶"
 
 #: ../user/edit_forum_preferences_form.php:138
 msgid "How to sort"
-msgstr ""
+msgstr "如何排序"
 
 #: ../user/edit_forum_preferences_form.php:139
 msgid "Threads:"
-msgstr ""
+msgstr "主題："
 
 #: ../user/edit_forum_preferences_form.php:139
 msgid "Posts:"
-msgstr ""
+msgstr "文章："
 
 #: ../user/edit_forum_preferences_form.php:140
 msgid "Jump to first new post in thread automatically"
-msgstr ""
+msgstr "自動跳轉到第一篇未讀的文章"
 
 #: ../user/edit_forum_preferences_form.php:141
 msgid "Do not reorder sticky posts"
-msgstr ""
+msgstr "不要對置頂的文章重新排序"
 
 #: ../user/edit_forum_preferences_form.php:142
 msgid "If a thread contains more than this number of posts"
-msgstr ""
+msgstr "如果主題中包含的文章數量超過了"
 
 #: ../user/edit_forum_preferences_form.php:143
 msgid "only display the first one and this many of the last ones"
-msgstr ""
+msgstr "只顯示第一篇和最近的多少篇"
 
 #: ../user/edit_forum_preferences_form.php:149
 msgid "Message filtering"
-msgstr ""
+msgstr "過濾訊息"
 
 #: ../user/edit_forum_preferences_form.php:165
 msgid "Filtered users"
-msgstr ""
+msgstr "已過濾的用戶"
 
 #: ../user/edit_forum_preferences_form.php:166
 msgid "Ignore message board posts and private messages from these users."
-msgstr ""
+msgstr "忽略這些用戶在留言板中的文章和私人訊息。"
 
 #: ../user/edit_forum_preferences_form.php:168
 msgid "User ID (For instance: 123456789)"
-msgstr ""
+msgstr "用戶 ID（例如：123456789）"
 
 #: ../user/edit_forum_preferences_form.php:169 ../user/pm.php:251
 msgid "Add user to filter"
-msgstr ""
+msgstr "新增用戶到過濾器"
 
 #: ../user/edit_forum_preferences_form.php:174
 msgid "Click here to update preferences"
-msgstr ""
+msgstr "點擊這裡更新偏好設定"
 
 #: ../user/edit_forum_preferences_form.php:176
 #: ../user/edit_forum_preferences_form.php:178
 msgid "Reset"
-msgstr ""
+msgstr "重設"
 
 #: ../user/edit_forum_preferences_form.php:177
 msgid "Or click here to reset preferences to the defaults"
-msgstr ""
+msgstr "或者點擊這裡將所有偏好設定重設為預設"
 
 #: ../user/edit_passwd_action.php:50
 msgid "Invalid account key"
-msgstr ""
+msgstr "帳號不正確"
 
 #: ../user/edit_passwd_action.php:55
 msgid "No account with that email address was found"
-msgstr ""
+msgstr "沒有帳號連結至該電子郵件地址"
 
 #: ../user/edit_passwd_action.php:59
 msgid "Invalid password"
-msgstr ""
+msgstr "密碼不正確"
 
 #: ../user/edit_passwd_action.php:63 ../user/edit_passwd_form.php:28
 #: ../user/edit_passwd_form.php:58
 msgid "Change password"
-msgstr ""
+msgstr "修改密碼"
 
 #: ../user/edit_passwd_action.php:67
 msgid "Your password has been changed."
-msgstr ""
+msgstr "您的密碼已修改。"
 
 #: ../user/edit_passwd_action.php:69
 msgid ""
 "We can't update your password due to a database problem. Please try again "
 "later."
-msgstr ""
+msgstr "因為資料庫的問題，我們目前無法更新您的密碼，請稍後重試。"
 
 #: ../user/edit_passwd_form.php:42
 msgid "You can identify yourself using either"
-msgstr ""
+msgstr "您可以用以下方式驗證身份"
 
 #: ../user/edit_passwd_form.php:44
 msgid "your email address and old password"
-msgstr ""
+msgstr "您的電子郵件地址和舊的密碼"
 
 #: ../user/edit_passwd_form.php:45
 msgid "your account key"
-msgstr ""
+msgstr "您的帳號密碼"
 
 #: ../user/edit_passwd_form.php:49
 msgid "Current password"
-msgstr ""
+msgstr "目前的密碼"
 
 #: ../user/edit_passwd_form.php:51
 msgid "<b>OR</b>: Account key"
-msgstr ""
+msgstr "<B>或者</ B>：帳號密碼"
 
 #: ../user/edit_passwd_form.php:52
 msgid "Get account key by email"
-msgstr ""
+msgstr "通過電子郵件取得帳戶密碼"
 
 #: ../user/edit_passwd_form.php:56
 msgid "New password"
-msgstr ""
+msgstr "新密碼"
 
 #: ../user/edit_passwd_form.php:57
 msgid "New password, again"
-msgstr ""
+msgstr "再次輸入新密碼"
 
 #: ../user/edit_user_info_action.php:31
 msgid "HTML tags are not allowed in your name."
-msgstr ""
+msgstr "名稱中不允許使用 HTML 語法"
 
 #: ../user/edit_user_info_action.php:34
 msgid "You must supply a name for your account."
-msgstr ""
+msgstr "您必須為您的帳號取一個名稱。"
 
 #: ../user/edit_user_info_action.php:58
 msgid "Couldn't update user info."
-msgstr ""
+msgstr "無法更新用戶資訊。"
 
 #: ../user/edit_user_info_form.php:29
 msgid "Edit account information"
-msgstr ""
+msgstr "編輯帳號資訊"
 
 #: ../user/edit_user_info_form.php:34
 msgid "Name %1 real name or nickname%2"
-msgstr ""
+msgstr "名稱 %1真名或暱稱%2"
 
 #: ../user/edit_user_info_form.php:37
 msgid "URL %1 of your web page; optional%2"
-msgstr ""
+msgstr "網址 %1你的個人網頁，可選%2"
 
 #: ../user/edit_user_info_form.php:45
 msgid "Postal (ZIP) code %1 Optional%2"
-msgstr ""
+msgstr "郵遞區號 %1 可選 %2"
 
 #: ../user/edit_user_info_form.php:49
 msgid "Update info"
-msgstr ""
+msgstr "更新資訊"
 
 #: ../user/explain_state.php:27
 msgid "Server states"
-msgstr ""
+msgstr "伺服器狀態"
 
 #: ../user/explain_state.php:30
 msgid ""
 "A tasks's <b>server state</b> indicates whether the task has been sent to a "
 "computer, and if so whether the computer has finished it. Possible values "
 "are:"
-msgstr ""
+msgstr "運算工作的<b>伺服器狀態</b>表示該工作是否已經被分發到電腦，以及電腦是否已經完成該工作的處理。可能的狀態值包括："
 
 #: ../user/explain_state.php:35
 msgid ""
 "The task is not ready to send (for example, because its input files are "
 "unavailable)"
-msgstr ""
+msgstr "該工作尚未準備分發（例如 輸入文件無法使用）"
 
 #: ../user/explain_state.php:38
 msgid "The task is ready to send, but hasn't been sent yet."
-msgstr ""
+msgstr "該工作已經準備分發，但還沒有分發。"
 
 #: ../user/explain_state.php:40
 msgid "In Progress"
-msgstr ""
+msgstr "運算中"
 
 #: ../user/explain_state.php:41
 msgid "The task has been sent; waiting for completion."
-msgstr ""
+msgstr "工作已發送，等待完成。"
 
 #: ../user/explain_state.php:44
 msgid ""
 "The task has been sent to a computer and either it has timed out or the "
 "computer has reported its completion."
-msgstr ""
+msgstr "該工作已經分發給一台電腦，其結果或者是處理超時，或者是處理完成並正確回報。"
 
 #: ../user/explain_state.php:49
 msgid "Outcomes"
-msgstr ""
+msgstr "結果"
 
 #: ../user/explain_state.php:52
 msgid ""
 "A tasks's <b>outcome</b> is defined if its server state is <b>over</b>. "
 "Possible values are:"
-msgstr ""
+msgstr "運算工作的<b>結果</b>僅在其伺服器狀態為<b>完成</b>時才有效，可能的狀態值包括："
 
 #: ../user/explain_state.php:57
 msgid ""
 "The task was sent to a computer, but the computer has not yet completed the "
 "work and reported the outcome."
-msgstr ""
+msgstr "該工作已分發給一台電腦，但該電腦尚未完成相應處理。"
 
 #: ../user/explain_state.php:60
 msgid "A computer completed and reported the task successfully."
-msgstr ""
+msgstr "該工作已由一台電腦完成並且成功的回報結果。"
 
 #: ../user/explain_state.php:63
 msgid ""
 "The server wasn't able to send the task to a computer (perhaps because its "
 "resource requirements were too large)"
-msgstr ""
+msgstr "伺服器無法分發該工作（可能因為需要的運算資源過大）"
 
 #: ../user/explain_state.php:65
 msgid "Client error"
-msgstr ""
+msgstr "客戶端錯誤"
 
 #: ../user/explain_state.php:66
 msgid "The task was sent to a computer and an error occurred."
-msgstr ""
+msgstr "該工作已分發給一台電腦，但在處理過程中產生了錯誤。"
 
 #: ../user/explain_state.php:69
 msgid ""
 "The task was sent to a computer and no reply was received within the time "
 "limit."
-msgstr ""
+msgstr "該工作已分發給一台電腦，但未在指定的期限內收到回報。"
 
 #: ../user/explain_state.php:72
 msgid ""
 "The task wasn't sent to a computer because enough other tasks were completed "
 "for this workunit."
-msgstr ""
+msgstr "該工作未分發到電腦，因為所屬的工作包已經完成了足夠數量的運算工作。"
 
 #: ../user/explain_state.php:75
 msgid ""
 "The task was reported but could not be validated, typically because the "
 "output files were lost on the server."
-msgstr ""
+msgstr "該工作的處理結果已回報但無法被驗證，一般是因為伺服器的輸出文件缺失。"
 
 #: ../user/explain_state.php:80
 msgid "Client states"
-msgstr ""
+msgstr "客戶端狀態"
 
 #: ../user/explain_state.php:81
 msgid ""
 "A result's <b>client state</b> indicates the stage of processing at which an "
 "error occurred."
-msgstr ""
+msgstr "運算結果的<b>客戶端狀態</b>表示運算工作在電腦上的處理階段，例如 發生錯誤的時候。"
 
 #: ../user/explain_state.php:86
 msgid "The computer has not yet completed the task."
-msgstr ""
+msgstr "電腦尚未完成該工作的處理。"
 
 #: ../user/explain_state.php:89
 msgid "The computer completed the task successfully."
-msgstr ""
+msgstr "電腦已經成功完成了該工作的處理。"
 
 #: ../user/explain_state.php:92
 msgid "The computer couldn't download the application or input files."
-msgstr ""
+msgstr "電腦無法下載運算程式或輸入文件。"
 
 #: ../user/explain_state.php:95
 msgid "An error occurred during computation."
-msgstr ""
+msgstr "運算過程中發生錯誤。"
 
 #: ../user/explain_state.php:98
 msgid "The computer couldn't upload the output files."
-msgstr ""
+msgstr "電腦無法上傳輸出文件。"
 
 #: ../user/explain_state.php:103
 msgid "Time reported and deadline"
-msgstr ""
+msgstr "回報時間和截止時間"
 
 #: ../user/explain_state.php:106
 msgid ""
 "A task's <b>Time reported or deadline</b> field depends on whether the task "
 "has been reported yet:"
-msgstr ""
+msgstr "運算工作的<b>回報時間或截止時間</b>字段含義取決於該任務的處理結果已完成回報："
 
 #: ../user/explain_state.php:110
 msgid "Already reported"
-msgstr ""
+msgstr "已回報"
 
 #: ../user/explain_state.php:110
 msgid "The date/time it was reported"
-msgstr ""
+msgstr "回報的日期和時間"
 
 #: ../user/explain_state.php:111
 msgid "Not reported yet, deadline in the future"
-msgstr ""
+msgstr "還沒有回報，也未到截止時間"
 
 #: ../user/explain_state.php:112
 msgid "Deadline, shown in green."
-msgstr ""
+msgstr "截止時間顯示為綠色字體。"
 
 #: ../user/explain_state.php:114
 msgid "Not reported yet, deadline in the past"
-msgstr ""
+msgstr "尚未回報，已過截止時間"
 
 #: ../user/explain_state.php:115
 msgid "Deadline, shown in red."
-msgstr ""
+msgstr "截止時間顯示為紅色字體。"
 
 #: ../user/explain_state.php:120
 msgid "Unknown field"
-msgstr ""
+msgstr "未知欄位"
 
 #: ../user/ffmail_action.php:47
 msgid "Email preview"
-msgstr ""
+msgstr "電子郵件預覽"
 
 #: ../user/ffmail_action.php:48
 msgid "Your email will appear as follows:"
-msgstr ""
+msgstr "你的電子郵件將顯示為："
 
 #: ../user/ffmail_action.php:57
 msgid "Send email"
-msgstr ""
+msgstr "傳送電子郵件"
 
 #: ../user/ffmail_action.php:59
 msgid "Use your browser's back button to return to message form"
-msgstr ""
+msgstr "使用瀏覽器的返回按鈕退到訊息表單頁面"
 
 #: ../user/ffmail_action.php:63
 msgid "Sending emails"
-msgstr ""
+msgstr "傳送電子郵件"
 
 #: ../user/ffmail_action.php:84
 msgid "email sent successfully to %1"
-msgstr ""
+msgstr "電子郵件已成功傳送給 %1"
 
 #: ../user/ffmail_action.php:86
 msgid "failed to send email to %1: %2"
-msgstr ""
+msgstr "無法傳送電子郵件給 %1：%2"
 
 #: ../user/ffmail_action.php:92
 msgid "Thanks for telling your friends about %1"
-msgstr ""
+msgstr "感謝您向好友們介紹了 %1"
 
 #: ../user/ffmail_action.php:94
 msgid ""
 "You forgot to enter your friends' names and/or email addresses; Please "
 "%1return to the form%2 and enter them."
-msgstr ""
+msgstr "您沒有輸入好友的名稱和/或電子郵件地址，請%1回退到表單頁面%2並重新輸入。"
 
 #: ../user/ffmail_form.php:31
 msgid ""
 "This project hasn\\'t created an email message - please notify its "
 "administrators"
-msgstr ""
+msgstr "此專案尚未建立電子郵件訊息，請聯繫專案管理員"
 
 #: ../user/ffmail_form.php:34
 msgid "Tell your friends about %1"
-msgstr ""
+msgstr "將您對 %1 的看法告訴好友"
 
 #: ../user/ffmail_form.php:38
 msgid "Help us by telling your friends, family and coworkers about %1"
-msgstr ""
+msgstr "幫助我們向您的好友、家人和同事介紹%1"
 
 #: ../user/ffmail_form.php:40
 msgid ""
 "Fill in this form with the names and email addresses of people you think "
 "might be interested in %1. We'll send them an email in your name, and you "
 "can add your own message if you like."
-msgstr ""
+msgstr "在表單中填入您認為可能會對 %1 感興趣的人的名稱和電子郵件地址。我們將以您的名義將他們發送電子郵件，郵件的內容你可以自行編輯。"
 
 #: ../user/ffmail_form.php:43
 msgid "Your name:"
-msgstr ""
+msgstr "您的名稱："
 
 #: ../user/ffmail_form.php:43
 msgid "Your email address:"
-msgstr ""
+msgstr "您的電子郵件地址："
 
 #: ../user/ffmail_form.php:49
 msgid "Friend's name:"
-msgstr ""
+msgstr "好友的名稱："
 
 #: ../user/ffmail_form.php:49
 msgid "Friend's email address:"
-msgstr ""
+msgstr "好友的電子郵件地址："
 
 #: ../user/ffmail_form.php:57
 msgid "Additional message (optional)"
-msgstr ""
+msgstr "額外訊息 (可選)"
 
 #: ../user/ffmail_form.php:60
 msgid "Send"
-msgstr ""
+msgstr "傳送"
 
 #: ../user/forum_banishment_vote.php:35
 #: ../user/forum_banishment_vote_action.php:33
 msgid "You are not authorized to banish users."
-msgstr ""
+msgstr "您沒有權限封鎖用戶。"
 
 #: ../user/forum_banishment_vote.php:41 ../user/forum_banishment_vote.php:46
 msgid "Banishment Vote"
-msgstr ""
+msgstr "封鎖投票"
 
 #: ../user/forum_banishment_vote.php:50
 msgid "No user with this ID found."
-msgstr ""
+msgstr "找不到符合 ID 的用戶"
 
 #: ../user/forum_banishment_vote.php:54 ../user/forum_moderate_post.php:76
 msgid "User is already banished"
-msgstr ""
+msgstr "用戶已被封鎖"
 
 #: ../user/forum_banishment_vote.php:59 ../user/forum_moderate_post.php:79
 msgid ""
 "Are you sure you want to banish %1?<br/>This will prevent %1 from posting "
 "for chosen time period.<br/>It should be done only if %1 has consistently "
 "exhibited trollish behavior."
-msgstr ""
+msgstr "您確定要封鎖 %1 嗎？ <br />該操作將在設定的時間期限內禁止%1 發帖。 <br />該操作只用在%1 有連續的違規行為時被使用。"
 
 #: ../user/forum_banishment_vote.php:61
 msgid ""
 "Select the reason category, optionally write a longer description of why the "
 "user should be banished."
-msgstr ""
+msgstr "選擇原因分類，並附上為什麼要封鎖此用戶的原因。"
 
 #: ../user/forum_banishment_vote.php:62 ../user/forum_moderate_thread.php:50
 msgid "Category"
-msgstr ""
+msgstr "分類"
 
 #: ../user/forum_banishment_vote.php:64
 #: ../user/forum_banishment_vote_action.php:57
 #: ../user/forum_moderate_post.php:55 ../user/forum_moderate_thread.php:52
 msgid "Obscene"
-msgstr ""
+msgstr "猥褻"
 
 #: ../user/forum_banishment_vote.php:65
 #: ../user/forum_banishment_vote_action.php:59
 #: ../user/forum_moderate_post.php:56 ../user/forum_moderate_thread.php:53
 msgid "Flame/Hate mail"
-msgstr ""
+msgstr "侮辱"
 
 #: ../user/forum_banishment_vote.php:66
 #: ../user/forum_banishment_vote_action.php:61
 #: ../user/forum_moderate_post.php:59
 msgid "User Request"
-msgstr ""
+msgstr "用戶請求"
 
 #: ../user/forum_banishment_vote.php:67
 #: ../user/forum_banishment_vote_action.php:63
 #: ../user/forum_moderate_post.php:60 ../user/forum_moderate_thread.php:55
 msgid "Other"
-msgstr ""
+msgstr "其他"
 
 #: ../user/forum_banishment_vote.php:69 ../user/forum_moderate_post.php:53
 #: ../user/forum_moderate_thread.php:85
 msgid "Reason"
-msgstr ""
+msgstr "原因"
 
 #: ../user/forum_banishment_vote.php:69 ../user/forum_moderate_thread.php:85
 msgid "Mailed if nonempty"
-msgstr ""
+msgstr "如果空白請填電子郵件"
 
 #: ../user/forum_banishment_vote.php:74
 msgid "Proceed with vote"
-msgstr ""
+msgstr "繼續投票"
 
 #: ../user/forum_banishment_vote_action.php:39
 #: ../user/forum_moderate_post_action.php:63
 msgid "You must specify an action..."
-msgstr ""
+msgstr "您必須指定一個操作..."
 
 #: ../user/forum_edit.php:41
 msgid ""
 "You can no longer edit this post.<br/>Posts can only be edited at most %1 "
 "minutes after they have been created."
-msgstr ""
+msgstr "你將無法再編輯此文張。<br/>文章只能發佈後的 ％1 分鐘內編輯。"
 
 #: ../user/forum_edit.php:47
 msgid "You are not authorized to edit this post."
-msgstr ""
+msgstr "您沒有權限編輯此文章。"
 
 #: ../user/forum_edit.php:86 ../user/forum_search.php:72
 msgid "Forum"
-msgstr ""
+msgstr "論壇"
 
 #: ../user/forum_edit.php:110
 msgid "Edit your message"
-msgstr ""
+msgstr "編輯您的訊息"
 
 #: ../user/forum_edit.php:115 ../user/forum_edit.php:120
 #: ../user/forum_post.php:109 ../user/forum_post.php:111
 #: ../user/team_forum.php:69
 msgid "Title"
-msgstr ""
+msgstr "標題"
 
 #: ../user/forum_edit.php:144 ../user/forum_post.php:129
 msgid "Add my signature to this post"
-msgstr ""
+msgstr "在文章中加入我的簽名"
 
 #: ../user/forum_forum.php:41
 msgid "Not visible to you"
-msgstr ""
+msgstr "對您不可見"
 
 #: ../user/forum_forum.php:80
 msgid "Team message board for %1"
-msgstr ""
+msgstr "%1 的團隊留言板"
 
 #: ../user/forum_forum.php:96
 msgid "New thread"
-msgstr ""
+msgstr "新主題"
 
 #: ../user/forum_forum.php:96
 msgid "Add a new thread to this forum"
-msgstr ""
+msgstr "在論壇發佈一個新主題"
 
 #: ../user/forum_forum.php:116
 msgid "This message board is available as an %1RSS feed%2"
-msgstr ""
+msgstr "留言板的更新還可以通過 %sRSS%s 來取得"
 
 #: ../user/forum_forum.php:172
 msgid "This thread is hidden"
-msgstr ""
+msgstr "此主題已被隱藏"
 
 #: ../user/forum_forum.php:176
 msgid "This thread is sticky and locked, and you haven't read it yet"
-msgstr ""
+msgstr "此主題已置頂和關閉，您目前尚未閱讀"
 
 #: ../user/forum_forum.php:176
 msgid "sticky/locked/unread"
-msgstr ""
+msgstr "置頂/關閉/未讀"
 
 #: ../user/forum_forum.php:178
 msgid "This thread is sticky and you haven't read it yet"
-msgstr ""
+msgstr "此主題已置頂，您目前尚未閱讀"
 
 #: ../user/forum_forum.php:178
 msgid "sticky/unread"
-msgstr ""
+msgstr "置頂/未讀"
 
 #: ../user/forum_forum.php:182
 msgid "You haven't read this thread yet, and it's locked"
-msgstr ""
+msgstr "您尚未閱讀此主題，而且這個主題已關閉"
 
 #: ../user/forum_forum.php:182
 msgid "unread/locked"
-msgstr ""
+msgstr "未讀/關閉"
 
 #: ../user/forum_forum.php:184
 msgid "You haven't read this thread yet"
-msgstr ""
+msgstr "您尚未閱讀過此主題"
 
 #: ../user/forum_forum.php:190
 msgid "This thread is sticky and locked"
-msgstr ""
+msgstr "此主題已被置頂和關閉"
 
 #: ../user/forum_forum.php:190
 msgid "sticky/locked"
-msgstr ""
+msgstr "置頂/關閉"
 
 #: ../user/forum_forum.php:192
 msgid "This thread is sticky"
-msgstr ""
+msgstr "此主題已被置頂"
 
 #: ../user/forum_forum.php:192
 msgid "sticky"
-msgstr ""
+msgstr "置頂"
 
 #: ../user/forum_forum.php:196
 msgid "This thread is locked"
-msgstr ""
+msgstr "此主題已關閉"
 
 #: ../user/forum_forum.php:196
 msgid "locked"
-msgstr ""
+msgstr "關閉"
 
 #: ../user/forum_forum.php:198
 msgid "You read this thread"
-msgstr ""
+msgstr "您已閱讀過此主題"
 
 #: ../user/forum_forum.php:198
 msgid "read"
-msgstr ""
+msgstr "已讀"
 
 #: ../user/forum_help_desk.php:27
 msgid "Questions and answers"
-msgstr ""
+msgstr "問與答"
 
 #: ../user/forum_help_desk.php:30
 msgid ""
 "Talk live via Skype with a volunteer, in any of several languages. Go to "
 "%1BOINC Online Help%2."
-msgstr ""
+msgstr "通過 Skype 和志願者線上交流，支持多種語言，請到 %1BOINC 線上幫助%2。"
 
 #: ../user/forum_help_desk.php:44 ../user/forum_index.php:92
 msgid "Topic"
-msgstr ""
+msgstr "主題"
 
 #: ../user/forum_help_desk.php:45
 msgid "Questions"
-msgstr ""
+msgstr "問題"
 
 #: ../user/forum_index.php:53 ../user/team_forum.php:68
 msgid "Discussion among members of %1"
-msgstr ""
+msgstr "%1 成員間的討論"
 
 #: ../user/forum_index.php:69
 msgid "%1 Message boards"
-msgstr ""
+msgstr "%1 留言板"
 
 #: ../user/forum_index.php:78
 msgid ""
 "If you have a question or problem, please use the %1Questions & Answers%2 "
 "section of the message boards."
-msgstr ""
+msgstr "如果你有問題希望得到解答，請使用留言板中的 %1問題解答%2 區。"
 
 #: ../user/forum_index.php:123
 msgid "Subscribed threads"
-msgstr ""
+msgstr "已訂閱的主題"
 
 #: ../user/forum_moderate_post.php:43
 msgid "Moderate post"
-msgstr ""
+msgstr "處理文章"
 
 #: ../user/forum_moderate_post.php:52
 msgid "Hide post"
-msgstr ""
+msgstr "隱藏文章"
 
 #: ../user/forum_moderate_post.php:57 ../user/forum_moderate_thread.php:54
 msgid "Commercial spam"
-msgstr ""
+msgstr "垃圾廣告"
 
 #: ../user/forum_moderate_post.php:58
 msgid "Doublepost"
-msgstr ""
+msgstr "重覆發文"
 
 #: ../user/forum_moderate_post.php:63
 msgid "Move post"
-msgstr ""
+msgstr "移動文章"
 
 #: ../user/forum_moderate_post.php:65
 msgid "Destination thread ID:"
-msgstr ""
+msgstr "目標主題ID："
 
 #: ../user/forum_moderate_post.php:78
 msgid "Banish user"
-msgstr ""
+msgstr "封鎖用戶"
 
 #: ../user/forum_moderate_post.php:80
 msgid "Ban duration"
-msgstr ""
+msgstr "禁用時間"
 
 #: ../user/forum_moderate_post.php:81
 msgid "4 hours"
-msgstr ""
+msgstr "4小時"
 
 #: ../user/forum_moderate_post.php:82 ../user/forum_search.php:45
 msgid "1 day"
-msgstr ""
+msgstr "1天"
 
 #: ../user/forum_moderate_post.php:83
 msgid "1 week"
-msgstr ""
+msgstr "1週"
 
 #: ../user/forum_moderate_post.php:84
 msgid "2 weeks"
-msgstr ""
+msgstr "2週"
 
 #: ../user/forum_moderate_post.php:85
 msgid "1 month"
-msgstr ""
+msgstr "1個月"
 
 #: ../user/forum_moderate_post.php:86
 msgid "Forever"
-msgstr ""
+msgstr "永久"
 
 #: ../user/forum_moderate_post.php:96
 msgid "Optional explanation %1 This is included in email to user.%2"
-msgstr ""
+msgstr "封鎖原因 %1將發送到用戶的電子郵件中。 %2"
 
 #: ../user/forum_moderate_post.php:101 ../user/forum_moderate_thread.php:91
 #: ../user/forum_post.php:130 ../user/forum_report_post.php:84
 #: ../user/forum_rss.php:55 ../user/friend.php:81 ../user/get_passwd.php:41
 #: ../user/get_passwd.php:75
 msgid "OK"
-msgstr ""
+msgstr "確認"
 
 #: ../user/forum_moderate_post_action.php:57
 msgid "You are not authorized to moderate this post."
-msgstr ""
+msgstr "您沒有權限修改這篇文章"
 
 #: ../user/forum_moderate_post_action.php:85
 msgid "Can't move to different category type"
-msgstr ""
+msgstr "無法移動到不同的版面類型"
 
 #: ../user/forum_moderate_post_action.php:89
 msgid "Can't move to different category"
-msgstr ""
+msgstr "無法移動到不同的版面"
 
 #: ../user/forum_moderate_post_action.php:110
 msgid "Not authorized to banish users"
-msgstr ""
+msgstr "沒有權限封鎖用戶"
 
 #: ../user/forum_moderate_post_action.php:126
 msgid "Banishment"
-msgstr ""
+msgstr "封鎖"
 
 #: ../user/forum_moderate_post_action.php:128
 msgid "User %1 has been banished."
-msgstr ""
+msgstr "用戶 %1 已被封鎖。"
 
 #: ../user/forum_moderate_post_action.php:131
 msgid "Action failed: possible database problem"
-msgstr ""
+msgstr "操作失敗：可能是資料庫故障"
 
 #: ../user/forum_moderate_thread.php:33
 msgid "not authorized"
-msgstr ""
+msgstr "未授權"
 
 #: ../user/forum_moderate_thread.php:36
 msgid "Moderate thread '%1'"
-msgstr ""
+msgstr "處理主題“%1”"
 
 #: ../user/forum_moderate_thread.php:48
 msgid ""
 "Select the reason category, or write a longer description of why you're "
 "hiding or locking the thread; then press OK."
-msgstr ""
+msgstr "選擇處理原因，或者在編輯框中詳細說明要隱藏或鎖定此主題的原因，然後點擊確定。"
 
 #: ../user/forum_moderate_thread.php:72
 msgid "Current forum"
-msgstr ""
+msgstr "當前論壇"
 
 #: ../user/forum_moderate_thread.php:73
 msgid "Destination forum"
-msgstr ""
+msgstr "目標論壇"
 
 #: ../user/forum_moderate_thread.php:77
 msgid "New title:"
-msgstr ""
+msgstr "新標題："
 
 #: ../user/forum_post.php:40
 msgid ""
 "Only project admins may create a thread here. However, you may reply to "
 "existing threads."
-msgstr ""
+msgstr "指有專案管理員可以在此建立主題，但您可以回覆已有的主題。"
 
 #: ../user/forum_post.php:60
 msgid ""
 "Your message was flagged as spam by the Akismet anti-spam system. Please "
 "modify your text and try again."
-msgstr ""
+msgstr "您的訊息已被 Akismet 防垃圾郵件系統標記為垃圾訊息，請修改你輸入的內容並重試。"
 
 #: ../user/forum_post.php:70
 msgid "Create new thread"
-msgstr ""
+msgstr "建立新主題"
 
 #: ../user/forum_post.php:100
 msgid "Create a new thread"
-msgstr ""
+msgstr "建立新主題"
 
 #: ../user/forum_post.php:105
 msgid "Remember to add a title"
-msgstr ""
+msgstr "記得寫上標題"
 
 #: ../user/forum_post.php:127
 msgid "Show this item as a Notice in the BOINC Manager"
-msgstr ""
+msgstr "將該項目顯示為 BOINC 客戶端的通知"
 
 #: ../user/forum_post.php:127
 msgid "Do so only for items likely to be of interest to all volunteers."
-msgstr ""
+msgstr "僅在所有志願者都可能對該項目感興趣的時候使用"
 
 #: ../user/forum_rate.php:26
 msgid "Rating offline"
-msgstr ""
+msgstr "評分功能離線"
 
 #: ../user/forum_rate.php:27
 msgid "This function is turned off by the project"
-msgstr ""
+msgstr "此功能已被專案關閉"
 
 #: ../user/forum_rate.php:58
 msgid "You need more average or total credit to rate a post."
-msgstr ""
+msgstr "您需要更高的平均積分或總積分才能對文章進行評分。"
 
 #: ../user/forum_rate.php:62
 msgid "You have already rated this post."
-msgstr ""
+msgstr "您已經評價過此文章。"
 
 #: ../user/forum_rate.php:62 ../user/forum_rate.php:78
 #: ../user/forum_rate.php:83 ../user/forum_report_post.php:68
 #: ../user/forum_report_post.php:93 ../user/forum_subscribe.php:54
 #: ../user/forum_subscribe.php:69 ../user/forum_thread_status.php:51
 msgid "Return to thread"
-msgstr ""
+msgstr "返回主題"
 
 #: ../user/forum_rate.php:72
 msgid "Input Recorded"
-msgstr ""
+msgstr "輸入已紀錄"
 
 #: ../user/forum_rate.php:73
 msgid "Your input has been recorded. Thanks for your help."
-msgstr ""
+msgstr "輸入已經被記錄下來，感謝您的幫助。"
 
 #: ../user/forum_rate.php:75
 msgid "Vote Registered"
-msgstr ""
+msgstr "投票已登記"
 
 #: ../user/forum_rate.php:76
 msgid "Your rating has been recorded. Thanks for your input."
-msgstr ""
+msgstr "評分已經被記錄下來，感謝您的參與。"
 
 #: ../user/forum_rate.php:80
 msgid "Vote Submission Problem"
-msgstr ""
+msgstr "投票提交故障"
 
 #: ../user/forum_reply.php:76
 msgid ""
 "Your post has been flagged as spam by the Akismet anti-spam system. Please "
 "modify your text and try again."
-msgstr ""
+msgstr "你的文章已被 Akismet 防垃圾郵件系統標記為垃圾訊息，請修改你輸入的內容並重試。"
 
 #: ../user/forum_reply.php:87 ../user/forum_thread.php:154
 #: ../user/forum_thread.php:274
 msgid "Post to thread"
-msgstr ""
+msgstr "回覆此主題"
 
 #: ../user/forum_reply.php:127
 msgid "Message:"
-msgstr ""
+msgstr "訊息："
 
 #: ../user/forum_reply.php:130
 msgid "reply to %1Message ID%2:"
-msgstr ""
+msgstr "回覆%1訊息 ID%2："
 
 #: ../user/forum_reply.php:154
 msgid "Post reply"
-msgstr ""
+msgstr "發表回覆"
 
 #: ../user/forum_reply.php:157
 msgid "Add my signature to this reply"
-msgstr ""
+msgstr "在回覆中附上我的簽名"
 
 #: ../user/forum_report_post.php:45
 msgid "You need more average or total credit to report a post."
-msgstr ""
+msgstr "您需要更高的平均積分或總積分才能舉報一個文章。"
 
 #: ../user/forum_report_post.php:64
 msgid "Report Registered"
-msgstr ""
+msgstr "舉報已記錄"
 
 #: ../user/forum_report_post.php:65
 msgid "Your report has been recorded. Thanks you for your input."
-msgstr ""
+msgstr "舉報已經被記錄下來，感謝您的參與。"
 
 #: ../user/forum_report_post.php:66
 msgid ""
 "A moderator will now look at your report and decide what will happen - this "
 "may take a little while, so please be patient"
-msgstr ""
+msgstr "管理員將會查看您的舉報並決定如何處理 - 可能需要一些時間，請耐心等待"
 
 #: ../user/forum_report_post.php:70
 msgid "Report a forum post"
-msgstr ""
+msgstr "舉報論壇文章"
 
 #: ../user/forum_report_post.php:72
 msgid ""
 "Before reporting this post, consider using the +/- rating system instead. If "
 "enough users rate a post negatively it will eventually be hidden.<br />You "
 "can find the rating system at the bottom of the post."
-msgstr ""
+msgstr "在舉報之前，可以考慮使用+/- 評分系統。如果足夠多的用戶給一篇文章負面評價，該文章將自動隱藏。 <br />您可以在文章下方找到評分系統。"
 
 #: ../user/forum_report_post.php:79
 msgid "Report post"
-msgstr ""
+msgstr "舉報文章"
 
 #: ../user/forum_report_post.php:80
 msgid ""
 "Why do you find the post offensive: %1Please include enough information so "
 "that a person that\n"
 "has not yet read the thread will quickly be able to identify the issue.%2"
-msgstr ""
+msgstr "為什麼你認為這篇文章是令人不快的：%1請包含足夠的說明以便沒有閱讀過整個主題的人也能快速的判明問題。 %2"
 
 #: ../user/forum_report_post.php:89
 msgid "Report not registered"
-msgstr ""
+msgstr "舉報未記錄"
 
 #: ../user/forum_report_post.php:90
 msgid "Your report could not be recorded. Please wait a while and try again."
-msgstr ""
+msgstr "您的舉報未被記錄，請等待片刻後重試。"
 
 #: ../user/forum_report_post.php:91
 msgid ""
 "If this is not a temporary error, please report it to the project developers."
-msgstr ""
+msgstr "如果該故障無法自動恢復，請向專案開發人員報告。"
 
 #: ../user/forum_rss.php:41
 msgid "%1 RSS feed"
-msgstr ""
+msgstr "%1 RSS訂閱"
 
 #: ../user/forum_rss.php:42
 msgid "This message board is available as an RSS feed."
-msgstr ""
+msgstr "留言板的內容更新還可以通過 %sRSS%s 來獲取。"
 
 #: ../user/forum_rss.php:43
 msgid "Options:"
-msgstr ""
+msgstr "選項："
 
 #: ../user/forum_rss.php:47
 msgid "Include only posts by user ID %1 (default: all users)."
-msgstr ""
+msgstr "只包含用戶 ID 為 %1 的文章（默認：所有用戶）。"
 
 #: ../user/forum_rss.php:49
 msgid "Include only posts from the last %1 days (default: 30)."
-msgstr ""
+msgstr "只包含最近多少天內的文章（默認：30）。"
 
 #: ../user/forum_rss.php:51
 msgid "Truncate posts: %1 (Include only first 265 characters of each post)"
-msgstr ""
+msgstr "截斷文章：%1（只包含每篇文章最前面的 256 個字符）"
 
 #: ../user/forum_rss.php:53
 msgid "Threads only: %1 (Include only the first post of every thread)"
-msgstr ""
+msgstr "僅主題：%1（只包含每個主題的第一篇文章）"
 
 #: ../user/forum_search.php:27
 msgid "Forum search"
-msgstr ""
+msgstr "搜尋論壇"
 
 #: ../user/forum_search.php:31
 msgid "Search query"
-msgstr ""
+msgstr "搜尋詢問"
 
 #: ../user/forum_search.php:32
 msgid "Search for keywords:"
-msgstr ""
+msgstr "搜尋關鍵字："
 
 #: ../user/forum_search.php:33
 msgid "Posts that contain all the specified words will be displayed"
-msgstr ""
+msgstr "包含所有指定字詞的文章將被顯示"
 
 #: ../user/forum_search.php:35
 msgid "For example: \"screensaver freeze\""
-msgstr ""
+msgstr "舉例：“螢幕保護程式凍結”"
 
 #: ../user/forum_search.php:36
 msgid "Search for author ID:"
-msgstr ""
+msgstr "搜尋作者 ID："
 
 #: ../user/forum_search.php:37
 msgid "Only posts by this author will be displayed"
-msgstr ""
+msgstr "僅指定作者的文章會被顯示"
 
 #: ../user/forum_search.php:39
 msgid "For example: \"43214\""
-msgstr ""
+msgstr "舉例：“43214”"
 
 #: ../user/forum_search.php:41
 msgid "Search options"
-msgstr ""
+msgstr "搜尋選項"
 
 #: ../user/forum_search.php:42
 msgid "Search limits"
-msgstr ""
+msgstr "搜尋限制"
 
 #: ../user/forum_search.php:43
 msgid "Search at most this many days back in time"
-msgstr ""
+msgstr "只搜索最近多少天內的"
 
 #: ../user/forum_search.php:50 ../user/forum_search.php:51
 msgid "%1 months"
-msgstr ""
+msgstr "%1 月"
 
 #: ../user/forum_search.php:52
 msgid "1 year"
-msgstr ""
+msgstr "一年"
 
 #: ../user/forum_search.php:73
 msgid "Only display posts from this forum"
-msgstr ""
+msgstr "只顯示指定論壇的文章"
 
 #: ../user/forum_search.php:84
 msgid "Sort by"
-msgstr ""
+msgstr "排序"
 
 #: ../user/forum_search.php:88
 msgid "Start the search"
-msgstr ""
+msgstr "開始搜尋"
 
 #: ../user/forum_search_action.php:141
 msgid "Forum search results"
-msgstr ""
+msgstr "論壇搜尋結果"
 
 #: ../user/forum_search_action.php:174
 msgid "Thread titles matching your query:"
-msgstr ""
+msgstr "符合您的查詢條件的主題："
 
 #: ../user/forum_search_action.php:194
 msgid "Messages matching your query:"
-msgstr ""
+msgstr "符合你的查詢條件的消息："
 
 #: ../user/forum_search_action.php:217
 msgid ""
 "Sorry, couldn't find anything matching your search query. You can try to "
 "broaden your search by using less words (or less specific words)."
-msgstr ""
+msgstr "對不起，無法根據您的查詢條件找到任何結果。您可以試著放寬查詢條件，比如使用更少的關鍵字詞或者更寬泛的字詞。"
 
 #: ../user/forum_search_action.php:219
 msgid "You can also %1try the same search on Google.%2"
-msgstr ""
+msgstr "你也可以%1用 Google 進行同樣的搜索。 %2"
 
 #: ../user/forum_search_action.php:224
 msgid "Perform another search"
-msgstr ""
+msgstr "重新搜尋"
 
 #: ../user/forum_subscribe.php:46
 msgid "Subscription successful"
-msgstr ""
+msgstr "訂閱成功"
 
 #: ../user/forum_subscribe.php:49
 msgid ""
 "You are now subscribed to %1. You will be notified whenever there is a new "
 "post."
-msgstr ""
+msgstr "您已經訂閱主題%1，一旦該主題有更新，您將得到通知。"
 
 #: ../user/forum_subscribe.php:51
 msgid "Subscription failed"
-msgstr ""
+msgstr "訂閱失敗"
 
 #: ../user/forum_subscribe.php:52
 msgid ""
 "We are currently unable to subscribe you to %1. Please try again later.."
-msgstr ""
+msgstr "我們目前無法新增您對 %1 的訂閱，請稍後再試..."
 
 #: ../user/forum_subscribe.php:61
 msgid "Unsubscription successful"
-msgstr ""
+msgstr "退訂成功"
 
 #: ../user/forum_subscribe.php:64
 msgid ""
 "You are no longer subscribed to %1. You will no longer receive notifications "
 "for this thread."
-msgstr ""
+msgstr "您已經退訂主題%1，您將不會再收到該主題的通知。"
 
 #: ../user/forum_subscribe.php:66
 msgid "Unsubscription failed"
-msgstr ""
+msgstr "退訂失敗"
 
 #: ../user/forum_subscribe.php:67
 msgid ""
 "We are currently unable to unsubscribe you from %1. Please try again later.."
-msgstr ""
+msgstr "我們目前無法解除您對 %1 的訂閱，請稍後再試..."
 
 #: ../user/forum_subscribe.php:74
 msgid "Unknown subscription action"
-msgstr ""
+msgstr "未知的訂閱操作"
 
 #: ../user/forum_thread.php:61
 msgid "This forum is not visible to you."
-msgstr ""
+msgstr "您不能查看本論壇。"
 
 #: ../user/forum_thread.php:69
 msgid "This thread has been hidden by moderators."
-msgstr ""
+msgstr "主題已被管理員隱藏"
 
 #: ../user/forum_thread.php:125
 msgid "My question was answered"
-msgstr ""
+msgstr "我的問題已得到解答"
 
 #: ../user/forum_thread.php:126
 msgid "Click here if your question has been adequately answered"
-msgstr ""
+msgstr "如果您的問題已經得到充分的解答，請點擊這裡"
 
 #: ../user/forum_thread.php:134
 msgid "I've also got this question"
-msgstr ""
+msgstr "我也有同樣的問題"
 
 #: ../user/forum_thread.php:155 ../user/forum_thread.php:275
 msgid "Add a new message to this thread"
-msgstr ""
+msgstr "回覆本主題"
 
 #: ../user/forum_thread.php:167
 msgid "Unsubscribe"
-msgstr ""
+msgstr "退訂主題"
 
 #: ../user/forum_thread.php:168
 msgid "You are subscribed to this thread.  Click here to unsubscribe."
-msgstr ""
+msgstr "您已經訂閱了本主題。點擊這裡取消訂閱。"
 
 #: ../user/forum_thread.php:174
 msgid "Subscribe"
-msgstr ""
+msgstr "訂閱該主題"
 
 #: ../user/forum_thread.php:175
 msgid "Click to get email when there are new posts in this thread"
-msgstr ""
+msgstr "如果您需要在本主題中有新的回帖時通過電子郵件通知你請點擊。"
 
 #: ../user/forum_thread.php:186
 msgid "Unhide this thread"
-msgstr ""
+msgstr "取消隱藏本主題"
 
 #: ../user/forum_thread.php:192
 msgid "Hide this thread"
-msgstr ""
+msgstr "隱藏本主題"
 
 #: ../user/forum_thread.php:198
 msgid "Make unsticky"
-msgstr ""
+msgstr "取消置頂"
 
 #: ../user/forum_thread.php:199
 msgid "Make this thread not sticky"
-msgstr ""
+msgstr "取消本主題的置頂"
 
 #: ../user/forum_thread.php:204
 msgid "Make sticky"
-msgstr ""
+msgstr "置頂"
 
 #: ../user/forum_thread.php:205
 msgid "Make this thread sticky"
-msgstr ""
+msgstr "將本主題置頂顯示"
 
 #: ../user/forum_thread.php:211
 msgid "Unlock"
-msgstr ""
+msgstr "解鎖"
 
 #: ../user/forum_thread.php:212
 msgid "Unlock this thread"
-msgstr ""
+msgstr "解開主題"
 
 #: ../user/forum_thread.php:217
 msgid "Lock"
-msgstr ""
+msgstr "鎖定"
 
 #: ../user/forum_thread.php:218
 msgid "Lock this thread"
-msgstr ""
+msgstr "鎖定主題"
 
 #: ../user/forum_thread.php:225
 msgid "Move this thread to a different forum"
-msgstr ""
+msgstr "移動本主題到其它論壇"
 
 #: ../user/forum_thread.php:230
 msgid "Edit title"
-msgstr ""
+msgstr "編輯標題"
 
 #: ../user/forum_thread.php:231
 msgid "Edit thread title"
-msgstr ""
+msgstr "編輯主題的標題"
 
 #: ../user/forum_thread.php:241
 msgid "Export as Notice"
-msgstr ""
+msgstr "匯出通知"
 
 #: ../user/forum_thread.php:242
 msgid "Export this news item as a Notice"
-msgstr ""
+msgstr "將新聞項目匯出通知"
 
 #: ../user/forum_thread.php:247
 msgid "Don't export"
-msgstr ""
+msgstr "不要匯出"
 
 #: ../user/forum_thread.php:248
 msgid "Don't export this news item as a Notice"
-msgstr ""
+msgstr "不要將新聞項目匯出通知"
 
 #: ../user/forum_thread.php:256 ../user/forum_thread.php:258
 msgid "Sort"
-msgstr ""
+msgstr "排序"
 
 #: ../user/forum_thread_status.php:49
 msgid "Thread status updated"
-msgstr ""
+msgstr "主題狀態已更新"
 
 #: ../user/forum_thread_status.php:50
 msgid "The status has been updated."
-msgstr ""
+msgstr "狀態已更新。"
 
 #: ../user/forum_user_posts.php:73
 msgid "Posts by %1"
-msgstr ""
+msgstr "％1的帖子"
 
 #: ../user/friend.php:33
 msgid "Already friends"
-msgstr ""
+msgstr "已經是好友"
 
 #: ../user/friend.php:39
 msgid "You requested friendship with %1 on %2."
-msgstr ""
+msgstr "您已經給 %1 發送過好友請求（%2）。"
 
 #: ../user/friend.php:41
 msgid "This request is still pending confirmation."
-msgstr ""
+msgstr "請求仍在等待對方確認。"
 
 #: ../user/friend.php:52
 msgid "%1 is not accepting friendship requests from you"
-msgstr ""
+msgstr "%1 沒有接受您的好友請求"
 
 #: ../user/friend.php:61
 msgid "You can't be friends with yourself"
-msgstr ""
+msgstr "您不能加自己為好友"
 
 #: ../user/friend.php:69
 msgid "Add friend"
-msgstr ""
+msgstr "新增好友"
 
 #: ../user/friend.php:74
 msgid ""
 "You have asked to add %1 as a friend. We will notify %1 and will ask him/her "
 "to confirm that you are friends."
-msgstr ""
+msgstr "您已經要求將 %1 加為好友，我們將通知 %1 並請他/她來確認你們的關係。"
 
 #: ../user/friend.php:77
 msgid "Add an optional message here:"
-msgstr ""
+msgstr "可以在這裡添加附加訊息："
 
 #: ../user/friend.php:115
 msgid "Friend request sent"
-msgstr ""
+msgstr "好友請求已發送"
 
 #: ../user/friend.php:116
 msgid "We have notified %1 of your request."
-msgstr ""
+msgstr "我們已經把您的好友請求通知 %1。"
 
 #: ../user/friend.php:126
 msgid "Please log in as %1"
-msgstr ""
+msgstr "請以 %1 的身份登入"
 
 #: ../user/friend.php:127
 msgid "You must log in as %1 to view this friend request"
-msgstr ""
+msgstr "您必須以 %1 的身份登入才能查看該好友請求"
 
 #: ../user/friend.php:138
 msgid "Friend request"
-msgstr ""
+msgstr "好友請求"
 
 #: ../user/friend.php:141
 msgid "%1 has requested friendship with you."
-msgstr ""
+msgstr "%1 發送了好友請求給你。"
 
 #: ../user/friend.php:143
 msgid "%1 says: %2"
-msgstr ""
+msgstr "%1 還說：%2"
 
 #: ../user/friend.php:146
 msgid "Accept friendship"
-msgstr ""
+msgstr "接受好友請求"
 
 #: ../user/friend.php:146
 msgid "Click accept if %1 is in fact a friend"
-msgstr ""
+msgstr "如果 %1 是你的好友請點擊接受"
 
 #: ../user/friend.php:147
 msgid "Decline"
-msgstr ""
+msgstr "拒絕"
 
 #: ../user/friend.php:147
 msgid "Click decline if %1 is not a friend"
-msgstr ""
+msgstr "如果 %1 不是你的好友請點擊拒絕"
 
 #: ../user/friend.php:186
 msgid "Friendship confirmed"
-msgstr ""
+msgstr "好友請求已確認"
 
 #: ../user/friend.php:187
 msgid "Your friendship with %1 has been confirmed."
-msgstr ""
+msgstr "你與 %1 的好友關係已經被確認。"
 
 #: ../user/friend.php:205
 msgid "Friendship declined"
-msgstr ""
+msgstr "好友請求被拒絕"
 
 #: ../user/friend.php:206
 msgid "You have declined friendship with %1"
-msgstr ""
+msgstr "你已經拒絕了與 %1 的好友關係"
 
 #: ../user/friend.php:221
 msgid "Notification not found"
-msgstr ""
+msgstr "無法找到通知"
 
 #: ../user/friend.php:223
 msgid "Friend confirmed"
-msgstr ""
+msgstr "好友已確認"
 
 #: ../user/friend.php:224
 msgid "You are now friends with %1."
-msgstr ""
+msgstr "你現在和 %1 是好友了。"
 
 #: ../user/friend.php:232
 msgid "Cancel friendship?"
-msgstr ""
+msgstr "刪除好友"
 
 #: ../user/friend.php:234
 msgid "Are you sure you want to cancel your friendship with %1?"
-msgstr ""
+msgstr "你確定想要取消與 %1 的好友關係嗎？"
 
 #: ../user/friend.php:239
 msgid "Stay friends"
-msgstr ""
+msgstr "保持好友關係"
 
 #: ../user/friend.php:249
 msgid "Friendship cancelled"
-msgstr ""
+msgstr "好友關係已取消"
 
 #: ../user/friend.php:250
 msgid "Your friendship with %1 has been cancelled."
-msgstr ""
+msgstr "你與 %1 的好友關係已經取消。"
 
 #: ../user/get_passwd.php:25
 msgid "Forgot your account info?"
-msgstr ""
+msgstr "忘記了你的帳戶資訊？"
 
 #: ../user/get_passwd.php:28
 msgid ""
 "1) If you know your account's email address, and you can receive email there:"
-msgstr ""
+msgstr "1) 如果你知道你帳戶連結的電子郵件地址，你可以在那裡收到電子郵件："
 
 #: ../user/get_passwd.php:29
 msgid ""
 "Enter the email address below, and click OK. You will be sent email "
 "instructions for resetting your password."
-msgstr ""
+msgstr "輸入電子郵件地址，點擊確定後，你將收到關於如何重置密碼的操作指導。"
 
 #: ../user/get_passwd.php:46
 msgid ""
 "2) If you forgot your account's email address, or you can't receive email "
 "there:"
-msgstr ""
+msgstr "2) 如果你已經忘記了你帳戶所連結的電子郵件地址，或者你已經不能從此信箱接收電子郵件："
 
 #: ../user/get_passwd.php:47
 msgid ""
 "If you have run BOINC under this account, you can still access it. Here's "
 "how:"
-msgstr ""
+msgstr "如果你仍有 BOINC 客戶端運行在該帳戶下，請按如下操作指導取回你的密碼："
 
 #: ../user/get_passwd.php:50
 msgid ""
@@ -4300,114 +4352,116 @@ msgid ""
 "<b>C:\\Documents and Settings\\All Users\\Application Data\\BOINC</b> or "
 "<b>C:\\Program Files\\BOINC</b>."
 msgstr ""
+"訪問你電腦上的 BOINC 資料目錄（Windows 系統上一般是<b>C:\\Documents and Settings\\All "
+"Users\\Application Data\\BOINC</b> 或者<b>C:\\Program Files\\ \\BOINC</b>）。"
 
 #: ../user/get_passwd.php:51
 msgid "Find your account file for this project; it will be named <b>%1</b>."
-msgstr ""
+msgstr "找到本專案的帳戶文件，文件名為：<b>%1</b>。"
 
 #: ../user/get_passwd.php:52
 msgid "Open the file in a text editor like Notepad. You'll see something like"
-msgstr ""
+msgstr "用記事本等文件編輯器打開該文件，你將看到類似的如下內容："
 
 #: ../user/get_passwd.php:62
 msgid "Select and Copy the string between %1 and %2 (%3 in the above example)."
-msgstr ""
+msgstr "選取並複製%1 和%2 之間的內容（上述例子中就應該是%3）。"
 
 #: ../user/get_passwd.php:64
 msgid "Paste the string into the field below, and click OK."
-msgstr ""
+msgstr "將之前複製的內容貼到下面的表格中，並點擊確定。"
 
 #: ../user/get_passwd.php:65
 msgid ""
 "You will now be logged in to your account; update the email and password of "
 "your account."
-msgstr ""
+msgstr "你現在將登入進自己的帳戶，可以更新你的電子郵件和密碼。"
 
 #: ../user/get_passwd.php:71
 msgid "Log in with authenticator"
-msgstr ""
+msgstr "用身份驗證碼（authenticator）來登入"
 
 #: ../user/gpu_list.php:126 ../user/gpu_list.php:152
 msgid "No GPU tasks reported"
-msgstr ""
+msgstr "還沒有已上傳的 GPU 運算任務"
 
 #: ../user/gpu_list.php:182 ../user/stats.php:33
 msgid "Top GPU models"
-msgstr ""
+msgstr "GPU 型號排名"
 
 #: ../user/gpu_list.php:183
 msgid ""
 "The following lists show the most productive GPU models on different "
 "platforms.  Relative speeds are shown in parentheses."
-msgstr ""
+msgstr "下面的列表顯示了各個平台上效率最好的 GPU 型號，不同型號間的速度差異用百分比來表示。"
 
 #: ../user/home.php:42
 msgid "Welcome to %1"
-msgstr ""
+msgstr "歡迎來到 %1"
 
 #: ../user/home.php:43
 msgid "View and edit your account preferences using the links below."
-msgstr ""
+msgstr "使用下面的連結查看及編輯你的帳戶偏好設定"
 
 #: ../user/home.php:46
 msgid "If you have not already done so, %1download BOINC client software%2."
-msgstr ""
+msgstr "如果還沒有的話，%1下載 BOINC 的客戶端軟體%2。"
 
 #: ../user/home.php:49 ../project.sample/project.inc:46
 msgid "Your account"
-msgstr ""
+msgstr "您的帳號"
 
 #: ../user/host_app_versions.php:26
 msgid "nvidia GPU"
-msgstr ""
+msgstr "nvidia GPU"
 
 #: ../user/host_app_versions.php:36
 msgid "Anonymous platform, missing app"
-msgstr ""
+msgstr "匿名平台，未知應用程式"
 
 #: ../user/host_app_versions.php:39
 msgid "anonymous platform"
-msgstr ""
+msgstr "匿名平台"
 
 #: ../user/host_app_versions.php:43
 msgid "Missing app version"
-msgstr ""
+msgstr "無法辨識的應用程式版本"
 
 #: ../user/host_app_versions.php:45
 msgid "Missing app"
-msgstr ""
+msgstr "未知應用程式"
 
 #: ../user/host_app_versions.php:47
 msgid "Missing platform"
-msgstr ""
+msgstr "無法辨識的平台"
 
 #: ../user/host_app_versions.php:56
 msgid "Number of tasks completed"
-msgstr ""
+msgstr "完成的運算任務數量"
 
 #: ../user/host_app_versions.php:57
 msgid "Max tasks per day"
-msgstr ""
+msgstr "每日最大任務數量"
 
 #: ../user/host_app_versions.php:58
 msgid "Number of tasks today"
-msgstr ""
+msgstr "今天的任務數量"
 
 #: ../user/host_app_versions.php:59
 msgid "Consecutive valid tasks"
-msgstr ""
+msgstr "連續完成的運算任務數量"
 
 #: ../user/host_app_versions.php:63
 msgid "Average processing rate"
-msgstr ""
+msgstr "平均處理速度"
 
 #: ../user/host_app_versions.php:72
 msgid "Application details for host %1"
-msgstr ""
+msgstr "主機 %1 的運算程式細節"
 
 #: ../user/host_delete.php:31
 msgid "We have no record of that computer."
-msgstr ""
+msgstr "我們沒有該電腦的記錄。"
 
 #: ../user/host_delete.php:38
 msgid ""
@@ -4415,186 +4469,187 @@ msgid ""
 "contains work for it. You must wait a few days until the work for this "
 "computer has been deleted from the project database."
 msgstr ""
+"你目前不能刪除該電腦的記錄，因為我們資料庫中仍有和其相關的運算任務記錄。你需要等到所有指定給該電腦的任務記錄都從專案資料庫中刪除，一般可能需要幾天。"
 
 #: ../user/host_delete.php:40
 msgid "Delete record of computer"
-msgstr ""
+msgstr "刪除電腦紀錄"
 
 #: ../user/host_delete.php:41
 msgid "Record deleted."
-msgstr ""
+msgstr "紀錄已刪除。"
 
 #: ../user/host_delete.php:42 ../user/host_edit_action.php:65
 msgid "Return to list of your computers"
-msgstr ""
+msgstr "返回您的電腦列表"
 
 #: ../user/host_edit_action.php:39
 msgid "Merge computer records"
-msgstr ""
+msgstr "合併電腦記錄"
 
 #: ../user/host_edit_form.php:35
 msgid "Merge computers"
-msgstr ""
+msgstr "合併電腦"
 
 #: ../user/host_edit_form.php:38
 msgid ""
 "Sometimes BOINC assigns separate identities to the same computer by mistake. "
 "You can correct this by merging old identities with the newest one."
-msgstr ""
+msgstr "有時候，BOINC 會給同一台電腦賦予多個唯一標識，你可以通過將舊標識和新標識合併以糾正該問題。"
 
 #: ../user/host_edit_form.php:56
 msgid "No hosts are eligible for merging with this one."
-msgstr ""
+msgstr "沒有符合條件的主機可以和該主機合併。"
 
 #: ../user/host_edit_form.php:58 ../user/host_edit_form.php:114
 msgid "Show details"
-msgstr ""
+msgstr "顯示細節"
 
 #: ../user/host_edit_form.php:66
 msgid ""
 "Check the computers that are the same as %1 (created %2, computer ID %3):"
-msgstr ""
+msgstr "選擇和%1 相同的電腦（創建於%2，電腦 ID 為%3）："
 
 #: ../user/host_edit_form.php:70 ../user/workunit.php:39
 msgid "name"
-msgstr ""
+msgstr "名稱"
 
 #: ../user/host_edit_form.php:70 ../user/workunit.php:41
 msgid "created"
-msgstr ""
+msgstr "建立時間"
 
 #: ../user/host_edit_form.php:70
 msgid "computer ID"
-msgstr ""
+msgstr "電腦 ID"
 
 #: ../user/host_edit_form.php:77
 msgid "no hostname"
-msgstr ""
+msgstr "沒有主機名稱"
 
 #: ../user/host_edit_form.php:109
 msgid "Merge hosts"
-msgstr ""
+msgstr "合併主機"
 
 #: ../user/host_update_credit.php:28
 msgid "Updating computer credit"
-msgstr ""
+msgstr "正在更新電腦積分"
 
 #: ../user/host_venue_action.php:41
 msgid "Host venue updated"
-msgstr ""
+msgstr "主機位置已更新"
 
 #: ../user/host_venue_action.php:43
 msgid "none"
-msgstr ""
+msgstr "無"
 
 #: ../user/host_venue_action.php:46
 msgid "The venue of this host has been set to %1."
-msgstr ""
+msgstr "該主機的位置已設置為 %1。"
 
 #: ../user/host_venue_action.php:48
 msgid ""
 "This change will take effect the next time the host communicates with this "
 "project."
-msgstr ""
+msgstr "更改將在該主機下一次和專案通訊的時候生效。"
 
 #: ../user/host_venue_action.php:50
 msgid "Return to host page"
-msgstr ""
+msgstr "返回主機頁面"
 
 #: ../user/hosts_user.php:53
 msgid "Computers belonging to %1"
-msgstr ""
+msgstr "%1 的電腦"
 
 #: ../user/hosts_user.php:55
 msgid "Computers hidden"
-msgstr ""
+msgstr "電腦已隱藏"
 
 #: ../user/hosts_user.php:56
 msgid ""
 "This user has chosen not to show information about his or her computers."
-msgstr ""
+msgstr "該用戶已設定為不顯示其電腦的詳細信息。"
 
 #: ../user/hosts_user.php:64
 msgid "Your computers"
-msgstr ""
+msgstr "您的電腦"
 
 #: ../user/html.php:23
 msgid "Allowed HTML tags"
-msgstr ""
+msgstr "允許 HTML 語法"
 
 #: ../user/html.php:25
 msgid "The following HTML tags are allowed in team descriptions:"
-msgstr ""
+msgstr "團隊描述中可以使用下列 HTML 語法："
 
 #: ../user/html.php:27
 msgid "bold"
-msgstr ""
+msgstr "粗體"
 
 #: ../user/html.php:28
 msgid "italics"
-msgstr ""
+msgstr "斜體"
 
 #: ../user/html.php:29
 msgid "hyperlink"
-msgstr ""
+msgstr "超連結"
 
 #: ../user/html.php:30
 msgid "paragraph"
-msgstr ""
+msgstr "段落"
 
 #: ../user/html.php:31
 msgid "break"
-msgstr ""
+msgstr "換行"
 
 #: ../user/html.php:32
 msgid "preformatted"
-msgstr ""
+msgstr "預設格式"
 
 #: ../user/html.php:33
 msgid ""
 "image; height cannot exceed 450 pixels. Please do not link to images without "
 "permission of the web site where the image is hosted."
-msgstr ""
+msgstr "圖片，高度不能超出 450 像素，請不要在未經允許的情況下引用其它網站上的圖片。"
 
 #: ../user/html.php:35
 msgid "You can also use ampersand notation for special characters."
-msgstr ""
+msgstr "你也可以使用&（和號）開頭的字符實體來表示特殊字符（比如&nbsp; 等）。"
 
 #: ../user/info.php:24 ../user/sample_index.php:74
 msgid "Read our rules and policies"
-msgstr ""
+msgstr "閱讀規定和政策"
 
 #: ../user/info.php:35
 msgid "Run %1 only on authorized computers"
-msgstr ""
+msgstr "僅在已授權的電腦上運行 %1"
 
 #: ../user/info.php:36
 msgid ""
 "Run %1 only on computers that you own, or for which you have obtained the "
 "owner's permission. Some companies and schools have policies that prohibit "
 "using their computers for projects such as %1."
-msgstr ""
+msgstr "僅在你自己的或者已獲准使用的電腦上運行%1。某些企業和學校是禁止在他們的電腦上運行和%1 的類似的專案。"
 
 #: ../user/info.php:38
 msgid "How %1 will use your computer"
-msgstr ""
+msgstr "%1 如何使用你的電腦"
 
 #: ../user/info.php:39
 msgid ""
 "When you run %1 on your computer, it will use part of the computer's CPU "
 "power, disk space, and network bandwidth. You can control how much of your "
 "resources are used by %1, and when it uses them."
-msgstr ""
+msgstr "當你在電腦上運行 %1 時，他會使用你電腦上部分的處理器資源、硬碟空間以及網絡。你可以控制 %1 的資源使用量以及何時可以使用。"
 
 #: ../user/info.php:40
 msgid ""
 "The work done by your computer contributes to the goals of %1, as described "
 "on its web site. The application programs may change from time to time."
-msgstr ""
+msgstr "你的電腦所完成的運算任務僅用來幫助 %1 實現其專案網站上所申明的目標。專案應用程式的版本可能會經常改變。"
 
 #: ../user/info.php:42
 msgid "Privacy policy"
-msgstr ""
+msgstr "隱私政策"
 
 #: ../user/info.php:43
 msgid ""
@@ -4603,6 +4658,8 @@ msgid ""
 "done for %1. If you want to be anonymous, choose a name that doesn't reveal "
 "your identity."
 msgstr ""
+"%1 通過你選擇的用戶名來標識你的帳戶。該用戶名以及你為%1 完成的運算任務的摘要將顯示在 %1 "
+"的網站上。如果你想要匿名，那請選擇一個不會洩漏你身份的用戶名。"
 
 #: ../user/info.php:44
 msgid ""
@@ -4612,6 +4669,8 @@ msgid ""
 "also be shown on %1's web site. Nothing that reveals your computer's "
 "location (e.g. its domain name or network address) will be shown."
 msgstr ""
+"如果你參加了%1，那你的電腦中的相關信息比如處理器的型號、記憶體的大小等會被%1 記錄下來，以用來決定什麼樣的運算任務最適合你的電腦。這些信息也會顯示在 "
+"%1 的網站上，但是請不要擔心，我們絕對不會洩漏出你的電腦的位置比如域名、網絡地址等。"
 
 #: ../user/info.php:45
 msgid ""
@@ -4619,6 +4678,8 @@ msgid ""
 "address will not be shown on the %1 web site or shared with organizations. "
 "%1 may send you periodic newsletters; however, you can opt out at any time."
 msgstr ""
+"為了參加 %1，你必須提供一個能夠接收郵件的電子郵件地址。這個地址不會被顯示在 %1 的網站上。 %1 可能會定期向你發送專案的新聞快訊； "
+"當然，你隨時可以選擇退訂。"
 
 #: ../user/info.php:46
 msgid ""
@@ -4628,6 +4689,8 @@ msgid ""
 "them to your %2message filter%3.  This will prevent you from seeing any "
 "public or private messages from that user."
 msgstr ""
+"在 %1 網站上發送的私人消息只對發送者和接收者可見。 %1 不會檢查或審查消息的內容。如果你從 %1 "
+"的用戶那收到不希望收到的私人消息，你可以把他們加入到你的 %2消息過濾器%3。這樣就可以避免你收到來自那位用戶的任何公共或私人消息。"
 
 #: ../user/info.php:47
 msgid ""
@@ -4636,10 +4699,12 @@ msgid ""
 "members.  By posting to the forums, you are granting irrevocable license for "
 "anyone to view and copy your posts."
 msgstr ""
+"如果你要使用我們的網站論壇，你必須遵守 %2發文注意事項%3。發送到 %1 "
+"論壇的文章對所有人都是可見的，即便不是我們網站的用戶也能看到。你的發文同時表明你允許所有人查看和覆製你的文章。"
 
 #: ../user/info.php:48
 msgid "Is it safe to run %1?"
-msgstr ""
+msgstr "運行 %1 安全嗎？"
 
 #: ../user/info.php:49
 msgid ""
@@ -4651,32 +4716,35 @@ msgid ""
 "all executable files are digitally signed on a secure computer not connected "
 "to the Internet."
 msgstr ""
+"只要你從網路下載程式就有可能碰到有危險錯誤的程式或者下載服務器已被駭客攻擊的情況。 %1 已經盡力最小化這方面的風險。我們已經仔細測試了我們的程式。我們"
+"的伺服器處於防火牆之後，並且設置了最高的安全級別。為了保證程式下載的正確性，全部的可執行文件會被放置在一台未聯網的安全電腦中進行數字簽名。"
 
 #: ../user/info.php:50
 msgid ""
 "The applications run by %1 may cause some computers to overheat. If this "
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
 msgstr ""
+"%1 的應用程式可能會導致某些電腦溫度過高。如果你碰到了這種情形，請停止運行 %1 或者使用 %2某些工具軟體%3 來限制應用程式對處理器的使用。"
 
 #: ../user/info.php:51
 msgid ""
 "%1 was developed by %2. BOINC was developed at the University of California."
-msgstr ""
+msgstr "%1 由 %2 開發。 BOINC 由加州大學開發。"
 
 #: ../user/info.php:53
 msgid "Liability"
-msgstr ""
+msgstr "免責申明"
 
 #: ../user/info.php:54
 msgid ""
 "%1 and %2 assume no liability for damage to your computer, loss of data, or "
 "any other event or condition that may occur as a result of participating in "
 "%1."
-msgstr ""
+msgstr "%1 和%2 對於你的電腦損壞、資料丟失或其他任意由於參與 %1 所可能造成的事件沒有賠償責任。"
 
 #: ../user/info.php:56
 msgid "Other BOINC projects"
-msgstr ""
+msgstr "其它 BOINC 專案"
 
 #: ../user/info.php:57
 msgid ""
@@ -4684,94 +4752,96 @@ msgid ""
 "participating in one or more of these projects. By doing so, your computer "
 "will do useful work even when %1 has no work available for it."
 msgstr ""
+"除了 %1，還有其它一些專案也使用 BOINC 平台。你也許會考慮同時參加多個專案，這樣當你無法從 %1 "
+"獲取運算任務時，你的電腦仍可以處理其它專案的運算任務。"
 
 #: ../user/info.php:58
 msgid ""
 "These other projects are not associated with %1, and we cannot vouch for "
 "their security practices or the nature of their research. Join them at your "
 "own risk."
-msgstr ""
+msgstr "其它專案同 %1 沒有關係，所以我們也無法保證這些專案的安全性以及確切的研究內容，請你自行決定是否參加其他專案。"
 
 #: ../user/language_select.php:44
 msgid "Language selection"
-msgstr ""
+msgstr "語言選擇"
 
 #: ../user/language_select.php:70
 msgid ""
 "This web site is available in several languages. The currently selected "
 "language is %1."
-msgstr ""
+msgstr "本網站提供了多種語言界面，目前選擇的語言是 %1。"
 
 #: ../user/language_select.php:75
 msgid ""
 "Normally the choice of language is determined by your browser's language "
 "setting, which is: %1.  You can change this setting using:"
-msgstr ""
+msgstr "通常語言的選擇是通過你瀏覽器的語言設置來自動完成的，目前選擇為：%1。你可以通過下面的操作來改變這個設置："
 
 #: ../user/language_select.php:80
 msgid "Firefox: Tools/Options/General"
-msgstr ""
+msgstr "Firefox（火狐）：工具/選項/內容"
 
 #: ../user/language_select.php:82
 msgid "Microsoft IE: Tools/Internet Options/Languages"
-msgstr ""
+msgstr "微軟 IE：工具/Internet 選項/語言"
 
 #: ../user/language_select.php:86
 msgid ""
 "Or you can select a language by clicking on one of the links.  This will "
 "send your browser a cookie; make sure your browser accepts cookies from our "
 "domain."
-msgstr ""
+msgstr "或者你也可以點擊下面的連結來選擇一種語言。該操作將給你的瀏覽器發送一個Cookie，請確保你的瀏覽器能從我們的域名接收Cookie。"
 
 #: ../user/language_select.php:92
 msgid "Language name (click to select)"
-msgstr ""
+msgstr "語言名稱（直接點擊進行設置）"
 
 #: ../user/language_select.php:94
 msgid "Use browser language setting"
-msgstr ""
+msgstr "使用瀏覽器的語言設置"
 
 #: ../user/language_select.php:110
 msgid ""
 "Translations are done by volunteers.  If your native language is not here, "
 "%1you can provide a translation%2."
-msgstr ""
+msgstr "翻譯工作都是由志願者完成的，如果這裡沒有你的母語，%1你可以自己進行翻譯%2。"
 
 #: ../user/login_form.php:52
 msgid "Email address:"
-msgstr ""
+msgstr "電子郵件地址："
 
 #: ../user/login_form.php:52
 msgid "forgot email address?"
-msgstr ""
+msgstr "忘記了電子郵件地址?"
 
 #: ../user/login_form.php:54
 msgid "Password:"
-msgstr ""
+msgstr "密碼："
 
 #: ../user/login_form.php:54
 msgid "forgot password?"
-msgstr ""
+msgstr "忘記密碼?"
 
 #: ../user/login_form.php:57
 msgid "Stay logged in"
-msgstr ""
+msgstr "保持登入狀態"
 
 #: ../user/login_form.php:63
 msgid "or %1create an account%2."
-msgstr ""
+msgstr "或者%1創建一個新帳戶%2。"
 
 #: ../user/merge_by_name.php:33
 msgid "Processing %1"
-msgstr ""
+msgstr "處理中 %1"
 
 #: ../user/merge_by_name.php:45
 msgid "Merged %1 into %2"
-msgstr ""
+msgstr "%1 已合併至 %2"
 
 #: ../user/merge_by_name.php:74
 msgid "Return to the list of your computers"
-msgstr ""
+msgstr "返回你的電腦列表"
 
 #: ../user/merge_by_name.php:78
 msgid ""
@@ -4782,14 +4852,19 @@ msgid ""
 "        Incompatible computers will not be merged.\n"
 "        <p>"
 msgstr ""
+"該操作使用名稱來合併電腦。 \n"
+"<p>\n"
+"對於每個名稱，它會將所有老的電腦合併到最新的電腦上。 \n"
+"軟硬件配置不兼容的電腦將不會被合併。 \n"
+"<p>"
 
 #: ../user/merge_by_name.php:84
 msgid "Go ahead and do this"
-msgstr ""
+msgstr "繼續操作"
 
 #: ../user/merge_by_name.php:85
 msgid "Return to the list of computers"
-msgstr ""
+msgstr "返回電腦列表"
 
 #: ../user/moderation.php:26
 msgid ""
@@ -4798,6 +4873,10 @@ msgid ""
 "our message boards are moderated.\n"
 "Message board postings are subject to the following posting rules:\n"
 msgstr ""
+"\n"
+"為了讓大家的討論和交流能有效進行，\n"
+"我們為留言板設立了管理協調機制。 \n"
+"所有留言板的發帖都必須遵循如下的規則：\n"
 
 #: ../user/moderation.php:30
 msgid ""
@@ -4837,78 +4916,95 @@ msgid ""
 "If you have comments about the policy, email %2.\n"
 "\n"
 msgstr ""
+"\n"
+"<p>\n"
+"管理員可能會刪除違規的文章，被刪文的用戶將得到電子郵件通知。 \n"
+"嚴重的違規者可能會被臨時封鎖發文權限（為防止該操作被濫用，只有專案管理員有相關的權限）。 \n"
+"其它未列在上述規則中的惡意行為（比如惡意收集其他用戶的IP 地址、或者在論壇中大量發表垃圾內容等）也可能面臨類似的處罰。 \n"
+"<p>\n"
+"如果你碰到違規的文章，請點擊文章內的紅色小叉並進行相應的說明；管理員將收到通知並進行處理。 \n"
+"該功能請務必僅用於處理違規文章，而不要用於處理個人爭端。 \n"
+"<p>\n"
+"我們在操作的時候將盡可能地保證公平，但對於如此大的一個網絡社區，包含了各種不同的觀點，可能仍然會有人對我們的管理決定不滿意。 \n"
+"對此我們十分抱歉，但請大家多多諒解，我們不可能在所有時候讓所有人滿意，我們只能根據我們了解的訊息、並且從論壇的整體利益出發來作出決定。 \n"
+"請不要在論壇討論我們的管理策略，我們不是在進行一個社會工程專案，也沒有試圖創建一個完美而公平的系統。 \n"
+"因此這樣的討論並不會起到什麼積極的作用，而且是潛在有害的。 \n"
+"當然，如果你一些合理的想法，請發送電子郵件到下面的地址。 \n"
+"<p>\n"
+"本管理規定由 %1 專案設立，如果你有想法要交流，請發送電子郵件到%2。 \n"
+"\n"
 
 #: ../user/pending.php:66
 msgid "Result ID"
-msgstr ""
+msgstr "運算結果 ID"
 
 #: ../user/pending.php:66
 msgid "Workunit ID"
-msgstr ""
+msgstr "任務單元 ID"
 
 #: ../user/pending.php:66
 msgid "Host ID"
-msgstr ""
+msgstr "主機 ID"
 
 #: ../user/pending.php:66
 msgid "Claimed credit"
-msgstr ""
+msgstr "申請積分"
 
 #: ../user/pending.php:79
 msgid "Pending credit: %1"
-msgstr ""
+msgstr "待授予的積分：%1"
 
 #: ../user/pm.php:32
 msgid "Block messages from this user"
-msgstr ""
+msgstr "封鎖該用戶的消息"
 
 #: ../user/pm.php:32
 msgid "Block user"
-msgstr ""
+msgstr "封鎖用戶"
 
 #: ../user/pm.php:73
 msgid "Your message has been sent."
-msgstr ""
+msgstr "你的消息已被發送。"
 
 #: ../user/pm.php:83
 msgid "You have no private messages."
-msgstr ""
+msgstr "你目前沒有私人消息。"
 
 #: ../user/pm.php:90
 msgid "Sender and date"
-msgstr ""
+msgstr "發送人及日期"
 
 #: ../user/pm.php:106
 msgid "Reply to this message"
-msgstr ""
+msgstr "回覆該消息"
 
 #: ../user/pm.php:107
 msgid "Delete this message"
-msgstr ""
+msgstr "刪除該消息"
 
 #: ../user/pm.php:112
 msgid "Select all"
-msgstr ""
+msgstr "全選"
 
 #: ../user/pm.php:114
 msgid "Unselect all"
-msgstr ""
+msgstr "取消全選"
 
 #: ../user/pm.php:117
 msgid "Delete selected messages"
-msgstr ""
+msgstr "刪除選中的消息"
 
 #: ../user/pm.php:140
 msgid "Sender"
-msgstr ""
+msgstr "發送人"
 
 #: ../user/pm.php:143
 msgid "Date"
-msgstr ""
+msgstr "日期"
 
 #: ../user/pm.php:185
 msgid "You need to fill all fields to send a private message"
-msgstr ""
+msgstr "要發送私人消息，你必須填寫所有字段"
 
 #: ../user/pm.php:188
 msgid ""
@@ -4916,70 +5012,72 @@ msgid ""
 "                by the Akismet anti-spam system.\n"
 "                Please modify your text and try again."
 msgstr ""
+"你的消息已被 Akismet 防垃圾信息系統\n"
+"標記為垃圾信息，請修改你輸入的內容並重試。"
 
 #: ../user/pm.php:205
 msgid "Could not find user with id %1"
-msgstr ""
+msgstr "無法找到ID為 %1 的用戶"
 
 #: ../user/pm.php:210
 msgid "Could not find user with username %1"
-msgstr ""
+msgstr "無法找到名為 %1 的用戶"
 
 #: ../user/pm.php:212
 msgid "%1 is not a unique username; you will have to use user ID"
-msgstr ""
+msgstr "因為 %1 不是唯一的用戶名，你將只能使用用戶ID"
 
 #: ../user/pm.php:217
 msgid "User %1 (ID: %2) is not accepting private messages from you."
-msgstr ""
+msgstr "用戶 %1（ID 為%2）已禁止接受你的私人消息。"
 
 #: ../user/pm.php:240 ../user/view_profile.php:26
 msgid "No such user"
-msgstr ""
+msgstr "沒有這個用戶"
 
 #: ../user/pm.php:242
 msgid "Really block %1?"
-msgstr ""
+msgstr "確定要封鎖 %1 嗎?"
 
 #: ../user/pm.php:243
 msgid ""
 "Are you really sure you want to block user %1 from sending you private "
 "messages?"
-msgstr ""
+msgstr "你確定要封鎖用戶 %1 向你發送私人消息嗎？"
 
 #: ../user/pm.php:244
 msgid "Please note that you can only block a limited amount of users."
-msgstr ""
+msgstr "請注意你只能封鎖有限數量的用戶。"
 
 #: ../user/pm.php:245
 msgid ""
 "Once the user has been blocked you can unblock it using forum preferences "
 "page."
-msgstr ""
+msgstr "一旦該用戶被你封鎖，你可以在論壇的偏好設定中解除。"
 
 #: ../user/pm.php:252
 msgid "No, cancel"
-msgstr ""
+msgstr "不，取消"
 
 #: ../user/pm.php:260 ../user/team_admins.php:97
 msgid "no such user"
-msgstr ""
+msgstr "沒有這個用戶"
 
 #: ../user/pm.php:263
 msgid "User %1 blocked"
-msgstr ""
+msgstr "用戶 %1 已被封鎖"
 
 #: ../user/pm.php:265
 msgid "User %1 has been blocked from sending you private messages."
-msgstr ""
+msgstr "用戶 %1 已被封鎖向你發送私人消息。"
 
 #: ../user/pm.php:266
 msgid "To unblock, visit %1message board preferences%2"
-msgstr ""
+msgstr "要解除封鎖，請訪問%1留言板的偏好設定%2"
 
 #: ../user/pm.php:302
 msgid "Unknown action"
-msgstr ""
+msgstr "未知的操作"
 
 #: ../user/prefs.php:36
 msgid ""
@@ -4987,546 +5085,549 @@ msgid ""
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
+"你的偏好設定已經更新\n"
+"\t 將在你的電腦與%1進行通訊的時候生效\n"
+"\t 或者你也可以直接執行 BOINC 客戶端裡的%2更新%3命令。"
 
 #: ../user/prefs_edit.php:65 ../user/prefs_edit.php:93
 msgid "%1 for %2"
-msgstr ""
+msgstr "%1（用於%2）"
 
 #: ../user/prefs_edit.php:110
 msgid "Back to preferences"
-msgstr ""
+msgstr "回到偏好設定"
 
 #: ../user/prefs_remove.php:48
 msgid "Confirm delete preferences"
-msgstr ""
+msgstr "確定刪除偏好設定"
 
 #: ../user/prefs_remove.php:51
 msgid "Are you sure you want to delete your separate %1 preferences for %2?"
-msgstr ""
+msgstr "你確定要刪除%1偏好設定（用於%2）嗎？"
 
 #: ../user/prefs_remove.php:55
 msgid "Remove preferences"
-msgstr ""
+msgstr "移除偏好設定"
 
 #: ../user/prefs_remove.php:57
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: ../user/profile_menu.php:35 ../user/sample_index.php:116
 msgid "Profiles"
-msgstr ""
+msgstr "用戶檔案"
 
 #: ../user/profile_menu.php:38
 msgid ""
 "%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
 "community."
-msgstr ""
+msgstr "通過 %1用戶檔案%2 志願者可以和 %3 社區分享他的背景和觀點。"
 
 #: ../user/profile_menu.php:39
 msgid ""
 "Explore the diversity of your fellow volunteers, and contribute your own "
 "views for others to enjoy."
-msgstr ""
+msgstr "可以了解其他志願者的想法，也可以讓他人看到你分享的觀點。"
 
 #: ../user/profile_menu.php:40
 msgid ""
 "If you haven't already, you can %1create your own user profile%2 for others "
 "to see!"
-msgstr ""
+msgstr "如果你還沒有用戶檔案的話，你現在就可以%1建立屬於你自己的用戶檔案了%2！"
 
 #: ../user/profile_menu.php:45
 msgid "User of the Day"
-msgstr ""
+msgstr "每日用戶"
 
 #: ../user/profile_menu.php:58
 msgid "User Profile Explorer"
-msgstr ""
+msgstr "使用用戶檔案瀏覽器"
 
 #: ../user/profile_menu.php:61
 msgid "View the %1User Picture Gallery%2."
-msgstr ""
+msgstr "查看%1用戶圖片庫%2。"
 
 #: ../user/profile_menu.php:62
 msgid "Browse profiles %1by country%2."
-msgstr ""
+msgstr "%1按國家或地區%2瀏覽用戶檔案。"
 
 #: ../user/profile_menu.php:63
 msgid ""
 "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
 "without pictures%2."
-msgstr ""
+msgstr "%1隨機地瀏覽所有用戶檔案%2，%3隨機地瀏覽帶圖片的用戶檔案%2，或者%4隨機地瀏覽不帶圖片%2的用戶檔案。"
 
 #: ../user/profile_menu.php:67
 msgid "Alphabetical profile listings:"
-msgstr ""
+msgstr "按字母表順序的用戶檔案列表："
 
 #: ../user/profile_menu.php:73
 msgid "Search profile text"
-msgstr ""
+msgstr "搜索用戶檔案文件"
 
 #: ../user/profile_menu.php:98
 msgid "No profiles"
-msgstr ""
+msgstr "沒有用戶檔案"
 
 #: ../user/profile_menu.php:99
 msgid "No profiles matched your query."
-msgstr ""
+msgstr "沒有用戶檔案符合你的查詢條件。"
 
 #: ../user/profile_rate.php:29
 msgid "Invalid vote type:"
-msgstr ""
+msgstr "錯誤的投票類型："
 
 #: ../user/profile_rate.php:34
 msgid "Vote Recorded"
-msgstr ""
+msgstr "投票已記錄"
 
 #: ../user/profile_rate.php:38
 msgid "Thank you"
-msgstr ""
+msgstr "非常感謝"
 
 #: ../user/profile_rate.php:41
 msgid "Your recommendation has been recorded."
-msgstr ""
+msgstr "你的推薦已經被記錄下來。"
 
 #: ../user/profile_rate.php:43
 msgid "Your vote to reject this profile has been recorded."
-msgstr ""
+msgstr "你對該用戶檔案的反感已經被記錄下來。"
 
 #: ../user/profile_rate.php:46
 msgid "Return to profile."
-msgstr ""
+msgstr "返回用戶檔案。"
 
 #: ../user/profile_search_action.php:36
 msgid "Profiles containing '%1'"
-msgstr ""
+msgstr "包含'%1'的個人檔案"
 
 #: ../user/profile_search_action.php:40
 msgid "User name"
-msgstr ""
+msgstr "用戶名稱"
 
 #: ../user/profile_search_action.php:41
 msgid "Joined project"
-msgstr ""
+msgstr "加入的專案"
 
 #: ../user/profile_search_action.php:44
 msgid "Recent credit"
-msgstr ""
+msgstr "近期平均積分"
 
 #: ../user/profile_search_action.php:54
 msgid "No profiles found containing '%1'"
-msgstr ""
+msgstr "沒有找到包含'%1'的個人檔案"
 
 #: ../user/result.php:30
 msgid "No such task"
-msgstr ""
+msgstr "沒有這個任務"
 
 #: ../user/result.php:32
 msgid "Task %1"
-msgstr ""
+msgstr "任務 %1"
 
 #: ../user/results.php:29
 msgid "This feature is turned off temporarily"
-msgstr ""
+msgstr "該特性已臨時被關閉"
 
 #: ../user/results.php:56
 msgid "No computer with ID %1 found"
-msgstr ""
+msgstr "找不到 ID 為 %1 的電腦"
 
 #: ../user/results.php:63
 msgid "No access"
-msgstr ""
+msgstr "無法訪問"
 
 #: ../user/results.php:69
 msgid "Missing user ID or host ID"
-msgstr ""
+msgstr "用戶 ID 或 主機 ID 丟失"
 
 #: ../user/results.php:102
 msgid "No tasks to display"
-msgstr ""
+msgstr "沒有任務可以顯示"
 
 #: ../user/sample_index.php:180
 msgid "User of the day"
-msgstr ""
+msgstr "今日用戶"
 
 #: ../user/server_status.php:91
 msgid "Running"
-msgstr ""
+msgstr "運行中"
 
 #: ../user/server_status.php:94
 msgid "Not Running"
-msgstr ""
+msgstr "未運行"
 
 #: ../user/server_status.php:97
 msgid "Disabled"
-msgstr ""
+msgstr "已禁用"
 
 #: ../user/server_status.php:236
 msgid "Project status"
-msgstr ""
+msgstr "專案狀態"
 
 #: ../user/server_status.php:238
 msgid "Server software version: %1"
-msgstr ""
+msgstr "伺服器軟體版本：%1"
 
 #: ../user/server_status.php:244
 msgid "Server status"
-msgstr ""
+msgstr "伺服器狀態"
 
 #: ../user/server_status.php:246
 msgid "Program"
-msgstr ""
+msgstr "程式"
 
 #: ../user/server_status.php:246
 msgid "Host"
-msgstr ""
+msgstr "主機"
 
 #: ../user/server_status.php:257
 msgid "data-driven web pages"
-msgstr ""
+msgstr "資料驅動的網頁"
 
 #: ../user/server_status.php:263
 msgid "upload/download server"
-msgstr ""
+msgstr "上傳/下載伺服器"
 
 #: ../user/server_status.php:266
 msgid "scheduler"
-msgstr ""
+msgstr "調度"
 
 #: ../user/server_status.php:299
 msgid "Running:"
-msgstr ""
+msgstr "運行中："
 
 #: ../user/server_status.php:300
 msgid "Program is operating normally"
-msgstr ""
+msgstr "程式目前運行正常"
 
 #: ../user/server_status.php:301
 msgid "Not Running:"
-msgstr ""
+msgstr "未運行："
 
 #: ../user/server_status.php:302
 msgid "Program failed or the project is down"
-msgstr ""
+msgstr "程式出錯或者專案已停機"
 
 #: ../user/server_status.php:303
 msgid "Disabled:"
-msgstr ""
+msgstr "已禁用："
 
 #: ../user/server_status.php:304
 msgid "Program is disabled"
-msgstr ""
+msgstr "程式已禁用"
 
 #: ../user/server_status.php:308
 msgid "Computing status"
-msgstr ""
+msgstr "運算狀態"
 
 #: ../user/server_status.php:314
 msgid "The database server is not accessible"
-msgstr ""
+msgstr "資料庫伺服器目前無法訪問"
 
 #: ../user/server_status.php:331
 msgid "Tasks ready to send"
-msgstr ""
+msgstr "準備分發的任務"
 
 #: ../user/server_status.php:336 ../user/workunit.php:55
 msgid "Tasks in progress"
-msgstr ""
+msgstr "任務處理中"
 
 #: ../user/server_status.php:341
 msgid "Workunits waiting for validation"
-msgstr ""
+msgstr "等待驗證的任務"
 
 #: ../user/server_status.php:346
 msgid "Workunits waiting for assimilation"
-msgstr ""
+msgstr "等待回收的任務"
 
 #: ../user/server_status.php:351
 msgid "Workunits waiting for file deletion"
-msgstr ""
+msgstr "等待刪除的任務"
 
 #: ../user/server_status.php:356
 msgid "Tasks waiting for file deletion"
-msgstr ""
+msgstr "等待刪除的任務"
 
 #: ../user/server_status.php:373
 msgid "Transitioner backlog (hours)"
-msgstr ""
+msgstr "服務端事務積壓（小時）"
 
 #: ../user/server_status.php:380
 msgid "Users"
-msgstr ""
+msgstr "用戶"
 
 #: ../user/server_status.php:382 ../user/server_status.php:398
 msgid "with recent credit"
-msgstr ""
+msgstr "近期得到積分的"
 
 #: ../user/server_status.php:387 ../user/server_status.php:403
 msgid "with credit"
-msgstr ""
+msgstr "得到積分的"
 
 #: ../user/server_status.php:392 ../user/server_status.php:408
 msgid "registered in past 24 hours"
-msgstr ""
+msgstr "過去 24 小時內註冊的"
 
 #: ../user/server_status.php:414
 msgid "current GigaFLOPs"
-msgstr ""
+msgstr "當前處理能力（GFLOPs）"
 
 #: ../user/server_status.php:423
 msgid "Tasks by application"
-msgstr ""
+msgstr "按應用程式分類的任務"
 
 #: ../user/server_status.php:426 ../user/workunit.php:40
 msgid "application"
-msgstr ""
+msgstr "應用程式"
 
 #: ../user/server_status.php:427
 msgid "unsent"
-msgstr ""
+msgstr "未發送的"
 
 #: ../user/server_status.php:428
 msgid "in progress"
-msgstr ""
+msgstr "運算中"
 
 #: ../user/server_status.php:429
 msgid "avg runtime of last 100 results in h (min-max)"
-msgstr ""
+msgstr "最近 100 個運算結果的平均處理時間（單位：小時）"
 
 #: ../user/server_status.php:430
 msgid "users in last 24h"
-msgstr ""
+msgstr "最近 24 小時的用戶"
 
 #: ../user/show_host_detail.php:40
 msgid "Computer %1"
-msgstr ""
+msgstr "電腦 %1"
 
 #: ../user/stats.php:21
 msgid "Statistics and leaderboards"
-msgstr ""
+msgstr "統計訊息和排行榜"
 
 #: ../user/stats.php:28
 msgid "Statistics for %1"
-msgstr ""
+msgstr "%1 的統計訊息"
 
 #: ../user/stats.php:30 ../user/top_users.php:116
 msgid "Top participants"
-msgstr ""
+msgstr "用戶排名"
 
 #: ../user/stats.php:31
 msgid "Top computers"
-msgstr ""
+msgstr "電腦排名"
 
 #: ../user/stats.php:32 ../user/team.php:46
 msgid "Top teams"
-msgstr ""
+msgstr "團隊排名"
 
 #: ../user/stats.php:37
 msgid ""
 "More detailed statistics for %1 and other BOINC-based projects are available "
 "at several web sites:"
-msgstr ""
+msgstr "下列幾個網站可以查詢到關於 %1 和其它 BOINC 專案的更詳細的統計訊息："
 
 #: ../user/stats.php:40
 msgid ""
 "You can also get your current statistics in the form of a \"signature image"
 "\":"
-msgstr ""
+msgstr "你還可以通過“簽名圖片”的形式得到你當前的統計訊息："
 
 #: ../user/stats.php:43
 msgid ""
 "Additionally you can get your individual statistics summed across all BOINC "
 "projects from several sites; see your %1home page%2."
-msgstr ""
+msgstr "另外，你還可以在你的 %1帳戶主頁面%2 中查看所有你參加的 BOINC 專案中的個人統計訊息。"
 
 #: ../user/team.php:25
 msgid "Teams"
-msgstr ""
+msgstr "團隊"
 
 #: ../user/team.php:27
 msgid "%1 participants may form %2teams%3."
-msgstr ""
+msgstr "%1 的用戶可以組成 %2團隊%3"
 
 #: ../user/team.php:29
 msgid ""
 "You may belong to only one team. You can join or quit a team at any time."
-msgstr ""
+msgstr "你最多只能加入一個團隊。你可以在任何時候加入或退出一個團隊。"
 
 #: ../user/team.php:31
 msgid "Each team has a %1founder%2 who may:"
-msgstr ""
+msgstr "每個團隊都有一個%1創始人%2，他可以："
 
 #: ../user/team.php:33
 msgid "access team members' email addresses"
-msgstr ""
+msgstr "訪問團隊成員的電子郵件地址"
 
 #: ../user/team.php:34
 msgid "edit the team's name and description"
-msgstr ""
+msgstr "編輯團隊的名稱及描述"
 
 #: ../user/team.php:35
 msgid "add or remove team admins"
-msgstr ""
+msgstr "增加或移除團隊管理員"
 
 #: ../user/team.php:36
 msgid "remove members from the team"
-msgstr ""
+msgstr "移除團隊中的成員"
 
 #: ../user/team.php:37
 msgid "disband a team if it has no members"
-msgstr ""
+msgstr "解散沒有成員的團隊"
 
 #: ../user/team.php:40
 msgid "To join a team, visit its team page and click %1Join this team%2."
-msgstr ""
+msgstr "要加入一個團隊，請訪問該團隊頁面並點擊 %1加入該團隊%2。"
 
 #: ../user/team.php:41 ../user/team_search.php:179
 msgid "Find a team"
-msgstr ""
+msgstr "尋找團隊"
 
 #: ../user/team.php:48
 msgid "All teams"
-msgstr ""
+msgstr "所有團隊"
 
 #: ../user/team.php:52
 msgid "%1 teams"
-msgstr ""
+msgstr "%1 團隊"
 
 #: ../user/team.php:58
 msgid "Create a new team"
-msgstr ""
+msgstr "建立新團隊"
 
 #: ../user/team.php:59
 msgid ""
 "If you cannot find a team that is right for you, you can %1create a team%2."
-msgstr ""
+msgstr "如果你找不到適合你的團隊，你可以 %1創建一個團隊%2。"
 
 #: ../user/team_admins.php:34
 msgid "Remove Team Admin status from this member"
-msgstr ""
+msgstr "從該成員移除團隊管理員狀態"
 
 #: ../user/team_admins.php:40 ../user/team_admins.php:51
 msgid "Add or remove Team Admins"
-msgstr ""
+msgstr "增加或移除團隊管理員"
 
 #: ../user/team_admins.php:41
 msgid "You can select team members as 'Team Admins'. Team Admins can:"
-msgstr ""
+msgstr "你可以將部分團隊成員設置為“團隊管理員”，團隊管理員可以："
 
 #: ../user/team_admins.php:43
 msgid "Edit team information (name, URL, description, country)"
-msgstr ""
+msgstr "編輯團隊資訊（名稱，網址，描述，國家）"
 
 #: ../user/team_admins.php:44
 msgid "View the team's join/quit history"
-msgstr ""
+msgstr "查看團隊的成員加入/退出歷史"
 
 #: ../user/team_admins.php:45
 msgid ""
 "Moderate the team forum, if any (admins get email notification of moderation "
 "events and red X reports)"
-msgstr ""
+msgstr "管理團隊論壇（團隊管理員會得到管理事件和報告的電子郵件通知）"
 
 #: ../user/team_admins.php:47
 msgid "Team Admins cannot:"
-msgstr ""
+msgstr "團隊管理員不可以："
 
 #: ../user/team_admins.php:49
 msgid "Change the team founder"
-msgstr ""
+msgstr "改變團隊創始人"
 
 #: ../user/team_admins.php:50 ../user/team_manage.php:54
 msgid "Remove members"
-msgstr ""
+msgstr "移除團隊成員"
 
 #: ../user/team_admins.php:53
 msgid "If a Team Admin quits the team, they cease to be a Team Admin."
-msgstr ""
+msgstr "如果團隊管理員退出團隊，其團隊管理員的角色同時取消。"
 
 #: ../user/team_admins.php:54
 msgid ""
 "We recommend that you select only people you know and trust very well as "
 "Team Admins."
-msgstr ""
+msgstr "我們建議你只選擇自己了解或信任的成員作為團隊管理員。"
 
 #: ../user/team_admins.php:59
 msgid "There are currently no Team Admins"
-msgstr ""
+msgstr "目前沒有團隊管理員"
 
 #: ../user/team_admins.php:61
 msgid "Current Team Admins"
-msgstr ""
+msgstr "目前的團隊管理員"
 
 #: ../user/team_admins.php:62
 msgid "Became Team Admin on"
-msgstr ""
+msgstr "成為團隊管理員"
 
 #: ../user/team_admins.php:77
 msgid "Add Team Admin"
-msgstr ""
+msgstr "增加團隊管理員"
 
 #: ../user/team_admins.php:78
 msgid "Email address of team member:"
-msgstr ""
+msgstr "團隊成員的電子郵件地址："
 
 #: ../user/team_admins.php:90
 msgid "failed to remove admin"
-msgstr ""
+msgstr "移除管理員時出錯"
 
 #: ../user/team_admins.php:98
 msgid "User is not member of team"
-msgstr ""
+msgstr "用戶不是團隊成員"
 
 #: ../user/team_admins.php:100
 msgid "%1 is already an admin of %2"
-msgstr ""
+msgstr "%1 已經是 %2 的管理員"
 
 #: ../user/team_admins.php:104
 msgid "Couldn't add admin"
-msgstr ""
+msgstr "不能增加管理員"
 
 #: ../user/team_admins.php:110 ../user/team_manage.php:85
 #: ../user/team_quit_form.php:30 ../user/team_remove_inactive_action.php:28
 msgid "No such team"
-msgstr ""
+msgstr "沒有符合的團隊"
 
 #: ../user/team_change_founder_action.php:30
 #: ../user/team_change_founder_form.php:33 ../user/team_display.php:67
 #: ../user/team_edit_action.php:30 ../user/team_edit_form.php:29
 #: ../user/team_email_list.php:55
 msgid "no such team"
-msgstr ""
+msgstr "沒有符合的團隊"
 
 #: ../user/team_change_founder_action.php:38
 msgid "User is not a member of %1"
-msgstr ""
+msgstr "用戶不是 %1 的成員"
 
 #: ../user/team_change_founder_action.php:41
 msgid "Changing founder of %1"
-msgstr ""
+msgstr "正在改變 %1 的創始人"
 
 #: ../user/team_change_founder_action.php:43
 msgid "%1 is now founder of %2"
-msgstr ""
+msgstr "%1 現在是 %2 的創始人了"
 
 #: ../user/team_change_founder_form.php:37
 msgid "Change founder of %1"
-msgstr ""
+msgstr "改變 %1 的創始人"
 
 #: ../user/team_change_founder_form.php:43
 msgid ""
 "Team member %1 requested this team's foundership on %2, but left the team, "
 "thus canceling the request."
-msgstr ""
+msgstr "團隊成員 %1 在請求 %2 的創始人資格之後退出了團隊，請求自動取消。"
 
 #: ../user/team_change_founder_form.php:49
 msgid ""
 "Team member %1 has requested this team's foundership. This may be because "
 "you left the team or haven't had contact with the team for a long time."
-msgstr ""
+msgstr "團隊成員%1 請求了這個團隊的創始人資格，這可能是因為你離開過團隊或者有較長時間沒有和團隊聯繫。"
 
 #: ../user/team_change_founder_form.php:55
 msgid "decline request"
-msgstr ""
+msgstr "拒絕請求"
 
 #: ../user/team_change_founder_form.php:58
 msgid ""
@@ -5535,205 +5636,207 @@ msgid ""
 "                  To accept the request, assign foundership to %3 using the "
 "form below."
 msgstr ""
+"如果你不拒絕 %1 的請求，%2 將可以得到團隊創始人的資格。 <br /><br />\n"
+"如果要接受請求，並將創始人資格授予 %3，請使用下面的表格。"
 
 #: ../user/team_change_founder_form.php:66
 msgid "No transfer request is pending."
-msgstr ""
+msgstr "目前沒有等待處理的轉換請求。"
 
 #: ../user/team_change_founder_form.php:69
 msgid ""
 "To assign foundership of this team to another member, check the box next to "
 "member name and click <strong>Change founder</strong> below."
-msgstr ""
+msgstr "要將團隊的創始人資格授予另一位成員，請先選中成員名旁邊的選擇框，然後點擊下面的<strong>更改創始人</strong>。"
 
 #: ../user/team_change_founder_form.php:76
 msgid "New founder?"
-msgstr ""
+msgstr "新的團隊創始人？"
 
 #: ../user/team_change_founder_form.php:105 ../user/team_manage.php:56
 msgid "Change founder"
-msgstr ""
+msgstr "更改團隊創始人"
 
 #: ../user/team_create_action.php:29
 msgid "You must choose a non-blank team name"
-msgstr ""
+msgstr "你必須選擇一個非空的團隊名稱"
 
 #: ../user/team_create_action.php:34
 msgid "A team named %1 already exists - try another name"
-msgstr ""
+msgstr "名為 %1 的團隊已經存在 - 請嘗試其它的名稱"
 
 #: ../user/team_create_action.php:54
 msgid "Could not create team - please try later."
-msgstr ""
+msgstr "無法建立團隊 - 請稍後再試。"
 
 #: ../user/team_create_form.php:27 ../user/team_create_form.php:32
 msgid "Create a team"
-msgstr ""
+msgstr "建立團隊"
 
 #: ../user/team_create_form.php:30
 msgid ""
 "You belong to %1. You must %2quit this team%3 before creating a new one."
-msgstr ""
+msgstr "你已加入了 %1，你在建立新團隊之前必須先 %2退出這個團隊%3。"
 
 #: ../user/team_delta.php:65
 msgid "Not founder or admin"
-msgstr ""
+msgstr "沒有創始人或團隊管理員"
 
 #: ../user/team_delta.php:72
 msgid "Team history for %1"
-msgstr ""
+msgstr "%1 的團隊歷史"
 
 #: ../user/team_delta.php:75
 msgid "When"
-msgstr ""
+msgstr "時間"
 
 #: ../user/team_delta.php:76
 msgid "User"
-msgstr ""
+msgstr "用戶"
 
 #: ../user/team_delta.php:77
 msgid "Action"
-msgstr ""
+msgstr "行為"
 
 #: ../user/team_delta.php:78
 msgid "Total credit at time of action"
-msgstr ""
+msgstr "當時的總積分"
 
 #: ../user/team_edit_action.php:53
 msgid "bad country"
-msgstr ""
+msgstr "國家錯誤"
 
 #: ../user/team_edit_action.php:59
 msgid "The name '%1' is being used by another team."
-msgstr ""
+msgstr "名稱“%1”已經被其它團隊使用。"
 
 #: ../user/team_edit_action.php:62
 msgid "Must specify team name"
-msgstr ""
+msgstr "必須指定團隊名稱"
 
 #: ../user/team_edit_action.php:90
 msgid "Could not update team - please try again later."
-msgstr ""
+msgstr "無法更新團隊 - 請稍後再試。"
 
 #: ../user/team_edit_form.php:33
 msgid "Edit %1"
-msgstr ""
+msgstr "編輯 %1"
 
 #: ../user/team_edit_form.php:34
 msgid "Update team info"
-msgstr ""
+msgstr "更新團隊資訊"
 
 #: ../user/team_email_list.php:61
 msgid "%1 Email List"
-msgstr ""
+msgstr "%1 電子郵件列表"
 
 #: ../user/team_email_list.php:63
 msgid "Member list of %1"
-msgstr ""
+msgstr "%1 的成員列表"
 
 #: ../user/team_email_list.php:78
 msgid "Show as plain text"
-msgstr ""
+msgstr "顯示為純文字"
 
 #: ../user/team_forum.php:28 ../user/team_forum.php:39
 msgid "Create Message Board"
-msgstr ""
+msgstr "建立留言版"
 
 #: ../user/team_forum.php:29
 msgid "You may create a message board for use by %1."
-msgstr ""
+msgstr "你可以建立一個僅供 %1 使用的留言板。"
 
 #: ../user/team_forum.php:31
 msgid "Only team members will be able to post."
-msgstr ""
+msgstr "只有團隊成員可以發文。"
 
 #: ../user/team_forum.php:32
 msgid "At your option, only members will be able to read."
-msgstr ""
+msgstr "還可以設置是否只允許團隊成員進行閱讀。"
 
 #: ../user/team_forum.php:33
 msgid "You and your Team Admins will have moderator privileges."
-msgstr ""
+msgstr "你和你的團隊管理員擁有管理權限。"
 
 #: ../user/team_forum.php:40
 msgid "Create a message board for %1"
-msgstr ""
+msgstr "建立一個 %1 的留言板"
 
 #: ../user/team_forum.php:48
 msgid "Team already has a message board"
-msgstr ""
+msgstr "團隊已經擁有留言板了"
 
 #: ../user/team_forum.php:59
 msgid "Team Message Board"
-msgstr ""
+msgstr "團隊留言版"
 
 #: ../user/team_forum.php:71
 msgid "Minimum time between posts (seconds)"
-msgstr ""
+msgstr "最小發文間隔（秒）"
 
 #: ../user/team_forum.php:74
 msgid "Minimum total credit to post"
-msgstr ""
+msgstr "發文要求的最低總積分"
 
 #: ../user/team_forum.php:77
 msgid "Minimum average credit to post"
-msgstr ""
+msgstr "發文要求的最低平均積分"
 
 #: ../user/team_forum.php:80
 msgid "Submit"
-msgstr ""
+msgstr "提交"
 
 #: ../user/team_forum.php:89
 msgid "Remove your team's message board."
-msgstr ""
+msgstr "移除團隊留言版"
 
 #: ../user/team_forum.php:97
 msgid "Really remove message board?"
-msgstr ""
+msgstr "確定要移除留言版嗎?"
 
 #: ../user/team_forum.php:98
 msgid ""
 "Are you sure you want to remove your team's message board? All threads and "
 "posts will be permanently removed. (You may, however, create a new message "
 "board later)."
-msgstr ""
+msgstr "你確定要移除團隊的留言板嗎？所有的主題和文章將永久刪除。 （當然，你之後還可以重新建立一個新的留言板。）"
 
 #: ../user/team_forum.php:100
 msgid "Yes - remove message board"
-msgstr ""
+msgstr "是的 - 移除留言板"
 
 #: ../user/team_forum.php:121
 msgid "Message board removed"
-msgstr ""
+msgstr "留言版已移除"
 
 #: ../user/team_forum.php:124
 msgid ""
 "Your team's message board has been removed. You may now %1create a new one%2."
-msgstr ""
+msgstr "你的團隊留言板已移除，你現在可以%1建立一個新的留言板%2。"
 
 #: ../user/team_forum.php:143
 msgid "Team Message Board Updated"
-msgstr ""
+msgstr "團隊留言版已更新"
 
 #: ../user/team_forum.php:144
 msgid "Update successful"
-msgstr ""
+msgstr "更新成功"
 
 #: ../user/team_forum.php:147
 msgid "Update failed"
-msgstr ""
+msgstr "更新失敗"
 
 #: ../user/team_forum.php:154
 msgid "Team has no forum"
-msgstr ""
+msgstr "團隊沒有論壇"
 
 #: ../user/team_founder_transfer_action.php:36
 msgid "You must be a member of a team to access this page."
-msgstr ""
+msgstr "只有團隊的成員可以訪問該頁面。"
 
 #: ../user/team_founder_transfer_action.php:90
 msgid "Requesting foundership of %1"
-msgstr ""
+msgstr "正在請求%1 的創始人資格"
 
 #: ../user/team_founder_transfer_action.php:98
 msgid ""
@@ -5742,74 +5845,76 @@ msgid ""
 "                       If the founder does not respond within 60 days you "
 "will be allowed to become the founder."
 msgstr ""
+"你的請求已經通過電子郵件和私人消息通知到了當前的創始人。 <br /><br />\n"
+"如果該創始人在60 天沒有回應，你就可以成為創始人了。"
 
 #: ../user/team_founder_transfer_action.php:102
 #: ../user/team_founder_transfer_action.php:113
 msgid "Foundership request not allowed now"
-msgstr ""
+msgstr "現在不允許請求創始人資格"
 
 #: ../user/team_founder_transfer_action.php:109
 msgid "Assumed foundership of %1"
-msgstr ""
+msgstr "得到 %1 的創始人資格"
 
 #: ../user/team_founder_transfer_action.php:111
 msgid ""
 "Congratulations, you are now the founder of team %1. Go to %2Your Account "
 "page%3 to find the Team Admin options."
-msgstr ""
+msgstr "恭喜，你已經是 %1 的創始人了！請在%2你的帳戶頁面%3使用團隊管理功能。"
 
 #: ../user/team_founder_transfer_action.php:120
 msgid "Decline founder change request"
-msgstr ""
+msgstr "拒絕創始人更改請求"
 
 #: ../user/team_founder_transfer_action.php:127
 msgid "The foundership request from %1 has been declined."
-msgstr ""
+msgstr "來自 %1 的創始人請求已經被拒絕。"
 
 #: ../user/team_founder_transfer_action.php:130
 msgid "There were no foundership requests."
-msgstr ""
+msgstr "目前沒有創始人請求。"
 
 #: ../user/team_founder_transfer_action.php:134
 msgid "undefined action %1"
-msgstr ""
+msgstr "未定義行為 %1"
 
 #: ../user/team_founder_transfer_action.php:137
 #: ../user/team_founder_transfer_form.php:83
 msgid "Return to team page"
-msgstr ""
+msgstr "返回團隊頁面"
 
 #: ../user/team_founder_transfer_form.php:28
 msgid "You need to be a member of a team to access this page."
-msgstr ""
+msgstr "只有團隊的成員可以訪問該頁面。"
 
 #: ../user/team_founder_transfer_form.php:31
 msgid "Request foundership of %1"
-msgstr ""
+msgstr "請求 %1 的創始人資格"
 
 #: ../user/team_founder_transfer_form.php:38
 msgid "You are now founder of team %1."
-msgstr ""
+msgstr "你已經是%1 的創始人。"
 
 #: ../user/team_founder_transfer_form.php:44
 msgid "You requested the foundership of %1 on %2."
-msgstr ""
+msgstr "你已經請求了%1 的創始人資格（時間：%2）。"
 
 #: ../user/team_founder_transfer_form.php:47
 msgid ""
 "60 days have elapsed since your request, and the founder has not responded. "
 "You may now assume foundership by clicking here:"
-msgstr ""
+msgstr "原創始人在60 天內都沒有回應你的請求，你現在可以點擊這裡來得到創始人資格："
 
 #: ../user/team_founder_transfer_form.php:50
 msgid "Assume foundership"
-msgstr ""
+msgstr "得到創始人資格"
 
 #: ../user/team_founder_transfer_form.php:54
 msgid ""
 "The founder was notified of your request. If he/she does not respond by %1 "
 "you will be given an option to become founder."
-msgstr ""
+msgstr "你的請求已經通知到了創始人，如果他/她到 %1 都沒有回應的話，你將可以選擇成為新的創始人。"
 
 #: ../user/team_founder_transfer_form.php:60
 msgid ""
@@ -5820,209 +5925,212 @@ msgid ""
 "will be allowed to become the founder.<br /><br />\n"
 "                       Are you sure you want to request foundership?"
 msgstr ""
+"如果你將得到團隊創始人的資格（因為當前的創建人不活躍等原因），請點擊下面的按鈕。你的請求將通過電子郵件通知到當前的創始人，他/她可以將創始人資格轉移給你"
+"或者拒絕你的請求。如果他/她在60 天內都沒有回應，你就可以得到創始人的資格。 <br /><br />\n"
+"你確定想要請求創始人資格嗎？"
 
 #: ../user/team_founder_transfer_form.php:65
 msgid "Request foundership"
-msgstr ""
+msgstr "請求創始人資格"
 
 #: ../user/team_founder_transfer_form.php:74
 msgid "Founder change has already been requested by %1 on %2."
-msgstr ""
+msgstr "%1 已經在 %2 請求了創始人更改。"
 
 #: ../user/team_founder_transfer_form.php:77
 msgid ""
 "A foundership change was requested during the last 90 days, so new requests "
 "are not allowed. Please try again later."
-msgstr ""
+msgstr "因為過去 90 天已經有過程創始人資格更改請求，目前不允許發起新的請求，請稍後再試。"
 
 #: ../user/team_join.php:32 ../user/team_join_action.php:32
 #: ../user/team_join_form.php:31
 msgid "The team %1 is not joinable."
-msgstr ""
+msgstr "團隊 %1 不允許加入。"
 
 #: ../user/team_join.php:35 ../user/team_join_action.php:35
 msgid "Already a member"
-msgstr ""
+msgstr "已經是團隊成員"
 
 #: ../user/team_join.php:36 ../user/team_join_action.php:36
 msgid "You are already a member of %1."
-msgstr ""
+msgstr "你已經是 %1 的成員了。"
 
 #: ../user/team_join.php:42 ../user/team_join_action.php:43
 msgid "Couldn't join team - please try again later."
-msgstr ""
+msgstr "無法加入團隊 - 請稍後再試。"
 
 #: ../user/team_join_action.php:40
 msgid "Joined %1"
-msgstr ""
+msgstr "已加入 %1"
 
 #: ../user/team_join_action.php:41
 msgid "You have joined %1."
-msgstr ""
+msgstr "你已經加入了 %1。"
 
 #: ../user/team_join_form.php:34
 msgid "Join %1"
-msgstr ""
+msgstr "加入 %1"
 
 #: ../user/team_join_form.php:35
 msgid "Please note:"
-msgstr ""
+msgstr "請注意："
 
 #: ../user/team_join_form.php:37
 msgid "Joining a team gives its founder access to your email address."
-msgstr ""
+msgstr "加入團隊後，團隊的創始人將可以看到你的電子郵件地址。"
 
 #: ../user/team_join_form.php:38
 msgid "Joining a team does not affect your account's credit."
-msgstr ""
+msgstr "加入團隊對你的帳戶積分沒有影響。"
 
 #: ../user/team_join_form.php:45
 msgid "Join team"
-msgstr ""
+msgstr "加入團隊"
 
 #: ../user/team_lookup.php:84
 msgid "Search Results"
-msgstr ""
+msgstr "搜尋結果"
 
 #: ../user/team_lookup.php:86
 msgid "Search results for '%1'"
-msgstr ""
+msgstr "“%1”的搜尋結果"
 
 #: ../user/team_lookup.php:88
 msgid "You may view these teams' members, statistics, and information."
-msgstr ""
+msgstr "你可以查看這些團隊的成員，統計以及其它資訊。"
 
 #: ../user/team_lookup.php:98
 msgid "More than 100 teams match your search. The first 100 are shown."
-msgstr ""
+msgstr "超過 100 個的團隊符合你的搜尋條件，現在只顯示了前 100 個。"
 
 #: ../user/team_lookup.php:104
 msgid ""
 "End of results. %1 If you cannot find the team you are looking for, you may "
 "%2create a team%3 yourself."
-msgstr ""
+msgstr "上面是所有的搜尋結果。 %1如果沒找到合適的團隊，你也可以自己%2建立一個團隊%3。"
 
 #: ../user/team_manage.php:26
 msgid "Team administration for %1"
-msgstr ""
+msgstr "%1 的團隊管理"
 
 #: ../user/team_manage.php:29
 msgid "Edit team info"
-msgstr ""
+msgstr "編輯團隊資訊"
 
 #: ../user/team_manage.php:30
 msgid "Change team name, URL, description, type, or country"
-msgstr ""
+msgstr "改變團隊名稱，網址，描述，類型或者國家"
 
 #: ../user/team_manage.php:32
 msgid "Member list:"
-msgstr ""
+msgstr "成員列表"
 
 #: ../user/team_manage.php:33 ../user/team_manage.php:37
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: ../user/team_manage.php:34
 msgid "text"
-msgstr ""
+msgstr "文件"
 
 #: ../user/team_manage.php:35
 msgid "View member names and email addresses"
-msgstr ""
+msgstr "查看成員名稱和電子郵件地址"
 
 #: ../user/team_manage.php:36
 msgid "View change history:"
-msgstr ""
+msgstr "查看更改歷史："
 
 #: ../user/team_manage.php:38
 msgid "XML"
-msgstr ""
+msgstr "XML"
 
 #: ../user/team_manage.php:39
 msgid "See when members joined or quit this team"
-msgstr ""
+msgstr "查看成員加入或離開團隊的時間"
 
 #: ../user/team_manage.php:50
 msgid "Respond to foundership request."
-msgstr ""
+msgstr "回應創始人資格請求。"
 
 #: ../user/team_manage.php:50
 msgid "If you don't respond by %1, %2 may assume foundership of this team."
-msgstr ""
+msgstr "如果你到 %1 都不回應，%2 將可以得到這個團隊的創始人資格"
 
 #: ../user/team_manage.php:55
 msgid "Remove inactive or unwanted members from this team"
-msgstr ""
+msgstr "從團隊中移除不活躍或不喜歡的成員"
 
 #: ../user/team_manage.php:57
 msgid "Transfer foundership to another member"
-msgstr ""
+msgstr "將創始人資格轉移給其他成員"
 
 #: ../user/team_manage.php:58
 msgid "Add/remove Team Admins"
-msgstr ""
+msgstr "增加/移除團隊管理員"
 
 #: ../user/team_manage.php:59
 msgid "Give selected team members Team Admin privileges"
-msgstr ""
+msgstr "將團隊管理員權限授予選中的團隊成員"
 
 #: ../user/team_manage.php:61
 msgid "Remove team"
-msgstr ""
+msgstr "移除團隊"
 
 #: ../user/team_manage.php:62
 msgid "Allowed only if team has no members"
-msgstr ""
+msgstr "只能在團隊沒有成員的時候進行該操作"
 
 #: ../user/team_manage.php:64
 msgid "Create or manage a team message board"
-msgstr ""
+msgstr "建立或管理團隊留言板"
 
 #: ../user/team_manage.php:71
 msgid ""
 "To have this team created on all BOINC projects (current and future) you can "
 "make it into a %1BOINC-wide team%2."
-msgstr ""
+msgstr "如果想在所有的 BOINC 專案（目前在運行的和以後可能會有的）中都建立這個團隊，你可以將它轉變為一個%1BOINC-wide 團隊%2。"
 
 #: ../user/team_manage.php:73
 msgid ""
 "Team admins are encouraged to join and participate in the Google %1boinc-"
 "team-founders%2 group."
-msgstr ""
+msgstr "建議所有團隊管理員都加入和參加到Google 的 %1boinc-team-founders%2 討論組中。"
 
 #: ../user/team_manage.php:75
 msgid ""
 "Other resources for BOINC team admins are available from a third-party site, "
 "%1www.boincteams.com%2."
-msgstr ""
+msgstr "BOINC 團隊管理員還可以從一個第三方網站得到其它相關資源：%1www.boincteams.com%2。"
 
 #: ../user/team_manage.php:91
 msgid "Can't delete non-empty team"
-msgstr ""
+msgstr "不能刪除非空團隊"
 
 #: ../user/team_manage.php:95
 msgid "Team %1 deleted"
-msgstr ""
+msgstr "團隊 %1 已刪除"
 
 #: ../user/team_members.php:35
 msgid "Limit exceeded:  Can only display the first 1000 members."
-msgstr ""
+msgstr "超出限制：只能顯示前 1000 名成員。"
 
 #: ../user/team_members.php:47
 msgid "Members of %1"
-msgstr ""
+msgstr "%1 的成員"
 
 #: ../user/team_quit_action.php:34
 msgid "Unable to quit team"
-msgstr ""
+msgstr "不能退出團隊"
 
 #: ../user/team_quit_action.php:35
 msgid "Team doesn't exist, or you don't belong to it."
-msgstr ""
+msgstr "團隊不存在，或者你屬於該團隊。"
 
 #: ../user/team_quit_form.php:33
 msgid "Quit %1"
-msgstr ""
+msgstr "退出 %1"
 
 #: ../user/team_quit_form.php:34
 msgid ""
@@ -6034,58 +6142,63 @@ msgid ""
 "in any way.\n"
 "         </ul>"
 msgstr ""
+"<strong>退出團隊前請注意：</strong>\n"
+"<ul>\n"
+"<li>如果你退出一個團隊，你還可以重新加入，或者也可以加入其它團隊。 \n"
+"<li>退出團隊無論如何都不會影響你的個人積分。 \n"
+"</ul>"
 
 #: ../user/team_quit_form.php:42
 msgid "Quit Team"
-msgstr ""
+msgstr "退出團隊"
 
 #: ../user/team_remove_inactive_action.php:31
 msgid "Removing users from %1"
-msgstr ""
+msgstr "從 %1 中移除用戶"
 
 #: ../user/team_remove_inactive_action.php:39
 msgid "%1 is not a member of %2"
-msgstr ""
+msgstr "%1 不是 %2 的成員"
 
 #: ../user/team_remove_inactive_action.php:42
 msgid "%1 has been removed"
-msgstr ""
+msgstr "%1 已被移除"
 
 #: ../user/team_remove_inactive_form.php:32
 msgid "Remove members from %1"
-msgstr ""
+msgstr "從 %1 移除成員"
 
 #: ../user/team_remove_inactive_form.php:39
 msgid "Remove?"
-msgstr ""
+msgstr "移除?"
 
 #: ../user/team_remove_inactive_form.php:40
 msgid "Name (ID)"
-msgstr ""
+msgstr "名稱（ID）"
 
 #: ../user/team_remove_inactive_form.php:65
 msgid "No members are eligible for removal."
-msgstr ""
+msgstr "沒有任何成員符合移除的條件。"
 
 #: ../user/team_remove_inactive_form.php:68
 msgid "Remove users"
-msgstr ""
+msgstr "移除用戶"
 
 #: ../user/team_search.php:68
 msgid "Team name"
-msgstr ""
+msgstr "團隊名稱"
 
 #: ../user/team_search.php:92
 msgid "Team search results"
-msgstr ""
+msgstr "團隊搜尋結果"
 
 #: ../user/team_search.php:94
 msgid "No teams were found matching your criteria. Try another search."
-msgstr ""
+msgstr "沒有任何團隊符合你的查詢條件，請試試其它查詢條件。"
 
 #: ../user/team_search.php:96
 msgid "Or you can %1create a new team%2."
-msgstr ""
+msgstr "或者你也可以%1建立一個新團隊%2。"
 
 #: ../user/team_search.php:100
 msgid ""
@@ -6093,205 +6206,208 @@ msgid ""
 "            To join a team, click its name to go to the team page,\n"
 "               then click %1Join this team%2."
 msgstr ""
+"下面的團隊符合一個或多個你的查詢條件。 \n"
+"要加入一個團隊，點擊名稱後即可進入團隊頁面，\n"
+"然後點擊%1加入該團隊%2即可。"
 
 #: ../user/team_search.php:107
 msgid "Change your search"
-msgstr ""
+msgstr "修改你的搜尋條件"
 
 #: ../user/team_search.php:180
 msgid ""
 "You can team up with other people with similar interests, or from the same "
 "country, company, or school."
-msgstr ""
+msgstr "你可以和其他有相同興趣，或來自同一個國家地區、公司以及學校的用戶組成一個團隊。"
 
 #: ../user/team_search.php:182
 msgid "Use this form to find teams that might be right for you."
-msgstr ""
+msgstr "使用該表單來尋找可能適合你的團隊。"
 
 #: ../user/team_search.php:187
 msgid "%1I'm not interested%2 in joining a team right now."
-msgstr ""
+msgstr "我現在對加入團隊%1沒興趣%2。"
 
 #: ../user/top_hosts.php:67 ../user/top_teams.php:100
 #: ../user/top_users.php:112
 msgid "Limit exceeded - Sorry, first %1 items only"
-msgstr ""
+msgstr "超出限制 - 對不起，僅顯示前 %1 個項目"
 
 #: ../user/top_hosts.php:82
 msgid "Top hosts"
-msgstr ""
+msgstr "主機排名"
 
 #: ../user/top_teams.php:105
 msgid "Top %1 teams"
-msgstr ""
+msgstr "團隊排名"
 
 #: ../user/top_teams.php:108
 msgid "There are no %1 teams"
-msgstr ""
+msgstr "沒有 %1 團隊"
 
 #: ../user/top_users.php:64
 msgid "Participant since"
-msgstr ""
+msgstr "參加時間"
 
 #: ../user/uotd.php:29
 msgid "No user of the day has been chosen."
-msgstr ""
+msgstr "還未選擇每日用戶。"
 
 #: ../user/uotd.php:33
 msgid "User of the Day for %1: %2"
-msgstr ""
+msgstr "%1 的每日用戶：%2"
 
 #: ../user/user_search.php:103 ../user/user_search.php:152
 msgid "User search results"
-msgstr ""
+msgstr "用戶搜尋結果"
 
 #: ../user/user_search.php:105 ../user/user_search.php:163
 msgid "Joined"
-msgstr ""
+msgstr "已加入"
 
 #: ../user/user_search.php:117
 msgid "Search type"
-msgstr ""
+msgstr "搜尋類型"
 
 #: ../user/user_search.php:118
 msgid "User name starts with"
-msgstr ""
+msgstr "用戶名稱以什麼開頭"
 
 #: ../user/user_search.php:119
 msgid "Decreasing sign-up time"
-msgstr ""
+msgstr "按註冊時間降序"
 
 #: ../user/user_search.php:120
 msgid "Decreasing average credit"
-msgstr ""
+msgstr "按近期平均積分降序"
 
 #: ../user/user_search.php:121
 msgid "Decreasing total credit"
-msgstr ""
+msgstr "按總積分降序"
 
 #: ../user/user_search.php:122
 msgid "Filters"
-msgstr ""
+msgstr "過濾器"
 
 #: ../user/user_search.php:123
 msgid "Any"
-msgstr ""
+msgstr "任何"
 
 #: ../user/user_search.php:126
 msgid "With profile?"
-msgstr ""
+msgstr "擁有用戶檔案?"
 
 #: ../user/user_search.php:127 ../user/user_search.php:132
 msgid "Either"
-msgstr ""
+msgstr "任選其一"
 
 #: ../user/user_search.php:131
 msgid "On a team?"
-msgstr ""
+msgstr "已加入團隊?"
 
 #: ../user/user_search.php:150
 msgid "search string must be at least 3 characters"
-msgstr ""
+msgstr "搜尋字串至少應包含三個字符"
 
 #: ../user/user_search.php:161
 msgid "User names starting with"
-msgstr ""
+msgstr "用戶名稱以什麼開頭"
 
 #: ../user/user_search.php:171
 msgid "No users match your search criteria."
-msgstr ""
+msgstr "沒有任何用戶符合你的搜尋條件。"
 
 #: ../user/userw.php:45
 msgid "User not found!"
-msgstr ""
+msgstr "未找到用戶！"
 
 #: ../user/userw.php:51
 msgid "Account Data<br/>for %1<br/>Time:"
-msgstr ""
+msgstr "帳號資料<br/>關於 %1<br/>時間："
 
 #: ../user/userw.php:54
 msgid "Team:"
-msgstr ""
+msgstr "團隊："
 
 #: ../user/userw.php:55
 msgid "Team TotCred:"
-msgstr ""
+msgstr "團隊總積分："
 
 #: ../user/userw.php:56
 msgid "Team AvgCred:"
-msgstr ""
+msgstr "團隊平均積分："
 
 #: ../user/userw.php:58
 msgid "Team: None"
-msgstr ""
+msgstr "團隊：無"
 
 #: ../user/validate_email_addr.php:30
 msgid "Validate BOINC email address"
-msgstr ""
+msgstr "驗證 BOINC 電子郵件地址"
 
 #: ../user/validate_email_addr.php:31
 msgid ""
 "Please visit the following link to validate the email address of your %1 "
 "account:"
-msgstr ""
+msgstr "請訪問下面的連結以驗證你在 %1 的帳號所連結的電子郵件地址："
 
 #: ../user/validate_email_addr.php:34
 msgid "Validate email sent"
-msgstr ""
+msgstr "驗證郵件已發送"
 
 #: ../user/validate_email_addr.php:35
 msgid ""
 "An email has been sent to %1. Visit the link it contains to validate your "
 "email address."
-msgstr ""
+msgstr "一封電子郵件已經發送到了 %1，請訪問其中包含的超連結以驗證你的電子郵件地址。"
 
 #: ../user/validate_email_addr.php:44
 msgid "No such user."
-msgstr ""
+msgstr "沒有符合的用戶。"
 
 #: ../user/validate_email_addr.php:49
 msgid "Error in URL data - can't validate email address"
-msgstr ""
+msgstr "網址資料錯誤 - 無法驗證電子郵件地址"
 
 #: ../user/validate_email_addr.php:54
 msgid "Database update failed - please try again later."
-msgstr ""
+msgstr "資料庫更新失敗 - 請稍後重試。"
 
 #: ../user/validate_email_addr.php:57
 msgid "Validate email address"
-msgstr ""
+msgstr "驗證電子郵件地址"
 
 #: ../user/validate_email_addr.php:58
 msgid "The email address of your account has been validated."
-msgstr ""
+msgstr "您的帳號所連結的電子郵件地址已通過驗證。"
 
 #: ../user/view_profile.php:29
 msgid "This user has no profile"
-msgstr ""
+msgstr "此用戶未建立檔案"
 
 #: ../user/view_profile.php:46
 msgid "Profile: %1"
-msgstr ""
+msgstr "用戶檔案：%1"
 
 #: ../user/view_profile.php:55
 msgid "Account data"
-msgstr ""
+msgstr "帳號資料"
 
 #: ../user/weak_auth.php:50
 msgid ""
 "Your 'weak account key' lets you link a computer to your account without "
 "giving it the ability to log in to your account or to change it in any way."
-msgstr ""
+msgstr " ‘ 弱帳戶密鑰 ’ 僅用於在客戶端加入專案，而不能用來登入並修改您在專案網站上的帳號。"
 
 #: ../user/weak_auth.php:52
 msgid ""
 "This mechanism works only with projects that have upgraded their server "
 "software 7 Dec 2007 or later."
-msgstr ""
+msgstr "此機制只對於那些已更新至2007年12月7日版本服務端軟體的專案才有效。"
 
 #: ../user/weak_auth.php:54
 msgid "Your weak account key for this project is:"
-msgstr ""
+msgstr "您的本專案弱帳號密鑰為："
 
 #: ../user/weak_auth.php:57
 msgid ""
@@ -6299,83 +6415,85 @@ msgid ""
 "file' for this project. This file has a name of the form "
 "<b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
 msgstr ""
+"要在指定的主機上使用您的弱帳戶密鑰，得先找到或建立相應專案的‘帳號文件’，此文件的名稱類似於<b>account_專案網址.xml</b>。 %1 "
+"的帳號文件為 <b>%2</b>。"
 
 #: ../user/weak_auth.php:59
 msgid "Create this file if needed. Set its contents to:"
-msgstr ""
+msgstr "根據需要建立此文件，並將其內容設置為："
 
 #: ../user/weak_auth.php:68
 msgid ""
 "Your weak account key is a function of your password. If you change your "
 "password, your weak account key changes, and your previous weak account key "
 "becomes invalid."
-msgstr ""
+msgstr "弱帳戶密鑰是根據您的密碼計算而來。如果您修改了您的密碼，弱帳戶密鑰也隨之改變，您之前的弱帳戶密鑰將失效。"
 
 #: ../user/workunit.php:32
 msgid "can't find workunit"
-msgstr ""
+msgstr "找不到任務單元"
 
 #: ../user/workunit.php:35
 msgid "Workunit %1"
-msgstr ""
+msgstr "任務單元 %1"
 
 #: ../user/workunit.php:43
 msgid "canonical result"
-msgstr ""
+msgstr "規範結果"
 
 #: ../user/workunit.php:46
 msgid "granted credit"
-msgstr ""
+msgstr "授予積分"
 
 #: ../user/workunit.php:55
 msgid "suppressed pending completion"
-msgstr ""
+msgstr "無法查看等待完成的情況"
 
 #: ../user/workunit.php:58
 msgid "minimum quorum"
-msgstr ""
+msgstr "最低驗證集"
 
 #: ../user/workunit.php:59
 msgid "initial replication"
-msgstr ""
+msgstr "初始任務拷貝"
 
 #: ../user/workunit.php:60
 msgid "max # of error/total/success tasks"
-msgstr ""
+msgstr "最高允許的錯誤/總合/成功任務拷貝數量"
 
 #: ../user/workunit.php:64
 msgid "errors"
-msgstr ""
+msgstr "錯誤"
 
 #: ../user/workunit.php:67
 msgid "validation"
-msgstr ""
+msgstr "驗證"
 
 #: ../project.sample/project.inc:46
 msgid "Main page"
-msgstr ""
+msgstr "主頁"
 
 #: ../project.sample/project.inc:48
 msgid "Copyright"
-msgstr ""
+msgstr "版權所有"
 
 #: ../project.sample/project.inc:51
 msgid "Generated"
-msgstr ""
+msgstr "生成時間"
 
 #: ../project.sample/project.inc:82
 msgid "Your personal background."
-msgstr ""
+msgstr "您的個人背景。"
 
 #: ../project.sample/project.inc:86
 msgid ""
 "Tell us about yourself. You could tell us where you're from, your age, "
 "occupation, hobbies, or anything else about yourself."
-msgstr ""
+msgstr "簡單介紹一下您自己，比如從哪裡來，年齡，職業，興趣愛好，或者其它任何事情。"
 
 #: ../project.sample/project.inc:90
 msgid "Your opinions about %1"
-msgstr ""
+msgstr "您對 %1 的看法"
 
 #: ../project.sample/project.inc:94
 msgid ""
@@ -6385,25 +6503,30 @@ msgid ""
 "    <li>Any suggestions?\n"
 "    </ol>"
 msgstr ""
+"告訴我們您對 %1 的看法<ol>\n"
+"<li>您為什麼運行 %1？ \n"
+"<li>您對這個專案的觀點是什麼？ \n"
+"<li>有什麼建議嗎？ \n"
+"</ol>"
 
 #: ../project.sample/project_specific_prefs.inc:47
 msgid "Color scheme for graphics"
-msgstr ""
+msgstr "圖形的色彩方案"
 
 #: ../project.sample/project_specific_prefs.inc:48
 msgid "Maximum CPU % for graphics%10 ... 100%2"
-msgstr ""
+msgstr "顯示圖像時最多可以使用的CPU 資源%10 ... 100%2"
 
 #: ../project.sample/project_specific_prefs.inc:49
 msgid "Run only the selected applications"
-msgstr ""
+msgstr "僅運行選中的應用程式"
 
 #: ../project.sample/project_specific_prefs.inc:50
 msgid ""
 "If no work for selected applications is available, accept work from other "
 "applications?"
-msgstr ""
+msgstr "如果選中的應用程式暫時沒有運算任務，是否從其它應用程式接收任務？"
 
 #: ../project.sample/project_specific_prefs.inc:81
 msgid "(all applications)"
-msgstr ""
+msgstr "(所有應用程式)"

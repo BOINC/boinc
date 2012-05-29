@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2012-03-11 00:16+0200\n"
+"PO-Revision-Date: 2012-05-04 00:45+0200\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -28,7 +28,6 @@ msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Catalan"
 
 #: ../inc/bbcode_html.inc:11
-#, fuzzy
 msgid "Bold text: [b]text[/b]  (alt+b)"
 msgstr "Text en negreta: [b]text[/b]  (alt+b)"
 
@@ -287,7 +286,7 @@ msgid ""
 "%1here%2 to view this post"
 msgstr ""
 "Aquest missatge no es mostra perquè el remitent es troba a la seva llista "
-"\"ignorar\".  Feu clic a %1aqui%2 per veure aquest missatge"
+"'ignorar'.  Feu clic a %1aqui%2 per veure aquest missatge"
 
 #: ../inc/forum.inc:622 ../inc/forum.inc:633
 msgid "Report this post as offensive"
@@ -5167,7 +5166,6 @@ msgid "Go ahead and do this"
 msgstr "Seguir endavant i fer això"
 
 #: ../user/merge_by_name.php:85
-#, fuzzy
 msgid "Return to the list of computers"
 msgstr "Tornar a la llista dels equips"
 
@@ -5265,7 +5263,7 @@ msgstr ""
 
 #: ../user/pending.php:66
 msgid "Result ID"
-msgstr ""
+msgstr "Resultat ID"
 
 #: ../user/pending.php:66
 msgid "Workunit ID"
@@ -5285,12 +5283,11 @@ msgstr "Crèdit pendent: %1"
 
 #: ../user/pm.php:32
 msgid "Block messages from this user"
-msgstr ""
+msgstr "Bloquejar els missatges d'aquest usuari"
 
 #: ../user/pm.php:32
-#, fuzzy
 msgid "Block user"
-msgstr "No existeix l'usuari"
+msgstr "Bloqueja aquest usuari"
 
 #: ../user/pm.php:73
 msgid "Your message has been sent."
@@ -5309,17 +5306,16 @@ msgid "Reply to this message"
 msgstr "Respondre a aquest missatge"
 
 #: ../user/pm.php:107
-#, fuzzy
 msgid "Delete this message"
-msgstr "Esborrar el missatges seleccionats"
+msgstr "Esborrar aquest missatge"
 
 #: ../user/pm.php:112
 msgid "Select all"
-msgstr ""
+msgstr "Selecciona-ho tot"
 
 #: ../user/pm.php:114
 msgid "Unselect all"
-msgstr ""
+msgstr "Deseleccionar tots"
 
 #: ../user/pm.php:117
 msgid "Delete selected messages"
@@ -5413,9 +5409,8 @@ msgid "To unblock, visit %1message board preferences%2"
 msgstr "Per desbloquejar, visiti les %1preferències del panell de missatges%2"
 
 #: ../user/pm.php:302
-#, fuzzy
 msgid "Unknown action"
-msgstr "Acció de suscripció desconeguda"
+msgstr "Acció desconeguda"
 
 #: ../user/prefs.php:36
 msgid ""

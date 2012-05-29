@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: 1.05\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-05 10:58-0500\n"
-"PO-Revision-Date: 2012-02-24 19:31+0200\n"
+"PO-Revision-Date: 2012-03-16 13:19+0200\n"
 "Last-Translator: Miguel Filipe Paulino de Sousa <Miguel.veig@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pt_PT\n"
@@ -1721,7 +1721,7 @@ msgstr "Não mostrar esta caixa de diálogo outra vez."
 #: clientgui/DlgItemProperties.cpp:177
 #: clientgui/DlgItemProperties.cpp:180
 msgid "Don't fetch tasks for "
-msgstr ""
+msgstr "Não obter tarefas por"
 
 #: clientgui/DlgItemProperties.cpp:171
 msgid "Project preference"
@@ -1733,19 +1733,21 @@ msgstr "Preferência do gestor de conta"
 
 #: clientgui/DlgItemProperties.cpp:177
 msgid "Project has no apps for "
-msgstr ""
+msgstr "O projecto não tem aplicações por"
 
 #: clientgui/DlgItemProperties.cpp:180
 msgid "Client configuration excludes "
-msgstr ""
+msgstr "Configuração de cliente exclui"
 
+# 88%
 #: clientgui/DlgItemProperties.cpp:184
 msgid " work fetch deferred for"
-msgstr ""
+msgstr " obtenção de trabalho por"
 
+# 90%
 #: clientgui/DlgItemProperties.cpp:185
 msgid " work fetch deferral interval"
-msgstr ""
+msgstr " intervalo de obtenção de trabalho "
 
 #: clientgui/DlgItemProperties.cpp:216
 msgid "Properties of project "
@@ -1866,15 +1868,15 @@ msgstr "Prioridade de agendamento "
 
 #: clientgui/DlgItemProperties.cpp:281
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 #: clientgui/DlgItemProperties.cpp:283
 msgid "NVIDIA GPU"
-msgstr ""
+msgstr "GPU NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:286
 msgid "ATI GPU"
-msgstr ""
+msgstr "GPU ATI"
 
 #: clientgui/DlgItemProperties.cpp:288
 msgid "Duration correction factor"
@@ -2459,9 +2461,10 @@ msgstr "Aguardando a execução"
 msgid "Ready to start"
 msgstr "Pronto para começar"
 
+# 88%
 #: clientgui/MainDocument.cpp:2479
 msgid " (Scheduler wait: "
-msgstr ""
+msgstr " (Agendador em espera:"
 
 #: clientgui/MainDocument.cpp:2483
 msgid " (Scheduler wait)"
@@ -3389,7 +3392,7 @@ msgstr "Decorrido: %s"
 #: clientgui/sg_TaskPanel.cpp:839
 #, c-format
 msgid "Remaining (estimated): %s"
-msgstr ""
+msgstr "Restante (estimado): %s"
 
 #: clientgui/sg_TaskPanel.cpp:854
 #, c-format
@@ -4020,7 +4023,7 @@ msgstr "Decorrido"
 
 #: clientgui/ViewWork.cpp:235
 msgid "Remaining (estimated)"
-msgstr ""
+msgstr "Restante (estimado)"
 
 #: clientgui/ViewWork.cpp:236
 msgid "Deadline"

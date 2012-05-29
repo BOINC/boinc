@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC-Client\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-09 09:39-0800\n"
-"PO-Revision-Date: 2011-02-02 19:37+0200\n"
+"PO-Revision-Date: 2012-04-26 03:46+0200\n"
 "Last-Translator: Ido <dj_legolas1@hotmail.com>\n"
 "Language-Team: IOPanel.net\n"
 "Language: he\n"
@@ -18,9 +18,8 @@ msgstr ""
 "X-Generator: Pootle 2.1.6\n"
 
 #: acct_mgr.cpp:435 acct_mgr.cpp:444
-#, fuzzy
 msgid "Message from account manager"
-msgstr "הודעה מהשרת"
+msgstr "הודעה ממנהל החשבונות"
 
 #: client_msgs.cpp:79
 msgid "Message from server"
@@ -78,9 +77,8 @@ msgid "Missing start tag in cc_config.xml"
 msgstr "תג התחלה חסר  ב-cc_config.xml"
 
 #: log_flags.cpp:443
-#, fuzzy
 msgid "Error in cc_config.xml options"
-msgstr "תג לא מוכר ב-cc_config.xml"
+msgstr "שגיאה באפשרויות cc_config.xml"
 
 #: log_flags.cpp:461
 msgid "Missing end tag in cc_config.xml"
@@ -148,10 +146,8 @@ msgid "An ATI GPU is required to run tasks for this project"
 msgstr "נדרש מעבד גרפי של  ATI להרצת משימות מפרוייקט זה"
 
 #: ../sched/sched_send.cpp:1523
-#, fuzzy
 msgid "No tasks are available for the applications you have selected."
-msgstr ""
-"אין עבודה זמינה ליישומים שבחרת. אנא בדוק את העדפות הפרוייקט באתר האינטרנט."
+msgstr "אין משימות זמינות ליישומים שבחרת."
 
 #: ../sched/sched_send.cpp:1549
 msgid "Your computer type is not supported by this project"

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-05 10:58-0500\n"
-"PO-Revision-Date: 2012-03-20 16:21+0200\n"
+"PO-Revision-Date: 2012-04-25 11:09+0200\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -1721,9 +1721,8 @@ msgstr "Ne mutassa újra ezt a párbeszédablakot."
 #: clientgui/DlgItemProperties.cpp:174
 #: clientgui/DlgItemProperties.cpp:177
 #: clientgui/DlgItemProperties.cpp:180
-#, fuzzy
 msgid "Don't fetch tasks for "
-msgstr "Ne töltsön le feladatokat"
+msgstr "Ne töltsön le feladatokat ehhez:"
 
 #: clientgui/DlgItemProperties.cpp:171
 msgid "Project preference"
@@ -1732,7 +1731,7 @@ msgstr "Projektbeállítások"
 #: clientgui/DlgItemProperties.cpp:174
 #, fuzzy
 msgid "Account manager preference"
-msgstr "Fiókkezelő beállítás"
+msgstr "Fiókkezelő beállítása"
 
 #: clientgui/DlgItemProperties.cpp:177
 #, fuzzy
