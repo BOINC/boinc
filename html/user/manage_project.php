@@ -53,7 +53,7 @@ function user_row($u) {
 function handle_list() {
     page_head("Project-wide management functions");
     echo "<h3>User permissions and quotas</h3>
-        The following users are allowed to remotely submit jobs.
+        The following users are allowed to submit jobs.
         <p>
     ";
     show_button("manage_project.php?action=add_form",

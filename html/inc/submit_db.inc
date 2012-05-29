@@ -87,6 +87,10 @@ class BoincUserSubmitApp {
         $db = BoincDb::get();
         $db->delete_aux('user_submit_app', "user_id=$user_id");
     }
+    function update($clause) {
+        $db = BoincDb::get();
+        $db->update_aux('user_submit_app', "$clause where user_id=$this->user_id and app_id=$this->app_id");
+    }
 }
 
 ?>

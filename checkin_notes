@@ -4087,3 +4087,12 @@ David  28 May 2012
 
     html/user/
         submit.php
+
+David  28 May 2012
+    - fix tools/manage_privileges script
+
+    html/
+        inc/
+            submit_db.inc
+        user/
+            manage_project.inc
