@@ -4079,3 +4079,11 @@ David  26 May 2012
 
     html/user/
         am_set_info.php
+
+David  28 May 2012
+    - user web: job submission home page has
+        1) links to job submission pages for relevant apps
+        2) links to Admin pages for relevant apps
+
+    html/user/
+        submit.php

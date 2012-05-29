@@ -27,16 +27,9 @@ error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 
-// the job submission "home page":
-// show the user's in-progress and completed batches,
-// and a button for creating a new batch
+// show a set of batches
 //
-function handle_main($user) {
-    page_head("Job submission and control");
-
-    $first = true;
-    $batches = BoincBatch::enum("user_id = $user->id order by id desc");
-
+function show_batches($batches) {
     foreach ($batches as $batch) {
         if ($batch->state < BATCH_STATE_COMPLETE) {
             $wus = BoincWorkunit::enum("batch = $batch->id");
@@ -48,20 +41,24 @@ function handle_main($user) {
         } else {
             $batch->app_name = "unknown";
         }
+        $user = BoincUser::lookup_id($batch->user_id);
+        $batch->user_name = $user->name;
     }
 
+    $first = true;
     foreach ($batches as $batch) {
         if ($batch->state != BATCH_STATE_IN_PROGRESS) continue;
         if ($first) {
             $first = false;
             echo "<h2>Batches in progress</h2>\n";
             start_table();
-            table_header("name", "ID", "app", "# jobs", "progress", "submitted");
+            table_header("name", "ID", "user", "app", "# jobs", "progress", "submitted");
         }
         $pct_done = (int)($batch->fraction_done*100);
         table_row(
             "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->name</a>",
             "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->id</a>",
+            $batch->user_name,
             $batch->app_name,
             $batch->njobs,
             "$pct_done%",
@@ -69,7 +66,7 @@ function handle_main($user) {
         );
     }
     if ($first) {
-        echo "<p>You have no in-progress batches.\n";
+        echo "<p>No in-progress batches.\n";
     } else {
         end_table();
     }
@@ -81,18 +78,19 @@ function handle_main($user) {
             $first = false;
             echo "<h2>Completed batches</h2>\n";
             start_table();
-            table_header("name", "ID", "app", "# jobs", "submitted");
+            table_header("name", "ID", "user", "app", "# jobs", "submitted");
         }
         table_row(
             "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->name</a>",
             "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->id</a>",
+            $batch->user_name,
             $batch->app_name,
             $batch->njobs,
             local_time_str($batch->create_time)
         );
     }
     if ($first) {
-        echo "<p>You have no completed batches.\n";
+        echo "<p>No completed batches.\n";
     } else {
         end_table();
     }
@@ -104,11 +102,12 @@ function handle_main($user) {
             $first = false;
             echo "<h2>Aborted batches</h2>\n";
             start_table();
-            table_header("name", "ID", "app", "# jobs", "submitted");
+            table_header("name", "ID", "user", "app", "# jobs", "submitted");
         }
         table_row(
             "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->name</a>",
             "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->id</a>",
+            $batch->user_name,
             $batch->app_name,
             $batch->njobs,
             local_time_str($batch->create_time)
@@ -117,11 +116,63 @@ function handle_main($user) {
     if (!$first) {
         end_table();
     }
+}
 
-    echo "<p>
-        <a href=sandbox.php><strong> File sandbox </strong></a>
-        | <a href=lammps.php><strong> Job submission </strong></a>
-        | <a href=submit.php><strong> Job control </strong></a>";
+// the job submission "home page":
+// show the user's in-progress and completed batches,
+// and a button for creating a new batch
+//
+function handle_main($user) {
+    global $submit_urls;
+    $user_submit = BoincUserSubmit::lookup_userid($user->id);
+    if (!$user_submit) {
+        error_page("Ask the project admins for permission to submit jobs");
+    }
+
+    page_head("Job submission and control");
+    foreach ($submit_urls as $appname=>$submit_url) {
+        $app = BoincApp::lookup("name='$appname'");
+        if (!$app) error_page("bad submit_url name: $appname");
+        $usa = BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$app->id");
+        if ($usa || $user_submit->manage_all) {
+            echo "<br>$app->user_friendly_name: <a href=$submit_url>Submit jobs</a>";
+            if ($user_submit->manage_all || $usa->manage) {
+                echo " &middot; <a href=submit.php?action=admin&app_id=$app->id>Administer</a>
+                ";
+            }
+        }
+    }
+    if ($user_submit->manage_all) {
+        echo "<br><a href=submit.php?action=admin&app_id=0>Administer all apps</a>
+        ";
+    }
+
+    $batches = BoincBatch::enum("user_id = $user->id order by id desc");
+    show_batches($batches);
+
+    page_tail();
+}
+
+function handle_admin($user) {
+    $app_id = get_int("app_id");
+    $user_submit = BoincUserSubmit::lookup_userid($user->id);
+    if (!$user_submit) error_page("no access");
+    if ($app_id) {
+        if (!$user_submit->manage_all) {
+            $usa = BoincUserSubmitApp::lookup("user_id = $user->id and app_id=$app_id");
+            if (!$usa) error_page("no access");
+        }
+        $app = BoincApp::lookup_id($app_id);
+        if (!$app) error_page("no such app");
+        page_head("Administer $app->user_friendly_name");
+        $batches = BoincBatch::enum("app_id = $app_id order by id desc");
+        show_batches($batches);
+    } else {
+        if (!$user_submit->manage_all) error_page("no access");
+        page_head("Administer all apps");
+        $batches = BoincBatch::enum("true order by id desc");
+        show_batches($batches);
+    }
     page_tail();
 }
 
@@ -169,7 +220,7 @@ function handle_query_batch($user) {
     echo "<h2>Jobs</h2>\n";
     start_table();
     table_header(
-        "Job ID<br><span class=note>click for details or to get output files</span>",
+        "Job ID and name<br><span class=note>click for details or to get output files</span>",
         "status",
         "Canonical instance<br><span class=note>click to see result page on BOINC server</span>"
     );
@@ -185,7 +236,7 @@ function handle_query_batch($user) {
         }
 
         echo "<tr>
-                <td><a href=submit.php?action=query_job&wuid=$wu->id>$wu->id</a></td>
+                <td><a href=submit.php?action=query_job&wuid=$wu->id>$wu->id &middot; $wu->name</a></td>
                 <td>$y</td>
                 <td>$x</td>
             </tr>
@@ -332,6 +383,7 @@ switch ($action) {
 case '': handle_main($user); break;
 case 'abort_batch': handle_abort_batch($user); break;
 case 'abort_batch_confirm': handle_abort_batch_confirm(); break;
+case 'admin': handle_admin($user); break;
 case 'query_batch': handle_query_batch($user); break;
 case 'query_job': handle_query_job($user); break;
 case 'retire_batch': handle_retire_batch($user); break;
