@@ -4110,3 +4110,11 @@ David  28 May 2012
 
     sched/
         feeder.cpp
+
+Rom    30 May 2012
+    - MGR: Wait until there is valid data in the list box before processing
+        the OnProjectSelected() event.
+        
+    clientgui/
+        ProjectInfoPage.cpp
+  
