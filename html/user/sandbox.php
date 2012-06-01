@@ -69,29 +69,27 @@ function list_files($user) {
             list($error, $size, $md5) = sandbox_parse_link_file($path);
             if ($error) {
                 table_row($f, "Can't parse link file", "", "<a href=sandbox.php?action=delete_files&name=$f>delete</a>");
-            } else {
-                $ct = time_str(filemtime($path));
-                table_row(
-                    "<a href=sandbox.php?action=view_file&name=$f>$f</a>",
-                    $ct,
-                    $size,
-                    $md5,
-                    button_text(
-                        "sandbox.php?action=delete_file&name=$f",
-                        "Delete"
-                    )
-                );
+                continue;
             }
+            $p = sandbox_physical_path($user, $md5);
+            if (!is_file($p)) {
+                table_row($f, "Physical file not found", "", "");
+                continue;
+            }
+            $ct = time_str(filemtime($path));
+            table_row(
+                "<a href=sandbox.php?action=view_file&name=$f>$f</a>",
+                $ct,
+                $size,
+                $md5,
+                button_text(
+                    "sandbox.php?action=delete_file&name=$f",
+                    "Delete"
+                )
+            );
         }
         end_table();
     }
-    echo "
-        <p>
-        <a href=sandbox.php><strong> File_Sandbox </strong></a>
-        <a href=lammps.php><strong> Job_Submit </strong></a>
-        <a href=submit.php><strong> Job_Control </strong></a>
-
-    ";
     page_tail();
 }
 

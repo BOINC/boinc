@@ -31,19 +31,19 @@ $debug=0;
 // output: success flag, CPU time per step, est. disk usage per job
 //
 function terminate_job($p) {
-        $pstatus=proc_get_status($p);
-        $ppid=$pstatus['pid'];
-        $ret=`ps -o pid --no-heading --ppid $ppid`;
-        //echo "parent pid is $ppid\nterninate it\n";
-         proc_terminate($p);
-        // echo "child process is $ret\n";
-        $pids=preg_split('/\s+/',$ret);
-        foreach($pids as $pid){
-            if(is_numeric($pid)){
-                if($GLOBALS["debug"])echo "killing child process $pid\n";
-                posix_kill($pid,9);
-            }
+    $pstatus=proc_get_status($p);
+    $ppid=$pstatus['pid'];
+    $ret=`ps -o pid --no-heading --ppid $ppid`;
+    //echo "parent pid is $ppid\nterninate it\n";
+     proc_terminate($p);
+    // echo "child process is $ret\n";
+    $pids=preg_split('/\s+/',$ret);
+    foreach($pids as $pid){
+        if(is_numeric($pid)){
+            if($GLOBALS["debug"])echo "killing child process $pid\n";
+            posix_kill($pid,9);
         }
+    }
 }
 
 function lammps_est() {
@@ -273,8 +273,6 @@ function show_submit_form($user) {
     echo "</form>
         <p>
         <a href=sandbox.php><strong> File sandbox </strong></a>
-        | <a href=lammps.php><strong> Job submit </strong></a>
-        | <a href=submit.php><strong> Job control </strong></a>
     ";
     
     page_tail();
@@ -361,28 +359,32 @@ function prepare_batch($user) {
     symlink($cmdline_file_path, "cmd_variables");
     symlink($pot_files_path, "pot_files");
     list($error, $est_cpu_time, $disk) = lammps_est();
-     if($GLOBALS["debug"])print "est_cpu_time is ".$est_cpu_time."<br>";
+    if ($GLOBALS["debug"]) {
+        print "est_cpu_time is ".$est_cpu_time."<br>";
+    }
     if ($error==0) {
-	$err_msgs=file("output");
-	$err="Your test job <strong>failed</strong><br>Please refer to the following Error Message:<br><p>";
-	foreach($err_msgs as $line){
-	     $err=$err.$line."<br>";
-	}
-    $err=$err." <p>
-                <a href=sandbox.php><strong> File_Sandbox </strong></a>
-                <a href=lammps.php><strong> Job_Submit </strong></a>
-                <a href=submit.php><strong> Job_Control </strong></a>
-                ";
+        $err_msgs=file("output");
+        $err="Your test job <strong>failed</strong>
+            <br>Please refer to the following Error Message:<br><p>
+        ";
+        foreach($err_msgs as $line){
+             $err=$err.$line."<br>";
+        }
+        $err=$err." <p>
+            <a href=sandbox.php><strong> File_Sandbox </strong></a>
+        ";
         error_page($err);
     }
-
 
     system("rm *");
     $info->rsc_fpops_est = $est_cpu_time * 1.5e9;
     $info->rsc_fpops_bound = $info->rsc_fpops_est * 20;
     
-    if($disk==0){$info->rsc_disk_bound=1000000;}
-    else{$info->rsc_disk_bound = $disk;}
+    if ($disk==0){
+        $info->rsc_disk_bound=1000000;
+    } else{
+        $info->rsc_disk_bound = $disk;
+    }
 
     $tmpfile = tempnam("/tmp", "lammps_");
     file_put_contents($tmpfile, serialize($info));

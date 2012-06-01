@@ -130,22 +130,33 @@ function handle_main($user) {
     }
 
     page_head("Job submission and control");
+    echo "<h2>Submit jobs</h2>
+        <ul>
+    ";
+    $x = "";
     foreach ($submit_urls as $appname=>$submit_url) {
         $app = BoincApp::lookup("name='$appname'");
         if (!$app) error_page("bad submit_url name: $appname");
         $usa = BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$app->id");
-        if ($usa || $user_submit->manage_all) {
-            echo "<br>$app->user_friendly_name: <a href=$submit_url>Submit jobs</a>";
-            if ($user_submit->manage_all || $usa->manage) {
-                echo " &middot; <a href=submit.php?action=admin&app_id=$app->id>Administer</a>
-                ";
-            }
+        if ($usa || $user_submit->submit_all) {
+            echo "<li> <a href=$submit_url> $app->user_friendly_name </a>";
+        }
+        if ($usa && $usa->manage) {
+            $x .= "<li> <a href=submit.php?action=admin&app_id=$app->id>$app->user_friendly_name</a>
+            ";
         }
     }
-    if ($user_submit->manage_all) {
-        echo "<br><a href=submit.php?action=admin&app_id=0>Administer all apps</a>
+    echo "</ul>";
+    if ($user_submit->manage_all || $x) {
+        echo "<h2>Administer applications</h2>
+            <ul>
+            $x
         ";
+        if ($user_submit->manage_all) {
+            echo "<li><a href=submit.php?action=admin&app_id=0>All applications</a>";
+        }
     }
+    echo "</ul>";
 
     $batches = BoincBatch::enum("user_id = $user->id order by id desc");
     show_batches($batches);
