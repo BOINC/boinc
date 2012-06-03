@@ -12,7 +12,7 @@ Rom    1 Jan 2012
     - OPS: Update failure_result_summary_by_platform.php to include
         plan class information.
     - OPS: Update error code translation table
-    
+
     html/inc
         result.inc
     html/ops
@@ -40,7 +40,7 @@ Rom    2 Jan 2012
         thinks we have crashed.
     - VBOX: Strip carriage returns from all the vboxmanage output on
         Windows.
-    
+
     samples/vboxwrapper/
         vbox.cpp, .h
         vboxwrapper.cpp
@@ -90,7 +90,7 @@ Rom    2 Jan 2012
         extract the hypervisor system log.
     - VBOX: Report the hypervisor system log with any failed vboxmanage
         command that happens during the phase where we setup the VM.
-    
+
     samples/vboxwrapper/
         vbox.cpp, .h
 
@@ -125,7 +125,7 @@ Rom    3 Jan 2012
 
     client/
         coproc_detect.cpp
-    
+
 Rom    3 Jan 2012
     - VBOX: Per tester feedback, at an hourly status report to track
         network usage.
@@ -140,7 +140,6 @@ Rom    3 Jan 2012
     - VBOX: Change the session lock text to make it clearer that the
         use of other VirtualBox management tools can cause a problem.
 
-    
     samples/vboxwrapper/
         vbox.cpp, .h
         vboxwrapper.cpp
@@ -4117,4 +4116,14 @@ Rom    30 May 2012
         
     clientgui/
         ProjectInfoPage.cpp
-  
+
+David  3 June 2012
+    - scheduler: various fixes to plan_class_spec.cpp; from Bernd
+    - admin web: don't include the project's stylesheet,
+        which may assume a layout not used by admin pages
+
+    sched/
+        plan_class_spec.cpp
+    html/inc/
+        util.inc
+        util_ops.inc

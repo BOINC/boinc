@@ -32,7 +32,6 @@ function admin_page_head($title) {
 
     echo "<html><head><title>$title</title>
         <link rel=stylesheet type=\"text/css\" href=\"".URL_BASE."main.css\" media=\"all\" />
-        <link rel=\"stylesheet\" type=\"text/css\" href=\"$stylesheet\">
         </head>
         <body bgcolor=\"#ffffff\">
         <h2>".PROJECT.": $title</h2>

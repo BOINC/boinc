@@ -50,15 +50,37 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
 
     // CPU features
     //
-    for (unsigned int i=0; i<cpu_features.size(); i++) {
-        if (!strstr(sreq.host.p_features, cpu_features[i].c_str())) {
-            if (config.debug_version_select) {
-                log_messages.printf(MSG_NORMAL,
-                    "[version] CPU lacks feature '%s' (got '%s')\n",
-                    cpu_features[i].c_str(), sreq.host.p_features
-                );
+    // older clients report CPU features in p_model,
+    // within square brackets
+    //
+    // the requested features are surrounded by spaces,
+    // so we can look for them with strstr()
+    //
+    if (!cpu_features.empty()) {
+        char buf[8192], buf2[512];
+        sprintf(buf, " %s ", sreq.host.p_features);
+        char* p = strrchr(sreq.host.p_model, '[');
+        if (p) {
+            sprintf(buf2, " %s", p+1);
+            p = strchr(buf2, ']');
+            if (p) {
+                *p = 0;
             }
-            return false;
+            strcat(buf2, " ");
+            strcat(buf, buf2);
+        }
+        downcase_string(buf);
+
+        for (unsigned int i=0; i<cpu_features.size(); i++) {
+            if (!strstr(sreq.host.p_features, cpu_features[i].c_str())) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] CPU lacks feature '%s' (got '%s')\n",
+                        cpu_features[i].c_str(), sreq.host.p_features
+                    );
+                }
+                return false;
+            }
         }
     }
 
@@ -234,6 +256,30 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         cp.set_peak_flops();
     }
 
+    if (opencl) {
+        // check for OpenCL at all
+        if (!cpp->have_opencl) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] GPU doesn't support OpenCL\n"
+                );
+            }
+            return false;
+        }
+
+        // OpenCL device version
+        //
+        if (min_opencl_version && min_opencl_version > cpp->opencl_prop.opencl_device_version_int) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] OpenCL device version required min: %d, supplied: %d\n",
+                    min_opencl_version, cpp->opencl_prop.opencl_device_version_int
+                );
+            }
+            return false;
+        }
+    }
+
     // general GPU
     //
     if (strlen(gpu_type)) {
@@ -307,35 +353,15 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         } else if (!strcmp(gpu_type, "nvidia")) {
             hu.ncudas = gpu_usage;
         }
-    }
-
-    if (opencl) {
-        // check for OpenCL at all
-        if (!cpp->have_opencl) {
-            if (config.debug_version_select) {
-                log_messages.printf(MSG_NORMAL,
-                    "[version] GPU doesn't support OpenCL\n"
-                );
-            }
-            return false;
-        }
-
-        // OpenCL device version
-        //
-        if (min_opencl_version && min_opencl_version > cpp->opencl_prop.opencl_device_version_int) {
-            if (config.debug_version_select) {
-                log_messages.printf(MSG_NORMAL,
-                    "[version] OpenCL device version required min: %d, supplied: %d\n",
-                    min_opencl_version, cpp->opencl_prop.opencl_device_version_int
-                );
-            }
-            return false;
-        }
     } else { // CPU only
         if (avg_ncpus) {
             hu.avg_ncpus = avg_ncpus;
         } else {
-            hu.avg_ncpus = max_threads;
+            if (max_threads > g_wreq->effective_ncpus) {
+                hu.avg_ncpus = g_wreq->effective_ncpus;
+            } else {
+                hu.avg_ncpus = max_threads;
+            }
         }
 
         hu.peak_flops = capped_host_fpops() * hu.avg_ncpus;
