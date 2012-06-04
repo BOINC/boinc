@@ -1704,6 +1704,7 @@ bool HOST_INFO::users_idle(
 
 #if LINUX_LIKE_SYSTEM
 bool interrupts_idle(time_t t) {
+    // This method doesn't really work reliably on USB keyboards and mice.
     static FILE *ifp = NULL;
     static long irq_count[256];
     static time_t last_irq = time(NULL);
@@ -1779,9 +1780,16 @@ bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
 
 #if LINUX_LIKE_SYSTEM
     // Check /proc/interrupts to detect keyboard or mouse activity.
+    // this ignores USB keyboards/mice.  They don't use the keyboard
+    // and mouse interrupts.
     if (!interrupts_idle(idle_time)) {
         return false;
     }
+
+    // Lets at least check the dev entries which should be correct for
+    // USB mice.  The tty check will catch keyboards if they are entering
+    // data into a tty.
+    if (!device_idle(idle_time, "/dev/input/mice")) return false;
 
 #if HAVE_XSS
     if (!xss_idle((long)(idle_time_to_run * 60))) {
