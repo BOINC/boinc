@@ -137,7 +137,7 @@ function delete_file($user) {
     $name = get_str('name');
     $dir = sandbox_dir($user);
     list($error, $size, $md5) = sandbox_parse_link_file("$dir/$name");
-    unlink("$dir/$name");
+    //unlink("$dir/$name");
     if ($error) {
         error_page("can't parse link file");
     }
@@ -146,7 +146,18 @@ function delete_file($user) {
         error_page("no such physical file");
     }
     //unlink($p);
-    Header("Location: sandbox.php");
+    $bused = sandbox_file_bused($user,$name);
+    if($bused){
+        $notice="<strong>$name</strong> is being used by batch(es), you can not delete it now!<br/>";
+    }
+    else{ 
+        $notice="<strong>$name</strong> is not being used by any batch(es) and successfully deleted from your sandbox<br/>";
+        unlink("$dir/$name");
+        unlink($p);
+    
+    }
+    list_files($user,$notice);
+    //Header("Location: sandbox.php");
 }
 
 function view_file($user) {
