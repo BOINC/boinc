@@ -1274,6 +1274,7 @@ void process_request(char* code_sign_key) {
     if (g_request->have_other_results_list) {
         if (ok_to_send_work
             && (config.resend_lost_results || g_wreq->resend_lost_results)
+            && !g_request->results_truncated
         ) {
             if (resend_lost_work()) {
                 ok_to_send_work = false;

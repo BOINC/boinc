@@ -303,6 +303,10 @@ struct SCHEDULER_REQUEST {
     COPROCS coprocs;
     std::vector<SCHED_DB_RESULT> results;
         // completed results being reported
+    bool results_truncated;
+        // set if (to limit memory usage) we capped this size of "results"
+        // In this case, don't resend lost results
+        // since we don't know what was lost.
     std::vector<RESULT> file_xfer_results;
     std::vector<MSG_FROM_HOST_DESC> msgs_from_host;
     std::vector<FILE_INFO> file_infos;

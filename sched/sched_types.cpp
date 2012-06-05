@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2012 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -205,6 +205,7 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
     client_cap_plan_class = false;
     sandbox = -1;
     allow_multiple_clients = -1;
+    results_truncated = false;
 
     if (xp.get_tag()) {
         return "xp.get_tag() failed";
@@ -330,6 +331,7 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
             }
 #if 0   // enable if you need to limit CGI memory size
             if (results.size() >= 1024) {
+                results_truncated = true;
                 continue;
             }
 #endif

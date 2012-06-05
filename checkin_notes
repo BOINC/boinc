@@ -4127,3 +4127,12 @@ David  3 June 2012
     html/inc/
         util.inc
         util_ops.inc
+
+David  4 June 2012
+    - scheduler: if we truncate the # of results accepted
+        (like we're doing in SETI@home)
+        don't resend lost results since we don't know what they are
+
+    sched/
+        handle_request.cpp
+        sched_types.cpp,h
