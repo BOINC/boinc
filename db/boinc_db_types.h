@@ -584,6 +584,10 @@ struct BATCH {
     char name[256];
         // user-assigned name; need not be unique
     int app_id;
+    int project_state;
+        // project-assigned
+    char description[256];
+        // project-assigned
 };
 
 // values of batch.state
@@ -594,7 +598,7 @@ struct BATCH {
     // "complete" means all workunits have either
     // a canonical result or an error
 #define BATCH_STATE_ABORTED         3
-#define BATCH_STATE_CLEANED_UP      4
+#define BATCH_STATE_RETIRED         4
     // input/output files can be deleted,
     // result and workunit records can be purged.
 

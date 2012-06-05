@@ -4136,3 +4136,22 @@ David  4 June 2012
     sched/
         handle_request.cpp
         sched_types.cpp,h
+
+David  4 June 2012
+    - DB: add project_state and description fields to batch table.
+        Both are for use by project.
+    - job submission file sandbox: don't delete physical file
+        when delete sandbox entry.
+        We'll have to figure out how to garbage-collect physical files.
+    - LAMMPS job submission:
+        use the 50th-percentile host,not 0th
+
+    html/
+        user/
+            sandbox.php
+            lammps.php
+        ops/
+            db_update.php
+    db/
+        schema.sql
+        boinc_db_types.h

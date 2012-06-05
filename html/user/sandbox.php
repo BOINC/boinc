@@ -130,7 +130,7 @@ function delete_file($user) {
     if (!is_file($p)) {
         error_page("no such physical file");
     }
-    unlink($p);
+    //unlink($p);
     Header("Location: sandbox.php");
 }
 

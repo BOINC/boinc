@@ -52,11 +52,11 @@ function lammps_est() {
     $descs = array();
     $pipes = array();
     $options = file("cmd_variables");
-    $options[0]=chop($options[0],"\n");
+    $options[0] = chop($options[0],"\n");
     $cmd = "../lmp_linux ".$options[0]."&>output";
-    if($GLOBALS["debug"]) echo $cmd."<br>";
+    if ($GLOBALS["debug"]) echo $cmd."<br>";
     system("unzip pot_files >/dev/null");
-    $stime=time();
+    $stime = time();
     $p = proc_open("$cmd", $descs, $pipes);
     while (1) {
         $ctime=time();
@@ -66,7 +66,7 @@ function lammps_est() {
            break;
         } 
         if (file_exists("log.1")) {
-            list($avg_cpu,$test_steps) = calc_step_cpu("log.1");
+            list($avg_cpu, $test_steps) = calc_step_cpu("log.1");
             if ($avg_cpu != 0) {
                 if($GLOBALS["debug"])echo "avg_cpu is ".$avg_cpu."<br>";
                 terminate_job($p);
@@ -80,7 +80,7 @@ function lammps_est() {
 
     $total_steps = get_total_steps("cmd_variables");
     $disk_space = calc_est_size(
-        "lammps_script", "structure_file", "cmd_variables",$test_steps
+        "lammps_script", "structure_file", "cmd_variables", $test_steps
     );
     $total_cpu = $total_steps*$avg_cpu;
     return array($test_result, $total_cpu, $disk_space);
@@ -123,12 +123,12 @@ function calc_step_cpu($filename) {
     $start_step = 1;
     $cur_step = 1;
     $avg_cpu = 0;
-    $test_steps=0;
+    $test_steps = 0;
     if (!$fd) {
         echo "fail to open file log.1";
         exit(-1);
     }
-    $count=0;
+    $count = 0;
     while (!feof($fd)) {
         $line = fgets($fd,4096);
         if (preg_match('/^Step\s+CPU/',$line)) {
@@ -148,20 +148,20 @@ function calc_step_cpu($filename) {
         //echo "step=".$step." cpu=".$cpu."\n";
         if ($cpu==0) {
            $count=0;
-           $start_step=$step;
+           $start_step = $step;
         } else {
             $count+=1;
             if($GLOBALS["debug"])echo "step=".$step." cpu=".$cpu."count=".$count."<br>";
            if($count >= 10) {
-                $end_step=$step;
-                $steps=$end_step-$start_step;
-                $avg_cpu=$cpu/$steps;
-                #$avg_cpu=$cpu/$count;
-                if($GLOBALS["debug"]){
+                $end_step = $step;
+                $steps = $end_step-$start_step;
+                $avg_cpu = $cpu/$steps;
+                #$avg_cpu = $cpu/$count;
+                if ($GLOBALS["debug"]){
                     echo "test steps is ".$steps."<br>";
                     echo "avg_cpu is ".$avg_cpu."<br>";
                 }
-                $test_steps=$steps;
+                $test_steps = $steps;
                 break;
             }
         }
@@ -220,16 +220,16 @@ function calc_est_size($lammps_script, $structure_file, $cmd_file,$test_steps){
          print "max looprun(steps for each loop)=".$looprun."<br>";
     }
     //$est_size = $loopno*$structure_file_size*0.8*$dump_types;
-    $test_log_size=filesize("log.1");
-    $log_size1=ceil($looprun/$test_steps)*$test_log_size;
-    $log_size=$loopno*$log_size1;
-    $dump_files=glob("dump1*");
-    $test_dump_file=$dump_files[0];
-    $test_dump_size=filesize($test_dump_file);
-    $dump_size1=$test_dump_size+0.5*$test_dump_size*ceil(($looprun-$test_steps)/$test_steps);
-    $dump_size=$loopno*$dump_size1*$dump_types;
-    $app_fixed_size=5e7;
-    $est_size=$log_size+$dump_size+$app_fixed_size;
+    $test_log_size = filesize("log.1");
+    $log_size1 = ceil($looprun/$test_steps)*$test_log_size;
+    $log_size = $loopno*$log_size1;
+    $dump_files = glob("dump1*");
+    $test_dump_file = $dump_files[0];
+    $test_dump_size = filesize($test_dump_file);
+    $dump_size1 = $test_dump_size+0.5*$test_dump_size*ceil(($looprun-$test_steps)/$test_steps);
+    $dump_size = $loopno*$dump_size1*$dump_types;
+    $app_fixed_size = 5e7;
+    $est_size = $log_size+$dump_size+$app_fixed_size;
     
     if($GLOBALS["debug"]){
         print "test_steps=".$test_steps."<br>";
@@ -314,7 +314,7 @@ function estimated_makespan($njobs, $flops_per_job) {
         $median_flops = 2e9;
     } else {
         $n = $nhosts/2;
-        $hs = BoincHost::enum("expavg_credit>1 order by p_fpops limit 1");
+        $hs = BoincHost::enum("expavg_credit>1 order by p_fpops limit $n,1");
         $h = $hs[0];
         $median_flops = $h->p_fpops;
     }

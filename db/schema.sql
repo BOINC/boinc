@@ -301,7 +301,9 @@ create table batch (
     credit_canonical        double          not null,
     credit_total            double          not null,
     name                    varchar(255)    not null,
-    app_id                  integer         not null
+    app_id                  integer         not null,
+    project_state           integer         not null,
+    description             varchar(255)    not null
 ) engine = InnoDB;
 
 -- permissions for job submission
