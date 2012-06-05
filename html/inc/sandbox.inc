@@ -40,32 +40,31 @@ function sandbox_write_link_file($path, $size, $md5) {
     file_put_contents($path, "sb $size $md5");
 }
 
-// check if a newly update files already exists in sandbox 
-//via its md5 sum
-//code by Wenjing Wu(wuwj@ihep.ac.cn)
+// check if a newly update files already exists in sandbox via its md5 sum
+//
 function sandbox_lf_exist($user,$md5){
-	$exist=0;
-	$elf="";
-	$dir=sandbox_dir($user);
-	$files=sandbox_file_names($user);
-	foreach($files as $file){
-		$path=$dir."/".$file;
-		list($err,$file_size,$file_md5)=sandbox_parse_link_file($path);
-		if(!$err){
-			if(strcmp($md5,$file_md5)==0){
-				//echo "this file with $md5 already exisits with another name $file";
-				$exist=1;
-				$elf=$file;
-				break;
-			}
-		
-		}
-	}
-	return array($exist,$elf);
+    $exist = 0;
+    $elf = "";
+    $dir = sandbox_dir($user);
+    $files = sandbox_file_names($user);
+    foreach ($files as $file){
+        $path = $dir."/".$file;
+        list($err, $file_size, $file_md5) = sandbox_parse_link_file($path);
+        if (!$err){
+            if (strcmp($md5, $file_md5) == 0){
+                //echo "this file with $md5 already exisits with another name $file";
+                $exist = 1;
+                $elf = $file;
+                break;
+            }
+        
+        }
+    }
+    return array($exist, $elf);
 
 }
-// parse a link file and return
-// (error, size, md5)
+
+// parse a link file and return (error, size, md5)
 //
 function sandbox_parse_link_file($path) {
     $x = file_get_contents($path);
@@ -77,17 +76,18 @@ function sandbox_parse_link_file($path) {
 
 $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
 
-//sandbox file name convention
-function sandbox_file_name($user,$md5) {
+// return the physical name of the file
+//
+function sandbox_file_name($user, $md5) {
     $f = "sb_".$user->id."_".$md5;
     return $f;
 }
+
 // return the path of the file in the download directory
 //
 function sandbox_physical_path($user, $md5) {
     global $fanout;
-    //$f = "sb_".$user->id."_".$md5;
-    $f = sandbox_file_name($user,$md5);
+    $f = sandbox_file_name($user, $md5);
     return dir_hier_path($f, "../../download", $fanout);
 }
 
@@ -119,18 +119,18 @@ function sandbox_file_select($user, $select_name) {
 }
 
 //check if a file is still being used by a unfinished batch
-//code by Wenjing Wu(wuwj@ihep.ac.cn)
-function sandbox_file_bused($user,$file){
+//
+function sandbox_file_in_use($user, $file){
     $ufiles = array();
-    $bused=0;
-    //batch status: 2(completed), 3(aborted)
-    //$pbatches = BoincBatch::enum("user_id = $user->id and state != BATCH_STATE_COMPLETE and state != BATCH_STATE_ABORTED");
-    $pbatches = BoincBatch::enum("user_id = $user->id and state != 2 and state != 3");
-    if($pbatches == null) return $bused;
 
-    foreach($pbatches as $batch){
+    // batch status: 2(completed), 3(aborted)
+    // $pbatches = BoincBatch::enum("user_id = $user->id and state != BATCH_STATE_COMPLETE and state != BATCH_STATE_ABORTED");
+    $pbatches = BoincBatch::enum("user_id = $user->id and state != 2 and state != 3");
+    if (!$pbatches) return false;
+
+    foreach ($pbatches as $batch){
         $wus = BoincWorkUnit::enum("batch = $batch->id limit 1" );
-        if($wus == null){
+        if ($wus == null){
             //echo " no workunit for this batch<br/>"; 
             continue;
         }
@@ -140,27 +140,26 @@ function sandbox_file_bused($user,$file){
 
             global $fanout;
             foreach($x->workunit->file_ref as $fr){
-                $pname=(string)$fr->file_name;
+                $pname = (string)$fr->file_name;
                 $ufiles[] = $pname;
             }
         }
     }
     //echo "these files are being used:<br/>";
     //print_r($ufiles);
-    $dir=sandbox_dir($user);
-    $path=$dir."/".$file;
-    list($err,$size,$md5)=sandbox_parse_link_file($path);
-    if(!$err){
-        $f=sandbox_file_name($user,$md5);
+    $dir = sandbox_dir($user);
+    $path = $dir."/".$file;
+    list($err, $size, $md5) = sandbox_parse_link_file($path);
+    if (!$err){
+        $f = sandbox_file_name($user, $md5);
         foreach($ufiles as $uf) {
-            if(strcmp($f,$uf)==0){
-                $bused=1;
-                break;
+            if (strcmp($f,$uf) == 0){
+                return true;
             }
             
         }
     }
-    return $bused;
+    return false;
 }
 
 ?>

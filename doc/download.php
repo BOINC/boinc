@@ -43,7 +43,7 @@ function download_link($pname, $button=false) {
             </td></tr> </table>
         ";
         if ($pname == 'linux'||$pname == 'linuxx64') {
-            show_linux_info();
+            echo "<p>", linux_info();
         }
     } else {
         echo "<tr>

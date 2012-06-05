@@ -282,7 +282,7 @@ $mac = array(
 );
 
 $macppc = array(
-    "name"=>"Mac OS X (PowerPC & Intel)",
+    "name"=>"Mac OS X (PowerPC and x86)",
     "description"=>"Version 10.4.0+",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
@@ -303,14 +303,17 @@ $linuxcompat = array(
     )
 );
 
-$linux = array(
-    "name"=>"Linux x86",
-    "description"=>"Tested on the current Ubuntu release; may work on others.
+function linux_info() {
+    return "Tested on the current Ubuntu distribution; may work on others.
     <br>If available, we recommend that you install a
     <a href=http://boinc.berkeley.edu/wiki/Installing_BOINC#Linux>
     distribution-specific package</a>
-    instead.
-    ",
+    instead.  ";
+}
+
+$linux = array(
+    "name"=>"Linux x86",
+    "description"=> linux_info(),
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
 		$l70ubuntudev,
@@ -321,12 +324,8 @@ $linux = array(
 
 $linuxx64 = array(
     "name"=>"Linux x64",
-    "description"=>"Tested on the current Ubuntu release; may work on others.
-    <br>If available, we recommend that you install a
-    <a href=http://boinc.berkeley.edu/wiki/Installing_BOINC#Linux>
-    distribution-specific package</a>
-    instead.
-    ",
+    "description"=> linux_info(),
+    "dbname" => "x86_64-pc-linux-gnu",
     "versions"=>array(
 		$l70ubuntux64dev,
 		$l70ubuntux64,

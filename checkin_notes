@@ -4155,3 +4155,15 @@ David  4 June 2012
     db/
         schema.sql
         boinc_db_types.h
+
+Wenjing  5 June 2012
+    - web: don't allow a sandbox file to be deleted if it's used
+        by an in-progress batch.
+        NOTE: this logic checks only 1 job from the batch,
+        so it assumes that all jobs have the same input files.
+
+    html/
+        user/
+            sandbox.php
+        inc/
+            sandbox.inc
