@@ -38,7 +38,7 @@ ini_set('display_startup_errors', true);
 require_once("../inc/sandbox.inc");
 require_once("../inc/submit_db.inc");
 
-function list_files($user) {
+function list_files($user,$err_msg) {
     $dir = sandbox_dir($user);
     $d = opendir($dir);
     if (!$d) error_page("Can't open sandbox directory");
@@ -52,6 +52,9 @@ function list_files($user) {
         </form>
         <hr>
     ";
+    if(strcmp($err_msg,"")!=0){
+	echo "<p>$err_msg<hr>";
+    }
     $files = array();
     while (($f = readdir($d)) !== false) {
         if ($f == '.') continue;
@@ -103,19 +106,31 @@ function upload_file($user) {
         $md5 = md5_file($tmp_name);
         $s = stat($tmp_name);
         $size = $s['size'];
-
+	list($exist,$elf)=sandbox_lf_exist($user,$md5);
+	if($exist){
+		$notice="<strong>Notice:</strong> Invalid Upload<br/>";
+		$notice.="You are trying to upload file  <strong>$name</strong><br/>";
+		$notice.="Another file <strong>$elf</strong> with the same content(md5: $md5) already exist!<br/>";
+		list_files($user,$notice);
+		return;
+	}
+	else{
         // move file to download dir
         //
-        $phys_path = sandbox_physical_path($user, $md5);
-        rename($tmp_name, $phys_path);
+        	$phys_path = sandbox_physical_path($user, $md5);
+        	rename($tmp_name, $phys_path);
 
         // write link file
         //
-        $dir = sandbox_dir($user);
-        $link_path = "$dir/$name";
-        sandbox_write_link_file($link_path, $size, $md5);
+        	$dir = sandbox_dir($user);
+        	$link_path = "$dir/$name";
+        	sandbox_write_link_file($link_path, $size, $md5);
+	
+		$notice="Successfully uploaded file <strong>$name</strong>!<br/>";
+		list_files($user,$notice);    
+	}
+    	
     }
-    Header("Location: sandbox.php");
 }
 
 function delete_file($user) {
@@ -147,6 +162,7 @@ function view_file($user) {
 }
 
 $user = get_logged_in_user();
+//print_r($user);
 $user_submit = BoincUserSubmit::lookup_userid($user->id);
 if (!$user_submit) error_page("no job submission access");
 
@@ -154,7 +170,7 @@ $action = get_str('action', true);
 if (!$action) $action = post_str('action', true);
 
 switch ($action) {
-case '': list_files($user); break;
+case '': list_files($user,""); break;
 case 'upload_file': upload_file($user); break;
 case 'delete_file': delete_file($user); break;
 case 'view_file': view_file($user); break;

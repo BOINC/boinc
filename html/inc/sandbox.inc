@@ -39,6 +39,29 @@ function sandbox_write_link_file($path, $size, $md5) {
     file_put_contents($path, "sb $size $md5");
 }
 
+// check if a newly update files already exists in sandbox 
+//via its md5 sum
+function sandbox_lf_exist($user,$md5){
+	$exist=0;
+	$elf="";
+	$dir=sandbox_dir($user);
+	$files=sandbox_file_names($user);
+	foreach($files as $file){
+		$path=$dir."/".$file;
+		list($err,$file_size,$file_md5)=sandbox_parse_link_file($path);
+		if(!$err){
+			if(strcmp($md5,$file_md5)==0){
+				//echo "this file with $md5 already exisits with another name $file";
+				$exist=1;
+				$elf=$file;
+				break;
+			}
+		
+		}
+	}
+	return array($exist,$elf);
+
+}
 // parse a link file and return
 // (error, size, md5)
 //
