@@ -4188,3 +4188,11 @@ David  5 June 2012
 
     sched/
         plan_class_spec.cpp,h
+
+David  5 June 2012
+    - scheduler: add example plan_class_spec.xml
+    - scheduler: change gpu_type from "ati" to "amd" in plan class spec
+
+    sched/
+        plan_class_spec.cpp
+        plan_class_spec.xml.sample

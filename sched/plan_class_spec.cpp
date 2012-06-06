@@ -226,9 +226,9 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         }
     }
 
-    // ATI
+    // AMD
     //
-    if (!strcmp(gpu_type, "ati")) {
+    if (!strcmp(gpu_type, "amd")) {
         COPROC_ATI& cp = sreq.coprocs.ati;
         cpp = &cp;
 
@@ -612,7 +612,7 @@ int main() {
     g_wreq = &sreply.wreq;
 
     PLAN_CLASS_SPECS pcs;
-    int retval = pcs.parse_file("plan_class_spec.xml");
+    int retval = pcs.parse_file("plan_class_spec.xml.sample");
     if (retval) {
         printf("parse_file: %d\n");
         exit(1);
@@ -622,18 +622,28 @@ int main() {
 
     HOST_USAGE hu;
 
-    strcpy(sreq.host.p_features, "sse");
+    strcpy(sreq.host.p_features, "sse3");
     sreq.host.p_fpops =5e9;
     g_wreq->effective_ncpus = 4;
     if (1) {
         sreq.coprocs.nvidia.fake(18000, 512*MEGA, 490*MEGA, 1);
+        sreq.coprocs.nvidia.opencl_prop.opencl_device_version_int = 0;
+    } else {
+        sreq.coprocs.nvidia.count = 0;
+    }
+    if (1) {
+        sreq.coprocs.ati.fake(512*MEGA, 256*MEGA, 1);
+        sreq.coprocs.ati.have_cal = true;
+        sreq.coprocs.ati.opencl_prop.opencl_device_version_int = 0;
+    } else {
+        sreq.coprocs.ati.count = 0;
     }
 
     for (unsigned int i=0; i<pcs.classes.size(); i++) {
         bool b = pcs.check(sreq, pcs.classes[i].name, hu);
         if (b) {
             printf("%s: check succeeded\n", pcs.classes[i].name);
-            printf("ncudas: %f\nnatis: %f\ngpu_ram: %fMB\navg_ncpus: %f\nprojected_flops: %fG\npeak_flops: %fG\n",
+            printf("\tncudas: %f\n\tnatis: %f\n\tgpu_ram: %fMB\n\tavg_ncpus: %f\n\tprojected_flops: %fG\n\tpeak_flops: %fG\n",
                 hu.ncudas,
                 hu.natis,
                 hu.gpu_ram/1e6,

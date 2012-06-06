@@ -1,0 +1,107 @@
+<plan_classes>
+    <plan_class>
+        <name>                  mt          </name>
+        <min_ncpus>             2           </min_ncpus>
+        <max_threads>           16          </max_threads>
+        <projected_flops_scale> .99         </projected_flops_scale>
+    </plan_class>
+    <plan_class>
+        <name>                  ati         </name>
+        <gpu_type>              amd         </gpu_type>
+        <min_driver_version>    1000000     </min_driver_version>
+        <min_gpu_ram_mb>        250         </min_gpu_ram_mb>
+        <gpu_ram_used_mb>       250         </gpu_ram_used_mb>
+        <gpu_peak_flops_scale>  .2          </gpu_peak_flops_scale>
+        <cpu_frac>              .1          </cpu_frac>
+    </plan_class>
+    <plan_class>
+        <name>                  ati14       </name>
+        <gpu_type>              amd         </gpu_type>
+        <min_driver_version>    1400000     </min_driver_version>
+        <min_gpu_ram_mb>        250         </min_gpu_ram_mb>
+        <gpu_ram_used_mb>       250         </gpu_ram_used_mb>
+        <gpu_peak_flops_scale>  .23         </gpu_peak_flops_scale>
+        <cpu_frac>              .1          </cpu_frac>
+    </plan_class>
+    <plan_class>
+        <name>                  cuda        </name>
+        <gpu_type>              nvidia      </gpu_type>
+        <cuda/>
+        <min_nvidia_compcap>    100         </min_nvidia_compcap>
+        <max_nvidia_compcap>    200         </max_nvidia_compcap>
+        <min_cuda_version>      3000        </min_cuda_version>
+        <min_driver_version>    17700       </min_driver_version>
+        <min_gpu_ram_mb>        254         </min_gpu_ram_mb>
+        <gpu_ram_used_mb>       254         </gpu_ram_used_mb>
+        <gpu_peak_flops_scale>  .20         </gpu_peak_flops_scale>
+        <cpu_frac>              .01         </cpu_frac>
+    </plan_class>
+    <plan_class>
+        <name>                  cuda_fermi  </name>
+        <gpu_type>              nvidia      </gpu_type>
+        <cuda/>
+        <min_nvidia_compcap>    200         </min_nvidia_compcap>
+        <min_cuda_version>      3000        </min_cuda_version>
+        <min_driver_version>    19500       </min_driver_version>
+        <min_gpu_ram_mb>        384         </min_gpu_ram_mb>
+        <gpu_ram_used_mb>       384         </gpu_ram_used_mb>
+        <gpu_peak_flops_scale>  .22         </gpu_peak_flops_scale>
+        <cpu_frac>              .01         </cpu_frac>
+    </plan_class>
+    <plan_class>
+        <name>                  nci         </name>
+        <avg_ncpus>             .01         </avg_ncpus>
+        <projected_flops_scale> 1.01        </projected_flops_scale>
+    </plan_class>
+    <plan_class>
+        <name>                  sse3        </name>
+        <cpu_feature>           sse3        </cpu_feature>
+        <projected_flops_scale> 1.1         </projected_flops_scale>
+    </plan_class>
+    <plan_class>
+        <name>                  opencl_nvidia_101        </name>
+        <gpu_type>              nvidia      </gpu_type>
+        <opencl/>
+        <min_opencl_version>    101         <min_opencl_version>
+        <min_gpu_ram_mb>        256         </min_gpu_ram_mb>
+        <gpu_ram_used_mb>       256         </gpu_ram_used_mb>
+        <cpu_frac>              .1          </cpu_frac>
+        <gpu_peak_flops_scale>  .2          </gpu_peak_flops_scale>
+    </plan_class>
+    <plan_class>
+        <name>                  opencl_ati_101        </name>
+        <gpu_type>              amd         </gpu_type>
+        <opencl/>
+        <min_opencl_version>    101         <min_opencl_version>
+        <min_gpu_ram_mb>        256         </min_gpu_ram_mb>
+        <gpu_ram_used_mb>       256         </gpu_ram_used_mb>
+        <cpu_frac>              .1          </cpu_frac>
+        <gpu_peak_flops_scale>  .2          </gpu_peak_flops_scale>
+    </plan_class>
+    <plan_class>
+        <name>                  vbox_32     </name>
+        <virtualbox/>
+        <min_vbox_version>      30200       </min_vbox_version>
+    </plan_class>
+    <plan_class>
+        <name>                  vbox_64     </name>
+        <virtualbox/>
+        <is64bit/>
+        <min_vbox_version>      30200       </min_vbox_version>
+    </plan_class>
+    <plan_class>
+        <name>                  vbox_32_mt     </name>
+        <virtualbox/>
+        <min_vbox_version>      30200       </min_vbox_version>
+        <min_ncpus>             2           </min_ncpus>
+        <max_threads>           2           </max_threads>
+    </plan_class>
+    <plan_class>
+        <name>                  vbox_64_mt     </name>
+        <virtualbox/>
+        <is64bit/>
+        <min_vbox_version>      30200       </min_vbox_version>
+        <min_ncpus>             2           </min_ncpus>
+        <max_threads>           2           </max_threads>
+    </plan_class>
+</plan_classes>
