@@ -4217,3 +4217,13 @@ Bernd  6 Jun 2012
 
     sched/
         sched_version.cpp
+
+Bernd  6 Jun 2012
+    - scheduler: minor fixes to plan_clas_spec:
+      - consistently accept both 'ati' and 'amd' for AMD/ATI plan classes
+      - in OpenCL plan classes always use device memory reported via OpenCL
+        (might be different e.g. from what's available/reported via CUDA)
+      - comment formatting
+
+    sched/
+        plan_class_spec.cpp

@@ -228,7 +228,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
 
     // AMD
     //
-    if (!strcmp(gpu_type, "amd")) {
+    if (!strcmp(gpu_type, "amd") || !strcmp(gpu_type, "ati")) {
         COPROC_ATI& cp = sreq.coprocs.ati;
         cpp = &cp;
 
@@ -271,9 +271,10 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
                 );
             }
         }
+
+    // NVIDIA
+    //
     } else if (!strcmp(gpu_type, "nvidia")) {
-        // NVIDIA
-        //
         COPROC_NVIDIA& cp = sreq.coprocs.nvidia;
         cpp = &cp;
 
@@ -359,6 +360,8 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
             }
             return false;
         }
+
+        gpu_ram = cpp->opencl_prop.global_mem_size;
     }
 
     // general GPU
@@ -375,8 +378,6 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
             }
             return false;
         }
-
-
 
         // (display) driver version
         if (min_driver_version && driver_version) {
@@ -429,12 +430,15 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
             hu.avg_ncpus = avg_ncpus;
         }
 
-        if (!strcmp(gpu_type, "ati")) {
+        if (!strcmp(gpu_type, "amd") || !strcmp(gpu_type, "ati")) {
             hu.natis = gpu_usage;
         } else if (!strcmp(gpu_type, "nvidia")) {
             hu.ncudas = gpu_usage;
         }
-    } else { // CPU only
+
+    // CPU only
+    //
+    } else {
         if (avg_ncpus) {
             hu.avg_ncpus = avg_ncpus;
         } else {
