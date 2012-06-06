@@ -77,7 +77,7 @@ function get_batch_output_files($batch_id, $auth_str) {
         foreach ($names as $name) {
             $path = dir_hier_path($name, $upload_dir, $fanout);
             if (is_file($path)) {
-                system("zip -jq $zip_basename $path");
+                system(" nice -9 zip -jq $zip_basename $path");
             }
         }
     }
@@ -110,7 +110,7 @@ function get_wu_output_files($wu_id, $auth_str) {
         foreach ($names as $name) {
             $path = dir_hier_path($name, $upload_dir, $fanout);
             if (is_file($path)) {
-                system("zip -jq $zip_basename $path");
+                system("nice -9 zip -jq $zip_basename $path");
             }
         }
         do_download($zip_filename);

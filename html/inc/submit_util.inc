@@ -118,6 +118,28 @@ function batch_state_string($state) {
     }
     return "unknown state $state";
 }
+// get the total size of output files of a batch
+//
+function batch_output_file_size($batchid) {
+    $batch_td_size=0;
+    $wus = BoincWorkunit::enum("batch=$batchid");
+    $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
+    $upload_dir = parse_config(get_config(), "<upload_dir>");
+    foreach ($wus as $wu) {
+        if (!$wu->canonical_resultid) continue;
+        $result = BoincResult::lookup_id($wu->canonical_resultid);
+        $names = get_outfile_names($result);
+        foreach ($names as $name) {
+            $path = dir_hier_path($name, $upload_dir, $fanout);
+            if (is_file($path)) {
+                $s=stat($path);
+                $size=$s['size'];
+                $batch_td_size+=$size;
+            }
+        }
+    }
+    return $batch_td_size;
+}
 
 function boinc_get_output_file_url($user, $result, $i) {
     $name = $result->name;

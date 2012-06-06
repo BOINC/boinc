@@ -207,9 +207,14 @@ function handle_query_batch($user) {
     }
     row2("GFLOP/hours, estimated", number_format(credit_to_gflop_hours($batch->credit_estimate), 2));
     row2("GFLOP/hours, actual", number_format(credit_to_gflop_hours($batch->credit_canonical), 2));
+    row2("Output File Size (MB)", number_format(batch_output_file_size($batch->id)/1e6,2));
     end_table();
-    $url = boinc_get_output_files_url($user, $batch_id);
-    show_button($url, "Get zipped output files");
+    if (batch_output_file_size($batch->id) <= 1e8) {
+        $url = boinc_get_output_files_url($user, $batch_id);
+        show_button($url, "Get zipped output files");
+    } else {
+        echo "<br/>The output file size of this batch is too big, it will be uploaded by FTP<br/>";
+    }
     switch ($batch->state) {
     case BATCH_STATE_IN_PROGRESS:
         echo "<br>";
@@ -239,15 +244,16 @@ function handle_query_batch($user) {
     $wus = BoincWorkunit::enum("batch = $batch->id");
     foreach($wus as $wu) {
         $resultid = $wu->canonical_resultid;
+        $durl = boinc_get_wu_output_files_url($user,$wu->id);
         if ($resultid) {
             $x = "<a href=result.php?resultid=$resultid>$resultid</a>";
             $y = "completed";
+            $text = "<a href=$durl> Download Result Files</a>";
         } else {
             $x = "---";
             $y = "in progress";
+            $text = "---";
         }
-        $url = boinc_get_wu_output_files_url($user,$wu->id);
-        $text = "<a href=$url> Download Result Files</a>";
         echo "<tr>
                 <td><a href=submit.php?action=query_job&wuid=$wu->id>$wu->id &middot; $wu->name</a></td>
                 <td>$y</td>
@@ -320,7 +326,7 @@ function handle_query_job($user) {
                 $path = dir_hier_path($name, "../../upload", $fanout);
                 $s = stat($path);
                 $size = $s['size'];
-                echo "<a href=$url>$name </a> ($size bytes)<br/>";
+                echo "<a href=$url>$name </a> (".number_format($size)." bytes)<br/>";
             }
             $i++;
         }
