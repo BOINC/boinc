@@ -49,8 +49,8 @@ function get_output_file($instance_name, $file_num, $auth_str) {
 
     $path = dir_hier_path($name, $upload_dir, $fanout);
     if (!is_file($path)) die("no such file $path");
+    do_download($path);    
 
-    readfile($path);
 }
 
 // get all the output files of a batch (canonical instances only)
@@ -81,17 +81,7 @@ function get_batch_output_files($batch_id, $auth_str) {
             }
         }
     }
-    header('Content-Description: File Transfer');
-    header('Content-Type: application/octet-stream');
-    header('Content-Disposition: attachment; filename='.basename($zip_filename));
-    header('Content-Transfer-Encoding: binary');
-    header('Expires: 0');
-    header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-    header('Pragma: public');
-    header('Content-Length: ' . filesize($zip_filename));
-    flush();
-
-    readfile("$zip_filename");
+    do_download($zip_filename);
     unlink($zip_filename);
 }
 
@@ -123,16 +113,7 @@ function get_wu_output_files($wu_id, $auth_str) {
                 system("zip -jq $zip_basename $path");
             }
         }
-        header('Content-Description: File Transfer');
-        header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename='.basename($zip_filename));
-        header('Content-Transfer-Encoding: binary');
-        header('Expires: 0');
-        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-        header('Pragma: public');
-        header('Content-Length: ' . filesize($zip_filename));
-        flush();
-        readfile("$zip_filename");
+        do_download($zip_filename);
         unlink($zip_filename);
         unlink($zip_basename);
 }

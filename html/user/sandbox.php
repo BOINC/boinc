@@ -66,7 +66,7 @@ function list_files($user, $err_msg) {
     } else {
         sort($files);
         start_table();
-        table_header("Name<br><span class=note>(click to view)</span>", "Modified", "Size (bytes)", "MD5", "");
+        table_header("Name<br><span class=note>(click to view)</span>", "Modified", "Size (bytes)", "MD5", "Delete","Download");
         foreach($files as $f) {
             $path = "$dir/$f";
             list($error, $size, $md5) = sandbox_parse_link_file($path);
@@ -88,6 +88,10 @@ function list_files($user, $err_msg) {
                 button_text(
                     "sandbox.php?action=delete_file&name=$f",
                     "Delete"
+                ),
+                button_text(
+                    "sandbox.php?action=download_file&name=$f",
+                    "Download"
                 )
             );
         }
@@ -134,7 +138,6 @@ function delete_file($user) {
     $name = get_str('name');
     $dir = sandbox_dir($user);
     list($error, $size, $md5) = sandbox_parse_link_file("$dir/$name");
-    //unlink("$dir/$name");
     if ($error) {
         error_page("can't parse link file");
     }
@@ -142,7 +145,6 @@ function delete_file($user) {
     if (!is_file($p)) {
         error_page("no such physical file");
     }
-    //unlink($p);
     $bused = sandbox_file_in_use($user,$name);
     if ($bused){
         $notice = "<strong>$name</strong> is being used by batch(es), you can not delete it now!<br/>";
@@ -155,7 +157,19 @@ function delete_file($user) {
     list_files($user,$notice);
     //Header("Location: sandbox.php");
 }
-
+function download_file($user) {
+    $name = get_str('name');
+    $dir = sandbox_dir($user);
+    list($err, $size, $md5) = sandbox_parse_link_file("$dir/$name");
+    if($err) {
+        error_page("can't parse link file");
+    }
+    $p = sandbox_physical_path($user, $md5);
+    if (!is_file($p)) {
+        error_page("$p does not exist!");
+    }
+    do_download($p,$name);
+}
 function view_file($user) {
     $name = get_str('name');
     $dir = sandbox_dir($user);
@@ -180,6 +194,7 @@ switch ($action) {
 case '': list_files($user,""); break;
 case 'upload_file': upload_file($user); break;
 case 'delete_file': delete_file($user); break;
+case 'download_file': download_file($user); break;
 case 'view_file': view_file($user); break;
 default: error_page("no such action: $action");
 }

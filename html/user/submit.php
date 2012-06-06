@@ -301,12 +301,12 @@ function handle_query_job($user) {
     start_table();
     table_header(
         "Instance ID<br><span class=note>click for result page</span>",
-        "State", "Output files"
+        "State", "Output files<br><span class=note>click to view the file</span>"
     );
     $results = BoincResult::enum("workunitid=$wuid");
     foreach($results as $result) {
         echo "<tr>
-            <td><a href=result.php?resultid=$result->id>$result->id</a></td>
+            <td><a href=result.php?resultid=$result->id>$result->id | $result->name </a></td>
             <td>".state_string($result)."</td>
             <td>
 ";
@@ -320,7 +320,7 @@ function handle_query_job($user) {
                 $path = dir_hier_path($name, "../../upload", $fanout);
                 $s = stat($path);
                 $size = $s['size'];
-                echo "<a href=$url>$size bytes</a>";
+                echo "<a href=$url>$name </a> ($size bytes)<br/>";
             }
             $i++;
         }
