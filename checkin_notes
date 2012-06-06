@@ -4167,3 +4167,18 @@ Wenjing  5 June 2012
             sandbox.php
         inc/
             sandbox.inc
+
+David  5 June 2012
+    - scheduler: debug plan_class_spec a little.
+        Add an #ifdef'd main program in plan_class_spec.cpp,
+        and a makefile, for testing purposes.
+
+    sched/
+        sched_main.cpp
+        plan_class_spec.cpp,h
+        makefile_plan_class_spec
+        sched_types.cpp
+    client/
+        coproc_detect.cpp
+    lib/
+        coproc.cpp

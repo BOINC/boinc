@@ -22,7 +22,7 @@
 
 using std::string;
 
-int PLAN_CLASS_SPECS::parse_file(char*path) {
+int PLAN_CLASS_SPECS::parse_file(const char* path) {
 #ifndef _USING_FCGI_
     FILE* f = fopen(path, "r");
 #else
@@ -72,7 +72,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         downcase_string(buf);
 
         for (unsigned int i=0; i<cpu_features.size(); i++) {
-            if (!strstr(sreq.host.p_features, cpu_features[i].c_str())) {
+            if (!strstr(buf, cpu_features[i].c_str())) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
                         "[version] CPU lacks feature '%s' (got '%s')\n",
@@ -490,7 +490,7 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     virtualbox = false;
     is64bit = false;
     min_ncpus = 0;
-    max_threads = 0;
+    max_threads = 1;
     projected_flops_scale = 1;
     have_os_regex = false;
     strcpy(project_prefs_tag, "");
@@ -516,3 +516,49 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     min_vbox_version = 0;
     max_vbox_version = 0;
 }
+
+#ifdef PLAN_CLASS_TEST
+
+int main() {
+    SCHEDULER_REQUEST sreq;
+    SCHEDULER_REPLY sreply;
+    g_request = &sreq;
+    g_reply = &sreply;
+    g_wreq = &sreply.wreq;
+
+    PLAN_CLASS_SPECS pcs;
+    int retval = pcs.parse_file("plan_class_spec.xml");
+    if (retval) {
+        printf("parse_file: %d\n");
+        exit(1);
+    }
+
+    config.debug_version_select = true;
+
+    HOST_USAGE hu;
+
+    strcpy(sreq.host.p_features, "sse");
+    sreq.host.p_fpops =5e9;
+    g_wreq->effective_ncpus = 4;
+    if (1) {
+        sreq.coprocs.nvidia.fake(18000, 512*MEGA, 490*MEGA, 1);
+    }
+
+    for (unsigned int i=0; i<pcs.classes.size(); i++) {
+        bool b = pcs.check(sreq, pcs.classes[i].name, hu);
+        if (b) {
+            printf("%s: check succeeded\n", pcs.classes[i].name);
+            printf("ncudas: %f\nnatis: %f\ngpu_ram: %fMB\navg_ncpus: %f\nprojected_flops: %fG\npeak_flops: %fG\n",
+                hu.ncudas,
+                hu.natis,
+                hu.gpu_ram/1e6,
+                hu.avg_ncpus,
+                hu.projected_flops/1e9,
+                hu.peak_flops/1e9
+            );
+        } else {
+            printf("%s: check failed\n", pcs.classes[i].name);
+        }
+    }
+}
+#endif

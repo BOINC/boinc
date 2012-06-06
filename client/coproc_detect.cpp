@@ -18,9 +18,6 @@
 
 // client-specific GPU code.  Mostly GPU detection
 
-#define FAKENVIDIACUDA0 0
-#define FAKE2NVIDIAOPENCLS 0
-
 #include "cpp.h"
 
 #ifdef _WIN32
@@ -335,11 +332,6 @@ void COPROCS::get_opencl(
             return;
         }
 
-#if FAKE2NVIDIAOPENCLS
-num_devices = 3;
-devices[2] = devices[1];
-#endif
-
         // Mac OpenCL does not recognize all NVIDIA GPUs returned by CUDA
         //
         current_CUDA_index = 0;
@@ -354,26 +346,6 @@ devices[2] = devices[1];
             
 //TODO: Should we store the platform(s) for each GPU found?
 //TODO: Must we check if multiple platforms found the same GPU and merge the records?
-#if FAKE2NVIDIAOPENCLS
-if (device_index == 2) {
-strcpy(prop.name, "GEForce 120 GT");
-strcpy(prop.vendor, "NVIDIA");
-prop.vendor_id = 16918016;
-prop.available = 1;
-prop.half_fp_config = 0;
-prop.single_fp_config = 30;
-prop.double_fp_config = 63;
-prop.endian_little = 1;
-prop.execution_capabilities = 1;
-strcpy(prop.extensions, "cl_APPLE_SetMemObjectDestructor cl_APPLE_ContextLoggingFunctions cl_APPLE_clut cl_APPLE_query_kernel_names cl_APPLE_gl_sharing cl_khr_gl_event cl_khr_byte_addressable_store cl_khr_global_int32_base_atomics cl_khr_global_int32_extended_atomics ");
-prop.global_mem_size = 268435456;
-prop.local_mem_size = 16384;
-prop.max_clock_frequency = 1000;
-prop.max_compute_units = 10;
-strcpy(prop.opencl_device_version, "OpenCL 1.0 ");
-strcpy(prop.opencl_driver_version, "CLH 1.0");
-} else
-#endif
             ciErrNum = get_opencl_info(prop, device_index, warnings);
             if (ciErrNum != CL_SUCCESS) break;
             
@@ -1020,13 +992,6 @@ void COPROC_NVIDIA::get(
     for (j=0; j<cuda_ndevs; j++) {
         memset(&cc.prop, 0, sizeof(cc.prop));
         int device;
-#if FAKENVIDIACUDA0
-if (j == 0) {
- cc.fake(0x40032, 256*MEGA, 64*MEGA, 1);
- cc.device_num = 0;
- nvidia_gpus.push_back(cc);
-}
-#endif
         retval = (*__cuDeviceGet)(&device, j);
         if (retval) {
             sprintf(buf, "cuDeviceGet(%d) returned %d", j, retval);
@@ -1074,9 +1039,6 @@ if (j == 0) {
         cc.device_num = j;
         cc.set_peak_flops();
         cc.get_available_ram();
-#if FAKENVIDIACUDA0
-cc.device_num = j+1;
-#endif
         nvidia_gpus.push_back(cc);
     }
     if (!nvidia_gpus.size()) {
@@ -1112,44 +1074,6 @@ cc.device_num = j+1;
             nvidia_gpus[i].is_used = COPROC_UNUSED;
         }
     }
-}
-
-// fake a NVIDIA GPU (for debugging)
-//
-void COPROC_NVIDIA::fake(
-    int driver_version, double ram, double avail_ram, int n
-) {
-   strcpy(type, GPU_TYPE_NVIDIA);
-   count = n;
-   for (int i=0; i<count; i++) {
-       device_nums[i] = i;
-   }
-   available_ram = avail_ram;
-   display_driver_version = driver_version;
-   cuda_version = 2020;
-   strcpy(prop.name, "Fake NVIDIA GPU");
-   prop.totalGlobalMem = ram;
-   prop.sharedMemPerBlock = 100;
-   prop.regsPerBlock = 8;
-   prop.warpSize = 10;
-   prop.memPitch = 10;
-   prop.maxThreadsPerBlock = 20;
-   prop.maxThreadsDim[0] = 2;
-   prop.maxThreadsDim[1] = 2;
-   prop.maxThreadsDim[2] = 2;
-   prop.maxGridSize[0] = 10;
-   prop.maxGridSize[1] = 10;
-   prop.maxGridSize[2] = 10;
-   prop.totalConstMem = 10;
-   prop.major = 1;
-   prop.minor = 2;
-#if FAKENVIDIACUDA0
-   prop.minor = 0;
-#endif
-   prop.clockRate = 1250000;
-   prop.textureAlignment = 1000;
-   prop.multiProcessorCount = 14;
-   set_peak_flops();
 }
 
 // See how much RAM is available on this GPU.
@@ -1560,24 +1484,6 @@ void COPROC_ATI::get(
             ati_gpus[i].is_used = COPROC_UNUSED;
         }
     }
-}
-
-void COPROC_ATI::fake(double ram, double avail_ram, int n) {
-    strcpy(type, GPU_TYPE_ATI);
-    strcpy(version, "1.4.3");
-    strcpy(name, "foobar");
-    count = n;
-    available_ram = avail_ram;
-    memset(&attribs, 0, sizeof(attribs));
-    memset(&info, 0, sizeof(info));
-    attribs.localRAM = (int)(ram/MEGA);
-    attribs.numberOfSIMD = 32;
-    attribs.wavefrontSize = 32;
-    attribs.engineClock = 50;
-    for (int i=0; i<count; i++) {
-        device_nums[i] = i;
-    }
-    set_peak_flops();
 }
 
 // get available RAM of ATI GPU

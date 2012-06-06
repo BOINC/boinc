@@ -83,7 +83,7 @@ struct PLAN_CLASS_SPEC {
 
 struct PLAN_CLASS_SPECS {
     std::vector<PLAN_CLASS_SPEC> classes;
-    int parse_file(char*);
+    int parse_file(const char*);
     int parse_specs(FILE*);
     bool check(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu);
     PLAN_CLASS_SPECS(){};

@@ -586,6 +586,41 @@ void COPROC_NVIDIA::set_peak_flops() {
     peak_flops =  (x>0)?x:5e10;
 }
 
+// fake a NVIDIA GPU (for debugging)
+//
+void COPROC_NVIDIA::fake(
+    int driver_version, double ram, double avail_ram, int n
+) {
+   strcpy(type, GPU_TYPE_NVIDIA);
+   count = n;
+   for (int i=0; i<count; i++) {
+       device_nums[i] = i;
+   }
+   available_ram = avail_ram;
+   display_driver_version = driver_version;
+   cuda_version = 2020;
+   strcpy(prop.name, "Fake NVIDIA GPU");
+   prop.totalGlobalMem = ram;
+   prop.sharedMemPerBlock = 100;
+   prop.regsPerBlock = 8;
+   prop.warpSize = 10;
+   prop.memPitch = 10;
+   prop.maxThreadsPerBlock = 20;
+   prop.maxThreadsDim[0] = 2;
+   prop.maxThreadsDim[1] = 2;
+   prop.maxThreadsDim[2] = 2;
+   prop.maxGridSize[0] = 10;
+   prop.maxGridSize[1] = 10;
+   prop.maxGridSize[2] = 10;
+   prop.totalConstMem = 10;
+   prop.major = 1;
+   prop.minor = 2;
+   prop.clockRate = 1250000;
+   prop.textureAlignment = 1000;
+   prop.multiProcessorCount = 14;
+   set_peak_flops();
+}
+
 ////////////////// ATI STARTS HERE /////////////////
 
 #ifndef _USING_FCGI_
@@ -793,4 +828,22 @@ void COPROC_ATI::set_peak_flops() {
         x = opencl_prop.max_compute_units * 16 * 5 * opencl_prop.max_clock_frequency * 1e6;
     }
     peak_flops = (x>0)?x:5e10;
+}
+
+void COPROC_ATI::fake(double ram, double avail_ram, int n) {
+    strcpy(type, GPU_TYPE_ATI);
+    strcpy(version, "1.4.3");
+    strcpy(name, "foobar");
+    count = n;
+    available_ram = avail_ram;
+    memset(&attribs, 0, sizeof(attribs));
+    memset(&info, 0, sizeof(info));
+    attribs.localRAM = (int)(ram/MEGA);
+    attribs.numberOfSIMD = 32;
+    attribs.wavefrontSize = 32;
+    attribs.engineClock = 50;
+    for (int i=0; i<count; i++) {
+        device_nums[i] = i;
+    }
+    set_peak_flops();
 }

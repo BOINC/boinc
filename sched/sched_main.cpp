@@ -349,6 +349,8 @@ inline static const char* get_remote_addr() {
     return r ? r : "?.?.?.?";
 }
 
+#if !defined(PLAN_CLASS_TEST)
+
 int main(int argc, char** argv) {
 #ifndef _USING_FCGI_
     FILE* fin, *fout;
@@ -637,6 +639,7 @@ done:
         boinc_db.close();
     }
 }
+#endif
 
 // the following stuff is here because if you put it in sched_limit.cpp
 // you get "ssp undefined" in programs other than cgi

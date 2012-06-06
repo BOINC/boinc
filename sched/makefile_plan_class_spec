@@ -1,0 +1,33 @@
+CPPFLAGS = -DPLAN_CLASS_TEST
+CXXFLAGS = -g -I../lib -I../db -I/usr/include/mysql -I../tools -I. -I../vda -I..
+.cpp.o:
+	g++ -c $(CPPFLAGS) $(CXXFLAGS) -o $@ $<
+
+OBJS = credit.o \
+    edf_sim.o \
+    handle_request.o \
+    hr.o \
+    hr_info.o \
+    sched_array.o \
+    sched_assign.o \
+    sched_customize.o \
+    sched_hr.o \
+    sched_resend.o \
+    sched_limit.o \
+    sched_locality.o \
+    sched_main.o \
+    sched_result.o \
+    sched_score.o \
+    sched_send.o \
+    sched_timezone.o \
+    sched_version.o \
+    sched_types.o \
+    time_stats_log.o
+
+plan_class_spec: plan_class_spec.cpp $(OBJS)
+	g++ $(CPPFLAGS) $(CXXFLAGS) \
+		-o plan_class_spec \
+	plan_class_spec.cpp \
+		$(OBJS) \
+		../lib/libboinc.a ../lib/libboinc_crypt.a libsched.a \
+		-L/usr/lib64/mysql/ -lmysqlclient -lssl -lcrypto

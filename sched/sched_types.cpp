@@ -1393,6 +1393,7 @@ DB_HOST_APP_VERSION* quota_exceeded_version() {
 
 double capped_host_fpops() {
     double x = g_request->host.p_fpops;
+    if (!ssp) return x;
     if (x <= 0) {
         return ssp->perf_info.host_fpops_50_percentile;
     }
