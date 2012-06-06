@@ -687,25 +687,6 @@ BEST_APP_VERSION* get_app_version(
             if (av.appid != wu.appid) continue;
             if (av.platformid != p->id) continue;
 
-            if (g_request->core_client_version < av.min_core_version) {
-                if (config.debug_version_select) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[version] [AV#%d] client version %d < min core version %d\n",
-                        av.id, g_request->core_client_version, av.min_core_version
-                    );
-                }
-                g_wreq->outdated_client = true;
-                continue;
-            }
-            if (av.max_core_version && g_request->core_client_version > av.max_core_version) {
-                if (config.debug_version_select) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[version] [AV#%d] client version %d > max core version %d\n",
-                        av.id, g_request->core_client_version, av.max_core_version
-                    );
-                }
-                continue;
-            }
             if (strlen(av.plan_class)) {
                 if (!app_plan(*g_request, av.plan_class, host_usage)) {
                     if (config.debug_version_select) {
@@ -798,6 +779,30 @@ BEST_APP_VERSION* get_app_version(
             // skip versions for resources we don't need
             //
             if (check_req && !need_this_resource(host_usage, &av, NULL)) {
+                continue;
+            }
+
+            // skip versions which require a newer core client
+            //
+            if (g_request->core_client_version < av.min_core_version) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] [AV#%d] client version %d < min core version %d\n",
+                        av.id, g_request->core_client_version, av.min_core_version
+                    );
+                }
+                // Do not tell the user he needs to update the client
+                // just because the client is too old for a particular app version
+                // g_wreq->outdated_client = true;
+                continue;
+            }
+            if (av.max_core_version && g_request->core_client_version > av.max_core_version) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] [AV#%d] client version %d > max core version %d\n",
+                        av.id, g_request->core_client_version, av.max_core_version
+                    );
+                }
                 continue;
             }
 

@@ -4196,3 +4196,24 @@ David  5 June 2012
     sched/
         plan_class_spec.cpp
         plan_class_spec.xml.sample
+
+Bernd  6 Jun 2012
+    - scheduler: moved client version check to be last of the checks
+        performed for a particular app version. It is not necessary
+        to tell the user to upgrade the client just to suite the needs of
+        a particular app version if this app version requires resources
+        that the host dosn't have or didn't request work for.
+
+        Actually I don't think it's good to tell the user he needs to
+        upgrade the client if there is only one particular app version
+        that requires a more recent one than he has. I think that the
+        purpose of the g_wreq->outdated_client flag was checking the
+        min_core_version in the project configuration. For this the 
+        flag and the notice/message that it triggers is still ok. But
+        in the app version checks setting this flag leads to misleading
+        messages in most cases, so I commented that out for now.
+
+        I'm not sure, though, that both of these measurements are needed.
+
+    sched/
+        sched_version.cpp
