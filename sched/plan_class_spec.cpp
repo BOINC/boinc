@@ -37,8 +37,10 @@ int PLAN_CLASS_SPECS::parse_file(const char* path) {
 
 bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
     COPROC* cpp = NULL;
+    bool can_use_multicore = true;
 
-    // fill HOST_USAGE with defaults
+    // set HOST_USAGE defaults
+    //
     hu.ncudas = 0;
     hu.natis = 0;
     hu.gpu_ram = 0;
@@ -84,6 +86,18 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         }
     }
 
+    // min NCPUS
+    //
+    if (min_ncpus && g_wreq->effective_ncpus < min_ncpus) {
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] not enough CPUs: %d < %f\n",
+                g_wreq->effective_ncpus, min_ncpus
+            );
+        }
+        return false;
+    }
+
     // OS version
     //
     if (have_os_regex && regexec(&(os_regex), sreq.host.os_version, 0, NULL, 0)) {
@@ -94,6 +108,73 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
             );
         }
         return false;
+    }
+
+    if (virtualbox) {
+
+        // host must run 7.0+ client
+        //
+        if (sreq.core_client_major_version < 7) {
+            add_no_work_message("BOINC client 7.0+ required for Virtualbox jobs");
+            return false;
+        }
+
+        // host must have VirtualBox 3.2 or later
+        //
+        if (strlen(sreq.host.virtualbox_version) == 0) {
+            add_no_work_message("VirtualBox is not installed");
+            return false;
+        }
+        int n, maj, min, rel;
+        n = sscanf(sreq.host.virtualbox_version, "%d.%d.%d", &maj, &min, &rel);
+        if (n != 3) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] can't parse vbox version\n"
+                );
+            }
+            return false;
+        }
+        int v = maj*10000 + min*100 + rel;
+        if (min_vbox_version && v < min_vbox_version) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] vbox version too low: %d < %d\n",
+                    v, min_vbox_version
+                );
+            }
+            return false;
+        }
+        if (max_vbox_version && v > max_vbox_version) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] vbox version too high: %d > %d\n",
+                    v, max_vbox_version
+                );
+            }
+            return false;
+        }
+
+        // host must have VM acceleration in order to run multi-core jobs
+        //
+        if (max_threads > 1) {
+            if ((!strstr(sreq.host.p_features, "vmx") && !strstr(sreq.host.p_features, "svm"))
+                || sreq.host.p_vm_extensions_disabled
+            ) {
+                can_use_multicore = false;
+            }
+        }
+
+        // only send the version for host's primary platform.
+        // A Win64 host can't run a 32-bit VM app:
+        // it will look in the 32-bit half of the registry and fail
+        //
+        PLATFORM* p = g_request->platforms.list[0];
+        if (is_64b_platform(p->name)) {
+            if (!is64bit) return false;
+        } else {
+            if (is64bit) return false;
+        }
     }
 
     // project-specific preference
@@ -357,10 +438,14 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         if (avg_ncpus) {
             hu.avg_ncpus = avg_ncpus;
         } else {
-            if (max_threads > g_wreq->effective_ncpus) {
-                hu.avg_ncpus = g_wreq->effective_ncpus;
+            if (can_use_multicore) {
+                if (max_threads > g_wreq->effective_ncpus) {
+                    hu.avg_ncpus = g_wreq->effective_ncpus;
+                } else {
+                    hu.avg_ncpus = max_threads;
+                }
             } else {
-                hu.avg_ncpus = max_threads;
+                hu.avg_ncpus = 1;
             }
         }
 
@@ -411,7 +496,7 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
             cpu_features.push_back(" " + (string)buf + " ");
             continue;
         }
-        if (xp.parse_int("min_ncpus", min_ncpus)) continue;
+        if (xp.parse_double("min_ncpus", min_ncpus)) continue;
         if (xp.parse_int("max_threads", max_threads)) continue;
         if (xp.parse_double("projected_flops_scale", projected_flops_scale)) continue;
         if (xp.parse_str("os_regex", buf, sizeof(buf))) {

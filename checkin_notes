@@ -4182,3 +4182,9 @@ David  5 June 2012
         coproc_detect.cpp
     lib/
         coproc.cpp
+
+David  5 June 2012
+    - scheduler: add Vbox stuff to plan_class_spec
+
+    sched/
+        plan_class_spec.cpp,h

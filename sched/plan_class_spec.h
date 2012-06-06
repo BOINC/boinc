@@ -32,7 +32,7 @@ struct PLAN_CLASS_SPEC {
     bool virtualbox;
     bool is64bit;
     std::vector<std::string> cpu_features;
-    int min_ncpus;
+    double min_ncpus;
     int max_threads;
     double projected_flops_scale;
     bool have_os_regex;
