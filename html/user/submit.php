@@ -78,14 +78,16 @@ function show_batches($batches) {
             $first = false;
             echo "<h2>Completed batches</h2>\n";
             start_table();
-            table_header("name", "ID", "user", "app", "# jobs", "submitted");
+            table_header("name", "ID", "user", "app", "# jobs", "fraction done", "submitted");
         }
+        $pct_done = (int)($batch->fraction_done*100);
         table_row(
             "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->name</a>",
             "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->id</a>",
             $batch->user_name,
             $batch->app_name,
             $batch->njobs,
+            "$pct_done%",
             local_time_str($batch->create_time)
         );
     }
@@ -247,12 +249,16 @@ function handle_query_batch($user) {
         $durl = boinc_get_wu_output_files_url($user,$wu->id);
         if ($resultid) {
             $x = "<a href=result.php?resultid=$resultid>$resultid</a>";
-            $y = "completed";
+            $y = '<font color="green">completed</font>';
             $text = "<a href=$durl> Download Result Files</a>";
         } else {
             $x = "---";
-            $y = "in progress";
             $text = "---";
+            if ($batch->state == BATCH_STATE_COMPLETE) {
+                $y = '<font color="red">failed</font>';
+            }   else {
+                $y = "in progress";
+            }
         }
         echo "<tr>
                 <td><a href=submit.php?action=query_job&wuid=$wu->id>$wu->id &middot; $wu->name</a></td>

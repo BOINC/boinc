@@ -313,7 +313,7 @@ function estimated_makespan($njobs, $flops_per_job) {
     if ($nhosts < 10) {
         $median_flops = 2e9;
     } else {
-        $n = $nhosts/2;
+        $n = (int)($nhosts/2);
         $hs = BoincHost::enum("expavg_credit>1 order by p_fpops limit $n,1");
         $h = $hs[0];
         $median_flops = $h->p_fpops;
