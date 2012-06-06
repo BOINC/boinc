@@ -56,7 +56,7 @@ function get_output_file($instance_name, $file_num, $auth_str) {
 // get all the output files of a batch (canonical instances only)
 // and make a zip of all of them
 //
-function get_output_files($batch_id, $auth_str) {
+function get_batch_output_files($batch_id, $auth_str) {
     $batch = BoincBatch::lookup_id($batch_id);
     if (!$batch) die("no batch $batch_id");
     $user = BoincUser::lookup_id($batch->user_id);
@@ -95,13 +95,61 @@ function get_output_files($batch_id, $auth_str) {
     unlink($zip_filename);
 }
 
+// get all the output files of a workunit (canonical instances only)
+// and make a zip of all of them
+//
+function get_wu_output_files($wu_id, $auth_str) {
+        $wu = BoincWorkunit::lookup_id($wu_id);
+        if (!$wu) die("no workunit $wu_id");
+        $batch = BoincBatch::lookup_id($wu->batch);
+        if (!batch) die("no batch $wu->batch");
+        $user = BoincUser::lookup_id($batch->user_id);
+        if (!$user) die("no user $batch->user_id");
+        $x = md5($user->authenticator.$wu_id);
+        echo "user authenticator= $user->authenticator, wu_id=$wu_id<br/>";
+        if ($x != $auth_str) die("bad auth str: x=$x, auth_str=$auth_str");
+
+        $zip_basename = tempnam("/tmp", "boinc_wu_".$wu->name."_");
+        $zip_filename = $zip_basename.".zip";
+        $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
+        $upload_dir = parse_config(get_config(), "<upload_dir>");
+
+        if (!$wu->canonical_resultid) die("no canonical result for wu $wu->name");
+        $result = BoincResult::lookup_id($wu->canonical_resultid);
+        $names = get_outfile_names($result);
+        foreach ($names as $name) {
+            $path = dir_hier_path($name, $upload_dir, $fanout);
+            if (is_file($path)) {
+                system("zip -jq $zip_basename $path");
+            }
+        }
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename='.basename($zip_filename));
+        header('Content-Transfer-Encoding: binary');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($zip_filename));
+        flush();
+        readfile("$zip_filename");
+        unlink($zip_filename);
+        unlink($zip_basename);
+}
+
+
 $auth_str = get_str('auth_str');
 $instance_name = get_str('instance_name', true);
 if ($instance_name) {
     $file_num = get_int('file_num');
     get_output_file($instance_name, $file_num, $auth_str);
 } else {
-    $batch_id = get_int('batch_id');
-    get_output_files($batch_id, $auth_str);
+    $batch_id = get_int('batch_id' , true);
+    if ($batch_id) {
+        get_batch_output_files($batch_id, $auth_str);
+    }   else {
+        $wu_id=get_int('wu_id');
+        get_wu_output_files($wu_id,$auth_str);
+    }
 }
 ?>

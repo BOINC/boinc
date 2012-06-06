@@ -130,4 +130,10 @@ function boinc_get_output_files_url($user, $batch_id) {
     return "get_output.php?batch_id=$batch_id&auth_str=$auth_str";
 }
 
+function boinc_get_wu_output_files_url($user, $wu_id) {
+    
+    //echo "url: user authenticator= $user->authenticator, wu_id=$wu_id<br/>";
+    $auth_str =  md5($user->authenticator.$wu_id);
+    return "get_output.php?wu_id=$wu_id&auth_str=$auth_str";
+}
 ?>

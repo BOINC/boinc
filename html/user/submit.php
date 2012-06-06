@@ -233,7 +233,8 @@ function handle_query_batch($user) {
     table_header(
         "Job ID and name<br><span class=note>click for details or to get output files</span>",
         "status",
-        "Canonical instance<br><span class=note>click to see result page on BOINC server</span>"
+        "Canonical instance<br><span class=note>click to see result page on BOINC server</span>",
+        "Download Results"
     );
     $wus = BoincWorkunit::enum("batch = $batch->id");
     foreach($wus as $wu) {
@@ -245,11 +246,13 @@ function handle_query_batch($user) {
             $x = "---";
             $y = "in progress";
         }
-
+        $url = boinc_get_wu_output_files_url($user,$wu->id);
+        $text = "<a href=$url> Download Result Files</a>";
         echo "<tr>
                 <td><a href=submit.php?action=query_job&wuid=$wu->id>$wu->id &middot; $wu->name</a></td>
                 <td>$y</td>
                 <td>$x</td>
+                <td>$text</td>
             </tr>
         ";
     }
