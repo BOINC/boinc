@@ -56,6 +56,11 @@ struct PLAN_CLASS_SPEC {
     char gpu_utilization_tag[256];
         // the project prefs tag for user-supplied gpu_utilization factor
 
+    // AMD/ATI apps
+    //
+    bool need_ati_libs;
+        // need DLLs w/ ati name (default: amd)
+
     // NVIDIA apps
     //
     int min_nvidia_compcap;

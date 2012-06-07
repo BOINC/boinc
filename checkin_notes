@@ -4227,3 +4227,11 @@ Bernd  6 Jun 2012
 
     sched/
         plan_class_spec.cpp
+
+David  6 June 2012
+    - scheduler: add <need_ati_libs> option
+
+    sched/
+        plan_class_spec.cpp,h
+        handle_request.cpp
+        sched_config.h

@@ -105,11 +105,13 @@ struct SCHED_CONFIG {
 
     vector<regex_t> *ban_cpu;
     vector<regex_t> *ban_os;
-    vector<int> dont_search_host_for_userid;
     int daily_result_quota;         // max results per day is this * mult
+    char debug_req_reply_dir[256];
+        // keep sched_request and sched_reply in files in this directory
     double default_disk_max_used_gb;
     double default_disk_max_used_pct;
     double default_disk_min_free_gb;
+    vector<int> dont_search_host_for_userid;
     bool dont_store_success_stderr;
     int file_deletion_strategy;
         // select method of automatically deleting files from host
@@ -153,7 +155,7 @@ struct SCHED_CONFIG {
         // use the client's primary platform if a version exists.
         // e.g. send 64-bit versions to 64-bit clients,
         // rather than trying the 32-bit version to see if it's faster.
-        // Do this only if you're sure that your 64-bit versions are
+        // Do this only if you're sure that the 64-bit versions are
         // always faster than the corresponding 32-bit versions
     double version_select_random_factor;
         // in deciding what version is fastest,
@@ -192,8 +194,6 @@ struct SCHED_CONFIG {
     bool debug_vda;
     bool debug_version_select;
 
-    char debug_req_reply_dir[256];  // keep sched_request and sched_reply
-                                    // in files in this directory
     int parse(FILE*);
     int parse_aux(FILE*);
     int parse_file(const char *dir = 0);

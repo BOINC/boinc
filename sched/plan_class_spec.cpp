@@ -246,6 +246,17 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         if (min_driver_version) {
             ati_requirements.update(abs(min_driver_version), 0);
         }
+
+        if (need_ati_libs) {
+            if (!cp.atirt_detected) {
+                return false;
+            }
+        } else {
+            if (!cp.amdrt_detected) {
+                return false;
+            }
+        }
+
         cp.set_peak_flops();
         gpu_ram = cp.opencl_prop.global_mem_size;
 
@@ -531,6 +542,8 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         if (xp.parse_int("max_driver_version", max_driver_version)) continue;
         if (xp.parse_str("gpu_utilization_tag", gpu_utilization_tag, sizeof(gpu_utilization_tag))) continue;
 
+        if (xp.parse_bool("need_ati_libs", need_ati_libs)) continue;
+
         if (xp.parse_int("min_nvidia_compcap", min_nvidia_compcap)) continue;
         if (xp.parse_int("max_nvidia_compcap", max_nvidia_compcap)) continue;
 
@@ -593,6 +606,8 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     min_driver_version = 0;
     max_driver_version = 0;
     strcpy(gpu_utilization_tag, "");
+
+    need_ati_libs = false;
 
     min_nvidia_compcap = 0;
     max_nvidia_compcap = 0;

@@ -72,11 +72,15 @@ static bool find_host_by_other(DB_USER& user, HOST req_host, DB_HOST& host) {
 
     // don't dig through hosts of these users
     // prevents flooding the DB with slow queries from users with many hosts
-    for(unsigned int i=0; i < config.dont_search_host_for_userid.size(); i++)
-      if (user.id == config.dont_search_host_for_userid[i])
-        return false;
+    //
+    for (unsigned int i=0; i < config.dont_search_host_for_userid.size(); i++) {
+        if (user.id == config.dont_search_host_for_userid[i]) {
+            return false;
+        }    
+    }
 
-    // Only check if the fields are populated
+    // Only check if all the fields are populated
+    //
     if (strlen(req_host.domain_name) && strlen(req_host.last_ip_addr) && strlen(req_host.os_name) && strlen(req_host.p_model)) {
         strcpy(dn, req_host.domain_name);
         escape_string(dn, 512);
