@@ -71,8 +71,6 @@ struct SCHED_CONFIG {
     bool dont_generate_upload_certificates;
     int uldl_dir_fanout;        // fanout of ul/dl dirs; 0 if none
     bool cache_md5_info;
-    bool use_benchmark_weights;
-    double fp_benchmark_weight;
     int fuh_debug_level;
     int reliable_priority_on_over;
         // additional results generated after at least one result

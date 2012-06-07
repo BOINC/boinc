@@ -60,6 +60,8 @@ struct PLAN_CLASS_SPEC {
     //
     bool need_ati_libs;
         // need DLLs w/ ati name (default: amd)
+    int min_cal_target;
+    int max_cal_target;
 
     // NVIDIA apps
     //

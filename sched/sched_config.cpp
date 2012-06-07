@@ -147,16 +147,6 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool("dont_generate_upload_certificates", dont_generate_upload_certificates)) continue;
         if (xp.parse_int("uldl_dir_fanout", uldl_dir_fanout)) continue;
         if (xp.parse_bool("cache_md5_info", cache_md5_info)) continue;
-        if (xp.parse_double("fp_benchmark_weight", fp_benchmark_weight)) {
-            if (fp_benchmark_weight < 0 || fp_benchmark_weight > 1) {
-                fprintf(stderr,
-                    "CONFIG FILE ERROR: fp_benchmark_weight outside of 0..1"
-                );
-            } else {
-                use_benchmark_weights = true;
-            }
-            continue;
-        }
         if (xp.parse_int("fuh_debug_level", fuh_debug_level)) continue;
         if (xp.parse_int("reliable_priority_on_over", reliable_priority_on_over)) continue;
         if (xp.parse_int("reliable_priority_on_over_except_error", reliable_priority_on_over_except_error)) continue;

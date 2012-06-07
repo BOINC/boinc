@@ -257,6 +257,25 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
             }
         }
 
+        if (min_cal_target && cp.attribs.target < min_cal_target) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] CAL target %d < %d\n",
+                    cp.attribs.target, min_cal_target
+                );
+            }
+            return false;
+        }
+        if (max_cal_target && cp.attribs.target > max_cal_target) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] CAL target %d > %d\n",
+                    cp.attribs.target, max_cal_target
+                );
+            }
+            return false;
+        }
+
         cp.set_peak_flops();
         gpu_ram = cp.opencl_prop.global_mem_size;
 
@@ -543,6 +562,8 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         if (xp.parse_str("gpu_utilization_tag", gpu_utilization_tag, sizeof(gpu_utilization_tag))) continue;
 
         if (xp.parse_bool("need_ati_libs", need_ati_libs)) continue;
+        if (xp.parse_int("min_cal_target", min_cal_target)) continue;
+        if (xp.parse_int("max_cal_target", max_cal_target)) continue;
 
         if (xp.parse_int("min_nvidia_compcap", min_nvidia_compcap)) continue;
         if (xp.parse_int("max_nvidia_compcap", max_nvidia_compcap)) continue;
