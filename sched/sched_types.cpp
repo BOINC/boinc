@@ -329,12 +329,10 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
                 file_xfer_results.push_back(result);
                 continue;
             }
-#if 0   // enable if you need to limit CGI memory size
-            if (results.size() >= 1024) {
+            if (config.max_results_accepted && (int)(results.size()) >= config.max_results_accepted) {
                 results_truncated = true;
                 continue;
             }
-#endif
             // check if client is sending the same result twice.
             // Shouldn't happen, but if it does bad things will happen
             //

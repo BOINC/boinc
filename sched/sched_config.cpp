@@ -248,6 +248,7 @@ int SCHED_CONFIG::parse(FILE* f) {
             max_jobs_in_progress.project_limits.gpu.per_proc = true;
             continue;
         }
+        if (xp.parse_int("max_results_accepted", max_results_accepted)) continue;
         if (xp.parse_int("max_wus_to_send", max_wus_to_send)) continue;
         if (xp.parse_int("min_core_client_version", min_core_client_version)) {
             if (min_core_client_version && min_core_client_version < 10000) {

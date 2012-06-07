@@ -70,7 +70,6 @@ struct SCHED_CONFIG {
     bool ignore_upload_certificates;
     bool dont_generate_upload_certificates;
     int uldl_dir_fanout;        // fanout of ul/dl dirs; 0 if none
-    int uldl_dir_levels;
     bool cache_md5_info;
     bool use_benchmark_weights;
     double fp_benchmark_weight;
@@ -128,6 +127,11 @@ struct SCHED_CONFIG {
     int max_download_urls_per_file;
     int max_ncpus;
     JOB_LIMITS max_jobs_in_progress;
+    int max_results_accepted;
+        // skip reported jobs beyond this limit
+        // (they'll get reported in the next RPC)
+        // This limits the memory usage of the scheduler;
+        // otherwise it can crash if the client is reporting thousands of jobs.
     int max_wus_to_send;            // max results per RPC is this * mult
     int min_core_client_version;
     int min_core_client_version_announced;

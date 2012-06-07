@@ -4235,3 +4235,11 @@ David  6 June 2012
         plan_class_spec.cpp,h
         handle_request.cpp
         sched_config.h
+
+David  6 June 2012
+    - scheduler: add max_results_accepted config option.
+        Limits mem usage by the scheduler, can prevent crashes.
+
+    sched/
+        sched_config.cpp,h
+        sched_types.cpp
