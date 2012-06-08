@@ -8,20 +8,23 @@
               $(this).parent('label').addClass('selected');
           });                
       };
-      if ($('.form-radios .form-item label input').length) {
-          $('.form-radios .form-item:first-child label').addClass('first');
-          $('.form-radios .form-item label').each(function(){
+      if ($('.form-radios.fancy .form-item label input').length) {
+          $('.form-radios.fancy .form-item:first-child label').addClass('first');
+          $('.form-radios.fancy .form-item label').each(function(){
               $(this).removeClass('selected');
           });
-          $('.form-radios .form-item label input:checked').each(function(){ 
-              $(this).parent('.form-radios .form-item label').addClass('selected');
+          $('.form-radios.fancy .form-item label input:checked').each(function(){ 
+              $(this).parent('.form-radios.fancy .form-item label').addClass('selected');
           });
       };
   };
-  $(document).ready(function(){
-      $('body').addClass('has-js');
-      $('.label_check, .form-radios .form-item label').click(function(){
+  function fancyRadiosInit(){
+      $('.label_check, .form-radios.fancy .form-item label').click(function(){
           setupLabel();
       });
       setupLabel(); 
+  };
+  $(document).ready(function(){
+      $('body').addClass('has-js');
+      fancyRadiosInit();
   });
