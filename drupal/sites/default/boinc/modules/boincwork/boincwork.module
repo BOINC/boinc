@@ -65,6 +65,14 @@ function boincwork_menu() {
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK
   );*/
+  $items['admin/settings/boinc/work/prefs/presets'] = array(
+    'title' => 'BOINC preference presets',
+    'description' => 'Set values for BOINC preference set presets.',
+    'page callback' => 'boincwork_admin_prefs_presets_page',
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'boincwork.admin.inc'
+  );
   $items['user/%/mobile'] = array(
     'title' => t('Mobile stats'),
     'page callback' => 'boincwork_mobile_stats',
@@ -115,6 +123,7 @@ function generalprefs_page($action = null, $venue = null) {
     // Compare preference sets; tabular view
     foreach ($pref_sets as $pref_set) {
       //$form_state['build_info']['args'] = array($pref_set);
+      $form_state = array();
       $prefs[$pref_set] = drupal_retrieve_form('boincwork_generalprefs_form', $form_state, $pref_set);
       drupal_prepare_form('boincwork_generalprefs_form', $prefs[$pref_set], $form_state);
     }
@@ -136,7 +145,7 @@ function generalprefs_page($action = null, $venue = null) {
       $output .= "<td>{$prefs['default'][$section]['#title']}</td>";
       foreach ($pref_sets as $pref_set) $output .= '<td>' . ucwords($pref_set) . '</td>';
       $output .= '</tr>';
-      foreach ($prefs['default'][$section] as $name => $setting) {
+      foreach ($prefs['default']['prefs']['advanced'][$section] as $name => $setting) {
         if ($name{0} == '#') continue;
         if (!isset($setting['#type'])) continue;
         if (!isset($setting['#title'])) $setting['#title'] = '';
@@ -144,13 +153,16 @@ function generalprefs_page($action = null, $venue = null) {
         $output .= '<tr>';
         $output .= "<td>{$setting['#title']}<br/>{$setting['#description']}</td>";
         foreach ($pref_sets as $pref_set) {
-          if (($prefs[$pref_set]) AND isset($prefs[$pref_set][$section])) {
-            $pref_setting = $prefs[$pref_set][$section][$name];
+          if (($prefs[$pref_set]) AND isset($prefs[$pref_set]['prefs']['advanced'][$section])) {
+            $pref_setting = $prefs[$pref_set]['prefs']['advanced'][$section][$name];
             $value = isset($pref_setting['#options']) ? $pref_setting['#options'][$pref_setting['#default_value']] : $pref_setting['#default_value'];
             if ($value == '') $value = '---';
             if (!isset($pref_setting['#field_suffix'])) $pref_setting['#field_suffix'] = '';
             $output .= "<td>{$value} {$pref_setting['#field_suffix']}</td>";
-          } else $output .= '<td>---</td>';
+          }
+          else {
+            $output .= '<td>---</td>';
+          }
         }
         $output .= '</tr>';
       }
@@ -171,6 +183,7 @@ function generalprefs_page($action = null, $venue = null) {
     
     if ($venue) $pref_sets = array($venue);
     foreach ($pref_sets as $pref_set) {
+      $form_state = array();
       $prefs = drupal_retrieve_form('boincwork_generalprefs_form', $form_state, $pref_set);
       drupal_prepare_form('boincwork_generalprefs_form', $prefs, $form_state);
       if (isset($prefs['venue'])) {
@@ -216,12 +229,25 @@ function generalprefs_page($action = null, $venue = null) {
     
   case 'edit':
   default:
-    require_boinc('util');
-    
-    //$output .= t('These preferences apply to all the BOINC projects in which you participate.');
+  
     // Return the HTML generated from the $form data structure.
-    $output .= drupal_get_form('boincwork_generalprefs_form', null, $venue, true);
-    $output .= '<p>' . l('(' . t('Show comparison view') . ')', 'account/prefs/computing/combined') . '</p>';
+    if (function_exists('jump_quickly')) {
+      $path = 'account/prefs/computing/edit';
+      $venues = array(
+        "{$path}/default" => t('Default'),
+        "{$path}/home" => t('Home'),
+        "{$path}/work" => t('Work'),
+        "{$path}/school" => t('School')
+      );
+      variable_set('jump_use_js_venues-Array', 1);
+      drupal_add_js(drupal_get_path('module', 'jump') . '/jump.js');
+      drupal_add_js(drupal_get_path('theme', 'boinc') . '/js/prefs.js', 'theme');
+      $output .= '<div class="simple-form-controls"><div class="form-item venue">';
+      $output .= '<label>Preference sets:</label>';
+      $output .= jump_quickly($venues, 'venues');
+      $output .= '</div></div>';
+    }
+    $output .= drupal_get_form('boincwork_generalprefs_form', $venue);
     break;
   }
   
@@ -246,6 +272,7 @@ function projectprefs_page($action = null, $venue = null) {
   case 'combined':
     // Compare preference sets; tabular view
     foreach ($pref_sets as $pref_set) {
+      $form_state = array();
       $prefs[$pref_set] = drupal_retrieve_form('boincwork_projectprefs_form', $form_state, $pref_set);
       drupal_prepare_form('boincwork_projectprefs_form', $prefs[$pref_set], $form_state);
     }
@@ -299,6 +326,7 @@ function projectprefs_page($action = null, $venue = null) {
   case 'view':
     if ($venue) $pref_sets = array($venue);
     foreach ($pref_sets as $pref_set) {
+      $form_state = array();
       $prefs = drupal_retrieve_form('boincwork_projectprefs_form', $form_state, $pref_set);
       drupal_prepare_form('boincwork_projectprefs_form', $prefs, $form_state);
       if (isset($prefs['venue'])) {
@@ -360,7 +388,7 @@ function projectprefs_page($action = null, $venue = null) {
   default:
     require_boinc('util');
     // Return the HTML generated from the $form data structure.
-    $output .= drupal_get_form('boincwork_projectprefs_form', null, $venue, true);
+    $output .= drupal_get_form('boincwork_projectprefs_form', $venue);
     $output .= '<p>' . l('(' . t('Show comparison view') . ')', 'account/prefs/project/combined') . '</p>';
     break;
     
@@ -461,6 +489,7 @@ function privacyprefs_page($action = null) {
   
   switch ($action) {
   case 'view':
+    $form_state = array();
     $prefs = drupal_retrieve_form('boincwork_privacyprefs_form', $form_state);
     drupal_prepare_form('boincwork_privacyprefs_form', $prefs, $form_state);
     $output .= '<table>';
@@ -501,7 +530,7 @@ function privacyprefs_page($action = null) {
   default:
     require_boinc('util');
     // Return the HTML generated from the $form data structure.
-    $output .= drupal_get_form('boincwork_privacyprefs_form', null, true);
+    $output .= drupal_get_form('boincwork_privacyprefs_form');
     break;
     
   }

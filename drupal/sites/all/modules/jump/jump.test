@@ -1,0 +1,371 @@
+<?php
+
+/**
+ * @file
+ * Simpletest integration for the Jump module.
+ */
+
+/**
+ * Test basic Jump functionality.
+ */
+class JumpTestCase extends DrupalWebTestCase {
+  public static function getInfo() {
+    return array(
+     'name' => t('Jump functionality'),
+     'description' => t('Test Jump module functionality.'),
+     'group' => t('Jump'),
+    );
+  }
+
+  public function tearDown() {
+    parent::tearDown();
+  }
+
+  public function setUp() {
+    parent::setUp('jump', 'path', 'taxonomy', 'devel');
+
+    // Create a user to perform tests.
+    $this->web_user = $this->drupalCreateUser(array (
+      'administer blocks',
+      'administer menu',
+      'access content',
+      'administer nodes',
+      'create story content',
+      'administer taxonomy',
+      'create url aliases'
+    ));
+    $this->drupalLogin($this->web_user);
+
+    // Add a menu for jumping.
+    $this->menu_name = drupal_strtolower($this->randomName(8));
+    $this->menu_name = preg_replace('/simpletest_|[^a-z]/', '', $this->menu_name);
+    $title = $this->randomName(8);
+    $edit = array(
+      'menu_name' => $this->menu_name,
+      'title' => $title,
+      'description' => $this->randomName(8),
+    );
+    $this->drupalPost('admin/build/menu/add', $edit, 'Save');
+    $this->assertRaw($title, "New menu page title.");
+
+    // Enable the jump menu block.
+    $this->drupalGet('admin/build/block');
+    $this->assertText('Jump menu: menu-'. $this->menu_name, 
+      t('Jump menu: menu-'. $this->menu_name .' exists.'));
+
+    // This assumes that the theme being used has a right section.
+    $edit = array(
+      'jump_menu-menu-'. $this->menu_name .'[region]' => 'right',
+    );
+    $this->drupalPost('admin/build/block', $edit, 'Save blocks');
+
+    // Add a second menu for jumping.
+    $this->menu_name2 = drupal_strtolower($this->randomName(8));
+    $this->menu_name2 = preg_replace('/simpletest_|[^a-z]/', '', $this->menu_name2);
+    $title = $this->randomName(8);
+    $edit = array(
+      'menu_name' => $this->menu_name2,
+      'title' => $title,
+      'description' => $this->randomName(8),
+    );
+    $this->drupalPost('admin/build/menu/add', $edit, 'Save');
+    $this->assertRaw($title, "New menu page title.");
+
+    // Enable the jump menu block.
+    $this->drupalGet('admin/build/block');
+    $this->assertText('Jump menu: menu-'. $this->menu_name2, 
+      t('Jump menu: menu-'. $this->menu_name2 .' exists.'));
+
+    // This assumes that the theme being used has a right section.
+    $edit = array(
+      'jump_menu-menu-'. $this->menu_name2 .'[region]' => 'right',
+    );
+    $this->drupalPost('admin/build/block', $edit, 'Save blocks');
+  }
+
+  /**
+   * Test to make sure basic Jump menu functionality works for nodes.
+   */
+  public function testJumpNode() {
+    // Add a node.
+    $settings = array('type' => 'story');
+    $node = $this->drupalCreateNode($settings);
+
+    // Add the node to the menu.
+    $edit = array(
+      'menu[link_path]' => 'node/'. $node->nid,
+      'menu[link_title]' => $node->title,
+    );
+    $this->drupalPost(
+      '/admin/build/menu-customize/menu-'. $this->menu_name .'/add',
+      $edit, 'Save'
+    );
+    $this->assertRaw($node->title, 'Test story added to menu');
+
+    // Jump to it.
+    $jump_edit = array(
+      'jump_goto' => $edit['menu[link_path]'],
+    );
+    $this->drupalPost('', $jump_edit, 'Go');
+    //$this->outputScreenContents('Test jump click.', 'testJumpNode');
+
+    // Verify jump.
+    $this->assertText($node->body, t('Verified basic jump.'));
+    $this->assertPattern('/class="jump-quickly".*<select.*<option value="node\/'. $node->nid .'" selected="selected"/s', t('Verified that the node we jumped to is selected in the jump form.'));
+  }
+
+  /**
+   * Test to make sure that a jump without jump_activepageinmenu does not
+   * include the active page as selected in the jump menu.
+   */
+  public function testJumpNotActivePageInMenu() {
+    // Unset jump_activepageinmenu.
+    variable_set('jump_activepageinmenu', 0);
+
+    // Add a node.
+    $settings = array('type' => 'story');
+    $node = $this->drupalCreateNode($settings);
+
+    // Add the node to the menu.
+    $edit = array(
+      'menu[link_path]' => 'node/'. $node->nid,
+      'menu[link_title]' => $node->title,
+    );
+    $this->drupalPost(
+      '/admin/build/menu-customize/menu-'. $this->menu_name .'/add',
+      $edit, 'Save'
+    );
+    $this->assertRaw($node->title, 'Test story added to menu');
+
+    // Jump to it.
+    $jump_edit = array(
+      'jump_goto' => $edit['menu[link_path]'],
+    );
+    $this->drupalPost('', $jump_edit, 'Go');
+
+    // Verify jump.
+    $this->assertText($node->body, t('Verified basic jump.'));
+
+    // This should match all of the jump_got select lists on a page.  We want
+    // to check that none of them are "selected".
+    $re = '/<select[^>]*name="jump_goto"[^>]*>(?:<option[^>]*>[^<]*<\/option>)*<\/select>/s';
+    preg_match($re, $this->drupalGetContent(), $matches);
+    $fail = 0;
+    foreach ($matches as $select) {
+      if (preg_match('/selected="selected"/',$select)) {
+        $fail=1;
+        break;
+      }
+    }
+    $this->assertTrue(!$fail, t('A jump option is not selected when jump_activepageinmenu is enabled.'));
+
+    // Unset jump_activepageinmenu.
+    variable_set('jump_activepageinmenu', 1);
+  }
+
+  /**
+   * Test to make sure that a jump with jump_activepageinmenu set, but with
+   * jump_activepageinmenu-menu-<delta1> unset that menu-<delta1> will not
+   * have the activepage in menu set, but menu-<delta2> will.
+   */
+  public function testJumpBlockNotActivePageInBlockOverride() {
+    // Set the sitewide jump_activepageinmenu.
+    variable_set('jump_activepageinmenu', 1);
+
+    // Now unset the jump_activepageinmenu-menu-<delta1> setting.
+    variable_set('jump_activepageinmenu_menu-menu-'. $this->menu_name2, 0);
+
+    // Add a node.
+    $settings = array('type' => 'story');
+    $node = $this->drupalCreateNode($settings);
+
+    // Add the node to menu1.
+    $edit = array(
+      'menu[link_path]' => 'node/'. $node->nid,
+      'menu[link_title]' => $node->title,
+    );
+    $this->drupalPost(
+      '/admin/build/menu-customize/menu-'. $this->menu_name .'/add',
+      $edit, 'Save'
+    );
+    $this->assertRaw($node->title, 'Test story added to menu');
+
+    // Add the same node to menu2.
+    $edit = array(
+      'menu[link_path]' => 'node/'. $node->nid,
+      'menu[link_title]' => $node->title,
+    );
+    $this->drupalPost(
+      '/admin/build/menu-customize/menu-'. $this->menu_name2 .'/add',
+      $edit, 'Save'
+    );
+    $this->assertRaw($node->title, 'Test story added to menu');
+
+    // Jump to it.
+    $jump_edit = array(
+      'jump_goto' => $edit['menu[link_path]'],
+    );
+    $this->drupalPost('', $jump_edit, 'Go');
+
+    // Verify jump.
+    $this->assertText($node->body, t('Verified basic jump.'));
+
+    // This should match the two jump_goto select lists on the page.  We want
+    // to check that only one of them are "selected".
+    $re = '/<select[^>]*name="jump_goto"[^>]*>(?:<option[^>]*>[^<]*<\/option>)*<\/select>/';
+    preg_match_all($re, $this->drupalGetContent(), $matches);
+    $fail = 0;
+    foreach ($matches[0] as $select) {
+      if (preg_match('/selected="selected"/',$select)) {
+        $fail++;
+      }
+    }
+    $this->assertTrue(!($fail==2), t('The per block active menu override is working.'));
+
+  }
+
+  /**
+   * Test to make sure basic Jump menu functionality works for taxonomy terms.
+   */
+  public function testJumpTaxonomyTerm() {
+    // Add a vocbulary.
+    $vName = $this->randomName(8);
+    $edit = array(
+      'name' => $vName
+    );
+    $this->drupalPost(
+      'admin/content/taxonomy/add/vocabulary',
+      $edit, 'Save'
+    );
+    $vocabularies = taxonomy_get_vocabularies();
+    $vocabulary = new stdClass();
+    foreach ($vocabularies as $vocabulary) {
+      if ($vocabulary->name == $vName) {
+        break;
+      }
+    }
+    if (empty($vocabulary->vid)) {
+      $this->fail('Unable to verify the creation of a vocabulary for testing jump by taxonomy term.');
+      return;
+    }
+
+    // Add a term.
+    $tName = $this->randomName(8);
+    $edit = array(
+      'name' => $tName
+    );
+    $this->drupalPost(
+      'admin/content/taxonomy/'. $vocabulary->vid .'/add/term',
+      $edit, 'Save'
+    );
+    $terms = taxonomy_get_term_by_name($tName);
+    $term = new stdClass();
+    foreach ($terms as $term) {
+      if ($term->name == $tName) {
+        break;
+      }
+    }
+    if (empty($term->tid)) {
+      $this->fail('Unable to verify the creation of a vocabulary term for testing jump by taxonomy term: ', print_r($term) .'.');
+      return;
+    }
+
+    // Add the term to the menu.
+    $edit = array(
+      'menu[link_path]' => 'taxonomy/term/'. $term->tid,
+      'menu[link_title]' => $tName,
+    );
+    $this->drupalPost(
+      'admin/build/menu-customize/menu-'. $this->menu_name .'/add',
+      $edit, 'Save'
+    );
+    $this->assertRaw($term->name, 'Taxonomy term added to menu');
+
+    // Jump to the term.
+    $jump_edit = array(
+      'jump_goto' => $edit['menu[link_path]'],
+    );
+    $this->drupalPost('', $jump_edit, 'Go');
+
+    // Verify jump.
+    $this->assertText('There are currently no posts in this category.', 
+      t('Verified taxonomy term jump.'));
+    $this->assertPattern('/class="jump-quickly".*<select.*<option value="taxonomy\/term\/'. $term->tid .'" selected="selected"/s', 
+      t('Verified that the taxonomy term we jumped to is selected in the jump form.'));
+  }
+
+  public function testJumpNodePathAuto() {
+    // Add a node with a path.
+    $path = $this->randomName(8) .'/'. $this->randomName(8);
+    $settings = array(
+      'type' => 'story',
+      'path' => $path
+    );
+    $node = $this->drupalCreateNode($settings);
+
+    // Add the node to the menu with the node/<nid> path first.
+    $edit = array(
+      'menu[link_path]' => 'node/'. $node->nid,
+      'menu[link_title]' => $node->title,
+    );
+    $this->drupalPost(
+      '/admin/build/menu-customize/menu-'. $this->menu_name .'/add',
+      $edit, 'Save'
+    );
+    $this->assertRaw($node->title, 'Test story added to menu');
+
+    // Jump to it.
+    $jump_edit = array(
+      'jump_goto' => $edit['menu[link_path]'],
+    );
+    $this->drupalPost('', $jump_edit, 'Go');
+
+    // Verify jump.
+    $this->assertText($node->body, t('Verified basic jump.'));
+    $this->assertPattern('/class="jump-quickly".*<select.*<option value="node\/'. $node->nid .'" selected="selected"/s', t('Verified that the node we jumped to is selected in the jump form.'));
+
+    // Add a node with a path.
+    $path = $this->randomName(8) .'/'. $this->randomName(8);
+    $settings = array(
+      'type' => 'story',
+      'path' => $path
+    );
+    $node = $this->drupalCreateNode($settings);
+
+    // Add the node to the menu with the node/<nid> path.
+    $edit = array(
+      'menu[link_path]' => $path,
+      'menu[link_title]' => $node->title,
+    );
+    $this->drupalPost(
+      '/admin/build/menu-customize/menu-'. $this->menu_name .'/add',
+      $edit, 'Save'
+    );
+    $this->assertRaw($node->title, 'Test story added to menu');
+
+    // Jump to it. Even though we add the custom $path instead of the 
+    // node/<nid> path, drupal will output the select options with the
+    // node/<nid> value.  We don't care so long as we can jump to it.
+    $jump_edit = array(
+      //'jump_goto' => $edit['menu[link_path]'],
+      'jump_goto' => 'node/'. $node->nid
+    );
+    $this->drupalPost('', $jump_edit, 'Go');
+    //$this->outputScreenContents('Clicked on Auto Path.', 'testJumpNodePathAuto');
+
+    // Verify jump.
+    $this->assertText($node->body, t('Verified basic jump.'));
+    $this->assertPattern('/class="jump-quickly".*<select.*<option value="node\/'. $node->nid .'" selected="selected"/s', t('Verified that the node we jumped to is selected in the jump form.'));
+  }
+
+  private function outputScreenContents($description, $basename) {
+    // This is a hack to get a directory that won't be cleaned up by simpletest
+    $file_dir = file_directory_path().'/../simpletest_output_pages';
+    if (!is_dir($file_dir)) {
+      mkdir($file_dir, 0777, TRUE);
+    }
+    $output_path = "$file_dir/$basename." . $this->randomName(10) . '.html';
+    $rv = file_put_contents($output_path, $this->drupalGetContent());
+    $this->pass("$description: Contents of result page are ".l('here',$output_path));
+  }
+}
