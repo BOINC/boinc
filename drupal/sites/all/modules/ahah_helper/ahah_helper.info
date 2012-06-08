@@ -1,0 +1,10 @@
+name = "AHAH helper"
+description = The AHAH helper module, making gracefully degradable AHAH-driven forms a no-brainer.
+core = 6.x
+
+; Information added by drupal.org packaging script on 2011-07-11
+version = "6.x-2.2"
+core = "6.x"
+project = "ahah_helper"
+datestamp = "1310369523"
+

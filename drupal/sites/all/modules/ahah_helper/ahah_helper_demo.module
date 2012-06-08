@@ -1,0 +1,219 @@
+<?php
+
+
+/**
+ * Hi,
+ * 
+ * This is a very brief tutorial of what you need to do to use the ahah_helper
+ * module. This piece of text is all you need to know, besides knowing the
+ * Forms API basics already.
+ *
+ * This is not a perfect approach to AHAH forms. But then again, the very
+ * reason this module exists is because Drupal 6's Forms API does an even
+ * worse job.
+ * 90% of what you know about Forms API stil applies. A few things are
+ * different, to make it work perfectly.
+ * 1) Always call ahah_helper_register() at the beginning of your form. It
+ *    sets $form['#cache'], stores in what file the form definition function
+ *    exists and adds some JS.
+ *    Finally, it stores the last entered value for each form item; this
+ *    allows you to dynamically add and remove form items and still remember
+ *    their last entered value! The last known value for $form['foo']['bar']
+ *    is stored in $form_state['storage']['foo']['bar].
+ * 2) That's it. Well, that and one change in how you write form items: you
+ *    will *always* have to set #default_value, and *always* assign it the
+ *    latest known value. If not, the value will be empty.
+ *    This is an annoyance indeed, but it cannot be worked around easily. See
+ *    the remark at the top of the ahah_helper.module file.
+ *
+ *  Good luck!
+ *  Wim Leers ~ http://wimleers.com/
+ */
+
+
+//----------------------------------------------------------------------------
+// Drupal core hooks.
+
+/**
+ * Implementation of hook_menu().
+ */
+function ahah_helper_demo_menu() {
+  $items['ahah_helper_demo'] = array(
+    'page callback'    => 'drupal_get_form',
+    'page arguments'   => array('ahah_helper_demo_form'),
+    'access callback'  => TRUE,
+    'type'             => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+
+//----------------------------------------------------------------------------
+// Forms API callbacks.
+
+/**
+ * Form definition; ahah_helper_demo form.
+ */
+function ahah_helper_demo_form($form_state) {
+  $form = array();
+
+  // Register the form with ahah_helper so we can use it. Also updates
+  // $form_state['storage'] to ensure it contains the latest values that have
+  // been entered, even when the form item has temporarily been removed from
+  // the form. So if a form item *once* had a value, you *always* can retrieve
+  // it.
+  ahah_helper_register($form, $form_state);
+
+  // Determine the default value of the 'usage' select. When nothing is stored
+  // in $form_state['storage'] yet, it's the form hasn't been submitted yet,
+  // thus it's the first time the form is being displayed. Then, we set the
+  // default to 'company'.
+  if (!isset($form_state['storage']['billing_info']['usage'])) {
+    $usage_default_value = 'company';
+  }
+  else {
+    $usage_default_value =  $form_state['storage']['billing_info']['usage'];
+  }
+
+  $form['billing_info'] = array(
+    '#type'   => 'fieldset',
+    '#title'  => t('Billing information'),
+    '#prefix' => '<div id="billing-info-wrapper">', // This is our wrapper div.
+    '#suffix' => '</div>',
+    '#tree'   => TRUE, // Don't forget to set #tree!
+  );
+  $form['billing_info']['usage'] = array(
+    '#type' => 'select',
+    '#title' => t('Usage'),
+    '#options' => array(
+      'private' => t('Private'),
+      'company' => t('Company'),
+    ),
+    '#default_value' => $usage_default_value,
+    '#ahah' => array(
+      'event'   => 'change',
+      // This is the "magical path". Note that the parameter is an array of
+      // the parents of the form item of the wrapper div!
+      'path'    => ahah_helper_path(array('billing_info')),
+      'wrapper' => 'billing-info-wrapper',
+    ),
+  );
+  $form['billing_info']['update_usage'] = array(
+    '#type'  => 'submit',
+    '#value' => t('Update usage'),
+    // Note that we can simply use the generic submit callback provided by the
+    // ahah_helper module here!
+    // All it does, is set $form_state['rebuild'] = TRUE.
+    '#submit' => array('ahah_helper_generic_submit'),
+    // We set the 'no-js' class, which means this submit button will be hidden
+    // automatically by Drupal if JS is enabled.
+    '#attributes' => array('class' => 'no-js'),
+  );
+
+
+  // If 'company' is selected, then these two form items will be displayed.
+  if ($usage_default_value == 'company') {
+    $form['billing_info']['company_name'] = array(
+      '#type'      => 'textfield',
+      '#title'     => t('Company name'),
+      '#required'  => TRUE,
+      '#size'      => 20,
+      '#maxlength' => 255,
+      // If the user switched to Private usage and back to Company usage, we
+      // remembered his company's name!
+      '#default_value' => $form_state['storage']['billing_info']['company_name'],
+    );
+    $form['billing_info']['vat'] = array(
+      '#type'        => 'textfield',
+      '#title'       => t('VAT number'),
+      '#description' => t('Please enter a Belgian VAT number, the format is: <em>BE0999999999</em>.'),
+      '#size'        => 20,
+      '#maxlength'   => 255,
+      // If the user switched to Private usage and back to Company usage, we
+      // remembered his VAT number!
+      '#default_value' => $form_state['storage']['billing_info']['vat'],
+      '#ahah' => array(
+        'event' => 'blur',
+        'path' => ahah_helper_path(array('billing_info', 'vat')),
+        'wrapper' => 'edit-billing-info-vat-wrapper',
+        'effect' => 'none',
+        'method' => 'replace',
+      ),
+    );
+    // Provide instantaneous (#ahah-powered) feedback to the user about the
+    // VAT number he entered.
+    if (isset($form_state['storage']['billing_info']['vat']) && strlen($form_state['storage']['billing_info']['vat']) > 0) {
+      $form['billing_info']['vat']['#field_suffix'] = theme('image', (preg_match('/^BE0\d{9}$/', $form_state['storage']['billing_info']['vat'])) ? 'misc/watchdog-ok.png' : 'misc/watchdog-error.png');
+    }
+  }
+  // And if 'private' is selected, then these two form items will be displayed.
+  else {
+    $form['billing_info']['first_name'] = array(
+      '#type'      => 'textfield',
+      '#title'     => t('First name'),
+      '#required'  => TRUE,
+      '#size'      => 20,
+      '#maxlength' => 255,
+      // If the user switched to Company usage and back to Private usage, we
+      // remembered his first name!
+      '#default_value' => $form_state['storage']['billing_info']['first_name'],
+    );
+    $form['billing_info']['last_name'] = array(
+      '#type'      => 'textfield',
+      '#title'     => t('Last name'),
+      '#required'  => TRUE,
+      '#size'      => 20,
+      '#maxlength' => 255,
+      // If the user switched to Company usage and back to Private usage, we
+      // remembered his last name!
+      '#default_value' => $form_state['storage']['billing_info']['last_name'],
+    );
+  }
+
+  $form['billing_info']['address'] = array(
+    '#type'      => 'textfield',
+    '#title'     => t('Address'),
+    '#required'  => TRUE,
+    '#size'      => 20,
+    '#maxlength' => 255,
+    // Always set #default_value, even if it's not a dynamically added form item!
+    '#default_value' => $form_state['storage']['billing_info']['address'],
+  );
+  $form['billing_info']['country'] = array(
+    '#type'      => 'textfield',
+    '#title'     => t('Country'),
+    '#size'      => 20,
+    '#maxlength' => 255,
+    // Always set #default_value, even if it's not a dynamically added form item!
+    '#default_value' => $form_state['storage']['billing_info']['country'],
+  );
+
+  $form['save'] = array(
+    '#type'  => 'submit',
+    '#value' => t('Save'),
+  );
+
+  return $form;
+}
+
+/**
+ * Validate callback for the ahah_helper_demo form.
+ */
+function ahah_helper_demo_form_validate($form, &$form_state) {
+  // Check the VAT number if:
+  // - the form item is being displayed, and
+  // - a VAT number has been entered (it's not a required form item)
+  if (isset($form['billing_info']['vat']) && strlen($form_state['values']['billing_info']['vat']) > 0) {
+    // Check if the entered VAT number is valid in Belgium.
+    if (!preg_match('/^BE0\d{9}$/', $form_state['values']['billing_info']['vat'])) {
+      form_error($form['billing_info']['vat'], t('Invalid VAT number.'));
+    }
+  }
+}
+
+/**
+ * Submit callback for the ahah_helper_demo form.
+ */
+function ahah_helper_demo_form_submit($form, &$form_state) {
+  drupal_set_message('Congratulations, you entered valid data. Unfortunately, nothing was saved because this is a demo.');
+}

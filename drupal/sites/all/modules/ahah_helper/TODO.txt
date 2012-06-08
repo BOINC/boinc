@@ -1,0 +1,5 @@
+
+- a simplification in usage is possible: instead of the 'path' and 'wrapper'
+  properties inside the #ahah property, you should be able to specify a parent
+  form item that'll become the wrapper. Using some #process callback magic, we
+  should be able to set 'path' and 'wrapper' automagically.
