@@ -68,6 +68,24 @@ function boincwork_views_data() {
       'handler' => 'views_handler_sort_numeric'
     )
   );
+  $data['host']['venue'] = array(
+    'title' => t('Venue'),
+    'help' => t('The name of the preference set assigned to this host.'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE
+    ),
+    'argument' => array(
+      'handler' => 'views_handler_argument',
+      'name field' => 'title'
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_string'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_string'
+    )
+  );
   
   // Foreign key fields
   
