@@ -21,6 +21,7 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #endif
+#include "app_ipc.h"
 
 // ANSI C API BEGINS HERE
 // Do not put implementation stuff here
@@ -128,7 +129,6 @@ extern int setMacIcon(char *filename, char *iconData, long iconSize);
 #ifdef __cplusplus
 #include <string>
 
-#include "app_ipc.h"
 extern int boinc_get_init_data(APP_INIT_DATA&);
 extern int boinc_wu_cpu_time(double&);
 extern double boinc_elapsed_time();

@@ -4276,3 +4276,12 @@ David  9 June 2012
         feeder.cpp
         credit_test.cpp
         sched_main.cpp
+
+Bernd  10 Jun 2012
+    - API: fix for C-mode compilation of boinc_api.h
+        moved app_ipc.h inclusion outside __cplusplus
+        since it contains important C mode prototypes
+        (boinc_resolve_filename() etc.)
+
+    api/
+        boinc_api.h
