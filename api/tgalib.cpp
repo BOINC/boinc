@@ -116,7 +116,7 @@ tImageTGA *LoadTGA(const char *filename) {
             }
         } else {
             // Else return a NULL for a bad or unsupported pixel format
-            free(pImageDatae);
+            free(pImageData);
             fclose(pFile);
             return NULL;
         }
