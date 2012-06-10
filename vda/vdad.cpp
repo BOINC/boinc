@@ -448,7 +448,10 @@ int VDA_FILE_AUX::get_state() {
     if (!f) return -1;
     for (int i=0; i<policy.coding_levels; i++) {
         int n = fscanf(f, "%lf\n", &(policy.chunk_sizes[i]));
-        if (n != 1) return -1;
+        if (n != 1) {
+            fclose(f);
+            return -1;
+        }
     }
     fclose(f);
     meta_chunk = new META_CHUNK(this, NULL, 0);

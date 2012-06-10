@@ -4252,3 +4252,27 @@ David  7 June 2012
     sched/
         plan_class.cpp,h
         sched_config.cpp,h
+
+David  9 June 2012
+    - fixes of various (non-critical) fd and memory leaks.
+        Fixes #1188.  From Julien.
+    - fix bugs in setting scheduler output buffer size
+    - code formatting
+
+    client/
+        hostinfo_unix_test.cpp
+    apps/
+        concat.cpp
+    api/
+        make_app_icon_h.cpp
+        texfont.cpp
+        texture.cpp
+        tgalib.cpp
+    vda/
+        vdad.cpp
+        vda_policy.cpp
+    sched/
+        sched_driver.cpp
+        feeder.cpp
+        credit_test.cpp
+        sched_main.cpp

@@ -358,10 +358,11 @@ int main(int argc, char** argv) {
     FCGI_FILE *fin, *fout;
 #endif
     int i, retval;
-    char req_path[MAXPATHLEN], reply_path[MAXPATHLEN], log_path[MAXPATHLEN], path[MAXPATHLEN];
+    char req_path[MAXPATHLEN], reply_path[MAXPATHLEN];
+    char log_path[MAXPATHLEN], path[MAXPATHLEN];
     unsigned int counter=0;
     char* code_sign_key;
-    int length=-1;
+    int length = -1;
     log_messages.pid = getpid();
     bool debug_log = false;
 
@@ -395,7 +396,7 @@ int main(int argc, char** argv) {
         }
     }
 
-    // install a signal handler that catches SIGTERMS sent by Apache if the cgi
+    // install a signal handler that catches SIGTERMS sent by Apache if the CGI
     // times out.
     //
     signal(SIGTERM, sigterm_handler);
@@ -416,18 +417,6 @@ int main(int argc, char** argv) {
             send_message(buf, 3600);
             exit(1);
         }
-        // install a larger buffer for stderr.  This ensures that
-        // log information from different scheduler requests running
-        // in parallel don't collide in the log file and appear intermingled.
-        //
-        if (config.scheduler_log_buffer) {
-            if (!(stderr_buffer=(char *)malloc(config.scheduler_log_buffer)) ||
-                setvbuf(stderr, stderr_buffer, _IOFBF, 32768)) {
-                log_messages.printf(MSG_CRITICAL,
-                    "Unable to change stderr buffering preferences\n"
-                );
-            }
-        }
 #else
         FCGI_FILE* f = FCGI::fopen(path, "a");
         if (f) {
@@ -439,13 +428,35 @@ int main(int argc, char** argv) {
             send_message(buf, 3600);
             exit(1);
         }
-        // set buffer as above, note that f is really a struct from fcgi_stdio.h
-        if (!(stderr_buffer=(char *)malloc(32768)) || setvbuf(f->stdio_stream, stderr_buffer, _IOFBF, 32768)) {
-            log_messages.printf(MSG_CRITICAL,
-                "Unable to change stderr FCGI buffering preferences\n"
-            );
-        }
 #endif
+        // install a larger buffer for stderr.  This ensures that
+        // log information from different scheduler requests running
+        // in parallel aren't intermingled in the log file.
+        //
+        if (config.scheduler_log_buffer) {
+            stderr_buffer = (char*)malloc(config.scheduler_log_buffer);
+            if (!stderr_buffer) {
+                log_messages.printf(MSG_CRITICAL,
+                    "Unable to allocate stderr buffer\n"
+                );
+            } else {
+#ifdef _USING_FCGI_
+                retval = setvbuf(
+                    f->stdio_stream, stderr_buffer, _IOFBF,
+                    config.scheduler_log_buffer
+                );
+#else
+                retval = setvbuf(
+                    stderr, stderr_buffer, _IOFBF, config.scheduler_log_buffer
+                );
+#endif
+                if (retval) {
+                    log_messages.printf(MSG_CRITICAL,
+                        "Unable to change stderr buffering\n"
+                    );
+                }
+            }
+        }
     }
 
     srand(time(0)+getpid());

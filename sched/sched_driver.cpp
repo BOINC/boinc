@@ -80,6 +80,7 @@ void read_hosts() {
         strcpy(hd.p_model, p3);
         host_descs.push_back(hd);
     }
+    fclose(f);
 }
 
 inline double req_time() {

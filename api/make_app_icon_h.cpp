@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
     }
     
     outFile = fopen(argv[2], "w");
-    if (inFile == NULL) {
+    if (outFile == NULL) {
         printf ("Couldn't create output file %s\n", argv[2]);
         fclose(inFile);
         return 0;

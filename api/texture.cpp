@@ -328,7 +328,10 @@ unsigned * read_tga_texture(char *name, int *width, int *height, int*) {
 	fread (&type, sizeof (char), 3, s);  // read in colormap info and image type, byte 0 ignored
     fseek (s, 12, SEEK_SET);			 // seek past the header and useless info
     fread (&info, sizeof (char), 6, s);
-	if (type[1] != 0 || (type[2] != 2 && type[2] != 3)) return NULL;
+	if (type[1] != 0 || (type[2] != 2 && type[2] != 3)) {
+        fclose(s);
+        return NULL;
+    }
 	(*width)  = info[0] + info[1] * 256; 
     (*height) = info[2] + info[3] * 256;
     imageBits =	info[4]; 

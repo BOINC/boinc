@@ -351,6 +351,10 @@ int main(int argc, char** argv) {
     double total_old_credit = 0;
     double total_new_credit = 0;
     FILE* in = fopen("credit_test_data", "r");
+    if (!in) {
+        printf("can't open credit_test_data\n");
+        exit(1);
+    }
     printf("min credit: %f\n", min_credit);
     while (!feof(in)) {
         int c = fscanf(in, "%d %d %d %d %lf %d %lf %lf %lf %lf",
@@ -400,6 +404,7 @@ int main(int argc, char** argv) {
         }
         if (n >= MAX_JOBS) break;
     }
+    fclose(in);
     fclose(f);
     if (nstats == 0) {
         printf("Insufficient jobs were read from DB\n");

@@ -121,6 +121,7 @@ int main(int argc, char** argv) {
     if (state) {
         fscanf(state, "%d %d", &file_num, &nchars);
         mode = "a";
+        fclose(state);
     } else {
         file_num = (run_slow ? 2 : 1);
         nchars = 0;

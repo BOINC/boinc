@@ -873,6 +873,8 @@ int main(int argc, char** argv) {
         weighted_interleave(
             weights, ssp->napps, ssp->max_wu_results, app_indices, counts
         );
+        free(weights);
+        free(counts);
     } else {
         napps = 1;
     }

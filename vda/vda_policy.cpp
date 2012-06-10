@@ -34,11 +34,13 @@ int POLICY::parse(const char* filename) {
     n = fscanf(f, "%d", &replication);
     if (n != 1) {
         fprintf(stderr, "parse error in %s\n", filename);
+        fclose(f);
         return -1;
     }
     n = fscanf(f, "%d", &coding_levels);
     if (n != 1) {
         fprintf(stderr, "parse error in %s\n", filename);
+        fclose(f);
         return -1;
     }
     for (int i=0; i<coding_levels; i++) {
@@ -46,6 +48,7 @@ int POLICY::parse(const char* filename) {
         n = fscanf(f, "%d %d %d", &c.n, &c.k, &c.n_upload);
         if (n != 3) {
             fprintf(stderr, "parse error in %s\n", filename);
+            fclose(f);
             return -1;
         }
         c.m = c.n + c.k;
@@ -53,6 +56,7 @@ int POLICY::parse(const char* filename) {
         sprintf(buf, "(%d %d %d) ", c.n, c.k, c.n_upload);
         strcat(description, buf);
     }
+    fclose(f);
     sprintf(buf, "X%d", replication);
     strcat(description, buf);
     return 0;

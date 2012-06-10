@@ -200,6 +200,9 @@ int main(void) {
     }
 
 
-    printf("p_vendor: %s\nm_cache: %d\nmodel_buf: %s\n", p_vendor, m_cache, model_buf);
+    printf("p_vendor: %s\nm_cache: %d\nmodel_buf: %s\n",
+        p_vendor, m_cache, model_buf
+    );
+    fclose(f);
     return 0;
 }
