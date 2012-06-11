@@ -4285,3 +4285,11 @@ Bernd  10 Jun 2012
 
     api/
         boinc_api.h
+
+Bernd  11 Jun 2012
+    - API: fix #2 for C-mode compilation of boinc_api.h
+        app_ipc.h didn't cleanly compile in C-mode either,
+        had to fix this, too.
+
+    lib/
+        app_ipc.h
