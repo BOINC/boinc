@@ -4293,3 +4293,11 @@ Bernd  11 Jun 2012
 
     lib/
         app_ipc.h
+
+Rom    12 Jun 2012
+    - Make things build again on Mac OSX 10.8 using the autoconf
+        framework.
+      (From Oliver Bock)
+      
+    /
+        configure.ac  
