@@ -408,13 +408,13 @@ void COPROCS::get_opencl(
                 
                 if (ati.have_cal) {
                     if (prop.device_num < (int)(ati_gpus.size())) {
-                        // Always use GPU model name from OpenCL if available
+                        // Always use GPU model name from CAL if available
                         // for ATI / AMD  GPUs because
-                        // (we believe) it is more reliable and user-friendly.
+                        // (we believe) it is more user-friendly.
                         // Assumes OpenCL and CAL return the devices
                         // in the same order
                         //
-                        strcpy(ati_gpus[prop.device_num].name, prop.name);
+                        strcpy(prop.name, ati_gpus[prop.device_num].name);
 
                         // Work around a bug in OpenCL which returns only 
                         // 1/2 of total global RAM size: use the value from CAL.

@@ -4309,3 +4309,11 @@ David  13 June 2012
 
     sched/
         sched_types.cpp
+
+Charlie 13 June 2012
+    - client: Reverse my logic of 16 Feb 2012: we now always use GPU model 
+        name determined from CAL TargetID (if available) for OpenCL model  
+        name of ATI / AMD GPUs because (we believe) it is more user-friendly.
+
+    client/
+        coproc_detect.cpp
