@@ -3157,39 +3157,6 @@ David  9 Apr 2012
         coproc_detect.cpp
         scheduler_op.cpp
 
-David  9 Apr 2012
-    - API: fix C compile error
-    - initial checkin of remote job stuff for app from ICT
-
-    tools/
-        tt_boinc
-    api/
-        boinc_api.h
-    html/user/
-        tree_threader.php
-
-David  12 Apr 2012
-    - CAS@home stuff
-    tools/
-        tt_boinc.cpp
-    html/user/
-        tree_threader.cpp
-
-David  12 Apr 2012
-    - add script for canceling jobs
-    - CAS@home stuff
-
-    tools/
-        tt_boinc
-    html/
-        ops/
-            cancel_wu_action.php
-            cancel_wus.php
-        inc/
-            util_ops.inc
-        user/
-            tree_threader.php
-        
 Charlie 12 Apr 2012
     - web: separate Intel-only from Universal (PowerPC & Intel) clients 
         on download-all page so that PowerPC clients don't tell users 
