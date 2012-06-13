@@ -621,7 +621,8 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
         "Content-type: text/xml\n\n"
         "<scheduler_reply>\n"
         "<scheduler_version>%d</scheduler_version>\n"
-        "<dont_use_dcf/>\n",
+        //"<dont_use_dcf/>\n"
+        ,
         BOINC_MAJOR_VERSION*100+BOINC_MINOR_VERSION
     );
     if (strlen(config.master_url)) {

@@ -4301,3 +4301,11 @@ Rom    12 Jun 2012
       
     /
         configure.ac  
+
+David  13 June 2012
+    - scheduler: remove <dont_use_dcf/> from scheduler reply for now;
+        the 7.0.25 client has a bug that causes jobs
+        to run EDF if this flag is present.
+
+    sched/
+        sched_types.cpp
