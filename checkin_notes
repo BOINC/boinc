@@ -3880,18 +3880,18 @@ Rom    15 May 2012
         all_projects_list.xml
 
 David  18 May 2012
-	- client/API/vboxwrapper: add an optional <vbox_window> element
+    - client/API/vboxwrapper: add an optional <vbox_window> element
         to cc_config.xml.
-		If present, run VMs without the --headless option.
+        If present, run VMs without the --headless option.
 
-	client/
-		app_start.cpp
-	lib/
-		app_ipc.cpp,h
-		cc_config.cpp,h
-	samples/vboxwrapper/
-		vbox.cpp,h
-		vboxwrapper.cpp
+    client/
+        app_start.cpp
+    lib/
+        app_ipc.cpp,h
+        cc_config.cpp,h
+    samples/vboxwrapper/
+        vbox.cpp,h
+        vboxwrapper.cpp
 
 David  18 May 2012
     - web: show "run beta apps?" project pref if the project
@@ -4329,3 +4329,17 @@ David  14 June 2012
         des.h
         stats.cpp,h
         vda_lib.cpp,h
+
+David  14 June 2012
+    - client: 
+        - added the definitions for the new Windows 7/2008r2 preSP1
+            and Windows 8/2012 SKUs based on the winnt.h
+            from the Windows 8 RC SKD (also added as proof)
+        - added the detection for some more Windows SKU
+        - Updates provided by Teamwork of Planet3Dnow.de to coproc_detect.cpp
+            - added CAL_TARGET_ID 21 as : AMD Radeon HD 78x0 series (Pitcairn)
+        (from [P3D] Crashtest)
+
+    client/
+        coproc_detect.cpp
+        hostinfo_win.cpp

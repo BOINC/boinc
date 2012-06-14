@@ -292,7 +292,51 @@
 #ifndef PRODUCT_ENTERPRISE_N_EVALUATION
 #define PRODUCT_ENTERPRISE_N_EVALUATION             0x00000054
 #endif
-
+#ifndef PRODUCT_EMBEDDED_AUTOMOTIVE
+#define PRODUCT_EMBEDDED_AUTOMOTIVE					0x00000055
+#endif
+#ifndef PRODUCT_EMBEDDED_INDUSTRY_A
+#define PRODUCT_EMBEDDED_INDUSTRY_A					0x00000056
+#endif
+#ifndef PRODUCT_THINPC								
+#define PRODUCT_THINPC								0x00000057
+#endif
+#ifndef PRODUCT_EMBEDDED_A
+#define PRODUCT_EMBEDDED_A							0x00000058
+#endif
+#ifndef PRODUCT_EMBEDDED_INDUSTRY
+#define PRODUCT_EMBEDDED_INDUSTRY					0x00000059
+#endif
+#ifndef PRODUCT_EMBEDDED_E
+#define PRODUCT_EMBEDDED_E                          0x0000005A
+#endif
+#ifndef PRODUCT_EMBEDDED_INDUSTRY_E
+#define PRODUCT_EMBEDDED_INDUSTRY_E                 0x0000005B
+#endif
+#ifndef PRODUCT_EMBEDDED_INDUSTRY_A_E
+#define PRODUCT_EMBEDDED_INDUSTRY_A_E               0x0000005C
+#endif
+#ifndef PRODUCT_STORAGE_WORKGROUP_EVALUATION_SERVER
+#define PRODUCT_STORAGE_STANDARD_EVALUATION_SERVER  0x00000060
+#endif
+#ifndef PRODUCT_CORE_ARM                            
+#define PRODUCT_CORE_ARM                            0x00000061
+#endif
+#ifndef PRODUCT_CORE_N                              
+#define PRODUCT_CORE_N                              0x00000062
+#endif
+#ifndef PRODUCT_CORE_COUNTRYSPECIFIC               
+#define PRODUCT_CORE_COUNTRYSPECIFIC                0x00000063
+#endif
+#ifndef PRODUCT_CORE_SINGLELANGUAGE                 
+#define PRODUCT_CORE_SINGLELANGUAGE                 0x00000064
+#endif
+#ifndef PRODUCT_CORE                                
+#define PRODUCT_CORE                                0x00000065
+#endif
+#ifndef PRODUCT_PROFESSIONAL_WMC                    
+#define PRODUCT_PROFESSIONAL_WMC                    0x00000067
+#endif
 
 // Newer suite types than what is currently defined in
 //   Visual Studio 2005
@@ -391,7 +435,7 @@ int get_os_information(
                 if( osvi.wProductType == VER_NT_WORKSTATION ) {
                     strcat(os_name, "Windows 8");
                 } else {
-                    strcat(os_name, "Windows 8 Server ");
+                    strcat(os_name, "Windows Server 2012");
                 }
                 pGPI( 6, 2, 0, 0, &dwType);
             }
@@ -541,6 +585,14 @@ int get_os_information(
                             case PRODUCT_PRERELEASE_N:
                                 strcat(szSKU, "Developer Preview N ");
                                 break;
+							// added Embbedded SKUs:
+							case PRODUCT_EMBEDDED:
+								strcat(szSKU, "Embedded Standard ");
+								break;
+							case PRODUCT_THINPC:    
+								strcat(szSKU, "ThinPC ");
+								break;
+
                        }
                     } else if( (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2) ) {
                         if( osvi.wSuiteMask & VER_SUITE_PERSONAL ) {
@@ -567,7 +619,7 @@ int get_os_information(
                     }
                 }
 
-                // Test for the server type.
+				// Test for the server type.
                 else if ( (osvi.wProductType == VER_NT_SERVER) || (osvi.wProductType == VER_NT_DOMAIN_CONTROLLER) ) {
                     if( (osvi.dwMajorVersion == 6) ) {
 

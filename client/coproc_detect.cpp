@@ -1424,10 +1424,11 @@ void COPROC_ATI::get(
             gpu_name="AMD Radeon HD 6300 series (Caicos)";
             break;
         case 20:
-            gpu_name = "AMD Radeon HD 79x0 series (Tahiti)";
+            gpu_name="AMD Radeon HD 79x0 series (Tahiti)";
             break;
-// there arent any other target ids inside the Shadercompiler (YET !!! )
-// but because of ATI was bought by AMD and is not existing anymore the default should be changed too
+		case 21:
+			gpu_name="AMD Radeon HD 78x0 series (Pitcairn)";
+			break;
         default:
             gpu_name="AMD Radeon HD (unknown)";
             break;
