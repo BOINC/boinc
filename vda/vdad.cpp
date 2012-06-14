@@ -42,6 +42,10 @@ using std::set;
 
 #include "vda_lib.h"
 
+void show_msg(char* msg) {
+    printf("%s", msg);
+}
+
 // return the name of a file created by Jerasure's encoder
 //
 // encoder creates files with names of the form

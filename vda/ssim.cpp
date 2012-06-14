@@ -38,6 +38,7 @@
 #include <limits.h>
 
 #include "des.h"
+#include "stats.h"
 #include "vda_lib.h"
 
 using std::set;
@@ -117,6 +118,10 @@ double ran_exp(double mean) {
 
 char* now_str() {
     return time_str(sim.now);
+}
+
+void show_msg(char* msg) {
+    printf("%s: %s", time_str(sim.now), msg);
 }
 
 struct CHUNK;
@@ -204,8 +209,8 @@ struct SIM_FILE : VDA_FILE_AUX, EVENT {
         } else {
             meta_chunk = new META_CHUNK(this, NULL, size, 0, id);
 #ifdef EVENT_DEBUG
-            printf("created file %d: size %f encoded size %f\n",
-                id, size, disk_usage.value
+            printf("created file %d: size %f GB encoded size %f GB\n",
+                id, size/1e9, disk_usage.value/1e9
             );
             t = sim.now + 500.*86400;
             sim.insert(this);
@@ -451,10 +456,12 @@ void CHUNK::download_complete() {
 }
 
 int META_CHUNK::encode() {
+    printf("%s: encoding metachunk %s\n", now_str(), name);
     return 0;
 }
 
 int META_CHUNK::decode() {
+    printf("%s: decoding metachunk %s\n", now_str(), name);
     return 0;
 }
 

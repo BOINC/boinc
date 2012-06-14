@@ -19,6 +19,11 @@
 // (server disk usage, up/download rate, fault tolerance level)
 //
 
+#ifndef _STATS_
+#define _STATS_
+
+#include <stdio.h>
+
 typedef enum {DISK, NETWORK, FAULT_TOLERANCE} STATS_KIND;
 
 struct STATS_ITEM {
@@ -40,4 +45,4 @@ struct STATS_ITEM {
     void print_summary(FILE* f, double now);
 };
 
-extern char* time_str(double);
+#endif

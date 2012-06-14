@@ -258,10 +258,10 @@ int META_CHUNK::recovery_action(double now) {
         //
         for (i=0; i<j; i++) {
             DATA_UNIT* c = recoverable[i];
-            printf("  Min failures of %s: %d\n", c->name, c->min_failures);
+            //printf("  Min failures of %s: %d\n", c->name, c->min_failures);
             min_failures += c->min_failures;
         }
-        printf("  our min failures: %d\n", min_failures);
+        //printf("  our min failures: %d\n", min_failures);
     }
     return 0;
 }
@@ -277,6 +277,8 @@ bool CHUNK::download_in_progress() {
 
 int CHUNK::recovery_action(double now) {
     int retval;
+    char buf[256];
+
     VDA_FILE_AUX* fp = parent->dfile;
     if (data_now_present) {
         present_on_server = true;
@@ -309,9 +311,8 @@ int CHUNK::recovery_action(double now) {
             present_on_server = false;
             status = RECOVERABLE;
             min_failures = fp->policy.replication;
-#ifdef EVENT_DEBUG
-            printf("%s: %s replicated, removing from server\n", now_str(), name);
-#endif
+            sprintf(buf, "%s replicated, removing from server\n", name);
+            show_msg(buf);
             parent->dfile->disk_usage.sample_inc(
                 -size,
                 fp->collecting_stats(),
@@ -470,4 +471,17 @@ int META_CHUNK::expand() {
         }
     }
     return 0;
+}
+
+char* time_str(double t) {
+    static char buf[256];
+    int n = (int)t;
+    int nsec = n % 60;
+    n /= 60;
+    int nmin = n % 60;
+    n /= 60;
+    int nhour = n % 24;
+    n /= 24;
+    sprintf(buf, "%4d days %02d:%02d:%02d", n, nhour, nmin, nsec);
+    return buf;
 }

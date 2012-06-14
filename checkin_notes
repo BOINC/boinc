@@ -4317,3 +4317,15 @@ Charlie 13 June 2012
 
     client/
         coproc_detect.cpp
+
+David  14 June 2012
+    - scheduler: send <dont_use_dcf> only if client is 7.0.28 or later.
+
+    sched/
+        sched_types.cpp
+    vda/
+        ssim.cpp
+        vdad.cpp
+        des.h
+        stats.cpp,h
+        vda_lib.cpp,h

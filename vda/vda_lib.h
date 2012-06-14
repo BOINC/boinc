@@ -33,6 +33,9 @@
 //
 #define VDA_HOST_TIMEOUT (86400*4)
 
+extern void show_msg(char*);
+extern char* time_str(double);
+
 struct META_CHUNK;
 
 struct VDA_FILE_AUX : VDA_FILE {

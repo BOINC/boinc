@@ -18,6 +18,9 @@
 // The world's smallest discrete event simulator.
 // Uses the STL "heap" data structure for efficient event storage.
 
+#ifndef _DES_
+#define _DES_
+
 #include <vector>
 #include <algorithm>
 
@@ -32,7 +35,7 @@ struct EVENT {
     virtual void handle(){}
 };
 
-bool compare(EVENT* e1, EVENT* e2) {
+inline bool compare(EVENT* e1, EVENT* e2) {
     return (e1->t > e2->t);
 }
 
@@ -77,3 +80,7 @@ struct SIMULATOR {
         }
     }
 };
+
+extern SIMULATOR sim;
+
+#endif
