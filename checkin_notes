@@ -4343,3 +4343,17 @@ David  14 June 2012
     client/
         coproc_detect.cpp
         hostinfo_win.cpp
+
+David  14 June 2012
+    - client, GUI RPC: detect and export the PCI bus, device, and domain #s.
+    - scheduler: increase #GPU limit from 8 to 64
+
+    lib/
+        coproc.cpp,h
+    client/
+        coproc_detect.cpp
+    sched/
+        sched_send.cpp
+    vda/
+        vda_lib.cpp,h
+        ssim.cpp

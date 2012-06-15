@@ -257,27 +257,35 @@ struct COPROC {
     );
 };
 
-// based on cudaDeviceProp from /usr/local/cuda/include/driver_types.h
+// Based on cudaDeviceProp from /usr/local/cuda/include/driver_types.h
 // doesn't have to match exactly since we get the attributes one at a time.
 //
+// This is used for 2 purposes:
+// - it's exported via GUI RPC for GUIs or other tools
+// - it's sent from client to scheduler, for use by app plan functions
+// Properties not relevant to either of these can be omitted.
+//
 struct CUDA_DEVICE_PROP {
-  char  name[256];
-  int   deviceHandle;
-  double totalGlobalMem;
-  int   sharedMemPerBlock;
-  int   regsPerBlock;
-  int   warpSize;
-  int   memPitch;
-  int   maxThreadsPerBlock;
-  int   maxThreadsDim[3];
-  int   maxGridSize[3]; 
-  int   clockRate;
-  int   totalConstMem; 
-  int   major;     // compute capability
-  int   minor;
-  int   textureAlignment;
-  int   deviceOverlap;
-  int   multiProcessorCount;
+    char  name[256];
+    int   deviceHandle;
+    double totalGlobalMem;
+    int   sharedMemPerBlock;
+    int   regsPerBlock;
+    int   warpSize;
+    int   memPitch;
+    int   maxThreadsPerBlock;
+    int   maxThreadsDim[3];
+    int   maxGridSize[3]; 
+    int   clockRate;
+    int   totalConstMem; 
+    int   major;     // compute capability
+    int   minor;
+    int   textureAlignment;
+    int   deviceOverlap;
+    int   multiProcessorCount;
+    int   pciBusID;
+    int   pciDeviceID;
+    int   pciDomainID;
 };
 
 struct COPROC_NVIDIA : public COPROC {

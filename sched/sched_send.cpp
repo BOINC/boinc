@@ -83,7 +83,7 @@ const char* infeasible_string(int code) {
 const double MIN_REQ_SECS = 0;
 const double MAX_REQ_SECS = (28*SECONDS_IN_DAY);
 
-const int MAX_GPUS = 8;
+const int MAX_GPUS = 64;
     // don't believe clients who claim they have more GPUs than this
 
 // get limits on:

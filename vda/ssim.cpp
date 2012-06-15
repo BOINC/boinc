@@ -469,15 +469,6 @@ int DATA_UNIT::delete_file() {
     return 0;
 }
 
-const char* status_str(int status) {
-    switch (status) {
-    case PRESENT: return "present";
-    case RECOVERABLE: return "recoverable";
-    case UNRECOVERABLE: return "unrecoverable";
-    }
-    return "unknown";
-}
-
 set<SIM_FILE*> dfiles;
 
 int main(int argc, char** argv) {

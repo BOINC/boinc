@@ -31,6 +31,8 @@ using std::set;
 
 #include "vda_lib.h"
 
+#define DEBUG_RECOVERY
+
 META_CHUNK::META_CHUNK(
     VDA_FILE_AUX* d, META_CHUNK* par, double size,
     int coding_level, int index
@@ -485,3 +487,13 @@ char* time_str(double t) {
     sprintf(buf, "%4d days %02d:%02d:%02d", n, nhour, nmin, nsec);
     return buf;
 }
+
+const char* status_str(int status) {
+    switch (status) {
+    case PRESENT: return "present";
+    case RECOVERABLE: return "recoverable";
+    case UNRECOVERABLE: return "unrecoverable";
+    }
+    return "unknown";
+}
+

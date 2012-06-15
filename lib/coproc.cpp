@@ -411,7 +411,10 @@ void COPROC_NVIDIA::write_xml(MIOFILE& f, bool include_request) {
         "   <minor>%d</minor>\n"
         "   <textureAlignment>%u</textureAlignment>\n"
         "   <deviceOverlap>%d</deviceOverlap>\n"
-        "   <multiProcessorCount>%d</multiProcessorCount>\n",
+        "   <multiProcessorCount>%d</multiProcessorCount>\n"
+        "   <pciBusID>%d</pciBusID>\n"
+        "   <pciDeviceID>%d</pciDeviceID>\n"
+        "   <pciDomainID>%d</pciDomainID>\n",
         peak_flops,
         cuda_version,
         display_driver_version,
@@ -429,7 +432,10 @@ void COPROC_NVIDIA::write_xml(MIOFILE& f, bool include_request) {
         prop.minor,
         (unsigned int)prop.textureAlignment,
         prop.deviceOverlap,
-        prop.multiProcessorCount
+        prop.multiProcessorCount,
+        prop.pciBusID,
+        prop.pciDeviceID,
+        prop.pciDomainID
     );
 
     if (have_opencl) {
@@ -467,6 +473,9 @@ void COPROC_NVIDIA::clear() {
     prop.textureAlignment = 0;
     prop.deviceOverlap = 0;
     prop.multiProcessorCount = 0;
+    prop.pciBusID = 0;
+    prop.pciDeviceID = 0;
+    prop.pciDomainID = 0;
 }
 
 int COPROC_NVIDIA::parse(XML_PARSER& xp) {
@@ -539,6 +548,9 @@ int COPROC_NVIDIA::parse(XML_PARSER& xp) {
         if (xp.parse_int("textureAlignment", (int&)prop.textureAlignment)) continue;
         if (xp.parse_int("deviceOverlap", prop.deviceOverlap)) continue;
         if (xp.parse_int("multiProcessorCount", prop.multiProcessorCount)) continue;
+        if (xp.parse_int("pciBusID", prop.pciBusID)) continue;
+        if (xp.parse_int("pciDeviceID", prop.pciDeviceID)) continue;
+        if (xp.parse_int("pciDomainID", prop.pciDomainID)) continue;
         if (xp.match_tag("coproc_opencl")) {
             retval = opencl_prop.parse(xp);
             if (retval) return retval;
@@ -600,6 +612,7 @@ void COPROC_NVIDIA::fake(
    display_driver_version = driver_version;
    cuda_version = 2020;
    strcpy(prop.name, "Fake NVIDIA GPU");
+   memset(&prop, 0, sizeof(prop));
    prop.totalGlobalMem = ram;
    prop.sharedMemPerBlock = 100;
    prop.regsPerBlock = 8;

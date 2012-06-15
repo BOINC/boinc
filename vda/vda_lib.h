@@ -35,6 +35,7 @@
 
 extern void show_msg(char*);
 extern char* time_str(double);
+extern const char* status_str(int status);
 
 struct META_CHUNK;
 
