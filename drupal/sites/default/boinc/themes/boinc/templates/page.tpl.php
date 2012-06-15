@@ -218,7 +218,7 @@
     <div id="main-wrapper"><div id="main" class="clearfix<?php if ($primary_links || $navigation) { print ' with-navigation'; } ?>">
       
       <?php $class_list = explode(' ', $classes); ?>
-      <div id="content" class="column"><div class="section<?php echo (!in_array('page-panels', $class_list)) ? ' framing shadow' : ''; ?>">
+      <div id="content" class="column"><div class="section<?php echo (!array_intersect(array('page-panels','section-users'), $class_list)) ? ' framing shadow' : ''; ?>">
         
         <?php if ($mission): ?>
           <div id="mission"><?php print $mission; ?></div>

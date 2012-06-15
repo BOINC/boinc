@@ -41,6 +41,72 @@
  * @see template_preprocess_user_profile()
  */
 ?>
-<div class="profile">
-  <?php print $user_profile; ?>
+<?php
+
+drupal_set_title('');
+$account = user_load($account->uid);
+$content_profile = content_profile_load('profile', $account->uid);
+$name = check_plain($account->boincuser_name);
+$join_date = date('d F Y', $account->created);
+$country = check_plain($content_profile->field_country[0]['value']);
+$website = check_plain($content_profile->field_url[0]['value']);
+$background = $content_profile->field_background[0]['value'];
+$opinions = $content_profile->field_opinions[0]['value'];
+
+?>
+<div class="user-profile">
+  <div class="picture">
+    <?php 
+      $user_image = boincuser_get_user_profile_image($account->uid);
+      print theme('imagefield_image', $user_image['image'], $user_image['alt'],
+        $user_image['alt'], array('width' => '100', 'height' => '100'), false);
+    ?>
+  </div>
+  <div class="general-info">
+    <div class="name">
+      <span class="label"></span>
+      <span class="value"><?php print $name; ?></span>
+    </div>
+    <div class="join-date">
+      <span class="label"><?php print t('Member since'); ?>:</span>
+      <span class="value"><?php print $join_date; ?></span>
+    </div>
+    <div class="country">
+      <span class="label"><?php print t('Country'); ?>:</span>
+      <span class="value"><?php print $country; ?></span>
+    </div>
+    <?php if ($website): ?>
+      <div class="website">
+        <span class="label"><?php print t('Website'); ?>:</span>
+        <span class="value"><?php print l($website, (strpos($website, 'http') === false) ? "http://{$website}" : $website); ?></span>
+      </div>
+    <?php endif; ?>
+    <?php if ($user->uid AND ($user->uid != $account->uid)): ?>
+      <ul class="tab-list">
+        <li class="first tab"><?php print l(t('Send message'), privatemsg_get_link(array($account)), array('query' => drupal_get_destination())); ?></li>
+        <li class="last tab"><a href="<?php print base_path() . "flag/confirm/flag/friend/{$account->uid}" . drupal_get_destination(); ?>"><?php print t('Add as friend'); ?></a></li>
+      </ul>
+    <?php endif; ?>
+    <div class="clearfix"></div>
+  </div>
+  <?php if ($background OR $opinions): ?>
+    <div class="bio">
+      <?php if ($background): ?>
+        <div class="background">
+          <span class="label"><?php print t('Background'); ?></span>
+          <span class="value"><?php print $background; ?></span>
+        </div>
+      <?php endif; ?>
+      <?php if ($opinions): ?>
+        <div class="opinions">
+          <span class="label"><?php print t('Opinion'); ?></span>
+          <span class="value"><?php print $opinions; ?></span>
+        </div>
+      <?php endif; ?>
+    </div>
+  <?php endif; ?>
+  <?php /*print $user_profile; ?>
+  <pre><?php print_r($profile); ?></pre>
+  <pre><?php print_r($account); ?></pre>
+  <pre><?php print_r($content_profile); ?></pre> */ ?>
 </div>
