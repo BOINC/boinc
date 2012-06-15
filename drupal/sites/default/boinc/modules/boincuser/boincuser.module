@@ -66,6 +66,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
     $account->boincuser_name = db_result(db_query("SELECT name FROM {user} WHERE id = %d", $account->boincuser_id));
     $account->boincuser_total_credit = db_result(db_query("SELECT total_credit FROM {user} WHERE id = %d", $account->boincuser_id));
     $account->boincuser_expavg_credit = db_result(db_query("SELECT expavg_credit FROM {user} WHERE id = %d", $account->boincuser_id));
+    $account->boincuser_cpid = db_result(db_query("SELECT cross_project_id FROM {user} WHERE id = %d", $account->boincuser_id));
     db_set_active('default');
     break;
     
@@ -318,10 +319,9 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     
   // User profile form
   case 'user_profile_form':
-    global $user;
     
     // Add the BOINC user name (non-unique, user editable)
-    $account = user_load($user->uid);
+    $account = user_load($form['#uid']);
     if (!$edit['boincuser_name']) $edit['boincuser_name'] = $account->boincuser_name;
     $form['account']['boincuser_name'] = array(
       '#type' => 'textfield',
@@ -441,6 +441,26 @@ function boincuser_theme($existing, $type, $theme, $path) {
   );
 }
 
+/**
+ * Implementation of hook_token_values
+ */
+function boincuser_token_values($type, $object = NULL, $options = array()) {
+  if ($type == 'user') {
+    $account = user_load($object->uid);
+    $tokens['display-name'] = $account->boincuser_name;
+    return $tokens;
+  }
+}
+
+/**
+ * Implementation of hook_token_list
+ */
+function boincuser_token_list($type = 'all') {
+  if ($type == 'user' || $type == 'all') {
+    $tokens['user']['display-name']      = t("The user's name that should be displayed");
+    return $tokens;
+  }
+}
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Page callbacks from hook_menu()
