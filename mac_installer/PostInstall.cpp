@@ -94,6 +94,8 @@ OSStatus CheckLogoutRequirement(int *finalAction);
 void CheckUserAndGroupConflicts();
 Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userName);
 Boolean SetLoginItemAPI(long brandID, Boolean deleteLogInItem);
+OSErr GetCurrentScreenSaverSelection(char *moduleName, size_t maxLen);
+OSErr SetScreenSaverSelection(char *moduleName, char *modulePath, int type);
 void SetSkinInUserPrefs(char *userName, char *skinName);
 Boolean CheckDeleteFile(char *name);
 void SetEUIDBackToUser (void);
@@ -825,24 +827,28 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
 
     // We must launch the System Events application for the target user
 
-    // Find SystemEvents process.  If found, quit it in case 
-    // it is running under a different user.
-    fprintf(stdout, "Telling System Events to quit (at start of SetLoginItemOSAScript)\n");
-    fflush(stdout);
-    err = QuitOneProcess(kSystemEventsCreator);
-    if (err != noErr) {
-        fprintf(stdout, "QuitOneProcess(kSystemEventsCreator) returned error %d \n", (int) err);
+    err = FindProcess ('APPL', kSystemEventsCreator, &SystemEventsPSN);
+    if (err == noErr) {
+        // Find SystemEvents process.  If found, quit it in case 
+        // it is running under a different user.
+        fprintf(stdout, "Telling System Events to quit (at start of SetLoginItemOSAScript)\n");
         fflush(stdout);
-    }
-    // Wait for the process to be gone
-    for (i=0; i<50; ++i) {      // 5 seconds max delay
-        SleepTicks(6);  // 6 Ticks == 1/10 second
-        err = FindProcess ('APPL', kSystemEventsCreator, &SystemEventsPSN);
-        if (err != noErr) break;
-    }
-    if (i > 50) {
-        fprintf(stdout, "Failed to make System Events quit\n");
-        fflush(stdout);
+        err = QuitOneProcess(kSystemEventsCreator);
+        if (err != noErr) {
+            fprintf(stdout, "QuitOneProcess(kSystemEventsCreator) returned error %d \n", (int) err);
+            fflush(stdout);
+        }
+        // Wait for the process to be gone
+        for (i=0; i<50; ++i) {      // 5 seconds max delay
+            SleepTicks(6);  // 6 Ticks == 1/10 second
+            err = FindProcess ('APPL', kSystemEventsCreator, &SystemEventsPSN);
+            if (err != noErr) break;
+        }
+        if (i >= 50) {
+            fprintf(stdout, "Failed to make System Events quit\n");
+            fflush(stdout);
+        }
+        sleep(2);
     }
     
     err = LSFindApplicationForInfo(kSystemEventsCreator, NULL, NULL, &appRef, NULL);
@@ -852,10 +858,10 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
     } else {
         FSRefMakePath(&appRef, (UInt8*)systemEventsPath, sizeof(systemEventsPath));
         fprintf(stdout, "SystemEvents is at %s\n", systemEventsPath);
-        fprintf(stdout, "Lunching SystemEvents for user %s\n", userName);
+        fprintf(stdout, "Launching SystemEvents for user %s\n", userName);
         fflush(stdout);
 
-        sprintf(cmd, "sudo -u %s \"%s/Contents/MacOS/System Events\" &", userName, systemEventsPath);
+        sprintf(cmd, "sudo -iu \"%s\" \\\"%s/Contents/MacOS/System Events\\\" &", userName, systemEventsPath);
         err = system(cmd);
         if (err) {
             fprintf(stdout, "[2] Command: %s returned error %d\n", cmd, (int) err);
@@ -867,15 +873,16 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
         err = FindProcess ('APPL', kSystemEventsCreator, &SystemEventsPSN);
         if (err == noErr) break;
     }
-    if (i > 50) {
+    if (i >= 50) {
         fprintf(stdout, "Failed to launch System Events for user %s\n", userName);
         fflush(stdout);
     }
+    sleep(2);
     
     for (i=0; i<NUMBRANDS; i++) {
         fprintf(stdout, "Deleting any login items containing %s for user %s\n", appName[i], userName);
         fflush(stdout);
-        sprintf(cmd, "sudo -u %s osascript -e 'tell application \"System Events\"' -e 'delete (every login item whose path contains \"%s\")' -e 'end tell'", userName, appName[i]);
+        sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\"' -e 'delete (every login item whose path contains \"%s\")' -e 'end tell'", userName, appName[i]);
         err = system(cmd);
         if (err) {
             fprintf(stdout, "[2] Command: %s\n", cmd);
@@ -891,7 +898,7 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
     
     fprintf(stdout, "Making new login item %s for user %s\n", appName[brandID], userName);
     fflush(stdout);
-    sprintf(cmd, "sudo -u %s osascript -e 'tell application \"System Events\"' -e 'make new login item at end with properties {path:\"%s\", hidden:true, name:\"%s\"}' -e 'end tell'", userName, appPath[brandID], appName[brandID]);
+    sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\"' -e 'make new login item at end with properties {path:\"%s\", hidden:true, name:\"%s\"}' -e 'end tell'", userName, appPath[brandID], appName[brandID]);
     err = system(cmd);
     if (err) {
         fprintf(stdout, "[2] Command: %s\n", cmd);
@@ -908,7 +915,8 @@ cleanupSystemEvents:
         fprintf(stdout, "QuitOneProcess(kSystemEventsCreator) returned error %d \n", (int) err2);
         fflush(stdout);
     }
-
+    sleep(2);
+        
     return (err == noErr);
 }
 
@@ -964,7 +972,6 @@ Boolean SetLoginItemAPI(long brandID, Boolean deleteLogInItem)
 
     return Success;
 }
-
 
 
 // Sets the skin selection in the specified user's preferences to the specified skin
@@ -1318,23 +1325,26 @@ OSErr UpdateAllVisibleUsers(long brandID)
             
             if (OSVersion < 0x1060) {
                 f = popen("defaults -currentHost read com.apple.screensaver moduleName", "r");
-            } else {
-                sprintf(s, "sudo -u %s defaults -currentHost read com.apple.screensaver moduleDict -dict", 
-                        pw->pw_name); 
-                f = popen(s, "r");
-            }
             
-            if (f) {
-                found = false;
-                while (PersistentFGets(s, sizeof(s), f)) {
-                    if (strstr(s, saverName[brandID])) {
-                        found = true;
-                        break;
+                if (f) {
+                    found = false;
+                    while (PersistentFGets(s, sizeof(s), f)) {
+                        if (strstr(s, saverName[brandID])) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    pclose(f);
+                    if (!found) {
+                        saverAlreadySetForAll = false;
                     }
                 }
-                pclose(f);
-                if (!found) {
-                    saverAlreadySetForAll = false;
+            } else {
+                err = GetCurrentScreenSaverSelection(s, sizeof(s) -1);
+                if (err == noErr) {
+                    if (!strstr(s, saverName[brandID])) {
+                        saverAlreadySetForAll = false;
+                    }
                 }
             }
             
@@ -1520,20 +1530,18 @@ OSErr UpdateAllVisibleUsers(long brandID)
             SetSkinInUserPrefs(pw->pw_name, skinName);
         
             if (setSaverForAllUsers) {
+                seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
                 if (OSVersion < 0x1060) {
-                    seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
-                    sprintf(s, "defaults -currentHost write com.apple.screensaver moduleName %s", saverNameEscaped[brandID]);
+                     sprintf(s, "defaults -currentHost write com.apple.screensaver moduleName %s", saverNameEscaped[brandID]);
                     system (s);
                     sprintf(s, "defaults -currentHost write com.apple.screensaver modulePath /Library/Screen\\ Savers/%s.saver", 
                                 saverNameEscaped[brandID]);
-                    seteuid(saved_uid);     // Set effective uid back to privileged user
+                    system (s);
                 } else {
-                    // We must leave effective user ID as privileged user (root) 
-                    // because the target user may not be in the sudoers file.
-                     sprintf(s, "sudo -u %s defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName %s path /Library/Screen\\ Savers/%s.saver", 
-                            pw->pw_name, saverNameEscaped[brandID], saverNameEscaped[brandID]);
+                    sprintf(s, "/Library/Screen Savers/%s.saver", saverName[brandID]);
+                    err = SetScreenSaverSelection(saverName[brandID], s, 0);
                 }
-                system (s);
+                seteuid(saved_uid);     // Set effective uid back to privileged user
             }
         }
     }   // End for (userIndex=0; userIndex< human_user_names.size(); ++userIndex)
@@ -1541,6 +1549,105 @@ OSErr UpdateAllVisibleUsers(long brandID)
     ResynchSystem();
 
     return noErr;
+}
+
+
+OSErr GetCurrentScreenSaverSelection(char *moduleName, size_t maxLen) {
+    OSErr err = noErr;
+    CFStringRef nameKey = CFStringCreateWithCString(NULL,"moduleName",kCFStringEncodingASCII);
+    CFStringRef moduleNameAsCFString;
+    CFDictionaryRef theData;
+    
+    theData = (CFDictionaryRef)CFPreferencesCopyValue(CFSTR("moduleDict"), 
+                CFSTR("com.apple.screensaver"), 
+                kCFPreferencesCurrentUser,
+                kCFPreferencesCurrentHost
+                );
+    if (theData == NULL) {
+        CFRelease(nameKey);
+        return (-1);
+    }
+    
+    if (CFDictionaryContainsKey(theData, nameKey)  == false) 	
+	{
+        moduleName[0] = 0;
+        CFRelease(nameKey);
+        CFRelease(theData);
+	    return(-1);
+	}
+    
+    moduleNameAsCFString = CFStringCreateCopy(NULL, (CFStringRef)CFDictionaryGetValue(theData, nameKey));
+    CFStringGetCString(moduleNameAsCFString, moduleName, maxLen, kCFStringEncodingASCII);		    
+
+    CFRelease(nameKey);
+    CFRelease(theData);
+    return err;
+}
+
+
+OSErr SetScreenSaverSelection(char *moduleName, char *modulePath, int type) {
+    OSErr err = noErr;
+    CFStringRef preferenceName = CFSTR("com.apple.screensaver");
+    CFStringRef mainKeyName = CFSTR("moduleDict");
+    CFDictionaryRef emptyData;
+    CFMutableDictionaryRef newData;
+    Boolean success;
+
+    CFStringRef nameKey = CFStringCreateWithCString(NULL, "moduleName", kCFStringEncodingASCII);
+    CFStringRef nameValue = CFStringCreateWithCString(NULL, moduleName, kCFStringEncodingASCII);
+		
+    CFStringRef pathKey = CFStringCreateWithCString(NULL, "path", kCFStringEncodingASCII);
+    CFStringRef pathValue = CFStringCreateWithCString(NULL, modulePath, kCFStringEncodingASCII);
+    
+    CFStringRef typeKey = CFStringCreateWithCString(NULL, "type", kCFStringEncodingASCII);
+    CFNumberRef typeValue = CFNumberCreate(NULL, kCFNumberIntType, &type);
+    
+    emptyData = CFDictionaryCreate(NULL, NULL, NULL, 0, NULL, NULL);
+    if (emptyData == NULL) {
+        CFRelease(nameKey);
+        CFRelease(nameValue);
+        CFRelease(pathKey);
+        CFRelease(pathValue);
+        CFRelease(typeKey);
+        CFRelease(typeValue);
+        return(-1);
+    }
+
+    newData = CFDictionaryCreateMutableCopy(NULL,0, emptyData);
+
+    if (newData == NULL)
+	{
+        CFRelease(nameKey);
+        CFRelease(nameValue);
+        CFRelease(pathKey);
+        CFRelease(pathValue);
+        CFRelease(typeKey);
+        CFRelease(typeValue);
+        CFRelease(emptyData);
+        return(-1);
+    }
+
+    CFDictionaryAddValue(newData, nameKey, nameValue); 	
+    CFDictionaryAddValue(newData, pathKey, pathValue); 	
+    CFDictionaryAddValue(newData, typeKey, typeValue); 	
+
+    CFPreferencesSetValue(mainKeyName, newData, preferenceName, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
+    success = CFPreferencesSynchronize(preferenceName, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
+
+    if (!success) {
+        err = -1;
+    }
+    
+    CFRelease(nameKey);
+    CFRelease(nameValue);
+    CFRelease(pathKey);
+    CFRelease(pathValue);
+    CFRelease(typeKey);
+    CFRelease(typeValue);
+    CFRelease(emptyData);
+    CFRelease(newData);
+
+    return err;
 }
 
 

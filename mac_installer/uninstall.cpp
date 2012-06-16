@@ -48,11 +48,13 @@ static OSStatus DoPrivilegedExec(char *brandName, const char *pathToTool, char *
 static void DeleteLoginItemOSAScript(char* user, char* appName);
 static void DeleteLoginItemAPI(void);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
+OSErr GetCurrentScreenSaverSelection(char *moduleName, size_t maxLen);
+OSErr SetScreenSaverSelection(char *moduleName, char *modulePath, int type);
 static OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN);
 static pid_t FindProcessPID(char* name, pid_t thePID);
 static OSStatus QuitOneProcess(OSType signature);
 static void SleepTicks(UInt32 ticksToSleep);
-static Boolean ShowMessage(Boolean allowCancel, const char *format, ...);
+static Boolean ShowMessage(Boolean allowCancel, Boolean continueButton, const char *format, ...);
 #if SEARCHFORALLBOINCMANAGERS
 static OSStatus GetpathToBOINCManagerApp(char* path, int maxLen, FSRef *theFSRef);
 #endif
@@ -69,9 +71,11 @@ int main(int argc, char *argv[])
     // Determine whether this is the intial launch or the relaunch with privileges
     if ( (argc == 2) && (strcmp(argv[1], "--privileged") == 0) ) {
         if (geteuid() != 0) {        // Confirm that we are running as root
-            ShowMessage(false, "Permission error after relaunch");
+            ShowMessage(false, false, "Permission error after relaunch");
             return permErr;
         }
+        
+        ShowMessage(false, true, "Removal may take several minutes.\nPlease be patient.");
         
         return DoUninstall();
     }
@@ -87,7 +91,7 @@ int main(int argc, char *argv[])
         err = FSRefMakePath (&ourFSRef, (UInt8*)pathToSelf, sizeof(pathToSelf));
     }
     if (err != noErr) {
-        ShowMessage(false, "Couldn't get path to self.  Error %d", err);
+        ShowMessage(false, false, "Couldn't get path to self.  Error %d", err);
         return err;
     }
 
@@ -111,26 +115,27 @@ int main(int argc, char *argv[])
         cancelled = (Alert(128, NULL)  == cancel);
     } else {
         // Grid Republic uses generic dialog with Uninstall application's icon
-        cancelled = ! ShowMessage(true, "Are you sure you want to completely remove %s from your computer?\n\n"
+        cancelled = ! ShowMessage(true, false, "Are you sure you want to completely remove %s from your computer?\n\n"
                                         "This will remove the executables but will not touch %s data files.", p, p);
     }
 
-    if (! cancelled)
+    if (! cancelled) {
         err = DoPrivilegedExec(p, pathToSelf, "--privileged", NULL, NULL, NULL, NULL);
+    }
     
     if (cancelled || (err == errAuthorizationCanceled)) {
-        ShowMessage(false, "Canceled: %s has not been touched.", p);
+        ShowMessage(false, false, "Canceled: %s has not been touched.", p);
         return err;
     }
 
 #if TESTING
-    ShowMessage(false, "DoPrivilegedExec returned %d", err);
+    ShowMessage(false, false, "DoPrivilegedExec returned %d", err);
 #endif
 
     if (err)
-        ShowMessage(false, "An error occurred: error code %d", err);
+        ShowMessage(false, false, "An error occurred: error code %d", err);
     else
-        ShowMessage(false, "Removal completed.\n\n You may want to remove the following remaining items using the Finder: \n"
+        ShowMessage(false, false, "Removal completed.\n\n You may want to remove the following remaining items using the Finder: \n"
          "\"/Library/Application Support/BOINC Data\" directory\n\nfor each user, the file\n"
          "\"/Users/[username]/Library/Preferences/BOINC Manager Preferences\".");
         
@@ -152,7 +157,7 @@ static OSStatus DoUninstall(void) {
 #endif
 
 #if TESTING
-    ShowMessage(false, "Permission OK after relaunch");
+    ShowMessage(false, false, "Permission OK after relaunch");
 #endif
 
     QuitOneProcess('BNC!'); // Quit any old instance of BOINC manager
@@ -176,14 +181,14 @@ static OSStatus DoUninstall(void) {
         strlcat(myRmCommand, "\"", sizeof(myRmCommand));
     
 #if TESTING
-        ShowMessage(false, "manager: %s", myRmCommand);
+        ShowMessage(false, false, "manager: %s", myRmCommand);
 #endif
 
         p = strstr(myRmCommand, notBoot);
         
         if (p == myRmCommand+pathOffset) {
 #if TESTING
-            ShowMessage(false, "Not on boot volume: %s", myRmCommand);
+            ShowMessage(false, false, "Not on boot volume: %s", myRmCommand);
 #endif
             break;
         } else {
@@ -194,13 +199,13 @@ static OSStatus DoUninstall(void) {
             strlcpy(plistRmCommand, myRmCommand, sizeof(plistRmCommand));
             strlcat(plistRmCommand, "/Contents/info.plist", sizeof(plistRmCommand));
 #if TESTING
-        ShowMessage(false, "Deleting info.plist: %s", plistRmCommand);
+        ShowMessage(false, false, "Deleting info.plist: %s", plistRmCommand);
 #endif
             system(plistRmCommand); 
             err = LSRegisterFSRef(&theFSRef, true);
 #if TESTING
             if (err)
-                ShowMessage(false, "LSRegisterFSRef returned error %d", err);
+                ShowMessage(false, false, "LSRegisterFSRef returned error %d", err);
 #endif
             system(myRmCommand);
         }
@@ -278,7 +283,7 @@ static OSStatus DeleteOurBundlesFromDirectory(CFStringRef bundleID, char *extens
 
     dirp = opendir(dirPath);
     if (dirp == NULL) {      // Should never happen
-        ShowMessage(false, "opendir(\"%s\") failed", dirPath);
+        ShowMessage(false, false, "opendir(\"%s\") failed", dirPath);
         return -1;
     }
     
@@ -313,13 +318,13 @@ static OSStatus DeleteOurBundlesFromDirectory(CFStringRef bundleID, char *extens
                             strlcat(myRmCommand, "\"", sizeof(myRmCommand));
                             if (CFStringCompare(thisID, bundleID, 0) == kCFCompareEqualTo) {
 #if TESTING
-                                ShowMessage(false, "Bundles: %s", myRmCommand);                                
+                                ShowMessage(false, false, "Bundles: %s", myRmCommand);                                
 #endif
 
                                system(myRmCommand);
                             } else {
 #if TESTING
-//                                ShowMessage(false, "Bundles: Not deleting %s", myRmCommand+pathOffset);
+//                                ShowMessage(false, false, "Bundles: Not deleting %s", myRmCommand+pathOffset);
 #endif
                             }
 
@@ -327,26 +332,26 @@ static OSStatus DeleteOurBundlesFromDirectory(CFStringRef bundleID, char *extens
                         } // if (thisID)
 #if TESTING
                         else
-                            ShowMessage(false, "CFBundleGetIdentifier failed for index %d", index);                                
+                            ShowMessage(false, false, "CFBundleGetIdentifier failed for index %d", index);                                
 #endif
                         CFRelease(thisBundle);                
                } //if (thisBundle)
 #if TESTING
                         else
-                            ShowMessage(false, "CFBundleCreate failed for index %d", index);                                
+                            ShowMessage(false, false, "CFBundleCreate failed for index %d", index);                                
 #endif
                 CFRelease(bundleURLRef);                
             } // if (bundleURLRef)
 #if TESTING
         else
-            ShowMessage(false, "CFURLCreateWithFileSystemPath failed");                                
+            ShowMessage(false, false, "CFURLCreateWithFileSystemPath failed");                                
 #endif
         
             CFRelease(urlStringRef);
         } // if (urlStringRef)
 #if TESTING
         else
-            ShowMessage(false, "CFStringCreateWithCString failed");                                
+            ShowMessage(false, false, "CFStringCreateWithCString failed");                                
 #endif
     }   // while true
     
@@ -416,7 +421,7 @@ static OSStatus CleanupAllVisibleUsers(void)
                 human_user_names.push_back(string(buf));
                 human_user_IDs.push_back((uid_t)id);
 #if TESTING
-                ShowMessage(false, "user ID %d: %s\n", id, buf);
+                ShowMessage(false, false, "user ID %d: %s\n", id, buf);
 #endif
                 *p = ' ';
             }
@@ -456,7 +461,7 @@ static OSStatus CleanupAllVisibleUsers(void)
         // Skip all non-human (non-login) users
         if (flag == 3) { // if (Home Directory == "/var/empty") && (UserShell == "/usr/bin/false")
 #if TESTING
-            ShowMessage(false, "Flag=3: skipping user ID %d: %s", human_user_IDs[userIndex-1], buf);
+            ShowMessage(false, false, "Flag=3: skipping user ID %d: %s", human_user_IDs[userIndex-1], buf);
 #endif
             continue;
         }
@@ -466,7 +471,7 @@ static OSStatus CleanupAllVisibleUsers(void)
             continue;
 
 #if TESTING
-        ShowMessage(false, "Deleting login item for user %s: Posix name=%s, Full name=%s, UID=%d", 
+        ShowMessage(false, false, "Deleting login item for user %s: Posix name=%s, Full name=%s, UID=%d", 
                 human_user_name, pw->pw_name, pw->pw_gecos, pw->pw_uid);
 #endif
 
@@ -478,7 +483,7 @@ static OSStatus CleanupAllVisibleUsers(void)
         system (s);
 
 #if TESTING
-//    ShowMessage(false, "Before seteuid(%d) for user %s, euid = %d", pw->pw_uid, human_user_name, geteuid());
+//    ShowMessage(false, false, "Before seteuid(%d) for user %s, euid = %d", pw->pw_uid, human_user_name, geteuid());
 #endif
         
         if (OSVersion >= 0x1060) {
@@ -496,14 +501,14 @@ static OSStatus CleanupAllVisibleUsers(void)
             // We must launch the System Events application for the target user
 
 #if TESTING
-            ShowMessage(false, "Telling System Events to quit (before DeleteLoginItemOSAScript)");
+            ShowMessage(false, false, "Telling System Events to quit (before DeleteLoginItemOSAScript)");
 #endif
             // Find SystemEvents process.  If found, quit it in case 
             // it is running under a different user.
             err = QuitOneProcess(kSystemEventsCreator);
 #if TESTING
             if (err != noErr) {
-                ShowMessage(false, "QuitOneProcess(kSystemEventsCreator) returned error %d ", (int) err);
+                ShowMessage(false, false, "QuitOneProcess(kSystemEventsCreator) returned error %d ", (int) err);
             }
 #endif
             // Wait for the process to be gone
@@ -513,47 +518,50 @@ static OSStatus CleanupAllVisibleUsers(void)
                 if (err != noErr) break;
             }
 #if TESTING
-            if (i > 50) {
-                ShowMessage(false, "Failed to make System Events quit");
+            if (i >= 50) {
+                ShowMessage(false, false, "Failed to make System Events quit");
             }
 #endif
+            sleep(2);
             
             err = LSFindApplicationForInfo(kSystemEventsCreator, NULL, NULL, &appRef, NULL);
             if (err != noErr) {
 #if TESTING
-                ShowMessage(false, "LSFindApplicationForInfo(kSystemEventsCreator) returned error %d ", (int) err);
+                ShowMessage(false, false, "LSFindApplicationForInfo(kSystemEventsCreator) returned error %d ", (int) err);
 #endif
             } else {
-#if TESTING
                 FSRefMakePath(&appRef, (UInt8*)systemEventsPath, sizeof(systemEventsPath));
-                ShowMessage(false, "SystemEvents is at %s", systemEventsPath);
-                ShowMessage(false, "Lunching SystemEvents for user %s", human_user_name);
+#if TESTING
+                ShowMessage(false, false, "SystemEvents is at %s", systemEventsPath);
+                ShowMessage(false, false, "Launching SystemEvents for user %s", pw->pw_name);
 #endif
 
-                sprintf(cmd, "sudo -u %s \"%s/Contents/MacOS/System Events\" &", human_user_name, systemEventsPath);
+                sprintf(cmd, "sudo -iu \"%s\" \\\"%s/Contents/MacOS/System Events\\\" &", pw->pw_name, systemEventsPath);
                 err = system(cmd);
+                if (err == noErr) {
+                    // Wait for the process to start
+                    for (i=0; i<50; ++i) {      // 5 seconds max delay
+                        SleepTicks(6);  // 6 Ticks == 1/10 second
+                        err = FindProcess ('APPL', kSystemEventsCreator, &SystemEventsPSN);
+                        if (err == noErr) break;
+                    }
 #if TESTING
-                if (err) {
-                    ShowMessage(false, "[2] Command: %s returned error %d", cmd, (int) err);
-                }
+                    if (i >= 50) {
+                        ShowMessage(false, false, "Failed to launch System Events for user %s", pw->pw_name);
+                    }
 #endif
-                // Wait for the process to start
-                for (i=0; i<50; ++i) {      // 5 seconds max delay
-                    SleepTicks(6);  // 6 Ticks == 1/10 second
-                    err = FindProcess ('APPL', kSystemEventsCreator, &SystemEventsPSN);
-                    if (err == noErr) break;
-                }
-#if TESTING
-                if (i > 50) {
-                    ShowMessage(false, "Failed to launch System Events for user %s", human_user_name);
-                }
-#endif
-            }
+                    sleep(2);
 
-            DeleteLoginItemOSAScript(human_user_name, "BOINCManager");
-            DeleteLoginItemOSAScript(human_user_name, "GridRepublic Desktop");
-            DeleteLoginItemOSAScript(human_user_name, "Progress Thru Processors Desktop");
-            DeleteLoginItemOSAScript(human_user_name, "Charity Engine Desktop");
+                    DeleteLoginItemOSAScript(pw->pw_name, "BOINCManager");
+                    DeleteLoginItemOSAScript(pw->pw_name, "GridRepublic Desktop");
+                    DeleteLoginItemOSAScript(pw->pw_name, "Progress Thru Processors Desktop");
+                    DeleteLoginItemOSAScript(pw->pw_name, "Charity Engine Desktop");
+#if TESTING
+                } else {
+                    ShowMessage(false, false, "[2] Command: %s returned error %d", cmd, (int) err);
+#endif
+                }
+            }
         }
         
         // We don't delete the user's BOINC Manager preferences
@@ -563,36 +571,46 @@ static OSStatus CleanupAllVisibleUsers(void)
         //  Set screensaver to "Computer Name" default screensaver only 
         //  if it was BOINC, GridRepublic, Progress Thru Processors or Charity Engine.
         changeSaver = false;
+        seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
         if (OSVersion < 0x1060) {
-            seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
             f = popen("defaults -currentHost read com.apple.screensaver moduleName", "r");
+            if (f) {
+                while (PersistentFGets(s, sizeof(s), f)) {
+                    if (strstr(s, "BOINCSaver")) {
+                        changeSaver = true;
+                        break;
+                    }
+                    if (strstr(s, "GridRepublic")) {
+                        changeSaver = true;
+                        break;
+                    }
+                    if (strstr(s, "Progress Thru Processors")) {
+                        changeSaver = true;
+                        break;
+                    }
+                    if (strstr(s, "Charity Engine")) {
+                        changeSaver = true;
+                        break;
+                    }
+                }
+                pclose(f);
+            }
         } else {
-            // We must leave effective user ID as privileged user (root) 
-            // because the target user may not be in the sudoers file.
-            sprintf(s, "sudo -u %s defaults -currentHost read com.apple.screensaver moduleDict -dict", 
-                    human_user_name); 
-            f = popen(s, "r");
-        }
-        if (f) {
-            while (PersistentFGets(s, sizeof(s), f)) {
+            err = GetCurrentScreenSaverSelection(s, sizeof(s) -1);
+            if (err == noErr) {
                 if (strstr(s, "BOINCSaver")) {
                     changeSaver = true;
-                    break;
                 }
                 if (strstr(s, "GridRepublic")) {
                     changeSaver = true;
-                    break;
                 }
                 if (strstr(s, "Progress Thru Processors")) {
                     changeSaver = true;
-                    break;
                 }
                 if (strstr(s, "Charity Engine")) {
                     changeSaver = true;
-                    break;
                 }
             }
-            pclose(f);
         }
         
         if (changeSaver) {
@@ -600,31 +618,28 @@ static OSStatus CleanupAllVisibleUsers(void)
                 system ("defaults -currentHost write com.apple.screensaver moduleName \"Computer Name\"");
                 system ("defaults -currentHost write com.apple.screensaver modulePath \"/System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/Computer Name.saver\"");
             } else {
-                sprintf(s, 
-                    "sudo -u %s defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName \"Computer Name\" path \"/System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/Computer Name.saver\"", 
-                    human_user_name);
-                system (s);
+                err = SetScreenSaverSelection("Computer Name", 
+                    "/System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/Computer Name.saver", 0);
             }
         }
 
-        if (OSVersion < 0x1060) {
-            seteuid(saved_euid);    // Set effective uid back to privileged user
-        }
+        seteuid(saved_euid);    // Set effective uid back to privileged user
         
 #if TESTING
-//    ShowMessage(false, "After seteuid(%d) for user %s, euid = %d, saved_uid = %d", pw->pw_uid, human_user_name, geteuid(), saved_uid);
+//    ShowMessage(false, false, "After seteuid(%d) for user %s, euid = %d, saved_uid = %d", pw->pw_uid, human_user_name, geteuid(), saved_uid);
 #endif
-    }
+    }       // End userIndex loop
     
-sleep(1);
+    sleep(1);
+    
     if (OSVersion >= 0x1070) {
 #if TESTING
-        ShowMessage(false, "Telling System Events to quit (at end)");
+        ShowMessage(false, false, "Telling System Events to quit (at end)");
 #endif
         err = QuitOneProcess(kSystemEventsCreator);
 #if TESTING
         if (err != noErr) {
-            ShowMessage(false, "QuitOneProcess(kSystemEventsCreator) returned error %d ", (int) err);
+            ShowMessage(false, false, "QuitOneProcess(kSystemEventsCreator) returned error %d ", (int) err);
         }
 #endif
     }
@@ -653,7 +668,7 @@ static OSStatus GetAuthorization(AuthorizationRef * authRef, const char *pathToT
 
     err = AuthorizationCreate (&ourAuthRights, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, authRef);
     if (err != noErr) {
-        ShowMessage(false, "AuthorizationCreate returned error %d", err);
+        ShowMessage(false, false, "AuthorizationCreate returned error %d", err);
         return err;
     }
      
@@ -699,7 +714,7 @@ static OSStatus DoPrivilegedExec(char *brandName, const char *pathToTool, char *
     err = GetAuthorization(&authRef, pathToTool, brandName);
     if (err != noErr) {
         if (err != errAuthorizationCanceled)
-            ShowMessage(false, "GetAuthorization returned error %d", err);
+            ShowMessage(false, false, "GetAuthorization returned error %d", err);
         return err;
     }
 
@@ -726,7 +741,7 @@ static OSStatus DoPrivilegedExec(char *brandName, const char *pathToTool, char *
     }
 
 if (err != noErr)
-    ShowMessage(false, "\"%s %s %s %s %s %s\" returned error %d", pathToTool, 
+    ShowMessage(false, false, "\"%s %s %s %s %s %s\" returned error %d", pathToTool, 
                         arg1 ? arg1 : "", arg2 ? arg2 : "", arg3 ? arg3 : "", 
                         arg4 ? arg4 : "", arg5 ? arg5 : "", err);
 
@@ -739,11 +754,11 @@ static void DeleteLoginItemOSAScript(char* user, char* appName)
     char                    cmd[2048];
     OSErr                   err;
 
-    sprintf(cmd, "sudo -u %s osascript -e 'tell application \"System Events\"' -e 'delete (every login item whose name contains \"%s\")' -e 'end tell'", user, appName);
+    sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\"' -e 'delete (every login item whose name contains \"%s\")' -e 'end tell'", user, appName);
     err = system(cmd);
 #if TESTING
     if (err) {
-        ShowMessage(false, "Command: %s returned error %d", cmd, err);
+        ShowMessage(false, false, "Command: %s returned error %d", cmd, err);
     }
 #endif
 }
@@ -799,6 +814,105 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
         len -= datalen;
     }
     return (buf[0] ? buf : NULL);
+}
+
+
+OSErr GetCurrentScreenSaverSelection(char *moduleName, size_t maxLen) {
+    OSErr err = noErr;
+    CFStringRef nameKey = CFStringCreateWithCString(NULL,"moduleName",kCFStringEncodingASCII);
+    CFStringRef moduleNameAsCFString;
+    CFDictionaryRef theData;
+    
+    theData = (CFDictionaryRef)CFPreferencesCopyValue(CFSTR("moduleDict"), 
+                CFSTR("com.apple.screensaver"), 
+                kCFPreferencesCurrentUser,
+                kCFPreferencesCurrentHost
+                );
+    if (theData == NULL) {
+        CFRelease(nameKey);
+        return (-1);
+    }
+    
+    if (CFDictionaryContainsKey(theData, nameKey)  == false) 	
+	{
+        moduleName[0] = 0;
+        CFRelease(nameKey);
+        CFRelease(theData);
+	    return(-1);
+	}
+    
+    moduleNameAsCFString = CFStringCreateCopy(NULL, (CFStringRef)CFDictionaryGetValue(theData, nameKey));
+    CFStringGetCString(moduleNameAsCFString, moduleName, maxLen, kCFStringEncodingASCII);		    
+
+    CFRelease(nameKey);
+    CFRelease(theData);
+    return err;
+}
+
+
+OSErr SetScreenSaverSelection(char *moduleName, char *modulePath, int type) {
+    OSErr err = noErr;
+    CFStringRef preferenceName = CFSTR("com.apple.screensaver");
+    CFStringRef mainKeyName = CFSTR("moduleDict");
+    CFDictionaryRef emptyData;
+    CFMutableDictionaryRef newData;
+    Boolean success;
+
+    CFStringRef nameKey = CFStringCreateWithCString(NULL, "moduleName", kCFStringEncodingASCII);
+    CFStringRef nameValue = CFStringCreateWithCString(NULL, moduleName, kCFStringEncodingASCII);
+		
+    CFStringRef pathKey = CFStringCreateWithCString(NULL, "path", kCFStringEncodingASCII);
+    CFStringRef pathValue = CFStringCreateWithCString(NULL, modulePath, kCFStringEncodingASCII);
+    
+    CFStringRef typeKey = CFStringCreateWithCString(NULL, "type", kCFStringEncodingASCII);
+    CFNumberRef typeValue = CFNumberCreate(NULL, kCFNumberIntType, &type);
+    
+    emptyData = CFDictionaryCreate(NULL, NULL, NULL, 0, NULL, NULL);
+    if (emptyData == NULL) {
+        CFRelease(nameKey);
+        CFRelease(nameValue);
+        CFRelease(pathKey);
+        CFRelease(pathValue);
+        CFRelease(typeKey);
+        CFRelease(typeValue);
+        return(-1);
+    }
+
+    newData = CFDictionaryCreateMutableCopy(NULL,0, emptyData);
+
+    if (newData == NULL)
+	{
+        CFRelease(nameKey);
+        CFRelease(nameValue);
+        CFRelease(pathKey);
+        CFRelease(pathValue);
+        CFRelease(typeKey);
+        CFRelease(typeValue);
+        CFRelease(emptyData);
+        return(-1);
+    }
+
+    CFDictionaryAddValue(newData, nameKey, nameValue); 	
+    CFDictionaryAddValue(newData, pathKey, pathValue); 	
+    CFDictionaryAddValue(newData, typeKey, typeValue); 	
+
+    CFPreferencesSetValue(mainKeyName, newData, preferenceName, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
+    success = CFPreferencesSynchronize(preferenceName, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
+
+    if (!success) {
+        err = -1;
+    }
+    
+    CFRelease(nameKey);
+    CFRelease(nameValue);
+    CFRelease(pathKey);
+    CFRelease(pathValue);
+    CFRelease(typeKey);
+    CFRelease(typeValue);
+    CFRelease(emptyData);
+    CFRelease(newData);
+
+    return err;
 }
 
 
@@ -948,7 +1062,7 @@ static void SleepTicks(UInt32 ticksToSleep) {
 }
 
 
-static Boolean ShowMessage(Boolean allowCancel, const char *format, ...) {
+static Boolean ShowMessage(Boolean allowCancel, Boolean continueButton, const char *format, ...) {
     va_list                 args;
     char                    s[1024];
     short                   itemHit;
@@ -963,7 +1077,7 @@ static Boolean ShowMessage(Boolean allowCancel, const char *format, ...) {
     alertParams.movable = true;
     alertParams.helpButton = false;
     alertParams.filterProc = NULL;
-    alertParams.defaultText = (StringPtr)-1;
+    alertParams.defaultText = continueButton? "\pContinue..." : (StringPtr)-1;
     alertParams.cancelText = allowCancel ? (StringPtr)-1 : NULL;
     alertParams.otherText = NULL;
     alertParams.defaultButton = kAlertStdAlertOKButton;
@@ -989,7 +1103,7 @@ static OSStatus GetpathToBOINCManagerApp(char* path, int maxLen, FSRef *theFSRef
         status = LSFindApplicationForInfo(creator, bundleID, NULL, theFSRef, NULL);
         if (status) {
 #if TESTING
-            ShowMessage(false, "LSFindApplicationForInfo returned error %d", status);
+            ShowMessage(false, false, "LSFindApplicationForInfo returned error %d", status);
 #endif 
             return status;
         }
@@ -997,7 +1111,7 @@ static OSStatus GetpathToBOINCManagerApp(char* path, int maxLen, FSRef *theFSRef
         status = FSRefMakePath(theFSRef, (unsigned char *)path, maxLen);
 #if TESTING
         if (status)
-            ShowMessage(false, "GetpathToBOINCManagerApp FSRefMakePath returned error %d, %s", status, path);
+            ShowMessage(false, false, "GetpathToBOINCManagerApp FSRefMakePath returned error %d, %s", status, path);
 #endif
     
     return status;

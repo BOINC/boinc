@@ -4357,3 +4357,10 @@ David  14 June 2012
     vda/
         vda_lib.cpp,h
         ssim.cpp
+
+Charlie 16 June 2012
+    - Mac installer: Fix bugs I introduced on May 3 and May 6.
+
+    mac_installer/
+        PostInstall.cpp
+        Uninstall.cpp
