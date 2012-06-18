@@ -477,11 +477,15 @@ int main(int argc, char** argv) {
     // default policy
     //
     policy.replication = 2;
-    policy.coding_levels = 1;
+    policy.coding_levels = 2;
     policy.codings[0].n = 10;
     policy.codings[0].k = 6;
     policy.codings[0].m = 16;
     policy.codings[0].n_upload = 12;
+    policy.codings[1].n = 10;
+    policy.codings[1].k = 6;
+    policy.codings[1].m = 16;
+    policy.codings[1].n_upload = 12;
 
     for (int i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--policy")) {
