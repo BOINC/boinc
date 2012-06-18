@@ -3615,3 +3615,11 @@ Charlie 18 June 2012
     mac_installer/
         PostInstall.cpp
         Uninstall.cpp
+
+Charlie 18 June 2012
+    - Tag for 7.0.29 release, Macintosh only
+      boinc_core_release_7_0_29
+
+    /
+        configure.ac
+        version.h
