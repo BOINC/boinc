@@ -96,10 +96,10 @@ $w612x64 = array(
 );
 
 $m70dev = array(
-	"num"=>"7.0.28",
+	"num"=>"7.0.29",
 	"status"=>"Development version (standard GUI)",
-	"file"=>"boinc_7.0.28_macOSX_i686.zip",
-	"date"=>"21 May 2012",
+	"file"=>"boinc_7.0.29_macOSX_i686.zip",
+	"date"=>"18 Jun 2012",
 	"type"=>"mac_advanced",
 );
 
@@ -136,10 +136,10 @@ $m66 = array(
 );
 
 $m70cdev = array(
-	"num"=>"7.0.28",
+	"num"=>"7.0.29",
 	"status"=>"Development version (Unix command-line version)",
-	"file"=>"boinc_7.0.28_i686-apple-darwin.zip",
-	"date"=>"21 May 2012",
+	"file"=>"boinc_7.0.29_i686-apple-darwin.zip",
+	"date"=>"18 Jun 2012",
 	"type"=>"bare_core",
 );
 
