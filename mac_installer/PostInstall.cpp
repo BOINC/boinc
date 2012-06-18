@@ -1581,6 +1581,7 @@ OSErr GetCurrentScreenSaverSelection(char *moduleName, size_t maxLen) {
 
     CFRelease(nameKey);
     CFRelease(theData);
+    CFRelease(moduleNameAsCFString);
     return err;
 }
 

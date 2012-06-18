@@ -47,9 +47,13 @@ static OSStatus GetAuthorization(AuthorizationRef * authRef, const char *pathToT
 static OSStatus DoPrivilegedExec(char *brandName, const char *pathToTool, char *arg1, char *arg2, char *arg3, char *arg4, char *arg5);
 static void DeleteLoginItemOSAScript(char* user, char* appName);
 static void DeleteLoginItemAPI(void);
+static void DeleteLoginItemFromPListFile(void);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
 OSErr GetCurrentScreenSaverSelection(char *moduleName, size_t maxLen);
 OSErr SetScreenSaverSelection(char *moduleName, char *modulePath, int type);
+int GetCountOfLoginItemsFromPlistFile(void);
+OSErr GetLoginItemNameAtIndexFromPlistFile(int index, char *name, size_t maxLen);
+OSErr DeleteLoginItemNameAtIndexFromPlistFile(int index);
 static OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN);
 static pid_t FindProcessPID(char* name, pid_t thePID);
 static OSStatus QuitOneProcess(OSType signature);
@@ -494,7 +498,11 @@ static OSStatus CleanupAllVisibleUsers(void)
             seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
             DeleteLoginItemAPI();
             seteuid(saved_euid);    // Set effective uid back to privileged user
-        } else {
+        } else if (OSVersion >= 0x1080) {
+            seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
+            DeleteLoginItemFromPListFile();
+            seteuid(saved_euid);    // Set effective uid back to privileged user
+        } else {            // OS 10.7.x
             // We must leave effective user ID as privileged user (root) 
             // because the target user may not be in the sudoers file.
 
@@ -749,6 +757,7 @@ if (err != noErr)
 }
 
 
+// Used for OS 10.7.x
 static void DeleteLoginItemOSAScript(char* user, char* appName)
 {
     char                    cmd[2048];
@@ -763,21 +772,22 @@ static void DeleteLoginItemOSAScript(char* user, char* appName)
 #endif
 }
     
-    
+
+// Used for OS < OS 10.7
 static void DeleteLoginItemAPI(void)
 {
-    Boolean                 Success;
-    int                     NumberOfLoginItems, Counter;
+    Boolean                 success;
+    int                     numberOfLoginItems, counter;
     char                    *p, *q;
 
-    Success = false;
+    success = false;
 
-    NumberOfLoginItems = GetCountOfLoginItems(kCurrentUser);
+    numberOfLoginItems = GetCountOfLoginItems(kCurrentUser);
     
     // Search existing login items in reverse order, deleting ours
-    for (Counter = NumberOfLoginItems ; Counter > 0 ; Counter--)
+    for (counter = numberOfLoginItems ; counter > 0 ; counter--)
     {
-        p = ReturnLoginItemPropertyAtIndex(kCurrentUser, kApplicationNameInfo, Counter-1);
+        p = ReturnLoginItemPropertyAtIndex(kCurrentUser, kApplicationNameInfo, counter-1);
         q = p;
         while (*q)
         {
@@ -787,13 +797,48 @@ static void DeleteLoginItemAPI(void)
         }
             
         if (strcmp(p, "BOINCMANAGER.APP") == 0)
-            Success = RemoveLoginItemAtIndex(kCurrentUser, Counter-1);
+            success = RemoveLoginItemAtIndex(kCurrentUser, counter-1);
         if (strcmp(p, "GRIDREPUBLIC DESKTOP.APP") == 0)
-            Success = RemoveLoginItemAtIndex(kCurrentUser, Counter-1);
+            success = RemoveLoginItemAtIndex(kCurrentUser, counter-1);
         if (strcmp(p, "PROGRESS THRU PROCESSORS DESKTOP.APP") == 0)
-            Success = RemoveLoginItemAtIndex(kCurrentUser, Counter-1);
+            success = RemoveLoginItemAtIndex(kCurrentUser, counter-1);
         if (strcmp(p, "CHARITY ENGINE DESKTOP.APP") == 0)
-            Success = RemoveLoginItemAtIndex(kCurrentUser, Counter-1);
+            success = RemoveLoginItemAtIndex(kCurrentUser, counter-1);
+    }
+}
+
+
+// Used for OS 10.8
+static void DeleteLoginItemFromPListFile(void)
+{
+    Boolean                 success;
+    int                     numberOfLoginItems, counter;
+    char                    theName[256], *q;
+
+    success = false;
+
+    numberOfLoginItems = GetCountOfLoginItemsFromPlistFile();
+    
+    // Search existing login items in reverse order, deleting ours
+    for (counter = numberOfLoginItems ; counter > 0 ; counter--)
+    {
+        GetLoginItemNameAtIndexFromPlistFile(counter-1, theName, sizeof(theName));
+        q = theName;
+        while (*q)
+        {
+            // It is OK to modify the returned string because we "own" it
+            *q = toupper(*q);	// Make it case-insensitive
+            q++;
+        }
+            
+        if (strstr(theName, "BOINCMANAGER"))
+            success = DeleteLoginItemNameAtIndexFromPlistFile(counter-1);
+        if (strstr(theName, "GRIDREPUBLIC DESKTOP"))
+            success = DeleteLoginItemNameAtIndexFromPlistFile(counter-1);
+        if (strstr(theName, "PROGRESS THRU PROCESSORS DESKTOP"))
+            success = DeleteLoginItemNameAtIndexFromPlistFile(counter-1);
+        if (strstr(theName, "CHARITY ENGINE DESKTOP"))
+            success = DeleteLoginItemNameAtIndexFromPlistFile(counter-1);
     }
 }
 
@@ -846,6 +891,7 @@ OSErr GetCurrentScreenSaverSelection(char *moduleName, size_t maxLen) {
 
     CFRelease(nameKey);
     CFRelease(theData);
+    CFRelease(moduleNameAsCFString);
     return err;
 }
 
@@ -913,6 +959,144 @@ OSErr SetScreenSaverSelection(char *moduleName, char *modulePath, int type) {
     CFRelease(newData);
 
     return err;
+}
+
+
+int GetCountOfLoginItemsFromPlistFile() {
+    CFArrayRef	arrayOfLoginItemsFixed;
+    int valueToReturn = -1;
+    CFStringRef loginItemArrayKeyName = CFSTR("CustomListItems");
+    CFDictionaryRef topLevelDict;
+
+    topLevelDict = (CFDictionaryRef)CFPreferencesCopyValue(CFSTR("SessionItems"), CFSTR("com.apple.loginitems"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+    if (topLevelDict == NULL) {
+        return (0);
+    }
+
+    if (CFDictionaryContainsKey(topLevelDict, loginItemArrayKeyName)  == false) 	
+	{
+        CFRelease(topLevelDict);
+	    return(0);
+	}
+    
+    arrayOfLoginItemsFixed = (CFArrayRef)CFDictionaryGetValue(topLevelDict, loginItemArrayKeyName);
+    if( arrayOfLoginItemsFixed == NULL)
+	{
+        CFRelease(topLevelDict);
+	    return(0); 
+	}
+	
+    valueToReturn = (int) CFArrayGetCount(arrayOfLoginItemsFixed);
+
+    CFRelease(topLevelDict);
+    return(valueToReturn);    
+}
+
+
+// Returns empty string on failure
+OSErr GetLoginItemNameAtIndexFromPlistFile(int index, char *name, size_t maxLen) {
+    CFArrayRef	arrayOfLoginItemsFixed = NULL;
+    CFStringRef loginItemArrayKeyName = CFSTR("CustomListItems");
+    CFDictionaryRef topLevelDict = NULL;
+    CFDictionaryRef loginItemDict = NULL;
+    CFStringRef nameKey = CFSTR("Name");
+    CFStringRef nameAsCFString = NULL;
+    
+    *name = 0;  // Prepare for failure
+
+    topLevelDict = (CFDictionaryRef)CFPreferencesCopyValue(CFSTR("SessionItems"), CFSTR("com.apple.loginitems"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+    if (topLevelDict == NULL) {
+        return (-1);
+    }
+
+    if (CFDictionaryContainsKey(topLevelDict, loginItemArrayKeyName)  == false) 	
+	{
+        CFRelease(topLevelDict);
+	    return(-1);
+	}
+    
+    arrayOfLoginItemsFixed = (CFArrayRef) CFDictionaryGetValue(topLevelDict, loginItemArrayKeyName);
+    if( arrayOfLoginItemsFixed == NULL)
+	{
+        CFRelease(topLevelDict);
+	    return(-1); 
+	}
+    
+    loginItemDict = (CFDictionaryRef) CFArrayGetValueAtIndex(arrayOfLoginItemsFixed, (CFIndex)index);
+    if (loginItemDict == NULL)
+    {
+        CFRelease(topLevelDict);
+        return(-1); 
+    }
+
+	if (CFDictionaryContainsKey(loginItemDict, nameKey) == false) 	
+	{
+        CFRelease(topLevelDict);
+        return(-1); 
+	}
+
+    nameAsCFString = CFStringCreateCopy(NULL, (CFStringRef)CFDictionaryGetValue(loginItemDict, nameKey));
+    CFStringGetCString(nameAsCFString, name, maxLen, kCFStringEncodingASCII);		    
+
+    CFRelease(topLevelDict);
+    CFRelease(nameAsCFString);
+    return(noErr);
+}
+
+
+OSErr DeleteLoginItemNameAtIndexFromPlistFile(int index){
+    CFArrayRef	arrayOfLoginItemsFixed = NULL;
+    CFMutableArrayRef arrayOfLoginItemsModifiable;
+    CFStringRef topLevelKeyName = CFSTR("SessionItems");
+    CFStringRef preferenceName = CFSTR("com.apple.loginitems");
+    CFStringRef loginItemArrayKeyName = CFSTR("CustomListItems");
+    CFDictionaryRef oldTopLevelDict = NULL;
+    CFMutableDictionaryRef newTopLevelDict = NULL;
+    Boolean success;
+    OSErr err = noErr;
+
+    oldTopLevelDict = (CFDictionaryRef)CFPreferencesCopyValue(topLevelKeyName, preferenceName, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+    if (oldTopLevelDict == NULL) {
+        return (-1);
+    }
+
+    if (CFDictionaryContainsKey(oldTopLevelDict, loginItemArrayKeyName)  == false) 	
+	{
+        CFRelease(oldTopLevelDict);
+	    return(-1);
+	}
+    
+    arrayOfLoginItemsFixed = (CFArrayRef) CFDictionaryGetValue(oldTopLevelDict, loginItemArrayKeyName);
+    if( arrayOfLoginItemsFixed == NULL)
+	{
+        CFRelease(oldTopLevelDict);
+	    return(-1); 
+	}
+
+    arrayOfLoginItemsModifiable = CFArrayCreateMutableCopy(NULL, 0, arrayOfLoginItemsFixed);
+    if( arrayOfLoginItemsModifiable == NULL)
+	{
+        CFRelease(oldTopLevelDict);
+	    return(-1); 
+	}
+
+    CFArrayRemoveValueAtIndex(arrayOfLoginItemsModifiable, (CFIndex) index);    
+
+    newTopLevelDict = CFDictionaryCreateMutableCopy(NULL, 0, oldTopLevelDict);
+    CFDictionaryReplaceValue(newTopLevelDict, loginItemArrayKeyName, arrayOfLoginItemsModifiable);
+
+    CFPreferencesSetValue(topLevelKeyName, newTopLevelDict, preferenceName, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+    success = CFPreferencesSynchronize(preferenceName, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+
+    if (!success) {
+        err = -1;
+    }
+ 
+    CFRelease(oldTopLevelDict);
+    CFRelease(newTopLevelDict);
+   
+    return(err);
+
 }
 
 
