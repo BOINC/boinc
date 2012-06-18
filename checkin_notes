@@ -3600,3 +3600,18 @@ Charlie 13 June 2012
 
     client/
         coproc_detect.cpp
+
+Charlie 16 June 2012
+    - Mac installer: Fix bugs I introduced on May 3 and May 6.
+
+    mac_installer/
+        PostInstall.cpp
+        Uninstall.cpp
+
+Charlie 18 June 2012
+    - Mac installer: Create or delete Login Items and set screensaver 
+        properly when installing for multiple users on OS 10.7, 10.8.
+
+    mac_installer/
+        PostInstall.cpp
+        Uninstall.cpp
