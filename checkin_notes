@@ -4398,3 +4398,10 @@ David  18 June 2012
         gpu_nvidia.cpp (new)
         coproc_detect.cpp
         Makefile.am
+
+David  18 June 2012
+    - client: rename coproc_detect.cpp to gpu_detect.cpp
+
+    client/
+        gpu_detect.cpp,h
+        Makefile.am
