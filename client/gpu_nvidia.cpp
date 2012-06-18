@@ -358,7 +358,7 @@ void COPROC_NVIDIA::get(
     }
 
     // see which other instances are equivalent,
-    // and set the "count" and "device_nums" fields
+    // and set "count", "device_nums", and "pci_infos"
     //
     count = 0;
     for (i=0; i<nvidia_gpus.size(); i++) {
@@ -366,6 +366,7 @@ void COPROC_NVIDIA::get(
             nvidia_gpus[i].is_used = COPROC_IGNORED;
         } else if (use_all || !nvidia_compare(nvidia_gpus[i], *this, true)) {
             device_nums[count] = nvidia_gpus[i].device_num;
+            pci_infos[count] = nvidia_gpus[i].pci_info;
             count++;
             nvidia_gpus[i].is_used = COPROC_USED;
         } else {

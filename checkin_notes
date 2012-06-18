@@ -4423,3 +4423,10 @@ David  18 June 2012
         gpu_nvidia.cpp
     win_build/
         boinc_cli.vcproj
+
+David  18 June 2012
+    - client: for NVIDIA, make an array of the PCI info
+        for all usable GPUs
+
+    client/
+        gpu_nvidia.cpp
