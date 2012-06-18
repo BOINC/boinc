@@ -608,10 +608,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\client\coproc_detect.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\client\cpu_sched.cpp"
 				>
 			</File>
@@ -681,6 +677,22 @@
 			</File>
 			<File
 				RelativePath="..\Client\file_xfer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\client\gpu_amd.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\client\gpu_detect.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\client\gpu_nvidia.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\client\gpu_opencl.cpp"
 				>
 			</File>
 			<File
@@ -858,6 +870,10 @@
 			</File>
 			<File
 				RelativePath="..\client\file_xfer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\client\gpu_detect.h"
 				>
 			</File>
 			<File

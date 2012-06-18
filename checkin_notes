@@ -4415,3 +4415,11 @@ David  18 June 2012
         gpu_nvidia.cpp
     lib/
         coproc.cpp,h
+
+David  18 June 2012
+    - win compile fixes
+
+    client/
+        gpu_nvidia.cpp
+    win_build/
+        boinc_cli.vcproj

@@ -19,6 +19,7 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
+#include "nvapi.h"
 #else
 #ifdef __APPLE__
 // Suppress obsolete warning when building for OS 10.3.9
