@@ -4405,3 +4405,13 @@ David  18 June 2012
     client/
         gpu_detect.cpp,h
         Makefile.am
+
+David  18 June 2012
+    - client: compile fixes
+
+    client/
+        gpu_opencl.cpp
+        gpu_amd.cpp
+        gpu_nvidia.cpp
+    lib/
+        coproc.cpp,h

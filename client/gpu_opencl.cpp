@@ -39,7 +39,7 @@ using std::string;
 #include "util.h"
 
 #include "client_msgs.h"
-#include "gpu.h"
+#include "gpu_detect.h"
 
 #ifdef _WIN32
 

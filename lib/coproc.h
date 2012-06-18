@@ -105,9 +105,13 @@ struct COPROC_REQ {
 };
 
 struct PCI_INFO {
+    bool present;
     int bus_id;
     int device_id;
     int domain_id;
+
+    void write(MIOFILE&);
+    int parse(XML_PARSER&);
 };
 
 // there's some duplication between the values in 
@@ -234,6 +238,7 @@ struct COPROC {
             running_graphics_app[i] = true;
         }
         memset(&opencl_prop, 0, sizeof(opencl_prop));
+        memset(&pci_info, 0, sizeof(pci_info));
     }
     inline void clear_usage() {
         for (int i=0; i<count; i++) {
@@ -300,7 +305,7 @@ struct COPROC_NVIDIA : public COPROC {
     COPROC_USAGE is_used;               // temp used in scan process
 
 #ifndef _USING_FCGI_
-    void write_xml(MIOFILE&, bool include_request);
+    void write_xml(MIOFILE&, bool scheduler_rpc);
 #endif
     COPROC_NVIDIA(): COPROC(GPU_TYPE_NVIDIA){}
     void get(
@@ -337,7 +342,7 @@ struct COPROC_ATI : public COPROC {
     COPROC_USAGE is_used;               // temp used in scan process
 
 #ifndef _USING_FCGI_
-    void write_xml(MIOFILE&, bool include_request);
+    void write_xml(MIOFILE&, bool scheduler_rpc);
 #endif
     COPROC_ATI(): COPROC(GPU_TYPE_ATI){}
     void get(
@@ -359,7 +364,7 @@ struct COPROCS {
     COPROC_NVIDIA nvidia;
     COPROC_ATI ati;
 
-    void write_xml(MIOFILE& out, bool include_request);
+    void write_xml(MIOFILE& out, bool scheduler_rpc);
     void get(
         bool use_all, 
         std::vector<std::string> &descs,

@@ -39,7 +39,7 @@ using std::string;
 #include "util.h"
 
 #include "client_msgs.h"
-#include "gpu.h"
+#include "gpu_detect.h"
 
 // return 1/-1/0 if device 1 is more/less/same capable than device 2.
 // factors (decreasing priority):
