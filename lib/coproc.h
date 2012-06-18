@@ -104,6 +104,12 @@ struct COPROC_REQ {
     int parse(XML_PARSER&);
 };
 
+struct PCI_INFO {
+    int bus_id;
+    int device_id;
+    int domain_id;
+};
+
 // there's some duplication between the values in 
 // the OPENCL_DEVICE_PROP struct and the NVIDIA/ATI structs
 //
@@ -186,6 +192,8 @@ struct COPROC {
     cl_device_id opencl_device_ids[MAX_COPROC_INSTANCES];
     int opencl_device_count;
     int opencl_device_indexes[MAX_COPROC_INSTANCES];
+    PCI_INFO pci_info;
+    PCI_INFO pci_infos[MAX_COPROC_INSTANCES];
 
     bool running_graphics_app[MAX_COPROC_INSTANCES];
         // is this GPU running a graphics app (NVIDIA only)
@@ -283,9 +291,6 @@ struct CUDA_DEVICE_PROP {
     int   textureAlignment;
     int   deviceOverlap;
     int   multiProcessorCount;
-    int   pciBusID;
-    int   pciDeviceID;
-    int   pciDomainID;
 };
 
 struct COPROC_NVIDIA : public COPROC {

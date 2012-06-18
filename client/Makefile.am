@@ -60,6 +60,9 @@ boinc_client_SOURCES = \
     dhrystone2.cpp \
     file_names.cpp \
     file_xfer.cpp \
+	gpu_amd.cpp \
+	gpu_nvidia.cpp \
+	gpu_opencl.cpp \
     gui_http.cpp \
     gui_rpc_server.cpp \
     gui_rpc_server_ops.cpp \

@@ -4385,3 +4385,16 @@ David  18 June 2012
         client_state.cpp
     vda/
         ssim.cpp
+
+David  18 June 2012
+    - client: split GPU detection code into separate files
+
+    lib/
+        coproc.h
+    client/
+        gpu.h (new)
+        gpu_opencl.cpp (new)
+        gpu_amd.cpp (new)
+        gpu_nvidia.cpp (new)
+        coproc_detect.cpp
+        Makefile.am
