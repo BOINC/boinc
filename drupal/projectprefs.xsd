@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://boinc.berkeley.edu"
+           xmlns="http://boinc.berkeley.edu"
+           elementFormDefault="qualified"
+           version="0.1">
+
+    <!-- simple types -->
+
+    <xs:simpleType name="entitytype">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="element" />
+            <xs:enumeration value="attribute" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="lang">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="en_US" />
+            <xs:enumeration value="de_DE" />
+            <!-- TODO add valid lang values -->
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="datatype">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="text" />
+            <xs:enumeration value="integer" />
+            <xs:enumeration value="float" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- elementary complex types -->
+
+    <xs:complexType name="title">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="lang" type="lang" default="en_US" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="description">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="lang" type="lang" default="en_US" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="item">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="selected" type="xs:boolean" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="app">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+                <xs:attribute name="selected" type="xs:boolean" />
+                <xs:attribute name="enabled" type="xs:boolean" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <!-- collection types -->
+
+    <xs:complexType name="items">
+        <xs:sequence>
+            <xs:element name="item" type="item" minOccurs="1" maxOccurs="unbounded" />
+            <!-- TODO ensure only one item's "selected" attribute is set to "true" -->
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- complex base types -->
+
+    <xs:complexType name="component">
+        <xs:sequence>
+            <xs:element name="title" type="title" minOccurs="1" maxOccurs="1" />
+            <xs:element name="description" type="description" minOccurs="0" maxOccurs="1" />
+        </xs:sequence>
+        <xs:attribute name="entitytype" type="entitytype" default="element" />
+        <xs:attribute name="name" type="xs:string" use="required" />
+    </xs:complexType>
+
+    <!-- GUI component types (available preference settings) -->
+
+    <xs:complexType name="text">
+        <xs:complexContent>
+            <xs:extension base="component">
+                <xs:attribute name="datatype" type="datatype" use="required" />
+                <xs:attribute name="min" type="xs:decimal" />
+                <xs:attribute name="max" type="xs:decimal" />
+                <xs:attribute name="default" type="xs:string" use="required" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="boolean">
+        <xs:complexContent>
+            <xs:extension base="component">
+                <xs:attribute name="selected" type="xs:boolean" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="radio">
+        <xs:complexContent>
+            <xs:extension base="component">
+                <xs:sequence>
+                    <xs:element name="items" type="items" minOccurs="1" maxOccurs="1" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="dropdown">
+        <xs:complexContent>
+            <xs:extension base="component">
+                <xs:sequence>
+                    <xs:element name="items" type="items" minOccurs="1" maxOccurs="1" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="apps">
+        <xs:sequence>
+            <xs:element name="title" type="title" minOccurs="1" maxOccurs="1" />
+            <xs:element name="app" type="app" minOccurs="1" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- compound element type -->
+
+    <xs:complexType name="compound">
+        <xs:sequence>
+            <xs:element name="title" type="title" minOccurs="1" maxOccurs="1" />
+            <xs:choice minOccurs="1" maxOccurs="unbounded">
+                <xs:element name="text" type="text" />
+                <xs:element name="boolean" type="boolean" />
+                <xs:element name="radio" type="radio" />
+                <xs:element name="dropdown" type="dropdown" />
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" use="required" />
+    </xs:complexType>
+
+    <!-- root element -->
+
+    <xs:element name="project_specific_preferences">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice minOccurs="1" maxOccurs="unbounded">
+                    <xs:element name="text" type="text" />
+                    <xs:element name="boolean" type="boolean" />
+                    <xs:element name="radio" type="radio" />
+                    <xs:element name="dropdown" type="dropdown" />
+                    <xs:element name="apps" type="apps" />
+                    <xs:element name="compound" type="compound" />
+                </xs:choice>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>
