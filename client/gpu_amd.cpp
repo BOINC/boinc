@@ -326,6 +326,9 @@ void COPROC_ATI::get(
 		case 21:
 			gpu_name="AMD Radeon HD 78x0 series (Pitcairn)";
 			break;
+		case 22:
+			gpu_name="AMD Radeon HD 77x0 series (Cape Verde)";
+			break;
         default:
             gpu_name="AMD Radeon HD (unknown)";
             break;

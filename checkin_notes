@@ -4430,3 +4430,9 @@ David  18 June 2012
 
     client/
         gpu_nvidia.cpp
+
+David  19 June 2012
+	- client: AMD GPU detection addition (from [P3D] Crashtest)
+
+	client/
+		gpu_amd.cpp
