@@ -1294,7 +1294,7 @@ int start_timer_thread() {
 #else
     pthread_attr_t thread_attrs;
     pthread_attr_init(&thread_attrs);
-    pthread_attr_setstacksize(&thread_attrs, 16384);
+    pthread_attr_setstacksize(&thread_attrs, 32768);
     int retval = pthread_create(&timer_thread_handle, &thread_attrs, timer_thread, NULL);
     if (retval) {
         fprintf(stderr,

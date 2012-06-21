@@ -4455,3 +4455,11 @@ David  20 June 2012
 
     html/inc/
         stats_sites.inc
+
+David  20 June 2012
+    - API, Linux: increase timer thread stack size from 16K to 32K.
+        Apparently new use of MAXPATHLEN can cause overflow.
+        Fixes #1191
+
+    api/
+        boinc_api.cpp
