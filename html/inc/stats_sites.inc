@@ -170,7 +170,7 @@ $team_name_sites = array(
 
 $host_sites = array(
     array(
-        "http://boincstats.com/en/stats/-1/detail/",
+        "http://boincstats.com/en/stats/-1/host/detail/",
         "BOINCstats.com",
         "boincstats_icon.png"
     ),

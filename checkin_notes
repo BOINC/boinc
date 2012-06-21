@@ -4444,8 +4444,14 @@ Charlie 20 June 2012
         boinc.xcodeproj/
             project.pbxproj
 
-David  19 June 2012
+David  20 June 2012
     - fix configure error on Linux.
         I think the AC_PROG_OBJCXX should be limited to Mac somehow
 
     configure.ac
+
+David  20 June 2012
+    - web: fix BOINCStats link for host details
+
+    html/inc/
+        stats_sites.inc
