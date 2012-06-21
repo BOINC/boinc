@@ -4443,3 +4443,9 @@ Charlie 20 June 2012
        mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  19 June 2012
+    - fix configure error on Linux.
+        I think the AC_PROG_OBJCXX should be limited to Mac somehow
+
+    configure.ac
