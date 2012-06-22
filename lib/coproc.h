@@ -104,6 +104,16 @@ struct COPROC_REQ {
     int parse(XML_PARSER&);
 };
 
+struct PCI_INFO {
+    bool present;
+    int bus_id;
+    int device_id;
+    int domain_id;
+
+    void write(MIOFILE&);
+    int parse(XML_PARSER&);
+};
+
 // there's some duplication between the values in 
 // the OPENCL_DEVICE_PROP struct and the NVIDIA/ATI structs
 //
@@ -186,6 +196,8 @@ struct COPROC {
     cl_device_id opencl_device_ids[MAX_COPROC_INSTANCES];
     int opencl_device_count;
     int opencl_device_indexes[MAX_COPROC_INSTANCES];
+    PCI_INFO pci_info;
+    PCI_INFO pci_infos[MAX_COPROC_INSTANCES];
 
     bool running_graphics_app[MAX_COPROC_INSTANCES];
         // is this GPU running a graphics app (NVIDIA only)
@@ -226,6 +238,7 @@ struct COPROC {
             running_graphics_app[i] = true;
         }
         memset(&opencl_prop, 0, sizeof(opencl_prop));
+        memset(&pci_info, 0, sizeof(pci_info));
     }
     inline void clear_usage() {
         for (int i=0; i<count; i++) {
@@ -257,27 +270,32 @@ struct COPROC {
     );
 };
 
-// based on cudaDeviceProp from /usr/local/cuda/include/driver_types.h
+// Based on cudaDeviceProp from /usr/local/cuda/include/driver_types.h
 // doesn't have to match exactly since we get the attributes one at a time.
 //
+// This is used for 2 purposes:
+// - it's exported via GUI RPC for GUIs or other tools
+// - it's sent from client to scheduler, for use by app plan functions
+// Properties not relevant to either of these can be omitted.
+//
 struct CUDA_DEVICE_PROP {
-  char  name[256];
-  int   deviceHandle;
-  double totalGlobalMem;
-  int   sharedMemPerBlock;
-  int   regsPerBlock;
-  int   warpSize;
-  int   memPitch;
-  int   maxThreadsPerBlock;
-  int   maxThreadsDim[3];
-  int   maxGridSize[3]; 
-  int   clockRate;
-  int   totalConstMem; 
-  int   major;     // compute capability
-  int   minor;
-  int   textureAlignment;
-  int   deviceOverlap;
-  int   multiProcessorCount;
+    char  name[256];
+    int   deviceHandle;
+    double totalGlobalMem;
+    int   sharedMemPerBlock;
+    int   regsPerBlock;
+    int   warpSize;
+    int   memPitch;
+    int   maxThreadsPerBlock;
+    int   maxThreadsDim[3];
+    int   maxGridSize[3]; 
+    int   clockRate;
+    int   totalConstMem; 
+    int   major;     // compute capability
+    int   minor;
+    int   textureAlignment;
+    int   deviceOverlap;
+    int   multiProcessorCount;
 };
 
 struct COPROC_NVIDIA : public COPROC {
@@ -287,7 +305,7 @@ struct COPROC_NVIDIA : public COPROC {
     COPROC_USAGE is_used;               // temp used in scan process
 
 #ifndef _USING_FCGI_
-    void write_xml(MIOFILE&, bool include_request);
+    void write_xml(MIOFILE&, bool scheduler_rpc);
 #endif
     COPROC_NVIDIA(): COPROC(GPU_TYPE_NVIDIA){}
     void get(
@@ -324,7 +342,7 @@ struct COPROC_ATI : public COPROC {
     COPROC_USAGE is_used;               // temp used in scan process
 
 #ifndef _USING_FCGI_
-    void write_xml(MIOFILE&, bool include_request);
+    void write_xml(MIOFILE&, bool scheduler_rpc);
 #endif
     COPROC_ATI(): COPROC(GPU_TYPE_ATI){}
     void get(
@@ -346,7 +364,7 @@ struct COPROCS {
     COPROC_NVIDIA nvidia;
     COPROC_ATI ati;
 
-    void write_xml(MIOFILE& out, bool include_request);
+    void write_xml(MIOFILE& out, bool scheduler_rpc);
     void get(
         bool use_all, 
         std::vector<std::string> &descs,

@@ -51,7 +51,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2005_7_0a/openssl/include;../../boinc_depends_win_vs2005_7_0a/curl/include;../../boinc_depends_win_vs2005_7_0a/zlib/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include"
+				AdditionalIncludeDirectories="../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2005/openssl/include;../../boinc_depends_win_vs2005/curl/include;../../boinc_depends_win_vs2005/zlib/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include"
 				PreprocessorDefinitions="WIN32;_WIN32;_DEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_USE_CURL;USE_SSL;USE_SSLEAY;USE_OPENSSL"
 				MinimalRebuild="false"
 				ExceptionHandling="2"
@@ -90,7 +90,7 @@
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;../../boinc_depends_win_vs2005_7_0a/openssl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../../boinc_depends_win_vs2005_7_0a/curl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../../boinc_depends_win_vs2005_7_0a/zlib/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../coprocs/NVIDIA/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;../../;&quot;$(OutDir)&quot;"
+				AdditionalLibraryDirectories="&quot;../../boinc_depends_win_vs2005/openssl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../../boinc_depends_win_vs2005/curl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../../boinc_depends_win_vs2005/zlib/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../coprocs/NVIDIA/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;../../;&quot;$(OutDir)&quot;"
 				IgnoreAllDefaultLibraries="true"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
@@ -161,7 +161,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2005_7_0a/openssl/include;../../boinc_depends_win_vs2005_7_0a/curl/include;../../boinc_depends_win_vs2005_7_0a/zlib/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include"
+				AdditionalIncludeDirectories="../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2005/openssl/include;../../boinc_depends_win_vs2005/curl/include;../../boinc_depends_win_vs2005/zlib/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include"
 				PreprocessorDefinitions="WIN32;_WIN32;_DEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_USE_CURL;USE_SSL;USE_SSLEAY;USE_OPENSSL"
 				MinimalRebuild="false"
 				ExceptionHandling="2"
@@ -200,7 +200,7 @@
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;../../boinc_depends_win_vs2005_7_0a/openssl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../../boinc_depends_win_vs2005_7_0a/curl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../../boinc_depends_win_vs2005_7_0a/zlib/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../coprocs/NVIDIA/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;../../;&quot;$(OutDir)&quot;"
+				AdditionalLibraryDirectories="&quot;../../boinc_depends_win_vs2005/openssl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../../boinc_depends_win_vs2005/curl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../../boinc_depends_win_vs2005/zlib/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../coprocs/NVIDIA/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;../../;&quot;$(OutDir)&quot;"
 				IgnoreAllDefaultLibraries="true"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
@@ -272,7 +272,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories="../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2005_7_0a/openssl/include;../../boinc_depends_win_vs2005_7_0a/curl/include;../../boinc_depends_win_vs2005_7_0a/zlib/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include"
+				AdditionalIncludeDirectories="../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2005/openssl/include;../../boinc_depends_win_vs2005/curl/include;../../boinc_depends_win_vs2005/zlib/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include"
 				PreprocessorDefinitions="WIN32;_WIN32;NDEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_USE_CURL;USE_SSL;USE_SSLEAY;USE_OPENSSL"
 				StringPooling="true"
 				ExceptionHandling="2"
@@ -310,7 +310,7 @@
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;../../boinc_depends_win_vs2005_7_0a/openssl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../../boinc_depends_win_vs2005_7_0a/curl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../../boinc_depends_win_vs2005_7_0a/zlib/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../coprocs/NVIDIA/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;../../;&quot;$(OutDir)&quot;"
+				AdditionalLibraryDirectories="&quot;../../boinc_depends_win_vs2005/openssl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../../boinc_depends_win_vs2005/curl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../../boinc_depends_win_vs2005/zlib/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../coprocs/NVIDIA/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;../../;&quot;$(OutDir)&quot;"
 				IgnoreAllDefaultLibraries="true"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
@@ -383,7 +383,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2005_7_0a/openssl/include;../../boinc_depends_win_vs2005_7_0a/curl/include;../../boinc_depends_win_vs2005_7_0a/zlib/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include"
+				AdditionalIncludeDirectories="../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2005/openssl/include;../../boinc_depends_win_vs2005/curl/include;../../boinc_depends_win_vs2005/zlib/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include"
 				PreprocessorDefinitions="WIN32;_WIN32;NDEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_USE_CURL;USE_SSL;USE_SSLEAY;USE_OPENSSL"
 				StringPooling="false"
 				ExceptionHandling="2"
@@ -421,7 +421,7 @@
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;../../boinc_depends_win_vs2005_7_0a/openssl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../../boinc_depends_win_vs2005_7_0a/curl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../../boinc_depends_win_vs2005_7_0a/zlib/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../coprocs/NVIDIA/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;../../;&quot;$(OutDir)&quot;"
+				AdditionalLibraryDirectories="&quot;../../boinc_depends_win_vs2005/openssl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../../boinc_depends_win_vs2005/curl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../../boinc_depends_win_vs2005/zlib/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../coprocs/NVIDIA/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;../../;&quot;$(OutDir)&quot;"
 				IgnoreAllDefaultLibraries="true"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
@@ -608,10 +608,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\client\coproc_detect.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\client\cpu_sched.cpp"
 				>
 			</File>
@@ -681,6 +677,22 @@
 			</File>
 			<File
 				RelativePath="..\Client\file_xfer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\client\gpu_amd.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\client\gpu_detect.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\client\gpu_nvidia.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\client\gpu_opencl.cpp"
 				>
 			</File>
 			<File
@@ -858,6 +870,10 @@
 			</File>
 			<File
 				RelativePath="..\client\file_xfer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\client\gpu_detect.h"
 				>
 			</File>
 			<File

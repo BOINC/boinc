@@ -70,7 +70,33 @@ int COPROC_REQ::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
+int PCI_INFO::parse(XML_PARSER& xp) {
+    present = false;
+    bus_id = device_id = domain_id = 0;
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/pci_info")) {
+            return 0;
+        }
+        if (xp.parse_int("bus_id", bus_id)) continue;
+        if (xp.parse_int("device_id", device_id)) continue;
+        if (xp.parse_int("domain_id", domain_id)) continue;
+    }
+    return ERR_XML_PARSE;
+}
+
 #ifndef _USING_FCGI_
+
+void PCI_INFO::write(MIOFILE& f) {
+    f.printf(
+        "<pci_info>\n"
+        "   <bus_id>%d</bus_id>\n"
+        "   <device_id>%d</device_id>\n"
+        "   <domain_id>%d</domain_id>\n",
+        bus_id,
+        device_id,
+        domain_id
+    );
+}
 
 void COPROC::write_xml(MIOFILE& f) {
     f.printf(
@@ -332,15 +358,15 @@ int COPROCS::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
-void COPROCS::write_xml(MIOFILE& mf, bool include_request) {
+void COPROCS::write_xml(MIOFILE& mf, bool scheduler_rpc) {
 #ifndef _USING_FCGI_
 //TODO: Write coprocs[0] through coprocs[n_rsc]
     mf.printf("    <coprocs>\n");
     if (nvidia.count) {
-        nvidia.write_xml(mf, include_request);
+        nvidia.write_xml(mf, scheduler_rpc);
     }
     if (ati.count) {
-        ati.write_xml(mf, include_request);
+        ati.write_xml(mf, scheduler_rpc);
     }
     mf.printf("    </coprocs>\n");
 #endif
@@ -376,7 +402,7 @@ void COPROC_NVIDIA::description(char* buf) {
 }
 
 #ifndef _USING_FCGI_
-void COPROC_NVIDIA::write_xml(MIOFILE& f, bool include_request) {
+void COPROC_NVIDIA::write_xml(MIOFILE& f, bool scheduler_rpc) {
     f.printf(
         "<coproc_cuda>\n"
         "   <count>%d</count>\n"
@@ -390,7 +416,7 @@ void COPROC_NVIDIA::write_xml(MIOFILE& f, bool include_request) {
         have_cuda ? 1 : 0,
         have_opencl ? 1 : 0
     );
-    if (include_request) {
+    if (scheduler_rpc) {
         write_request(f);
     }
     f.printf(
@@ -435,6 +461,12 @@ void COPROC_NVIDIA::write_xml(MIOFILE& f, bool include_request) {
     if (have_opencl) {
         opencl_prop.write_xml(f);
     }
+
+    if (!scheduler_rpc) {
+        for (int i=0; i<count; i++) {
+            pci_infos[i].write(f);
+        }
+    }
     
     f.printf("</coproc_cuda>\n");
 }
@@ -472,6 +504,7 @@ void COPROC_NVIDIA::clear() {
 int COPROC_NVIDIA::parse(XML_PARSER& xp) {
     char buf2[256];
     int retval;
+    int ipci = 0;
 
     clear();
     while (!xp.get_tag()) {
@@ -539,6 +572,13 @@ int COPROC_NVIDIA::parse(XML_PARSER& xp) {
         if (xp.parse_int("textureAlignment", (int&)prop.textureAlignment)) continue;
         if (xp.parse_int("deviceOverlap", prop.deviceOverlap)) continue;
         if (xp.parse_int("multiProcessorCount", prop.multiProcessorCount)) continue;
+        if (xp.match_tag("pci_info")) {
+            PCI_INFO p;
+            p.parse(xp);
+            if (ipci < MAX_COPROC_INSTANCES) {
+                pci_infos[ipci++] = p;
+            }
+        }
         if (xp.match_tag("coproc_opencl")) {
             retval = opencl_prop.parse(xp);
             if (retval) return retval;
@@ -586,10 +626,46 @@ void COPROC_NVIDIA::set_peak_flops() {
     peak_flops =  (x>0)?x:5e10;
 }
 
+// fake a NVIDIA GPU (for debugging)
+//
+void COPROC_NVIDIA::fake(
+    int driver_version, double ram, double avail_ram, int n
+) {
+   strcpy(type, GPU_TYPE_NVIDIA);
+   count = n;
+   for (int i=0; i<count; i++) {
+       device_nums[i] = i;
+   }
+   available_ram = avail_ram;
+   display_driver_version = driver_version;
+   cuda_version = 2020;
+   strcpy(prop.name, "Fake NVIDIA GPU");
+   memset(&prop, 0, sizeof(prop));
+   prop.totalGlobalMem = ram;
+   prop.sharedMemPerBlock = 100;
+   prop.regsPerBlock = 8;
+   prop.warpSize = 10;
+   prop.memPitch = 10;
+   prop.maxThreadsPerBlock = 20;
+   prop.maxThreadsDim[0] = 2;
+   prop.maxThreadsDim[1] = 2;
+   prop.maxThreadsDim[2] = 2;
+   prop.maxGridSize[0] = 10;
+   prop.maxGridSize[1] = 10;
+   prop.maxGridSize[2] = 10;
+   prop.totalConstMem = 10;
+   prop.major = 1;
+   prop.minor = 2;
+   prop.clockRate = 1250000;
+   prop.textureAlignment = 1000;
+   prop.multiProcessorCount = 14;
+   set_peak_flops();
+}
+
 ////////////////// ATI STARTS HERE /////////////////
 
 #ifndef _USING_FCGI_
-void COPROC_ATI::write_xml(MIOFILE& f, bool include_request) {
+void COPROC_ATI::write_xml(MIOFILE& f, bool scheduler_rpc) {
     f.printf(
         "<coproc_ati>\n"
         "   <count>%d</count>\n"
@@ -603,7 +679,7 @@ void COPROC_ATI::write_xml(MIOFILE& f, bool include_request) {
         have_cal ? 1 : 0,
         have_opencl ? 1 : 0
     );
-    if (include_request) {
+    if (scheduler_rpc) {
         write_request(f);
     }
     f.printf(
@@ -793,4 +869,22 @@ void COPROC_ATI::set_peak_flops() {
         x = opencl_prop.max_compute_units * 16 * 5 * opencl_prop.max_clock_frequency * 1e6;
     }
     peak_flops = (x>0)?x:5e10;
+}
+
+void COPROC_ATI::fake(double ram, double avail_ram, int n) {
+    strcpy(type, GPU_TYPE_ATI);
+    strcpy(version, "1.4.3");
+    strcpy(name, "foobar");
+    count = n;
+    available_ram = avail_ram;
+    memset(&attribs, 0, sizeof(attribs));
+    memset(&info, 0, sizeof(info));
+    attribs.localRAM = (int)(ram/MEGA);
+    attribs.numberOfSIMD = 32;
+    attribs.wavefrontSize = 32;
+    attribs.engineClock = 50;
+    for (int i=0; i<count; i++) {
+        device_nums[i] = i;
+    }
+    set_peak_flops();
 }

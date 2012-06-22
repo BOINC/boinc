@@ -41,7 +41,6 @@ boinc_client_SOURCES = \
     client_msgs.cpp \
     client_state.cpp \
     client_types.cpp \
-	coproc_detect.cpp \
     cpu_sched.cpp \
     cs_account.cpp \
     cs_apps.cpp \
@@ -60,6 +59,10 @@ boinc_client_SOURCES = \
     dhrystone2.cpp \
     file_names.cpp \
     file_xfer.cpp \
+	gpu_amd.cpp \
+	gpu_detect.cpp \
+	gpu_nvidia.cpp \
+	gpu_opencl.cpp \
     gui_http.cpp \
     gui_rpc_server.cpp \
     gui_rpc_server_ops.cpp \
