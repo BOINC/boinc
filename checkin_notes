@@ -4464,7 +4464,7 @@ David  20 June 2012
     api/
         boinc_api.cpp
 
-Charlie 20 June 2012
+Charlie 21 June 2012
     - Mac: Fix displayed names of BOINC installer, uninstaller, etc.
 
     clientgui/
@@ -4474,8 +4474,17 @@ Charlie 20 June 2012
         boinc.xcodeproj/
             project.pbxproj
 
-David  20 June 2012
+David  21 June 2012
     - web: server status page should show elapsed time, not CPU time
 
     html/user/
         server_status.php
+
+Charlie 22 June 2012
+    - Mac: Code sign the BOINC installer and uninstaller if we have a 
+        valid code signing identity.  Code signing using a registered 
+        Apple Developer ID is necessary for GateKeeper with default 
+        settings to allow running downloaded applications under OS 10.8.
+    
+    mac_installer/
+        release_boinc.sh
