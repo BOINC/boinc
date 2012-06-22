@@ -66,6 +66,10 @@ using std::string;
 #include "sched_customize.h"
 #include "plan_class_spec.h"
 
+GPU_REQUIREMENTS cuda_requirements;
+GPU_REQUIREMENTS ati_requirements;
+GPU_REQUIREMENTS intel_requirements;
+
 bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
 #if 0
     // example: if WU name contains "_v1", don't use CUDA app
@@ -125,8 +129,6 @@ static inline bool app_plan_mt(SCHEDULER_REQUEST&, HOST_USAGE& hu) {
     return true;
 }
 
-GPU_REQUIREMENTS ati_requirements;
-
 static bool ati_check(COPROC_ATI& c, HOST_USAGE& hu,
     int min_driver_version,
     bool need_amd_libs,
@@ -156,16 +158,17 @@ static bool ati_check(COPROC_ATI& c, HOST_USAGE& hu,
     }
 
     hu.gpu_ram = min_ram;
-    hu.natis = ndevs;
+    hu.proc_type = PROC_TYPE_AMD;
+    hu.gpu_usage = ndevs;
 
     coproc_perf(
         capped_host_fpops(),
-        flops_scale * hu.natis*c.peak_flops,
+        flops_scale * hu.gpu_usage*c.peak_flops,
         cpu_frac,
         hu.projected_flops,
         hu.avg_ncpus
     );
-    hu.peak_flops = hu.natis*c.peak_flops + hu.avg_ncpus*capped_host_fpops();
+    hu.peak_flops = hu.gpu_usage*c.peak_flops + hu.avg_ncpus*capped_host_fpops();
     hu.max_ncpus = hu.avg_ncpus;
     return true;
 }
@@ -240,8 +243,6 @@ static inline bool app_plan_ati(
     return true;
 }
 
-GPU_REQUIREMENTS cuda_requirements;
-
 #define CUDA_MIN_DRIVER_VERSION         17700
 #define CUDA23_MIN_CUDA_VERSION         2030
 #define CUDA23_MIN_DRIVER_VERSION       19038
@@ -287,16 +288,17 @@ static bool cuda_check(COPROC_NVIDIA& c, HOST_USAGE& hu,
     }
 
     hu.gpu_ram = min_ram;
-    hu.ncudas = ndevs;
+    hu.proc_type = PROC_TYPE_NVIDIA;
+    hu.gpu_usage = ndevs;
 
     coproc_perf(
         capped_host_fpops(),
-        flops_scale * hu.ncudas*c.peak_flops,
+        flops_scale * hu.gpu_usage*c.peak_flops,
         cpu_frac,
         hu.projected_flops,
         hu.avg_ncpus
     );
-    hu.peak_flops = hu.ncudas*c.peak_flops + hu.avg_ncpus*capped_host_fpops();
+    hu.peak_flops = hu.gpu_usage*c.peak_flops + hu.avg_ncpus*capped_host_fpops();
     hu.max_ncpus = hu.avg_ncpus;
     return true;
 }
@@ -428,9 +430,11 @@ static inline bool opencl_check(
 
     hu.gpu_ram = min_global_mem_size;
     if (!strcmp(cp.type, "NVIDIA")) {
-        hu.ncudas = ndevs;
+        hu.proc_type = PROC_TYPE_NVIDIA;
+        hu.gpu_usage = ndevs;
     } else if (!strcmp(cp.type, "ATI")) {
-        hu.natis = ndevs;
+        hu.proc_type = PROC_TYPE_AMD;
+        hu.gpu_usage = ndevs;
     }
 
     coproc_perf(

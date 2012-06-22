@@ -53,21 +53,10 @@ bool need_this_resource(
     if (!g_wreq->rsc_spec_request) {
         return true;
     }
-    if (host_usage.ncudas) {
-        if (!g_wreq->need_cuda()) {
-            dont_need_message("CUDA", avp, cavp);
-            return false;
-        }
-    } else if (host_usage.natis) {
-        if (!g_wreq->need_ati()) {
-            dont_need_message("ATI", avp, cavp);
-            return false;
-        }
-    } else {
-        if (!g_wreq->need_cpu()) {
-            dont_need_message("CPU", avp, cavp);
-            return false;;
-        }
+    int pt = host_usage.proc_type;
+    if (!g_wreq->need_proc_type(pt)) {
+        dont_need_message(proc_type_name(pt), avp, cavp);
+        return false;
     }
     return true;
 }
@@ -100,21 +89,24 @@ inline int host_usage_to_gavid(HOST_USAGE& hu, APP& app) {
 //
 inline int scaled_max_jobs_per_day(DB_HOST_APP_VERSION& hav, HOST_USAGE& hu) {
     int n = hav.max_jobs_per_day;
-    if (hu.ncudas) {
+    switch (hu.proc_type) {
+    case PROC_TYPE_NVIDIA:
         if (g_request->coprocs.nvidia.count) {
             n *= g_request->coprocs.nvidia.count;
         }
         if (config.gpu_multiplier) {
             n *= config.gpu_multiplier;
         }
-    } else if (hu.natis) {
+        break;
+    case PROC_TYPE_AMD:
         if (g_request->coprocs.ati.count) {
             n *= g_request->coprocs.ati.count;
         }
         if (config.gpu_multiplier) {
             n *= config.gpu_multiplier;
         }
-    } else {
+        break;
+    default:
         if (g_reply->host.p_ncpus) {
             n *= g_reply->host.p_ncpus;
         }

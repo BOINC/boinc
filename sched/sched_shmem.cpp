@@ -35,9 +35,11 @@ using std::vector;
 #include "boinc_fcgi.h"
 #endif
 
-#include "sched_shmem.h"
-#include "sched_util.h"
 #include "sched_msgs.h"
+#include "sched_types.h"
+#include "sched_util.h"
+
+#include "sched_shmem.h"
 
 
 void SCHED_SHMEM::init(int nwu_results) {
@@ -167,19 +169,21 @@ int SCHED_SHMEM::scan_tables() {
 
     // see which resources we have app versions for
     //
-    have_cpu_apps = false;
-    have_cuda_apps = false;
-    have_ati_apps = false;
+    for (i=0; i<NPROC_TYPES; i++) {
+        have_apps_for_proc_type[i] = false;
+    }
     for (i=0; i<napp_versions; i++) {
         APP_VERSION& av = app_versions[i];
         if (strstr(av.plan_class, "cuda")) {
-            have_cuda_apps = true;
+            have_apps_for_proc_type[PROC_TYPE_NVIDIA] = true;
         } else if (strstr(av.plan_class, "nvidia")) {
-            have_cuda_apps = true;
+            have_apps_for_proc_type[PROC_TYPE_NVIDIA] = true;
         } else if (strstr(av.plan_class, "ati")) {
-            have_ati_apps = true;
+            have_apps_for_proc_type[PROC_TYPE_AMD] = true;
+        } else if (strstr(av.plan_class, "intel_gpu")) {
+            have_apps_for_proc_type[PROC_TYPE_INTEL] = true;
         } else {
-            have_cpu_apps = true;
+            have_apps_for_proc_type[PROC_TYPE_CPU] = true;
         }
     }
 
@@ -282,14 +286,13 @@ void SCHED_SHMEM::show(FILE* f) {
             av.appid, av.platformid, av.version_num, av.plan_class
         );
     }
-    fprintf(f,
-        "have CPU: %s\n"
-        "have NVIDIA: %s\n"
-        "have ATI: %s\n",
-        have_cpu_apps?"yes":"no",
-        have_cuda_apps?"yes":"no",
-        have_ati_apps?"yes":"no"
-    );
+    for (int i=0; i<NPROC_TYPES; i++) {
+        fprintf(f,
+            "have %s apps: %s\n",
+            proc_type_name(i),
+            have_apps_for_proc_type[i]?"yes":"no"
+        );
+    }
     fprintf(f,
         "Jobs; key:\n"
         "ap: app ID\n"

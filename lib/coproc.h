@@ -363,6 +363,7 @@ struct COPROCS {
     COPROC coprocs[MAX_RSC];
     COPROC_NVIDIA nvidia;
     COPROC_ATI ati;
+    COPROC intel;
 
     void write_xml(MIOFILE& out, bool scheduler_rpc);
     void get(

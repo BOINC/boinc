@@ -39,16 +39,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
     COPROC* cpp = NULL;
     bool can_use_multicore = true;
 
-    // set HOST_USAGE defaults
-    //
-    hu.ncudas = 0;
-    hu.natis = 0;
-    hu.gpu_ram = 0;
-    hu.avg_ncpus = 1;
-    hu.max_ncpus = 1;
-    hu.projected_flops = sreq.host.p_fpops;
-    hu.peak_flops = sreq.host.p_fpops;
-    strcpy(hu.cmdline, "");
+    hu.sequential_app(sreq.host.p_fpops);
 
     // CPU features
     //
@@ -461,9 +452,14 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         }
 
         if (!strcmp(gpu_type, "amd") || !strcmp(gpu_type, "ati")) {
-            hu.natis = gpu_usage;
+            hu.proc_type = PROC_TYPE_AMD;
+            hu.gpu_usage = gpu_usage;
         } else if (!strcmp(gpu_type, "nvidia")) {
-            hu.ncudas = gpu_usage;
+            hu.proc_type = PROC_TYPE_NVIDIA;
+            hu.gpu_usage = gpu_usage;
+        } else if (!strcmp(gpu_type, "intel_gpu")) {
+            hu.proc_type = PROC_TYPE_INTEL;
+            hu.gpu_usage = gpu_usage;
         }
 
     // CPU only

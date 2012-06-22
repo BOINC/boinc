@@ -300,18 +300,22 @@ static void get_prefs_info() {
     if (parse_bool(buf,"no_gpus", flag)) {
         // deprecated, but need to handle
         if (flag) {
-            g_wreq->no_cuda = true;
-            g_wreq->no_ati = true;
+            for (int i=1; i<NPROC_TYPES; i++) {
+                g_wreq->dont_use_proc_type[i] = true;
+            }
         }
     }
     if (parse_bool(buf,"no_cpu", flag)) {
-        g_wreq->no_cpu = flag;
+        g_wreq->dont_use_proc_type[PROC_TYPE_CPU] = flag;
     }
     if (parse_bool(buf,"no_cuda", flag)) {
-        g_wreq->no_cuda = flag;
+        g_wreq->dont_use_proc_type[PROC_TYPE_NVIDIA] = flag;
     }
     if (parse_bool(buf,"no_ati", flag)) {
-        g_wreq->no_ati = flag;
+        g_wreq->dont_use_proc_type[PROC_TYPE_AMD] = flag;
+    }
+    if (parse_bool(buf,"no_intel", flag)) {
+        g_wreq->dont_use_proc_type[PROC_TYPE_INTEL] = flag;
     }
 }
 
@@ -558,19 +562,33 @@ static inline bool hard_app(APP& app) {
 }
 
 static inline double get_estimated_delay(BEST_APP_VERSION& bav) {
-    if (bav.host_usage.ncudas) {
+    switch (bav.host_usage.proc_type) {
+    case PROC_TYPE_NVIDIA:
         return g_request->coprocs.nvidia.estimated_delay;
-    } else if (bav.host_usage.natis) {
+    case PROC_TYPE_AMD:
         return g_request->coprocs.ati.estimated_delay;
-    } else {
+    case PROC_TYPE_INTEL:
+        return g_request->coprocs.intel.estimated_delay;
+    default:
         return g_request->cpu_estimated_delay;
     }
 }
 
 static inline void update_estimated_delay(BEST_APP_VERSION& bav, double dt) {
-    g_request->coprocs.nvidia.estimated_delay += dt*bav.host_usage.ncudas/g_request->coprocs.nvidia.count;
-    g_request->coprocs.ati.estimated_delay += dt*bav.host_usage.natis/g_request->coprocs.ati.count;
-    g_request->cpu_estimated_delay += dt*bav.host_usage.avg_ncpus/g_request->host.p_ncpus;
+    switch (bav.host_usage.proc_type) {
+    case PROC_TYPE_NVIDIA:
+        g_request->coprocs.nvidia.estimated_delay += dt*bav.host_usage.gpu_usage/g_request->coprocs.nvidia.count;
+        break;
+    case PROC_TYPE_AMD:
+        g_request->coprocs.ati.estimated_delay += dt*bav.host_usage.gpu_usage/g_request->coprocs.ati.count;
+        break;
+    case PROC_TYPE_INTEL:
+        g_request->coprocs.intel.estimated_delay += dt*bav.host_usage.gpu_usage/g_request->coprocs.intel.count;
+        break;
+    default:
+        g_request->cpu_estimated_delay += dt*bav.host_usage.avg_ncpus/g_request->host.p_ncpus;
+        break;
+    }
 }
 
 // return the delay bound to use for this job/host.
@@ -1011,27 +1029,11 @@ void unlock_sema() {
     unlock_semaphore(sema_key);
 }
 
-static inline bool have_cpu_apps() {
+static inline bool have_apps(int pt) {
     if (g_wreq->anonymous_platform) {
-        return g_wreq->have_cpu_apps;
+        return g_wreq->have_apps_for_proc_type[pt];
     } else {
-        return ssp->have_cpu_apps;
-    }
-}
-
-static inline bool have_cuda_apps() {
-    if (g_wreq->anonymous_platform) {
-        return g_wreq->have_cuda_apps;
-    } else {
-        return ssp->have_cuda_apps;
-    }
-}
-
-static inline bool have_ati_apps() {
-    if (g_wreq->anonymous_platform) {
-        return g_wreq->have_ati_apps;
-    } else {
-        return ssp->have_ati_apps;
+        return ssp->have_apps_for_proc_type[pt];
     }
 }
 
@@ -1113,27 +1115,31 @@ bool work_needed(bool locality_sched) {
         return false;
     }
 
-#if 0
+#if 1
     if (config.debug_send) {
+        char buf[256], buf2[256];
+        strcpy(buf, "");
+        for (int i=0; i<NPROC_TYPES; i++) {
+            sprintf(buf2, " %s (%.2f, %.2f)",
+                proc_type_name(i),
+                g_wreq->req_secs[i],
+                g_wreq->req_instances[i]
+            );
+            strcat(buf, buf2);
+        }
         log_messages.printf(MSG_NORMAL,
-            "[send] work_needed: spec req %d sec to fill %.2f; CPU (%.2f, %.2f) CUDA (%.2f, %.2f) ATI(%.2f, %.2f)\n",
+            "[send] work_needed: spec req %d sec to fill %.2f; %s",
             g_wreq->rsc_spec_request,
             g_wreq->seconds_to_fill,
-            g_wreq->cpu_req_secs, g_wreq->cpu_req_instances,
-            g_wreq->cuda_req_secs, g_wreq->cuda_req_instances,
-            g_wreq->ati_req_secs, g_wreq->ati_req_instances
+            buf
         );
     }
 #endif
     if (g_wreq->rsc_spec_request) {
-        if (g_wreq->need_cpu() && have_cpu_apps()) {
-            return true;
-        }
-        if (g_wreq->need_cuda() && have_cuda_apps()) {
-            return true;
-        }
-        if (g_wreq->need_ati() && have_ati_apps()) {
-            return true;
+        for (int i=0; i<NPROC_TYPES; i++) {
+            if (g_wreq->need_proc_type(i) && have_apps(i)) {
+                return true;
+            }
         }
     } else {
         if (g_wreq->seconds_to_fill > 0) {
@@ -1276,15 +1282,13 @@ int add_result_to_reply(
     result.bav = *bavp;
     g_reply->insert_result(result);
     if (g_wreq->rsc_spec_request) {
-        if (bavp->host_usage.ncudas) {
-            g_wreq->cuda_req_secs -= est_dur;
-            g_wreq->cuda_req_instances -= bavp->host_usage.ncudas;
-        } else if (bavp->host_usage.natis) {
-            g_wreq->ati_req_secs -= est_dur;
-            g_wreq->ati_req_instances -= bavp->host_usage.natis;
+        int pt = bavp->host_usage.proc_type;
+        if (pt == PROC_TYPE_CPU) {
+            g_wreq->req_secs[PROC_TYPE_CPU] -= est_dur;
+            g_wreq->req_instances[PROC_TYPE_CPU] -= bavp->host_usage.avg_ncpus;
         } else {
-            g_wreq->cpu_req_secs -= est_dur;
-            g_wreq->cpu_req_instances -= bavp->host_usage.avg_ncpus;
+            g_wreq->req_secs[pt] -= est_dur;
+            g_wreq->req_instances[pt] -= bavp->host_usage.gpu_usage;
         }
     } else {
         g_wreq->seconds_to_fill -= est_dur;
@@ -1403,7 +1407,7 @@ void send_gpu_messages() {
     // Mac client with GPU but too-old client
     //
     if (g_request->coprocs.nvidia.count
-        && ssp->have_cuda_apps
+        && ssp->have_apps_for_proc_type[PROC_TYPE_NVIDIA]
         && strstr(g_request->host.os_name, "Darwin")
         && g_request->core_client_version < 61028
     ) {
@@ -1415,37 +1419,35 @@ void send_gpu_messages() {
 
     // GPU-only project, client lacks GPU
     //
-    bool usable_gpu = (ssp->have_cuda_apps && g_request->coprocs.nvidia.count)
-        || (ssp->have_ati_apps && g_request->coprocs.ati.count);
-    if (!ssp->have_cpu_apps && !usable_gpu) {
-        if (ssp->have_cuda_apps) {
-            if (ssp->have_ati_apps) {
-                g_reply->insert_message(
-                    _("An NVIDIA or ATI GPU is required to run tasks for this project"),
-                    "notice"
-                );
-            } else {
-                g_reply->insert_message(
-                    _("An NVIDIA GPU is required to run tasks for this project"),
-                    "notice"
-                );
+    bool usable_gpu =
+        (ssp->have_apps_for_proc_type[PROC_TYPE_NVIDIA] && g_request->coprocs.nvidia.count)
+        || (ssp->have_apps_for_proc_type[PROC_TYPE_AMD] && g_request->coprocs.ati.count)
+        || (ssp->have_apps_for_proc_type[PROC_TYPE_INTEL] && g_request->coprocs.intel.count);
+    if (!ssp->have_apps_for_proc_type[PROC_TYPE_CPU] && !usable_gpu) {
+        char buf[256];
+        strcpy(buf, "");
+        for (int i=1; i<NPROC_TYPES; i++) {
+            if (ssp->have_apps_for_proc_type[i]) {
+                if (strlen(buf)) {
+                    strcat(buf, " or ");
+                }
+                strcat(buf, proc_type_name(i));
             }
-        } else if (ssp->have_ati_apps) {
-            g_reply->insert_message(
-                _("An ATI GPU is required to run tasks for this project"),
-                "notice"
-            );
         }
+        g_reply->insert_message(
+            _("An %s GPU is required to run tasks for this project"),
+            "notice"
+        );
     }
 
-    if (g_request->coprocs.nvidia.count && ssp->have_cuda_apps) {
+    if (g_request->coprocs.nvidia.count && ssp->have_apps_for_proc_type[PROC_TYPE_NVIDIA]) {
         send_gpu_property_messages(cuda_requirements,
             g_request->coprocs.nvidia.prop.totalGlobalMem,
             g_request->coprocs.nvidia.display_driver_version,
             "NVIDIA GPU"
         );
     }
-    if (g_request->coprocs.ati.count && ssp->have_ati_apps) {
+    if (g_request->coprocs.ati.count && ssp->have_apps_for_proc_type[PROC_TYPE_AMD]) {
         send_gpu_property_messages(ati_requirements,
             g_request->coprocs.ati.attribs.localRAM*MEGA,
             g_request->coprocs.ati.version_num,
@@ -1580,23 +1582,14 @@ static void send_user_messages() {
                 "Not sending tasks because newer client version required\n"
             );
         }
-        if (g_wreq->no_cuda_prefs) {
-            g_reply->insert_message(
-                _("Tasks for NVIDIA GPU are available, but your preferences are set to not accept them"),
-                "low"
-            );
-        }
-        if (g_wreq->no_ati_prefs) {
-            g_reply->insert_message(
-                _("Tasks for ATI GPU are available, but your preferences are set to not accept them"),
-                "low"
-            );
-        }
-        if (g_wreq->no_cpu_prefs) {
-            g_reply->insert_message(
-                _("Tasks for CPU are available, but your preferences are set to not accept them"),
-                "low"
-            );
+        for (i=0; i<NPROC_TYPES; i++) {
+            if (g_wreq->dont_use_proc_type[i] && ssp->have_apps_for_proc_type[i]) {
+                sprintf(buf,
+                    _("Tasks for %s are available, but your preferences are set to not accept them"),
+                    proc_type_name(i)
+                );
+                g_reply->insert_message(buf, "low");
+            }
         }
         DB_HOST_APP_VERSION* havp = quota_exceeded_version();
         if (havp) {
@@ -1636,8 +1629,8 @@ void send_work_setup() {
     unsigned int i;
 
     g_wreq->seconds_to_fill = clamp_req_sec(g_request->work_req_seconds);
-    g_wreq->cpu_req_secs = clamp_req_sec(g_request->cpu_req_secs);
-    g_wreq->cpu_req_instances = g_request->cpu_req_instances;
+    g_wreq->req_secs[PROC_TYPE_CPU] = clamp_req_sec(g_request->cpu_req_secs);
+    g_wreq->req_instances[PROC_TYPE_CPU] = g_request->cpu_req_instances;
     g_wreq->anonymous_platform = is_anonymous(g_request->platforms.list[0]);
 
     // decide on attributes of HOST_APP_VERSIONS
@@ -1651,22 +1644,18 @@ void send_work_setup() {
     if (g_wreq->anonymous_platform) {
         estimate_flops_anon_platform();
 
-        g_wreq->have_cpu_apps = false;
-        g_wreq->have_cuda_apps = false;
-        g_wreq->have_ati_apps = false;
+        for (i=0; i<NPROC_TYPES; i++) {
+            g_wreq->have_apps_for_proc_type[i] = false;
+        }
         for (i=0; i<g_request->client_app_versions.size(); i++) {
             CLIENT_APP_VERSION& cav = g_request->client_app_versions[i];
-            if (cav.host_usage.ncudas) {
-                g_wreq->have_cuda_apps = true;
-            } else if (cav.host_usage.natis) {
-                g_wreq->have_ati_apps = true;
-            } else {
-                g_wreq->have_cpu_apps = true;
-            }
+            int pt = cav.host_usage.proc_type;
+            g_wreq->have_apps_for_proc_type[pt] = true;
         }
     }
     cuda_requirements.clear();
     ati_requirements.clear();
+    intel_requirements.clear();
 
     g_wreq->disk_available = max_allowable_disk();
     get_mem_sizes();
@@ -1674,23 +1663,25 @@ void send_work_setup() {
     g_wreq->get_job_limits();
 
     if (g_request->coprocs.nvidia.count) {
-        g_wreq->cuda_req_secs = clamp_req_sec(g_request->coprocs.nvidia.req_secs);
-        g_wreq->cuda_req_instances = g_request->coprocs.nvidia.req_instances;
+        g_wreq->req_secs[PROC_TYPE_NVIDIA] = clamp_req_sec(g_request->coprocs.nvidia.req_secs);
+        g_wreq->req_instances[PROC_TYPE_NVIDIA] = g_request->coprocs.nvidia.req_instances;
         if (g_request->coprocs.nvidia.estimated_delay < 0) {
             g_request->coprocs.nvidia.estimated_delay = g_request->cpu_estimated_delay;
         }
     }
     if (g_request->coprocs.ati.count) {
-        g_wreq->ati_req_secs = clamp_req_sec(g_request->coprocs.ati.req_secs);
-        g_wreq->ati_req_instances = g_request->coprocs.ati.req_instances;
+        g_wreq->req_secs[PROC_TYPE_AMD] = clamp_req_sec(g_request->coprocs.ati.req_secs);
+        g_wreq->req_instances[PROC_TYPE_AMD] = g_request->coprocs.ati.req_instances;
         if (g_request->coprocs.ati.estimated_delay < 0) {
             g_request->coprocs.ati.estimated_delay = g_request->cpu_estimated_delay;
         }
     }
-    if (g_wreq->cpu_req_secs || g_wreq->cuda_req_secs || g_wreq->ati_req_secs) {
-        g_wreq->rsc_spec_request = true;
-    } else {
-        g_wreq->rsc_spec_request = false;
+    g_wreq->rsc_spec_request = false;
+    for (i=0; i<NPROC_TYPES; i++) {
+        if (g_wreq->req_secs[i]) {
+            g_wreq->rsc_spec_request = true;
+            break;
+        }
     }
 
     for (i=0; i<g_request->other_results.size(); i++) {
@@ -1732,20 +1723,23 @@ void send_work_setup() {
         );
         log_messages.printf(MSG_NORMAL,
             "[send] CPU: req %.2f sec, %.2f instances; est delay %.2f\n",
-            g_wreq->cpu_req_secs, g_wreq->cpu_req_instances,
+            g_wreq->req_secs[PROC_TYPE_CPU],
+            g_wreq->req_instances[PROC_TYPE_CPU],
             g_request->cpu_estimated_delay
         );
         if (g_request->coprocs.nvidia.count) {
             log_messages.printf(MSG_NORMAL,
                 "[send] CUDA: req %.2f sec, %.2f instances; est delay %.2f\n",
-                g_wreq->cuda_req_secs, g_wreq->cuda_req_instances,
+                g_wreq->req_secs[PROC_TYPE_NVIDIA],
+                g_wreq->req_instances[PROC_TYPE_NVIDIA],
                 g_request->coprocs.nvidia.estimated_delay
             );
         }
         if (g_request->coprocs.ati.count) {
             log_messages.printf(MSG_NORMAL,
                 "[send] ATI: req %.2f sec, %.2f instances; est delay %.2f\n",
-                g_wreq->ati_req_secs, g_wreq->ati_req_instances,
+                g_wreq->req_secs[PROC_TYPE_AMD],
+                g_wreq->req_instances[PROC_TYPE_AMD],
                 g_request->coprocs.ati.estimated_delay
             );
         }
@@ -1769,13 +1763,22 @@ void send_work_setup() {
             );
             for (i=0; i<g_request->client_app_versions.size(); i++) {
                 CLIENT_APP_VERSION& cav = g_request->client_app_versions[i];
+                char buf[256];
+                strcpy(buf, "");
+                int pt = cav.host_usage.proc_type;
+                if (pt) {
+                    sprintf(buf, " %.2f %s GPU",
+                        cav.host_usage.gpu_usage,
+                        proc_type_name(pt)
+                    );
+                }
+
                 log_messages.printf(MSG_NORMAL,
-                    "   app: %s version %d cpus %.2f cudas %.2f atis %.2f flops %fG\n",
+                    "   app: %s version %d cpus %.2f%s flops %fG\n",
                     cav.app_name,
                     cav.version_num,
                     cav.host_usage.avg_ncpus,
-                    cav.host_usage.ncudas,
-                    cav.host_usage.natis,
+                    buf,
                     cav.host_usage.projected_flops/1e9
                 );
             }

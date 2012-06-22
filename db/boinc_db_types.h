@@ -504,6 +504,7 @@ struct CREDITED_JOB {
 #define ANON_PLATFORM_CPU     -2
 #define ANON_PLATFORM_NVIDIA  -3
 #define ANON_PLATFORM_ATI     -4
+#define ANON_PLATFORM_INTEL   -5
 
 struct RESULT {
     int id;

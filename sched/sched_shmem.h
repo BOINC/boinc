@@ -26,6 +26,7 @@
 
 #include "boinc_db.h"
 #include "sched_util.h"
+#include "sched_types.h"
 #include "hr_info.h"
 
 // the following must be at least as large as DB tables
@@ -88,9 +89,7 @@ struct SCHED_SHMEM {
     int max_app_versions;
     int max_assignments;
     int max_wu_results;
-    bool have_cpu_apps;
-    bool have_cuda_apps;
-    bool have_ati_apps;
+    bool have_apps_for_proc_type[NPROC_TYPES];
     PERF_INFO perf_info;
     PLATFORM platforms[MAX_PLATFORMS];
     APP apps[MAX_APPS];

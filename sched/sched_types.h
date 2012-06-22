@@ -28,6 +28,12 @@
 
 #include "edf_sim.h"
 
+#define PROC_TYPE_CPU        0
+#define PROC_TYPE_NVIDIA     1
+#define PROC_TYPE_AMD        2
+#define PROC_TYPE_INTEL      3
+#define NPROC_TYPES          4
+
 // for projects that support work filtering by app,
 // this records an app for which the user will accept work
 //
@@ -61,8 +67,8 @@ struct USER_MESSAGE {
 };
 
 struct HOST_USAGE {
-    double ncudas;
-    double natis;
+    int proc_type;
+    double gpu_usage;
     double gpu_ram;
     double avg_ncpus;
     double max_ncpus;
@@ -75,8 +81,8 @@ struct HOST_USAGE {
     char cmdline[256];
 
     HOST_USAGE() {
-        ncudas = 0;
-        natis = 0;
+        proc_type = PROC_TYPE_CPU;
+        gpu_usage = 0;
         gpu_ram = 0;
         avg_ncpus = 1;
         max_ncpus = 1;
@@ -85,8 +91,8 @@ struct HOST_USAGE {
         strcpy(cmdline, "");
     }
     void sequential_app(double flops) {
-        ncudas = 0;
-        natis = 0;
+        proc_type = PROC_TYPE_CPU;
+        gpu_usage = 0;
         gpu_ram = 0;
         avg_ncpus = 1;
         max_ncpus = 1;
@@ -96,31 +102,28 @@ struct HOST_USAGE {
         strcpy(cmdline, "");
     }
     inline bool is_sequential_app() {
-         if (ncudas) return false;
-         if (natis) return false;
+         if (proc_type != PROC_TYPE_CPU) return false;
          if (avg_ncpus != 1) return false;
          return true;
     }
     inline int resource_type() {
-        if (ncudas) {
-            return ANON_PLATFORM_NVIDIA;
-        } else if (natis) {
-            return ANON_PLATFORM_ATI;
+        switch (proc_type) {
+        case PROC_TYPE_NVIDIA: return ANON_PLATFORM_NVIDIA;
+        case PROC_TYPE_AMD: return ANON_PLATFORM_ATI;
+        case PROC_TYPE_INTEL: return ANON_PLATFORM_INTEL;
+        default: return ANON_PLATFORM_CPU;
         }
-        return ANON_PLATFORM_CPU;
     }
     inline const char* resource_name() {
-        if (ncudas) {
-            return "nvidia GPU";
-        } else if (natis) {
-            return "ATI GPU";
+        switch (proc_type) {
+        case PROC_TYPE_NVIDIA: return "NVIDIA GPU";
+        case PROC_TYPE_AMD: return "AMD/ATI GPU";
+        case PROC_TYPE_INTEL: return "Intel GPU";
+        default: return "CPU";
         }
-        return "CPU";
     }
     inline bool uses_gpu() {
-        if (ncudas) return true;
-        if (natis) return true;
-        return false;
+        return (proc_type != PROC_TYPE_CPU);
     }
 };
 
@@ -359,9 +362,7 @@ struct WORK_REQ {
 
     // the following defined if anonymous platform
     //
-    bool have_cpu_apps;
-    bool have_cuda_apps;
-    bool have_ati_apps;
+    bool have_apps_for_proc_type[NPROC_TYPES];
 
     // Flags used by old-style scheduling,
     // while making multiple passes through the work array
@@ -378,9 +379,7 @@ struct WORK_REQ {
         // so check and resend just in case.
 
     // user preferences
-    bool no_cuda;
-    bool no_ati;
-    bool no_cpu;
+    bool dont_use_proc_type[NPROC_TYPES];
     bool allow_non_preferred_apps;
     bool allow_beta_work;
     std::vector<APP_INFO> preferred_apps;
@@ -393,30 +392,22 @@ struct WORK_REQ {
 
     // 6.7+ clients send separate requests for different resource types:
     //
-    double cpu_req_secs;        // instance-seconds requested
-    double cpu_req_instances;   // number of idle instances, use if possible
-    double cuda_req_secs;
-    double cuda_req_instances;
-    double ati_req_secs;
-    double ati_req_instances;
-    inline bool need_cpu() {
-        return (cpu_req_secs>0) || (cpu_req_instances>0);
-    }
-    inline bool need_cuda() {
-        return (cuda_req_secs>0) || (cuda_req_instances>0);
-    }
-    inline bool need_ati() {
-        return (ati_req_secs>0) || (ati_req_instances>0);
+    double req_secs[NPROC_TYPES];
+        // instance-seconds requested
+    double req_instances[NPROC_TYPES];
+        // number of idle instances, use if possible
+    inline bool need_proc_type(int t) {
+        return (req_secs[t]>0) || (req_instances[t]>0);
     }
     inline void clear_cpu_req() {
-        cpu_req_secs = 0;
-        cpu_req_instances = 0;
+        req_secs[PROC_TYPE_CPU] = 0;
+        req_instances[PROC_TYPE_CPU] = 0;
     }
     inline void clear_gpu_req() {
-        cuda_req_secs = 0;
-        cuda_req_instances = 0;
-        ati_req_secs = 0;
-        ati_req_instances = 0;
+        for (int i=1; i<NPROC_TYPES; i++) {
+            req_secs[i] = 0;
+            req_instances[i] = 0;
+        }
     }
 
     // older clients send send a single number, the requested duration of jobs
@@ -472,9 +463,7 @@ struct WORK_REQ {
     bool hr_reject_temp;
     bool hr_reject_perm;
     bool outdated_client;
-    bool no_cuda_prefs;
-    bool no_ati_prefs;
-    bool no_cpu_prefs;
+    bool no_proc_type_prefs[NPROC_TYPES];
     bool max_jobs_on_host_exceeded;
     bool max_jobs_on_host_cpu_exceeded;
     bool max_jobs_on_host_gpu_exceeded;
@@ -557,4 +546,5 @@ inline bool is_64b_platform(const char* name) {
     return (strstr(name, "64") != NULL);
 }
 
+extern const char* proc_type_name(int pt);
 #endif

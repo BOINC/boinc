@@ -57,6 +57,7 @@ struct GPU_REQUIREMENTS {
 
 extern GPU_REQUIREMENTS cuda_requirements;
 extern GPU_REQUIREMENTS ati_requirements;
+extern GPU_REQUIREMENTS intel_requirements;
 
 extern bool wu_is_infeasible_custom(WORKUNIT&, APP&, BEST_APP_VERSION&);
 extern bool app_plan(SCHEDULER_REQUEST&, char* plan_class, HOST_USAGE&);
