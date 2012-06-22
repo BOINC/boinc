@@ -28,6 +28,7 @@
 ## updated 11/27/11 by Charlie Fenton for new virtualbox directory
 ## updated 12/2/11 by Charlie Fenton to restore wrapper and reboot if needed
 ## updated 1/6/12 by Charlie Fenton to also install VirtualBox
+## updated 6/22/12 by Charlie Fenton to code sign the installer and uninstaller
 ##
 ## NOTE: This script uses PackageMaker, which is installed as part of the 
 ##   XCode developer tools.  So you must have installed XCode Developer 
@@ -41,6 +42,10 @@
 ## menu: "Product/Buildfor/Build for Archiving", NOT "Product/Archive"
 
 ## Usage:
+##
+## If you wish to code sign the installer and uninstaller, create a file 
+## ~/BOINCCodeSignIdentity.txt whose first line is the code signing identity
+##
 ## cd to the root directory of the boinc tree, for example:
 ##     cd [path]/boinc
 ##
@@ -290,6 +295,22 @@ sudo chown -R root:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_
 sudo chmod -R u+rw-s,g+r-ws,o+r-w ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/*
 
 cp -fpR $BUILDPATH/SymbolTables/ ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_SymbolTables/
+
+## If you wish to code sign the installer and uninstaller, create a file 
+## ~/BOINCCodeSignIdentity.txt whose first line is the code signing identity
+##
+## Code signing using a registered Apple Developer ID is necessary for GateKeeper 
+## with default settings to allow running downloaded applications under OS 10.8
+if [ -e "${HOME}/BOINCCodeSignIdentity.txt" ]; then
+    exec 8<"${HOME}/BOINCCodeSignIdentity.txt"
+    read -u 8 SIGNINGIDENTITY
+
+    # Code Sign the BOINC installer if we have a signing identity
+    sudo codesign -f -s "${SIGNINGIDENTITY}" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app"
+
+    # Code Sign the BOINC uninstaller if we have a signing identity
+    sudo codesign -f -s "${SIGNINGIDENTITY}" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app"
+fi
 
 cd ../BOINC_Installer/New_Release_$1_$2_$3
 ## Use ditto instead of zip utility to preserve resource forks and Finder attributes (custom icon, hide extension) 

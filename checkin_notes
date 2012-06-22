@@ -3691,3 +3691,12 @@ Charlie 21 June 2012
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 22 June 2012
+    - Mac: Code sign the BOINC installer and uninstaller if we have a 
+        valid code signing identity.  Code signing using a registered 
+        Apple Developer ID is necessary for GateKeeper with default 
+        settings to allow running downloaded applications under OS 10.8.
+    
+    mac_installer/
+        release_boinc.sh
