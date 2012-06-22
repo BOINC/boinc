@@ -288,26 +288,18 @@ void COPROC_ATI::get(
         case 11:
             gpu_name="ATI Radeon HD 5x00 series (Cedar)";
             break;
-//
-// looks like we mixed the CAL TargetID because all other tools identify CAL_TARGETID 13 as Sumo (not SuperSumo) so
-// we have to fix this and some other strings here too
-// CAL_TARGETID 12 is still unknown .. maybe this is SuperSumo inside AMDs upcoming Trinity
-// 
-// 
         case 12:
             gpu_name="AMD Radeon HD (unknown)";
             break;
         case 13:
             gpu_name="AMD Radeon HD 6x00 series (Sumo)";
             break;
-// AMD released some more Wrestler so we have at the moment : 6250/6290/6310/6320/7310/7340 (based on Catalyst 12.2 preview)
         case 14:
             gpu_name="AMD Radeon HD 6200/6300/7300 series (Wrestler)";
             break;
         case 15:
             gpu_name="AMD Radeon HD 6900 series (Cayman)";
             break;
-// the last unknown ... AMD Radeon HD (unknown) looks better !
         case 16:
             gpu_name="AMD Radeon HD (unknown)";
             break;
@@ -321,14 +313,17 @@ void COPROC_ATI::get(
             gpu_name="AMD Radeon HD 6300 series (Caicos)";
             break;
         case 20:
-            gpu_name="AMD Radeon HD 79x0 series (Tahiti)";
+            gpu_name="AMD Radeon HD 7900 series (Tahiti)";
             break;
 		case 21:
-			gpu_name="AMD Radeon HD 78x0 series (Pitcairn)";
+			gpu_name="AMD Radeon HD 7800 series (Pitcairn)";
 			break;
 		case 22:
-			gpu_name="AMD Radeon HD 77x0 series (Cape Verde)";
+			gpu_name="AMD Radeon HD 7700 series (Cape Verde)";
 			break;
+        case 23:
+            gpu_name="AMD Radeon HD 7400/7500/7600 serie (Trinity)";
+            break;
         default:
             gpu_name="AMD Radeon HD (unknown)";
             break;

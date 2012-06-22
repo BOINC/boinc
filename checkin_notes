@@ -4488,3 +4488,9 @@ Charlie 22 June 2012
     
     mac_installer/
         release_boinc.sh
+
+David  22 June 2012
+	- client: AMD GPU detection addition (from [P3D] Crashtest)
+
+	client/
+		gpu_amd.cpp
