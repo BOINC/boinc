@@ -180,7 +180,7 @@ function get_runtime_info($appid) {
         Select ceil(avg(elapsed_time)/3600*100)/100 as avg,
                    ceil(min(elapsed_time)/3600*100)/100 as min,
                    ceil(max(elapsed_time)/3600*100)/100 as max
-        from (SELECT cpu_time FROM `result` WHERE appid = $appid and validate_state =1 and received_time > (unix_timestamp()-(3600*24)) ORDER BY `received_time` DESC limit 100) t");
+        from (SELECT elapsed_time FROM `result` WHERE appid = $appid and validate_state =1 and received_time > (unix_timestamp()-(3600*24)) ORDER BY `received_time` DESC limit 100) t");
         $info = mysql_fetch_object($result);
         mysql_free_result($result);
         set_cached_data(3600, serialize($info), "get_runtime_info".$appid);
