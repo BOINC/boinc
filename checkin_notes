@@ -2371,7 +2371,7 @@ Charlie 29 Feb 2012
         coproc_detect.cpp
     lib/
         coproc.h
-     mac_build/
+    mac_build/
         boinc.xcodeproj/
             project.pbxproj
 
@@ -3681,7 +3681,7 @@ Charlie 30 Apr 2012
 Charlie 30 Apr 2012
     - Mac: Update XCode project with new source files.
 
-       mac_build/
+    mac_build/
         boinc.xcodeproj/
             project.pbxproj
 
@@ -4440,7 +4440,7 @@ David  19 June 2012
 Charlie 20 June 2012
     - Mac: Update XCode project with new source files.
 
-       mac_build/
+    mac_build/
         boinc.xcodeproj/
             project.pbxproj
 
@@ -4463,3 +4463,13 @@ David  20 June 2012
 
     api/
         boinc_api.cpp
+
+Charlie 20 June 2012
+    - Mac: Fix displayed names of BOINC installer, uninstaller, etc.
+
+    clientgui/
+        mac/
+            SetVersion.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
