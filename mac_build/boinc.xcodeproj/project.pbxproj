@@ -68,6 +68,10 @@
 		DD21B49D0D750FC600AFFEE5 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDFE854A0B60CFD0009B43D9 /* AppKit.framework */; };
 		DD2370E113F49DF3003149F9 /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2370DF13F49DF3003149F9 /* LoginItemAPI.c */; };
 		DD247AF90AEA308A0034104A /* SkinManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD247AF70AEA308A0034104A /* SkinManager.cpp */; };
+		DD25F72815914F8C007845B5 /* gpu_nvidia.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD25F72315914F8C007845B5 /* gpu_nvidia.cpp */; };
+		DD25F72915914F8C007845B5 /* gpu_amd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD25F72415914F8C007845B5 /* gpu_amd.cpp */; };
+		DD25F72A15914F8C007845B5 /* gpu_opencl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD25F72515914F8C007845B5 /* gpu_opencl.cpp */; };
+		DD25F72B15914F8C007845B5 /* gpu_detect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD25F72615914F8C007845B5 /* gpu_detect.cpp */; };
 		DD262C781366D2A200C9A187 /* cc_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4AE04B13652BD700285859 /* cc_config.cpp */; };
 		DD262C811366D35A00C9A187 /* cc_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4AE04B13652BD700285859 /* cc_config.cpp */; };
 		DD262C821366D35D00C9A187 /* cc_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4AE04B13652BD700285859 /* cc_config.cpp */; };
@@ -78,8 +82,6 @@
 		DD2B6C8E131491B8005D6F3E /* procinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2B6C7E13149177005D6F3E /* procinfo.cpp */; };
 		DD2FE5C9142DE75A00A1E6F3 /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2370DF13F49DF3003149F9 /* LoginItemAPI.c */; };
 		DD2FE5CB142DE94700A1E6F3 /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2370DF13F49DF3003149F9 /* LoginItemAPI.c */; };
-		DD32CC830C27CEFB0016F571 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
-		DD32CC8F0C27CF860016F571 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
 		DD33C6F308B5BAF500768630 /* gui_http.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6F108B5BAF500768630 /* gui_http.cpp */; };
 		DD33C6F808B5BB4500768630 /* acct_setup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6F708B5BB4500768630 /* acct_setup.cpp */; };
 		DD33C70408B5BEDE00768630 /* http_curl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD33C70208B5BEDE00768630 /* http_curl.cpp */; };
@@ -189,7 +191,6 @@
 		DD5A3F17142877A5008148CA /* thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD5A3F15142877A5008148CA /* thread.cpp */; };
 		DD5BF77D0D4F3D0C00EDF980 /* mac_icon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6381450870DB78007A2F8E /* mac_icon.cpp */; };
 		DD5D7EBB0FE320F600ACF87B /* Uninstaller.r in Rez */ = {isa = PBXBuildFile; fileRef = DD5D7EBA0FE320F600ACF87B /* Uninstaller.r */; };
-		DD616A3008150050006981C1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
 		DD635A420D384FA500BAC1A5 /* texfont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD635A410D384FA500BAC1A5 /* texfont.cpp */; };
 		DD6381F90870DD83007A2F8E /* make_app_icon_h.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6381F80870DD83007A2F8E /* make_app_icon_h.cpp */; };
 		DD6617880A3FFD8C00FFEBEB /* check_security.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6617870A3FFD8C00FFEBEB /* check_security.cpp */; };
@@ -439,12 +440,10 @@
 		DDD74DD407CF493E0065AC9D /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD479031AF001018E201A /* util.cpp */; };
 		DDD7EF4707F0526E00BA3B90 /* SystemMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = DD40CDFE07F038990096C645 /* SystemMenu.m */; };
 		DDD93E7313E017B600B92D0F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE2552B07C62F3E008E7D6E /* IOKit.framework */; };
-		DDD9C59310CCF54300A1E4CD /* coproc_detect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD9C59210CCF54300A1E4CD /* coproc_detect.cpp */; };
 		DDD9C5A510CCF61F00A1E4CD /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
 		DDD9C5AA10CCF6A000A1E4CD /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
 		DDD9C5AB10CCF6A300A1E4CD /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
 		DDD9C5AC10CCF6AB00A1E4CD /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
-		DDDC35260909212D006076EC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
 		DDDD6D8012E4611300C258A0 /* sg_ProjectPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDDD6D7E12E4611300C258A0 /* sg_ProjectPanel.cpp */; };
 		DDDE43B10EC04C1800083520 /* DlgExitMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDDE43B00EC04C1800083520 /* DlgExitMessage.cpp */; };
 		DDE1372A10DC5E5300161D6B /* cs_notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372810DC5E5300161D6B /* cs_notice.cpp */; };
@@ -787,6 +786,11 @@
 		DD247AF70AEA308A0034104A /* SkinManager.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SkinManager.cpp; path = ../clientgui/SkinManager.cpp; sourceTree = SOURCE_ROOT; };
 		DD247AF80AEA308A0034104A /* SkinManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SkinManager.h; path = ../clientgui/SkinManager.h; sourceTree = SOURCE_ROOT; };
 		DD252F3009E3E014006454D7 /* boinc_glut.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = boinc_glut.h; path = ../api/boinc_glut.h; sourceTree = SOURCE_ROOT; };
+		DD25F72315914F8C007845B5 /* gpu_nvidia.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gpu_nvidia.cpp; sourceTree = "<group>"; };
+		DD25F72415914F8C007845B5 /* gpu_amd.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gpu_amd.cpp; sourceTree = "<group>"; };
+		DD25F72515914F8C007845B5 /* gpu_opencl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gpu_opencl.cpp; sourceTree = "<group>"; };
+		DD25F72615914F8C007845B5 /* gpu_detect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gpu_detect.cpp; sourceTree = "<group>"; };
+		DD25F72715914F8C007845B5 /* gpu_detect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gpu_detect.h; sourceTree = "<group>"; };
 		DD29728E10BB657A00DF3C2E /* MacAccessiblity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacAccessiblity.h; path = ../clientgui/mac/MacAccessiblity.h; sourceTree = SOURCE_ROOT; };
 		DD2B6C7E13149177005D6F3E /* procinfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = procinfo.cpp; path = ../lib/procinfo.cpp; sourceTree = SOURCE_ROOT; };
 		DD2B6C7F13149177005D6F3E /* procinfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = procinfo.h; path = ../lib/procinfo.h; sourceTree = SOURCE_ROOT; };
@@ -1155,7 +1159,6 @@
 		DDD52DC80C03CAE6009B5FC0 /* ViewWork.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewWork.cpp; path = ../clientgui/ViewWork.cpp; sourceTree = SOURCE_ROOT; };
 		DDD52DC90C03CAE6009B5FC0 /* ViewWork.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewWork.h; path = ../clientgui/ViewWork.h; sourceTree = SOURCE_ROOT; };
 		DDD74D8707CF482E0065AC9D /* boinc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinc; sourceTree = BUILT_PRODUCTS_DIR; };
-		DDD9C59210CCF54300A1E4CD /* coproc_detect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = coproc_detect.cpp; path = ../client/coproc_detect.cpp; sourceTree = SOURCE_ROOT; };
 		DDDD6D7E12E4611300C258A0 /* sg_ProjectPanel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sg_ProjectPanel.cpp; path = ../clientgui/sg_ProjectPanel.cpp; sourceTree = SOURCE_ROOT; };
 		DDDD6D7F12E4611300C258A0 /* sg_ProjectPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sg_ProjectPanel.h; path = ../clientgui/sg_ProjectPanel.h; sourceTree = SOURCE_ROOT; };
 		DDDE43B00EC04C1800083520 /* DlgExitMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DlgExitMessage.cpp; path = ../clientgui/DlgExitMessage.cpp; sourceTree = SOURCE_ROOT; };
@@ -1911,7 +1914,6 @@
 				DDA1F1EC126D105B005EFFEB /* current_version.cpp */,
 				DDA1F1ED126D105B005EFFEB /* current_version.h */,
 				DD69FEF608416C9A00C01361 /* boinc_cmd.cpp */,
-				DDD9C59210CCF54300A1E4CD /* coproc_detect.cpp */,
 				DD81C3D507C5CEB50098A04D /* cpp.h */,
 				DD344B7F07C5ADC30043025C /* cs_benchmark.cpp */,
 				DD16BF8F099D6CE5003E4B69 /* cpu_benchmark.h */,
@@ -1936,6 +1938,11 @@
 				F54B8FCC02AC0A0C01FB7237 /* file_names.h */,
 				F54B8FCD02AC0A0C01FB7237 /* file_xfer.cpp */,
 				F54B8FCE02AC0A0C01FB7237 /* file_xfer.h */,
+				DD25F72415914F8C007845B5 /* gpu_amd.cpp */,
+				DD25F72615914F8C007845B5 /* gpu_detect.cpp */,
+				DD25F72715914F8C007845B5 /* gpu_detect.h */,
+				DD25F72315914F8C007845B5 /* gpu_nvidia.cpp */,
+				DD25F72515914F8C007845B5 /* gpu_opencl.cpp */,
 				DD33C6F108B5BAF500768630 /* gui_http.cpp */,
 				DD33C6F208B5BAF500768630 /* gui_http.h */,
 				DD344BAD07C5AEB70043025C /* gui_rpc_server.cpp */,
@@ -2491,7 +2498,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DDDC35260909212D006076EC /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2500,7 +2506,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD531BC60C193D3800742E50 /* MacInstaller.icns in Resources */,
-				DD32CC830C27CEFB0016F571 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2526,7 +2531,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD531BC80C193D5200742E50 /* MacUninstaller.icns in Resources */,
-				DD32CC8F0C27CF860016F571 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2535,7 +2539,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DDFA60E20CB3391C0037B88C /* gfx_switcher in Resources */,
-				DD616A3008150050006981C1 /* InfoPlist.strings in Resources */,
 				DD0C5A8B0816711400CEC5D7 /* boinc.jpg in Resources */,
 				DD48091F081A66F100A174AA /* BOINCSaver.nib in Resources */,
 				DDBC6CA50D5D458700564C49 /* boinc_ss_logo.png in Resources */,
@@ -2569,14 +2572,14 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Installer-Info.plist",
+				"${SRCROOT}/English.lproj/Installer-InfoPlist.strings",
 			);
 			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/BOINC Installer.app/Contents/Info.plist",
+				"${BUILT_PRODUCTS_DIR}/BOINC Installer.app/Contents/Resources/English.lproj/InfoPlist.strings",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "sed -i \"\" s/\"BOINC Installer\"/BOINC/g \"${BUILT_PRODUCTS_DIR}/BOINC Installer.app/Contents/Resources/English.lproj/InfoPlist.strings\"\nsed -i \"\" s/BOINC/\"BOINC Installer\"/g \"${BUILT_PRODUCTS_DIR}/BOINC Installer.app/Contents/Resources/English.lproj/InfoPlist.strings\"\n";
+			shellScript = "mkdir -p \"${BUILT_PRODUCTS_DIR}/BOINC Installer.app/Contents/Resources/English.lproj\"\ncp -fpv \"${SRCROOT}/English.lproj/Installer-InfoPlist.strings\" \"${BUILT_PRODUCTS_DIR}/BOINC Installer.app/Contents/Resources/English.lproj/InfoPlist.strings\"";
 		};
 		DD1B90070A954C9A00FF5591 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2597,14 +2600,14 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Uninstaller-Info.plist",
+				"${SRCROOT}/English.lproj/Uninstaller-InfoPlist.strings",
 			);
 			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/Uninstall BOINC.app/Contents/Info.plist",
+				"${BUILT_PRODUCTS_DIR}/Uninstall BOINC.app/Contents/Resources/English.lproj/InfoPlist.string",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "sed -i \"\" s/\"Uninstall BOINC\"/BOINC/g \"${BUILT_PRODUCTS_DIR}/Uninstall BOINC.app/Contents/Resources/English.lproj/InfoPlist.strings\"\nsed -i \"\" s/BOINC/\"Uninstall BOINC\"/g \"${BUILT_PRODUCTS_DIR}/Uninstall BOINC.app/Contents/Resources/English.lproj/InfoPlist.strings\"\n";
+			shellScript = "mkdir -p \"${BUILT_PRODUCTS_DIR}/Uninstall BOINC.app/Contents/Resources/English.lproj/\"\ncp -fpRv \"${SRCROOT}/English.lproj/Uninstaller-InfoPlist.strings\" \"${BUILT_PRODUCTS_DIR}/Uninstall BOINC.app/Contents/Resources/English.lproj/InfoPlist.strings\"";
 		};
 		DD3B67F6140CFFA20088683F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2695,14 +2698,14 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/ScreenSaver-Info.plist",
+				"${SRCROOT}/English.lproj/ScreenSaver-InfoPlist.strings",
 			);
 			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/BOINCSaver.saver/Contents/Info.plist",
+				"${BUILT_PRODUCTS_DIR}/BOINCSaver.saver/Contents/Resources/English.lproj/InfoPlist.strings",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cp -fpv \"${SRCROOT}/ScreenSaver-Info.plist\" \"${BUILT_PRODUCTS_DIR}/BOINCSaver.saver/Contents/Info.plist\"";
+			shellScript = "mkdir -p \"${BUILT_PRODUCTS_DIR}/BOINCSaver.saver/Contents/Resources/English.lproj\"\ncp -fpv \"${SRCROOT}/English.lproj/ScreenSaver-InfoPlist.strings\" \"${BUILT_PRODUCTS_DIR}/BOINCSaver.saver/Contents/Resources/English.lproj/InfoPlist.strings\"";
 		};
 		DD5FD59B0A0234400093C19F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2710,14 +2713,14 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/PostInstall-Info.plist",
+				"${SRCROOT}/English.lproj/PostInstall-InfoPlist.strings",
 			);
 			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/Postinstall.app/Contents/Info.plist",
+				"${BUILT_PRODUCTS_DIR}/Postinstall.app/Contents/Resources/English.lproj/InfoPlist.strings",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cp -fpv \"${SRCROOT}/PostInstall-Info.plist\" \"${BUILT_PRODUCTS_DIR}/Postinstall.app/Contents/Info.plist\"";
+			shellScript = "mkdir -p \"${BUILT_PRODUCTS_DIR}/Postinstall.app/Contents/Resources/English.lproj\"\ncp -fpv \"${SRCROOT}/English.lproj/PostInstall-InfoPlist.strings\" \"${BUILT_PRODUCTS_DIR}/Postinstall.app/Contents/Resources/English.lproj/InfoPlist.strings\"";
 		};
 		DD73550C0D91105F0006A9D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3381,7 +3384,6 @@
 				DDAD31D90EC26B14002DA09D /* mac_address.cpp in Sources */,
 				DDC06AB810A3E97700C8D9A5 /* url.cpp in Sources */,
 				DD0052F910CA6F1D0067570C /* cs_proxy.cpp in Sources */,
-				DDD9C59310CCF54300A1E4CD /* coproc_detect.cpp in Sources */,
 				DDE1372A10DC5E5300161D6B /* cs_notice.cpp in Sources */,
 				DDE1373210DC5EA400161D6B /* notice.cpp in Sources */,
 				DDA1F1EE126D105B005EFFEB /* current_version.cpp in Sources */,
@@ -3391,6 +3393,10 @@
 				DD1E4B7B14DCA83F0093C711 /* async_file.cpp in Sources */,
 				DD1CB232154F5BF700BFF282 /* project.cpp in Sources */,
 				DD1CB233154F5BF700BFF282 /* result.cpp in Sources */,
+				DD25F72815914F8C007845B5 /* gpu_nvidia.cpp in Sources */,
+				DD25F72915914F8C007845B5 /* gpu_amd.cpp in Sources */,
+				DD25F72A15914F8C007845B5 /* gpu_opencl.cpp in Sources */,
+				DD25F72B15914F8C007845B5 /* gpu_detect.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
