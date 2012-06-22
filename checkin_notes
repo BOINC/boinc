@@ -3681,3 +3681,13 @@ Charlie 20 June 2012
        mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 21 June 2012
+    - Mac: Fix displayed names of BOINC installer, uninstaller, etc.
+
+    clientgui/
+        mac/
+            SetVersion.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

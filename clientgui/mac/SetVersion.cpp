@@ -34,7 +34,7 @@
 
 int IsFileCurrent(char* filePath);
 int FixInfoPlistFile(char* myPath);
-int FixInfoPlist_Strings(char* myPath, char* brand);
+int FixInfoPlist_Strings(char* myPath, char* name);
 int MakeBOINCPackageInfoPlistFile(char* myPath, char* brand);
 int MakeMetaPackageInfoPlistFile(char* myPath, char* brand);
 
@@ -50,24 +50,46 @@ int main(int argc, char** argv) {
     printf("%s\n", myPath);       // For debugging
 #endif
 
-    err = FixInfoPlist_Strings("./English.lproj/InfoPlist.strings", "BOINC");
+    // BOINC Manager
+    err = FixInfoPlist_Strings("./English.lproj/InfoPlist.strings", "BOINC Manager");
     if (err) retval = err;
     err = FixInfoPlistFile("./Info.plist");
     if (err) retval = err;
+    
+    // BOINC Installer
+    err = FixInfoPlist_Strings("./English.lproj/Installer-InfoPlist.strings", "BOINC Installer");
+    if (err) retval = err;
     err = FixInfoPlistFile("./Installer-Info.plist");
+    if (err) retval = err;
+    
+    // BOINC PostInstall app
+    err = FixInfoPlist_Strings("./English.lproj/PostInstall-InfoPlist.strings", "Install BOINC");
     if (err) retval = err;
     err = FixInfoPlistFile("./PostInstall-Info.plist");
     if (err) retval = err;
+    
+    // BOINC Screen Saver
+    err = FixInfoPlist_Strings("./English.lproj/ScreenSaver-InfoPlist.strings", "BOINC Screen Saver");
+    if (err) retval = err;
     err = FixInfoPlistFile("./ScreenSaver-Info.plist");
     if (err) retval = err;
-    err = FixInfoPlistFile("./SystemMenu-Info.plist");
+    
+    // BOINC Uninstaller
+    err = FixInfoPlist_Strings("./English.lproj/Uninstaller-InfoPlist.strings", "Uninstall BOINC");
     if (err) retval = err;
     err = FixInfoPlistFile("./Uninstaller-Info.plist");
     if (err) retval = err;
+    
+    err = FixInfoPlistFile("./SystemMenu-Info.plist");
+    if (err) retval = err;
+
+    // WaitPermissions is not currently used
     err = FixInfoPlistFile("./WaitPermissions-Info.plist");
     if (err) retval = err;
+    
     err = MakeBOINCPackageInfoPlistFile("./Pkg-Info.plist", "BOINC Manager");
     if (err) retval = err;
+    
     err = MakeMetaPackageInfoPlistFile("./Mpkg-Info.plist", "BOINC Manager");
     return retval;
 }
@@ -95,7 +117,7 @@ int IsFileCurrent(char* filePath) {
 }
 
 
-int FixInfoPlist_Strings(char* myPath, char* brand) {
+int FixInfoPlist_Strings(char* myPath, char* name) {
     int retval = 0;
     FILE *f;
     
@@ -106,9 +128,9 @@ int FixInfoPlist_Strings(char* myPath, char* brand) {
     if (f)
     {
         fprintf(f, "/* Localized versions of Info.plist keys */\n\n");
-        fprintf(f, "CFBundleName = \"%s\";\n", brand);
-        fprintf(f, "CFBundleShortVersionString = \"%s version %s\";\n", brand, BOINC_VERSION_STRING);
-        fprintf(f, "CFBundleGetInfoString = \"%s version %s, Copyright 2012 University of California.\";\n", brand, BOINC_VERSION_STRING);
+        fprintf(f, "CFBundleName = \"%s\";\n", name);
+        fprintf(f, "CFBundleShortVersionString = \"%s version %s\";\n", name, BOINC_VERSION_STRING);
+        fprintf(f, "CFBundleGetInfoString = \"%s version %s, Copyright 2012 University of California.\";\n", name, BOINC_VERSION_STRING);
         fflush(f);
         retval = fclose(f);
     }
