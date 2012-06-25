@@ -84,6 +84,15 @@
 
 #define MAX_OPENCL_PLATFORMS 16
 
+#define PROC_TYPE_CPU        0
+#define PROC_TYPE_NVIDIA_GPU 1
+#define PROC_TYPE_AMD_GPU    2
+#define PROC_TYPE_INTEL_GPU  3
+#define NPROC_TYPES          4
+
+extern const char* proc_type_name(int);
+extern const char* proc_type_name_xml(int);
+
 #define GPU_TYPE_NVIDIA "NVIDIA"
 #define GPU_TYPE_ATI "ATI"
 
@@ -363,7 +372,7 @@ struct COPROCS {
     COPROC coprocs[MAX_RSC];
     COPROC_NVIDIA nvidia;
     COPROC_ATI ati;
-    COPROC intel;
+    COPROC intel_gpu;
 
     void write_xml(MIOFILE& out, bool scheduler_rpc);
     void get(
@@ -445,10 +454,19 @@ struct COPROCS {
         coprocs[n_rsc++] = c;
         return 0;
     }
+    COPROC* type_to_coproc(int t) {
+        switch(t) {
+        case PROC_TYPE_NVIDIA_GPU: return &nvidia;
+        case PROC_TYPE_AMD_GPU: return &ati;
+        case PROC_TYPE_INTEL_GPU: return &intel_gpu;
+        }
+        return NULL;
+    }
     COPROCS() {
         n_rsc = 0;
         nvidia.count = 0;
         ati.count = 0;
+        intel_gpu.count = 0;
         COPROC c;
         strcpy(c.type, "CPU");
         add(c);

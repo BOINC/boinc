@@ -174,14 +174,12 @@ int SCHED_SHMEM::scan_tables() {
     }
     for (i=0; i<napp_versions; i++) {
         APP_VERSION& av = app_versions[i];
-        if (strstr(av.plan_class, "cuda")) {
-            have_apps_for_proc_type[PROC_TYPE_NVIDIA] = true;
-        } else if (strstr(av.plan_class, "nvidia")) {
-            have_apps_for_proc_type[PROC_TYPE_NVIDIA] = true;
+        if (strstr(av.plan_class, "cuda") || strstr(av.plan_class, "nvidia")) {
+            have_apps_for_proc_type[PROC_TYPE_NVIDIA_GPU] = true;
         } else if (strstr(av.plan_class, "ati")) {
-            have_apps_for_proc_type[PROC_TYPE_AMD] = true;
+            have_apps_for_proc_type[PROC_TYPE_AMD_GPU] = true;
         } else if (strstr(av.plan_class, "intel_gpu")) {
-            have_apps_for_proc_type[PROC_TYPE_INTEL] = true;
+            have_apps_for_proc_type[PROC_TYPE_INTEL_GPU] = true;
         } else {
             have_apps_for_proc_type[PROC_TYPE_CPU] = true;
         }

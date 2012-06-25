@@ -45,15 +45,6 @@ SCHEDULER_REQUEST* g_request;
 SCHEDULER_REPLY* g_reply;
 WORK_REQ* g_wreq;
 
-const char* proc_type_name(int pt) {
-    switch(pt) {
-    case PROC_TYPE_NVIDIA: return "CUDA";
-    case PROC_TYPE_AMD: return "ATI";
-    case PROC_TYPE_INTEL: return "INTEL";
-    }
-    return "unknown";
-}
-
 // remove (by truncating) any quotes from the given string.
 // This is for things (e.g. authenticator) that will be used in
 // a SQL query, to prevent SQL injection attacks
@@ -79,22 +70,9 @@ int CLIENT_APP_VERSION::parse(XML_PARSER& xp) {
             if (!app) return ERR_NOT_FOUND;
 
             double pf = host_usage.avg_ncpus * g_reply->host.p_fpops;
-            switch (host_usage.proc_type) {
-            case PROC_TYPE_NVIDIA:
-                if (g_request->coprocs.nvidia.count) {
-                    pf += host_usage.gpu_usage*g_request->coprocs.nvidia.peak_flops;
-                }
-                break;
-            case PROC_TYPE_AMD:
-                if (g_request->coprocs.ati.count) {
-                    pf += host_usage.gpu_usage*g_request->coprocs.ati.peak_flops;
-                }
-                break;
-            case PROC_TYPE_INTEL:
-                if (g_request->coprocs.intel.count) {
-                    pf += host_usage.gpu_usage*g_request->coprocs.intel.peak_flops;
-                }
-                break;
+            if (host_usage.proc_type != PROC_TYPE_CPU) {
+                COPROC* cp = g_request->coprocs.type_to_coproc(host_usage.proc_type);
+                pf += host_usage.gpu_usage*cp->peak_flops;
             }
             host_usage.peak_flops = pf;
             return 0;
@@ -117,11 +95,12 @@ int CLIENT_APP_VERSION::parse(XML_PARSER& xp) {
             if (!retval) {
                 host_usage.gpu_usage = coproc_req.count;
                 if (!strcmp(coproc_req.type, "CUDA") || !strcmp(coproc_req.type, "NVIDIA")) {
-                host_usage.proc_type = PROC_TYPE_NVIDIA;
-            } else if (!strcmp(coproc_req.type, "ATI")) {
-                host_usage.proc_type = PROC_TYPE_AMD;
-            } else if (!strcmp(coproc_req.type, "INTEL")) {
-                host_usage.proc_type = PROC_TYPE_INTEL;
+                    host_usage.proc_type = PROC_TYPE_NVIDIA_GPU;
+                } else if (!strcmp(coproc_req.type, "ATI")) {
+                    host_usage.proc_type = PROC_TYPE_AMD_GPU;
+                } else if (!strcmp(coproc_req.type, "INTEL_GPU")) {
+                    host_usage.proc_type = PROC_TYPE_INTEL_GPU;
+                }
             }
             continue;
         }
@@ -919,10 +898,9 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
         "<no_ati_apps>%d</no_ati_apps>\n"
         "<no_intel_apps>%d</no_intel_apps>\n",
         ssp->have_apps_for_proc_type[PROC_TYPE_CPU]?0:1,
-        ssp->have_apps_for_proc_type[PROC_TYPE_NVIDIA]?0:1,
-        ssp->have_apps_for_proc_type[PROC_TYPE_AMD]?0:1,
-        ssp->have_apps_for_proc_type[PROC_TYPE_INTEL]?0:1,
-        ssp->
+        ssp->have_apps_for_proc_type[PROC_TYPE_NVIDIA_GPU]?0:1,
+        ssp->have_apps_for_proc_type[PROC_TYPE_AMD_GPU]?0:1,
+        ssp->have_apps_for_proc_type[PROC_TYPE_INTEL_GPU]?0:1
     );
     gui_urls.get_gui_urls(user, host, team, buf);
     fputs(buf, fout);
@@ -1047,7 +1025,7 @@ int APP_VERSION::write(FILE* fout) {
             "        <type>%s</type>\n"
             "        <count>%f</count>\n"
             "    </coproc>\n",
-            proc_type_name(pt),
+            proc_type_name_xml(pt),
             bavp->host_usage.gpu_usage
         );
     }

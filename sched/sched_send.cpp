@@ -309,13 +309,13 @@ static void get_prefs_info() {
         g_wreq->dont_use_proc_type[PROC_TYPE_CPU] = flag;
     }
     if (parse_bool(buf,"no_cuda", flag)) {
-        g_wreq->dont_use_proc_type[PROC_TYPE_NVIDIA] = flag;
+        g_wreq->dont_use_proc_type[PROC_TYPE_NVIDIA_GPU] = flag;
     }
     if (parse_bool(buf,"no_ati", flag)) {
-        g_wreq->dont_use_proc_type[PROC_TYPE_AMD] = flag;
+        g_wreq->dont_use_proc_type[PROC_TYPE_AMD_GPU] = flag;
     }
     if (parse_bool(buf,"no_intel", flag)) {
-        g_wreq->dont_use_proc_type[PROC_TYPE_INTEL] = flag;
+        g_wreq->dont_use_proc_type[PROC_TYPE_INTEL_GPU] = flag;
     }
 }
 
@@ -562,32 +562,21 @@ static inline bool hard_app(APP& app) {
 }
 
 static inline double get_estimated_delay(BEST_APP_VERSION& bav) {
-    switch (bav.host_usage.proc_type) {
-    case PROC_TYPE_NVIDIA:
-        return g_request->coprocs.nvidia.estimated_delay;
-    case PROC_TYPE_AMD:
-        return g_request->coprocs.ati.estimated_delay;
-    case PROC_TYPE_INTEL:
-        return g_request->coprocs.intel.estimated_delay;
-    default:
+    int pt = bav.host_usage.proc_type;
+    if (pt == PROC_TYPE_CPU) {
         return g_request->cpu_estimated_delay;
     }
+    COPROC* cp = g_request->coprocs.type_to_coproc(pt);
+    return cp->estimated_delay;
 }
 
 static inline void update_estimated_delay(BEST_APP_VERSION& bav, double dt) {
-    switch (bav.host_usage.proc_type) {
-    case PROC_TYPE_NVIDIA:
-        g_request->coprocs.nvidia.estimated_delay += dt*bav.host_usage.gpu_usage/g_request->coprocs.nvidia.count;
-        break;
-    case PROC_TYPE_AMD:
-        g_request->coprocs.ati.estimated_delay += dt*bav.host_usage.gpu_usage/g_request->coprocs.ati.count;
-        break;
-    case PROC_TYPE_INTEL:
-        g_request->coprocs.intel.estimated_delay += dt*bav.host_usage.gpu_usage/g_request->coprocs.intel.count;
-        break;
-    default:
+    int pt = bav.host_usage.proc_type;
+    if (pt == PROC_TYPE_CPU) {
         g_request->cpu_estimated_delay += dt*bav.host_usage.avg_ncpus/g_request->host.p_ncpus;
-        break;
+    } else {
+        COPROC* cp = g_request->coprocs.type_to_coproc(pt);
+        cp->estimated_delay += dt*bav.host_usage.gpu_usage/cp->count;
     }
 }
 
@@ -1031,7 +1020,7 @@ void unlock_sema() {
 
 static inline bool have_apps(int pt) {
     if (g_wreq->anonymous_platform) {
-        return g_wreq->have_apps_for_proc_type[pt];
+        return g_wreq->client_has_apps_for_proc_type[pt];
     } else {
         return ssp->have_apps_for_proc_type[pt];
     }
@@ -1407,7 +1396,7 @@ void send_gpu_messages() {
     // Mac client with GPU but too-old client
     //
     if (g_request->coprocs.nvidia.count
-        && ssp->have_apps_for_proc_type[PROC_TYPE_NVIDIA]
+        && ssp->have_apps_for_proc_type[PROC_TYPE_NVIDIA_GPU]
         && strstr(g_request->host.os_name, "Darwin")
         && g_request->core_client_version < 61028
     ) {
@@ -1419,10 +1408,14 @@ void send_gpu_messages() {
 
     // GPU-only project, client lacks GPU
     //
-    bool usable_gpu =
-        (ssp->have_apps_for_proc_type[PROC_TYPE_NVIDIA] && g_request->coprocs.nvidia.count)
-        || (ssp->have_apps_for_proc_type[PROC_TYPE_AMD] && g_request->coprocs.ati.count)
-        || (ssp->have_apps_for_proc_type[PROC_TYPE_INTEL] && g_request->coprocs.intel.count);
+    bool usable_gpu = false;
+    for (int i=1; i<NPROC_TYPES; i++) {
+        COPROC* cp = g_request->coprocs.type_to_coproc(i);
+        if (ssp->have_apps_for_proc_type[i] && cp->count) {
+            usable_gpu = true;
+            break;
+        }
+    }
     if (!ssp->have_apps_for_proc_type[PROC_TYPE_CPU] && !usable_gpu) {
         char buf[256];
         strcpy(buf, "");
@@ -1440,20 +1433,28 @@ void send_gpu_messages() {
         );
     }
 
-    if (g_request->coprocs.nvidia.count && ssp->have_apps_for_proc_type[PROC_TYPE_NVIDIA]) {
-        send_gpu_property_messages(cuda_requirements,
+    if (g_request->coprocs.nvidia.count && ssp->have_apps_for_proc_type[PROC_TYPE_NVIDIA_GPU]) {
+        send_gpu_property_messages(gpu_requirements[PROC_TYPE_NVIDIA_GPU],
             g_request->coprocs.nvidia.prop.totalGlobalMem,
             g_request->coprocs.nvidia.display_driver_version,
-            "NVIDIA GPU"
+            proc_type_name(PROC_TYPE_NVIDIA_GPU)
         );
     }
-    if (g_request->coprocs.ati.count && ssp->have_apps_for_proc_type[PROC_TYPE_AMD]) {
-        send_gpu_property_messages(ati_requirements,
+    if (g_request->coprocs.ati.count && ssp->have_apps_for_proc_type[PROC_TYPE_AMD_GPU]) {
+        send_gpu_property_messages(gpu_requirements[PROC_TYPE_AMD_GPU],
             g_request->coprocs.ati.attribs.localRAM*MEGA,
             g_request->coprocs.ati.version_num,
-            "ATI GPU"
+            proc_type_name(PROC_TYPE_AMD_GPU)
         );
     }
+    if (g_request->coprocs.intel_gpu.count && ssp->have_apps_for_proc_type[PROC_TYPE_INTEL_GPU]) {
+        send_gpu_property_messages(gpu_requirements[PROC_TYPE_INTEL_GPU],
+            g_request->coprocs.intel_gpu.opencl_prop.global_mem_size,
+            0,
+            proc_type_name(PROC_TYPE_INTEL_GPU)
+        );
+    }
+
 }
 
 // send messages to user about why jobs were or weren't sent,
@@ -1645,35 +1646,33 @@ void send_work_setup() {
         estimate_flops_anon_platform();
 
         for (i=0; i<NPROC_TYPES; i++) {
-            g_wreq->have_apps_for_proc_type[i] = false;
+            g_wreq->client_has_apps_for_proc_type[i] = false;
         }
         for (i=0; i<g_request->client_app_versions.size(); i++) {
             CLIENT_APP_VERSION& cav = g_request->client_app_versions[i];
             int pt = cav.host_usage.proc_type;
-            g_wreq->have_apps_for_proc_type[pt] = true;
+            g_wreq->client_has_apps_for_proc_type[pt] = true;
         }
     }
-    cuda_requirements.clear();
-    ati_requirements.clear();
-    intel_requirements.clear();
+    for (i=1; i<NPROC_TYPES; i++) {
+        gpu_requirements[i].clear();
+    }
 
     g_wreq->disk_available = max_allowable_disk();
     get_mem_sizes();
     get_running_frac();
     g_wreq->get_job_limits();
 
-    if (g_request->coprocs.nvidia.count) {
-        g_wreq->req_secs[PROC_TYPE_NVIDIA] = clamp_req_sec(g_request->coprocs.nvidia.req_secs);
-        g_wreq->req_instances[PROC_TYPE_NVIDIA] = g_request->coprocs.nvidia.req_instances;
-        if (g_request->coprocs.nvidia.estimated_delay < 0) {
-            g_request->coprocs.nvidia.estimated_delay = g_request->cpu_estimated_delay;
-        }
-    }
-    if (g_request->coprocs.ati.count) {
-        g_wreq->req_secs[PROC_TYPE_AMD] = clamp_req_sec(g_request->coprocs.ati.req_secs);
-        g_wreq->req_instances[PROC_TYPE_AMD] = g_request->coprocs.ati.req_instances;
-        if (g_request->coprocs.ati.estimated_delay < 0) {
-            g_request->coprocs.ati.estimated_delay = g_request->cpu_estimated_delay;
+    // do sanity checking on GPU scheduling parameters
+    //
+    for (i=1; i<NPROC_TYPES; i++) {
+        COPROC* cp = g_request->coprocs.type_to_coproc(i);
+        if (cp->count) {
+            g_wreq->req_secs[i] = clamp_req_sec(cp->req_secs);
+            g_wreq->req_instances[i] = cp->req_instances;
+            if (cp->estimated_delay < 0) {
+                cp->estimated_delay = g_request->cpu_estimated_delay;
+            }
         }
     }
     g_wreq->rsc_spec_request = false;
@@ -1727,21 +1726,17 @@ void send_work_setup() {
             g_wreq->req_instances[PROC_TYPE_CPU],
             g_request->cpu_estimated_delay
         );
-        if (g_request->coprocs.nvidia.count) {
-            log_messages.printf(MSG_NORMAL,
-                "[send] CUDA: req %.2f sec, %.2f instances; est delay %.2f\n",
-                g_wreq->req_secs[PROC_TYPE_NVIDIA],
-                g_wreq->req_instances[PROC_TYPE_NVIDIA],
-                g_request->coprocs.nvidia.estimated_delay
-            );
-        }
-        if (g_request->coprocs.ati.count) {
-            log_messages.printf(MSG_NORMAL,
-                "[send] ATI: req %.2f sec, %.2f instances; est delay %.2f\n",
-                g_wreq->req_secs[PROC_TYPE_AMD],
-                g_wreq->req_instances[PROC_TYPE_AMD],
-                g_request->coprocs.ati.estimated_delay
-            );
+        for (i=1; i<NPROC_TYPES; i++) {
+            COPROC* cp = g_request->coprocs.type_to_coproc(i);
+            if (cp->count) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send] %s: req %.2f sec, %.2f instances; est delay %.2f\n",
+                    proc_type_name(i),
+                    g_wreq->req_secs[i],
+                    g_wreq->req_instances[i],
+                    cp->estimated_delay
+                );
+            }
         }
         log_messages.printf(MSG_NORMAL,
             "[send] work_req_seconds: %.2f secs\n",

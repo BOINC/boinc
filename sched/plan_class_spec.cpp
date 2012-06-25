@@ -16,6 +16,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "util.h"
+#include "coproc.h"
+
 #include "sched_config.h"
 #include "sched_customize.h"
 #include "plan_class_spec.h"
@@ -232,10 +234,10 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
             return false;
         }
         if (min_gpu_ram_mb) {
-            ati_requirements.update(0, min_gpu_ram_mb * MEGA);
+            gpu_requirements[PROC_TYPE_AMD_GPU].update(0, min_gpu_ram_mb * MEGA);
         }
         if (min_driver_version) {
-            ati_requirements.update(abs(min_driver_version), 0);
+            gpu_requirements[PROC_TYPE_AMD_GPU].update(abs(min_driver_version), 0);
         }
 
         if (need_ati_libs) {
@@ -309,10 +311,10 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         }
 
         if (min_gpu_ram_mb) {
-            cuda_requirements.update(0, min_gpu_ram_mb * MEGA);
+            gpu_requirements[PROC_TYPE_NVIDIA_GPU].update(0, min_gpu_ram_mb * MEGA);
         }
         if (min_driver_version) {
-            cuda_requirements.update(abs(min_driver_version), 0);
+            gpu_requirements[PROC_TYPE_NVIDIA_GPU].update(abs(min_driver_version), 0);
         }
         // compute capability
         int v = (cp.prop.major)*100 + cp.prop.minor;
@@ -357,6 +359,24 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         }
         gpu_ram = cp.prop.totalGlobalMem;
         cp.set_peak_flops();
+
+    // Intel GPU
+    //
+    } else if (!strcmp(gpu_type, "intel")) {
+        COPROC& cp = sreq.coprocs.intel_gpu;
+        cpp = &cp;
+
+        if (!cp.count) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] No NVIDIA devices found\n"
+                );
+            }
+            return false;
+        }
+        if (min_gpu_ram_mb) {
+            gpu_requirements[PROC_TYPE_INTEL_GPU].update(0, min_gpu_ram_mb * MEGA);
+        }
     }
 
     if (opencl) {
@@ -452,13 +472,13 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         }
 
         if (!strcmp(gpu_type, "amd") || !strcmp(gpu_type, "ati")) {
-            hu.proc_type = PROC_TYPE_AMD;
+            hu.proc_type = PROC_TYPE_AMD_GPU;
             hu.gpu_usage = gpu_usage;
         } else if (!strcmp(gpu_type, "nvidia")) {
-            hu.proc_type = PROC_TYPE_NVIDIA;
+            hu.proc_type = PROC_TYPE_NVIDIA_GPU;
             hu.gpu_usage = gpu_usage;
         } else if (!strcmp(gpu_type, "intel_gpu")) {
-            hu.proc_type = PROC_TYPE_INTEL;
+            hu.proc_type = PROC_TYPE_INTEL_GPU;
             hu.gpu_usage = gpu_usage;
         }
 

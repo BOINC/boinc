@@ -4494,3 +4494,17 @@ David  22 June 2012
 
 	client/
 		gpu_amd.cpp
+
+David  25 June 2012
+    - scheduler: add support for Intel GPUs, and restructure things
+        to make it easier to add other GPU types in the future
+
+    sched/
+        sched_customize.cpp,h
+        sched_shmem.cpp
+        plan_class_spec.cpp
+        sched_types.cpp,h
+        sched_version.cpp
+        sched_send.cpp
+    lib/
+        coproc.cpp,h

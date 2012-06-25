@@ -888,3 +888,23 @@ void COPROC_ATI::fake(double ram, double avail_ram, int n) {
     }
     set_peak_flops();
 }
+
+const char* proc_type_name_xml(int pt) {
+    switch(pt) {
+    case PROC_TYPE_NVIDIA_GPU: return "CUDA";
+    case PROC_TYPE_AMD_GPU: return "ATI";
+    case PROC_TYPE_INTEL_GPU: return "INTEL";
+    }
+    return "unknown";
+}
+
+const char* proc_type_name(int pt) {
+    switch(pt) {
+    case PROC_TYPE_NVIDIA_GPU: return "NVIDIA GPU";
+    case PROC_TYPE_AMD_GPU: return "AMD/ATI GPU";
+    case PROC_TYPE_INTEL_GPU: return "Intel GPU";
+    }
+    return "unknown";
+}
+
+

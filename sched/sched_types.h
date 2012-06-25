@@ -28,12 +28,6 @@
 
 #include "edf_sim.h"
 
-#define PROC_TYPE_CPU        0
-#define PROC_TYPE_NVIDIA     1
-#define PROC_TYPE_AMD        2
-#define PROC_TYPE_INTEL      3
-#define NPROC_TYPES          4
-
 // for projects that support work filtering by app,
 // this records an app for which the user will accept work
 //
@@ -108,18 +102,10 @@ struct HOST_USAGE {
     }
     inline int resource_type() {
         switch (proc_type) {
-        case PROC_TYPE_NVIDIA: return ANON_PLATFORM_NVIDIA;
-        case PROC_TYPE_AMD: return ANON_PLATFORM_ATI;
-        case PROC_TYPE_INTEL: return ANON_PLATFORM_INTEL;
+        case PROC_TYPE_NVIDIA_GPU: return ANON_PLATFORM_NVIDIA;
+        case PROC_TYPE_AMD_GPU: return ANON_PLATFORM_ATI;
+        case PROC_TYPE_INTEL_GPU: return ANON_PLATFORM_INTEL;
         default: return ANON_PLATFORM_CPU;
-        }
-    }
-    inline const char* resource_name() {
-        switch (proc_type) {
-        case PROC_TYPE_NVIDIA: return "NVIDIA GPU";
-        case PROC_TYPE_AMD: return "AMD/ATI GPU";
-        case PROC_TYPE_INTEL: return "Intel GPU";
-        default: return "CPU";
         }
     }
     inline bool uses_gpu() {
@@ -362,10 +348,11 @@ struct WORK_REQ {
 
     // the following defined if anonymous platform
     //
-    bool have_apps_for_proc_type[NPROC_TYPES];
+    bool client_has_apps_for_proc_type[NPROC_TYPES];
 
     // Flags used by old-style scheduling,
     // while making multiple passes through the work array
+    //
     bool infeasible_only;
     bool reliable_only;
     bool user_apps_only;
@@ -379,6 +366,7 @@ struct WORK_REQ {
         // so check and resend just in case.
 
     // user preferences
+    //
     bool dont_use_proc_type[NPROC_TYPES];
     bool allow_non_preferred_apps;
     bool allow_beta_work;
@@ -463,13 +451,11 @@ struct WORK_REQ {
     bool hr_reject_temp;
     bool hr_reject_perm;
     bool outdated_client;
-    bool no_proc_type_prefs[NPROC_TYPES];
     bool max_jobs_on_host_exceeded;
     bool max_jobs_on_host_cpu_exceeded;
     bool max_jobs_on_host_gpu_exceeded;
     bool no_jobs_available;     // project has no work right now
     int max_jobs_per_rpc;
-    void update_for_result(double seconds_filled);
     void add_no_work_message(const char*);
     void get_job_limits();
 
@@ -546,5 +532,4 @@ inline bool is_64b_platform(const char* name) {
     return (strstr(name, "64") != NULL);
 }
 
-extern const char* proc_type_name(int pt);
 #endif

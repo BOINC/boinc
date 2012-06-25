@@ -66,9 +66,7 @@ using std::string;
 #include "sched_customize.h"
 #include "plan_class_spec.h"
 
-GPU_REQUIREMENTS cuda_requirements;
-GPU_REQUIREMENTS ati_requirements;
-GPU_REQUIREMENTS intel_requirements;
+GPU_REQUIREMENTS gpu_requirements[NPROC_TYPES];
 
 bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
 #if 0
@@ -138,7 +136,7 @@ static bool ati_check(COPROC_ATI& c, HOST_USAGE& hu,
     double flops_scale
 ) {
     if (c.version_num) {
-        ati_requirements.update(min_driver_version, min_ram);
+        gpu_requirements[PROC_TYPE_AMD_GPU].update(min_driver_version, min_ram);
     }
 
     if (need_amd_libs) {
@@ -158,7 +156,7 @@ static bool ati_check(COPROC_ATI& c, HOST_USAGE& hu,
     }
 
     hu.gpu_ram = min_ram;
-    hu.proc_type = PROC_TYPE_AMD;
+    hu.proc_type = PROC_TYPE_AMD_GPU;
     hu.gpu_usage = ndevs;
 
     coproc_perf(
@@ -263,7 +261,7 @@ static bool cuda_check(COPROC_NVIDIA& c, HOST_USAGE& hu,
     if (max_cc && cc >= max_cc) return false;
 
     if (c.display_driver_version) {
-        cuda_requirements.update(min_driver_version, min_ram);
+        gpu_requirements[PROC_TYPE_NVIDIA_GPU].update(min_driver_version, min_ram);
     }
 
     // Old BOINC clients report display driver version;
@@ -288,7 +286,7 @@ static bool cuda_check(COPROC_NVIDIA& c, HOST_USAGE& hu,
     }
 
     hu.gpu_ram = min_ram;
-    hu.proc_type = PROC_TYPE_NVIDIA;
+    hu.proc_type = PROC_TYPE_NVIDIA_GPU;
     hu.gpu_usage = ndevs;
 
     coproc_perf(
@@ -430,10 +428,10 @@ static inline bool opencl_check(
 
     hu.gpu_ram = min_global_mem_size;
     if (!strcmp(cp.type, "NVIDIA")) {
-        hu.proc_type = PROC_TYPE_NVIDIA;
+        hu.proc_type = PROC_TYPE_NVIDIA_GPU;
         hu.gpu_usage = ndevs;
     } else if (!strcmp(cp.type, "ATI")) {
-        hu.proc_type = PROC_TYPE_AMD;
+        hu.proc_type = PROC_TYPE_AMD_GPU;
         hu.gpu_usage = ndevs;
     }
 

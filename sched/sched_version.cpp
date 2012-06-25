@@ -89,26 +89,17 @@ inline int host_usage_to_gavid(HOST_USAGE& hu, APP& app) {
 //
 inline int scaled_max_jobs_per_day(DB_HOST_APP_VERSION& hav, HOST_USAGE& hu) {
     int n = hav.max_jobs_per_day;
-    switch (hu.proc_type) {
-    case PROC_TYPE_NVIDIA:
-        if (g_request->coprocs.nvidia.count) {
-            n *= g_request->coprocs.nvidia.count;
-        }
-        if (config.gpu_multiplier) {
-            n *= config.gpu_multiplier;
-        }
-        break;
-    case PROC_TYPE_AMD:
-        if (g_request->coprocs.ati.count) {
-            n *= g_request->coprocs.ati.count;
-        }
-        if (config.gpu_multiplier) {
-            n *= config.gpu_multiplier;
-        }
-        break;
-    default:
+    if (hu.proc_type == PROC_TYPE_CPU) {
         if (g_reply->host.p_ncpus) {
             n *= g_reply->host.p_ncpus;
+        }
+    } else {
+        COPROC* cp = g_request->coprocs.type_to_coproc(hu.proc_type);
+        if (cp->count) {
+            n *= cp->count;
+        }
+        if (config.gpu_multiplier) {
+            n *= config.gpu_multiplier;
         }
     }
     if (config.debug_quota) {
@@ -263,7 +254,9 @@ void estimate_flops_anon_platform() {
 
         cav.rsc_fpops_scale = 1;
 
-        if (cav.host_usage.avg_ncpus == 0 && cav.host_usage.ncudas == 0 && cav.host_usage.natis == 0) {
+        if (cav.host_usage.avg_ncpus == 0
+            && cav.host_usage.proc_type == PROC_TYPE_CPU
+        ) {
             cav.host_usage.avg_ncpus = 1;
         }
 
@@ -369,7 +362,7 @@ void estimate_flops(HOST_USAGE& hu, APP_VERSION& av) {
                 );
             }
         } else {
-            hu.projected_flops = g_reply->host.p_fpops * (hu.avg_ncpus + hu.ncudas + hu.natis);
+            hu.projected_flops = g_reply->host.p_fpops * (hu.avg_ncpus + hu.gpu_usage);
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
                     "[version] [AV#%d] (%s) using conservative projected flops: %.2fG\n",
@@ -388,7 +381,7 @@ static void app_version_desc(BEST_APP_VERSION& bav, char* buf) {
         return;
     }
     if (bav.cavp) {
-        sprintf(buf, "anonymous platform (%s)", bav.host_usage.resource_name());
+        sprintf(buf, "anonymous platform (%s)", proc_type_name(bav.host_usage.proc_type));
     } else {
         sprintf(buf, "[AV#%d]", bav.avp->id);
     }
@@ -561,54 +554,22 @@ BEST_APP_VERSION* get_app_version(
                 break;
             }
 
-            // if we previously chose a CUDA app but don't need more CUDA work,
-            // fall through and find another version
+            // if we previously chose an app version but don't need more work
+            // for that processor type, fall through and find another version
             //
-            if (check_req
-                && g_wreq->rsc_spec_request
-                && bavp->host_usage.ncudas > 0
-                && !g_wreq->need_cuda()
-            ) {
-                if (config.debug_version_select) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[version] have CUDA version but no more CUDA work needed\n"
-                    );
+            if (check_req && g_wreq->rsc_spec_request) {
+                int pt = bavp->host_usage.proc_type;
+                if (!g_wreq->need_proc_type(pt)) {
+                    if (config.debug_version_select) {
+                        log_messages.printf(MSG_NORMAL,
+                            "[version] have %s version but no more %s work needed\n",
+                            proc_type_name(pt),
+                            proc_type_name(pt)
+                        );
+                    }
+                    g_wreq->best_app_versions.erase(bavi);
+                    break;
                 }
-                g_wreq->best_app_versions.erase(bavi);
-                break;
-            }
-
-            // same, ATI
-            //
-            if (check_req
-                && g_wreq->rsc_spec_request
-                && bavp->host_usage.natis > 0
-                && !g_wreq->need_ati()
-            ) {
-                if (config.debug_version_select) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[version] have ATI version but no more ATI work needed\n"
-                    );
-                }
-                g_wreq->best_app_versions.erase(bavi);
-                break;
-            }
-
-            // same, CPU
-            //
-            if (check_req
-                && g_wreq->rsc_spec_request
-                && !bavp->host_usage.ncudas
-                && !bavp->host_usage.natis
-                && !g_wreq->need_cpu()
-            ) {
-                if (config.debug_version_select) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[version] have CPU version but no more CPU work needed\n"
-                    );
-                }
-                g_wreq->best_app_versions.erase(bavi);
-                break;
             }
 
             if (config.debug_version_select) {
@@ -706,33 +667,15 @@ BEST_APP_VERSION* get_app_version(
 
             // skip versions that go against resource prefs
             //
-            if (host_usage.ncudas && g_wreq->no_cuda) {
+            int pt = host_usage.proc_type;
+            if (g_wreq->dont_use_proc_type[pt]) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
-                        "[version] [AV#%d] Skipping CUDA version - user prefs say no CUDA\n",
-                        av.id
+                        "[version] [AV#%d] Skipping %s version - user prefs say no %s\n",
+                        av.id,
+                        proc_type_name(pt),
+                        proc_type_name(pt)
                     );
-                    g_wreq->no_cuda_prefs = true;
-                }
-                continue;
-            }
-            if (host_usage.natis && g_wreq->no_ati) {
-                if (config.debug_version_select) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[version] [AV#%d] Skipping ATI version - user prefs say no ATI\n",
-                        av.id
-                    );
-                    g_wreq->no_ati_prefs = true;
-                }
-                continue;
-            }
-            if (!(host_usage.uses_gpu()) && g_wreq->no_cpu) {
-                if (config.debug_version_select) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[version] [AV#%d] Skipping CPU version - user prefs say no CPUs\n",
-                        av.id
-                    );
-                    g_wreq->no_cpu_prefs = true;
                 }
                 continue;
             }
