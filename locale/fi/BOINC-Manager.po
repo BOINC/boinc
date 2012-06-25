@@ -491,7 +491,7 @@ msgstr "%s &nettisivu"
 #: clientgui/AdvancedFrame.cpp:654
 #, c-format
 msgid "Show information about BOINC and %s"
-msgstr "Näytä tietoja BOINCista ja %:sta"
+msgstr "Näytä tietoja BOINCista ja %s:sta"
 
 #: clientgui/AdvancedFrame.cpp:666
 #, c-format
