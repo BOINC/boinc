@@ -37,6 +37,13 @@ fi
 dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_CXX
+AC_CANONICAL_HOST
+case $host_os in
+  darwin*)
+          AC_PROG_OBJCXX
+          ;;
+esac
+
 AC_PROG_F77
 AC_PROG_CPP
 AC_PROG_MAKE_SET

@@ -4513,3 +4513,8 @@ David  25 June 2012
     - Unix build: fix typo
 
     configure.ac
+
+David  25 June 2012
+    - Unix build: fix for Mac OS X (from Oliver)
+
+    configure.ac
