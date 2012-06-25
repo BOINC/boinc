@@ -857,7 +857,7 @@ if test "${enable_client_release}" = "yes" ; then
 
    ## NOTE: its *extremely* important to always compile with __NO_CTYPE 
    ## defined, because this avoids GLIBC_2.3 symbols being pulled in via ctype.h-macros,
-   CPPFLAGS="$CPPFLAGS -D__NO_CTYPE"
+   CPPFLAGS="${CPPFLAGS} -D__NO_CTYPE"
 fi
 
 AC_SUBST(BOINC_EXTRA_LIBS)

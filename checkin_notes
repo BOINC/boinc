@@ -4508,3 +4508,8 @@ David  25 June 2012
         sched_send.cpp
     lib/
         coproc.cpp,h
+
+David  25 June 2012
+    - Unix build: fix typo
+
+    configure.ac
