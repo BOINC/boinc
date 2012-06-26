@@ -900,6 +900,7 @@ const char* proc_type_name_xml(int pt) {
 
 const char* proc_type_name(int pt) {
     switch(pt) {
+    case PROC_TYPE_CPU: return "CPU";
     case PROC_TYPE_NVIDIA_GPU: return "NVIDIA GPU";
     case PROC_TYPE_AMD_GPU: return "AMD/ATI GPU";
     case PROC_TYPE_INTEL_GPU: return "Intel GPU";

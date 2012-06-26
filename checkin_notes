@@ -4541,3 +4541,33 @@ Charlie 26 June 2012
         buildopenssl.sh (new)
         HowToBuildBOINC_XCode.rtf
         setupforBOINC.sh
+
+David  26 June 2012
+    - client: keep track of the fraction of time that
+        1) a network connection is available and
+        2) network communication is allowed and
+        3) CPU computation is allowed
+    - If an app version is marked as needs_network,
+        use the above fraction in estimating its rate of progress
+    - replace "core client" with "client" in comments.
+    - scheduler: message tweaks
+
+    client/
+        client_state.h
+        cs_files.cpp
+        rr_sim.cpp
+        app_start.cpp
+        gui_rpc_server_ops.cpp
+        boinc_cmd.cpp
+        app_control.cpp
+        time_state.cpp,h
+        boinc_log.cpp
+        sandbox.cpp
+        check_state.cpp
+        main.cpp
+        work_fetch.cpp
+        gui_rpc_server.cpp
+    sched/
+        sched_send.cpp
+    lib/
+        coproc.cpp

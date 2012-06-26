@@ -28,13 +28,18 @@ public:
     double last_update;
 // we maintain an exponentially weighted average of these quantities:
     double on_frac;
-        // the fraction of total time this host runs the core client
+        // the fraction of total time this host runs the client
     double connected_frac;
-        // of the time this host runs the core client,
+        // of the time this host runs the client,
         // the fraction it is connected to the Internet,
         // or -1 if not known
+    double cpu_and_network_available_frac;
+        // of the time this host runs the client,
+        // the fraction it is connected to the Internet
+        // AND network usage is allowed (by prefs and user toggle)
+        // AND CPU usage is allowed
     double active_frac;
-        // of the time this host runs the core client,
+        // of the time this host runs the client,
         // the fraction it is enabled to use CPU
         // (as determined by preferences, manual suspend/resume, etc.)
     double gpu_active_frac;

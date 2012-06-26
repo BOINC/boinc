@@ -1108,7 +1108,7 @@ bool work_needed(bool locality_sched) {
     if (config.debug_send) {
         char buf[256], buf2[256];
         strcpy(buf, "");
-        for (int i=0; i<NPROC_TYPES; i++) {
+        for (int i=1; i<NPROC_TYPES; i++) {
             sprintf(buf2, " %s (%.2f, %.2f)",
                 proc_type_name(i),
                 g_wreq->req_secs[i],
@@ -1117,7 +1117,7 @@ bool work_needed(bool locality_sched) {
             strcat(buf, buf2);
         }
         log_messages.printf(MSG_NORMAL,
-            "[send] work_needed: spec req %d sec to fill %.2f; %s",
+            "[send] work_needed: spec req %d sec to fill %.2f; %s\n",
             g_wreq->rsc_spec_request,
             g_wreq->seconds_to_fill,
             buf

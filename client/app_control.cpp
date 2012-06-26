@@ -223,7 +223,7 @@ int ACTIVE_TASK::kill_task(bool will_restart) {
 }
 
 // We have sent a quit request to the process; see if it's exited.
-// This is called when the core client exits,
+// This is called when the client exits,
 // or when a project is detached or reset
 //
 bool ACTIVE_TASK::has_task_exited() {
@@ -905,7 +905,7 @@ void ACTIVE_TASK_SET::request_reread_app_info() {
 // (or all tasks, if proj==0).
 // If they don't exit in 5 seconds,
 // send them a kill signal and wait up to 5 more seconds to exit.
-// This is called when the core client exits,
+// This is called when the client exits,
 // or when a project is detached or reset
 //
 int ACTIVE_TASK_SET::exit_tasks(PROJECT* proj) {
@@ -1069,7 +1069,7 @@ bool ACTIVE_TASK_SET::is_task_executing() {
 }
 
 // Send quit message to all app processes
-// This is called when the core client exits,
+// This is called when the client exits,
 // or when a project is detached or reset
 //
 void ACTIVE_TASK_SET::request_tasks_exit(PROJECT* proj) {

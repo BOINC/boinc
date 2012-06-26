@@ -644,7 +644,7 @@ int ACTIVE_TASK::start() {
     app_client_shm.reset_msgs();
 
     if (config.run_apps_manually) {
-        // fill in core client's PID so we won't think app has exited
+        // fill in client's PID so we won't think app has exited
         //
         pid = GetCurrentProcessId();
         process_handle = GetCurrentProcess();
@@ -912,7 +912,7 @@ int ACTIVE_TASK::start() {
     if (pid == 0) {
         // from here on we're running in a new process.
         // If an error happens,
-        // exit nonzero so that the core client knows there was a problem.
+        // exit nonzero so that the client knows there was a problem.
 
         // don't pass stdout to the app
         //

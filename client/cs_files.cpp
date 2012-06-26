@@ -454,7 +454,7 @@ bool CLIENT_STATE::create_and_delete_pers_file_xfers() {
 }
 #endif
 
-// called at startup to ensure that if the core client
+// called at startup to ensure that if the client
 // thinks a file is there, it actually is, and is the right size
 //
 void CLIENT_STATE::check_file_existence() {

@@ -953,6 +953,12 @@ double CLIENT_STATE::overall_gpu_frac() {
     if (x > 1) x = 1;
     return x;
 }
+double CLIENT_STATE::overall_cpu_and_network_frac() {
+    double x = time_stats.on_frac * time_stats.cpu_and_network_available_frac;
+    if (x < 0.01) x = 0.01;
+    if (x > 1) x = 1;
+    return x;
+}
 
 // called when benchmarks change
 //
