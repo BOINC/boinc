@@ -3955,7 +3955,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
-				HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.26.0/include";
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
 				LIBRARY_SEARCH_PATHS = "";
 				"OTHER_CFLAGS[arch=x86_64]" = (
@@ -3967,8 +3967,8 @@
 				);
 				OTHER_LDFLAGS = (
 					"-L.",
-					"../../curl-7.21.7/lib/.libs/libcurl.a",
-					"../../c-ares-1.7.4/.libs/libcares.a",
+					"../../curl-7.26.0/lib/.libs/libcurl.a",
+					"../../c-ares-1.9.1/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -3977,7 +3977,7 @@
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
-				USER_HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
+				USER_HEADER_SEARCH_PATHS = "../../curl-7.26.0/include";
 			};
 			name = Deployment;
 		};
@@ -4145,13 +4145,13 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
-				HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.26.0/include";
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
 					"-L.",
-					"../../curl-7.21.7/lib/.libs/libcurl.a",
-					"../../c-ares-1.7.4/.libs/libcares.a",
+					"../../curl-7.26.0/lib/.libs/libcurl.a",
+					"../../c-ares-1.9.1/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -4160,7 +4160,7 @@
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
-				USER_HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
+				USER_HEADER_SEARCH_PATHS = "../../curl-7.26.0/include";
 			};
 			name = Development;
 		};

@@ -4518,3 +4518,14 @@ David  25 June 2012
     - Unix build: fix for Mac OS X (from Oliver)
 
     configure.ac
+
+Charlie 26 June 2012
+    - Mac client: Upgrade to curl 7.26.60 and c-ares 1.9.1.
+    
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+        buildc_ares.sh
+        buildcurl.sh
+        HowToBuildBOINC_XCode.rtf
+        setupforBOINC.sh

@@ -19,11 +19,11 @@
 #
 #
 # Master script to build Universal Binary libraries needed by BOINC:
-# curl-7.21.7 with c-ares-1.7.4 and wxMac-2.8.10
+# curl-7.26.0 with c-ares-1.9.1 and wxMac-2.8.10
 #
 # by Charlie Fenton 7/21/06
-# Updated 7/6/11 for curl-7.21.7, c-ares-1.7.4 and wxMac-2.8.10 and Unicode
 # Updated 10/18/11 for OS 10.7 lion and XCode 4.2
+# Updated 6/25/12 for curl-7.26.0, c-ares-1.9.1 and wxMac-2.8.10 and Unicode
 #
 # Download these three packages and place them in a common parent 
 # directory with the BOINC source tree.
@@ -49,24 +49,24 @@ SCRIPT_DIR=`pwd`
 
 echo ""
 echo "----------------------------------"
-echo "------- BUILD C-ARES-1.7.4 -------"
+echo "------- BUILD C-ARES-1.9.1 -------"
 echo "----------------------------------"
 echo ""
 
-cd ../../c-ares-1.7.4/
+cd ../../c-ares-1.9.1/
 if [  $? -ne 0 ]; then return 1; fi
 source "${SCRIPT_DIR}/buildc-ares.sh" ${doclean}
 if [  $? -ne 0 ]; then return 1; fi
 
 echo ""
 echo "----------------------------------"
-echo "------- BUILD CURL-7.21.7 --------"
+echo "------- BUILD CURL-7.26.0 --------"
 echo "----------------------------------"
 echo ""
 
 cd "${SCRIPT_DIR}"
 
-cd ../../curl-7.21.7/
+cd ../../curl-7.26.0/
 if [  $? -ne 0 ]; then return 1; fi
 source "${SCRIPT_DIR}/buildcurl.sh" ${doclean}
 if [  $? -ne 0 ]; then return 1; fi

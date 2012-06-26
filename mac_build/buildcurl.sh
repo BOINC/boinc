@@ -18,15 +18,15 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Script to build Macintosh Universal Binary library of curl-7.21.7 for
+# Script to build Macintosh 32-bit Intel library of curl-7.26.0 for
 # use in building BOINC.
 #
 # by Charlie Fenton 7/21/06
-# Updated 7/6/11 for curl 7.21.7
 # Updated 12/3/09 for OS 10.7 Lion and XCode 4.2
+# Updated 6/25/12 for curl 7.26.0
 #
-## In Terminal, CD to the curl-7.21.7 directory.
-##     cd [path]/curl-7.21.7/
+## In Terminal, CD to the curl-7.26.0 directory.
+##     cd [path]/curl-7.26.0/
 ## then run this script:
 ##     source [path]/buildcurl.sh [ -clean ]
 ##
@@ -35,7 +35,7 @@
 
 if [ "$1" != "-clean" ]; then
     if [ -f lib/.libs/libcurl.a ]; then
-        echo "curl-7.21.7 already built"
+        echo "curl-7.26.0 already built"
         return 0
     fi
 fi
@@ -49,9 +49,9 @@ fi
 export PATH=/usr/local/bin:$PATH
 
 CURL_DIR=`pwd`
-# curl configure and make expect a path to _installed_ c-ares-1.7.4
+# curl configure and make expect a path to _installed_ c-ares-1.9.1
 # so temporarily install c-ares at a path that does not contain spaces.
-cd ../c-ares-1.7.4
+cd ../c-ares-1.9.1
 make install 
 cd "${CURL_DIR}"
 
