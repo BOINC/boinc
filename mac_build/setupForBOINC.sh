@@ -23,7 +23,8 @@
 #
 # by Charlie Fenton 7/21/06
 # Updated 10/18/11 for OS 10.7 lion and XCode 4.2
-# Updated 6/25/12 for curl-7.26.0, c-ares-1.9.1 and wxMac-2.8.10 and Unicode
+# Updated 7/6/11 for wxMac-2.8.10 and Unicode
+# Updated 6/25/12 for curl-7.26.0 and c-ares-1.9.1
 #
 # Download these three packages and place them in a common parent 
 # directory with the BOINC source tree.
