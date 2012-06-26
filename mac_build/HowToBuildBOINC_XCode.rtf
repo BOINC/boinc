@@ -13,10 +13,10 @@
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 \cf0 Written by Charlie Fenton\
-Last updated 1/26/12\
+Last updated 6/26/12\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 \cf0 \
-This document applies to BOINC version 6.13.9 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
+This document applies to BOINC version 7.0.31 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
 \
 Note: the information in this document changes from time to time for different versions of BOINC.  For any version of BOINC source files, the corresponding version of this document can be found in the source tree at:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
@@ -56,7 +56,7 @@ You need to take certain steps to ensure that you use only APIs that are availab
 \cf0 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
 
-\b \cf0 The above requirements apply not only to BOINC itself, but also to the WxWidgets, JPEG, c-ares and cURL libraries, as well as all project applications
+\b \cf0 The above requirements apply not only to BOINC itself, but also to the WxWidgets, JPEG, c-ares, cURL and openSSL libraries, as well as all project applications
 \b0 . Note: only the JPEG library must be built for  the x86_64 architecture, since it is used by the libboinc_graphics_api library.\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
@@ -119,7 +119,7 @@ Enter your administrator password when prompted to do so.\
 
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
-\cf0 BOINC depends on four third-party libraries: wxMac-2.8.10, c-ares-1.9.1, curl-7.26.0 and jpeg-6b.  The source files for jpeg-6b are included with the BOINC sources.  You can obtain the other three from the following URLs:\
+\cf0 BOINC depends on four third-party libraries: wxMac-2.8.10, c-ares-1.9.1, curl-7.26.0, openssl-1.0.1c and jpeg-6b.  The source files for jpeg-6b are included with the BOINC sources.  You can obtain the other three from the following URLs:\
 \
 wxMac-2.8.10 (needed  only if you are building the BOINC Manager):\
 	{\field{\*\fldinst{HYPERLINK "http://www.wxwidgets.org"}}{\fldrslt 
@@ -145,6 +145,14 @@ curl-7.26.0:\
 \f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://daniel.haxx.se/projects/c-ares/"}}{\fldrslt http://daniel.haxx.se/projects/c-ares/}}\
 	{\field{\*\fldinst{HYPERLINK "http://c-ares.haxx.se/download/c-ares-1.9.1.tar.gz"}}{\fldrslt http://c-ares.haxx.se/download/c-ares-1.9.1.tar.gz}}\
 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\fs24 \cf0 openssl-1.0.1c:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://www.openssl.org/"}}{\fldrslt http://www.openssl.org/}}\
+	{\field{\*\fldinst{HYPERLINK "http://www.openssl.org/source/openssl-1.0.1c.tar.gz"}}{\fldrslt openssl-1.0.1c.tar.gz}}\
+\
 \pard\pardeftab720\sa260
 
 \f0\fs24 \cf0 (Don't forget to expand the tar files by double-clicking on them.)\
@@ -157,7 +165,7 @@ MAC_OS_X_VERSION_MIN_REQUIRED=1040\
 
 \f0\fs24 \cf0 \
 \pard\pardeftab720\sa260
-\cf0 These are not done automatically by either the Xcode projects which come with wxMac-2.8.10, nor  the AutoMake scripts supplied with wxMac-2.8.10, c-ares-1.9.1, curl-7.26.0.  So be sure to use our special scripts to build these packages.\
+\cf0 These are not done automatically by either the Xcode projects which come with wxMac-2.8.10, nor  the AutoMake scripts supplied with wxMac-2.8.10, c-ares-1.9.1, curl-7.26.0 and openssl-1.0.1c.  So be sure to use our special scripts to build these packages.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 \cf0 [1] Create a parent directory within which to work.  In this description , we will call it BOINC_dev, but you can name it anything you wish.\
 \
@@ -168,7 +176,10 @@ MAC_OS_X_VERSION_MIN_REQUIRED=1040\
 \f0\fs24 1.9.1
 \f1\fs26 \
     curl-7.26.0\
-    wxMac-2.8.10\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0     openssl-1.0.1c\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
+\cf0     wxMac-2.8.10\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 
 \f0\fs24 \cf0 \
@@ -198,7 +209,7 @@ The command above retrieves the source code from the HEAD (TRUNK) or development
 {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/SourceCode"}}{\fldrslt 
 \f1\fs26 \cf0 http://boinc.berkeley.edu/trac/wiki/SourceCode}}\
 \
-[4] Run the script to build the c-ares, curl and wxMac libraries as follows:\
+[4] Run the script to build the c-ares, curl, openssl and wxMac libraries as follows:\
 \
 \pard\pardeftab720
 
@@ -209,7 +220,7 @@ source setupForBoinc.sh -clean
 If you don't wish to force a full rebuild of everything, omit the -clean argument.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 \cf0 \
-Note: this script builds c-ares and curl first, followed by jpeg and finally wxMac.  If you haven't downloaded wxMac because you aren't building the BOINC Manager, the script will build c-ares, curl and jpeg before quitting.  \
+Note: this script builds c-ares and curl first, followed by openssl, then jpeg and finally wxMac.  If you haven't downloaded wxMac because you aren't building the BOINC Manager, the script will build c-ares, curl, openssl and jpeg before quitting.  \
 \
 [5] Build BOINC as follows:\
 \

@@ -2377,13 +2377,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD9E2365091CBDAE0048316E /* Build configuration list for PBXNativeTarget "BOINC_Client" */;
 			buildPhases = (
-				DD84EC81145808E100B76A48 /* ShellScript */,
 				DDD74D8407CF482E0065AC9D /* Sources */,
 				DDD74D8507CF482E0065AC9D /* Frameworks */,
 				DD7355180D9110AE0006A9D1 /* ShellScript */,
 				DD1B90070A954C9A00FF5591 /* ShellScript */,
 				DD73551E0D9111150006A9D1 /* ShellScript */,
-				DD84EC8214580BF100B76A48 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2779,32 +2777,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "## echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"CONFIGURATION = ${CONFIGURATION}\"\n# echo \"PRODUCT_NAME = ${PRODUCT_NAME}\"\nmkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" -nt \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n        /Developer/usr/bin/strip -S \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    fi\nfi\n";
-		};
-		DD84EC81145808E100B76A48 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ -d /Developer/SDKs/MacOSX10.5.sdk/ ]; then\n    ln -sf /Developer/SDKs/MacOSX10.5.sdk/usr/lib/libcrypto.0.9.7.dylib \"${SRCROOT}\"/libcrypto.dylib\n    ln -sf /Developer/SDKs/MacOSX10.5.sdk/usr/lib/libssl.0.9.7.dylib \"${SRCROOT}\"/libssl.dylib\nfi\n";
-		};
-		DD84EC8214580BF100B76A48 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "rm -f \"${SRCROOT}\"/libcrypto.dylib\nrm -f \"${SRCROOT}\"/libssl.dylib\n";
 		};
 		DDAD1A380909139E004E7DD0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3969,8 +3941,8 @@
 					"-L.",
 					"../../curl-7.26.0/lib/.libs/libcurl.a",
 					"../../c-ares-1.9.1/.libs/libcares.a",
-					"-lcrypto",
-					"-lssl",
+					"../../openssl-1.0.1c/libcrypto.a",
+					"../../openssl-1.0.1c/libssl.a",
 					"-lldap",
 					"-lz",
 				);
@@ -4152,8 +4124,8 @@
 					"-L.",
 					"../../curl-7.26.0/lib/.libs/libcurl.a",
 					"../../c-ares-1.9.1/.libs/libcares.a",
-					"-lcrypto",
-					"-lssl",
+					"../../openssl-1.0.1c/libcrypto.a",
+					"../../openssl-1.0.1c/libssl.a",
 					"-lldap",
 					"-lz",
 				);

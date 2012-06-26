@@ -4529,3 +4529,15 @@ Charlie 26 June 2012
         buildcurl.sh
         HowToBuildBOINC_XCode.rtf
         setupforBOINC.sh
+
+Charlie 26 June 2012
+    - Mac client: build libssl.a and libcrypto.a from openssl 1.0.1c and 
+        do static links instead of a dynamic links with Apple-supplied 
+        dynamic libraries.
+    
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+        buildopenssl.sh (new)
+        HowToBuildBOINC_XCode.rtf
+        setupforBOINC.sh
