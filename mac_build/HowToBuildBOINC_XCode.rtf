@@ -30,6 +30,7 @@ Contents of this document:\
 \'95 Cross-Platform Development.\
 \'95 Building BOINC Manager, BOINC Client and boinc_cmd.\
 \'95 Building BOINC Manager Installer.\
+\'95 Code Signing the BOINC Manager Installer and Uninstaller\
 \'95 Debugging and BOINC security.\
 \'95 Debugging into wxWidgets.\
 \
@@ -314,22 +315,46 @@ source \{path\}/BOINC_dev/boinc/mac_installer/release_boinc.sh x y z\
 
 \f0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
-\cf0 Substitute the 3 parts of the BOINC version number for x y and z in the above.  For example, to build the installer for BOINC version 6.13.9, the command would be\
+\cf0 Substitute the 3 parts of the BOINC version number for x y and z in the above.  For example, to build the installer for BOINC version 7.0.31, the command would be\
 \pard\pardeftab720
 
-\f1\fs26 \cf0 source \{path\}/BOINC_dev/boinc/mac_installer/release_boinc.sh 6 13 9\
+\f1\fs26 \cf0 source \{path\}/BOINC_dev/boinc/mac_installer/release_boinc.sh 7 0 31\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 
-\f0\fs24 \cf0 This will create a directory "BOINC_Installer/New_Release_6_13_9" in the BOINC_dev directory, and the installer will be located in '
-\f1\fs26 \{path\}/BOINC_dev/BOINC_Installer/New_Release_6_13_9/boinc_6.13.0_macOSX_universal
+\f0\fs24 \cf0 This will create a directory "BOINC_Installer/New_Release_7_0_31" in the BOINC_dev directory, and the installer will be located in '
+\f1\fs26 \{path\}/BOINC_dev/BOINC_Installer/New_Release_7_0_31/boinc_7.0.31_macOSX_universal
 \f0\fs24 '.
 \f1 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
+
+\f3 \cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
+
+\f0\b\fs28 \cf0 Code Signing the BOINC Manager Installer and Uninstaller
+\b0\fs24 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 
 \f3 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 
 \f0 \cf0 \
+Mac OS 10.8 introduces a security feature called Gatekeeper, whose default settings won't allow a user to run applications or installers downloaded from the Internet unless they are signed by a registered Apple Developer.  The 
+\f1\fs26 release_boinc.sh
+\f0\fs24  script looks for a file 
+\f1\fs26 ~/BOINCCodeSignIdentity.txt
+\f0\fs24  containing the name of a valid code signing identity stored in the user's Keychain.  If this is found, the script will automatically sign the BOINC installer and BOINC uninstaller using that identity.  For example, if your user name is John Smith, the first line of 
+\f1\fs26 ~/BOINCCodeSignIdentity.txt
+\f0\fs24  would be something like the following:
+\f1\fs26 \
+Developer ID Application: John Smith\
+\
+
+\f0\fs24 If there is no 
+\f1\fs26 ~/BOINCCodeSignIdentity.txt
+\f0\fs24  file, then the script will not sign the installer or uninstaller.  For more information on code signing identities see the documentation for the 
+\f1\fs26 codesign
+\f0\fs24  utility.  \
+\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
 \b\fs28 \cf0 Debugging and BOINC security
