@@ -287,16 +287,6 @@ The options for BuildMacBOINC.sh are:\
 \
 The standard release of BOINC version 6.13.0 and later builds only for Macintosh computers with Intel processors.  Most of the executables are built only for the i386 architecture.  The libraries and the screensaver are built as universal binaries containing builds for two architectures: i386 and x86_64.\
 \
-
-\b Important compatibility note
-\b0 : Xcode 4.x comes with only two Mac SDKs: MacOSX10.6.sdk and MacOSX10.7.sdk.  The BOINC Xcode project uses MacOSX10.6.sdk so that it can build with either Xcode 4.x or Xcode 3.2.  However, a couple of the libraries in MacOSX10.6.sdk require OS 10.6 or later to run.  If you are building only to run on OS 10.6 or later, you don't need to do anything else.\
-\
-However, if you want to build BOINC so it will run on OS 10.4 and OS 10.5, you must either:\
- \'95 build with Xcode 3.2, or \
- \'95 build with Xcode 4.x after copying the MacOSX10.5.sdk from an older version of Xcode to your 
-\f1\fs26 /Developer/SDKs/
-\f0\fs24  folder.  The BOINC Xcode project will automatically detect the presence of that SDK and use the two older libraries needed for backward compatibility.\
-\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
 \b\fs28 \cf0 Building BOINC Manager Installer
