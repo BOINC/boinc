@@ -18,15 +18,15 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Script to build Macintosh Universal Binary library of c-ares-1.7.4 for
+# Script to build Macintosh 32-bit Intel library of c-ares-1.9.1 for
 # use in building BOINC.
 #
 # by Charlie Fenton 7/21/06
-# Updated 7/6/11 for c-ares 1.7.4
 # Updated 10/18/11 for OS 10.7 Lion and XCode 4.2
+# Updated 6/25/12 for c-ares 1.9.1
 #
-## In Terminal, CD to the c-ares-1.7.4 directory.
-##     cd [path]/c-ares-1.7.4/
+## In Terminal, CD to the c-ares-1.9.1 directory.
+##     cd [path]/c-ares-1.9.1/
 ## then run this script:
 ##     source [path]/buildc-ares.sh [ -clean ]
 ##
@@ -35,7 +35,7 @@
 
 if [ "$1" != "-clean" ]; then
     if [ -f .libs/libcares.a ]; then
-        echo "c-ares-1.7.4 already built"
+        echo "c-ares-1.9.1 already built"
         return 0
     fi
 fi
