@@ -3757,6 +3757,12 @@ Charlie 22 June 2012
     mac_installer/
         release_boinc.sh
 
+David  22 June 2012
+	- client: AMD GPU detection addition (from [P3D] Crashtest)
+
+	client/
+		gpu_amd.cpp
+
 Charlie 26 June 2012
     - Mac client: Upgrade to curl 7.26.60 and c-ares 1.9.1.
     
@@ -3767,5 +3773,3 @@ Charlie 26 June 2012
         buildcurl.sh
         HowToBuildBOINC_XCode.rtf
         setupforBOINC.sh
-
-
