@@ -3624,6 +3624,16 @@ Charlie 18 June 2012
         configure.ac
         version.h
 
+Rom    18 May 2012
+    - MGR: Remove the visuals in the wizard for multi-core and opencl.  This area
+        will get a bunch of work in a future commit.
+        
+    clientgui/
+        ProjectInfoPage.cpp, .h
+    clientgui/res/
+        openclicon.xpm (deleted)
+        multicore.xpm (deleted)
+
 Rom    30 May 2012
     - MGR: Wait until there is valid data in the list box before processing
         the OnProjectSelected() event.
@@ -3731,7 +3741,6 @@ Charlie 22 June 2012
     mac_installer/
         release_boinc.sh
 
-<<<<<<< .working
 Charlie 26 June 2012
     - Mac client: Upgrade to curl 7.26.60 and c-ares 1.9.1.
     
