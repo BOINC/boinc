@@ -56,9 +56,6 @@ public:
     bool IsATIGPUSupported() const { return m_bATIGPUSupported ; }
     void SetATIGPUSupported(bool value) { m_bATIGPUSupported = value ; }
 
-    bool IsMulticoreSupported() const { return m_bMulticoreSupported ; }
-    void SetMulticoreSupported(bool value) { m_bMulticoreSupported = value ; }
-
     bool IsPlatformSupported() const { return m_bSupported ; }
     void SetPlatformSupported(bool value) { m_bSupported = value ; }
 
@@ -71,7 +68,6 @@ private:
     wxString m_strCategory;
     bool m_bNvidiaGPUSupported;
     bool m_bATIGPUSupported;
-    bool m_bMulticoreSupported;
     bool m_bSupported;
 };
 
@@ -172,7 +168,6 @@ public:
         wxString strDescription,
         bool bNvidiaGPUSupported,
         bool bATIGPUSupported,
-        bool bMulticoreSupported,
         bool bSupported
     );
 

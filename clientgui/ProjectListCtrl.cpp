@@ -39,7 +39,6 @@
 #include "res/externalweblink.xpm"
 #include "res/nvidiaicon.xpm"
 #include "res/atiicon.xpm"
-#include "res/multicore.xpm"
 ////@end XPM images
 
 
@@ -444,7 +443,6 @@ bool CProjectListCtrl::Create( wxWindow* parent )
     wxMemoryFSHandler::AddFile(wxT("webexternallink.xpm"), wxBitmap(externalweblink_xpm), wxBITMAP_TYPE_XPM);
     wxMemoryFSHandler::AddFile(wxT("nvidiaicon.xpm"), wxBitmap(nvidiaicon_xpm), wxBITMAP_TYPE_XPM);
     wxMemoryFSHandler::AddFile(wxT("atiicon.xpm"), wxBitmap(atiicon_xpm), wxBITMAP_TYPE_XPM);
-    wxMemoryFSHandler::AddFile(wxT("multicore.xpm"), wxBitmap(multicore_xpm), wxBITMAP_TYPE_XPM);
 ////@end CProjectListCtrl creation
 
     return TRUE;
@@ -498,7 +496,6 @@ void CProjectListCtrl::OnHover( wxHtmlCellEvent& event )
     long i = 0;
     wxHtmlCell* pCell = event.GetCell();
     wxHtmlCell* pRootCell = pCell->GetRootCell();
-    wxString strMulticoreIcon = wxT("multicore");
     wxString strNvidiaIcon = wxT("nvidiaicon");
     wxString strATIIcon = wxT("atiicon");
     wxString strWebsiteIcon = wxT("website");
@@ -506,9 +503,7 @@ void CProjectListCtrl::OnHover( wxHtmlCellEvent& event )
 
     wxHtmlCell* pAnchor = pCell->GetParent()->GetFirstChild();
 
-    if (pAnchor->Find(wxHTML_COND_ISANCHOR, &strMulticoreIcon)) {
-        strTooltip = _("Multicore CPU Supported");
-    } else if (pAnchor->Find(wxHTML_COND_ISANCHOR, &strNvidiaIcon)) {
+    if (pAnchor->Find(wxHTML_COND_ISANCHOR, &strNvidiaIcon)) {
         strTooltip = _("Nvidia GPU Supported");
     } else if (pAnchor->Find(wxHTML_COND_ISANCHOR, &strATIIcon)) {
         strTooltip = _("ATI GPU Supported");
@@ -545,10 +540,6 @@ wxString CProjectListCtrl::OnGetItem(size_t i) const
     );
     strTopRow += strBuffer;
     
-    if (m_Items[i]->IsMulticoreSupported()) {
-        strTopRow += wxT("<td><a name=\"multicore\"><img height=16 width=16 src=\"memory:multicore.xpm\"></a></td>");
-    }
-
     if (m_Items[i]->IsNvidiaGPUSupported()) {
         strTopRow += wxT("<td><a name=\"nvidiaicon\"><img height=16 width=16 src=\"memory:nvidiaicon.xpm\"></a></td>");
     }
@@ -581,7 +572,6 @@ bool CProjectListCtrl::Append(
     wxString strDescription,
     bool bNvidiaGPUSupported,
     bool bATIGPUSupported,
-    bool bMulticoreSupported,
     bool bSupported
 )
 {
@@ -593,7 +583,6 @@ bool CProjectListCtrl::Append(
     pItem->SetDescription( strDescription );
     pItem->SetNvidiaGPUSupported( bNvidiaGPUSupported );
     pItem->SetATIGPUSupported( bATIGPUSupported );
-    pItem->SetMulticoreSupported( bMulticoreSupported );
     pItem->SetPlatformSupported( bSupported );
 
     m_Items.push_back(pItem);

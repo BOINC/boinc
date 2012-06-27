@@ -1222,18 +1222,6 @@
 				>
 			</File>
 			<Filter
-				Name="Support"
-				>
-				<File
-					RelativePath="..\clientgui\ProjectListCtrl.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\ProjectListCtrl.h"
-					>
-				</File>
-			</Filter>
-			<Filter
 				Name="Infrastructure"
 				>
 				<File
@@ -1242,6 +1230,14 @@
 				</File>
 				<File
 					RelativePath="..\clientgui\BOINCBaseWizard.h"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\ProjectListCtrl.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\ProjectListCtrl.h"
 					>
 				</File>
 				<File
