@@ -7,15 +7,15 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2011-10-19 13:05+0200\n"
-"Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
+"PO-Revision-Date: 2012-06-18 10:52+0200\n"
+"Last-Translator: Gabor <csega@mailbox.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n !=1);\n"
-"X-Generator: Pootle 2.1.1\n"
+"X-Generator: Pootle 2.1.6\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
@@ -74,6 +74,13 @@ msgid ""
 "protein malfunction or aggregation, and to develop new drugs on the basis of "
 "the three-dimensions structure of biologically important proteins."
 msgstr ""
+"A POEM@HOME egy olyan számítási megközelítést használ, aminek segítségével "
+"igyekszik előre jelezni adott összetételű fehérjék biológiailag aktív "
+"szerkezetét, megérteni a kölcsönhatásuk során lezajló jelfeldolgozási "
+"mechanizmusokat, megismerni a fehérjék helytelen működése vagy "
+"felhalmozódása miatt kialakuló betegségeket, illetve az élettani szempontból "
+"lényeges fehérjék háromdimenziós szerkezete alapján új gyógyszereket "
+"kifejleszteni."
 
 #: projects.inc:38
 msgid "Docking@Home"
@@ -94,6 +101,10 @@ msgid ""
 "interactions and, by doing so, will search for insights into the discovery "
 "of novel pharmaceuticals."
 msgstr ""
+"A Docking@Home egyszerre szolgál élettudományi és számítástechnikai célokat. "
+"A projekt a fehérje-ligandum kölcsönhatások atomi szinten történő, még jobb "
+"megismerését célozza meg, egyúttal újfajta gyógyszerkészítmények "
+"felfedezésének módjait is kutatja."
 
 #: projects.inc:46
 msgid "GPUGrid.net"
@@ -114,6 +125,11 @@ msgid ""
 "New biomedical applications suddenly become possible giving a new role to "
 "computational biology for biomedical research."
 msgstr ""
+"A GPUGrid.net új számítási utakat nyit az első, speciálisan NVIDIA GPU-ra "
+"optimalizált, teljes-atomos molekuladinamikai kódja (CellMD) révén. "
+"Segítségével új orvosbiológiai alkalmazások gyorsabban válnak "
+"megvalósíthatóvá, ezzel új szerepet adva a biológiai számítástudománynak az "
+"orvosbiológiai kutatások területén."
 
 #: projects.inc:54
 msgid "Superlink@Technion"
@@ -133,6 +149,9 @@ msgid ""
 "provoking genes causing some types of diabetes, hypertension (high blood "
 "pressure), cancer, schizophrenia and many others."
 msgstr ""
+"A Superlink@Technion segít a világ genetikusainak, hogy megtalálják azokat a "
+"betegségeket keltő géneket, amelyek sok más mellett a cukorbetegség, a "
+"magas vérnyomás, a rák és a skizofrénia egyes típusainak okozói."
 
 #: projects.inc:70
 msgid "The Lattice Project"
@@ -181,6 +200,13 @@ msgid ""
 "populations with a diverse set of parameters related to biological and "
 "social factors that influence the distribution of the disease. "
 msgstr ""
+"A malária egészségre való hatásának, illetve terjedési dinamizmusának "
+"szimulációs modellezése a malária megfékezésének fontos eszköze. Ezek "
+"felhasználhatók a szúnyoghálók szállítási stratégiájának, a kemoterápia vagy "
+"az új, még fejlesztés és tesztelés alatt álló védőoltások megfelelő "
+"megtervezéséhez. Ez a modellezés azonban rendkívül számításigényes, hiszen "
+"nagy emberpopulációkat kell szimulálnia, méghozzá a fertőzés terjedését "
+"befolyásoló számos élettani és társadalmi tényező függvényében."
 
 #: projects.inc:102
 msgid "Rosetta@home"
@@ -203,6 +229,13 @@ msgid ""
 "efforts at designing new proteins to fight diseases such as HIV, Malaria, "
 "Cancer, and Alzheimer's"
 msgstr ""
+"Kutatásunk célja a fehérjék háromdimenziós alakjának meghatározása, amely "
+"végül egyes jelentős emberi betegségek gyógyszereinek felfedezéséhez "
+"vezethet. A Rosetta@home futtatásával segíthet kutatásunk olyan mértékű "
+"felgyorsításában és kiterjesztésében, amire az Önök segítsége nélkül "
+"bizonyosan képtelenek volnánk. Egyúttal olyan fehérjék megtervezését célzó "
+"kutatásunkat is segítheti, amelyek például a HIV, a malária, a rák vagy az "
+"Alzheimer-kór leküzdéséhez járulhatnak hozzá."
 
 #: projects.inc:110
 msgid "SIMAP"
@@ -243,6 +276,8 @@ msgid ""
 "Provide ecological guidelines on the design of prairies with the best "
 "potential for water purification."
 msgstr ""
+"Ökológiai irányelveket nyújt a prérik olyan megtervezéséhez, ahol a "
+"legjobbak a víztisztítás feltételei."
 
 #: projects.inc:137
 msgid "Climateprediction.net"
@@ -267,6 +302,15 @@ msgid ""
 "cycle. This will allow us to explore how climate may change in the next "
 "century under a wide range of different scenarios."
 msgstr ""
+"A projekt olyan közelítéseket vizsgál, melyek megfelelnek a legújabb "
+"klímamodellekkel szemben támasztott elvárásoknak. Egy modellt több ezer "
+"alkalommal lefuttatva reményeink szerint megláthatjuk, miként válaszol, ha "
+"kis módosításokat végzünk e közelítésekben – elég kicsiket ahhoz, hogy a "
+"közelítések még realisztikusak maradjanak. Mindez lehetővé teszi számunkra "
+"annak megértését, hogy mennyire érzékenyek ezek a modellek kis "
+"változtatásokra, például a szén-dioxid- vagy a kénciklusban. Így "
+"ráláthatunk, miként változhat az éghajlat az elkövetkező évszázadban, "
+"számolva nagyszámú különböző forgatókönyvvel."
 
 #: projects.inc:148
 msgid "Astronomy/Physics/Chemistry"
@@ -296,6 +340,15 @@ msgid ""
 "single event of interest can be expected to occur.  Our research group is "
 "interested in calculating the long time dynamics of systems."
 msgstr ""
+"Az elméleti kémia, a kondenzált anyagfizika és az anyagtudomány egy "
+"általános problémája azon atomi méretű rendszerek időfejlődésének "
+"kiszámítása, amelyekben például kémiai reakciók és/vagy diffúzió történik. "
+"Általános esetben ezek az események nagyon ritkák (több nagyságrenddel "
+"lassabbak, mint az atomok rezgések miatt bekövetkező mozgása), ezért a "
+"közvetlen szimuláció - azaz az atomok mozgásának pontos követése - "
+"évezredekig kellene, hogy fusson a jelenlegi leggyorsabb számítógépeken, "
+"mire várhatóan egyetlen érdekes esemény bekövetkezne. Kutatócsoportunk a "
+"rendszerek hosszútávú dinamikájának vizsgálatát tűzte ki célul."
 
 #: projects.inc:158
 msgid "Orbit@home"
@@ -319,19 +372,18 @@ msgstr "Cosmology@Home"
 
 #: projects.inc:168
 msgid "University of Illinois at Urbana-Chamapign"
-msgstr ""
+msgstr "Illinois-i Egyetem, Urbana-Champaign"
 
 #: projects.inc:170
-#, fuzzy
 msgid ""
 "The goal of Cosmology@Home is to search for the model that best describes "
 "our Universe and to find the range of models that agree with the available "
 "astronomical particle physics data."
 msgstr ""
-"A Cosmology@Home célja egy olyan modell keresése, amely a lehető legjobban "
-"leírja az Univerzumunkat, valamint megtalálni a modellek azon halmazát, "
-"amelyek összhangban vannak a csillagászati részecskefizika elérhető "
-"adataival."
+"A Cosmology@Home célja egy olyan modell keresése, amely a lehető legjobb "
+"leírást adja az Univerzumunkról, valamint megtalálni a modellek azon "
+"halmazát, amelyek összhangban vannak a csillagászati részecskefizika "
+"elérhető adataival."
 
 #: projects.inc:174
 msgid "Milkyway@home"
@@ -339,7 +391,7 @@ msgstr "Milkyway@home"
 
 #: projects.inc:176
 msgid "Rensselaer Polytechnic Institute"
-msgstr ""
+msgstr "Rensselaer-i Műszaki Egyetem"
 
 #: projects.inc:178
 msgid ""
@@ -347,14 +399,17 @@ msgid ""
 "model of the Milky Way galaxy using data gathered by the Sloan Digital Sky "
 "Survey."
 msgstr ""
+"A Milkyway@Home célja a Tejútrendszer egy igen pontos, háromdimenziós "
+"modelljének elkészítése a Sloan Digitális Égboltfelmérési Program által "
+"begyűjtött adatok felhasználásával."
 
 #: projects.inc:182
 msgid "Leiden Classical"
-msgstr ""
+msgstr "Leiden Classical"
 
 #: projects.inc:184
 msgid "Leiden University, The Netherlands"
-msgstr ""
+msgstr "Leiden-i Egyetem, Hollandia"
 
 #: projects.inc:186
 msgid ""
@@ -365,6 +420,13 @@ msgid ""
 "argon, or to test the validity of the ideal gas law by actually doing the "
 "simulations through the grid."
 msgstr ""
+"Klasszikus dinamikát használó felszíni számítások. A Leiden Classical "
+"használatával önkéntesek, hallgatók, diákok és más kutatók küldhetik fel "
+"személyes számolásaikat a gridre. Minden felhasználónak saját várakozási "
+"sora van a klasszikus dinamikai feladatokhoz. Ilyen módon használták már "
+"hallgatók a gridet folyékony argon szimulációjához, vagy az ideális "
+"gáztörvény érvényességének ellenőrzésére a griden végzett szimuláció "
+"segítségével."
 
 #: projects.inc:190
 msgid "uFluids@home"
@@ -372,7 +434,7 @@ msgstr "uFluids@home"
 
 #: projects.inc:192
 msgid "Purdue University"
-msgstr ""
+msgstr "Purdue Egyetem"
 
 #: projects.inc:193
 msgid "Physics/Aeronautics"
@@ -385,6 +447,10 @@ msgid ""
 "management devices and address two-phase flow in microchannel and MEMS "
 "devices."
 msgstr ""
+"A uFluids projekt kétfázisú folyadékok viselkedését vizsgálja "
+"mikrogravitációs és mikrofolyadéktani problémáknál. Célunk jobb műhold "
+"hajtóanyagvezérlő eszközök kifejlesztése és a kétfázisú áramlások vizsgálata "
+"mikrocsatornákban és MEMS eszközökben."
 
 #: projects.inc:198
 msgid "Einstein@home"
@@ -406,6 +472,11 @@ msgid ""
 "supported by the American Physical Society (APS) and by a number of "
 "international organizations."
 msgstr ""
+"A projekt célja forgó neutroncsillagok (más néven pulzárok) keresése a LIGO "
+"és GEO gravitációshullám-detektorok, illetve az Arecibo rádióobszervatórium "
+"adatainak felhasználásával.  Az Einstein@Home egy a \"Fizika Nemzetközi Éve "
+"2005\" projekt alprojektjei közül, melyet az Amerikai Fizikai Társaság "
+"(American Physical Society - APS) és számos nemzetközi szervezet is támogat."
 
 #: projects.inc:206
 msgid "LHC@home"
@@ -454,10 +525,15 @@ msgid ""
 "signals from space. Such signals are not known to occur naturally, so a "
 "detection would provide evidence of extraterrestrial technology."
 msgstr ""
+"A SETI (Földönkívüli Intelligencia Keresése) egy olyan tudományos terület, "
+"mely Földön kívüli értelmes életet keres. Ennek egyik módja a rádió-SETI, "
+"melynél rádióteleszkópokkal figyelik az űrből érkező keskeny sávszélességű "
+"rádiójeleket. Az ilyen jelek jellemzően nem keletkeznek természetes úton, "
+"tehát észlelésük bizonyítéka lehetne földönkívüli technológia létezésének."
 
 #: projects.inc:222
 msgid "Quantum Monte Carlo at Home"
-msgstr ""
+msgstr "Quantum Monte Carlo at Home"
 
 #: projects.inc:224
 msgid "University of Muenster (Germany)"
@@ -477,7 +553,7 @@ msgstr "Spinhenge@home"
 #: projects.inc:232
 #, fuzzy
 msgid "Bielefeld University of Applied Sciences"
-msgstr "Az Alkalmazott Tudományok Bielefeld-i Egyeteme"
+msgstr "Alkalmazott Tudományok Bielefeldi Egyeteme"
 
 #: projects.inc:233
 msgid "Chemical engineering and nanotechnology"
@@ -490,10 +566,14 @@ msgid ""
 "applications in medicine (such as local tumor chemotherapy) and "
 "biotechnology."
 msgstr ""
+"A molekuláris mágnesek és az irányított nanoméretű mágnesesség "
+"tanulmányozása.  Ezek a mágneses molekulák segíthetnének apró mágneses "
+"kapcsolók kifejlesztésében, melyek a gyógyászatban (például helyi "
+"tumorkemoterápiában) és a biotechnológiában lennének alkalmazhatók."
 
 #: projects.inc:241
 msgid "Multiple applications"
-msgstr ""
+msgstr "Többféle alkalmazás"
 
 #: projects.inc:244
 msgid "CAS@home"
@@ -513,6 +593,8 @@ msgid ""
 "adopt the technologies of volunteer computing and volunteer thinking for "
 "their research."
 msgstr ""
+"A CAS@home célja, hogy ösztönözze és segítse Kína tudósait, hogy "
+"kutatásukhoz befogadják az önkéntesi gondolkodás és számítás technológiáját."
 
 #: projects.inc:252
 msgid "Yoyo@home"
@@ -551,14 +633,19 @@ msgid ""
 "processed by the volunteers of this project. The scientific projects covered "
 "by the project include math, physics, biology, etc."
 msgstr ""
+"Az EDGeS@Home Beta projekt az önkéntes számítást az európai szolgáltatási "
+"grid hálózatba integrálja, ezáltal lehetővé téve a szolgáltatási gridek "
+"számára munkacsomagok küldését az e projektben résztvevő önkénteseknek. A "
+"projekt által lefedett tudományos projektek matematikai, fizikai, biológiai "
+"stb. témájúak."
 
 #: projects.inc:267
 msgid "Ibercivis"
-msgstr ""
+msgstr "Ibercivis"
 
 #: projects.inc:269
 msgid "Spanish universities and research centers"
-msgstr ""
+msgstr "Spanyol egyetemek és kutatóközpontok"
 
 #: projects.inc:270
 msgid "Various Spanish research projects"
@@ -573,12 +660,15 @@ msgid "World Community Grid"
 msgstr "World Community Grid"
 
 #: projects.inc:277
+#, fuzzy
 msgid "IBM Corporate Community Relations"
-msgstr ""
+msgstr "IBM Vállalati Közösségi Kapcsolatok"
 
 #: projects.inc:278
 msgid "Humanitarian research on disease, natural disasters and hunger."
 msgstr ""
+"Humanitárius kutatás a betegségek, természeti katasztrófák és éhség "
+"leküzdésére."
 
 #: projects.inc:279
 msgid ""
@@ -586,6 +676,10 @@ msgid ""
 "problems by creating the world's largest volunteer computing grid.  Research "
 "includes HIV/AIDS, cancer, muscular dystrophy, dengue fever, and many more."
 msgstr ""
+"Az emberiség legégetőbb problémáit jelentő, kritikus non-profit kutatások "
+"elősegítésére létrehoztuk a világ legnagyobb önkéntes számítási gridjét. Sok "
+"más mellett foglalkozunk a HIV/AIDS, a rák, az izomdisztrófia és a trópusi "
+"náthaláz kutatásával."
 
 #: projects.inc:285
 msgid "Mathematics, computing, and games"
@@ -609,7 +703,7 @@ msgstr ""
 
 #: projects.inc:295
 msgid "Collatz Conjecture"
-msgstr ""
+msgstr "Collatz Conjecture"
 
 #: projects.inc:298 projects.inc:337 projects.inc:353 projects.inc:361
 msgid "Mathematics"
@@ -618,6 +712,8 @@ msgstr "Matematika"
 #: projects.inc:299
 msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
 msgstr ""
+"Egy a matematikában még megoldatlan, az úgynevezett Collatz-sejtést "
+"tanulmányozzuk"
 
 #: projects.inc:302
 msgid "NFS@home"
@@ -625,11 +721,11 @@ msgstr "NFS@home"
 
 #: projects.inc:304
 msgid "California State University Fullerton"
-msgstr ""
+msgstr "Kaliforniai Állami Egyetem, Fullerton"
 
 #: projects.inc:305
 msgid "Factorization of large integers"
-msgstr ""
+msgstr "Nagy egész számok faktorizációja"
 
 #: projects.inc:306
 msgid ""
@@ -643,7 +739,7 @@ msgstr ""
 
 #: projects.inc:310
 msgid "VTU@home"
-msgstr ""
+msgstr "VTU@home"
 
 #: projects.inc:312
 msgid ""

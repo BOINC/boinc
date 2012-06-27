@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-05 10:58-0500\n"
-"PO-Revision-Date: 2012-04-12 21:50+0200\n"
-"Last-Translator: Gianfranco <costamagnagianfranco@yahoo.it>\n"
+"PO-Revision-Date: 2012-06-11 23:29+0200\n"
+"Last-Translator: Simone_3dz2 <simonecnt@gmail.com>\n"
 "Language-Team: BOINC.Italy team <contact@boincitaly.org>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -1066,7 +1066,7 @@ msgstr "Benvenuto su %s!"
 #: clientgui/CompletionPage.cpp:263
 #, c-format
 msgid "You are now using %s to manage accounts."
-msgstr "Ora stai usando% s per gestire gli account."
+msgstr "Stai utilizzando %s per gestire gli account."
 
 #: clientgui/CompletionPage.cpp:267
 msgid "You are now using this account manager."
@@ -1152,9 +1152,11 @@ msgstr "Aggiungi Applicazione Esclusiva"
 msgid "Name of application to add?"
 msgstr ""
 
+# 88%
 #: clientgui/DlgAdvPreferences.cpp:826
+#, fuzzy
 msgid "Add exclusive app"
-msgstr ""
+msgstr "Aggiungi Applicazione Esclusiva"
 
 #: clientgui/DlgAdvPreferences.cpp:847
 #, c-format
@@ -3259,7 +3261,7 @@ msgstr ""
 #: clientgui/sg_ProjectPanel.cpp:262
 #, c-format
 msgid "%s: %.0f"
-msgstr "%s: %0.2f"
+msgstr "%s: %.0f"
 
 #: clientgui/sg_ProjectPanel.cpp:145
 msgid "Project Web Pages"

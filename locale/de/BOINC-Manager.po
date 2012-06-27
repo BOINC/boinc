@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-05 10:58-0500\n"
-"PO-Revision-Date: 2012-03-23 19:02+0200\n"
+"PO-Revision-Date: 2012-06-17 10:22+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -1886,15 +1886,15 @@ msgstr "Planungspriorität"
 
 #: clientgui/DlgItemProperties.cpp:281
 msgid "CPU"
-msgstr ""
+msgstr "Prozessor"
 
 #: clientgui/DlgItemProperties.cpp:283
 msgid "NVIDIA GPU"
-msgstr ""
+msgstr "NVIDIA Grafikprozessor"
 
 #: clientgui/DlgItemProperties.cpp:286
 msgid "ATI GPU"
-msgstr ""
+msgstr "ATI Grafikprozessor"
 
 #: clientgui/DlgItemProperties.cpp:288
 msgid "Duration correction factor"
@@ -3432,7 +3432,7 @@ msgstr "Anwendung: %s"
 #: clientgui/sg_TaskPanel.cpp:701
 #, c-format
 msgid "%.3f%%"
-msgstr ""
+msgstr "%.3f%%"
 
 #: clientgui/sg_TaskPanel.cpp:709
 msgid "Application: Not available"

@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-05 10:58-0500\n"
-"PO-Revision-Date: 2012-04-25 11:09+0200\n"
-"Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
+"PO-Revision-Date: 2012-06-03 13:43+0200\n"
+"Last-Translator: Gabor <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
@@ -829,7 +829,7 @@ msgstr ""
 
 #: clientgui/BOINCGUIApp.cpp:351
 msgid " at "
-msgstr ""
+msgstr "itt:"
 
 #: clientgui/BOINCGUIApp.cpp:354
 msgid ")"
@@ -1442,7 +1442,7 @@ msgstr "Max kiegészítő munka buffer"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:458
 msgid "In addition, maintain enough tasks for up to this many days"
-msgstr ""
+msgstr "Legfeljebb ennyi napra elegendő feladatot tartson készenlétben:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:465
 msgid "Skip image file verification"
@@ -1726,32 +1726,29 @@ msgstr "Ne töltsön le feladatokat ehhez:"
 
 #: clientgui/DlgItemProperties.cpp:171
 msgid "Project preference"
-msgstr "Projektbeállítások"
+msgstr "A projekt élvez elsőbbséget"
 
 #: clientgui/DlgItemProperties.cpp:174
-#, fuzzy
 msgid "Account manager preference"
-msgstr "Fiókkezelő beállítása"
+msgstr "A fiókkezelő élvez elsőbbséget"
 
 #: clientgui/DlgItemProperties.cpp:177
 #, fuzzy
 msgid "Project has no apps for "
-msgstr "A projektnek nincs alkalmazása"
+msgstr "A projektnek nincs alkalmazása ehhez: "
 
 #: clientgui/DlgItemProperties.cpp:180
-#, fuzzy
 msgid "Client configuration excludes "
-msgstr "Kliensfiók-létrehozás letiltva"
+msgstr "A kliens beállításai kizárják ezt:  "
 
 #: clientgui/DlgItemProperties.cpp:184
 #, fuzzy
 msgid " work fetch deferred for"
-msgstr "CPU munka letöltése elhalasztva"
+msgstr " munka letöltése elhalasztva ennyi időre"
 
 #: clientgui/DlgItemProperties.cpp:185
-#, fuzzy
 msgid " work fetch deferral interval"
-msgstr "CPU munkaletöltés elhalasztási intervalluma"
+msgstr "munkaletöltés újrapróbálási időköze"
 
 #: clientgui/DlgItemProperties.cpp:216
 msgid "Properties of project "
@@ -1888,7 +1885,7 @@ msgstr "Időtartam korrekciós faktor"
 
 #: clientgui/DlgItemProperties.cpp:299
 msgid "Properties of task "
-msgstr "Feladat tulajdonságai"
+msgstr "Feladat tulajdonságai: "
 
 #: clientgui/DlgItemProperties.cpp:311
 msgid "Application"
@@ -2349,13 +2346,14 @@ msgid "Retrieving system state; please wait..."
 msgstr "Rendszerállapot lekérdezése, kérem várjon..."
 
 #: clientgui/MainDocument.cpp:1792
-#, fuzzy
 msgid "Missing application"
-msgstr "exkluzív alkalmazások"
+msgstr "Hiányzó alkalmazás"
 
 #: clientgui/MainDocument.cpp:1793
 msgid "Please download and install the CoRD application from http://cord.sourceforge.net"
 msgstr ""
+"Kérjük, töltse le és telepítse a CoRD alkalmazást a "
+"http://cord.sourceforge.net oldalról"
 
 #: clientgui/MainDocument.cpp:2390
 msgid "on batteries"
@@ -2472,18 +2470,16 @@ msgid "Ready to start"
 msgstr "Indításra kész"
 
 #: clientgui/MainDocument.cpp:2479
-#, fuzzy
 msgid " (Scheduler wait: "
-msgstr "(Ütemező vár)"
+msgstr "(Ütemező vár: "
 
 #: clientgui/MainDocument.cpp:2483
 msgid " (Scheduler wait)"
 msgstr "(Ütemező vár)"
 
 #: clientgui/MainDocument.cpp:2487
-#, fuzzy
 msgid " (Waiting for network access)"
-msgstr "Várakozás memóriára"
+msgstr "(Várakozás hálózati hozzáférésre)"
 
 #: clientgui/MainDocument.cpp:2491
 msgid "Computation error"
@@ -2616,8 +2612,8 @@ msgstr "Válasszon egy projektet"
 #: clientgui/ProjectInfoPage.cpp:580
 msgid "To choose a project, click its name or type its URL below."
 msgstr ""
-"Projekt kiválasztásához kattintson annak nevére vagy gépelje be alább a "
-"projekt URL-jét."
+"Projekt kiválasztásához kattintson annak nevére vagy gépelje be alább az "
+"URL-jét."
 
 #: clientgui/ProjectInfoPage.cpp:584
 msgid "Categories:"
@@ -2650,7 +2646,7 @@ msgstr "Támogatott rendszerek:"
 #: clientgui/ProjectInfoPage.cpp:612
 #, fuzzy
 msgid "Project URL:"
-msgstr "Projekt &URL:"
+msgstr "Projekt URL:"
 
 #: clientgui/ProjectInfoPage.cpp:782
 msgid "This project may not have work for your type of computer.  Do you want to add it anyway?"
@@ -3112,7 +3108,7 @@ msgstr "%d"
 #: clientgui/sg_DlgPreferences.cpp:1031
 #, fuzzy
 msgid "Do you really want to clear all local preferences?\n"
-msgstr "Biztosan törölni akar minden helyi beállítást?"
+msgstr "Biztosan törölni akar minden helyi beállítást?\n"
 
 #: clientgui/sg_ImageButton.cpp:90
 msgid "Paused: Other work running"
@@ -3399,7 +3395,7 @@ msgstr "Alkalmazás: %s"
 #: clientgui/sg_TaskPanel.cpp:701
 #, c-format
 msgid "%.3f%%"
-msgstr ""
+msgstr "%.3f%%"
 
 #: clientgui/sg_TaskPanel.cpp:709
 msgid "Application: Not available"
@@ -3418,7 +3414,7 @@ msgstr "Eltelt: %s"
 #, c-format
 #, fuzzy, c-format
 msgid "Remaining (estimated): %s"
-msgstr "Hátralévő: %s"
+msgstr "Hátralévő (becsült): %s"
 
 #: clientgui/sg_TaskPanel.cpp:854
 #, c-format
@@ -3995,12 +3991,12 @@ msgstr "Adatátvitel megszakítása"
 #: clientgui/ViewTransfers.cpp:769
 #, fuzzy
 msgid "Upload"
-msgstr "Feltölt"
+msgstr "Feltöltés"
 
 #: clientgui/ViewTransfers.cpp:769
 #, fuzzy
 msgid "Download"
-msgstr "Letölt"
+msgstr "Letöltés"
 
 #: clientgui/ViewTransfers.cpp:773
 msgid "retry in "
@@ -4037,14 +4033,12 @@ msgid "Show only active tasks."
 msgstr "Csak az aktív feladatok mutatása."
 
 #: clientgui/ViewWork.cpp:200
-#, fuzzy
 msgid "Show VM Console"
-msgstr "Számítógép - Összes kredit"
+msgstr "Virtuális gép konzol"
 
 #: clientgui/ViewWork.cpp:201
-#, fuzzy
 msgid "Show VM Console in a window."
-msgstr "Az alkalmazás grafikájának megjelenítése egy új ablakban."
+msgstr "A virtuális gép konzoljának új ablakban történő megjelenítése."
 
 #: clientgui/ViewWork.cpp:234
 msgid "Elapsed"
@@ -4053,7 +4047,7 @@ msgstr "Eltelt"
 #: clientgui/ViewWork.cpp:235
 #, fuzzy
 msgid "Remaining (estimated)"
-msgstr "Hátralévő: %s"
+msgstr "Hátralévő (becsült)"
 
 #: clientgui/ViewWork.cpp:236
 msgid "Deadline"
@@ -4080,9 +4074,8 @@ msgid "Showing graphics for task..."
 msgstr "A feladat grafikájának megjelenítése..."
 
 #: clientgui/ViewWork.cpp:425
-#, fuzzy
 msgid "Showing VM console for task..."
-msgstr "A feladat grafikájának megjelenítése..."
+msgstr "Virtuális gép konzol mutatása a feladathoz..."
 
 #: clientgui/ViewWork.cpp:478
 #, c-format

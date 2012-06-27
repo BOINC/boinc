@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2012-04-12 13:33+0100\n"
-"Last-Translator: Gianfranco Costamagna <costamagnagianfranco@yahoo.it>\n"
+"PO-Revision-Date: 2012-06-07 13:55+0200\n"
+"Last-Translator: Simone_3dz2 <simonecnt@gmail.com>\n"
 "Language-Team: \n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgstr ""
 
 #: projects.inc:14
 msgid "Cognitive science and artifical intelligence"
-msgstr "Scienza cognitiva e intelligenza artificiale"
+msgstr "Scienze cognitive e intelligenza artificiale"
 
 #: projects.inc:17
 msgid "FreeHAL"
@@ -153,7 +153,6 @@ msgstr ""
 "alcuni tipi di diabete, cancro, schizofrenia e molte altre."
 
 #: projects.inc:70
-#, fuzzy
 msgid "The Lattice Project"
 msgstr "The Lattice Project"
 
@@ -161,11 +160,12 @@ msgstr "The Lattice Project"
 msgid ""
 "University of Maryland Center for Bioinformatics and Computational Biology"
 msgstr ""
-"University of Maryland Center for Bioinformatics and Computational Biology"
+"Centro per la bioinformatica e la biologia computazionale dell'Università "
+"del Maryland"
 
 #: projects.inc:73
 msgid "Life science research"
-msgstr "Scienze della vita"
+msgstr "Scienze naturali"
 
 #: projects.inc:74
 msgid ""
@@ -223,7 +223,6 @@ msgid "Biology"
 msgstr "Biologia"
 
 #: projects.inc:106
-#, fuzzy
 msgid ""
 "Determine the 3-dimensional shapes of proteins in research that may "
 "ultimately lead to finding cures for some major human diseases. By running "
@@ -232,12 +231,12 @@ msgid ""
 "efforts at designing new proteins to fight diseases such as HIV, Malaria, "
 "Cancer, and Alzheimer's"
 msgstr ""
-"Determina la forma tridimensionale delle proteine nella ricerca che potrebbe "
-"alla fine portare alla scoperta di cure per le maggiori malattie del genere "
-"umano. Lavorando per Rosetta@home aiuterai a velocizzare ed estendere la "
-"nostra ricerca in modi che senza il tuo aiuto non sarebbero possibili. "
-"Aiuterai anche i nostri sforzi nel progettare nuove proteine per combattere "
-"malattie come HIV, Malaria, Cancro, e Alzheimer."
+"Determina la struttura tridimensionale delle proteine in una ricerca che "
+"potrebbe alla fine portare alla scoperta di cure per le maggiori malattie "
+"del genere umano. Lavorando per Rosetta@home aiuterai a velocizzare ed "
+"estendere la nostra ricerca in modi che senza il tuo aiuto non sarebbero "
+"possibili. Aiuterai anche i nostri sforzi nel progettare nuove proteine per "
+"combattere malattie come l'HIV, la malaria, il cancro, e l'Alzheimer."
 
 #: projects.inc:110
 msgid "SIMAP"
@@ -278,8 +277,8 @@ msgid ""
 "Provide ecological guidelines on the design of prairies with the best "
 "potential for water purification."
 msgstr ""
-"Fornire linee guida ecologiche per la progettazione di praterie con il "
-"miglior potenziale di depurazione dell'acqua possibile."
+"Fornire linee guida ecologiche nella progettazione di praterie con il "
+"miglior potenziale di purificazione dell'acqua."
 
 #: projects.inc:137
 msgid "Climateprediction.net"
@@ -291,7 +290,7 @@ msgstr "Università di Oxford"
 
 #: projects.inc:140
 msgid "Climate study"
-msgstr "Studi sul clima"
+msgstr "Studi climatici"
 
 #: projects.inc:141
 msgid ""
@@ -325,7 +324,7 @@ msgstr "eOn"
 
 #: projects.inc:153
 msgid "University of Texas at Austin"
-msgstr "University of Texas at Austin"
+msgstr "Università del Texas di Austin"
 
 #: projects.inc:154 projects.inc:185 projects.inc:225
 msgid "Chemistry"
@@ -378,7 +377,7 @@ msgstr "Cosmology@Home"
 
 #: projects.inc:168
 msgid "University of Illinois at Urbana-Chamapign"
-msgstr "University of Illinois at Urbana-Chamapign"
+msgstr "Università dell'Illinois di Urbana-Champign"
 
 #: projects.inc:170
 msgid ""
@@ -404,9 +403,9 @@ msgid ""
 "model of the Milky Way galaxy using data gathered by the Sloan Digital Sky "
 "Survey."
 msgstr ""
-"L'obiettivo di Milkyway@Home è quello di creare un modello tridimensionale "
-"altamente accurato della Via Lattea usando i dati raccolti dallo Sloan "
-"Digital Sky Survey."
+"L'obiettivo di Milkyway@Home è di creare un modello tridimensionale più "
+"accurato possibile della Via Lattea usando i dati raccolti dal Sloan Digital "
+"Sky Survey."
 
 #: projects.inc:182
 msgid "Leiden Classical"
@@ -417,7 +416,6 @@ msgid "Leiden University, The Netherlands"
 msgstr "Università di Leiden, Paesi Bassi"
 
 #: projects.inc:186
-#, fuzzy
 msgid ""
 "Surface science calculations using Classical Dynamics.  Leiden Classical "
 "allows volunteers, students and other scientist to submit their personal "
@@ -426,12 +424,13 @@ msgid ""
 "argon, or to test the validity of the ideal gas law by actually doing the "
 "simulations through the grid."
 msgstr ""
-"Area di calcolo che usa la Dinamica Classica. Leiden Classical permette a "
-"volontari, studenti e altri scienziati di mandare i loro calcoli personali "
-"nella rete. Ogni utente ha la sua coda personale di lavori della Dinamica "
-"Classica. In questo modo gli studenti hanno usato la griglia per simulare il "
-"liquido argon, oppure per testare la validità delle leggi dei gas ideali "
-"attraverso la simulazione nella griglia"
+"Calcoli relativi alla scienza delle superfici utilizzando la Dinamica "
+"Classica. Leiden Classical permette a volontari, studenti e altri scienziati "
+"di inserire le proprie elaborazioni nella grid. Ogni utente ha la sua coda "
+"personale per le attività di Dinamica Classica. In questo modo gli studenti "
+"hanno utilizzato la grid per simulare l'argon liquido, o per testare la "
+"validità della legge dei gas ideali (equazione di stato dei gas perfetti) "
+"effettuando le simulazioni tramite la grid."
 
 #: projects.inc:190
 msgid "uFluids@home"
@@ -439,7 +438,7 @@ msgstr "uFluids@home"
 
 #: projects.inc:192
 msgid "Purdue University"
-msgstr "Purdue University"
+msgstr "Università di Purdue"
 
 #: projects.inc:193
 msgid "Physics/Aeronautics"
@@ -632,17 +631,16 @@ msgid "European research projects"
 msgstr "Progetti di ricerca europei"
 
 #: projects.inc:263
-#, fuzzy
 msgid ""
 "The EDGeS@Home Beta project integrates volunteer computing into the service "
 "grid network of Europe by allowing service grids to send workunits to be "
 "processed by the volunteers of this project. The scientific projects covered "
 "by the project include math, physics, biology, etc."
 msgstr ""
-"Il progetto EDGeS@Home Beta integra il calcolo volontario nella rete Europea "
-"permettendo alla rete di mandare unità di lavoro da eseguire ai volontari "
-"del progetto. I progetti scientifici coperti dal progetto includono "
-"matematica, fisica, biologia ecc."
+"Il progetto EDGeS@Home Beta integra il calcolo volontario nella network "
+"service grid europea permettendo ad essa di inviare unità di lavoro da far "
+"elaborare ai volontari di questo progetto. I progetti scientifici coperti "
+"dal progetto includono matematica, fisica, biologia, ecc."
 
 #: projects.inc:267
 msgid "Ibercivis"
@@ -728,7 +726,6 @@ msgid "Factorization of large integers"
 msgstr "Fattorizzazione di grandi numeri interi"
 
 #: projects.inc:306
-#, fuzzy
 msgid ""
 "NFS@Home is a research project that uses Internet-connected computers to do "
 "the lattice sieving step in the Number Field Sieve factorization of large "
@@ -737,12 +734,13 @@ msgid ""
 "NFS@Home is a continuation of that experience, only with integers that are "
 "hundreds of digits long."
 msgstr ""
-"NFS@Home è un progetto di ricerca che usa i computer connessi ad internet "
-"per calcolare la fattorizzazione dei grandi numeri in Numeri di Sieve. Da "
-"studente, hai fatto la tua prima esperienza nella fattorizzazione in numeri "
-"primi, ad esempio 15 = 3 * 5 oppure 35 = 5 * 7. NFS@Home è la continuazione "
-"di quella esperienza, solo con interi che hanno centinaia di cifre di "
-"lunghezza."
+"NFS@Home è un progetto di ricerca che utilizza computer connessi ad Internet "
+"per effettuare l'iterazione del crivello di reticoli (lattice sieving) "
+"nella fattorizzazione di grandi interi con il metodo del crivello dei campi "
+"di numeri. Da giovane studente, hai fatto la tua prima esperienza di "
+"scomporre un intero in fattori primi, ad esempio 15 = 3 * 5 oppure 35 = 5 * "
+"7. NFS@Home è una continuazione di quell'esperienza, solo con interi lunghi "
+"centinaia di cifre."
 
 #: projects.inc:310
 msgid "VTU@home"
@@ -761,7 +759,6 @@ msgid "Software testing"
 msgstr "Testing del software"
 
 #: projects.inc:314
-#, fuzzy
 msgid ""
 "The aim of this project is to provide a powerful distributed computing "
 "platform for scientists of Vilnius Gediminas Technical University (VGTU) as "
@@ -868,13 +865,12 @@ msgid "SZTAKI Desktop Grid"
 msgstr "SZTAKI Desktop Grid"
 
 #: projects.inc:362
-#, fuzzy
 msgid ""
 "Find all the generalized binary number systems (in which bases are matrices "
 "and digits are vectors) up to dimension 11."
 msgstr ""
-"Trova tutti i sistemi di numeri binari generalizzati (nei quali le basi sono "
-"matrici e i numeri sono vettori) fino alla dimensione 11."
+"Trovare tutti i sistemi generalizzati di numeri binari (nei quali le basi "
+"sono matrici e le cifre sono vettori) fino a dimensione 11."
 
 #: projects.inc:382
 msgid "Chess960@home"
@@ -885,22 +881,20 @@ msgid "Chess-960.org"
 msgstr "Chess-960.org"
 
 #: projects.inc:385
-#, fuzzy
 msgid "Game-playing"
 msgstr "Gioco"
 
 #: projects.inc:386
-#, fuzzy
 msgid ""
 "This project studies Chess 960, a variant of orthodox chess. In classical "
 "chess the starting position of the game never changes.  In Chess 960, just "
 "before the start of every game, the initial configuration of the chess "
 "pieces is determined randomly."
 msgstr ""
-"Questo progetto studia Scacchi 960, una variante degli scacchi ortodossi. "
-"Negli scacchi classici la posizione di partenza nel gioco non cambia mai, "
-"Negli Scacchi 960, prima dell'inizio di ogni partita, la configurazione dei "
-"pezzi iniziale è determinata in modo casuale."
+"Questo progetto studia Chess 960, una variante degli scacchi classici. Negli "
+"scacchi classici la posizione di partenza del gioco non cambia mai. In "
+"Chess 960, subito prima dell'inizio di ogni partita, la configurazione "
+"iniziale delle pedine degli scacchi è determinata casualmente."
 
 #: versions.inc:6
 msgid "The current release is known to work with these Linux versions:"
@@ -1239,7 +1233,6 @@ msgid "Testing"
 msgstr "Test delle applicazioni"
 
 #: index.php:170
-#, fuzzy
 msgid "Publicity"
 msgstr "Pubblicità"
 
