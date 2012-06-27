@@ -3669,6 +3669,19 @@ David  18 June 2012
     client/
         gpu_nvidia.cpp
 
+David  18 June 2012
+    - client: it's possible for a host to get app versions for
+        a given app that have different platforms and different version #s.
+        The client was erroneously deleting the one w/ the lower version
+        when it was no longer in use.
+        Fix: in garbage collection, consider one version to supercede another
+        only if they have the same platform
+
+    client/
+        client_state.cpp
+    vda/
+        ssim.cpp
+
 David  19 June 2012
 	- client: AMD GPU detection addition (from [P3D] Crashtest)
 
