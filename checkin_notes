@@ -3601,6 +3601,16 @@ Charlie 13 June 2012
     client/
         coproc_detect.cpp
 
+David  14 June 2012
+    - client: 
+        - added the definitions for the new Windows 7/2008r2 preSP1
+            and Windows 8/2012 SKUs based on the winnt.h
+            from the Windows 8 RC SKD (also added as proof)
+        - added the detection for some more Windows SKU
+
+    client/
+        hostinfo_win.cpp
+
 Charlie 16 June 2012
     - Mac installer: Fix bugs I introduced on May 3 and May 6.
 
