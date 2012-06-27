@@ -4571,3 +4571,10 @@ David  26 June 2012
         sched_send.cpp
     lib/
         coproc.cpp
+
+David  26 June 2012
+    - Unix build tweaks.  Fixes #1193 (I think)
+
+    m4/
+        boinc_check_fcgi.m4
+        libcurl.m4

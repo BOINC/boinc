@@ -6,7 +6,7 @@ if ( test "x${enable_server}" = "xyes" ) || ( test "x${enable_libraries}" = "xye
     save_cflags="${CFLAGS}"
     CFLAGS="-I${prefix} -include fcgi_stdio.h -D_USING_FCGI_ ${CFLAGS}"
     AC_COMPILE_IFELSE(
-      AC_LANG_PROGRAM(
+      [AC_LANG_PROGRAM(
         [[
 #define CONFIG_TEST
         ]],
@@ -14,7 +14,7 @@ if ( test "x${enable_server}" = "xyes" ) || ( test "x${enable_libraries}" = "xye
 fprintf(stderr,"Hello\n");
 return 0;
         ]
-      ),
+      )],
       [
         AC_MSG_RESULT(yes)
       ],
