@@ -4578,3 +4578,12 @@ David  26 June 2012
     m4/
         boinc_check_fcgi.m4
         libcurl.m4
+        
+
+David  26 June 2012
+    - Unix build: remove "if" around AC_PROG_OBJCXX;
+        apparently this is needed for Gentoo build.
+        You may need a recent automake for this to work.
+        Fixes #1193.
+
+    configure.ac
