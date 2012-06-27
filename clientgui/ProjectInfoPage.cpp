@@ -468,6 +468,9 @@ void CProjectInfoPage::OnProjectSelected( wxCommandEvent& WXUNUSED(event) ) {
 
         CProjectInfo* pProjectInfo = (CProjectInfo*)m_pProjectsCtrl->GetClientData(m_pProjectsCtrl->GetSelection());
 
+        wxString strURL = pProjectInfo->m_strURL;
+        EllipseStringIfNeeded(strURL, m_pProjectDetailsURLCtrl);
+
         // Populate the project details area
         wxString desc = pProjectInfo->m_strDescription;
         // Change all occurrences of "<sup>n</sup>" to "^n"
