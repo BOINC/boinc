@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: boinc 1.10\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2012-03-06 00:03+0200\n"
+"PO-Revision-Date: 2012-04-22 21:13+0200\n"
 "Last-Translator: aceman <acelists@atlas.sk>\n"
 "Language-Team: boinc.sk\n"
 "Language: sk\n"
@@ -73,7 +73,7 @@ msgstr ""
 
 #: projects.inc:38
 msgid "Docking@Home"
-msgstr ""
+msgstr "Docking@Home"
 
 #: projects.inc:40
 msgid "University of Delaware"
@@ -93,7 +93,7 @@ msgstr ""
 
 #: projects.inc:46
 msgid "GPUGrid.net"
-msgstr ""
+msgstr "GPUGrid.net"
 
 #: projects.inc:48
 msgid "Barcelona Biomedical Research Park (PRBB)"
@@ -183,15 +183,15 @@ msgstr ""
 
 #: projects.inc:102
 msgid "Rosetta@home"
-msgstr ""
+msgstr "Rosetta@home"
 
 #: projects.inc:104
 msgid "University of Washington"
-msgstr ""
+msgstr "Washingtonská univerzita"
 
 #: projects.inc:105 projects.inc:113
 msgid "Biology"
-msgstr ""
+msgstr "Biológia"
 
 #: projects.inc:106
 msgid ""
@@ -205,11 +205,11 @@ msgstr ""
 
 #: projects.inc:110
 msgid "SIMAP"
-msgstr ""
+msgstr "SIMAP"
 
 #: projects.inc:112
 msgid "University of Vienna"
-msgstr ""
+msgstr "Viedenská univerzita"
 
 #: projects.inc:114
 msgid ""
@@ -220,19 +220,19 @@ msgstr ""
 
 #: projects.inc:120
 msgid "Earth Sciences"
-msgstr ""
+msgstr "Vedy o Zemi"
 
 #: projects.inc:130
 msgid "Virtual Prairie"
-msgstr ""
+msgstr "Virtuálne prérie"
 
 #: projects.inc:132
 msgid "University of Houston"
-msgstr ""
+msgstr "Univerzita v Houstone"
 
 #: projects.inc:133
 msgid "Study of botanical ecosystems"
-msgstr ""
+msgstr "Štúdia botanických ekosystémov"
 
 #: projects.inc:134
 msgid ""
@@ -242,15 +242,15 @@ msgstr ""
 
 #: projects.inc:137
 msgid "Climateprediction.net"
-msgstr ""
+msgstr "Climateprediction.net"
 
 #: projects.inc:139
 msgid "Oxford University"
-msgstr ""
+msgstr "Oxfordská univerzita"
 
 #: projects.inc:140
 msgid "Climate study"
-msgstr ""
+msgstr "Štúdium klímy"
 
 #: projects.inc:141
 msgid ""
@@ -266,19 +266,19 @@ msgstr ""
 
 #: projects.inc:148
 msgid "Astronomy/Physics/Chemistry"
-msgstr ""
+msgstr "Astronómia/Fyzika/Chémia"
 
 #: projects.inc:151
 msgid "eOn"
-msgstr ""
+msgstr "eOn"
 
 #: projects.inc:153
 msgid "University of Texas at Austin"
-msgstr ""
+msgstr "Texaská univerzita v Austine"
 
 #: projects.inc:154 projects.inc:185 projects.inc:225
 msgid "Chemistry"
-msgstr ""
+msgstr "Chémia"
 
 #: projects.inc:155
 msgid ""
@@ -295,27 +295,28 @@ msgstr ""
 
 #: projects.inc:158
 msgid "Orbit@home"
-msgstr ""
+msgstr "Orbit@home"
 
 #: projects.inc:160
 msgid "Planetary Science Institute"
-msgstr ""
+msgstr "Inštitút planetárnych ved"
 
 #: projects.inc:161 projects.inc:169 projects.inc:177
 msgid "Astronomy"
-msgstr ""
+msgstr "Astronómia"
 
 #: projects.inc:162
 msgid "Monitor and study the hazard posed by near-Earth asteroids"
 msgstr ""
+"Študiúm a sledovanie rizík, ktorá predstavujú pre Zem neďaleké asteroidy"
 
 #: projects.inc:166
 msgid "Cosmology@Home"
-msgstr ""
+msgstr "Cosmology@Home"
 
 #: projects.inc:168
 msgid "University of Illinois at Urbana-Chamapign"
-msgstr ""
+msgstr "Illinoiská univerzita v Urbana-Champaign"
 
 #: projects.inc:170
 msgid ""
@@ -326,11 +327,11 @@ msgstr ""
 
 #: projects.inc:174
 msgid "Milkyway@home"
-msgstr ""
+msgstr "Milkyway@home"
 
 #: projects.inc:176
 msgid "Rensselaer Polytechnic Institute"
-msgstr ""
+msgstr "Polytechnický inštitút Rensselaer"
 
 #: projects.inc:178
 msgid ""
@@ -341,11 +342,11 @@ msgstr ""
 
 #: projects.inc:182
 msgid "Leiden Classical"
-msgstr ""
+msgstr "Leiden Classical"
 
 #: projects.inc:184
 msgid "Leiden University, The Netherlands"
-msgstr ""
+msgstr "Leidenská univerzita, Holandsko"
 
 #: projects.inc:186
 msgid ""
@@ -359,15 +360,15 @@ msgstr ""
 
 #: projects.inc:190
 msgid "uFluids@home"
-msgstr ""
+msgstr "uFluids@home"
 
 #: projects.inc:192
 msgid "Purdue University"
-msgstr ""
+msgstr "Purdueova univerzita"
 
 #: projects.inc:193
 msgid "Physics/Aeronautics"
-msgstr ""
+msgstr "Fyzika/Letectvo"
 
 #: projects.inc:194
 msgid ""

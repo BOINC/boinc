@@ -7,14 +7,15 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2008-01-01 00:32+0800\n"
-"Last-Translator: Jose Sun <josesun@gmail.com>\n"
+"PO-Revision-Date: 2012-05-10 03:13+0200\n"
+"Last-Translator: Yang <fantasyworldidvtw@gmail.com>\n"
 "Language-Team: \n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 2.1.6\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
@@ -23,19 +24,19 @@ msgstr ""
 
 #: projects.inc:14
 msgid "Cognitive science and artifical intelligence"
-msgstr ""
+msgstr "科學認知和人工智慧"
 
 #: projects.inc:17
 msgid "FreeHAL"
-msgstr ""
+msgstr "FreeHAL"
 
 #: projects.inc:19 projects.inc:254 projects.inc:290 projects.inc:297
 msgid "private"
-msgstr ""
+msgstr "個人選項"
 
 #: projects.inc:20
 msgid "Artificial intelligence"
-msgstr ""
+msgstr "人工智慧"
 
 #: projects.inc:21
 msgid ""
@@ -43,23 +44,23 @@ msgid ""
 "intelligence that uses semantic networks, stemmers, part of speech "
 "databases, and part of speech taggers in order to imitate human behavior in "
 "conversations."
-msgstr ""
+msgstr "解析和轉換用於 FreeHAL 的語義網，而FreeHAL 是一個利用語義網絡來模仿人類的交談行為的人工智慧。"
 
 #: projects.inc:27
 msgid "Biology and Medicine"
-msgstr ""
+msgstr "生物和醫藥"
 
 #: projects.inc:30
 msgid "POEM@HOME"
-msgstr ""
+msgstr "POEM@HOME"
 
 #: projects.inc:32
 msgid "University of Karlsruhe (Germany)"
-msgstr ""
+msgstr "德國卡爾斯魯厄（Karlsruhe）大學"
 
 #: projects.inc:33
 msgid "Protein structure prediction"
-msgstr ""
+msgstr "蛋白質結構預測"
 
 #: projects.inc:34
 msgid ""
@@ -69,18 +70,20 @@ msgid ""
 "protein malfunction or aggregation, and to develop new drugs on the basis of "
 "the three-dimensions structure of biologically important proteins."
 msgstr ""
+"POEM@HOME "
+"通過計算的途徑來預測蛋白質的生物結構、理解蛋白質之間交互的信號傳遞機制、理解疾病相關的蛋白質變異，並在生物學重要的蛋白質的三維結構的基礎上開發新的藥物。"
 
 #: projects.inc:38
 msgid "Docking@Home"
-msgstr ""
+msgstr "Docking@Home"
 
 #: projects.inc:40
 msgid "University of Delaware"
-msgstr ""
+msgstr "美國德拉瓦大學"
 
 #: projects.inc:41
 msgid "Study of protein - ligand interactions"
-msgstr ""
+msgstr "研究蛋白質和配體間的相互作用"
 
 #: projects.inc:42
 msgid ""
@@ -89,18 +92,19 @@ msgid ""
 "interactions and, by doing so, will search for insights into the discovery "
 "of novel pharmaceuticals."
 msgstr ""
+"Docking@Home 的研究目標既包括生物科學上的，也包括計算機科學上的。該專案試圖了解蛋白質配體交互過程中的原子尺度的細節，並以此來尋找新的藥物。"
 
 #: projects.inc:46
 msgid "GPUGrid.net"
-msgstr ""
+msgstr "GPUGrid.net"
 
 #: projects.inc:48
 msgid "Barcelona Biomedical Research Park (PRBB)"
-msgstr ""
+msgstr "巴塞羅那生物醫藥研究區（PRBB）"
 
 #: projects.inc:49
 msgid "Molecular simulations of proteins"
-msgstr ""
+msgstr "蛋白質分子結構模型"
 
 #: projects.inc:50
 msgid ""
@@ -108,39 +112,39 @@ msgid ""
 "molecular dynamics code (CellMD) specially optimized to run on NVIDIA GPUs. "
 "New biomedical applications suddenly become possible giving a new role to "
 "computational biology for biomedical research."
-msgstr ""
+msgstr "GPUGrid.net 利用NVIDIA 的GPU 來進行全原子的分子動力學模擬。計算生物學的應用給生物醫藥學帶來了新的研究方向。"
 
 #: projects.inc:54
 msgid "Superlink@Technion"
-msgstr ""
+msgstr "Superlink@Technion"
 
 #: projects.inc:56
 msgid "Technion, Israel"
-msgstr ""
+msgstr "以色列理工大學"
 
 #: projects.inc:57
 msgid "Genetic linkage analysis"
-msgstr ""
+msgstr "遺傳分析"
 
 #: projects.inc:58
 msgid ""
 "Superlink@Technion helps geneticists all over the world find disease-"
 "provoking genes causing some types of diabetes, hypertension (high blood "
 "pressure), cancer, schizophrenia and many others."
-msgstr ""
+msgstr "Superlink@Technion 幫助全世界的遺傳學家來尋找會導致某些類型疾病的基因，例如糖尿病、高血壓、癌症、精神分裂...等等。"
 
 #: projects.inc:70
 msgid "The Lattice Project"
-msgstr ""
+msgstr "The Lattice Project"
 
 #: projects.inc:72
 msgid ""
 "University of Maryland Center for Bioinformatics and Computational Biology"
-msgstr ""
+msgstr "美國馬里蘭大學生物信息學和計算生物學中心"
 
 #: projects.inc:73
 msgid "Life science research"
-msgstr ""
+msgstr "生命科學研究"
 
 #: projects.inc:74
 msgid ""
@@ -149,18 +153,20 @@ msgid ""
 "bacterial, plasmid, and virus protein sequences; and biological diversity in "
 "nature reserves. "
 msgstr ""
+"The Lattice Project 為馬里蘭大學的科學家們提供計算資源，用於研究基於DNA "
+"序列數據的進化關係，細菌、病毒蛋白質序列，還有自然界的生物多樣性。"
 
 #: projects.inc:78
 msgid "Malariacontrol.net"
-msgstr ""
+msgstr "Malariacontrol.net"
 
 #: projects.inc:80
 msgid "The Swiss Tropical Institute"
-msgstr ""
+msgstr "瑞士熱帶研究所"
 
 #: projects.inc:81
 msgid "Epidemiology"
-msgstr ""
+msgstr "流行疾病學"
 
 #: projects.inc:82
 msgid ""
@@ -172,18 +178,20 @@ msgid ""
 "populations with a diverse set of parameters related to biological and "
 "social factors that influence the distribution of the disease. "
 msgstr ""
+"模擬瘧疾的傳播動力學模型，用於對瘧疾的控制，包括如何才能對蚊帳、藥物和正在研發測試過程中的疫苗等進行最優化的分發。相關的建模過程非常耗費計算資源，除了需"
+"要模擬相當大的人群分佈，還要考慮生物學和社會學方面對疾病傳播可能有影響的相關因素。"
 
 #: projects.inc:102
 msgid "Rosetta@home"
-msgstr ""
+msgstr "Rosetta@home"
 
 #: projects.inc:104
 msgid "University of Washington"
-msgstr ""
+msgstr "美國華盛頓大學"
 
 #: projects.inc:105 projects.inc:113
 msgid "Biology"
-msgstr ""
+msgstr "生物學"
 
 #: projects.inc:106
 msgid ""
@@ -194,55 +202,57 @@ msgid ""
 "efforts at designing new proteins to fight diseases such as HIV, Malaria, "
 "Cancer, and Alzheimer's"
 msgstr ""
+"對蛋白質的三維結構進行預測，可能最終能幫助找到一些重大人類疾病的治療方法。通過運行Rosetta@home 你能夠幫助我們加速這個進程，並能擴展我們的研"
+"究領域，而沒有你們的幫助，這都是不可能完成的。除些之外，你還能幫助我們設計新的蛋白質，用來對抗類似愛滋、天花、癌症和老年癡呆症等疾病。"
 
 #: projects.inc:110
 msgid "SIMAP"
-msgstr ""
+msgstr "SIMAP"
 
 #: projects.inc:112
 msgid "University of Vienna"
-msgstr ""
+msgstr "維也納大學"
 
 #: projects.inc:114
 msgid ""
 "Calculate similarities between proteins. SIMAP provides a public database of "
 "the resulting data, which plays a key role in many bioinformatics research "
 "projects."
-msgstr ""
+msgstr "計算蛋白質結構間的相似性。 SIMAP 以公共數據庫的形式發布其研究結果，該資料庫對很多生物信息學研究項目有重要作用。"
 
 #: projects.inc:120
 msgid "Earth Sciences"
-msgstr ""
+msgstr "地球科學"
 
 #: projects.inc:130
 msgid "Virtual Prairie"
-msgstr ""
+msgstr "Virtual Prairie"
 
 #: projects.inc:132
 msgid "University of Houston"
-msgstr ""
+msgstr "美國休士頓大學"
 
 #: projects.inc:133
 msgid "Study of botanical ecosystems"
-msgstr ""
+msgstr "植物生態系統研究"
 
 #: projects.inc:134
 msgid ""
 "Provide ecological guidelines on the design of prairies with the best "
 "potential for water purification."
-msgstr ""
+msgstr "為建設可用於水淨化的草原設計提供生態學上的指導方針。"
 
 #: projects.inc:137
 msgid "Climateprediction.net"
-msgstr ""
+msgstr "Climateprediction.net (CPDN)"
 
 #: projects.inc:139
 msgid "Oxford University"
-msgstr ""
+msgstr "英國牛津大學"
 
 #: projects.inc:140
 msgid "Climate study"
-msgstr ""
+msgstr "氣候研究"
 
 #: projects.inc:141
 msgid ""
@@ -255,22 +265,24 @@ msgid ""
 "cycle. This will allow us to explore how climate may change in the next "
 "century under a wide range of different scenarios."
 msgstr ""
+"研究最新的​​氣候模型中的近似處理。通過將模型運行數千次，我們希望能研究模型對近似處理的反應，同時還要保證模型不能脫離於實際。這能夠幫助我們加深對模型的"
+"理解，包括對二氧化碳、硫循環等的敏感程度。更進一步，這能夠幫助我們了解下一個世紀的氣候變化趨勢，包括各種不同的場景。"
 
 #: projects.inc:148
 msgid "Astronomy/Physics/Chemistry"
-msgstr ""
+msgstr "天文/物理/化學"
 
 #: projects.inc:151
 msgid "eOn"
-msgstr ""
+msgstr "eOn"
 
 #: projects.inc:153
 msgid "University of Texas at Austin"
-msgstr ""
+msgstr "德克薩斯大學奧斯汀分校"
 
 #: projects.inc:154 projects.inc:185 projects.inc:225
 msgid "Chemistry"
-msgstr ""
+msgstr "化學"
 
 #: projects.inc:155
 msgid ""
@@ -284,60 +296,63 @@ msgid ""
 "single event of interest can be expected to occur.  Our research group is "
 "interested in calculating the long time dynamics of systems."
 msgstr ""
+"理論化學、凝集態物理和材料科學中的一個常見問題是對原子尺度系統的時間演化過程（比如化學反應）的計算。一般來說在這些過程中讓研究人員感興趣的事件的發生概述"
+"都相當低（比原子的振動要慢好多個數量級），因為即使是在目前最快的計算機上，也需要幾千年的計算時間才有可能碰到一次有研究價值的事件。我們的研究組就致力於對"
+"這些系統的長時動力學過程進行計算。"
 
 #: projects.inc:158
 msgid "Orbit@home"
-msgstr ""
+msgstr "Orbit@home"
 
 #: projects.inc:160
 msgid "Planetary Science Institute"
-msgstr ""
+msgstr "行星科學研究所"
 
 #: projects.inc:161 projects.inc:169 projects.inc:177
 msgid "Astronomy"
-msgstr ""
+msgstr "天文學"
 
 #: projects.inc:162
 msgid "Monitor and study the hazard posed by near-Earth asteroids"
-msgstr ""
+msgstr "監測和研究近地小行星所造成的危害"
 
 #: projects.inc:166
 msgid "Cosmology@Home"
-msgstr ""
+msgstr "Cosmology@Home"
 
 #: projects.inc:168
 msgid "University of Illinois at Urbana-Chamapign"
-msgstr ""
+msgstr "美國伊利諾伊大學厄巴納 - 香檳分校"
 
 #: projects.inc:170
 msgid ""
 "The goal of Cosmology@Home is to search for the model that best describes "
 "our Universe and to find the range of models that agree with the available "
 "astronomical particle physics data."
-msgstr ""
+msgstr "Cosmology@Home 的目標是搜索可以描述我們宇宙的最適合的模型，並研究能夠與天文觀測數據相符的模型範圍。"
 
 #: projects.inc:174
 msgid "Milkyway@home"
-msgstr ""
+msgstr "Milkyway@home"
 
 #: projects.inc:176
 msgid "Rensselaer Polytechnic Institute"
-msgstr ""
+msgstr "倫斯勒理工學院"
 
 #: projects.inc:178
 msgid ""
 "The goal of Milkyway@Home is to create a highly accurate three dimensional "
 "model of the Milky Way galaxy using data gathered by the Sloan Digital Sky "
 "Survey."
-msgstr ""
+msgstr "Milkeyway@Home 使用Sloan 數字巡天的數據來對銀河系進行高精度的三維建模。"
 
 #: projects.inc:182
 msgid "Leiden Classical"
-msgstr ""
+msgstr "Leiden Classical"
 
 #: projects.inc:184
 msgid "Leiden University, The Netherlands"
-msgstr ""
+msgstr "荷蘭萊頓大學"
 
 #: projects.inc:186
 msgid ""
@@ -348,18 +363,20 @@ msgid ""
 "argon, or to test the validity of the ideal gas law by actually doing the "
 "simulations through the grid."
 msgstr ""
+"使用經典力學進行表面科學的計算。 Leiden Classical 允許志願者、學者和其它科研人員提供他們自己的計算任務，每個用戶都有他自己的經典力學任"
+"務隊列。通過這種方式，學生們可以利用網格來對他們學習到的相關理論進行驗證。"
 
 #: projects.inc:190
 msgid "uFluids@home"
-msgstr ""
+msgstr "uFluids@home"
 
 #: projects.inc:192
 msgid "Purdue University"
-msgstr ""
+msgstr "美國普渡大學"
 
 #: projects.inc:193
 msgid "Physics/Aeronautics"
-msgstr ""
+msgstr "物理學/航空"
 
 #: projects.inc:194
 msgid ""
@@ -367,19 +384,19 @@ msgid ""
 "microfluidics problems. Our goal is to design better satellite propellant "
 "management devices and address two-phase flow in microchannel and MEMS "
 "devices."
-msgstr ""
+msgstr "Fluids 專案對微重力環境下的兩相流體行為進行模擬,研究微流體問題。"
 
 #: projects.inc:198
 msgid "Einstein@home"
-msgstr ""
+msgstr "Einstein@home"
 
 #: projects.inc:200
 msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
-msgstr ""
+msgstr "美國威斯康星大學密爾沃基分校，德國馬克斯普朗克研究所"
 
 #: projects.inc:201
 msgid "Astrophysics"
-msgstr ""
+msgstr "天體物理學"
 
 #: projects.inc:202
 msgid ""
@@ -389,18 +406,20 @@ msgid ""
 "supported by the American Physical Society (APS) and by a number of "
 "international organizations."
 msgstr ""
+"分析LIGO 和GEO 引力波探測器以及阿雷西波觀測站採集到的數據，以尋找自旋中子星（也稱為脈衝星）。 Einstein@Home 是2005 "
+"世界物理學年的推介專案，由美國物理學會（APS）和一些相關的國際組織發起。"
 
 #: projects.inc:206
 msgid "LHC@home"
-msgstr ""
+msgstr "LHC@home"
 
 #: projects.inc:208
 msgid "CERN (European Organization for Nuclear Research)"
-msgstr ""
+msgstr "CERN（歐洲核子研究組織）"
 
 #: projects.inc:209
 msgid "Physics"
-msgstr ""
+msgstr "物理學"
 
 #: projects.inc:210
 msgid ""
@@ -410,18 +429,20 @@ msgid ""
 "investigate on particles proprieties. LHC@home runs simulations to improve "
 "the design of LHC and its detectors."
 msgstr ""
+"大型強子對撞機（LHC）是CERN（歐洲核研究組織）的一個粒子加速器裝置，也是世界上最大的粒子物理實驗室。它是人類現有的用於研究基本粒子特性的最強大的實"
+"驗裝置。 LHC@home 的作用主要是對加速器進行模擬，並幫助改進LHC 及其探測器的設計。"
 
 #: projects.inc:214
 msgid "SETI@home"
-msgstr ""
+msgstr "SETI@home"
 
 #: projects.inc:216
 msgid "University of California, Berkeley"
-msgstr ""
+msgstr "美國加州大學伯克利分校"
 
 #: projects.inc:217
 msgid "Astrophysics, astrobiology"
-msgstr ""
+msgstr "天體物理學，天體生物學"
 
 #: projects.inc:218
 msgid ""
@@ -431,31 +452,33 @@ msgid ""
 "signals from space. Such signals are not known to occur naturally, so a "
 "detection would provide evidence of extraterrestrial technology."
 msgstr ""
+"SETI （搜索外星智慧）的研究領域是探測地球之外的智慧生命。探測的途徑之一，也被稱之為射電SETI，使用射電望遠鏡來監聽太空中的窄波射電信號。因為依照"
+"人類目前的認識，這些信號不會自然產生，因此可以作為將其地外技術文明存在的證據。"
 
 #: projects.inc:222
 msgid "Quantum Monte Carlo at Home"
-msgstr ""
+msgstr "QMC@Home"
 
 #: projects.inc:224
 msgid "University of Muenster (Germany)"
-msgstr ""
+msgstr "德國明斯特大學"
 
 #: projects.inc:226
 msgid ""
 "Study the structure and reactivity of molecules using Quantum Chemistry."
-msgstr ""
+msgstr "通過量力化學來研究分子的結構和相互作用。"
 
 #: projects.inc:230
 msgid "Spinhenge@home"
-msgstr ""
+msgstr "Spinhenge@home"
 
 #: projects.inc:232
 msgid "Bielefeld University of Applied Sciences"
-msgstr ""
+msgstr "比勒費爾德應用科技大學"
 
 #: projects.inc:233
 msgid "Chemical engineering and nanotechnology"
-msgstr ""
+msgstr "化學工程與納米技術"
 
 #: projects.inc:234
 msgid ""
@@ -463,56 +486,58 @@ msgid ""
 "magnetic molecules may be used to develop tiny magnetic switches, with "
 "applications in medicine (such as local tumor chemotherapy) and "
 "biotechnology."
-msgstr ""
+msgstr "研究分子磁體和奈米尺度的磁力學。這些分子磁體可用於研發微型磁性開關，適用於醫藥（比如腫瘤化療）和生物技術領域。"
 
 #: projects.inc:241
 msgid "Multiple applications"
-msgstr ""
+msgstr "多個應用程式"
 
 #: projects.inc:244
 msgid "CAS@home"
-msgstr ""
+msgstr "CAS@home"
 
 #: projects.inc:246
 msgid "Chinese Academy of Sciences"
-msgstr ""
+msgstr "中國科學院"
 
 #: projects.inc:247
 msgid "Physics, biochemistry, and others"
-msgstr ""
+msgstr "物理，生物化學和其他"
 
 #: projects.inc:248
 msgid ""
 "The objective of CAS@home is to encourage and assist scientists in China to "
 "adopt the technologies of volunteer computing and volunteer thinking for "
 "their research."
-msgstr ""
+msgstr "CAS@home 的目標是鼓勵和幫忙中國的科研人員採用志願計算這種計算技術以及相應的科研思維方式"
 
 #: projects.inc:252
 msgid "Yoyo@home"
-msgstr ""
+msgstr "Yoyo@home"
 
 #: projects.inc:255
 msgid "Mathematics, physics, evolution"
-msgstr ""
+msgstr "數學，物理學，進化論"
 
 #: projects.inc:256
 msgid ""
 "Yoyo@home is an adapter between BOINC and several existing volunteer "
 "computing projects: ECM, Muon, Evolution@home, and distributed.net"
 msgstr ""
+"Yoyo@home 將一些傳統的志願計算專案，包括ECM、Muon、Evolution@home 和distributed.net "
+"等，移植到了BOINC 平台。"
 
 #: projects.inc:259
 msgid "EDGeS@Home"
-msgstr ""
+msgstr "EDGeS@Home"
 
 #: projects.inc:261 projects.inc:360
 msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
-msgstr ""
+msgstr "匈牙利 MTA-SZTAKI 並行和分佈式系統實驗室"
 
 #: projects.inc:262
 msgid "European research projects"
-msgstr ""
+msgstr "歐盟研究專案"
 
 #: projects.inc:263
 msgid ""
@@ -521,83 +546,85 @@ msgid ""
 "processed by the volunteers of this project. The scientific projects covered "
 "by the project include math, physics, biology, etc."
 msgstr ""
+"EDGes@Home Beta "
+"專案將志願計算融入到歐洲計算服務網格的網絡，允許服務網格將計算任務分發給專案的志願者們來處理。專案所涉及的科研領域包括數學、物理、生物等等。"
 
 #: projects.inc:267
 msgid "Ibercivis"
-msgstr ""
+msgstr "Ibercivis"
 
 #: projects.inc:269
 msgid "Spanish universities and research centers"
-msgstr ""
+msgstr "西班牙的大學和研究中心"
 
 #: projects.inc:270
 msgid "Various Spanish research projects"
-msgstr ""
+msgstr "西班牙各種的研究專案"
 
 #: projects.inc:271
 msgid "Research in physics, material science, and biomedicine"
-msgstr ""
+msgstr "物理學、材料科學和生物醫藥學方面的研究"
 
 #: projects.inc:275
 msgid "World Community Grid"
-msgstr ""
+msgstr "World Community Grid (WCG)"
 
 #: projects.inc:277
 msgid "IBM Corporate Community Relations"
-msgstr ""
+msgstr "IBM 協作社群關係部"
 
 #: projects.inc:278
 msgid "Humanitarian research on disease, natural disasters and hunger."
-msgstr ""
+msgstr "關於疾病、自然災害、飢餓的人道主義研究。"
 
 #: projects.inc:279
 msgid ""
 "To further critical non-profit research on some of humanity's most pressing "
 "problems by creating the world's largest volunteer computing grid.  Research "
 "includes HIV/AIDS, cancer, muscular dystrophy, dengue fever, and many more."
-msgstr ""
+msgstr "創建世界上最大的志願計算網格，資助非贏利性的關於人類重大疾病的研究。研究內容包括愛滋、癌症、肌肉萎縮症、登革熱等等。"
 
 #: projects.inc:285
 msgid "Mathematics, computing, and games"
-msgstr ""
+msgstr "數學，計算和遊戲"
 
 #: projects.inc:288
 msgid "Enigma@Home"
-msgstr ""
+msgstr "Enigma@Home"
 
 #: projects.inc:291 projects.inc:345
 msgid "Cryptography"
-msgstr ""
+msgstr "密碼學"
 
 #: projects.inc:292
 msgid ""
 "Attempt to decode 3 original Enigma messages. The signals were intercepted "
 "in the North Atlantic in 1942 and are believed to be unbroken."
-msgstr ""
+msgstr "該專案試圖解密三條二戰期間的加密電報消息，這些消息於1942 年在北大西洋截獲而且一直被認為是不可破解的。"
 
 #: projects.inc:295
 msgid "Collatz Conjecture"
-msgstr ""
+msgstr "Collatz Conjecture"
 
 #: projects.inc:298 projects.inc:337 projects.inc:353 projects.inc:361
 msgid "Mathematics"
-msgstr ""
+msgstr "數學"
 
 #: projects.inc:299
 msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
-msgstr ""
+msgstr "研究考拉茲猜想（Collat​​z conje​​cture），一個尚未被證明的數學猜想。"
 
 #: projects.inc:302
 msgid "NFS@home"
-msgstr ""
+msgstr "NFS@home"
 
 #: projects.inc:304
 msgid "California State University Fullerton"
-msgstr ""
+msgstr "加州大學富爾頓分校"
 
 #: projects.inc:305
 msgid "Factorization of large integers"
-msgstr ""
+msgstr "大整數因子分解"
 
 #: projects.inc:306
 msgid ""
@@ -608,20 +635,23 @@ msgid ""
 "NFS@Home is a continuation of that experience, only with integers that are "
 "hundreds of digits long."
 msgstr ""
+"NFS@Home "
+"是一個利用通過網路互連的電腦來進行大整數數域篩選分解中的格篩步驟的研究專案。當你還是一個年輕的學生時，你應該就有了分解質因數的經歷，比如15=3*5 "
+"或者35=5*7。 NFS@Home 正是這一經歷的延續，不過卻是分解有數百位數字長的大整數。"
 
 #: projects.inc:310
 msgid "VTU@home"
-msgstr ""
+msgstr "VTU@home"
 
 #: projects.inc:312
 msgid ""
 "Vilnius Gediminas Technical University and Kaunas University of Technology "
 "(Lithuania)"
-msgstr ""
+msgstr "Vilnius Gediminas 理工大學和Kaunas 理工大學（立陶宛）"
 
 #: projects.inc:313
 msgid "Software testing"
-msgstr ""
+msgstr "軟體測試"
 
 #: projects.inc:314
 msgid ""
@@ -630,18 +660,20 @@ msgid ""
 "well as others Lithuanian academic institutions.  Current applications "
 "involve the study of Monte-Carlo based software testing."
 msgstr ""
+"本專案的目的是為Vilnius Gediminas "
+"理工大學（VGTU）和其它立陶宛的科研機構提供一個強大的分佈式計算平台。當前的應用主要涉及到基於蒙特卡羅的軟體測試研究。"
 
 #: projects.inc:318
 msgid "AQUA@home"
-msgstr ""
+msgstr "AQUA@home"
 
 #: projects.inc:320
 msgid "D-Wave Systems, Inc."
-msgstr ""
+msgstr "D-Wave Systems 公司"
 
 #: projects.inc:321
 msgid "Quantum computing"
-msgstr ""
+msgstr "量子計算"
 
 #: projects.inc:322
 msgid ""
@@ -652,14 +684,16 @@ msgid ""
 "computers to help design and analyze quantum computing algorithms, using "
 "Quantum Monte Carlo techniques."
 msgstr ""
+"D-Wave 的AQUA（絕熱量子算法）是一個對超導絕熱量子計算機在一系列從材料科學到機器學習等的複雜問題上的處理效率進行預測的研究專案。 "
+"AQUA@home 使用通過網路連接的電腦來幫助設計和分析量子計算算法，使用的是量子蒙特卡羅技術。"
 
 #: projects.inc:334
 msgid "ABC@home"
-msgstr ""
+msgstr "ABC@home"
 
 #: projects.inc:336
 msgid "Mathematical Institute of Leiden University / Kennislink"
-msgstr ""
+msgstr "萊頓（Leiden）大學數字學院（Kennislink）"
 
 #: projects.inc:338
 msgid ""
@@ -671,14 +705,18 @@ msgid ""
 "problems in mathematics. If it is proven to be true, a lot of other open "
 "problems can be answered directly from it."
 msgstr ""
+"尋找滿足ABC 猜想條件的abc 三元組，條件是：c=a+b, a<b, b<c, rad(ABC)<C，其中rad(n) 稱為n "
+"的根積，意即n的所有質因數的乘積，若有重複的質因數則只取一個。 ABC 猜想的具體內容是：對於所有e>0，存在與e "
+"有關的常數C(e)，對於所有滿足a+b=c,a 與b 互質的三元整數組(a,b,c) ，均成立c<=C(e)((rad(abc))^(1+e))。 "
+"ABC 猜想是當前數論中最重要的未解決問題之一，如果它能夠被證明，其它不少未解決問題也能得到直接的證明。"
 
 #: projects.inc:342
 msgid "PrimeGrid"
-msgstr ""
+msgstr "PrimeGrid"
 
 #: projects.inc:344
 msgid "Private"
-msgstr ""
+msgstr "個人檔案"
 
 #: projects.inc:346
 msgid ""
@@ -686,42 +724,44 @@ msgid ""
 "searching for large twin primes of the form k*2<sup>n</sup>+1 and k*2<sup>n</"
 "sup>-1"
 msgstr ""
+"Primegrid 的目的是構造一個公共的質數序列數據庫，當前正在搜尋形式為k*2<sup>n</sup>+1 和k*2<sup>n</sup>-1 "
+"的孿生大質數。"
 
 #: projects.inc:350
 msgid "primaboinca"
-msgstr ""
+msgstr "primaboinca"
 
 #: projects.inc:352
 msgid "Hochschule RheinMain University of Applied Sciences"
-msgstr ""
+msgstr "萊茵曼應用技術大學"
 
 #: projects.inc:354
 msgid ""
 "Search for counterexamples to two conjectures related to the identification "
 "of prime numbers"
-msgstr ""
+msgstr "尋找兩個有關質數識別的猜想的反例。"
 
 #: projects.inc:358
 msgid "SZTAKI Desktop Grid"
-msgstr ""
+msgstr "SZTAKI Desktop Grid"
 
 #: projects.inc:362
 msgid ""
 "Find all the generalized binary number systems (in which bases are matrices "
 "and digits are vectors) up to dimension 11."
-msgstr ""
+msgstr "尋找所有的廣義二進制數係（基是矩陣，而位是向量），目前項目正在搜索12 維的廣義二進制數係。"
 
 #: projects.inc:382
 msgid "Chess960@home"
-msgstr ""
+msgstr "Chess960@home"
 
 #: projects.inc:384
 msgid "Chess-960.org"
-msgstr ""
+msgstr "Chess-960.org"
 
 #: projects.inc:385
 msgid "Game-playing"
-msgstr ""
+msgstr "玩遊戲"
 
 #: projects.inc:386
 msgid ""
@@ -730,16 +770,18 @@ msgid ""
 "before the start of every game, the initial configuration of the chess "
 "pieces is determined randomly."
 msgstr ""
+"該專案研究正統國際象棋的一個變種 Chess 960。普通象棋裡開局後棋子的位置總是固定的，但在Chess 960 "
+"裡，每次遊戲開始之前，棋子的初始配置都是隨機決定的。"
 
 #: versions.inc:6
 msgid "The current release is known to work with these Linux versions:"
-msgstr ""
+msgstr "目前這個版本能與下列的 Linux 作業系統運作："
 
 #: versions.inc:14
 msgid ""
 "For other Linux versions, check if a BOINC package is offered by your Linux "
 "distribution."
-msgstr ""
+msgstr "關於其他版本的 Linux，檢查 BOINC 的檔案是否有提供您的版本"
 
 #: versions.inc:25
 msgid ""
@@ -747,28 +789,30 @@ msgid ""
 "doesn't have a graphical interface, but it should work on all Linux systems, "
 "both x86 and x64."
 msgstr ""
+"或者您也可以下載%1用於舊版本 Linux 的 BOINC 客戶端%2。此版本沒有圖形界面，但應該可以在所有 Linux 版本上正常工作，包括 x86 "
+"和 x64 平台。"
 
 #: docutil.php:21
 msgid "Search"
-msgstr ""
+msgstr "搜尋"
 
 #: docutil.php:102
 msgid "Return to BOINC main page"
-msgstr ""
+msgstr "回到 BOINC 首頁"
 
 #: docutil.php:113
 #, php-format
 msgid "This page is %stranslatable%s."
-msgstr ""
+msgstr "這個網頁％s可翻譯％s"
 
 #: download.php:40
 msgid "Download BOINC"
-msgstr ""
+msgstr "下載 BOINC"
 
 #: download.php:42
 #, php-format
 msgid "%s for %s (%s MB)"
-msgstr ""
+msgstr "% 版 %(%s MB)"
 
 #: download.php:89
 msgid ""
@@ -777,43 +821,46 @@ msgid ""
 "Community Grid, and many others. <p> After installing BOINC on your "
 "computer, you can connect it to as many of these projects as you like."
 msgstr ""
+"BOINC 使得您可以把電腦的閒置時間捐獻給 "
+"SETI@home、Einstein@home、Climateprediction.net、Rosetta@home、World Commnunity "
+"Grid 等等許多科研專案。 <p>在將 BOINC 安裝到您的電腦上之後，您可以加入多個您喜歡的專案。 <p>"
 
 #: download.php:91
 msgid ""
 "You may run this software on a computer only if you own the computer or have "
 "the permission of its owner."
-msgstr ""
+msgstr "你應該在自己擁有的電腦或得到使用許可的電腦上執行這個軟體。"
 
 #: download.php:115
 #, php-format
 msgid ""
 "Note: if your computer is equipped with an Graphics Processing Unit (GPU), "
 "you may be able to %suse it to compute faster%s"
-msgstr ""
+msgstr "注意：如果您的電腦配備了 NVIDIA 的顯示卡，您也許可以%s通過它來使運算變得更快%s。"
 
 #: download.php:121
 msgid "System requirements"
-msgstr ""
+msgstr "系統要求"
 
 #: download.php:122
 msgid "Release notes"
-msgstr ""
+msgstr "版本說明"
 
 #: download.php:123 index.php:82
 msgid "Help"
-msgstr ""
+msgstr "幫助"
 
 #: download.php:124
 msgid "All versions"
-msgstr ""
+msgstr "所有版本"
 
 #: download.php:125
 msgid "Version history"
-msgstr ""
+msgstr "歷史版本"
 
 #: download.php:142
 msgid "BOINC: compute for science"
-msgstr ""
+msgstr "BOINC：用電腦幫助科學"
 
 #: help.php:12
 #, php-format
@@ -823,6 +870,8 @@ msgid ""
 "through the process of installing and using BOINC; %s troubleshoot any "
 "problems you might have."
 msgstr ""
+"BOINC 的在線幫助讓您可以一對一地與有經驗的 BOINC 用戶進行交談，他們可以：%s回答您關於 BOINC 以及志願運算的問題；%"
+"s帶您完成安裝及使用BOINC 的過程；%s解決您可能有的任何問題。"
 
 #: help.php:21
 #, php-format
@@ -832,6 +881,8 @@ msgid ""
 "Skype, please %sdownload and install it now%s.  When you're finished, return "
 "to this page."
 msgstr ""
+"BOINC 的在線幫助基於%sSkype%s，一個網路的電話系統。 Skype 可以免費使用（包括軟體本身及使用該軟體進行通話）。如果您還沒有 "
+"Skype，請%s現在就下載並安裝它%s。當您完成後再回到這個頁面。"
 
 #: help.php:28
 msgid ""
@@ -840,16 +891,18 @@ msgid ""
 "also use Skype's text-based chat system or regular email (if you don't have "
 "Skype) to communicate with Help Volunteers."
 msgstr ""
+"得到幫助的最好途徑是通過聲音，您的電腦必須擁有一個內建的麥克風和喇叭或外接的耳麥。您也可以使用 Skype "
+"的聊天系統或者普通的電子郵件（如果您不使用Skype）和志願幫助者進行交流。"
 
 #: help.php:31
 msgid ""
 "Volunteers speaking several languages are available. Please select a "
 "language:"
-msgstr ""
+msgstr "志願幫助者提供數種語言，請選擇語言："
 
 #: help.php:47
 msgid "Be a Help Volunteer"
-msgstr ""
+msgstr "成為志願幫助者"
 
 #: help.php:50
 #, php-format
@@ -857,71 +910,71 @@ msgid ""
 "If you're an experienced BOINC user, we encourage you to %sbecome a Help "
 "Volunteer%s.  It's a great way to help the cause of scientific research and "
 "volunteer computing - and it's fun!"
-msgstr ""
+msgstr "如果您是一位有經驗的 BOINC 用戶，我們鼓勵您%s成為一位志願幫助者%s。這對於科學研究和志願計算都大有益處－ 而且還很有趣！"
 
 #: help.php:56
 #, php-format
 msgid ""
 "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
-msgstr ""
+msgstr "如果你已經是志願幫助者：按%s這裡%s調整設定"
 
 #: help_funcs.php:107
 msgid ""
 "BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
 "or the University of California."
-msgstr ""
+msgstr "BOINC 幫助人員都是不收取任何費用的志願者。他們的建議不代表 BOINC 專案及加州大學。"
 
 #: help_funcs.php:110
 msgid "%1Never%2 give email address or password information to BOINC helpers."
-msgstr ""
+msgstr "%1請千萬不要%將你的電子郵件地址或者密碼提供給 BOINC 幫助人員。"
 
 #: index.php:23
 msgid "Computing power"
-msgstr ""
+msgstr "運算能力"
 
 #: index.php:25
 msgid "Top 100 volunteers"
-msgstr ""
+msgstr "前 100 名的志願者"
 
 #: index.php:26
 msgid "Statistics"
-msgstr ""
+msgstr "統計"
 
 #: index.php:53
 msgid "Active:"
-msgstr ""
+msgstr "活躍的:"
 
 #: index.php:53
 msgid "volunteers,"
-msgstr ""
+msgstr "志願者，"
 
 #: index.php:53
 msgid "computers.\n"
-msgstr ""
+msgstr "電腦。\n"
 
 #: index.php:54
 msgid "24-hour average:"
-msgstr ""
+msgstr "24 小時平均："
 
 #: index.php:54
 msgid "TeraFLOPS."
-msgstr ""
+msgstr "TFLOPS。"
 
 #: index.php:66
 msgid "News"
-msgstr ""
+msgstr "新聞"
 
 #: index.php:79
 msgid "Volunteer"
-msgstr ""
+msgstr "志願者"
 
 #: index.php:81
 msgid "Download"
-msgstr ""
+msgstr "下載"
 
 #: index.php:83 index.php:118 index.php:169
 msgid "Documentation"
-msgstr ""
+msgstr "文件"
 
 #: index.php:89
 #, php-format
@@ -931,6 +984,9 @@ msgid ""
 "scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %"
 "sDownload%s and run BOINC software  %sEnter%s an email address and password. "
 msgstr ""
+"將您電腦(包括 Windows、Mac 以及 Linux) "
+"的閒置時間利用起來，就可以幫助科學家們治療疾病、了解全球變暖、發現脈衝星以及其它多種類型的科學研究，而且這還很簡單和安全：%s選擇%s 專案 %s下載%"
+"s 並運行 BOINC 軟體%s 輸入%s 您的電子郵件地址以及專案密碼。"
 
 #: index.php:100
 #, php-format
@@ -938,108 +994,109 @@ msgid ""
 "Or, if you run several projects, try an %saccount manager%s such as %"
 "sGridRepublic%s or %sBAM!%s. "
 msgstr ""
+"或者，如果您想參加多個研究專案，可以使用 %s帳號管理服務%s 來簡化您的日常操作，比如%sGridRepublic%s 或者%sBAM!%s。"
 
 #: index.php:116
 msgid "Compute with BOINC"
-msgstr ""
+msgstr "使用 BOINC 來運算"
 
 #: index.php:119
 msgid "Software updates"
-msgstr ""
+msgstr "軟體更新"
 
 #: index.php:126
 msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
 "you the computing power of thousands of CPUs."
-msgstr ""
+msgstr "%1科學家%2：使用 BOINC 來建立%3志願計算專案%4，可得到成千上萬個處理器的運算能力。"
 
 #: index.php:130
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
-msgstr ""
+msgstr "%1大學院校%2：使用 BOINC 來建立%3虛擬校園超級運算中心%4。"
 
 #: index.php:135
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
-msgstr ""
+msgstr "%1公司企業%2：將 BOINC 用於%3桌面網格運算%4。"
 
 #: index.php:147
 msgid "The BOINC project"
-msgstr ""
+msgstr "BOINC 專案"
 
 #: index.php:153
 msgid "Message boards"
-msgstr ""
+msgstr "留言版"
 
 #: index.php:154
 msgid "Email lists"
-msgstr ""
+msgstr "電子郵件列表"
 
 #: index.php:155
 msgid "Personnel and contributors"
-msgstr ""
+msgstr "專案人員與贊助者"
 
 #: index.php:156
 msgid "Events"
-msgstr ""
+msgstr "事件"
 
 #: index.php:157
 msgid "Papers and talks"
-msgstr ""
+msgstr "論文與演講"
 
 #: index.php:158
 msgid "Research projects"
-msgstr ""
+msgstr "研究專案"
 
 #: index.php:159
 msgid "Logos and graphics"
-msgstr ""
+msgstr "標幟與圖表"
 
 #: index.php:160
 msgid "and"
-msgstr ""
+msgstr "和"
 
 #: index.php:164
 msgid "Help wanted"
-msgstr ""
+msgstr "需要幫助!"
 
 #: index.php:166
 msgid "Programming"
-msgstr ""
+msgstr "編寫程式"
 
 #: index.php:167
 msgid "Translation"
-msgstr ""
+msgstr "翻譯"
 
 #: index.php:168
 msgid "Testing"
-msgstr ""
+msgstr "測試"
 
 #: index.php:170
 msgid "Publicity"
-msgstr ""
+msgstr "宣傳"
 
 #: index.php:172
 msgid "Software development"
-msgstr ""
+msgstr "軟體開發"
 
 #: index.php:173
 msgid "APIs for add-on software"
-msgstr ""
+msgstr "APIs 外掛軟體"
 
 #: index.php:207
 msgid "Browser default"
-msgstr ""
+msgstr "瀏覽器預設值"
 
 #: index.php:259
 #, php-format
 msgid ""
 "Open-source software for %svolunteer computing%s and %sgrid computing%s."
-msgstr ""
+msgstr "用於%s志願計算%s 和%s網格計算%s 的開放軟體"
 
 #: index.php:272
 msgid "BOINC is based at The University of California, Berkeley"
-msgstr ""
+msgstr "Boinc發起於加州大學柏克萊分校"
 
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 # #########################################

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-05 10:58-0500\n"
-"PO-Revision-Date: 2011-11-05 12:22+0200\n"
+"PO-Revision-Date: 2012-04-07 14:58+0200\n"
 "Last-Translator: Kenneth <kenneth@skjold.biz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nb\n"
@@ -720,7 +720,7 @@ msgstr ""
 #: clientgui/BOINCBaseView.cpp:774
 #, fuzzy
 msgid "Project web pages"
-msgstr "Prosjektets nettsider"
+msgstr "Prosjekt nettsider"
 
 #: clientgui/BOINCClientManager.cpp:570
 #, c-format
@@ -799,12 +799,12 @@ msgid ""
 msgstr ""
 "Du er ikke autorisert til å behandle denne klienten.\n"
 "\n"
-"For å kjøre BOINC som denne brukeren,\n"
-"installer BOINC på nytt og svar \"Ja\" til spørsmålet om\n"
-"ikke administrativ brukere\n"
-"eller\n"
-"kontakt administratoren for å legge deg til 'boinc_master'\n"
-"brukergruppe."
+"For å kjøre %s som denne brukeren,\n"
+"  - installer %s på nytt og svar \"Ja\" til spørsmålet om\n"
+"   ikke administrativ brukere\n"
+" eller\n"
+"  - kontakt administratoren for å legge deg til 'boinc_master'\n"
+"     brukergruppe."
 
 #: clientgui/BOINCGUIApp.cpp:345
 #, c-format
@@ -813,13 +813,12 @@ msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
 msgstr ""
-"BOINCs eieskap eller rettigheter er ikke satt ordentlig, installer BOINC på "
-"nytt.\n"
-"(Feilkode %d)"
+"%s eieskap eller rettigheter er ikke satt ordentlig, installer %s på nytt.\n"
+"(Feilkode %d"
 
 #: clientgui/BOINCGUIApp.cpp:351
 msgid " at "
-msgstr ""
+msgstr "ved "
 
 #: clientgui/BOINCGUIApp.cpp:354
 msgid ")"
@@ -884,7 +883,7 @@ msgstr "Flere eksemplarer av BOINC behandleren er tillatt"
 
 #: clientgui/BOINCGUIApp.cpp:544
 msgid "Not used: workaround for bug in XCode 4.2"
-msgstr ""
+msgstr "Ikke brukt: løsning for bug i XCode 4.2"
 
 #: clientgui/BOINCGUIApp.cpp:762
 msgid "(Automatic Detection)"
@@ -931,7 +930,7 @@ msgstr "Gjennoppta"
 #: clientgui/BOINCTaskBar.cpp:632
 #, fuzzy
 msgid "Resume GPU"
-msgstr "Gjennoppta"
+msgstr "Gjennoppta GPU"
 
 #: clientgui/BOINCTaskBar.cpp:708
 msgid "Computing is enabled"
@@ -986,13 +985,13 @@ msgstr "Oppdatering av konto manager har feilet"
 #: clientgui/CompletionErrorPage.cpp:208
 #, fuzzy
 msgid "Failed to remove account manager"
-msgstr "Oppdatering av konto manager har feilet"
+msgstr "Fjerning av konto manager har feilet"
 
 # 84%
 #: clientgui/CompletionErrorPage.cpp:212
 #, fuzzy
 msgid "Failed to add account manager"
-msgstr "Oppdatering av konto manager har feilet"
+msgstr "Klarte ikke å legge til konto manager"
 
 #: clientgui/CompletionErrorPage.cpp:221
 msgid ""
@@ -1044,7 +1043,7 @@ msgstr "Oppdatering ferdig."
 
 #: clientgui/CompletionPage.cpp:247
 msgid "Now using account manager"
-msgstr ""
+msgstr "Bruker nå konto manager"
 
 #: clientgui/CompletionPage.cpp:252
 #, c-format
@@ -1054,11 +1053,11 @@ msgstr "Velkommen til %s!"
 #: clientgui/CompletionPage.cpp:263
 #, c-format
 msgid "You are now using %s to manage accounts."
-msgstr ""
+msgstr "Du bruker nå %s for å håndtere kontoer."
 
 #: clientgui/CompletionPage.cpp:267
 msgid "You are now using this account manager."
-msgstr ""
+msgstr "Du bruker nå konto manager"
 
 #: clientgui/DlgAbout.cpp:104
 #, c-format
