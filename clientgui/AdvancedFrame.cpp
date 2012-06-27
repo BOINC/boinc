@@ -701,6 +701,10 @@ bool CAdvancedFrame::CreateMenu() {
 
     wxMenuBar* m_pOldMenubar = GetMenuBar();
     SetMenuBar(m_pMenubar);
+#ifdef __WXGTK__
+    // Force a redraw of the menu under Ubuntu's new interface
+    SendSizeEvent();
+#endif
 #ifdef __WXMAC__
     m_pMenubar->MacInstallMenuBar();
     MacLocalizeBOINCMenu();

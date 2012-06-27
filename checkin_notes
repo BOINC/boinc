@@ -3722,6 +3722,14 @@ Charlie 20 June 2012
         boinc.xcodeproj/
             project.pbxproj
 
+Rom    21 May 2012
+    - MGR: Fix menu redraw issue under Ubuntu's new interface.
+      fixes #1180
+      (From Huibert)
+
+    clientgui/
+        AdvancedFrame.cpp
+
 Charlie 21 June 2012
     - Mac: Fix displayed names of BOINC installer, uninstaller, etc.
 
@@ -3751,3 +3759,4 @@ Charlie 26 June 2012
         buildcurl.sh
         HowToBuildBOINC_XCode.rtf
         setupforBOINC.sh
+
