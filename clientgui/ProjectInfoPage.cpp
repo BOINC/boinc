@@ -488,56 +488,57 @@ void CProjectInfoPage::OnProjectCategorySelected( wxCommandEvent& WXUNUSED(event
 void CProjectInfoPage::OnProjectSelected( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnProjectSelected - Function Begin"));
 
-    CProjectInfo* pProjectInfo = (CProjectInfo*)m_pProjectsCtrl->GetClientData(m_pProjectsCtrl->GetSelection());
+    if (m_pProjectsCtrl->GetSelection() != wxNOT_FOUND) {
 
-    wxString strURL = pProjectInfo->m_strURL;
-    EllipseStringIfNeeded(strURL, m_pProjectDetailsURLCtrl);
+        CProjectInfo* pProjectInfo = (CProjectInfo*)m_pProjectsCtrl->GetClientData(m_pProjectsCtrl->GetSelection());
 
-    // Populate the project details area
-    wxString desc = pProjectInfo->m_strDescription;
-    // Change all occurrences of "<sup>n</sup>" to "^n"
-    desc.Replace(wxT("<sup>"), wxT("^"), true);
-    desc.Replace(wxT("</sup>"), wxT(""), true);
+        // Populate the project details area
+        wxString desc = pProjectInfo->m_strDescription;
+        // Change all occurrences of "<sup>n</sup>" to "^n"
+        desc.Replace(wxT("<sup>"), wxT("^"), true);
+        desc.Replace(wxT("</sup>"), wxT(""), true);
 
-    m_pProjectDetailsDescriptionCtrl->SetValue(desc);
-    m_pProjectDetailsURLCtrl->SetLabel(strURL);
-    m_pProjectDetailsURLCtrl->SetURL(pProjectInfo->m_strURL);
-    // Set tooltip to full text in case ellipsed
-    m_pProjectDetailsURLCtrl->SetToolTip(pProjectInfo->m_strURL);
+        m_pProjectDetailsDescriptionCtrl->SetValue(desc);
+        m_pProjectDetailsURLCtrl->SetLabel(strURL);
+        m_pProjectDetailsURLCtrl->SetURL(pProjectInfo->m_strURL);
+        // Set tooltip to full text in case ellipsed
+        m_pProjectDetailsURLCtrl->SetToolTip(pProjectInfo->m_strURL);
 
-    m_pProjectDetailsSupportedPlatformWindowsCtrl->Hide();
-    m_pProjectDetailsSupportedPlatformMacCtrl->Hide();
-    m_pProjectDetailsSupportedPlatformLinuxCtrl->Hide();
-    m_pProjectDetailsSupportedPlatformATICtrl->Hide();
-    m_pProjectDetailsSupportedPlatformNvidiaCtrl->Hide();
-    m_pProjectDetailsSupportedPlatformOpenCLCtrl->Hide();
-    m_pProjectDetailsSupportedPlatformMultiCoreCtrl->Hide();
-    if (pProjectInfo->m_bProjectSupportsWindows) m_pProjectDetailsSupportedPlatformWindowsCtrl->Show();
-    if (pProjectInfo->m_bProjectSupportsMac) m_pProjectDetailsSupportedPlatformMacCtrl->Show();
-    if (pProjectInfo->m_bProjectSupportsLinux) m_pProjectDetailsSupportedPlatformLinuxCtrl->Show();
-    if (pProjectInfo->m_bProjectSupportsCAL) m_pProjectDetailsSupportedPlatformATICtrl->Show();
-    if (pProjectInfo->m_bProjectSupportsCUDA) m_pProjectDetailsSupportedPlatformNvidiaCtrl->Show();
-    if (pProjectInfo->m_bProjectSupportsOpenCL) m_pProjectDetailsSupportedPlatformOpenCLCtrl->Show();
-    if (pProjectInfo->m_bProjectSupportsMulticore) m_pProjectDetailsSupportedPlatformMultiCoreCtrl->Show();
+        m_pProjectDetailsSupportedPlatformWindowsCtrl->Hide();
+        m_pProjectDetailsSupportedPlatformMacCtrl->Hide();
+        m_pProjectDetailsSupportedPlatformLinuxCtrl->Hide();
+        m_pProjectDetailsSupportedPlatformATICtrl->Hide();
+        m_pProjectDetailsSupportedPlatformNvidiaCtrl->Hide();
+        m_pProjectDetailsSupportedPlatformOpenCLCtrl->Hide();
+        m_pProjectDetailsSupportedPlatformMultiCoreCtrl->Hide();
+        if (pProjectInfo->m_bProjectSupportsWindows) m_pProjectDetailsSupportedPlatformWindowsCtrl->Show();
+        if (pProjectInfo->m_bProjectSupportsMac) m_pProjectDetailsSupportedPlatformMacCtrl->Show();
+        if (pProjectInfo->m_bProjectSupportsLinux) m_pProjectDetailsSupportedPlatformLinuxCtrl->Show();
+        if (pProjectInfo->m_bProjectSupportsCAL) m_pProjectDetailsSupportedPlatformATICtrl->Show();
+        if (pProjectInfo->m_bProjectSupportsCUDA) m_pProjectDetailsSupportedPlatformNvidiaCtrl->Show();
+        if (pProjectInfo->m_bProjectSupportsOpenCL) m_pProjectDetailsSupportedPlatformOpenCLCtrl->Show();
+        if (pProjectInfo->m_bProjectSupportsMulticore) m_pProjectDetailsSupportedPlatformMultiCoreCtrl->Show();
 
-    // Populate non-control data for use in other places of the wizard
-    SetProjectURL( pProjectInfo->m_strURL );
-    SetProjectSupported( pProjectInfo->m_bSupportedPlatformFound );
+        // Populate non-control data for use in other places of the wizard
+        SetProjectURL( pProjectInfo->m_strURL );
+        SetProjectSupported( pProjectInfo->m_bSupportedPlatformFound );
 
-    TransferDataToWindow();
-    Layout();
+        TransferDataToWindow();
+        Layout();
 
-    wxString strResearchArea = pProjectInfo->m_strSpecificArea;
-    EllipseStringIfNeeded(strResearchArea, m_pProjectDetailsResearchAreaCtrl);
-    m_pProjectDetailsResearchAreaCtrl->SetLabel(strResearchArea);
-    // Set tooltip to full text in case ellipsed
-    m_pProjectDetailsResearchAreaCtrl->SetToolTip(pProjectInfo->m_strSpecificArea);
+        wxString strResearchArea = pProjectInfo->m_strSpecificArea;
+        EllipseStringIfNeeded(strResearchArea, m_pProjectDetailsResearchAreaCtrl);
+        m_pProjectDetailsResearchAreaCtrl->SetLabel(strResearchArea);
+        // Set tooltip to full text in case ellipsed
+        m_pProjectDetailsResearchAreaCtrl->SetToolTip(pProjectInfo->m_strSpecificArea);
 
-    wxString strOrganization = pProjectInfo->m_strOrganization;
-    EllipseStringIfNeeded(strOrganization, m_pProjectDetailsOrganizationCtrl);
-    m_pProjectDetailsOrganizationCtrl->SetLabel(strOrganization);
-    // Set tooltip to full text in case ellipsed
-    m_pProjectDetailsOrganizationCtrl->SetToolTip(pProjectInfo->m_strOrganization);
+        wxString strOrganization = pProjectInfo->m_strOrganization;
+        EllipseStringIfNeeded(strOrganization, m_pProjectDetailsOrganizationCtrl);
+        m_pProjectDetailsOrganizationCtrl->SetLabel(strOrganization);
+        // Set tooltip to full text in case ellipsed
+        m_pProjectDetailsOrganizationCtrl->SetToolTip(pProjectInfo->m_strOrganization);
+
+    }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnProjectSelected - Function End"));
 }

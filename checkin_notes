@@ -3601,16 +3601,6 @@ Charlie 13 June 2012
     client/
         coproc_detect.cpp
 
-David  14 June 2012
-    - client: 
-        - added the definitions for the new Windows 7/2008r2 preSP1
-            and Windows 8/2012 SKUs based on the winnt.h
-            from the Windows 8 RC SKD (also added as proof)
-        - added the detection for some more Windows SKU
-
-    client/
-        hostinfo_win.cpp
-
 Charlie 16 June 2012
     - Mac installer: Fix bugs I introduced on May 3 and May 6.
 
@@ -3633,6 +3623,23 @@ Charlie 18 June 2012
     /
         configure.ac
         version.h
+
+Rom    30 May 2012
+    - MGR: Wait until there is valid data in the list box before processing
+        the OnProjectSelected() event.
+        
+    clientgui/
+        ProjectInfoPage.cpp
+
+David  14 June 2012
+    - client: 
+        - added the definitions for the new Windows 7/2008r2 preSP1
+            and Windows 8/2012 SKUs based on the winnt.h
+            from the Windows 8 RC SKD (also added as proof)
+        - added the detection for some more Windows SKU
+
+    client/
+        hostinfo_win.cpp
 
 David  18 June 2012
     - client: split GPU detection code into separate files
@@ -3724,6 +3731,7 @@ Charlie 22 June 2012
     mac_installer/
         release_boinc.sh
 
+<<<<<<< .working
 Charlie 26 June 2012
     - Mac client: Upgrade to curl 7.26.60 and c-ares 1.9.1.
     
