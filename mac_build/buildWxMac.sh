@@ -23,8 +23,13 @@
 # by Charlie Fenton    7/21/06
 # Updated for wx-Mac 2.8.10 and Unicode 4/17/09
 # Updated for OS 10.7 and XCode 4.1 with OS 10.4 compatibility 9/26/11
-
+# Updated for partial OS 10.8 and XCode 4.5 compatibility 6/28/12
+## NOTE: To run with XCode 4.5, you must first obtain a copy of the 
+##  MacOSX10.6.sdk and copy it into the folder: 
+##  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/
 #
+## This script requires OS 10.6 or later
+##
 ## In Terminal, CD to the wxMac-2.8.10 directory.
 ##    cd [path]/wxMac-2.8.10/
 ## then run this script:
@@ -53,7 +58,8 @@ else
   doclean=""
 fi
 
-if [ ! -d /Developer/SDKs/MacOSX10.6.sdk/ ]; then
+xcodebuild -version -sdk macosx10.6
+if [ ! "$?" = "0" ]; then
     echo "ERROR: System 10.6 SDK is missing.  For details, see build instructions at"
     echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
     return 1
@@ -108,7 +114,7 @@ if [ "$1" != "-clean" ] && [ -f src/build/Deployment/libwx_mac_static.a ]; then
 else
     export DEVELOPER_SDK_DIR="/Developer/SDKs"
     ## We must override some of the build settings in wxWindows.xcodeproj 
-    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Deployment $doclean build SDKROOT=/Developer/SDKs/MacOSX10.6.sdk CC=/usr/bin/llvm-gcc-4.2 CXX=/usr/bin/llvm-g++-4.2 GCC_VERSION_i386=com.apple.compilers.llvmgcc42 MACOSX_DEPLOYMENT_TARGET_i386=10.4 ARCHS="i386" OTHER_CPLUSPLUSFLAGS="-DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -fvisibility=hidden -fvisibility-inlines-hidden"
+    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Deployment $doclean build -sdk macosx10.6 GCC_VERSION_i386=com.apple.compilers.llvmgcc42 MACOSX_DEPLOYMENT_TARGET_i386=10.4 ARCHS="i386" OTHER_CPLUSPLUSFLAGS="-DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -fvisibility=hidden -fvisibility-inlines-hidden"
 
 if [  $? -ne 0 ]; then return 1; fi
 fi
@@ -118,7 +124,7 @@ if [ "$1" != "-clean" ] && [ -f src/build/Development/libwx_mac_static.a ]; then
 else
     export DEVELOPER_SDK_DIR="/Developer/SDKs"
     ## We must override some of the build settings in wxWindows.xcodeproj 
-    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Development $doclean build SDKROOT=/Developer/SDKs/MacOSX10.6.sdk CC=/usr/bin/llvm-gcc-4.2 CXX=/usr/bin/llvm-g++-4.2 GCC_VERSION_i386=com.apple.compilers.llvmgcc42 MACOSX_DEPLOYMENT_TARGET_i386=10.4 ARCHS="i386" OTHER_CPLUSPLUSFLAGS="-DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -fvisibility=hidden -fvisibility-inlines-hidden"
+    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Development $doclean build -sdk macosx10.6 GCC_VERSION_i386=com.apple.compilers.llvmgcc42 MACOSX_DEPLOYMENT_TARGET_i386=10.4 ARCHS="i386" OTHER_CPLUSPLUSFLAGS="-DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -fvisibility=hidden -fvisibility-inlines-hidden"
 
 if [  $? -ne 0 ]; then return 1; fi
 fi

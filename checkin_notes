@@ -3774,10 +3774,17 @@ Charlie 26 June 2012
         HowToBuildBOINC_XCode.rtf
         setupforBOINC.sh
 
-Rom    2 May 2012
+Rom    27 June 2012
     - Tag for 7.0.30 release, all platforms
       boinc_core_release_7_0_30
 
     /
         configure.ac
         version.h
+
+Charlie 28 June 2012
+    - Mac client: Update wxMac build script for partial compatibility 
+        with OS 10.8 and XCode 4.5. See comments in script for details.
+
+     mac_build/
+        buildWxMac.sh
