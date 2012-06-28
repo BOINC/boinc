@@ -224,11 +224,14 @@ CLIENT_APP_VERSION* get_app_version_anonymous(
     // exceeds projected_flops by more than this factor, cap it.
     // The host may have received a bunch of short jobs recently
 
+#define GPU_CPU_RATIO   10.
+    // a conservative estimate of the ratio of a typical GPU to CPU
+
 // input:
 // cav.host_usage.projected_flops
 //      This is the <flops> specified in app_info.xml
 //      If not specified there, it's a conservative estimate
-//      (CPU speed * (ncpus + ngpus))
+//      (CPU speed * (ncpus + 10*ngpus))
 //      In either case, this value will be used by the client
 //      to estimate job runtime and runtime limit
 //          est runtime = wu.rsc_fpops_est/x
@@ -362,7 +365,7 @@ void estimate_flops(HOST_USAGE& hu, APP_VERSION& av) {
                 );
             }
         } else {
-            hu.projected_flops = g_reply->host.p_fpops * (hu.avg_ncpus + hu.gpu_usage);
+            hu.projected_flops = g_reply->host.p_fpops * (hu.avg_ncpus + GPU_CPU_RATIO*hu.gpu_usage);
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
                     "[version] [AV#%d] (%s) using conservative projected flops: %.2fG\n",
