@@ -4592,3 +4592,10 @@ David  26 June 2012
     - Unix build tweak
 
     configure.ac
+
+Charlie 28 June 2012
+    - Mac client: Update wxMac build script for partial compatibility 
+        with OS 10.8 and XCode 4.5. See comments in script for details.
+
+     mac_build/
+        buildWxMac.sh
