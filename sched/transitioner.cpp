@@ -510,7 +510,7 @@ int handle_wu(
         }
     }
 
-    // If we are deferring assimilation until all results are over and validated,
+    // If we're deferring assimilation until all results are over and validated,
     // when that happens make sure that WU state is advanced to assimilate ready
     // the items.size is a kludge
     //
