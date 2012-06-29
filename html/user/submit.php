@@ -195,6 +195,8 @@ function handle_query_batch($user) {
     $batch_id = get_int('batch_id');
     $batch = BoincBatch::lookup_id($batch_id);
     $app = BoincApp::lookup_id($batch->app_id);
+    $wus = BoincWorkunit::enum("batch = $batch->id");
+    $batch = get_batch_params($batch, $wus);
 
     page_head("Batch $batch_id");
     start_table();
@@ -243,7 +245,6 @@ function handle_query_batch($user) {
         "Canonical instance<br><span class=note>click to see result page on BOINC server</span>",
         "Download Results"
     );
-    $wus = BoincWorkunit::enum("batch = $batch->id");
     foreach($wus as $wu) {
         $resultid = $wu->canonical_resultid;
         $durl = boinc_get_wu_output_files_url($user,$wu->id);

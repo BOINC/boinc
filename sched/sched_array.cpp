@@ -176,9 +176,12 @@ static bool quick_check(
 }
 
 // Do checks that require DB access for whether we can send this job,
-// and return true if OK to send
+// and return:
+// 0 if OK to send
+// 1 if can't send to this host
+// 2 if can't send to ANY host
 //
-static bool slow_check(
+static int slow_check(
     WU_RESULT& wu_result,       // the job cache entry.
         // We may refresh its hr_class and app_version_id fields.
     APP* app,
@@ -200,7 +203,7 @@ static bool slow_check(
             log_messages.printf(MSG_CRITICAL,
                 "send_work: can't get result count (%s)\n", boincerror(retval)
             );
-            return false;
+            return 1;
         } else {
             if (n>0) {
                 if (config.debug_send) {
@@ -209,7 +212,7 @@ static bool slow_check(
                         g_reply->user.id, n, wu.id
                     );
                 }
-                return false;
+                return 1;
             }
         }
     } else if (config.one_result_per_host_per_wu) {
@@ -224,7 +227,7 @@ static bool slow_check(
             log_messages.printf(MSG_CRITICAL,
                 "send_work: can't get result count (%s)\n", boincerror(retval)
             );
-            return false;
+            return 1;
         } else {
             if (n>0) {
                 if (config.debug_send) {
@@ -233,7 +236,7 @@ static bool slow_check(
                         g_reply->host.id, n, wu.id
                     );
                 }
-                return false;
+                return 1;
             }
         }
     }
@@ -244,14 +247,23 @@ static bool slow_check(
     if (app_hr_type(*app) || app->homogeneous_app_version) {
         DB_WORKUNIT db_wu;
         db_wu.id = wu.id;
-        int vals[2];
-        retval = db_wu.get_field_ints("hr_class, app_version_id", 2, vals);
+        int vals[3];
+        retval = db_wu.get_field_ints(
+            "hr_class, app_version_id, error_mask", 3, vals
+        );
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
                 "can't get fields for [WU#%d]: %s\n", db_wu.id, boincerror(retval)
             );
-            return false;
+            return 1;
         }
+
+        // check wu.error_mask
+        //
+        if (vals[2] != 0) {
+            return 2;
+        }
+
         if (app_hr_type(*app)) {
             wu.hr_class = vals[0];
             if (already_sent_to_different_hr_class(wu, *app)) {
@@ -266,7 +278,7 @@ static bool slow_check(
                 // are processed first.
                 //
                 wu_result.infeasible_count++;
-                return false;
+                return 1;
             }
         }
         if (app->homogeneous_app_version) {
@@ -280,11 +292,11 @@ static bool slow_check(
                     );
                 }
                 wu_result.infeasible_count++;
-                return false;
+                return 1;
             }
         }
     }
-    return true;
+    return 0;
 }
 
 // Check for pathological conditions that mean
@@ -377,12 +389,19 @@ static bool scan_work_array() {
         wu_result.state = g_pid;
         unlock_sema();
 
-        if (!slow_check(wu_result, app, bavp)) {
+        switch (slow_check(wu_result, app, bavp)) {
+        case 1:
             // if we couldn't send the result to this host,
             // set its state back to PRESENT
             //
             wu_result.state = WR_STATE_PRESENT;
-        } else {
+            break;
+        case 2:
+            // can't send this job to any host
+            //
+            wu_result.state = WR_STATE_EMPTY;
+            break;
+        default:
             // slow_check() refreshes fields of wu_result.workunit;
             // update our copy too
             //
@@ -409,6 +428,7 @@ static bool scan_work_array() {
                 // The feeder will eventually pick it up again,
                 // and hopefully the problem won't happen twice.
             }
+            break;
         }
         lock_sema();
         if (!work_needed(false)) {

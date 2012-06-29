@@ -4613,3 +4613,15 @@ David  28 June 2012
         client_state.cpp
     sched/
         transitioner.cpp
+
+David  28 June 2012
+    - web: when showing a batch, recompute and update its fraction done
+    - feeder: don't enumerate results for WUs with nonzero error_mask
+    - scheduler: in slow_check(), make sure the WU error_mask is still zero
+
+    html/user/
+        submit.php
+    db/
+        boinc_db.cpp
+    sched/
+        sched_array.cpp

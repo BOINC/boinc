@@ -1747,8 +1747,11 @@ int DB_WORK_ITEM::enumerate(
         //
         sprintf(query,
             "select high_priority r1.id, r1.priority, r1.server_state, r1.report_deadline, workunit.* from result r1 force index(ind_res_st), workunit, app "
-            " where r1.server_state=%d and r1.workunitid=workunit.id "
-            " and workunit.appid=app.id and app.deprecated=0 "
+            " where r1.server_state=%d "
+            " and r1.workunitid=workunit.id "
+            " and workunit.appid=app.id "
+            " and app.deprecated=0 "
+            " and workunit.error_mask=0 "
             " and workunit.transitioner_flags=0 "
             " %s "
             " %s "
