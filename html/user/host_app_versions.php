@@ -37,7 +37,6 @@ function av_desc($gavid) {
         $rsc_type = $gavid % 1000000;
         $r = rsc_name($rsc_type);
         return "$app->user_friendly_name (".tra("anonymous platform").", $r)";
-
     } else {
         $av = BoincAppVersion::lookup_id($gavid);
         if (!$av) return tra("Missing app version");

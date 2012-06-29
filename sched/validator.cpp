@@ -93,7 +93,8 @@ int wu_id_modulus=0;
 int wu_id_remainder=0;
 int one_pass_N_WU=0;
 bool one_pass = false;
-double max_granted_credit = 0;
+double max_granted_credit = 200 * 1000 * 365;
+    // limit credit to 1 TeraFLOP-year
 bool update_credited_job = false;
 bool credit_from_wu = false;
 bool credit_from_runtime = false;
@@ -113,7 +114,9 @@ bool is_unreplicated(WORKUNIT& wu) {
 // - udpdate turnaround stats
 // - insert credited_job record if needed
 //
-int is_valid(DB_HOST& host, RESULT& result, WORKUNIT& wu, DB_HOST_APP_VERSION& hav) {
+int is_valid(
+    DB_HOST& host, RESULT& result, WORKUNIT& wu, DB_HOST_APP_VERSION& hav
+) {
     DB_CREDITED_JOB credited_job;
     int retval;
 

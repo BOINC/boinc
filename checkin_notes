@@ -4625,3 +4625,22 @@ David  28 June 2012
         boinc_db.cpp
     sched/
         sched_array.cpp
+
+David  29 June 2012
+    - client: add missing end tag for <pci_info>.  Doh!
+    - validator: add some sanity-checking for credit,
+        to prevent granting 1e38 credit.
+        max_granted_credit now defaults to the equivalent of 1 TeraFLOP-year.
+        Instances that exceed this are not counted in the credit
+        calculation, and a critical-mode log message is written
+    - wrapper: remove wall_cpu_time; not used anymore
+
+    html/user/
+        host_app_versions.cpp
+    samples/wrapper/
+        wrapper.cpp
+    sched/
+        validator.cpp
+        credit.cpp
+    lib/
+        coproc.cpp

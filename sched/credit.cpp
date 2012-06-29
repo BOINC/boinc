@@ -140,6 +140,8 @@ int grant_credit(DB_HOST& host, double start_time, double credit) {
     // PFC was set to the WU estimate.
     // If this doesn't reflect the WU size, neither does the PFC estimate 
     // This is a last resort, and can be way off.
+#define PFC_MODE_INVALID    3
+    // PFC exceeded max granted credit - ignore
 
 // used in the computation of AV scale factors
 //
@@ -360,7 +362,8 @@ int get_pfc(
     RESULT& r, WORKUNIT& wu, DB_APP& app,       // in
     vector<DB_APP_VERSION>&app_versions,        // in/out
     DB_HOST_APP_VERSION& hav,                   // in/out
-    double& pfc, int& mode                      // out
+    double& pfc,                                // out
+    int& mode                                   // out
 ) {
     DB_APP_VERSION* avp=0;
     int retval;
@@ -741,7 +744,8 @@ int assign_credit_set(
     DB_APP& app,
     vector<DB_APP_VERSION>& app_versions,
     vector<DB_HOST_APP_VERSION>& host_app_versions,
-    double max_granted_credit, double& credit
+    double max_granted_credit,
+    double& credit
 ) {
     unsigned int i;
     int mode, retval;
@@ -778,15 +782,21 @@ int assign_credit_set(
         // the latter may be set absurdly high
         //
         if (max_granted_credit && pfc*COBBLESTONE_SCALE > max_granted_credit) {
-            log_messages.printf(MSG_NORMAL,
+            log_messages.printf(MSG_CRITICAL,
                 "[credit] Credit too high: %f\n", pfc*COBBLESTONE_SCALE
             );
             pfc = max_granted_credit/COBBLESTONE_SCALE;
+            mode = PFC_MODE_INVALID;
         }
-        if (mode == PFC_MODE_NORMAL) {
+        switch (mode) {
+        case PFC_MODE_NORMAL:
             normal.push_back(pfc);
-        } else {
+            break;
+        case PFC_MODE_INVALID:
+            break;
+        default:
             approx.push_back(pfc);
+            break;
         }
     }
 

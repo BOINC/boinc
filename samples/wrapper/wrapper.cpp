@@ -86,12 +86,12 @@ struct TASK {
 
     // dynamic stuff follows
     double current_cpu_time;
+        // most recently measure CPU time of this task
     double final_cpu_time;
+        // final CPU time of this task
     double starting_cpu;
-        // how much CPU time was used by tasks before this in the job file
+        // how much CPU time was used by tasks before this one
     bool suspended;
-    double wall_cpu_time;
-        // for estimating CPU time on Win98/ME and Mac
 #ifdef _WIN32
     HANDLE pid_handle;
     DWORD pid;
@@ -570,13 +570,11 @@ int TASK::run(int argct, char** argvt) {
         exit(ERR_EXEC);
     }  // pid = 0 i.e. child proc of the fork
 #endif
-    wall_cpu_time = 0;
     suspended = false;
     return 0;
 }
 
 bool TASK::poll(int& status) {
-    if (!suspended) wall_cpu_time += POLL_PERIOD;
 #ifdef _WIN32
     unsigned long exit_code;
     if (GetExitCodeProcess(pid_handle, &exit_code)) {
@@ -635,6 +633,10 @@ void TASK::resume() {
     suspended = false;
 }
 
+// Get the CPU time of the app while it's running.
+// This totals the CPU time of all the descendant processes,
+// so it shouldn't be called too frequently.
+//
 double TASK::cpu_time() {
     current_cpu_time = process_tree_cpu_time(pid);
     return current_cpu_time;
@@ -700,7 +702,7 @@ int main(int argc, char** argv) {
     unsigned int i;
     double total_weight=0, weight_completed=0;
     double checkpoint_cpu_time;
-        // overall CPU time at last checkpoint
+        // total CPU time at last checkpoint
 
     for (int j=1; j<argc; j++) {
         if (!strcmp(argv[j], "--nthreads")) {
