@@ -71,7 +71,7 @@ function boincstats_get_user_stats_chart($cpid = null, $chart_size = 'medium') {
     $dataset_size = 30;
     $chart_height = 80;
     $chart_width = 266;
-    $backdrop_color = array('R'=>209,'G'=>209,'B'=>209);
+    $backdrop_color = array('R'=>238,'G'=>238,'B'=>238);
     $draw_x_lines = FALSE;
     $label_x_axis = FALSE;
     break;
@@ -238,7 +238,7 @@ function boincstats_get_project_stats_chart() {
 
     // Define the chart area
     $myPicture->setGraphArea(0,0,266,80);
-    $myPicture->drawFilledRectangle(0,0,266,80,array('R'=>209,'G'=>209,'B'=>209));
+    $myPicture->drawFilledRectangle(0,0,266,80,array('R'=>238,'G'=>238,'B'=>238));
 
     // Draw the scale
     $scaleSettings = array(
