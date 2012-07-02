@@ -29,6 +29,39 @@ extern bool use_hyst_fetch;
 #define RSC_TYPE_ANY    -1
 #define RSC_TYPE_CPU    0
 
+// reasons for not being able to fetch work
+//
+#define CANT_FETCH_WORK_NON_CPU_INTENSIVE   1
+#define CANT_FETCH_WORK_SUSPENDED_VIA_GUI   2
+#define CANT_FETCH_WORK_MASTER_URL_FETCH_PENDING   3
+#define CANT_FETCH_WORK_MIN_RPC_TIME        4
+#define CANT_FETCH_WORK_DONT_REQUEST_MORE_WORK        5
+#define CANT_FETCH_WORK_DOWNLOAD_STALLED    6
+#define CANT_FETCH_WORK_RESULT_SUSPENDED    7
+#define CANT_FETCH_WORK_TOO_MANY_UPLOADS    8
+
+inline const char* cant_fetch_work_string(int reason) {
+    switch (reason) {
+    case CANT_FETCH_WORK_NON_CPU_INTENSIVE:
+        return "non CPU intensive";
+    case CANT_FETCH_WORK_SUSPENDED_VIA_GUI:
+        return "suspended via Manager";
+    case CANT_FETCH_WORK_MASTER_URL_FETCH_PENDING:
+        return "master URL fetch pending";
+    case CANT_FETCH_WORK_MIN_RPC_TIME:
+        return "scheduler RPC backoff";
+    case CANT_FETCH_WORK_DONT_REQUEST_MORE_WORK:
+        return "\"no new tasks\" requested via Manager";
+    case CANT_FETCH_WORK_DOWNLOAD_STALLED:
+        return "some download is stalled";
+    case CANT_FETCH_WORK_RESULT_SUSPENDED:
+        return "some task is suspended via Manager";
+    case CANT_FETCH_WORK_TOO_MANY_UPLOADS:
+        return "too many uploads in progress";
+    }
+    return "";
+}
+
 struct PROJECT;
 struct RESULT;
 struct ACTIVE_TASK;
@@ -228,8 +261,8 @@ struct PROJECT_WORK_FETCH {
         // temporary copy used during schedule_cpus() and work fetch
     double rec_temp_save;
         // temporary used during RR simulation
-    bool can_fetch_work;
-    bool compute_can_fetch_work(PROJECT*);
+    bool cant_fetch_work_reason;
+    bool compute_cant_fetch_work_reason(PROJECT*);
     bool has_runnable_jobs;
     PROJECT_WORK_FETCH() {
         memset(this, 0, sizeof(*this));

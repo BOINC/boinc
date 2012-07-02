@@ -229,7 +229,7 @@ PROJECT* RSC_WORK_FETCH::choose_project_hyst(bool enforce_hyst) {
 
     for (unsigned i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-        if (!p->pwf.can_fetch_work) continue;
+        if (p->pwf.cant_fetch_work_reason) continue;
         if (!project_state(p).may_have_work) continue;
 
         // if project has zero resource share,
@@ -294,7 +294,7 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
 
     for (unsigned i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-        if (!p->pwf.can_fetch_work) continue;
+        if (p->pwf.cant_fetch_work_reason) continue;
         if (!project_state(p).may_have_work) continue;
         RSC_PROJECT_WORK_FETCH& rpwf = project_state(p);
         if (rpwf.anon_skip) continue;
@@ -452,15 +452,15 @@ void RSC_WORK_FETCH::clear_request() {
 
 ///////////////  PROJECT_WORK_FETCH  ///////////////
 
-bool PROJECT_WORK_FETCH::compute_can_fetch_work(PROJECT* p) {
-    if (p->non_cpu_intensive) return false;
-    if (p->suspended_via_gui) return false;
-    if (p->master_url_fetch_pending) return false;
-    if (p->min_rpc_time > gstate.now) return false;
-    if (p->dont_request_more_work) return false;
-    if (p->some_download_stalled()) return false;
-    if (p->some_result_suspended()) return false;
-    if (p->too_many_uploading_results) return false;
+bool PROJECT_WORK_FETCH::compute_cant_fetch_work_reason(PROJECT* p) {
+    if (p->non_cpu_intensive) return CANT_FETCH_WORK_NON_CPU_INTENSIVE;
+    if (p->suspended_via_gui) return CANT_FETCH_WORK_SUSPENDED_VIA_GUI;
+    if (p->master_url_fetch_pending) return CANT_FETCH_WORK_MASTER_URL_FETCH_PENDING;
+    if (p->min_rpc_time > gstate.now) return CANT_FETCH_WORK_MIN_RPC_TIME;
+    if (p->dont_request_more_work) return CANT_FETCH_WORK_DONT_REQUEST_MORE_WORK;
+    if (p->some_download_stalled()) return CANT_FETCH_WORK_DOWNLOAD_STALLED;
+    if (p->some_result_suspended()) return CANT_FETCH_WORK_RESULT_SUSPENDED;
+    if (p->too_many_uploading_results) return CANT_FETCH_WORK_TOO_MANY_UPLOADS;
     return true;
 }
 
@@ -478,7 +478,7 @@ void WORK_FETCH::rr_init() {
     }
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-        p->pwf.can_fetch_work = p->pwf.compute_can_fetch_work(p);
+        p->pwf.cant_fetch_work_reason = p->pwf.compute_cant_fetch_work_reason(p);
         p->pwf.has_runnable_jobs = false;
         for (int j=0; j<coprocs.n_rsc; j++) {
             p->rsc_pwf[j].rr_init(p, j);
@@ -494,7 +494,7 @@ void RSC_WORK_FETCH::supplement(PROJECT* pp) {
     for (unsigned i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         if (p == pp) continue;
-        if (!p->pwf.can_fetch_work) continue;
+        if (p->pwf.cant_fetch_work_reason) continue;
         if (!project_state(p).may_have_work) continue;
         RSC_PROJECT_WORK_FETCH& rpwf = project_state(p);
         if (rpwf.anon_skip) continue;
@@ -727,7 +727,7 @@ void WORK_FETCH::compute_shares() {
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
-        if (!p->pwf.can_fetch_work) continue;
+        if (p->pwf.cant_fetch_work_reason) continue;
         for (int j=0; j<coprocs.n_rsc; j++) {
             if (p->rsc_pwf[j].may_have_work) {
                 rsc_work_fetch[j].total_fetchable_share += p->resource_share;
@@ -737,7 +737,7 @@ void WORK_FETCH::compute_shares() {
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
-        if (!p->pwf.can_fetch_work) continue;
+        if (p->pwf.cant_fetch_work_reason) continue;
         for (int j=0; j<coprocs.n_rsc; j++) {
             if (p->rsc_pwf[j].may_have_work) {
                 p->rsc_pwf[j].fetchable_share = rsc_work_fetch[j].total_fetchable_share?p->resource_share/rsc_work_fetch[j].total_fetchable_share:1;

@@ -4644,3 +4644,14 @@ David  29 June 2012
         credit.cpp
     lib/
         coproc.cpp
+
+David  1 July 2012
+    - When the client makes a scheduler RPC without requesting work,
+        and there's a simple reason
+        (e.g. the project is suspended, no-new-tasks, downloads stalled, etc.)
+        show it in the event lot.
+        If the reason is more complex, don't try to explain.
+
+    client/
+        work_fetch.cpp,h
+        scheduler_op.cpp
