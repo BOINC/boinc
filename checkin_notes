@@ -3805,3 +3805,11 @@ David  1 July 2012
     client/
         work_fetch.cpp,h
         scheduler_op.cpp
+
+Rom    27 June 2012
+    - Tag for 7.0.31 release, all platforms
+      boinc_core_release_7_0_31
+
+    /
+        configure.ac
+        version.h
