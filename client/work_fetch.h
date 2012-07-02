@@ -39,6 +39,7 @@ extern bool use_hyst_fetch;
 #define CANT_FETCH_WORK_DOWNLOAD_STALLED    6
 #define CANT_FETCH_WORK_RESULT_SUSPENDED    7
 #define CANT_FETCH_WORK_TOO_MANY_UPLOADS    8
+#define CANT_FETCH_WORK_NOT_HIGHEST_PRIORITY    9
 
 inline const char* cant_fetch_work_string(int reason) {
     switch (reason) {
@@ -58,6 +59,8 @@ inline const char* cant_fetch_work_string(int reason) {
         return "some task is suspended via Manager";
     case CANT_FETCH_WORK_TOO_MANY_UPLOADS:
         return "too many uploads in progress";
+    case CANT_FETCH_WORK_NOT_HIGHEST_PRIORITY:
+        return "project is not highest priority";
     }
     return "";
 }

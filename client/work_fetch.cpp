@@ -461,7 +461,7 @@ bool PROJECT_WORK_FETCH::compute_cant_fetch_work_reason(PROJECT* p) {
     if (p->some_download_stalled()) return CANT_FETCH_WORK_DOWNLOAD_STALLED;
     if (p->some_result_suspended()) return CANT_FETCH_WORK_RESULT_SUSPENDED;
     if (p->too_many_uploading_results) return CANT_FETCH_WORK_TOO_MANY_UPLOADS;
-    return true;
+    return 0;
 }
 
 void PROJECT_WORK_FETCH::reset(PROJECT* p) {
@@ -590,6 +590,7 @@ void WORK_FETCH::compute_work_request(PROJECT* p) {
 
     PROJECT* bestp = choose_project(false);
     if (p != bestp) {
+        p->pwf.cant_fetch_work_reason = CANT_FETCH_WORK_NOT_HIGHEST_PRIORITY;
         clear_request();
     }
 }
