@@ -3788,3 +3788,9 @@ Charlie 28 June 2012
 
      mac_build/
         buildWxMac.sh
+
+David  29 June 2012
+    - client: add missing end tag for <pci_info>.  Doh!
+
+    lib/
+        coproc.cpp
