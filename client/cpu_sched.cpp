@@ -1596,18 +1596,20 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
             }
         }
 
-        // don't overcommit CPUs if a MT job is scheduled
+        // Don't overcommit CPUs if a MT job is scheduled.
+        // Skip this check for GPU jobs.
         //
-        if (scheduled_mt || (rp->avp->avg_ncpus > 1)) {
-            if (ncpus_used + rp->avp->avg_ncpus > ncpus) {
-                if (log_flags.cpu_sched_debug) {
-                    msg_printf(rp->project, MSG_INFO,
-                        "[cpu_sched_debug] avoid MT overcommit: skipping %s",
-                        rp->name
-                    );
-                }
-                continue;
+        if (!rp->uses_coprocs()
+            && (scheduled_mt || (rp->avp->avg_ncpus > 1))
+            && (ncpus_used + rp->avp->avg_ncpus > ncpus)
+        ) {
+            if (log_flags.cpu_sched_debug) {
+                msg_printf(rp->project, MSG_INFO,
+                    "[cpu_sched_debug] avoid MT overcommit: skipping %s",
+                    rp->name
+                );
             }
+            continue;
         }
 
         double wss = 0;

@@ -3806,6 +3806,14 @@ David  1 July 2012
         work_fetch.cpp,h
         scheduler_op.cpp
 
+David  2 July 2012
+    - client: in the job scheduler, there's a check to prevent
+        overcommitting the CPUs if an MT is scheduled.
+        Skip this check for GPU jobs.
+
+    client/
+        cpu_sched.cpp
+
 Rom    27 June 2012
     - Tag for 7.0.31 release, all platforms
       boinc_core_release_7_0_31
