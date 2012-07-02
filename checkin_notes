@@ -4655,3 +4655,11 @@ David  1 July 2012
     client/
         work_fetch.cpp,h
         scheduler_op.cpp
+
+David  2 July 2012
+    - client: in the job scheduler, there's a check to prevent
+        overcommitting the CPUs if an MT is scheduled.
+        Skip this check for GPU jobs.
+
+    client/
+        cpu_sched.cpp
