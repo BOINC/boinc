@@ -4684,3 +4684,8 @@ David  2 July 2012
         plan_class_spec.cpp
     lib/
         various
+
+David  2 July 2012
+    - Unix build: fix problem with Debian automated builds; from Steffen M
+
+    configure.ac

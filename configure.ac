@@ -880,12 +880,12 @@ fi
 
 dnl Some info about the person compiling used for making some packages.
 LOGNAME=`${WHOAMI}`
-FULLNAME=`grep ^${LOGNAME}: /etc/passwd | awk -F: '{print $5}'`
+FULLNAME=`grep ^${LOGNAME}: /etc/passwd | head -n 1 | awk -F: '{print $5}'`
 if test -z "${FULLNAME}" ; then
-  FULLNAME=`ypcat passwd 2>/dev/null | grep ^${LOGNAME}: | awk -F: '{print $5}'`
+  FULLNAME=`ypcat passwd 2>/dev/null | grep ^${LOGNAME}: | head -n 1 | awk -F: '{print $5}'`
 fi
 if test -z "${FULLNAME}" ; then
-  FULLNAME=`nidump passwd / 2>/dev/null | grep ^${LOGNAME}: | awk -F: '{print $5}'`
+  FULLNAME=`nidump passwd / 2>/dev/null | grep ^${LOGNAME}: | head -n 1 | awk -F: '{print $5}'`
 fi
 if test -z "${FULLNAME}" ; then
   FULLNAME=$LOGNAME
