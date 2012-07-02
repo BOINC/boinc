@@ -264,7 +264,7 @@ struct PROJECT_WORK_FETCH {
         // temporary copy used during schedule_cpus() and work fetch
     double rec_temp_save;
         // temporary used during RR simulation
-    bool cant_fetch_work_reason;
+    int cant_fetch_work_reason;
     bool compute_cant_fetch_work_reason(PROJECT*);
     bool has_runnable_jobs;
     PROJECT_WORK_FETCH() {
