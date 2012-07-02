@@ -64,7 +64,6 @@
 
 #include <vector>
 #include <string>
-#include <cstring>
 
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"

@@ -4674,3 +4674,13 @@ David  2 July 2012
 
     various/
         various
+
+David  2 July 2012
+    - more code cleanup
+
+    vda/
+        ssim.cpp
+    sched/
+        plan_class_spec.cpp
+    lib/
+        various

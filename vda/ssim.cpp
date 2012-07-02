@@ -36,6 +36,7 @@
 
 #include <set>
 #include <limits.h>
+#include <math.h>
 
 #include "des.h"
 #include "stats.h"

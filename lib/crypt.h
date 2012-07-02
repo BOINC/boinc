@@ -23,7 +23,6 @@
 // to store keys in either case.
 
 #include <cstdio>
-#include <cstring>
 
 #include <openssl/rsa.h>
 
