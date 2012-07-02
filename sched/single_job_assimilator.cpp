@@ -20,10 +20,11 @@
 // - delete job description file
 // - delete WU template file
 
-#include <vector>
+#include <stdlib.h>
+#include <string.h>
 #include <string>
-#include <cstdlib>
-#include <cstring>
+#include <unistd.h>
+#include <vector>
 
 #include "boinc_db.h"
 #include "error_numbers.h"

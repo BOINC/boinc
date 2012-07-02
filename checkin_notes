@@ -4663,3 +4663,14 @@ David  2 July 2012
 
     client/
         cpu_sched.cpp
+
+David  2 July 2012
+    - Compile fixes for Fedora core 17.  From Christian B.  Fixes #1194.
+    - Fix various #include issues.
+
+    CODING STYLE LAW (minimal inclusion principle):
+        If foo.cpp requires <blah.h>,
+        #include <blah.h> in foo.cpp, NOT foo.h
+
+    various/
+        various

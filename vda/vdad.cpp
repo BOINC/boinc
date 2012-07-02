@@ -23,13 +23,11 @@
 // Calls the recovery routines to initiate transfers,
 // update the DB, etc.
 
+#include <set>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <unistd.h>
 #include <vector>
-#include <set>
-
-using std::vector;
-using std::set;
 
 #include "boinc_db.h"
 #include "sched_config.h"
@@ -41,6 +39,9 @@ using std::set;
 #include "filesys.h"
 
 #include "vda_lib.h"
+
+using std::vector;
+using std::set;
 
 void show_msg(char* msg) {
     printf("%s", msg);

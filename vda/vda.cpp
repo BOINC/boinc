@@ -21,6 +21,7 @@
 // vda add path     add a file
 
 #include <stdio.h>
+#include <unistd.h>
 
 #include "boinc_db.h"
 #include "filesys.h"

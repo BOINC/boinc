@@ -18,6 +18,8 @@
 #ifndef _BOINC_DB_TYPES_
 #define _BOINC_DB_TYPES_
 
+#include <vector>
+
 #include "average.h"
 #include "parse.h"
 

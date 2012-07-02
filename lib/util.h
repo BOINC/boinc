@@ -18,12 +18,7 @@
 #ifndef UTIL_H
 #define UTIL_H
 
-#include <cstdlib>
-#include <ctime>
-#include <cmath>
-#include <cctype>
-#include <cstring>
-#include <algorithm>
+#include <stdlib.h>
 #include <string>
 #include <vector>
 

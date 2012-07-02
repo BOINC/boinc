@@ -1,3 +1,5 @@
+// DEPRECATED
+
 #if   defined(_WIN32) && !defined(__STDWX_H__)
 #include "boinc_win.h"
 #elif defined(_WIN32) && defined(__STDWX_H__)
@@ -49,7 +51,6 @@
 #include <netinet/ether.h>
 #endif
 #include <string.h>
-#include "unix_util.h"
 #endif
 
 #include "mac_address.h"

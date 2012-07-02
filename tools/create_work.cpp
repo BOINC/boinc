@@ -21,12 +21,14 @@
 // This program must be run in the project's root directory
 //
 #include "config.h"
-#include <sys/param.h>
+
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
 #include <string>
+#include <sys/param.h>
+#include <unistd.h>
 
 #include "backend_lib.h"
 #include "boinc_db.h"
