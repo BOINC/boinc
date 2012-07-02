@@ -40,6 +40,7 @@ extern bool use_hyst_fetch;
 #define CANT_FETCH_WORK_RESULT_SUSPENDED    7
 #define CANT_FETCH_WORK_TOO_MANY_UPLOADS    8
 #define CANT_FETCH_WORK_NOT_HIGHEST_PRIORITY    9
+#define CANT_FETCH_WORK_DONT_NEED           10
 
 inline const char* cant_fetch_work_string(int reason) {
     switch (reason) {
@@ -61,6 +62,8 @@ inline const char* cant_fetch_work_string(int reason) {
         return "too many uploads in progress";
     case CANT_FETCH_WORK_NOT_HIGHEST_PRIORITY:
         return "project is not highest priority";
+    case CANT_FETCH_WORK_DONT_NEED:
+        return "don't need";
     }
     return "";
 }
@@ -265,7 +268,7 @@ struct PROJECT_WORK_FETCH {
     double rec_temp_save;
         // temporary used during RR simulation
     int cant_fetch_work_reason;
-    bool compute_cant_fetch_work_reason(PROJECT*);
+    int compute_cant_fetch_work_reason(PROJECT*);
     bool has_runnable_jobs;
     PROJECT_WORK_FETCH() {
         memset(this, 0, sizeof(*this));

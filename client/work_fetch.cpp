@@ -452,7 +452,7 @@ void RSC_WORK_FETCH::clear_request() {
 
 ///////////////  PROJECT_WORK_FETCH  ///////////////
 
-bool PROJECT_WORK_FETCH::compute_cant_fetch_work_reason(PROJECT* p) {
+int PROJECT_WORK_FETCH::compute_cant_fetch_work_reason(PROJECT* p) {
     if (p->non_cpu_intensive) return CANT_FETCH_WORK_NON_CPU_INTENSIVE;
     if (p->suspended_via_gui) return CANT_FETCH_WORK_SUSPENDED_VIA_GUI;
     if (p->master_url_fetch_pending) return CANT_FETCH_WORK_MASTER_URL_FETCH_PENDING;
@@ -590,7 +590,13 @@ void WORK_FETCH::compute_work_request(PROJECT* p) {
 
     PROJECT* bestp = choose_project(false);
     if (p != bestp) {
-        p->pwf.cant_fetch_work_reason = CANT_FETCH_WORK_NOT_HIGHEST_PRIORITY;
+        if (!p->pwf.cant_fetch_work_reason) {
+            if (bestp) {
+                p->pwf.cant_fetch_work_reason = CANT_FETCH_WORK_NOT_HIGHEST_PRIORITY;
+            } else {
+                p->pwf.cant_fetch_work_reason = CANT_FETCH_WORK_DONT_NEED;
+            }
+        }
         clear_request();
     }
 }
