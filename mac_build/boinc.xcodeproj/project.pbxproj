@@ -2618,7 +2618,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "## echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"CONFIGURATION = ${CONFIGURATION}\"\n# echo \"PRODUCT_NAME = ${PRODUCT_NAME}\"\nmkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" -nt \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n        /Developer/usr/bin/strip -S \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    fi\nfi\n";
+			shellScript = "## echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"CONFIGURATION = ${CONFIGURATION}\"\n# echo \"PRODUCT_NAME = ${PRODUCT_NAME}\"\nmkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" -nt \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n        strip -S \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    fi\nfi\n";
 		};
 		DD3E15380A774397007E0084 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2660,7 +2660,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"CONFIGURATION = ${CONFIGURATION}\"\n# echo \"PRODUCT_NAME = ${PRODUCT_NAME}\"\nmkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" -nt \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n        /Developer/usr/bin/strip -S \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    fi\nfi";
+			shellScript = "# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"CONFIGURATION = ${CONFIGURATION}\"\n# echo \"PRODUCT_NAME = ${PRODUCT_NAME}\"\nmkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" -nt \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n        strip -S \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    fi\nfi";
 		};
 		DD5E20A8140CE842000FADAA /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2673,7 +2673,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"CONFIGURATION = ${CONFIGURATION}\"\n# echo \"PRODUCT_NAME = ${PRODUCT_NAME}\"\nmkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" -nt \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n        /Developer/usr/bin/strip -S \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    fi\nfi";
+			shellScript = "# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"CONFIGURATION = ${CONFIGURATION}\"\n# echo \"PRODUCT_NAME = ${PRODUCT_NAME}\"\nmkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" -nt \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n        strip -S \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    fi\nfi";
 		};
 		DD5FD5830A0232F30093C19F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2733,7 +2733,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  ## echo \"Starting script 1\"\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Deployment_Dir\"\n  mkdir -p \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -nt \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_i386\" ]; then\n    ## echo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager is newer than ${TARGET_BUILD_DIR}/SymbolTables/BOINCManager_i386\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_i386\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_ppc\"\n    cp -fp \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_i386\"\n    touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_i386\"\n    /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\n  fi\nelse\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Development_Dir\"\nfi\n";
+			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  ## echo \"Starting script 1\"\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Deployment_Dir\"\n  mkdir -p \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -nt \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_i386\" ]; then\n    ## echo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager is newer than ${TARGET_BUILD_DIR}/SymbolTables/BOINCManager_i386\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_i386\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_ppc\"\n    cp -fp \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_i386\"\n    touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_i386\"\n    strip \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\n  fi\nelse\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Development_Dir\"\nfi\n";
 		};
 		DD7355180D9110AE0006A9D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2748,7 +2748,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  ## echo \"Starting script 1\"\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Deployment_Dir\"\nmkdir -p \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" -nt \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386\" ]; then\n    ## echo \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME} is newer than ${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_ppc\"\n    cp -fp \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386\"\n    touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386\"\n    /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\"\n  fi\nelse\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Development_Dir\"\n\nfi";
+			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  ## echo \"Starting script 1\"\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Deployment_Dir\"\nmkdir -p \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" -nt \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386\" ]; then\n    ## echo \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME} is newer than ${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_ppc\"\n    cp -fp \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386\"\n    touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386\"\n    strip \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\"\n  fi\nelse\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Development_Dir\"\n\nfi";
 		};
 		DD73551E0D9111150006A9D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2776,7 +2776,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "## echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"CONFIGURATION = ${CONFIGURATION}\"\n# echo \"PRODUCT_NAME = ${PRODUCT_NAME}\"\nmkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" -nt \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n        /Developer/usr/bin/strip -S \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    fi\nfi\n";
+			shellScript = "## echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"CONFIGURATION = ${CONFIGURATION}\"\n# echo \"PRODUCT_NAME = ${PRODUCT_NAME}\"\nmkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" -nt \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n        strip -S \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    fi\nfi\n";
 		};
 		DDAD1A380909139E004E7DD0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2834,7 +2834,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "## echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"CONFIGURATION = ${CONFIGURATION}\"\n# echo \"PRODUCT_NAME = ${PRODUCT_NAME}\"\nmkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" -nt \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n        /Developer/usr/bin/strip -S \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    fi\nfi\n";
+			shellScript = "## echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"CONFIGURATION = ${CONFIGURATION}\"\n# echo \"PRODUCT_NAME = ${PRODUCT_NAME}\"\nmkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" -nt \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n        strip -S \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    fi\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

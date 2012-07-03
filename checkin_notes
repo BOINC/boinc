@@ -4695,3 +4695,11 @@ Charlie 3 July 2012
 
     client/
         cpu_sched.cpp
+
+Charlie 3 July 2012
+    - Mac client: Update Xcode project for compatibility with Xcode 4.3.2 
+        and Xcode 4.5.
+
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
