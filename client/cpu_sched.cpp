@@ -81,10 +81,6 @@
 using std::vector;
 using std::list;
 
-#ifdef __APPLE__
-using std::isnan;
-#endif
-
 static double rec_sum;
 
 // used in schedule_cpus() to keep track of resources used

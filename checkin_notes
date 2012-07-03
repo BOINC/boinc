@@ -4689,3 +4689,9 @@ David  2 July 2012
     - Unix build: fix problem with Debian automated builds; from Steffen M
 
     configure.ac
+
+Charlie 3 July 2012
+    - Mac: fix build break.
+
+    client/
+        cpu_sched.cpp
