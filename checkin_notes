@@ -4703,3 +4703,19 @@ Charlie 3 July 2012
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  3 July 2012
+	- Client (Win): in file_size(), use _stat64() instead of stat().
+		Otherwise it doesn't work for files >= 2GB
+	- Client: TIME_STATS::trim_stats_log() wasn't working because
+		it's called in the constructor of TIME_STATS,
+		which is called before we've done a chdir() to the data dir.
+
+	Note: for this reason, no disk access should be done in constructors
+	of global objects.  A quick scan found no instances of this.
+
+	client/
+		client_state.cpp
+		time_stats.cpp,h
+	lib/
+		filesys.cpp

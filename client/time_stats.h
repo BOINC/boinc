@@ -21,10 +21,10 @@
 #include "miofile.h"
 #include <vector>
 
-class TIME_STATS {
+struct TIME_STATS {
     bool first;
     int previous_connected_state;
-public:
+
     double last_update;
 // we maintain an exponentially weighted average of these quantities:
     double on_frac;
@@ -50,7 +50,7 @@ public:
 
     void update(int suspend_reason, int gpu_suspend_reason);
 
-    TIME_STATS();
+    void init();
     int write(MIOFILE&, bool to_server);
     int parse(XML_PARSER&);
 

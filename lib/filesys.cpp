@@ -324,10 +324,15 @@ int boinc_delete_file(const char* path) {
 // get file size
 //
 int file_size(const char* path, double& size) {
-    struct stat sbuf;
     int retval;
 
+#if defined(_WIN32) && !defined(__CYGWIN32__)
+    struct __stat64 sbuf;
+    retval = _stat64(path, &sbuf);
+#else
+    struct stat sbuf;
     retval = stat(path, &sbuf);
+#endif
     if (retval) return ERR_NOT_FOUND;
     size = (double)sbuf.st_size;
     return 0;
@@ -335,7 +340,7 @@ int file_size(const char* path, double& size) {
 
 int boinc_truncate(const char* path, double size) {
     int retval;
-#if defined(_WIN32) &&  !defined(__CYGWIN32__)
+#if defined(_WIN32) && !defined(__CYGWIN32__)
     // the usual Windows nightmare.
     // There's another function, SetEndOfFile(),
     // that supposedly works with files over 2GB,
