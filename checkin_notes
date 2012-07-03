@@ -3814,10 +3814,18 @@ David  2 July 2012
     client/
         cpu_sched.cpp
 
-Rom    27 June 2012
+Rom    2 July 2012
     - Tag for 7.0.31 release, all platforms
       boinc_core_release_7_0_31
 
     /
         configure.ac
         version.h
+
+Charlie 3 July 2012
+    - Mac client: Update Xcode project for compatibility with Xcode 4.3.2 
+        and Xcode 4.5.  (Checked into 7.0.31 tag.)
+
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
