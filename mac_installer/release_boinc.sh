@@ -29,13 +29,11 @@
 ## updated 12/2/11 by Charlie Fenton to restore wrapper and reboot if needed
 ## updated 1/6/12 by Charlie Fenton to also install VirtualBox
 ## updated 6/22/12 by Charlie Fenton to code sign the installer and uninstaller
+## updated 7/5/12 by Charlie Fenton to avoid using PackageMaker
 ##
-## NOTE: This script uses PackageMaker, which is installed as part of the 
-##   XCode developer tools.  So you must have installed XCode Developer 
-##   Tools on the Mac before running this script.
-##
-## NOTE: PackageMaker may write 3 lines to the terminal with "Setting to : 0 (null)" 
-##   and "relocate: (null) 0".  This is normal and does not indicate a problem.
+## NOTE: This script requires Mac OS 10.6 or later, and uses XCode developer
+##   tools.  So you must have installed XCode Developer Tools on the Mac 
+##   before running this script.
 ##
 
 ## NOTE: To build the executables under Lion and XCode 4, select from XCode's
@@ -236,23 +234,45 @@ sudo chmod -R 755 ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_
 cp -fpR $BUILDPATH/BOINC\ Installer.app ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/
 
 # Build the installer package inside the wrapper application's bundle
-# OS 10.5 / OS 10.6 packagemaker
-/Developer/usr/bin/packagemaker -r ../BOINC_Installer/Pkg_Root -e ../BOINC_Installer/Installer\ Resources/ -s ../BOINC_Installer/Installer\ Scripts/ -f mac_build/Pkg-Info.plist -t "BOINC Manager" -n "$1.$2.$3" -b -o ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg
-# Remove TokenDefinitions.plist and IFPkgPathMappings in Info.plist, which would cause installer to find a previous copy of BOINCManager and install there
-sudo rm -f ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources/TokenDefinitions.plist
-if [ "$DarwinMajorVersion" -lt 11 ]; then
-    defaults delete "$BOINCPath/../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/BOINC.pkg/Contents/Info" IFPkgPathMappings
-fi
+# Because PackageMaker is now distributed separately from Xcode, we 
+# emulate the following PackageMaker command:
+###/Developer/usr/bin/packagemaker -r ../BOINC_Installer/Pkg_Root -e ../BOINC_Installer/Installer\ Resources/ -s ../BOINC_Installer/Installer\ Scripts/ -f mac_build/Pkg-Info.plist -t "BOINC Manager" -n "$1.$2.$3" -b -o ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg
+
+# Our PackageMaker emulation starts here
+mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources
+
+cd ../BOINC_Installer/Pkg_Root
+
+mkbom ./ ../New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Archive.bom
+
+pax -wz -x cpio -f ../New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Archive.pax.gz ./
+
+cd "${BOINCPath}"
+
+echo "pmkrpkg1" >> ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/PkgInfo
+
+cat >> ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources/package_version << ENDOFFILE
+major: $1
+minor: $2
+ENDOFFILE
+
+cp -fp mac_build/Pkg-Info.plist ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Info.plist
+
+cp -fpR ../BOINC_Installer/Installer\ Resources/ ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources
+
+sudo chmod a+x ../BOINC_Installer/Installer\ Scripts/*
+cp -fpR ../BOINC_Installer/Installer\ Scripts/ ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources
+
+# End of our PackageMaker emulation
 
 # Allow the installer wrapper application to modify the package's Info.plist file
 sudo chmod a+rw ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Info.plist
 
 # add a more complete Description.plist file to display in Installer's Customize pane
-cp -fp mac_installer/Description.plist ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources/en.lproj/
-if [  $? -ne 0 ]; then
-    # if no en.lproj directory then try English.lproj
-    cp -fp mac_installer/Description.plist ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources/English.lproj/
+if [ ! -d ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources/en.lproj/ ]; then
+    mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources/en.lproj
 fi
+cp -fp mac_installer/Description.plist ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources/en.lproj/
 
 # Build the BOINC+VirtualBox.mpkg metapackage if VirtualBox.pkg exists
 
