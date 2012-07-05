@@ -481,43 +481,6 @@ public:
     std::vector<DB_FILESET_SCHED_TRIGGER_ITEM> items;
 };
 
-struct VDA_FILE {
-    int id;
-    double create_time;
-    char dir[256];
-    char name[256];
-    double size;
-    bool need_update;
-    bool initialized;
-    bool retrieving;
-    void clear();
-};
-
-struct VDA_CHUNK_HOST {
-    double create_time;
-    int vda_file_id;
-    int host_id;
-    char name[256];     // C1.C2.Cn
-    double size;
-    bool present_on_host;
-    bool transfer_in_progress;
-    bool transfer_wait;
-    double transfer_request_time;
-        // when vdad assigned this chunk to this host
-    double transfer_send_time;
-        // when transfer request was sent to host
-
-    // the following not in DB
-    //
-    bool found;
-
-    void clear();
-    inline bool download_in_progress() {
-        return (transfer_in_progress && !present_on_host);
-    }
-
-};
-
 struct DB_VDA_FILE : public DB_BASE, public VDA_FILE {
     DB_VDA_FILE(DB_CONN* p=0);
     int get_id();

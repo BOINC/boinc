@@ -4727,3 +4727,29 @@ Charlie 5 July 2012
         
     mac_installer/
         release_boinc.sh
+
+David  5 July 2012
+    - client: remove "device" entry from CUDA_DEVICE_PROP,
+        and change types of mem-size fields from int to double.
+        These fields are size_t in NVIDIA's version of this;
+        however, cuDeviceGetAttribute() returns them as int,
+        so I don't see where this makes any difference.
+    - client: fix bug in handling of <no_rsc_apps> element.
+    - scheduler: message tweaks.
+        Note: [foo] means that the message is enabled by <debug_foo>.
+
+
+    lib/
+        coproc.cpp,h
+    client/
+        gui_nvidia.cpp
+        work_fetch.cpp
+        scheduler_op.cpp
+    db/
+        boinc_db_types.h
+        boind_db.h
+    vda/
+        sched_vda.cpp
+    sched/
+        plan_class_spec.cpp
+        sched_types.cpp

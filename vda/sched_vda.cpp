@@ -153,13 +153,30 @@ static int process_completed_upload(char* chunk_name, CHUNK_LIST& chunks) {
     return 0;
 }
 
-// process a present file
+// Process a present file; possibilities:
+// - a download finished
+// - this host hasn't communicated in a while, and we deleted the
+//   VDA_CHUNK_HOST record
+// So:
 // - create a vda_chunk_host record if needed
 // - set present_on_host flag in vda_chunk_host
 // - mark our in-memory vda_chunk_host record as "found"
 // - mark vda_file for update
 //
 static int process_present_file(FILE_INFO& fi, CHUNK_LIST& chunks) {
+    DB_VDA_CHUNK_HOST* ch;
+    CHUNK_LIST::iterator cli = chunks.find(string(fi.name));
+    if (cli == chunks.end()) {
+        // don't have a record of this chunk on this host; make one
+        //
+        ch = new DB_VDA_CHUNK_HOST;
+        ch->create_time = dtime();
+
+    } else {
+        ch = &(cli->second);
+    }
+    ch->transfer_in_progress = false;
+    mark_for_update(ch->vda_file_id);
     return 0;
 }
 
@@ -327,22 +344,24 @@ void handle_vda() {
     }
 
     // process completed uploads
+    // NOTE: completed downloads are handled below
     //
     for (i=0; i<g_request->file_xfer_results.size(); i++) {
         RESULT& r = g_request->file_xfer_results[i];
-        if (!starts_with(r.name, "vda_upload_")) continue;
-        char* chunk_name = r.name + strlen("vda_upload_");
-        if (config.debug_vda) {
-            log_messages.printf(MSG_NORMAL,
-                "[vda] DB: completed upload %s\n", chunk_name
-            );
-        }
-        retval = process_completed_upload(chunk_name, chunks);
-        if (retval) {
-            log_messages.printf(MSG_CRITICAL,
-                "[vda] process_completed_upload(): %d\n", retval
-            );
-            return;
+        if (strstr(r.name, "vda_upload")) {
+            char* chunk_name = r.name + strlen("vda_upload_");
+            if (config.debug_vda) {
+                log_messages.printf(MSG_NORMAL,
+                    "[vda] DB: completed upload %s\n", chunk_name
+                );
+            }
+            retval = process_completed_upload(chunk_name, chunks);
+            if (retval) {
+                log_messages.printf(MSG_CRITICAL,
+                    "[vda] process_completed_upload(): %d\n", retval
+                );
+                return;
+            }
         }
     }
 

@@ -288,23 +288,24 @@ struct COPROC {
 //
 struct CUDA_DEVICE_PROP {
     char  name[256];
-    int   deviceHandle;
     double totalGlobalMem;
-    int   sharedMemPerBlock;
+    double   sharedMemPerBlock;
     int   regsPerBlock;
     int   warpSize;
-    int   memPitch;
+    double   memPitch;
     int   maxThreadsPerBlock;
     int   maxThreadsDim[3];
     int   maxGridSize[3]; 
     int   clockRate;
-    int   totalConstMem; 
+    double   totalConstMem; 
     int   major;     // compute capability
     int   minor;
-    int   textureAlignment;
+    double   textureAlignment;
     int   deviceOverlap;
     int   multiProcessorCount;
 };
+
+typedef int CUdevice;
 
 struct COPROC_NVIDIA : public COPROC {
     int cuda_version;  // CUDA runtime version

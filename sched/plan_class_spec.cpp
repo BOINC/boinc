@@ -72,7 +72,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
             if (!strstr(buf, cpu_features[i].c_str())) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
-                        "[version] [plan_class_spec] CPU lacks feature '%s' (got '%s')\n",
+                        "[version] plan_class_spec: CPU lacks feature '%s' (got '%s')\n",
                         cpu_features[i].c_str(), sreq.host.p_features
                     );
                 }
@@ -86,7 +86,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
     if (min_ncpus && g_wreq->effective_ncpus < min_ncpus) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
-                "[version] [plan_class_spec] not enough CPUs: %d < %f\n",
+                "[version] plan_class_spec: not enough CPUs: %d < %f\n",
                 g_wreq->effective_ncpus, min_ncpus
             );
         }
@@ -98,7 +98,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
     if (have_os_regex && regexec(&(os_regex), sreq.host.os_version, 0, NULL, 0)) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
-                "[version] [plan_class_spec] OS version '%s' didn't match regexp\n",
+                "[version] plan_class_spec: OS version '%s' didn't match regexp\n",
                 sreq.host.os_version
             );
         }
@@ -125,7 +125,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         if (n != 3) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[version] [plan_class_spec] can't parse vbox version\n"
+                    "[version] plan_class_spec: can't parse vbox version\n"
                 );
             }
             return false;
@@ -134,7 +134,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         if (min_vbox_version && v < min_vbox_version) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[version] [plan_class_spec] vbox version too low: %d < %d\n",
+                    "[version] plan_class_spec: vbox version too low: %d < %d\n",
                     v, min_vbox_version
                 );
             }
@@ -143,7 +143,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         if (max_vbox_version && v > max_vbox_version) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[version] [plan_class_spec] vbox version too high: %d > %d\n",
+                    "[version] plan_class_spec: vbox version too high: %d > %d\n",
                     v, max_vbox_version
                 );
             }
@@ -182,14 +182,14 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         bool p = parse_str(buf, tag, value, sizeof(value));
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
-                "[version] [plan_class_spec] parsed project prefs setting '%s' : %s\n",
+                "[version] plan_class_spec: parsed project prefs setting '%s' : %s\n",
                 project_prefs_tag, p?"true":"false"
             );
         }
         if (regexec(&(project_prefs_regex), value, 0, NULL, 0)) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[version] [plan_class_spec] project prefs setting '%s' prevents using plan class.\n",
+                    "[version] plan_class_spec: project prefs setting '%s' prevents using plan class.\n",
                     project_prefs_tag
                 );
             }
@@ -212,7 +212,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         bool p = parse_double(buf, tag, v);
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
-                "[version] [plan_class_spec] parsed project prefs setting '%s' : %s : %f\n",
+                "[version] plan_class_spec: parsed project prefs setting '%s' : %s : %f\n",
                 gpu_utilization_tag, p?"true":"false", v
             );
         }
@@ -230,7 +230,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         if (!cp.count) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[version] [plan_class_spec] No ATI devices found\n"
+                    "[version] plan_class_spec: No AMD GPUs found\n"
                 );
             }
             return false;
@@ -245,14 +245,18 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         if (need_ati_libs) {
             if (!cp.atirt_detected) {
 	        if (config.debug_version_select) {
-                    log_messages.printf(MSG_NORMAL,"[version] [plan_class_spec] ATI run time libraries not found\n");
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] plan_class_spec: ATI libraries not found\n"
+                    );
                 }
                 return false;
             }
         } else {
             if (!cp.amdrt_detected) {
 	        if (config.debug_version_select) {
-                    log_messages.printf(MSG_NORMAL,"[version] [plan_class_spec] [plan_class_spec] AMD run time libraries not found\n");
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] plan_class_spec: AMD libraries not found\n"
+                    );
                 }
                 return false;
             }
@@ -261,7 +265,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         if (min_cal_target && cp.attribs.target < min_cal_target) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[version] [plan_class_spec] CAL target less than minimum (%d < %d)\n",
+                    "[version] plan_class_spec: CAL target less than minimum (%d < %d)\n",
                     cp.attribs.target, min_cal_target
                 );
             }
@@ -270,7 +274,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         if (max_cal_target && cp.attribs.target > max_cal_target) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[version] [plan_class_spec] CAL target greater than maximum (%d > %d)\n",
+                    "[version] plan_class_spec: CAL target greater than maximum (%d > %d)\n",
                     cp.attribs.target, max_cal_target
                 );
             }
@@ -287,7 +291,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
             if (scanned != 3) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
-                        "[version] [plan_class_spec] driver version '%s' couldn't be parsed\n",
+                        "[version] plan_class_spec: driver version '%s' couldn't be parsed\n",
                         cp.version
                     );
                 }
@@ -298,7 +302,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         } else {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[version] [plan_class_spec] no CAL, driver version couldn't be determined\n"
+                    "[version] plan_class_spec: no CAL, driver version couldn't be determined\n"
                 );
             }
         }
@@ -312,7 +316,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         if (!cp.count) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[version] [plan_class_spec] No NVIDIA devices found\n"
+                    "[version] plan_class_spec: No NVIDIA GPUs found\n"
                 );
             }
             return false;
@@ -329,7 +333,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         if (min_nvidia_compcap && min_nvidia_compcap > v) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[version] [plan_class_spec] NVIDIA compute capability required min: %d, supplied: %d\n",
+                    "[version] plan_class_spec: NVIDIA compute capability required min: %d, supplied: %d\n",
                     min_nvidia_compcap, v
                 );
             }
@@ -338,7 +342,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         if (max_nvidia_compcap && max_nvidia_compcap < v) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[version] [plan_class_spec] CUDA compute capability required max: %d, supplied: %d\n",
+                    "[version] plan_class_spec: CUDA compute capability required max: %d, supplied: %d\n",
                     max_nvidia_compcap, v
                 );
             }
@@ -349,7 +353,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
             if (min_cuda_version && min_cuda_version > cp.cuda_version) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
-                        "[version] [plan_class_spec] CUDA version required min: %d, supplied: %d\n",
+                        "[version] plan_class_spec: CUDA version required min: %d, supplied: %d\n",
                         min_cuda_version, cp.cuda_version
                     );
                 }
@@ -358,7 +362,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
             if (max_cuda_version && max_cuda_version < cp.cuda_version) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
-                        "[version] [plan_class_spec] CUDA version required max: %d, supplied: %d\n",
+                        "[version] plan_class_spec: CUDA version required max: %d, supplied: %d\n",
                         max_cuda_version, cp.cuda_version
                     );
                 }
@@ -377,7 +381,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         if (!cp.count) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[version] [plan_class_spec] No NVIDIA devices found\n"
+                    "[version] [version] No Intel GPUs found\n"
                 );
             }
             return false;
@@ -392,7 +396,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         if (!cpp->have_opencl) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[version] [plan_class_spec] GPU doesn't support OpenCL\n"
+                    "[version] GPU doesn't support OpenCL\n"
                 );
             }
             return false;
@@ -403,7 +407,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         if (min_opencl_version && min_opencl_version > cpp->opencl_prop.opencl_device_version_int) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[version] [plan_class_spec] OpenCL device version required min: %d, supplied: %d\n",
+                    "[version] OpenCL device version required min: %d, supplied: %d\n",
                     min_opencl_version, cpp->opencl_prop.opencl_device_version_int
                 );
             }
@@ -421,7 +425,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         if (min_gpu_ram_mb && min_gpu_ram_mb * MEGA > gpu_ram) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[version] [plan_class_spec] GPU RAM required min: %f, supplied: %f\n",
+                    "[version] plan_class_spec: GPU RAM required min: %f, supplied: %f\n",
                     min_gpu_ram_mb * MEGA, gpu_ram
                 );
             }
@@ -433,7 +437,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
             if (min_driver_version > driver_version) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
-                        "[version] [plan_class_spec] driver version required min: %d, supplied: %d\n",
+                        "[version] plan_class_spec: driver version required min: %d, supplied: %d\n",
                         abs(min_driver_version), driver_version
                     );
                 }
@@ -444,7 +448,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
             if (max_driver_version < driver_version) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
-                        "[version] [plan_class_spec] driver version required max: %d, supplied: %d\n",
+                        "[version] plan_class_spec: driver version required max: %d, supplied: %d\n",
                         abs(max_driver_version), driver_version
                     );
                 }
@@ -514,7 +518,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
 
     if (config.debug_version_select) {
         log_messages.printf(MSG_NORMAL,
-            "[version] [plan_class_spec] host_flops: %e, \tscale: %.2f, \tprojected_flops: %e, \tpeak_flops: %e\n",
+            "[version] plan_class_spec: host_flops: %e, \tscale: %.2f, \tprojected_flops: %e, \tpeak_flops: %e\n",
             sreq.host.p_fpops, projected_flops_scale, hu.projected_flops,
             hu.peak_flops
         );

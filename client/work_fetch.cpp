@@ -997,4 +997,3 @@ void CLIENT_STATE::generate_new_host_cpid() {
         }
     }
 }
-
