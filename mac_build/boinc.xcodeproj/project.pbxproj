@@ -599,13 +599,6 @@
 			remoteGlobalIDString = DD81C799144D8DA9000BE61A;
 			remoteInfo = jpeg;
 		};
-		DD81C825144D9059000BE61A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DD81C799144D8DA9000BE61A;
-			remoteInfo = jpeg;
-		};
 		DDA12AD00A369DEC00FBDD12 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
@@ -682,6 +675,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = DDD336F51062235D00867C7D;
 			remoteInfo = AddRemoveUser;
+		};
+		DDD4D96415A6FE0000612460 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD81C799144D8DA9000BE61A;
+			remoteInfo = jpeg;
 		};
 		DDF9EC0C144EB338005D6144 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -2261,7 +2261,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				DD81C826144D9059000BE61A /* PBXTargetDependency */,
+				DDD4D96515A6FE0000612460 /* PBXTargetDependency */,
 			);
 			name = ss_app;
 			productName = switcher;
@@ -3483,11 +3483,6 @@
 			target = DD81C799144D8DA9000BE61A /* jpeg */;
 			targetProxy = DD81C823144D904D000BE61A /* PBXContainerItemProxy */;
 		};
-		DD81C826144D9059000BE61A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DD81C799144D8DA9000BE61A /* jpeg */;
-			targetProxy = DD81C825144D9059000BE61A /* PBXContainerItemProxy */;
-		};
 		DDA12AD10A369DEC00FBDD12 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DD7748970A356C880025D05E /* SetUpSecurity */;
@@ -3542,6 +3537,11 @@
 			isa = PBXTargetDependency;
 			target = DDD336F51062235D00867C7D /* AddRemoveUser */;
 			targetProxy = DDD3370B106224FF00867C7D /* PBXContainerItemProxy */;
+		};
+		DDD4D96515A6FE0000612460 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD81C799144D8DA9000BE61A /* jpeg */;
+			targetProxy = DDD4D96415A6FE0000612460 /* PBXContainerItemProxy */;
 		};
 		DDF9EC0D144EB338005D6144 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3765,9 +3765,9 @@
 		DD81C79C144D8DA9000BE61A /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ONLY_ACTIVE_ARCH_PRE_XCODE_3_1)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				EXECUTABLE_PREFIX = lib;
-				ONLY_ACTIVE_ARCH_PRE_XCODE_3_1 = "$(NATIVE_ARCH_ACTUAL)";
 				PRODUCT_NAME = jpeg;
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -3801,7 +3801,10 @@
 		DD8916210F3B17E900DE5B1C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = ../api/;
+				HEADER_SEARCH_PATHS = (
+					../api/,
+					../samples/jpeglib/,
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"${BUILT_PRODUCTS_DIR}/",
@@ -3817,7 +3820,10 @@
 		DD8916250F3B17E900DE5B1C /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = ../api/;
+				HEADER_SEARCH_PATHS = (
+					../api/,
+					../samples/jpeglib/,
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"${BUILT_PRODUCTS_DIR}/",

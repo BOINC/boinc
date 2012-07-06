@@ -13,10 +13,10 @@
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 \cf0 Written by Charlie Fenton\
-Last updated 6/26/12\
+Last updated 7/6/12\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 \cf0 \
-This document applies to BOINC version 7.0.31 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
+This document applies to BOINC version 7.1.0 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
 \
 Note: the information in this document changes from time to time for different versions of BOINC.  For any version of BOINC source files, the corresponding version of this document can be found in the source tree at:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
@@ -33,6 +33,7 @@ Contents of this document:\
 \'95 Code Signing the BOINC Manager Installer and Uninstaller\
 \'95 Debugging and BOINC security.\
 \'95 Debugging into wxWidgets.\
+\'95 Installing and setting up Xcode.\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
@@ -57,8 +58,8 @@ You need to take certain steps to ensure that you use only APIs that are availab
 \cf0 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
 
-\b \cf0 The above requirements apply not only to BOINC itself, but also to the WxWidgets, JPEG, c-ares, cURL and openSSL libraries, as well as all project applications
-\b0 . Note: only the JPEG library must be built for  the x86_64 architecture, since it is used by the libboinc_graphics_api library.\
+\b \cf0 The above requirements apply not only to BOINC itself, but also to the WxWidgets, c-ares, cURL and openSSL libraries, as well as all project applications
+\b0 .  \
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 \cf0 Be sure to follow the directions in this document to ensure that these requirements are met.\
@@ -120,7 +121,7 @@ Enter your administrator password when prompted to do so.\
 
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
-\cf0 BOINC depends on four third-party libraries: wxMac-2.8.10, c-ares-1.9.1, curl-7.26.0, openssl-1.0.1c and jpeg-6b.  The source files for jpeg-6b are included with the BOINC sources.  You can obtain the other three from the following URLs:\
+\cf0 BOINC depends on four third-party libraries: wxMac-2.8.10, c-ares-1.9.1, curl-7.26.0 and openssl-1.0.1c.  You can obtain the source files from the following URLs:\
 \
 wxMac-2.8.10 (needed  only if you are building the BOINC Manager):\
 	{\field{\*\fldinst{HYPERLINK "http://www.wxwidgets.org"}}{\fldrslt 
@@ -184,7 +185,11 @@ MAC_OS_X_VERSION_MIN_REQUIRED=1040\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 
 \f0\fs24 \cf0 \
-Important: do not change the names of any of these 3 directories.\
+Important: do not change the names of any of these 4 directories.\
+\
+Note: Building wxMac-2.8.10 requires the MacOSX10.6.sdk, which is not included in Xcode 4.5.  If you are building wxMac-2.8.10 with Xcode 4.5, see the section 
+\i\b Installing and setting up Xcode
+\i0\b0  for further information.\
 \
 [3] Get the BOINC source tree from Subversion, and put it in the same BOINC_dev folder.  To do this, type the following in Terminal:\
 \
@@ -221,7 +226,7 @@ source setupForBoinc.sh -clean
 If you don't wish to force a full rebuild of everything, omit the -clean argument.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 \cf0 \
-Note: this script builds c-ares and curl first, followed by openssl, then jpeg and finally wxMac.  If you haven't downloaded wxMac because you aren't building the BOINC Manager, the script will build c-ares, curl, openssl and jpeg before quitting.  \
+Note: this script builds c-ares and curl first, followed by openssl and finally wxMac.  If you haven't downloaded wxMac because you aren't building the BOINC Manager, the script will build c-ares, curl and openssl before quitting.  \
 \
 [5] Build BOINC as follows:\
 \
@@ -390,4 +395,47 @@ To restore the standard ownerships and permissions, run the installer.\
 You can find instructions for doing this in the comments in the file 
 \f1\fs26 boinc/clientgui/mac/MacGUI.pch
 \f0\fs24 .\
+\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
+
+\b\fs28 \cf0 \CocoaLigature1 Installing and setting up Xcode
+\b0\fs24 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
+\cf0 \
+Versions of Xcode prior to Xcode 4.3 have an installer package. After downloading Xcode, mount the disk image file by double-clicking on it, then double-click the installer package. \
+\
+Starting with Xcode 4.3, the disk image contains a copy of Xcode itself.  After mounting the disk image, drag the Xcode icon to the folder where you wish it to reside.  In most cases, this will be the 
+\f1\fs26 /Applications
+\f0\fs24  folder.  Unmount the disk image by dragging it to the trash.  Finally, double-click on the installed Xcode icon to run Xcode.  Xcode will display a dialog allowing you to finish the installation; you must do this before running BOINC's build scripts.\
+\
+Building wxMac-2.8.10 requires the MacOSX10.6.sdk, which is not included in Xcode 4.5.  If you are building wxMac-2.8.10 with Xcode 4.5, you must install the OS 10.6 SDK as follows:\
+[1] Download a version of Xcode for OS 10.7 Lion (such as Xcode 4.3.3 for Lion.)\
+[2] Mount the disk image file by double-clicking on it.  Do 
+\b not
+\b0  drag-install this older version of Xcode.\
+[3] On the disk image, control-click on the Xcode icon and select 
+\f1\fs26 Show Package Contents
+\f0\fs24 .\
+[4] On the older Xcode disk image, browse to the directory:\
+    
+\f1\fs26  /Volumes/Xcode/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/
+\f0\fs24 \
+You should see a folder named 
+\f1\fs26 MacOSX10.6.sdk
+\f0\fs24 .\
+[5] Control-click on your newer Xcode icon (which you previously installed on your hard drive) and select 
+\f1\fs26 Show Package Contents
+\f0\fs24 .\
+[6] In your newer Xcode Browse to the directory:\
+    
+\f1\fs26  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/\
+
+\f0\fs24 (or the equivalent if you installed it somewhere other than your /Applications folder.)\
+[7] Copy the MacOSX10.6.sdk folder from the 
+\f1\fs26 SDKs
+\f0\fs24  folder on the older disk image to the 
+\f1\fs26 SDKs
+\f0\fs24  folder in the newer Xcode.\
+[8] Unmount the disk image by dragging it to the trash.\
 }

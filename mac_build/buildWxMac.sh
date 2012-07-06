@@ -23,7 +23,7 @@
 # by Charlie Fenton    7/21/06
 # Updated for wx-Mac 2.8.10 and Unicode 4/17/09
 # Updated for OS 10.7 and XCode 4.1 with OS 10.4 compatibility 9/26/11
-# Updated for partial OS 10.8 and XCode 4.5 compatibility 6/28/12
+# Updated for partial OS 10.8 and XCode 4.5 compatibility 7/6/12
 ## NOTE: To run with XCode 4.5, you must first obtain a copy of the 
 ##  MacOSX10.6.sdk and copy it into the folder: 
 ##  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/
@@ -109,12 +109,39 @@ else
     echo "thread.cpp already patched"
 fi
 
+## Fix a compile error in mac/carbon/graphics.cpp.
+if [ ! -f src/mac/carbon/graphics.cpp.orig ]; then
+
+cat >> /tmp/wxgraphics_diff << ENDOFFILE
+--- src/mac/carbon/graphics-old.cpp	2009-03-06 04:23:13.000000000 -0800
++++ src/mac/carbon/graphics.cpp	2012-07-06 02:49:23.000000000 -0700
+@@ -1069,7 +1069,7 @@
+     virtual void Transform( const wxGraphicsMatrixData* matrix );
+ 
+     // gets the bounding box enclosing all points (possibly including control points)
+-    virtual void GetBox(wxDouble *x, wxDouble *y, wxDouble *w, wxDouble *y) const;
++    virtual void GetBox(wxDouble *x, wxDouble *y, wxDouble *w, wxDouble *h) const;
+ 
+     virtual bool Contains( wxDouble x, wxDouble y, int fillStyle = wxODDEVEN_RULE) const;
+ private :
+ENDOFFILE
+
+patch -bfi /tmp/wxgraphics_diff src/mac/carbon/graphics.cpp
+
+rm -f /tmp/wxgraphics_diff
+else
+    echo "graphics.cpp already patched"
+fi
+
+
+
+
 if [ "$1" != "-clean" ] && [ -f src/build/Deployment/libwx_mac_static.a ]; then
     echo "Deployment libwx_mac_static.a already built"
 else
-    export DEVELOPER_SDK_DIR="/Developer/SDKs"
+##    export DEVELOPER_SDK_DIR="/Developer/SDKs"
     ## We must override some of the build settings in wxWindows.xcodeproj 
-    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Deployment $doclean build -sdk macosx10.6 GCC_VERSION_i386=com.apple.compilers.llvmgcc42 MACOSX_DEPLOYMENT_TARGET_i386=10.4 ARCHS="i386" OTHER_CPLUSPLUSFLAGS="-DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -fvisibility=hidden -fvisibility-inlines-hidden"
+    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Deployment $doclean build -sdk macosx10.6 GCC_VERSION_i386="" MACOSX_DEPLOYMENT_TARGET_i386=10.4 ARCHS="i386" OTHER_CPLUSPLUSFLAGS="-DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -fvisibility=hidden -fvisibility-inlines-hidden"
 
 if [  $? -ne 0 ]; then return 1; fi
 fi
@@ -122,9 +149,9 @@ fi
 if [ "$1" != "-clean" ] && [ -f src/build/Development/libwx_mac_static.a ]; then
     echo "Development libwx_mac_static.a already built"
 else
-    export DEVELOPER_SDK_DIR="/Developer/SDKs"
+##    export DEVELOPER_SDK_DIR="/Developer/SDKs"
     ## We must override some of the build settings in wxWindows.xcodeproj 
-    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Development $doclean build -sdk macosx10.6 GCC_VERSION_i386=com.apple.compilers.llvmgcc42 MACOSX_DEPLOYMENT_TARGET_i386=10.4 ARCHS="i386" OTHER_CPLUSPLUSFLAGS="-DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -fvisibility=hidden -fvisibility-inlines-hidden"
+    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Development $doclean build -sdk macosx10.6 GCC_VERSION_i386="" MACOSX_DEPLOYMENT_TARGET_i386=10.4 ARCHS="i386" OTHER_CPLUSPLUSFLAGS="-DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -fvisibility=hidden -fvisibility-inlines-hidden"
 
 if [  $? -ne 0 ]; then return 1; fi
 fi

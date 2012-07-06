@@ -4753,3 +4753,18 @@ David  5 July 2012
     sched/
         plan_class_spec.cpp
         sched_types.cpp
+
+Charlie 5 July 2012
+    - Mac: update build scripts to work with Xcode 4.3 for Lion and later.  
+        Xcode and the Mac OS X SDKs are no longer installed at fixed locations.
+        
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+        buildc_ares.sh
+        buildcurl.sh
+        buildopenssl.sh
+        BuildMacBOINC.sh
+        buildWxMac.sh
+        HowToBuildBOINC_XCode.rtf
+        
