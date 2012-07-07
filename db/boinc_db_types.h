@@ -679,8 +679,9 @@ struct VDA_FILE {
     int id;
     double create_time;
     char dir[256];
-    char name[256];
+    char file_name[256];
     double size;
+    double chunk_size;
     bool need_update;
     bool initialized;
     bool retrieving;
@@ -691,8 +692,7 @@ struct VDA_CHUNK_HOST {
     double create_time;
     int vda_file_id;
     int host_id;
-    char name[256];     // C1.C2.Cn
-    double size;
+    char chunk_name[256];     // C1.C2.Cn
     bool present_on_host;
     bool transfer_in_progress;
     bool transfer_wait;

@@ -172,8 +172,7 @@ int CHUNK::assign() {
     ch.create_time = dtime();
     ch.vda_file_id = parent->dfile->id;
     ch.host_id = host_id;
-    strcpy(ch.name, name);
-    ch.size = parent->dfile->policy.chunk_size();
+    strcpy(ch.chunk_name, name);
     ch.present_on_host = 0;
     ch.transfer_in_progress = true;
     ch.transfer_wait = true;
@@ -376,7 +375,7 @@ int META_CHUNK::init(const char* _dir, POLICY& p, int level) {
 int VDA_FILE_AUX::init() {
     char buf[1024], buf2[1024];
     sprintf(buf, "%s/%s", dir, DATA_FILENAME);
-    sprintf(buf2, "%s/%s", dir, name);
+    sprintf(buf2, "%s/%s", dir, file_name);
     int retval = symlink(buf2, buf);
     if (retval) {
         log_messages.printf(MSG_CRITICAL, "symlink %s %s failed\n", buf2, buf);
@@ -395,7 +394,7 @@ int VDA_FILE_AUX::init() {
 
     // create symlink from download dir
     //
-    dir_hier_path(name, config.download_dir, config.uldl_dir_fanout, buf);
+    dir_hier_path(file_name, config.download_dir, config.uldl_dir_fanout, buf);
     retval = symlink(dir, buf);
     if (retval) {
         log_messages.printf(MSG_CRITICAL, "symlink %s %s failed\n", buf2, buf);
@@ -429,7 +428,7 @@ int META_CHUNK::get_state(const char* _dir, POLICY& p, int level) {
 }
 
 int get_chunk_numbers(VDA_CHUNK_HOST& vch, vector<int>& chunk_numbers) {
-    char* p = vch.name;
+    char* p = vch.chunk_name;
     while (1) {
         p = strchr(p, '.');
         if (!p) break;
@@ -503,7 +502,7 @@ int handle_file(VDA_FILE_AUX& vf, DB_VDA_FILE& dvf) {
     int retval;
     char buf[1024];
 
-    log_messages.printf(MSG_NORMAL, "processing file %s\n", vf.name);
+    log_messages.printf(MSG_NORMAL, "processing file %s\n", vf.file_name);
 
     // read the policy file
     //

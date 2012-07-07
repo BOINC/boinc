@@ -67,8 +67,9 @@ int handle_add(const char* path) {
     //
     vf.create_time = dtime();
     strcpy(vf.dir, dir);
-    strcpy(vf.name, filename);
+    strcpy(vf.file_name, filename);
     vf.size = size;
+    vf.chunk_size = policy.chunk_size();
     vf.need_update = 1;
     vf.initialized = 0;
     vf.retrieving = 0;

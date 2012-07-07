@@ -4768,3 +4768,21 @@ Charlie 5 July 2012
         buildWxMac.sh
         HowToBuildBOINC_XCode.rtf
         
+David  7 July 2012
+    - distributed storage: move chunk_size to VDA_FILE.
+        Add some missing code.
+
+    sched/
+        sched_types.cpp,h
+    db/
+        boinc_db_types.h
+        boinc_db.cpp
+        schema_vda.sql
+    vda/
+        vda_lib.cpp,h
+        vda.cpp
+        vdad.cpp
+        ssim.cpp
+        sched_vda.cpp
+    html/user/img/
+        star.gif

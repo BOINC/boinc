@@ -18,7 +18,7 @@
 // classes for volunteer data archival (VDA)
 //
 // Note: these classes are used by both the simulator (ssim.cpp)
-// and the VDA daemon (vdad.cpp)
+// and the VDA server software (vdad.cpp, sched_vda.cpp)
 
 #include <set>
 #include <vector>
@@ -159,3 +159,29 @@ struct CHUNK : DATA_UNIT {
         return ((int)hosts.size() < parent->dfile->policy.replication);
     }
 };
+
+// names
+//
+// chunk name: c1.c2.cn
+// (in VDA_CHUNK_HOST)
+//
+// chunk/file name: c1.c2.cn_filename.ext
+//
+// physical file name: vda_hostid_c1.c2.cn_filename.ext
+
+inline void physical_file_name(
+    int hostid, char* chunk_name, char* file_name, char* buf
+) {
+    sprintf(buf, "vda_%d_%s_%s", hostid, chunk_name, file_name);
+}
+
+inline void physical_file_name(
+    int hostid, char* chunk_file_name, char* buf
+) {
+    sprintf(buf, "vda_%d_%s", hostid, chunk_file_name);
+}
+
+//
+// download WU/result name: vda_download_c1.c2.cn_filename.ext
+//
+// upload WU/result name: vda_upload_c1.c2.cn_filename.ext

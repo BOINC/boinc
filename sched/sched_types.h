@@ -117,6 +117,8 @@ struct HOST_USAGE {
 //
 struct FILE_INFO {
     char name[256];
+    double nbytes;
+    int status;
 
     int parse(XML_PARSER&);
 };

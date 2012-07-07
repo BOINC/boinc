@@ -116,6 +116,8 @@ int FILE_INFO::parse(XML_PARSER& xp) {
             return 0;
         }
         if (xp.parse_str("name", name, 256)) continue;
+        if (xp.parse_double("nbytes", nbytes)) continue;
+        if (xp.parse_int("status", status)) continue;
     }
     return ERR_XML_PARSE;
 }

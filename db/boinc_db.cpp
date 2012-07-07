@@ -2345,15 +2345,17 @@ void DB_VDA_FILE::db_print(char* buf){
     sprintf(buf,
         "create_time=%f, "
         "dir='%s', "
-        "name='%s', "
+        "file_name='%s', "
         "size=%f, "
+        "chunk_size=%f, "
         "need_update=%d, "
         "initialized=%d, "
         "retrieving=%d",
         create_time,
         dir,
-        name,
+        file_name,
         size,
+        chunk_size,
         need_update?1:0,
         initialized?1:0,
         retrieving?1:0
@@ -2366,8 +2368,9 @@ void DB_VDA_FILE::db_parse(MYSQL_ROW &r) {
     id = atoi(r[i++]);
     create_time = atof(r[i++]);
     strcpy(dir, r[i++]);
-    strcpy(name, r[i++]);
+    strcpy(file_name, r[i++]);
     size = atof(r[i++]);
+    chunk_size = atof(r[i++]);
     need_update = (atoi(r[i++]) != 0);
     initialized = (atoi(r[i++]) != 0);
     retrieving = (atoi(r[i++]) != 0);
@@ -2378,8 +2381,7 @@ void DB_VDA_CHUNK_HOST::db_print(char* buf) {
         "create_time=%f, "
         "vda_file_id=%d, "
         "host_id=%d, "
-        "name='%s', "
-        "size=%f, "
+        "chunk_name='%s', "
         "present_on_host=%d, "
         "transfer_in_progress=%d, "
         "transfer_wait=%d, "
@@ -2388,8 +2390,7 @@ void DB_VDA_CHUNK_HOST::db_print(char* buf) {
         create_time,
         vda_file_id,
         host_id,
-        name,
-        size,
+        chunk_name,
         present_on_host,
         transfer_in_progress,
         transfer_wait,
@@ -2404,8 +2405,7 @@ void DB_VDA_CHUNK_HOST::db_parse(MYSQL_ROW &r) {
     create_time = atof(r[i++]);
     vda_file_id = atoi(r[i++]);
     host_id = atoi(r[i++]);
-    strcpy(name, r[i++]);
-    size = atof(r[i++]);
+    strcpy(chunk_name, r[i++]);
     present_on_host = (atoi(r[i++]) != 0);
     transfer_in_progress = (atoi(r[i++]) != 0);
     transfer_wait = (atoi(r[i++]) != 0);
