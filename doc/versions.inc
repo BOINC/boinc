@@ -316,7 +316,7 @@ $linux = array(
     "description"=> linux_info(),
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
-//		$l70ubuntudev,
+		$l70ubuntudev,
 		$l70ubuntu,
 		$l612ubuntu,
     )
@@ -327,7 +327,7 @@ $linuxx64 = array(
     "description"=> linux_info(),
     "dbname" => "x86_64-pc-linux-gnu",
     "versions"=>array(
-//		$l70ubuntux64dev,
+		$l70ubuntux64dev,
 		$l70ubuntux64,
 		$l612ubuntux64,
     )
