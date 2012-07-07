@@ -248,7 +248,7 @@ $windows = array(
     "description"=>"2000/XP/Vista/7",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-//		$w70dev,
+		$w70dev,
 		$w70,
 		$w612,
 		$w66,
@@ -261,7 +261,7 @@ $windowsx64 = array(
     "description"=>"XP/Vista/7",
     "dbname" => "windows_x86_64",
     "versions"=>array(
-//		$w70x64dev,
+		$w70x64dev,
 		$w70x64,
 		$w612x64,
     )
@@ -272,8 +272,8 @@ $mac = array(
     "description"=>"Version 10.4.0+",
     "dbname" => "x86_64-apple-darwin",
     "versions"=>array(
-//		$m70dev,
-//		$m70cdev,
+		$m70dev,
+		$m70cdev,
 		$m70,
 		$m70c,
 		$m612,
