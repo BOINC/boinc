@@ -613,9 +613,12 @@ function boincwork_generalprefs_form_submit($form, &$form_state) {
  * The structure of the project preferences form
  */
 function boincwork_projectprefs_form(&$form_state, $venue) {
-  require_boinc(array('user', 'prefs', 'util'));
   
-  // Load preferences from BOINC account
+  // Get availability of special BOINC preferences
+  require_boinc(array('prefs'));
+  global $app_types, $project_has_beta;
+  
+  // Load any existing preferences from BOINC account
   $prefs = boincwork_load_prefs('project', $venue);
   
   // Define form defaults
@@ -630,9 +633,6 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
       'default_venue' => isset($boincuser->venue) ? $boincuser->venue : '',
     )
   );
-  
-  // Get availability of special BOINC preferences
-  global $app_types, $project_has_beta;
   
   // Standard option sets
   $form['boolean_options'] = array(
@@ -746,6 +746,32 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
       '#default_value' => ($prefs['allow_beta_work']) ? 1 : 0,
       '#description' => t('This helps us develop applications, but may cause jobs to fail on your computer')
     );
+  }
+  
+  // Load project specific preferences from XML file
+  $filename = 'sites/default/files/config/projectprefs.xml';
+  if (($raw_config_data = file_get_contents($filename)) === FALSE) {
+      drupal_set_message(t('Cannot read file : @filename', array('@filename' => $filename)), 'error');
+      return null;
+  }
+  else {
+    // Convert XML to array for validation
+    $xml = load_configuration($raw_config_data);
+    
+    // Validate against schema (as implemented here in PHP...)
+    if (!isset($xml['project_specific_preferences'])) {
+      drupal_set_message(t('prefs_xml::document is malformed',
+          array('@xml_path' => $xml_path)), 'warning');
+    }
+    elseif (!is_array($xml['project_specific_preferences'])) {
+      drupal_set_message(t('prefs_xml::document is empty',
+          array('@xml_path' => $xml_path)), 'warning');
+    }
+    elseif (boincwork_validate_prefs($xml['project_specific_preferences'], 'root')) {
+      foreach ($xml['project_specific_preferences'] as $type => $element) {
+        boincwork_generate_prefs_element($form, $type, $element, $prefs['project_specific']);
+      }
+    }
   }
   
   return $form;

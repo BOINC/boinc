@@ -171,7 +171,7 @@ function boincwork_get_preset_prefs($preset = null) {
         $preset_prefs['preset'] = array($preset_prefs['preset']);
       }
       foreach ($preset_prefs['preset'] as $key => $prefs) {
-        if (isset($prefs['ATTRIBUTES']['name']) AND $prefs['ATTRIBUTES']['name'] == $preset) {
+        if (isset($prefs['@attributes']['name']) AND $prefs['@attributes']['name'] == $preset) {
           return $preset_prefs['preset'][$key];
         }
       }
@@ -179,6 +179,538 @@ function boincwork_get_preset_prefs($preset = null) {
   }
   return $preset_prefs;
 }
+
+/**
+ * Validate project specific preferences XML.
+ * This implements the schema defined in includes/projectprefs.xsd
+ */
+function boincwork_validate_prefs($config, $type = null, $xml_path = '') {
+  if ($type AND $xml_path) {
+    $xml_path .= "::{$type}";
+  }
+  switch ($type) {
+  case 'entitytype':
+    if (!is_string($config)) {
+      drupal_set_message(t('@xml_path entitytype must be a string',
+          array('@xml_path' => $xml_path)), 'warning');
+      return false;
+    }
+    $datatypes = array(
+      'element',
+      'attribute'
+    );
+    if (!in_array($config, $datatypes)) {
+      drupal_set_message(t('@xml_path invalid entitytype',
+          array('@xml_path' => $xml_path)), 'warning');
+      return false;
+    }
+    break;
+    
+  case 'lang':
+    if (!is_string($config)) {
+      drupal_set_message(t('@xml_path language must be a string',
+          array('@xml_path' => $xml_path)), 'warning');
+      return false;
+    }
+    $available_languages = array(
+      'en_US',
+      'de_DE'
+    );
+    if (!in_array($config, $available_languages)) {
+      drupal_set_message(t('@xml_path invalid language',
+          array('@xml_path' => $xml_path)), 'warning');
+      return false;
+    }
+    break;
+    
+  case 'datatype':
+    if (!is_string($config)) {
+      drupal_set_message(t('@xml_path datatype must be a string',
+          array('@xml_path' => $xml_path)), 'warning');
+      return false;
+    }
+    $datatypes = array(
+      'text',
+      'integer',
+      'float'
+    );
+    if (!in_array($config, $datatypes)) {
+      drupal_set_message(t('@xml_path invalid datatype',
+          array('@xml_path' => $xml_path)), 'warning');
+      return false;
+    }
+    break;
+    
+  case 'title':
+  case 'description':
+    if (is_numeric(key($config))) {
+      drupal_set_message(t('@xml_path element has multiple @types',
+          array('@xml_path' => $xml_path, '@type' => $type)), 'warning');
+      return false;
+    }
+    if (isset($config['@attributes'])) {
+      if (isset($config['@attributes']['lang']) AND
+          !boincwork_validate_prefs($config['@attributes']['lang'], 'lang',
+              $xml_path)) {
+        return false;
+      }
+      if (!is_string($config['@value'])) {
+        drupal_set_message(t('@xml_path @type should be a string',
+            array('@xml_path' => $xml_path, '@type' => $type)), 'warning');
+        return false;
+      }
+    }
+    else {
+      if (!is_string($config)) {
+        drupal_set_message(t('@xml_path @type should be a string',
+            array('@xml_path' => $xml_path, '@type' => $type)), 'warning');
+        return false;
+      }
+    }
+    break; 
+  
+  case 'item':
+    if (isset($config['@attributes'])) {
+      if (!is_string($config['@value'])) {
+        drupal_set_message(t('@xml_path value of @type should be a string',
+            array('@xml_path' => $xml_path, '@type' => $type)), 'warning');
+        return false;
+      }
+    }
+    else {
+      if (!is_string($config)) {
+        drupal_set_message(t('@xml_path value of @type should be a string',
+            array('@xml_path' => $xml_path, '@type' => $type)), 'warning');
+        return false;
+      }
+    }
+    break;
+  
+  case 'app':
+    // Each app needs an ID
+    if (!isset($config['@attributes']) OR
+        !isset($config['@attributes']['id'])) {
+      drupal_set_message(t('@xml_path @type element must have an ID',
+          array('@xml_path' => $xml_path, '@type' => $type)), 'warning');
+      return false;
+    }
+    if (!is_numeric($config['@attributes']['id']) OR
+        $config['@attributes']['id'] < 1) {
+      drupal_set_message(t('@xml_path @type ID must a positive integer',
+          array('@xml_path' => $xml_path, '@type' => $type)), 'warning');
+      return false;
+    }
+    break;
+  
+  case 'items':
+    if (!isset($config['item'])) {
+      drupal_set_message(t('@xml_path element must contain an item',
+          array('@xml_path' => $xml_path)), 'warning');
+      return false;
+    }
+    if (!is_numeric(key($config['item']))) {
+      $config['item'] = array($config['item']);
+    }
+    // Ensure only one item is selected
+    $items_selected = 0;
+    foreach ($config['item'] as $item) {
+      if (isset($item['@attributes']['selected']) AND
+          $item['@attributes']['selected'] = TRUE) {
+        $items_selected++;
+      }
+    }
+    if ($items_selected != 1) {
+      drupal_set_message(t('@xml_path exactly one item must be selected',
+          array('@xml_path' => $xml_path)), 'warning');
+      return false;
+    }
+    break;
+  
+  case 'component':
+    if (!isset($config['title'])) {
+      drupal_set_message(t('@xml_path title not set',
+          array('@xml_path' => $xml_path)), 'warning');
+      return false;
+    }
+    if (!boincwork_validate_prefs($config['title'], 'title', $xml_path)) {
+      return false;
+    }
+    if (isset($config['description']) AND 
+        !boincwork_validate_prefs($config['description'], 'description',
+            $xml_path)) {
+      return false;
+    }
+    if (!isset($config['@attributes']) OR
+        !isset($config['@attributes']['name'])) {
+      drupal_set_message(t('@xml_path no name is set',
+          array('@xml_path' => $xml_path)), 'warning');
+      return false;
+    }
+    if (!is_string($config['@attributes']['name'])) {
+      drupal_set_message(t('@xml_path name must be a string',
+          array('@xml_path' => $xml_path)), 'warning');
+      return false;
+    }
+    break;
+  
+  case 'text':
+    if (!is_numeric(key($config))) {
+      $config = array($config);
+    }
+    foreach ($config as $text) {
+      // Check standard component validations
+      if (!boincwork_validate_prefs($text, 'component', $xml_path)) {
+        return false;
+      }
+      // Then check text specific attributes
+      if (!isset($text['@attributes']['datatype']) OR
+          !boincwork_validate_prefs($text['@attributes']['datatype'], 
+              'datatype', $xml_path)) {
+        return false;
+      }
+      if (!isset($text['@attributes']['default']) OR
+          !is_string($text['@attributes']['default'])) {
+        drupal_set_message(t('@xml_path default value must be a string',
+            array('@xml_path' => $xml_path)), 'warning');
+        return false;
+      }
+      // Optional attributes
+      if (isset($text['@attributes']['min']) AND
+          !is_numeric($text['@attributes']['min'])) {
+        drupal_set_message(t('@xml_path min must be an integer',
+            array('@xml_path' => $xml_path)), 'warning');
+        return false;
+      }
+      if (isset($text['@attributes']['max']) AND
+          !is_numeric($text['@attributes']['max'])) {
+        drupal_set_message(t('@xml_path max must be an integer',
+            array('@xml_path' => $xml_path)), 'warning');
+        return false;
+      }
+    }
+    break;
+  
+  case 'boolean':
+    if (!is_numeric(key($config))) {
+      $config = array($config);
+    }
+    foreach ($config as $boolean) {
+      // Check standard component validation
+      if (!boincwork_validate_prefs($boolean, 'component', $xml_path)) {
+        return false;
+      }
+    }
+    break;
+  
+  case 'radio':
+    if (!is_numeric(key($config))) {
+      $config = array($config);
+    }
+    foreach ($config as $radio) {
+      // Check standard component validation
+      if (!boincwork_validate_prefs($radio, 'component', $xml_path)) {
+        return false;
+      }
+      if (!isset($radio['items']) OR is_numeric(key($radio['items']))) {
+        drupal_set_message(t('@xml_path must have exactly one items list',
+            array('@xml_path' => $xml_path)), 'warning');
+        return false;
+      } 
+      if (!boincwork_validate_prefs($radio['items'], 'items', $xml_path)) {
+        return false;
+      }
+    }
+    break;
+  
+  case 'dropdown':
+    if (!is_numeric(key($config))) {
+      $config = array($config);
+    }
+    foreach ($config as $dropdown) {
+      // Check standard component validation
+      if (!boincwork_validate_prefs($dropdown, 'component', $xml_path)) {
+        return false;
+      }
+      if (!isset($dropdown['items']) OR is_numeric(key($dropdown['items']))) {
+        drupal_set_message(t('@xml_path must have exactly one items list',
+            array('@xml_path' => $xml_path)), 'warning');
+        return false;
+      }
+      if (!boincwork_validate_prefs($dropdown['items'], 'items', $xml_path)) {
+        return false;
+      }
+    }
+    break;
+    
+  case 'apps':
+    // The apps element must have a title
+    if (!isset($config['title'])) {
+      drupal_set_message(t('@xml_path title is required',
+          array('@xml_path' => $xml_path)), 'warning');
+      return false;
+    }
+    elseif (!boincwork_validate_prefs($config['title'], 'title')) {
+      return false;
+    }
+    // ...and at least one app
+    if (!isset($config['app'])) {
+      drupal_set_message(t('@xml_path must have at least one app',
+          array('@xml_path' => $xml_path)), 'warning');
+      return false;
+    }
+    elseif (!is_numeric(key($config['app']))) {
+      $config['app'] = array($config['app']);
+    }
+    foreach ($config['app'] as $app) {
+      if (!boincwork_validate_prefs($app, 'app')) {
+        return false;
+      }
+    }
+    break;
+    
+  case 'compound':
+    if (!is_numeric(key($config))) {
+      $config = array($config);
+    }
+    foreach ($config as $compound) {
+      // Each compound element must have a name...
+      if (!isset($compound['@attributes']) OR 
+          !isset($compound['@attributes']['name']) OR
+          !is_string($compound['@attributes']['name']) OR
+          $compound['@attributes']['name'] == '') {
+        drupal_set_message(t('@xml_path has no name',
+          array('@xml_path' => $xml_path)), 'warning');
+        return false;
+      }
+      // ...and a title...
+      if (!isset($compound['title'])) {
+        drupal_set_message(t('@xml_path @name element has no title',
+            array('@xml_path' => $xml_path, '@name' => $compound['@attributes']['name'])), 'warning');
+        return false;
+      }
+      elseif (is_numeric(key($compound['title']))) {
+        drupal_set_message(t('@xml_path @name element has multiple titles',
+            array('@xml_path' => $xml_path, '@name' => $compound['@attributes']['name'])), 'warning');
+        return false;
+      }
+      elseif (!boincwork_validate_prefs($compound['title'], 'title', $xml_path)) {
+        return false;
+      }
+      // ...and at least one of these elements as a child
+      if (!isset($compound['text']) AND
+          !isset($compound['boolean']) AND
+          !isset($compound['radio']) AND
+          !isset($compound['dropdown'])) {
+        drupal_set_message(t('@xml_path @name element is incomplete',
+            array('@xml_path' => $xml_path, '@name' => $compound['@attributes']['name'])), 'warning');
+        return false;
+      }
+      // Now recursively validate...
+      foreach ($compound as $type => $element) {
+        if (!boincwork_validate_prefs($element, $type, $xml_path)) {
+          return false;
+        }
+      }
+    }
+    break;
+    
+  case 'root':
+    // Root must have at least one of these elements
+    if (!isset($config['text']) AND
+        !isset($config['boolean']) AND
+        !isset($config['radio']) AND
+        !isset($config['dropdown']) AND
+        !isset($config['apps']) AND
+        !isset($config['compound'])) {
+      drupal_set_message(t('prefs_xml::document content is required',
+            array('@xml_path' => $xml_path)), 'warning');
+        return false;
+    }
+    // Recursively validate the document...
+    foreach ($config as $type => $element) {
+      if (!boincwork_validate_prefs($element, $type, 'prefs_xml')) {
+        return false;
+      }
+    }
+    break;
+  
+  default:
+    // Don't validate that which doesn't explicitly require validation, for
+    // recursion (i.e. '@attributes' keys and the like, which are handled
+    // by parent validation)
+  }
+  return true;
+}
+
+/**
+ * Add an element to the form based on its definition
+ */
+function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs = null) {
+  switch ($type) {
+  case 'text':
+    if (!is_numeric(key($elements))) {
+      $elements = array($elements);
+    }
+    foreach ($elements as $element) {
+      $name = $element['@attributes']['name'];
+      $default = $element['@attributes']['default'];
+      $title = is_array($element['title']) ? $element['title']['@value'] : $element['title'];
+      $description = '';
+      if (isset($element['description'])) {
+        $description = is_array($element['description']) ? $element['description']['@value'] : $element['description'];
+      }
+      $entitytype = isset($element['@attributes']['entitytype']) ? $element['@attributes']['entitytype'] : 'element';
+      if ($entitytype == 'attribute') {
+        $user_prefs = $user_prefs['@attributes'];
+      }
+      $value = isset($user_prefs[$name]) ? $user_prefs[$name] : $default;
+      $form[$name] = array(
+        '#title' => t($title),
+        '#type' => 'textfield',
+        '#default_value' => $value,
+        '#size' => 5,
+        '#description' => t($description) . t(' Default value: @default', array('@default' => $default))
+      );
+    }
+    break;
+    
+  case 'boolean':
+    if (!is_numeric(key($elements))) {
+      $elements = array($elements);
+    }
+    foreach ($elements as $element) {
+      $name = $element['@attributes']['name'];
+      $title = is_array($element['title']) ? $element['title']['@value'] : $element['title'];
+      $default = (isset($element['@attributes']['selected']) AND $element['@attributes']['selected'] == 'true') ? 1 : 0;
+      $description = '';
+      if (isset($element['description'])) {
+        $description = is_array($element['description']) ? $element['description']['@value'] : $element['description'];
+      }
+      $entitytype = isset($element['@attributes']['entitytype']) ? $element['@attributes']['entitytype'] : 'element';
+      if ($entitytype == 'attribute') {
+        $user_prefs = $user_prefs['@attributes'];
+      }
+      $value = isset($user_prefs[$name]) ? $user_prefs[$name] : $default;
+      $form[$name] = array(
+        '#title' => t($title),
+        '#type' => 'radios',
+        '#options' => array(1 => t('yes'), 0 => t('no')),
+        '#attributes' => array('class' => 'fancy'),
+        '#default_value' => $value,
+        '#description' => t($description)
+      );
+    }
+    break;
+    
+  case 'radio':
+  case 'dropdown':
+    if (!is_numeric(key($elements))) {
+      $elements = array($elements);
+    }
+    foreach ($elements as $element) {
+      $name = $element['@attributes']['name'];
+      $default = null;
+      $options = array();
+      foreach($element['items']['item'] as $item) {
+        if (is_array($item)) {
+          $value = $item['@value'];
+          if ($default === NULL AND
+              isset($item['@attributes']) AND
+              isset($item['@attributes']['selected'])) {
+            $default = ($item['@attributes']['selected'] == 'true') ? $item['@value'] : null;
+          }
+        }
+        else {
+          $value = $item;
+        }
+        $options[$value] = $value;
+      }
+      $title = is_array($element['title']) ? $element['title']['@value'] : $element['title'];
+      $description = '';
+      if (isset($element['description'])) {
+        $description = is_array($element['description']) ? $element['description']['@value'] : $element['description'];
+      }
+      $entitytype = isset($element['@attributes']['entitytype']) ? $element['@attributes']['entitytype'] : 'element';
+      if ($entitytype == 'attribute') {
+        $user_prefs = $user_prefs['@attributes'];
+      }
+      $value = isset($user_prefs[$name]) ? $user_prefs[$name] : $default;
+      
+      $form[$name] = array(
+        '#title' => t($title),
+        '#type' => ($type == 'radio') ? 'radios' : 'select',
+        '#options' => $options,
+        '#attributes' => array('class' => 'fancy'),
+        '#default_value' => $value,
+        '#description' => t($description) . t(' Default value: @default', array('@default' => t($default)))
+      );
+    }
+    break;
+    
+  case 'apps':
+    $title = is_array($element['title']) ? $element['title']['@value'] : $element['title'];
+    $form['applications'] = array(
+      '#title' => t('Applications'),
+      '#type' => 'fieldset',
+      '#description' => t($title),
+      '#collapsible' => TRUE,
+      '#collapsed' => FALSE
+    );
+    $applications = isset($user_prefs['app_id']) ? (array) $user_prefs['app_id'] : null;
+    foreach ($elements['app'] as $app) {
+      $app_id = $app['@attributes']['id'];
+      $app_name = $app['@value'];
+      $app_enabled = TRUE;
+      if (isset($app['@attributes']['enabled']) AND
+          $app['@attributes']['enabled'] == 'false') {
+        $app_enabled = FALSE;
+      }
+      if ($applications) {
+        $checked = in_array($app_id, $applications);
+      } else {
+        $checked = TRUE;
+        if (isset($app['@attributes']['selected']) AND
+            $app['@attributes']['selected'] == 'false') {
+          $checked = FALSE;
+        }
+      }
+      $form['applications']["app_{$app_id}"] = array(
+        '#title' => $app_name,
+        '#type' => 'checkbox',
+        '#default_value' => ($checked) ? 'x' : false,
+        '#disabled' => !$app_enabled
+      );
+    }
+    break;
+    
+  case 'compound':
+    if (!is_numeric(key($elements))) {
+      $elements = array($elements);
+    }
+    foreach ($elements as $element) {
+      $name = $element['@attributes']['name'];
+      $title = is_array($element['title']) ? $element['title']['@value'] : $element['title'];
+      $form[$name] = array(
+          '#title' => t($title),
+          '#type' => 'fieldset',
+          //'#description' => t('Notes about this group of fields'),
+          '#collapsible' => TRUE,
+          '#collapsed' => FALSE
+      );
+      // Recursively populate the compound element
+      foreach ($element as $child_type => $child) {
+        boincwork_generate_prefs_element($form[$name], $child_type, $child, $user_prefs[$name]);
+      }
+    }
+    break;
+    
+    default:
+      // Don't generate form elements for things that aren't explicitly form
+      // elements (i.e. 'title', '@attributes' keys, and the like)
+  }
+}
+
+
  
 /**
  * Load general or project preferences from BOINC account
@@ -221,13 +753,13 @@ function boincwork_load_prefs($type = 'general', $venue = null, $account = null)
         $main_prefs['venue'] = array($main_prefs['venue']);
       }
       foreach ($main_prefs['venue'] as $key => $prefs_venue) {
-        if (isset($prefs_venue['ATTRIBUTES']['name']) AND $prefs_venue['ATTRIBUTES']['name'] == $venue) {
+        if (isset($prefs_venue['@attributes']['name']) AND $prefs_venue['@attributes']['name'] == $venue) {
           return $main_prefs['venue'][$key];
         }
       }
     }
   }
-  return array('ATTRIBUTES' => array('name' => $venue, 'preset' => 'standard'));
+  return array('@attributes' => array('name' => $venue, 'preset' => 'standard'));
 }
 
 /**
@@ -273,7 +805,7 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
         $main_prefs['venue'] = array($main_prefs['venue']);
       }
       foreach ($main_prefs['venue'] as $key => $prefs_venue) {
-        if (isset($prefs_venue['ATTRIBUTES']['name']) AND $prefs_venue['ATTRIBUTES']['name'] == $venue) {
+        if (isset($prefs_venue['@attributes']['name']) AND $prefs_venue['@attributes']['name'] == $venue) {
           $main_prefs['venue'][$key] = $prefs;
           $new_venue = false;
           break;
@@ -343,12 +875,12 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
     if (!$dom) $dom = new DomDocument('1.0');
     if (!$parent_node) $parent_node = $dom;
     foreach ($array as $name => $value) {
-      if (strcmp($name, 'ATTRIBUTES') == 0) {
+      if (strcmp($name, '@attributes') == 0) {
         if (!is_array($value)) continue;
         foreach ($value as $attributeName => $attributeValue) {
           $parent_node->setAttribute($attributeName, $attributeValue);
         }
-      } elseif (strcmp($name, 'VALUE') == 0) {
+      } elseif (strcmp($name, '@value') == 0) {
         if (isset($value)) $parent_node->nodeValue = $value;
       } else {
         if (is_numeric($name)) {
@@ -429,9 +961,13 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
                   if ($node->childNodes) {
                       $result[$node_name][$index] = xml_to_array($node) ;
                   }
-                  if ($attributes = $node->attributes) {
-                      foreach( $attributes as $key =>$attribute) {
-                          $result[$node_name][$index]['ATTRIBUTES'][$attribute->name] = $attribute->value;
+                  if ($node->hasAttributes()) {
+                      $attributes = $node->attributes;
+                      if ($result[$node_name][$index] !== '' AND !is_array($result[$node_name][$index])) {
+                          $result[$node_name][$index] = array('@value' => $result[$node_name][$index]);
+                      }
+                      foreach ($attributes as $key => $attribute) {
+                          $result[$node_name][$index]['@attributes'][$attribute->name] = $attribute->value;
                       }
                   }
                   $index++;
@@ -440,9 +976,13 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
                   if ($node->childNodes) {
                       $result[$node_name] = xml_to_array($node) ;
                   }
-                  if ($attributes = $node->attributes) {
-                      foreach($attributes as $key =>$attribute) {
-                          $result[$node_name]['ATTRIBUTES'][$attribute->name] = $attribute->value;
+                  if ($node->hasAttributes()) {
+                      $attributes = $node->attributes;
+                      if ($result[$node_name] !== '' AND !is_array($result[$node_name])) {
+                          $result[$node_name] = array('@value' => $result[$node_name]);
+                      }
+                      foreach($attributes as $key => $attribute) {
+                          $result[$node_name]['@attributes'][$attribute->name] = $attribute->value;
                       }
                   }
               }
