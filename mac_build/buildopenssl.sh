@@ -22,7 +22,7 @@
 # libcrypto.a and libssl.a for use in building BOINC.
 #
 # by Charlie Fenton 6/25/12
-# Updated 7/9/12 for Xcode 4.3 and later which are not at a fixed address
+# Updated 7/10/12 for Xcode 4.3 and later which are not at a fixed address
 #
 ## This script requires OS 10.6 or later
 #
@@ -86,8 +86,8 @@ if [  $? -ne 0 ]; then return 1; fi
 
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export LDFLAGS="-Wl,-sysroot,${SDKPATH},-syslibroot,${SDKPATH},-arch,i386"
-export CPPFLAGS="-isysroot ${SDKPATH} -arch i386"
-export CFLAGS="-isysroot ${SDKPATH} -arch i386"
+export CPPFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040"
+export CFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040"
 export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=10.4
 export LIBRARY_PATH="${SDKPATH}/usr/lib"

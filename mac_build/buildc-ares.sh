@@ -24,7 +24,7 @@
 # by Charlie Fenton 7/21/06
 # Updated 10/18/11 for OS 10.7 Lion and XCode 4.2
 # Updated 6/25/12 for c-ares 1.9.1
-# Updated 7/9/12 for Xcode 4.3 and later which are not at a fixed address
+# Updated 7/10/12 for Xcode 4.3 and later which are not at a fixed address
 #
 ## This script requires OS 10.6 or later
 #
@@ -85,8 +85,8 @@ if [  $? -ne 0 ]; then return 1; fi
 
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,i386"
-export CPPFLAGS="-isysroot ${SDKPATH} -arch i386"
-export CFLAGS="-isysroot ${SDKPATH} -arch i386"
+export CPPFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040"
+export CFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040"
 export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=10.4
 

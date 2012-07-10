@@ -281,7 +281,7 @@ int signof(float x) {
 
     // For unkown reasons, OS 10.7 Lion screensaver delays several seconds after 
     // user activity before calling stopAnimation, so we check user activity here
-    if ((gSystemVersion >= 1070) && ((getDTime() - gSS_StartTime) > 2.0)) {        
+    if ((gSystemVersion >= 0x1070) && ((getDTime() - gSS_StartTime) > 2.0)) {
         kernResult = IOHIDGetParameter( gEventHandle, CFSTR(EVSIOIDLE), sizeof(UInt64), &params, &rcnt );
         if ( kernResult == kIOReturnSuccess ) {
             idleTime = ((double)params) / 1000.0 / 1000.0 / 1000.0;
@@ -457,7 +457,7 @@ int signof(float x) {
             CGContextTranslateCTM (myContext, 0, viewBounds.origin.y + viewBounds.size.height);
             CGContextScaleCTM (myContext, 1.0f, -1.0f);
 
-            if (gSystemVersion >= 1050) {
+            if (gSystemVersion >= 0x1050) {
                 CTFontRef myFont = CTFontCreateWithName(CFSTR("Helvetica"), 20, NULL);
 
                 HIThemeTextInfo theTextInfo = {kHIThemeTextInfoVersionOne, kThemeStateActive, kThemeSpecifiedFont, 
