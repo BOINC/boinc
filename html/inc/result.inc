@@ -174,8 +174,15 @@ function state_string($result) {
             return tra("Completed");
         case 2: return tra("Couldn't send");
         case 3:
-            if ($result->exit_status == -221) {
+            if ($result->exit_status == -221
+                || $result->exit_status == 202
+            ) {
                 return tra("Cancelled by server");
+            }
+            if ($result->exit_status == -233
+                || $result->exit_status == 200
+            ) {
+                return tra("Not started by deadline - canceled");
             }
             switch($result->client_state) {
             case 1: return tra("Error while downloading");
@@ -427,9 +434,11 @@ function version_string($version_num) {
     }
 }
 
-// Decode ErrorNumber into human readable, taken from lib/error_numbers.h keep this up to date
+// Decode ErrorNumber into semi-human-readable,
+// taken from lib/error_numbers.h keep this up to date
 // @return String A human readable error message
 // @param Integer $x An error number
+//
 function result_error_mask_str($x){
     switch($x){
     case 0: return "";
@@ -437,6 +446,15 @@ function result_error_mask_str($x){
 	case 193: return "EXIT_SIGNAL";
 	case 194: return "EXIT_ABORTED_BY_CLIENT";
 	case 195: return "EXIT_CHILD_FAILED";
+	case 196: return "EXIT_DISK_LIMIT_EXCEEDED";
+	case 197: return "EXIT_TIME_LIMIT_EXCEEDED";
+	case 198: return "EXIT_MEM_LIMIT_EXCEEDED";
+	case 199: return "EXIT_CLIENT_EXITING";
+	case 200: return "EXIT_UNSTARTED_LATE";
+	case 201: return "EXIT_MISSING_COPROC";
+	case 202: return "EXIT_ABORTED_BY_PROJECT";
+	case 203: return "EXIT_ABORTED_VIA_GUI";
+	case 204: return "EXIT_UNKNOWN";
 	case -100: return "ERR_SELECT";
 	case -102: return "ERR_READ";
     case -103: return "ERR_WRITE";

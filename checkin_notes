@@ -4815,3 +4815,9 @@ David  10 July 2012
         Makefile.am
     client/
         time_stats.cpp
+
+David  10 July 2012
+    - web: show job status correctly for new exit codes
+
+    html/inc/
+        result.inc
