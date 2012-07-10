@@ -320,12 +320,12 @@ int TIME_STATS::parse(XML_PARSER& xp) {
             return 0;
         }
 #ifdef SIM
-        else if (xp.parse_double("on_lambda", on_lambda)) continue;
-        else if (xp.parse_double("connected_lambda", connected_lambda)) continue;
-        else if (xp.parse_double("active_lambda", active_lambda)) continue;
-        else if (xp.parse_double("gpu_active_lambda", gpu_active_lambda)) continue;
+        if (xp.parse_double("on_lambda", on_lambda)) continue;
+        if (xp.parse_double("connected_lambda", connected_lambda)) continue;
+        if (xp.parse_double("active_lambda", active_lambda)) continue;
+        if (xp.parse_double("gpu_active_lambda", gpu_active_lambda)) continue;
 #endif
-        else if (xp.parse_double("last_update", x)) {
+        if (xp.parse_double("last_update", x)) {
             if (x < 0 || x > gstate.now) {
 #ifndef SIM
                 msg_printf(0, MSG_INTERNAL_ERROR,
@@ -336,7 +336,8 @@ int TIME_STATS::parse(XML_PARSER& xp) {
                 last_update = x;
             }
             continue;
-        } else if (xp.parse_double("on_frac", x)) {
+        }
+        if (xp.parse_double("on_frac", x)) {
             if (x <= 0 || x > 1) {
                 msg_printf(0, MSG_INTERNAL_ERROR,
                     "bad value %f of time stats on_frac; ignoring", x
@@ -345,11 +346,13 @@ int TIME_STATS::parse(XML_PARSER& xp) {
                 on_frac = x;
             }
             continue;
-        } else if (xp.parse_double("connected_frac", x)) {
+        }
+        if (xp.parse_double("connected_frac", x)) {
             // -1 means undefined; skip check
             connected_frac = x;
             continue;
-        } else if (xp.parse_double("cpu_and_network_available_frac", x)) {
+        }
+        if (xp.parse_double("cpu_and_network_available_frac", x)) {
             if (x <= 0 || x > 1) {
                 msg_printf(0, MSG_INTERNAL_ERROR,
                     "bad value %f of time stats cpu_and_network_available_frac; ignoring", x
@@ -357,7 +360,9 @@ int TIME_STATS::parse(XML_PARSER& xp) {
             } else {
                 cpu_and_network_available_frac = x;
             }
-        } else if (xp.parse_double("active_frac", x)) {
+            continue;
+        }
+        if (xp.parse_double("active_frac", x)) {
             if (x <= 0 || x > 1) {
                 msg_printf(0, MSG_INTERNAL_ERROR,
                     "bad value %f of time stats active_frac; ignoring", x
@@ -366,7 +371,8 @@ int TIME_STATS::parse(XML_PARSER& xp) {
                 active_frac = x;
             }
             continue;
-        } else if (xp.parse_double("gpu_active_frac", x)) {
+        }
+        if (xp.parse_double("gpu_active_frac", x)) {
             if (x <= 0 || x > 1) {
                 msg_printf(0, MSG_INTERNAL_ERROR,
                     "bad value %f of time stats gpu_active_frac; ignoring", x
@@ -375,13 +381,12 @@ int TIME_STATS::parse(XML_PARSER& xp) {
                 gpu_active_frac = x;
             }
             continue;
-        } else {
-            if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_INFO,
-                    "[unparsed_xml] TIME_STATS::parse(): unrecognized: %s\n",
-                    xp.parsed_tag
-                );
-            }
+        }
+        if (log_flags.unparsed_xml) {
+            msg_printf(0, MSG_INFO,
+                "[unparsed_xml] TIME_STATS::parse(): unrecognized: %s\n",
+                xp.parsed_tag
+            );
         }
     }
     return ERR_XML_PARSE;

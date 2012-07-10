@@ -4806,3 +4806,12 @@ Charlie 10 July 2012
         buildopenssl.sh
         BuildMacBOINC.sh
         HowToBuildBOINC_XCode.rtf
+
+David  10 July 2012
+    - Unix: include db/boinc_db_types.h in installed headers
+    - client: small code cleanup, no functional change
+
+    db/
+        Makefile.am
+    client/
+        time_stats.cpp
