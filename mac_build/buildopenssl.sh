@@ -22,9 +22,13 @@
 # libcrypto.a and libssl.a for use in building BOINC.
 #
 # by Charlie Fenton 6/25/12
-# Updated 7/6/12 for Xcode 4.3 and later which are not at a fixed address
+# Updated 7/9/12 for Xcode 4.3 and later which are not at a fixed address
 #
 ## This script requires OS 10.6 or later
+#
+## If you drag-install Xcode 4.3 or later, you must have opened Xcode 
+## and clicked the Install button on the dialog which appears to 
+## complete the Xcode installation before running this script.
 #
 ## In Terminal, CD to the openssl-1.0.1c directory.
 ##     cd [path]/openssl-1.0.1c/
@@ -35,7 +39,7 @@
 ##
 
 if [ "$1" != "-clean" ]; then
-    if [ -f libssl.a ]; then
+    if [ -f libssl.a ]&& [ -f libcrypto.a ]; then
         echo "openssl-1.0.1c libraries already built"
         return 0
     fi
@@ -55,16 +59,38 @@ if [  $? -ne 0 ]; then
     return 1
 fi
 
+MAKEPATH=`xcrun -find make`
+if [  $? -ne 0 ]; then
+    echo "ERROR: can't find make tool"
+    return 1
+fi
+
+TOOLSPATH1=${MAKEPATH%/make}
+
+ARPATH=`xcrun -find ar`
+if [  $? -ne 0 ]; then
+    echo "ERROR: can't find ar tool"
+    return 1
+fi
+
+TOOLSPATH2=${ARPATH%/ar}
+
+SDKPATH=`xcodebuild -version -sdk macosx Path`
+
+export PATH="${TOOLSPATH1}":"${TOOLSPATH2}":/usr/local/bin:$PATH
+
 rm -f libssl.a
 rm -f libcrypto.a
 
 if [  $? -ne 0 ]; then return 1; fi
 
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
-export LDFLAGS="-Wl,-arch,i386"
-export CPPFLAGS="-arch i386"
-export CFLAGS="-arch i386"
+export LDFLAGS="-Wl,-sysroot,${SDKPATH},-syslibroot,${SDKPATH},-arch,i386"
+export CPPFLAGS="-isysroot ${SDKPATH} -arch i386"
+export CFLAGS="-isysroot ${SDKPATH} -arch i386"
+export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=10.4
+export LIBRARY_PATH="${SDKPATH}/usr/lib"
 
 ./config no-shared
 if [  $? -ne 0 ]; then return 1; fi

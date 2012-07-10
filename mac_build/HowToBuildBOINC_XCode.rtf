@@ -13,12 +13,15 @@
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 \cf0 Written by Charlie Fenton\
-Last updated 7/6/12\
+Last updated 7/10/12\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 \cf0 \
 This document applies to BOINC version 7.1.0 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
 \
-Note: the information in this document changes from time to time for different versions of BOINC.  For any version of BOINC source files, the corresponding version of this document can be found in the source tree at:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
+
+\b \cf0 Note:
+\b0  the information in this document changes from time to time for different versions of BOINC.  For any version of BOINC source files, the corresponding version of this document can be found in the source tree at:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 
 \f1\fs26 \cf0                    boinc/mac_build/HowToBuildBOINC_XCode.rtf\
@@ -187,7 +190,10 @@ MAC_OS_X_VERSION_MIN_REQUIRED=1040\
 \f0\fs24 \cf0 \
 Important: do not change the names of any of these 4 directories.\
 \
-Note: Building wxMac-2.8.10 requires the MacOSX10.6.sdk, which is not included in Xcode 4.5.  If you are building wxMac-2.8.10 with Xcode 4.5, see the section 
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
+
+\b \cf0 Note:
+\b0  Building wxMac-2.8.10 requires the MacOSX10.6.sdk, which is not included in Xcode 4.5.  If you are building wxMac-2.8.10 with Xcode 4.5, see the section 
 \i\b Installing and setting up Xcode
 \i0\b0  for further information.\
 \
@@ -226,7 +232,17 @@ source setupForBoinc.sh -clean
 If you don't wish to force a full rebuild of everything, omit the -clean argument.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 \cf0 \
-Note: this script builds c-ares and curl first, followed by openssl and finally wxMac.  If you haven't downloaded wxMac because you aren't building the BOINC Manager, the script will build c-ares, curl and openssl before quitting.  \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
+
+\b \cf0 Note 1:
+\b0  Be sure to run the script using the 
+\f1\fs26 source
+\f0\fs24  command.  Do not double-click on the scripts or use the 
+\f1\fs26 sh
+\f0\fs24  command to run them.\
+
+\b Note 2:
+\b0  this script builds c-ares and curl first, followed by openssl and finally wxMac.  If you haven't downloaded wxMac because you aren't building the BOINC Manager, the script will build c-ares, curl and openssl before quitting.  \
 \
 [5] Build BOINC as follows:\
 \
@@ -271,7 +287,7 @@ The options for BuildMacBOINC.sh are:\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 
-\b \cf0 Note:
+\b \cf0 Note 1:
 \b0  You may find two Xcode projects in the BOINC_dev/boinc/mac_build/ directory: \
   \'95 
 \b wxMac-BOINC.xcodeproj
@@ -285,10 +301,28 @@ The options for BuildMacBOINC.sh are:\
 \i0  build configuration builds a universal binary and is suitable for release builds.  If there are any other build configurations, they should not be used as they are obsolete.  \
 \
 
-\b Note: 
+\b Note 2: 
 \b0 To perform a release build under Xcode 4.2 when not using the BuildMacBOINC.sh script, select "Build for archiving" from Xcode's Product menu.  Do 
 \b not
 \b0  select "Archive."\
+\
+
+\b Note 3: 
+\b0 Using the 
+\f1\fs26 BuildMacBOINC.sh
+\f0\fs24  script is generally easier than building directly in Xcode.  The script will place the built products in the directory 
+\f1\fs26 boinc/mac_build/build/Deployment/
+\f0\fs24  or 
+\f1\fs26 boinc/mac_build/build/Development/
+\f0\fs24  where they are easy to find.  Building directly in Xcode places the built products in a somewhat obscure location; you would normally need to determine this location using Xcode's Organizer window.  \
+\
+The BOINC Xcode project has built-in scripts which create a text file with the path to the built products at either 
+\f1\fs26 boinc/mac_build/Build_Deployment_Dir
+\f0\fs24  or 
+\f1\fs26 boinc/mac_build/Build_Development_Dir
+\f0\fs24 .  These files are used by the 
+\f1\fs26 release_boinc.sh
+\f0\fs24  script, but you can also use them to access the built products directly as follows; open the file with TextEdit and copy the path, then enter command-shift-G in the Finder and paste the path into the Finder's  dialog.\
 \
 The standard release of BOINC version 6.13.0 and later builds only for Macintosh computers with Intel processors.  Most of the executables are built only for the i386 architecture.  The libraries and the screensaver are built as universal binaries containing builds for two architectures: i386 and x86_64.\
 \
@@ -406,7 +440,7 @@ You can find instructions for doing this in the comments in the file
 Versions of Xcode prior to Xcode 4.3 have an installer package. After downloading Xcode, mount the disk image file by double-clicking on it, then double-click the installer package. \
 \
 Starting with Xcode 4.3, the disk image contains a copy of Xcode itself.  After mounting the disk image, drag the Xcode icon to the folder where you wish it to reside.  In most cases, this will be the 
-\f1\fs26 /Applications
+\f1\fs26 /Applications/
 \f0\fs24  folder.  Unmount the disk image by dragging it to the trash.  Finally, double-click on the installed Xcode icon to run Xcode.  Xcode will display a dialog allowing you to finish the installation; you must do this before running BOINC's build scripts.\
 \
 Building wxMac-2.8.10 requires the MacOSX10.6.sdk, which is not included in Xcode 4.5.  If you are building wxMac-2.8.10 with Xcode 4.5, you must install the OS 10.6 SDK as follows:\

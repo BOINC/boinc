@@ -24,9 +24,14 @@
 # by Charlie Fenton 7/21/06
 # Updated 12/3/09 for OS 10.7 Lion and XCode 4.2
 # Updated 6/25/12 for curl 7.26.0
-# Updated 7/6/12 for Xcode 4.3 and later which are not at a fixed address
+# Updated 7/9/12 for Xcode 4.3 and later which are not at a fixed address
 #
 ## This script requires OS 10.6 or later
+## This script requires OS 10.6 or later
+#
+## If you drag-install Xcode 4.3 or later, you must have opened Xcode 
+## and clicked the Install button on the dialog which appears to 
+## complete the Xcode installation before running this script.
 #
 ## In Terminal, CD to the curl-7.26.0 directory.
 ##     cd [path]/curl-7.26.0/
@@ -57,6 +62,26 @@ if [  $? -ne 0 ]; then
     return 1
 fi
 
+MAKEPATH=`xcrun -find make`
+if [  $? -ne 0 ]; then
+    echo "ERROR: can't find make tool"
+    return 1
+fi
+
+TOOLSPATH1=${MAKEPATH%/make}
+
+ARPATH=`xcrun -find ar`
+if [  $? -ne 0 ]; then
+    echo "ERROR: can't find ar tool"
+    return 1
+fi
+
+TOOLSPATH2=${ARPATH%/ar}
+
+export PATH="${TOOLSPATH1}":"${TOOLSPATH2}":/usr/local/bin:$PATH
+
+SDKPATH=`xcodebuild -version -sdk macosx Path`
+
 CURL_DIR=`pwd`
 # curl configure and make expect a path to _installed_ c-ares-1.9.1
 # so temporarily install c-ares at a path that does not contain spaces.
@@ -71,9 +96,10 @@ if [  $? -ne 0 ]; then return 1; fi
 
 export PATH=/usr/local/bin:$PATH
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
-export LDFLAGS="-Wl,-arch,i386"
-export CPPFLAGS="-arch i386"
-export CFLAGS="-arch i386"
+export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,i386"
+export CPPFLAGS="-isysroot ${SDKPATH} -arch i386"
+export CFLAGS="-isysroot ${SDKPATH} -arch i386"
+export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=10.4
 
 ./configure --enable-shared=NO --enable-ares=/tmp/installed-c-ares --host=i386

@@ -16,7 +16,6 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdwx.h"
-#include <wx/mac/carbon/private.h>
 #include "MacBitmapComboBox.h"
 
 #define POPUPBUTTONCONTROLHEIGHT 20

@@ -40,6 +40,18 @@ typedef int NSInteger;
 typedef float CGFloat;
 #endif
 
+#ifndef GrafPtr
+// OS 10.7 SDK and later do not have QuickDraw headers
+// Although the run-time libraries are still available, 
+// we use weak linking in case they are removed in 
+// future versions of OS X. 
+typedef struct OpaqueGrafPtr* GrafPtr;
+void GetPort(GrafPtr * port) __attribute__((weak_import));
+void SetPortTextFont(GrafPtr port,short txFont) __attribute__((weak_import));
+void SetPortTextSize(CGrafPtr port, short txSize) __attribute__((weak_import));
+#endif
+#define kHelveticaFontID 21
+
 void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
 
@@ -246,7 +258,8 @@ int signof(float x) {
     UInt64          params;
     IOByteCount     rcnt = sizeof(UInt64);
     double          idleTime = 0;
-
+    HIThemeTextInfo textInfo;
+    
    if ([ self isPreview ]) {
 #if 1   // Currently drawRect just draws our logo in the preview window
         NSString *fileName = [[ NSBundle bundleForClass:[ self class ]] pathForImageResource:@"boinc" ];
@@ -444,27 +457,29 @@ int signof(float x) {
             CGContextTranslateCTM (myContext, 0, viewBounds.origin.y + viewBounds.size.height);
             CGContextScaleCTM (myContext, 1.0f, -1.0f);
 
+            if (gSystemVersion >= 1050) {
+                CTFontRef myFont = CTFontCreateWithName(CFSTR("Helvetica"), 20, NULL);
 
-#ifdef __x86_64__
-            CTFontRef myFont = CTFontCreateWithName(CFSTR("Helvetica"), 20, NULL);
-
-            HIThemeTextInfo textInfo = {kHIThemeTextInfoVersionOne, kThemeStateActive, kThemeSpecifiedFont, 
-                                        kHIThemeTextHorizontalFlushLeft, kHIThemeTextVerticalFlushTop, 
-                                        kHIThemeTextBoxOptionNone, kHIThemeTextTruncationNone, 0, false,
-                                        0, myFont
-                                        };
-
-#else
-            GrafPtr port;
-            GetPort(&port);
-            SetPortTextFont(port, kFontIDHelvetica);
-            SetPortTextSize(port, 20);
-            
-            HIThemeTextInfo textInfo = {0, kThemeStateActive, kThemeCurrentPortFont, //kThemeMenuItemCmdKeyFont, //kThemePushButtonFont, 
-                                        kHIThemeTextHorizontalFlushLeft, kHIThemeTextVerticalFlushTop, 
-                                        kHIThemeTextBoxOptionNone, kHIThemeTextTruncationNone, 0, false 
-                                        };
+                HIThemeTextInfo theTextInfo = {kHIThemeTextInfoVersionOne, kThemeStateActive, kThemeSpecifiedFont, 
+                            kHIThemeTextHorizontalFlushLeft, kHIThemeTextVerticalFlushTop, 
+                            kHIThemeTextBoxOptionNone, kHIThemeTextTruncationNone, 0, false,
+                            0, myFont
+                            };
+                textInfo = theTextInfo;
+            } else {
+#ifndef __x86_64__
+                GrafPtr port;
+                GetPort(&port);
+                SetPortTextFont(port, kHelveticaFontID);
+                SetPortTextSize(port, 20);
+                
+                HIThemeTextInfo theTextInfo = {0, kThemeStateActive, kThemeCurrentPortFont, //kThemeMenuItemCmdKeyFont, //kThemePushButtonFont, 
+                            kHIThemeTextHorizontalFlushLeft, kHIThemeTextVerticalFlushTop, 
+                            kHIThemeTextBoxOptionNone, kHIThemeTextTruncationNone, 0, false 
+                            };
+                textInfo = theTextInfo;
 #endif
+            }
 
             HIThemeGetTextDimensions(cf_msg, (float)gMovingRect.size.width, &textInfo, NULL, &gActualTextBoxHeight, NULL);
             gActualTextBoxHeight += TEXTBOXTOPBORDER;

@@ -4786,3 +4786,23 @@ David  7 July 2012
         sched_vda.cpp
     html/user/img/
         star.gif
+
+Charlie 10 July 2012
+    - Mac: update build scripts, source files and Xcode project to allow 
+        building with Xcode 4.3 under OS 10.7.x Lion and Xcode 4.5 under
+        OS 10.8 Mountain Lion.
+        
+    clientgui/
+        mac/
+            MacBitmapCompboBox.cpp
+            MacSysMenu.cpp
+    clientscr/
+        Mac_Saver_ModuleView.m
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+        buildc_ares.sh
+        buildcurl.sh
+        buildopenssl.sh
+        BuildMacBOINC.sh
+        HowToBuildBOINC_XCode.rtf

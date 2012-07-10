@@ -28,7 +28,6 @@
 #include "Events.h"
 #include "miofile.h"
 #include "SkinManager.h"
-#include "wx/mac/private.h"     // for wxBitmapRefData::GetPictHandle
 
 pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
                                     EventRef inEvent, void* pData);

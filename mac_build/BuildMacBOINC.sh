@@ -24,9 +24,13 @@
 # with thanks to Reinhard Prix for his assistance
 #
 # Updated for OS 10.7 Lion and XCode 4.2 on 10/19/11
-# Updated 7/6/12 for Xcode 4.3 and later which are not at a fixed address
+# Updated 7/9/12 for Xcode 4.3 and later which are not at a fixed address
 #
 ## This script requires OS 10.6 or later
+#
+## If you drag-install Xcode 4.3 or later, you must have opened Xcode 
+## and clicked the Install button on the dialog which appears to 
+## complete the Xcode installation before running this script.
 ##
 
 ## Usage:
@@ -126,8 +130,8 @@ fi
 
 echo ""
 
-export DEVELOPER_SDK_DIR="/Developer/SDKs"
+SDKPATH=`xcodebuild -version -sdk macosx Path`
 
-xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} ${doclean} build
+xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} -sdk "${SDKPATH}" ${doclean} build
 
 return $?
