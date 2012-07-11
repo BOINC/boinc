@@ -23,10 +23,10 @@ require_once('../inc/util.inc');
 require_once('../inc/forum.inc');
 require_once('../inc/news.inc');
 
-check_get_args(array("id", "sort", "nowrap", "filter"));
-
 $threadid = get_int('id');
 $sort_style = get_int('sort', true);
+$offset = get_int('offset', true);
+if (!$offset) $offset = 0;
 $nowrap = get_str('nowrap', true);
 $filter = get_str('filter', true);
 
@@ -264,7 +264,8 @@ $headings = array(array(tra("Author"),"authorcol"), array(tra("Message"),""));
 
 start_forum_table($headings, "id=\"thread\" cellspacing=0");
 show_posts(
-    $thread, $forum, $sort_style, $filter, $logged_in_user, $nowrap, true
+    $thread, $forum, $offset, $sort_style, $filter,
+    $logged_in_user, $nowrap, true
 );
 end_table();
 

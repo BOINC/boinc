@@ -20,8 +20,6 @@ require_once("../inc/util.inc");
 require_once("../inc/forum.inc");
 require_once("../inc/image.inc"); // Avatar scaling
 
-check_get_args(array());
-
 if (post_str("account_key", true) != null) {
     $user = lookup_user_auth(post_str("account_key"));
     $rpc = true;
@@ -117,17 +115,12 @@ if (strlen($signature)>250) {
 }
 $forum_sort = post_int("forum_sort");
 $thread_sort = post_int("thread_sort");
-$minimum_wrap_postcount = post_int("forum_minimum_wrap_postcount");
 $display_wrap_postcount = post_int("forum_display_wrap_postcount");
-if ($minimum_wrap_postcount<0) $minimum_wrap_postcount=0;
-if ($display_wrap_postcount>$minimum_wrap_postcount) {
-    $display_wrap_postcount=round($minimum_wrap_postcount/2);
-}
-if ($display_wrap_postcount<5) $display_wrap_postcount=5;
+if ($display_wrap_postcount<1) $display_wrap_postcount=1;
 
 $signature = BoincDb::escape_string($signature);
 
-$user->prefs->update("images_as_links=$images_as_links, link_popup=$link_popup, hide_avatars=$hide_avatars, hide_signatures=$hide_signatures, highlight_special=$highlight_special, jump_to_unread=$jump_to_unread, ignore_sticky_posts=$ignore_sticky_posts, no_signature_by_default=$no_signature_by_default, pm_notification=$pm_notification, avatar='$avatar_url', signature='$signature', forum_sorting=$forum_sort, thread_sorting=$thread_sort, minimum_wrap_postcount=$minimum_wrap_postcount, display_wrap_postcount=$display_wrap_postcount");
+$user->prefs->update("images_as_links=$images_as_links, link_popup=$link_popup, hide_avatars=$hide_avatars, hide_signatures=$hide_signatures, highlight_special=$highlight_special, jump_to_unread=$jump_to_unread, ignore_sticky_posts=$ignore_sticky_posts, no_signature_by_default=$no_signature_by_default, pm_notification=$pm_notification, avatar='$avatar_url', signature='$signature', forum_sorting=$forum_sort, thread_sorting=$thread_sort, display_wrap_postcount=$display_wrap_postcount");
 
 
 $add_user_to_filter = ($_POST["add_user_to_filter"]!="");

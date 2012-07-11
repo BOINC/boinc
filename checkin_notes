@@ -4821,3 +4821,15 @@ David  10 July 2012
 
     html/inc/
         result.inc
+
+David  10 July 2012
+    - user web: add "posts per page" pref for message boards;
+        get rid of existing funky page-limit prefs
+
+    html/
+        inc/
+            forum.inc
+        user/
+            edit_forum_preferences*.php
+            forum_reply.php
+            forum_thread.php

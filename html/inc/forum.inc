@@ -294,56 +294,11 @@ function can_reply($thread, $forum, $user) {
     return true;
 }
 
-function should_show_post(
-    $logged_in_user, $postcount, $postnumber, $post, $sort_style, $last_visit, $nowrap
-){
-    // If no user logged in, display everything (useful for Google bots etc)
-    //
-    if (!$logged_in_user) return true;
-   
-    // If the user hasn't enabled the feature to display only
-    // a certain amount of posts, simply display all of them.
-    //
-    if (!$logged_in_user->prefs->minimum_wrap_postcount) return true;
-    
-    // If the user has asked to display all the posts just display them
-    //
-    if ($nowrap) return true;
-    
-    // If it is enabled and we haven't yet hit the limit, display all
-    //
-    if ($postcount < $logged_in_user->prefs->minimum_wrap_postcount) return true;
-    
-    // display the post if it is the first post
-    //
-    if ($postnumber==1 || $postnumber==($postcount+1)) return true;
-
-    // if this post is unread, show it
-    //
-    if ($post->timestamp > $last_visit) return true;
-   
-    // The user can choose to display the last X posts in a thread only,
-    // "last" here depends on sorting criteria:
-    //
-    if ($sort_style == CREATE_TIME_OLD){
-        if ($postnumber > $postcount+1-$logged_in_user->prefs->display_wrap_postcount) return true;
-    } else if ($sort_style == CREATE_TIME_NEW){
-        if ($postnumber <= $logged_in_user->prefs->display_wrap_postcount) return true;
-    } else {
-        // For other sorting criteria we do not know how to define "last"
-        // so simply display it all
-        //
-        return true;
-    }
-    
-    // In all other cases we should not show this particular post
-    return false;
-}
-
 // Show the posts in a thread for a user.
 //
 function show_posts(
-    $thread, $forum, $sort_style, $filter, $logged_in_user, $nowrap, $show_controls=true
+    $thread, $forum, $offset, $sort_style, $filter, $logged_in_user,
+    $nowrap, $show_controls=true
 ) {
     $n = 1;
     $first_unread_post = null;
@@ -353,6 +308,11 @@ function show_posts(
         $controls = FORUM_CONTROLS;
     } else {
         $controls = NO_CONTROLS;
+    }
+
+    $num_to_show = 20;
+    if ($logged_in_user && $logged_in_user->prefs->display_wrap_postcount > 0) {
+        $num_to_show = $logged_in_user->prefs->display_wrap_postcount;
     }
 
     // If logged in user is moderator,
@@ -369,32 +329,48 @@ function show_posts(
         $last_visit = thread_last_visit($logged_in_user, $thread);
     }
 
-    $postnumber=0; $previous_post=0;
+    if ($offset) {
+        $new_off = $offset - $num_to_show;
+        if ($new_off < 0) $new_off = 0;
+        echo "<tr colspan=2><td>";
+        show_button("forum_thread.php?id=$thread->id&offset=$new_off",
+            "Previous $num_to_show posts",
+            "Show previous $num_to_show posts"
+        );
+        echo "</td></tr>\n";
+    }
+    $show_next_link = false;
+    $num_shown = 0;
     foreach ($posts as $post){
-        $postnumber++;
-        if (should_show_post(
-            $logged_in_user, $postcount, $postnumber, $post,
-            $sort_style, $last_visit, $nowrap
-		)) {
-            if ($postnumber!=$previous_post+1){
-                // A number of posts were hidden, display a way to unhide them:
-                //
-                echo "<tr class=\"postseparator\"><td></td><td>
-                    Only the first post and the last ".($logged_in_user->prefs->display_wrap_postcount)." posts 
-                    (of the ".($postcount+1)." posts in this thread) are displayed. <br>
-                    <a href=\"?id=".$thread->id."&amp;nowrap=true\">Click here to also display the remaining posts</a>.</td></tr>
-                ";
-            }
-            $previous_post=$postnumber;
-            show_post($post, $thread, $forum, $logged_in_user, $last_visit, $n, $controls, $filter);
-            $n = ($n+1)%2;
-            
-            if (($post->timestamp>$last_visit) && 
-                ((!$first_unread_post) || ($post->timestamp<$first_unread_post->timestamp))
-               ){
-                $first_unread_post=$post;
-            }
+        if ($offset > 0) {
+            $offset--;
+            continue;
         }
+        if ($num_shown == $num_to_show) {
+            $show_next_link = true;
+            break;
+        }
+        show_post(
+            $post, $thread, $forum, $logged_in_user, $last_visit, $n,
+            $controls, $filter
+        );
+        $n = ($n+1)%2;
+        
+        if (($post->timestamp>$last_visit) && 
+            ((!$first_unread_post) || ($post->timestamp<$first_unread_post->timestamp))
+           ){
+            $first_unread_post = $post;
+        }
+        $num_shown++;
+    }
+    if ($show_next_link) {
+        $new_off = $offset + $num_to_show;
+        echo "<tr colspan=2><td>";
+        show_button("forum_thread.php?id=$thread->id&offset=$new_off",
+            "Next $num_to_show posts",
+            "Show next $num_to_show posts"
+        );
+        echo "</td></tr>\n";
     }
 
     if ($logged_in_user && $logged_in_user->prefs->jump_to_unread){

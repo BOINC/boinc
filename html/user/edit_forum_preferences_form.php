@@ -132,15 +132,14 @@ row2(
     <input type=\"checkbox\" name=\"forum_images_as_links\" ".$forum_image_as_link."> ".tra("Show images as links")."<br>
     <input type=\"checkbox\" name=\"forum_link_popup\" ".$forum_link_popup."> ".tra("Open links in new window/tab")."<br>
     <input type=\"checkbox\" name=\"forum_highlight_special\" ".$forum_highlight_special."> ".tra("Highlight special users")."<br>
+    <input type=\"text\" name=\"forum_display_wrap_postcount\" size=3 value=\"".$forum_display_wrap_postcount."\"> ".tra("Display this many messages per page")."<br />
     "
 );
 
 row2(tra("How to sort"),
     tra("Threads:")." ".select_from_array("forum_sort", $forum_sort_styles, $user->prefs->forum_sorting)."<br>".tra("Posts:")." ".select_from_array("thread_sort", $thread_sort_styles, $user->prefs->thread_sorting)."<br>
     <input type=\"checkbox\" name=\"forum_jump_to_unread\" ".$forum_jump_to_unread."> ".tra("Jump to first new post in thread automatically")."<br>
-    <input type=\"checkbox\" name=\"forum_ignore_sticky_posts\" ".$forum_ignore_sticky_posts.">".tra("Do not reorder sticky posts")."<br>
-    <input type=\"text\" name=\"forum_minimum_wrap_postcount\" size=3 value=\"".$forum_minimum_wrap_postcount."\"> ".tra("If a thread contains more than this number of posts")."<br />
-    <input type=\"text\" name=\"forum_display_wrap_postcount\" size=3 value=\"".$forum_display_wrap_postcount."\"> ".tra("only display the first one and this many of the last ones")."<br />
+    <input type=\"checkbox\" name=\"forum_ignore_sticky_posts\" ".$forum_ignore_sticky_posts.">".tra("Don't move sticky posts to top")."<br>
     "
 );
 

@@ -16,7 +16,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Use this file you can post a reply to a thread.
+// Post a reply to a thread.
 // Both input (form) and action take place here.
 
 require_once('../inc/forum_email.inc');
@@ -115,7 +115,9 @@ if ($preview == tra("Preview")) {
 start_forum_table(array(tra("Author"), tra("Message")));
 
 show_message_row($thread, $parent_post);
-show_posts($thread, $forum, $sort_style, $filter, $logged_in_user, $nowrap, true);
+show_posts(
+    $thread, $forum, 0, $sort_style, $filter, $logged_in_user, $nowrap, true
+);
 end_table();
 
 page_tail();
