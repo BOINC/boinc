@@ -18,10 +18,10 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Script to build Macintosh example_app using Makefile
+# Script to build Macintosh vboxwrapper using Makefile
 #
-# by Charlie Fenton 2/16/10
-# Updated 10/11/10 for XCode 3.2 and OS 10.6 
+# by Charlie Fenton 2/15/10
+# Updated 11/16/11 for XCode 4.1 and OS 10.7 
 # Updated 7/10/12 for Xcode 4.3 and later which are not at a fixed address
 #
 ## This script requires OS 10.6 or later
@@ -32,10 +32,10 @@
 #
 ## First, build the BOINC libraries using boinc/mac_build/BuildMacBOINC.sh
 ##
-## In Terminal, CD to the example_app directory.
-##     cd [path]/example_app/
+## In Terminal, CD to the wrqpper directory.
+##     cd [path]/vboxwrapper/
 ## then run this script:
-##     sh [path]/MakeMacExample.sh
+##     sh [path]/BuildMacVboxWrapper.sh
 ##
 
 GCCPATH=`xcrun -find gcc`
@@ -84,17 +84,13 @@ export VARIANTFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLO
 export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=10.4
 
-rm -f uc2.o
-rm -f uc2_graphics.o
-rm -f uc2
-rm -f uc2_graphics
+make -f Makefile_mac clean
 make -f Makefile_mac all
 
 if [  $? -ne 0 ]; then exit 1; fi
 
 mkdir i386
-mv uc2 i386/
-mv uc2_graphics i386/
+mv vboxwrapper i386/
 
 echo
 echo "***************************************************"
@@ -108,20 +104,16 @@ export VARIANTFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_AL
 export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=10.5
 
-rm -f uc2.o
-rm -f uc2_graphics.o
-rm -f uc2
-rm -f uc2_graphics
+
+make -f Makefile_mac clean
 make -f Makefile_mac all
 
-if [  $? -ne 0 ]; then exit 1; fi
+    if [  $? -ne 0 ]; then exit 1; fi
 
 mkdir x86_64
-mv uc2 x86_64/
-mv uc2_graphics x86_64/
+mv vboxwrapper x86_64/
 
-rm -f uc2.o
-rm -f uc2_graphics.o
+rm -f vboxwrapper.o
 
 echo
 echo "***************************************************"
@@ -133,7 +125,6 @@ export CC="";export CXX=""
 export LDFLAGS=""
 export CPPFLAGS=""
 export CFLAGS=""
-export SDKROOT=""
 
 exit 0
 

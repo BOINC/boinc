@@ -1,7 +1,7 @@
 # makefile for uc2 BOINC example application on Macintosh.
 # This is invoked from MakeMacExample.sh shell script.
 # It should not be used by itself without the script.
-# Updated 2/16/10 for OS 10.6 and XCode 3.2
+# Updated 7/10/12 for OS 10.7 and XCode 4.3 and later
 
 BOINC_DIR = ../..
 BOINC_API_DIR = $(BOINC_DIR)/api
@@ -20,8 +20,6 @@ CXXFLAGS = $(VARIANTFLAGS) \
     -L$(BOINC_BUILD_DIR) \
     -L.
 
-LIBJPEG = ../../../jpeg-6b/libjpeg.a
-
 OBJ = \
     uc2.o \
     uc2_graphics.o
@@ -38,6 +36,6 @@ uc2: uc2.o $(BOINC_BUILD_DIR)/libboinc_api.a $(BOINC_BUILD_DIR)/libboinc.a
 
 uc2_graphics: uc2_graphics.o $(BOINC_BUILD_DIR)/libboinc.a $(BOINC_BUILD_DIR)/libboinc_graphics2.a
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o uc2_graphics uc2_graphics.o\
-    -lboinc_graphics2 -lboinc_api -lboinc \
-    -framework AppKit -framework GLUT -framework OpenGL  $(LIBJPEG)
+    -lboinc_graphics2 -lboinc_api -lboinc -ljpeg\
+    -framework AppKit -framework GLUT -framework OpenGL
     

@@ -1,5 +1,5 @@
 # stand-alone makefile for uc2 BOINC example application on Macintosh.
-# Updated 10/8/10 for OS 10.6 and XCode 3.2
+# Updated 7/11/12 for OS 10.7 and XCode 4.3
 #
 
 BOINC_DIR = ../..
@@ -17,97 +17,63 @@ CXXFLAGS_ALL = \
     -I$(BOINC_LIB_DIR) \
     -I$(BOINC_API_DIR) \
     -L$(BOINC_BUILD_DIR) \
+    -L/usr/lib \
     -L.
 
-CC_PPC = /usr/bin/gcc-4.0
-CXX_PPC = /usr/bin/g++-4.0
-CXXFLAGS_PPC = -arch ppc -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030 \
-    -isysroot /Developer/SDKs/MacOSX10.4u.sdk \
-    $(CXXFLAGS_ALL) -fvisibility=hidden -fvisibility-inlines-hidden
-LDFLAGS_PPC = -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk,-arch,ppc
-
-
-CC_i386 = /usr/bin/gcc-4.0
-CXX_i386 = /usr/bin/g++-4.0
 CXXFLAGS_i386 = -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040 \
-    -isysroot /Developer/SDKs/MacOSX10.4u.sdk \
     $(CXXFLAGS_ALL) -fvisibility=hidden -fvisibility-inlines-hidden
-LDFLAGS_i386 = -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk,-arch,i386
+LDFLAGS_i386 = -Wl,,-arch,i386
 
-CC_x86_64 = /usr/bin/gcc-4.0
-CXX_x86_64 = /usr/bin/g++-4.0
 CXXFLAGS_x86_64 = -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1050 -DMAC_OS_X_VERSION_MIN_REQUIRED=1050 \
-    -isysroot /Developer/SDKs/MacOSX10.5.sdk \
     $(CXXFLAGS_ALL) -fvisibility=hidden -fvisibility-inlines-hidden
-LDFLAGS_x86_64 = -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk,-arch,x86_64
+LDFLAGS_x86_64 = -Wl,-arch,x86_64
 
-
-LIBJPEG = ../../../jpeg-6b/libjpeg.a
 
 OBJ = \
-    uc2_ppc.o \
-    uc2_graphics_ppc.o \
     uc2_i386.o \
     uc2_graphics_i386.o \
     uc2_x86_64.o \
     uc2_graphics_x86_64.o \
 
-PROGS = uc2_ppc uc2_graphics_ppc uc2_i386 uc2_graphics_i386 uc2_x86_64 uc2_graphics_x86_64 
+PROGS = uc2_i386 uc2_graphics_i386 uc2_x86_64 uc2_graphics_x86_64 
 
 all: $(PROGS)
 
 clean:
 	/bin/rm -f $(PROGS) $(OBJ)
 
-uc2_ppc: export MACOSX_DEPLOYMENT_TARGET=10.3
-uc2_graphics_ppc: export MACOSX_DEPLOYMENT_TARGET=10.3
 uc2_i386: export MACOSX_DEPLOYMENT_TARGET=10.4
 uc2_graphics_i386: export MACOSX_DEPLOYMENT_TARGET=10.4
 uc2_x86_64: export MACOSX_DEPLOYMENT_TARGET=10.5
 uc2_graphics_x86_64: export MACOSX_DEPLOYMENT_TARGET=10.5
 
-uc2_ppc.o: uc2.cpp
-	$(CXX_PPC) -c $(CXXFLAGS_PPC) uc2.cpp -o uc2_ppc.o
-
-uc2_graphics_ppc.o: uc2_graphics.cpp
-	$(CXX_PPC) -c $(CXXFLAGS_PPC) uc2_graphics.cpp -o uc2_graphics_ppc.o
-
 target uc2_i386.0: MACOSX_DEPLOYMENT_TARGET=10.4
 uc2_i386.o: uc2.cpp
-	$(CXX_i386) -c $(CXXFLAGS_i386) uc2.cpp -o uc2_i386.o
+	$(CXX) -c $(CXXFLAGS_i386) uc2.cpp -o uc2_i386.o
 
 uc2_graphics_i386.o: uc2_graphics.cpp
-	$(CXX_i386) -c $(CXXFLAGS_i386) uc2_graphics.cpp -o uc2_graphics_i386.o
+	$(CXX) -c $(CXXFLAGS_i386) uc2_graphics.cpp -o uc2_graphics_i386.o
 
 target uc2_x86_64: MACOSX_DEPLOYMENT_TARGET=10.5
 uc2_x86_64.o: uc2.cpp
-	$(CXX_x86_64) -c $(CXXFLAGS_x86_64) uc2.cpp -o uc2_x86_64.o
+	$(CXX) -c $(CXXFLAGS_x86_64) uc2.cpp -o uc2_x86_64.o
 
 uc2_graphics_x86_64.o: uc2_graphics.cpp
-	$(CXX_x86_64) -c $(CXXFLAGS_x86_64) uc2_graphics.cpp -o uc2_graphics_x86_64.o
-
-
-uc2_ppc: uc2_ppc.o $(BOINC_BUILD_DIR)/libboinc_api.a $(BOINC_BUILD_DIR)/libboinc.a
-	$(CXX_PPC) $(CXXFLAGS_PPC) $(LDFLAGS_PPC) -o uc2_ppc uc2_ppc.o -lboinc_api -lboinc
-
-uc2_graphics_ppc: uc2_graphics_ppc.o $(BOINC_BUILD_DIR)/libboinc.a $(BOINC_BUILD_DIR)/libboinc_graphics2.a
-	$(CXX_PPC) $(CXXFLAGS_PPC) $(LDFLAGS_PPC) -o uc2_graphics_ppc uc2_graphics_ppc.o\
-    -lboinc_graphics2 -lboinc_api -lboinc \
-    -framework AppKit -framework GLUT -framework OpenGL  $(LIBJPEG)
+	$(CXX) -c $(CXXFLAGS_x86_64) uc2_graphics.cpp -o uc2_graphics_x86_64.o
 
 uc2_i386: uc2_i386.o $(BOINC_BUILD_DIR)/libboinc_api.a $(BOINC_BUILD_DIR)/libboinc.a
-	$(CXX_i386) $(CXXFLAGS_i386) $(LDFLAGS_i386) -o uc2_i386 uc2_i386.o -lboinc_api -lboinc
+	$(CXX) $(CXXFLAGS_i386) $(LDFLAGS_i386) -o uc2_i386 uc2_i386.o -lboinc_api -lboinc
 
 uc2_graphics_i386: uc2_graphics_i386.o $(BOINC_BUILD_DIR)/libboinc.a $(BOINC_BUILD_DIR)/libboinc_graphics2.a
-	$(CXX_i386) $(CXXFLAGS_i386) $(LDFLAGS_i386) -o uc2_graphics_i386 uc2_graphics_i386.o\
-    -lboinc_graphics2 -lboinc_api -lboinc \
-    -framework AppKit -framework GLUT -framework OpenGL  $(LIBJPEG)
+	$(CXX) $(CXXFLAGS_i386) $(LDFLAGS_i386) -o uc2_graphics_i386 uc2_graphics_i386.o\
+    -lboinc_graphics2 -lboinc_api -lboinc -ljpeg \
+    -framework AppKit -framework GLUT -framework OpenGL
 
 uc2_x86_64: uc2_x86_64.o $(BOINC_BUILD_DIR)/libboinc_api.a $(BOINC_BUILD_DIR)/libboinc.a
-	$(CXX_x86_64) $(CXXFLAGS_x86_64) $(LDFLAGS_x86_64) -o uc2_x86_64 uc2_x86_64.o -lboinc_api -lboinc
+	$(CXX) $(CXXFLAGS_x86_64) $(LDFLAGS_x86_64) -o uc2_x86_64 uc2_x86_64.o -lboinc_api -lboinc
 
 uc2_graphics_x86_64: uc2_graphics_x86_64.o $(BOINC_BUILD_DIR)/libboinc.a $(BOINC_BUILD_DIR)/libboinc_graphics2.a
-	$(CXX_x86_64) $(CXXFLAGS_x86_64) $(LDFLAGS_x86_64) -o uc2_graphics_x86_64 uc2_graphics_x86_64.o\
-    -lboinc_graphics2 -lboinc_api -lboinc \
-    -framework AppKit -framework GLUT -framework OpenGL  $(LIBJPEG)
+	$(CXX) $(CXXFLAGS_x86_64) $(LDFLAGS_x86_64) -o uc2_graphics_x86_64 uc2_graphics_x86_64.o\
+    -lboinc_graphics2 -lboinc_api -lboinc -ljpeg \
+    -framework AppKit -framework GLUT -framework OpenGL
 

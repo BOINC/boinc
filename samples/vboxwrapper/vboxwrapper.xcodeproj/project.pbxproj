@@ -6,6 +6,21 @@
 	objectVersion = 45;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		DDF95AF415AD8A54004AD167 /* Build_All */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = DDF95AF715AD8A54004AD167 /* Build configuration list for PBXAggregateTarget "Build_All" */;
+			buildPhases = (
+			);
+			dependencies = (
+				DDF95AFA15AD8A65004AD167 /* PBXTargetDependency */,
+				DDF95AFC15AD8A65004AD167 /* PBXTargetDependency */,
+			);
+			name = Build_All;
+			productName = Build_All;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		DD3B677B140CF9470088683F /* vbox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD90CE9E140CAB3D0074CF46 /* vbox.cpp */; };
 		DD3B677C140CF9470088683F /* vboxwrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD90CEA0140CAB3D0074CF46 /* vboxwrapper.cpp */; };
@@ -14,6 +29,23 @@
 		DD90CEA1140CAB3D0074CF46 /* vbox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD90CE9E140CAB3D0074CF46 /* vbox.cpp */; };
 		DD90CEA2140CAB3D0074CF46 /* vboxwrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD90CEA0140CAB3D0074CF46 /* vboxwrapper.cpp */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DDF95AF915AD8A65004AD167 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DD76FA90486AB0100D96B5E;
+			remoteInfo = vboxwrapper_i686;
+		};
+		DDF95AFB15AD8A65004AD167 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD3B6779140CF9470088683F;
+			remoteInfo = vboxwrapper_x86_64;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		8DD76FB20486AB0100D96B5E /* vboxwrapper_i686 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = vboxwrapper_i686; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -131,6 +163,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				DDF95AF415AD8A54004AD167 /* Build_All */,
 				8DD76FA90486AB0100D96B5E /* vboxwrapper_i686 */,
 				DD3B6779140CF9470088683F /* vboxwrapper_x86_64 */,
 			);
@@ -149,7 +182,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" -nt \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}\"\n    if [ \"$CONFIGURATION\" = \"Release\" ]; then\n        cp -fpR \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.dSYM\" \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}.dSYM\"\n    fi\nfi\n";
+			shellScript = "mkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" -nt \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}\"\n    if [ \"$CONFIGURATION\" = \"Release\" ]; then\n        rm -fR \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}.dSYM\"\n        cp -fpR \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.dSYM\" \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}.dSYM\"\n    fi\nfi\n";
 		};
 		DDB3501A1421FBF000EF2DFC /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -162,7 +195,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" -nt \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}\"\n    if [ \"$CONFIGURATION\" = \"Release\" ]; then\n        cp -fpR \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.dSYM\" \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}.dSYM\"\n    fi\nfi\n";
+			shellScript = "mkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" -nt \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}\"\n    if [ \"$CONFIGURATION\" = \"Release\" ]; then\n        rm -fR \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}.dSYM\"\n        cp -fpR \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.dSYM\" \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}.dSYM\"\n    fi\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -189,12 +222,24 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		DDF95AFA15AD8A65004AD167 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8DD76FA90486AB0100D96B5E /* vboxwrapper_i686 */;
+			targetProxy = DDF95AF915AD8A65004AD167 /* PBXContainerItemProxy */;
+		};
+		DDF95AFC15AD8A65004AD167 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD3B6779140CF9470088683F /* vboxwrapper_x86_64 */;
+			targetProxy = DDF95AFB15AD8A65004AD167 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
 		1DEB928608733DD80010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = vboxwrapper_i686;
-				SDKROOT = macosx10.6;
 				USER_HEADER_SEARCH_PATHS = ../../clientgui/mac;
 			};
 			name = Debug;
@@ -203,7 +248,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = vboxwrapper_i686;
-				SDKROOT = macosx10.6;
 				USER_HEADER_SEARCH_PATHS = ../../clientgui/mac;
 			};
 			name = Release;
@@ -228,13 +272,18 @@
 					../..,
 				);
 				LIBRARY_SEARCH_PATHS = "../../mac_build/build/Development/**";
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				OTHER_CFLAGS = (
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
+					"-DMAC_OS_X_VERSION_MIN_REQUIRED=1040",
+				);
 				OTHER_LDFLAGS = (
 					"-lboinc_api",
 					"-lboinc",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = vboxwrapper;
-				SDKROOT = macosx10.5;
+				SDKROOT = "";
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Debug;
@@ -259,6 +308,11 @@
 					../..,
 				);
 				LIBRARY_SEARCH_PATHS = "../../mac_build/build/Deployment/**";
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				OTHER_CFLAGS = (
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
+					"-DMAC_OS_X_VERSION_MIN_REQUIRED=1040",
+				);
 				OTHER_LDFLAGS = (
 					"-lboinc_api",
 					"-lboinc",
@@ -266,7 +320,7 @@
 				PREBINDING = NO;
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_NAME = vboxwrapper;
-				SDKROOT = macosx10.5;
+				SDKROOT = "";
 				STRIP_INSTALLED_PRODUCT = YES;
 			};
 			name = Release;
@@ -299,6 +353,20 @@
 			};
 			name = Release;
 		};
+		DDF95AF515AD8A54004AD167 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		DDF95AF615AD8A54004AD167 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -328,6 +396,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		DDF95AF715AD8A54004AD167 /* Build configuration list for PBXAggregateTarget "Build_All" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDF95AF515AD8A54004AD167 /* Debug */,
+				DDF95AF615AD8A54004AD167 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
