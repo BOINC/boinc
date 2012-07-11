@@ -298,7 +298,7 @@ function can_reply($thread, $forum, $user) {
 //
 function show_posts(
     $thread, $forum, $offset, $sort_style, $filter, $logged_in_user,
-    $nowrap, $show_controls=true
+    $show_controls=true
 ) {
     $n = 1;
     $first_unread_post = null;
@@ -333,7 +333,8 @@ function show_posts(
         $new_off = $offset - $num_to_show;
         if ($new_off < 0) $new_off = 0;
         echo "<tr colspan=2><td>";
-        show_button("forum_thread.php?id=$thread->id&offset=$new_off",
+        show_button(
+            "forum_thread.php?id=$thread->id&offset=$new_off&sort_style=$sort_style",
             "Previous $num_to_show posts",
             "Show previous $num_to_show posts"
         );
@@ -341,9 +342,10 @@ function show_posts(
     }
     $show_next_link = false;
     $num_shown = 0;
+    $num_skipped = 0;
     foreach ($posts as $post){
-        if ($offset > 0) {
-            $offset--;
+        if ($num_skipped < $offset) {
+            $num_skipped++;
             continue;
         }
         if ($num_shown == $num_to_show) {
@@ -366,7 +368,8 @@ function show_posts(
     if ($show_next_link) {
         $new_off = $offset + $num_to_show;
         echo "<tr colspan=2><td>";
-        show_button("forum_thread.php?id=$thread->id&offset=$new_off",
+        show_button(
+            "forum_thread.php?id=$thread->id&offset=$new_off&sort_style=$sort_style",
             "Next $num_to_show posts",
             "Show next $num_to_show posts"
         );
@@ -421,7 +424,8 @@ function is_ignoring($user, $other_user) {
 // Display an individual post
 //
 function show_post(
-    $post, $thread, $forum, $logged_in_user, $last_visit, $n, $controls=FORUM_CONTROLS, $filter=true
+    $post, $thread, $forum, $logged_in_user, $last_visit, $n,
+    $controls=FORUM_CONTROLS, $filter=true
 ) {
     global $country_to_iso3166_2;
 
@@ -430,7 +434,9 @@ function show_post(
     if (is_banished($user) && !is_moderator($logged_in_user, $forum)) {
         return;
     }
+
     // If the user no longer exists, skip the post
+    //
     if (!$user){
         return;
     }
@@ -470,6 +476,7 @@ function show_post(
 
 
     // Print the special user lines, if any
+    //
     global $special_user_bitfield;
     $fstatus="";
     $keys = array_keys($special_user_bitfield);
@@ -482,6 +489,7 @@ function show_post(
     }
     
     // Highlight special users if set in prefs;
+    //
     if ($logged_in_user && $logged_in_user->prefs){
         $highlight = $logged_in_user->prefs->highlight_special && $is_posted_by_special;
     } else {
