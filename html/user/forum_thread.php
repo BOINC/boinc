@@ -25,8 +25,8 @@ require_once('../inc/news.inc');
 
 $threadid = get_int('id');
 $sort_style = get_int('sort', true);
-$offset = get_int('offset', true);
-if (!$offset) $offset = 0;
+$start = get_int('start', true);
+if (!$start) $start = 0;
 $filter = get_str('filter', true);
 
 if ($filter != "false"){
@@ -258,17 +258,13 @@ echo "<input type=\"submit\" value=\"".tra('Sort')."\">
     </td></tr></table></form>
 ";
 
-// Here is where the actual thread begins.
-$headings = array(array(tra("Author"),"authorcol"), array(tra("Message"),""));
-
-start_forum_table($headings, "id=\"thread\" cellspacing=0");
 show_posts(
-    $thread, $forum, $offset, $sort_style, $filter,
+    $thread, $forum, $start, $sort_style, $filter,
     $logged_in_user, true
 );
-end_table();
 
 if ($reply_url) {
+    echo "<br>";
     show_button(
         $reply_url,
         tra("Post to thread"),

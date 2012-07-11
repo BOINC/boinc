@@ -112,9 +112,11 @@ if ($preview == tra("Preview")) {
 start_forum_table(array(tra("Author"), tra("Message")));
 
 show_message_row($thread, $parent_post);
-show_posts(
-    $thread, $forum, 0, $sort_style, $filter, $logged_in_user, true
-);
+if ($parent_post) {
+    show_post(
+        $parent_post, $thread, $forum, $logged_in_user, 0, 0, false, false
+    );
+}
 end_table();
 
 page_tail();

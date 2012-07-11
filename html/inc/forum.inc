@@ -220,54 +220,64 @@ function start_forum_table($headings, $extra=null) {
     echo "</tr>\n";
 }
 
-// return a string containing a paged navigation bar 
-// for the given forum.  The default start place is 0. 
-//
-function show_page_nav($forum, $sort, $start=0){
-    // How many pages to potentially show before and after this one:
-    $preshow = 5; $postshow = 10;
-    $navbar = "";
-    
-    if ($forum->threads > THREADS_PER_PAGE) {
-        $total = ceil($forum->threads / THREADS_PER_PAGE);
-        $curpage = ceil($start / THREADS_PER_PAGE);
-        // If this is not the first page, display "previous"
-        if ($curpage > 0){
-            $navbar = '<a href="forum_forum.php?id='.$forum->id.'&amp;start='.(($curpage-1)*THREADS_PER_PAGE);
-            if ($sort) $navbar.='&amp;sort='.$sort;
-            $navbar.= '"> &lt;-- '.tra("Previous")."</a> ";
-        }
-        
-        // Display a list of pages surrounding this one
-        for ($i=$curpage-$preshow;$i<($curpage+$postshow);$i++){
-            if ($i<1) continue;
-            if ($i>$total) break;
-            // If this is the current page, emphasize it.
-            if ($i == $curpage+1) {
-                $navbar .= "<b>$i</b>";
-            } else {
-				$navbar.='<a href="forum_forum.php?id='.$forum->id.'&amp;start='.(($i-1)*THREADS_PER_PAGE);
-				if ($sort) $navbar.='&amp;sort='.$sort;
-				$navbar.='">'.$i.'</a>';
-			}
-			$navbar .= " | ";
-        }
-
-        // If there is a next page
-        if ($curpage+1 < $total){
-            $navbar.= '<a href="forum_forum.php?id='.$forum->id.'&amp;start='.(($curpage+1)*THREADS_PER_PAGE);
-            if ($sort) $navbar.='&amp;sort='.$sort;
-            $navbar.= '"> '.tra("Next")." --&gt;</a>";
-        }
-
-    }
-    return $navbar;
+function page_link($url, $page_num, $items_per_page, $text) {
+    return " <a href=\"$url&amp;start=" . $page_num*$items_per_page . "\">$text</a> ";
 }
 
-function thread_last_visit($user, $thread) {
-    if (!$user) return false;
-    $log = BoincForumLogging::lookup($user->id, $thread->id);
-    return $log->timestamp;
+// return a string for navigating pages
+//
+function page_links($url, $nitems, $items_per_page, $start){
+    // How many pages to potentially show before and after this one:
+    $preshow = 3;
+    $postshow = 3;
+
+    $x = "";
+    
+    if ($nitems <= $items_per_page) return "";
+    $npages = ceil($nitems / $items_per_page);
+    $curpage = ceil($start / $items_per_page);
+
+    // If this is not the first page, display "previous"
+    //
+    if ($curpage > 0){
+        $x .= page_link(
+            $url, $curpage-1, $items_per_page,
+            tra("Previous")." &middot; "
+        );
+    }
+
+    if ($curpage - $preshow > 0) {
+        $x .= page_link($url, 0, $items_per_page, "1");
+        $x .= " . . . ";
+    }
+    // Display a list of pages surrounding this one
+    //
+    for ($i=$curpage-$preshow; $i<=$curpage+$postshow; $i++){
+        $page_str = (string)($i+1);
+        if ($i < 0) continue;
+        if ($i >= $npages) break;
+
+        if ($i == $curpage) {
+            $x .= "<b>$page_str</b>";
+        } else {
+            $x .= page_link($url, $i, $items_per_page, $page_str);
+        }
+        $x .= " &middot; ";
+    }
+
+    if ($curpage + $postshow < $npages-1) {
+        $x .= " . . . ";
+        $x .= page_link($url, $npages-1, $items_per_page, $npages);
+    }
+    // If there is a next page
+    //
+    if ($curpage < $npages-1){
+        $x .= page_link(
+            $url, $curpage+1, $items_per_page,
+            " &middot; ".tra("Next")
+        );
+    }
+    return $x;
 }
 
 function thread_is_unread($user, $thread) {
@@ -297,12 +307,11 @@ function can_reply($thread, $forum, $user) {
 // Show the posts in a thread for a user.
 //
 function show_posts(
-    $thread, $forum, $offset, $sort_style, $filter, $logged_in_user,
+    $thread, $forum, $start, $sort_style, $filter, $logged_in_user,
     $show_controls=true
 ) {
     $n = 1;
     $first_unread_post = null;
-    $last_visit = 0;
     
     if ($show_controls) {
         $controls = FORUM_CONTROLS;
@@ -315,66 +324,66 @@ function show_posts(
         $num_to_show = $logged_in_user->prefs->display_wrap_postcount;
     }
 
-    // If logged in user is moderator,
-    // let him see all posts - including hidden ones
+    // let moderators see all posts, including hidden ones
     //
     if (is_moderator($logged_in_user, $forum)) {
         $show_hidden = true;
     } else {
         $show_hidden = false;
     }
+
     $posts = get_thread_posts($thread->id, $sort_style, $show_hidden);
     $postcount = (sizeof($posts)-1);
+
+    $latest_viewed = 0;
     if ($logged_in_user) {
-        $last_visit = thread_last_visit($logged_in_user, $thread);
+        $log = BoincForumLogging::lookup($logged_in_user->id, $thread->id);
+        if ($log) {
+            $latest_viewed = $log->timestamp;
+        }
     }
 
-    if ($offset) {
-        $new_off = $offset - $num_to_show;
-        if ($new_off < 0) $new_off = 0;
-        echo "<tr colspan=2><td>";
-        show_button(
-            "forum_thread.php?id=$thread->id&offset=$new_off&sort_style=$sort_style",
-            "Previous $num_to_show posts",
-            "Show previous $num_to_show posts"
-        );
-        echo "</td></tr>\n";
-    }
-    $show_next_link = false;
+    $page_nav = page_links(
+        "forum_thread.php?id=$thread->id&sort_style=$sort_style",
+        sizeof($posts),
+        $num_to_show,
+        $start
+    );
+
+    echo $page_nav;
+
     $num_shown = 0;
     $num_skipped = 0;
+    $headings = array(array(tra("Author"),"authorcol"), array(tra("Message"),""));
+    start_forum_table($headings, "id=\"thread\" cellspacing=0");
+
+    $latest_post_shown = 0;
     foreach ($posts as $post){
-        if ($num_skipped < $offset) {
+        if ($num_skipped < $start) {
             $num_skipped++;
             continue;
         }
         if ($num_shown == $num_to_show) {
-            $show_next_link = true;
             break;
         }
         show_post(
-            $post, $thread, $forum, $logged_in_user, $last_visit, $n,
+            $post, $thread, $forum, $logged_in_user, $latest_viewed, $n,
             $controls, $filter
         );
         $n = ($n+1)%2;
         
-        if (($post->timestamp>$last_visit) && 
+        if (($post->timestamp>$latest_viewed) && 
             ((!$first_unread_post) || ($post->timestamp<$first_unread_post->timestamp))
            ){
             $first_unread_post = $post;
         }
+        if ($post->timestamp > $latest_post_shown) {
+            $latest_post_shown = $post->timestamp;
+        }
         $num_shown++;
     }
-    if ($show_next_link) {
-        $new_off = $offset + $num_to_show;
-        echo "<tr colspan=2><td>";
-        show_button(
-            "forum_thread.php?id=$thread->id&offset=$new_off&sort_style=$sort_style",
-            "Next $num_to_show posts",
-            "Show next $num_to_show posts"
-        );
-        echo "</td></tr>\n";
-    }
+    end_table();
+    echo $page_nav;
 
     if ($logged_in_user && $logged_in_user->prefs->jump_to_unread){
         if ($first_unread_post){
@@ -385,7 +394,9 @@ function show_posts(
     }
 
     if ($logged_in_user) {
-        BoincForumLogging::replace($logged_in_user->id, $thread->id, time());
+        BoincForumLogging::replace(
+            $logged_in_user->id, $thread->id, $latest_post_shown
+        );
     }
 }
 
@@ -424,7 +435,7 @@ function is_ignoring($user, $other_user) {
 // Display an individual post
 //
 function show_post(
-    $post, $thread, $forum, $logged_in_user, $last_visit, $n,
+    $post, $thread, $forum, $logged_in_user, $latest_viewed, $n,
     $controls=FORUM_CONTROLS, $filter=true
 ) {
     global $country_to_iso3166_2;
@@ -554,7 +565,7 @@ function show_post(
         echo "<form action=\"forum_rate.php?post=", $post->id, "\" method=\"post\">";
     }
 
-    if ($logged_in_user && $post->timestamp>$last_visit){
+    if ($logged_in_user && $post->timestamp>$latest_viewed){
         show_image(NEW_IMAGE, tra("You haven't read this message yet"), tra("Unread"), NEW_IMAGE_HEIGHT);
     }
 

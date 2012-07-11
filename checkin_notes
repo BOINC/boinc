@@ -4854,3 +4854,16 @@ Charlie 11 July 2012
                 project.pbxproj
         wrapper/
             BuildMacWrapper.sh
+
+David  11 July 2012
+    - web: improve forum pagination
+
+    client/
+        client_msgs.cpp
+    html/
+        inc/
+            forum.inc
+        user/
+            forum_forum.php
+            forum_reply.php
+            forum_threads.php
