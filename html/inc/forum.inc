@@ -248,7 +248,11 @@ function page_links($url, $nitems, $items_per_page, $start){
 
     if ($curpage - $preshow > 0) {
         $x .= page_link($url, 0, $items_per_page, "1");
-        $x .= " . . . ";
+        if ($curpage - $preshow > 1) {
+            $x .= " . . . ";
+        } else {
+            $x .= " &middot; ";
+        }
     }
     // Display a list of pages surrounding this one
     //
@@ -262,6 +266,8 @@ function page_links($url, $nitems, $items_per_page, $start){
         } else {
             $x .= page_link($url, $i, $items_per_page, $page_str);
         }
+        if ($i == $npages-1) break;
+        if ($i == $curpage+$postshow) break;
         $x .= " &middot; ";
     }
 
@@ -277,6 +283,7 @@ function page_links($url, $nitems, $items_per_page, $start){
             " &middot; ".tra("Next")
         );
     }
+    $x .= "\n";
     return $x;
 }
 
@@ -336,10 +343,11 @@ function show_posts(
     $postcount = (sizeof($posts)-1);
 
     $latest_viewed = 0;
+    $forum_log = null;
     if ($logged_in_user) {
-        $log = BoincForumLogging::lookup($logged_in_user->id, $thread->id);
-        if ($log) {
-            $latest_viewed = $log->timestamp;
+        $forum_log = BoincForumLogging::lookup($logged_in_user->id, $thread->id);
+        if ($forum_log) {
+            $latest_viewed = $forum_log->timestamp;
         }
     }
 
@@ -358,6 +366,7 @@ function show_posts(
     start_forum_table($headings, "id=\"thread\" cellspacing=0");
 
     $latest_post_shown = 0;
+    $first_unread_post = null;
     foreach ($posts as $post){
         if ($num_skipped < $start) {
             $num_skipped++;
@@ -386,14 +395,14 @@ function show_posts(
     echo $page_nav;
 
     if ($logged_in_user && $logged_in_user->prefs->jump_to_unread){
-        if ($first_unread_post){
+        if ($first_unread_post) {
             echo "<script>function jumpToUnread(){location.href='#".$first_unread_post->id."';}</script>";
         } else {
             echo "<script>function jumpToUnread(){};</script>";
         }
     }
 
-    if ($logged_in_user) {
+    if ($forum_log && $latest_post_shown > $forum_log->timestamp) {
         BoincForumLogging::replace(
             $logged_in_user->id, $thread->id, $latest_post_shown
         );
