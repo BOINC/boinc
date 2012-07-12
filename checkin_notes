@@ -4902,3 +4902,12 @@ David  12 July 2012
             forum.inc
         user/
             forum_thread.php
+
+David  12 July 2012
+    - web: make links to specific posts work with pagination
+
+    html/
+        inc/
+            forum.inc
+        user/
+            forum_thread.php

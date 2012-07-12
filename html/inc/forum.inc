@@ -315,17 +315,10 @@ function can_reply($thread, $forum, $user) {
 // If $start is null, enforce jump-to-first-unread
 //
 function show_posts(
-    $thread, $forum, $start, $sort_style, $filter, $logged_in_user,
-    $show_controls=true
+    $thread, $forum, $start, $postid, $sort_style, $filter, $logged_in_user
 ) {
     $n = 1;
     
-    if ($show_controls) {
-        $controls = FORUM_CONTROLS;
-    } else {
-        $controls = NO_CONTROLS;
-    }
-
     $num_to_show = 20;
     if ($logged_in_user && $logged_in_user->prefs->display_wrap_postcount > 0) {
         $num_to_show = $logged_in_user->prefs->display_wrap_postcount;
@@ -350,23 +343,41 @@ function show_posts(
         }
     }
 
-    // jump to first unread post if needed
+    // jump to a specific post if needed
     //
-    $first_unread_post = null;
+    $jump_to_post = null;
     if ($start === null) {
-        if ($latest_viewed && $logged_in_user->prefs->jump_to_unread) {
+        if ($postid) {
+            // jump to a specific post
+            //
+            $i = 0;
+            foreach ($posts as $post) {
+                if ($post->id == $postid) {
+                    $start = $i - ($i % $num_to_show);
+                    $jump_to_post = $post;
+                    break;
+                }
+                $i++;
+            }
+            if ($start === null) {
+                echo "Post $postid not found.";
+                return;
+            }
+        } else if ($latest_viewed && $logged_in_user->prefs->jump_to_unread) {
+            // jump to the first unread post
+            //
             $i = 0;
             $ibest = 0;
             foreach ($posts as $post) {
                 if ($post->timestamp > $latest_viewed) {
-                    if (!$first_unread_post || ($post->timestamp < $first_unread_post->timestamp)) {
-                        $first_unread_post = $post;
+                    if (!$jump_to_post || ($post->timestamp < $jump_to_post->timestamp)) {
+                        $jump_to_post = $post;
                         $ibest = $i;
                     }
                 }
                 $i++;
             }
-            if ($first_unread_post) {
+            if ($jump_to_post) {
                 $start = $ibest - ($ibest % $num_to_show);
             } else {
                 $start = 0;
@@ -391,7 +402,6 @@ function show_posts(
     start_forum_table($headings, "id=\"thread\" cellspacing=0");
 
     $latest_post_shown = 0;
-    $first_unread_post = null;
     foreach ($posts as $post) {
         if ($num_skipped < $start) {
             $num_skipped++;
@@ -402,7 +412,7 @@ function show_posts(
         }
         show_post(
             $post, $thread, $forum, $logged_in_user, $latest_viewed, $n,
-            $controls, $filter
+            FORUM_CONTROLS, $filter
         );
         $n = ($n+1)%2;
         
@@ -414,8 +424,8 @@ function show_posts(
     end_table();
     echo $page_nav;
 
-    if ($first_unread_post) {
-        echo "<script>function jumpToUnread(){location.href='#".$first_unread_post->id."';}</script>";
+    if ($jump_to_post) {
+        echo "<script>function jumpToUnread(){location.href='#".$jump_to_post->id."';}</script>";
     } else {
         echo "<script>function jumpToUnread(){};</script>";
     }
@@ -596,12 +606,12 @@ function show_post(
         show_image(NEW_IMAGE, tra("You haven't read this message yet"), tra("Unread"), NEW_IMAGE_HEIGHT);
     }
 
-    echo " <a href=\"forum_thread.php?id=".$thread->id."&amp;nowrap=true#$post->id\">".tra("Message %1", $post->id)."</a> - ";
+    echo " <a href=\"forum_thread.php?id=".$thread->id."&amp;postid=$post->id\">".tra("Message %1", $post->id)."</a> - ";
     if ($post->hidden) echo "<font color=red>[".tra("hidden")."] </font>";
     echo tra("Posted: %1", pretty_time_str($post->timestamp)), " ";
 
     if ($post->parent_post) {
-        echo tra(" - in response to ")."<a href=\"forum_thread.php?id=".$thread->id."&amp;nowrap=true#".$post->parent_post."\">".tra("Message %1", $post->parent_post)."</a>.";
+        echo tra(" - in response to ")."<a href=\"forum_thread.php?id=".$thread->id."&amp;postid=".$post->parent_post."\">".tra("Message %1", $post->parent_post)."</a>.";
     }
     if ($can_edit && $controls != NO_CONTROLS) {
         show_button("forum_edit.php?id=".$post->id."$tokens", tra("Edit"), tra("Edit this message"));
@@ -700,7 +710,7 @@ function show_post_and_context($post, $thread, $forum, $options, $n) {
         break;
     }
     echo "
-        (<a href=\"forum_thread.php?id=".$thread->id."&amp;nowrap=true#".$post->id."\">".tra("Message %1", $post->id)."</a>)
+        (<a href=\"forum_thread.php?id=".$thread->id."&amp;postid=".$post->id."\">".tra("Message %1", $post->id)."</a>)
         <br>
         ".tra("Posted %1 by %2", $when, user_links($user))." $deleted
         <hr>
