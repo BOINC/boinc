@@ -401,7 +401,7 @@ function show_posts(
     $headings = array(array(tra("Author"),"authorcol"), array(tra("Message"),""));
     start_forum_table($headings, "id=\"thread\" cellspacing=0");
 
-    $latest_post_shown = 0;
+    $latest_shown_timestamp = 0;
     foreach ($posts as $post) {
         if ($num_skipped < $start) {
             $num_skipped++;
@@ -416,8 +416,8 @@ function show_posts(
         );
         $n = ($n+1)%2;
         
-        if ($post->timestamp > $latest_post_shown) {
-            $latest_post_shown = $post->timestamp;
+        if ($post->timestamp > $latest_shown_timestamp) {
+            $latest_shown_timestamp = $post->timestamp;
         }
         $num_shown++;
     }
@@ -430,10 +430,12 @@ function show_posts(
         echo "<script>function jumpToUnread(){};</script>";
     }
 
-    if (!$forum_log || $latest_post_shown > $forum_log->timestamp) {
-        BoincForumLogging::replace(
-            $logged_in_user->id, $thread->id, $latest_post_shown
-        );
+    if ($logged_in_user) {
+        if (!$forum_log || $latest_shown_timestamp > $forum_log->timestamp) {
+            BoincForumLogging::replace(
+                $logged_in_user->id, $thread->id, $latest_shown_timestamp
+            );
+        }
     }
 }
 

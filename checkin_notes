@@ -4895,7 +4895,7 @@ Charlie 12 July 2012
             BuildMacWrapper.sh
 
 David  12 July 2012
-    - web: make "jump to first unread" for with pagination
+    - web: make "jump to first unread" work with pagination
 
     html/
         inc/
@@ -4911,3 +4911,9 @@ David  12 July 2012
             forum.inc
         user/
             forum_thread.php
+
+David  12 July 2012
+    - web: don't try to update thread last-read-time if not logged in
+
+    html/inc/
+        forum.inc
