@@ -125,13 +125,10 @@ page_tail();
 function show_forum($forum, $start, $sort_style, $user) {
     $page_nav = page_links(
         "forum_forum.php?id=$forum->id&amp;sort=$sort_style",
-        sizeof($forum->threads),
+        $forum->threads,
         THREADS_PER_PAGE,
-        start
+        $start
     );
-    if ($page_nav) {
-        $page_nav = "<div align=\"right\">$page_nav</div><br>";
-    }
     echo $page_nav;
     start_forum_table(array(
         "",

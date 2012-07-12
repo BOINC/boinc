@@ -402,7 +402,7 @@ function show_posts(
         }
     }
 
-    if ($forum_log && $latest_post_shown > $forum_log->timestamp) {
+    if (!$forum_log || $latest_post_shown > $forum_log->timestamp) {
         BoincForumLogging::replace(
             $logged_in_user->id, $thread->id, $latest_post_shown
         );

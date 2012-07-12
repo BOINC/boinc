@@ -4867,3 +4867,12 @@ David  11 July 2012
             forum_forum.php
             forum_reply.php
             forum_threads.php
+
+David  11 July 2012
+    - web: forum fixes
+    
+    html/
+        inc/
+            forum.inc
+        user/
+            forum_forum.php
