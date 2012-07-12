@@ -4882,6 +4882,8 @@ Charlie 12 July 2012
         under OS 10.8 GM seed.
 
     samples/
+        example_app/
+            MakeMacExample.sh
         mac_build/
             UpperCase2.xcodeproj/
                 project.pbxproj
@@ -4889,3 +4891,5 @@ Charlie 12 July 2012
             BuildMacVboxWrapper.sh
             vboxwrapper.xcodeproj/
                 project.pbxproj
+        wrapper/
+            BuildMacWrapper.sh
