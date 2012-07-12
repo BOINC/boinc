@@ -312,13 +312,13 @@ function can_reply($thread, $forum, $user) {
 }
 
 // Show the posts in a thread for a user.
+// If $start is null, enforce jump-to-first-unread
 //
 function show_posts(
     $thread, $forum, $start, $sort_style, $filter, $logged_in_user,
     $show_controls=true
 ) {
     $n = 1;
-    $first_unread_post = null;
     
     if ($show_controls) {
         $controls = FORUM_CONTROLS;
@@ -340,7 +340,6 @@ function show_posts(
     }
 
     $posts = get_thread_posts($thread->id, $sort_style, $show_hidden);
-    $postcount = (sizeof($posts)-1);
 
     $latest_viewed = 0;
     $forum_log = null;
@@ -348,6 +347,32 @@ function show_posts(
         $forum_log = BoincForumLogging::lookup($logged_in_user->id, $thread->id);
         if ($forum_log) {
             $latest_viewed = $forum_log->timestamp;
+        }
+    }
+
+    // jump to first unread post if needed
+    //
+    $first_unread_post = null;
+    if ($start === null) {
+        if ($latest_viewed && $logged_in_user->prefs->jump_to_unread) {
+            $i = 0;
+            $ibest = 0;
+            foreach ($posts as $post) {
+                if ($post->timestamp > $latest_viewed) {
+                    if (!$first_unread_post || ($post->timestamp < $first_unread_post->timestamp)) {
+                        $first_unread_post = $post;
+                        $ibest = $i;
+                    }
+                }
+                $i++;
+            }
+            if ($first_unread_post) {
+                $start = $ibest - ($ibest % $num_to_show);
+            } else {
+                $start = 0;
+            }
+        } else {
+            $start = 0;
         }
     }
 
@@ -367,7 +392,7 @@ function show_posts(
 
     $latest_post_shown = 0;
     $first_unread_post = null;
-    foreach ($posts as $post){
+    foreach ($posts as $post) {
         if ($num_skipped < $start) {
             $num_skipped++;
             continue;
@@ -381,11 +406,6 @@ function show_posts(
         );
         $n = ($n+1)%2;
         
-        if (($post->timestamp>$latest_viewed) && 
-            ((!$first_unread_post) || ($post->timestamp<$first_unread_post->timestamp))
-           ){
-            $first_unread_post = $post;
-        }
         if ($post->timestamp > $latest_post_shown) {
             $latest_post_shown = $post->timestamp;
         }
@@ -394,12 +414,10 @@ function show_posts(
     end_table();
     echo $page_nav;
 
-    if ($logged_in_user && $logged_in_user->prefs->jump_to_unread){
-        if ($first_unread_post) {
-            echo "<script>function jumpToUnread(){location.href='#".$first_unread_post->id."';}</script>";
-        } else {
-            echo "<script>function jumpToUnread(){};</script>";
-        }
+    if ($first_unread_post) {
+        echo "<script>function jumpToUnread(){location.href='#".$first_unread_post->id."';}</script>";
+    } else {
+        echo "<script>function jumpToUnread(){};</script>";
     }
 
     if (!$forum_log || $latest_post_shown > $forum_log->timestamp) {

@@ -26,7 +26,6 @@ require_once('../inc/news.inc');
 $threadid = get_int('id');
 $sort_style = get_int('sort', true);
 $start = get_int('start', true);
-if (!$start) $start = 0;
 $filter = get_str('filter', true);
 
 if ($filter != "false"){
@@ -259,8 +258,7 @@ echo "<input type=\"submit\" value=\"".tra('Sort')."\">
 ";
 
 show_posts(
-    $thread, $forum, $start, $sort_style, $filter,
-    $logged_in_user, true
+    $thread, $forum, $start, $sort_style, $filter, $logged_in_user, true
 );
 
 if ($reply_url) {

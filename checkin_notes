@@ -4893,3 +4893,12 @@ Charlie 12 July 2012
                 project.pbxproj
         wrapper/
             BuildMacWrapper.sh
+
+David  12 July 2012
+    - web: make "jump to first unread" for with pagination
+
+    html/
+        inc/
+            forum.inc
+        user/
+            forum_thread.php
