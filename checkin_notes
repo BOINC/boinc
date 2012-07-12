@@ -4876,3 +4876,16 @@ David  11 July 2012
             forum.inc
         user/
             forum_forum.php
+
+Charlie 12 July 2012
+    - Mac: update sample code to allow building with Xcode 4.4 GM seed
+        under OS 10.8 GM seed.
+
+    samples/
+        mac_build/
+            UpperCase2.xcodeproj/
+                project.pbxproj
+        vboxwrapper/
+            BuildMacVboxWrapper.sh
+            vboxwrapper.xcodeproj/
+                project.pbxproj

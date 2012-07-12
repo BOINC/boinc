@@ -283,7 +283,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = vboxwrapper;
-				SDKROOT = "";
+				SDKROOT = macosx10.7;
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Debug;
@@ -320,7 +320,7 @@
 				PREBINDING = NO;
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_NAME = vboxwrapper;
-				SDKROOT = "";
+				SDKROOT = macosx10.7;
 				STRIP_INSTALLED_PRODUCT = YES;
 			};
 			name = Release;
@@ -404,6 +404,7 @@
 				DDF95AF615AD8A54004AD167 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

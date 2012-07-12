@@ -22,7 +22,7 @@
 #
 # by Charlie Fenton 2/15/10
 # Updated 11/16/11 for XCode 4.1 and OS 10.7 
-# Updated 7/10/12 for Xcode 4.3 and later which are not at a fixed address
+# Updated 7/12/12 for Xcode 4.3 and later which are not at a fixed address
 #
 ## This script requires OS 10.6 or later
 #
@@ -41,19 +41,19 @@
 GCCPATH=`xcrun -find gcc`
 if [  $? -ne 0 ]; then
     echo "ERROR: can't find gcc compiler"
-    return 1
+    exit 1
 fi
 
 GPPPATH=`xcrun -find g++`
 if [  $? -ne 0 ]; then
     echo "ERROR: can't find g++ compiler"
-    return 1
+    exit 1
 fi
 
 MAKEPATH=`xcrun -find make`
 if [  $? -ne 0 ]; then
     echo "ERROR: can't find make tool"
-    return 1
+    exit 1
 fi
 
 TOOLSPATH1=${MAKEPATH%/make}
@@ -61,14 +61,17 @@ TOOLSPATH1=${MAKEPATH%/make}
 ARPATH=`xcrun -find ar`
 if [  $? -ne 0 ]; then
     echo "ERROR: can't find ar tool"
-    return 1
+    exit 1
 fi
 
 TOOLSPATH2=${ARPATH%/ar}
 
 export PATH="${TOOLSPATH1}":"${TOOLSPATH2}":/usr/local/bin:$PATH
 
-SDKPATH=`xcodebuild -version -sdk macosx Path`
+## There is an apparent bug in MacOSX10.8.sdk which causes our 
+## floppyio compilation to fail, so use MacOSX10.7.sdk for now
+##SDKPATH=`xcodebuild -version -sdk macosx Path`
+SDKPATH=`xcodebuild -version -sdk macosx10.7 Path`
 
 rm -fR i386 x86_64
 

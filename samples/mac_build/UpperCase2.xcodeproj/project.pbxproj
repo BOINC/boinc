@@ -653,7 +653,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" -nt \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}\"\n    if [ \"$CONFIGURATION\" = \"Release\" ]; then\n#        rm -fR \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}.dSYM\"\n        cp -fpR \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.dSYM\" \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}.dSYM\"\n    fi\nfi\n";
+			shellScript = "mkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" -nt \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}\"\n    if [ \"$CONFIGURATION\" = \"Release\" ]; then\n        rm -fR \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}.dSYM\"\n        cp -fpR \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.dSYM\" \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}.dSYM\"\n    fi\nfi\n";
 		};
 		DD7A737A15AD66CA004F2841 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -897,7 +897,7 @@
 					"-lboinc_api",
 					"-lboinc",
 				);
-				SDKROOT = "";
+				SDKROOT = macosx;
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Debug;
@@ -936,7 +936,7 @@
 					"-lboinc_api",
 					"-lboinc",
 				);
-				SDKROOT = "";
+				SDKROOT = macosx;
 				STRIP_INSTALLED_PRODUCT = YES;
 			};
 			name = Release;
