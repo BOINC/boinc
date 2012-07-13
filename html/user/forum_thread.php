@@ -25,6 +25,7 @@ require_once('../inc/news.inc');
 
 $threadid = get_int('id');
 $sort_style = get_int('sort', true);
+$temp_sort_style = get_int('temp_sort_style', true);
 $start = get_int('start', true);
 $postid = get_int('postid', true);
 $filter = get_str('filter', true);
@@ -70,14 +71,9 @@ if ($thread->hidden) {
 }
 
 $title = cleanup_title($thread->title);
-if (!$sort_style) {
-    // get the sorting style from the user or a cookie
-    if ($logged_in_user){
-        $sort_style = $logged_in_user->prefs->thread_sorting;
-    } else if (array_key_exists('sorting', $_COOKIE)) {
-        list($forum_style, $sort_style) = explode("|",$_COOKIE['sorting']);
-    }
-} else {
+if ($temp_sort_style) {
+    $sort_style = $temp_sort_style;
+} else if ($sort_style) {
     if ($logged_in_user){
         $logged_in_user->prefs->thread_sorting = $sort_style;
         $logged_in_user->prefs->update("thread_sorting=$sort_style");
@@ -89,6 +85,13 @@ if (!$sort_style) {
         implode("|", array($forum_style, $sort_style)),
         true
     );
+} else {
+    // get the sorting style from the user or a cookie
+    if ($logged_in_user){
+        $sort_style = $logged_in_user->prefs->thread_sorting;
+    } else if (array_key_exists('sorting', $_COOKIE)) {
+        list($forum_style, $sort_style) = explode("|",$_COOKIE['sorting']);
+    }
 }
 
 if ($logged_in_user && $logged_in_user->prefs->jump_to_unread){

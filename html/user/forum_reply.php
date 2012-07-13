@@ -77,7 +77,7 @@ if ($content && (!$preview)){
             $content, $parent_post_id, $logged_in_user, $forum,
             $thread, $add_signature
         );
-        header('Location: forum_thread.php?id='.$thread->id);
+        header("Location: forum_thread.php?id=$thread->id&temp_sort_style=".CREATE_TIME_NEW);
     }
 }
 

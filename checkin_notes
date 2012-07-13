@@ -4918,7 +4918,7 @@ David  12 July 2012
     html/inc/
         forum.inc
 
-David  12 July 2012
+David  13 July 2012
     - web: when posting to a thread, show a page of its most recent posts 
     - feeder: add --by_batch option: interleaves jobs from different batches.
         From Jack Harris.
@@ -4928,3 +4928,11 @@ David  12 July 2012
     html/user/
         forum_reply.php
         forum_user_posts.php
+
+David  13 July 2012
+    - web: after post to a thread, show a page of the most recent posts
+        (but don't change user's sort prefs)
+
+    html/user/
+        forum_thread.php
+        forum_reply.php
