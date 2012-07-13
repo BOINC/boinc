@@ -628,7 +628,7 @@ function show_result($result, $show_outfile_links=false) {
         $i = 0;
         $x = "";
         foreach ($names as $name) {
-            if ($i) $x .= " | ";
+            if ($i) $x .= " &middot; ";
             $url = dir_hier_url($name, "upload", $fanout);
             echo $name;
             $x .= " <a href=$url>$i</a> ";
@@ -676,7 +676,7 @@ function result_navigation($info, $where_clause) {
         $x .= "<a href=$url>".tra("Previous")." ".$info->results_per_page."</a>";
     }
     if ($show_prev && $show_next) {
-        $x .= "&nbsp;|&nbsp;";
+        $x .= "&nbsp;&middot;&nbsp;";
     }
     if ($show_next) {
         $i2 = clone $info;
@@ -686,7 +686,7 @@ function result_navigation($info, $where_clause) {
     }
     $x .= "<br>".tra("State").": ";
     for ($i=0; $i<NSTATES; $i++) {
-        if ($i) $x .= " | ";
+        if ($i) $x .= " &middot; ";
         if ($info->state == $i) {
             $x .= $state_name[$i];
         } else {
@@ -715,7 +715,7 @@ function result_navigation($info, $where_clause) {
         foreach ($apps as $app) {
             $i2->appid = $app->id;
             $url = result_page_url($i2);
-            $x .= ' | ';
+            $x .= ' &middot; ';
             if ($info->appid == $app->id) {
                 $x .= $app->user_friendly_name;
             } else {

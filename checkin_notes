@@ -4936,3 +4936,9 @@ David  13 July 2012
     html/user/
         forum_thread.php
         forum_reply.php
+
+David  13 July 2012
+    - web: use &middot; instead of | as a separator
+
+    html/inc/
+        result.inc
