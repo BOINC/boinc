@@ -20,6 +20,8 @@
 //
 // Usage: feeder [ options ]
 //  [ -d x ]                debug level x
+//  [ --allapps ]           interleave results from all applications uniformly
+//  [ --by_batch ]          interleave results from all batches uniformly
 //  [ --random_order ]      order by "random" field of result
 //  [ --priority_order ]    order by decreasing "priority" field of result
 //  [ --priority_order_create_time ]
@@ -28,7 +30,6 @@
 //  [ --wmod n i ]          handle only workunits with (id mod n) == i
 //                          recommended if using HR with multiple schedulers
 //  [ --sleep_interval x ]  sleep x seconds if nothing to do
-//  [ --allapps ]           interleave results from all applications uniformly
 //  [ --appids a1{,a2} ]    get work only for appids a1,...
 //                          (comma-separated list)
 //  [ --purge_stale x ]     remove work items from the shared memory segment
@@ -703,7 +704,7 @@ void usage(char *name) {
 int main(int argc, char** argv) {
     int i, retval;
     void* p;
-    char path[MAXPATHLEN];
+    char path[MAXPATHLEN], order_buf[1024];
 
     for (i=1; i<argc; i++) {
         if (is_arg(argv[i], "d") || is_arg(argv[i], "debug_level")) {
@@ -723,6 +724,20 @@ int main(int argc, char** argv) {
             order_clause = "order by r1.priority desc ";
         } else if (is_arg(argv[i], "priority_order_create_time")) {
             order_clause = "order by r1.priority desc, r1.workunitid";
+        } else if (is_arg(argv[i], "by_batch")) {
+            // Evenly distribute work among batches
+            // The 0=1 causes anything before the union statement
+            // to result in an empty set,
+            // and the '#' at the end comments out anthing following our query
+            // This has allowed us to inject a more customizable query
+            //
+            sprintf(order_buf, "and 0=1 union (SELECT r1.id, r1.priority, r1.server_state, r1.report_deadline, workunit.* FROM workunit JOIN ("
+                "SELECT *, CASE WHEN @batch != t.batch THEN @rownum := 0 WHEN @batch = t.batch THEN @rownum := @rownum + 1 END AS rank, @batch := t.batch "
+                "FROM (SELECT @rownum := 0, @batch := 0, r.* FROM result r WHERE r.server_state=2 ORDER BY batch) t) r1 ON workunit.id=r1.workunitid "
+                "ORDER BY rank LIMIT %d)#",
+                enum_limit
+            );
+            order_clause = order_buf;      
         } else if (is_arg(argv[i], "purge_stale")) {
             purge_stale_time = atoi(argv[++i])*60;
         } else if (is_arg(argv[i], "appids")) {

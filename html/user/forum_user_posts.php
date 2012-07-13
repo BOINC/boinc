@@ -26,7 +26,7 @@ check_get_args(array("userid", "offset"));
 $userid = get_int("userid");
 $offset = get_int("offset", true);
 if (!$offset) $offset=0;
-$count = 10;
+$items_per_page = 20;
 
 $user = lookup_user_id($userid);
 $logged_in_user = get_logged_in_user(false);
@@ -105,7 +105,7 @@ foreach ($posts as $post) {
             }
         }
     }
-	if ($n == $offset + $count) {
+	if ($n == $offset + $items_per_page) {
 		$show_next = true;
 		break;
 	}
@@ -117,18 +117,18 @@ foreach ($posts as $post) {
 echo "</table><br><br>\n";
 
 if ($offset) {
-	$x = $offset - $count;
+	$x = $offset - $items_per_page;
     echo "<a href=forum_user_posts.php?userid=$userid&offset=$x>
-		<b>".tra("Previous %1", $count)."</b>
+		<b>".tra("Previous %1", $items_per_page)."</b>
 		</a>
     ";
 	if ($show_next) echo " | ";
 }
 
 if ($show_next) {
-    $offset += $count;
+    $offset += $items_per_page;
     echo "<a href=forum_user_posts.php?userid=$userid&offset=$offset>
-		<b>".tra("Next %1", $count)."</b>
+		<b>".tra("Next %1", $items_per_page)."</b>
 		</a>
     ";
 }

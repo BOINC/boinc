@@ -109,14 +109,19 @@ if ($preview == tra("Preview")) {
     ;
 }
 
-start_forum_table(array(tra("Author"), tra("Message")));
-
+start_table();
 show_message_row($thread, $parent_post);
+end_table();
 if ($parent_post) {
+    start_forum_table(array(tra("Author"), tra("Message")));
     show_post(
         $parent_post, $thread, $forum, $logged_in_user, 0, 0, false, false
     );
+    end_table();
+} else {
+    show_posts($thread, $forum, 0, 0, CREATE_TIME_NEW, 0, $logged_in_user);
 }
+
 end_table();
 
 page_tail();
@@ -143,7 +148,9 @@ function show_message_row($thread, $parent_post) {
     if ($preview) {
         $x2 .= htmlspecialchars($content);
     } else if (!$no_quote) {
-        if ($parent_post) $x2 .= quote_text(htmlspecialchars($parent_post->content))."\n";
+        if ($parent_post) {
+            $x2 .= quote_text(htmlspecialchars($parent_post->content))."\n";
+        }
     }
     if (!$logged_in_user->prefs->no_signature_by_default) {
         $enable_signature="checked=\"true\"";
