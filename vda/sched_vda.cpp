@@ -261,7 +261,16 @@ static int process_missing_chunks(CHUNK_LIST& chunks) {
                     "[vda] in DB but not on client: %s\n", ch.chunk_name
                 );
             }
-            ch.delete_from_db();
+            char buf[256];
+            sprintf(buf, "host_id=%d and vda_file_id=%d and chunk_name='%s'",
+                ch.host_id, ch.vda_file_id, ch.chunk_name
+            );
+            int retval = ch.delete_from_db_multi(buf);
+            if (retval) {
+                log_messages.printf(MSG_CRITICAL,
+                    "VDA: failed to delete %s\n", buf
+                );
+            }
             ch.transfer_in_progress = false;
             mark_for_update(ch.vda_file_id);
         }

@@ -4942,3 +4942,18 @@ David  13 July 2012
 
     html/inc/
         result.inc
+
+David  16 July 2012
+    - lib: treat MINGW32 like CYGWIN32 (in 1 place - should do everywhere?)
+        from Oliver
+
+    lib/
+        filesys.cpp
+    db/
+        schema_vda.sql
+    sched/
+        Makefile.am
+    html/ops/
+        manage_apps.php
+    vda/
+        sched_vda.cpp

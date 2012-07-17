@@ -19,8 +19,7 @@ libsched_sources = \
     ../db/db_base.cpp \
     ../tools/process_result_template.cpp \
     ../tools/process_input_template.cpp \
-    ../tools/backend_lib.cpp \
-	../vda/sched_vda.cpp
+    ../tools/backend_lib.cpp
 
 lib_LTLIBRARIES = libsched.la
 libsched_la_SOURCES = $(libsched_sources)
@@ -161,6 +160,7 @@ cgi_sources = \
     sched_score.cpp \
     sched_send.cpp \
     sched_timezone.cpp \
+	../vda/sched_vda.cpp \
     sched_version.cpp \
     sched_types.cpp \
     time_stats_log.cpp

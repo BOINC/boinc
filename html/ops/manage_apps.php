@@ -116,9 +116,9 @@ function show_form($updated) {
         "ID",
         "Name and description<br><span class=note>Click for details</span>",
         "Created",
-        "weight<br><a href=http://boinc.berkeley.edu/trac/wiki/BackendPrograms#feeder>details</a>",
-        "homogeneous redundancy type<br><a href=http://boinc.berkeley.edu/trac/wiki/HomogeneousRedundancy>details</a>",
-        "homogeneous app version?<br><a href=http://boinc.berkeley.edu/trac/wiki/HomogeneousAppVersion>details</a>",
+        "weight<br><a href=http://boinc.berkeley.edu/trac/wiki/BackendPrograms#feeder><span class=note>details</span></a>",
+        "homogeneous redundancy type<br><a href=http://boinc.berkeley.edu/trac/wiki/HomogeneousRedundancy><span class=note>details</span></a>",
+        "homogeneous app version?<br><a href=http://boinc.berkeley.edu/trac/wiki/HomogeneousAppVersion><span class=note>details</span></a>",
         "deprecated?"
     );
 

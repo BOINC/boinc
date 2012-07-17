@@ -326,7 +326,7 @@ int boinc_delete_file(const char* path) {
 int file_size(const char* path, double& size) {
     int retval;
 
-#if defined(_WIN32) && !defined(__CYGWIN32__)
+#if defined(_WIN32) && !defined(__CYGWIN32__) && !defined(__MINGW32__)
     struct __stat64 sbuf;
     retval = _stat64(path, &sbuf);
 #else

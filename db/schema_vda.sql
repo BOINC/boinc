@@ -11,7 +11,7 @@ create table vda_file (
     primary key(id)
 ) engine = InnoDB;
 
-alter table vda_file add unique(name);
+alter table vda_file add unique(file_name);
 
 create table vda_chunk_host (
     create_time             double not null default 0,
@@ -24,9 +24,6 @@ create table vda_chunk_host (
     transfer_request_time   double not null default 0,
     transfer_send_time      double not null default 0 
 ) engine = InnoDB;
-
-alter table vda_file
-    add index vf_name (file_name);
 
 alter table vda_chunk_host
     add index vch_file (vda_file_id),
