@@ -18,6 +18,8 @@
 #ifndef _BOINC_API_
 #define _BOINC_API_
 
+#include <stddef.h>     // for NULL
+
 #ifdef _WIN32
 #include "boinc_win.h"
 #endif

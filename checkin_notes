@@ -4973,3 +4973,9 @@ Charlie 17 July 2012
     samples/
         example_app/
             Makefile_mac2
+
+David  17 July 2012
+    - compile fix (from Oliver)
+
+    api/
+        boinc_api.h
