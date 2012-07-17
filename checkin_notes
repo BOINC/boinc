@@ -4979,3 +4979,9 @@ David  17 July 2012
 
     api/
         boinc_api.h
+
+David  17 July 2012
+    - client: delete sticky files when reset project
+
+    client/
+        client_state.cpp

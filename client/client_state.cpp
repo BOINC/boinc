@@ -1726,12 +1726,11 @@ int CLIENT_STATE::report_result_error(RESULT& res, const char* format, ...) {
 // - stop all active tasks
 // - stop all file transfers
 // - stop scheduler RPC if any
-// - delete all workunits and results
-// - delete all apps and app_versions
+// - delete workunits and results
+// - delete apps and app_versions
 // - garbage collect to delete unneeded files
-// - clear debts and backoffs
+// - clear backoffs
 //
-// Note: does NOT delete persistent files or user-supplied files;
 // does not delete project dir
 //
 int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
@@ -1783,6 +1782,15 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
 
     project->user_files.clear();
     project->project_files.clear();
+
+    // clear flags so that sticky files get deleted
+    //
+    for (i=0; i<file_infos.size(); i++) {
+        FILE_INFO* fip = file_infos[i];
+        if (fip->project == project) {
+            fip->sticky = false;
+        }
+    }
 
     garbage_collect_always();
 
