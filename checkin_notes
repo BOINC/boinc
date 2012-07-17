@@ -4957,3 +4957,10 @@ David  16 July 2012
         manage_apps.php
     vda/
         sched_vda.cpp
+
+David  16 July 2012
+    - web: make "jump to first unread" work for threads that
+        haven't been viewed before
+
+    html/inc/
+        forum.inc

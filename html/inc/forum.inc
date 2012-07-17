@@ -363,7 +363,7 @@ function show_posts(
                 echo "Post $postid not found.";
                 return;
             }
-        } else if ($latest_viewed && $logged_in_user->prefs->jump_to_unread) {
+        } else if ($logged_in_user && $logged_in_user->prefs->jump_to_unread) {
             // jump to the first unread post
             //
             $i = 0;
