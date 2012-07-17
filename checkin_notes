@@ -4964,3 +4964,12 @@ David  16 July 2012
 
     html/inc/
         forum.inc
+
+Charlie 17 July 2012
+    - Mac: Minor corrections to documentation and sample code.
+    
+    mac_build/
+        HowToBuildBOINC_XCode.rtf
+    samples/
+        example_app/
+            Makefile_mac2

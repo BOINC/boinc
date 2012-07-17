@@ -22,7 +22,7 @@ CXXFLAGS_ALL = \
 
 CXXFLAGS_i386 = -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040 \
     $(CXXFLAGS_ALL) -fvisibility=hidden -fvisibility-inlines-hidden
-LDFLAGS_i386 = -Wl,,-arch,i386
+LDFLAGS_i386 = -Wl,-arch,i386
 
 CXXFLAGS_x86_64 = -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1050 -DMAC_OS_X_VERSION_MIN_REQUIRED=1050 \
     $(CXXFLAGS_ALL) -fvisibility=hidden -fvisibility-inlines-hidden
