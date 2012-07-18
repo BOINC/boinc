@@ -69,7 +69,7 @@ BIN = $(API_BIN) $(OCL_BIN) $(LIB_BIN) $(GPH_BIN)
 
 # -gstabs is necessary for MinGWs backtrace to work
 #DEBUG = -D__DEBUG__ -gstabs -g3
-DEBUG = -DNDEBUG 
+DEBUG ?= -DNDEBUG 
 
 # where to find headers
 INCS = -I"$(BOINC_SRC)" -I"$(BOINC_SRC)/db" -I"$(BOINC_SRC)/lib" -I"$(BOINC_SRC)/api" -I"$(BOINC_SRC)/zip" -I"$(BOINC_SRC)/win_build"
@@ -77,7 +77,7 @@ INCS = -I"$(BOINC_SRC)" -I"$(BOINC_SRC)/db" -I"$(BOINC_SRC)/lib" -I"$(BOINC_SRC)
 
 OPTFLAGS = -O3
 # various cpp & gcc flags (for both C and C++ mode)
-# set NOCYGWIN=-mno-cygwin to build non-Cywin Windows libs under Cygwin
+# set NOCYGWIN=-mno-cygwin to build non-Cygwin Windows libs under Cygwin
 # -D_WIN32_WINDOWS=0x0410 sets to use Win98 API
 WINVERFLAGS = -D_WINDOWS -D_WIN32 -DWIN32 -DWINVER=0x0500 -D_WIN32_WINNT=0x0500 -D_MT
 HAVEFLAGS = -DHAVE_STRCASECMP
@@ -90,8 +90,10 @@ ZIP_FLAGS = -DWIN32 -D_LIB -D_MBCS -DNO_MKTEMP $(INCS) -O2 -DDLL $(NOCYGWIN)
 
 # LDFLAGS = -lwinmm 
 
-CFLAGS = $(CCXXFLAGS)
-CXXFLAGS = $(CCXXFLAGS)
+CFLAGS ?=
+CFLAGS += $(CCXXFLAGS)
+CXXFLAGS ?=
+CXXFLAGS += $(CCXXFLAGS)
 
 # default target
 all: $(BIN)
@@ -159,7 +161,7 @@ install-zip: $(ZIP_BIN) $(ZIP_HEADERS)
 	$(RANLIB) $(ZIP_BIN)
 	cp $(ZIP_BIN) $(BOINC_PREFIX)/lib
 
-uninstall: 
+uninstall:
 	${RM} -rf $(BOINC_PREFIX)/include/boinc
 	${RM} $(BOINC_PREFIX)/lib/libboinc.a $(BOINC_PREFIX)/lib/libboinc_api.a $(BOINC_PREFIX)/lib/libboinc_opencl.a $(BOINC_PREFIX)/lib/libboinc_graphics2.a
 	( cd $(BOINC_PREFIX)/lib && rm -f $(BIN) || exit 0 )

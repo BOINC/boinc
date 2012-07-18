@@ -5000,3 +5000,14 @@ Charlie 18 July 2012
     
     lib/
         procinfo_mac.cpp
+
+
+Bernd  18 July 2012
+    - API: fix Makefile.mingw
+        - allow to augment CFLAGS and CXXFLAGS
+        - allow to at least set DEBUG flags externally, such that
+            backtrace flags can be used
+        - minor textual fixes (whitespace error, typo in comment)
+
+    lib/
+        Makefile.mingw
