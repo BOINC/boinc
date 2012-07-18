@@ -4985,3 +4985,12 @@ David  17 July 2012
 
     client/
         client_state.cpp
+
+David  17 July 2012
+	- client: if we get a job for which a GPU is missing,
+		keep the RESULT record so that we can report it to the scheduler.
+		Otherwise we'll keep getting the same job if the project has
+		<resend_lost_results> set.
+
+	client/
+		cs_scheduler.cpp
