@@ -5013,7 +5013,7 @@ Bernd  18 July 2012
         Makefile.mingw
 
 Rom    18 July 2012
-    - client: Re-introduce the WM_QUERYSESSIONEND window message handler to
+    - client: Re-introduce the WM_QUERYENDSESSION window message handler to
         the power management window proc, it was removed during one of the Win9x
         code scrubs.  When we see it, inform the client it is time to shutdown.
 
