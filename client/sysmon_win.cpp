@@ -99,6 +99,21 @@ static LRESULT CALLBACK WindowsMonitorSystemPowerWndProc(
     HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 ) {
     switch(uMsg) {
+        // If we are not installed as a service, begin the task shutdown process
+        // when we are notified that the system is going down. If we are installed
+        // as a service, wait until the service control manager tells us to shutdown.
+        //
+        // The console handler happens a little to late in the cycle and leads
+        // to BOINC attempting to start new tasks, which fail, when the OS has
+        // shutdown some of the ones that were executing.
+        //
+        case WM_QUERYENDSESSION:
+            if (!gstate.executing_as_daemon) {
+                quit_client();
+            }
+            return TRUE;
+            break;
+
         // On Windows power events are broadcast via the WM_POWERBROADCAST
         //   window message.  It has the following parameters:
         //     PBT_APMQUERYSUSPEND
@@ -359,10 +374,14 @@ static DWORD WINAPI WindowsMonitorSystemProxyThread( LPVOID  ) {
 // Setup the client software to monitor various system events
 int initialize_system_monitor(int /*argc*/, char** /*argv*/) {
 
-    // Windows: install console controls
-    if (!SetConsoleCtrlHandler((PHANDLER_ROUTINE)console_control_handler, TRUE)){
-        log_message_error("Failed to register the console control handler.");
-        return ERR_IO;
+    // Windows: install console controls, the service control manager will send us
+    // the needed events when we are running as a service.
+    //
+    if (!gstate.executing_as_daemon) {
+        if (!SetConsoleCtrlHandler((PHANDLER_ROUTINE)console_control_handler, TRUE)){
+            log_message_error("Failed to register the console control handler.");
+            return ERR_IO;
+        }
     }
 
     // Create a window to receive system power events.
