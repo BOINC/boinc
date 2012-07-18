@@ -4994,3 +4994,9 @@ David  17 July 2012
 
 	client/
 		cs_scheduler.cpp
+
+Charlie 18 July 2012
+    - lib: Adjust #include files as requested by Oliver Bock.
+    
+    lib/
+        procinfo_mac.cpp
