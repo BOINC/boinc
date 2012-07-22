@@ -5019,3 +5019,9 @@ Rom    18 July 2012
 
     client/
         sysmon_win.cpp
+
+David  21 July 2012
+    - lib: fix typo
+
+    lib/
+        coproc.cpp

@@ -638,6 +638,7 @@ void COPROC_NVIDIA::fake(
    available_ram = avail_ram;
    display_driver_version = driver_version;
    cuda_version = 2020;
+   have_cuda = true;
    strcpy(prop.name, "Fake NVIDIA GPU");
    memset(&prop, 0, sizeof(prop));
    prop.totalGlobalMem = ram;
@@ -876,6 +877,7 @@ void COPROC_ATI::fake(double ram, double avail_ram, int n) {
     strcpy(name, "foobar");
     count = n;
     available_ram = avail_ram;
+    have_cal = true;
     memset(&attribs, 0, sizeof(attribs));
     memset(&info, 0, sizeof(info));
     attribs.localRAM = (int)(ram/MEGA);

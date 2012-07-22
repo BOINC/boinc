@@ -50,8 +50,8 @@
 #define REPLICATION_FACTOR  1
 
 const char* app_name = "example_app";
-const char* in_template_file = "example_app_in.xml";
-const char* out_template_file = "example_app_out.xml";
+const char* in_template_file = "example_app_in";
+const char* out_template_file = "example_app_out";
 
 char* in_template;
 DB_APP app;

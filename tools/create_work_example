@@ -9,4 +9,4 @@ cp download/input `bin/dir_hier_path input`
 # This causes the file deleter to not delete its input files,
 # so that we can use make_work.
 #
-bin/create_work --appname example_app --wu_name wu_nodelete --wu_template templates/example_app_in.xml --result_template templates/example_app_out.xml input
+bin/create_work --appname example_app --wu_name wu_nodelete --wu_template templates/example_app_in --result_template templates/example_app_out input
