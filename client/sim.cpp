@@ -57,14 +57,20 @@
 //  [--rec_half_life X]
 //      half-life of recent est credit
 
+#include <math.h>
+
 #include "error_numbers.h"
 #include "str_util.h"
 #include "util.h"
 #include "log_flags.h"
 #include "filesys.h"
+#include "../sched/edf_sim.h"
+
 #include "client_msgs.h"
 #include "client_state.h"
-#include "../sched/edf_sim.h"
+#include "project.h"
+#include "result.h"
+
 #include "sim.h"
 
 #define SCHED_RETRY_DELAY_MIN    60                // 1 minute
@@ -287,7 +293,7 @@ void CLIENT_STATE::handle_completed_results(PROJECT* p) {
 void CLIENT_STATE::get_workload(vector<IP_RESULT>& ip_results) {
     for (unsigned int i=0; i<results.size(); i++) {
         RESULT* rp = results[i];
-        double x = rp->estimated_time_remaining();
+        double x = rp->estimated_runtime_remaining();
         if (x == 0) continue;
         IP_RESULT ipr(rp->name, rp->report_deadline-now, x);
         ip_results.push_back(ipr);

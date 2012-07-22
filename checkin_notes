@@ -5025,3 +5025,11 @@ David  21 July 2012
 
     lib/
         coproc.cpp
+
+David  21 July 2012
+    - client simulator: fix build breaks
+
+    client/
+        makefile_sim
+        sim.cpp
+        sim_util.cpp
