@@ -111,21 +111,23 @@ function show_download($pname) {
     }
     echo "
         <p>
-        <b>"
-        .sprintf(
-            tra("Note: if your computer is equipped with a Graphics Processing Unit (GPU), you may be able to %suse it to compute faster%s"),
-                "<a href=http://boinc.berkeley.edu/wiki/GPU_computing>", ".</a>"
-        )
-        ."</b>
-        <br><br>
+        After downloading BOINC you must <b>install</b> it.
+        <ul>
+        <li> Windows Internet Explorer: when asked <b>Do you want to run or
+          save this file</b>, select <b>Run</b>.
+        <li> Other browsers: double-click on the downloaded file.
+        </ul>
+        <p>
         <center>
         <a href=\"wiki/System_requirements\"><span class=nobr>".tra("System requirements")."</span></a>
-        | <a href=\"wiki/Release_Notes\"><span class=nobr>".tra("Release notes")."</span></a>
-        | <a href=\"wiki/BOINC_Help\"><span class=nobr>".tra("Help")."</span></a>
-        | <a href=download_all.php><span class=nobr>".tra("All versions")."</span></a>
-        | <a href=\"trac/wiki/VersionHistory\">".tra("Version history")."</a>
+        &middot; <a href=\"wiki/Release_Notes\"><span class=nobr>".tra("Release notes")."</span></a>
+        &middot; <a href=\"wiki/BOINC_Help\"><span class=nobr>".tra("Help")."</span></a>
+        &middot; <a href=download_all.php><span class=nobr>".tra("All versions")."</span></a>
+        &middot; <a href=\"trac/wiki/VersionHistory\">".tra("Version history")."</a>
+        &middot; <a href=http://boinc.berkeley.edu/wiki/GPU_computing>".tra("GPU computing")."</a>
         </center>
-        </td><td valign=top>
+        </td>
+        <td valign=top>
     ";
     show_pictures();
     echo "

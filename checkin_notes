@@ -5033,3 +5033,10 @@ David  21 July 2012
         makefile_sim
         sim.cpp
         sim_util.cpp
+
+David  21 July 2012
+    - client: don't request work for backup project for a processor type
+        unless there are idle instances of that type
+        
+    client/
+        work_fetch.cpp
