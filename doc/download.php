@@ -111,11 +111,10 @@ function show_download($pname) {
     }
     echo "
         <p>
-        After downloading BOINC you must <b>install</b> it.
+        After downloading BOINC you must <b>install</b> it:
         <ul>
-        <li> Windows Internet Explorer: when asked <b>Do you want to run or
-          save this file</b>, select <b>Run</b>.
-        <li> Other browsers: double-click on the downloaded file.
+        <li> Save the file to disk.
+        <li> Double-click on the file icon.
         </ul>
         <p>
         <center>

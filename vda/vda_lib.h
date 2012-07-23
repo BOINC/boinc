@@ -136,6 +136,9 @@ struct META_CHUNK : DATA_UNIT {
     }
     int decode();
     int encode();
+
+    // used by vda
+    void print_status(int indent_level);
 };
 
 struct CHUNK : DATA_UNIT {
@@ -158,6 +161,9 @@ struct CHUNK : DATA_UNIT {
     bool need_more_replicas() {
         return ((int)hosts.size() < parent->dfile->policy.replication);
     }
+
+    // used by vda
+    void print_status(int indent_level);
 };
 
 // names

@@ -5040,3 +5040,15 @@ David  21 July 2012
         
     client/
         work_fetch.cpp
+
+David  23 July 2012
+    - volunteer storage: implement "vda status" command
+
+    vda/
+        vda_lib.cpp,h
+        vda_lib2.cpp (new)
+        vdad.cpp
+        vda.cpp
+        Makefile.am
+    db/
+        boinc_db_types.h

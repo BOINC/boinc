@@ -709,7 +709,7 @@ struct VDA_CHUNK_HOST {
     inline bool download_in_progress() {
         return (transfer_in_progress && !present_on_host);
     }
-
+    void print_status(int level);
 };
 
 #endif

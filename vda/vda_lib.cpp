@@ -15,23 +15,59 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Code that's shared by the simulator and vdad
+// Code that's shared by the simulator, vda, and vdad
 
-#include <stdio.h>
-#include <string.h>
-
-#include <vector>
-#include <set>
 #include <algorithm>
-#include <math.h>
 #include <limits.h>
+#include <math.h>
+#include <set>
+#include <stdio.h>
+#include <vector>
+
+#include "vda_lib.h"
 
 using std::vector;
 using std::set;
 
-#include "vda_lib.h"
-
 #define DEBUG_RECOVERY
+
+///////////////// Utility functions ///////////////////////
+
+// sort by increasing cost
+//
+bool compare_cost(const DATA_UNIT* d1, const DATA_UNIT* d2) {
+    return d1->cost < d2->cost;
+}
+
+// sort by increase min_failures
+//
+bool compare_min_failures(const DATA_UNIT* d1, const DATA_UNIT* d2) {
+    return d1->min_failures < d2->min_failures;
+}
+
+char* time_str(double t) {
+    static char buf[256];
+    int n = (int)t;
+    int nsec = n % 60;
+    n /= 60;
+    int nmin = n % 60;
+    n /= 60;
+    int nhour = n % 24;
+    n /= 24;
+    sprintf(buf, "%4d days %02d:%02d:%02d", n, nhour, nmin, nsec);
+    return buf;
+}
+
+const char* status_str(int status) {
+    switch (status) {
+    case PRESENT: return "present";
+    case RECOVERABLE: return "recoverable";
+    case UNRECOVERABLE: return "unrecoverable";
+    }
+    return "unknown";
+}
+
+///////////////// META_CHUNK ///////////////////////
 
 META_CHUNK::META_CHUNK(
     VDA_FILE_AUX* d, META_CHUNK* par, double size,
@@ -64,18 +100,6 @@ META_CHUNK::META_CHUNK(
         }
         bottom_level = true;
     }
-}
-
-// sort by increasing cost
-//
-bool compare_cost(const DATA_UNIT* d1, const DATA_UNIT* d2) {
-    return d1->cost < d2->cost;
-}
-
-// sort by increase min_failures
-//
-bool compare_min_failures(const DATA_UNIT* d1, const DATA_UNIT* d2) {
-    return d1->min_failures < d2->min_failures;
 }
 
 // Recovery logic: decide what to do in response to
@@ -162,28 +186,6 @@ int META_CHUNK::recovery_plan() {
     return 0;
 }
 
-int CHUNK::recovery_plan() {
-    if (present_on_server) {
-        status = PRESENT;
-        cost = 0;
-        min_failures = INT_MAX;
-    } else if (hosts.size() > 0) {
-        status = RECOVERABLE;
-        cost = size;
-        if ((int)(hosts.size()) < parent->dfile->policy.replication) {
-            data_needed = true;
-        }
-        min_failures = hosts.size();
-    } else {
-        status = UNRECOVERABLE;
-        min_failures = 0;
-    }
-#ifdef DEBUG_RECOVERY
-    printf("chunk plan %s: status %s\n", name, status_str(status));
-#endif
-    return 0;
-}
-
 int META_CHUNK::recovery_action(double now) {
     unsigned int i;
     int retval;
@@ -264,63 +266,6 @@ int META_CHUNK::recovery_action(double now) {
             min_failures += c->min_failures;
         }
         //printf("  our min failures: %d\n", min_failures);
-    }
-    return 0;
-}
-
-bool CHUNK::download_in_progress() {
-    set<VDA_CHUNK_HOST*>::iterator i;
-    for (i=hosts.begin(); i!=hosts.end(); i++) {
-        VDA_CHUNK_HOST* ch = *i;
-        if (ch->download_in_progress()) return true;
-    }
-    return false;
-}
-
-int CHUNK::recovery_action(double now) {
-    int retval;
-    char buf[256];
-
-    VDA_FILE_AUX* fp = parent->dfile;
-    if (data_now_present) {
-        present_on_server = true;
-        fp->disk_usage.sample_inc(
-            size,
-            fp->collecting_stats(),
-            now
-        );
-        status = PRESENT;
-    }
-    if (status == PRESENT && (int)(hosts.size()) < fp->policy.replication) {
-        retval = assign();
-        if (retval) return retval;
-    }
-    if (download_in_progress()) {
-        data_needed = true;
-    }
-#ifdef DEBUG_RECOVERY
-    printf("chunk action: %s data_needed %d present_on_server %d\n",
-        name, data_needed, present_on_server
-    );
-#endif
-    if (data_needed) {
-        if (!present_on_server) {
-            retval = start_upload();
-            if (retval) return retval;
-        }
-    } else {
-        if (present_on_server) {
-            present_on_server = false;
-            status = RECOVERABLE;
-            min_failures = fp->policy.replication;
-            sprintf(buf, "%s replicated, removing from server\n", name);
-            show_msg(buf);
-            parent->dfile->disk_usage.sample_inc(
-                -size,
-                fp->collecting_stats(),
-                now
-            );
-        }
     }
     return 0;
 }
@@ -475,24 +420,83 @@ int META_CHUNK::expand() {
     return 0;
 }
 
-char* time_str(double t) {
-    static char buf[256];
-    int n = (int)t;
-    int nsec = n % 60;
-    n /= 60;
-    int nmin = n % 60;
-    n /= 60;
-    int nhour = n % 24;
-    n /= 24;
-    sprintf(buf, "%4d days %02d:%02d:%02d", n, nhour, nmin, nsec);
-    return buf;
+///////////////// CHUNK ///////////////////////
+
+int CHUNK::recovery_plan() {
+    if (present_on_server) {
+        status = PRESENT;
+        cost = 0;
+        min_failures = INT_MAX;
+    } else if (hosts.size() > 0) {
+        status = RECOVERABLE;
+        cost = size;
+        if ((int)(hosts.size()) < parent->dfile->policy.replication) {
+            data_needed = true;
+        }
+        min_failures = hosts.size();
+    } else {
+        status = UNRECOVERABLE;
+        min_failures = 0;
+    }
+#ifdef DEBUG_RECOVERY
+    printf("chunk plan %s: status %s\n", name, status_str(status));
+#endif
+    return 0;
 }
 
-const char* status_str(int status) {
-    switch (status) {
-    case PRESENT: return "present";
-    case RECOVERABLE: return "recoverable";
-    case UNRECOVERABLE: return "unrecoverable";
+bool CHUNK::download_in_progress() {
+    set<VDA_CHUNK_HOST*>::iterator i;
+    for (i=hosts.begin(); i!=hosts.end(); i++) {
+        VDA_CHUNK_HOST* ch = *i;
+        if (ch->download_in_progress()) return true;
     }
-    return "unknown";
+    return false;
+}
+
+int CHUNK::recovery_action(double now) {
+    int retval;
+    char buf[256];
+
+    VDA_FILE_AUX* fp = parent->dfile;
+    if (data_now_present) {
+        present_on_server = true;
+        fp->disk_usage.sample_inc(
+            size,
+            fp->collecting_stats(),
+            now
+        );
+        status = PRESENT;
+    }
+    if (status == PRESENT && (int)(hosts.size()) < fp->policy.replication) {
+        retval = assign();
+        if (retval) return retval;
+    }
+    if (download_in_progress()) {
+        data_needed = true;
+    }
+#ifdef DEBUG_RECOVERY
+    printf("chunk action: %s data_needed %d present_on_server %d\n",
+        name, data_needed, present_on_server
+    );
+#endif
+    if (data_needed) {
+        if (!present_on_server) {
+            retval = start_upload();
+            if (retval) return retval;
+        }
+    } else {
+        if (present_on_server) {
+            present_on_server = false;
+            status = RECOVERABLE;
+            min_failures = fp->policy.replication;
+            sprintf(buf, "%s replicated, removing from server\n", name);
+            show_msg(buf);
+            parent->dfile->disk_usage.sample_inc(
+                -size,
+                fp->collecting_stats(),
+                now
+            );
+        }
+    }
+    return 0;
 }

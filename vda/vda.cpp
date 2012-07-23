@@ -22,6 +22,7 @@
 
 #include <stdio.h>
 #include <unistd.h>
+#include <set>
 
 #include "boinc_db.h"
 #include "filesys.h"
@@ -31,9 +32,66 @@
 
 #include "vda_lib.h"
 
+using std::set;
+
 void usage() {
     fprintf(stderr, "Usage: vda [add|remove|retrieve|status] path\n");
     exit(1);
+}
+
+void show_msg(char* msg) {
+    printf("%s", msg);
+}
+
+inline const char* indent(int n) {
+    static const char *buf = "                                            ";
+    static int len = strlen(buf);
+    return buf + len - n*3;
+}
+
+void META_CHUNK::print_status(int level) {
+    printf("%smeta-chunk %s\n", indent(level), name);
+    for (unsigned int i=0; i<children.size(); i++) {
+        if (bottom_level) {
+            CHUNK* c = (CHUNK*)children[i];
+            c->print_status(level+1);
+        } else {
+            META_CHUNK* mc = (META_CHUNK*)children[i];
+            mc->print_status(level+1);
+        }
+    }
+}
+
+void CHUNK::print_status(int level) {
+    printf("%schunk %s\n", indent(level), name);
+    set<VDA_CHUNK_HOST*>::iterator i;
+    for (i=hosts.begin(); i!=hosts.end(); i++) {
+        VDA_CHUNK_HOST* ch = *i;
+        ch->print_status(level+1);
+    }
+}
+
+void VDA_CHUNK_HOST::print_status(int level) {
+    printf("%shost %d\n", indent(level), host_id);
+    printf("%spresent on host: %s\n",
+        indent(level), present_on_host?"yes":"no"
+    );
+    printf("%stransfer in progress: %s\n",
+        indent(level), transfer_in_progress?"yes":"no"
+    );
+    printf("%stransfer wait: %s\n",
+        indent(level), transfer_wait?"yes":"no"
+    );
+    if (transfer_request_time) {
+        printf("%stransfer request time: %s\n",
+            indent(level), time_to_string(transfer_request_time)
+        );
+    }
+    if (transfer_send_time) {
+        printf("%stransfer send time: %s\n",
+            indent(level), time_to_string(transfer_send_time)
+        );
+    }
 }
 
 int handle_add(const char* path) {
@@ -84,7 +142,7 @@ int handle_add(const char* path) {
 int handle_remove(const char* name) {
     DB_VDA_FILE vf;
     char buf[1024];
-    sprintf(buf, "where name='%s'", name);
+    sprintf(buf, "where file_name='%s'", name);
     int retval = vf.lookup(buf);
     if (retval) return retval;
 
@@ -112,7 +170,7 @@ int handle_remove(const char* name) {
 int handle_retrieve(const char* name) {
     DB_VDA_FILE vf;
     char buf[1024];
-    sprintf(buf, "where name='%s'", name);
+    sprintf(buf, "where file_name='%s'", name);
     int retval = vf.lookup(buf);
     if (retval) return retval;
     retval = vf.update_field("retrieving=1");
@@ -120,11 +178,27 @@ int handle_retrieve(const char* name) {
 }
 
 int handle_status(const char* name) {
-    DB_VDA_FILE vf;
+    DB_VDA_FILE dvf;
     char buf[1024];
-    sprintf(buf, "where name='%s'", name);
-    int retval = vf.lookup(buf);
+    sprintf(buf, "where file_name='%s'", name);
+    int retval = dvf.lookup(buf);
     if (retval) return retval;
+
+    VDA_FILE_AUX vf = dvf;
+    sprintf(buf, "%s/boinc_meta.txt", vf.dir);
+    retval = vf.policy.parse(buf);
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL, "Can't parse policy file %s\n", buf);
+        return retval;
+    }
+    retval = vf.get_state();
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL, "Can't get file state: %d\n", retval);
+        return retval;
+    }
+    printf("status for file %s:", vf.file_name);
+    vf.meta_chunk->print_status(0);
+
     return 0;
 }
 
@@ -146,7 +220,7 @@ int main(int argc, char** argv) {
             if (argc != 3) usage();
             retval = handle_add(argv[++i]);
             if (retval) {
-                fprintf(stderr, "error %d\n", retval);
+                fprintf(stderr, "error %d: %s\n", retval, boincerror(retval));
             } else {
                 printf("file added successfully\n");
             }
@@ -156,7 +230,7 @@ int main(int argc, char** argv) {
             if (argc != 3) usage();
             retval = handle_remove(argv[++i]);
             if (retval) {
-                fprintf(stderr, "error %d\n", retval);
+                fprintf(stderr, "error %d: %s\n", retval, boincerror(retval));
             } else {
                 printf("file removed successfully\n");
             }
@@ -166,7 +240,7 @@ int main(int argc, char** argv) {
             if (argc != 3) usage();
             retval = handle_retrieve(argv[++i]);
             if (retval) {
-                fprintf(stderr, "error %d\n", retval);
+                fprintf(stderr, "error %d: %s\n", retval, boincerror(retval));
             } else {
                 printf("file retrieval started\n");
             }
@@ -176,7 +250,7 @@ int main(int argc, char** argv) {
             if (argc != 3) usage();
             retval = handle_status(argv[++i]);
             if (retval) {
-                fprintf(stderr, "error %d\n", retval);
+                fprintf(stderr, "error %d: %s\n", retval, boincerror(retval));
             }
             exit(retval);
         }
