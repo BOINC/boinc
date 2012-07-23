@@ -5052,3 +5052,9 @@ David  23 July 2012
         Makefile.am
     db/
         boinc_db_types.h
+
+David  23 July 2012
+	- client: improve "new version available" notice
+
+	client/
+		current_version.cpp
