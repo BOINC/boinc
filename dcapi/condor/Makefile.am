@@ -36,7 +36,6 @@ libdcapi_condor_la_SOURCES = condor_master.c \
 libdcapi_condor_la_LIBADD = ../common/libdcapi-common-master.la \
 			 $(GLIB_LIBS) \
 			 -lcondorapi
-libdcapi_condor_la_LDFLAGS = -static
 
 libdcapi_client_condor_la_SOURCES = condor_slave.c \
 				 condor_common.c \

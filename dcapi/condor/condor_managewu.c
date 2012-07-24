@@ -223,6 +223,7 @@ DC_resumeWU(DC_Workunit *wu)
 			sleep(1);
 			_DC_wu_update_condor_events(wu);
 		}
+		DC_log(LOG_DEBUG, "DC_ResumeWU...");
 		_DC_wu_set_state(wu, DC_WU_RUNNING);
 		id= DC_getWUId(wu);
 		DC_log(LOG_INFO, "Condor id of wu's job: %s", id);

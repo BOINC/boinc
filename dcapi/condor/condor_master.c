@@ -58,12 +58,14 @@ _DC_state_name(DC_WUState state)
 /********************************************************************* INIT */
 
 static GHashTable *_DC_wu_table= NULL;
+uuid_t _DC_project_uuid;
 char *_DC_project_uuid_str= NULL;
 char *_DC_config_file= NULL;
 
 DC_ResultCallback	_DC_result_callback= NULL;
 DC_SubresultCallback	_DC_subresult_callback= NULL;
 DC_MessageCallback	_DC_message_callback= NULL;
+
 
 
 /* Initializes the DC-API. */
@@ -128,6 +130,7 @@ DC_initMaster(const char *configFile)
 
 	/* Enforce a canonical string representation of the UUID */
 	/*uuid_unparse_lower(_DC_project_uuid, _DC_project_uuid_str);*/
+	uuid_parse(_DC_project_uuid_str, _DC_project_uuid);
 
 	return(DC_OK);
 }
@@ -141,9 +144,8 @@ DC_createWU(const char *clientName,
 	    const char *arguments[], int subresults, const char *tag)
 {
 	DC_Workunit *wu;
-	/*char uuid_str[37];*/
-	/*char *cfgval;*/
-	/*GString *str;*/
+	char uuid_str[37];
+	uuid_t wu_uuid;
 	int ret;
 
 	wu= g_new0(DC_Workunit, 1);
@@ -161,35 +163,18 @@ DC_createWU(const char *clientName,
 		;
 	_DC_wu_set_subresults(wu, subresults);
 	_DC_wu_set_tag(wu, g_strdup(tag));
-	/*
-	uuid_generate(wu->uuid);
-	uuid_unparse_lower(wu->uuid, uuid_str);
-	wu->uuid_str= g_strdup(uuid_str);
-	*/
+	
+	uuid_generate(wu_uuid);
+	uuid_unparse_lower(wu_uuid, uuid_str);
 	{
 		char *wd= DC_getCfgStr(CFG_WORKDIR);
 		GString *s= g_string_new("");
-		/*GString *hd= g_string_new("");*/
 		GString *d= g_string_new("");
-		gpointer *t= ((gpointer)wu)-1;
-		char *h;
-		gboolean ok;
-		do
-		{
-			t++;
-			g_string_printf(s, "%p", t);
-			if (strlen(s->str) > 2)
-				h= (s->str)+strlen(s->str)-2;
-			else
-				h= s->str;
-			/*g_string_printf(hd, "%s/.dcapi-%s/%s", wd,
-			  _DC_project_uuid_str, h);*/
-			g_string_printf(d, "%s/.dcapi-%s/%s/%s", wd,
-					_DC_project_uuid_str, h, s->str);
-			ok= /*!g_file_test(hd->str, G_FILE_TEST_IS_DIR) &&*/
-				!g_file_test(d->str, G_FILE_TEST_IS_DIR);
-		}
-		while (!ok);
+
+		g_string_printf(d, "%s/.dcapi-%s/%.2s/%s", wd,
+				_DC_project_uuid_str, uuid_str, uuid_str);
+		g_string_printf(s, "%s", uuid_str);
+
 		_DC_wu_set_uuid_str(wu, s->str);
 		g_string_free(s, FALSE);
 		/*g_string_free(hd, TRUE);*/
@@ -198,40 +183,24 @@ DC_createWU(const char *clientName,
 		free(wd);
 	}
 
+	GString *wu_name;
+	wu_name = g_string_new("");
 	if (tag)
-		_DC_wu_set_name(wu, g_strdup_printf("%s_%s_%s",
-						    _DC_project_uuid_str,
-						    wu->data.uuid_str, tag));
-	else
-		_DC_wu_set_name(wu, g_strdup_printf("%s_%s",
-						    _DC_project_uuid_str,
-						    wu->data.uuid_str));
+		g_string_printf(wu_name, "%s_%s_%s",_DC_project_uuid_str,	
+			wu->data.uuid_str, tag);
+	else 
+		g_string_printf(wu_name, "%s_%s", _DC_project_uuid_str,
+			wu->data.uuid_str);
+	wu->data.name = strdup(wu_name->str);
 
-	/* Calculate & create the working directory. The working directory
-	 * has the form:
-	 * <project work dir>/.dcapi-<project uuid>/<hash>/<wu uuid>
-	 * Where <hash> is the first 2 hex digits of the uuid
-	 */
-	/*
-	cfgval= DC_getCfgStr(CFG_WORKDIR);
-	str= g_string_new(cfgval);
-	free(cfgval);
-	g_string_append_c(str, G_DIR_SEPARATOR);
-	g_string_append(str, ".dcapi-");
-	g_string_append(str, _DC_project_uuid_str);
-	g_string_append_c(str, G_DIR_SEPARATOR);
-	g_string_append_printf(str, "%02x", wu->uuid[0]);
-	g_string_append_c(str, G_DIR_SEPARATOR);
-	g_string_append(str, uuid_str);
-	wu->workdir= str->str;
-	g_string_free(str, FALSE);
-	*/
 	wu->condor_events= g_array_new(FALSE, FALSE,
 				       sizeof(struct _DC_condor_event));
 
 	if (!_DC_wu_table)
 		DC_initMaster(NULL);
-	g_hash_table_insert(_DC_wu_table, wu->data.name, wu);
+	g_hash_table_insert(_DC_wu_table, wu_name->str, wu);
+
+	g_string_free(wu_name, FALSE);
 
 	ret= _DC_mkdir_with_parents(wu->data.workdir, 0700);
 	if (ret)
@@ -299,6 +268,7 @@ DC_destroyWU(DC_Workunit *wu)
 	if (wu->data.state == DC_WU_READY ||
 	    wu->data.state == DC_WU_UNKNOWN)
 		DC_log(LOG_NOTICE, "Destroying an unstarted wu: %s", wu->data.name);
+
 	if (wu->data.state == DC_WU_RUNNING ||
 	    wu->data.state == DC_WU_SUSPENDED)
 	{
@@ -421,11 +391,14 @@ DC_destroyWU(DC_Workunit *wu)
 		g_free(wu->data.workdir);
 	}
 
+
 	_DC_wu_set_client_name(wu, NULL);
 	g_free(wu->data.uuid_str);
 	g_strfreev(wu->argv);
-	g_free(wu->data.tag);
-	g_free(wu->data.name);
+	if (wu->data.name != NULL)
+		g_free(wu->data.name);
+	if (wu->data.tag != NULL)
+		g_free(wu->data.tag);
 	g_array_free(wu->condor_events, TRUE);
 	g_free(wu);
 }
@@ -655,19 +628,52 @@ _DC_iser(GString *ser,
 			       i);
 }
 
+
+/* Get the full path of a file in the WU's working directory */
+static char *
+_DC_workDirPath(const DC_Workunit *wu, const char *label, WorkdirFile type)
+{
+	static const char *const pfx[] = { "in_", "out_", "checkpoint", "dc_" };
+
+	if (type == FILE_CKPT)
+		return g_strdup_printf("%s%ccheckpoint", wu->data.workdir,
+			G_DIR_SEPARATOR);
+
+	return g_strdup_printf("%s%c%s%s", wu->data.workdir, G_DIR_SEPARATOR,
+		pfx[type], label);
+}
+
+
+/* Open a file in the WU's working directory */
+static FILE *
+open_workdir_file(const DC_Workunit *wu, const char *label,
+	WorkdirFile type, const char *mode)
+{
+	char *name;
+	FILE *f;
+
+	name = _DC_workDirPath(wu, label, type);
+	f = fopen(name, mode);
+	if (!f)
+		DC_log(LOG_ERR, "Failed to open %s (mode %s): %s",
+			name, mode, strerror(errno));
+	g_free(name);
+	return f;
+}
+
 /* Serializes a work unit description. */
-char *
-DC_serializeWU(DC_Workunit *wu)
+static char *
+_DC_serializeWU(DC_Workunit *wu)
 {
 	GString *dn, *ser;
 	char *s;
 	int i;
 	unsigned int u;
 
-	if (!_DC_wu_check(wu))
+	if (!_DC_wu_check(wu)) {
+		DC_log(LOG_ERR, "_DC_wu_check() failed for work unit");
 		return(NULL);
-	DC_log(LOG_DEBUG, "DC_serializeWU(%p-\"%s\")",
-	       wu, wu->data.name);
+	}
 
 	dn= g_string_new("");
 	g_string_printf(dn, "%s/%s", wu->data.workdir,
@@ -737,6 +743,18 @@ DC_serializeWU(DC_Workunit *wu)
 	return(0);
 }
 
+char *
+DC_serializeWU(DC_Workunit *wu)
+{
+	FILE *f = open_workdir_file(wu, "serialized.txt", FILE_DCAPI, "w");
+	if (!f)
+		return NULL;		
+	char *serialized_data = _DC_serializeWU(wu);
+	fprintf(f, "%s", serialized_data);
+	fclose(f);
+	return strdup(wu->data.name);
+}
+
 
 static int
 _DC_iunser(char *s)
@@ -750,8 +768,8 @@ _DC_iunser(char *s)
 }
 
 /* Restores a serialized work unit. */
-DC_Workunit *
-DC_deserializeWU(const char *buf)
+static DC_Workunit *
+_DC_deserializeWU(const char *buf)
 {
 	char *tok, *s, *b;
 	char sep[2]= "\0\0";
@@ -820,6 +838,7 @@ DC_deserializeWU(const char *buf)
 		}
 		case st_state:
 		{
+			DC_log(LOG_DEBUG, "_DC_iunser");
 			_DC_wu_set_state(wu, (DC_WUState)_DC_iunser(s));
 			break;
 		}
@@ -855,8 +874,8 @@ DC_deserializeWU(const char *buf)
 	{
 		DC_log(LOG_ERR, "Deserialized wu: no workdir (%s)",
 		       wu->data.workdir);
-		DC_destroyWU(wu);
-		return(NULL);
+		//DC_destroyWU(wu);
+		//return(NULL);
 	}
 	dn= g_string_new("");
 	g_string_printf(dn, "%s/%s", wu->data.workdir,
@@ -866,6 +885,141 @@ DC_deserializeWU(const char *buf)
 	return(wu);
 }
 
+/********************************************************************
+ * Helper functions
+ */
+
+/* Calculate & create the working directory. The working directory has the
+ * form: <project work dir>/.dcapi-<project uuid>/<hash>/<wu uuid> Where <hash>
+ * is the first 2 hex digits of the uuid
+ */
+static char *get_workdir(const uuid_t uuid, int create)
+{
+	char *tmp, uuid_str[37], *cfgval;
+	GString *str;
+	int ret;
+
+	uuid_unparse_lower(uuid, uuid_str);
+
+	cfgval = DC_getCfgStr(CFG_WORKDIR);
+	if (!cfgval)
+		return NULL;
+	str = g_string_new(cfgval);
+	free(cfgval);
+
+	if (create)
+	{
+		ret = mkdir(str->str, 0755);
+		if (ret && errno != EEXIST)
+			goto error;
+	}
+
+	g_string_append_c(str, G_DIR_SEPARATOR);
+	g_string_append(str, ".dcapi-");
+	g_string_append(str, _DC_project_uuid_str);
+	if (create)
+	{
+		ret = mkdir(str->str, 0755);
+		if (ret && errno != EEXIST)
+			goto error;
+	}
+
+	g_string_append_c(str, G_DIR_SEPARATOR);
+	g_string_append_printf(str, "%02x", uuid[0]);
+	if (create)
+	{
+		ret = mkdir(str->str, 0755);
+		if (ret && errno != EEXIST)
+			goto error;
+	}
+
+	g_string_append_c(str, G_DIR_SEPARATOR);
+	g_string_append(str, uuid_str);
+	if (create)
+	{
+		ret = mkdir(str->str, 0755);
+		if (ret && errno != EEXIST)
+			goto error;
+	}
+
+	tmp = str->str;
+	g_string_free(str, FALSE);
+	return tmp;
+
+error:
+	DC_log(LOG_ERR, "Failed to create WU working directory %s: %s",
+		str->str, strerror(errno));
+	g_string_free(str, TRUE);
+	return NULL;
+}
+
+
+DC_Workunit *
+DC_deserializeWU(const char *buf)
+{
+	DC_Workunit *wu;
+	char *uuid_str;
+	uuid_t uuid;
+	int ret;
+	char *workdir;
+	char *name = buf;
+	GString *wu_serialized_data;
+	char buffer[256];
+
+	/* Check if the WU belongs to this application */
+	uuid_str = g_strndup(name, 36);
+	ret = uuid_parse(uuid_str, uuid);
+	g_free(uuid_str);
+	if (ret)
+	{
+		DC_log(LOG_ERR, "WU name '%s' contains illegal UUID", name);
+		return NULL;
+	}
+
+	if (uuid_compare(uuid, _DC_project_uuid))
+	{
+		DC_log(LOG_WARNING, "WU '%s' does not belong to this "
+			"application", name);
+		return NULL;
+	}
+
+	/* WU name syntax: <uuid> '_' <uuid> [ '_' <tag> ] */
+	if (name[36] != '_' || (strlen(name) > 73 && name[73] != '_'))
+	{
+		DC_log(LOG_ERR, "Illegal WU name syntax in '%s'", name);
+		return NULL;
+	}
+
+	/* Check the WU's UUID */
+	uuid_str = g_strndup(name + 37, 36);
+	ret = uuid_parse(uuid_str, uuid);
+	g_free(uuid_str);
+	if (ret)
+	{
+		DC_log(LOG_ERR, "WU name '%s' contains illegal UUID", name);
+		return NULL;
+	}
+
+	workdir = get_workdir(uuid, 0);
+	wu = g_new0(DC_Workunit, 1);
+	wu->data.workdir = workdir;
+		
+	FILE *f = open_workdir_file(wu, "serialized.txt", FILE_DCAPI, "r");
+	g_free(wu);
+	if (!f)
+	{
+		DC_log(LOG_ERR, "Could not read serialized work unit from '%s'", workdir);
+		return NULL;
+	}
+	wu_serialized_data = g_string_new("");
+	while (fgets(buffer, sizeof(buffer), f)) {
+		g_string_append(wu_serialized_data, buffer);
+	}
+	fclose(f);
+	
+	wu = _DC_deserializeWU(wu_serialized_data->str);
+	return wu;
+}
 
 /* iterator for DC_getWUNumber() */
 static DC_WUState _DC_dd_look_for_state;
@@ -926,6 +1080,7 @@ _DC_process_event(DC_MasterEvent *event)
 	}
 	DC_destroyMasterEvent(event);
 }
+
 
 /* Waits for events and processes them. */
 int
@@ -1009,6 +1164,7 @@ DC_waitMasterEvent(const char *wuFilter, int timeout)
 			g_hash_table_find(_DC_wu_table,
 					  _DC_check_filtered_wu_event,
 					  (gpointer)wuFilter);
+		
 		if (_DC_filtered_event)
 			return(_DC_filtered_event);
 		if (timeout)
