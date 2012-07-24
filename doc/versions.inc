@@ -95,19 +95,11 @@ $w612x64 = array(
 	"type"=>"win_new",
 );
 
-$m70dev = array(
+$m70 = array(
 	"num"=>"7.0.31",
-	"status"=>"Development version (standard GUI)",
+	"status"=>"Recommended version (standard GUI)",
 	"file"=>"boinc_7.0.31_macOSX_i686.zip",
 	"date"=>"7 July 2012",
-	"type"=>"mac_advanced",
-);
-
-$m70 = array(
-	"num"=>"7.0.28",
-	"status"=>"Recommended version (standard GUI)",
-	"file"=>"boinc_7.0.28_macOSX_i686.zip",
-	"date"=>"18 Jun 2012",
 	"type"=>"mac_advanced",
 );
 
@@ -135,19 +127,11 @@ $m66 = array(
     "type"=>"mac_advanced",
 );
 
-$m70cdev = array(
+$m70c = array(
 	"num"=>"7.0.31",
-	"status"=>"Development version (Unix command-line version)",
+	"status"=>"Recommended version (Unix command-line version)",
 	"file"=>"boinc_7.0.31_i686-apple-darwin.zip",
 	"date"=>"29 July 2012",
-	"type"=>"bare_core",
-);
-
-$m70c = array(
-	"num"=>"7.0.28",
-	"status"=>"Recommended version (Unix command-line version)",
-	"file"=>"boinc_7.0.28_i686-apple-darwin.zip",
-	"date"=>"18 Jun 2012",
 	"type"=>"bare_core",
 );
 
@@ -272,8 +256,6 @@ $mac = array(
     "description"=>"Version 10.4.0+",
     "dbname" => "x86_64-apple-darwin",
     "versions"=>array(
-		$m70dev,
-		$m70cdev,
 		$m70,
 		$m70c,
 		$m612,
