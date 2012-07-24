@@ -38,9 +38,11 @@ _DC_wu_update_condor_events(DC_Workunit *wu)
 	int res;
 	unsigned int i;
 
-	if (!wu)
-		return;
-
+	if (!wu) {
+        DC_log(LOG_DEBUG, "Invalid work unit passed.");
+		return;	    
+	}
+	
 	fn_org= g_string_new(wu->data.workdir);
 	fn_org= g_string_append(fn_org, "/");
 	fn_org= g_string_append(fn_org, _DC_wu_cfg(wu, cfg_condor_log));
@@ -50,7 +52,7 @@ _DC_wu_update_condor_events(DC_Workunit *wu)
 	close(res);
 	_DC_copyFile(fn_org->str, fn_tmp->str);
 	res= log.initialize(fn_tmp->str);
-	if (!res)
+	if (res != 1)
 	{
 		DC_log(LOG_ERR, "Condor user log file reader "
 		       "initialization failed for %s", fn_tmp->str);
@@ -62,62 +64,74 @@ _DC_wu_update_condor_events(DC_Workunit *wu)
 
 	i= 1;
 	ULogEvent *event;
-	while (log.readEvent(event) == ULOG_OK)
+	ULogEventOutcome result;
+	while ((result = log.readEvent(event)) != ULOG_NO_EVENT)
 	{
-		/*printf("%d %s\n", event->eventNumber,
-		  ULogEventNumberNames[event->eventNumber]);*/
-		if (wu->condor_events->len < i)
-		{
-			struct _DC_condor_event e;
-			e.event= event->eventNumber;
-			e.cluster= event->cluster;
-			e.proc= event->proc;
-			e.subproc= event->subproc;
-			e.time= mktime(&(event->eventTime));
-			e.reported= FALSE;
-			if (e.event == ULOG_JOB_TERMINATED)
-			{
-				class TerminatedEvent *te=
-					dynamic_cast<class TerminatedEvent *>
-					(event);
-				if (te)
-				{
-					e.exit_info.normal= te->normal;
-					e.exit_info.exit_code= te->returnValue;
-				}
-			}
-			if (e.event == ULOG_JOB_ABORTED)
-			{
-				class JobAbortedEvent *ae=
-					dynamic_cast<class JobAbortedEvent *>
-					(event);
-				if (ae)
-				{
-					e.abort_info.reason=
-						g_strdup(ae->getReason());
-				}
-			}
-			if (e.event == ULOG_EXECUTE)
-			{
-				class ExecuteEvent *ae=
-					dynamic_cast<class ExecuteEvent *>
-					(event);
-				if (ae)
-				{
-					e.exec_info.host=
-						g_strdup(ae->executeHost);
-				}
-			}
-			g_array_append_val(wu->condor_events, e);
-			DC_log(LOG_DEBUG, "Condor event %d %s of %p-\"%s\"",
-			       event->eventNumber,
-			       ULogEventNumberNames[event->eventNumber],
-			       wu, wu->data.name);
-		}
-		delete event;
-		i++;
-	}
-	
+        switch (result) 
+        {
+	        case ULOG_RD_ERROR:
+                DC_log(LOG_ERR, "read error in the log");
+	            break;
+	        case ULOG_UNK_ERROR:
+                DC_log(LOG_ERR, "unknown error in the log");
+                break;	        
+	        case ULOG_OK: 
+        		if (wu->condor_events->len < i)
+        		{
+        			struct _DC_condor_event e;
+        			e.event= event->eventNumber;
+        			e.cluster= event->cluster;
+        			e.proc= event->proc;
+        			e.subproc= event->subproc;
+        			e.time= mktime(&(event->eventTime));
+        			e.reported= FALSE;
+        			if (e.event == ULOG_JOB_TERMINATED)
+        			{
+        				class TerminatedEvent *te=
+        					dynamic_cast<class TerminatedEvent *>
+        					(event);
+        				if (te)
+        				{
+        					e.exit_info.normal= te->normal;
+        					e.exit_info.exit_code= te->returnValue;
+        				}
+        			}
+        			if (e.event == ULOG_JOB_ABORTED)
+        			{
+        				class JobAbortedEvent *ae=
+        					dynamic_cast<class JobAbortedEvent *>
+        					(event);
+        				if (ae)
+        				{
+        					e.abort_info.reason=
+        						g_strdup(ae->getReason());
+        				}
+        			}
+        			if (e.event == ULOG_EXECUTE)
+        			{
+        				class ExecuteEvent *ae=
+        					dynamic_cast<class ExecuteEvent *>
+        					(event);
+        				if (ae)
+        				{
+        					e.exec_info.host=
+        						g_strdup(ae->getExecuteHost());
+        				}
+        			}
+        			g_array_append_val(wu->condor_events, e);
+        			DC_log(LOG_DEBUG, "Condor event %d %s of %p-\"%s\"",
+        			       event->eventNumber,
+        			       ULogEventNumberNames[event->eventNumber],
+        			       wu, wu->data.name);
+        		} 
+        		i++;
+                delete event;
+                break;
+	        default:
+	            DC_log(LOG_ERR, "should never get here.");
+                break;
+	    }
+	} 
 	unlink(fn_tmp->str);
 	g_string_free(fn_org, TRUE);
 	g_string_free(fn_tmp, TRUE);
@@ -193,6 +207,7 @@ _DC_wu_condor2api_event(DC_Workunit *wu)
 			/* Fix #1105 */
 			/*_DC_wu_set_state(wu, DC_WU_RUNNING);*/
 		}
+
 	}
 	return(NULL);
 }

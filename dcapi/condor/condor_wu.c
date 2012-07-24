@@ -92,8 +92,10 @@ int
 _DC_wu_set_name(DC_Workunit *wu,
 		char *new_name)
 {
-	if (!_DC_wu_check(wu))
+	if (!_DC_wu_check(wu)) {
+		DC_log(LOG_ERR, "Cannot change wu name! ('%s')", new_name);
 		return(DC_ERR_UNKNOWN_WU);
+	}
 	wu->data.name= new_name;
 	_DC_wu_changed(wu);
 	return(DC_OK);
