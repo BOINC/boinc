@@ -200,7 +200,7 @@ static void process_present_file(FILE_INFO& fi, CHUNK_LIST& chunks) {
     }
 
     DB_VDA_FILE vf;
-    sprintf(buf, "file_name='%s'", fname);
+    sprintf(buf, "where file_name='%s'", fname);
     retval = vf.lookup(buf);
     if (retval) {
         log_messages.printf(MSG_CRITICAL, "No VDA file %s\n", fname);
@@ -223,8 +223,8 @@ static void process_present_file(FILE_INFO& fi, CHUNK_LIST& chunks) {
         ch.create_time = dtime();
         ch.vda_file_id = vf.id;
         ch.host_id = g_reply->host.id;
-        strcpy(ch.chunk_name, chunk_name);
-        ch.present_on_host = 1;
+        strcpy(ch.physical_file_name, fi.name);
+        ch.present_on_host = true;
         ch.transfer_in_progress = false;
         ch.transfer_wait = false;
         ch.transfer_request_time = 0;
@@ -258,12 +258,13 @@ static int process_missing_chunks(CHUNK_LIST& chunks) {
         if (!ch.found) {
             if (config.debug_vda) {
                 log_messages.printf(MSG_NORMAL,
-                    "[vda] in DB but not on client: %s\n", ch.chunk_name
+                    "[vda] in DB but not on client: %s\n", ch.physical_file_name
                 );
             }
             char buf[256];
-            sprintf(buf, "host_id=%d and vda_file_id=%d and chunk_name='%s'",
-                ch.host_id, ch.vda_file_id, ch.chunk_name
+            sprintf(buf,
+                "host_id=%d and vda_file_id=%d and physical_file_name='%s'",
+                ch.host_id, ch.vda_file_id, ch.physical_file_name
             );
             int retval = ch.delete_from_db_multi(buf);
             if (retval) {
@@ -296,10 +297,10 @@ static int enforce_quota(CHUNK_LIST& chunks) {
         DB_VDA_CHUNK_HOST& ch = it->second;
         if (!ch.found) continue;
         FILE_INFO fi;
-        strcpy(fi.name, ch.chunk_name);
+        strcpy(fi.name, ch.physical_file_name);
         if (config.debug_vda) {
             log_messages.printf(MSG_NORMAL,
-                "[vda] deleting: %s\n", ch.chunk_name
+                "[vda] deleting: %s\n", ch.physical_file_name
             );
         }
         DB_VDA_FILE vf;
@@ -314,7 +315,7 @@ static int enforce_quota(CHUNK_LIST& chunks) {
 // issue upload and download commands
 //
 static int issue_transfer_commands(CHUNK_LIST& chunks) {
-    char xml_buf[8192], file_name[1024];
+    char xml_buf[8192], chunk_name[256], file_name[1024];
     int retval;
     char url[1024];
 
@@ -328,20 +329,18 @@ static int issue_transfer_commands(CHUNK_LIST& chunks) {
         retval = vf.lookup_id(ch.vda_file_id);
         if (retval) return retval;
         if (ch.present_on_host) {
-            if (config.debug_vda) {
-                log_messages.printf(MSG_NORMAL,
-                    "[vda] sending upload command: %s\n", ch.chunk_name
-                );
-            }
             // upload
             //
-            physical_file_name(
-                g_reply->host.id, ch.chunk_name, vf.file_name, file_name
-            );
+            if (config.debug_vda) {
+                log_messages.printf(MSG_NORMAL,
+                    "[vda] sending command to upload %s\n",
+                    ch.physical_file_name
+                );
+            }
             urls.push_back(config.upload_url);
             R_RSA_PRIVATE_KEY key;
             retval = get_file_xml(
-                file_name,
+                ch.physical_file_name,
                 urls,
                 vf.chunk_size,
                 dtime() + VDA_HOST_TIMEOUT,
@@ -350,22 +349,30 @@ static int issue_transfer_commands(CHUNK_LIST& chunks) {
                 xml_buf
             );
         } else {
-            if (config.debug_vda) {
-                log_messages.printf(MSG_NORMAL,
-                    "[vda] sending download command: %s\n", ch.chunk_name
-                );
-            }
             // download
             //
             char md5[64], chunk_dir[1024];
-            sprintf(file_name, "%s__%s", ch.chunk_name, vf.file_name);
-            get_chunk_url(vf, ch.chunk_name, url);
+            int hostid;
+            if (config.debug_vda) {
+                log_messages.printf(MSG_NORMAL,
+                    "[vda] sending command to download %s\n",
+                    ch.physical_file_name
+                );
+            }
+            parse_physical_filename(
+                ch.physical_file_name,
+                hostid,
+                chunk_name,
+                file_name
+            );
+
+            get_chunk_url(vf, chunk_name, url);
             urls.push_back(url);
-            get_chunk_dir(vf, ch.chunk_name, chunk_dir);
+            get_chunk_dir(vf, chunk_name, chunk_dir);
             retval = get_chunk_md5(chunk_dir, md5);
             if (retval) return retval;
             retval = put_file_xml(
-                file_name,
+                ch.physical_file_name,
                 urls,
                 md5,
                 vf.chunk_size,
@@ -416,11 +423,12 @@ void handle_vda() {
         }
         if (config.debug_vda) {
             log_messages.printf(MSG_NORMAL,
-                "[vda] DB: has chunk %s\n", ch.chunk_name
+                "[vda] DB: has chunk %s, file %d\n",
+                ch.physical_file_name, ch.vda_file_id
             );
         }
         chunks.insert(
-            pair<string, DB_VDA_CHUNK_HOST>(string(ch.chunk_name), ch)
+            pair<string, DB_VDA_CHUNK_HOST>(string(ch.physical_file_name), ch)
         );
     }
 

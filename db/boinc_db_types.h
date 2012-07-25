@@ -692,7 +692,7 @@ struct VDA_CHUNK_HOST {
     double create_time;
     int vda_file_id;
     int host_id;
-    char chunk_name[256];     // C1.C2.Cn
+    char physical_file_name[256];     // e.g. vda_467_0_file.ext
     bool present_on_host;
     bool transfer_in_progress;
     bool transfer_wait;

@@ -127,7 +127,7 @@ int handle_add(const char* path) {
     strcpy(vf.dir, dir);
     strcpy(vf.file_name, filename);
     vf.size = size;
-    vf.chunk_size = policy.chunk_size();
+    vf.chunk_size = 0;  // don't know this yet; set by vdad
     vf.need_update = 1;
     vf.initialized = 0;
     vf.retrieving = 0;

@@ -17,7 +17,7 @@ create table vda_chunk_host (
     create_time             double not null default 0,
     vda_file_id             integer not null default 0,
     host_id                 integer not null default 0,
-    chunk_name              varchar(254) not null,
+    physical_file_name      varchar(254) not null,
     present_on_host         tinyint not null default 0,
     transfer_in_progress    tinyint not null default 0,
     transfer_wait           tinyint not null default 0,

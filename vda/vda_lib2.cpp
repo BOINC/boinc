@@ -77,7 +77,13 @@ void encoder_filename(
 }
 
 int get_chunk_numbers(VDA_CHUNK_HOST& vch, vector<int>& chunk_numbers) {
-    char* p = vch.chunk_name;
+    char buf[256];
+    strcpy(buf, vch.physical_file_name);   // vda_hostid_chunknums_filename
+    char* p = buf;
+    p = strchr(p, '_') + 1;
+    p = strchr(p, '_') + 1;
+    char* q = strchr(p, '_') + 1;
+    *q = 0;
     while (1) {
         int i = atoi(p);
         chunk_numbers.push_back(i);
@@ -272,7 +278,9 @@ int CHUNK::assign() {
     ch.create_time = dtime();
     ch.vda_file_id = parent->dfile->id;
     ch.host_id = host_id;
-    strcpy(ch.chunk_name, name);
+    physical_file_name(
+        host_id, name, parent->dfile->file_name, ch.physical_file_name
+    );
     ch.present_on_host = 0;
     ch.transfer_in_progress = true;
     ch.transfer_wait = true;

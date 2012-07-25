@@ -5058,3 +5058,17 @@ David  23 July 2012
 
 	client/
 		current_version.cpp
+
+David  25 July 2012
+    - volunteer data storage: intermediate checkin
+
+    vda/
+        vda.cpp
+        ssim.cpp
+        vdad.cpp
+        sched_vda.cpp
+        vda_lib2.cpp
+    db/
+        boinc_db_types.h
+        boinc_db.cpp
+        schema_vda.sql

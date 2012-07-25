@@ -72,7 +72,8 @@ int handle_file(VDA_FILE_AUX& vf, DB_VDA_FILE& dvf) {
             log_messages.printf(MSG_CRITICAL, "vf.init failed %d\n", retval);
             return retval;
         }
-        dvf.update_field("initialized=1");
+        sprintf(buf, "initialized=1, chunk_size=%.0f", vf.policy.chunk_size());
+        dvf.update_field(buf);
     }
     retval = vf.meta_chunk->recovery_plan();
     if (retval) {
@@ -110,8 +111,13 @@ bool scan_files() {
             );
             exit(1);
         } else {
-            vf.need_update = 0;
-            vf.update();
+            retval = vf.update_field("need_update=0");
+            if (retval) {
+                log_messages.printf(
+                    MSG_CRITICAL, "update_field() failed: %d\n", retval
+                );
+                exit(1);
+            }
         }
     }
     return found;

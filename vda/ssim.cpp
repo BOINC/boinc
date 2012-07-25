@@ -259,7 +259,7 @@ void CHUNK_ON_HOST::start_upload() {
     transfer_wait = true;
     t = sim.now + drand()*params.connect_interval;
 #ifdef EVENT_DEBUG
-    printf("%s: waiting to start upload of %s\n", now_str(), chunk_name);
+    printf("%s: waiting to start upload of %s\n", now_str(), physical_file_name);
 #endif
     sim.insert(this);
 }
@@ -269,7 +269,7 @@ void CHUNK_ON_HOST::start_download() {
     transfer_wait = true;
     t = sim.now + drand()*params.connect_interval;
 #ifdef EVENT_DEBUG
-    printf("%s: waiting to start download of %s\n", now_str(), chunk_name);
+    printf("%s: waiting to start download of %s\n", now_str(), physical_file_name);
 #endif
     sim.insert(this);
 }
@@ -282,7 +282,7 @@ void CHUNK_ON_HOST::handle() {
         transfer_wait = false;
         if (present_on_host) {
 #ifdef EVENT_DEBUG
-            printf("%s: starting upload of %s\n", now_str(), chunk_name);
+            printf("%s: starting upload of %s\n", now_str(), physical_file_name);
 #endif
             chunk->parent->dfile->upload_rate.sample_inc(
                 host->transfer_rate,
@@ -291,7 +291,7 @@ void CHUNK_ON_HOST::handle() {
             );
         } else {
 #ifdef EVENT_DEBUG
-            printf("%s: starting download of %s\n", now_str(), chunk_name);
+            printf("%s: starting download of %s\n", now_str(), physical_file_name);
 #endif
             chunk->parent->dfile->download_rate.sample_inc(
                 host->transfer_rate,
@@ -307,7 +307,7 @@ void CHUNK_ON_HOST::handle() {
     if (present_on_host) {
         // it was an upload
 #ifdef EVENT_DEBUG
-        printf("%s: upload of %s completed\n", now_str(), chunk_name);
+        printf("%s: upload of %s completed\n", now_str(), physical_file_name);
 #endif
         chunk->parent->dfile->upload_rate.sample_inc(
             -host->transfer_rate,
@@ -318,7 +318,7 @@ void CHUNK_ON_HOST::handle() {
     } else {
         present_on_host = true;
 #ifdef EVENT_DEBUG
-        printf("%s: download of %s completed\n", now_str(), chunk_name);
+        printf("%s: download of %s completed\n", now_str(), physical_file_name);
 #endif
         chunk->parent->dfile->download_rate.sample_inc(
             -host->transfer_rate,
@@ -397,7 +397,7 @@ int CHUNK::assign() {
         sim.insert(h);
 #endif
         CHUNK_ON_HOST *c = new CHUNK_ON_HOST();
-        sprintf(c->chunk_name, "chunk %s on host %d", name, h->id);
+        sprintf(c->physical_file_name, "chunk %s on host %d", name, h->id);
 #ifdef EVENT_DEBUG
         printf("%s: assigning chunk %s to host %d\n", now_str(), name, h->id);
 #endif
@@ -429,7 +429,7 @@ void CHUNK::host_failed(VDA_CHUNK_HOST* p) {
     set<VDA_CHUNK_HOST*>::iterator i = hosts.find(p);
     hosts.erase(i);
 #ifdef EVENT_DEBUG
-    printf("%s: handling loss of %s\n", now_str(), p->chunk_name);
+    printf("%s: handling loss of %s\n", now_str(), p->physical_file_name);
 #endif
     SIM_FILE* sfp = (SIM_FILE*)parent->dfile;
     sfp->recover();
