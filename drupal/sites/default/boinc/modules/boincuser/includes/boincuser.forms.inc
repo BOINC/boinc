@@ -224,7 +224,7 @@ function boincuser_account_cross_reference($uid, $boinc_id) {
 /**
  * User account update validation handler.
  */
-function boincuser_account_validate($edit, $account) {            
+function boincuser_account_validate($edit, $account) {
   // Include BOINC user library, load BOINC account data
   require_boinc('user');
   $boinc_user = lookup_user_email_addr($account->mail);
@@ -241,12 +241,18 @@ function boincuser_account_validate($edit, $account) {
   
   if ($changing_email OR $changing_pass) {
     // If changing email or password, require current password
-    $given_hash = md5($edit['current_pass'] . $account->mail);
-    if (!$edit['current_pass']) {
-      form_set_error('current_pass', t('Authentication is required when changing E-mail address or setting new password.'));
+    // (except in cases where password is being reset)
+    if (isset($_SESSION['reset_pass'])) {
+      unset($_SESSION['reset_pass']);
     }
-    elseif ($given_hash != $boinc_user->passwd_hash) {
-      form_set_error('current_pass', t('Password entered is not valid. Please verify that it is correct.'));
+    else {
+      $given_hash = md5($edit['current_pass'] . $account->mail);
+      if (!$edit['current_pass']) {
+        form_set_error('current_pass', t('Authentication is required when changing E-mail address or setting new password.'));
+      }
+      elseif ($given_hash != $boinc_user->passwd_hash) {
+        form_set_error('current_pass', t('Password entered is not valid. Please verify that it is correct.'));
+      }
     }
   }
   

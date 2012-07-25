@@ -320,6 +320,13 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
   // User profile form
   case 'user_profile_form':
     
+    // A bit hackish... but don't require the user to enter his password if
+    // coming from the password reset function
+    $reset_pass = (strpos($_SERVER['HTTP_REFERER'], "/user/reset/{$form['#uid']}") === FALSE) ? 0 : 1;
+    if ($reset_pass) {
+      $_SESSION['reset_pass'] = 1;
+    }
+    
     // Add the BOINC user name (non-unique, user editable)
     $account = user_load($form['#uid']);
     if (!$edit['boincuser_name']) $edit['boincuser_name'] = $account->boincuser_name;
@@ -332,14 +339,16 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       '#description' => t('Spaces are allowed; punctuation is not allowed except for periods, hyphens, and underscores.')
     );
     
-    // Add a password authenticator, required to change email or pw
-    $form['account']['current_pass'] = array(
-      '#type' => 'password',
-      '#title' => t('Current password'),
-      '#description' => t('Enter your current password if changing your email
-        address or password.'),
-      '#size' => 25
-    );
+    if (!$reset_pass) {
+      // Add a password authenticator, required to change email or pw
+      $form['account']['current_pass'] = array(
+        '#type' => 'password',
+        '#title' => t('Current password'),
+        '#description' => t('Enter your current password if changing your email
+          address or password.'),
+        '#size' => 25
+      );
+    }
     
     $form['account']['boincuser_name']['#weight'] = 0;
     $form['account']['mail']['#weight'] = 5;
