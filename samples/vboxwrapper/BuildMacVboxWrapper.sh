@@ -18,7 +18,7 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Script to build Macintosh wrapper using Makefile
+# Script to build Macintosh vboxwrapper using Makefile
 #
 # by Charlie Fenton 2/15/10
 # Updated 11/16/11 for XCode 4.1 and OS 10.7 
@@ -33,9 +33,9 @@
 ## First, build the BOINC libraries using boinc/mac_build/BuildMacBOINC.sh
 ##
 ## In Terminal, CD to the wrqpper directory.
-##     cd [path]/wrapper/
+##     cd [path]/vboxwrapper/
 ## then run this script:
-##     sh [path]/BuildMacWrapper.sh
+##     sh [path]/BuildMacVboxWrapper.sh
 ##
 
 GCCPATH=`xcrun -find gcc`
@@ -68,7 +68,10 @@ TOOLSPATH2=${ARPATH%/ar}
 
 export PATH="${TOOLSPATH1}":"${TOOLSPATH2}":/usr/local/bin:$PATH
 
-SDKPATH=`xcodebuild -version -sdk macosx Path`
+## There is an apparent bug in MacOSX10.8.sdk which causes our 
+## floppyio compilation to fail, so use MacOSX10.7.sdk for now
+##SDKPATH=`xcodebuild -version -sdk macosx Path`
+SDKPATH=`xcodebuild -version -sdk macosx10.7 Path`
 
 rm -fR i386 x86_64
 
@@ -84,14 +87,13 @@ export VARIANTFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLO
 export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=10.4
 
-rm -f wrapper.o
-rm -f wrapper
+make -f Makefile_mac clean
 make -f Makefile_mac all
 
 if [  $? -ne 0 ]; then exit 1; fi
 
 mkdir i386
-mv wrapper i386/
+mv vboxwrapper i386/
 
 echo
 echo "***************************************************"
@@ -106,16 +108,15 @@ export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=10.5
 
 
-rm -f wrapper.o
-rm -f wrapper
+make -f Makefile_mac clean
 make -f Makefile_mac all
 
     if [  $? -ne 0 ]; then exit 1; fi
 
 mkdir x86_64
-mv wrapper x86_64/
+mv vboxwrapper x86_64/
 
-rm -f wrapper.o
+rm -f vboxwrapper.o
 
 echo
 echo "***************************************************"

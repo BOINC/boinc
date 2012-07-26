@@ -3878,3 +3878,33 @@ Charlie 10 July 2012
         BuildMacBOINC.sh
         HowToBuildBOINC_XCode.rtf
 
+Charlie 12 July 2012
+    - Mac: update sample code to allow building with Xcode 4.3 under 
+	OS 10.7.x Lion and with Xcode 4.4 GM seed under OS 10.8 Mountain 
+	Lion GM seed and to eliminate compiler warnings.
+
+    samples/
+        example_app/
+            MakeMacExample.sh
+            Makefile_mac
+            Makefile_mac2
+            uc_graphics.cpp
+        mac_build/
+            UpperCase2.xcodeproj/
+                project.pbxproj
+        vboxwrapper/
+            BuildMacVboxWrapper.sh (new)
+            Makefile_mac (new)
+            vboxwrapper.xcodeproj/
+                project.pbxproj
+        wrapper/
+            BuildMacWrapper.sh
+
+Charlie 17 July 2012
+    - Mac: Minor corrections to documentation and sample code.
+    
+    mac_build/
+        HowToBuildBOINC_XCode.rtf
+    samples/
+        example_app/
+            Makefile_mac2

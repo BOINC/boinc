@@ -101,12 +101,12 @@ static void draw_text() {
         if (dt > 10) {
             boinc_close_window_and_quit("shmem not updated");
         } else if (dt > 5) {
-            txf_render_string(.1, 0, 0, 0, 500, white, 0, "App not running - exiting in 5 seconds");
+            txf_render_string(.1, 0, 0, 0, 500, white, 0, (char*)"App not running - exiting in 5 seconds");
         } else if (shmem->status.suspended) {
-            txf_render_string(.1, 0, 0, 0, 500, white, 0, "App suspended");
+            txf_render_string(.1, 0, 0, 0, 500, white, 0, (char*)"App suspended");
         }
     } else {
-        txf_render_string(.1, 0, 0, 0, 500, white, 0, "No shared mem");
+        txf_render_string(.1, 0, 0, 0, 500, white, 0, (char*)"No shared mem");
     }
 }
 
@@ -236,9 +236,9 @@ void app_graphics_init() {
 
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-    txf_load_fonts(".");
+    txf_load_fonts((char*)".");
 
-    boinc_resolve_filename("logo.jpg", path, sizeof(path));
+    boinc_resolve_filename((char*)"logo.jpg", path, sizeof(path));
     logo.load_image_file(path);
 
     init_lights();
