@@ -24,6 +24,13 @@
 # with thanks to Reinhard Prix for his assistance
 #
 # Updated for OS 10.7 Lion and XCode 4.2 on 10/19/11
+# Updated 7/9/12 for Xcode 4.3 and later which are not at a fixed address
+#
+## This script requires OS 10.6 or later
+#
+## If you drag-install Xcode 4.3 or later, you must have opened Xcode 
+## and clicked the Install button on the dialog which appears to 
+## complete the Xcode installation before running this script.
 ##
 
 ## Usage:
@@ -37,8 +44,8 @@
 ##      ./BuildMacBOINC.sh [-dev] [-noclean] [-all] [-lib] [-client] [-help]
 ##
 ## optional arguments
-## -dev         build the development (debug) version (native architecture only). 
-##              default is deployment (release) version (i386).
+## -dev         build the development (debug) version. 
+##              default is deployment (release) version.
 ##
 ## -noclean     don't do a "clean" of each target before building.
 ##              default is to clean all first.
@@ -100,6 +107,8 @@ major=`echo $version | sed 's/\([0-9]*\)[.].*/\1/' `;
 # echo "major = $major"
 # echo "minor = $minor"
 #
+# Darwin version 12.x.y corresponds to OS 10.8.x
+# Darwin version 11.x.y corresponds to OS 10.7.x
 # Darwin version 10.x.y corresponds to OS 10.6.x
 # Darwin version 9.x.y corresponds to OS 10.5.x
 # Darwin version 8.x.y corresponds to OS 10.4.x
@@ -112,22 +121,6 @@ if [ "$major" -lt "10" ]; then
     return 1
 fi
 
-if [ ! -d /Developer/SDKs/MacOSX10.6.sdk/ ]; then
-    echo "ERROR: System 10.6 SDK is missing.  For details, see build instructions at"
-    echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
-    return 1
-fi
-
-if [ "${buildall}" = "1" ] || [ "${targets}" = "" ]; then
-    if [ "${style}" = "Deployment" ]; then
-        if [ ! -d /Developer/SDKs/MacOSX10.6.sdk/ ]; then
-            echo "ERROR: System 10.6 SDK is missing.  For details, see build instructions at"
-            echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
-            return 1
-        fi
-    fi
-fi
-
 if [ "${style}" = "Development" ]; then
     echo "Development (debug) build"
 else
@@ -137,8 +130,8 @@ fi
 
 echo ""
 
-export DEVELOPER_SDK_DIR="/Developer/SDKs"
+SDKPATH=`xcodebuild -version -sdk macosx Path`
 
-xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} ${doclean} build
+xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} -sdk "${SDKPATH}" ${doclean} build
 
 return $?

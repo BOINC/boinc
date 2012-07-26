@@ -24,6 +24,14 @@
 # by Charlie Fenton 7/21/06
 # Updated 12/3/09 for OS 10.7 Lion and XCode 4.2
 # Updated 6/25/12 for curl 7.26.0
+# Updated 7/10/12 for Xcode 4.3 and later which are not at a fixed address
+#
+## This script requires OS 10.6 or later
+## This script requires OS 10.6 or later
+#
+## If you drag-install Xcode 4.3 or later, you must have opened Xcode 
+## and clicked the Install button on the dialog which appears to 
+## complete the Xcode installation before running this script.
 #
 ## In Terminal, CD to the curl-7.26.0 directory.
 ##     cd [path]/curl-7.26.0/
@@ -40,13 +48,39 @@ if [ "$1" != "-clean" ]; then
     fi
 fi
 
-if [ ! -d /Developer/SDKs/MacOSX10.6.sdk/ ]; then
-    echo "ERROR: System 10.6 SDK is missing.  For details, see build instructions at"
-    echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
+export PATH=/usr/local/bin:$PATH
+
+GCCPATH=`xcrun -find gcc`
+if [  $? -ne 0 ]; then
+    echo "ERROR: can't find gcc compiler"
     return 1
 fi
 
-export PATH=/usr/local/bin:$PATH
+GPPPATH=`xcrun -find g++`
+if [  $? -ne 0 ]; then
+    echo "ERROR: can't find g++ compiler"
+    return 1
+fi
+
+MAKEPATH=`xcrun -find make`
+if [  $? -ne 0 ]; then
+    echo "ERROR: can't find make tool"
+    return 1
+fi
+
+TOOLSPATH1=${MAKEPATH%/make}
+
+ARPATH=`xcrun -find ar`
+if [  $? -ne 0 ]; then
+    echo "ERROR: can't find ar tool"
+    return 1
+fi
+
+TOOLSPATH2=${ARPATH%/ar}
+
+export PATH="${TOOLSPATH1}":"${TOOLSPATH2}":/usr/local/bin:$PATH
+
+SDKPATH=`xcodebuild -version -sdk macosx Path`
 
 CURL_DIR=`pwd`
 # curl configure and make expect a path to _installed_ c-ares-1.9.1
@@ -61,11 +95,11 @@ rm -f lib/.libs/libcurl.a
 if [  $? -ne 0 ]; then return 1; fi
 
 export PATH=/usr/local/bin:$PATH
-export CC=/usr/bin/llvm-gcc-4.2;export CXX=/usr/bin/llvm-g++-4.2
-export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.t.sdk -arch i386"
-export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030"
-export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030"
-export SDKROOT="/Developer/SDKs/MacOSX10.6.sdk"
+export CC="${GCCPATH}";export CXX="${GPPPATH}"
+export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,i386"
+export CPPFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040"
+export CFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040"
+export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=10.4
 
 ./configure --enable-shared=NO --enable-ares=/tmp/installed-c-ares --host=i386

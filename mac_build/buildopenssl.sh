@@ -18,12 +18,10 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Script to build Macintosh 32-bit Intel library of c-ares-1.9.1 for
-# use in building BOINC.
+# Script to build Macintosh 32-bit Intel openssl-1.0.1c libraries 
+# libcrypto.a and libssl.a for use in building BOINC.
 #
-# by Charlie Fenton 7/21/06
-# Updated 10/18/11 for OS 10.7 Lion and XCode 4.2
-# Updated 6/25/12 for c-ares 1.9.1
+# by Charlie Fenton 6/25/12
 # Updated 7/10/12 for Xcode 4.3 and later which are not at a fixed address
 #
 ## This script requires OS 10.6 or later
@@ -32,20 +30,22 @@
 ## and clicked the Install button on the dialog which appears to 
 ## complete the Xcode installation before running this script.
 #
-## In Terminal, CD to the c-ares-1.9.1 directory.
-##     cd [path]/c-ares-1.9.1/
+## In Terminal, CD to the openssl-1.0.1c directory.
+##     cd [path]/openssl-1.0.1c/
 ## then run this script:
-##     source [path]/buildc-ares.sh [ -clean ]
+##     source [path]/buildopenssl.sh [ -clean ]
 ##
 ## the -clean argument will force a full rebuild.
 ##
 
 if [ "$1" != "-clean" ]; then
-    if [ -f .libs/libcares.a ]; then
-        echo "c-ares-1.9.1 already built"
+    if [ -f libssl.a ]&& [ -f libcrypto.a ]; then
+        echo "openssl-1.0.1c libraries already built"
         return 0
     fi
 fi
+
+export PATH=/usr/local/bin:$PATH
 
 GCCPATH=`xcrun -find gcc`
 if [  $? -ne 0 ]; then
@@ -75,22 +75,24 @@ fi
 
 TOOLSPATH2=${ARPATH%/ar}
 
-export PATH="${TOOLSPATH1}":"${TOOLSPATH2}":/usr/local/bin:$PATH
-
 SDKPATH=`xcodebuild -version -sdk macosx Path`
 
-rm -f .libs/libcares.a
+export PATH="${TOOLSPATH1}":"${TOOLSPATH2}":/usr/local/bin:$PATH
+
+rm -f libssl.a
+rm -f libcrypto.a
 
 if [  $? -ne 0 ]; then return 1; fi
 
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
-export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,i386"
+export LDFLAGS="-Wl,-sysroot,${SDKPATH},-syslibroot,${SDKPATH},-arch,i386"
 export CPPFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040"
 export CFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040"
 export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=10.4
+export LIBRARY_PATH="${SDKPATH}/usr/lib"
 
-./configure --enable-shared=NO prefix=/tmp/installed-c-ares --host=i386
+./config no-shared
 if [  $? -ne 0 ]; then return 1; fi
 
 if [ "$1" = "-clean" ]; then
