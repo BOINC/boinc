@@ -3908,3 +3908,9 @@ Charlie 17 July 2012
     samples/
         example_app/
             Makefile_mac2
+
+Charlie 18 July 2012
+    - lib: Adjust #include files as requested by Oliver Bock.
+    
+    lib/
+        procinfo_mac.cpp

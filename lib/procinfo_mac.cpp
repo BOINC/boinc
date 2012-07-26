@@ -30,7 +30,7 @@
 #endif
 
 #include "procinfo.h"
-#include "client_state.h"
+#include "error_numbers.h"
 
 using std::vector;
 
