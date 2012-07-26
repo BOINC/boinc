@@ -3829,3 +3829,11 @@ Charlie 3 July 2012
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 5 July 2012
+    - Mac: update script which builds our installer to work with Xcode 4.3 
+        for Lion and later.  Because PackageMaker is now distributed 
+        separately from Xcode, we emulate it using low-level tools.
+        
+    mac_installer/
+        release_boinc.sh
