@@ -72,7 +72,6 @@ cd ../../curl-7.26.0/
 if [  $? -ne 0 ]; then return 1; fi
 source "${SCRIPT_DIR}/buildcurl.sh" ${doclean}
 if [  $? -ne 0 ]; then return 1; fi
-if [  $? -ne 0 ]; then return 1; fi
 
 echo ""
 echo "----------------------------------"

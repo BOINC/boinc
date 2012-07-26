@@ -5072,3 +5072,9 @@ David  25 July 2012
         boinc_db_types.h
         boinc_db.cpp
         schema_vda.sql
+
+Charlie 26 July 2012
+    - Mac: fix a typo in build script.
+    
+     mac_build/
+        setupForBOINC.sh
