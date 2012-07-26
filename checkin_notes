@@ -3837,3 +3837,10 @@ Charlie 5 July 2012
         
     mac_installer/
         release_boinc.sh
+
+Charlie 5 July 2012
+    - Mac: update build script to work with Xcode 4.3 for Lion and later.  
+        Xcode and the Mac OS X SDKs are no longer installed at fixed locations.
+        
+    mac_build/
+        buildWxMac.sh
