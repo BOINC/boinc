@@ -107,17 +107,6 @@ if [  $? -eq 0 ]; then
     fi
 fi
 
-if [ "${wxWidgetsOK}" = "NO" ]; then
-    echo ""
-    echo "----------------------------------"
-    echo "------------ WARNING -------------"
-    echo "----------------------------------"
-    echo "-- COULD NOT BUILD wxMac-2.8.10 --"
-    echo "----------------------------------"
-    echo ""
-fi
-
-
 echo ""
 echo "----------------------------------"
 echo "----- BUILD FreeType-2.4.10 ------"
@@ -132,16 +121,6 @@ if [  $? -eq 0 ]; then
     if [  $? -eq 0 ]; then
         freetypeOK="YES"
     fi
-fi
-
-if [ "${freetypeOK}" = "NO" ]; then
-    echo ""
-    echo "-----------------------------------"
-    echo "------------ WARNING --------------"
-    echo "-----------------------------------"
-    echo "- COULD NOT BUILD FreeType-2.4.10 -"
-    echo "-----------------------------------"
-    echo ""
 fi
 
 echo ""
@@ -160,11 +139,31 @@ if [  $? -eq 0 ]; then
     fi
 fi
 
+if [ "${wxWidgetsOK}" = "NO" ]; then
+    echo ""
+    echo "----------------------------------"
+    echo "------------ WARNING -------------"
+    echo "------------         -------------"
+    echo "-- COULD NOT BUILD wxMac-2.8.10 --"
+    echo "----------------------------------"
+    echo ""
+fi
+
+if [ "${freetypeOK}" = "NO" ]; then
+    echo ""
+    echo "-----------------------------------"
+    echo "------------ WARNING --------------"
+    echo "------------         -------------"
+    echo "- COULD NOT BUILD FreeType-2.4.10 -"
+    echo "-----------------------------------"
+    echo ""
+fi
+
 if [ "${ftglOK}" = "NO" ]; then
     echo ""
     echo "-----------------------------------"
     echo "------------ WARNING --------------"
-    echo "-----------------------------------"
+    echo "------------         -------------"
     echo "- COULD NOT BUILD FTGL-2.1.3~rc50 -"
     echo "-----------------------------------"
     echo ""

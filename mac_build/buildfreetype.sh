@@ -18,8 +18,9 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Script to build Macintosh 32-bit Intel library of FreeType-2.4.10 for
-# use in building BOINC graphics.  The resulting library is at:
+# Script to build Macintosh Universal Intel library (i386 and x86_64) 
+# of FreeType-2.4.10 for use in building BOINC graphics.
+# The resulting library is at:
 #   [path]/freetype-2.4.10/objs/.libs/libfreetype.a
 #
 # by Charlie Fenton 7/27/12
@@ -85,6 +86,7 @@ rm -f README-objs
 
 if [  $? -ne 0 ]; then return 1; fi
 
+# Build for i386 architecture
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,i386"
 export CPPFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040"
@@ -101,6 +103,33 @@ fi
 
 make
 if [  $? -ne 0 ]; then return 1; fi
+
+mv -f objs/.libs/libfreetype.a objs/.libs/libfreetype_i386.a
+
+# Build for x86_64 architecture
+make clean
+
+export CC="${GCCPATH}";export CXX="${GPPPATH}"
+export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
+export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040"
+export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040"
+export SDKROOT="${SDKPATH}"
+export MACOSX_DEPLOYMENT_TARGET=10.5
+
+./configure --enable-shared=NO --host=x86_64
+if [  $? -ne 0 ]; then return 1; fi
+
+make
+if [  $? -ne 0 ]; then return 1; fi
+
+mv -f objs/.libs/libfreetype.a objs/.libs/libfreetype_x86_64.a
+
+lipo -create objs/.libs/libfreetype_i386.a objs/.libs/libfreetype_x86_64.a -output objs/.libs/libfreetype.a
+
+if [  $? -ne 0 ]; then return 1; fi
+
+rm -f objs/.libs/libfreetype_i386.a
+rm -f objs/.libs/libfreetype_x86_64.a
 
 export CC="";export CXX=""
 export LDFLAGS=""
