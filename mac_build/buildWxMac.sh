@@ -23,7 +23,7 @@
 # by Charlie Fenton    7/21/06
 # Updated for wx-Mac 2.8.10 and Unicode 4/17/09
 # Updated for OS 10.7 and XCode 4.1 with OS 10.4 compatibility 9/26/11
-# Updated for partial OS 10.8 and XCode 4.5 compatibility 7/6/12
+# Updated for partial OS 10.8 and XCode 4.5 compatibility 7/27/12
 ## NOTE: To run with XCode 4.5, you must first obtain a copy of the 
 ##  MacOSX10.6.sdk and copy it into the folder: 
 ##  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/
@@ -58,7 +58,7 @@ else
   doclean=""
 fi
 
-xcodebuild -version -sdk macosx10.6
+xcodebuild -version -sdk macosx10.6 > /dev/null
 if [ ! "$?" = "0" ]; then
     echo "ERROR: System 10.6 SDK is missing.  For details, see build instructions at"
     echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"

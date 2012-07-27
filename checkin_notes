@@ -3914,3 +3914,9 @@ Charlie 18 July 2012
     
     lib/
         procinfo_mac.cpp
+
+Charlie 27 July 2012
+    - Mac: Eliminate extra output from wxMac build script.
+    
+     mac_build/
+        buildWxMac.sh
