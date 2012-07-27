@@ -5078,3 +5078,10 @@ Charlie 26 July 2012
     
      mac_build/
         setupForBOINC.sh
+
+Charlie 27 July 2012
+    - Mac: create build scripts for FreeType and FTGL.
+    
+     mac_build/
+        buildfreetype.sh
+        buildFTGL.sh
