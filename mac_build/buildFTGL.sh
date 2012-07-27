@@ -33,13 +33,13 @@
 ## In Terminal, CD to the ftgl-2.1.3~rc5 directory.
 ##     cd [path]/ftgl-2.1.3~rc5/
 ## then run this script:
-##     source [path]/buildfreetype.sh [ -clean ]
+##     source [path]/buildFTGL.sh [ -clean ]
 ##
 ## the -clean argument will force a full rebuild.
 ##
 
 if [ "$1" != "-clean" ]; then
-    if [ -f .libs/libftgl.a ]; then
+    if [ -f src/.libs/libftgl.a ]; then
         echo "ftgl-2.1.3~rc5 already built"
         return 0
     fi

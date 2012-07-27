@@ -26,6 +26,7 @@
 # Updated 7/6/11 for wxMac-2.8.10 and Unicode
 # Updated 6/25/12 for curl-7.26.0 and c-ares-1.9.1
 # Updated 6/26/12 for openssl-1.0.1c
+# Updated 7/27/12 for FreeType-2.4.10 and FTGL-2.1.3~rc5
 #
 # Download these three packages and place them in a common parent 
 # directory with the BOINC source tree.
@@ -46,6 +47,10 @@ if [ "$1" = "-clean" ]; then
 else
   doclean=""
 fi
+
+wxWidgetsOK="NO"
+freetypeOK="NO"
+ftglOK="NO"
 
 SCRIPT_DIR=`pwd`
 
@@ -88,16 +93,81 @@ if [  $? -ne 0 ]; then return 1; fi
 
 echo ""
 echo "----------------------------------"
-echo "------- BUILD wxMac-2.8.10 --------"
+echo "------- BUILD wxMac-2.8.10 -------"
 echo "----------------------------------"
 echo ""
 
 cd "${SCRIPT_DIR}"
 
 cd ../../wxMac-2.8.10/
-if [  $? -ne 0 ]; then return 1; fi
-source "${SCRIPT_DIR}/buildWxMac.sh" ${doclean}
-if [  $? -ne 0 ]; then return 1; fi
+if [  $? -eq 0 ]; then
+    source "${SCRIPT_DIR}/buildWxMac.sh" ${doclean}
+    if [  $? -eq 0 ]; then
+        wxWidgetsOK="YES"
+    fi
+fi
+
+if [ "${wxWidgetsOK}" = "NO" ]; then
+    echo ""
+    echo "----------------------------------"
+    echo "------------ WARNING -------------"
+    echo "-- COULD NOT BUILD wxMac-2.8.10 --"
+    echo "----------------------------------"
+    echo ""
+fi
+
+
+echo ""
+echo "----------------------------------"
+echo "----- BUILD FreeType-2.4.10 ------"
+echo "----------------------------------"
+echo ""
 
 cd "${SCRIPT_DIR}"
+
+cd ../../freetype-2.4.10/
+if [  $? -eq 0 ]; then
+    source "${SCRIPT_DIR}/buildfreetype.sh" ${doclean}
+    if [  $? -eq 0 ]; then
+        freetypeOK="YES"
+    fi
+fi
+
+if [ "${freetypeOK}" = "NO" ]; then
+    echo ""
+    echo "-----------------------------------"
+    echo "------------ WARNING --------------"
+    echo "- COULD NOT BUILD FreeType-2.4.10 -"
+    echo "-----------------------------------"
+    echo ""
+fi
+
+echo ""
+echo "----------------------------------"
+echo "------ BUILD FTGL-2.1.3~rc5 ------"
+echo "----------------------------------"
+echo ""
+
+cd "${SCRIPT_DIR}"
+
+cd ../../ftgl-2.1.3~rc5/
+if [  $? -eq 0 ]; then
+    source "${SCRIPT_DIR}/buildFTGL.sh" ${doclean}
+    if [  $? -eq 0 ]; then
+        ftglOK="YES"
+    fi
+fi
+
+if [ "{$ftglOK}" = "NO" ]; then
+    echo ""
+    echo "-----------------------------------"
+    echo "------------ WARNING --------------"
+    echo "- COULD NOT BUILD FTGL-2.1.3~rc50 -"
+    echo "-----------------------------------"
+    echo ""
+fi
+
+echo ""
+cd "${SCRIPT_DIR}"
+
 return 0
