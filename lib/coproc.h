@@ -83,6 +83,15 @@
 
 #define MAX_OPENCL_PLATFORMS 16
 
+#define PROC_TYPE_CPU        0
+#define PROC_TYPE_NVIDIA_GPU 1
+#define PROC_TYPE_AMD_GPU    2
+#define PROC_TYPE_INTEL_GPU  3
+#define NPROC_TYPES          4
+
+extern const char* proc_type_name(int);
+extern const char* proc_type_name_xml(int);
+
 #define GPU_TYPE_NVIDIA "NVIDIA"
 #define GPU_TYPE_ATI "ATI"
 
