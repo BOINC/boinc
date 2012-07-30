@@ -4000,6 +4000,13 @@ Charlie 12 July 2012
         wrapper/
             BuildMacWrapper.sh
 
+David  16 July 2012
+    - lib: treat MINGW32 like CYGWIN32 (in 1 place - should do everywhere?)
+        from Oliver
+
+    lib/
+        filesys.cpp
+
 Charlie 17 July 2012
     - Mac: Minor corrections to documentation and sample code.
     
