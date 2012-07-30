@@ -1,3 +1,5 @@
+// DEPRECATED
+
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
 // Copyright (C) 2008 University of California
@@ -28,7 +30,6 @@
 #include "app_ipc.h"
 #include "util.h"
 #include "filesys.h"
-#include "unix_util.h"
 
 #include "boinc_gl.h"
 #include "boinc_glut.h"

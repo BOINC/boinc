@@ -51,7 +51,6 @@
 #include "str_util.h"
 #include "str_replace.h"
 #include "util.h"
-#include "unix_util.h"
 #include "prefs.h"
 #include "filesys.h"
 #include "network.h"

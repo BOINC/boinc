@@ -26,6 +26,7 @@
 #include <ctime>
 #include <cstdarg>
 #include <cstring>
+#include <math.h>
 #if HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
 #endif

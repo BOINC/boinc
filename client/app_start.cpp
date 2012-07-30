@@ -83,8 +83,6 @@ using std::string;
 #include "file_names.h"
 #include "result.h"
 #include "sandbox.h"
-#include "unix_util.h"
-
 
 #ifdef _WIN32
 #include "run_app_windows.h"

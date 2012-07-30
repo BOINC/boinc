@@ -58,6 +58,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <locale>
+#include <algorithm>
 #endif
 
 #include "diagnostics.h"

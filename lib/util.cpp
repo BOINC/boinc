@@ -44,6 +44,7 @@
 #include <errno.h>
 #include <string>
 #include <cstring>
+#include <math.h>
 #if HAVE_IEEEFP_H
 #include <ieeefp.h>
 extern "C" {

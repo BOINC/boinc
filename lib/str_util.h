@@ -18,12 +18,8 @@
 #ifndef STR_UTIL_H
 #define STR_UTIL_H
 
-#include <cstdlib>
-#include <ctime>
-#include <cctype>
-#include <cstring>
 #include <string>
-#include <vector>
+#include <string.h>
 
 extern void strcpy_overlap(char*, const char*);
 extern int ndays_to_string(double x, int smallest_timescale, char *buf);
