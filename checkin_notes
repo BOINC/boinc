@@ -4069,9 +4069,6 @@ Charlie 27 July 2012
     
      mac_build/
         buildWxMac.sh
-<<<<<<< .working
-=======
-        setupforBOINC.sh
 
 Rom    30 July 2012
     - MGR: Use the same fix for the simple gui that we used on the advanced
@@ -4079,4 +4076,3 @@ Rom    30 July 2012
 
     clientgui/
         sg_BoincSimpleFrame.cpp
->>>>>>> .merge-right.r25919
