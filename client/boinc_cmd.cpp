@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// boinccmd: command-line interface to a BOINC core client,
+// boinccmd: command-line interface to a BOINC client,
 // using GUI RPCs.
 //
 // usage: boinccmd [--host hostname] [--passwd passwd] command
@@ -93,7 +93,7 @@ Commands:\n\
    mode = always | auto | never\n\
  --task url task_name op            task operation\n\
    op = suspend | resume | abort\n\
- --version, -V                      show core client version\n\
+ --version, -V                      show client version\n\
 "
 );
     exit(1);

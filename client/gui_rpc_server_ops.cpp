@@ -828,7 +828,7 @@ static void handle_project_attach(GUI_RPC_CONN& grc) {
 
     // if project_init.xml refers to this project,
     // delete the file, otherwise we'll just
-    // reattach the next time the core client starts
+    // reattach the next time the client starts
     //
     if (!strcmp(url.c_str(), gstate.project_init.url)) {
         retval = gstate.project_init.remove();

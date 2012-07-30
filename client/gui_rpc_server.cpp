@@ -207,7 +207,7 @@ int GUI_RPC_CONN_SET::insert(GUI_RPC_CONN* p) {
     return 0;
 }
 
-// If the core client runs at boot time,
+// If the client runs at boot time,
 // it may be a while (~10 sec) before the DNS system is working.
 // If this returns an error, it will get called once a second
 // for up to 30 seconds.

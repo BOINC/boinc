@@ -57,8 +57,9 @@ void kill_via_switcher(int pid) {
     if (!g_use_sandbox) return;
 
     // if project application is running as user boinc_project and 
-    // core client is running as user boinc_master, we cannot send
-    // a signal directly, so use switcher.
+    // client is running as user boinc_master,
+    // we cannot send a signal directly, so use switcher.
+    //
     sprintf(cmd, "/bin/kill kill -s KILL %d", pid);
     switcher_exec(SWITCHER_FILE_NAME, cmd);
 }

@@ -95,6 +95,8 @@ void set_rrsim_flops(RESULT* rp) {
     //
     if (rp->uses_coprocs()) {
         rp->rrsim_flops = rp->avp->flops * gstate.overall_gpu_frac();
+    } else if (rp->avp->needs_network) {
+        rp->rrsim_flops =  rp->avp->flops * gstate.overall_cpu_and_network_frac();
     } else {
         rp->rrsim_flops =  rp->avp->flops * gstate.overall_cpu_frac();
     }
