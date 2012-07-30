@@ -18,6 +18,8 @@
 #ifndef URL_H
 #define URL_H
 
+#include <string>
+
 #define URL_PROTOCOL_UNKNOWN 0
 #define URL_PROTOCOL_HTTP    1
 #define URL_PROTOCOL_HTTPS   2

@@ -15,22 +15,18 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// DEPRECATED
+
 #ifndef _MSG_QUEUE_
 #define _MSG_QUEUE_
 
-#if HAVE_SYS_TYPES_H
 #include <sys/types.h>
-#endif
-#if HAVE_SYS_IPC_H
 #include <sys/ipc.h>
-#endif
-#if HAVE_SYS_MSG_H
 #include <sys/msg.h>
-#endif
 
 extern int create_message_queue(key_t);
-extern int receive_message(key_t,void*,size_t,bool);
-extern int send_message(key_t,void*,size_t,bool);
+extern int receive_message(key_t, void*, size_t,bool);
+extern int send_message(key_t, void*, size_t, bool);
 extern int destroy_message_queue(key_t);
 
 #endif

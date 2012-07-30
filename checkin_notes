@@ -3884,6 +3884,12 @@ David  2 July 2012
     various/
         various
 
+David  2 July 2012
+    - more code cleanup
+
+    lib/
+        various
+
 Charlie 3 July 2012
     - Mac client: Update Xcode project for compatibility with Xcode 4.3.2 
         and Xcode 4.5.  (Checked into 7.0.31 tag.)

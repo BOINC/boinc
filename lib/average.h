@@ -15,8 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <math.h>
-
 // structure for tracking the recent average
 // of a distribution that may change over time
 //
