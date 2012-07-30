@@ -3920,6 +3920,22 @@ Charlie 3 July 2012
         boinc.xcodeproj/
             project.pbxproj
 
+David  5 July 2012
+    - client: remove "device" entry from CUDA_DEVICE_PROP,
+        and change types of mem-size fields from int to double.
+        These fields are size_t in NVIDIA's version of this;
+        however, cuDeviceGetAttribute() returns them as int,
+        so I don't see where this makes any difference.
+    - client: fix bug in handling of <no_rsc_apps> element.
+
+
+    lib/
+        coproc.cpp,h
+    client/
+        gui_nvidia.cpp
+        work_fetch.cpp
+        scheduler_op.cpp
+
 Charlie 5 July 2012
     - Mac: update script which builds our installer to work with Xcode 4.3 
         for Lion and later.  Because PackageMaker is now distributed 

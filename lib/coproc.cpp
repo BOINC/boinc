@@ -425,36 +425,36 @@ void COPROC_NVIDIA::write_xml(MIOFILE& f, bool scheduler_rpc) {
         "   <cudaVersion>%d</cudaVersion>\n"
         "   <drvVersion>%d</drvVersion>\n"
         "   <totalGlobalMem>%f</totalGlobalMem>\n"
-        "   <sharedMemPerBlock>%u</sharedMemPerBlock>\n"
+        "   <sharedMemPerBlock>%f</sharedMemPerBlock>\n"
         "   <regsPerBlock>%d</regsPerBlock>\n"
         "   <warpSize>%d</warpSize>\n"
-        "   <memPitch>%u</memPitch>\n"
+        "   <memPitch>%f</memPitch>\n"
         "   <maxThreadsPerBlock>%d</maxThreadsPerBlock>\n"
         "   <maxThreadsDim>%d %d %d</maxThreadsDim>\n"
         "   <maxGridSize>%d %d %d</maxGridSize>\n"
         "   <clockRate>%d</clockRate>\n"
-        "   <totalConstMem>%u</totalConstMem>\n"
+        "   <totalConstMem>%f</totalConstMem>\n"
         "   <major>%d</major>\n"
         "   <minor>%d</minor>\n"
-        "   <textureAlignment>%u</textureAlignment>\n"
+        "   <textureAlignment>%f</textureAlignment>\n"
         "   <deviceOverlap>%d</deviceOverlap>\n"
         "   <multiProcessorCount>%d</multiProcessorCount>\n",
         peak_flops,
         cuda_version,
         display_driver_version,
         prop.totalGlobalMem,
-        (unsigned int)prop.sharedMemPerBlock,
+        prop.sharedMemPerBlock,
         prop.regsPerBlock,
         prop.warpSize,
-        (unsigned int)prop.memPitch,
+        prop.memPitch,
         prop.maxThreadsPerBlock,
         prop.maxThreadsDim[0], prop.maxThreadsDim[1], prop.maxThreadsDim[2],
         prop.maxGridSize[0], prop.maxGridSize[1], prop.maxGridSize[2],
         prop.clockRate,
-        (unsigned int)prop.totalConstMem,
+        prop.totalConstMem,
         prop.major,
         prop.minor,
-        (unsigned int)prop.textureAlignment,
+        prop.textureAlignment,
         prop.deviceOverlap,
         prop.multiProcessorCount
     );
@@ -480,7 +480,6 @@ void COPROC_NVIDIA::clear() {
     cuda_version = 0;
     display_driver_version = 0;
     strcpy(prop.name, "");
-    prop.deviceHandle = 0;
     prop.totalGlobalMem = 0;
     prop.sharedMemPerBlock = 0;
     prop.regsPerBlock = 0;
@@ -529,12 +528,11 @@ int COPROC_NVIDIA::parse(XML_PARSER& xp) {
         if (xp.parse_int("cudaVersion", cuda_version)) continue;
         if (xp.parse_int("drvVersion", display_driver_version)) continue;
         if (xp.parse_str("name", prop.name, sizeof(prop.name))) continue;
-        if (xp.parse_int("deviceHandle", prop.deviceHandle)) continue;
         if (xp.parse_double("totalGlobalMem", prop.totalGlobalMem)) continue;
-        if (xp.parse_int("sharedMemPerBlock", (int&)prop.sharedMemPerBlock)) continue;
+        if (xp.parse_double("sharedMemPerBlock", prop.sharedMemPerBlock)) continue;
         if (xp.parse_int("regsPerBlock", prop.regsPerBlock)) continue;
         if (xp.parse_int("warpSize", prop.warpSize)) continue;
-        if (xp.parse_int("memPitch", (int&)prop.memPitch)) continue;
+        if (xp.parse_double("memPitch", prop.memPitch)) continue;
         if (xp.parse_int("maxThreadsPerBlock", prop.maxThreadsPerBlock)) continue;
         if (xp.parse_str("maxThreadsDim", buf2, sizeof(buf2))) {
             // can't use sscanf here (FCGI)
@@ -567,10 +565,10 @@ int COPROC_NVIDIA::parse(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_int("clockRate", prop.clockRate)) continue;
-        if (xp.parse_int("totalConstMem", (int&)prop.totalConstMem)) continue;
+        if (xp.parse_double("totalConstMem", prop.totalConstMem)) continue;
         if (xp.parse_int("major", prop.major)) continue;
         if (xp.parse_int("minor", prop.minor)) continue;
-        if (xp.parse_int("textureAlignment", (int&)prop.textureAlignment)) continue;
+        if (xp.parse_double("textureAlignment", prop.textureAlignment)) continue;
         if (xp.parse_int("deviceOverlap", prop.deviceOverlap)) continue;
         if (xp.parse_int("multiProcessorCount", prop.multiProcessorCount)) continue;
         if (xp.match_tag("pci_info")) {
@@ -892,9 +890,10 @@ void COPROC_ATI::fake(double ram, double avail_ram, int n) {
 
 const char* proc_type_name_xml(int pt) {
     switch(pt) {
+    case PROC_TYPE_CPU: return "CPU";
     case PROC_TYPE_NVIDIA_GPU: return "CUDA";
     case PROC_TYPE_AMD_GPU: return "ATI";
-    case PROC_TYPE_INTEL_GPU: return "INTEL";
+    case PROC_TYPE_INTEL_GPU: return "intel_gpu";
     }
     return "unknown";
 }

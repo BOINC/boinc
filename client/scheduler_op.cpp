@@ -866,7 +866,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             continue;
         } else if (xp.parse_str("no_rsc_apps", buf, sizeof(buf))) {
             if (!project->anonymous_platform) {
-                handle_no_rsc_apps(buf, project, btemp);
+                handle_no_rsc_apps(buf, project, true);
             }
             continue;
         } else if (xp.parse_bool("verify_files_on_app_start", project->verify_files_on_app_start)) {
