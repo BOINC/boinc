@@ -5088,3 +5088,10 @@ Charlie 27 July 2012
         buildFTGL.sh
         buildWxMac.sh
         setupforBOINC.sh
+
+Rom    30 July 2012
+    - MGR: Use the same fix for the simple gui that we used on the advanced
+        gui with regards to the menu on Ubuntu's interface.
+
+    clientgui/
+        sg_BoincSimpleFrame.cpp

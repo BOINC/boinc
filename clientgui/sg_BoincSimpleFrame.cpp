@@ -258,6 +258,10 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
         delete m_pOldMenubar;
     }
 
+#ifdef __WXGTK__
+    // Force a redraw of the menu under Ubuntu's new interface
+    SendSizeEvent();
+#endif
 #ifdef __WXMAC__
     m_pMenubar->MacInstallMenuBar();
     MacLocalizeBOINCMenu();
