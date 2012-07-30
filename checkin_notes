@@ -4051,6 +4051,13 @@ David  21 July 2012
     lib/
         coproc.cpp
 
+David  21 July 2012
+    - client: don't request work for backup project for a processor type
+        unless there are idle instances of that type
+        
+    client/
+        work_fetch.cpp
+
 Charlie 27 July 2012
     - Mac: Eliminate extra output from wxMac build script.
     

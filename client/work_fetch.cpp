@@ -521,6 +521,12 @@ void WORK_FETCH::set_all_requests_hyst(PROJECT* p, int rsc_type) {
             if (rsc_work_fetch[i].saturated_time > gstate.work_buf_total()) {
                 continue;
             }
+            
+            // don't fetch work if backup project and no idle instances
+            //
+            if (p->resource_share==0 && rsc_work_fetch[i].nidle_now==0) {
+                continue;
+            }
 
             if (i>0 && !gpus_usable) {
                 continue;
