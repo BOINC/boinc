@@ -641,16 +641,17 @@ char* windows_error_string(char* pszBuf, int iSize) {
         NULL
     );
 
-    // supplied buffer is not long enough
-    if ( !dwRet || ( (long)iSize < (long)dwRet+14 ) ) {
+    // is supplied buffer long enough?
+    //
+    if (!dwRet || ((long)iSize < (long)dwRet+14)) {
         pszBuf[0] = '\0';
     } else {
-        lpszTemp[lstrlenA(lpszTemp)-2] = '\0';  //remove cr and newline character
-        sprintf ( pszBuf, "%s (0x%x)", lpszTemp, GetLastError() );
+        lpszTemp[lstrlenA(lpszTemp)-2] = '\0';  // remove CRLF
+        sprintf(pszBuf, "%s (0x%x)", lpszTemp, GetLastError());
     }
 
-    if ( lpszTemp ) {
-        LocalFree((HLOCAL) lpszTemp );
+    if (lpszTemp) {
+        LocalFree((HLOCAL) lpszTemp);
     }
 
     return pszBuf;
@@ -676,16 +677,17 @@ char* windows_format_error_string(
         NULL
     );
 
-    // supplied buffer is not long enough
-    if ( !dwRet || ( (long)iSize < (long)dwRet+14 ) ) {
+    // is supplied buffer long enough?
+    //
+    if (!dwRet || ( (long)iSize < (long)dwRet+14)) {
         pszBuf[0] = '\0';
     } else {
-        lpszTemp[lstrlenA(lpszTemp)-2] = '\0';  //remove cr and newline character
-        sprintf( pszBuf, "%s (0x%x)", lpszTemp, dwError );
+        lpszTemp[lstrlenA(lpszTemp)-2] = '\0';  // remove CRLF
+        sprintf(pszBuf, "%s (0x%x)", lpszTemp, dwError);
     }
 
-    if ( lpszTemp ) {
-        LocalFree((HLOCAL) lpszTemp );
+    if (lpszTemp) {
+        LocalFree((HLOCAL) lpszTemp);
     }
 
     return pszBuf;

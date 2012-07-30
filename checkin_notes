@@ -3861,6 +3861,18 @@ Charlie 26 June 2012
         HowToBuildBOINC_XCode.rtf
         setupforBOINC.sh
 
+David  28 June 2012
+    - client: when estimating FLOPS for an anonymous-platform app version
+        for which no estimate has been supplied by user,
+        use (CPU speed)*(cpu_usage + 10*gpu_usage)
+        (add the 10*)
+
+    lib/
+        common_defs.h
+        str_util.cpp
+    client/
+        client_state.cpp
+
 Charlie 3 July 2012
     - Mac client: Update Xcode project for compatibility with Xcode 4.3.2 
         and Xcode 4.5.  (Checked into 7.0.31 tag.)
@@ -3947,3 +3959,4 @@ Charlie 27 July 2012
     
      mac_build/
         buildWxMac.sh
+

@@ -466,7 +466,7 @@ int CLIENT_STATE::init() {
             // assume app will run at peak CPU speed, not peak GPU
             //
             if (avp->gpu_usage.rsc_type) {
-                avp->flops += avp->gpu_usage.usage * host_info.p_fpops;
+                avp->flops += avp->gpu_usage.usage * 10 * host_info.p_fpops;
             }
         }
     }
