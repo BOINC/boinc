@@ -4007,6 +4007,12 @@ David  16 July 2012
     lib/
         filesys.cpp
 
+David  17 July 2012
+    - client: delete sticky files when reset project
+
+    client/
+        client_state.cpp
+
 Charlie 17 July 2012
     - Mac: Minor corrections to documentation and sample code.
     
