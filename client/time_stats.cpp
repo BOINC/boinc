@@ -76,7 +76,7 @@ int get_connected_state() {
 const float ALPHA = (SECONDS_PER_DAY*10);
 //const float ALPHA = 60;   // for testing
 
-TIME_STATS::TIME_STATS() {
+void TIME_STATS::init() {
     last_update = 0;
     first = true;
     on_frac = 1;

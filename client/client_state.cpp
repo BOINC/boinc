@@ -304,6 +304,7 @@ int CLIENT_STATE::init() {
 
     notices.init();
     daily_xfer_history.init();
+    time_stats.init();
 
     detect_platforms();
     time_stats.start();
