@@ -3951,6 +3951,12 @@ Charlie 5 July 2012
     mac_build/
         buildWxMac.sh
 
+David  10 July 2012
+    - client: small code cleanup, no functional change
+
+    client/
+        time_stats.cpp
+
 Charlie 10 July 2012
     - Mac: update build scripts, source files and Xcode project to allow 
         building with Xcode 4.3 under OS 10.7.x Lion and Xcode 4.4GM under 
