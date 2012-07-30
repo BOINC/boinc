@@ -4076,3 +4076,11 @@ Rom    30 July 2012
 
     clientgui/
         sg_BoincSimpleFrame.cpp
+
+Rom    30 July 2012
+    - Tag for 7.0.32 release, all platforms
+      boinc_core_release_7_0_32
+
+    /
+        configure.ac
+        version.h
