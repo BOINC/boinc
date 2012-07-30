@@ -879,7 +879,6 @@ int CLIENT_STATE::handle_scheduler_reply(
                 "Missing coprocessor for task %s; aborting", rp->name
             );
             rp->abort_inactive(EXIT_MISSING_COPROC);
-            continue;
         } else {
             rp->set_state(RESULT_NEW, "handle_scheduler_reply");
             int rt = rp->avp->gpu_usage.rsc_type;
