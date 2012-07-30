@@ -4031,6 +4031,14 @@ Charlie 17 July 2012
         example_app/
             Makefile_mac2
 
+Rom    18 July 2012
+    - client: Re-introduce the WM_QUERYENDSESSION window message handler to
+        the power management window proc, it was removed during one of the Win9x
+        code scrubs.  When we see it, inform the client it is time to shutdown.
+
+    client/
+        sysmon_win.cpp
+
 Charlie 18 July 2012
     - lib: Adjust #include files as requested by Oliver Bock.
     
