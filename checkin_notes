@@ -4095,3 +4095,11 @@ Rom    1 Aug 2012
         plan_class_spec.cpp
     vda/
         ssim.cpp
+
+Rom    1 Aug 2012
+    - Tag for 7.0.33 release, all platforms
+      boinc_core_release_7_0_33
+
+    /
+        configure.ac
+        version.h
