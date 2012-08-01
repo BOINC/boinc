@@ -41,11 +41,12 @@
 //   formatting failures for any software that has been localized or
 //   displays localized data.
 
-#include "gui_rpc_client.h"
 
 #if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
 #include "boinc_win.h"
 #endif
+
+#include "gui_rpc_client.h"
 
 #ifdef _WIN32
 #include "../version.h"

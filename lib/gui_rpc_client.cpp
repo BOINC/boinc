@@ -18,11 +18,12 @@
 // This file is the underlying mechanism of GUI RPC client
 // (not the actual RPCs)
 
-#include "gui_rpc_client.h"
 
 #if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_) 
 #include "boinc_win.h"
 #endif
+
+#include "gui_rpc_client.h"
 
 #ifdef _WIN32
 #include "../version.h"

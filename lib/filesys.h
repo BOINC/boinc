@@ -29,16 +29,15 @@
 #include <string>
 #endif
 
-#define FILE_RETRY_INTERVAL 5
-    // On Windows, retry for this period of time, since some other program
-    // (virus scan, defrag, index) may have the file open.
-
-
 #ifndef MAXPATHLEN
 #define MAXPATHLEN 1024
 #endif
 
 #endif /* !WIN32 */
+
+#define FILE_RETRY_INTERVAL 5
+    // On Windows, retry for this period of time, since some other program
+    // (virus scan, defrag, index) may have the file open.
 
 #ifdef __cplusplus
 extern "C" {

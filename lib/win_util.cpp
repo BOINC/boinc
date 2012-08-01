@@ -802,7 +802,7 @@ bool is_remote_desktop() {
     static tWTSFM pWTSFM = NULL;
     LPTSTR pBuf = NULL;
     DWORD dwLength;
-    USHORT usProtocol=-1, usConnectionState=-1;
+    USHORT usProtocol=99, usConnectionState=99;
 
     if (!wtsapi32lib) {
         wtsapi32lib = LoadLibrary(_T("wtsapi32.dll"));

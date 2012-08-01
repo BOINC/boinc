@@ -22,9 +22,7 @@
 #include "boinc_fcgi.h"
 #endif
 
-#ifndef _WIN32
 #include <string>
-#endif
 
 #include "mfile.h"
 

@@ -65,6 +65,10 @@
 #include <vector>
 #include <string>
 
+#ifdef _WIN32
+#include "boinc_win.h"
+#endif
+
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"
 #endif
