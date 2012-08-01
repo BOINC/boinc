@@ -1777,7 +1777,6 @@
 				DD46883D0C165F3C0089F500 /* Resources */,
 				DD46883E0C165F3C0089F500 /* Sources */,
 				DD46883F0C165F3C0089F500 /* Frameworks */,
-				DD32CC900C27CFB90016F571 /* ShellScript */,
 				DDDC700C0C7A7D8B00179273 /* Rez */,
 			);
 			buildRules = (
@@ -2160,22 +2159,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$BUILD_STYLE\" != \"Deploy_noSandbox\" ] && [ \"$BUILD_STYLE\" != \"Dev_noSandbox\" ]; then\n    chown -R ${USER}:${GROUP} \"${BUILT_PRODUCTS_DIR}/boinc\"\n    chmod u+s,g+s \"${BUILT_PRODUCTS_DIR}/boinc\"\nfi";
-		};
-		DD32CC900C27CFB90016F571 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Uninstaller-Info.plist",
-			);
-			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/Uninstall BOINC.app/Contents/Info.plist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "sed -i \"\" s/\"Uninstall BOINC\"/BOINC/g \"${BUILT_PRODUCTS_DIR}/Uninstall BOINC.app/Contents/Resources/English.lproj/InfoPlist.strings\"\nsed -i \"\" s/BOINC/\"Uninstall BOINC\"/g \"${BUILT_PRODUCTS_DIR}/Uninstall BOINC.app/Contents/Resources/English.lproj/InfoPlist.strings\"\n";
+			shellScript = "chown -R ${USER}:${GROUP} \"${BUILT_PRODUCTS_DIR}/boinc\"\nchmod u+s,g+s \"${BUILT_PRODUCTS_DIR}/boinc\"\n";
 		};
 		DD3E15380A774397007E0084 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2263,7 +2247,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ] || [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  mkdir -p \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -nt \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\" ]; then\n    lipo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -thin i386 -output \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\"\n    lipo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -thin ppc -output \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_ppc\"\n    /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\n\ttouch \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\"\n\ttouch \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_ppc\"\n  fi\nfi\n";
+			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  ## echo \"Starting script 1\"\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Deployment_Dir\"\n  mkdir -p \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -nt \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_i386\" ]; then\n    ## echo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager is newer than ${TARGET_BUILD_DIR}/SymbolTables/BOINCManager_i386\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_i386\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_ppc\"\n    cp -fp \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_i386\"\n    touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_i386\"\n    strip \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\n  fi\nelse\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Development_Dir\"\nfi\n";
 		};
 		DD7355180D9110AE0006A9D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2278,7 +2262,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ] || [ \"$BUILD_STYLE\" = \"Deployment-no64\" ] || [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  mkdir -p \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" -nt \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_i386\" ]; then\n    lipo \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" -thin i386 -output \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_i386\"\n    lipo \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" -thin x86_64 -output \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_x86_64\"\n    lipo \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" -thin ppc -output \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_ppc\"\n    /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\"\n    touch \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_i386\"\n    touch \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_x86_64\"\n    touch \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_ppc\"\n  fi\nfi";
+			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  ## echo \"Starting script 1\"\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Deployment_Dir\"\nmkdir -p \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" -nt \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386\" ]; then\n    ## echo \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME} is newer than ${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_ppc\"\n    cp -fp \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386\"\n    touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386\"\n    strip \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\"\n  fi\nelse\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Development_Dir\"\n\nfi";
 		};
 		DD73551E0D9111150006A9D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2293,7 +2277,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ] || [ \"$BUILD_STYLE\" = \"Deployment-no64\" ] || [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  touch \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_i386\"\n  touch \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_x86_64\"\n  touch \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_ppc\"\nfi";
+			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386\"\nfi";
 		};
 		DDAD1A380909139E004E7DD0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2921,34 +2905,6 @@
 			};
 			name = Development;
 		};
-		DD1AFEB70A512D8700EE5B82 /* ppc_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEBUG_INFORMATION_FORMAT = stabs;
-				INFOPLIST_FILE = "Installer-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PRODUCT_NAME = "BOINC Installer";
-				STRIP_INSTALLED_PRODUCT = YES;
-			};
-			name = ppc_Deployment;
-		};
-		DD1AFEB80A512D8700EE5B82 /* i386_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEBUG_INFORMATION_FORMAT = stabs;
-				INFOPLIST_FILE = "Installer-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PRODUCT_NAME = "BOINC Installer";
-				STRIP_INSTALLED_PRODUCT = YES;
-			};
-			name = i386_Deployment;
-		};
 		DD1AFEB90A512D8700EE5B82 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2979,14 +2935,8 @@
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
-				);
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.10/src/build/Deployment/\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
+				LIBRARY_SEARCH_PATHS = "../../wxMac-2.8.10/src/build/Deployment/";
 				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-DHAVE_CONFIG_H",
 					"-D_FILE_OFFSET_BITS=64",
 					"-D_LARGE_FILES",
@@ -3009,115 +2959,10 @@
 					"-lm",
 				);
 				PRODUCT_NAME = BOINCManager;
-				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Development;
-		};
-		DD3E153F0A774397007E0084 /* ppc_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				DEAD_CODE_STRIPPING = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_PFE_FILE_C_DIALECTS = "c++";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
-				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.8.10/src/build/include/",
-					"../../wxMac-2.8.10/include",
-					../clientgui,
-				);
-				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
-				);
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.10/src/build/Deployment/\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
-					"-DHAVE_CONFIG_H",
-					"-D_FILE_OFFSET_BITS=64",
-					"-D_LARGE_FILES",
-					"-DNO_GCC_PRAGMA",
-					"-DNOCLIPBOARD",
-					"-D_THREAD_SAFE",
-					"-D__WXMAC__",
-					"-DSANDBOX",
-					"-DNDEBUG",
-					"-DHAVE_STRCASECMP_IN_STRING_H",
-				);
-				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
-				OTHER_LDFLAGS = (
-					"-bind_at_load",
-					"-D_THREAD_SAFE",
-					"-lz",
-					"-lpthread",
-					"-liconv",
-					"-lz",
-					"-lm",
-				);
-				PRODUCT_NAME = BOINCManager;
-				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				SKIP_INSTALL = NO;
-				STRIP_INSTALLED_PRODUCT = NO;
-			};
-			name = ppc_Deployment;
-		};
-		DD3E15400A774397007E0084 /* i386_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				DEAD_CODE_STRIPPING = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_PFE_FILE_C_DIALECTS = "c++";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
-				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.8.10/src/build/include/",
-					"../../wxMac-2.8.10/include",
-					../clientgui,
-				);
-				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
-				);
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.10/src/build/Deployment/\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
-					"-DHAVE_CONFIG_H",
-					"-D_FILE_OFFSET_BITS=64",
-					"-D_LARGE_FILES",
-					"-DNO_GCC_PRAGMA",
-					"-DNOCLIPBOARD",
-					"-D_THREAD_SAFE",
-					"-D__WXMAC__",
-					"-DSANDBOX",
-					"-DNDEBUG",
-					"-DHAVE_STRCASECMP_IN_STRING_H",
-				);
-				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
-				OTHER_LDFLAGS = (
-					"-bind_at_load",
-					"-D_THREAD_SAFE",
-					"-lz",
-					"-lpthread",
-					"-liconv",
-					"-lz",
-					"-lm",
-				);
-				PRODUCT_NAME = BOINCManager;
-				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				SKIP_INSTALL = NO;
-				STRIP_INSTALLED_PRODUCT = NO;
-			};
-			name = i386_Deployment;
 		};
 		DD3E15410A774397007E0084 /* Deployment */ = {
 			isa = XCBuildConfiguration;
@@ -3135,14 +2980,8 @@
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
-				);
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.10/src/build/Deployment/\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
+				LIBRARY_SEARCH_PATHS = "../../wxMac-2.8.10/src/build/Deployment/";
 				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-DHAVE_CONFIG_H",
 					"-D_FILE_OFFSET_BITS=64",
 					"-D_LARGE_FILES",
@@ -3166,7 +3005,6 @@
 					"-lm",
 				);
 				PRODUCT_NAME = BOINCManager;
-				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
@@ -3185,45 +3023,6 @@
 			};
 			name = Development;
 		};
-		DD4688460C165F3C0089F500 /* Dev_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = "Uninstaller-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PRODUCT_NAME = "Uninstall BOINC";
-				WRAPPER_EXTENSION = app;
-			};
-			name = Dev_noSandbox;
-		};
-		DD4688470C165F3C0089F500 /* ppc_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = "Uninstaller-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PRODUCT_NAME = "Uninstall BOINC";
-				WRAPPER_EXTENSION = app;
-			};
-			name = ppc_Deployment;
-		};
-		DD4688480C165F3C0089F500 /* i386_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = "Uninstaller-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PRODUCT_NAME = "Uninstall BOINC";
-				WRAPPER_EXTENSION = app;
-			};
-			name = i386_Deployment;
-		};
 		DD4688490C165F3C0089F500 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3236,546 +3035,6 @@
 				WRAPPER_EXTENSION = app;
 			};
 			name = Deployment;
-		};
-		DD46884A0C165F3C0089F500 /* Deploy_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = "Uninstaller-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PRODUCT_NAME = "Uninstall BOINC";
-				WRAPPER_EXTENSION = app;
-			};
-			name = Deploy_noSandbox;
-		};
-		DD62C37D0A801FB400B3D68A /* Dev_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = boinc;
-			};
-			name = Dev_noSandbox;
-		};
-		DD62C37E0A801FB400B3D68A /* Deploy_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = boinc;
-			};
-			name = Deploy_noSandbox;
-		};
-		DD62C3810A801FB400B3D68A /* Dev_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = boinc_api;
-			};
-			name = Dev_noSandbox;
-		};
-		DD62C3820A801FB400B3D68A /* Deploy_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = boinc_api;
-			};
-			name = Deploy_noSandbox;
-		};
-		DD62C3830A801FB400B3D68A /* Dev_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = SetVersion;
-				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
-			};
-			name = Dev_noSandbox;
-		};
-		DD62C3840A801FB400B3D68A /* Deploy_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = SetVersion;
-				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
-			};
-			name = Deploy_noSandbox;
-		};
-		DD62C3850A801FB400B3D68A /* Dev_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = "ScreenSaver-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PRODUCT_NAME = BOINCSaver;
-				WRAPPER_EXTENSION = saver;
-			};
-			name = Dev_noSandbox;
-		};
-		DD62C3860A801FB400B3D68A /* Deploy_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = "ScreenSaver-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PRODUCT_NAME = BOINCSaver;
-				WRAPPER_EXTENSION = saver;
-			};
-			name = Deploy_noSandbox;
-		};
-		DD62C3870A801FB500B3D68A /* Dev_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
-				OTHER_LDFLAGS = (
-					"../../curl-7.21.7/lib/.libs/libcurl.a",
-					"../../c-ares-1.7.4/.libs/libcares.a",
-					"-lcrypto",
-					"-lssl",
-					"-lldap",
-					"-lz",
-				);
-				PRODUCT_NAME = boinc;
-				SKIP_INSTALL = NO;
-				STRIP_INSTALLED_PRODUCT = NO;
-			};
-			name = Dev_noSandbox;
-		};
-		DD62C3880A801FB500B3D68A /* Deploy_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-				);
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
-				OTHER_LDFLAGS = (
-					"../../curl-7.21.7/lib/.libs/libcurl.a",
-					"../../c-ares-1.7.4/.libs/libcares.a",
-					"-lcrypto",
-					"-lssl",
-					"-lldap",
-					"-lz",
-				);
-				PRODUCT_NAME = boinc;
-				SKIP_INSTALL = NO;
-				STRIP_INSTALLED_PRODUCT = NO;
-			};
-			name = Deploy_noSandbox;
-		};
-		DD62C3890A801FB500B3D68A /* Dev_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				INFOPLIST_FILE = "SystemMenu-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PRODUCT_NAME = SystemMenu;
-			};
-			name = Dev_noSandbox;
-		};
-		DD62C38A0A801FB500B3D68A /* Deploy_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				INFOPLIST_FILE = "SystemMenu-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PRODUCT_NAME = SystemMenu;
-			};
-			name = Deploy_noSandbox;
-		};
-		DD62C38D0A801FB500B3D68A /* Dev_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEBUG_INFORMATION_FORMAT = stabs;
-				INFOPLIST_FILE = "PostInstall-Info.plist";
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
-					"-D_THREAD_SAFE",
-					"-D_DEBUG",
-					"-D_MAC_INSTALLER",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PRODUCT_NAME = PostInstall;
-			};
-			name = Dev_noSandbox;
-		};
-		DD62C38E0A801FB500B3D68A /* Deploy_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEBUG_INFORMATION_FORMAT = stabs;
-				INFOPLIST_FILE = "PostInstall-Info.plist";
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
-					"-D_THREAD_SAFE",
-					"-DNDEBUG",
-					"-D_MAC_INSTALLER",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PRODUCT_NAME = PostInstall;
-			};
-			name = Deploy_noSandbox;
-		};
-		DD62C38F0A801FB500B3D68A /* Dev_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEBUG_INFORMATION_FORMAT = stabs;
-				OTHER_LDFLAGS = "-lboinc";
-				PRODUCT_NAME = boinccmd;
-			};
-			name = Dev_noSandbox;
-		};
-		DD62C3900A801FB500B3D68A /* Deploy_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEBUG_INFORMATION_FORMAT = stabs;
-				OTHER_LDFLAGS = "-lboinc";
-				PRODUCT_NAME = boinccmd;
-			};
-			name = Deploy_noSandbox;
-		};
-		DD62C3910A801FB500B3D68A /* Dev_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = MakeAppIcon_h;
-			};
-			name = Dev_noSandbox;
-		};
-		DD62C3920A801FB500B3D68A /* Deploy_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = MakeAppIcon_h;
-			};
-			name = Deploy_noSandbox;
-		};
-		DD62C3930A801FB500B3D68A /* Dev_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PRODUCT_NAME = SetUpSecurity;
-			};
-			name = Dev_noSandbox;
-		};
-		DD62C3940A801FB500B3D68A /* Deploy_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PRODUCT_NAME = SetUpSecurity;
-			};
-			name = Deploy_noSandbox;
-		};
-		DD62C3950A801FB500B3D68A /* Dev_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = switcher;
-			};
-			name = Dev_noSandbox;
-		};
-		DD62C3960A801FB500B3D68A /* Deploy_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = switcher;
-			};
-			name = Deploy_noSandbox;
-		};
-		DD62C3970A801FB500B3D68A /* Dev_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEBUG_INFORMATION_FORMAT = stabs;
-				INFOPLIST_FILE = "Installer-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PRODUCT_NAME = "BOINC Installer";
-			};
-			name = Dev_noSandbox;
-		};
-		DD62C3980A801FB500B3D68A /* Deploy_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEBUG_INFORMATION_FORMAT = stabs;
-				INFOPLIST_FILE = "Installer-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PRODUCT_NAME = "BOINC Installer";
-				STRIP_INSTALLED_PRODUCT = YES;
-			};
-			name = Deploy_noSandbox;
-		};
-		DD62C3990A801FB500B3D68A /* Dev_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = setprojectgrp;
-			};
-			name = Dev_noSandbox;
-		};
-		DD62C39A0A801FB500B3D68A /* Deploy_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = setprojectgrp;
-			};
-			name = Deploy_noSandbox;
-		};
-		DD62C39B0A801FB500B3D68A /* Dev_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = Build_All;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				ZERO_LINK = NO;
-			};
-			name = Dev_noSandbox;
-		};
-		DD62C39C0A801FB500B3D68A /* Deploy_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEAD_CODE_STRIPPING = YES;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = Build_All;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				ZERO_LINK = NO;
-			};
-			name = Deploy_noSandbox;
-		};
-		DD62C39D0A801FB500B3D68A /* Dev_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				DEAD_CODE_STRIPPING = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_PFE_FILE_C_DIALECTS = "c++";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
-				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.8.10/src/build/include/",
-					"../../wxMac-2.8.10/include",
-					../clientgui,
-				);
-				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
-				);
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.10/src/build/Deployment/\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
-					"-DHAVE_CONFIG_H",
-					"-D_FILE_OFFSET_BITS=64",
-					"-D_LARGE_FILES",
-					"-DNO_GCC_PRAGMA",
-					"-DNOCLIPBOARD",
-					"-D_THREAD_SAFE",
-					"-D__WXMAC__",
-					"-D_DEBUG",
-					"-DHAVE_STRCASECMP_IN_STRING_H",
-				);
-				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
-				OTHER_LDFLAGS = (
-					"-bind_at_load",
-					"-D_THREAD_SAFE",
-					"-lz",
-					"-lpthread",
-					"-liconv",
-					"-lz",
-					"-lm",
-				);
-				PRODUCT_NAME = BOINCManager;
-				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				SKIP_INSTALL = NO;
-				STRIP_INSTALLED_PRODUCT = NO;
-			};
-			name = Dev_noSandbox;
-		};
-		DD62C39E0A801FB500B3D68A /* Deploy_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				DEAD_CODE_STRIPPING = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_PFE_FILE_C_DIALECTS = "c++";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
-				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.8.10/src/build/include/",
-					"../../wxMac-2.8.10/include",
-					../clientgui,
-				);
-				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
-				);
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.10/src/build/Deployment/\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
-					"-DHAVE_CONFIG_H",
-					"-D_FILE_OFFSET_BITS=64",
-					"-D_LARGE_FILES",
-					"-DNO_GCC_PRAGMA",
-					"-DNOCLIPBOARD",
-					"-D_THREAD_SAFE",
-					"-D__WXMAC__",
-					"-DNDEBUG",
-					"-DHAVE_STRCASECMP_IN_STRING_H",
-				);
-				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
-				OTHER_LDFLAGS = (
-					"-bind_at_load",
-					"-D_THREAD_SAFE",
-					"-lz",
-					"-lpthread",
-					"-liconv",
-					"-lz",
-					"-lm",
-				);
-				PRODUCT_NAME = BOINCManager;
-				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				SKIP_INSTALL = NO;
-				STRIP_INSTALLED_PRODUCT = NO;
-			};
-			name = Deploy_noSandbox;
-		};
-		DD62C39F0A801FB500B3D68A /* Dev_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEPLOYMENT_POSTPROCESSING = NO;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION = 4.0;
-				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
-				LIBRARY_STYLE = STATIC;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
-				MACOSX_DEPLOYMENT_TARGET_x86_64 = 10.5;
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
-					"-D_THREAD_SAFE",
-					"-D_DEBUG",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				PREBINDING = NO;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
-				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				SDKROOT_x86_64 = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
-				STRIP_INSTALLED_PRODUCT = NO;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			name = Dev_noSandbox;
-		};
-		DD62C3A00A801FB500B3D68A /* Deploy_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-				);
-				COPY_PHASE_STRIP = YES;
-				DEAD_CODE_STRIPPING = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_FAST_MATH = NO;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION = 4.0;
-				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
-				LIBRARY_STYLE = STATIC;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
-				MACOSX_DEPLOYMENT_TARGET_x86_64 = 10.5;
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
-					"-D_THREAD_SAFE",
-					"-DNDEBUG",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				PREBINDING = NO;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
-				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				SDKROOT_x86_64 = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
-				STRIP_INSTALLED_PRODUCT = YES;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			name = Deploy_noSandbox;
 		};
 		DD662DDF10B40F5B0049C9A2 /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -3798,63 +3057,6 @@
 				PRODUCT_NAME = WaitPermissions;
 			};
 			name = Development;
-		};
-		DD662DE010B40F5B0049C9A2 /* Dev_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				INFOPLIST_FILE = "WaitPermissions-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = WaitPermissions;
-			};
-			name = Dev_noSandbox;
-		};
-		DD662DE110B40F5B0049C9A2 /* ppc_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				INFOPLIST_FILE = "WaitPermissions-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = WaitPermissions;
-			};
-			name = ppc_Deployment;
-		};
-		DD662DE210B40F5B0049C9A2 /* i386_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				INFOPLIST_FILE = "WaitPermissions-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = WaitPermissions;
-			};
-			name = i386_Deployment;
 		};
 		DD662DE310B40F5B0049C9A2 /* Deployment */ = {
 			isa = XCBuildConfiguration;
@@ -3879,44 +3081,6 @@
 			};
 			name = Deployment;
 		};
-		DD662DE410B40F5B0049C9A2 /* Deployment-no64 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				INFOPLIST_FILE = "WaitPermissions-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = WaitPermissions;
-			};
-			name = "Deployment-no64";
-		};
-		DD662DE510B40F5B0049C9A2 /* Deploy_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				INFOPLIST_FILE = "WaitPermissions-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = WaitPermissions;
-			};
-			name = Deploy_noSandbox;
-		};
 		DD7748A60A356CAE0025D05E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3927,28 +3091,6 @@
 				PRODUCT_NAME = SetUpSecurity;
 			};
 			name = Development;
-		};
-		DD7748A70A356CAE0025D05E /* ppc_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PRODUCT_NAME = SetUpSecurity;
-			};
-			name = ppc_Deployment;
-		};
-		DD7748A80A356CAE0025D05E /* i386_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PRODUCT_NAME = SetUpSecurity;
-			};
-			name = i386_Deployment;
 		};
 		DD7748A90A356CAE0025D05E /* Deployment */ = {
 			isa = XCBuildConfiguration;
@@ -3970,7 +3112,6 @@
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
 				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_GRIDREPUBLIC",
 					"-D_THREAD_SAFE",
 					"-D_DEBUG",
@@ -3983,71 +3124,6 @@
 			};
 			name = Development;
 		};
-		DD8916220F3B17E900DE5B1C /* Dev_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				HEADER_SEARCH_PATHS = ../api/;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../jpeg-6b\"",
-				);
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
-					"-D_GRIDREPUBLIC",
-					"-D_THREAD_SAFE",
-					"-D_DEBUG",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				OTHER_LDFLAGS = "-lresolv";
-				PRODUCT_NAME = boincscr;
-			};
-			name = Dev_noSandbox;
-		};
-		DD8916230F3B17E900DE5B1C /* ppc_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				HEADER_SEARCH_PATHS = ../api/;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../jpeg-6b\"",
-				);
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
-					"-D_GRIDREPUBLIC",
-					"-D_THREAD_SAFE",
-					"-DNDEBUG",
-					"-DSANDBOX",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				OTHER_LDFLAGS = "-lresolv";
-				PRODUCT_NAME = boincscr;
-			};
-			name = ppc_Deployment;
-		};
-		DD8916240F3B17E900DE5B1C /* i386_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				HEADER_SEARCH_PATHS = ../api/;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../jpeg-6b\"",
-				);
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
-					"-D_GRIDREPUBLIC",
-					"-D_THREAD_SAFE",
-					"-DNDEBUG",
-					"-DSANDBOX",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				OTHER_LDFLAGS = "-lresolv";
-				PRODUCT_NAME = boincscr;
-			};
-			name = i386_Deployment;
-		};
 		DD8916250F3B17E900DE5B1C /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4057,7 +3133,6 @@
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
 				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_GRIDREPUBLIC",
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
@@ -4070,354 +3145,12 @@
 			};
 			name = Deployment;
 		};
-		DD8916260F3B17E900DE5B1C /* Deployment-no64 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				HEADER_SEARCH_PATHS = ../api/;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../jpeg-6b\"",
-				);
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
-					"-D_GRIDREPUBLIC",
-					"-D_THREAD_SAFE",
-					"-DNDEBUG",
-					"-DSANDBOX",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				OTHER_LDFLAGS = "-lresolv";
-				PRODUCT_NAME = boincscr;
-			};
-			name = "Deployment-no64";
-		};
-		DD8916270F3B17E900DE5B1C /* Deploy_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				HEADER_SEARCH_PATHS = ../api/;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../jpeg-6b\"",
-				);
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
-					"-D_GRIDREPUBLIC",
-					"-D_THREAD_SAFE",
-					"-DNDEBUG",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				OTHER_LDFLAGS = "-lresolv";
-				PRODUCT_NAME = boincscr;
-			};
-			name = Deploy_noSandbox;
-		};
-		DD9670670CED9A800009D32B /* Deployment-no64 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-				);
-				COPY_PHASE_STRIP = YES;
-				DEAD_CODE_STRIPPING = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_FAST_MATH = NO;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION = 4.0;
-				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
-				LIBRARY_STYLE = STATIC;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
-				MACOSX_DEPLOYMENT_TARGET_x86_64 = 10.5;
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
-					"-D_THREAD_SAFE",
-					"-DNDEBUG",
-					"-DSANDBOX",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				PREBINDING = NO;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
-				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				SDKROOT_x86_64 = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
-				STRIP_INSTALLED_PRODUCT = YES;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			name = "Deployment-no64";
-		};
-		DD9670680CED9A800009D32B /* Deployment-no64 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEAD_CODE_STRIPPING = YES;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = Build_All;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				ZERO_LINK = NO;
-			};
-			name = "Deployment-no64";
-		};
-		DD9670690CED9A800009D32B /* Deployment-no64 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
-				OTHER_LDFLAGS = (
-					"../../curl-7.21.7/lib/.libs/libcurl.a",
-					"../../c-ares-1.7.4/.libs/libcares.a",
-					"-lcrypto",
-					"-lssl",
-					"-lldap",
-					"-lz",
-				);
-				PRODUCT_NAME = boinc;
-				SKIP_INSTALL = NO;
-				STRIP_INSTALLED_PRODUCT = NO;
-			};
-			name = "Deployment-no64";
-		};
-		DD96706A0CED9A800009D32B /* Deployment-no64 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEBUG_INFORMATION_FORMAT = stabs;
-				OTHER_LDFLAGS = "-lboinc";
-				PRODUCT_NAME = boinccmd;
-			};
-			name = "Deployment-no64";
-		};
-		DD96706B0CED9A800009D32B /* Deployment-no64 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = boinc;
-			};
-			name = "Deployment-no64";
-		};
-		DD96706D0CED9A800009D32B /* Deployment-no64 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				HEADER_SEARCH_PATHS = "../../jpeg-6b";
-				PRODUCT_NAME = boinc_graphics2;
-			};
-			name = "Deployment-no64";
-		};
-		DD96706E0CED9A800009D32B /* Deployment-no64 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = boinc_api;
-			};
-			name = "Deployment-no64";
-		};
-		DD96706F0CED9A800009D32B /* Deployment-no64 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				INFOPLIST_FILE = "SystemMenu-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PRODUCT_NAME = SystemMenu;
-			};
-			name = "Deployment-no64";
-		};
-		DD9670700CED9A800009D32B /* Deployment-no64 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = SetVersion;
-				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
-			};
-			name = "Deployment-no64";
-		};
-		DD9670710CED9A800009D32B /* Deployment-no64 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = "ScreenSaver-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PRODUCT_NAME = BOINCSaver;
-				WRAPPER_EXTENSION = saver;
-			};
-			name = "Deployment-no64";
-		};
-		DD9670720CED9A800009D32B /* Deployment-no64 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEBUG_INFORMATION_FORMAT = stabs;
-				INFOPLIST_FILE = "PostInstall-Info.plist";
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
-					"-D_THREAD_SAFE",
-					"-DNDEBUG",
-					"-D_MAC_INSTALLER",
-					"-DSANDBOX",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PRODUCT_NAME = PostInstall;
-			};
-			name = "Deployment-no64";
-		};
-		DD9670730CED9A800009D32B /* Deployment-no64 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = MakeAppIcon_h;
-			};
-			name = "Deployment-no64";
-		};
-		DD9670740CED9A800009D32B /* Deployment-no64 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PRODUCT_NAME = SetUpSecurity;
-			};
-			name = "Deployment-no64";
-		};
-		DD9670750CED9A800009D32B /* Deployment-no64 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = switcher;
-			};
-			name = "Deployment-no64";
-		};
-		DD9670760CED9A800009D32B /* Deployment-no64 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEBUG_INFORMATION_FORMAT = stabs;
-				INFOPLIST_FILE = "Installer-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PRODUCT_NAME = "BOINC Installer";
-				STRIP_INSTALLED_PRODUCT = YES;
-			};
-			name = "Deployment-no64";
-		};
-		DD9670770CED9A800009D32B /* Deployment-no64 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = setprojectgrp;
-			};
-			name = "Deployment-no64";
-		};
-		DD9670780CED9A800009D32B /* Deployment-no64 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				DEAD_CODE_STRIPPING = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_PFE_FILE_C_DIALECTS = "c++";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
-				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.8.10/src/build/include/",
-					"../../wxMac-2.8.10/include",
-					../clientgui,
-				);
-				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
-				);
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.10/src/build/Deployment/\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
-					"-DHAVE_CONFIG_H",
-					"-D_FILE_OFFSET_BITS=64",
-					"-D_LARGE_FILES",
-					"-DNO_GCC_PRAGMA",
-					"-DNOCLIPBOARD",
-					"-D_THREAD_SAFE",
-					"-D__WXMAC__",
-					"-DSANDBOX",
-					"-DNDEBUG",
-					"-DHAVE_STRCASECMP_IN_STRING_H",
-				);
-				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
-				OTHER_LDFLAGS = (
-					"-bind_at_load",
-					"-D_THREAD_SAFE",
-					"-lz",
-					"-lpthread",
-					"-liconv",
-					"-lz",
-					"-lm",
-				);
-				PRODUCT_NAME = BOINCManager;
-				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				SKIP_INSTALL = NO;
-				STRIP_INSTALLED_PRODUCT = NO;
-			};
-			name = "Deployment-no64";
-		};
-		DD9670790CED9A800009D32B /* Deployment-no64 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = "Uninstaller-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PRODUCT_NAME = "Uninstall BOINC";
-				WRAPPER_EXTENSION = app;
-			};
-			name = "Deployment-no64";
-		};
-		DD96707A0CED9A800009D32B /* Deployment-no64 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = gfx_switcher;
-			};
-			name = "Deployment-no64";
-		};
 		DD9843D909920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-					x86_64,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
 					"-DSANDBOX",
@@ -4425,7 +3158,6 @@
 					../clientgui/mac/config.h,
 				);
 				"OTHER_CFLAGS[arch=ppc]" = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
 					"-DSANDBOX",
@@ -4433,14 +3165,12 @@
 					../clientgui/mac/config.h,
 				);
 				"OTHER_CFLAGS[arch=x86_64]" = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1050",
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
 					"-DSANDBOX",
 					"-include",
 					../clientgui/mac/config.h,
 				);
-				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -DNDEBUG -DSANDBOX -include ../clientgui/mac/config.h";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = boinc;
 			};
@@ -4449,13 +3179,9 @@
 		DD9843DB09920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-					x86_64,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				"OTHER_CFLAGS[arch=ppc]" = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
 					"-DSANDBOX",
@@ -4463,14 +3189,12 @@
 					../clientgui/mac/config.h,
 				);
 				"OTHER_CFLAGS[arch=x86_64]" = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1050",
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
 					"-DSANDBOX",
 					"-include",
 					../clientgui/mac/config.h,
 				);
-				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -DNDEBUG -DSANDBOX -include ../clientgui/mac/config.h";
 				PRODUCT_NAME = boinc_api;
 			};
 			name = Deployment;
@@ -4486,16 +3210,12 @@
 		DD9843DD09920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-					x86_64,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				GCC_ENABLE_OBJC_GC = supported;
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.6;
 				"OTHER_CFLAGS[arch=x86_64]" = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1060",
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
 					"-DSANDBOX",
@@ -4509,8 +3229,6 @@
 					AppKit,
 				);
 				PRODUCT_NAME = BOINCSaver;
-				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
-				SDKROOT_x86_64 = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				WRAPPER_EXTENSION = saver;
 			};
 			name = Deployment;
@@ -4518,11 +3236,6 @@
 		DD9843DE09920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-					x86_64,
-				);
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
@@ -4570,7 +3283,6 @@
 				DEBUG_INFORMATION_FORMAT = stabs;
 				INFOPLIST_FILE = "PostInstall-Info.plist";
 				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
 					"-D_MAC_INSTALLER",
@@ -4591,14 +3303,12 @@
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
 				"OTHER_CFLAGS[arch=ppc]" = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
 					"-DSANDBOX",
 					"-include",
 					../clientgui/mac/config.h,
 				);
-				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -DNDEBUG -DSANDBOX -include ../clientgui/mac/config.h";
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
@@ -4635,10 +3345,8 @@
 		DD9843E509920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -4646,16 +3354,13 @@
 				GCC_FAST_MATH = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION = 4.0;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
+				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.4;
 				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
-				MACOSX_DEPLOYMENT_TARGET_x86_64 = 10.5;
 				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
 					"-DSANDBOX",
@@ -4663,16 +3368,16 @@
 					../clientgui/mac/config.h,
 				);
 				PREBINDING = NO;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
-				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				SDKROOT_x86_64 = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				SDKROOT = macosx10.6;
+				"SDKROOT[arch=ppc]" = macosx10.6;
+				"SDKROOT[arch=x86_64]" = macosx10.6;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 				STRIP_INSTALLED_PRODUCT = YES;
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
 					"-Wno-unknown-pragmas",
+					"-Wno-write-strings",
 				);
 			};
 			name = Deployment;
@@ -4685,27 +3390,12 @@
 			};
 			name = Development;
 		};
-		DD9E2353091CBDAE0048316E /* ppc_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = boinc;
-			};
-			name = ppc_Deployment;
-		};
 		DD9E235A091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = boinc_api;
 			};
 			name = Development;
-		};
-		DD9E235B091CBDAE0048316E /* ppc_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = boinc_api;
-			};
-			name = ppc_Deployment;
 		};
 		DD9E235E091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -4714,14 +3404,6 @@
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
 			};
 			name = Development;
-		};
-		DD9E235F091CBDAE0048316E /* ppc_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = SetVersion;
-				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
-			};
-			name = ppc_Deployment;
 		};
 		DD9E2362091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -4737,21 +3419,6 @@
 				WRAPPER_EXTENSION = saver;
 			};
 			name = Development;
-		};
-		DD9E2363091CBDAE0048316E /* ppc_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = "ScreenSaver-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PRODUCT_NAME = BOINCSaver;
-				WRAPPER_EXTENSION = saver;
-			};
-			name = ppc_Deployment;
 		};
 		DD9E2366091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -4775,28 +3442,6 @@
 			};
 			name = Development;
 		};
-		DD9E2367091CBDAE0048316E /* ppc_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = ppc;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
-				OTHER_LDFLAGS = (
-					"../../curl-7.21.7/lib/.libs/libcurl.a",
-					"../../c-ares-1.7.4/.libs/libcares.a",
-					"-lcrypto",
-					"-lssl",
-					"-lldap",
-					"-lz",
-				);
-				PRODUCT_NAME = boinc;
-				SKIP_INSTALL = NO;
-				STRIP_INSTALLED_PRODUCT = NO;
-			};
-			name = ppc_Deployment;
-		};
 		DD9E236A091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4812,28 +3457,12 @@
 			};
 			name = Development;
 		};
-		DD9E236B091CBDAE0048316E /* ppc_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				INFOPLIST_FILE = "SystemMenu-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PRODUCT_NAME = SystemMenu;
-			};
-			name = ppc_Deployment;
-		};
 		DD9E2372091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
 				INFOPLIST_FILE = "PostInstall-Info.plist";
 				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
 					"-D_DEBUG",
 					"-D_MAC_INSTALLER",
@@ -4849,28 +3478,6 @@
 			};
 			name = Development;
 		};
-		DD9E2373091CBDAE0048316E /* ppc_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEBUG_INFORMATION_FORMAT = stabs;
-				INFOPLIST_FILE = "PostInstall-Info.plist";
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
-					"-D_THREAD_SAFE",
-					"-DNDEBUG",
-					"-D_MAC_INSTALLER",
-					"-DSANDBOX",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PRODUCT_NAME = PostInstall;
-			};
-			name = ppc_Deployment;
-		};
 		DD9E2376091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4880,28 +3487,12 @@
 			};
 			name = Development;
 		};
-		DD9E2377091CBDAE0048316E /* ppc_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEBUG_INFORMATION_FORMAT = stabs;
-				OTHER_LDFLAGS = "-lboinc";
-				PRODUCT_NAME = boinccmd;
-			};
-			name = ppc_Deployment;
-		};
 		DD9E237A091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = MakeAppIcon_h;
 			};
 			name = Development;
-		};
-		DD9E237B091CBDAE0048316E /* ppc_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = MakeAppIcon_h;
-			};
-			name = ppc_Deployment;
 		};
 		DD9E237E091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -4925,27 +3516,6 @@
 			};
 			name = Development;
 		};
-		DD9E237F091CBDAE0048316E /* ppc_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEAD_CODE_STRIPPING = YES;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = Build_All;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				ZERO_LINK = NO;
-			};
-			name = ppc_Deployment;
-		};
 		DD9E2382091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4955,14 +3525,13 @@
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION = 4.0;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
-				MACOSX_DEPLOYMENT_TARGET_x86_64 = 10.5;
+				"MACOSX_DEPLOYMENT_TARGET[arch=*]" = 10.4;
+				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
 				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
 					"-D_DEBUG",
 					"-DSANDBOX",
@@ -4970,276 +3539,37 @@
 					../clientgui/mac/config.h,
 				);
 				PREBINDING = NO;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
-				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				SDKROOT_x86_64 = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				SDKROOT = macosx10.6;
+				"SDKROOT[arch=ppc]" = macosx10.6;
+				"SDKROOT[arch=x86_64]" = macosx10.6;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 				STRIP_INSTALLED_PRODUCT = NO;
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
 					"-Wno-unknown-pragmas",
+					"-Wno-write-strings",
 				);
 			};
 			name = Development;
-		};
-		DD9E2383091CBDAE0048316E /* ppc_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = ppc;
-				COPY_PHASE_STRIP = YES;
-				DEAD_CODE_STRIPPING = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION = 4.0;
-				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
-				LIBRARY_STYLE = STATIC;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
-				MACOSX_DEPLOYMENT_TARGET_x86_64 = 10.5;
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
-					"-D_THREAD_SAFE",
-					"-DNDEBUG",
-					"-DSANDBOX",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				PREBINDING = NO;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
-				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				SDKROOT_x86_64 = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
-				STRIP_INSTALLED_PRODUCT = YES;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			name = ppc_Deployment;
-		};
-		DDA2D1570952A93E00D0B538 /* i386_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = boinc;
-			};
-			name = i386_Deployment;
-		};
-		DDA2D1590952A93E00D0B538 /* i386_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = boinc_api;
-			};
-			name = i386_Deployment;
-		};
-		DDA2D15A0952A93E00D0B538 /* i386_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = SetVersion;
-				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
-			};
-			name = i386_Deployment;
-		};
-		DDA2D15B0952A93E00D0B538 /* i386_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = "ScreenSaver-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PRODUCT_NAME = BOINCSaver;
-				WRAPPER_EXTENSION = saver;
-			};
-			name = i386_Deployment;
-		};
-		DDA2D15C0952A93E00D0B538 /* i386_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = i386;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
-				OTHER_LDFLAGS = (
-					"../../curl-7.21.7/lib/.libs/libcurl.a",
-					"../../c-ares-1.7.4/.libs/libcares.a",
-					"-lcrypto",
-					"-lssl",
-					"-lldap",
-					"-lz",
-				);
-				PRODUCT_NAME = boinc;
-				SKIP_INSTALL = NO;
-				STRIP_INSTALLED_PRODUCT = NO;
-			};
-			name = i386_Deployment;
-		};
-		DDA2D15D0952A93E00D0B538 /* i386_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				INFOPLIST_FILE = "SystemMenu-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PRODUCT_NAME = SystemMenu;
-			};
-			name = i386_Deployment;
-		};
-		DDA2D15F0952A93E00D0B538 /* i386_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEBUG_INFORMATION_FORMAT = stabs;
-				INFOPLIST_FILE = "PostInstall-Info.plist";
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
-					"-D_THREAD_SAFE",
-					"-DNDEBUG",
-					"-D_MAC_INSTALLER",
-					"-DSANDBOX",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PRODUCT_NAME = PostInstall;
-			};
-			name = i386_Deployment;
-		};
-		DDA2D1600952A93E00D0B538 /* i386_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEBUG_INFORMATION_FORMAT = stabs;
-				OTHER_LDFLAGS = "-lboinc";
-				PRODUCT_NAME = boinccmd;
-			};
-			name = i386_Deployment;
-		};
-		DDA2D1610952A93E00D0B538 /* i386_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = MakeAppIcon_h;
-			};
-			name = i386_Deployment;
-		};
-		DDA2D1620952A93E00D0B538 /* i386_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEAD_CODE_STRIPPING = YES;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = Build_All;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				ZERO_LINK = NO;
-			};
-			name = i386_Deployment;
-		};
-		DDA2D1630952A93E00D0B538 /* i386_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = i386;
-				COPY_PHASE_STRIP = YES;
-				DEAD_CODE_STRIPPING = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_FAST_MATH = NO;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION = 4.0;
-				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
-				LIBRARY_STYLE = STATIC;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
-				MACOSX_DEPLOYMENT_TARGET_x86_64 = 10.5;
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
-					"-D_THREAD_SAFE",
-					"-DNDEBUG",
-					"-DSANDBOX",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				PREBINDING = NO;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
-				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				SDKROOT_x86_64 = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
-				STRIP_INSTALLED_PRODUCT = YES;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			name = i386_Deployment;
 		};
 		DDB873FD0C850BC800E0DE1F /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				HEADER_SEARCH_PATHS = "../../jpeg-6b";
 				PRODUCT_NAME = boinc_graphics2;
 			};
 			name = Development;
 		};
-		DDB873FE0C850BC800E0DE1F /* Dev_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				HEADER_SEARCH_PATHS = "../../jpeg-6b";
-				PRODUCT_NAME = boinc_graphics2;
-			};
-			name = Dev_noSandbox;
-		};
-		DDB873FF0C850BC800E0DE1F /* ppc_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				HEADER_SEARCH_PATHS = "../../jpeg-6b";
-				PRODUCT_NAME = boinc_graphics2;
-			};
-			name = ppc_Deployment;
-		};
-		DDB874000C850BC800E0DE1F /* i386_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				HEADER_SEARCH_PATHS = "../../jpeg-6b";
-				PRODUCT_NAME = boinc_graphics2;
-			};
-			name = i386_Deployment;
-		};
 		DDB874010C850BC800E0DE1F /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-					x86_64,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				HEADER_SEARCH_PATHS = "../../jpeg-6b";
 				"OTHER_CFLAGS[arch=ppc]" = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
 					"-DSANDBOX",
@@ -5247,25 +3577,15 @@
 					../clientgui/mac/config.h,
 				);
 				"OTHER_CFLAGS[arch=x86_64]" = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1050",
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
 					"-DSANDBOX",
 					"-include",
 					../clientgui/mac/config.h,
 				);
-				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -DNDEBUG -DSANDBOX -include ../clientgui/mac/config.h";
 				PRODUCT_NAME = boinc_graphics2;
 			};
 			name = Deployment;
-		};
-		DDB874020C850BC800E0DE1F /* Deploy_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				HEADER_SEARCH_PATHS = "../../jpeg-6b";
-				PRODUCT_NAME = boinc_graphics2;
-			};
-			name = Deploy_noSandbox;
 		};
 		DDD095420A3EDD4300C95BA4 /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -5273,20 +3593,6 @@
 				PRODUCT_NAME = switcher;
 			};
 			name = Development;
-		};
-		DDD095430A3EDD4300C95BA4 /* ppc_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = switcher;
-			};
-			name = ppc_Deployment;
-		};
-		DDD095440A3EDD4300C95BA4 /* i386_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = switcher;
-			};
-			name = i386_Deployment;
 		};
 		DDD095450A3EDD4300C95BA4 /* Deployment */ = {
 			isa = XCBuildConfiguration;
@@ -5302,27 +3608,6 @@
 			};
 			name = Development;
 		};
-		DDFA60CF0CB337D40037B88C /* Dev_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = gfx_switcher;
-			};
-			name = Dev_noSandbox;
-		};
-		DDFA60D00CB337D40037B88C /* ppc_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = gfx_switcher;
-			};
-			name = ppc_Deployment;
-		};
-		DDFA60D10CB337D40037B88C /* i386_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = gfx_switcher;
-			};
-			name = i386_Deployment;
-		};
 		DDFA60D20CB337D40037B88C /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -5330,33 +3615,12 @@
 			};
 			name = Deployment;
 		};
-		DDFA60D30CB337D40037B88C /* Deploy_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = gfx_switcher;
-			};
-			name = Deploy_noSandbox;
-		};
 		DDFF2ACF0A53D4AE002BC19D /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = setprojectgrp;
 			};
 			name = Development;
-		};
-		DDFF2AD00A53D4AE002BC19D /* ppc_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = setprojectgrp;
-			};
-			name = ppc_Deployment;
-		};
-		DDFF2AD10A53D4AE002BC19D /* i386_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = setprojectgrp;
-			};
-			name = i386_Deployment;
 		};
 		DDFF2AD20A53D4AE002BC19D /* Deployment */ = {
 			isa = XCBuildConfiguration;
@@ -5372,295 +3636,190 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD1AFEB60A512D8700EE5B82 /* Development */,
-				DD62C3970A801FB500B3D68A /* Dev_noSandbox */,
-				DD1AFEB70A512D8700EE5B82 /* ppc_Deployment */,
-				DD1AFEB80A512D8700EE5B82 /* i386_Deployment */,
 				DD1AFEB90A512D8700EE5B82 /* Deployment */,
-				DD9670760CED9A800009D32B /* Deployment-no64 */,
-				DD62C3980A801FB500B3D68A /* Deploy_noSandbox */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = ppc_Deployment;
+			defaultConfigurationName = Development;
 		};
 		DD3E153D0A774397007E0084 /* Build configuration list for PBXNativeTarget "mgr_boinc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD3E153E0A774397007E0084 /* Development */,
-				DD62C39D0A801FB500B3D68A /* Dev_noSandbox */,
-				DD3E153F0A774397007E0084 /* ppc_Deployment */,
-				DD3E15400A774397007E0084 /* i386_Deployment */,
 				DD3E15410A774397007E0084 /* Deployment */,
-				DD9670780CED9A800009D32B /* Deployment-no64 */,
-				DD62C39E0A801FB500B3D68A /* Deploy_noSandbox */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = ppc_Deployment;
+			defaultConfigurationName = Development;
 		};
 		DD4688440C165F3C0089F500 /* Build configuration list for PBXNativeTarget "Uninstaller" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD4688450C165F3C0089F500 /* Development */,
-				DD4688460C165F3C0089F500 /* Dev_noSandbox */,
-				DD4688470C165F3C0089F500 /* ppc_Deployment */,
-				DD4688480C165F3C0089F500 /* i386_Deployment */,
 				DD4688490C165F3C0089F500 /* Deployment */,
-				DD9670790CED9A800009D32B /* Deployment-no64 */,
-				DD46884A0C165F3C0089F500 /* Deploy_noSandbox */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = ppc_Deployment;
+			defaultConfigurationName = Development;
 		};
 		DD662DE610B40F5B0049C9A2 /* Build configuration list for PBXNativeTarget "WaitPermissions" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD662DDF10B40F5B0049C9A2 /* Development */,
-				DD662DE010B40F5B0049C9A2 /* Dev_noSandbox */,
-				DD662DE110B40F5B0049C9A2 /* ppc_Deployment */,
-				DD662DE210B40F5B0049C9A2 /* i386_Deployment */,
 				DD662DE310B40F5B0049C9A2 /* Deployment */,
-				DD662DE410B40F5B0049C9A2 /* Deployment-no64 */,
-				DD662DE510B40F5B0049C9A2 /* Deploy_noSandbox */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = ppc_Deployment;
+			defaultConfigurationName = Development;
 		};
 		DD7748A50A356CAE0025D05E /* Build configuration list for PBXNativeTarget "SetUpSecurity" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD7748A60A356CAE0025D05E /* Development */,
-				DD62C3930A801FB500B3D68A /* Dev_noSandbox */,
-				DD7748A70A356CAE0025D05E /* ppc_Deployment */,
-				DD7748A80A356CAE0025D05E /* i386_Deployment */,
 				DD7748A90A356CAE0025D05E /* Deployment */,
-				DD9670740CED9A800009D32B /* Deployment-no64 */,
-				DD62C3940A801FB500B3D68A /* Deploy_noSandbox */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = ppc_Deployment;
+			defaultConfigurationName = Development;
 		};
 		DD8916200F3B17E900DE5B1C /* Build configuration list for PBXNativeTarget "ss_app" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD8916210F3B17E900DE5B1C /* Development */,
-				DD8916220F3B17E900DE5B1C /* Dev_noSandbox */,
-				DD8916230F3B17E900DE5B1C /* ppc_Deployment */,
-				DD8916240F3B17E900DE5B1C /* i386_Deployment */,
 				DD8916250F3B17E900DE5B1C /* Deployment */,
-				DD8916260F3B17E900DE5B1C /* Deployment-no64 */,
-				DD8916270F3B17E900DE5B1C /* Deploy_noSandbox */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = ppc_Deployment;
+			defaultConfigurationName = Development;
 		};
 		DD9E2351091CBDAE0048316E /* Build configuration list for PBXNativeTarget "libboinc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD9E2352091CBDAE0048316E /* Development */,
-				DD62C37D0A801FB400B3D68A /* Dev_noSandbox */,
-				DD9E2353091CBDAE0048316E /* ppc_Deployment */,
-				DDA2D1570952A93E00D0B538 /* i386_Deployment */,
 				DD9843D909920F220090855B /* Deployment */,
-				DD96706B0CED9A800009D32B /* Deployment-no64 */,
-				DD62C37E0A801FB400B3D68A /* Deploy_noSandbox */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = ppc_Deployment;
+			defaultConfigurationName = Development;
 		};
 		DD9E2359091CBDAE0048316E /* Build configuration list for PBXNativeTarget "api_libboinc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD9E235A091CBDAE0048316E /* Development */,
-				DD62C3810A801FB400B3D68A /* Dev_noSandbox */,
-				DD9E235B091CBDAE0048316E /* ppc_Deployment */,
-				DDA2D1590952A93E00D0B538 /* i386_Deployment */,
 				DD9843DB09920F220090855B /* Deployment */,
-				DD96706E0CED9A800009D32B /* Deployment-no64 */,
-				DD62C3820A801FB400B3D68A /* Deploy_noSandbox */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = ppc_Deployment;
+			defaultConfigurationName = Development;
 		};
 		DD9E235D091CBDAE0048316E /* Build configuration list for PBXNativeTarget "SetVersion" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD9E235E091CBDAE0048316E /* Development */,
-				DD62C3830A801FB400B3D68A /* Dev_noSandbox */,
-				DD9E235F091CBDAE0048316E /* ppc_Deployment */,
-				DDA2D15A0952A93E00D0B538 /* i386_Deployment */,
 				DD9843DC09920F220090855B /* Deployment */,
-				DD9670700CED9A800009D32B /* Deployment-no64 */,
-				DD62C3840A801FB400B3D68A /* Deploy_noSandbox */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = ppc_Deployment;
+			defaultConfigurationName = Development;
 		};
 		DD9E2361091CBDAE0048316E /* Build configuration list for PBXNativeTarget "ScreenSaver" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD9E2362091CBDAE0048316E /* Development */,
-				DD62C3850A801FB400B3D68A /* Dev_noSandbox */,
-				DD9E2363091CBDAE0048316E /* ppc_Deployment */,
-				DDA2D15B0952A93E00D0B538 /* i386_Deployment */,
 				DD9843DD09920F220090855B /* Deployment */,
-				DD9670710CED9A800009D32B /* Deployment-no64 */,
-				DD62C3860A801FB400B3D68A /* Deploy_noSandbox */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = ppc_Deployment;
+			defaultConfigurationName = Development;
 		};
 		DD9E2365091CBDAE0048316E /* Build configuration list for PBXNativeTarget "BOINC_Client" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD9E2366091CBDAE0048316E /* Development */,
-				DD62C3870A801FB500B3D68A /* Dev_noSandbox */,
-				DD9E2367091CBDAE0048316E /* ppc_Deployment */,
-				DDA2D15C0952A93E00D0B538 /* i386_Deployment */,
 				DD9843DE09920F220090855B /* Deployment */,
-				DD9670690CED9A800009D32B /* Deployment-no64 */,
-				DD62C3880A801FB500B3D68A /* Deploy_noSandbox */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = ppc_Deployment;
+			defaultConfigurationName = Development;
 		};
 		DD9E2369091CBDAE0048316E /* Build configuration list for PBXNativeTarget "SystemMenu" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD9E236A091CBDAE0048316E /* Development */,
-				DD62C3890A801FB500B3D68A /* Dev_noSandbox */,
-				DD9E236B091CBDAE0048316E /* ppc_Deployment */,
-				DDA2D15D0952A93E00D0B538 /* i386_Deployment */,
 				DD9843DF09920F220090855B /* Deployment */,
-				DD96706F0CED9A800009D32B /* Deployment-no64 */,
-				DD62C38A0A801FB500B3D68A /* Deploy_noSandbox */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = ppc_Deployment;
+			defaultConfigurationName = Development;
 		};
 		DD9E2371091CBDAE0048316E /* Build configuration list for PBXNativeTarget "PostInstall" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD9E2372091CBDAE0048316E /* Development */,
-				DD62C38D0A801FB500B3D68A /* Dev_noSandbox */,
-				DD9E2373091CBDAE0048316E /* ppc_Deployment */,
-				DDA2D15F0952A93E00D0B538 /* i386_Deployment */,
 				DD9843E109920F220090855B /* Deployment */,
-				DD9670720CED9A800009D32B /* Deployment-no64 */,
-				DD62C38E0A801FB500B3D68A /* Deploy_noSandbox */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = ppc_Deployment;
+			defaultConfigurationName = Development;
 		};
 		DD9E2375091CBDAE0048316E /* Build configuration list for PBXNativeTarget "cmd_boinc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD9E2376091CBDAE0048316E /* Development */,
-				DD62C38F0A801FB500B3D68A /* Dev_noSandbox */,
-				DD9E2377091CBDAE0048316E /* ppc_Deployment */,
-				DDA2D1600952A93E00D0B538 /* i386_Deployment */,
 				DD9843E209920F220090855B /* Deployment */,
-				DD96706A0CED9A800009D32B /* Deployment-no64 */,
-				DD62C3900A801FB500B3D68A /* Deploy_noSandbox */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = ppc_Deployment;
+			defaultConfigurationName = Development;
 		};
 		DD9E2379091CBDAE0048316E /* Build configuration list for PBXNativeTarget "MakeAppIcon_h" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD9E237A091CBDAE0048316E /* Development */,
-				DD62C3910A801FB500B3D68A /* Dev_noSandbox */,
-				DD9E237B091CBDAE0048316E /* ppc_Deployment */,
-				DDA2D1610952A93E00D0B538 /* i386_Deployment */,
 				DD9843E309920F220090855B /* Deployment */,
-				DD9670730CED9A800009D32B /* Deployment-no64 */,
-				DD62C3920A801FB500B3D68A /* Deploy_noSandbox */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = ppc_Deployment;
+			defaultConfigurationName = Development;
 		};
 		DD9E237D091CBDAE0048316E /* Build configuration list for PBXAggregateTarget "Build_All" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD9E237E091CBDAE0048316E /* Development */,
-				DD62C39B0A801FB500B3D68A /* Dev_noSandbox */,
-				DD9E237F091CBDAE0048316E /* ppc_Deployment */,
-				DDA2D1620952A93E00D0B538 /* i386_Deployment */,
 				DD9843E409920F220090855B /* Deployment */,
-				DD9670680CED9A800009D32B /* Deployment-no64 */,
-				DD62C39C0A801FB500B3D68A /* Deploy_noSandbox */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = ppc_Deployment;
+			defaultConfigurationName = Development;
 		};
 		DD9E2381091CBDAE0048316E /* Build configuration list for PBXProject "boinc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD9E2382091CBDAE0048316E /* Development */,
-				DD62C39F0A801FB500B3D68A /* Dev_noSandbox */,
-				DD9E2383091CBDAE0048316E /* ppc_Deployment */,
-				DDA2D1630952A93E00D0B538 /* i386_Deployment */,
 				DD9843E509920F220090855B /* Deployment */,
-				DD9670670CED9A800009D32B /* Deployment-no64 */,
-				DD62C3A00A801FB500B3D68A /* Deploy_noSandbox */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = ppc_Deployment;
+			defaultConfigurationName = Development;
 		};
 		DDB873FC0C850BC800E0DE1F /* Build configuration list for PBXNativeTarget "gfx2libboinc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DDB873FD0C850BC800E0DE1F /* Development */,
-				DDB873FE0C850BC800E0DE1F /* Dev_noSandbox */,
-				DDB873FF0C850BC800E0DE1F /* ppc_Deployment */,
-				DDB874000C850BC800E0DE1F /* i386_Deployment */,
 				DDB874010C850BC800E0DE1F /* Deployment */,
-				DD96706D0CED9A800009D32B /* Deployment-no64 */,
-				DDB874020C850BC800E0DE1F /* Deploy_noSandbox */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = ppc_Deployment;
+			defaultConfigurationName = Development;
 		};
 		DDD095410A3EDD4300C95BA4 /* Build configuration list for PBXNativeTarget "switcher" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DDD095420A3EDD4300C95BA4 /* Development */,
-				DD62C3950A801FB500B3D68A /* Dev_noSandbox */,
-				DDD095430A3EDD4300C95BA4 /* ppc_Deployment */,
-				DDD095440A3EDD4300C95BA4 /* i386_Deployment */,
 				DDD095450A3EDD4300C95BA4 /* Deployment */,
-				DD9670750CED9A800009D32B /* Deployment-no64 */,
-				DD62C3960A801FB500B3D68A /* Deploy_noSandbox */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = ppc_Deployment;
+			defaultConfigurationName = Development;
 		};
 		DDFA60CD0CB337D40037B88C /* Build configuration list for PBXNativeTarget "gfx_switcher" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DDFA60CE0CB337D40037B88C /* Development */,
-				DDFA60CF0CB337D40037B88C /* Dev_noSandbox */,
-				DDFA60D00CB337D40037B88C /* ppc_Deployment */,
-				DDFA60D10CB337D40037B88C /* i386_Deployment */,
 				DDFA60D20CB337D40037B88C /* Deployment */,
-				DD96707A0CED9A800009D32B /* Deployment-no64 */,
-				DDFA60D30CB337D40037B88C /* Deploy_noSandbox */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = ppc_Deployment;
+			defaultConfigurationName = Development;
 		};
 		DDFF2ACE0A53D4AE002BC19D /* Build configuration list for PBXNativeTarget "setprojectgrp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DDFF2ACF0A53D4AE002BC19D /* Development */,
-				DD62C3990A801FB500B3D68A /* Dev_noSandbox */,
-				DDFF2AD00A53D4AE002BC19D /* ppc_Deployment */,
-				DDFF2AD10A53D4AE002BC19D /* i386_Deployment */,
 				DDFF2AD20A53D4AE002BC19D /* Deployment */,
-				DD9670770CED9A800009D32B /* Deployment-no64 */,
-				DD62C39A0A801FB500B3D68A /* Deploy_noSandbox */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = ppc_Deployment;
+			defaultConfigurationName = Development;
 		};
 /* End XCConfigurationList section */
 	};

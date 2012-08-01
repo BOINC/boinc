@@ -28,19 +28,22 @@
 ## updated 11/27/11 by Charlie Fenton for new virtualbox directory
 ## updated 12/2/11 by Charlie Fenton to restore wrapper and reboot if needed
 ## updated 12/7/11 by Charlie Fenton for BOINC 6.8.33
+## updated 7/31/12 by Charlie Fenton to code sign the installer and uninstaller
+## updated 7/31/12 by Charlie Fenton to avoid using PackageMaker
 ##
-## NOTE: This script uses PackageMaker, which is installed as part of the 
-##   XCode developer tools.  So you must have installed XCode Developer 
-##   Tools on the Mac before running this script.
-##
-## NOTE: PackageMaker may write 3 lines to the terminal with "Setting to : 0 (null)" 
-##   and "relocate: (null) 0".  This is normal and does not indicate a problem.
+## NOTE: This script requires Mac OS 10.6 or later, and uses XCode developer
+##   tools.  So you must have installed XCode Developer Tools on the Mac 
+##   before running this script.
 ##
 
 ## NOTE: To build the executables under Lion and XCode 4, select from XCode's
 ## menu: "Product/Buildfor/Build for Archiving", NOT "Product/Archive"
 
 ## Usage:
+##
+## If you wish to code sign the installer and uninstaller, create a file 
+## ~/BOINCCodeSignIdentity.txt whose first line is the code signing identity
+##
 ## cd to the root directory of the boinc tree, for example:
 ##     cd [path]/boinc
 ##
@@ -120,7 +123,7 @@ sudo rm -dfR ../BOINC_Installer/Pkg_Root
 mkdir -p ../BOINC_Installer/Installer\ Resources/
 mkdir -p ../BOINC_Installer/Installer\ Scripts/
 
-cp -fp mac_Installer/License.rtf ../BOINC_Installer/Installer\ Resources/
+cp -fp mac_installer/License.rtf ../BOINC_Installer/Installer\ Resources/
 cp -fp mac_installer/ReadMe.rtf ../BOINC_Installer/Installer\ Resources/
 cp -fp win_build/installerv2/redist/all_projects_list.xml ../BOINC_Installer/Installer\ Resources/
 
@@ -227,16 +230,45 @@ sudo chmod -R 755 ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_
 cp -fpR $BUILDPATH/BOINC\ Installer.app ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/
 
 # Build the installer package inside the wrapper application's bundle
-# OS 10.5 / OS 10.6 packagemaker
-/Developer/usr/bin/packagemaker -r ../BOINC_Installer/Pkg_Root -e ../BOINC_Installer/Installer\ Resources/ -s ../BOINC_Installer/Installer\ Scripts/ -f mac_build/Pkg-Info.plist -t "BOINC Manager" -n "$1.$2.$3" -b -o ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg
-# Remove TokenDefinitions.plist and IFPkgPathMappings in Info.plist, which would cause installer to find a previous copy of BOINCManager and install there
-sudo rm -f ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources/TokenDefinitions.plist
-if [ "$DarwinMajorVersion" -lt 11 ]; then
-    defaults delete "$BOINCPath/../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/BOINC.pkg/Contents/Info" IFPkgPathMappings
-fi
+# Because PackageMaker is now distributed separately from Xcode, we 
+# emulate the following PackageMaker command:
+###/Developer/usr/bin/packagemaker -r ../BOINC_Installer/Pkg_Root -e ../BOINC_Installer/Installer\ Resources/ -s ../BOINC_Installer/Installer\ Scripts/ -f mac_build/Pkg-Info.plist -t "BOINC Manager" -n "$1.$2.$3" -b -o ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg
+
+# Our PackageMaker emulation starts here
+mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources
+
+cd ../BOINC_Installer/Pkg_Root
+
+mkbom ./ ../New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Archive.bom
+
+pax -wz -x cpio -f ../New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Archive.pax.gz ./
+
+cd "${BOINCPath}"
+
+echo "pmkrpkg1" >> ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/PkgInfo
+
+cat >> ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources/package_version << ENDOFFILE
+major: $1
+minor: $2
+ENDOFFILE
+
+cp -fp mac_build/Pkg-Info.plist ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Info.plist
+
+cp -fpR ../BOINC_Installer/Installer\ Resources/ ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources
+
+sudo chmod a+x ../BOINC_Installer/Installer\ Scripts/*
+cp -fpR ../BOINC_Installer/Installer\ Scripts/ ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources
+
+# End of our PackageMaker emulation
 
 # Allow the installer wrapper application to modify the package's Info.plist file
 sudo chmod a+rw ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Info.plist
+
+# add a more complete Description.plist file to display in Installer's Customize pane
+if [ ! -d ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources/en.lproj/ ]; then
+    mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources/en.lproj
+fi
+cp -fp mac_installer/Description.plist ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources/en.lproj/
 
 # Build the stand-alone client distribution
 cp -fpR mac_build/Mac_SA_Insecure.sh ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/
@@ -244,7 +276,7 @@ cp -fpR mac_build/Mac_SA_Secure.sh ../BOINC_Installer/New_Release_$1_$2_$3/boinc
 cp -fpR COPYING ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/COPYING.txt
 cp -fpR COPYING.LESSER ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/COPYING.LESSER.txt
 cp -fpR COPYRIGHT ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/COPYRIGHT.txt
-cp -fp mac_Installer/License.rtf ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/
+cp -fp mac_installer/License.rtf ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/
 sudo chown -R 501:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/*
 sudo chmod -R 644 ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/*
 
@@ -262,6 +294,22 @@ sudo chown -R root:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_
 sudo chmod -R u+rw-s,g+r-ws,o+r-w ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/*
 
 cp -fpR $BUILDPATH/SymbolTables/ ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_SymbolTables/
+
+## If you wish to code sign the installer and uninstaller, create a file 
+## ~/BOINCCodeSignIdentity.txt whose first line is the code signing identity
+##
+## Code signing using a registered Apple Developer ID is necessary for GateKeeper 
+## with default settings to allow running downloaded applications under OS 10.8
+if [ -e "${HOME}/BOINCCodeSignIdentity.txt" ]; then
+    exec 8<"${HOME}/BOINCCodeSignIdentity.txt"
+    read -u 8 SIGNINGIDENTITY
+
+    # Code Sign the BOINC installer if we have a signing identity
+    sudo codesign -f -s "${SIGNINGIDENTITY}" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app"
+
+    # Code Sign the BOINC uninstaller if we have a signing identity
+    sudo codesign -f -s "${SIGNINGIDENTITY}" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app"
+fi
 
 cd ../BOINC_Installer/New_Release_$1_$2_$3
 ## Use ditto instead of zip utility to preserve resource forks and Finder attributes (custom icon, hide extension) 

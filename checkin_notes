@@ -7312,3 +7312,65 @@ Charlie 24 Feb 2012
     /
         configure.ac
         version.h
+
+Charlie 29 Mar 2012
+    - Mac installer: When checking for duplicate group membership entries, 
+        count only whole words (preceded and followed by white space) so
+        that if we have both 'jon' and 'jones' we don't count 'jon' twice.
+    - Mac uninstaller: Use Directory Services to find the user names of 
+        all human users instead of stepping through the entries in the 
+        /Users directory.
+
+    mac_installer/
+        PostInstall.cpp
+        Uninstall.cpp
+
+Charlie 16 June 2012
+    - Mac installer: changes for OS 10.8 compatibility.
+
+    mac_installer/
+        PostInstall.cpp
+        Uninstall.cpp
+
+Charlie 18 June 2012
+    - Mac installer: Create or delete Login Items and set screensaver 
+        properly when installing for multiple users on OS 10.7, 10.8.
+
+    mac_installer/
+        PostInstall.cpp
+        Uninstall.cpp
+
+Charlie 22 June 2012
+    - Mac: Code sign the BOINC installer and uninstaller if we have a 
+        valid code signing identity.  Code signing using a registered 
+        Apple Developer ID is necessary for GateKeeper with default 
+        settings to allow running downloaded applications under OS 10.8.
+    
+    mac_installer/
+        release_boinc.sh
+
+Charlie 5 July 2012
+    - Mac: update script which builds our installer to work with Xcode 4.3 
+        for Lion and later.  Because PackageMaker is now distributed 
+        separately from Xcode, we emulate it using low-level tools.
+        
+    mac_installer/
+        release_boinc.sh
+
+Charlie 31 July 2012
+    - Mac: update build scripts, source files and Xcode project to allow 
+        building with Xcode 4.3 under OS 10.7.x Lion.
+
+    client/
+        hostinfo_unix.cpp
+    lib/
+        filesys.h
+        hostinfo.h
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+    mac_installer/
+        make_CharityEngine.sh
+        make_GridRepublic.sh
+        make_ProgThruProc.sh
+        release_boinc.sh
