@@ -5118,3 +5118,14 @@ David  1 Aug 2012
 
     lib/
         *cpp
+
+David  1 Aug 2012
+    - use <cmath> instead of <math.h>.  Seems to be needed on Debian.
+
+    sched/
+        credit.cpp
+        plan_class_spec.cpp
+        sched_driver.cpp
+        feeder.cpp
+    vda/
+        ssim.cpp

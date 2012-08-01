@@ -42,8 +42,8 @@
 
 #include <cstdio>
 #include <vector>
-#include <math.h>
-#include <string.h>
+#include <cmath>
+#include <cstring>
 
 #include "util.h"
 #include "svn_version.h"

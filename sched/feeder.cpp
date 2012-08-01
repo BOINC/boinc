@@ -99,7 +99,7 @@
 #include <ctime>
 #include <csignal>
 #include <unistd.h>
-#include <math.h>
+#include <cmath>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/param.h>

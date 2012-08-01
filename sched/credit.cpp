@@ -22,7 +22,7 @@
 // Note: this is credit.cpp rather than sched_credit.cpp
 // because you might grant credit e.g. from a trickle handler
 
-#include <math.h>
+#include <cmath>
 
 #include "boinc_db.h"
 #include "error_numbers.h"
