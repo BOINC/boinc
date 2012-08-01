@@ -4084,3 +4084,14 @@ Rom    30 July 2012
     /
         configure.ac
         version.h
+
+Rom    1 Aug 2012
+    - Fix build breaks for server components.
+    
+    db/
+        boinc_db.h
+        boinc_db_types.h
+    sched/
+        plan_class_spec.cpp
+    vda/
+        ssim.cpp

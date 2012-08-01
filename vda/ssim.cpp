@@ -36,6 +36,7 @@
 
 #include <set>
 #include <limits.h>
+#include <cmath>
 
 #include "des.h"
 #include "vda_lib.h"

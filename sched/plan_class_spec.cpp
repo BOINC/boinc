@@ -16,6 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <string>
+#include <cmath>
 
 using std::string;
 
