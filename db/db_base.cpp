@@ -348,7 +348,7 @@ int DB_BASE::lookup(const char* clause) {
     return 0;
 }
 
-int DB_BASE::update_fields_noid(char* set_clause, char* where_clause) {
+int DB_BASE::update_fields_noid(const char* set_clause, const char* where_clause) {
     char query[MAX_QUERY_LEN];
     sprintf(query,
         "update %s set %s where %s",

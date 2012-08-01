@@ -28,11 +28,11 @@ $biomed = array(
     array(
         array(
             "FightMalaria@Home",
-            "http://boinc.ucd.ie/fmah",
+            "http://boinc.ucd.ie/fmah/",
             tra("University College Dublin"),
             tra("Antimalarial drug discovery"),
             tra("The parasite that causes malaria continues to evolve resistance to available medication. We therefore urgently need to discover new drugs to replace existing drugs. Importantly, these new drugs need to target NEW proteins in the parasite. The FightMalaria@Home project is aimed at finding these new targets."),
-            "fmah_banner3.png"
+            "FMAH_banner3_wt.png"
         ),
         array(
             "POEM@HOME",

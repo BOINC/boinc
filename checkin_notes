@@ -5095,3 +5095,20 @@ Rom    30 July 2012
 
     clientgui/
         sg_BoincSimpleFrame.cpp
+
+David  1 Aug 2012
+    - web: after post to a thread, show thread in user's chosen order
+        instead of newest first.
+
+    db/
+        db_base.cpp,h
+    html/
+        inc/
+            forum.inc
+        user/
+            forum_reply.php
+    vda/
+        vda_lib.cpp
+        vdad.cpp
+        sched_vda.cpp
+        vda_lib2.cpp

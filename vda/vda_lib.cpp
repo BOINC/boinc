@@ -194,14 +194,14 @@ int META_CHUNK::recovery_action(double now) {
         status = PRESENT;
     }
 #ifdef DEBUG_RECOVERY
-    printf("meta chunk action %s state %s unrec children %d\n",
+    printf("   meta chunk %s: state %s unrec children %d\n",
         name, status_str(status), have_unrecoverable_children
     );
 #endif
     for (i=0; i<children.size(); i++) {
         DATA_UNIT* c = children[i];
 #ifdef DEBUG_RECOVERY
-        printf("  child %s status %s in rec set %d\n",
+        printf("     child %s status %s in rec set %d\n",
             c->name, status_str(c->status), c->in_recovery_set
         );
 #endif
@@ -439,7 +439,7 @@ int CHUNK::recovery_plan() {
         min_failures = 0;
     }
 #ifdef DEBUG_RECOVERY
-    printf("chunk plan %s: status %s\n", name, status_str(status));
+    printf("   chunk %s: status %s\n", name, status_str(status));
 #endif
     return 0;
 }
@@ -475,7 +475,7 @@ int CHUNK::recovery_action(double now) {
         data_needed = true;
     }
 #ifdef DEBUG_RECOVERY
-    printf("chunk action: %s data_needed %d present_on_server %d\n",
+    printf("      chunk %s: data_needed %d present_on_server %d\n",
         name, data_needed, present_on_server
     );
 #endif
@@ -489,7 +489,7 @@ int CHUNK::recovery_action(double now) {
             present_on_server = false;
             status = RECOVERABLE;
             min_failures = fp->policy.replication;
-            sprintf(buf, "%s replicated, removing from server\n", name);
+            sprintf(buf, "   chunk %s: replicated, removing from server\n", name);
             show_msg(buf);
             parent->dfile->disk_usage.sample_inc(
                 -size,

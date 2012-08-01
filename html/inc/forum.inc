@@ -807,6 +807,7 @@ function create_post($content, $parent_id, $user, $forum, $thread, $signature) {
     $user->prefs->update("posts=posts+1");
     $thread->update("replies=replies+1, timestamp=$now");
     $forum->update("posts=posts+1, timestamp=$now");
+    return $id;
 }
 
 // call this when hide or delete a post;

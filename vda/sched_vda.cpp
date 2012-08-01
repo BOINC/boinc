@@ -132,7 +132,7 @@ static int get_chunk_md5(char* chunk_dir, char* md5_buf) {
 //      delete from upload dir
 //
 static int process_completed_upload(char* chunk_name, CHUNK_LIST& chunks) {
-    char path[1024], client_filename[1024], dir[1024];
+    char path[1024], client_filename[1024], dir[1024], buf[256];
     int retval;
 
     physical_file_name(g_reply->host.id, chunk_name, client_filename);
@@ -171,7 +171,11 @@ static int process_completed_upload(char* chunk_name, CHUNK_LIST& chunks) {
         } else {
             retval = vf.update_field("need_update=1");
             if (retval) return retval;
-            retval = ch.update_field("transfer_in_progress=0");
+            sprintf(buf, "host_id=%d and physical_file_name='%s'",
+                ch.host_id,
+                ch.physical_file_name
+            );
+            retval = ch.update_fields_noid("transfer_in_progress=0", buf);
             if (retval) return retval;
         }
     }
@@ -241,7 +245,14 @@ static void process_present_file(FILE_INFO& fi, CHUNK_LIST& chunks) {
         chp->transfer_in_progress = false;
         chp->transfer_wait = false;
         chp->present_on_host = true;
-        chp->update();
+        sprintf(buf,
+            "host_id=%d and physical_file_name='%s'",
+            chp->host_id, chp->physical_file_name
+        );
+        chp->update_fields_noid(
+            "transfer_in_progress=0, transfer_wait=0, present_on_host=1",
+            buf
+        );
     }
     mark_for_update(vf.id);
 }

@@ -291,6 +291,9 @@ int CHUNK::assign() {
         log_messages.printf(MSG_CRITICAL, "ch.insert() failed\n");
         return retval;
     }
+    log_messages.printf(MSG_NORMAL,
+        "   assigning chunk %s to host %d\n", name, host_id
+    );
     return 0;
 }
 
@@ -437,8 +440,6 @@ int VDA_FILE_AUX::choose_host() {
     int retval;
     DB_HOST host;
 
-    return 467;
-
     // replenish cache if needed
     //
     if (!available_hosts.size()) {
@@ -463,6 +464,11 @@ int VDA_FILE_AUX::choose_host() {
                     host_alive_clause(), rand_id, 100-nhosts_scanned
                 );
             }
+
+            // debugging
+            //
+            strcpy(buf, "where id=467 or id=166");
+
             while (1) {
                 retval = host.enumerate(buf);
                 if (retval == ERR_DB_NOT_FOUND) break;

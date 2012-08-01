@@ -73,11 +73,15 @@ if ($content && (!$preview)){
         $warning = tra("Your post has been flagged as spam by the Akismet anti-spam system. Please modify your text and try again.");
         $preview = tra("Preview");
     } else {
-        create_post(
+        $post_id = create_post(
             $content, $parent_post_id, $logged_in_user, $forum,
             $thread, $add_signature
         );
-        header("Location: forum_thread.php?id=$thread->id&temp_sort_style=".CREATE_TIME_NEW);
+        if ($post_id) {
+            header("Location: forum_thread.php?id=$thread->id&postid=$post_id");
+        } else {
+            error_page("Can't create post.");
+        }
     }
 }
 

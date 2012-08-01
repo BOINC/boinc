@@ -61,12 +61,14 @@ int handle_file(VDA_FILE_AUX& vf, DB_VDA_FILE& dvf) {
         return retval;
     }
     if (vf.initialized) {
+        log_messages.printf(MSG_NORMAL, "Getting state\n");
         retval = vf.get_state();
         if (retval) {
             log_messages.printf(MSG_CRITICAL, "vf.get_state failed %d\n", retval);
             return retval;
         }
     } else {
+        log_messages.printf(MSG_NORMAL, "Initializing\n");
         retval = vf.init();
         if (retval) {
             log_messages.printf(MSG_CRITICAL, "vf.init failed %d\n", retval);
@@ -75,11 +77,13 @@ int handle_file(VDA_FILE_AUX& vf, DB_VDA_FILE& dvf) {
         sprintf(buf, "initialized=1, chunk_size=%.0f", vf.policy.chunk_size());
         dvf.update_field(buf);
     }
+    log_messages.printf(MSG_NORMAL, "Recovery plan:\n");
     retval = vf.meta_chunk->recovery_plan();
     if (retval) {
         log_messages.printf(MSG_CRITICAL, "vf.recovery_plan failed %d\n", retval);
         return retval;
     }
+    log_messages.printf(MSG_NORMAL, "Recovery action:\n");
     retval = vf.meta_chunk->recovery_action(dtime());
     if (retval) {
         log_messages.printf(MSG_CRITICAL, "vf.recovery_action failed %d\n", retval);
