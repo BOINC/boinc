@@ -7374,3 +7374,11 @@ Charlie 31 July 2012
         make_GridRepublic.sh
         make_ProgThruProc.sh
         release_boinc.sh
+
+Charlie 1 Aug 2012
+    - Tag for 6.8.43 release, all platforms (only Mac has changed)
+      boinc_core_release_6_8_43
+
+    /
+        configure.ac
+        version.h
