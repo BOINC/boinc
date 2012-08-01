@@ -21,6 +21,7 @@
 // for a variety of reasons.
 
 #include "boinc_fcgi.h"
+
 #include <cstring>
 
 #ifdef _USING_FCGI_

@@ -48,7 +48,7 @@ struct VDA_FILE_AUX : VDA_FILE {
     }
     VDA_FILE_AUX(DB_VDA_FILE f) : VDA_FILE(f){}
 
-    // the following stuff is for the simulator
+    // the following for the simulator
     //
     double accounting_start_time;
     STATS_ITEM disk_usage;
@@ -74,27 +74,46 @@ struct VDA_FILE_AUX : VDA_FILE {
 };
 
 #define PRESENT 0
+    // this data unit is present on the server
+    // (in the case of meta-chunks, this means that enough chunks
+    // to reconstruct the meta-chunk are present on the server)
 #define RECOVERABLE 1
+    // this data unit is not present, but could be recovered
+    // from data on clients
 #define UNRECOVERABLE 2
+    // not present or recoverable
 
 // base class for chunks and meta-chunks
 //
 struct DATA_UNIT {
     virtual int recovery_plan(){return 0;};
     virtual int recovery_action(double){return 0;};
-    int status;
-    bool in_recovery_set;
-    bool data_now_present;
-    bool data_needed;
-    double cost;
-    int min_failures;
-        // min # of host failures that would make this unrecoverable
+
     char name[64];
     char dir[1024];
+
+    // the following are determined during recovery_plan()
+    // and used during recovery_action()
+    //
+    int status;
+    bool in_recovery_set;
+        // if we need to reconstruct the parent, we'll use this unit
+    bool data_now_present;
+        // vdad: this unit was initially unrecoverable,
+        // but the parent has become present so new this unit is present
+    bool data_needed;
+        // we need to take action (e.g. start uploads)
+        // to make this unit present
+    double cost;
     bool keep_present;
+        // this unit is present and we need to keep it present
     bool need_present;
+        // delete this??
+    int min_failures;
+        // min # of host failures that would make this unrecoverable
 
     int delete_file();
+        // delete the file on server corresponding to this unit
 };
 
 struct META_CHUNK : DATA_UNIT {

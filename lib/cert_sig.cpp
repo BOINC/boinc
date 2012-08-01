@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "cert_sig.h"
+
 #if   defined(_WIN32) && !defined(__STDWX_H__)
 #include "boinc_win.h"
 #elif defined(_WIN32) && defined(__STDWX_H__)
@@ -28,13 +30,12 @@
 #endif
 #endif
 
+#include "miofile.h"
+#include "error_numbers.h"
+
 #ifdef _MSC_VER
 #define snprintf _snprintf
 #endif
-
-#include "miofile.h"
-#include "error_numbers.h"
-#include "cert_sig.h"
 
 CERT_SIG::CERT_SIG() {
     this->clear();

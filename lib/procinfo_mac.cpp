@@ -17,6 +17,8 @@
 
 #define SHOW_TIMING 0
 
+#include "procinfo.h"
+
 #include "config.h"
 #include <cstdio>
 
@@ -29,7 +31,6 @@
 #include "client_msgs.h"
 #endif
 
-#include "procinfo.h"
 #include "error_numbers.h"
 
 using std::vector;

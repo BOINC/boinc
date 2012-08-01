@@ -5112,3 +5112,9 @@ David  1 Aug 2012
         vdad.cpp
         sched_vda.cpp
         vda_lib2.cpp
+
+David  1 Aug 2012
+    - code cleanup: in foo.cpp, include foo.h first
+
+    lib/
+        *cpp

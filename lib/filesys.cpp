@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "filesys.h"
+
 #if   defined(_WIN32) && !defined(__STDWX_H__)
 #include "boinc_win.h"
 #elif defined(_WIN32) && defined(__STDWX_H__)
@@ -69,16 +71,14 @@
 #endif
 #endif
 
-#ifdef _WIN32
-typedef BOOL (CALLBACK* FreeFn)(LPCSTR, PULARGE_INTEGER, PULARGE_INTEGER, PULARGE_INTEGER);
-#endif
-
 #include "util.h"
 #include "str_util.h"
 #include "str_replace.h"
 #include "error_numbers.h"
-#include "filesys.h"
 
+#ifdef _WIN32
+typedef BOOL (CALLBACK* FreeFn)(LPCSTR, PULARGE_INTEGER, PULARGE_INTEGER, PULARGE_INTEGER);
+#endif
 
 using std::string;
 

@@ -18,6 +18,8 @@
 
 // process-enumeration stuff for Unix other than Mac OS X
 
+#include "procinfo.h"
+
 #include "config.h"
 
 #if HAVE_PROCFS_H
@@ -47,7 +49,6 @@
 #include <procfs.h>  // definitions for solaris /proc structs
 #endif
 
-#include "procinfo.h"
 #include "str_util.h"
 #include "str_replace.h"
 

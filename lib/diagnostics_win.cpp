@@ -18,6 +18,8 @@
 // Stuff related to catching SEH exceptions, monitoring threads, and trapping
 // debugger messages; used by both core client and by apps.
 
+#include "diagnostics_win.h"
+
 #if   defined(_WIN32) && !defined(__STDWX_H__)
 #include "boinc_win.h"
 #elif defined(_WIN32) && defined(__STDWX_H__)
@@ -34,12 +36,11 @@
 #include "stackwalker_win.h"
 #endif
 
-#include "version.h"
 #include "diagnostics.h"
-#include "diagnostics_win.h"
 #include "error_numbers.h"
 #include "str_util.h"
 #include "util.h"
+#include "version.h"
 
 // NtQuerySystemInformation
 typedef NTSTATUS (WINAPI *tNTQSI)(

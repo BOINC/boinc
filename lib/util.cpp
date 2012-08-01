@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "util.h"
+
 #if   defined(_WIN32) && !defined(__STDWX_H__)
 #include "boinc_win.h"
 #elif defined(_WIN32) && defined(__STDWX_H__)
@@ -53,20 +55,18 @@ extern "C" {
 #endif
 #endif
 
-#include "error_numbers.h"
-#include "common_defs.h"
-#include "filesys.h"
-#include "util.h"
-#include "base64.h"
-#include "mfile.h"
-#include "miofile.h"
-#include "parse.h"
-
-
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"
 #define perror FCGI::perror
 #endif
+
+#include "error_numbers.h"
+#include "common_defs.h"
+#include "filesys.h"
+#include "base64.h"
+#include "mfile.h"
+#include "miofile.h"
+#include "parse.h"
 
 using std::min;
 using std::string;

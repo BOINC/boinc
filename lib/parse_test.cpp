@@ -1,8 +1,8 @@
 // test program for XML parser
 
-#include <stdio.h>
-
 #include "parse.h"
+
+#include <stdio.h>
 
 void parse(FILE* f) {
     bool flag;

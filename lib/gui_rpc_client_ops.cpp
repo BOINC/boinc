@@ -41,6 +41,7 @@
 //   formatting failures for any software that has been localized or
 //   displays localized data.
 
+#include "gui_rpc_client.h"
 
 #if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
 #include "boinc_win.h"
@@ -70,7 +71,6 @@
 #include "md5_file.h"
 #include "network.h"
 #include "common_defs.h"
-#include "gui_rpc_client.h"
 
 using std::string;
 using std::vector;

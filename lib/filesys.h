@@ -18,11 +18,6 @@
 #ifndef _FILESYS_
 #define _FILESYS_
 
-#define FILE_RETRY_INTERVAL 5
-    // On Windows, retry for this period of time, since some other program
-    // (virus scan, defrag, index) may have the file open.
-
-
 #if defined(_WIN32) && !defined(__CYGWIN32__)
 #else
 #include <dirent.h>
@@ -33,6 +28,11 @@
 #ifdef __cplusplus
 #include <string>
 #endif
+
+#define FILE_RETRY_INTERVAL 5
+    // On Windows, retry for this period of time, since some other program
+    // (virus scan, defrag, index) may have the file open.
+
 
 #ifndef MAXPATHLEN
 #define MAXPATHLEN 1024

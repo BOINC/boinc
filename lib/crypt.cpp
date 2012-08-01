@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "crypt.h"
+
 #if   defined(_WIN32) && !defined(__STDWX_H__)
 #include "boinc_win.h"
 #elif defined(_WIN32) && defined(__STDWX_H__)
@@ -44,16 +46,14 @@
 #include <openssl/engine.h>
 #include <openssl/err.h>
 
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+#endif
+
 #include "md5_file.h"
 #include "cert_sig.h"
 #include "filesys.h"
 #include "error_numbers.h"
-
-#include "crypt.h"
-
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
 
 // NOTE: the fast CGI I/O library doesn't have fscanf(),
 // so some of the following have been modified to use

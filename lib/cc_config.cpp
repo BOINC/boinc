@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "cc_config.h"
+
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
@@ -31,8 +33,6 @@
 #include "parse.h"
 #include "str_util.h"
 #include "url.h"
-
-#include "cc_config.h"
 
 using std::string;
 

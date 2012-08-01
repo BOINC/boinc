@@ -17,6 +17,8 @@
 
 // platform-independent process-enumeration functions
 
+#include "procinfo.h"
+
 #if   defined(_WIN32) && !defined(__STDWX_H__)
 #include "boinc_win.h"
 #include "win_util.h"
@@ -30,8 +32,6 @@
 #include <string.h>
 #include <signal.h>
 #endif
-
-#include "procinfo.h"
 
 using std::vector;
 

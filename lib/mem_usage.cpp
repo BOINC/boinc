@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "mem_usage.h"
+
 #if   defined(_WIN32) && !defined(__STDWX_H__)
 #include "boinc_win.h"
 #elif defined(_WIN32) && defined(__STDWX_H__)
@@ -39,13 +41,12 @@
 #endif
 #endif
 
+#include "error_numbers.h"
+
 using std::FILE;
 using std::fread;
 using std::fopen;
 using std::fclose;
-
-#include "error_numbers.h"
-#include "mem_usage.h"
 
 int mem_usage(double& vm_usage, double& resident_set) {
 

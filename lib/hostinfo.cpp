@@ -18,6 +18,8 @@
 // Write and parse HOST_INFO structures.
 // Used by client and GUI
 
+#include "hostinfo.h"
+
 #if   defined(_WIN32) && !defined(__STDWX_H__)
 #include "boinc_win.h"
 #elif defined(_WIN32) && defined(__STDWX_H__)
@@ -31,12 +33,10 @@
 #endif
 #endif
 
-#include "util.h"
-#include "parse.h"
-#include "md5_file.h"
 #include "error_numbers.h"
-
-#include "hostinfo.h"
+#include "md5_file.h"
+#include "parse.h"
+#include "util.h"
 
 HOST_INFO::HOST_INFO() {
     clear_host_info();

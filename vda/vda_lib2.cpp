@@ -467,7 +467,8 @@ int VDA_FILE_AUX::choose_host() {
 
             // debugging
             //
-            strcpy(buf, "where id=467 or id=166");
+            strcpy(buf, "where id=467");
+            //strcpy(buf, "where id=467 or id=166");
 
             while (1) {
                 retval = host.enumerate(buf);

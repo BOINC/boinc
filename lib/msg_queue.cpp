@@ -17,6 +17,8 @@
 
 // interfaces for accessing message queues
 
+#include "msg_queue.h"
+
 #include "config.h"
 #include <cstdio>
 #include <cstring>
@@ -26,8 +28,6 @@
 #endif
 
 using std::perror;
-
-#include "msg_queue.h"
 
 int create_message_queue(key_t key) {
     int mq_id;

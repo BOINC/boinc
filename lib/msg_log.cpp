@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "msg_log.h"
+
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
@@ -23,13 +25,12 @@
 #include <string>
 #endif
 
-#include "str_util.h"
-#include "util.h"
-#include "msg_log.h"
-
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"
 #endif
+
+#include "str_util.h"
+#include "util.h"
 
 using std::string;
 

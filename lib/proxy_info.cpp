@@ -15,17 +15,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
-#include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
-#else
-#include "config.h"
-#endif
-
-#include "parse.h"
-#include "error_numbers.h"
 #include "proxy_info.h"
+
+#include "error_numbers.h"
+#include "parse.h"
 
 int PROXY_INFO::parse(XML_PARSER& xp) {
     memset(this, 0, sizeof(PROXY_INFO));

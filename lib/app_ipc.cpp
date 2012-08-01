@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "app_ipc.h"
+
 #if   defined(_WIN32) && !defined(__STDWX_H__)
 #include "boinc_win.h"
 #elif defined(_WIN32) && defined(__STDWX_H__)
@@ -25,10 +27,6 @@
 #include <string>
 #endif
 
-#ifdef _MSC_VER
-#define strdup _strdup
-#endif
-
 #include "error_numbers.h"
 #include "filesys.h"
 #include "miofile.h"
@@ -37,7 +35,9 @@
 #include "str_util.h"
 #include "url.h"
 
-#include "app_ipc.h"
+#ifdef _MSC_VER
+#define strdup _strdup
+#endif
 
 using std::string;
 
