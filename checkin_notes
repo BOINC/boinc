@@ -5162,3 +5162,14 @@ Charlie 1 Aug 2012
             project.pbxproj
     mac_installer/
         release_boinc.sh
+
+Charlie 2 Aug 2012
+    - Mac: Update scripts for building branded installers to allow 
+        building with Xcode 4.3 under OS 10.7.x Lion; change names of 
+        branded installers from "*macOSX_universal" to "*macOSX_i686" 
+        since we no longer support PowerPC Macs.
+        
+    mac_installer/
+        make_CharityEngine.sh
+        make_GridRepublic.sh
+        make_ProgThruProc.sh
