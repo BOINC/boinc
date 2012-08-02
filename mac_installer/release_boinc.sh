@@ -29,7 +29,7 @@
 ## updated 12/2/11 by Charlie Fenton to restore wrapper and reboot if needed
 ## updated 1/6/12 by Charlie Fenton to also install VirtualBox
 ## updated 6/22/12 by Charlie Fenton to code sign the installer and uninstaller
-## updated 7/5/12 by Charlie Fenton to avoid using PackageMaker
+## updated 7/31/12 by Charlie Fenton for Liberation font in boincscr 
 ##
 ## NOTE: This script requires Mac OS 10.6 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac 
@@ -173,7 +173,7 @@ cd "${BOINCPath}"
 cp -fp curl/ca-bundle.crt ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/
 
 cp -fp doc/logo/boinc_logo_black.jpg ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/
-cp -fp api/txf/Helvetica.txf ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/
+cp -fp api/ttf/liberation-fonts-ttf-2.00.0/LiberationSans-Regular.ttf ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/LiberationSans-Regular.ttf
 cp -fp clientscr/ss_config.xml ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/
 cp -fpR $BUILDPATH/boincscr ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/
 

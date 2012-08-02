@@ -5084,8 +5084,8 @@ Charlie 27 July 2012
         libraries; eliminate extra output from wxMac build script.
     
      mac_build/
-        buildfreetype.sh
-        buildFTGL.sh
+        buildfreetype.sh (new)
+        buildFTGL.sh (new)
         buildWxMac.sh
         setupforBOINC.sh
 
@@ -5129,3 +5129,25 @@ David  1 Aug 2012
         feeder.cpp
     vda/
         ssim.cpp
+
+Charlie 1 Aug 2012
+    - API, SCR: Switch from *.txf fonts to TrueType fonts in graphics 
+        applications, ensuring that all related files have no licensing 
+        issues.
+        
+    /
+        COPYRIGHT
+    api/
+        gutil/cpp,.h
+        ttfont.cpp,.h
+        texfont.cpp,.h (deleted)
+        txf_util.cpp,.h (deleted)
+        txf/
+            *.txf (deleted)
+    clientscr/
+        ss_app.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+    mac_installer/
+        release_boinc.sh

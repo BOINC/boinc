@@ -219,7 +219,6 @@ struct TEXTURE_DESC {
     int CreateTextureBMP(const char* strFileName);
     int CreateTexturePPM(const char* strFileName);
     int CreateTextureTGA(const char* strFileName);
-	int CreateTextureRGB(const char* strFileName);
 };
 
 
