@@ -5145,12 +5145,15 @@ Charlie 1 Aug 2012
         txf/
             *.txf (deleted)
         ttf/
-            liberation-fonts-ttf-2.00.0/
-                AUTHORS
-                CHANGELOG
-                LICENSE
-                README
-                *.ttf
+            courier_bold (deleted)
+            helvetica (deleted)
+            README (deleted)
+            liberation-fonts-ttf-2.00.0/ (added)
+                AUTHORS (added)
+                CHANGELOG (added)
+                LICENSE (added)
+                README (added)
+                *.ttf (added)
     clientscr/
         ss_app.cpp
     mac_build/
