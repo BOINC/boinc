@@ -29,14 +29,12 @@
 
 #ifdef _WIN32
 
-#ifndef SANS_JPEGLIB
 #ifdef __cplusplus
 extern "C" {
 #include "jpeglib.h"
 }
 #else
 #include "jpeglib.h"
-#endif
 #endif
 
 #include "bmplib.h"
@@ -54,11 +52,9 @@ extern "C" {
 #include <alloca.h>
 #endif
 
-#ifndef SANS_JPEGLIB
 extern "C"{
 #include <jpeglib.h>
 }
-#endif
 
 #endif
 
@@ -655,7 +651,6 @@ void printdata(const char* filename, int x, int y, unsigned char* data) {
 }
 #endif
 
-#ifndef SANS_JPEGLIB
 void DecodeJPG(jpeg_decompress_struct* cinfo, tImageJPG *pImageData) {
 	jpeg_read_header(cinfo, TRUE);
 	jpeg_start_decompress(cinfo);
@@ -753,7 +748,6 @@ int TEXTURE_DESC::CreateTextureJPG(const char* strFileName) {
 	}
 	return 0;
 }
-#endif
 
 #ifdef _WIN32
 int TEXTURE_DESC::CreateTextureBMP(const char* strFileName) {
@@ -796,25 +790,6 @@ int TEXTURE_DESC::CreateTexturePPM(const char* strFileName) {
 	return 0;
 }
 
-
-int TEXTURE_DESC::CreateTextureRGB(const char* strFileName) {
-	if(!strFileName) return -1;
-	int sizeX;
-	int sizeY;
-	int sizeZ;
-	// Load the image and store the data
-	unsigned int *pImage = read_rgb_texture(strFileName,&sizeX,&sizeY,&sizeZ);
-	if(pImage == NULL) return -1;
-	glPixelStorei(GL_UNPACK_ALIGNMENT,1);
-	glGenTextures(1, (GLuint*)&id);
-	glBindTexture(GL_TEXTURE_2D, id);
-	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, sizeX, sizeY, GL_RGBA, GL_UNSIGNED_BYTE, pImage);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);
-    if (pImage)
-		free(pImage);
-	return 0;
-}
 
 #ifdef _WIN32
 int TEXTURE_DESC::CreateTextureTGA(const char* strFileName) {
@@ -860,13 +835,11 @@ int TEXTURE_DESC::load_image_file(const char* filename) {
     // for now, just try all the image types in turn
 
     present = true;
-#ifndef SANS_JPEGLIB
 	retval = CreateTextureJPG(filename);
     if (!retval) {
         fprintf(stderr, "Successfully loaded '%s'.\n", filename);
         return 0;
     }
-#endif
 #ifdef _WIN32
     retval = CreateTexturePPM(filename);
     if (!retval) {
@@ -884,12 +857,6 @@ int TEXTURE_DESC::load_image_file(const char* filename) {
         return 0;
     }
 #endif
-	retval = CreateTextureRGB(filename);
-    if (!retval) {
-        fprintf(stderr, "Successfully loaded '%s'.\n", filename);
-        return 0;
-    }
-
 done:
     present = false;
     fprintf(stderr, "Failed to load '%s'.\n", filename);

@@ -4103,3 +4103,36 @@ Rom    1 Aug 2012
     /
         configure.ac
         version.h
+
+Charlie 1 Aug 2012
+    - API, SCR: Switch from *.txf fonts to TrueType fonts in graphics 
+        applications, ensuring that all related files have no licensing 
+        issues.
+        
+    /
+        COPYRIGHT
+    api/
+        gutil/cpp,.h
+        ttfont.cpp,.h
+        texfont.cpp,.h (deleted)
+        texture.cpp,.h (deleted)
+        txf_util.cpp,.h (deleted)
+        txf/
+            *.txf (deleted)
+        ttf/
+            courier_bold (deleted)
+            helvetica (deleted)
+            README (deleted)
+            liberation-fonts-ttf-2.00.0/ (added)
+                AUTHORS (added)
+                CHANGELOG (added)
+                LICENSE (added)
+                README (added)
+                *.ttf (added)
+    clientscr/
+        ss_app.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+    mac_installer/
+        release_boinc.sh

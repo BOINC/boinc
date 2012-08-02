@@ -32,10 +32,11 @@
 #endif
 
 #include "diagnostics.h"
+#include "ttfont.h"
 #include "gutil.h"
 #include "boinc_gl.h"
 #include "graphics2.h"
-#include "txf_util.h"
+//#include "txf_util.h"
 #include "network.h"
 #include "gui_rpc_client.h"
 #include "util.h"
@@ -44,17 +45,19 @@
 
 using std::string;
 using std::vector;
+using TTFont::ttf_render_string;
+using TTFont::ttf_load_fonts;
 
 // text sizes - larger is smaller (???)
-#define TASK_INTRO_SIZE     1000.
-#define TASK_NONE_SIZE      500.
+#define TASK_INTRO_SIZE     1200.
+#define TASK_NONE_SIZE      600.
 #define TASK_NONE_REASON_SIZE    800.
-#define TASK_PROJ_SIZE      1000.
-#define TASK_INFO_SIZE      1200.
-#define PROJ_INTRO_SIZE     800.
-#define PROJ_NAME_SIZE      500.
-#define PROJ_INFO_SIZE      800.
-#define ALERT_SIZE          800.
+#define TASK_PROJ_SIZE      1200.
+#define TASK_INFO_SIZE      1350.
+#define PROJ_INTRO_SIZE     900.
+#define PROJ_NAME_SIZE      600.
+#define PROJ_INFO_SIZE      900.
+#define ALERT_SIZE          900.
 
 float white[4] = {1., 1., 1., 1.};
 TEXTURE_DESC logo;
@@ -180,7 +183,7 @@ static void draw_logo(float* pos, float alpha) {
 void show_result(RESULT* r, float x, float& y, float alpha) {
     PROGRESS_2D progress;
     char buf[256];
-    txf_render_string(.1, x, y, 0, TASK_PROJ_SIZE, white, 0, (char*)r->project->project_name.c_str());
+    ttf_render_string(x, y, 0, TASK_PROJ_SIZE, white, (char*)r->project->project_name.c_str());
     y -= .02;
     float prog_pos[] = {x, y, 0};
     float prog_c[] = {.5, .4, .1, alpha/2};
@@ -188,14 +191,14 @@ void show_result(RESULT* r, float x, float& y, float alpha) {
     progress.init(prog_pos, .4, -.01, -0.008, prog_c, prog_ci);
     progress.draw(r->fraction_done);
     sprintf(buf, "%.2f%% ", r->fraction_done*100);
-    txf_render_string(.1, x+.41, y, 0, TASK_INFO_SIZE, white, 0, buf);
+    ttf_render_string(x+.41, y, 0, TASK_INFO_SIZE, white, buf);
     y -= .03;
     x += .05;
     sprintf(buf, "Elapsed: %.0f sec  Remaining: %.0f sec", r->elapsed_time, r->estimated_cpu_time_remaining);
-    txf_render_string(.1, x, y, 0, TASK_INFO_SIZE, white, 0, buf);
+    ttf_render_string(x, y, 0, TASK_INFO_SIZE, white, buf);
     y -= .03;
     sprintf(buf, "App: %s  Task: %s", r->app->user_friendly_name, r->wup->name);
-    txf_render_string(.1, x, y, 0, TASK_INFO_SIZE, white, 0, buf);
+    ttf_render_string(x, y, 0, TASK_INFO_SIZE, white, buf);
     y -= .03;
 }
 
@@ -206,12 +209,12 @@ void show_coords() {
     for (i=-100; i< 101; i+=5) {
         sprintf(buf, "%d", i);
         float x = (float)i/100;
-        txf_render_string(.1, x, 0, 0, 1000., white, 0, buf);
+        ttf_render_string(x, 0, 0, 1000., white, buf);
     }
     for (i=-100; i< 101; i+=5) {
         sprintf(buf, "%d", i);
         float y = (float)i/100;
-        txf_render_string(.1, 0, y, 0, 1000., white, 0, buf);
+        ttf_render_string(0, y, 0, 1000., white, buf);
     }
 }
 #endif
@@ -219,26 +222,26 @@ void show_coords() {
 void show_project(unsigned int index, float alpha) {
     float x=.2, y=.6;
     char buf[1024];
-    txf_render_string(.1, x, y, 0, PROJ_INTRO_SIZE, white, 0, "This computer is participating in");
+    ttf_render_string(x, y, 0, PROJ_INTRO_SIZE, white, "This computer is participating in");
     y -= .07;
     PROJECT *p = cc_state.projects[index];
-    txf_render_string(.1, x, y, 0, PROJ_NAME_SIZE, white, 0, (char*)p->project_name.c_str());
+    ttf_render_string(x, y, 0, PROJ_NAME_SIZE, white, (char*)p->project_name.c_str());
     y -= .07;
-    txf_render_string(.1, x, y, 0, PROJ_INFO_SIZE, white, 0, p->master_url);
+    ttf_render_string(x, y, 0, PROJ_INFO_SIZE, white, p->master_url);
     y -= .05;
     sprintf(buf, "User: %s", p->user_name.c_str());
-    txf_render_string(.1, x, y, 0, PROJ_INFO_SIZE, white, 0, buf);
+    ttf_render_string(x, y, 0, PROJ_INFO_SIZE, white, buf);
     y -= .05;
     if (p->team_name.size()) {
         sprintf(buf, "Team: %s",  p->team_name.c_str());
-        txf_render_string(.1, x, y, 0, PROJ_INFO_SIZE, white, 0, buf);
+        ttf_render_string(x, y, 0, PROJ_INFO_SIZE, white, buf);
         y -= .05;
     }
     sprintf(buf, "Total credit: %.0f   Average credit: %.0f", p->user_total_credit, p->user_expavg_credit);
-    txf_render_string(.1, x, y, 0, PROJ_INFO_SIZE, white, 0, buf);
+    ttf_render_string(x, y, 0, PROJ_INFO_SIZE, white, buf);
     y -= .05;
     if (p->suspended_via_gui) {
-        txf_render_string(.1, x, y, 0, PROJ_INFO_SIZE, white, 0, "Suspended");
+        ttf_render_string(x, y, 0, PROJ_INFO_SIZE, white, "Suspended");
     }
 }
 
@@ -246,17 +249,17 @@ void show_disconnected() {
     float x=.3, y=.3;
     char buf[256];
     sprintf(buf, "%s is not running.", brand_name);
-    txf_render_string(.1, x, y, 0, ALERT_SIZE, white, 0, buf);
+    ttf_render_string(x, y, 0, ALERT_SIZE, white, buf);
 }
 
 void show_no_projects() {
     float x=.2, y=.3;
     char buf[256];
     sprintf(buf, "%s is not attached to any projects.", brand_name);
-    txf_render_string(.1, x, y, 0, ALERT_SIZE, white, 0, buf);
+    ttf_render_string(x, y, 0, ALERT_SIZE, white, buf);
     y = .25;
     sprintf(buf, "Attach to projects using %s.", brand_name);
-    txf_render_string(.1, x, y, 0, ALERT_SIZE, white, 0, buf);
+    ttf_render_string(x, y, 0, ALERT_SIZE, white, buf);
 }
 
 #define MAX_JOBS_DISPLAY   4
@@ -277,7 +280,7 @@ void show_jobs(unsigned int index, double alpha) {
             if (!r->active_task) continue;
             if (r->scheduler_state != CPU_SCHED_SCHEDULED) continue;
             if (!nfound) {
-                txf_render_string(.1, x, y, 0, TASK_INTRO_SIZE, white, 0, "Running tasks:");
+                ttf_render_string(x, y, 0, TASK_INTRO_SIZE, white, "Running tasks:");
                 y -= .05;
             }
             show_result(r, x, y, alpha);
@@ -288,7 +291,7 @@ void show_jobs(unsigned int index, double alpha) {
     }
     if (!nfound) {
         y = .5;
-        txf_render_string(.1, x, y, 0, TASK_NONE_SIZE, white, 0, "No running tasks");
+        ttf_render_string(x, y, 0, TASK_NONE_SIZE, white, "No running tasks");
         char *p = 0;
         switch (cc_status.task_suspend_reason) {
         case SUSPEND_REASON_BATTERIES:
@@ -318,7 +321,7 @@ void show_jobs(unsigned int index, double alpha) {
         }
         if (p) {
             y -= .1;
-            txf_render_string(.1, x, y, 0, TASK_NONE_REASON_SIZE, white, 0, p);
+            ttf_render_string(x, y, 0, TASK_NONE_REASON_SIZE, white, p);
         }
     }
 }
@@ -462,7 +465,7 @@ void boinc_app_key_release(int, int){}
 
 void app_graphics_init() {
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    txf_load_fonts(".");
+    ttf_load_fonts(".");
 #ifdef _WCG
     logo.load_image_file("wcg.bmp");
 #else
