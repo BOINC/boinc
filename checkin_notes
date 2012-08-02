@@ -7382,3 +7382,13 @@ Charlie 1 Aug 2012
     /
         configure.ac
         version.h
+
+Charlie 1 Aug 2012
+    - Mac: change names of branded installers from "*macOSX_universal" 
+        to "*macOSX_i686" since we no longer support PowerPC Macs.
+        (checked in to 6.8.43 tag.)
+        
+    mac_installer/
+        make_CharityEngine.sh
+        make_GridRepublic.sh
+        make_ProgThruProc.sh
