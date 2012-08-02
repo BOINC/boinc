@@ -5144,6 +5144,11 @@ Charlie 1 Aug 2012
         txf_util.cpp,.h (deleted)
         txf/
             *.txf (deleted)
+        ttf/
+            liberation-fonts-ttf-2.00.0/
+                LICENSE
+                README
+                *.ttf
     clientscr/
         ss_app.cpp
     mac_build/
