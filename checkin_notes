@@ -5141,6 +5141,7 @@ Charlie 1 Aug 2012
         gutil/cpp,.h
         ttfont.cpp,.h
         texfont.cpp,.h (deleted)
+        texture.cpp,.h (deleted)
         txf_util.cpp,.h (deleted)
         txf/
             *.txf (deleted)
