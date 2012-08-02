@@ -753,11 +753,23 @@ BEST_APP_VERSION* get_app_version(
             // pick the fastest version.
             // Throw in a random factor in case the estimates are off.
             //
+	    DB_HOST_APP_VERSION* havp = gavid_to_havp(av.id);
             double r = 1;
+	    long n=1;
+            if (havp) {
+                n=std::max((long)havp->pfc.n,(long)n);
+            } 
             if (config.version_select_random_factor) {
-                r += config.version_select_random_factor*rand_normal();
+                r += config.version_select_random_factor*rand_normal()/n;
             }
             if (r*host_usage.projected_flops > bavp->host_usage.projected_flops) {
+                if (config.debug_version_select && (host_usage.projected_flops <= bavp->host_usage.projected_flops)) {
+                      log_messages.printf(MSG_NORMAL,
+                          "[version] [AV#%d] Random factor wins.  r=%f n=%d\n",
+                          av.id, r, n
+                    );
+                }
+                host_usage.projected_flops*=r;
                 bavp->host_usage = host_usage;
                 bavp->avp = &av;
                 bavp->reliable = app_version_is_reliable(av.id);
