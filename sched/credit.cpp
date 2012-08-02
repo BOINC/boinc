@@ -727,6 +727,27 @@ double low_average(vector<double>& v) {
     return total/((n-1)*sum);
 }
 
+// compute the average of some numbers,
+// where each value is weighted by the proximity to a prefered
+// value.  In our case the preferred value will be the average
+// of previous values
+// (reduces the weight of large and small outliers)
+//
+double pegged_average(vector<double>& v, double anchor) {
+    int n=v.size();
+    double weights=0,sum=0,w;
+    int i;
+    if (n==1) { 
+        return v[0];
+    }
+    for (i=0;i<n;i++) {
+        w=(1.0/(0.1*anchor+fabs(anchor-v[i])));
+        weights+=w;
+        sum+=w*v[i];
+    }
+    return sum/weights;
+}
+
 double vec_min(vector<double>& v) {
     double x = v[0];
     for (unsigned int i=1; i<v.size(); i++) {
@@ -802,13 +823,13 @@ int assign_credit_set(
 
     // averaging policy: if there is least one normal result,
     // use the "low average" of normal results.
-    // Otherwise use the min of all results
+    // Otherwise use the "pegged_average" of all results
     //
     double x;
     if (normal.size()) {
         x = low_average(normal);
     } else if (approx.size()) {
-        x = vec_min(approx);
+        x = pegged_average(approx,wu_estimated_pfc(wu, app));
     } else {
         x = 0;
     }
