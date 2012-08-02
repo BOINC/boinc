@@ -14,6 +14,9 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+#include "hr_info.h"
+
 #ifndef _USING_FCGI_
 #include <cstdio>
 #else
@@ -26,8 +29,6 @@
 
 #include "error_numbers.h"
 #include "sched_msgs.h"
-
-#include "hr_info.h"
 
 int HR_INFO::write_file() {
     int i, j;

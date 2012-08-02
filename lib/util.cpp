@@ -15,6 +15,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+#endif
+
 #include "util.h"
 
 #if   defined(_WIN32) && !defined(__STDWX_H__)
@@ -53,11 +57,6 @@ extern "C" {
     int finite(double);
 }
 #endif
-#endif
-
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#define perror FCGI::perror
 #endif
 
 #include "error_numbers.h"
@@ -439,7 +438,11 @@ int run_program(
             if (retval) return retval;
         }
         execv(file, argv);
+#ifdef _USING_FCGI_
+        FCGI::perror("execv");
+#else
         perror("execv");
+#endif
         exit(errno);
     }
 

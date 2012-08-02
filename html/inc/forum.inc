@@ -318,7 +318,7 @@ function show_posts(
     $thread, $forum, $start, $postid, $sort_style, $filter, $logged_in_user
 ) {
     $n = 1;
-    
+
     $num_to_show = 20;
     if ($logged_in_user && $logged_in_user->prefs->display_wrap_postcount > 0) {
         $num_to_show = $logged_in_user->prefs->display_wrap_postcount;

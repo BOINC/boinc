@@ -5173,3 +5173,14 @@ Charlie 2 Aug 2012
         make_CharityEngine.sh
         make_GridRepublic.sh
         make_ProgThruProc.sh
+
+David  2 Aug 2012
+    - scheduler: compile fixes for FCGI
+
+    sched/
+        hr_info.cpp
+    html/inc/
+        forum.inc
+    lib/
+        util.cpp
+        filesys.cpp

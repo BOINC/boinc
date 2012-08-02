@@ -15,8 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "filesys.h"
-
 #if   defined(_WIN32) && !defined(__STDWX_H__)
 #include "boinc_win.h"
 #elif defined(_WIN32) && defined(__STDWX_H__)
@@ -63,7 +61,7 @@
 #if HAVE_SYS_STATVFS_H
 #include <sys/statvfs.h>
 #define STATFS statvfs
-#elif defined(HAVE_SYS_STATFS_H)
+#elif HAVE_SYS_STATFS_H
 #include <sys/statfs.h>
 #define STATFS statfs
 #else
@@ -75,6 +73,7 @@
 #include "str_util.h"
 #include "str_replace.h"
 #include "error_numbers.h"
+#include "filesys.h"
 
 #ifdef _WIN32
 typedef BOOL (CALLBACK* FreeFn)(LPCSTR, PULARGE_INTEGER, PULARGE_INTEGER, PULARGE_INTEGER);
