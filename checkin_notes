@@ -5146,6 +5146,8 @@ Charlie 1 Aug 2012
             *.txf (deleted)
         ttf/
             liberation-fonts-ttf-2.00.0/
+                AUTHORS
+                CHANGELOG
                 LICENSE
                 README
                 *.ttf
