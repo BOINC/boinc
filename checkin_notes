@@ -5229,3 +5229,12 @@ David  3 Aug 2012
         stats.cpp
         ssim.cpp
         vdad.cpp
+
+Rom    3 Aug 2012
+    - WIN: Make the example graphics application build again.
+    - WIN: Get rid of the linker warnings for both the default screensaver and
+        the example graphics application
+
+    win_build/
+        boinc_ss.vcproj
+        uc2_graphics.vcproj
