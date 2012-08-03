@@ -160,7 +160,7 @@ curl-7.26.0:\
 \f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://www.freetype.org/"}}{\fldrslt 
 \f4\fs22 \cf3 \CocoaLigature0 http://www.freetype.org/}}
 \f4\fs22 \cf3 \CocoaLigature0 \
-	{\field{\*\fldinst{HYPERLINK "http://sourceforge.net/projects/freetype/files/freetype2/2.4.10/freetype-2.4.10.tar.bz2"}}{\fldrslt \cf3 http://sourceforge.net/projects/freetype/files/freetype2/2.4.10/freetype-2.4.10.tar.bz2}}
+	{\field{\*\fldinst{HYPERLINK "http://sourceforge.net/projects/freetype/files/freetype2/2.4.10/freetype-2.4.10.tar.bz2"}}{\fldrslt http://sourceforge.net/projects/freetype/files/freetype2/2.4.10/freetype-2.4.10.tar.bz2}}
 \f0\fs24 \cf0 \CocoaLigature1 \
 \
 ftgl-2.1.3~rc5 (needed  only if you are building the BOINC default screensaver or a project screensaver):\
@@ -184,7 +184,7 @@ MAC_OS_X_VERSION_MIN_REQUIRED=1040\
 
 \f0\fs24 \cf0 \
 \pard\pardeftab720\sa260
-\cf0 These are not done automatically by either the Xcode projects which come with wxMac-2.8.10, nor  the AutoMake scripts supplied with wxMac-2.8.10, c-ares-1.9.1, curl-7.26.0 and openssl-1.0.1c.  So be sure to use our special scripts to build these packages.\
+\cf0 These are not done automatically by either the Xcode projects which come with wxMac-2.8.10, nor  the AutoMake scripts supplied with wxMac-2.8.10, c-ares-1.9.1, curl-7.26.0, openssl-1.0.1c, freetype-2.4.10 and ftgl-2.1.3~rc5.  So be sure to use our special scripts to build these packages.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 \cf0 [1] Create a parent directory within which to work.  In this description , we will call it BOINC_dev, but you can name it anything you wish.\
 \
@@ -204,7 +204,7 @@ MAC_OS_X_VERSION_MIN_REQUIRED=1040\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 
 \f0\fs24 \cf0 \
-Important: do not change the names of any of these 4 directories.\
+Important: do not change the names of any of these 6 directories.\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 
@@ -237,7 +237,7 @@ The command above retrieves the source code from the HEAD (TRUNK) or development
 {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/SourceCode"}}{\fldrslt 
 \f1\fs26 \cf0 http://boinc.berkeley.edu/trac/wiki/SourceCode}}\
 \
-[4] Run the script to build the c-ares, curl, openssl, wxMac freetype and ftgl libraries as follows:\
+[4] Run the script to build the c-ares, curl, openssl, wxMac, freetype and ftgl libraries as follows:\
 \
 \pard\pardeftab720
 
@@ -258,7 +258,7 @@ If you don't wish to force a full rebuild of everything, omit the -clean argumen
 \f0\fs24  command to run them.\
 
 \b Note 2:
-\b0  this script builds tries to build all six third-party libraries: wxMac-2.8.10, c-ares-1.9.1, curl-7.26.0, openssl-1.0.1c,  freetype-2.4.10 and ftgl-2.1.3~rc5.  when the script finishes, it will display a warning about any libraries was unable to build (for example, if the files are not present.)\
+\b0  this script tries to build all six third-party libraries: wxMac-2.8.10, c-ares-1.9.1, curl-7.26.0, openssl-1.0.1c,  freetype-2.4.10 and ftgl-2.1.3~rc5.  when the script finishes, it will display a warning about any libraries was unable to build (for example, if you have not downloaded them.)\
 \
 [5] Build BOINC as follows:\
 \
