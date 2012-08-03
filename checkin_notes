@@ -5238,3 +5238,14 @@ Rom    3 Aug 2012
     win_build/
         boinc_ss.vcproj
         uc2_graphics.vcproj
+
+David  3 Aug 2012
+    - API: remove support for BMP and TGA image files;
+        the code to parse these had no license info.
+        Only JPEG is supported now.
+
+    api/
+        Makefile.am
+        bmplib.cpp,h (removed)
+        tgalib.cpp,h
+        gutil.cpp

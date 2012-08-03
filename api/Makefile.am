@@ -16,9 +16,7 @@ graphics2_files = \
     gutil.cpp \
     gutil_text.cpp \
     reduce_lib.cpp \
-    texfont.cpp \
-    texture.cpp \
-    txf_util.cpp \
+	ttfont.cpp \
     graphics2.cpp \
     graphics2_unix.cpp
 
