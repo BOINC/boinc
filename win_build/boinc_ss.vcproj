@@ -53,8 +53,8 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include"
-				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_CONSOLE"
+				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;../../boinc_depends_win_vs2005/freetype/include;../../boinc_depends_win_vs2005/ftgl/include"
+				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_CONSOLE;_CRT_SECURE_NO_WARNINGS"
 				StringPooling="false"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -83,10 +83,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib odbc32.lib odbccp32.lib wsock32.lib libcmt.lib libcpmt.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib odbc32.lib odbccp32.lib wsock32.lib libcmt.lib libcpmt.lib freetype2410MT.lib ftgl_static.lib "
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boincscr.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="&quot;../../boinc_depends_win_vs2005/freetype/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../../boinc_depends_win_vs2005/ftgl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;"
 				IgnoreAllDefaultLibraries="true"
 				DelayLoadDLLs="GDI32.DLL;OPENGL32.DLL;GLU32.DLL"
 				GenerateDebugInformation="true"
@@ -155,8 +156,8 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include"
-				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_CONSOLE"
+				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;../../boinc_depends_win_vs2005/freetype/include;../../boinc_depends_win_vs2005/ftgl/include"
+				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_CONSOLE;_CRT_SECURE_NO_WARNINGS"
 				StringPooling="false"
 				ExceptionHandling="1"
 				RuntimeLibrary="0"
@@ -186,10 +187,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib odbc32.lib odbccp32.lib wsock32.lib libcmt.lib libcpmt.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib odbc32.lib odbccp32.lib wsock32.lib libcmt.lib libcpmt.lib freetype2410MT.lib ftgl_static.lib "
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boincscr.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="&quot;../../boinc_depends_win_vs2005/freetype/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../../boinc_depends_win_vs2005/ftgl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;"
 				IgnoreAllDefaultLibraries="true"
 				DelayLoadDLLs="GDI32.DLL;OPENGL32.DLL;GLU32.DLL"
 				GenerateDebugInformation="true"
@@ -256,8 +258,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_CONSOLE"
+				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;../../boinc_depends_win_vs2005/freetype/include;../../boinc_depends_win_vs2005/ftgl/include"
+				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_CONSOLE;_CRT_SECURE_NO_WARNINGS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
@@ -285,10 +287,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib opengl32.lib glu32.lib ole32.lib delayimp.lib wsock32.lib wininet.lib"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib opengl32.lib glu32.lib ole32.lib delayimp.lib wsock32.lib advapi32.lib freetype2410MT_D.lib ftgl_static_D.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boincscr.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="&quot;../../boinc_depends_win_vs2005/freetype/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../../boinc_depends_win_vs2005/ftgl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;"
 				IgnoreAllDefaultLibraries="true"
 				DelayLoadDLLs="GDI32.DLL;OPENGL32.DLL;GLU32.DLL"
 				GenerateDebugInformation="true"
@@ -355,8 +358,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_CONSOLE"
+				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;../../boinc_depends_win_vs2005/freetype/include;../../boinc_depends_win_vs2005/ftgl/include"
+				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_CONSOLE;_CRT_SECURE_NO_WARNINGS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
@@ -384,10 +387,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib opengl32.lib glu32.lib ole32.lib delayimp.lib wsock32.lib advapi32.lib $(NOINHERIT)"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib opengl32.lib glu32.lib ole32.lib delayimp.lib wsock32.lib advapi32.lib freetype2410MT_D.lib ftgl_static_D.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boincscr.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="&quot;../../boinc_depends_win_vs2005/freetype/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../../boinc_depends_win_vs2005/ftgl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;"
 				IgnoreAllDefaultLibraries="true"
 				DelayLoadDLLs="GDI32.DLL;OPENGL32.DLL;GLU32.DLL"
 				GenerateDebugInformation="true"
@@ -448,6 +452,10 @@
 				RelativePath="..\clientscr\ss_app.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\api\ttfont.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
@@ -468,6 +476,10 @@
 			</File>
 			<File
 				RelativePath="..\clientscr\ss_app.h"
+				>
+			</File>
+			<File
+				RelativePath="..\api\ttfont.h"
 				>
 			</File>
 		</Filter>

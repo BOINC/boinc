@@ -5184,3 +5184,14 @@ David  2 Aug 2012
     lib/
         util.cpp
         filesys.cpp
+
+Rom    2 Aug 2012
+    - SS: Update project files to use FreeType and FTGL on Windows.
+
+    api/
+        ttfont.cpp, .h
+    clientscr/
+        ss_app.cpp
+    win_build/
+        boinc_ss.vcproj
+        libgraphics2.vcproj

@@ -31,12 +31,12 @@
 #include <sys/socket.h>
 #endif
 
+#include "boinc_gl.h"
+
 #include "diagnostics.h"
 #include "ttfont.h"
 #include "gutil.h"
-#include "boinc_gl.h"
 #include "graphics2.h"
-//#include "txf_util.h"
 #include "network.h"
 #include "gui_rpc_client.h"
 #include "util.h"
