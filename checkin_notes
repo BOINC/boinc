@@ -4843,7 +4843,7 @@ Charlie 11 July 2012
             MakeMacExample.sh
             Makefile_mac
             Makefile_mac2
-            uc_graphics.cpp
+            uc2_graphics.cpp
         mac_build/
             UpperCase2.xcodeproj/
                 project.pbxproj
@@ -5195,3 +5195,15 @@ Rom    2 Aug 2012
     win_build/
         boinc_ss.vcproj
         libgraphics2.vcproj
+
+Charlie 3 Aug 2012
+    - Sample Graphics app: Switch from *.txf fonts to TrueType fonts.
+    samples/
+        example_app/
+            MakeMacExample.sh
+            Makefile_mac
+            Makefile_mac2
+            uc2_graphics.cpp
+        mac_build/
+            UpperCase2.xcodeproj/
+                project.pbxproj
