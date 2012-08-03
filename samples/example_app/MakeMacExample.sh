@@ -32,6 +32,9 @@
 ## complete the Xcode installation before running this script.
 #
 ## First, build the BOINC libraries using boinc/mac_build/BuildMacBOINC.sh
+## This file assumes the locations of the needed libraries are those 
+## resulting from following the instructions found in the file:
+##     boinc/mac_build/HowToBuildBOINC_XCode.rtf
 ##
 ## In Terminal, CD to the example_app directory.
 ##     cd [path]/example_app/
