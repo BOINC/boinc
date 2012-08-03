@@ -4147,3 +4147,15 @@ Charlie 2 Aug 2012
         make_CharityEngine.sh
         make_GridRepublic.sh
         make_ProgThruProc.sh
+
+Charlie 3 Aug 2012
+    - Sample Graphics app: Switch from *.txf fonts to TrueType fonts.
+    samples/
+        example_app/
+            MakeMacExample.sh
+            Makefile_mac
+            Makefile_mac2
+            uc2_graphics.cpp
+        mac_build/
+            UpperCase2.xcodeproj/
+                project.pbxproj

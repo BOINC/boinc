@@ -23,6 +23,7 @@
 # by Charlie Fenton 2/16/10
 # Updated 10/11/10 for XCode 3.2 and OS 10.6 
 # Updated 7/12/12 for Xcode 4.3 and later which are not at a fixed address
+# Updated 8/3/12 for TrueType fonts
 #
 ## This script requires OS 10.6 or later
 #
@@ -84,10 +85,7 @@ export VARIANTFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLO
 export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=10.4
 
-rm -f uc2.o
-rm -f uc2_graphics.o
-rm -f uc2
-rm -f uc2_graphics
+make -f Makefile_mac clean
 make -f Makefile_mac all
 
 if [  $? -ne 0 ]; then exit 1; fi
@@ -108,10 +106,7 @@ export VARIANTFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_AL
 export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=10.5
 
-rm -f uc2.o
-rm -f uc2_graphics.o
-rm -f uc2
-rm -f uc2_graphics
+make -f Makefile_mac clean
 make -f Makefile_mac all
 
 if [  $? -ne 0 ]; then exit 1; fi
@@ -121,6 +116,7 @@ mv uc2 x86_64/
 mv uc2_graphics x86_64/
 
 rm -f uc2.o
+rm -f ttfont.o
 rm -f uc2_graphics.o
 
 echo

@@ -2,12 +2,15 @@
 # This is invoked from MakeMacExample.sh shell script.
 # It should not be used by itself without the script.
 # Updated 7/10/12 for OS 10.7 and XCode 4.3 and later
+# Updated 8/3/12 for TrueType fonts
 
 BOINC_DIR = ../..
 BOINC_API_DIR = $(BOINC_DIR)/api
 BOINC_LIB_DIR = $(BOINC_DIR)/lib
 BOINC_BUILD_DIR = $(BOINC_DIR)/mac_build/build/Deployment
-BOINC_CONFIG_DIR =  $(BOINC_DIR)/clientgui/mac
+BOINC_CONFIG_DIR = $(BOINC_DIR)/clientgui/mac
+FREETYPE_DIR = $(BOINC_DIR)/../freetype-2.4.10
+FTGL_DIR = $(BOINC_DIR)/../ftgl-2.1.3~rc5
 FRAMEWORKS_DIR = /System/Library/Frameworks
 
 CXXFLAGS = $(VARIANTFLAGS) \
@@ -17,11 +20,16 @@ CXXFLAGS = $(VARIANTFLAGS) \
     -I$(BOINC_DIR) \
     -I$(BOINC_LIB_DIR) \
     -I$(BOINC_API_DIR) \
+    -I$(FREETYPE_DIR)/include \
+    -I$(FTGL_DIR)/src \
     -L$(BOINC_BUILD_DIR) \
+    -L$(FREETYPE_DIR)//objs/.libs \
+    -L$(FTGL_DIR)/src/.libs \
     -L.
 
 OBJ = \
     uc2.o \
+    ttfont.o \
     uc2_graphics.o
 
 PROGS = uc2 uc2_graphics
@@ -30,12 +38,23 @@ all: $(PROGS)
 
 clean:
 	/bin/rm -f $(PROGS) $(OBJ)
+    
+uc2.o: uc2.cpp
+	$(CXX) $(CXXFLAGS) -c uc2.cpp
+
+ttfont.o: $(BOINC_API_DIR)/ttfont.cpp
+	$(CXX) $(CXXFLAGS) -c $(BOINC_API_DIR)/ttfont.cpp
+
+uc2_graphics.o: uc2_graphics.cpp
+	$(CXX) $(CXXFLAGS) -c uc2_graphics.cpp
 
 uc2: uc2.o $(BOINC_BUILD_DIR)/libboinc_api.a $(BOINC_BUILD_DIR)/libboinc.a
 	$(CXX) $(LDFLAGS) $(CXXFLAGS) -o uc2 uc2.o -lboinc_api -lboinc
 
-uc2_graphics: uc2_graphics.o $(BOINC_BUILD_DIR)/libboinc.a $(BOINC_BUILD_DIR)/libboinc_graphics2.a
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o uc2_graphics uc2_graphics.o\
-    -lboinc_graphics2 -lboinc_api -lboinc -ljpeg\
+uc2_graphics: uc2_graphics.o ttfont.o $(BOINC_BUILD_DIR)/libboinc.a\
+    $(BOINC_BUILD_DIR)/libboinc_graphics2.a\
+    $(FREETYPE_DIR/objs/.libs/libfreetype.a $(FTGL_DIR)/src/.libs/libftgl.a
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o uc2_graphics uc2_graphics.o ttfont.o\
+    -lboinc_graphics2 -lboinc_api -lboinc -ljpeg -lfreetype -lftgl -lz -lbz2\
     -framework AppKit -framework GLUT -framework OpenGL
     

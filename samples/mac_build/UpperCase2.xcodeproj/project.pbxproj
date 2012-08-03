@@ -146,6 +146,8 @@
 		DDC479B015AC56EB0022401F /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E65094E56DB002CACC4 /* AppKit.framework */; };
 		DDC479B115AC56EB0022401F /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E66094E56DB002CACC4 /* GLUT.framework */; };
 		DDC479B215AC56EB0022401F /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E67094E56DB002CACC4 /* OpenGL.framework */; };
+		DDF8050515CB9C75005473CC /* ttfont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDF8050315CB9C75005473CC /* ttfont.cpp */; };
+		DDF8050615CB9C75005473CC /* ttfont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDF8050315CB9C75005473CC /* ttfont.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -356,6 +358,8 @@
 		DD84C6F90C856C0E000EBEC4 /* uc2.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = uc2.h; path = ../example_app/uc2.h; sourceTree = SOURCE_ROOT; };
 		DDC4797515AC56CA0022401F /* UC2_x86_64-apple-darwin */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "UC2_x86_64-apple-darwin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDC479BB15AC56EB0022401F /* UC2_graphics_x86_64-apple-darwin */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "UC2_graphics_x86_64-apple-darwin"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDF8050315CB9C75005473CC /* ttfont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ttfont.cpp; path = ../../api/ttfont.cpp; sourceTree = "<group>"; };
+		DDF8050415CB9C75005473CC /* ttfont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ttfont.h; path = ../../api/ttfont.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -420,6 +424,7 @@
 				DD1194B10F42CB5400C2BC25 /* uc2.cpp */,
 				DD84C6F90C856C0E000EBEC4 /* uc2.h */,
 				DD00F66509EBA9320024857D /* jpeg */,
+				DDF8050715CB9C88005473CC /* api */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -524,6 +529,15 @@
 				DD760E67094E56DB002CACC4 /* OpenGL.framework */,
 			);
 			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		DDF8050715CB9C88005473CC /* api */ = {
+			isa = PBXGroup;
+			children = (
+				DDF8050415CB9C75005473CC /* ttfont.h */,
+				DDF8050315CB9C75005473CC /* ttfont.cpp */,
+			);
+			name = api;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -763,6 +777,7 @@
 				DD84C6DC0C856B36000EBEC4 /* rdswitch.c in Sources */,
 				DD84C6DD0C856B36000EBEC4 /* rdtarga.c in Sources */,
 				DD1194B00F42CB4900C2BC25 /* uc2_graphics.cpp in Sources */,
+				DDF8050515CB9C75005473CC /* ttfont.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -832,6 +847,7 @@
 				DDC479AC15AC56EB0022401F /* rdswitch.c in Sources */,
 				DDC479AD15AC56EB0022401F /* rdtarga.c in Sources */,
 				DDC479AE15AC56EB0022401F /* uc2_graphics.cpp in Sources */,
+				DDF8050615CB9C75005473CC /* ttfont.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -952,7 +968,11 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "../../**";
+				HEADER_SEARCH_PATHS = (
+					"../../../freetype-2.4.10/include",
+					"../../../ftgl-2.1.3~rc5/src",
+					"../../**",
+				);
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = ../../mac_build/build/Development/;
 				OTHER_CFLAGS = (
@@ -964,9 +984,22 @@
 					"-lboinc_api",
 					"-lboinc_graphics2",
 					"-lboinc",
+					"../../../freetype-2.4.10/objs/.libs/libfreetype.a",
+					"../../../ftgl-2.1.3~rc5/src/.libs/libftgl.a",
+					"-lz",
+					"-lbz2",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = "uc2_graphics_i686-apple-darwin";
+				WARNING_LDFLAGS = (
+					"-lboinc_api",
+					"-lboinc_graphics2",
+					"-lboinc",
+					"../../../freetype-2.4.10/objs/.libs/libfreetype.a",
+					"../../../ftgl-2.1.3~rc5/src/.libs/libftgl.a",
+					"-lz",
+					"-lbz2",
+				);
 				ZERO_LINK = NO;
 			};
 			name = Debug;
@@ -980,7 +1013,11 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "../../**";
+				HEADER_SEARCH_PATHS = (
+					"../../../freetype-2.4.10/include",
+					"../../../ftgl-2.1.3~rc5/src",
+					"../../**",
+				);
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = ../../mac_build/build/Deployment/;
 				OTHER_CFLAGS = (
@@ -992,9 +1029,22 @@
 					"-lboinc_api",
 					"-lboinc_graphics2",
 					"-lboinc",
+					"../../../freetype-2.4.10/objs/.libs/libfreetype.a",
+					"../../../ftgl-2.1.3~rc5/src/.libs/libftgl.a",
+					"-lz",
+					"-lbz2",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = "uc2_graphics_i686-apple-darwin";
+				WARNING_LDFLAGS = (
+					"-lboinc_api",
+					"-lboinc_graphics2",
+					"-lboinc",
+					"../../../freetype-2.4.10/objs/.libs/libfreetype.a",
+					"../../../ftgl-2.1.3~rc5/src/.libs/libftgl.a",
+					"-lz",
+					"-lbz2",
+				);
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -1070,7 +1120,11 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "../../**";
+				HEADER_SEARCH_PATHS = (
+					"../../../freetype-2.4.10/include",
+					"../../../ftgl-2.1.3~rc5/src",
+					"../../**",
+				);
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = ../../mac_build/build/Development/;
 				OTHER_CFLAGS = (
@@ -1082,6 +1136,10 @@
 					"-lboinc_api",
 					"-lboinc_graphics2",
 					"-lboinc",
+					"../../../freetype-2.4.10/objs/.libs/libfreetype.a",
+					"../../../ftgl-2.1.3~rc5/src/.libs/libftgl.a",
+					"-lz",
+					"-lbz2",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = "UC2_graphics_x86_64-apple-darwin";
@@ -1100,7 +1158,11 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "../../**";
+				HEADER_SEARCH_PATHS = (
+					"../../../freetype-2.4.10/include",
+					"../../../ftgl-2.1.3~rc5/src",
+					"../../**",
+				);
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = ../../mac_build/build/Deployment/;
 				OTHER_CFLAGS = (
@@ -1112,6 +1174,10 @@
 					"-lboinc_api",
 					"-lboinc_graphics2",
 					"-lboinc",
+					"../../../freetype-2.4.10/objs/.libs/libfreetype.a",
+					"../../../ftgl-2.1.3~rc5/src/.libs/libftgl.a",
+					"-lz",
+					"-lbz2",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = "UC2_graphics_x86_64-apple-darwin";

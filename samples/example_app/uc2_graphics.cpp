@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2012 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,6 +22,13 @@
 //   (in this case, select colors)
 // - handle mouse input (in this case, to zoom and rotate)
 // - draw text and 3D objects using OpenGL
+//
+// - Expects TrueType font 0 (by default, LiberationSans-Regular.ttf) 
+//   to be in the current directory.  
+// - Must be linked with api/ttfont.cpp, libfreetype.a and libftgl.a.
+//   (libfreetype.a may also require linking with -lz and -lbz2.)
+//   See comments at top of api/ttfont.cpp for more information.
+//
 
 #ifdef _WIN32
 #include "boinc_win.h"
@@ -36,13 +43,16 @@
 #include "app_ipc.h"
 #include "boinc_api.h"
 #include "graphics2.h"
-#include "txf_util.h"
+#include "ttfont.h"
 #include "uc2.h"
 #include "diagnostics.h"
 
 #ifdef __APPLE__
 #include "mac/app_icon.h"
 #endif
+
+using TTFont::ttf_render_string;
+using TTFont::ttf_load_fonts;
 
 float white[4] = {1., 1., 1., 1.};
 TEXTURE_DESC logo;
@@ -82,31 +92,31 @@ static void draw_text() {
     x += dx;
     y += dy;
     if (x < 0 || x > .5) dx *= -1;
-    if (y < 0 || y > .5) dy *= -1;
+    if (y < 0 || y > .4) dy *= -1;
     double fd = 0, cpu=0, dt;
     if (shmem) {
         fd = shmem->fraction_done;
         cpu = shmem->cpu_time;
     }
     sprintf(buf, "User: %s", uc_aid.user_name);
-    txf_render_string(.1, x, y, 0, 500, white, 0, buf);
+    ttf_render_string(x, y, 0, 500, white, buf);
     sprintf(buf, "Team: %s", uc_aid.team_name);
-    txf_render_string(.1, x, y+.1, 0, 500, white, 0, buf);
+    ttf_render_string(x, y+.1, 0, 500, white, buf);
     sprintf(buf, "%% Done: %f", 100*fd);
-    txf_render_string(.1, x, y+.2, 0, 500, white, 0, buf);
+    ttf_render_string(x, y+.2, 0, 500, white, buf);
     sprintf(buf, "CPU time: %f", cpu); 
-    txf_render_string(.1, x, y+.3, 0, 500, white, 0, buf);
+    ttf_render_string(x, y+.3, 0, 500, white, buf);
     if (shmem) {
         dt = dtime() - shmem->update_time;
         if (dt > 10) {
             boinc_close_window_and_quit("shmem not updated");
         } else if (dt > 5) {
-            txf_render_string(.1, 0, 0, 0, 500, white, 0, (char*)"App not running - exiting in 5 seconds");
+            ttf_render_string(0, 0, 0, 500, white, (char*)"App not running - exiting in 5 seconds");
         } else if (shmem->status.suspended) {
-            txf_render_string(.1, 0, 0, 0, 500, white, 0, (char*)"App suspended");
+            ttf_render_string(0, 0, 0, 500, white, (char*)"App suspended");
         }
     } else {
-        txf_render_string(.1, 0, 0, 0, 500, white, 0, (char*)"No shared mem");
+        ttf_render_string(0, 0, 0, 500, white, (char*)"No shared mem");
     }
 }
 
@@ -236,7 +246,7 @@ void app_graphics_init() {
 
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-    txf_load_fonts((char*)".");
+    ttf_load_fonts(".");
 
     boinc_resolve_filename((char*)"logo.jpg", path, sizeof(path));
     logo.load_image_file(path);
