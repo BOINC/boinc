@@ -5249,3 +5249,9 @@ David  3 Aug 2012
         bmplib.cpp,h (removed)
         tgalib.cpp,h
         gutil.cpp
+
+Charlie 3 Aug 2012
+    - API: remove references to removed files bmplib.h and tgalib.h.
+    
+    api/
+        gutil_text.cpp

@@ -37,8 +37,6 @@ extern "C" {
 #else
 #include "jpeglib.h"
 #endif
-#include "bmplib.h"
-#include "tgalib.h"
 #endif
 
 #ifndef _WIN32
