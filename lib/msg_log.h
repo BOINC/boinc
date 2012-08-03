@@ -94,4 +94,8 @@ public:
 #pragma warning(default: 4512) // assignment operator could not be generated
 #endif
 
+#ifdef _USING_FCGI_
+#undef __attribute__
+#endif
+
 #endif
