@@ -4159,3 +4159,10 @@ Charlie 3 Aug 2012
         mac_build/
             UpperCase2.xcodeproj/
                 project.pbxproj
+
+Charlie 3 Aug 2012
+    - Mac: Update build instructions and build script.
+
+    mac_build/
+        HowToBuildBOINC_XCode.rtf
+        setupforBOINC.sh
