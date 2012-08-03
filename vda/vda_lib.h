@@ -74,12 +74,11 @@ struct VDA_FILE_AUX : VDA_FILE {
 };
 
 #define PRESENT 0
-    // this data unit is present on the server
+    // this unit is present on the server
     // (in the case of meta-chunks, this means that enough chunks
     // to reconstruct the meta-chunk are present on the server)
 #define RECOVERABLE 1
-    // this data unit is not present, but could be recovered
-    // from data on clients
+    // this unit is not present, but could be recovered from data on clients
 #define UNRECOVERABLE 2
     // not present or recoverable
 
@@ -143,7 +142,7 @@ struct META_CHUNK : DATA_UNIT {
     virtual int recovery_plan();
     virtual int recovery_action(double);
 
-    void decide_reconstruct();
+    int decide_reconstruct();
     int reconstruct_and_cleanup();
     int expand();
     bool some_child_is_unrecoverable() {

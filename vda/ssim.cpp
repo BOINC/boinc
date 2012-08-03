@@ -20,11 +20,16 @@
 // Simulates the storage of files on a dynamic set of hosts.
 
 // usage: ssim
-//  [--policy filename]
-//  [--host_life_mean x]
-//  [--connect_interval x]
-//  [--mean_xfer_rate x]
-//  [--file_size x]
+//  --policy filename
+//      default is at start of main()
+//  --host_life_mean x
+//      default: 100 days
+//  --connect_interval x
+//      default: 1 day
+//  --mean_xfer_rate x
+//      default: 200000
+//  --file_size x
+//      default: 1e12
 //
 // outputs:
 //   stdout: log info
@@ -77,7 +82,7 @@ struct PARAMS {
         host_life_mean = 100.*86400;
         connect_interval = 86400.;
         mean_xfer_rate = .2e6;
-        file_size = 1e12;
+        file_size = 1e10;
         sim_duration = 1000.*86400;
     }
 } params;
@@ -225,7 +230,13 @@ struct SIM_FILE : VDA_FILE_AUX, EVENT {
     }
 
     void recover() {
+        printf("recovery_plan():\n");
         meta_chunk->recovery_plan();
+        printf("decide_reconstruct():\n");
+        meta_chunk->decide_reconstruct();
+        printf("reconstruct_and_cleanup():\n");
+        meta_chunk->reconstruct_and_cleanup();
+        printf("recovery_action():\n");
         meta_chunk->recovery_action(sim.now);
         fault_tolerance.sample(
             meta_chunk->min_failures-1, collecting_stats(), sim.now
@@ -259,7 +270,7 @@ void CHUNK_ON_HOST::start_upload() {
     transfer_wait = true;
     t = sim.now + drand()*params.connect_interval;
 #ifdef EVENT_DEBUG
-    printf("%s: waiting to start upload of %s\n", now_str(), physical_file_name);
+    //printf("%s: waiting to start upload of %s\n", now_str(), physical_file_name);
 #endif
     sim.insert(this);
 }
@@ -269,7 +280,7 @@ void CHUNK_ON_HOST::start_download() {
     transfer_wait = true;
     t = sim.now + drand()*params.connect_interval;
 #ifdef EVENT_DEBUG
-    printf("%s: waiting to start download of %s\n", now_str(), physical_file_name);
+    //printf("%s: waiting to start download of %s\n", now_str(), physical_file_name);
 #endif
     sim.insert(this);
 }
@@ -477,6 +488,13 @@ int main(int argc, char** argv) {
 
     // default policy
     //
+#if 1
+    policy.replication = 2;
+    policy.coding_levels = 1;
+    policy.codings[0].n = 4;
+    policy.codings[0].k = 2;
+    policy.codings[0].m = 6;
+#else
     policy.replication = 2;
     policy.coding_levels = 2;
     policy.codings[0].n = 10;
@@ -487,6 +505,7 @@ int main(int argc, char** argv) {
     policy.codings[1].k = 6;
     policy.codings[1].m = 16;
     policy.codings[1].n_upload = 12;
+#endif
 
     for (int i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--policy")) {

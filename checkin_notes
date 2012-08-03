@@ -5219,3 +5219,13 @@ Rom    3 Aug 2012
     samples/vboxwrapper/
         vbox.cpp
         vboxwrapper.cpp
+
+David  3 Aug 2012
+    - volunteer storage.  Seems to be working, at least in simulation
+
+    vda/
+        vda_lib2.cpp
+        vda_lib.cpp,h
+        stats.cpp
+        ssim.cpp
+        vdad.cpp

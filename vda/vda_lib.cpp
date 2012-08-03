@@ -113,16 +113,20 @@ META_CHUNK::META_CHUNK(
 // and to reconstruct state info using
 // a top-down tree traversal in response to each event.
 // Actually we do 2 traversals:
-// 1) plan phase:
+// 1) recovery_plan()
 //      We see whether each node is recoverable,
 //      and if so compute its "recovery set":
 //      the set of children from which it can be recovered
 //      with minimal cost (i.e. network traffic).
 //      Decide whether each chunk currently on the server needs to remain.
-// 2) action phase
-//      Based on the results of phase 1,
+// 2) decide_reconstruct()
+//      Decide which meta-chunks should be reconstructed
+// 3) reconstruct_and_cleanup()
+//      Reconstruct meta-chunks and chunks, then delete meta-chunk files
+// 4) recovery_action()
 //      decide whether to start upload/download of chunks,
-//      and whether to delete data currently on server
+//      and whether to delete chunk data currently on server.
+//      Also compute min_failures
 //
 int META_CHUNK::recovery_plan() {
     vector<DATA_UNIT*> recoverable;
@@ -194,7 +198,7 @@ int META_CHUNK::recovery_action(double now) {
         status = PRESENT;
     }
 #ifdef DEBUG_RECOVERY
-    printf("   meta chunk %s: state %s unrec children %d\n",
+    printf("   meta chunk %s: status %s unrec children %d\n",
         name, status_str(status), have_unrecoverable_children
     );
 #endif
@@ -223,7 +227,10 @@ int META_CHUNK::recovery_action(double now) {
         if (retval) return retval;
     }
 
-    // because of recovery action,
+    // Compute min_failures: the smallest # of host failures
+    // that would make this unit unrecoverable.
+    //
+    // Because of recovery action,
     // some of our children may have changed status and fault tolerance,
     // so ours may have changed too.
     // Recompute them.
@@ -270,9 +277,19 @@ int META_CHUNK::recovery_action(double now) {
     return 0;
 }
 
-void META_CHUNK::decide_reconstruct() {
+// set the following:
+// need_reconstruct: if we should reconstruct this from children
+// need_present: not present, but needs to be present in the future
+// keep_present: present, and needs to remain so
+//
+// Also set in children:
+// needed_by_parent: ?
+// keep_present
+//
+int META_CHUNK::decide_reconstruct() {
     unsigned int i;
 
+    need_reconstruct = false;
     if (some_child_is_unrecoverable()) {
         if (status == PRESENT) {
             need_reconstruct = true;
@@ -294,6 +311,7 @@ void META_CHUNK::decide_reconstruct() {
         need_reconstruct = true;
     }
     if (need_reconstruct and !bottom_level) {
+        // mark n PRESENT children as needed_by_parent
         int n = 0;
         for (i=0; i<children.size(); i++) {
             META_CHUNK& c = *(META_CHUNK*)children[i];
@@ -306,6 +324,9 @@ void META_CHUNK::decide_reconstruct() {
             }
         }
     }
+    
+    // if we need to stay present, so do a quorum of our present children
+    //
     if (keep_present) {
         int n = 0;
         for (i=0; i<children.size(); i++) {
@@ -319,14 +340,22 @@ void META_CHUNK::decide_reconstruct() {
             }
         }
     }
+
+    // recurse
+    //
     if (!bottom_level) {
         for (i=0; i<children.size(); i++) {
             META_CHUNK& c = *(META_CHUNK*)children[i];
             c.decide_reconstruct();
         }
     }
+    return 0;
 }
 
+// Recurse first, so children will be available
+// If needed, reconstruct this unit (from present children)
+// and then expand() (for unrecoverable children)
+//
 int META_CHUNK::reconstruct_and_cleanup() {
     unsigned int i;
     int retval;
@@ -428,6 +457,9 @@ int CHUNK::recovery_plan() {
         cost = 0;
         min_failures = INT_MAX;
     } else if (hosts.size() > 0) {
+        // if file is not present on server, assume that it's present
+        // on all hosts (otherwise we wouldn't have downloaded it).
+        //
         status = RECOVERABLE;
         cost = size;
         if ((int)(hosts.size()) < parent->dfile->policy.replication) {

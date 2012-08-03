@@ -257,7 +257,6 @@ int META_CHUNK::decode() {
 
 CHUNK::CHUNK(META_CHUNK* mc, double s, int index) {
     parent = mc;
-    present_on_server = true;
     size = s;
     if (strlen(parent->name)) {
         sprintf(name, "%s.%d", parent->name, index);
@@ -265,6 +264,15 @@ CHUNK::CHUNK(META_CHUNK* mc, double s, int index) {
         sprintf(name, "%d", index);
     }
     sprintf(dir, "%s/%d", mc->dir, index);
+    char path[256];
+    double fsize;
+    sprintf(path, "%s/data.vda", dir);
+    int retval = file_size(path, fsize);
+    if (retval || fsize != size) {
+        present_on_server = false;
+    } else {
+        present_on_server = true;
+    }
 }
 
 // assign this chunk to a host
@@ -385,6 +393,9 @@ int VDA_FILE_AUX::get_state() {
     meta_chunk = new META_CHUNK(this, NULL, 0);
     int retval = meta_chunk->get_state(dir, policy, 0);
     if (retval) return retval;
+
+    // enumerate the VDA_CHUNK_HOST records from DB and store in memory
+    //
     DB_VDA_CHUNK_HOST vch;
     sprintf(buf, "where vda_file_id=%d", id);
     while (1) {

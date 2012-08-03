@@ -83,6 +83,16 @@ int handle_file(VDA_FILE_AUX& vf, DB_VDA_FILE& dvf) {
         log_messages.printf(MSG_CRITICAL, "vf.recovery_plan failed %d\n", retval);
         return retval;
     }
+    retval = vf.meta_chunk->decide_reconstruct();
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL, "vf.decide_reconstruct failed %d\n", retval);
+        return retval;
+    }
+    retval = vf.meta_chunk->reconstruct_and_cleanup();
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL, "vf.reconstruct_and_cleanup failed %d\n", retval);
+        return retval;
+    }
     log_messages.printf(MSG_NORMAL, "Recovery action:\n");
     retval = vf.meta_chunk->recovery_action(dtime());
     if (retval) {

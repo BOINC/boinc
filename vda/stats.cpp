@@ -46,12 +46,16 @@ void STATS_ITEM::sample(double v, bool collecting_stats, double now) {
     if (value != v) {
         switch (kind) {
         case DISK:
+#if 0
             sprintf(buf, "%s: %f GB -> %f GB\n", name, value/1e9, v/1e9);
             show_msg(buf);
+#endif
             break;
         case NETWORK:
+#if 0
             sprintf(buf, "%s: %f Mbps -> %f Mbps\n", name, value/1e6, v/1e6);
             show_msg(buf);
+#endif
             break;
         case FAULT_TOLERANCE:
             sprintf(buf, "%s: %.0f -> %.0f\n", name, value, v);
