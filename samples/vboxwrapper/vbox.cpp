@@ -646,22 +646,26 @@ int VBOX_VM::register_vm() {
     retval = vbm_popen(command, output, "modify");
     if (retval) return retval;
 
-    if ((vm_cpu_count == "1") ||
-        (!strstr(aid.host_info.p_features, "vmx") && !strstr(aid.host_info.p_features, "svm"))) {
+    // Only perform hardware acceleration check on 32-bit VM types, 64-bit VM types require it.
+    //
+    if (os_name.find("_64") == std::string::npos) {
         // Check to see if the processor supports hardware acceleration for virtualization
         // If it doesn't, disable the use of it in VirtualBox. Multi-core jobs require hardware
         // acceleration and actually override this setting.
         //
-        fprintf(
-            stderr,
-            "%s Disabling hardware acceleration support for virtualization.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
-        command  = "modifyvm \"" + vm_name + "\" ";
-        command += "--hwvirtex off ";
+        if ((vm_cpu_count == "1") ||
+            (!strstr(aid.host_info.p_features, "vmx") && !strstr(aid.host_info.p_features, "svm"))) {
+            fprintf(
+                stderr,
+                "%s Disabling hardware acceleration support for virtualization.\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf))
+            );
+            command  = "modifyvm \"" + vm_name + "\" ";
+            command += "--hwvirtex off ";
 
-        retval = vbm_popen(command, output, "VT-x/AMD-V support");
-        if (retval) return retval;
+            retval = vbm_popen(command, output, "VT-x/AMD-V support");
+            if (retval) return retval;
+        }
     }
 
     // Add storage controller to VM

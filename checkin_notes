@@ -5207,3 +5207,15 @@ Charlie 3 Aug 2012
         mac_build/
             UpperCase2.xcodeproj/
                 project.pbxproj
+
+Rom    3 Aug 2012
+    - VBOX: Do not perform the hardware virtualization check when the
+        guest VM is 64-bit.  64-bit guest vms require hardware virtualization
+        and should fail without it.
+    - VBOX: Implement the <copy_to_shared/> directive in the vbox_job.xml file.
+        if <copy_to_shared>init_data.xml</copy_to_shared> is set, the wrapper will
+        copy the init_data.xml file to the shared directory before the VM is launched.
+        
+    samples/vboxwrapper/
+        vbox.cpp
+        vboxwrapper.cpp

@@ -74,6 +74,7 @@
 #include "vbox.h"
 
 using std::vector;
+using std::string;
 
 
 char* vboxwrapper_msg_prefix(char* sbuf, int len) {
@@ -113,8 +114,9 @@ char* vboxwrapper_msg_prefix(char* sbuf, int len) {
 }
 
 
-int parse_job_file(VBOX_VM& vm) {
+int parse_job_file(VBOX_VM& vm, vector<string>& copy_to_shared) {
     MIOFILE mf;
+    string str;
     char buf[1024], buf2[256];
 
     boinc_resolve_filename(JOB_FILENAME, buf, sizeof(buf));
@@ -151,6 +153,10 @@ int parse_job_file(VBOX_VM& vm) {
         else if (xp.parse_bool("enable_remotedesktop", vm.enable_remotedesktop)) continue;
         else if (xp.parse_int("pf_guest_port", vm.pf_guest_port)) continue;
         else if (xp.parse_int("pf_host_port", vm.pf_host_port)) continue;
+        else if (xp.parse_string("copy_to_shared", str)) {
+            copy_to_shared.push_back(str);
+            continue;
+        }
         fprintf(stderr, "%s parse_job_file(): unexpected tag %s\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf)), xp.parsed_tag
         );
@@ -235,20 +241,20 @@ void set_floppy_image(APP_INIT_DATA& aid, VBOX_VM& vm) {
             //
             // Use %.17g to represent doubles
             //
-            scratch  = "BOINC_USERNAME=" + std::string(aid.user_name) + "\n";
-            scratch += "BOINC_AUTHENTICATOR=" + std::string(aid.authenticator) + "\n";
+            scratch  = "BOINC_USERNAME=" + string(aid.user_name) + "\n";
+            scratch += "BOINC_AUTHENTICATOR=" + string(aid.authenticator) + "\n";
 
             sprintf(buf, "%d", aid.userid);
-            scratch += "BOINC_USERID=" + std::string(buf) + "\n";
+            scratch += "BOINC_USERID=" + string(buf) + "\n";
 
             sprintf(buf, "%d", aid.hostid);
-            scratch += "BOINC_HOSTID=" + std::string(buf) + "\n";
+            scratch += "BOINC_HOSTID=" + string(buf) + "\n";
 
             sprintf(buf, "%.17g", aid.user_total_credit);
-            scratch += "BOINC_USER_TOTAL_CREDIT=" + std::string(buf) + "\n";
+            scratch += "BOINC_USER_TOTAL_CREDIT=" + string(buf) + "\n";
 
             sprintf(buf, "%.17g", aid.host_total_credit);
-            scratch += "BOINC_HOST_TOTAL_CREDIT=" + std::string(buf) + "\n";
+            scratch += "BOINC_HOST_TOTAL_CREDIT=" + string(buf) + "\n";
         }
         vm.write_floppy(scratch);
     }
@@ -330,8 +336,9 @@ int main(int argc, char** argv) {
     bool report_net_usage = false;
     int vm_pid = 0;
     unsigned long vm_exit_code = 0;
-    std::string vm_log;
-    std::string system_log;
+    string vm_log;
+    string system_log;
+    vector<string> copy_to_shared;
     char buf[256];
 
     memset(&boinc_options, 0, sizeof(boinc_options));
@@ -372,7 +379,7 @@ int main(int argc, char** argv) {
     }
 #endif
 
-    retval = parse_job_file(vm);
+    retval = parse_job_file(vm, copy_to_shared);
     if (retval) {
         fprintf(
             stderr,
@@ -402,6 +409,30 @@ int main(int argc, char** argv) {
                     vboxwrapper_msg_prefix(buf, sizeof(buf)),
                     boincerror(retval)
                 );
+            }
+        }
+    }
+
+    // Copy files to the shared directory
+    //
+    if (vm.enable_shared_directory && copy_to_shared.size()) {
+        for (vector<string>::iterator iter = copy_to_shared.begin(); iter != copy_to_shared.end(); iter++) {
+            string source = *iter;
+            string destination = string("shared/") + *iter;
+            if (!boinc_file_exists(destination.c_str())) {
+                if (!boinc_copy(source.c_str(), destination.c_str())) {
+                    fprintf(stderr,
+                        "%s successfully copied '%s' to the shared directory.\n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                        source.c_str()
+                    );
+                } else {
+                    fprintf(stderr,
+                        "%s failed to copy '%s' to the shared directory.\n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                        source.c_str()
+                    );
+                }
             }
         }
     }
@@ -466,7 +497,7 @@ int main(int argc, char** argv) {
             "%s VM failed to start.\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
-        if ((vm_log.find("VERR_VMX_MSR_LOCKED_OR_DISABLED") != std::string::npos) || (vm_log.find("VERR_SVM_DISABLED") != std::string::npos)) {
+        if ((vm_log.find("VERR_VMX_MSR_LOCKED_OR_DISABLED") != string::npos) || (vm_log.find("VERR_SVM_DISABLED") != string::npos)) {
             fprintf(
                 stderr,
                 "%s NOTE: BOINC has detected that your processor supports hardware acceleration for virtual machines\n"
@@ -479,7 +510,7 @@ int main(int argc, char** argv) {
                 "    Error Code: ERR_CPU_VM_EXTENSIONS_DISABLED\n",
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
-        } else if ((vm_log.find("VERR_VMX_IN_VMX_ROOT_MODE") != std::string::npos) || (vm_log.find("VERR_SVM_IN_USE") != std::string::npos)) {
+        } else if ((vm_log.find("VERR_VMX_IN_VMX_ROOT_MODE") != string::npos) || (vm_log.find("VERR_SVM_IN_USE") != string::npos)) {
             fprintf(
                 stderr,
                 "%s NOTE: VirtualBox hypervisor reports that another hypervisor has locked the hardware acceleration\n"
@@ -488,7 +519,7 @@ int main(int argc, char** argv) {
                 "    Error Code: ERR_CPU_VM_EXTENSIONS_DISABLED\n",
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
-        } else if ((vm_log.find("VERR_VMX_NO_VMX") != std::string::npos) || (vm_log.find("VERR_SVM_NO_SVM") != std::string::npos)) {
+        } else if ((vm_log.find("VERR_VMX_NO_VMX") != string::npos) || (vm_log.find("VERR_SVM_NO_SVM") != string::npos)) {
             fprintf(
                 stderr,
                 "%s NOTE: VirtualBox has reported an improperly configured virtual machine. It was configured to require\n"
@@ -496,7 +527,7 @@ int main(int argc, char** argv) {
                 "    Please report this issue to the project so that it can be addresssed.\n",
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
-        } else if ((vm_log.find("VERR_EM_NO_MEMORY") != std::string::npos) || (vm_log.find("VERR_NO_MEMORY") != std::string::npos)) {
+        } else if ((vm_log.find("VERR_EM_NO_MEMORY") != string::npos) || (vm_log.find("VERR_NO_MEMORY") != string::npos)) {
             fprintf(
                 stderr,
                 "%s NOTE: VirtualBox has failed to allocate enough memory to start the configured virtual machine.\n"
