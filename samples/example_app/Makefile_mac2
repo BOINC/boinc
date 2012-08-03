@@ -1,5 +1,6 @@
 # stand-alone makefile for uc2 BOINC example application on Macintosh.
 # Updated 7/11/12 for OS 10.7 and XCode 4.3
+# Updated 8/3/12 for TrueType fonts
 #
 
 BOINC_DIR = ../..
@@ -7,6 +8,8 @@ BOINC_API_DIR = $(BOINC_DIR)/api
 BOINC_LIB_DIR = $(BOINC_DIR)/lib
 BOINC_BUILD_DIR = $(BOINC_DIR)/mac_build/build/Deployment
 BOINC_CONFIG_DIR =  $(BOINC_DIR)/clientgui/mac
+FREETYPE_DIR = $(BOINC_DIR)/../freetype-2.4.10
+FTGL_DIR = $(BOINC_DIR)/../ftgl-2.1.3~rc5
 FRAMEWORKS_DIR = /System/Library/Frameworks
 
 CXXFLAGS_ALL = \
@@ -16,23 +19,31 @@ CXXFLAGS_ALL = \
     -I$(BOINC_DIR) \
     -I$(BOINC_LIB_DIR) \
     -I$(BOINC_API_DIR) \
-    -L$(BOINC_BUILD_DIR) \
-    -L/usr/lib \
-    -L.
+    -I$(FREETYPE_DIR)/include \
+    -I$(FTGL_DIR)/src
+    
+LDFLAGS_ALL = \
+    -Wl,-L$(BOINC_BUILD_DIR) \
+    -Wl,-L$(FREETYPE_DIR)/objs/.libs \
+    -Wl,-L$(FTGL_DIR)/src/.libs \
+    -Wl,-L/usr/lib \
+    -Wl,-L.
 
 CXXFLAGS_i386 = -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040 \
     $(CXXFLAGS_ALL) -fvisibility=hidden -fvisibility-inlines-hidden
-LDFLAGS_i386 = -Wl,-arch,i386
+LDFLAGS_i386 = -Wl,-arch,i386 $(LDFLAGS_ALL)
 
 CXXFLAGS_x86_64 = -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1050 -DMAC_OS_X_VERSION_MIN_REQUIRED=1050 \
     $(CXXFLAGS_ALL) -fvisibility=hidden -fvisibility-inlines-hidden
-LDFLAGS_x86_64 = -Wl,-arch,x86_64
+LDFLAGS_x86_64 = -Wl,-arch,x86_64 $(LDFLAGS_ALL)
 
 
 OBJ = \
     uc2_i386.o \
+    ttfont_i386.o \
     uc2_graphics_i386.o \
     uc2_x86_64.o \
+    ttfont_x86_64.o \
     uc2_graphics_x86_64.o \
 
 PROGS = uc2_i386 uc2_graphics_i386 uc2_x86_64 uc2_graphics_x86_64 
@@ -51,6 +62,9 @@ target uc2_i386.0: MACOSX_DEPLOYMENT_TARGET=10.4
 uc2_i386.o: uc2.cpp
 	$(CXX) -c $(CXXFLAGS_i386) uc2.cpp -o uc2_i386.o
 
+ttfont_i386.o: $(BOINC_API_DIR)/ttfont.cpp
+	$(CXX) -c $(CXXFLAGS_i386) $(BOINC_API_DIR)/ttfont.cpp -o ttfont_i386.o
+
 uc2_graphics_i386.o: uc2_graphics.cpp
 	$(CXX) -c $(CXXFLAGS_i386) uc2_graphics.cpp -o uc2_graphics_i386.o
 
@@ -58,22 +72,28 @@ target uc2_x86_64: MACOSX_DEPLOYMENT_TARGET=10.5
 uc2_x86_64.o: uc2.cpp
 	$(CXX) -c $(CXXFLAGS_x86_64) uc2.cpp -o uc2_x86_64.o
 
+ttfont_x86_64.o: $(BOINC_API_DIR)/ttfont.cpp
+	$(CXX) -c $(CXXFLAGS_x86_64) $(BOINC_API_DIR)/ttfont.cpp -o ttfont_x86_64.o
+
 uc2_graphics_x86_64.o: uc2_graphics.cpp
 	$(CXX) -c $(CXXFLAGS_x86_64) uc2_graphics.cpp -o uc2_graphics_x86_64.o
 
 uc2_i386: uc2_i386.o $(BOINC_BUILD_DIR)/libboinc_api.a $(BOINC_BUILD_DIR)/libboinc.a
 	$(CXX) $(CXXFLAGS_i386) $(LDFLAGS_i386) -o uc2_i386 uc2_i386.o -lboinc_api -lboinc
 
-uc2_graphics_i386: uc2_graphics_i386.o $(BOINC_BUILD_DIR)/libboinc.a $(BOINC_BUILD_DIR)/libboinc_graphics2.a
+uc2_graphics_i386: uc2_graphics_i386.o ttfont_i386.o $(BOINC_BUILD_DIR)/libboinc.a\
+    $(BOINC_BUILD_DIR)/libboinc_graphics2.a $(FREETYPE_DIR/objs/.libs/libfreetype.a\
+    $(FTGL_DIR)/src/.libs/libftgl.a
 	$(CXX) $(CXXFLAGS_i386) $(LDFLAGS_i386) -o uc2_graphics_i386 uc2_graphics_i386.o\
-    -lboinc_graphics2 -lboinc_api -lboinc -ljpeg \
-    -framework AppKit -framework GLUT -framework OpenGL
+    ttfont_i386.o -lboinc_graphics2 -lboinc_api -lboinc -ljpeg -lfreetype -lftgl -lz\
+    -lbz2 -framework AppKit -framework GLUT -framework OpenGL
 
 uc2_x86_64: uc2_x86_64.o $(BOINC_BUILD_DIR)/libboinc_api.a $(BOINC_BUILD_DIR)/libboinc.a
 	$(CXX) $(CXXFLAGS_x86_64) $(LDFLAGS_x86_64) -o uc2_x86_64 uc2_x86_64.o -lboinc_api -lboinc
 
-uc2_graphics_x86_64: uc2_graphics_x86_64.o $(BOINC_BUILD_DIR)/libboinc.a $(BOINC_BUILD_DIR)/libboinc_graphics2.a
-	$(CXX) $(CXXFLAGS_x86_64) $(LDFLAGS_x86_64) -o uc2_graphics_x86_64 uc2_graphics_x86_64.o\
-    -lboinc_graphics2 -lboinc_api -lboinc -ljpeg \
-    -framework AppKit -framework GLUT -framework OpenGL
-
+uc2_graphics_x86_64: uc2_graphics_x86_64.o ttfont_x86_64.o $(BOINC_BUILD_DIR)/libboinc.a\
+    $(BOINC_BUILD_DIR)/libboinc_graphics2.a $(FREETYPE_DIR/objs/.libs/libfreetype.a\
+    $(FTGL_DIR)/src/.libs/libftgl.a
+	$(CXX) $(CXXFLAGS_x86_64) $(LDFLAGS_x86_64) -o uc2_graphics_x86_64\
+    uc2_graphics_x86_64.o ttfont_x86_64.o -lboinc_graphics2 -lboinc_api -lboinc -ljpeg\
+    -lfreetype -lftgl -lz -lbz2 -framework AppKit -framework GLUT -framework OpenGL
