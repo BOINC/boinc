@@ -26,7 +26,7 @@
 # Updated 7/6/11 for wxMac-2.8.10 and Unicode
 # Updated 6/25/12 for curl-7.26.0 and c-ares-1.9.1
 # Updated 6/26/12 for openssl-1.0.1c
-# Updated 7/27/12 for FreeType-2.4.10 and FTGL-2.1.3~rc5
+# Updated 8/3/12 for FreeType-2.4.10 and FTGL-2.1.3~rc5
 #
 # Download these three packages and place them in a common parent 
 # directory with the BOINC source tree.
@@ -48,6 +48,9 @@ else
   doclean=""
 fi
 
+caresOK="NO"
+curlOK="NO"
+opensslOK="NO"
 wxWidgetsOK="NO"
 freetypeOK="NO"
 ftglOK="NO"
@@ -61,9 +64,12 @@ echo "----------------------------------"
 echo ""
 
 cd ../../c-ares-1.9.1/
-if [  $? -ne 0 ]; then return 1; fi
-source "${SCRIPT_DIR}/buildc-ares.sh" ${doclean}
-if [  $? -ne 0 ]; then return 1; fi
+if [  $? -eq 0 ]; then
+    source "${SCRIPT_DIR}/buildc-ares.sh" ${doclean}
+    if [  $? -eq 0 ]; then
+        caresOK="YES"
+    fi
+fi
 
 echo ""
 echo "----------------------------------"
@@ -74,9 +80,12 @@ echo ""
 cd "${SCRIPT_DIR}"
 
 cd ../../curl-7.26.0/
-if [  $? -ne 0 ]; then return 1; fi
-source "${SCRIPT_DIR}/buildcurl.sh" ${doclean}
-if [  $? -ne 0 ]; then return 1; fi
+if [  $? -eq 0 ]; then
+    source "${SCRIPT_DIR}/buildcurl.sh" ${doclean}
+    if [  $? -eq 0 ]; then
+        curlOK="YES"
+    fi
+fi
 
 echo ""
 echo "----------------------------------"
@@ -87,9 +96,12 @@ echo ""
 cd "${SCRIPT_DIR}"
 
 cd ../../openssl-1.0.1c/
-if [  $? -ne 0 ]; then return 1; fi
-source "${SCRIPT_DIR}/buildopenssl.sh" ${doclean}
-if [  $? -ne 0 ]; then return 1; fi
+if [  $? -eq 0 ]; then
+    source "${SCRIPT_DIR}/buildopenssl.sh" ${doclean}
+    if [  $? -eq 0 ]; then
+        opensslOK="YES"
+    fi
+fi
 
 echo ""
 echo "----------------------------------"
@@ -137,6 +149,36 @@ if [  $? -eq 0 ]; then
     if [  $? -eq 0 ]; then
         ftglOK="YES"
     fi
+fi
+
+if [ "${caresOK}" = "NO" ]; then
+    echo ""
+    echo "----------------------------------"
+    echo "------------ WARNING -------------"
+    echo "------------         -------------"
+    echo "-- COULD NOT BUILD C-ARES-1.9.1 --"
+    echo "----------------------------------"
+    echo ""
+fi
+
+if [ "${curlOK}" = "NO" ]; then
+    echo ""
+    echo "-----------------------------------"
+    echo "------------ WARNING --------------"
+    echo "------------         --------------"
+    echo "--- COULD NOT BUILD CURL-7.26.0 ---"
+    echo "-----------------------------------"
+    echo ""
+fi
+
+if [ "${opensslOK}" = "NO" ]; then
+    echo ""
+    echo "----------------------------------"
+    echo "------------ WARNING -------------"
+    echo "------------         -------------"
+    echo "- COULD NOT BUILD OPENSSL-1.0.1c -"
+    echo "----------------------------------"
+    echo ""
 fi
 
 if [ "${wxWidgetsOK}" = "NO" ]; then

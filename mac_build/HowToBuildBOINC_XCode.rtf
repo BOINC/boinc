@@ -1,7 +1,8 @@
 {\rtf1\ansi\ansicpg1252\cocoartf1138\cocoasubrtf470
 {\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fmodern\fcharset0 Courier;\f2\fswiss\fcharset0 ArialMT;
-\f3\fnil\fcharset0 LucidaGrande;}
-{\colortbl;\red255\green255\blue255;\red186\green0\blue0;\red246\green246\blue246;}
+\f3\fnil\fcharset0 LucidaGrande;\f4\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red186\green0\blue0;\red14\green14\blue255;\red246\green246\blue246;
+}
 {\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}}
 {\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \margl1440\margr1440\vieww14740\viewh11840\viewkind0
@@ -13,10 +14,10 @@
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 \cf0 Written by Charlie Fenton\
-Last updated 7/17/12\
+Last updated 8/3/12\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 \cf0 \
-This document applies to BOINC version 7.0.32 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
+This document applies to BOINC version 7.0.34 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 
@@ -117,7 +118,7 @@ Enter your administrator password when prompted to do so.\
 
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
-\cf0 BOINC depends on four third-party libraries: wxMac-2.8.10, c-ares-1.9.1, curl-7.26.0 and openssl-1.0.1c.  You can obtain the source files from the following URLs:\
+\cf0 BOINC depends on six third-party libraries: wxMac-2.8.10, c-ares-1.9.1, curl-7.26.0, openssl-1.0.1c,  freetype-2.4.10 and ftgl-2.1.3~rc5.  You can obtain the source files from the following URLs:\
 \
 wxMac-2.8.10 (needed  only if you are building the BOINC Manager):\
 	{\field{\*\fldinst{HYPERLINK "http://www.wxwidgets.org"}}{\fldrslt 
@@ -151,6 +152,26 @@ curl-7.26.0:\
 \f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://www.openssl.org/"}}{\fldrslt http://www.openssl.org/}}\
 	{\field{\*\fldinst{HYPERLINK "http://www.openssl.org/source/openssl-1.0.1c.tar.gz"}}{\fldrslt http://www.openssl.org/source/openssl-1.0.1c.tar.gz}}\
 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\fs24 \cf0 freetype-2.4.10 (needed  only if you are building the BOINC default screensaver or a project screensaver):\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://www.freetype.org/"}}{\fldrslt 
+\f4\fs22 \cf3 \CocoaLigature0 http://www.freetype.org/}}
+\f4\fs22 \cf3 \CocoaLigature0 \
+	{\field{\*\fldinst{HYPERLINK "http://sourceforge.net/projects/freetype/files/freetype2/2.4.10/freetype-2.4.10.tar.bz2"}}{\fldrslt \cf3 http://sourceforge.net/projects/freetype/files/freetype2/2.4.10/freetype-2.4.10.tar.bz2}}
+\f0\fs24 \cf0 \CocoaLigature1 \
+\
+ftgl-2.1.3~rc5 (needed  only if you are building the BOINC default screensaver or a project screensaver):\
+
+\f1\fs26 	{\field{\*\fldinst{HYPERLINK "http://sourceforge.net/projects/ftgl"}}{\fldrslt 
+\f4\fs22 \cf3 \CocoaLigature0 http://sourceforge.net/projects/ftgl}}\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\fs24 \cf0 	{\field{\*\fldinst{HYPERLINK "http://sourceforge.net/projects/ftgl/files/FTGL%20Source/2.1.3~rc5/ftgl-2.1.3-rc5.tar.gz"}}{\fldrslt http://sourceforge.net/projects/ftgl/files/FTGL%20Source/2.1.3%7Erc5/ftgl-2.1.3-rc5.tar.gz}}\
+	
+\f1\fs26 \
 \pard\pardeftab720\sa260
 
 \f0\fs24 \cf0 (Don't forget to expand the tar files by double-clicking on them.)\
@@ -178,6 +199,8 @@ MAC_OS_X_VERSION_MIN_REQUIRED=1040\
 \cf0     openssl-1.0.1c\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 \cf0     wxMac-2.8.10\
+    freetype-2.4.10\
+    ftgl-2.1.3~rc5\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 
 \f0\fs24 \cf0 \
@@ -214,7 +237,7 @@ The command above retrieves the source code from the HEAD (TRUNK) or development
 {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/SourceCode"}}{\fldrslt 
 \f1\fs26 \cf0 http://boinc.berkeley.edu/trac/wiki/SourceCode}}\
 \
-[4] Run the script to build the c-ares, curl, openssl and wxMac libraries as follows:\
+[4] Run the script to build the c-ares, curl, openssl, wxMac freetype and ftgl libraries as follows:\
 \
 \pard\pardeftab720
 
@@ -235,7 +258,7 @@ If you don't wish to force a full rebuild of everything, omit the -clean argumen
 \f0\fs24  command to run them.\
 
 \b Note 2:
-\b0  this script builds c-ares and curl first, followed by openssl and finally wxMac.  If you haven't downloaded wxMac because you aren't building the BOINC Manager, the script will build c-ares, curl and openssl before quitting.  \
+\b0  this script builds tries to build all six third-party libraries: wxMac-2.8.10, c-ares-1.9.1, curl-7.26.0, openssl-1.0.1c,  freetype-2.4.10 and ftgl-2.1.3~rc5.  when the script finishes, it will display a warning about any libraries was unable to build (for example, if the files are not present.)\
 \
 [5] Build BOINC as follows:\
 \
@@ -401,7 +424,7 @@ The
 To restore the standard ownerships and permissions, run the installer.\
 \
 \pard\pardeftab720\sa260
-\cf0 \cb3 \CocoaLigature1 For information on interpreting crash dumps and backtraces, see {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/MacBacktrace"}}{\fldrslt \cf2 Mac Backtrace}}.\cb1 \
+\cf0 \cb4 \CocoaLigature1 For information on interpreting crash dumps and backtraces, see {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/MacBacktrace"}}{\fldrslt \cf2 Mac Backtrace}}.\cb1 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
 \b\fs28 \cf0 Debugging into wxWidgets

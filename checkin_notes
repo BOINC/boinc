@@ -5255,3 +5255,11 @@ Charlie 3 Aug 2012
     
     api/
         gutil_text.cpp
+
+Charlie 3 Aug 2012
+    - Mac: Update build instructions and build script.
+
+    mac_build/
+        HowToBuildBOINC_XCode.rtf
+        setupforBOINC.sh
+    
