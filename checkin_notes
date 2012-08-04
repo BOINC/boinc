@@ -5281,3 +5281,11 @@ David  3 Aug 2012
         cs_prefs.cpp
         main.cpp
         hostinfo_network.cpp
+
+David  3 Aug 2012
+    - client: other Android stuff, from Joachim
+
+    client/
+        cs_platforms.cpp
+    lib/
+        md5_file.cpp

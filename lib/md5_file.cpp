@@ -34,6 +34,10 @@
 #include <wincrypt.h>
 #endif
 
+#ifdef ANDROID
+#include <stdlib.h>
+#endif
+
 #include "error_numbers.h"
 #include "md5.h"
 
@@ -96,6 +100,9 @@ std::string md5_string(const unsigned char* data, int nbytes) {
     return std::string(output);
 }
 
+// make a random 32-char string
+// (the MD5 of some quasi-random bits)
+//
 int make_random_string(char* out) {
     char buf[256];
 #ifdef _WIN32
@@ -111,6 +118,10 @@ int make_random_string(char* out) {
     }
         
     CryptReleaseContext(hCryptProv, 0);
+#elif defined ANDROID
+    // /dev/random not available on Android, using stdlib function instead
+    int i = rand();
+    snprintf(buf, sizeof(buf), "%d", i);
 #else
 #ifndef _USING_FCGI_
     FILE* f = fopen("/dev/random", "r");

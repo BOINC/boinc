@@ -96,8 +96,6 @@ void CLIENT_STATE::detect_platforms() {
     }
     add_platform("windows_intelx86");
 #endif
-#elif defined(ANDROID)
-    add_platform("arm-android");
 
 #elif defined(__APPLE__)
 
