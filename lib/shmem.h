@@ -22,7 +22,9 @@
 
 #ifndef _WIN32
 #include <sys/types.h>
+#ifndef ANDROID
 #include <sys/shm.h>
+#endif
 #endif
 
 // create_shmem(): create a shared-memory segment of the given size.

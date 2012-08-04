@@ -5263,3 +5263,21 @@ Charlie 3 Aug 2012
         HowToBuildBOINC_XCode.rtf
         setupforBOINC.sh
     
+David  3 Aug 2012
+    - Client: initial checkin for Android version.  From Joachim Fritzsch.
+
+    lib/
+        common_defs.h
+        prefs.cpp,h
+        android_log.h (new)
+        network.cpp
+        shmem.h
+        hostinfo.h
+        str_util.cpp
+        synch.cpp
+    client/
+        hostinfo_unix.cpp
+        client_msgs.cpp
+        cs_prefs.cpp
+        main.cpp
+        hostinfo_network.cpp

@@ -20,6 +20,8 @@
 
 #include "synch.h"
 
+#ifndef ANDROID //disabled on Android
+
 #include "config.h"
 #include <cstdio>
 #include <cstdlib>
@@ -112,3 +114,4 @@ int get_key(char* path, int id, key_t& key) {
     return 0;
 }
 
+#endif //ANDROID

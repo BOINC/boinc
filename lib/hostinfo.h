@@ -80,6 +80,9 @@ public:
 #else
     bool users_idle(bool check_all_logins, double idle_time_to_run);
 #endif
+#ifdef ANDROID
+    bool host_wifi_online();
+#endif
     int get_host_info();
     int get_local_network_info();
     int get_virtualbox_version();
