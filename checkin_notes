@@ -2390,7 +2390,7 @@ Rom    29 Feb 2012
 
 David  1 Mar 2012
     - client: fix crashing bug when there is 1 instance of a resources.
-        I'm not sure how this every worked.
+        I'm not sure how this ever worked.
 
     client/
         work_fetch.h
@@ -2827,7 +2827,7 @@ David  19 Mar 2012
         sched_resend.cpp
 
 Rom    20 Mar 2012
-    - VBOX: Make it explicily clear what the result of a start/stop
+    - VBOX: Make it explicitly clear what the result of a start/stop
         request was.  Hopefully this will give us insight into whether
         the core client is terminating the wrapper or something else is
         going on.
@@ -5289,3 +5289,9 @@ David  3 Aug 2012
         cs_platforms.cpp
     lib/
         md5_file.cpp
+
+David  3 Aug 2012
+    - scheduler: fix message typo
+
+    sched/
+        sched_send.cpp

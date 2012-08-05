@@ -1427,10 +1427,12 @@ void send_gpu_messages() {
                 strcat(buf, proc_type_name(i));
             }
         }
-        g_reply->insert_message(
+        char msg[1024];
+        sprintf(msg,
             _("An %s GPU is required to run tasks for this project"),
-            "notice"
+            buf
         );
+        g_reply->insert_message(msg, "notice");
     }
 
     if (g_request->coprocs.nvidia.count && ssp->have_apps_for_proc_type[PROC_TYPE_NVIDIA_GPU]) {
