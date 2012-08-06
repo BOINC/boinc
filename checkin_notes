@@ -5302,3 +5302,9 @@ Rom    6 Aug 2012
         
     lib/
         stackwalker_imports.h
+
+David  6 Aug 2012
+	- client: fix error in runtime estimation for active tasks
+
+	client/
+		work_fetch.cpp
