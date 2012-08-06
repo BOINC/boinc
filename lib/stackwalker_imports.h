@@ -21,7 +21,7 @@
 #define gle (GetLastError())
 #define TTBUFLEN                8096 // for a temp buffer (2^13)
 
-#if (defined(__CYGWIN32__) || defined(__MINGW32__)) && !defined(__MINGW64__)
+#if (defined(__CYGWIN32__) || defined(__MINGW32__)) && !defined(__MINGW64_VERSION_MAJOR)
 
 #define MAX_SYM_NAME            2000
 

@@ -5295,3 +5295,10 @@ David  3 Aug 2012
 
     sched/
         sched_send.cpp
+
+Rom    6 Aug 2012
+    - WIN: Don't include the newer DBGHELP symbols in MinGW64.
+        (From Oliver Bock)
+        
+    lib/
+        stackwalker_imports.h
