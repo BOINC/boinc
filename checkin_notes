@@ -5308,3 +5308,11 @@ David  6 Aug 2012
 
 	client/
 		work_fetch.cpp
+
+Rom    7 Aug 2012
+    - MGR: Enforce the 0..10 day limit on the connect interval for the
+        advanced preferences dialog.  At some point we should rename
+        it.
+
+    clientgui/
+        DlgAdvPreferences.cpp
