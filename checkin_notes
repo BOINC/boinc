@@ -5316,3 +5316,10 @@ Rom    7 Aug 2012
 
     clientgui/
         DlgAdvPreferences.cpp
+
+Rom    7 Aug 2012
+    - API: Remove ttfont.cpp from Makefile.am.  Apps should include it
+        in there Makefile as needed.
+
+    api/
+        Makefile.am
