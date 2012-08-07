@@ -5323,3 +5323,10 @@ Rom    7 Aug 2012
 
     api/
         Makefile.am
+
+Rom    7 Aug 2012
+    - WINSCR: Fix problem with the screensaver needlessly cycling in
+        preview mode.  Ugh.
+
+    clientscr/
+        screensaver_win.cpp
