@@ -302,12 +302,12 @@ language("Korean", array(
 
 language("Polish", array(
     //site("http://www.boinc-polska.org/", "BOINC-Polska.org"),
-    site("http://www.boinc.org.pl/", "Team boinc.pl"),
+    //site("http://www.boinc.org.pl/", "Team boinc.pl"),
     site("http://www.boinc.prv.pl", "BOINC@Kolobrzeg"),
     site("http://www.boincatpoland.org", "BOINC@Poland"),
     site("http://boinc.pl", "BOINC Polish National Team"),
     site("http://www.tomaszpawel.republika.pl/", "TomaszPawelTeam"),
-    site("http://www.gpuforce.oxyone.pl/", "GPU Force"),
+    //site("http://www.gpuforce.oxyone.pl/", "GPU Force"),
 ));
 language("Portuguese", array(
     site( "http://portugalathome.pt.vu/", "Portugal@home"),

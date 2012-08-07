@@ -539,6 +539,9 @@ int GLOBAL_PREFS::parse_override(
             }
             continue;
         }
+        if (xp.parse_bool("network_wifi_only", network_wifi_only)) {
+            continue;
+        }
         if (xp.parse_bool("host_specific", host_specific)) {
             continue;
         }

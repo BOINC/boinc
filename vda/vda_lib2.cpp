@@ -22,6 +22,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <vector>
+#include <unistd.h>
 
 #include "error_numbers.h"
 #include "filesys.h"

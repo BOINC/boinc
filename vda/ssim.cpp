@@ -488,23 +488,23 @@ int main(int argc, char** argv) {
 
     // default policy
     //
-#if 1
+#if 0
     policy.replication = 2;
     policy.coding_levels = 1;
     policy.codings[0].n = 4;
     policy.codings[0].k = 2;
     policy.codings[0].m = 6;
 #else
-    policy.replication = 2;
+    policy.replication = 1;
     policy.coding_levels = 2;
-    policy.codings[0].n = 10;
-    policy.codings[0].k = 6;
-    policy.codings[0].m = 16;
-    policy.codings[0].n_upload = 12;
-    policy.codings[1].n = 10;
-    policy.codings[1].k = 6;
-    policy.codings[1].m = 16;
-    policy.codings[1].n_upload = 12;
+    policy.codings[0].n = 4;
+    policy.codings[0].k = 2;
+    policy.codings[0].m = 6;
+    policy.codings[0].n_upload = 5;
+    policy.codings[1].n = 4;
+    policy.codings[1].k = 2;
+    policy.codings[1].m = 6;
+    policy.codings[1].n_upload = 5;
 #endif
 
     for (int i=1; i<argc; i++) {

@@ -162,7 +162,7 @@ int handle_remove(const char* name) {
     //
     retval = chdir(vf.dir);
     if (retval) perror("chdir");
-    retval = system("/bin/rm -r [0-9]* Coding data.vda");
+    retval = system("/bin/rm -r [0-9]* Coding data.vda chunk_sizes.txt");
     if (retval) perror("system");
     return 0;
 }

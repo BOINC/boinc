@@ -5330,3 +5330,15 @@ Rom    7 Aug 2012
 
     clientscr/
         screensaver_win.cpp
+
+David  7 Aug 2012
+    - client: parse <network_wifi_only> in prefs
+    - server: compile fix
+
+    lib/
+        prefs.cpp
+    vda/
+        vda.cpp
+        ssim.cpp
+        vdad.cpp
+        vda_lib2.cpp
