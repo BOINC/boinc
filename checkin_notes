@@ -5342,3 +5342,9 @@ David  7 Aug 2012
         ssim.cpp
         vdad.cpp
         vda_lib2.cpp
+
+Charlie 7 Aug 2012
+    - WIN: Remove reference to deleted tgalib.cpp file.
+
+    win_build/
+        libgraphics2.vcproj
