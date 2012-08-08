@@ -11,18 +11,16 @@
  */
 function boincwork_admin_prefs_upload_form(&$form_state) {
   $form = array(); 
-  $form['#attributes'] = array('enctype' => "multipart/form-data");
-  $form['upload'] = array(
-    '#type' => 'file',
-    '#title' => t('Prefs config file'),
-    '#description' => t('Select an XML file that defines the project specific
-        preferences for your project server')
+  $form['prefs_xml'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Project specific preferences XML'),
+    '#default_value' => variable_get('boinc_project_specific_prefs_config', "<project_specific_preferences>\n\n</project_specific_preferences>"),
+    '#required' => TRUE
   );
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Submit')
   );
-  //$form['#submit'] = 'boincwork_admin_prefs_upload_form_submit';
   // Add the official mechanical things and return
   //drupal_prepare_form('boincwork_admin_prefs_upload_form', $form, $form_state);
   return $form;
@@ -32,41 +30,22 @@ function boincwork_admin_prefs_upload_form(&$form_state) {
   * Handle validation of preference upload form.
   */
 function boincwork_admin_prefs_upload_form_validate($form, &$form_state) {
-  $extensions = 'xml';
-  $size_limit = file_upload_max_size(); 
-  $validators = array(
-    'file_validate_extensions' => array($extensions),
-    'file_validate_size' => array($size_limit),
-  );
-  if ($file = file_save_upload('upload', $validators)) {
-    
-    // Load project specific preferences from XML file
-    if (($raw_config_data = file_get_contents($file->filepath)) === FALSE) {
-        drupal_set_message(t('Cannot read file : @filename', array('@filename' => $filename)), 'error');
-        return;
-    }
-    else {
-      // Convert XML to array for validation
-      $xml = load_configuration($raw_config_data);
-      
-      // Validate against schema (as implemented here in PHP...)
-      if (!isset($xml['project_specific_preferences'])) {
-        drupal_set_message(t('prefs_xml::document is malformed',
-            array('@xml_path' => $xml_path)), 'warning');
-        form_set_error('upload', t('XML file failed validation'));
-      }
-      elseif (!is_array($xml['project_specific_preferences'])) {
-        drupal_set_message(t('prefs_xml::document is empty',
-            array('@xml_path' => $xml_path)), 'warning');
-        form_set_error('upload', t('XML file failed validation'));
-      }
-      elseif (!boincwork_validate_prefs($xml['project_specific_preferences'], 'root')) {
-        form_set_error('upload', t('XML file failed validation'));
-      }
-    }
+  // Convert XML to array for validation
+  $xml = load_configuration($form_state['values']['prefs_xml']);
+  
+  // Validate against schema (as implemented here in PHP...)
+  if (!isset($xml['project_specific_preferences'])) {
+    drupal_set_message(t('prefs_xml::document is malformed',
+        array('@xml_path' => $xml_path)), 'warning');
+    form_set_error('upload', t('XML file failed validation'));
   }
-  else {
-    form_set_error('upload', t('Error uploading file'));
+  elseif (!is_array($xml['project_specific_preferences'])) {
+    drupal_set_message(t('prefs_xml::document is empty',
+        array('@xml_path' => $xml_path)), 'warning');
+    form_set_error('upload', t('XML file failed validation'));
+  }
+  elseif (!boincwork_validate_prefs($xml['project_specific_preferences'], 'root')) {
+    form_set_error('upload', t('XML file failed validation'));
   }
 }
 
@@ -74,16 +53,9 @@ function boincwork_admin_prefs_upload_form_validate($form, &$form_state) {
   * Handle submission of preference upload form.
   */
 function boincwork_admin_prefs_upload_form_submit($form, &$form_state) {
-  $dest = 'sites/default/files/config';
-  if ($file = file_save_upload('upload')) {
-    if (file_move($file, $dest, FILE_EXISTS_REPLACE)) {
-      drupal_set_message('The XML has been validated and any changes to
-          preferences are now in place.');
-    }
-  }
-  else {
-    drupal_set_message('Error saving file', 'error');
-  }
+  variable_set('boinc_project_specific_prefs_config', $form_state['values']['prefs_xml']);
+  drupal_set_message('The XML has been validated and any changes to
+      preferences are now in place.');
 }
 
 /**

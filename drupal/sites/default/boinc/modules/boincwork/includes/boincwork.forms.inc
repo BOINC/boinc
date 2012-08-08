@@ -30,8 +30,8 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
     $prefs = boincwork_load_prefs('general', $venue);
     
     // Determine if a preset is selected or if these are custom settings
-    if (!isset($prefs['ATTRIBUTES']['preset'])) $prefs['ATTRIBUTES']['preset'] = 'custom';
-    if (!$prefs_preset) $prefs_preset = $prefs['ATTRIBUTES']['preset'];
+    if (!isset($prefs['@attributes']['preset'])) $prefs['@attributes']['preset'] = 'custom';
+    if (!$prefs_preset) $prefs_preset = $prefs['@attributes']['preset'];
   }
   
   // Define form defaults
@@ -54,44 +54,53 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
   
   $default = array(
     'preset' => $prefs_preset,
-    'processor' => array(
-      'run_on_batteries' => (isset($prefs['run_on_batteries']) AND !$prefs['run_on_batteries']) ? 0 : 1,
-      'run_if_user_active' => (isset($prefs['run_if_user_active']) AND $prefs['run_if_user_active']) ? 1 : 0,
-      'run_gpu_if_user_active' => (isset($prefs['run_gpu_if_user_active']) AND !$prefs['run_gpu_if_user_active']) ? 0 : 1,
-      'idle_time_to_run' => isset($prefs['idle_time_to_run']) ? $prefs['idle_time_to_run'] : 3,
-      'suspend_if_no_recent_input' => isset($prefs['suspend_if_no_recent_input']) ? $prefs['suspend_if_no_recent_input'] : 0,
-      'suspend_cpu_usage' => isset($prefs['suspend_cpu_usage']) ? $prefs['suspend_cpu_usage'] : 0,
-      'start_hour' => isset($prefs['start_hour']) ? $prefs['start_hour'] : 0,
-      'end_hour' => isset($prefs['end_hour']) ? $prefs['end_hour'] : 0,
-      'leave_apps_in_memory' => (isset($prefs['leave_apps_in_memory']) AND $prefs['leave_apps_in_memory']) ? 1 : 0,
-      'cpu_scheduling_period_minutes' => isset($prefs['cpu_scheduling_period_minutes']) ? $prefs['cpu_scheduling_period_minutes'] : 60,
-      'max_cpus' => isset($prefs['max_cpus']) ? $prefs['max_cpus'] : 16,
-      'max_ncpus_pct' => isset($prefs['max_ncpus_pct']) ? $prefs['max_ncpus_pct'] : 100,
-      'cpu_usage_limit' => isset($prefs['cpu_usage_limit']) ? $prefs['cpu_usage_limit'] : 100
-    ),
-    'storage' => array(
-      'disk_max_used_gb' => isset($prefs['disk_max_used_gb']) ? $prefs['disk_max_used_gb'] : $disk_space_config->disk_max_used_gb,
-      'disk_min_free_gb' => isset($prefs['disk_min_free_gb']) ? $prefs['disk_min_free_gb'] : $disk_space_config->disk_min_free_gb,
-      'disk_max_used_pct' => isset($prefs['disk_max_used_pct']) ? $prefs['disk_max_used_pct'] : $disk_space_config->disk_max_used_pct,
-      'disk_interval' => isset($prefs['disk_interval']) ? $prefs['disk_interval'] : 60,
-      'vm_max_used_pct' => isset($prefs['vm_max_used_pct']) ? $prefs['vm_max_used_pct'] : 75,
-      'ram_max_used_busy_pct' => isset($prefs['ram_max_used_busy_pct']) ? $prefs['ram_max_used_busy_pct'] : 50,
-      'ram_max_used_idle_pct' => isset($prefs['ram_max_used_idle_pct']) ? $prefs['ram_max_used_idle_pct'] : 90
-    ),
-    'network' => array(
-      'work_buf_min_days' => isset($prefs['work_buf_min_days']) ? $prefs['work_buf_min_days'] : 0,
-      'work_buf_additional_days' => isset($prefs['work_buf_additional_days']) ? $prefs['work_buf_additional_days'] : 0.25,
-      'confirm_before_connecting' => (isset($prefs['confirm_before_connecting']) AND $prefs['confirm_before_connecting']) ? 1 : 0,
-      'hangup_if_dialed' => (isset($prefs['hangup_if_dialed']) AND $prefs['hangup_if_dialed']) ? 1 : 0,
-      'max_bytes_sec_down' => isset($prefs['max_bytes_sec_down']) ? $prefs['max_bytes_sec_down'] : 0,
-      'max_bytes_sec_up' => isset($prefs['max_bytes_sec_up']) ? $prefs['max_bytes_sec_up'] : 0,
-      'net_start_hour' => isset($prefs['net_start_hour']) ? $prefs['net_start_hour'] : 0,
-      'net_end_hour' => isset($prefs['net_end_hour']) ? $prefs['net_end_hour'] : 0,
-      'daily_xfer_limit_mb' => isset($prefs['daily_xfer_limit_mb']) ? $prefs['daily_xfer_limit_mb'] : 0,
-      'daily_xfer_period_days' => isset($prefs['daily_xfer_period_days']) ? $prefs['daily_xfer_period_days'] : 0,
-      'dont_verify_images' => (isset($prefs['dont_verify_images']) AND $prefs['dont_verify_images']) ? 1 : 0
-    )
+    // Processing...
+    'run_on_batteries' => 0,
+    'run_if_user_active' => 0,
+    'run_gpu_if_user_active' => 1,
+    'idle_time_to_run' => 3,
+    'suspend_if_no_recent_input' => 0,
+    'suspend_cpu_usage' => 0,
+    'start_hour' => 0,
+    'end_hour' => 0,
+    'leave_apps_in_memory' => 0,
+    'cpu_scheduling_period_minutes' => 60,
+    'max_cpus' => 16,
+    'max_ncpus_pct' => 100,
+    'cpu_usage_limit' => 100,
+    // Storage...
+    'disk_max_used_gb' => $disk_space_config->disk_max_used_gb,
+    'disk_min_free_gb' => $disk_space_config->disk_min_free_gb,
+    'disk_max_used_pct' => $disk_space_config->disk_max_used_pct,
+    'disk_interval' => 60,
+    'vm_max_used_pct' => 75,
+    'ram_max_used_busy_pct' => 50,
+    'ram_max_used_idle_pct' => 90,
+    // Network...
+    'work_buf_min_days' => 0,
+    'work_buf_additional_days' => 0.25,
+    'confirm_before_connecting' => 0,
+    'hangup_if_dialed' => 0,
+    'max_bytes_sec_down' => 0,
+    'max_bytes_sec_up' => 0,
+    'net_start_hour' => 0,
+    'net_end_hour' => 0,
+    'daily_xfer_limit_mb' => 0,
+    'daily_xfer_period_days' => 0,
+    'dont_verify_images' => 0
   );
+  foreach ($default as $name => $value) {
+    if (isset($prefs[$name])) {
+      if (is_array($prefs[$name])) {
+        if (isset($prefs[$name]['@value'])) {
+          $default[$name] = $prefs[$name]['@value'];
+        }
+      }
+      else {
+        $default[$name] = $prefs[$name];
+      }
+    }
+  }
   
   // Standard option sets
   $form['boolean_options'] = array(
@@ -200,7 +209,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
     '#description' => t('Only applies to portable computers'),
     '#options' => $form['boolean_options']['#value'],
     '#attributes' => array('class' => 'fancy'),
-    '#default_value' => $default['processor']['run_on_batteries']
+    '#default_value' => $default['run_on_batteries']
   );
   $form['prefs']['advanced']['processor']['run_if_user_active'] = array(
     '#title' => t('Run while computer is in use?'),
@@ -208,7 +217,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
     '#description' => ' ',
     '#options' => $form['boolean_options']['#value'],
     '#attributes' => array('class' => 'fancy'),
-    '#default_value' => $default['processor']['run_if_user_active']
+    '#default_value' => $default['run_if_user_active']
   );
   $form['prefs']['advanced']['processor']['run_gpu_if_user_active'] = array(
     '#title' => t('Run GPU work while computer is in use?'),
@@ -216,13 +225,13 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
     '#description' => t('Enforced by version 6.6.21+'),
     '#options' => $form['boolean_options']['#value'],
     '#attributes' => array('class' => 'fancy'),
-    '#default_value' => $default['processor']['run_gpu_if_user_active']
+    '#default_value' => $default['run_gpu_if_user_active']
   );
   $form['prefs']['advanced']['processor']['idle_time_to_run'] = array(
     '#title' => t('&apos;In use&apos; means mouse/keyboard activity in last'),
     '#type' => 'textfield',
     '#field_suffix' => t('minutes'),
-    '#default_value' => $default['processor']['idle_time_to_run'],
+    '#default_value' => $default['idle_time_to_run'],
     '#size' => 1,
     '#description' => ' '
   );
@@ -230,7 +239,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
     '#title' => t('Suspend work if no mouse/keyboard activity in last'),
     '#type' => 'textfield',
     '#field_suffix' => t('minutes'),
-    '#default_value' => $default['processor']['suspend_if_no_recent_input'],
+    '#default_value' => $default['suspend_if_no_recent_input'],
     '#size' => 1,
     '#description' => t('Needed to enter low-power mode on some computers')
   );
@@ -238,7 +247,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
     '#title' => t('Suspend work if CPU usage is above'),
     '#type' => 'textfield',
     '#field_suffix' => t('%'),
-    '#default_value' => $default['processor']['suspend_cpu_usage'],
+    '#default_value' => $default['suspend_cpu_usage'],
     '#size' => 1,
     '#description' => t('0 means no restriction. Enforced by version 6.10.30+')
   );
@@ -248,7 +257,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
   $form['prefs']['advanced']['processor']['start_hour'] = array(
     '#type' => 'select',
     '#options' => $form['hour_options']['#value'],
-    '#default_value' => $default['processor']['start_hour']
+    '#default_value' => $default['start_hour']
   );
   $form['prefs']['advanced']['processor']['hour_delimiter'] = array(
     '#value' => '<span>' . t('and') . '</span>'
@@ -256,7 +265,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
   $form['prefs']['advanced']['processor']['end_hour'] = array(
     '#type' => 'select',
     '#options' => $form['hour_options']['#value'],
-    '#default_value' => $default['processor']['end_hour']
+    '#default_value' => $default['end_hour']
   );
   $form['prefs']['advanced']['processor']['hour_description'] = array(
     '#value' => '<div class="form-item slim"><div class="description">' . t('No restriction if equal') . '</div></div>'
@@ -266,14 +275,14 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
     '#type' => 'radios',
     '#options' => $form['boolean_options']['#value'],
     '#attributes' => array('class' => 'fancy'),
-    '#default_value' => $default['processor']['leave_apps_in_memory'],
+    '#default_value' => $default['leave_apps_in_memory'],
     '#description' => t('Suspended tasks will consume swap space if &apos;yes&apos;')
   );
   $form['prefs']['advanced']['processor']['cpu_scheduling_period_minutes'] = array(
     '#title' => t('Switch between tasks every'),
     '#type' => 'textfield',
     '#field_suffix' => t('minutes'),
-    '#default_value' => $default['processor']['cpu_scheduling_period_minutes'],
+    '#default_value' => $default['cpu_scheduling_period_minutes'],
     '#size' => 1,
     '#description' => t('Recommended: 60 minutes')
   );
@@ -281,7 +290,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
     '#title' => t('On multiprocessors, use at most'),
     '#type' => 'textfield',
     '#field_suffix' => t('processors'),
-    '#default_value' => $default['processor']['max_cpus'],
+    '#default_value' => $default['max_cpus'],
     '#size' => 1,
     '#description' => ' '
   );
@@ -289,7 +298,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
     '#title' => t('On multiprocessors, use at most'),
     '#type' => 'textfield',
     '#field_suffix' => t('% of the processors'),
-    '#default_value' => $default['processor']['max_ncpus_pct'],
+    '#default_value' => $default['max_ncpus_pct'],
     '#size' => 1,
     '#description' => t('Enforced by version 6.1+')
   );
@@ -297,7 +306,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
     '#title' => t('Use at most'),
     '#type' => 'textfield',
     '#field_suffix' => t('% of the CPU time'),
-    '#default_value' => $default['processor']['cpu_usage_limit'],
+    '#default_value' => $default['cpu_usage_limit'],
     '#size' => 1,
     '#description' => t('Can be used to reduce CPU heat')
   );
@@ -314,7 +323,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
     '#title' => t('Disk: use at most'),
     '#type' => 'textfield',
     '#field_suffix' => t('GB'),
-    '#default_value' => $default['storage']['disk_max_used_gb'],
+    '#default_value' => $default['disk_max_used_gb'],
     '#size' => 1,
     '#description' => ' '
   ); 
@@ -322,7 +331,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
     '#title' => t('Disk: leave free at least'),
     '#type' => 'textfield',
     '#field_suffix' => t('GB'),
-    '#default_value' => $default['storage']['disk_min_free_gb'],
+    '#default_value' => $default['disk_min_free_gb'],
     '#size' => 1,
     '#description' => t('Values smaller than 0.001 are ignored')
   );
@@ -330,7 +339,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
     '#title' => t('Disk: use at most'),
     '#type' => 'textfield',
     '#field_suffix' => t('% of total'),
-    '#default_value' => $default['storage']['disk_max_used_pct'],
+    '#default_value' => $default['disk_max_used_pct'],
     '#size' => 1,
     '#description' => ' '
   ); 
@@ -338,7 +347,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
     '#title' => t('Tasks checkpoint to disk at most every'),
     '#type' => 'textfield',
     '#field_suffix' => t('seconds'),
-    '#default_value' => $default['storage']['disk_interval'],
+    '#default_value' => $default['disk_interval'],
     '#size' => 1,
     '#description' => ' '
   );
@@ -346,7 +355,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
     '#title' => t('Swap space: use at most'),
     '#type' => 'textfield',
     '#field_suffix' => t('% of total'),
-    '#default_value' => $default['storage']['vm_max_used_pct'],
+    '#default_value' => $default['vm_max_used_pct'],
     '#size' => 1,
     '#description' => ' '
   );
@@ -354,7 +363,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
     '#title' => t('Memory: when computer is in use, use at most'),
     '#type' => 'textfield',
     '#field_suffix' => t('% of total'),
-    '#default_value' => $default['storage']['ram_max_used_busy_pct'],
+    '#default_value' => $default['ram_max_used_busy_pct'],
     '#size' => 1,
     '#description' => ' '
   );
@@ -362,7 +371,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
     '#title' => t('Memory: when computer is not in use, use at most'),
     '#type' => 'textfield',
     '#field_suffix' => t('% of total'),
-    '#default_value' => $default['storage']['ram_max_used_idle_pct'],
+    '#default_value' => $default['ram_max_used_idle_pct'],
     '#size' => 1,
     '#description' => ' '
   );
@@ -379,7 +388,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
     '#title' => t('Computer is connected to the Internet about every'),
     '#type' => 'textfield',
     '#field_suffix' => t('days'),
-    '#default_value' => $default['network']['work_buf_min_days'],
+    '#default_value' => $default['work_buf_min_days'],
     '#size' => 1,
     '#description' => t('Leave blank or 0 if always connected. @project will try to maintain at least this much work.', array('@project' => PROJECT))
   ); 
@@ -387,7 +396,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
     '#title' => t('Maintain enough work for an additional'),
     '#type' => 'textfield',
     '#field_suffix' => t('days'),
-    '#default_value' => $default['network']['work_buf_additional_days'],
+    '#default_value' => $default['work_buf_additional_days'],
     '#size' => 1,
     '#description' => ' '
   ); 
@@ -396,7 +405,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
     '#type' => 'radios',
     '#options' => $form['boolean_options']['#value'],
     '#attributes' => array('class' => 'fancy'),
-    '#default_value' => $default['network']['confirm_before_connecting'],
+    '#default_value' => $default['confirm_before_connecting'],
     '#description' => t('Matters only if you have a modem, ISDN, or VPN connection')
   ); 
   $form['prefs']['advanced']['network']['hangup_if_dialed'] = array(
@@ -404,14 +413,14 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
     '#type' => 'radios',
     '#options' => $form['boolean_options']['#value'],
     '#attributes' => array('class' => 'fancy'),
-    '#default_value' => $default['network']['hangup_if_dialed'],
+    '#default_value' => $default['hangup_if_dialed'],
     '#description' => t('Matters only if you have a modem, ISDN, or VPN connection')
   );
   $form['prefs']['advanced']['network']['max_bytes_sec_down'] = array(
     '#title' => t('Maximum download rate'),
     '#type' => 'textfield',
     '#field_suffix' => t('Kbytes/sec'),
-    '#default_value' => $default['network']['max_bytes_sec_down']/1000,
+    '#default_value' => $default['max_bytes_sec_down']/1000,
     '#size' => 1,
     '#description' => ' '
   ); 
@@ -419,7 +428,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
     '#title' => t('Maximum upload rate'),
     '#type' => 'textfield',
     '#field_suffix' => t('Kbytes/sec'),
-    '#default_value' => $default['network']['max_bytes_sec_up']/1000,
+    '#default_value' => $default['max_bytes_sec_up']/1000,
     '#size' => 1,
     '#description' => ' '
   );
@@ -429,7 +438,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
   $form['prefs']['advanced']['network']['net_start_hour'] = array(
     '#type' => 'select',
     '#options' => $form['hour_options']['#value'],
-    '#default_value' => $default['network']['net_start_hour']
+    '#default_value' => $default['net_start_hour']
   );
   $form['prefs']['advanced']['network']['hour_delimiter'] = array(
     '#value' => '<span>' . t('and') . '</span>'
@@ -437,7 +446,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
   $form['prefs']['advanced']['network']['net_end_hour'] = array(
     '#type' => 'select',
     '#options' => $form['hour_options']['#value'],
-    '#default_value' => $default['network']['net_end_hour']
+    '#default_value' => $default['net_end_hour']
   );
   $form['prefs']['advanced']['network']['hour_description'] = array(
     '#value' => '<div class="form-item slim"><div class="description">' . t('No restriction if equal') . '</div></div>'
@@ -446,14 +455,14 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
     '#title' => t('Transfer at most'),
     '#type' => 'textfield',
     '#field_suffix' => t('Mbytes'),
-    '#default_value' => $default['network']['daily_xfer_limit_mb'],
+    '#default_value' => $default['daily_xfer_limit_mb'],
     '#size' => 1
   ); 
   $form['prefs']['advanced']['network']['daily_xfer_period_days'] = array(
     '#field_prefix' => 'every',
     '#type' => 'textfield',
     '#field_suffix' => t('days'),
-    '#default_value' => $default['network']['daily_xfer_period_days'],
+    '#default_value' => $default['daily_xfer_period_days'],
     '#size' => 1,
     '#description' => t('Enforced by version 6.10.46+')
   ); 
@@ -462,7 +471,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
     '#type' => 'radios',
     '#options' => $form['boolean_options']['#value'],
     '#attributes' => array('class' => 'fancy'),
-    '#default_value' => $default['network']['dont_verify_images'],
+    '#default_value' => $default['dont_verify_images'],
     '#description' => t('Check this ONLY if your Internet provider modifies image files (UMTS does this, for example). Skipping verification reduces the security of BOINC.')
   );
   
@@ -581,12 +590,12 @@ function boincwork_generalprefs_form_submit($form, &$form_state) {
   
   // Save the preset selection (or lack thereof)
   if (!$preset OR $preset == 'custom') {
-    if (isset($prefs['ATTRIBUTES']['preset'])) {
-      unset($prefs['ATTRIBUTES']['preset']);
+    if (isset($prefs['@attributes']['preset'])) {
+      unset($prefs['@attributes']['preset']);
     }
   }
   else {
-    $prefs['ATTRIBUTES']['preset'] = $preset;
+    $prefs['@attributes']['preset'] = $preset;
   }
   
   // Update database
@@ -616,23 +625,31 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
   
   // Get availability of special BOINC preferences
   require_boinc(array('prefs'));
-  global $app_types, $project_has_beta;
+  global $app_array, $app_types, $project_has_beta;
   
   // Load any existing preferences from BOINC account
   $prefs = boincwork_load_prefs('project', $venue);
   
   // Define form defaults
   $default = array(
-    'resource' => array(
-      'resource_share' => isset($prefs['resource_share']) ? $prefs['resource_share'] : 100,
-      'use_cpu' => (isset($prefs['no_cpu']) AND $prefs['no_cpu'] == false) ? 1 : 0,
-      'use_cuda' => (isset($prefs['no_cuda']) AND $prefs['no_cuda'] == false) ? 1 : 0,
-      'use_ati' => (isset($prefs['no_ati']) AND $prefs['no_ati'] == false) ? 1 : 0
-    ),
-    'default_venue' => array(
-      'default_venue' => isset($boincuser->venue) ? $boincuser->venue : '',
-    )
+    'resource_share' => 100,
+    'no_cpu' => 0,
+    'no_cuda' => 0,
+    'no_ati' => 0,
+    'default_venue' => isset($boincuser->venue) ? $boincuser->venue : '',
   );
+  foreach ($default as $name => $value) {
+    if (isset($prefs[$name])) {
+      if (is_array($prefs[$name])) {
+        if (isset($prefs[$name]['@value'])) {
+          $default[$name] = $prefs[$name]['@value'];
+        }
+      }
+      else {
+        $default[$name] = $prefs[$name];
+      }
+    }
+  }
   
   // Standard option sets
   $form['boolean_options'] = array(
@@ -674,38 +691,38 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
   $form['resource']['resource_share'] = array(
     '#title' => t('Resource share'),
     '#type' => 'textfield',
-    '#default_value' => $default['resource']['resource_share'],
+    '#default_value' => $default['resource_share'],
     '#size' => 5,
     '#description' => t("Determines the proportion of your computer's resources allocated to this project. Example: if you participate in two BOINC projects with resource shares of 100 and 200, the first will get 1/3 of your resources and the second will get 2/3.")
   );
   if ($app_types->count > 1) {
     if ($app_types->cpu) {
-      $form['resource']['use_cpu'] = array(
+      $form['resource']['no_cpu'] = array(
         '#title' => t('Use CPU'),
         '#type' => 'radios',
         '#options' => $form['boolean_options']['#value'],
         '#attributes' => array('class' => 'fancy'),
-        '#default_value' => $default['resource']['use_cpu'],
+        '#default_value' => $default['no_cpu'] ? 0 : 1,
         '#description' => t('Enforced by version @number', array('@number' => '6.10+'))
       );
     }
     if ($app_types->cuda) {
-      $form['resource']['use_cuda'] = array(
+      $form['resource']['no_cuda'] = array(
         '#title' => t('Use NVIDIA GPU'),
         '#type' => 'radios',
         '#options' => $form['boolean_options']['#value'],
         '#attributes' => array('class' => 'fancy'),
-        '#default_value' => $default['resource']['use_cuda'],
+        '#default_value' => $default['no_cuda'] ? 0 : 1,
         '#description' => t('Enforced by version @number', array('@number' => '6.10+'))
       );
     }
     if ($app_types->ati) {
-      $form['resource']['use_ati'] = array(
+      $form['resource']['no_ati'] = array(
         '#title' => t('Use ATI GPU'),
         '#type' => 'radios',
         '#options' => $form['boolean_options']['#value'],
         '#attributes' => array('class' => 'fancy'),
-        '#default_value' => $default['resource']['use_ati'],
+        '#default_value' => $default['no_ati'] ? 0 : 1,
         '#description' => t('Enforced by version @number', array('@number' => '6.10+'))
       );
     }
@@ -726,7 +743,7 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
     '#title' => t('Default computer location'),
     '#type' => 'select',
     '#options' => $form['venue_options']['#value'],
-    '#default_value' => $default['default_venue']['default_venue'],
+    '#default_value' => $default['default_venue'],
     '#description' => null
   );
   
@@ -748,32 +765,11 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
     );
   }
   
-  // Load project specific preferences from XML file
-  $filename = 'sites/default/files/config/projectprefs.xml';
-  if (($raw_config_data = file_get_contents($filename)) === FALSE) {
-      drupal_set_message(t('Cannot read file : @filename', array('@filename' => $filename)), 'error');
-      return null;
+  // Load project specific preferences from XML config
+  $xml = boincwork_get_project_specific_config();
+  foreach ($xml['project_specific_preferences'] as $type => $element) {
+    boincwork_generate_prefs_element($form, $type, $element, $prefs['project_specific']);
   }
-  else {
-    // Convert XML to array for validation
-    $xml = load_configuration($raw_config_data);
-    
-    // Validate against schema (as implemented here in PHP...)
-    if (!isset($xml['project_specific_preferences'])) {
-      drupal_set_message(t('prefs_xml::document is malformed',
-          array('@xml_path' => $xml_path)), 'warning');
-    }
-    elseif (!is_array($xml['project_specific_preferences'])) {
-      drupal_set_message(t('prefs_xml::document is empty',
-          array('@xml_path' => $xml_path)), 'warning');
-    }
-    elseif (boincwork_validate_prefs($xml['project_specific_preferences'], 'root')) {
-      foreach ($xml['project_specific_preferences'] as $type => $element) {
-        boincwork_generate_prefs_element($form, $type, $element, $prefs['project_specific']);
-      }
-    }
-  }
-  
   return $form;
 }
 
@@ -781,11 +777,30 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
   * Validate the project preferences form.
   */
 function boincwork_projectprefs_form_validate($form, &$form_state) {
-  require_boinc('util');
   
-  // Verify all non-boolean user input values and notify form API of failures
-  if (!verify_numeric($form_state['values']['resource_share'], 0)) form_set_error('resource_share', t('Invalid setting for') . " \"{$form['resource']['resource_share']['#title']}\"");
-  if (!isset($form['venue_options']['#value'][$form_state['values']['default_venue']])) form_set_error('default_venue', t('Invalid setting for') . " \"{$form['venue']['default_venue']['#title']}\"");
+  // Verify all text user input values and notify form API of failures
+  $validation_rules = array(
+    'resource_share' => array(
+      'datatype' => 'integer',
+      'min' => 0
+    )
+  );
+  
+  // Add validation rules for project specific settings
+  $validation_rules += boincwork_get_project_specific_config_validation_rules();
+  
+  // Perform validation
+  foreach ($validation_rules as $field => $rules) {
+    if (isset($rules['datatype']) AND !boincwork_validate_datatype($form_state['values'][$field], $rules['datatype'])) {
+      form_set_error($field, t('Invalid data type for @field', array('@field' => $field)));
+    }
+    if (isset($rules['min']) AND $form_state['values'][$field] < $rules['min']) {
+      form_set_error($field, t('Minimum value not met for @field', array('@field' => $field)));
+    }
+    if (isset($rules['max']) AND $form_state['values'][$field] > $rules['max']) {
+      form_set_error($field, t('Maximum value exceeded for @field', array('@field' => $field)));
+    }
+  }
 }
 
 /**
@@ -804,13 +819,21 @@ function boincwork_projectprefs_form_submit($form, &$form_state) {
   // Resource preferences
   $prefs['resource_share'] = $form_state['values']['resource_share'];
   if ($app_types->count > 1) {
-    if ($app_types->cpu) $prefs['no_cpu'] = ($form_state['values']['use_cpu']) ? false : true;
-    if ($app_types->cuda) $prefs['no_cuda'] = ($form_state['values']['use_cuda']) ? false : true;
-    if ($app_types->ati) $prefs['no_ati'] = ($form_state['values']['use_ati']) ? false : true;
+    if ($app_types->cpu) $prefs['no_cpu'] = ($form_state['values']['no_cpu']) ? 0 : 1;
+    if ($app_types->cuda) $prefs['no_cuda'] = ($form_state['values']['no_cuda']) ? 0 : 1;
+    if ($app_types->ati) $prefs['no_ati'] = ($form_state['values']['no_ati']) ? 0 : 1;
   }
   
   // Beta preferences
-  $prefs['allow_beta_work'] = ($form_state['values']['allow_beta_work']) ? true : false;
+  $prefs['allow_beta_work'] = ($form_state['values']['allow_beta_work']) ? 1 : 0;
+  
+  // Load project specific preferences from XML config
+  $xml = boincwork_get_project_specific_config();
+  $updated_prefs = array(
+    'project_specific' => boincwork_format_project_specific_prefs_data($form_state['values'])
+  );
+  $prefs = $updated_prefs + $prefs;
+  
   
   // Save preferences back to the BOINC account
   boincwork_save_prefs($prefs, 'project', $venue);

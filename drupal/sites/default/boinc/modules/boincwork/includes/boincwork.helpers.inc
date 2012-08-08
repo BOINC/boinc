@@ -181,8 +181,163 @@ function boincwork_get_preset_prefs($preset = null) {
 }
 
 /**
+ * Load (and validate) the project specific configuration XML
+ */
+function boincwork_get_project_specific_config() {
+  $raw_config_data = variable_get('boinc_project_specific_prefs_config', '');
+  
+  // Convert XML to array for validation
+  $xml = load_configuration($raw_config_data);
+  
+  // Validate against schema (as implemented here in PHP...)
+  if (!isset($xml['project_specific_preferences'])) {
+    drupal_set_message(t('prefs_xml::document is malformed',
+        array('@xml_path' => $xml_path)), 'warning');
+  }
+  elseif (!is_array($xml['project_specific_preferences'])) {
+    drupal_set_message(t('prefs_xml::document is empty',
+        array('@xml_path' => $xml_path)), 'warning');
+  }
+  elseif (boincwork_validate_prefs($xml['project_specific_preferences'], 'root')) {
+    return $xml;
+  }
+  return NULL;
+}
+
+/**
+ * Get rules by which to validate project specific data
+ */
+function boincwork_get_project_specific_config_validation_rules($xml = array()) {
+  $rules = array();
+  if (!$xml) {
+    // Read the config XML
+    $xml = boincwork_get_project_specific_config();
+    $xml = $xml['project_specific_preferences'];
+  }
+  foreach ($xml as $type => $elements) {
+    if (is_array($elements) AND !is_numeric(key($elements))) {
+      $elements = array($elements);
+    }
+    switch ($type) {
+    case 'compound':
+      foreach ($elements as $element) {
+        $rules = $rules + boincwork_get_project_specific_config_validation_rules($element);
+      }
+      break;
+      
+    case 'text':
+      foreach ($elements as $element) {
+        $name = $element['@attributes']['name'];
+        $rules[$name] = array(
+          'datatype' => $element['@attributes']['datatype']
+        );
+        if (isset($element['@attributes']['min'])) {
+          $rules[$name]['min'] = $element['@attributes']['min'];
+        }
+        if (isset($element['@attributes']['max'])) {
+          $rules[$name]['max'] = $element['@attributes']['max'];
+        }
+      }
+      break;
+    /*
+    case 'radio':
+    case 'dropdown':
+      foreach ($elements as $element) {
+        $name = $element['@attributes']['name'];
+        $options = array();
+        foreach ($element['items']['item'] as $option) {
+          if (is_array($option) AND isset($option['@value'])) {
+            $option = $option['@value'];
+          }
+          $options[] = $option;
+        }
+        $rules[$name] = array(
+          'options' => $options
+        );
+      }
+      break;
+    
+    case 'apps':
+      foreach ($elements as $element) {
+        foreach ($element['app'] as $app) {
+          $name = "app_{$app['@attributes']['id']}";
+          $rules[$name] = array(
+            'options' => $options
+          );
+        }
+      }
+      break;
+    
+    case 'boolean':
+      // Shouldn't need to validate boolean...
+      break;
+      */
+    default:
+    }
+  }
+  return $rules;
+}
+
+/**
+ * Define how project specific settings should be saved
+ */
+function boincwork_format_project_specific_prefs_data($values, $xml = array()) {
+  $defaults = array();
+  if (!$xml) {
+    // Read the config XML
+    $xml = boincwork_get_project_specific_config();
+    $xml = $xml['project_specific_preferences'];
+  }
+  foreach ($xml as $type => $elements) {
+    $structure_data = array();
+    if (is_array($elements) AND !is_numeric(key($elements))) {
+      $elements = array($elements);
+    }
+    switch ($type) {
+    case 'compound':
+      foreach ($elements as $element) {
+        $name = $element['@attributes']['name'];
+        $default[$name] = boincwork_format_project_specific_prefs_data($values, $element);
+      }
+      $defaults += $default;
+      break;
+      
+    case 'text':
+    case 'radio':
+    case 'dropdown':
+    case 'boolean':
+      foreach ($elements as $element) {
+        $name = $element['@attributes']['name'];
+        if (isset($element['@attributes']['entitytype']) AND $element['@attributes']['entitytype'] == 'attribute') {
+          $defaults['@attributes'][$name] = $values[$name];
+        }
+        else {
+          $defaults[$name] = $values[$name];
+        }
+      }
+      break;
+    
+    case 'apps':
+      foreach ($elements as $element) {
+        $defaults['app_id'] = array();
+        foreach ($element['app'] as $app) {
+          $app_id = $app['@attributes']['id'];
+          if ($values["app_{$app_id}"]) {
+            $defaults['app_id'][] = $app_id;
+          }
+        }
+      }
+      break;
+      
+    default:
+    }
+  }
+  return $defaults;
+}
+
+/**
  * Validate project specific preferences XML.
- * This implements the schema defined in includes/projectprefs.xsd
+ * This implements the project specific preferences schema
  */
 function boincwork_validate_prefs($config, $type = null, $xml_path = '') {
   if ($type AND $xml_path) {
@@ -559,11 +714,37 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       if (isset($element['description'])) {
         $description = is_array($element['description']) ? $element['description']['@value'] : $element['description'];
       }
+      
+      $value = $default;
+      $user_pref = $user_prefs;
       $entitytype = isset($element['@attributes']['entitytype']) ? $element['@attributes']['entitytype'] : 'element';
       if ($entitytype == 'attribute') {
-        $user_prefs = $user_prefs['@attributes'];
+        $user_pref = $user_prefs['@attributes'];
       }
-      $value = isset($user_prefs[$name]) ? $user_prefs[$name] : $default;
+      if (isset($user_pref[$name])) {
+        if (is_array($user_pref[$name]) AND isset($user_pref[$name]['@value'])) {
+          $value = $user_pref[$name]['@value'];
+        }
+        else {
+          $value = $user_pref[$name];
+        }
+      }
+      
+      // Use appropriate datatype
+      if (isset($element['@attributes']['datatype'])) {
+        switch($element['@attributes']['datatype']) {
+        case 'integer':
+          $value = (int) $value;
+          break;
+          
+        case 'float':
+          $value = number_format((float) $value, 1);
+          break;
+        
+        default:
+        }
+      }
+      
       $form[$name] = array(
         '#title' => t($title),
         '#type' => 'textfield',
@@ -586,11 +767,22 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       if (isset($element['description'])) {
         $description = is_array($element['description']) ? $element['description']['@value'] : $element['description'];
       }
+      
+      $value = $default;
+      $user_pref = $user_prefs;
       $entitytype = isset($element['@attributes']['entitytype']) ? $element['@attributes']['entitytype'] : 'element';
       if ($entitytype == 'attribute') {
-        $user_prefs = $user_prefs['@attributes'];
+        $user_pref = $user_prefs['@attributes'];
       }
-      $value = isset($user_prefs[$name]) ? $user_prefs[$name] : $default;
+      if (isset($user_pref[$name])) {
+        if (is_array($user_pref[$name]) AND isset($user_pref[$name]['@value'])) {
+          $value = $user_pref[$name]['@value'];
+        }
+        else {
+          $value = $user_pref[$name];
+        }
+      }
+      
       $form[$name] = array(
         '#title' => t($title),
         '#type' => 'radios',
@@ -632,9 +824,9 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       }
       $entitytype = isset($element['@attributes']['entitytype']) ? $element['@attributes']['entitytype'] : 'element';
       if ($entitytype == 'attribute') {
-        $user_prefs = $user_prefs['@attributes'];
+        $user_pref = $user_prefs['@attributes'];
       }
-      $value = isset($user_prefs[$name]) ? $user_prefs[$name] : $default;
+      $value = isset($user_pref[$name]) ? $user_pref[$name] : $default;
       
       $form[$name] = array(
         '#title' => t($title),
@@ -656,7 +848,10 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       '#collapsible' => TRUE,
       '#collapsed' => FALSE
     );
-    $applications = isset($user_prefs['app_id']) ? (array) $user_prefs['app_id'] : null;
+    $applications = array();
+    foreach ((array) $user_prefs['app_id'] as $app) {
+      $applications[] = isset($app['@value']) ? $app['@value'] : $app;
+    }
     foreach ($elements['app'] as $app) {
       $app_id = $app['@attributes']['id'];
       $app_name = $app['@value'];
@@ -823,8 +1018,6 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
   }
   $main_prefs['mod_time'] = time();
   
-  //drupal_set_message('<pre>' . print_r($main_prefs, true) . '</pre>');
-  
   // Convert prefs back to XML and save to database
   $result = null;
   if ($type == 'project') {
@@ -844,7 +1037,45 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
   return $result;
 }
 
+
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Utility functions
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */ 
+
+/**
+ * Check that numeric data conforms to specifications
+ */
+function boincwork_validate_datatype($data, $datatype = NULL) {
+  switch ($datatype) {
+  case 'float':
+    if (!is_numeric($data)) {
+      return FALSE;
+    }
+    $data += 0;
+    if (!is_float($data)) {
+      return FALSE;
+    }
+    break;
+    
+  case 'integer':
+    if (!is_numeric($data)) {
+      return FALSE;
+    }
+    $data += 0;
+    if (!is_int($data)) {
+      return FALSE;
+    }
+    break;
   
+  case 'text':
+  default:
+    
+  }
+  return TRUE;
+}
+
+
   //------------------------------------------------------------------------------------------------
   //  load_configuration(): Convert structured text/xml to array
   //------------------------------------------------------------------------------------------------
@@ -872,8 +1103,93 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
   //------------------------------------------------------------------------------------------------
   
   function array_to_xml($array, $dom = false, $parent_node = false) {
+    $is_root = false;
     if (!$dom) $dom = new DomDocument('1.0');
-    if (!$parent_node) $parent_node = $dom;
+    if (!$parent_node) {
+      $parent_node = $dom;
+      $is_root = true;
+    }
+    // Created an intermediate array to attempt to sort by @position
+    $ordered_array = array();
+    $unordered_array = array();
+    foreach ($array as $name => $value) {
+      if ($is_root) {
+        $unordered_array[] = $array;
+        break;
+      }
+      if (is_array($value)) {
+        if (is_numeric(key($value))) {
+          foreach ($value as $item) {
+            if (isset($item['@position'])) {
+              $ordered_array[$item['@position']] = array(
+                $name => $item
+              );
+            }
+            else {
+              $unordered_array[] = array(
+                $name => $item
+              );
+            }
+          }
+        }
+        elseif (isset($value['@position'])) {
+          $ordered_array[$value['@position']] = array(
+            $name => $value
+          );
+        }
+        else {
+          $unordered_array[] = array(
+            $name => $value
+          );
+        }
+      }
+      else {
+        $unordered_array[] = array(
+          $name => $value
+        );
+      }
+    }
+    
+    // Now append items without explicit positions at the end
+    $primed_array = array_merge($ordered_array, $unordered_array);
+    
+    // Convert to XML...
+    foreach ($primed_array as $item) {
+      list($name, $value) = each($item);
+      if (strcmp($name, '@attributes') == 0) {
+        if (!is_array($value)) continue;
+        foreach ($value as $attributeName => $attributeValue) {
+          $parent_node->setAttribute($attributeName, $attributeValue);
+        }
+      } elseif (strcmp($name, '@value') == 0) {
+        if (isset($value)) $parent_node->nodeValue = $value;
+      } elseif (strcmp($name, '@position') == 0) {
+        continue;
+      } else {
+        if (is_numeric($name)) {
+          $name = $parent_node->tagName;
+        }
+        $current_item = $dom->createElement($name);
+        if (is_array($value)) {
+          if (is_numeric(key($value))) {
+            $current_node = $parent_node->appendChild($current_item);
+            $current_node = array_to_xml($value, $dom, $current_node);
+            $child_count = $current_node->childNodes->length;
+            for ($i = 0; $i < $child_count; $i++) {
+              $parent_node->appendChild($current_node->childNodes->item(0));
+            }
+            $parent_node->removeChild($current_node);
+          } else {
+            $current_node = $dom->appendChild($current_item);
+            $parent_node->appendChild(array_to_xml($value, $dom, $current_node));
+          }
+        } else {
+          if (isset($value)) $current_item->nodeValue = $value;
+          $parent_node->appendChild($current_item);
+        }
+      }
+    }
+    /*
     foreach ($array as $name => $value) {
       if (strcmp($name, '@attributes') == 0) {
         if (!is_array($value)) continue;
@@ -905,7 +1221,7 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
           $parent_node->appendChild($current_item);
         }
       }
-    }
+    }*/
     return $parent_node;
   }
   
@@ -939,6 +1255,7 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
       $node = $xml->firstChild; //$xml->first_child();
       $result = '';
       $index = 1;
+      $position = 0;
       while (!is_null($node)) {
           switch ($node->nodeType) {
           case XML_TEXT_NODE:
@@ -970,6 +1287,14 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
                           $result[$node_name][$index]['@attributes'][$attribute->name] = $attribute->value;
                       }
                   }
+                  // Retain the position of the element
+                  if (!is_array($result[$node_name][$index])) {
+                    $result[$node_name][$index] = array(
+                      '@value' => $result[$node_name][$index]
+                    );
+                  }
+                  $result[$node_name][$index]['@position'] = $position;
+                  $position++;
                   $index++;
               } else {
                   $result[$node_name] = '';
@@ -985,6 +1310,14 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
                           $result[$node_name]['@attributes'][$attribute->name] = $attribute->value;
                       }
                   }
+                  // Retain the position of the element
+                  if (!is_array($result[$node_name])) {
+                    $result[$node_name] = array(
+                      '@value' => $result[$node_name]
+                    );
+                  }
+                  $result[$node_name]['@position'] = $position;
+                  $position++;
               }
               break;
           }
