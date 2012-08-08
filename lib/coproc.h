@@ -94,10 +94,13 @@
 #define NPROC_TYPES          4
 
 extern const char* proc_type_name(int);
+    // user-readable name
 extern const char* proc_type_name_xml(int);
+    // name used in XML and COPROC::type
 
-#define GPU_TYPE_NVIDIA "NVIDIA"
-#define GPU_TYPE_ATI "ATI"
+// deprecated, but keep for simplicity
+#define GPU_TYPE_NVIDIA proc_type_name_xml(PROC_TYPE_NVIDIA_GPU)
+#define GPU_TYPE_ATI proc_type_name_xml(PROC_TYPE_AMD_GPU)
 
 enum COPROC_USAGE {
     COPROC_IGNORED,
@@ -258,10 +261,6 @@ struct COPROC {
             pending_usage[i] = 0;
         }
     }
-    COPROC(const char* t){
-        clear();
-        strcpy(type, t);
-    }
     COPROC() {
         clear();
     }
@@ -320,7 +319,9 @@ struct COPROC_NVIDIA : public COPROC {
 #ifndef _USING_FCGI_
     void write_xml(MIOFILE&, bool scheduler_rpc);
 #endif
-    COPROC_NVIDIA(): COPROC(GPU_TYPE_NVIDIA){}
+    COPROC_NVIDIA(): COPROC() {
+        strcpy(type, proc_type_name_xml(PROC_TYPE_NVIDIA_GPU));
+    }
     void get(
         bool use_all,
         std::vector<std::string>&,
@@ -357,7 +358,9 @@ struct COPROC_ATI : public COPROC {
 #ifndef _USING_FCGI_
     void write_xml(MIOFILE&, bool scheduler_rpc);
 #endif
-    COPROC_ATI(): COPROC(GPU_TYPE_ATI){}
+    COPROC_ATI(): COPROC() {
+        strcpy(type, proc_type_name_xml(PROC_TYPE_AMD_GPU));
+    }
     void get(
         bool use_all,
         std::vector<std::string>&,

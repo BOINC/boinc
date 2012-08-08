@@ -765,7 +765,7 @@ BEST_APP_VERSION* get_app_version(
             if (r*host_usage.projected_flops > bavp->host_usage.projected_flops) {
                 if (config.debug_version_select && (host_usage.projected_flops <= bavp->host_usage.projected_flops)) {
                       log_messages.printf(MSG_NORMAL,
-                          "[version] [AV#%d] Random factor wins.  r=%f n=%d\n",
+                          "[version] [AV#%d] Random factor wins.  r=%f n=%ld\n",
                           av.id, r, n
                     );
                 }

@@ -327,27 +327,43 @@ int PROJECT::parse(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_str("no_rsc_ams", buf, sizeof(buf))) {
-            if (!strcmp(buf, "CPU")) rsc_desc_cpu.no_rsc_ams = true;
-            else if (!strcmp(buf, "NVIDIA")) rsc_desc_nvidia.no_rsc_ams = true;
-            else if (!strcmp(buf, "ATI")) rsc_desc_ati.no_rsc_ams = true;
+            if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_CPU))) {
+                rsc_desc_cpu.no_rsc_ams = true;
+            } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_NVIDIA_GPU))) {
+                rsc_desc_nvidia.no_rsc_ams = true;
+            } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_AMD_GPU))) {
+                rsc_desc_ati.no_rsc_ams = true;
+            }
             continue;
         }
         if (xp.parse_str("no_rsc_apps", buf, sizeof(buf))) {
-            if (!strcmp(buf, "CPU")) rsc_desc_cpu.no_rsc_apps = true;
-            else if (!strcmp(buf, "NVIDIA")) rsc_desc_nvidia.no_rsc_apps = true;
-            else if (!strcmp(buf, "ATI")) rsc_desc_ati.no_rsc_apps = true;
+            if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_CPU))) {
+                rsc_desc_cpu.no_rsc_apps = true;
+            } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_NVIDIA_GPU))) {
+                rsc_desc_nvidia.no_rsc_apps = true;
+            } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_AMD_GPU))) {
+                rsc_desc_ati.no_rsc_apps = true;
+            }
             continue;
         }
         if (xp.parse_str("no_rsc_pref", buf, sizeof(buf))) {
-            if (!strcmp(buf, "cpu")) rsc_desc_cpu.no_rsc_pref = true;
-            else if (!strcmp(buf, "nvidia")) rsc_desc_nvidia.no_rsc_pref = true;
-            else if (!strcmp(buf, "ati")) rsc_desc_ati.no_rsc_pref = true;
+            if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_CPU))) {
+                rsc_desc_cpu.no_rsc_pref = true;
+            } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_NVIDIA_GPU))) {
+                rsc_desc_nvidia.no_rsc_pref = true;
+            } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_AMD_GPU))) {
+                rsc_desc_ati.no_rsc_pref = true;
+            }
             continue;
         }
         if (xp.parse_str("no_rsc_config", buf, sizeof(buf))) {
-            if (!strcmp(buf, "cpu")) rsc_desc_cpu.no_rsc_config = true;
-            else if (!strcmp(buf, "nvidia")) rsc_desc_nvidia.no_rsc_config = true;
-            else if (!strcmp(buf, "ati")) rsc_desc_ati.no_rsc_config = true;
+            if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_CPU))) {
+                rsc_desc_cpu.no_rsc_config = true;
+            } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_NVIDIA_GPU))) {
+                rsc_desc_nvidia.no_rsc_config = true;
+            } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_AMD_GPU))) {
+                rsc_desc_ati.no_rsc_config = true;
+            }
             continue;
         }
 

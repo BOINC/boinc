@@ -474,7 +474,7 @@ void COPROC_NVIDIA::write_xml(MIOFILE& f, bool scheduler_rpc) {
 
 void COPROC_NVIDIA::clear() {
     COPROC::clear();
-    strcpy(type, GPU_TYPE_NVIDIA);
+    strcpy(type, proc_type_name_xml(PROC_TYPE_NVIDIA_GPU));
     estimated_delay = -1;   // mark as absent
     cuda_version = 0;
     display_driver_version = 0;
@@ -629,7 +629,7 @@ void COPROC_NVIDIA::set_peak_flops() {
 void COPROC_NVIDIA::fake(
     int driver_version, double ram, double avail_ram, int n
 ) {
-   strcpy(type, GPU_TYPE_NVIDIA);
+   strcpy(type, proc_type_name_xml(PROC_TYPE_NVIDIA_GPU));
    count = n;
    for (int i=0; i<count; i++) {
        device_nums[i] = i;
@@ -734,7 +734,7 @@ void COPROC_ATI::write_xml(MIOFILE& f, bool scheduler_rpc) {
 
 void COPROC_ATI::clear() {
     COPROC::clear();
-    strcpy(type, GPU_TYPE_ATI);
+    strcpy(type, proc_type_name_xml(PROC_TYPE_AMD_GPU));
     estimated_delay = -1;
     strcpy(name, "");
     strcpy(version, "");
@@ -871,7 +871,7 @@ void COPROC_ATI::set_peak_flops() {
 }
 
 void COPROC_ATI::fake(double ram, double avail_ram, int n) {
-    strcpy(type, GPU_TYPE_ATI);
+    strcpy(type, proc_type_name_xml(PROC_TYPE_AMD_GPU));
     strcpy(version, "1.4.3");
     strcpy(name, "foobar");
     count = n;
@@ -892,7 +892,7 @@ void COPROC_ATI::fake(double ram, double avail_ram, int n) {
 const char* proc_type_name_xml(int pt) {
     switch(pt) {
     case PROC_TYPE_CPU: return "CPU";
-    case PROC_TYPE_NVIDIA_GPU: return "CUDA";
+    case PROC_TYPE_NVIDIA_GPU: return "NVIDIA";
     case PROC_TYPE_AMD_GPU: return "ATI";
     case PROC_TYPE_INTEL_GPU: return "intel_gpu";
     }
