@@ -5348,3 +5348,15 @@ Charlie 7 Aug 2012
 
     win_build/
         libgraphics2.vcproj
+
+David  8 Aug 2012
+    - server: volunteer storage bug fixes.
+        Note to self: jerasure's decoder program loops or crashs
+            if there are no missing chunks.
+    vda/
+        vda_lib.cpp,h
+        vda.cpp
+        sched_vda.cpp
+        vda_lib2.cpp
+    db/
+        boinc_db_types.h

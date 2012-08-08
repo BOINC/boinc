@@ -134,6 +134,8 @@ int META_CHUNK::recovery_plan() {
 
     unsigned int i;
     have_unrecoverable_children = false;
+    need_reconstruct = false;
+    needed_by_parent = false;
 
     // make lists of children in various states
     //
@@ -502,6 +504,7 @@ int CHUNK::recovery_action(double now) {
     if (status == PRESENT && (int)(hosts.size()) < fp->policy.replication) {
         retval = assign();
         if (retval) return retval;
+        data_needed = true;
     }
     if (download_in_progress()) {
         data_needed = true;
@@ -518,11 +521,15 @@ int CHUNK::recovery_action(double now) {
         }
     } else {
         if (present_on_server) {
+            sprintf(buf,
+                "   chunk %s: not needed, removing from server\n", name
+            );
+            show_msg(buf);
+            retval = delete_file();
+            if (retval) return retval;
             present_on_server = false;
             status = RECOVERABLE;
             min_failures = fp->policy.replication;
-            sprintf(buf, "   chunk %s: replicated, removing from server\n", name);
-            show_msg(buf);
             parent->dfile->disk_usage.sample_inc(
                 -size,
                 fp->collecting_stats(),

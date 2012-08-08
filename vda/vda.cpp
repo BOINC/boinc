@@ -64,15 +64,21 @@ void META_CHUNK::print_status(int level) {
 
 void CHUNK::print_status(int level) {
     printf("%schunk %s\n", indent(level), name);
+    level++;
+    printf(
+        "%spresent on server: %s\n",
+        indent(level), present_on_server?"yes":"no"
+    );
     set<VDA_CHUNK_HOST*>::iterator i;
     for (i=hosts.begin(); i!=hosts.end(); i++) {
         VDA_CHUNK_HOST* ch = *i;
-        ch->print_status(level+1);
+        ch->print_status(level);
     }
 }
 
 void VDA_CHUNK_HOST::print_status(int level) {
     printf("%shost %d\n", indent(level), host_id);
+    level++;
     printf("%spresent on host: %s\n",
         indent(level), present_on_host?"yes":"no"
     );

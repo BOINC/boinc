@@ -182,17 +182,17 @@ static int process_completed_upload(char* chunk_name, CHUNK_LIST& chunks) {
     return 0;
 }
 
-// Process a present file; possibilities:
-// - a download finished
-// - this host hasn't communicated in a while, and we deleted the
-//   VDA_CHUNK_HOST record
+// Process a file that's present on client.
+// A VDA_CHUNK_HOST record may not be in the DB,
+// e.g. because this host hasn't communicated in a while
+// and we deleted the VDA_CHUNK_HOST record
 // So:
 // - create a vda_chunk_host record if needed
 // - set present_on_host flag in vda_chunk_host
 // - mark our in-memory vda_chunk_host record as "found"
 // - mark vda_file for update
 //
-static void process_present_file(FILE_INFO& fi, CHUNK_LIST& chunks) {
+static void process_chunk_present_on_client(FILE_INFO& fi, CHUNK_LIST& chunks) {
     char fname[256], chunk_name[256], buf[256];
     int hostid, retval;
     retval = parse_physical_filename(fi.name, hostid, chunk_name, fname);
@@ -221,7 +221,7 @@ static void process_present_file(FILE_INFO& fi, CHUNK_LIST& chunks) {
 
     CHUNK_LIST::iterator cli = chunks.find(string(fi.name));
     if (cli == chunks.end()) {
-        // don't have a record of this chunk on this host; make one
+        // we don't have a record of this chunk on this host; make one
         //
         DB_VDA_CHUNK_HOST ch;
         ch.create_time = dtime();
@@ -238,30 +238,42 @@ static void process_present_file(FILE_INFO& fi, CHUNK_LIST& chunks) {
             log_messages.printf(MSG_CRITICAL, "ch.insert() failed\n");
             return;
         }
+        mark_for_update(vf.id);
     } else {
-        // update the existing record
+        // we already have a DB record.
+        // If needed, update it and mark file for update
         //
         DB_VDA_CHUNK_HOST* chp = &(cli->second);
-        chp->transfer_in_progress = false;
-        chp->transfer_wait = false;
-        chp->present_on_host = true;
-        sprintf(buf,
-            "host_id=%d and physical_file_name='%s'",
-            chp->host_id, chp->physical_file_name
-        );
-        chp->update_fields_noid(
-            "transfer_in_progress=0, transfer_wait=0, present_on_host=1",
-            buf
-        );
+        chp->found = true;
+
+        if (!chp->present_on_host) {
+            mark_for_update(vf.id);
+        }
+
+        if (chp->transfer_in_progress
+            || chp->transfer_wait
+            || chp->present_on_host
+        ) {
+            chp->transfer_in_progress = false;
+            chp->transfer_wait = false;
+            chp->present_on_host = true;
+            sprintf(buf,
+                "host_id=%d and physical_file_name='%s'",
+                chp->host_id, chp->physical_file_name
+            );
+            chp->update_fields_noid(
+                "transfer_in_progress=0, transfer_wait=0, present_on_host=1",
+                buf
+            );
+        }
     }
-    mark_for_update(vf.id);
 }
 
 // for each vda_chunk_host not in file list:
 // - delete from DB
 // - mark vda_file for update
 //
-static int process_missing_chunks(CHUNK_LIST& chunks) {
+static int process_chunks_missing_on_client(CHUNK_LIST& chunks) {
     CHUNK_LIST::iterator it;
     for (it = chunks.begin(); it != chunks.end(); it++) {
         DB_VDA_CHUNK_HOST& ch = it->second;
@@ -465,7 +477,7 @@ void handle_vda() {
         }
     }
 
-    // process files present on host
+    // process files present on client
     //
     for (i=0; i<g_request->file_infos.size(); i++) {
         FILE_INFO& fi = g_request->file_infos[i];
@@ -477,10 +489,10 @@ void handle_vda() {
                 "[vda] request: client has file %s\n", fi.name
             );
         }
-        process_present_file(fi, chunks);
+        process_chunk_present_on_client(fi, chunks);
     }
 
-    process_missing_chunks(chunks);
+    process_chunks_missing_on_client(chunks);
 
     enforce_quota(chunks);
 

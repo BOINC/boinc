@@ -697,7 +697,7 @@ struct VDA_CHUNK_HOST {
     bool transfer_in_progress;
     bool transfer_wait;
     double transfer_request_time;
-        // when vdad assigned this chunk to this host
+        // when vdad decided to do the transfer
     double transfer_send_time;
         // when transfer request was sent to host
 

@@ -100,9 +100,18 @@ int get_chunk_numbers(VDA_CHUNK_HOST& vch, vector<int>& chunk_numbers) {
 int DATA_UNIT::delete_file() {
     char path[1024], buf[1024];
     sprintf(path, "%s/data.vda", dir);
-    size_t n = readlink(path, buf, 1024);
+    ssize_t n = readlink(path, buf, 1024);
+    if (n < 0) {
+        fprintf(stderr, "readlink %s failed\n", path);
+        return ERR_SYMLINK;
+    }
     buf[n] = 0;
-    return unlink(buf);
+    int retval = unlink(buf);
+    if (retval) {
+        fprintf(stderr, "unlink %s failed\n", buf);
+        return ERR_UNLINK;
+    }
+    return 0;
 }
 
 ///////////////// META_CHUNK ///////////////////////
@@ -211,7 +220,7 @@ int META_CHUNK::encode() {
         if (st != 32) return -1;    // encoder returns 32 for some reason
     }
 
-    // make links
+    // make symlinks
     //
     for (int i=0; i<coding.m; i++) {
         char enc_filename[1024], target_path[1024];
@@ -225,7 +234,7 @@ int META_CHUNK::encode() {
             return retval;
         }
         sprintf(link_name, "%s/%s", dir_name, DATA_FILENAME);
-        retval = link(target_path, link_name);
+        retval = symlink(target_path, link_name);
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
                 "encode(): link %s %s failed\n", target_path, link_name

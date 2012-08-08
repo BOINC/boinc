@@ -121,7 +121,6 @@ struct META_CHUNK : DATA_UNIT {
     int n_children_present;
     bool have_unrecoverable_children;
     VDA_FILE_AUX* dfile;
-    bool uploading;
     CODING coding;
     bool bottom_level;
     bool need_reconstruct;
