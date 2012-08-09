@@ -238,7 +238,6 @@ int update_av_scales(SCHED_SHMEM *ssp)
 {
     int i, j, retval;
     log_messages.cond_printf(config.debug_credit,MSG_NORMAL, "-- updating app version scales --\n");
-    }
     for (i=0; i<ssp->napps; i++) {
         APP &app = ssp->apps[i];
         log_messages.cond_printf(config.debug_credit,MSG_NORMAL, "app %s (%d)\n", app.name, app.id);
