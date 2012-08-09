@@ -5,6 +5,11 @@
 
 //#ifndef SETIATHOME
 //#define SETIATHOME 1
+//#define MEGS (1048576.0)
+//#define ATI_MIN_RAM 222*MEGS
+//#define OPENCL_ATI_MIN_RAM ATI_MIN_RAM
+//#define OPENCL_NVIDIA_MIN_RAM ATI_MIN_RAM
+//#undef MEGS
 //#endif
 
 //#ifndef EINSTEIN_AT_HOME
