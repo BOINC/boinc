@@ -269,10 +269,10 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
         addProperty(_("Scheduling priority"), wxString::Format(wxT("%0.2f"), project->sched_priority));
         show_rsc(_("CPU"), project->rsc_desc_cpu);
         if (pDoc->state.have_nvidia) {
-            show_rsc(proc_type_name(PROC_TYPE_NVIDIA_GPU), project->rsc_desc_nvidia);
+            show_rsc(wxString(proc_type_name(PROC_TYPE_NVIDIA_GPU), wxConvUTF8), project->rsc_desc_nvidia);
         }
         if (pDoc->state.have_ati) {
-            show_rsc(proc_type_name(PROC_TYPE_AMD_GPU), project->rsc_desc_ati);
+            show_rsc(wxString(proc_type_name(PROC_TYPE_AMD_GPU), wxConvUTF8), project->rsc_desc_ati);
         }
         addProperty(_("Duration correction factor"), wxString::Format(wxT("%0.4f"), project->duration_correction_factor));
     }

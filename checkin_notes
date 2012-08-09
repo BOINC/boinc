@@ -5379,3 +5379,10 @@ David  8 Aug 2012
     lib/
         gui_rpc_client_ops.cpp
         coproc.cpp,h
+
+Charlie 8 Aug 2012
+    - MGR: Fix build break.
+    
+     clientgui/
+        DlgItemProperties.cpp
+   
