@@ -100,3 +100,20 @@ function get_boinc_version($x) {
   require_boinc('host');
   return function_exists('boinc_version') ? boinc_version($x) : 'err!';
 }
+  
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Functions for use in displaying special case text in views
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+  * Generate the friend block header
+  */
+function boincuser_views_friends_block_header($context = null) {
+  // Get the friend count for the user being viewed
+  $view = views_get_current_view();
+  $account_id = $view->args[0];
+  $friend_count = flag_friend_get_friend_count($account_id);
+  return '<h2 class="pane-title">' . t('Friends (@friend_count)', 
+    array('@friend_count' => $friend_count)) . '</h2>';
+}

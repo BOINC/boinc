@@ -84,7 +84,7 @@ $opinions = $content_profile->field_opinions[0]['value'];
     <?php if ($user->uid AND ($user->uid != $account->uid)): ?>
       <ul class="tab-list">
         <li class="first tab"><?php print l(t('Send message'), privatemsg_get_link(array($account)), array('query' => drupal_get_destination())); ?></li>
-        <li class="last tab"><a href="<?php print base_path() . "flag/confirm/flag/friend/{$account->uid}" . drupal_get_destination(); ?>"><?php print t('Add as friend'); ?></a></li>
+        <li class="last tab"><a href="<?php print base_path() . "flag/confirm/flag/friend/{$account->uid}?" . drupal_get_destination(); ?>"><?php print t('Add as friend'); ?></a></li>
       </ul>
     <?php endif; ?>
     <div class="clearfix"></div>
