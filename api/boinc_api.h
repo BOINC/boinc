@@ -89,6 +89,7 @@ extern int boinc_finish(int status);
 extern int boinc_get_init_data_p(struct APP_INIT_DATA*);
 extern int boinc_parse_init_data_file(void);
 extern int boinc_send_trickle_up(char* variety, char* text);
+extern int boinc_set_min_checkpoint_period(int);
 extern int boinc_checkpoint_completed(void);
 extern int boinc_fraction_done(double);
 extern int boinc_suspend_other_activities(void);

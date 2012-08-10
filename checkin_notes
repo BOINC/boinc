@@ -5409,3 +5409,12 @@ David  10 Aug 2012
 
     client/
         work_fetch.cpp
+
+David  10 Aug 2012
+    - API: add boinc_set_min_checkpoint_period(int).
+        Lets application specify a min checkpoint interval.
+        The actual min checkpoint interval is the max of this
+        and the user-specified pref for min disk interval.
+
+    api/
+        boinc_api.cpp,h

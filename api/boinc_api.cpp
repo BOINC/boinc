@@ -117,7 +117,6 @@ static FILE_LOCK file_lock;
 APP_CLIENT_SHM* app_client_shm = 0;
 static volatile int time_until_checkpoint;
     // time until enable checkpoint
-    // time until report fraction done to core client
 static volatile double fraction_done;
 static volatile double last_checkpoint_cpu_time;
 static volatile bool ready_to_checkpoint = false;
@@ -152,6 +151,8 @@ char web_graphics_url[256];
 bool send_web_graphics_url = false;
 char remote_desktop_addr[256];
 bool send_remote_desktop_addr = false;
+int app_min_checkpoint_period = 0;
+    // min checkpoint period requested by app
 
 #define TIMER_PERIOD 0.1
     // period of worker-thread timer interrupts.
@@ -458,6 +459,23 @@ int boinc_init_parallel() {
     return boinc_init_options(&_options);
 }
 
+static int min_checkpoint_period() {
+    int x = (int)aid.checkpoint_period;
+    if (app_min_checkpoint_period > x) {
+        x = app_min_checkpoint_period;
+    }
+    if (x == 0) x = DEFAULT_CHECKPOINT_PERIOD;
+    return x;
+}
+
+int boinc_set_min_checkpoint_period(int x) {
+    app_min_checkpoint_period = x;
+    if (x > time_until_checkpoint) {
+        time_until_checkpoint = x;
+    }
+    return 0;
+}
+
 int boinc_init_options_general(BOINC_OPTIONS& opt) {
     int retval;
     char buf[256];
@@ -526,7 +544,7 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
     initial_wu_cpu_time = aid.wu_cpu_time;
 
     fraction_done = -1;
-    time_until_checkpoint = (int)aid.checkpoint_period;
+    time_until_checkpoint = min_checkpoint_period();
     last_checkpoint_cpu_time = aid.wu_cpu_time;
     last_wu_cpu_time = aid.wu_cpu_time;
 
@@ -1359,7 +1377,7 @@ int boinc_checkpoint_completed() {
     cur_cpu = boinc_worker_thread_cpu_time();
     last_wu_cpu_time = cur_cpu + aid.wu_cpu_time;
     last_checkpoint_cpu_time = last_wu_cpu_time;
-    time_until_checkpoint = (int)aid.checkpoint_period;
+    time_until_checkpoint = min_checkpoint_period();
     boinc_end_critical_section();
     ready_to_checkpoint = false;
 
