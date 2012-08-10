@@ -171,11 +171,13 @@ RSC_PROJECT_WORK_FETCH& RSC_WORK_FETCH::project_state(PROJECT* p) {
     return p->rsc_pwf[rsc_type];
 }
 
+#if 0
 bool RSC_WORK_FETCH::may_have_work(PROJECT* p) {
     if (dont_fetch(p, rsc_type)) return false;
     RSC_PROJECT_WORK_FETCH& w = project_state(p);
     return (w.backoff_time < gstate.now);
 }
+#endif
 
 void RSC_WORK_FETCH::rr_init() {
     shortfall = 0;
@@ -220,17 +222,37 @@ static bool wacky_dcf(PROJECT* p) {
 // If this resource is below min buffer level,
 // return the highest-priority project that may have jobs for it.
 //
-PROJECT* RSC_WORK_FETCH::choose_project_hyst(bool enforce_hyst) {
+// If strict is true, enforce hysteresis and backoff rules
+// (which are there to limit rate of scheduler RPCs).
+// Otherwise, we're going to do a scheduler RPC anyway
+// and we're deciding whether to piggyback a work request,
+// so there is no reason to enforce these rules.
+//
+PROJECT* RSC_WORK_FETCH::choose_project_hyst(bool strict) {
     PROJECT* pbest = NULL;
-    if (enforce_hyst) {
+    if (strict) {
         if (saturated_time > gstate.work_buf_min()) return NULL;
     }
     if (saturated_time > gstate.work_buf_total()) return NULL;
 
     for (unsigned i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
+
+        // check whether we can fetch work of any type from this project
+        //
         if (p->pwf.cant_fetch_work_reason) continue;
-        if (!project_state(p).may_have_work) continue;
+
+        // check whether we can fetch work of this type
+        //
+        if (dont_fetch(p, rsc_type)) continue;
+
+        // if strict, check backoff
+        //
+        if (strict) {
+            if (project_state(p).backoff_time > gstate.now) {
+                continue;
+            }
+        }
 
         // if project has zero resource share,
         // only fetch work if a device is idle
@@ -626,7 +648,7 @@ PROJECT* WORK_FETCH::non_cpu_intensive_project_needing_work() {
 // choose a project to fetch work from,
 // and set the request fields of resource objects
 //
-PROJECT* WORK_FETCH::choose_project(bool enforce_hyst) {
+PROJECT* WORK_FETCH::choose_project(bool strict) {
     PROJECT* p;
 
     if (log_flags.work_fetch_debug) {
@@ -659,12 +681,12 @@ PROJECT* WORK_FETCH::choose_project(bool enforce_hyst) {
 if (use_hyst_fetch) {
     if (gpus_usable) {
         for (int i=1; i<coprocs.n_rsc; i++) {
-            p = rsc_work_fetch[i].choose_project_hyst(enforce_hyst);
+            p = rsc_work_fetch[i].choose_project_hyst(strict);
             if (p) break;
         }
     }
     if (!p) {
-        p = rsc_work_fetch[0].choose_project_hyst(enforce_hyst);
+        p = rsc_work_fetch[0].choose_project_hyst(strict);
     }
 } else {
     if (gpus_usable) {

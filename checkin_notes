@@ -5386,3 +5386,18 @@ Charlie 8 Aug 2012
      clientgui/
         DlgItemProperties.cpp
    
+David  10 Aug 2012
+    - client: when we're making a scheduler RPC
+        for a reason other than work fetch,
+        and we're deciding whether to piggyback a work request,
+        skip the checks for hysteresis (buffer < min)
+        and for per-resource backoff time.
+        These checks are there only to limit the rate of RPCs,
+        which is not relevant since we're doing one any.
+
+        This fixes a bug where a project w/ sporadic jobs specifies
+        a next_rpc_delay to ensure regular polling from clients.
+        When these polls occur they should request work regardless of backoff.
+
+    client/
+        work_fetch.cpp,h
