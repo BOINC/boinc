@@ -232,6 +232,8 @@ PROJECT* RSC_WORK_FETCH::choose_project_hyst(bool strict) {
     PROJECT* pbest = NULL;
     if (strict) {
         if (saturated_time > gstate.work_buf_min()) return NULL;
+    } else {
+        if (saturated_time > gstate.work_buf_total()) return NULL;
     }
     if (saturated_time > gstate.work_buf_total()) return NULL;
 

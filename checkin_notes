@@ -5401,3 +5401,11 @@ David  10 Aug 2012
 
     client/
         work_fetch.cpp,h
+
+David  10 Aug 2012
+    - client: tweak to the above: never ask for work if buffer > max.
+        This is needed to prevent projects that use next_rpc_delay
+        from queuing unbounded work.
+
+    client/
+        work_fetch.cpp
