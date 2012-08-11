@@ -330,7 +330,7 @@ int restrict_wu_to_user(WORKUNIT& _wu, int userid) {
     sprintf(buf, "where workunitid=%d and server_state=%d",
         wu.id, RESULT_SERVER_STATE_UNSENT
     );
-    while (result.enumerate(buf)) {
+    while (!result.enumerate(buf)) {
         char buf2[256];
         sprintf(buf2, "server_state=%d, outcome=%d",
             RESULT_SERVER_STATE_OVER,
