@@ -17,8 +17,6 @@
 
 // interfaces for accessing shared memory segments
 
-#include "shmem.h"
-
 #if   defined(_WIN32) && !defined(__STDWX_H__)
 #include "boinc_win.h"
 #elif defined(_WIN32) && defined(__STDWX_H__)
@@ -57,6 +55,8 @@ extern "C" int debug_printf(const char *fmt, ...);
 #include <sys/mman.h>
 
 #include "error_numbers.h"
+
+#include "shmem.h"
 
 // MAP_FILE isn't defined on most operating systems, and even then, it
 // is often defined just for the sake of compatibility.  On those that

@@ -15,10 +15,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "proxy_info.h"
-
 #include "error_numbers.h"
 #include "parse.h"
+
+#include "proxy_info.h"
 
 int PROXY_INFO::parse(XML_PARSER& xp) {
     memset(this, 0, sizeof(PROXY_INFO));

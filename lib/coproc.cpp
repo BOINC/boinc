@@ -15,8 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "coproc.h"
-
 #if   defined(_WIN32) && !defined(__STDWX_H__)
 #include "boinc_win.h"
 #elif defined(_WIN32) && defined(__STDWX_H__)
@@ -50,6 +48,8 @@
 #include "parse.h"
 #include "str_replace.h"
 #include "util.h"
+
+#include "coproc.h"
 
 #ifndef _USING_FCGI_
 using std::perror;

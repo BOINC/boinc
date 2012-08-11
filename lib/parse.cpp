@@ -22,8 +22,6 @@
 // by the BOINC scheduling server or client.
 // Could replace this with a more general parser.
 
-#include "parse.h"
-
 #if   defined(_WIN32) && !defined(__STDWX_H__)
 #include "boinc_win.h"
 #elif defined(_WIN32) && defined(__STDWX_H__)
@@ -52,6 +50,8 @@
 #include "error_numbers.h"
 #include "str_util.h"
 #include "str_replace.h"
+
+#include "parse.h"
 
 using std::string;
 

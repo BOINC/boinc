@@ -34,6 +34,8 @@
 #include "str_util.h"
 #include "url.h"
 
+#include "cc_config.h"
+
 using std::string;
 
 LOG_FLAGS::LOG_FLAGS() {

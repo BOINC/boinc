@@ -20,8 +20,6 @@
 
 #ifdef HAVE_SYS_SEM_H
 
-#include "synch.h"
-
 #include "config.h"
 #include <cstdio>
 #include <cstdlib>
@@ -34,6 +32,8 @@ using std::memset;
 #endif
 
 #include "error_numbers.h"
+
+#include "synch.h"
 
 union SEMUN {
     int val;

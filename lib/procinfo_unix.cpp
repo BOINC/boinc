@@ -18,8 +18,6 @@
 
 // process-enumeration stuff for Unix other than Mac OS X
 
-#include "procinfo.h"
-
 #include "config.h"
 
 #if HAVE_PROCFS_H
@@ -51,6 +49,8 @@
 
 #include "str_util.h"
 #include "str_replace.h"
+
+#include "procinfo.h"
 
 using std::vector;
 

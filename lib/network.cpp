@@ -15,8 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "network.h"
-
 #if   defined(_WIN32) && !defined(__STDWX_H__)
 #include "boinc_win.h"
 #include <fcntl.h>
@@ -41,6 +39,8 @@
 #endif
 
 #include "error_numbers.h"
+
+#include "network.h"
 
 using std::perror;
 using std::sprintf;

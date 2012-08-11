@@ -15,8 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "base64.h"
-
 #if   defined(_WIN32) && !defined(__STDWX_H__)
 #include "boinc_win.h"
 #elif defined(_WIN32) && defined(__STDWX_H__)
@@ -28,6 +26,8 @@
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"
 #endif
+
+#include "base64.h"
 
 using std::string;
 

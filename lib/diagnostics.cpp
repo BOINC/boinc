@@ -18,8 +18,6 @@
 // Stuff related to stderr/stdout direction and exception handling;
 // used by both core client and by apps
 
-#include "diagnostics.h"
-
 #if   defined(_WIN32) && !defined(__STDWX_H__)
 #include "boinc_win.h"
 #elif defined(_WIN32) && defined(__STDWX_H__)
@@ -63,6 +61,7 @@
 #include "util.h"
 #include "parse.h"
 
+#include "diagnostics.h"
 
 #if defined(_WIN32) && defined(_MSC_VER)
 

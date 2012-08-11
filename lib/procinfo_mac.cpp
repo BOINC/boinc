@@ -17,8 +17,6 @@
 
 #define SHOW_TIMING 0
 
-#include "procinfo.h"
-
 #include "config.h"
 #include <cstdio>
 
@@ -32,6 +30,8 @@
 #endif
 
 #include "error_numbers.h"
+
+#include "procinfo.h"
 
 using std::vector;
 

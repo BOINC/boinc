@@ -18,8 +18,6 @@
 // This file is code to print (in ASCII) the stuff returned by GUI RPC.
 // Used only by boinccmd.
 
-#include "gui_rpc_client.h"
-
 #if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
 #include "boinc_win.h"
 #endif
@@ -45,6 +43,8 @@
 #include "parse.h"
 #include "str_util.h"
 #include "util.h"
+
+#include "gui_rpc_client.h"
 
 using std::string;
 using std::vector;

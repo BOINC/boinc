@@ -23,8 +23,6 @@
 #include "boinc_win.h"
 #endif
 
-#include "gui_rpc_client.h"
-
 #ifdef _WIN32
 #include "../version.h"
 #ifdef _MSC_VER
@@ -53,6 +51,8 @@
 #include "md5_file.h"
 #include "network.h"
 #include "common_defs.h"
+
+#include "gui_rpc_client.h"
 
 using std::string;
 using std::vector;

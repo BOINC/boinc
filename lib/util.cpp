@@ -19,8 +19,6 @@
 #include "boinc_fcgi.h"
 #endif
 
-#include "util.h"
-
 #if   defined(_WIN32) && !defined(__STDWX_H__)
 #include "boinc_win.h"
 #elif defined(_WIN32) && defined(__STDWX_H__)
@@ -66,6 +64,8 @@ extern "C" {
 #include "mfile.h"
 #include "miofile.h"
 #include "parse.h"
+
+#include "util.h"
 
 using std::min;
 using std::string;

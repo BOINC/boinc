@@ -15,8 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "proc_control.h"
-
 #include <vector>
 #ifdef _WIN32
 #include "diagnostics.h"
@@ -42,6 +40,8 @@
 #endif
 
 #include "procinfo.h"
+
+#include "proc_control.h"
 
 using std::vector;
 

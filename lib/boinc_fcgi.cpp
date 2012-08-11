@@ -20,11 +20,9 @@
 // It's far better to use overloads in a C++ namespace to fix these issues 
 // for a variety of reasons.
 
-#include "boinc_fcgi.h"
-
 #include <cstring>
 
-#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
 
 namespace FCGI {
 
@@ -100,6 +98,3 @@ void perror(const char *s) {
 }
 
 };  // end of namespace FCGI
- 
-
-#endif // _USING_FCGI_

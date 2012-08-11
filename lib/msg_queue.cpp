@@ -17,8 +17,6 @@
 
 // interfaces for accessing message queues
 
-#include "msg_queue.h"
-
 #include "config.h"
 #include <cstdio>
 #include <cstring>
@@ -26,6 +24,8 @@
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
+
+#include "msg_queue.h"
 
 using std::perror;
 

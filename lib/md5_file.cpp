@@ -15,8 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "md5_file.h"
-
 #if   defined(_WIN32) && !defined(__STDWX_H__)
 #include "boinc_win.h"
 #elif defined(_WIN32) && defined(__STDWX_H__)
@@ -40,6 +38,8 @@
 
 #include "error_numbers.h"
 #include "md5.h"
+
+#include "md5_file.h"
 
 int md5_file(const char* path, char* output, double& nbytes) {
     unsigned char buf[4096];

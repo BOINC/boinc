@@ -5434,3 +5434,10 @@ David  10 Aug 2012
     lib/
         synch.cpp
         android_log.h
+
+David  10 Aug 2012
+    - lib: switch include order to the way it was (general to specific).
+        Should fix MinGW compile
+
+    lib/
+        *.cpp
