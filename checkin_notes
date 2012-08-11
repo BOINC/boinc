@@ -5441,3 +5441,9 @@ David  10 Aug 2012
 
     lib/
         *.cpp
+
+David  10 Aug 2012
+    - server: compile fix
+
+    lib/
+        synch.cpp

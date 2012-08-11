@@ -18,7 +18,7 @@
 
 // interfaces for accessing sempahores
 
-#ifdef HAVE_SYS_SEM_H
+#ifndef ANDROID
 
 #include "config.h"
 #include <cstdio>
@@ -114,4 +114,4 @@ int get_key(char* path, int id, key_t& key) {
     return 0;
 }
 
-#endif //HAVE_SYS_SEM_H
+#endif
