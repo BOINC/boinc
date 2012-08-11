@@ -18,9 +18,9 @@
 
 // interfaces for accessing sempahores
 
-#include "synch.h"
+#ifdef HAVE_SYS_SEM_H
 
-#ifndef ANDROID //disabled on Android
+#include "synch.h"
 
 #include "config.h"
 #include <cstdio>
@@ -114,4 +114,4 @@ int get_key(char* path, int id, key_t& key) {
     return 0;
 }
 
-#endif //ANDROID
+#endif //HAVE_SYS_SEM_H

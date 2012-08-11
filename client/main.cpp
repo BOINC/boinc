@@ -380,7 +380,6 @@ int main(int argc, char** argv) {
     int retval = 0;
 
 #ifdef ANDROID
-    chdir(CWD); //CWD defined at lib/android_log.h
     char ccwd[1024];
     getcwd(ccwd, sizeof(ccwd));
     char msg[1024];

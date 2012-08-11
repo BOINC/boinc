@@ -5425,3 +5425,12 @@ David  10 Aug 2012
 
     sched/
         sched_util.cpp
+
+David  10 Aug 2012
+    - client: Android-related tweaks, from Joachim
+
+    client/
+        main.cpp
+    lib/
+        synch.cpp
+        android_log.h
