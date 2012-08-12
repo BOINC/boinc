@@ -35,7 +35,7 @@
 using std::set;
 
 void usage() {
-    fprintf(stderr, "Usage: vda [add|remove|retrieve|status] path\n");
+    printf("Usage: vda [add|remove|retrieve|status] path\n");
     exit(1);
 }
 
@@ -109,7 +109,7 @@ int handle_add(const char* path) {
 
     retval = file_size(path, size);
     if (retval) {
-        fprintf(stderr, "no file %s\n", path);
+        printf("no file %s\n", path);
         return -1;
     }
 
@@ -123,7 +123,7 @@ int handle_add(const char* path) {
     sprintf(buf, "%s/boinc_meta.txt", dir);
     retval = policy.parse(buf);
     if (retval) {
-        fprintf(stderr, "Can't parse policy file.\n");
+        printf("Can't parse policy file.\n");
         return -1;
     }
 
@@ -139,7 +139,7 @@ int handle_add(const char* path) {
     vf.retrieving = 0;
     retval = vf.insert();
     if (retval) {
-        fprintf(stderr, "Can't insert DB record\n");
+        printf("Can't insert DB record\n");
         return -1;
     }
     return 0;
@@ -208,17 +208,26 @@ int handle_status(const char* name) {
     return 0;
 }
 
+int handle_update(const char* name) {
+    DB_VDA_FILE dvf;
+    char buf[1024];
+    sprintf(buf, "where file_name='%s'", name);
+    int retval = dvf.lookup(buf);
+    if (retval) return retval;
+    return dvf.update_field("need_update=1");
+}
+
 int main(int argc, char** argv) {
     int retval = config.parse_file();
     if (retval) {
-        fprintf(stderr, "can't parse config file\n");
+        printf("can't parse config file\n");
         exit(1);
     }
     retval = boinc_db.open(
         config.db_name, config.db_host, config.db_user, config.db_passwd
     );
     if (retval) {
-        fprintf(stderr, "can't open DB\n");
+        printf("can't open DB\n");
         exit(1);
     }
     for (int i=1; i<argc; i++) {
@@ -226,7 +235,7 @@ int main(int argc, char** argv) {
             if (argc != 3) usage();
             retval = handle_add(argv[++i]);
             if (retval) {
-                fprintf(stderr, "error %d: %s\n", retval, boincerror(retval));
+                printf("error %d: %s\n", retval, boincerror(retval));
             } else {
                 printf("file added successfully\n");
             }
@@ -236,7 +245,7 @@ int main(int argc, char** argv) {
             if (argc != 3) usage();
             retval = handle_remove(argv[++i]);
             if (retval) {
-                fprintf(stderr, "error %d: %s\n", retval, boincerror(retval));
+                printf("error %d: %s\n", retval, boincerror(retval));
             } else {
                 printf("file removed successfully\n");
             }
@@ -246,7 +255,7 @@ int main(int argc, char** argv) {
             if (argc != 3) usage();
             retval = handle_retrieve(argv[++i]);
             if (retval) {
-                fprintf(stderr, "error %d: %s\n", retval, boincerror(retval));
+                printf("error %d: %s\n", retval, boincerror(retval));
             } else {
                 printf("file retrieval started\n");
             }
@@ -256,7 +265,17 @@ int main(int argc, char** argv) {
             if (argc != 3) usage();
             retval = handle_status(argv[++i]);
             if (retval) {
-                fprintf(stderr, "error %d: %s\n", retval, boincerror(retval));
+                printf("error %d: %s\n", retval, boincerror(retval));
+            }
+            exit(retval);
+        }
+        if (!strcmp(argv[i], "update")) {
+            if (argc != 3) usage();
+            retval = handle_update(argv[++i]);
+            if (retval) {
+                printf("error %d: %s\n", retval, boincerror(retval));
+            } else {
+                printf("file marked for update by vdad\n");
             }
             exit(retval);
         }

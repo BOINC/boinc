@@ -520,7 +520,7 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "--file_size")) {
             params.file_size = atof(argv[++i]);
         } else {
-            fprintf(stderr, "bad arg %s\n", argv[i]);
+            printf("bad arg %s\n", argv[i]);
             exit(1);
         }
     }

@@ -136,6 +136,7 @@ int META_CHUNK::recovery_plan() {
     have_unrecoverable_children = false;
     need_reconstruct = false;
     needed_by_parent = false;
+    data_now_present = false;
 
     // make lists of children in various states
     //
@@ -200,7 +201,7 @@ int META_CHUNK::recovery_action(double now) {
         status = PRESENT;
     }
 #ifdef DEBUG_RECOVERY
-    printf("   meta chunk %s: status %s unrec children %d\n",
+    printf("   meta chunk %s: status %s have_unrec_children %d\n",
         name, status_str(status), have_unrecoverable_children
     );
 #endif

@@ -5447,3 +5447,15 @@ David  10 Aug 2012
 
     lib/
         synch.cpp
+
+David  11 Aug 2012
+    - db_purge: fix typo that cause bad DB query when using assignments
+
+    sched/
+        db_purge.cpp
+    vda/
+        vda.cpp
+        vda_lib.cpp,h
+        vda_lib2.cpp
+        vda_policy.cpp
+        ssim.cpp

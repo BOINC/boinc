@@ -102,13 +102,13 @@ int DATA_UNIT::delete_file() {
     sprintf(path, "%s/data.vda", dir);
     ssize_t n = readlink(path, buf, 1024);
     if (n < 0) {
-        fprintf(stderr, "readlink %s failed\n", path);
+        printf("readlink %s failed\n", path);
         return ERR_SYMLINK;
     }
     buf[n] = 0;
     int retval = unlink(buf);
     if (retval) {
-        fprintf(stderr, "unlink %s failed\n", buf);
+        printf("unlink %s failed\n", buf);
         return ERR_UNLINK;
     }
     return 0;

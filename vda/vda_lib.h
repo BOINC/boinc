@@ -99,7 +99,7 @@ struct DATA_UNIT {
         // if we need to reconstruct the parent, we'll use this unit
     bool data_now_present;
         // vdad: this unit was initially unrecoverable,
-        // but the parent has become present so new this unit is present
+        // but the parent has become present so now this unit is present
     bool data_needed;
         // we need to take action (e.g. start uploads)
         // to make this unit present

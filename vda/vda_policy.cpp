@@ -28,18 +28,18 @@ int POLICY::parse(const char* filename) {
 
     FILE* f = fopen(filename, "r");
     if (!f) {
-        fprintf(stderr, "No policy file %s\n", filename);
+        printf("No policy file %s\n", filename);
         return -1;
     }
     n = fscanf(f, "%d", &replication);
     if (n != 1) {
-        fprintf(stderr, "parse error in %s\n", filename);
+        printf("parse error in %s\n", filename);
         fclose(f);
         return -1;
     }
     n = fscanf(f, "%d", &coding_levels);
     if (n != 1) {
-        fprintf(stderr, "parse error in %s\n", filename);
+        printf("parse error in %s\n", filename);
         fclose(f);
         return -1;
     }
@@ -47,7 +47,7 @@ int POLICY::parse(const char* filename) {
         CODING& c = codings[i];
         n = fscanf(f, "%d %d %d", &c.n, &c.k, &c.n_upload);
         if (n != 3) {
-            fprintf(stderr, "parse error in %s\n", filename);
+            printf("parse error in %s\n", filename);
             fclose(f);
             return -1;
         }
