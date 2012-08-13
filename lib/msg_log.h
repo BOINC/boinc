@@ -62,11 +62,6 @@ public:
     void vprintf_multiline(int kind, const char* str, const char* prefix_format, va_list va);
     void vprintf_file(int kind, const char* filename, const char* prefix_format, va_list va);
 
-    void cond_printf(int conditional,int kind, const char* format, ...) __attribute__ ((format (printf, 4, 5)));
-    void cond_printf_multiline(int conditional,int kind, const char* str, const char* prefix_format, ...) __attribute__ ((format (printf, 5, 6)));
-    void cond_printf_file(int conditional, int kind, const char* str, const char* prefix_format, ...) __attribute__ ((format (printf, 5, 6)));
-
-
 protected:
 
     virtual const char* v_format_kind(int kind) const = 0;
@@ -93,10 +88,6 @@ public:
     void printf(const char* format, ...) __attribute__ ((format (printf, 2, 3)));
     void printf_multiline(const char* str, const char* prefix_format, ...) __attribute__ ((format (printf, 3, 4)));
     void printf_file(const char* filename, const char* prefix_format, ...) __attribute__ ((format (printf, 3, 4)));
-
-    void cond_printf(int conditional, const char* format, ...) __attribute__ ((format (printf, 3, 4)));
-    void cond_printf_multiline(int conditional, const char* str, const char* prefix_format, ...) __attribute__ ((format (printf, 4, 5)));
-    void cond_printf_file(int conditional, const char* str, const char* prefix_format, ...) __attribute__ ((format (printf, 4, 5)));
 };
 
 #if _MSC_VER >= 1300

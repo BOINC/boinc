@@ -1116,7 +1116,7 @@ static void graphics_cleanup() {
 // timer handler; runs in the timer thread
 //
 static void timer_handler() {
-    char buf[256];
+    char buf[512];
     if (g_sleep) return;
     interrupt_count++;
     if (!boinc_status.suspended) {
@@ -1169,7 +1169,6 @@ static void timer_handler() {
     if (in_critical_section==0 && options.check_heartbeat) {
         if (heartbeat_giveup_time < interrupt_count) {
             boinc_msg_prefix(buf, sizeof(buf));
-            buf[255] = 0;  // paranoia
             fputs(buf, stderr);
             fputs(" No heartbeat from core client for 30 sec - exiting\n", stderr);
             if (options.direct_process_action) {
@@ -1192,7 +1191,7 @@ static void timer_handler() {
     // (e.g., if user clicked in the graphics window's close box.)
     //
     if (ga_win.pid) {
-        if (! ga_win.is_running()) {
+        if (!ga_win.is_running()) {
             app_client_shm->shm->graphics_reply.send_msg(
                 xml_graphics_modes[MODE_HIDE_GRAPHICS]
             );

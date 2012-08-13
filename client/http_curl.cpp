@@ -965,27 +965,20 @@ void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
     CurlResult = pcurlMsg->data.result;
 
     if (CurlResult == CURLE_OK) {
-        if ((response/100)*100 == HTTP_STATUS_OK) {
+        switch ((response/100)*100) {
+        case HTTP_STATUS_OK:
             http_op_retval = 0;
-        } else if ((response/100)*100 == HTTP_STATUS_CONTINUE) {
+            break;
+        case HTTP_STATUS_CONTINUE:
             return;
-        } else {
-            // Got a response from server but its not OK or CONTINUE,
-            // so save response with error message to display later.
-            //
-            if (response >= 400) {
-                strcpy(error_msg, boincerror(response));
-            } else {
-                sprintf(error_msg, "HTTP error %ld", response);
-            }
-            switch (response) {
-            case HTTP_STATUS_NOT_FOUND:
-            case HTTP_STATUS_RANGE_REQUEST_ERROR:
-                http_op_retval = ERR_HTTP_PERMANENT;
-                break;
-            default:
-                http_op_retval = ERR_HTTP_TRANSIENT;
-            }
+        case HTTP_STATUS_INTERNAL_SERVER_ERROR:
+            http_op_retval = ERR_HTTP_TRANSIENT;
+            strcpy(error_msg, boincerror(response));
+            break;
+        default:
+            http_op_retval = ERR_HTTP_PERMANENT;
+            strcpy(error_msg, boincerror(response));
+            break;
         }
         net_status.http_op_succeeded();
     } else {

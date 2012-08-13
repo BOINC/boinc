@@ -175,36 +175,6 @@ void MSG_LOG::printf_file(
     va_end(va);
 }
 
-void MSG_LOG::cond_printf(int conditional,int kind, const char* format, ...) {
-    if (conditional) {
-        va_list va;
-        va_start(va, format);
-        vprintf(kind, format, va);
-        va_end(va);
-    }
-}
-
-void MSG_LOG::cond_printf_multiline(
-    int conditional, int kind, const char* str, const char* prefix_format, ...
-) {
-    if (conditional) {
-        va_list va;
-        va_start(va, prefix_format);
-        vprintf_multiline(kind, str, prefix_format, va);
-        va_end(va);
-    }
-}
-
-void MSG_LOG::cond_printf_file(
-    int conditional, int kind, const char* filename, const char* prefix_format, ...
-) {
-    if (conditional) {
-        va_list va;
-        va_start(va, prefix_format);
-        vprintf_file(kind, filename, prefix_format, va);
-        va_end(va);
-    }
-}
 // These SCOPE_MSG_LOG functions are utility functions that call their
 // corresponding MSG_LOG functions with the same name, passing the KIND that
 // was specified on creation of the SCOPE_MSG_LOG object.
@@ -232,35 +202,4 @@ void SCOPE_MSG_LOG::printf_file(
     va_start(va, prefix_format);
     messages.vprintf_file(kind, filename, prefix_format, va);
     va_end(va);
-}
-
-void SCOPE_MSG_LOG::cond_printf(int conditional,const char* format, ...) {
-    if (conditional) {
-        va_list va;
-        va_start(va, format);
-        messages.vprintf(kind, format, va);
-        va_end(va);
-    }
-}
-
-void SCOPE_MSG_LOG::cond_printf_multiline(
-    int conditional,const char* str, const char* prefix_format, ...
-) {
-    if (conditional) {
-        va_list va;
-        va_start(va, prefix_format);
-        messages.vprintf_multiline(kind, str, prefix_format, va);
-        va_end(va);
-    }
-}
-
-void SCOPE_MSG_LOG::cond_printf_file(
-    int conditional,const char* filename, const char* prefix_format, ...
-) {
-    if (conditional) {
-        va_list va;
-        va_start(va, prefix_format);
-        messages.vprintf_file(kind, filename, prefix_format, va);
-        va_end(va);
-    }
 }

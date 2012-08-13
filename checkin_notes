@@ -5496,3 +5496,17 @@ David  11 Aug 2012
         vda_lib2.cpp
         vda_policy.cpp
         ssim.cpp
+
+David  13 Aug 2012
+    - client: treat all 4xx HTTP errors as permanent
+    - code cleanup
+    - API: increase a buffer in timer_handler() from 256 to 512.
+
+    sched/
+        credit.cpp
+    lib/
+        msg_log.cpp,h
+    client/
+        http_curl.cpp
+    api/
+        boinc_api.cpp
