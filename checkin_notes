@@ -5510,3 +5510,21 @@ David  13 Aug 2012
         http_curl.cpp
     api/
         boinc_api.cpp
+
+Rom    13 Aug 2012
+    - WINSETUP: Provide the ability to create the acct_mgr_login.xml from
+        from the command line.  Useful for mass deployments within companies
+        and charities.
+
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.rc
+        boinccas95.def
+        boinccas95.vcproj
+        CACreateAcctMgrLoginFile.cpp, .h
+        CACreateProjectInitFile.cpp
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll

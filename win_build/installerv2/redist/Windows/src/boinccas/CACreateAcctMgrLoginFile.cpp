@@ -20,11 +20,11 @@
 
 #include "stdafx.h"
 #include "boinccas.h"
-#include "CACreateProjectInitFile.h"
+#include "CACreateAcctMgrLoginFile.h"
 
 
-#define CUSTOMACTION_NAME               _T("CACreateProjectInitFile")
-#define CUSTOMACTION_PROGRESSTITLE      _T("Store project initialization data")
+#define CUSTOMACTION_NAME               _T("CACreateAcctMgrLoginFile")
+#define CUSTOMACTION_PROGRESSTITLE      _T("Store account manager initialization data")
 
 
 /////////////////////////////////////////////////////////////////////
@@ -34,7 +34,7 @@
 // Description: 
 //
 /////////////////////////////////////////////////////////////////////
-CACreateProjectInitFile::CACreateProjectInitFile(MSIHANDLE hMSIHandle) :
+CACreateAcctMgrLoginFile::CACreateAcctMgrLoginFile(MSIHANDLE hMSIHandle) :
     BOINCCABase(hMSIHandle, CUSTOMACTION_NAME, CUSTOMACTION_PROGRESSTITLE)
 {}
 
@@ -46,7 +46,7 @@ CACreateProjectInitFile::CACreateProjectInitFile(MSIHANDLE hMSIHandle) :
 // Description: 
 //
 /////////////////////////////////////////////////////////////////////
-CACreateProjectInitFile::~CACreateProjectInitFile()
+CACreateAcctMgrLoginFile::~CACreateAcctMgrLoginFile()
 {
     BOINCCABase::~BOINCCABase();
 }
@@ -59,53 +59,44 @@ CACreateProjectInitFile::~CACreateProjectInitFile()
 // Description: 
 //
 /////////////////////////////////////////////////////////////////////
-UINT CACreateProjectInitFile::OnExecution()
+UINT CACreateAcctMgrLoginFile::OnExecution()
 {
     tstring          strDataDirectory;
-    tstring          strProjectInitUrl;
-    tstring          strProjectInitAuthenticator;
-    tstring          strProjectInitTeamName;
-    tstring          strProjectInitFile;
+    tstring          strAcctMgrLogin;
+    tstring          strAcctMgrPasswordHash;
+    tstring          strAcctMgrLoginFile;
     UINT             uiReturnValue = -1;
 
 
     uiReturnValue = GetProperty( _T("DATADIR"), strDataDirectory );
     if ( uiReturnValue ) return uiReturnValue;
 
-    uiReturnValue = GetProperty( _T("PROJINIT_URL"), strProjectInitUrl );
+    uiReturnValue = GetProperty( _T("ACCTMGR_LOGIN"), strAcctMgrLogin );
     if ( uiReturnValue ) return uiReturnValue;
 
-    uiReturnValue = GetProperty( _T("PROJINIT_AUTH"), strProjectInitAuthenticator );
-    if ( uiReturnValue ) return uiReturnValue;
-
-    uiReturnValue = GetProperty( _T("PROJINIT_TEAMNAME"), strProjectInitTeamName );
+    uiReturnValue = GetProperty( _T("ACCTMGR_PASSWORDHASH"), strAcctMgrPasswordHash );
     if ( uiReturnValue ) return uiReturnValue;
 
 
-    if (!strProjectInitUrl.empty()) {
+    if (!strAcctMgrLogin.empty()) {
 
         // The project_init.xml file is stored in the data directory.
         //
-        strProjectInitFile = strDataDirectory + _T("\\project_init.xml");
+        strAcctMgrLoginFile = strDataDirectory + _T("\\acct_mgr_login.xml");
 
-        FILE* fProjectInitFile = _tfopen(strProjectInitFile.c_str(), _T("w"));
+        FILE* fAcctMgrLoginFile = _tfopen(strAcctMgrLoginFile.c_str(), _T("w"));
         
         _ftprintf(
-            fProjectInitFile,
-            _T("<project_init>\n")
-            _T("    <name>%s</name>\n")
-            _T("    <url>%s</url>\n")
-            _T("    <account_key>%s</account_key>\n")
-            _T("    <team_name>%s</team_name>\n")
-            _T("</project_init>\n"),
-            strProjectInitUrl.c_str(),
-            strProjectInitUrl.c_str(),
-            !strProjectInitAuthenticator.empty() ? strProjectInitAuthenticator.c_str() : _T(""),
-            !strProjectInitTeamName.empty() ? strProjectInitTeamName.c_str() : _T("")
+            fAcctMgrLoginFile,
+            _T("<acct_mgr_login>\n")
+            _T("    <login>%s</login>\n")
+            _T("    <password_hash>%s</password_hash>\n")
+            _T("</acct_mgr_login>\n"),
+            strAcctMgrLogin.c_str(),
+            !strAcctMgrPasswordHash.empty() ? strAcctMgrPasswordHash.c_str() : _T("")
         );
 
-        fclose(fProjectInitFile);
-
+        fclose(fAcctMgrLoginFile);
     }
 
     return ERROR_SUCCESS;
@@ -114,22 +105,20 @@ UINT CACreateProjectInitFile::OnExecution()
 
 /////////////////////////////////////////////////////////////////////
 // 
-// Function:    CreateProjectInitFile
+// Function:    CreateAcctMgrLoginFile
 //
-// Description: This custom action stores the project init data 
+// Description: This custom action stores the account manager login data 
 //                specified on the commandline in a file in the data
 //                directory.
 //
 /////////////////////////////////////////////////////////////////////
-UINT __stdcall CreateProjectInitFile(MSIHANDLE hInstall)
+UINT __stdcall CreateAcctMgrLoginFile(MSIHANDLE hInstall)
 {
     UINT uiReturnValue = 0;
 
-    CACreateProjectInitFile* pCA = new CACreateProjectInitFile(hInstall);
+    CACreateAcctMgrLoginFile* pCA = new CACreateAcctMgrLoginFile(hInstall);
     uiReturnValue = pCA->Execute();
     delete pCA;
 
     return uiReturnValue;
 }
-
-const char *BOINC_RCSID_01ed9786df="$Id: CACreateProjectInitFile.cpp 11804 2007-01-08 18:42:48Z rwalton $";

@@ -386,6 +386,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CACreateAcctMgrLoginFile.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CACreateProjectInitFile.cpp"
 				>
 			</File>
@@ -500,6 +504,10 @@
 			</File>
 			<File
 				RelativePath=".\CACleanupOldBinaries.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CACreateAcctMgrLoginFile.h"
 				>
 			</File>
 			<File
