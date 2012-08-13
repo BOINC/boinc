@@ -5196,6 +5196,14 @@ Rom    2 Aug 2012
         boinc_ss.vcproj
         libgraphics2.vcproj
 
+Eric K  2 Aug 2012
+    - scheduler, validator: Modified credit granting for "appox credit" 
+      result to weight results by proximity to the average estimate. This 
+      reduces the number of results that are granted extremely low credit 
+      when a new app_version is released and (I hope) improves work/duration
+      estimates by speeding up the convergence of app versions stats. I may
+      try using this in lieu of low_average for normal result, but haven't yet.
+
 Charlie 3 Aug 2012
     - Sample Graphics app: Switch from *.txf fonts to TrueType fonts.
     samples/
@@ -5385,6 +5393,35 @@ Charlie 8 Aug 2012
     
      clientgui/
         DlgItemProperties.cpp
+
+Eric K  8 Aug 2012
+    - LIB: Added conditional printf to the message log class, since most 
+      scheduler log output seems to be conditional on config parameters 
+      such as config.debug_version_select.
+
+    lib/
+        msg_log.{h.cpp}
+
+Eric K  8 Aug 2012
+    - Credit is more stable when pegged_avg() is used.
+    - When a normal and an approx result are compared the normal result 
+      now gets double weight in a pegged_avg() with any approx results. 
+      "Normal mode" GPU results are frequently resulting in bad credit 
+      values for yet undetermined reasons. Since GPUs are so fast, there 
+      can be a lot of bad values in a short time. Including the prior 
+      average and another result even seems to prevent this in many case.
+    - Replaced many of the if { msg_log.printf } with msg_log.cond_printf()
+    - Accidentally changed some of the formatting when trying a new editor 
+      that apparently autoformats. Sorry for the extra diff lines.
+    - There's a problem with pfc calculation for hosts whose credit 
+      calculation fails the sanity check. This has been a problem for 
+      a long time. Because the result fails the sanity check, the 
+      host_app_version pfc is never updated. Because hav.pfc is never 
+      updated, the credit calculation continues to be wrong. 
+    - This change is subject to review. Use with caution.
+
+    sched/
+        credit.cpp
    
 David  10 Aug 2012
     - client: when we're making a scheduler RPC
