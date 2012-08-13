@@ -137,6 +137,7 @@ int META_CHUNK::recovery_plan() {
     need_reconstruct = false;
     needed_by_parent = false;
     data_now_present = false;
+    keep_present = false;
 
     // make lists of children in various states
     //
@@ -379,22 +380,12 @@ int META_CHUNK::reconstruct_and_cleanup() {
             delete_file();
         }
     }
-    if (bottom_level) {
-        int npresent = coding.m;
-        for (i=0; i<children.size(); i++) {
-            CHUNK& c = *(CHUNK*)children[i];
-            if (c.status != UNRECOVERABLE && !c.keep_present) {
-                if (!keep_present || npresent > coding.n) {
-                    c.delete_file();
-                    npresent--;
-                    c.new_present_on_server = false;
-                }
-            }
-        }
-    }
     return 0;
 }
 
+// We just decoded this chunk from a subset of its children.
+// Decide whether we should now encode it (to create all of its children)
+//
 int META_CHUNK::expand() {
     unsigned int i;
     int retval;
@@ -409,16 +400,11 @@ int META_CHUNK::expand() {
             }
         }
         if (do_encode) {
-            retval = encode();
+            retval = encode(false);
             if (retval) return retval;
-        }
-        for (i=0; i<children.size(); i++) {
-            CHUNK& c = *(CHUNK*)children[i];
-            if (c.need_more_replicas() || c.download_in_progress()) {
-                c.new_present_on_server = true;
-            } else {
-                c.new_present_on_server = false;
-                c.delete_file();
+            for (i=0; i<children.size(); i++) {
+                CHUNK& c = *(CHUNK*)children[i];
+                c.present_on_server = true;
             }
         }
     } else {
@@ -431,7 +417,7 @@ int META_CHUNK::expand() {
             }
         }
         if (do_encode) {
-            retval = encode();
+            retval = encode(false);
             if (retval) return retval;
             for (i=0; i<children.size(); i++) {
                 META_CHUNK& c = *(META_CHUNK*)children[i];
@@ -455,6 +441,7 @@ int META_CHUNK::expand() {
 ///////////////// CHUNK ///////////////////////
 
 int CHUNK::recovery_plan() {
+    keep_present = false;
     if (present_on_server) {
         status = PRESENT;
         cost = 0;
@@ -505,23 +492,18 @@ int CHUNK::recovery_action(double now) {
     if (status == PRESENT && (int)(hosts.size()) < fp->policy.replication) {
         retval = assign();
         if (retval) return retval;
-        data_needed = true;
+        keep_present = true;
     }
     if (download_in_progress()) {
-        data_needed = true;
+        keep_present = true;
     }
 #ifdef DEBUG_RECOVERY
-    printf("      chunk %s: data_needed %d present_on_server %d\n",
-        name, data_needed, present_on_server
+    printf("      chunk %s: data_needed %d present_on_server %d keep_present %d\n",
+        name, data_needed, present_on_server, keep_present
     );
 #endif
-    if (data_needed) {
-        if (!present_on_server) {
-            retval = start_upload();
-            if (retval) return retval;
-        }
-    } else {
-        if (present_on_server) {
+    if (present_on_server) {
+        if (!keep_present) {
             sprintf(buf,
                 "   chunk %s: not needed, removing from server\n", name
             );
@@ -536,6 +518,11 @@ int CHUNK::recovery_action(double now) {
                 fp->collecting_stats(),
                 now
             );
+        }
+    } else {
+        if (data_needed) {
+            retval = start_upload();
+            if (retval) return retval;
         }
     }
     return 0;

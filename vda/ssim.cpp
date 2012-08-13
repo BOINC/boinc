@@ -467,7 +467,7 @@ void CHUNK::download_complete() {
     sfp->recover();
 }
 
-int META_CHUNK::encode() {
+int META_CHUNK::encode(bool) {
     printf("%s: encoding metachunk %s\n", now_str(), name);
     return 0;
 }

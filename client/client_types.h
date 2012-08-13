@@ -92,16 +92,6 @@ struct URL_LIST {
     }
 };
 
-// Values of FILE_INFO::status.
-// If the status is neither of these two,
-// it's an error code indicating an unrecoverable error
-// in the transfer of the file,
-// or that the file was too big and was deleted.
-//
-#define FILE_NOT_PRESENT    0
-#define FILE_PRESENT        1
-#define FILE_VERIFY_PENDING	2
-
 struct FILE_INFO {
     char name[256];
     char md5_cksum[33];

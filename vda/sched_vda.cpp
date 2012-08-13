@@ -486,8 +486,12 @@ void handle_vda() {
         }
         if (config.debug_vda) {
             log_messages.printf(MSG_NORMAL,
-                "[vda] request: client has file %s\n", fi.name
+                "[vda] request: client has file %s, status %d\n",
+                fi.name, fi.status
             );
+        }
+        if (fi.status != FILE_PRESENT) {
+            continue;
         }
         process_chunk_present_on_client(fi, chunks);
     }

@@ -129,6 +129,16 @@ enum SUSPEND_REASON {
 #define RESULT_UPLOAD_FAILED        7
     // some output file permanent failure
 
+// Values of FILE_INFO::status.
+// If the status is neither of these two,
+// it's an error code indicating an unrecoverable error
+// in the transfer of the file,
+// or that the file was too big and was deleted.
+//
+#define FILE_NOT_PRESENT    0
+#define FILE_PRESENT        1
+#define FILE_VERIFY_PENDING 2
+
 // values of ACTIVE_TASK::task_state
 //
 #define PROCESS_UNINITIALIZED   0

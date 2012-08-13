@@ -73,13 +73,13 @@ struct VDA_FILE_AUX : VDA_FILE {
     int choose_host();
 };
 
-#define PRESENT 0
+#define PRESENT         0
     // this unit is present on the server
     // (in the case of meta-chunks, this means that enough chunks
     // to reconstruct the meta-chunk are present on the server)
-#define RECOVERABLE 1
+#define RECOVERABLE     1
     // this unit is not present, but could be recovered from data on clients
-#define UNRECOVERABLE 2
+#define UNRECOVERABLE   2
     // not present or recoverable
 
 // base class for chunks and meta-chunks
@@ -101,8 +101,9 @@ struct DATA_UNIT {
         // vdad: this unit was initially unrecoverable,
         // but the parent has become present so now this unit is present
     bool data_needed;
+        // this unit is not currently present;
         // we need to take action (e.g. start uploads)
-        // to make this unit present
+        // to make it present
     double cost;
     bool keep_present;
         // this unit is present and we need to keep it present
@@ -152,7 +153,7 @@ struct META_CHUNK : DATA_UNIT {
         return false;
     }
     int decode();
-    int encode();
+    int encode(bool first);
 
     // used by vda
     void print_status(int indent_level);
@@ -163,7 +164,6 @@ struct CHUNK : DATA_UNIT {
     META_CHUNK* parent;
     double size;
     bool present_on_server;
-    bool new_present_on_server;
 
     CHUNK(META_CHUNK* mc, double s, int index);
 

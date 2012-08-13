@@ -139,7 +139,7 @@ int META_CHUNK::init(const char* _dir, POLICY& p, int coding_level) {
 
     strcpy(dir, _dir);
     coding = p.codings[coding_level];
-    int retval = encode();
+    int retval = encode(true);
     if (retval) return retval;
     p.chunk_sizes[coding_level] = child_size;
 
@@ -207,7 +207,7 @@ int META_CHUNK::get_state(const char* _dir, POLICY& p, int coding_level) {
 //
 // The size of these chunks is returned in "size"
 //
-int META_CHUNK::encode() {
+int META_CHUNK::encode(bool first) {
     char cmd[1024];
     sprintf(cmd,
         "cd %s; /mydisks/b/users/boincadm/vda_test/encoder %s %d %d cauchy_good 32 1024 500000",
@@ -215,34 +215,43 @@ int META_CHUNK::encode() {
     );
     printf("%s\n", cmd);
     int s = system(cmd);
-    if (WIFEXITED(s)) {
-        int st = WEXITSTATUS(s);
-        if (st != 32) return -1;    // encoder returns 32 for some reason
+    if (!WIFEXITED(s) || WEXITSTATUS(s) != 32) {
+        // encoder returns 32 for some reason
+        printf("system(%s) failed\n", cmd);
+        return -1;
+    }
+    sprintf(cmd, "chmod og+x %s/Coding", dir);
+    s = system(cmd);
+    if (!WIFEXITED(s) || WEXITSTATUS(s)) {
+        printf("system(%s) failed\n", cmd);
+        return -1;
     }
 
-    // make symlinks
-    //
-    for (int i=0; i<coding.m; i++) {
-        char enc_filename[1024], target_path[1024];
-        char dir_name[1024], link_name[1024];
-        encoder_filename("data", "vda", coding, i, enc_filename);
-        sprintf(target_path, "%s/Coding/%s", dir, enc_filename);
-        sprintf(dir_name, "%s/%d", dir, i);
-        int retval = mkdir(dir_name, 0777);
-        if (retval) {
-            perror("mkdir");
-            return retval;
-        }
-        sprintf(link_name, "%s/%s", dir_name, DATA_FILENAME);
-        retval = symlink(target_path, link_name);
-        if (retval) {
-            log_messages.printf(MSG_CRITICAL,
-                "encode(): link %s %s failed\n", target_path, link_name
-            );
-            return retval;
-        }
-        if (i == 0) {
-            file_size(target_path, child_size);
+    if (first) {
+        // make symlinks
+        //
+        for (int i=0; i<coding.m; i++) {
+            char enc_filename[1024], target_path[1024];
+            char dir_name[1024], link_name[1024];
+            encoder_filename("data", "vda", coding, i, enc_filename);
+            sprintf(target_path, "%s/Coding/%s", dir, enc_filename);
+            sprintf(dir_name, "%s/%d", dir, i);
+            int retval = mkdir(dir_name, 0777);
+            if (retval) {
+                perror("mkdir");
+                return retval;
+            }
+            sprintf(link_name, "%s/%s", dir_name, DATA_FILENAME);
+            retval = symlink(target_path, link_name);
+            if (retval) {
+                log_messages.printf(MSG_CRITICAL,
+                    "encode(): link %s %s failed\n", target_path, link_name
+                );
+                return retval;
+            }
+            if (i == 0) {
+                file_size(target_path, child_size);
+            }
         }
     }
     return 0;

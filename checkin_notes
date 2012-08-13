@@ -5528,3 +5528,16 @@ Rom    13 Aug 2012
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+David  13 Aug 2012
+    - volunteer storage stuff
+
+    vda/
+        vda_lib.cpp,h
+        ssim.cpp
+        sched_vda.cpp
+        vda_lib2.cpp
+    client/
+        client_types.h
+    lib/
+        common_defs.h
