@@ -101,6 +101,8 @@ Boolean CheckDeleteFile(char *name);
 void SetEUIDBackToUser (void);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
 Boolean IsUserMemberOfGroup(const char *userName, const char *groupName);
+static void c2x(char *what);
+static void escape_url(char *in, char*out);
 int CountGroupMembershipEntries(const char *userName, const char *groupName);
 OSErr UpdateAllVisibleUsers(long brandID);
 long GetBrandID(void);
@@ -1138,6 +1140,45 @@ Boolean IsUserMemberOfGroup(const char *userName, const char *groupName) {
 }
 
 
+static void c2x(char *what) {
+    char buf[3];
+    char num = atoi(what);
+    char d1 = num / 16;
+    char d2 = num % 16;
+    int abase1, abase2;
+    if (d1 < 10) abase1 = 48;
+    else abase1 = 55;
+    if (d2 < 10) abase2 = 48;
+    else abase2 = 55;
+    buf[0] = d1+abase1;
+    buf[1] = d2+abase2;
+    buf[2] = 0;
+
+    strcpy(what, buf);
+}
+
+
+static void escape_url(char *in, char*out) {
+    int x, y;
+    for (x=0, y=0; in[x]; ++x) {
+        if (isalnum(in[x])) {
+            out[y] = in[x];
+            ++y;
+        } else {
+            out[y] = '%';
+            ++y;
+            out[y] = 0;
+            char buf[256];
+            sprintf(buf, "%d", (char)in[x]);
+            c2x(buf);
+            strcat(out, buf);
+            y += 2;
+        }
+    }
+    out[y] = 0;
+}
+
+
 // OS 10.7 dscl merge command has a bug such that the command:
 //     dscl . -merge /Groups/GROUPNAME users USERNAME
 // adds the user to the group even if it was already a member, resulting in 
@@ -1149,12 +1190,13 @@ Boolean IsUserMemberOfGroup(const char *userName, const char *groupName) {
 
 int CountGroupMembershipEntries(const char *userName, const char *groupName) {
     int                 count = 0;
-    char                cmd[512], buf[2048];
+    char                cmd[512], buf[2048], escapedUserName[1024];
     FILE                *f;
     char                *p, *q;
     
     // getgrnam(groupName)->gr_mem[] only returns one entry, so we must use dscl
-    sprintf(cmd, "dscl . -read /Groups/%s GroupMembership", groupName);
+    escape_url((char *)userName, escapedUserName); // Avoid confusion if name has embedded spaces
+    sprintf(cmd, "dscl -url . -read /Groups/%s GroupMembership", groupName);
     f = popen(cmd, "r");
     if (f == NULL)
         return 0;
@@ -1163,10 +1205,10 @@ int CountGroupMembershipEntries(const char *userName, const char *groupName) {
     {
         p = buf;
         while (p) {
-            p = strstr(p, userName);
+            p = strstr(p, escapedUserName);
             if (p) {
                 q = p-1;
-                p += strlen(userName);
+                p += strlen(escapedUserName);
                 // Count only whole words (preceded and followed by white space) so 
                 // that if we have both 'jon' and 'jones' we don't count 'jon' twice
                 if (isspace(*q) && isspace(*p)) {
