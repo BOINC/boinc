@@ -418,16 +418,19 @@ static OSStatus CleanupAllVisibleUsers(void)
 #endif
                     continue;
                 }
-            }
-            p = strchr(buf, ' ');
-            if (p) {
-                *p = '\0';
+                
+                while (p > buf) {
+                    if (*p != ' ') break;
+                    --p;
+                }
+
+                *(p+1) = '\0';
                 human_user_names.push_back(string(buf));
                 human_user_IDs.push_back((uid_t)id);
 #if TESTING
                 ShowMessage(false, false, "user ID %d: %s\n", id, buf);
 #endif
-                *p = ' ';
+                *(p+1) = ' ';
             }
         }
         pclose(f);
@@ -438,25 +441,25 @@ static OSStatus CleanupAllVisibleUsers(void)
         strlcpy(human_user_name, human_user_names[userIndex-1].c_str(), sizeof(human_user_name));
 
         // Check whether this user is a login (human) user 
-        sprintf(s, "dscl . -read /Users/%s NFSHomeDirectory", human_user_name);    
+        sprintf(s, "dscl . -read \"/Users/%s\" NFSHomeDirectory", human_user_name);    
         f = popen(s, "r");
         if (f) {
             while (PersistentFGets(buf, sizeof(buf), f)) {
                 p = strrchr(buf, ' ');
                 if (p) {
-                    if (strcmp(p, " /var/empty\n") == 0) flag = 1;
+                    if (strstr(p, "/var/empty") != NULL) flag = 1;
                 }
             }
             pclose(f);
         }
 
-        sprintf(s, "dscl . -read /Users/%s UserShell", human_user_name);    
+        sprintf(s, "dscl . -read \"/Users/%s\" UserShell", human_user_name);    
         f = popen(s, "r");
         if (f) {
             while (PersistentFGets(buf, sizeof(buf), f)) {
                 p = strrchr(buf, ' ');
                 if (p) {
-                    if (strcmp(p, " /usr/bin/false\n") == 0) flag |= 2;
+                    if (strstr(p, "/usr/bin/false") != NULL) flag |= 2;
                 }
             }
             pclose(f);
@@ -471,7 +474,7 @@ static OSStatus CleanupAllVisibleUsers(void)
         }
 
         pw = getpwnam(human_user_name);
-        if (pw == NULL)             // "Deleted Users", "Shared", etc.
+        if (pw == NULL)
             continue;
 
 #if TESTING
@@ -480,10 +483,10 @@ static OSStatus CleanupAllVisibleUsers(void)
 #endif
 
         // Remove user from groups boinc_master and boinc_project
-        sprintf(s, "dscl . -delete /groups/boinc_master users %s", human_user_name);
+        sprintf(s, "dscl . -delete /groups/boinc_master users \"%s\"", human_user_name);
         system (s);
 
-        sprintf(s, "dscl . -delete /groups/boinc_project users %s", human_user_name);
+        sprintf(s, "dscl . -delete /groups/boinc_project users \"%s\"", human_user_name);
         system (s);
 
 #if TESTING
