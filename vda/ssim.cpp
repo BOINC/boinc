@@ -238,6 +238,7 @@ struct SIM_FILE : VDA_FILE_AUX, EVENT {
         meta_chunk->reconstruct_and_cleanup();
         printf("recovery_action():\n");
         meta_chunk->recovery_action(sim.now);
+        meta_chunk->compute_min_failures();
         fault_tolerance.sample(
             meta_chunk->min_failures-1, collecting_stats(), sim.now
         );
@@ -465,6 +466,14 @@ void CHUNK::download_complete() {
     }
     SIM_FILE* sfp = (SIM_FILE*)parent->dfile;
     sfp->recover();
+}
+
+int CHUNK::upload_all() {
+    return 0;
+}
+
+int META_CHUNK::upload_all() {
+    return 0;
 }
 
 int META_CHUNK::encode(bool) {

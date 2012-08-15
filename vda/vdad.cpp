@@ -78,11 +78,35 @@ int handle_file(VDA_FILE_AUX& vf, DB_VDA_FILE& dvf) {
         dvf.update_field(buf);
     }
     log_messages.printf(MSG_NORMAL, "Recovery plan:\n");
-    retval = vf.meta_chunk->recovery_plan();
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL, "vf.recovery_plan failed %d\n", retval);
-        return retval;
+    vf.meta_chunk->recovery_plan();
+
+    // see if we're retrieving this file
+    //
+    if (vf.retrieving) {
+        if (vf.retrieved) return 0;
+        switch (vf.meta_chunk->status) {
+        case PRESENT:
+            // we have enough chunks to reconstruct it - do so
+            //
+            vf.meta_chunk->reconstruct();
+            break;
+        case RECOVERABLE:
+            // otherwise start all possible uploads
+            //
+            vf.meta_chunk->upload_all();
+            break;
+        case UNRECOVERABLE:
+            // if it looks like we can't recover the file, print a msg
+            //
+            log_messages.printf(MSG_CRITICAL,
+                "Can't retrieve %s: unrecoverable\n",
+                vf.file_name
+            );
+            break;
+        }
+        return 0;
     }
+
     retval = vf.meta_chunk->decide_reconstruct();
     if (retval) {
         log_messages.printf(MSG_CRITICAL, "vf.decide_reconstruct failed %d\n", retval);
@@ -99,6 +123,7 @@ int handle_file(VDA_FILE_AUX& vf, DB_VDA_FILE& dvf) {
         log_messages.printf(MSG_CRITICAL, "vf.recovery_action failed %d\n", retval);
         return retval;
     }
+    vf.meta_chunk->compute_min_failures();
     return 0;
 }
 

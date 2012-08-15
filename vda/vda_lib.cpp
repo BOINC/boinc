@@ -128,7 +128,7 @@ META_CHUNK::META_CHUNK(
 //      and whether to delete chunk data currently on server.
 //      Also compute min_failures
 //
-int META_CHUNK::recovery_plan() {
+void META_CHUNK::recovery_plan() {
     vector<DATA_UNIT*> recoverable;
     vector<DATA_UNIT*> present;
 
@@ -146,8 +146,7 @@ int META_CHUNK::recovery_plan() {
         c->in_recovery_set = false;
         c->data_needed = false;
         c->data_now_present = false;
-        int retval = c->recovery_plan();
-        if (retval) return retval;
+        c->recovery_plan();
         switch (c->status) {
         case PRESENT:
             present.push_back(c);
@@ -191,7 +190,6 @@ int META_CHUNK::recovery_plan() {
     } else {
         status = UNRECOVERABLE;
     }
-    return 0;
 }
 
 int META_CHUNK::recovery_action(double now) {
@@ -230,10 +228,19 @@ int META_CHUNK::recovery_action(double now) {
         retval = c->recovery_action(now);
         if (retval) return retval;
     }
+    return 0;
+}
 
-    // Compute min_failures: the smallest # of host failures
-    // that would make this unit unrecoverable.
-    //
+// Compute min_failures: the smallest # of host failures
+// that would make this unit unrecoverable.
+//
+int META_CHUNK::compute_min_failures() {
+    unsigned int i;
+    for (i=0; i<children.size(); i++) {
+        DATA_UNIT* c = children[i];
+        c->compute_min_failures();
+    }
+
     // Because of recovery action,
     // some of our children may have changed status and fault tolerance,
     // so ours may have changed too.
@@ -440,12 +447,11 @@ int META_CHUNK::expand() {
 
 ///////////////// CHUNK ///////////////////////
 
-int CHUNK::recovery_plan() {
+void CHUNK::recovery_plan() {
     keep_present = false;
     if (present_on_server) {
         status = PRESENT;
         cost = 0;
-        min_failures = INT_MAX;
     } else if (hosts.size() > 0) {
         // if file is not present on server, assume that it's present
         // on all hosts (otherwise we wouldn't have downloaded it).
@@ -455,14 +461,28 @@ int CHUNK::recovery_plan() {
         if ((int)(hosts.size()) < parent->dfile->policy.replication) {
             data_needed = true;
         }
-        min_failures = hosts.size();
     } else {
         status = UNRECOVERABLE;
-        min_failures = 0;
     }
 #ifdef DEBUG_RECOVERY
     printf("   chunk %s: status %s\n", name, status_str(status));
 #endif
+}
+
+int CHUNK::compute_min_failures() {
+    if (present_on_server) {
+        min_failures = INT_MAX;
+        return 0;
+    }
+    int nreplicas = 0;
+    set<VDA_CHUNK_HOST*>::iterator i;
+    for (i=hosts.begin(); i!=hosts.end(); i++) {
+        VDA_CHUNK_HOST* ch = *i;
+        if (ch->present_on_host) {
+            nreplicas++;
+        }
+    }
+    min_failures = nreplicas;
     return 0;
 }
 

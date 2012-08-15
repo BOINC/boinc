@@ -50,6 +50,10 @@
 
 #include "sched_msgs.h"
 
+#define LOCK_FILES
+    // comment this out to not lock files
+    // this may avoid filesystem hangs
+
 #define ERR_TRANSIENT   true
 #define ERR_PERMANENT   false
 
@@ -127,6 +131,7 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
         );
     }
 
+#ifdef LOCK_FILES
     // Put an advisory lock on the file.
     // This will prevent OTHER instances of file_upload_handler
     // from being able to write to the file.
@@ -142,6 +147,7 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
         close(fd);
         return return_error(ERR_TRANSIENT, "can't lock file %s\n", path);
     }
+#endif
 
     // check that file length corresponds to offset
     // TODO: use a 64-bit variant

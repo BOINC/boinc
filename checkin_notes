@@ -5549,3 +5549,23 @@ Charlie 14 Aug 2012
         PostInstall.cpp
         release_boinc.sh
         Uninstall.cpp
+
+David  15 Aug 2012
+    - file upload handler: add an #ifdef for disabling locking of files
+        while writing to them.
+        It's not clear to me that this locking is beneficial,
+        and it may be causing filesystem problems at WCG
+    - volunteer storage stuff
+
+    vda/
+        vda_lib.cpp,h
+        vda.cpp
+        ssim.cpp
+        vdad.cpp
+        vda_lib2.cpp
+    db/
+        boinc_db_types.h
+        boinc_db.cpp
+        schema_vda.sql
+    sched/
+        file_upload_handler.cpp

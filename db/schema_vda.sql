@@ -8,6 +8,7 @@ create table vda_file (
     need_update             tinyint not null default 0,
     initialized             tinyint not null default 0,
     retrieving              tinyint not null default 0,
+    retrieved               tinyint not null default 0,
     primary key(id)
 ) engine = InnoDB;
 

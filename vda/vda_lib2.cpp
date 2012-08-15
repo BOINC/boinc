@@ -272,6 +272,45 @@ int META_CHUNK::decode() {
     return 0;
 }
 
+// the meta-chunk is present, and we're retrieving the file
+//
+int META_CHUNK::reconstruct() {
+    unsigned int i;
+
+    // reconstruct enough children that we can reconstruct ourself
+    //
+    if (!bottom_level) {
+        int n = 0;
+        for (i=0; i<children.size(); i++) {
+            META_CHUNK* cp = (META_CHUNK*)children[i];
+            if (cp->status == PRESENT) {
+                cp->reconstruct();
+                n++;
+                if (n == coding.n) break;
+            }
+        }
+    }
+    decode();
+
+    // then delete childrens' files
+    //
+    for (i=0; i<children.size(); i++) {
+        children[i]->delete_file();
+    }
+    return 0;
+}
+
+// We're retrieving the file.
+// Start all possible uploads.
+//
+int META_CHUNK::upload_all() {
+    unsigned int i;
+    for (i=0; i<children.size(); i++) {
+        children[i]->upload_all();
+    }
+    return 0;
+}
+
 ///////////////// CHUNK ///////////////////////
 
 CHUNK::CHUNK(META_CHUNK* mc, double s, int index) {
@@ -324,18 +363,7 @@ int CHUNK::assign() {
     return 0;
 }
 
-int CHUNK::start_upload() {
-    // if no upload of this chunk is in progress, start one.
-    // NOTE: all instances are inherently present_on_host,
-    // since this is only called if chunk is not present on server
-    //
-    VDA_CHUNK_HOST* chp;
-    set<VDA_CHUNK_HOST*>::iterator i;
-    for (i=hosts.begin(); i!=hosts.end(); i++) {
-        chp = *i;
-        if (chp->transfer_in_progress) return 0;
-    }
-    chp = *(hosts.begin());
+int CHUNK::start_upload_from_host(VDA_CHUNK_HOST& ch) {
     DB_VDA_CHUNK_HOST dch;
     char set_clause[256], where_clause[256];
     sprintf(set_clause,
@@ -344,12 +372,46 @@ int CHUNK::start_upload() {
     );
     sprintf(where_clause,
         "where vda_file_id=%d and host_id=%d and name='%s'",
-        chp->vda_file_id,
-        chp->host_id,
+        ch.vda_file_id,
+        ch.host_id,
         name
     );
-    int retval = dch.update_fields_noid(set_clause, where_clause);
-    return retval;
+    return dch.update_fields_noid(set_clause, where_clause);
+}
+
+// if no upload of this chunk is in progress, start one.
+// NOTES:
+// - all instances are inherently present_on_host,
+//   since this is only called if chunk is not present on server
+// - we arbitrarily pick the first host in the list.
+//   Could randomize this or use other criteria.
+//
+int CHUNK::start_upload() {
+    VDA_CHUNK_HOST* chp;
+    set<VDA_CHUNK_HOST*>::iterator i;
+    for (i=hosts.begin(); i!=hosts.end(); i++) {
+        chp = *i;
+        if (chp->transfer_in_progress) return 0;
+    }
+    chp = *(hosts.begin());
+    return start_upload_from_host(*chp);
+}
+
+// Start uploads of all instances.
+// Used when retrieving the file.
+//
+int CHUNK::upload_all() {
+    if (present_on_server) return 0;
+
+    VDA_CHUNK_HOST* chp;
+    set<VDA_CHUNK_HOST*>::iterator i;
+    for (i=hosts.begin(); i!=hosts.end(); i++) {
+        chp = *i;
+        if (chp->transfer_in_progress) continue;
+        int retval = start_upload_from_host(*chp);
+        if (retval) return retval;
+    }
+    return 0;
 }
 
 ///////////////// VDA_FILE_AUX ///////////////////////

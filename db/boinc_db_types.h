@@ -685,6 +685,7 @@ struct VDA_FILE {
     bool need_update;
     bool initialized;
     bool retrieving;
+    bool retrieved;
     void clear();
 };
 

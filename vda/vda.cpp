@@ -179,7 +179,7 @@ int handle_retrieve(const char* name) {
     sprintf(buf, "where file_name='%s'", name);
     int retval = vf.lookup(buf);
     if (retval) return retval;
-    retval = vf.update_field("retrieving=1");
+    retval = vf.update_field("retrieving=1, need_update=1");
     return retval;
 }
 
@@ -203,7 +203,10 @@ int handle_status(const char* name) {
         return retval;
     }
     printf("status for file %s:", vf.file_name);
+    vf.meta_chunk->recovery_plan();
+    vf.meta_chunk->compute_min_failures();
     vf.meta_chunk->print_status(0);
+    printf("fault tolerance level: %d\n", vf.meta_chunk->min_failures-1);
 
     return 0;
 }

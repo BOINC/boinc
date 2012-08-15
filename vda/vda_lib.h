@@ -85,8 +85,10 @@ struct VDA_FILE_AUX : VDA_FILE {
 // base class for chunks and meta-chunks
 //
 struct DATA_UNIT {
-    virtual int recovery_plan(){return 0;};
+    virtual void recovery_plan(){};
     virtual int recovery_action(double){return 0;};
+    virtual int compute_min_failures(){return 0;};
+    virtual int upload_all(){return 0;};
 
     char name[64];
     char dir[1024];
@@ -139,8 +141,10 @@ struct META_CHUNK : DATA_UNIT {
     int init(const char* dir, POLICY&, int level);
     int get_state(const char* dir, POLICY&, int level);
 
-    virtual int recovery_plan();
+    virtual void recovery_plan();
     virtual int recovery_action(double);
+    virtual int compute_min_failures();
+    virtual int upload_all();
 
     int decide_reconstruct();
     int reconstruct_and_cleanup();
@@ -154,6 +158,7 @@ struct META_CHUNK : DATA_UNIT {
     }
     int decode();
     int encode(bool first);
+    int reconstruct();
 
     // used by vda
     void print_status(int indent_level);
@@ -173,14 +178,19 @@ struct CHUNK : DATA_UNIT {
     void upload_complete();
     void download_complete();
     int assign();
-    virtual int recovery_plan();
+    virtual void recovery_plan();
     virtual int recovery_action(double);
+    virtual int compute_min_failures();
+    virtual int upload_all();
     bool need_more_replicas() {
         return ((int)hosts.size() < parent->dfile->policy.replication);
     }
 
     // used by vda
     void print_status(int indent_level);
+
+    // used by vdad
+    int start_upload_from_host(VDA_CHUNK_HOST&);
 };
 
 // names

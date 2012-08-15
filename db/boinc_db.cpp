@@ -2350,7 +2350,8 @@ void DB_VDA_FILE::db_print(char* buf){
         "chunk_size=%f, "
         "need_update=%d, "
         "initialized=%d, "
-        "retrieving=%d",
+        "retrieving=%d"
+        "retrieved=%d",
         create_time,
         dir,
         file_name,
@@ -2358,7 +2359,8 @@ void DB_VDA_FILE::db_print(char* buf){
         chunk_size,
         need_update?1:0,
         initialized?1:0,
-        retrieving?1:0
+        retrieving?1:0,
+        retrieved?1:0
     );
 }
 
@@ -2374,6 +2376,7 @@ void DB_VDA_FILE::db_parse(MYSQL_ROW &r) {
     need_update = (atoi(r[i++]) != 0);
     initialized = (atoi(r[i++]) != 0);
     retrieving = (atoi(r[i++]) != 0);
+    retrieved = (atoi(r[i++]) != 0);
 }
 
 void DB_VDA_CHUNK_HOST::db_print(char* buf) {
