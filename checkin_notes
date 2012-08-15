@@ -5541,3 +5541,11 @@ David  13 Aug 2012
         client_types.h
     lib/
         common_defs.h
+
+Charlie 14 Aug 2012
+    - Mac installer: Fixes for short (posix) user names containing spaces.
+    
+    mac_installer/
+        PostInstall.cpp
+        release_boinc.sh
+        Uninstall.cpp

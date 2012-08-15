@@ -1229,12 +1229,15 @@ OSErr UpdateAllVisibleUsers(long brandID)
                 int id = atoi(p+1);
                 if (id < 501) continue;
                 human_user_IDs.push_back((uid_t)id);
-            }
-            p = strchr(buf, ' ');
-            if (p) {
-                *p = '\0';
+
+                while (p > buf) {
+                    if (*p != ' ') break;
+                    --p;
+                }
+
+               *(p+1) = '\0';
                 human_user_names.push_back(string(buf));
-                *p = ' ';
+                *(p+1) = ' ';
             }
         }
         pclose(f);
@@ -1243,26 +1246,26 @@ OSErr UpdateAllVisibleUsers(long brandID)
     for (userIndex=human_user_names.size(); userIndex>0; --userIndex) {
         flag = 0;
         strlcpy(human_user_name, human_user_names[userIndex-1].c_str(), sizeof(human_user_name));
-        sprintf(cmd, "dscl . -read /Users/%s NFSHomeDirectory", human_user_name);    
+        sprintf(cmd, "dscl . -read \"/Users/%s\" NFSHomeDirectory", human_user_name);    
         f = popen(cmd, "r");
         if (f) {
             while (PersistentFGets(buf, sizeof(buf), f)) {
                 p = strrchr(buf, ' ');
                 if (p) {
-                    if (strcmp(p, " /var/empty\n") == 0) flag = 1;
+                    if (strstr(p, "/var/empty") != NULL) flag = 1;
                 }
             }
             pclose(f);
         }
 
-        sprintf(cmd, "dscl . -read /Users/%s UserShell", human_user_name);    
+        sprintf(cmd, "dscl . -read \"/Users/%s\" UserShell", human_user_name);    
         f = popen(cmd, "r");
         if (f) {
             while (PersistentFGets(buf, sizeof(buf), f)) {
                 p = strrchr(buf, ' ');
                 if (p) {
-                    if (strcmp(p, " /usr/bin/false\n") == 0) flag |= 2;
-                }
+                    if (strstr(p, "/usr/bin/false") != NULL) flag |= 2;
+               }
             }
             pclose(f);
         }
@@ -1282,7 +1285,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
         // getpwnam works with either the full / login name (pw->pw_gecos) 
         // or the short / Posix name (pw->pw_name)
         pw = getpwnam(human_user_name);
-        if (pw == NULL) {           // "Deleted Users", "Shared", etc.
+        if (pw == NULL) {
             printf("[1] %s not in getpwnam data base\n", human_user_name);
             fflush(stdout);
             continue;
@@ -1446,7 +1449,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
                         pw->pw_name, boinc_master_group_name, BMGroupMembershipCount);
             fflush(stdout);
             if (BMGroupMembershipCount == 0) {
-                sprintf(cmd, "dscl . -merge /groups/%s GroupMembership %s", boinc_master_group_name, pw->pw_name);
+                sprintf(cmd, "dscl . -merge /groups/%s GroupMembership \"%s\"", boinc_master_group_name, pw->pw_name);
                 err = system(cmd);
                 printf("[2] %s returned %d\n", cmd, err);
                 fflush(stdout);
@@ -1454,7 +1457,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
             } else {
                 isBMGroupMember = true;
                 for (i=1; i<BMGroupMembershipCount; ++i) {
-                    sprintf(cmd, "dscl . -delete /groups/%s GroupMembership %s", boinc_master_group_name, pw->pw_name);
+                    sprintf(cmd, "dscl . -delete /groups/%s GroupMembership \"%s\"", boinc_master_group_name, pw->pw_name);
                     err = system(cmd);
                     printf("[2] %s returned %d\n", cmd, err);
                     fflush(stdout);
@@ -1466,7 +1469,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
                    pw->pw_name, boinc_project_group_name, BPGroupMembershipCount);
             fflush(stdout);
             if (BPGroupMembershipCount == 0) {
-                sprintf(cmd, "dscl . -merge /groups/%s GroupMembership %s", boinc_project_group_name, pw->pw_name);
+                sprintf(cmd, "dscl . -merge /groups/%s GroupMembership \"%s\"", boinc_project_group_name, pw->pw_name);
                 err = system(cmd);
                 printf("[2] %s returned %d\n", cmd, err);
                 fflush(stdout);
@@ -1474,7 +1477,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
             } else {
                 isBPGroupMember = true;
                 for (i=1; i<BPGroupMembershipCount; ++i) {
-                    sprintf(cmd, "dscl . -delete /groups/%s GroupMembership %s", boinc_project_group_name, pw->pw_name);
+                    sprintf(cmd, "dscl . -delete /groups/%s GroupMembership \"%s\"", boinc_project_group_name, pw->pw_name);
                     err = system(cmd);
                     printf("[2] %s returned %d\n", cmd, err);
                     fflush(stdout);
