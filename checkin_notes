@@ -4226,6 +4226,12 @@ Rom    7 Aug 2012
     clientscr/
         screensaver_win.cpp
 
+Charlie 7 Aug 2012
+    - WIN: Remove reference to deleted tgalib.cpp file.
+
+    win_build/
+        libgraphics2.vcproj
+
 Charlie 14 Aug 2012
     - Mac installer: Fixes for short (posix) user names containing spaces.
     
