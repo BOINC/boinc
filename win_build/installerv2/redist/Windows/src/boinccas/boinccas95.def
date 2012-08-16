@@ -22,3 +22,5 @@ EXPORTS
     RestoreExecutionState
     CCConfigMd5sum
     CreateProjectInitFile
+    CreateAcctMgrLoginFile
+    
