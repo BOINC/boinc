@@ -4251,6 +4251,12 @@ David  8 Aug 2012
         gui_rpc_client_ops.cpp
         coproc.cpp,h
 
+Charlie 8 Aug 2012
+    - MGR: Fix build break.
+    
+     clientgui/
+        DlgItemProperties.cpp
+
 Charlie 14 Aug 2012
     - Mac installer: Fixes for short (posix) user names containing spaces.
     
