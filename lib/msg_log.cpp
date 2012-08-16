@@ -202,4 +202,3 @@ void SCOPE_MSG_LOG::printf_file(
     messages.vprintf_file(kind, filename, prefix_format, va);
     va_end(va);
 }
-

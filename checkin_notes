@@ -4281,6 +4281,15 @@ David  10 Aug 2012
     client/
         work_fetch.cpp
 
+David  13 Aug 2012
+    - client: treat all 4xx HTTP errors as permanent
+    - code cleanup
+
+    lib/
+        msg_log.cpp,h
+    client/
+        http_curl.cpp
+
 Charlie 14 Aug 2012
     - Mac installer: Fixes for short (posix) user names containing spaces.
     

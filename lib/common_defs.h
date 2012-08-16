@@ -51,6 +51,7 @@
 #define HTTP_STATUS_PARTIAL_CONTENT         206
 #define HTTP_STATUS_MOVED_PERM              301
 #define HTTP_STATUS_MOVED_TEMP              302
+#define HTTP_STATUS_CLIENT_ERROR            400
 #define HTTP_STATUS_NOT_FOUND               404
 #define HTTP_STATUS_PROXY_AUTH_REQ          407
 #define HTTP_STATUS_RANGE_REQUEST_ERROR     416
