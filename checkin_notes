@@ -4187,6 +4187,17 @@ Rom    3 Aug 2012
         boinc_ss.vcproj
         uc2_graphics.vcproj
 
+David  3 Aug 2012
+    - API: remove support for BMP and TGA image files;
+        the code to parse these had no license info.
+        Only JPEG is supported now.
+
+    api/
+        Makefile.am
+        bmplib.cpp,h (removed)
+        tgalib.cpp,h (removed)
+        gutil.cpp
+
 Charlie 14 Aug 2012
     - Mac installer: Fixes for short (posix) user names containing spaces.
     
