@@ -4198,6 +4198,12 @@ David  3 Aug 2012
         tgalib.cpp,h (removed)
         gutil.cpp
 
+David  6 Aug 2012
+	- client: fix error in runtime estimation for active tasks
+
+	client/
+		work_fetch.cpp
+
 Charlie 14 Aug 2012
     - Mac installer: Fixes for short (posix) user names containing spaces.
     

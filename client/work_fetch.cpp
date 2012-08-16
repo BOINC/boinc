@@ -933,12 +933,11 @@ double ACTIVE_TASK::est_dur() {
     if (fraction_done <= 0) return wu_est;
     if (wu_est < elapsed_time) wu_est = elapsed_time;
     double frac_est = fraction_done_elapsed_time / fraction_done;
-    double fraction_left = 1-fraction_done;
-    double wu_weight = fraction_left * fraction_left * fraction_left;
-    double fd_weight = 1 - wu_weight;
+    double fd_weight = fraction_done * fraction_done;
+    double wu_weight = 1 - fd_weight;
     double x = fd_weight*frac_est + wu_weight*wu_est;
 #if 0
-    if (log_flags.rr_simulation) {
+    //if (log_flags.rr_simulation) {
         msg_printf(result->project, MSG_INFO,
             "[rr_sim] %s frac_est %f = %f/%f",
             result->name, frac_est, fraction_done_elapsed_time, fraction_done
@@ -947,7 +946,7 @@ double ACTIVE_TASK::est_dur() {
             "[rr_sim] %s dur: %.2f = %.3f*%.2f + %.3f*%.2f",
             result->name, x, fd_weight, frac_est, wu_weight, wu_est
         );
-    }
+    //}
 #endif
     return x;
 }
