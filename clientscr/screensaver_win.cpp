@@ -1359,6 +1359,21 @@ LRESULT CScreensaver::SaverProc(
             return 0;
             break;
 
+        case WM_CLOSE:
+            BOINCTRACE(_T("CScreensaver::SaverProc Received WM_CLOSE\n"));
+            DestroyWindow(hWnd);
+            return 0;
+            break;
+
+        case WM_DESTROY:
+            BOINCTRACE(_T("CScreensaver::SaverProc Received WM_DESTROY\n"));
+            if (m_SaverMode == sm_preview || m_SaverMode == sm_test) {
+                ShutdownSaver();
+            }
+            PostQuitMessage(0);
+            return 0;
+            break;
+
         case WM_SYSCOMMAND: 
             BOINCTRACE(_T("CScreensaver::SaverProc Received WM_SYSCOMMAND\n"));
             if (m_SaverMode == sm_full) {
@@ -1394,14 +1409,15 @@ LRESULT CScreensaver::SaverProc(
         // All initialization messages have gone through.  Allow
         // 500ms of idle time, then proceed with initialization.
         SetTimer(hWnd, 1, 500, NULL);
+        return 0;
 
     } else if (WM_INTERRUPTSAVER == uMsg) {
 
         BOINCTRACE(_T("CScreensaver::SaverProc Received WM_INTERRUPTSAVER\n"));
-        ShutdownSaver();
         CloseWindow(hWnd);
-        DestroyWindow(hWnd);
+        ShutdownSaver();
         PostQuitMessage(0);
+        return 0;
 
     }
 
@@ -1538,12 +1554,13 @@ LRESULT CScreensaver::GenericSaverProc(
         // All initialization messages have gone through.  Allow
         // 500ms of idle time, then proceed with initialization.
         SetTimer(hWnd, 1, 500, NULL);
+        return 0;
 
     } else if (WM_INTERRUPTSAVER == uMsg) {
 
         BOINCTRACE(_T("CScreensaver::GenericSaverProc Received WM_INTERRUPTSAVER\n"));
         CloseWindow(hWnd);
-        DestroyWindow(hWnd);
+        return 0;
 
     }
 
