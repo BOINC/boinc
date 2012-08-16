@@ -34,9 +34,6 @@
 #ifndef _TTFONT_H_
 #define _TTFONT_H_
 
-#include "boinc_gl.h"
-#include <FTGL/ftgl.h>
-
 // I put in it's own namespace so call TTFont::ttf_load_fonts() etc
 namespace TTFont {
         extern int g_iFont;

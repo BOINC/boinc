@@ -4148,6 +4148,17 @@ Charlie 2 Aug 2012
         make_GridRepublic.sh
         make_ProgThruProc.sh
 
+Rom    2 Aug 2012
+    - SS: Update project files to use FreeType and FTGL on Windows.
+
+    api/
+        ttfont.cpp, .h
+    clientscr/
+        ss_app.cpp
+    win_build/
+        boinc_ss.vcproj
+        libgraphics2.vcproj
+
 Charlie 3 Aug 2012
     - Sample Graphics app: Switch from *.txf fonts to TrueType fonts.
     samples/
@@ -4174,3 +4185,4 @@ Charlie 14 Aug 2012
         PostInstall.cpp
         release_boinc.sh
         Uninstall.cpp
+

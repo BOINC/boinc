@@ -30,6 +30,13 @@
 
 // originally adapted by Carl Christensen
 
+#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_) 
+#include "boinc_win.h"
+#endif
+
+#include "boinc_gl.h"
+#include <FTGL/ftgl.h>
+
 #include "ttfont.h"
 #include "filesys.h"  // from boinc for file_exists
 
