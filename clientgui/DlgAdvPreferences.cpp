@@ -583,7 +583,6 @@ bool CDlgAdvPreferences::ValidateInput() {
 		node = node->GetNext();
 	}		
 	//net page
-
 	buffer = m_txtNetEveryDayStart->GetValue();
 	if(!IsValidTimeValue(buffer)) {
 		ShowErrorMessage(invMsgTime,m_txtNetEveryDayStart);
@@ -595,14 +594,21 @@ bool CDlgAdvPreferences::ValidateInput() {
 		ShowErrorMessage(invMsgTime,m_txtNetEveryDayStop);
 		return false;
 	}
-	//limit additional days from 0 to 10
+
+    //limit additional days from 0 to 10
 	double td;
+	m_txtNetConnectInterval->GetValue().ToDouble(&td);
+	if(td>10.0 || td < 0.0) {
+		ShowErrorMessage(invMsgFloat,m_txtNetConnectInterval);
+		return false;
+	}
 	m_txtNetAdditionalDays->GetValue().ToDouble(&td);
 	if(td>10.0 || td < 0.0) {
 		ShowErrorMessage(invMsgFloat,m_txtNetAdditionalDays);
 		return false;
 	}
-	//all text ctrls in net special time panel
+
+    //all text ctrls in net special time panel
 
 	children = m_panelNetSpecialTimes->GetChildren();
 	node = children.GetFirst();
