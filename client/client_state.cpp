@@ -203,6 +203,7 @@ void CLIENT_STATE::show_host_info() {
 
 int rsc_index(const char* name) {
     const char* nm = strcmp(name, "CUDA")?name:GPU_TYPE_NVIDIA;
+        // handle old state files
     for (int i=0; i<coprocs.n_rsc; i++) {
         if (!strcmp(nm, coprocs.coprocs[i].type)) {
             return i;

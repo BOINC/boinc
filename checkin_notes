@@ -4232,6 +4232,25 @@ Charlie 7 Aug 2012
     win_build/
         libgraphics2.vcproj
 
+David  8 Aug 2012
+    - Client/manager: there was a bug because some code was writing
+        "cpu" in XML, and other code was looking for "CPU".
+        To fix this and prevent similar problems,
+        processor type names are now encapsulated in proc_type_name_xml().
+        Code should use this rather than having hard-wired names.
+        Redefine: GPU_TYPE_* as macros that call proc_type_name_xml().
+
+    client/
+        client_types.cpp
+        client_state.cpp
+    clientgui/
+        DlgItemProperties.cpp
+    sched/
+        sched_version.cpp
+    lib/
+        gui_rpc_client_ops.cpp
+        coproc.cpp,h
+
 Charlie 14 Aug 2012
     - Mac installer: Fixes for short (posix) user names containing spaces.
     

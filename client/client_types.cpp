@@ -874,14 +874,12 @@ int APP_VERSION::write(MIOFILE& out, bool write_file_info) {
         }
     }
     if (gpu_usage.rsc_type) {
-        const char* p = rsc_name(gpu_usage.rsc_type);
-        if (!strcmp(p, "NVIDIA")) p = "CUDA";
         out.printf(
             "    <coproc>\n"
             "        <type>%s</type>\n"
             "        <count>%f</count>\n"
             "    </coproc>\n",
-            p,
+            rsc_name(gpu_usage.rsc_type),
             gpu_usage.usage
         );
     }
