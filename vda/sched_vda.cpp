@@ -131,16 +131,28 @@ static int get_chunk_md5(char* chunk_dir, char* md5_buf) {
 // else
 //      delete from upload dir
 //
-static int process_completed_upload(char* chunk_name, CHUNK_LIST& chunks) {
-    char path[1024], client_filename[1024], dir[1024], buf[256];
-    int retval;
+static int process_completed_upload(char* phys_filename, CHUNK_LIST& chunks) {
+    char path[1024], buf[256];
+    char chunk_name[1024], file_name[1024];
+    int retval, hostid;
 
-    physical_file_name(g_reply->host.id, chunk_name, client_filename);
-    dir_hier_path(
-        client_filename, config.upload_dir, config.uldl_dir_fanout, dir, false
+    retval = parse_physical_filename(
+        phys_filename, hostid, chunk_name, file_name
     );
-    sprintf(path, "%s/%s", dir, client_filename);
-    CHUNK_LIST::iterator i2 = chunks.find(string(chunk_name));
+    if (retval) {
+        log_messages.printf(MSG_NORMAL,
+            "[vda] bad upload filename: %s\n", phys_filename
+        );
+        return retval;
+    }
+    dir_hier_path(
+        phys_filename, config.upload_dir, config.uldl_dir_fanout, path, false
+    );
+
+    // if we don't have a DB record for this chunk, delete the file
+    // TODO: maybe we should create a DB record instead
+    //
+    CHUNK_LIST::iterator i2 = chunks.find(string(phys_filename));
     if (i2 == chunks.end()) {
         if (config.debug_vda) {
             log_messages.printf(MSG_NORMAL,
@@ -148,15 +160,25 @@ static int process_completed_upload(char* chunk_name, CHUNK_LIST& chunks) {
             );
         }
         boinc_delete_file(path);
-    } else {
-        char client_md5[64], server_md5[64];
-        char chunk_dir[1024];
-        DB_VDA_CHUNK_HOST& ch = i2->second;
-        DB_VDA_FILE vf;
-        double size;
+        return 0;
+    }
 
-        retval = vf.lookup_id(ch.vda_file_id);
-        get_chunk_dir(vf, chunk_name, chunk_dir);
+    char client_md5[64], server_md5[64];
+    char chunk_dir[1024];
+    DB_VDA_CHUNK_HOST& ch = i2->second;
+    DB_VDA_FILE vf;
+    double size;
+
+    retval = vf.lookup_id(ch.vda_file_id);
+    get_chunk_dir(vf, chunk_name, chunk_dir);
+
+    // if file already exists on server, delete the upload file
+    // Otherwise move the file from upload dir to data dir
+    //
+    sprintf(buf, "%s/data.vda", chunk_dir);
+    if (boinc_file_exists(buf)) {
+        boinc_delete_file(path);
+    } else {
         retval = get_chunk_md5(chunk_dir, server_md5);
         if (retval) return retval;
         retval = md5_file(path, client_md5, size);
@@ -169,16 +191,30 @@ static int process_completed_upload(char* chunk_name, CHUNK_LIST& chunks) {
             }
             boinc_delete_file(path);
         } else {
+            char dst_path[1024];
+            sprintf(buf, "%s/data.vda", chunk_dir);
+            readlink(buf, dst_path, sizeof(dst_path));
+            sprintf(buf, "mv %s %s; chmod g+rw %s", path, dst_path, dst_path);
+            retval = system(buf);
+            if (retval == -1 || WEXITSTATUS(retval)) {
+                log_messages.printf(MSG_NORMAL,
+                    "[vda] command failed: %s\n", buf
+                );
+            } else {
+                log_messages.printf(MSG_NORMAL,
+                    "[vda] file move succeeded: %s\n", buf
+                );
+            }
             retval = vf.update_field("need_update=1");
-            if (retval) return retval;
-            sprintf(buf, "host_id=%d and physical_file_name='%s'",
-                ch.host_id,
-                ch.physical_file_name
-            );
-            retval = ch.update_fields_noid("transfer_in_progress=0", buf);
-            if (retval) return retval;
         }
     }
+    sprintf(buf, "host_id=%d and physical_file_name='%s'",
+        ch.host_id,
+        ch.physical_file_name
+    );
+    ch.transfer_in_progress = 0;
+    retval = ch.update_fields_noid("transfer_in_progress=0", buf);
+    if (retval) return retval;
     return 0;
 }
 
@@ -246,7 +282,7 @@ static void process_chunk_present_on_client(FILE_INFO& fi, CHUNK_LIST& chunks) {
         DB_VDA_CHUNK_HOST* chp = &(cli->second);
         chp->found = true;
 
-        // if file wasn't previously on host, a download has completed
+        // if file wasn't previously on host, update the main file
         //
         if (!chp->present_on_host) {
             mark_for_update(vf.id);
@@ -453,18 +489,18 @@ void handle_vda() {
     }
 
     // process completed uploads
-    // NOTE: completed downloads are handled below
+    // (completed downloads are handled below)
     //
     for (i=0; i<g_request->file_xfer_results.size(); i++) {
         RESULT& r = g_request->file_xfer_results[i];
         if (strstr(r.name, "upload_vda_")) {
-            char* chunk_file_name = r.name + strlen("upload_vda_");
+            char* phys_file_name = r.name + strlen("upload_");
             if (config.debug_vda) {
                 log_messages.printf(MSG_NORMAL,
-                    "[vda] DB: completed upload %s\n", chunk_file_name
+                    "[vda] completed upload of %s\n", phys_file_name
                 );
             }
-            retval = process_completed_upload(chunk_file_name, chunks);
+            retval = process_completed_upload(phys_file_name, chunks);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
                     "[vda] process_completed_upload(): %d\n", retval

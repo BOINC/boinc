@@ -215,6 +215,6 @@ inline void physical_file_name(
 }
 
 //
-// download WU/result name: vda_download_c1.c2.cn_filename.ext
+// download WU/result name: download_vda_c1.c2.cn_filename.ext
 //
-// upload WU/result name: vda_upload_c1.c2.cn_filename.ext
+// upload WU/result name: upload_vda_c1.c2.cn_filename.ext

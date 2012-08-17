@@ -5582,3 +5582,13 @@ David  16 Aug 2012
         vda.cpp
         sched_vda.cpp
         vda_lib2.cpp
+
+David  17 Aug 2012
+    - volunteer storage: various
+
+    vda/
+        vda.cpp
+        vdad.cpp
+        sched_vda.cpp
+        vda_lib2.cpp
+        vda_lib.h

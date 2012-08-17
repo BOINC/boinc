@@ -209,25 +209,28 @@ int META_CHUNK::get_state(const char* _dir, POLICY& p, int coding_level) {
 //
 int META_CHUNK::encode(bool first) {
     char cmd[1024];
+
+    // "encoder" has a random exit code so check its stdout instead
+    //
     sprintf(cmd,
-        "cd %s; /mydisks/b/users/boincadm/vda_test/encoder %s %d %d cauchy_good 32 1024 500000",
+        "cd %s; /mydisks/b/users/boincadm/vda_test/encoder %s %d %d cauchy_good 32 1024 500000 | grep Encoding",
         dir, DATA_FILENAME, coding.n, coding.k
     );
     printf("%s\n", cmd);
     int s = system(cmd);
-    if (!WIFEXITED(s) || WEXITSTATUS(s) != 32) {
-        // encoder returns 32 for some reason
-        printf("system(%s) failed\n", cmd);
-        return -1;
-    }
-    sprintf(cmd, "chmod og+x %s/Coding", dir);
-    s = system(cmd);
     if (!WIFEXITED(s) || WEXITSTATUS(s)) {
         printf("system(%s) failed\n", cmd);
         return -1;
     }
 
     if (first) {
+        sprintf(cmd, "chmod g+wx %s/Coding", dir);
+        s = system(cmd);
+        if (!WIFEXITED(s) || WEXITSTATUS(s)) {
+            printf("system(%s) failed\n", cmd);
+            return -1;
+        }
+
         // make symlinks
         //
         for (int i=0; i<coding.m; i++) {
@@ -258,17 +261,56 @@ int META_CHUNK::encode(bool first) {
 }
 
 int META_CHUNK::decode() {
-    char cmd[1024];
+    char cmd[1024], enc_filename[1024];
+
+    // the Jerasure decoder infinite-loops if all chunks are present.
+    // So if this is the case, temporarily rename the first chunk
+    //
+    bool rename_child = false;
+    if (bottom_level) {
+        rename_child = true;
+        for (unsigned i=0; i<children.size(); i++) {
+            CHUNK* cp = (CHUNK*)children[i];
+            if (!cp->present_on_server) {
+                rename_child = false;
+                break;
+            }
+        }
+        if (rename_child) {
+            encoder_filename("data", "vda", coding, 0, enc_filename);
+            sprintf(cmd, "mv %s/Coding/%s %s/Coding/decode_temp",
+                dir, enc_filename, dir
+            );
+            system(cmd);
+        }
+    }
+
     sprintf(cmd,
-        "cd %s; /mydisks/b/users/boincadm/vda_test/decoder %s",
+        "cd %s; /mydisks/b/users/boincadm/vda_test/decoder %s | grep Decoding",
         dir, DATA_FILENAME
     );
     printf("%s\n", cmd);
     int s = system(cmd);
-    if (WIFEXITED(s)) {
-        int st = WEXITSTATUS(s);
-        if (st != 32) return -1;    // encoder returns 32 for some reason
+    if (!WIFEXITED(s) || WEXITSTATUS(s)) {
+        printf("system(%s) failed\n", cmd);
+        return -1;
     }
+
+    if (rename_child) {
+        sprintf(cmd, "mv %s/Coding/decode_temp %s/Coding/%s",
+            dir, dir, enc_filename
+        );
+        system(cmd);
+    }
+
+    // decoder puts its result in Coding/data_decoded.vda
+    // Move this to file.ext
+    //
+    char linkpath[1024], filepath[1024];
+    sprintf(linkpath, "%s/data.vda", dir);
+    readlink(linkpath, filepath, sizeof(filepath));
+    sprintf(cmd, "mv %s/Coding/data_decoded.vda %s", dir, filepath);
+    system(cmd);
     return 0;
 }
 
