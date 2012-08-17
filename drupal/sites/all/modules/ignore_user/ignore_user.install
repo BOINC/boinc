@@ -1,0 +1,40 @@
+<?php
+// $Id: ignore_user.install,v 1.1.4.1 2008/04/18 09:43:31 jaydub Exp $
+
+/**
+ * Implementation of hook_schema().
+ */
+function ignore_user_schema() {
+  $schema['ignore_user'] = array(
+    'description' => t('The {ignore_user} table stores user ids of users and other users that they have chosen to ignore.'),
+    'fields' => array(
+      'uid' => array(
+        'description' => t('The user ID of the user choosing to ignore another user.'),
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      'iuid' => array(
+        'description' => t('The user ID of the user being ignored by another user.'),
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('uid', 'iuid'),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implementation of hook_install().
+ */
+function ignore_user_install() {
+  drupal_install_schema('ignore_user');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function ignore_user_uninstall() {
+  drupal_uninstall_schema('ignore_user');
+}

@@ -207,12 +207,14 @@ function boincforum_migrate_form() {
   }
   
   $BOINCFORUM_FUNCTIONS = array(
-    'users' => t('Import Users'),
-    'teams' => t('Import Teams'),
-    'friends' => t('Import Friendships'),
-    'categories' => t('Import Forum Containers'),
-    'topics' => t('Import Topics'),
-    'posts' => t('Import Posts'),
+    'users' => t('Import users'),
+    'teams' => t('Import teams'),
+    'friends' => t('Import friendships'), 
+    'preferences' => t('Import user preferences'),
+    'private messages' => t('Import private messages'),
+    'categories' => t('Import forum containers'),
+    'topics' => t('Import topics'),
+    'posts' => t('Import posts'),
     'url' => t('Transform URLs'),
   );
 
@@ -256,6 +258,26 @@ function boincforum_migrate_form_submit($form, $form_state) {
       boincforum_import_friends();
       if (!variable_get('boincforum_import_friend_successful', 0)) {
         $_SESSION['boincforum_selected'] = 'friends';
+      }
+      else {
+        $_SESSION['boincforum_selected'] = 'preferences';
+      }
+      break;
+
+    case 'preferences':
+      boincforum_import_preferences();
+      if (!variable_get('boincforum_import_preferences_successful', 0)) {
+        $_SESSION['boincforum_selected'] = 'preferences';
+      }
+      else {
+        $_SESSION['boincforum_selected'] = 'private messages';
+      }
+      break;
+
+    case 'private messages':
+      boincforum_import_friends();
+      if (!variable_get('boincforum_import_private_msg_successful', 0)) {
+        $_SESSION['boincforum_selected'] = 'private messages';
       }
       else {
         $_SESSION['boincforum_selected'] = 'categories';
@@ -332,17 +354,38 @@ function boincforum_import_users() {
 
   // See how many users need to be processed
   db_set_active('boinc');
-  if ($import_spammers) $user_count = db_result(db_query('SELECT COUNT(*) FROM %suser', $pre));
+  if ($import_spammers) {
+    $user_count = db_result(db_query('SELECT COUNT(*) FROM %suser', $pre));
+  }
   //else $user_count = db_result(db_query('SELECT COUNT(DISTINCT user) FROM %spost', $pre));
-  else $user_count = db_result(db_query('
-    SELECT COUNT(*) FROM
-    (
-      (SELECT id FROM user WHERE teamid > 0) UNION
-      (SELECT DISTINCT user FROM post) UNION
-      (SELECT DISTINCT user_src FROM friend WHERE reciprocated = 1) UNION
-      (SELECT DISTINCT user_dest FROM friend WHERE reciprocated = 1)
-    ) AS usersToImport'
-  ));
+  else {
+    // Need to import any user who is currently ignored in order to keep them
+    // ignored... not particularly clean (ignored users are stored in a string)
+    $ignored_user_list = array();
+    $ignoring_users = db_query("
+      SELECT ignorelist
+      FROM forum_preferences
+      WHERE ignorelist <> ''"
+    );
+    while ($ignoring_user = db_fetch_object($ignoring_users)) {
+      $ignored_user_list = $ignored_user_list + array_fill_keys(explode('|', $ignoring_user->ignorelist), 1);
+    }
+    $ignored_user_list = array_keys($ignored_user_list);
+    // Count all users who will need to be imported now
+    $user_count = db_result(db_query("
+      SELECT COUNT(*) FROM
+      (
+        (SELECT id FROM {user} WHERE teamid > 0 OR id IN(%s)) UNION
+        (SELECT DISTINCT user FROM {post}) UNION
+        (SELECT DISTINCT user_src FROM {friend} WHERE reciprocated = 1) UNION
+        (SELECT DISTINCT user_dest FROM {friend} WHERE reciprocated = 1) UNION
+        (SELECT DISTINCT userid FROM {forum_preferences} WHERE ignorelist <> '') UNION
+        (SELECT DISTINCT userid FROM {private_messages}) UNION
+        (SELECT DISTINCT senderid FROM {private_messages})
+      ) AS usersToImport",
+      implode(',', $ignored_user_list)
+    ));
+  }
   db_set_active('default');
 
   if (!$user_count) {
@@ -640,6 +683,218 @@ function boincforum_import_friends() {
   variable_set('boincforum_import_friend_successful', 1);
   $count = db_result(db_query('SELECT COUNT(*) FROM {flag_friend}'));
   drupal_set_message(t('Successfully imported %count friend relationships', array('%count' => $count)));
+  
+  // Indicate that the process is complete and return to the main migration page
+  echo "<br/>\n<br/>\n";
+  echo 'complete. redirecting';
+  ob_flush();
+  flush();
+  for ($i = 0; $i < 3; $i++) {
+    sleep(1);
+    echo '.';
+    ob_flush();
+    flush();
+  }
+  echo "<script>location.replace('{$_SERVER['REQUEST_URI']}');</script>";
+  ob_flush();
+  flush();
+}
+
+
+/**
+ * Import community preferences
+ */
+function boincforum_import_preferences() {
+  $pre = variable_get('boincforum_table_prefix', '');
+  $quarrelers_processed = 0;
+  $start_time = microtime(true);
+  $total_runtime = 0;
+  $last_status_update = time();
+  
+  // Currently the only preferences being imported are BOINC "filtered users"
+  // This concept of users blocking other users when they don't get along maps
+  // to the Drupal ignore users module
+  
+  // See how many users are involved in quarrels
+  db_set_active('boinc');
+  $quarreler_count = db_result(db_query("
+    SELECT COUNT(*)
+    FROM %sforum_preferences
+    WHERE ignorelist <> ''", $pre));
+  db_set_active('default');
+
+  if ($quarreler_count) {
+    
+    drupal_set_message(t('Found %quarreler_count quarreling users: Beginning Import', array('%quarreler_count' => $quarreler_count)));
+    
+    echo t('Processing %quarreler_count quarreling users from BOINC database', array('%quarreler_count' => $quarreler_count));
+    ob_flush();
+    flush();
+    
+    // Grab the source data
+    db_set_active('boinc');
+    $quarrelers = db_query("
+      SELECT userid, ignorelist
+      FROM {forum_preferences}
+      WHERE ignorelist <> ''");
+    db_set_active('default');
+    
+    // Convert BOINC ignore list to Drupal ignore user entries
+    while ($quarreler = db_fetch_object($quarrelers)) {
+      $uid = get_drupal_id($quarreler->userid);
+      $ignored_users = explode('|', $quarreler->ignorelist);
+      foreach ($ignored_user as $ignored_user) {
+        $ignored_user_uid = get_drupal_id($ignored_user);
+        db_query("
+          INSERT IGNORE INTO {ignore_user}
+          SET uid = '%d', iuid = '%d'",
+          $uid, $ignored_user_uid
+        );
+      }
+      $quarrelers_processed++;
+      if ($quarrelers_processed % 100 == 0) {
+        echo '.';
+        ob_flush();
+        flush();
+      }
+      
+      // Keep a running tally of things and provide occasional status updates
+      $total_runtime += $processing_time;
+      $last_status_update += $processing_time;
+      $batches_without_update++;
+      if (time() - $last_status_update > 60) {
+        $progress = round(100*($quarrelers_processed)/$quarreler_count, 1);
+        echo "<br/>\n" . t("%num_quarrelers user filters imported
+          in %time (%progress% complete)",
+          array(
+            '%num_friends' => $quarrelers_processed,
+            '%time' => gmdate('H:i:s', microtime(true) - $start_time),
+            '%progress' => $progress
+          )
+        );
+        ob_flush();
+        flush();
+        $last_status_update = time();
+      }
+    }
+    
+    // Get the final count of users with filter preferences imported
+    $count = db_result(db_query('SELECT COUNT(*) FROM {ignore_user}'));
+    drupal_set_message(t('Successfully imported %count user filter preferences', array('%count' => $count)));
+    
+  }
+  else {
+    drupal_set_message(t('There were no quarrels found: moving on...'), 'notice');
+  }
+  
+  variable_set('boincforum_import_preferences_successful', 1);
+  
+  // Indicate that the process is complete and return to the main migration page
+  echo "<br/>\n<br/>\n";
+  echo 'complete. redirecting';
+  ob_flush();
+  flush();
+  for ($i = 0; $i < 3; $i++) {
+    sleep(1);
+    echo '.';
+    ob_flush();
+    flush();
+  }
+  echo "<script>location.replace('{$_SERVER['REQUEST_URI']}');</script>";
+  ob_flush();
+  flush();
+}
+
+
+/**
+ * Import private messages
+ */
+function boincforum_import_private_msgs() {
+  $pre = variable_get('boincforum_table_prefix', '');
+  $pm_imported = 0;
+  $start_time = microtime(true);
+  $total_runtime = 0;
+  $last_status_update = time();
+  
+  // See how many private messages there are to import
+  db_set_active('boinc');
+  $pm_count = db_result(db_query('
+    SELECT COUNT(*)
+    FROM %sprivate_messages', $pre));
+  db_set_active('default');
+
+  if (!$pm_count) {
+      drupal_set_message(t('There were no private messages found: Aborting script.'), 'notice');
+      return t('There were no private messages found: Aborting script.');
+  }
+
+  drupal_set_message(t('Found %pm_count private messages: Beginning Import', array('%pm_count' => $pm_count)));
+  
+  echo t('Processing %pm_count private messages from BOINC database', array('%pm_count' => $pm_count));
+  ob_flush();
+  flush();
+  
+  // Grab the source data
+  db_set_active('boinc');
+  $private_messages = db_query('
+    SELECT userid, senderid, date, opened, subject, content
+    FROM {private_messages}');
+  db_set_active('default');
+  
+  // Convert BOINC private messages to Drupal private messages
+  while ($pm = db_fetch_object($private_messages)) {
+    
+    $uid = get_drupal_id($pm->userid);
+    $sender_uid = get_drupal_id($pm->senderid);
+    
+    // First save the message ('format = 4' is rich text)
+    db_query("
+      INSERT INTO {pm_message} (subject, author, body, format, timestamp)
+      VALUES ('%s', %d, '%s', %d, %d)",
+      $pm->subject, $sender_uid, $pm->content, 4, $pm->date
+    );
+    $mid = db_last_insert_id('pm_message', 'mid');
+    
+    // Then attach recipients and set status (note that threads are not a BOINC
+    // feature, so just consider every message to be a new thread)
+    db_query("
+      INSERT INTO {pm_index} (mid, thread_id, uid, is_new, deleted)
+      VALUES (%d, %d, %d, %d, 0)",
+      $mid, $mid, $uid, !$pm->opened
+    );
+    
+    $pm_imported++;
+    if ($pm_imported % 100 == 0) {
+      echo '.';
+      ob_flush();
+      flush();
+    }
+    
+    // Keep a running tally of things and provide occasional status updates
+    $total_runtime += $processing_time;
+    $last_status_update += $processing_time;
+    $batches_without_update++;
+    if (time() - $last_status_update > 60) {
+      $progress = round(100*($pm_imported)/$pm_count, 1);
+      echo "<br/>\n" . t("%num_private_msgs private messages imported
+        in %time (%progress% complete)",
+        array(
+          '%num_private_msgs' => $pm_imported,
+          '%time' => gmdate('H:i:s', microtime(true) - $start_time),
+          '%progress' => $progress
+        )
+      );
+      ob_flush();
+      flush();
+      $last_status_update = time();
+    }
+  }
+  
+  // Get the final count of private messages imported
+  $count = db_result(db_query('SELECT COUNT(*) FROM {pm_message}'));
+  drupal_set_message(t('Successfully imported %count private messages', array('%count' => $count)));
+  
+  variable_set('boincforum_import_private_msg_successful', 1);
   
   // Indicate that the process is complete and return to the main migration page
   echo "<br/>\n<br/>\n";
