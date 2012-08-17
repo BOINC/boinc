@@ -2350,7 +2350,7 @@ void DB_VDA_FILE::db_print(char* buf){
         "chunk_size=%f, "
         "need_update=%d, "
         "initialized=%d, "
-        "retrieving=%d"
+        "retrieving=%d, "
         "retrieved=%d",
         create_time,
         dir,

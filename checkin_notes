@@ -5569,3 +5569,16 @@ David  15 Aug 2012
         schema_vda.sql
     sched/
         file_upload_handler.cpp
+
+David  16 Aug 2012
+    - scheduler: if sending GPU description to pre-7.0 client,
+        call it CUDA instead of NVIDIA
+
+    sched/
+        sched_types.cpp
+    db/
+        boinc_db.cpp
+    vda/
+        vda.cpp
+        sched_vda.cpp
+        vda_lib2.cpp

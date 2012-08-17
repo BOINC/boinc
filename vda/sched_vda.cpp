@@ -246,14 +246,11 @@ static void process_chunk_present_on_client(FILE_INFO& fi, CHUNK_LIST& chunks) {
         DB_VDA_CHUNK_HOST* chp = &(cli->second);
         chp->found = true;
 
+        // if file wasn't previously on host, a download has completed
+        //
         if (!chp->present_on_host) {
             mark_for_update(vf.id);
-        }
 
-        if (chp->transfer_in_progress
-            || chp->transfer_wait
-            || chp->present_on_host
-        ) {
             chp->transfer_in_progress = false;
             chp->transfer_wait = false;
             chp->present_on_host = true;
@@ -460,8 +457,8 @@ void handle_vda() {
     //
     for (i=0; i<g_request->file_xfer_results.size(); i++) {
         RESULT& r = g_request->file_xfer_results[i];
-        if (strstr(r.name, "vda_upload")) {
-            char* chunk_file_name = r.name + strlen("vda_upload_");
+        if (strstr(r.name, "upload_vda_")) {
+            char* chunk_file_name = r.name + strlen("upload_vda_");
             if (config.debug_vda) {
                 log_messages.printf(MSG_NORMAL,
                     "[vda] DB: completed upload %s\n", chunk_file_name

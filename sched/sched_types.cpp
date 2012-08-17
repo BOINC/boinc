@@ -1031,12 +1031,24 @@ int APP_VERSION::write(FILE* fout) {
     }
     int pt = bavp->host_usage.proc_type;
     if (pt != PROC_TYPE_CPU) {
+        const char* nm;
+        if (pt == PROC_TYPE_NVIDIA_GPU) {
+            // KLUDGE: older clients use "CUDA", newer ones use "NVIDIA"
+            //
+            if (g_request->core_client_version < 70000) {
+                nm = "CUDA";
+            } else {
+                nm = proc_type_name_xml(pt);
+            }
+        } else {
+            nm = proc_type_name_xml(pt);
+        }
         fprintf(fout,
             "    <coproc>\n"
             "        <type>%s</type>\n"
             "        <count>%f</count>\n"
             "    </coproc>\n",
-            proc_type_name_xml(pt),
+            nm,
             bavp->host_usage.gpu_usage
         );
     }

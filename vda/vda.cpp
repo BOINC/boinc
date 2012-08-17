@@ -137,6 +137,7 @@ int handle_add(const char* path) {
     vf.need_update = 1;
     vf.initialized = 0;
     vf.retrieving = 0;
+    vf.retrieved = 0;
     retval = vf.insert();
     if (retval) {
         printf("Can't insert DB record\n");
@@ -202,11 +203,18 @@ int handle_status(const char* name) {
         log_messages.printf(MSG_CRITICAL, "Can't get file state: %d\n", retval);
         return retval;
     }
-    printf("status for file %s:", vf.file_name);
+    printf("status for file %s:\n", vf.file_name);
     vf.meta_chunk->recovery_plan();
     vf.meta_chunk->compute_min_failures();
     vf.meta_chunk->print_status(0);
     printf("fault tolerance level: %d\n", vf.meta_chunk->min_failures-1);
+    if (vf.retrieving) {
+        if (vf.retrieved) {
+            printf("Retrieving: completed\n");
+        } else {
+            printf("Retrieving: in progress\n");
+        }
+    }
 
     return 0;
 }

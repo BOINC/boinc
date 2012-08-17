@@ -366,15 +366,20 @@ int CHUNK::assign() {
 int CHUNK::start_upload_from_host(VDA_CHUNK_HOST& ch) {
     DB_VDA_CHUNK_HOST dch;
     char set_clause[256], where_clause[256];
+
+    log_messages.printf(MSG_NORMAL,
+        "   requesting upload of %s from host %d\n", name, ch.host_id
+    );
+
     sprintf(set_clause,
         "transfer_in_progress=1, transfer_wait=1, transfer_request_time=%f",
         dtime()
     );
     sprintf(where_clause,
-        "where vda_file_id=%d and host_id=%d and name='%s'",
+        "vda_file_id=%d and host_id=%d and physical_file_name='%s'",
         ch.vda_file_id,
         ch.host_id,
-        name
+        ch.physical_file_name
     );
     return dch.update_fields_noid(set_clause, where_clause);
 }
