@@ -105,7 +105,7 @@ int return_success(const char* text) {
     return 0;
 }
 
-#define BLOCK_SIZE  16382
+#define BLOCK_SIZE  (256*1024)
 double bytes_left=-1;
 
 // read from socket, write to file
@@ -114,64 +114,7 @@ double bytes_left=-1;
 int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
     unsigned char buf[BLOCK_SIZE];
     struct stat sbuf;
-    int pid;
-
-    // open file.  Use raw IO not buffered IO so that we can use reliable
-    // posix file locking.
-    // Advisory file locking is not guaranteed reliable when
-    // used with stream buffered IO.
-    //
-    int fd = open(path,
-        O_WRONLY|O_CREAT,
-        S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH
-    );
-    if (fd<0) {
-        return return_error(ERR_TRANSIENT,
-            "can't open file %s: %s\n", path, strerror(errno)
-        );
-    }
-
-#ifdef LOCK_FILES
-    // Put an advisory lock on the file.
-    // This will prevent OTHER instances of file_upload_handler
-    // from being able to write to the file.
-    //
-    pid = mylockf(fd);
-    if (pid>0) {
-        close(fd);
-        return return_error(ERR_TRANSIENT,
-            "can't lock file %s: %s locked by PID=%d\n",
-            path, strerror(errno), pid
-        );
-    } else if (pid < 0) {
-        close(fd);
-        return return_error(ERR_TRANSIENT, "can't lock file %s\n", path);
-    }
-#endif
-
-    // check that file length corresponds to offset
-    // TODO: use a 64-bit variant
-    //
-    if (stat(path, &sbuf)) {
-        close(fd);
-        return return_error(ERR_TRANSIENT,
-            "can't stat file %s: %s\n", path, strerror(errno)
-        );
-    }
-    if (sbuf.st_size < offset) {
-        close(fd);
-        return return_error(ERR_TRANSIENT,
-            "length of file %s %d bytes < offset %.0f bytes",
-            path, (int)sbuf.st_size, offset
-        );
-    }
-    if (offset) lseek(fd, offset, SEEK_SET);
-    if (sbuf.st_size > offset) {
-        log_messages.printf(MSG_CRITICAL,
-            "file %s length on disk %d bytes; host upload starting at %.0f bytes.\n",
-             this_filename, (int)sbuf.st_size, offset
-        );
-    }
+    int pid, fd=0;
 
     // caller guarantees that nbytes > offset
     //
@@ -186,6 +129,68 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
         // try to get m bytes from socket (n>=0 is number actually returned)
         //
         n = fread(buf, 1, m, in);
+
+        // delay opening the file until we've done the first socket read
+        // to avoid filesystem lockups (WCG, possible paranoia)
+        //
+        if (!fd) {
+            // Use raw IO not buffered IO so that we can use reliable
+            // posix file locking.
+            // Advisory file locking is not guaranteed reliable when
+            // used with stream buffered IO.
+            //
+            int fd = open(path,
+                O_WRONLY|O_CREAT,
+                S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH
+            );
+            if (fd<0) {
+                return return_error(ERR_TRANSIENT,
+                    "can't open file %s: %s\n", path, strerror(errno)
+                );
+            }
+
+#ifdef LOCK_FILES
+            // Put an advisory lock on the file.
+            // This will prevent OTHER instances of file_upload_handler
+            // from being able to write to the file.
+            //
+            pid = mylockf(fd);
+            if (pid>0) {
+                close(fd);
+                return return_error(ERR_TRANSIENT,
+                    "can't lock file %s: %s locked by PID=%d\n",
+                    path, strerror(errno), pid
+                );
+            } else if (pid < 0) {
+                close(fd);
+                return return_error(ERR_TRANSIENT, "can't lock file %s\n", path);
+            }
+#endif
+
+            // check that file length corresponds to offset
+            // TODO: use a 64-bit variant
+            //
+            if (stat(path, &sbuf)) {
+                close(fd);
+                return return_error(ERR_TRANSIENT,
+                    "can't stat file %s: %s\n", path, strerror(errno)
+                );
+            }
+            if (sbuf.st_size < offset) {
+                close(fd);
+                return return_error(ERR_TRANSIENT,
+                    "length of file %s %d bytes < offset %.0f bytes",
+                    path, (int)sbuf.st_size, offset
+                );
+            }
+            if (offset) lseek(fd, offset, SEEK_SET);
+            if (sbuf.st_size > offset) {
+                log_messages.printf(MSG_CRITICAL,
+                    "file %s length on disk %d bytes; host upload starting at %.0f bytes.\n",
+                     this_filename, (int)sbuf.st_size, offset
+                );
+            }
+        }
 
         // try to write n bytes to file
         //

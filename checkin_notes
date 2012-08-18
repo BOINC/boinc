@@ -5593,7 +5593,7 @@ David  17 Aug 2012
         vda_lib2.cpp
         vda_lib.h
 
-David  17 Aug 2012
+David  18 Aug 2012
     - client: if a project has excluded GPUs of a given type,
         allow it to fetch work of that type if the # of runnable
         jobs it <= the # of non-excluded instances (rather than 0).
@@ -5601,3 +5601,12 @@ David  17 Aug 2012
     client/
         work_fetch.cpp,h
         rr_sim.cpp
+
+David  18 Aug 2012
+    - file upload handler:
+        Do first read from socket before opening the disk file
+        (an attempt to fix filesystem lockups on WCG).
+        Increase buffer size from 16KB to 256KB.
+
+    sched/
+        file_upload_handler.cpp
