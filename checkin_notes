@@ -5592,3 +5592,12 @@ David  17 Aug 2012
         sched_vda.cpp
         vda_lib2.cpp
         vda_lib.h
+
+David  17 Aug 2012
+    - client: if a project has excluded GPUs of a given type,
+        allow it to fetch work of that type if the # of runnable
+        jobs it <= the # of non-excluded instances (rather than 0).
+
+    client/
+        work_fetch.cpp,h
+        rr_sim.cpp

@@ -97,7 +97,7 @@ struct RSC_PROJECT_WORK_FETCH {
         // this project's share relative to projects from which
         // we could probably get work for this resource;
         // determines how many instances this project deserves
-    bool has_runnable_jobs;
+    int n_runnable_jobs;
     double sim_nused;
     double nused_total;     // sum of instances over all runnable jobs
     int deadlines_missed;
@@ -113,7 +113,7 @@ struct RSC_PROJECT_WORK_FETCH {
         queue_est = 0;
         anon_skip = false;
         fetchable_share = 0;
-        has_runnable_jobs = false;
+        n_runnable_jobs = 0;
         sim_nused = 0;
         nused_total = 0;
         deadlines_missed = 0;
@@ -269,7 +269,7 @@ struct PROJECT_WORK_FETCH {
         // temporary used during RR simulation
     int cant_fetch_work_reason;
     int compute_cant_fetch_work_reason(PROJECT*);
-    bool has_runnable_jobs;
+    int n_runnable_jobs;
     PROJECT_WORK_FETCH() {
         memset(this, 0, sizeof(*this));
     }

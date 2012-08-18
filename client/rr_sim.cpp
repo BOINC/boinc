@@ -156,12 +156,12 @@ void RR_SIM::init_pending_lists() {
             // if it's past its deadline, we need to mark it as such
 
         PROJECT* p = rp->project;
-        p->pwf.has_runnable_jobs = true;
+        p->pwf.n_runnable_jobs++;
         p->rsc_pwf[0].nused_total += rp->avp->avg_ncpus;
         int rt = rp->avp->gpu_usage.rsc_type;
         if (rt) {
             p->rsc_pwf[rt].nused_total += rp->avp->gpu_usage.usage;
-            p->rsc_pwf[rt].has_runnable_jobs = true;
+            p->rsc_pwf[rt].n_runnable_jobs++;
         }
         p->rsc_pwf[rt].pending.push_back(rp);
         set_rrsim_flops(rp);

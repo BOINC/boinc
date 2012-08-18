@@ -143,7 +143,7 @@ bool RSC_PROJECT_WORK_FETCH::compute_may_have_work(PROJECT* p, int rsc_type) {
 void RSC_PROJECT_WORK_FETCH::rr_init(PROJECT* p, int rsc_type) {
     may_have_work = compute_may_have_work(p, rsc_type);
     fetchable_share = 0;
-    has_runnable_jobs = false;
+    n_runnable_jobs = 0;
     sim_nused = 0;
     nused_total = 0;
     deadlines_missed = 0;
@@ -264,18 +264,19 @@ PROJECT* RSC_WORK_FETCH::choose_project_hyst(bool strict) {
         }
 
         // if project has excluded GPUs of this type,
-        // and it has runnable jobs for this type,
+        // and it has more runnable jobs than non-excluded instances,
         // don't fetch work for it.
         // TODO: THIS IS CRUDE. Making it smarter would require
         // computing shortfall etc. on a per-project basis
         //
         if (rsc_type) {
-            if (p->ncoprocs_excluded[rsc_type] == ninstances) {
+            int n_not_excluded = ninstances - p->ncoprocs_excluded[rsc_type];
+            if (n_not_excluded == 0) {
                 continue;
             }
             if (p->ncoprocs_excluded[rsc_type]
-                && p->rsc_pwf[rsc_type].has_runnable_jobs
-            ){
+                && p->rsc_pwf[rsc_type].n_runnable_jobs > n_not_excluded
+            ) {
                 continue;
             }
         }
@@ -503,7 +504,7 @@ void WORK_FETCH::rr_init() {
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         p->pwf.cant_fetch_work_reason = p->pwf.compute_cant_fetch_work_reason(p);
-        p->pwf.has_runnable_jobs = false;
+        p->pwf.n_runnable_jobs = 0;
         for (int j=0; j<coprocs.n_rsc; j++) {
             p->rsc_pwf[j].rr_init(p, j);
         }
