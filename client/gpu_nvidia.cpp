@@ -304,11 +304,11 @@ void COPROC_NVIDIA::get(
         (*__cuDeviceTotalMem)(&global_mem, device);
         cc.prop.totalGlobalMem = (double) global_mem;
         (*__cuDeviceGetAttribute)(&itemp, CU_DEVICE_ATTRIBUTE_SHARED_MEMORY_PER_BLOCK, device);
-        cc.prop.sharedMemPerBlock = itemp;
+        cc.prop.sharedMemPerBlock = (double) itemp;
         (*__cuDeviceGetAttribute)(&cc.prop.regsPerBlock, CU_DEVICE_ATTRIBUTE_REGISTERS_PER_BLOCK, device);
         (*__cuDeviceGetAttribute)(&cc.prop.warpSize, CU_DEVICE_ATTRIBUTE_WARP_SIZE, device);
         (*__cuDeviceGetAttribute)(&itemp, CU_DEVICE_ATTRIBUTE_MAX_PITCH, device);
-        cc.prop.memPitch = itemp;
+        cc.prop.memPitch = (double) itemp;
         retval = (*__cuDeviceGetAttribute)(&cc.prop.maxThreadsPerBlock, CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK, device);
         retval = (*__cuDeviceGetAttribute)(&cc.prop.maxThreadsDim[0], CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_X, device);
         (*__cuDeviceGetAttribute)(&cc.prop.maxThreadsDim[1], CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_Y, device);
@@ -318,9 +318,9 @@ void COPROC_NVIDIA::get(
         (*__cuDeviceGetAttribute)(&cc.prop.maxGridSize[2], CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_Z, device);
         (*__cuDeviceGetAttribute)(&cc.prop.clockRate, CU_DEVICE_ATTRIBUTE_CLOCK_RATE, device);
         (*__cuDeviceGetAttribute)(&itemp, CU_DEVICE_ATTRIBUTE_TOTAL_CONSTANT_MEMORY, device);
-        cc.prop.totalConstMem = itemp;
+        cc.prop.totalConstMem = (double) itemp;
         (*__cuDeviceGetAttribute)(&itemp, CU_DEVICE_ATTRIBUTE_TEXTURE_ALIGNMENT, device);
-        cc.prop.textureAlignment = itemp;
+        cc.prop.textureAlignment = (double) itemp;
         (*__cuDeviceGetAttribute)(&cc.prop.deviceOverlap, CU_DEVICE_ATTRIBUTE_GPU_OVERLAP, device);
         (*__cuDeviceGetAttribute)(&cc.prop.multiProcessorCount, CU_DEVICE_ATTRIBUTE_MULTIPROCESSOR_COUNT, device);
         (*__cuDeviceGetAttribute)(&cc.pci_info.bus_id, CU_DEVICE_ATTRIBUTE_PCI_BUS_ID, device);

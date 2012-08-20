@@ -88,7 +88,27 @@ int handle_file(VDA_FILE_AUX& vf, DB_VDA_FILE& dvf) {
         case PRESENT:
             // we have enough chunks to reconstruct it - do so
             //
-            vf.meta_chunk->reconstruct();
+            retval = vf.meta_chunk->reconstruct();
+            if (retval) {
+                log_messages.printf(MSG_CRITICAL,
+                    "reconstruct of %s failed: %d\n", vf.file_name, retval
+                );
+            } else {
+                log_messages.printf(MSG_NORMAL,
+                    "retrieval of %s completed successfully\n", vf.file_name
+                );
+
+                // Decoding produces a file with unused space at the end.
+                // Remove this space.
+                //
+                sprintf(buf, "truncate %s/%s --reference %s/%s",
+                    vf.dir, vf.file_name, vf.dir, vf.file_name
+                );
+                system(buf);
+
+                dvf.retrieved = true;
+                dvf.update();
+            }
             break;
         case RECOVERABLE:
             // otherwise start all possible uploads

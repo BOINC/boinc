@@ -872,9 +872,15 @@ void WORK_FETCH::handle_reply(
 // arrange to always get one job, even if we don't need it or can't handle it.
 // (this is probably what user wants)
 //
-void WORK_FETCH::set_initial_work_request() {
+void WORK_FETCH::set_initial_work_request(PROJECT* p) {
     for (int i=0; i<coprocs.n_rsc; i++) {
         rsc_work_fetch[i].req_secs = 1;
+        if (i) {
+            RSC_WORK_FETCH& rwf = rsc_work_fetch[i];
+            if (rwf.ninstances ==  p->ncoprocs_excluded[i]) {
+                rsc_work_fetch[i].req_secs = 0;
+            }
+        }
         rsc_work_fetch[i].req_instances = 0;
         rsc_work_fetch[i].busy_time_estimator.reset();
     }

@@ -5632,3 +5632,18 @@ David  20 Aug 2012
         vda_lib2.cpp
     client/
         app_control.cpp
+
+David  20 Aug 2012
+    - client: take GPU exclusions into account when making
+        initial work request to a project
+    - client: put some casts to double in NVIDIA detect code.
+        Shouldn't make any difference.
+    - volunteer storage: truncate file to right size after retrieval
+
+    client/
+        work_fetch.cpp,h
+        gpu_nvidia.cpp
+        scheduler_op.cpp
+    vda/
+        vdad.cpp
+        vda_lib2.dpp

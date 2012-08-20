@@ -106,7 +106,7 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
     }
 
     if (reason == RPC_REASON_INIT) {
-        work_fetch.set_initial_work_request();
+        work_fetch.set_initial_work_request(p);
         if (!gstate.cpu_benchmarks_done()) {
             gstate.cpu_benchmarks_set_defaults();
         }

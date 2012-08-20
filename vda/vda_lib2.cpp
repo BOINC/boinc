@@ -591,16 +591,16 @@ int VDA_FILE_AUX::choose_host() {
     //
     if (!available_hosts.size()) {
         int nhosts_scanned = 0;
-        int rand_id;
+        int max_id, rand_id;
         for (int i=0; i<2; i++) {
             char buf[256];
             if (i == 0) {
-                retval = host.max_id(rand_id, "");
+                retval = host.max_id(max_id, "");
                 if (retval) {
                     log_messages.printf(MSG_CRITICAL, "host.max_id() failed\n");
                     return 0;
                 }
-                rand_id = (int)(((double)id)*drand());
+                rand_id = (int)(((double)max_id)*drand());
                 sprintf(buf,
                     "where %s and id>=%d order by id limit 100",
                     host_alive_clause(), rand_id
