@@ -10,10 +10,10 @@
 #define BOINC_MINOR_VERSION 8
 
 /* Release part of BOINC version number */
-#define BOINC_RELEASE 43
+#define BOINC_RELEASE 44
 
 /* String representation of BOINC version number */
-#define BOINC_VERSION_STRING "6.8.43"
+#define BOINC_VERSION_STRING "6.8.44"
 
 /* Package is a pre-release (Alpha/Beta) package */
 /* #define BOINC_PRERELEASE 1 */
@@ -29,15 +29,14 @@
 #define PACKAGE_NAME "BOINC"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "BOINC 6.8.43"
+#define PACKAGE_STRING "BOINC 6.8.44"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "boinc"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "6.8.43"
+#define PACKAGE_VERSION "6.8.44"
 
 #endif /* #if (defined(_WIN32) || defined(__APPLE__)) */
 
 #endif /* #ifndef BOINC_VERSION_H */
-

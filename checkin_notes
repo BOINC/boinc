@@ -7406,3 +7406,11 @@ Rom    13 Aug 2012
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+Rom    20 Aug 2012
+    - Tag for 6.8.44 release, all platforms
+      boinc_core_release_6_8_44
+
+    /
+        configure.ac
+        version.h
