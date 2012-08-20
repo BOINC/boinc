@@ -229,7 +229,7 @@ static int process_completed_upload(char* phys_filename, CHUNK_LIST& chunks) {
 // - mark vda_file for update
 //
 static void process_chunk_present_on_client(FILE_INFO& fi, CHUNK_LIST& chunks) {
-    char fname[256], chunk_name[256], buf[256];
+    char fname[256], chunk_name[256], buf[1024];
     int hostid, retval;
     retval = parse_physical_filename(fi.name, hostid, chunk_name, fname);
     if (retval) {
@@ -243,15 +243,21 @@ static void process_chunk_present_on_client(FILE_INFO& fi, CHUNK_LIST& chunks) {
     sprintf(buf, "where file_name='%s'", fname);
     retval = vf.lookup(buf);
     if (retval) {
-        log_messages.printf(MSG_CRITICAL, "No VDA file %s\n", fname);
+        log_messages.printf(MSG_CRITICAL,
+            "No VDA file for %s, deleting\n", fi.name
+        );
+        delete_file_xml(fi.name, buf);
+        g_reply->file_transfer_requests.push_back(string(buf));
         return;
     }
 
     if (fi.nbytes != vf.chunk_size) {
         log_messages.printf(MSG_CRITICAL,
-            "wrong chunk size: %.0f != %.0f\n",
-            fi.nbytes, vf.chunk_size
+            "wrong chunk size for %s: %.0f != %.0f, deleting\n",
+            fi.name, fi.nbytes, vf.chunk_size
         );
+        delete_file_xml(fi.name, buf);
+        g_reply->file_transfer_requests.push_back(string(buf));
         return;
     }
 
@@ -368,12 +374,24 @@ static int enforce_quota(CHUNK_LIST& chunks) {
     return 0;
 }
 
+// does the host already have a result of the given name?
+//
+static bool result_already_on_host(const char* name) {
+    for (unsigned int i=0; i<g_request->other_results.size(); i++) {
+        OTHER_RESULT& r = g_request->other_results[i];
+        if (!strcmp(r.name, name)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 // issue upload and download commands
 //
 static int issue_transfer_commands(CHUNK_LIST& chunks) {
     char xml_buf[8192], chunk_name[256], file_name[1024];
     int retval;
-    char url[1024];
+    char url[1024], buf[1024];
 
     CHUNK_LIST::iterator it;
     for (it = chunks.begin(); it != chunks.end(); it++) {
@@ -387,6 +405,16 @@ static int issue_transfer_commands(CHUNK_LIST& chunks) {
         if (ch.present_on_host) {
             // upload
             //
+            sprintf(buf, "upload_%s", ch.physical_file_name);
+            if (result_already_on_host(buf)) {
+                if (config.debug_vda) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[vda] upload of %s already in progress\n",
+                        ch.physical_file_name
+                    );
+                }
+                continue;
+            }
             if (config.debug_vda) {
                 log_messages.printf(MSG_NORMAL,
                     "[vda] sending command to upload %s\n",
@@ -407,6 +435,16 @@ static int issue_transfer_commands(CHUNK_LIST& chunks) {
         } else {
             // download
             //
+            sprintf(buf, "download_%s", ch.physical_file_name);
+            if (result_already_on_host(buf)) {
+                if (config.debug_vda) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[vda] download of %s already in progress\n",
+                        ch.physical_file_name
+                    );
+                }
+                continue;
+            }
             char md5[64], chunk_dir[1024];
             int hostid;
             if (config.debug_vda) {

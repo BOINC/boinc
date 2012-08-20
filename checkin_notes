@@ -5621,3 +5621,14 @@ Charlie 20 Aug 2012
         gpu_amd.cpp
     lib/
         coproc.h
+
+David  20 Aug 2012
+    - client: print log msgs (enabled by task_debug) if the client
+        times out on quitting or aborting a task, and has to kill it.
+    - volunteer storage: bug fixes
+
+    vda/
+        sched_vda.cpp
+        vda_lib2.cpp
+    client/
+        app_control.cpp

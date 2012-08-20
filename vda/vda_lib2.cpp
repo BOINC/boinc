@@ -308,7 +308,12 @@ int META_CHUNK::decode() {
     //
     char linkpath[1024], filepath[1024];
     sprintf(linkpath, "%s/data.vda", dir);
-    readlink(linkpath, filepath, sizeof(filepath));
+    ssize_t n = readlink(linkpath, filepath, sizeof(filepath));
+    if (n < 0) {
+        perror("readlink");
+        return -1;
+    }
+    filepath[n] = 0;
     sprintf(cmd, "mv %s/Coding/data_decoded.vda %s", dir, filepath);
     system(cmd);
     return 0;
@@ -318,6 +323,7 @@ int META_CHUNK::decode() {
 //
 int META_CHUNK::reconstruct() {
     unsigned int i;
+    int retval;
 
     // reconstruct enough children that we can reconstruct ourself
     //
@@ -326,13 +332,15 @@ int META_CHUNK::reconstruct() {
         for (i=0; i<children.size(); i++) {
             META_CHUNK* cp = (META_CHUNK*)children[i];
             if (cp->status == PRESENT) {
-                cp->reconstruct();
+                retval = cp->reconstruct();
+                if (retval) return retval;
                 n++;
                 if (n == coding.n) break;
             }
         }
     }
-    decode();
+    retval = decode();
+    if (retval) return retval;
 
     // then delete childrens' files
     //
