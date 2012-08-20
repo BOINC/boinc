@@ -402,7 +402,7 @@ struct COPROCS {
     );
     int parse(XML_PARSER&);
 #ifdef __APPLE__
-    void get_ati_mem_size_from_opengl();
+    void opencl_get_ati_mem_size_from_opengl();
 #endif
     void summary_string(char* buf, int len);
 

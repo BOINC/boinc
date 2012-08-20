@@ -124,7 +124,6 @@ void COPROCS::get_opencl(
     COPROC_NVIDIA nvidia_temp;
     COPROC_ATI ati_temp;
     int current_CUDA_index;
-    char buf[256];
 
 #ifdef _WIN32
     opencl_lib = LoadLibrary("OpenCL.dll");
@@ -183,9 +182,10 @@ void COPROCS::get_opencl(
             sizeof(platform_version), &platform_version, NULL
         );
         if (ciErrNum != CL_SUCCESS) {
-            sprintf(buf, "clGetPlatformInfo CL_PLATFORM_VERSION for platform #%d returned error %d", platform_index, ciErrNum);
-            warnings.push_back(buf);
-            return;
+            msg_printf(0, MSG_INFO,
+                "Couldn't get PLATFORM_VERSION for platform #%d; error %d", platform_index, ciErrNum
+            );
+            continue;
         }
 
         ciErrNum = (*__clGetDeviceIDs)(
@@ -193,9 +193,10 @@ void COPROCS::get_opencl(
             MAX_COPROC_INSTANCES, devices, &num_devices
         );
         if (ciErrNum != CL_SUCCESS) {
-            sprintf(buf, "clGetDeviceIDs for platform #%d returned error %d", platform_index, ciErrNum);
-            warnings.push_back(buf);
-            return;
+            msg_printf(0, MSG_INFO,
+                "Couldn't get Device IDs for platform #%d: error %d", platform_index, ciErrNum
+            );
+            continue;
         }
 
         // Mac OpenCL does not recognize all NVIDIA GPUs returned by CUDA
@@ -213,7 +214,7 @@ void COPROCS::get_opencl(
 //TODO: Should we store the platform(s) for each GPU found?
 //TODO: Must we check if multiple platforms found the same GPU and merge the records?
             ciErrNum = get_opencl_info(prop, device_index, warnings);
-            if (ciErrNum != CL_SUCCESS) break;
+            if (ciErrNum != CL_SUCCESS) continue;
             
             prop.is_used = COPROC_UNUSED;
             prop.get_device_version_int();
@@ -232,7 +233,7 @@ void COPROCS::get_opencl(
                                 device_index
                                 );
                             }
-                            return; // Should never happen
+                            continue; // Should never happen
                         }
                         if (!strcmp(prop.name, nvidia_gpus[current_CUDA_index].prop.name)) {
                             break;  // We have a match
@@ -322,7 +323,9 @@ void COPROCS::get_opencl(
     // This has already been fixed on latest Catalyst 
     // drivers, but Mac does not use Catalyst drivers.
 
-    get_ati_mem_size_from_opengl();
+    if (ati_opencls.size() > 0) {
+        opencl_get_ati_mem_size_from_opengl();
+    }
 
 #endif
 
@@ -607,3 +610,178 @@ void COPROC::find_best_opencls(
         }
     }
 }
+
+
+#ifdef __APPLE__
+// OpenCL returns incorrect total RAM size for some 
+// ATI GPUs so we get that info from OpenGL on Macs
+
+#include <OpenGL/OpenGL.h>
+#include <OpenGL/gl.h>
+#include <OpenGL/glu.h>
+#include <Carbon/Carbon.h>
+
+void COPROCS::opencl_get_ati_mem_size_from_opengl() {
+    CGLRendererInfoObj info;
+    long i, j;
+    GLint numRenderers = 0, rv = 0, deviceVRAM, rendererID;
+    CGLError theErr2 = kCGLNoError;
+    CGLContextObj curr_ctx = CGLGetCurrentContext (); // save current CGL context
+    int ati_gpu_index = 0;
+    GLint rendererIDs[32];
+    CFDataRef modelName[32];
+    char opencl_name[256], iokit_name[256];
+    char *p;
+
+    if (log_flags.coproc_debug) {
+
+        for (i=0; i<32; ++i) {
+            rendererIDs[i] = 0;
+            modelName[i] = NULL;
+            
+            CGOpenGLDisplayMask myMask = 1 << i;
+            CGDirectDisplayID displayID = CGOpenGLDisplayMaskToDisplayID(myMask);
+            theErr2 = CGLQueryRendererInfo(myMask, &info, &numRenderers); 
+            if ((displayID != kCGNullDirectDisplay) && (theErr2 == kCGLNoError)) {
+                // Get the I/O Kit service port for the display
+                io_registry_entry_t dspPort = CGDisplayIOServicePort(displayID);
+                for (j = 0; j < numRenderers; j++) {
+                    // find accelerated renderer (assume only one)
+                    CGLDescribeRenderer (info, j, kCGLRPAcceleratedCompute, &rv); 
+                    if (true == rv) { // if openCL-capable
+                        // what is the renderer ID
+                        CGLDescribeRenderer (info, j, kCGLRPRendererID, &rendererIDs[i]);
+                        modelName[i] = (CFDataRef)IORegistryEntrySearchCFProperty(
+                            dspPort,
+                            kIOServicePlane, CFSTR("model"), kCFAllocatorDefault,
+                            kIORegistryIterateRecursively | kIORegistryIterateParents
+                        );
+                    }
+                    if (modelName[i] != NULL) break;
+                }
+            }
+        }
+    }   // End if (log_flags.coproc_debug) {
+
+    theErr2 = CGLQueryRendererInfo( 0xffffffff, &info, &numRenderers);
+    if (theErr2 == kCGLNoError) {
+        CGLDescribeRenderer (info, 0, kCGLRPRendererCount, &numRenderers);
+        for (i = 0; i < numRenderers; i++) {
+            if (ati_gpu_index >= (int)ati_opencls.size()) {
+                break;
+            }
+            
+            CGLDescribeRenderer (info, i, kCGLRPAcceleratedCompute, &rv); 
+            if (true == rv) { // if openCL-capable
+                // what is the renderer ID
+                CGLDescribeRenderer (info, i, kCGLRPRendererID, &rendererID);
+               // what is the VRAM?
+                CGLDescribeRenderer (info, i, kCGLRPVideoMemory, &deviceVRAM);
+
+                // build context and context specific info
+                CGLPixelFormatAttribute attribs[] = {
+                    kCGLPFARendererID,
+                    (CGLPixelFormatAttribute)rendererID, 
+                    kCGLPFAAllowOfflineRenderers,
+                    (CGLPixelFormatAttribute)0
+                };
+                CGLPixelFormatObj pixelFormat = NULL;
+                GLint numPixelFormats = 0;
+                CGLContextObj cglContext;
+
+                CGLChoosePixelFormat (attribs, &pixelFormat, &numPixelFormats);
+                if (pixelFormat) {
+                    CGLCreateContext(pixelFormat, NULL, &cglContext);
+                    CGLDestroyPixelFormat (pixelFormat);
+                    CGLSetCurrentContext (cglContext);
+                    if (cglContext) {
+                        // get vendor string from renderer
+                        const GLubyte * strVend = glGetString (GL_VENDOR);
+                        if (strVend &&
+                            ((strstr((char *)strVend, GPU_TYPE_ATI)) || 
+                            (strstr((char *)strVend, "AMD")) ||  
+                            (strstr((char *)strVend, "Advanced Micro Devices, Inc.")))
+                        ) {
+                            ati_opencls[ati_gpu_index].global_mem_size = deviceVRAM;
+                            ati_opencls[ati_gpu_index].opencl_available_ram = deviceVRAM;
+
+                            if (log_flags.coproc_debug) {
+                                // For some GPUs, one API returns "ATI" but the other API returns
+                                // "AMD" in the model name, so we normalize both to "AMD"
+                                strlcpy(opencl_name, ati_opencls[ati_gpu_index].name, sizeof(opencl_name));
+                                if ((p = strstr(opencl_name, "ATI")) != NULL) {
+                                    *++p='M';
+                                    *++p='D';
+                                }
+                                
+                                for (j=0; j<32; j++) {
+                                    if ((rendererID == rendererIDs[j]) && (modelName[j] != NULL)) {
+                                        break;
+                                    }
+                                }
+                                if (j < 32) {
+                                    strlcpy(iokit_name, (char *)CFDataGetBytePtr(modelName[j]), sizeof(iokit_name));
+                                    if ((p = strstr(iokit_name, "ATI")) != NULL) {
+                                        *++p='M';
+                                        *++p='D';
+                                    }
+                                    if (strcmp(iokit_name, opencl_name)) {
+                                        msg_printf(0, MSG_INFO,
+                                            "[coproc] opencl_get_ati_mem_size_from_opengl model name mismatch: %s vs %s\n",
+                                            ati_opencls[ati_gpu_index].name, (char *)CFDataGetBytePtr(modelName[j])
+                                        );
+                                    }
+                                } else {
+                                    // Could not get model name from IOKit, so use renderer name
+                                    const GLubyte * strRend = glGetString (GL_RENDERER);
+                                    if (strRend != NULL) {
+                                        strlcpy(iokit_name, (char *)strRend, sizeof(iokit_name));
+                                        if ((p = strstr(iokit_name, "ATI")) != NULL) {
+                                            *++p='M';
+                                            *++p='D';
+                                        }
+                                    }
+                                    
+                                    if ((strRend == NULL) || 
+                                        (!strstr(iokit_name, opencl_name))) {
+                                        msg_printf(0, MSG_INFO,
+                                            "[coproc] opencl_get_ati_mem_size_from_opengl model name to renderer mismatch: %s vs %s\n",
+                                            strRend, ati_opencls[ati_gpu_index].name
+                                        );
+                                    }
+                                }
+                            }   // End if (log_flags.coproc_debug) {
+
+                            ati_gpu_index++;
+                        } // End if ATI / AMD GPU
+                        
+                        CGLDestroyContext (cglContext);
+                    } else {
+                        if (log_flags.coproc_debug) {
+                            msg_printf(0, MSG_INFO,
+                                "[coproc] opencl_get_ati_mem_size_from_opengl failed to create context\n"
+                            );
+                        }
+                    }
+                } else {
+                    if (log_flags.coproc_debug) {
+                        msg_printf(0, MSG_INFO,
+                            "[coproc] opencl_get_ati_mem_size_from_opengl failed to create PixelFormat\n"
+                        );
+                    }
+                }
+            }       // End if kCGLRPAcceleratedCompute attribute
+        }   // End loop: for (i = 0; i < numRenderers; i++)
+        CGLDestroyRendererInfo (info);
+    }
+    
+    if (log_flags.coproc_debug) {
+        for (j=0; j<32; j++) {
+            if (modelName[j] != NULL) {
+                CFRelease(modelName[j]);
+            }
+        }
+    }    
+    CGLSetCurrentContext (curr_ctx); // restore current CGL context
+}
+#endif

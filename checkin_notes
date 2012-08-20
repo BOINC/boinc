@@ -5610,3 +5610,14 @@ David  18 Aug 2012
 
     sched/
         file_upload_handler.cpp
+
+Charlie 20 Aug 2012
+    - client: If OpenCL detection gets an error for a platform or device, 
+        finish detection of the remaining platforms and / or devices.
+        Move OpenCL memory size workaround back into OpenCL source file. 
+        
+    client/
+        gpu_opencl.cpp
+        gpu_amd.cpp
+    lib/
+        coproc.h
