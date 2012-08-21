@@ -352,7 +352,7 @@ double max_allowable_disk() {
         // Compute the max allowable additional disk usage based on prefs
         //
         x1 = prefs.disk_max_used_gb*GIGA - host.d_boinc_used_total;
-        x2 = host.d_total*prefs.disk_max_used_pct/100.
+        x2 = host.d_total * prefs.disk_max_used_pct / 100.0
             - host.d_boinc_used_total;
         x3 = host.d_free - prefs.disk_min_free_gb*GIGA;      // may be negative
         x = std::min(x1, std::min(x2, x3));
@@ -382,9 +382,9 @@ double max_allowable_disk() {
         if (config.debug_send) {
             log_messages.printf(MSG_NORMAL,
                 "[send] No disk space available: disk_max_used_gb %.2fGB disk_max_used_pct %.2f disk_min_free_gb %.2fGB\n",
-                prefs.disk_max_used_gb/GIGA,
+                prefs.disk_max_used_gb,
                 prefs.disk_max_used_pct,
-                prefs.disk_min_free_gb/GIGA
+                prefs.disk_min_free_gb
             );
             log_messages.printf(MSG_NORMAL,
                 "[send] No disk space available: host.d_total %.2fGB host.d_free %.2fGB host.d_boinc_used_total %.2fGB\n",
