@@ -80,6 +80,7 @@ struct VDA_FILE_AUX : VDA_FILE {
     VDA_FILE_AUX(DB_VDA_FILE f) : VDA_FILE(f) {
         max_chunks = 0;
         enum_active = false;
+        last_id = 0;
     }
 };
 

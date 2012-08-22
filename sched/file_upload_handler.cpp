@@ -139,7 +139,7 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
             // Advisory file locking is not guaranteed reliable when
             // used with stream buffered IO.
             //
-            int fd = open(path,
+            fd = open(path,
                 O_WRONLY|O_CREAT,
                 S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH
             );

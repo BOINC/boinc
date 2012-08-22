@@ -146,7 +146,7 @@ int META_CHUNK::init(const char* _dir, POLICY& p, int coding_level) {
     if (coding_level < p.coding_levels - 1) {
         for (int i=0; i<coding.m; i++) {
             sprintf(child_dir, "%s/%d", dir, i);
-            META_CHUNK* mc = new META_CHUNK(dfile, parent, i);
+            META_CHUNK* mc = new META_CHUNK(dfile, this, i);
             retval = mc->init(child_dir, p, coding_level+1);
             if (retval) return retval;
             children.push_back(mc);
@@ -181,7 +181,7 @@ int META_CHUNK::get_state(const char* _dir, POLICY& p, int coding_level) {
     if (coding_level < p.coding_levels - 1) {
         for (int i=0; i<coding.m; i++) {
             char child_dir[1024];
-            sprintf(child_dir, "%s/%s.%d", dir, DATA_FILENAME, i);
+            sprintf(child_dir, "%s/%d", dir, i);
             META_CHUNK* mc = new META_CHUNK(dfile, this, i);
             retval = mc->get_state(child_dir, p, coding_level+1);
             if (retval) return retval;
@@ -388,6 +388,7 @@ CHUNK::CHUNK(META_CHUNK* mc, double s, int index) {
 int CHUNK::assign() {
     int host_id = parent->dfile->choose_host();
     if (!host_id) {
+        log_messages.printf(MSG_CRITICAL, "CHUNK::assign: can't get host\n");
         return ERR_NOT_FOUND;
     }
     DB_VDA_CHUNK_HOST ch;
@@ -626,9 +627,13 @@ int VDA_FILE_AUX::choose_host() {
                 );
                 continue;
             }
+            continue;
         }
         if (retval) {
             // a DB error occurred
+            log_messages.printf(MSG_CRITICAL,
+                "choose_host(): DB error %d\n", retval
+            );
             enum_active = false;
             return 0;
         }

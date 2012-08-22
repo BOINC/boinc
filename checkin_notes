@@ -5677,3 +5677,13 @@ David  21 Aug 2012
         boinc_db_types.h
     sched/
         sched_types.h
+
+David  22 Aug 2012
+    - file_upload_handler: bug fix
+    - volunteer storage: buf fixes
+
+    vda/
+        vda_lib2.cpp
+        vda_lib.h
+    sched/
+        file_upload_handler.cpp
