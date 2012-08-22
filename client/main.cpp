@@ -223,13 +223,6 @@ static void init_core_client(int argc, char** argv) {
 
     read_config_file(true);
 
-    // Win32 - detach from console if requested
-#ifdef _WIN32
-    if (gstate.detach_console) {
-        FreeConsole();
-    }
-#endif
-
     // Unix: install signal handlers
 #ifndef _WIN32
     // Handle quit signals gracefully
@@ -400,59 +393,6 @@ int main(int argc, char** argv) {
             break;
 #endif
         }
-
-#ifdef _WIN32
-        // This bit of silliness is required to properly detach when run from within a command
-        // prompt under Win32.  The root cause of the problem is that CMD.EXE does not return
-        // control to the user until the spawned program exits, detaching from the console is
-        // not enough.  So we need to do the following.  If the -detach flag is given, trap it
-        // prior to the main setup in init_core_client.  Reinvoke the program, changing the
-        // -detach into -detach_phase_two, and then exit.  At this point, cmd.exe thinks all is
-        // well, and returns control to the user.  Meanwhile the second invocation will grok the
-        // -detach_phase_two flag, and detach itself from the console, finally getting us to
-        // where we want to be.
-
-        // FIXME FIXME.  Duplicate instances of -detach may cause this to be
-        // executed unnecessarily.  At worst, I think it leads to a few extra
-        // processes being created and destroyed.
-        if (strcmp(argv[index], "-detach") == 0 || strcmp(argv[index], "--detach") == 0) {
-            int i, len;
-            char *commandLine;
-            STARTUPINFO si;
-            PROCESS_INFORMATION pi;
-
-            argv[index] = "-detach_phase_two";
-
-            // start with space for two '"'s
-            len = 2;
-            for (i = 0; i < argc; i++) {
-                len += (int)strlen(argv[i]) + 1;
-            }
-            if ((commandLine = (char *) malloc(len)) == NULL) {
-                // Drop back ten and punt.  Can't do the detach thing, so we just carry on.
-                // At least the program will start.
-                break;
-            }
-            commandLine[0] = '"';
-            // OK, we can safely use strcpy and strcat, since we know that we allocated enough
-            strcpy(&commandLine[1], argv[0]);
-            strcat(commandLine, "\"");
-            for (i = 1; i < argc; i++) {
-                strcat(commandLine, " ");
-                strcat(commandLine, argv[i]);
-            }
-
-            memset(&si, 0, sizeof(si));
-            si.cb = sizeof(si);
-
-            // If process creation succeeds, we exit, if it fails punt and continue
-            // as usual.  We won't detach properly, but the program will run.
-            if (CreateProcess(NULL, commandLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)) {
-                exit(0);
-            }
-            break;
-        }
-#endif
     }
 
     init_core_client(argc, argv);

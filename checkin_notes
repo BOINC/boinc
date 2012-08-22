@@ -5687,3 +5687,10 @@ David  22 Aug 2012
         vda_lib.h
     sched/
         file_upload_handler.cpp
+
+Rom    22 Aug 2012
+    - client: streamline the console detach process under Windows.
+    
+    client/
+        cs_cmdline.cpp
+        main.cpp
