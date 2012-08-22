@@ -379,6 +379,7 @@ struct CLIENT_STATE {
         // disk usage not counting projects
         // computed by get_disk_usages()
     double total_disk_usage;
+        // client plus projects
     int get_disk_usages();
     void get_disk_shares();
     double allowed_disk_usage(double boinc_total);

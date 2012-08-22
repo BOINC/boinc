@@ -37,6 +37,7 @@ void PROJECT::init() {
     project_specific_prefs = "";
     gui_urls = "";
     resource_share = 100;
+    desired_disk_usage = 0;
     for (int i=0; i<MAX_RSC; i++) {
         no_rsc_pref[i] = false;
         no_rsc_config[i] = false;
@@ -292,6 +293,7 @@ int PROJECT::parse_state(XML_PARSER& xp) {
             trickle_up_ops.push_back(new TRICKLE_UP_OP(stemp));
             continue;
         }
+        if (xp.parse_double("desired_disk_usage", desired_disk_usage)) continue;
         if (log_flags.unparsed_xml) {
             msg_printf(0, MSG_INFO,
                 "[unparsed_xml] PROJECT::parse_state(): unrecognized: %s",
@@ -343,6 +345,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <rec_time>%f</rec_time>\n"
 
         "    <resource_share>%f</resource_share>\n"
+        "    <desired_disk_usage>%f</desired_disk_usage>\n"
         "    <duration_correction_factor>%f</duration_correction_factor>\n"
         "    <sched_rpc_pending>%d</sched_rpc_pending>\n"
         "    <send_time_stats_log>%d</send_time_stats_log>\n"
@@ -374,6 +377,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         pwf.rec,
         pwf.rec_time,
         resource_share,
+        desired_disk_usage,
         duration_correction_factor,
         sched_rpc_pending,
         send_time_stats_log,
@@ -529,6 +533,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     if (ams_resource_share >= 0) {
         resource_share = ams_resource_share;
     }
+    desired_disk_usage = p.desired_disk_usage;
     use_symlinks = p.use_symlinks;
 }
 

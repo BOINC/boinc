@@ -5647,3 +5647,33 @@ David  20 Aug 2012
     vda/
         vdad.cpp
         vda_lib2.dpp
+
+David  21 Aug 2012
+    - client: change the way project disk share is computed.
+        - Allow projects to report "desired disk usage" (DDU).
+            If the client learns that a project wants disk space,
+            it can shrink the allocation to other projects.
+        - Base share computation on DDU rather than disk usage.
+        - Introduce the notion of "disk resource share".
+            This is defined (somewhat arbitrarily) as resource share
+            plus 1/10 of the largest resource share.
+            This is intended to ensure that even zero-share projects
+            get enough disk space to store app versions and data files;
+            otherwise they wouldn't be able to compute.
+    - server: use host.d_boinc_max (which wasn't being used)
+        to start d_project_share reported by client.
+    - volunteer storage: change the way hosts are allocated to chunks.
+        Allow hosts to store several chunks of the same file, if needed
+
+    vda/
+        vda_lib2.cpp
+        vda_lib.h
+    client/
+        project.cpp,h
+        client_state.h
+        cs_prefs.cpp
+        scheduler_op.cpp
+    db/
+        boinc_db_types.h
+    sched/
+        sched_types.h

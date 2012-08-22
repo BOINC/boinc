@@ -899,6 +899,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             continue;
         } else if (xp.parse_int("teamid", project->teamid)) {
             continue;
+        } else if (xp.parse_double("desired_disk_usage", project->desired_disk_usage)) {
+            continue;
         } else {
             if (log_flags.unparsed_xml) {
                 msg_printf(project, MSG_INFO,

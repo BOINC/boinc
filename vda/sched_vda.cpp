@@ -345,17 +345,17 @@ static int process_chunks_missing_on_client(CHUNK_LIST& chunks) {
 // remove some chunks and mark vda_files for update
 //
 static int enforce_quota(CHUNK_LIST& chunks) {
-    if (!g_request->host.d_project_share) return 0;
+    if (!g_request->host.d_boinc_max) return 0;
 
     double x = g_request->host.d_boinc_used_project;
     if (config.debug_vda) {
         log_messages.printf(MSG_NORMAL,
             "[vda] share: %f used: %f\n",
-            g_request->host.d_project_share, x
+            g_request->host.d_boinc_max, x
         );
     }
     CHUNK_LIST::iterator it = chunks.begin();
-    while (x > g_request->host.d_project_share && it != chunks.end()) {
+    while (x > g_request->host.d_boinc_max && it != chunks.end()) {
         DB_VDA_CHUNK_HOST& ch = it->second;
         if (!ch.found) continue;
         FILE_INFO fi;

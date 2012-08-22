@@ -39,7 +39,15 @@ struct PROJECT : PROJ_AM {
     double resource_share;
         // project's resource share relative to other projects.
     double resource_share_frac;
-        // fraction of RS of non-suspended, compute-intensive projects
+        // temp; fraction of RS of non-suspended, compute-intensive projects
+    double disk_resource_share;
+        // temp in get_disk_shares()
+    double desired_disk_usage;
+        // reported by project
+    double ddu;
+        // temp in get_disk_shares()
+    double disk_quota;
+        // temp in get_disk_shares()
 
     // the following are from the user's project prefs
     //

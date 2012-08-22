@@ -43,11 +43,6 @@ struct VDA_FILE_AUX : VDA_FILE {
     POLICY policy;
     META_CHUNK* meta_chunk;
 
-    VDA_FILE_AUX(){
-        meta_chunk = NULL;
-    }
-    VDA_FILE_AUX(DB_VDA_FILE f) : VDA_FILE(f){}
-
     // the following for the simulator
     //
     double accounting_start_time;
@@ -63,14 +58,29 @@ struct VDA_FILE_AUX : VDA_FILE {
     inline bool collecting_stats() {
         return (pending_init_downloads == 0);
     }
+    VDA_FILE_AUX(){
+        meta_chunk = NULL;
+    }
 
     // the following for vdad
     //
-    std::vector<int> available_hosts;
-        // list of IDs of hosts with no chunks of this file
+    DB_HOST enum_host;
+    char enum_query[256];
+    int max_chunks;
+    int last_id;
+    bool enum_active;
+    bool found_this_scan;
+    bool found_any_this_scan;
+    bool found_any_this_enum;
+
     int init();
     int get_state();
     int choose_host();
+
+    VDA_FILE_AUX(DB_VDA_FILE f) : VDA_FILE(f) {
+        max_chunks = 0;
+        enum_active = false;
+    }
 };
 
 #define PRESENT         0

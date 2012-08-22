@@ -287,11 +287,10 @@ struct HOST {
     double d_boinc_used_project;
                             // amount being used for this project
 
-    // The following item is not used.
-    // It's redundant (server can compute based on other params and prefs)
-    //
-    double d_boinc_max;     // max disk space that BOINC is allowed to use,
-                            // reflecting user preferences
+    double d_boinc_max;
+        // This field has been repurposed.
+        // it's now used to store the project's share of available disk space
+        // (reported by recent clients as <d_project_share>
     double n_bwup;          // Average upload bandwidth, bytes/sec
     double n_bwdown;        // Average download bandwidth, bytes/sec
                             // The above are derived from actual
@@ -324,7 +323,6 @@ struct HOST {
     char p_features[1024];
     char virtualbox_version[256];
     bool p_vm_extensions_disabled;
-    double d_project_share; // this project's share of available disk space
 
     int parse(XML_PARSER&);
     int parse_time_stats(XML_PARSER&);

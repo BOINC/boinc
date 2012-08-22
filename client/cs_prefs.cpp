@@ -114,37 +114,68 @@ int CLIENT_STATE::get_disk_usages() {
     return 0;
 }
 
-// populate PROJECT::disk_share for all projects
+// populate PROJECT::disk_share for all projects,
+// i.e. the max space we should allocate to the project.
+// This is calculated as follows:
+// - each project has a "disk_resource_share" (DRS)
+//   This is the resource share plus .1*(max resource share).
+//   This ensures that backup projects get some disk.
+// - each project as a "desired_disk_usage (DDU)", 
+//   which is either its current usage
+//   or an amount sent from the scheduler.
+// - each project has a "quota": (available space)*(drs/total_drs).
+// - a project is "greedy" if DDU > quota.
+// - if a project is non-greedy, share = quota
+// - X = available space - space used by non-greedy projects
+// - if a project is greedy, share = quota
+//   + X*drs/(total drs of greedy projects)
 //
 void CLIENT_STATE::get_disk_shares() {
     PROJECT* p;
     unsigned int i;
 
-    double rss = 0;
+    // compute disk resource shares
+    //
+    double trs = 0;
+    double max_rs = 0;
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
-        rss += p->resource_share;
-        p->disk_share = p->disk_usage;
+        p->ddu = std::max(p->disk_usage, p->desired_disk_usage);
+        double rs = p->resource_share;
+        trs += rs;
+        if (rs > max_rs) max_rs = rs;
     }
-    if (!rss) return;
+    if (trs) {
+        max_rs /= 10;
+        for (i=0; i<projects.size(); i++) {
+            p = projects[i];
+            p->disk_resource_share = p->resource_share + max_rs;
+        }
+    } else {
+        for (i=0; i<projects.size(); i++) {
+            p = projects[i];
+            p->disk_resource_share = 1;
+        }
+    }
 
-    // a project is "greedy" if it's using more than its share of disk
+    // Compute:
+    // greedy_drs: total disk resource share of greedy projects
+    // non_greedy_ddu: total desired disk usage of non-greedy projects
     //
-    double greedy_rs = 0;
-    double non_greedy_usage = 0;
+    double greedy_drs = 0;
+    double non_greedy_ddu = 0;
     double allowed = allowed_disk_usage(total_disk_usage);
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
-        double rs = p->resource_share/rss;
-        if (p->disk_usage > allowed*rs) {
-            greedy_rs += p->resource_share;
+        p->disk_quota = allowed*p->disk_resource_share/trs;
+        if (p->ddu > p->disk_quota) {
+            greedy_drs += p->disk_resource_share;
         } else {
-            non_greedy_usage += p->disk_usage;
+            non_greedy_ddu += p->ddu;
         }
     }
-    if (!greedy_rs) greedy_rs = 1;      // handle projects w/ zero resource share
 
-    double greedy_allowed = allowed - non_greedy_usage;
+    double greedy_allowed = allowed - non_greedy_ddu;
     if (log_flags.disk_usage_debug) {
         msg_printf(0, MSG_INFO,
             "[disk_usage] allowed %.2fMB used %.2fMB",
@@ -153,9 +184,11 @@ void CLIENT_STATE::get_disk_shares() {
     }
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
-        double rs = p->resource_share/rss;
-        if (p->disk_usage > allowed*rs) {
-            p->disk_share = greedy_allowed*p->resource_share/greedy_rs;
+        double rs = p->disk_resource_share/trs;
+        if (p->ddu > allowed*rs) {
+            p->disk_share = greedy_allowed*p->disk_resource_share/greedy_drs;
+        } else {
+            p->disk_share = p->disk_quota;
         }
         if (log_flags.disk_usage_debug) {
             msg_printf(p, MSG_INFO,
@@ -650,4 +683,3 @@ double CLIENT_STATE::max_available_ram() {
         global_prefs.ram_max_used_busy_frac, global_prefs.ram_max_used_idle_frac
     );
 }
-

@@ -570,23 +570,92 @@ int VDA_FILE_AUX::get_state() {
 }
 
 // Pick a host to send a chunk of this file to.
-// The host must:
-// 1) be alive (recent RPC time)
-// 2) not have any chunks of this file
-//
-// We maintain a cache of such hosts
+// We want to pick the host that has the fewest chunks
+// of this file already (preferably zero).
 // The policy is:
-//
-// - scan the cache, removing hosts that are no longer alive;
-//   return if find a live host
-// - pick a random starting point in host ID space,
-//   and enumerate 100 live hosts; wrap around if needed.
-//   Return one and put the rest in cache
+// - maintain a threshold "max_chunks".
+// - enumerate all hosts that are alive
+// - if find a host H w/ at most max_chunks of this file,
+//   set max_chunks to nchunks(H) and return H
+// - if scan all hosts w/o finding one, increment max_chunks and start over
 //
 int VDA_FILE_AUX::choose_host() {
     int retval;
-    DB_HOST host;
+    char buf[256];
 
+    // terminology:
+    // "enum" is the result of one DB query (typically 100 hosts)
+    // "scan" is a set of enums covering the entire host table
+    //
+    while (1) {
+        if (!enum_active) {
+            sprintf(enum_query, "where %s and id > %d order by id limit 100",
+                host_alive_clause(), last_id
+            );
+            enum_active = true;
+            found_any_this_enum = false;
+            if (last_id == 0) {
+                found_this_scan = false;
+                found_any_this_scan = false;
+            }
+        }
+        retval = enum_host.enumerate(enum_query);
+        if (retval == ERR_DB_NOT_FOUND) {
+            // we've finished an enum
+            //
+            enum_active = false;
+            if (found_any_this_enum) {
+                // if we found anything in this enum, continue the scan
+                continue;
+            }
+
+            // we've finished a scan
+            //
+            last_id = 0;
+            if (!found_any_this_scan) {
+                log_messages.printf(MSG_CRITICAL,
+                    "choose_host(): no live hosts\n"
+                );
+                return 0;
+            }
+            if (!found_this_scan) {
+                max_chunks++;
+                log_messages.printf(MSG_NORMAL,
+                    "choose_host(): completed scan, new max_chunks %d\n",
+                    max_chunks
+                );
+                continue;
+            }
+        }
+        if (retval) {
+            // a DB error occurred
+            enum_active = false;
+            return 0;
+        }
+
+        found_any_this_enum = true;
+        found_any_this_scan = true;
+        last_id = enum_host.id;
+
+        // we have a live host.
+        // see whether it satisfies max_chunks
+        //
+        DB_VDA_CHUNK_HOST ch;
+        int count;
+        sprintf(buf, "where vda_file_id=%d and host_id=%d", id, enum_host.id);
+        retval = ch.count(count, buf);
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL, "ch.count failed\n");
+            return 0;
+        }
+        if (count <= max_chunks) {
+            found_this_scan = true;
+            max_chunks = count;
+            return enum_host.id;
+        }
+    }
+
+#if 0
     // replenish cache if needed
     //
     if (!available_hosts.size()) {
@@ -659,5 +728,6 @@ int VDA_FILE_AUX::choose_host() {
 
     log_messages.printf(MSG_CRITICAL, "No hosts available\n");
     return 0;
+#endif
 }
 
