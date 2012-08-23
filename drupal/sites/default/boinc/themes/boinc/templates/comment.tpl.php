@@ -56,6 +56,26 @@
 ?>
 <div class="<?php print $classes; ?> clearfix">
   <?php
+    static $authors;
+    if (_ignore_user_ignored_user($comment->uid)) {
+      if (!$authors[$comment->uid]) {
+        $authors[$comment->uid] = user_load(array('uid' => $comment->uid));
+      }
+      // Remove the wrapper the Ignore User module puts around node->content.
+      // It should be around the whole comment, not one part...
+      // Absurd nested functions to remove wrappers are as follows.
+      $content = strstr(end(explode('<div class="ignore-user-content">', $content)), '</div></div>', TRUE);
+      print '<div class="ignore-user-container">';
+      print t('!username is on your !ignore_list. Click !here to view this post.',
+        array(
+          '!username' => theme('username', $authors[$comment->uid]),
+          '!ignore_list' => l(t('ignore list'), 'ignore_user/list'),
+          '!here' => l(t('here'), "node/{$comment->nid}#comment-{$comment->cid}",
+            array('attributes' => array('class' => 'ignore-user-content-link')))
+        )
+      );
+      print '<div class="ignore-user-content">';
+    }
     $user_image = boincuser_get_user_profile_image($comment->uid);
     if ($user_image['image']['filepath']) {
       print '<div class="picture">';
