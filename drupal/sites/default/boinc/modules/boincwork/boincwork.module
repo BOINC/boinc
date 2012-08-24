@@ -436,7 +436,7 @@ function communityprefs_form(&$form_state) {
   
   $default = array(
     'pm_send_notification' => '', // This is set already in pm_email_notify_user
-    'friend_notification' => isset($user->friend_notification) ? $user->friend_notification : FLAG_FRIEND_NOTIFICATION,
+    'friend_notification' => isset($user->friend_notification) ? $user->friend_notification : 0,
     'comments_per_page' => (isset($user->comments_per_page) AND $user->comments_per_page) ? $user->comments_per_page : variable_get('comment_default_per_page_forum', 50)
   );
   
