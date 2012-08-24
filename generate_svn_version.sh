@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 HEADER="svn_version.h"
 TMPFILE="$HEADER.tmp"
@@ -32,17 +32,19 @@ if [ "x$GIT_LOG" != "x" ]; then
                  y/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/;
                  s/^/#define REPOSITORY_/;s/$/ 1/' >> $TMPFILE
 elif [ "x$CMD" != "x" ]; then
-    LANG=C $CMD |
-           awk '/^URL/ { url = $2; };
+    LANG=C 
+    URL=`$CMD | awk '
+                /^URL/ { url = $2; };
                 /^Rev/ { rev = $2; };
                 END { print "#define SVN_VERSION \"Repository: " url \
                             " Revision: " rev "\"" >> "'"$TMPFILE"'";
                       print "#define SVN_REPOSITORY \"" url "\"" >> "'"$TMPFILE"'";
                       print "#define SVN_REVISION " rev >> "'"$TMPFILE"'";
-                      print url };' |
-            sed 's%.*://%%;s/[^/]*@//;s/[^a-zA-Z0-9]/_/g;s/__*/_/g;
-                 y/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/;
-                 s/^/#define REPOSITORY_/;s/$/ 1/' >> $TMPFILE
+                      print url };'`
+    echo $URL | 
+        sed 's%.*://%%;s/[^/]*@//;s/[^a-zA-Z0-9]/_/g;s/__*/_/g;
+             y/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/;
+             s/^/#define REPOSITORY_/;s/$/ 1/' >> $TMPFILE
 else
     echo "#include \"version.h\"" >> $TMPFILE
     echo "#define SVN_VERSION BOINC_VERSION_STRING" >> $TMPFILE

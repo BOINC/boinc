@@ -5694,3 +5694,11 @@ Rom    22 Aug 2012
     client/
         cs_cmdline.cpp
         main.cpp
+
+Eric K 23 Aug 2012
+    - build environment:  fixed bug in generate_svn_version.sh that generated
+        incorrect output on unix systems that don't synchronize writes to the
+        same file from opposite sides of a pipe.
+    /
+        generate_svn_version.sh
+
