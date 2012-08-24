@@ -498,6 +498,17 @@ void handle_vda() {
     CHUNK_LIST chunks;
         // chunks that are supposed to be on this host
 
+    // if client is outdated, mark as dead
+    //
+    if (outdated_client(g_reply->host)) {
+        g_reply->host.cpu_efficiency = 1;
+        return;
+    }
+
+    // otherwise mark it as alive
+    //
+    g_reply->host.cpu_efficiency = 0;
+
     // enumerate the vda_chunk_host records for this host from DB
     //
     DB_VDA_CHUNK_HOST ch;

@@ -40,16 +40,6 @@ using std::vector;
 
 ///////////////// Utility funcs ///////////////////////
 
-char* host_alive_clause() {
-    static char buf[256];
-    sprintf(buf, "rpc_time > %f", dtime() - VDA_HOST_TIMEOUT);
-    return buf;
-}
-
-inline bool alive(DB_HOST& h) {
-    return (h.rpc_time > dtime()-VDA_HOST_TIMEOUT);
-}
-
 // return the name of a file created by Jerasure's encoder
 //
 // encoder creates files with names of the form
@@ -590,8 +580,9 @@ int VDA_FILE_AUX::choose_host() {
     //
     while (1) {
         if (!enum_active) {
-            sprintf(enum_query, "where %s and id > %d order by id limit 100",
-                host_alive_clause(), last_id
+            sprintf(enum_query,
+                "where cpu_efficiency=0 and id > %d order by id limit 100",
+                last_id
             );
             enum_active = true;
             found_any_this_enum = false;
@@ -642,6 +633,14 @@ int VDA_FILE_AUX::choose_host() {
         found_any_this_scan = true;
         last_id = enum_host.id;
 
+        // if the host is running old client software, classify it as dead
+        //
+        if (outdated_client(enum_host)) {
+            enum_host.cpu_efficiency = 1;
+            enum_host.update();
+            continue;
+        }
+
         // we have a live host.
         // see whether it satisfies max_chunks
         //
@@ -659,80 +658,5 @@ int VDA_FILE_AUX::choose_host() {
             return enum_host.id;
         }
     }
-
-#if 0
-    // replenish cache if needed
-    //
-    if (!available_hosts.size()) {
-        int nhosts_scanned = 0;
-        int max_id, rand_id;
-        for (int i=0; i<2; i++) {
-            char buf[256];
-            if (i == 0) {
-                retval = host.max_id(max_id, "");
-                if (retval) {
-                    log_messages.printf(MSG_CRITICAL, "host.max_id() failed\n");
-                    return 0;
-                }
-                rand_id = (int)(((double)max_id)*drand());
-                sprintf(buf,
-                    "where %s and id>=%d order by id limit 100",
-                    host_alive_clause(), rand_id
-                );
-            } else {
-                sprintf(buf,
-                    "where %s and id<%d order by id limit %d",
-                    host_alive_clause(), rand_id, 100-nhosts_scanned
-                );
-            }
-
-            // debugging
-            //
-            strcpy(buf, "where id=467");
-            //strcpy(buf, "where id=467 or id=166");
-
-            while (1) {
-                retval = host.enumerate(buf);
-                if (retval == ERR_DB_NOT_FOUND) break;
-                if (retval) {
-                    log_messages.printf(MSG_CRITICAL, "host enum failed\n");
-                    return 0;
-                }
-                nhosts_scanned++;
-                DB_VDA_CHUNK_HOST ch;
-                char buf2[256];
-                int count;
-                sprintf(buf2, "where vda_file_id=%d and host_id=%d", id, host.id);
-#if 0
-                retval = ch.count(count, buf2);
-                if (retval) {
-                    log_messages.printf(MSG_CRITICAL, "ch.count failed\n");
-                    return 0;
-                }
-#else
-                count = 0;
-#endif
-                if (count == 0) {
-                    available_hosts.push_back(host.id);
-                }
-                if (nhosts_scanned == 100) break;
-            }
-            if (nhosts_scanned == 100) break;
-        }
-    }
-
-    while (available_hosts.size()) {
-        int hostid = available_hosts.back();
-        available_hosts.pop_back();
-        retval = host.lookup_id(hostid);
-        if (retval || !alive(host)) {
-            continue;
-        }
-        return hostid;
-    }
-
-    log_messages.printf(MSG_CRITICAL, "No hosts available\n");
-    return 0;
-#endif
 }
 

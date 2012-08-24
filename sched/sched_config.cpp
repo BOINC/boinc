@@ -166,6 +166,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_int("feeder_query_size", feeder_query_size)) continue;
         if (xp.parse_str("httpd_user", httpd_user, sizeof(httpd_user))) continue;
         if (xp.parse_bool("enable_vda", enable_vda)) continue;
+        if (xp.parse_double("vda_host_timeout", vda_host_timeout)) continue;
         if (xp.parse_bool("enable_assignment", enable_assignment)) continue;
         if (xp.parse_bool("enable_assignment_multi", enable_assignment_multi)) continue;
         if (xp.parse_bool("job_size_matching", job_size_matching)) continue;

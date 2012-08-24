@@ -186,7 +186,7 @@ bool scan_files() {
 
 // this host is declared dead; deal with the loss of data
 //
-int handle_host(DB_HOST& h) {
+int handle_dead_host(DB_HOST& h) {
     DB_VDA_CHUNK_HOST ch;
     char buf[256];
     int retval;
@@ -218,7 +218,7 @@ int handle_host(DB_HOST& h) {
     return 0;
 }
 
-// handle timed-out hosts
+// identify and process dead (i.e. timed-out) hosts
 //
 bool scan_hosts() {
     DB_HOST h;
@@ -226,7 +226,10 @@ bool scan_hosts() {
     int retval;
     bool found = false;
 
-    sprintf(buf, "where cpu_efficiency < %f", dtime());
+    sprintf(buf,
+        "where cpu_efficiency=0 and rpc_time < %f",
+        dtime() - config.vda_host_timeout
+    );
     while (1) {
         retval = h.enumerate(buf);
         if (retval == ERR_DB_NOT_FOUND) break;
@@ -235,12 +238,12 @@ bool scan_hosts() {
             exit(1);
         }
         found = true;
-        retval = handle_host(h);
+        retval = handle_dead_host(h);
         if (retval) {
             log_messages.printf(MSG_CRITICAL, "handle_host() failed: %d\n", retval);
             exit(1);
         }
-        retval = h.update_field("cpu_efficiency=1e12");
+        retval = h.update_field("cpu_efficiency=1");
         if (retval) {
             log_messages.printf(MSG_CRITICAL, "h.update_field() failed: %d\n", retval);
             exit(1);
@@ -264,6 +267,14 @@ int main(int argc, char** argv) {
         log_messages.printf(MSG_CRITICAL, "can't parse config file\n");
         exit(1);
     }
+    if (!config.enable_vda) {
+        log_messages.printf(MSG_CRITICAL, "VDA not enabled\n");
+        exit(1);
+    }
+    if (config.vda_host_timeout == 0) {
+        log_messages.printf(MSG_CRITICAL, "Must specify VDA host timeout\n");
+        exit(1);
+    }
     retval = boinc_db.open(
         config.db_name, config.db_host, config.db_user, config.db_passwd
     );
@@ -281,8 +292,8 @@ int main(int argc, char** argv) {
     exit(0);
 #endif
     while(1) {
-        bool action = scan_files();
-        action |= scan_hosts();
+        bool action = scan_hosts();
+        action |= scan_files();
         if (!action) boinc_sleep(5.);
     }
 }

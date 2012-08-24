@@ -94,6 +94,7 @@ struct SCHED_CONFIG {
         // user name under which web server runs (default: apache)
     bool enable_assignment;
     bool enable_vda;
+    double vda_host_timeout;
     bool enable_assignment_multi;
     bool job_size_matching;
     bool dont_send_jobs;

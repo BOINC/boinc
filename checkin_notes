@@ -5702,3 +5702,25 @@ Eric K 23 Aug 2012
     /
         generate_svn_version.sh
 
+David  24 Aug 2012
+    - volunteer storage: fix the way that hosts are classified as alive/dead
+        - add a config item vda_host_timeout.
+            A host that hasn't done a scheduler RPC for this long
+            is considered dead.
+        - a host that's not running a version 7+ client is considered dead
+        - host.cpu_efficiency (an otherwise unused field) is used
+            as a flag for dead hosts
+        - the scheduler clears the flag if the client is v7+
+        - vdad sets the flag for hosts where last RPC is old
+        - before choosing a host for chunk download,
+            vdad checks its client version.
+
+    db/
+        boinc_db_types.h
+    vda/
+        vda_lib.cpp,h
+        vda_lib2.cpp
+        vdad.cpp
+        sched_vda.cpp
+    sched/
+        sched_config.cpp,h
