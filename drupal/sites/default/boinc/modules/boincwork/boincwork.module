@@ -493,8 +493,7 @@ function communityprefs_form(&$form_state) {
       '#type' => 'textarea',
       '#title' => t('Signature'),
       '#description' => t('Your signature will be publicly displayed at the end of your comments.'),
-      '#default_value' => $user->signature,
-      '#cols' => 10
+      '#default_value' => $user->signature
       );
     // Prevent a "validation error" message when the user attempts to save with a default value they
     // do not have access to.
