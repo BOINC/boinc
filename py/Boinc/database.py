@@ -55,7 +55,9 @@ class App(DatabaseObject):
                     'beta',
                     'target_nresults',
                     'min_avg_pfc',
-                    'host_scale_check'
+                    'host_scale_check',
+                    'homogeneous_app_version',
+                    'non_cpu_intensive'
                     ])
 
 class AppVersion(DatabaseObject):

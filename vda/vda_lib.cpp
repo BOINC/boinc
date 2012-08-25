@@ -67,13 +67,6 @@ const char* status_str(int status) {
     return "unknown";
 }
 
-bool outdated_client(HOST& h) {
-    char* p = strstr(h.serialnum, "BOINC|");
-    if (!p) return true;
-    int n = atoi(p + strlen("BOINC|"));
-    return (n < 7);
-}
-
 ///////////////// META_CHUNK ///////////////////////
 
 META_CHUNK::META_CHUNK(

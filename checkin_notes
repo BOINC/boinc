@@ -5724,3 +5724,27 @@ David  24 Aug 2012
         sched_vda.cpp
     sched/
         sched_config.cpp,h
+
+David  24 Aug 2012
+    - server: add support for having a mixture of CPU-intensive
+        and non-CPU-intensive applications.
+        An app can be specified as non-CPU-intensive in project.xml,
+        and this attribute can be set or cleared using the admin web interface.
+        Note: support for this was added to the client in 2011,
+        but we didn't add server-side support at that time.
+        This change is in 6.12 and later clients.
+
+    py/Boinc/
+        database.py
+    vda/
+        vda_lib.cpp,h
+    db/
+        boinc_db_types.h
+        boinc_db.cpp
+    db/
+        schema.sql
+    sched/
+        sched_types.cpp
+    html/ops/
+        db_update.php
+        manage_apps.php

@@ -71,6 +71,13 @@ function do_updates() {
         if ($new_v != $old_v ) {
             $app->update("homogeneous_app_version=$new_v");
         }
+
+        $field = "non_cpu_intensive_".$id;
+        $new_v = (post_str($field, true)=='on') ? 1 : 0;
+        $old_v = $app->non_cpu_intensive;
+        if ($new_v != $old_v ) {
+            $app->update("non_cpu_intensive=$new_v");
+        }
     }
 
     // Adding a new application
@@ -119,7 +126,8 @@ function show_form($updated) {
         "weight<br><a href=http://boinc.berkeley.edu/trac/wiki/BackendPrograms#feeder><span class=note>details</span></a>",
         "homogeneous redundancy type<br><a href=http://boinc.berkeley.edu/trac/wiki/HomogeneousRedundancy><span class=note>details</span></a>",
         "homogeneous app version?<br><a href=http://boinc.berkeley.edu/trac/wiki/HomogeneousAppVersion><span class=note>details</span></a>",
-        "deprecated?"
+        "deprecated?",
+        "Non-CPU-intensive?"
     );
 
     $total_weight = mysql_query('SELECT SUM(weight) AS total_weight FROM app WHERE deprecated=0');
@@ -174,10 +182,17 @@ function show_form($updated) {
             <input name='$field' type='checkbox' $v></TD>
         ";
 
+        $field = "non_cpu_intensive_".$id;
+        $v = '';
+        if ($item->non_cpu_intensive) $v = ' CHECKED ';
+        echo "  <TD align='center'>
+            <input name='$field' type='checkbox' $v></TD>
+        ";
+
         echo "</tr> ";
     }
     mysql_free_result($result);
-    echo "<tr><td colspan=6></td><td><input type='submit' name='update' value='Update'></td></tr>";
+    echo "<tr><td colspan=7></td><td><input type='submit' name='update' value='Update'></td></tr>";
 
     end_table();
 

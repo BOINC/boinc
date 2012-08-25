@@ -815,6 +815,13 @@ function update_6_4_2012() {
     ");
 }
 
+function update_8_24_2012() {
+    do_query("
+        alter table app
+        add non_cpu_intensive tinyint not null default 0
+    ");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -840,6 +847,7 @@ $db_updates = array (
     array(24248, "update_9_20_2011"),
     array(25169, "update_1_30_2012"),
     array(25734, "update_6_4_2012"),
+    array(26060, "update_8_24_2012"),
 );
 
 ?>

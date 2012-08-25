@@ -36,7 +36,12 @@
 extern void show_msg(char*);
 extern char* time_str(double);
 extern const char* status_str(int status);
-extern bool outdated_client(HOST&);
+inline bool outdated_client(HOST& h) {
+    char* p = strstr(h.serialnum, "BOINC|");
+    if (!p) return true;
+    int n = atoi(p + strlen("BOINC|"));
+    return (n < 7);
+}
 
 struct META_CHUNK;
 

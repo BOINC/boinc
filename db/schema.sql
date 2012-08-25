@@ -52,6 +52,7 @@ create table app (
     min_avg_pfc             double          not null default 1,
     host_scale_check        tinyint         not null default 0,
     homogeneous_app_version tinyint         not null default 0,
+    non_cpu_intensive       tinyint         not null default 0,
     primary key (id)
 ) engine=InnoDB;
 

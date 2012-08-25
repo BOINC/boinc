@@ -71,6 +71,7 @@ struct APP {
         // use host scaling cautiously, to thwart cherry picking
     bool homogeneous_app_version;
         // do all instances of each job using the same app version
+    bool non_cpu_intensive;
 
     int write(FILE*);
     void clear();
