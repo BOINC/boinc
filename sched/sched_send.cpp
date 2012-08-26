@@ -37,19 +37,20 @@
 #include "synch.h"
 
 #include "credit.h"
-#include "sched_types.h"
-#include "sched_shmem.h"
-#include "sched_config.h"
-#include "sched_util.h"
-#include "sched_main.h"
-#include "sched_array.h"
-#include "sched_msgs.h"
-#include "sched_hr.h"
 #include "hr.h"
-#include "sched_locality.h"
-#include "sched_timezone.h"
+#include "sched_array.h"
 #include "sched_assign.h"
+#include "sched_config.h"
 #include "sched_customize.h"
+#include "sched_hr.h"
+#include "sched_locality.h"
+#include "sched_main.h"
+#include "sched_msgs.h"
+#include "sched_shmem.h"
+#include "sched_score.h"
+#include "sched_timezone.h"
+#include "sched_types.h"
+#include "sched_util.h"
 #include "sched_version.h"
 
 #include "sched_send.h"
@@ -62,9 +63,31 @@
 //
 const double DEFAULT_RAM_SIZE = 64000000;
 
-void send_work_matchmaker();
-
 int preferred_app_message_index=0;
+
+// return the number of sticky files present on host, used by job
+//
+int nfiles_on_host(WORKUNIT& wu) {
+    MIOFILE mf;
+    mf.init_buf_read(wu.xml_doc);
+    XML_PARSER xp(&mf);
+    int n=0;
+    while (!xp.get_tag()) {
+        if (xp.match_tag("file_info")) {
+            FILE_INFO fi;
+            int retval = fi.parse(xp);
+            if (retval) continue;
+            for (unsigned i=0; i<g_request->file_infos.size(); i++) {
+                FILE_INFO& fi2 = g_request->file_infos[i];
+                if (!strstr(fi.name, fi2.name)) {
+                    n++;
+                    break;
+                }
+            }
+        }
+    }
+    return n;
+}
 
 const char* infeasible_string(int code) {
     switch (code) {

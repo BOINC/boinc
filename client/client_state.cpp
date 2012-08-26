@@ -564,12 +564,13 @@ int CLIENT_STATE::init() {
     //
     set_client_state_dirty("init");
 
-    // initialize GUI RPC data structures before we start accepting
-    // GUI RPC's.
+    // check for initialization files
     //
     acct_mgr_info.init();
     project_init.init();
 
+    // set up for handling GUI RPCs
+    //
     if (!no_gui_rpc) {
         // When we're running at boot time,
         // it may be a few seconds before we can socket/bind/listen.

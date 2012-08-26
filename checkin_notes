@@ -5748,3 +5748,16 @@ David  24 Aug 2012
     html/ops/
         db_update.php
         manage_apps.php
+
+David  26 Aug 2012
+    - server: compile fix
+    - server: add nfiles_on_host(),
+        a support function for "locality scheduling lite".
+
+    vda/
+        vda_lib.h
+        sched_vda.cpp
+    client/
+        client_state.cpp
+    sched/
+        sched_send.cpp
