@@ -204,7 +204,8 @@ void DB_APP::db_print(char* buf){
         "min_avg_pfc=%.15e, "
         "host_scale_check=%d, "
         "homogeneous_app_version=%d, "
-        "non_cpu_intensive=%d ",
+        "non_cpu_intensive=%d, "
+        "locality_scheduling=%d ",
         create_time,
         name,
         min_version,
@@ -217,7 +218,8 @@ void DB_APP::db_print(char* buf){
         min_avg_pfc,
         host_scale_check?1:0,
         homogeneous_app_version?1:0,
-        non_cpu_intensive?1:0
+        non_cpu_intensive?1:0,
+        locality_scheduling
     );
 }
 
@@ -238,6 +240,7 @@ void DB_APP::db_parse(MYSQL_ROW &r) {
     host_scale_check = (atoi(r[i++]) != 0);
     homogeneous_app_version = (atoi(r[i++]) != 0);
     non_cpu_intensive = (atoi(r[i++]) != 0);
+    locality_scheduling = atof(r[i++]);
 }
 
 void DB_APP_VERSION::db_print(char* buf){

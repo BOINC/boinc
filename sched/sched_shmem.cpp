@@ -115,6 +115,9 @@ int SCHED_SHMEM::scan_tables() {
             overflow("apps", "MAX_APPS");
         }
         app_weight_sum += app.weight;
+        if (app.locality_scheduling == LOCALITY_SCHED_LITE) {
+            locality_sched_lite = true;
+        }
     }
     napps = n;
 

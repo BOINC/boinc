@@ -89,6 +89,7 @@ struct SCHED_SHMEM {
     int max_app_versions;
     int max_assignments;
     int max_wu_results;
+    bool locality_sched_lite;
     bool have_apps_for_proc_type[NPROC_TYPES];
     PERF_INFO perf_info;
     PLATFORM platforms[MAX_PLATFORMS];

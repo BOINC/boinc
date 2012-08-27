@@ -74,5 +74,6 @@ extern void send_work_setup();
 extern int effective_ncpus();
 extern int preferred_app_message_index;
 extern void update_n_jobs_today();
+extern int nfiles_on_host(WORKUNIT&);
 
 #endif

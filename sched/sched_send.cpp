@@ -65,6 +65,16 @@ const double DEFAULT_RAM_SIZE = 64000000;
 
 int preferred_app_message_index=0;
 
+static inline bool file_present_on_host(const char* name) {
+    for (unsigned i=0; i<g_request->file_infos.size(); i++) {
+        FILE_INFO& fi = g_request->file_infos[i];
+        if (!strstr(name, fi.name)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 // return the number of sticky files present on host, used by job
 //
 int nfiles_on_host(WORKUNIT& wu) {
@@ -77,16 +87,34 @@ int nfiles_on_host(WORKUNIT& wu) {
             FILE_INFO fi;
             int retval = fi.parse(xp);
             if (retval) continue;
-            for (unsigned i=0; i<g_request->file_infos.size(); i++) {
-                FILE_INFO& fi2 = g_request->file_infos[i];
-                if (!strstr(fi.name, fi2.name)) {
-                    n++;
-                    break;
-                }
+            if (!fi.sticky) continue;
+            if (file_present_on_host(fi.name)) {
+                n++;
             }
         }
     }
     return n;
+}
+
+// we're going to send the client this job,
+// and the app uses locality scheduling lite.
+// Add the job's sticky files to the list of files present on host.
+//
+void add_job_files_to_host(WORKUNIT& wu) {
+    MIOFILE mf;
+    mf.init_buf_read(wu.xml_doc);
+    XML_PARSER xp(&mf);
+    while (!xp.get_tag()) {
+        if (xp.match_tag("file_info")) {
+            FILE_INFO fi;
+            int retval = fi.parse(xp);
+            if (retval) continue;
+            if (!fi.sticky) continue;
+            if (!file_present_on_host(fi.name)) {
+                g_request->file_infos.push_back(fi);
+            }
+        }
+    }
 }
 
 const char* infeasible_string(int code) {
@@ -1370,6 +1398,13 @@ int add_result_to_reply(
                 );
             }
         }
+    }
+
+    // if the app uses locality scheduling lite,
+    // add the job's files to the list of those on host
+    //
+    if (app->locality_scheduling == LOCALITY_SCHED_LITE) {
+        add_job_files_to_host(wu);
     }
 
     return 0;

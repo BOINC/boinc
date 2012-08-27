@@ -113,12 +113,13 @@ struct HOST_USAGE {
     }
 };
 
-// a description of a sticky file on host.
+// a description of a sticky file on host, or a job input file
 //
 struct FILE_INFO {
     char name[256];
     double nbytes;
     int status;
+    bool sticky;
 
     int parse(XML_PARSER&);
 };
@@ -359,6 +360,8 @@ struct WORK_REQ {
     bool reliable_only;
     bool user_apps_only;
     bool beta_only;
+    bool locality_sched_lite;
+        // for LSL apps, send only jobs where client has > 0 files
 
     bool resend_lost_results;
         // this is set if the request is reporting a result

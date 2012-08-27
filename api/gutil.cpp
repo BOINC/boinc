@@ -546,48 +546,6 @@ Vertex g_quadVertices[] = {
     { 0.0f,1.0f, -1.0f, 1.0f, 0.0f }
 };
 
-// read a PPM file
-// to generate PPM from JPEG:
-// mogrify -format ppm foo.jpg
-// or xv foo.jpg; right click on image, choose PPM
-//
-int read_ppm_file(const char* name, int& w, int& h, unsigned char** arrayp) {
-    FILE* f;
-    char buf[256];
-    char img_type;
-    unsigned char* array;
-    int i;
-
-    f = boinc_fopen(name, "rb");
-    if (!f) return -1;
-    do {fgets(buf, 256, f);} while (buf[0] == '#');
-    if (buf[0] != 'P') {
-        return -1;
-    }
-    img_type = buf[1];
-    do {fgets(buf, 256, f);} while (buf[0] == '#');
-    sscanf(buf, "%d %d", &w, &h);
-    do {fgets(buf, 256, f);} while (buf[0] == '#');
-    array = (unsigned char*)malloc(w*h*3);
-    if (!array) return -1;
-    switch(img_type) {  // TODO: pad image dimension to power of 2
-    case '3':
-        for (i=0; i<w*h*3; i++) {
-            int x;
-            fscanf(f, "%d", &x);
-            array[i] = x;
-        }
-    case '6':
-        fread(array, 3, w*h, f);
-        break;
-    }
-
-    *arrayp = array;
-    fclose(f);
-    return 0;
-}
-
-
 // draw a texture at a given position and size.
 // Change size if needed so aspect ratio of texture isn't changed
 //
@@ -749,25 +707,6 @@ int TEXTURE_DESC::CreateTextureJPG(const char* strFileName) {
 	return 0;
 }
 
-int TEXTURE_DESC::CreateTexturePPM(const char* strFileName) {
-	unsigned char* pixels;
-    int width, height, retval;
-    retval = read_ppm_file(strFileName, width, height, &pixels);
-    if (retval) return retval;
-	glPixelStorei(GL_UNPACK_ALIGNMENT,1);
-    glGenTextures(1, (GLuint*)&id);
-    glBindTexture(GL_TEXTURE_2D, id);
-	gluBuild2DMipmaps(GL_TEXTURE_2D,3,width,height,GL_RGB,GL_UNSIGNED_BYTE,pixels);
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);
-    xsize = width;
-    ysize = height;
-    if (pixels) {
-        free(pixels);
-    }
-	return 0;
-}
-
 int TEXTURE_DESC::load_image_file(const char* filename) {
     int retval;
     FILE* f;
@@ -783,13 +722,6 @@ int TEXTURE_DESC::load_image_file(const char* filename) {
         fprintf(stderr, "Successfully loaded '%s'.\n", filename);
         return 0;
     }
-#ifdef _WIN32
-    retval = CreateTexturePPM(filename);
-    if (!retval) {
-        fprintf(stderr, "Successfully loaded '%s'.\n", filename);
-        return 0;
-    }
-#endif
 done:
     present = false;
     fprintf(stderr, "Failed to load '%s'.\n", filename);

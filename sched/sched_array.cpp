@@ -117,6 +117,22 @@ static bool quick_check(
         return false;
     }
 
+    // locality sched lite check.
+    // Note: allow non-LSL jobs; otherwise we could starve them
+    //
+    if (g_wreq->locality_sched_lite) {
+        if (app->locality_scheduling == LOCALITY_SCHED_LITE) {
+            if (nfiles_on_host(wu_result.workunit) == 0) {
+                if (config.debug_array) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[array] no files on host\n"
+                    );
+                }
+                return false;
+            }
+        }
+    }
+
     // Find the app and best app_version for this host.
     //
     bavp = get_app_version(wu, true, g_wreq->reliable_only);
@@ -471,17 +487,24 @@ void send_work_old() {
             );
         }
         if (scan_work_array()) return;
+        g_wreq->beta_only = false;
     }
-    g_wreq->beta_only = false;
 
     // give next priority to results that were infeasible for some other host
     //
     g_wreq->infeasible_only = true;
-    if (scan_work_array()) return;;
-
-    // that takes care of high-priority cases.  Now do general scan.
-    //
+    if (scan_work_array()) return;
     g_wreq->infeasible_only = false;
+
+    // if some app uses locality sched lite,
+    // make a pass accepting only jobs for which the client has a file
+    //
+    g_wreq->locality_sched_lite = true;
+    if (scan_work_array()) return;
+    g_wreq->locality_sched_lite = false;
+
+    // end of high-priority cases.  Now do general scan.
+    //
     if (scan_work_array()) return;
 
     // If user has selected apps but will accept any,

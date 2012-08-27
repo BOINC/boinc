@@ -53,6 +53,7 @@ create table app (
     host_scale_check        tinyint         not null default 0,
     homogeneous_app_version tinyint         not null default 0,
     non_cpu_intensive       tinyint         not null default 0,
+    locality_scheduling     integer         not null default 0,
     primary key (id)
 ) engine=InnoDB;
 

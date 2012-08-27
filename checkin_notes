@@ -5761,3 +5761,23 @@ David  26 Aug 2012
         client_state.cpp
     sched/
         sched_send.cpp
+
+David  27 Aug 2012
+    - scheduler: add support for limited locality scheduling
+    - API: remove support for PPM files
+
+    api/
+        gutil.cpp
+    db/
+        boinc_db_types.h
+        boinc_db.cpp
+        schema.sql
+    sched/
+        sched_shmem.cpp
+        sched_array.cpp
+        sched_send.cpp,h
+        sched_types.cpp,h
+        sched_shmem.h
+    html/ops/
+        db_update.php
+

@@ -49,6 +49,9 @@ struct PLATFORM {
     void clear();
 };
 
+#define LOCALITY_SCHED_NONE     0
+#define LOCALITY_SCHED_LITE     1
+
 // An application.
 //
 struct APP {
@@ -72,6 +75,8 @@ struct APP {
     bool homogeneous_app_version;
         // do all instances of each job using the same app version
     bool non_cpu_intensive;
+    int locality_scheduling;
+        // type of locality scheduling used by this app (see above)
 
     int write(FILE*);
     void clear();
