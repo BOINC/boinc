@@ -3802,14 +3802,6 @@
 					"-lbz2",
 				);
 				PRODUCT_NAME = boincscr;
-				WARNING_LDFLAGS = (
-					"-lresolv",
-					"-ljpeg",
-					"../../freetype-2.4.10/objs/.libs/libfreetype.a",
-					"../../ftgl-2.1.3~rc5/src/.libs/libftgl.a",
-					"-lz",
-					"-lbz2",
-				);
 			};
 			name = Development;
 		};
@@ -3835,14 +3827,6 @@
 					"-lbz2",
 				);
 				PRODUCT_NAME = boincscr;
-				WARNING_LDFLAGS = (
-					"-lresolv",
-					"-ljpeg",
-					"../../freetype-2.4.10/objs/.libs/libfreetype.a",
-					"../../ftgl-2.1.3~rc5/src/.libs/libftgl.a",
-					"-lz",
-					"-lbz2",
-				);
 			};
 			name = Deployment;
 		};
