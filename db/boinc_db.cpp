@@ -240,7 +240,7 @@ void DB_APP::db_parse(MYSQL_ROW &r) {
     host_scale_check = (atoi(r[i++]) != 0);
     homogeneous_app_version = (atoi(r[i++]) != 0);
     non_cpu_intensive = (atoi(r[i++]) != 0);
-    locality_scheduling = atof(r[i++]);
+    locality_scheduling = atoi(r[i++]);
 }
 
 void DB_APP_VERSION::db_print(char* buf){

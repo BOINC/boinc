@@ -18,6 +18,7 @@ scenario 1:
 - encode 0.0
 - delete 0.0
 - delete 0.0.0, 0.0.1
+- mark 0.0.2 for download
 
 after decide:
 0.0: need_recon
