@@ -50,10 +50,6 @@ static bool quick_check(
 ) {
     int retval;
 
-    if (wu_result.state != WR_STATE_PRESENT && wu_result.state != g_pid) {
-        return false;
-    }
-
     app = ssp->lookup_app(wu_result.workunit.appid);
     if (app == NULL) {
         log_messages.printf(MSG_CRITICAL,
@@ -374,15 +370,22 @@ static bool scan_work_array() {
 
         WU_RESULT& wu_result = ssp->wu_results[i];
 
+#if 0
         if (config.debug_array) {
             log_messages.printf(MSG_NORMAL,
                 "[array] scanning slot %d\n", i
             );
         }
+#endif
+
         // make a copy of the WORKUNIT part,
         // which we can modify without affecting the cache
         //
         WORKUNIT wu = wu_result.workunit;
+
+        if (wu_result.state != WR_STATE_PRESENT && wu_result.state != g_pid) {
+            continue;
+        }
 
         // do fast (non-DB) checks.
         // This may modify wu.rsc_fpops_est
@@ -390,7 +393,7 @@ static bool scan_work_array() {
         if (!quick_check(wu_result, wu, bavp, app, last_retval)) {
             if (config.debug_array) {
                 log_messages.printf(MSG_NORMAL,
-                    "[array] failed quick check\n"
+                    "[array] slot %d failed quick check\n", i
                 );
             }
             continue;

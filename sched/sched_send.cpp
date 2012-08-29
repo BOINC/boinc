@@ -1841,10 +1841,12 @@ void send_work_setup() {
                 );
             }
         }
+#if 0
         log_messages.printf(MSG_NORMAL,
             "[send] p_vm_extensions_disabled: %s\n",
             g_request->host.p_vm_extensions_disabled?"yes":"no"
         );
+#endif
         log_messages.printf(MSG_NORMAL,
             "[send] CPU features: %s\n", g_request->host.p_features
         );

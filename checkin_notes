@@ -5791,3 +5791,11 @@ David  28 Aug 2012
         sched_array.cpp
     lib/
         str_util.cpp
+
+David  29 Aug 2012
+    - scheduler: msg tweaks
+
+    sched/
+        sched_send.cpp
+        sched_array.cpp
+        handle_request.cpp

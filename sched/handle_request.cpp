@@ -1121,11 +1121,6 @@ void process_request(char* code_sign_key) {
             have_no_work = ssp->no_work(g_pid);
             if (have_no_work) {
                 g_wreq->no_jobs_available = true;
-                if (config.debug_send) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[send] No jobs in shmem\n"
-                    );
-                }
             }
             unlock_sema();
         }
@@ -1292,6 +1287,14 @@ void process_request(char* code_sign_key) {
     if (requesting_work()) {
         if (!send_code_sign_key(code_sign_key)) {
             ok_to_send_work = false;
+        }
+
+        if (have_no_work) {
+            if (config.debug_send) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send] No jobs in shmem cache\n"
+                );
+            }
         }
 
         // if last RPC was within config.min_sendwork_interval, don't send work
