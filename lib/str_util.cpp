@@ -607,7 +607,7 @@ const char* suspend_reason_string(int reason) {
     case SUSPEND_REASON_INITIAL_DELAY: return "initial delay";
     case SUSPEND_REASON_EXCLUSIVE_APP_RUNNING: return "an exclusive app is running";
     case SUSPEND_REASON_CPU_USAGE: return "CPU is busy";
-    case SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED: return "network bandwidth limit exceeded";
+    case SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED: return "network transfer limit exceeded";
     case SUSPEND_REASON_OS: return "requested by operating system";
     case SUSPEND_REASON_WIFI_STATE: return "device is not on wifi";
     }

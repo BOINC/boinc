@@ -111,6 +111,9 @@ void add_job_files_to_host(WORKUNIT& wu) {
             if (retval) continue;
             if (!fi.sticky) continue;
             if (!file_present_on_host(fi.name)) {
+                log_messages.printf(MSG_NORMAL,
+                    "Adding file %s to host file list\n", fi.name
+                );
                 g_request->file_infos.push_back(fi);
             }
         }

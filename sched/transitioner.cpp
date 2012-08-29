@@ -632,7 +632,7 @@ int handle_wu(
     if (deferred_file_delete_time
         && deferred_file_delete_time < wu_item.transition_time
     ) {
-        wu_item.transition_time = deferred_file_delete_time;
+        wu_item.transition_time = (int)deferred_file_delete_time;
     }
 
     // Handle transitioner overload.

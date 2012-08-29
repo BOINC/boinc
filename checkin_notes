@@ -5781,3 +5781,13 @@ David  27 Aug 2012
     html/ops/
         db_update.php
 
+David  28 Aug 2012
+    - scheduler: improved log messages for limited locality scheduling
+
+    sched/
+        sched_send.cpp
+        transitioner.cpp
+        sched_shmem.h
+        sched_array.cpp
+    lib/
+        str_util.cpp
