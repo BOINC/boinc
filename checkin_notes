@@ -5799,3 +5799,19 @@ David  29 Aug 2012
         sched_send.cpp
         sched_array.cpp
         handle_request.cpp
+
+David  30 Aug 2012
+    - remote job submission: start writing a general-purpose
+        cmdline tool for remote job submission (not done)
+    - remote job submission: support the 4 file modes described
+        in the documentation (not done)
+
+    html/inc/
+        submit.inc
+    vda/
+        sched_vda.cpp
+    sched/
+        sched_send.cpp
+        sched_array.cpp
+    tools/
+        remote_submit (new)

@@ -1,0 +1,118 @@
+#! /usr/bin/env php
+<?php
+
+// FIRST WHACK AT A REMOTE JOB SUBMISSION TOOL; NOT FINISHED
+
+
+require_once("../html/inc/submit.inc");
+
+//define("PROJECT", "http://casbak.ihep.ac.cn/castest/");
+define("PROJECT", "http://isaac.ssl.berkeley.edu/test/");
+define("APP_NAME", "uppercase");
+
+function usage() {
+    die("
+Usage:
+submit sequence_file
+    submit 1 job, print batch ID
+get_output batch_id
+    show URL of output file
+abort batch_id
+retire batch_id
+");
+}
+
+function get_auth() {
+    return trim(file_get_contents("auth"));
+}
+
+function handle_submit() {
+    global $argc, $argv;
+    if ($argc != 3) usage();
+    //if (!is_file($argv[2])) die("seq file missing");
+    $req->project = PROJECT;
+    $req->authenticator = get_auth();
+    $req->app_name = APP_NAME;
+    $req->batch_name = "foobar";
+
+    $f->source = $argv[2];
+    $job->input_files = array($f);
+    $job->rsc_fpops_est = 1e12;
+    $job->command_line = "";
+    $req->jobs[] = $job;
+    list($id, $errmsg) = boinc_submit_batch($req);
+    if ($errmsg) {
+        echo "Error: $errmsg\n";
+    } else {
+        echo "batch ID: $id\n";
+    }
+}
+
+function handle_query() {
+    $req->project = PROJECT;
+    $req->authenticator = get_auth();
+    list($batches, $errmsg) = boinc_query_batches($req);
+    if ($errmsg) {
+        echo "Error: $errmsg\n";
+        return;
+    }
+    foreach ($batches as $batch) {
+        echo "batch $batch->id: ";
+        switch ($batch->state) {
+        case 1: echo "In progress"; break;
+        case 2: echo "Completed"; break;
+        case 3: echo "Aborted"; break;
+        case 4: echo "Retired"; break;
+        }
+    }
+}
+
+function handle_get_output() {
+    global $argc, $argv;
+    if ($argc != 3) usage();
+    $req->project = PROJECT;
+    $req->authenticator = get_auth();
+    $req->batch_id = $argv[2];
+    $url = boinc_get_output_files($req);
+    echo "Zipped output files are at $url\n";
+}
+
+function handle_abort() {
+    global $argc, $argv;
+    if ($argc != 3) usage();
+    $req->project = PROJECT;
+    $req->authenticator = get_auth();
+    $req->batch_id = $argv[2];
+    $errmsg = boinc_abort_batch($req);
+    if ($errmsg) {
+        echo "Error: $errmsg\n";
+    } else {
+        echo "Batch aborted\n";
+    }
+}
+
+function handle_retire() {
+    global $argc, $argv;
+    if ($argc != 3) usage();
+    $req->project = PROJECT;
+    $req->authenticator = get_auth();
+    $req->batch_id = $argv[2];
+    $errmsg = boinc_retire_batch($req);
+    if ($errmsg) {
+        echo "Error: $errmsg\n";
+    } else {
+        echo "Batch retired\n";
+    }
+}
+
+if ($argc < 2) usage();
+switch ($argv[1]) {
+case "submit": handle_submit(); break;
+case "query": handle_query(); break;
+case "get_output": handle_get_output(); break;
+case "abort": handle_abort(); break;
+case "retire": handle_retire(); break;
+default: usage();
+}
+   
+?>

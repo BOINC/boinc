@@ -194,17 +194,23 @@ static int process_completed_upload(char* phys_filename, CHUNK_LIST& chunks) {
         } else {
             char dst_path[1024];
             sprintf(buf, "%s/data.vda", chunk_dir);
-            readlink(buf, dst_path, sizeof(dst_path));
-            sprintf(buf, "mv %s %s; chmod g+rw %s", path, dst_path, dst_path);
-            retval = system(buf);
-            if (retval == -1 || WEXITSTATUS(retval)) {
-                log_messages.printf(MSG_NORMAL,
-                    "[vda] command failed: %s\n", buf
+            ssize_t n = readlink(buf, dst_path, sizeof(dst_path));
+            if (n < 0) {
+                log_messages.printf(MSG_CRITICAL,
+                    "[vda] readlink() failed\n"
                 );
             } else {
-                log_messages.printf(MSG_NORMAL,
-                    "[vda] file move succeeded: %s\n", buf
-                );
+                sprintf(buf, "mv %s %s; chmod g+rw %s", path, dst_path, dst_path);
+                retval = system(buf);
+                if (retval == -1 || WEXITSTATUS(retval)) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[vda] command failed: %s\n", buf
+                    );
+                } else {
+                    log_messages.printf(MSG_NORMAL,
+                        "[vda] file move succeeded: %s\n", buf
+                    );
+                }
             }
             retval = vf.update_field("need_update=1");
         }

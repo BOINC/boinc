@@ -85,9 +85,9 @@ static bool quick_check(
         }
     }
 
-    // If this is a reliable host and we are checking for results that
-    // need a reliable host, then continue if the result is a normal result
-    // skip if the app is beta (beta apps don't use the reliable mechanism)
+    // Are we scanning for need_reliable results?
+    // skip this check the app is beta
+    // (beta apps don't use the reliable mechanism)
     //
     if (!app->beta) {
         if (g_wreq->reliable_only && (!wu_result.need_reliable)) {
@@ -347,11 +347,15 @@ static bool result_still_sendable(DB_RESULT& result, WORKUNIT& wu) {
 // infeasible_only:
 //      send only results that were previously infeasible for some host
 // reliable_only:
-//      send only retries
+//      send only jobs with "need_reliable" set (e.g. retries)
+//      and send them only w/ app versions that are "reliable" for this host
 // user_apps_only:
 //      Send only jobs for apps selected by user
 // beta_only:
 //      Send only jobs for beta-test apps
+// locality_sched_lite:
+//      For apps that use locality sched Lite,
+//      send only jobs for which the host already has at least 1 file
 //
 // Return true if no more work is needed.
 //

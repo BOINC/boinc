@@ -1158,7 +1158,7 @@ bool work_needed(bool locality_sched) {
         return false;
     }
 
-#if 1
+#if 0
     if (config.debug_send) {
         char buf[256], buf2[256];
         strcpy(buf, "");
