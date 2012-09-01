@@ -63,6 +63,7 @@ function handle_submit($r, $user, $app) {
 		if ($ret === false) {
 			error("can't create job");
         }
+        $i++;
 	}
 	echo "<tt_reply>\n<batch_id>$batch_id</batch_id>\n</tt_reply>\n";
 }
