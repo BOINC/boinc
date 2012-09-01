@@ -16,3 +16,4 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 extern void send_work_old();
+extern int send_nci();

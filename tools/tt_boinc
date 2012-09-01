@@ -49,6 +49,7 @@ function handle_submit() {
 ";
     list($reply, $errmsg) = do_http_op($req_xml, $argv[2]);
     if ($errmsg) die("Error: $errmsg\n");
+    if ($reply->message) die("Error: $reply->message);
     echo "batch ID: ".(int)$reply->batch_id."\n";
 }
 

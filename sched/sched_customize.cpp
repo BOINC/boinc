@@ -721,6 +721,7 @@ bool JOB::get_score() {
     WU_RESULT& wu_result = ssp->wu_results[index];
     wu = wu_result.workunit;
     app = ssp->lookup_app(wu.appid);
+    if (app->non_cpu_intensive) return false;
 
     score = 0;
 

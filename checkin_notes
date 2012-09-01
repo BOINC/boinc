@@ -5815,3 +5815,29 @@ David  30 Aug 2012
         sched_array.cpp
     tools/
         remote_submit (new)
+
+David  30 Aug 2012
+    - scheduler: support for projects with some non-CPU-intensive apps
+        (but not all) wasn't finished.
+        New logic: if the project has an NCI app then:
+        - make a list of NCI apps for which the client doesn't have
+            a job in progress.
+        - try to send one job for each of these apps
+        - do this even if no work is being requested.
+        - don't send jobs for NCI apps by other mechanisms
+
+    NOTE: the client logic isn't quite right for mixed NCI projects.
+        If there's no job for a given NCI app,
+        the client should do a scheduler RPC.
+        This isn't critical so we won't do this now.
+
+    db/
+        boinc_db_types.h
+    sched/
+        handle_request.cpp
+        sched_array.cpp,h
+        sched_shmem.cpp,h
+        sched_customize.cpp
+        sched_send.cpp
+    tools/
+        tt_boinc

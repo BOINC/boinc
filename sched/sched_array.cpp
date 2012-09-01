@@ -46,18 +46,10 @@ static bool quick_check(
     WORKUNIT& wu,       // a mutable copy of wu_result.workunit.
         // We may modify its delay_bound and rsc_fpops_est
     BEST_APP_VERSION* &bavp,
-    APP* &app, int& last_retval
+    APP* app,
+    int& last_retval
 ) {
     int retval;
-
-    app = ssp->lookup_app(wu_result.workunit.appid);
-    if (app == NULL) {
-        log_messages.printf(MSG_CRITICAL,
-            "[WU#%d] no app\n",
-            wu_result.workunit.id
-        );
-        return false; // this should never happen
-    }
 
     g_wreq->no_jobs_available = false;
 
@@ -382,14 +374,25 @@ static bool scan_work_array() {
         }
 #endif
 
+        if (wu_result.state != WR_STATE_PRESENT && wu_result.state != g_pid) {
+            continue;
+        }
+
         // make a copy of the WORKUNIT part,
         // which we can modify without affecting the cache
         //
         WORKUNIT wu = wu_result.workunit;
 
-        if (wu_result.state != WR_STATE_PRESENT && wu_result.state != g_pid) {
-            continue;
+        app = ssp->lookup_app(wu_result.workunit.appid);
+        if (app == NULL) {
+            log_messages.printf(MSG_CRITICAL,
+                "[WU#%d] no app\n",
+                wu_result.workunit.id
+            );
+            continue; // this should never happen
         }
+
+        if (app->non_cpu_intensive) continue;
 
         // do fast (non-DB) checks.
         // This may modify wu.rsc_fpops_est
@@ -550,6 +553,85 @@ void send_work_old() {
         }
         scan_work_array();
     }
+}
+
+
+// try to send a job for the given app
+//
+int send_job_for_app(APP& app) {
+    int retval = 0;
+    BEST_APP_VERSION* bavp;
+    SCHED_DB_RESULT result;
+
+    lock_sema();
+    for (int i=0; i<ssp->max_wu_results; i++) {
+        WU_RESULT& wu_result = ssp->wu_results[i];
+        if (wu_result.state != WR_STATE_PRESENT) continue;
+        WORKUNIT wu = wu_result.workunit;
+        if (wu.appid != app.id) continue;
+        if (!quick_check(wu_result, wu, bavp, &app, retval)) {
+            unlock_sema();
+            return -1;
+        }
+        wu_result.state = g_pid;
+        unlock_sema();
+        result.id = wu_result.resultid;
+        if (result_still_sendable(result, wu)) {
+            if (config.debug_send) {
+                log_messages.printf(MSG_NORMAL,
+                    "Sending non-CPU-intensive job: %s\n", wu.name
+                );
+            }
+            add_result_to_reply(result, wu, bavp, false);
+            break;
+        }
+        lock_sema();
+    }
+    unlock_sema();
+    return 0;
+}
+
+// try to send jobs for non-CPU-intensive (NCI) apps
+// for which the host doesn't have a job in progress
+//
+int send_nci() {
+    int retval;
+    vector<APP> nci_apps;
+    char buf[1024];
+
+    // make a vector of NCI apps
+    //
+    for (int i=0; i<ssp->napps; i++) {
+        APP& app = ssp->apps[i];
+        if (!app.non_cpu_intensive) continue;
+        app.have_job = false;
+        nci_apps.push_back(app);
+    }
+
+    // scan through the list of in-progress jobs,
+    // flagging the associated apps as having jobs
+    //
+    for (unsigned int i=0; i<g_request->other_results.size(); i++) {
+        DB_RESULT r;
+        OTHER_RESULT &ores = g_request->other_results[i];
+        sprintf(buf, "where name='%s'", ores.name);
+        retval = r.lookup(buf);
+        if (retval) {
+            log_messages.printf(MSG_NORMAL, "No such result: %s\n", ores.name);
+            continue;
+        }
+        APP* app = ssp->lookup_app(r.appid);
+        app->have_job = true;
+    }
+
+    // For each NCI app w/o a job, try to send one
+    //
+    for (unsigned int i=0; i<nci_apps.size(); i++) {
+        APP& app = nci_apps[i];
+        if (app.have_job) continue;
+        send_job_for_app(app);
+    }
+    return 0;
 }
 
 const char *BOINC_RCSID_d9f764fd14="$Id$";

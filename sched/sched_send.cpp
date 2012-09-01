@@ -1909,15 +1909,7 @@ int update_host_app_versions(vector<SCHED_DB_RESULT>& results, int hostid) {
 void send_work() {
     int retval;
 
-    if (!work_needed(false)) {
-        send_user_messages();
-        return;
-    }
     g_wreq->no_jobs_available = true;
-
-    if (!g_wreq->rsc_spec_request && g_wreq->seconds_to_fill == 0) {
-        return;
-    }
 
     if (all_apps_use_hr && hr_unknown_platform(g_request->host)) {
         log_messages.printf(MSG_NORMAL,
@@ -1954,6 +1946,17 @@ void send_work() {
             g_request->global_prefs.work_buf_min(),
             g_wreq->effective_ncpus, g_request->ip_results
         );
+    }
+
+    // send non-CPU-intensive jobs if needed
+    //
+    if (ssp->have_nci_app) {
+        send_nci();
+    }
+
+    if (!work_needed(false)) {
+        send_user_messages();
+        return;
     }
 
     if (config.locality_scheduler_fraction > 0) {

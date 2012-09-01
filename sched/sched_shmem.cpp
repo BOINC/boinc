@@ -35,6 +35,7 @@ using std::vector;
 #include "boinc_fcgi.h"
 #endif
 
+#include "sched_config.h"
 #include "sched_msgs.h"
 #include "sched_types.h"
 #include "sched_util.h"
@@ -117,6 +118,13 @@ int SCHED_SHMEM::scan_tables() {
         app_weight_sum += app.weight;
         if (app.locality_scheduling == LOCALITY_SCHED_LITE) {
             locality_sched_lite = true;
+        }
+        if (app.non_cpu_intensive) {
+            have_nci_app = true;
+        }
+        if (config.non_cpu_intensive) {
+            have_nci_app = true;
+            app.non_cpu_intensive = true;
         }
     }
     napps = n;

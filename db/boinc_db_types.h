@@ -80,6 +80,9 @@ struct APP {
 
     int write(FILE*);
     void clear();
+
+    // not in DB:
+    bool have_job;
 };
 
 // A version of an application.
