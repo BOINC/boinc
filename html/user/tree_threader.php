@@ -58,7 +58,7 @@ function handle_submit($r, $user, $app) {
 	foreach ($files as $file) {
         $file = trim($file);
         $wu_name = "ICT_".$batch_id."_$i";
-		$cmd = "cd ../..; ./bin/create_work --appname $app_name --batch $batch_id --wu_name $wu_name --wu_template templates/ICT_in --result_template templates/ICT_out $file ss3.kmeans.8 $seq_fname";
+		$cmd = "cd ../..; ./bin/create_work --appname $app_name --batch $batch_id --wu_name $wu_name --wu_template templates/ICT_in --result_template templates/ICT_out $seq_fname $file";
 		$ret = system($cmd);
 		if ($ret === false) {
 			error("can't create job");
