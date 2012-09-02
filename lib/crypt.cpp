@@ -602,8 +602,8 @@ char *check_validity(
 
     DIRREF dir = dir_open(certPath);
 
-    char file[256];
-    while (dir_scan(file, dir, sizeof(file))) {
+    char file[MAXPATHLEN];
+    while (!dir_scan(file, dir, sizeof(file))) {
         char fpath[MAXPATHLEN];
 	    snprintf(fpath, sizeof(fpath), "%s/%s", certPath, file);
         // TODO : replace '128'  

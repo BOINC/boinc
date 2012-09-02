@@ -5841,3 +5841,13 @@ David  30 Aug 2012
         sched_send.cpp
     tools/
         tt_boinc
+
+David  2 Sept 2012
+    - client: fix bug that broke file signing with X.509 certificates.
+        From matszpk.  Fixes #1168.
+
+    lib/
+        filesys.cpp,h
+        crypt.cpp
+    client/
+        cs_files.cpp

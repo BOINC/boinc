@@ -55,7 +55,7 @@ extern "C" {
   extern void boinc_getcwd(char*);
   extern void relative_to_absolute(const char* relname, char* path);
   extern int boinc_make_dirs(const char*, const char*);
-  extern char boinc_failed_file[256];
+  extern char boinc_failed_file[MAXPATHLEN];
   extern int is_file(const char* path);
   extern int is_dir(const char* path);
   extern int is_dir_follow_symlinks(const char* path);
@@ -82,7 +82,7 @@ extern int get_filesystem_info(double& total, double& free, char* path=const_cas
 //
 #if defined(_WIN32) && !defined(__CYGWIN32__)
 typedef struct _DIR_DESC {
-    char path[256];
+    char path[MAXPATHLEN];
     bool first;
     void* handle;
 } DIR_DESC;

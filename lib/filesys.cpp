@@ -82,7 +82,7 @@ typedef BOOL (CALLBACK* FreeFn)(LPCSTR, PULARGE_INTEGER, PULARGE_INTEGER, PULARG
 
 using std::string;
 
-char boinc_failed_file[256];
+char boinc_failed_file[MAXPATHLEN];
 
 // routines for enumerating the entries in a directory
 
@@ -206,7 +206,7 @@ void dir_close(DIRREF dirp) {
 }
 
 bool is_dir_empty(const char *p) {
-    char file[256];
+    char file[MAXPATHLEN];
 
     DIRREF dir = dir_open(p);
     if (!dir) return true;
@@ -360,7 +360,7 @@ int boinc_truncate(const char* path, double size) {
 // remove everything from specified directory
 //
 int clean_out_dir(const char* dirpath) {
-    char filename[256], path[MAXPATHLEN];
+    char filename[MAXPATHLEN], path[MAXPATHLEN];
     int retval;
     DIRREF dirp;
 
@@ -732,13 +732,13 @@ int FILE_LOCK::unlock(const char* filename) {
 
 void boinc_getcwd(char* path) {
 #ifdef _WIN32
-    getcwd(path, 256);
+    getcwd(path, MAXPATHLEN);
 #else
     char* p 
 #ifdef __GNUC__
       __attribute__ ((unused))
 #endif
-      = getcwd(path, 256);
+      = getcwd(path, MAXPATHLEN);
 #endif
 }
 
@@ -754,8 +754,8 @@ void relative_to_absolute(const char* relname, char* path) {
 //
 #ifdef _WIN32
 int get_filesystem_info(double &total_space, double &free_space, char*) {
-    char buf[256];
-    boinc_getcwd(buf);
+    char cwd[MAXPATHLEN];
+    boinc_getcwd(cwd);
     FreeFn pGetDiskFreeSpaceEx;
     pGetDiskFreeSpaceEx = (FreeFn)GetProcAddress(
         GetModuleHandleA("kernel32.dll"), "GetDiskFreeSpaceExA"
@@ -765,7 +765,7 @@ int get_filesystem_info(double &total_space, double &free_space, char*) {
         ULARGE_INTEGER TotalNumberOfBytes;
         ULARGE_INTEGER FreeBytesAvailable;
         pGetDiskFreeSpaceEx(
-            buf, &FreeBytesAvailable, &TotalNumberOfBytes,
+            cwd, &FreeBytesAvailable, &TotalNumberOfBytes,
             &TotalNumberOfFreeBytes
         );
         signed __int64 uMB;
@@ -779,7 +779,7 @@ int get_filesystem_info(double &total_space, double &free_space, char*) {
         DWORD dwFreeClusters;
         DWORD dwTotalClusters;
         GetDiskFreeSpaceA(
-            buf, &dwSectPerClust, &dwBytesPerSect, &dwFreeClusters,
+            cwd, &dwSectPerClust, &dwBytesPerSect, &dwFreeClusters,
             &dwTotalClusters
         );
         free_space = (double)dwFreeClusters * dwSectPerClust * dwBytesPerSect;
