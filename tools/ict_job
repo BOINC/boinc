@@ -5,16 +5,19 @@
 // from the Institute for Computing Technology in Beijing
 //
 
-define("PROJECT", "http://casbak.ihep.ac.cn/castest/");
+define("PROJECT", "http://casbak.ihep.ac.cn/casw/");
 
 function usage() {
+    global $argv;
     die("
 Usage:
-tt_boinc submit sequence_file authenticator
-    submit batch, print batch ID
-tt_boinc get_output batch_id auth
-    show URL of output file
-");
+$argv[0] submit sequence_file	(submit batch, print batch ID)
+$argv[0] get_output batch_id 	(show URL of output file)
+\n");
+}
+
+function get_auth() {
+    return trim(file_get_contents("auth"));
 }
 
 function do_http_op($xml, $file=null) {
@@ -38,9 +41,10 @@ function do_http_op($xml, $file=null) {
 
 function handle_submit() {
     global $argc, $argv;
-    if ($argc != 4) usage();
+    if ($argc != 3) usage();
     if (!is_file($argv[2])) die("seq file missing");
-    $auth = $argv[3];
+    //$auth = $argv[3];
+    $auth = get_auth();
     $req_xml = "
 <tt_request>
     <action>submit</action>
@@ -49,15 +53,16 @@ function handle_submit() {
 ";
     list($reply, $errmsg) = do_http_op($req_xml, $argv[2]);
     if ($errmsg) die("Error: $errmsg\n");
-    if ($reply->message) die("Error: $reply->message);
+print_r($reply);
     echo "batch ID: ".(int)$reply->batch_id."\n";
 }
 
 function handle_get_output() {
     global $argc, $argv;
-    if ($argc != 4) usage();
+    if ($argc != 3) usage();
     $batch_id = $argv[2];
-    $auth = $argv[3];
+    //$auth = $argv[3];
+    $auth = get_auth();
     $req_xml = "
 <tt_request>
     <action>get_output</action>
