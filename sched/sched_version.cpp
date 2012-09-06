@@ -413,12 +413,20 @@ static double max_32b_address_space() {
 // - if plan class, check if this host can handle it
 // - check if we need work for the resource
 //
+// If all these are satisfied, return a pointer to a BEST_APP_VERSION struct
+// with HOST_USAGE filled in correctly.
+// Else return NUL.
+//
 static BEST_APP_VERSION* check_homogeneous_app_version(
     WORKUNIT& wu, bool /* reliable_only */
     // TODO: enforce reliable_only
 ) {
-    static BEST_APP_VERSION bav_static;
     BEST_APP_VERSION bav;
+        // this will get initialized on every call,
+        // i.e. HOST_USAGE will get cleared
+    static BEST_APP_VERSION bav_static;
+        // we'll return a pointer to this struct;
+        // copy bav here before returning
 
     bool found;
     APP_VERSION *avp = ssp->lookup_app_version(wu.app_version_id);
