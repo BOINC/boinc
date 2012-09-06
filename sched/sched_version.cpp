@@ -415,18 +415,13 @@ static double max_32b_address_space() {
 //
 // If all these are satisfied, return a pointer to a BEST_APP_VERSION struct
 // with HOST_USAGE filled in correctly.
-// Else return NUL.
+// Else return NULL.
 //
 static BEST_APP_VERSION* check_homogeneous_app_version(
     WORKUNIT& wu, bool /* reliable_only */
     // TODO: enforce reliable_only
 ) {
     BEST_APP_VERSION bav;
-        // this will get initialized on every call,
-        // i.e. HOST_USAGE will get cleared
-    static BEST_APP_VERSION bav_static;
-        // we'll return a pointer to this struct;
-        // copy bav here before returning
 
     bool found;
     APP_VERSION *avp = ssp->lookup_app_version(wu.app_version_id);
@@ -483,15 +478,21 @@ static BEST_APP_VERSION* check_homogeneous_app_version(
     if (!need_this_resource(bav.host_usage, avp, NULL)) {
         return NULL;
     }
-    bav_static = bav;
-    return &bav_static;
+
+    // dynamically allocate the BEST_APP_VERSION.
+    // This is a memory leak, but that's OK
+    //
+    BEST_APP_VERSION* bavp = new BEST_APP_VERSION;
+    *bavp = bav;
+    return bavp;
 }
 
 // return the app version with greatest projected FLOPS
 // for the given job and host, or NULL if none is available
 //
-// NOTE: the caller must use (e.g. copy) the BEST_APP_VERSION structure
-// before calling get_app_version() again.
+// NOTE: the BEST_APP_VERSION structure returned by this
+// must not be modified or reused;
+// a pointer to it is stored in APP_VERSION.
 //
 // check_req: if set, return only app versions that use resources
 //  for which the work request is nonzero.
@@ -766,9 +767,9 @@ BEST_APP_VERSION* get_app_version(
             // pick the fastest version.
             // Throw in a random factor in case the estimates are off.
             //
-	    DB_HOST_APP_VERSION* havp = gavid_to_havp(av.id);
+            DB_HOST_APP_VERSION* havp = gavid_to_havp(av.id);
             double r = 1;
-	    long n=1;
+            long n=1;
             if (havp) {
                 n=std::max((long)havp->pfc.n,(long)n);
             } 
