@@ -5884,3 +5884,16 @@ David  6 Sept 2012
     sched/
         sched_version.cpp
         file_deleter.cpp
+
+David  6 Sept 2012
+    - scheduler: fix sending of NCI jobs.
+        We were failing to mark the cache entries as free.
+    - API: initialize GPU device # to -1;
+        If client doesn't give us a device number, something is wrong
+        and it's better to not start computing.
+
+    sched/
+        sched_array.cpp
+        sched_send.cpp
+    lib/
+        app_ipc.cpp

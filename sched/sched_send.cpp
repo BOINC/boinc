@@ -838,7 +838,7 @@ int wu_is_infeasible_fast(
     retval = check_bandwidth(wu);
     if (retval) return retval;
 
-    if (config.non_cpu_intensive) {
+    if (app.non_cpu_intensive) {
         return 0;
     }
 

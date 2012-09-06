@@ -576,6 +576,7 @@ int send_job_for_app(APP& app) {
         wu_result.state = g_pid;
         unlock_sema();
         result.id = wu_result.resultid;
+        wu_result.state = WR_STATE_EMPTY;
         if (result_still_sendable(result, wu)) {
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,
@@ -583,12 +584,12 @@ int send_job_for_app(APP& app) {
                 );
             }
             add_result_to_reply(result, wu, bavp, false);
-            break;
+            return 0;
         }
         lock_sema();
     }
     unlock_sema();
-    return 0;
+    return 1;
 }
 
 // try to send jobs for non-CPU-intensive (NCI) apps
@@ -629,7 +630,12 @@ int send_nci() {
     for (unsigned int i=0; i<nci_apps.size(); i++) {
         APP& app = nci_apps[i];
         if (app.have_job) continue;
-        send_job_for_app(app);
+        retval = send_job_for_app(app);
+        if (retval) {
+            log_messages.printf(MSG_NORMAL,
+                "failed to send job for NCI app %s\n", app.user_friendly_name
+            );
+        }
     }
     return 0;
 }

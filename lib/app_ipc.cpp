@@ -285,7 +285,7 @@ void APP_INIT_DATA::clear() {
     fraction_done_end = 0;
     checkpoint_period = 0;
     strcpy(gpu_type, "");
-    gpu_device_num = 0;
+    gpu_device_num = -1;
     // -1 means an older version without gpu_opencl_dev_index field
     gpu_opencl_dev_index = -1;
     ncpus = 0;
