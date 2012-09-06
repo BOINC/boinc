@@ -23,6 +23,7 @@ ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 
 require_once("../inc/util.inc");
+require_once("../inc/util_ops.inc");
 require_once("../inc/boinc_db.inc");
 
 define('COBB_SCALE', 200/86400e9);
@@ -34,7 +35,7 @@ function gavid($avid, $appid) {
     return $avid;
 }
 
-function show_result($r, $w) {
+function show_res($r, $w) {
     $gavid = gavid($r->app_version_id, $w->appid);
     $hav = BoincHostAppVersion::lookup($r->hostid, $gavid);
     $av = BoincAppVersion::lookup_id($r->app_version_id);
@@ -74,7 +75,7 @@ function handle_result($resultid) {
     $rs = BoincResult::enum("workunitid=$r->workunitid and validate_state=1");
     $app_version_ids = array();
     foreach ($rs as $r) {
-        show_result($r, $w);
+        show_res($r, $w);
         $app_version_ids[] = $r->app_version_id;
     }
     $app_version_ids = array_unique($app_version_ids);
@@ -125,7 +126,7 @@ function av_string($av_id) {
     return $x;
 }
 
-function show_workunit($wu_id) {
+function show_wu($wu_id) {
     page_head("Workunit credit");
     $wu = BoincWorkunit::lookup_id($wu_id);
     $app = BoincApp::lookup_id($wu->appid);
@@ -177,12 +178,13 @@ function show_av($av_id) {
     page_tail();
 }
 
-function show_app($app_id) {
+function show_appl($app_id) {
     $app = BoincApp::lookup_id($app_id);
     page_head("App $app->user_friendly_name credit");
     $avs = BoincAppVersion::enum("appid=$app_id and deprecated=0");
     start_table();
     table_header("platform/class/version", "PFC nsamples", "PFC avg", "PFC scale");
+    $avs = current_versions($avs);
     foreach ($avs as $av) {
         $plat = BoincPlatform::lookup_id($av->platformid);
         table_row(
@@ -201,7 +203,7 @@ $host_id = get_int("host_id", true);
 $av_id = get_int("av_id", true);
 $app_id = get_int("app_id", true);
 if ($wu_id) {
-    show_workunit($wu_id);
+    show_wu($wu_id);
     exit;
 }
 if ($host_id && $av_id) {
@@ -213,7 +215,7 @@ if ($av_id) {
     exit;
 }
 if ($app_id) {
-    show_app($app_id);
+    show_appl($app_id);
     exit;
 }
 

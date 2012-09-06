@@ -5862,3 +5862,15 @@ David  5 Sept 2012
         client_types.cpp
     sched/
         sched_customize.cpp
+
+David  6 Sept 2012
+    - admin web: credit browser tweaks
+
+    html/
+        user/
+            lammps.php
+        ops/
+            credit.php
+    sched/
+        file_deleter.cpp
+

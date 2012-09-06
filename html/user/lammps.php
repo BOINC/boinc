@@ -429,7 +429,7 @@ function submit_job($app, $batch_id, $info, $cmdline, $i) {
     $cmd .= " ".basename($info->pot_files_path);
     //echo "<br> $cmd\n"; 
 
-    $ret = system($cmd);
+    system($cmd, $ret);
     if ($ret === FALSE) {
         error_page("can't create job");
     } else {

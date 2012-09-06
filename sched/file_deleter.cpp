@@ -92,7 +92,7 @@ void usage(char *name) {
         "  --preserve_result_files         update the DB, but don't delete output files.\n"
         "                                  For debugging.\n"
         "  --preserve_wu_files             update the DB, but don't delete input files.\n"
-        "                                 For debugging.\n"
+        "                                  For debugging.\n"
         "  --dont_delete_batches           don't delete anything with positive batch number\n"
         "  --input_files_only              delete only input (download) files\n"
         "  --output_files_only             delete only output (upload) files\n"
