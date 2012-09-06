@@ -142,14 +142,18 @@ static bool ati_check(COPROC_ATI& c, HOST_USAGE& hu,
     if (need_amd_libs) {
         if (!c.amdrt_detected) {
             if (config.debug_version_select) {
-                log_messages.printf(MSG_NORMAL,"[version] AMD run time libraries not found\n");
+                log_messages.printf(MSG_NORMAL,
+                    "[version] AMD run time libraries not found\n"
+                );
             }
             return false;
         }
     } else {
         if (!c.atirt_detected) {
             if (config.debug_version_select) {
-                log_messages.printf(MSG_NORMAL,"[version] ATI run time libraries not found\n");
+                log_messages.printf(MSG_NORMAL,
+                    "[version] ATI run time libraries not found\n"
+                );
             }
             return false;
         }
@@ -162,7 +166,8 @@ static bool ati_check(COPROC_ATI& c, HOST_USAGE& hu,
             int dev_major=c.version_num/10000000;
             int dev_minor=(c.version_num%10000000)/10000;
             int dev_rev=(c.version_num%10000);
-            log_messages.printf(MSG_NORMAL,"[version] Bad display driver revision %d.%d.%d<%d.%d.%d.\n",
+            log_messages.printf(MSG_NORMAL,
+                "[version] Bad display driver revision %d.%d.%d<%d.%d.%d.\n",
                 dev_major,dev_minor,dev_rev,app_major,app_minor,app_rev 
             );
         }
@@ -170,7 +175,8 @@ static bool ati_check(COPROC_ATI& c, HOST_USAGE& hu,
     }
     if (c.available_ram < min_ram) {
         if (config.debug_version_select) {
-            log_messages.printf(MSG_NORMAL,"[version] Insufficient GPU RAM %f>%f.\n",
+            log_messages.printf(MSG_NORMAL,
+                "[version] Insufficient GPU RAM %f>%f.\n",
                 min_ram, c.available_ram
             );
         }
@@ -284,17 +290,19 @@ static bool cuda_check(COPROC_NVIDIA& c, HOST_USAGE& hu,
 ) {
     int cc = c.prop.major*100 + c.prop.minor;
     if (min_cc && (cc < min_cc)) {
-        log_messages.printf(MSG_NORMAL,"[version] App requires compute capability > %d.%d (has %d.%d).\n",
-            min_cc/100,min_cc%100,
-            c.prop.major,c.prop.minor
+        log_messages.printf(MSG_NORMAL,
+            "[version] App requires compute capability > %d.%d (has %d.%d).\n",
+            min_cc/100, min_cc%100,
+            c.prop.major, c.prop.minor
         );
         return false;
     }
 
     if (max_cc && cc >= max_cc) { 
-        log_messages.printf(MSG_NORMAL,"[version] App requires compute capability <= %d.%d (has %d.%d).\n",
-            max_cc/100,max_cc%100,
-            c.prop.major,c.prop.minor
+        log_messages.printf(MSG_NORMAL,
+            "[version] App requires compute capability <= %d.%d (has %d.%d).\n",
+            max_cc/100, max_cc%100,
+            c.prop.major, c.prop.minor
         );
         return false;
     }
@@ -309,7 +317,9 @@ static bool cuda_check(COPROC_NVIDIA& c, HOST_USAGE& hu,
     //
     if (!c.cuda_version && !c.display_driver_version) {
         if (config.debug_version_select) {
-            log_messages.printf(MSG_NORMAL,"[version] Client did not provide cuda or driver version.\n");
+            log_messages.printf(MSG_NORMAL,
+                "[version] Client did not provide cuda or driver version.\n"
+            );
         }
         return false;
     }
@@ -318,7 +328,8 @@ static bool cuda_check(COPROC_NVIDIA& c, HOST_USAGE& hu,
             if (config.debug_version_select) {
                 double app_version=(double)(min_cuda_version/1000)+(double)(min_cuda_version%100)/100.0;
                 double client_version=(double)(c.cuda_version/1000)+(double)(c.cuda_version%100)/100.0;
-                log_messages.printf(MSG_NORMAL,"[version] Bad CUDA version %f>%f.\n",
+                log_messages.printf(MSG_NORMAL,
+                    "[version] Bad CUDA version %f>%f.\n",
                     app_version, client_version
                 );
             }
@@ -328,18 +339,20 @@ static bool cuda_check(COPROC_NVIDIA& c, HOST_USAGE& hu,
     if (c.display_driver_version) {
         if (min_driver_version && (c.display_driver_version < min_driver_version)) {
             if (config.debug_version_select) {
-              double app_version=(double)(min_driver_version)/100.0;
-              double client_version=(double)(c.display_driver_version)/100.0;
-              log_messages.printf(MSG_NORMAL,"[version] Bad display driver revision %f>%f.\n",
-                 app_version, client_version
-                 );
+                double app_version=(double)(min_driver_version)/100.0;
+                double client_version=(double)(c.display_driver_version)/100.0;
+                log_messages.printf(MSG_NORMAL,
+                    "[version] Bad display driver revision %f>%f.\n",
+                    app_version, client_version
+                );
             }
             return false;
         }
     }
     if (c.available_ram < min_ram) {
         if (config.debug_version_select) {
-            log_messages.printf(MSG_NORMAL,"[version] Insufficient GPU RAM %f>%f.\n",
+            log_messages.printf(MSG_NORMAL,
+                "[version] Insufficient GPU RAM %f>%f.\n",
                 min_ram, c.available_ram
             );
         }

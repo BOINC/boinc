@@ -5851,3 +5851,14 @@ David  2 Sept 2012
         crypt.cpp
     client/
         cs_files.cpp
+
+David  5 Sept 2012
+    - admin web: improve script for browsing credit info
+    - client: add a coproc-missing message
+
+    html/ops/
+        credit.php
+    client/
+        client_types.cpp
+    sched/
+        sched_customize.cpp

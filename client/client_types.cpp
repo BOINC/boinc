@@ -811,6 +811,9 @@ int APP_VERSION::parse(XML_PARSER& xp) {
             if (!retval) {
                 rt = rsc_index(cp.type);
                 if (rt <= 0) {
+                    msg_printf(0, MSG_INFO,
+                        "app version refers to missing GPU type %s", cp.type
+                    );
                     missing_coproc = true;
                     missing_coproc_usage = cp.count;
                     strcpy(missing_coproc_name, cp.type);
