@@ -5874,3 +5874,13 @@ David  6 Sept 2012
     sched/
         file_deleter.cpp
 
+David  6 Sept 2012
+    - scheduler: fix bug in homogeneous app version.
+        We were using a static BEST_APP_VERSION in
+        check_homogeneous_app_version(),
+        and it wasn't being initialized on each call
+        (e.g. its HOST_USAGE was not being cleared).
+
+    sched/
+        sched_version.cpp
+        file_deleter.cpp

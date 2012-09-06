@@ -417,7 +417,8 @@ static BEST_APP_VERSION* check_homogeneous_app_version(
     WORKUNIT& wu, bool /* reliable_only */
     // TODO: enforce reliable_only
 ) {
-    static BEST_APP_VERSION bav;
+    static BEST_APP_VERSION bav_static;
+    BEST_APP_VERSION bav;
 
     bool found;
     APP_VERSION *avp = ssp->lookup_app_version(wu.app_version_id);
@@ -474,11 +475,15 @@ static BEST_APP_VERSION* check_homogeneous_app_version(
     if (!need_this_resource(bav.host_usage, avp, NULL)) {
         return NULL;
     }
-    return &bav;
+    bav_static = bav;
+    return &bav_static;
 }
 
 // return the app version with greatest projected FLOPS
 // for the given job and host, or NULL if none is available
+//
+// NOTE: the caller must use (e.g. copy) the BEST_APP_VERSION structure
+// before calling get_app_version() again.
 //
 // check_req: if set, return only app versions that use resources
 //  for which the work request is nonzero.

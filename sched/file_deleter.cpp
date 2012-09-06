@@ -70,7 +70,6 @@ bool dont_delete_batches = false;
 bool do_input_files = true;
 bool do_output_files = true;
 int sleep_interval = DEFAULT_SLEEP_INTERVAL;
-static pthread_t thread_handle;
 
 void usage(char *name) {
     fprintf(stderr, "Deletes files that are no longer needed.\n\n"
