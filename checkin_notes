@@ -4334,3 +4334,11 @@ Charlie 20 Aug 2012
         gpu_amd.cpp
     lib/
         coproc.h
+
+Charlie 8 Sep 2012
+    - client: work around a nasty bug which crashes OSX (!) on some 
+        dual-gpu MacBooks with CUDA installed if we call cuInit() 
+        unless we force use of the discrete (NVIDIA) GPU.
+        
+    client/
+        gpu_opencl.cpp
