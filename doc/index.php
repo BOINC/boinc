@@ -83,6 +83,8 @@ function show_participate() {
         <a class=heading href=download.php><b>".tra("Download")."</b></a>
         &middot; <a class=heading href=\"/wiki/BOINC_Help\"><b>".tra("Help")."</b></a>
         &middot; <a class=heading href=\"wiki/User_manual\"><b><span class=nobr>".tra("Documentation")."</span></b></a> 
+        &middot; <a class=heading href=addons.php><b><span class=nobr>".tra("Add-ons")."</span></b></a> 
+        &middot; <a class=heading href=links.php><b><span class=nobr>".tra("Links")."</span></b></a> 
         </center>
         </td></tr>
         <tr><td>

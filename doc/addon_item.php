@@ -53,6 +53,8 @@ if ($platform == 'win') {
     $x = $browser;
 } else if ($platform == 'web') {
     $x = $web;
+} else if ($platform == 'mobile') {
+    $x = $mobile;
 } else {
     boinc_error_page('bad name');
 }

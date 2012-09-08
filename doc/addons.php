@@ -61,6 +61,8 @@ echo "<a name=linux></a>\n";
 show_group("Linux", $linux, 'linux');
 echo "<a name=mac></a>\n";
 show_group("Mac", $mac, 'mac');
+echo "<a name=mobile></a>\n";
+show_group("Mobile", $mobile, 'mobile');
 echo "<a name=browser></a>\n";
 show_group("Web browser toolbars and plugins", $browser, 'browser');
 echo "<a name=web></a>\n";

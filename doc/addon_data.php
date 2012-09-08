@@ -12,6 +12,29 @@ array(
     'unix date'
 );
 
+$mobile = array(
+array(
+    'http://code.google.com/p/androboinc/',
+    'AndroBOINC',
+    'beta',
+    'BOINC graphical interface for Android devices',
+    'http://code.google.com/p/androboinc/',
+    'Android',
+    'AndroBOINC lets you monitor and control a BOINC client from an Android device.',
+    1347081659
+),
+array(
+    'http://www.efmer.eu/boinc/boinc_tasks/mobile.html',
+    'BoincTasks Mobile',
+    '',
+    'BOINC graphical interface for mobile devices (Android, iPhone, iPad)',
+    'http://www.efmer.eu/boinc/boinc_tasks/mobile.html',
+    'Android, iOS',
+    'BoincTasks Mobile lets you monitor and control BOINC clients from a mobile device.  Requires BoincTasks to be running on a desktop computer.',
+    1347081659
+),
+);
+
 $win = array(
 array(
     'http://www.myfavoritegadgets.info/monitors/BOINCMonitor/BOINCMonitor.html',
