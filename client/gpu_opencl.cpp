@@ -233,7 +233,7 @@ void COPROCS::get_opencl(
                                 device_index
                                 );
                             }
-                            continue; // Should never happen
+                            return; // Should never happen
                         }
                         if (!strcmp(prop.name, nvidia_gpus[current_CUDA_index].prop.name)) {
                             break;  // We have a match
@@ -323,7 +323,10 @@ void COPROCS::get_opencl(
     // This has already been fixed on latest Catalyst 
     // drivers, but Mac does not use Catalyst drivers.
 
-    if (ati_opencls.size() > 0) {
+    // We also must call this if we have CUDA installed because
+    // a bug causes the OS to crash on some dual-GPU MacBooks 
+    // unless we force use of the discrete (NVIDIA) GPU.
+    if ((ati_opencls.size() > 0) || nvidia.have_cuda) {
         opencl_get_ati_mem_size_from_opengl();
     }
 

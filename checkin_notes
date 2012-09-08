@@ -5903,3 +5903,11 @@ David  7 Sept 2012
 
     sched/
         sched_array.cpp
+
+Charlie 8 Sep 2012
+    - client: work around a nasty bug which crashes OSX (!) on some 
+        dual-gpu MacBooks with CUDA installed if we call cuInit() 
+        unless we force use of the discrete (NVIDIA) GPU.
+        
+    client/
+        gpu_opencl.cpp
