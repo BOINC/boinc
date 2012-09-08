@@ -570,7 +570,13 @@ int send_job_for_app(APP& app) {
         WORKUNIT wu = wu_result.workunit;
         if (wu.appid != app.id) continue;
         if (!quick_check(wu_result, wu, bavp, &app, retval)) {
+            // All jobs for a given NCI app are identical.
+            // If we can't send one, we can't send any.
+            //
             unlock_sema();
+            log_messages.printf(MSG_NORMAL,
+                "quick_check() failed for NCI job\n"
+            );
             return -1;
         }
         wu_result.state = g_pid;
@@ -586,8 +592,14 @@ int send_job_for_app(APP& app) {
             add_result_to_reply(result, wu, bavp, false);
             return 0;
         }
+        log_messages.printf(MSG_NORMAL,
+            "NCI job was not still sendable\n"
+        );
         lock_sema();
     }
+    log_messages.printf(MSG_NORMAL,
+        "no sendable NCI jobs for %s\n", app.user_friendly_name
+    );
     unlock_sema();
     return 1;
 }

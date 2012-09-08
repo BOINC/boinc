@@ -5897,3 +5897,9 @@ David  6 Sept 2012
         sched_send.cpp
     lib/
         app_ipc.cpp
+
+David  7 Sept 2012
+    - scheduler: more detailed msgs for NCI job sending
+
+    sched/
+        sched_array.cpp
