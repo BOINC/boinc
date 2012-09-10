@@ -5920,3 +5920,11 @@ Rom    10 Sept 2012
         
     client/
         gpu_nvidia.cpp
+
+Eric K 10 Sept 2012
+    - sched: fixed bug in plan_class_spec.cpp the resulting in GPU performance
+      not being included in scheduler or credit calculations.
+
+    sched/
+       plan_class_spec.cpp
+

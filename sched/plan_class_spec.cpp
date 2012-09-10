@@ -482,6 +482,10 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         if (avg_ncpus) {
             hu.avg_ncpus = avg_ncpus;
         }
+        // I believe the first term here is just hu.projected_flops,
+        // but I'm leaving it spelled out to match GPU scheduling 
+        // code in sched_customize.cpp
+        hu.peak_flops = gpu_peak_flops_scale*gpu_usage*cpp->peak_flops + hu.avg_ncpus*capped_host_fpops();
 
         if (!strcmp(gpu_type, "amd") || !strcmp(gpu_type, "ati")) {
             hu.proc_type = PROC_TYPE_AMD_GPU;
