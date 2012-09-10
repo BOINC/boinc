@@ -5911,3 +5911,12 @@ Charlie 8 Sep 2012
         
     client/
         gpu_opencl.cpp
+
+Rom    10 Sept 2012
+    - client: initialize memfree and memtotal before use for Nvidia
+        cards.  It appears that the Nvidia API was only setting 32-bits
+        of the 64-bit value.  The remaining 32-bits were whatever
+        was on the stack.
+        
+    client/
+        gpu_nvidia.cpp

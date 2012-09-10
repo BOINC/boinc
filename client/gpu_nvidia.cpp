@@ -382,7 +382,7 @@ void COPROC_NVIDIA::get(
 //
 void COPROC_NVIDIA::get_available_ram() {
     int retval;
-    size_t memfree, memtotal;
+    size_t memfree = 0, memtotal = 0;
     int device;
     void* ctx;
     
