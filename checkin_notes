@@ -4390,6 +4390,24 @@ David  17 Aug 2012
         work_fetch.cpp,h
         rr_sim.cpp
 
+David  20 Aug 2012
+    - client: print log msgs (enabled by task_debug) if the client
+        times out on quitting or aborting a task, and has to kill it.
+
+    client/
+        app_control.cpp
+
+David  20 Aug 2012
+    - client: take GPU exclusions into account when making
+        initial work request to a project
+    - client: put some casts to double in NVIDIA detect code.
+        Shouldn't make any difference.
+
+    client/
+        work_fetch.cpp,h
+        gpu_nvidia.cpp
+        scheduler_op.cpp
+
 David  2 Sept 2012
     - client: fix bug that broke file signing with X.509 certificates.
         From matszpk.  Fixes #1168.
@@ -4399,10 +4417,3 @@ David  2 Sept 2012
         crypt.cpp
     client/
         cs_files.cpp
-
-David  20 Aug 2012
-    - client: print log msgs (enabled by task_debug) if the client
-        times out on quitting or aborting a task, and has to kill it.
-
-    client/
-        app_control.cpp

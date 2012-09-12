@@ -293,7 +293,7 @@ struct WORK_FETCH {
     void handle_reply(
         PROJECT*, SCHEDULER_REPLY*, std::vector<RESULT*>new_results
     );
-    void set_initial_work_request();
+    void set_initial_work_request(PROJECT*);
     void set_all_requests(PROJECT*);
     void set_all_requests_hyst(PROJECT*, int rsc_type);
     void print_state();
