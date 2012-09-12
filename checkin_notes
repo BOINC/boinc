@@ -4371,3 +4371,11 @@ Charlie 12 Sep 2012
         gpu_opencl.cpp
     lib/
         hostinfo.h
+
+Charlie 12 Sep 2012
+    - Tag for 7.0.35 release, all platforms
+      boinc_core_release_7_0_35
+
+    /
+        configure.ac
+        version.h
