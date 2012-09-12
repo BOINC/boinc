@@ -4417,3 +4417,11 @@ David  2 Sept 2012
         crypt.cpp
     client/
         cs_files.cpp
+
+Rom    12 Sept 2012
+    - Tag for 7.0.36 release, all platforms
+      boinc_core_release_7_0_36
+
+    /
+        configure.ac
+        version.h
