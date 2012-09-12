@@ -90,12 +90,12 @@ int CLIENT_STATE::make_project_dirs() {
 // Is app signed by one of the Application Certifiers?
 //
 bool FILE_INFO::verify_file_certs() {
-    char file[256];
+    char file[MAXPATHLEN];
     bool retval = false;
 
     if (!is_dir(CERTIFICATE_DIRECTORY)) return false;
     DIRREF dir = dir_open(CERTIFICATE_DIRECTORY);
-    while (dir_scan(file, dir, sizeof(file))) {
+    while (!dir_scan(file, dir, sizeof(file))) {
         if (cert_verify_file(cert_sigs, file, CERTIFICATE_DIRECTORY)) {
             msg_printf(project, MSG_INFO,
                 "Signature verified using certificate %s", file
@@ -156,7 +156,7 @@ bool FILE_INFO::verify_file_certs() {
 int FILE_INFO::verify_file(
     bool verify_contents, bool show_errors, bool allow_async
 ) {
-    char cksum[64], pathname[256];
+    char cksum[64], pathname[MAXPATHLEN];
     bool verified;
     int retval;
     double size, local_nbytes;
