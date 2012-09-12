@@ -100,6 +100,8 @@ extern "C" {
 #include <IOKit/hidsystem/IOHIDParameter.h>
 #include <IOKit/hidsystem/event_status_driver.h>
 
+bool isDualGPUMacBook();
+
 // Apple has removed NxIdleTime() beginning with OS 10.6, so we must try
 // loading it at run time to avoid a link error.  For details, please see
 // the comments in the __APPLE__ version of HOST_INFO::users_idle() in

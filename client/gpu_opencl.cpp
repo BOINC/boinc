@@ -322,14 +322,9 @@ void COPROCS::get_opencl(
     // This bug applies only to ATI GPUs, not to NVIDIA
     // This has already been fixed on latest Catalyst 
     // drivers, but Mac does not use Catalyst drivers.
-
-    // We also must call this if we have CUDA installed because
-    // a bug causes the OS to crash on some dual-GPU MacBooks 
-    // unless we force use of the discrete (NVIDIA) GPU.
-    if ((ati_opencls.size() > 0) || nvidia.have_cuda) {
+    if (ati_opencls.size() > 0) {
         opencl_get_ati_mem_size_from_opengl();
     }
-
 #endif
 
     if ((nvidia_opencls.size() == 0) && (ati_opencls.size() == 0)) {

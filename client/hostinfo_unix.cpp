@@ -1155,6 +1155,15 @@ int get_max_cpu_temperature() {
 }
 
 #endif
+
+// Is this a dual GPU MacBook with automatic GPU switching?
+bool isDualGPUMacBook() {
+    io_service_t service = IO_OBJECT_NULL;
+    
+    service = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleGraphicsControl"));
+    return (service != IO_OBJECT_NULL);
+}
+
 #endif  // __APPLE__
 
 // see if Virtualbox is installed

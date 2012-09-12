@@ -186,6 +186,10 @@ void COPROC_NVIDIA::get(
 
 #ifdef __APPLE__
     cudalib = dlopen("/usr/local/cuda/lib/libcuda.dylib", RTLD_NOW);
+    if (cudalib && isDualGPUMacBook()) {
+        msg_printf(0, MSG_INFO, "BOINC does not support CUDA on this computer.");
+        return;
+    }
 #else
     cudalib = dlopen("libcuda.so", RTLD_NOW);
 #endif

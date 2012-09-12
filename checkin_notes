@@ -5928,3 +5928,15 @@ Eric K 10 Sept 2012
     sched/
        plan_class_spec.cpp
 
+Charlie 12 Sep 2012
+    - client: Don't support CUDA on dual-GPU MacBooks with automatic 
+        GPU switching but continue to support OpenCL for NVIDIA GPUs.
+        This prevents forcing use of the discrete (NVIDIA) GPU, which 
+        greatly decreases time the computer can run on battery power.
+        
+    client/
+        hostinfo_unix.cpp
+        gpu_nvidia.cpp
+        gpu_opencl.cpp
+    lib/
+        hostinfo.h
