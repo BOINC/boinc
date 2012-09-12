@@ -5680,7 +5680,7 @@ David  21 Aug 2012
 
 David  22 Aug 2012
     - file_upload_handler: bug fix
-    - volunteer storage: buf fixes
+    - volunteer storage: bug fixes
 
     vda/
         vda_lib2.cpp
@@ -5940,3 +5940,9 @@ Charlie 12 Sep 2012
         gpu_opencl.cpp
     lib/
         hostinfo.h
+
+David  12 Sept 2012
+    - user web: fix bug when do forum search on Google
+
+    html/user/
+        forum_search_action.php

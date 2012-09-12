@@ -52,7 +52,7 @@ struct RESOURCE {
     }
 };
 
-// message intended for human eyes
+// a message for the volunteer
 //
 struct USER_MESSAGE {
     std::string message;
@@ -71,7 +71,7 @@ struct HOST_USAGE {
         // Taken from host_app_version elapsed time statistics if available,
         // else on estimate provided by app_plan()
     double peak_flops;
-        // stored in result.estimated_flops, and used for credit calculations
+        // stored in result.flops_estimate, and used for credit calculations
     char cmdline[256];
 
     HOST_USAGE() {
