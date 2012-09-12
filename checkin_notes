@@ -4399,3 +4399,10 @@ David  2 Sept 2012
         crypt.cpp
     client/
         cs_files.cpp
+
+David  20 Aug 2012
+    - client: print log msgs (enabled by task_debug) if the client
+        times out on quitting or aborting a task, and has to kill it.
+
+    client/
+        app_control.cpp

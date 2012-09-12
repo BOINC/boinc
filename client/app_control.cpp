@@ -98,11 +98,23 @@ bool ACTIVE_TASK_SET::poll() {
         ACTIVE_TASK* atp = active_tasks[i];
         if (atp->task_state() == PROCESS_ABORT_PENDING) {
             if (gstate.now > atp->abort_time + ABORT_TIMEOUT) {
+                if (log_flags.task_debug) {
+                    msg_printf(atp->result->project, MSG_INFO,
+                        "[task] abort request timed out, killing task %s",
+                        atp->result->name
+                    );
+                }
                 atp->kill_task(false);
             }
         }
         if (atp->task_state() == PROCESS_QUIT_PENDING) {
             if (gstate.now > atp->quit_time + QUIT_TIMEOUT) {
+                if (log_flags.task_debug) {
+                    msg_printf(atp->result->project, MSG_INFO,
+                        "[task] quit request timed out, killing task %s",
+                        atp->result->name
+                    );
+                }
                 atp->kill_task(true);
             }
         }
