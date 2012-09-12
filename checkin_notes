@@ -4342,6 +4342,7 @@ David  20 Aug 2012
     client/
         gpu_nvidia.cpp
 
+<<<<<<< .working
 Charlie 8 Sep 2012
     - client: work around a nasty bug which crashes OSX (!) on some 
         dual-gpu MacBooks with CUDA installed if we call cuInit() 
@@ -4379,6 +4380,15 @@ Charlie 12 Sep 2012
     /
         configure.ac
         version.h
+
+David  17 Aug 2012
+    - client: if a project has excluded GPUs of a given type,
+        allow it to fetch work of that type if the # of runnable
+        jobs it <= the # of non-excluded instances (rather than 0).
+
+    client/
+        work_fetch.cpp,h
+        rr_sim.cpp
 
 David  2 Sept 2012
     - client: fix bug that broke file signing with X.509 certificates.
