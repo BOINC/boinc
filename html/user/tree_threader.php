@@ -20,6 +20,7 @@ ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 
 $app_name = "treeThreader";
+$log = fopen("/tmp/tt_job.log","a+");
 
 function error($s) {
     echo "<error>\n<message>$s</message>\n</error>\n";
@@ -27,18 +28,30 @@ function error($s) {
 }
 
 function handle_submit($r, $user, $app) {
-    global $app_name;
+    global $app_name,$log;
 
+    $timestamp = date("Y-m-d H:i",time());
 	// read the list of template filenames
 	//
 	$files = file("../../tree_threader_template_files");
-	if ($files === false) error("no templates file");
+	if ($files === false) { 
+        fwrite($log,"$timestamp\t template file tree_threader_template_files\n");
+        error("no templates file");
+        
+    }
 	$njobs = sizeof($files);
 	$now = time();
     $batch_id = BoincBatch::insert(
 		"(user_id, create_time, njobs, name, app_id, state) values ($user->id, $now, $njobs, 'tree_threader batch', $app->id, ".BATCH_STATE_IN_PROGRESS.")"
     );
-    if (!$batch_id) die("couldn't create batch\n");
+    if (!$batch_id) {
+        $log_msg = "$timestamp\tfailed to create batch for user $user->id\n";
+        fwrite($log, $log_msg);
+        die("couldn't create batch\n");
+    } else {
+        $log_msg = "$timestamp\tcreated batch $batch_id for user $user->id\n";
+        fwrite($log, $log_msg);
+    }
 
     // move the sequence file to the download hier
     //
@@ -54,13 +67,16 @@ function handle_submit($r, $user, $app) {
         error("couldn't rename sequence file");
     }
 
-    $i = 0;
+    $i = 1;
 	foreach ($files as $file) {
         $file = trim($file);
         $wu_name = "ICT_".$batch_id."_$i";
+
 		$cmd = "cd ../..; ./bin/create_work --appname $app_name --batch $batch_id --wu_name $wu_name --wu_template templates/ICT_in --result_template templates/ICT_out $seq_fname $file";
-		$ret = system($cmd);
-		if ($ret === false) {
+        fwrite($log, "$timestamp\t$cmd\n");
+        system($cmd, $ret);
+		if ($ret != 0) {
+            fwrite($log, "can not creat job $wu_name\n");
 			error("can't create job");
         }
         $i++;
@@ -75,6 +91,7 @@ function handle_submit($r, $user, $app) {
 // and return the resulting URL
 //
 function handle_get_output($r, $batch) {
+    global $log;
 	$wus = BoincWorkUnit::enum("batch=$batch->id");
 	$outdir = "/tmp/tree_threader_output_".$batch->id;
     @mkdir($outdir);
@@ -94,29 +111,32 @@ function handle_get_output($r, $batch) {
 		$dir = "/tmp/$wu->name";
         @mkdir($dir);
 		$cmd = "cd $dir; unzip -q $path";
-		$ret = system($cmd);
-		if ($ret === false) {
+		system($cmd, $ret);
+		if ($ret != 0) {
 			error("can't unzip output file");
 		}
-		$cmd = "cp $dir/ali/* $outdir";
-		$ret = system($cmd);
-		if ($ret === false) {
+		$cmd = "cp $dir/Aln/* $outdir";
+		system($cmd, $ret);
+		if ($ret != 0) {
 			error("can't copy output files");
 		}
 
-        //system("rm -rf $dir");
+        system("rm -rf $dir");
 	}
 
 	$cmd = "zip -r -q $outdir $outdir";
-	$ret = system($cmd);
-	if ($ret === false) {
+	system($cmd, $ret);
+	if ($ret != $ret) {
 		error("can't zip output files");
 	}
 	$fname = "tree_threader_output_".$batch->id.".zip";
-	@symlink($outdir, "../../download/$fname");
+    $treeThreader_dir="treeThreaderResult";
+    if(!is_dir("../../download/$treeThreader_dir"))mkdir("../../download/$treeThreader_dir");
+	@symlink("/tmp/$fname", "../../download/$treeThreader_dir/$fname");
+    system("rm -fr $outdir");
     $config = simplexml_load_string(file_get_contents("../../config.xml"));
     $download_url = trim((string)$config->config->download_url);
-	echo "<tt_reply>\n<url>$download_url/$fname</url>\n</tt_reply>\n";
+	echo "<tt_reply>\n<url>$download_url/$treeThreader_dir/$fname</url>\n</tt_reply>\n";
 }
 
 xml_header();
