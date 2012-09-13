@@ -106,10 +106,20 @@ static bool quick_check(
     }
 
     // locality sched lite check.
-    // Note: allow non-LSL jobs; otherwise we could starve them
+    // Allow non-LSL jobs; otherwise we could starve them
+    // NOTE: THIS NEGATES THE OTHER SCHED POLICIES (reliable, etc.).
+    // Need to think of some way of combining them.
     //
     if (g_wreq->locality_sched_lite) {
-        if (app->locality_scheduling == LOCALITY_SCHED_LITE) {
+        // skip this job if host has sticky files
+        // but none of them is used by this job.
+        // TODO: it should really be "host has sticky files for this app".
+        // However, we don't have a way of making that association.
+        // Could add something based on filename
+        //
+        if (app->locality_scheduling == LOCALITY_SCHED_LITE
+            && g_request->file_infos.size()
+        ) {
             int n = nfiles_on_host(wu_result.workunit);
             if (config.debug_array) {
                 log_messages.printf(MSG_NORMAL,

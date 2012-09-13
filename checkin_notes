@@ -5946,3 +5946,13 @@ David  12 Sept 2012
 
     html/user/
         forum_search_action.php
+
+David  13 Sept 2012
+    - scheduler: fix logic error limited locality scheduling.
+        In LLS array pass, skip file-on-host check if host
+        doesn't have any sticky files.
+        TODO: it should actually be "any sticky files for this app".
+        But we currently don't have any way to know that.
+
+    sched/
+        sched_array.cpp
