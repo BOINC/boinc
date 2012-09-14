@@ -5956,3 +5956,9 @@ David  13 Sept 2012
 
     sched/
         sched_array.cpp
+
+Rom    13 Sept 2012
+    - client: Initialize the total mem size_t.
+    
+    client/
+        gpu_nvidia.cpp

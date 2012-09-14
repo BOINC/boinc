@@ -286,7 +286,7 @@ void COPROC_NVIDIA::get(
 
     int j, itemp;
     unsigned int i;
-    size_t global_mem;
+    size_t global_mem = 0;
     COPROC_NVIDIA cc;
     string s;
     for (j=0; j<cuda_ndevs; j++) {
