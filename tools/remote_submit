@@ -13,11 +13,11 @@ function usage() {
    global $argv; 
    die("
 Usage:
-$argv[0] submit sequence_file	(submit 1 job, print batch ID)
-$argv[0] query batch_id|all	(get the status of a specific batch or all batches)
-$argv[0] get_output batch_id	(show URL of output file)
-$argv[0] abort batch_id		(abort a batch)
-$argv[0] retire batch_id		(retire a batch)
+$argv[0] submit sequence_file    (submit 1 job, print batch ID)
+$argv[0] query batch_id|all    (get the status of a specific batch or all batches)
+$argv[0] get_output batch_id    (show URL of output file)
+$argv[0] abort batch_id        (abort a batch)
+$argv[0] retire batch_id        (retire a batch)
 \n");
 }
 
@@ -48,7 +48,9 @@ function handle_submit() {
 }
 
 function handle_query() {
-    global $argc,$argv;
+    global $argc, $argv;
+    if ($argc != 3) usage();
+
     $req->project = PROJECT;
     $req->authenticator = get_auth();
     list($batches, $errmsg) = boinc_query_batches($req);
@@ -56,11 +58,8 @@ function handle_query() {
         echo "Error: $errmsg\n";
         return;
     }
-    if($argv[2]!='all')$batch_id=$argv[2];
-    else $batch_id=-1;
-
-    if($batch_id==-1){
-    	foreach ($batches as $batch) {
+    if ($argv[2] == 'all') {
+        foreach ($batches as $batch) {
             echo "batch $batch->id: ";
             switch ($batch->state) {
             case 1: echo "In progress\n"; break;
@@ -68,21 +67,21 @@ function handle_query() {
             case 3: echo "Aborted\n"; break;
             case 4: echo "Retired\n"; break;
             }
-    	}
-    }else{
-	foreach ($batches as $batch) {
-	    if ($batch->id==$batch_id){
-		echo "batch $batch_id: ";
- 	    	switch ($batch->state) {
-            	    case 1: echo "In progress\n"; break;
-            	    case 2: echo "Completed\n"; break;
-            	    case 3: echo "Aborted\n"; break;
-            	    case 4: echo "Retired\n"; break;
-		}//switch
-            } //if
-	}//foreach
-    }//else
-}//query_batch()
+        }
+    } else if (is_numeric($argv[2])) {
+        foreach ($batches as $batch) {
+            if ($batch->id==$batch_id) {
+                echo "batch $batch_id: ";
+                switch ($batch->state) {
+                case 1: echo "In progress\n"; break;
+                case 2: echo "Completed\n"; break;
+                case 3: echo "Aborted\n"; break;
+                case 4: echo "Retired\n"; break;
+                }
+            }
+        }
+    }
+}
 
 function handle_get_output() {
     global $argc, $argv;
