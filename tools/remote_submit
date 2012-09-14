@@ -6,7 +6,7 @@
 
 require_once("submit.inc");
 
-define("PROJECT", "http://casbak.ihep.ac.cn/casw");
+define("PROJECT", "http://casathome.ihep.ac.cn");
 define("APP_NAME", "uppercase");
 
 function usage() {
@@ -14,10 +14,12 @@ function usage() {
    die("
 Usage:
 $argv[0] submit sequence_file    (submit 1 job, print batch ID)
-$argv[0] query batch_id|all    (get the status of a specific batch or all batches)
-$argv[0] get_output batch_id    (show URL of output file)
-$argv[0] abort batch_id        (abort a batch)
-$argv[0] retire batch_id        (retire a batch)
+$argv[0] query batch_id          (get the status of a specific batch)
+$argv[0] query app_name          (get the status of batches for given app )
+$argv[0] query all               (get the status of all batches)
+$argv[0] get_output batch_id     (show URL of output file)
+$argv[0] abort batch_id          (abort a batch)
+$argv[0] retire batch_id         (retire a batch)
 \n");
 }
 
@@ -47,6 +49,34 @@ function handle_submit() {
     }
 }
 
+date_default_timezone_set('Asia/Chongqing');
+
+function local_time_str($x) {
+    if ($x == 0) return "---";
+    return date('j M Y, H:i T', $x);
+}
+
+function print_batch($batch) {
+    echo "ID: $batch->id
+    creation time: ".local_time_str($batch->create_time)."
+    # jobs: $batch->njobs
+    fraction done: $batch->fraction_done
+    # error jobs: $batch->nerror_jobs
+    state: ";
+    switch ($batch->state) {
+    case 1: echo "In progress\n"; break;
+    case 2: echo "Completed\n"; break;
+    case 3: echo "Aborted\n"; break;
+    case 4: echo "Retired\n"; break;
+    }
+    echo "    completion time: ".local_time_str($batch->completion_time)."
+    credit estimate: $batch->credit_estimate
+    granted credit: $batch->credit_canonical
+    name: $batch->name
+    app: $batch->app_name
+";
+}
+
 function handle_query() {
     global $argc, $argv;
     if ($argc != 3) usage();
@@ -60,24 +90,20 @@ function handle_query() {
     }
     if ($argv[2] == 'all') {
         foreach ($batches as $batch) {
-            echo "batch $batch->id: ";
-            switch ($batch->state) {
-            case 1: echo "In progress\n"; break;
-            case 2: echo "Completed\n"; break;
-            case 3: echo "Aborted\n"; break;
-            case 4: echo "Retired\n"; break;
-            }
+            print_batch($batch);
         }
     } else if (is_numeric($argv[2])) {
+        $batch_id = $argv[2];
         foreach ($batches as $batch) {
-            if ($batch->id==$batch_id) {
-                echo "batch $batch_id: ";
-                switch ($batch->state) {
-                case 1: echo "In progress\n"; break;
-                case 2: echo "Completed\n"; break;
-                case 3: echo "Aborted\n"; break;
-                case 4: echo "Retired\n"; break;
-                }
+            if ($batch->id == $batch_id) {
+                print_batch($batch);
+            }
+        }
+    } else {
+        $app_name = $argv[2];
+        foreach ($batches as $batch) {
+            if ($batch->app_name == $app_name) {
+                print_batch($batch);
             }
         }
     }
