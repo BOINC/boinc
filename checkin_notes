@@ -4386,6 +4386,7 @@ David  17 Aug 2012
         allow it to fetch work of that type if the # of runnable
         jobs it <= the # of non-excluded instances (rather than 0).
 
+<<<<<<< .working
     client/
         work_fetch.cpp,h
         rr_sim.cpp
@@ -4425,3 +4426,9 @@ Rom    12 Sept 2012
     /
         configure.ac
         version.h
+
+Rom    13 Sept 2012
+    - client: Initialize the total mem size_t.
+    
+    client/
+        gpu_nvidia.cpp
