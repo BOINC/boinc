@@ -330,7 +330,8 @@ function handle_query_job($user) {
             $i = 0;
             foreach ($names as $name) {
                 $url = boinc_get_output_file_url($user, $result, $i++);
-                $path = dir_hier_path($name, "../../upload", $fanout);
+                $upload_dir = parse_config(get_config(), "<upload_dir>");
+                $path = dir_hier_path($name, $upload_dir, $fanout);
                 $s = stat($path);
                 $size = $s['size'];
                 echo "<a href=$url>$name </a> (".number_format($size)." bytes)<br/>";
