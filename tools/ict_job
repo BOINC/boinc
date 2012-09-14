@@ -5,7 +5,7 @@
 // from the Institute for Computing Technology in Beijing
 //
 
-define("PROJECT", "http://casbak.ihep.ac.cn/casw/");
+define("PROJECT", "http://casathome.ihep.ac.cn/");
 
 function usage() {
     global $argv;
@@ -43,7 +43,6 @@ function handle_submit() {
     global $argc, $argv;
     if ($argc != 3) usage();
     if (!is_file($argv[2])) die("seq file missing");
-    //$auth = $argv[3];
     $auth = get_auth();
     $req_xml = "
 <tt_request>

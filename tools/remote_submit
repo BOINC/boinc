@@ -77,6 +77,17 @@ function print_batch($batch) {
 ";
 }
 
+function print_state($batch) {
+    $status="none";
+    switch ($batch->state) {
+    case 1: $status = "In progress";break;
+    case 2: $status = "Completed";break;
+    case 3: $status = "Aborted";break;
+    case 4: $status = "Retired";break;
+    }
+    echo "ID: $batch->id $status\n";
+}
+
 function handle_query() {
     global $argc, $argv;
     if ($argc != 3) usage();
@@ -90,20 +101,23 @@ function handle_query() {
     }
     if ($argv[2] == 'all') {
         foreach ($batches as $batch) {
-            print_batch($batch);
+            //print_batch($batch);
+            print_state($batch);
         }
     } else if (is_numeric($argv[2])) {
         $batch_id = $argv[2];
         foreach ($batches as $batch) {
             if ($batch->id == $batch_id) {
-                print_batch($batch);
+                //print_batch($batch);
+                print_state($batch);
             }
         }
     } else {
         $app_name = $argv[2];
         foreach ($batches as $batch) {
             if ($batch->app_name == $app_name) {
-                print_batch($batch);
+                //print_batch($batch);
+                print_state($batch);
             }
         }
     }
