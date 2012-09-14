@@ -35,7 +35,7 @@ function handle_submit($r, $user, $app) {
 	//
 	$files = file("../../tree_threader_template_files");
 	if ($files === false) { 
-        fwrite($log,"$timestamp\t template file tree_threader_template_files\n");
+        fwrite($log,"$timestamp\ttemplate file tree_threader_template_files\n");
         error("no templates file");
         
     }
@@ -59,7 +59,7 @@ function handle_submit($r, $user, $app) {
     $fanout = (int)$config->config->uldl_dir_fanout;
     $download_dir = trim((string)$config->config->download_dir);
 
-    $seq_fname = "three_threader_seq_$batch_id";
+    $seq_fname = "treeThreader_sequence_$batch_id.tar.gz";
     $seq_path = dir_hier_path($seq_fname, $download_dir, $fanout);
     $tmp_name = $_FILES['seq_file']['tmp_name'];
     $ret = rename($tmp_name, $seq_path);
@@ -92,8 +92,9 @@ function handle_submit($r, $user, $app) {
 //
 function handle_get_output($r, $batch) {
     global $log;
+    $timestamp = date("Y-m-d H:i",time());
 	$wus = BoincWorkUnit::enum("batch=$batch->id");
-	$outdir = "/tmp/tree_threader_output_".$batch->id;
+	$outdir = "/tmp/treeThreader_result_".$batch->id;
     @mkdir($outdir);
 	foreach ($wus as $wu) {
 		if (!$wu->canonical_resultid) continue;
@@ -129,7 +130,7 @@ function handle_get_output($r, $batch) {
 	if ($ret != $ret) {
 		error("can't zip output files");
 	}
-	$fname = "tree_threader_output_".$batch->id.".zip";
+	$fname = "treeThreader_result_".$batch->id.".zip";
     $treeThreader_dir="treeThreaderResult";
     if(!is_dir("../../download/$treeThreader_dir"))mkdir("../../download/$treeThreader_dir");
 	@symlink("/tmp/$fname", "../../download/$treeThreader_dir/$fname");
@@ -137,6 +138,8 @@ function handle_get_output($r, $batch) {
     $config = simplexml_load_string(file_get_contents("../../config.xml"));
     $download_url = trim((string)$config->config->download_url);
 	echo "<tt_reply>\n<url>$download_url/$treeThreader_dir/$fname</url>\n</tt_reply>\n";
+    $log_msg="$timestamp\tuser $batch->user_id downloads results for batch $batch->id : $download_url/$treeThreader_dir/$fname\n";
+    fwrite($log, $log_msg);
 }
 
 xml_header();
