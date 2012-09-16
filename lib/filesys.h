@@ -19,6 +19,7 @@
 #define _FILESYS_
 
 #if defined(_WIN32) && !defined(__CYGWIN32__)
+#include "boinc_win.h"
 #else
 #include <dirent.h>
 #include <grp.h>
@@ -27,10 +28,6 @@
 #include <sys/param.h>
 #ifdef __cplusplus
 #include <string>
-#endif
-
-#ifndef MAXPATHLEN
-#define MAXPATHLEN 1024
 #endif
 
 #endif /* !WIN32 */

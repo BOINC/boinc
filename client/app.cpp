@@ -300,16 +300,19 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     int retval;
     static bool first = true;
     static double last_cpu_time;
+    double diff;
 
-    double diff = gstate.now - last_mem_time;
-    if (diff < 0 || diff > MEMORY_USAGE_PERIOD + 10) {
-        // user has changed system clock,
-        // or there has been a long system sleep
-        //
-        last_mem_time = gstate.now;
-        return;
+    if (!first) {
+        diff = gstate.now - last_mem_time;
+        if (diff < 0 || diff > MEMORY_USAGE_PERIOD + 10) {
+            // user has changed system clock,
+            // or there has been a long system sleep
+            //
+            last_mem_time = gstate.now;
+            return;
+        }
+        if (diff < MEMORY_USAGE_PERIOD) return;
     }
-    if (diff < MEMORY_USAGE_PERIOD) return;
 
     last_mem_time = gstate.now;
     PROC_MAP pm;
@@ -345,18 +348,20 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         procinfo_app(pi, v, pm, atp->app_version->graphics_exec_file);
         pi.working_set_size_smoothed = .5*(pi.working_set_size_smoothed + pi.working_set_size);
 
-        int pf = pi.page_fault_count - last_page_fault_count;
-        pi.page_fault_rate = pf/diff;
-        if (log_flags.mem_usage_debug) {
-            msg_printf(atp->result->project, MSG_INFO,
-                "[mem_usage] %s: WS %.2fMB, smoothed %.2fMB, page %.2fMB, %.2f page faults/sec, user CPU %.3f, kernel CPU %.3f",
-                atp->result->name,
-                pi.working_set_size/MEGA,
-                pi.working_set_size_smoothed/MEGA,
-                pi.swap_size/MEGA,
-                pi.page_fault_rate,
-                pi.user_time, pi.kernel_time
-            );
+        if (!first) {
+            int pf = pi.page_fault_count - last_page_fault_count;
+            pi.page_fault_rate = pf/diff;
+            if (log_flags.mem_usage_debug) {
+                msg_printf(atp->result->project, MSG_INFO,
+                    "[mem_usage] %s: WS %.2fMB, smoothed %.2fMB, page %.2fMB, %.2f page faults/sec, user CPU %.3f, kernel CPU %.3f",
+                    atp->result->name,
+                    pi.working_set_size/MEGA,
+                    pi.working_set_size_smoothed/MEGA,
+                    pi.swap_size/MEGA,
+                    pi.page_fault_rate,
+                    pi.user_time, pi.kernel_time
+                );
+            }
         }
     }
 
@@ -391,9 +396,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         );
     }
     double new_cpu_time = pi.user_time + pi.kernel_time;
-    if (first) {
-        first = false;
-    } else {
+    if (!first) {
         non_boinc_cpu_usage = (new_cpu_time - last_cpu_time)/(diff*gstate.host_info.p_ncpus);
         // processes might have exited in the last 10 sec,
         // causing this to be negative.
@@ -405,6 +408,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         }
     }
     last_cpu_time = new_cpu_time;
+    first = false;
 }
 
 #endif

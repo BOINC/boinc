@@ -5962,3 +5962,12 @@ Rom    13 Sept 2012
     
     client/
         gpu_nvidia.cpp
+
+David  16 Sept 2012
+	- client: enforce excluded app at startup
+	- win compile fix
+
+	client/
+		app.cpp
+	lib/
+		filesys.h
