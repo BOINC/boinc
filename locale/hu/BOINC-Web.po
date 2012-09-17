@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2012-06-18 10:52+0200\n"
+"PO-Revision-Date: 2012-08-29 14:41+0200\n"
 "Last-Translator: Gabor <csega@mailbox.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hu\n"
@@ -551,7 +551,6 @@ msgid "Spinhenge@home"
 msgstr "Spinhenge@home"
 
 #: projects.inc:232
-#, fuzzy
 msgid "Bielefeld University of Applied Sciences"
 msgstr "Alkalmazott Tudományok Bielefeldi Egyeteme"
 
@@ -660,7 +659,6 @@ msgid "World Community Grid"
 msgstr "World Community Grid"
 
 #: projects.inc:277
-#, fuzzy
 msgid "IBM Corporate Community Relations"
 msgstr "IBM Vállalati Közösségi Kapcsolatok"
 
@@ -736,6 +734,12 @@ msgid ""
 "NFS@Home is a continuation of that experience, only with integers that are "
 "hundreds of digits long."
 msgstr ""
+"Az NFS@Home olyan kutatási projekt, mely interneteléréssel rendelkező "
+"számítógépeket használ nagy egész számok rácson történő szitálásához. "
+"Általános iskolásként Ön is megszerezte első tapasztalatait egy egész szám "
+"prímtényezőkre való bontásával kapcsolatban, mint például hogy 15 = 3 * 5, "
+"vagy hogy 35 = 5 * 7. Az NFS@Home ezen tapasztalatok kiterjesztése, csak "
+"éppen több száz számjegy hosszúságú egész számokra."
 
 #: projects.inc:310
 msgid "VTU@home"
@@ -745,7 +749,7 @@ msgstr "VTU@home"
 msgid ""
 "Vilnius Gediminas Technical University and Kaunas University of Technology "
 "(Lithuania)"
-msgstr ""
+msgstr "Vilnius Gediminas Műszaki Egyetem és Kaunas Műszaki Egyetem (Litvánia)"
 
 #: projects.inc:313
 msgid "Software testing"
@@ -758,6 +762,10 @@ msgid ""
 "well as others Lithuanian academic institutions.  Current applications "
 "involve the study of Monte-Carlo based software testing."
 msgstr ""
+"Jelen projekt célja egy szélesen elosztott számítógépes platform létrehozása "
+"a Vilnius Gediminas Műszaki Egyetem (VGME) illetve más litvániai akadémiai "
+"intézmények kutatóinak számára. Jelen alkalmazások Monte-Carlo alapú "
+"szoftvertesztelési kutatások részei."
 
 #: projects.inc:318
 msgid "AQUA@home"
@@ -780,6 +788,13 @@ msgid ""
 "computers to help design and analyze quantum computing algorithms, using "
 "Quantum Monte Carlo techniques."
 msgstr ""
+"A D-Wave AQUA (Adiabatic QUantum Algorithms - Adiabatikus KVantum "
+"Algoritmusok) kutatási projekt célja a szupravezető adiabatikus kvantum "
+"számítógépek teljesítményének előrejelzése az anyagtudománytól a gépi "
+"tanulásig felvetődő különböző problémák esetében. Az AQUA@home "
+"interneteléréssel rendelkező számítógépeket használ kvantum algoritmusok "
+"megtervezéséhez és elemzéséhez, a Quantum Monte Carlo technikák "
+"alkalmazásával."
 
 #: projects.inc:334
 msgid "ABC@home"
@@ -787,7 +802,7 @@ msgstr "ABC@home"
 
 #: projects.inc:336
 msgid "Mathematical Institute of Leiden University / Kennislink"
-msgstr ""
+msgstr "A Leideni Egyetem Matematikai Intézete / Kennislink"
 
 #: projects.inc:338
 msgid ""
@@ -799,6 +814,13 @@ msgid ""
 "problems in mathematics. If it is proven to be true, a lot of other open "
 "problems can be answered directly from it."
 msgstr ""
+"'ABC-hármasok' keresése: a, b és c olyan pozitív egész számok, melyekre "
+"igaz, hogy a+b=c, a &lt; b &lt; nincs közös osztójuk és c > rad(abc), ahol "
+"rad(n) az n különböző egész szorzóinak eredménye. Az ABC-feltevés szerint "
+"véges számban találhatóak olyan a, b, és c számok, melyekre igaz, hogy "
+"log(c)/log(rad(abc)) > h, ahol h 1-nél nagyobb valós szám. Az ABC-feltevés "
+"napjainkban a matematika egyik legnagyobb nyitott problémája. Ha igaznak "
+"bizonyul, rengeteg egyéb nyitott problémára fog majd választ adni."
 
 #: projects.inc:342
 msgid "PrimeGrid"
@@ -814,6 +836,9 @@ msgid ""
 "searching for large twin primes of the form k*2<sup>n</sup>+1 and k*2<sup>n</"
 "sup>-1"
 msgstr ""
+"A Primegrid projekt nyilvános, növekvő prímszám-adatbázist épít és "
+"k*2<sup>n</sup>+1 and k*2<sup>n</sup>-1 formátumú, nagy ikerprímek után "
+"kutat."
 
 #: projects.inc:350
 msgid "primaboinca"
@@ -821,13 +846,15 @@ msgstr "primaboinca"
 
 #: projects.inc:352
 msgid "Hochschule RheinMain University of Applied Sciences"
-msgstr ""
+msgstr "RheinMaini Alkalmazott Tudományok Egyeteme"
 
 #: projects.inc:354
 msgid ""
 "Search for counterexamples to two conjectures related to the identification "
 "of prime numbers"
 msgstr ""
+"Prímszámok azonosításához kapcsolódó két sejtéshez tartozó ellenpéldák "
+"keresése"
 
 #: projects.inc:358
 msgid "SZTAKI Desktop Grid"
@@ -838,6 +865,8 @@ msgid ""
 "Find all the generalized binary number systems (in which bases are matrices "
 "and digits are vectors) up to dimension 11."
 msgstr ""
+"Találja meg az összes általánosított kettes számrendszert (melyekben a "
+"bázisok mátrixok, a számjegyek pedig vektorok) egészen a 11. dimenzióig."
 
 #: projects.inc:382
 msgid "Chess960@home"

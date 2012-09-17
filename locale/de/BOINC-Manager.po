@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-05 10:58-0500\n"
-"PO-Revision-Date: 2012-06-17 10:22+0200\n"
+"PO-Revision-Date: 2012-08-05 13:48+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -34,8 +34,7 @@ msgid ""
 "(to create an account, visit the project's web site)"
 msgstr ""
 "Bitte geben Sie Ihre Kontoinformationen ein.\n"
-"(Bitte besuchen Sie die Projektwebseite, um ein Teilnehmerkonto "
-"einzurichten.)"
+"(Zum Erstellen eines Accounts, Projektseite besuchen)"
 
 #: clientgui/AccountInfoPage.cpp:396
 msgid ""
@@ -1918,7 +1917,7 @@ msgstr "Status"
 
 #: clientgui/DlgItemProperties.cpp:316
 msgid "Received"
-msgstr "Erhalten"
+msgstr "erhalten"
 
 #: clientgui/DlgItemProperties.cpp:319
 msgid "Report deadline"
@@ -1939,12 +1938,12 @@ msgstr "Prozessor-Zeit beim letzten Checkpoint"
 #: clientgui/DlgItemProperties.cpp:328
 #: clientgui/DlgItemProperties.cpp:343
 msgid "CPU time"
-msgstr "Prozessor-Zeit"
+msgstr "Prozessorzeit"
 
 #: clientgui/DlgItemProperties.cpp:330
 #: clientgui/DlgItemProperties.cpp:344
 msgid "Elapsed time"
-msgstr "Verbrauchte Zeit"
+msgstr "bisherige Laufzeit"
 
 #: clientgui/DlgItemProperties.cpp:332
 msgid "Estimated time remaining"
@@ -1956,7 +1955,7 @@ msgstr "Fortschritt"
 
 #: clientgui/DlgItemProperties.cpp:334
 msgid "Virtual memory size"
-msgstr "Größe des Virtuellen Speichers"
+msgstr "benötigter Arbeitsspeicher"
 
 #: clientgui/DlgItemProperties.cpp:335
 msgid "Working set size"
@@ -1964,7 +1963,7 @@ msgstr "Größe des Arbeitspakets"
 
 #: clientgui/DlgItemProperties.cpp:337
 msgid "Directory"
-msgstr "Ordner"
+msgstr "Verzeichnis"
 
 #: clientgui/DlgItemProperties.cpp:340
 msgid "Process ID"
@@ -1985,7 +1984,7 @@ msgstr "Sprache:"
 
 #: clientgui/DlgOptions.cpp:168
 msgid "What language should BOINC use?"
-msgstr "Welche Sprache soll der Manager verwenden?"
+msgstr "Welche Sprache soll der BOINC Manager verwenden?"
 
 #: clientgui/DlgOptions.cpp:172
 msgid "Notice reminder interval:"
@@ -1994,7 +1993,8 @@ msgstr "An Nachrichten erinnern alle:"
 #: clientgui/DlgOptions.cpp:179
 msgid "How often should BOINC remind you of new notices?"
 msgstr ""
-"Wie oft soll der Manager Sie erinnern wenn neue Nachrichten verfügbar sind?"
+"Wie oft soll der BOINC Manager Sie erinnern wenn neue Nachrichten verfügbar "
+"sind?"
 
 #: clientgui/DlgOptions.cpp:184
 msgid "Run Manager at login?"
@@ -2055,12 +2055,12 @@ msgstr "Port:"
 #: clientgui/DlgOptions.cpp:282
 #: clientgui/DlgOptions.cpp:346
 msgid "Don't use proxy for:"
-msgstr "Keinen Proxy benutzen für:"
+msgstr "Keinen Proxyserver benutzen für:"
 
 #: clientgui/DlgOptions.cpp:289
 #: clientgui/DlgOptions.cpp:353
 msgid "Leave these blank if not needed"
-msgstr "Leer lassen, wenn nicht benötigt."
+msgstr "Bitte leer lassen, falls nicht benötigt."
 
 #: clientgui/DlgOptions.cpp:295
 #: clientgui/DlgOptions.cpp:359
@@ -2079,7 +2079,7 @@ msgstr "Passwort:"
 
 #: clientgui/DlgOptions.cpp:310
 msgid "HTTP Proxy"
-msgstr "HTTP Proxy"
+msgstr "HTTP Proxyserver"
 
 #: clientgui/DlgOptions.cpp:318
 msgid "Connect via SOCKS proxy server"
@@ -2091,11 +2091,11 @@ msgstr "SOCKS Proxyserver Konfiguration"
 
 #: clientgui/DlgOptions.cpp:374
 msgid "SOCKS Proxy"
-msgstr "SOCKS Proxy"
+msgstr "SOCKS Proxyserver"
 
 #: clientgui/DlgOptions.cpp:572
 msgid "always"
-msgstr "dauerhaft"
+msgstr "ständig"
 
 #: clientgui/DlgOptions.cpp:573
 msgid "1 hour"
@@ -2115,7 +2115,7 @@ msgstr "1 Woche"
 
 #: clientgui/DlgOptions.cpp:577
 msgid "never"
-msgstr "nie"
+msgstr "niemals"
 
 #: clientgui/DlgOptions.cpp:674
 #, c-format

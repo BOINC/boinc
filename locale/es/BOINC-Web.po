@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2011-12-31 05:39+0200\n"
+"PO-Revision-Date: 2012-08-25 18:42+0200\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -201,6 +201,14 @@ msgid ""
 "populations with a diverse set of parameters related to biological and "
 "social factors that influence the distribution of the disease. "
 msgstr ""
+"Los modelos de simulación de la dinámica de transmisión y efectos en la "
+"salud de la malaria son una herramienta importante para el control de la "
+"malaria. Pueden ser utilizados para determinar las estrategias óptimas para "
+"la entrega de mosquiteros, la quimioterapia o las nuevas vacunas que están "
+"actualmente en desarrollo y pruebas. Este tipo de modelos es extremadamente "
+"intensivo, y requieren simulaciones de grandes poblaciones humanas con un "
+"variado conjunto de parámetros relacionados con los factores biológicos y "
+"sociales que influyen en la distribución de la enfermedad."
 
 #: projects.inc:102
 msgid "Rosetta@home"
@@ -655,7 +663,7 @@ msgstr "NFS@home"
 
 #: projects.inc:304
 msgid "California State University Fullerton"
-msgstr ""
+msgstr "Universidad del Estado de California Fullerton"
 
 #: projects.inc:305
 msgid "Factorization of large integers"
@@ -680,6 +688,8 @@ msgid ""
 "Vilnius Gediminas Technical University and Kaunas University of Technology "
 "(Lithuania)"
 msgstr ""
+"Universidad Técnica Vilnius Gediminas y Universidad de Tecnología Kaunas "
+"(Lituania)"
 
 #: projects.inc:313
 msgid "Software testing"
@@ -972,6 +982,8 @@ msgid ""
 "BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
 "or the University of California."
 msgstr ""
+"Los colaboradores de BOINC no son remunerados. Su consejo no esta avalado "
+"por BOINC o por la Universidad de California."
 
 #: help_funcs.php:110
 msgid "%1Never%2 give email address or password information to BOINC helpers."

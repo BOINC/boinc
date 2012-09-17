@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-05 10:58-0500\n"
-"PO-Revision-Date: 2012-06-03 13:43+0200\n"
+"PO-Revision-Date: 2012-07-08 15:21+0200\n"
 "Last-Translator: Gabor <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -730,7 +730,6 @@ msgstr ""
 "megadásánál használja a 'localhost' kifejezést."
 
 #: clientgui/BOINCBaseView.cpp:774
-#, fuzzy
 msgid "Project web pages"
 msgstr "A projekt weboldalai"
 
@@ -940,7 +939,6 @@ msgid "Resume"
 msgstr "Folytatás"
 
 #: clientgui/BOINCTaskBar.cpp:632
-#, fuzzy
 msgid "Resume GPU"
 msgstr "GPU folytatása"
 
@@ -1696,8 +1694,8 @@ msgstr ""
 "%s alkalmazás vagy a(z) %s képernyővédő újra futni nem kezd.\n"
 "\n"
 "A legtöbb esetben jobb csupán lecsukni a(z) %s ablakát\n"
-"mint kilépni az alkalmazásból; ezzel engedélyezi a(z) %snek, hogy futassa a\n"
-"feladatait a beállításoknál megadott időpontokban."
+"mint kilépni az alkalmazásból; ezzel engedélyezi a(z) %s feladatainak\n"
+"futtatását a beállításoknál megadott időpontokban."
 
 #: clientgui/DlgExitMessage.cpp:153
 #, c-format
@@ -1733,7 +1731,6 @@ msgid "Account manager preference"
 msgstr "A fiókkezelő élvez elsőbbséget"
 
 #: clientgui/DlgItemProperties.cpp:177
-#, fuzzy
 msgid "Project has no apps for "
 msgstr "A projektnek nincs alkalmazása ehhez: "
 
@@ -1742,7 +1739,6 @@ msgid "Client configuration excludes "
 msgstr "A kliens beállításai kizárják ezt:  "
 
 #: clientgui/DlgItemProperties.cpp:184
-#, fuzzy
 msgid " work fetch deferred for"
 msgstr " munka letöltése elhalasztva ennyi időre"
 
@@ -2644,7 +2640,6 @@ msgid "Supported systems:"
 msgstr "Támogatott rendszerek:"
 
 #: clientgui/ProjectInfoPage.cpp:612
-#, fuzzy
 msgid "Project URL:"
 msgstr "Projekt URL:"
 
@@ -3106,7 +3101,6 @@ msgid "%d"
 msgstr "%d"
 
 #: clientgui/sg_DlgPreferences.cpp:1031
-#, fuzzy
 msgid "Do you really want to clear all local preferences?\n"
 msgstr "Biztosan törölni akar minden helyi beállítást?\n"
 
@@ -3266,7 +3260,6 @@ msgid "%s: %.0f"
 msgstr "%s: %.0f"
 
 #: clientgui/sg_ProjectPanel.cpp:145
-#, fuzzy
 msgid "Project Web Pages"
 msgstr "A projekt weboldalai"
 
@@ -3411,8 +3404,7 @@ msgid "Elapsed: %s"
 msgstr "Eltelt: %s"
 
 #: clientgui/sg_TaskPanel.cpp:839
-#, c-format
-#, fuzzy, c-format
+#, c-format, c-format
 msgid "Remaining (estimated): %s"
 msgstr "Hátralévő (becsült): %s"
 
@@ -3912,7 +3904,7 @@ msgstr "Próbálja most"
 
 #: clientgui/ViewTransfers.cpp:164
 msgid "Click 'Retry now' to transfer the file now"
-msgstr "Kattintson a \"Próbálja most\" gombra, hogy a fájl átvitelét megkezdje"
+msgstr "Kattintson a \"Próbálja most\" gombra a fájl átviteléhez"
 
 #: clientgui/ViewTransfers.cpp:170
 msgid "Abort Transfer"
@@ -3989,12 +3981,10 @@ msgid "Abort File Transfer"
 msgstr "Adatátvitel megszakítása"
 
 #: clientgui/ViewTransfers.cpp:769
-#, fuzzy
 msgid "Upload"
 msgstr "Feltöltés"
 
 #: clientgui/ViewTransfers.cpp:769
-#, fuzzy
 msgid "Download"
 msgstr "Letöltés"
 
@@ -4038,14 +4028,13 @@ msgstr "Virtuális gép konzol"
 
 #: clientgui/ViewWork.cpp:201
 msgid "Show VM Console in a window."
-msgstr "A virtuális gép konzoljának új ablakban történő megjelenítése."
+msgstr "Virtuális gép konzol megjelenítése új ablakban."
 
 #: clientgui/ViewWork.cpp:234
 msgid "Elapsed"
 msgstr "Eltelt"
 
 #: clientgui/ViewWork.cpp:235
-#, fuzzy
 msgid "Remaining (estimated)"
 msgstr "Hátralévő (becsült)"
 

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-09 09:39-0800\n"
-"PO-Revision-Date: 2012-04-07 15:06+0200\n"
+"PO-Revision-Date: 2012-04-07 15:07+0200\n"
 "Last-Translator: Kenneth <kenneth@skjold.biz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nb\n"
@@ -18,9 +18,8 @@ msgstr ""
 "X-Generator: Pootle 2.1.6\n"
 
 #: acct_mgr.cpp:435 acct_mgr.cpp:444
-#, fuzzy
 msgid "Message from account manager"
-msgstr "Melding fra server"
+msgstr "Melding fra konto manager"
 
 #: client_msgs.cpp:79
 msgid "Message from server"
