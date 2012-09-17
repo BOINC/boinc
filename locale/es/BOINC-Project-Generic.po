@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2011-12-04 19:02+0200\n"
+"PO-Revision-Date: 2012-08-25 19:45+0200\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -29,147 +29,149 @@ msgstr "Spanish"
 
 #: ../inc/bbcode_html.inc:11
 msgid "Bold text: [b]text[/b]  (alt+b)"
-msgstr ""
+msgstr "Texto en negrita: [b]texto[/b]  (alt+b)"
 
 #: ../inc/bbcode_html.inc:14
 msgid "Italic text: [i]text[/i]  (alt+i)"
-msgstr ""
+msgstr "Texto en cursiva: [i]texto[/i]  (alt+i)"
 
 #: ../inc/bbcode_html.inc:17
 msgid "Underline text: [u]text[/u]  (alt+u)"
-msgstr ""
+msgstr "Texto subrayado: [u]texto[/u]  (alt+u)"
 
 #: ../inc/bbcode_html.inc:20
 msgid "Quote text: [quote]text[/quote]  (alt+q)"
-msgstr ""
+msgstr "Texto de cita: [quote]texto[/quote]  (alt+q)"
 
 #: ../inc/bbcode_html.inc:23
 msgid "Code display: [code]code[/code]  (alt+c)"
-msgstr ""
+msgstr "Visualización de código: [code]código[/code]  (alt+c)"
 
 #: ../inc/bbcode_html.inc:26
 msgid "List: [list]text[/list] (alt+l)"
-msgstr ""
+msgstr "Lista: [list]text[/list] (alt+l)"
 
 #: ../inc/bbcode_html.inc:29
 msgid "Ordered list: [list=]text[/list]  (alt+o)"
-msgstr ""
+msgstr "Lista ordenada: [list=]texto[/list]  (alt+o)"
 
 #: ../inc/bbcode_html.inc:32
 msgid "Insert image: [img]http://image_url[/img]  (alt+p)"
-msgstr ""
+msgstr "Insertar imagen: [img]http://url_de_imagen[/img]  (alt+p)"
 
 #: ../inc/bbcode_html.inc:35
 msgid ""
 "Insert URL: [url]http://url[/url] or [url=http://url]URL text[/url]  (alt+w)"
 msgstr ""
+"Insertar URL: [url]http://url[/url] o [url=http://url]texto URL[/url]  "
+"(alt+w)"
 
 #: ../inc/bbcode_html.inc:42
 msgid "Font color"
-msgstr ""
+msgstr "Color de fuente"
 
 #: ../inc/bbcode_html.inc:43
 msgid ""
 "Font color: [color=red]text[/color]  Tip: you can also use color=#FF0000"
 msgstr ""
+"Color de fuente: [color=red]texto[/color]  Nota: también puede usar "
+"color=#FF0000"
 
 #: ../inc/bbcode_html.inc:44 ../inc/bbcode_html.inc:59 ../inc/prefs.inc:625
 msgid "Default"
 msgstr "Por defecto"
 
 #: ../inc/bbcode_html.inc:45
-#, fuzzy
 msgid "Dark Red"
-msgstr "Marcar como leído"
+msgstr "Rojo Oscuro"
 
 #: ../inc/bbcode_html.inc:46
 msgid "Red"
-msgstr ""
+msgstr "Rojo"
 
 #: ../inc/bbcode_html.inc:47
-#, fuzzy
 msgid "Orange"
-msgstr "Cambiar"
+msgstr "Naranja"
 
 #: ../inc/bbcode_html.inc:48
 msgid "Brown"
-msgstr ""
+msgstr "Marrón"
 
 #: ../inc/bbcode_html.inc:49
 msgid "Yellow"
-msgstr ""
+msgstr "Amarillo"
 
 #: ../inc/bbcode_html.inc:50
 msgid "Green"
-msgstr ""
+msgstr "Verde"
 
 #: ../inc/bbcode_html.inc:51
 msgid "Olive"
-msgstr ""
+msgstr "Oliva"
 
 #: ../inc/bbcode_html.inc:52
 msgid "Cyan"
-msgstr ""
+msgstr "Turquesa"
 
 #: ../inc/bbcode_html.inc:53
 msgid "Blue"
-msgstr ""
+msgstr "Azul"
 
 #: ../inc/bbcode_html.inc:54
 msgid "Dark Blue"
-msgstr ""
+msgstr "Azul Oscuro"
 
 #: ../inc/bbcode_html.inc:55
 msgid "Indigo"
-msgstr ""
+msgstr "Índigo"
 
 #: ../inc/bbcode_html.inc:56
 msgid "Violet"
-msgstr ""
+msgstr "Violeta"
 
 #: ../inc/bbcode_html.inc:57
 msgid "Font size"
-msgstr ""
+msgstr "Tamaño de fuente"
 
 #: ../inc/bbcode_html.inc:58
 msgid "Font size: [size=x-small]small text[/size]"
-msgstr ""
+msgstr "Tamaño de fuente: [size=x-small]texto pequeño[/size]"
 
 #: ../inc/bbcode_html.inc:60
 msgid "Small"
-msgstr ""
+msgstr "Pequeña"
 
 #: ../inc/bbcode_html.inc:61
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #: ../inc/bbcode_html.inc:62
 msgid "Large"
-msgstr ""
+msgstr "Grande"
 
 #: ../inc/bbcode_html.inc:65
 msgid "Close all open bbCode tags"
-msgstr ""
+msgstr "Cerrar todas las etiquetas bbCode abiertas"
 
 #: ../inc/bbcode_html.inc:65
 msgid "Close Tags"
-msgstr ""
+msgstr "Cerrar Etiquetas"
 
 #: ../inc/forum.inc:37
 msgid "Oldest first"
-msgstr ""
+msgstr "Más antiguo primero"
 
 #: ../inc/forum.inc:38 ../inc/forum.inc:44
 msgid "Newest first"
-msgstr ""
+msgstr "Más nuevo primero"
 
 #: ../inc/forum.inc:39
 msgid "Highest rated posts first"
-msgstr ""
+msgstr "Mensajes más valorados primero"
 
 #: ../inc/forum.inc:41
 msgid "Newest post first"
-msgstr ""
+msgstr "Mensajes más nuevos primero"
 
 #: ../inc/forum.inc:42
 msgid "Most views first"
@@ -226,52 +228,44 @@ msgid "Next"
 msgstr "Siguiente"
 
 #: ../inc/forum.inc:535
-#, fuzzy
 msgid "Send&nbsp;message"
-msgstr "Enviar mensaje"
+msgstr "Enviar&nbsp;mensaje"
 
 # ########################################
 # Private messages
 #: ../inc/forum.inc:535
-#, fuzzy
 msgid "Send %1 a private message"
-msgstr "Enviar mensaje privado"
+msgstr "Enviar a %1 un mensaje privado"
 
 #: ../inc/forum.inc:536
-#, fuzzy
 msgid "Joined: %1"
-msgstr "Perfil: %1"
+msgstr "Unido: %1"
 
 # ########################################
 # Forum
 #: ../inc/forum.inc:545
-#, fuzzy
 msgid "Posts: %1"
-msgstr "Mensajes"
+msgstr "Mensajes: %1"
 
 #: ../inc/forum.inc:551
-#, fuzzy
 msgid "Credit: %1"
-msgstr "Crédito"
+msgstr "Crédito: %1"
 
 #: ../inc/forum.inc:552
 msgid "RAC: %1"
-msgstr ""
+msgstr "RAC: %1"
 
 #: ../inc/forum.inc:574
-#, fuzzy
 msgid "You haven't read this message yet"
-msgstr "No tiene mensajes privados."
+msgstr "No ha leído este mensaje todavía"
 
 #: ../inc/forum.inc:574
-#, fuzzy
 msgid "Unread"
-msgstr "no leído"
+msgstr "No leído"
 
 #: ../inc/forum.inc:577 ../inc/forum.inc:582 ../inc/forum.inc:681
-#, fuzzy
 msgid "Message %1"
-msgstr "Mensaje"
+msgstr "Mensaje %1"
 
 #: ../inc/forum.inc:578 ../inc/user.inc:324 ../user/forum_forum.php:172
 msgid "hidden"
@@ -280,9 +274,8 @@ msgstr "oculto"
 # ########################################
 # Forum
 #: ../inc/forum.inc:579
-#, fuzzy
 msgid "Posted: %1"
-msgstr "Mensajes"
+msgstr "Enviados: %1"
 
 #: ../inc/forum.inc:582
 #, fuzzy
@@ -294,14 +287,12 @@ msgid "Edit"
 msgstr "Editar"
 
 #: ../inc/forum.inc:585
-#, fuzzy
 msgid "Edit this message"
-msgstr "Edite su perfil"
+msgstr "Edite este mensaje"
 
 #: ../inc/forum.inc:591
-#, fuzzy
 msgid "Last modified: %1"
-msgstr "Ultima modificación de las preferencias:"
+msgstr "Última modificación: %1"
 
 #: ../inc/forum.inc:594
 msgid ""
@@ -311,36 +302,35 @@ msgstr ""
 
 #: ../inc/forum.inc:622 ../inc/forum.inc:633
 msgid "Report this post as offensive"
-msgstr ""
+msgstr "Informar este mensaje como ofensivo"
 
 #: ../inc/forum.inc:622 ../inc/forum.inc:633
-#, fuzzy
 msgid "Report as offensive"
-msgstr "Último mensaje"
+msgstr "Informar como ofensivo"
 
 #: ../inc/forum.inc:626
 msgid "Rating: %1"
-msgstr ""
+msgstr "Valoración: %1"
 
 #: ../inc/forum.inc:626
 msgid "rate: "
-msgstr ""
+msgstr "valoración: "
 
 #: ../inc/forum.inc:629
 msgid "Click if you like this message"
-msgstr ""
+msgstr "Pulse si le gusta este mensaje"
 
 #: ../inc/forum.inc:629
 msgid "Rate +"
-msgstr ""
+msgstr "Valoración +"
 
 #: ../inc/forum.inc:631
 msgid "Click if you don't like this message"
-msgstr ""
+msgstr "Pulse si no le gusta este mensaje"
 
 #: ../inc/forum.inc:631
 msgid "Rate -"
-msgstr ""
+msgstr "Valoración -"
 
 #: ../inc/forum.inc:639 ../user/pm.php:106 ../user/pm.php:146
 msgid "Reply"
@@ -348,27 +338,25 @@ msgstr "Responder"
 
 #: ../inc/forum.inc:639
 msgid "Post a reply to this message"
-msgstr ""
+msgstr "Enviar una respuesta a este mensaje"
 
 #: ../inc/forum.inc:641
-#, fuzzy
 msgid "Quote"
-msgstr "Separase del equipo"
+msgstr "Citar"
 
 #: ../inc/forum.inc:641
 msgid "Post a reply by quoting this message"
-msgstr ""
+msgstr "Enviar una respuesta citando este mensaje"
 
 #: ../inc/forum.inc:662
 msgid "Hidden by a moderator"
-msgstr ""
+msgstr "Oculto por un moderador"
 
 # ########################################
 # Forum
 #: ../inc/forum.inc:683
-#, fuzzy
 msgid "Posted %1 by %2"
-msgstr "Mensajes"
+msgstr "Enviado %1 por %2"
 
 #: ../inc/forum.inc:701
 #, fuzzy
@@ -3788,9 +3776,11 @@ msgstr ""
 msgid "unread/locked"
 msgstr "no leído"
 
+# 81%
 #: ../user/forum_forum.php:184
+#, fuzzy
 msgid "You haven't read this thread yet"
-msgstr ""
+msgstr "No tiene mensajes privados."
 
 #: ../user/forum_forum.php:190
 msgid "This thread is sticky and locked"
@@ -6372,9 +6362,11 @@ msgstr ""
 msgid "Couldn't join team - please try again later."
 msgstr "No se pudo crear el equipo - por favor, intentelo más tarde"
 
+# 90%
 #: ../user/team_join_action.php:40
+#, fuzzy
 msgid "Joined %1"
-msgstr ""
+msgstr "Perfil: %1"
 
 #: ../user/team_join_action.php:41
 msgid "You have joined %1."
@@ -6865,9 +6857,11 @@ msgstr ""
 msgid "can't find workunit"
 msgstr ""
 
+# 81%
 #: ../user/workunit.php:35
+#, fuzzy
 msgid "Workunit %1"
-msgstr ""
+msgstr "Unidad de trabajo"
 
 #: ../user/workunit.php:43
 msgid "canonical result"

@@ -4,8 +4,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-05 10:58-0500\n"
-"PO-Revision-Date: 2012-03-23 19:01+0200\n"
-"Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
+"PO-Revision-Date: 2012-07-12 07:47+0200\n"
+"Last-Translator: Rom <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -733,7 +733,6 @@ msgstr ""
 "comme nom d'hôte."
 
 #: clientgui/BOINCBaseView.cpp:774
-#, fuzzy
 msgid "Project web pages"
 msgstr "Pages Web du projet"
 
@@ -800,8 +799,7 @@ msgid "%s failed to disconnected from the Internet."
 msgstr "%s n'a pas réussi à se déconnecter d'Internet."
 
 #: clientgui/BOINCGUIApp.cpp:339
-#, c-format
-#, fuzzy, c-format
+#, c-format, c-format
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "\n"
@@ -1736,7 +1734,6 @@ msgid "Project preference"
 msgstr "Préférences du projet"
 
 #: clientgui/DlgItemProperties.cpp:174
-#, fuzzy
 msgid "Account manager preference"
 msgstr "Préférence du gestionnaire de compte"
 
@@ -3415,8 +3412,7 @@ msgid "Elapsed: %s"
 msgstr "Ecoulé: %s"
 
 #: clientgui/sg_TaskPanel.cpp:839
-#, c-format
-#, fuzzy, c-format
+#, c-format, c-format
 msgid "Remaining (estimated): %s"
 msgstr "Restant (estimation): %s"
 
@@ -4060,7 +4056,6 @@ msgid "Elapsed"
 msgstr "Ecoulé"
 
 #: clientgui/ViewWork.cpp:235
-#, fuzzy
 msgid "Remaining (estimated)"
 msgstr "Restant (estimation)"
 

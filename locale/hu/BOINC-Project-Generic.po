@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2012-06-08 12:53+0200\n"
+"PO-Revision-Date: 2012-09-09 10:54+0200\n"
 "Last-Translator: Gabor <csega@mailbox.hu>\n"
 "Language-Team: \n"
 "Language: hu\n"
@@ -229,12 +229,10 @@ msgid "Next"
 msgstr "Következő"
 
 #: ../inc/forum.inc:535
-#, fuzzy
 msgid "Send&nbsp;message"
 msgstr "Üzenet&nbsp;küldése"
 
 #: ../inc/forum.inc:535
-#, fuzzy
 msgid "Send %1 a private message"
 msgstr "Privát üzenet küldése neki: %1"
 
@@ -245,12 +243,10 @@ msgstr "Csatlakozott: %1"
 # #######################################
 # Forum
 #: ../inc/forum.inc:545
-#, fuzzy
 msgid "Posts: %1"
 msgstr "Bejegyzések: %1"
 
 #: ../inc/forum.inc:551
-#, fuzzy
 msgid "Credit: %1"
 msgstr "Kredit: %1"
 
@@ -263,12 +259,10 @@ msgid "You haven't read this message yet"
 msgstr "Ezt az üzenetet még nem olvasta"
 
 #: ../inc/forum.inc:574
-#, fuzzy
 msgid "Unread"
 msgstr "Olvasatlan"
 
 #: ../inc/forum.inc:577 ../inc/forum.inc:582 ../inc/forum.inc:681
-#, fuzzy
 msgid "Message %1"
 msgstr "%1. üzenet"
 
@@ -279,12 +273,10 @@ msgstr "rejtett"
 # #######################################
 # Forum
 #: ../inc/forum.inc:579
-#, fuzzy
 msgid "Posted: %1"
 msgstr "Beküldve: %1"
 
 #: ../inc/forum.inc:582
-#, fuzzy
 msgid " - in response to "
 msgstr "- válasz erre:"
 
@@ -293,12 +285,10 @@ msgid "Edit"
 msgstr "Szerkesztés"
 
 #: ../inc/forum.inc:585
-#, fuzzy
 msgid "Edit this message"
 msgstr "Üzenet szerkesztése"
 
 #: ../inc/forum.inc:591
-#, fuzzy
 msgid "Last modified: %1"
 msgstr "Utolsó módosítás: %1"
 
@@ -315,7 +305,6 @@ msgid "Report this post as offensive"
 msgstr "Bejegyzés jelentése, mert sértő"
 
 #: ../inc/forum.inc:622 ../inc/forum.inc:633
-#, fuzzy
 msgid "Report as offensive"
 msgstr "Sértő bejegyzés jelentése"
 
@@ -329,7 +318,6 @@ msgstr "minősítés: "
 
 # 83%
 #: ../inc/forum.inc:629
-#, fuzzy
 msgid "Click if you like this message"
 msgstr "Kattintson ide, ha tetszik ez az üzenet"
 
@@ -338,7 +326,6 @@ msgid "Rate +"
 msgstr "Pozitív"
 
 #: ../inc/forum.inc:631
-#, fuzzy
 msgid "Click if you don't like this message"
 msgstr "Kattintson ide, ha nem tetszik ez az üzenet"
 
@@ -355,7 +342,6 @@ msgid "Post a reply to this message"
 msgstr "Válasz erre az üzenetre"
 
 #: ../inc/forum.inc:641
-#, fuzzy
 msgid "Quote"
 msgstr "Idézés"
 
@@ -370,12 +356,10 @@ msgstr "Egy moderátor elrejtette"
 # #######################################
 # Forum
 #: ../inc/forum.inc:683
-#, fuzzy
 msgid "Posted %1 by %2"
 msgstr "%2 írta ekkor: %1"
 
 #: ../inc/forum.inc:701
-#, fuzzy
 msgid "You may not post or rate messages until %1"
 msgstr "Nem írhat vagy minősíthet üzeneteket %1-ig"
 
@@ -409,7 +393,7 @@ msgstr ""
 "illetve a téma elterelése.\n"
 "<li> Tilos a szándékosan rosszindulatú, ellenszenvet tükröző üzenetek "
 "közzététele.\n"
-"<li> Nem megengedett a gyalázkodó kommentelés, ide értve a faji, vallási,\n"
+"<li> Nem megengedett a gyalázkodó hozzászólás, ide értve a faji, vallási,\n"
 "nemzetiségi, nemekkel kapcsolatos, osztályi, vagy szexuális témákat.\n"
 
 #: ../inc/forum.inc:734
@@ -538,7 +522,6 @@ msgid "Mark all threads as read"
 msgstr "Minden téma megjelölése olvasottként"
 
 #: ../inc/forum.inc:1205
-#, fuzzy
 msgid "Mark all threads in all message boards as read."
 msgstr "Minden üzenőfal minden témáját 'olvasott'-nak jelöli."
 
@@ -1051,7 +1034,6 @@ msgstr ""
 "esetén nincs korlátozás<br>Kényszerítve a 6.10.30 fölötti verzióknál%2"
 
 #: ../inc/prefs.inc:121
-#, fuzzy
 msgid "Do work only between the hours of %1 No restriction if equal %2"
 msgstr "Csak ezen időszakban dolgozzon: %1 Nincs korlátozás, ha megegyeznek %2"
 
@@ -1065,7 +1047,6 @@ msgstr ""
 "választja %2"
 
 #: ../inc/prefs.inc:138
-#, fuzzy
 msgid "Switch between tasks every %1 Recommended: 60 minutes %2"
 msgstr "Váltás a feladatok között ennyi időnként: %1 Ajánlott: 60 perc %2"
 
@@ -1243,13 +1224,13 @@ msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
 msgstr "Használja az NVIDIA GPU-t %1 Erőltetve a 6.10 verzió felett %2"
 
 #: ../inc/prefs.inc:346
-#, fuzzy
 msgid ""
 "Run test applications? %1 This helps us develop applications, but may cause "
 "jobs to fail on your computer %2"
 msgstr ""
-"Futtat teszt-alkalmazásokat? %1 Ez segít nekünk jobb alkalmazásokat "
-"fejleszteni, de ez feladatok elvesztését okozhatja számítógépén. %2"
+"Szeretne teszt-alkalmazásokat futtatni? %1 Ezzel segít nekünk az "
+"alkalmazások fejlesztésében, de néha a feladatok elvesztését okozhatja "
+"számítógépén. %2"
 
 #: ../inc/prefs.inc:355
 msgid ""
@@ -1298,7 +1279,7 @@ msgstr "hibás hely: %1"
 
 #: ../inc/prefs.inc:438
 msgid "bad subset: %1"
-msgstr "hibás halmaz: %1"
+msgstr "hibás részhalmaz: %1"
 
 #: ../inc/prefs.inc:657 ../inc/prefs.inc:660 ../inc/prefs.inc:1003
 #: ../inc/prefs_util.inc:93 ../project.sample/project_specific_prefs.inc:75
@@ -1386,7 +1367,6 @@ msgid "Update preferences"
 msgstr "Beállítások frissítése"
 
 #: ../inc/prefs.inc:1014 ../inc/prefs.inc:1023
-#, fuzzy
 msgid "Default computer location"
 msgstr "A számítógép alapértelmezett helye"
 
@@ -1444,9 +1424,8 @@ msgid "Your feedback on this profile"
 msgstr "Az Ön véleménye erről a profilról"
 
 #: ../inc/profile.inc:263
-#, fuzzy
 msgid "Recommend this profile for User of the Day:"
-msgstr "Profil javaslása a Nap felhasználójának:"
+msgstr "Profil előterjesztése a Nap felhasználójának:"
 
 #: ../inc/profile.inc:264
 msgid "I %1like%2 this profile"
@@ -1565,9 +1544,8 @@ msgid "Aborted by user"
 msgstr "Felhasználó által megszakítva"
 
 #: ../inc/result.inc:186 ../inc/result.inc:239
-#, fuzzy
 msgid "Upload failed"
-msgstr "Frissítés sikertelen:"
+msgstr "Feltöltés sikertelen"
 
 #: ../inc/result.inc:189
 msgid "Timed out - no response"
@@ -1693,9 +1671,8 @@ msgid "Show names"
 msgstr "Nevek mutatása"
 
 #: ../inc/result.inc:336
-#, fuzzy
 msgid "Task"
-msgstr "Feladatok"
+msgstr "Feladat"
 
 #: ../inc/result.inc:339
 msgid "Work unit"
@@ -1884,9 +1861,8 @@ msgid "Type"
 msgstr "Típus"
 
 #: ../inc/team.inc:119 ../user/team_manage.php:63
-#, fuzzy
 msgid "Message board"
-msgstr "Üzenőfalak"
+msgstr "Üzenőfal"
 
 #: ../inc/team.inc:120 ../user/forum_forum.php:134 ../user/forum_index.php:93
 msgid "Threads"
@@ -2028,6 +2004,7 @@ msgid "without \"http://\""
 msgstr "\"http://\" nélkül"
 
 #: ../inc/team.inc:437
+#, fuzzy
 msgid "This URL will be linked to from the team's page on this site."
 msgstr "Erre az URL-re fog hivatkozni a csapat oldala ezen a honlapon."
 
@@ -2099,7 +2076,6 @@ msgid "Team"
 msgstr "Csapat"
 
 #: ../inc/user.inc:168
-#, fuzzy
 msgid "Cross-project"
 msgstr "Projekt-közti"
 
@@ -2258,6 +2234,7 @@ msgid "Computers"
 msgstr "Számítógépek"
 
 #: ../inc/user.inc:331
+#, fuzzy
 msgid "Donor"
 msgstr "Donor"
 
@@ -2282,17 +2259,16 @@ msgid "Add as friend"
 msgstr "Barátokhoz ad"
 
 #: ../inc/util.inc:113
-#, fuzzy
 msgid "log out"
-msgstr "Kijelentkezés"
+msgstr "kijelentkezés"
 
 #: ../inc/util.inc:115
 msgid "log in"
-msgstr ""
+msgstr "bejelentkezés"
 
 #: ../inc/util.inc:174 ../user/login_form.php:37 ../user/login_form.php:62
 msgid "Log in"
-msgstr ""
+msgstr "Bejelentkezés"
 
 # #######################################
 # Create account form (create_account_form.php)
@@ -2301,9 +2277,8 @@ msgid "Create an account"
 msgstr "Fiók létrehozása"
 
 #: ../inc/util.inc:176
-#, fuzzy
 msgid "Server status page"
-msgstr "Szerver állapot"
+msgstr "A szerver állapotának oldala"
 
 #: ../inc/util.inc:218
 msgid ""
@@ -2414,7 +2389,7 @@ msgid ""
 "computer. The current version of the application will be downloaded to your "
 "computer. This happens automatically; you don't have to do anything."
 msgstr ""
-"A(z) %1 jelenleg a következő alkalmazásokat használja. Ha résztvesz a(z) %1 "
+"A(z) %1 jelenleg a következő alkalmazásokat használja. Ha részt vesz a(z) %1 "
 "projektben, ezen alkalmazások közül egy vagy több futtathatóvá válik az Ön "
 "számítógépén. Az alkalmazás aktuális verziója letöltődik számítógépére. A "
 "folyamat automatikus; Önnek semmit nem kell tennie."
@@ -2455,7 +2430,6 @@ msgid "Bold"
 msgstr "Félkövér"
 
 #: ../user/bbcode.php:33
-#, fuzzy
 msgid "Italic"
 msgstr "Dőlt"
 
@@ -2480,7 +2454,6 @@ msgid "link to website"
 msgstr "hivatkozás egy weboldalra"
 
 #: ../user/bbcode.php:39
-#, fuzzy
 msgid "Quoted text"
 msgstr "Idézet"
 
@@ -2574,10 +2547,11 @@ msgid "The invitation code you gave is not valid."
 msgstr "Az Ön által megadott meghívó"
 
 #: ../user/create_account_action.php:94
-#, fuzzy
 msgid ""
 "Invalid email address: you must enter a valid address of the form name@domain"
-msgstr "Az emailcímnek 'név@szolgáltató' alakúnak kell lennie!"
+msgstr ""
+"Érvénytelen email cím: az érvényes emailcímnek 'név@szolgáltató' alakúnak "
+"kell lennie"
 
 #: ../user/create_account_action.php:98
 msgid "There's already an account with that email address."
@@ -2605,15 +2579,12 @@ msgstr ""
 "A fióklétrehozás jelenleg nem engedélyezett. Kérjük, próbálja meg később."
 
 #: ../user/create_account_form.php:53
-#, fuzzy
 msgid ""
 "Don't use this form. Just run BOINC, select Add Project, and enter an email "
 "address and password."
 msgstr ""
-"MEGJEGYZÉS: Ha Ön a BOINC 5.2+ (az 5.2-es vagy annál nagyobb) verzióját "
-"használja, ne töltse ki ezt a nyomtatványt. Egyszerűen csak futassa a "
-"BOINCot, válassza a Kapcsolódás projekthez menüpontot, majd írja be a kívánt "
-"emailcímet és jelszót."
+"Ne használja ezt az űrlapot. Csak futtassa a BOINCot, válassza a Projekt "
+"hozzáadását, és írjon be egy email címet és egy jelszót."
 
 #: ../user/create_account_form.php:71
 msgid ""
@@ -2776,7 +2747,6 @@ msgstr ""
 "létrehozásához vagy szerkesztéséhez. Elnézést kérünk a kényelmetlenségért."
 
 #: ../user/delete_account.php:57
-#, fuzzy
 msgid "Couldn't delete account"
 msgstr "Nem tudtam törölni a fiókot."
 
@@ -2785,7 +2755,6 @@ msgid "Account deleted"
 msgstr "Fiók törölve"
 
 #: ../user/delete_account.php:60
-#, fuzzy
 msgid "Your account has been deleted."
 msgstr "Az Ön fiókját töröltük."
 
@@ -2827,7 +2796,6 @@ msgid "Yes"
 msgstr "Igen"
 
 #: ../user/delete_account.php:79
-#, fuzzy
 msgid "Delete this account"
 msgstr "Fiók törlése"
 
@@ -2838,7 +2806,6 @@ msgid "No"
 msgstr "Nem"
 
 #: ../user/delete_account.php:80
-#, fuzzy
 msgid "Do not delete this account"
 msgstr "Ne törölje ezt a fiókot"
 
@@ -2847,12 +2814,10 @@ msgid "couldn't delete profile - please try again later"
 msgstr "nem tudtam törölni a profilt, kérjük próbálja meg később"
 
 #: ../user/delete_profile.php:33
-#, fuzzy
 msgid "Delete Confirmation"
 msgstr "Törlés jóváhagyása"
 
 #: ../user/delete_profile.php:35
-#, fuzzy
 msgid "Your profile has been deleted."
 msgstr "A fiókját töröltük."
 
@@ -2879,14 +2844,14 @@ msgid ""
 "If you're sure, click 'Yes'\n"
 "to remove your profile from our database."
 msgstr ""
+"Ha biztos benne, hogy profilját\n"
+"törölni akarja adatbázisunkból, kattintson az \"Igen\" gombra!"
 
 #: ../user/delete_profile.php:52
-#, fuzzy
 msgid "Delete my profile"
 msgstr "Profil törlése"
 
 #: ../user/delete_profile.php:53
-#, fuzzy
 msgid "Do not delete my profile"
 msgstr "Ne törölje a profilomat"
 
@@ -2918,7 +2883,6 @@ msgid "This project is not accepting donations."
 msgstr "Ez a projekt nem fogad el adományokat."
 
 #: ../user/donations.php:34
-#, fuzzy
 msgid "%1 donations"
 msgstr "%1 adomány"
 
@@ -2948,7 +2912,7 @@ msgstr ""
 "A PayPal többféle valutát elfogad\n"
 "(kanadai dollár, euró, angol font, usa dollár\n"
 "japán jen, ausztrál dollár, új-zélandi dollár\n"
-"svájci frank, hong kongi dollár, szingapúri dollár, svéd korona\n"
+"svájci frank, hongkongi dollár, szingapúri dollár, svéd korona\n"
 "dán korona, lengyel zloty, norvég korona,\n"
 "magyar forint, cseh korona).\n"
 "Használja a beépített valutaváltót\n"
@@ -2965,7 +2929,6 @@ msgid "Estimated value in"
 msgstr "Becsült értéke"
 
 #: ../user/donations.php:320 ../user/donations.php:324
-#, fuzzy
 msgid "Anonymous donation"
 msgstr "Névtelen adomány"
 
@@ -3042,7 +3005,6 @@ msgid "There's already an account with that email address"
 msgstr "Már létezik fiók ezzel az email címmel"
 
 #: ../user/edit_email_action.php:54
-#, fuzzy
 msgid "Invalid password."
 msgstr "Érvénytelen jelszó."
 
@@ -3055,83 +3017,83 @@ msgid "Please %1validate this email address%2."
 msgstr "Kérjük, %1erősítse meg ezt az email címet%2."
 
 #: ../user/edit_email_action.php:67
-#, fuzzy
 msgid ""
 "We can't update your email address due to a database problem.  Please try "
 "again later."
 msgstr ""
-"A fióklétrehozás jelenleg nem engedélyezett. Kérjük, próbálja meg később."
+"Adatbázis probléma miatt nem tudjuk frissíteni az email címét. Kérjük, "
+"próbálja meg később."
 
 #: ../user/edit_email_form.php:28 ../user/edit_email_form.php:52
 msgid "Change email address"
-msgstr ""
+msgstr "E-mail cím megváltoztatása"
 
 #: ../user/edit_email_form.php:37
-#, fuzzy
 msgid "Change the email address of your account"
-msgstr "email cím"
+msgstr "A fiókjához tartozó email cím megváltoztatása"
 
 #: ../user/edit_email_form.php:38
-#, fuzzy
 msgid "New email address"
-msgstr "email cím"
+msgstr "Új email cím"
 
 #: ../user/edit_email_form.php:39
-#, fuzzy
 msgid "Must be a valid address of the form 'name@domain'"
-msgstr "Az emailcímnek 'név@szolgáltató' alakúnak kell lennie!"
+msgstr "Az érvényes emailcímnek 'név@szolgáltató' alakúnak kell lennie"
 
 #: ../user/edit_email_form.php:49
+#, fuzzy
 msgid "No password?"
-msgstr ""
+msgstr "Nincs jelszó?"
 
 #: ../user/edit_forum_preferences_action.php:35
-#, fuzzy
 msgid "Confirm reset"
-msgstr "Jelszó megerősítése"
+msgstr "Visszaállítás megerősítése"
 
 #: ../user/edit_forum_preferences_action.php:36
 msgid ""
 "This action will erase any changes you have made in your community "
 "preferences. To cancel, click your browser's Back button."
 msgstr ""
+"Ez a művelet törölni fog minden változtatást, amit a közösségi "
+"beállításokban eszközölt. Ha mégsem szeretné a törlést, kattintson a "
+"böngészőben a Vissza gombra!"
 
 #: ../user/edit_forum_preferences_action.php:40
-#, fuzzy
 msgid "Reset preferences"
-msgstr "Beállítások szerkesztése"
+msgstr "Beállítások visszaállítása"
 
 #: ../user/edit_forum_preferences_action.php:90
 msgid "Error: Not the right kind of file, only PNG and JPEG are supported."
-msgstr ""
+msgstr "Hiba: Helytelen filetípus! Csak PNG vagy JPEG formátum támogatott!"
 
 #: ../user/edit_forum_preferences_action.php:116
 msgid "Your signature was too long, please keep it less than 250 characters."
-msgstr ""
+msgstr "Az aláírása túl hosszú, kérjük, módosítsa 250 karakternél rövidebbre!"
 
 #: ../user/edit_forum_preferences_action.php:139
 #: ../user/edit_forum_preferences_action.php:153
-#, fuzzy
 msgid "No such user: %1"
-msgstr "Nincs ilyen felhasználó"
+msgstr "Nincs %1 nevű felhasználó"
 
 #: ../user/edit_forum_preferences_form.php:56
 msgid ""
 "How should we notify you of new private messages, friend requests, posts in "
 "subscribed threads, and other events?"
 msgstr ""
+"Hogyan értesítsük Önt a különböző eseményekről, új üzenetekről, ismerősnek "
+"jelölésekről, új bejegyzésekről a feliratkozott témákban?"
 
 #: ../user/edit_forum_preferences_form.php:57
 msgid "On my Account page (no email)"
-msgstr ""
+msgstr "Felhasználói oldalamon (ne e-mailben)"
 
 #: ../user/edit_forum_preferences_form.php:58
 msgid "Immediately, by email"
-msgstr ""
+msgstr "Azonnal, e-mailben"
 
 #: ../user/edit_forum_preferences_form.php:59
 msgid "In a single daily email"
-msgstr ""
+msgstr "Napi egyszer, e-mailben"
 
 #: ../user/edit_forum_preferences_form.php:75
 #, fuzzy
@@ -3140,40 +3102,40 @@ msgstr "Üzenőfalak"
 
 #: ../user/edit_forum_preferences_form.php:76
 msgid "Avatar"
-msgstr ""
+msgstr "Profilkép"
 
 #: ../user/edit_forum_preferences_form.php:77
 msgid "An image representing you on the message boards."
-msgstr ""
+msgstr "Az Ön üzenőfalakon megjelenő képe"
 
 #: ../user/edit_forum_preferences_form.php:78
 msgid "Format: JPG or PNG. Size: at most 4 KB, 100x100 pixels"
-msgstr ""
+msgstr "JPG vagy PNG formátum, legfeljebb 4 KB, 100x100 pixel"
 
 #: ../user/edit_forum_preferences_form.php:80
 #, fuzzy
 msgid "Don't use an avatar"
-msgstr "Ne használjon HTML címkéket."
+msgstr "Ne legyen profilkép"
 
 #: ../user/edit_forum_preferences_form.php:82
 msgid "Use a Globally Recognized Avatar provided by %1"
-msgstr ""
+msgstr "Használjon globális profilképet (gravatart) innen: %1"
 
 #: ../user/edit_forum_preferences_form.php:84
 msgid "Use this uploaded avatar:"
-msgstr ""
+msgstr "Használja az alábbi feltöltött profilképet:"
 
 #: ../user/edit_forum_preferences_form.php:87
 msgid "Avatar preview"
-msgstr ""
+msgstr "Profilkép előnézet"
 
 #: ../user/edit_forum_preferences_form.php:87
 msgid "This is how your avatar will look"
-msgstr ""
+msgstr "Így fog megjelenni a profilképe"
 
 #: ../user/edit_forum_preferences_form.php:96
 msgid "Signature for message board posts"
-msgstr ""
+msgstr "Aláírás az üzenőfali bejegyzésekhez"
 
 #: ../user/edit_forum_preferences_form.php:99
 msgid ""
@@ -3181,22 +3143,26 @@ msgid ""
 "<br> providing dynamic 'signature images'\n"
 "<br> showing your latest credit info, project news, etc."
 msgstr ""
+"Tekintse meg a különböző %1ingyenes szolgáltatásokat%2, melyek\n"
+"<br> kitűnő aláírásképeket biztosítanak\n"
+"<br> megjelenítik az Ön legfrissebb kreditinformációit, a projekt híreket, "
+"stb."
 
 #: ../user/edit_forum_preferences_form.php:104
 msgid "characters remaining"
-msgstr ""
+msgstr "fennmaradó karakterek"
 
 #: ../user/edit_forum_preferences_form.php:105
 msgid "Attach signature by default"
-msgstr ""
+msgstr "Aláírás alapértelmezett csatolása"
 
 #: ../user/edit_forum_preferences_form.php:108
 msgid "Signature preview"
-msgstr ""
+msgstr "Aláírás előnézet"
 
 #: ../user/edit_forum_preferences_form.php:109
 msgid "This is how your signature will look in the forums"
-msgstr ""
+msgstr "Így fog megjelenni az aláírása a fórumokon"
 
 #: ../user/edit_forum_preferences_form.php:127
 #, fuzzy
@@ -3205,31 +3171,31 @@ msgstr "Üzenőfalak"
 
 #: ../user/edit_forum_preferences_form.php:129
 msgid "What to display"
-msgstr ""
+msgstr "Megjelenítendő"
 
 #: ../user/edit_forum_preferences_form.php:130
 msgid "Hide avatar images"
-msgstr ""
+msgstr "Profilkép elrejtése"
 
 #: ../user/edit_forum_preferences_form.php:131
 msgid "Hide signatures"
-msgstr ""
+msgstr "Aláírás elrejtése"
 
 #: ../user/edit_forum_preferences_form.php:132
 msgid "Show images as links"
-msgstr ""
+msgstr "Képek megjelenítése hivatkozásként"
 
 #: ../user/edit_forum_preferences_form.php:133
 msgid "Open links in new window/tab"
-msgstr ""
+msgstr "Hivatkozások megnyitása új ablakban/fülön"
 
 #: ../user/edit_forum_preferences_form.php:134
 msgid "Highlight special users"
-msgstr ""
+msgstr "Különleges felhasználók kiemelése"
 
 #: ../user/edit_forum_preferences_form.php:138
 msgid "How to sort"
-msgstr ""
+msgstr "Rendezés módja"
 
 #: ../user/edit_forum_preferences_form.php:139
 #, fuzzy
@@ -3245,153 +3211,154 @@ msgstr "Üzenetek"
 
 #: ../user/edit_forum_preferences_form.php:140
 msgid "Jump to first new post in thread automatically"
-msgstr ""
+msgstr "Automatikus ugrás a téma legújabb bejegyzésére"
 
 #: ../user/edit_forum_preferences_form.php:141
 msgid "Do not reorder sticky posts"
-msgstr ""
+msgstr "Ne rendezze át az emlékeztetőket"
 
 #: ../user/edit_forum_preferences_form.php:142
 msgid "If a thread contains more than this number of posts"
-msgstr ""
+msgstr "Ha egy témakör az itt megadottnál több bejegyzést tartalmaz,"
 
 #: ../user/edit_forum_preferences_form.php:143
 msgid "only display the first one and this many of the last ones"
 msgstr ""
+"csak az elsőt és az utána következő itt megjelölt darabszámút jelenítse meg"
 
 #: ../user/edit_forum_preferences_form.php:149
 #, fuzzy
 msgid "Message filtering"
-msgstr "Üzenőfalak"
+msgstr "Üzenetek szűrése"
 
 #: ../user/edit_forum_preferences_form.php:165
 msgid "Filtered users"
-msgstr ""
+msgstr "Szűrt felhasználók"
 
 #: ../user/edit_forum_preferences_form.php:166
-#, fuzzy
 msgid "Ignore message board posts and private messages from these users."
-msgstr "Üzenőfalak és privát üzenetek"
+msgstr ""
+"Hagyja figyelmen kívül az alábbi felhasználók bejegyzéseit és privát "
+"üzeneteit."
 
 #: ../user/edit_forum_preferences_form.php:168
 msgid "User ID (For instance: 123456789)"
-msgstr ""
+msgstr "Felhasználó azonosító (például: 123456789)"
 
 #: ../user/edit_forum_preferences_form.php:169 ../user/pm.php:251
 msgid "Add user to filter"
 msgstr "Ezen felhasználó szűrőhöz adása"
 
 #: ../user/edit_forum_preferences_form.php:174
-#, fuzzy
 msgid "Click here to update preferences"
-msgstr "Beállítások frissítése"
+msgstr "Kattintson ide a beállítások frissítéséhez"
 
 #: ../user/edit_forum_preferences_form.php:176
 #: ../user/edit_forum_preferences_form.php:178
 msgid "Reset"
-msgstr ""
+msgstr "Visszaállítás"
 
 #: ../user/edit_forum_preferences_form.php:177
 msgid "Or click here to reset preferences to the defaults"
 msgstr ""
+"Vagy kattintson ide a beállítások alapértelmezettre történő "
+"visszaállításához"
 
 #: ../user/edit_passwd_action.php:50
-#, fuzzy
 msgid "Invalid account key"
-msgstr "Fiókkulcs"
+msgstr "Érvénytelen fiókkulcs"
 
 #: ../user/edit_passwd_action.php:55
 msgid "No account with that email address was found"
-msgstr ""
+msgstr "Ehhez az e-mail címhez nem találtam felhasználói fiókot"
 
 #: ../user/edit_passwd_action.php:59
 #, fuzzy
 msgid "Invalid password"
-msgstr "Jelszó megerősítése"
+msgstr "Érvénytelen jelszó"
 
 #: ../user/edit_passwd_action.php:63 ../user/edit_passwd_form.php:28
 #: ../user/edit_passwd_form.php:58
 msgid "Change password"
-msgstr ""
+msgstr "Jelszó megváltoztatása"
 
 #: ../user/edit_passwd_action.php:67
 #, fuzzy
 msgid "Your password has been changed."
-msgstr "Üzenet elküldve."
+msgstr "Jelszava megváltozott"
 
 #: ../user/edit_passwd_action.php:69
-#, fuzzy
 msgid ""
 "We can't update your password due to a database problem. Please try again "
 "later."
 msgstr ""
-"A fióklétrehozás jelenleg nem engedélyezett. Kérjük, próbálja meg később."
+"Adatbázis probléma miatt nem tudjuk frissíteni a jelszavát. Kérjük, próbálja "
+"meg később."
 
 #: ../user/edit_passwd_form.php:42
 msgid "You can identify yourself using either"
-msgstr ""
+msgstr "Azonosíthatja magát"
 
 #: ../user/edit_passwd_form.php:44
 msgid "your email address and old password"
-msgstr ""
+msgstr "e-mail címének és régi jelszavának megadásával"
 
 #: ../user/edit_passwd_form.php:45
 msgid "your account key"
-msgstr ""
+msgstr "felhasználói fiókkulcsának megadásával"
 
 #: ../user/edit_passwd_form.php:49
 msgid "Current password"
-msgstr ""
+msgstr "Jelenlegi jelszó"
 
 #: ../user/edit_passwd_form.php:51
 msgid "<b>OR</b>: Account key"
-msgstr ""
+msgstr "<b>VAGY</b> Fiókkulcsának megadásával"
 
 #: ../user/edit_passwd_form.php:52
 msgid "Get account key by email"
-msgstr ""
+msgstr "Fiókkulcs kérése e-mailben"
 
 #: ../user/edit_passwd_form.php:56
 msgid "New password"
-msgstr ""
+msgstr "Új jelszó"
 
 #: ../user/edit_passwd_form.php:57
 msgid "New password, again"
-msgstr ""
+msgstr "Új jelszó, még egyszer"
 
 #: ../user/edit_user_info_action.php:31
 msgid "HTML tags are not allowed in your name."
-msgstr ""
+msgstr "A HTML-kódok nem engedélyezettek a névben."
 
 #: ../user/edit_user_info_action.php:34
-#, fuzzy
 msgid "You must supply a name for your account."
-msgstr "Új fiók létrehozásához Önnek meghívókóddal kell rendelkeznie."
+msgstr "Fiók létrehozásához kötelező a nevet megadnia."
 
 #: ../user/edit_user_info_action.php:58
 msgid "Couldn't update user info."
-msgstr ""
+msgstr "Nem tudtuk frissíteni a felhasználói adatokat."
 
 #: ../user/edit_user_info_form.php:29
 #, fuzzy
 msgid "Edit account information"
-msgstr "Fiókinformáció"
+msgstr "Fiókinformációk szerkesztése"
 
 #: ../user/edit_user_info_form.php:34
 msgid "Name %1 real name or nickname%2"
-msgstr ""
+msgstr "Név %1 valódi név vagy becenév%2"
 
 #: ../user/edit_user_info_form.php:37
 msgid "URL %1 of your web page; optional%2"
-msgstr ""
+msgstr "%1 Weblapjának URL-je%2 (nem kötelező)"
 
 #: ../user/edit_user_info_form.php:45
 msgid "Postal (ZIP) code %1 Optional%2"
-msgstr ""
+msgstr "Irányítószám %1 Nem kötelező%2"
 
 #: ../user/edit_user_info_form.php:49
 msgid "Update info"
-msgstr ""
+msgstr "Infók frissítése"
 
 #: ../user/explain_state.php:27
 #, fuzzy
@@ -3404,16 +3371,20 @@ msgid ""
 "computer, and if so whether the computer has finished it. Possible values "
 "are:"
 msgstr ""
+"A feladat <b>szerverstátusza</b> megmutatja, hogy a feladat már kiküldésre "
+"került-e, illetve hogy a számítógép elvégezte-e azt. A lehetséges értékek:"
 
 #: ../user/explain_state.php:35
 msgid ""
 "The task is not ready to send (for example, because its input files are "
 "unavailable)"
 msgstr ""
+"A feladat nem áll készen a küldésre (például mert a bemeneti fájljai nem "
+"érhetők el)"
 
 #: ../user/explain_state.php:38
 msgid "The task is ready to send, but hasn't been sent yet."
-msgstr ""
+msgstr "A feladat készen áll a küldésre, de még nincs kiküldve."
 
 #: ../user/explain_state.php:40
 #, fuzzy
@@ -3422,191 +3393,212 @@ msgstr "Folyamatban"
 
 #: ../user/explain_state.php:41
 msgid "The task has been sent; waiting for completion."
-msgstr ""
+msgstr "A feladat kiküldve; várakozás a befejezésre."
 
 #: ../user/explain_state.php:44
 msgid ""
 "The task has been sent to a computer and either it has timed out or the "
 "computer has reported its completion."
 msgstr ""
+"A feladat kiküldve egy számítógépre és lejárt az ideje, vagy a számítógép "
+"jelezte a befejezését."
 
 #: ../user/explain_state.php:49
 msgid "Outcomes"
-msgstr ""
+msgstr "Eredmény"
 
 #: ../user/explain_state.php:52
 msgid ""
 "A tasks's <b>outcome</b> is defined if its server state is <b>over</b>. "
 "Possible values are:"
 msgstr ""
+"A feladat <b>kimenete</b> akkor értelmezhető, ha a szerver státusz: "
+"<b>kész</b>. Lehetséges értékek:"
 
 #: ../user/explain_state.php:57
 msgid ""
 "The task was sent to a computer, but the computer has not yet completed the "
 "work and reported the outcome."
 msgstr ""
+"A feladat kiküldve, de a számítógép még nem végezte el és nem jelezte az "
+"eredményt."
 
 #: ../user/explain_state.php:60
 msgid "A computer completed and reported the task successfully."
-msgstr ""
+msgstr "A számítógép jelezte a feladat sikeres elvégzését."
 
 #: ../user/explain_state.php:63
 msgid ""
 "The server wasn't able to send the task to a computer (perhaps because its "
 "resource requirements were too large)"
 msgstr ""
+"A szerver nem tudta kiküldeni a feladatot a számítógépre (talán a feladat "
+"túlzott erőforrásigénye miatt)"
 
 #: ../user/explain_state.php:65
-#, fuzzy
 msgid "Client error"
-msgstr "Érvényesítési hiba"
+msgstr "Kliens hiba"
 
 #: ../user/explain_state.php:66
 msgid "The task was sent to a computer and an error occurred."
-msgstr ""
+msgstr "A feladat kiküldve a számítógépre, de hiba lépett fel."
 
 #: ../user/explain_state.php:69
 msgid ""
 "The task was sent to a computer and no reply was received within the time "
 "limit."
-msgstr ""
+msgstr "A feladat kiküldve a számítógépre, de határidőn belül nem jött válasz."
 
 #: ../user/explain_state.php:72
 msgid ""
 "The task wasn't sent to a computer because enough other tasks were completed "
 "for this workunit."
 msgstr ""
+"A feladat nem került kiküldésre, mivel elég egyéb feladat lett kész ehhez a "
+"munkacsomaghoz."
 
 #: ../user/explain_state.php:75
 msgid ""
 "The task was reported but could not be validated, typically because the "
 "output files were lost on the server."
 msgstr ""
+"A feladat elvégzését jelezték, de nem hagyható jóvá, tipikusan azért, mert a "
+"kimeneti fájlok a szerveren elvesztek."
 
 #: ../user/explain_state.php:80
-#, fuzzy
 msgid "Client states"
-msgstr "Kliens állapot"
+msgstr "Kliens állapotok"
 
 #: ../user/explain_state.php:81
 msgid ""
 "A result's <b>client state</b> indicates the stage of processing at which an "
 "error occurred."
 msgstr ""
+"Az eredmény <b>kliens állapota</b> jelzi a feldolgozás azon lépését, melynél "
+"a hiba jelentkezett."
 
 #: ../user/explain_state.php:86
 msgid "The computer has not yet completed the task."
-msgstr ""
+msgstr "A számítógép még nem végezte el a feladatot."
 
 #: ../user/explain_state.php:89
 msgid "The computer completed the task successfully."
-msgstr ""
+msgstr "A számítógép sikeresen befejezte a feladatot."
 
 #: ../user/explain_state.php:92
 msgid "The computer couldn't download the application or input files."
 msgstr ""
+"A számítógép nem tudta letölteni az alkalmazást vagy a bemeneti fájlokat."
 
 #: ../user/explain_state.php:95
 msgid "An error occurred during computation."
-msgstr ""
+msgstr "Hiba lépett fel a feldolgozás során."
 
 #: ../user/explain_state.php:98
 msgid "The computer couldn't upload the output files."
-msgstr ""
+msgstr "A számítógép nem tudta feltölteni a kimeneti fájlokat."
 
 #: ../user/explain_state.php:103
 msgid "Time reported and deadline"
-msgstr ""
+msgstr "Jelentés ideje és határidő"
 
 #: ../user/explain_state.php:106
 msgid ""
 "A task's <b>Time reported or deadline</b> field depends on whether the task "
 "has been reported yet:"
 msgstr ""
+"Egy feladat <b>Jelentés ideje és határidő</b> mező értéke attól függ, hogy "
+"annak állapotáról érkezett-e már jelentés:"
 
 #: ../user/explain_state.php:110
 msgid "Already reported"
-msgstr ""
+msgstr "Már jelentve"
 
 #: ../user/explain_state.php:110
 msgid "The date/time it was reported"
-msgstr ""
+msgstr "Jelentés dátuma/ideje"
 
 #: ../user/explain_state.php:111
 msgid "Not reported yet, deadline in the future"
-msgstr ""
+msgstr "Nincs jelentve, a határidő még nem járt le"
 
 #: ../user/explain_state.php:112
 msgid "Deadline, shown in green."
-msgstr ""
+msgstr "Határidő, zölddel kiemelve."
 
 #: ../user/explain_state.php:114
 msgid "Not reported yet, deadline in the past"
-msgstr ""
+msgstr "Nincs jelentve, határidő már lejárt"
 
 #: ../user/explain_state.php:115
 msgid "Deadline, shown in red."
-msgstr ""
+msgstr "Határidő, pirossal kiemelve."
 
 #: ../user/explain_state.php:120
 #, fuzzy
 msgid "Unknown field"
-msgstr "Ismeretlen"
+msgstr "Ismeretlen mező"
 
 #: ../user/ffmail_action.php:47
-#, fuzzy
 msgid "Email preview"
-msgstr "Email cím"
+msgstr "Email előnézet"
 
 #: ../user/ffmail_action.php:48
 msgid "Your email will appear as follows:"
-msgstr ""
+msgstr "Az Ön emailje így fog megjelenni:"
 
 #: ../user/ffmail_action.php:57
-#, fuzzy
 msgid "Send email"
-msgstr "Üzenet küldése"
+msgstr "Email küldése"
 
 #: ../user/ffmail_action.php:59
 msgid "Use your browser's back button to return to message form"
 msgstr ""
+"Ha vissza akar térni az üzenet űrlaphoz, használja a böngésző Vissza gombját"
 
 #: ../user/ffmail_action.php:63
 #, fuzzy
 msgid "Sending emails"
-msgstr "Feldolgozatlan kredit"
+msgstr "E-mail küldése"
 
 #: ../user/ffmail_action.php:84
 msgid "email sent successfully to %1"
-msgstr ""
+msgstr "email sikeresen elküldve %1 részére"
 
 #: ../user/ffmail_action.php:86
+#, fuzzy
 msgid "failed to send email to %1: %2"
-msgstr ""
+msgstr "az email küldése sikertelen neki: %1: %2"
 
 #: ../user/ffmail_action.php:92
 msgid "Thanks for telling your friends about %1"
-msgstr ""
+msgstr "Köszönjük, hogy mesél ismerőseinek erről: %1"
 
 #: ../user/ffmail_action.php:94
 msgid ""
 "You forgot to enter your friends' names and/or email addresses; Please "
 "%1return to the form%2 and enter them."
 msgstr ""
+"Elfelejtette megadni barátai neveit és/vagy email címeiket; Kérjük, térjen %"
+"1vissza az űrlaphoz%2 és adja meg ezeket."
 
 #: ../user/ffmail_form.php:31
 msgid ""
 "This project hasn\\'t created an email message - please notify its "
 "administrators"
 msgstr ""
+"Ez a projekt nem hozott létre email üzenetet - kérjük, értesítse az "
+"adminisztrátorokat"
 
 #: ../user/ffmail_form.php:34
 msgid "Tell your friends about %1"
-msgstr ""
+msgstr "Meséljen barátainak erről: %1"
 
 #: ../user/ffmail_form.php:38
 msgid "Help us by telling your friends, family and coworkers about %1"
 msgstr ""
+"Segítse munkánkat és meséljen barátainak, családjának és munkatársainak "
+"erről: %1"
 
 #: ../user/ffmail_form.php:40
 msgid ""
@@ -3614,52 +3606,52 @@ msgid ""
 "might be interested in %1. We'll send them an email in your name, and you "
 "can add your own message if you like."
 msgstr ""
+"Adja meg azon ismerősei nevét és email címét, akiket Ön szerint érdekelhet "
+"a(z) %1 projektről. Küldünk egy emailt nekik az Ön nevében, amihez saját "
+"üzenetet is hozzáadhat, ha szeretne."
 
 #: ../user/ffmail_form.php:43
 #, fuzzy
 msgid "Your name:"
-msgstr "Nevek mutatása"
+msgstr "Az Ön neve:"
 
 #: ../user/ffmail_form.php:43
 #, fuzzy
 msgid "Your email address:"
-msgstr "email cím"
+msgstr "Az Ön email címe:"
 
 #: ../user/ffmail_form.php:49
-#, fuzzy
 msgid "Friend's name:"
-msgstr "Barátok"
+msgstr "Ismerős neve:"
 
 #: ../user/ffmail_form.php:49
-#, fuzzy
 msgid "Friend's email address:"
-msgstr "email cím"
+msgstr "Ismerős email címe:"
 
 #: ../user/ffmail_form.php:57
 msgid "Additional message (optional)"
-msgstr ""
+msgstr "Személyes üzenet (nem kötelező)"
 
 #: ../user/ffmail_form.php:60
-#, fuzzy
 msgid "Send"
-msgstr "Elküldve"
+msgstr "Elküld"
 
 #: ../user/forum_banishment_vote.php:35
 #: ../user/forum_banishment_vote_action.php:33
 msgid "You are not authorized to banish users."
-msgstr ""
+msgstr "Nincs jogosultsága a felhasználók kitiltásához."
 
 #: ../user/forum_banishment_vote.php:41 ../user/forum_banishment_vote.php:46
 msgid "Banishment Vote"
-msgstr ""
+msgstr "Kitiltási javaslat"
 
 #: ../user/forum_banishment_vote.php:50
 msgid "No user with this ID found."
-msgstr ""
+msgstr "Ezzel az azonosítóval nem található felhasználó."
 
 #: ../user/forum_banishment_vote.php:54 ../user/forum_moderate_post.php:76
 msgid "User is already banished"
-msgstr ""
+msgstr "A felhasználó már ki van tiltva"
 
 #: ../user/forum_banishment_vote.php:59 ../user/forum_moderate_post.php:79
 msgid ""
@@ -3667,70 +3659,77 @@ msgid ""
 "for chosen time period.<br/>It should be done only if %1 has consistently "
 "exhibited trollish behavior."
 msgstr ""
+"Biztos benne, hogy ki akarja tiltani %1-t?<br/>Így %1 nem írhat új "
+"bejegyzést egy megadott ideig.<br/>Csak akkor tiltsuk ki %1-t, ha "
+"folyamatosan zavaró viselkedést folytat."
 
 #: ../user/forum_banishment_vote.php:61
 msgid ""
 "Select the reason category, optionally write a longer description of why the "
 "user should be banished."
 msgstr ""
+"Válassza ki az okot, esetleg írja le bővebben, miért kellene a felhasználót "
+"kitiltani."
 
 #: ../user/forum_banishment_vote.php:62 ../user/forum_moderate_thread.php:50
 msgid "Category"
-msgstr ""
+msgstr "Oka"
 
 #: ../user/forum_banishment_vote.php:64
 #: ../user/forum_banishment_vote_action.php:57
 #: ../user/forum_moderate_post.php:55 ../user/forum_moderate_thread.php:52
 msgid "Obscene"
-msgstr ""
+msgstr "Trágár"
 
 #: ../user/forum_banishment_vote.php:65
 #: ../user/forum_banishment_vote_action.php:59
 #: ../user/forum_moderate_post.php:56 ../user/forum_moderate_thread.php:53
 msgid "Flame/Hate mail"
-msgstr ""
+msgstr "Gyűlölködő emailek"
 
 #: ../user/forum_banishment_vote.php:66
 #: ../user/forum_banishment_vote_action.php:61
 #: ../user/forum_moderate_post.php:59
 msgid "User Request"
-msgstr ""
+msgstr "Felhasználó kérésére"
 
 #: ../user/forum_banishment_vote.php:67
 #: ../user/forum_banishment_vote_action.php:63
 #: ../user/forum_moderate_post.php:60 ../user/forum_moderate_thread.php:55
 #, fuzzy
 msgid "Other"
-msgstr "Vége"
+msgstr "Egyéb"
 
 #: ../user/forum_banishment_vote.php:69 ../user/forum_moderate_post.php:53
 #: ../user/forum_moderate_thread.php:85
 #, fuzzy
 msgid "Reason"
-msgstr "Verzió"
+msgstr "Indoklás"
 
 #: ../user/forum_banishment_vote.php:69 ../user/forum_moderate_thread.php:85
 msgid "Mailed if nonempty"
-msgstr ""
+msgstr "Küldés, ha nem üres"
 
 #: ../user/forum_banishment_vote.php:74
 msgid "Proceed with vote"
-msgstr ""
+msgstr "Szavazattal megerősítve"
 
 #: ../user/forum_banishment_vote_action.php:39
 #: ../user/forum_moderate_post_action.php:63
 msgid "You must specify an action..."
-msgstr ""
+msgstr "Válasszon egy műveletet..."
 
 #: ../user/forum_edit.php:41
 msgid ""
 "You can no longer edit this post.<br/>Posts can only be edited at most %1 "
 "minutes after they have been created."
 msgstr ""
+"Már nem szerkesztheti a bejegyzést.<br/>A bejegyzések létrehozásuk után csak "
+"max. %1 percig szerkeszthetőek."
 
 #: ../user/forum_edit.php:47
 msgid "You are not authorized to edit this post."
-msgstr ""
+msgstr "Nincs jogosultsága ezen bejegyzés szerkesztéséhez."
 
 #: ../user/forum_edit.php:86 ../user/forum_search.php:72
 #, fuzzy
@@ -3754,7 +3753,7 @@ msgstr "Aláírás hozzáadása ehhez az üzenethez"
 
 #: ../user/forum_forum.php:41
 msgid "Not visible to you"
-msgstr ""
+msgstr "Nem látható az Ön számára"
 
 #: ../user/forum_forum.php:80
 #, fuzzy
@@ -3767,14 +3766,12 @@ msgid "New thread"
 msgstr "Téma"
 
 #: ../user/forum_forum.php:96
-#, fuzzy
 msgid "Add a new thread to this forum"
-msgstr "Aláírás hozzáadása ehhez az üzenethez"
+msgstr "Új téma hozzáadása ehhez a fórumhoz"
 
 #: ../user/forum_forum.php:116
-#, fuzzy
 msgid "This message board is available as an %1RSS feed%2"
-msgstr "A hírek elérhetőak %sRSS feed%s formában"
+msgstr "Ez az üzenőfal elérhető %1RSS-hírfolyam%2 formában"
 
 # #######################################
 # Forum thread
@@ -3785,41 +3782,42 @@ msgstr "Ezt a témát adminisztratív okokból rejtetté tették"
 
 #: ../user/forum_forum.php:176
 msgid "This thread is sticky and locked, and you haven't read it yet"
-msgstr ""
+msgstr "Ez a téma kiemelt és zárt, Ön még nem olvasta."
 
 #: ../user/forum_forum.php:176
 msgid "sticky/locked/unread"
-msgstr ""
+msgstr "kiemelt/zárt/olvasatlan"
 
 #: ../user/forum_forum.php:178
 msgid "This thread is sticky and you haven't read it yet"
-msgstr ""
+msgstr "Ez a téma kiemelt és Ön még nem olvasta."
 
 #: ../user/forum_forum.php:178
-#, fuzzy
 msgid "sticky/unread"
-msgstr "olvasatlan"
+msgstr "kiemelt/olvasatlan"
 
 #: ../user/forum_forum.php:182
 msgid "You haven't read this thread yet, and it's locked"
-msgstr ""
+msgstr "Ez a téma zárt és Ön még nem olvasta"
 
 #: ../user/forum_forum.php:182
 #, fuzzy
 msgid "unread/locked"
-msgstr "olvasatlan"
+msgstr "zárt/olvasatlan"
 
+# 81%
 #: ../user/forum_forum.php:184
+#, fuzzy
 msgid "You haven't read this thread yet"
-msgstr ""
+msgstr "Még nem olvasta ezt a témát"
 
 #: ../user/forum_forum.php:190
 msgid "This thread is sticky and locked"
-msgstr ""
+msgstr "Ez a téma kiemelt és zárt"
 
 #: ../user/forum_forum.php:190
 msgid "sticky/locked"
-msgstr ""
+msgstr "kiemelt/zárt"
 
 # #######################################
 # Forum thread
@@ -3840,18 +3838,17 @@ msgid "This thread is locked"
 msgstr "Ezt a témát adminisztratív okokból rejtetté tették"
 
 #: ../user/forum_forum.php:196
-#, fuzzy
 msgid "locked"
-msgstr "Felhasználó blokkolása"
+msgstr "zárt"
 
 #: ../user/forum_forum.php:198
 msgid "You read this thread"
-msgstr ""
+msgstr "Már olvasta ezt a témát"
 
 #: ../user/forum_forum.php:198
 #, fuzzy
 msgid "read"
-msgstr "Téma"
+msgstr "olvasott"
 
 # #######################################
 # Links from the main page
@@ -3865,6 +3862,8 @@ msgid ""
 "Talk live via Skype with a volunteer, in any of several languages. Go to "
 "%1BOINC Online Help%2."
 msgstr ""
+"Beszéljen Skype-on egy önkéntessel a számos támogatott nyelv bármelyikén! "
+"Látogassa meg a %1BOINC Online Súgóját%2."
 
 #: ../user/forum_help_desk.php:44 ../user/forum_index.php:92
 msgid "Topic"
@@ -3873,11 +3872,11 @@ msgstr "Tárgy"
 #: ../user/forum_help_desk.php:45
 #, fuzzy
 msgid "Questions"
-msgstr "Verzió"
+msgstr "Kérdések"
 
 #: ../user/forum_index.php:53 ../user/team_forum.php:68
 msgid "Discussion among members of %1"
-msgstr ""
+msgstr "%1 tagok beszélgetése"
 
 # #######################################
 # Forum sample index page
@@ -3890,33 +3889,35 @@ msgid ""
 "If you have a question or problem, please use the %1Questions & Answers%2 "
 "section of the message boards."
 msgstr ""
+"Ha kérdése vagy problémája van, kérjük, használja az üzenőfalak %1Kérdések & "
+"válaszok%2 részét."
 
 #: ../user/forum_index.php:123
 #, fuzzy
 msgid "Subscribed threads"
-msgstr "Feliratkozás"
+msgstr "Feliratkozott témák"
 
 #: ../user/forum_moderate_post.php:43
 #, fuzzy
 msgid "Moderate post"
-msgstr "Utolsó üzenet"
+msgstr "Bejegyzés moderálása"
 
 #: ../user/forum_moderate_post.php:52
 msgid "Hide post"
-msgstr ""
+msgstr "Bejegyzés elrejtése"
 
 #: ../user/forum_moderate_post.php:57 ../user/forum_moderate_thread.php:54
 msgid "Commercial spam"
-msgstr ""
+msgstr "Kereskedelmi spam"
 
 #: ../user/forum_moderate_post.php:58
 msgid "Doublepost"
-msgstr ""
+msgstr "Duplázott bejegyzés"
 
 #: ../user/forum_moderate_post.php:63
 #, fuzzy
 msgid "Move post"
-msgstr "Nincs kiszolgáló"
+msgstr "Bejegyzés áthelyezése"
 
 #: ../user/forum_moderate_post.php:65
 #, fuzzy
@@ -3924,94 +3925,94 @@ msgid "Destination thread ID:"
 msgstr "Küldés a témához"
 
 #: ../user/forum_moderate_post.php:78
-#, fuzzy
 msgid "Banish user"
-msgstr "Nincs ilyen felhasználó"
+msgstr "Felhasználó kitiltása"
 
 #: ../user/forum_moderate_post.php:80
 msgid "Ban duration"
-msgstr ""
+msgstr "Kitiltás időtartama"
 
 #: ../user/forum_moderate_post.php:81
 #, fuzzy
 msgid "4 hours"
-msgstr "UTC %1 óra"
+msgstr "4 óra"
 
 #: ../user/forum_moderate_post.php:82 ../user/forum_search.php:45
 #, fuzzy
 msgid "1 day"
-msgstr "%1 nap"
+msgstr "1 nap"
 
 #: ../user/forum_moderate_post.php:83
 msgid "1 week"
-msgstr ""
+msgstr "1 hét"
 
 #: ../user/forum_moderate_post.php:84
 msgid "2 weeks"
-msgstr ""
+msgstr "2 hét"
 
 #: ../user/forum_moderate_post.php:85
 #, fuzzy
 msgid "1 month"
-msgstr "%1 üzenet"
+msgstr "1 hónap"
 
 #: ../user/forum_moderate_post.php:86
 msgid "Forever"
-msgstr ""
+msgstr "Végleges"
 
 #: ../user/forum_moderate_post.php:96
 msgid "Optional explanation %1 This is included in email to user.%2"
-msgstr ""
+msgstr "Indoklás (nem kötelező) %1 Ezt emailben megkapja a felhasználó. %2"
 
 #: ../user/forum_moderate_post.php:101 ../user/forum_moderate_thread.php:91
 #: ../user/forum_post.php:130 ../user/forum_report_post.php:84
 #: ../user/forum_rss.php:55 ../user/friend.php:81 ../user/get_passwd.php:41
 #: ../user/get_passwd.php:75
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: ../user/forum_moderate_post_action.php:57
 msgid "You are not authorized to moderate this post."
-msgstr ""
+msgstr "Nincs jogosultsága a bejegyzés moderálásához."
 
 #: ../user/forum_moderate_post_action.php:85
 msgid "Can't move to different category type"
-msgstr ""
+msgstr "Nem sorolható át másik kategóriatípusba"
 
 #: ../user/forum_moderate_post_action.php:89
 msgid "Can't move to different category"
-msgstr ""
+msgstr "Nem sorolható át másik kategóriába"
 
 #: ../user/forum_moderate_post_action.php:110
 msgid "Not authorized to banish users"
-msgstr ""
+msgstr "Nincs jogosultsága felhasználók kitiltásához"
 
 #: ../user/forum_moderate_post_action.php:126
-#, fuzzy
 msgid "Banishment"
-msgstr "Nincs elküldve"
+msgstr "Kitiltás"
 
 #: ../user/forum_moderate_post_action.php:128
 msgid "User %1 has been banished."
-msgstr ""
+msgstr "%1 felhasználó kitiltva."
 
 #: ../user/forum_moderate_post_action.php:131
 msgid "Action failed: possible database problem"
-msgstr ""
+msgstr "Művelet sikertelen: valószínűleg adatbázis probléma"
 
 #: ../user/forum_moderate_thread.php:33
 msgid "not authorized"
-msgstr ""
+msgstr "nem jogosult"
 
 #: ../user/forum_moderate_thread.php:36
 msgid "Moderate thread '%1'"
-msgstr ""
+msgstr "'%1' téma moderálása"
 
 #: ../user/forum_moderate_thread.php:48
 msgid ""
 "Select the reason category, or write a longer description of why you're "
 "hiding or locking the thread; then press OK."
 msgstr ""
+"Válassza ki az indok kategóriát, vagy írja le bővebben, miért rejti el vagy "
+"zárja le a témát; majd nyomja meg az OK gombot!"
 
 #: ../user/forum_moderate_thread.php:72
 #, fuzzy
@@ -4020,23 +4021,27 @@ msgstr "Jelenlegi verzió"
 
 #: ../user/forum_moderate_thread.php:73
 msgid "Destination forum"
-msgstr ""
+msgstr "Célfórum"
 
 #: ../user/forum_moderate_thread.php:77
 msgid "New title:"
-msgstr ""
+msgstr "Új cím:"
 
 #: ../user/forum_post.php:40
 msgid ""
 "Only project admins may create a thread here. However, you may reply to "
 "existing threads."
 msgstr ""
+"Csak a projekt adminok hozhatnak létre új témát ezen a helyen. A meglévő "
+"témákra azonban válaszolhat."
 
 #: ../user/forum_post.php:60
 msgid ""
 "Your message was flagged as spam by the Akismet anti-spam system. Please "
 "modify your text and try again."
 msgstr ""
+"Az Ön üzenetét levélszemétnek minősítette az Akismet spamszűrő rendszer. "
+"Kérjük, módosítsa a szöveget és próbálja meg újra!"
 
 #: ../user/forum_post.php:70
 #, fuzzy
@@ -4049,31 +4054,35 @@ msgstr "Új téma létrehozása"
 
 #: ../user/forum_post.php:105
 msgid "Remember to add a title"
-msgstr ""
+msgstr "Ne felejtsen el címet megadni"
 
 #: ../user/forum_post.php:127
 msgid "Show this item as a Notice in the BOINC Manager"
-msgstr ""
+msgstr "Jelölje meg Értesítésként ezt az elemet a BOINC Kezelőben"
 
 #: ../user/forum_post.php:127
 msgid "Do so only for items likely to be of interest to all volunteers."
 msgstr ""
+"Csak azokkal az elemekkel tegyen így, amelyek minden résztvevőt "
+"érdekelhetnek!"
 
 #: ../user/forum_rate.php:26
 msgid "Rating offline"
-msgstr ""
+msgstr "Offline értékelés"
 
 #: ../user/forum_rate.php:27
 msgid "This function is turned off by the project"
-msgstr ""
+msgstr "Ezt a funkciót a projekt kikapcsolta."
 
 #: ../user/forum_rate.php:58
 msgid "You need more average or total credit to rate a post."
 msgstr ""
+"Nagyobb átlagra vagy több összes kreditre van szüksége egy bejegyzés "
+"értékeléséhez."
 
 #: ../user/forum_rate.php:62
 msgid "You have already rated this post."
-msgstr ""
+msgstr "Már értékelte ezt a bejegyzést"
 
 #: ../user/forum_rate.php:62 ../user/forum_rate.php:78
 #: ../user/forum_rate.php:83 ../user/forum_report_post.php:68
@@ -4081,33 +4090,35 @@ msgstr ""
 #: ../user/forum_subscribe.php:69 ../user/forum_thread_status.php:51
 #, fuzzy
 msgid "Return to thread"
-msgstr "Küldés a témához"
+msgstr "Vissza a témához"
 
 #: ../user/forum_rate.php:72
 msgid "Input Recorded"
-msgstr ""
+msgstr "Bevitel rögzítve"
 
 #: ../user/forum_rate.php:73
 msgid "Your input has been recorded. Thanks for your help."
-msgstr ""
+msgstr "A bevitelt rögzítettük. Köszönjük segítségét!"
 
 #: ../user/forum_rate.php:75
 msgid "Vote Registered"
-msgstr ""
+msgstr "Szavazat regisztrálva"
 
 #: ../user/forum_rate.php:76
 msgid "Your rating has been recorded. Thanks for your input."
-msgstr ""
+msgstr "Értékelését rögzítettük. Köszönjük véleményét!"
 
 #: ../user/forum_rate.php:80
 msgid "Vote Submission Problem"
-msgstr ""
+msgstr "Szavazat leadási probléma"
 
 #: ../user/forum_reply.php:76
 msgid ""
 "Your post has been flagged as spam by the Akismet anti-spam system. Please "
 "modify your text and try again."
 msgstr ""
+"Bejegyzését spamnek minősítette az Akismet spamszűrő rendszer. Kérjük, "
+"módosítsa a szöveget és próbálja meg újra!"
 
 #: ../user/forum_reply.php:87 ../user/forum_thread.php:154
 #: ../user/forum_thread.php:274
@@ -4120,13 +4131,14 @@ msgid "Message:"
 msgstr "Üzenet"
 
 #: ../user/forum_reply.php:130
+#, fuzzy
 msgid "reply to %1Message ID%2:"
-msgstr ""
+msgstr "válasz az %1Üzenet ID-re%2:"
 
 #: ../user/forum_reply.php:154
 #, fuzzy
 msgid "Post reply"
-msgstr "Nincs válasz"
+msgstr "Válasz írása"
 
 #: ../user/forum_reply.php:157
 #, fuzzy
@@ -4933,7 +4945,7 @@ msgstr ""
 #: ../user/html.php:32
 #, fuzzy
 msgid "preformatted"
-msgstr "Létrehozva"
+msgstr "előformázott"
 
 #: ../user/html.php:33
 msgid ""
@@ -6818,9 +6830,11 @@ msgstr ""
 msgid "can't find workunit"
 msgstr ""
 
+# 81%
 #: ../user/workunit.php:35
+#, fuzzy
 msgid "Workunit %1"
-msgstr ""
+msgstr "Munkacsomag"
 
 #: ../user/workunit.php:43
 msgid "canonical result"

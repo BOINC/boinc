@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2012-03-23 19:00+0200\n"
+"PO-Revision-Date: 2012-08-05 14:58+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -567,6 +567,9 @@ msgid ""
 "adopt the technologies of volunteer computing and volunteer thinking for "
 "their research."
 msgstr ""
+"Das Ziel von CAS@home ist die Förderung und Unterstützung der "
+"Wissenschaftler in China sich die Technologie der freiwilligen Mithilfe und "
+"Datenverarbeitung für Ihre Forschung anzueignen."
 
 #: projects.inc:252
 msgid "Yoyo@home"
@@ -581,6 +584,8 @@ msgid ""
 "Yoyo@home is an adapter between BOINC and several existing volunteer "
 "computing projects: ECM, Muon, Evolution@home, and distributed.net"
 msgstr ""
+"Yoyo@home ist ein Adapter zwischen BOINC und einigen existierenden "
+"verteiltes Rechnen Projekten: ECM, Muon, Evolution@home und distributed.net."
 
 #: projects.inc:259
 msgid "EDGeS@Home"
@@ -591,7 +596,6 @@ msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
 msgstr "MTA-SZTAKI - Labor für Parallele und Verteilte Systeme (Ungarn)"
 
 #: projects.inc:262
-#, fuzzy
 msgid "European research projects"
 msgstr "Europäische Forschungsprojekte"
 
@@ -612,7 +616,6 @@ msgid "Spanish universities and research centers"
 msgstr "Spanische Universitäten und Forschungszentren"
 
 #: projects.inc:270
-#, fuzzy
 msgid "Various Spanish research projects"
 msgstr "Verschiedene spanische Forschungsprojekte"
 
@@ -622,7 +625,7 @@ msgstr "Forschung im Bereich der Physik, Materialforschung und Biomedizin"
 
 #: projects.inc:275
 msgid "World Community Grid"
-msgstr ""
+msgstr "World Community Grid"
 
 #: projects.inc:277
 msgid "IBM Corporate Community Relations"
@@ -647,7 +650,7 @@ msgstr "Mathematik, Berechnungen und Spiele"
 
 #: projects.inc:288
 msgid "Enigma@Home"
-msgstr ""
+msgstr "Enigma@Home"
 
 #: projects.inc:291 projects.inc:345
 msgid "Cryptography"
@@ -664,7 +667,7 @@ msgstr ""
 
 #: projects.inc:295
 msgid "Collatz Conjecture"
-msgstr ""
+msgstr "Collatz Conjecture"
 
 #: projects.inc:298 projects.inc:337 projects.inc:353 projects.inc:361
 msgid "Mathematics"
@@ -673,11 +676,12 @@ msgstr "Mathematik"
 #: projects.inc:299
 msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
 msgstr ""
+"Untersuchung des Collatz Problems, ein ungelöstes Mathematisches Problem"
 
 # 75%
 #: projects.inc:302
 msgid "NFS@home"
-msgstr ""
+msgstr "NFS@home"
 
 #: projects.inc:304
 msgid "California State University Fullerton"
@@ -705,7 +709,7 @@ msgstr ""
 
 #: projects.inc:310
 msgid "VTU@home"
-msgstr ""
+msgstr "VTU@home"
 
 #: projects.inc:312
 msgid ""
@@ -714,7 +718,6 @@ msgid ""
 msgstr ""
 
 #: projects.inc:313
-#, fuzzy
 msgid "Software testing"
 msgstr "Software tests"
 
@@ -728,7 +731,7 @@ msgstr ""
 
 #: projects.inc:318
 msgid "AQUA@home"
-msgstr ""
+msgstr "AQUA@home"
 
 #: projects.inc:320
 msgid "D-Wave Systems, Inc."
@@ -751,7 +754,7 @@ msgstr ""
 #: projects.inc:334
 #, fuzzy
 msgid "ABC@home"
-msgstr "zu Hause"
+msgstr "ABC@home"
 
 #: projects.inc:336
 msgid "Mathematical Institute of Leiden University / Kennislink"
@@ -770,12 +773,12 @@ msgstr ""
 
 #: projects.inc:342
 msgid "PrimeGrid"
-msgstr ""
+msgstr "PrimeGrid"
 
 #: projects.inc:344
 #, fuzzy
 msgid "Private"
-msgstr "privat"
+msgstr "Privat"
 
 #: projects.inc:346
 msgid ""
@@ -789,7 +792,7 @@ msgstr ""
 
 #: projects.inc:350
 msgid "primaboinca"
-msgstr ""
+msgstr "primaboinca"
 
 #: projects.inc:352
 msgid "Hochschule RheinMain University of Applied Sciences"
@@ -813,11 +816,11 @@ msgstr ""
 
 #: projects.inc:382
 msgid "Chess960@home"
-msgstr ""
+msgstr "Chess960@home"
 
 #: projects.inc:384
 msgid "Chess-960.org"
-msgstr ""
+msgstr "Chess-960.org"
 
 #: projects.inc:385
 msgid "Game-playing"

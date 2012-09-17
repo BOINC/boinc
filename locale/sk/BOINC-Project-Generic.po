@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2012-04-22 21:06+0200\n"
+"PO-Revision-Date: 2012-09-16 20:10+0200\n"
 "Last-Translator: aceman <acelists@atlas.sk>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sk\n"
@@ -155,11 +155,11 @@ msgstr "Zavrieť tagy"
 
 #: ../inc/forum.inc:37
 msgid "Oldest first"
-msgstr ""
+msgstr "Od najstarších"
 
 #: ../inc/forum.inc:38 ../inc/forum.inc:44
 msgid "Newest first"
-msgstr ""
+msgstr "Od najnovších"
 
 #: ../inc/forum.inc:39
 msgid "Highest rated posts first"
@@ -211,15 +211,15 @@ msgstr "nástenka %1"
 
 #: ../inc/forum.inc:238 ../inc/result.inc:658
 msgid "Previous"
-msgstr ""
+msgstr "Predchádzajúci"
 
 #: ../inc/forum.inc:260 ../inc/result.inc:667
 msgid "Next"
-msgstr ""
+msgstr "Nasledujúci"
 
 #: ../inc/forum.inc:535
 msgid "Send&nbsp;message"
-msgstr ""
+msgstr "Odoslať&nbsp;správu"
 
 #: ../inc/forum.inc:535
 #, fuzzy
@@ -237,20 +237,20 @@ msgstr "Príspevkov: %1"
 
 #: ../inc/forum.inc:551
 msgid "Credit: %1"
-msgstr ""
+msgstr "Kredit: %1"
 
 #: ../inc/forum.inc:552
 msgid "RAC: %1"
-msgstr ""
+msgstr "RAC: %1"
 
 #: ../inc/forum.inc:574
 msgid "You haven't read this message yet"
-msgstr ""
+msgstr "Túto správu ste zatiaľ nečítali"
 
 #: ../inc/forum.inc:574
 #, fuzzy
 msgid "Unread"
-msgstr "Vlákno"
+msgstr "Neprečítané"
 
 #: ../inc/forum.inc:577 ../inc/forum.inc:582 ../inc/forum.inc:681
 #, fuzzy
@@ -259,7 +259,7 @@ msgstr "Správa %1"
 
 #: ../inc/forum.inc:578 ../inc/user.inc:324 ../user/forum_forum.php:172
 msgid "hidden"
-msgstr ""
+msgstr "skryté"
 
 #: ../inc/forum.inc:579
 #, fuzzy
@@ -268,11 +268,11 @@ msgstr "Uverejnené: %1"
 
 #: ../inc/forum.inc:582
 msgid " - in response to "
-msgstr ""
+msgstr " - ako odpoveď na "
 
 #: ../inc/forum.inc:585 ../inc/prefs.inc:691 ../inc/prefs.inc:693
 msgid "Edit"
-msgstr ""
+msgstr "Upraviť"
 
 #: ../inc/forum.inc:585
 msgid "Edit this message"
@@ -280,7 +280,7 @@ msgstr "Upraviť správu"
 
 #: ../inc/forum.inc:591
 msgid "Last modified: %1"
-msgstr ""
+msgstr "Posledná zmena: %1"
 
 #: ../inc/forum.inc:594
 msgid ""
