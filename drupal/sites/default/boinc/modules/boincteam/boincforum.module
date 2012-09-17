@@ -275,7 +275,7 @@ function boincforum_migrate_form_submit($form, $form_state) {
       break;
 
     case 'private messages':
-      boincforum_import_friends();
+      boincforum_import_private_msgs();
       if (!variable_get('boincforum_import_private_msg_successful', 0)) {
         $_SESSION['boincforum_selected'] = 'private messages';
       }
@@ -365,10 +365,11 @@ function boincforum_import_users() {
     $ignoring_users = db_query("
       SELECT ignorelist
       FROM forum_preferences
-      WHERE ignorelist <> ''"
+      WHERE ignorelist <> ''
+      ORDER BY userid ASC"
     );
     while ($ignoring_user = db_fetch_object($ignoring_users)) {
-      $ignored_user_list = $ignored_user_list + array_fill_keys(explode('|', $ignoring_user->ignorelist), 1);
+      $ignored_user_list = $ignored_user_list + array_fill_keys(explode('|', trim($ignoring_user->ignorelist, '|')), 1);
     }
     $ignored_user_list = array_keys($ignored_user_list);
     // Count all users who will need to be imported now
@@ -387,7 +388,7 @@ function boincforum_import_users() {
     ));
   }
   db_set_active('default');
-
+  
   if (!$user_count) {
       drupal_set_message(t('There were no users found: Aborting script'), 'error');
       return t('There were no users found: Aborting script.');
@@ -742,9 +743,10 @@ function boincforum_import_preferences() {
     // Convert BOINC ignore list to Drupal ignore user entries
     while ($quarreler = db_fetch_object($quarrelers)) {
       $uid = get_drupal_id($quarreler->userid);
-      $ignored_users = explode('|', $quarreler->ignorelist);
-      foreach ($ignored_user as $ignored_user) {
+      $ignored_users = explode('|', trim($quarreler->ignorelist, '|'));
+      foreach ($ignored_users as $ignored_user) {
         $ignored_user_uid = get_drupal_id($ignored_user);
+        if (!$ignored_user_uid) continue;
         db_query("
           INSERT IGNORE INTO {ignore_user}
           SET uid = '%d', iuid = '%d'",
@@ -847,7 +849,7 @@ function boincforum_import_private_msgs() {
     $uid = get_drupal_id($pm->userid);
     $sender_uid = get_drupal_id($pm->senderid);
     
-    // First save the message ('format = 4' is rich text)
+    // First save the message ('format = 4' is rich text) [TODO] Hard coded???
     db_query("
       INSERT INTO {pm_message} (subject, author, body, format, timestamp)
       VALUES ('%s', %d, '%s', %d, %d)",
@@ -861,6 +863,12 @@ function boincforum_import_private_msgs() {
       INSERT INTO {pm_index} (mid, thread_id, uid, is_new, deleted)
       VALUES (%d, %d, %d, %d, 0)",
       $mid, $mid, $uid, !$pm->opened
+    );
+    // In Drupal, the sender should be attached as well
+    db_query("
+      INSERT INTO {pm_index} (mid, thread_id, uid, is_new, deleted)
+      VALUES (%d, %d, %d, %d, 0)",
+      $mid, $mid, $sender_uid, 0
     );
     
     $pm_imported++;
@@ -971,6 +979,15 @@ function boincforum_import_categories() {
       $name = $boincforum->title;
       $description = $boincforum->description;
     }
+    
+    // Try to detect a BOINC news forum and flag it so that news can be
+    // imported into a Drupal news content type later
+    if ($name == 'News') {
+      // Save the ID of the News forum for later import
+      variable_set('boincforum_news_forum_id', $forum_id);
+      continue;
+    }
+    
     // If the category / forum term doesn't exist already, save to the vocabulary
     if (!db_result(db_query('SELECT forum_id FROM {boincforum_temp_forum} WHERE forum_id = %d', $forum_id))) {
       $forum = array(
@@ -1011,6 +1028,7 @@ function boincforum_import_categories() {
 function boincforum_import_topics() {
   $pre = variable_get('boincforum_table_prefix', '');
   $input_format = variable_get('boincforum_input_format', 0);
+  $news_forum_id = variable_get('boincforum_news_forum_id', 0);
   
   // Check if the topics have been successfully imported
   db_set_active('default');
@@ -1068,6 +1086,7 @@ function boincforum_import_topics() {
       $uid = 0;
     }
     
+    $node_type = 'forum';
     $promote = 0;
     $comment = ($topic->locked) ? 1 : 2;
     
@@ -1078,10 +1097,16 @@ function boincforum_import_topics() {
     if ($topic->timestamp < $topic->create_time) {
       $topic->timestamp = $topic->create_time;
     }
+    
+    // If dealing with a News topic, be sure it is imported as such
+    if ($news_forum_id AND $topic->forum == $news_forum_id) {
+      $node_type = 'news';
+      $promote = 1;
+    }
 
     // Construct the thread as a forum topic node
     $node = array(
-      'type' => 'forum',
+      'type' => $node_type,
       'title' => $topic->title,
       'uid' => $uid,
       'status' => 1,  // published or not - always publish
