@@ -1,0 +1,77 @@
+<?php
+/**
+ * @file
+ * Install, update, and uninstall functions for Language Icons.
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function languageicons_install() {
+  // Convert old "i18n_icon_*" variables, if any.
+  _languageicons_convert_i18n_icon_variables();
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function languageicons_uninstall() {
+  // Clear any variables that might be in use
+  $variables = array(
+    'languageicons_show_node',
+    'languageicons_show_block',
+    'languageicons_placement',
+    'languageicons_path',
+    'languageicons_size',
+    'languageicons_show_tooltip',
+  );
+  foreach ($variables as $variable) {
+    variable_del($variable);
+  }
+}
+
+/**
+ * Private helper to convert i18n_icon_* variables.
+ *
+ * @see languageicons_install()
+ * @see languageicons_update_6000()
+ */
+function _languageicons_convert_i18n_icon_variables() {
+  $variables = array('path', 'size');
+  foreach ($variables as $variable) {
+    $old_variable = 'i18n_icon_'. $variable;
+    $new_variable = 'languageicons_'. $variable;
+    if (variable_get($new_variable, NULL) === NULL) {
+      $old_variable_value = variable_get($old_variable, NULL);
+      // If the standard path for flag icons was used, reset it.
+      if ($variable == 'path') {
+        $old_default_path = drupal_get_path('module', 'i18n') .'/flags/*.png';
+        if ($old_variable_value == $old_default_path) {
+          unset($old_variable_value, $old_default_path);
+        }
+      }
+      if (!empty($old_variable_value)) {
+        variable_set($new_variable, $old_variable_value);
+      }
+    }
+    variable_del($old_variable);
+  }
+}
+
+/**
+ * Convert old "i18n_icon_*" variables.
+ */
+function languageicons_update_6000() {
+  _languageicons_convert_i18n_icon_variables();
+  return array();
+}
+
+/**
+ * Remove variable used for a short time during development of 6.x-2.x.
+ *
+ * @todo Remove this after the release of 6.x-2.0.
+ */
+function languageicons_update_6200() {
+  variable_del('languageicons_show_tooltip');
+  return array();
+}
