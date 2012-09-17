@@ -1340,8 +1340,8 @@ function boincwork_views_host_list_empty_text($context = null) {
   // preference for that user
   require_boinc('db');
   $view = views_get_current_view();
-  $boinc_id = $view->args[0];
-  $boincuser = lookup_user_id($boinc_id);
+  $account = user_load($view->args[0]);
+  $boincuser = lookup_user_id($account->boincuser_id);
   
   // Determine if hosts are associated at all or just hidden
   $output = '';
