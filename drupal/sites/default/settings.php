@@ -94,8 +94,8 @@ require_once('dbconfig.php');
 if (!isset($dbserver) || empty($dbserver))
   $dbserver='localhost';
 $db_url = array(
-  'default' => "{$dbtype}://{$dbuser}:{$dbpass}@{$dbserver}/{$dbname}",
-  'boinc' => "{$boinc_dbtype}://{$boinc_dbuser}:{$boinc_dbpass}@{$boinc_dbserver}/{$boinc_dbname}"
+  'default' => "{$dbtype}://{$dbuser}:".urlencode($dbpass)."@{$dbserver}/{$dbname}",
+  'boinc' => "{$boinc_dbtype}://{$boinc_dbuser}:".urlencode($boinc_dbpass)."@{$boinc_dbserver}/{$boinc_dbname}"
 );
 $db_prefix = '';
 
