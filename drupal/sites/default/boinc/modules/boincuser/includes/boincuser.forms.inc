@@ -105,12 +105,15 @@ function boincuser_register_make_user($params) {
  * Create Drupal account from existing BOINC account
  */
 function boincuser_register_make_drupal_user($boinc_user) {
+  $account = null;
   if (is_numeric($boinc_user)) {
     require_boinc('db');
     $boinc_user = BoincUser::lookup_id($boinc_user);
   }
-  $account = boincuser_create_drupal_user($boinc_user);
-  boincuser_create_drupal_profile($account, $boinc_user);
+  if ($boinc_user) {
+    $account = boincuser_create_drupal_user($boinc_user);
+    boincuser_create_drupal_profile($account, $boinc_user);
+  }
   return $account;
 }
 
@@ -190,7 +193,7 @@ function boincuser_create_drupal_profile($account, $boinc_user) {
   $profile_node->status = 1;
   $profile_node->promote = 0;
   $profile_node->sticky = 0;
-  $profile_node->format = 1;       // Filtered HTML
+  $profile_node->format = 4;       // [TODO] This should be a config variable
   $profile_node->uid = $account->uid;
   $profile_node->field_display_name[]['value'] = $boinc_user->name;
   $profile_node->field_country[]['value'] = $boinc_user->country;

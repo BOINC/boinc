@@ -377,6 +377,12 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     ));
     
     break;
+    
+  case 'profile_node_form':
+    unset($form['title']);
+    unset($form['body_field']);
+    $form['#redirect'] = 'account/profile';
+    break;
   
   // Registration form
   case 'user_register':
