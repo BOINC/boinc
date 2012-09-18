@@ -301,22 +301,25 @@ function boincstats_check_cache_dir($cache_path = 'files/cache') {
     if (!is_dir($cache_dir)) {
       if (!is_writeable(dirname($cache_dir))) {
         // If the parent "files" dir isn't even writeable...
-        watchdog('boincstats', conf_path() . '/files directory is not writeable.
-          This directory must be writeable by the web server.', WATCHDOG_ERROR);
+        watchdog('boincstats', '@parent_dir directory is not writeable. This
+          directory must be writeable by the web server.',
+          array('@parent_dir' => dirname($cache_dir)), WATCHDOG_ERROR);
         return FALSE;
       }
       else {
         // Create the cache dir
         if (!mkdir($cache_dir, 0775)) {
-          watchdog('boincstats', 'Failed to create ' . conf_path() . '/files/cache
-            directory. Check filesystem permissions...?', WATCHDOG_ERROR);
+          watchdog('boincstats', 'Failed to create @cache_dir directory. Check
+            filesystem permissions...?',
+            array('@cache_dir' => $cache_dir), WATCHDOG_ERROR);
           return FALSE;
         }
       }
     }
     else {
-      watchdog('boincstats', 'Cache directory at ' . conf_path() . '/files/cache
-        is not writeable, please allow webserver write access.', WATCHDOG_ERROR);
+      watchdog('boincstats', 'Cache directory at @cache_dir is not writeable.
+        Please allow webserver write access.',
+        array('@cache_dir' => $cache_dir), WATCHDOG_ERROR);
       return FALSE;
     }
   }
