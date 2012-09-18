@@ -1,5 +1,4 @@
 <?php
-// $Id: views_content_plugin_style_ctools_context.inc,v 1.1.2.1 2010/07/20 00:17:09 merlinofchaos Exp $
 /**
  * @file
  * Contains the default style plugin.
@@ -13,17 +12,6 @@
  */
 class views_content_plugin_style_ctools_context extends views_plugin_style {
   var $rows = array();
-
-  /**
-   * Set default options
-   */
-  function options(&$options) {
-    parent::options($options);
-  }
-
-  function options_form(&$form, &$form_state) {
-    parent::options_form($form, $form_state);
-  }
 
   /**
    * Render the display in this style.

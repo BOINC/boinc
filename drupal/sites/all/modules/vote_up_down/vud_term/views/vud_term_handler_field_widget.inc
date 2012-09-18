@@ -1,5 +1,4 @@
 <?php
-// $Id: vud_term_handler_field_widget.inc,v 1.1.2.2 2010/08/02 05:14:51 marvil07 Exp $
 
 /**
  * @file
@@ -10,9 +9,14 @@
  * A handler that provides a Vote Up/Down widget field for terms.
  */
 class vud_term_handler_field_widget extends views_handler_field {
+  function init(&$view, &$options) {
+    parent::init($view, $options);
+    $this->additional_fields['nid'] = array('table' => 'node', 'field' => 'nid');
+  }
+
   function query() {
-    // We have to override the parent here, because we don't want
-    // to do anything.
+    // Not calling parent method on purpose.
+    $this->add_additional_fields();
   }
 
   function option_definition() {
@@ -27,7 +31,8 @@ class vud_term_handler_field_widget extends views_handler_field {
   }
 
   function render($values) {
-    $node = node_load($values->nid);
+    $nid = $values->{$this->aliases['nid']};
+    $node = node_load($nid);
     _vud_term_generate_table($node);
     return $node->content['vud_term_show_table']['#value'];
   }

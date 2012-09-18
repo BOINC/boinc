@@ -1,5 +1,4 @@
 <?php
-// $Id: dependent.inc,v 1.5.2.2 2010/01/29 19:44:39 merlinofchaos Exp $
 
 /**
  * @file

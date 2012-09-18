@@ -1,5 +1,4 @@
 <?php
-// $Id: context-task-handler.inc,v 1.23.2.9 2010/09/10 18:25:13 merlinofchaos Exp $
 
 /**
  * @file

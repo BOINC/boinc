@@ -1,5 +1,4 @@
 <?php
-// $Id: user_view.inc,v 1.3.2.3 2010/07/05 20:20:50 merlinofchaos Exp $
 
 /**
  * Specialized implementation of hook_page_manager_task_tasks(). See api-task.html for
@@ -82,7 +81,8 @@ function page_manager_user_view($account) {
   }
   else {
     //fire off "view" op so that triggers still work
-    user_module_invoke('view', $array = array(), $account);
+    $array = array();
+    user_module_invoke('view', $array, $account);
   }
   return $output;
 }

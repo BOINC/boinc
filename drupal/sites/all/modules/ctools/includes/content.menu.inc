@@ -1,5 +1,4 @@
 <?php
-// $Id: content.menu.inc,v 1.2.2.1 2010/05/20 01:43:03 sdboyer Exp $
 
 /**
  * @file

@@ -1,0 +1,84 @@
+Changes since 6.x-2.1:
+----------------------
+
+ - #1353712 by Grayside: Fix the broken tests.
+ - #1340638 by izmeez and Grayside: Revert Notifications 4.x upgrade.
+ - #368657: API documentation.
+ - #1006576 by hefox and Grayside: Several og views handlers using wrong/undefined nid via relationships.
+ - #1218312 by aidanlis: '%1' for title on Group page, rather than Group name as title
+ - #788660 by Ki and Grayside: Add index (group_nid) to og_ancestry table
+ - #496468 by c4rl: Allow admin to specify number of groups per content type for Wiki posts too.
+ - #1096410 by joelstein: Add RealName support to email notifications.
+ - #1079080 by joelstein: Undefined property group_language.
+ - #618094 by msielski: Signal user deny to OG Notifications.
+ - #666374 by jzornig, Grayside, and Amitaibu: Manager Name in OG Details Block Broken.
+ - #998642 by catch: Fixed Don't run og_set_language() when viewing a node with a different language.
+ - #962076 by catch: Fixed og_get_subscriptions() queries database for anonymous user subscriptions.
+ - #906080 by quicksketch: Added Allow newlines to separate user names when adding users to groups.
+ - #333072: Problem with group search.
+ - #866746 by msonnabaum | Amitaibu: Fix 'Is member an admin in a group' on node base table.
+ - #880984 by jcmarco: Added Move the node edit groups selection into a fieldset.
+ - #865924 by sun: Fixed SQL error: column og.moderate does not exist (New groups block).
+ - #881380 by sun: Fixed Undefined constants OG_VIEWS_VALIDATE_GROUP_* in og_views_plugin_argument_validate_og_group_types().inc.
+ - #878180 by jmiccolis: Fixed Bad views handler specified for og.og_language().
+ - #868692 by joelstein: Fixed 'Add members' form error when submitting blank form.
+ - #799856 by Jose Reyero, jmiccolis: Changed Upgrade for Notifications 6.x-4.x. Update messaging and notifications module to the 4.x version.
+ - #649630 by marcp: Fixed og_set_group_context() set group theme and language.
+ - #803534 by christianchristensen | Amitaibu: Make og_is_group_admin() check for ->og_groups more strict.
+ - Follow up #639294 by marcp : Added PHPdocs for More granular argument validation for OG Group Nodes.
+ - #851606 by pounard: Fixed Non aliased WHERE clause.
+ - #847910 by David Lesieur: Fixed Group deletion: Deleting orphans only works for users with 'administer nodes' permission.
+ - #678286 by Grayside | Amitaibu: Added Groups in a local language should use their language if the user hasn't specified one.
+ - #814540 by Scott Reynolds | Gábor Hojtsy: Fixed Typo in Activity integration.
+ - #568780 by marcp | evoltech: Changed Grammar and typos at admin/og/og.
+ - #801146 by neomorphic: Fixed Uninstall doesnt remove og_content_type_usage_()* variables.
+ - #795470 by greggles | Amitaibu: Fixed Remove hard-coded og_rss_groups() html.
+ - #521446 by greggles, xurizaemon, mikedance | peted, toddwoof, moshe weitzman: Fixed og_notifications() doesn't play nice with other modules implementing message_alter().
+ - #746346 by mbarbella: Fixed HTML special characters in content type name.
+ - Various whitespace and other code cleanups.
+
+Changes since 6.x-2.0:
+----------------------
+
+- #431944 by ifoundthetao | gpk: Fixed Public Audience checkbox still visible
+  with all private group settings.
+- #669224 by greggles: Added move the og notifications addition form to a more
+  appropriate place.
+- #534870 Split menu callbacks into pages.inc. Add userpage key to
+  hook_notifications/subscription types.
+- #659556 by marcp. Unnecessary selector in og_access.js
+- #442238 by Scott Reynolds - Activity Integration with OG.
+- #586422 by gpk, lesmana | Amitaibu: Fixed Regression: 'Public' checkbox is
+  unchecked when editing a node that is not in any groups.
+- #602294 by Dave Reid. PHP notice: Undefined property: stdClass::
+- #673824 by stella: Added 'Group: Private' field - add Private/Public display
+  option.
+- #475536 Patch by hefox - Checking of category for user_profile_form.
+- #711354 by Damien Tournoud  : Added Add a 'current group from context' default
+  argument handler.
+- #691646 by stella: Added Allow text of 'edit membership' field to be editable.
+- #328758 by stella : Add 'invite to group' link in views.
+- #555310 by rob.carter. fi upgrade to og2 in og_access.install
+- #569502 by crea | Amitaibu: Added New Rules actions: add group to audience,
+  remove group from audience.
+- #644098 by crea: Fixed Use personal messages for user leaving a group
+  (removing himself).
+- #620032 by crea : Fixed Rules integration calls og_is_group_member() with
+  wrong arguments, and allow checking if a user is a group admin.
+- #639294 by marcp. More granular argument validation for OG Group Nodes.
+- #569356 by greggles. 'new groups' shows moderated posts
+- #658572 by jcmarco | Dave Reid: Changed Add support for vertical tabs.
+- #362493 Fixed og_nodeapi() presave might filter out groups.
+- #496468 by c4rl. allow admins to specify maximum audience per content type.
+  can disable crossposting by setting this to 1.
+- #701420 by yhahn, jmiccolis: Fixed managelink field handler has unpredictable
+  results outside of a group context.
+- #602754 by marcp. Add 'Manager of the current group' to Group nodes validator
+  in Views.
+- #656386 by alex_b: Fixed Redundant variable_set().
+- #569110 by greggles, jcmarco, crea. SQL rewrite bug.
+- #679770 by gordon: Added Additional Vertical Tabs JS.
+- #534870 Group subscriptions management - account for unpublished groups.
+- #581822 by markus_petrux. og_nodeapi('validate') warning
+- #555524 by NickSI | greggles: Fixed Filter 'OG: Is member an admin in a group'
+  does not remember selected condition.

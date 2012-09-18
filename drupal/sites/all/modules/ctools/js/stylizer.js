@@ -1,4 +1,3 @@
-// $Id: stylizer.js,v 1.1.2.1 2010/02/17 01:04:50 merlinofchaos Exp $
 
 (function ($) {
   Drupal.CTools = Drupal.CTools || {};

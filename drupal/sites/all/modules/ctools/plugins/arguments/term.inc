@@ -1,5 +1,4 @@
 <?php
-// $Id: term.inc,v 1.6.2.4 2010/07/05 19:22:35 merlinofchaos Exp $
 
 /**
  * @file
@@ -131,7 +130,7 @@ function ctools_term_ctools_argument_placeholder($conf) {
  * Inject the breadcrumb trail if necessary.
  */
 function ctools_term_breadcrumb($conf, $context) {
-  if (empty($conf['breadcrumb'])) {
+  if (empty($conf['breadcrumb']) || empty($context->data) || empty($context->data->tid)) {
     return;
   }
 

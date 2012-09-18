@@ -1,5 +1,4 @@
 <?php
-// $Id: context-admin.inc,v 1.9.2.3 2010/07/13 23:55:22 merlinofchaos Exp $
 
 /**
  * @file includes/common-context.inc

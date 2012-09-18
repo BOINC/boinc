@@ -1,5 +1,4 @@
 <?php
-// $Id: og_access.module,v 1.32.4.6 2010/02/22 10:46:16 amitaibu Exp $
 
 // visibility states for private groups. site admin chooses in og_access_settings()
 define('OG_PRIVATE_GROUPS_NEVER', 0);
@@ -13,6 +12,9 @@ define('OG_VISIBLE_BOTH', 1);
 define('OG_VISIBLE_CHOOSE_PUBLIC', 2);
 define('OG_VISIBLE_CHOOSE_PRIVATE', 3);
 
+/**
+ * Implementation of hook_menu().
+ */
 function og_access_menu() {
   $items['admin/og/og_access'] = array(
     'title' => 'Organic groups access configuration',
@@ -94,8 +96,8 @@ function og_access_settings() {
   $options = array(
     t('New group home pages and default audience are always public.'),
     t('New group home pages and default audience are always private.'),
-    t('Group administrator chooses whether her group homepage and audience are private or not. Defaults to <em>private</em>.'),
-    t('Group administrator chooses whether her group homepage and audience are private or not. Defaults to <em>public</em>.'),
+    t('Group administrator chooses whether the new group homepage and audience are private or not. Defaults to <em>private</em>.'),
+    t('Group administrator chooses whether the new group homepage and audience are private or not. Defaults to <em>public</em>.'),
   );
   $form['og_private_groups'] = array(
     '#type' => 'radios',
@@ -231,13 +233,6 @@ function og_access_alter_nongroup_form(&$form, $form_state, $node) {
           '#weight' => 2,
         );
         break;
-    }
-
-    if (count($form['og_nodeapi']['visible']) > 1) {
-      $form['og_nodeapi']['#type'] = 'fieldset';
-      $form['og_nodeapi']['#title'] = t('Groups');
-      $form['og_nodeapi']['#collapsible'] = TRUE;
-      $form['og_nodeapi']['#collapsed'] = $selected_groups ? TRUE : FALSE;
     }
 
   }

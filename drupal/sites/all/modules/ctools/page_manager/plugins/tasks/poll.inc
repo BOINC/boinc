@@ -1,5 +1,4 @@
 <?php
-// $Id: poll.inc,v 1.1.2.3 2010/01/29 21:21:31 merlinofchaos Exp $
 
 /**
  * Specialized implementation of hook_page_manager_task_tasks(). See api-task.html for

@@ -1,5 +1,4 @@
 <?php
-// $Id: rid.inc,v 1.1.2.1 2010/10/15 21:12:58 merlinofchaos Exp $
 
 /**
  * @file

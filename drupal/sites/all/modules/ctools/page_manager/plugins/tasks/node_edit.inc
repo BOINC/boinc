@@ -1,5 +1,4 @@
 <?php
-// $Id: node_edit.inc,v 1.3 2009/08/04 21:43:06 merlinofchaos Exp $
 
 /**
  * Specialized implementation of hook_page_manager_task_tasks(). See api-task.html for

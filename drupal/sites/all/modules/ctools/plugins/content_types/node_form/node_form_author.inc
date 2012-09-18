@@ -1,5 +1,4 @@
 <?php
-// $Id: node_form_author.inc,v 1.1.2.3 2010/07/05 19:36:17 merlinofchaos Exp $
 
 /**
  * Plugins are described by creating a $plugin array which will be used

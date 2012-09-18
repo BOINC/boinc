@@ -1,5 +1,4 @@
 <?php
-// $Id: vocabulary.inc,v 1.3.2.3 2010/07/05 22:48:34 merlinofchaos Exp $
 
 /**
  * @file

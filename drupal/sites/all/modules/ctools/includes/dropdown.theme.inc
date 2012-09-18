@@ -1,5 +1,4 @@
 <?php
-// $Id: dropdown.theme.inc,v 1.5.2.1 2009/10/02 17:44:17 merlinofchaos Exp $
 
 /**
  * @file

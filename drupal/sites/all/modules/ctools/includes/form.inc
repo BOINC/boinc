@@ -1,5 +1,4 @@
 <?php
-// $Id: form.inc,v 1.11.2.3 2010/08/20 22:16:57 merlinofchaos Exp $
 
 /**
  * @file

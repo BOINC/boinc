@@ -1,5 +1,4 @@
 <?php
-// $Id: page.inc,v 1.17.2.4 2010/08/30 22:07:52 merlinofchaos Exp $
 
 /**
  * @file
@@ -291,7 +290,6 @@ function page_manager_page_execute($subtask_id) {
         $argument['keyword'] = $name;
         if (isset($args[$count])) {
           // Hack: use a special argument config variable to learn if we need
-          $plugin = ctools_get_argument($argument['name']);
           // to use menu_tail style behavior:
           if (empty($argument['settings']['use_tail'])) {
             $value = $args[$count];
@@ -316,7 +314,7 @@ function page_manager_page_execute($subtask_id) {
   }
 
   // Add a fake tab for 'View' so that edit tabs can be added.
-  if (user_access('administer page manager') && (!isset($page->menu['type']) || !in_array($page->menu['type'], array('tab', 'default tab')))) {
+  if (user_access('administer page manager') && (!isset($page->menu['type']) || in_array($page->menu['type'], array('tab', 'default tab')))) {
     ctools_include('menu');
     ctools_menu_add_tab(array(
       'title' => t('View'),

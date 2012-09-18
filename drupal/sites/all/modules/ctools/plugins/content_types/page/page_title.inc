@@ -1,5 +1,4 @@
 <?php
-// $Id: page_title.inc,v 1.1.2.4 2010/07/05 21:14:07 merlinofchaos Exp $
 
 /**
  * @file

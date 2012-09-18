@@ -1,5 +1,4 @@
 <?php
-// $Id: user_contact.inc,v 1.1.2.2 2010/01/29 20:18:25 merlinofchaos Exp $
 
 if (module_exists('contact')) {
   /**

@@ -1,5 +1,4 @@
 <?php
-// $Id: og_access.install,v 1.5.4.5 2009/11/17 03:28:17 weitzman Exp $
 
 /**
  * Definition of hook_schema();

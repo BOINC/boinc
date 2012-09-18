@@ -1,4 +1,3 @@
-// $Id: dependent.js,v 1.4.2.2 2009/10/05 23:38:33 merlinofchaos Exp $
 /**
  * @file
  *
@@ -31,12 +30,10 @@
 
   Drupal.CTools.dependent.inArray = function(array, search_term) {
     var i = array.length;
-    if (i > 0) {
-     do {
+    while (i--) {
       if (array[i] == search_term) {
          return true;
       }
-     } while (i--);
     }
     return false;
   }
@@ -156,6 +153,7 @@
                 if (Drupal.settings.CTools.dependent[id].num <= len) {
                   // Show if the element if criteria is matched
                   object.show(0);
+                  object.addClass('dependent-options');
                 }
                 else {
                   // Otherwise hide. Use css rather than hide() because hide()

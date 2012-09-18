@@ -1,10 +1,12 @@
 <?php
-#define('OG_VIEWS_DO_NOT_VALIDATE_MEMBERSHIP', 0);
-#define('OG_VIEWS_VALIDATE_GROUP_MEMBER', 1);
-#define('OG_VIEWS_VALIDATE_GROUP_ADMIN', 2);
+define('OG_VIEWS_DO_NOT_VALIDATE_MEMBERSHIP', 0);
+define('OG_VIEWS_VALIDATE_GROUP_MEMBER', 1);
+define('OG_VIEWS_VALIDATE_GROUP_ADMIN', 2);
 
 /**
- * Validate whether an argument is a group node. Borrows heavily form the Node argument validator.
+ * Validate whether an argument is a group node.
+ *
+ * Borrows heavily form the Node argument validator.
  */
 class og_views_plugin_argument_validate_og_group_types extends views_plugin_argument_validate {
   // What does this do?
@@ -129,6 +131,12 @@ class og_views_plugin_argument_validate_og_group_types extends views_plugin_argu
     }
   }
 
+  /**
+   * Validate whether the current user is a member of the specified group.
+   *
+   * @param $node
+   *   The group node to be checked for membership.
+   */
   function validate_membership($node) {
     if (!empty($this->argument->options['validate_argument_is_member'])) {
       switch ($this->argument->options['validate_argument_is_member']) {
@@ -148,6 +156,15 @@ class og_views_plugin_argument_validate_og_group_types extends views_plugin_argu
     return TRUE;
   }
 
+  /**
+   * Validate whether or not the specified node type is configured to be a
+   * valid group node type for the purposes of this view. The view can be
+   * configured to accept all group node types or a subset of group node types.
+   *
+   * @param string $type
+   *   The node type that is being validated.
+   * @return boolean
+   */
   function validate_group_node_type($type) {
     $types = array();
     if (!empty($this->argument->options['validate_argument_group_node_type'])) {

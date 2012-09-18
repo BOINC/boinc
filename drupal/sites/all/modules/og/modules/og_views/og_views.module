@@ -1,5 +1,4 @@
 <?php
-// $Id: og_views.module,v 1.18.4.4 2009/06/09 11:42:46 weitzman Exp $
 
 /**
  * Implementation of hook_menu().
@@ -32,13 +31,12 @@ function og_views_menu() {
 // An menu access callback.
 function og_menu_access_picture($gid) {
   $view = views_get_view('og_members_faces');
-  // Not working properly. See  http://drupal.org/node/345144.
+  // Not working properly. See http://drupal.org/node/345144.
   return og_is_picture() && og_is_group_member($gid) && !$view->disabled;
 }
 
 /**
- * A menu callback. Extracts the nid from $node and passes along to views_page().
- *
+ * A menu callback. Extracts the nid from node and passes along to views_page().
  */
 function og_views_users_faces($view_name, $display, $node) {
   $arg = $node->nid;
@@ -56,7 +54,7 @@ function og_views_views_api() {
 }
 
 /**
- * Menu callback. Render group feed.
+ * Menu callback; Render group feed.
  */
 function og_views_feed($node) {
   $view = views_get_view(variable_get('og_home_page_view', 'og_ghp_ron'));
@@ -69,11 +67,15 @@ function og_views_feed($node) {
   print $view->render();
 }
 
+/**
+ * Implementation of hook_block().
+ */
 function og_views_block($op = 'list', $delta = 0, $edit = array()) {
   if ($op == 'list') {
-    $blocks[0]['info'] = t('Group search');
-    $blocks[0]['cache'] = BLOCK_NO_CACHE;
-
+    if (module_exists('search')) {
+      $blocks[0]['info'] = t('Group search');
+      $blocks[0]['cache'] = BLOCK_NO_CACHE;
+    }
     $blocks[1]['info'] = t('Group notifications (Views enhanced)');
     $blocks[1]['cache'] = BLOCK_NO_CACHE;
     return $blocks;
@@ -135,14 +137,17 @@ function og_views_block_search() {
 function og_views_block_search_form($groupnode) {
   // Render our display programmatically after adding an argument. Take that!
   $view = views_get_view('og_search');
-  $view->set_display('default');
+  $view->set_display('page_1');
   $view->set_arguments(array($groupnode->nid));
   $block = $view->display_handler->view_special_blocks('-exp');
   return $block['content'];
 }
 
-// An implementation of hook_og_links_alter().
-// Hyperlink the members count to the members listing.
+/**
+ * Implementation of hook_og_links_alter().
+ *
+ * Hyperlink the members count to the members listing.
+ */
 function og_views_og_links_alter(&$links, $node) {
   if (isset($links['subscribers'])) {
     $txt = strip_tags($links['subscribers']);
@@ -150,6 +155,9 @@ function og_views_og_links_alter(&$links, $node) {
   }
 }
 
+/**
+ * Implementation of hook_nodeapi().
+ */
 function og_views_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
   switch ($op) {
     case 'view':
@@ -161,7 +169,7 @@ function og_views_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
 }
 
 /**
- * Implementation of hook_form_TAG_alter().
+ * Implementation of hook_form_FORM-ID_alter().
  */
 function og_views_form_og_admin_settings_alter(&$form, $form_state) {
   $views = views_get_all_views();
@@ -182,11 +190,18 @@ function og_views_form_og_admin_settings_alter(&$form, $form_state) {
 }
 
 /**
- * Implementation of hook_form_alter().
+ * Implementation of hook_form_FORM-ID_alter().
+ *
+ * Redirect upon form submittion to the Views page.
  */
-function og_views_form_alter(&$form, $form_state, $form_id) {
-  if ($form_id == 'views_exposed_form' && $form_state['view']->name == 'og_search') {
+function og_views_form_views_exposed_form_alter(&$form, $form_state) {
+  if ($form_state['view']->name == 'og_search' && $form_state['view']->current_display == 'default' && $node = og_get_group_context()) {
     $form['submit']['#value'] = t('Search group');
+    // Redirect to the Views page.
+    $form['#action'] = url('og/search/' . $node->nid);
+  }
+  if ($form_state['view']->name == variable_get('og_home_page_view', 'og_ghp_ron')) {
+    $form['#action'] = $_SERVER['REQUEST_URI'];
   }
 }
 
@@ -195,15 +210,16 @@ function og_views_form_alter(&$form, $form_state, $form_id) {
  */
 function og_views_view_group($node, $teaser, $page) {
   if ($name = variable_get('og_home_page_view', 'og_ghp_ron')) {
-    // There is a view defiened to act as the group's home page.
+    // There is a view defined to act as the group's home page.
     $view = views_get_view($name);
     if (!$view) {
       drupal_set_message(t('The View %name was not found. Check your variables table or settings.php.', array('%name' => $name)), 'error');
     }
     else {
-      $built = $view->preview('default', array($node->nid));
+      if ($view->access('default')) {
+        $built = $view->preview('default', array($node->nid));
+      }
     }
-
     // Views will set either total_rows or num_rows depending on whether
     // View has a pager, or might show an empty text.
     if (!empty($view->total_rows) || !empty($view->num_rows) || !empty($view->page_empty) || $view->display_handler->get_option('empty')) {
@@ -214,8 +230,8 @@ function og_views_view_group($node, $teaser, $page) {
       // Otherwise show it to everybody.
       og_home_empty($node);
     }
-    
-    drupal_set_title(filter_xss_admin($view->build_info['title']));
+
+    drupal_set_title(filter_xss_admin($view->get_title()));
     drupal_add_feed(url("node/$node->nid/feed"), drupal_get_title());
   }
   else {
@@ -224,7 +240,7 @@ function og_views_view_group($node, $teaser, $page) {
 }
 
 /**
- * An implementation of hook_views_pre_view().
+ * Implementation of hook_views_pre_view().
  */
 function og_views_views_pre_view(&$view, &$display_id, &$args) {
   if ($view->name == 'og_my') {

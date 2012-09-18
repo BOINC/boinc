@@ -1,5 +1,4 @@
 <?php
-// $Id: vud.install,v 1.1.2.5 2009/08/16 19:22:05 lut4rp Exp $
 
 /**
  * @file
@@ -47,5 +46,14 @@ function vud_update_6200() {
     drupal_uninstall_module('updown_node');
   }
 
+  return $ret;
+}
+
+/**
+ * Rebuild menu for the path change on user statistics.
+ */
+function vud_update_6201() {
+  $ret = array();
+  menu_rebuild();
   return $ret;
 }

@@ -1,5 +1,4 @@
 <?php
-// $Id: user.inc,v 1.4.2.6 2010/08/03 18:45:21 merlinofchaos Exp $
 
 /**
  * @file
@@ -149,9 +148,14 @@ function ctools_context_user_convert_list() {
     'uid' => t('User ID'),
     'name' => t('User name'),
   );
+
+  // Include tokens provided by token.module.
   if (module_exists('token')) {
-    $list += reset(token_get_list(array('user')));
+    foreach (token_get_list(array('user')) as $tokens) {
+      $list += $tokens;
+    }
   }
+
   return $list;
 }
 
@@ -165,9 +169,12 @@ function ctools_context_user_convert($context, $type) {
     case 'name':
       return $context->data->name;
   }
+
+  // Check if token.module can provide the replacement.
   if (module_exists('token')) {
     $values = token_get_values('user', $context->data);
-    if ($key = array_search($type, $values->tokens)) {
+    $key = array_search($type, $values->tokens);
+    if ($key !== FALSE) {
       return $values->values[$key];
     }
   }

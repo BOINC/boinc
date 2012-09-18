@@ -1,5 +1,4 @@
 <?php
-// $Id: page-manager-edit-page.tpl.php,v 1.3 2009/08/19 01:12:24 merlinofchaos Exp $
 /**
  * @file
  * Template for the page manager page editor.

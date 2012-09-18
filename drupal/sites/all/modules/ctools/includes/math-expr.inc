@@ -95,12 +95,14 @@ class ctools_math_expr {
         'sin','sinh','arcsin','asin','arcsinh','asinh',
         'cos','cosh','arccos','acos','arccosh','acosh',
         'tan','tanh','arctan','atan','arctanh','atanh',
-        'sqrt','abs','ln','log');
+        'sqrt','abs','ln','log',
+        'time', 'ceil', 'floor', 'min', 'max', 'round');
 
     function ctools_math_expr() {
         // make the variables a little more accurate
         $this->v['pi'] = pi();
         $this->v['e'] = exp(1);
+        drupal_alter('ctools_math_expression_functions', $this->fb);
     }
 
     function e($expr) {

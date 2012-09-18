@@ -1,5 +1,4 @@
 <?php
-// $Id: context_exists.inc,v 1.1.2.3 2010/02/23 21:09:32 merlinofchaos Exp $
 
 /**
  * @file

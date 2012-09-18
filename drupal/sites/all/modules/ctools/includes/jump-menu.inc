@@ -1,5 +1,4 @@
 <?php
-// $Id: jump-menu.inc,v 1.1.2.3 2009/10/28 02:05:59 merlinofchaos Exp $
 
 /**
  * @file

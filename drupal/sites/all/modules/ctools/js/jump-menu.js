@@ -1,4 +1,3 @@
-// $Id: jump-menu.js,v 1.1.2.2 2009/10/28 01:53:15 merlinofchaos Exp $
 
 (function($) {
   Drupal.behaviors.CToolsJumpMenu = function(context) {

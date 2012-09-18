@@ -1,5 +1,4 @@
 <?php
-// $Id: relcontext.inc,v 1.1.2.1 2010/01/29 19:54:02 merlinofchaos Exp $
 
 /**
  * @file

@@ -1,5 +1,3 @@
-// $Id: README.txt,v 1.14.2.2.2.3 2010/06/29 04:26:32 marvil07 Exp $
-
 = Vote Up/Down =
 
 == Overview ==
@@ -156,6 +154,40 @@ Where '<template_type>' is 'widget' or 'votes'.
 This templates can be located on the root of your theme folder or inside
 your widget folder(not really recommended).
 
+== Frequently Asked Questions ==
+
+[qanda]
+
+How to display voting widget by API for nodes?::
+If you want to custom how and where to show the widget, you need to
+render manually each part of the standard node `$content` variable
+(fields, body, etc).
++
+[source,php]
+----
+<?php
+// save the rendered value of the widget
+$vud_widget = $node->content['vud_node_widget_display']['#value'];
+// avoid show it twice
+unset($node->content['vud_node_widget_display']);
+
+// render each value inside $content
+print $node->content['body']['#value'];
+
+// print vud widget, here is the place where we want to show it
+print $vud_widget;
+
+// render more values inside $content
+----
+
+How can I prevent bots to vote when anonymous voting is enabled?::
+When anonymous voting is enabled, you need to modify your 'robots.txt'
+file to prevent bots to vote.
++
+----
+Disallow: /vote/
+Disallow: /?q=vote/
+----
 
 == Credits ==
 

@@ -1,5 +1,4 @@
 <?php
-// $Id: ctools_custom_content_ui.class.php,v 1.1.2.1 2010/07/14 01:57:42 merlinofchaos Exp $
 
 class ctools_custom_content_ui extends ctools_export_ui {
 

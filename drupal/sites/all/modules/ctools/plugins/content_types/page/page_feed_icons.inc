@@ -1,5 +1,4 @@
 <?php
-// $Id: page_feed_icons.inc,v 1.1.2.1 2010/02/02 21:49:21 merlinofchaos Exp $
 
 /**
  * @file

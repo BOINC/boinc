@@ -1,5 +1,4 @@
 <?php
-// $Id: node_body.inc,v 1.2.2.2 2010/07/24 18:01:11 merlinofchaos Exp $
 
 /**
  * Plugins are described by creating a $plugin array which will be used

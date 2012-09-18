@@ -1,4 +1,3 @@
-// $Id: dropdown.js,v 1.3.2.1 2009/10/05 23:38:33 merlinofchaos Exp $
 /**
  * @file
  * Implement a simple, clickable dropdown menu.

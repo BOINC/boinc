@@ -1,5 +1,4 @@
 <?php
-// $Id: node_updated.inc,v 1.1.2.2 2010/05/28 00:38:52 sdboyer Exp $
 
 /**
  * Plugins are described by creating a $plugin array which will be used

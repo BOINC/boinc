@@ -1,5 +1,4 @@
 <?php
-// $Id: node_form_publishing.inc,v 1.1.2.2 2010/04/14 21:02:12 merlinofchaos Exp $
 
 /**
  * @file

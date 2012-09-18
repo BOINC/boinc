@@ -1,5 +1,4 @@
 <?php
-// $Id: hook_vud.php,v 1.1.2.2 2010/06/20 20:44:17 marvil07 Exp $
 /**
  * @file
  * This file contains module hooks for users of Vote Up/down.

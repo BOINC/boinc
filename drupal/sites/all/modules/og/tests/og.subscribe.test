@@ -1,5 +1,4 @@
 <?php
-// $Id: og.subscribe.test,v 1.21.4.2 2009/09/25 17:09:48 weitzman Exp $
 
 /**
  * @file
@@ -23,7 +22,10 @@ class OgSubscribe extends OgTestCase {
   function setUp() {
     parent::setUp('og', 'og_access');
     // Create a user with admin permissions.
-    $this->web_admin = $this->drupalCreateUser(array('administer nodes', 'administer content types', 'access administration pages', 'administer site configuration', 'administer organic groups'));
+    $this->web_admin = $this->drupalCreateUser(array(
+      'administer nodes', 'administer content types', 'access administration pages',
+      'administer site configuration', 'administer organic groups')
+    );
     $this->drupalLogin($this->web_admin);
 
     // Create a group node content type.
@@ -35,6 +37,8 @@ class OgSubscribe extends OgTestCase {
 
     // Create groups with different visibility (open, moderated, etc').
     $this->selective = array('open' => OG_OPEN, 'moderated' => OG_MODERATED, 'invite' => OG_INVITE_ONLY, 'closed' => OG_CLOSED);
+    $this->selective_labels = array_flip($this->selective);
+
     $this->nodes = array();
     foreach ($this->selective as $key => $selective)   {
       // Create a group node and save the node in $this.
@@ -50,39 +54,152 @@ class OgSubscribe extends OgTestCase {
    */
   function testWebUserSubscribeOg() {
     $this->drupalLogin($this->web_user);
-    foreach ($this->selective as $key => $selective) {
-      // Get the join page.
-      $this->drupalGet('og/subscribe/'. $this->nodes[$key]->nid);
-      if ($key == 'open' || $key == 'moderated') {
-        $this->assertRaw(t('Are you sure you want to join the group %title?', array('%title' => $this->nodes[$key]->title)), t('Subscribe to @selective group text found.', array('@selective' => $key)));
-        // Click the join button.
-        $this->drupalPost(NULL, array(), t('Join'));
-        // Assert membership approval, waiting for approval text.
-        $this->assertRaw(t($key == 'open' ? 'You are now a member of %title.' : 'Membership request to the %title group awaits approval by an administrator.', array('%title' => $this->nodes[$key]->title)), t('Subscribed @selective group text found.', array('@selective' => $key)));
-        // Assert user is properly subscribed to open group.
-        if ($key == 'open') {
-          // Only in the 'open' group the web user is considered subscribed.
-          $this->assertTrue(array_key_exists($this->nodes[$key]->nid, og_get_subscriptions($this->web_user->uid, 1, TRUE)), t('Subscribed open group is loaded into user object.'));
-        }
 
-        // Unsubscribe a group.
-        $this->drupalGet('og/unsubscribe/'. $this->nodes[$key]->nid .'/'. $this->web_user->uid);
-        $this->assertRaw(t('Are you sure you want to remove @user from the group %title?', array('@user' => $this->web_user->name, '%title' => $this->nodes[$key]->title)), t('Unsubscribe @selective group text found.', array('@selective' => $key)));
-        // Click the join button.
-        $this->drupalPost(NULL, array(), t('Remove'));
-        // Assert membership removal.
-        $this->assertRaw(t('%user removed from %group.', array('%user' => $this->web_user->name, '%group' => $this->nodes[$key]->title)), t('Confirmation of unsubscribing @selective group text found.', array('@selective' => $key)));
-        // Assert user is properly removed to group.
-        if ($key == 'open') {
-          // Assert the group was removed from web user.
-          $this->assertFalse(array_key_exists($this->nodes[$key]->nid, og_get_subscriptions($this->web_user->uid, 1, TRUE)), t('Open group was removed from the og_uid table.'));
-        }
+    $cases = array();
+    $cases['open'] = array(
+      'join_button' => t('Join'),
+      'request_response' => t('You are now a member of %title.', array('%title' => $this->nodes['open']->title)),
+    );
+    $cases['moderated'] = array(
+      'join_button' => t('Request membership'),
+      'request_response' => t('Membership request to the %title group awaits approval by an administrator.', array('%title' => $this->nodes['moderated']->title)),
+    );
+
+    foreach ($this->selective as $selective_id => $value) {
+      if (array_key_exists($selective_id, $cases)) {
+        $this->_testWebUserSubscribe($selective_id, $cases[$selective_id]);
+        $this->_testWebUserUnsubscribeOg($selective_id);
       }
       else {
         // Assert a 403 page is given.
-        $this->assertResponse(403, t('User got a 403 page while trying to access @selective group subscription.', array('@selective' => $key)));
+        $this->drupalGet('og/subscribe/' . $this->nodes[$selective_id]->nid);
+        $this->assertResponse(403, t('User got a 403 page while trying to access @selective group subscription.', array('@selective' => $selective_id)));
       }
     }
   }
 
+  /**
+   * Test current user subscription to a group.
+   */
+  protected function _testWebUserSubscribe($selective, $text) {
+    $node = $this->nodes[$selective];
+    // Get the subscription page.
+    $this->drupalGet('og/subscribe/' . $node->nid);
+
+    $this->assertRaw(t('Are you sure you want to join the group %title?',
+      array('%title' => $node->title)),
+      t('Confirmation of subscribe to @selective group text found.',
+        array('@selective' => $selective))
+    );
+
+    // Click the join button.
+    $this->drupalPost(NULL, array(), $text['join_button']);
+    // Assert membership request response text.
+    $this->assertRaw($text['request_response'], t('Subscribed to @selective group text found.',
+      array('@selective' => $selective))
+    );
+    if ($selective == 'open') {
+      $this->assertOgMember($this->web_user, $node);
+    }
+    else {
+      $this->assertNotOgMember($this->web_user, $node);
+      $this->assertOgPendingMember($this->web_user, $node);
+    }
+  }
+
+  /**
+   * Test user unsubscribed from a group.
+   */
+  protected function _testWebUserUnsubscribeOg($selective) {
+    $this->drupalGet('og/unsubscribe/'. $this->nodes[$selective]->nid .'/'. $this->web_user->uid);
+    $this->assertRaw(t('Are you sure you want to leave the group %title?', array('%title' => $this->nodes[$selective]->title)), t('Unsubscribe @selective group text found.', array('@selective' => $selective)));
+    // Click the join button.
+    $this->drupalPost(NULL, array(), t('Leave'));
+    // Assert membership removal.
+    $this->assertRaw(t('You left the group %group.', array('%group' => $this->nodes[$selective]->title)), t('Confirmation of unsubscribing @selective group text found.', array('@selective' => $selective)));
+    // Assert user is properly removed to group.
+    $this->assertNotOgMember($this->web_user, $this->nodes[$selective]);
+  }
+
+  /**
+   * Assert the specified user is a member of the specified group.
+   *
+   * @param $account
+   *   User object.
+   * @param $group
+   *   Group node object.
+   *
+   * @return
+   *   TRUE if user is a group member.
+   */
+  protected function assertOgMember($account, $group) {
+    $vars = array(
+      '%user' => theme('username', $account),
+      '%group' => $group->title,
+      '@selective' => $this->selective_labels[ $group->og_selective],
+    );
+    $message = t('%user is a member of @selective group %group', $vars);
+    return $this->assertTrue($this->_checkOgMembershipStatus($account, $group), $message);
+  }
+
+  /**
+   * Assert the specified user is not a member of the specified group.
+   *
+   * @param $account
+   *   User object.
+   * @param $group
+   *   Group node object.
+   *
+   * @return
+   *   TRUE if user is not a group member.
+   */
+  protected function assertNotOgMember($account, $group) {
+    $vars = array(
+      '%user' => theme('username', $account),
+      '%group' => $group->title,
+      '@selective' => $this->selective_labels[ $group->og_selective],
+    );
+    $message = t('%user is not a member of @selective group %group', $vars);
+    return $this->assertFalse($this->_checkOgMembershipStatus($account, $group), $message);
+  }
+
+  /**
+   * Check the group membership status of the specified user.
+   *
+   * @param $account
+   *   User object.
+   * @param $group
+   *   Group node object.
+   *
+   * @return
+   *   TRUE if user is a group member.
+   *
+   * @todo
+   *   Find a smarter way to test for group membership. Perhaps dependent on
+   *   OG Views.
+   */
+  protected function _checkOgMembershipStatus($account, $group) {
+    return array_key_exists($group->nid, og_get_subscriptions($account->uid, 1, TRUE));
+  }
+
+  /**
+   * Assert the specified user is a pending member of the specified group.
+   *
+   * @param $account
+   *   User object.
+   * @param $group
+   *   Group node object.
+   *
+   * @return
+   *   TRUE if user is a pending group member.
+   */
+  protected function assertOgPendingMember($account, $group) {
+    $vars = array(
+      '%user' => theme('username', $account),
+      '%group' => $group->title,
+      '@selective' => $this->selective_labels[ $group->og_selective],
+    );
+    $message = t('%user is a pending member of @selective group %group', $vars);
+    return $this->assertTrue(og_is_pending_member($group->nid, $account->uid), $message);
+  }
 }

@@ -1,4 +1,3 @@
-// $Id: collapsible-div.js,v 1.6.2.2 2009/10/09 17:10:00 merlinofchaos Exp $
 /**
  * @file
  * Javascript required for a simple collapsible div.

@@ -1,5 +1,4 @@
 <?php
-// $Id: node_form_buttons.inc,v 1.1.2.2 2010/07/05 19:34:34 merlinofchaos Exp $
 
 /**
  * Plugins are described by creating a $plugin array which will be used

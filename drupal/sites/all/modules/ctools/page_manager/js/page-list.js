@@ -1,4 +1,3 @@
-// $Id: page-list.js,v 1.3 2009/07/12 18:32:04 merlinofchaos Exp $
 
 /**
  * Provide some extra responses for the page list so we can have automatic

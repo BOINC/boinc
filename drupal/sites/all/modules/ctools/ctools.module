@@ -1,5 +1,4 @@
 <?php
-// $Id: ctools.module,v 1.27.2.50 2010/10/15 22:11:09 merlinofchaos Exp $
 
 /**
  * @file
@@ -10,7 +9,7 @@
  * must be implemented in the module file.
  */
 
-define('CTOOLS_API_VERSION', '1.8');
+define('CTOOLS_API_VERSION', '1.9');
 
 /**
  * Test the CTools API version.
@@ -330,6 +329,10 @@ function ctools_set_variable_token($token) {
  * $token = ctools_set_variable_token('id', 'mymodule_myfunction');
  */
 function ctools_set_callback_token($token, $callback) {
+  // If the callback uses arguments they are considered in the token.
+  if (is_array($callback)) {
+    $token .= '-' . md5(serialize($callback));
+  }
   $string = '<!-- ctools-page-' . $token . ' -->';
   ctools_set_page_token($string, 'callback', $callback);
   return $string;
@@ -391,7 +394,7 @@ function ctools_shutdown_handler() {
 function ctools_theme() {
   ctools_include('utility');
   $items = array();
-  _ctools_passthrough($items, 'theme');
+  ctools_passthrough('ctools', 'theme', $items);
   return $items;
 }
 
@@ -401,7 +404,7 @@ function ctools_theme() {
 function ctools_menu() {
   ctools_include('utility');
   $items = array();
-  _ctools_passthrough($items, 'menu');
+  ctools_passthrough('ctools', 'menu', $items);
   return $items;
 }
 
@@ -410,7 +413,8 @@ function ctools_menu() {
  */
 function ctools_cron() {
   ctools_include('utility');
-  _ctools_passthrough($items, 'cron');
+  $items = array();
+  ctools_passthrough('ctools', 'cron', $items);
 }
 
 /**

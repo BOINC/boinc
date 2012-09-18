@@ -1,5 +1,4 @@
 <?php
-/* $Id: css.inc,v 1.10.2.7 2010/10/15 21:10:11 merlinofchaos Exp $ */
 
 /*
  * @file
@@ -310,7 +309,8 @@ function ctools_css_disassemble($css) {
   // Remove comments.
   $css = preg_replace("/\/\*(.*)?\*\//Usi", "", $css);
   // Split out each statement
-  $statements = explode("}", $css);
+  $statements = preg_split('/[;}]/', $css);
+
   // If we have any statements, parse them.
   if (!empty($statements)) {
     // Iterate through all of the statements.

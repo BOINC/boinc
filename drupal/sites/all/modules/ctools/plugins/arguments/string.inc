@@ -1,5 +1,4 @@
 <?php
-// $Id: string.inc,v 1.3.2.3 2010/01/29 20:18:25 merlinofchaos Exp $
 
 /**
  * @file
