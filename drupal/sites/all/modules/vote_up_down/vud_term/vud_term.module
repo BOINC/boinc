@@ -1,5 +1,4 @@
 <?php
-// $Id: vud_term.module,v 1.1.2.17 2010/08/02 05:14:51 marvil07 Exp $
 
 /**
  * @file
@@ -117,8 +116,8 @@ function _vud_term_generate_table(&$node) {
         array('data' => t('Reset')),
       );
       $rows[] = array(
-        $tdetails->name,
-        $tdetails->description,
+        check_plain($tdetails->name),
+        check_plain($tdetails->description),
         theme('vud_widget', $content_id, "term", $tag, $widget),
         "<span id=\"total-votes-term-$content_id\">". _vud_term_get_row_votes($content_id, $tag) .'</span>',
         l('Reset your vote', "votereset/term/$content_id/$tag/$reset_token"),
@@ -132,8 +131,8 @@ function _vud_term_generate_table(&$node) {
         array('data' => t('Score')),
       );
       $rows[] = array(
-        $tdetails->name,
-        $tdetails->description,
+        check_plain($tdetails->name),
+        check_plain($tdetails->description),
         theme('vud_widget', $content_id, "term", $tag, $widget),
         "<span id=\"total-votes-term-$content_id\">". _vud_term_get_row_votes($content_id, $tag) .'</span>',
       );

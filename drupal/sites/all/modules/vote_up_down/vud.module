@@ -1,5 +1,4 @@
 <?php
-// $Id: vud.module,v 1.1.2.35 2010/10/22 06:46:25 marvil07 Exp $
 
 /**
  * @file
@@ -91,11 +90,12 @@ function vud_menu() {
     'type'             => MENU_CALLBACK,
   );
 
-  $items['user/%user/votes'] = array(
+  $items['user/%user/vote_up_down/votes'] = array(
     'title'            => 'Votes',
     'page callback'    => 'vud_user_votes',
     'page arguments'   => array(1),
-    'access arguments' => array('access vote up/down statistics'),
+    'access callback'  => 'vud_can_see_votes',
+    'access arguments' => array(1),
     'type'             => MENU_LOCAL_TASK,
   );
 
@@ -118,42 +118,47 @@ function vud_perm() {
 }
 
 /**
+ * Menu access callback for 'user/%user/vote_up_down/votes'.
+ *
+ * @see user_view_access()
+ */
+function vud_can_see_votes($account) {
+  return $account && $account->uid &&
+    (
+      // Administrators can view all accounts.
+      user_access('administer users') ||
+      // The user is enabled and logged in at least once.
+      ($account->access && ($account->status == 1) && user_access('access vote up/down statistics'))
+    );
+}
+
+/**
  * Menu callback; display all votes for a user.
  */
-function vud_user_votes() {
-  if ($account = user_load(array('uid' => arg(1), 'status' => 1))) {
-    if ($account->status || user_access('administer users')) {
-      $header = array(
-        array('data' => t('Node')),
-        array('data' => t('Vote')),
-        array('data' => t('Date'))
-      );
-      $sql = db_rewrite_sql("SELECT n.nid, n.title, v.value, v.timestamp FROM {node} n LEFT JOIN {votingapi_vote} v
-                             ON n.nid = v.content_id
-                             WHERE v.uid = %d AND v.tag = '%s' AND v.content_type = 'node' AND n.status = 1
-                             ORDER BY v.timestamp DESC");
-      $result = pager_query($sql, 25, 0, NULL, $account->uid, variable_get('vud_tag', 'vote'));
-      $rows = array();
-      while ($node = db_fetch_object($result)) {
-        $rows[] = array(
-          l($node->title, 'node/'. $node->nid),
-          $node->value,
-          t('!time ago', array('!time' => format_interval(time() - $node->timestamp)))
-        );
-      }
-      drupal_set_title(check_plain($account->name));
-      $output = theme('table', $header, $rows);
-      $output .= theme('pager', NULL, 25);
+function vud_user_votes($account) {
+  $header = array(
+    array('data' => t('Node')),
+    array('data' => t('Vote')),
+    array('data' => t('Date'))
+  );
+  $sql = db_rewrite_sql("SELECT n.nid, n.title, v.value, v.timestamp FROM {node} n LEFT JOIN {votingapi_vote} v
+    ON n.nid = v.content_id
+    WHERE v.uid = %d AND v.tag = '%s' AND v.content_type = 'node' AND n.status = 1
+    ORDER BY v.timestamp DESC");
+  $result = pager_query($sql, 25, 0, NULL, $account->uid, variable_get('vud_tag', 'vote'));
+  $rows = array();
+  while ($node = db_fetch_object($result)) {
+    $rows[] = array(
+      l($node->title, 'node/'. $node->nid),
+      $node->value,
+      t('!time ago', array('!time' => format_interval(time() - $node->timestamp)))
+    );
+  }
+  drupal_set_title(check_plain($account->name));
+  $output = theme('table', $header, $rows);
+  $output .= theme('pager', NULL, 25);
 
-      return $output;
-    }
-    else {
-      drupal_access_denied();
-    }
-  }
-  else {
-    drupal_not_found();
-  }
+  return $output;
 }
 
 /**
@@ -212,10 +217,29 @@ function vud_ctools_plugin_directory($module, $plugin) {
 
 /**
  * Implementation of votingapi hook_votingapi_results_alter().
+ *
+ * Add positive/negative aggregations for VotingAPI cache points.
  */
 function vud_votingapi_results_alter(&$cache, $content_type, $content_id) {
-  $vud_cache = _vud_get_standard_results($content_type, $content_id);
-  $cache = array_merge_recursive($cache, $vud_cache);
+  // positive points
+  $sql  = "SELECT SUM(v.value) as value_positives, v.tag ";
+  $sql .= "FROM {votingapi_vote} v ";
+  $sql .= "WHERE v.content_type = '%s' AND v.content_id = %d AND v.value_type = 'points' AND v.value > 0 ";
+  $sql .= "GROUP BY v.value_type, v.tag";
+  $result = db_query($sql, $content_type, $content_id);
+  while ($record = db_fetch_object($result)) {
+    $cache[$record->tag]['points']['positives'] = $record->value_positives;
+  }
+
+  // negative points
+  $sql  = "SELECT SUM(v.value) as value_negatives, v.tag ";
+  $sql .= "FROM {votingapi_vote} v ";
+  $sql .= "WHERE v.content_type = '%s' AND v.content_id = %d AND v.value_type = 'points' AND v.value < 0 ";
+  $sql .= "GROUP BY v.value_type, v.tag";
+  $result = db_query($sql, $content_type, $content_id);
+  while ($record = db_fetch_object($result)) {
+    $cache[$record->tag]['points']['negatives'] = $record->value_negatives;
+  }
 }
 
 /**
@@ -232,38 +256,4 @@ function vud_votingapi_metadata_alter(&$data) {
     'description' => t('The sum of all negative votes for a content.'),
     'module' => 'vud',
   );
-}
-
-/**
- * Calculate positive/negative results for VotingAPI cache.
- *
- * We provide 0 if not votes found.
- */
-function _vud_get_standard_results($content_type, $content_id) {
-  $cache = array();
-  $tag = variable_get('vud_tag', 'vote');
-
-  $sql  = "SELECT SUM(v.value) as value_positives ";
-  $sql .= "FROM {votingapi_vote} v ";
-  $sql .= "WHERE v.content_type = '%s' AND v.content_id = %d AND v.value_type = 'points' AND v.value > 0 ";
-  $sql .= "GROUP BY v.value_type, v.tag";
-  $value_positives = db_result(db_query($sql, $content_type, $content_id));
-
-  if ($value_positives === FALSE) {
-    $value_positives = 0;
-  }
-  $cache[$tag]['points']['positives'] = $value_positives;
-
-  $sql  = "SELECT SUM(v.value) as value_negatives ";
-  $sql .= "FROM {votingapi_vote} v ";
-  $sql .= "WHERE v.content_type = '%s' AND v.content_id = %d AND v.value_type = 'points' AND v.value < 0 ";
-  $sql .= "GROUP BY v.value_type, v.tag";
-  $value_negatives = db_result(db_query($sql, $content_type, $content_id));
-
-  if ($value_negatives === FALSE) {
-    $value_negatives = 0;
-  }
-  $cache[$tag]['points']['negatives'] = $value_negatives;
-
-  return $cache;
 }

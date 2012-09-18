@@ -1,4 +1,3 @@
-// $Id: WIDGETAPI.txt,v 1.1.2.10 2010/07/24 23:23:53 marvil07 Exp $
 
 = Widget API - Vote Up/Down =
 
@@ -164,7 +163,7 @@ number of votes.
 `$unsigned_points` :: Number of total vote points for the object
     (unsigned).
 `$up_points`	     :: Number of total positive vote points for the vote object.
-`$down_points`	   :: Number of total positive vote points for the vote object.
+`$down_points`	   :: Number of total negative vote points for the vote object.
 `$vote_count`	     :: Number of total votes for the vote object.
 `$readonly`        :: Boolean that indicates if the actual user can vote
     on the object where the widget is displayed.

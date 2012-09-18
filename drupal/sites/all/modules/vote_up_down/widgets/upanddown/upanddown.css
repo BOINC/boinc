@@ -1,4 +1,3 @@
-/* $Id: upanddown.css,v 1.1.2.1 2010/07/24 23:23:54 marvil07 Exp $ */
 
 .vud-widget-upanddown {
   margin: 5px 10px;
@@ -6,13 +5,9 @@
   float: left;
 }
 
-.vud-widget-upanddown a {
-  text-decoration: none;
-  float: left;
-}
-
 .vud-widget-upanddown a.vud-link-up span,
 .vud-widget-upanddown a.vud-link-down span {
+  text-decoration: none;
   margin-right: 7px;
 }
 
@@ -40,6 +35,7 @@
 .vud-widget-upanddown .down-inactive,
 .vud-widget-upanddown .up-active,
 .vud-widget-upanddown .down-active {
+  float: left;
   display: block;
   width: 20px;
   height: 22px;
@@ -72,4 +68,20 @@
   padding-right: 0 !important;
   background-image: url(status-active.gif);
   background-position: center;
+}
+
+/**
+ * Hide elements visually, but keep them available for screen-readers.
+ *
+ * Used for information required for screen-reader users to understand and use
+ * the site where visual display is undesirable. Information provided in this
+ * manner should be kept concise, to avoid unnecessary burden on the user. Must
+ * not be used for focusable elements (such as links and form elements) as this
+ * causes issues for keyboard only or voice recognition users. "!important" is
+ * used to prevent unintentional overrides.
+ */
+.element-invisible {
+  position: absolute !important;
+  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px);
 }

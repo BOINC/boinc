@@ -1,5 +1,4 @@
 <?php
-// $Id: votes.tpl.php,v 1.1.2.8 2010/03/12 08:06:45 marvil07 Exp $
 /**
  * @file
  * votes.tpl.php

@@ -1,5 +1,4 @@
 <?php
-// $Id: updown.inc,v 1.1.2.2 2010/05/01 08:18:23 marvil07 Exp $
 
 /**
  * @file

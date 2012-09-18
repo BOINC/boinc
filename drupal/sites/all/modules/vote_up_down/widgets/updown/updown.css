@@ -1,4 +1,3 @@
-/* $Id: updown.css,v 1.1.2.8 2010/10/23 03:11:10 marvil07 Exp $ */
 
 .vud-widget-updown {
   width: 50px;
@@ -43,12 +42,12 @@
   font-size: 20px;
 }
 
-.vud-widget-updown .vud-link-up div {
+.vud-widget-updown div.updown-up {
   float: left;
   margin-right: 3px;
 }
 
-.vud-widget-updown .vud-link-down div {
+.vud-widget-updown div.updown-down {
   float: left;
   margin-left: 3px;
 }
