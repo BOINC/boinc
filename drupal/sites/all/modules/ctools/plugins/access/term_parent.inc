@@ -1,5 +1,4 @@
 <?php
-// $Id: term_parent.inc,v 1.1.2.3 2010/08/20 21:05:17 merlinofchaos Exp $
 
 /**
  * @file

@@ -1,5 +1,4 @@
 <?php
-// $Id: user_signature.inc,v 1.1.2.1 2010/08/05 22:39:41 merlinofchaos Exp $
 
 /**
  * Plugins are described by creating a $plugin array which will be used

@@ -1,5 +1,4 @@
 <?php
-// $Id: ctools_export_ui.inc,v 1.1.2.1 2010/06/10 20:46:25 merlinofchaos Exp $
 
 /**
  * The default plugin exists only to provide the base class. Other plugins

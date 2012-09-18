@@ -1,5 +1,4 @@
 <?php
-// $Id: views_content.views.inc,v 1.2.2.2 2010/10/29 20:13:15 merlinofchaos Exp $
 
 /**
  * @file

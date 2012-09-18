@@ -1,5 +1,4 @@
 <?php
-// $Id: book_parent.inc,v 1.2.2.3 2010/07/20 21:57:27 merlinofchaos Exp $
 
 /**
  * @file

@@ -1,5 +1,4 @@
 <?php
-// $Id: page_help.inc,v 1.1.2.2 2010/02/02 21:49:21 merlinofchaos Exp $
 
 /**
  * @file

@@ -1,13 +1,12 @@
-; $Id: ctools_custom_content.info,v 1.1.2.1 2010/07/14 01:57:42 merlinofchaos Exp $
 name = Custom content panes
 description = Create custom, exportable, reusable content panes for applications like Panels.
 core = 6.x
 package = Chaos tool suite
 dependencies[] = ctools
 
-; Information added by drupal.org packaging script on 2010-10-29
-version = "6.x-1.8"
+; Information added by drupal.org packaging script on 2012-08-08
+version = "6.x-1.9"
 core = "6.x"
 project = "ctools"
-datestamp = "1288393844"
+datestamp = "1344463009"
 

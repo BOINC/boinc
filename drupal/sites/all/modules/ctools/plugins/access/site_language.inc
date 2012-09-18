@@ -1,5 +1,4 @@
 <?php
-// $Id: site_language.inc,v 1.6.2.3 2010/07/14 01:30:19 merlinofchaos Exp $
 
 /**
  * @file

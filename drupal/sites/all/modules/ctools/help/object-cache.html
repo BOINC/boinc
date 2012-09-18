@@ -1,4 +1,3 @@
-<!-- $Id: object-cache.html,v 1.1 2009/01/23 23:14:04 merlinofchaos Exp $ -->
 The CTools Object Cache is a specialized cache for storing data that is non-volatile. This differs from the standard Drupal cache mechanism, which is volatile, meaning that the data can be cleared at any time and it is expected that any cached data can easily be reconstructed. In contrast, data stored in this cache is not expected to be reconstructable. It is primarily used for storing user input which is retrieved in stages, allowing for more complex user interface interactions.
 
 The object cache consists of 3 normal functions for cache maintenance, and 2 additional functions to facilitate locking.

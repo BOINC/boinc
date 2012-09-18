@@ -1,5 +1,4 @@
 <?php
-// $Id: views_empty.inc,v 1.1.2.1 2010/07/20 00:17:09 merlinofchaos Exp $
 
 /**
  * @file
@@ -33,7 +32,9 @@ function views_content_views_empty_content_type_render($subtype, $conf, $panel_a
   $block->content = '';
 
   $output = views_content_context_get_output($context);
-  $block->content = $output['empty'];
+  if (isset($output['empty'])) {
+    $block->content = $output['empty'];
+  }
 
   return $block;
 }

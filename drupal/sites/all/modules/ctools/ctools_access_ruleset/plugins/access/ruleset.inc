@@ -1,5 +1,4 @@
 <?php
-// $Id: ruleset.inc,v 1.1.2.1 2010/07/26 22:09:19 merlinofchaos Exp $
 
 /**
  * @file

@@ -1,5 +1,4 @@
 <?php
-// $Id: stylizer.inc,v 1.1.2.2 2010/07/14 23:10:16 merlinofchaos Exp $
 
 $plugin = array(
   'schema' => 'stylizer',

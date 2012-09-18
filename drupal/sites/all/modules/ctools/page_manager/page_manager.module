@@ -1,5 +1,4 @@
 <?php
-// $Id: page_manager.module,v 1.17.2.8 2010/07/23 21:47:20 merlinofchaos Exp $
 
 /**
  * @file
@@ -1053,7 +1052,15 @@ function page_manager_page_manager_handlers_list() {
   $handlers = ctools_export_load_object('page_manager_handlers');
   foreach ($handlers as $handler) {
     if (in_array($handler->task, $types)) {
-      $list[$handler->name] = check_plain("$handler->task: " . $handler->conf['title'] . " ($handler->name)");
+      $plugin = page_manager_get_task_handler($handler->handler);
+      $title = page_manager_get_handler_title($plugin, $handler, $tasks[$handler->task], $handler->subtask);
+
+      if ($title) {
+        $list[$handler->name] = check_plain("$handler->task: $title ($handler->name)");
+      }
+      else {
+        $list[$handler->name] = check_plain("$handler->task: ($handler->name)");
+      }
     }
   }
   return $list;

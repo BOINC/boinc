@@ -1,6 +1,11 @@
-API.txt: $Id: API.txt,v 1.5.2.25 2010/08/30 22:07:52 merlinofchaos Exp $
+API.txt: $Id$
 
 This file contains a log of changes to the API.
+API version 1.9
+  Introduce 'object factory' to export schema, allowing modules to control
+    how the exportable objects are instantiated.
+  Introduce 'hook_ctools_math_expression_functions_alter'.
+
 API version 1.8
   Introduce 'get base contexts' callback to all tasks to facilitate
     Page Manager's site template extracting contexts from the environment.

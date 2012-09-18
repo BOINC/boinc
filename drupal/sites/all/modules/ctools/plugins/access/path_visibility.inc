@@ -1,5 +1,4 @@
 <?php
-// $Id: path_visibility.inc,v 1.1.2.1 2010/02/23 20:58:38 merlinofchaos Exp $
 
 /**
  * @file

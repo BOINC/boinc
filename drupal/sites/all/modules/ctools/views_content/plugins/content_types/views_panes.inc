@@ -1,5 +1,4 @@
 <?php
-// $Id: views_panes.inc,v 1.14.2.15 2010/08/20 21:20:40 merlinofchaos Exp $
 
 /**
  * @file
@@ -182,7 +181,7 @@ function views_content_views_panes_content_type_render($subtype, $conf, $panel_a
         break;
 
       case 'panel':
-        $args[] = $panel_args[$argument['panel']];
+        $args[] = isset($panel_args[$argument['panel']]) ? $panel_args[$argument['panel']] : NULL;
         break;
 
       case 'user':
@@ -287,7 +286,7 @@ function views_content_views_panes_content_type_render($subtype, $conf, $panel_a
   if ($allow['fields_override']) {
     if ($conf['fields_override']) {
       $fields = $view->get_items('field');
-      foreach ($conf['fields_override'] as $field => $display) {
+      foreach ($fields as $field => $display) {
         $fields[$field]['exclude'] = empty($conf['fields_override'][$field]);
       }
       $view->display_handler->set_option('fields', $fields);

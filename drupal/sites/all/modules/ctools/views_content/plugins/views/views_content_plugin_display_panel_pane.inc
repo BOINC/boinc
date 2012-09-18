@@ -1,5 +1,4 @@
 <?php
-// $Id: views_content_plugin_display_panel_pane.inc,v 1.3.2.3 2010/07/09 01:02:24 merlinofchaos Exp $
 
 /**
  * The plugin that handles a panel_pane.
@@ -318,7 +317,7 @@ class views_content_plugin_display_panel_pane extends views_plugin_display {
    * Perform any necessary changes to the form values prior to storage.
    * There is no need for this function to actually store the data.
    */
-  function options_submit($form, &$form_state) {
+  function options_submit(&$form, &$form_state) {
     // It is very important to call the parent function here:
     parent::options_submit($form, $form_state);
     switch ($form_state['section']) {

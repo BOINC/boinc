@@ -1,5 +1,4 @@
 <?php
-// $Id: context.menu.inc,v 1.2 2008/12/30 18:21:34 merlinofchaos Exp $
 
 /**
  * @file

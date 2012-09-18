@@ -1,5 +1,4 @@
 <?php
-// $Id: page_tabs.inc,v 1.1.2.3 2010/02/03 01:18:58 merlinofchaos Exp $
 
 /**
  * @file

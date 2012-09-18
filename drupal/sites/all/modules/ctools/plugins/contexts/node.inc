@@ -1,5 +1,4 @@
 <?php
-// $Id: node.inc,v 1.11.2.5 2010/05/20 01:43:03 sdboyer Exp $
 
 /**
  * @file
@@ -28,6 +27,7 @@ $plugin = array(
     '#type' => 'textfield',
     '#description' => t('Enter the node ID of a node for this context.'),
   ),
+  'placeholder name' => 'nid',
 );
 
 /**
@@ -170,8 +170,15 @@ function ctools_context_node_convert_list() {
     'type' => t('Node type'),
   );
 
+  // Include tokens provided by token.module.
   if (module_exists('token')) {
-    $list += reset(token_get_list(array('node')));
+    foreach (token_get_list(array('node')) as $tokens) {
+      $readabletokens = array();
+    	foreach($tokens as $fieldname => $desc) {
+      	$readabletokens[$fieldname] = $fieldname . ': ' . $desc;
+      }
+      $list += $readabletokens;
+    }
   }
 
   return $list;
@@ -193,9 +200,12 @@ function ctools_context_node_convert($context, $type) {
     case 'type':
       return $context->data->type;
   }
+
+  // Check if token.module can provide the replacement.
   if (module_exists('token')) {
     $values = token_get_values('node', $context->data);
-    if ($key = array_search($type, $values->tokens)) {
+    $key = array_search($type, $values->tokens);
+    if ($key !== FALSE) {
       return $values->values[$key];
     }
   }

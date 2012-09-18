@@ -1,5 +1,4 @@
 <?php
-// $Id: term.inc,v 1.1.2.6 2010/10/15 22:44:31 merlinofchaos Exp $
 
 /**
  * @file

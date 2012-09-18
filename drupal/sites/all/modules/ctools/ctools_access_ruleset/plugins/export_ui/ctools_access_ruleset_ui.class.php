@@ -1,5 +1,4 @@
 <?php
-// $Id: ctools_access_ruleset_ui.class.php,v 1.1.2.2 2010/07/22 19:21:58 merlinofchaos Exp $
 
 class ctools_access_ruleset_ui extends ctools_export_ui {
 

@@ -1,5 +1,4 @@
 <?php
-// $Id: profile_fields_pane.tpl.php,v 1.1 2009/04/18 02:00:35 merlinofchaos Exp $
 /**
  * @file
  * Display profile fields.

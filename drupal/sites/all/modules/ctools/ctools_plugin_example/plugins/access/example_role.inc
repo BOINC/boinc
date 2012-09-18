@@ -1,5 +1,4 @@
 <?php
-// $Id: example_role.inc,v 1.1.2.2 2010/07/14 01:30:19 merlinofchaos Exp $
 
 /**
  * @file

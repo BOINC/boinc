@@ -1,5 +1,4 @@
 <?php
-// $Id: search_result.inc,v 1.1.2.4 2010/07/22 22:26:04 merlinofchaos Exp $
 
 if (module_exists('search')) {
   /**

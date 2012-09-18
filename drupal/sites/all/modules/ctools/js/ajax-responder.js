@@ -1,4 +1,3 @@
-// $Id: ajax-responder.js,v 1.18.2.24 2010/08/27 22:09:48 merlinofchaos Exp $
 /**
  * @file
  *
@@ -46,10 +45,10 @@
     // Grab all the links that match this url and add the fetching class.
     // This allows the caching system to grab each url once and only once
     // instead of grabbing the url once per <a>.
-    var $objects = $('a[href=' + old_url + ']')
+    var $objects = $('a[href="' + old_url + '"]')
     $objects.addClass('ctools-fetching');
     try {
-      url = old_url.replace(/\/nojs(\/|$)/g, '/ajax$1');
+      url = Drupal.CTools.AJAX.urlReplaceNojs(url);
       $.ajax({
         type: "POST",
         url: url,
@@ -108,7 +107,7 @@
     var object = $(this);
     $(this).addClass('ctools-ajaxing');
     try {
-      url = url.replace(/\/nojs(\/|$)/g, '/ajax$1');
+      url = Drupal.CTools.AJAX.urlReplaceNojs(url);
       $.ajax({
         type: "POST",
         url: url,
@@ -150,7 +149,7 @@
     var object = $(this);
     try {
       if (url) {
-        url = url.replace(/\/nojs(\/|$)/g, '/ajax$1');
+        url = Drupal.CTools.AJAX.urlReplaceNojs(url);;
         $.ajax({
           type: "POST",
           url: url,
@@ -196,7 +195,7 @@
     $form.addClass('ctools-ajaxing');
 
     try {
-      url = url.replace(/\/nojs(\/|$)/g, '/ajax$1');
+      url = Drupal.CTools.AJAX.urlReplaceNojs(url);
 
       var ajaxOptions = {
         type: 'POST',
@@ -287,7 +286,7 @@
     var form_id = $(object).parents('form').get(0).id;
     try {
       if (url) {
-        url = url.replace(/\/nojs(\/|$)/g, '/ajax$1');
+        url = Drupal.CTools.AJAX.urlReplaceNojs(url);
         $.ajax({
           type: "POST",
           url: url,
@@ -429,7 +428,7 @@
     });
 
     var html = '';
-    for (i in data.argument) {
+    for (var i = 0; i < data.argument.length; i++) {
       var link = Drupal.CTools.AJAX.getPath(data.argument[i].file);
       if (!Drupal.CTools.AJAX.css[link]) {
         html += '<link class="ctools-temporary-css" type="text/css" rel="stylesheet" media="' + data.argument[i].media +
@@ -459,7 +458,7 @@
 
     var html = '';
     var head = document.getElementsByTagName('head')[0];
-    for (i in data.argument) {
+    for (var i = 0; i < data.argument.length; i++) {
       var link = Drupal.CTools.AJAX.getPath(data.argument[i]);
       if (!Drupal.CTools.AJAX.scripts[link]) {
         Drupal.CTools.AJAX.scripts[link] = link;
@@ -518,6 +517,22 @@
     $(data.selector).submit();
   }
 
+  /**
+   * Replacing 'nojs' with 'ajax' in the URL allows for an easy method to let
+   * the server detect when it needs to degrade gracefully. 
+   * There are five scenarios to check for:
+   * 1. /nojs/
+   * 2. /nojs$ - The end of a URL string.
+   * 3. /nojs? - Followed by a query (with clean URLs enabled).
+   *      E.g.: path/nojs?destination=foobar
+   * 4. /nojs& - Followed by a query (without clean URLs enabled).
+   *      E.g.: ?q=path/nojs&destination=foobar
+   * 5. /nojs# - Followed by a fragment.
+   *      E.g.: path/nojs#myfragment
+   */
+  Drupal.CTools.AJAX.urlReplaceNojs = function(url) {
+    return url.replace(/\/nojs(\/|$|\?|&|#)/g, '/ajax$1');
+  }
 
   /**
    * Bind links that will open modals to the appropriate function.

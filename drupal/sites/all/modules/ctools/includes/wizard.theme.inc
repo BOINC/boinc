@@ -1,5 +1,4 @@
 <?php
-// $Id: wizard.theme.inc,v 1.2 2009/01/29 22:12:05 merlinofchaos Exp $
 
 /**
  * @file

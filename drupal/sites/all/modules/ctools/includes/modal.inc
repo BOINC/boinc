@@ -1,5 +1,4 @@
 <?php
-// $Id: modal.inc,v 1.7.2.6 2010/09/08 21:10:12 merlinofchaos Exp $
 
 /**
  * @file
@@ -212,7 +211,7 @@ function ctools_modal_form_render($form_state, $output) {
 
   // If there are messages for the form, render them.
   if ($messages = theme('status_messages')) {
-    $output = '<div class="messages">' . $messages . '</div>' . $output;
+    $output = $messages . $output;
   }
 
   $commands = array();

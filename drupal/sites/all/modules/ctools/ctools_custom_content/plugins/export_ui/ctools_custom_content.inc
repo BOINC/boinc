@@ -1,5 +1,4 @@
 <?php
-// $Id: ctools_custom_content.inc,v 1.1.2.1 2010/07/14 01:57:42 merlinofchaos Exp $
 
 $plugin = array(
   'schema' => 'ctools_custom_content',

@@ -1,5 +1,4 @@
 <?php
-// $Id: token.inc,v 1.1.2.2 2010/02/23 21:00:59 merlinofchaos Exp $
 
 /**
  * @file
@@ -32,16 +31,19 @@ function ctools_context_create_token($empty, $data = NULL, $conf = FALSE) {
  * Implementation of hook_ctools_context_convert_list().
  */
 function ctools_context_token_convert_list() {
-  // Pass everything through to token_get_list().
-  return reset(token_get_list(array('global')));
+  $list = array();
+  foreach (token_get_list(array('global')) as $tokens) {
+    $list += $tokens;
+  }
+  return $list;
 }
 
 /**
  * Implementation of hook_ctools_context_converter_alter().
  */
-function ctools_context_token_convert($context, $token) {
-  $values = token_get_values();
-  $key = array_search($token, $values->tokens);
+function ctools_context_token_convert($context, $type) {
+  $values = token_get_values('global');
+  $key = array_search($type, $values->tokens);
   if ($key !== FALSE) {
     return $values->values[$key];
   }

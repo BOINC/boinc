@@ -1,4 +1,3 @@
-// $Id: modal.js,v 1.17.2.20 2010/10/20 19:22:08 merlinofchaos Exp $
 /**
  * @file
  *
@@ -253,6 +252,14 @@
         }
       });
 
+    // Bind a click handler to allow elements with the 'ctools-close-modal'
+    // class to close the modal.
+    $('.ctools-close-modal:not(.ctools-close-modal-processed)', context)
+      .addClass('ctools-close-modal-processed')
+      .click(function() {
+        Drupal.CTools.Modal.dismiss();
+        return false;
+      });
   };
 
   // The following are implementations of AJAX responder commands.
@@ -353,6 +360,14 @@
       } else { //IE
         event = window.event;
         target = event.srcElement;
+      }
+
+      var parents = $(target).parents().get();
+      for (var i in $(target).parents().get()) {
+        var position = $(parents[i]).css('position');
+        if (position == 'absolute' || position == 'fixed') {
+          return true;
+        }
       }
       if( $(target).filter('*:visible').parents('#modalContent').size()) {
         // allow the event only if target is a visible child node of #modalContent

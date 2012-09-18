@@ -1,5 +1,4 @@
 <?php
-// $Id: page_manager.admin.inc,v 1.27.2.18 2010/10/29 22:40:52 merlinofchaos Exp $
 
 /**
  * @file

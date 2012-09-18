@@ -1,5 +1,4 @@
 <?php
-// $Id: ctools_access_ruleset.inc,v 1.1.2.1 2010/07/14 01:33:03 merlinofchaos Exp $
 
 $plugin = array(
   'schema' => 'ctools_access_ruleset',

@@ -1,4 +1,3 @@
-<!-- $Id: export.html,v 1.1.2.7 2010/07/22 22:41:44 merlinofchaos Exp $ -->
 Exportable objects are objects that can live either in the database or in code, or in both. If they live in both, then the object in code is considered to be "overridden", meaning that the version in code is ignored in favor of the version in the database.
 
 The main benefit to this is that you can move objects that are intended to be structure or feature-related into code, thus removing them entirely from the database. This is a very important part of the deployment path, since in an ideal world, the database is primarily user generated content, whereas site structure and site features should be in code. However, many many features in Drupal rely on objects being in the database and provide UIs to create them.
@@ -106,7 +105,10 @@ function mymodule_schema() {
 <dd>Objects should contain a primary key which is a database identifier primarily used to determine if an object has been written or not. This is required for the default CRUD save callback to work.</dd>
 
 <dt>object</dt>
-<dd>The class the object should be created as. Defaults as stdClass.</dd>
+<dd>The class the object should be created as, if 'object factory' is not set. If this is not set either, defaults as stdClass.</dd>
+
+<dt>object factory</dt>
+<dd>Function used to create the object. The function receives the schema and the loaded data as a parameters: your_factory_function($schema, $data). If this is set,  'object' has no effect since you can use your function to create whatever class you wish.</dd>
 
 <dt>can disable</dt>
 <dd>Control whether or not the exportable objects can be disabled. All this does is cause the 'disabled' field on the object to always be set appropriately, and a variable is kept to record the state. Changes made to this state must be handled by the owner of the object. Defaults to TRUE.</dd>
@@ -122,6 +124,9 @@ function mymodule_schema() {
 
 <dt>bulk export</dt>
 <dd>Declares whether or not the exportable will be available for bulk exporting.</dd>
+
+<dt>export type string</dt>
+<dd>The export type string (Local, Overridden, Database) is normally stored as $item-&gt;type. Since type is a very common keyword, it's possible to specify what key to actually use. </dd>
 
 <dt>list callback</dt>
 <dd>Bulk export callback to provide a list of exportable objects to be chosen for bulk exporting. Defaults to $module . '_' . $table . '_list' if the function exists. If it is not, a default listing function will be provided that will make a best effort to list the titles. See ctools_export_default_list().</dd>
@@ -190,6 +195,7 @@ Exportable objects have several reserved keys that are used by the CTools export
 <li><em>Overridden</em> is an object that lives in the database and is overriding the exported configuration of a corresponding object in code.</li>
 <li><em>Default</em> is an object that lives only in code.</li>
 </ul>
+<i>Note: This key can be changed by setting 'export type string' to something else, to try and prevent "type" from conflicting.</i>
 </dd>
 </dl>
 

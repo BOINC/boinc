@@ -1,5 +1,4 @@
 <?php
-// $Id: term_list.inc,v 1.3.2.3 2010/07/15 20:47:14 merlinofchaos Exp $
 
 /**
  * Plugins are described by creating a $plugin array which will be used

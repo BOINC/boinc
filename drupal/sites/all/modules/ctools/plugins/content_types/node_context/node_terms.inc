@@ -1,5 +1,4 @@
 <?php
-// $Id: node_terms.inc,v 1.1.2.1 2010/05/19 18:12:33 sdboyer Exp $
 
 /**
  * Plugins are described by creating a $plugin array which will be used

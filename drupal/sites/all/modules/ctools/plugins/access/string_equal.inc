@@ -1,5 +1,4 @@
 <?php
-// $Id: string_equal.inc,v 1.1.2.3 2009/12/29 05:44:04 merlinofchaos Exp $
 
 /**
  * @file

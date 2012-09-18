@@ -1,5 +1,4 @@
 <?php
-// $Id: context.inc,v 1.33.2.17 2010/09/10 17:07:52 merlinofchaos Exp $
 
 /**
  * @file
@@ -622,7 +621,7 @@ function ctools_context_keyword_substitute($string, $keywords, $contexts) {
 
       // Figure out our keyword and converter, if specified.
       if (strpos($keyword, ':')) {
-        list($context, $converter) = explode(':', $keyword);
+        list($context, $converter) = explode(':', $keyword, 2);
       }
       else {
         $context = $keyword;
@@ -1227,7 +1226,7 @@ function ctools_context_replace_placeholders($contexts, $arguments) {
       case 'context':
         if (!empty($arguments[$cid])) {
           $context_info = $context->placeholder['conf'];
-          $new_context = ctools_context_get_context_from_context($context_info, 'requiredcontext', $arguments[$cid]);
+          $new_context = ctools_context_get_context_from_context($context_info, 'context', $arguments[$cid]);
         }
         break;
     }
