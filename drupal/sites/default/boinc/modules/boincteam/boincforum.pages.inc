@@ -50,6 +50,7 @@ function boincforum_admin_settings() {
   );
   
   // Where is BOINC data?
+  $config_path = conf_path();
   $form['boinc_data'] = array(
     '#type' => 'fieldset',
     '#title' => t('Location of BOINC data'),
@@ -59,7 +60,7 @@ function boincforum_admin_settings() {
   $form['boinc_data']['boincforum_db_configured'] = array(
     '#type' => 'checkbox',
     '#title' => t('There is a \'boinc\' database connection string configured in %file',
-      array('%file' => 'sites/default/settings.php')),
+      array('%file' => "{$config_path}/settings.php")),
     '#return_value' => 1,
     '#default_value' => variable_get('boincforum_db_configured', 1),
     '#description' => '',
