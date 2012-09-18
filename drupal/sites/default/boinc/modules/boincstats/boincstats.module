@@ -86,7 +86,7 @@ function boincstats_get_user_stats_chart($cpid = null, $chart_size = 'medium') {
   }
   
   // Initialize the cache object and flush stale images
-  $myCache = new pCache(array('CacheFolder' => realpath('.') . '/sites/default/files/cache'));
+  $myCache = new pCache(array('CacheFolder' => realpath('.') . '/' . conf_path() . '/files/cache'));
   $myCache->removeOlderThan(60*60*24);
   
   if ($myCache->isInCache($cache_name)) {
@@ -202,7 +202,7 @@ function boincstats_get_project_stats_chart() {
   $MyData = new pData();
   
   // Initialize the cache object and flush stale images
-  $myCache = new pCache(array('CacheFolder' => realpath('.') . '/sites/default/files/cache'));
+  $myCache = new pCache(array('CacheFolder' => realpath('.') . '/' . conf_path(). '/files/cache'));
   $myCache->removeOlderThan(60*60*24);
   
   if ($myCache->isInCache('project chart')) {
