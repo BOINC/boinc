@@ -85,6 +85,11 @@ function boincstats_get_user_stats_chart($cpid = null, $chart_size = 'medium') {
     $label_x_axis = TRUE;
   }
   
+  // Sanity check for cache directory
+  if (!boincstats_check_cache_dir()) {
+    return;
+  }
+  
   // Initialize the cache object and flush stale images
   $myCache = new pCache(array('CacheFolder' => realpath('.') . '/' . conf_path() . '/files/cache'));
   $myCache->removeOlderThan(60*60*24);
@@ -201,6 +206,11 @@ function boincstats_get_project_stats_chart() {
   // Create and populate the pData object
   $MyData = new pData();
   
+  // Sanity check for cache directory
+  if (!boincstats_check_cache_dir()) {
+    return;
+  }
+  
   // Initialize the cache object and flush stale images
   $myCache = new pCache(array('CacheFolder' => realpath('.') . '/' . conf_path(). '/files/cache'));
   $myCache->removeOlderThan(60*60*24);
@@ -280,6 +290,37 @@ function boincstats_get_project_stats_chart() {
     //$myPicture->autoOutput('pictures/example.drawAreaChart.simple.png');
     $myPicture->stroke();
   }
+}
+
+/*
+ *
+ */
+function boincstats_check_cache_dir($cache_path = 'files/cache') {
+  $cache_dir = realpath('.') . '/' . conf_path() . '/' . $cache_path;
+  if (!is_writeable($cache_dir)) {
+    if (!is_dir($cache_dir)) {
+      if (!is_writeable(dirname($cache_dir))) {
+        // If the parent "files" dir isn't even writeable...
+        watchdog('boincstats', conf_path() . '/files directory is not writeable.
+          This directory must be writeable by the web server.', WATCHDOG_ERROR);
+        return FALSE;
+      }
+      else {
+        // Create the cache dir
+        if (!mkdir($cache_dir, 0775)) {
+          watchdog('boincstats', 'Failed to create ' . conf_path() . '/files/cache
+            directory. Check filesystem permissions...?', WATCHDOG_ERROR);
+          return FALSE;
+        }
+      }
+    }
+    else {
+      watchdog('boincstats', 'Cache directory at ' . conf_path() . '/files/cache
+        is not writeable, please allow webserver write access.', WATCHDOG_ERROR);
+      return FALSE;
+    }
+  }
+  return TRUE;
 }
 
 /*
