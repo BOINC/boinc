@@ -17,9 +17,9 @@ class og_views_handler_field_og_group_nids extends views_handler_field_prerender
     // field_alias is used by our render method.
     $this->field_alias = $this->aliases['og_ancestry_nid'];
     foreach ($values as $value) {
-      $result = og_get_node_groups_result($value->nid);
+      $result = og_get_node_groups_result($value->{$this->field_alias});
       while ($row = db_fetch_object($result)) {
-        $this->items[$value->nid][$row->group_nid] = l($row->title, "node/$row->group_nid");
+        $this->items[$value->{$this->field_alias}][$row->group_nid] = l($row->title, "node/$row->group_nid");
       }
     }
   }

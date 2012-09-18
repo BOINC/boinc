@@ -1,5 +1,4 @@
 <?php
-// $Id: og_notifications.module,v 1.24.4.24 2010/02/07 13:36:25 amitaibu Exp $
 
 /**
  * @file
@@ -163,6 +162,7 @@ function og_notifications_og($op, $gid, $uid, $args) {
       // These different ops have been provided for consistency and flexibility
       // during use by other modules.
     case 'user approve':
+    case 'user deny':
     case 'admin create':
     case 'admin new':
     case 'user broadcast':
@@ -285,9 +285,16 @@ function og_notifications_message_alter(&$message, $info) {
     $text = array(
       'subject' => messaging_message_part($group, 'subject', $send_method, $event),
       'header' => messaging_message_part($group, 'header', $send_method, $event),
-      'main'  => messaging_message_part($group, 'main', $send_method, $event),
       'footer' => messaging_message_part($group, 'footer', $send_method, $event)
     );
+
+    if (isset($message->body['main']) ) {
+      $text['main'] = messaging_message_part($group, 'main', $send_method, $event);
+    }
+    else {
+      $text['event'] = messaging_message_part($group, 'main', $send_method, $event);
+    }
+
 
     $objects = array('user' => $message->account, 'node' => $event->objects['node'], 'subscription' => $subscription);
     if ($event->action == 'comment') {
@@ -299,7 +306,7 @@ function og_notifications_message_alter(&$message, $info) {
 
     $message->subject = $text['subject'];
     unset($text['subject']);
-    $message->body = $text;
+    $message->body = array_merge($message->body,$text);
   }
 }
 
@@ -550,7 +557,13 @@ function _og_notification_check_message($message) {
     // Check if "group" is one of the fields. This is a general presumption
     // that any subscription with at least two fields, one of them being a
     // group, is an OG subscription.
-    $sid = db_result(db_query("SELECT sid FROM {notifications} WHERE type = 'grouptype' AND sid = %d", $params[0]));
+    foreach ($params as $current_sid) {
+      $sid = db_result(db_query("SELECT sid FROM {notifications} WHERE type = 'grouptype' AND sid = %d", $current_sid));
+      if ($sid) {
+        break;
+      }
+    }
+
   }
 
   return $sid > 0 ? $sid : 0;

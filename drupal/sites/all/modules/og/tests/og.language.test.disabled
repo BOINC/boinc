@@ -1,0 +1,153 @@
+<?php
+
+/**
+ * @file
+ * Language tests for the organic groups module.
+ */
+
+/**
+ * Tests that depend on the Locale module do not work with automated testing in 
+ * Drupal 6, as the Locale module does not use the generated database test
+ * environment.
+ *
+ * It can still be tested (more or less) if you turn on the Locale module in
+ * your local dev environment before running the tests. (And rename this file
+ * to og.language.test.
+ *
+ * @see http://drupal.org/node/1419530
+ * @see http://drupal.org/node/1430932
+ */
+
+  require_once drupal_get_path('module', 'og') . '/tests/og_testcase.php';
+  require_once './includes/locale.inc';
+
+class OgLanguage extends OgTestCase {
+  public static function getInfo() {
+    return array(
+      'name'  => t('Organic groups language tests'),
+      'description' => t('Tests the language in which the page is rendered.'),
+      'group' => t('Organic groups'),
+    );
+  }
+
+  function setUp() {
+    parent::setUp('og', 'locale');
+    // Create a user with admin permissions.
+    $web_admin = $this->drupalCreateUser(array(
+      'administer nodes',
+      'administer content types',
+      'access administration pages',
+      'administer site configuration',
+      'administer organic groups',
+    ));
+
+    $this->drupalLogin($web_admin);
+
+    // Create a group node content type.
+    $og_group_type = $this->drupalCreateContentType();
+    variable_set('og_content_type_usage_'. $og_group_type->name, 'group');
+    $this->group_type = $og_group_type->name;
+
+    // Setup languages
+    include_once 'includes/locale.inc';
+    variable_set('language_negotiation', LANGUAGE_NEGOTIATION_PATH);
+    locale_add_language('es');
+    locale_add_language('de');
+
+    // Rebuild the menu so the new content types will appear in the menu.
+    menu_rebuild();
+
+    $this->group_nid = array();
+    // Create a group node (default language).
+    $this->group_nid['default'] = $this->addOgGroup($og_group_type->name);
+    // Create a group node (German language).
+    $this->group_nid['de'] = $this->addOgGroup($og_group_type->name, OG_OPEN, array('og_language' => 'de'));
+    // Create a group node (Spanish language).
+    $this->group_nid['es'] = $this->addOgGroup($og_group_type->name, OG_OPEN, array('og_language' => 'es'));
+
+    // Create viewing users.
+    $this->language_user = $this->drupalCreateUser(array(
+      'access content',
+      'edit any ' . $og_group_type->type . ' content',
+    ));
+  }
+
+  /**
+   * Test the page language in different group/path/user combinations.
+   */
+  function testOgLanguage() {
+    // Neutral Language User
+    $this->drupalLogin($this->language_user);
+
+    // Language neutral group, no path prefix. Should be site default.
+    $this->ogLanguageTestCase(language_default('language'), NULL, 'default');
+    // German group, no path prefix. Should be Default. In a default configuration, that means English.
+    $this->ogLanguageTestCase('en', NULL, 'de');
+    // Language neutral group, German prefix. Should be German.
+    $this->ogLanguageTestCase('de', 'de', 'default');
+    // Language German group, Spanish prefix. Should be Spanish.
+    $this->ogLanguageTestCase('es', 'es', 'de');
+
+    // German Language User
+    $this->drupalPost('user/' . $this->language_user->uid . '/edit',
+      array('language' => 'de'), t('Save'));
+    $this->language_user->language = 'de';
+
+    // Language neutral group, no path prefix. Should be German.
+    $this->ogLanguageTestCase('de', NULL, 'default');
+    // Language neutral group, Spanish path prefix. Should be Spanish.
+    $this->ogLanguageTestCase('es', 'es', 'default');
+    // Language Spanish group, no path prefix. Should be German.
+    $this->ogLanguageTestCase('de', NULL, 'es');
+  }
+
+  /**
+   * Test language negotiation.
+   *
+   * @param $langcode
+   *  Two-letter language code.
+   * @param $prefix
+   *  URL Language Prefix. Not necessarily the same as $langcode.
+   * @param $group
+   *  Language of the group to be tested.
+   */
+  function ogLanguageTestCase($langcode, $prefix = NULL, $group = 'default') {
+    $url_prefix = $prefix . '/';
+    $output = $this->drupalGet($url_prefix . 'node/' . $this->group_nid[$group]);
+    $this->assertLanguage($langcode, $prefix, $group);
+
+    // test language persistence to outgoing links
+    $this->clickLink(t('Edit'));
+    $this->assertLanguage($langcode, $prefix, $group);
+  }
+
+  /**
+   * Check the language of the rendered page.
+   */
+  function assertLanguage($langcode, $prefix, $group) {
+    // Add sensible defaults for test results.
+    if (empty($prefix)) {
+      $prefix = 'none';
+    }
+    if (empty($group)) {
+      $group = 'neutral';
+    }
+    if (!$this->loggedInUser) {
+      $user_language = 'n/a';
+    }
+    else {
+      $user_language = !empty($this->loggedInUser->language) ? $this->loggedInUser->language : 'neutral';
+    }
+
+    $msg = t("Identified !language language page. [Prefix: !prefix, User: !user_language, Group: !group]",
+      array(
+        '!language' => $langcode,
+        '!prefix' => $prefix,
+        '!user_language' => $user_language,
+        '!group' => $group,
+      )
+    );
+    return $this->assertPattern('/\<html.*(xml\:)?lang="' . $langcode . '"/US', $msg, 'Language');
+  }
+}
+

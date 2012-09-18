@@ -1,5 +1,4 @@
 <?php
-// $Id: og_actions.module,v 1.9.4.2 2009/06/09 01:04:44 weitzman Exp $
 
 /**
  * Implementation of hook_action_info().
@@ -229,10 +228,29 @@ function og_remove_group_action_submit($form, &$form_state) {
  */
 function og_subscribe_user_action($account, $context) {
   if (isset($context['groups'])) {
+    $new_groups = $existing_groups = array();
     foreach ($context['groups'] as $gid) {
-      og_save_subscription($gid, $account->uid, array('is_active' => 1));
+      // Add user if they are not already an active member.
+      if (empty($account->og_groups[$gid])) {
+        og_save_subscription($gid, $account->uid, array('is_active' => 1));
+        $new_groups[] = $gid;
+      }
+      else {
+        $existing_groups[] = $gid;
+      }
     }
-    watchdog('action', 'Subscribed user %name to groups %groups.', array('%name' => $account->name, '%groups' => implode(',', $context['groups'])));
+
+    $text = '';
+    if ($new_groups) {
+      $text .= 'Subscribed user %name to groups %groups. ';
+      watchdog('action', 'Subscribed user %name to groups %newgroups.', array('%name' => $account->name, '%groups' => implode(',', $new_groups)));
+    }
+    if ($existing_groups) {
+      $text .= 'User %name is already a member of groups %oldgroups. ';
+    }
+    if (!empty($text)) {
+      watchdog('action', $text, array('%name' => $account->name, '%newgroups' => implode(',', $new_groups), '%oldgroups' => implode(',', $existing_groups)));
+    }
   }
 }
 

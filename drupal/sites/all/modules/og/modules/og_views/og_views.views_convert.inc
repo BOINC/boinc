@@ -1,5 +1,4 @@
 <?php
-// $Id: og_views.views_convert.inc,v 1.1.2.1 2009/06/10 16:13:12 weitzman Exp $
 
 /**
  * @file

@@ -1,5 +1,4 @@
 <?php
-// $Id: og_views.views.inc,v 1.13.4.11 2010/03/04 07:28:59 amitaibu Exp $
 
 /**
  * Implementation of hook_views_handlers().
@@ -164,7 +163,14 @@ function og_views_data_og() {
     'field' => array(
       'handler' => 'views_handler_field_markup',
       'format' => FILTER_FORMAT_DEFAULT,
-      'click sortable' => FALSE,
+      'click sortable' => TRUE,
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_string',
+      'help' => t('Description field on Organic Group nodes.'),
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort',
     ),
   );
   $data['og']['member_count'] = array(
@@ -258,14 +264,14 @@ function og_views_data_og() {
       'help' => t('Displays the language selected for a given group.'),
       'real field' => 'og_language',
       'field' => array(
-        'handler' => 'views_handler_field_node_language',
+        'handler' => 'views_handler_field_locale_language',
         'click sortable' => TRUE,
       ),
       'filter' => array(
-        'handler' => 'views_handler_filter_node_language',
+        'handler' => 'views_handler_filter_locale_language',
       ),
       'argument' => array(
-        'handler' => 'views_handler_argument_node_language',
+        'handler' => 'views_handler_argument_locale_language',
       ),
     );
   }

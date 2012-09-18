@@ -1,5 +1,4 @@
 <?php
-// $Id: og.admin.inc,v 1.15.4.2 2009/06/22 15:59:27 weitzman Exp $
 
 /**
  * Menu callback to load settings form.
@@ -11,10 +10,10 @@ function og_admin_settings() {
     form_set_error('content_types_table', t('You must designate at least one content type to act as a group node and another as a group post. <a href="!create">Create new content type</a> if needed.', array('!create' => url('admin/content/types/add', array('query' => drupal_get_destination())))));
   }
   $form['og_settings']['content_types'] = array(
-    '#type' => 'fieldset', 
+    '#type' => 'fieldset',
     '#title' => t('Content types'),
     '#description' => t('You may <a href="!create">create new content types</a> as needed. Note that you may have multiple types acting as groups and multiple types are allowed as group posts.', array('!create' => url('admin/content/types/add', array('query' => drupal_get_destination())))),
-    '#collapsible' => TRUE, 
+    '#collapsible' => TRUE,
     '#collapsed' => $is_configured,
   );
   $map = og_types_map();
@@ -24,65 +23,65 @@ function og_admin_settings() {
     $type_url_str = str_replace('_', '-', $type->type);
     $usage = variable_get('og_content_type_usage_'. $type->type, 'omitted');
     $rows[] = array(
-      $type->name,
+      check_plain($type->name),
       $map[$usage],
-      l(t('Edit'), "admin/content/node-type/$type_url_str", array('query' => drupal_get_destination())),      
+      l(t('Edit'), "admin/content/node-type/$type_url_str", array('query' => drupal_get_destination())),
     );
   }
   $form['og_settings']['content_types']['content_types_table'] = array('#value' => theme('table', $header, $rows));
 
-  
+
   $form['og_settings']['group_details'] = array(
-    '#type' => 'fieldset', 
-    '#title' => t('Group details'), 
-    '#collapsible' => TRUE, 
+    '#type' => 'fieldset',
+    '#title' => t('Group details'),
+    '#collapsible' => TRUE,
     '#collapsed' => TRUE
   );
   // groups directory visibility
   $options = array(
     t("New groups don't appear in the groups directory. Administrators control the directory exclusively."),
     t('New groups always appear in the groups directory.'),
-    t('Group creator chooses whether her group appears in the directory. Defaults to <em>in directory</em>.'),
-    t('Group creator chooses whether her group appears in the directory. Defaults to <em>not in directory</em>.'),
+    t('Group creator chooses whether the new group appears in the directory. Defaults to <em>in directory</em>.'),
+    t('Group creator chooses whether the new group appears in the directory. Defaults to <em>not in directory</em>.'),
   );
   $form['og_settings']['group_details']['og_visibility_directory'] = array(
-    '#type' => 'radios', 
-    '#title' => t('Groups directory control'), 
-    '#default_value' => variable_get('og_visibility_directory', OG_DIRECTORY_CHOOSE_TRUE), 
-    '#description' =>t('Site admins always see the checkbox for adding a group to the <em>groups directory</em>. Note that changing this setting has no effect on existing posts. Re-save those posts to acquire this new setting.'), 
+    '#type' => 'radios',
+    '#title' => t('Groups directory control'),
+    '#default_value' => variable_get('og_visibility_directory', OG_DIRECTORY_CHOOSE_TRUE),
+    '#description' =>t('Site admins always see the checkbox for adding a group to the <em>groups directory</em>. Note that changing this setting has no effect on existing posts. Re-save those posts to acquire this new setting.'),
     '#options' => $options
   );
-  
+
   // groups registration visibility
   $options = array(
     t("New groups don't appear on the registration form. Administrators control the form exclusively."),
     t('New groups always appear on the registration form.'),
-    t('Group creator chooses whether her group appears on the registration form. Defaults to <em>on form</em>.'),
-    t('Group creator chooses whether her group appears on the registration form. Defaults to <em>not on form</em>.'),
+    t('Group creator chooses whether the new group appears on the registration form. Defaults to <em>on form</em>.'),
+    t('Group creator chooses whether the new group appears on the registration form. Defaults to <em>not on form</em>.'),
   );
   $form['og_settings']['group_details']['og_visibility_registration'] = array(
-    '#type' => 'radios', 
-    '#title' => t('Registration form control'), 
-    '#default_value' => variable_get('og_visibility_registration', OG_REGISTRATION_CHOOSE_FALSE), 
-    '#description' =>t('OG admins always see the checkbox for adding a group to the <em>registration form</em>. Note that changing this setting has no effect on existing posts. Re-save those posts to acquire this new setting.'), 
+    '#type' => 'radios',
+    '#title' => t('Registration form control'),
+    '#default_value' => variable_get('og_visibility_registration', OG_REGISTRATION_CHOOSE_FALSE),
+    '#description' =>t('OG admins always see the checkbox for adding a group to the <em>registration form</em>. Note that changing this setting has no effect on existing posts. Re-save those posts to acquire this new setting.'),
     '#options' => $options
   );
 
   // audience checkboxes
   $form['og_settings']['group_details']['og_audience_checkboxes'] = array(
-    '#type' => 'checkbox', 
-    '#title' => t('Audience checkboxes'), 
-    '#default_value' => variable_get('og_audience_checkboxes', TRUE), 
+    '#type' => 'checkbox',
+    '#title' => t('Audience checkboxes'),
+    '#default_value' => variable_get('og_audience_checkboxes', TRUE),
     '#description' => t('Show each group that the user is a member of as a checkbox in the "Audience" section. This enables the member to place her post into multiple groups. If unchecked, simplify the user interface by omitting the checkboxes and assuming user wants to post into the current group. This simplification only applies to new nodes, and not to edits of existing nodes. Group administrators always see checkboxes.')
   );
-  
+
   // audience required
   $options = array(t('Optional'), t('Required'));
   $form['og_settings']['group_details']['og_audience_required'] = array(
-    '#type' => 'radios', 
-    '#title' => t('Audience required'), 
-    '#default_value' => variable_get('og_audience_required', 0), 
-    '#options' => $options, 
+    '#type' => 'radios',
+    '#title' => t('Audience required'),
+    '#default_value' => variable_get('og_audience_required', 0),
+    '#options' => $options,
     '#description' => t('Do you require that all (non administrator) posts be affiliated with a group? Note that changing this setting will affect existing posts when they are edited.')
   );
   unset($options);
@@ -132,7 +131,7 @@ function og_admin_settings() {
     '#rows' => 10,
     '#description' => t('The body of the message sent to new approved members. Available variables: !group_url, @title'),
     '#default_value' => _og_mail_text('og_approve_user_body')
-  );   
+  );
   $form['og_settings']['notifications']['og_deny_user_subject'] = array(
     '#type' => 'textfield',
     '#title' => t('User denied notification subject'),
@@ -145,7 +144,7 @@ function og_admin_settings() {
     '#rows' => 10,
     '#description' => t('The body of the message sent to denied users. Available variables: !group_url, @title'),
     '#default_value' => _og_mail_text('og_deny_user_body')
-  );   
+  );
   $form['og_settings']['notifications']['og_invite_user_subject'] = array(
     '#type' => 'textfield',
     '#title' => t('Invite user notification subject'),
@@ -158,7 +157,7 @@ function og_admin_settings() {
     '#rows' => 10,
     '#description' => t('The body of the message sent to users invited to join a group. Available variables: @group, @site, @description, !group_url, @body'),
     '#default_value' => _og_mail_text('og_invite_user_body')
-  );   
+  );
   $form['og_settings']['notifications']['og_request_user_subject'] = array(
     '#type' => 'textfield',
     '#title' => t('Request user notification subject'),

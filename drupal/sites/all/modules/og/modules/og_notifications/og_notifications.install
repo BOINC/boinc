@@ -1,5 +1,4 @@
 <?php
-// $Id: og_notifications.install,v 1.9.4.3 2009/05/18 05:20:09 karthik Exp $
 
 /**
  * Implementation of hook_install().

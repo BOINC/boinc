@@ -1,5 +1,4 @@
 <?php
-// $Id: og_notifications.pages.inc,v 1.1.2.2 2010/02/07 13:36:25 amitaibu Exp $
 
 /**
  * @file
@@ -66,18 +65,21 @@ function og_notifications_add_form($form_state, $account, $groups) {
   );
   $form['subscription']['group'][0] = array(
     '#type' => 'select',
-    '#options' => $groups
+    '#options' => $groups,
+    '#title' => t('Group'),
   );
   $form['subscription']['node_type'][0] = array(
     '#type' => 'select',
-    '#options' => array('all' => t('All content types')) + $content_types
+    '#options' => array('all' => t('All content types')) + $content_types,
+    '#title' => t('Notify me of new content of these types'),
   );
   // Hide send methods if only one available.
   if (count($send_methods) > 1) {
     $form['subscription']['send_method'][0] = array(
       '#type' => 'select',
       '#options' => $send_methods,
-      '#default_value' => $defaults['send_method']
+      '#default_value' => $defaults['send_method'],
+      '#title' => t('Send method'),
     );
   }
   else {
@@ -92,7 +94,8 @@ function og_notifications_add_form($form_state, $account, $groups) {
   $form['subscription']['send_interval'][0] = array(
     '#type' => 'select',
     '#options' => $send_intervals,
-    '#default_value' => $defaults['send_interval']
+    '#default_value' => $defaults['send_interval'],
+    '#title' => t('Send interval'),
   );
   $form['subscription']['submit'] = array('#type' => 'submit', '#value' => t('Add'));
   $form['account'] = array('#type' => 'value', '#value' => $account);

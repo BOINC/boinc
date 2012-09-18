@@ -1,5 +1,4 @@
 <?php
-// $Id: og.install,v 1.71.4.6 2009/09/17 12:52:42 weitzman Exp $
 
 /**
  * TODO: upgrade all update_14+ updates to d6
@@ -124,9 +123,12 @@ function og_schema() {
       ),
     ),
     'primary key'       => array('nid', 'uid'),
+    'indexes' => array(
+      'uid' => array('uid'),
+    ),
   );
   $schema['og_ancestry'] = array(
-    'description'     => '',
+    'description'     => 'Stores associations between nodes and groups.',
     'fields'          => array(
       'nid'             => array(
         'description'     => "The post's {node}.nid.",
@@ -142,6 +144,9 @@ function og_schema() {
       ),
     ),
     'primary key'       => array('nid', 'group_nid'),
+    'indexes'           => array(
+      'group_nid'         => array('group_nid'),
+    ),
   );
 
   return $schema;
@@ -432,6 +437,24 @@ function og_update_6203() {
   return $ret;
 }
 
+/**
+ * Add index 'group_nid' to og_ancestry table.
+ */
+function og_update_6204() {
+  $ret = array();
+  db_add_index($ret, 'og_ancestry', 'group_nid', array('group_nid'));
+  return $ret;
+}
+
+/**
+ * Add an index on og_uid.uid.
+ */
+function og_update_6205() {
+  $ret = array();
+  db_add_index($ret, 'og_uid', 'uid', array('uid'));
+  return $ret;
+}
+
 // end updates //
 
 function og_uninstall() {
@@ -462,6 +485,7 @@ function og_uninstall() {
 
   foreach (node_get_types() as $type_name => $type) {
     $variables[] = 'og_max_groups_' . $type_name;
+    $variables[] = 'og_content_type_usage_' . $type_name;
   }
 
   foreach ($variables as $variable) {

@@ -1,5 +1,4 @@
 <?php
-// $Id: node-og-group-post.tpl.php,v 1.3 2008/11/09 17:17:54 weitzman Exp $
 
 /**
  * @file node-og-group-post.tpl.php

@@ -32,13 +32,13 @@
 }
 
 .view-id-og_members_block .item-list ul li {
-	border-top: #CCCCCC 1px dotted;
-	padding-top: 4px;
-	list-style: none;
-	background: none;
-	margin-left: 0;
-	padding-left: 0em;
-	text-indent: -1em;
+  border-top: #CCCCCC 1px dotted;
+  padding-top: 4px;
+  list-style: none;
+  background: none;
+  margin-left: 0;
+  padding-left: 0em;
+  text-indent: -1em;
 }
 
 .view-id-og_members_faces tr.row-first td, .view-id-og_members_block ul li:first-child {
