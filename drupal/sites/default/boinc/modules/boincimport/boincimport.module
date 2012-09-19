@@ -51,7 +51,7 @@ function boincimport_menu() {
     'type' => MENU_CALLBACK,
   );
   $items['admin/boinc/import/settings'] = array(
-    'title' => 'BOINC data import settings',
+    'title' => 'BOINC data import',
     'description' => 'Configure the BOINC data import process in preparation
       for pulling user accounts, teams, and forums into Drupal.',
     'access callback' => 'user_access',
