@@ -374,12 +374,10 @@ function boincimport_post_configuration() {
  * Callback admin/boinc/import
  */
 function boincimport_main() {
-  $output = '<ol><li>';
   $output .= t('You may want to !check_documentation before starting.', array(
-    '!check_documentation' => l(t('check the documentation'), 'http://drupal.org/node/58199', array('attributes' =>array('target' => '_blank')))
+    '!check_documentation' => l(t('check the documentation'), 'http://boinc.berkeley.edu/trac/wiki/InstallDrupal', array('attributes' =>array('target' => '_blank')))
   ));
-  $output .= '</li>';
-  $output .= '<li>';
+  $output = '<ol><li>';
   $output .= l(t('Configure the migration'), 'admin/boinc/import/settings');
   $output .= '</li>';
   $output .= '<li>';
@@ -389,16 +387,12 @@ function boincimport_main() {
   $output .= l(t('Post migration configuration'), 'admin/boinc/import/post_configuration');
   $output .= '</li>';
   $output .= '<li>';
-  $output .= t('Import additional data using other modules. Private Messages can
-    be imported using the bundled boincprivatemsg module.');
-  $output .= '</li>';
-  $output .= '<li>';
   $output .= t('!cleanup (Accessing this link will delete all the saved BOINC forum
     conversion settings: click only when you\'re done with all the above.)', array(
       '!cleanup' => l(t('Cleanup'), 'admin/boinc/import/cleanup')
     ));
   $output .= '</li>';
-  $output .= '<li>';
+  /*$output .= '<li>';
   $output .= t('Enable the boincforum_redirect module for seamless redirection
     from the old forums to the new. This module requires !clean_urls to be active.', array(
       '!clean_urls' => l(t('Clean URLs'), 'admin/settings/clean-urls')
@@ -408,7 +402,7 @@ function boincimport_main() {
   $output .= t('If you decide to use the boincforum_redirect module, do NOT
     uninstall BOINC forum - This will delete tables necessary for redirection. You can,
     however, deactivate the module safely.');
-  $output .= '</li>';
+  $output .= '</li>';*/
   $output .= '</ol>';
 
   // process will die() if the link to the BOINC database is wrong:

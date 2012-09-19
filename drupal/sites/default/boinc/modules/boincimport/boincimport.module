@@ -19,6 +19,15 @@
 function boincimport_menu() {
   $items = array();
   
+  $items['admin/boinc/import'] = array(
+    'title' => 'BOINC data import',
+    'description' => 'Overview of the BOINC data import process.',
+    'access callback' => 'user_access',
+    'access arguments' => array('import boinc data'),
+    'page callback' => 'boincimport_main',
+    'file' => 'boincimport.pages.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
   $items['admin/boinc/import/post_configuration'] = array(
     'title' => 'Post-migration configuration',
     'description' => 'Tie up a few odds and ends in the system configuration
@@ -27,7 +36,7 @@ function boincimport_menu() {
     'access arguments' => array('import boinc data'),
     'page callback' => 'boincimport_post_configuration', 
     'file' => 'boincimport.pages.inc',
-    'type' => MENU_NORMAL_ITEM,
+    'type' => MENU_CALLBACK,
   );
   $items['admin/boinc/import/cleanup'] = array(
     'title' => 'Cleanup',
@@ -47,11 +56,11 @@ function boincimport_menu() {
     'title' => 'Reset BOINC database URL',
     'access callback' => 'user_access',
     'access arguments' => array('import boinc data'),
-    'page callback' => 'boincimport_reset', 
+    'page callback' => 'boincimport_reset',
     'type' => MENU_CALLBACK,
   );
   $items['admin/boinc/import/settings'] = array(
-    'title' => 'BOINC data import',
+    'title' => 'BOINC data import settings',
     'description' => 'Configure the BOINC data import process in preparation
       for pulling user accounts, teams, and forums into Drupal.',
     'access callback' => 'user_access',
@@ -59,6 +68,7 @@ function boincimport_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('boincimport_admin_settings'),
     'file' => 'boincimport.pages.inc',
+    'type' => MENU_CALLBACK,
   );
   return $items;
 }
