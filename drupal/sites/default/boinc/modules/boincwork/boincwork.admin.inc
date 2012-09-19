@@ -64,7 +64,7 @@ function boincwork_admin_prefs_upload_form_submit($form, &$form_state) {
 function boincwork_admin_prefs_presets_page($preset = 'standard') {
   // Configure preference presets
   if (function_exists('jump_quickly')) {
-    $path = 'admin/settings/boinc/work/prefs/presets';
+    $path = 'admin/boinc/prefs/presets';
     $preset_options = array(
       "{$path}/standard" => t('Standard'),
       "{$path}/maximum" => t('Maximum'),

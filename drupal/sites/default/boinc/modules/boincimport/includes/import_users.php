@@ -17,7 +17,7 @@
   require_boinc('db');
   
   // Parse arguments
-  $import_spammers = isset($argv[1]) ? $argv[1] : false;
+  $import_lurkers = isset($argv[1]) ? $argv[1] : false;
   $record_offset = isset($argv[2]) ? $argv[2] : 0;
   $chunk_size = isset($argv[3]) ? $argv[3] : 100;
   
@@ -27,7 +27,7 @@
   $count = 0;
   
   db_set_active('boinc');
-  if ($import_spammers) {
+  if ($import_lurkers) {
     $boinc_accounts = db_query('SELECT id FROM user ORDER BY id %s', $limit);
   }
   //else $boinc_accounts = db_query('SELECT DISTINCT user AS boinc_id FROM post ORDER BY boinc_id %s', $limit);

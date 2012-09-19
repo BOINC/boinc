@@ -34,6 +34,16 @@ function boincuser_menu() {
     'access callback' => TRUE,
     'type' => MENU_CALLBACK
   );
+  $items['admin/boinc'] = array(
+    'title' => 'BOINC configuration',
+    'position' => 'right',
+    'weight' => -8,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('administer site configuration'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+  /*
   $items['admin/settings/boincuser'] = array(
     'title' => 'BOINC user settings',
     'description' => 'Change configuration of BOINC account features.',
@@ -43,6 +53,7 @@ function boincuser_menu() {
     'type' => MENU_NORMAL_ITEM,
     'file' => 'boincuser.admin.inc'
   );
+  */
   $items['create_account.php'] = array(
     'title' => 'Create Account RPC',
     'description' => 'RPC for creating user accounts.',

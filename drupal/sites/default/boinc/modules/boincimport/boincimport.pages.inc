@@ -2,12 +2,12 @@
 // $Id$
 
 /**
- * Callback admin/settings/boincforum
+ * Callback admin/boinc/import/settings
  */
-function boincforum_admin_settings() {
+function boincimport_admin_settings() {
   global $conf ;
   global $db_url;
-  $stage = variable_get('boincforum_config_stage', 0); 
+  $stage = variable_get('boincimport_config_stage', 0); 
 
   //We'll be checking that the setup is complete.
   //If it is not complete, the migration will not go ahead.
@@ -22,7 +22,7 @@ function boincforum_admin_settings() {
   );
     
   $output = '';
-  if (!variable_get('boincforum_tested', 0)) {
+  if (!variable_get('boincimport_tested', 0)) {
     $form['test']['#collapsed']= FALSE;
     $output = '<span class="marker">';
     $ready_for_migration = 0;
@@ -34,18 +34,18 @@ function boincforum_admin_settings() {
     should make a full backup of your database just prior to performing the
     migration on the live data. It is better to turn off both the BOINC site and the
     Drupal site during the migration.') . '</p>';
-  if (!variable_get('boincforum_tested', 0)) {
+  if (!variable_get('boincimport_tested', 0)) {
     $output .= '</span>';
   }
   $form['test']['intro'] = array('#value' => $output);
 
-  $form['test']['boincforum_tested'] = array(
+  $form['test']['boincimport_tested'] = array(
     '#type' => 'checkbox',
     '#title' => t('I am running a trial migration on a disposable copy of the database
       OR I have already done so and I am running this on my live site, confident that
       the migration will proceed smoothly'),
     '#return_value' => 1,
-    '#default_value' => variable_get('boincforum_tested', 0),
+    '#default_value' => variable_get('boincimport_tested', 0),
     '#description' => '',
   );
   
@@ -57,17 +57,17 @@ function boincforum_admin_settings() {
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
-  $form['boinc_data']['boincforum_db_configured'] = array(
+  $form['boinc_data']['boincimport_db_configured'] = array(
     '#type' => 'checkbox',
     '#title' => t('There is a \'boinc\' database connection string configured in %file',
       array('%file' => "{$config_path}/settings.php")),
     '#return_value' => 1,
-    '#default_value' => variable_get('boincforum_db_configured', 1),
+    '#default_value' => variable_get('boincimport_db_configured', 1),
     '#description' => '',
   );
-  if (variable_get('boincforum_db_configured', 1) != 1) {
+  if (variable_get('boincimport_db_configured', 1) != 1) {
     $default_db_url = is_array($db_url) ? end($db_url) : $db_url;
-    $url = variable_get('boincforum_db_url', $default_db_url);
+    $url = variable_get('boincimport_db_url', $default_db_url);
     if (!preg_match('{(mysql|pgsql):\/\/(.+):(.*?)@(.+)/(\w+)}i', $url)) {
       $output = '<p class="marker">'. t('Set the address of the BOINC database
         according to the following format:') . '<br /><pre>
@@ -78,10 +78,10 @@ function boincforum_admin_settings() {
       $form['boinc_data']['db_connect_string_note'] = array('#value' => $output);
     }
 
-    $form['boinc_data']['boincforum_db_url'] = array(
+    $form['boinc_data']['boincimport_db_url'] = array(
       '#type' => 'textfield',
       '#title' => t('BOINC database location'),
-      '#default_value' => variable_get('boincforum_db_url', $default_db_url),
+      '#default_value' => variable_get('boincimport_db_url', $default_db_url),
       '#size' => 80,
       '#maxlength' => 255,
       '#description' => '',
@@ -98,19 +98,19 @@ function boincforum_admin_settings() {
   $form['boinc_data']['note'] = array('#value' => $output);
   
   // BOINC table prefix
-  $form['boinc_data']['boincforum_table_prefix'] = array(
+  $form['boinc_data']['boincimport_table_prefix'] = array(
     '#type' => 'textfield',
     '#title' => t('BOINC table prefix'),
-    '#default_value' => variable_get('boincforum_table_prefix', ''),
+    '#default_value' => variable_get('boincimport_table_prefix', ''),
     '#size' => 20,
     '#maxlength' => 255,
     '#description' => t('What prefix is used for your BOINC tables?'),
   );
-  $pre = variable_get('boincforum_table_prefix', '');
+  $pre = variable_get('boincimport_table_prefix', '');
 
   $tables = array($pre .'forum', $pre .'post', $pre .'thread', $pre .'user');
   $db = (is_array($db_url) AND isset($db_url['boinc'])) ? 'boinc' : 'default';
-  $result = _boincforum_check_tables($tables, $db, 0);
+  $result = _boincimport_check_tables($tables, $db, 0);
   $output = $result['html'];
   
   if ($result['result'] != 1) {
@@ -134,18 +134,18 @@ function boincforum_admin_settings() {
   
   // User to map admin user to
   $drupal_admin = user_load(array('uid' => 1));
-  $form['users']['boincforum_admin_user'] = array(
+  $form['users']['boincimport_admin_user'] = array(
     '#title' => t('User to map BOINC admin'),
     '#type' => 'textfield',
     '#autocomplete_path' => 'user/autocomplete',
-    '#default_value' => variable_get('boincforum_admin_user', $drupal_admin->name ),
+    '#default_value' => variable_get('boincimport_admin_user', $drupal_admin->name ),
   );
 
   // User import batch size
-  $form['users']['boincforum_user_batch_size'] = array(
+  $form['users']['boincimport_user_batch_size'] = array(
     '#type' => 'textfield',
     '#title' => t('Number of accounts to process at a time'),
-    '#default_value' => variable_get('boincforum_user_batch_size', 50),
+    '#default_value' => variable_get('boincimport_user_batch_size', 50),
     '#size' => 10,
     '#maxlength' => 10,
     '#description' => t('Due to memory intensive API calls, this value may have to
@@ -154,15 +154,15 @@ function boincforum_admin_settings() {
   );
 
   // Import users who have never posted?
-  $form['users']['boincforum_import_spammers'] = array(
+  $form['users']['boincimport_import_lurkers'] = array(
     '#type' => 'checkbox',
     '#title' => t('Import users who have never posted?'),
     '#return_value' => 1,
-    '#default_value' => variable_get('boincforum_import_spammers', 0),
-    '#description' => t('Do you want to import users with zero posts? It is
-      recommended that you not do this, as it can take a very long time to import
-      tens or hundreds of thousands of accounts. (note that users who are not
-      imported now will still be imported on-the-fly upon login)'),
+    '#default_value' => variable_get('boincimport_import_lurkers', 0),
+    '#description' => t('Do you want to import users with no community
+      involvement? This may not be desired, as it can take a very long time to
+      import tens or hundreds of thousands of accounts. (note that users who
+      are not imported now will still be imported on-the-fly upon login)'),
   );
 
   // Input format settings
@@ -181,8 +181,8 @@ function boincforum_admin_settings() {
   while ($format = db_fetch_array($formats)) {
     $input_formats[$format['format']]= $format['name'];
   }
-  $input_format = variable_get('boincforum_input_format', 0);
-  $form['input']['boincforum_input_format'] = array(
+  $input_format = variable_get('boincimport_input_format', 0);
+  $form['input']['boincimport_input_format'] = array(
     '#type' => 'radios',
     '#title' => t('Input format'),
     '#default_value' => $input_format,
@@ -223,19 +223,19 @@ function boincforum_admin_settings() {
     BBcode.') . '</p>';
     
   $form['bbcode']['intro'] = array('#value' => $output);
-  $form['bbcode']['boincforum_bbcode'] = array(
+  $form['bbcode']['boincimport_bbcode'] = array(
     '#type' => 'radios',
     '#title' => t('BBcode handling'),
-    '#default_value' => variable_get('boincforum_bbcode', 0),
+    '#default_value' => variable_get('boincimport_bbcode', 0),
     '#options' => array(t('Leave BBcode as is.'), t('Transform BBcode into HTML.')),
     '#description' => '',
   );
   
-  $module_status = _boincforum_check_module('bbcode');
+  $module_status = _boincimport_check_module('bbcode');
   $bbcode_disabled = ($module_status['result'] == 0) ? true : false;
   $output = $module_status['html'];
   
-  if (variable_get('boincforum_bbcode', 0)) {
+  if (variable_get('boincimport_bbcode', 0)) {
     if ($bbcode_disabled) {
       $ready_for_migration = 0;
       $form['bbcode']['#collapsed'] = FALSE;
@@ -282,10 +282,10 @@ function boincforum_admin_settings() {
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
   );
-  variable_set('boincforum_ready', $ready_for_migration);
+  variable_set('boincimport_ready', $ready_for_migration);
   if ($ready_for_migration) {
     $output = '<p>'. t('Check the settings above one more time. If everything
-      is ok, !proceed.', array('!proceed' => l(t('you can now proceed with the migration'), 'admin/boincforum/migrate'))) .'</p>';
+      is ok, !proceed.', array('!proceed' => l(t('you can now proceed with the migration'), 'admin/boinc/import/process'))) .'</p>';
   } else {
     $output = '<p class="marker">'. t('You are not ready for the migration yet.
       Please check the settings above.') .'</p>';
@@ -296,24 +296,26 @@ function boincforum_admin_settings() {
 }
 
 /**
- * Callback admin/boincforum/postconfiguration
+ * Callback admin/boinc/import/post_configuration
  */
-function boincforum_postconfiguration() {
-  $output = '<p>'. t('This page will help guide you set up the forums. Before
-    continuing it may be best to have already:') .'</p>';
+function boincimport_post_configuration() {
+  $output = '<p>'. t('This page will help to tie up any loose ends following
+    the BOINC data import process. Before continuing, it may be best to have
+    already:') .'</p>';
   $output .= '<ul>';
-  $output .= '<li>'. t('Imported users, forums, and topics using the BOINC Forum
-    Module') .'</li>';
+  $output .= '<li>'. t('Imported users, teams, and forums using the BOINC
+    import module') .'</li>';
   $output .= '<li>'. t('Imported any additional data using add on modules if
     available.') .'</li>';
   $output .= '</ul>';
   //User Set up
-  $output .= '<h2>'. t('User Settings') .'</h2>';  
-  $output .= '<p>'. t('Make sure your !user_settings are correct. You can enable or
-    disable signatures there. ', array(
+  $output .= '<h2>'. t('User settings') .'</h2>';  
+  $output .= '<p>'. t('Make sure your !user_settings are correct. Specifically,
+    you can enable or disable signatures there. ', array(
       '!user_settings' => l(t('user settings'), 'admin/user/settings')
     )) .'</p>'; 
-  
+  $output .= '<p>' . t('Note that avatar/picture support is not tied to user
+    settings Picture support at this time.') . '</p>';
   /*$output .= '<p>' . t('In order to activate avatar/picture support, you need to
     enable pictures on this page and also:') . '</p>';
   $output .= '<ul>';
@@ -328,36 +330,40 @@ function boincforum_postconfiguration() {
   $output .= '</ul>'; */
   
   // Forum Set up
-  $output .= '<h2>'. t('Forum Settings') .'</h2>';
-  $output .= '<p>'. t('Check any additional content types you want to allow in the
-    forums.', array(
-      '@forumvocab' => url('admin/content/taxonomy/edit/vocabulary/' .variable_get('forum_nav_vocabulary', 0))
+  $output .= '<h2>'. t('Forum settings') .'</h2>';
+  $output .= '<p>'. t('Check any additional changes to make on the
+    !forum_settings page.', array(
+      '!forum_settings' =>  l(t('forum settings'), 'admin/content/forum/settings')
     )) .'</p>';
-  $output .= '<p>'. t('If need be, set up the private forums as explained in the
+  $output .= '<p>'. t('It also may be a good idea to look at the !forum_list to
+    verify that all necessary containers and forums are in place.', array(
+      '!forum_list' =>  l(t('forum list'), 'admin/content/forum')
+    )) .'</p>';
+  /*$output .= '<p>'. t('If need be, set up the private forums as explained in the
     !documentation.', array(
       '!documentation' => l(t('documentation'), 'http://drupal.org/node/58969', array('attributes' => array('target' => '_blank')))
     )) .'</p>';
-    
+    */
+  /*
   // Redirection from old URLs:
   $output .= '<h2>'. t('Redirection from BOINC forum URLs to new Drupal forum URLs') .'</h2>';
   $output .= '<p>'. t('Enable the boincforum_redirect.module. This way, users
     accessing URLs from your old BOINC installation will be redirected to your new
     Drupal forum.') .'</p>';
-
+  */
   // BBcode
-  $bbcode = variable_get('boincforum_bbcode', 0);
+  $bbcode = variable_get('boincimport_bbcode', 0);
   if ($bbcode) {
     $output .= '<h2>'. t('Remove BBcode module') .'</h2>';
     $output .= '<p>'. t('The BBcode has been cleaned from the posts. You shouldn\'t
       need the bbcode module anymore. You can disable it.') .'</p>';
   } else {
     $output .= '<h2>'. t('Configure BBcode module') .'</h2>';
-    $output .= '<p>'. t('Most likely, there are many BOINC forum postings formatted
-      in BBcode. During the import procedure, the BBcode has been cleaned so that
-      it can work with the Drupal bbcode module. Please install and configure the
-      !bbcode_module so that the forum topics display properly. See the BBcode
-      module documentation for details.', array(
-        '!bbcode_module' => l(t('BBcode module'), 'http://drupal.org/project/bbcode', array('attributes' => array('target' => '_blank')))
+    $output .= '<p>'. t('Most likely, there are many BOINC forum postings
+      formatted in BBcode. It would be a good idea to verify that BBcode is
+      being formatted correctly in the imported posts. Have a look around
+      !the_forum.', array(
+        '!the_forum' =>  l(t('the forum'), 'forum')
       )) . '</p>';
   }
 
@@ -365,22 +371,22 @@ function boincforum_postconfiguration() {
 }
 
 /**
- * Callback admin/boincforum
+ * Callback admin/boinc/import
  */
-function boincforum_main() {
+function boincimport_main() {
   $output = '<ol><li>';
   $output .= t('You may want to !check_documentation before starting.', array(
     '!check_documentation' => l(t('check the documentation'), 'http://drupal.org/node/58199', array('attributes' =>array('target' => '_blank')))
   ));
   $output .= '</li>';
   $output .= '<li>';
-  $output .= l(t('Configure the migration'), 'admin/settings/boincforum');
+  $output .= l(t('Configure the migration'), 'admin/boinc/import/settings');
   $output .= '</li>';
   $output .= '<li>';
-  $output .= l(t('Execute the migration'), 'admin/boincforum/migrate');
+  $output .= l(t('Execute the migration'), 'admin/boinc/import/process');
   $output .= '</li>';
   $output .= '<li>';
-  $output .= l(t('Post migration configuration'), 'admin/boincforum/postconfiguration');
+  $output .= l(t('Post migration configuration'), 'admin/boinc/import/post_configuration');
   $output .= '</li>';
   $output .= '<li>';
   $output .= t('Import additional data using other modules. Private Messages can
@@ -389,7 +395,7 @@ function boincforum_main() {
   $output .= '<li>';
   $output .= t('!cleanup (Accessing this link will delete all the saved BOINC forum
     conversion settings: click only when you\'re done with all the above.)', array(
-      '!cleanup' => l(t('Cleanup'), 'admin/boincforum/cleanup')
+      '!cleanup' => l(t('Cleanup'), 'admin/boinc/import/cleanup')
     ));
   $output .= '</li>';
   $output .= '<li>';
@@ -409,7 +415,7 @@ function boincforum_main() {
   $output .= '<p>'. t('If the BOINC data is in another database, but you made a
     mistake while setting up the data base url, you may be unable to access the
     setting page due to some limitations of the core of Drupal. !reset_db_url.', array(
-      '!reset_db_url' => l(t('Click here to reset the database url'), 'admin/boincforum/reset')
+      '!reset_db_url' => l(t('Click here to reset the database url'), 'admin/boinc/import/reset')
     )) .'</p>';
 
   return $output;

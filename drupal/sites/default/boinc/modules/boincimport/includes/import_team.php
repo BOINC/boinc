@@ -30,7 +30,7 @@
   db_set_active('default');
   
   if (!$team_exists = db_query("SELECT team_id FROM {boincteam} WHERE team_id = '%d')", $boincteam->id)) {
-    $boincteam->description = _boincforum_text_sanitise($boincteam->description);
+    $boincteam->description = _boincimport_text_sanitize($boincteam->description);
     $teaser = node_teaser($boincteam->description);
     
     // Construct the team as an organic group node

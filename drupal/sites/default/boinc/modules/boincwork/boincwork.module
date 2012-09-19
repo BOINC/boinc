@@ -65,7 +65,7 @@ function boincwork_menu() {
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK
   );*/
-  $items['admin/settings/boinc/work/prefs/presets'] = array(
+  $items['admin/boinc/prefs/presets'] = array(
     'title' => 'BOINC preference presets',
     'description' => 'Set values for BOINC preference set presets.',
     'page callback' => 'boincwork_admin_prefs_presets_page',
@@ -73,7 +73,7 @@ function boincwork_menu() {
     'type' => MENU_NORMAL_ITEM,
     'file' => 'boincwork.admin.inc'
   );
-  $items['admin/settings/boinc/work/prefs/upload'] = array(
+  $items['admin/boinc/prefs/upload'] = array(
     'title' => 'BOINC preference XML upload',
     'description' => 'Upload XML configuration for project specific preferences.',
     'page callback' => 'drupal_get_form',
