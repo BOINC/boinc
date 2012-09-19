@@ -5971,3 +5971,15 @@ David  16 Sept 2012
 		app.cpp
 	lib/
 		filesys.h
+
+David  19 Sept 2012
+    - scheduler: fix bug that cause NCI to be sent even when
+        client is not requesting work
+    - client: parse the <vbox_window> option in cc_config.xml
+
+    html/inc/
+        util.inc
+    client/
+        log_flags.cpp
+    sched/
+        sched_send.cpp

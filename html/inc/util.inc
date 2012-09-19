@@ -39,9 +39,9 @@ if (!defined('SECURE_URL_BASE')) {
 // define TIMEZONE in project.inc
 //
 if (defined('TIMEZONE')) {
-        date_default_timezone_set(TIMEZONE);
+    date_default_timezone_set(TIMEZONE);
 } else {
-        date_default_timezone_set('UTC');
+    date_default_timezone_set('UTC');
 }
 
 $generating_xml = false;

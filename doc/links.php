@@ -235,7 +235,7 @@ language("English", array(
     //site("http://www.boinc-doc.net", "boinc-doc.net"),
     site("http://www.boincuk.com/", "BOINC UK and Team Lookers"),
     //site("http://www.kazlev.karoo.net/", "TeamACC (Arthur C. Clarke fans)"),
-    site("http://www.setiusa.net/", "SETI.USA"),
+    //site("http://www.setiusa.net/", "SETI.USA"),
     site("http://www.boincsynergy.com/", "BOINC Synergy"),
     //site("http://www.esea.dk/esea/boinc.asp", "Earth Space Exploration Agency"),
     site("http://www.tswb.org", "Team Starfire World BOINC"),
