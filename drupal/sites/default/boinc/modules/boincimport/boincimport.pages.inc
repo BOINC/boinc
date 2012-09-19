@@ -92,7 +92,7 @@ function boincimport_admin_settings() {
     import messages from one database type to another database type. E.g, we
     cannot import BOINC from a myqsl DB, to a postgresql DB. You need to import
     the data into the same type of database first (import all the BOINC data, as is,
-    from mysql to postgresql.') . '</p><p>' . t('If both BOINC and Drupal are on
+    from mysql to postgresql).') . '</p><p>' . t('If both BOINC and Drupal are on
     postgresql, see !this_issue.', array('!this_issue' => l(t('this issue'),
     'http://drupal.org/node/64877', array('attributes' => array('target' => '_blank'))))) . '</p>';
   $form['boinc_data']['note'] = array('#value' => $output);
