@@ -29,6 +29,7 @@ OBJS = \
 	gpu_amd.o \
 	gpu_detect.o \
 	gpu_nvidia.o \
+	gpu_opencl.o \
 	gui_http.o \
 	http_curl.o \
     log_flags.o \

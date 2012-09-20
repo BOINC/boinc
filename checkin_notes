@@ -6000,3 +6000,10 @@ David  19 Sept 2012
     client/
         app.cpp
         cs_prefs.cpp
+
+David  20 Sept 2012
+    - client simulator compile fix
+    clientgui/
+        MainDocument.cpp
+    client/
+        makefile_sim

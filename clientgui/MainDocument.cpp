@@ -2461,7 +2461,6 @@ wxString result_description(RESULT* result, bool show_resources) {
             if (strlen(result->resources) && show_resources) {
                 strBuffer += wxString(wxT(" (")) + wxString(result->resources, wxConvUTF8) + wxString(wxT(")"));
             }
-        } else if (status.gpu_suspend_reason && uses_gpu(result)) {
         } else if (result->active_task) {
             if (result->too_large) {
                 strBuffer += _("Waiting for memory");
