@@ -478,20 +478,13 @@ APP_VERSION::~APP_VERSION() {
 }
 
 int APP_VERSION::parse_coproc(XML_PARSER& xp) {
-    char type_buf[256];
-    double count = 0;
-
+    memset(this, 0, sizeof(APP_VERSION));
     while (!xp.get_tag()) {
         if (xp.match_tag("/coproc")) {
-            if (!strcmp(type_buf, "CUDA")) {
-                ncudas = count;
-            } else if (!strcmp(type_buf, GPU_TYPE_ATI)) {
-                natis = count;
-            }
             return 0;
         }
-        if (xp.parse_str("type", type_buf, sizeof(type_buf))) continue;
-        if (xp.parse_double("count", count)) continue;
+        if (xp.parse_int("gpu_type", gpu_type)) continue;
+        if (xp.parse_double("gpu_usage", gpu_usage)) continue;
     }
     return ERR_XML_PARSE;
 }

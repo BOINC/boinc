@@ -5983,3 +5983,14 @@ David  19 Sept 2012
         log_flags.cpp
     sched/
         sched_send.cpp
+
+David  19 Sept 2012
+    - Client/manager: if a GPU app is suspended because a GPU-exclusive
+        app is running, show an appropriate message.
+
+    clientgui/
+        sg_TaskPanel.cpp
+        MainDOcument.cpp
+    lib/
+        gui_rpc_client_ops.cpp
+        gui_rpc_client.h

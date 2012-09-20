@@ -199,7 +199,9 @@ struct APP_VERSION {
     char platform[64];
     char plan_class[64];
     double avg_ncpus;
-    double ncudas;
+    int gpu_type;
+        // PROC_TYPE_xx
+    double gpu_usage;
     double natis;
     double gpu_ram;
     double flops;

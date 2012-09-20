@@ -2403,6 +2403,14 @@ wxString suspend_reason_wxstring(int reason) {
     return _("unknown reason");
 }
 
+bool uses_gpu(RESULT* r) {
+    WORKUNIT* wup = r->workunit;
+    if (!wup) return false;
+    APP_VERSION* avp = wup->app_version;
+    if (!avp) return false;
+    return (avp->gpu_count > 0);
+}
+
 wxString result_description(RESULT* result, bool show_resources) {
     CMainDocument* doc = wxGetApp().GetDocument();
     PROJECT* project;
@@ -2449,6 +2457,13 @@ wxString result_description(RESULT* result, bool show_resources) {
             if (strlen(result->resources) && show_resources) {
                 strBuffer += wxString(wxT(" (")) + wxString(result->resources, wxConvUTF8) + wxString(wxT(")"));
             }
+        } else if (status.gpu_suspend_reason && uses_gpu(result)) {
+            strBuffer += _("GPU suspended - ");
+            strBuffer += suspend_reason_wxstring(status.gpu_suspend_reason);
+            if (strlen(result->resources) && show_resources) {
+                strBuffer += wxString(wxT(" (")) + wxString(result->resources, wxConvUTF8) + wxString(wxT(")"));
+            }
+        } else if (status.gpu_suspend_reason && uses_gpu(result)) {
         } else if (result->active_task) {
             if (result->too_large) {
                 strBuffer += _("Waiting for memory");
