@@ -161,28 +161,45 @@ function boincuser_create_drupal_user($boinc_user) {
 
 function boincuser_create_drupal_profile($account, $boinc_user) {
   
+  require_boinc('forum_db');
+  BoincForumPrefs::lookup($boinc_user);
+  
+  $image_dir = drupal_get_path('module', 'boincuser') . '/includes/boinclib/' . IMAGE_PATH;
+  watchdog('boincuser', "image_dir: $image_dir");
   // Automatically create a content profile
   $now = time();
   $profile_background = null;
   $profile_opinions = null;
   $profile_image = null;
+  $avatar_image = null;
   
   // Load the BOINC profile, if available
   if ($boinc_user->has_profile) {
+  watchdog('boincuser', "has_profile");
     $boinc_profile = BoincProfile::lookup("userid={$boinc_user->id}");
     $profile_background = $boinc_profile->response1;
     $profile_opinions = $boinc_profile->response2;
     if ($boinc_profile->has_picture) {
+  watchdog('boincuser', "has_picture");
       // Load picture; load validators; determine where to store it in Drupal
-      $profile_image_path = drupal_get_path('module', 'boincuser') . '/includes/boinclib/'.IMAGE_PATH.$boinc_user->id.'.jpg';
-      $field = content_fields('field_image', 'profile'); 
-      $validators = array_merge(filefield_widget_upload_validators($field), imagefield_widget_upload_validators($field));
-      $target_path = filefield_widget_file_path($field);
-      // Create the image object
-      $profile_image = field_file_save_file($profile_image_path, $validators, $target_path, FILE_EXISTS_REPLACE);
+      $image_path = "{$image_dir}{$boinc_user->id}.jpg";
+  watchdog('boincuser', "image_path: $image_path");
+      $profile_image = get_cck_image_object($image_path, 'field_profile_image', 'profile', TRUE);
+      // If the user does not have a different image as an avatar, use this one
+      if (!$boinc_user->prefs->avatar) {
+  watchdog('boincuser', "but no avatar...");
+        $avatar_image = get_cck_image_object($image_path, 'field_image', 'profile', TRUE);
+      }
+    }
+    if ($boinc_user->prefs->avatar) {
+      $image_path = "{$image_dir}{$boinc_user->id}_avatar.jpg";
+      $avatar_image = get_cck_image_object($image_path, 'field_image', 'profile', TRUE);
+  watchdog('boincuser', "yes avatar and path: $image_path");
     }
   }
-  
+                   
+ if (is_null($avatar_image)) watchdog('boincuser', "avatar null");
+  if (is_null($profile_image)) watchdog('boincuser', "profile image null");
   // Populate the profile object
   $profile_node = new stdClass();
   $profile_node->title = $boinc_user->name;
@@ -201,7 +218,8 @@ function boincuser_create_drupal_profile($account, $boinc_user) {
   $profile_node->field_url[]['value'] = $boinc_user->url;
   $profile_node->field_background[]['value'] = $profile_background;
   $profile_node->field_opinions[]['value'] = $profile_opinions;
-  $profile_node->field_image[] = $profile_image;
+  $profile_node->field_image[] = $avatar_image;
+  $profile_node->field_profile_image[] = $profile_image;
   
   // Save the profile object to the database
   $profile_node = node_submit($profile_node);

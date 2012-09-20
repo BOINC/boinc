@@ -603,12 +603,14 @@ function boincuser_get_weak_auth($boinc_id = null) {
  * User profile image is managed by the content_profile module rather than core
  * Drupal User so must be inserted into comments, etc. (not so by default)
  */
-function boincuser_get_user_profile_image($uid) {
-  $image_fid = db_result(db_query("SELECT cfi.field_image_fid FROM {content_field_image} cfi INNER JOIN {node} n ON cfi.nid = n.nid WHERE n.uid = %d AND n.type = '%s'", $uid, 'profile'));
+function boincuser_get_user_profile_image($uid, $avatar = TRUE) {
+  // Show the avatar by default, but allow override to show
+  if ($avatar) $image_fid = db_result(db_query("SELECT cfi.field_image_fid FROM {content_field_image} cfi INNER JOIN {node} n ON cfi.nid = n.nid WHERE n.uid = %d AND n.type = '%s'", $uid, 'profile'));
+  else $image_fid = db_result(db_query("SELECT ctp.field_profile_image_fid FROM {content_type_profile} ctp INNER JOIN {node} n ON ctp.nid = n.nid WHERE n.uid = %d AND n.type = '%s'", $uid, 'profile'));
   $user_image['image'] = field_file_load($image_fid);
   if (!$user_image['image']['filepath']) {
     // Load the default image if one does not exist
-    $content_node_widget_settings = db_result(db_query("SELECT widget_settings FROM {content_node_field_instance} WHERE field_name = '%s'", 'field_image'));
+    $content_node_widget_settings = db_result(db_query("SELECT widget_settings FROM {content_node_field_instance} WHERE field_name = '%s'", ($avatar ? 'field_image' : 'field_profile_image')));
     $content_node_widget_settings = unserialize($content_node_widget_settings);
     $user_image['image'] = $content_node_widget_settings['default_image'];
   }

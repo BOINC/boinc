@@ -18,6 +18,25 @@ if (!function_exists('user_load_by_mail')) {
     return user_load(array('mail' => $mail));
   }
 }
+ 
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * General utility functions
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+ * Get an image object from a given file and cck field
+ */ 
+function get_cck_image_object($image_path, $field_name, $content_type, $ignore_resolution = FALSE) {
+  $field = content_fields($field_name, $content_type); 
+  $validators = array_merge(filefield_widget_upload_validators($field), imagefield_widget_upload_validators($field));
+  if ($ignore_resolution) {
+    unset($validators['filefield_validate_image_resolution']);
+  }
+  $target_path = filefield_widget_file_path($field);
+  // Create the image object
+  return field_file_save_file($image_path, $validators, $target_path, FILE_EXISTS_REPLACE);
+}
 
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *

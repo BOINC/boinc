@@ -57,7 +57,7 @@ $opinions = $content_profile->field_opinions[0]['value'];
 <div class="user-profile">
   <div class="picture">
     <?php 
-      $user_image = boincuser_get_user_profile_image($account->uid);
+      $user_image = boincuser_get_user_profile_image($account->uid, FALSE);
       print theme('imagefield_image', $user_image['image'], $user_image['alt'],
         $user_image['alt'], array('width' => '100', 'height' => '100'), false);
     ?>
