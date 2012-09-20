@@ -300,7 +300,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     int retval;
     static bool first = true;
     static double last_cpu_time;
-    double diff;
+    double diff=0;
 
     if (!first) {
         diff = gstate.now - last_mem_time;

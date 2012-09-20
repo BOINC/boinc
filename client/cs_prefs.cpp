@@ -179,7 +179,7 @@ void CLIENT_STATE::get_disk_shares() {
     if (log_flags.disk_usage_debug) {
         msg_printf(0, MSG_INFO,
             "[disk_usage] allowed %.2fMB used %.2fMB",
-            allowed, total_disk_usage
+            allowed/MEGA, total_disk_usage/MEGA
         );
     }
     for (i=0; i<projects.size(); i++) {

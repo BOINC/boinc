@@ -5994,3 +5994,9 @@ David  19 Sept 2012
     lib/
         gui_rpc_client_ops.cpp
         gui_rpc_client.h
+
+David  19 Sept 2012
+    - client: message tweak
+    client/
+        app.cpp
+        cs_prefs.cpp
