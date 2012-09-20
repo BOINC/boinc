@@ -16,8 +16,9 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // cancel_jobs min-ID max-ID
-//
-// cancel jobs from min-ID to max-ID inclusive
+//    cancel jobs from min-ID to max-ID inclusive
+// cancel_jobs --name wuname
+//    cancel the job with the given name
 
 #include <stdio.h>
 
@@ -26,14 +27,12 @@
 
 void usage() {
     fprintf(stderr, "Usage: cancel_jobs min-ID max-ID\n");
+    fprintf(stderr, "or cancel_jobs --name wuname\n");
     exit(1);
 }
 
 int main(int argc, char** argv) {
     if (argc != 3) usage();
-    int min_id = atoi(argv[1]);
-    int max_id = atoi(argv[2]);
-    if (!min_id || !max_id) usage();
 
     int retval = config.parse_file();
     if (retval) exit(1);
@@ -45,10 +44,24 @@ int main(int argc, char** argv) {
         printf("boinc_db.open: %s\n", boincerror(retval));
         exit(1);
     }
-
-    retval = cancel_jobs(min_id, max_id);
+    if (!strcmp(argv[1], "--name")) {
+        DB_WORKUNIT wu;
+        char buf[256];
+        sprintf(buf, "where name='%s'", argv[2]);
+        retval = wu.lookup(buf);
+        if (retval) {
+            fprintf(stderr, "No workunit named '%s'\n", argv[2]);
+            exit(1);
+        }
+        retval = cancel_job(wu);
+    } else {
+        int min_id = atoi(argv[1]);
+        int max_id = atoi(argv[2]);
+        if (!min_id || !max_id) usage();
+        retval = cancel_jobs(min_id, max_id);
+    }
     if (retval) {
-        fprintf(stderr, "cancel_jobs() failed: %s\n", boincerror(retval));
+        fprintf(stderr, "cancel job failed: %s\n", boincerror(retval));
         exit(retval);
     }
 }

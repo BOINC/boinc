@@ -121,4 +121,8 @@ extern int create_delete_file_msg(
 //
 extern int cancel_jobs(int min_id, int max_id);
 
+// cancel a particular job
+//
+extern int cancel_job(DB_WORKUNIT&);
+
 #endif

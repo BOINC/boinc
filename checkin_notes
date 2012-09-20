@@ -6007,3 +6007,11 @@ David  20 Sept 2012
         MainDocument.cpp
     client/
         makefile_sim
+
+David  20 Sept 2012
+    - cancel_jobs tool: add --name option to cancel job by name.
+        From David Coss.
+
+    tools/
+        backend_lib.cpp,h
+        cancel_jobs.cpp

@@ -517,6 +517,8 @@ int create_delete_file_msg(int host_id, const char* file_name) {
     return 0;
 }
 
+// cancel jobs in a range of workunit IDs
+//
 int cancel_jobs(int min_id, int max_id) {
     DB_WORKUNIT wu;
     DB_RESULT result;
@@ -537,6 +539,34 @@ int cancel_jobs(int min_id, int max_id) {
     );
     sprintf(where_clause, "id>=%d and id<=%d", min_id, max_id);
     retval = wu.update_fields_noid(set_clause, where_clause);
+    if (retval) return retval;
+    return 0;
+}
+
+// cancel a particular job
+//
+int cancel_job(DB_WORKUNIT& wu) {
+    DB_RESULT result;
+    char set_clause[256], where_clause[256];
+    int retval;
+
+    // cancel unsent results
+    //
+    sprintf(set_clause, "server_state=%d, outcome=%d",
+        RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_DIDNT_NEED
+    );
+    sprintf(where_clause, "server_state=%d and workunitid=%d",
+        RESULT_SERVER_STATE_UNSENT, wu.id
+    );
+    retval = result.update_fields_noid(set_clause, where_clause);
+    if (retval) return retval;
+
+    // cancel the workunit
+    //
+    sprintf(set_clause, "error_mask=error_mask|%d, transition_time=%d",
+        WU_ERROR_CANCELLED, (int)(time(0))
+    );
+    retval = wu.update_field(set_clause);
     if (retval) return retval;
     return 0;
 }
