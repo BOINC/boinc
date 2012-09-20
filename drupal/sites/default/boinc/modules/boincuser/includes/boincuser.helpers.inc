@@ -46,11 +46,15 @@ function find_unique_name($requested_name) {
  * Require BOINC library
  */
 function require_boinc($libraries) {
-  $workingDir = getcwd();
+  $working_dir = getcwd();
   chdir('./' . drupal_get_path('module', 'boincuser') . '/includes/boinclib');
-  if (!is_array($libraries)) $libraries = array($libraries);
-  foreach ($libraries as $library) require_once("{$library}.inc");
-  chdir($workingDir);
+  if (!is_array($libraries)) {
+    $libraries = array($libraries);
+  }
+  foreach ($libraries as $library) {
+    require_once("{$library}.inc");
+  }
+  chdir($working_dir);
 }
 
 /**
