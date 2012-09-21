@@ -1,5 +1,5 @@
 <?php
-// $Id: content_handler_field.inc,v 1.1.2.18 2010/01/25 23:13:40 markuspetrux Exp $
+// $Id: content_handler_field.inc,v 1.1.2.21 2011/01/07 13:33:55 yched Exp $
 
 /**
  * @file
@@ -137,10 +137,22 @@ class content_handler_field extends views_handler_field_node {
   /**
    * Return DIV or SPAN based upon the field's element type.
    */
-  function element_type() {
+  function element_type($none_supported = FALSE, $default_empty = FALSE) {
+    // The 'element_type' property denotes Views 3.x ('semantic views'
+    // functionnality). If the property is set, and not set to '' ("default"),
+    // let the generic method handle the output.
+    if (isset($this->options['element_type']) && $this->options['element_type'] !== '') {
+      return parent::element_type($none_supported, $default_empty);
+    }
+
+    if ($default_empty) {
+      return '';
+    }
+
     if (isset($this->definition['element type'])) {
       return $this->definition['element type'];
     }
+
     // TODO Figure out exactly when to return a div or a <span>. Any field
     // that ever needs to be shown inline in Views UI. It needs to return
     // a div for textareas to prevent wrapping a <span> around a <p>.
@@ -172,6 +184,13 @@ class content_handler_field extends views_handler_field_node {
     // We're down to a single node here, so we can retrieve the actual field
     // definition for the node type being considered.
     $field = content_fields($this->content_field['field_name'], $values->{$this->aliases['type']});
+
+    // If the field does not appear in the node type, then we have no value
+    // to display, and can just return.
+    if (empty($field)) {
+      return '';
+    }
+
     $options = $this->options;
     $db_info = content_database_info($field);
 
