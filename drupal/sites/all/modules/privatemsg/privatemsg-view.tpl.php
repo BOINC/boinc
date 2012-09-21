@@ -1,5 +1,4 @@
 <?php
-// $Id: privatemsg-view.tpl.php,v 1.1.2.8 2010/03/10 12:35:34 berdir Exp $
 // Each file loads it's own styles because we cant predict which file will be
 // loaded.
 drupal_add_css(drupal_get_path('module', 'privatemsg') . '/styles/privatemsg-view.css');

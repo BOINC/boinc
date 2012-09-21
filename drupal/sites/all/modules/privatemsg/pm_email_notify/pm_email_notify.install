@@ -1,5 +1,4 @@
 <?php
-// $Id: pm_email_notify.install,v 1.1.2.2 2009/04/16 20:10:34 litwol Exp $
 
 /**
  * @file

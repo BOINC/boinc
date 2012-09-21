@@ -1,5 +1,4 @@
 <?php
-// $Id: privatemsg.theme.inc,v 1.1.2.10 2009/11/10 19:48:17 berdir Exp $
 
 /**
  * @file

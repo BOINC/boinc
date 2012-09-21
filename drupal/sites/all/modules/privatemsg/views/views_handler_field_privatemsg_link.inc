@@ -1,5 +1,4 @@
 <?php
-// $Id: views_handler_field_privatemsg_link.inc,v 1.1.2.2 2010/01/20 15:54:42 berdir Exp $
 
 /**
  * @file
