@@ -148,12 +148,6 @@ function backup_migrate_schema() {
         'default' => 0,
         'description' => t('The number of seconds between backups.'),
       ),
-      'last_run' => array(
-        'type' => 'int',
-        'not null' => TRUE,
-        'default' => 0,
-        'description' => t('The last time the backup was run.'),
-      ),
       'enabled' => array(
         'description' => t('Whether the schedule is enabled.'),
         'type' => 'int',
@@ -386,5 +380,23 @@ function backup_migrate_update_2005() {
 function backup_migrate_update_2006() {
   $ret = array();
   db_change_field($ret, 'backup_migrate_profiles', 'filename', 'filename', array('type' => 'varchar', 'length' => 255, 'not null' => TRUE));
+  return $ret;
+}
+
+
+/**
+ * Update the schedule last run times to use variables instead of saving with the schedule.
+ */
+function backup_migrate_update_6200() {
+  $ret = array();
+  $result = db_query('SELECT * FROM {backup_migrate_schedules}', array());
+  while ($item = db_fetch_array($result)) {
+    if (isset($item['last_run'])) {
+      variable_set('backup_migrate_schedule_last_run_' . $item['schedule_id'], $item['last_run']);
+    }
+  }
+  if (db_column_exists('backup_migrate_schedules', 'last_run')) {
+    db_drop_field($ret, 'backup_migrate_schedules', 'last_run');
+  }
   return $ret;
 }

@@ -20,7 +20,7 @@
   background-color: #eee;
 }
 div.backup-migrate-tables-checkboxes {
-  height: 20em;
+  max-height: 40em;
   overflow: auto;
 }
 
