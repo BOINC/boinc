@@ -1,4 +1,3 @@
-$Id: README.txt,v 1.1.6.1 2009/04/19 21:31:24 greggles Exp $
 
 Description
 ===========

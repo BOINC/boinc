@@ -1,0 +1,56 @@
+<?php
+
+/**
+ * Implements hook_exit().
+ */
+function token_test_exit() {
+  if ($debug = variable_get('token_page_tokens', array())) {
+    $debug += array('tokens' => array(), 'data' => array(), 'options' => array());
+    foreach (array_keys($debug['tokens']) as $token) {
+      $debug['values'][$token] = token_replace_multiple($token, $debug['data'], TOKEN_PREFIX, TOKEN_SUFFIX, $debug['options']);
+    }
+    variable_set('token_page_tokens', $debug);
+  }
+}
+
+/**
+ * Implements hook_token_list().
+ */
+function token_test_token_list($type = 'all') {
+  $tokens = array();
+
+  if ($type == 'all' || $type == 'global') {
+    // Provide some wildcard tokens
+    $tokens['token_test']['alpha']           = t("Token test Alpha.");
+    $tokens['token_test']['beta-N']          = t("Token test Beta with wildcard.");
+    $tokens['token_test']['gamma_?']       = t("Token test Gamme with wildcard.");
+    $tokens['token_test']['delta-?']         = t("Token test Delta with wildcard.");
+    $tokens['token_test']['epsilon-zeta-????']  = t("Token test Epsilon-Zeta with wildcard.");
+
+    // Provide a token that returns a different value to test $options caching.
+    $tokens['token_test']['option-foo'] = t('A token with various values.');
+  }
+
+  return $tokens;
+}
+
+/**
+ * Implements hook_token_values().
+ */
+function token_test_token_values($type, $object = NULL, $options = array()) {
+  $tokens = array();
+
+  if ($type == 'global') {
+    // Provide some wildcard token values
+    $tokens['alpha']           = 'Alpha';
+    $tokens['beta-1']          = 'Beta plus 1';
+    $tokens['beta-2']          = 'Beta plus 2';
+    $tokens['gamma_A']         = 'Gamma plus A';
+    $tokens['delta-extra']     = 'Delta plus extra';
+    $tokens['epsilon-zeta-A']  = 'Epsilon-Zeta plus A';
+
+    $tokens['option-foo'] = !empty($options['foo']) ? $options['foo'] : '';
+  }
+
+  return $tokens;
+}

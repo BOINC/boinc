@@ -1,7 +1,9 @@
-name = Token actions
-description = Provides enhanced versions of core Drupal actions using the Token module.
-dependencies[] = token
+name = Token Test
+description = Testing module for token functionality.
+package = Testing
 core = 6.x
+files[] = token_test.module
+hidden = TRUE
 
 ; Information added by drupal.org packaging script on 2012-09-12
 version = "6.x-1.19"

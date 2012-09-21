@@ -1,25 +1,22 @@
 <?php
-// $Id: token.test,v 1.1.2.14 2010/08/09 18:39:54 davereid Exp $
 
 /**
  * @file
- * Tests for the token and token_actions modules.
+ * Tests for the token module.
  */
 
 /**
  * Helper test class with some added functions for testing.
  */
 class TokenTestHelper extends DrupalWebTestCase {
-  function setUp() {
-    // Call parent::setUp() allowing test cases to pass further modules.
-    $modules = func_get_args();
-    $modules = array_merge(array('path', 'token'), $modules);
-    
-    $parent_callback = 'parent::setUp';
-    if (version_compare(PHP_VERSION, '5.3.0', '<')) {
-      $parent_callback = array($this, 'parent::setUp');
-    }
-    call_user_func_array($parent_callback, $modules);
+  function setUp(array $modules = array()) {
+    $modules[] = 'path';
+    $modules[] = 'token';
+    $modules[] = 'token_test';
+    parent::setUp($modules);
+
+    // Clear the token static cache.
+    token_get_values('reset');
   }
 
   function assertToken($type, $object, $token, $expected, array $options = array()) {
@@ -27,10 +24,55 @@ class TokenTestHelper extends DrupalWebTestCase {
   }
 
   function assertTokens($type, $object, array $tokens, array $options = array()) {
-    $values = token_get_values($type, $object, TRUE, $options);
+    $values = token_get_values($type, $object, FALSE, $options);
     $values = array_combine($values->tokens, $values->values);
     foreach ($tokens as $token => $expected) {
-      $this->assertIdentical($values[$token], $expected, t("Token value for [@token] was '@actual', expected value '@expected'.", array('@token' => $token, '@actual' => $values[$token], '@expected' => $expected)));
+      if (!isset($expected)) {
+        $this->assertTrue(!isset($values[$token]), t("Token value for [@token] was not generated.", array('@token' => $token)));
+      }
+      elseif (!isset($values[$token])) {
+        $this->fail(t("Token value for [@token] was not generated.", array('@token' => $token)));
+      }
+      else {
+        $this->assertIdentical($values[$token], $expected, t("Token value for [@token] was '@actual', expected value '@expected'.", array('@token' => $token, '@actual' => $values[$token], '@expected' => $expected)));
+      }
+    }
+  }
+
+  /**
+   * Make a page request and test for token generation.
+   */
+  function assertPageTokens($url, array $tokens, array $data = array('global' => NULL), array $options = array()) {
+    if (empty($tokens)) {
+      return TRUE;
+    }
+
+    $token_page_tokens = array(
+      'tokens' => $tokens,
+      'data' => $data,
+      'options' => $options,
+    );
+    variable_set('token_page_tokens', $token_page_tokens);
+
+    $options += array('url_options' => array());
+    $this->drupalGet($url, $options['url_options']);
+    $this->refreshVariables();
+    $result = variable_get('token_page_tokens', array());
+
+    if (!isset($result['values']) || !is_array($result['values'])) {
+      return $this->fail('Failed to generate tokens.');
+    }
+
+    foreach ($tokens as $token => $expected) {
+      if (!isset($expected)) {
+        $this->assertTrue(!isset($result['values'][$token]) || $result['values'][$token] === $token, t("Token value for @token was not generated.", array('@token' => $token)));
+      }
+      elseif (!isset($result['values'][$token])) {
+        $this->fail(t('Failed to generate token @token.', array('@token' => $token)));
+      }
+      else {
+        $this->assertIdentical($result['values'][$token], (string) $expected, t("Token value for @token was '@actual', expected value '@expected'.", array('@token' => $token, '@actual' => $result['values'][$token], '@expected' => $expected)));
+      }
     }
   }
 }
@@ -56,6 +98,29 @@ class TokenUnitTestCase extends TokenTestHelper {
         '[mod-yyyy]',
         '[site-name]',
         '[site-slogan]',
+        '[user-id]',
+      ),
+      'invalid tokens' => array(
+        '[title-invalid]',
+        '[invalid]',
+        '[mod-invalid]',
+        '[invalid-title]',
+        '[site-invalid]',
+        '[uid]',
+        '[comment-cid]',
+      ),
+      'types' => array('node'),
+    );
+    $tests[] = array(
+      'valid tokens' => array(
+        '[title-raw]',
+        '[yyyy]',
+        '[mod-yyyy]',
+        '[site-name]',
+        '[site-slogan]',
+        '[user-id]',
+        '[uid]',
+        '[comment-cid]',
       ),
       'invalid tokens' => array(
         '[title-invalid]',
@@ -64,7 +129,31 @@ class TokenUnitTestCase extends TokenTestHelper {
         '[invalid-title]',
         '[site-invalid]',
       ),
-      'types' => array('node'),
+      'types' => array('all'),
+    );
+    $tests[] = array(
+      'valid tokens' => array(
+        '[alpha]',
+        '[beta-1]',
+        '[beta-2]',
+        '[gamma_A]',
+        '[delta-extra]',
+        '[epsilon-zeta-A]',
+      ),
+      'invalid tokens' => array(
+        '[alpha-plus]',
+        '[beta]',
+        '[beta-]',
+        '[beta_]',
+        '[beta_1]',
+        '[beta-A]',
+        '[gamma]',
+        '[gamma_]',
+        '[gamma-A]',
+        '[delta]',
+        '[epsilon-zeta-]',
+      ),
+      'types' => array('all'),
     );
 
     foreach ($tests as $test) {
@@ -75,7 +164,103 @@ class TokenUnitTestCase extends TokenTestHelper {
 
       sort($invalid_tokens);
       sort($test['invalid tokens']);
-      $this->assertEqual($invalid_tokens, $test['invalid tokens'], 'Invalid tokens detected properly.');
+      $this->assertEqual($invalid_tokens, $test['invalid tokens'], 'Invalid tokens detected properly: ' . implode(', ', $invalid_tokens));
+    }
+  }
+
+  /**
+   * Test the $options['clear'] parameter for token_replace().
+   */
+  public function testClearOption() {
+    $tests[] = array(
+      'input' => 'Foo [site-name][invalid-token] bar [another-invalid-token] [invalid-token]',
+      'output' => 'Foo Drupal bar  ',
+      'options' => array('clear' => TRUE),
+    );
+    $tests[] = array(
+      'input' => 'Foo [site-name][invalid-token] bar [another-invalid-token] [invalid-token]',
+      'output' => 'Foo Drupal[invalid-token] bar [another-invalid-token] [invalid-token]',
+      'options' => array(),
+    );
+
+    foreach ($tests as $test) {
+      $output = token_replace($test['input'], 'global', NULL, TOKEN_PREFIX, TOKEN_SUFFIX, $test['options']);
+      $this->assertIdentical($output, $test['output']);
+    }
+  }
+
+  /**
+   * Test whether token-replacement works in various contexts.
+   *
+   * @see http://drupal.org/node/733192
+   */
+  function testSystemTokenRecognition() {
+    global $language;
+
+    // Generate prefixes and suffixes for the token context.
+    $tests = array(
+      array('prefix' => 'this is the ', 'suffix' => ' site'),
+      array('prefix' => 'this is the', 'suffix' => 'site'),
+      array('prefix' => '[', 'suffix' => ']'),
+      array('prefix' => '', 'suffix' => ']]]'),
+      array('prefix' => '[[[', 'suffix' => ''),
+      array('prefix' => ':[:', 'suffix' => '--]'),
+      array('prefix' => '-[-', 'suffix' => ':]:'),
+      array('prefix' => '[:', 'suffix' => ']'),
+      array('prefix' => '[site:', 'suffix' => ':name]'),
+      array('prefix' => '[site:', 'suffix' => ']'),
+    );
+
+    // Check if the token is recognized in each of the contexts.
+    foreach ($tests as $test) {
+      $input = $test['prefix'] . '[site-name]' . $test['suffix'];
+      $expected = $test['prefix'] . 'Drupal' . $test['suffix'];
+      $output = token_replace($input);
+      $this->assertEqual($output, $expected);
+    }
+  }
+
+  /**
+   * Test token caching.
+   */
+  function testTokenCaching() {
+    // Run global tokens once so that the cache is primed.
+    $tokens = array(
+      'option-foo' => '',
+    );
+    $this->assertTokens('global', NULL, $tokens);
+
+    // Run global tokens again with different options. This should return a
+    // different value for the [option-foo] token.
+    $tokens = array(
+      'option-foo' => 'bar',
+    );
+    $this->assertTokens('global', NULL, $tokens, array('foo' => 'bar'));
+  }
+
+  /**
+   * Test the token_scan() function.
+   */
+  function testTokenScan() {
+    $tests = array(
+      array('text' => 'Test [foo] [[bar]] test.', 'tokens' => array('foo', 'bar')),
+      array('text' => 'Test [foo] [] test.',    'tokens' => array('foo')),
+      array('text' => 'Test [foo][] test.',     'tokens' => array('foo')),
+      array('text' => 'Test [foo][bar] test.',  'tokens' => array('foo', 'bar')),
+      // Test the e-mail token syntax.
+      array('text' => 'Test %foo %%bar test.',   'tokens' => array('foo', 'bar'), 'leading' => '%', 'trailing' => ''),
+      array('text' => 'Test %foo % test.',      'tokens' => array('foo'),        'leading' => '%', 'trailing' => ''),
+      array('text' => 'Test %foo% test.',       'tokens' => array('foo'),        'leading' => '%', 'trailing' => ''),
+      array('text' => 'Test %foo%%bar test.',    'tokens' => array('foo', 'bar'), 'leading' => '%', 'trailing' => ''),
+      // Test the rules token syntax.
+      array('text' => 'Test [global:foo] [global:bar] test.', 'tokens' => array('foo', 'bar'), 'leading' => '[global:'),
+      array('text' => 'Test [node:foo] [node:] test.', 'tokens' => array('foo'), 'leading' => '[node:'),
+      array('text' => 'Test [node:foo][node:] test.', 'tokens' => array('foo'), 'leading' => '[node:'),
+      array('text' => 'Test [node:foo][node:bar] test.', 'tokens' => array('foo', 'bar'), 'leading' => '[node:'),
+    );
+    foreach ($tests as $test) {
+      $test += array('leading' => TOKEN_PREFIX, 'trailing' => TOKEN_SUFFIX);
+      $this->assertEqual(token_scan($test['text'], $test['leading'], $test['trailing']), $test['tokens']);
     }
   }
 }
@@ -143,6 +328,12 @@ class TokenNodeTestCase extends TokenTestHelper {
       'log-raw' => $node->log,
     );
     $this->assertTokens('node', $node, $tokens);
+
+    // Check that a new revision of a node returns different tokens.
+    $node->revision = TRUE;
+    $node->title = 'New revision';
+    node_save($node);
+    $this->assertTokens('node', $node, array('title' => 'New revision'));
   }
 }
 
@@ -157,8 +348,9 @@ class TokenCommentTestCase extends TokenTestHelper {
     );
   }
 
-  function setUp() {
-    parent::setUp('comment');
+  function setUp(array $modules = array()) {
+    $modules[] = 'comment';
+    parent::setUp($modules);
     $this->node = $this->drupalCreateNode(array('comment' => 2));
   }
 
@@ -219,14 +411,15 @@ class TokenTaxonomyTestCase extends TokenTestHelper {
 
   public static function getInfo() {
     return array(
-      'name' => 'Taxonomy token tests',
+      'name' => 'Taxonomy and vocabulary token tests',
       'description' => 'Test the taxonomy tokens.',
       'group' => 'Token',
     );
   }
 
-  function setUp() {
-    parent::setUp('taxonomy');
+  function setUp(array $modules = array()) {
+    $modules[] = 'taxonomy';
+    parent::setUp($modules);
     // Reset the static taxonomy.module caches.
     taxonomy_vocabulary_load(0, TRUE);
     taxonomy_get_term(0, TRUE);
@@ -269,8 +462,18 @@ class TokenTaxonomyTestCase extends TokenTestHelper {
       'vocab' => check_plain($vocabulary->name),
       'vocab-raw' => $vocabulary->name,
       'vocab-description' => 'Vocab Description',
+      'vocab-description-raw' => $vocabulary->description,
     );
     $this->assertTokens('taxonomy', $term, $tokens);
+
+    $tokens = array(
+      'vocabulary-vid' => $vocabulary->vid,
+      'vocabulary-name' => check_plain($vocabulary->name),
+      'vocabulary-name-raw' => $vocabulary->name,
+      'vocabulary-description' => 'Vocab Description',
+      'vocabulary-description-raw' => $vocabulary->description,
+    );
+    $this->assertTokens('vocabulary', $vocabulary, $tokens);
   }
 }
 
@@ -283,22 +486,32 @@ class TokenMenuTestCase extends TokenTestHelper {
     );
   }
 
-  function setUp() {
-    parent::setUp('menu');
+  function setUp(array $modules = array()) {
+    $modules[] = 'menu';
+    parent::setUp($modules);
   }
 
   function testMenuTokens() {
     $root_link = array(
-      'link_path' => '<front>',
-      'link_title' => 'Front link',
+      'link_path' => 'root',
+      'link_title' => 'Root link',
       'menu_name' => 'primary-links',
     );
     menu_link_save($root_link);
 
+    // Add another link with the root link as the parent
+    $parent_link = array(
+      'link_path' => 'root/parent',
+      'link_title' => 'Parent link',
+      'menu_name' => 'primary-links',
+      'plid' => $root_link['mlid'],
+    );
+    menu_link_save($parent_link);
+
     $node_link = array(
       'enabled' => TRUE,
       'link_title' => 'Node link',
-      'plid' => $root_link['mlid'],
+      'plid' => $parent_link['mlid'],
       'customized' => 0,
     );
     $node = $this->drupalCreateNode(array('menu' => $node_link));
@@ -306,77 +519,172 @@ class TokenMenuTestCase extends TokenTestHelper {
     // Test [node:menu] tokens.
     $tokens = array(
       'menu' => 'Primary links',
+      'menu-raw' => 'Primary links',
+      'menupath' => 'Root link/Parent link/Node link',
+      'menupath-raw' => 'Root link/Parent link/Node link',
       'menu-link-title' => 'Node link',
+      'menu-link-title-raw' => 'Node link',
       'menu-link-mlid' => $node->menu['mlid'],
       'menu-link-plid' => $node->menu['plid'],
-      'menu-link-plid' => $root_link['mlid'],
+      'menu-link-plid' => $parent_link['mlid'],
+      'menu-link-parent-path' => 'root/parent',
+      'menu-link-parent-path-raw' => 'root/parent',
     );
     $this->assertTokens('node', $node, $tokens);
+
+    // Reload the node which will not have $node->menu defined and re-test.
+    $loaded_node = node_load($node->nid);
+    // We have to reset the token static cache because tokens are cached by
+    // node ID only and not if the node object has changed.
+    $this->assertTokens('node', $loaded_node, $tokens, array('reset' => TRUE));
+
+    // Regression test for http://drupal.org/node/1317926 to ensure the
+    // original node object is not changed when calling menu_node_prepare().
+    $this->assertTrue(!isset($loaded_node->menu), t('The $node->menu property was not modified during token replacement.'), 'Regression');
+
   }
 }
 
-class TokenTestCase extends DrupalWebTestCase {
+/*
+ * Unit tests for the book tokens provided by Pathauto.
+ */
+class TokenBookTestCase extends TokenTestHelper {
   public static function getInfo() {
     return array(
-      'name' => t('Token and token action tests'),
-      'description' => t('Test some of the token actions and tokens.'),
-      'group' => t('Token'),
+      'name' => 'Book tokens',
+      'description' => 'Tests the book tokens.',
+      'group' => 'Token',
     );
   }
 
-  function setUp() {
-    parent::setUp('token', 'token_actions', 'trigger');
+  function setUp(array $modules = array()) {
+    $modules[] = 'book';
+    $modules[] = 'menu';
+    parent::setUp($modules);
+
+    variable_set('book_allowed_types', array('book', 'page'));
   }
 
-  /**
-   * Test various behaviors for anonymous users.
-   */
-  function testTokenActionsFunctionalTest() {
-    // Create a user with permission to view the actions administration pages.
-    $user = $this->drupalCreateUser(array('administer actions', 'administer site configuration', 'administer users'));
-    $this->drupalLogin($user);
+  function testBookTokens() {
+    // Add a non-book node.
+    $non_book_node = $this->drupalCreateNode(array('type' => 'book'));
+    $tokens = array(
+      'book' => '',
+      'book-raw' => '',
+      'book_id' => '',
+      'bookpath' => '',
+      'bookpath-raw' => '',
+    );
+    $this->assertTokens('node', $non_book_node, $tokens);
 
-    // Set the site name to something more exciting than Drupal / simpletest@example.com.
-    $settings = array();
-    $site_name = $this->randomName();
-    $site_mail = $this->randomName() .'@example.com';
-    $settings['site_name'] = $site_name;
-    $settings['site_mail'] = $site_mail;
+    // Add a root book page.
+    $parent_node = $this->drupalCreateNode(array(
+      'type' => 'book',
+      'title' => 'Root',
+      'book' => array('bid' => 'new') + _book_link_defaults('new'),
+    ));
+    $tokens = array(
+      'book' => 'Root',
+      'book-raw' => 'Root',
+      'book_id' => $parent_node->book['bid'],
+      'bookpath' => '',
+      'bookpath-raw' => '',
+      // Check that even those book menu links have been created for this node,
+      // that the menu links still return nothing.
+      'menu' => '',
+      'menupath' => '',
+      'menu-link-title' => '',
+      'menu-link-title-raw' => '',
+      'menu-link-mlid' => '',
+      'menu-link-plid' => '',
+      'menu-link-parent-path' => '',
+    );
+    $this->assertTokens('node', $parent_node, $tokens);
 
-    $this->drupalPost('admin/settings/site-information', $settings, t('Save configuration'));
-    $this->assertText('saved', 'Site settings saved.');
+    // Add a first child page.
+    $child_node1 = $this->drupalCreateNode(array(
+      'type' => 'book',
+      'title' => 'Sub page1',
+      'book' => array(
+        'bid' => $parent_node->book['bid'],
+        'plid' => $parent_node->book['mlid'],
+      ) + _book_link_defaults('new'),
+    ));
+    $tokens = array(
+      'book' => 'Root',
+      'book-raw' => 'Root',
+      'book_id' => $parent_node->book['bid'],
+      'bookpath' => 'Root',
+      'bookpath-raw' => 'Root',
+    );
+    $this->assertTokens('node', $child_node1, $tokens);
 
-    // Create an action to display to users
-    $action = array();
-    $action['action'] = md5('token_actions_message_action');
-    $this->drupalPost('admin/settings/actions', $action, t('Create'));
+    // Add a second child page.
+    $child_node2 = $this->drupalCreateNode(array(
+      'type' => 'book',
+      'title' => 'Sub page2',
+      'book' => array(
+        'bid' => $parent_node->book['bid'],
+        'plid' => $parent_node->book['mlid'],
+      ) + _book_link_defaults('new'),
+    ));
+    $tokens = array(
+      'book' => 'Root',
+      'book-raw' => 'Root',
+      'book_id' => $parent_node->book['bid'],
+      'bookpath' => 'Root',
+      'bookpath-raw' => 'Root',
+    );
+    $this->assertTokens('node', $child_node2, $tokens);
 
-    // Configure the action to use a handful of tokens.
-    $action = array();
-    $action_description = $this->randomName();
-    $action['actions_description'] = $action_description;
-    $action['message'] = 'Hello simpletest | [user-name] | [user-id] | [user-mail] | [site-name] | [site-mail]';
-    $this->drupalPost('admin/settings/actions/configure/'. md5('token_actions_message_action'), $action, t('Save'));
+    // Add a child page on an existing child page.
+    $sub_child_node1 = $this->drupalCreateNode(array(
+      'type' => 'page',
+      'title' => 'Sub-sub Page1',
+      'book' => array(
+        'bid' => $parent_node->book['bid'],
+        'plid' => $child_node1->book['mlid'],
+      ) + _book_link_defaults('new'),
+    ));
+    $tokens = array(
+      'book' => 'Root',
+      'book-raw' => 'Root',
+      'book_id' => $parent_node->book['bid'],
+      'bookpath' => 'Root/Sub page1',
+      'bookpath-raw' => 'Root/Sub page1',
+    );
+    $this->assertTokens('node', $sub_child_node1, $tokens);
+  }
+}
 
-    // Trigger the action when a user is created.
-    $trigger = array();
-    $trigger['aid'] = md5('1'); //TODO don't hardcode the 1.
-    // TODO this should be assigned to a specific aid like aid_4, but that's not possible b/c actions creates non-unique form names.
-    // so instead we use "aid" which is the "after a user is created" trigger.
-    $this->drupalPost('admin/build/trigger/user', $trigger, t('Assign'));
-    // TODOXXX confirm each post gets saved.
-
-    // Create a user to trigger the action.
-    $edit = array();
-    $edit['name']   = $this->randomName();
-    $edit['mail']   = $edit['name'] .'@example.com';
-    $pass = user_password();
-    $edit['pass[pass1]']   = $pass;
-    $edit['pass[pass2]']   = $pass;
-
-    $this->drupalPost('admin/user/user/create', $edit, t('Create new account'));
-    $this->assertText('Hello simpletest | '. $user->name  .' | '. $user->uid .' | '. $user->mail .' | '. $site_name .' | '. $site_mail, 'Tokenized message displays');
-
+/**
+ * Test the current page tokens.
+ */
+class TokenCurrentPageTestCase extends TokenTestHelper {
+  public static function getInfo() {
+    return array(
+      'name' => 'Current page token tests',
+      'description' => 'Test the current page tokens.',
+      'group' => 'Token',
+    );
   }
 
+  function testCurrentPageTokens() {
+    $tokens = array(
+      '[current-page-title]' => '',
+      '[current-page-path]' => 'node',
+      '[current-page-url]' => url('node', array('absolute' => TRUE)),
+      '[current-page-number]' => 1,
+    );
+    $this->assertPageTokens('', $tokens);
+
+    $node = $this->drupalCreateNode(array('title' => 'Node title', 'path' => 'node-alias'));
+    $tokens = array(
+      '[current-page-title]' => 'Node title',
+      '[current-page-path]' => 'node-alias',
+      '[current-page-url]' => url("node/{$node->nid}", array('absolute' => TRUE)),
+      '[current-page-number]' => 1,
+    );
+    $this->assertPageTokens("node/{$node->nid}", $tokens);
+  }
 }

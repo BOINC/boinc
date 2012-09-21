@@ -1,5 +1,4 @@
 <?php
-// $Id: token.install,v 1.2.2.1 2008/06/28 15:10:22 greggles Exp $
 
 /**
  * @file
@@ -7,6 +6,31 @@
  *
  * @ingroup token
  */
+
+/**
+ * Implements hook_requirements().
+ */
+function token_requirements($phase = 'runtime') {
+  $requirements = array();
+  $t = get_t();
+
+  // Check for duplicate tokens.
+  if ($phase == 'runtime') {
+    if ($duplicate_tokens = token_find_duplicate_tokens()) {
+      foreach ($duplicate_tokens as $token => $modules) {
+        $duplicate_tokens[$token] = $t('@token (defined by modules: @modules)', array('@token' => $token, '@modules' => implode(', ', $modules)));
+      }
+      $requirements['token_duplicates'] = array(
+        'title' => $t('Duplicate tokens'),
+        'value' => $t('The following tokens are defined by multiple modules and may cause problems when performing token replacement.'),
+        'severity' => REQUIREMENT_WARNING,
+        'description' => theme('item_list', $duplicate_tokens),
+      );
+    }
+  }
+
+  return $requirements;
+}
 
 function token_install() {
   db_query("UPDATE {system} SET weight = 10 WHERE name = 'token'");

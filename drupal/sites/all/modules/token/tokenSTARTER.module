@@ -1,6 +1,5 @@
 <?php
 
-// $Id: tokenSTARTER.module,v 1.1.2.3 2010/03/11 19:28:54 davereid Exp $
 
 /**
  * @file
@@ -39,7 +38,7 @@ function tokenSTARTER_token_list($type = 'all') {
 /**
  * Implementation of hook_token_values().
  */
-function tokenSTARTER_token_values($type, $object = NULL) {
+function tokenSTARTER_token_values($type, $object = NULL, $options = array()) {
   $values = array();
   switch ($type) {
     case 'global':
