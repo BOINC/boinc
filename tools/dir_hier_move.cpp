@@ -43,15 +43,15 @@ int main(int argc, char** argv) {
     int retval;
     
     if ( (argc == 1) || !strcmp(argv[1], "-h")  || !strcmp(argv[1],"--help") || (argc != 4) ) {
-      printf (usage);
-      exit(1);
+        fprintf(stderr, usage);
+        exit(1);
     }
     src_dir = argv[1];
     dst_dir = argv[2];
     fanout = atoi(argv[3]);
     if (!fanout) {
-      printf ( usage );
-      exit(1);
+        fprintf(stderr, usage);
+        exit(1);
     }
 
     DirScanner scanner(src_dir);

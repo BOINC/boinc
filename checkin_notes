@@ -6015,3 +6015,8 @@ David  20 Sept 2012
     tools/
         backend_lib.cpp,h
         cancel_jobs.cpp
+
+David  20 Sept 2012
+    - A bunch of tweaks from Steffen Moller, e.g. using MAXPATHLEN
+
+    various files

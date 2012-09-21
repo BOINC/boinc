@@ -310,7 +310,7 @@ void boinc_crash() {
 #ifdef _WIN32
     DebugBreak();
 #else
-    *(int*)0 = 0;
+    abort();
 #endif
 }
 

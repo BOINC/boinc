@@ -51,9 +51,9 @@
 using std::vector;
 
 struct HOST_DESC{
-    char os_name[128];
-    char p_vendor[128];
-    char p_model[128];
+    char os_name[256];
+    char p_vendor[256];
+    char p_model[256];
 };
 
 vector<HOST_DESC> host_descs;

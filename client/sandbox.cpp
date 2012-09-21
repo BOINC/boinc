@@ -185,7 +185,7 @@ int delete_project_owned_file(const char* path, bool retry) {
 // If an error occurs, delete as much as possible.
 //
 int client_clean_out_dir(const char* dirpath, const char* reason) {
-    char filename[256], path[MAXPATHLEN];
+    char filename[MAXPATHLEN], path[MAXPATHLEN];
     int retval, final_retval = 0;
     DIRREF dirp;
 

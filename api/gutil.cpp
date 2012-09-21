@@ -687,7 +687,10 @@ tImageJPG *LoadJPG(const char *filename) {
 
 int TEXTURE_DESC::CreateTextureJPG(const char* strFileName) {
 	if(!strFileName) return -1;
-	tImageJPG *pImage = LoadJPG(strFileName);			// Load the image and store the data
+
+    // Load the image and store the data
+    //
+	tImageJPG *pImage = LoadJPG(strFileName);
 	if(pImage == NULL) return -1;
 	glPixelStorei(GL_UNPACK_ALIGNMENT,1);
 	glGenTextures(1, (GLuint*)&id);
@@ -698,12 +701,10 @@ int TEXTURE_DESC::CreateTextureJPG(const char* strFileName) {
     xsize = pImage->sizeX;
     ysize = pImage->sizeY;
 
-	if (pImage) {
-		if (pImage->data) {
-			free(pImage->data);
-		}
-		free(pImage);
-	}
+    if (pImage->data) {
+        free(pImage->data);
+    }
+    free(pImage);
 	return 0;
 }
 

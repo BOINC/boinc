@@ -890,7 +890,7 @@ void ACTIVE_TASK_SET::report_overdue() {
 //
 int ACTIVE_TASK::handle_upload_files() {
     std::string filename;
-    char buf[256], path[MAXPATHLEN];
+    char buf[MAXPATHLEN], path[MAXPATHLEN];
     int retval;
 
     DirScanner dirscan(slot_dir);
