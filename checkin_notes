@@ -6020,3 +6020,10 @@ David  20 Sept 2012
     - A bunch of tweaks from Steffen Moller, e.g. using MAXPATHLEN
 
     various files
+
+Charlie 21 Sep 2012
+    - Mac: Fix build breaks introduced by above changes; path_to_error 
+        arg is modified by CheckNestedDirectories() so can't be const.
+
+    client/
+        check_security.cpp
