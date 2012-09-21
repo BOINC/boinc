@@ -6033,3 +6033,9 @@ David  21 Sept 2012
 
     client/
         app.cpp
+
+David  21 Sept 2012
+    - Manager: fix "exclusive GPU app running" message logic.
+
+    clientgui/
+        MainDocument.cpp
