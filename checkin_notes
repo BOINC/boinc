@@ -6027,3 +6027,9 @@ Charlie 21 Sep 2012
 
     client/
         check_security.cpp
+
+David  21 Sept 2012
+    - client: MAXPATHLEN tweak
+
+    client/
+        app.cpp

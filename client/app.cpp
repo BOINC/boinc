@@ -417,7 +417,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
 // Move it from slot dir to project dir
 //
 int ACTIVE_TASK::move_trickle_file() {
-    char project_dir[256], new_path[MAXPATHLEN], old_path[MAXPATHLEN];
+    char project_dir[MAXPATHLEN], new_path[MAXPATHLEN], old_path[MAXPATHLEN];
     int retval;
 
     get_project_dir(result->project, project_dir, sizeof(project_dir));
