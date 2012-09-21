@@ -1,5 +1,4 @@
 <?php
-// $Id: block.test,v 1.1.2.1 2008/05/28 04:31:37 boombatower Exp $
 
 class FlagTestCase extends DrupalWebTestCase {
   var $_flag = FALSE;

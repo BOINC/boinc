@@ -1,5 +1,4 @@
 <?php
-//$Id: flag.views_convert.inc,v 1.1.2.2 2008/11/09 08:40:01 mooffie Exp $
 /**
  * @file
  * Update Views 1 views provided by both views_bookmark and flag modules.

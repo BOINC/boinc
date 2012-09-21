@@ -1,5 +1,4 @@
 <?php
-// $Id: flag_handler_field_ops.inc,v 1.1.2.6 2010/01/08 04:48:43 quicksketch Exp $
 
 /**
  * @file

@@ -1,5 +1,4 @@
 <?php
-// $Id: flag.module,v 1.11.2.78 2010/01/08 04:47:21 quicksketch Exp $
 
 /**
  * @file
@@ -381,7 +380,13 @@ function flag_user($op, &$edit, &$account, $category = NULL) {
       $result = db_query("SELECT fc.fid, fc.content_id, c.count FROM {flag_content} fc LEFT JOIN {flag_counts} c ON fc.content_id = c.content_id AND fc.content_type = c.content_type WHERE fc.uid = %d", $account->uid);
       while ($flag_data = db_fetch_object($result)) {
         $flag_data->count--;
-        db_query("UPDATE {flag_counts} SET count = %d WHERE fid = %d AND content_id = %d", $flag_data->count, $flag_data->fid, $flag_data->content_id);
+        // Only decrement the flag count table if it's greater than 1.
+        if ($flag_data->count > 0) {
+          db_query("UPDATE {flag_counts} SET count = %d WHERE fid = %d AND content_id = %d", $flag_data->count, $flag_data->fid, $flag_data->content_id);
+        }
+        elseif ($flag_data->count == 0) {
+          db_query("DELETE FROM {flag_counts} WHERE fid = %d AND content_id = %d", $flag_data->fid, $flag_data->content_id);
+        }
       }
       db_query("DELETE FROM {flag_content} WHERE uid = %d", $account->uid);
       break;
@@ -837,9 +842,12 @@ function flag_get_counts($content_type, $content_id, $reset = FALSE) {
  * Load a single flag either by name or by flag ID.
  *
  * @param $name
- *   The the flag name.
+ *  (optional) The flag name.
  * @param $fid
- *   The the flag id.
+ *  (optional) The the flag id.
+ *
+ * @return
+ *  The flag object, or FALSE if no matching flag was found.
  */
 function flag_get_flag($name = NULL, $fid = NULL) {
   $flags = flag_get_flags();
@@ -991,10 +999,10 @@ function flag_get_default_flags($include_disabled = FALSE) {
  *
  * @return $flags
  *   If returning a single node's flags, an array of the structure
- *   [name] => (fid => [fid], uid => [uid] nid => [nid], timestamp => [timestamp])
+ *   [flag_name] => (fcid => [fcid], uid => [uid], content_id => [content_id], timestamp => [timestamp], ...)
  *
- *   If returning all nodes, an array of the arrays for each node.
- *   [nid] => [name] => Object from above.
+ *   If returning all nodes, an array of arrays for each flag:
+ *   [flag_name] => [content_id] => Object from above.
  *
  */
 function flag_get_user_flags($content_type, $content_id = NULL, $uid = NULL, $reset = FALSE) {
@@ -1022,9 +1030,9 @@ function flag_get_user_flags($content_type, $content_id = NULL, $uid = NULL, $re
   }
 
   else {
-    if (!isset($flagged_content[$uid]['all'][$content_type])) {
+    if (!isset($flagged_content[$uid][$content_type]['all'])) {
       $flag_names = _flag_get_flag_names();
-      $flagged_content[$uid]['all'][$content_type] = TRUE;
+      $flagged_content[$uid][$content_type]['all'] = array();
       $result = db_query("SELECT * FROM {flag_content} WHERE content_type = '%s' AND (uid = %d OR uid = 0)", $content_type, $uid);
       while ($flag_content = db_fetch_object($result)) {
         $flagged_content[$uid][$content_type]['all'][$flag_names[$flag_content->fid]][$flag_content->content_id] = $flag_content;

@@ -1,5 +1,4 @@
 <?php
-// $Id: flag.admin.inc,v 1.1.4.6 2010/05/07 23:40:25 quicksketch Exp $
 
 /**
  * @file

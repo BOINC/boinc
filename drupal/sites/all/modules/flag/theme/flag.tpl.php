@@ -1,5 +1,4 @@
 <?php
-// $Id: flag.tpl.php,v 1.1.2.7 2009/03/17 02:10:30 quicksketch Exp $
 
 /**
  * @file

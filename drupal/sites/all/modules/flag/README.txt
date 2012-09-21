@@ -1,4 +1,3 @@
-// $Id: README.txt,v 1.1.4.6 2008/10/07 16:41:26 mooffie Exp $
 
 You may want to visit the handbook of this module, at:
 
