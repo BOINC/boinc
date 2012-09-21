@@ -1,6 +1,4 @@
 <?php
-// $Id: views-view.tpl.php,v 1.1.2.1 2010/01/12 16:32:29 johnalbin Exp $
-
 /**
  * @file
  * Main view template
@@ -91,4 +89,4 @@
     </div>
   <?php endif; ?>
 
-</div> <!-- /.view -->
+</div><!-- /.view -->

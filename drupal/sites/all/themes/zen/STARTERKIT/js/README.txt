@@ -1,5 +1,3 @@
-// $Id: README.txt,v 1.2 2009/11/08 18:28:49 johnalbin Exp $
-
 Your theme can add JavaScript files in two ways:
 
 1. To add a JavaScript file to all pages on your website, edit your sub-theme's

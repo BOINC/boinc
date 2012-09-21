@@ -1,5 +1,3 @@
-/* $Id: blocks.css,v 1.4 2009/11/05 11:05:39 johnalbin Exp $ */
-
 /**
  * @file
  * Block Styling
@@ -8,6 +6,12 @@
 
 .block /* Block wrapper */ {
   margin-bottom: 1em;
+}
+
+.block.first /* The first block in the region */ {
+}
+
+.block.last /* The last block in the region */ {
 }
 
 .block.region-odd /* Zebra striping for each block in the region */ {

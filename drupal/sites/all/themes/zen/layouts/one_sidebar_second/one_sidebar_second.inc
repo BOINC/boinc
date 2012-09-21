@@ -1,6 +1,4 @@
 <?php
-// $Id: one_sidebar_second.inc,v 1.1.2.1 2009/12/12 15:31:54 johnalbin Exp $
-
 /**
  * Implements hook_panels_layouts().
  */

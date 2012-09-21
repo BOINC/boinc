@@ -1,6 +1,4 @@
 <?php
-// $Id: zen-one-sidebar-first-admin.tpl.php,v 1.1.2.1 2009/12/12 15:31:54 johnalbin Exp $
-
 /**
  * @file
  * Template for a 1 row, 2 column Zen-based panel layout.

@@ -1,21 +1,80 @@
 #!/bin/sh
 
-# $Id: generate.sh,v 1.4.2.2 2010/06/26 16:01:52 johnalbin Exp $
-#
 # This script is used by the MAINTAINER to generate composite stylesheets for
 # the base Zen theme from the stylesheets in the STARTERKIT.
 
-/bin/echo -n '/* $' > header.txt;
-/bin/echo 'Id$ */' >> header.txt;
-/bin/echo >> header.txt;
+FIXED=( \
+  html-reset \
+  wireframes \
+  layout-fixed \
+  page-backgrounds \
+  tabs \
+  messages \
+  pages \
+  block-editing \
+  blocks \
+  navigation \
+  views-styles \
+  nodes \
+  comments \
+  forms \
+  fields \
+  );
 
-cat header.txt ../../STARTERKIT/css/html-reset.css ../../STARTERKIT/css/wireframes.css ../../STARTERKIT/css/layout-fixed.css ../../STARTERKIT/css/page-backgrounds.css ../../STARTERKIT/css/tabs.css ../../STARTERKIT/css/messages.css ../../STARTERKIT/css/pages.css ../../STARTERKIT/css/block-editing.css ../../STARTERKIT/css/blocks.css ../../STARTERKIT/css/navigation.css ../../STARTERKIT/css/panels-styles.css ../../STARTERKIT/css/views-styles.css ../../STARTERKIT/css/nodes.css ../../STARTERKIT/css/comments.css ../../STARTERKIT/css/forms.css ../../STARTERKIT/css/fields.css | perl -e 'while(<>) { $_ =~ s|^\/\* \$(Id: [^\$]+) \$|\/* \1|; print $_; }' - > zen-fixed.css;
+STYLESHEET='zen-fixed.css';
+RTL_STYLESHEET='zen-fixed-rtl.css';
+echo > $STYLESHEET;
+echo > $RTL_STYLESHEET;
+for FILENAME in ${FIXED[*]}; do
+  echo >> $STYLESHEET;
+  echo "/* $FILENAME.css */" >> $STYLESHEET;
+  echo >> $STYLESHEET;
+  cat ../../STARTERKIT/css/$FILENAME.css >> $STYLESHEET;
+  if [[ -e ../../STARTERKIT/css/$FILENAME-rtl.css ]]; then
+    echo >> $RTL_STYLESHEET;
+    echo "/* $FILENAME-rtl.css */" >> $RTL_STYLESHEET;
+    echo >> $RTL_STYLESHEET;
+    cat ../../STARTERKIT/css/$FILENAME-rtl.css >> $RTL_STYLESHEET;
+  fi
+done
 
-cat header.txt ../../STARTERKIT/css/html-reset.css ../../STARTERKIT/css/wireframes.css ../../STARTERKIT/css/layout-liquid.css ../../STARTERKIT/css/page-backgrounds.css ../../STARTERKIT/css/tabs.css ../../STARTERKIT/css/messages.css ../../STARTERKIT/css/pages.css ../../STARTERKIT/css/block-editing.css ../../STARTERKIT/css/blocks.css ../../STARTERKIT/css/navigation.css ../../STARTERKIT/css/panels-styles.css ../../STARTERKIT/css/views-styles.css ../../STARTERKIT/css/nodes.css ../../STARTERKIT/css/comments.css ../../STARTERKIT/css/forms.css ../../STARTERKIT/css/fields.css | perl -e 'while(<>) { $_ =~ s|^\/\* \$(Id: [^\$]+) \$|\/* \1|; print $_; }' - > zen-liquid.css
+LIQUID=( \
+  html-reset \
+  wireframes \
+  layout-liquid \
+  page-backgrounds \
+  tabs \
+  messages \
+  pages \
+  block-editing \
+  blocks \
+  navigation \
+  views-styles \
+  nodes \
+  comments \
+  forms \
+  fields \
+  );
 
-cat header.txt ../../STARTERKIT/css/print.css | perl -e 'while(<>) { $_ =~ s|^\/\* \$(Id: [^\$]+) \$|\/* \1|; print $_; }' - > print.css;
+STYLESHEET='zen-liquid.css';
+RTL_STYLESHEET='zen-liquid-rtl.css';
+echo > $STYLESHEET;
+echo > $RTL_STYLESHEET;
+for FILENAME in ${LIQUID[*]}; do
+  echo >> $STYLESHEET;
+  echo "/* $FILENAME.css */" >> $STYLESHEET;
+  echo >> $STYLESHEET;
+  cat ../../STARTERKIT/css/$FILENAME.css >> $STYLESHEET;
+  if [[ -e ../../STARTERKIT/css/$FILENAME-rtl.css ]]; then
+    echo >> $RTL_STYLESHEET;
+    echo "/* $FILENAME-rtl.css */" >> $RTL_STYLESHEET;
+    echo >> $RTL_STYLESHEET;
+    cat ../../STARTERKIT/css/$FILENAME-rtl.css >> $RTL_STYLESHEET;
+  fi
+done
 
-cat header.txt ../../STARTERKIT/css/ie.css | perl -e 'while(<>) { $_ =~ s|^\/\* \$(Id: [^\$]+) \$|\/* \1|; print $_; }' - > ie.css;
-cat header.txt ../../STARTERKIT/css/ie6.css | perl -e 'while(<>) { $_ =~ s|^\/\* \$(Id: [^\$]+) \$|\/* \1|; print $_; }' - > ie6.css;
+cp ../../STARTERKIT/css/print.css .;
 
-rm header.txt;
+cp ../../STARTERKIT/css/ie.css .;
+cp ../../STARTERKIT/css/ie6.css .;
+cp ../../STARTERKIT/css/ie6-rtl.css .;

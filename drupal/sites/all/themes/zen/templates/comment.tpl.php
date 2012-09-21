@@ -1,6 +1,4 @@
 <?php
-// $Id: comment.tpl.php,v 1.10 2009/11/02 17:42:27 johnalbin Exp $
-
 /**
  * @file
  * Default theme implementation for comments.
@@ -89,4 +87,4 @@
   </div>
 
   <?php print $links; ?>
-</div> <!-- /.comment -->
+</div><!-- /.comment -->

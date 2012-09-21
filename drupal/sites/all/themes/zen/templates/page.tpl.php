@@ -1,6 +1,4 @@
 <?php
-// $Id: page.tpl.php,v 1.26.2.3 2010/06/26 15:36:04 johnalbin Exp $
-
 /**
  * @file
  * Theme implementation to display a single Drupal page.
@@ -149,7 +147,7 @@
           <?php if ($site_slogan): ?>
             <div id="site-slogan"><?php print $site_slogan; ?></div>
           <?php endif; ?>
-        </div> <!-- /#name-and-slogan -->
+        </div><!-- /#name-and-slogan -->
       <?php endif; ?>
 
       <?php if ($search_box): ?>
@@ -158,7 +156,7 @@
 
       <?php print $header; ?>
 
-    </div></div> <!-- /.section, /#header -->
+    </div></div><!-- /.section, /#header -->
 
     <div id="main-wrapper"><div id="main" class="clearfix<?php if ($primary_links || $navigation) { print ' with-navigation'; } ?>">
 
@@ -192,7 +190,7 @@
           <div class="feed-icons"><?php print $feed_icons; ?></div>
         <?php endif; ?>
 
-      </div></div> <!-- /.section, /#content -->
+      </div></div><!-- /.section, /#content -->
 
       <?php if ($primary_links || $navigation): ?>
         <div id="navigation"><div class="section clearfix">
@@ -211,14 +209,14 @@
 
           <?php print $navigation; ?>
 
-        </div></div> <!-- /.section, /#navigation -->
+        </div></div><!-- /.section, /#navigation -->
       <?php endif; ?>
 
       <?php print $sidebar_first; ?>
 
       <?php print $sidebar_second; ?>
 
-    </div></div> <!-- /#main, /#main-wrapper -->
+    </div></div><!-- /#main, /#main-wrapper -->
 
     <?php if ($footer || $footer_message || $secondary_links): ?>
       <div id="footer"><div class="section">
@@ -241,10 +239,10 @@
 
         <?php print $footer; ?>
 
-      </div></div> <!-- /.section, /#footer -->
+      </div></div><!-- /.section, /#footer -->
     <?php endif; ?>
 
-  </div></div> <!-- /#page, /#page-wrapper -->
+  </div></div><!-- /#page, /#page-wrapper -->
 
   <?php print $page_closure; ?>
 

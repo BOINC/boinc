@@ -1,6 +1,4 @@
 <?php
-// $Id: theme-settings.php,v 1.7 2008/09/11 09:36:50 johnalbin Exp $
-
 // Include the definition of zen_settings() and zen_theme_get_default_settings().
 include_once './' . drupal_get_path('theme', 'zen') . '/theme-settings.php';
 

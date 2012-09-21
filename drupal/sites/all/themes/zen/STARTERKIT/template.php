@@ -1,6 +1,4 @@
 <?php
-// $Id: template.php,v 1.21 2009/08/12 04:25:15 johnalbin Exp $
-
 /**
  * @file
  * Contains theme override functions and preprocess functions for the theme.
@@ -101,6 +99,9 @@ function STARTERKIT_preprocess(&$vars, $hook) {
 /* -- Delete this line if you want to use this function
 function STARTERKIT_preprocess_page(&$vars, $hook) {
   $vars['sample_variable'] = t('Lorem ipsum.');
+
+  // To remove a class from $classes_array, use array_diff().
+  //$vars['classes_array'] = array_diff($vars['classes_array'], array('class-to-remove'));
 }
 // */
 

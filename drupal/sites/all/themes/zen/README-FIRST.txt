@@ -1,5 +1,3 @@
-// $Id: README-FIRST.txt,v 1.4 2009/11/10 08:09:17 johnalbin Exp $
-
 WHERE TO START
 --------------
 
@@ -73,3 +71,9 @@ INSTALLATION
     the default theme.
 
  4. Now build your own sub-theme by reading the STARTERKIT/README.txt file.
+
+ 5. Internet explorer has a nasty bug that limits you to 31 stylsheets total. To
+    get around this limitation during theme development, download, install and
+    configure the "IE CSS Optimizer" module.
+
+    http://drupal.org/project/ie_css_optimizer
