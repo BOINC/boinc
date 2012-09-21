@@ -238,6 +238,37 @@ function boincuser_account_cross_reference($uid, $boinc_id) {
     return true;
 }
 
+/**
+ * Convert any BOINC forum thread subscriptions to Drupal flag subscriptions
+ */
+function boincuser_pull_subscriptions($account = NULL) {
+  if (!$account) {
+    global $user;
+    $account = user_load($user->id);
+  }
+  elseif (is_numeric($account)) {
+    $account = user_load($account);
+  }
+  
+  // Get any subscriptions for this user
+  db_set_active('boinc');
+  $subscriptions = db_query('
+    SELECT threadid FROM {subscriptions}
+    WHERE userid = %d', $account->boincuser_id);
+  db_set_active('default');
+  
+  $flag = flag_get_flag('subscriptions') or die('no "subscriptions" flag defined');
+  while ($thread_id = db_result($subscriptions)) {
+    // For each BOINC thread ID subscribed, look up the corresponding node ID
+    $nid = db_result(db_query('
+      SELECT nid FROM {boincimport_temp_topic}
+      WHERE topic_id = %d', $thread_id));
+    // Flag this node for the user
+    $flag->flag('flag', $nid, $account);
+  }
+}
+
+
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Account form handlers and functions
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
