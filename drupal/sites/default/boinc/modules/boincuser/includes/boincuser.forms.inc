@@ -113,7 +113,6 @@ function boincuser_register_make_drupal_user($boinc_user) {
   if ($boinc_user) {
     $account = boincuser_create_drupal_user($boinc_user);
     boincuser_create_drupal_profile($account, $boinc_user);
-    boincuser_pull_subscriptions($account);
   }
   return $account;
 }
