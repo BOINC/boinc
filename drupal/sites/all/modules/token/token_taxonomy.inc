@@ -1,5 +1,4 @@
 <?php
-// $Id: token_taxonomy.inc,v 1.3.4.5 2010/06/05 16:45:58 davereid Exp $
 
 /**
  * @file
@@ -15,44 +14,68 @@
  */
 
 /**
- * Implementation of hook_token_values().
+ * Implements hook_token_list().
  */
-function taxonomy_token_values($type, $object = NULL, $options = array()) {
-  $values = array();
-  switch ($type) {
-    case 'taxonomy':
-      $category = $object;
-      $vid = $category->vid;
-      $vocabulary = taxonomy_vocabulary_load($vid);
+function taxonomy_token_list($type = 'all') {
+  $tokens = array();
 
-      $values['tid'] = $category->tid;
-      $values['cat'] = check_plain($category->name);
-      $values['cat-raw'] = $category->name;
-      $values['cat-description'] = filter_xss($category->description);
-      $values['vid'] = $vid;
-      $values['vocab'] = check_plain($vocabulary->name);
-      $values['vocab-raw'] = $vocabulary->name;
-      $values['vocab-description'] = filter_xss($vocabulary->description);
-
-      break;
+  // Taxonomy term tokens.
+  if ($type == 'taxonomy' || $type == 'all') {
+    $tokens['taxonomy']['tid'] = t('The unique ID of the taxonomy term.');
+    $tokens['taxonomy']['cat'] = t('The name of the taxonomy term.');
+    $tokens['taxonomy']['cat-raw'] = t('The name of the taxonomy term.');
+    $tokens['taxonomy']['cat-description'] = t('The optional description of the taxonomy term.');
+    $tokens['taxonomy']['vid'] = t("The unique ID of the taxonomy vocabulary the taxonomy term belongs to.");
+    $tokens['taxonomy']['vocab'] = t("The name of the taxonomy vocabulary the taxonomy term belongs to.");
+    $tokens['taxonomy']['vocab-raw'] = t("The name of the taxonomy vocabulary the taxonomy term belongs to.");
+    $tokens['taxonomy']['vocab-description'] = t('The optional description of the taxonomy vocabulary the taxonomy term belongs to.');
+    $tokens['taxonomy']['vocab-description-raw'] = t('The optional description of the taxonomy vocabulary the taxonomy term belongs to.');
   }
-  return $values;
+
+  // Vocabulary tokens.
+  if ($type == 'vocabulary' || $type == 'all') {
+    $tokens['vocabulary']['vocabulary-vid'] = t('The unique ID of the taxonomy vocabulary.');
+    $tokens['vocabulary']['vocabulary-name'] = t('The name of the taxonomy vocabulary.');
+    $tokens['vocabulary']['vocabulary-name-raw'] = t('The name of the taxonomy vocabulary.');
+    $tokens['vocabulary']['vocabulary-description'] = t('The optional description of the taxonomy vocabulary.');
+    $tokens['vocabulary']['vocabulary-description-raw'] = t('The optional description of the taxonomy vocabulary.');
+  }
+
+  return $tokens;
 }
 
 /**
- * Implementation of hook_token_list().
+ * Implements hook_token_values().
  */
-function taxonomy_token_list($type = 'all') {
-  if ($type == 'taxonomy' || $type == 'all') {
-    $tokens['taxonomy']['tid'] = t('The id number of the category.');
-    $tokens['taxonomy']['cat'] = t('The name of the category.');
-    $tokens['taxonomy']['cat-raw'] = t('The unfiltered name of the category.');
-    $tokens['taxonomy']['cat-description'] = t('The optional description of the taxonomy term.');
-    $tokens['taxonomy']['vid'] = t("The id number of the category's parent vocabulary.");
-    $tokens['taxonomy']['vocab'] = t("The vocabulary that the page's first category belongs to.");
-    $tokens['taxonomy']['vocab-raw'] = t("The unfiltered vocabulary that the page's first category belongs to.");
-    $tokens['taxonomy']['vocab-description'] = t('The optional description of the taxonomy vocabulary.');
+function taxonomy_token_values($type, $object = NULL, $options = array()) {
+  $values = array();
 
-    return $tokens;
+  // Taxonomy term tokens.
+  if ($type == 'taxonomy' && !empty($object)) {
+    $term = $object;
+    $vocabulary = taxonomy_vocabulary_load($term->vid);
+
+    $values['tid'] = $term->tid;
+    $values['cat'] = check_plain($term->name);
+    $values['cat-raw'] = $term->name;
+    $values['cat-description'] = filter_xss($term->description);
+    $values['vid'] = $term->vid;
+    $values['vocab'] = check_plain($vocabulary->name);
+    $values['vocab-raw'] = $vocabulary->name;
+    $values['vocab-description'] = filter_xss($vocabulary->description);
+    $values['vocab-description-raw'] = $vocabulary->description;
   }
+
+  // Vocabulary tokens.
+  if ($type == 'vocabulary' && !empty($object)) {
+    $vocabulary = $object;
+
+    $values['vocabulary-vid'] = $vocabulary->vid;
+    $values['vocabulary-name'] = check_plain($vocabulary->name);
+    $values['vocabulary-name-raw'] = $vocabulary->name;
+    $values['vocabulary-description'] = filter_xss($vocabulary->description);
+    $values['vocabulary-description-raw'] = $vocabulary->description;
+  }
+
+  return $values;
 }

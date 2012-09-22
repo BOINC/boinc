@@ -1,5 +1,4 @@
 <?php
-// $Id: token.pages.inc,v 1.7.2.5 2010/08/10 03:33:32 davereid Exp $
 
 /**
  * @file
@@ -18,6 +17,8 @@
  * @param suffix
  *    The suffix your module will use when parsing tokens. Defaults to ']'
  * @return An HTML table containing the formatting docs.
+ *
+ * @ingroup themeable
  */
 function theme_token_help($types = 'all', $prefix = TOKEN_PREFIX, $suffix = TOKEN_SUFFIX) {
   token_include();
@@ -26,7 +27,7 @@ function theme_token_help($types = 'all', $prefix = TOKEN_PREFIX, $suffix = TOKE
   $headers = array(t('Token'), t('Replacement value'));
   $rows = array();
   foreach ($full_list as $key => $category) {
-    $rows[] = array(array('data' => drupal_ucfirst($key) .' '. t('tokens'), 'class' => 'region', 'colspan' => 2));
+    $rows[] = array(array('data' => t('@type tokens', array('@type' => drupal_ucfirst($key))), 'class' => 'region', 'colspan' => 2));
     foreach ($category as $token => $description) {
       $row = array();
       $row[] = $prefix . $token . $suffix;
@@ -41,23 +42,26 @@ function theme_token_help($types = 'all', $prefix = TOKEN_PREFIX, $suffix = TOKE
 
 /**
  * Provide a 'tree' display of nested tokens.
+ *
+ * @ingroup themeable
  */
 function theme_token_tree($token_types = array(), $global_types = TRUE, $click_insert = TRUE) {
-  //$info = token_get_list('all');
-  $info = token_get_list($token_types);
-
-  if ($token_types == 'all') {
-  //  $token_types = array('all');
+  if ($token_types == 'all' || !is_array($token_types) || in_array('all', $token_types)) {
+    $token_types = array('all');
   }
   elseif ($global_types) {
-  //  $token_types[] = 'global';
-  //  $token_types = array_unique($token_types);
+    $token_types[] = 'global';
   }
   else {
-    unset($info['global']);
+    $global_key = array_search('global', $token_types);
+    if ($global_key !== FALSE) {
+      unset($token_types[$global_key]);
+    }
   }
 
   // Check for token type validity and sort.
+  $token_types = array_unique($token_types);
+  $info = token_get_list($token_types);
   //$token_types = array_intersect($token_types, array_keys($info));
   $token_types = array_keys($info);
   sort($token_types);
@@ -141,5 +145,14 @@ function _token_token_tree_format_row($token, $token_info = array(), $is_group =
 }
 
 function _token_clean_css_identifier($id) {
-  return 'token-' . str_replace(array('][', '_', ' ', ':'), '-', trim($id, '[]'));
+  return 'token-' . rtrim(str_replace(array('][', '_', ' ', ':'), '-', trim($id, '[]')), '-');
+}
+
+/**
+ * Menu callback; prints the available tokens and values for an object.
+ */
+function token_devel_token_object($entity, $object) {
+  $tokens = token_get_values($entity, $object);
+  $tokens = array_combine($tokens->tokens, $tokens->values);
+  return kdevel_print_object($tokens);
 }

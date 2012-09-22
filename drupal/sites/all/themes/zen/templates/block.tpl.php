@@ -1,6 +1,4 @@
 <?php
-// $Id: block.tpl.php,v 1.6.2.1 2010/06/24 03:40:16 johnalbin Exp $
-
 /**
  * @file
  * Theme implementation to display a block.
@@ -22,6 +20,8 @@
  *   - block-[module]: The module generating the block. For example, the user
  *     module is responsible for handling the default user navigation block. In
  *     that case the class would be "block-user".
+ *   - first: The first block in the region.
+ *   - last: The last block in the region.
  *   - region-count-[x]: The position of the block in the list of blocks in the
  *     current region.
  *   - region-odd: An odd-numbered block of the list of blocks in the current
@@ -63,4 +63,4 @@
   </div>
 
   <?php print $edit_links; ?>
-</div> <!-- /.block -->
+</div><!-- /.block -->

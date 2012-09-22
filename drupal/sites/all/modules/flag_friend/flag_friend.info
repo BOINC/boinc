@@ -3,9 +3,9 @@ description = Flag users as friends. Implements it's own flag and a form for sen
 dependencies[] = flag
 core = 6.x
 package = Flags
-; Information added by drupal.org packaging script on 2012-02-05
-version = "6.x-1.1"
+; Information added by drupal.org packaging script on 2012-07-12
+version = "6.x-1.2"
 core = "6.x"
 project = "flag_friend"
-datestamp = "1328465442"
+datestamp = "1342125997"
 

@@ -1,6 +1,4 @@
 <?php
-// $Id: region.tpl.php,v 1.3 2009/11/04 18:19:58 johnalbin Exp $
-
 /**
  * @file
  * Default theme implementation to display a region.
@@ -30,4 +28,4 @@
 ?>
 <div class="<?php print $classes; ?>">
   <?php print $content; ?>
-</div> <!-- /.region -->
+</div><!-- /.region -->

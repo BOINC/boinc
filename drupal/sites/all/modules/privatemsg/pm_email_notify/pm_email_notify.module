@@ -1,5 +1,4 @@
 <?php
-// $Id: pm_email_notify.module,v 1.1.2.17 2010/08/05 09:25:12 berdir Exp $
 
 /**
  * @file
@@ -125,6 +124,7 @@ function pm_email_notify_mail($key, &$message, $params) {
  */
 function _pm_email_notify_token($recipient, $message, $language) {
   $tokens = array(
+    '!author_uid' => $message['author']->uid,
     '!author' => $message['author']->name,
     '!pm_subject' => trim(drupal_html_to_text(check_plain($message['subject']))),
     '!pm_body' => trim(drupal_html_to_text(check_markup($message['body'], $message['format'], FALSE))),
@@ -152,7 +152,7 @@ function _pm_email_notify_default_body() {
 function pm_email_notify_user($op, &$edit, &$account, $category = NULL) {
   switch ($op) {
     case 'form':
-      if ($category == 'account' && privatemsg_user_access('read privatemsg')) {
+      if ($category == 'account' && privatemsg_user_access('read privatemsg', $account)) {
         $form['enable_pm_mail'] = array(
           '#type' => 'fieldset',
           '#title' => t('Privatemsg e-mail notification'),
@@ -169,7 +169,7 @@ function pm_email_notify_user($op, &$edit, &$account, $category = NULL) {
       return $form;
 
      case 'submit':
-      if (isset($edit['pm_send_notifications']) && privatemsg_user_access('read privatemsg')) {
+      if (isset($edit['pm_send_notifications']) && privatemsg_user_access('read privatemsg', $account)) {
         $pm_email_enabled = $edit['pm_send_notifications'];
         unset($edit['pm_send_notifications']);
         // Update database entry with user preference.

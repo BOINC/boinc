@@ -1,5 +1,4 @@
 <?php
-// $Id: privatemsg.api.php,v 1.1.2.9 2009/11/06 13:06:26 berdir Exp $
 
 /**
  * @file
@@ -371,18 +370,55 @@ function hook_privatemsg_message_insert($message) {
  */
 
 /**
- * Check if $author can send $recipient a message.
+ * Check if the author can send a message to the recipients.
  *
- * Return a message if it is not alled, nothing if it is. This hook is executed
- * for each recipient.
+ * This can be used to limit who can write whom based on other modules and/or
+ * settings.
  *
  * @param $author
  *   Author of the message to be sent
- * @param $recipient
- *   Recipient of the message
+ * @param $recipients
+ *   Recipients of the message
+ * @return
+ *   An indexed array of arrays with the keys uid and
+ *   message (The reason why the recipient has been blocked).
  */
-function hook_privatemsg_block_message($author, $recipient) {
+function hook_privatemsg_block_message($author, $recipients) {
+  $blocked = array();
+  // Loop through each recipient and ensure there is no rule blocking this
+  // author from sending them private messages. Use a reference, so when
+  // user_load() is needed here the array is updated, negating the need for
+  // further calls to user_load() later in the code.
+  foreach (array_keys($recipients) as $uid) {
 
+    // Ensure we have a recipient user object which includes roles.
+    if (!isset($recipients[$uid]->roles)) {
+      $recipients[$uid] = user_load($uid);
+    }
+    // Note: this is checked whether the author may send the message (see third
+    // parameter). Further below is a check whether the recipient may block it.
+    if (_pm_block_user_rule_exists($author, $recipients[$uid], PM_BLOCK_USER_DISALLOW_SENDING)) {
+      $blocked[] = array(
+        'uid' => $uid,
+        'message' => t('Sorry, private messaging rules forbid sending messages to !name.', array('!name' => $recipients[$uid]->name)),
+      );
+    }
+  }
+
+  $args = array_merge(array($author->uid), array_keys($recipients));
+  $result = db_query('SELECT recipient FROM {pm_block_user} WHERE author = %d AND recipient IN ('. db_placeholders($recipients) .') GROUP BY recipient', $args);
+  while ($row = db_fetch_array($result)) {
+    $recipient = $recipients[$row['recipient']];
+    // If there's a rule disallowing blocking of this message, send it anyway.
+    if (_pm_block_user_rule_exists($author, $recipient, PM_BLOCK_USER_DISALLOW_BLOCKING)) {
+      continue;
+    }
+    $blocked[] = array(
+      'uid' => $row['recipient'],
+      'message' => t('%name has chosen to not recieve any more messages from you.', array('%name' => $recipients[$row['recipient']]->name))
+    );
+  }
+  return $blocked;
 }
 /**
  * Add content to the view thread page.

@@ -832,7 +832,7 @@ function flag_friend_preprocess_author_pane(&$variables) {
 
   // Accessing the user profile is the only way to be able to see the friend
   // flag out-of-the-box so I feel it's pretty safe to use this permisssion.
-  if ($account_id != 0 && user_access('access user profiles') && $user->uid != $account_id) {
+  if ($account_id != 0 && $user->uid != 0 && user_access('access user profiles') && $user->uid != $account_id) {
     $flag = flag_get_flag('friend');
     $flag_status = flag_friend_determine_friend_status($flag, $user->uid, $account_id);
 

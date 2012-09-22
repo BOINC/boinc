@@ -1,5 +1,4 @@
 <?php
-// $Id: privatemsg_filter.admin.inc,v 1.1.2.2 2009/11/06 13:06:26 berdir Exp $
 
 /**
  * @file

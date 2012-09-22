@@ -1,5 +1,4 @@
 <?php
-// $Id: flag_handler_relationships.inc,v 1.1.2.9 2009/04/26 21:35:12 quicksketch Exp $
 
 /**
  * @file

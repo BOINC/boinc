@@ -1,5 +1,3 @@
-// $Id: README.txt,v 1.1.2.1 2009/12/12 15:31:54 johnalbin Exp $
-
 To build your own Panels layout follow the documentation provided by Panels:
   http://drupal.org/node/495654
 

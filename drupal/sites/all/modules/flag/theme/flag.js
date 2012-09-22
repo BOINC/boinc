@@ -1,4 +1,3 @@
-// $Id: flag.js,v 1.1.2.8 2009/09/14 21:39:01 quicksketch Exp $
 
 /**
  * Terminology:

@@ -1,4 +1,3 @@
-// $Id: token.js,v 1.3.2.2 2010/03/26 00:03:19 davereid Exp $
 
 (function ($) {
 

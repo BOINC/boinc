@@ -1,6 +1,4 @@
 <?php
-// $Id: region-sidebar.tpl.php,v 1.2 2009/11/04 20:04:20 johnalbin Exp $
-
 /**
  * @file
  * Default theme implementation to display a region.
@@ -30,4 +28,4 @@
 ?>
 <div class="<?php print $classes; ?>"><div class="section">
   <?php print $content; ?>
-</div></div> <!-- /.section, /.region -->
+</div></div><!-- /.section, /.region -->

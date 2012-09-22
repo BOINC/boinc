@@ -1,6 +1,30 @@
-//$Id: CHANGELOG.txt,v 1.1.6.397 2010/06/09 13:22:28 karens Exp $
+//$Id: CHANGELOG.txt,v 1.1.6.410 2011/01/07 13:37:55 yched Exp $
 
-CCK 6.x-2.x
+CCK 6.x-2.9
+===========
+
+Features
+- #932680 by Dave Reid: Token integration - allow using of Token API's new $options param
+- #1008184 by merlinofchaos, bojanz, dereine, yched: Adapt to Views 3 "semantic views" feature (backwards compatible with Views 2)
+
+Bugfixes:
+- #863226 by KarenS: make sure we have a function that will return inactive instances when other instances of the same field are still active.
+- #887742 by yched: fix notices in _content_get_formatter() in some Views
+- #736440 by yched, dhthwy: fix memory leaks on long running migration scripts (e.g. migrate.module)
+- #705512 by cha0s, roderick: 'add more' button - fix PHP 5.3 compatibility
+- #894880 by yched: fix notices in check_plain() when rendering empty 'plain text' values
+- #728472 by Darren Oh: Ensure the module's preprocess functions run first
+- #986612 by Dave Reid: Token integration - fix variable name clash (harmless in normal cases)
+- #435520 by yched, sun: Fix text fields rendered as 'n/a' in some cases
+- #739490 by foripepe: Token integration - fix notices during token generation
+
+CCK 6.x-2.8
+===========
+
+Bugfixes:
+- SA-CONTRIB-2010-088 follow up fix for nodereference_autocomplete_access() and content_access().
+
+CCK 6.x-2.7
 ===========
 
 Features:
@@ -14,6 +38,7 @@ Bugfixes:
 - Add db_rewrite_sql() check to nodereference formatters.
 - #625768 CCK 6.x-2.6, got fatal error on update.php while running userreference_update_6002().
 - #649106 by thekevinday: Fix content_copy_form_alter(), where $form_state argument is not passed by reference.
+- #446390 by mani.atico and fago: improve rules condition to be more robust when checking for empty values.
 
 CCK 6.x-2.6
 ===========

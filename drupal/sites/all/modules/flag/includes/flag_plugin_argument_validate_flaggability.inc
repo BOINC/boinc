@@ -1,5 +1,4 @@
 <?php
-// $Id: flag_plugin_argument_validate_flaggability.inc,v 1.1.2.3 2008/12/03 14:10:00 mooffie Exp $
 
 /**
  * @file
@@ -169,7 +168,7 @@ class flag_plugin_argument_validate_flaggability extends views_plugin_argument_v
       }
     }
 
-    $ids = views_break_phrase($argument);
+    $ids = views_break_phrase($argument, $this);
     if ($ids->value == array(-1)) {
       // Malformed argument syntax. Invalidate.
       return FALSE;
@@ -210,7 +209,7 @@ class flag_plugin_argument_validate_flaggability extends views_plugin_argument_v
     global $user;
     if (!$user->uid) {
       // Anonymous user
-      return FALSE;
+      return array();
     }
     $flattened_ids = implode(',', $ids);
     return $this->_test_by_sql("SELECT content_id FROM {flag_content} WHERE fid = %d AND content_id IN ($flattened_ids) AND uid = %d", array($flag->fid, $user->uid));

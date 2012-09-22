@@ -1,4 +1,3 @@
-; $Id: privatemsg_filter.info,v 1.1.2.1 2009/01/25 23:25:18 litwol Exp $
 name = Privatemsg filter
 description = Allow users to filter messages using tags or other criteria.
 package = Mail
@@ -6,9 +5,9 @@ core = 6.x
 dependencies[] = privatemsg
 
 
-; Information added by drupal.org packaging script on 2010-08-11
-version = "6.x-1.3"
+; Information added by drupal.org packaging script on 2011-06-19
+version = "6.x-1.5"
 core = "6.x"
 project = "privatemsg"
-datestamp = "1281533792"
+datestamp = "1308483720"
 

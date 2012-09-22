@@ -1,5 +1,4 @@
 <?php
-// $Id: flag.rules.inc,v 1.1.2.2 2009/05/06 23:37:47 quicksketch Exp $
 
 /**
  * @file flag.rules.inc
@@ -48,7 +47,7 @@ class flag_rules_data_type extends rules_data_type {
    * Returns radios for selecting a flag of the type given in 
    * $info['flag_type'].
    */
-  function get_default_input_form($info, $value) {
+  function get_default_input_form($info, $value, &$form_state) {
     $options = _flag_rules_flags_options(isset($info['flag_type']) ? $info['flag_type'] : NULL);
     $form = array(
       '#type' => 'radios',
@@ -123,9 +122,24 @@ function flag_rules_get_event_argument($flag, $content_id, $account) {
   return $flag->fetch_content($content_id);
 }
 
+function flag_rules_get_node_author($flag, $content_id, $account) {
+  $node = $flag->fetch_content($content_id);
+  return rules_events_argument_node_author($node);
+}
+
+function flag_rules_get_comment_author($flag, $content_id, $account) {
+  $comment = $flag->fetch_content($content_id);
+  return rules_events_argument_comment_author($comment);
+}
+
 function flag_rules_get_comment_content($flag, $content_id, $account) {
   $comment = $flag->fetch_content($content_id);
   return node_load($comment->nid);
+}
+
+function flag_rules_get_comment_node_author($flag, $content_id, $account) {
+  $comment = $flag->fetch_content($content_id);
+  return rules_events_argument_comment_node_author($comment);
 }
 
 /**

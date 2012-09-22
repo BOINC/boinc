@@ -1,5 +1,5 @@
 <?php
-// $Id: content.module,v 1.301.2.120 2010/08/11 23:27:10 pwolanin Exp $
+// $Id: content.module,v 1.301.2.123 2011/01/03 11:03:47 yched Exp $
 /**
  * @file
  * Allows administrators to associate custom fields to content types.
@@ -2357,7 +2357,7 @@ function theme_content_exclude($content, $object, $context) {
  * TODO : this should live in theme/theme.inc, but then the preprocessor
  * doesn't get called when the theme overrides the template. Bug in theme layer ?
  */
-function content_preprocess_content_field(&$variables) {
+function template_preprocess_content_field(&$variables) {
   $element = $variables['element'];
   $field = content_fields($element['#field_name'], $element['#node']->type);
 
@@ -2489,7 +2489,7 @@ function content_content_extra_fields($type_name) {
       'description' => t('Comment module form.'),
       'weight' => 30
     );
-  }  
+  }
   if (module_exists('locale') && variable_get("language_content_type_$type_name", 0)) {
     $extra['language'] = array(
       'label' => t('Language'),
@@ -2674,6 +2674,33 @@ function content_inactive_fields($type_name = NULL) {
     if (!in_array($field['field_name'], $active)) {
       $inactive[$field['type_name']][$field['field_name']] = content_field_instance_expand($field);
     }
+  }
+  if (!empty($type_name)) {
+    return $inactive[$type_name];
+  }
+  return $inactive;
+}
+
+ 
+/**
+ * Helper function to identify inactive instances.
+ * This will be the same results as content_inactive_fields(),
+ * EXCEPT that his function will return inactive instances even 
+ * if the fields have other (shared) instances that are still active.
+ */
+function content_inactive_instances($type_name = NULL) {
+  module_load_include('inc', 'content', 'includes/content.crud');
+  if (!empty($type_name)) {
+    $param = array('type_name' => $type_name);
+    $inactive = array($type_name => array());
+  }
+  else {
+    $param = array();
+    $inactive = array();
+  }
+  $all = content_field_instance_read($param, TRUE);
+  foreach ($all as $field) {
+    $inactive[$field['type_name']][$field['field_name']] = content_field_instance_expand($field);
   }
   if (!empty($type_name)) {
     return $inactive[$type_name];

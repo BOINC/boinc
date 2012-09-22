@@ -1,5 +1,3 @@
-/* $Id: comments.css,v 1.5 2009/11/01 20:54:20 johnalbin Exp $ */
-
 /**
  * @file
  * Comment Styling
@@ -10,7 +8,7 @@
   margin: 1em 0;
 }
 
-#comments .title /* Heading for the list of comments */ {
+#comments h2.title /* Heading for the list of comments */ {
 }
 
 .comment /* Wrapper for a single comment */ {

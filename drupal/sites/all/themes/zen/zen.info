@@ -1,7 +1,5 @@
-; $Id: zen.info,v 1.8.2.1 2009/12/12 15:31:54 johnalbin Exp $
-
 name        = Zen
-description = Zen sub-themes are the ultimate starting themes for Drupal 6. Read the <a href="http://drupal.org/node/226507">online docs</a> or the included README-FIRST.txt on how to create a sub-theme.
+description = Zen sub-themes are the ultimate starting themes for Drupal 6. Read the <a href="http://drupal.org/node/873778">online docs</a> or the included README-FIRST.txt on how to create a theme with Zen.
 
 screenshot = zen-internals/screenshot.png
 
@@ -43,9 +41,9 @@ settings[zen_wireframes]           = 0
   ; Panels 3 layouts
 plugins[panels][layouts] = layouts
 
-; Information added by drupal.org packaging script on 2010-06-26
-version = "6.x-2.0"
+; Information added by drupal.org packaging script on 2011-04-05
+version = "6.x-2.1"
 core = "6.x"
 project = "zen"
-datestamp = "1277583313"
+datestamp = "1302017816"
 

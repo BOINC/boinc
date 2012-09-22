@@ -1,5 +1,5 @@
 <?php
-// $Id: text.module,v 1.95.2.30 2009/07/18 01:18:07 markuspetrux Exp $
+// $Id: text.module,v 1.95.2.32 2011/01/03 14:29:09 yched Exp $
 
 /**
  * @file
@@ -167,11 +167,10 @@ function text_field($op, &$node, $field, &$items, $teaser, $page) {
     case 'sanitize':
       foreach ($items as $delta => $item) {
         if (!empty($field['text_processing'])) {
-          $check = is_null($node) || (isset($node->build_mode) && $node->build_mode == NODE_BUILD_PREVIEW);
-          $text = isset($item['value']) ? check_markup($item['value'], $item['format'], $check) : '';
+          $text = isset($item['value']) ? check_markup($item['value'], $item['format'], FALSE) : '';
         }
         else {
-          $text = check_plain($item['value']);
+          $text = isset($item['value']) ? check_plain($item['value']) : '';
         }
         $items[$delta]['safe'] = $text;
       }

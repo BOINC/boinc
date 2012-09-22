@@ -1,5 +1,4 @@
 <?php
-// $Id: flag.inc,v 1.1.2.32 2010/01/08 05:00:45 quicksketch Exp $
 
 /**
  * @file
@@ -945,6 +944,11 @@ class flag_node extends flag_flag {
         'label' => t('flagged content'),
         'handler' => 'flag_rules_get_event_argument',
       ),
+      'node_author' => array(
+        'type' => 'user',
+        'label' => t('flagged content author'),
+        'handler' => 'flag_rules_get_node_author',
+      ),
     );
   }
   
@@ -1055,10 +1059,20 @@ class flag_comment extends flag_flag  {
         'label' => t('flagged comment'),
         'handler' => 'flag_rules_get_event_argument',
       ),
+      'comment_author' => array(
+        'type' => 'user',
+        'label' => t('flagged comment author'),
+        'handler' => 'flag_rules_get_comment_author',
+      ),
       'node' => array(
         'type' => 'node',
         'label' => t("the flagged comment's content"),
         'handler' => 'flag_rules_get_comment_content',
+      ),
+      'node_author' => array(
+        'type' => 'user',
+        'label' => t('commented content author'),
+        'handler' => 'flag_rules_get_comment_node_author',
       ),
     );
   }

@@ -1,5 +1,3 @@
-/* $Id: tabs.css,v 1.2 2009/08/12 08:03:53 johnalbin Exp $ */
-
 /**
  * @file
  * Tabs Styling
@@ -54,18 +52,21 @@ ul.primary li a .tab {
   background: url(../images/tab-right.png) no-repeat right -38px;
 }
 
-ul.primary li a:hover {
+ul.primary li a:hover,
+ul.primary li a:focus {
   border-width: 0;
   background-color: transparent;
   background: url(../images/tab-left.png) no-repeat left -76px;
 }
 
-ul.primary li a:hover .tab {
+ul.primary li a:hover .tab,
+ul.primary li a:focus .tab {
   background: url(../images/tab-right.png) no-repeat right -76px;
 }
 
 ul.primary li.active a,
-ul.primary li.active a:hover {
+ul.primary li.active a:hover,
+ul.primary li.active a:focus {
   border-width: 0;
   color: #000;
   background-color: transparent;
@@ -73,7 +74,8 @@ ul.primary li.active a:hover {
 }
 
 ul.primary li.active a .tab,
-ul.primary li.active a:hover .tab {
+ul.primary li.active a:hover .tab,
+ul.primary li.active a:focus .tab {
   background: url(../images/tab-right.png) no-repeat right 0;
 }
 
@@ -112,12 +114,14 @@ ul.secondary a .tab {
   line-height: 18px;
 }
 
-ul.secondary a:hover {
+ul.secondary a:hover,
+ul.secondary a:focus {
   background: url(../images/tab-secondary.png) repeat-x left bottom;
 }
 
 ul.secondary a.active,
-ul.secondary a.active:hover {
+ul.secondary a.active:hover,
+ul.secondary a.active:focus {
   border: 1px solid #c0c0c0;
   color: #000;
   background: url(../images/tab-secondary.png) repeat-x left top;

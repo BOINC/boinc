@@ -1,6 +1,4 @@
 <?php
-// $Id: template.php,v 1.45.2.7 2010/06/26 19:18:23 johnalbin Exp $
-
 /**
  * @file
  * Contains theme override functions and preprocess functions for the Zen theme.
@@ -235,10 +233,16 @@ function zen_blocks($region, $show_blocks = NULL) {
 
     // If $renders_sidebars is FALSE, don't render any region whose name begins
     // with "sidebar_".
-    if (($render_sidebars || (strpos($region, 'sidebar_') !== 0)) && ($list = block_list($region))) {
-      foreach ($list as $key => $block) {
-        // $key == module_delta
-        $output .= theme('block', $block);
+    if ($render_sidebars || (strpos($region, 'sidebar_') !== 0)) {
+      // Allow context module to set blocks.
+      if (function_exists('context_blocks')) {
+        $output = context_blocks($region);
+      }
+      else {
+        foreach (block_list($region) as $key => $block) {
+          // $key == module_delta
+          $output .= theme('block', $block);
+        }
       }
     }
 
@@ -248,7 +252,13 @@ function zen_blocks($region, $show_blocks = NULL) {
     $elements['#children'] = $output;
     $elements['#region'] = $region;
 
-    return $output ? theme('region', $elements) : '';
+    // Set the theme hook suggestions.
+    $hook = array('region_' . $region);
+    if (strpos($region, 'sidebar_') === 0) {
+      $hook[] = 'region_sidebar';
+    }
+    $hook[] = 'region';
+    return $output ? theme($hook, $elements) : '';
   }
 }
 
@@ -285,7 +295,7 @@ function zen_preprocess(&$vars, $hook) {
     // Views (and possibly other modules) have templates with a $classes
     // variable that isn't a string, so we leave those variables alone.
     if (is_string($vars[$key])) {
-      $vars['classes_array'] = explode(' ', $vars[$key]);
+      $vars['classes_array'] = explode(' ', $hook . ' ' . $vars[$key]);
       unset($vars[$key]);
     }
   }
@@ -314,7 +324,9 @@ function zen_preprocess_page(&$vars, $hook) {
   }
   // Add conditional stylesheets.
   elseif (!module_exists('conditional_styles')) {
-    $vars['styles'] .= $vars['conditional_styles'] = variable_get('conditional_styles_' . $GLOBALS['theme'], '');
+    $language = $GLOBALS['language']->direction == LANGUAGE_RTL ? '_rtl' : '';
+    $vars['conditional_styles'] = variable_get('conditional_styles_' . $GLOBALS['theme'] . $language, '');
+    $vars['styles'] .= $vars['conditional_styles'];
   }
 
   // Classes for body element. Allows advanced theming based on context
@@ -375,6 +387,8 @@ function zen_preprocess_page(&$vars, $hook) {
       $vars['classes_array'][] = 'page-views';
       break;
     case 'page_manager_page_execute':
+    case 'page_manager_node_view':
+    case 'page_manager_contact_site':
       // Is this a Panels page?
       $vars['classes_array'][] = 'page-panels';
       break;
@@ -397,12 +411,10 @@ function zen_preprocess_maintenance_page(&$vars, $hook) {
   }
   // Add conditional stylesheets.
   elseif (!module_exists('conditional_styles')) {
-    $vars['styles'] .= $vars['conditional_styles'] = variable_get('conditional_styles_' . $GLOBALS['theme'], '');
+    $language = $GLOBALS['language']->direction == LANGUAGE_RTL ? '_rtl' : '';
+    $vars['conditional_styles'] = variable_get('conditional_styles_' . $GLOBALS['theme'] . $language, '');
+    $vars['styles'] .= $vars['conditional_styles'];
   }
-
-  // Classes for body element. Allows advanced theming based on context
-  // (home page, node of certain type, etc.)
-  $vars['body_classes_array'] = explode(' ', $vars['body_classes']);
 }
 
 /**
@@ -417,7 +429,12 @@ function zen_preprocess_node(&$vars, $hook) {
   // Create the build_mode variable.
   switch ($vars['node']->build_mode) {
     case NODE_BUILD_NORMAL:
-      $vars['build_mode'] = $vars['teaser'] ? 'teaser' : 'full';
+      if ($vars['node']->build_mode === NODE_BUILD_NORMAL) {
+        $vars['build_mode'] = $vars['teaser'] ? 'teaser' : 'full';
+      }
+      else {
+        $vars['build_mode'] = $vars['node']->build_mode;
+      }
       break;
     case NODE_BUILD_PREVIEW:
       $vars['build_mode'] = 'preview';
@@ -434,6 +451,8 @@ function zen_preprocess_node(&$vars, $hook) {
     case NODE_BUILD_PRINT:
       $vars['build_mode'] = 'print';
       break;
+    default:
+      $vars['build_mode'] = $vars['node']->build_mode;
   }
 
   // Create the user_picture variable.
@@ -467,6 +486,7 @@ function zen_preprocess_node(&$vars, $hook) {
   if (isset($vars['preview'])) {
     $vars['classes_array'][] = 'node-preview';
   }
+  $vars['classes_array'][] = 'build-mode-' . $vars['build_mode'] ;
 }
 
 /**
@@ -486,8 +506,7 @@ function zen_preprocess_comment(&$vars, $hook) {
  * Preprocess variables for region.tpl.php
  *
  * Prepare the values passed to the theme_region function to be passed into a
- * pluggable template engine. Uses the region name to generate a template file
- * suggestions. If none are found, the default region.tpl.php is used.
+ * pluggable template engine.
  *
  * @see region.tpl.php
  */
@@ -497,18 +516,13 @@ function zen_preprocess_region(&$vars, $hook) {
   $vars['region'] = $vars['elements']['#region'];
 
   // Setup the default classes.
-  $region = 'region-' . str_replace('_', '-', $vars['region']);
-  $vars['classes_array'] = array('region', $region);
+  $vars['classes_array'] = array('region', 'region-' . str_replace('_', '-', $vars['region']));
 
-  // Sidebar regions get a common template suggestion a couple extra classes.
+  // Sidebar regions get a couple extra classes.
   if (strpos($vars['region'], 'sidebar_') === 0) {
-    $vars['template_files'][] = 'region-sidebar';
     $vars['classes_array'][] = 'column';
     $vars['classes_array'][] = 'sidebar';
   }
-
-  // Setup the default template suggestion.
-  $vars['template_files'][] = $region;
 }
 
 /**
@@ -529,6 +543,13 @@ function zen_preprocess_block(&$vars, $hook) {
 
   // Special classes for blocks.
   $vars['classes_array'][] = 'block-' . $block->module;
+  // Classes describing the position of the block within the region.
+  if ($vars['block_id'] == 1) {
+    $vars['classes_array'][] = 'first';
+  }
+  if (!function_exists('context_blocks') && count(block_list($vars['block']->region)) == $vars['block_id']) {
+    $vars['classes_array'][] = 'last';
+  }
   $vars['classes_array'][] = 'region-' . $vars['block_zebra'];
   $vars['classes_array'][] = $vars['zebra'];
   $vars['classes_array'][] = 'region-count-' . $vars['block_id'];
@@ -543,23 +564,6 @@ function zen_preprocess_block(&$vars, $hook) {
     zen_preprocess_block_editing($vars, $hook);
     $vars['classes_array'][] = 'with-block-editing';
   }
-}
-
-/**
- * Override or insert variables into the views-view templates.
- *
- * @param $vars
- *   An array of variables to pass to the theme template.
- * @param $hook
- *   The name of the template being rendered ("views-view" in this case.)
- */
-function zen_preprocess_views_view(&$vars, $hook) {
-  // Add the default Views classes.
-  $vars['classes_array'][0] = 'view'; // Replace "views-view".
-  $vars['classes_array'][] = 'view-' . $vars['css_name'];
-  $vars['classes_array'][] = 'view-id-' . $vars['name'];
-  $vars['classes_array'][] = 'view-display-id-' . $vars['display_id'];
-  $vars['classes_array'][] = 'view-dom-id-' . $vars['dom_id'];
 }
 
 /**

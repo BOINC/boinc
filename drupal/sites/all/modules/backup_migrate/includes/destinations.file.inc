@@ -216,8 +216,7 @@ class backup_migrate_destination_files extends backup_migrate_destination {
       else {
         $message = "Security warning: Couldn't modify .htaccess file. Please create a .htaccess file in your %directory directory which contains the following lines: <code>!htaccess</code> or add them to the existing .htaccess file";
         $replace = array('%directory' => $directory, '!htaccess' => '<br />'. nl2br(check_plain($htaccess_lines)));
-        drupal_set_message(t($message, $replace), "error");
-        watchdog('security', t($message, $replace), WATCHDOG_ERROR);
+        _backup_migrate_message($message, $replace, 'error');
         return FALSE;
       }
     }
@@ -238,7 +237,7 @@ class backup_migrate_destination_files extends backup_migrate_destination {
       }
       else {
         $message = t("Security notice: Backup and Migrate was unable to write a test text file to the destination directory %directory, and is therefore unable to check the security of the backup destination. Backups to the server will be disabled until the destination becomes writable and secure.", array('%directory' => $directory));
-        drupal_set_message($message, "error");
+        _backup_migrate_message($message, array(), "error");
         return FALSE;
       }
     }
@@ -248,7 +247,7 @@ class backup_migrate_destination_files extends backup_migrate_destination {
     $path = trim(drupal_substr($directory .'/test.txt', drupal_strlen(file_directory_path())), '\\/');
     if ($this->test_file_readable_remotely($path, $test_contents)) {
       $message = t("Security notice: Backup and Migrate will not save backup files to the server because the destination directory is publicly accessible. If you want to save files to the server, please secure the '%directory' directory", array('%directory' => $directory));
-      drupal_set_message($message, "error");
+      _backup_migrate_message($message, array(), "error");
       return FALSE;
     }
     return $directory;

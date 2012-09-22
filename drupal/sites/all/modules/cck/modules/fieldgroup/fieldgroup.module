@@ -1,5 +1,5 @@
 <?php
-// $Id: fieldgroup.module,v 1.79.2.52 2010/06/09 02:10:01 karens Exp $
+// $Id: fieldgroup.module,v 1.79.2.53 2011/01/03 11:03:47 yched Exp $
 
 /**
  * @file
@@ -881,7 +881,7 @@ function theme_fieldgroup_fieldset($element) {
  *
  * @see fieldgroup-simple.tpl.php
  */
-function fieldgroup_preprocess_fieldgroup_simple(&$vars) {
+function template_preprocess_fieldgroup_simple(&$vars) {
   $element = $vars['element'];
 
   $vars['group_name'] = $element['#group_name'];

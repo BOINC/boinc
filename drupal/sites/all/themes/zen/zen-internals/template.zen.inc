@@ -1,6 +1,4 @@
 <?php
-// $Id: template.zen.inc,v 1.3 2009/08/24 09:16:01 johnalbin Exp $
-
 /**
  * @file
  * Add stylesheets that are only needed when Zen is the enabled theme.

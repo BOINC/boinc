@@ -1,6 +1,3 @@
-; $Id: STARTERKIT.info.txt,v 1.16.2.2 2010/06/26 16:05:31 johnalbin Exp $
-
-
   ; The name and description of the theme used on the admin/build/themes page.
 name        = Zen Sub-theme Starter Kit
 description = Read the <a href="http://drupal.org/node/629510">online docs</a> or the included README.txt on how to create a Zen sub-theme.
@@ -24,7 +21,7 @@ base theme = zen
   ;
   ; You can also override any of Zen's stylesheets or any module's stylesheets,
   ; an /extremely/ useful feature. See the excellent Drupal 6 Theme Guide at
-  ; http://drupal.org/node/171209 for more details.
+  ; http://drupal.org/node/263967 for more details.
 stylesheets[all][]   = css/html-reset.css
 stylesheets[all][]   = css/wireframes.css
 stylesheets[all][]   = css/layout-fixed.css

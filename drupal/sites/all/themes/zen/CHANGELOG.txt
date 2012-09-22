@@ -1,4 +1,29 @@
-// $Id: CHANGELOG.txt,v 1.163.2.17 2010/06/26 19:31:19 johnalbin Exp $
+Zen 6.x-2.1, 2011-04-05
+-----------------------
+- #774836 by hefox: Check if node $title is set before outputting
+- #705264 by JohnAlbin, Jehu, mlncn and zenic: Allow Zen (and subthemes) to be used without a database
+- #1046090 by daniels and JohnAlbin: $styles is destroyed by rare bug with APC
+- #1083700: Add $submitted variable back into node.tpl
+- #1086820 by tacituseu: Views classes redundant since Views 6.x-2.9
+- #1017062 by adrinux: Block edit links span entire block on RTL pages
+- #774838 by bangpound, hefox and JohnAlbin: Add default case for build_mode
+- #919838 by saem, rgbivens and JohnAlbin: Theme description links to wrong docs
+- #992616 by JohnAlbin and adrinux: Comments in layout RTL stylesheets are incorrect
+- #822570 by JohnAlbin and AaronCollier: Add focus styling to tabs
+- #1072268: Zen theme doesn't load RTL styles
+- #929630 by juan_g and akalata: URL for overriding stylesheets documentation has changed
+- #742208: Conflict with domain theme module
+- #1063226 by tacituseu, danillonunes and barraponto: Unpublished comment style is not applied
+- #962356: Convert region template suggestions into theme hook suggestions
+- #978640 by marcvangend: Whitespace before comment causes jQuery error
+- #1046394 by n8tron and JohnAlbin: Add first and last classes to blocks
+- #870080 by mverbaar: Correction to README.TXT for STARTERKIT
+- #707410 by AdrianB: improve detection of Panels pages
+- #634552 by JohnAlbin and tim.plunkett: Conflict with context module
+- #941714: Modules setting $classes in preprocess functions breaks expected Zen classes
+- #932826: mytheme_links__system_main_menu() doesn't work as expected
+- Fix PHP warning on maintenance page
+- #690026: Cannot override region.tpl.php
 
 Zen 6.x-2.0, 2010-06-26
 -----------------------
@@ -121,6 +146,10 @@ Zen 6.x-2.0-beta1, 2009-11-10
 - Added notes about mobile stylesheets to STARTERKIT.info
 - #200495 by JohnAlbin, caroltron, and Toe: Split up monolithic zen.css into smaller, logical stylesheets
 - #328221 by kmonty and JohnAlbin: Split up ie.css to remove CSS hacks
+
+Zen 6.x-1.2, 2011-02-26
+-----------------------
+- #593290 by sfyn and JohnAlbin: Chaos Tools/Panels edit tab not working with Zen
 
 Zen 6.x-1.1, 2009-11-10
 -----------------------

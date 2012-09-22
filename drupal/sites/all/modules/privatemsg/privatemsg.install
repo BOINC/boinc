@@ -1,5 +1,4 @@
 <?php
-// $Id: privatemsg.install,v 1.5.2.4.2.11.2.18 2010/08/09 19:26:52 berdir Exp $
 
 /**
  * @file
@@ -215,6 +214,11 @@ function privatemsg_update_6000() {
         'default' => 0
       ),
     ),
+    'indexes'=> array(
+      'mid' => array('mid'),
+      'thread_id' => array('thread_id'),
+      'uid' => array('uid'),
+    ),
   );
 
   $schema['pm_message'] = array(
@@ -291,80 +295,73 @@ function privatemsg_update_6000() {
   // Step 2: Get the data
 
   // Step 2a: get the folder/tagging data first.
-  if (db_table_exists('privatemsg_folder')) {
-    $data = db_query("SELECT * FROM {privatemsg_folder}");
-    while ($result = db_fetch_array($data)) {
-      if (db_result(db_query("SELECT COUNT(*) FROM {pm_tags} WHERE tag = '%s'", $result['name'])) == 0) {
-        db_query("INSERT INTO {pm_tags} (tag) VALUES ('%s')", $result['name']);
-      }
-    }
-  }
+  db_query('INSERT INTO {pm_tags} (tag) SELECT DISTINCT name FROM {privatemsg_folder}');
 
   // Step 2b: Next, copy the user blocking data.
   if (db_table_exists('privatemsg_block_user')) {
-    $data = db_query("SELECT * FROM {privatemsg_block_user}");
-    while ($result = db_fetch_array($data)) {
-      db_query("INSERT INTO {pm_block_user} (author, recipient) VALUES ( %d, %d )", $result['author'], $result['recipient']);
-    }
+    db_query('INSERT INTO {pm_block_user} (author, recipient) SELECT author, recipient FROM privatemsg_block_user');
   }
 
-  // Step 2c: Next the data from the archive table - notice all these messages have been deleted both by the author and the recipient.
-  if (db_table_exists('privatemsg_archive')) {
-    $data = db_query("SELECT * FROM {privatemsg_archive}");
-    while ($result = db_fetch_array($data)) {
-      if ($result['thread'] == 0) {
-        $result['thread_id'] = $result['id'];
-      }
-      else{
-        $result['thread_id'] = 0;
-      }
-      if ($result['author'] <> $result['recipient']) {
-        db_query("INSERT INTO {pm_message} (mid, author, subject, body, timestamp) VALUES ( %d, %d, '%s', '%s', %d )", $result['id'], $result['author'], $result['subject'], $result['message'], $result['timestamp']);
-        db_query("INSERT INTO {temp_pm_index} (mid, thread, folder, thread_id, uid, is_new, deleted) VALUES ( %d, %d, %d, %d, %d, %d, %d )", $result['id'], $result['thread'], $result['folder'], $result['thread_id'], $result['recipient'], 0, 1);
-      }
-      db_query("INSERT INTO {temp_pm_index} (mid, thread, folder, thread_id, uid, is_new, deleted) VALUES ( %d, %d, %d, %d, %d, %d, %d )", $result['id'], $result['thread'], 0, $result['thread_id'], $result['author'], 0, 1);
+  // Step 2c: Copy data from the {privatemsg} and {privatemsg_archive} tables.
+  foreach (array("privatemsg_archive", "privatemsg") as $old_message_table) {
+    $recipient_del='recipient_del';
+    $author_del='author_del';
+    $newmsg = 'newmsg';
+    if ($old_message_table == 'privatemsg_archive') {
+      $recipient_del = 1;
+      $author_del = 1;
+      $newmsg = '0';
     }
-  }
 
-  // Step 2d: Finally, get the data from the privatemsg table.
-  if (db_table_exists('privatemsg')) {
-    $data = db_query("SELECT * FROM {privatemsg}");
-    while ($result = db_fetch_array($data)) {
-      if ($result['thread'] == 0) {
-        $result['thread_id'] = $result['id'];
-      }
-      else{
-        $result['thread_id'] = 0;
-      }
-      if ($result['author'] <> $result['recipient']) {
-        db_query("INSERT INTO {pm_message} (mid, author, subject, body, timestamp) VALUES ( %d, %d, '%s', '%s', %d )", $result['id'], $result['author'], $result['subject'], $result['message'], $result['timestamp']);
-        db_query("INSERT INTO {temp_pm_index} (mid, thread, folder, thread_id, uid, is_new, deleted) VALUES ( %d, %d, %d, %d, %d, %d, %d )", $result['id'], $result['thread'], $result['folder'], $result['thread_id'], $result['recipient'], $result['newmsg'], $result['recipient_del']);
-      }
-      db_query("INSERT INTO {temp_pm_index} (mid, thread, folder, thread_id, uid, is_new, deleted) VALUES ( %d, %d, %d, %d, %d, %d, %d )", $result['id'], $result['thread'], 0, $result['thread_id'], $result['author'], 0, $result['author_del']);
+    if (db_table_exists($old_message_table)) {
+      // Insert all message from old table.
+      db_query("INSERT INTO {pm_message} (mid, author, subject, body, timestamp)
+                SELECT id,author,subject,message,timestamp
+                FROM {$old_message_table} WHERE author <> recipient");
+
+      // Temporary index for the recipient of the message, with the proper
+      // deleted tag if the recipient deleted it. We do two queries, so we
+      // capture in the thread_id the id of the message if it was not threaded.
+      db_query("INSERT INTO {temp_pm_index} (mid, thread, folder, thread_id, uid,       is_new, deleted)
+                SELECT                        id, thread, folder, id,        recipient, $newmsg,      $recipient_del
+                FROM {$old_message_table} WHERE thread = 0");
+
+      db_query("INSERT INTO {temp_pm_index} (mid, thread, folder, thread_id, uid,       is_new, deleted)
+                SELECT                        id, thread, folder, 0,         recipient, $newmsg,      $recipient_del
+                FROM {$old_message_table} WHERE thread <> 0");
+
+
+      // Temporary index for the recipient of the message, with the proper
+      // deleted tag if the author deleted it. We do two queries, so we capture
+      // in the thread_id the id of the message if it was not threaded.
+      db_query("INSERT INTO {temp_pm_index}     (mid, thread, folder, thread_id, uid,    is_new, deleted)
+                SELECT                            id, thread, 0,      id,        author, 0,      $author_del
+                FROM {$old_message_table} WHERE thread = 0") ;
+
+      db_query("INSERT INTO {temp_pm_index} (mid, thread, folder, thread_id, uid,    is_new, deleted)
+                SELECT                        id, thread, 0,      0,         author, 0,      $author_del
+                FROM {$old_message_table} WHERE thread <> 0") ;
     }
   }
 
   // Step 3: Process the Data.
   // Step 3a: Fix the thread data.
-  $data = db_query("SELECT thread, MIN(mid) as new_thread FROM {temp_pm_index} WHERE thread_id = %d GROUP BY thread", 0);
-  while ($result = db_fetch_array($data)) {
-    db_query("UPDATE {temp_pm_index} SET thread_id = %d WHERE thread = %d", $result['new_thread'], $result['thread']);
-  }
+  $temptable = 'temp_pm_thread_min';
+  db_query_temporary('SELECT thread, min(mid) as mid FROM {temp_pm_index} WHERE thread_id = 0 GROUP BY thread', $temptable);
+  db_query("create index t2 on $temptable (thread)");
+  db_query("create index t1 on temp_pm_index (thread_id)");
+  db_query("create index t2 on temp_pm_index (thread)");
+
+  db_query("UPDATE temp_pm_index i, $temptable t SET i.thread_id = t.mid WHERE i.thread_id = 0 and i.thread = t.thread");
 
   // Step 3b: Fix and import the tagging data.
-  $data = db_query("SELECT thread_id, folder, uid FROM {temp_pm_index} WHERE folder <> %d", 0);
-  while ($result = db_fetch_array($data)) {
-    $tag_id = db_result(db_query('SELECT pmt.tag_id FROM {pm_tags} pmt INNER JOIN {privatemsg_folder} pmf ON pmt.tag = pmf.name WHERE pmf.fid = %d', $result['folder']));
-    if (db_result(db_query("SELECT COUNT(*) FROM {pm_tags_index} WHERE uid = %d AND (thread_id = %d AND tag_id = %d)", $result['uid'], $result['thread_id'], $tag_id)) == 0) {
-      db_query("INSERT INTO {pm_tags_index} (uid, tag_id, thread_id) VALUES (%d, %d, %d)", $result['uid'], $tag_id, $result['thread_id']);
-    }
-  }
+  db_query("INSERT INTO {pm_tags_index}
+            SELECT distinct pmf.uid, t.tag_id, thread_id
+            FROM {pm_tags} t INNER JOIN {privatemsg_folder} pmf ON t.tag = pmf.name, temp_pm_index tmp
+            WHERE pmf.fid = tmp.folder  and tmp.folder <> 0");
 
   // Step 3c: Copy the index data.
-  $data = db_query("SELECT * FROM {temp_pm_index}");
-  while ($result = db_fetch_array($data)) {
-    db_query("INSERT INTO {pm_index} (mid, thread_id, uid, is_new, deleted) VALUES ( %d, %d, %d, %d, %d )", $result['mid'], $result['thread_id'], $result['uid'], $result['is_new'], $result['deleted']);
-  }
+  db_query("INSERT INTO {pm_index} (mid, thread_id, uid, is_new, deleted) SELECT mid, thread_id, uid, is_new, deleted FROM {temp_pm_index}");
 
   // Step 4: Clean up.
   db_drop_table($ret, 'privatemsg');
@@ -374,6 +371,10 @@ function privatemsg_update_6000() {
     db_drop_table($ret, 'privatemsg_block_user');
   }
   db_drop_table($ret, 'temp_pm_index');
+
+  // Set a variable to indicate that this is a direct upgrade from Drupal 5,
+  // this allows to skip the slow 6003() update function.
+  variable_set('privatemsg_update_6000', 1);
 
   return $ret;
 }
@@ -417,17 +418,26 @@ function privatemsg_update_6002() {
 
 /**
  * Update function to resolve "forever new" messages.
- * 
+ *
  * As described in http://drupal.org/node/490650
  */
 function privatemsg_update_6003() {
+
+  // Sites which are directly upgrading from Drupal 5 don't have this problem.
+  // Skip this update for them, as it can be very slow.
+  if (variable_get('privatemsg_update_6000', 0)) {
+    variable_del('privatemsg_update_6000');
+    return array();
+  }
+
   $ret = array();
   // Find messages that have aformentioned problem
   $sql = "SELECT DISTINCT p1.mid, p1.uid FROM {pm_index} p1 INNER JOIN {pm_index} p2 ON p1.thread_id = p2.thread_id AND p1.mid = p2.mid INNER JOIN {pm_message} pm ON p1.uid = pm.author AND p2.uid = pm.author WHERE p1.is_new <> p2.is_new";
   $result = db_query($sql);
   while ($row = db_fetch_object($result)) {
-      privatemsg_message_change_status($row->mid, PRIVATEMSG_READ, $row );
+    privatemsg_message_change_status($row->mid, PRIVATEMSG_READ, $row);
   }
+
   $ret[] = array('success' => $result !== FALSE, 'query' => check_plain($sql));
   return $ret;
 }

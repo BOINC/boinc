@@ -1,5 +1,5 @@
 <?php
-// $Id: content.node_form.inc,v 1.7.2.21 2009/07/18 00:40:20 markuspetrux Exp $
+// $Id: content.node_form.inc,v 1.7.2.24 2010/12/30 13:55:30 yched Exp $
 
 /**
  * @file
@@ -243,7 +243,7 @@ function content_multiple_value_form(&$form, &$form_state, $field, $items) {
     $form_element['#prefix'] = '<div id="'. $field_name_css .'-items">';
     $form_element['#suffix'] = '</div>';
     $form_element[$field_name .'_add_more']['#prefix'] = '<div class="content-add-more clear-block">';
-    $form_element[$field_name .'_add_more']['#suffix'] =  '</div>';
+    $form_element[$field_name .'_add_more']['#suffix'] = '</div>';
   }
   return $form_element;
 }
@@ -264,7 +264,6 @@ function content_add_more_submit($form, &$form_state) {
     $form_state['item_count'][$field_name] = count($form_state['values'][$field_name]);
   }
 }
-
 
 /**
  * Menu callback for AHAH addition of new empty widgets.
@@ -322,7 +321,14 @@ function content_add_more_js($type_name_url, $field_name) {
   $form_state['item_count'] = array($field_name => count($_POST[$field_name]) + 1);
   $form_element = content_field_form($form, $form_state, $field);
   // Let other modules alter it.
-  drupal_alter('form', $form_element, array(), 'content_add_more_js');
+  // We pass an empty array as hook_form_alter's usual 'form_state' parameter,
+  // instead of $form_state (for reasons we may never remember).
+  // However, this argument is still expected to be passed by-reference
+  // (and PHP5.3 will throw an error if it isn't.) This leads to:
+  $data = &$form_element;
+  $empty_form_state = array();
+  $data['__drupal_alter_by_ref'] = array(&$empty_form_state);
+  drupal_alter('form', $data, 'content_add_more_js');
 
   // Add the new element at the right place in the (original, unbuilt) form.
   if (module_exists('fieldgroup') && ($group_name = _fieldgroup_field_get_group($type['type'], $field_name))) {

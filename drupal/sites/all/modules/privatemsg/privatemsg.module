@@ -1,5 +1,4 @@
 <?php
-// $Id: privatemsg.module,v 1.70.2.30.2.91.2.112 2010/08/11 13:17:00 berdir Exp $
 
 /**
  * @file
@@ -598,7 +597,7 @@ function privatemsg_theme() {
   );
 }
 
-function privatemsg_preprocess_privatemsg_view(&$vars) {
+function template_preprocess_privatemsg_view(&$vars) {
 //  drupal_set_message('<pre>'. print_r($vars,1 ) . '</pre>');
 
   $message = $vars['message'];
@@ -631,7 +630,7 @@ function privatemsg_preprocess_privatemsg_view(&$vars) {
   }
 }
 
-function privatemsg_preprocess_privatemsg_recipients(&$vars) {
+function template_preprocess_privatemsg_recipients(&$vars) {
   $vars['participants'] = ''; // assign a default empty value
   if (isset($vars['message']['participants'])) {
     $vars['participants'] = _privatemsg_format_participants($vars['message']['participants']);
@@ -995,6 +994,9 @@ function pm_send_validate($form, &$form_state) {
   // The actual message that is being sent, we create this during validation and pass to submit to send out.
   $message = $form_state['values'];
   $message['timestamp'] = time();
+  // Avoid subjects which only consist of a space as these can not be clicked.
+  $message['subject'] = trim($message['subject']);
+
 
   $trimed_body = trim(truncate_utf8(strip_tags($message['body']), 50, TRUE, TRUE));
   if (empty($message['subject']) && !empty($trimed_body)) {
@@ -1758,6 +1760,8 @@ function _privatemsg_validate_message(&$message, $form = FALSE) {
     }
   }
 
+  // Prevent subjects which only consist of a space as these can not be clicked.
+  $message['subject'] = trim($message['subject']);
   if (empty($message['subject'])) {
     if ($form) {
       form_set_error('subject', t('Disallowed to send a message without subject'));
@@ -1768,7 +1772,7 @@ function _privatemsg_validate_message(&$message, $form = FALSE) {
   }
 
   // Don't allow replies without a body.
-  if (!empty($message['thread_id']) && empty($message['body'])) {
+  if (!empty($message['thread_id']) && ($message['body'] === NULL || $message['body'] === '') ) {
     if ($form) {
       form_set_error('body', t('Disallowed to send reply without a message.'));
     }
@@ -1826,7 +1830,8 @@ function _privatemsg_validate_message(&$message, $form = FALSE) {
     }
   }
 
-  $messages += module_invoke_all('privatemsg_message_validate', $message, $form);
+  $messages = array_merge_recursive(module_invoke_all('privatemsg_message_validate', $message, $form), $messages);
+
   // Check if there are errors in $messages or if $form is TRUE, there are form errors.
   $success = empty($messages['error']) || ($form && count((array)form_get_errors()) > 0);
   return array(
@@ -1940,7 +1945,7 @@ function privatemsg_get_link($recipients, $account = array(), $subject = NULL) {
     if (!privatemsg_user_access('read privatemsg', $recipient)) {
       continue;
     }
-    if (count(module_invoke_all('privatemsg_block_message', $account, array($recipient))) > 0) {
+    if (count(module_invoke_all('privatemsg_block_message', $account, array($recipient->uid => $recipient))) > 0) {
       continue;
     }
     $validated[] = $recipient->uid;

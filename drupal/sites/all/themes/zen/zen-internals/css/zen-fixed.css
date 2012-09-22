@@ -1,6 +1,6 @@
-/* $Id: zen-fixed.css,v 1.12.2.3 2010/06/26 18:29:22 johnalbin Exp $ */
 
-/* Id: html-reset.css,v 1.6.2.2 2010/06/26 15:36:03 johnalbin Exp */
+
+/* html-reset.css */
 
 /**
  * @file
@@ -293,7 +293,8 @@ fieldset {
   margin: 1em 0;
   padding: 0.5em;
 }
-/* Id: wireframes.css,v 1.10 2009/11/04 21:01:11 johnalbin Exp */
+
+/* wireframes.css */
 
 /**
  * @file
@@ -319,7 +320,8 @@ fieldset {
   padding: 2px;
   border: 1px solid #ccc;
 }
-/* Id: layout-fixed.css,v 1.17 2009/11/05 12:09:53 johnalbin Exp */
+
+/* layout-fixed.css */
 
 /**
  * @file
@@ -533,7 +535,8 @@ body {
   overflow-y: hidden;
 }
 */
-/* Id: page-backgrounds.css,v 1.8 2009/11/04 20:57:49 johnalbin Exp */
+
+/* page-backgrounds.css */
 
 /**
  * @file
@@ -573,7 +576,8 @@ body {
 
 #footer .section {
 }
-/* Id: tabs.css,v 1.2 2009/08/12 08:03:53 johnalbin Exp */
+
+/* tabs.css */
 
 /**
  * @file
@@ -629,18 +633,21 @@ ul.primary li a .tab {
   background: url(../images/tab-right.png) no-repeat right -38px;
 }
 
-ul.primary li a:hover {
+ul.primary li a:hover,
+ul.primary li a:focus {
   border-width: 0;
   background-color: transparent;
   background: url(../images/tab-left.png) no-repeat left -76px;
 }
 
-ul.primary li a:hover .tab {
+ul.primary li a:hover .tab,
+ul.primary li a:focus .tab {
   background: url(../images/tab-right.png) no-repeat right -76px;
 }
 
 ul.primary li.active a,
-ul.primary li.active a:hover {
+ul.primary li.active a:hover,
+ul.primary li.active a:focus {
   border-width: 0;
   color: #000;
   background-color: transparent;
@@ -648,7 +655,8 @@ ul.primary li.active a:hover {
 }
 
 ul.primary li.active a .tab,
-ul.primary li.active a:hover .tab {
+ul.primary li.active a:hover .tab,
+ul.primary li.active a:focus .tab {
   background: url(../images/tab-right.png) no-repeat right 0;
 }
 
@@ -687,17 +695,20 @@ ul.secondary a .tab {
   line-height: 18px;
 }
 
-ul.secondary a:hover {
+ul.secondary a:hover,
+ul.secondary a:focus {
   background: url(../images/tab-secondary.png) repeat-x left bottom;
 }
 
 ul.secondary a.active,
-ul.secondary a.active:hover {
+ul.secondary a.active:hover,
+ul.secondary a.active:focus {
   border: 1px solid #c0c0c0;
   color: #000;
   background: url(../images/tab-secondary.png) repeat-x left top;
 }
-/* Id: messages.css,v 1.3 2009/08/12 08:37:42 johnalbin Exp */
+
+/* messages.css */
 
 /**
  * @file
@@ -752,7 +763,8 @@ div.messages ul {
   margin-top: 0;
   margin-bottom: 0;
 }
-/* Id: pages.css,v 1.18.2.3 2010/06/26 17:18:58 johnalbin Exp */
+
+/* pages.css */
 
 /**
  * @file
@@ -1068,7 +1080,8 @@ ul.links li {
   clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
   clip: rect(1px, 1px, 1px, 1px);
 }
-/* Id: block-editing.css,v 1.3 2009/11/05 14:01:26 johnalbin Exp */
+
+/* block-editing.css */
 
 /**
  * @file
@@ -1095,7 +1108,8 @@ div.block.with-block-editing div.edit {
 div.block.with-block-editing:hover div.edit {
   display: block;
 }
-/* Id: blocks.css,v 1.4 2009/11/05 11:05:39 johnalbin Exp */
+
+/* blocks.css */
 
 /**
  * @file
@@ -1105,6 +1119,12 @@ div.block.with-block-editing:hover div.edit {
 
 .block /* Block wrapper */ {
   margin-bottom: 1em;
+}
+
+.block.first /* The first block in the region */ {
+}
+
+.block.last /* The last block in the region */ {
 }
 
 .block.region-odd /* Zebra striping for each block in the region */ {
@@ -1187,11 +1207,14 @@ div.block.with-block-editing:hover div.edit {
 
 #block-user-3 /* "Who's online" block for a list of the online users */ {
 }
-/* Id: navigation.css,v 1.5 2009/11/04 19:42:41 johnalbin Exp */
+
+/* navigation.css */
 
 /**
  * @file
  * Navigation Styling
+ *
+ * Default menu styling (ul.menu) is defined in system-menus.css.
  */
 
 
@@ -1231,15 +1254,8 @@ li a.active {
  */
 .block-menu_block {
 }
-/* Id: panels-styles.css,v 1.1.2.1 2009/12/12 15:31:54 johnalbin Exp */
 
-/**
- * @file
- * Panels Styling
- */
-
-
-/* Id: views-styles.css,v 1.1 2009/08/12 04:25:15 johnalbin Exp */
+/* views-styles.css */
 
 /**
  * @file
@@ -1247,7 +1263,8 @@ li a.active {
  */
 
 
-/* Id: nodes.css,v 1.6 2009/11/02 15:37:29 johnalbin Exp */
+
+/* nodes.css */
 
 /**
  * @file
@@ -1330,7 +1347,8 @@ li a.active {
 .preview .node /* Preview of the content before submitting new or updated content */ {
   /* background-color: #ffffea; */ /* Drupal core uses a #ffffea background */
 }
-/* Id: comments.css,v 1.5 2009/11/01 20:54:20 johnalbin Exp */
+
+/* comments.css */
 
 /**
  * @file
@@ -1342,7 +1360,7 @@ li a.active {
   margin: 1em 0;
 }
 
-#comments .title /* Heading for the list of comments */ {
+#comments h2.title /* Heading for the list of comments */ {
 }
 
 .comment /* Wrapper for a single comment */ {
@@ -1411,7 +1429,8 @@ li a.active {
 .preview .comment /* Preview of the comment before submitting new or updated comment */ {
   /* background-color: #ffffea; */ /* Drupal core uses a #ffffea background */
 }
-/* Id: forms.css,v 1.3 2009/08/12 08:37:42 johnalbin Exp */
+
+/* forms.css */
 
 /**
  * @file
@@ -1547,7 +1566,8 @@ form thead th {
 form tbody th {
   border-bottom: 1px solid #ccc;
 }
-/* Id: fields.css,v 1.3 2009/08/12 08:03:52 johnalbin Exp */
+
+/* fields.css */
 
 /**
  * @file

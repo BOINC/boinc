@@ -1,6 +1,4 @@
 <?php
-// $Id: template.comment.inc,v 1.4 2009/11/01 20:46:45 johnalbin Exp $
-
 /**
  * @file
  * Contains functions only needed when rendering comments.
@@ -30,10 +28,10 @@ function _zen_preprocess_comment(&$vars, $hook) {
   // Add an "unpublished" flag.
   if ($vars['comment']->status == COMMENT_NOT_PUBLISHED) {
     $vars['unpublished'] = TRUE;
+    $vars['classes_array'][] = $vars['status'];
   }
   else {
     $vars['unpublished'] = FALSE;
-    $vars['classes_array'][] = $vars['status'];
   }
   // Zebra striping.
   if ($vars['id'] == 1) {

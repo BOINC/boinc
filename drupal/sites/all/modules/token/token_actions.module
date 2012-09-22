@@ -1,5 +1,4 @@
 <?php
-// $Id: token_actions.module,v 1.4.2.9 2010/03/25 17:49:43 davereid Exp $
 
 /**
  * @file
@@ -13,7 +12,7 @@
  */
 
 /**
- * Implementation of hook_action_info().
+ * Implements hook_action_info().
  */
 function token_actions_action_info() {
   return array(
@@ -53,79 +52,18 @@ function token_actions_action_info() {
 }
 
 /**
- * Return a form definition so the Send email action can be configured.
- *
- * @param $context
- *   Default values (if we are editing an existing action instance).
- * @return
- *   Form definition.
+ * Implements hook_mail().
  */
-function token_actions_send_email_action_form($context) {
-  // Set default values for form.
-  if (!isset($context['recipient'])) {
-    $context['recipient'] = '';
-  }
-  if (!isset($context['subject'])) {
-    $context['subject'] = '';
-  }
-  if (!isset($context['message'])) {
-    $context['message'] = '';
-  }
-
-  $form['recipient'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Recipient'),
-    '#default_value' => $context['recipient'],
-    '#size' => '20',
-    '#maxlength' => '254',
-    '#description' => t('The email address to which the message should be sent.'),
-  );
-  $form['subject'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Subject'),
-    '#default_value' => $context['subject'],
-    '#size' => '20',
-    '#maxlength' => '254',
-    '#description' => t('The subject of the message.'),
-  );
-  $form['message'] = array(
-    '#type' => 'textarea',
-    '#title' => t('Message'),
-    '#default_value' => $context['message'],
-    '#cols' => '80',
-    '#rows' => '20',
-    '#description' => t('The message that should be sent.'),
-  );
-
-  $form['help'] = array(
-    '#type' => 'fieldset',
-    '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
-    '#title' => t('Placeholder tokens'),
-    '#description' => t("The following placeholder tokens can be used in to generate the URL path. Some tokens may not be available, depending on the context in which the action is triggered."),
-  );
-
-  $form['help']['tokens'] = array(
-    '#value' => theme('token_help', 'all'),
-  );
-
-  return $form;
-}
-
-function token_actions_send_email_action_submit($form, &$form_state) {
-  // Process the HTML form to store configuration. The keyed array that
-  // we return will be serialized to the database.
-  $params = array(
-    'recipient' => $form_state['values']['recipient'],
-    'subject'   => $form_state['values']['subject'],
-    'message'   => $form_state['values']['message'],
-  );
-  return $params;
+function token_actions_mail($key, &$message, $params) {
+  $message['subject'] = $params['subject'];
+  $message['body'][] = $params['body'];
 }
 
 /**
- * Implementation of a configurable Drupal action.
- * Sends an email.
+ * Action callback to send a tokenized e-mail.
+ *
+ * @see token_actions_send_email_action_form()
+ * @see token_actions_send_email_action_submit()
  */
 function token_actions_send_email_action($object, $context) {
   token_normalize_context($context);
@@ -142,19 +80,128 @@ function token_actions_send_email_action($object, $context) {
   }
 }
 
-function token_actions_mail($key, &$message, $params) {
-  $message['subject'] = $params['subject'];
-  $message['body'][] = $params['body'];
-}
+/**
+ * Form builder; Prepare a form for a tokenized e-mail action.
+ *
+ * @see token_actions_send_email_action()
+ * @see token_actions_send_email_action_validate()
+ * @see token_actions_send_email_action_submit()
+ */
+function token_actions_send_email_action_form($context) {
+  // Set default values for form.
+  $context += array(
+    'recipient' => '',
+    'subject' => '',
+    'message' => '',
+  );
 
-function token_actions_message_action_form($context) {
+  $form['recipient'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Recipient'),
+    '#default_value' => $context['recipient'],
+    '#required' => TRUE,
+    '#size' => '20',
+    '#maxlength' => '254',
+    '#description' => t('The email address to which the message should be sent.'),
+    '#element_validate' => array('token_element_validate'),
+    '#token_types' => array('all'),
+  );
+  $form['subject'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Subject'),
+    '#default_value' => $context['subject'],
+    '#size' => '20',
+    '#maxlength' => '254',
+    '#description' => t('The subject of the message.'),
+    '#element_validate' => array('token_element_validate'),
+    '#token_types' => array('all'),
+  );
   $form['message'] = array(
     '#type' => 'textarea',
     '#title' => t('Message'),
-    '#default_value' => isset($context['message']) ? $context['message'] : '',
+    '#default_value' => $context['message'],
+    '#required' => TRUE,
+    '#cols' => '80',
+    '#rows' => '20',
+    '#description' => t('The message that should be sent.'),
+    '#element_validate' => array('token_element_validate'),
+    '#token_types' => array('all'),
+  );
+
+  $form['help'] = array(
+    '#type' => 'fieldset',
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#title' => t('Placeholder tokens'),
+    '#description' => t("The following placeholder tokens can be used in to generate the URL path. Some tokens may not be available, depending on the context in which the action is triggered."),
+  );
+  $form['help']['tokens'] = array(
+    '#value' => theme('token_tree', 'all'),
+  );
+
+  return $form;
+}
+
+/**
+ * Validate token_actions_send_email_action form submissions.
+ *
+ * @see token_actions_send_email_action()
+ * @see token_actions_send_email_action_form()
+ * @see token_actions_send_email_action_submit()
+ */
+function token_actions_send_email_action_validate($form, $form_state) {
+  $form_values = $form_state['values'];
+  if (!valid_email_address($form_values['recipient']) && strpos($form_values['recipient'], 'mail') === FALSE) {
+    // We want the literal %mail placeholder to be emphasized in the error message.
+    form_set_error('recipient', t('Enter a valid email address or use a token e-mail address such as %mail.', array('%mail' => '[mail]')));
+  }
+}
+
+/**
+ * Process token_actions_send_email_action form submissions.
+ *
+ * @see token_actions_send_email_action()
+ * @see token_actions_send_email_action_form()
+ * @see token_actions_send_email_action_validate()
+ */
+function token_actions_send_email_action_submit($form, $form_state) {
+  return array(
+    'recipient' => $form_state['values']['recipient'],
+    'subject'   => $form_state['values']['subject'],
+    'message'   => $form_state['values']['message'],
+  );
+}
+
+/**
+ * Action callback to send a message to the current user's screen.
+ *
+ * @see token_actions_message_action_form()
+ * @see token_actions_message_action_submit()
+ */
+function token_actions_message_action(&$object, $context = array()) {
+  token_normalize_context($context);
+  $context['message'] = token_replace_multiple($context['message'], $context);
+  drupal_set_message($context['message']);
+}
+
+/**
+ * Form builder; Prepare a form for a tokenized message action.
+ *
+ * @see token_actions_message_action()
+ * @see token_actions_message_action_submit()
+ */
+function token_actions_message_action_form($context) {
+  $context += array('message' => '');
+
+  $form['message'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Message'),
+    '#default_value' => $context['message'],
     '#required' => TRUE,
     '#rows' => '8',
     '#description' => t('The message to be displayed to the current user.'),
+    '#element_validate' => array('token_element_validate'),
+    '#token_types' => array('all'),
   );
 
   $form['help'] = array(
@@ -164,40 +211,53 @@ function token_actions_message_action_form($context) {
     '#title' => t('Placeholder tokens'),
     '#description' => t("The following placeholder tokens can be used in the custom message text. Some tokens may not be available, depending on the context in which the action is triggered."),
   );
-
   $form['help']['tokens'] = array(
-    '#value' => theme('token_help', 'all'),
+    '#value' => theme('token_tree', 'all'),
   );
 
   return $form;
 }
 
-function token_actions_message_action_submit($form, &$form_state) {
+/**
+ * Process token_actions_message_action form submissions.
+ *
+ * @see token_actions_message_action()
+ * @see token_actions_message_action_form()
+ */
+function token_actions_message_action_submit($form, $form_state) {
   return array('message' => $form_state['values']['message']);
 }
 
 /**
- * Implementation of a configurable Drupal action.
- * Sends a configurable message to the current user's screen.
+ * Action callback to redirect the user to a tokenized URL.
+ *
+ * @see token_actions_goto_action_form()
+ * @see token_actions_goto_action_submit()
  */
-function token_actions_message_action(&$object, $context = array()) {
+function token_actions_goto_action($object, $context) {
   token_normalize_context($context);
-  $context['message'] = token_replace_multiple($context['message'], $context);
-  drupal_set_message($context['message']);
+  drupal_goto(token_replace_multiple($context['url'], $context));
 }
 
 /**
- * Implementation of a configurable Drupal action.
- * Redirect user to a URL.
+ * Form builder; Prepare a form for a tokenized redirect action.
+ *
+ * @see token_actions_goto_action()
+ * @see token_actions_goto_action_submit()
  */
 function token_actions_goto_action_form($context) {
+  $context += array('url' => '');
+
   $form['url'] = array(
     '#type' => 'textfield',
     '#title' => t('URL'),
     '#description' => t('The URL to which the user should be redirected. This can be an internal URL like node/1234 or an external URL like http://drupal.org.'),
-    '#default_value' => isset($context['url']) ? $context['url'] : '',
+    '#default_value' => $context['url'],
     '#required' => TRUE,
+    '#element_validate' => array('token_element_validate'),
+    '#token_types' => array('all'),
   );
+
   $form['help'] = array(
     '#type' => 'fieldset',
     '#collapsible' => TRUE,
@@ -205,35 +265,36 @@ function token_actions_goto_action_form($context) {
     '#title' => t('Placeholder tokens'),
     '#description' => t("The following placeholder tokens can be used in the URL path. Some tokens may not be available, depending on the context in which the action is triggered."),
   );
-
   $form['help']['tokens'] = array(
-    '#value' => theme('token_help', 'all'),
+    '#value' => theme('token_tree', 'all'),
   );
 
   return $form;
 }
 
-function token_actions_goto_action_submit($form, &$form_state) {
-  return array(
-    'url' => $form_state['values']['url']
-  );
-}
-
-function token_actions_goto_action($object, $context) {
-  token_normalize_context($context);
-  drupal_goto(token_replace_multiple($context['url'], $context));
+/**
+ * Process token_actions_goto_action form submissions.
+ *
+ * @see token_actions_goto_action()
+ * @see token_actions_goto_action_form()
+ */
+function token_actions_goto_action_submit($form, $form_state) {
+  return array('url' => $form_state['values']['url']);
 }
 
 /**
- * Load, into the context, the common objects user and node so we can use their
- * tokens. Sometimes Trigger, or Actions, load them for us, but sometimes not.
+ * Normalize an action context for use with token_replace_multiple().
  */
 function token_normalize_context(&$context) {
   $context['global'] = NULL;
+
   if (empty($context['user']) && !empty($context['node'])) {
     $context['user'] = user_load(array('uid' => $context['node']->uid));
   }
   if (empty($context['node']) && !empty($context['comment']) && !empty($context['comment']->nid)) {
     $context['node'] = node_load($context['comment']->nid);
+  }
+  if (empty($context['user']) && !empty($context['account'])) {
+    $context['user'] = $context['account'];
   }
 }

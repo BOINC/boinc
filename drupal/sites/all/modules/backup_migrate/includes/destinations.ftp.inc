@@ -133,7 +133,7 @@ function drupal_ftp_connect(&$ftp) {
     $ftp = drupal_ftp_ftp_object();
   }
 
-  if (!$ftp->__conn && !drupal_ftp_connected($ftp)) {
+  if (empty($ftp->__conn) && !drupal_ftp_connected($ftp)) {
     // Attempt to connect to the remote server
     $ftp->__conn = @ftp_connect($ftp->__server, $ftp->__port);
 

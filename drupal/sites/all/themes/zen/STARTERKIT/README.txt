@@ -1,5 +1,3 @@
-// $Id: README.txt,v 1.3 2009/11/08 18:28:48 johnalbin Exp $
-
 BUILD YOUR OWN SUB-THEME
 ------------------------
 
@@ -27,8 +25,9 @@ installed in sites/all/themes/, but any valid theme directory is acceptable
   see http://drupal.org/node/245802
 
  1. Copy the STARTERKIT folder out of the zen/ folder and rename it to be your
-    new sub-theme. IMPORTANT: Only lowercase letters and underscores should be
-    used for the name of your sub-theme.
+    new sub-theme. IMPORTANT: The name of your sub-theme must start with an
+    alphabetic character and can only contain lowercase letters, numbers and
+    underscores.
 
     For example, copy the sites/all/themes/zen/STARTERKIT folder and rename it
     as sites/all/themes/foo.
@@ -41,9 +40,9 @@ installed in sites/all/themes/, but any valid theme directory is acceptable
     the name of your new sub-theme and remove the ".txt" extension. Then edit
     the .info file by editing the name and description field.
 
-    For example, rename the foo/STARTERKIT.info file to foo/foo.info. Edit the
-    foo.info file and change "name = Zen Sub-theme Starter Kit" to "name = Foo"
-    and "description = Read..." to "description = A Zen sub-theme".
+    For example, rename the foo/STARTERKIT.info.txt file to foo/foo.info. Edit
+    the foo.info file and change "name = Zen Sub-theme Starter Kit" to
+    "name = Foo" and "description = Read..." to "description = A Zen sub-theme".
 
       Why? The .info file describes the basic things about your theme: its
       name, description, features, template regions, CSS files, and JavaScript
@@ -87,17 +86,27 @@ installed in sites/all/themes/, but any valid theme directory is acceptable
  5. Log in as an administrator on your Drupal site and go to Administer > Site
     building > Themes (admin/build/themes) and enable your new sub-theme.
 
+ 6. Internet explorer has a nasty bug that limits you to 31 stylsheets total. To
+    get around this limitation during theme development, download, install and
+    configure the "IE CSS Optimizer" module.
+
+    http://drupal.org/project/ie_css_optimizer
+
+    On a production server, you should enable full optimization of the "Optimize
+    CSS files" option on the Admin Performance page at
+    admin/settings/performance.
+
 
 Optional:
 
- 6. MODIFYING ZEN CORE TEMPLATE FILES:
+ 7. MODIFYING ZEN CORE TEMPLATE FILES:
     If you decide you want to modify any of the .tpl.php template files in the
     zen folder, copy them to your sub-theme's folder before making any changes.
     And then rebuild the theme registry.
 
     For example, copy zen/templates/page.tpl.php to foo/templates/page.tpl.php.
 
- 7. THEMEING DRUPAL'S SEARCH FORM:
+ 8. THEMEING DRUPAL'S SEARCH FORM:
     Copy the search-theme-form.tpl.php template file from the modules/search/
     folder and place it in your sub-theme's folder. And then rebuild the theme
     registry.
@@ -110,7 +119,7 @@ Optional:
       your sub-theme's directory and then rebuild the theme registry. See the
       Drupal 6 Theme Guide for more info: http://drupal.org/node/173880
 
- 8. FURTHER EXTENSIONS OF YOUR SUB-THEME:
+ 9. FURTHER EXTENSIONS OF YOUR SUB-THEME:
     Discover further ways to extend your sub-theme by reading Zen's
     documentation online at:
       http://drupal.org/node/193318
