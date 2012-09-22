@@ -384,6 +384,7 @@ function boincimport_users() {
       (
         (SELECT id FROM {user} WHERE teamid > 0 OR id IN(%s)) UNION
         (SELECT DISTINCT user FROM {post}) UNION
+        (SELECT DISTINCT userid FROM {subscriptions}) UNION
         (SELECT DISTINCT user_src FROM {friend} WHERE reciprocated = 1) UNION
         (SELECT DISTINCT user_dest FROM {friend} WHERE reciprocated = 1) UNION
         (SELECT DISTINCT userid FROM {forum_preferences} WHERE ignorelist <> '') UNION
@@ -437,7 +438,7 @@ function boincimport_users() {
     $last_status_update += $processing_time;
     $batches_without_update++;
     if ($last_status_update > 60 OR $batches_without_update > 50 OR $batch + $batch_size >= $batch_limit) {
-      $progress = round(100*($batch+$batch_size)/$batch_limit, 1);
+      $progress = round(100*$total_accounts_imported/$user_count, 1);
       echo "<br/>\n" . t("%num_accounts accounts imported in %time (%progress% complete)", array('%num_accounts' => $total_accounts_imported, '%time' => gmdate('H:i:s', $total_runtime), '%progress' => $progress));
       ob_flush();
       flush();
@@ -1169,7 +1170,9 @@ function boincimport_forum_topics() {
   
   $count = db_result(db_query('SELECT COUNT(*) FROM {boincimport_temp_topic}'));
   drupal_set_message(t('Successfully Imported %count topics', array('%count' => $count)));
-
+  
+  boincimport_subscriptions();
+  
   // Indicate that the process is complete and return to the main migration page
   echo "<br/>\n<br/>\n";
   echo 'complete. redirecting';
@@ -1350,6 +1353,88 @@ function boincimport_forum_posts() {
   ob_flush();
   flush();
 }
+
+
+/**
+ * Import subscriptions for users
+ */
+function boincimport_subscriptions() {
+  $pre = variable_get('boincimport_table_prefix', '');
+  $subscriptions_imported = 0;
+  $start_time = microtime(true);
+  $total_runtime = 0;
+  $last_status_update = time();
+  
+  // See how many subscriptions need to be processed
+  db_set_active('boinc');
+  $users_with_subscriptions = db_result(db_query('
+    SELECT COUNT(DISTINCT userid) FROM %ssubscriptions'));
+  $subscription_count = db_result(db_query('
+    SELECT COUNT(*) FROM %ssubscriptions'));
+  db_set_active('default');
+  
+  echo "<br/>\n<br/>\n";
+  
+  if (!$subscription_count) {
+    drupal_set_message(t('There were no subscriptions found: Skipping import'), 'warning');
+    echo t('There were no subscriptions found: Skipping import.');
+    ob_flush();
+    flush();
+    return;
+  }
+
+  drupal_set_message(t('Found %subscription_count subscriptions: Beginning Import', array('%subscription_count' => $subscription_count)));
+  
+  // Subscription flagging requires the use of the Drupal user account object,
+  // therefore it requires batch processing to avoid exhausting system
+  // resources. (see also boincimport_users() function)
+  
+  $batch_size = variable_get('boincimport_user_batch_size', 50);
+  $batch_limit = $users_with_subscriptions + ($users_with_subscriptions % $batch_size);
+  $import_script_path = dirname(__FILE__) . '/includes';
+  $import_script = "{$import_script_path}/import_subscriptions.php";
+  $total_subscriptions_imported = 0;
+  $total_runtime = 0;
+  $last_status_update = 0;
+  $batches_without_update = 0;
+  
+  echo t('Importing %subscription_count subscriptions from BOINC database', array('%subscription_count' => $subscription_count));
+  ob_flush();
+  flush();
+  
+  for ($batch = 0; $batch < $batch_limit; $batch+=$batch_size) {
+    // Import a batch of subscriptions and indicate progress
+    $start_time = microtime(true);
+    $subscriptions_imported = 0;
+    $subscriptions_imported = (int) exec("php {$import_script} {$batch} {$batch_size}");
+    $processing_time = round(microtime(true) - $start_time, 2);
+    echo '.';
+    ob_flush();
+    flush();
+    
+    // Keep a running tally of things and provide occasional status updates
+    $total_subscriptions_imported += $subscriptions_imported;
+    $total_runtime += $processing_time;
+    $last_status_update += $processing_time;
+    $batches_without_update++;
+    if ($last_status_update > 60 OR $batches_without_update > 50 OR $batch + $batch_size >= $batch_limit) {
+      $progress = round(100*$total_subscriptions_imported/$subscription_count, 1);
+      echo "<br/>\n" . t("%num_subscriptions subscriptions imported in %time (%progress% complete)", array('%num_subscriptions' => $total_subscriptions_imported, '%time' => gmdate('H:i:s', $total_runtime), '%progress' => $progress));
+      ob_flush();
+      flush();
+      $last_status_update = 0;
+      $batches_without_update = 0;
+    }
+  }
+  
+  // Get the final count of subscriptions
+  drupal_set_message(t('Successfully imported %count subscriptions', array('%count' => $total_subscriptions_imported)));
+}
+
+
+
+
+
 
 /**
  * Clean UP

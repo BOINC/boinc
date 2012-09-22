@@ -113,6 +113,7 @@ function boincuser_register_make_drupal_user($boinc_user) {
   if ($boinc_user) {
     $account = boincuser_create_drupal_user($boinc_user);
     boincuser_create_drupal_profile($account, $boinc_user);
+    boincuser_pull_subscriptions($account);
   }
   return $account;
 }
@@ -258,6 +259,7 @@ function boincuser_pull_subscriptions($account = NULL) {
   db_set_active('default');
   
   $flag = flag_get_flag('subscriptions') or die('no "subscriptions" flag defined');
+  $count = 0;
   while ($thread_id = db_result($subscriptions)) {
     // For each BOINC thread ID subscribed, look up the corresponding node ID
     $nid = db_result(db_query('
@@ -265,7 +267,9 @@ function boincuser_pull_subscriptions($account = NULL) {
       WHERE topic_id = %d', $thread_id));
     // Flag this node for the user
     $flag->flag('flag', $nid, $account);
+    $count++;
   }
+  return $count;
 }
 
 

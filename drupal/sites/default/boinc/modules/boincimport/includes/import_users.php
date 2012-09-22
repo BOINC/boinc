@@ -50,6 +50,7 @@
       (
         (SELECT id FROM {user} WHERE teamid > 0 OR id IN(%s)) UNION
         (SELECT DISTINCT user FROM {post}) UNION
+        (SELECT DISTINCT userid FROM {subscriptions}) UNION
         (SELECT DISTINCT user_src FROM {friend} WHERE reciprocated = 1) UNION
         (SELECT DISTINCT user_dest FROM {friend} WHERE reciprocated = 1) UNION
         (SELECT DISTINCT userid FROM {forum_preferences} WHERE ignorelist <> '') UNION
