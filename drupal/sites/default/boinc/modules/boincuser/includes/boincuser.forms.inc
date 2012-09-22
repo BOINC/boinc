@@ -175,30 +175,27 @@ function boincuser_create_drupal_profile($account, $boinc_user) {
   
   // Load the BOINC profile, if available
   if ($boinc_user->has_profile) {
-  watchdog('boincuser', "has_profile");
     $boinc_profile = BoincProfile::lookup("userid={$boinc_user->id}");
     $profile_background = $boinc_profile->response1;
     $profile_opinions = $boinc_profile->response2;
     if ($boinc_profile->has_picture) {
-  watchdog('boincuser', "has_picture");
       // Load picture; load validators; determine where to store it in Drupal
       $image_path = "{$image_dir}{$boinc_user->id}.jpg";
-  watchdog('boincuser', "image_path: $image_path");
       $profile_image = get_cck_image_object($image_path, 'field_profile_image', 'profile', TRUE);
       // If the user does not have a different image as an avatar, use this one
       if (!$boinc_user->prefs->avatar) {
-  watchdog('boincuser', "but no avatar...");
         $avatar_image = get_cck_image_object($image_path, 'field_image', 'profile', TRUE);
       }
     }
     if ($boinc_user->prefs->avatar) {
       $image_path = "{$image_dir}{$boinc_user->id}_avatar.jpg";
       $avatar_image = get_cck_image_object($image_path, 'field_image', 'profile', TRUE);
-  watchdog('boincuser', "yes avatar and path: $image_path");
     }
   }
-                   
- if (is_null($avatar_image)) watchdog('boincuser', "avatar null");
+  $default_input_format = db_result(db_query("
+    SELECT format FROM {filter_formats} WHERE name = '%s'", 'Rich text'));
+  if (!$default_input_format) $default_input_format = 1;
+  if (is_null($avatar_image)) watchdog('boincuser', "avatar null");
   if (is_null($profile_image)) watchdog('boincuser', "profile image null");
   // Populate the profile object
   $profile_node = new stdClass();
@@ -210,7 +207,7 @@ function boincuser_create_drupal_profile($account, $boinc_user) {
   $profile_node->status = 1;
   $profile_node->promote = 0;
   $profile_node->sticky = 0;
-  $profile_node->format = 4;       // [TODO] This should be a config variable
+  $profile_node->format = $default_input_format;
   $profile_node->uid = $account->uid;
   $profile_node->field_display_name[]['value'] = $boinc_user->name;
   $profile_node->field_country[]['value'] = $boinc_user->country;

@@ -856,11 +856,15 @@ function boincimport_private_msgs() {
     $uid = get_drupal_id($pm->userid);
     $sender_uid = get_drupal_id($pm->senderid);
     
-    // First save the message ('format = 4' is rich text) [TODO] Hard coded???
+    $default_input_format = db_result(db_query("
+      SELECT format FROM {filter_formats} WHERE name = '%s'", 'Rich text'));
+    if (!$default_input_format) $default_input_format = 1;
+    
+    // First save the message
     db_query("
       INSERT INTO {pm_message} (subject, author, body, format, timestamp)
       VALUES ('%s', %d, '%s', %d, %d)",
-      $pm->subject, $sender_uid, $pm->content, 4, $pm->date
+      $pm->subject, $sender_uid, $pm->content, $default_input_format, $pm->date
     );
     $mid = db_last_insert_id('pm_message', 'mid');
     
@@ -1485,7 +1489,6 @@ function boincimport_process_cleanup() {
   variable_del('boincimport_import_poll_started');
   variable_del('boincimport_import_poll_successful');
   variable_del('boincimport_import_pm_successful');
-  variable_del('boincimport_admin_user');
   variable_del('boincimport_encode');
   variable_del('boincimport_encoding_phpbb');
   variable_del('boincimport_encoding_drupal');

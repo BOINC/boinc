@@ -50,6 +50,11 @@ function boincimport_admin_settings() {
   );
   
   // Where is BOINC data?
+  $pre = variable_get('boincimport_table_prefix', '');
+  $tables = array($pre .'forum', $pre .'post', $pre .'thread', $pre .'user');
+  $db = (is_array($db_url) AND isset($db_url['boinc'])) ? 'boinc' : 'default';
+  $result = _boincimport_check_tables($tables, $db, 0);
+  
   $config_path = conf_path();
   $form['boinc_data'] = array(
     '#type' => 'fieldset',
@@ -64,6 +69,7 @@ function boincimport_admin_settings() {
     '#return_value' => 1,
     '#default_value' => variable_get('boincimport_db_configured', 1),
     '#description' => '',
+    '#disabled' => ($result['result']) ? TRUE : FALSE
   );
   if (variable_get('boincimport_db_configured', 1) != 1) {
     $default_db_url = is_array($db_url) ? end($db_url) : $db_url;
@@ -105,14 +111,10 @@ function boincimport_admin_settings() {
     '#size' => 20,
     '#maxlength' => 255,
     '#description' => t('What prefix is used for your BOINC tables?'),
+    '#disabled' => ($result['result']) ? TRUE : FALSE
   );
-  $pre = variable_get('boincimport_table_prefix', '');
-
-  $tables = array($pre .'forum', $pre .'post', $pre .'thread', $pre .'user');
-  $db = (is_array($db_url) AND isset($db_url['boinc'])) ? 'boinc' : 'default';
-  $result = _boincimport_check_tables($tables, $db, 0);
-  $output = $result['html'];
   
+  $output = $result['html'];
   if ($result['result'] != 1) {
     $ready_for_migration = 0;
     $form['boinc_data']['#collapsed']= FALSE;
@@ -130,15 +132,6 @@ function boincimport_admin_settings() {
     '#title' => t('User import'),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
-  );
-  
-  // User to map admin user to
-  $drupal_admin = user_load(array('uid' => 1));
-  $form['users']['boincimport_admin_user'] = array(
-    '#title' => t('User to map BOINC admin'),
-    '#type' => 'textfield',
-    '#autocomplete_path' => 'user/autocomplete',
-    '#default_value' => variable_get('boincimport_admin_user', $drupal_admin->name ),
   );
 
   // User import batch size
@@ -168,20 +161,27 @@ function boincimport_admin_settings() {
   // Input format settings
   $form['input'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Input Format settings'),
+    '#title' => t('Input format settings'),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE
   );
   $output = '<p>'. t('Select which !input_format should be used for the imported
-    messages:', array('!input_format' => url('admin/settings/filters'))) .'</p>';
+    messages. It is highly-recommended that this value be left as it is, as the
+    Full HTML and PHP code formats can be very dangerous!', 
+    array('!input_format' => l(t('input format'), 'admin/settings/filters'))) .'</p>';
   $form['input']['intro'] = array('#value' => $output);
-
-  $input_formats = array(0 => t('not set yet'));
+  
   $formats = db_query('SELECT format, name FROM {filter_formats}');
   while ($format = db_fetch_array($formats)) {
     $input_formats[$format['format']]= $format['name'];
   }
-  $input_format = variable_get('boincimport_input_format', 0);
+  
+  // By default, use the format named "Rich text"; fall back to Filtered HTML
+  $default_input_format = db_result(db_query("
+    SELECT format FROM {filter_formats} WHERE name = '%s'", 'Rich text'));
+  if (!$default_input_format) $default_input_format = 1;
+  
+  $input_format = variable_get('boincimport_input_format', $default_input_format);
   $form['input']['boincimport_input_format'] = array(
     '#type' => 'radios',
     '#title' => t('Input format'),
@@ -206,21 +206,21 @@ function boincimport_admin_settings() {
   
   $output = '<p>' . t('BOINC posts are often formatted in BBcode. During the
     import process, BBcode can be handled in two diffent ways') . ':</p>';
-  $output .= '<ul><li>' . t('You can leave the BBcode as is and use the !bbcode_module
-    after the migration to filter the imported posts. In this case, the module is not
-    required during the migration but you will need to install it and configure it later.',
+  $output .= '<ul><li>' . t('Leave the BBcode as is and use the !bbcode_module
+    after the migration to filter the imported posts. In this case, the module
+    is not required during the migration, but will need to be installed and
+    configured later.',
     array('!bbcode_module' => l(t('bbcode module'), 'http://drupal.org/project/bbcode',
     array('attributes' => array('target' => '_blank'))))) . '</li>';
-  $output .= '<li>' . t('You can decide to have the BBcode filtered now and replaced
-    by plain HTML. The BBcode module will be required during the migration process,
-    but you can disable it later.') . '</li></ul>';
-  $output .= '<p>' . t('Which one do you choose?') . '</p>';
-  $output .= '<p>' . t('Also, make sure to choose the proper input filter, as it will
-    affect how the post is displayed. For example, if you choose to strip the BBcode
-    altogether and use HTML instead, some HTML tags will be stripped by the
-    "filtered HTML" input format unless you add those tags in the list of allowed tags.
-    Using "Full HTML" is recommended for the imported posts when doing away with
-    BBcode.') . '</p>';
+  $output .= '<li>' . t('Filter the BBcode now and replace it with plain HTML.
+    The BBcode module will be required during the migration process, but can
+    be disabled afterwards.') . '</li></ul>';
+  $output .= '<p>' . t('An appropriate input filter should be chosen, as well,
+    as it will affect how the post is displayed. For example, if BBcode is
+    removed and replaced by HTML, some HTML tags will be stripped by the
+    "Filtered HTML" input format unless they are first added to the list of
+    allowed tags in that format. See the !input_formats page.',
+    array('!input_formats' => l(t('input formats'), 'admin/settings/filters'))) . '</p>';
     
   $form['bbcode']['intro'] = array('#value' => $output);
   $form['bbcode']['boincimport_bbcode'] = array(
