@@ -6039,3 +6039,11 @@ David  21 Sept 2012
 
     clientgui/
         MainDocument.cpp
+
+David  22 Sept 2012
+    - Unix startup script fixes, from Andrew Stevenson
+
+    client/
+        cs_statefile.cpp
+        script/
+            boinc-client.in

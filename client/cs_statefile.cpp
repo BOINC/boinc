@@ -68,7 +68,8 @@ static bool valid_state_file(const char* fname) {
     return false;
 }
 
-// return true if r0 arrived before r1
+// return true if r0 arrived before r1,
+// with tie-break based on name hash.
 // used to sort result list
 //
 static inline bool arrived_first(RESULT* r0, RESULT* r1) {
@@ -545,8 +546,11 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
     return 0;
 }
 
-// this is called whenever new results are added, namely at startup
-// and after a scheduler RPC
+// this is called whenever new results are added,
+// namely at startup and after a scheduler RPC.
+// Sort results based on (arrival time, name),
+// then set result.index to their position in this order.
+// This determines the order in which results are run.
 //
 void CLIENT_STATE::sort_results() {
     unsigned int i;

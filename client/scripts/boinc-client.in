@@ -207,7 +207,7 @@ if [ -x /sbin/pidof ] ; then
   } 
 else
   function local_pidof() {
-    ${PS} xaugww | sed 's/$/ /' | grep "[ /]$1 " | grep -v $$ | grep -v $PPID | grep -v %PPID | grep -v grep | awk '{print $2}'
+    ${PS} xaugww | sed 's/$/ /' | grep "[ /]$1 " | grep -v $$ | grep -v $PPID | grep -v %PPID | grep -v grep | awk '{print $2}' | head -1
   }
 fi
 
@@ -216,7 +216,7 @@ fi
 # If we don't have it, use su for the same job.
 # 
 if [ ! -x /sbin/runuser ] ; then
-  RUNUSER=su
+  RUNUSER="su -s /bin/sh"
 else 
   RUNUSER=runuser
 fi
@@ -330,7 +330,7 @@ if [ "${USERNOW}" = "${BOINCUSER}" ] ; then
   fi
 elif [ "${USERNOW}" = "root" ] ; then
   cmd="if test -O ${BOINCDIR} ; then echo success ; fi"
-  if [ -z `su $BOINCUSER -c "$cmd"` ]; then
+  if [ -z `$RUNUSER $BOINCUSER -c "$cmd"` ]; then
     echo -n ERROR: $BOINCDIR is not owned by $BOINCUSER.
     echo_failure
     echo
