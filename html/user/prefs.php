@@ -20,8 +20,6 @@ require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/prefs.inc");
 
-check_get_args(array("subset", "cols", "updated"));
-
 db_init();
 
 $user = get_logged_in_user();
@@ -29,6 +27,7 @@ $user = get_logged_in_user();
 $subset = get_str("subset");
 $columns = get_int("cols", true);
 $updated = get_int("updated", true);
+$defaults = get_int("defaults", true);
 
 page_head(tra("%1 preferences", subset_name($subset)));
 if (isset($updated)) {
@@ -40,11 +39,28 @@ if (isset($updated)) {
         </p>
     ";
 }
+if (isset($defaults)) {
+    echo "<p style='color: red'>
+        ".tra("Your preferences have been reset to the defaults, and
+          will take effect when your computer communicates with %1
+          or you issue the %2Update%3 command from the BOINC Manager.",
+          PROJECT, "<strong>", "</strong>")."
+        </p>
+    ";
+}
 if ($subset == "global") {
     print_prefs_display_global($user, $columns);
+    if (!$defaults) {
+        show_button(
+            "prefs_default.php",
+            "Restore defaults",
+            "Restore default preferences"
+        );
+    }
 } else {
     print_prefs_display_project($user, $columns);
 }
+
 page_tail();
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

@@ -6047,3 +6047,19 @@ David  22 Sept 2012
         cs_statefile.cpp
         script/
             boinc-client.in
+
+David  23 Sept 2012
+    - web: add global prefs reset button
+    - change default disk prefs to:
+        - no absolute limit on disk usage (we need to work with future disks)
+        - keep 100 MB min free space
+        - use up to 90% of total space
+
+    html/
+        user/
+            prefs_default.php (new)
+            prefs.php
+        inc/
+            prefs.inc
+    lib/
+        prefs.cpp
