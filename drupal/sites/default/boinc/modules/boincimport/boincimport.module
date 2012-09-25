@@ -344,7 +344,7 @@ function boincimport_users() {
   // Check whether the user table has been successfully imported already
   if (variable_get('boincimport_import_user_successful', 0)) {
     drupal_set_message(t('Users already imported successfully'));
-    //return;
+    return;
   } 
 
   if (!variable_get('boincimport_import_user_started', 0)) {
@@ -426,79 +426,7 @@ function boincimport_users() {
     // Import a batch of accounts and indicate progress
     $start_time = microtime(true);
     $accounts_imported = 0;
-    
-    // Fork a process to import a batch of users (for resource management)
-    $pid = pcntl_fork();
-    if ($pid == -1) {
-      echo 'could not fork';
-      ob_flush();
-      flush();
-      exit;
-    } else if ($pid) {
-      // Parent process: Just wait
-      pcntl_wait($status); //Protect against Zombie children
-    } else {
-      // Child process: Import a batch of users
-      
-      $record_offset = $batch;
-      $chunk_size = $batch_size;
-      
-      
-      // Construct sql conditions
-      $limit = sprintf('LIMIT %d,%d', $record_offset, $chunk_size);
-      
-      $count = 0;
-      
-      db_set_active('boinc');
-      if ($import_lurkers) {
-        $boinc_accounts = db_query('SELECT id FROM user ORDER BY id %s', $limit);
-      }
-      //else $boinc_accounts = db_query('SELECT DISTINCT user AS boinc_id FROM post ORDER BY boinc_id %s', $limit);
-      else {
-        // Need to import any user who is currently ignored in order to keep them
-        // ignored... not particularly clean (ignored users are stored in a string)
-        $ignored_user_list = array();
-        $ignoring_users = db_query("
-          SELECT ignorelist
-          FROM forum_preferences
-          WHERE ignorelist <> ''
-          ORDER BY userid ASC"
-        );
-        while ($ignoring_user = db_fetch_object($ignoring_users)) {
-          $ignored_user_list = $ignored_user_list + array_fill_keys(explode('|', trim($ignoring_user->ignorelist, '|')), 1);
-        }
-        $ignored_user_list = array_keys($ignored_user_list);
-        $boinc_accounts = db_query("
-          SELECT id FROM
-          (
-            (SELECT id FROM {user} WHERE teamid > 0 OR id IN(%s)) UNION
-            (SELECT DISTINCT user FROM {post}) UNION
-            (SELECT DISTINCT userid FROM {subscriptions}) UNION
-            (SELECT DISTINCT user_src FROM {friend} WHERE reciprocated = 1) UNION
-            (SELECT DISTINCT user_dest FROM {friend} WHERE reciprocated = 1) UNION
-            (SELECT DISTINCT userid FROM {forum_preferences} WHERE ignorelist <> '') UNION
-            (SELECT DISTINCT userid FROM {private_messages}) UNION
-            (SELECT DISTINCT senderid FROM {private_messages})
-          ) AS usersToImport ORDER BY id ASC %s", implode(',', $ignored_user_list), $limit
-        );
-      }
-      db_set_active('default');
-      
-      while ($boinc_account = db_fetch_object($boinc_accounts)) {
-        
-        // Make sure the user has not already been imported
-        $already_imported = db_result(db_query('SELECT COUNT(*) FROM {boincuser} WHERE boinc_id = %d', $boinc_account->id));
-        if ($already_imported) continue;
-        
-        // Grab the BOINC user object and create a Drupal user from it
-        if (boincuser_register_make_drupal_user($boinc_account->id)) {
-          $count++;
-        }
-      }
-      
-      $accounts_imported = $count;
-    }
-    
+    $accounts_imported = (int) exec("php {$import_script} {$import_lurkers} {$batch} {$batch_size}");
     $processing_time = round(microtime(true) - $start_time, 2);
     echo '.';
     ob_flush();
