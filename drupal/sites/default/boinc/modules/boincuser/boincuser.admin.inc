@@ -11,7 +11,7 @@
 *
 * @ingroup forms
 * @see system_settings_form().
-*/
+*//*
 function boincuser_admin_settings() {
   // Get an array of node types with internal names as keys and
   // "friendly names" as values. E.g.,
@@ -25,6 +25,156 @@ function boincuser_admin_settings() {
     '#description' => t('A placeholder for BOINC user settings.'),
   );
   return system_settings_form($form);
+}*/
+
+/**
+  * The BOINC environment form allows paths to be set to connect Drupal to an
+  * existing BOINC web interface.
+  */
+function boincuser_admin_environment(&$form_state) {
+  $form = array();
+  $default = array(
+    'boinc_root_dir' => variable_get('boinc_root_dir', ''),
+    'boinc_config_xml_dir' => variable_get('boinc_config_xml_dir', ''),
+    'boinc_html_inc_dir' => variable_get('boinc_html_inc_dir', ''),
+    'boinc_project_config_dir' => variable_get('boinc_project_config_dir', ''),
+    'boinc_user_image_dir' => variable_get('boinc_user_image_dir', '')
+  );
+  //drupal_set_message(print_r($default, true));
+  //drupal_set_message(print_r($form_state, true));
+  // Show overrides if the root dir is set and others have not been detected
+  $show_overrides = FALSE;
+  if ($default['boinc_root_dir']) {
+    foreach ($default as $key => $dir) {
+      if ($key == 'boinc_root_dir') continue;
+      if (!$dir) {
+        $default[$key] = $form_state['values'][$key];
+        $show_overrides = TRUE;
+        break;
+      }
+    }
+  }
+  // Define the form
+  $form['boinc_root_dir'] = array(
+    '#type' => 'textfield',
+    '#title' => t('BOINC project root directory'),
+    '#default_value' => $default['boinc_root_dir'], 
+    '#description' => t('The filesystem path to the BOINC project root. This
+      directory should contain config.xml as well as the html subdirectory,
+      which itself contains inc/, project/, and user_profile/.'),
+  );
+  $form['overrides'] = array(
+    '#title' => t('Overrides'),
+    '#type' => 'fieldset',
+    '#description' => '',
+    '#collapsible' => TRUE,
+    '#collapsed' => !$show_overrides,
+    '#attributes' => array('class' => 'advanced-settings')
+  );
+  $form['overrides']['boinc_config_xml_dir'] = array(
+    '#type' => 'textfield',
+    '#title' => t('BOINC config.xml directory'),
+    '#default_value' => $default['boinc_config_xml_dir'],
+    '#description' => t('The filesystem path that contains config.xml'),
+    '#disabled' => is_readable("{$default['boinc_config_xml_dir']}/config.xml")
+  );
+  $form['overrides']['boinc_html_inc_dir'] = array(
+    '#type' => 'textfield',
+    '#title' => t('BOINC web includes directory'),
+    '#default_value' => $default['boinc_html_inc_dir'],
+    '#description' => t('The filesystem path to the html/inc/ directory that
+      contains util.inc'),
+    '#disabled' => is_readable("{$default['boinc_html_inc_dir']}/util.inc")
+  );
+  $form['overrides']['boinc_project_config_dir'] = array(
+    '#type' => 'textfield',
+    '#title' => t('BOINC project config directory'),
+    '#default_value' => $default['boinc_project_config_dir'],
+    '#description' => t('The filesystem path to the project/ directory that
+      contains project.inc'),
+    '#disabled' => is_readable("{$default['boinc_project_config_dir']}/project.inc")
+  );
+  $form['overrides']['boinc_user_image_dir'] = array(
+    '#type' => 'textfield',
+    '#title' => t('BOINC user profile image directory'),
+    '#default_value' => $default['boinc_user_image_dir'],
+    '#description' => t('The filesystem directory that contains user images'),
+    '#disabled' => is_dir($default['boinc_user_image_dir'])
+  );
+  return system_settings_form($form);
+}
+
+/**
+  * Validate the BOINC environment form.
+  */
+function boincuser_admin_environment_validate($form, &$form_state) {
+  $values = $form_state['values'];
+  if (!$values['boinc_root_dir']) {
+    form_set_error('boinc_root_dir', t('BOINC project root directory must be
+      defined!'));
+  }
+  elseif (!is_dir($values['boinc_root_dir'])) {
+    form_set_error('boinc_root_dir', t('BOINC project root not found at %directory',
+      array('%directory' => $values['boinc_root_dir'])
+    ));
+  }
+  else {
+    // By default, try to automatically set specific directories from the root
+    if (!$values['boinc_config_xml_dir']) {
+      $values['boinc_config_xml_dir'] = $values['boinc_root_dir'];
+      form_set_value($form['overrides']['boinc_config_xml_dir'], $values['boinc_config_xml_dir'], $form_state);
+    }
+    if (!$values['boinc_html_inc_dir']) {
+      $values['boinc_html_inc_dir'] = "{$values['boinc_root_dir']}/html/inc";
+      form_set_value($form['overrides']['boinc_html_inc_dir'], $values['boinc_html_inc_dir'], $form_state);
+    }
+    if (!$values['boinc_project_config_dir']) {
+      $values['boinc_project_config_dir'] = "{$values['boinc_root_dir']}/html/project";
+      form_set_value($form['overrides']['boinc_project_config_dir'], $values['boinc_project_config_dir'], $form_state);
+    }
+    if (!$values['boinc_user_image_dir']) {
+      $values['boinc_user_image_dir'] = "{$values['boinc_root_dir']}/html/user_profile/images";
+      form_set_value($form['overrides']['boinc_user_image_dir'], $values['boinc_user_image_dir'], $form_state);
+    }
+    // Validate that required BOINC content is found
+    if (!is_readable("{$values['boinc_config_xml_dir']}/config.xml")) {
+      form_set_error('boinc_config_xml_dir', t('@file not found in %directory',
+        array(
+          '@file' => 'config.xml',
+          '%directory' => "{$values['boinc_config_xml_dir']}/"
+        )
+      ));
+    }
+    if (!is_readable("{$values['boinc_html_inc_dir']}/util.inc")) {
+      form_set_error('boinc_html_inc_dir', t('@file not found in %directory',
+        array(
+          '@file' => 'util.inc',
+          '%directory' => "{$values['boinc_html_inc_dir']}/"
+        )
+      ));
+    }
+    if (!is_readable("{$values['boinc_project_config_dir']}/project.inc")) {
+      form_set_error('boinc_project_config_dir', t('@file not found in %directory',
+        array(
+          '@file' => 'project.inc',
+          '%directory' => "{$values['boinc_project_config_dir']}/"
+        )
+      ));
+    }
+    if (!is_dir($values['boinc_user_image_dir'])) {
+      form_set_error('boinc_user_image_dir', t('Profile image directory not found
+        at %directory', array('%directory' => $values['boinc_user_image_dir'])
+      ));
+    }
+  }
+}
+
+/**
+  * Handle post-validation submission of BOINC environment form.
+  */
+function boincuser_admin_environment_submit($form, &$form_state) {
+  unset($_SESSION['boinc_env']);
+  drupal_set_message(t('BOINC environment settings have been updated.'));
 }
 
 

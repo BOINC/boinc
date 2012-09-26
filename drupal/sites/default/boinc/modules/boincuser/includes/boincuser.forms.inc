@@ -175,7 +175,7 @@ function boincuser_create_drupal_profile($account, $boinc_user) {
   require_boinc('forum_db');
   BoincForumPrefs::lookup($boinc_user);
   
-  $image_dir = drupal_get_path('module', 'boincuser') . '/includes/boinclib/' . IMAGE_PATH;
+  $image_dir = boinc_get_path('user_image');
   watchdog('boincuser', "image_dir: $image_dir");
   // Automatically create a content profile
   $now = time();
@@ -191,7 +191,7 @@ function boincuser_create_drupal_profile($account, $boinc_user) {
     $profile_opinions = $boinc_profile->response2;
     if ($boinc_profile->has_picture) {
       // Load picture; load validators; determine where to store it in Drupal
-      $image_path = "{$image_dir}{$boinc_user->id}.jpg";
+      $image_path = "{$image_dir}/{$boinc_user->id}.jpg";
       $profile_image = get_cck_image_object($image_path, 'field_profile_image', 'profile', TRUE);
       // If the user does not have a different image as an avatar, use this one
       if (!$boinc_user->prefs->avatar) {
@@ -199,7 +199,7 @@ function boincuser_create_drupal_profile($account, $boinc_user) {
       }
     }
     if ($boinc_user->prefs->avatar) {
-      $image_path = "{$image_dir}{$boinc_user->id}_avatar.jpg";
+      $image_path = "{$image_dir}/{$boinc_user->id}_avatar.jpg";
       $avatar_image = get_cck_image_object($image_path, 'field_image', 'profile', TRUE);
     }
   }

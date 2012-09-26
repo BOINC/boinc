@@ -65,15 +65,17 @@ function find_unique_name($requested_name) {
  * Require BOINC library
  */
 function require_boinc($libraries) {
-  $working_dir = getcwd();
-  chdir('./' . drupal_get_path('module', 'boincuser') . '/includes/boinclib');
-  if (!is_array($libraries)) {
-    $libraries = array($libraries);
+  if ($include_dir = boinc_get_path('html_inc')) {
+    $working_dir = getcwd();
+    chdir($include_dir);
+    if (!is_array($libraries)) {
+      $libraries = array($libraries);
+    }
+    foreach ($libraries as $library) {
+      require_once("{$library}.inc");
+    }
+    chdir($working_dir);
   }
-  foreach ($libraries as $library) {
-    require_once("{$library}.inc");
-  }
-  chdir($working_dir);
 }
 
 /**
@@ -81,10 +83,38 @@ function require_boinc($libraries) {
  * The path from the BOINC root must be included (e.g. user/file.php)
  */
 function include_boinc($file) {
-  $workingDir = getcwd();
-  chdir('./' . drupal_get_path('module', 'boincuser') . '/includes/boinclib');
-  include("../{$file}");
-  chdir($workingDir);
+  if ($include_dir = boinc_get_path()) {
+    $workingDir = getcwd();
+    chdir($include_dir);
+    include($file);
+    chdir($workingDir);
+  }
+}
+
+/**
+ * Get the BOINC include path
+ */
+function boinc_get_path($type = 'root') {
+  $dir = "boinc_{$type}_dir";
+  if ($include_dir = variable_get("boinc_{$type}_dir", '')) {
+    return $include_dir;
+  }
+  else {
+    watchdog('boincuser', 'The BOINC environment is not configured. Please
+        !configure_it', array('!configure_it' => l(t('configure it now'),
+          'admin/boinc/environment')), WATCHDOG_ERROR);
+    if (user_access('administer site configuration')) {
+      drupal_set_message(t('The BOINC environment is not configured. Please
+        !configure_it', array('!configure_it' => l(t('configure it now'),
+          'admin/boinc/environment'))), 'error');
+    }
+    else {
+      drupal_set_message(t('There is a problem with the site. Please contact
+        the system administrator.'), 'error');
+    }
+    drupal_goto('');
+  }
+  return FALSE;
 }
 
 
