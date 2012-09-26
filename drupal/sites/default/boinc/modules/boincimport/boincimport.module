@@ -1123,7 +1123,7 @@ function boincimport_forum_topics() {
       'type' => $node_type,
       'title' => $topic->title,
       'uid' => $uid,
-      'status' => 1,  // published or not - always publish
+      'status' => ($topic->hidden) ? 0 : 1,  // published or not
       'promote' => $promote,
       'created' => $topic->create_time,
       'changed' => $topic->timestamp,
@@ -1240,7 +1240,7 @@ function boincimport_forum_posts() {
     
     db_set_active('boinc');
     $posts = db_query('
-      SELECT id, user, thread, timestamp, content, parent_post
+      SELECT id, user, thread, timestamp, content, parent_post, hidden
       FROM %spost WHERE thread = %d ORDER BY timestamp ASC', $pre, $topic->id);
     db_set_active('default');
     
@@ -1307,6 +1307,7 @@ function boincimport_forum_posts() {
         'subject' => $subject,
         'comment' => $post->content,
         'timestamp' => $post->timestamp,
+        'status' => $post->hidden,
         'format' => $input_format
       );
       
