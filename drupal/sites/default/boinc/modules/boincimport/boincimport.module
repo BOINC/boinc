@@ -193,6 +193,9 @@ function _boincimport_check_tables($tables = array(), $db = 'default' , $prefix 
 
 
 function boincimport_process() {
+  // Start with a quick sanity check on the BOINC environment
+  boinc_get_path();
+  
   if (!variable_get('boincimport_ready', 0)) {
     return '<p>'. t('You cannot import the data now. Please <a href="@settings">complete the setup first</a>', array('@settings' => url('admin/boinc/import/settings'))) .'</p>';
   }

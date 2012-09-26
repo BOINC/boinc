@@ -8,7 +8,10 @@ function boincimport_admin_settings() {
   global $conf ;
   global $db_url;
   $stage = variable_get('boincimport_config_stage', 0); 
-
+  
+  // Start with a quick sanity check on the BOINC environment
+  boinc_get_path();
+  
   //We'll be checking that the setup is complete.
   //If it is not complete, the migration will not go ahead.
   $ready_for_migration = 1;
@@ -374,6 +377,9 @@ function boincimport_post_configuration() {
  * Callback admin/boinc/import
  */
 function boincimport_main() {
+  // Start with a quick sanity check on the BOINC environment
+  boinc_get_path();
+  // If that's ok, on with the show
   $output .= t('You may want to !check_documentation before starting.', array(
     '!check_documentation' => l(t('check the documentation'), 'http://boinc.berkeley.edu/trac/wiki/InstallDrupal', array('attributes' =>array('target' => '_blank')))
   ));
