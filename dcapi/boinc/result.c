@@ -158,6 +158,7 @@ char *DC_getResultOutput(const DC_Result *result, const char *logicalFileName)
 {
 	char *path, *wuname;
 	struct stat st;
+	int fd;
 	GList *l;
 	int ret;
 
@@ -181,12 +182,40 @@ char *DC_getResultOutput(const DC_Result *result, const char *logicalFileName)
 
 		path = _DC_workDirPath(result->wu, file->label, FILE_OUT);
 
-		/* Treat empty files as non-existent */
+		/*
+		  BOINC will not upload an output file if it's empty.
+
+		  Higher level applications might report an error because of the
+		  missing file, while the result is actually successful.
+
+		  Create an empty output file if it's missing.
+		 */
 		ret = stat(path, &st);
-		if (ret || !st.st_size)
+		if (ret)
 		{
-			g_free(path);
-			return NULL;
+			if (ENOENT == errno)
+				/* does not exist */
+			{
+				DC_log(LOG_WARNING,
+				       "File '%s' does not exists; it was probably empty. Creating it",
+				       path);
+				if (0 > (fd = creat(path, 0660)))
+				{
+					DC_log(LOG_ERR, "Could not create empty file '%s': open: %s",
+					       path, strerror(errno));
+					g_free(path);
+					return NULL;
+				}
+				else
+					close(fd);
+			}
+			else
+			{
+				DC_log(LOG_ERR, "Error opening output file '%s': stat: %s",
+				       path, strerror(errno));
+				g_free(path);
+				return NULL;
+			}
 		}
 
 		if (!g_mem_is_system_malloc())
@@ -201,7 +230,7 @@ char *DC_getResultOutput(const DC_Result *result, const char *logicalFileName)
 	}
 
 	wuname = _DC_getWUName(result->wu);
-	DC_log(LOG_WARNING, "WU %s does not have an output file named %s",
+	DC_log(LOG_WARNING, "WU %s does not have an output file named '%s'",
 		wuname, logicalFileName);
 	g_free(wuname);
 	return NULL;
