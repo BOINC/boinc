@@ -437,7 +437,7 @@ function boincimport_users() {
     $total_runtime += $processing_time;
     $last_status_update += $processing_time;
     $batches_without_update++;
-    if ($last_status_update > 60 OR $batches_without_update > 50 OR $batch + $batch_size >= $batch_limit) {
+    if ($last_status_update > 150 OR $batches_without_update > 50 OR $batch + $batch_size >= $batch_limit) {
       $progress = round(100*$total_accounts_imported/$user_count, 1);
       echo "<br/>\n" . t("%num_accounts accounts imported in %time (%progress% complete)", array('%num_accounts' => $total_accounts_imported, '%time' => gmdate('H:i:s', $total_runtime), '%progress' => $progress));
       ob_flush();
@@ -584,7 +584,7 @@ function boincimport_teams() {
       ob_flush();
       flush();
     }
-    if ($last_status_update > 60 OR $teams_without_update >= 500) {
+    if ($last_status_update > 150 OR $teams_without_update >= 500) {
       $progress = round(100*$teams_imported/$team_count, 1);
       echo "<br/>\n" . t("%teams_imported teams imported in %time (%progress% complete) -- %member_count members", array('%teams_imported' => $teams_imported, '%time' => gmdate('H:i:s', $total_runtime), '%progress' => $progress, '%member_count' => $total_memberships_assigned));
       ob_flush();
