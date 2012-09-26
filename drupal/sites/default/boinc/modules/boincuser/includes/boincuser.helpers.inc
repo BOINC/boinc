@@ -112,7 +112,11 @@ function boinc_get_path($type = 'root') {
       drupal_set_message(t('There is a problem with the site. Please contact
         the system administrator.'), 'error');
     }
-    drupal_goto('');
+    // Redirect home to display the error message and avoid fatal errors
+    // (unless trying to flush the cache, don't get in the way of that...)
+    if ($_GET['q'] != 'admin/settings/performance') {
+      drupal_goto('');
+    }
   }
   return FALSE;
 }
