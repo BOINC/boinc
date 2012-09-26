@@ -21,6 +21,17 @@ function boincuser_login_validate($form, &$form_state) {
     // Authentication with Drupal was successful
     return;
   }*/
+  
+  // Set name for logging purposes
+  $form_state['values']['name'] = $form_state['values']['email'];
+  
+  // Bypass BOINC validation if passed the name of user 1
+  $user_1 = user_load(1);
+  if ($form_state['values']['email'] == $user_1->name) {
+    user_authenticate($form_state['values']);
+    return;
+  }
+  
   // Call our custom authentication function to check for an existing BOINC user
   if (!boincuser_login_authenticate($form_state['values'])) {
     // Authentication failed; set an error accordingly
@@ -35,7 +46,7 @@ function boincuser_login_authenticate($form_values) {
   global $boincuser_authenticated;
   $email_addr = $form_values['email'];       
   $passwd = $form_values['pass'];
-  $passwd_hash = md5($passwd.$email_addr); 
+  $passwd_hash = md5($passwd.$email_addr);
   
   // Include BOINC user library
   require_boinc('user');
@@ -48,7 +59,7 @@ function boincuser_login_authenticate($form_values) {
   // BOINC authentication successful; log in and synchronize accounts
   boincuser_login_register($boinc_user);
   // Write session, update timestamp, run user 'login' hook.
-  user_authenticate_finalize($form_state['values']);
+  user_authenticate_finalize($form_values);
   // Use a global variable to save the fact that we did authentication.
   $boincuser_authenticated = true;
   return true;
