@@ -234,12 +234,12 @@ function boincuser_nodeapi(&$node, $op, $a3 = null, $a4 = null) {
  * is updated (forward compatible to Drupal 7)
  */
 function boincuser_node_update($node) {
-  global $user;
   switch($node->type) {
   case 'profile':
     // Load the BOINC user record and save the updated account data
     require_boinc('db');
-    $boinc_user = lookup_user_email_addr($user->mail);
+    $account = user_load($node->uid);
+    $boinc_user = lookup_user_email_addr($account->mail);
     $db_result = $boinc_user->update("
       country = '{$node->field_country[0]['value']}',
       postal_code = '{$node->field_zip[0]['value']}',
