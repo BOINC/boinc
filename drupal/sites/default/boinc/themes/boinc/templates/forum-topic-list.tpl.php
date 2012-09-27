@@ -34,13 +34,25 @@
  */
 ?>
 <table id="forum-topic-<?php print $topic_id; ?>">
+  
+  <?php
+    // Get vocabulary name and use that as the title
+    $topic = current($topics);
+    $taxonomy = taxonomy_get_term($topic->tid);
+    if ($forum_vocab = taxonomy_vocabulary_load($taxonomy->vid)) {
+      drupal_set_title($forum_vocab->name);
+    }
+  ?>
+  
+  <h2 class="title"><?php print $taxonomy->name; ?></h2>
+  
   <thead>
     <tr><?php print $header; ?></tr>
   </thead>
   <tbody>
   <?php foreach ($topics as $topic): ?>
     <tr class="<?php print $topic->zebra;?>">
-      <td class="icon"><?php print $topic->icon; ?></td>
+      <td class="icon"><?php //print $topic->icon; ?></td>
       <td class="title"><?php print $topic->title; ?></td>
     <?php if ($topic->moved): ?>
       <td colspan="3"><?php print $topic->message; ?></td>

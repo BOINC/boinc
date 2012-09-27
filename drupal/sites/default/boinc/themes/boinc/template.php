@@ -84,7 +84,7 @@ function boinc_theme(&$existing, $type, $theme, $path) {
  * @param $hook
  *   The name of the template being rendered (name of the .tpl.php file.)
  */
-//* -- Delete this line if you want to use this function
+/* -- Delete this line if you want to use this function
 function boinc_preprocess(&$vars, $hook) {
   //$vars['sample_variable'] = t('Lorem ipsum.');
   drupal_add_feed(

@@ -137,7 +137,9 @@ a:link:hover {
 h1.title, /* The title of the page */
 h2.title, /* Block title or the title of a piece of content when it is given in a list of content */
 h3.title /* Comment title */ {
-  margin: 0;
+  margin-top: 0;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 thead th {

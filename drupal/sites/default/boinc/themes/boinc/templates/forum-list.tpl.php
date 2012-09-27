@@ -32,30 +32,31 @@
  */
 ?>
 <table id="forum-<?php print $forum_id; ?>">
-  <thead>
-    <tr>
-      <th><?php print t('Forum'); ?></th>
-      <th><?php print t('Topics');?></th>
-      <th><?php print t('Posts'); ?></th>
-      <th><?php print t('Last post'); ?></th>
-    </tr>
-  </thead>
   <tbody>
+  
   <?php foreach ($forums as $child_id => $forum): ?>
-    <tr id="forum-list-<?php print $child_id; ?>" class="<?php print $forum->zebra; ?>">
-      <td <?php print $forum->is_container ? 'colspan="4" class="container"' : 'class="forum"'; ?>>
-        <?php /* Enclose the contents of this cell with X divs, where X is the
-               * depth this forum resides at. This will allow us to use CSS
-               * left-margin for indenting.
-               */ ?>
-        <?php print str_repeat('<div class="indent">', $forum->depth); ?>
-          <div class="name"><a href="<?php print $forum->link; ?>"><?php print $forum->name; ?></a></div>
-          <?php if ($forum->description): ?>
-            <div class="description"><?php print $forum->description; ?></div>
-          <?php endif; ?>
-        <?php print str_repeat('</div>', $forum->depth); ?>
-      </td>
-      <?php if (!$forum->is_container): ?>
+  
+    <?php if ($forum->is_container): ?>
+      <tr class="heading">
+        <td class="primary"><div class="name"><?php print $forum->name; ?></div></td>
+        <td><?php print t('Threads');?></td>
+        <td><?php print t('Posts'); ?></td>
+        <td><?php print t('Last post'); ?></td>
+      </tr>
+    <?php else: ?>
+      <tr id="forum-list-<?php print $child_id; ?>" class="<?php print $forum->zebra; ?>">
+        <td class="forum">
+          <?php /* Enclose the contents of this cell with X divs, where X is the
+                 * depth this forum resides at. This will allow us to use CSS
+                 * left-margin for indenting.
+                 */ ?>
+          <?php print str_repeat('<div class="indent">', $forum->depth); ?>
+            <div class="name"><a href="<?php print $forum->link; ?>"><?php print $forum->name; ?></a></div>
+            <?php if ($forum->description): ?>
+              <div class="description"><?php print $forum->description; ?></div>
+            <?php endif; ?>
+          <?php print str_repeat('</div>', $forum->depth); ?>
+        </td>
         <td class="topics">
           <?php print $forum->num_topics ?>
           <?php if ($forum->new_topics): ?>
@@ -65,8 +66,23 @@
         </td>
         <td class="posts"><?php print $forum->num_posts ?></td>
         <td class="last-reply"><?php print $forum->last_reply ?></td>
-      <?php endif; ?>
-    </tr>
+      </tr>
+    <?php endif; ?>
+    
   <?php endforeach; ?>
   </tbody>
 </table>
+
+<div class="fine-print">
+  <p>Please be responsible in what you write and do not create posts which are
+  offensive or insulting. Offensive posts or threads may be deleted by
+  forum moderators without warning or discussion. Do not respond to offensive
+  postings. Click on the "report" button at the bottom of the post to call it
+  to the attention of the moderators.</p>
+  <p>We also ask that you keep all discussion on the message boards related
+  to Einstein@Home or BOINC with the small exception of the Science message
+  board where you are free to discuss anything about physics or astronomy.
+  Participants interested in broader discussions should post to unofficial
+  E@H forums.</p>
+  <p>These message boards now support BBCode tags only.</p>
+</div>

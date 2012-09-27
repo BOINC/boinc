@@ -7,7 +7,7 @@
 
 
 .block /* Block wrapper */ {
-  margin-bottom: 1em;
+  /*margin-bottom: 1em;*/
 }
 
 .block.region-odd /* Zebra striping for each block in the region */ {
@@ -29,6 +29,8 @@
 }
 
 .block h2.title /* Block title */ {
+  font-size: 12px;
+  text-transform: capitalize;
 }
 
 .block .content /* Block's content wrapper */ {

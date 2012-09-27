@@ -75,46 +75,65 @@
         )
       );
       print '<div class="ignore-user-content">';
-    }
-    $user_image = boincuser_get_user_profile_image($comment->uid);
-    if ($user_image['image']['filepath']) {
-      print '<div class="picture">';
-      //print theme('imagecache', 'thumbnail', $user_image['image']['filepath'], $user_image['alt'], $user_image['alt']);
-      print theme('imagefield_image', $user_image['image'], $user_image['alt'], $user_image['alt'], array('width' => '100', 'height' => '100'), false);
-      print '</div>';
-    }
-  ?>
-
-  <?php if ($title): ?>
-    <h3 class="title">
-      <?php print $title; ?>
-      <?php if ($new): ?>
-        <span class="new"><?php print $new; ?></span>
-      <?php endif; ?>
-    </h3>
-  <?php elseif ($new): ?>
-    <div class="new"><?php print $new; ?></div>
-  <?php endif; ?>
-
-  <?php if ($unpublished): ?>
-    <div class="unpublished"><?php print t('Unpublished'); ?></div>
-  <?php endif; ?>
-
-  <div class="submitted">
-    <?php
-      print t('Submitted by !username on !datetime.',
-        array('!username' => $author, '!datetime' => $created));
+    } 
     ?>
-  </div>
-
-  <div class="content">
-    <?php print $content; ?>
-    <?php if ($signature): ?>
-      <div class="user-signature clearfix">
-        <?php print $signature; ?>
-      </div>
+  <div class="user">
+    <?php
+      $account = user_load(array('uid' => $comment->uid));
+      $user_image = boincuser_get_user_profile_image($comment->uid);
+      if ($user_image['image']['filepath']) {
+        print '<div class="picture">';
+        //print theme('imagecache', 'thumbnail', $user_image['image']['filepath'], $user_image['alt'], $user_image['alt']);
+        print theme('imagefield_image', $user_image['image'], $user_image['alt'], $user_image['alt'], array('width' => '100', 'height' => '100'), false);
+        print '</div>';
+      }
+    ?>
+    <div class="name"><?php print $author; ?></div>
+    <?php if ($account->uid): ?>
+      <div class="join-date">Joined: <?php print date('j M y', $account->created); ?></div>
+      <div class="post-count">Posts: <?php print $account->post_count; ?></div>
+      <div class="credit">Credit: <?php print $account->boincuser_total_credit; ?></div>
+      <div class="rac">RAC: <?php print $account->boincuser_expavg_credit; ?></div>
+      <?php if ($account->uid): ?>
+        <div class="pm-link"><?php print l(t('Send message'),
+          privatemsg_get_link(array($account)),
+          array('query' => drupal_get_destination())); ?>
+        </div>
+      <?php endif; ?>
     <?php endif; ?>
   </div>
+  <div class="comment-body">
+    <?php if ($title): ?>
+      <h3 class="title">
+        <?php print $title; ?>
+        <?php if ($new): ?>
+          <span class="new"><?php print $new; ?></span>
+        <?php endif; ?>
+      </h3>
+    <?php elseif ($new): ?>
+      <div class="new"><?php print $new; ?></div>
+    <?php endif; ?>
 
-  <?php print $links; ?>
+    <?php if ($unpublished): ?>
+      <div class="unpublished"><?php print t('Unpublished'); ?></div>
+    <?php endif; ?>
+
+    <div class="submitted">
+      <?php print date('j M Y H:i:s T', $comment->timestamp); ?>
+    </div>
+    <div class="comment-id">
+      Message <?php print $comment->cid; ?>
+    </div>
+
+    <div class="content">
+      <?php print $content; ?>
+      <?php if ($signature): ?>
+        <div class="user-signature clearfix">
+          <?php print $signature; ?>
+        </div>
+      <?php endif; ?>
+    </div>
+
+    <?php print $links; ?>
+  </div> <!-- /.comment-body -->
 </div> <!-- /.comment -->

@@ -19,7 +19,7 @@
 ?>
 <?php if ($time): ?>
   <?php print t(
-  '@time ago<br />by !author', array(
+  '@time ago<!--<br />by !author-->', array(
     '@time' => $time,
     '!author' => $author,
     )); ?>

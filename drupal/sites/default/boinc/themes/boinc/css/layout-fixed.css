@@ -88,9 +88,9 @@ body {
 }
 
 .sidebar-second #content {
-  width: 660px;
+  width: 650px;
   margin-left: 0; /* LTR */
-  margin-right: -660px; /* LTR */ /* Negative value of #content's width + left margin. */
+  margin-right: -650px; /* LTR */ /* Negative value of #content's width + left margin. */
 }
 
 .two-sidebars #content {
