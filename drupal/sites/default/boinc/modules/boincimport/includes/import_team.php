@@ -88,13 +88,15 @@
   $boincteam_member_ids = array();
   while ($boincuser = db_fetch_object($boincteam_members)) $boincteam_member_ids[] = $boincuser->id;
   db_set_active('default');
-  $team_members = db_query('SELECT uid FROM {boincuser} WHERE boinc_id IN(%s)', implode(',', $boincteam_member_ids));
-  $team_admin = (int) db_result(db_query('SELECT uid FROM {boincuser} WHERE boinc_id=%d', $boincteam_admin));
-  
-  // Assign team membership "subscriptions"
-  while ($drupal_user = db_fetch_object($team_members)) {
-    og_save_subscription($node->nid, $drupal_user->uid, array('is_active' => 1, 'is_admin' => (($drupal_user->uid == $team_admin) ? 1 : 0)));
-    $count++;
+  if ($boincteam_member_ids) {
+    $team_members = db_query('SELECT uid FROM {boincuser} WHERE boinc_id IN(%s)', implode(',', $boincteam_member_ids));
+    $team_admin = (int) db_result(db_query('SELECT uid FROM {boincuser} WHERE boinc_id=%d', $boincteam_admin));
+    
+    // Assign team membership "subscriptions"
+    while ($drupal_user = db_fetch_object($team_members)) {
+      og_save_subscription($node->nid, $drupal_user->uid, array('is_active' => 1, 'is_admin' => (($drupal_user->uid == $team_admin) ? 1 : 0)));
+      $count++;
+    }
   }
   
   echo $count;
