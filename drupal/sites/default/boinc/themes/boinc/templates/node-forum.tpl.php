@@ -73,7 +73,8 @@
  * @see zen_process()
  */
 ?>
-<div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix">
+<?php $first_page = (!isset($_GET['page']) OR ($_GET['page'] < 1)); ?>
+<div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix<?php echo ($first_page) ? '' : ' not-first-page'; ?>">
   
   <?php 
     if ($page) {
@@ -90,52 +91,58 @@
   <?php if ($unpublished): ?>
     <div class="unpublished"><?php print t('Unpublished'); ?></div>
   <?php endif; ?>
-
-  <div class="user">
-    <?php
-      $account = user_load(array('uid' => $uid));
-      $user_image = boincuser_get_user_profile_image($uid);
-      if ($user_image['image']['filepath']) {
-        print '<div class="picture">';
-        //print theme('imagecache', 'thumbnail', $user_image['image']['filepath'], $user_image['alt'], $user_image['alt']);
-        print theme('imagefield_image', $user_image['image'], $user_image['alt'], $user_image['alt'], array('width' => '100', 'height' => '100'), false);
-        print '</div>';
-      }
-    ?>
-    <div class="name"><?php print $name; ?></div>
-    <?php if ($account->uid): ?>
-      <div class="join-date">Joined: <?php print date('j M y', $account->created); ?></div>
-      <div class="post-count">Posts: <?php print $account->post_count; ?></div>
-      <div class="credit">Credit: <?php print $account->boincuser_total_credit; ?></div>
-      <div class="rac">RAC: <?php print $account->boincuser_expavg_credit; ?></div>
-      <?php if ($uid): ?>
-        <div class="pm-link"><?php print l(t('Send message'),
-          privatemsg_get_link(array($account)),
-          array('query' => drupal_get_destination())); ?>
+  
+  <?php // Only show this post on the first page of a thread ?>
+  <?php if ($first_page): ?>
+    
+    <div class="user">
+      <?php
+        $account = user_load(array('uid' => $uid));
+        $user_image = boincuser_get_user_profile_image($uid);
+        if ($user_image['image']['filepath']) {
+          print '<div class="picture">';
+          //print theme('imagecache', 'thumbnail', $user_image['image']['filepath'], $user_image['alt'], $user_image['alt']);
+          print theme('imagefield_image', $user_image['image'], $user_image['alt'], $user_image['alt'], array('width' => '100', 'height' => '100'), false);
+          print '</div>';
+        }
+      ?>
+      <div class="name"><?php print $name; ?></div>
+      <?php if ($account->uid): ?>
+        <div class="join-date">Joined: <?php print date('j M y', $account->created); ?></div>
+        <div class="post-count">Posts: <?php print $account->post_count; ?></div>
+        <div class="credit">Credit: <?php print $account->boincuser_total_credit; ?></div>
+        <div class="rac">RAC: <?php print $account->boincuser_expavg_credit; ?></div>
+        <?php if ($uid): ?>
+          <div class="pm-link"><?php print l(t('Send message'),
+            privatemsg_get_link(array($account)),
+            array('query' => drupal_get_destination())); ?>
+          </div>
+        <?php endif; ?>
+      <?php endif; ?>
+    </div>
+    
+    <div class="node-body">
+      
+      <?php if ($terms): ?>
+        <div class="terms terms-inline"><?php print $terms; ?></div>
+      <?php endif; ?>
+      
+      <?php if ($display_submitted): ?>
+        <div class="submitted">
+          <?php print date('j M Y H:i:s T', $node->created); ?>
         </div>
       <?php endif; ?>
-    <?php endif; ?>
-  </div>
-  
-  <div class="node-body">
-    
-    <?php if ($terms): ?>
-      <div class="terms terms-inline"><?php print $terms; ?></div>
-    <?php endif; ?>
-    
-    <?php if ($display_submitted): ?>
-      <div class="submitted">
-        <?php print date('j M Y H:i:s T', $node->created); ?>
+      <div class="topic-id">
+        Topic <?php print $node->nid; ?>
       </div>
-    <?php endif; ?>
-    <div class="topic-id">
-      Topic <?php print $node->nid; ?>
-    </div>
-    
-    <div class="content">
-      <?php print $content; ?>
-    </div>
+      
+      <div class="content">
+        <?php print $content; ?>
+      </div>
 
-    <?php print $links; ?>
-  </div> <!-- /.node-body -->
+      <?php print $links; ?>
+    </div> <!-- /.node-body -->
+    
+  <?php endif; // first page ?>
+  
 </div> <!-- /.node -->
