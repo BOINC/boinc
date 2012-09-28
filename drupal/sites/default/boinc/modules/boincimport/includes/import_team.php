@@ -29,7 +29,10 @@
   $boincteam_admin = (int) db_result(db_query('SELECT userid FROM team_admin WHERE teamid=%d', array($team_id)));
   db_set_active('default');
   
-  if (!$team_exists = db_query('SELECT team_id FROM {boincteam} WHERE team_id = %d', $boincteam->id)) {
+  $team_exists = db_query('SELECT team_id FROM {boincteam} WHERE team_id = %d', $boincteam->id);
+  // FIXME: $team_exists==FALSE should be handled as an error and return an error code!
+
+  if($team_exists != FALSE && db_fetch_object($team_exists) == FALSE) {
     $boincteam->description = _boincimport_text_sanitize($boincteam->description);
     $teaser = node_teaser($boincteam->description);
     
