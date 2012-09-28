@@ -385,8 +385,14 @@ function boincstats_credit_to_ghours($credit) {
 /*
  *
  */
-function boincstats_credit_to_gflops($credit) {
-  return $credit / (100000);
+function boincstats_credit_to_flops($credit, $prefix = 0) {
+  $factor = array(
+    '0' => 0,
+    'g' => 3,
+    't' => 6,
+    'p' => 9
+  );
+  return $credit / (pow(10, (int) $factor[$prefix]) / 10);
 }
 
 
@@ -410,7 +416,7 @@ function boincstats_get_project_stats_overview() {
   global $base_path;
   $output = '';
   $output .= '<div class="stats"><label>' . t('Total G-hours: ') . '</label><span>' . number_format(boincstats_credit_to_ghours(boincstats_get_project_total_credit())) . '</span></div>' . "\n";
-  $output .= '<div class="stats"><label>' . t('Avg GFlops: ') . '</label><span>' . number_format(boincstats_credit_to_gflops(boincstats_get_project_avg_credit())) . '</span></div>' . "\n";
+  $output .= '<div class="stats"><label>' . t('Avg TFlops: ') . '</label><span>' . number_format(boincstats_credit_to_flops(boincstats_get_project_avg_credit(), 't')) . '</span></div>' . "\n";
   //$output .= '<div class="stats"><a href="#">' . t('Pending credits') . '</a></div>' . "\n";
   $output .= '<div class="chart"><img src="' . $base_path . 'charts/project" /></div>' . "\n";
   
