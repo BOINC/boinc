@@ -29,7 +29,7 @@
   $boincteam_admin = (int) db_result(db_query('SELECT userid FROM team_admin WHERE teamid=%d', array($team_id)));
   db_set_active('default');
   
-  if (!$team_exists = db_query("SELECT team_id FROM {boincteam} WHERE team_id = '%d'", $boincteam->id)) {
+  if (!$team_exists = db_query('SELECT team_id FROM {boincteam} WHERE team_id = %d', $boincteam->id)) {
     $boincteam->description = _boincimport_text_sanitize($boincteam->description);
     $teaser = node_teaser($boincteam->description);
     
