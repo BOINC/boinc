@@ -301,6 +301,14 @@ $math = array(
     tra("Mathematics, computing, and games"),
     array(
         array(
+            "OProject@Home",
+            "http://oproject.goldbach.pl/",
+            tra("Private"),
+            tra("Mathematics, Physics, Artificial Intelligence"),
+            tra("Simulation of quantum computing; Goldbach's conjecture."),
+            "oproject_logo.png"
+        ),
+        array(
             "NumberFields@home",
             "http://stat.la.asu.edu/NumberFields/",
             "Arizona State University, school of Mathematics",

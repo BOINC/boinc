@@ -944,8 +944,12 @@ static void handle_process_control_msg() {
 
         if (match_tag(buf, "<resume/>")) {
             BOINCINFO("Received resume message");
-            if (boinc_status.suspended && options.direct_process_action) {
-                resume_activities();
+            if (options.direct_process_action) {
+                if (boinc_status.suspended) {
+                    resume_activities();
+                } else if (suspend_request) {
+                    suspend_request = false;
+                }
             }
             boinc_status.suspended = false;
         }

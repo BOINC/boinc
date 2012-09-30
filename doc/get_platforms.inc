@@ -34,6 +34,9 @@ function friendly_name($p) {
     case 'windows_amd64': $q = 'Windows/Opteron'; break;
     case 'x86_64-pc-solaris': $q = 'Solaris/x64'; break;
     case 'windows_intelx86_64': $q = 'Windows/x64'; break;
+    case 'arm-android-linux-gnu': $q = 'Android/ARM'; break;
+    case 'arm-unknown-linux-gnu': $q = 'Linux/ARM'; break;
+    case 'x86_64-pc-freebsd': $q = 'FreeBSD/x86'; break;
     }
     if (strlen($pc)) {
         if (strstr($pc, 'cuda')) $q .= " (NVIDIA GPU)";

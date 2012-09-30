@@ -6063,3 +6063,12 @@ David  23 Sept 2012
             prefs.inc
     lib/
         prefs.cpp
+
+David  30 Sept 2012
+    - API: if get a resume message from client while in a critical section,
+        clear the suspend_request flag.
+        Otherwise we'll end up doing two suspends,
+        and on Win the app will be suspended forever.
+
+    api/
+        boinc_api.cpp
