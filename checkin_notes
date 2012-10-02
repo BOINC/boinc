@@ -6064,6 +6064,21 @@ David  23 Sept 2012
     lib/
         prefs.cpp
 
+Eric K  24 Sept 2012  (Date committed to git repository)
+    - sched: 2 bug fixes in credit.cpp
+        - It was possible if all results for a workunit were PFC_MODE_INVALID
+          that NaN pfc would be used causing database update errors.  Solved 
+          by using wu_estimated_pfc() as pfc in that case.
+        - Sanity check was comparing raw_pfc directly to rsc_fpops_bound.  That
+          was causing problems GPUs with high performance estimates.  Fixed by 
+          including the app_version scale factor in the check.  I thought I had 
+          already committed this...
+        - Removed a few lines of commented out experimental code accidentally
+          comitted earlier.
+
+    sched/
+        credit.cpp
+
 David  30 Sept 2012
     - API: if get a resume message from client while in a critical section,
         clear the suspend_request flag.

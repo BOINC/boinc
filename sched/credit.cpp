@@ -518,16 +518,20 @@ int get_pfc(
             r.flops_estimate/1e9
         );
     }
+    // get app version
+    avp = av_lookup(r.app_version_id, app_versions);
 
     // Sanity check
-    //
-    if (raw_pfc > wu.rsc_fpops_bound) {
+    // If an app version scale exists, use it.  Otherwise assume 1.
+    double tmp_scale = (avp && (r.app_version_id>1) && avp->pfc_scale) ? (avp->pfc_scale) : 1.0;
+
+    if (raw_pfc*tmp_scale > wu.rsc_fpops_bound) {
         char query[256], clause[256];
         pfc = wu_estimated_pfc(wu, app);
         if (config.debug_credit) {
             log_messages.printf(MSG_NORMAL,
                 "[credit] [RESULT#%d] sanity check failed: %.2f>%.2f, return %.2f\n",
-                r.id, raw_pfc*COBBLESTONE_SCALE,
+                r.id, raw_pfc*tmp_scale*COBBLESTONE_SCALE,
                 wu.rsc_fpops_bound*COBBLESTONE_SCALE, pfc*COBBLESTONE_SCALE
             );
         }
@@ -727,10 +731,6 @@ int get_pfc(
             (r.received_time - r.sent_time),
             HAV_AVG_THRESH, HAV_AVG_WEIGHT, HAV_AVG_LIMIT
         );
-//        if ((r.elapsed_time > 0) && (r.cpu_time > 0)) {
-//            hav.rt.update(r.elapsed_time,HAV_AVG_THRESH,HAV_AVG_WEIGHT,HAV_AVG_LIMIT);
-//            hav.cpu.update(r.cpu_time,HAV_AVG_THRESH,HAV_AVG_WEIGHT,HAV_AVG_LIMIT);
-//        }
     }
 
     // keep track of credit per app version
@@ -872,7 +872,13 @@ int assign_credit_set(
         approx.push_back(normal[0]);
         // fall through
     case 0:
-        x = pegged_average(approx,wu_estimated_pfc(wu, app));
+        if (approx.size()) {
+            x = pegged_average(approx,wu_estimated_pfc(wu, app));
+        } else {
+            // there were only PFC_MODE_INVALID results, so
+            // we guess
+            x = wu_estimated_pfc(wu, app);
+        }
         break;
     default:
         x = pegged_average(normal,wu_estimated_pfc(wu, app));
