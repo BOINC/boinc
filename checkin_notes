@@ -6129,3 +6129,17 @@ David  11 Oct 2012
     lib/
         app_ipc.cpp,h
         proc_control.cpp
+
+David  11 Oct 2012
+	- Win compile fixes.
+		For now, include psapi.lib in various project properties.
+		Try to figure out a different way.
+
+	api/
+		boinc_api.cpp
+	client/
+		app_start.cpp
+	lib/
+		boinc_win.h
+	win_build/
+		various .proj files

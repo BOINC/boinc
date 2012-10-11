@@ -219,7 +219,7 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
     strcpy(aid.authenticator, wup->project->authenticator);
     aid.slot = slot;
 #ifdef _WIN32
-    if (strstr(gstate.hostinfo.os_name, "Windows 2000")) {
+    if (strstr(gstate.host_info.os_name, "Windows 2000")) {
         // Win2K immediately reuses PIDs, so can't use this mechanism
         //
         aid.client_pid = 0;

@@ -387,7 +387,7 @@ static bool client_dead() {
         // Windows doesn't have waitpid() :-(
         //
         DWORD pids[4096], nb;
-        BOOL r = EnumProcesses(pids, sizeof(pids), nb);
+        BOOL r = EnumProcesses(pids, sizeof(pids), &nb);
         if (!r) return false;
         int n = nb/sizeof(DWORD);
         for (int i=0; i<n; i++) {
