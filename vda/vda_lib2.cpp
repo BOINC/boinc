@@ -90,7 +90,7 @@ int get_chunk_numbers(VDA_CHUNK_HOST& vch, vector<int>& chunk_numbers) {
 int DATA_UNIT::delete_file() {
     char path[1024], buf[1024];
     sprintf(path, "%s/data.vda", dir);
-    ssize_t n = readlink(path, buf, 1024);
+    ssize_t n = readlink(path, buf, sizeof(buf)-1);
     if (n < 0) {
         printf("readlink %s failed\n", path);
         return ERR_SYMLINK;
@@ -298,7 +298,7 @@ int META_CHUNK::decode() {
     //
     char linkpath[1024], filepath[1024];
     sprintf(linkpath, "%s/data.vda", dir);
-    ssize_t n = readlink(linkpath, filepath, sizeof(filepath));
+    ssize_t n = readlink(linkpath, filepath, sizeof(filepath)-1);
     if (n < 0) {
         perror("readlink");
         return -1;

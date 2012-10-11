@@ -449,6 +449,7 @@ char * convert_to_string(const char *fileName) {
         s[i++]=c;
     }
     s[i]='\0';
+    fclose(infile);
     return s;
 }
 

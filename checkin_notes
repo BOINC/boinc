@@ -6087,3 +6087,12 @@ David  30 Sept 2012
 
     api/
         boinc_api.cpp
+
+David  10 Oct 2012
+    - tweaks
+
+    samples/nvopencl/
+        nvopencl.cpp
+    vda/
+        sched_vda.cpp
+        vda_lib2.cpp
