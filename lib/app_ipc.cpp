@@ -100,6 +100,7 @@ void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
     teamid                        = a.teamid;
     hostid                        = a.hostid;
     slot                          = a.slot;
+    client_pid                    = a.client_pid;
     user_total_credit             = a.user_total_credit;
     user_expavg_credit            = a.user_expavg_credit;
     host_total_credit             = a.host_total_credit;
@@ -193,6 +194,7 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
 #endif
     fprintf(f,
         "<slot>%d</slot>\n"
+        "<client_pid>%d</client_pid>\n"
         "<wu_cpu_time>%f</wu_cpu_time>\n"
         "<starting_elapsed_time>%f</starting_elapsed_time>\n"
         "<using_sandbox>%d</using_sandbox>\n"
@@ -215,6 +217,7 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         "<computation_deadline>%f</computation_deadline>\n"
         "<vbox_window>%d</vbox_window>\n",
         ai.slot,
+        ai.client_pid,
         ai.wu_cpu_time,
         ai.starting_elapsed_time,
         ai.using_sandbox?1:0,
@@ -266,6 +269,7 @@ void APP_INIT_DATA::clear() {
     strcpy(result_name, "");
     strcpy(authenticator, "");
     slot = 0;
+    client_pid = 0;
     user_total_credit = 0;
     user_expavg_credit = 0;
     host_total_credit = 0;
@@ -371,6 +375,7 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         if (xp.parse_int("shm_key", ai.shmem_seg_name)) continue;
 #endif
         if (xp.parse_int("slot", ai.slot)) continue;
+        if (xp.parse_int("client_pid", ai.client_pid)) continue;
         if (xp.parse_double("user_total_credit", ai.user_total_credit)) continue;
         if (xp.parse_double("user_expavg_credit", ai.user_expavg_credit)) continue;
         if (xp.parse_double("host_total_credit", ai.host_total_credit)) continue;

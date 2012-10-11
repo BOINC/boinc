@@ -39,6 +39,8 @@
 //      new process call boinc_init_options() with flags to
 //        send status messages and handle checkpoint stuff,
 //        and returns from boinc_init_parallel()
+//      NOTE: THIS DOESN'T RESPECT CRITICAL SECTIONS.
+//      NEED TO MASK SIGNALS IN CHILD DURING CRITICAL SECTIONS
 //    Win:
 //      like sequential case, except suspend/resume must enumerate
 //      all threads (except timer) and suspend/resume them all
@@ -47,6 +49,13 @@
 //  MUST be declared volatile.
 //
 // 3) For compatibility with C, we use int instead of bool various places
+//
+// 4) We must periodically check that the client is still alive and exit if not.
+//      Originally this was done using heartbeat msgs from client.
+//      This is unreliable, e.g. if the client is blocked for a long time.
+//      As of Oct 11 2012 we use a different mechanism:
+//      the client passes its PID and we periodically check whether it exists.
+//      But we need to support the heartbeat mechanism also for compatibility.
 //
 // Terminology:
 // The processing of a result can be divided
@@ -127,7 +136,7 @@ static volatile double initial_wu_cpu_time;
 static volatile bool have_new_trickle_up = false;
 static volatile bool have_trickle_down = true;
     // on first call, scan slot dir for msgs
-static volatile int heartbeat_giveup_time;
+static volatile int heartbeat_giveup_count;
     // interrupt count value at which to give up on core client
 #ifdef _WIN32
 static volatile int nrunning_ticks = 0;
@@ -156,12 +165,13 @@ int app_min_checkpoint_period = 0;
 
 #define TIMER_PERIOD 0.1
     // period of worker-thread timer interrupts.
-    // Determines rate of handlling messages from client.
+    // Determines rate of handling messages from client.
 #define TIMERS_PER_SEC 10
     // This determines the resolution of fraction done and CPU time reporting
     // to the core client, and of checkpoint enabling.
     // It doesn't influence graphics, so 1 sec is enough.
-#define HEARTBEAT_GIVEUP_COUNT ((int)(30/TIMER_PERIOD))
+#define HEARTBEAT_GIVEUP_SECS 30
+#define HEARTBEAT_GIVEUP_COUNT ((int)(HEARTBEAT_GIVEUP_SECS/TIMER_PERIOD))
     // quit if no heartbeat from core in this #interrupts
 #define LOCKFILE_TIMEOUT_PERIOD 35
     // quit if we cannot aquire slot lock file in this #secs after startup
@@ -354,7 +364,7 @@ static void handle_heartbeat_msg() {
     if (app_client_shm->shm->heartbeat.get_msg(buf)) {
         boinc_status.network_suspended = false;
         if (match_tag(buf, "<heartbeat/>")) {
-            heartbeat_giveup_time = interrupt_count + HEARTBEAT_GIVEUP_COUNT;
+            heartbeat_giveup_count = interrupt_count + HEARTBEAT_GIVEUP_COUNT;
         }
         if (parse_double(buf, "<wss>", dtemp)) {
             boinc_status.working_set_size = dtemp;
@@ -365,6 +375,30 @@ static void handle_heartbeat_msg() {
         if (parse_bool(buf, "suspend_network", btemp)) {
             boinc_status.network_suspended = btemp;
         }
+    }
+}
+
+static bool client_dead() {
+    if (aid.client_pid) {
+        // check every 10 sec
+        //
+        if (interrupt_count%(TIMERS_PER_SEC*10)) return false;
+#ifdef _WIN32
+        // Windows doesn't have waitpid() :-(
+        //
+        DWORD pids[4096], nb;
+        BOOL r = EnumProcesses(pids, sizeof(pids), nb);
+        if (!r) return false;
+        int n = nb/sizeof(DWORD);
+        for (int i=0; i<n; i++) {
+            if (pids[i] == aid.client_pid) return false;
+        }
+        return true;
+#else
+        return (waitpid(aid.client_pid, 0, WNOHANG) < 0);
+#endif
+    } else {
+        return (interrupt_count > heartbeat_giveup_count);
     }
 }
 
@@ -393,7 +427,7 @@ static void parallel_master(int child_pid) {
                 }
             }
 
-            if (heartbeat_giveup_time < interrupt_count) {
+            if (client_dead()) {
                 kill(child_pid, SIGKILL);
                 exit(0);
             }
@@ -551,7 +585,7 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
     if (standalone) {
         options.check_heartbeat = false;
     }
-    heartbeat_giveup_time = interrupt_count + HEARTBEAT_GIVEUP_COUNT;
+    heartbeat_giveup_count = interrupt_count + HEARTBEAT_GIVEUP_COUNT;
 
     return 0;
 }
@@ -1171,10 +1205,10 @@ static void timer_handler() {
     // (unless we're in a critical section)
     //
     if (in_critical_section==0 && options.check_heartbeat) {
-        if (heartbeat_giveup_time < interrupt_count) {
+        if (client_dead()) {
             boinc_msg_prefix(buf, sizeof(buf));
-            fputs(buf, stderr);
-            fputs(" No heartbeat from core client for 30 sec - exiting\n", stderr);
+            fputs(buf, stderr);     // don't use fprintf() here
+            fputs(" No heartbeat from client for 30 sec - exiting\n", stderr);
             if (options.direct_process_action) {
                 exit_from_timer_thread(0);
             } else {

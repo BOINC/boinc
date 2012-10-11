@@ -6096,3 +6096,36 @@ David  10 Oct 2012
     vda/
         sched_vda.cpp
         vda_lib2.cpp
+
+David  11 Oct 2012
+    - client and API: improve the way an app checks for the death of the client
+        Old: heartbeat mechanism
+        Problem: if the client is blocked for > 30 secs
+            (e.g. because it takes a long time to write the state file,
+            of because it's stopped in a debugger)
+            then apps exit.
+            This is bad is the app doesn't checkpoint and has been
+            running for a long time.
+        New: the client passes its PID to the app.
+            The app periodically (10 sec) checks that the process still exists.
+        Notes:
+        - For backward compatibility (e.g. new API w/ old client,
+            or vice versa) the client still sends heartbeats,
+            and the API checks heartbeats if the client doesn't pass a PID.
+        - The new mechanism works only if the client's PID isn't assigned
+            to a new process within 10 secs of the client exiting.
+            Windows 2000 reuses PIDs immediately, so check for Win2K
+            and don't use this mechanism if so.
+
+    TODO: For Unix multithread apps,
+        critical sections aren't currently being enforced.
+        Need to fix this by masking signals.
+
+    api/
+        boinc_api.cpp
+    client/
+        hostinfo_win.cpp
+        app_start.cpp
+    lib/
+        app_ipc.cpp,h
+        proc_control.cpp

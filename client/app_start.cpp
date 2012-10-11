@@ -218,6 +218,17 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
     relative_to_absolute("", aid.boinc_dir);
     strcpy(aid.authenticator, wup->project->authenticator);
     aid.slot = slot;
+#ifdef _WIN32
+    if (strstr(gstate.hostinfo.os_name, "Windows 2000")) {
+        // Win2K immediately reuses PIDs, so can't use this mechanism
+        //
+        aid.client_pid = 0;
+    } else {
+        aid.client_pid = GetCurrentProcessId();
+    }
+#else
+    aid.client_pid = getpid();
+#endif
     strcpy(aid.wu_name, wup->name);
     strcpy(aid.result_name, result->name);
     aid.user_total_credit = wup->project->user_total_credit;

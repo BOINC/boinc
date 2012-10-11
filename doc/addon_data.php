@@ -516,16 +516,16 @@ array('scr0.9.dmg',
 );
 
 $browser = array(
-array('http://setihometoolbar.ourtoolbar.com/',
-    'SETI@home Toolbar',
-    '',
-    'Toolbar for Firefox and IE (Windows);
-    includes search, links, radio, RSS',
-    'http://setihometoolbar.ourtoolbar.com/',
-    '',
-    '',
-    1162833635
-),
+//array('http://setihometoolbar.ourtoolbar.com/',
+//    'SETI@home Toolbar',
+//    '',
+//    'Toolbar for Firefox and IE (Windows);
+//    includes search, links, radio, RSS',
+//    'http://setihometoolbar.ourtoolbar.com/',
+//    '',
+//    '',
+//    1162833635
+//),
 array('http://widgets.yahoo.com/gallery/view.php?widget=41595',
     'BOINC Statistics',
     '',

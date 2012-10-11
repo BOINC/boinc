@@ -169,6 +169,7 @@ struct APP_INIT_DATA {
     char result_name[256];
     char authenticator[256];
     int slot;
+    int client_pid;
     double user_total_credit;
     double user_expavg_credit;
     double host_total_credit;
