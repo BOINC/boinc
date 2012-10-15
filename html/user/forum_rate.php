@@ -59,7 +59,7 @@ if (!empty($_GET['post'])) {
     }
     
     if (BoincPostRating::lookup($user->id, $post->id)) {
-        error_page(tra("You have already rated this post.")."<br /><br /><a href=\"forum_thread.php?nowrap=true&id=".$thread->id."#".$post->id."\">".tra("Return to thread")."</a>");
+        error_page(tra("You have already rated this post.")."<br /><br /><a href=\"forum_thread.php?nowrap=true&id=$thread->id&postid=$post->id\">".tra("Return to thread")."</a>");
     } else {
         $success = BoincPostRating::replace($user->id, $post->id, $rating);
         show_result_page($success, $post, $thread, $choice);
@@ -75,12 +75,12 @@ function show_result_page($success, $post, $thread, $choice) {
             page_head(tra("Vote Registered"));
             echo tra("Your rating has been recorded. Thanks for your input.");
         }
-        echo "<a href=\"forum_thread.php?nowrap=true&id=", $thread->id, "#", $post->id, "\">".tra("Return to thread")."</a>";
+        echo "<p><a href=\"forum_thread.php?nowrap=true&id=$thread->id&postid=$post->id\">".tra("Return to thread")."</a>";
     } else {
         page_head(tra("Vote Submission Problem"));    
         if ($post) {
             echo "There was a problem recording your vote in our database. Please try again later.";
-            echo "<a href=\"forum_thread.php?id=", $thread->id, "#", $post->id, "\">".tra("Return to thread")."</a>";
+            echo "<a href=\"forum_thread.php?id=$thread->id&postid=$post->id\">".tra("Return to thread")."</a>";
         } else {
             echo "The post you specified does not exist, or your rating was invalid.";
         }

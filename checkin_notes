@@ -6143,3 +6143,20 @@ David  11 Oct 2012
 		boinc_win.h
 	win_build/
 		various .proj files
+
+David  15 Oct 2012
+    - user web: show the right page/message after the following actions:
+        - rate a post
+        - moderate a post
+        - edit a post
+        - report a post
+
+    sched/
+        validator.cpp
+    tools/
+        update_versions
+    html/user/
+        forum_rate.php
+        forum_report_post.php
+        forum_moderate_post_action.php
+        forum_edit.php

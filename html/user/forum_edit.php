@@ -76,7 +76,7 @@ if (post_str('submit',true) && (!$preview)) {
             $title = BoincDb::escape_string($title);
             $thread->update("title='$title'");
         }
-        header("Location: forum_thread.php?id=$thread->id");
+        header("Location: forum_thread.php?id=$thread->id&postid=$postid");
     } else {
         delete_post($post, $thread, $forum);
         header("Location: forum_forum.php?id=$forum->id");

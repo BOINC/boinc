@@ -53,6 +53,7 @@ if (get_str("submit",true)){
     if (send_report_post_email($user, $forum, $thread, $post, $reason)){
         $success_page=1;
     } else {
+        echo "send email failed";
         $success_page=-1;
     }
 }
@@ -65,7 +66,7 @@ if ($success_page==1) {
     echo tra("Your report has been recorded. Thanks for your input.")."<p>"
         .tra("A moderator will now look at your report and decide what will happen - this may take a little while, so please be patient");
 
-    echo "<p><a href=\"forum_thread.php?id=", $thread->id, "#", $post->id, "\">".tra("Return to thread")."</a>";
+    echo "<p><a href=\"forum_thread.php?id=$thread->id&postid=$post->id\">".tra("Return to thread")."</a>";
 } elseif ($success_page==0){
     page_head(tra("Report a forum post"));
     if (!$no_forum_rating) {
@@ -90,7 +91,7 @@ has not yet read the thread will quickly be able to identify the issue.%2", "<sp
     echo "<p>".tra("Your report could not be recorded. Please wait a while and try again.")."</p>
         <p>".tra("If this is not a temporary error, please report it to the project developers.")."</p>
     ";
-    echo "<a href=\"forum_thread.php?id=", $thread->id, "#", $post->id, "\">".tra("Return to thread")."</a>";
+    echo "<a href=\"forum_thread.php?id=$thread->id&postid=$post->id\">".tra("Return to thread")."</a>";
 }
 page_tail();
 ?>

@@ -93,7 +93,7 @@ if ($action=="hide"){
     $explanation = "Old thread: $thread->title
 ".URL_BASE."forum_thread.php?id=$thread->id
 New thread: $new_thread->title
-".URL_BASE."forum_thread.php?id=$new_thread->id#$post->id
+".URL_BASE."forum_thread.php?id=$new_thread->id&postid=$post->id
 ";
     $explanation .= mod_comment();
     $action_name = "moved to another thread";

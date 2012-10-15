@@ -10,6 +10,27 @@ require_once("../inc/translation.inc");
 // 5: logo
 // 6: master URL (if different from web site)
 
+$sensing = array(
+    tra("Distributed sensing")."<br><span class=note>".tra("To participate in these projects you must buy a sensor and attach it to your computer.")."</class>",
+    array(
+        array(
+            "Quake Catcher Network",
+            "http://qcn.stanford.edu/sensor/",
+            tra("Stanford University"),
+            tra("Seismology"),
+            tra("The Quake-Catcher Network is developing the world's largest seismic network using sensors attached to Internet-connected computers.  You must buy a sensor to participate."),
+        ),
+        array(
+            "Radioactive@Home",
+            "http://radioactiveathome.org/",
+            tra("BOINC Poland Foundation"),
+            tra("Environmental research"),
+            tra("This project is creating a free and continuously updated map of radiation levels by using sensors connected to volunteers' computers.  You must buy a sensor to participate."),
+            "radioactive.jpg",
+        ),
+    ),
+);
+
 $cogsci = array(
     tra("Cognitive science and artifical intelligence"),
     array(
@@ -127,13 +148,6 @@ $biomed = array(
 $earth = array(
     tra("Earth Sciences"),
     array(
-//        array(
-//            "Quake Catcher Network",
-//            "http://qcn.stanford.edu/",
-//            tra("Stanford University"),
-//            tra("Seismology"),
-//            tra("The Quake-Catcher Network is a collaborative initiative for developing the world's largest, low-cost strong-motion seismic network by utilizing sensors in and attached to internet-connected computers.")
-//        ),
         array(
             "Virtual Prairie",
             "http://vcsc.cs.uh.edu/virtual-prairie/",
@@ -470,6 +484,6 @@ $math = array(
     ),
 );
 
-$areas = array($biomed, $astro_phys_chem, $math, $earth, $mixed, $cogsci);
+$areas = array($biomed, $astro_phys_chem, $math, $earth, $mixed, $cogsci, $sensing);
 
 ?>

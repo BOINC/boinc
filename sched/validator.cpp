@@ -373,7 +373,7 @@ int handle_wu(
             retval = check_set(results, wu, canonicalid, dummy, retry);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
-                    "[WU#%d %s] check_set() error: %s, exiting\n",
+                    "[WU#%d %s] check_set() error: %s\n",
                     wu.id, wu.name, boincerror(retval)
                 );
                 return retval;
@@ -615,7 +615,7 @@ leave:
     retval = validator.update_workunit(wu);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "[WU#%d %s] update_workunit() failed: %s; exiting\n",
+            "[WU#%d %s] update_workunit() failed: %s\n",
             wu.id, wu.name, boincerror(retval)
         );
         return retval;
