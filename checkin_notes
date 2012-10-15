@@ -6160,3 +6160,10 @@ David  15 Oct 2012
         forum_report_post.php
         forum_moderate_post_action.php
         forum_edit.php
+
+Charlie 15 Oct 2012
+    - MGR: We don't save Simple View's width & height since it's 
+        window is not resizable, so don't try to read them back.
+    
+    clientgui/
+        BOINCGUIApp.cpp

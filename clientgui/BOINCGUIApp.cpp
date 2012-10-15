@@ -928,12 +928,19 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             m_pConfig->SetPath(wxT("/Simple"));
             m_pConfig->Read(wxT("YPos"), &iTop, 30);
             m_pConfig->Read(wxT("XPos"), &iLeft, 30);
+
+            // We don't save Simple View's width & height since it's 
+            // window is not resizable, so don't try to read them
 #ifdef __WXMAC__
-            m_pConfig->Read(wxT("Width"), &iWidth, 409);
-            m_pConfig->Read(wxT("Height"), &iHeight, 561);
+//            m_pConfig->Read(wxT("Width"), &iWidth, 409);
+//            m_pConfig->Read(wxT("Height"), &iHeight, 561);
+            iWidth = 409;
+            iHeight = 561;
 #else
-            m_pConfig->Read(wxT("Width"), &iWidth, 416);
-            m_pConfig->Read(wxT("Height"), &iHeight, 570);
+//            m_pConfig->Read(wxT("Width"), &iWidth, 416);
+//            m_pConfig->Read(wxT("Height"), &iHeight, 570);
+            iWidth = 416;
+            iHeight = 570;
 #endif
         }
 
