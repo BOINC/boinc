@@ -1,3 +1,13 @@
+dcapi (0.13-1) unstable; urgency=low
+
+  * DC-API Condor backend improvements (works again with 3G-Bridge).
+  * Added support for the <optional> flag of BOINC.
+  * Fixed typo in BOINC WU generation.
+  * BOINC empty file handling: these are not uploaded by BOINC, DC-API
+    creates these empty files now.
+
+ -- Attila Csaba Marosi <atisu@sztaki.hu>  Mon, 10 Oct 2012 17:22:26 +0200
+
 dcapi (0.12-5) unstable; urgency=low
 
   * Fix: MaxOutputSize now accepts values larger than 2GB.
