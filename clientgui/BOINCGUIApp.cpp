@@ -353,12 +353,9 @@ bool CBOINCGUIApp::OnInit() {
             }
             strDialogMessage += _(")");
             
-            fprintf(stderr, "%ls ownership or permissions are not set properly; please reinstall %ls.\n(Error code %d at %s)", 
-                    m_pSkinManager->GetAdvanced()->GetApplicationShortName().c_str(),
-                    m_pSkinManager->GetAdvanced()->GetApplicationShortName().c_str(),
-                    iErrorCode, path_to_error
-                );
+            fprintf(stderr, "%s\n", (const char*)strDialogMessage.utf8_str());
         }
+
         wxMessageDialog* pDlg = new wxMessageDialog(
                                     NULL, 
                                     strDialogMessage, 
@@ -526,22 +523,22 @@ int CBOINCGUIApp::OnExit() {
 void CBOINCGUIApp::OnInitCmdLine(wxCmdLineParser &parser) {
     wxApp::OnInitCmdLine(parser);
     static const wxCmdLineEntryDesc cmdLineDesc[] = {
-        { wxCMD_LINE_SWITCH, wxT("a"), wxT("autostart"), _("BOINC Manager was started by the operating system automatically")},
+        { wxCMD_LINE_SWITCH, "a", "autostart", _("BOINC Manager was started by the operating system automatically")},
 #if defined(__WXMSW__) || defined(__WXMAC__)
-        { wxCMD_LINE_SWITCH, wxT("s"), wxT("systray"), _("Startup BOINC so only the system tray icon is visible")},
+        { wxCMD_LINE_SWITCH, "s", "systray", _("Startup BOINC so only the system tray icon is visible")},
 #else
-        { wxCMD_LINE_OPTION, wxT("e"), wxT("clientdir"), _("Directory containing the BOINC Client executable")},
-        { wxCMD_LINE_OPTION, wxT("d"), wxT("datadir"), _("BOINC data directory")},
+        { wxCMD_LINE_OPTION, "e", "clientdir", _("Directory containing the BOINC Client executable")},
+        { wxCMD_LINE_OPTION, "d", "datadir", _("BOINC data directory")},
 #endif
-        { wxCMD_LINE_OPTION, wxT("n"), wxT("namehost"), _("Host name or IP address")},
-        { wxCMD_LINE_OPTION, wxT("g"), wxT("gui_rpc_port"), _("GUI RPC port number")},
-        { wxCMD_LINE_OPTION, wxT("p"), wxT("password"), _("Password")},
-        { wxCMD_LINE_OPTION, wxT("b"), wxT("boincargs"), _("Startup BOINC with these optional arguments")},
-        { wxCMD_LINE_SWITCH, wxT("i"), wxT("insecure"), _("disable BOINC security users and permissions")},
-        { wxCMD_LINE_SWITCH, wxT("c"), wxT("checkskins"), _("set skin debugging mode to enable skin manager error messages")},
-        { wxCMD_LINE_SWITCH, wxT("m"), wxT("multiple"), _("multiple instances of BOINC Manager allowed")},
+        { wxCMD_LINE_OPTION, "n", "namehost", _("Host name or IP address")},
+        { wxCMD_LINE_OPTION, "g", "gui_rpc_port", _("GUI RPC port number")},
+        { wxCMD_LINE_OPTION, "p", "password", _("Password")},
+        { wxCMD_LINE_OPTION, "b", "boincargs", _("Startup BOINC with these optional arguments")},
+        { wxCMD_LINE_SWITCH, "i","insecure", _("disable BOINC security users and permissions")},
+        { wxCMD_LINE_SWITCH, "c", "checkskins", _("set skin debugging mode to enable skin manager error messages")},
+        { wxCMD_LINE_SWITCH, "m", "multiple", _("multiple instances of BOINC Manager allowed")},
 #if (defined(__WXMAC__) && defined(_DEBUG))
-        { wxCMD_LINE_OPTION, wxT("NSDocumentRevisionsDebugMode"), NULL, _("Not used: workaround for bug in XCode 4.2")},
+        { wxCMD_LINE_OPTION, "NSDocumentRevisionsDebugMode", NULL, _("Not used: workaround for bug in XCode 4.2")},
 #endif
         { wxCMD_LINE_NONE}  //DON'T forget this line!!
     };
@@ -928,19 +925,12 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             m_pConfig->SetPath(wxT("/Simple"));
             m_pConfig->Read(wxT("YPos"), &iTop, 30);
             m_pConfig->Read(wxT("XPos"), &iLeft, 30);
-
-            // We don't save Simple View's width & height since it's 
-            // window is not resizable, so don't try to read them
 #ifdef __WXMAC__
-//            m_pConfig->Read(wxT("Width"), &iWidth, 409);
-//            m_pConfig->Read(wxT("Height"), &iHeight, 561);
-            iWidth = 409;
-            iHeight = 561;
+            m_pConfig->Read(wxT("Width"), &iWidth, 409);
+            m_pConfig->Read(wxT("Height"), &iHeight, 561);
 #else
-//            m_pConfig->Read(wxT("Width"), &iWidth, 416);
-//            m_pConfig->Read(wxT("Height"), &iHeight, 570);
-            iWidth = 416;
-            iHeight = 570;
+            m_pConfig->Read(wxT("Width"), &iWidth, 416);
+            m_pConfig->Read(wxT("Height"), &iHeight, 570);
 #endif
         }
 

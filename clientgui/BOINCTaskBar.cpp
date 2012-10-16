@@ -84,7 +84,7 @@ END_EVENT_TABLE()
 
 CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnected, wxIcon* iconSnooze) : 
 #ifdef __WXMAC__
-    wxTaskBarIcon(DOCK)
+    wxTaskBarIcon()
 #else 
     wxTaskBarIconEx(wxT("BOINCManagerSystray"), 1)
 #endif
@@ -438,7 +438,7 @@ bool CTaskBarIcon::SetMacTaskBarIcon(const wxIcon& icon) {
         }
     }
 
-    CGImageRef pImage = (CGImageRef) bmp.CGImageCreate(); 
+    CGImageRef pImage = (CGImageRef) bmp.CreateCGImage(); 
     
     // Actually set the dock image    
     err = OverlayApplicationDockTileImage(pImage);

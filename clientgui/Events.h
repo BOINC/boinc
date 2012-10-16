@@ -168,6 +168,15 @@
 // 6501-6599 Reserved for Skin Selection
 #define ID_LASTSGSKINSELECTOR                   6999
 
+#define ID_CHANGE_SLIDE_TIMER                   6600
+#define WEBSITE_URL_MENU_ID_REMOVE_PROJECT      6610
+#define WEBSITE_URL_MENU_ID_HOMEPAGE            6620
+#define WEBSITE_URL_MENU_ID                     6630
+
+
+
+
+
 //
 // Taskbar/System Tray
 //

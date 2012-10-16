@@ -37,7 +37,7 @@
 
 extern bool s_bSkipExitConfirmation;
 
-#ifdef __WXMAC__
+#if 0 //def __WXMAC__
 
 #ifdef HAVE_PTHREAD_MUTEXATTR_T
 // on some systems pthread_mutexattr_settype() is not in the headers (but it is
@@ -864,7 +864,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
                     pFrame = wxGetApp().GetFrame();
                     wxCommandEvent evt(wxEVT_COMMAND_MENU_SELECTED, wxID_EXIT);
                     s_bSkipExitConfirmation = true;
-                    pFrame->AddPendingEvent(evt);
+                    pFrame->GetEventHandler()->AddPendingEvent(evt);
                 }
             }
             if (m_RPCWaitDlg) {
@@ -1138,7 +1138,7 @@ void CMainDocument::HandleCompletedRPC() {
         CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
         if (pFrame) {
             CFrameEvent event(wxEVT_FRAME_REFRESHVIEW, pFrame);
-            pFrame->ProcessEvent(event);
+            pFrame->GetEventHandler()->ProcessEvent(event);
         }
     }
 

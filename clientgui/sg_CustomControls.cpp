@@ -171,7 +171,7 @@ void CTransparentStaticTextAssociate::OnMouse(wxMouseEvent& event) {
     if (m_pWnd) {
         wxMouseEvent evtAssociate(event);
         evtAssociate.SetId(m_pWnd->GetId());
-        m_pWnd->ProcessEvent(event);
+        m_pWnd->GetEventHandler()->ProcessEvent(event);
     }
 
     // If we get the left button up event and we already had focus, that must

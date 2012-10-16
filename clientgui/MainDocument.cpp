@@ -903,11 +903,11 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
 
     if (!IsConnected()) {
         CFrameEvent event(wxEVT_FRAME_REFRESHVIEW, pFrame);
-        pFrame->AddPendingEvent(event);
+        pFrame->GetEventHandler()->AddPendingEvent(event);
         CTaskBarIcon* pTaskbar = wxGetApp().GetTaskBarIcon();
         if (pTaskbar) {
-            CTaskbarEvent tbevent(wxEVT_TASKBAR_REFRESH, pTaskbar);
-            pTaskbar->AddPendingEvent(tbevent);
+            CTaskbarEvent event(wxEVT_TASKBAR_REFRESH, pTaskbar);
+            pTaskbar->AddPendingEvent(event);
         }
         CDlgEventLog* eventLog = wxGetApp().GetEventLog();
         if (eventLog) {
@@ -1303,10 +1303,10 @@ PROJECT* CMainDocument::project(unsigned int i) {
 
 
 PROJECT* CMainDocument::project(char* url) {
-    for (unsigned int i=0; i< state.projects.size(); i++) {
-        PROJECT* tp = state.projects[i];
-        if (!strcmp(url, tp->master_url)) return tp;
-    }
+	for (unsigned int i=0; i< state.projects.size(); i++) {
+		PROJECT* tp = state.projects[i];
+		if (!strcmp(url, tp->master_url)) return tp;
+	}
     return NULL;
 }
 
@@ -1528,9 +1528,7 @@ int CMainDocument::WorkResume(char* url, char* name) {
 // If the graphics application for the current task is already 
 // running, return a pointer to its RUNNING_GFX_APP struct.
 //
-RUNNING_GFX_APP* CMainDocument::GetRunningGraphicsApp(
-    RESULT* rp, int slot
-) {
+RUNNING_GFX_APP* CMainDocument::GetRunningGraphicsApp(RESULT* result, int slot) {
     bool exited = false;
     std::vector<RUNNING_GFX_APP>::iterator gfx_app_iter;
     
@@ -1538,7 +1536,7 @@ RUNNING_GFX_APP* CMainDocument::GetRunningGraphicsApp(
         gfx_app_iter != m_running_gfx_apps.end(); 
         gfx_app_iter++
     ) {
-         if ((slot >= 0) && ((*gfx_app_iter).slot != slot)) continue;
+         if ( (slot >= 0) && ((*gfx_app_iter).slot != slot) ) continue;
 
 #ifdef _WIN32
         unsigned long exit_code;
@@ -1553,9 +1551,8 @@ RUNNING_GFX_APP* CMainDocument::GetRunningGraphicsApp(
         }
 #endif
         if (! exited) {
-            if ((rp->name == (*gfx_app_iter).name) &&
-                (rp->project_url == (*gfx_app_iter).project_url)
-            ) {
+            if ( (result->name == (*gfx_app_iter).name) &&
+                (result->project_url == (*gfx_app_iter).project_url) ) {
                 return &(*gfx_app_iter);
             }
     
@@ -1663,15 +1660,15 @@ void CMainDocument::KillGraphicsApp(int pid) {
 }
 #endif
 
-int CMainDocument::WorkShowGraphics(RESULT* rp) {
+int CMainDocument::WorkShowGraphics(RESULT* result) {
     int iRetVal = 0;
     
-    if (strlen(rp->web_graphics_url)) {
-        wxString url(rp->web_graphics_url, wxConvUTF8);
+    if (strlen(result->web_graphics_url)) {
+        wxString url(result->web_graphics_url, wxConvUTF8);
         wxLaunchDefaultBrowser(url);
         return 0;
     }
-    if (strlen(rp->graphics_exec_path)) {
+    if (strlen(result->graphics_exec_path)) {
         // V6 Graphics
         RUNNING_GFX_APP gfx_app;
         RUNNING_GFX_APP* previous_gfx_app;
@@ -1683,12 +1680,12 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
         int      id;
 #endif
 
-        p = strrchr((char*)rp->slot_path, '/');
+        p = strrchr((char*)result->slot_path, '/');
         if (!p) return ERR_INVALID_PARAM;
         slot = atoi(p+1);
         
         // See if we are already running the graphics application for this task
-        previous_gfx_app = GetRunningGraphicsApp(rp, slot);
+        previous_gfx_app = GetRunningGraphicsApp(result, slot);
 
 #ifndef __WXMSW__
         char* argv[4];
@@ -1712,13 +1709,13 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
         // exits with "RegisterProcess failed (error = -50)" unless 
         // we pass its full path twice in the argument list to execv.
         //
-        argv[1] = (char *)rp->graphics_exec_path;
-        argv[2] = (char *)rp->graphics_exec_path;
+        argv[1] = (char *)result->graphics_exec_path;
+        argv[2] = (char *)result->graphics_exec_path;
         argv[3] = 0;
     
          if (g_use_sandbox) {
             iRetVal = run_program(
-                rp->slot_path,
+                result->slot_path,
                "../../switcher/switcher",
                 3,
                 argv,
@@ -1727,8 +1724,8 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
             );
         } else {        
             iRetVal = run_program(
-                rp->slot_path,
-                rp->graphics_exec_path,
+                result->slot_path,
+                result->graphics_exec_path,
                 1,
                 &argv[2],
                 0,
@@ -1744,8 +1741,8 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
         argv[0] = 0;
         
         iRetVal = run_program(
-            rp->slot_path,
-            rp->graphics_exec_path,
+            result->slot_path,
+            result->graphics_exec_path,
             0,
             argv,
             0,
@@ -1754,8 +1751,8 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
 #endif
         if (!iRetVal) {
             gfx_app.slot = slot;
-            gfx_app.project_url = rp->project_url;
-            gfx_app.name = rp->name;
+            gfx_app.project_url = result->project_url;
+            gfx_app.name = result->name;
             gfx_app.pid = id;
             m_running_gfx_apps.push_back(gfx_app);
         }
@@ -1778,32 +1775,32 @@ int CMainDocument::WorkShowVMConsole(RESULT* result) {
         strCommand = wxT("rdesktop-vrdp ") + strConnection;
         wxExecute(strCommand);
 #elif defined(__WXMAC__)
-        FSRef theFSRef;
-        OSStatus status = noErr;
+    FSRef theFSRef;
+    OSStatus status = noErr;
 
-        // I have found no reliable way to pass the IP address and port to Microsoft's 
-        // Remote Desktop Connection application for the Mac, so I'm using CoRD.  
-        // Unfortunately, CoRD does not seem as reliable as I would like either.
-        //
-        // First try to find the CoRD application by Bundle ID and Creator Code
-        status = LSFindApplicationForInfo('RDC#', CFSTR("net.sf.cord"),   
+    // I have found no reliable way to pass the IP address and port to Microsoft's 
+    // Remote Desktop Connection application for the Mac, so I'm using CoRD.  
+    // Unfortunately, CoRD does not seem as reliable as I would like either.
+    //
+    // First try to find the CoRD application by Bundle ID and Creator Code
+    status = LSFindApplicationForInfo('RDC#', CFSTR("net.sf.cord"),   
                                         NULL, &theFSRef, NULL);
-        if (status != noErr) {
-            CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-            if (pFrame) {
-                pFrame->ShowAlert(
-                    _("Missing application"), 
-                    _("Please download and install the CoRD application from http://cord.sourceforge.net"),
-                    wxOK | wxICON_INFORMATION,
+    if (status != noErr) {
+        CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+        if (pFrame) {
+            pFrame->ShowAlert(
+                _("Missing application"), 
+                _("Please download and install the CoRD application from http://cord.sourceforge.net"),
+                wxOK | wxICON_INFORMATION,
                     false
                 );
-            } 
-            return ERR_FILE_MISSING;
-        }
+        } 
+        return ERR_FILE_MISSING;
+    }
 
-        strCommand = wxT("osascript -e 'tell application \"CoRD\"' -e 'activate' -e 'open location \"rdp://") + strConnection + wxT("\"' -e 'end tell'");
-        strCommand.Replace(wxT("localhost"), wxT("127.0.0.1"));
-        system(strCommand.char_str());
+    strCommand = wxT("osascript -e 'tell application \"CoRD\"' -e 'activate' -e 'open location \"rdp://") + strConnection + wxT("\"' -e 'end tell'");
+    strCommand.Replace(wxT("localhost"), wxT("127.0.0.1"));
+    system(strCommand.char_str());
 #endif
     }
 
@@ -2380,11 +2377,11 @@ int CMainDocument::GetSimpleGUIWorkCount() {
     CachedSimpleGUIUpdate();
     CachedStateUpdate();
 
-    for(i=0; i<results.results.size(); i++) {
-        if (results.results[i]->active_task) {
-            iCount++;
-        }
-    }
+	for(i=0; i<results.results.size(); i++) {
+		if (results.results[i]->active_task) {
+			iCount++;
+		}
+	}
     return iCount;
 }
 
@@ -2406,17 +2403,12 @@ wxString suspend_reason_wxstring(int reason) {
     return _("unknown reason");
 }
 
-bool uses_gpu(RESULT* r) {
-	// kludge.  But r->avp isn't populated.
-    return (strstr(r->resources, "GPU") != NULL);
-}
-
 wxString result_description(RESULT* result, bool show_resources) {
     CMainDocument* doc = wxGetApp().GetDocument();
     PROJECT* project;
     CC_STATUS       status;
     int             retval;
-    wxString strBuffer= wxEmptyString;
+	wxString strBuffer= wxEmptyString;
 
     strBuffer.Clear();
     retval = doc->GetCoreClientStatus(status);
@@ -2429,7 +2421,7 @@ wxString result_description(RESULT* result, bool show_resources) {
     }
 
     project = doc->state.lookup_project(result->project_url);
-    int throttled = status.task_suspend_reason & SUSPEND_REASON_CPU_THROTTLE;
+	int throttled = status.task_suspend_reason & SUSPEND_REASON_CPU_THROTTLE;
     switch(result->state) {
     case RESULT_NEW:
         strBuffer += _("New"); 
@@ -2454,12 +2446,6 @@ wxString result_description(RESULT* result, bool show_resources) {
         } else if (status.task_suspend_reason && !throttled) {
             strBuffer += _("Suspended - ");
             strBuffer += suspend_reason_wxstring(status.task_suspend_reason);
-            if (strlen(result->resources) && show_resources) {
-                strBuffer += wxString(wxT(" (")) + wxString(result->resources, wxConvUTF8) + wxString(wxT(")"));
-            }
-        } else if (status.gpu_suspend_reason && uses_gpu(result)) {
-            strBuffer += _("GPU suspended - ");
-            strBuffer += suspend_reason_wxstring(status.gpu_suspend_reason);
             if (strlen(result->resources) && show_resources) {
                 strBuffer += wxString(wxT(" (")) + wxString(result->resources, wxConvUTF8) + wxString(wxT(")"));
             }

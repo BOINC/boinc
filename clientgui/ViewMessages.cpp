@@ -614,4 +614,4 @@ bool CViewMessages::CloseClipboard() {
 #endif
 
 
-const char *BOINC_RCSID_0be7149475 = "$Id$";
+const char *BOINC_RCSID_0be7149475 = "$Id: ViewMessages.cpp 21706 2010-06-08 18:56:53Z davea $";

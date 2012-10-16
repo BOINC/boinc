@@ -673,7 +673,7 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
 IMPLEMENT_DYNAMIC_CLASS(CSimpleGUIPanel, wxPanel)
 
 BEGIN_EVENT_TABLE(CSimpleGUIPanel, wxPanel)
-    EVT_SIZE(CSimpleGUIPanel::OnSize)
+//    EVT_SIZE(CSimpleGUIPanel::OnSize)
     EVT_ERASE_BACKGROUND(CSimpleGUIPanel::OnEraseBackground)    
 	EVT_BUTTON(ID_SGNOTICESBUTTON,CSimpleGUIPanel::OnShowNotices)
 	EVT_BUTTON(ID_SGSUSPENDRESUMEBUTTON,CSimpleGUIPanel::OnSuspendResume)
