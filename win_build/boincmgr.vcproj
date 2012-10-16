@@ -75,7 +75,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleaut32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib userenv.lib wxbase28u.lib wxbase28u_net.lib wxbase28u_xml.lib wxmsw28u_adv.lib wxmsw28u_core.lib wxmsw28u_html.lib wxregexu.lib wxexpat.lib wxpng.lib wxjpeg.lib wxtiff.lib wxzlib.lib sqlite3.lib $(NOINHERIT)"
+				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleaut32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib userenv.lib wxbase29u.lib wxbase29u_net.lib wxbase29u_xml.lib wxmsw29u_adv.lib wxmsw29u_core.lib wxmsw29u_html.lib wxregexu.lib wxexpat.lib wxpng.lib wxjpeg.lib wxtiff.lib wxzlib.lib sqlite3.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
@@ -174,7 +174,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib oleaut32.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib userenv.lib wxbase28u.lib wxbase28u_net.lib wxbase28u_xml.lib wxmsw28u_adv.lib wxmsw28u_core.lib wxmsw28u_html.lib wxregexu.lib wxexpat.lib wxpng.lib wxtiff.lib wxjpeg.lib wxzlib.lib sqlite3.lib $(NOINHERIT)"
+				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib oleaut32.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib userenv.lib wxbase29u.lib wxbase29u_net.lib wxbase29u_xml.lib wxmsw29u_adv.lib wxmsw29u_core.lib wxmsw29u_html.lib wxregexu.lib wxexpat.lib wxpng.lib wxtiff.lib wxjpeg.lib wxzlib.lib sqlite3.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
@@ -277,7 +277,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib oleaut32.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib userenv.lib wxbase28ud.lib wxbase28ud_net.lib wxbase28ud_xml.lib wxmsw28ud_adv.lib wxmsw28ud_core.lib wxmsw28ud_html.lib wxregexud.lib wxexpatd.lib wxjpegd.lib wxtiffd.lib wxpngd.lib wxzlibd.lib sqlite3.lib $(NOINHERIT)"
+				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib oleaut32.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib userenv.lib wxbase29ud.lib wxbase29ud_net.lib wxbase29ud_xml.lib wxmsw29ud_adv.lib wxmsw29ud_core.lib wxmsw29ud_html.lib wxregexud.lib wxexpatd.lib wxjpegd.lib wxtiffd.lib wxpngd.lib wxzlibd.lib sqlite3.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="0"
 				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
@@ -378,7 +378,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleaut32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib userenv.lib wxbase28ud.lib wxbase28ud_net.lib wxbase28ud_xml.lib wxmsw28ud_adv.lib wxmsw28ud_core.lib wxmsw28ud_html.lib wxregexud.lib wxexpatd.lib wxpngd.lib wxtiffd.lib wxjpegd.lib wxzlibd.lib sqlite3.lib $(NOINHERIT)"
+				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleaut32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib userenv.lib wxbase29ud.lib wxbase29ud_net.lib wxbase29ud_xml.lib wxmsw29ud_adv.lib wxmsw29ud_core.lib wxmsw29ud_html.lib wxregexud.lib wxexpatd.lib wxpngd.lib wxtiffd.lib wxjpegd.lib wxzlibd.lib sqlite3.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="0"
 				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
