@@ -261,6 +261,10 @@ int handle_wu(
                 generalized_app_version_id(result.app_version_id, result.appid)
             );
             if (retval) {
+                log_messages.printf(MSG_CRITICAL,
+                    "[RESULT#%d %s] hav_lookup returned %d\n",
+                    result.id, result.name, retval
+                );
                 hav.host_id = 0;
             }
             DB_HOST_APP_VERSION hav_orig = hav;

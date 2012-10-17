@@ -322,23 +322,42 @@ int update_av_scales(SCHED_SHMEM *ssp) {
 // This is not always ideal (the new version may be faster/slower)
 // but it's better than starting the statistics from scratch.
 //
-int hav_lookup(DB_HOST_APP_VERSION &hav, int hostid, int avid) {
+// (if anonymous platform, skip the above)
+//
+int hav_lookup(DB_HOST_APP_VERSION &hav, int hostid, int gen_avid) {
     int retval;
     char buf[256];
-    sprintf(buf, "where host_id=%d and app_version_id=%d", hostid, avid);
+    sprintf(buf, "where host_id=%d and app_version_id=%d", hostid, gen_avid);
     retval = hav.lookup(buf);
     if (retval != ERR_DB_NOT_FOUND) return retval;
 
+    // Here no HOST_APP_VERSION currently exists.
+    // If gen_avid is negative (anonymous platform) just make one
+    //
+    if (gen_avid < 0) {
+        hav.clear();
+        hav.host_id = hostid;
+        hav.app_version_id = gen_avid;
+        return hav.insert();
+    }
+
+    // otherwise try to appropriate an existing one as described above
+    //
     DB_HOST_APP_VERSION hav2, best_hav;
     DB_APP_VERSION av, av2, best_av;
 
-    retval = av.lookup_id(avid);
+    retval = av.lookup_id(gen_avid);
     if (retval) return retval;
 
+    // find the HOST_APP_VERSION w/ latest version num
+    // for this (app/platform/plan class) and appropriate it
+    //
     bool found = false;
-    sprintf(buf, "host_id=%d", hostid);
-    while (!hav2.enumerate(buf)) {
-        DB_APP_VERSION av2;
+    sprintf(buf, "where host_id=%d", hostid);
+    while (1) {
+        retval = hav2.enumerate(buf);
+        if (retval == ERR_DB_NOT_FOUND) break;
+        if (retval) return retval;
         retval = av2.lookup_id(hav2.app_version_id);
         if (retval) continue;
         if (av2.appid != av.appid) continue;
@@ -358,7 +377,7 @@ int hav_lookup(DB_HOST_APP_VERSION &hav, int hostid, int avid) {
     if (found) {
         hav = best_hav;
         char query[256], where_clause[256];
-        sprintf(query, "app_version_id=%d", avid);
+        sprintf(query, "app_version_id=%d", gen_avid);
         sprintf(where_clause,
             "host_id=%d and app_version_id=%d",
             hostid, best_av.id
@@ -368,7 +387,7 @@ int hav_lookup(DB_HOST_APP_VERSION &hav, int hostid, int avid) {
     } else {
         hav.clear();
         hav.host_id = hostid;
-        hav.app_version_id = avid;
+        hav.app_version_id = gen_avid;
         retval = hav.insert();
         if (retval) return retval;
     }

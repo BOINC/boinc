@@ -6187,3 +6187,16 @@ David  16 Oct 2012
         stage_file (new)
     sched/
         credit.cpp
+
+David  17 Oct 2012
+    - scheduler: debug the above
+    - add some files missing from git repo
+
+    py/Boinc/
+        boinc_db.py
+        configxml.py
+        sched_messages.py
+        util.py
+    sched/
+        credit.cpp
+        validator.cpp
