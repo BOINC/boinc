@@ -208,6 +208,8 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
     sandbox = -1;
     allow_multiple_clients = -1;
     results_truncated = false;
+    uptime = 0;
+    previous_uptime = 0;
 
     if (xp.get_tag()) {
         return "xp.get_tag() failed";
@@ -228,6 +230,8 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
         if (xp.parse_str("cross_project_id", cross_project_id, sizeof(cross_project_id))) continue;
         if (xp.parse_int("hostid", hostid)) continue;
         if (xp.parse_int("rpc_seqno", rpc_seqno)) continue;
+        if (xp.parse_double("uptime", uptime)) continue;
+        if (xp.parse_double("previous_uptime", previous_uptime)) continue;
         if (xp.parse_str("platform_name", platform.name, sizeof(platform.name))) continue;
         if (xp.match_tag("alt_platform")) {
             CLIENT_PLATFORM cp;

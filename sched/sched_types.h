@@ -281,6 +281,8 @@ struct SCHEDULER_REQUEST {
         // currently queued jobs saturate the CPU for this long;
         // used for crude deadline check
     double duration_correction_factor;
+    double uptime;
+    double previous_uptime;
     char global_prefs_xml[BLOB_SIZE];
     char working_global_prefs_xml[BLOB_SIZE];
     char code_sign_key[4096];

@@ -1042,7 +1042,7 @@ RESULT* CC_STATE::lookup_result(PROJECT* project, const char* name) {
 RESULT* CC_STATE::lookup_result(const char* url, const char* name) {
     unsigned int i;
     for (i=0; i<results.size(); i++) {
-        if (strcmp(results[i]->project->master_url, url)) continue;
+        if (strcmp(results[i]->project_url, url)) continue;
         if (!strcmp(results[i]->name, name)) return results[i];
     }
     return 0;
