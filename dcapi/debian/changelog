@@ -1,3 +1,9 @@
+dcapi (0.13-2) unstable; urgency=low
+
+  * DC-API Condor backend is disabled.
+
+ -- Attila Csaba Marosi <atisu@sztaki.hu>  Tue, 17 Oct 2012 10:32:19 +0200
+
 dcapi (0.13-1) unstable; urgency=low
 
   * DC-API Condor backend improvements (works again with 3G-Bridge).
