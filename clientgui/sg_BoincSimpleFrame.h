@@ -124,7 +124,8 @@ public:
     void OnReloadSkin( CFrameEvent& event );
     void OnRefreshView( CFrameEvent& event );
     void OnNotification( CFrameEvent& event );
-
+    void OnEventLog(wxCommandEvent& event);
+    
 	void SetMsgsDlgOpen(CDlgMessages* newDlgPtr) { dlgMsgsPtr = newDlgPtr; }
     bool isMessagesDlgOpen() { return (dlgMsgsPtr != NULL); }
 
@@ -136,7 +137,7 @@ protected:
 
 	wxMenuBar*          m_pMenubar;
     wxMenu*             m_pSubmenuSkins;
-    wxAcceleratorEntry  m_Shortcuts[1];
+    wxAcceleratorEntry  m_Shortcuts[2];
     wxAcceleratorTable* m_pAccelTable;
 
 	CSimpleGUIPanel* m_pBackgroundPanel;
