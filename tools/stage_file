@@ -1,0 +1,127 @@
+#! /usr/bin/env php
+<?php
+// This file is part of BOINC.
+// http://boinc.berkeley.edu
+// Copyright (C) 2012 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+// Stage an input file: namely,
+// - move or copy it to the download hierarchy
+// - compute its md5
+// - make a gzipped version if needed
+//
+// Usage (from project dir):
+//
+// bin/stage_file [--gzip] [--copy] file
+//
+// --gzip       Make a gzipped version of the file.
+//              Use this if you specify <gzip> in the <file_info>
+// --copy       Copy the file (default is to move it)
+
+if (!file_exists("html/inc/dir_hier.inc")
+    || !file_exists("config.xml")
+) {
+    die("This script must be run in the project directory.\n");
+}
+
+require_once("html/inc/dir_hier.inc");
+require_once("html/inc/util_basic.inc");
+
+function usage() {
+    die("usage: stage_file [--gzip] [--copy] file
+    --gzip      make a gzipped version of file
+    --copy      copy the file (default is to move it)
+");
+}
+
+if ($argc < 2) usage();
+
+$gzip = false;
+$copy = false;
+
+for ($i=1; $i<$argc-1; $i++) {
+    switch($argv[$i]) {
+    case "--gzip":
+        $gzip = true;
+        break;
+    case "--copy":
+        $copy = true;
+        break;
+    default:
+        usage();
+    }
+}
+
+$path = $argv[$argc-1];
+if (!file_exists($path)) die("no such file: $path\n");
+$file = basename($path);
+
+$fanout = parse_config(get_config(), "<uldl_dir_fanout>");
+if (!$fanout) die("can't find <uldl_dir_fanout> in config.xml");
+$download_dir = parse_config(get_config(), "<download_dir>");
+if (!$download_dir) die("can't find <download_dir> in config.xml");
+
+$dl_path = dir_hier_path($file, $download_dir, $fanout);
+$dl_md5_path = "$dl_path.md5";
+
+// compute the file's MD5
+//
+$md5 = md5_file($path);
+
+// if file is already in download dir, make sure it's the same
+//
+if (file_exists($dl_path)) {
+    if (file_exists($dl_md5_path)) {
+        $dl_md5 = trim(file_get_contents($dl_md5_path));
+    } else {
+        $dl_md5 = md5_file($dl_path);
+    }
+    if ($md5 != $dl_md5) {
+        die("There is already a file in your project's download directory
+with that name, but different contents.
+This is not allowed by BOINC, which requires that files are 'immutable'.
+Please use a different file name.
+");
+    }
+} else {
+    // move or copy the file
+    //
+    if ($copy) {
+        copy($path, $dl_path);
+    } else {
+        rename($path, $dl_path);
+    }
+    @unlink($dl_md5_path);
+}
+
+// make MD5 file if needed
+//
+if (!file_exists($dl_md5_path)) {
+    file_put_contents($dl_md5_path, $md5);
+}
+
+// make gzipped version if needed
+//
+if ($gzip) {
+    $dl_gzip_path = "$dl_path.gz";
+    if (!file_exists($dl_gzip_path)) {
+        $output = system("gzip -c $dl_path > $dl_gzip_path", $retval);
+        if ($retval) {
+            die("failed to gzip file: $output\n");
+        }
+    }
+}
+
+?>
