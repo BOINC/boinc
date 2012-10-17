@@ -62,7 +62,7 @@
 #define PIDFILE  "file_deleter.pid"
 
 #define DEFAULT_SLEEP_INTERVAL 5
-#define RESULTS_PER_WU 4        // an estimate of redundancy 
+#define RESULTS_PER_WU 4        // an estimate of redundancy
 
 int id_modulus=0, id_remainder=0, appid=0;
 bool dont_retry_errors = false;
@@ -71,6 +71,8 @@ bool do_input_files = true;
 bool do_output_files = true;
 bool dry_run = false;
 int sleep_interval = DEFAULT_SLEEP_INTERVAL;
+char *xml_doc_like = NULL;
+char *download_dir = NULL;
 
 void usage(char *name) {
     fprintf(stderr, "Deletes files that are no longer needed.\n\n"
@@ -98,6 +100,8 @@ void usage(char *name) {
         "  --dry_run                       Don't update DB\n"
         "                                  For debugging.\n"
         "  --output_files_only             delete only output (upload) files\n"
+        "  --xml_doc_like L                only process workunits where xml_doc LIKE 'L'\n"
+        "  --download_dir D                override download_dir from project config with D\n"
         "  [ -h | --help ]                 shows this help text\n"
         "  [ -v | --version ]              shows version information\n",
         name
@@ -133,7 +137,7 @@ int wu_delete_files(WORKUNIT& wu) {
     if (strstr(wu.name, "nodelete")) return 0;
 
     safe_strcpy(buf, wu.xml_doc);
-    
+
     p = strtok(buf, "\n");
     strcpy(filename, "");
     while (p) {
@@ -146,7 +150,7 @@ int wu_delete_files(WORKUNIT& wu) {
         } else if (match_tag(p, "</file_info>")) {
             if (!no_delete) {
                 retval = get_file_path(
-                    filename, config.download_dir, config.uldl_dir_fanout,
+                    filename, download_dir, config.uldl_dir_fanout,
                     pathname
                 );
                 if (retval == ERR_OPENDIR) {
@@ -298,6 +302,11 @@ bool do_pass(bool retry_error) {
         sprintf(buf, " and appid = %d ", appid);
         strcat(clause, buf);
     }
+    if (xml_doc_like) {
+        strcat(clause, " and xml_doc like '");
+        strcat(clause, xml_doc_like);
+        strcat(clause, "'");
+    }
     sprintf(buf,
         "where file_delete_state=%d %s limit %d",
         retry_error?FILE_DELETE_ERROR:FILE_DELETE_READY,
@@ -344,7 +353,7 @@ bool do_pass(bool retry_error) {
                 );
                 did_something = true;
             }
-        } 
+        }
     }
 
     sprintf(buf,
@@ -377,7 +386,7 @@ bool do_pass(bool retry_error) {
             new_state = FILE_DELETE_DONE;
         }
         if (new_state != result.file_delete_state) {
-            sprintf(buf, "file_delete_state=%d", new_state); 
+            sprintf(buf, "file_delete_state=%d", new_state);
             if (dry_run) {
                 retval = 0;
             } else {
@@ -393,8 +402,8 @@ bool do_pass(bool retry_error) {
                 );
                 did_something = true;
             }
-        } 
-    } 
+        }
+    }
 
     return did_something;
 }
@@ -421,7 +430,7 @@ int main(int argc, char** argv) {
     bool one_pass = false;
     int i;
     DB_APP app;
-    
+
     check_stop_daemons();
 
     *app.name='\0';
@@ -460,6 +469,20 @@ int main(int argc, char** argv) {
             }
             id_modulus   = atoi(argv[++i]);
             id_remainder = atoi(argv[++i]);
+        } else if (is_arg(argv[i], "download_dir")) {
+            if (!argv[++i]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            download_dir = argv[i];
+        } else if (is_arg(argv[i], "xml_doc_like")) {
+            if (!argv[++i]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            xml_doc_like = argv[i];
         } else if (is_arg(argv[i], "dont_delete_antiques")) {
             log_messages.printf(MSG_CRITICAL, "'%s' has no effect, this file deleter does no antique files deletion\n", argv[i]);
         } else if (is_arg(argv[i], "antiques_deletion_dry_run")) {
@@ -515,6 +538,15 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
+    if (download_dir) {
+        log_messages.printf(MSG_NORMAL,
+            "Overriding download_dir '%s' from project config with command-line '%s'\n",
+            config.download_dir, download_dir
+        );
+    } else {
+        download_dir = config.download_dir;
+    }
+
     log_messages.printf(MSG_NORMAL, "Starting\n");
 
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
@@ -531,7 +563,7 @@ int main(int argc, char** argv) {
     }
 
     if (*app.name && !appid) {
-      char buf[256];      
+      char buf[256];
       sprintf(buf, "where name='%s'", app.name);
       retval = app.lookup(buf);
       if (retval) {
