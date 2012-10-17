@@ -11,7 +11,7 @@ require_once("../inc/translation.inc");
 // 6: master URL (if different from web site)
 
 $sensing = array(
-    tra("Distributed sensing")."<br><span class=note>".tra("To participate in these projects you must buy a sensor and attach it to your computer.")."</class>",
+    tra("Distributed sensing"),
     array(
         array(
             "Quake Catcher Network",
@@ -29,6 +29,7 @@ $sensing = array(
             "radioactive.jpg",
         ),
     ),
+    "<br><span class=\"note\">".tra("To participate in these projects you must buy a sensor and attach it to your computer.")."</span>",
 );
 
 $cogsci = array(

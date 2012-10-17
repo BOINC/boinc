@@ -49,7 +49,9 @@ list_heading_array(array(
     ));
 shuffle($areas);
 foreach ($areas as $area) {
-    list_bar($area[0]);
+    $title = $area[0];
+    if (sizeof($area)==3) $title .= $area[2];
+    list_bar($title);
     $projects = $area[1];
     shuffle($projects);
     $n = 0;

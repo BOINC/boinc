@@ -6224,3 +6224,9 @@ David  17 Oct 2012
         gui_rpc_client_ops.cpp
     sched/
         sched_types.cpp,h
+
+David  17 Oct 2012
+    - web: add "Validation inconclusive" state for task lists
+
+    html/inc/
+        result.inc

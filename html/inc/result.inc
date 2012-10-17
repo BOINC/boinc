@@ -95,15 +95,17 @@ function result_granted_credit_string($result, $string_to_show) {
 define("STATE_ALL", 0);
 define("STATE_IN_PROGRESS", 1);
 define("STATE_PENDING", 2);
-define("STATE_VALID", 3);
-define("STATE_INVALID", 4);
-define("STATE_ERROR", 5);
-define("NSTATES", 6);
+define("STATE_INCONCLUSIVE", 3);
+define("STATE_VALID", 4);
+define("STATE_INVALID", 5);
+define("STATE_ERROR", 6);
+define("NSTATES", 7);
 
 $state_name = array(
     tra("All"),
     tra("In progress"),
-    tra("Pending"),
+    tra("Validation pending"),
+    tra("Validation inconclusive"),
     tra("Valid"),
     tra("Invalid"),
     tra("Error"),
@@ -112,7 +114,8 @@ $state_name = array(
 $state_clause = array(
     "",
     " and server_state=4 ",
-    " and server_state=5 and outcome=1 and (validate_state=0 or validate_state=4) ",
+    " and server_state=5 and outcome=1 and validate_state=0 ",
+    " and server_state=5 and outcome=1 and validate_state=4 ",
     " and server_state=5 and outcome=1 and validate_state=1 ",
     " and server_state=5 and (outcome=6 or (outcome=1 and (validate_state=2 or validate_state=3 or validate_state=5))) ",
     " and server_state=5 and (outcome=3 or outcome=4 or outcome=7) ",
@@ -120,17 +123,19 @@ $state_clause = array(
 
 function state_num($result) {
 	if ($result->server_state == 4) return 1;
-	if ($result->server_state == 5
-		&& $result->outcome == 1
-		&& ($result->validate_state == 0 or $result->validate_state == 4)
-	) {
-		return 2;
+	if ($result->server_state == 5 && $result->outcome == 1) {
+        if ($result->validate_state == 0) {
+            return STATE_PENDING;
+        }
+        if ($result->validate_state == 4) {
+            return STATE_INCONCLUSIVE;
+        }
 	}
 	if ($result->server_state == 5
 		&& $result->outcome == 1
 		&& $result->validate_state == 1
 	) {
-		return 3;
+		return STATE_VALID;
 	}
 	if ($result->server_state == 5
 		&& ($result->outcome == 6
@@ -142,7 +147,7 @@ function state_num($result) {
 			)
 		)
 	) {
-		return 4;
+		return STATE_INVALID;
 	}
 	if ($result->server_state == 5
 		&& ($result->outcome == 3
@@ -150,7 +155,7 @@ function state_num($result) {
 			|| $result->outcome = 7
 		)
 	) {
-		return 5;
+		return STATE_ERROR;
 	}
 	return 0;
 }
