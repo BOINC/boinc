@@ -6167,3 +6167,23 @@ Charlie 15 Oct 2012
     
     clientgui/
         BOINCGUIApp.cpp
+
+David  16 Oct 2012
+    - scheduler: when adding a new HOST_APP_VERSION, check if there's already
+        one for that (host, app, platform, plan class).
+        If there is, use it and update the app version ID.
+        This way, when a new app version is released,
+        it will use the runtime and reliability statistics
+        of the previous one, instead of starting from scratch.
+    - add a script "stage_file" for staging an input file.
+        This checks for immutability violations,
+        moves or copies the file to the download hierarchy,
+        computes and stores its MD5, and makes a gzipped version if needed.
+    - add some files missing from git repo
+
+    tools/
+        dbcheck_files_exist
+        grep_logs
+        stage_file (new)
+    sched/
+        credit.cpp

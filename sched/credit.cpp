@@ -311,20 +311,68 @@ int update_av_scales(SCHED_SHMEM *ssp) {
 }
 
 // look up HOST_APP_VERSION record; called from validator and transitioner.
-// Normally the record will exist; if not create it (transitional case)
+// Normally the record will exist; if not:
+// look for another HOST_APP_VERSION for the same
+// (host, app, platform, plan class).
+// If find one, used it and update its app_version_id.
+// Otherwise create a new one.
+//
+// This means that when a new app version is released,
+// it inherits the runtime and reliability statistics of the old version.
+// This is not always ideal (the new version may be faster/slower)
+// but it's better than starting the statistics from scratch.
 //
 int hav_lookup(DB_HOST_APP_VERSION &hav, int hostid, int avid) {
     int retval;
     char buf[256];
     sprintf(buf, "where host_id=%d and app_version_id=%d", hostid, avid);
     retval = hav.lookup(buf);
-    if (retval == ERR_DB_NOT_FOUND) {
+    if (retval != ERR_DB_NOT_FOUND) return retval;
+
+    DB_HOST_APP_VERSION hav2, best_hav;
+    DB_APP_VERSION av, av2, best_av;
+
+    retval = av.lookup_id(avid);
+    if (retval) return retval;
+
+    bool found = false;
+    sprintf(buf, "host_id=%d", hostid);
+    while (!hav2.enumerate(buf)) {
+        DB_APP_VERSION av2;
+        retval = av2.lookup_id(hav2.app_version_id);
+        if (retval) continue;
+        if (av2.appid != av.appid) continue;
+        if (av2.platformid != av.platformid) continue;
+        if (strcmp(av2.plan_class, av.plan_class)) continue;
+        if (found) {
+            if (av2.version_num > best_av.version_num) {
+                best_av = av2;
+                best_hav = hav2;
+            }
+        } else {
+            found = true;
+            best_av = av2;
+            best_hav = hav2;
+        }
+    }
+    if (found) {
+        hav = best_hav;
+        char query[256], where_clause[256];
+        sprintf(query, "app_version_id=%d", avid);
+        sprintf(where_clause,
+            "host_id=%d and app_version_id=%d",
+            hostid, best_av.id
+        );
+        retval = hav.update_fields_noid(query, where_clause);
+        if (retval) return retval;
+    } else {
         hav.clear();
         hav.host_id = hostid;
         hav.app_version_id = avid;
         retval = hav.insert();
+        if (retval) return retval;
     }
-    return retval;
+    return 0;
 }
 
 DB_APP_VERSION *av_lookup(int id, vector<DB_APP_VERSION>& app_versions) {
