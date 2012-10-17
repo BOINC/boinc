@@ -6230,3 +6230,13 @@ David  17 Oct 2012
 
     html/inc/
         result.inc
+
+David  17 Oct 2012
+    - tweaks
+
+    client/
+        async_file.cpp
+    lib/
+        filesys.cpp,h
+    samples/atiopencl/
+        atiopencl.cpp
