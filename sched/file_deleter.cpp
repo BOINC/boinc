@@ -69,6 +69,7 @@ bool dont_retry_errors = false;
 bool dont_delete_batches = false;
 bool do_input_files = true;
 bool do_output_files = true;
+bool dry_run = false;
 int sleep_interval = DEFAULT_SLEEP_INTERVAL;
 
 void usage(char *name) {
@@ -94,6 +95,8 @@ void usage(char *name) {
         "                                  For debugging.\n"
         "  --dont_delete_batches           don't delete anything with positive batch number\n"
         "  --input_files_only              delete only input (download) files\n"
+        "  --dry_run                       Don't update DB\n"
+        "                                  For debugging.\n"
         "  --output_files_only             delete only output (upload) files\n"
         "  [ -h | --help ]                 shows this help text\n"
         "  [ -v | --version ]              shows version information\n",
@@ -326,7 +329,11 @@ bool do_pass(bool retry_error) {
         }
         if (new_state != wu.file_delete_state) {
             sprintf(buf, "file_delete_state=%d", new_state);
-            retval = wu.update_field(buf);
+            if (dry_run) {
+                retval = 0;
+            } else {
+                retval = wu.update_field(buf);
+            }
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
                     "[WU#%u] update failed: %s\n", wu.id, boincerror(retval)
@@ -371,7 +378,11 @@ bool do_pass(bool retry_error) {
         }
         if (new_state != result.file_delete_state) {
             sprintf(buf, "file_delete_state=%d", new_state); 
-            retval = result.update_field(buf);
+            if (dry_run) {
+                retval = 0;
+            } else {
+                retval = result.update_field(buf);
+            }
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
                     "[RESULT#%u] update failed: %s\n", result.id, boincerror(retval)
@@ -461,6 +472,8 @@ int main(int argc, char** argv) {
             log_messages.printf(MSG_CRITICAL, "'%s' has no effect, this file deleter does no antique files deletion\n", argv[i]);
         } else if (is_arg(argv[i], "dont_delete_batches")) {
             dont_delete_batches = true;
+        } else if (is_arg(argv[i], "dry_run")) {
+            dry_run = true;
         } else if (is_arg(argv[i], "delete_antiques_now")) {
             log_messages.printf(MSG_CRITICAL, "'%s' has no effect, this file deleter does no antique files deletion\n", argv[i]);
         } else if (is_arg(argv[i], "input_files_only")) {
