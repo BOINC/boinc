@@ -343,6 +343,14 @@ function show_posts(
         }
     }
 
+    if ($sort_style == CREATE_TIME_OLD) {
+        $nposts = sizeof($posts);
+        $page = (int)($nposts/$num_to_show);
+        $default_start = $page*$num_to_show;
+    } else {
+        $default_start = 0;
+    }
+
     // jump to a specific post if needed
     //
     $jump_to_post = null;
@@ -380,10 +388,10 @@ function show_posts(
             if ($jump_to_post) {
                 $start = $ibest - ($ibest % $num_to_show);
             } else {
-                $start = 0;
+                $start = $default_start;
             }
         } else {
-            $start = 0;
+            $start = $default_start;
         }
     }
 

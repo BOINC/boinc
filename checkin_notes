@@ -6240,3 +6240,10 @@ David  17 Oct 2012
         filesys.cpp,h
     samples/atiopencl/
         atiopencl.cpp
+
+David  17 Oct 2012
+    - web: if showing a thread in oldest-first order,
+        default to showing the last page of posts.
+
+    html/inc/
+        forum.inc
