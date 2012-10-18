@@ -6250,6 +6250,9 @@ David  17 Oct 2012
 
 Charlie 18 Oct 2012
     - MGR: Fix bug which can cause Manager to quit when started in Simple View.
+    - lib: fix unmatched parentheses which confused source file editor.
     
     clientgui/
         sg_TaskPanel.cpp
+    lib/
+        gui_rpc_client_ops.cpp

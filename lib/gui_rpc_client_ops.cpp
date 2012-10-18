@@ -598,7 +598,7 @@ int RESULT::parse(XML_PARSER& xp) {
 #if 0
         if (xp.match_tag("stderr_out")) {
             char buf[65536];
-            xp.element_contents(("</stderr_out>", buf);
+            xp.element_contents("</stderr_out>", buf);
             stderr_out = buf;
             continue;
         }
