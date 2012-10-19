@@ -6256,3 +6256,15 @@ Charlie 18 Oct 2012
         sg_TaskPanel.cpp
     lib/
         gui_rpc_client_ops.cpp
+
+Rom    19 Oct 2012
+    - Add missing references to psapi.lib for various build configurations.
+
+    win_build\
+        boinc_ss.vcproj
+        example_app_multi_thread.vcproj
+        sleeper.vcproj
+        uc2.vcproj
+        uc2_graphics.vcproj
+        vboxwrapper.vcproj
+        wrapper.vcproj

@@ -83,7 +83,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib odbc32.lib odbccp32.lib wsock32.lib libcmt.lib libcpmt.lib freetype2410.lib ftgl_static.lib "
+				AdditionalDependencies="opengl32.lib glu32.lib odbc32.lib odbccp32.lib wsock32.lib psapi.lib libcmt.lib libcpmt.lib freetype2410.lib ftgl_static.lib "
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boincscr.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
@@ -187,7 +187,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib odbc32.lib odbccp32.lib wsock32.lib libcmt.lib libcpmt.lib freetype2410.lib ftgl_static.lib "
+				AdditionalDependencies="opengl32.lib glu32.lib odbc32.lib odbccp32.lib wsock32.lib psapi.lib libcmt.lib libcpmt.lib freetype2410.lib ftgl_static.lib "
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boincscr.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
@@ -287,7 +287,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib opengl32.lib glu32.lib ole32.lib delayimp.lib wsock32.lib advapi32.lib freetype2410_D.lib ftgl_static_D.lib psapi.lib $(NOINHERIT)"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib opengl32.lib glu32.lib ole32.lib psapi.lib delayimp.lib wsock32.lib advapi32.lib freetype2410_D.lib ftgl_static_D.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boincscr.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
@@ -387,7 +387,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib opengl32.lib glu32.lib ole32.lib delayimp.lib wsock32.lib advapi32.lib freetype2410_D.lib ftgl_static_D.lib $(NOINHERIT)"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib opengl32.lib glu32.lib ole32.lib psapi.lib delayimp.lib wsock32.lib advapi32.lib freetype2410_D.lib ftgl_static_D.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boincscr.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"

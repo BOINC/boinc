@@ -81,7 +81,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="odbc32.lib odbccp32.lib libcmt.lib libcpmt.lib"
+				AdditionalDependencies="libcmt.lib libcpmt.lib opengl32.lib glu32.lib odbc32.lib odbccp32.lib psapi.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\multi_thread_6.1_windows_intelx86.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
@@ -182,7 +182,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib odbc32.lib odbccp32.lib libcmt.lib libcpmt.lib"
+				AdditionalDependencies="libcmt.lib libcpmt.lib opengl32.lib glu32.lib odbc32.lib odbccp32.lib psapi.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\multi_thread_6.1_windows_x86_64.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
@@ -376,7 +376,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib opengl32.lib glu32.lib ole32.lib delayimp.lib"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib opengl32.lib glu32.lib ole32.lib psapi.lib delayimp.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\multi_thread_6.1_windows_x86_64.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
