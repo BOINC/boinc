@@ -80,7 +80,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmt.lib libcpmt.lib kernel32.lib user32.lib gdi32.lib ole32.lib wsock32.lib"
+				AdditionalDependencies="libcmt.lib libcpmt.lib kernel32.lib user32.lib gdi32.lib ole32.lib wsock32.lib psapi.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\vboxwrapper_25474_windows_intelx86.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
@@ -181,7 +181,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmt.lib libcpmt.lib  kernel32.lib user32.lib gdi32.lib ole32.lib wsock32.lib"
+				AdditionalDependencies="libcmt.lib libcpmt.lib  kernel32.lib user32.lib gdi32.lib ole32.lib wsock32.lib psapi.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\vboxwrapper_25474_windows_x86_64.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
@@ -278,7 +278,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib ole32.lib psapi.lib wsock32.lib"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib ole32.lib psapi.lib wsock32.lib psapi.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\vboxwrapper_6.1_windows_intelx86.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
@@ -375,7 +375,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib ole32.lib wsock32.lib"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib ole32.lib wsock32.lib psapi.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\vboxwrapper_6.19_windows_x86_64.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
