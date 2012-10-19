@@ -59,7 +59,7 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
     EVT_TASKBAR_RIGHT_DOWN(CTaskBarIcon::OnRButtonDown)
     EVT_TASKBAR_RIGHT_UP(CTaskBarIcon::OnRButtonUp)
     EVT_TASKBAR_CONTEXT_USERCLICK(CTaskBarIcon::OnNotificationClick)
-    EVT_TASKBAR_BALLOON_TIMEOUT(CTaskBarIcon::OnNotificationTimeout)
+    EVT_TASKBAR_BALLOON_USERTIMEOUT(CTaskBarIcon::OnNotificationTimeout)
 #endif
     EVT_MENU(ID_OPENBOINCMANAGER, CTaskBarIcon::OnOpen)
     EVT_MENU(ID_OPENWEBSITE, CTaskBarIcon::OnOpenWebsite)

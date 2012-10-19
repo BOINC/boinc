@@ -6167,3 +6167,20 @@ Charlie 15 Oct 2012
     
     clientgui/
         BOINCGUIApp.cpp
+
+Rom    19 Oct 2012
+    - MGR: Fix references to the taskbar events which are now included
+        in the stock wxWidget library
+    - MGR: Fix the logging class which changed for the new wxWidgets.
+    - MGR: Add missing references winspool.lib in the linker.
+    
+    clientgui\
+        BOINCClientManager.cpp
+        BOINCTaskBar.cpp
+        LogBOINC.cpp, .h
+    clientgui\gtk\
+        taskbarex.cpp, .h
+    clientgui\msw\
+        taskbarex.cpp, .h
+    win_build\
+        boincmgr.vcproj

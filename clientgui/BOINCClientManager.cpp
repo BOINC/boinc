@@ -223,8 +223,8 @@ bool CBOINCClientManager::StartupBOINCCore() {
     if (IsBOINCCoreRunning()) return true;
 
 #if defined(__WXMSW__)
-    LPTSTR  szExecute = NULL;
-    LPTSTR  szDataDirectory = NULL;
+    const char*  pszExecute = NULL;
+    const char*  pszDataDirectory = NULL;
 
     if (IsBOINCConfiguredAsDaemon()) {
         start_daemon_via_daemonctrl();
@@ -241,7 +241,7 @@ bool CBOINCClientManager::StartupBOINCCore() {
         );
 
         PROCESS_INFORMATION pi;
-        STARTUPINFO         si;
+        STARTUPINFOA        si;
         BOOL                bProcessStarted;
 
         memset(&pi, 0, sizeof(pi));
@@ -251,25 +251,25 @@ bool CBOINCClientManager::StartupBOINCCore() {
         si.dwFlags = STARTF_USESHOWWINDOW;
         si.wShowWindow = SW_HIDE;
 
-        szExecute = (LPTSTR)strExecute.c_str();
+        pszExecute = (const char*)strExecute.mb_str();
         if (wxGetApp().GetDataDirectory().empty()) {
-            szDataDirectory = NULL;
+            pszDataDirectory = NULL;
         } else {
-            szDataDirectory = (LPTSTR)wxGetApp().GetDataDirectory().c_str();
+            pszDataDirectory = (const char*)wxGetApp().GetDataDirectory().mb_str();
         }
 
-        wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szExecute '%s'\n"), szExecute);
-        wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szDataDirectory '%s'\n"), szDataDirectory);
+        wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - pszExecute '%s'\n"), pszExecute);
+        wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - pszDataDirectory '%s'\n"), pszDataDirectory);
 
-        bProcessStarted = CreateProcess(
+        bProcessStarted = CreateProcessA(
             NULL,
-            szExecute,
+            (LPSTR)pszExecute,
             NULL,
             NULL,
             FALSE,
             CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW,
             NULL,
-            szDataDirectory,
+            (LPSTR)pszDataDirectory,
             &si,
             &pi
         );
