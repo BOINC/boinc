@@ -478,7 +478,6 @@ APP_VERSION::~APP_VERSION() {
 }
 
 int APP_VERSION::parse_coproc(XML_PARSER& xp) {
-    memset(this, 0, sizeof(APP_VERSION));
     while (!xp.get_tag()) {
         if (xp.match_tag("/coproc")) {
             return 0;
