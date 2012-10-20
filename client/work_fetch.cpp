@@ -187,6 +187,7 @@ void RSC_WORK_FETCH::rr_init() {
     deadline_missed_instances = 0;
     saturated_time = 0;
     busy_time_estimator.reset();
+    sim_used_instances = 0;
 }
 
 void RSC_WORK_FETCH::accumulate_shortfall(double d_time) {
@@ -204,6 +205,7 @@ void RSC_WORK_FETCH::accumulate_shortfall(double d_time) {
 
 void RSC_WORK_FETCH::update_saturated_time(double dt) {
     double idle = ninstances - sim_nused;
+    //msg_printf(0, MSG_INFO, "update_saturated rsc %d idle %f dt %f", rsc_type, idle, dt);
     if (idle < 1e-6) {
         saturated_time = dt;
     }
@@ -222,6 +224,10 @@ static bool wacky_dcf(PROJECT* p) {
 // If this resource is below min buffer level,
 // return the highest-priority project that may have jobs for it.
 //
+// It the resource has instanced starved because of exclusions,
+// return the highest-priority project that may have jobs
+// and doesn't exclude those instances.
+//
 // If strict is true, enforce hysteresis and backoff rules
 // (which are there to limit rate of scheduler RPCs).
 // Otherwise, we're going to do a scheduler RPC anyway
@@ -230,12 +236,21 @@ static bool wacky_dcf(PROJECT* p) {
 //
 PROJECT* RSC_WORK_FETCH::choose_project_hyst(bool strict) {
     PROJECT* pbest = NULL;
+    bool buffer_low = true;
     if (strict) {
-        if (saturated_time > gstate.work_buf_min()) return NULL;
+        if (saturated_time > gstate.work_buf_min()) buffer_low = false;
     } else {
-        if (saturated_time > gstate.work_buf_total()) return NULL;
+        if (saturated_time > gstate.work_buf_total()) buffer_low = false;
     }
-    if (saturated_time > gstate.work_buf_total()) return NULL;
+
+    if (log_flags.work_fetch_debug) {
+        msg_printf(0, MSG_INFO,
+            "[work_fetch] buffer_low: %s; sim_excluded_instances %d\n",
+            buffer_low?"yes":"no", sim_excluded_instances
+        );
+    }
+
+    if (!buffer_low && !sim_excluded_instances) return NULL;
 
     for (unsigned i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
@@ -270,11 +285,11 @@ PROJECT* RSC_WORK_FETCH::choose_project_hyst(bool strict) {
         // computing shortfall etc. on a per-project basis
         //
         if (rsc_type) {
-            int n_not_excluded = ninstances - p->ncoprocs_excluded[rsc_type];
+            int n_not_excluded = ninstances - p->rsc_pwf[rsc_type].ncoprocs_excluded;
             if (n_not_excluded == 0) {
                 continue;
             }
-            if (p->ncoprocs_excluded[rsc_type]
+            if (p->rsc_pwf[rsc_type].ncoprocs_excluded
                 && p->rsc_pwf[rsc_type].n_runnable_jobs > n_not_excluded
             ) {
                 continue;
@@ -283,6 +298,16 @@ PROJECT* RSC_WORK_FETCH::choose_project_hyst(bool strict) {
 
         RSC_PROJECT_WORK_FETCH& rpwf = project_state(p);
         if (rpwf.anon_skip) continue;
+
+        // if we're sending work only because of exclusion starvation,
+        // make sure this project can use the starved instances
+        //
+        if (!buffer_low) {
+            if ((sim_excluded_instances & rpwf.non_excluded_instances) == 0) {
+                continue;
+            }
+        }
+
         if (pbest) {
             if (pbest->sched_priority > p->sched_priority) {
                 continue;
@@ -292,7 +317,11 @@ PROJECT* RSC_WORK_FETCH::choose_project_hyst(bool strict) {
     }
     if (!pbest) return NULL;
     work_fetch.clear_request();
-    work_fetch.set_all_requests_hyst(pbest, rsc_type);
+    if (buffer_low) {
+        work_fetch.set_all_requests_hyst(pbest, rsc_type);
+    } else {
+        set_request_excluded(pbest);
+    }
     return pbest;
 }
 
@@ -439,6 +468,29 @@ void RSC_WORK_FETCH::set_request(PROJECT* p) {
     }
     if (req_instances && !req_secs) {
         req_secs = 1;
+    }
+}
+
+// We're fetching work because some instances are starved because
+// of exclusions.
+// See how many N of these instances are not excluded for this project.
+// Ask for N instances and for N*work_buf_min seconds.
+//
+void RSC_WORK_FETCH::set_request_excluded(PROJECT* p) {
+    RSC_PROJECT_WORK_FETCH& pwf = project_state(p);
+
+    int inst_mask = sim_excluded_instances & pwf.non_excluded_instances;
+    int n = 0;
+    for (int i=0; i<ninstances; i++) {
+        if ((i<<i) & inst_mask) {
+            n++;
+        }
+    }
+    req_instances = n;
+    if (p->resource_share == 0 || config.fetch_minimal_work) {
+        req_secs = 1;
+    } else {
+        req_secs = n*gstate.work_buf_total();
     }
 }
 
@@ -877,7 +929,7 @@ void WORK_FETCH::set_initial_work_request(PROJECT* p) {
         rsc_work_fetch[i].req_secs = 1;
         if (i) {
             RSC_WORK_FETCH& rwf = rsc_work_fetch[i];
-            if (rwf.ninstances ==  p->ncoprocs_excluded[i]) {
+            if (rwf.ninstances ==  p->rsc_pwf[i].ncoprocs_excluded) {
                 rsc_work_fetch[i].req_secs = 0;
             }
         }

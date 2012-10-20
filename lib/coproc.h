@@ -264,11 +264,11 @@ struct COPROC {
     COPROC() {
         clear();
     }
-    bool device_num_exists(int n) {
+    int device_num_index(int n) {
         for (int i=0; i<count; i++) {
-            if (device_nums[i] == n) return true;
+            if (device_nums[i] == n) return i;
         }
-        return false;
+        return -1;
     }
     void merge_opencl(
         std::vector<OPENCL_DEVICE_PROP> &opencls, 

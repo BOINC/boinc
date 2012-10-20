@@ -419,7 +419,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         if (no_rsc_pref[j]) {
             out.printf("    <no_rsc_pref>%s</no_rsc_pref>\n", rsc_name(j));
         }
-        if (j>0 && gui_rpc && (ncoprocs_excluded[j] == rsc_work_fetch[j].ninstances)) {
+        if (j>0 && gui_rpc && (rsc_pwf[j].ncoprocs_excluded == rsc_work_fetch[j].ninstances)) {
             out.printf("    <no_rsc_config>%s</no_rsc_config>\n", rsc_name(j));
         }
     }

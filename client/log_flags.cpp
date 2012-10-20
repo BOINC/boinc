@@ -531,6 +531,7 @@ void process_gpu_exclusions() {
         for (int k=1; k<coprocs.n_rsc; k++) {
             int n=0;
             COPROC& cp = coprocs.coprocs[k];
+            p->rsc_pwf[k].non_excluded_instances = (1<<cp.count)-1;  // all 1's
             for (j=0; j<config.exclude_gpus.size(); j++) {
                 EXCLUDE_GPU& eg = config.exclude_gpus[j];
                 if (strcmp(eg.url.c_str(), p->master_url)) continue;
@@ -539,14 +540,16 @@ void process_gpu_exclusions() {
                 if (eg.device_num >= 0) {
                     // exclusion may refer to nonexistent GPU
                     //
-                    if (cp.device_num_exists(eg.device_num)) {
+                    int ind = cp.device_num_index(eg.device_num);
+                    if (ind >= 0) {
                         n++;
+                        p->rsc_pwf[k].non_excluded_instances &= ~(1<<ind);
                     }
                 } else {
                     n = cp.count;
                 }
             }
-            p->ncoprocs_excluded[k] = n;
+            p->rsc_pwf[k].ncoprocs_excluded = n;
         }
     }
 

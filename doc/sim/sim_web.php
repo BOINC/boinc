@@ -339,6 +339,7 @@ function log_flag_boxes() {
     return "
         <input type=checkbox name=cpu_sched_debug> CPU scheduling debug
         <br> <input type=checkbox name=rr_simulation> Round-robin simulation info
+        <br> <input type=checkbox name=rrsim_detail> Round-robin simulation details
         <br> <input type=checkbox name=work_fetch_debug> Work fetch debug
     ";
 }
@@ -439,6 +440,9 @@ function simulation_action() {
     }
     if (post_str("rr_simulation", true)) {
         $x .= "<rr_simulation/>\n";
+    }
+    if (post_str("rrsim_detail", true)) {
+        $x .= "<rrsim_detail/>\n";
     }
     if (post_str("work_fetch_debug", true)) {
         $x .= "<work_fetch_debug/>\n";

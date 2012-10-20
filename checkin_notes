@@ -6274,3 +6274,29 @@ Rom    19 Oct 2012
         uc2_graphics.vcproj
         vboxwrapper.vcproj
         wrapper.vcproj
+
+David  19 Oct 2012
+    - client: change work fetch policy to avoid starving GPUs
+        in situations where GPU exclusions are used.
+    - client: fix bug in round-robin simulation when GPU exclusions are used.
+
+    Note: this fixes a major problem (starvation)
+        with project-level GPU exclusion.
+        However, project-level GPU exclusion interferes with most of
+        the client's scheduling policies.
+        E.g., round-robin simulation doesn't take GPU exclusion into account,
+        and the resulting completion estimates and device shortfalls
+        can be wrong by an order of magnitude.
+
+        The only way I can see to fix this would be to model each
+        GPU instance as a separate resource,
+        and to associate each job with a particular GPU instance.
+        This would be a sweeping change in both client and server.
+
+    client/
+        log_flags.cpp
+        project.cpp,h
+        rr_sim.cpp
+        work_fetch.cpp,h
+    lib/
+        coproc.h
