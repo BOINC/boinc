@@ -6288,6 +6288,9 @@ David  19 Oct 2012
         and the resulting completion estimates and device shortfalls
         can be wrong by an order of magnitude.
 
+        Furthermore, this fix only works for project-level exclusions.
+        If you use app-level exclusions, starvation is still possible.
+
         The only way I can see to fix this would be to model each
         GPU instance as a separate resource,
         and to associate each job with a particular GPU instance.
@@ -6300,3 +6303,9 @@ David  19 Oct 2012
         work_fetch.cpp,h
     lib/
         coproc.h
+
+David  21 Oct 2012
+    - remote job submission tweak
+
+    html/user/
+        submit_rpc_handler.php

@@ -308,6 +308,7 @@ function handle_retire_batch($r) {
     list($user, $user_submit) = authenticate_user($r, null);
     $batch_id = (int)($r->batch_id);
     $batch = BoincBatch::lookup_id($batch_id);
+    if (!$batch) error("no such batch");
     if ($batch->user_id != $user->id) {
         error("not owner");
     }
