@@ -284,6 +284,7 @@ $req->project = "http://isaac.ssl.berkeley.edu/test/";
 $req->authenticator = "x";
 if (0) {
     $req->app_name = "uppercase";
+    $req->batch_name = "batch_name";
     $req->jobs = array();
 
     $f->source = "http://isaac.ssl.berkeley.edu/index.php";
