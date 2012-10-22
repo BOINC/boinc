@@ -522,7 +522,7 @@ int main(int argc, char *argv[]) {
           cookie = xcb_get_property(con, 0, clients[c], XCB_ATOM_WM_COMMAND, XCB_ATOM_STRING,
                                     0, std::numeric_limits<uint32_t>::max());
           reply2 = xcb_get_property_reply(con, cookie, &error);
-          if(!error) // ignore errors {
+          if(!error) {  // ignore errors 
               char *command = static_cast<char*>(xcb_get_property_value(reply2));
       
               if(command && graphics_cmd == command) {

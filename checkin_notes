@@ -6309,3 +6309,10 @@ David  21 Oct 2012
 
     html/user/
         submit_rpc_handler.php
+
+Rom    22 Oct 2012
+    - SCR: Fix bug in X11 screensaver.
+      (From Michael Tughan)
+      
+    clientscr/
+        screensaver_x11.cpp
