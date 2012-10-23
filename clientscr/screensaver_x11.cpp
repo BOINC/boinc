@@ -537,7 +537,7 @@ int main(int argc, char *argv[]) {
           cookie = xcb_get_property(con, 0, clients[c], XCB_ATOM_WM_CLASS, XCB_ATOM_STRING,
                                     0, std::numeric_limits<uint32_t>::max());
           reply2 = xcb_get_property_reply(con, cookie, &error);
-          if(!error) // ignore errors {
+          if(!error) {  // ignore errors 
               char *clas = static_cast<char*>(xcb_get_property_value(reply2));
 
               size_t pos = graphics_cmd.find_last_of('/');
