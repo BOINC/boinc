@@ -6319,7 +6319,7 @@ Rom    22 Oct 2012
 
 Rom    23 Oct 2012
     - SCR: Fix bug in X11 screensaver.
-      (From David Cross)
+      (From David Coss)
       
     clientscr/
         screensaver_x11.cpp
