@@ -6323,3 +6323,12 @@ Rom    23 Oct 2012
       
     clientscr/
         screensaver_x11.cpp
+
+David  23 Oct 2012
+    - server: add stage_file to project setup; add error checking to stage_file
+
+    py/Boinc/
+        setup_project.py
+    tools/
+        create_work_example
+        stage_file

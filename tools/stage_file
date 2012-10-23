@@ -30,18 +30,24 @@
 //              Use this if you specify <gzip> in the <file_info>
 // --copy       Copy the file (default is to move it)
 
+function error_exit($msg) {
+    echo $msg;
+    exit(1);
+}
+
 if (!file_exists("html/inc/dir_hier.inc")
     || !file_exists("config.xml")
 ) {
-    die("This script must be run in the project directory.\n");
+    error_exit("This script must be run in the project directory.\n");
 }
 
 require_once("html/inc/dir_hier.inc");
 require_once("html/inc/util_basic.inc");
 
 function usage() {
-    die("usage: stage_file [--gzip] [--copy] file
-    --gzip      make a gzipped version of file
+    error_exit("usage: stage_file [--gzip] [--copy] file
+    --gzip      make a gzipped version of file for compressed download
+                (use with <gzip/> in the input template)
     --copy      copy the file (default is to move it)
 ");
 }
@@ -65,13 +71,13 @@ for ($i=1; $i<$argc-1; $i++) {
 }
 
 $path = $argv[$argc-1];
-if (!file_exists($path)) die("no such file: $path\n");
+if (!file_exists($path)) error_exit("no such file: $path\n");
 $file = basename($path);
 
 $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
-if (!$fanout) die("can't find <uldl_dir_fanout> in config.xml");
+if (!$fanout) error_exit("can't find <uldl_dir_fanout> in config.xml");
 $download_dir = parse_config(get_config(), "<download_dir>");
-if (!$download_dir) die("can't find <download_dir> in config.xml");
+if (!$download_dir) error_exit("can't find <download_dir> in config.xml");
 
 $dl_path = dir_hier_path($file, $download_dir, $fanout);
 $dl_md5_path = "$dl_path.md5";
@@ -89,7 +95,7 @@ if (file_exists($dl_path)) {
         $dl_md5 = md5_file($dl_path);
     }
     if ($md5 != $dl_md5) {
-        die("There is already a file in your project's download directory
+        error_exit("There is already a file in your project's download directory
 with that name, but different contents.
 This is not allowed by BOINC, which requires that files are 'immutable'.
 Please use a different file name.
@@ -119,7 +125,7 @@ if ($gzip) {
     if (!file_exists($dl_gzip_path)) {
         $output = system("gzip -c $dl_path > $dl_gzip_path", $retval);
         if ($retval) {
-            die("failed to gzip file: $output\n");
+            error_exit("failed to gzip file: $output\n");
         }
     }
 }
