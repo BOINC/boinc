@@ -89,11 +89,7 @@ public:
 
     virtual bool HasTransparentBackground() { return true; };
 
-#ifdef __WXMAC__
     virtual void OnEraseBackground(wxEraseEvent& /*event*/) {};
-#else
-    virtual void SetLabel(const wxString& label);
-#endif
     virtual void OnPaint(wxPaintEvent& event);
 
     DECLARE_EVENT_TABLE()

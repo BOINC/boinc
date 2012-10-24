@@ -6210,3 +6210,9 @@ Charlie 24 Oct 2012
         boinc.xcodeproj/
             project.pbxproj
         buildWxMac.sh
+
+Charlie 24 Oct 2012
+    - Fix transparent static text for wxWidgets 2.9.4.
+
+    clientgui\
+        sg_CustomControls.cpp,.h

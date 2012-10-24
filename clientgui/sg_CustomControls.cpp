@@ -59,9 +59,7 @@ void CTransparentStaticLine::OnPaint(wxPaintEvent& /*event*/) {
 IMPLEMENT_DYNAMIC_CLASS (CTransparentStaticText, wxStaticText)
 
 BEGIN_EVENT_TABLE(CTransparentStaticText, wxStaticText)
-#ifdef __WXMAC__
     EVT_ERASE_BACKGROUND(CTransparentStaticText::OnEraseBackground)
-#endif
     EVT_PAINT(CTransparentStaticText::OnPaint)
 END_EVENT_TABLE()
 
@@ -78,19 +76,11 @@ bool CTransparentStaticText::Create(wxWindow* parent, wxWindowID id, const wxStr
     bool bRetVal = wxStaticText::Create(parent, id, label, pos, size, style|wxTRANSPARENT_WINDOW, name);
 
     SetBackgroundColour(parent->GetBackgroundColour());
-    SetBackgroundStyle(wxBG_STYLE_COLOUR);
+//    SetBackgroundStyle(wxBG_STYLE_COLOUR);
     SetForegroundColour(parent->GetForegroundColour());
 
     return bRetVal;
 }
-
-
-#ifndef __WXMAC__
-void CTransparentStaticText::SetLabel(const wxString& label) {
-    wxStaticText::SetLabel(label);
-	GetParent()->RefreshRect(GetRect());
-}
-#endif
 
 
 void CTransparentStaticText::OnPaint(wxPaintEvent& /*event*/) {
