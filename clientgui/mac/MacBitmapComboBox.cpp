@@ -53,7 +53,7 @@ CBOINCBitmapChoice::~CBOINCBitmapChoice() {
 }
 
 void CBOINCBitmapChoice::SetItemBitmap(unsigned int n, const wxBitmap& bitmap) {
-    MenuHandle mhandle = (MenuHandle) m_macPopUpMenuHandle;
+    MenuHandle mhandle = (MenuHandle) m_popUpMenu;
     unsigned int index = n + 1;
     
     if ( mhandle == NULL || index == 0)
@@ -61,7 +61,7 @@ void CBOINCBitmapChoice::SetItemBitmap(unsigned int n, const wxBitmap& bitmap) {
 
     if ( bitmap.Ok() )
     {
-        CGImageRef imageRef = (CGImageRef)( bitmap.CGImageCreate() ) ;
+        CGImageRef imageRef = (CGImageRef)( bitmap.CreateCGImage() ) ;
         SetMenuItemIconHandle( mhandle , index ,
                     kMenuCGImageRefType , (Handle) imageRef ) ;
 

@@ -55,6 +55,7 @@
 		DD130F340820C4C4001A0291 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD1682B10F8DC6D90096D714 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD89165E0F3B1BC200DE5B1C /* OpenGL.framework */; };
 		DD16BF7C099D6C90003E4B69 /* cpu_sched.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD16BF7B099D6C90003E4B69 /* cpu_sched.cpp */; };
+		DD17FFDE15F60AFD0002CD9F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD17FFDD15F60AFD0002CD9F /* AudioToolbox.framework */; };
 		DD1AFEAC0A512D8700EE5B82 /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DD1AFEAD0A512D8700EE5B82 /* check_security.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6617870A3FFD8C00FFEBEB /* check_security.cpp */; };
 		DD1AFEAF0A512D8700EE5B82 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
@@ -153,6 +154,7 @@
 		DD3E15320A774397007E0084 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE2552B07C62F3E008E7D6E /* IOKit.framework */; };
 		DD3E15330A774397007E0084 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DD3E15360A774397007E0084 /* SystemMenu.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD40CDF907F0386A0096C645 /* SystemMenu.bundle */; };
+		DD3F3E3F15E63913005C966B /* libwx_osx_carbon_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DD3F3E3E15E63913005C966B /* libwx_osx_carbon_static.a */; };
 		DD407A4D07D2FB6500163EF5 /* app_ipc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA8B6B1B046C364400A80164 /* app_ipc.cpp */; };
 		DD407A4F07D2FB7100163EF5 /* base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344B6307C5ACEB0043025C /* base64.cpp */; };
 		DD407A5307D2FB7C00163EF5 /* diagnostics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BA207C5AE5A0043025C /* diagnostics.cpp */; };
@@ -351,7 +353,6 @@
 		DDAEB54012F8295800EDEDBE /* LogBOINC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C41407C5D13E0098A04D /* LogBOINC.cpp */; };
 		DDAEC9FF07FA5A5C00A7BC36 /* SetVersion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDAEC9E707FA58A000A7BC36 /* SetVersion.cpp */; };
 		DDB219B210B3BBA900417AEF /* WaitPermissions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB219B110B3BBA900417AEF /* WaitPermissions.cpp */; };
-		DDB42E3412F1B6A400E6D8A2 /* libwx_mac_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA90F260B64673D008F2E87 /* libwx_mac_static.a */; };
 		DDB4A91E1411840800032E5D /* proc_control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB4A91C1411840800032E5D /* proc_control.cpp */; };
 		DDB4A91F1411840800032E5D /* proc_control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB4A91C1411840800032E5D /* proc_control.cpp */; };
 		DDB4A9201411871200032E5D /* proc_control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB4A91C1411840800032E5D /* proc_control.cpp */; };
@@ -760,6 +761,7 @@
 		DD127880081F464E007B5DE1 /* postupgrade */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.csh; name = postupgrade; path = ../mac_installer/postupgrade; sourceTree = SOURCE_ROOT; };
 		DD16BF7B099D6C90003E4B69 /* cpu_sched.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = cpu_sched.cpp; sourceTree = "<group>"; };
 		DD16BF8F099D6CE5003E4B69 /* cpu_benchmark.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = cpu_benchmark.h; path = ../client/cpu_benchmark.h; sourceTree = SOURCE_ROOT; };
+		DD17FFDD15F60AFD0002CD9F /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = ../../../../../System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<group>"; };
 		DD1929D80918A2F100C31BCF /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		DD1AFE8F0A512D2600EE5B82 /* Installer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Installer-Info.plist"; sourceTree = "<group>"; };
 		DD1AFEBA0A512D8700EE5B82 /* BOINC Installer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BOINC Installer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -839,6 +841,7 @@
 		DD344BEF07C5B1770043025C /* proxy_info.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = proxy_info.cpp; sourceTree = "<group>"; };
 		DD35353107E1E05C00C4718D /* libboinc_api.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc_api.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD3E15420A774397007E0084 /* BOINCManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BOINCManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD3F3E3E15E63913005C966B /* libwx_osx_carbon_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwx_osx_carbon_static.a; path = "../../wxWidgets-2.9.4/build/osx/build/Release/libwx_osx_carbon_static.a"; sourceTree = "<group>"; };
 		DD407A4A07D2FB1200163EF5 /* libboinc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD407AB707D2FC7D00163EF5 /* mem_usage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = mem_usage.cpp; sourceTree = "<group>"; };
 		DD407AB807D2FC7D00163EF5 /* mem_usage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = mem_usage.h; path = ../lib/mem_usage.h; sourceTree = SOURCE_ROOT; };
@@ -1090,7 +1093,6 @@
 		DDA6BD110BD4551F008F7921 /* QTaskMemory.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = QTaskMemory.h; path = ../lib/mac/QTaskMemory.h; sourceTree = SOURCE_ROOT; };
 		DDA850A21207EED900B473A6 /* WizardAttach.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WizardAttach.cpp; path = ../clientgui/WizardAttach.cpp; sourceTree = SOURCE_ROOT; };
 		DDA850A31207EED900B473A6 /* WizardAttach.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizardAttach.h; path = ../clientgui/WizardAttach.h; sourceTree = SOURCE_ROOT; };
-		DDA90F260B64673D008F2E87 /* libwx_mac_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwx_mac_static.a; path = "../../wxMac-2.8.10/src/build/Deployment/libwx_mac_static.a"; sourceTree = SOURCE_ROOT; };
 		DDA99BF31099AF18002F8E9B /* MacAccessiblity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MacAccessiblity.cpp; path = ../clientgui/mac/MacAccessiblity.cpp; sourceTree = SOURCE_ROOT; };
 		DDA9D3BB09189A8C0060E7A7 /* Mac_GUI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mac_GUI.cpp; path = ../clientgui/mac/Mac_GUI.cpp; sourceTree = SOURCE_ROOT; };
 		DDAD31D60EC26B14002DA09D /* mac_address.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mac_address.cpp; path = ../lib/mac_address.cpp; sourceTree = SOURCE_ROOT; };
@@ -1265,7 +1267,8 @@
 				DDA546610D16964E008CC69A /* QuickTime.framework in Frameworks */,
 				DD21B49D0D750FC600AFFEE5 /* AppKit.framework in Frameworks */,
 				DD1682B10F8DC6D90096D714 /* OpenGL.framework in Frameworks */,
-				DDB42E3412F1B6A400E6D8A2 /* libwx_mac_static.a in Frameworks */,
+				DD3F3E3F15E63913005C966B /* libwx_osx_carbon_static.a in Frameworks */,
+				DD17FFDE15F60AFD0002CD9F /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1489,13 +1492,14 @@
 		20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				DD3F3E3E15E63913005C966B /* libwx_osx_carbon_static.a */,
 				DDFE854A0B60CFD0009B43D9 /* AppKit.framework */,
+				DD17FFDD15F60AFD0002CD9F /* AudioToolbox.framework */,
 				DDE2552B07C62F3E008E7D6E /* IOKit.framework */,
 				20286C33FDCF999611CA2CEA /* Carbon.framework */,
 				DDA546600D16964E008CC69A /* QuickTime.framework */,
 				DD7C5E7508110AE3002FCE1E /* ScreenSaver.framework */,
 				DD1929D80918A2F100C31BCF /* Security.framework */,
-				DDA90F260B64673D008F2E87 /* libwx_mac_static.a */,
 				DD89165D0F3B1BC200DE5B1C /* GLUT.framework */,
 				DD89165E0F3B1BC200DE5B1C /* OpenGL.framework */,
 			);
@@ -3608,18 +3612,19 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_PFE_FILE_C_DIALECTS = "c++";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.8.10/src/build/include/",
-					"../../wxMac-2.8.10/include",
+					"../../wxWidgets-2.9.4/include",
+					"../../wxWidgets-2.9.4/build/osx/setup/carbon/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
-					"../../wxMac-2.8.10/src/build/Deployment/",
-					"\"$(SRCROOT)/../../wxMac-2.8.10/src/build/Deployment\"",
+					"../../wxWidgets-2.9.4/build/osx/build/Debug",
+					"\"$(SRCROOT)/../../wxWidgets-2.9.4/build/osx/build/Debug\"",
 				);
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
@@ -3655,18 +3660,19 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_PFE_FILE_C_DIALECTS = "c++";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.8.10/src/build/include/",
-					"../../wxMac-2.8.10/include",
+					"../../wxWidgets-2.9.4/include",
+					"../../wxWidgets-2.9.4/build/osx/setup/carbon/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
-					"../../wxMac-2.8.10/src/build/Deployment/",
-					"\"$(SRCROOT)/../../wxMac-2.8.10/src/build/Deployment\"",
+					"../../wxWidgets-2.9.4/build/osx/build/Release",
+					"\"$(SRCROOT)/../../wxWidgets-2.9.4/build/osx/build/Release\"",
 				);
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
@@ -3802,6 +3808,14 @@
 					"-lbz2",
 				);
 				PRODUCT_NAME = boincscr;
+				WARNING_LDFLAGS = (
+					"-lresolv",
+					"-ljpeg",
+					"../../freetype-2.4.10/objs/.libs/libfreetype.a",
+					"../../ftgl-2.1.3~rc5/src/.libs/libftgl.a",
+					"-lz",
+					"-lbz2",
+				);
 			};
 			name = Development;
 		};
@@ -3827,6 +3841,14 @@
 					"-lbz2",
 				);
 				PRODUCT_NAME = boincscr;
+				WARNING_LDFLAGS = (
+					"-lresolv",
+					"-ljpeg",
+					"../../freetype-2.4.10/objs/.libs/libfreetype.a",
+					"../../ftgl-2.1.3~rc5/src/.libs/libftgl.a",
+					"-lz",
+					"-lbz2",
+				);
 			};
 			name = Deployment;
 		};

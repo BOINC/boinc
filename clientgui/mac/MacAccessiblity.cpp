@@ -68,9 +68,6 @@ void AccessibilityIgnoreAllChildren(HIViewRef parent, int recursionLevel) {
 }
 
 
-pascal OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,
-                                    EventRef inEvent, void* pData);
-
 pascal OSStatus HTMLListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,
                                     EventRef inEvent, void* pData);
 
@@ -101,19 +98,31 @@ pascal OSStatus PieCtrlAccessibilityEventHandler( EventHandlerCallRef inHandlerC
 
 
 #if !USE_NATIVE_LISTCONTROL
+
+pascal OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,
+                                    EventRef inEvent, void* pData);
 void CBOINCListCtrl::SetupMacAccessibilitySupport() {
     HIViewRef                       listControlView;
     HIViewRef                       headerView;
     HIViewRef                       bodyView;
     SInt32                          response;
     Boolean                         snowLeopard;
+    CFIndex                         count, i;
     OSErr                           err;
 
     err = Gestalt(gestaltSystemVersion, &response);
     snowLeopard = (err == noErr) && (response >= 0x1060);
     
     listControlView = (HIViewRef)GetHandle();
+    count = HIViewCountSubviews(listControlView);
+
     headerView = HIViewGetFirstSubview(listControlView);
+
+    for (i=2; i<count; ++i) {
+        HIObjectSetAccessibilityIgnored((HIObjectRef)headerView, true);
+        headerView = HIViewGetNextView(headerView);
+    }
+    
     bodyView = HIViewGetNextView(headerView);
     err = HIViewSetEnabled(headerView, true);
 
@@ -138,7 +147,7 @@ void CBOINCListCtrl::RemoveMacAccessibilitySupport() {
     ::RemoveEventHandler(m_pBodyAccessibilityEventHandlerRef);
     ::RemoveEventHandler(m_pHeaderAccessibilityEventHandlerRef);
 }
-#endif
+#endif  // !USE_NATIVE_LISTCONTROL
 
 
 void CDlgEventLogListCtrl::SetupMacAccessibilitySupport() {
@@ -148,15 +157,24 @@ void CDlgEventLogListCtrl::SetupMacAccessibilitySupport() {
     HIViewRef                       bodyView;
     SInt32                          response;
     Boolean                         snowLeopard;
+    CFIndex                         count, i;
     OSErr                           err;
 
     err = Gestalt(gestaltSystemVersion, &response);
     snowLeopard = (err == noErr) && (response >= 0x1060);
 
     listControlView = (HIViewRef)GetHandle();
-     headerView = HIViewGetFirstSubview(listControlView);
-     bodyView = HIViewGetNextView(headerView);
-     err = HIViewSetEnabled(headerView, true);
+    count = HIViewCountSubviews(listControlView);
+
+    headerView = HIViewGetFirstSubview(listControlView);
+
+    for (i=2; i<count; ++i) {
+        HIObjectSetAccessibilityIgnored((HIObjectRef)headerView, true);
+        headerView = HIViewGetNextView(headerView);
+    }
+    
+    bodyView = HIViewGetNextView(headerView);
+    err = HIViewSetEnabled(headerView, true);
     
     accessibilityHandlerData.pList = (wxGenericListCtrl*)this;
     accessibilityHandlerData.pView = NULL;
@@ -172,7 +190,7 @@ void CDlgEventLogListCtrl::SetupMacAccessibilitySupport() {
     err = InstallHIObjectEventHandler((HIObjectRef)headerView, NewEventHandlerUPP(BOINCListAccessibilityEventHandler), 
                                 sizeof(myAccessibilityEvents) / sizeof(EventTypeSpec), myAccessibilityEvents, 
                                                         &accessibilityHandlerData, &m_pHeaderAccessibilityEventHandlerRef); 
-#endif
+#endif  // !USE_NATIVE_LISTCONTROL
 }
 
 
@@ -180,7 +198,7 @@ void CDlgEventLogListCtrl::RemoveMacAccessibilitySupport() {
 #if !USE_NATIVE_LISTCONTROL
     ::RemoveEventHandler(m_pBodyAccessibilityEventHandlerRef);
     ::RemoveEventHandler(m_pHeaderAccessibilityEventHandlerRef);
-#endif
+#endif  // !USE_NATIVE_LISTCONTROL
 }
 
 
@@ -337,6 +355,8 @@ void wxPieCtrl::RemoveMacAccessibilitySupport() {
 }
 
 
+#if !USE_NATIVE_LISTCONTROL
+
 pascal OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,
                                     EventRef inEvent, void* pData) {
     const UInt32        eventClass = GetEventClass(inEvent);
@@ -372,7 +392,7 @@ pascal OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandle
     if (obj == (HIObjectRef)headerView) {
         isHeader = true;
     }
-
+    
     switch (eventKind) {
 #pragma mark kEventAccessibleGetChildAtPoint
         case kEventAccessibleGetChildAtPoint:
@@ -456,7 +476,7 @@ pascal OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandle
         {
             CFMutableArrayRef	namesArray;
 
-            err = GetEventParameter (inEvent, kEventParamAccessibleAttributeNames, 
+            err = GetEventParameter (inEvent, kEventParamAccessibleAttributeNames,
                     typeCFMutableArrayRef, NULL, sizeof(typeCFMutableArrayRef), NULL, &namesArray);
             if (err) 
                 return err;
@@ -532,7 +552,7 @@ pascal OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandle
         {
             CFMutableArrayRef	namesArray;
 
-            err = GetEventParameter (inEvent, kEventParamAccessibleAttributeNames, 
+            err = GetEventParameter (inEvent, kEventParamAccessibleAttributeNames,
                     typeCFMutableArrayRef, NULL, sizeof(typeCFMutableArrayRef), NULL, &namesArray);
             if (err) return err;
 
@@ -769,7 +789,7 @@ pascal OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandle
                     err = HIViewGetBounds(isHeader ? headerView : bodyView, &r);                    
                     size = r.size;
                     if (!isHeader) {
-                        size.height += pList->m_headerHeight;
+                        size.height += ((CBOINCListCtrl*)pList)->GetHeaderHeight();
                     }
                     
                     SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeHISize, sizeof( HISize ), &size );
@@ -787,7 +807,7 @@ pascal OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandle
                     // Now convert to global coordinates
                     pList->ClientToScreen(&x, &y);
                     pt.x = x;
-                    pt.y = y - pList->m_headerHeight;
+                    pt.y = y - ((CBOINCListCtrl*)pList)->GetHeaderHeight();
 
                     SetEventParameter(inEvent, kEventParamAccessibleAttributeValue, typeHIPoint, sizeof(HIPoint), &pt);
                     return noErr;
@@ -1005,16 +1025,27 @@ pascal OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandle
                     wxRect          r;
                     
                     // Return the size of this part as an HISize.
-                    size.width = pList->GetColumnWidth(col);
                     if (isHeader) {
-                        size.height = pList->m_headerHeight;
-                    } else {    // ! isHeader
-                        pList->GetItemRect(row, r);
-                        size.height = r.height;
-                        if (col < 0) {
-                            size.width = r.width;
+                        if (col < 0) {  // Entire row
+                             size.width = ((wxWindow*)((CBOINCListCtrl*)pList)->m_headerWin)->GetSize().x;
+                        } else {
+                            size.width = pList->GetColumnWidth(col);
                         }
-                    }
+                        size.height = ((CBOINCListCtrl*)pList)->GetHeaderHeight();
+                    } else {    // ! isHeader
+                        if (row < 0) {  // Entire column
+                            size.height = ((wxWindow*)((CBOINCListCtrl*)pList)->m_headerWin)->GetSize().y;
+                        } else {
+                            pList->GetItemRect(row, r);
+                            size.height = r.height;
+                        }
+
+                        if (col < 0) {  // Entire row
+                            size.width = ((wxWindow*)((CBOINCListCtrl*)pList)->m_headerWin)->GetSize().x;
+                        } else {
+                            size.width = pList->GetColumnWidth(col);
+                        }
+                    }           // ! isHeader
 
                     SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeHISize, sizeof( HISize ), &size );
                     return noErr;
@@ -1031,10 +1062,14 @@ pascal OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandle
                     }
                     
                     if (!isHeader) {
-                        pList->GetItemRect(row, r);
-                        y = r.y - 1;
-                        if (col < 0) {
-                            x = r.x;
+                        if (row < 0) {  // Entire column
+                            y = 0;
+                        } else {
+                            pList->GetItemRect(row, r);
+                            y = r.y - 1;
+                            if (col < 0) {
+                                x = r.x;
+                            }
                         }
                     }
                     xoff = pList->GetScrollPos(wxHORIZONTAL);
@@ -1046,7 +1081,7 @@ pascal OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandle
                     // Now convert to global coordinates
                     pList->ClientToScreen(&x, &y);
                     pt.x = x;
-                    pt.y = y - pList->m_headerHeight;
+                    pt.y = y - ((CBOINCListCtrl*)pList)->GetHeaderHeight();
 
                     SetEventParameter(inEvent, kEventParamAccessibleAttributeValue, typeHIPoint, sizeof(HIPoint), &pt);
                     return noErr;
@@ -1255,7 +1290,7 @@ pascal OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandle
             if (isHeader) {
                 wxListEvent event(wxEVT_COMMAND_LIST_COL_CLICK, id);
                 event.m_col = col;
-                pList->AddPendingEvent(event);
+                pList->GetEventHandler()->AddPendingEvent(event);
             } else {
                 if (pView) {
                     pView->ClearSelections();
@@ -1272,6 +1307,8 @@ pascal OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandle
     
     return eventNotHandledErr;
 }
+
+#endif  // !USE_NATIVE_LISTCONTROL
 
 
 pascal OSStatus HTMLListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,

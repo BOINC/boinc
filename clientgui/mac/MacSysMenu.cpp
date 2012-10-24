@@ -178,7 +178,7 @@ bool CMacSystemMenu::SetMacMenuIcon(const wxIcon& icon) {
     m_bNeedRebuildMenu = false;
     
     theBits.CopyFromIcon(icon);
-    CGImageRef imageRef = (CGImageRef)theBits.CGImageCreate();
+    CGImageRef imageRef = (CGImageRef)theBits.CreateCGImage();
     if ( (SetSystemMenuIcon != NULL) && (imageRef != NULL) ) { 
         SetSystemMenuIcon(imageRef);
         CGImageRelease( imageRef );
@@ -204,7 +204,7 @@ void CMacSystemMenu::BuildMenu() {
     m_iconTaskBarSnooze = *pSkinAdvanced->GetApplicationSnoozeIcon();
 
     theBits.CopyFromIcon(m_iconTaskBarNormal);
-    CGImageRef imageRef = (CGImageRef)theBits.CGImageCreate();                
+    CGImageRef imageRef = (CGImageRef)theBits.CreateCGImage();
     if ( (SetUpSystemMenu != NULL ) && (imageRef != NULL) ) {
         // Currently, the system menu is the same as the Dock menu with the addition of 
         // the Quit menu item.  If in the future you wish to make the system menu different 
@@ -316,7 +316,7 @@ pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
                 {
                     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
                     wxCommandEvent evt(wxEVT_COMMAND_MENU_SELECTED, ID_PREFERENCES);
-                    pFrame->AddPendingEvent(evt);
+                    pFrame->GetEventHandler()->AddPendingEvent(evt);
                     return noErr ;
                 }
             case kHICommandQuit:

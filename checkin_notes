@@ -6196,3 +6196,17 @@ Rom    19 Oct 2012
         uc2_graphics.vcproj
         vboxwrapper.vcproj
         wrapper.vcproj
+
+Charlie 24 Oct 2012
+    - Restore Mac-specific files which had been modified for wxWidgets 2.9.4 
+        but were lost in transition to GIT.
+    
+    clientgui/mac/
+        MacAccessibility.cpp
+        MacBitMapComboBox.cpp
+        MacGUI.pch
+        MacSystemMenu.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+        buildWxMac.sh

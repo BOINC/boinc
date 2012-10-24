@@ -40,13 +40,29 @@
 // To use the wxMac Deployment build even in BOINC Manager Development builds, reverse 
 // the above steps (setting USE_DEBUG_WXMAC to 0, etc.)
 
-#define USE_DEBUG_WXMAC 0
- 
-#define WX_PRECOMP
+#define USE_DEBUG_WXMAC 1
 
-#define HAVE_SSIZE_T
+#define wxDEBUG_LEVEL 0
+#define __WXOSX_CARBON__
+#define __WX__
+#define wxUSE_BASE 1
+#define MACOS_CLASSIC
+#define __WXMAC_XCODE__ 1
+#define SCI_LEXER
+#define WX_PRECOMP 1
+#define wxUSE_UNICODE_UTF8 1
 
-#include <wx/version.h> // For wxCHECK_VERSION
+#include <wx/wxprec.h>
+
+// Allow the BOINC definitions of these instead of the wxWidgets ones
+#undef PACKAGE_BUGREPORT
+#undef PACKAGE_NAME
+#undef PACKAGE_STRING
+#undef PACKAGE_TARNAME
+#undef PACKAGE_VERSION
+
+
+//#include <wx/version.h> // For wxCHECK_VERSION
 
 #define TARGET_CARBON 1
 #define wxUSE_UNICODE 1
@@ -58,13 +74,15 @@
 // platform.h erroneously #defines __POWERPC__, so we include platform.h first 
 // and then #undef __POWERPC__ before including the other wxMac header files.
 // It's unclear if this affects non-CodeWarrior builds, but do it to be safe.
-#include <wx/platform.h>
+///////#include <wx/platform.h>
 #ifdef __POWERPC__
 #undef __POWERPC__
 #endif
 #endif
 
-#if (defined(_DEBUG) && (! USE_DEBUG_WXMAC))
+#define __WXDEBUG__ 1
+
+#if 0 //(defined(_DEBUG) && (! USE_DEBUG_WXMAC))
 
 #undef _DEBUG       // so we can link with Deployment Wx libs
 #undef __WXDEBUG__
