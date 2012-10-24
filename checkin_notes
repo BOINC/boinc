@@ -6349,3 +6349,16 @@ David  24 Oct 2012
     client/
         app.cpp,h
         cpp_control.cpp
+
+Rom    24 Oct 2012
+    - Fix the db schema check functionality so that it will work with make_project
+        and upgrade correctly.  We no longer rely on svnversion for this sort of
+        thing.
+
+    db\
+        init_db
+    html\ops\
+        db_schemaversion.php
+    tools\
+        make_project
+        upgrade

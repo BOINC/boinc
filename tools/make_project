@@ -287,18 +287,10 @@ t.disabled = 1
 
 project.config.write()
 
-svn_version_file = proot+'/local.revision'
 try:
-    cmd = '/bin/sh -c \'/usr/bin/svnversion ' + options.srcdir + '\' > '+svn_version_file
-    os.system(cmd)
+    os.system('cd '+proot+'/html/ops; ./db_schemaversion.php > '+proot+'/db_revision')
 except:
-    print '''Couldn't find svnversion'''
-
-try:
-    cmd = '/bin/sh -c \'/usr/bin/svnversion ' + options.srcdir + '\' > '+proot+'/db_revision'
-    os.system(cmd)
-except:
-    print '''Couldn't find svnversion'''
+    print '''Couldn't set db schema version number'''
 
 try:
     os.system('cd '+proot+'/html/ops; ./update_translations.php -d 1')

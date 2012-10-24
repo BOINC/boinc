@@ -78,12 +78,6 @@ install_boinc_files(INSTALL_DIR, not options.server_only, not options.web_only)
 print "Upgrading files... done"
 print "Finding SVN revision"
 
-svn_version_file = INSTALL_DIR+'/local.revision'
-try:
-    os.system('/bin/sh -c /usr/bin/svnversion > '+svn_version_file)
-except:
-    print '''Couldn't find svnversion'''
-
 print "Updating translations"
 try:
     os.system('cd '+INSTALL_DIR+'/html/ops; ./update_translations.php -d 1')
