@@ -6362,3 +6362,10 @@ Rom    24 Oct 2012
     tools\
         make_project
         upgrade
+
+David  24 Oct 2012
+    - db_update.php is not executable, db_schemaversion.php is
+        NOTE: I suggest that we not use .php for executable scripts
+
+    html/ops/
+        db_update.php
