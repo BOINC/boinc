@@ -6340,3 +6340,12 @@ David  23 Oct 2012
     tools/
         create_work_example
         stage_file
+
+David  24 Oct 2012
+    - client: if an app's finish file has existed for 10 seconds, kill it;
+        it must be hung in boinc_finish().
+        This behavior has been seen with LHC@home and maybe other projects.
+
+    client/
+        app.cpp,h
+        cpp_control.cpp

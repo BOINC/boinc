@@ -154,6 +154,9 @@ struct ACTIVE_TASK {
     char web_graphics_url[256];
     char remote_desktop_addr[256];
     ASYNC_COPY* async_copy;
+    double finish_file_time;
+        // time when we saw finish file in slot dir.
+        // Used to kill apps that hang after writing finished file
 
     void set_task_state(int, const char*);
     inline int task_state() {

@@ -131,6 +131,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     strcpy(web_graphics_url, "");
     strcpy(remote_desktop_addr, "");
     async_copy = NULL;
+    finish_file_time = 0;
 }
 
 // preempt this task;
