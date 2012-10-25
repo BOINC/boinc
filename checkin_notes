@@ -6369,3 +6369,11 @@ David  24 Oct 2012
 
     html/ops/
         db_update.php
+
+Rom    25 Oct 2012
+    - API: Use CloseWindow() to respond to the API Defined WM_SHUTDOWNGFX event just
+        in case CloseWindow() does something more than just send the WM_CLOSE event
+        to the window proc.
+        
+    api/
+        graphics2_win.cpp

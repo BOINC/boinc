@@ -300,11 +300,11 @@ LRESULT CALLBACK WndProc(
     case WM_CLOSE:
         boinc_close_window_and_quit("WM_CLOSE");
         return 0;
-    case WM_SHUTDOWNGFX:
-        boinc_close_window_and_quit("WM_SHUTDOWNGFX");
-        return 0;
     case WM_DESTROY:
         PostQuitMessage(0);
+        return 0;
+    case WM_SHUTDOWNGFX:
+        CloseWindow(hWnd);
         return 0;
     case WM_PAINT:
         PAINTSTRUCT ps;
