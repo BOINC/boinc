@@ -53,32 +53,11 @@ CBOINCBitmapChoice::~CBOINCBitmapChoice() {
 }
 
 void CBOINCBitmapChoice::SetItemBitmap(unsigned int n, const wxBitmap& bitmap) {
-    MenuHandle mhandle = (MenuHandle) m_popUpMenu;
-    unsigned int index = n + 1;
-    
-    if ( mhandle == NULL || index == 0)
-        return ;
+    wxMenuItem *item = m_popUpMenu->FindItemByPosition(n);
 
-    if ( bitmap.Ok() )
+    if ( item && bitmap.Ok() )
     {
-        CGImageRef imageRef = (CGImageRef)( bitmap.CreateCGImage() ) ;
-        SetMenuItemIconHandle( mhandle , index ,
-                    kMenuCGImageRefType , (Handle) imageRef ) ;
-
-#if 0// wxUSE_BMPBUTTON
-        ControlButtonContentInfo info ;
-        wxMacCreateBitmapButton( &info , bitmap ) ;
-        if ( info.contentType != kControlNoContent )
-        {
-            if ( info.contentType == kControlContentIconRef )
-                SetMenuItemIconHandle( mhandle , index ,
-                    kMenuIconRefType , (Handle) info.u.iconRef ) ;
-            else if ( info.contentType == kControlContentCGImageRef )
-               SetMenuItemIconHandle( mhandle , index ,
-                    kMenuCGImageRefType , (Handle) info.u.imageRef ) ;
-        }
-        wxMacReleaseBitmapButton( &info ) ;
-#endif
+        item->SetBitmap(bitmap);
     }
 }
 void CBOINCBitmapChoice::OnMouseDown(wxMouseEvent& event) {

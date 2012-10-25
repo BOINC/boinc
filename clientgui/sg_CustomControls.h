@@ -90,7 +90,9 @@ public:
     virtual bool HasTransparentBackground() { return true; };
 
     virtual void OnEraseBackground(wxEraseEvent& /*event*/) {};
+#ifndef __WXMAC__
     virtual void OnPaint(wxPaintEvent& event);
+#endif
 
     DECLARE_EVENT_TABLE()
 }; 

@@ -60,7 +60,9 @@ IMPLEMENT_DYNAMIC_CLASS (CTransparentStaticText, wxStaticText)
 
 BEGIN_EVENT_TABLE(CTransparentStaticText, wxStaticText)
     EVT_ERASE_BACKGROUND(CTransparentStaticText::OnEraseBackground)
+#ifndef __WXMAC__
     EVT_PAINT(CTransparentStaticText::OnPaint)
+#endif
 END_EVENT_TABLE()
 
 
@@ -83,12 +85,13 @@ bool CTransparentStaticText::Create(wxWindow* parent, wxWindowID id, const wxStr
 }
 
 
+#ifndef __WXMAC__
 void CTransparentStaticText::OnPaint(wxPaintEvent& /*event*/) {
     wxPaintDC dc(this);
     dc.SetFont(GetFont());
     dc.DrawText(GetLabel(), 0, 0);
 }
-
+#endif
 
 IMPLEMENT_DYNAMIC_CLASS (CTransparentStaticTextAssociate, wxPanel)
 

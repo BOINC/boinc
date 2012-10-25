@@ -6214,5 +6214,14 @@ Charlie 24 Oct 2012
 Charlie 24 Oct 2012
     - Fix transparent static text for wxWidgets 2.9.4.
 
-    clientgui\
+    clientgui/
+        sg_CustomControls.cpp,.h
+
+Charlie 25 Oct 2012
+    - Mac: Fix icons in Simple View Task and Project selection combo boxes.
+    - Mac: Eliminate some unnecessary code.
+    
+    clientgui/
+        mac/
+            MacBitmapComboBox.cpp,.h
         sg_CustomControls.cpp,.h
