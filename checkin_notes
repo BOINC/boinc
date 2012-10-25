@@ -6221,6 +6221,7 @@ Charlie 25 Oct 2012
     - Mac: Fix icons in Simple View Task and Project selection combo boxes.
     - Mac: Eliminate some unnecessary code.
     - Mac: Fix Quit command in Simple View and a crash bug with Quit AppleEvent.
+    - Fix a bad FlexGridSizer in Simple Preferences dialog which caused assert.
     
     clientgui/
         BOINCGUIApp.cpp
@@ -6228,3 +6229,4 @@ Charlie 25 Oct 2012
         mac/
             MacBitmapComboBox.cpp,.h
         sg_CustomControls.cpp,.h
+        sg_DlgPreferences.cpp
