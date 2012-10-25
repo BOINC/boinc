@@ -6220,8 +6220,11 @@ Charlie 24 Oct 2012
 Charlie 25 Oct 2012
     - Mac: Fix icons in Simple View Task and Project selection combo boxes.
     - Mac: Eliminate some unnecessary code.
+    - Mac: Fix Quit command in Simple View and a crash bug with Quit AppleEvent.
     
     clientgui/
+        BOINCGUIApp.cpp
+        DlgEventLog.cpp
         mac/
             MacBitmapComboBox.cpp,.h
         sg_CustomControls.cpp,.h

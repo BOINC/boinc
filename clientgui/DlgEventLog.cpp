@@ -668,7 +668,7 @@ void CDlgEventLog::SetWindowDimensions() {
 
     wxASSERT(pConfig);
 
-    if (!IsIconized()) {
+    if (pConfig && !IsIconized()) {
         pConfig->SetPath(strBaseConfigLocation);
         pConfig->Write(wxT("XPos"), GetPosition().x);
         pConfig->Write(wxT("YPos"), GetPosition().y);
