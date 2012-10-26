@@ -6222,7 +6222,9 @@ Charlie 25 Oct 2012
     - Mac: Eliminate some unnecessary code.
     - Mac: Fix Quit command in Simple View and a crash bug with Quit AppleEvent.
     - Fix a bad FlexGridSizer in Simple Preferences dialog which caused assert.
-    
+    - Fix assert in Simple Preferences: use window foreground color for 
+        CTransparentStaticLine if skin does not specify <static_line_color>.
+
     clientgui/
         BOINCGUIApp.cpp
         DlgEventLog.cpp

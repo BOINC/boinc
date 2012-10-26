@@ -48,7 +48,7 @@ public:
     );
 
     wxColour GetLineColor() const { return m_LineColor ; }
-    void     SetLineColor(wxColour value) { m_LineColor = value ; }
+    void     SetLineColor(wxColour value) { if (value != wxNullColour) m_LineColor = value ; }
 
     virtual bool HasTransparentBackground() { return true; };
 

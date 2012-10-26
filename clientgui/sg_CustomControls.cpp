@@ -43,13 +43,14 @@ bool CTransparentStaticLine::Create(wxWindow* parent, wxWindowID id, const wxPoi
     SetBackgroundColour(parent->GetBackgroundColour());
     SetBackgroundStyle(wxBG_STYLE_COLOUR);
     SetForegroundColour(parent->GetForegroundColour());
+    SetLineColor(GetForegroundColour());
 
     return bRetVal;
 }
 
 
 void CTransparentStaticLine::OnPaint(wxPaintEvent& /*event*/) {
-    wxPaintDC dc(this); 
+    wxPaintDC dc(this);
     wxPen pen = wxPen(GetLineColor(), 1);
     dc.SetPen(pen);
     dc.DrawLine(0, 0, GetSize().GetWidth(), 0); 
