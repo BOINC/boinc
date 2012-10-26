@@ -25,6 +25,7 @@
 #include "util.h"
 #include "error_numbers.h"
 #include "miofile.h"
+#include "filesys.h"
 #include "BOINCGUIApp.h"
 #include "BOINCBaseFrame.h"
 #include "SkinManager.h"
@@ -414,7 +415,9 @@ int CSkinAdvanced::Parse(MIOFILE& in) {
                     wxGetApp().GetSkinManager()->ConstructSkinPath() +
                     wxString(strBuffer.c_str(), wxConvUTF8)
                 );
-                m_bitmapApplicationLogo = wxBitmap(wxImage(str.c_str(), wxBITMAP_TYPE_ANY));
+                if (boinc_file_exists(str.c_str())) {
+                    m_bitmapApplicationLogo = wxBitmap(wxImage(str.c_str(), wxBITMAP_TYPE_ANY));
+                }
             }
             continue;
         } else if (parse_str(buf, "<organization_name>", strBuffer)) {
