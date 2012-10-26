@@ -6377,3 +6377,13 @@ Rom    25 Oct 2012
         
     api/
         graphics2_win.cpp
+
+Rom    26 Oct 2012
+    - WINSETUP: Add the account manager auth logic from the 6.8 installer to current
+        generation installers.
+    - WINSETUP: Make whether or not to create start menu items configurable via the
+        command line.  Useful for mass deployment installs.
+
+    win_build\installerv2\
+        BOINC.ism
+        BOINCx64.ism
