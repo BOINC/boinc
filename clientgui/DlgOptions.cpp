@@ -155,7 +155,7 @@ void CDlgOptions::CreateControls() {
     wxBoxSizer* itemBoxSizer5 = new wxBoxSizer(wxVERTICAL);
     itemPanel4->SetSizer(itemBoxSizer5);
 
-    wxFlexGridSizer* itemFlexGridSizer6 = new wxFlexGridSizer(3, 2, 0, 0);
+    wxFlexGridSizer* itemFlexGridSizer6 = new wxFlexGridSizer(2, 0, 0);
     itemBoxSizer5->Add(itemFlexGridSizer6, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
     wxStaticText* itemStaticText7 = new wxStaticText;
     itemStaticText7->Create( itemPanel4, wxID_STATIC, _("Language:"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -212,7 +212,7 @@ void CDlgOptions::CreateControls() {
     wxStaticBox* itemStaticBoxSizer16Static = new wxStaticBox(itemPanel11, wxID_ANY, _("Dial-up and Virtual Private Network settings"));
     m_DialupStaticBoxCtrl = new wxStaticBoxSizer(itemStaticBoxSizer16Static, wxVERTICAL);
     itemBoxSizer12->Add(m_DialupStaticBoxCtrl, 0, wxGROW|wxALL, 5);
-    wxFlexGridSizer* itemFlexGridSizer17 = new wxFlexGridSizer(1, 2, 0, 0);
+    wxFlexGridSizer* itemFlexGridSizer17 = new wxFlexGridSizer(2, 0, 0);
     itemFlexGridSizer17->AddGrowableCol(0);
     m_DialupStaticBoxCtrl->Add(itemFlexGridSizer17, 0, wxGROW|wxALL, 5);
     wxString* m_DialupConnectionsCtrlStrings = NULL;
@@ -231,7 +231,7 @@ void CDlgOptions::CreateControls() {
     m_DialupClearDefaultCtrl->Create( itemPanel11, ID_DIALUPCLEARDEFAULT, _("&Clear Default"), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer19->Add(m_DialupClearDefaultCtrl, 0, wxGROW|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer22 = new wxFlexGridSizer(1, 2, 0, 0);
+    wxFlexGridSizer* itemFlexGridSizer22 = new wxFlexGridSizer(2, 0, 0);
     itemFlexGridSizer22->AddGrowableCol(1);
     m_DialupStaticBoxCtrl->Add(itemFlexGridSizer22, 0, wxGROW|wxALL, 5);
     m_DialupDefaultConnectionTextCtrl = new wxStaticText;
@@ -260,7 +260,7 @@ void CDlgOptions::CreateControls() {
     itemBoxSizer28->Add(itemStaticBoxSizer30, 0, wxGROW|wxALL, 5);
     wxGridSizer* itemGridSizer31 = new wxGridSizer(2, 1, 0, 0);
     itemStaticBoxSizer30->Add(itemGridSizer31, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
-    wxFlexGridSizer* itemFlexGridSizer32 = new wxFlexGridSizer(3, 2, 0, 0);
+    wxFlexGridSizer* itemFlexGridSizer32 = new wxFlexGridSizer(2, 0, 0);
     itemGridSizer31->Add(itemFlexGridSizer32, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
     wxStaticText* itemStaticText33 = new wxStaticText;
     itemStaticText33->Create( itemPanel27, wxID_STATIC, _("Address:"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -289,7 +289,7 @@ void CDlgOptions::CreateControls() {
     wxStaticBox* itemStaticBoxSizer37Static = new wxStaticBox(itemPanel27, wxID_ANY, _("Leave these blank if not needed"));
     wxStaticBoxSizer* itemStaticBoxSizer37 = new wxStaticBoxSizer(itemStaticBoxSizer37Static, wxVERTICAL);
     itemStaticBoxSizer30->Add(itemStaticBoxSizer37, 0, wxGROW|wxALL, 5);
-    wxFlexGridSizer* itemFlexGridSizer38 = new wxFlexGridSizer(2, 2, 0, 0);
+    wxFlexGridSizer* itemFlexGridSizer38 = new wxFlexGridSizer(2, 0, 0);
     itemStaticBoxSizer37->Add(itemFlexGridSizer38, 0, wxALIGN_LEFT|wxALL, 5);
     wxStaticText* itemStaticText39 = new wxStaticText;
     itemStaticText39->Create( itemPanel27, wxID_STATIC, _("User Name:"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -324,7 +324,7 @@ void CDlgOptions::CreateControls() {
     itemBoxSizer44->Add(itemStaticBoxSizer46, 0, wxGROW|wxALL, 5);
     wxGridSizer* itemGridSizer47 = new wxGridSizer(2, 1, 0, 0);
     itemStaticBoxSizer46->Add(itemGridSizer47, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
-    wxFlexGridSizer* itemFlexGridSizer48 = new wxFlexGridSizer(3, 2, 0, 0);
+    wxFlexGridSizer* itemFlexGridSizer48 = new wxFlexGridSizer(2, 0, 0);
     itemGridSizer47->Add(itemFlexGridSizer48, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
     wxStaticText* itemStaticText49 = new wxStaticText;
     itemStaticText49->Create( itemPanel43, wxID_STATIC, _("Address:"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -353,7 +353,7 @@ void CDlgOptions::CreateControls() {
     wxStaticBox* itemStaticBoxSizer53Static = new wxStaticBox(itemPanel43, wxID_ANY, _("Leave these blank if not needed"));
     wxStaticBoxSizer* itemStaticBoxSizer53 = new wxStaticBoxSizer(itemStaticBoxSizer53Static, wxVERTICAL);
     itemStaticBoxSizer46->Add(itemStaticBoxSizer53, 0, wxGROW|wxALL, 5);
-    wxFlexGridSizer* itemFlexGridSizer54 = new wxFlexGridSizer(2, 2, 0, 0);
+    wxFlexGridSizer* itemFlexGridSizer54 = new wxFlexGridSizer(2, 0, 0);
     itemStaticBoxSizer53->Add(itemFlexGridSizer54, 0, wxALIGN_LEFT|wxALL, 5);
     wxStaticText* itemStaticText55 = new wxStaticText;
     itemStaticText55->Create( itemPanel43, wxID_STATIC, _("User Name:"), wxDefaultPosition, wxDefaultSize, 0 );

@@ -6238,9 +6238,10 @@ Charlie 25 Oct 2012
 
 Charlie 25 Oct 2012
     - Mac: Work around wxMemoryDC::Clear() bug in drawing Simple View background.
-    - Fix a bad wxFlexGridSizer in Options dialog which caused assert.
+    - Fix bad wxFlexGridSizers in Options dialog which caused asserts.
         Note: wxWidgets 2.9.4 now throws an assert if you add more rows to a 
-        wxFlexGridSizer than you specified in its constructor.
+        wxFlexGridSizer than you specified in its constructor, so it may be 
+        better to use the constructor which does not specify number of rows.
     
     clientgui/
         DlgOptions.cpp
