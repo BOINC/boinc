@@ -131,6 +131,9 @@ private:
     void            SaveWindowDimensions();
     void            OnSize(wxSizeEvent& event);
     void            OnMove(wxMoveEvent& event);
+#ifdef __WXMAC__
+    void            OnShow(wxShowEvent& event);
+#endif
 
     void            UpdateActivityModeControls( CC_STATUS& status );
     void            UpdateGPUModeControls( CC_STATUS& status );

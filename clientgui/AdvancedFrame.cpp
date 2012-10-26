@@ -194,6 +194,9 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_NOTEBOOK_PAGE_CHANGED(ID_FRAMENOTEBOOK, CAdvancedFrame::OnNotebookSelectionChanged)
     EVT_SIZE(CAdvancedFrame::OnSize)
     EVT_MOVE(CAdvancedFrame::OnMove)
+#ifdef __WXMAC__
+    EVT_SHOW( CAdvancedFrame::OnShow )
+#endif
 END_EVENT_TABLE ()
 
 
@@ -1034,6 +1037,30 @@ void CAdvancedFrame::OnMove(wxMoveEvent& event) {
     event.Skip();
 }
     
+
+#ifdef __WXMAC__
+// Work around an apparent bug in wxCarbon 2.9.4
+void CAdvancedFrame::OnShow(wxShowEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnShow - Function Begin"));
+
+    wxWindow*       pwndNotebookPage = NULL;
+    wxASSERT(m_pNotebook);
+
+    if (m_pNotebook) {
+        pwndNotebookPage = m_pNotebook->GetPage(m_pNotebook->GetSelection());
+        wxASSERT(pwndNotebookPage);
+        
+        if (pwndNotebookPage) {
+            pwndNotebookPage->Show();
+        }
+    }
+    
+    event.Skip();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnShow - Function End"));
+}
+#endif
+
 
 int CAdvancedFrame::_GetCurrentViewPage() {
 

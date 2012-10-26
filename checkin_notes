@@ -6242,7 +6242,10 @@ Charlie 25 Oct 2012
         Note: wxWidgets 2.9.4 now throws an assert if you add more rows to a 
         wxFlexGridSizer than you specified in its constructor, so it may be 
         better to use the constructor which does not specify number of rows.
+    - Mac: Work around apparent bug in wxWidgets 2.9.4 which failed to render 
+        wxNoteBook pages.
     
     clientgui/
+        AdvancedFrame.cpp,.h
         DlgOptions.cpp
         sg_BoincSimpleFrame.cpp
