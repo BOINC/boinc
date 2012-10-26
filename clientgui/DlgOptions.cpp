@@ -260,7 +260,7 @@ void CDlgOptions::CreateControls() {
     itemBoxSizer28->Add(itemStaticBoxSizer30, 0, wxGROW|wxALL, 5);
     wxGridSizer* itemGridSizer31 = new wxGridSizer(2, 1, 0, 0);
     itemStaticBoxSizer30->Add(itemGridSizer31, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
-    wxFlexGridSizer* itemFlexGridSizer32 = new wxFlexGridSizer(2, 2, 0, 0);
+    wxFlexGridSizer* itemFlexGridSizer32 = new wxFlexGridSizer(3, 2, 0, 0);
     itemGridSizer31->Add(itemFlexGridSizer32, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
     wxStaticText* itemStaticText33 = new wxStaticText;
     itemStaticText33->Create( itemPanel27, wxID_STATIC, _("Address:"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -324,7 +324,7 @@ void CDlgOptions::CreateControls() {
     itemBoxSizer44->Add(itemStaticBoxSizer46, 0, wxGROW|wxALL, 5);
     wxGridSizer* itemGridSizer47 = new wxGridSizer(2, 1, 0, 0);
     itemStaticBoxSizer46->Add(itemGridSizer47, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
-    wxFlexGridSizer* itemFlexGridSizer48 = new wxFlexGridSizer(2, 2, 0, 0);
+    wxFlexGridSizer* itemFlexGridSizer48 = new wxFlexGridSizer(3, 2, 0, 0);
     itemGridSizer47->Add(itemFlexGridSizer48, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
     wxStaticText* itemStaticText49 = new wxStaticText;
     itemStaticText49->Create( itemPanel43, wxID_STATIC, _("Address:"), wxDefaultPosition, wxDefaultSize, 0 );

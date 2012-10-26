@@ -6221,7 +6221,7 @@ Charlie 25 Oct 2012
     - Mac: Fix icons in Simple View Task and Project selection combo boxes.
     - Mac: Eliminate some unnecessary code.
     - Mac: Fix Quit command in Simple View and a crash bug with Quit AppleEvent.
-    - Fix a bad FlexGridSizer in Simple Preferences dialog which caused assert.
+    - Fix a bad wxFlexGridSizer in Simple Preferences dialog which caused assert.
     - Fix assert in Simple Preferences: use window foreground color for 
         CTransparentStaticLine if skin does not specify <static_line_color> tag.
     - Fix assert in SkinManager when file referenced by <application_logo> tag 
@@ -6238,6 +6238,10 @@ Charlie 25 Oct 2012
 
 Charlie 25 Oct 2012
     - Mac: Work around wxMemoryDC::Clear() bug in drawing Simple View background.
+    - Fix a bad wxFlexGridSizer in Options dialog which caused assert.
+        Note: wxWidgets 2.9.4 now throws an assert if you add more rows to a 
+        wxFlexGridSizer than you specified in its constructor.
     
     clientgui/
+        DlgOptions.cpp
         sg_BoincSimpleFrame.cpp
