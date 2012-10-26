@@ -813,6 +813,13 @@ void CSimpleGUIPanel::SetBackgroundBitmap() {
     wxBrush bgBrush(bgColor);
     dc.SetBackground(bgBrush);
     dc.Clear();
+#ifdef __WXMAC__
+    // Work around an apparent bug in wxMemoryDC::Clear()
+    dc.SetBrush(bgBrush);
+    wxPen bgPen(bgColor);
+    dc.SetPen(bgPen);
+    dc.DrawRectangle(panelRect);
+#endif
     dc.DrawBitmap(*pSkinSimple->GetBackgroundImage()->GetBitmap(), 0, 0, false);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleGUIPanel::SetBackgroundBitmap - Function End"));

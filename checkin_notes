@@ -6235,3 +6235,9 @@ Charlie 25 Oct 2012
         sg_CustomControls.cpp,.h
         sg_DlgPreferences.cpp
         SkinManager.cpp
+
+Charlie 25 Oct 2012
+    - Mac: Work around wxMemoryDC::Clear() bug in drawing Simple View background.
+    
+    clientgui/
+        sg_BoincSimpleFrame.cpp
