@@ -802,6 +802,7 @@ int main(int argc, char** argv) {
         sleep_time = POLL_PERIOD - (stopwatch_endtime - stopwatch_time);
         if (sleep_time > 0) {
             boinc_sleep(sleep_time);
+            elapsed_time += sleep_time;
         }
     }
 

@@ -6402,3 +6402,10 @@ Rom    27 Oct 2012
           
     samples\vboxwrapper\
         vboxwrapper.cpp
+
+Rom    27 Oct 2012
+    - VBOX: Increase elapsed_time if we were forced to sleep after executing the main loop
+    
+    samples\vboxwrapper\
+        vboxwrapper.cpp
+    
