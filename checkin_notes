@@ -6387,3 +6387,18 @@ Rom    26 Oct 2012
     win_build\installerv2\
         BOINC.ism
         BOINCx64.ism
+
+Rom    27 Oct 2012
+    - VBOX: Change the way elapsed_time is calculated in vboxwrapper.
+
+        Previously: elapsed_time was just incremented with the value of the polling
+          period each iteraction through the main loop.  This introduced issues
+          when vboxmanage lagged for whatever reason.  This lag could go as high as 5
+          seconds.  Over the timespan of a day this could increase the wall clock time
+          of a task a great deal.
+          
+        Now: elapsed_time is incremented with the time it took to execute the main
+          loop.
+          
+    samples\vboxwrapper\
+        vboxwrapper.cpp

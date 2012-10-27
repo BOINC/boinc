@@ -328,6 +328,7 @@ int main(int argc, char** argv) {
     double checkpoint_cpu_time = 0;
     double last_status_report_time = 0;
     double stopwatch_time = 0;
+    double stopwatch_endtime = 0;
     double sleep_time = 0;
     double bytes_sent = 0;
     double bytes_received = 0;
@@ -639,8 +640,6 @@ int main(int argc, char** argv) {
                 vm.resume();
             }
 
-            elapsed_time += POLL_PERIOD;
-
             if (!vm_pid) {
                 vm.get_vm_process_id(vm_pid);
                 if (vm_pid) {
@@ -791,8 +790,16 @@ int main(int argc, char** argv) {
             }
         }
 
+        stopwatch_endtime = dtime();
+
+        // Calculate the elapsed time after all potiential commands have been executed
+        // and base it off of wall clock time instead of a fixed interval.
+        if (!boinc_status.suspended) {
+            elapsed_time += stopwatch_endtime - stopwatch_time;
+        }
+
         // Sleep for the remainder of the polling period
-        sleep_time = POLL_PERIOD - (dtime() - stopwatch_time);
+        sleep_time = POLL_PERIOD - (stopwatch_endtime - stopwatch_time);
         if (sleep_time > 0) {
             boinc_sleep(sleep_time);
         }
