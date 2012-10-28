@@ -132,6 +132,8 @@ private:
     void            OnSize(wxSizeEvent& event);
     void            OnMove(wxMoveEvent& event);
 #ifdef __WXMAC__
+// Work around an apparent bug in wxCarbon 2.9.4
+// TODO: remove this when the wxCarbon bug is fixed
     void            OnShow(wxShowEvent& event);
 #endif
 

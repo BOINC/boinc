@@ -814,7 +814,8 @@ void CSimpleGUIPanel::SetBackgroundBitmap() {
     dc.SetBackground(bgBrush);
     dc.Clear();
 #ifdef __WXMAC__
-    // Work around an apparent bug in wxMemoryDC::Clear()
+    // Work around an apparent bug in wxMemoryDC::Clear() in wxCarbon 2.9.4
+    // TODO: remove this when the wxCarbon bug is fixed
     dc.SetBrush(bgBrush);
     wxPen bgPen(bgColor);
     dc.SetPen(bgPen);
