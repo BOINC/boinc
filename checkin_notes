@@ -6236,7 +6236,7 @@ Charlie 25 Oct 2012
         sg_DlgPreferences.cpp
         SkinManager.cpp
 
-Charlie 25 Oct 2012
+Charlie 26 Oct 2012
     - Mac: Work around wxMemoryDC::Clear() bug in drawing Simple View background.
     - Fix bad wxFlexGridSizers in Options dialog which caused asserts.
         Note: wxWidgets 2.9.4 now throws an assert if you add more rows to a 
@@ -6249,3 +6249,9 @@ Charlie 25 Oct 2012
         AdvancedFrame.cpp,.h
         DlgOptions.cpp
         sg_BoincSimpleFrame.cpp
+
+Charlie 28 Oct 2012
+    - Mac: Work around apparent refresh bug in wxCarbon 2.9.4 wxGenericListCtrl.
+    
+    clientgui/
+        DlgEventLog.cpp

@@ -524,6 +524,11 @@ void CDlgEventLog::OnRefresh() {
 
         if ((iRowCount > 1) && (EnsureLastItemVisible()) && (m_iPreviousRowCount != iRowCount)) {
             m_pList->EnsureVisible(iRowCount - 1);
+#ifdef __WXMAC__
+            // Work around an apparent refresh bug in wxCarbon 2.9.4 wxGenericListCtrl
+            // TODO: remove this when the wxCarbon bug is fixed
+            m_pList->RefreshItems((m_iPreviousRowCount < 0) ? 0 : m_iPreviousRowCount, iRowCount-1);
+#endif
         }
 
         if (m_iPreviousRowCount != iRowCount) {
