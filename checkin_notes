@@ -6264,3 +6264,13 @@ Charlie 28 Oct 2012
         BOINCTaskCtrl.cpp
         DlgEventLog.cpp
         sg_BoincSimpleFrame.cpp
+
+Charlie 28 Oct 2012
+    - Fix more bad wxFlexGridSizers, etc. in Attach Wizard, Advanced Preferences.
+    - Fix assert caused by Clear() of empty Project Categories wxComboBox.
+    
+    clientgui/
+        AccountInfoPage.cpp
+        DlgAdvPreferencesBase.cpp
+        ProjectInfoPage.cpp
+        WelcomePage.cpp

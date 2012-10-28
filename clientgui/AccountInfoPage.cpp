@@ -162,7 +162,7 @@ void CAccountInfoPage::CreateControls()
     m_pAccountInformationStaticCtrl->Create( itemWizardPage56, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer57->Add(m_pAccountInformationStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer64 = new wxFlexGridSizer(4, 2, 0, 0);
+    wxFlexGridSizer* itemFlexGridSizer64 = new wxFlexGridSizer(2, 0, 0);
     itemFlexGridSizer64->AddGrowableCol(1);
     itemBoxSizer57->Add(itemFlexGridSizer64, 0, wxEXPAND|wxALL, 0);
 

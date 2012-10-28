@@ -211,12 +211,12 @@ void CProjectInfoPage::CreateControls()
 
     itemBoxSizer24->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer4 = new wxFlexGridSizer(1, 1, 0, 0);
+    wxFlexGridSizer* itemFlexGridSizer4 = new wxFlexGridSizer(1, 0, 0);
     itemFlexGridSizer4->AddGrowableRow(0);
     itemFlexGridSizer4->AddGrowableCol(0);
     itemBoxSizer24->Add(itemFlexGridSizer4, 0, wxGROW|wxALL, 0);
 
-    wxFlexGridSizer* itemFlexGridSizer6 = new wxFlexGridSizer(0, 2, 0, 0);
+    wxFlexGridSizer* itemFlexGridSizer6 = new wxFlexGridSizer(2, 2, 0, 0);
     itemFlexGridSizer6->AddGrowableRow(1);
     itemFlexGridSizer6->AddGrowableCol(1);
     itemFlexGridSizer4->Add(itemFlexGridSizer6, 0, wxGROW|wxGROW|wxALL, 0);
@@ -234,7 +234,7 @@ void CProjectInfoPage::CreateControls()
     m_pProjectsStaticCtrl = new wxStaticText( itemWizardPage23, wxID_STATIC, wxT(""), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer7->Add(m_pProjectsStaticCtrl, 0, wxALIGN_LEFT|wxTOP|wxRIGHT|wxBOTTOM, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer11 = new wxFlexGridSizer(0, 1, 0, 0);
+    wxFlexGridSizer* itemFlexGridSizer11 = new wxFlexGridSizer(1, 0, 0);
     itemFlexGridSizer11->AddGrowableRow(0);
     itemFlexGridSizer11->AddGrowableCol(0);
     itemBoxSizer7->Add(itemFlexGridSizer11, 0, wxGROW|wxALL, 0);
@@ -250,7 +250,7 @@ void CProjectInfoPage::CreateControls()
     m_pProjectDetailsDescriptionCtrl = new wxTextCtrl( itemWizardPage23, ID_PROJECTDESCRIPTION, wxT(""), wxDefaultPosition, wxSize(DESCRIPTIONSWIDTH, 100), wxTE_MULTILINE|wxTE_READONLY );
     itemStaticBoxSizer13->Add(m_pProjectDetailsDescriptionCtrl, 0, wxGROW|wxLEFT|wxTOP|wxBOTTOM, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer16 = new wxFlexGridSizer(0, 2, 0, 0);
+    wxFlexGridSizer* itemFlexGridSizer16 = new wxFlexGridSizer(2, 0, 0);
     itemFlexGridSizer16->AddGrowableCol(1);
     itemStaticBoxSizer13->Add(itemFlexGridSizer16, 0, wxGROW|wxALL, 0);
 
@@ -260,7 +260,7 @@ void CProjectInfoPage::CreateControls()
     m_pProjectDetailsResearchAreaCtrl = new wxStaticText( itemWizardPage23, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer16->Add(m_pProjectDetailsResearchAreaCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer19 = new wxFlexGridSizer(0, 2, 0, 0);
+    wxFlexGridSizer* itemFlexGridSizer19 = new wxFlexGridSizer(2, 0, 0);
     itemFlexGridSizer19->AddGrowableCol(1);
     itemStaticBoxSizer13->Add(itemFlexGridSizer19, 0, wxGROW|wxALL, 0);
 
@@ -270,7 +270,7 @@ void CProjectInfoPage::CreateControls()
     m_pProjectDetailsOrganizationCtrl = new wxStaticText( itemWizardPage23, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer19->Add(m_pProjectDetailsOrganizationCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer20 = new wxFlexGridSizer(0, 2, 0, 0);
+    wxFlexGridSizer* itemFlexGridSizer20 = new wxFlexGridSizer(2, 0, 0);
     itemFlexGridSizer20->AddGrowableCol(1);
     itemStaticBoxSizer13->Add(itemFlexGridSizer20, 0, wxGROW|wxALL, 0);
 
@@ -309,7 +309,7 @@ void CProjectInfoPage::CreateControls()
     m_pProjectDetailsSupportedPlatformBlankCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("blankicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
     itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformBlankCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer33 = new wxFlexGridSizer(0, 2, 0, 0);
+    wxFlexGridSizer* itemFlexGridSizer33 = new wxFlexGridSizer(2, 0, 0);
     itemFlexGridSizer33->AddGrowableCol(1);
     itemFlexGridSizer4->Add(itemFlexGridSizer33, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
@@ -713,7 +713,9 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
 
         // Populate the category combo box
-        m_pProjectCategoriesCtrl->Clear();
+        if (!m_pProjectCategoriesCtrl->IsListEmpty()) {
+            m_pProjectCategoriesCtrl->Clear();
+        }
         m_pProjectCategoriesCtrl->Append(_("All"));
         for (i=0; i<aCategories.size(); i++) {
             m_pProjectCategoriesCtrl->Append(aCategories[i]);

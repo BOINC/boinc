@@ -376,7 +376,7 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
 
     wxStaticBoxSizer* networkGeneralBoxSizer = new wxStaticBoxSizer( new wxStaticBox( networkTab, -1, _("General options") ), wxVERTICAL );
 
-    wxFlexGridSizer* networkGeneralGridSizer = new wxFlexGridSizer( 3, 6, 0, 0 );
+    wxFlexGridSizer* networkGeneralGridSizer = new wxFlexGridSizer(6, 0, 0 );
     networkGeneralGridSizer->SetFlexibleDirection( wxHORIZONTAL );
     networkGeneralGridSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 

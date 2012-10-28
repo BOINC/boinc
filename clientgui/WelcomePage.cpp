@@ -122,7 +122,7 @@ void CWelcomePage::CreateControls()
     itemBoxSizer3->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxFlexGridSizer* itemFlexGridSizer62 = new wxFlexGridSizer(2, 1, 0, 0);
-    itemFlexGridSizer62->AddGrowableCol(1);
+    itemFlexGridSizer62->AddGrowableCol(0);
     itemBoxSizer3->Add(itemFlexGridSizer62, 0, wxGROW|wxALL, 5);
 
     m_pAttachToProjectCtrl = new wxRadioButton;
