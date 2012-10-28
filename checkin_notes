@@ -6408,4 +6408,9 @@ Rom    27 Oct 2012
     
     samples\vboxwrapper\
         vboxwrapper.cpp
+
+Rom    28 Oct 2012
+    - VBOX: Remove timeouts for creating and deleting snapshots.
     
+    samples\vboxwrapper\
+        vbox.cpp, .h

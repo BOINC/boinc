@@ -406,7 +406,7 @@ int VBOX_VM::createsnapshot(double elapsed_time, double checkpoint_cpu_time) {
     command = "snapshot \"" + vm_name + "\" ";
     command += "take boinc_";
     command += buf;
-    retval = vbm_popen(command, output, "create new snapshot");
+    retval = vbm_popen(command, output, "create new snapshot", true, true, 0);
     if (retval) return retval;
 
     // Resume VM
@@ -422,7 +422,7 @@ int VBOX_VM::createsnapshot(double elapsed_time, double checkpoint_cpu_time) {
         command = "snapshot \"" + vm_name + "\" ";
         command += "delete boinc_";
         command += buf;
-        retval = vbm_popen(command, output, "delete stale snapshot", true, false);
+        retval = vbm_popen(command, output, "delete stale snapshot", true, false, 0);
         if (retval) {
             if (retval != ERR_TIMEOUT) return retval;
         }
@@ -1481,7 +1481,7 @@ void VBOX_VM::reset_vm_process_priority() {
 
 // If there are errors we can recover from, process them here.
 //
-int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool log_error, bool retry_failures) {
+int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool log_error, bool retry_failures, unsigned int timeout) {
     int retval = 0;
     int retry_count = 0;
     double sleep_interval = 1.0;
@@ -1489,7 +1489,7 @@ int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool
     string retry_notes;
 
     do {
-        retval = vbm_popen_raw(arguments, output);
+        retval = vbm_popen_raw(arguments, output, timeout);
         if (retval) {
 
             // VirtualBox designed the concept of sessions to prevent multiple applications using
@@ -1571,7 +1571,7 @@ int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool
 
 // Execute the vbox manage application and copy the output to the buffer.
 //
-int VBOX_VM::vbm_popen_raw(string& arguments, string& output) {
+int VBOX_VM::vbm_popen_raw(string& arguments, string& output, unsigned int timeout) {
     char buf[256];
     string command;
     size_t errcode_start;
@@ -1650,6 +1650,10 @@ int VBOX_VM::vbm_popen_raw(string& arguments, string& output) {
 
     // Wait until process has completed
     while(1) {
+        if (timeout == 0) {
+            WaitForSingleObject(pi.hProcess, INFINITE);
+        }
+
         GetExitCodeProcess(pi.hProcess, &ulExitCode);
 
         // Copy stdout/stderr to output buffer, handle in the loop so that we can
@@ -1670,7 +1674,7 @@ int VBOX_VM::vbm_popen_raw(string& arguments, string& output) {
         if (ulExitCode != STILL_ACTIVE) break;
 
         // Timeout?
-        if (ulExitTimeout >= 45000) {
+        if (ulExitTimeout >= (timeout * 1000)) {
             TerminateProcess(pi.hProcess, EXIT_FAILURE);
             ulExitCode = 0;
             retval = ERR_TIMEOUT;
