@@ -790,7 +790,7 @@ void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
                     wxGetApp().SafeMessageBox(
                         _("You already added this project. Please choose a different project."),
                         strTitle,
-                        wxCENTER | wxICON_INFORMATION
+                        wxCENTER | wxOK | wxICON_INFORMATION
                     );
 
                     // We are already attached to that project, 
