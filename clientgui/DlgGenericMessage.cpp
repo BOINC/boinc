@@ -93,13 +93,13 @@ void CDlgGenericMessage::CreateControls()
 ////@begin CDlgGenericMessage content construction
     CDlgGenericMessage* itemDialog1 = this;
 
-    wxFlexGridSizer* itemFlexGridSizer2 = new wxFlexGridSizer(1, 2, 0, 0);
+    wxFlexGridSizer* itemFlexGridSizer2 = new wxFlexGridSizer(2, 0, 0);
     itemDialog1->SetSizer(itemFlexGridSizer2);
 
     wxBoxSizer* itemBoxSizer3 = new wxBoxSizer(wxVERTICAL);
     itemFlexGridSizer2->Add(itemBoxSizer3, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer4 = new wxFlexGridSizer(2, 1, 0, 0);
+    wxFlexGridSizer* itemFlexGridSizer4 = new wxFlexGridSizer(1, 0, 0);
     itemBoxSizer3->Add(itemFlexGridSizer4, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     m_DialogMessage = new wxStaticText;
@@ -113,7 +113,7 @@ void CDlgGenericMessage::CreateControls()
     m_DialogDisableMessage->SetValue(false);
     itemFlexGridSizer4->Add(m_DialogDisableMessage, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer8 = new wxFlexGridSizer(2, 1, 0, 0);
+    wxFlexGridSizer* itemFlexGridSizer8 = new wxFlexGridSizer(1, 0, 0);
     itemFlexGridSizer2->Add(itemFlexGridSizer8, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_TOP|wxALL, 5);
 
     wxButton* itemButton9 = new wxButton;
