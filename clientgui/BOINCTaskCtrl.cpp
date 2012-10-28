@@ -192,7 +192,15 @@ wxInt32 CBOINCTaskCtrl::UpdateControls() {
                 pItem->m_pButton = new wxButton;
                 pItem->m_strNameEllipsed = pItem->m_strName;
                 EllipseStringIfNeeded(pItem->m_strNameEllipsed);
+#ifdef __WXMSW__
+                // On Windows with wxWidgets 2.9.4, buttons don't refresh properly unless
+                // they are children of the wxStaticBox, but on Mac the layout is wrong
+                // unless the buttons are children of the parent of the wxStaticBox.
+                // ToDo: merge these cases when these bugs are fixed in wxWidgets.
+                pItem->m_pButton->Create(pGroup->m_pStaticBox, pItem->m_iEventID, pItem->m_strNameEllipsed, wxDefaultPosition, wxSize(TASKBUTTONWIDTH, -1), 0);
+#else
                 pItem->m_pButton->Create(this, pItem->m_iEventID, pItem->m_strNameEllipsed, wxDefaultPosition, wxSize(TASKBUTTONWIDTH, -1), 0);
+#endif
                 pItem->m_pButton->SetHelpText(pItem->m_strDescription);
 #if wxUSE_TOOLTIPS
                 pItem->m_pButton->SetToolTip(pItem->m_strDescription);

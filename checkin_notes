@@ -6254,8 +6254,13 @@ Charlie 28 Oct 2012
     - Mac: Work around apparent refresh bug in wxCarbon 2.9.4 wxGenericListCtrl.
     - Add "ToDo" comments at code which works around wxWidgets 2.9.4 bugs 
         reminding us to remove the extra code when bugs are fixed in wxWidgets.
+    - Win: Fix rendering of CBOINCTaskCtrl buttons on Windows. 
+        On Windows with wxWidgets 2.9.4, buttons don't refresh properly unless
+        they are children of the wxStaticBox, but on Mac the layout is wrong
+        unless the buttons are children of the parent of the wxStaticBox.
     
     clientgui/
         AdvancedFrame.cpp,.h
+        BOINCTaskCtrl.cpp
         DlgEventLog.cpp
         sg_BoincSimpleFrame.cpp
