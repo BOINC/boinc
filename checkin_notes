@@ -6420,3 +6420,11 @@ David  28 Oct 2012
 
     client/
         log_flags.cpp
+
+David  28 Oct 2012
+    - client: if exiting because of exit_after_finished flag,
+        write state file before exiting so we don't restart the job later.
+
+    client/
+        app.cpp
+        app_control.cpp

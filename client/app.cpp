@@ -232,6 +232,7 @@ void ACTIVE_TASK::cleanup_task() {
 #endif
 
     if (config.exit_after_finish) {
+        gstate.write_state_file();
         exit(0);
     }
 }
