@@ -31,6 +31,7 @@
 #include <sys/stat.h>
 #include <cerrno>
 #include <unistd.h>
+#include <fcntl.h>
 #if HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
 #endif
@@ -387,6 +388,14 @@ bool HTTP_OP::no_proxy_for_url(const char* url) {
     return false;
 }
 
+static int set_cloexec(void*, curl_socket_t fd, curlsocktype purpose) {
+#ifndef _WIN32
+    if (purpose != CURLSOCKTYPE_IPCXN) return 0;
+    fcntl(fd, F_SETFD, FD_CLOEXEC);
+#endif
+    return 0;
+}
+
 // the following will do an HTTP GET or POST using libcurl
 //
 int HTTP_OP::libcurl_exec(
@@ -520,9 +529,15 @@ int HTTP_OP::libcurl_exec(
     // bypass any signal handlers that curl may want to install
     //
     curl_easy_setopt(curlEasy, CURLOPT_NOSIGNAL, 1L);
+
     // bypass progress meter
     //
     curl_easy_setopt(curlEasy, CURLOPT_NOPROGRESS, 1L);
+
+    // arrange for a function to get called between socket() and connect()
+    // so that we can mark the socket as close-on-exec
+    //
+    curl_easy_setopt(curlEasy, CURLOPT_SOCKOPTFUNCTION, set_cloexec);
 
     // setup timeouts
     //

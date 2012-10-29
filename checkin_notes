@@ -6428,3 +6428,13 @@ David  28 Oct 2012
     client/
         app.cpp
         app_control.cpp
+
+David  28 Oct 2012
+    - client, Unix: make Curl sockets close-on-exec,
+        so that app processes don't inherit them.
+    - client: fix bug that makes client exit if a slot dir contains
+        finish file on startup
+
+    client/
+        app_control.cpp
+        http_curl.cpp
