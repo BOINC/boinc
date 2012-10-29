@@ -380,7 +380,7 @@ int CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.parse_bool("os_random_only", os_random_only)) continue;
 #ifndef SIM
         if (xp.match_tag("proxy_info")) {
-            retval = config_proxy_info.parse_config(xp);
+            retval = proxy_info.parse_config(xp);
             if (retval) {
                 msg_printf_notice(NULL, false, NULL,
                     "Can't parse <proxy_info> element in cc_config.xml"
@@ -484,6 +484,9 @@ int CONFIG::parse(FILE* f) {
     return parse(xp, log_flags);
 }
 
+// read config file, e.g. cc_config.xml
+// Called on startup and in response to GUI RPC requesting reread
+//
 int read_config_file(bool init, const char* fname) {
     if (!init) {
         msg_printf(NULL, MSG_INFO, "Re-reading %s", fname);
@@ -502,9 +505,10 @@ int read_config_file(bool init, const char* fname) {
         config.max_stdout_file_size, config.max_stderr_file_size
     );
 #endif
+    config_proxy_info = config.proxy_info;
+
     if (init) {
         coprocs = config.config_coprocs;
-        config_proxy_info = config.proxy_info;
         if (strlen(config.data_dir)) {
 #ifdef _WIN32
             _chdir(config.data_dir);
@@ -512,6 +516,8 @@ int read_config_file(bool init, const char* fname) {
             chdir(config.data_dir);
 #endif
         }
+    } else {
+        select_proxy_info();        // in case added or removed proxy info
     }
     return 0;
 }

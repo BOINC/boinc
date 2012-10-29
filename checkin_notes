@@ -6414,3 +6414,9 @@ Rom    28 Oct 2012
     
     samples\vboxwrapper\
         vbox.cpp, .h
+
+David  28 Oct 2012
+    - client: fix bug in handling proxy info in cc_config.file
+
+    client/
+        log_flags.cpp
