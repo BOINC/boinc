@@ -6438,3 +6438,9 @@ David  28 Oct 2012
     client/
         app_control.cpp
         http_curl.cpp
+
+David  28 Oct 2012
+    - update_versions: get key directory from config file
+
+    tools/
+        update_versions
