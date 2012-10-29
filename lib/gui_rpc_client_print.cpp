@@ -211,6 +211,17 @@ void SIMPLE_GUI_INFO::print() {
     }
 }
 
+void TIME_STATS::print() {
+    printf("  now: %f\n", now);
+    printf("  on_frac: %f\n", on_frac);
+    printf("  connected_frac: %f\n", connected_frac);
+    printf("  cpu_and_network_available_frac: %f\n", cpu_and_network_available_frac);
+    printf("  active_frac: %f\n", active_frac);
+    printf("  gpu_active_frac: %f\n", gpu_active_frac);
+    printf("  client_start_time: %f\n", client_start_time);
+    printf("  previous_uptime: %f\n", previous_uptime);
+}
+
 void CC_STATE::print() {
     unsigned int i;
     printf("======== Projects ========\n");
@@ -238,6 +249,8 @@ void CC_STATE::print() {
         printf("%d) -----------\n", i+1);
         results[i]->print();
     }
+    printf("\n======== Time stats ========\n");
+    time_stats.print();
 }
 
 void print_status(

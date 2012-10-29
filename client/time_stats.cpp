@@ -76,7 +76,7 @@ int get_connected_state() {
 const float ALPHA = (SECONDS_PER_DAY*10);
 //const float ALPHA = 60;   // for testing
 
-void TIME_STATS::init() {
+void CLIENT_TIME_STATS::init() {
     last_update = 0;
     first = true;
     on_frac = 1;
@@ -84,6 +84,8 @@ void TIME_STATS::init() {
     active_frac = 1;
     gpu_active_frac = 1;
     cpu_and_network_available_frac = 1;
+    client_start_time = gstate.now;
+    previous_uptime = 0;
     previous_connected_state = CONNECTED_STATE_UNINITIALIZED;
     inactive_start = 0;
     trim_stats_log();
@@ -92,7 +94,7 @@ void TIME_STATS::init() {
 
 // if log file is over a meg, discard everything older than a year
 //
-void TIME_STATS::trim_stats_log() {
+void CLIENT_TIME_STATS::trim_stats_log() {
 #ifndef SIM
     double size;
     char buf[256];
@@ -137,7 +139,7 @@ void send_log_after(const char* filename, double t, MIOFILE& mf) {
 
 // copy the log file after a given time
 //
-void TIME_STATS::get_log_after(double t, MIOFILE& mf) {
+void CLIENT_TIME_STATS::get_log_after(double t, MIOFILE& mf) {
     if (time_stats_log) {
         fclose(time_stats_log);     // win: can't open twice
     }
@@ -150,7 +152,7 @@ void TIME_STATS::get_log_after(double t, MIOFILE& mf) {
 // so these get written to disk only when other activities
 // cause this to happen.  Maybe should change this.
 //
-void TIME_STATS::update(int suspend_reason, int _gpu_suspend_reason) {
+void CLIENT_TIME_STATS::update(int suspend_reason, int _gpu_suspend_reason) {
     double dt, w1, w2;
 
     bool is_active = !(suspend_reason & ~SUSPEND_REASON_CPU_THROTTLE);
@@ -276,21 +278,29 @@ void TIME_STATS::update(int suspend_reason, int _gpu_suspend_reason) {
 
 // Write XML based time statistics
 //
-int TIME_STATS::write(MIOFILE& out, bool to_server) {
+int CLIENT_TIME_STATS::write(MIOFILE& out, bool to_remote) {
     out.printf(
         "<time_stats>\n"
         "    <on_frac>%f</on_frac>\n"
         "    <connected_frac>%f</connected_frac>\n"
         "    <cpu_and_network_available_frac>%f</cpu_and_network_available_frac>\n"
         "    <active_frac>%f</active_frac>\n"
-        "    <gpu_active_frac>%f</gpu_active_frac>\n",
+        "    <gpu_active_frac>%f</gpu_active_frac>\n"
+        "    <client_start_time>%f</client_start_time>\n"
+        "    <previous_uptime>%f</previous_uptime>\n",
         on_frac,
         connected_frac,
         cpu_and_network_available_frac,
         active_frac,
-        gpu_active_frac
+        gpu_active_frac,
+        client_start_time,
+        previous_uptime
     );
-    if (!to_server) {
+    if (to_remote) {
+        out.printf(
+            "    <now>%f</now>\n", gstate.now
+        );
+    } else {
         out.printf(
             "    <last_update>%f</last_update>\n",
             last_update
@@ -302,7 +312,7 @@ int TIME_STATS::write(MIOFILE& out, bool to_server) {
 
 // Parse XML based time statistics, usually from client_state.xml
 //
-int TIME_STATS::parse(XML_PARSER& xp) {
+int CLIENT_TIME_STATS::parse(XML_PARSER& xp) {
     double x;
 #ifdef SIM
     double on_lambda = 3600, connected_lambda = 3600;
@@ -392,27 +402,27 @@ int TIME_STATS::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
-void TIME_STATS::start() {
+void CLIENT_TIME_STATS::start() {
     time_stats_log = fopen(TIME_STATS_LOG, "a");
     if (time_stats_log) {
         setbuf(time_stats_log, 0);
     }
 }
 
-void TIME_STATS::quit() {
+void CLIENT_TIME_STATS::quit() {
     log_append("power_off", gstate.now);
 }
 
 #ifdef SIM
-void TIME_STATS::log_append(const char* , double ) {}
+void CLIENT_TIME_STATS::log_append(const char* , double ) {}
 #else
-void TIME_STATS::log_append(const char* msg, double t) {
+void CLIENT_TIME_STATS::log_append(const char* msg, double t) {
     if (!time_stats_log) return;
     fprintf(time_stats_log, "%f %s\n", t, msg);
 }
 #endif
 
-void TIME_STATS::log_append_net(int new_state) {
+void CLIENT_TIME_STATS::log_append_net(int new_state) {
     switch(new_state) {
     case CONNECTED_STATE_NOT_CONNECTED:
         log_append("net_not_connected", gstate.now);

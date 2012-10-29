@@ -19,6 +19,7 @@
 #define _COMMON_DEFS_
 
 #include "miofile.h"
+#include "parse.h"
 
 // #defines or enums that are shared by more than one BOINC component
 // (e.g. client, server, Manager, etc.)
@@ -178,6 +179,36 @@ enum SUSPEND_REASON {
 #define RPC_REASON_ACCT_MGR_REQ     5
 #define RPC_REASON_INIT             6
 #define RPC_REASON_PROJECT_REQ      7
+
+struct TIME_STATS {
+// we maintain an exponentially weighted average of these quantities:
+    double now;
+        // the client's time of day
+    double on_frac;
+        // the fraction of total time this host runs the client
+    double connected_frac;
+        // of the time this host runs the client,
+        // the fraction it is connected to the Internet,
+        // or -1 if not known
+    double cpu_and_network_available_frac;
+        // of the time this host runs the client,
+        // the fraction it is connected to the Internet
+        // AND network usage is allowed (by prefs and user toggle)
+        // AND CPU usage is allowed
+    double active_frac;
+        // of the time this host runs the client,
+        // the fraction it is enabled to use CPU
+        // (as determined by preferences, manual suspend/resume, etc.)
+    double gpu_active_frac;
+        // same, GPU
+    double client_start_time;
+    double previous_uptime;
+        // duration of previous session
+
+    void write(MIOFILE&);
+    int parse(XML_PARSER&);
+    void print();
+};
 
 struct VERSION_INFO {
     int major;

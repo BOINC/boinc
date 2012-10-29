@@ -92,7 +92,7 @@ struct CLIENT_STATE {
     GET_PROJECT_LIST_OP get_project_list_op;
     ACCT_MGR_OP acct_mgr_op;
 
-    TIME_STATS time_stats;
+    CLIENT_TIME_STATS time_stats;
     GLOBAL_PREFS global_prefs;
     NET_STATS net_stats;
     ACTIVE_TASK_SET active_tasks;
@@ -185,9 +185,6 @@ struct CLIENT_STATE {
         // this affects auto-update
     bool run_by_updater;
     double now;
-    double client_start_time;
-    double previous_uptime;
-        // duration of previous client session
     double last_wakeup_time;
     bool initialized;
     bool cant_write_state_file;

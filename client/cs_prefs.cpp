@@ -206,7 +206,7 @@ int CLIENT_STATE::check_suspend_processing() {
         return SUSPEND_REASON_BENCHMARKS;
     }
 
-    if (config.start_delay && now < client_start_time + config.start_delay) {
+    if (config.start_delay && now < time_stats.client_start_time + config.start_delay) {
         return SUSPEND_REASON_INITIAL_DELAY;
     }
 

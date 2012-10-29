@@ -143,7 +143,6 @@ CLIENT_STATE::CLIENT_STATE()
     launched_by_manager = false;
     initialized = false;
     last_wakeup_time = dtime();
-    previous_uptime = 0;
 }
 
 void CLIENT_STATE::show_host_info() {
@@ -301,7 +300,6 @@ int CLIENT_STATE::init() {
 
     srand((unsigned int)time(0));
     now = dtime();
-    client_start_time = now;
     scheduler_op->url_random = drand();
 
     notices.init();

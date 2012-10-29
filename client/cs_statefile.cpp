@@ -500,7 +500,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
         if (xp.parse_string("newer_version", newer_version)) {
             continue;
         }
-        if (xp.parse_double("previous_uptime", previous_uptime)) {
+        if (xp.parse_double("previous_uptime", time_stats.previous_uptime)) {
             continue;
         }
 #ifdef ENABLE_AUTO_UPDATE
@@ -771,7 +771,7 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         cpu_benchmarks_pending?"<cpu_benchmarks_pending/>\n":"",
         new_version_check_time,
         all_projects_list_check_time,
-        now - client_start_time
+        now - time_stats.client_start_time
     );
     if (newer_version.size()) {
         f.printf("<newer_version>%s</newer_version>\n", newer_version.c_str());
@@ -931,11 +931,6 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
 
     f.printf("<client_state>\n");
 
-#if 1
-    // NOTE: the following stuff is not in CC_STATE.
-    // However, BoincView (which does its own parsing) expects it
-    // to be in the get_state() reply, so leave it in for now
-    //
     retval = host_info.write(f, true, false);
     if (retval) return retval;
 
@@ -948,11 +943,17 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
         f.printf("<have_ati/>\n");
     }
 
-    retval = time_stats.write(f, false);
-    if (retval) return retval;
+#if 1
+    // NOTE: the following is not in CC_STATE.
+    // However, BoincView (which does its own parsing) expects it
+    // to be in the get_state() reply, so leave it in for now
+    //
     retval = net_stats.write(f);
     if (retval) return retval;
 #endif
+
+    retval = time_stats.write(f, true);
+    if (retval) return retval;
 
     for (j=0; j<projects.size(); j++) {
         PROJECT* p = projects[j];

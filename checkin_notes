@@ -6444,3 +6444,27 @@ David  28 Oct 2012
 
     tools/
         update_versions
+
+David  29 Oct 2012
+    - GUI RPC: expose TIME_STATS info (e.g. on_frac) in
+        the binding of the get_state() RPC
+    - client: move client_start_time and previous_uptime
+        from CLIENT_STATE to TIME_STATS,
+        so that these are also visible in GUI RPC
+    - scheduler RPC: move uptime and previous_uptime
+        into <time_stats>
+    - client: condition an RR simulation message on <rrsim_detail>
+    - boinccmd: show TIME_STATS info in --get_state
+
+    client/
+        client_state.cpp,h
+        cs_prefs.cpp
+        cs_scheduler.cpp
+        cs_statefile.cpp
+        rr_sim.cpp
+        time_stats.cpp,h
+    lib/
+        common_defs.h
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp
+        gui_rpc_client_print.cpp
