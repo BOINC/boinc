@@ -6507,3 +6507,10 @@ Rom    31 Oct 2012
     samples\vboxwrapper\
         vbox.cpp, .h
         vboxwrapper.cpp
+
+David  31 Oct 2012
+    - client: message tweaks for failed app startup
+
+    client/
+        app_start.cpp
+        client_state.cpp

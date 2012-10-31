@@ -1654,7 +1654,7 @@ int CLIENT_STATE::report_result_error(RESULT& res, const char* format, ...) {
     vsnprintf(err_msg, sizeof(err_msg), format, va);
     va_end(va);
 
-    sprintf(buf, "Unrecoverable error for task %s (%s)", res.name, err_msg);
+    sprintf(buf, "Unrecoverable error for task %s", res.name);
 #ifndef SIM
     scheduler_op->backoff(res.project, buf);
 #endif
