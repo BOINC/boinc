@@ -6485,3 +6485,12 @@ Rom    31 Oct 2012
         
     samples\vboxwrapper\
         vbox.cpp
+
+Eric K  31 Oct 2012
+    - wrapper: Fix for likely compile problems due to including new header in
+      previous wrapper.cpp without checking for their existence.  The macros
+      required already existed in config.h.
+
+    samples/wrapper/
+        wrapper.cpp
+
