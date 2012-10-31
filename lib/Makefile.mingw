@@ -30,7 +30,7 @@ HEADERS = $(BOINC_SRC)/version.h \
 	$(BOINC_SRC)/lib/coproc.h \
 	$(BOINC_SRC)/lib/cal_boinc.h \
 	$(BOINC_SRC)/lib/cl_boinc.h \
-	$(BOINC_SRC)/lib/svn_version.h \
+	$(BOINC_SRC)/svn_version.h \
 	$(BOINC_SRC)/win_build/config.h \
 	$(BOINC_SRC)/lib/str_util.h
 
@@ -141,8 +141,8 @@ md5.o: $(BOINC_SRC)/lib/md5.c
 z_util.o: $(BOINC_SRC)/zip/zip/util.c
 	$(CC) -c $< -o $@ $(ZIP_FLAGS)
 
-$(BOINC_SRC)/lib/svn_version.h:
-	cd $(BOINC_SRC)/lib && sh ../generate_svn_version.sh
+$(BOINC_SRC)/svn_version.h:
+	cd $(BOINC_SRC) && sh ./generate_svn_version.sh
 
 # set to the target ranlib when cross-compiling
 RANLIB ?= ranlib

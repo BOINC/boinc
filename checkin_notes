@@ -6514,3 +6514,9 @@ David  31 Oct 2012
     client/
         app_start.cpp
         client_state.cpp
+
+David  31 Oct 2012
+    - Fix MinGW build: generate_svn_version.sh only works on top level
+
+    lib/
+        Makefile.mingw
