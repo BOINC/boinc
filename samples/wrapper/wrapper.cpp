@@ -28,6 +28,9 @@
 // See http://boinc.berkeley.edu/trac/wiki/WrapperApp for details
 // Contributor: Andrew J. Younge (ajy4490@umiacs.umd.edu)
 
+#ifndef _WIN32
+#include "config.h"
+#endif
 #include <stdio.h>
 #include <vector>
 #include <string>
@@ -35,11 +38,17 @@
 #include "boinc_win.h"
 #include "win_util.h"
 #else
+#ifdef HAVE_SYS_WAIT_H
 #include <sys/wait.h>
+#endif
 #include <sys/types.h>
 #include <sys/stat.h>
+#ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
+#endif
+#ifdef HAVE_SYS_RESOURCE_H
 #include <sys/resource.h>
+#endif
 #include <unistd.h>
 #endif
 
