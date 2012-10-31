@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2011-11-11 13:57+0200\n"
+"PO-Revision-Date: 2011-12-04 22:23+0200\n"
 "Last-Translator: shirayuki <shirayuking@gmail.com>\n"
 "Language-Team: \n"
 "Language: ja\n"
@@ -324,9 +324,11 @@ msgstr ""
 msgid "rate: "
 msgstr ""
 
+# 83%
 #: ../inc/forum.inc:629
+#, fuzzy
 msgid "Click if you like this message"
-msgstr ""
+msgstr "非公開メッセージを作成できませんでした"
 
 #: ../inc/forum.inc:629
 msgid "Rate +"

@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-09 09:39-0800\n"
-"PO-Revision-Date: 2012-03-22 14:15+0200\n"
-"Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
+"PO-Revision-Date: 2012-07-12 07:47+0200\n"
+"Last-Translator: Rom <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,6 @@ msgstr ""
 "X-Generator: Pootle 2.1.6\n"
 
 #: acct_mgr.cpp:435 acct_mgr.cpp:444
-#, fuzzy
 msgid "Message from account manager"
 msgstr "Message du gestionnaire de compte"
 
@@ -81,7 +80,6 @@ msgid "Missing start tag in cc_config.xml"
 msgstr "Balise de debut manquante dans cc_config.xml"
 
 #: log_flags.cpp:443
-#, fuzzy
 msgid "Error in cc_config.xml options"
 msgstr "Erreur dans les options cc_config.xml"
 
@@ -168,7 +166,6 @@ msgstr ""
 "projet"
 
 #: ../sched/sched_send.cpp:1523
-#, fuzzy
 msgid "No tasks are available for the applications you have selected."
 msgstr ""
 "Aucune tâche disponible pour les applications que vous avez sélectionnées."

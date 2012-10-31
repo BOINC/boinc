@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2012-08-05 13:48+0200\n"
+"PO-Revision-Date: 2012-10-17 18:38+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -219,7 +219,7 @@ msgstr "Diskussionsforen"
 # Forum sample index page
 #: ../inc/forum.inc:187 ../inc/forum.inc:195
 msgid "%1 message board"
-msgstr "%1 Diskussionsforum"
+msgstr "%1 Diskussionsforen"
 
 #: ../inc/forum.inc:238 ../inc/result.inc:658
 msgid "Previous"
@@ -235,7 +235,7 @@ msgstr "Nachricht&nbsp;senden"
 
 #: ../inc/forum.inc:535
 msgid "Send %1 a private message"
-msgstr "Eine Privatnachricht an %1 senden"
+msgstr "Private Nachricht an %1 senden"
 
 #: ../inc/forum.inc:536
 msgid "Joined: %1"
@@ -292,7 +292,7 @@ msgstr "Diese Nachricht bearbeiten"
 
 #: ../inc/forum.inc:591
 msgid "Last modified: %1"
-msgstr "Letzte Änderung: %1"
+msgstr "Zuletzt verändert: %1"
 
 #: ../inc/forum.inc:594
 msgid ""
@@ -308,7 +308,7 @@ msgstr "Diesen Beitrag als anstößig melden"
 
 #: ../inc/forum.inc:622 ../inc/forum.inc:633
 msgid "Report as offensive"
-msgstr "Anstößigen Beitrag melden"
+msgstr "Als anstößig melden"
 
 #: ../inc/forum.inc:626
 msgid "Rating: %1"
@@ -393,7 +393,7 @@ msgstr ""
 "            oder das Thema an sich reißen sollen.\n"
 "        <li> Keine Beiträge die mit Absicht feindselig oder beleidigend "
 "sind.\n"
-"        <li> Keine beleidigenden Kommentare zu Ethnie, Religion,\n"
+"        <li> Keine beleidigenden Kommentare zu Alter, Ethnie, Religion,\n"
 "            Nationalität, Geschlecht, Schicht oder Sexualität.\n"
 "        "
 
@@ -464,8 +464,8 @@ msgid ""
 "system."
 msgstr ""
 "Sie können für den Moment keine weiteren Themen mehr anlegen. Bitte warten "
-"Sie eine gewisse Zeit und versuchen Sie es dann erneut. Diese Verzögerung "
-"wurde eingeführt, um Missbrauch des Systems vorzubeugen."
+"Sie einige Zeit und versuchen Sie es dann erneut. Diese Verzögerung wurde "
+"eingeführt, um Missbrauch des Systems vorzubeugen."
 
 #: ../inc/forum.inc:1093
 msgid ""
@@ -747,12 +747,12 @@ msgstr "% der Gesamtlaufzeit von BOINC"
 #: ../inc/host.inc:183
 #, php-format
 msgid "While BOINC running, % of time host has an Internet connection"
-msgstr "Während BOINC läuft, % der Zeit in der eine Internetverbindung besteht"
+msgstr "Während BOINC läuft, besteht % der Zeit eine Internetverbindung"
 
 #: ../inc/host.inc:185
 #, php-format
 msgid "While BOINC running, % of time work is allowed"
-msgstr "Während BOINC läuft, % der Zeit in der Berechnungen erlaubt sind"
+msgstr "Während BOINC läuft, sind in % der Zeit Berechnungen erlaubt"
 
 #: ../inc/host.inc:187
 msgid "Average CPU efficiency"
@@ -914,7 +914,7 @@ msgstr "Schreiben"
 
 #: ../inc/pm.inc:33 ../inc/user.inc:373
 msgid "Send private message"
-msgstr "Privatnachricht versenden"
+msgstr "Private Nachricht versenden"
 
 #: ../inc/pm.inc:35 ../inc/pm.inc:37 ../inc/pm.inc:89
 #: ../user/ffmail_form.php:59 ../user/forum_edit.php:99
@@ -992,8 +992,8 @@ msgid ""
 "Suspend work while computer is on battery power? %1 Matters only for "
 "portable computers %2"
 msgstr ""
-"Ausführung anhalten bei Batteriebetrieb? %1(gilt nur für tragbare Computer)%"
-"2"
+"Ausführung anhalten bei Batteriebetrieb? %1 (gilt nur für tragbare Computer) "
+"%2"
 
 #: ../inc/prefs.inc:84
 msgid "Suspend work while computer is in use?"
@@ -1003,8 +1003,8 @@ msgstr "Ausführung anhalten wenn der Computer benutzt wird?"
 msgid ""
 "Suspend GPU work while computer is in use? %1 Enforced by version 6.6.21+ %2"
 msgstr ""
-"Ausführung auf Grafikkarte anhalten wenn der Computer benutzt wird? %"
-"1Unterstützt ab Version 6.7 aufwärts%2"
+"Ausführung auf Grafikkarte anhalten wenn der Computer benutzt wird? %1 "
+"Unterstützt ab Version 6.6.21 %2"
 
 #: ../inc/prefs.inc:98
 msgid "'In use' means mouse/keyboard activity in last"
@@ -1019,8 +1019,8 @@ msgid ""
 "Suspend work if no mouse/keyboard activity in last %1 Needed to enter low-"
 "power mode on some computers %2"
 msgstr ""
-"Arbeit unterbrechen wenn keine Maus-/Tastaturaktivität für %1(zur "
-"Umschaltung in den Ruhemodus bei manchen PC)%2"
+"Arbeit unterbrechen wenn keine Maus-/Tastaturaktivität für %1 Wird bei "
+"manchen PC zur Umschaltung in den Ruhemodus benötigt %2"
 
 #: ../inc/prefs.inc:113
 msgid ""
@@ -1033,19 +1033,20 @@ msgstr ""
 #: ../inc/prefs.inc:121
 msgid "Do work only between the hours of %1 No restriction if equal %2"
 msgstr ""
-"Erlaube Arbeit nur in der Zeit zwischen %1Keine Einschränkung wenn gleich%2"
+"Erlaube Arbeit nur in der Zeit zwischen %1 Keine Einschränkung wenn gleich %"
+"2"
 
 #: ../inc/prefs.inc:129
 msgid ""
 "Leave tasks in memory while suspended? %1 Suspended tasks will consume swap "
 "space if 'yes' %2"
 msgstr ""
-"Angehaltene Arbeitspakete im Speicher belassen? %1Benötigt viel "
-"Arbeitsspeicher wenn 'Ja'%2"
+"Angehaltene Arbeitspakete im Speicher belassen? %1 wenn 'Ja', wird Speicher "
+"in der Auslagerungsdatei belegt %2"
 
 #: ../inc/prefs.inc:138
 msgid "Switch between tasks every %1 Recommended: 60 minutes %2"
-msgstr "Wechsle zwischen den Tasks alle %1Empfohlen: 60 Minuten%2"
+msgstr "Wechsle zwischen den Tasks alle %1 Empfohlen: 60 Minuten %2"
 
 #: ../inc/prefs.inc:146
 msgid "On multiprocessors, use at most"
@@ -1058,17 +1059,17 @@ msgstr "Prozessoren"
 #: ../inc/prefs.inc:152
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
 msgstr ""
-"Bei mehreren Prozessoren, nutze höchstens %1Unterstützt ab Version 6.1 "
-"aufwärts%2"
+"Bei mehreren Prozessoren, nutze höchstens %1 Unterstützt ab Version 6.1 %2"
 
 #: ../inc/prefs.inc:157
 #, php-format
 msgid "% of the processors"
-msgstr "% von den Prozessoren"
+msgstr "% der Prozessoren"
 
 #: ../inc/prefs.inc:161
 msgid "Use at most %1 Can be used to reduce CPU heat %2"
-msgstr "Nutze höchstens %1Kann benutzt werden um Überhitzung zu vermeiden.%2"
+msgstr ""
+"Nutze höchstens %1 Kann benutzt werden um CPU Überhitzung zu vermeiden %2"
 
 #: ../inc/prefs.inc:166
 #, php-format
@@ -1086,8 +1087,8 @@ msgstr "GB"
 #: ../inc/prefs.inc:179
 msgid "Disk: leave free at least %1 Values smaller than %2 are ignored %3"
 msgstr ""
-"Festplatte: mindestens frei zulassen %1Werte kleiner als %2 werden ignoriert"
-"%3"
+"Festplatte: mindestens frei zulassen %1 Werte kleiner als %2 werden "
+"ignoriert %3"
 
 #: ../inc/prefs.inc:190 ../inc/prefs.inc:200 ../inc/prefs.inc:205
 #: ../inc/prefs.inc:210
@@ -1139,15 +1140,16 @@ msgid ""
 "Confirm before connecting to Internet? %1 Matters only if you have a modem, "
 "ISDN or VPN connection %2"
 msgstr ""
-"Bestätigen vor Verbindungsaufbau zum Internet? %1Nur für Modem, ISDN oder "
-"VPN nötig.%2"
+"Bestätigen vor Verbindungsaufbau zum Internet? %1 Nur für Modem, ISDN oder "
+"VPN Verbindungen nötig. %2"
 
 #: ../inc/prefs.inc:241
 msgid ""
 "Disconnect when done? %1 Matters only if you have a modem, ISDN or VPN "
 "connection %2"
 msgstr ""
-"Trennen wenn Aufgabe/n erledigt? %1Nur für Modem, ISDN oder VPN nötig.%2"
+"Trennen wenn Aufgabe/n erledigt? %1 Nur für Modem, ISDN oder VPN "
+"Verbindungen nötig.%2"
 
 #: ../inc/prefs.inc:249
 msgid "Maximum download rate:"
@@ -1168,7 +1170,7 @@ msgstr "Nutze das Netzwerk nur in der Zeit von/bis"
 
 #: ../inc/prefs.inc:263
 msgid "Transfer at most %1 Enforced by version 6.10.46+ %2"
-msgstr "Übertrage höchstens %1 Unterstützt ab Version 6.10.46 aufwärts %2"
+msgstr "Übertrage höchstens %1 Unterstützt ab Version 6.10.46 %2"
 
 #: ../inc/prefs.inc:269
 msgid "Mbytes every"
@@ -1198,20 +1200,19 @@ msgstr ""
 
 #: ../inc/prefs.inc:298
 msgid "Accelerate GPU tasks by dedicating a CPU to each one?"
-msgstr ""
-"Bereitstellung jeweils einer CPU für jede GPU? (Beschleunigt Berechnung)"
+msgstr "Beschleunige Berechnung, durch Bereitstellung jeweils einer CPU je GPU?"
 
 #: ../inc/prefs.inc:308
 msgid "Use CPU %1 Enforced by version 6.10+ %2"
-msgstr "Benutze CPU %1 Unterstützt ab Version 6.10 aufwärts% 2"
+msgstr "Benutze CPU %1 Unterstützt ab Version 6.10 %2"
 
 #: ../inc/prefs.inc:320
 msgid "Use ATI GPU %1 Enforced by version 6.10+ %2"
-msgstr "Benutze ATI GPU %1 Unterstützt ab Version 6.10 aufwärts %2"
+msgstr "Benutze ATI GPU %1 Unterstützt ab Version 6.10 %2"
 
 #: ../inc/prefs.inc:332
 msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
-msgstr "Benutze Nvidia GPU %1 Unterstützt ab Version 6.10 aufwärts %2"
+msgstr "Benutze Nvidia GPU %1 Unterstützt ab Version 6.10 %2"
 
 #: ../inc/prefs.inc:346
 msgid ""
