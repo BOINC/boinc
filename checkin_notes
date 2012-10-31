@@ -6468,3 +6468,9 @@ David  29 Oct 2012
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
         gui_rpc_client_print.cpp
+
+David  31 Oct 2012
+    - wrapper: compile fix for new gcc
+
+    samples/wrapper/
+        wrapper.cpp
