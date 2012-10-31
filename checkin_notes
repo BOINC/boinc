@@ -6474,3 +6474,14 @@ David  31 Oct 2012
 
     samples/wrapper/
         wrapper.cpp
+
+Rom    31 Oct 2012
+    - VBOX: Don't report any error messages when unregistering the VM.
+    
+        VirtualBox 4.2 no longer requires certain commands to be executed
+        to unregister a VM while older versions do.  Just ignore any error
+        codes, if it becomes a problem we can always make it conditional
+        on what version of VirtualBox is installed.
+        
+    samples\vboxwrapper\
+        vbox.cpp

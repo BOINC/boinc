@@ -855,7 +855,7 @@ int VBOX_VM::deregister_vm() {
     );
     command  = "discardstate \"" + vm_name + "\" ";
 
-    vbm_popen(command, output, "discard state", false);
+    vbm_popen(command, output, "discard state", false, false);
 
     // Delete its storage controller(s)
     //
@@ -868,14 +868,14 @@ int VBOX_VM::deregister_vm() {
     command += "--name \"IDE Controller\" ";
     command += "--remove ";
 
-    vbm_popen(command, output, "deregister storage controller (fixed disk)");
+    vbm_popen(command, output, "deregister storage controller (fixed disk)", false, false);
 
     if (enable_floppyio) {
         command  = "storagectl \"" + vm_name + "\" ";
         command += "--name \"Floppy Controller\" ";
         command += "--remove ";
 
-        vbm_popen(command, output, "deregister storage controller (floppy disk)");
+        vbm_popen(command, output, "deregister storage controller (floppy disk)", false, false);
     }
 
     // Next, delete VM
@@ -886,9 +886,8 @@ int VBOX_VM::deregister_vm() {
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
     command  = "unregistervm \"" + vm_name + "\" ";
-    command += "--delete ";
 
-    vbm_popen(command, output, "delete VM");
+    vbm_popen(command, output, "delete VM", false, false);
 
     // Lastly delete medium from Virtual Box Media Registry
     //
@@ -899,7 +898,7 @@ int VBOX_VM::deregister_vm() {
     );
     command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
 
-    vbm_popen(command, output, "remove virtual disk");
+    vbm_popen(command, output, "remove virtual disk", false, false);
     return 0;
 }
 
