@@ -99,7 +99,8 @@ struct VBOX_VM {
     int poweroff();
     int pause();
     int resume();
-    int createsnapshot(double elapsed_time, double checkpoint_cpu_time);
+    int createsnapshot(double elapsed_time);
+    int deletestalesnapshots();
     int restoresnapshot();
     void cleanup();
     void poll(bool log_state = true);

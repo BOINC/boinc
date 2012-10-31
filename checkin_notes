@@ -6494,3 +6494,16 @@ Eric K  31 Oct 2012
     samples/wrapper/
         wrapper.cpp
 
+Rom    31 Oct 2012
+    - VBOX: Make deleting a snapshot a non-terminal event.
+    
+        Deleting stale snapshots now consists of enumerating the existing
+        snapshots and deleting all but the most recent snapshot.  This fixes
+        the problem where, for one reason or another, a snapshot could not
+        be deleted at one point in time.  The wrapper would just continue to 
+        create new ones and was unable to successfully deal with the older
+        ones.  Disk space would eventually run out.
+        
+    samples\vboxwrapper\
+        vbox.cpp, .h
+        vboxwrapper.cpp

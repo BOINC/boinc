@@ -683,7 +683,7 @@ int main(int argc, char** argv) {
                     }
 
                     // Checkpoint
-                    if (!vm.createsnapshot(elapsed_time, checkpoint_cpu_time)) {
+                    if (!vm.createsnapshot(elapsed_time)) {
                         checkpoint_cpu_time = elapsed_time;
                         write_checkpoint(checkpoint_cpu_time, vm);
                         boinc_report_app_status(
