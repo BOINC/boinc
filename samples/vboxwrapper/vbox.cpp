@@ -440,10 +440,15 @@ int VBOX_VM::deletestalesnapshots() {
     char buf[256];
     int retval;
 
+    fprintf(
+        stderr,
+        "%s Deleting stale snapshot(s).\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf))
+    );
+
     // Enumerate snapshot(s)
     command = "snapshot \"" + vm_name + "\" ";
     command += "list ";
-    command += buf;
     retval = vbm_popen(command, output, "enumerate snapshot(s)");
     if (retval) return retval;
 
@@ -453,15 +458,15 @@ int VBOX_VM::deletestalesnapshots() {
     //         Name: Snapshot 4 (UUID: c049023a-5132-45d5-987d-a9cfadb09664) *
     //
     eol_prev_pos = 0;
-    eol_pos = output.find("\n", eol_prev_pos);
+    eol_pos = output.find("\n");
     while (eol_pos != string::npos) {
         line = output.substr(eol_prev_pos, eol_pos - eol_prev_pos);
 
         // This VM does not yet have any snapshots
-        if (line.find("This machine does not have any snapshots") != string::npos) break;
+        if (line.find("does not have any snapshots") != string::npos) break;
 
         // The * signifies that it is the active snapshot and one we do not want to delete
-        if (line.find("*") != string::npos) continue;
+        if (line.find("*") != string::npos) break;
 
         uuid_start = line.find("(UUID: ");
         if (uuid_start != string::npos) {

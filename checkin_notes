@@ -6520,3 +6520,11 @@ David  31 Oct 2012
 
     lib/
         Makefile.mingw
+
+Rom    31 Oct 2012
+    - VBOX: Remove extra arguments to the enumerate snapshot command.
+    
+      Copy and paste was not my friend.
+      
+    samples\vboxwrapper\
+        vbox.cpp
