@@ -2407,9 +2407,8 @@ wxString suspend_reason_wxstring(int reason) {
 }
 
 bool uses_gpu(RESULT* r) {
-    APP_VERSION* avp = r->avp;
-    if (!avp) return false;
-    return (avp->gpu_usage > 0);
+	// kludge.  But r->avp isn't populated.
+    return (strstr(r->resources, "GPU") != NULL);
 }
 
 wxString result_description(RESULT* result, bool show_resources) {
