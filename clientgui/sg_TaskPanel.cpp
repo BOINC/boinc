@@ -789,11 +789,10 @@ void CSimpleTaskPanel::GetApplicationAndProjectNames(RESULT* result, wxString* a
             strAppBuffer = wxString(state_result->avp->app_name, wxConvUTF8);
         }
         
-        if (avp->ncudas) {
-            strGPUBuffer = wxString(" (NVIDIA GPU)", wxConvUTF8);
-        }
-        if (avp->natis) {
-            strGPUBuffer = wxString(" (ATI GPU)", wxConvUTF8);
+        char buf[256];
+        if (avp->gpu_type) {
+            sprintf(buf, " (%s)", proc_type_name(avp->gpu_type));
+            strGPUBuffer = wxString(buf, wxConvUTF8);
         }
 
         appName->Printf(
