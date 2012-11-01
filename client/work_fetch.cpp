@@ -533,11 +533,14 @@ int PROJECT_WORK_FETCH::compute_cant_fetch_work_reason(PROJECT* p) {
     if (p->non_cpu_intensive) return CANT_FETCH_WORK_NON_CPU_INTENSIVE;
     if (p->suspended_via_gui) return CANT_FETCH_WORK_SUSPENDED_VIA_GUI;
     if (p->master_url_fetch_pending) return CANT_FETCH_WORK_MASTER_URL_FETCH_PENDING;
-    if (p->min_rpc_time > gstate.now) return CANT_FETCH_WORK_MIN_RPC_TIME;
     if (p->dont_request_more_work) return CANT_FETCH_WORK_DONT_REQUEST_MORE_WORK;
     if (p->some_download_stalled()) return CANT_FETCH_WORK_DOWNLOAD_STALLED;
     if (p->some_result_suspended()) return CANT_FETCH_WORK_RESULT_SUSPENDED;
     if (p->too_many_uploading_results) return CANT_FETCH_WORK_TOO_MANY_UPLOADS;
+
+    // this goes last
+    //
+    if (p->min_rpc_time > gstate.now) return CANT_FETCH_WORK_MIN_RPC_TIME;
     return 0;
 }
 

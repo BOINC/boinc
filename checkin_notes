@@ -4711,3 +4711,12 @@ David  1 Nov 2012
     lib/
         cert_sig.cpp
         mem_usage.cpp
+
+David  1 Nov 2012
+    - client: in checking reasons for not requesting work,
+        look at backoff last.
+        Otherwise the user can get a misleading message if they
+        update a project that's backed off
+
+    client/
+        work_fetch.cpp
