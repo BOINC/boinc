@@ -4569,3 +4569,15 @@ Charlie 18 Oct 2012
     
     clientgui/
         sg_TaskPanel.cpp
+
+Rom    19 Oct 2012
+    - Add missing references to psapi.lib for various build configurations.
+
+    win_build\
+        boinc_ss.vcproj
+        example_app_multi_thread.vcproj
+        sleeper.vcproj
+        uc2.vcproj
+        uc2_graphics.vcproj
+        vboxwrapper.vcproj
+        wrapper.vcproj
