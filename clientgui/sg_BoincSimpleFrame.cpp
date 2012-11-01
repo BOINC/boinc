@@ -74,6 +74,7 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_MENU(ID_HELPBOINCMANAGER, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCWEBSITE, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(wxID_ABOUT, CSimpleFrame::OnHelpAbout)
+	EVT_MENU(ID_EVENTLOG, CSimpleFrame::OnEventLog)
 END_EVENT_TABLE()
 
 
@@ -271,6 +272,11 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
 #endif
 
     m_Shortcuts[0].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
+#ifdef __WXMAC__
+    m_Shortcuts[1].Set(wxACCEL_CMD|wxACCEL_SHIFT, (int)'E', ID_EVENTLOG);
+#else
+    m_Shortcuts[1].Set(wxACCEL_CTRL|wxACCEL_SHIFT, (int)'E', ID_EVENTLOG);
+#endif
     m_pAccelTable = new wxAcceleratorTable(2, m_Shortcuts);
 
     SetAcceleratorTable(*m_pAccelTable);
@@ -667,6 +673,15 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
 	}
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnConnect - Function End"));
+}
+
+
+void CSimpleFrame::OnEventLog(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnEventLog - Function Begin"));
+
+    wxGetApp().DisplayEventLog();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnEventLog - Function End"));
 }
 
 

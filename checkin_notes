@@ -4488,3 +4488,10 @@ Charlie 15 Oct 2012
     
     clientgui/
         BOINCGUIApp.cpp
+
+Charlie 17 Oct 2012
+    - MGR: Add Control-Shift_E shortcut (Command-Shift-E on Mac) to show Event 
+        Log in Simple View, for the convenience of tech suppport volunteers.
+    
+    clientgui/
+        sg_BoincSimpleFrame.cpp,.h
