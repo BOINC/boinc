@@ -42,7 +42,7 @@ bool IsUserInGroupBM();
 static int CheckNestedDirectories(
     char * basepath, int depth, 
     int use_sandbox, int isManager, 
-    cont char * path_to_error
+    char * path_to_error
 );
 
 #if (! defined(__WXMAC__) && ! defined(_MAC_INSTALLER))
@@ -501,7 +501,7 @@ saverName[2] = "Progress Thru Processors";
 }
 
 
-static int CheckNestedDirectories(char * basepath, int depth, 
+static int CheckNestedDirectories(char * basepath, int depth,
                                     int use_sandbox, int isManager, 
                                     char * path_to_error
                                 ) {
