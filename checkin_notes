@@ -6540,3 +6540,17 @@ Rom    1 Nov 2012
     
     samples\vboxwrapper\
         vbox.cpp, .h
+
+David  1 Nov 2012
+	- client/manager: move the conditional define of MAXPATHLEN
+		from boinc_win.h to filesys.h,
+		so that the client will hopefully build on Hurd,
+		which doesn't define MAXPATHLEN.
+
+	client/
+		http_curl.cpp
+	lib/
+		boinc_win.h
+		common_defs.h
+		filesys.h
+		gui_rpc_client.h

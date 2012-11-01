@@ -233,5 +233,4 @@ struct VERSION_INFO {
 #define DEFAULT_SS_EXECUTABLE       "boincscr"
 #endif
 
-
 #endif

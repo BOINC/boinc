@@ -32,6 +32,10 @@
 
 #endif /* !WIN32 */
 
+#ifndef MAXPATHLEN
+#define MAXPATHLEN 4096
+#endif
+
 #define FILE_RETRY_INTERVAL 5
     // On Windows, retry for this period of time, since some other program
     // (virus scan, defrag, index) may have the file open.
