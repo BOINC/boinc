@@ -2404,11 +2404,9 @@ wxString suspend_reason_wxstring(int reason) {
 }
 
 bool uses_gpu(RESULT* r) {
-    WORKUNIT* wup = r->workunit;
-    if (!wup) return false;
-    APP_VERSION* avp = wup->app_version;
+    APP_VERSION* avp = r->avp;
     if (!avp) return false;
-    return (avp->gpu_count > 0);
+    return (avp->gpu_usage > 0);
 }
 
 wxString result_description(RESULT* result, bool show_resources) {
