@@ -6534,3 +6534,9 @@ Rom    31 Oct 2012
     
     samples\vboxwrapper\
         vbox.cpp, .h
+
+Rom    1 Nov 2012
+    - VBOX: Make adjustments to the clean-up procedure for Vbox 4.2.
+    
+    samples\vboxwrapper\
+        vbox.cpp, .h

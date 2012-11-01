@@ -110,7 +110,7 @@ struct VBOX_VM {
     bool is_extpack_installed();
 
     int register_vm();
-    int deregister_vm();
+    int deregister_vm(bool delete_media);
     int deregister_stale_vm();
 
     int get_install_directory(std::string& dir);

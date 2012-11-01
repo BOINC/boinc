@@ -520,7 +520,7 @@ int VBOX_VM::restoresnapshot() {
 
 void VBOX_VM::cleanup() {
     poweroff();
-    deregister_vm();
+    deregister_vm(true);
 
     // Give time enough for external processes to finish the cleanup process
     boinc_sleep(5.0);
@@ -886,7 +886,7 @@ int VBOX_VM::register_vm() {
     return 0;
 }
 
-int VBOX_VM::deregister_vm() {
+int VBOX_VM::deregister_vm(bool delete_media) {
     string command;
     string output;
     string virtual_machine_slot_directory;
@@ -900,17 +900,6 @@ int VBOX_VM::deregister_vm() {
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
 
-
-    // Discard any saved state information
-    //
-    fprintf(
-        stderr,
-        "%s Discarding saved state of VM.\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf))
-    );
-    command  = "discardstate \"" + vm_name + "\" ";
-
-    vbm_popen(command, output, "discard state", false, false);
 
     // Cleanup any left-over snapshots
     //
@@ -949,7 +938,7 @@ int VBOX_VM::deregister_vm() {
 
     vbm_popen(command, output, "delete VM", false, false);
 
-    // Lastly delete medium from Virtual Box Media Registry
+    // Lastly delete medium(s) from Virtual Box Media Registry
     //
     fprintf(
         stderr,
@@ -957,8 +946,26 @@ int VBOX_VM::deregister_vm() {
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
     command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
+    if (delete_media) {
+        command += "--delete ";
+    }
 
     vbm_popen(command, output, "remove virtual disk", false, false);
+
+    if (enable_floppyio) {
+        fprintf(
+            stderr,
+            "%s Removing virtual floppy disk from VirtualBox.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+        command  = "closemedium floppy \"" + virtual_machine_slot_directory + "/" + floppy_image_filename + "\" ";
+        if (delete_media) {
+            command += "--delete ";
+        }
+
+        vbm_popen(command, output, "remove virtual floppy disk", false, false);
+    }
+
     return 0;
 }
 
@@ -999,12 +1006,16 @@ int VBOX_VM::deregister_stale_vm() {
         vm_name = output.substr(uuid_start, uuid_end - uuid_start);
 
         // Deregister stale VM by UUID
-        return deregister_vm();
+        return deregister_vm(false);
     } else {
         // Did the user delete the VM in VirtualBox and not the medium?  If so,
         // just remove the medium.
         command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
-        vbm_popen(command, output, "remove virtual disk ", false);
+        vbm_popen(command, output, "remove virtual disk", false);
+        if (enable_floppyio) {
+            command  = "closemedium floppy \"" + virtual_machine_slot_directory + "/" + floppy_image_filename + "\" ";
+            vbm_popen(command, output, "remove virtual floppy disk", false);
+        }
     }
     return 0;
 }
