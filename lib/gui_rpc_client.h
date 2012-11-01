@@ -33,13 +33,14 @@
 #include <locale.h>
 #endif
 
-#include "miofile.h"
-#include "prefs.h"
-#include "hostinfo.h"
-#include "common_defs.h"
-#include "notice.h"
-#include "network.h"
 #include "cc_config.h"
+#include "common_defs.h"
+#include "filesys.h"
+#include "hostinfo.h"
+#include "miofile.h"
+#include "network.h"
+#include "notice.h"
+#include "prefs.h"
 
 struct GUI_URL {
     std::string name;

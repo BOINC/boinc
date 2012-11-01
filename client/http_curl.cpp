@@ -388,13 +388,13 @@ bool HTTP_OP::no_proxy_for_url(const char* url) {
     return false;
 }
 
-static int set_cloexec(void*, curl_socket_t fd, curlsocktype purpose) {
 #ifndef _WIN32
+static int set_cloexec(void*, curl_socket_t fd, curlsocktype purpose) {
     if (purpose != CURLSOCKTYPE_IPCXN) return 0;
     fcntl(fd, F_SETFD, FD_CLOEXEC);
-#endif
     return 0;
 }
+#endif
 
 // the following will do an HTTP GET or POST using libcurl
 //
@@ -534,11 +534,12 @@ int HTTP_OP::libcurl_exec(
     //
     curl_easy_setopt(curlEasy, CURLOPT_NOPROGRESS, 1L);
 
+#ifndef _WIN32
     // arrange for a function to get called between socket() and connect()
     // so that we can mark the socket as close-on-exec
     //
     curl_easy_setopt(curlEasy, CURLOPT_SOCKOPTFUNCTION, set_cloexec);
-
+#endif
     // setup timeouts
     //
     curl_easy_setopt(curlEasy, CURLOPT_TIMEOUT, 0L);
