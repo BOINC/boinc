@@ -489,10 +489,12 @@ void RR_SIM::simulate() {
         COPROC& cp = coprocs.coprocs[i];
         int mask = (1<<cp.count)-1;
         rwf.sim_excluded_instances = ~(rwf.sim_used_instances) & mask;
-        msg_printf(0, MSG_INFO,
-            "rsc %d: sim_used_inst %d mask %d sim_excluded_instances %d",
-            i, rwf.sim_used_instances, mask, rwf.sim_excluded_instances
-        );
+        if (log_flags.rrsim_detail) {
+            msg_printf(0, MSG_INFO,
+                "[rrsim_detail] rsc %d: sim_used_inst %d mask %d sim_excluded_instances %d",
+                i, rwf.sim_used_instances, mask, rwf.sim_excluded_instances
+            );
+        }
     }
 
     // if simulation ends before end of buffer, take the tail into account
