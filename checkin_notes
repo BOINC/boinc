@@ -6528,3 +6528,9 @@ Rom    31 Oct 2012
       
     samples\vboxwrapper\
         vbox.cpp
+
+Rom    31 Oct 2012
+    - VBOX: Cleanup all the snapshots before unregistering the VM.
+    
+    samples\vboxwrapper\
+        vbox.cpp, .h

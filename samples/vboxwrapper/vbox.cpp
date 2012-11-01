@@ -417,7 +417,7 @@ int VBOX_VM::createsnapshot(double elapsed_time) {
     poll(false);
 
     // Delete stale snapshot(s), if one exists
-    deletestalesnapshots();
+    cleanupsnapshots(false);
 
     fprintf(
         stderr,
@@ -428,7 +428,7 @@ int VBOX_VM::createsnapshot(double elapsed_time) {
     return 0;
 }
 
-int VBOX_VM::deletestalesnapshots() {
+int VBOX_VM::cleanupsnapshots(bool delete_active) {
     string command;
     string output;
     string line;
@@ -461,7 +461,7 @@ int VBOX_VM::deletestalesnapshots() {
         if (line.find("does not have any snapshots") != string::npos) break;
 
         // The * signifies that it is the active snapshot and one we do not want to delete
-        if (line.find("*") != string::npos) break;
+        if (!delete_active && (line.find("*") != string::npos)) break;
 
         uuid_start = line.find("(UUID: ");
         if (uuid_start != string::npos) {
@@ -912,6 +912,10 @@ int VBOX_VM::deregister_vm() {
 
     vbm_popen(command, output, "discard state", false, false);
 
+    // Cleanup any left-over snapshots
+    //
+    cleanupsnapshots(true);
+
     // Delete its storage controller(s)
     //
     fprintf(
@@ -941,6 +945,7 @@ int VBOX_VM::deregister_vm() {
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
     command  = "unregistervm \"" + vm_name + "\" ";
+    command += "--delete ";
 
     vbm_popen(command, output, "delete VM", false, false);
 
