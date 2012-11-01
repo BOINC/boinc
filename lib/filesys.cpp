@@ -412,7 +412,7 @@ int dir_size(const char* dirpath, double& size, bool recurse) {
     } while (FindNextFileA(hFind, &findData));
 	::FindClose(hFind);
 #else
-    char filename[1024], subdir[1024];
+    char filename[MAXPATHLEN], subdir[MAXPATHLEN];
     int retval=0;
     DIRREF dirp;
     double x;
@@ -541,7 +541,7 @@ int boinc_copy(const char* orig, const char* newf) {
     }
     return 0;
 #elif defined(__EMX__)
-    char cmd[1024];
+    char cmd[2*MAXPATHLEN];
     sprintf(cmd, "copy \"%s\" \"%s\"", orig, newf);
     return system(cmd);
 #else
@@ -652,11 +652,11 @@ int boinc_chown(const char* path, gid_t gid) {
 // create directories dirpath/a, dirpath/a/b etc.
 //
 int boinc_make_dirs(const char* dirpath, const char* filepath) {
-    char buf[1024], oldpath[1024], newpath[1024];
+    char buf[MAXPATHLEN], oldpath[MAXPATHLEN], newpath[MAXPATHLEN];
     int retval;
     char *p, *q;
 
-    if (strlen(filepath) + strlen(dirpath) > 1023) return ERR_BUFFER_OVERFLOW;
+    if (strlen(filepath) + strlen(dirpath) > MAXPATHLEN-1) return ERR_BUFFER_OVERFLOW;
     strcpy(buf, filepath);
     strcpy(oldpath, dirpath);
 

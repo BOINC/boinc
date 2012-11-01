@@ -1,4 +1,4 @@
-#! /bin/csh
+#! /bin/tcsh
 
 set CIVDATE = `date "+%Y:%m:%d:%H:%M"`
 set UNIXDATE = `perl -e 'print time()'`

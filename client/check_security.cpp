@@ -39,10 +39,11 @@
 bool IsUserInGroupBM();
 #endif
 
-static int CheckNestedDirectories(char * basepath, int depth, 
-                                    int use_sandbox, int isManager, 
-                                    char * path_to_error
-                                );
+static int CheckNestedDirectories(
+    char * basepath, int depth, 
+    int use_sandbox, int isManager, 
+    cont char * path_to_error
+);
 
 #if (! defined(__WXMAC__) && ! defined(_MAC_INSTALLER))
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);

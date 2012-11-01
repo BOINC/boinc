@@ -112,7 +112,7 @@ struct ACTIVE_TASK {
     double bytes_received;
     char slot_dir[256];
         // directory where process runs (relative)
-    char slot_path[512];
+    char slot_path[MAXPATHLEN];
         // same, absolute
         // This is used only to run graphics apps
         // (that way don't have to worry about top-level dirs

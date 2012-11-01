@@ -345,7 +345,9 @@ int check_file_signature(
     clear_signature.len = MD5_LEN;
     retval = decrypt_public(key, signature, clear_signature);
     if (retval) {
-        fprintf(stderr, "check_file_signature: decrypt_public error %d\n", retval);
+        fprintf(stderr,
+            "check_file_signature: decrypt_public error %d\n", retval
+        );
         return retval;
     }
     answer = !strncmp(md5_buf, clear_buf, n);

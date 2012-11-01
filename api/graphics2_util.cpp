@@ -35,7 +35,7 @@
 
 #ifdef __EMX__
 static key_t get_shmem_name(const char* prog_name) {
-    char cwd[256], path[256];
+    char cwd[MAXPATHLEN], path[MAXPATHLEN];
     boinc_getcwd(cwd);
     sprintf(path, "%s/init_data.xml", cwd);
     return ftok(path, 2);
@@ -54,7 +54,7 @@ static void get_shmem_name(const char* prog_name, char* shmem_name) {
 void* boinc_graphics_make_shmem(const char* prog_name, int size) {
 #ifdef _WIN32
     HANDLE shmem_handle;
-    char shmem_name[256];
+    char shmem_name[MAXPATHLEN];
     void* p;
     get_shmem_name(prog_name, shmem_name);
     shmem_handle = create_shmem(shmem_name, size, &p);
@@ -67,7 +67,7 @@ void* boinc_graphics_make_shmem(const char* prog_name, int size) {
     int retval = create_shmem(key, size, 0, &p);
 #else
     // V6 Unix/Linux/Mac applications always use mmap() shared memory for graphics communication
-    char shmem_name[256];
+    char shmem_name[MAXPATHLEN];
     get_shmem_name(prog_name, shmem_name);
     int retval = create_shmem_mmap(shmem_name, size, &p);
     // Graphics app may be run by a different user & group than worker app
@@ -82,7 +82,7 @@ void* boinc_graphics_make_shmem(const char* prog_name, int size) {
 #ifdef _WIN32
 void* boinc_graphics_get_shmem(const char* prog_name) {
     HANDLE shmem_handle;
-    char shmem_name[256];
+    char shmem_name[MAXPATHLEN];
     void* p;
     get_shmem_name(prog_name, shmem_name);
     shmem_handle = attach_shmem(shmem_name, &p);
@@ -100,7 +100,7 @@ void* boinc_graphics_get_shmem(const char* prog_name) {
     retval = attach_shmem(key, &p);
 #else
     // V6 Unix/Linux/Mac applications always use mmap() shared memory for graphics communication
-    char shmem_name[256];
+    char shmem_name[MAXPATHLEN];
     get_shmem_name(prog_name, shmem_name);
     retval = attach_shmem_mmap(shmem_name, &p);
 #endif

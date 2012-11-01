@@ -348,9 +348,9 @@ class Project {
     function mkdir($dir, $chmod=0)
     {
         $d = "$this->project_dir/$dir";
-        mkdir($d,0777);
+        mkdir($d,0775);
         if ($chmod) {
-            chmod($d, 0777);
+            chmod($d, 0775);
         }
     }
 

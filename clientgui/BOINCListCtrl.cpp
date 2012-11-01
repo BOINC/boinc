@@ -267,7 +267,7 @@ wxListItemAttr* CBOINCListCtrl::OnGetItemAttr(long item) const {
 
 void CBOINCListCtrl::DrawProgressBars()
 {
-    long topItem, numItems, numVisibleItems, i, row;
+    long topItem, numItems, numVisibleItems, row;
     wxRect r, rr;
     int w = 0, x = 0, xx, yy, ww;
     int progressColumn = m_pParentView->GetProgressColumn();
@@ -300,7 +300,7 @@ void CBOINCListCtrl::DrawProgressBars()
         if (numItems <= (topItem + numVisibleItems)) numVisibleItems = numItems - topItem;
 
         x = 0;
-        for (i=0; i< progressColumn; i++) {
+        for (int i=0; i< progressColumn; i++) {
             x += GetColumnWidth(i);
         }
         w = GetColumnWidth(progressColumn);

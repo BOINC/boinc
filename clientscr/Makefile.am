@@ -3,6 +3,7 @@
 
 include $(top_srcdir)/Makefile.incl
 
+AM_LDFLAGS += -lpthread
 if ENABLE_CLIENT_RELEASE
   AM_LDFLAGS += -static-libtool-libs
 ## for an entirely statically linked library, you may want to try
