@@ -440,11 +440,6 @@ int VBOX_VM::deletestalesnapshots() {
     char buf[256];
     int retval;
 
-    fprintf(
-        stderr,
-        "%s Deleting stale snapshot(s).\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf))
-    );
 
     // Enumerate snapshot(s)
     command = "snapshot \"" + vm_name + "\" ";
