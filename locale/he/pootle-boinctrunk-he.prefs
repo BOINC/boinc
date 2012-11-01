@@ -1,9 +1,0 @@
-# Pootle preferences for project boinctrunk, language he
-
-rights:
-  default = u'view, suggest, archive, pocompile'
-  nobody = u'view, pocompile'
-  romw = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
-  davea = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
-  Maple = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
-  DjLegolas = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
