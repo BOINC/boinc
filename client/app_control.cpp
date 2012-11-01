@@ -536,10 +536,6 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
 
     cleanup_task();
 
-    if (config.exit_after_finish) {
-        exit(0);
-    }
-
     if (!will_restart) {
         copy_output_files();
         int retval = read_stderr_file();
