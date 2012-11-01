@@ -4702,3 +4702,12 @@ David  1 Nov 2012
 		common_defs.h
 		filesys.h
 		gui_rpc_client.h
+
+David  1 Nov 2012
+    - fix a few unlikely but possible file-descriptor leaks
+
+    client/
+        cs_scheduler.cpp
+    lib/
+        cert_sig.cpp
+        mem_usage.cpp

@@ -369,6 +369,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         fprintf(f, "<client_opaque>\n<![CDATA[\n");
         copy_stream(cof, f);
         fprintf(f, "\n]]>\n</client_opaque>\n");
+        fclose(cof);
     }
 
     fprintf(f, "</scheduler_request>\n");
