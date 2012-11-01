@@ -4553,3 +4553,13 @@ David  17 Oct 2012
         cs_statefile.cpp
     lib/
         gui_rpc_client_ops.cpp
+
+David  17 Oct 2012
+    - tweaks
+
+    client/
+        async_file.cpp
+    lib/
+        filesys.cpp,h
+    samples/atiopencl/
+        atiopencl.cpp

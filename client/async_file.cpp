@@ -90,8 +90,8 @@ int ASYNC_COPY::copy_chunk() {
     unsigned char buf[BUFSIZE];
     int retval;
 
-    int n = fread(buf, 1, BUFSIZE, in);
-    if (n <= 0) {
+    size_t n = fread(buf, 1, BUFSIZE, in);
+    if (n == 0) {
         // copy done.  rename temp file
         //
         fclose(in);
@@ -122,7 +122,7 @@ int ASYNC_COPY::copy_chunk() {
         }
         return 1;       // tell caller we're done
     } else {
-        int m = fwrite(buf, 1, n, out);
+        size_t m = fwrite(buf, 1, n, out);
         if (m != n) {
             error(ERR_FWRITE);
             return 1;
