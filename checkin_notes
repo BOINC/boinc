@@ -4581,3 +4581,9 @@ Rom    19 Oct 2012
         uc2_graphics.vcproj
         vboxwrapper.vcproj
         wrapper.vcproj
+
+Charlie 18 Oct 2012
+    - lib: don't clear entire APP_VERSION struct in APP_VERSION::parse_coproc().
+    
+    lib/
+        gui_rpc_client_ops.cpp
