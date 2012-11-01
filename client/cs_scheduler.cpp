@@ -121,7 +121,9 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         "    <prrs_fraction>%f</prrs_fraction>\n"
         "    <duration_correction_factor>%f</duration_correction_factor>\n"
         "    <allow_multiple_clients>%d</allow_multiple_clients>\n"
-        "    <sandbox>%d</sandbox>\n",
+        "    <sandbox>%d</sandbox>\n"
+        "    <uptime>%f</uptime>\n"
+        "    <previous_uptime>%f</previous_uptime>\n",
         p->authenticator,
         p->hostid,
         p->rpc_seqno,
@@ -133,7 +135,9 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         prrs_fraction,
         p->duration_correction_factor,
         config.allow_multiple_clients?1:0,
-        g_use_sandbox?1:0
+        g_use_sandbox?1:0,
+        now - client_start_time,
+        previous_uptime
     );
     work_fetch.write_request(f, p);
 

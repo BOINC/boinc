@@ -186,6 +186,8 @@ struct CLIENT_STATE {
     bool run_by_updater;
     double now;
     double client_start_time;
+    double previous_uptime;
+        // duration of previous client session
     double last_wakeup_time;
     bool initialized;
     bool cant_write_state_file;

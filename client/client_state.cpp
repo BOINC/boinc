@@ -143,6 +143,7 @@ CLIENT_STATE::CLIENT_STATE()
     launched_by_manager = false;
     initialized = false;
     last_wakeup_time = dtime();
+    previous_uptime = 0;
 }
 
 void CLIENT_STATE::show_host_info() {

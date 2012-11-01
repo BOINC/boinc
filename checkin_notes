@@ -4495,3 +4495,18 @@ Charlie 17 Oct 2012
     
     clientgui/
         sg_BoincSimpleFrame.cpp,.h
+
+David  17 Oct 2012
+    - client: maintain current and previous uptime,
+        and include them in scheduler RPC request.
+    
+    Note: this is to support a future feature where the scheduler will
+        send non-checkpointing jobs only clients likely to be able
+        to complete them.
+
+    client/
+        client_state.cpp,h
+        cs_scheduler.cpp
+        cs_statefile.cpp
+    lib/
+        gui_rpc_client_ops.cpp
