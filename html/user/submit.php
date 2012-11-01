@@ -31,7 +31,7 @@ ini_set('display_startup_errors', true);
 //
 function show_batches($batches) {
     foreach ($batches as $batch) {
-        if ($batch->state < BATCH_STATE_COMPLETE) {
+        if ($batch->state < BATCH_STATE_COMPLETE || $batch->fraction_done < 1) {
             $wus = BoincWorkunit::enum("batch = $batch->id");
             $batch = get_batch_params($batch, $wus);
         }
@@ -42,7 +42,11 @@ function show_batches($batches) {
             $batch->app_name = "unknown";
         }
         $user = BoincUser::lookup_id($batch->user_id);
-        $batch->user_name = $user->name;
+        if ($user) {
+            $batch->user_name = $user->name;
+        } else {
+            $batch->user_name = "missing user $batch->user_id";
+        }
     }
 
     $first = true;

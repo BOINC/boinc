@@ -6554,3 +6554,18 @@ David  1 Nov 2012
 		common_defs.h
 		filesys.h
 		gui_rpc_client.h
+
+David  1 Nov 2012
+    - fix a few unlikely but possible file-descriptor leaks
+    - remote job submission: always compute fraction done when showing
+        batch list; check for nonexistent user
+
+    client/
+        cs_scheduler.cpp
+    html/user/
+        submit.php
+    lib/
+        cert_sig.cpp
+        mem_usage.cpp
+    sched/
+        sched_timezone.cpp

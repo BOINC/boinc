@@ -124,14 +124,18 @@ URLTYPE* read_download_list() {
     }
 
     // read in lines from file
+    //
     while (1) {
         // allocate memory in blocks
         if ((count % BLOCKSIZE)==0) {
             cached=(URLTYPE *)realloc(cached, (count+BLOCKSIZE)*sizeof(URLTYPE));
-            if (!cached) return NULL;
+            if (!cached) {
+                fclose(fp);
+                return NULL;
+            }
         }
-        // read timezone offset and URL from file, and store in cache
-        // list
+        // read timezone offset and URL from file, and store in cache list
+        //
         if (2==fscanf(fp, "%d %s", &(cached[count].zone), cached[count].name)) {
             count++;
         } else {

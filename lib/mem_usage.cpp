@@ -118,6 +118,7 @@ int mem_usage(double& vm_usage, double& resident_set) {
             ++p; // move past space
         }
         if (!p) {
+            fclose(f);
             return ERR_NOT_IMPLEMENTED;
         }
 
