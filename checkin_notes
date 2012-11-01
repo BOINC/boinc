@@ -6517,6 +6517,7 @@ David  31 Oct 2012
 
 David  31 Oct 2012
     - Fix MinGW build: generate_svn_version.sh only works on top level
+        (from Bernd)
 
     lib/
         Makefile.mingw
@@ -6556,7 +6557,7 @@ David  1 Nov 2012
 		gui_rpc_client.h
 
 David  1 Nov 2012
-    - fix a few unlikely but possible file-descriptor leaks
+    - fix a few unlikely but possible file-descriptor leaks (from RustyBSD)
     - remote job submission: always compute fraction done when showing
         batch list; check for nonexistent user
 
