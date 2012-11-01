@@ -4613,3 +4613,17 @@ David  19 Oct 2012
         work_fetch.cpp,h
     lib/
         coproc.h
+
+Rom    22 Oct 2012
+    - SCR: Fix bug in X11 screensaver.
+      (From Michael Tughan)
+      
+    clientscr/
+        screensaver_x11.cpp
+
+Rom    23 Oct 2012
+    - SCR: Fix bug in X11 screensaver.
+      (From David Cross)
+      
+    clientscr/
+        screensaver_x11.cpp
