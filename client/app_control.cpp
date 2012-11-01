@@ -129,6 +129,7 @@ bool ACTIVE_TASK_SET::poll() {
         last_finish_check_time = gstate.now;
         for (i=0; i<active_tasks.size(); i++) {
             ACTIVE_TASK* atp = active_tasks[i];
+            if (atp->task_state() == PROCESS_UNINITIALIZED) continue;
             if (atp->finish_file_time) {
                 atp->kill_task(false);
             } else if (atp->finish_file_present()) {
