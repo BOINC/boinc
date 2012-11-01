@@ -100,6 +100,11 @@ struct RSC_PROJECT_WORK_FETCH {
     int n_runnable_jobs;
     double sim_nused;
     double nused_total;     // sum of instances over all runnable jobs
+    int ncoprocs_excluded;
+        // number of excluded instances
+    int non_excluded_instances;
+        // bitmap of non-excluded instances
+        // (i.e. instances this project's jobs can run on)
     int deadlines_missed;
     int deadlines_missed_copy;
         // copy of the above used during schedule_cpus()
@@ -116,6 +121,8 @@ struct RSC_PROJECT_WORK_FETCH {
         n_runnable_jobs = 0;
         sim_nused = 0;
         nused_total = 0;
+        ncoprocs_excluded = 0;
+        non_excluded_instances = 0;
         deadlines_missed = 0;
         deadlines_missed_copy = 0;
     }
@@ -201,6 +208,11 @@ struct RSC_WORK_FETCH {
         // seconds of idle instances between now and now+work_buf_total()
     double nidle_now;
     double sim_nused;
+    int sim_used_instances;
+        // bitmap of instances used in simulation,
+        // taking into account GPU exclusions
+    int sim_excluded_instances;
+        // bitmap of instances not used (i.e. starved because of exclusion)
     double total_fetchable_share;
         // total RS of projects from which we could fetch jobs for this device
     double saturated_time;
@@ -241,6 +253,7 @@ struct RSC_WORK_FETCH {
     void print_state(const char*);
     void clear_request();
     void set_request(PROJECT*);
+    void set_request_excluded(PROJECT*);
     bool may_have_work(PROJECT*);
     RSC_WORK_FETCH() {
         rsc_type = 0;

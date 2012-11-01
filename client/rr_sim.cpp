@@ -74,6 +74,7 @@ struct RR_SIM {
         int rt = rp->avp->gpu_usage.rsc_type;
         if (rt) {
             rsc_work_fetch[rt].sim_nused += rp->avp->gpu_usage.usage;
+            rsc_work_fetch[rt].sim_used_instances |= p->rsc_pwf[rt].non_excluded_instances;
             p->rsc_pwf[rt].sim_nused += rp->avp->gpu_usage.usage;
         }
     }
@@ -169,10 +170,14 @@ void RR_SIM::init_pending_lists() {
     }
 }
 
-// pick jobs to run; put them in "active" list.
+// Pick jobs to run, putting them in "active" list.
 // Simulate what the job scheduler would do:
 // pick a job from the project P with highest scheduling priority,
-// then adjust P's scheduling priority
+// then adjust P's scheduling priority.
+//
+// This is called at the start of the simulation,
+// and again each time a job finishes.
+// In the latter case, some resources may be saturated.
 //
 void RR_SIM::pick_jobs_to_run(double reltime) {
     active.clear();
@@ -241,7 +246,18 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
                 // check whether resource is saturated
                 //
                 if (rt) {
-                    if (rsc_work_fetch[rt].sim_nused >= coprocs.coprocs[rt].count - p->ncoprocs_excluded[rt]) break;
+                    if (rsc_work_fetch[rt].sim_nused >= coprocs.coprocs[rt].count) {
+                        break;
+                    }
+
+                    // if a GPU isn't saturated but this project is using
+                    // its max given exclusions, remove it from project heap
+                    //
+                    if (rsc_pwf.sim_nused >= coprocs.coprocs[rt].count - p->rsc_pwf[rt].ncoprocs_excluded) {
+                        pop_heap(project_heap.begin(), project_heap.end());
+                        project_heap.pop_back();
+                        continue;
+                    }
                 } else {
                     if (rsc_work_fetch[rt].sim_nused >= gstate.ncpus) break;
                 }
@@ -255,7 +271,7 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
                 pop_heap(project_heap.begin(), project_heap.end());
                 project_heap.pop_back();
             } else if (!rp->rrsim_done) {
-                // Otherwise reshuffle the heap
+                // Otherwise reshuffle the project heap
                 //
                 make_heap(project_heap.begin(), project_heap.end());
             }
@@ -401,7 +417,9 @@ void RR_SIM::simulate() {
                 }
             }
         }
-        // adjust FLOPS left
+
+        // adjust FLOPS left of other active jobs
+        //
         for (unsigned int i=0; i<active.size(); i++) {
             rp = active[i];
             rp->rrsim_flops_left -= rp->rrsim_flops*delta_t;
@@ -462,6 +480,19 @@ void RR_SIM::simulate() {
         }
 
         sim_now += delta_t;
+    }
+
+    // identify GPU instances starved because of exclusions
+    //
+    for (int i=1; i<coprocs.n_rsc; i++) {
+        RSC_WORK_FETCH& rwf = rsc_work_fetch[i];
+        COPROC& cp = coprocs.coprocs[i];
+        int mask = (1<<cp.count)-1;
+        rwf.sim_excluded_instances = ~(rwf.sim_used_instances) & mask;
+        msg_printf(0, MSG_INFO,
+            "rsc %d: sim_used_inst %d mask %d sim_excluded_instances %d",
+            i, rwf.sim_used_instances, mask, rwf.sim_excluded_instances
+        );
     }
 
     // if simulation ends before end of buffer, take the tail into account
