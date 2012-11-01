@@ -4481,3 +4481,10 @@ David  21 Sept 2012
 
     clientgui/
         MainDocument.cpp
+
+Charlie 15 Oct 2012
+    - MGR: We don't save Simple View's width & height since it's 
+        window is not resizable, so don't try to read them back.
+    
+    clientgui/
+        BOINCGUIApp.cpp
