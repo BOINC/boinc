@@ -478,8 +478,7 @@ int get_os_information(
                 strcat(os_name, "Windows 2000");
             }
 
-            if ( osvi.dwMajorVersion <= 4 )
-            {
+            if ( osvi.dwMajorVersion <= 4 ) {
                 strcat(os_name, "Windows NT");
             }
 

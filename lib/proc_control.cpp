@@ -166,7 +166,8 @@ void kill_descendants() {
     kill_all(descendants);
 }
 #else
-// Same, but if child_pid is nonzero, give it a chance to exit gracefully on Unix
+// Same, but if child_pid is nonzero,
+// give it a chance to exit gracefully on Unix
 //
 void kill_descendants(int child_pid) {
     vector<int> descendants;
