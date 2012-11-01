@@ -4563,3 +4563,9 @@ David  17 Oct 2012
         filesys.cpp,h
     samples/atiopencl/
         atiopencl.cpp
+
+Charlie 18 Oct 2012
+    - MGR: Fix bug which can cause Manager to quit when started in Simple View.
+    
+    clientgui/
+        sg_TaskPanel.cpp

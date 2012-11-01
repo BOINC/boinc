@@ -936,9 +936,16 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 
+    static bool bAlreadyRunning = false;
+
     wxASSERT(pDoc);
     wxASSERT(pSkinSimple);
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
+    
+    if (bAlreadyRunning) {
+        return;
+    }
+    bAlreadyRunning = true;
     
     count = m_TaskSelectionCtrl->GetCount();
 	// Mark all inactive (this lets us loop only once)
@@ -1108,6 +1115,9 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
     if (needRefresh) {
         m_TaskSelectionCtrl->Refresh();
     }
+
+    bAlreadyRunning = false;
+
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleTaskPanel::UpdateTaskSelectionList - Function End"));
 }
 
