@@ -7,20 +7,18 @@ msgstr ""
 "Project-Id-Version: BOICN Client Messages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-09 09:39-0800\n"
-"PO-Revision-Date: 2011-02-02 19:40+0200\n"
-"Last-Translator: Aycan <aycandemirel@hotmail.com>\n"
+"PO-Revision-Date: 2012-10-28 21:43+0200\n"
+"Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Turkish <weboglan@hotmail.com>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #: acct_mgr.cpp:435 acct_mgr.cpp:444
-#, fuzzy
 msgid "Message from account manager"
-msgstr "Sunucudan mesaj - "
+msgstr "Hesap yöneticisinden mesaj - "
 
 #: client_msgs.cpp:79
 msgid "Message from server"
@@ -80,9 +78,8 @@ msgid "Missing start tag in cc_config.xml"
 msgstr "cc_config.xml dosyasında başlangıç etiketi kayıp"
 
 #: log_flags.cpp:443
-#, fuzzy
 msgid "Error in cc_config.xml options"
-msgstr "cc_config.xml dosyasında tanınmayan etiket"
+msgstr "cc_config.xml dosyası seçeneklerinde hata"
 
 #: log_flags.cpp:461
 msgid "Missing end tag in cc_config.xml"
@@ -160,11 +157,8 @@ msgid "An ATI GPU is required to run tasks for this project"
 msgstr "Bu projedeki işleri çalıştırabilmek için, bir ATI GPU gerekiyor"
 
 #: ../sched/sched_send.cpp:1523
-#, fuzzy
 msgid "No tasks are available for the applications you have selected."
-msgstr ""
-"Seçtiğiniz uygulamalar için iş mevcut değil.  Lütfen web sitesinde proje "
-"tercihlerinizi kontrol edin."
+msgstr "Seçtiğiniz uygulamalar için iş mevcut değil."
 
 #: ../sched/sched_send.cpp:1549
 msgid "Your computer type is not supported by this project"

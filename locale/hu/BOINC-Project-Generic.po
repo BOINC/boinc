@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2012-09-09 10:54+0200\n"
+"PO-Revision-Date: 2012-09-23 21:40+0200\n"
 "Last-Translator: Gabor <csega@mailbox.hu>\n"
 "Language-Team: \n"
 "Language: hu\n"
@@ -4148,25 +4148,29 @@ msgstr "Aláírás hozzáadása ehhez az üzenethez"
 #: ../user/forum_report_post.php:45
 msgid "You need more average or total credit to report a post."
 msgstr ""
+"Magasabb átlagra vagy több összes kreditre van szüksége egy bejegyzés "
+"jelentéséhez."
 
 #: ../user/forum_report_post.php:64
 msgid "Report Registered"
-msgstr ""
+msgstr "Jelentés regisztrálva"
 
 #: ../user/forum_report_post.php:65
 msgid "Your report has been recorded. Thanks you for your input."
-msgstr ""
+msgstr "Jelentését rögzítettük. Köszönjük jelzését!"
 
 #: ../user/forum_report_post.php:66
 msgid ""
 "A moderator will now look at your report and decide what will happen - this "
 "may take a little while, so please be patient"
 msgstr ""
+"Egy moderátor meg fogja vizsgálni jelentését és eldönti, mi fog történni - "
+"ez egy kis időt vesz igénybe, türelmét kérjük!"
 
 #: ../user/forum_report_post.php:70
 #, fuzzy
 msgid "Report a forum post"
-msgstr "Utolsó üzenet"
+msgstr "Fórumbejegyzés jelentése"
 
 #: ../user/forum_report_post.php:72
 msgid ""
