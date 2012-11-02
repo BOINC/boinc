@@ -36,6 +36,7 @@
 #include "hostinfo.h"
 #include "coproc.h"
 #include "miofile.h"
+#include "filesys.h"
 #include "common_defs.h"
 #include "cc_config.h"
 

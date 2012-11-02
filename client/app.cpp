@@ -304,7 +304,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     static double last_cpu_time;
     double diff=0;
 
-    double diff = gstate.now - last_mem_time;
+    diff = gstate.now - last_mem_time;
     if (diff < 0 || diff > MEMORY_USAGE_PERIOD + 10) {
         // user has changed system clock,
         // or there has been a long system sleep
