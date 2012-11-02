@@ -18,6 +18,7 @@ RSA_LIBS = -lcrypto
 AM_LIBTOOLFLAGS =
 
 AM_CPPFLAGS =					\
+        -I$(top_srcdir)				\
         -I$(top_srcdir)/api			\
         -I$(top_srcdir)/db			\
         -I$(top_srcdir)/lib			\
