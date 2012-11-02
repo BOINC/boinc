@@ -4728,3 +4728,11 @@ Rom    2 Nov 2012
     /
         configure.ac
         version.h
+
+Rom    2 Nov 2012
+    - Tag for 7.0.38 release, all platforms
+      client_release_7.0.38
+
+    /
+        configure.ac
+        version.h
