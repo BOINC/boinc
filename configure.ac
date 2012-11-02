@@ -478,6 +478,16 @@ if test "x${libdir}" = "xNONE" -o -z "${libdir}" ; then
   bindir="${exec_prefix}/lib"
 fi
 
+dnl if --sysconfdir was not specified, default ${sysconfdir} to '/etc/'.
+dnl this is done to preserve the behaviour of previous BOINC versions 
+dnl which always installed to /etc/ in client/scripts/. Now we install
+dnl to ${sysconfdir}/.
+dnl the default value for ${sysconfdir} set by automake is '${prefix}/etc',
+dnl but we also test for an empty string
+if test "${sysconfdir}" = '${prefix}/etc' -o "x${sysconfdir}" = "x"; then
+  sysconfdir=/etc
+fi
+
 AC_DEFINE_UNQUOTED(BOINC_PREFIX,"`eval echo ${prefix}`",[Directory tree where BOINC will be installed])
 AC_DEFINE_UNQUOTED(BOINC_EXECPREFIX,"`eval echo ${bindir}`",[Directory where BOINC executables will be installed])
 AC_DEFINE_UNQUOTED(BOINC_LIBDIR,"`eval echo ${libdir}`",[Directory where BOINC libraries will be installed])
@@ -527,7 +537,7 @@ else
    echo "DEBUG: GLUT_CFLAGS = $GLUT_CFLAGS" >&5
    echo "DEBUG: GLUT_LIBS = $GLUT_LIBS" >&5
 
-   AC_CHECK_HEADERS([gl.h glu.h glut.h glaux.h GL/gl.h GL/glu.h GL/glut.h GL/glaux.h OpenGL/gl.h OpenGL/glu.h OpenGL/glut.h OpenGL/glaux.h GLUT/glut.h MesaGL/gl.h MesaGL/glu.h MesaGL/glut.h MesaGL/glaux.h libnotify/notify.h] gtk/gtk.h)
+   AC_CHECK_HEADERS([gl.h glu.h glut.h glaux.h GL/gl.h GL/glu.h GL/glut.h GL/glaux.h OpenGL/gl.h OpenGL/glu.h OpenGL/glut.h OpenGL/glaux.h GLUT/glut.h MesaGL/gl.h MesaGL/glu.h MesaGL/glut.h MesaGL/glaux.h libnotify/notify.h gtk/gtk.h xlocale.h])
 
    AC_CHECK_LIB([jpeg], [jpeg_start_compress],[have_jpeg=1],[have_jpeg=0])
    AC_CHECK_HEADER([jpeglib.h],[have_jpeg=1],[have_jpeg=0])
@@ -570,6 +580,10 @@ AH_TOP([
 
 ])
 AH_BOTTOM([
+
+#ifndef HAVE_XLOCALE_H
+#define NO_PER_THREAD_LOCALE 1
+#endif
 
 #ifndef HAVE_RES_INIT
 #define res_init() (0)
@@ -716,8 +730,8 @@ fi
 
 dnl ---------- XCB --------------------------------------------------------
 if test "${enable_manager}" = yes; then
-    PKG_CHECK_MODULES(XCB,xcb,have_Xcb="yes",echo "WARNING: Xcb not found, x11_screensaver will not be built")
-    PKG_CHECK_MODULES(XCBATOM,xcb-atom,have_Xcbatom="yes",echo "WARNING: Xcb-atom not found, x11_screensaver will not be built")
+    PKG_CHECK_MODULES(XCB,xcb,have_Xcb="yes",[echo "WARNING: Xcb not found, x11_screensaver will not be built"])
+    PKG_CHECK_MODULES(XCBATOM,xcb-atom,have_Xcbatom="yes",[echo "WARNING: Xcb-atom not found, x11_screensaver will not be built"])
 fi
 AM_CONDITIONAL(BUILD_X11_SCREENSAVER, [ test "$have_Xcb" = yes -a "$have_Xcbatom" = yes ]) 
 dnl -----------------------------------------------------------------------

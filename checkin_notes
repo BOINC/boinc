@@ -6581,3 +6581,19 @@ David  1 Nov 2012
         work_fetch.cpp
     client/
         work_fetch.cpp
+
+Eric   1 Nov 2012
+    - Found another missing file
+    
+    m4/
+        ax_lang_compiler_ms.m4
+
+Eric   1 Nov 2012
+    - Allow sysconfdir to be specified rather than hardcoded at '$prefix/etc'
+      (submitted by Alexander Kruppa)
+    - Fix for compiles on os without xlocale.h
+
+     configure.ac
+     client/
+         scripts/
+             Makefile.am
