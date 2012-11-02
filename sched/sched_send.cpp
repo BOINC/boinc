@@ -1579,7 +1579,7 @@ static void send_user_messages() {
 
     // if client asked for work and we're not sending any, explain why
     //
-    if (g_wreq->njobs_sent == 0) {
+    if (g_wreq->njobs_sent == 0 && g_request->work_req_seconds) {
         g_reply->set_delay(DELAY_NO_WORK_TEMP);
         g_reply->insert_message("No tasks sent", "low");
 

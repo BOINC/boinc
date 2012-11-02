@@ -111,12 +111,12 @@ static void draw_text() {
         if (dt > 10) {
             boinc_close_window_and_quit("shmem not updated");
         } else if (dt > 5) {
-            ttf_render_string(0, 0, 0, 500, white, (char*)"App not running - exiting in 5 seconds");
+            ttf_render_string(0, 0, 0, 500, white, "App not running - exiting in 5 seconds");
         } else if (shmem->status.suspended) {
-            ttf_render_string(0, 0, 0, 500, white, (char*)"App suspended");
+            ttf_render_string(0, 0, 0, 500, white, "App suspended");
         }
     } else {
-        ttf_render_string(0, 0, 0, 500, white, (char*)"No shared mem");
+        ttf_render_string(0, 0, 0, 500, white, "No shared mem");
     }
 }
 
@@ -248,7 +248,7 @@ void app_graphics_init() {
 
     ttf_load_fonts(".");
 
-    boinc_resolve_filename((char*)"logo.jpg", path, sizeof(path));
+    boinc_resolve_filename("logo.jpg", path, sizeof(path));
     logo.load_image_file(path);
 
     init_lights();
