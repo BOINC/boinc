@@ -4720,3 +4720,11 @@ David  1 Nov 2012
 
     client/
         work_fetch.cpp
+
+Rom    2 Nov 2012
+    - Tag for 7.0.37 release, all platforms
+      client_release_7_0_37
+
+    /
+        configure.ac
+        version.h
