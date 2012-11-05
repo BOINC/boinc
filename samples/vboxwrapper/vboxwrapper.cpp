@@ -802,7 +802,7 @@ int main(int argc, char** argv) {
         // and base it off of wall clock time instead of a fixed interval.
         if (!boinc_status.suspended) {
             if (sleep_time > 0) {
-                elapsed_time += sleep_time;
+                elapsed_time += POLL_PERIOD;
             } else {
                 elapsed_time += stopwatch_endtime - stopwatch_time;
             }

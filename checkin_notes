@@ -6633,3 +6633,10 @@ Rom    4 Nov 2012
         
     samples\vboxwrapper\
         vboxwrapper.cpp
+
+Rom    5 Nov 2012
+    - VBOX: Ugh, if sleep_time is greater than zero, increment elapsed_time by
+        the poll interval.  
+        
+    samples\vboxwrapper\
+        vboxwrapper.cpp
