@@ -6626,3 +6626,10 @@ David  2 Nov 2012
         sched_send.cpp
     tools/
         upgrade
+
+Rom    4 Nov 2012
+    - VBOX: Do not count the sleep time as part of the elapsed time when
+        the VM is supposed to be suspended.
+        
+    samples\vboxwrapper\
+        vboxwrapper.cpp
