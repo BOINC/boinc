@@ -41,7 +41,7 @@ libboinc_api_la_LDFLAGS = -L$(libdir) -rpath $(libdir) -version-number $(LIBBOIN
 if BUILD_GRAPHICS_API
 lib_LTLIBRARIES += libboinc_graphics2.la
 libboinc_graphics2_la_SOURCES = $(graphics2_files)
-libboinc_graphics2_la_CPPFLAGS = -I$(top_srcdir)/lib
+# libboinc_graphics2_la_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/lib
 libboinc_graphics2_la_LDFLAGS = -L$(libdir) -rpath $(libdir) -version-number $(LIBBOINC_VERSION)
 endif #BUILD_GRAPHICS_API
 
