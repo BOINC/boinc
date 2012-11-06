@@ -36,9 +36,12 @@ HEADERS = $(BOINC_SRC)/version.h \
 
 ZIP_HEADERS = zip/boinc_zip.h
 
+
 # objects to compile
 
 API_OBJ = boinc_api.o graphics2_util.o
+
+API_LOBJ = boinc_api.lo graphics2_util.lo
 
 OCL_OBJ = boinc_opencl.o
 
@@ -56,16 +59,17 @@ ZIP_OBJ = boinc_zip.o z_win32.o win32zip.o zipup.o zipfile.o zip.o z_globals.o z
 
 # libraries to build
 API_BIN = libboinc_api.a
+API_LIB = libboinc_api.la
 OCL_BIN = libboinc_opencl.a
 LIB_BIN = libboinc.a
 GPH_BIN = libboinc_graphics2.a
 ZIP_BIN = libboinc_zip.a
 
 # all objects (for clean target)
-OBJ = $(API_OBJ) $(OCL_OBJ) $(LIB_OBJ) $(GPH_OBJ) $(ZIP_OBJ)
+OBJ = $(API_OBJ) $(API_LOBJ) $(OCL_OBJ) $(LIB_OBJ) $(GPH_OBJ) $(ZIP_OBJ)
 
 # all libraries (zip not listed anymore)
-BIN = $(API_BIN) $(OCL_BIN) $(LIB_BIN) $(GPH_BIN)
+BIN = $(OCL_BIN) $(LIB_BIN) $(GPH_BIN)
 
 # -gstabs is necessary for MinGWs backtrace to work
 #DEBUG = -D__DEBUG__ -gstabs -g3
@@ -96,12 +100,19 @@ CXXFLAGS ?=
 CXXFLAGS += $(CCXXFLAGS)
 
 # default target
-all: $(BIN)
+all: $(BIN) $(API_BIN)
+all-la: $(BIN) $(API_LIB)
 
 # zip target
 boinc_zip: $(ZIP_BIN)
 
+# set to the target tools when cross-compiling
+RANLIB ?= ranlib
+LIBTOOL ?= libtool
+
 # rules for the indivisual libraries
+$(API_LIB): $(API_LOBJ)
+	$(LIBTOOL) --mode=link --tag=CXX $(CXX) -all-static $(DEBUG) $(LDFLAGS) -O -o $@ $(API_LOBJ) -lboinc -lpsapi -rpath $(BOINC_PREFIX)/lib
 $(API_BIN): $(API_OBJ)
 	$(AR) rc $@ $^
 $(OCL_BIN): $(OCL_OBJ)
@@ -122,6 +133,10 @@ $(ZIP_BIN): $(ZIP_OBJ)
 	$(CXX) -c $< -o $@ $(CPPFLAGS) $(CXXFLAGS)
 %.o: $(BOINC_SRC)/lib/%.cpp
 	$(CXX) -c $< -o $@ $(CPPFLAGS) $(CXXFLAGS)
+%.lo: $(BOINC_SRC)/api/%.cpp
+	$(LIBTOOL) --mode=compile --tag=CXX $(CXX) -c $< -o $@ $(CPPFLAGS) $(CXXFLAGS)
+%.lo: $(BOINC_SRC)/lib/%.cpp
+	$(LIBTOOL) --mode=compile --tag=CXX $(CXX) -c $< -o $@ $(CPPFLAGS) $(CXXFLAGS)
 
 # C-mode file
 md5.o: $(BOINC_SRC)/lib/md5.c
@@ -144,16 +159,20 @@ z_util.o: $(BOINC_SRC)/zip/zip/util.c
 $(BOINC_SRC)/svn_version.h:
 	cd $(BOINC_SRC) && sh ./generate_svn_version.sh
 
-# set to the target ranlib when cross-compiling
-RANLIB ?= ranlib
-
 # additional targets
 
-install: $(BIN) $(HEADERS)
+install: $(BIN) $(API_BIN) $(HEADERS)
+	mkdir -p $(BOINC_PREFIX)/include/boinc $(BOINC_PREFIX)/lib
+	cp $(HEADERS) $(BOINC_PREFIX)/include/boinc
+	$(RANLIB) $(BIN) $(API_BIN)
+	cp $(BIN) $(API_BIN) $(BOINC_PREFIX)/lib
+
+install-la: $(BIN) $(API_LIB) $(HEADERS)
 	mkdir -p $(BOINC_PREFIX)/include/boinc $(BOINC_PREFIX)/lib
 	cp $(HEADERS) $(BOINC_PREFIX)/include/boinc
 	$(RANLIB) $(BIN)
 	cp $(BIN) $(BOINC_PREFIX)/lib
+	$(LIBTOOL) --mode=install cp $(API_LIB) $(BOINC_PREFIX)/lib
 
 install-zip: $(ZIP_BIN) $(ZIP_HEADERS)
 	mkdir -p $(BOINC_PREFIX)/include/ $(BOINC_PREFIX)/lib
@@ -163,8 +182,7 @@ install-zip: $(ZIP_BIN) $(ZIP_HEADERS)
 
 uninstall:
 	${RM} -rf $(BOINC_PREFIX)/include/boinc
-	${RM} $(BOINC_PREFIX)/lib/libboinc.a $(BOINC_PREFIX)/lib/libboinc_api.a $(BOINC_PREFIX)/lib/libboinc_opencl.a $(BOINC_PREFIX)/lib/libboinc_graphics2.a
-	( cd $(BOINC_PREFIX)/lib && rm -f $(BIN) || exit 0 )
+	( cd $(BOINC_PREFIX)/lib && $(RM) -f $(BIN) $(API_BIN) $(API_LIB) || exit 0 )
 
 clean:
-	${RM} $(OBJ) $(BIN) $(ZIP_BIN)
+	${RM} -rf $(OBJ) $(BIN) $(API_BIN) $(API_LIB) .libs $(ZIP_BIN)
