@@ -6664,8 +6664,13 @@ David  7 Nov 2012
 
 David  7 Nov 2012
     - scheduler: log message tweaks
-    - Some C++ files in client had execute permissions (??).  Clear them.
+    - Some C++ files in clientgui/ had execute permissions (??).  Clear them.
 
     sched/
         sched_array.cpp
         sched_send.cpp
+
+David  7 Nov 2012
+    - a bunch of skin files had execute permissions (??).  Clear them.
+
+    clientgui/skins/Charity Engine/graphic/*
