@@ -18,7 +18,7 @@
 #ifndef _PROXY_INFO_
 #define _PROXY_INFO_
 
-class XML_PARSER;
+struct XML_PARSER;
 class MIOFILE;
 
 // info on whether HTTP requests need to go through a proxy

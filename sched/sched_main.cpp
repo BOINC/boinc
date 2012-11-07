@@ -349,6 +349,20 @@ inline static const char* get_remote_addr() {
     return r ? r : "?.?.?.?";
 }
 
+#if 0       // performance test for XML parsing (use a large request)
+int main(int, char**) {
+    SCHEDULER_REQUEST sreq;
+    FILE* f = fopen("req", "r");
+    MIOFILE mf;
+    XML_PARSER xp(&mf);
+    mf.init_file(f);
+    for (int i=0; i<10; i++) {
+        sreq.parse(xp);
+        fseek(f, 0, SEEK_SET);
+    }
+}
+#else
+
 #if !defined(PLAN_CLASS_TEST)
 
 int main(int argc, char** argv) {
@@ -650,6 +664,7 @@ done:
         boinc_db.close();
     }
 }
+#endif
 #endif
 
 // the following stuff is here because if you put it in sched_limit.cpp

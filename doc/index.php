@@ -36,7 +36,8 @@ function show_participant() {
 function show_totals() {
     $fn = "boinc_state.xml";
     if (!file_exists($fn) || filemtime($fn) < time()-86400) {
-        $x = file_get_contents("http://boincstats.com/en/xml/boincState");
+        $uid = time();
+        $x = file_get_contents("http://boincstats.com/en/xml/boincState?uid=$uid");
         if ($x) {
             $f = fopen($fn, "w");
             fwrite($f, $x);

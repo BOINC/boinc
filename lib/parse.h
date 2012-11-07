@@ -24,17 +24,20 @@
 #include <errno.h>
 
 #include "miofile.h"
+#include "error_numbers.h"
 #include "str_util.h"
 
 // see parse_test.cpp for example usage of XML_PARSER
 
-class XML_PARSER {
-    bool scan_nonws(int&);
+#define XML_PARSE_COMMENT   1
+#define XML_PARSE_EOF       2
+#define XML_PARSE_CDATA     3
+#define XML_PARSE_TAG       4
+#define XML_PARSE_DATA      5
+
+struct XML_PARSER {
     int scan_comment();
-    int scan_tag(char*, int, char* ab=0, int al=0);
     int scan_cdata(char*, int);
-    bool copy_until_tag(char*, int);
-public:
     char parsed_tag[4096];
     bool is_tag;
     MIOFILE* f;
@@ -42,14 +45,187 @@ public:
     void init(MIOFILE* mf) {
         f = mf;
     }
-    bool get(char*, int, bool&, char* ab=0, int al=0);
+    // read and copy text to buf; stop when find a <;
+    // ungetc() that so we read it again
+    // Return true iff reached EOF
+    //
+    inline bool copy_until_tag(char* buf, int len) {
+        int c;
+        while (1) {
+            c = f->_getc();
+            if (c == EOF) return true;
+            if (c == '<') {
+                f->_ungetc(c);
+                *buf = 0;
+                return false;
+            }
+            if (--len > 0) {
+                *buf++ = c;
+            }
+        }
+    }
+
+    inline bool get(
+        char* buf, int len, bool& _is_tag, char* attr_buf=0, int attr_len=0
+    ) {
+        switch (get_aux(buf, len, attr_buf, attr_len)) {
+        case XML_PARSE_EOF: return true;
+        case XML_PARSE_TAG:
+            _is_tag = true;
+            break;
+        case XML_PARSE_DATA:
+        case XML_PARSE_CDATA:
+        default:
+            _is_tag = false;
+            break;
+        }
+        return false;
+    }
+
     inline bool get_tag(char* ab=0, int al=0) {
         return get(parsed_tag, sizeof(parsed_tag), is_tag, ab, al);
     }
     inline bool match_tag(const char* tag) {
         return !strcmp(parsed_tag, tag);
     }
-    int get_aux(char* buf, int len, char* attr_buf, int attr_len);
+
+    // read until find non-whitespace char.
+    // Return the char in the reference param
+    // Return true iff reached EOF
+    //
+    inline bool scan_nonws(int& first_char) {
+        char c;
+        while (1) {
+            c = f->_getc();
+            if (c == EOF) return true;
+            unsigned char uc = c;
+            if (isspace(uc)) continue;
+            first_char = c;
+            return false;
+        }
+    }
+
+    // Scan something, either tag or text.
+    // Strip whitespace at start and end.
+    // Return true iff reached EOF
+    //
+    inline int get_aux(
+        char* buf, int len, char* attr_buf, int attr_len
+    ) {
+        bool eof;
+        int c, retval;
+
+        while (1) {
+            eof = scan_nonws(c);
+            if (eof) return XML_PARSE_EOF;
+            if (c == '<') {
+                retval = scan_tag(buf, len, attr_buf, attr_len);
+                if (retval == XML_PARSE_EOF) return retval;
+                if (retval == XML_PARSE_COMMENT) continue;
+            } else {
+                buf[0] = c;
+                eof = copy_until_tag(buf+1, len-1);
+                if (eof) return XML_PARSE_EOF;
+                retval = XML_PARSE_DATA;
+            }
+            strip_whitespace(buf);
+            return retval;
+        }
+    }
+
+    // we just read a <; read until we find a >.
+    // Given <tag [attr=val attr=val] [/]>:
+    // - copy tag (or tag/) to buf
+    // - copy "attr=val attr=val" to attr_buf
+    //
+    // Return either
+    // XML_PARSE_TAG
+    // XML_PARSE_COMMENT
+    // XML_PARSE_EOF
+    // XML_PARSE_CDATA
+    //
+    inline int scan_tag(
+        char* buf, int _tag_len, char* attr_buf=0, int attr_len=0
+    ) {
+        int c;
+        char* buf_start = buf;
+        bool found_space = false;
+        int tag_len = _tag_len;
+
+        for (int i=0; ; i++) {
+            c = f->_getc();
+            if (c == EOF) return XML_PARSE_EOF;
+            if (c == '>') {
+                *buf = 0;
+                if (attr_buf) *attr_buf = 0;
+                return XML_PARSE_TAG;
+            }
+            if (isspace(c)) {
+                if (found_space && attr_buf) {
+                    if (--attr_len > 0) {
+                        *attr_buf++ = c;
+                    }
+                }
+                found_space = true;
+            } else if (c == '/') {
+                if (--tag_len > 0) {
+                    *buf++ = c;
+                }
+            } else {
+                if (found_space) {
+                    if (attr_buf) {
+                        if (--attr_len > 0) {
+                            *attr_buf++ = c;
+                        }
+                    }
+                } else {
+                    if (--tag_len > 0) {
+                        *buf++ = c;
+                    }
+                }
+            }
+
+            // check for comment start
+            //
+            if (i==2 && !strncmp(buf_start, "!--", 3)) {
+                return scan_comment();
+            }
+            if (i==7 && !strncmp(buf_start, "![CDATA[", 8)) {
+                return scan_cdata(buf_start, tag_len);
+            }
+        }
+    }
+
+    // copy everything up to (but not including) the given end tag.
+    // The copied text may include XML tags.
+    // strips whitespace.
+    //
+    inline int element_contents(const char* end_tag, char* buf, int buflen) {
+        int n=0;
+        int retval=0;
+        while (1) {
+            if (n == buflen-1) {
+                retval = ERR_XML_PARSE;
+                break;
+            }
+            int c = f->_getc();
+            if (c == EOF) {
+                retval = ERR_XML_PARSE;
+                break;
+            }
+            buf[n++] = c;
+            buf[n] = 0;
+            char* p = strstr(buf, end_tag);
+            if (p) {
+                *p = 0;
+                break;
+            }
+        }
+        buf[n] = 0;
+        strip_whitespace(buf);
+        return retval;
+    }
+
     bool parse_start(const char*);
     bool parse_str(const char*, char*, int);
     bool parse_string(const char*, std::string&);
@@ -58,8 +234,6 @@ public:
     bool parse_ulong(const char*, unsigned long&);
     bool parse_ulonglong(const char*, unsigned long long&);
     bool parse_bool(const char*, bool&);
-	int element_contents(const char*, char*, int);
-	int element_contents(const char*, std::string&);
     int copy_element(std::string&);
     void skip_unexpected(const char*, bool verbose, const char*);
     void skip_unexpected(bool verbose=false, const char* msg="") {

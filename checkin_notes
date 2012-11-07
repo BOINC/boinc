@@ -6640,3 +6640,18 @@ Rom    5 Nov 2012
         
     samples\vboxwrapper\
         vboxwrapper.cpp
+
+David  7 Nov 2012
+    - remote job submission: show 20 batches, with link to show all
+    - XML parser: make low-level functions inline, in an attempt
+        (unsuccessful, as far as I can tell) to boost performance
+
+    html/user/
+        submit.php
+    lib/
+        cc_config.h
+        parse.cpp,h
+        proxy_info.h
+    sched/
+        sched_main.cpp
+
