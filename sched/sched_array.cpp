@@ -491,14 +491,20 @@ void send_work_old() {
     //
     if (g_wreq->has_reliable_version) {
         g_wreq->reliable_only = true;
-        if (config.debug_send) {
+        if (config.debug_array) {
             log_messages.printf(MSG_NORMAL,
-                "[send] scanning for jobs that need reliable host\n"
+                "[array] scanning for jobs that need reliable host\n"
             );
         }
         if (scan_work_array()) return;
         g_wreq->reliable_only = false;
         g_wreq->best_app_versions.clear();
+    } else {
+        if (config.debug_array) {
+            log_messages.printf(MSG_NORMAL,
+                "[array] host has no reliable app versions; skipping\n"
+            );
+        }
     }
 
     // give 2nd priority to results for a beta app
@@ -507,9 +513,9 @@ void send_work_old() {
     //
     if (g_wreq->allow_beta_work) {
         g_wreq->beta_only = true;
-        if (config.debug_send) {
+        if (config.debug_array) {
             log_messages.printf(MSG_NORMAL,
-                "[send] host will accept beta jobs.  Scanning for them.\n"
+                "[array] host will accept beta jobs.  Scanning for them.\n"
             );
         }
         if (scan_work_array()) return;
@@ -519,9 +525,9 @@ void send_work_old() {
     // give next priority to results that were infeasible for some other host
     //
     g_wreq->infeasible_only = true;
-    if (config.debug_send) {
+    if (config.debug_array) {
         log_messages.printf(MSG_NORMAL,
-            "[send] Scanning for jobs that were infeasible for another host.\n"
+            "[array] Scanning for jobs that were infeasible for another host.\n"
         );
     }
     if (scan_work_array()) return;
@@ -531,9 +537,9 @@ void send_work_old() {
     // make a pass accepting only jobs for which the client has a file
     //
     if (ssp->locality_sched_lite) {
-        if (config.debug_send) {
+        if (config.debug_array) {
             log_messages.printf(MSG_NORMAL,
-                "[send] Scanning for locality sched Lite jobs.\n"
+                "[array] Scanning for locality sched Lite jobs.\n"
             );
         }
         g_wreq->locality_sched_lite = true;
@@ -543,9 +549,9 @@ void send_work_old() {
 
     // end of high-priority cases.  Now do general scan.
     //
-    if (config.debug_send) {
+    if (config.debug_array) {
         log_messages.printf(MSG_NORMAL,
-            "[send] doing general job scan.\n"
+            "[array] Scanning: general case.\n"
         );
     }
     if (scan_work_array()) return;
@@ -556,9 +562,9 @@ void send_work_old() {
     if (!g_wreq->njobs_sent && g_wreq->allow_non_preferred_apps ) {
         g_wreq->user_apps_only = false;
         preferred_app_message_index = g_wreq->no_work_messages.size();
-        if (config.debug_send) {
+        if (config.debug_array) {
             log_messages.printf(MSG_NORMAL,
-                "[send] scanning for jobs from non-preferred applications\n"
+                "[array] scanning for jobs from non-preferred applications\n"
             );
         }
         scan_work_array();

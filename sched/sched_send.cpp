@@ -111,9 +111,11 @@ void add_job_files_to_host(WORKUNIT& wu) {
             if (retval) continue;
             if (!fi.sticky) continue;
             if (!file_present_on_host(fi.name)) {
-                log_messages.printf(MSG_NORMAL,
-                    "Adding file %s to host file list\n", fi.name
-                );
+                if (config.debug_send) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[send] Adding file %s to host file list\n", fi.name
+                    );
+                }
                 g_request->file_infos.push_back(fi);
             }
         }
@@ -1299,7 +1301,7 @@ int add_result_to_reply(
     double est_dur = estimate_duration(wu, *bavp);
     if (config.debug_send) {
         log_messages.printf(MSG_NORMAL,
-            "[HOST#%d] Sending [RESULT#%d %s] (est. dur. %.2f seconds)\n",
+            "[send] [HOST#%d] sending [RESULT#%d %s] (est. dur. %.2f seconds)\n",
             g_reply->host.id, result.id, result.name, est_dur
         );
     }
