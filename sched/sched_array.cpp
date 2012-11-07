@@ -121,9 +121,9 @@ static bool quick_check(
             && g_request->file_infos.size()
         ) {
             int n = nfiles_on_host(wu_result.workunit);
-            if (config.debug_array) {
+            if (config.debug_locality_lite) {
                 log_messages.printf(MSG_NORMAL,
-                    "[array] job %s: %d files on host\n",
+                    "[loc_lite] job %s has %d files on this host\n",
                     wu_result.workunit.name, n
                 );
             }

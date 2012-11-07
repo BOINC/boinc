@@ -304,6 +304,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool("debug_fcgi", debug_fcgi)) continue;
         if (xp.parse_bool("debug_handle_results", debug_handle_results)) continue;
         if (xp.parse_bool("debug_locality", debug_locality)) continue;
+        if (xp.parse_bool("debug_locality_lite", debug_locality_lite)) continue;
         if (xp.parse_bool("debug_prefs", debug_prefs)) continue;
         if (xp.parse_bool("debug_quota", debug_quota)) continue;
         if (xp.parse_bool("debug_request_details", debug_request_details)) continue;

@@ -6655,3 +6655,9 @@ David  7 Nov 2012
     sched/
         sched_main.cpp
 
+David  7 Nov 2012
+    - scheduler: add separate log flag for locality sched lite
+    sched/
+        sched_config.cpp,h
+        sched_array.cpp
+    - remote job submission: show 20 batches, with link to show all
