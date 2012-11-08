@@ -6699,3 +6699,9 @@ David  8 Nov 2012
     samples/example_app/
         Makefile
         slide_show.cpp (new)
+
+David  8 Nov 2012
+    - user web: fix bug when showing last page of thread
+
+    html/inc
+        forum.inc

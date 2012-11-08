@@ -344,7 +344,10 @@ function show_posts(
     }
 
     if ($sort_style == CREATE_TIME_OLD) {
+        // show the last page
+        //
         $nposts = sizeof($posts);
+        if ($nposts) $nposts -= 1;
         $page = (int)($nposts/$num_to_show);
         $default_start = $page*$num_to_show;
     } else {
