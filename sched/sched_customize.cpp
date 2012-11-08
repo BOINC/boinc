@@ -70,31 +70,32 @@ GPU_REQUIREMENTS gpu_requirements[NPROC_TYPES];
 
 bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
 #if 0
-    // example: if WU name contains "_v1", don't use CUDA app
+    // example: if WU name contains "_v1", don't use GPU apps.
     // Note: this is slightly suboptimal.
     // If the host is able to accept both GPU and CPU jobs,
     // we'll skip this job rather than send it for the CPU.
     // Fixing this would require a big architectural change.
     //
-    if (strstr(wu.name, "_v1") && bav.host_usage.ncudas) {
+    if (strstr(wu.name, "_v1") && bav.host_usage.proc_type != PROC_TYPE_CPU) {
         return true;
     }
 #endif
 #if 0
-    // example: for CUDA app, wu.batch is the minimum number of processors.
+    // example: for NVIDIA GPU app,
+    // wu.batch is the minimum number of GPU processors.
     // Don't send if #procs is less than this.
     //
-    if (!strcmp(app.name, "foobar") && bav.host_usage.ncudas) {
-        int n = g_request->coproc_cuda->prop.multiProcessorCount;
+    if (!strcmp(app.name, "foobar") && bav.host_usage.proc_type == PROC_TYPE_NVIDIA_GPU) {
+        int n = g_request->coprocs.nvidia.prop.multiProcessorCount;
         if (n < wu.batch) {
            return true;
         }
     }
 #endif
 #if 0
-    // example: if CUDA app and WU name contains ".vlar", don't send
+    // example: if GPU app and WU name contains ".vlar", don't send
     //
-    if (bav.host_usage.ncudas) {
+    if (bav.host_usage.proc_type != PROC_TYPE_CPU) {
         if (strstr(wu.name, ".vlar")) {
             return true;
         }

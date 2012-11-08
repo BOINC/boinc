@@ -6712,3 +6712,8 @@ David  8 Nov 2012
 
     sched/
         sched_resend.cpp
+
+David  8 Nov 2012
+    - scheduler: compile fix for wu_is_infeasible_custom()
+    sched/
+        sched_customize.cpp
