@@ -202,15 +202,6 @@ bool resend_lost_work() {
             }
             can_resend = false;
         }
-        if (can_resend && wu_is_infeasible_custom(wu, *app, *bavp)) {
-            if (config.debug_resend) {
-                log_messages.printf(MSG_NORMAL,
-                    "[resend] skipping [RESULT#%d]: custom feasibility check failed\n",
-                    result.id
-                );
-            }
-            can_resend = false;
-        }
 
         // If we can't resend this job for any of the above reasons,
         // make it time out so that the transitioner does the right thing.

@@ -6705,3 +6705,10 @@ David  8 Nov 2012
 
     html/inc
         forum.inc
+
+David  8 Nov 2012
+    - scheduler: remove redundant call to wu_is_infeasible_custom()
+        introduced in yesterday's commit
+
+    sched/
+        sched_resend.cpp
