@@ -6692,3 +6692,10 @@ David  7 Nov 2012
 
 David  8 Nov 2012
     - remove execute permissions from various files that shouldn't have them
+
+David  8 Nov 2012
+    - add slide-show screensaver (from David Coss)
+
+    samples/example_app/
+        Makefile
+        slide_show.cpp (new)

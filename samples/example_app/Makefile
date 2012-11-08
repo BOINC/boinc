@@ -3,6 +3,7 @@
 BOINC_DIR = ../..
 BOINC_API_DIR = $(BOINC_DIR)/api
 BOINC_LIB_DIR = $(BOINC_DIR)/lib
+BOINC_ZIP_DIR = $(BOINC_DIR)/zip
 FREETYPE_DIR = /usr/include/freetype2
 
 CXXFLAGS = -g \
@@ -11,6 +12,7 @@ CXXFLAGS = -g \
     -I$(BOINC_DIR) \
     -I$(BOINC_LIB_DIR) \
     -I$(BOINC_API_DIR) \
+    -I$(BOINC_ZIP_DIR) \
     -I$(FREETYPE_DIR) \
     -L /usr/X11R6/lib \
     -L.
@@ -71,3 +73,12 @@ uc2_graphics: uc2_graphics.o ttfont.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(
 	$(BOINC_LIB_DIR)/libboinc.a \
     $(LIBGLUT) $(LIBGLU) $(LIBJPEG) \
     -lftgl -lGL -lX11 -lXmu -lm
+
+slide_show: slide_show.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_graphics2.a
+	$(CXX) $(CXXFLAGS) -o slide_show slide_show.o libstdc++.a -pthread \
+	$(BOINC_API_DIR)/libboinc_graphics2.a \
+	$(BOINC_API_DIR)/libboinc_api.a \
+	$(BOINC_LIB_DIR)/libboinc.a \
+	$(BOINC_ZIP_DIR)/libboinc_zip.a \
+    $(LIBGLUT) $(LIBGLU) $(LIBJPEG) \
+    -lGL -lX11 -lXmu -lm
