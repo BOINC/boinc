@@ -4736,3 +4736,11 @@ Rom    2 Nov 2012
     /
         configure.ac
         version.h
+
+Rom    8 Nov 2012
+    - Tag for 7.0.39 release, all platforms
+      client_release_7.0.39
+
+    /
+        configure.ac
+        version.h
