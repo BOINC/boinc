@@ -57,8 +57,10 @@ static bool quick_check(
     //
     if (g_wreq->beta_only) {
         if (!app->beta) {
-            if (config.debug_array) {
-                log_messages.printf(MSG_NORMAL, "[array] not beta\n");
+            if (config.debug_array_detail) {
+                log_messages.printf(MSG_NORMAL,
+                    "[array_detail] job is not from beta app; skipping\n"
+                );
             }
             return false;
         }
@@ -70,8 +72,10 @@ static bool quick_check(
         }
     } else {
         if (app->beta) {
-            if (config.debug_array) {
-                log_messages.printf(MSG_NORMAL, "[array] is beta\n");
+            if (config.debug_array_detail) {
+                log_messages.printf(MSG_NORMAL,
+                    "[array_detail] job is from beta app; skipping\n"
+                );
             }
             return false;
         }
@@ -83,13 +87,17 @@ static bool quick_check(
     //
     if (!app->beta) {
         if (g_wreq->reliable_only && (!wu_result.need_reliable)) {
-            if (config.debug_array) {
-                log_messages.printf(MSG_NORMAL, "[array] don't need reliable\n");
+            if (config.debug_array_detail) {
+                log_messages.printf(MSG_NORMAL,
+                    "[array_detail] job doesn't need reliable host; skipping\n"
+                );
             }
             return false;
         } else if (!g_wreq->reliable_only && wu_result.need_reliable) {
-            if (config.debug_array) {
-                log_messages.printf(MSG_NORMAL, "[array] need reliable\n");
+            if (config.debug_array_detail) {
+                log_messages.printf(MSG_NORMAL,
+                    "[array_detail] job needs reliable host; skipping\n"
+                );
             }
             return false;
         }
@@ -99,8 +107,10 @@ static bool quick_check(
     // and the result is not infeasible
     //
     if (g_wreq->infeasible_only && (wu_result.infeasible_count==0)) {
-        if (config.debug_array) {
-            log_messages.printf(MSG_NORMAL, "[array] not infeasible\n");
+        if (config.debug_array_detail) {
+            log_messages.printf(MSG_NORMAL,
+                "[array_detail] job is not infeasible; skipping\n"
+            );
         }
         return false;
     }
@@ -137,9 +147,9 @@ static bool quick_check(
     //
     bavp = get_app_version(wu, true, g_wreq->reliable_only);
     if (!bavp) {
-        if (config.debug_array) {
+        if (config.debug_array_detail) {
             log_messages.printf(MSG_NORMAL,
-                "[array] No app version\n"
+                "[array_detail] No app version for job; skipping\n"
             );
         }
         return false;
@@ -154,14 +164,12 @@ static bool quick_check(
     ) {
         if (app_not_selected(wu)) {
             g_wreq->no_allowed_apps_available = true;
-#if 1
-            if (config.debug_array) {
+            if (config.debug_array_detail) {
                 log_messages.printf(MSG_NORMAL,
-                    "[array] [USER#%d] [WU#%d] user doesn't want work for app %s\n",
+                    "[array_detail] [USER#%d] [WU#%d] user doesn't want work for app %s\n",
                     g_reply->user.id, wu.id, app->name
                 );
             }
-#endif
             return false;
         }
     }
@@ -183,8 +191,10 @@ static bool quick_check(
             );
         }
         last_retval = retval;
-        if (config.debug_array) {
-            log_messages.printf(MSG_NORMAL, "[array] infeasible\n");
+        if (config.debug_array_detail) {
+            log_messages.printf(MSG_NORMAL,
+                "[array_detail] is_infeasible_fast() failed; skipping\n"
+            );
         }
         return false;
     }
@@ -376,13 +386,11 @@ static bool scan_work_array() {
 
         WU_RESULT& wu_result = ssp->wu_results[i];
 
-#if 0
-        if (config.debug_array) {
+        if (config.debug_array_detail) {
             log_messages.printf(MSG_NORMAL,
-                "[array] scanning slot %d\n", i
+                "[array_detail] scanning slot %d\n", i
             );
         }
-#endif
 
         if (wu_result.state != WR_STATE_PRESENT && wu_result.state != g_pid) {
             continue;
@@ -408,9 +416,9 @@ static bool scan_work_array() {
         // This may modify wu.rsc_fpops_est
         //
         if (!quick_check(wu_result, wu, bavp, app, last_retval)) {
-            if (config.debug_array) {
+            if (config.debug_array_detail) {
                 log_messages.printf(MSG_NORMAL,
-                    "[array] slot %d failed quick check\n", i
+                    "[array_detail] slot %d failed quick check\n", i
                 );
             }
             continue;
@@ -502,7 +510,7 @@ void send_work_old() {
     } else {
         if (config.debug_array) {
             log_messages.printf(MSG_NORMAL,
-                "[array] host has no reliable app versions; skipping\n"
+                "[array] host has no reliable app versions; skipping scan\n"
             );
         }
     }

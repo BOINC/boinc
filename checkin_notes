@@ -6674,3 +6674,18 @@ David  7 Nov 2012
     - a bunch of skin files had execute permissions (??).  Clear them.
 
     clientgui/skins/Charity Engine/graphic/*
+
+David  7 Nov 2012
+    - scheduler: when resend jobs:
+        - don't use devices for which work is not being requested
+        - obey wu_is_infeasible_custom()
+            (e.g. don't send SETI@home VLAR jobs to GPUs)
+    - scheduler: add <debug_array_detail> log flag for slot-level messages
+    - admin web: show and allow control of app.beta
+
+    html/ops/
+        manage_apps.php
+    sched/
+        sched_array.cpp
+        sched_config.cpp,h
+        sched_resend.cpp

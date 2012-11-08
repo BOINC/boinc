@@ -180,6 +180,7 @@ struct SCHED_CONFIG {
     // scheduler log flags
     //
     bool debug_array;               // debug job-cache scheduling
+    bool debug_array_detail;        // show slot-level info
     bool debug_assignment;
     bool debug_credit;
     bool debug_edf_sim_detail;      // show details of EDF sim

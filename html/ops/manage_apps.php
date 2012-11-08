@@ -78,6 +78,13 @@ function do_updates() {
         if ($new_v != $old_v ) {
             $app->update("non_cpu_intensive=$new_v");
         }
+
+        $field = "beta_".$id;
+        $new_v = (post_str($field, true)=='on') ? 1 : 0;
+        $old_v = $app->beta;
+        if ($new_v != $old_v ) {
+            $app->update("beta=$new_v");
+        }
     }
 
     // Adding a new application
@@ -127,7 +134,8 @@ function show_form($updated) {
         "homogeneous redundancy type<br><a href=http://boinc.berkeley.edu/trac/wiki/HomogeneousRedundancy><span class=note>details</span></a>",
         "homogeneous app version?<br><a href=http://boinc.berkeley.edu/trac/wiki/HomogeneousAppVersion><span class=note>details</span></a>",
         "deprecated?",
-        "Non-CPU-intensive?"
+        "Non-CPU-intensive?",
+        "Beta?"
     );
 
     $total_weight = mysql_query('SELECT SUM(weight) AS total_weight FROM app WHERE deprecated=0');
@@ -185,6 +193,13 @@ function show_form($updated) {
         $field = "non_cpu_intensive_".$id;
         $v = '';
         if ($item->non_cpu_intensive) $v = ' CHECKED ';
+        echo "  <TD align='center'>
+            <input name='$field' type='checkbox' $v></TD>
+        ";
+
+        $field = "beta_".$id;
+        $v = '';
+        if ($item->beta) $v = ' CHECKED ';
         echo "  <TD align='center'>
             <input name='$field' type='checkbox' $v></TD>
         ";

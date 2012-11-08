@@ -297,6 +297,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         //////////// SCHEDULER LOG FLAGS /////////
 
         if (xp.parse_bool("debug_array", debug_array)) continue;
+        if (xp.parse_bool("debug_array_detail", debug_array_detail)) continue;
         if (xp.parse_bool("debug_assignment", debug_assignment)) continue;
         if (xp.parse_bool("debug_credit", debug_credit)) continue;
         if (xp.parse_bool("debug_edf_sim_detail", debug_edf_sim_detail)) continue;
