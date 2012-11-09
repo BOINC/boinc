@@ -6724,3 +6724,18 @@ Charlie 9 Nov 2012
     zip/
         boinc_zip.xcodeproj/
             project.pbxproj
+
+Charlie 9 Nov 2012
+    - Mac: add slide-show screensaver to example_app Xcode project
+        and Mac example_app build scripts.
+    - example app: fix compiler warnings in slide_show.cpp.
+    
+    samples/
+        example_app/
+            MakeMacExample.sh
+            Makefile_mac
+            Makefile_mac2
+            slide_show.cpp
+        mac_build/
+            UpperCase2.xcodeproj/
+                project.pbxproj

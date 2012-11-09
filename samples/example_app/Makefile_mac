@@ -3,6 +3,7 @@
 # It should not be used by itself without the script.
 # Updated 7/10/12 for OS 10.7 and XCode 4.3 and later
 # Updated 8/3/12 for TrueType fonts
+# Updated 11/8/12 to add slide_show
 #
 ## First, build the BOINC libraries using boinc/mac_build/BuildMacBOINC.sh
 ## This file assumes the locations of the needed libraries are those 
@@ -13,6 +14,7 @@
 BOINC_DIR = ../..
 BOINC_API_DIR = $(BOINC_DIR)/api
 BOINC_LIB_DIR = $(BOINC_DIR)/lib
+BOINC_ZIP_DIR = $(BOINC_DIR)/zip
 BOINC_BUILD_DIR = $(BOINC_DIR)/mac_build/build/Deployment
 BOINC_CONFIG_DIR = $(BOINC_DIR)/clientgui/mac
 FREETYPE_DIR = $(BOINC_DIR)/../freetype-2.4.10
@@ -26,6 +28,7 @@ CXXFLAGS = $(VARIANTFLAGS) \
     -I$(BOINC_DIR) \
     -I$(BOINC_LIB_DIR) \
     -I$(BOINC_API_DIR) \
+    -I$(BOINC_ZIP_DIR) \
     -I$(FREETYPE_DIR)/include \
     -I$(FTGL_DIR)/src \
     -L$(BOINC_BUILD_DIR) \
@@ -36,9 +39,10 @@ CXXFLAGS = $(VARIANTFLAGS) \
 OBJ = \
     uc2.o \
     ttfont.o \
-    uc2_graphics.o
+    uc2_graphics.o \
+    slide_show.o
 
-PROGS = uc2 uc2_graphics
+PROGS = uc2 uc2_graphics slide_show
 
 all: $(PROGS)
 
@@ -54,13 +58,21 @@ ttfont.o: $(BOINC_API_DIR)/ttfont.cpp
 uc2_graphics.o: uc2_graphics.cpp
 	$(CXX) $(CXXFLAGS) -c uc2_graphics.cpp
 
+slide_show.o: slide_show.cpp
+	$(CXX) $(CXXFLAGS) -c slide_show.cpp
+
 uc2: uc2.o $(BOINC_BUILD_DIR)/libboinc_api.a $(BOINC_BUILD_DIR)/libboinc.a
 	$(CXX) $(LDFLAGS) $(CXXFLAGS) -o uc2 uc2.o -lboinc_api -lboinc
 
 uc2_graphics: uc2_graphics.o ttfont.o $(BOINC_BUILD_DIR)/libboinc.a\
-    $(BOINC_BUILD_DIR)/libboinc_graphics2.a\
-    $(FREETYPE_DIR/objs/.libs/libfreetype.a $(FTGL_DIR)/src/.libs/libftgl.a
+    $(BOINC_BUILD_DIR)/libboinc_graphics2.a
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o uc2_graphics uc2_graphics.o ttfont.o\
     -lboinc_graphics2 -lboinc_api -lboinc -ljpeg -lfreetype -lftgl -lz -lbz2\
+    -framework AppKit -framework GLUT -framework OpenGL
+
+slide_show: slide_show.o $(BOINC_BUILD_DIR)/libboinc.a\
+    $(BOINC_BUILD_DIR)/libboinc_graphics2.a
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o slide_show slide_show.o\
+    -lboinc_graphics2 -lboinc_api -lboinc -ljpeg -lboinc_zip\
     -framework AppKit -framework GLUT -framework OpenGL
     

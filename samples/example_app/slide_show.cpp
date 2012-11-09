@@ -105,6 +105,7 @@ int populate_image_list() {
     dir_close(dir);
 
     curr_image_idx = 0;
+    return 0;
 }
 
 void load_next_image() {
