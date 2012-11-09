@@ -179,6 +179,7 @@
 				D2AAC043055464E500DB518D /* Headers */,
 				D2AAC044055464E500DB518D /* Sources */,
 				D289987405E68DCB004EDB86 /* Frameworks */,
+				DD84B684164CF66A008E1369 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -196,7 +197,11 @@
 			isa = PBXProject;
 			buildConfigurationList = 1DEB91EF08733DB70010E9CD /* Build configuration list for PBXProject "boinc_zip" */;
 			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+			);
 			mainGroup = 08FB7794FE84155DC02AAC07 /* boinc_zip */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -205,6 +210,22 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		DD84B684164CF66A008E1369 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"CONFIGURATION = ${CONFIGURATION}\"\n# echo \"PRODUCT_NAME = ${PRODUCT_NAME}\"\nmkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" -nt \"${SRCROOT}/../mac_build/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" \"${SRCROOT}/../mac_build/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n        strip -S \"${SRCROOT}/../mac_build/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    fi\nfi";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D2AAC044055464E500DB518D /* Sources */ = {
@@ -246,15 +267,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		1DEB91EC08733DB70010E9CD /* Debug */ = {
+		1DEB91EC08733DB70010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					i386,
-					ppc,
-					x86_64,
-				);
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -281,21 +297,13 @@
 					"-I./",
 				);
 				PRODUCT_NAME = boinc_zip;
-				SDKROOT = macosx10.4;
-				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
-				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 			};
-			name = Debug;
+			name = Development;
 		};
-		1DEB91ED08733DB70010E9CD /* Release */ = {
+		1DEB91ED08733DB70010E9CD /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					i386,
-					ppc,
-					x86_64,
-				);
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
@@ -320,37 +328,36 @@
 					"-I./",
 				);
 				PRODUCT_NAME = boinc_zip;
-				SDKROOT = macosx10.4;
-				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
-				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 			};
-			name = Release;
+			name = Deployment;
 		};
-		1DEB91F008733DB70010E9CD /* Debug */ = {
+		1DEB91F008733DB70010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx;
 			};
-			name = Debug;
+			name = Development;
 		};
-		1DEB91F108733DB70010E9CD /* Release */ = {
+		1DEB91F108733DB70010E9CD /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx;
 			};
-			name = Release;
+			name = Deployment;
 		};
 /* End XCBuildConfiguration section */
 
@@ -358,20 +365,20 @@
 		1DEB91EB08733DB70010E9CD /* Build configuration list for PBXNativeTarget "boinc_zip" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				1DEB91EC08733DB70010E9CD /* Debug */,
-				1DEB91ED08733DB70010E9CD /* Release */,
+				1DEB91EC08733DB70010E9CD /* Development */,
+				1DEB91ED08733DB70010E9CD /* Deployment */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Deployment;
 		};
 		1DEB91EF08733DB70010E9CD /* Build configuration list for PBXProject "boinc_zip" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				1DEB91F008733DB70010E9CD /* Debug */,
-				1DEB91F108733DB70010E9CD /* Release */,
+				1DEB91F008733DB70010E9CD /* Development */,
+				1DEB91F108733DB70010E9CD /* Deployment */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Deployment;
 		};
 /* End XCConfigurationList section */
 	};

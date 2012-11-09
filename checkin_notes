@@ -6717,3 +6717,10 @@ David  8 Nov 2012
     - scheduler: compile fix for wu_is_infeasible_custom()
     sched/
         sched_customize.cpp
+
+Charlie 9 Nov 2012
+    - Mac: update Xcode project for building boinc_zip.
+    
+    zip/
+        boinc_zip.xcodeproj/
+            project.pbxproj
