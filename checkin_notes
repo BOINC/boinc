@@ -6739,3 +6739,8 @@ Charlie 9 Nov 2012
         mac_build/
             UpperCase2.xcodeproj/
                 project.pbxproj
+
+David  10 Nov 2012
+    - fix typo in mass email script
+    html/ops/
+        mass_email.php
