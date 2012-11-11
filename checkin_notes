@@ -6744,3 +6744,12 @@ David  10 Nov 2012
     - fix typo in mass email script
     html/ops/
         mass_email.php
+
+David  11 Nov 2012
+    - remove job submission: fix SQL typo and error messages.
+        From Niclas Lockner.
+
+    html/user/
+        submit_rpc_handler.php
+    tools/
+        manage_privileges
