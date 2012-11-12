@@ -6744,3 +6744,14 @@ David  10 Nov 2012
     - fix typo in mass email script
     html/ops/
         mass_email.php
+
+David  12 Nov 2012
+	- client: Win build fix
+	- add Visual Studio project for slide_show
+		NOTE: this currently doesn't build because boinc_zip is missing.
+		I'll fix this soon.
+	win_build/
+		slide_show.vcproj
+		boinc.sln
+	client/
+		client_types.h

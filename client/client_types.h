@@ -31,13 +31,14 @@
 #include <sys/param.h>
 #endif
 
-#include "md5_file.h"
-#include "cert_sig.h"
-#include "hostinfo.h"
-#include "coproc.h"
-#include "miofile.h"
-#include "common_defs.h"
 #include "cc_config.h"
+#include "common_defs.h"
+#include "coproc.h"
+#include "cert_sig.h"
+#include "filesys.h"
+#include "hostinfo.h"
+#include "md5_file.h"
+#include "miofile.h"
 
 #include "cs_notice.h"
 #include "cs_trickle.h"
