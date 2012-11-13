@@ -6773,3 +6773,10 @@ David  13 Nov 2012
     client/
         cs_scheduler.cpp
         work_fetch.cpp
+
+David  13 Nov 2012
+    - build fixes for OpenBSD, from rustyBSD
+
+    configure.ac
+    client/
+        hostinfo_unix.cpp

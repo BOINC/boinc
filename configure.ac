@@ -602,7 +602,32 @@ AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
 AC_HEADER_TIME
 AC_TYPE_SIGNAL
-AC_CHECK_HEADERS(windows.h sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h malloc.h alloca.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h net/if.h net/if_arp.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/mount.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/sem.h sys/shm.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/swap.h sys/sysctl.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h resolv.h)
+AC_CHECK_HEADERS(windows.h sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h malloc.h alloca.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/sem.h sys/shm.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h)
+
+AC_CHECK_HEADER(net/if.h, [], [], [[
+#if HAVE_SYS_SOCKET_H
+# include <sys/socket.h>
+#endif
+]])
+
+AC_CHECK_HEADER(net/if_arp.h, [], [], [[
+#if HAVE_SYS_SOCKET_H
+# include <sys/socket.h>
+#endif
+]])
+
+AC_CHECK_HEADERS(sys/sysctl.h sys/mount.h sys/swap.h, [], [], [[
+#ifdef HAVE_SYS_PARAM_H
+# include <sys/param.h>
+#endif
+]])
+
+AC_CHECK_HEADER(resolv.h, [], [], [[
+#ifdef HAVE_NETINET_IN_H
+# include <netinet/in.h>
+#endif
+]])
+
 AC_CHECK_HEADERS(netinet/if_ether.h,[],[],[[
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
