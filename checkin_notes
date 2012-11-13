@@ -6764,3 +6764,12 @@ David  12 Nov 2012
 		boinc.sln
 	client/
 		client_types.h
+
+David  13 Nov 2012
+    - client: fix bug where, when updating a project, we fail to request work
+        even though higher-priority projects are marked as no-new-tasks
+        or are otherwise ineligible for work fetch.
+
+    client/
+        cs_scheduler.cpp
+        work_fetch.cpp
