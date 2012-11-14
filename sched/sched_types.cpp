@@ -1226,6 +1226,10 @@ int HOST::parse_time_stats(XML_PARSER& xp) {
         if (xp.parse_double("on_frac", on_frac)) continue;
         if (xp.parse_double("connected_frac", connected_frac)) continue;
         if (xp.parse_double("active_frac", active_frac)) continue;
+        if (xp.parse_double("gpu_active_frac", gpu_active_frac)) continue;
+        if (xp.parse_double("cpu_and_network_available_frac", cpu_and_network_available_frac)) continue;
+        if (xp.parse_double("client_start_time", client_start_time)) continue;
+        if (xp.parse_double("previous_uptime", previous_uptime)) continue;
 #if 0
         if (xp.match_tag("outages")) continue;
         if (xp.match_tag("outage")) continue;

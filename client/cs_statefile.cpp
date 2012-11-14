@@ -500,9 +500,6 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
         if (xp.parse_string("newer_version", newer_version)) {
             continue;
         }
-        if (xp.parse_double("previous_uptime", time_stats.previous_uptime)) {
-            continue;
-        }
 #ifdef ENABLE_AUTO_UPDATE
         if (xp.match_tag("auto_update")) {
             if (!project) {
@@ -757,8 +754,7 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         "<user_network_request>%d</user_network_request>\n"
         "%s"
         "<new_version_check_time>%f</new_version_check_time>\n"
-        "<all_projects_list_check_time>%f</all_projects_list_check_time>\n"
-        "<previous_uptime>%f</previous_uptime>\n",
+        "<all_projects_list_check_time>%f</all_projects_list_check_time>\n",
         get_primary_platform(),
         core_client_version.major,
         core_client_version.minor,
@@ -770,8 +766,7 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         network_run_mode.get_perm(),
         cpu_benchmarks_pending?"<cpu_benchmarks_pending/>\n":"",
         new_version_check_time,
-        all_projects_list_check_time,
-        now - time_stats.client_start_time
+        all_projects_list_check_time
     );
     if (newer_version.size()) {
         f.printf("<newer_version>%s</newer_version>\n", newer_version.c_str());

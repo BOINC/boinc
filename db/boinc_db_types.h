@@ -333,6 +333,12 @@ struct HOST {
     char p_features[1024];
     char virtualbox_version[256];
     bool p_vm_extensions_disabled;
+    // stuff from time_stats
+    double gpu_active_frac;
+    double cpu_and_network_available_frac;
+    double client_start_time;
+    double previous_uptime;
+
 
     int parse(XML_PARSER&);
     int parse_time_stats(XML_PARSER&);

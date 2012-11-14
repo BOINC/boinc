@@ -521,6 +521,10 @@ static int modify_host_struct(HOST& host) {
     host.on_frac = g_request->host.on_frac;
     host.connected_frac = g_request->host.connected_frac;
     host.active_frac = g_request->host.active_frac;
+    host.gpu_active_frac = g_request->host.gpu_active_frac;
+    host.cpu_and_network_available_frac = g_request->host.cpu_and_network_available_frac;
+    host.client_start_time = g_request->host.client_start_time;
+    host.previous_uptime = g_request->host.previous_uptime;
     host.duration_correction_factor = g_request->host.duration_correction_factor;
     host.p_ncpus = g_request->host.p_ncpus;
     strncpy(host.p_vendor, g_request->host.p_vendor, sizeof(host.p_vendor));

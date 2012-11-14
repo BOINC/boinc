@@ -32,11 +32,13 @@ require_once('../inc/util_ops.inc');
 
 db_init();
 
-$commands = "";
+$warnings = "";
 
 // process form input for changes
 //
 function do_updates() {
+    global $warnings;
+
     $apps = BoincApp::enum("");
 
     foreach ($apps as $app) {
@@ -93,7 +95,7 @@ function do_updates() {
         $name = mysql_real_escape_string($_POST['add_name']);
         $user_friendly_name = mysql_real_escape_string($_POST['add_user_friendly_name']);
         if (empty($name) || empty($user_friendly_name) ) {
-            $commands .= "<p><font color='red'>
+            $warnings .= "<p><font color='red'>
                 To add a new application please supply both a brief name and a
                 longer 'user-friendly' name.</font></p>
             ";
@@ -101,7 +103,7 @@ function do_updates() {
             $now = time();
             $cmd =  "INSERT INTO app (name,user_friendly_name,create_time) ".
                 "VALUES ('$name', '$user_friendly_name',$now)";
-            $commands .= "<P><pre>$cmd</pre>\n";
+            $warnings .= "<P><pre>$cmd</pre>\n";
             mysql_query($cmd);
         }
     }
@@ -109,8 +111,10 @@ function do_updates() {
 
 
 function show_form($updated) {
+    global $warnings;
     admin_page_head("Manage Applications");
 
+    echo $warnings;
     if ($updated) {
         echo "Updates were done.
             <p>

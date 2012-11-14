@@ -6786,3 +6786,19 @@ David  13 Nov 2012
 
     locale/templates/
         BOINC-Project-Generic.pot
+
+David  14 Nov 2012
+    - client: TIME_STATS fields go in <time_stats> part of state file
+    - scheduler: parse TIME_STATS fields (e.g., uptime)
+    - admin web: small fix for manage_apps.php
+
+    client/
+        cs_statefile.cpp
+        time_stats.cpp
+    db/
+        boinc_db_types.h
+    html/ops/
+        manage_apps.php
+    sched/
+        handle_request.cpp
+        sched_types.cpp
