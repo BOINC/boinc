@@ -6780,3 +6780,9 @@ David  13 Nov 2012
     configure.ac
     client/
         hostinfo_unix.cpp
+
+David  13 Nov 2012
+    - web: update .pot file for project web site translations
+
+    locale/templates/
+        BOINC-Project-Generic.pot

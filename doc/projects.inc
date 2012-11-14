@@ -317,7 +317,7 @@ $math = array(
     array(
         array(
             "OProject@Home",
-            "http://oproject.goldbach.pl/",
+            "http://oproject.info/",
             tra("Private"),
             tra("Mathematics, Physics, Artificial Intelligence"),
             tra("Simulation of quantum computing; Goldbach's conjecture."),
