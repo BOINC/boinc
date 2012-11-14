@@ -6802,3 +6802,21 @@ David  14 Nov 2012
     sched/
         handle_request.cpp
         sched_types.cpp
+
+Rom    14 Nov 2012
+    - WIN: Introduce updated project files for the boinc_zip library used
+        by the slide_show project.
+    - WIN: Adjust the slide_show project so that it will build both 32-bit
+        and 64-bit versions and use the boinc_zip library.
+        
+    win_build\
+        boinc.sln
+        slide_show.vcproj
+        libboincopencl_staticcrt.vcproj
+        libboinczip_staticcrt.vcproj (Added)
+    zip\
+        boinc_zip.dsp (Deleted)
+        ziptest.dsp (Deleted)
+        ziptest.vcproj (Deleted)
+        boinc_zip.cpp
+        boinc_zip.vcproj (Deleted)

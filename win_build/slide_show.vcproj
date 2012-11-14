@@ -52,7 +52,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;../../boinc_depends_win_vs2005/freetype/include;../../boinc_depends_win_vs2005/ftgl/include"
+				AdditionalIncludeDirectories=".;..;../api;../lib;../zip;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;../../boinc_depends_win_vs2005/freetype/include;../../boinc_depends_win_vs2005/ftgl/include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_CONSOLE;FTGL_LIBRARY_STATIC"
 				StringPooling="false"
 				RuntimeLibrary="0"
@@ -81,7 +81,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib odbc32.lib odbccp32.lib psapi.lib libcmt.lib libcpmt.lib freetype2410.lib ftgl_static.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib odbc32.lib odbccp32.lib psapi.lib libcmt.lib libcpmt.lib oldnames.lib freetype2410.lib ftgl_static.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
@@ -154,7 +154,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;../../boinc_depends_win_vs2005/freetype/include;../../boinc_depends_win_vs2005/ftgl/include"
+				AdditionalIncludeDirectories=".;..;../api;../lib;../zip;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;../../boinc_depends_win_vs2005/freetype/include;../../boinc_depends_win_vs2005/ftgl/include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_CONSOLE;FTGL_LIBRARY_STATIC"
 				StringPooling="false"
 				ExceptionHandling="1"
@@ -184,7 +184,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib odbc32.lib odbccp32.lib psapi.lib libcmt.lib libcpmt.lib freetype2410.lib ftgl_static.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib odbc32.lib odbccp32.lib psapi.lib libcmt.lib libcpmt.lib oldnames.lib freetype2410.lib ftgl_static.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
@@ -255,7 +255,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;../../boinc_depends_win_vs2005/freetype/include;../../boinc_depends_win_vs2005/ftgl/include"
+				AdditionalIncludeDirectories=".;..;../api;../lib;../zip;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;../../boinc_depends_win_vs2005/freetype/include;../../boinc_depends_win_vs2005/ftgl/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_CONSOLE;FTGL_LIBRARY_STATIC"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -283,11 +283,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib opengl32.lib psapi.lib glu32.lib ole32.lib delayimp.lib freetype2410_D.lib ftgl_static_D.lib"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib opengl32.lib psapi.lib glu32.lib ole32.lib oldnames.lib delayimp.lib freetype2410_D.lib ftgl_static_D.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="&quot;../../boinc_depends_win_vs2005/freetype/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../../boinc_depends_win_vs2005/ftgl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;"
 				IgnoreAllDefaultLibraries="true"
 				DelayLoadDLLs="GDI32.DLL;OPENGL32.DLL;GLU32.DLL"
 				GenerateDebugInformation="true"
@@ -354,7 +354,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;../../boinc_depends_win_vs2005/freetype/include;../../boinc_depends_win_vs2005/ftgl/include"
+				AdditionalIncludeDirectories=".;..;../api;../lib;../zip;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;../../boinc_depends_win_vs2005/freetype/include;../../boinc_depends_win_vs2005/ftgl/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_CONSOLE;FTGL_LIBRARY_STATIC"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -382,7 +382,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib opengl32.lib glu32.lib ole32.lib psapi.lib delayimp.lib freetype2410_D.lib ftgl_static_D.lib"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib opengl32.lib glu32.lib ole32.lib oldnames.lib psapi.lib delayimp.lib freetype2410_D.lib ftgl_static_D.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"

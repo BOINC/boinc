@@ -2,6 +2,21 @@
 
 #pragma warning( disable : 4786 )  // Disable warning messages for vector
 
+#if   defined(_WIN32) && !defined(__STDWX_H__)
+#include "boinc_win.h"
+#elif defined(_WIN32) && defined(__STDWX_H__)
+#include "stdwx.h"
+#else
+#ifndef __APPLE_CC__
+#include "config.h"
+#endif
+#include <algorithm>
+#include <string>
+#include <string.h>
+using std::string;
+
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #else
@@ -10,27 +25,13 @@ extern {
 int unzip_main(int argc, char** argv);
 int zip_main(int argc, char** argv);
 #include "./unzip/unzip.h"
-}
-
 #include "./zip/zip.h"
-
-#ifdef _WIN32
-#include <windows.h>
-#else
-#ifndef __APPLE_CC__
-#include "config.h"
-#endif
-#include <string>
-#include <string.h>
-using std::string;
-#endif
+}
 
 #include "boinc_zip.h"
 #include "filesys.h" // from BOINC for DirScan
-#include <algorithm>
 
 // send in an output filename, advanced options (usually NULL), and numFileIn, szfileIn
-
 #ifndef _MAX_PATH
 #define _MAX_PATH 255
 #endif
