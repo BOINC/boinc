@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DDA8835B1653B430005512CB /* boinc_zip_test.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = DDA8835A1653B430005512CB /* boinc_zip_test.1 */; };
+		DDA883601653B43D005512CB /* test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA8835F1653B43D005512CB /* test.cpp */; };
 		E32411B80FC5DBAB0006868A /* api.c in Sources */ = {isa = PBXBuildFile; fileRef = E32411A60FC5DBAB0006868A /* api.c */; };
 		E32411B90FC5DBAB0006868A /* apihelp.c in Sources */ = {isa = PBXBuildFile; fileRef = E32411A70FC5DBAB0006868A /* apihelp.c */; };
 		E32411BA0FC5DBAB0006868A /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = E32411A80FC5DBAB0006868A /* crc32.c */; };
-		E32411BB0FC5DBAB0006868A /* crctab.c in Sources */ = {isa = PBXBuildFile; fileRef = E32411A90FC5DBAB0006868A /* crctab.c */; };
-		E32411BC0FC5DBAB0006868A /* envargs.c in Sources */ = {isa = PBXBuildFile; fileRef = E32411AA0FC5DBAB0006868A /* envargs.c */; };
 		E32411BD0FC5DBAB0006868A /* explode.c in Sources */ = {isa = PBXBuildFile; fileRef = E32411AB0FC5DBAB0006868A /* explode.c */; };
 		E32411BE0FC5DBAB0006868A /* extract.c in Sources */ = {isa = PBXBuildFile; fileRef = E32411AC0FC5DBAB0006868A /* extract.c */; };
 		E32411BF0FC5DBAB0006868A /* fileio.c in Sources */ = {isa = PBXBuildFile; fileRef = E32411AD0FC5DBAB0006868A /* fileio.c */; };
@@ -33,18 +33,43 @@
 		E32411D70FC5DBFA0006868A /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = E32411CF0FC5DBFA0006868A /* zip.c */; };
 		E32411D80FC5DBFA0006868A /* zipfile.c in Sources */ = {isa = PBXBuildFile; fileRef = E32411D00FC5DBFA0006868A /* zipfile.c */; };
 		E32411D90FC5DBFA0006868A /* zipup.c in Sources */ = {isa = PBXBuildFile; fileRef = E32411D10FC5DBFA0006868A /* zipup.c */; };
-		E32411DB0FC5DC110006868A /* z_unix.c in Sources */ = {isa = PBXBuildFile; fileRef = E32411DA0FC5DC110006868A /* z_unix.c */; };
+		E32411DB0FC5DC110006868A /* unix.c in Sources */ = {isa = PBXBuildFile; fileRef = E32411DA0FC5DC110006868A /* unix.c */; };
 		E32411DD0FC5DC2B0006868A /* unix.c in Sources */ = {isa = PBXBuildFile; fileRef = E32411DC0FC5DC2B0006868A /* unix.c */; };
 		E32411DF0FC5DC410006868A /* boinc_zip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E32411DE0FC5DC410006868A /* boinc_zip.cpp */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		DD15D3491654DF3300116F22 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC045055464E500DB518D;
+			remoteInfo = boinc_zip;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		DDA883531653B430005512CB /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				DDA8835B1653B430005512CB /* boinc_zip_test.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		D2AAC046055464E500DB518D /* libboinc_zip.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc_zip.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDA883551653B430005512CB /* boinc_zip_test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinc_zip_test; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDA883581653B430005512CB /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		DDA8835A1653B430005512CB /* boinc_zip_test.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = boinc_zip_test.1; sourceTree = "<group>"; };
+		DDA8835F1653B43D005512CB /* test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test.cpp; sourceTree = "<group>"; };
 		E32411A60FC5DBAB0006868A /* api.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = api.c; path = unzip/api.c; sourceTree = "<group>"; };
 		E32411A70FC5DBAB0006868A /* apihelp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = apihelp.c; path = unzip/apihelp.c; sourceTree = "<group>"; };
 		E32411A80FC5DBAB0006868A /* crc32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = crc32.c; path = unzip/crc32.c; sourceTree = "<group>"; };
-		E32411A90FC5DBAB0006868A /* crctab.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = crctab.c; path = unzip/crctab.c; sourceTree = "<group>"; };
-		E32411AA0FC5DBAB0006868A /* envargs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = envargs.c; path = unzip/envargs.c; sourceTree = "<group>"; };
 		E32411AB0FC5DBAB0006868A /* explode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = explode.c; path = unzip/explode.c; sourceTree = "<group>"; };
 		E32411AC0FC5DBAB0006868A /* extract.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = extract.c; path = unzip/extract.c; sourceTree = "<group>"; };
 		E32411AD0FC5DBAB0006868A /* fileio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = fileio.c; path = unzip/fileio.c; sourceTree = "<group>"; };
@@ -66,13 +91,20 @@
 		E32411CF0FC5DBFA0006868A /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = zip.c; path = zip/zip.c; sourceTree = "<group>"; };
 		E32411D00FC5DBFA0006868A /* zipfile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = zipfile.c; path = zip/zipfile.c; sourceTree = "<group>"; };
 		E32411D10FC5DBFA0006868A /* zipup.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = zipup.c; path = zip/zipup.c; sourceTree = "<group>"; };
-		E32411DA0FC5DC110006868A /* z_unix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = z_unix.c; path = zip/unix/z_unix.c; sourceTree = "<group>"; };
+		E32411DA0FC5DC110006868A /* unix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = unix.c; path = zip/unix/unix.c; sourceTree = "<group>"; };
 		E32411DC0FC5DC2B0006868A /* unix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = unix.c; path = unzip/unix/unix.c; sourceTree = "<group>"; };
 		E32411DE0FC5DC410006868A /* boinc_zip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = boinc_zip.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		D289987405E68DCB004EDB86 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDA883521653B430005512CB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -88,7 +120,7 @@
 				E32411A30FC5DB400006868A /* unzip */,
 				E32411A20FC5DB390006868A /* zip */,
 				08FB7795FE84155DC02AAC07 /* Source */,
-				C6A0FF2B0290797F04C91782 /* Documentation */,
+				DDA883571653B430005512CB /* boinc_zip_test */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
 			);
 			name = boinc_zip;
@@ -98,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				E32411DE0FC5DC410006868A /* boinc_zip.cpp */,
+				DDA8835F1653B43D005512CB /* test.cpp */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -106,21 +139,23 @@
 			isa = PBXGroup;
 			children = (
 				D2AAC046055464E500DB518D /* libboinc_zip.a */,
+				DDA883551653B430005512CB /* boinc_zip_test */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C6A0FF2B0290797F04C91782 /* Documentation */ = {
+		DDA883571653B430005512CB /* boinc_zip_test */ = {
 			isa = PBXGroup;
 			children = (
+				DDA883581653B430005512CB /* main.cpp */,
+				DDA8835A1653B430005512CB /* boinc_zip_test.1 */,
 			);
-			name = Documentation;
+			path = boinc_zip_test;
 			sourceTree = "<group>";
 		};
 		E32411A20FC5DB390006868A /* zip */ = {
 			isa = PBXGroup;
 			children = (
-				E32411DA0FC5DC110006868A /* z_unix.c */,
 				E32411CA0FC5DBFA0006868A /* deflate.c */,
 				E32411CB0FC5DBFA0006868A /* trees.c */,
 				E32411CC0FC5DBFA0006868A /* util.c */,
@@ -129,6 +164,7 @@
 				E32411CF0FC5DBFA0006868A /* zip.c */,
 				E32411D00FC5DBFA0006868A /* zipfile.c */,
 				E32411D10FC5DBFA0006868A /* zipup.c */,
+				E32411DA0FC5DC110006868A /* unix.c */,
 			);
 			name = zip;
 			sourceTree = "<group>";
@@ -136,12 +172,9 @@
 		E32411A30FC5DB400006868A /* unzip */ = {
 			isa = PBXGroup;
 			children = (
-				E32411DC0FC5DC2B0006868A /* unix.c */,
 				E32411A60FC5DBAB0006868A /* api.c */,
 				E32411A70FC5DBAB0006868A /* apihelp.c */,
 				E32411A80FC5DBAB0006868A /* crc32.c */,
-				E32411A90FC5DBAB0006868A /* crctab.c */,
-				E32411AA0FC5DBAB0006868A /* envargs.c */,
 				E32411AB0FC5DBAB0006868A /* explode.c */,
 				E32411AC0FC5DBAB0006868A /* extract.c */,
 				E32411AD0FC5DBAB0006868A /* fileio.c */,
@@ -151,6 +184,7 @@
 				E32411B10FC5DBAB0006868A /* match.c */,
 				E32411B20FC5DBAB0006868A /* process.c */,
 				E32411B30FC5DBAB0006868A /* ttyio.c */,
+				E32411DC0FC5DC2B0006868A /* unix.c */,
 				E32411B40FC5DBAB0006868A /* unreduce.c */,
 				E32411B50FC5DBAB0006868A /* unshrink.c */,
 				E32411B60FC5DBAB0006868A /* unzip.c */,
@@ -190,6 +224,24 @@
 			productReference = D2AAC046055464E500DB518D /* libboinc_zip.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		DDA883541653B430005512CB /* boinc_zip_test */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DDA8835C1653B430005512CB /* Build configuration list for PBXNativeTarget "boinc_zip_test" */;
+			buildPhases = (
+				DDA883511653B430005512CB /* Sources */,
+				DDA883521653B430005512CB /* Frameworks */,
+				DDA883531653B430005512CB /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DD15D34A1654DF3300116F22 /* PBXTargetDependency */,
+			);
+			name = boinc_zip_test;
+			productName = boinc_zip_test;
+			productReference = DDA883551653B430005512CB /* boinc_zip_test */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -207,6 +259,7 @@
 			projectRoot = "";
 			targets = (
 				D2AAC045055464E500DB518D /* boinc_zip */,
+				DDA883541653B430005512CB /* boinc_zip_test */,
 			);
 		};
 /* End PBXProject section */
@@ -235,8 +288,6 @@
 				E32411B80FC5DBAB0006868A /* api.c in Sources */,
 				E32411B90FC5DBAB0006868A /* apihelp.c in Sources */,
 				E32411BA0FC5DBAB0006868A /* crc32.c in Sources */,
-				E32411BB0FC5DBAB0006868A /* crctab.c in Sources */,
-				E32411BC0FC5DBAB0006868A /* envargs.c in Sources */,
 				E32411BD0FC5DBAB0006868A /* explode.c in Sources */,
 				E32411BE0FC5DBAB0006868A /* extract.c in Sources */,
 				E32411BF0FC5DBAB0006868A /* fileio.c in Sources */,
@@ -258,13 +309,29 @@
 				E32411D70FC5DBFA0006868A /* zip.c in Sources */,
 				E32411D80FC5DBFA0006868A /* zipfile.c in Sources */,
 				E32411D90FC5DBFA0006868A /* zipup.c in Sources */,
-				E32411DB0FC5DC110006868A /* z_unix.c in Sources */,
+				E32411DB0FC5DC110006868A /* unix.c in Sources */,
 				E32411DD0FC5DC2B0006868A /* unix.c in Sources */,
 				E32411DF0FC5DC410006868A /* boinc_zip.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DDA883511653B430005512CB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDA883601653B43D005512CB /* test.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DD15D34A1654DF3300116F22 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D2AAC045055464E500DB518D /* boinc_zip */;
+			targetProxy = DD15D3491654DF3300116F22 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		1DEB91EC08733DB70010E9CD /* Development */ = {
@@ -274,7 +341,6 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					_THREAD_SAFE,
@@ -284,17 +350,22 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					./,
-					../lib/,
+					../,
 					./zip/,
 					./unzip/,
+					../lib/,
 				);
 				INSTALL_PATH = /usr/local/lib;
-				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = (
-					"-I../lib",
+					"-I../",
 					"-Izip",
 					"-Iunzip",
 					"-I./",
+					"-I../lib",
+					"-DUSE_ZIPMAIN",
+					"-DNO_OFF_T",
+					"-DNO_CRYPT",
+					"-DIZ_PWLEN=80",
 				);
 				PRODUCT_NAME = boinc_zip;
 			};
@@ -306,7 +377,6 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					_THREAD_SAFE,
 					UNIX,
@@ -315,17 +385,22 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					./,
-					../lib/,
+					../,
 					./zip/,
 					./unzip/,
+					../lib/,
 				);
 				INSTALL_PATH = /usr/local/lib;
-				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = (
-					"-I../lib",
+					"-I../",
 					"-Izip",
 					"-Iunzip",
 					"-I./",
+					"-I../lib",
+					"-DUSE_ZIPMAIN",
+					"-DNO_OFF_T",
+					"-DNO_CRYPT",
+					"-DIZ_PWLEN=80",
 				);
 				PRODUCT_NAME = boinc_zip;
 			};
@@ -337,11 +412,11 @@
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = NO;
+				GCC_WARN_UNUSED_VARIABLE = NO;
 				ONLY_ACTIVE_ARCH = YES;
-				PREBINDING = NO;
 				SDKROOT = macosx;
 			};
 			name = Development;
@@ -351,10 +426,73 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = NO;
+				GCC_WARN_UNUSED_VARIABLE = NO;
+				SDKROOT = macosx;
+			};
+			name = Deployment;
+		};
+		DDA8835D1653B430005512CB /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				PREBINDING = NO;
+				HEADER_SEARCH_PATHS = ./;
+				LIBRARY_SEARCH_PATHS = ../mac_build/build/Development/;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-lboinc_zip",
+					"-lboinc",
+					"-lboinc_api",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Development;
+		};
+		DDA8835E1653B430005512CB /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = ./;
+				LIBRARY_SEARCH_PATHS = ../mac_build/build/Deployment/;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_LDFLAGS = (
+					"-lboinc_zip",
+					"-lboinc",
+					"-lboinc_api",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 			};
 			name = Deployment;
@@ -376,6 +514,15 @@
 			buildConfigurations = (
 				1DEB91F008733DB70010E9CD /* Development */,
 				1DEB91F108733DB70010E9CD /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Deployment;
+		};
+		DDA8835C1653B430005512CB /* Build configuration list for PBXNativeTarget "boinc_zip_test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDA8835D1653B430005512CB /* Development */,
+				DDA8835E1653B430005512CB /* Deployment */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Deployment;

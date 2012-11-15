@@ -2,7 +2,7 @@
 
 #pragma warning( disable : 4786 )  // Disable warning messages for vector
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32) && !defined(__STDWX_H__)
 #include "boinc_win.h"
 #elif defined(_WIN32) && defined(__STDWX_H__)
 #include "stdwx.h"
@@ -22,8 +22,8 @@ extern "C" {
 #else
 extern {
 #endif
-int unzip_main(int argc, char** argv);
-int zip_main(int argc, char** argv);
+int unzip(int argc, char** argv);
+int zipmain(int argc, char** argv);
 #include "./unzip/unzip.h"
 #include "./zip/zip.h"
 }
@@ -32,6 +32,7 @@ int zip_main(int argc, char** argv);
 #include "filesys.h" // from BOINC for DirScan
 
 // send in an output filename, advanced options (usually NULL), and numFileIn, szfileIn
+
 #ifndef _MAX_PATH
 #define _MAX_PATH 255
 #endif
@@ -136,7 +137,8 @@ int boinc_zip(int bZipType, const std::string szFileZip,
                 if (carg == 4)
                         sprintf(av[3], "-d%s", pvectszFileIn->at(0).c_str());
         }
-        strcpy(av[carg], "");  // null arg
+//        strcpy(av[carg], "");  // null arg
+        av[carg] = NULL;
         // printf("args: %s %s %s %s\n", av[0], av[1], av[2], av[3]);
 
         if (bZipType == ZIP_IT)
@@ -146,12 +148,12 @@ int boinc_zip(int bZipType, const std::string szFileZip,
                         // bypass zip reusing it
                         unlink(szFileZip.c_str());   
                 }
-                iRet = zip_main(carg, av);
+                iRet = zipmain(carg, av);
         }
         else {
                 // make sure zip file exists
                 if (access(szFileZip.c_str(), 0) == 0)
-                        iRet = unzip_main(carg, av);
+                        iRet = UzpMain(carg, av);
                 else
                         iRet = 2;   
         }
