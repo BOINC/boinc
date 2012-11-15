@@ -16,7 +16,6 @@ int main()
 	// replace with the path/file wildcard of your choice
         std::string home = std::string("C:/Documents and Settings/All Users/Documents");
         std::string result_dir = home + std::string("/testresult");
-//        CreateDirectoryA(result_dir.c_str(), NULL);
         CreateDirectoryA(result_dir.c_str(), NULL);
         std::string zipfile = result_dir + std::string("/test.zip");
         std::string source_dir = home + std::string("/Testfiles");
