@@ -6820,3 +6820,20 @@ Rom    14 Nov 2012
         ziptest.vcproj (Deleted)
         boinc_zip.cpp
         boinc_zip.vcproj (Deleted)
+
+Charlie 15 Nov 2012
+    - boinc_zip: updated boinc_zip to use current info-zip source files 
+        (info-zip 3.0 and info-unzip 6.0) and to build on Mac and Windows.
+        Added a vc project to build boinc_zip_test, not yet working.
+        Also update Makefile.am, but this has not been tested.
+
+    zip/
+        boinc_zip.cpp,.h
+        boinc_zip.xcodeproj/
+            project.pbxproj
+        Makefile.am
+        test.cpp
+        zip/
+            (many files)
+        unzip/
+            (many files)
