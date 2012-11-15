@@ -6837,3 +6837,15 @@ Charlie 15 Nov 2012
             (many files)
         unzip/
             (many files)
+
+David  15 Nov 2012
+    - boinc_zip: fix Unix build
+
+    zip/
+        Makefile.am
+        zip/
+            Makefile.am (add)
+            unix/
+                unix.c -> z_unix.c
+        unzip/
+            Makefile.am (add)

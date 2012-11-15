@@ -14,7 +14,7 @@ endif
 
 libboinc_zip_sources = \
 boinc_zip.cpp \
-./unzip/api.c	\
+./unzip/api.c \
 ./unzip/apihelp.c \
 ./unzip/crc32.c \
 ./unzip/explode.c \
@@ -26,7 +26,7 @@ boinc_zip.cpp \
 ./unzip/match.c \
 ./unzip/process.c \
 ./unzip/ttyio.c \
-./unzip/unix/unix.c 
+./unzip/unix/unix.c \
 ./unzip/unreduce.c \
 ./unzip/unshrink.c \
 ./unzip/unzip.c \
@@ -39,7 +39,7 @@ boinc_zip.cpp \
 ./zip/zip.c \
 ./zip/zipfile.c \
 ./zip/zipup.c \
-./zip/unix/unix.c \
+./zip/unix/z_unix.c
 
 ##noinst_PROGRAMS = test
 if ENABLE_LIBRARIES
@@ -49,7 +49,7 @@ libboinc_zip_la_SOURCES = $(libboinc_zip_sources)
 libboinc_zip_la_LDFLAGS = -L$(libdir) -rpath $(libdir) -version-number $(LIBBOINC_VERSION)
 libboinc_zip_la_LIBADD =
 
-# Some OSs may not prefix libraries with lib. 
+# Some OSs may not prefix libraries with lib.
 # For example OS2
 if OS_OS2
 LIBBOINC_ZIP_STATIC=boinc_zip.${LIBEXT}
