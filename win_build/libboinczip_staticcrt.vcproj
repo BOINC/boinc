@@ -44,8 +44,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\lib,..\,.\,..\..\zlib"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;DLL;_CRT_SECURE_NO_WARNINGS;NO_MKTEMP"
+				AdditionalIncludeDirectories="..\lib,..\,.\"
+				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;DLL;_CRT_SECURE_NO_WARNINGS;NO_MKTEMP;USE_ZIPMAIN;NO_CRYPT;IZ_PWLEN=80;NO_ASM;NO_UNICODE_SUPPORT"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				PrecompiledHeaderFile=".\Debug/boinc_zip.pch"
@@ -444,14 +444,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\zip\unzip\crctab.c"
-				>
-			</File>
-			<File
-				RelativePath="..\zip\unzip\envargs.c"
-				>
-			</File>
-			<File
 				RelativePath="..\zip\unzip\explode.c"
 				>
 			</File>
@@ -477,6 +469,10 @@
 			</File>
 			<File
 				RelativePath="..\zip\unzip\match.c"
+				>
+			</File>
+			<File
+				RelativePath="..\zip\unzip\win32\nt.c"
 				>
 			</File>
 			<File
@@ -554,6 +550,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\zip\zip\win32\win32_boinc.c"
+				>
+			</File>
+			<File
+				RelativePath="..\zip\zip\win32\win32i64.c"
+				>
+			</File>
+			<File
 				RelativePath="..\zip\zip\win32\win32zip.c"
 				>
 			</File>
@@ -566,7 +570,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\zip\zip\win32\z_win32.c"
+				RelativePath="..\zip\zip\win32\z_nt.c"
 				>
 			</File>
 			<File
