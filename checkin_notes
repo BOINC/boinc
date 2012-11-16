@@ -6870,5 +6870,5 @@ Charlie 15 Nov 2012
 
     win_build/
         boinc.sln
-        libboinczip_staticcrt.vcproj (Added)
+        libboinczip_staticcrt.vcproj
         test_boinc_zip.vcproj
