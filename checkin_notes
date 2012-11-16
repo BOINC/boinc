@@ -6849,3 +6849,10 @@ David  15 Nov 2012
                 unix.c -> z_unix.c
         unzip/
             Makefile.am (add)
+
+Charlie 15 Nov 2012
+    - boinc_zip: updated boinc_zip xCode project for unix.c -> z_unix.c.
+
+    zip/
+        boinc_zip.xcodeproj/
+            project.pbxproj

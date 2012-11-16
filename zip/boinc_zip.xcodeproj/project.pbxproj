@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		DDA8835B1653B430005512CB /* boinc_zip_test.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = DDA8835A1653B430005512CB /* boinc_zip_test.1 */; };
 		DDA883601653B43D005512CB /* test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA8835F1653B43D005512CB /* test.cpp */; };
+		DDAEA3E01655C0FD00E969C2 /* z_unix.c in Sources */ = {isa = PBXBuildFile; fileRef = DDAEA3DF1655C0FD00E969C2 /* z_unix.c */; };
 		E32411B80FC5DBAB0006868A /* api.c in Sources */ = {isa = PBXBuildFile; fileRef = E32411A60FC5DBAB0006868A /* api.c */; };
 		E32411B90FC5DBAB0006868A /* apihelp.c in Sources */ = {isa = PBXBuildFile; fileRef = E32411A70FC5DBAB0006868A /* apihelp.c */; };
 		E32411BA0FC5DBAB0006868A /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = E32411A80FC5DBAB0006868A /* crc32.c */; };
@@ -33,7 +34,6 @@
 		E32411D70FC5DBFA0006868A /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = E32411CF0FC5DBFA0006868A /* zip.c */; };
 		E32411D80FC5DBFA0006868A /* zipfile.c in Sources */ = {isa = PBXBuildFile; fileRef = E32411D00FC5DBFA0006868A /* zipfile.c */; };
 		E32411D90FC5DBFA0006868A /* zipup.c in Sources */ = {isa = PBXBuildFile; fileRef = E32411D10FC5DBFA0006868A /* zipup.c */; };
-		E32411DB0FC5DC110006868A /* unix.c in Sources */ = {isa = PBXBuildFile; fileRef = E32411DA0FC5DC110006868A /* unix.c */; };
 		E32411DD0FC5DC2B0006868A /* unix.c in Sources */ = {isa = PBXBuildFile; fileRef = E32411DC0FC5DC2B0006868A /* unix.c */; };
 		E32411DF0FC5DC410006868A /* boinc_zip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E32411DE0FC5DC410006868A /* boinc_zip.cpp */; };
 /* End PBXBuildFile section */
@@ -67,6 +67,7 @@
 		DDA883581653B430005512CB /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		DDA8835A1653B430005512CB /* boinc_zip_test.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = boinc_zip_test.1; sourceTree = "<group>"; };
 		DDA8835F1653B43D005512CB /* test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test.cpp; sourceTree = "<group>"; };
+		DDAEA3DF1655C0FD00E969C2 /* z_unix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = z_unix.c; path = zip/unix/z_unix.c; sourceTree = "<group>"; };
 		E32411A60FC5DBAB0006868A /* api.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = api.c; path = unzip/api.c; sourceTree = "<group>"; };
 		E32411A70FC5DBAB0006868A /* apihelp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = apihelp.c; path = unzip/apihelp.c; sourceTree = "<group>"; };
 		E32411A80FC5DBAB0006868A /* crc32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = crc32.c; path = unzip/crc32.c; sourceTree = "<group>"; };
@@ -91,7 +92,6 @@
 		E32411CF0FC5DBFA0006868A /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = zip.c; path = zip/zip.c; sourceTree = "<group>"; };
 		E32411D00FC5DBFA0006868A /* zipfile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = zipfile.c; path = zip/zipfile.c; sourceTree = "<group>"; };
 		E32411D10FC5DBFA0006868A /* zipup.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = zipup.c; path = zip/zipup.c; sourceTree = "<group>"; };
-		E32411DA0FC5DC110006868A /* unix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = unix.c; path = zip/unix/unix.c; sourceTree = "<group>"; };
 		E32411DC0FC5DC2B0006868A /* unix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = unix.c; path = unzip/unix/unix.c; sourceTree = "<group>"; };
 		E32411DE0FC5DC410006868A /* boinc_zip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = boinc_zip.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -164,7 +164,7 @@
 				E32411CF0FC5DBFA0006868A /* zip.c */,
 				E32411D00FC5DBFA0006868A /* zipfile.c */,
 				E32411D10FC5DBFA0006868A /* zipup.c */,
-				E32411DA0FC5DC110006868A /* unix.c */,
+				DDAEA3DF1655C0FD00E969C2 /* z_unix.c */,
 			);
 			name = zip;
 			sourceTree = "<group>";
@@ -309,9 +309,9 @@
 				E32411D70FC5DBFA0006868A /* zip.c in Sources */,
 				E32411D80FC5DBFA0006868A /* zipfile.c in Sources */,
 				E32411D90FC5DBFA0006868A /* zipup.c in Sources */,
-				E32411DB0FC5DC110006868A /* unix.c in Sources */,
 				E32411DD0FC5DC2B0006868A /* unix.c in Sources */,
 				E32411DF0FC5DC410006868A /* boinc_zip.cpp in Sources */,
+				DDAEA3E01655C0FD00E969C2 /* z_unix.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
