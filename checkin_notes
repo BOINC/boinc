@@ -6856,3 +6856,12 @@ Charlie 15 Nov 2012
     zip/
         boinc_zip.xcodeproj/
             project.pbxproj
+
+Rom    15 Nov 2012
+    - ZIP: Use only one variant of the C Runtime Library
+    - ZIP: Remove test_boinczip from the default solution.
+    
+    win_build\
+        boinc.sln
+        test_boinc_zip.vcproj
+    
