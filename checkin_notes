@@ -6872,3 +6872,10 @@ Charlie 15 Nov 2012
         boinc.sln
         libboinczip_staticcrt.vcproj
         test_boinc_zip.vcproj
+
+Charlie 16 Nov 2012
+    - boinc_zip: minor cleanup of Xcode project.
+
+    zip/
+        boinc_zip.xcodeproj/
+            project.pbxproj

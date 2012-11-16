@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DDA8835B1653B430005512CB /* boinc_zip_test.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = DDA8835A1653B430005512CB /* boinc_zip_test.1 */; };
-		DDA883601653B43D005512CB /* test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA8835F1653B43D005512CB /* test.cpp */; };
+		DDA8F738165643BB00F13D95 /* test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA8835F1653B43D005512CB /* test.cpp */; };
 		DDAEA3E01655C0FD00E969C2 /* z_unix.c in Sources */ = {isa = PBXBuildFile; fileRef = DDAEA3DF1655C0FD00E969C2 /* z_unix.c */; };
 		E32411B80FC5DBAB0006868A /* api.c in Sources */ = {isa = PBXBuildFile; fileRef = E32411A60FC5DBAB0006868A /* api.c */; };
 		E32411B90FC5DBAB0006868A /* apihelp.c in Sources */ = {isa = PBXBuildFile; fileRef = E32411A70FC5DBAB0006868A /* apihelp.c */; };
@@ -55,7 +54,6 @@
 			dstPath = /usr/share/man/man1/;
 			dstSubfolderSpec = 0;
 			files = (
-				DDA8835B1653B430005512CB /* boinc_zip_test.1 in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
@@ -64,8 +62,6 @@
 /* Begin PBXFileReference section */
 		D2AAC046055464E500DB518D /* libboinc_zip.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc_zip.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDA883551653B430005512CB /* boinc_zip_test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinc_zip_test; sourceTree = BUILT_PRODUCTS_DIR; };
-		DDA883581653B430005512CB /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		DDA8835A1653B430005512CB /* boinc_zip_test.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = boinc_zip_test.1; sourceTree = "<group>"; };
 		DDA8835F1653B43D005512CB /* test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test.cpp; sourceTree = "<group>"; };
 		DDAEA3DF1655C0FD00E969C2 /* z_unix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = z_unix.c; path = zip/unix/z_unix.c; sourceTree = "<group>"; };
 		E32411A60FC5DBAB0006868A /* api.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = api.c; path = unzip/api.c; sourceTree = "<group>"; };
@@ -120,7 +116,6 @@
 				E32411A30FC5DB400006868A /* unzip */,
 				E32411A20FC5DB390006868A /* zip */,
 				08FB7795FE84155DC02AAC07 /* Source */,
-				DDA883571653B430005512CB /* boinc_zip_test */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
 			);
 			name = boinc_zip;
@@ -142,15 +137,6 @@
 				DDA883551653B430005512CB /* boinc_zip_test */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		DDA883571653B430005512CB /* boinc_zip_test */ = {
-			isa = PBXGroup;
-			children = (
-				DDA883581653B430005512CB /* main.cpp */,
-				DDA8835A1653B430005512CB /* boinc_zip_test.1 */,
-			);
-			path = boinc_zip_test;
 			sourceTree = "<group>";
 		};
 		E32411A20FC5DB390006868A /* zip */ = {
@@ -319,7 +305,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DDA883601653B43D005512CB /* test.cpp in Sources */,
+				DDA8F738165643BB00F13D95 /* test.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
