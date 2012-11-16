@@ -6879,3 +6879,10 @@ Charlie 16 Nov 2012
     zip/
         boinc_zip.xcodeproj/
             project.pbxproj
+
+Rom    16 Nov 2012
+    - ZIP: Add missing preprocessor symbols to the 64-bit build targets.
+    
+    win_build/
+        libboinczip_staticcrt.vcproj
+    
