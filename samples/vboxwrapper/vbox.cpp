@@ -62,6 +62,8 @@ VBOX_VM::VBOX_VM() {
     vm_master_name.clear();
     vm_name.clear();
     vm_cpu_count.clear();
+    vm_disk_controller_type.clear();
+    vm_disk_controller_model.clear();
     os_name.clear();
     memory_size_mb.clear();
     image_filename.clear();
@@ -85,6 +87,10 @@ VBOX_VM::VBOX_VM() {
 #else
     vm_pid_handle = 0;
 #endif
+
+    // Initialize default values
+    vm_disk_controller_type = "ide";
+    vm_disk_controller_model = "PIIX4";
 }
 
 VBOX_VM::~VBOX_VM() {
@@ -731,9 +737,9 @@ int VBOX_VM::register_vm() {
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
     command  = "storagectl \"" + vm_name + "\" ";
-    command += "--name \"IDE Controller\" ";
-    command += "--add ide ";
-    command += "--controller PIIX4 ";
+    command += "--name \"Hard Disk Controller\" ";
+    command += "--add \"" + vm_disk_controller_type + "\" ";
+    command += "--controller \"" + vm_disk_controller_model + "\" ";
 
     retval = vbm_popen(command, output, "add storage controller (fixed disk)");
     if (retval) return retval;
@@ -757,7 +763,7 @@ int VBOX_VM::register_vm() {
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
     command  = "storageattach \"" + vm_name + "\" ";
-    command += "--storagectl \"IDE Controller\" ";
+    command += "--storagectl \"Hard Disk Controller\" ";
     command += "--port 0 ";
     command += "--device 0 ";
     command += "--type hdd ";

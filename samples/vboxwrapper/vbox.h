@@ -38,6 +38,10 @@ struct VBOX_VM {
     std::string vm_name;
     // required CPU core count
     std::string vm_cpu_count;
+    // the type of disk controller to emulate
+    std::string vm_disk_controller_type;
+    // the disk controller model to emulate
+    std::string vm_disk_controller_model;
     // name of the OS the VM runs
     std::string os_name;
     // size of the memory allocation for the VM, in megabytes

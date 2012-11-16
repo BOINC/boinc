@@ -6885,4 +6885,18 @@ Rom    16 Nov 2012
     
     win_build/
         libboinczip_staticcrt.vcproj
-    
+
+Rom    16 Nov 2012
+    - VBOX: Add the ability to specify both the type and model of disk
+        controller to use.  It can be specified by adding the following
+        tags to vbox_job.xml:
+        
+        <vm_disk_controller_type></vm_disk_controller_type>
+        <vm_disk_controller_model></vm_disk_controller_model>
+
+      Executing vboxmanage --help will list the available options in the
+        storeagectl section.
+        
+    samples\vboxwrapper\
+        vbox.cpp, .h
+        vboxwrapper.cpp

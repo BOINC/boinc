@@ -143,6 +143,8 @@ int parse_job_file(VBOX_VM& vm, vector<string>& copy_to_shared) {
             fclose(f);
             return 0;
         }
+        else if (xp.parse_string("vm_disk_controller_type", vm.vm_disk_controller_type)) continue;
+        else if (xp.parse_string("vm_disk_controller_model", vm.vm_disk_controller_model)) continue;
         else if (xp.parse_string("os_name", vm.os_name)) continue;
         else if (xp.parse_string("memory_size_mb", vm.memory_size_mb)) continue;
         else if (xp.parse_double("job_duration", vm.job_duration)) continue;
