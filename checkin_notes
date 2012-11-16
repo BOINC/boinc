@@ -6864,4 +6864,11 @@ Rom    15 Nov 2012
     win_build\
         boinc.sln
         test_boinc_zip.vcproj
-    
+
+Charlie 15 Nov 2012
+    - boinc_zip: fixed boinc_zip and test_boinc_zip windows projects.
+
+    win_build/
+        boinc.sln
+        libboinczip_staticcrt.vcproj (Added)
+        test_boinc_zip.vcproj

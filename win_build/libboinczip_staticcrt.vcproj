@@ -195,7 +195,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="..\lib,..\,.\,..\..\zlib"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;DLL;_CRT_SECURE_NO_WARNINGS;NO_MKTEMP"
+				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;DLL;_CRT_SECURE_NO_WARNINGS;NO_MKTEMP;USE_ZIPMAIN;NO_CRYPT;IZ_PWLEN=80;NO_ASM;NO_UNICODE_SUPPORT"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
