@@ -6,7 +6,7 @@ include ../Makefile.incl
 
 SUBDIRS = zip  unzip
 
-AM_CPPFLAGS += -I$(top_srcdir)/zip -I$(top_srcdir) -I$(top_srcdir)/zip/zip -I$(top_srcdir)/zip/unzip -I$(top_srcdir)/lib -DUNIX -DDLL -DUSE_ZIPMAIN -DNO_OFF_T -DNO_CRYPT -DIZ_PWLEN=80
+AM_CPPFLAGS += -I$(top_srcdir)/zip -I$(top_srcdir) -I$(top_srcdir)/zip/zip -I$(top_srcdir)/zip/unzip -I$(top_srcdir)/lib -DUNIX -DDLL -DUSE_ZIPMAIN -DNO_OFF_T -DNO_CRYPT -DIZ_PWLEN=80 -Dinflate=inflate_boinc -Ddeflate=deflate_boinc -Dget_crc_table=get_crc_table_boinc -Dlongest_match=longest_match_boinc -Dinflate_codes=inflate_codes_boinc
 
 if INSTALL_HEADERS
 pkginclude_HEADERS = boinc_zip.h

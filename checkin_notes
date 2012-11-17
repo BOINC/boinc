@@ -6902,7 +6902,7 @@ Rom    16 Nov 2012
         vboxwrapper.cpp
 
 Charlie 16 Nov 2012
-    - boinc_zip: Fix linker conflicts zlib and boinc_zip aer both used in a 
+    - boinc_zip: Fix linker conflicts zlib and boinc_zip are both used in a 
         project.
 
     win_build/
@@ -6912,4 +6912,5 @@ Charlie 16 Nov 2012
     zip/
         boinc_zip.xcodeproj/
             project.pbxproj
+        Makefile.am
         testzlibconflict.cpp (added)
