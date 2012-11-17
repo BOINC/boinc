@@ -6910,4 +6910,6 @@ Charlie 16 Nov 2012
         libboinczip_staticcrt.vcproj
         test_boinc_zip_zlib_conflicts.vcproj (added)
     zip/
-	testzlibconflict.cpp (added)
+        boinc_zip.xcodeproj/
+            project.pbxproj
+        testzlibconflict.cpp (added)
