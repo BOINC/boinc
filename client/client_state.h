@@ -543,10 +543,14 @@ extern void print_suspend_tasks_message(int);
     // we'll find out about it within a day.
 
 #define WF_DEFER_INTERVAL   300
-    // if a project is uploading, and the last upload started within this interval,
+    // if a project is uploading,
+    // and the last upload started within this interval,
     // don't fetch work from it.
     // This allows the work fetch to be merged with the reporting of the
     // jobs that are currently uploading.
+
+#define RESULT_REPORT_IF_AT_LEAST_N 64
+    // If a project has at least this many ready-to-report tasks, report them.
 
 //////// CPU SCHEDULING
 

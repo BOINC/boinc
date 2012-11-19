@@ -385,8 +385,8 @@ static inline bool actively_uploading(PROJECT* p) {
         && (gstate.now - p->last_upload_start < WF_DEFER_INTERVAL);
 }
 
-// called from the client's polling loop.
-// initiate scheduler RPC activity if needed and possible
+// Called once/sec.
+// Initiate scheduler RPC activity if needed and possible
 //
 bool CLIENT_STATE::scheduler_rpc_poll() {
     PROJECT *p;
@@ -394,6 +394,9 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     static double last_work_fetch_time = 0;
     double elapsed_time;
 
+    // are we currently doing a scheduler RPC?
+    // If so, see if it's finished
+    //
     if (scheduler_op->state != SCHEDULER_OP_STATE_IDLE) {
         last_time = now;
         scheduler_op->poll();
@@ -441,21 +444,9 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         return true;
     }
 
-    // report overdue results
+    // stuff from here on is checked only once/minute,
+    // or if work fetch was requested.
     //
-    bool suspend_soon = global_prefs.net_times.suspended(now + 1800);
-    suspend_soon |= global_prefs.cpu_times.suspended(now + 1800);
-    p = find_project_with_overdue_results(suspend_soon);
-    if (p && !actively_uploading(p)) {
-        work_fetch.piggyback_work_request(p);
-        scheduler_op->init_op_project(p, RPC_REASON_RESULTS_DUE);
-        return true;
-    }
-
-    // should we check work fetch?  Do this at most once/minute
-
-    if (tasks_suspended) return false;
-    if (config.fetch_minimal_work && had_or_requested_work) return false;
 
     if (must_check_work_fetch) {
         last_work_fetch_time = 0;
@@ -465,18 +456,37 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     must_check_work_fetch = false;
     last_work_fetch_time = now;
 
-    p = work_fetch.choose_project(true);
+    // check if we should report finished results
+    //
+    bool suspend_soon = global_prefs.net_times.suspended(now + 1800);
+    suspend_soon |= global_prefs.cpu_times.suspended(now + 1800);
+    p = find_project_with_overdue_results(suspend_soon);
     if (p) {
-        if (actively_uploading(p)) {
-            if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO,
-                    "[work_fetch] deferring work fetch; upload active"
-                );
-            }
-            return false;
-        }
-        scheduler_op->init_op_project(p, RPC_REASON_NEED_WORK);
+        work_fetch.piggyback_work_request(p);
+        scheduler_op->init_op_project(p, RPC_REASON_RESULTS_DUE);
         return true;
+    }
+
+    // check if we should fetch work.
+    //
+
+    if (!tasks_suspended
+        && !(config.fetch_minimal_work && had_or_requested_work)
+    ) {
+
+        p = work_fetch.choose_project(true);
+        if (p) {
+            if (actively_uploading(p)) {
+                if (log_flags.work_fetch_debug) {
+                    msg_printf(p, MSG_INFO,
+                        "[work_fetch] deferring work fetch; upload active"
+                    );
+                }
+                return false;
+            }
+            scheduler_op->init_op_project(p, RPC_REASON_NEED_WORK);
+            return true;
+        }
     }
     return false;
 }
@@ -1165,6 +1175,7 @@ PROJECT* CLIENT_STATE::next_project_trickle_up_pending() {
 //      or we have a sporadic connection
 //      or the project is in "don't request more work" state
 //      or a network suspend period is coming up soon
+//      or the project has > RESULT_REPORT_IF_AT_LEAST_N results ready to report
 //
 PROJECT* CLIENT_STATE::find_project_with_overdue_results(
     bool network_suspend_soon
@@ -1172,16 +1183,23 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results(
     unsigned int i;
     RESULT* r;
 
+    for (i=0; i<projects.size(); i++) {
+        PROJECT* p = projects[i];
+        p->n_ready = 0;
+        p->dont_contact = false;
+        if (p->waiting_until_min_rpc_time()) p->dont_contact = true;
+        if (p->suspended_via_gui) p->dont_contact = true;
+#ifndef SIM
+        if (actively_uploading(p)) p->dont_contact = true;
+#endif
+    }
+
     for (i=0; i<results.size(); i++) {
         r = results[i];
         if (!r->ready_to_report) continue;
 
         PROJECT* p = r->project;
-        if (p->waiting_until_min_rpc_time()) continue;
-        if (p->suspended_via_gui) continue;
-#ifndef SIM
-        if (actively_uploading(p)) continue;
-#endif
+        if (p->dont_contact) continue;
 
         if (p->dont_request_more_work) {
             return p;
@@ -1209,6 +1227,11 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results(
         }
 
         if (gstate.now > r->completed_time + SECONDS_PER_DAY) {
+            return p;
+        }
+
+        p->n_ready++;
+        if (p->n_ready >= RESULT_REPORT_IF_AT_LEAST_N) {
             return p;
         }
     }

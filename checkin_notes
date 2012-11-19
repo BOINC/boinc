@@ -6926,3 +6926,15 @@ David  19 Nov 2012
 
     lib/
         mac_address.cpp,h (removed)
+
+David  19 Nov 2012
+    - client: if a project has 64 or more ready-to-report tasks,
+        report them.
+        64 is chosen a bit arbitrarily, but the idea is to
+        limit the number of tasks reported per RPC,
+        and to accelerate the reporting of small tasks.
+
+    client/
+        client_state.h
+        cs_scheduler.cpp
+        project.h
