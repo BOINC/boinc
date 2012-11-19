@@ -6914,3 +6914,9 @@ Charlie 16 Nov 2012
             project.pbxproj
         Makefile.am
         testzlibconflict.cpp (added)
+
+David  18 Nov 2012
+    - compile fix for FreeBSD
+
+    lib/
+        network.cpp

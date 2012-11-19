@@ -32,7 +32,7 @@
 #include <netinet/in.h>
 #include <netinet/tcp.h>
 #include <arpa/inet.h>
-//#include <resolv.h>
+#include <resolv.h>
 #include <netdb.h>
 #include <fcntl.h>
 #include <errno.h>
