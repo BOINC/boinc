@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DD92B8471657252D00A01A30 /* testzlibconflict.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD92B8461657252D00A01A30 /* testzlibconflict.cpp */; };
 		DDA8F738165643BB00F13D95 /* test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA8835F1653B43D005512CB /* test.cpp */; };
 		DDAEA3E01655C0FD00E969C2 /* z_unix.c in Sources */ = {isa = PBXBuildFile; fileRef = DDAEA3DF1655C0FD00E969C2 /* z_unix.c */; };
 		E32411B80FC5DBAB0006868A /* api.c in Sources */ = {isa = PBXBuildFile; fileRef = E32411A60FC5DBAB0006868A /* api.c */; };
@@ -48,6 +49,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		DD92B839165724FD00A01A30 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		DDA883531653B430005512CB /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -61,6 +71,8 @@
 
 /* Begin PBXFileReference section */
 		D2AAC046055464E500DB518D /* libboinc_zip.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc_zip.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD92B83B165724FD00A01A30 /* testzlibconflict */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = testzlibconflict; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD92B8461657252D00A01A30 /* testzlibconflict.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = testzlibconflict.cpp; sourceTree = "<group>"; };
 		DDA883551653B430005512CB /* boinc_zip_test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinc_zip_test; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDA8835F1653B43D005512CB /* test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test.cpp; sourceTree = "<group>"; };
 		DDAEA3DF1655C0FD00E969C2 /* z_unix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = z_unix.c; path = zip/unix/z_unix.c; sourceTree = "<group>"; };
@@ -100,6 +112,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DD92B838165724FD00A01A30 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DDA883521653B430005512CB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -126,6 +145,7 @@
 			children = (
 				E32411DE0FC5DC410006868A /* boinc_zip.cpp */,
 				DDA8835F1653B43D005512CB /* test.cpp */,
+				DD92B8461657252D00A01A30 /* testzlibconflict.cpp */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -135,6 +155,7 @@
 			children = (
 				D2AAC046055464E500DB518D /* libboinc_zip.a */,
 				DDA883551653B430005512CB /* boinc_zip_test */,
+				DD92B83B165724FD00A01A30 /* testzlibconflict */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -210,6 +231,23 @@
 			productReference = D2AAC046055464E500DB518D /* libboinc_zip.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		DD92B83A165724FD00A01A30 /* testzlibconflict */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD92B844165724FD00A01A30 /* Build configuration list for PBXNativeTarget "testzlibconflict" */;
+			buildPhases = (
+				DD92B837165724FD00A01A30 /* Sources */,
+				DD92B838165724FD00A01A30 /* Frameworks */,
+				DD92B839165724FD00A01A30 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = testzlibconflict;
+			productName = testzlibconflict;
+			productReference = DD92B83B165724FD00A01A30 /* testzlibconflict */;
+			productType = "com.apple.product-type.tool";
+		};
 		DDA883541653B430005512CB /* boinc_zip_test */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DDA8835C1653B430005512CB /* Build configuration list for PBXNativeTarget "boinc_zip_test" */;
@@ -246,6 +284,7 @@
 			targets = (
 				D2AAC045055464E500DB518D /* boinc_zip */,
 				DDA883541653B430005512CB /* boinc_zip_test */,
+				DD92B83A165724FD00A01A30 /* testzlibconflict */,
 			);
 		};
 /* End PBXProject section */
@@ -301,6 +340,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DD92B837165724FD00A01A30 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD92B8471657252D00A01A30 /* testzlibconflict.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DDA883511653B430005512CB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -352,6 +399,11 @@
 					"-DNO_OFF_T",
 					"-DNO_CRYPT",
 					"-DIZ_PWLEN=80",
+					"-Dinflate=inflate_boinc",
+					"-Ddeflate=deflate_boinc",
+					"-Dget_crc_table=get_crc_table_boinc",
+					"-Dlongest_match=longest_match_boinc",
+					"-Dinflate_codes=inflate_codes_boinc",
 				);
 				PRODUCT_NAME = boinc_zip;
 			};
@@ -387,6 +439,11 @@
 					"-DNO_OFF_T",
 					"-DNO_CRYPT",
 					"-DIZ_PWLEN=80",
+					"-Dinflate=inflate_boinc",
+					"-Ddeflate=deflate_boinc",
+					"-Dget_crc_table=get_crc_table_boinc",
+					"-Dlongest_match=longest_match_boinc",
+					"-Dinflate_codes=inflate_codes_boinc",
 				);
 				PRODUCT_NAME = boinc_zip;
 			};
@@ -416,6 +473,69 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
+				SDKROOT = macosx;
+			};
+			name = Deployment;
+		};
+		DD92B842165724FD00A01A30 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LIBRARY_SEARCH_PATHS = ../mac_build/build/Development/;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-lboinc_zip",
+					"-lboinc",
+					"-lboinc_api",
+					"-lz",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Development;
+		};
+		DD92B843165724FD00A01A30 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LIBRARY_SEARCH_PATHS = ../mac_build/build/Deployment/;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_LDFLAGS = (
+					"-lboinc_zip",
+					"-lboinc",
+					"-lboinc_api",
+					"-lz",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 			};
 			name = Deployment;
@@ -500,6 +620,15 @@
 			buildConfigurations = (
 				1DEB91F008733DB70010E9CD /* Development */,
 				1DEB91F108733DB70010E9CD /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Deployment;
+		};
+		DD92B844165724FD00A01A30 /* Build configuration list for PBXNativeTarget "testzlibconflict" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD92B842165724FD00A01A30 /* Development */,
+				DD92B843165724FD00A01A30 /* Deployment */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Deployment;

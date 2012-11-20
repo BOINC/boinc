@@ -6902,8 +6902,8 @@ Rom    16 Nov 2012
         vboxwrapper.cpp
 
 Charlie 16 Nov 2012
-    - boinc_zip: Fix linker conflicts zlib and boinc_zip are both used in a 
-        project.
+    - boinc_zip: Fix linker conflicts if zlib and boinc_zip are both used 
+        in a project.
 
     win_build/
         boinc.sln
@@ -6940,9 +6940,15 @@ David  19 Nov 2012
         project.h
 
 Charlie 19 Nov 2012
-
     - Mac: remove deleted files from Xcode project.
 
     mac_build/
         boinc.xcodeproj/
+            project.pbxproj
+
+Charlie 19 Nov 2012
+    - boinc_zip: Add teszlibconflict target to boinc_zip Xcode project.
+
+    zip/
+        boinc_zip.xcodeproj/
             project.pbxproj
