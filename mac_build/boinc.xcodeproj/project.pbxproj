@@ -346,8 +346,6 @@
 		DDA6BD2D0BD4551F008F7921 /* QTaskMemory.c in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD100BD4551F008F7921 /* QTaskMemory.c */; };
 		DDA850A41207EED900B473A6 /* WizardAttach.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA850A21207EED900B473A6 /* WizardAttach.cpp */; };
 		DDA99BF41099AF18002F8E9B /* MacAccessiblity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA99BF31099AF18002F8E9B /* MacAccessiblity.cpp */; };
-		DDAD31D80EC26B14002DA09D /* mac_address.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDAD31D60EC26B14002DA09D /* mac_address.cpp */; };
-		DDAD31D90EC26B14002DA09D /* mac_address.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDAD31D60EC26B14002DA09D /* mac_address.cpp */; };
 		DDAEB54012F8295800EDEDBE /* LogBOINC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C41407C5D13E0098A04D /* LogBOINC.cpp */; };
 		DDAEC9FF07FA5A5C00A7BC36 /* SetVersion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDAEC9E707FA58A000A7BC36 /* SetVersion.cpp */; };
 		DDB219B210B3BBA900417AEF /* WaitPermissions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB219B110B3BBA900417AEF /* WaitPermissions.cpp */; };
@@ -1093,8 +1091,6 @@
 		DDA90F260B64673D008F2E87 /* libwx_mac_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwx_mac_static.a; path = "../../wxMac-2.8.10/src/build/Deployment/libwx_mac_static.a"; sourceTree = SOURCE_ROOT; };
 		DDA99BF31099AF18002F8E9B /* MacAccessiblity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MacAccessiblity.cpp; path = ../clientgui/mac/MacAccessiblity.cpp; sourceTree = SOURCE_ROOT; };
 		DDA9D3BB09189A8C0060E7A7 /* Mac_GUI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mac_GUI.cpp; path = ../clientgui/mac/Mac_GUI.cpp; sourceTree = SOURCE_ROOT; };
-		DDAD31D60EC26B14002DA09D /* mac_address.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mac_address.cpp; path = ../lib/mac_address.cpp; sourceTree = SOURCE_ROOT; };
-		DDAD31D70EC26B14002DA09D /* mac_address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mac_address.h; path = ../lib/mac_address.h; sourceTree = SOURCE_ROOT; };
 		DDAEC9E107FA583B00A7BC36 /* SetVersion */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SetVersion; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDAEC9E707FA58A000A7BC36 /* SetVersion.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SetVersion.cpp; path = ../clientgui/mac/SetVersion.cpp; sourceTree = SOURCE_ROOT; };
 		DDAFA7AC12D4834D00997329 /* sg_BoincSimpleFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sg_BoincSimpleFrame.cpp; sourceTree = "<group>"; };
@@ -1835,8 +1831,6 @@
 				DD344BB607C5AEEE0043025C /* hostinfo.cpp */,
 				DD344BB707C5AEEE0043025C /* hostinfo.h */,
 				DDA6BCED0BD4546D008F7921 /* mac */,
-				DDAD31D60EC26B14002DA09D /* mac_address.cpp */,
-				DDAD31D70EC26B14002DA09D /* mac_address.h */,
 				F5159562029EB02001F5651B /* md5.c */,
 				F5159563029EB02001F5651B /* md5.h */,
 				F5159564029EB02001F5651B /* md5_file.cpp */,
@@ -2987,7 +2981,6 @@
 				DD52C81208B5D44E008D9AA4 /* gui_rpc_client_ops.cpp in Sources */,
 				DD52C81308B5D44F008D9AA4 /* gui_rpc_client_print.cpp in Sources */,
 				DD407A5807D2FB8D00163EF5 /* hostinfo.cpp in Sources */,
-				DDAD31D80EC26B14002DA09D /* mac_address.cpp in Sources */,
 				DD407A5B07D2FBA000163EF5 /* md5.c in Sources */,
 				DD407A5D07D2FBA300163EF5 /* md5_file.cpp in Sources */,
 				DD407ABB07D2FC7D00163EF5 /* mem_usage.cpp in Sources */,
@@ -3335,7 +3328,6 @@
 				DDE3A8810E90D21A00A363A7 /* sandbox.cpp in Sources */,
 				DDE3A8850E90D23400A363A7 /* scheduler_op.cpp in Sources */,
 				DD9AB0340EB7D5DE00AF1616 /* rr_sim.cpp in Sources */,
-				DDAD31D90EC26B14002DA09D /* mac_address.cpp in Sources */,
 				DDC06AB810A3E97700C8D9A5 /* url.cpp in Sources */,
 				DD0052F910CA6F1D0067570C /* cs_proxy.cpp in Sources */,
 				DDE1372A10DC5E5300161D6B /* cs_notice.cpp in Sources */,

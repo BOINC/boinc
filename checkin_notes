@@ -6938,3 +6938,11 @@ David  19 Nov 2012
         client_state.h
         cs_scheduler.cpp
         project.h
+
+Charlie 19 Nov 2012
+
+    - Mac: remove deleted files from Xcode project.
+
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
