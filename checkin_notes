@@ -6278,3 +6278,10 @@ Charlie 28 Oct 2012
         DlgGenericMessage.cpp
         ProjectInfoPage.cpp
         WelcomePage.cpp
+
+Charlie 20 Nov 2012
+    - Fix creation of strings for paths to client executable and data directory 
+        on Windows.
+
+    clientgui/
+        BOINCClientManager.cpp

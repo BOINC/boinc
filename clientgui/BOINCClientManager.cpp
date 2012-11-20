@@ -219,6 +219,7 @@ bool CBOINCClientManager::StartupBOINCCore() {
 
     bool                bReturnValue = false;
     wxString            strExecute = wxEmptyString;
+    wxString            strDataDir = wxEmptyString;
 
     if (IsBOINCCoreRunning()) return true;
 
@@ -235,7 +236,7 @@ bool CBOINCClientManager::StartupBOINCCore() {
 
         // Append boinc.exe to the end of the strExecute string and get ready to rock
         strExecute.Printf(
-            wxT("\"%s\\boinc.exe\" --redirectio --launched_by_manager %s"),
+            wxT("\"%sboinc.exe\" --redirectio --launched_by_manager %s"),
             wxGetApp().GetRootDirectory().c_str(),
             wxGetApp().GetArguments().c_str()
         );
@@ -255,7 +256,8 @@ bool CBOINCClientManager::StartupBOINCCore() {
         if (wxGetApp().GetDataDirectory().empty()) {
             pszDataDirectory = NULL;
         } else {
-            pszDataDirectory = (const char*)wxGetApp().GetDataDirectory().mb_str();
+            strDataDir = wxGetApp().GetDataDirectory();
+            pszDataDirectory = (const char*)strDataDir.mb_str();
         }
 
         wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - pszExecute '%s'\n"), pszExecute);
