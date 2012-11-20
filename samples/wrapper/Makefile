@@ -27,5 +27,12 @@ clean:
 distclean:
 	/bin/rm -f $(PROGS) *.o libstdc++.a
 
-wrapper: wrapper.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a
-	g++ $(CXXFLAGS) -o wrapper wrapper.o libstdc++.a -pthread -lboinc_api -lboinc
+REGEXP_OBJS = \
+	regexp.o \
+	regsub.o \
+	regerror.o \
+	regexp_memory.o \
+	regexp_report.o
+
+wrapper: wrapper.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a $(REGEXP_OBJS)
+	g++ $(CXXFLAGS) -o wrapper wrapper.o $(REGEXP_OBJS) libstdc++.a -pthread -lboinc_api -lboinc

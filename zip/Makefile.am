@@ -41,7 +41,6 @@ boinc_zip.cpp \
 ./zip/zipup.c \
 ./zip/unix/z_unix.c
 
-##noinst_PROGRAMS = test
 if ENABLE_LIBRARIES
 
 lib_LTLIBRARIES = libboinc_zip.la
