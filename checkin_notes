@@ -6968,3 +6968,9 @@ David  19 Nov 2012
         regsub.c
     zip/
         makefile_test
+
+Charlie 20 Nov 2012
+    - WIN: Fix Debug configuration which was corrupted.
+
+    win_build\
+        boinc.sln
