@@ -4,14 +4,17 @@
 BOINC_DIR = ../..
 BOINC_API_DIR = $(BOINC_DIR)/api
 BOINC_LIB_DIR = $(BOINC_DIR)/lib
+BOINC_ZIP_DIR = $(BOINC_DIR)/zip
 
 CXXFLAGS = -g \
 	-Wall -W -Wshadow -Wpointer-arith -Wcast-qual -Wcast-align -Wwrite-strings -fno-common \
     -I$(BOINC_DIR) \
     -I$(BOINC_LIB_DIR) \
     -I$(BOINC_API_DIR) \
+    -I$(BOINC_ZIP_DIR) \
     -L$(BOINC_API_DIR) \
     -L$(BOINC_LIB_DIR) \
+    -L$(BOINC_ZIP_DIR) \
     -L.
 
 PROGS = wrapper
@@ -35,4 +38,4 @@ REGEXP_OBJS = \
 	regexp_report.o
 
 wrapper: wrapper.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a $(REGEXP_OBJS)
-	g++ $(CXXFLAGS) -o wrapper wrapper.o $(REGEXP_OBJS) libstdc++.a -pthread -lboinc_api -lboinc
+	g++ $(CXXFLAGS) -o wrapper wrapper.o $(REGEXP_OBJS) libstdc++.a -pthread -lboinc_api -lboinc -lboinc_zip

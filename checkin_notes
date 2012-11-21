@@ -6974,3 +6974,11 @@ Charlie 20 Nov 2012
 
     win_build\
         boinc.sln
+
+David  21 Nov 2012
+    - wrapper: add feature for unzipping input files and zipping output files
+
+    samples/wrapper/
+        Makefile
+        job.xml
+        wrapper.cpp

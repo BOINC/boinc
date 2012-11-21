@@ -5,10 +5,11 @@
         <stdout_filename>stdout</stdout_filename>
         <command_line>10</command_line>
     </task>
-    <task>
-        <application>worker2</application>
-        <stdin_filename>stdin2</stdin_filename>
-        <stdout_filename>stdout2</stdout_filename>
-        <command_line>10</command_line>
-    </task>
+    <unzip_input>
+        <zipfilename>in.zip</zipfilename>
+    </unzip_input>
+    <zip_output>
+        <zipfilename>foo.zip</zipfilename>
+        <filename>out</filename>
+    </zip_output>
 </job_desc>
