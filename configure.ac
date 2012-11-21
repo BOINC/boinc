@@ -16,6 +16,7 @@ AC_CANONICAL_TARGET
 dnl generate .tar.gz, .tar.bz2, .zip
 dnl AM_INIT_AUTOMAKE(dist-bzip2 dist-zip)
 AM_INIT_AUTOMAKE(dist-zip)
+m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 AC_CONFIG_SRCDIR(lib/shmem.cpp)
 
