@@ -1236,9 +1236,14 @@ void process_request(char* code_sign_key) {
     //
     platform = ssp->lookup_platform(g_request->platform.name);
     if (platform) g_request->platforms.list.push_back(platform);
-    for (i=0; i<g_request->alt_platforms.size(); i++) {
-        platform = ssp->lookup_platform(g_request->alt_platforms[i].name);
-        if (platform) g_request->platforms.list.push_back(platform);
+
+    // if primary platform is anonymous, ignore alternate platforms
+    //
+    if (strcmp(g_request->platform.name, "anonymous")) {
+        for (i=0; i<g_request->alt_platforms.size(); i++) {
+            platform = ssp->lookup_platform(g_request->alt_platforms[i].name);
+            if (platform) g_request->platforms.list.push_back(platform);
+        }
     }
     if (g_request->platforms.list.size() == 0) {
         sprintf(buf, "%s %s",

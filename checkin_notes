@@ -6994,3 +6994,9 @@ David  22 Nov 2012
 
     client/
         cs_platforms.cpp
+
+David  22 Nov 2012
+    - scheduler: if primary platform is anonymous, ignore alternate platforms.
+
+    sched/
+        handle_request.cpp
