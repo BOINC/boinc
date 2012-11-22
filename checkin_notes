@@ -6987,3 +6987,10 @@ David  21 Nov 2012
     - Unix build: add configure option for minimal make output
 
     configure.ac
+
+David  22 Nov 2012
+    - client: if a project is anonymous platform,
+        don't send list of alternate platforms in scheduler RPC.
+
+    client/
+        cs_platforms.cpp
