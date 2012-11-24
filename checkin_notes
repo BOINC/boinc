@@ -7000,3 +7000,14 @@ David  22 Nov 2012
 
     sched/
         handle_request.cpp
+
+David  23 Nov 2012
+    - client: fix uninitialized vars in CPU feature detection (from RustyBSD)
+
+    client/
+        hostinfo_unix.cpp
+    html/
+        inc/
+            submit.inc
+        user/
+            sandbox.php
