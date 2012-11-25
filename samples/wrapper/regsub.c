@@ -137,7 +137,7 @@ int re_sub_w(const regexp* rp, const CHAR_TYPE* s, const CHAR_TYPE* source, CHAR
         return error;
 
     /* allocate memory */
-    *dest = re_malloc(error * sizeof(CHAR_TYPE));
+    *dest = (CHAR_TYPE*)re_malloc(error * sizeof(CHAR_TYPE));
     if(!*dest)
     {
         re_report("out of memory allocating substitute destination");

@@ -52,7 +52,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories=".;../;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include"
+				AdditionalIncludeDirectories=".;../;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../zip;../coprocs/OpenCL/include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_CONSOLE;_CRT_SECURE_NO_WARNINGS"
 				StringPooling="false"
 				RuntimeLibrary="0"
@@ -80,7 +80,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmt.lib libcpmt.lib kernel32.lib user32.lib gdi32.lib ole32.lib psapi.lib"
+				AdditionalDependencies="libcmt.lib libcpmt.lib kernel32.lib user32.lib gdi32.lib ole32.lib psapi.lib oldnames.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\wrapper_25353_windows_intelx86.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
@@ -420,6 +420,26 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
+				RelativePath="..\samples\wrapper\regerror.c"
+				>
+			</File>
+			<File
+				RelativePath="..\samples\wrapper\regexp.c"
+				>
+			</File>
+			<File
+				RelativePath="..\samples\wrapper\regexp_memory.c"
+				>
+			</File>
+			<File
+				RelativePath="..\samples\wrapper\regexp_report.c"
+				>
+			</File>
+			<File
+				RelativePath="..\samples\wrapper\regsub.c"
+				>
+			</File>
+			<File
 				RelativePath="..\samples\wrapper\wrapper.cpp"
 				>
 			</File>
@@ -433,6 +453,22 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
+			<File
+				RelativePath="..\samples\wrapper\regexp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\samples\wrapper\regexp_custom.h"
+				>
+			</File>
+			<File
+				RelativePath="..\samples\wrapper\regexp_int.h"
+				>
+			</File>
+			<File
+				RelativePath="..\samples\wrapper\regmagic.h"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

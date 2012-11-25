@@ -6982,3 +6982,9 @@ David  21 Nov 2012
         Makefile
         job.xml
         wrapper.cpp
+
+David  25 Nov 2012
+	- wrapper: compile fixes for Win
+
+	samples/wrapper/
+		regexp.c,h

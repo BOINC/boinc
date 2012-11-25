@@ -50,7 +50,11 @@ static int isalpha_f(CHAR_TYPE c)
 
 static int isblank_f(CHAR_TYPE c)
 {
+#ifdef _WIN32
+    return (c==' ') || (c=='\t');
+#else
     return cisblank(c);
+#endif
 }
 
 static int iscntrl_f(CHAR_TYPE c)
