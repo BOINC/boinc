@@ -108,6 +108,10 @@ class BoincJobFile {
         $db = BoincDb::get();
         $db->delete(this, 'job_file');
     }
+    function update($clause) {
+        $db = BoincDb::get();
+        return $db->update($this, 'job_file', $clause);
+    }
 }
 
 ?>

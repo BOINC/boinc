@@ -7033,3 +7033,13 @@ David  25 Nov 2012
             db_update.php
     sched/
         sched_version.cpp
+
+David  26 Nov 2012
+    - client: when reset a project, clear its scheduler URL list
+        (force a reload of the master page)
+
+    client/
+        app_start.cpp
+        client_state.cpp
+    html/inc/
+        submit_db.inc

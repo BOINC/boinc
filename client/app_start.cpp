@@ -104,7 +104,7 @@ typedef BOOL (WINAPI *tDEB)(LPVOID lpEnvironment);
 
 #endif
 
-// Goes through an array of strings, and prints each string
+// print each string in an array
 //
 #ifndef _WIN32
 static void debug_print_argv(char** argv) {
