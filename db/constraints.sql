@@ -129,3 +129,6 @@ alter table host_app_version
 
 alter table assignment
     add index asgn_target(target_type, target_id);
+
+alter table job_file
+    add index md5(md5);

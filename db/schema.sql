@@ -335,6 +335,17 @@ create table user_submit_app (
         --   abort their jobs
 ) engine = InnoDB;
 
+-- Record files present on server.
+-- Files are named jf_(md5)
+--
+create table job_file (
+    id                      integer         not null auto_increment,
+    md5                     char(64)        not null,
+    create_time             double          not null,
+    delete_time             double          not null,
+    primary key (id)
+) engine = InnoDB;
+
 -- the following are used to implement trickle messages
 
 create table msg_from_host (

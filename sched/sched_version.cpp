@@ -530,11 +530,17 @@ BEST_APP_VERSION* get_app_version(
         return NULL;
     }
 
-    // handle the case where we're using homogeneous app version
-    // and the WU is already committed to an app version
+    // if the app uses, homogeneous app version,
+    // don't send to anonymous platform client.
+    // Then check if the WU is already committed to an app version
     //
-    if (app->homogeneous_app_version && wu.app_version_id) {
-        return check_homogeneous_app_version(wu, reliable_only);
+    if (app->homogeneous_app_version) {
+        if (g_wreq->anonymous_platform) {
+            return NULL;
+        }
+        if ( wu.app_version_id) {
+            return check_homogeneous_app_version(wu, reliable_only);
+        }
     }
 
     // see if app is already in memoized array

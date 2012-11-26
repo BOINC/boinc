@@ -93,4 +93,21 @@ class BoincUserSubmitApp {
     }
 }
 
+class BoincJobFile {
+    static function insert($clause) {
+        $db = BoincDb::get();
+        $ret = $db->insert('job_file', $clause);
+        if (!$ret) return false;
+        return true;
+    }
+    static function lookup_md5($md5) {
+        $db = BoincDb::get();
+        return $db->lookup('job_file', 'BoincJobFile', "md5='$md5'");
+    }
+    function delete() {
+        $db = BoincDb::get();
+        $db->delete(this, 'job_file');
+    }
+}
+
 ?>

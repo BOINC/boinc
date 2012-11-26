@@ -828,6 +828,21 @@ function update_8_26_2012() {
     ");
 }
 
+function update_11_25_2012() {
+    do_query("
+        create table job_file (
+            id                      integer         not null auto_increment,
+            md5                     char(64)        not null,
+            create_time             double          not null,
+            delete_time             double          not null,
+            primary key(id)
+        ) engine = InnoDB
+    ");
+    do_query("
+        alter table job_file add index md5 (md5)
+    ");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -855,6 +870,7 @@ $db_updates = array (
     array(25734, "update_6_4_2012"),
     array(26060, "update_8_24_2012"),
     array(26062, "update_8_26_2012"),
+    array(27000, "update_11_25_2012"),
 );
 
 ?>

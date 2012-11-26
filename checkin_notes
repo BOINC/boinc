@@ -7017,3 +7017,19 @@ David  25 Nov 2012
 
 	samples/wrapper/
 		regexp.c,h
+
+David  25 Nov 2012
+    - scheduler: add extra check for not sending homogeneous app version
+        jobs to anonymous platform clients
+    - remote job submission: add DB table for keeping track of files
+
+    db/
+        schema.sql
+        contraints.sql
+    html/
+        inc/
+            submit_db.inc
+        ops/
+            db_update.php
+    sched/
+        sched_version.cpp
