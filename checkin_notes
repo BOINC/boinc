@@ -7043,3 +7043,10 @@ David  26 Nov 2012
         client_state.cpp
     html/inc/
         submit_db.inc
+
+David  26 Nov 2012
+    - admin web: change revalidate function to revalidate
+        valid as well as invalid results
+
+    html/ops/
+        revalidate.php
