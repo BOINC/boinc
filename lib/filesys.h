@@ -59,6 +59,7 @@ extern "C" {
   extern char boinc_failed_file[MAXPATHLEN];
   extern int is_file(const char* path);
   extern int is_dir(const char* path);
+  extern int is_file_follow_symlinks(const char* path);
   extern int is_dir_follow_symlinks(const char* path);
   extern int is_symlink(const char* path);
   extern int boinc_truncate(const char*, double);

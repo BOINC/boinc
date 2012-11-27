@@ -369,7 +369,7 @@ int SCHED_CONFIG::download_path(const char* filename, char* path) {
 static bool is_project_dir(const char* dir) {
     char buf[1024];
     sprintf(buf, "%s/%s", dir, CONFIG_FILE);
-    if (!is_file(buf)) return false;
+    if (!is_file_follow_symlinks(buf)) return false;
     sprintf(buf, "%s/cgi-bin", dir);
     if (!is_dir_follow_symlinks(buf)) return false;
     return true;

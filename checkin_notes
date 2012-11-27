@@ -7050,3 +7050,11 @@ David  26 Nov 2012
 
     html/ops/
         revalidate.php
+
+David  27 Nov 2012
+    - server programs: allow config.xml to be a symlink
+
+    lib/
+        filesys.cpp,h
+    sched/
+        sched_config.cpp
