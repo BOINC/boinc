@@ -244,6 +244,11 @@ struct APP {
     char user_friendly_name[256];
     bool non_cpu_intensive;
     PROJECT* project;
+    int max_concurrent;
+        // Limit on # of concurrent jobs of this app; 0 if none
+        // Specified in app_config.xml
+    int n_concurrent;
+        // temp during job scheduling, to enforce max_concurrent
 #ifdef SIM
     double latency_bound;
     double fpops_est;

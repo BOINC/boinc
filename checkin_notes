@@ -7090,3 +7090,31 @@ Charlie 28 Nov 2012
             project.pbxproj
     win_build/
             boincmgr.vcproj
+
+David  28 Nov 2012
+    - client: add "client app configuration" feature; see
+        http://boinc.berkeley.edu/trac/wiki/ClientAppConfig
+        This lets users do the following:
+        1) limit the number of concurrent jobs of a given app
+            (e.g. for WCG apps that are I/O-intensive)
+        2) Specify the CPU and GPU usage parameters of GPU versions
+            of a given app.
+        Implementation notes:
+        - max app concurrency is enforced in 2 places:
+            1) when building the initial job run list
+            2) when enforcing the final job run list
+            Both are needed to avoid possible starvation.
+        - however, we don't enforce it during RR simulation.
+            Doing so could cause erroneous shortfall and work fetch.
+            This means, however, that work buffering will not work
+            as expected if you're using max concurrency.
+
+    client/
+        app_config.cpp,h (new)
+        Makefile
+        client_state.cpp
+        client_types.h
+        cpu_sched.cpp
+        file_names.h
+        project.h
+        result.h

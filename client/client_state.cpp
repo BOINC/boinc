@@ -48,6 +48,7 @@
 #include "run_app_windows.h"
 #endif
 
+#include "app_config.h"
 #include "async_file.h"
 #include "client_msgs.h"
 #include "cs_notice.h"
@@ -420,6 +421,10 @@ int CLIENT_STATE::init() {
     // so we'll need to patch up avp->flops later;
     //
     check_anonymous();
+
+    // check for app_config.xml files in project dirs
+    //
+    check_app_config();
 
     // first time, set p_fpops nonzero to avoid div by zero
     //
