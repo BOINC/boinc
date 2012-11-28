@@ -64,7 +64,7 @@ protected:
     // it appear as if we don't allow the user to select entries in the notices.
     wxColour GetSelectedTextColour(const wxColour& colFg) const { return colFg; }
     wxColour GetSelectedTextBgColour(const wxColour& colBg) const { return colBg; }
-    void OnDrawBackground(wxDC& dc, const wxRect& rect, size_t n) const {}
+    void OnDrawBackground(wxDC&, const wxRect&, size_t) const {}
 
 private:
      virtual wxHtmlOpeningStatus OnHTMLOpeningURL(wxHtmlURLType type,
