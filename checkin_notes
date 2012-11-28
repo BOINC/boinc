@@ -7124,3 +7124,10 @@ David  28 Nov 2012
 
 	win_build/
 		boinc_cli.vcproj
+
+David  28 Nov 2012
+    - user web: don't show fraction done in list of batches.
+        It slows things down too much.
+
+    html/user/
+        submit.php

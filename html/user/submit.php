@@ -99,16 +99,14 @@ function show_complete($batches, $limit, $user, $app) {
                 show_all_link($batches, BATCH_STATE_COMPLETE, $limit, $user, $app);
             }
             start_table();
-            table_header("name", "ID", "user", "app", "# jobs", "fraction done", "submitted");
+            table_header("name", "ID", "user", "app", "# jobs", "submitted");
         }
-        $pct_done = (int)($batch->fraction_done*100);
         table_row(
             "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->name</a>",
             "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->id</a>",
             $batch->user_name,
             $batch->app_name,
             $batch->njobs,
-            "$pct_done%",
             local_time_str($batch->create_time)
         );
     }
@@ -149,14 +147,14 @@ function show_aborted($batches, $limit, $user, $app) {
     }
 }
 
-// fill in the app and user names
+// fill in the app and user names in list of batches
 //
 function fill_in_app_and_user_names(&$batches) {
     foreach ($batches as $batch) {
-        if ($batch->state < BATCH_STATE_COMPLETE || $batch->fraction_done < 1) {
-            $wus = BoincWorkunit::enum("batch = $batch->id");
-            $batch = get_batch_params($batch, $wus);
-        }
+        //if ($batch->state < BATCH_STATE_COMPLETE || $batch->fraction_done < 1) {
+        //    $wus = BoincWorkunit::enum("batch = $batch->id");
+        //    $batch = get_batch_params($batch, $wus);
+        //}
         $app = BoincApp::lookup_id($batch->app_id);
         if ($app) {
             $batch->app_name = $app->name;
@@ -346,15 +344,19 @@ function handle_query_batch($user) {
 //
 function handle_query_job($user) {
     $wuid = get_int('wuid');
+    $wu = BoincWorkunit::lookup_id($wuid);
+    if (!$wu) error_page("no such job");
 
     page_head("Job $wuid");
 
-    echo "<a href=workunit.php?wuid=$wuid>View workunit page</a>\n";
+    echo "
+        <a href=workunit.php?wuid=$wuid>Workunit details</a> &middot;
+        <a href=submit.php?action=query_batch?batch_id=$wu->batch>Batch $wu->batch</a>
+    ";
 
     // show input files
     //
     echo "<h2>Input files</h2>\n";
-    $wu = BoincWorkunit::lookup_id($wuid);
     $x = "<in>".$wu->xml_doc."</in>";
     $x = simplexml_load_string($x);
     start_table();
