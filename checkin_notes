@@ -7118,3 +7118,9 @@ David  28 Nov 2012
         file_names.h
         project.h
         result.h
+
+David  28 Nov 2012
+	- client: add the above to VS project
+
+	win_build/
+		boinc_cli.vcproj
