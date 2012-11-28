@@ -7058,3 +7058,32 @@ David  27 Nov 2012
         filesys.cpp,h
     sched/
         sched_config.cpp
+
+Charlie 28 Nov 2012
+    - Mgr: Fix Windows hangs and simplify code for notices display:
+        - Handle protocol-relative URLs which hung Manager on Windows.
+            RSS feeds and web pages may use protocol-relative (scheme-
+            relative) URLs, such as <img src="//sample.com/test.jpg"/>
+            Since the html comes from a web server via http, the scheme 
+            is assumed to also be http.  But we have cached the html in
+            a local file, so it is no longer associated with the http 
+            protocol / scheme.  Therefore all our URLs must explicity 
+            specify the http protocol.
+         - The Manager would hang when trying to get data from web 
+            servers if there was no Internet connection.  This happened 
+            on Windows only, not on Mac.  (I don't have the hardware to 
+            test on Linux, but I suspect it is OK as Mac uses UNIX.)  I 
+            fixed this by implementing asynchronous network I/O in 
+            CBOINCHtmlListBox on Windows.
+         - Eliminate need for CBOINCVListBox class and greatly simplify 
+            CBOINCHtmlListBox class.
+
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCGUIApp.cpp,.h
+        BOINCHtmlLBox.cpp,.h
+        BOINCInternetFSHandler.cpp,.h
+        BOINCVListBox.cpp,.h  (removed)
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

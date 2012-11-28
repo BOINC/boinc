@@ -180,7 +180,6 @@
 		DD4EC65A08A0A7AF009AA08F /* gui_rpc_client_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.cpp */; };
 		DD4EC65B08A0A83F009AA08F /* gui_rpc_client_print.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34F08A0694100656EB1 /* gui_rpc_client_print.cpp */; };
 		DD4FA25D121828E400154856 /* BOINCHtmlLBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4FA25B121828E400154856 /* BOINCHtmlLBox.cpp */; };
-		DD4FA2621218290600154856 /* BOINCVListBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4FA2601218290600154856 /* BOINCVListBox.cpp */; };
 		DD51DC8F0A4943A300BD24E6 /* check_security.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6617870A3FFD8C00FFEBEB /* check_security.cpp */; };
 		DD52C81108B5D44D008D9AA4 /* gui_rpc_client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C5CC07C5D7D90098A04D /* gui_rpc_client.cpp */; };
 		DD52C81208B5D44E008D9AA4 /* gui_rpc_client_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.cpp */; };
@@ -866,8 +865,6 @@
 		DD4E704A0BCDAC360010A522 /* browser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = browser.h; path = ../clientgui/browser.h; sourceTree = SOURCE_ROOT; };
 		DD4FA25B121828E400154856 /* BOINCHtmlLBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCHtmlLBox.cpp; path = ../clientgui/BOINCHtmlLBox.cpp; sourceTree = SOURCE_ROOT; };
 		DD4FA25C121828E400154856 /* BOINCHtmlLBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BOINCHtmlLBox.h; path = ../clientgui/BOINCHtmlLBox.h; sourceTree = SOURCE_ROOT; };
-		DD4FA2601218290600154856 /* BOINCVListBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCVListBox.cpp; path = ../clientgui/BOINCVListBox.cpp; sourceTree = SOURCE_ROOT; };
-		DD4FA2611218290600154856 /* BOINCVListBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BOINCVListBox.h; path = ../clientgui/BOINCVListBox.h; sourceTree = SOURCE_ROOT; };
 		DD531BC50C193D3800742E50 /* MacInstaller.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = MacInstaller.icns; path = ../clientgui/res/MacInstaller.icns; sourceTree = SOURCE_ROOT; };
 		DD531BC70C193D5200742E50 /* MacUninstaller.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = MacUninstaller.icns; path = ../clientgui/res/MacUninstaller.icns; sourceTree = SOURCE_ROOT; };
 		DD58C41808F3343F00C1DF66 /* AccountInfoPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = AccountInfoPage.cpp; path = ../clientgui/AccountInfoPage.cpp; sourceTree = SOURCE_ROOT; };
@@ -1554,8 +1551,6 @@
 				DD81C43D07C5D2240098A04D /* BOINCTaskBar.h */,
 				DD81C40607C5D1020098A04D /* BOINCTaskCtrl.cpp */,
 				DD81C43807C5D2240098A04D /* BOINCTaskCtrl.h */,
-				DD4FA2601218290600154856 /* BOINCVListBox.cpp */,
-				DD4FA2611218290600154856 /* BOINCVListBox.h */,
 				DD4E70490BCDAC360010A522 /* browser.cpp */,
 				DD4E704A0BCDAC360010A522 /* browser.h */,
 				DDCE78220A70BD29008218B6 /* common */,
@@ -2949,7 +2944,6 @@
 				DD0A87FF11D950E00067C1F2 /* BOINCInternetFSHandler.cpp in Sources */,
 				DDA850A41207EED900B473A6 /* WizardAttach.cpp in Sources */,
 				DD4FA25D121828E400154856 /* BOINCHtmlLBox.cpp in Sources */,
-				DD4FA2621218290600154856 /* BOINCVListBox.cpp in Sources */,
 				DDD0697312D70C9400120920 /* sg_TaskPanel.cpp in Sources */,
 				DDC321AE12E45162006CB55F /* sg_PanelBase.cpp in Sources */,
 				DDDD6D8012E4611300C258A0 /* sg_ProjectPanel.cpp in Sources */,

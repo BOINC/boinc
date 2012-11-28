@@ -80,7 +80,8 @@ protected:
 #ifdef __WXMAC__
     CMacSystemMenu*     m_pMacSystemMenu;
 #endif
-
+    wxFileSystemHandler* m_pInternetFSHandler;
+    
     wxString            m_strBOINCMGRExecutableName;
     wxString            m_strBOINCMGRRootDirectory;
     wxString            m_strBOINCMGRDataDirectory;
@@ -156,6 +157,8 @@ public:
 
 
     wxArrayString&      GetSupportedLanguages()     { return m_astrLanguages; }
+    
+    wxFileSystemHandler*   GetInternetFSHandler()  { return m_pInternetFSHandler; }
 
     void                DisplayEventLog(bool bShowWindow = true);
     void                OnEventLogClose();
