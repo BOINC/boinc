@@ -7084,6 +7084,7 @@ Charlie 28 Nov 2012
         BOINCHtmlLBox.cpp,.h
         BOINCInternetFSHandler.cpp,.h
         BOINCVListBox.cpp,.h  (removed)
+        Makefile.am
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
