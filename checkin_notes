@@ -7145,3 +7145,10 @@ David  28 Nov 2012
 	client/
 		client_state.cpp
 		client_types.h
+
+Charlie 28 Nov 2012
+	- client: add new files app_config.cpp,h to Xcode project.
+
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

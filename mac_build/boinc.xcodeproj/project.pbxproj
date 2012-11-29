@@ -443,6 +443,7 @@
 		DDE1373D10DC60BB00161D6B /* ViewNotices.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1373B10DC60BB00161D6B /* ViewNotices.cpp */; };
 		DDE1374210DC60E200161D6B /* DlgEventLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1374010DC60E200161D6B /* DlgEventLog.cpp */; };
 		DDE1374910DC613600161D6B /* DlgEventLogListCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1374710DC613600161D6B /* DlgEventLogListCtrl.cpp */; };
+		DDE17420166746F70059083A /* app_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1741E166746F70059083A /* app_config.cpp */; };
 		DDE3A8800E90D1BF00A363A7 /* client_state.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE3A87F0E90D1BF00A363A7 /* client_state.cpp */; };
 		DDE3A8810E90D21A00A363A7 /* sandbox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD80C83D0CBAEB4F00F1121D /* sandbox.cpp */; };
 		DDE3A8850E90D23400A363A7 /* scheduler_op.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE3A8840E90D23400A363A7 /* scheduler_op.cpp */; };
@@ -1155,6 +1156,8 @@
 		DDE1374110DC60E200161D6B /* DlgEventLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DlgEventLog.h; path = ../clientgui/DlgEventLog.h; sourceTree = SOURCE_ROOT; };
 		DDE1374710DC613600161D6B /* DlgEventLogListCtrl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DlgEventLogListCtrl.cpp; path = ../clientgui/DlgEventLogListCtrl.cpp; sourceTree = SOURCE_ROOT; };
 		DDE1374810DC613600161D6B /* DlgEventLogListCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DlgEventLogListCtrl.h; path = ../clientgui/DlgEventLogListCtrl.h; sourceTree = SOURCE_ROOT; };
+		DDE1741E166746F70059083A /* app_config.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = app_config.cpp; sourceTree = "<group>"; };
+		DDE1741F166746F70059083A /* app_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = app_config.h; sourceTree = "<group>"; };
 		DDE2552B07C62F3E008E7D6E /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		DDE3A87F0E90D1BF00A363A7 /* client_state.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = client_state.cpp; sourceTree = "<group>"; };
 		DDE3A8840E90D23400A363A7 /* scheduler_op.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scheduler_op.cpp; sourceTree = "<group>"; };
@@ -1881,6 +1884,8 @@
 				DD33C6F708B5BB4500768630 /* acct_setup.cpp */,
 				F54B8FC102AC0A0C01FB7237 /* app.cpp */,
 				F54B8FC202AC0A0C01FB7237 /* app.h */,
+				DDE1741E166746F70059083A /* app_config.cpp */,
+				DDE1741F166746F70059083A /* app_config.h */,
 				DD344B4807C5AC4C0043025C /* app_control.cpp */,
 				DD344B5A07C5AC9F0043025C /* app_start.cpp */,
 				DD1E4B7914DCA83F0093C711 /* async_file.cpp */,
@@ -3337,6 +3342,7 @@
 				DD25F72915914F8C007845B5 /* gpu_amd.cpp in Sources */,
 				DD25F72A15914F8C007845B5 /* gpu_opencl.cpp in Sources */,
 				DD25F72B15914F8C007845B5 /* gpu_detect.cpp in Sources */,
+				DDE17420166746F70059083A /* app_config.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
