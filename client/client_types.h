@@ -257,9 +257,9 @@ struct APP {
     double working_set;
     double weight;
     bool ignore;
-    APP() {memset(this, 0, sizeof(APP));}
 #endif
 
+    APP() {memset(this, 0, sizeof(APP));}
     int parse(XML_PARSER&);
     int write(MIOFILE&);
 };
