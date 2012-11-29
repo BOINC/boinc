@@ -7131,3 +7131,10 @@ David  28 Nov 2012
 
     html/user/
         submit.php
+
+David  28 Nov 2012
+	- fix mysterious problems in Windows build
+
+	win_build/
+		boinc.sln
+		wrapper.vcproj
