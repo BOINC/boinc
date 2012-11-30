@@ -118,6 +118,15 @@ HINTERNET wxWinINetURL::GetSessionHandle()
     {
         INetSession()
         {
+            INetOpenSession();
+        }
+
+        ~INetSession()
+        {
+            INetCloseSession();
+        }
+
+        void INetOpenSession() {
             DWORD rc = InternetAttemptConnect(0);
 
             m_handle = InternetOpen
@@ -134,18 +143,33 @@ HINTERNET wxWinINetURL::GetSessionHandle()
                 InternetSetStatusCallback(m_handle, BOINCInternetStatusCallback);
             }
         }
-
-        ~INetSession()
-        {
+        
+        void INetCloseSession() {
             InternetSetStatusCallback(NULL, BOINCInternetStatusCallback);
-            InternetCloseHandle(m_handle);
+            if (m_handle) {
+                InternetCloseHandle(m_handle);
+                m_handle = NULL;
+            }
         }
-
+    
         HINTERNET m_handle;
     } session;
+    
+     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
-   return session.m_handle;
+    wxASSERT(pDoc);
+
+    if (b_ShuttingDown || (!pDoc->IsConnected())) {
+        session.INetCloseSession();
+        return 0;
+    }
+
+    if (!session.m_handle) {
+        session.INetOpenSession();
+    }
+    return session.m_handle;
 }
+\
 
 
 // this class needn't be exported
@@ -194,6 +218,13 @@ size_t wxWinINetInputStream::OnSysRead(void *buffer, size_t bufsize)
     DWORD lError = ERROR_SUCCESS;
     INTERNET_BUFFERS bufs;
     BOOL complete = false;
+    CMainDocument* pDoc      = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+
+    if (b_ShuttingDown || (!pDoc->IsConnected())) {
+        return 0;
+    }
 
     if (m_hFile) {
         operationEnded = false;
@@ -210,11 +241,12 @@ size_t wxWinINetInputStream::OnSysRead(void *buffer, size_t bufsize)
             lError = ::GetLastError();
             if ((lError == WSAEWOULDBLOCK) || (lError == ERROR_IO_PENDING)){
                 while (!operationEnded) {
-                    if (b_ShuttingDown) {
+                    if (b_ShuttingDown || (!pDoc->IsConnected())) {
+//                    if (b_ShuttingDown) {
                         SetError(wxSTREAM_EOF);
                         return 0;
                     }
-                    wxYield();
+                    wxGetApp().Yield(true);
                 }
             }
         }
@@ -289,6 +321,15 @@ wxWinINetInputStream::~wxWinINetInputStream()
 wxInputStream *wxWinINetURL::GetInputStream(wxURL *owner)
 {
     DWORD service;
+    CMainDocument* pDoc      = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+
+    if (b_ShuttingDown || (!pDoc->IsConnected())) {
+        GetSessionHandle(); // Closes the session
+        return 0;
+    }
+    
     if ( owner->GetScheme() == wxT("http") )
     {
         service = INTERNET_SERVICE_HTTP;
@@ -302,7 +343,7 @@ wxInputStream *wxWinINetURL::GetInputStream(wxURL *owner)
         // unknown protocol. Let wxURL try another method.
         return 0;
     }
-
+    
     wxWinINetInputStream *newStream = new wxWinINetInputStream;
     
     operationEnded = false;
@@ -317,13 +358,21 @@ wxInputStream *wxWinINetURL::GetInputStream(wxURL *owner)
                                     INTERNET_FLAG_PASSIVE,
                                     1
                                 );
-                                
+                              
     while (!operationEnded) {
-        if (b_ShuttingDown) {
-            newStreamHandle = NULL;
-            break;
+        if (b_ShuttingDown || (!pDoc->IsConnected())) {
+            GetSessionHandle(); // Closes the session
+            if (newStreamHandle) {
+                delete newStreamHandle;
+                newStreamHandle = NULL;
+            }
+            if (newStream) {
+                delete newStream;
+                newStream = NULL;
+            }
+            return 0;
         }
-        wxYield();
+        wxGetApp().Yield(true);
     }
 
     if ((lastInternetStatus == INTERNET_STATUS_REQUEST_COMPLETE) &&

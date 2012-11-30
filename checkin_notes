@@ -7180,3 +7180,13 @@ David  30 Nov 2012
 
 	lib/
 		filesys.cpp
+
+Charlie 30 Nov 2012
+    - Mgr: Fix some rare issues on Windows (including a possible memory 
+        leak) when switching to a client on a different computer after 
+        trying to display notices without an Internet connection.
+
+    clientgui/
+        BOINCHtmlLBox.cpp,.h
+        BOINCInternetFSHandler.cpp
+        NoticeListCtrl.cpp,.h
