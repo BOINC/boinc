@@ -7152,3 +7152,19 @@ Charlie 28 Nov 2012
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  29 Nov 2012
+    - client (Win) preallocate large files to avoid file fragmentation
+        when you write to them incrementally
+        (workaround for shoddy filesystem design)
+    - admin web: remove line that limited mass emails to 10
+    client/
+        async_file.cpp
+        file_xfer.cpp
+        gui_http.cpp
+        http_curl.cpp,h
+        scheduler_op.cpp
+    lib/
+        filesys.cpp,h
+    html/ops/
+        mass_email.php

@@ -76,7 +76,7 @@ if ($receiver > 0) {
         exit_error("Got impossible value of receiver from selection!");
     }
     // FOR DEBUGGING
-    $query .= " LIMIT 10";
+    //$query .= " LIMIT 10";
 
     $result = mysql_query($query);
     while ($user = mysql_fetch_object($result)) {

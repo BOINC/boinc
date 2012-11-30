@@ -69,7 +69,7 @@ public:
 
     FILE* fileIn;
 	FILE* fileOut;
-        // CMC need an output file for POST responses
+        // output file for POST responses
 	CURL* curlEasy;
         // the "easy curl" handle for this net_xfer request
 	struct curl_slist *pcurlList;
@@ -158,7 +158,7 @@ public:
 	//int init_head(const char* url);
     int init_get(
         PROJECT*, const char* url, const char* outfile,
-        bool del_old_file, double offset=0
+        bool del_old_file, double offset, double size
     );
     int init_post(
         PROJECT*, const char* url, const char* infile, const char* outfile
@@ -181,7 +181,7 @@ private:
 	// take an init_get/post/post2 and turns it into a libcurl request
     //
 	int libcurl_exec(const char* url, const char* in, const char* out, 
-		double offset, bool bPost
+		double offset, double size, bool is_post
     );
 };
 

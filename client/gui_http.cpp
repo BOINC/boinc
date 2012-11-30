@@ -43,7 +43,7 @@ int GUI_HTTP::do_rpc(
     }
 
     boinc_delete_file(output_file);
-    retval = http_op.init_get(0, url, output_file, true);
+    retval = http_op.init_get(0, url, output_file, true, 0, 0);
     if (retval) return retval;
     gstate.http_ops->insert(&http_op);
     gui_http_op = op;

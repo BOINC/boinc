@@ -49,7 +49,9 @@ extern "C" {
   extern int boinc_copy(const char* orig, const char* newf);
   extern int boinc_rename(const char* old, const char* newf);
   extern int boinc_mkdir(const char*);
-#ifndef _WIN32
+#ifdef _WIN32
+  extern int boinc_allocate_file(const char*, double size);
+#else
   extern int boinc_chown(const char*, gid_t);
 #endif
   extern int boinc_rmdir(const char*);

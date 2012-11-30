@@ -70,7 +70,7 @@ int FILE_XFER::init_download(FILE_INFO& file_info) {
     const char* url = fip->download_urls.get_current_url(file_info);
     if (!url) return ERR_INVALID_URL;
     return HTTP_OP::init_get(
-        file_info.project, url, pathname, false, (int)starting_size
+        file_info.project, url, pathname, false, starting_size, file_info.nbytes
     );
 }
 
