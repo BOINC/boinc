@@ -7168,3 +7168,9 @@ David  29 Nov 2012
         filesys.cpp,h
     html/ops/
         mass_email.php
+
+David  30 Nov 2012
+    - server: fix create_forums.php
+
+    html/ops/
+        create_forums.php
