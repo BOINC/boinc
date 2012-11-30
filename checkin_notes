@@ -7174,3 +7174,9 @@ David  30 Nov 2012
 
     html/ops/
         create_forums.php
+
+David  30 Nov 2012
+	- lib: Win compile fix for boinc_allocate_file()
+
+	lib/
+		filesys.cpp

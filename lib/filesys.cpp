@@ -759,7 +759,7 @@ void relative_to_absolute(const char* relname, char* path) {
 
 // get total and free space on current filesystem (in bytes)
 //
-#ifdef _WIN32
+#if defined(_WIN32) && !(defined(WXDEBUG) || defined(WXNDEBUG))
 int boinc_allocate_file(const char* path, double size) {
     int retval = 0;
     HANDLE h = CreateFile(
@@ -772,8 +772,10 @@ int boinc_allocate_file(const char* path, double size) {
         NULL
     );
     if (h == INVALID_HANDLE_VALUE) return ERR_FOPEN;
-    LARGE_INTEGER sz = size;
-    if (SetFilePointEx(h, sz, NULL, FILE_BEGIN)) {
+    LARGE_INTEGER sz;
+    sz.LowPart = fmod(size, 4294967296.);
+    sz.HighPart = (LONG)(size/4294967296.);
+    if (SetFilePointerEx(h, sz, NULL, FILE_BEGIN) == 0) {
         retval = ERR_FOPEN;
     }
     if (!retval && SetEndOfFile(h) == 0) {
@@ -782,7 +784,9 @@ int boinc_allocate_file(const char* path, double size) {
     CloseHandle(h);
     return retval;
 }
+#endif
 
+#ifdef _WIN32
 int get_filesystem_info(double &total_space, double &free_space, char*) {
     char cwd[MAXPATHLEN];
     boinc_getcwd(cwd);
