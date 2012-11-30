@@ -64,7 +64,6 @@ create_forum($catid, 2, "Macintosh", "Installing and running BOINC on Mac OS/X")
 $catid = create_category(1, "General issues", 1);
 create_forum($catid, 3, "Getting started", "Creating your account");
 create_forum($catid, 4, "Preferences", "Using preferences");
-create_forum($catid, 5, "Wish list", "What new features would you like to see?");
 create_forum($catid, 6, "Web site", "Issues involving this web site");
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
