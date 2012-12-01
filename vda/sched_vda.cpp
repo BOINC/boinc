@@ -27,6 +27,7 @@
 #include <map>
 #include <string>
 #include <unistd.h>
+#include <sys/wait.h>
 
 #include "filesys.h"
 

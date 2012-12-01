@@ -7214,3 +7214,10 @@ David  30 Nov 2012
 
     sched/
         sched_customize.cpp
+
+David  30 Nov 2012
+    - scheduler: build fixes for FreeBSD.  From RustyBSD.
+
+    vda/
+        sched_vda.cpp
+        vda_lib2.cpp
