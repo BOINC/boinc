@@ -461,6 +461,8 @@ void CLIENT_STATE::check_file_existence() {
     unsigned int i;
     char path[MAXPATHLEN];
 
+    if (config.dont_check_file_sizes) return;
+
     for (i=0; i<file_infos.size(); i++) {
         FILE_INFO* fip = file_infos[i];
         if (fip->status == FILE_PRESENT) {

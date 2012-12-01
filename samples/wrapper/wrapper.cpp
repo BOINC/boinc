@@ -527,7 +527,7 @@ HANDLE win_fopen(const char* path, const char* mode) {
         return CreateFile(
             path,
             GENERIC_WRITE,
-            FILE_SHARE_WRITE,
+            FILE_SHARE_READ|FILE_SHARE_WRITE,
             &sa,
             OPEN_ALWAYS,
             0, 0
@@ -536,7 +536,7 @@ HANDLE win_fopen(const char* path, const char* mode) {
         HANDLE hAppend = CreateFile(
             path,
             GENERIC_WRITE,
-            FILE_SHARE_WRITE,
+            FILE_SHARE_READ|FILE_SHARE_WRITE,
             &sa,
             OPEN_ALWAYS,
             0, 0

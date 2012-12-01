@@ -4432,10 +4432,10 @@ David  18 June 2012
         gpu_nvidia.cpp
 
 David  19 June 2012
-	- client: AMD GPU detection addition (from [P3D] Crashtest)
+    - client: AMD GPU detection addition (from [P3D] Crashtest)
 
-	client/
-		gpu_amd.cpp
+    client/
+        gpu_amd.cpp
 
 Charlie 20 June 2012
     - Mac: Update XCode project with new source files.
@@ -4490,10 +4490,10 @@ Charlie 22 June 2012
         release_boinc.sh
 
 David  22 June 2012
-	- client: AMD GPU detection addition (from [P3D] Crashtest)
+    - client: AMD GPU detection addition (from [P3D] Crashtest)
 
-	client/
-		gpu_amd.cpp
+    client/
+        gpu_amd.cpp
 
 David  25 June 2012
     - scheduler: add support for Intel GPUs, and restructure things
@@ -4705,20 +4705,20 @@ Charlie 3 July 2012
             project.pbxproj
 
 David  3 July 2012
-	- Client (Win): in file_size(), use _stat64() instead of stat().
-		Otherwise it doesn't work for files >= 2GB
-	- Client: TIME_STATS::trim_stats_log() wasn't working because
-		it's called in the constructor of TIME_STATS,
-		which is called before we've done a chdir() to the data dir.
+    - Client (Win): in file_size(), use _stat64() instead of stat().
+        Otherwise it doesn't work for files >= 2GB
+    - Client: TIME_STATS::trim_stats_log() wasn't working because
+        it's called in the constructor of TIME_STATS,
+        which is called before we've done a chdir() to the data dir.
 
-	Note: for this reason, no disk access should be done in constructors
-	of global objects.  A quick scan found no instances of this.
+    Note: for this reason, no disk access should be done in constructors
+    of global objects.  A quick scan found no instances of this.
 
-	client/
-		client_state.cpp
-		time_stats.cpp,h
-	lib/
-		filesys.cpp
+    client/
+        client_state.cpp
+        time_stats.cpp,h
+    lib/
+        filesys.cpp
 
 Charlie 5 July 2012
     - Mac: update script which builds our installer to work with Xcode 4.3 
@@ -4987,13 +4987,13 @@ David  17 July 2012
         client_state.cpp
 
 David  17 July 2012
-	- client: if we get a job for which a GPU is missing,
-		keep the RESULT record so that we can report it to the scheduler.
-		Otherwise we'll keep getting the same job if the project has
-		<resend_lost_results> set.
+    - client: if we get a job for which a GPU is missing,
+        keep the RESULT record so that we can report it to the scheduler.
+        Otherwise we'll keep getting the same job if the project has
+        <resend_lost_results> set.
 
-	client/
-		cs_scheduler.cpp
+    client/
+        cs_scheduler.cpp
 
 Charlie 18 July 2012
     - lib: Adjust #include files as requested by Oliver Bock.
@@ -5054,10 +5054,10 @@ David  23 July 2012
         boinc_db_types.h
 
 David  23 July 2012
-	- client: improve "new version available" notice
+    - client: improve "new version available" notice
 
-	client/
-		current_version.cpp
+    client/
+        current_version.cpp
 
 David  25 July 2012
     - volunteer data storage: intermediate checkin
@@ -5312,10 +5312,10 @@ Rom    6 Aug 2012
         stackwalker_imports.h
 
 David  6 Aug 2012
-	- client: fix error in runtime estimation for active tasks
+    - client: fix error in runtime estimation for active tasks
 
-	client/
-		work_fetch.cpp
+    client/
+        work_fetch.cpp
 
 Rom    7 Aug 2012
     - MGR: Enforce the 0..10 day limit on the connect interval for the
@@ -5964,13 +5964,13 @@ Rom    13 Sept 2012
         gpu_nvidia.cpp
 
 David  16 Sept 2012
-	- client: enforce excluded app at startup
-	- win compile fix
+    - client: enforce excluded app at startup
+    - win compile fix
 
-	client/
-		app.cpp
-	lib/
-		filesys.h
+    client/
+        app.cpp
+    lib/
+        filesys.h
 
 David  19 Sept 2012
     - scheduler: fix bug that cause NCI to be sent even when
@@ -6131,18 +6131,18 @@ David  11 Oct 2012
         proc_control.cpp
 
 David  11 Oct 2012
-	- Win compile fixes.
-		For now, include psapi.lib in various project properties.
-		Try to figure out a different way.
+    - Win compile fixes.
+        For now, include psapi.lib in various project properties.
+        Try to figure out a different way.
 
-	api/
-		boinc_api.cpp
-	client/
-		app_start.cpp
-	lib/
-		boinc_win.h
-	win_build/
-		various .proj files
+    api/
+        boinc_api.cpp
+    client/
+        app_start.cpp
+    lib/
+        boinc_win.h
+    win_build/
+        various .proj files
 
 David  15 Oct 2012
     - user web: show the right page/message after the following actions:
@@ -6543,18 +6543,18 @@ Rom    1 Nov 2012
         vbox.cpp, .h
 
 David  1 Nov 2012
-	- client/manager: move the conditional define of MAXPATHLEN
-		from boinc_win.h to filesys.h,
-		so that the client will hopefully build on Hurd,
-		which doesn't define MAXPATHLEN.
+    - client/manager: move the conditional define of MAXPATHLEN
+        from boinc_win.h to filesys.h,
+        so that the client will hopefully build on Hurd,
+        which doesn't define MAXPATHLEN.
 
-	client/
-		http_curl.cpp
-	lib/
-		boinc_win.h
-		common_defs.h
-		filesys.h
-		gui_rpc_client.h
+    client/
+        http_curl.cpp
+    lib/
+        boinc_win.h
+        common_defs.h
+        filesys.h
+        gui_rpc_client.h
 
 David  1 Nov 2012
     - fix a few unlikely but possible file-descriptor leaks (from RustyBSD)
@@ -6755,15 +6755,15 @@ David  11 Nov 2012
         manage_privileges
 
 David  12 Nov 2012
-	- client: Win build fix
-	- add Visual Studio project for slide_show
-		NOTE: this currently doesn't build because boinc_zip is missing.
-		I'll fix this soon.
-	win_build/
-		slide_show.vcproj
-		boinc.sln
-	client/
-		client_types.h
+    - client: Win build fix
+    - add Visual Studio project for slide_show
+        NOTE: this currently doesn't build because boinc_zip is missing.
+        I'll fix this soon.
+    win_build/
+        slide_show.vcproj
+        boinc.sln
+    client/
+        client_types.h
 
 David  13 Nov 2012
     - client: fix bug where, when updating a project, we fail to request work
@@ -7013,10 +7013,10 @@ David  23 Nov 2012
             sandbox.php
 
 David  25 Nov 2012
-	- wrapper: compile fixes for Win
+    - wrapper: compile fixes for Win
 
-	samples/wrapper/
-		regexp.c,h
+    samples/wrapper/
+        regexp.c,h
 
 David  25 Nov 2012
     - scheduler: add extra check for not sending homogeneous app version
@@ -7120,10 +7120,10 @@ David  28 Nov 2012
         result.h
 
 David  28 Nov 2012
-	- client: add the above to VS project
+    - client: add the above to VS project
 
-	win_build/
-		boinc_cli.vcproj
+    win_build/
+        boinc_cli.vcproj
 
 David  28 Nov 2012
     - user web: don't show fraction done in list of batches.
@@ -7133,21 +7133,21 @@ David  28 Nov 2012
         submit.php
 
 David  28 Nov 2012
-	- fix mysterious problems in Windows build
+    - fix mysterious problems in Windows build
 
-	win_build/
-		boinc.sln
-		wrapper.vcproj
+    win_build/
+        boinc.sln
+        wrapper.vcproj
 
 David  28 Nov 2012
-	- client: bug fixes for app config feature
+    - client: bug fixes for app config feature
 
-	client/
-		client_state.cpp
-		client_types.h
+    client/
+        client_state.cpp
+        client_types.h
 
 Charlie 28 Nov 2012
-	- client: add new files app_config.cpp,h to Xcode project.
+    - client: add new files app_config.cpp,h to Xcode project.
 
     mac_build/
         boinc.xcodeproj/
@@ -7176,10 +7176,10 @@ David  30 Nov 2012
         create_forums.php
 
 David  30 Nov 2012
-	- lib: Win compile fix for boinc_allocate_file()
+    - lib: Win compile fix for boinc_allocate_file()
 
-	lib/
-		filesys.cpp
+    lib/
+        filesys.cpp
 
 Charlie 30 Nov 2012
     - Mgr: Fix some rare issues on Windows (including a possible memory 
@@ -7190,3 +7190,13 @@ Charlie 30 Nov 2012
         BOINCHtmlLBox.cpp,.h
         BOINCInternetFSHandler.cpp
         NoticeListCtrl.cpp,.h
+
+David  30 Nov 2012
+    - client: if <dont_check_file_sizes> is set, don't check file existence at startup
+    - wrapper: open files in shared mode so you can look at them while wrapper is running
+    client/
+        cs_files.cpp
+    lib/
+        procinfo.cpp
+    samples/wrapper/
+        wrapper.cpp
