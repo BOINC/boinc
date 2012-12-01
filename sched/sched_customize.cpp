@@ -76,7 +76,7 @@ bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
     // we'll skip this job rather than send it for the CPU.
     // Fixing this would require a big architectural change.
     //
-    if (strstr(wu.name, "_v1") && bav.host_usage.proc_type != PROC_TYPE_CPU) {
+    if (strstr(wu.name, "_v1") && bav.host_usage.uses_gpu()) {
         return true;
     }
 #endif
@@ -95,7 +95,7 @@ bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
 #if 0
     // example: if GPU app and WU name contains ".vlar", don't send
     //
-    if (bav.host_usage.proc_type != PROC_TYPE_CPU) {
+    if (bav.host_usage.uses_gpu()) {
         if (strstr(wu.name, ".vlar")) {
             return true;
         }

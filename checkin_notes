@@ -7209,3 +7209,8 @@ David  30 Nov 2012
 
     mac_installer/PostInstall.cpp
 
+David  30 Nov 2012
+    - scheduler: use HOST_USAGE::uses_gpu() function where appropriate
+
+    sched/
+        sched_customize.cpp
