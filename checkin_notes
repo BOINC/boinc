@@ -7192,11 +7192,20 @@ Charlie 30 Nov 2012
         NoticeListCtrl.cpp,.h
 
 David  30 Nov 2012
-    - client: if <dont_check_file_sizes> is set, don't check file existence at startup
-    - wrapper: open files in shared mode so you can look at them while wrapper is running
+    - client: if <dont_check_file_sizes> is set,
+        don't check file existence at startup
+    - wrapper: open files in shared mode
+        so you can look at them while wrapper is running
+
     client/
         cs_files.cpp
     lib/
         procinfo.cpp
     samples/wrapper/
         wrapper.cpp
+
+David  30 Nov 2012
+    - Mac installer: add missing pclose() (from RustyBSD)
+
+    mac_installer/PostInstall.cpp
+

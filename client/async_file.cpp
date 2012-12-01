@@ -173,7 +173,7 @@ int ASYNC_VERIFY::init(FILE_INFO* _fip) {
         char* p = strrchr(temp_path, '/');
         strcpy(p+1, "verify_temp");
 #ifdef _WIN32
-    boinc_allocate_file(temp_path, fip->nbytes);
+        boinc_allocate_file(temp_path, fip->nbytes);
 #endif
         out = boinc_fopen(temp_path, "wb");
         if (!out) return ERR_FOPEN;

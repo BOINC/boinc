@@ -1218,6 +1218,7 @@ int CountGroupMembershipEntries(const char *userName, const char *groupName) {
         }
     }
     
+    pclose(f);
     return count;
 }
 
