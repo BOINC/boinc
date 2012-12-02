@@ -7221,3 +7221,10 @@ David  30 Nov 2012
     vda/
         sched_vda.cpp
         vda_lib2.cpp
+
+David  2 Dec 2012
+    - web: add hook for "science info" link in result lists (for CAS@home)
+
+    html/inc/
+        result.inc
+        util.inc
