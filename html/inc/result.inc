@@ -349,11 +349,11 @@ function result_table_start($show_wu_link, $show_host_link, $info) {
     }
     if ($show_wu_link) {
         echo "<th>".tra("Work unit")."<br><span class=\"smalltext\">".tra("click for details")."</span></th>\n";
-    }
-    if (function_exists('project_result_info_heading')) {
-        $x = project_result_info_heading();
-        if ($x) {
-            echo "<th>$x</th>\n";
+        if (function_exists('project_result_info_heading')) {
+            $x = project_result_info_heading();
+            if ($x) {
+                echo "<th>$x</th>\n";
+            }
         }
     }
     if ($show_host_link) {
@@ -413,11 +413,11 @@ function show_result_row(
     echo "<td><a href=\"result.php?resultid=$result->id\">$x</a></td>\n";
     if ($show_wu_link) {
         echo "<td><a href=\"workunit.php?wuid=$result->workunitid\">$result->workunitid</a></td>\n";
-    }
-    if (function_exists('project_result_info_link')) {
-        $x = project_result_info_link($result);
-        if ($x) {
-            echo "<td>$x</td>\n";
+        if (function_exists('project_result_info_link')) {
+            $x = project_result_info_link($result);
+            if ($x) {
+                echo "<td>$x</td>\n";
+            }
         }
     }
     if ($show_host_link) {
