@@ -66,8 +66,10 @@ if ($app->target_nresults>0 && !$wu->canonical_resultid && !$wu->error_mask && !
     if ($wu->need_validate) {
         row2(tra("validation"), tra("Pending"));
     }
+    if (function_exists('project_workunit')) {
+        project_workunit($wu);
+    }
     end_table();
-    project_workunit($wu);
 
     result_table_start(false, true, null);
     $results = BoincResult::enum("workunitid=$wuid");
