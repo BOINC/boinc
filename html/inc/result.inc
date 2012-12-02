@@ -351,7 +351,10 @@ function result_table_start($show_wu_link, $show_host_link, $info) {
         echo "<th>".tra("Work unit")."<br><span class=\"smalltext\">".tra("click for details")."</span></th>\n";
     }
     if (function_exists('project_result_info_heading')) {
-        echo "<th>", project_result_info_heading(), "</th>\n";
+        $x = project_result_info_heading();
+        if ($x) {
+            echo "<th>$x</th>\n";
+        }
     }
     if ($show_host_link) {
         echo "<th>".tra("Computer")."</th>\n";
@@ -412,7 +415,10 @@ function show_result_row(
         echo "<td><a href=\"workunit.php?wuid=$result->workunitid\">$result->workunitid</a></td>\n";
     }
     if (function_exists('project_result_info_link')) {
-        echo "<td>", project_result_info_link($result), "</td>\n";
+        $x = project_result_info_link($result);
+        if ($x) {
+            echo "<td>$x</td>\n";
+        }
     }
     if ($show_host_link) {
         echo "<td>", host_link($result->hostid), "</td>\n";
