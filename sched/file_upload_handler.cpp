@@ -699,14 +699,14 @@ int main(int argc, char *argv[]) {
     log_messages.pid = getpid();
     log_messages.set_debug_level(config.fuh_debug_level);
 
-#ifndef _USING_FCGI_
     if (boinc_file_exists(config.project_path("stop_upload"))) {
         return_error(ERR_TRANSIENT,
             "File uploads are temporarily disabled."
         );
+#ifndef _USING_FCGI_
         exit(1);
-    }
 #endif
+    }
 
     if (!config.ignore_upload_certificates) {
         retval = get_key(key);
