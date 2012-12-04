@@ -53,6 +53,8 @@ struct VBOX_VM {
     // maximum amount of wall-clock time this VM is allowed to run before
     // considering itself done.
     double job_duration;
+    // name of file where app will write its fraction done
+    std::string fraction_done_filename;
     // is the VM suspended?
     bool suspended;
     // is network access temporarily suspended?

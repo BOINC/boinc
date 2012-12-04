@@ -148,6 +148,7 @@ int parse_job_file(VBOX_VM& vm, vector<string>& copy_to_shared) {
         else if (xp.parse_string("os_name", vm.os_name)) continue;
         else if (xp.parse_string("memory_size_mb", vm.memory_size_mb)) continue;
         else if (xp.parse_double("job_duration", vm.job_duration)) continue;
+        else if (xp.parse_string("fraction_done_filename", vm.fraction_done_filename)) continue;
         else if (xp.parse_bool("enable_cern_dataformat", vm.enable_cern_dataformat)) continue;
         else if (xp.parse_bool("enable_network", vm.enable_network)) continue;
         else if (xp.parse_bool("enable_shared_directory", vm.enable_shared_directory)) continue;
@@ -189,6 +190,30 @@ void read_checkpoint(double& cpu, VBOX_VM& vm) {
     cpu = c;
     vm.pf_host_port = pf_host;
     vm.rd_host_port = rd_host;
+}
+
+void read_fraction_done(double& frac_done, VBOX_VM& vm) {
+    char buf[256];
+    double temp, frac = 0;
+
+    FILE* f = fopen(vm.fraction_done_filename.c_str(), "r");
+    if (!f) return;
+
+    // read the last line of the file
+    //
+    fseek(f, -32, SEEK_END);
+    while (!feof(f)) {
+        char* p = fgets(buf, 256, f);
+        if (p == NULL) break;
+        int n = sscanf(buf, "%lf", &temp);
+        if (n == 1) frac = temp;
+    }
+    fclose(f);
+
+    if (frac < 0) return 0;
+    if (frac > 1) return 1;
+
+    frac_done = frac;
 }
 
 // set CPU and network throttling if needed
@@ -657,10 +682,13 @@ int main(int argc, char** argv) {
                     // Basic bookkeeping
                     if (vm.job_duration) {
                         fraction_done = elapsed_time / vm.job_duration;
-                        if (fraction_done > 1.0) {
-                            fraction_done = 1.0;
-                        }
+                    } else if (vm.fraction_done_filename.size() > 0) {
+                        read_fraction_done(fraction_done, vm);
                     }
+                    if (fraction_done > 1.0) {
+                        fraction_done = 1.0;
+                    }
+
                     if ((elapsed_time - last_status_report_time) >= 6000.0) {
                         last_status_report_time = elapsed_time;
                         if (aid.global_prefs.daily_xfer_limit_mb) {

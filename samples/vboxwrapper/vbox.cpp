@@ -69,6 +69,7 @@ VBOX_VM::VBOX_VM() {
     image_filename.clear();
     floppy_image_filename.clear();
     job_duration = 0.0;
+    fraction_done_filename.clear();
     suspended = false;
     network_suspended = false;
     online = false;

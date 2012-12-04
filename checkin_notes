@@ -7235,3 +7235,11 @@ Charlie 4 Dec 2012
     
     api/
         boinc_opencl.cpp,h
+
+Rom    4 Dec 2012
+    - VBOX: Add the ability to read a fraction done file from the shared
+        directory.  Use the same semantics as the regular wrapper.
+        
+    samples\vboxwrapper\
+        vbox.cpp, .h
+        vboxwrapper.cpp
