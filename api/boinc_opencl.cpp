@@ -45,9 +45,9 @@
 // In all systems, opencl_device_indexes start at 0 for each platform
 //  and device_nums start at 0 for each vendor.
 //
-// On Macs, OpenCL does not always recognize all GPUs detected by CUDA, 
-//  so a device_num may not correspond to its opencl_device_index even 
-//  if all GPUs are from NVIDIA.
+// On Macs, OpenCL does not always recognize all GPU models detected by 
+//  CUDA, so a device_num may not correspond to its opencl_device_index 
+//  even if all GPUs are from NVIDIA.
 //
 
 
@@ -120,7 +120,7 @@ int boinc_get_opencl_ids_aux(
         
         // Older versions of init_data.xml don't have gpu_opencl_dev_index field
         // NOTE: This may return the wrong device on older versions of BOINC if
-        //  OpenCL does not recognize all GPUs detected by CUDA
+        //  OpenCL does not recognize all GPU models detected by CUDA
         for (device_index=0; device_index<(int)num_devices; ++device_index) {
             device_id = devices[device_index];
 
@@ -152,7 +152,8 @@ int boinc_get_opencl_ids_aux(
 // - 0 if success
 // - ERR_FOPEN if init_data.xml missing
 // - ERR_XML_PARSE if can't parse init_data.xml
-// - ERR_NOT_FOUND if missing <gpu_type> or <gpu_device_num> fields
+// - ERR_NOT_FOUND if unable to get gpu_type information
+// - ERR_NOT_FOUND if unable to get opencl_device_index or gpu device_num
 // - an OpenCL error number if OpenCL error
 //
 int boinc_get_opencl_ids(int argc, char** argv, char* type, cl_device_id* device, cl_platform_id* platform){
