@@ -25,4 +25,11 @@
 
 #include "cl_boinc.h"
 
-int boinc_get_opencl_ids(int argc, char** argv, char *type, cl_device_id* device, cl_platform_id* platform);int boinc_get_opencl_ids(cl_device_id* device, cl_platform_id* platform);
+int boinc_get_opencl_ids(
+    int argc, char** argv, char *type,
+    cl_device_id* device, cl_platform_id* platform
+);
+
+// doesn't work w/ pre-7 clients; use the above
+//
+int boinc_get_opencl_ids(cl_device_id* device, cl_platform_id* platform);

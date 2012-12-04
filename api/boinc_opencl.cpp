@@ -49,8 +49,6 @@
 //  CUDA, so a device_num may not correspond to its opencl_device_index 
 //  even if all GPUs are from NVIDIA.
 //
-
-
 int get_vendor(cl_device_id device_id, char* vendor) {
     int retval = 0;
 
@@ -77,7 +75,8 @@ int get_vendor(cl_device_id device_id, char* vendor) {
 // returns an OpenCL error num or zero
 //
 int boinc_get_opencl_ids_aux(
-    char* type, int opencl_device_index, int device_num, cl_device_id* device, cl_platform_id* platform
+    char* type, int opencl_device_index, int device_num,
+    cl_device_id* device, cl_platform_id* platform
 ) {
     cl_platform_id platforms[MAX_OPENCL_PLATFORMS];
     cl_uint num_platforms, platform_index, num_devices;
@@ -156,7 +155,10 @@ int boinc_get_opencl_ids_aux(
 // - ERR_NOT_FOUND if unable to get opencl_device_index or gpu device_num
 // - an OpenCL error number if OpenCL error
 //
-int boinc_get_opencl_ids(int argc, char** argv, char* type, cl_device_id* device, cl_platform_id* platform){
+int boinc_get_opencl_ids(
+    int argc, char** argv, char* type,
+    cl_device_id* device, cl_platform_id* platform
+){
     int retval;
     APP_INIT_DATA aid;
     char *gpu_type;
@@ -180,6 +182,7 @@ int boinc_get_opencl_ids(int argc, char** argv, char* type, cl_device_id* device
     
     if (aid.gpu_opencl_dev_index < 0) {
         // Older versions of init_data.xml don't have gpu_opencl_dev_index field
+        //
         gpu_device_num = aid.gpu_device_num;
         if (gpu_device_num < 0) {
             // Even older versions of init_data.xml don't have gpu_device_num field
@@ -197,7 +200,6 @@ int boinc_get_opencl_ids(int argc, char** argv, char* type, cl_device_id* device
         return ERR_NOT_FOUND;
     }
 
-    
     retval = boinc_get_opencl_ids_aux(
         gpu_type, aid.gpu_opencl_dev_index, gpu_device_num, device, platform
     );
