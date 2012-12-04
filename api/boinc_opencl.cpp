@@ -183,9 +183,9 @@ int boinc_get_opencl_ids(int argc, char** argv, char* type, cl_device_id* device
         gpu_device_num = aid.gpu_device_num;
         if (gpu_device_num < 0) {
             // Even older versions of init_data.xml don't have gpu_device_num field
-            for (i=1; i<argc; i++) {
+            for (i=0; i<argc-1; i++) {
                 if ((!strcmp(argv[i], "--device")) || (!strcmp(argv[i], "-device"))) {
-                    gpu_device_num = atoi(argv[++i]);
+                    gpu_device_num = atoi(argv[i+1]);
                     break;
                 }
             }
