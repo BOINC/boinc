@@ -7228,3 +7228,10 @@ David  2 Dec 2012
     html/inc/
         result.inc
         util.inc
+
+Charlie 4 Dec 2012
+    - OpenCL: Add a second API for boinc_get_opencl_ids() which is 
+        compatible with older clients (before BOINC 7.0.12).
+    
+    api/
+        boinc_opencl.cpp,h
