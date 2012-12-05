@@ -210,8 +210,12 @@ void read_fraction_done(double& frac_done, VBOX_VM& vm) {
     }
     fclose(f);
 
-    if (frac < 0) return 0;
-    if (frac > 1) return 1;
+    if (frac < 0) {
+        frac = 0;
+    }
+    if (frac > 1) {
+        frac = 1;
+    }
 
     frac_done = frac;
 }

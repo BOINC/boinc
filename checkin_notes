@@ -7298,3 +7298,9 @@ Rom    5 Dec 2012
         
     clientgui/
         browser.cpp
+
+Rom    5 Dec 2012
+    - VBOX: Fix build break introduced by the previous vbox commit.
+    
+    samples/vbox/
+        vboxwrapper.cpp
