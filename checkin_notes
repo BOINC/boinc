@@ -7304,3 +7304,9 @@ Rom    5 Dec 2012
     
     samples/vbox/
         vboxwrapper.cpp
+
+Rom    5 Dec 2012
+    - client: strcasestr doesn't exist on Windows.
+    
+    client/
+        gpu_opencl.cpp

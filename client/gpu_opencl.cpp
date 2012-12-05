@@ -318,7 +318,9 @@ void COPROCS::get_opencl(
             }
             
             //////////// INTEL GPU //////////////
-            if (strcasestr(prop.vendor, "intel")) {
+            if ((strstr(prop.vendor, "intel")) ||
+                (strstr(prop.vendor, "Intel"))
+            ) {
                 cl_device_type device_type;
                 
                 ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_TYPE,
