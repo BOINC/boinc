@@ -84,7 +84,10 @@ int MFILE::vprintf(const char* format, va_list ap) {
     n = (int)strlen(buf2);
     buf = (char*)realloc_aux(buf, len+n+1);
     if (!buf) {
-        fprintf(stderr, "ERROR: realloc() failed in MFILE::vprintf()\n");
+        fprintf(stderr,
+            "ERROR: realloc() failed in MFILE::vprintf(); len %d n %d\n",
+            len, n
+        );
         exit(1);
     }
     strncpy(buf+len, buf2, n);
@@ -106,7 +109,10 @@ int MFILE::printf(const char* format, ...) {
 size_t MFILE::write(const void *ptr, size_t size, size_t nitems) {
     buf = (char *)realloc_aux( buf, len+(size*nitems)+1 );
     if (!buf) {
-        fprintf(stderr, "ERROR: realloc() failed in MFILE::write()\n");
+        fprintf(stderr,
+            "ERROR: realloc() failed in MFILE::write(); len %d size %lu nitems %lu\n",
+            len, size, nitems
+        );
         exit(1);
     }
     memcpy( buf+len, ptr, size*nitems );
@@ -118,7 +124,9 @@ size_t MFILE::write(const void *ptr, size_t size, size_t nitems) {
 int MFILE::_putchar(char c) {
     buf = (char*)realloc_aux(buf, len+1+1);
     if (!buf) {
-        fprintf(stderr, "ERROR: realloc() failed in MFILE::_putchar()\n");
+        fprintf(stderr,
+            "ERROR: realloc() failed in MFILE::_putchar(); len %d\n", len
+        );
         exit(1);
     }
     buf[len] = c;
@@ -131,7 +139,9 @@ int MFILE::puts(const char* p) {
     int n = (int)strlen(p);
     buf = (char*)realloc_aux(buf, len+n+1);
     if (!buf) {
-        fprintf(stderr, "ERROR: realloc() failed in MFILE::puts()\n");
+        fprintf(stderr,
+            "ERROR: realloc() failed in MFILE::puts() len %d n %d\n", len, n
+        );
         exit(1);
     }
     strncpy(buf+len, p, n);

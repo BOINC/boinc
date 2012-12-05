@@ -7282,3 +7282,8 @@ Charlie 5 Dec 2012
         coproc.cpp,.h
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
+
+David  7 Dec 2012
+    - lib: add size info to messages when realloc() fails in MFILE
+    lib/
+        mfile.cpp
