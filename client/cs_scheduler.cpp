@@ -235,6 +235,12 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         coprocs.ati.req_instances = rsc_work_fetch[j].req_instances;
         coprocs.ati.estimated_delay = rsc_work_fetch[j].req_secs?rsc_work_fetch[j].busy_time_estimator.get_busy_time():0;
     }
+    j = rsc_index(GPU_TYPE_INTEL);
+    if (j > 0) {
+        coprocs.intel_gpu.req_secs = rsc_work_fetch[j].req_secs;
+        coprocs.intel_gpu.req_instances = rsc_work_fetch[j].req_instances;
+        coprocs.intel_gpu.estimated_delay = rsc_work_fetch[j].req_secs?rsc_work_fetch[j].busy_time_estimator.get_busy_time():0;
+    }
 
     if (coprocs.n_rsc > 1) {
         coprocs.write_xml(mf, true);
@@ -345,6 +351,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
                     sprintf(buf, "        <ncudas>%f</ncudas>\n", rp->avp->gpu_usage.usage);
                 } else if (rt == rsc_index(GPU_TYPE_ATI)) {
                     sprintf(buf, "        <natis>%f</natis>\n", rp->avp->gpu_usage.usage);
+                } else if (rt == rsc_index(GPU_TYPE_INTEL)) {
+                    sprintf(buf, "        <nintel_gpus>%f</nintel_gpus>\n", rp->avp->gpu_usage.usage);
                 }
             }
             fprintf(f,

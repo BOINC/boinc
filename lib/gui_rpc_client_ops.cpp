@@ -299,7 +299,9 @@ int PROJECT::parse(XML_PARSER& xp) {
         if (xp.parse_double("cuda_backoff_time", rsc_desc_nvidia.backoff_time)) continue;
         if (xp.parse_double("cuda_backoff_interval", rsc_desc_nvidia.backoff_interval)) continue;
         if (xp.parse_double("ati_backoff_time", rsc_desc_ati.backoff_time)) continue;
-        if (xp.parse_double("ati_backoff_interval", rsc_desc_ati.backoff_interval)) continue;
+        if (xp.parse_double("ati_backoff_interval", rsc_desc_intel_gpu.backoff_interval)) continue;
+        if (xp.parse_double("intel_gpu_backoff_time", rsc_desc_intel_gpu.backoff_time)) continue;
+        if (xp.parse_double("intel_gpu_backoff_interval", rsc_desc_ati.backoff_interval)) continue;
         if (xp.parse_double("last_rpc_time", last_rpc_time)) continue;
         if (xp.parse_bool("no_cpu_pref", rsc_desc_cpu.no_rsc_pref)) continue;
         if (xp.parse_bool("no_cuda_pref", rsc_desc_cpu.no_rsc_pref)) continue;
@@ -316,6 +318,8 @@ int PROJECT::parse(XML_PARSER& xp) {
                         rsc_desc_nvidia.backoff_time = value;
                     } else if (!strcmp(buf, "ATI")) {
                         rsc_desc_ati.backoff_time = value;
+                    } else if (!strcmp(buf, "INTEL_GPU")) {
+                        rsc_desc_intel_gpu.backoff_time = value;
                     }
                     break;
                 }
@@ -334,6 +338,8 @@ int PROJECT::parse(XML_PARSER& xp) {
                         rsc_desc_nvidia.backoff_interval = value;
                     } else if (!strcmp(buf, "ATI")) {
                         rsc_desc_ati.backoff_interval = value;
+                    } else if (!strcmp(buf, "INTEL_GPU")) {
+                        rsc_desc_intel_gpu.backoff_interval = value;
                     }
                     break;
                 }
@@ -349,6 +355,8 @@ int PROJECT::parse(XML_PARSER& xp) {
                 rsc_desc_nvidia.no_rsc_ams = true;
             } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_AMD_GPU))) {
                 rsc_desc_ati.no_rsc_ams = true;
+            } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_INTEL_GPU))) {
+                rsc_desc_intel_gpu.no_rsc_ams = true;
             }
             continue;
         }
@@ -359,6 +367,8 @@ int PROJECT::parse(XML_PARSER& xp) {
                 rsc_desc_nvidia.no_rsc_apps = true;
             } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_AMD_GPU))) {
                 rsc_desc_ati.no_rsc_apps = true;
+            } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_INTEL_GPU))) {
+                rsc_desc_intel_gpu.no_rsc_apps = true;
             }
             continue;
         }
@@ -369,6 +379,8 @@ int PROJECT::parse(XML_PARSER& xp) {
                 rsc_desc_nvidia.no_rsc_pref = true;
             } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_AMD_GPU))) {
                 rsc_desc_ati.no_rsc_pref = true;
+            } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_INTEL_GPU))) {
+                rsc_desc_intel_gpu.no_rsc_pref = true;
             }
             continue;
         }
@@ -379,6 +391,8 @@ int PROJECT::parse(XML_PARSER& xp) {
                 rsc_desc_nvidia.no_rsc_config = true;
             } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_AMD_GPU))) {
                 rsc_desc_ati.no_rsc_config = true;
+            } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_INTEL_GPU))) {
+                rsc_desc_intel_gpu.no_rsc_config = true;
             }
             continue;
         }
@@ -443,6 +457,7 @@ void PROJECT::clear() {
     rsc_desc_cpu.clear();
     rsc_desc_nvidia.clear();
     rsc_desc_ati.clear();
+    rsc_desc_intel_gpu.clear();
     duration_correction_factor = 0;
     anonymous_platform = false;
     master_url_fetch_pending = false;
@@ -964,6 +979,7 @@ int CC_STATE::parse(XML_PARSER& xp) {
         }
         if (xp.parse_bool("have_cuda", have_nvidia)) continue;
         if (xp.parse_bool("have_ati", have_ati)) continue;
+        if (xp.parse_bool("have_intel_gpu", have_intel_gpu)) continue;
     }
     return 0;
 }
@@ -995,6 +1011,7 @@ void CC_STATE::clear() {
     host_info.clear_host_info();
     have_nvidia = false;
     have_ati = false;
+    have_intel_gpu = false;
 }
 
 PROJECT* CC_STATE::lookup_project(const char* url) {

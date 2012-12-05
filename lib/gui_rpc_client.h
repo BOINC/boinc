@@ -140,6 +140,7 @@ struct PROJECT {
     RSC_DESC rsc_desc_cpu;
     RSC_DESC rsc_desc_nvidia;
     RSC_DESC rsc_desc_ati;
+    RSC_DESC rsc_desc_intel_gpu;
 
     double sched_priority;
 
@@ -388,6 +389,7 @@ struct CC_STATE {
     TIME_STATS time_stats;
     bool have_nvidia;           // deprecated; include for compat (set by <have_cuda/>)
     bool have_ati;              // deprecated; include for compat
+    bool have_intel_gpu;
 
     CC_STATE();
     ~CC_STATE();

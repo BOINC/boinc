@@ -111,9 +111,10 @@ int opencl_compare(OPENCL_DEVICE_PROP& c1, OPENCL_DEVICE_PROP& c2, bool loose) {
 
 void COPROCS::get_opencl(
     bool use_all,
-    vector<string>& warnings, 
+    vector<string>& warnings,
     vector<int>& ignore_ati_dev,
-    vector<int>& ignore_nvidia_dev
+    vector<int>& ignore_nvidia_dev,
+    vector<int>& ignore_intel_gpu_dev
 ) {
     cl_int ciErrNum;
     cl_platform_id platforms[MAX_OPENCL_PLATFORMS];
@@ -219,6 +220,7 @@ void COPROCS::get_opencl(
             prop.is_used = COPROC_UNUSED;
             prop.get_device_version_int();
 
+            //////////// NVIDIA //////////////
             if (strstr(prop.vendor, GPU_TYPE_NVIDIA)) {
                 if (nvidia.have_cuda) {
                     // Mac OpenCL does not recognize all NVIDIA GPUs returned by
@@ -266,6 +268,8 @@ void COPROCS::get_opencl(
                 nvidia_opencls.push_back(prop);
                 ++current_CUDA_index;
             }
+            
+            //////////// AMD / ATI //////////////
             if ((strstr(prop.vendor, GPU_TYPE_ATI)) || 
                 (strstr(prop.vendor, "AMD")) ||  
                 (strstr(prop.vendor, "Advanced Micro Devices, Inc."))
@@ -312,6 +316,30 @@ void COPROCS::get_opencl(
                 }
                 ati_opencls.push_back(prop);
             }
+            
+            //////////// INTEL GPU //////////////
+            if (strcasestr(prop.vendor, "intel")) {
+                cl_device_type device_type;
+                
+                ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_TYPE,
+                            sizeof(device_type), &device_type, NULL);
+                if (ciErrNum != CL_SUCCESS) {
+                    warnings.push_back("clGetDeviceInfo failed to get device type for Intel device");
+                    continue;
+                }
+                if (device_type == CL_DEVICE_TYPE_CPU) continue;
+
+                prop.device_num = (int)(intel_gpu_opencls.size());
+                prop.opencl_device_index = device_index;
+                
+                COPROC_INTEL c;
+                c.opencl_prop = prop;
+                c.set_peak_flops();
+                prop.peak_flops = c.peak_flops;
+                
+                prop.opencl_available_ram = prop.global_mem_size;
+                intel_gpu_opencls.push_back(prop);
+            }
         }
     }
 
@@ -327,7 +355,10 @@ void COPROCS::get_opencl(
     }
 #endif
 
-    if ((nvidia_opencls.size() == 0) && (ati_opencls.size() == 0)) {
+    if ((nvidia_opencls.size() == 0) &&
+        (ati_opencls.size() == 0) &&
+        (intel_gpu_opencls.size() == 0)
+        ) {
         warnings.push_back(
             "OpenCL library present but no OpenCL-capable GPUs found"
         );
@@ -354,6 +385,10 @@ void COPROCS::get_opencl(
         strcpy(ati.name, ati.opencl_prop.name);
     }
 
+    intel_gpu.find_best_opencls(use_all, intel_gpu_opencls, ignore_intel_gpu_dev);
+    intel_gpu.available_ram = intel_gpu.opencl_prop.global_mem_size;
+    strcpy(intel_gpu.name, intel_gpu.opencl_prop.name);
+
 // TODO: Add code to allow adding other GPU vendors
 }
 
@@ -364,7 +399,7 @@ cl_int COPROCS::get_opencl_info(
 ) {
     cl_int ciErrNum;
     char buf[256];
-    
+
     ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_NAME, sizeof(prop.name), prop.name, NULL);
     if ((ciErrNum != CL_SUCCESS) || (prop.name[0] == 0)) {
         sprintf(buf, "clGetDeviceInfo failed to get name for GPU %d", (int)device_index);

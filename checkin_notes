@@ -7255,3 +7255,30 @@ Charlie 5 Dec 2012
         boinc_opencl.cpp,h
     lib/
         coproc.h
+
+Charlie 5 Dec 2012
+    - OpenCL: First pass at adding support for Intel Ivy Bridge GPUs.
+      The following files still need updating: 
+        ProjectInfoPage.cpp,.h, ProjectListCtrl.cpp,.h
+    client/
+        acct_mgr.cpp
+        client_state.cpp
+        cpu_sched.cpp
+        cs_account.cpp
+        cs_scheduler.cpp
+        cs_statefile.cpp
+        gpu_detect.cpp,.h
+        gpu_opencl.cpp
+        log_flags.cpp
+        project.cpp
+        scheduler_op.cpp
+    clientgui/
+        AdvancedFrame.cpp
+        AsyncRPC.cpp
+        BOINCTaskBar.cpp
+        DlgItemProperties.cpp
+    lib/
+        cc_config.cpp,.h
+        coproc.cpp,.h
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp

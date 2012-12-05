@@ -66,11 +66,13 @@ vector<COPROC_ATI> ati_gpus;
 vector<COPROC_NVIDIA> nvidia_gpus;
 vector<OPENCL_DEVICE_PROP> nvidia_opencls;
 vector<OPENCL_DEVICE_PROP> ati_opencls;
+vector<OPENCL_DEVICE_PROP> intel_gpu_opencls;
 
 void COPROCS::get(
     bool use_all, vector<string>&descs, vector<string>&warnings,
     vector<int>& ignore_nvidia_dev,
-    vector<int>& ignore_ati_dev
+    vector<int>& ignore_ati_dev,
+    vector<int>& ignore_intel_gpu_dev
 ) {
     unsigned int i;
     char buf[256], buf2[256];
@@ -89,7 +91,7 @@ void COPROCS::get(
         warnings.push_back("Caught SIGSEGV in ATI GPU detection");
     }
     try {
-        get_opencl(use_all, warnings, ignore_ati_dev, ignore_nvidia_dev);
+        get_opencl(use_all, warnings, ignore_ati_dev, ignore_nvidia_dev, ignore_intel_gpu_dev);
     } 
     catch (...) {
         warnings.push_back("Caught SIGSEGV in OpenCL detection");
@@ -111,7 +113,7 @@ void COPROCS::get(
     if (setjmp(resume)) {
         warnings.push_back("Caught SIGSEGV in OpenCL detection");
     } else {
-        get_opencl(use_all, warnings, ignore_ati_dev, ignore_nvidia_dev);
+        get_opencl(use_all, warnings, ignore_ati_dev, ignore_nvidia_dev, ignore_intel_gpu_dev);
     }
     signal(SIGSEGV, old_sig);
 #endif
@@ -164,8 +166,16 @@ void COPROCS::get(
         descs.push_back(string(buf));
     }
 
+    // Create descriptions for OpenCL Intel GPUs
+    //
+    for (i=0; i<intel_gpu_opencls.size(); i++) {
+        intel_gpu_opencls[i].description(buf, GPU_TYPE_ATI);
+        descs.push_back(string(buf));
+    }
+
     ati_gpus.clear();
     nvidia_gpus.clear();
     nvidia_opencls.clear();
     ati_opencls.clear();
+    intel_gpu_opencls.clear();
 }

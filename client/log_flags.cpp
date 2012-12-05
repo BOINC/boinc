@@ -191,6 +191,7 @@ void CONFIG::show() {
     }
     show_gpu_ignore(ignore_nvidia_dev, GPU_TYPE_NVIDIA);
     show_gpu_ignore(ignore_ati_dev, GPU_TYPE_ATI);
+    show_gpu_ignore(ignore_intel_gpu_dev, GPU_TYPE_ATI);
     for (i=0; i<exclude_gpus.size(); i++) {
         show_exclude_gpu(exclude_gpus[i]);
     }
@@ -260,6 +261,7 @@ int CONFIG::parse_options_client(XML_PARSER& xp) {
     exclusive_gpu_apps.clear();
     ignore_nvidia_dev.clear();
     ignore_ati_dev.clear();
+    ignore_intel_gpu_dev.clear();
 
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
@@ -361,6 +363,10 @@ int CONFIG::parse_options_client(XML_PARSER& xp) {
         }
         if (xp.parse_int("ignore_ati_dev", n)) {
             ignore_ati_dev.push_back(n);
+            continue;
+        }
+        if (xp.parse_int("ignore_intel_gpu_dev", n)) {
+            ignore_intel_gpu_dev.push_back(n);
             continue;
         }
         if (xp.parse_int("max_file_xfers", max_file_xfers)) continue;

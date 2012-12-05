@@ -889,6 +889,113 @@ void COPROC_ATI::fake(double ram, double avail_ram, int n) {
     set_peak_flops();
 }
 
+////////////////// INTEL GPU STARTS HERE /////////////////
+
+#ifndef _USING_FCGI_
+void COPROC_INTEL::write_xml(MIOFILE& f, bool scheduler_rpc) {
+    f.printf(
+        "<coproc_intel>\n"
+        "   <count>%d</count>\n"
+        "   <name>%s</name>\n"
+        "   <available_ram>%f</available_ram>\n"
+        "   <have_opencl>%d</have_opencl>\n",
+        count,
+        name,
+        available_ram,
+        have_opencl ? 1 : 0
+    );
+    if (scheduler_rpc) {
+        write_request(f);
+    }
+    f.printf(
+        "   <peak_flops>%f</peak_flops>\n"
+        "   <version>%s</version>\n",
+        peak_flops,
+        version
+    );
+
+    if (have_opencl) {
+        opencl_prop.write_xml(f);
+    }
+        
+    f.printf("</coproc_intel>\n");
+};
+#endif
+
+void COPROC_INTEL::clear() {
+    COPROC::clear();
+    strcpy(type, proc_type_name_xml(PROC_TYPE_AMD_GPU));
+    estimated_delay = -1;
+    strcpy(name, "");
+    strcpy(version, "");
+}
+
+int COPROC_INTEL::parse(XML_PARSER& xp) {
+    int retval;
+
+    clear();
+
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/coproc_intel")) {
+            if (!peak_flops) {
+				set_peak_flops();
+            }
+            if (!available_ram) {
+                available_ram = opencl_prop.global_mem_size;
+            }
+            return 0;
+        }
+        if (xp.parse_int("count", count)) continue;
+        if (xp.parse_double("peak_flops", peak_flops)) continue;
+        if (xp.parse_bool("have_opencl", have_opencl)) continue;
+        if (xp.parse_double("available_ram", available_ram)) continue;
+        if (xp.parse_double("req_secs", req_secs)) continue;
+        if (xp.parse_double("req_instances", req_instances)) continue;
+        if (xp.parse_double("estimated_delay", estimated_delay)) continue;
+        if (xp.parse_str("name", name, sizeof(name))) continue;
+        if (xp.parse_str("version", version, sizeof(version))) continue;
+
+        if (xp.match_tag("coproc_opencl")) {
+            retval = opencl_prop.parse(xp);
+            if (retval) return retval;
+            continue;
+        }
+    }
+    return ERR_XML_PARSE;
+}
+
+//TODO: Fix this
+void COPROC_INTEL::set_peak_flops() {
+    double x = 0;
+    if (opencl_prop.max_compute_units) {
+        // OpenCL gives us only:
+        // - max_compute_units
+        //   (which I'll assume is the same as attribs.numberOfSIMD)
+        // - max_clock_frequency (which I'll assume is the same as engineClock)
+        // It doesn't give wavefrontSize, which can be 16/32/64.
+        // So let's be conservative and use 16
+        //
+        x = opencl_prop.max_compute_units * 16 * 5 * opencl_prop.max_clock_frequency * 1e6;
+    } else {
+        peak_flops = (x>0)?x:5e10;
+    }
+}
+
+//TODO: Fix this
+void COPROC_INTEL::fake(double ram, double avail_ram, int n) {
+    strcpy(type, proc_type_name_xml(PROC_TYPE_AMD_GPU));
+    strcpy(version, "1.4.3");
+    strcpy(name, "foobar");
+    count = n;
+    available_ram = avail_ram;
+    have_opencl = true;
+    for (int i=0; i<count; i++) {
+        device_nums[i] = i;
+    }
+    set_peak_flops();
+}
+
+
 const char* proc_type_name_xml(int pt) {
     switch(pt) {
     case PROC_TYPE_CPU: return "CPU";

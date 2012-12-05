@@ -255,6 +255,10 @@ int PROJECT::parse_state(XML_PARSER& xp) {
             if (btemp) handle_no_rsc_apps(this, GPU_TYPE_ATI);
             continue;
         }
+        if (xp.parse_bool("no_intel_gpu_apps", btemp)) {
+            if (btemp) handle_no_rsc_apps(this, GPU_TYPE_INTEL);
+            continue;
+        }
         if (xp.parse_str("no_rsc_apps", buf, sizeof(buf))) {
             handle_no_rsc_apps(this, buf);
             continue;
@@ -269,6 +273,10 @@ int PROJECT::parse_state(XML_PARSER& xp) {
         }
         if (xp.parse_bool("no_ati_ams", btemp)) {
             if (btemp) handle_no_rsc_ams(this, GPU_TYPE_ATI);
+            continue;
+        }
+        if (xp.parse_bool("no_intel_gpu_ams", btemp)) {
+            if (btemp) handle_no_rsc_ams(this, GPU_TYPE_INTEL);
             continue;
         }
         if (xp.parse_str("no_rsc_ams", buf, sizeof(buf))) {

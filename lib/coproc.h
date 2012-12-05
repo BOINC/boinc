@@ -375,12 +375,29 @@ struct COPROC_ATI : public COPROC {
     void fake(double ram, double avail_ram, int);
 };
 
+struct COPROC_INTEL : public COPROC {
+    char name[256];
+    char version[50];
+    COPROC_USAGE is_used;               // temp used in scan process
+
+#ifndef _USING_FCGI_
+    void write_xml(MIOFILE&, bool scheduler_rpc);
+#endif
+    COPROC_INTEL(): COPROC() {
+        strcpy(type, proc_type_name_xml(PROC_TYPE_INTEL_GPU));
+    }
+    void clear();
+    int parse(XML_PARSER&);
+    void set_peak_flops();
+    void fake(double ram, double avail_ram, int);
+};
+
 struct COPROCS {
     int n_rsc;
     COPROC coprocs[MAX_RSC];
     COPROC_NVIDIA nvidia;
     COPROC_ATI ati;
-    COPROC intel_gpu;
+    COPROC_INTEL intel_gpu;
 
     void write_xml(MIOFILE& out, bool scheduler_rpc);
     void get(
@@ -388,13 +405,15 @@ struct COPROCS {
         std::vector<std::string> &descs,
         std::vector<std::string> &warnings,
         std::vector<int>& ignore_nvidia_dev,
-        std::vector<int>& ignore_ati_dev
+        std::vector<int>& ignore_ati_dev,
+        std::vector<int>& ignore_intel_gpu_dev
     );
     void get_opencl(
         bool use_all, 
         std::vector<std::string> &warnings,
         std::vector<int>& ignore_nvidia_dev, 
-        std::vector<int>& ignore_ati_dev
+        std::vector<int>& ignore_ati_dev,
+        std::vector<int>& ignore_intel_gpu_dev
     );
     cl_int get_opencl_info(
         OPENCL_DEVICE_PROP& prop, 
@@ -451,6 +470,9 @@ struct COPROCS {
     }
     inline bool have_ati() {
         return (ati.count > 0);
+    }
+    inline bool have_intel_gpu() {
+        return (intel_gpu.count > 0);
     }
     int add(COPROC& c) {
         if (n_rsc >= MAX_RSC) return ERR_BUFFER_OVERFLOW;
