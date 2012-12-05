@@ -26,7 +26,7 @@
 #include "cl_boinc.h"
 
 int boinc_get_opencl_ids(
-    int argc, char** argv, char *type,
+    int argc, char** argv, int type,
     cl_device_id* device, cl_platform_id* platform
 );
 

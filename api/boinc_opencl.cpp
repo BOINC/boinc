@@ -67,6 +67,10 @@ int get_vendor(cl_device_id device_id, char* vendor) {
         strcpy(vendor, GPU_TYPE_NVIDIA);
     }
 
+    if (strcasestr(vendor, "intel")) {
+        strcpy(vendor, GPU_TYPE_INTEL);
+    }
+
     if (!strlen(vendor)) return CL_INVALID_DEVICE_TYPE;
     return 0;
 }
@@ -143,25 +147,26 @@ int boinc_get_opencl_ids_aux(
 // This version is compatible with older clients.
 // Usage:
 // Pass the argc and argv received from the BOINC client
-// type: may be NULL, empty string, "NVIDIA", "nvidia", "ATI", "AMD",
-//       "Advanced Micro Devices, Inc.", "intel_gpu" or "INTEL_GPU"
-//       (if NULL or empty string then it will fail on older clients.)
+// type: may be PROC_TYPE_NVIDIA_GPU, PROC_TYPE_AMD_GPU or PROC_TYPE_INTEL_GPU
+//       (it may also be 0, but then it will fail on older clients.)
+//
+// The argc, argv and type arguments are ignored for 7.0.12 or later clients.
 //
 // returns
 // - 0 if success
 // - ERR_FOPEN if init_data.xml missing
 // - ERR_XML_PARSE if can't parse init_data.xml
-// - ERR_NOT_FOUND if unable to get gpu_type information
+// - CL_INVALID_DEVICE_TYPE if unable to get gpu_type information
 // - ERR_NOT_FOUND if unable to get opencl_device_index or gpu device_num
 // - an OpenCL error number if OpenCL error
 //
 int boinc_get_opencl_ids(
-    int argc, char** argv, char* type,
+    int argc, char** argv, int type,
     cl_device_id* device, cl_platform_id* platform
 ){
     int retval;
     APP_INIT_DATA aid;
-    char *gpu_type;
+    char *gpu_type = NULL;
     int gpu_device_num = -1;
     int i;
 
@@ -172,12 +177,22 @@ int boinc_get_opencl_ids(
     if (strlen(aid.gpu_type)) {
         gpu_type = aid.gpu_type;
     } else {
-        gpu_type = type;
+        switch (type) {
+        case PROC_TYPE_NVIDIA_GPU:
+            gpu_type = (char *)GPU_TYPE_NVIDIA;
+            break;
+        case PROC_TYPE_AMD_GPU:
+            gpu_type = (char *)GPU_TYPE_ATI;
+            break;
+        case PROC_TYPE_INTEL_GPU:
+            gpu_type = (char *)GPU_TYPE_INTEL;
+            break;
+        }
     }
     
     if ((!gpu_type) || !strlen(gpu_type)) {
         fprintf(stderr, "GPU type not found in %s\n", INIT_DATA_FILE);
-        return ERR_NOT_FOUND;
+        return CL_INVALID_DEVICE_TYPE;
     }
     
     if (aid.gpu_opencl_dev_index < 0) {

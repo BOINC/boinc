@@ -7247,6 +7247,11 @@ Rom    4 Dec 2012
 Charlie 5 Dec 2012
     - OpenCL: Add definition of GPU_TYPE_INTEL to match definitions of 
         GPU_TYPE_ATI and GPU_TYPE_NVIDIA.
+    - OpenCL: Change type argument of new boinc_get_opencl_ids() API from 
+        char* to int; it now accepts PROC_TYPE_NVIDIA_GPU, PROC_TYPE_AMD_GPU 
+        or PROC_TYPE_INTEL_GPU.
 
+    api/
+        boinc_opencl.cpp,h
     lib/
         coproc.h
