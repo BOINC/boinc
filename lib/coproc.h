@@ -101,6 +101,7 @@ extern const char* proc_type_name_xml(int);
 // deprecated, but keep for simplicity
 #define GPU_TYPE_NVIDIA proc_type_name_xml(PROC_TYPE_NVIDIA_GPU)
 #define GPU_TYPE_ATI proc_type_name_xml(PROC_TYPE_AMD_GPU)
+#define GPU_TYPE_INTEL proc_type_name_xml(PROC_TYPE_INTEL_GPU)
 
 enum COPROC_USAGE {
     COPROC_IGNORED,

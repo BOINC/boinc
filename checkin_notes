@@ -7243,3 +7243,10 @@ Rom    4 Dec 2012
     samples\vboxwrapper\
         vbox.cpp, .h
         vboxwrapper.cpp
+
+Charlie 5 Dec 2012
+    - OpenCL: Add definition of GPU_TYPE_INTEL to match definitions of 
+        GPU_TYPE_ATI and GPU_TYPE_NVIDIA.
+
+    lib/
+        coproc.h
