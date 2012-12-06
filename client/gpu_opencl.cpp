@@ -37,6 +37,7 @@ using std::string;
 
 #include "coproc.h"
 #include "util.h"
+#include "str_replace.h"
 
 #include "client_msgs.h"
 #include "gpu_detect.h"
@@ -318,9 +319,7 @@ void COPROCS::get_opencl(
             }
             
             //////////// INTEL GPU //////////////
-            if ((strstr(prop.vendor, "intel")) ||
-                (strstr(prop.vendor, "Intel"))
-            ) {
+            if (strcasestr(prop.vendor, "intel")) {
                 cl_device_type device_type;
                 
                 ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_TYPE,

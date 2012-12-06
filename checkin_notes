@@ -7310,3 +7310,11 @@ Rom    5 Dec 2012
     
     client/
         gpu_opencl.cpp
+
+Charlie 5 Dec 2012
+    - client: strcasestr does exist on Windows in lib/str_replace.cpp, 
+        but I just needed to #include "str_replace.h".  This is 
+        preferable because it handles INTEL as well as Intel and intel.
+    
+    client/
+        gpu_opencl.cpp
