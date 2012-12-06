@@ -303,8 +303,11 @@ int PROJECT::parse(XML_PARSER& xp) {
         if (xp.parse_double("intel_gpu_backoff_time", rsc_desc_intel_gpu.backoff_time)) continue;
         if (xp.parse_double("intel_gpu_backoff_interval", rsc_desc_ati.backoff_interval)) continue;
         if (xp.parse_double("last_rpc_time", last_rpc_time)) continue;
+
+        // deprecated elements
+        //
         if (xp.parse_bool("no_cpu_pref", rsc_desc_cpu.no_rsc_pref)) continue;
-        if (xp.parse_bool("no_cuda_pref", rsc_desc_cpu.no_rsc_pref)) continue;
+        if (xp.parse_bool("no_cuda_pref", rsc_desc_nvidia.no_rsc_pref)) continue;
 
         // resource-specific stuff, new format
         //

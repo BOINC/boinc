@@ -571,4 +571,46 @@ int cancel_job(DB_WORKUNIT& wu) {
     return 0;
 }
 
+// return the sum of user quotas
+//
+static int total_quota(double& total) {
+    DB_USER_SUBMIT us;
+
+    total = 0;
+    while (1) {
+        int retval = us.enumerate("");
+        if (retval == ERR_DB_NOT_FOUND) break;
+        if (retval) {
+            return retval;
+        }
+        total += us.quota;
+    }
+    return 0;
+}
+
+// return the project's total RAC.
+// The easiest way to do this is to add up the RAC
+// update user (job submitter) priority fields given the assumption
+// that they did X FLOPS of computing
+//
+int adjust_user_priority(
+    DB_USER_SUBMIT& us, double flop_count, double project_flops
+) {
+    int retval;
+    double tq;
+    char set_clause[256], where_clause[256];
+
+    retval = total_quota(tq);
+    if (retval) return retval;
+
+    double runtime = flop_count / project_flops;
+    double share = us.quota / tq;
+    runtime /= share;
+    us.logical_start_time += runtime;
+
+    sprintf(set_clause, "logical_start_time=%f", us.logical_start_time);
+    sprintf(where_clause, "user_id=%d", us.user_id);
+    return us.update_fields_noid(set_clause, where_clause);
+}
+
 const char *BOINC_RCSID_b5f8b10eb5 = "$Id$";

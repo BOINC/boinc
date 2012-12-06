@@ -91,6 +91,7 @@ cgidir = $(libexecdir)/cgi-bin
 scheddir = $(libexecdir)/sched
 
 bin_PROGRAMS = \
+	adjust_user_priority \
     delete_file \
     get_file \
     make_work \
@@ -265,6 +266,9 @@ put_file_LDADD = $(SERVERLIBS)
 
 delete_file_SOURCES = delete_file.cpp
 delete_file_LDADD = $(SERVERLIBS)
+
+adjust_user_priority_SOURCES = adjust_user_priority.cpp
+adjust_user_priority_LDADD = $(SERVERLIBS)
 
 sched_driver_SOURCES = sched_driver.cpp
 sched_driver_LDADD = $(SERVERLIBS)

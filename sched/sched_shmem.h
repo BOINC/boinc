@@ -116,6 +116,13 @@ struct SCHED_SHMEM {
     APP_VERSION* lookup_app_version_platform_plan_class(
         int platform, char* plan_class
     );
+    double total_expavg_credit() {
+        double x = 0;
+        for (int i=0; i<napp_versions; i++) {
+            x += app_versions[i].expavg_credit;
+        }
+        return x;
+    }
     PLATFORM* lookup_platform_id(int);
     PLATFORM* lookup_platform(char*);
 };

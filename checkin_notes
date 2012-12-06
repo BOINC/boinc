@@ -7318,3 +7318,19 @@ Charlie 5 Dec 2012
     
     client/
         gpu_opencl.cpp
+
+David  5 Dec 2012
+    - fix typo in GUI RPC
+    - check in some code for multi-user job prioritization
+
+    db/
+        boinc_db.cpp,h
+        boinc_db_types.h
+    sched/
+        Makefile.am
+        adjust_user_priority.cpp (new)
+        sched_shmem.h
+    lib/
+        gui_rpc_client_ops.cpp
+    tools/
+        backend_lib.cpp

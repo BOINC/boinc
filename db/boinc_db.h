@@ -79,6 +79,12 @@ struct DB_HOST_APP_VERSION : public DB_BASE, public HOST_APP_VERSION {
     int update_validator(DB_HOST_APP_VERSION&);
 };
 
+struct DB_USER_SUBMIT : public DB_BASE, public USER_SUBMIT {
+    DB_USER_SUBMIT(DB_CONN* p=0);
+    void db_print(char*);
+    void db_parse(MYSQL_ROW &row);
+};
+
 struct STATE_COUNTS {
     int appid; 
     int last_update_time;   

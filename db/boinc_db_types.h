@@ -619,6 +619,17 @@ struct BATCH {
     // input/output files can be deleted,
     // result and workunit records can be purged.
 
+// info for users who can submit jobs
+//
+struct USER_SUBMIT {
+    int user_id;
+    double quota;
+    double logical_start_time;
+    bool submit_all;
+    bool manage_all;
+    void clear();
+};
+
 struct MSG_FROM_HOST {
     int id;
     int create_time;

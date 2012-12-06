@@ -73,6 +73,7 @@ void TRANSITIONER_ITEM::clear() {memset(this, 0, sizeof(*this));}
 void VALIDATOR_ITEM::clear() {memset(this, 0, sizeof(*this));}
 void SCHED_RESULT_ITEM::clear() {memset(this, 0, sizeof(*this));}
 void HOST_APP_VERSION::clear() {memset(this, 0, sizeof(*this));}
+void USER_SUBMIT::clear() {memset(this, 0, sizeof(*this));}
 void STATE_COUNTS::clear() {memset(this, 0, sizeof(*this));}
 void FILE_ITEM::clear() {memset(this, 0, sizeof(*this));}
 void FILESET_ITEM::clear() {memset(this, 0, sizeof(*this));}
@@ -115,6 +116,8 @@ DB_ASSIGNMENT::DB_ASSIGNMENT(DB_CONN* dc) :
     DB_BASE("assignment", dc?dc:&boinc_db){}
 DB_HOST_APP_VERSION::DB_HOST_APP_VERSION(DB_CONN* dc) :
     DB_BASE("host_app_version", dc?dc:&boinc_db){}
+DB_USER_SUBMIT::DB_USER_SUBMIT(DB_CONN* dc) :
+    DB_BASE("user_submit", dc?dc:&boinc_db){}
 DB_STATE_COUNTS::DB_STATE_COUNTS(DB_CONN* dc) :
     DB_BASE("state_counts", dc?dc:&boinc_db){}
 DB_TRANSITIONER_ITEM_SET::DB_TRANSITIONER_ITEM_SET(DB_CONN* dc) :
@@ -1232,6 +1235,31 @@ void DB_HOST_APP_VERSION::db_parse(MYSQL_ROW& r) {
     turnaround.var = atof(r[i++]);
     turnaround.q = atof(r[i++]);
     consecutive_valid = atoi(r[i++]);
+}
+
+void DB_USER_SUBMIT::db_print(char* buf) {
+    sprintf(buf,
+        "user_id=%d, "
+        "quota=%.15e, "
+        "logical_start_time=%.15e, "
+        "submit_all=%d, "
+        "manage_all=%d ",
+        user_id,
+        quota,
+        logical_start_time,
+        submit_all?1:0,
+        manage_all?1:0
+    );
+}
+
+void DB_USER_SUBMIT::db_parse(MYSQL_ROW& r) {
+    int i=0;
+    clear();
+    user_id = atoi(r[i++]);
+    quota = atof(r[i++]);
+    logical_start_time = atof(r[i++]);
+    submit_all = (atoi(r[i++]) != 0);
+    manage_all = (atoi(r[i++]) != 0);
 }
 
 void DB_STATE_COUNTS::db_print(char* buf) {
