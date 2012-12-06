@@ -964,21 +964,21 @@ int COPROC_INTEL::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
-//TODO: Fix this
+
+// http://en.wikipedia.org/wiki/Comparison_of_Intel_graphics_processing_units says:
+// The raw performance of integrated GPU, in single-precision FLOPS,
+// can be calculated as follows:
+// EU * 4 [dual-issue x 2 SP] * 2 [multiply + accumulate] * clock speed.
+//
+// However, there is some question of the accuracy of this due to Intel's
+// Turbo Boost and Dynamic Frequency technologies.
+// 
 void COPROC_INTEL::set_peak_flops() {
     double x = 0;
     if (opencl_prop.max_compute_units) {
-        // OpenCL gives us only:
-        // - max_compute_units
-        //   (which I'll assume is the same as attribs.numberOfSIMD)
-        // - max_clock_frequency (which I'll assume is the same as engineClock)
-        // It doesn't give wavefrontSize, which can be 16/32/64.
-        // So let's be conservative and use 16
-        //
-        x = opencl_prop.max_compute_units * 16 * 5 * opencl_prop.max_clock_frequency * 1e6;
-    } else {
-        peak_flops = (x>0)?x:5e10;
+        x = opencl_prop.max_compute_units * 8 * opencl_prop.max_clock_frequency * 1e6;
     }
+    peak_flops =  (x>0)?x:45e9;
 }
 
 //TODO: Fix this
