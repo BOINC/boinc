@@ -19,4 +19,5 @@ extern vector<COPROC_ATI> ati_gpus;
 extern vector<COPROC_NVIDIA> nvidia_gpus;
 extern vector<OPENCL_DEVICE_PROP> nvidia_opencls;
 extern vector<OPENCL_DEVICE_PROP> ati_opencls;
+extern vector<OPENCL_DEVICE_PROP> intel_gpu_opencls;
 extern bool in_vector(int n, vector<int>& v);
