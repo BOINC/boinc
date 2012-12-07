@@ -480,6 +480,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\client\app_config.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\client\app_control.cpp"
 				>
 			</File>
@@ -798,6 +802,10 @@
 			</File>
 			<File
 				RelativePath="..\client\app.h"
+				>
+			</File>
+			<File
+				RelativePath="..\client\app_config.h"
 				>
 			</File>
 			<File
