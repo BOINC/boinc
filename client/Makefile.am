@@ -34,6 +34,7 @@ boinc_client_SOURCES = \
     acct_mgr.cpp \
     acct_setup.cpp \
     app.cpp \
+    app_config.cpp \
     app_control.cpp \
     app_start.cpp \
 	async_file.cpp \

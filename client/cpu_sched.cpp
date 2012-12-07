@@ -71,6 +71,7 @@
 #include "util.h"
 
 #include "app.h"
+#include "app_config.h"
 #include "client_msgs.h"
 #include "client_state.h"
 #include "log_flags.h"
@@ -100,6 +101,9 @@ struct PROC_RESOURCES {
         pr_coprocs.clone(coprocs, false);
         pr_coprocs.clear_usage();
         ram_left = gstate.available_ram();
+        if (have_max_concurrent) {
+            max_concurrent_init();
+        }
     }
 
     // should we stop scanning jobs?
@@ -121,6 +125,7 @@ struct PROC_RESOURCES {
     //
     bool can_schedule(RESULT* rp, ACTIVE_TASK* atp) {
         double wss;
+        if (max_concurrent_exceeded(rp)) return false;
         if (atp) {
             if (gstate.retry_shmem_time > gstate.now) {
                 if (atp->app_client_shm.shm == NULL) {
@@ -182,6 +187,7 @@ struct PROC_RESOURCES {
         ram_left -= wss;
 
         adjust_rec_sched(rp);
+        max_concurrent_inc(rp);
     }
 
     bool sufficient_coprocs(RESULT& r) {
@@ -1465,6 +1471,8 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
 
     bool action = false;
 
+    if (have_max_concurrent) max_concurrent_init();
+
 #ifndef SIM
     // check whether GPUs are usable
     //
@@ -1563,6 +1571,17 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
     //
     for (i=0; i<run_list.size(); i++) {
         RESULT* rp = run_list[i];
+
+        if (max_concurrent_exceeded(rp)) {
+            if (log_flags.cpu_sched_debug) {
+                msg_printf(rp->project, MSG_INFO,
+                    "[cpu_sched_debug] skipping %s; max concurrent limit %d reached",
+                    rp->name, rp->app->max_concurrent
+                );
+            }
+            continue;
+        }
+
         atp = lookup_active_task_by_result(rp);
 
         // if we're already using all the CPUs,
@@ -1646,6 +1665,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         ncpus_used += rp->avp->avg_ncpus;
         atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
         ram_left -= wss;
+        max_concurrent_inc(rp);
     }
 
     if (log_flags.cpu_sched_debug && ncpus_used < ncpus) {

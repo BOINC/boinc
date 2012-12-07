@@ -183,4 +183,15 @@ struct RESULT {
     char schedule_backoff_reason[256];
 };
 
+inline bool max_concurrent_exceeded(RESULT* rp) {
+    APP* app = rp->app;
+    if (!app->max_concurrent) return false;
+    return (app->n_concurrent >= app->max_concurrent);
+
+}
+
+inline void max_concurrent_inc(RESULT* rp) {
+    rp->app->n_concurrent++;
+}
+
 #endif
