@@ -4824,3 +4824,11 @@ David  23 Nov 2012
 
     client/
         hostinfo_unix.cpp
+
+David  26 Nov 2012
+    - client: when reset a project, clear its scheduler URL list
+        (force a reload of the master page)
+
+    client/
+        app_start.cpp
+        client_state.cpp
