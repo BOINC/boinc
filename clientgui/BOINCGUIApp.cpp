@@ -300,7 +300,8 @@ bool CBOINCGUIApp::OnInit() {
 
     // Enable additional file system type handlers
     wxFileSystem::AddHandler(new wxMemoryFSHandler);
-    wxFileSystem::AddHandler(new CBOINCInternetFSHandler);
+    m_pInternetFSHandler = new CBOINCInternetFSHandler;
+    wxFileSystem::AddHandler(m_pInternetFSHandler);
 
     // Initialize the skin manager
     m_pSkinManager = new CSkinManager(m_bDebugSkins);
