@@ -4780,3 +4780,10 @@ David  13 Nov 2012
     configure.ac
     client/
         hostinfo_unix.cpp
+
+David  14 Nov 2012
+    - client: TIME_STATS fields go in <time_stats> part of state file
+
+    client/
+        cs_statefile.cpp
+        time_stats.cpp
