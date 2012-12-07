@@ -300,7 +300,7 @@ int SCHEDULER_OP::init_master_fetch(PROJECT* p) {
         msg_printf(p, MSG_INFO, "[sched_op] Fetching master file");
     }
     cur_proj = p;
-    retval = http_op.init_get(p, p->master_url, master_filename, true);
+    retval = http_op.init_get(p, p->master_url, master_filename, true, 0, 0);
     if (retval) {
         if (log_flags.sched_ops) {
             msg_printf(p, MSG_INFO,

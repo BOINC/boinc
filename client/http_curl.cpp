@@ -274,7 +274,8 @@ HTTP_OP::~HTTP_OP() {
 // output goes to the given file, starting at given offset
 //
 int HTTP_OP::init_get(
-    PROJECT* p, const char* url, const char* out, bool del_old_file, double off
+    PROJECT* p, const char* url, const char* out, bool del_old_file,
+    double off, double size
 ) {
     if (del_old_file) {
         unlink(out);
@@ -292,7 +293,7 @@ int HTTP_OP::init_get(
     if (log_flags.http_debug) {
         msg_printf(project, MSG_INFO, "[http] HTTP_OP::init_get(): %s", url);
     }
-    return HTTP_OP::libcurl_exec(url, NULL, out, off, false);
+    return HTTP_OP::libcurl_exec(url, NULL, out, off, size, false);
 }
 
 // Initialize HTTP POST operation where
@@ -320,7 +321,7 @@ int HTTP_OP::init_post(
     if (log_flags.http_debug) {
         msg_printf(project, MSG_INFO, "[http] HTTP_OP::init_post(): %s", url);
     }
-    return HTTP_OP::libcurl_exec(url, in, out, 0.0, true);
+    return HTTP_OP::libcurl_exec(url, in, out, 0, 0, true);
 }
 
 // Initialize an HTTP POST operation,
@@ -352,7 +353,7 @@ int HTTP_OP::init_post2(
     content_length += (int)strlen(req1);
     http_op_type = HTTP_OP_POST2;
     http_op_state = HTTP_STATE_CONNECTING;
-    return HTTP_OP::libcurl_exec(url, in, NULL, offset, true);
+    return HTTP_OP::libcurl_exec(url, in, NULL, offset, 0, true);
 }
 
 // is URL in proxy exception list?
@@ -399,7 +400,13 @@ static int set_cloexec(void*, curl_socket_t fd, curlsocktype purpose) {
 // the following will do an HTTP GET or POST using libcurl
 //
 int HTTP_OP::libcurl_exec(
-    const char* url, const char* in, const char* out, double offset, bool bPost
+    const char* url, const char* in, const char* out, double offset,
+#ifdef _WIN32
+    double size,
+#else
+    double,
+#endif
+    bool is_post
 ) {
     CURLMcode curlMErr;
     char strTmp[128];
@@ -586,7 +593,7 @@ int HTTP_OP::libcurl_exec(
 
     // set the file offset for resumable downloads
     //
-    if (!bPost && offset>0.0f) {
+    if (!is_post && offset>0.0f) {
         file_offset = offset;
         sprintf(strTmp, "Range: bytes=%.0f-", offset);
         pcurlList = curl_slist_append(pcurlList, strTmp);
@@ -595,9 +602,16 @@ int HTTP_OP::libcurl_exec(
     // set up an output file for the reply
     //
     if (strlen(outfile)) {
-        if (file_offset>0.0) {
+        if (file_offset > 0) {
             fileOut = boinc_fopen(outfile, "ab+");
         } else {
+#ifdef _WIN32
+            // on Win, pre-allocate big files to avoid fragmentation
+            //
+            if (size > 1e6) {
+                boinc_allocate_file(outfile, size);
+            }
+#endif
             fileOut = boinc_fopen(outfile, "wb+");
         }
         if (!fileOut) {
@@ -618,7 +632,7 @@ int HTTP_OP::libcurl_exec(
         curl_easy_setopt(curlEasy, CURLOPT_WRITEDATA, this);
     }
 
-    if (bPost) {
+    if (is_post) {
         want_upload = true;
         want_download = false;
         if (infile && strlen(infile)>0) {
