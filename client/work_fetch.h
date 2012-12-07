@@ -298,9 +298,9 @@ struct WORK_FETCH {
         // even if buffer is above min level
         // or project is backed off for a resource type
     PROJECT* non_cpu_intensive_project_needing_work();
-    void compute_work_request(PROJECT*);
+    void piggyback_work_request(PROJECT*);
         // we're going to contact this project anyway;
-        // decide how much work to task for
+        // piggyback a work request if appropriate.
     void accumulate_inst_sec(ACTIVE_TASK*, double dt);
     void write_request(FILE*, PROJECT*);
     void handle_reply(
@@ -311,6 +311,7 @@ struct WORK_FETCH {
     void set_all_requests_hyst(PROJECT*, int rsc_type);
     void print_state();
     void init();
+    void compute_cant_fetch_work_reason();
     void rr_init();
     void clear_request();
     void compute_shares();

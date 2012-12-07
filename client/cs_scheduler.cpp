@@ -430,13 +430,13 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
                 p->rsc_pwf[i].clear_backoff();
             }
         }
-        work_fetch.compute_work_request(p);
+        work_fetch.piggyback_work_request(p);
         scheduler_op->init_op_project(p, p->sched_rpc_pending);
         return true;
     }
     p = next_project_trickle_up_pending();
     if (p) {
-        work_fetch.compute_work_request(p);
+        work_fetch.piggyback_work_request(p);
         scheduler_op->init_op_project(p, RPC_REASON_TRICKLE_UP);
         return true;
     }
@@ -447,7 +447,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     suspend_soon |= global_prefs.cpu_times.suspended(now + 1800);
     p = find_project_with_overdue_results(suspend_soon);
     if (p && !actively_uploading(p)) {
-        work_fetch.compute_work_request(p);
+        work_fetch.piggyback_work_request(p);
         scheduler_op->init_op_project(p, RPC_REASON_RESULTS_DUE);
         return true;
     }
