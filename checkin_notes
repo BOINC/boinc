@@ -7354,3 +7354,10 @@ David  7 Dec 2012
         feeder.cpp
     tools/
         backend_lib.cpp,h
+
+David  7 Dec 2012
+    - Manager: compile fixes for OpenBSD.  From RustyBSD.
+
+    clientgui/
+        AsyncRPC.cpp
+        stdwx.h

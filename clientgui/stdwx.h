@@ -163,9 +163,6 @@
 
 // Standard Libraries
 //
-#ifndef __APPLE__
-#include <malloc.h>
-#endif
 
 // C headers
 #include <cassert>
