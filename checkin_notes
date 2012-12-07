@@ -4832,3 +4832,9 @@ David  26 Nov 2012
     client/
         app_start.cpp
         client_state.cpp
+
+David  27 Nov 2012
+    - allow config.xml to be a symlink
+
+    lib/
+        filesys.cpp,h
