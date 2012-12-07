@@ -4904,3 +4904,10 @@ David  28 Nov 2012
 
 	win_build/
 		boinc_cli.vcproj
+
+David  28 Nov 2012
+	- client: bug fixes for app config feature
+
+	client/
+		client_state.cpp
+		client_types.h

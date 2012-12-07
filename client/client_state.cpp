@@ -422,10 +422,6 @@ int CLIENT_STATE::init() {
     //
     check_anonymous();
 
-    // check for app_config.xml files in project dirs
-    //
-    check_app_config();
-
     // first time, set p_fpops nonzero to avoid div by zero
     //
     cpu_benchmarks_set_defaults();
@@ -435,6 +431,10 @@ int CLIENT_STATE::init() {
     // for projects with no account file
     //
     parse_state_file();
+
+    // check for app_config.xml files in project dirs
+    //
+    check_app_config();
 
     // this needs to go after parse_state_file because
     // GPU exclusions refer to projects
