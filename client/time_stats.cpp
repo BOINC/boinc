@@ -334,8 +334,6 @@ int CLIENT_TIME_STATS::parse(XML_PARSER& xp) {
         if (xp.parse_double("connected_lambda", connected_lambda)) continue;
         if (xp.parse_double("active_lambda", active_lambda)) continue;
         if (xp.parse_double("gpu_active_lambda", gpu_active_lambda)) continue;
-        if (xp.parse_double("client_start_time", x)) continue;
-        if (xp.parse_double("previous_uptime", previous_uptime)) continue;
 #endif
         if (xp.parse_double("last_update", x)) {
             if (x < 0 || x > gstate.now) {
@@ -394,6 +392,8 @@ int CLIENT_TIME_STATS::parse(XML_PARSER& xp) {
             }
             continue;
         }
+        if (xp.parse_double("client_start_time", x)) continue;
+        if (xp.parse_double("previous_uptime", previous_uptime)) continue;
         if (log_flags.unparsed_xml) {
             msg_printf(0, MSG_INFO,
                 "[unparsed_xml] TIME_STATS::parse(): unrecognized: %s\n",
