@@ -4964,3 +4964,10 @@ David  30 Nov 2012
     - Mac installer: add missing pclose() (from RustyBSD)
 
     mac_installer/PostInstall.cpp
+
+Charlie 5 Dec 2012
+    - OpenCL: Add definition of GPU_TYPE_INTEL to match definitions of 
+        GPU_TYPE_ATI and GPU_TYPE_NVIDIA.
+
+    lib/
+        coproc.h
