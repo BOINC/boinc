@@ -573,7 +573,7 @@ int cancel_job(DB_WORKUNIT& wu) {
 
 // return the sum of user quotas
 //
-static int total_quota(double& total) {
+int get_total_quota(double& total) {
     DB_USER_SUBMIT us;
 
     total = 0;
@@ -588,23 +588,40 @@ static int total_quota(double& total) {
     return 0;
 }
 
-// return the project's total RAC.
-// The easiest way to do this is to add up the RAC
+// return total project FLOPS (based on recent credit)
+//
+int get_project_flops(double& total) {
+    DB_APP_VERSION av;
+    char buf[256];
+    sprintf(buf, "expavg_credit_time > %f", dtime() - 30*86400);
+    total = 0;
+    while (1) {
+        int retval = av.enumerate(buf);
+        if (retval == ERR_DB_NOT_FOUND) break;
+        if (retval) {
+            return retval;
+        }
+        total += av.expavg_credit;
+    }
+    total /= COBBLESTONE_SCALE;
+    return 0;
+}
+
 // update user (job submitter) priority fields given the assumption
-// that they did X FLOPS of computing
+// that they did flop_count FLOPS of computing
 //
 int adjust_user_priority(
-    DB_USER_SUBMIT& us, double flop_count, double project_flops
+    DB_USER_SUBMIT& us,
+    double flop_count,
+        // this should be wu.rsc_fpops_est * app.min_avg_pfc
+        // to account for systematic errors in rsc_fpops_est
+    double total_quota,
+    double project_flops
 ) {
-    int retval;
-    double tq;
     char set_clause[256], where_clause[256];
 
-    retval = total_quota(tq);
-    if (retval) return retval;
-
     double runtime = flop_count / project_flops;
-    double share = us.quota / tq;
+    double share = us.quota / total_quota;
     runtime /= share;
     us.logical_start_time += runtime;
 

@@ -24,6 +24,7 @@
 //  [ --by_batch ]          interleave results from all batches uniformly
 //  [ --random_order ]      order by "random" field of result
 //  [ --priority_order ]    order by decreasing "priority" field of result
+//  [ --priority_asc ]      order by increasing "priority" field of result
 //  [ --priority_order_create_time ]
 //                          order by priority, then by increasing WU create time
 //  [ --mod n i ]           handle only results with (id mod n) == i
@@ -683,9 +684,10 @@ void usage(char *name) {
         "including an array of work items (results/workunits to send).\n\n"
         "Usage: %s [OPTION]...\n\n"
         "Options:\n"
-        "  [ -d X | --debug_level X]        Set Debug level to X\n"
+        "  [ -d X | --debug_level X]        Set log verbosity to X (1..4)\n"
         "  [ --allapps ]                    Interleave results from all applications uniformly.\n"
         "  [ --random_order ]               order by \"random\" field of result\n"
+        "  [ --priority_asc ]               order by increasing \"priority\" field of result\n"
         "  [ --priority_order ]             order by decreasing \"priority\" field of result\n"
         "  [ --priority_order_create_time ] order by priority, then by increasing WU create time\n"
         "  [ --purge_stale x ]              remove work items from the shared memory segment after x secs\n"
@@ -720,6 +722,8 @@ int main(int argc, char** argv) {
             order_clause = "order by r1.random ";
         } else if (is_arg(argv[i], "allapps")) {
             all_apps = true;
+        } else if (is_arg(argv[i], "priority_asc")) {
+            order_clause = "order by r1.priority asc ";
         } else if (is_arg(argv[i], "priority_order")) {
             order_clause = "order by r1.priority desc ";
         } else if (is_arg(argv[i], "priority_order_create_time")) {

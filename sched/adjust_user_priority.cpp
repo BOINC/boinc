@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// adjust_user_priority userid flop_count
+// adjust_user_priority userid flop_count app_name
 //
 // adjust user priority (i.e. logical start time)
 // to reflect a certain amount of computing
@@ -26,21 +26,33 @@
 #include "backend_lib.h"
 
 void usage() {
-    fprintf(stderr, "usage: adjust_user_priority userid flop_count\n");
+    fprintf(stderr, "usage: adjust_user_priority userid flop_count app_name\n");
     exit(1);
 }
 
 int main(int argc, char** argv) {
     char buf[256];
 
-    if (argc != 3) usage();
+    if (argc != 4) usage();
     int userid = atoi(argv[1]);
     double flop_count = atof(argv[2]);
 
     if (flop_count <= 0) usage();
 
+    DB_APP app;
+    sprintf(buf, "name='%s'", argv[3]);
+    int retval = app.lookup(buf);
+    if (retval) {
+        fprintf(stderr, "no such app %s\n", argv[3]);
+        exit(1);
+    }
+
+    if (app.min_avg_pfc) {
+        flop_count *= app.min_avg_pfc;
+    }
+
     DB_USER user;
-    int retval = user.lookup_id(userid);
+    retval = user.lookup_id(userid);
     if (retval) {
         fprintf(stderr, "no such user %d\n", userid);
         exit(1);
@@ -50,6 +62,23 @@ int main(int argc, char** argv) {
     retval = us.lookup(buf);
     if (retval) {
         fprintf(stderr, "unauthorized user %d\n", userid);
+        exit(1);
+    }
+
+    double total_quota, project_flops;
+    retval = get_total_quota(total_quota);
+    if (retval) {
+        fprintf(stderr, "get_total_quota() failed: %d\n", retval);
+        exit(1);
+    }
+    retval = get_project_flops(project_flops);
+    if (retval) {
+        fprintf(stderr, "get_project_flops() failed: %d\n", retval);
+        exit(1);
+    }
+    retval = adjust_user_priority(us, flop_count, total_quota, project_flops);
+    if (retval) {
+        fprintf(stderr, "adjust_user_priority() failed: %d\n", retval);
         exit(1);
     }
 }
