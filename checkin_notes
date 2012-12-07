@@ -4950,3 +4950,12 @@ Charlie 30 Nov 2012
         BOINCHtmlLBox.cpp,.h
         BOINCInternetFSHandler.cpp
         NoticeListCtrl.cpp,.h
+
+
+David  30 Nov 2012
+    - client: if <dont_check_file_sizes> is set, don't check file existence at startup
+
+    client/
+        cs_files.cpp
+    lib/
+        procinfo.cpp
