@@ -4787,3 +4787,9 @@ David  14 Nov 2012
     client/
         cs_statefile.cpp
         time_stats.cpp
+
+David  18 Nov 2012
+    - compile fix for FreeBSD
+
+    lib/
+        network.cpp
