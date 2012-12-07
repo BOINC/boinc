@@ -5014,3 +5014,9 @@ Rom    5 Dec 2012
         
     clientgui/
         browser.cpp
+
+Rom    5 Dec 2012
+    - client: strcasestr doesn't exist on Windows.
+    
+    client/
+        gpu_opencl.cpp
