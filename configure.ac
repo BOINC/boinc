@@ -37,6 +37,11 @@ fi
 dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_CXX
+dnl ------
+dnl Workaround for autoconf >= 2.65 backwards incompatibility
+m4_pattern_allow([AC_PROG_OBJCXX])
+m4_ifdef([AC_PROG_OBJCXX],[AC_PROG_OBJCXX],)
+dnl ------
 AC_PROG_F77
 AC_PROG_CPP
 AC_PROG_MAKE_SET
@@ -525,7 +530,7 @@ else
    echo "DEBUG: GLUT_CFLAGS = $GLUT_CFLAGS" >&5
    echo "DEBUG: GLUT_LIBS = $GLUT_LIBS" >&5
 
-   AC_CHECK_HEADERS([gl.h glu.h glut.h glaux.h GL/gl.h GL/glu.h GL/glut.h GL/glaux.h OpenGL/gl.h OpenGL/glu.h OpenGL/glut.h OpenGL/glaux.h GLUT/glut.h MesaGL/gl.h MesaGL/glu.h MesaGL/glut.h MesaGL/glaux.h libnotify/notify.h] gtk/gtk.h)
+   AC_CHECK_HEADERS([gl.h glu.h glut.h glaux.h GL/gl.h GL/glu.h GL/glut.h GL/glaux.h OpenGL/gl.h OpenGL/glu.h OpenGL/glut.h OpenGL/glaux.h GLUT/glut.h MesaGL/gl.h MesaGL/glu.h MesaGL/glut.h MesaGL/glaux.h libnotify/notify.h gtk/gtk.h xlocale.h])
 
    AC_CHECK_LIB([jpeg], [jpeg_start_compress],[have_jpeg=1],[have_jpeg=0])
    AC_CHECK_HEADER([jpeglib.h],[have_jpeg=1],[have_jpeg=0])
@@ -584,7 +589,32 @@ AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
 AC_HEADER_TIME
 AC_TYPE_SIGNAL
-AC_CHECK_HEADERS(windows.h sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h malloc.h alloca.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h net/if.h net/if_arp.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/mount.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/shm.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/swap.h sys/sysctl.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h resolv.h)
+AC_CHECK_HEADERS(windows.h sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h malloc.h alloca.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/sem.h sys/shm.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h)
+
+AC_CHECK_HEADER(net/if.h, [], [], [[
+#if HAVE_SYS_SOCKET_H
+# include <sys/socket.h>
+#endif
+]])
+
+AC_CHECK_HEADER(net/if_arp.h, [], [], [[
+#if HAVE_SYS_SOCKET_H
+# include <sys/socket.h>
+#endif
+]])
+
+AC_CHECK_HEADERS(sys/sysctl.h sys/mount.h sys/swap.h, [], [], [[
+#ifdef HAVE_SYS_PARAM_H
+# include <sys/param.h>
+#endif
+]])
+
+AC_CHECK_HEADER(resolv.h, [], [], [[
+#ifdef HAVE_NETINET_IN_H
+# include <netinet/in.h>
+#endif
+]])
+
 AC_CHECK_HEADERS(netinet/if_ether.h,[],[],[[
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
@@ -712,8 +742,8 @@ fi
 
 dnl ---------- XCB --------------------------------------------------------
 if test "${enable_manager}" = yes; then
-    PKG_CHECK_MODULES(XCB,xcb,have_Xcb="yes",echo "WARNING: Xcb not found, x11_screensaver will not be built")
-    PKG_CHECK_MODULES(XCBATOM,xcb-atom,have_Xcbatom="yes",echo "WARNING: Xcb-atom not found, x11_screensaver will not be built")
+    PKG_CHECK_MODULES(XCB,xcb,have_Xcb="yes",[echo "WARNING: Xcb not found, x11_screensaver will not be built"])
+    PKG_CHECK_MODULES(XCBATOM,xcb-atom,have_Xcbatom="yes",[echo "WARNING: Xcb-atom not found, x11_screensaver will not be built"])
 fi
 AM_CONDITIONAL(BUILD_X11_SCREENSAVER, [ test "$have_Xcb" = yes -a "$have_Xcbatom" = yes ]) 
 dnl -----------------------------------------------------------------------
@@ -860,7 +890,7 @@ if test "${enable_client_release}" = "yes" ; then
 
    ## NOTE: its *extremely* important to always compile with __NO_CTYPE 
    ## defined, because this avoids GLIBC_2.3 symbols being pulled in via ctype.h-macros,
-   CPPFLAGS="$CPPFLAGS -D__NO_CTYPE"
+   CPPFLAGS="${CPPFLAGS} -D__NO_CTYPE"
 fi
 
 AC_SUBST(BOINC_EXTRA_LIBS)
@@ -882,12 +912,12 @@ fi
 
 dnl Some info about the person compiling used for making some packages.
 LOGNAME=`${WHOAMI}`
-FULLNAME=`grep ^${LOGNAME}: /etc/passwd | awk -F: '{print $5}'`
+FULLNAME=`grep ^${LOGNAME}: /etc/passwd | head -n 1 | awk -F: '{print $5}'`
 if test -z "${FULLNAME}" ; then
-  FULLNAME=`ypcat passwd 2>/dev/null | grep ^${LOGNAME}: | awk -F: '{print $5}'`
+  FULLNAME=`ypcat passwd 2>/dev/null | grep ^${LOGNAME}: | head -n 1 | awk -F: '{print $5}'`
 fi
 if test -z "${FULLNAME}" ; then
-  FULLNAME=`nidump passwd / 2>/dev/null | grep ^${LOGNAME}: | awk -F: '{print $5}'`
+  FULLNAME=`nidump passwd / 2>/dev/null | grep ^${LOGNAME}: | head -n 1 | awk -F: '{print $5}'`
 fi
 if test -z "${FULLNAME}" ; then
   FULLNAME=$LOGNAME
