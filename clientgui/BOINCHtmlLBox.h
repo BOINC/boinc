@@ -65,6 +65,7 @@ protected:
     wxColour GetSelectedTextColour(const wxColour& colFg) const { return colFg; }
     wxColour GetSelectedTextBgColour(const wxColour& colBg) const { return colBg; }
     void OnDrawBackground(wxDC&, const wxRect&, size_t) const {}
+    wxCoord OnMeasureItem(size_t n) const;
 
 private:
      virtual wxHtmlOpeningStatus OnHTMLOpeningURL(wxHtmlURLType type,
