@@ -4761,3 +4761,6 @@ David  7 Nov 2012
     - a bunch of skin files had execute permissions (??).  Clear them.
 
     clientgui/skins/Charity Engine/graphic/*
+
+David  8 Nov 2012
+    - remove execute permissions from various files that shouldn't have them
