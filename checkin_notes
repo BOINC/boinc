@@ -7361,3 +7361,14 @@ David  7 Dec 2012
     clientgui/
         AsyncRPC.cpp
         stdwx.h
+
+David  7 Dec 2012
+    - client (unix): rename() doesn't work between filesystems.
+        If the user has set things up so that slots/ is a symlink
+        to a different filesystem, things won't work when the client
+        moves output files from the slot to project dir.
+        Solution: if rename() fails, try system("mv ...")
+        since mv works across filesystems
+
+    lib/
+        filesys.cpp

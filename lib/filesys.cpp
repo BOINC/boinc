@@ -594,7 +594,15 @@ static int boinc_rename_aux(const char* old, const char* newf) {
     if (MoveFileExA(old, newf, MOVEFILE_REPLACE_EXISTING|MOVEFILE_WRITE_THROUGH)) return 0;
     return GetLastError();
 #else
+    // rename() doesn't work between filesystems.
+    // So if it fails, try the "mv" command, which does work
+    //
     int retval = rename(old, newf);
+    if (retval) {
+        char buf[MAXPATHLEN+MAXPATHLEN];
+        sprintf(buf, "mv \"%s\" \"%s\"", old, newf);
+        retval = system(buf);
+    }
     if (retval) return ERR_RENAME;
     return 0;
 #endif
