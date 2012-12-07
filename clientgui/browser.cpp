@@ -600,8 +600,8 @@ retry:
     
     // construct SQL query to extract the desired cookie
     // SELECT host, name, value, expiry from moz_cookies WHERE name = '%s' AND host LIKE '%%%s'
-    snprintf(query, sizeof(query),
-        "SELECT host, name, value, expiry from moz_cookies WHERE name = '%s' AND host LIKE '%%%s'",
+    sqlite3_snprintf(sizeof(query), query,
+        "SELECT host, name, value, expiry from moz_cookies WHERE name = '%q' AND host LIKE '%%%q'",
         name.c_str(),
         hostname.c_str()
     );
@@ -814,8 +814,8 @@ bool detect_cookie_chrome(
     
     // construct SQL query to extract the desired cookie
     // SELECT host_key, name, value, expires_utc, httponly from cookies WHERE name = '%s' AND host_key LIKE '%%%s'
-    snprintf(query, sizeof(query),
-        "SELECT host_key, name, value, expires_utc, httponly from cookies WHERE name = '%s' AND host_key LIKE '%%%s'",
+    sqlite3_snprintf(sizeof(query), query,
+        "SELECT host_key, name, value, expires_utc, httponly from cookies WHERE name = '%q' AND host_key LIKE '%%%q'",
         name.c_str(),
         hostname.c_str()
     );
