@@ -4811,3 +4811,10 @@ David  19 Nov 2012
         client_state.h
         cs_scheduler.cpp
         project.h
+
+David  22 Nov 2012
+    - client: if a project is anonymous platform,
+        don't send list of alternate platforms in scheduler RPC.
+
+    client/
+        cs_platforms.cpp
