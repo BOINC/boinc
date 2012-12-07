@@ -82,8 +82,8 @@ static DWORD lastStatusInfoLength;
 
 // Callback for InternetOpenURL() and InternetReadFileEx()
 static void CALLBACK BOINCInternetStatusCallback(
-                    HINTERNET hInternet,
-                    DWORD_PTR dwContext,
+                    HINTERNET,
+                    DWORD_PTR,
                     DWORD dwInternetStatus,
                     LPVOID lpvStatusInformation,
                     DWORD dwStatusInformationLength
@@ -201,7 +201,7 @@ size_t wxWinINetInputStream::OnSysRead(void *buffer, size_t bufsize)
         bufs.dwStructSize = sizeof(INTERNET_BUFFERS);
         bufs.Next = NULL;
         bufs.lpvBuffer = buffer;
-        bufs.dwBufferLength = bufsize;
+        bufs.dwBufferLength = (DWORD)bufsize;
 
         lastInternetStatus = 0;
         complete = InternetReadFileEx(m_hFile, &bufs,  IRF_ASYNC | IRF_USE_CONTEXT, 2);
