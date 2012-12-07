@@ -4959,3 +4959,8 @@ David  30 Nov 2012
         cs_files.cpp
     lib/
         procinfo.cpp
+
+David  30 Nov 2012
+    - Mac installer: add missing pclose() (from RustyBSD)
+
+    mac_installer/PostInstall.cpp
