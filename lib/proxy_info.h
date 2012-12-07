@@ -18,8 +18,8 @@
 #ifndef _PROXY_INFO_
 #define _PROXY_INFO_
 
-#include "miofile.h"
-#include "parse.h"
+struct XML_PARSER;
+class MIOFILE;
 
 // info on whether HTTP requests need to go through a proxy
 //

@@ -30,7 +30,7 @@
 #include "proxy_info.h"
 #include "coproc.h"
 
-class XML_PARSER;
+struct XML_PARSER;
 
 #define MAX_FILE_XFERS_PER_PROJECT      2
 #define MAX_FILE_XFERS                  8

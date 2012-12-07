@@ -4744,3 +4744,12 @@ Rom    8 Nov 2012
     /
         configure.ac
         version.h
+
+David  7 Nov 2012
+    - XML parser: make low-level functions inline, in an attempt
+        (unsuccessful, as far as I can tell) to boost performance
+
+    lib/
+        cc_config.h
+        parse.cpp,h
+        proxy_info.h
