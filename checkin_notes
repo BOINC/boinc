@@ -4934,3 +4934,9 @@ David  29 Nov 2012
         filesys.cpp,h
     html/ops/
         mass_email.php
+
+David  30 Nov 2012
+	- lib: Win compile fix for boinc_allocate_file()
+
+	lib/
+		filesys.cpp
