@@ -7380,3 +7380,8 @@ Charlie 7 Dec 2012
         mac/
             config.h
 
+Rom    7 Dec 2012
+    - MGR: Minor fix to the OpenCL output for Intel GPUs.
+    
+    client/
+        gpu_detect.cpp
