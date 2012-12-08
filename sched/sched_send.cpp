@@ -157,7 +157,7 @@ void WORK_REQ::get_job_limits() {
     if (n < 1) n = 1;
     effective_ncpus = n;
 
-    n = g_request->coprocs.nvidia.count + g_request->coprocs.ati.count;
+    n = g_request->coprocs.ndevs();
     if (n > MAX_GPUS) n = MAX_GPUS;
     effective_ngpus = n;
 

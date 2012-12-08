@@ -261,6 +261,8 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
             handle_no_rsc("CPU", btemp);
             continue;
         }
+
+        // deprecated
         if (xp.parse_bool("no_cuda", btemp)) {
             handle_no_rsc(GPU_TYPE_NVIDIA, btemp);
             continue;
@@ -269,10 +271,7 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
             handle_no_rsc(GPU_TYPE_NVIDIA, btemp);
             continue;
         }
-        if (xp.parse_bool("no_intel_gpu", btemp)) {
-            handle_no_rsc(GPU_TYPE_INTEL, btemp);
-            continue;
-        }
+
         if (xp.parse_str("no_rsc", buf, sizeof(buf))) {
             handle_no_rsc(buf, true);
         }

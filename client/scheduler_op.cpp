@@ -854,6 +854,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 handle_no_rsc_apps("CPU", project, btemp);
             }
             continue;
+
+        // deprecated syntax
         } else if (xp.parse_bool("no_cuda_apps", btemp)) {
             if (!project->anonymous_platform) {
                 handle_no_rsc_apps(GPU_TYPE_NVIDIA, project, btemp);
@@ -864,11 +866,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 handle_no_rsc_apps(GPU_TYPE_ATI, project, btemp);
             }
             continue;
-        } else if (xp.parse_bool("no_intel_gpu_apps", btemp)) {
-            if (!project->anonymous_platform) {
-                handle_no_rsc_apps(GPU_TYPE_INTEL, project, btemp);
-            }
-            continue;
+
         } else if (xp.parse_str("no_rsc_apps", buf, sizeof(buf))) {
             if (!project->anonymous_platform) {
                 handle_no_rsc_apps(buf, project, true);

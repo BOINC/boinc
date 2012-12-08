@@ -378,7 +378,7 @@ static bool cuda_check(COPROC_NVIDIA& c, HOST_USAGE& hu,
 
 // the following is for an app that uses an NVIDIA GPU
 //
-static inline bool app_plan_cuda(
+static inline bool app_plan_nvidia(
     SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu
 ) {
     COPROC_NVIDIA& c = sreq.coprocs.nvidia;
@@ -507,6 +507,9 @@ static inline bool opencl_check(
         hu.gpu_usage = ndevs;
     } else if (!strcmp(cp.type, "ATI")) {
         hu.proc_type = PROC_TYPE_AMD_GPU;
+        hu.gpu_usage = ndevs;
+    } else if (!strcmp(cp.type, "intel_gpu")) {
+        hu.proc_type = PROC_TYPE_INTEL_GPU;
         hu.gpu_usage = ndevs;
     }
 
@@ -710,7 +713,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
     } else if (strstr(plan_class, "ati")) {
         return app_plan_ati(sreq, plan_class, hu);
     } else if (strstr(plan_class, "cuda")) {
-        return app_plan_cuda(sreq, plan_class, hu);
+        return app_plan_nvidia(sreq, plan_class, hu);
     } else if (!strcmp(plan_class, "nci")) {
         return app_plan_nci(sreq, hu);
     } else if (!strcmp(plan_class, "sse3")) {

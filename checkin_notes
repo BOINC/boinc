@@ -7385,3 +7385,17 @@ Rom    7 Dec 2012
     
     client/
         gpu_detect.cpp
+
+David  7 Dec 2012
+    - client/manager: tweaks to Intel GPU code
+    client/
+        acct_mgr.cpp
+        cs_account.cpp
+        cs_scheduler.cpp
+        cs_statefile.cpp
+        gpu_opencl.cpp
+        project.cpp
+        scheduler_op.cpp
+    lib/
+        coproc.cpp
+        procinfo.cpp
