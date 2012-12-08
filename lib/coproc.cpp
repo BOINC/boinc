@@ -942,7 +942,7 @@ void COPROC_INTEL::write_xml(MIOFILE& f, bool scheduler_rpc) {
 
 void COPROC_INTEL::clear() {
     COPROC::clear();
-    strcpy(type, proc_type_name_xml(PROC_TYPE_AMD_GPU));
+    strcpy(type, proc_type_name_xml(PROC_TYPE_INTEL_GPU));
     estimated_delay = -1;
     strcpy(name, "");
     strcpy(version, "");
@@ -1006,7 +1006,7 @@ void COPROC_INTEL::set_peak_flops() {
 
 //TODO: Fix this
 void COPROC_INTEL::fake(double ram, double avail_ram, int n) {
-    strcpy(type, proc_type_name_xml(PROC_TYPE_AMD_GPU));
+    strcpy(type, proc_type_name_xml(PROC_TYPE_INTEL_GPU));
     strcpy(version, "1.4.3");
     strcpy(name, "foobar");
     count = n;
