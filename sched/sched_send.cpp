@@ -1512,9 +1512,9 @@ void send_gpu_messages() {
             proc_type_name(PROC_TYPE_AMD_GPU)
         );
     }
-    if (g_request->coprocs.intel_gpu.count && ssp->have_apps_for_proc_type[PROC_TYPE_INTEL_GPU]) {
+    if (g_request->coprocs.intel.count && ssp->have_apps_for_proc_type[PROC_TYPE_INTEL_GPU]) {
         send_gpu_property_messages(gpu_requirements[PROC_TYPE_INTEL_GPU],
-            g_request->coprocs.intel_gpu.opencl_prop.global_mem_size,
+            g_request->coprocs.intel.opencl_prop.global_mem_size,
             0,
             proc_type_name(PROC_TYPE_INTEL_GPU)
         );

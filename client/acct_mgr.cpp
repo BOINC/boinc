@@ -269,7 +269,7 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
             handle_no_rsc(GPU_TYPE_NVIDIA, btemp);
             continue;
         }
-        if (xp.parse_bool("no_intel_gpu", btemp)) {
+        if (xp.parse_bool("no_intel", btemp)) {
             handle_no_rsc(GPU_TYPE_INTEL, btemp);
             continue;
         }

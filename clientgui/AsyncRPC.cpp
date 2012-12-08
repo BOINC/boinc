@@ -1006,7 +1006,7 @@ void CMainDocument::HandleCompletedRPC() {
                 exchangeBuf->executing_as_daemon = arg1->executing_as_daemon;
                 exchangeBuf->have_nvidia = arg1->have_nvidia;
                 exchangeBuf->have_ati = arg1->have_ati;
-                exchangeBuf->have_intel_gpu = arg1->have_intel_gpu;
+                exchangeBuf->have_intel = arg1->have_intel;
             }
             break;
         case RPC_GET_RESULTS:

@@ -375,7 +375,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
     // Intel GPU
     //
     } else if (!strcmp(gpu_type, "intel")) {
-        COPROC& cp = sreq.coprocs.intel_gpu;
+        COPROC& cp = sreq.coprocs.intel;
         cpp = &cp;
 
         if (!cp.count) {
@@ -494,7 +494,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         } else if (!strcmp(gpu_type, "nvidia")) {
             hu.proc_type = PROC_TYPE_NVIDIA_GPU;
             hu.gpu_usage = gpu_usage;
-        } else if (!strcmp(gpu_type, "intel_gpu")) {
+        } else if (!strcmp(gpu_type, "intel")) {
             hu.proc_type = PROC_TYPE_INTEL_GPU;
             hu.gpu_usage = gpu_usage;
         }

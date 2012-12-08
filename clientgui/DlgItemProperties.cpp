@@ -280,7 +280,7 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
                 project->rsc_desc_ati
             );
         }
-        if (pDoc->state.have_intel_gpu) {
+        if (pDoc->state.have_intel) {
             show_rsc(
                 wxString(proc_type_name(PROC_TYPE_INTEL_GPU), wxConvUTF8),
                 project->rsc_desc_intel_gpu

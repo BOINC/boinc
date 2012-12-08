@@ -523,7 +523,7 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
     pMenu->AppendSeparator();
 
     m_SnoozeMenuItem = pMenu->AppendCheckItem(ID_TB_SUSPEND, _("Snooze"), wxEmptyString);
-    if (pDoc->state.have_nvidia || pDoc->state.have_ati || pDoc->state.have_intel_gpu) {
+    if (pDoc->state.have_nvidia || pDoc->state.have_ati || pDoc->state.have_intel) {
         m_SnoozeGPUMenuItem = pMenu->AppendCheckItem(ID_TB_SUSPEND_GPU, _("Snooze GPU"), wxEmptyString);
     }
 
@@ -633,7 +633,7 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
         }
     }
     
-    if (pDoc->state.have_nvidia || pDoc->state.have_ati || pDoc->state.have_intel_gpu) {
+    if (pDoc->state.have_nvidia || pDoc->state.have_ati || pDoc->state.have_intel) {
         switch (status.gpu_mode) {
         case RUN_MODE_NEVER:
             switch (status.gpu_mode_perm) {
@@ -660,7 +660,7 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
             }
             break;
         }
-        if (pDoc->state.have_nvidia || pDoc->state.have_ati || pDoc->state.have_intel_gpu) {
+        if (pDoc->state.have_nvidia || pDoc->state.have_ati || pDoc->state.have_intel) {
             if (status.task_mode == RUN_MODE_NEVER) {
                 m_SnoozeGPUMenuItem->Check(false);
                 m_SnoozeGPUMenuItem->Enable(false);
@@ -724,7 +724,7 @@ void CTaskBarIcon::UpdateTaskbarStatus() {
         }
         strMessage += wxT(".\n");
 
-        if (!comp_suspended && (pDoc->state.have_nvidia || pDoc->state.have_ati || pDoc->state.have_intel_gpu)) {
+        if (!comp_suspended && (pDoc->state.have_nvidia || pDoc->state.have_ati || pDoc->state.have_intel)) {
             switch(status.gpu_suspend_reason) {
             case 0:
                 strMessage += _("GPU computing is enabled");

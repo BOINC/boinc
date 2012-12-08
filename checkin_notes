@@ -7409,3 +7409,24 @@ Rom    8 Dec 2012
     lib\
         cc_config.cpp, .h
         coproc.cpp, .h
+
+Rom    8 Dec 2012
+    - client/server: fix build breaks I introduced last night with a variable 
+        rename.
+
+    client\
+        acct_mgr.cpp
+        cpu_sched.cpp
+        gpu_detect.cpp
+    clientgui\
+        AdvancedFrame.cpp
+        AsyncRPC.cpp
+        BOINCTaskBar.cpp
+        DlgItemProperties.cpp
+    lib\
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp
+    sched\
+        plan_class_spec.cpp
+        sched_send.cpp
+        sched_types.cpp

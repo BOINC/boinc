@@ -125,7 +125,7 @@ void COPROCS::get(
     if (setjmp(resume)) {
         warnings.push_back("Caught SIGSEGV in OpenCL detection");
     } else {
-        get_opencl(use_all, warnings, ignore_ati_dev, ignore_nvidia_dev, ignore_intel_gpu_dev);
+        get_opencl(use_all, warnings, ignore_ati_dev, ignore_nvidia_dev, ignore_intel_dev);
     }
     signal(SIGSEGV, old_sig);
 #endif
@@ -141,7 +141,11 @@ void COPROCS::get(
             break;
         case COPROC_UNUSED:
         default:
-            sprintf(buf2, "NVIDIA GPU %d (not used): %s", nvidia_gpus[i].device_num, buf);
+            if (nvidia_gpus[i].opencl_prop.is_used) {
+                sprintf(buf2, "NVIDIA GPU %d (OpenCL only): %s", nvidia_gpus[i].device_num, buf);
+            } else {
+                sprintf(buf2, "NVIDIA GPU %d (not used): %s", nvidia_gpus[i].device_num, buf);
+            }
             break;
         }
         descs.push_back(string(buf2));
@@ -158,7 +162,11 @@ void COPROCS::get(
             break;
         case COPROC_UNUSED:
         default:
-            sprintf(buf2, "ATI GPU %d: (not used) %s", ati_gpus[i].device_num, buf);
+            if (ati_gpus[i].opencl_prop.is_used) {
+                sprintf(buf2, "ATI GPU %d: (OpenCL only) %s", ati_gpus[i].device_num, buf);
+            } else {
+                sprintf(buf2, "ATI GPU %d: (not used) %s", ati_gpus[i].device_num, buf);
+            }
             break;
         }
         descs.push_back(string(buf2));
@@ -175,7 +183,11 @@ void COPROCS::get(
             break;
         case COPROC_UNUSED:
         default:
-            sprintf(buf2, "INTEL GPU %d: (not used) %s", intel_gpus[i].device_num, buf);
+            if (intel_gpus[i].opencl_prop.is_used) {
+                sprintf(buf2, "INTEL GPU %d: (OpenCL only) %s", intel_gpus[i].device_num, buf);
+            } else {
+                sprintf(buf2, "INTEL GPU %d: (not used) %s", intel_gpus[i].device_num, buf);
+            }
             break;
         }
         descs.push_back(string(buf2));
