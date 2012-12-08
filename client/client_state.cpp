@@ -372,7 +372,7 @@ int CLIENT_STATE::init() {
         vector<string> warnings;
         coprocs.get(
             config.use_all_gpus, descs, warnings,
-            config.ignore_nvidia_dev, config.ignore_ati_dev, config.ignore_intel_gpu_dev
+            config.ignore_nvidia_dev, config.ignore_ati_dev, config.ignore_intel_dev
         );
         for (i=0; i<descs.size(); i++) {
             msg_printf(NULL, MSG_INFO, "%s", descs[i].c_str());
@@ -406,11 +406,11 @@ int CLIENT_STATE::init() {
             coprocs.add(coprocs.ati);
         }
     }
-    if (coprocs.have_intel_gpu()) {
+    if (coprocs.have_intel()) {
         if (rsc_index(GPU_TYPE_INTEL)>0) {
             msg_printf(NULL, MSG_INFO, "INTEL GPU info taken from cc_config.xml");
         } else {
-            coprocs.add(coprocs.intel_gpu);
+            coprocs.add(coprocs.intel);
         }
     }
     host_info._coprocs = coprocs;

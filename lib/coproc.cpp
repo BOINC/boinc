@@ -324,6 +324,12 @@ void COPROCS::summary_string(char* buf, int len) {
         );
         strlcat(buf, buf2, len);
     }
+    if (intel.count) {
+        sprintf(buf2,"[INTEL|%s|%d|%dMB|%s]",
+            intel.name, intel.count, intel.opencl_prop.global_mem_size/MEGA, intel.version
+        );
+        strlcat(buf, buf2, len);
+    }
 }
 
 int COPROCS::parse(XML_PARSER& xp) {
@@ -354,6 +360,15 @@ int COPROCS::parse(XML_PARSER& xp) {
             }
             continue;
         }
+        if (xp.match_tag("coproc_intel")) {
+            retval = intel.parse(xp);
+            if (retval) {
+                intel.clear();
+            } else {
+                coprocs[n_rsc++] = intel;
+            }
+            continue;
+        }
     }
     return ERR_XML_PARSE;
 }
@@ -367,6 +382,9 @@ void COPROCS::write_xml(MIOFILE& mf, bool scheduler_rpc) {
     }
     if (ati.count) {
         ati.write_xml(mf, scheduler_rpc);
+    }
+    if (intel.count) {
+        intel.write_xml(mf, scheduler_rpc);
     }
     mf.printf("    </coprocs>\n");
 #endif
@@ -964,6 +982,11 @@ int COPROC_INTEL::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
+void COPROC_INTEL::description(char* buf) {
+    sprintf(buf, "%s (version %s, %.0fMB, %.0fMB available, %.0f GFLOPS peak)",
+        name, version, ((double)opencl_prop.global_mem_size)/MEGA, available_ram/MEGA, peak_flops/1.e9
+    );
+}
 
 // http://en.wikipedia.org/wiki/Comparison_of_Intel_graphics_processing_units says:
 // The raw performance of integrated GPU, in single-precision FLOPS,
@@ -978,7 +1001,7 @@ void COPROC_INTEL::set_peak_flops() {
     if (opencl_prop.max_compute_units) {
         x = opencl_prop.max_compute_units * 8 * opencl_prop.max_clock_frequency * 1e6;
     }
-    peak_flops =  (x>0)?x:45e9;
+    peak_flops = (x>0)?x:45e9;
 }
 
 //TODO: Fix this
@@ -1001,7 +1024,7 @@ const char* proc_type_name_xml(int pt) {
     case PROC_TYPE_CPU: return "CPU";
     case PROC_TYPE_NVIDIA_GPU: return "NVIDIA";
     case PROC_TYPE_AMD_GPU: return "ATI";
-    case PROC_TYPE_INTEL_GPU: return "intel_gpu";
+    case PROC_TYPE_INTEL_GPU: return "INTEL";
     }
     return "unknown";
 }

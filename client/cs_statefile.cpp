@@ -937,8 +937,8 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
     if (coprocs.have_ati()) {
         f.printf("<have_ati/>\n");
     }
-    if (coprocs.have_intel_gpu()) {
-        f.printf("<have_intel_gpu/>\n");
+    if (coprocs.have_intel()) {
+        f.printf("<have_intel/>\n");
     }
 
 #if 1

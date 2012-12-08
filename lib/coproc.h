@@ -166,7 +166,7 @@ struct OPENCL_DEVICE_PROP {
     void write_xml(MIOFILE&);
 #endif
     int parse(XML_PARSER&);
-void description(char* buf, const char* type);
+    void description(char* buf, const char* type);
 };
 
 
@@ -378,6 +378,7 @@ struct COPROC_ATI : public COPROC {
 struct COPROC_INTEL : public COPROC {
     char name[256];
     char version[50];
+    double global_mem_size;
     COPROC_USAGE is_used;               // temp used in scan process
 
 #ifndef _USING_FCGI_
@@ -386,6 +387,12 @@ struct COPROC_INTEL : public COPROC {
     COPROC_INTEL(): COPROC() {
         strcpy(type, proc_type_name_xml(PROC_TYPE_INTEL_GPU));
     }
+    void get(
+        bool use_all,
+        std::vector<std::string>&,
+        std::vector<int>& ignore_devs
+    );
+    void description(char*);
     void clear();
     int parse(XML_PARSER&);
     void set_peak_flops();
@@ -397,7 +404,7 @@ struct COPROCS {
     COPROC coprocs[MAX_RSC];
     COPROC_NVIDIA nvidia;
     COPROC_ATI ati;
-    COPROC_INTEL intel_gpu;
+    COPROC_INTEL intel;
 
     void write_xml(MIOFILE& out, bool scheduler_rpc);
     void get(
@@ -471,8 +478,8 @@ struct COPROCS {
     inline bool have_ati() {
         return (ati.count > 0);
     }
-    inline bool have_intel_gpu() {
-        return (intel_gpu.count > 0);
+    inline bool have_intel() {
+        return (intel.count > 0);
     }
     int add(COPROC& c) {
         if (n_rsc >= MAX_RSC) return ERR_BUFFER_OVERFLOW;
@@ -488,7 +495,7 @@ struct COPROCS {
         switch(t) {
         case PROC_TYPE_NVIDIA_GPU: return &nvidia;
         case PROC_TYPE_AMD_GPU: return &ati;
-        case PROC_TYPE_INTEL_GPU: return &intel_gpu;
+        case PROC_TYPE_INTEL_GPU: return &intel;
         }
         return NULL;
     }
@@ -496,7 +503,7 @@ struct COPROCS {
         n_rsc = 0;
         nvidia.count = 0;
         ati.count = 0;
-        intel_gpu.count = 0;
+        intel.count = 0;
         COPROC c;
         strcpy(c.type, "CPU");
         add(c);
