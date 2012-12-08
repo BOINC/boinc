@@ -5048,3 +5048,11 @@ Rom    8 Nov 2012
     /
         configure.ac
         version.h
+
+Charlie 19 Nov 2012
+    - Mac: remove deleted files from Xcode project. (Checked into 
+        7.0.40 tag)
+
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
