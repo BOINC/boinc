@@ -77,18 +77,18 @@ CSimpleProjectPanel::CSimpleProjectPanel( wxWindow* parent ) :
     m_sSynchronizeToolTip = _("Synchronize projects with account manager system");
     
     m_GotBGBitMap = false; // Can't be made until parent has been laid out.
-	SetForegroundColour(*wxBLACK);
+    SetForegroundColour(*wxBLACK);
     
-	wxBoxSizer* bSizer1;
-	bSizer1 = new wxBoxSizer( wxVERTICAL );
+    wxBoxSizer* bSizer1;
+    bSizer1 = new wxBoxSizer( wxVERTICAL );
 
-	wxBoxSizer* bSizer2;
-	bSizer2 = new wxBoxSizer( wxHORIZONTAL );
-	
+    wxBoxSizer* bSizer2;
+    bSizer2 = new wxBoxSizer( wxHORIZONTAL );
+    
     bSizer1->AddSpacer(5);
-	m_myProjectsLabel = new CTransparentStaticText( this, wxID_ANY, _("Projects:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_myProjectsLabel->Wrap( -1 );
-	bSizer2->Add( m_myProjectsLabel, 0, wxRIGHT, 5 );
+    m_myProjectsLabel = new CTransparentStaticText( this, wxID_ANY, _("Projects:"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_myProjectsLabel->Wrap( -1 );
+    bSizer2->Add( m_myProjectsLabel, 0, wxRIGHT, 5 );
     bSizer2->AddStretchSpacer();
 
     int addProjectWidth, synchronizeWidth, y;
@@ -99,15 +99,15 @@ CSimpleProjectPanel::CSimpleProjectPanel( wxWindow* parent ) :
         wxDefaultPosition, wxDefaultSize, 0
     );
                             
-	bSizer2->Add( m_TaskAddProjectButton, 0, wxRIGHT | wxEXPAND | wxALIGN_RIGHT, SIDEMARGINS );
-	bSizer1->Add( bSizer2, 0, wxEXPAND | wxTOP | wxLEFT, 10 );
+    bSizer2->Add( m_TaskAddProjectButton, 0, wxRIGHT | wxEXPAND | wxALIGN_RIGHT, SIDEMARGINS );
+    bSizer1->Add( bSizer2, 0, wxEXPAND | wxTOP | wxLEFT, 10 );
 
 #ifndef __WXMAC__
     bSizer1->AddSpacer(5);
 #endif
-	
+    
 #if TESTBIGICONPOPUP
-	m_ProjectSelectionCtrl = new CBOINCBitmapComboBox( this, ID_SGPROJECTSELECTOR, wxT(""), wxDefaultPosition, wxSize(-1, 42), 4, tempArray, wxCB_READONLY ); 
+    m_ProjectSelectionCtrl = new CBOINCBitmapComboBox( this, ID_SGPROJECTSELECTOR, wxT(""), wxDefaultPosition, wxSize(-1, 42), 4, tempArray, wxCB_READONLY ); 
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
     bmArray[0] = *pSkinSimple->GetProjectImage()->GetBitmap();
     m_ProjectSelectionCtrl->SetItemBitmap(0, bmArray[0]);
@@ -118,12 +118,12 @@ CSimpleProjectPanel::CSimpleProjectPanel( wxWindow* parent ) :
 //    m_ProjectSelectionCtrl->SetStringSelection(tempArray[1]);
     m_ProjectSelectionCtrl->SetSelection(1);
 #else
-	m_ProjectSelectionCtrl = new CBOINCBitmapComboBox( this, ID_SGPROJECTSELECTOR, wxT(""), wxDefaultPosition, wxSize(-1, 42), 0, NULL, wxCB_READONLY); 
+    m_ProjectSelectionCtrl = new CBOINCBitmapComboBox( this, ID_SGPROJECTSELECTOR, wxT(""), wxDefaultPosition, wxSize(-1, 42), 0, NULL, wxCB_READONLY); 
 #endif
     // TODO: Might want better wording for Project Selection Combo Box tooltip
     str = _("Select a project to access with the controls below");
     m_ProjectSelectionCtrl->SetToolTip(str);
-	bSizer1->Add( m_ProjectSelectionCtrl, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
+    bSizer1->Add( m_ProjectSelectionCtrl, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
 
 #ifndef __WXMAC__
     bSizer1->AddSpacer(8);
@@ -132,29 +132,29 @@ CSimpleProjectPanel::CSimpleProjectPanel( wxWindow* parent ) :
     // Make sure m_TotalCreditValue string is large enough 
     m_fDisplayedCredit = 9999999999.99;
     str.Printf(_("%s: %.0f"), m_sTotalWorkDoneString.c_str(), m_fDisplayedCredit);
-	m_TotalCreditValue = new CTransparentStaticText( this, wxID_ANY, str, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
-	m_TotalCreditValue->Wrap( -1 );
-	
-	bSizer1->Add( m_TotalCreditValue, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
+    m_TotalCreditValue = new CTransparentStaticText( this, wxID_ANY, str, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
+    m_TotalCreditValue->Wrap( -1 );
+    
+    bSizer1->Add( m_TotalCreditValue, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
 
     bSizer1->AddSpacer(5);
 
-	wxBoxSizer* bSizer3;
-	bSizer3 = new wxBoxSizer( wxHORIZONTAL );
+    wxBoxSizer* bSizer3;
+    bSizer3 = new wxBoxSizer( wxHORIZONTAL );
 
-	m_ProjectWebSitesButton = new CSimpleProjectWebSitesPopupButton( this, ID_PROJECTWEBSITESBUTTON, _("Project Web Pages"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer3->Add( m_ProjectWebSitesButton, 0, wxEXPAND | wxALIGN_LEFT, 0 );
+    m_ProjectWebSitesButton = new CSimpleProjectWebSitesPopupButton( this, ID_PROJECTWEBSITESBUTTON, _("Project Web Pages"), wxDefaultPosition, wxDefaultSize, 0 );
+    bSizer3->Add( m_ProjectWebSitesButton, 0, wxEXPAND | wxALIGN_LEFT, 0 );
     bSizer3->AddStretchSpacer();
 
     m_ProjectCommandsButton = new CSimpleProjectCommandPopupButton( this, ID_PROJECTCOMMANDBUTTON, _("Project Commands"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer3->Add( m_ProjectCommandsButton, 0, wxEXPAND | wxALIGN_RIGHT, 0 );
+    bSizer3->Add( m_ProjectCommandsButton, 0, wxEXPAND | wxALIGN_RIGHT, 0 );
 
-	bSizer1->Add( bSizer3, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
+    bSizer1->Add( bSizer3, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
     
     bSizer1->AddSpacer(10);
 
-	this->SetSizer( bSizer1 );
-	this->Layout();
+    this->SetSizer( bSizer1 );
+    this->Layout();
     
     m_TaskAddProjectButton->SetToolTip(wxEmptyString);
     m_TaskAddProjectButton->Disable();
@@ -165,12 +165,12 @@ CSimpleProjectPanel::~CSimpleProjectPanel()
 {
     ProjectSelectionData *selData;
     int count = m_ProjectSelectionCtrl->GetCount();
-	for(int j = count-1; j >=0; --j) {
+    for(int j = count-1; j >=0; --j) {
         selData = (ProjectSelectionData*)m_ProjectSelectionCtrl->GetClientData(j);
         delete selData;
         // Indicate to Clear() we have cleaned up the Selection Data
         m_ProjectSelectionCtrl->SetClientData(j, NULL);
-	}
+    }
     m_ProjectSelectionCtrl->Clear();
 }
 
@@ -191,7 +191,7 @@ void CSimpleProjectPanel::UpdateInterface() {
     bool b_needMenuRebuild = false;
     wxString str = wxEmptyString;
     wxString projName = wxEmptyString;
-	CMainDocument* pDoc = wxGetApp().GetDocument();
+    CMainDocument* pDoc = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
 
@@ -211,8 +211,8 @@ void CSimpleProjectPanel::UpdateInterface() {
                 m_UsingAccountManager = is_acct_mgr_detected;
                 if (is_acct_mgr_detected) {
                     m_TaskAddProjectButton->SetLabel(m_sSynchronizeString);
-                        m_TaskAddProjectButton->Enable();
-                        m_TaskAddProjectButton->SetToolTip(m_sSynchronizeToolTip);
+                    m_TaskAddProjectButton->Enable();
+                    m_TaskAddProjectButton->SetToolTip(m_sSynchronizeToolTip);
                 } else {
                     m_TaskAddProjectButton->SetLabel(m_sAddProjectString);
                     if (!status.disallow_attach) {
@@ -294,7 +294,7 @@ void CSimpleProjectPanel::OnWizardAttach() {
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnWizardAttach - Function Begin"));
 
     CMainDocument* pDoc = wxGetApp().GetDocument();
-	CSimpleGUIPanel*  pPanel = wxDynamicCast(GetParent(), CSimpleGUIPanel);
+    CSimpleGUIPanel*  pPanel = wxDynamicCast(GetParent(), CSimpleGUIPanel);
 
     wxASSERT(pDoc);
     wxASSERT(pPanel);
@@ -304,10 +304,10 @@ void CSimpleProjectPanel::OnWizardAttach() {
 
     if (!pDoc->IsConnected()) return;
 
-	pPanel->SetDlgOpen(true);
+    pPanel->SetDlgOpen(true);
 
-	pPanel->OnProjectsAttachToProject();
-//	btnAddProj->Refresh();
+    pPanel->OnProjectsAttachToProject();
+//    btnAddProj->Refresh();
 
     pPanel->SetDlgOpen(false);
 
@@ -319,7 +319,7 @@ void CSimpleProjectPanel::OnWizardUpdate() {
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnWizardUpdate - Function Begin"));
 
     CMainDocument* pDoc = wxGetApp().GetDocument();
-	CSimpleGUIPanel*  pPanel = wxDynamicCast(GetParent(), CSimpleGUIPanel);
+    CSimpleGUIPanel*  pPanel = wxDynamicCast(GetParent(), CSimpleGUIPanel);
 
     wxASSERT(pDoc);
     wxASSERT(pPanel);
@@ -387,18 +387,18 @@ void CSimpleProjectPanel::OnProjectSelection(wxCommandEvent& /*event*/) {
 
 
 void CSimpleProjectPanel::UpdateProjectList() {
-	CMainDocument* pDoc = wxGetApp().GetDocument();
+    CMainDocument* pDoc = wxGetApp().GetDocument();
     ProjectSelectionData* selData;
     PROJECT* project;
     char* ctrl_url;
     int i, j, oldProjectSelection, newProjectSelection;
 
-	if ( pDoc->IsConnected() ) {
-		int projCnt = pDoc->GetSimpleProjectCount();
+    if ( pDoc->IsConnected() ) {
+        int projCnt = pDoc->GetSimpleProjectCount();
         int ctrlCount = m_ProjectSelectionCtrl->GetCount();
         oldProjectSelection = m_ProjectSelectionCtrl->GetSelection();
         
-		// If a new project has been added, figure out which one
+        // If a new project has been added, figure out which one
         for(i=0; i<projCnt; i++) {
             project = pDoc->state.projects[i];
             bool found = false;
@@ -444,12 +444,12 @@ void CSimpleProjectPanel::UpdateProjectList() {
         
         newProjectSelection = oldProjectSelection;
         if ( projCnt < ctrlCount ) {
-			project = NULL;
+            project = NULL;
             // Check items in descending order so deletion won't change indexes of items yet to be checked
             for(j=ctrlCount-1; j>=0; --j) {
-                char* ctrl_url = ((ProjectSelectionData*)m_ProjectSelectionCtrl->GetClientData(j))->project_url;
-				project = pDoc->state.lookup_project(ctrl_url);
-				if ( project == NULL ) {
+                ctrl_url = ((ProjectSelectionData*)m_ProjectSelectionCtrl->GetClientData(j))->project_url;
+                project = pDoc->state.lookup_project(ctrl_url);
+                if ( project == NULL ) {
                     selData = (ProjectSelectionData*)m_ProjectSelectionCtrl->GetClientData(j);
                     delete selData;
                     // Indicate to Delete() we have cleaned up the Selection Data
@@ -469,9 +469,9 @@ void CSimpleProjectPanel::UpdateProjectList() {
                             m_ProjectSelectionCtrl->SetSelection(wxNOT_FOUND);
                         }
                     }
-				}
-			}
-		}
+                }
+            }
+        }
     
         // Check to see if we need to reload the project icon
         ctrlCount = m_ProjectSelectionCtrl->GetCount();
@@ -485,35 +485,35 @@ void CSimpleProjectPanel::UpdateProjectList() {
                 m_ProjectSelectionCtrl->SetItemBitmap(j, *projectBM);
             }
         }
-	}
+    }
 }
 
 
 std::string CSimpleProjectPanel::GetProjectIconLoc(char* project_url) {
-	char urlDirectory[256];
-	CMainDocument* pDoc = wxGetApp().GetDocument();
-	PROJECT* project = pDoc->state.lookup_project(project_url);
-	url_to_project_dir(project->master_url, urlDirectory);
-	return (std::string)urlDirectory + "/stat_icon";
+    char urlDirectory[256];
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    PROJECT* project = pDoc->state.lookup_project(project_url);
+    url_to_project_dir(project->master_url, urlDirectory);
+    return (std::string)urlDirectory + "/stat_icon";
 }
 
 
 wxBitmap* CSimpleProjectPanel::GetProjectSpecificBitmap(char* project_url) {
-	char defaultIcnPath[256];
+    char defaultIcnPath[256];
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 
     wxASSERT(pSkinSimple);
 
-	// Only update if it is project specific is found
-	if(boinc_resolve_filename(GetProjectIconLoc(project_url).c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0) {
-		wxBitmap* projectBM = new wxBitmap();
+    // Only update if it is project specific is found
+    if(boinc_resolve_filename(GetProjectIconLoc(project_url).c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0) {
+        wxBitmap* projectBM = new wxBitmap();
         wxString strIconPath = wxString(defaultIcnPath,wxConvUTF8);
         if (wxFile::Exists(strIconPath)) {
-		    if ( projectBM->LoadFile(strIconPath, wxBITMAP_TYPE_ANY) ) {
-			    return projectBM;
-		    }
+            if ( projectBM->LoadFile(strIconPath, wxBITMAP_TYPE_ANY) ) {
+                return projectBM;
+            }
         }
-	}
+    }
     return pSkinSimple->GetProjectImage()->GetBitmap();
 }
 

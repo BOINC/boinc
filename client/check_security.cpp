@@ -143,13 +143,16 @@ saverName[2] = "Progress Thru Processors";
     if (use_sandbox) {
 #if (defined(__WXMAC__) || defined(_MAC_INSTALLER)) // If called from Mac BOINC Manager or installer
         // Get the full path to BOINC Client inside this application's bundle
-        strlcpy(full_path, dir_path, sizeof(full_path));
-        strlcat(full_path, "/Contents/Resources/boinc", sizeof(full_path));
+        snprintf(full_path, sizeof(full_path),
+            "%s/Contents/Resources/boinc", dir_path
+        );
 #else
-    if (isManager) {                                // If called from BOINC Manager but not on Mac
-        getcwd(full_path, sizeof(full_path));       // Assume Client is in current directory
+    if (isManager) {             // If called from BOINC Manager but not on Mac
+        getcwd(full_path, sizeof(full_path));
+        // Assume Client is in current directory
         strlcat(full_path, "/boinc", sizeof(full_path));
-    } else                                          // If called from BOINC Client
+    } else
+        // If called from BOINC Client
         GetPathToThisProcess(full_path, sizeof(full_path));
 #endif
 
@@ -222,10 +225,14 @@ saverName[2] = "Progress Thru Processors";
 
 #if 0   // Manager is no longer setgid
 #if (defined(__WXMAC__) || defined(_MAC_INSTALLER)) // If Mac BOINC Manager or installer
-        // Get the full path to BOINC Manager executable inside this application's bundle
-        strlcpy(full_path, dir_path, sizeof(full_path));
-        strlcat(full_path, "/Contents/MacOS/", sizeof(full_path));
-        // To allow for branding, assume name of executable inside bundle is same as name of bundle
+        // Get the full path to BOINC Manager executable
+        // inside this application's bundle
+        //
+        snprintf(full_path, sizeof(full_path), "%s/Contents/MacOS/", dir_path);
+
+        // To allow for branding, assume name of executable inside bundle
+        // is same as name of bundle
+        //
         p = strrchr(dir_path, '/');         // Assume name of executable inside bundle is same as name of bundle
         if (p == NULL)
             p = dir_path - 1;
@@ -252,8 +259,10 @@ saverName[2] = "Progress Thru Processors";
 #ifdef _MAC_INSTALLER
         // Require absolute owner and group boinc_master:boinc_master
         // Get the full path to BOINC Client inside this application's bundle
-        strlcpy(full_path, dir_path, sizeof(full_path));
-        strlcat(full_path, "/Contents/Resources/boinc", sizeof(full_path));
+        //
+        snprintf(full_path, sizeof(full_path),
+            "%s/Contents/Resources/boinc", dir_path
+        );
 
         retval = stat(full_path, &sbuf);
         if (retval)
@@ -345,11 +354,11 @@ saverName[2] = "Progress Thru Processors";
 
     }
 
-    strlcpy(full_path, dir_path, sizeof(full_path));
-    strlcat(full_path, "/", sizeof(full_path));
-    strlcat(full_path, PROJECTS_DIR, sizeof(full_path));
+    snprintf(full_path, sizeof(full_path), "%s/%s", dir_path, PROJECTS_DIR);
     retval = stat(full_path, &sbuf);
-    if (! retval) {                 // Client can create projects directory if it does not yet exist.  
+    if (!retval) {
+        // Client can create projects directory if it does not yet exist.  
+        //
         if (use_sandbox) {
             if (sbuf.st_gid != boinc_project_gid)
                 return -1024;
@@ -367,9 +376,7 @@ saverName[2] = "Progress Thru Processors";
             return retval;
     }
 
-    strlcpy(full_path, dir_path, sizeof(full_path));
-    strlcat(full_path, "/", sizeof(full_path));
-    strlcat(full_path, SLOTS_DIR, sizeof(full_path));
+    snprintf(full_path, sizeof(full_path), "%s/%s", dir_path, SLOTS_DIR);
     retval = stat(full_path, &sbuf);
     if (! retval) {                 // Client can create slots directory if it does not yet exist.  
        if (use_sandbox) {
@@ -389,9 +396,9 @@ saverName[2] = "Progress Thru Processors";
             return retval;
     }
 
-    strlcpy(full_path, dir_path, sizeof(full_path));
-    strlcat(full_path, "/", sizeof(full_path));
-    strlcat(full_path, GUI_RPC_PASSWD_FILE, sizeof(full_path));
+    snprintf(full_path, sizeof(full_path),
+        "%s/%s", dir_path, GUI_RPC_PASSWD_FILE
+    );
     retval = stat(full_path, &sbuf);
     if (! retval) {                 // Client can create RPC password file if it does not yet exist.  
         if (use_sandbox) {
@@ -410,9 +417,7 @@ saverName[2] = "Progress Thru Processors";
     }
 
     if (use_sandbox) {
-        strlcpy(full_path, dir_path, sizeof(full_path));
-        strlcat(full_path, "/", sizeof(full_path));
-        strlcat(full_path, SWITCHER_DIR, sizeof(full_path));
+        snprintf(full_path, sizeof(full_path), "%s/%s", dir_path, SWITCHER_DIR);
         retval = stat(full_path, &sbuf);
         if (retval)
             return -1033;
@@ -441,12 +446,9 @@ saverName[2] = "Progress Thru Processors";
         if ((sbuf.st_mode & 07777) != 04050)
             return -1040;
 
-        strlcpy(full_path, dir_path, sizeof(full_path));
-        strlcat(full_path, "/", sizeof(full_path));
-        strlcat(full_path, SWITCHER_DIR, sizeof(full_path));
-
-        strlcat(full_path, "/", sizeof(full_path));
-        strlcat(full_path, SETPROJECTGRP_FILE_NAME, sizeof(full_path));
+        snprintf(full_path, sizeof(full_path),
+            "%s/%s/%s", dir_path, SWITCHER_DIR, SETPROJECTGRP_FILE_NAME
+        );
         retval = stat(full_path, &sbuf);
         if (retval)
             return -1041;
@@ -479,9 +481,9 @@ saverName[2] = "Progress Thru Processors";
 #endif
 #endif  // __APPLE__
 
-        strlcpy(full_path, dir_path, sizeof(full_path));
-        strlcat(full_path, "/", sizeof(full_path));
-        strlcat(full_path, SS_CONFIG_FILE, sizeof(full_path));
+        snprintf(full_path, sizeof(full_path),
+            "%s/%s", dir_path, SS_CONFIG_FILE
+        );
 
         retval = stat(full_path, &sbuf);
         if (!retval) {
@@ -536,10 +538,7 @@ static int CheckNestedDirectories(char * basepath, int depth,
         if (dp->d_name[0] == '.')
             continue;               // Ignore names beginning with '.'
 
-        strlcpy(full_path, basepath, sizeof(full_path));
-        strlcat(full_path, "/", sizeof(full_path));
-        strlcat(full_path, dp->d_name, sizeof(full_path));
-
+        snprintf(full_path, sizeof(full_path), "%s/%s", basepath, dp->d_name);
         retval = lstat(full_path, &sbuf);
         if (retval)
             break;              // Should never happen
