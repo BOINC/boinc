@@ -82,6 +82,7 @@
 		DD2B6C8E131491B8005D6F3E /* procinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2B6C7E13149177005D6F3E /* procinfo.cpp */; };
 		DD2FE5C9142DE75A00A1E6F3 /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2370DF13F49DF3003149F9 /* LoginItemAPI.c */; };
 		DD2FE5CB142DE94700A1E6F3 /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2370DF13F49DF3003149F9 /* LoginItemAPI.c */; };
+		DD3157C316740D5300B6C909 /* gpu_intel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD3157C016740C9100B6C909 /* gpu_intel.cpp */; };
 		DD33C6F308B5BAF500768630 /* gui_http.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6F108B5BAF500768630 /* gui_http.cpp */; };
 		DD33C6F808B5BB4500768630 /* acct_setup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6F708B5BB4500768630 /* acct_setup.cpp */; };
 		DD33C70408B5BEDE00768630 /* http_curl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD33C70208B5BEDE00768630 /* http_curl.cpp */; };
@@ -792,6 +793,7 @@
 		DD2F32EF07F2A83E00645DDC /* MacSysMenu.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MacSysMenu.h; path = ../clientgui/mac/MacSysMenu.h; sourceTree = SOURCE_ROOT; };
 		DD2F32F707F2A88B00645DDC /* MacSysMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = MacSysMenu.cpp; path = ../clientgui/mac/MacSysMenu.cpp; sourceTree = SOURCE_ROOT; };
 		DD30446A0864332D00D73756 /* config.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = config.h; path = ../clientgui/mac/config.h; sourceTree = SOURCE_ROOT; };
+		DD3157C016740C9100B6C909 /* gpu_intel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gpu_intel.cpp; sourceTree = "<group>"; };
 		DD33C6F108B5BAF500768630 /* gui_http.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = gui_http.cpp; sourceTree = "<group>"; };
 		DD33C6F208B5BAF500768630 /* gui_http.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = gui_http.h; path = ../client/gui_http.h; sourceTree = SOURCE_ROOT; };
 		DD33C6F608B5BB4500768630 /* acct_setup.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = acct_setup.h; path = ../client/acct_setup.h; sourceTree = SOURCE_ROOT; };
@@ -1928,6 +1930,7 @@
 				DD25F72415914F8C007845B5 /* gpu_amd.cpp */,
 				DD25F72615914F8C007845B5 /* gpu_detect.cpp */,
 				DD25F72715914F8C007845B5 /* gpu_detect.h */,
+				DD3157C016740C9100B6C909 /* gpu_intel.cpp */,
 				DD25F72315914F8C007845B5 /* gpu_nvidia.cpp */,
 				DD25F72515914F8C007845B5 /* gpu_opencl.cpp */,
 				DD33C6F108B5BAF500768630 /* gui_http.cpp */,
@@ -3343,6 +3346,7 @@
 				DD25F72A15914F8C007845B5 /* gpu_opencl.cpp in Sources */,
 				DD25F72B15914F8C007845B5 /* gpu_detect.cpp in Sources */,
 				DDE17420166746F70059083A /* app_config.cpp in Sources */,
+				DD3157C316740D5300B6C909 /* gpu_intel.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
