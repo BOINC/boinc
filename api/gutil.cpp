@@ -42,15 +42,6 @@ extern "C" {
 #endif
 
 #ifndef _WIN32
-#if HAVE_MALLOC_H || defined(_WIN32)
-#include <malloc.h>
-#if defined(__MINGW32__) && !defined(alloca)
-#define alloca(x) _alloca(x)
-#endif
-#endif
-#if HAVE_ALLOCA_H
-#include <alloca.h>
-#endif
 
 extern "C"{
 #include <jpeglib.h>
@@ -651,10 +642,6 @@ tImageJPG *LoadJPG(const char *filename) {
 	struct jpeg_decompress_struct cinfo;
 	tImageJPG *pImageData = NULL;
 	FILE *pFile;
-#if HAVE_ALLOCA || defined(_WIN32)
-	alloca(16);  // Force a frame pointer even when compiled with
-                 // -fomit-frame-pointer
-#endif
 
 	if((pFile = boinc_fopen(filename, "rb")) == NULL) {
 		fprintf(stderr,"Unable to load JPG File!");

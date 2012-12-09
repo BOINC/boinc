@@ -113,9 +113,7 @@ int opencl_compare(OPENCL_DEVICE_PROP& c1, OPENCL_DEVICE_PROP& c2, bool loose) {
 void COPROCS::get_opencl(
     bool use_all,
     vector<string>& warnings,
-    vector<int>& ignore_ati_dev,
-    vector<int>& ignore_nvidia_dev,
-    vector<int>& ignore_intel_dev
+    IGNORE_GPU_INSTANCE& ignore_gpu_instance
 ) {
     cl_int ciErrNum;
     cl_platform_id platforms[MAX_OPENCL_PLATFORMS];
@@ -379,9 +377,13 @@ void COPROCS::get_opencl(
     }
         
     if (nvidia.have_cuda) { // If CUDA already found the "best" NVIDIA GPU
-        nvidia.merge_opencl(nvidia_opencls, ignore_nvidia_dev);
+        nvidia.merge_opencl(
+            nvidia_opencls, ignore_gpu_instance[PROC_TYPE_NVIDIA_GPU]
+        );
     } else {
-        nvidia.find_best_opencls(use_all, nvidia_opencls, ignore_nvidia_dev);
+        nvidia.find_best_opencls(
+            use_all, nvidia_opencls, ignore_gpu_instance[PROC_TYPE_NVIDIA_GPU]
+        );
         nvidia.prop.totalGlobalMem = nvidia.opencl_prop.global_mem_size;
         nvidia.available_ram = nvidia.opencl_prop.global_mem_size;
         nvidia.prop.clockRate = nvidia.opencl_prop.max_clock_frequency * 1000;
@@ -389,16 +391,16 @@ void COPROCS::get_opencl(
     }
 
     if (ati.have_cal) { // If CAL already found the "best" CAL GPU
-        ati.merge_opencl(ati_opencls, ignore_ati_dev);
+        ati.merge_opencl(ati_opencls, ignore_gpu_instance[PROC_TYPE_AMD_GPU]);
     } else {
-        ati.find_best_opencls(use_all, ati_opencls, ignore_ati_dev);
+        ati.find_best_opencls(use_all, ati_opencls, ignore_gpu_instance[PROC_TYPE_AMD_GPU]);
         ati.attribs.localRAM = ati.opencl_prop.global_mem_size/MEGA;
         ati.available_ram = ati.opencl_prop.global_mem_size;
         ati.attribs.engineClock = ati.opencl_prop.max_clock_frequency;
         strcpy(ati.name, ati.opencl_prop.name);
     }
 
-    intel_gpu.find_best_opencls(use_all, intel_gpu_opencls, ignore_intel_dev);
+    intel_gpu.find_best_opencls(use_all, intel_gpu_opencls, ignore_gpu_instance[PROC_TYPE_INTEL_GPU]);
     intel_gpu.available_ram = intel_gpu.opencl_prop.global_mem_size;
     strcpy(intel_gpu.name, intel_gpu.opencl_prop.name);
 

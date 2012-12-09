@@ -71,34 +71,32 @@ vector<OPENCL_DEVICE_PROP> intel_gpu_opencls;
 
 void COPROCS::get(
     bool use_all, vector<string>&descs, vector<string>&warnings,
-    vector<int>& ignore_nvidia_dev,
-    vector<int>& ignore_ati_dev,
-    vector<int>& ignore_intel_dev
+    IGNORE_GPU_INSTANCE& ignore_gpu_instance
 ) {
     unsigned int i;
     char buf[256], buf2[256];
 
 #ifdef _WIN32
     try {
-        nvidia.get(use_all, warnings, ignore_nvidia_dev);
+        nvidia.get(use_all, warnings, ignore_gpu_instance[PROC_TYPE_NVIDIA_GPU]);
     }
     catch (...) {
         warnings.push_back("Caught SIGSEGV in NVIDIA GPU detection");
     }
     try {
-        ati.get(use_all, warnings, ignore_ati_dev);
+        ati.get(use_all, warnings, ignore_gpu_instance[PROC_TYPE_AMD_GPU]);
     } 
     catch (...) {
         warnings.push_back("Caught SIGSEGV in ATI GPU detection");
     }
     try {
-        intel_gpu.get(use_all, warnings, ignore_intel_dev);
+        intel_gpu.get(use_all, warnings, ignore_gpu_instance[PROC_TYPE_INTEL_GPU]);
     } 
     catch (...) {
         warnings.push_back("Caught SIGSEGV in INTEL GPU detection");
     }
     try {
-        get_opencl(use_all, warnings, ignore_ati_dev, ignore_nvidia_dev, ignore_intel_dev);
+        get_opencl(use_all, warnings, ignore_gpu_instance);
     } 
     catch (...) {
         warnings.push_back("Caught SIGSEGV in OpenCL detection");
@@ -108,24 +106,24 @@ void COPROCS::get(
     if (setjmp(resume)) {
         warnings.push_back("Caught SIGSEGV in NVIDIA GPU detection");
     } else {
-        nvidia.get(use_all, warnings, ignore_nvidia_dev);
+        nvidia.get(use_all, warnings, ignore_gpu_instance[PROC_TYPE_NVIDIA_GPU]);
     }
 #ifndef __APPLE__       // ATI does not yet support CAL on Macs
     if (setjmp(resume)) {
         warnings.push_back("Caught SIGSEGV in ATI GPU detection");
     } else {
-        ati.get(use_all, warnings, ignore_ati_dev);
+        ati.get(use_all, warnings, ignore_gpu_instance[PROC_TYPE_AMD_GPU]);
     }
 #endif
     if (setjmp(resume)) {
         warnings.push_back("Caught SIGSEGV in INTEL GPU detection");
     } else {
-        intel_gpu.get(use_all, warnings, ignore_intel_dev);
+        intel_gpu.get(use_all, warnings, ignore_gpu_instance[PROC_TYPE_INTEL_GPU]);
     }
     if (setjmp(resume)) {
         warnings.push_back("Caught SIGSEGV in OpenCL detection");
     } else {
-        get_opencl(use_all, warnings, ignore_ati_dev, ignore_nvidia_dev, ignore_intel_dev);
+        get_opencl(use_all, warnings, ignore_gpu_instance);
     }
     signal(SIGSEGV, old_sig);
 #endif

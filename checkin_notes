@@ -7463,3 +7463,23 @@ Charlie 8 Dec 2012
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  8 Dec 2012
+    - client: replace ignore_nvidia_dev etc. with an array.
+        PRINCIPLE: AVOID PER-GPU-TYPE VARIABLES
+    - get rid of alloca() stuff in gutil.cpp; almost certainly not needed
+    - don't include malloc.h; it doesn't exist on BSD systems
+
+    api/
+        gutil.cpp
+    client/
+        client_state.cpp
+        gpu_detect.cpp
+        gpu_opencl.cpp
+        log_flags.cpp
+    lib/
+        cc_config.cpp,h
+        coproc.h
+        mfile.cpp
+    vda/
+        vdad.cpp
