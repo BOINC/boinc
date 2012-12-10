@@ -187,6 +187,9 @@
 /* Define to 1 if locale is in namespace std:: */
 #define HAVE_STD_LOCALE 1
 
+/* Define to 1 if you have the <xlocale.h> header file. */
+#define HAVE_XLOCALE_H 1
+
 /* Define to 1 if max is in namespace std:: */
 #define HAVE_STD_MAX 1
 
