@@ -92,7 +92,7 @@ void COPROCS::get(
         warnings.push_back("Caught SIGSEGV in ATI GPU detection");
     }
     try {
-        intel.get(use_all, warnings, ignore_intel_dev);
+        intel_gpu.get(use_all, warnings, ignore_intel_dev);
     } 
     catch (...) {
         warnings.push_back("Caught SIGSEGV in INTEL GPU detection");
