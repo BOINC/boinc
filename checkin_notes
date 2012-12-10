@@ -7523,5 +7523,6 @@ Charlie 10 Dec 2012
 
 	client/
 		gpu_detect.cpp
+        gpu_opencl.cpp
     lib/
         coproc.cpp,.h
