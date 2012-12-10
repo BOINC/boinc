@@ -398,6 +398,8 @@ struct COPROC_INTEL : public COPROC {
     void fake(double ram, double avail_ram, int);
 };
 
+typedef std::vector<int> IGNORE_GPU_INSTANCE[NPROC_TYPES];
+
 struct COPROCS {
     int n_rsc;
     COPROC coprocs[MAX_RSC];
@@ -410,16 +412,12 @@ struct COPROCS {
         bool use_all, 
         std::vector<std::string> &descs,
         std::vector<std::string> &warnings,
-        std::vector<int>& ignore_nvidia_dev,
-        std::vector<int>& ignore_ati_dev,
-        std::vector<int>& ignore_intel_gpu_dev
+        IGNORE_GPU_INSTANCE &ignore_gpu_instance
     );
     void get_opencl(
         bool use_all, 
         std::vector<std::string> &warnings,
-        std::vector<int>& ignore_nvidia_dev, 
-        std::vector<int>& ignore_ati_dev,
-        std::vector<int>& ignore_intel_gpu_dev
+        IGNORE_GPU_INSTANCE &ignore_gpu_instance
     );
     cl_int get_opencl_info(
         OPENCL_DEVICE_PROP& prop, 
