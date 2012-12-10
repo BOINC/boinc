@@ -289,8 +289,8 @@ void OPENCL_DEVICE_PROP::description(char* buf, const char* type) {
     strlcpy(s1, opencl_device_version, sizeof(s1));
     n = (int)strlen(s1) - 1;
     if ((n > 0) && (s1[n] == ' ')) s1[n] = '\0';
-    sprintf(s2, "%s (driver version %s, device version %s, %.0fMB, %.0fMB available)",
-        name, opencl_driver_version, s1, global_mem_size/MEGA, opencl_available_ram/MEGA
+    sprintf(s2, "%s (driver version %s, device version %s, %.0fMB, %.0fMB available, %.0f GFLOPS peak)",
+        name, opencl_driver_version, s1, global_mem_size/MEGA, opencl_available_ram/MEGA, peak_flops/1.e9
     );
 
     switch(is_used) {
@@ -980,12 +980,6 @@ int COPROC_INTEL::parse(XML_PARSER& xp) {
         }
     }
     return ERR_XML_PARSE;
-}
-
-void COPROC_INTEL::description(char* buf) {
-    sprintf(buf, "%s (version %s, %.0fMB, %.0fMB available, %.0f GFLOPS peak)",
-        name, version, ((double)opencl_prop.global_mem_size)/MEGA, available_ram/MEGA, peak_flops/1.e9
-    );
 }
 
 // http://en.wikipedia.org/wiki/Comparison_of_Intel_graphics_processing_units says:

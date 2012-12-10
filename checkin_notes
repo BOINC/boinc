@@ -7463,3 +7463,34 @@ Charlie 8 Dec 2012
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 10 Dec 2012
+    - client: clean up redundant and confusing GPU descriptions.
+        Problems:
+        COPROC_NVIDIA::description() is really description of CUDA GPUs.
+        COPROC_ATI::description() is really description of CAL GPUs.
+        On Windows and Linux, AMD OpenCL and CAL always coexist, and 
+        NVIDIA OpenCL and CUDA always coexist.  
+        But on the Mac, AMD OpenCL always exists without CAL and NVIDIA 
+        OpenCL often exists without CUDA.  Therefore, BOINC has never 
+        shown peak-flops on the Mac for AMD or for NVIDIA without CUDA 
+        because it does not display COPROC_ATI::description() and may 
+        not display COPROC_NVIDIA::description().
+
+        On all OS's, INTEL GPU OpenCL will always exist without any 
+        vendor-proprietary GPU computation framework, so 
+        COPROC_INTEL::description() would never show COPROC_USED.
+        
+        Solutions:
+        [1] Instead of adding "(OpenCL only)" to these descriptions just 
+        to show peak-flops for these cases, show peak_flops in all OpenCL 
+        descriptions.
+        [2] Preface COPROC_NVIDIA::description() with "CUDA: " and 
+        preface COPROC_ATI::description() with "CAL: " to match the 
+        "OpenCL: " preface in OPENCL_DEVICE_PROP::description().
+        [3] Eliminate useless COPROC_INTEL::description().
+
+	client/
+		gpu_detect.cpp
+    lib/
+        coproc.cpp,.h

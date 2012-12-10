@@ -392,7 +392,6 @@ struct COPROC_INTEL : public COPROC {
         std::vector<std::string>&,
         std::vector<int>& ignore_devs
     );
-    void description(char*);
     void clear();
     int parse(XML_PARSER&);
     void set_peak_flops();
