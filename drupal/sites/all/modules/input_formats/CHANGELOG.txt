@@ -1,0 +1,61 @@
+// $Id: CHANGELOG.txt,v 1.24 2010/08/30 17:41:39 dagmar Exp $
+
+Input Formats 6.x-1.0-BETA6, 2010-08-30
+----------------------------------------
+
+- #890412: list callback should return a keyed array of machine_names => human_names.
+
+Input Formats 6.x-1.0-BETA5, 2010-08-19
+----------------------------------------
+
+- #887900: Input formats cannot be overridden.
+
+Input Formats 6.x-1.0-BETA4, 2010-08-18
+----------------------------------------
+
+- Changed weight in system table for hook_form_alter order.
+- #876770: Default format cannot be saved. (Again, now works)
+- #885632: Don't export variables with default values.
+- #881056 by pcambra: Call by parameter deprecated.
+
+Input Formats 6.x-1.0-BETA3, 2010-08-09
+----------------------------------------
+
+- #871166 by halcyonCorsair: Make input formats work properly in PostgreSQL.
+- #876770: Default format cannot be saved.
+- Avoid false positive broken input formats.
+- Allow other modules to define custom variables.
+
+Input Formats 6.x-1.0-BETA2, 2010-07-30
+----------------------------------------
+
+- Input formats was completly rewritten to load input formats really from code.
+- #866966: moved Input Formats to User Interface package to be close of Wysiwyg module.
+- #859754, #852810, #845920, #867168, #825064 are desestimated due they don't apply with this new approach.
+- Features export now depends of ctools api. CTools 1.7 or greather is needed.
+- Rely on CTools and Strongarm API.
+- #846354: Rely on Exportables 2.x API.
+
+Input Formats 6.x-1.0-BETA1, 2010-06-16
+----------------------------------------
+
+- #829374: Import fails when input formats are defined multiple times in different modules.
+- #829224: Wysiwyg imports are not processed by input_formats.
+- #824200: Display revert instead of delete in the UI when input formats are loaded from code.
+- #828034: Roles are not corrected assigned to input formats.
+- #828140: Wysiwyg features are marked as overridden when they are not.
+
+Input Formats 6.x-1.0-ALPHA2, 2010-06-10
+----------------------------------------
+
+- Fixed several issues related to cache, and overrides
+- #819858: Implement revert capabilities
+- #820956: Preserve previous defined machine names each time input formats module is enabled.
+- #819860: Provide a new permission to import input formats.
+- #821036: Wysiwyg support. requires a patched version of wysiwyg, see: http://drupal.org/node/624018
+
+
+Input Formats 6.x-1.0-ALPHA1, 2010-06-04
+----------------------------------------
+
+- Initial commit for Input Formats.

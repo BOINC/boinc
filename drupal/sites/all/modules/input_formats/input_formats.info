@@ -1,0 +1,15 @@
+; $Id: input_formats.info,v 1.2 2010/07/30 20:28:07 dagmar Exp $
+name = Input Formats
+description = Expand input formats capabilities allowing load they from code.
+core = 6.x
+package = User interface
+dependencies[] = ctools
+dependencies[] = exportables
+dependencies[] = strongarm
+
+; Information added by drupal.org packaging script on 2010-08-30
+version = "6.x-1.0-beta6"
+core = "6.x"
+project = "input_formats"
+datestamp = "1283194007"
+

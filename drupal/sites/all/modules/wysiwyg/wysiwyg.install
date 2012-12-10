@@ -5,7 +5,32 @@
  */
 function wysiwyg_schema() {
   $schema['wysiwyg'] = array(
-    'description' => 'Stores Wysiwyg profiles.',
+    'description' => t('Stores Wysiwyg profiles.'),
+    'join' => array(
+      'exportables' => array(
+        'table' => 'exportables',
+        'left_key' => 'format',
+        'right_key' => 'id',
+        'extra' => "AND t__1.type = 'input_formats' AND t__0.editor != ''",
+        'load' => array(
+          'machine',
+        ),
+      ),
+    ),
+    'export' =>  array(
+      'key' => 'machine',
+      'key in table' => 'exportables',
+      'identifier' => 'wysiwyg',
+      'export module' => 'wysiwyg',
+      'api' => array(
+        'owner' => 'wysiwyg',
+        'api' => 'wysiwyg',
+        'minimum_version' => 2,
+        'current_version' => 2,
+      ),
+	  'list callback' => 'wysiwyg_profile_list',
+      'delete callback' => 'wysiwyg_profile_delete',
+    ),
     'fields' => array(
       'format' => array(
         'description' => 'The {filter_formats}.format of the text format.',
@@ -13,6 +38,7 @@ function wysiwyg_schema() {
         // Primary keys are implicitly not null.
         'not null' => TRUE,
         'default' => 0,
+        'no export' => TRUE,
       ),
       'editor' => array(
         'description' => 'Internal name of the editor attached to the text format.',
@@ -25,6 +51,7 @@ function wysiwyg_schema() {
         'description' => 'Configuration settings for the editor.',
         'type' => 'text',
         'size' => 'normal',
+        'serialize' => TRUE,
       ),
     ),
     'primary key' => array('format'),
@@ -284,4 +311,51 @@ function wysiwyg_update_6201() {
     ));
   }
   return $ret;
+}
+
+/**
+ * Implementation of hook_requirements().
+ *
+ * Display information about getting features support working.
+ */
+function wysiwyg_requirements($phase) {
+  $requirements = array();
+  // Ensure translations don't break at install time
+  $t = get_t();
+
+  if ($phase == 'runtime') {
+    $ctools = $exportables = FALSE;
+    if (module_exists('ctools')) {
+      $ctools = ctools_api_version('1.7');
+    }
+    if (module_exists('exportables')) {
+      $exportables = exportables_api_version('2.0');
+    }
+    if (!$ctools || !$exportables) {
+      $value = $t('Not enabled');
+      $description = t('Wysiwyg is unabled to provide or load wysiwyg profiles in code because you need !ctools (6.x-1.7 or greather) and !exportables (6.x-2.x or greather).',
+        array(
+          '!ctools' => l('CTools', 'http://drupal.org/project/ctools'),
+          '!exportables' => l('Exportables', 'http://drupal.org/project/exportables'),
+        )
+      );
+      $severity = REQUIREMENT_INFO;
+    }
+    else {
+      $value = $t('Wysiwyg can provide exportables objects using !features and load profiles from code.',
+        array(
+          '!features' => l('Features', 'http://drupal.org/project/features'),
+        )
+      );
+      $severity = REQUIREMENT_OK;
+    }
+    $requirements['wysiwyg_features'] = array(
+      'title' => $t('Wysiwyg from code'),
+      'value' => $value,
+      'severity' => $severity,
+      'description' => $description,
+    );
+  }
+
+  return $requirements;
 }

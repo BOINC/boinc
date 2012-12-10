@@ -1,0 +1,1127 @@
+<?php
+
+// $Id: input_formats.module,v 1.18 2010/08/30 17:41:39 dagmar Exp $
+
+/**
+ * @file
+ * Enhaces Drupal input format allowing to load input formats from code
+ * as real objects. Also provide export/import capabilities.
+ */
+
+/**
+ * Implementation of hook_menu().
+ */
+function input_formats_menu() {
+  $items = array();
+  $items['admin/settings/filters/%filter_format/export'] = array(
+    'title' => 'Export',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('input_formats_admin_export', 3),
+    'access arguments' => array('administer filters'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 10,
+    'file' => 'input_formats.admin.inc',
+  );
+  $items['admin/settings/filters/import'] = array(
+    'title' => 'Import',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('input_formats_admin_import'),
+    'access arguments' => array('import input formats'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 10,
+    'file' => 'input_formats.admin.inc',
+  );
+  $items['admin/settings/filters/revert'] = array(
+    'title' => 'Revert Input Format',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('input_formats_admin_revert'),
+    'access arguments' => array('administer filters'),
+    'type' => MENU_CALLBACK,
+    'file' => 'input_formats.admin.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function input_formats_theme() {
+  return array(
+    'input_formats_filter_admin_overview' => array(
+      'arguments' => array(
+        'form' => NULL,
+      ),
+      'file' => 'input_formats.admin.inc',
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_perm().
+ */
+function input_formats_perm() {
+  return array('import input formats');
+}
+
+/**
+ * Implementation of hook_ctools_plugin().
+ */
+function input_formats_ctools_plugin_api($module, $api) {
+  if ($module == 'strongarm' && $api == 'strongarm') {
+    return array('version' => 1);
+  }
+}
+
+/**
+ * Implementation of hook_strongarm().
+ */
+function input_formats_strongarm() {
+  $input_formats = input_formats_load_all(TRUE);
+  $variables = array();
+  foreach ($input_formats as $machine_name => $input_format) {
+    if ($input_format->in_code_only) {
+      foreach ($input_format->settings as $module => $settings) {
+        foreach ($settings as $variable_name => $variable_value) {
+          $strongarm = new stdClass;
+          $strongarm->disabled = FALSE;
+          $strongarm->api_version = 1;
+          $strongarm->name = $variable_name . '_' . $input_format->format;
+          $strongarm->value = $variable_value;
+          $variables[$variable_name . '_' . $input_format->format] = $strongarm;
+        }
+      }
+    }
+  }
+  return $variables;
+}
+
+/**
+ * Implementation of hook_filter().
+ */
+function input_formats_filter($op, $delta = 0, $format = -1, $text = '', $cache_id = NULL) {
+  switch ($op) {
+    case 'list':
+      return array(0 => t('Input Formats'));
+
+    case 'description':
+      switch ($delta) {
+        case 0:
+          // This filter doesn't have description
+          return '';
+      }
+
+    case 'process':
+    case 'prepare':
+      switch ($delta) {
+        case 0:
+          return input_formats_filter_hook($op, $format, $text, $cache_id);
+        default:
+          return $text;
+      }
+
+    case 'settings':
+      switch ($delta) {
+        // This filter doesn't have settings
+        case 0:
+          return;
+      }
+
+    default:
+      return $text;
+  }
+}
+
+/**
+ * Implementation of hook_filter_tips().
+ */
+function input_formats_filter_tips($delta, $format, $long = FALSE) {
+  $input_format = input_formats_load_by_format($format);
+  $tips = array();
+  if (!empty($input_format->apply_filters)) {
+    foreach ($input_format->apply_filters as $filter) {
+      $tips[] = module_invoke($filter['module'], 'filter_tips', $filter['delta'], $format, $long);
+    }
+  }
+
+  // Due input formats from code only containg one filter, we have to process
+  // multiple tips before return they in order to render they properly
+  return implode('<br>', array_filter($tips));
+}
+
+/**
+ * Implementation of hook_enable().
+ *
+ * Ensure that all settings for non in code input formats are correctly
+ * saved. This means, they are not using default values from variable_get
+ * but values in variable table.
+ */
+function input_formats_enable() {
+  $formats = array();
+  $res = db_query("SELECT id AS format FROM {exportables} WHERE type = 'input_formats' AND in_code = 0");
+  while ($input_format = db_fetch_object($res)) {
+    $formats[] = $input_format->format;
+  }
+  $filter_formats = exportables_filter_formats();
+  foreach ($formats as $format) {
+    input_formats_auto_save_settings($filter_formats[$format]);
+  }
+}
+
+/**
+ * Implementation of hook_schema_alter().
+ */
+function input_formats_schema_alter(&$schema) {
+  $schema['filter_formats']['export'] = array(
+    'key' => 'machine',
+    'can disable' => FALSE,
+    'key in table' => 'exportables',
+    'identifier' => 'input_format',
+    'default hook' => 'input_formats',
+    'api' => array(
+      'name' => 'input_formats',
+      'owner' => 'input_formats',
+      'api' => 'input_formats',
+      'minimum_version' => 1,
+      'current_version' => 1,
+    ),
+
+    'to hook code callback' => 'input_formats_to_hook_code',
+    'list callback' => 'input_formats_list_callback',
+    'load all callback' => 'input_formats_load_all',
+    'delete callback' => 'input_formats_revert',
+  );
+
+
+  $schema['filter_formats']['join'] = array(
+    'exportables' => array(
+      'table' => 'exportables',
+      'left_key' => 'format',
+      'right_key' => 'id',
+      'extra' => "AND t__1.type = 'input_formats' AND t__1.in_code = 0",
+      'load' => array(
+        'machine',
+      ),
+    ),
+  );
+  $schema['filter_formats']['fields']['format']['no export'] = TRUE;
+
+  $schema['filter_formats']['fields']['settings']['export callback'] = 'input_formats_export_settings';
+  $schema['filter_formats']['fields']['filters']['export callback'] = 'input_formats_export_filters';
+}
+
+/**
+ * Implementation of hook_features_export().
+ *
+ * Includes the modules needed to process filters as dependency of the feature.
+ */
+function filter_formats_features_export($data, &$export, $module_name = '') {
+
+  $return = ctools_component_features_export('filter_formats', $data, $export, $module_name);
+
+  $input_formats = input_formats_load_all();
+  foreach ($data as $machine_name) {
+    $input_format = $input_formats[$machine_name];
+    $dependencies = input_formats_get_dependencies($input_format);
+    if (count($dependencies)) {
+      foreach ($dependencies as $dependency) {
+        $export['dependencies'][$dependency] = $dependency;
+      }
+    }
+  }
+
+  return $return;
+}
+
+/**
+ * Implementation of hook_features_revert().
+ *
+ * Workarround until features support ctools 1.7 API to revert objects.
+ */
+function filter_formats_features_revert($module) {
+  ctools_include('export');
+  $schema = ctools_export_get_schema('filter_formats');
+  $export = $schema['export'];
+  $defaults = _ctools_export_get_defaults('filter_formats', $export);
+  $objects = ctools_export_crud_load_all('filter_formats', TRUE);
+
+  foreach ($defaults as $key => $default) {
+    if (isset($default->export_module) && $default->export_module == $module) {
+      if ($objects[$key]->type == t('Overridden')) {
+        ctools_export_crud_delete('filter_formats', $objects[$key]);
+      }
+    }
+  }
+}
+
+/**
+ * Implementation of hook_FORM_ID_alter().
+ *
+ * Includes the 'export' option into the admin/settings/filters form.
+ */
+function input_formats_form_filter_admin_overview_alter(&$form, $form_state) {
+  exportables_sync_names('input_formats');
+  $input_formats = input_formats_load_all(TRUE);
+  $exportables_by_id = exportables_load_all('input_formats', TRUE);
+
+  $formats = input_formats_filter_formats(NULL, TRUE);
+  $error = $broken_filters = FALSE;
+
+  foreach ($formats as $id => $format) {
+    $roles = array();
+    foreach (user_roles() as $rid => $name) {
+      // Prepare a roles array with roles that may access the filter.
+      if (strstr($format->roles, ",$rid,")) {
+        $roles[] = $name;
+      }
+    }
+    $default = ($id == variable_get('filter_default_format', 1));
+    $options[$id] = '';
+    if (isset($input_formats[$exportables_by_id[$id]]->type)) {
+      $form[$format->name]['type'] = array('#value' => $input_formats[$exportables_by_id[$id]]->type);
+    }
+    else {
+      $form[$format->name]['type'] = array('#value' => t('Broken'));
+      $broken_filters = TRUE;
+    }
+    $form[$format->name]['id'] = array('#value' => $id);
+    $form[$format->name]['export'] = array('#value' => l(t('export'), 'admin/settings/filters/'. $id . '/export'));
+    if (!isset($input_formats[$exportables_by_id[$id]]->type) || $input_formats[$exportables_by_id[$id]]->type == t('Normal') ) {
+      $form[$format->name]['delete'] = array('#value' => $default ? '' : l(t('delete'), 'admin/settings/filters/delete/'. $id));
+    }
+    else {
+      $form[$format->name]['delete'] = array('#value' => $default ? '' : l(t('revert'), 'admin/settings/filters/revert/'. $id));
+    }
+  }
+  if ($broken_filters) {
+    $form['broken'] = array('#type' => 'item', '#title' => t('Broken filters'), '#value' => '<em>' . t('Broken filters were probably generated by modules that provided input formats and now are deactivated. This filters will render a piece of text like the default input format.') . '</em>');
+  }
+  $form['default'] = array('#type' => 'radios', '#options' => $options, '#default_value' => variable_get('filter_default_format', 1));
+
+  $form['#theme'] = 'input_formats_filter_admin_overview';
+}
+
+/**
+ * Implementation of hook_FORM_ID_alter().
+ *
+ * Populate all the default options for the input format loading they from code.
+ */
+function input_formats_form_filter_admin_format_form_alter(&$form, $form_state) {
+  unset($form['filters']['input_formats/0']);
+
+  $format = $form['format']['#value'];
+
+  if (!isset($form['format']['#value'])) {
+    $form['#submit'][] = 'input_formats_filter_admin_format_submit';
+    return;
+  }
+  input_formats_load_all(TRUE);
+  $input_format = input_formats_load_by_format($format);
+
+  if (!$input_format->in_code_only) {
+    return;
+  }
+
+  drupal_set_message(t('This input format is being loaded from code. Module owner of this input format is: @module', array('@module' => $input_format->export_module)));
+
+  foreach ($input_format->apply_filters as $module => $filter) {
+    $form['filters'][$filter['module'] . '/' . $filter['delta']]['#default_value'] = 1;
+  }
+
+  $roles = explode(',', input_formats_get_compatible_roles($input_format));
+  foreach ($roles as $rid) {
+    $form['roles'][$rid]['#default_value'] = 1;
+  }
+
+  $form['input_format'] = array(
+    '#type' => 'value',
+    '#value' => $input_format,
+  );
+
+  if (!isset($form_state['auto_saving'])) {
+    $form['#submit'][] = 'input_formats_complete_override';
+  }
+}
+
+function input_formats_filter_admin_format_submit($form, $form_state) {
+  $format_id = intval(str_replace('admin/settings/filters/', '', $form_state['redirect']));
+  if (!empty($format_id)) {
+    $format = filter_formats($format_id);
+    input_formats_auto_save_settings($format);
+  }
+}
+
+/**
+ * Implementation of hook_FORM_ID_alter().
+ *
+ * Display configurations options for filters loaded from code.
+ */
+function input_formats_form_filter_admin_configure_alter(&$form, &$form_state) {
+  $format = $form['format']['#value'];
+  $input_format = input_formats_load_by_format($format);
+  if (!$input_format->in_code_only || !empty($form_state['input_formats_loaded'])) {
+    return;
+  }
+
+  $form['#submit'] = array();
+  $form['#validate'] = array();
+  foreach ($input_format->apply_filters as $filter) {
+    $form_module = module_invoke($filter['module'], 'filter', 'settings', $filter['delta'], $format);
+    if (isset($form_module) && is_array($form_module)) {
+      $form = array_merge($form, $form_module);
+    }
+  }
+
+  $form['input_format'] = array(
+    '#type' => 'value',
+    '#value' => $input_format,
+  );
+
+  $form_state['input_formats_loaded'] = TRUE;
+
+  if (!empty($form)) {
+    $form = system_settings_form($form);
+
+    $form['#submit'][] = 'filter_admin_configure_submit';
+    if (!isset($form_state['auto_saving'])) {
+      $form['#submit'][] = 'input_formats_complete_override';
+    }
+
+    $form_id = 'filter_admin_configure';
+    $data = &$form;
+    $data['__drupal_alter_by_ref'] = array(&$form_state);
+    drupal_alter('form_'. $form_id, $data);
+
+    // __drupal_alter_by_ref is unset in the drupal_alter() function, we need
+    // to repopulate it to ensure both calls get the data.
+    $data['__drupal_alter_by_ref'] = array(&$form_state);
+    drupal_alter('form', $data, $form_id);
+  }
+  else {
+    $form['error'] = array('#value' => t('No settings are available.'));
+  }
+}
+
+/**
+ * Implementation of hook_form_FORM_ID_alter().
+ *
+ * Load all the filters from code and allow to order they in the UI.
+ */
+function input_formats_form_filter_admin_order_alter(&$form, $form_state) {
+  $format = $form['format']['#value'];
+  $input_format = input_formats_load_by_format($format);
+  if (!$input_format->in_code_only) {
+    return;
+  }
+  unset($form['names']['input_formats/0']);
+  unset($form['weights']['input_formats/0']);
+
+  $filters = filter_list_all();
+  $form['weights'] = array('#tree' => TRUE);
+  foreach (array_keys($input_format->apply_filters) as $list) {
+    list($weight, $module, $delta) = explode(' ', $list);
+    $id = $module . '/' . $delta;
+    $form['names'][$id] = array('#value' => $filters[$id]->name);
+    $form['weights'][$id] = array('#type' => 'weight', '#default_value' => $weight);
+  }
+  $form['input_format'] = array(
+    '#type' => 'value',
+    '#value' => $input_format,
+  );
+
+  $submit = $form['#submit'];
+  $form['#submit'] = array_merge(array('input_formats_complete_override'), $submit);
+}
+
+/**
+ * Implementation of hook_form_FORM_ID_alter().
+ *
+ * Ensure that variables are deleted when an input format is deleted.
+ */
+function input_formats_form_filter_admin_delete_alter(&$form, $form_alter) {
+  $form['input_format'] = array(
+    '#type' => 'value',
+    '#value' => $input_format,
+  );
+
+  $form['#submit'][] = 'input_formats_delete_variables_wrapper';
+}
+
+/**
+ * Remove all the variables created by an input format.
+ *
+ * Why this function is needed?
+ *
+ * By default, filter module doesn't delete the variables when a input
+ * format is deleted.
+ *
+ * The problem with this is, if strongarm provide a variable from code,
+ * and already exist another one with the same name, the variable from
+ * code won't be used.
+ *
+ * @param $input_format
+ *   An input format object.
+ */
+function input_formats_delete_variables($input_format) {
+  global $conf;
+
+  $variables = array();
+
+  foreach ($input_format->settings as $module => $filter) {
+    foreach ($filter as $variable_name => $variable_value) {
+      $variables[] = $variable_name . '_' . $input_format->format;
+    }
+  }
+
+  if (count($variables)) {
+    db_query('DELETE FROM {variable} WHERE name IN (' . db_placeholders($variables, 'varchar') . ')', $variables);
+    foreach ($variables as $variable) {
+      unset($conf[$variable]);
+    }
+    cache_clear_all();
+  }
+}
+
+/**
+ * Save a input format from code into a fake input format in the database.
+ *
+ * Why this function is needed?
+ *
+ * Drupal retrives all the input formats from the database, without hack
+ * the core, this cannot be avoid.
+ *
+ * A solution to load input formats from code is create a input format in
+ * the database, as a new level of indirection. When a piece of text is
+ * being processed for this input format, it will call to all the filters
+ * encouraged to process this text, loading this data from code.
+ *
+ * Another problem is that all the implementations of hook_filter uses
+ * variables to get their settings. To fix this problem and load variables
+ * from code, input formats rely on strongarm module. Then, when the fake
+ * input format is used to process a text, two things happens:
+ *
+ * 1) The input formats load all the filters from code.
+ * 2) Strongarm provides all the variables that those filters needs to work.
+ *
+ * And finally the text is processed by a set of filters from code, in a
+ * transparent way.
+ *
+ * @param $input_format
+ *   An input format object
+ * @param $new
+ *   An boolean value indication if this input format is being created.
+ */
+function input_formats_save(&$input_format, $new = TRUE) {
+  if ($new) {
+    db_query("INSERT INTO {filter_formats} (name) VALUES ('%s')", $input_format->name);
+    $input_format->format = db_result(db_query("SELECT MAX(format) AS format FROM {filter_formats}"));
+  }
+  else {
+    if (empty($input_format->format)) {
+      die ('Filter cannot be imported');
+    }
+  }
+
+  db_query("DELETE FROM {filters} WHERE format = %d", $input_format->format);
+
+  // Insert the only filter for this input format, a wrapper of other filters
+  db_query("INSERT INTO {filters} (format, module, delta, weight) VALUES (%d, '%s', %d, %d)", $input_format->format, 'input_formats', 0, 0);
+
+  // From filters storaged in $input_format->filters, determine if we can use cache for this input format
+  $cache = input_formats_can_cache($input_format);
+
+  // Grant access to this filter only to roles that match in this site
+  $roles = input_formats_get_compatible_roles($input_format);
+
+  db_query("UPDATE {filter_formats} SET cache = %d, name='%s', roles = '%s' WHERE format = %d", $cache, $input_format->name, $roles, $input_format->format);
+
+  cache_clear_all($input_format->format .':', 'cache_filter', TRUE);
+
+  if ($new) {
+    // A new input format was created, inform this to exportables
+    exportables_machine_save('input_formats', $input_format, $input_format->machine);
+  }
+
+  // Finally, set the value of in_code to 1, to prevent CTools load it from the database, @see input_formats_schema_alter
+  db_query("UPDATE {exportables} SET in_code = 1 WHERE machine = '%s' AND type = 'input_formats'", $input_format->machine);
+}
+
+function input_formats_revert($input_format) {
+  db_query("UPDATE {exportables} SET in_code = 1 WHERE type = 'input_formats' AND machine = '%s'", $input_format->machine);
+  $machine = $input_format->machine;
+  $format =  $input_format->format;
+  input_formats_load_all(TRUE);
+  $input_format = input_formats_load_by_format($format);
+  $input_format->format = $format;
+
+  db_query("UPDATE {filter_formats} SET name = '%s' WHERE format = %d", $input_format->name, $input_format->format);
+
+  input_formats_save($input_format, FALSE);
+
+  input_formats_delete_variables($input_format);
+  exportables_sync_names('input_formats');
+  strongarm_flush_caches();
+}
+
+/**
+ * Move a whole input format from code into the database.
+ *
+ * Why this function is needed?
+ *
+ * Input formats configurations are splitted in several UIs. When a user
+ * submit one of those forms, only a part of the input format is moved
+ * into the database. Therefore, input formats module must take care to
+ * save the complete input format into the database, to avoid problems.
+ */
+function input_formats_complete_override($form, $form_state) {
+  $skip_step = $form['#id'];
+  $input_format = $form_state['values']['input_format'];
+
+  // Tab: View
+  if ($skip_step != 'filter-admin-format-form') {
+
+    // Remove the wrapper filter, now the real filters will be used form db
+    db_query("DELETE FROM {filters} WHERE format = %d", $input_format->format);
+
+    foreach ($input_format->filters as $module => $filter) {
+      foreach ($filter as $delta => $weight) {
+        db_query("INSERT INTO {filters} (format, module, delta, weight) VALUES (%d, '%s', %d, %d)", $input_format->format, $module, $delta, $weight);
+      }
+    }
+  }
+  // Tab: Configure
+  if ($skip_step != 'filter-admin-configure') {
+    $format = filter_formats($input_format->format);
+    input_formats_auto_save_settings($format);
+  }
+  db_query("UPDATE {exportables} SET in_code = 0 WHERE id = %d AND machine = '%s' AND type = 'input_formats'", $input_format->format, $input_format->machine);
+  input_formats_load_all(TRUE);
+}
+
+/**
+ * Simulate the submission of admin/setting/filters/$format/configure
+ *
+ * When a new input format is created, settings are not saved into the
+ * database.
+ *
+ * Due to variable_get() allows to return a default value, filters module
+ * doesn't need to get the default value from variables table.
+ *
+ * When a filter is going to be exported, input formats module will
+ * look at variables table to get the settings. But, if the variable is
+ * missing, there is no way to get the default value.
+ *
+ * For this reason, every time a new input format is created, settings
+ * are automatically submitted, and therefore, exports will be created with
+ * valid data.
+ *
+ * @param $format
+ *   A format object returned by filter_formats function.
+ */
+function input_formats_auto_save_settings($format) {
+  module_load_include('inc', 'filter', 'filter.admin');
+  $form_id = 'filter_admin_configure';
+  $args = array('filter_admin_configure', $format);
+
+  $form_state = array();
+  $form = array();
+
+  $args_temp = $args;
+  $args_temp[0] = &$form_state;
+  array_unshift($args_temp, $form_id);
+
+  $form = call_user_func_array('drupal_retrieve_form', $args_temp);
+  $form_build_id = 'form-'. md5(uniqid(mt_rand(), TRUE));
+  $form['#build_id'] = $form_build_id;
+  drupal_prepare_form($form_id, $form, $form_state);
+  drupal_process_form($form_id, $form, $form_state);
+  $form_state['auto_saving'] = TRUE;
+  drupal_execute($form_id, $form_state, $format);
+}
+
+/**
+ * Proccess a piece of text using the filters defined in code.
+ *
+ * @param $op
+ *  Which filtering operation to perform
+ * @param $delta
+ *   Which of the module's filters to use (applies to every operation except
+ *   'list'). Modules that only contain one filter can ignore this parameter.
+ * @param $format
+ *   Which input format the filter is being used in (applies to 'prepare',
+ *   'process' and 'settings').
+ * @param $text
+ *   The content to filter (applies to 'prepare' and 'process').
+ * @param $cache_id
+ *   The cache id of the content.
+ */
+function input_formats_filter_hook($op, $format, $text, $cache_id) {
+  $input_format = input_formats_load_by_format($format);
+
+  if (!$input_format) {
+    // If the input format cannot be loaded, fall on the default input format.
+    return check_markup($text, variable_get('filter_default_format', 1));
+  }
+
+  if (empty($input_format->in_code_only)) {
+    return check_markup($text, $input_format->format);
+  }
+
+  foreach ($input_format->apply_filters as $filter) {
+    $text = module_invoke($filter['module'], 'filter', $op, $filter['delta'], $format, $text, $cache_id);
+  }
+  return $text;
+}
+
+/**
+ * Load an input format using a numeric id.
+ *
+ * @param $format
+ *   A numeric id representing the format of the input format.
+ *
+ * @return
+ *   An input format object, or null if the object cannot be loaded.
+ */
+function input_formats_load_by_format($format) {
+  $exportables = exportables_load_all('input_formats');
+  $input_formats = input_formats_load_all();
+  foreach ($exportables as $machine => $id) {
+    if ($id == $format) {
+      return $input_formats[$machine];
+    }
+  }
+}
+
+/**
+ * Load an input format using a machine name.
+ *
+ * @param $machine
+ *   A machine name that identify the input format.
+ *
+ * @return
+ *   An input format object, or null if the object cannot be loaded.
+ */
+function input_formats_load_by_name($machine) {
+  $input_formats = input_formats_load_all();
+  return $input_formats[$machine];
+}
+
+/**
+ * Load a set of input formats.
+ *
+ * @param $names
+ *   An array of machine names.
+ *
+ * @return
+ *   An array of input formats objects.
+ */
+function input_formats_load_multiple($names) {
+  $input_formats = input_formats_load_all();
+  $keys = array_keys($input_formats);
+  $return = array();
+  foreach (array_intersect($keys, $names) as $key) {
+    $return[$key] = $input_formats[$key];
+  }
+  return $return;
+}
+
+/**
+ * List callback used by CTools to load all the available input formats.
+ */
+function input_formats_list_callback() {
+  $input_formats = input_formats_load_all(TRUE);
+  $list = array();
+  foreach ($input_formats as $input_format) {
+    $list[$input_format->machine] = t($input_format->name);
+  }
+  return $list;
+}
+
+/**
+ * Discover all the existent input formats, from both, code and database.
+ *
+ * @param $reset
+ *   If TRUE, the cache version of input format will be reconstructed.
+ *
+ * @return
+ *   An array of input formats objects.
+ */
+function input_formats_load_all($reset = FALSE) {
+  static $input_formats;
+
+  if ($reset || !isset($input_formats)) {
+    $input_formats = array();
+    if (!$reset && ($cache = cache_get('input_formats', 'cache')) && is_array($cache->data)) {
+      $input_formats = $cache->data;
+      return $input_formats;
+    }
+    ctools_include('export');
+    ctools_export_load_object_reset('filter_formats');
+    $input_formats = ctools_export_load_object('filter_formats');
+    $input_formats_exportables = exportables_load_all('input_formats');
+
+    foreach ($input_formats as $machine_name => $input_format) {
+      if (isset($input_formats_exportables[$machine_name])) {
+        $input_format->format = $input_formats_exportables[$machine_name];
+      }
+
+      // If the object is loaded from code, we don't have to obtain, and therefore process,
+      // its settings, because export process already did that.
+      // However, when a input format is loaded from code, we have to
+      // ensure that a record is present in the database. This make possible to filter_formats
+      // get this filter available in the site.
+      if ($input_format->in_code_only && empty($input_format->format)) {
+        // The input format was recently discovered, then we save it into the database.
+        // @see input_formats_save to undestand how this fake input format works
+
+        input_formats_save($input_format);
+      }
+      elseif (empty($input_format->in_code_only)) {
+        // Settings for this input format are storaged in the database
+        $input_format->settings = input_formats_get_settings($input_format);
+        $input_format->roles = input_formats_get_roles($input_format);
+        $input_format->filters = input_formats_get_filters($input_format);
+      }
+
+      if ($input_format->in_code_only) {
+        // Input format correctly loaded, determine how to apply all the filters in the correct order
+        $apply_filters = array();
+        foreach ($input_format->filters as $module => $filter) {
+          foreach ($filter as $delta => $weight) {
+            $apply_filters[$weight . ' ' . $module . ' ' . $delta] = array('module' => $module, 'delta' => $delta);
+          }
+        }
+        ksort($apply_filters);
+        $input_format->apply_filters = $apply_filters;
+      }
+    }
+
+    cache_set('input_formats', $input_formats);
+  }
+
+  return $input_formats;
+}
+
+/**
+ * Get the variables names and their values for a given input format.
+ *
+ * @param $input_format
+ *   An input format object.
+ *
+ * @return
+ *   An keyed array of variable names => variable values, without the
+ *   variable suffix.
+ */
+function input_formats_get_settings($input_format) {
+  $settings = array();
+  $variables = array();
+  $list = filter_list_format($input_format->format);
+  $modules = array();
+
+  foreach ($list as $filter) {
+    $form_module = module_invoke($filter->module, 'filter', 'settings', $filter->delta, $input_format->format);
+    if (isset($form_module) && is_array($form_module)) {
+      $module_variables = array();
+
+      input_formats_api_walk_form($form_module, $module_variables);
+      $variables[$filter->module] = $module_variables;
+    }
+    if (!isset($modules[$filter->module])) {
+      $modules[$filter->module] = array();
+    }
+    $modules[$filter->module][] = $filter->delta;
+  }
+
+  if (count($variables)) {
+    // Trim the _1, _2, _3 that filters uses in {variables}
+    $trim = -1 * (drupal_strlen($input_format->format) + 1);
+    foreach ($variables as $module_name => $module_variables) {
+      foreach ($module_variables as $variable_name => $title) {
+        $independent_variable = drupal_substr($variable_name, 0, $trim);
+        // If a variable value is not defined, don't export it, the owner
+        // module will provide a valid value by default, and here we
+        // cannot determine which is the correct default value.
+        $value = variable_get($variable_name, NULL);
+        if (isset($value)) {
+          $settings[$module_name][$independent_variable] = array(
+            '#description' => $title,
+            '#value' => $value,
+          );
+        }
+      }
+    }
+  }
+
+  // Allow other modules to define custom variables
+  foreach ($modules as $module => $filter) {
+    if (function_exists($module . '_input_formats_variables')) {
+      foreach ($filter as $delta) {
+        $extra = module_invoke($module, 'input_formats_variables', $delta);
+        foreach ($extra as $variable_name => $title) {
+          $value = variable_get($variable_name . '_' . $input_format->format, NULL);
+          if (isset($value)) {
+            $settings[$module][$variable_name] = array(
+              '#description' => $title,
+              '#value' => $value,
+            );
+          }
+        }
+      }
+    }
+  }
+  return $settings;
+}
+
+/**
+ * Return an array of roles that are allowed to use this input format.
+ */
+function input_formats_get_roles($input_format) {
+  $roles = array();
+  if (!empty($input_format->roles) && !is_array($input_format->roles)) {
+    $format_roles = array_filter(explode(',', $input_format->roles));
+    $user_roles = input_formats_raw_user_roles();
+
+    foreach ($format_roles as $rid) {
+      $roles[$rid] = $user_roles[$rid];
+    }
+  }
+  return $roles;
+}
+
+/**
+ * Return an array of filters with they deltas and order of apply for a
+ * given input format.
+ */
+function input_formats_get_filters($input_format) {
+  $list_format = filter_list_format($input_format->format);
+  $filters = array();
+  foreach ($list_format as $filter) {
+    if (!isset($filters[$filter->module])) {
+      $filters[$filter->module] = array();
+    }
+    $filters[$filter->module][$filter->delta] = array(
+      '#description' => $filter->name,
+      '#value' => $filter->weight,
+    );
+  }
+  return $filters;
+}
+
+/**
+ * Determine if a input format can cache their process based in the filters
+ * that it loads from code.
+ */
+function input_formats_can_cache($input_format) {
+  $cache = TRUE;
+  foreach ($input_format->filters as $module => $filter) {
+    foreach ($filter as $delta => $weight) {
+      $cache &= !module_invoke($module, 'filter', 'no cache', $delta);
+    }
+  }
+  return $cache;
+}
+
+/**
+ * Determine wich roles can use this input format.
+ *
+ * When a input format is installed in a site, some roles can not be
+ * available in the site. This function determine wich roles are exactly
+ * equals to defined by code comparing a non translated version of the
+ * roles.
+ *
+ * If a role doens't exists, a warning message will be displayed in the
+ * site.
+ */
+function input_formats_get_compatible_roles($input_format) {
+  $user_roles = input_formats_raw_user_roles();
+
+  $roles = array();
+  foreach ($input_format->roles as $rid => $role_name) {
+    if ($role_id = input_formats_match_role($role_name, $user_roles)) {
+      $roles[] = $role_id;
+    }
+    else {
+      if (variable_get('show_input_formats_warning', TRUE)) {
+        drupal_set_message(t("Warning! Input Formats: @name was trying to grant access
+          to users with role: @role (role id: @rid) to use the input format, however you don't
+          have any role with that name. The access to @name wasn't granted to role: @role.",
+          array('@name' => $input_format->machine, '@role' => $role_name, '@rid' => $rid)), 'warning');
+      }
+    }
+  }
+
+  $roles = ','. implode(',', $roles) .',';
+
+  return $roles;
+}
+
+/**
+ * Obtaing which modules are needed to get this input format working
+ * properly.
+ */
+function input_formats_get_dependencies($input_format) {
+  return array_keys($input_format->filters);
+}
+
+/**
+ * Helper functions
+ */
+
+/**
+ * Walk each form items searching for non fieldsets widgets.
+ *
+ * This widgets contains the names of the variables that the input
+ * format uses.
+ */
+function input_formats_api_walk_form($form, &$variables) {
+  foreach (element_children($form) as $key) {
+    if ($form[$key]['#type'] == 'fieldset') {
+      input_formats_api_walk_form($form[$key], $variables);
+    }
+    else {
+      $variables[$key] = $form[$key]['#title'];
+    }
+  }
+}
+
+/**
+ * Returns the user roles without translate role names.
+ */
+function input_formats_raw_user_roles() {
+  $user_roles = array();
+  $result = db_query("SELECT rid, name FROM {role}");
+  while ($role = db_fetch_object($result)) {
+    $user_roles[$role->rid] = $role->name;
+  }
+  return $user_roles;
+}
+
+/**
+ * Helper function to export filters using ctools_export_object.
+ */
+function input_formats_export_filters($object, $field, $value, $indent) {
+  $code[] = "array(";
+  foreach ($object->filters as $module_name => $module_settings) {
+    $code[] = $indent . "  '$module_name' => array(";
+    foreach ($module_settings as $variable_name => $data) {
+      if (is_array($data) && isset($data['#description'])) {
+        $code[] = $indent . "    // Delta => Weight for: " . $data['#description'];
+        $code[] = $indent . "    '$variable_name' => " . ctools_var_export($data['#value'], $indent . "      ") . ",";
+      }
+      else {
+        $code[] = $indent . "    '$variable_name' => " . ctools_var_export($data, $indent . "      ") . ",";
+      }
+    }
+    $code[] = $indent . "  ),";
+  }
+  $code[] = $indent . ")";
+  return implode("\n", $code);
+}
+
+/**
+ * Helper function to export settings using ctools_export_object.
+ */
+function input_formats_export_settings($object, $field, $value, $indent) {
+  $code[] = "array(";
+  foreach ($object->settings as $module_name => $module_settings) {
+    $code[] = $indent . "  // Settings for: $module_name module";
+    $code[] = $indent . "  '$module_name' => array(";
+    foreach ($module_settings as $variable_name => $data) {
+      if (is_array($data) && isset($data['#description'])) {
+        $code[] = $indent . "    // " . $data['#description'];
+        $code[] = $indent . "    '$variable_name' => " . ctools_var_export($data['#value'], $indent . "      ") . ",";
+      }
+      else {
+        $code[] = $indent . "    '$variable_name' => " . ctools_var_export($data, $indent . "      ") . ",";
+      }
+    }
+    $code[] = $indent . "  ),";
+  }
+  $code[] = $indent . ")";
+  return implode("\n", $code);
+}
+
+/**
+ * Callback function used by ctools and features to generate the code
+ * for the input format when a feature is created.
+ */
+function input_formats_to_hook_code($names, $module) {
+  $output = '';
+  $objects = NULL;
+  $objects = input_formats_load_multiple($names);
+
+  if (count($objects)) {
+    $output = "/**\n";
+    $output .= " * Implementation of hook_input_formats()\n";
+    $output .= " */\n";
+    $output .= "function " . $module . "_input_formats() {\n";
+    $output .= "  \$input_formats = array();\n\n";
+    foreach ($objects as $object) {
+      $output .= ctools_export_object('filter_formats', $object, '  ');
+      $output .= "  \$input_formats['" . check_plain($object->machine) . "'] = \$input_format;\n\n";
+    }
+    $output .= "  return \$input_formats;\n";
+    $output .= "}\n";
+  }
+
+  return $output;
+}
+
+/**
+ * Check if a role is in a list of roles
+ *
+ * @param $role_name
+ *   The name of the role to check.
+ * @param $user_roles
+ *   A keyed array containing the user roles
+ *
+ * @return
+ *   NULL if the role is not in the list. The role id for this user
+ *   name if the role was found.
+ */
+function input_formats_match_role($role_name, $user_roles) {
+  foreach ($user_roles as $rid => $name) {
+    if ($name == $role_name) {
+      return $rid;
+    }
+  }
+  return NULL;
+}
+
+/**
+ * Retrieve a list of input formats. Remplementation of filter_formats
+ * with reset cache capabilities.
+ */
+function input_formats_filter_formats($index = NULL, $reset = FALSE) {
+  global $user;
+  static $formats;
+
+  // Administrators can always use all input formats.
+  $all = user_access('administer filters');
+
+  if (!isset($formats) || $reset) {
+    $formats = array();
+
+    $query = 'SELECT * FROM {filter_formats}';
+
+    // Build query for selecting the format(s) based on the user's roles.
+    $args = array();
+    if (!$all) {
+      $where = array();
+      foreach ($user->roles as $rid => $role) {
+        $where[] = "roles LIKE '%%,%d,%%'";
+        $args[] = $rid;
+      }
+      $query .= ' WHERE '. implode(' OR ', $where) .' OR format = %d';
+      $args[] = variable_get('filter_default_format', 1);
+    }
+
+    $result = db_query($query, $args);
+    while ($format = db_fetch_object($result)) {
+      $formats[$format->format] = $format;
+    }
+  }
+  if (isset($index)) {
+    return isset($formats[$index]) ? $formats[$index] : FALSE;
+  }
+  return $formats;
+}

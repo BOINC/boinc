@@ -1,0 +1,37 @@
+<?php
+
+// $Id: input_formats.install,v 1.4 2010/08/19 02:32:29 dagmar Exp $
+
+/**
+ * @file
+ * Table is no longer need since input formats rely on exportables.
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function input_formats_install() {
+  // Necesary to catch all the form alter from modules named with names
+  // after input_formats, like wysiwyg_profile.
+  db_query("UPDATE {system} SET weight = 10 WHERE name = 'input_formats'");
+}
+
+/**
+ * Implementation of hook_update_N().
+ */
+function input_formats_update_6000() {
+  $ret = array();
+  if (db_table_exists('input_formats')) {
+    db_drop_table($ret, 'input_formats');
+  }
+  return $ret;
+}
+
+/**
+ * Implementation of hook_update_N().
+ */
+function input_formats_update_6001() {
+  $ret = array();
+  $ret[] = update_sql("UPDATE {system} SET weight = 10 WHERE name = 'input_formats'");
+  return $ret;
+}

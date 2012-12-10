@@ -86,6 +86,13 @@ function wysiwyg_help($path, $arg) {
 }
 
 /**
+ * Clear wysiwyg cache on admin/build/modules form.
+ */
+function wysiwyg_form_system_modules_alter(&$form, $form_state) {
+  wysiwyg_profile_load_all(TRUE);
+}
+
+/**
  * Implementation of hook_form_alter().
  *
  * Before Drupal 7, there is no way to easily identify form fields that are
@@ -604,11 +611,7 @@ function wysiwyg_profile_load($format) {
   static $profiles;
 
   if (!isset($profiles) || !array_key_exists($format, $profiles)) {
-    $result = db_query('SELECT format, editor, settings FROM {wysiwyg} WHERE format = %d', $format);
-    while ($profile = db_fetch_object($result)) {
-      $profile->settings = unserialize($profile->settings);
-      $profiles[$profile->format] = $profile;
-    }
+    $profiles = wysiwyg_profile_load_all();
   }
 
   return (isset($profiles[$format]) ? $profiles[$format] : FALSE);
@@ -617,20 +620,70 @@ function wysiwyg_profile_load($format) {
 /**
  * Load all profiles.
  */
-function wysiwyg_profile_load_all() {
+function wysiwyg_profile_load_all($reset = FALSE) {
   static $profiles;
 
-  if (!isset($profiles)) {
+  if ($reset || !isset($profiles)) {
     $profiles = array();
+    if (!$reset && ($cache = cache_get('wysiwyg:profiles', 'cache')) && is_array($cache->data)) {
+      $profiles = $cache->data;
+      return $profiles;
+    }
+    // If Exportables and CTools are installed, use their API to load both
+    // wysiwyg profiles from code and from the database
+    if (module_exists('ctools') && module_exists('exportables')) {
+      if (exportables_api_version('2.0') && ctools_api_version('1.7')) {
+        $input_formats = exportables_load_all('input_formats');
+        ctools_include('export');
+        $ctools_profiles = ctools_export_load_object('wysiwyg');
+        // Wysiwyg module still use numeric ids as keys
+        foreach ($ctools_profiles as $machine_name => $profile) {
+          $profile->format = $input_formats[$machine_name];
+          $profiles[$profile->format] = $profile;
+        }
+      }
+    }
+
+    // DB profiles will always override Features profiles from flat files.
     $result = db_query('SELECT format, editor, settings FROM {wysiwyg}');
     while ($profile = db_fetch_object($result)) {
-      $profile->settings = unserialize($profile->settings);
-      $profiles[$profile->format] = $profile;
+      if (!isset($profiles[$profile->format])) {
+        $profile->settings = unserialize($profile->settings);
+        $profiles[$profile->format] = $profile;
+      }
     }
+
+    drupal_alter('wysiwyg_load_profiles', $profiles);
+    cache_set('wysiwyg:profiles', $profiles);
   }
 
   return $profiles;
 }
+ /**
+ * Wysiwyg profiles list callback.
+ */
+function wysiwyg_profile_list() {
+  $profiles = wysiwyg_profile_load_all(TRUE);
+  $filter_formats = filter_formats();
+  $list = array();
+  foreach ($profiles as $profile) {
+    $list[$profile->machine] = t('@format (@editor)', array('@editor' => $profile->editor, '@format' => $filter_formats[$profile->format]->name));
+  }
+  return $list;
+}
+
+/**
+ * Remove a profile from the database.
+ */
+function wysiwyg_profile_delete($wysiwyg) {
+  if (!isset($wysiwyg->format)) {
+    $input_formats = exportables_load_all('input_formats');
+    $wysiwyg->format = $input_formats[$wysiwyg->machine];
+  }
+  db_query("DELETE FROM {wysiwyg} WHERE format = %d", $wysiwyg->format);
+}
+
+
 
 /**
  * Implementation of hook_user().
@@ -1014,3 +1067,39 @@ function _wysiwyg_process_include($module, $identifier, $path, $hook) {
  * @} End of "defgroup wysiwyg_api".
  */
 
+/**
+ * @defgroup features_integration Features Integration
+ * @{
+ */
+
+/**
+ * Implementation of hook_features_api().
+ *
+ * Provide features integration only when ctools and exportables are
+ * installed.
+ */
+function wysiwyg_features_api() {
+  $return = array();
+  if (module_exists('exportables') && module_exists('ctools')) {
+    module_load_include('inc', 'features', 'includes/features.ctools');
+    $return = ctools_component_features_api('wysiwyg');
+  }
+  return $return;
+}
+
+/**
+ * Implementation of hook_features_export().
+ *
+ * Includes exportables as a dependency.
+ */
+function wysiwyg_features_export($data, &$export, $module_name = '') {
+
+  $return = ctools_component_features_export('wysiwyg', $data, $export, $module_name);
+  $export['dependencies']['exportables'] = 'exportables';
+
+  return $return;
+}
+
+/**
+ * @} End of "defgroup features_integration".
+ */

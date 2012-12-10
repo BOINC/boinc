@@ -331,8 +331,20 @@ function wysiwyg_profile_form_submit($form, &$form_state) {
   // @see system_settings_form_submit()
   unset($values['submit'], $values['form_id'], $values['op'], $values['form_token'], $values['form_build_id']);
 
+  // Determine if this is an update.
+  if (!db_result(db_query("SELECT 1 FROM {wysiwyg} WHERE format = %d", $format))) {
+    $update = array();
+  }
+  else {
+    $update = array('format');
+  }
+  $wysiwyg = new stdClass();
+  $wysiwyg->format = $format;
+  $wysiwyg->editor = $editor;
+  $wysiwyg->settings = $values;
+
   // Insert new profile data.
-  db_query("UPDATE {wysiwyg} SET settings = '%s' WHERE format = %d", serialize($values), $format);
+  drupal_write_record('wysiwyg', $wysiwyg, $update);
 
   drupal_set_message(t('Wysiwyg profile for %format has been saved.', array('%format' => $input_format)));
 
@@ -431,7 +443,8 @@ function wysiwyg_profile_overview() {
   }
 
   $formats = filter_formats();
-  $profiles = wysiwyg_profile_load_all();
+  // Reset Wysiwyg cache
+  $profiles = wysiwyg_profile_load_all(TRUE);
   $form['formats'] = array(
     '#type' => 'item',
     '#description' => t('To assign a different editor to a text format, click "delete" to remove the existing first.'),
@@ -439,6 +452,7 @@ function wysiwyg_profile_overview() {
   );
 
   $enable_save = FALSE;
+  $in_code_only = FALSE;
   foreach ($formats as $id => $format) {
     $form['formats'][$id]['name'] = array(
       '#value' => check_plain($format->name),
@@ -446,9 +460,13 @@ function wysiwyg_profile_overview() {
     // Only display editor selection for associated input formats to avoid
     // confusion about disabled selection.
     if (isset($profiles[$id]) && !empty($profiles[$id]->editor)) {
+      $in_code_only = !empty($profiles[$id]->in_code_only);
       $form['formats'][$id]['editor'] = array(
         '#value' => $options[$profiles[$id]->editor],
       );
+      if ($in_code_only) {
+        $form['formats'][$id]['name']['#value'] .= ' <em>(' . t('From: !module module', array('!module' => $profiles[$id]->export_module)) . ')</em>';
+      }
     }
     else {
       $form['formats'][$id]['editor'] = array(
@@ -459,12 +477,17 @@ function wysiwyg_profile_overview() {
       $enable_save = TRUE;
     }
     if (isset($profiles[$id]) && !empty($profiles[$id]->editor)) {
+      $edit = !empty($profiles[$id]->in_code_only)?t('Override'):t('Edit');
       $form['formats'][$id]['edit'] = array(
-        '#value' => l(t('Edit'), "admin/settings/wysiwyg/profile/$id/edit"),
+        '#value' => l($edit, "admin/settings/wysiwyg/profile/$id/edit"),
       );
-      $form['formats'][$id]['delete'] = array(
-        '#value' => l(t('Delete'), "admin/settings/wysiwyg/profile/$id/delete"),
-      );
+      // Only display delete/revert links for wysiwyg loaded from the database
+      if (!$in_code_only) {
+        $delete = (empty($profiles[$id]->type) || $profiles[$id]->type == t('Normal'))?t('Delete'):t('Revert');
+        $form['formats'][$id]['delete'] = array(
+          '#value' => l($delete, "admin/settings/wysiwyg/profile/$id/delete"),
+        );
+      }
     }
   }
 
@@ -483,7 +506,7 @@ function theme_wysiwyg_profile_overview($form) {
     return;
   }
   $output = '';
-  $header = array(t('Input format'), t('Editor'), array('data' => t('Operations'), 'colspan' => 2));
+  $header = array(t('Input format'), t('Editor'), array('data' => t('Operations'), 'colspan' => 3));
   $rows = array();
   foreach (element_children($form['formats']) as $item) {
     $format = &$form['formats'][$item];
@@ -491,6 +514,7 @@ function theme_wysiwyg_profile_overview($form) {
       drupal_render($format['name']),
       drupal_render($format['editor']),
       isset($format['edit']) ? drupal_render($format['edit']) : '',
+      isset($format['export']) ? drupal_render($format['export']) : '',
       isset($format['delete']) ? drupal_render($format['delete']) : '',
     );
   }
@@ -518,6 +542,18 @@ function wysiwyg_profile_delete_confirm(&$form_state, $profile) {
   $formats = filter_formats();
   $format = $formats[$profile->format];
   $form['format'] = array('#type' => 'value', '#value' => $format);
+  if (isset($profile->type) && $profile->type == t('Overridden')) {
+    $form['revert'] = array(
+      '#type' => 'value',
+      '#value' => TRUE,
+    );
+    return confirm_form(
+      $form,
+      t('Are you sure you want to revert the profile settings for %name?', array('%name' => $format->name)),
+      'admin/settings/wysiwyg',
+      t('This action cannot be undone.'), t('Revert'), t('Cancel')
+    );
+  }
   return confirm_form(
     $form,
     t('Are you sure you want to remove the profile for %name?', array('%name' => $format->name)),
@@ -533,15 +569,15 @@ function wysiwyg_profile_delete_confirm(&$form_state, $profile) {
  */
 function wysiwyg_profile_delete_confirm_submit($form, &$form_state) {
   $format = $form_state['values']['format'];
-  wysiwyg_profile_delete($format->format);
-  drupal_set_message(t('Wysiwyg profile for %name has been deleted.', array('%name' => $format->name)));
+  $wysiwyg = new stdClass();
+  $wysiwyg->format = $format->format;
+  wysiwyg_profile_delete($wysiwyg);
+  if (!empty($form_state['values']['revert'])) {
+    drupal_set_message(t('Wysiwyg profile settings for %name has been reverted.', array('%name' => $format->name)));
+  }
+  else {
+    drupal_set_message(t('Wysiwyg profile for %name has been deleted.', array('%name' => $format->name)));
+  }
   $form_state['redirect'] = 'admin/settings/wysiwyg';
-}
-
-/**
- * Remove a profile from the database.
- */
-function wysiwyg_profile_delete($format) {
-  db_query("DELETE FROM {wysiwyg} WHERE format = %d", $format);
 }
 
