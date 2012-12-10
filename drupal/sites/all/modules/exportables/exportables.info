@@ -1,0 +1,12 @@
+; $Id: exportables.info,v 1.2.2.1 2010/07/08 18:38:54 dagmar Exp $
+
+name = Exportables
+core = "6.x"
+description = "Provides a mechanism to export items that normally aren't exportable into code."
+
+; Information added by drupal.org packaging script on 2010-07-30
+version = "6.x-2.0-beta1"
+core = "6.x"
+project = "exportables"
+datestamp = "1280523374"
+

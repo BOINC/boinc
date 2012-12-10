@@ -1,0 +1,297 @@
+<?php
+
+// $Id: exportables.module,v 1.12.2.7 2010/07/30 19:51:01 dagmar Exp $
+
+define('EXPORTABLES_API_VERSION', '2.0');
+
+/**
+ * Exportables API version. Based on ctools_api_version function.
+ *
+ * @param $minimum
+ *   The minimum version of exportables necessary for your software to run with it.
+ * @param $maximum
+ *   The maximum version of exportables allowed for your software to run with it.
+ */
+function exportables_api_version($minimum, $maximum = NULL) {
+  if (version_compare(EXPORTABLES_API_VERSION, $minimum, '<')) {
+    return FALSE;
+  }
+
+  if (isset($maximum) && version_compare(EXPORTABLES_API_VERSION, $maximum, '>')) {
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**
+ * Implementation of hook_enable().
+ */
+function exportables_enable() {
+  exportables_sync_names('input_formats');
+}
+
+/**
+ * Generates a machine-readable name from an object.
+ *
+ * @param string $type
+ * @param mixed $object
+ *
+ * @return string
+ */
+function exportables_machine_generate($type, $object) {
+  // Check if another module already defined a machine name for this object
+  $machine = exportables_machine_object_property($type, 'machine name', $object);
+  if (!empty($machine)) {
+    $original_name = $machine;
+  }
+  else {
+    $name = exportables_machine_object_property($type, 'title', $object);
+    $original_name = preg_replace('/[^a-z0-9_]/', '_', strtolower($name));
+  }
+  if (!exportables_machine_load_id($type, $original_name)) {
+    return $original_name;
+  }
+  $number = 0;
+  while (TRUE) {
+    $name = $original_name .'_'. $number;
+    if (!exportables_machine_load_id($type, $name)) {
+      return $name;
+    }
+    $number++;
+  }
+}
+
+/**
+ * Saves a machine-readable name to the database.
+ *
+ * @param string $type
+ * @param mixed $object
+ * @param string $machine
+ *
+ * @return string|boolean
+ *   The return value here comes from drupal_write_record(); if it
+ *   did not succeed, it will return false, but otherwise a string
+ *   constant will be returned as documented for that function.
+ */
+function exportables_machine_save($type, $object, $machine) {
+  $id = exportables_machine_object_property($type, 'id', $object);
+  $array = array(
+    'id' => $id,
+    'type' => $type,
+    'machine' => $machine,
+  );
+  return drupal_write_record('exportables', $array);
+}
+
+/**
+ * Deletes a machine-readable name from the database.
+ *
+ * @param string $type
+ * @param integer $id
+ * @param string $machine
+ *
+ * @return boolean
+ *   Returns true if successful, false if not.
+ */
+function exportables_machine_delete($type, $id, $machine) {
+  $result = db_query("DELETE FROM {exportables} WHERE type = '%s' AND id = %d AND machine = '%s'", $type, $id, $machine);
+  if (!$result) {
+    return FALSE;
+  }
+  return TRUE;
+}
+
+/**
+ * Retrieve machine-readable name given object and type.
+ *
+ * @param string $type
+ * @param mixed $object
+ *
+ * @return string
+ */
+function exportables_machine_get($type, &$object) {
+  $array = FALSE;
+  if (is_array($object)) {
+    $array = TRUE;
+    $object = (object) $object;
+  }
+  $id = exportables_machine_object_property($type, 'id', $object);
+  $machine = db_result(db_query("SELECT machine FROM {exportables} WHERE id = %d AND type = '%s'", $id, $type));
+  if (!$machine) {
+    $machine = exportables_machine_generate($type, $object);
+    exportables_machine_save($type, $object, $machine);
+  }
+  $object->machine = $machine;
+  if ($array) {
+    $object = (array) $object;
+  }
+  return $machine;
+}
+
+/**
+ * Retrieve ID given machine-readable name and type.
+ *
+ * @param string $type
+ * @param string $machine
+ *
+ * @return integer|boolean
+ *   Returns the ID if available, FALSE if not.
+ */
+function exportables_machine_load_id($type, $machine) {
+  return db_result(db_query("SELECT id FROM {exportables} WHERE type = '%s' AND machine = '%s'", $type, $machine));
+}
+
+/**
+ * Get an object's property given type, property, and object.
+ *
+ * @param string $type
+ * @param string $property
+ * @param mixed $object
+ *
+ * @return mixed
+ *   Returns the value of the property.
+ */
+function exportables_machine_object_property($type, $property, $object) {
+  $info = exportables_type_info($type);
+  $object = (object) $object; // We support arrays too.
+  return $object->{$info[$property .' property']}; // Get the property.
+}
+
+/**
+ * Get info about exportable types.
+ *
+ * @param string $get_type
+ *   The type of exportable to get info about. Optional. If nothing is
+ *    passed, then all types are returned.
+ * @param boolean $refresh
+ *   Types are cached - this refreshes the cache.
+ *
+ * @return array
+ */
+function exportables_type_info($get_type = '', $refresh = FALSE) {
+  static $cache;
+  if (!$cache || $refresh) {
+    foreach (module_list() as $module) {
+      $path = drupal_get_path('module', 'exportables') .'/modules/'. $module .'.inc';
+      if (file_exists($path)) {
+        include_once $path;
+      }
+    }
+    $cache = module_invoke_all('exportables');
+    foreach ($cache as $type => $value) {
+       $cache[$type] += array(
+        'update function'   => $value['save function'],
+        'title property'    => 'title',
+        'storage type'      => 'object',
+        'type'              => $type,
+        'unique properties' => array($value['id property']),
+      );
+    }
+  }
+  if ($get_type && !empty($cache[$get_type])) {
+    return $cache[$get_type];
+  }
+  return $cache;
+}
+
+/**
+ * Sync names into exporables table.
+ *
+ * @param string $type
+ *   object type to sync names
+ *
+ * @return void
+ */
+function exportables_sync_names($type) {
+  $info = exportables_type_info($type, TRUE);
+  $function = $info['load all function'];
+  $all_objects = $function();
+  $existent_ids = array();
+
+  // Create machine names for new objects not syncronized
+  foreach ($all_objects as $object) {
+    $id = exportables_machine_object_property($type, 'id', $object);
+    // Generate all the machine names for items that are not sycronized
+    exportables_machine_get($type, $object);
+    $existent_ids[] = $id;
+  }
+
+  // Remove all machines names for objects that are not availables anymore
+  $existent_names = exportables_load_all($type);
+  foreach ($existent_names as $machine => $id) {
+    if (!in_array($id, $existent_ids)) {
+      exportables_machine_delete($type, $id, $machine);
+    }
+  }
+}
+
+/**
+ * Return a keyed array containing all the pairs machine|id (or 
+ * id|machine if $use_numeric_keys is TRUE) of a given type.
+ */
+function exportables_load_all($type, $use_numeric_keys = FALSE) {
+  $result = array();
+  $res = db_query("SELECT id, machine FROM {exportables} WHERE type = '%s'", $type);
+  if ($use_numeric_keys) {
+    while ($ob = db_fetch_object($res)) {
+      $result[$ob->id] = $ob->machine;
+    }
+  }
+  else {
+    while ($ob = db_fetch_object($res)) {
+      $result[$ob->machine] = $ob->id;
+    }
+  }
+  return $result;
+}
+
+/**
+ * Implementation of hook_exportables().
+ */
+function exportables_exportables() {
+  $exportables = array();
+
+  $exportables['input_formats'] = array(
+    'load all function' => 'exportables_filter_formats',
+    'id property' => 'format',
+    'title property' => 'name',
+    'machine name property' => 'machine',
+  );
+
+  return $exportables;
+}
+
+/**
+ * Reimplementation of filter_formats without static cache and 
+ * permissions checks.
+ */
+function exportables_filter_formats() {
+  $query = 'SELECT * FROM {filter_formats}';
+
+  $result = db_query($query, $args);
+  while ($format = db_fetch_object($result)) {
+    $formats[$format->format] = $format;
+  }
+
+  return $formats;
+}
+
+function exportables_form_filter_admin_delete_alter(&$form, $form_state) {
+  $form['#submit'][] = 'exportables_sync_input_formats';
+}
+
+/**
+ * Implementation of hook_FORM_ID_alter().
+ *
+ * Includes a machine name into the admin/settings/filter/ID form.
+ */
+function exportables_form_filter_admin_format_form_alter(&$form, $form_state) {
+  if (!isset($form['format'])) {
+    $form['#submit'][] = 'exportables_sync_input_formats';
+  }
+}
+
+function exportables_sync_input_formats($form, $form_state) {
+  exportables_sync_names('input_formats');
+}

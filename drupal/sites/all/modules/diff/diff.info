@@ -1,0 +1,10 @@
+name = Diff
+description = Show difference between node revisions.
+core = 6.x
+
+; Information added by drupal.org packaging script on 2011-08-07
+version = "6.x-2.3"
+core = "6.x"
+project = "diff"
+datestamp = "1312697033"
+

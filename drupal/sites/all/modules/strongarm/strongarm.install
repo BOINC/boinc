@@ -1,0 +1,67 @@
+<?php
+
+/**
+ * Implementation of hook_enable().
+ */
+function strongarm_enable() {
+  // Weight strongarm exceptionally light.
+  db_query("UPDATE {system} SET weight = -1000 WHERE name = 'strongarm' AND type = 'module'");
+}
+
+/**
+ * Update 6100: Weight strongarm exceptionally light.
+ */
+function strongarm_update_6100() {
+  $ret = array();
+  $ret[] = update_sql("UPDATE {system} SET weight = -1000 WHERE name = 'strongarm' AND type = 'module'");
+  return $ret;
+}
+
+/**
+ * Update 6200: Install CTools
+ */
+function strongarm_update_6200() {
+  drupal_install_modules(array('ctools'));
+  $modules = module_list();
+  if (!isset($modules['ctools'])) {
+    return array('#abort' => array('success' => FALSE, 'query' => 'Could not enable CTools.'));
+  }
+  return array(array('success' => TRUE, 'query' => 'Enabled CTools successfully.'));
+}
+
+/**
+ * Update 6201: Set all strongarm 1.x variables that are not already set.
+ */
+function strongarm_update_6201() {
+  $ret = array();
+  $modules = module_implements('strongarm');
+  foreach ($modules as $module) {
+    $variables = module_invoke($module, 'strongarm');
+    foreach ($variables as $variable => $value) {
+      $exists = db_result(db_query("SELECT name FROM {variable} WHERE name = '%s'", $variable));
+      if (!$exists && !(is_object($value) && isset($value->api_version))) {
+        variable_set($variable, $value);
+        $ret[] = array('success' => TRUE, 'query' => "Set 1.x strongarmed variable {$variable} in the database.");
+      }
+    }
+  }
+  return $ret;
+}
+
+/**
+ * Update 6202: Set all strongarm variables that are only set in code in the database.
+ */
+function strongarm_update_6202() {
+  module_load_include('module', 'strongarm', 'strongarm');
+  $ret = array();
+  $variables = strongarm_vars_load(TRUE, TRUE);
+  if (!empty($variables)) {
+    foreach ($variables as $var_name => $var) {
+      $exists = db_result(db_query("SELECT name FROM {variable} WHERE name = '%s'", $var_name));
+      if (!$exists) {
+        variable_set($var_name, $var->value);
+      }
+    }
+  }
+  return $ret;
+}

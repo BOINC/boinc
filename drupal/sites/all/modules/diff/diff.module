@@ -1,0 +1,329 @@
+<?php
+
+/**
+ * @file
+ * Provides functionality to show a diff between two node revisions.
+ */
+
+/**
+ * Number of items on one page of the revision list.
+ */
+define('REVISION_LIST_SIZE', 50);
+
+/**
+ * Implementation of hook_help().
+ */
+function diff_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#diff':
+      $output = '<p>'. t('The diff module overwrites the normal revisions view. The revisions table is enhanced with a possibility to view the difference between two node revisions. Users with the %view_revisions permission will also be able to view the changes between any two selected revisions. You may disable this for individual content types on the content type configuration page. This module also provides a nifty %preview_changes button while editing a post.', array('%preview_changes' => t('View changes'), '%view_revisions' => t('view revisions'))) .'</p>';
+      return $output;
+    case 'node/%/revisions/%/view':
+      // the following string is copied from string copied from node_help('node/%/revisions')
+      return '<p>'. t('The revisions let you track differences between multiple versions of a post.') .'</p>';
+    case 'node/%/revisions/view/%/%':
+      return '<p>'. t('Comparing two revisions:') .'</p>';
+  }
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function diff_menu() {
+  $items = array();
+
+  /**
+   * By using MENU_LOCAL_TASK (and 'tab_parent') we can get the various revision-views to
+   * show the View|Edit|Revision-tabs of the node on top, and have the Revisions-tab open.
+   * To avoid creating/showing any extra tabs or sub-tabs (tasks below top level) for the
+   * various paths (i.e. "Diff", "Show latest" and "Show a specific revision") that need
+   * a revision-id (vid) parameter, we make sure to set 'tab_parent' a bit odd.
+   * This solution may not be the prettiest one, but by avoiding having two _LOCAL_TASKs
+   * sharing a parent that can be accessed by its full path, it seems to work as desired.
+   * Breadcrumbs work decently, at least the node link is among the crumbs. For some reason
+   * any breadcrumbs "before/above" the node is only seen at 'node/%node/revisions/%/view'.
+   */
+  $items['node/%node/revisions/list'] = array(
+    // Not used directly, but was created to get the other menu items to work well
+    'title' => 'List revisions',
+    'page callback' => 'diff_diffs_overview',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'access callback' => 'diff_node_revision_access',
+    'access arguments' => array(1),
+    'file' => 'diff.pages.inc',
+  );
+  $items['node/%node/revisions/view/%/%'] = array(
+    'title' => 'Diff',
+    'page callback' => 'diff_diffs_show',
+    'page arguments' => array(1, 4, 5),
+    'type' => MENU_LOCAL_TASK,
+    'access callback' => 'diff_node_revision_access',
+    'access arguments' => array(1),
+    'tab_parent' => 'node/%/revisions/list',
+    'file' => 'diff.pages.inc',
+  );
+  $items['node/%node/revisions/view/latest'] = array(
+    'title' => 'Show latest diff',
+    'page callback' => 'diff_latest',
+    'page arguments' => array(1),
+    'type' => MENU_LOCAL_TASK,
+    'access callback' => '_node_revision_access',
+    'access arguments' => array(1),
+    'tab_parent' => 'node/%/revisions/view',
+    'file' => 'diff.pages.inc',
+  );
+  $items['node/%node/revisions/diff-inline'] = array(
+    'page callback' => 'diff_inline_ahah',
+    'page arguments' => array(1),
+    'type' => MENU_CALLBACK,
+    'access callback' => 'diff_node_revision_access',
+    'access arguments' => array(1),
+    'file' => 'diff.pages.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implementation of hook_menu_alter().
+ */
+function diff_menu_alter(&$callbacks) {
+  // Overwrite the default 'Revisions' page
+  $callbacks['node/%node/revisions']['page callback'] = 'diff_diffs_overview';
+  $callbacks['node/%node/revisions']['module'] = 'diff';
+  $callbacks['node/%node/revisions']['file'] = 'diff.pages.inc';
+
+  $callbacks['node/%node/revisions/%/view']['tab_parent'] = 'node/%/revisions/list';
+  $callbacks['node/%node/revisions/%/revert']['tab_parent'] = 'node/%/revisions/%/view';
+  $callbacks['node/%node/revisions/%/delete']['tab_parent'] = 'node/%/revisions/%/view';
+
+  return;
+}
+
+/**
+ * Access callback for the node revisions page.
+ */
+function diff_node_revision_access($node, $op = 'view') {
+  $may_revision_this_type = variable_get('enable_revisions_page_'. $node->type, TRUE) || user_access('administer nodes');
+  return $may_revision_this_type && _node_revision_access($node, $op);
+}
+
+/**
+ * Implementation of hook_block().
+ */
+function diff_block($op = 'list', $delta = 0, $edit = array()) {
+  if ($op === 'list') {
+    return array('inline' => array('info' => t('Inline diff')));
+  }
+  elseif ($op === 'view' && $delta === 'inline' && user_access('view revisions') && $node = menu_get_object()) {
+    $block = array();
+    $revisions = node_revision_list($node);
+    if (count($revisions) > 1) {
+      $block['subject'] = t('Highlight changes');
+      $block['content'] = drupal_get_form('diff_inline_form', $node, $revisions);
+    }
+    return $block;
+  }
+}
+
+/**
+ * Implementation of hook_nodeapi().
+ */
+function diff_nodeapi(&$node, $op, $teaser, $page) {
+  if ($page && $op == 'view' && user_access('view revisions') && variable_get('show_diff_inline_'. $node->type, FALSE)) {
+    // Ugly but cheap way to check that we are viewing a node's revision page.
+    if (arg(2) === 'revisions' && arg(3) === $node->vid) {
+      module_load_include('inc', 'diff', 'diff.pages');
+      $node->content = array('#value' => diff_inline_show($node, $node->vid));
+    }
+    $node->content['#prefix'] = isset($node->content['#prefix']) ? "<div id='diff-inline-{$node->nid}'>" . $node->content['#prefix'] : "<div id='diff-inline-{$node->nid}'>";
+    $node->content['#suffix'] = isset($node->content['#suffix']) ? $node->content['#suffix'] . "</div>" : "</div>";
+  }
+}
+
+/**
+ * Implementation of hook_form_alter().
+ */
+function diff_form_alter(&$form, $form_state, $form_id) {
+  if (isset($form['type']['#value']) && $form['type']['#value'] .'_node_form' == $form_id) {
+    // Add a 'View changes' button on the node edit form.
+    if (variable_get('show_preview_changes_'. $form['type']['#value'], TRUE) && $form['nid']['#value'] > 0) {
+      $form['buttons']['preview_changes'] = array(
+        '#type' => 'submit',
+        '#value' => t('View changes'),
+        '#weight' => 12,
+        '#submit' => array('diff_node_form_build_preview_changes')
+      );
+    }
+  }
+  elseif ($form_id == 'node_type_form' && isset($form['identity']['type'])) {
+    // Node type edit form.
+    // Add checkbox to activate 'View changes' button per node type.
+    $form['workflow']['diff'] = array(
+      '#title' => t('Diff'),
+      '#type' => 'item',
+      '#tree' => FALSE,
+    );
+    $form['workflow']['diff']['show_preview_changes'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Show %preview_changes button on node edit form', array('%preview_changes' => t('View changes'))),
+      '#weight' => 10,
+      '#default_value' => variable_get('show_preview_changes_'. $form['#node_type']->type, TRUE),
+    );
+    $form['workflow']['diff']['show_diff_inline'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Show diffs inline for this content type'),
+      '#description' => t("You must enable the 'Inline diff' block to use this feature"),
+      '#weight' => 10,
+      '#default_value' => variable_get('show_diff_inline_'. $form['#node_type']->type, FALSE),
+    );
+    $form['workflow']['diff']['enable_revisions_page'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Enable the %revisions page for this content type', array('%revisions' => t('Revisions'))),
+      '#weight' => 11,
+      '#default_value' => variable_get('enable_revisions_page_'. $form['#node_type']->type, TRUE),
+    );
+  }
+}
+
+/**
+ * Callback if 'View changes' is pressed.
+ */
+function diff_node_form_build_preview_changes($form, &$form_state) {
+  module_load_include('inc', 'diff', 'diff.pages');
+  $node = node_form_submit_build_node($form, $form_state);
+
+  // Create diff of old node and edited node
+  $rows = _diff_body_rows(node_load($form_state['values']['nid']), $node);
+  $cols = _diff_default_cols();
+  $header = _diff_default_header();
+  $changes = theme('diff_table', $header, $rows, array('class' => 'diff'), NULL, $cols);
+
+  // Prepend diff to edit form
+  $form_state['node_preview'] = isset($form_state['node_preview']) ? $changes . $form_state['node_preview'] : $changes;
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function diff_theme() {
+  return array(
+    'diff_node_revisions' => array(
+      'arguments' => array('form' => NULL),
+      'file' => 'diff.theme.inc',
+    ),
+    'diff_table' => array(
+      'arguments' => array('header' => NULL, 'rows' => NULL, 'attributes' => array(), 'caption' => NULL, 'cols' => array()),
+      'file' => 'diff.theme.inc',
+    ),
+    'diff_header_line' => array(
+      'arguments' => array('lineno' => NULL),
+      'file' => 'diff.theme.inc',
+    ),
+    'diff_content_line' => array(
+      'arguments' => array('line' => NULL),
+      'file' => 'diff.theme.inc',
+    ),
+    'diff_empty_line' => array(
+      'arguments' => array('line' => NULL),
+      'file' => 'diff.theme.inc',
+    ),
+    'diff_inline_form' => array(
+      'arguments' => array('form' => array()),
+      'file' => 'diff.theme.inc',
+    ),
+    'diff_inline_metadata' => array(
+      'arguments' => array('node' => NULL),
+      'file' => 'diff.theme.inc',
+    ),
+    'diff_inline_chunk' => array(
+      'arguments' => array('text' => '', 'type' => NULL),
+      'file' => 'diff.theme.inc',
+    ),
+  );
+}
+
+/**
+ * Render a diff of two strings to a $rows array suitable for use with
+ * theme('table') or theme('diff_table').
+ *
+ * @param string $a
+ *   The source string to compare from.
+ * @param string $b
+ *   The target string to compare to.
+ * @param boolean $show_header
+ *   Display diff context headers, e.g. "Line x".
+ * @return
+ *   Array of rows usable with theme('table').
+ */
+function diff_get_rows($a, $b, $show_header = FALSE) {
+  $a = is_array($a) ? $a : explode("\n", $a);
+  $b = is_array($b) ? $b : explode("\n", $b);
+
+  module_load_include('php', 'diff', 'DiffEngine');
+  $formatter = new DrupalDiffFormatter();
+  $formatter->show_header = $show_header;
+  $diff = new Diff($a, $b);
+  return $formatter->format($diff);
+}
+
+/**
+ * Render a diff of two strings into HTML markup indicating additions, changes
+ * and deletions.
+ *
+ * @param string $a
+ *   The source string to compare from.
+ * @param string $b
+ *   The target string to compare to.
+ * @return
+ *   String containing HTML markup.
+ */
+function diff_get_inline($a, $b) {
+  module_load_include('php', 'diff', 'DiffEngine');
+  $diff = new DrupalDiffInline($a, $b);
+  return $diff->render();
+}
+
+/**
+ * Form builder: Inline diff controls.
+ */
+function diff_inline_form($form_state, $node, $revisions) {
+  $form = array();
+  $form['node'] = array(
+    '#type' => 'value',
+    '#value' => $node
+  );
+  $form['revision'] = array(
+    '#type' => 'select',
+    '#options' => array(0 => '< '. t('No highlighting') . ' >'),
+    '#default_value' => (arg(2) === 'revisions' && arg(3) === $node->vid) ? $node->vid : 0,
+    '#ahah' => array(
+      'path' => "node/{$node->nid}/revisions/diff-inline",
+      'wrapper' => "diff-inline-{$node->nid}",
+      'method' => 'replace',
+    ),
+  );
+  foreach ($revisions as $revision) {
+    $form['revision']['#options'][$revision->vid] = t('@revision by @name', array(
+      '@revision' => format_date($revision->timestamp, 'small'),
+      '@name' => $revision->name,
+    ));
+  }
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('View'),
+    '#submit' => array('diff_inline_form_submit'),
+    '#attributes' => array('class' => 'diff-js-hidden'),
+  );
+  return $form;
+}
+
+/**
+ * Form submission handler for diff_inline_form() for JS-disabled clients.
+ */
+function diff_inline_form_submit(&$form, &$form_state) {
+  if (isset($form_state['values']['revision'], $form_state['values']['node'])) {
+    $node = $form_state['values']['node'];
+    $vid = $form_state['values']['revision'];
+    $form_state['redirect'] = "node/{$node->nid}/revisions/{$vid}/view";
+  }
+}

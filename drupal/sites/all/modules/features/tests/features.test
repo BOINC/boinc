@@ -1,0 +1,214 @@
+<?php
+
+/**
+ * User permission component tests for Features
+ */
+class FeaturesUserTestCase extends DrupalWebTestCase {
+  /**
+   * Test info.
+   */
+  public function getInfo() {
+    return array(
+      'name' => t('Component tests'),
+      'description' => t('Run tests for components of Features.') ,
+      'group' => t('Features'),
+    );
+  }
+
+  /**
+   * Set up test.
+   */
+  public function setUp() {
+    parent::setUp(
+      // Note that the test will only run for the components that are
+      // properly enabled here.
+      'fieldgroup',
+      'text',
+      'content',
+      'context',
+      'ctools',
+      'views',
+      'imageapi',
+      'imagecache',
+
+      'features',
+      'features_test'
+    );
+
+    // Run a features rebuild to ensure our feature is fully installed.
+    features_rebuild();
+
+    $admin_user = $this->drupalCreateUser(array('administer features'));
+    $this->drupalLogin($admin_user);
+  }
+
+  /**
+   * Run test.
+   */
+  public function test() {
+    module_load_include('inc', 'features', 'features.export');
+
+    $components = array_filter(array(
+      'content' => 'content',
+      // 'context' => 'context', // @TODO write tests for context.
+      'fieldgroup' => 'fieldgroup',
+      'filter' => 'filter',
+      'imagecache' => 'imagecache',
+      'node' => 'node',
+      'user_permission' => 'user',
+      'views' => 'views',
+    ), 'module_exists');
+
+    foreach (array_keys($components) as $component) {
+      $callback = "_test_{$component}";
+
+      // Ensure that the component/default is properly available.
+      $object = $this->$callback('load', $id);
+      $this->assertTrue(!empty($object), t('@component present.', array('@component' => $component)));
+
+      // Ensure that the component is defaulted.
+      $states = features_get_component_states(array('features_test'), FALSE, TRUE);
+      $this->assertTrue($states['features_test'][$component] === FEATURES_DEFAULT, t('@component state: Default.', array('@component' => $component)));
+
+      // Override component and test that Features detects the override.
+      $this->$callback('override', $this);
+      $states = features_get_component_states(array('features_test'), FALSE, TRUE);
+      $this->assertTrue($states['features_test'][$component] === FEATURES_OVERRIDDEN, t('@component state: Overridden.', array('@component' => $component)));
+    }
+
+    // Revert component and ensure that component has reverted.
+    // Do this in separate loops so we only have to run
+    // drupal_flush_all_caches() once.
+    foreach ($components as $component) {
+      features_revert(array('features_test' => array($component)));
+    }
+    drupal_flush_all_caches();
+    foreach ($components as $component) {
+      $states = features_get_component_states(array('features_test'), FALSE, TRUE);
+      $this->assertTrue($states['features_test'][$component] === FEATURES_DEFAULT, t('@component reverted.', array('@component' => $component)));
+    }
+  }
+
+  protected function _test_content($op = 'load') {
+    switch ($op) {
+      case 'load':
+        return content_fields('field_features_test', 'features_test');
+      case 'override':
+        module_load_include('inc', 'content', 'includes/content.crud');
+        $field = content_fields('field_features_test', 'features_test');
+        $field['widget']['label'] = 'Foo bar';
+        content_field_instance_update($field, TRUE);
+        break;
+    }
+  }
+
+  protected function _test_fieldgroup($op = 'load') {
+    $groups = fieldgroup_groups('features_test', FALSE, TRUE);
+    $group = $groups['group_features_test'];
+    switch ($op) {
+      case 'load':
+        return $group;
+      case 'override':
+        $group['settings']['display']['teaser'] = 'fieldset_collapsible';
+        $group['fields'] = array('0' => 'field_features_test_child_a');
+
+        // Update each field from this group.
+        foreach ($group['fields'] as $field_name) {
+          if ($field = content_fields($field_name, 'features_test')) {
+            $field['group'] = $group['group_features_test'];
+            fieldgroup_update_fields($field);
+          }
+        }
+
+        // Save the group itself.
+        fieldgroup_save_group('features_test', $group);
+        break;
+    }
+  }
+
+  protected function _test_filter($op = 'load') {
+    // So... relying on our own API functions to test is pretty lame.
+    // But these modules don't have APIs either. So might as well use
+    // the ones we've written for them...
+    features_include();
+    $formats = _filter_get_formats();
+    foreach ($formats as $k => $v) {
+      if ($v['name'] === 'features_test') {
+        $format = $v;
+        $format_id = $k;
+      }
+    }
+
+    switch ($op) {
+      case 'load':
+        return isset($format) ? $format : FALSE;
+      case 'override':
+        if (isset($format_id)) {
+          db_query("DELETE FROM {filters} WHERE module = 'filter' AND format = %d AND delta = %d", $format_id, 0);
+        }
+        break;
+    }
+  }
+
+  protected function _test_imagecache($op = 'load', &$test) {
+    switch ($op) {
+      case 'load':
+        return imagecache_preset_by_name('features_test');
+      case 'override':
+        $preset = imagecache_preset_by_name('features_test');
+        $preset = imagecache_preset_save($preset);
+        foreach ($preset['actions'] as $action) {
+          $action['data']['width'] = '50%';
+          $action['presetid'] = $preset['presetid'];
+          imagecache_action_save($action);
+        }
+        break;
+    }
+  }
+
+  protected function _test_node($op = 'load') {
+    switch ($op) {
+      case 'load':
+        return node_get_types('type', 'features_test');
+      case 'override':
+        $type = node_get_types('type', 'features_test');
+        $type->description = 'Foo bar baz.';
+        $type->modified = TRUE;
+        node_type_save($type);
+        break;
+    }
+  }
+
+  protected function _test_views($op = 'load') {
+    switch ($op) {
+      case 'load':
+        return views_get_view('features_test', TRUE);
+      case 'override':
+        $view = views_get_view('features_test', TRUE);
+        $view->set_display('default');
+        $view->display_handler->override_option('title', 'Foo bar');
+        $view->save();
+        break;
+    }
+  }
+
+  protected function _test_user_permission($op = 'load') {
+    switch ($op) {
+      case 'load':
+        // So... relying on our own API functions to test is pretty lame.
+        // But these modules don't have APIs either. So might as well use
+        // the ones we've written for them...
+        features_include();
+        $permissions = _user_features_get_permissions();
+        return isset($permissions['create features_test content']) ? $permissions['create features_test content'] : FALSE;
+      case 'override':
+        $roles = _features_get_roles();
+        if (in_array('create features_test content', $roles['authenticated user']['perm'])) {
+          $position = array_search('create features_test content', $roles['authenticated user']['perm']);
+          unset($roles['authenticated user']['perm'][$position]);
+        }
+        _user_features_save_roles($roles);
+        break;
+    }
+  }
+}

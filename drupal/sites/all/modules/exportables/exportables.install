@@ -1,0 +1,64 @@
+<?php
+
+// $Id: exportables.install,v 1.2.2.2 2010/07/27 16:26:16 dagmar Exp $
+
+/**
+ * Implementation of hook_install().
+ */
+function exportables_install() {
+  drupal_install_schema('exportables');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function exportables_uninstall() {
+  drupal_uninstall_schema('exportables');
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function exportables_schema() {
+  $schema['exportables'] = array(
+    'description' => t('Machine readable names and IDs storage.'),
+    'fields' => array(
+      'id' => array(
+        'description' => t('The ID of the object.'),
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'length' => 11,
+      ),
+      'machine' => array(
+        'description' => t('The machine-readable name.'),
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'type' => array(
+        'description' => t('The type of object.'),
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'in_code' => array(
+        'description' => t('Flag to indicate whether this object is in the database or in code'),
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'size' => 'tiny',
+      ),
+    ),
+    'primary key' => array('id', 'machine', 'type'),
+    'indexes' => array(
+      'machine' => array('machine', 'type'),
+      'id' => array('id', 'type'),
+    ),
+  );
+
+  return $schema;
+}
