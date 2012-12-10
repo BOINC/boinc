@@ -113,18 +113,15 @@ bool GUI_RPC_CONN_SET::recent_rpc_needs_network(double interval) {
 }
 
 int GUI_RPC_CONN_SET::get_password() {
-    FILE* f;
     int retval;
 
     strcpy(password, "");
-    if (boinc_file_exists(GUI_RPC_PASSWD_FILE)) {
-        f = fopen(GUI_RPC_PASSWD_FILE, "r");
-        if (f) {
-            if (fgets(password, 256, f)) {
-                strip_whitespace(password);
-            }
-            fclose(f);
+    FILE* f = fopen(GUI_RPC_PASSWD_FILE, "r");
+    if (f) {
+        if (fgets(password, 256, f)) {
+            strip_whitespace(password);
         }
+        fclose(f);
     } else {
         // if no password file, make a random password
         //
@@ -182,7 +179,6 @@ int GUI_RPC_CONN_SET::get_allowed_hosts() {
         // read in each line, if it is not a comment
         // then resolve the address and add to our allowed list
         //
-        memset(buf,0,sizeof(buf));
         while (fgets(buf, 256, f)) {
             strip_whitespace(buf);
             if (!(buf[0] =='#' || buf[0] == ';') && strlen(buf) > 0 ) {

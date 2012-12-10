@@ -954,7 +954,7 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
     }
     
 	// First update existing entries and add new ones
-	for(int i = 0; i < (int) pDoc->results.results.size(); i++) {
+	for(i = 0; i < (int) pDoc->results.results.size(); i++) {
 		bool found = false;
         
 		result = pDoc->result(i);

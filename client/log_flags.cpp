@@ -108,9 +108,11 @@ void LOG_FLAGS::show() {
     }
 }
 
-static void show_gpu_ignore(vector<int>& devs, const char* name) {
+static void show_gpu_ignore(vector<int>& devs, int rt) {
     for (unsigned int i=0; i<devs.size(); i++) {
-        msg_printf(NULL, MSG_INFO, "Config: ignoring %s GPU %d", name, devs[i]);
+        msg_printf(NULL, MSG_INFO,
+            "Config: ignoring %s %d", proc_type_name(rt), devs[i]
+        );
     }
 }
 
@@ -189,9 +191,9 @@ void CONFIG::show() {
     if (fetch_minimal_work) {
         msg_printf(NULL, MSG_INFO, "Config: fetch minimal work");
     }
-    show_gpu_ignore(ignore_nvidia_dev, GPU_TYPE_NVIDIA);
-    show_gpu_ignore(ignore_ati_dev, GPU_TYPE_ATI);
-    show_gpu_ignore(ignore_intel_dev, GPU_TYPE_ATI);
+    for (int j=1; j<NPROC_TYPES; j++) {
+        show_gpu_ignore(ignore_gpu_instance[j], j);
+    }
     for (i=0; i<exclude_gpus.size(); i++) {
         show_exclude_gpu(exclude_gpus[i]);
     }
@@ -259,9 +261,9 @@ int CONFIG::parse_options_client(XML_PARSER& xp) {
     alt_platforms.clear();
     exclusive_apps.clear();
     exclusive_gpu_apps.clear();
-    ignore_nvidia_dev.clear();
-    ignore_ati_dev.clear();
-    ignore_intel_dev.clear();
+    for (int i=1; i<NPROC_TYPES; i++) {
+        ignore_gpu_instance[i].clear();
+    }
 
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
@@ -358,15 +360,15 @@ int CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.parse_int("http_transfer_timeout", http_transfer_timeout)) continue;
         if (xp.parse_int("http_transfer_timeout_bps", http_transfer_timeout_bps)) continue;
         if (xp.parse_int("ignore_cuda_dev", n)||xp.parse_int("ignore_nvidia_dev", n)) {
-            ignore_nvidia_dev.push_back(n);
+            ignore_gpu_instance[PROC_TYPE_NVIDIA_GPU].push_back(n);
             continue;
         }
         if (xp.parse_int("ignore_ati_dev", n)) {
-            ignore_ati_dev.push_back(n);
+            ignore_gpu_instance[PROC_TYPE_AMD_GPU].push_back(n);
             continue;
         }
         if (xp.parse_int("ignore_intel_dev", n)) {
-            ignore_intel_dev.push_back(n);
+            ignore_gpu_instance[PROC_TYPE_INTEL_GPU].push_back(n);
             continue;
         }
         if (xp.parse_int("max_file_xfers", max_file_xfers)) continue;
