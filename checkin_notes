@@ -7533,3 +7533,9 @@ Charlie 10 Dec 2012
 
     lib/
         coproc.h
+
+David  10 Dec 2012
+    - client: re-apply app configuration after each scheduler RPC;
+        otherwise the changes get overwritten
+    client/
+        cs_scheduler.cpp

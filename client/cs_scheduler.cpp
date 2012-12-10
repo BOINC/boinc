@@ -839,6 +839,10 @@ int CLIENT_STATE::handle_scheduler_reply(
             // if we had download failures, clear them
             //
             avp->clear_errors();
+
+            // apply app config if present
+            //
+            project->app_configs.config_app_versions(project);
             continue;
         }
         avp = new APP_VERSION;
