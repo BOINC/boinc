@@ -5128,7 +5128,3 @@ Rom    8 Dec 2012
     lib\
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
-    sched\
-        plan_class_spec.cpp
-        sched_send.cpp
-        sched_types.cpp
