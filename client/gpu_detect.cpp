@@ -64,15 +64,16 @@ void segv_handler(int) {
 
 vector<COPROC_ATI> ati_gpus;
 vector<COPROC_NVIDIA> nvidia_gpus;
+vector<COPROC_INTEL> intel_gpus;
 vector<OPENCL_DEVICE_PROP> ati_opencls;
 vector<OPENCL_DEVICE_PROP> nvidia_opencls;
-vector<OPENCL_DEVICE_PROP> intel_gpu_opencls;
+vector<OPENCL_DEVICE_PROP> intel_opencls;
 
 void COPROCS::get(
     bool use_all, vector<string>&descs, vector<string>&warnings,
     vector<int>& ignore_nvidia_dev,
     vector<int>& ignore_ati_dev,
-    vector<int>& ignore_intel_gpu_dev
+    vector<int>& ignore_intel_dev
 ) {
     unsigned int i;
     char buf[256], buf2[256];
@@ -91,7 +92,13 @@ void COPROCS::get(
         warnings.push_back("Caught SIGSEGV in ATI GPU detection");
     }
     try {
-        get_opencl(use_all, warnings, ignore_ati_dev, ignore_nvidia_dev, ignore_intel_gpu_dev);
+        intel.get(use_all, warnings, ignore_intel_dev);
+    } 
+    catch (...) {
+        warnings.push_back("Caught SIGSEGV in INTEL GPU detection");
+    }
+    try {
+        get_opencl(use_all, warnings, ignore_ati_dev, ignore_nvidia_dev, ignore_intel_dev);
     } 
     catch (...) {
         warnings.push_back("Caught SIGSEGV in OpenCL detection");
@@ -110,6 +117,11 @@ void COPROCS::get(
         ati.get(use_all, warnings, ignore_ati_dev);
     }
 #endif
+    if (setjmp(resume)) {
+        warnings.push_back("Caught SIGSEGV in INTEL GPU detection");
+    } else {
+        intel.get(use_all, warnings, ignore_intel_dev);
+    }
     if (setjmp(resume)) {
         warnings.push_back("Caught SIGSEGV in OpenCL detection");
     } else {
@@ -152,6 +164,23 @@ void COPROCS::get(
         descs.push_back(string(buf2));
     }
 
+    for (i=0; i<intel_gpus.size(); i++) {
+        intel_gpus[i].description(buf);
+        switch(intel_gpus[i].is_used) {
+        case COPROC_IGNORED:
+            sprintf(buf2, "INTEL GPU %d (ignored by config): %s", intel_gpus[i].device_num, buf);
+            break;
+        case COPROC_USED:
+            sprintf(buf2, "INTEL GPU %d: %s", intel_gpus[i].device_num, buf);
+            break;
+        case COPROC_UNUSED:
+        default:
+            sprintf(buf2, "INTEL GPU %d: (not used) %s", intel_gpus[i].device_num, buf);
+            break;
+        }
+        descs.push_back(string(buf2));
+    }
+
     // Create descriptions for OpenCL NVIDIA GPUs
     //
     for (i=0; i<nvidia_opencls.size(); i++) {
@@ -168,14 +197,15 @@ void COPROCS::get(
 
     // Create descriptions for OpenCL Intel GPUs
     //
-    for (i=0; i<intel_gpu_opencls.size(); i++) {
-        intel_gpu_opencls[i].description(buf, GPU_TYPE_INTEL);
+    for (i=0; i<intel_opencls.size(); i++) {
+        intel_opencls[i].description(buf, GPU_TYPE_INTEL);
         descs.push_back(string(buf));
     }
 
     ati_gpus.clear();
     nvidia_gpus.clear();
+    intel_gpus.clear();
     ati_opencls.clear();
     nvidia_opencls.clear();
-    intel_gpu_opencls.clear();
+    intel_opencls.clear();
 }

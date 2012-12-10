@@ -692,6 +692,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\client\gpu_intel.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\client\gpu_nvidia.cpp"
 				>
 			</File>

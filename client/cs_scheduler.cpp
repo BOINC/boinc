@@ -237,9 +237,9 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     }
     j = rsc_index(GPU_TYPE_INTEL);
     if (j > 0) {
-        coprocs.intel_gpu.req_secs = rsc_work_fetch[j].req_secs;
-        coprocs.intel_gpu.req_instances = rsc_work_fetch[j].req_instances;
-        coprocs.intel_gpu.estimated_delay = rsc_work_fetch[j].req_secs?rsc_work_fetch[j].busy_time_estimator.get_busy_time():0;
+        coprocs.intel.req_secs = rsc_work_fetch[j].req_secs;
+        coprocs.intel.req_instances = rsc_work_fetch[j].req_instances;
+        coprocs.intel.estimated_delay = rsc_work_fetch[j].req_secs?rsc_work_fetch[j].busy_time_estimator.get_busy_time():0;
     }
 
     if (coprocs.n_rsc > 1) {
