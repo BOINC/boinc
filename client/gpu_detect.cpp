@@ -64,8 +64,8 @@ void segv_handler(int) {
 
 vector<COPROC_ATI> ati_gpus;
 vector<COPROC_NVIDIA> nvidia_gpus;
-vector<OPENCL_DEVICE_PROP> nvidia_opencls;
 vector<OPENCL_DEVICE_PROP> ati_opencls;
+vector<OPENCL_DEVICE_PROP> nvidia_opencls;
 vector<OPENCL_DEVICE_PROP> intel_gpu_opencls;
 
 void COPROCS::get(
@@ -169,13 +169,13 @@ void COPROCS::get(
     // Create descriptions for OpenCL Intel GPUs
     //
     for (i=0; i<intel_gpu_opencls.size(); i++) {
-        intel_gpu_opencls[i].description(buf, GPU_TYPE_ATI);
+        intel_gpu_opencls[i].description(buf, GPU_TYPE_INTEL);
         descs.push_back(string(buf));
     }
 
     ati_gpus.clear();
     nvidia_gpus.clear();
-    nvidia_opencls.clear();
     ati_opencls.clear();
+    nvidia_opencls.clear();
     intel_gpu_opencls.clear();
 }
