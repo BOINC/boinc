@@ -115,7 +115,7 @@ void COPROCS::get_opencl(
     vector<string>& warnings,
     vector<int>& ignore_ati_dev,
     vector<int>& ignore_nvidia_dev,
-    vector<int>& ignore_intel_dev
+    vector<int>& ignore_intel_gpu_dev
 ) {
     cl_int ciErrNum;
     cl_platform_id platforms[MAX_OPENCL_PLATFORMS];
@@ -322,8 +322,10 @@ void COPROCS::get_opencl(
             if (strcasestr(prop.vendor, "intel")) {
                 cl_device_type device_type;
                 
-                ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_TYPE,
-                            sizeof(device_type), &device_type, NULL);
+                ciErrNum = (*__clGetDeviceInfo)(
+                    prop.device_id, CL_DEVICE_TYPE,
+                    sizeof(device_type), &device_type, NULL
+                );
                 if (ciErrNum != CL_SUCCESS) {
                     warnings.push_back("clGetDeviceInfo failed to get device type for Intel device");
                     continue;
@@ -368,8 +370,8 @@ void COPROCS::get_opencl(
 
     if ((nvidia_opencls.size() == 0) &&
         (ati_opencls.size() == 0) &&
-        (intel_opencls.size() == 0)
-        ) {
+        (intel_gpu_opencls.size() == 0)
+    ) {
         warnings.push_back(
             "OpenCL library present but no OpenCL-capable GPUs found"
         );

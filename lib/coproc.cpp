@@ -29,7 +29,6 @@
 #include <cstdlib>
 #endif
 
-
 #ifdef _WIN32
 #include "win_util.h"
 #else
@@ -361,12 +360,12 @@ int COPROCS::parse(XML_PARSER& xp) {
             }
             continue;
         }
-        if (xp.match_tag("coproc_intel")) {
-            retval = intel.parse(xp);
+        if (xp.match_tag("intel_gpu")) {
+            retval = intel_gpu.parse(xp);
             if (retval) {
-                intel.clear();
+                intel_gpu.clear();
             } else {
-                coprocs[n_rsc++] = intel;
+                coprocs[n_rsc++] = intel_gpu;
             }
             continue;
         }
@@ -384,8 +383,8 @@ void COPROCS::write_xml(MIOFILE& mf, bool scheduler_rpc) {
     if (ati.count) {
         ati.write_xml(mf, scheduler_rpc);
     }
-    if (intel.count) {
-        intel.write_xml(mf, scheduler_rpc);
+    if (intel_gpu.count) {
+        intel_gpu.write_xml(mf, scheduler_rpc);
     }
     mf.printf("    </coprocs>\n");
 #endif
@@ -913,7 +912,7 @@ void COPROC_ATI::fake(double ram, double avail_ram, int n) {
 #ifndef _USING_FCGI_
 void COPROC_INTEL::write_xml(MIOFILE& f, bool scheduler_rpc) {
     f.printf(
-        "<coproc_intel>\n"
+        "<coproc_intel_gpu>\n"
         "   <count>%d</count>\n"
         "   <name>%s</name>\n"
         "   <available_ram>%f</available_ram>\n"
@@ -937,7 +936,7 @@ void COPROC_INTEL::write_xml(MIOFILE& f, bool scheduler_rpc) {
         opencl_prop.write_xml(f);
     }
         
-    f.printf("</coproc_intel>\n");
+    f.printf("</coproc_intel_gpu>\n");
 };
 #endif
 
@@ -955,7 +954,7 @@ int COPROC_INTEL::parse(XML_PARSER& xp) {
     clear();
 
     while (!xp.get_tag()) {
-        if (xp.match_tag("/coproc_intel")) {
+        if (xp.match_tag("/coproc_intel_gpu")) {
             if (!peak_flops) {
 				set_peak_flops();
             }

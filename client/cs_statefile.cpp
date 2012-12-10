@@ -69,6 +69,7 @@ static bool valid_state_file(const char* fname) {
 }
 
 // return true if r0 arrived before r1
+// with tie-break based on name hash.
 // used to sort result list
 //
 static inline bool arrived_first(RESULT* r0, RESULT* r1) {
@@ -932,9 +933,6 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
     }
     if (coprocs.have_ati()) {
         f.printf("<have_ati/>\n");
-    }
-    if (coprocs.have_intel()) {
-        f.printf("<have_intel/>\n");
     }
 
 #if 1

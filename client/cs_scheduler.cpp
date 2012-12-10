@@ -348,11 +348,20 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
             int rt = rp->avp->gpu_usage.rsc_type;
             if (rt) {
                 if (rt == rsc_index(GPU_TYPE_NVIDIA)) {
-                    sprintf(buf, "        <ncudas>%f</ncudas>\n", rp->avp->gpu_usage.usage);
+                    sprintf(buf,
+                        "        <ncudas>%f</ncudas>\n",
+                        rp->avp->gpu_usage.usage
+                    );
                 } else if (rt == rsc_index(GPU_TYPE_ATI)) {
-                    sprintf(buf, "        <natis>%f</natis>\n", rp->avp->gpu_usage.usage);
+                    sprintf(buf,
+                        "        <natis>%f</natis>\n",
+                        rp->avp->gpu_usage.usage
+                    );
                 } else if (rt == rsc_index(GPU_TYPE_INTEL)) {
-                    sprintf(buf, "        <nintel_gpus>%f</nintel_gpus>\n", rp->avp->gpu_usage.usage);
+                    sprintf(buf,
+                        "        <nintel_gpus>%f</nintel_gpus>\n",
+                        rp->avp->gpu_usage.usage
+                    );
                 }
             }
             fprintf(f,
