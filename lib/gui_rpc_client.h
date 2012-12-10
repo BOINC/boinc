@@ -389,7 +389,7 @@ struct CC_STATE {
     TIME_STATS time_stats;
     bool have_nvidia;           // deprecated; include for compat (set by <have_cuda/>)
     bool have_ati;              // deprecated; include for compat
-    bool have_intel_gpu;
+    bool have_intel;
 
     CC_STATE();
     ~CC_STATE();
