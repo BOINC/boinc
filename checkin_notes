@@ -7526,3 +7526,10 @@ Charlie 10 Dec 2012
         gpu_opencl.cpp
     lib/
         coproc.cpp,.h
+
+Charlie 10 Dec 2012
+    - client: COPROC_NVIDIA, COPROC_ATI and COPROC_INTEL constructors 
+        must initialize the entire struct, not just the GPU type field.
+
+    lib/
+        coproc.h
