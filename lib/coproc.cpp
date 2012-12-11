@@ -1027,7 +1027,7 @@ const char* proc_type_name_xml(int pt) {
     case PROC_TYPE_CPU: return "CPU";
     case PROC_TYPE_NVIDIA_GPU: return "NVIDIA";
     case PROC_TYPE_AMD_GPU: return "ATI";
-    case PROC_TYPE_INTEL_GPU: return "INTEL_GPU";
+    case PROC_TYPE_INTEL_GPU: return "intel_gpu";
     }
     return "unknown";
 }
