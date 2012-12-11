@@ -250,7 +250,9 @@ void COPROCS::get_opencl(
                 }
                 prop.opencl_device_index = device_index;
 
-                if (!nvidia.have_cuda) {
+                if (nvidia.have_cuda) {
+                    prop.peak_flops = nvidia_gpus[prop.device_num].peak_flops;
+                } else {
                     COPROC_NVIDIA c;
                     c.opencl_prop = prop;
                     c.set_peak_flops();
@@ -292,6 +294,7 @@ void COPROCS::get_opencl(
                         // See also further workaround code for Macs.
                         //
                         prop.global_mem_size = ati_gpus[prop.device_num].attribs.localRAM * MEGA;
+                        prop.peak_flops = ati_gpus[prop.device_num].peak_flops;
                     } else {
                         if (log_flags.coproc_debug) {
                             msg_printf(0, MSG_INFO,
