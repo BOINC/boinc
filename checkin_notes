@@ -7560,3 +7560,16 @@ David  10 Dec 2012
         coproc.cpp
     sched/
         sched_customize.cpp
+
+Charlie 11 Dec 2012
+    - Manager: remove sqlite3.c from Xcode project; add build script to 
+        build libsqlite3.a from source files downloaded from sqlite3.org.
+    
+    clientgui/
+        sqlite3.c (deleted)
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+        buildsqlite3.sh (added)
+        HowToBuildBOINC_XCode.rtf
+        setupforBOINC.sh
