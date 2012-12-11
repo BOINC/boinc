@@ -7552,3 +7552,11 @@ David  10 Dec 2012
 
     lib/
         coproc.cpp
+
+David  10 Dec 2012
+    - lib: actually let's make it "intel_gpu".
+
+    lib/
+        coproc.cpp
+    sched/
+        sched_customize.cpp
