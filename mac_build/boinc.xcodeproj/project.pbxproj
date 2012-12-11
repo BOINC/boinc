@@ -3636,7 +3636,6 @@
 					"-D_THREAD_SAFE",
 					"-lz",
 					"-lpthread",
-					"-lz",
 					"-lm",
 				);
 				PRODUCT_NAME = BOINCManager;
@@ -3685,7 +3684,6 @@
 					"-D_THREAD_SAFE",
 					"-lz",
 					"-lpthread",
-					"-lz",
 					"-lm",
 				);
 				PRODUCT_NAME = BOINCManager;
