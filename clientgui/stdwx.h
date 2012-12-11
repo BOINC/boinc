@@ -35,10 +35,6 @@
 #define _WIN32_IE 0x0501
 #endif
 
-#ifndef MAXPATHLEN
-#define MAXPATHLEN 4096
-#endif
-
 #endif
 
 #ifdef __APPLE__

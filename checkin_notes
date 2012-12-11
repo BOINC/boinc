@@ -5305,3 +5305,11 @@ Charlie 11 Dec 2012
         buildsqlite3.sh (added)
         HowToBuildBOINC_XCode.rtf
         setupforBOINC.sh
+
+Rom    11 Dec 2012
+    - Tag for 7.0.42 release, all platforms
+      client_release_7.0.42
+
+    /
+        configure.ac
+        version.h
