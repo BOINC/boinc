@@ -7546,3 +7546,9 @@ David  10 Dec 2012
         
     lib/
         coproc.cpp
+
+David  10 Dec 2012
+    - lib: the XML type field for an Intel GPU is INTEL_GPU, not INTEL
+
+    lib/
+        coproc.cpp
