@@ -446,6 +446,7 @@ struct COPROCS {
         }
         nvidia.clear();
         ati.clear();
+        intel_gpu.clear();
         COPROC c;
         strcpy(c.type, "CPU");
         add(c);

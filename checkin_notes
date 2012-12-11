@@ -5269,3 +5269,11 @@ Rom    10 Dec 2012
     /
         configure.ac
         version.h
+
+Charlie 10 Dec 2012
+    - client: fix changes lost in previous merge from trunk: COPROCS::clear() 
+        should call intel_gpu.clear().
+        
+    lib\
+        coproc.h
+          
