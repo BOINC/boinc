@@ -566,6 +566,25 @@ static inline bool app_plan_opencl(
             );
             return false;
         }
+    } else if (strstr(plan_class, "intel_gpu")) {
+        COPROC_INTEL& c = sreq.coprocs.intel_gpu;
+        if (!c.count) return false;
+        if (!c.have_opencl) return false;
+        if (!strcmp(plan_class, "opencl_intel_gpu_101")) {
+            return opencl_check(
+                c, hu,
+                101,
+                256*MEGA,
+                1,
+                .1,
+                .2
+            );
+        } else {
+            log_messages.printf(MSG_CRITICAL,
+                "Unknown plan class: %s\n", plan_class
+            );
+            return false;
+        }
 
     // maybe add a clause for multicore CPU
 

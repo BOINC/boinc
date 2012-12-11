@@ -7573,3 +7573,10 @@ Charlie 11 Dec 2012
         buildsqlite3.sh (added)
         HowToBuildBOINC_XCode.rtf
         setupforBOINC.sh
+
+Rom    11 Dec 2012
+    - server: Add a default plan class for the Intel GPUs.
+        (opencl_intel_gpu_101)
+
+    sched/
+        sched_customize.cpp
