@@ -471,7 +471,7 @@ struct COPROCS {
     inline bool have_ati() {
         return (ati.count > 0);
     }
-    inline bool have_intel() {
+    inline bool have_intel_gpu() {
         return (intel_gpu.count > 0);
     }
     int add(COPROC& c) {

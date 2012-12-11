@@ -405,7 +405,7 @@ int CLIENT_STATE::init() {
             coprocs.add(coprocs.ati);
         }
     }
-    if (coprocs.have_intel()) {
+    if (coprocs.have_intel_gpu()) {
         if (rsc_index(GPU_TYPE_INTEL)>0) {
             msg_printf(NULL, MSG_INFO, "INTEL GPU info taken from cc_config.xml");
         } else {
