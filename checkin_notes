@@ -5243,3 +5243,11 @@ David  10 Dec 2012
         
     lib/
         coproc.cpp
+
+Rom    10 Dec 2012
+    - Tag for 7.0.41 release, all platforms
+      client_release_7.0.41
+
+    /
+        configure.ac
+        version.h
