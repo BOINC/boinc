@@ -79,7 +79,7 @@ $post->content
 For assistance with ".PROJECT." go to ".MASTER_URL;
 
     $success = send_email($user, $subject, $body);
-    pm_send($user, $user, $subject, $body, false);
+    pm_send_msg($user, $user, $subject, $body, false);
 
     $body = "Because of moderation by $moderator->name (ID $moderator->id),
 The following email was sent to $user->name (ID $user->id)
@@ -114,7 +114,7 @@ For assistance with ".PROJECT." go to ".MASTER_URL;
     $subject = "THREAD $action REPORT: $thread->title";
     $success = mail_report_list($forum, $subject, $body);
     $success &= send_email($user, $subject, $body);
-    pm_send($user, $user, $subject, $body, false);
+    pm_send_msg($user, $user, $subject, $body, false);
     return $success;
 }
 
@@ -186,7 +186,7 @@ because your postings have not followed our guidelines.
     }
     $success = mail_report_list($forum, "$user->name (ID $user->id) has been banished.", $body);
     $success &= send_email($user, $subject, $body);
-    pm_send($user, $user, $subject, $body, false);
+    pm_send_msg($user, $user, $subject, $body, false);
     return $success;
 }
 
@@ -211,7 +211,7 @@ able to resume posting at that time.
         $body .= $reason;
     }
     $success = send_email($user, $subject, $body);
-    pm_send($user, $user, $subject, $body, false);
+    pm_send_msg($user, $user, $subject, $body, false);
 
     $body .= "\n\n<a href=".$vote_url."?action=yes&userid="
              .$user->id
