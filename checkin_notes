@@ -7539,3 +7539,10 @@ David  10 Dec 2012
         otherwise the changes get overwritten
     client/
         cs_scheduler.cpp
+
+David  10 Dec 2012
+    - lib: the XML tag for the description of an Intel GPU is
+        <coproc_intel_gpu>, not <intel_gpu>
+        
+    lib/
+        coproc.cpp
