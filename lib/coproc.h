@@ -401,7 +401,7 @@ struct COPROCS {
     COPROC coprocs[MAX_RSC];
     COPROC_NVIDIA nvidia;
     COPROC_ATI ati;
-    COPROC_INTEL intel;
+    COPROC_INTEL intel_gpu;
 
     void write_xml(MIOFILE& out, bool scheduler_rpc);
     void get(
@@ -472,7 +472,7 @@ struct COPROCS {
         return (ati.count > 0);
     }
     inline bool have_intel() {
-        return (intel.count > 0);
+        return (intel_gpu.count > 0);
     }
     int add(COPROC& c) {
         if (n_rsc >= MAX_RSC) return ERR_BUFFER_OVERFLOW;
@@ -488,7 +488,7 @@ struct COPROCS {
         switch(t) {
         case PROC_TYPE_NVIDIA_GPU: return &nvidia;
         case PROC_TYPE_AMD_GPU: return &ati;
-        case PROC_TYPE_INTEL_GPU: return &intel;
+        case PROC_TYPE_INTEL_GPU: return &intel_gpu;
         }
         return NULL;
     }
@@ -496,7 +496,7 @@ struct COPROCS {
         n_rsc = 0;
         nvidia.count = 0;
         ati.count = 0;
-        intel.count = 0;
+        intel_gpu.count = 0;
         COPROC c;
         strcpy(c.type, "CPU");
         add(c);

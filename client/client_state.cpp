@@ -409,7 +409,7 @@ int CLIENT_STATE::init() {
         if (rsc_index(GPU_TYPE_INTEL)>0) {
             msg_printf(NULL, MSG_INFO, "INTEL GPU info taken from cc_config.xml");
         } else {
-            coprocs.add(coprocs.intel);
+            coprocs.add(coprocs.intel_gpu);
         }
     }
     host_info._coprocs = coprocs;

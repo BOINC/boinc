@@ -330,7 +330,7 @@ void COPROCS::get_opencl(
                 }
                 if (device_type == CL_DEVICE_TYPE_CPU) continue;
 
-                prop.device_num = (int)(intel_opencls.size());
+                prop.device_num = (int)(intel_gpu_opencls.size());
                 prop.opencl_device_index = device_index;
                 
                 COPROC_INTEL c;
@@ -344,7 +344,7 @@ void COPROCS::get_opencl(
                 prop.peak_flops = c.peak_flops;
                 prop.opencl_available_ram = prop.global_mem_size;
 
-                intel_opencls.push_back(prop);
+                intel_gpu_opencls.push_back(prop);
 
                 // At present Intel GPUs only support OpenCL and do not have a native
                 // GPGPU framework, so treat each detected Intel OpenCL GPU device as 

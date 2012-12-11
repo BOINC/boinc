@@ -67,7 +67,7 @@ vector<COPROC_NVIDIA> nvidia_gpus;
 vector<COPROC_INTEL> intel_gpus;
 vector<OPENCL_DEVICE_PROP> ati_opencls;
 vector<OPENCL_DEVICE_PROP> nvidia_opencls;
-vector<OPENCL_DEVICE_PROP> intel_opencls;
+vector<OPENCL_DEVICE_PROP> intel_gpu_opencls;
 
 void COPROCS::get(
     bool use_all, vector<string>&descs, vector<string>&warnings,
@@ -180,8 +180,8 @@ void COPROCS::get(
 
     // Create descriptions for OpenCL Intel GPUs
     //
-    for (i=0; i<intel_opencls.size(); i++) {
-        intel_opencls[i].description(buf, GPU_TYPE_INTEL);
+    for (i=0; i<intel_gpu_opencls.size(); i++) {
+        intel_gpu_opencls[i].description(buf, GPU_TYPE_INTEL);
         descs.push_back(string(buf));
     }
 
@@ -190,5 +190,5 @@ void COPROCS::get(
     intel_gpus.clear();
     ati_opencls.clear();
     nvidia_opencls.clear();
-    intel_opencls.clear();
+    intel_gpu_opencls.clear();
 }
