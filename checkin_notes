@@ -5280,7 +5280,20 @@ Charlie 10 Dec 2012
 Charlie 10 Dec 2012
     - client: fix changes lost in previous merge from trunk: set 
         OPENCL_DEVICE_PROP::peak_flops field for COPROC_ATI when CAL is 
-        present for COPROC_NVIDIA when CUDA is present.
+        present and for COPROC_NVIDIA when CUDA is present.
         
     client/
         gpu_opencl.cpp
+
+Charlie 11 Dec 2012
+    - Manager: remove sqlite3.c from Xcode project; add build script to 
+        build libsqlite3.a from source files downloaded from sqlite3.org.
+    
+    clientgui/
+        sqlite3.c (deleted)
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+        buildsqlite3.sh (added)
+        HowToBuildBOINC_XCode.rtf
+        setupforBOINC.sh

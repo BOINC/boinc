@@ -19,7 +19,8 @@
 #
 #
 # Master script to build Universal Binary libraries needed by BOINC:
-# curl-7.26.0 with c-ares-1.9.1, openssl-1.0.1c and wxMac-2.8.10
+# curl-7.26.0 with c-ares-1.9.1, openssl-1.0.1c, wxMac-2.8.10,
+# sqlite3.7.14.1, FreeType-2.4.10 and FTGL-2.1.3
 #
 # by Charlie Fenton 7/21/06
 # Updated 10/18/11 for OS 10.7 lion and XCode 4.2
@@ -27,8 +28,9 @@
 # Updated 6/25/12 for curl-7.26.0 and c-ares-1.9.1
 # Updated 6/26/12 for openssl-1.0.1c
 # Updated 8/3/12 for FreeType-2.4.10 and FTGL-2.1.3~rc5
+# Updated 12/11/12 for sqlite3.7.14.1 from sqlite-autoconf-3071401
 #
-# Download these three packages and place them in a common parent 
+# Download these seven packages and place them in a common parent 
 # directory with the BOINC source tree.
 #
 ## In Terminal, cd to the mac_build directory of the boinc tree; for 
@@ -52,6 +54,7 @@ caresOK="NO"
 curlOK="NO"
 opensslOK="NO"
 wxWidgetsOK="NO"
+sqlite3OK="NO"
 freetypeOK="NO"
 ftglOK="NO"
 
@@ -116,6 +119,22 @@ if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildWxMac.sh" ${doclean}
     if [  $? -eq 0 ]; then
         wxWidgetsOK="YES"
+    fi
+fi
+
+echo ""
+echo "----------------------------------"
+echo "------ BUILD sqlite3.7.14.1 ------"
+echo "----------------------------------"
+echo ""
+
+cd "${SCRIPT_DIR}"
+
+cd ../../sqlite-autoconf-3071401/
+if [  $? -eq 0 ]; then
+    source "${SCRIPT_DIR}/buildsqlite3.sh" ${doclean}
+    if [  $? -eq 0 ]; then
+        sqlite3OK="YES"
     fi
 fi
 
@@ -187,6 +206,16 @@ if [ "${wxWidgetsOK}" = "NO" ]; then
     echo "------------ WARNING -------------"
     echo "------------         -------------"
     echo "-- COULD NOT BUILD wxMac-2.8.10 --"
+    echo "----------------------------------"
+    echo ""
+fi
+
+if [ "${sqlite3OK}" = "NO" ]; then
+    echo ""
+    echo "----------------------------------"
+    echo "------------ WARNING -------------"
+    echo "------------         -------------"
+    echo "- COULD NOT BUILD sqlite3.7.14.1 -"
     echo "----------------------------------"
     echo ""
 fi
