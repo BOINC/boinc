@@ -325,8 +325,10 @@ void COPROCS::summary_string(char* buf, int len) {
         strlcat(buf, buf2, len);
     }
     if (intel_gpu.count) {
-        sprintf(buf2,"[INTEL|%s|%d|%fMB|%s]",
-            intel_gpu.name, intel_gpu.count, intel_gpu.opencl_prop.global_mem_size/MEGA, intel_gpu.version
+        sprintf(buf2,"[INTEL|%s|%d|%dMB|%s]",
+            intel_gpu.name, intel_gpu.count,
+            (int)(intel_gpu.opencl_prop.global_mem_size/MEGA),
+            intel_gpu.version
         );
         strlcat(buf, buf2, len);
     }
