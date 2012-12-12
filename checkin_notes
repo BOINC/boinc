@@ -7632,4 +7632,11 @@ Rom    12 Dec 2012
     
     win_build/
         wrapper.vcproj
-    
+
+David  12 Dec 2012
+    - fix compile warning
+    - Git can ignore Unix compile outputs
+
+    .gitignore
+    client/
+        gpu_detect.h
