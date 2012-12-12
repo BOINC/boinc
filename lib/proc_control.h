@@ -28,11 +28,13 @@ extern bool any_process_exists(std::vector<int>& pids);
 extern void kill_all(std::vector<int>& pids);
 #ifdef _WIN32
 extern void kill_descendants();
-extern int suspend_or_resume_threads(DWORD pid, DWORD threadid, bool resume);
+extern int suspend_or_resume_threads(
+    std::vector<int> pids, DWORD threadid, bool resume, bool check_exempt
+);
 #else
 extern void kill_descendants(int child_pid=0);
 #endif
-extern void suspend_or_resume_descendants(int pid, bool resume);
+extern void suspend_or_resume_descendants(bool resume);
 extern void suspend_or_resume_process(int pid, bool resume);
 
 #endif

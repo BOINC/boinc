@@ -860,10 +860,10 @@ int boinc_wu_cpu_time(double& cpu_t) {
 
 int suspend_activities() {
 #ifdef _WIN32
-    static DWORD pid;
-    if (!pid) pid = GetCurrentProcessId();
+    static vector<int> pids;
     if (options.multi_thread) {
-        suspend_or_resume_threads(pid, timer_thread_id, false);
+        if (pids.size() == 0) pids.push_back(GetCurrentProcessId());
+        suspend_or_resume_threads(pids, timer_thread_id, false, true);
     } else {
         SuspendThread(worker_thread_handle);
     }
@@ -872,7 +872,7 @@ int suspend_activities() {
     // suspension is done by signal handler in worker thread
     //
     if (options.multi_process) {
-        suspend_or_resume_descendants(0, false);
+        suspend_or_resume_descendants(false);
     }
 #endif
     return 0;
@@ -880,16 +880,16 @@ int suspend_activities() {
 
 int resume_activities() {
 #ifdef _WIN32
-    static DWORD pid;
-    if (!pid) pid = GetCurrentProcessId();
+    static vector<int> pids;
     if (options.multi_thread) {
-        suspend_or_resume_threads(pid, timer_thread_id, true);
+        if (pids.size() == 0) pids.push_back(GetCurrentProcessId());
+        suspend_or_resume_threads(pids, timer_thread_id, true, true);
     } else {
         ResumeThread(worker_thread_handle);
     }
 #else
     if (options.multi_process) {
-        suspend_or_resume_descendants(0, true);
+        suspend_or_resume_descendants(true);
     }
 #endif
     return 0;

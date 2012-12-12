@@ -66,6 +66,12 @@
 
 #include "regexp.h"
 
+inline void debug_msg(const char* x) {
+#if 0
+    fprintf(stderr, "%s\n", x);
+#endif
+}
+
 #define JOB_FILENAME "job.xml"
 #define CHECKPOINT_FILENAME "wrapper_checkpoint.txt"
 
@@ -792,7 +798,7 @@ void TASK::kill() {
 
 void TASK::stop() {
     if (multi_process) {
-        suspend_or_resume_descendants(0, false);
+        suspend_or_resume_descendants(false);
     } else {
         suspend_or_resume_process(pid, false);
     }
@@ -801,7 +807,7 @@ void TASK::stop() {
 
 void TASK::resume() {
     if (multi_process) {
-        suspend_or_resume_descendants(0, true);
+        suspend_or_resume_descendants(true);
     } else {
         suspend_or_resume_process(pid, true);
     }
@@ -820,24 +826,30 @@ double TASK::cpu_time() {
 void poll_boinc_messages(TASK& task) {
     BOINC_STATUS status;
     boinc_get_status(&status);
+    //fprintf(stderr, "wrapper: polling\n");
     if (status.no_heartbeat) {
+        debug_msg("wrapper: kill");
         task.kill();
         exit(0);
     }
     if (status.quit_request) {
+        debug_msg("wrapper: quit");
         task.kill();
         exit(0);
     }
     if (status.abort_request) {
+        debug_msg("wrapper: abort");
         task.kill();
         exit(0);
     }
     if (status.suspended) {
         if (!task.suspended) {
+            debug_msg("wrapper: suspend");
             task.stop();
         }
     } else {
         if (task.suspended) {
+            debug_msg("wrapper: resume");
             task.resume();
         }
     }
@@ -879,6 +891,10 @@ int main(int argc, char** argv) {
     double total_weight=0, weight_completed=0;
     double checkpoint_cpu_time;
         // total CPU time at last checkpoint
+
+#ifdef _WIN32
+    SetPriorityClass(GetCurrentProcess(), NORMAL_PRIORITY_CLASS);
+#endif
 
     for (int j=1; j<argc; j++) {
         if (!strcmp(argv[j], "--nthreads")) {
