@@ -1,0 +1,14 @@
+# Which files and directories are safe to ignore
+#
+
+# Visual Studio project files
+*.user
+*.ncb
+*.suo
+
+# Visual Studio build directories
+/win_build/Build/
+
+# Installshield build directories
+/win_build/installerv2/BOINC
+/win_build/installerv2/BOINCx64
