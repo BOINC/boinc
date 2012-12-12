@@ -7663,3 +7663,14 @@ David  12 Dec 2012
         sched_array.cpp
     client/
         app_config.cpp,h
+
+David  12 Dec 2012
+    - restore 2 commits erased by Charlie's Dec 10 commit
+    clientgui/
+        sb_TaskPanel.cpp
+    clientscr/
+        screensaver_x11.cpp
+    lib/
+        mfile.cpp
+    vda/
+        vdad.cpp
