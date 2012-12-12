@@ -152,7 +152,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories=".;../;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include"
+				AdditionalIncludeDirectories=".;../;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../zip;../coprocs/OpenCL/include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_CONSOLE;_CRT_SECURE_NO_WARNINGS"
 				StringPooling="false"
 				ExceptionHandling="1"
@@ -181,7 +181,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmt.lib libcpmt.lib kernel32.lib user32.lib gdi32.lib ole32.lib psapi.lib"
+				AdditionalDependencies="libcmt.lib libcpmt.lib kernel32.lib user32.lib gdi32.lib ole32.lib psapi.lib oldnames.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\wrapper_25353_windows_x86_64.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
@@ -251,7 +251,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../zip;.;../;../api;../lib"
+				AdditionalIncludeDirectories=".;../;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../zip;../coprocs/OpenCL/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_CONSOLE;_CRT_SECURE_NO_WARNINGS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -348,7 +348,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".;../;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include"
+				AdditionalIncludeDirectories=".;../;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../zip;../coprocs/OpenCL/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_CONSOLE;_CRT_SECURE_NO_WARNINGS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -375,7 +375,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib ole32.lib psapi.lib"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib ole32.lib psapi.lib oldnames.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\wrapper_6.1_windows_x86_64.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"

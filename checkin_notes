@@ -7626,3 +7626,10 @@ Rom    12 Dec 2012
         
     win_build/
         libboinczip_staticcrt.vcproj
+
+Rom    12 Dec 2012
+    - wrapper: Fix 64-build targets on Windows.
+    
+    win_build/
+        wrapper.vcproj
+    
