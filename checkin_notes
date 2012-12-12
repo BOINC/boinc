@@ -7619,3 +7619,10 @@ David  11 Dec 2012
         util.h
     samples/wrapper/
         wrapper.cpp
+
+Rom    12 Dec 2012
+    - ZIP: Make sure output files end up in the 'build' directory structure
+        so they will be ignored by Git tools.
+        
+    win_build/
+        libboinczip_staticcrt.vcproj
