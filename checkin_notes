@@ -7645,3 +7645,21 @@ David  12 Dec 2012
     - client: show Intel GPU memory size as integer
     lib/
         coproc.cpp
+
+David  12 Dec 2012
+    - scheduler: attempted performance enhancement.
+        Old: each scheduler process holds a semaphore
+            while scanning the shared-mem job array.
+            On machines with many CPUs
+            there seems to be contention for this semaphore,
+            causing slow scheduler response and possibly connection failures.
+        New: Don't hold the semaphore while scanning array.
+            Instead, if find a job that passes quick_check(),
+            acquire the semaphore and recheck that the job is present in array
+            and passes quick_check().
+    - client: show messages if app_config.xml has unrecognized tags
+
+    sched/
+        sched_array.cpp
+    client/
+        app_config.cpp,h

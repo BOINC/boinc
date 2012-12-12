@@ -378,7 +378,12 @@ static bool scan_work_array() {
     bool no_more_needed = false;
     SCHED_DB_RESULT result;
 
-    lock_sema();
+    // To minimize the amount of time we lock the array,
+    // we initially scan without holding the lock.
+    // If we find a job that passes quick_check(),
+    // we acquire the lock and then check the job again.
+    //
+    bool sema_locked = false;
 
     rnd_off = rand() % ssp->max_wu_results;
     for (j=0; j<ssp->max_wu_results; j++) {
@@ -392,6 +397,7 @@ static bool scan_work_array() {
             );
         }
 
+recheck:
         if (wu_result.state != WR_STATE_PRESENT && wu_result.state != g_pid) {
             continue;
         }
@@ -424,6 +430,12 @@ static bool scan_work_array() {
             continue;
         }
 
+        if (!sema_locked) {
+            lock_sema();
+            sema_locked = true;
+            goto recheck;
+        }
+
         // mark wu_result as checked out and release semaphore.
         // from here on in this loop, don't continue on failure;
         // instead, goto dont_send (so that we reacquire semaphore)
@@ -434,6 +446,7 @@ static bool scan_work_array() {
 
         wu_result.state = g_pid;
         unlock_sema();
+        sema_locked = false;
 
         switch (slow_check(wu_result, app, bavp)) {
         case 1:
@@ -476,13 +489,14 @@ static bool scan_work_array() {
             }
             break;
         }
-        lock_sema();
         if (!work_needed(false)) {
             no_more_needed = true;
             break;
         }
     }
-    unlock_sema();
+    if (sema_locked) {
+        unlock_sema();
+    }
     return no_more_needed;
 }
 

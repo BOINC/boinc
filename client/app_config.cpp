@@ -27,7 +27,7 @@
 
 bool have_max_concurrent = false;
 
-int APP_CONFIG::parse(XML_PARSER& xp) {
+int APP_CONFIG::parse(XML_PARSER& xp, PROJECT* p) {
     memset(this, 0, sizeof(APP_CONFIG));
 
     while (!xp.get_tag()) {
@@ -45,32 +45,46 @@ int APP_CONFIG::parse(XML_PARSER& xp) {
             }
             continue;
         }
+        if (log_flags.unparsed_xml) {
+            msg_printf(p, MSG_INFO,
+                "Unparsed line in app_info.xml: %s",
+                xp.parsed_tag
+            );
+        }
+        xp.skip_unexpected(log_flags.unparsed_xml, "APP_CONFIG::parse");
     }
     return ERR_XML_PARSE;
 }
 
-int APP_CONFIGS::parse(XML_PARSER& xp) {
+int APP_CONFIGS::parse(XML_PARSER& xp, PROJECT* p) {
     app_configs.clear();
     if (!xp.parse_start("app_config")) return ERR_XML_PARSE;
     while (!xp.get_tag()) {
         if (xp.match_tag("/app_config")) return 0;
         if (xp.match_tag("app")) {
             APP_CONFIG ac;
-            int retval = ac.parse(xp);
+            int retval = ac.parse(xp, p);
             if (!retval) {
                 app_configs.push_back(ac);
             }
             continue;
         }
+        if (log_flags.unparsed_xml) {
+            msg_printf(p, MSG_INFO,
+                "Unparsed line in app_info.xml: %s",
+                xp.parsed_tag
+            );
+        }
+        xp.skip_unexpected(log_flags.unparsed_xml, "APP_CONFIGS::parse");
     }
     return ERR_XML_PARSE;
 }
 
-int APP_CONFIGS::parse_file(FILE* f) {
+int APP_CONFIGS::parse_file(FILE* f, PROJECT* p) {
     MIOFILE mf;
     XML_PARSER xp(&mf);
     mf.init_file(f);
-    int retval = parse(xp);
+    int retval = parse(xp, p);
     return retval;
 }
 
@@ -115,7 +129,7 @@ void check_app_config() {
         msg_printf(p, MSG_INFO,
             "Found %s", APP_CONFIG_FILE_NAME
         );
-        int retval = p->app_configs.parse_file(f);
+        int retval = p->app_configs.parse_file(f, p);
         if (!retval) {
             p->app_configs.config_app_versions(p);
         }
