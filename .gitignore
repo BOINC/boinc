@@ -12,3 +12,8 @@
 # Installshield build directories
 /win_build/installerv2/BOINC
 /win_build/installerv2/BOINCx64
+
+#
+*.pfx
+*.pvk
+*.spc
