@@ -96,6 +96,12 @@ AC_ARG_ENABLE(install-headers,
     [enable_install_headers=${enableval}],
     [enable_install_headers=yes])
 
+AC_ARG_ENABLE(xss,
+    AS_HELP_STRING([--disable-xss],
+                   [disable building the boinc client with the Xss library]),
+    [enable_xss=${enableval}],
+    [enable_xss=yes])
+
 AC_ARG_ENABLE(pkg-libs, 
     AS_HELP_STRING([--enable-pkg-libs],
                    [Builds and installs components that would be present in a
@@ -563,10 +569,12 @@ fi
 AM_CONDITIONAL(BUILD_GRAPHICS_API, [ test "$have_glut" = yes ])
 
 dnl check for X screen saver lib
-AC_CHECK_LIB([Xss], [XScreenSaverAllocInfo], [have_Xss="yes"], [have_Xss="no"])
-AC_CHECK_HEADER([X11/extensions/scrnsaver.h], [have_Xss="yes"], [have_Xss="no"])
-if test "$have_Xss" == no; then
-    AC_MSG_WARN([libxss missing, disabling X ScreenSaver user idle detection])
+if test "$enable_xss" == yes; then
+    AC_CHECK_LIB([Xss], [XScreenSaverAllocInfo], [have_Xss="yes"], [have_Xss="no"])
+    AC_CHECK_HEADER([X11/extensions/scrnsaver.h], [have_Xss="yes"], [have_Xss="no"])
+    if test "$have_Xss" == no; then
+        AC_MSG_WARN([libxss missing, disabling X ScreenSaver user idle detection])
+    fi
 fi
 
 dnl --------------------------------------------------------------------------------
@@ -842,7 +850,7 @@ if test "${ac_cv_func_res_init}" != "yes" ; then
 fi
 LIBS=$svlibs
 
-if test "$have_Xss" == yes; then
+if (test "$enable_xss" == yes) && (test "$have_Xss" == yes); then
     SAH_CHECK_LIB([Xss],[XScreenSaverAllocInfo],[
         AC_DEFINE([HAVE_XSS],[1],[Define to 1 if you have xss library])
         CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])

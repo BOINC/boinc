@@ -7681,3 +7681,10 @@ Charlie 13 Dec 2012
     samples/wrapper/
         BuildMacWrapper.sh
         Makefile_mac
+
+Rom    13 Dec 2012
+    - Apply RustyBSD's patch for selectively disabling the detection of the
+        X screensaver framework in configure.ac
+
+    /
+        configure.ac
