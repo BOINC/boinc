@@ -7674,3 +7674,10 @@ David  12 Dec 2012
         mfile.cpp
     vda/
         vdad.cpp
+
+Charlie 13 Dec 2012
+    - wrapper: Fix build script and Makefile on Mac.
+    
+    samples/wrapper/
+        BuildMacWrapper.sh
+        Makefile_mac

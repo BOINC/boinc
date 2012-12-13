@@ -4,6 +4,7 @@
 BOINC_DIR = ../..
 BOINC_API_DIR = $(BOINC_DIR)/api
 BOINC_LIB_DIR = $(BOINC_DIR)/lib
+BOINC_ZIP_DIR = $(BOINC_DIR)/zip
 BOINC_BUILD_DIR = $(BOINC_DIR)/mac_build/build/Deployment
 BOINC_CONFIG_DIR =  $(BOINC_DIR)/clientgui/mac
 
@@ -13,8 +14,10 @@ CXXFLAGS = $(VARIANTFLAGS) \
     -I$(BOINC_DIR) \
     -I$(BOINC_LIB_DIR) \
     -I$(BOINC_API_DIR) \
+    -I$(BOINC_ZIP_DIR) \
     -L$(BOINC_API_DIR) \
     -L$(BOINC_LIB_DIR) \
+    -L$(BOINC_ZIP_DIR) \
     -L$(BOINC_BUILD_DIR) \
     -L.
 
@@ -27,6 +30,28 @@ clean:
 
 distclean:
 	/bin/rm -f $(PROGS) *.o
-	
-wrapper: wrapper.o
-	g++ $(CXXFLAGS) -o wrapper wrapper.o -pthread -lboinc_api -lboinc
+
+REGEXP_OBJS = \
+	regexp.o \
+	regsub.o \
+	regerror.o \
+	regexp_memory.o \
+	regexp_report.o
+
+regexp.o: regexp.c
+	$(CXX) $(CXXFLAGS) -c regexp.c
+
+regsub.o: regsub.c
+	$(CXX) $(CXXFLAGS) -c regsub.c
+
+regerror.o: regerror.c
+	$(CXX) $(CXXFLAGS) -c regerror.c
+
+regexp_memory.o: regexp_memory.c
+	$(CXX) $(CXXFLAGS) -c regexp_memory.c
+
+regexp_report.o: regexp_report.c
+	$(CXX) $(CXXFLAGS) -c regexp_report.c
+
+wrapper: wrapper.o $(REGEXP_OBJS)
+	$(CXX) $(CXXFLAGS) -o wrapper wrapper.o $(REGEXP_OBJS) -pthread -lboinc_api -lboinc -lboinc_zip
