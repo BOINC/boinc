@@ -7688,3 +7688,10 @@ Rom    13 Dec 2012
 
     /
         configure.ac
+
+Rom    13 Dec 2012
+    - SCR: Include the compiled X11 screensaver app in the self extracting
+        archive distro of the client software.
+
+    packages\generic\sea\
+        Makefile.am
