@@ -137,7 +137,7 @@ $m66 = array(
 
 $m70cdev = array(
 	"num"=>"7.0.42",
-	"status"=>"Recommended version (Unix command-line version)",
+	"status"=>"Development version (Unix command-line version)",
 	"file"=>"boinc_7.0.42_i686-apple-darwin.zip",
 	"date"=>"14 Dev 2012",
 	"type"=>"bare_core",
