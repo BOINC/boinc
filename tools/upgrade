@@ -6,6 +6,8 @@
 Usage: upgrade [options] project_root
 Options:
   --srcdir          default: current directory
+  --web_only        copy only web (PHP) files
+  --server_only     copy everything except web files
 
 Copy source/build files to a project tree,
 overwriting what's already there.

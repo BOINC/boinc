@@ -7695,3 +7695,16 @@ Rom    13 Dec 2012
 
     packages\generic\sea\
         Makefile.am
+
+David  14 Dec 2012
+    - server (start script and server_status.php):
+        Support projects (e.g. Einstein@home) in which server components run on
+        machines with no shared filesystem.
+        From Bernd.
+
+    html/user/
+        server_status.php
+    sched/
+        start
+    tools/
+        upgrade

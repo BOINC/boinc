@@ -46,16 +46,16 @@ array(
     'BOINC Monitor shows BOINC tasks progress. Resizable! Save settings to file.  Color changeable for all gadget\'s elements, include background. You can add new BOINC projects in XML list file.',
     '1305409902'
 ),
-array(
-    'http://boincdotnet.tnmshouse.com/',
-    'Boinc.NET',
-    'beta',
-    'A GUI for managing groups of BOINC clients',
-    'http://boincdotnet.tnmshouse.com/',
-    'Windows, .NET 3.5 required',
-    'A GUI for managing groups of BOINC clients',
-    '1266617628'
-),
+//array(
+//    'http://boincdotnet.tnmshouse.com/',
+//    'Boinc.NET',
+//    'beta',
+//    'A GUI for managing groups of BOINC clients',
+//    'http://boincdotnet.tnmshouse.com/',
+//    'Windows, .NET 3.5 required',
+//    'A GUI for managing groups of BOINC clients',
+//    '1266617628'
+//),
 array(
     'http://www.efmer.eu/boinc/boinc_tasks/download.html',
     'BoincTasks',
@@ -252,6 +252,16 @@ array('http://mion.faireal.net/BES/',
 );
 
 $linux = array(
+array(
+    'http://code.google.com/p/boinctui/',
+    'boinctui',
+    '',
+    'Fullscreen text mode manager for BOINC',
+    'http://code.google.com/p/boinctui/',
+    'Linux',
+    'boinctui is a full-featured curses-based text user interface for BOINC.  It can manage local and remote clients, and allows you to switch between clients with a hot key.',
+    1355388740
+),
 array(
     'http://www.efmer.eu/boinc/boinc_tasks/download.html',
     'BoincTasks',
