@@ -32,10 +32,10 @@ function type_text($type) {
 }
 
 $w70dev = array(
-	"num"=>"7.0.31",
+	"num"=>"7.0.42",
 	"status"=>"Development version",
-	"file"=>"boinc_7.0.31_windows_intelx86.exe",
-	"date"=>"7 July 2012",
+	"file"=>"boinc_7.0.42_windows_intelx86.exe",
+	"date"=>"14 Dec 2012",
 	"type"=>"win_new",
 );
 
@@ -72,10 +72,10 @@ $w5816 = array(
 );
 
 $w70x64dev = array(
-	"num"=>"7.0.31",
+	"num"=>"7.0.42",
 	"status"=>"Development version",
-	"file"=>"boinc_7.0.31_windows_x86_64.exe",
-	"date"=>"7 July 2012",
+	"file"=>"boinc_7.0.42_windows_x86_64.exe",
+	"date"=>"14 Dec 2012",
 	"type"=>"win_new",
 );
 
@@ -93,6 +93,14 @@ $w612x64 = array(
 	"file"=>"boinc_6.12.34_windows_x86_64.exe",
 	"date"=>"28 July 2011",
 	"type"=>"win_new",
+);
+
+$m70dev = array(
+	"num"=>"7.0.42",
+	"status"=>"Development version (standard GUI)",
+	"file"=>"boinc_7.0.42_macOSX_i686.zip",
+	"date"=>"14 Dec 2012",
+	"type"=>"mac_advanced",
 );
 
 $m70 = array(
@@ -125,6 +133,14 @@ $m66 = array(
     "file"=>"boinc_6.6.36_macOSX_universal.zip",
     "date"=>"10 June 2009",
     "type"=>"mac_advanced",
+);
+
+$m70cdev = array(
+	"num"=>"7.0.42",
+	"status"=>"Recommended version (Unix command-line version)",
+	"file"=>"boinc_7.0.42_i686-apple-darwin.zip",
+	"date"=>"14 Dev 2012",
+	"type"=>"bare_core",
 );
 
 $m70c = array(
@@ -176,10 +192,10 @@ $l66 = array(
 	);
 
 $l70ubuntudev = array(
-	"num"=>"7.0.31",
+	"num"=>"7.0.42",
 	"status"=>"Development version",
-	"file"=>"boinc_7.0.31_i686-pc-linux-gnu.sh",
-	"date"=>"7 July 2012",
+	"file"=>"boinc_7.0.42_i686-pc-linux-gnu.sh",
+	"date"=>"14 Dec 2012",
 	"type"=>"sea",
 );
 
@@ -200,10 +216,10 @@ $l612ubuntu = array(
 );
 
 $l70ubuntux64dev = array(
-	"num"=>"7.0.31",
+	"num"=>"7.0.42",
 	"status"=>"Development version",
-	"file"=>"boinc_7.0.31_x86_64-pc-linux-gnu.sh",
-	"date"=>"7 July 2012",
+	"file"=>"boinc_7.0.42_x86_64-pc-linux-gnu.sh",
+	"date"=>"14 Dec 2012",
 	"type"=>"sea",
 );
 
@@ -256,7 +272,9 @@ $mac = array(
     "description"=>"Version 10.4.0+",
     "dbname" => "x86_64-apple-darwin",
     "versions"=>array(
+		$m70dev,
 		$m70,
+		$m70cdev,
 		$m70c,
 		$m612,
 		$m612c,
