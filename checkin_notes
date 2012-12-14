@@ -7708,3 +7708,9 @@ David  14 Dec 2012
         start
     tools/
         upgrade
+
+Charlie 13 Dec 2012
+    - Mgr: Fix delay displaying notices.
+
+    clientgui/
+        NoticeListCtrl.cpp

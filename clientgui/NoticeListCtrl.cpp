@@ -415,7 +415,7 @@ bool CNoticeListCtrl::Create( wxWindow* parent )
     // Display the empty notice notification until we have some
     // notices to display.
     m_bDisplayEmptyNotice = true;
-    m_bComputerChanged = true;
+    m_bComputerChanged = false;
 
     return TRUE;
 }
@@ -545,6 +545,7 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const {
 void CNoticeListCtrl::Clear() {
     SetItemCount(0);
     m_bComputerChanged = true;
+    UpdateUI();
 }
 
 
