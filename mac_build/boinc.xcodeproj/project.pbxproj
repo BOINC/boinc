@@ -3616,7 +3616,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"../../wxMac-2.8.10/src/build/Deployment/",
 					"\"$(SRCROOT)/../../wxMac-2.8.10/src/build/Deployment\"",
-					"/../../sqlite-autoconf-3071401/.libs/",
+					"../../sqlite-autoconf-3071401/.libs/",
 				);
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
@@ -3663,7 +3663,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"../../wxMac-2.8.10/src/build/Deployment/",
 					"\"$(SRCROOT)/../../wxMac-2.8.10/src/build/Deployment\"",
-					"/../../sqlite-autoconf-3071401/.libs/",
+					"../../sqlite-autoconf-3071401/.libs/",
 				);
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
