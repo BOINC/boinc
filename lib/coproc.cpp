@@ -326,7 +326,9 @@ void COPROCS::summary_string(char* buf, int len) {
     }
     if (intel_gpu.count) {
         sprintf(buf2,"[INTEL|%s|%d|%dMB|%s]",
-            intel_gpu.name, intel_gpu.count, intel_gpu.opencl_prop.global_mem_size/MEGA, intel_gpu.version
+            intel_gpu.name, intel_gpu.count,
+            (int)(intel_gpu.opencl_prop.global_mem_size/MEGA),
+            intel_gpu.version
         );
         strlcat(buf, buf2, len);
     }
@@ -1041,3 +1043,5 @@ const char* proc_type_name(int pt) {
     }
     return "unknown";
 }
+
+
