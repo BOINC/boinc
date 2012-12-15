@@ -7709,8 +7709,15 @@ David  14 Dec 2012
     tools/
         upgrade
 
-Charlie 13 Dec 2012
+Charlie 14 Dec 2012
     - Mgr: Fix delay displaying notices.
 
     clientgui/
         NoticeListCtrl.cpp
+
+Charlie 14 Dec 2012
+    - OpenCL: Eliminate spurious error message when an OpenCL platform exists 
+        but the computer has no corresponding devices.
+        
+    client/
+        gpu_opencl.cpp

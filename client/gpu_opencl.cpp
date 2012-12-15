@@ -192,6 +192,9 @@ void COPROCS::get_opencl(
             platforms[platform_index], CL_DEVICE_TYPE_GPU,
             MAX_COPROC_INSTANCES, devices, &num_devices
         );
+        
+        if (ciErrNum == CL_DEVICE_NOT_FOUND) continue;  // No devices
+
         if (ciErrNum != CL_SUCCESS) {
             msg_printf(0, MSG_INFO,
                 "Couldn't get Device IDs for platform #%d: error %d", platform_index, ciErrNum
