@@ -7740,3 +7740,9 @@ Charlie 18 Dec 2012
     clientgui/
         BOINCHtmlLBox.cpp,.h
         BOINCInternetFSHandler.cpp
+
+Charlie 18 Dec 2012
+    - Mgr: Fix bad line endings.
+    
+    clientgui/
+        ViewNotices.cpp,.h
