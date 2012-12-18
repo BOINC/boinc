@@ -116,8 +116,8 @@ public:
 
     int GetItemHeight(size_t i) { return (int)OnGetItemHeight(i); }
 
-private:
     bool    m_bDisplayEmptyNotice;
+private:
     bool    m_bComputerChanged;
 #ifdef __WXMAC__
     CNoticeListCtrlAccessible*    m_accessible;

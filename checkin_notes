@@ -7746,3 +7746,10 @@ Charlie 18 Dec 2012
     
     clientgui/
         ViewNotices.cpp,.h
+
+Charlie 18 Dec 2012
+    - Mgr: More robust way to display "No notices" message.
+    
+    clientgui/
+        NoticeListCtrl.cpp,.h
+        ViewNotices.cpp,.h

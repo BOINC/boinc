@@ -63,6 +63,12 @@ CViewNotices::CViewNotices(wxNotebook* pNotebook) :
     itemFlexGridSizer->Add(m_pHtmlListPane, 1, wxGROW|wxALL, 1);
 
     SetSizer(itemFlexGridSizer);
+    
+    m_StatusText = new wxStaticText(
+                                    this, wxID_ANY, 
+                                    _("There are no notices at this time."), 
+                                    wxPoint(20, 20), wxDefaultSize, 0
+                                    );
 }
 
 
@@ -117,7 +123,7 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
     wxASSERT(pDoc);
 	wxASSERT(m_pHtmlListPane);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
+    
     if (s_bInProgress) return;
     s_bInProgress = true;
 
@@ -131,7 +137,7 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
 
     // Don't call Freeze() / Thaw() here because it causes an unnecessary redraw
     m_pHtmlListPane->UpdateUI();
-
+    m_StatusText->Show(m_pHtmlListPane->m_bDisplayEmptyNotice);
     pDoc->UpdateUnreadNoticeState();
 
     s_bInProgress = false;
