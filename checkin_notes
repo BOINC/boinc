@@ -7733,3 +7733,10 @@ David  18 Dec 2012
         app.cpp
         makefile_sim
         sim.cpp
+
+Charlie 18 Dec 2012
+    - Mgr: Fix potential crashes displaying notices asynchronously on Windows.
+    
+    clientgui/
+        BOINCHtmlLBox.cpp,.h
+        BOINCInternetFSHandler.cpp

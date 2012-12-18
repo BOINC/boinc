@@ -37,6 +37,9 @@ const wxChar BOINCHtmlListBoxNameStr[] = wxT("BOINCHtmlListBox");
 
 IMPLEMENT_ABSTRACT_CLASS(CBOINCHtmlListBox, wxHtmlListBox)
 
+BEGIN_EVENT_TABLE(CBOINCHtmlListBox, wxHtmlListBox)
+    EVT_MOTION(CBOINCHtmlListBox::OnMouseMove)
+END_EVENT_TABLE()
 
 // ----------------------------------------------------------------------------
 // CBOINCHtmlListBox creation
@@ -84,18 +87,3 @@ CBOINCHtmlListBox::OnHTMLOpeningURL(wxHtmlURLType (type),
     
     return wxHTML_OPEN;
 }
-
-wxCoord CBOINCHtmlListBox::OnMeasureItem(size_t n) const {
-    CMainDocument* pDoc      = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    
-    size_t x = pDoc->notices.notices.size();
-    if (n < x) {
-        NOTICE *ntc = pDoc->notices.notices[n];
-        if (ntc == NULL) return 0;
-        return wxHtmlListBox::OnMeasureItem(n);
-    }
-    return 0;
-}
-

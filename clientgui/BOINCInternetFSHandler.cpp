@@ -21,15 +21,20 @@ class MemFSHashObj : public wxObject
 public:
     MemFSHashObj(wxInputStream* stream, const wxString& mime)
     {
-        wxMemoryOutputStream out;
-        stream->Read(out);
-        m_Len = out.GetSize();
-        m_Data = new char[m_Len];
-        out.CopyTo(m_Data, m_Len);
+        if (stream) {
+            wxMemoryOutputStream out;
+            stream->Read(out);
+            m_Len = out.GetSize();
+            m_Data = new char[m_Len];
+            out.CopyTo(m_Data, m_Len);
+        } else {
+            m_Len = 0;
+            m_Data = NULL;
+        }
         m_MimeType = mime;
         m_Time = wxDateTime::Now();
     }
-
+    
     virtual ~MemFSHashObj()
     {
         delete[] m_Data;
@@ -242,7 +247,6 @@ size_t wxWinINetInputStream::OnSysRead(void *buffer, size_t bufsize)
             if ((lError == WSAEWOULDBLOCK) || (lError == ERROR_IO_PENDING)){
                 while (!operationEnded) {
                     if (b_ShuttingDown || (!pDoc->IsConnected())) {
-//                    if (b_ShuttingDown) {
                         SetError(wxSTREAM_EOF);
                         return 0;
                     }
@@ -320,6 +324,12 @@ wxWinINetInputStream::~wxWinINetInputStream()
 
 wxInputStream *wxWinINetURL::GetInputStream(wxURL *owner)
 {
+static bool bAlreadyRunning = false;
+    if (bAlreadyRunning) {
+        printf(stderr, "wxWinINetURL::GetInputStream reentered!");
+        return NULL;
+    }
+    bAlreadyRunning = true;
     DWORD service;
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
@@ -327,6 +337,7 @@ wxInputStream *wxWinINetURL::GetInputStream(wxURL *owner)
 
     if (b_ShuttingDown || (!pDoc->IsConnected())) {
         GetSessionHandle(); // Closes the session
+        bAlreadyRunning = false;
         return 0;
     }
     
@@ -340,6 +351,7 @@ wxInputStream *wxWinINetURL::GetInputStream(wxURL *owner)
     }
     else
     {
+        bAlreadyRunning = false;
         // unknown protocol. Let wxURL try another method.
         return 0;
     }
@@ -370,8 +382,10 @@ wxInputStream *wxWinINetURL::GetInputStream(wxURL *owner)
                 delete newStream;
                 newStream = NULL;
             }
+            bAlreadyRunning = false;
             return 0;
         }
+        
         wxGetApp().Yield(true);
     }
 
@@ -380,13 +394,23 @@ wxInputStream *wxWinINetURL::GetInputStream(wxURL *owner)
             (!b_ShuttingDown)
         ) {
             INTERNET_ASYNC_RESULT* res = (INTERNET_ASYNC_RESULT*)lastlpvStatusInformation;
-            newStreamHandle = (HINTERNET)(res->dwResult);
+            if (res) {
+                newStreamHandle = (HINTERNET)(res->dwResult);
+            } else {
+                newStreamHandle = NULL;
+            }
+    }
+    
+    if (!newStreamHandle) {
+        bAlreadyRunning = false;
+        return NULL;
     }
 
     newStream->Attach(newStreamHandle);
 
     InternetSetStatusCallback(newStreamHandle, BOINCInternetStatusCallback);    // IS THIS NEEDED???
 
+bAlreadyRunning = false;
     return newStream;
 }
 
@@ -480,29 +504,25 @@ wxFSFile* CBOINCInternetFSHandler::OpenFile(wxFileSystem& WXUNUSED(fs), const wx
                     strMIME = GetMimeTypeFromExt(strLocation);
                 }
 
-                if (m_InputStream)
-                {
-                    obj = new MemFSHashObj(m_InputStream, strMIME);
-                    delete m_InputStream;
-                    m_InputStream = NULL;
- 
-                    // If we couldn't read image, then return NULL so 
-                    // image tag handler displays "broken image" bitmap
-                    if (obj->m_Len == 0) {
-                        delete obj;
-                        return NULL;
-                   }
- 
-                    m_Hash->Put(strLocation, obj);
-                    
-                    return new wxFSFile (
-                        new wxMemoryInputStream(obj->m_Data, obj->m_Len),
-                        strLocation,
-                        strMIME,
-                        GetAnchor(strLocation),
-                        obj->m_Time
-                    );
+                obj = new MemFSHashObj(m_InputStream, strMIME);
+                delete m_InputStream;
+                m_InputStream = NULL;
+
+                m_Hash->Put(strLocation, obj);
+                
+                // If we couldn't read image, then return NULL so 
+                // image tag handler displays "broken image" bitmap
+                if (obj->m_Len == 0) {
+                    return NULL;
                 }
+
+                return new wxFSFile (
+                    new wxMemoryInputStream(obj->m_Data, obj->m_Len),
+                    strLocation,
+                    strMIME,
+                    GetAnchor(strLocation),
+                    obj->m_Time
+                );
             }
         }
         else
@@ -510,6 +530,12 @@ wxFSFile* CBOINCInternetFSHandler::OpenFile(wxFileSystem& WXUNUSED(fs), const wx
             strMIME = obj->m_MimeType;
             if ( strMIME.empty() ) {
                 strMIME = GetMimeTypeFromExt(strLocation);
+            }
+
+            // If we couldn't read image, then return NULL so 
+            // image tag handler displays "broken image" bitmap
+            if (obj->m_Len == 0) {
+                return NULL;
             }
 
             return new wxFSFile (

@@ -65,12 +65,17 @@ protected:
     wxColour GetSelectedTextColour(const wxColour& colFg) const { return colFg; }
     wxColour GetSelectedTextBgColour(const wxColour& colBg) const { return colBg; }
     void OnDrawBackground(wxDC&, const wxRect&, size_t) const {}
-    wxCoord OnMeasureItem(size_t n) const;
+
+    // The following overrides of methods in wxHtmlListBox 
+    // reduce CPU usage and avoid crashes
+    void OnMouseMove(wxMouseEvent&) {}
+    void OnInternalIdle() {}
 
 private:
      virtual wxHtmlOpeningStatus OnHTMLOpeningURL(wxHtmlURLType type,
                                                  const wxString& url,
                                                  wxString *redirect) const;
+    DECLARE_EVENT_TABLE()
     DECLARE_NO_COPY_CLASS(CBOINCHtmlListBox)
 };
 
