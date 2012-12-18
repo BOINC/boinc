@@ -502,7 +502,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
 #if 0
         p = next_project_sched_rpc_pending();
         if (p) {
-            work_fetch.compute_work_request(p);
+            work_fetch.piggyback_work_request(p);
             action = simulate_rpc(p);
             break;
         }
@@ -511,7 +511,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         p = find_project_with_overdue_results(false);
         if (p) {
             //printf("doing RPC to %s to report results\n", p->project_name);
-            work_fetch.compute_work_request(p);
+            work_fetch.piggyback_work_request(p);
             action = simulate_rpc(p);
             break;
         }

@@ -7725,3 +7725,11 @@ Charlie 14 Dec 2012
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  18 Dec 2012
+    - client simulator: fix build errors
+
+    client/
+        app.cpp
+        makefile_sim
+        sim.cpp
