@@ -7753,3 +7753,9 @@ Charlie 18 Dec 2012
     clientgui/
         NoticeListCtrl.cpp,.h
         ViewNotices.cpp,.h
+
+Charlie 18 Dec 2012
+    - Mgr: Shorten Internet timeout for notices on Windows to 5 seconds.
+    
+    clientgui/
+        BOINCHtmlLBox.cpp

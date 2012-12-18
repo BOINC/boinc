@@ -15,6 +15,9 @@
 #include "BOINCInternetFSHandler.h"
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
+#include "util.h"
+
+#define STANDARD_INTERNET_DELAY 5
 
 class MemFSHashObj : public wxObject
 {
@@ -240,14 +243,18 @@ size_t wxWinINetInputStream::OnSysRead(void *buffer, size_t bufsize)
         bufs.dwBufferLength = (DWORD)bufsize;
 
         lastInternetStatus = 0;
+        double endtimeout = dtime() + STANDARD_INTERNET_DELAY;
         complete = InternetReadFileEx(m_hFile, &bufs,  IRF_ASYNC | IRF_USE_CONTEXT, 2);
         
         if (!complete) {
             lError = ::GetLastError();
             if ((lError == WSAEWOULDBLOCK) || (lError == ERROR_IO_PENDING)){
                 while (!operationEnded) {
-                    if (b_ShuttingDown || (!pDoc->IsConnected())) {
-                        SetError(wxSTREAM_EOF);
+                    if (b_ShuttingDown || 
+                        (!pDoc->IsConnected()) || 
+                        (dtime() > endtimeout)
+                    ) {
+                         SetError(wxSTREAM_EOF);
                         return 0;
                     }
                     wxGetApp().Yield(true);
@@ -326,7 +333,7 @@ wxInputStream *wxWinINetURL::GetInputStream(wxURL *owner)
 {
 static bool bAlreadyRunning = false;
     if (bAlreadyRunning) {
-        printf(stderr, "wxWinINetURL::GetInputStream reentered!");
+        fprintf(stderr, "wxWinINetURL::GetInputStream reentered!");
         return NULL;
     }
     bAlreadyRunning = true;
@@ -359,6 +366,7 @@ static bool bAlreadyRunning = false;
     wxWinINetInputStream *newStream = new wxWinINetInputStream;
     
     operationEnded = false;
+    double endtimeout = dtime() + STANDARD_INTERNET_DELAY;
 
     HINTERNET newStreamHandle = InternetOpenUrl
                                 (
@@ -372,7 +380,10 @@ static bool bAlreadyRunning = false;
                                 );
                               
     while (!operationEnded) {
-        if (b_ShuttingDown || (!pDoc->IsConnected())) {
+        if (b_ShuttingDown || 
+            (!pDoc->IsConnected()) || 
+            (dtime() > endtimeout)
+            ) {
             GetSessionHandle(); // Closes the session
             if (newStreamHandle) {
                 delete newStreamHandle;
