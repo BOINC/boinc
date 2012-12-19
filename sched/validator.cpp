@@ -101,6 +101,7 @@ bool credit_from_wu = false;
 bool credit_from_runtime = false;
 double max_runtime = 0;
 bool no_credit = false;
+bool dry_run = false;
 
 WORKUNIT* g_wup;
 vector<DB_APP_VERSION> app_versions;
@@ -142,17 +143,21 @@ int is_valid(
     if (update_credited_job) {
         credited_job.userid = host.userid;
         credited_job.workunitid = long(wu.opaque);
-        retval = credited_job.insert();
-        if (retval) {
-            log_messages.printf(MSG_CRITICAL,
-                "[RESULT#%u] Warning: credited_job insert failed (userid: %d workunit: %f err: %s)\n",
-                result.id, host.userid, wu.opaque, boincerror(retval)
-            );
+        if (dry_run) {
+            log_messages.printf(MSG_NORMAL, "DB not updated (dry run)\n");
         } else {
-            log_messages.printf(MSG_DEBUG,
-                "[RESULT#%u %s] added credited_job record [WU#%u OPAQUE#%f USER#%d]\n",
-                result.id, result.name, wu.id, wu.opaque, host.userid
-            );
+            retval = credited_job.insert();
+            if (retval) {
+                log_messages.printf(MSG_CRITICAL,
+                    "[RESULT#%u] Warning: credited_job insert failed (userid: %d workunit: %f err: %s)\n",
+                    result.id, host.userid, wu.opaque, boincerror(retval)
+                );
+            } else {
+                log_messages.printf(MSG_DEBUG,
+                    "[RESULT#%u %s] added credited_job record [WU#%u OPAQUE#%f USER#%d]\n",
+                    result.id, result.name, wu.id, wu.opaque, host.userid
+                );
+            }
         }
     }
 
@@ -311,15 +316,19 @@ int handle_wu(
                 is_invalid(havv[0]);
             }
             if (hav.host_id && update_hav) {
-                log_messages.printf(MSG_NORMAL,
-                    "[HOST#%d AV#%d] [outlier=%d] Updating HAV in db.  pfc.n=%f->%f\n",
-                    havv[0].host_id, havv[0].app_version_id, result.runtime_outlier, hav_orig.pfc.n,havv[0].pfc.n);
-                retval=havv[0].update_validator(hav_orig);
-                if (retval) {
-                    log_messages.printf(MSG_CRITICAL,
-                        "[HOST#%d AV%d] hav.update_validator() failed: %s\n",
-                        hav.host_id, hav.app_version_id, boincerror(retval)
-                    );
+                if (dry_run) {
+                    log_messages.printf(MSG_NORMAL, "DB not updated (dry run)\n");
+                } else {
+                    log_messages.printf(MSG_NORMAL,
+                        "[HOST#%d AV#%d] [outlier=%d] Updating HAV in db.  pfc.n=%f->%f\n",
+                        havv[0].host_id, havv[0].app_version_id, result.runtime_outlier, hav_orig.pfc.n,havv[0].pfc.n);
+                    retval=havv[0].update_validator(hav_orig);
+                    if (retval) {
+                        log_messages.printf(MSG_CRITICAL,
+                            "[HOST#%d AV%d] hav.update_validator() failed: %s\n",
+                            hav.host_id, hav.app_version_id, boincerror(retval)
+                        );
+                    }
                 }
             }
             host.update_diff_validator(host_initial);
@@ -328,13 +337,16 @@ int handle_wu(
                     "[RESULT#%u %s] granted_credit %f\n",
                     result.id, result.name, result.granted_credit
                 );
-
-                retval = validator.update_result(result);
-                if (retval) {
-                    log_messages.printf(MSG_CRITICAL,
-                        "[RESULT#%u %s] Can't update result: %s\n",
-                        result.id, result.name, boincerror(retval)
-                    );
+                if (dry_run) {
+                    log_messages.printf(MSG_NORMAL, "DB not updated (dry run)\n");
+                } else {
+                    retval = validator.update_result(result);
+                    if (retval) {
+                        log_messages.printf(MSG_CRITICAL,
+                            "[RESULT#%u %s] Can't update result: %s\n",
+                            result.id, result.name, boincerror(retval)
+                        );
+                    }
                 }
             }
         }
@@ -537,28 +549,32 @@ int handle_wu(
                     break;
                 }
 
-                if (hav.host_id) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[HOST#%d AV#%d] [outlier=%d] Updating HAV in db.  pfc.n=%f->%f\n",
-                        hav.host_id, hav.app_version_id, result.runtime_outlier, hav_orig.pfc.n,hav.pfc.n);
-                    retval = hav.update_validator(hav_orig);
-                    if (retval) {
-                        log_messages.printf(MSG_CRITICAL,
-                            "[HOST#%d AV%d] hav.update_validator() failed: %s\n",
-                            hav.host_id, hav.app_version_id, boincerror(retval)
-                        );
+                if (dry_run) {
+                    log_messages.printf(MSG_NORMAL, "DB not updated (dry run)\n");
+                } else {
+                    if (hav.host_id) {
+                        log_messages.printf(MSG_NORMAL,
+                            "[HOST#%d AV#%d] [outlier=%d] Updating HAV in db.  pfc.n=%f->%f\n",
+                            hav.host_id, hav.app_version_id, result.runtime_outlier, hav_orig.pfc.n,hav.pfc.n);
+                        retval = hav.update_validator(hav_orig);
+                        if (retval) {
+                            log_messages.printf(MSG_CRITICAL,
+                                "[HOST#%d AV%d] hav.update_validator() failed: %s\n",
+                                hav.host_id, hav.app_version_id, boincerror(retval)
+                            );
+                        }
                     }
-                }
-                if (update_host) {
-                    retval = host.update_diff_validator(host_initial);
-                }
-                if (update_result) {
-                    retval = validator.update_result(result);
-                    if (retval) {
-                        log_messages.printf(MSG_CRITICAL,
-                            "[RESULT#%u %s] result.update() failed: %s\n",
-                            result.id, result.name, boincerror(retval)
-                        );
+                    if (update_host) {
+                        retval = host.update_diff_validator(host_initial);
+                    }
+                    if (update_result) {
+                        retval = validator.update_result(result);
+                        if (retval) {
+                            log_messages.printf(MSG_CRITICAL,
+                                "[RESULT#%u %s] result.update() failed: %s\n",
+                                result.id, result.name, boincerror(retval)
+                            );
+                        }
                     }
                 }
             }
@@ -588,12 +604,16 @@ int handle_wu(
 
                     result.server_state = RESULT_SERVER_STATE_OVER;
                     result.outcome = RESULT_OUTCOME_DIDNT_NEED;
-                    retval = validator.update_result(result);
-                    if (retval) {
-                        log_messages.printf(MSG_CRITICAL,
-                            "[RESULT#%u %s] result.update() failed: %s\n",
-                            result.id, result.name, boincerror(retval)
-                        );
+                    if (dry_run) {
+                        log_messages.printf(MSG_NORMAL, "DB not updated (dry run)\n");
+                    } else {
+                        retval = validator.update_result(result);
+                        if (retval) {
+                            log_messages.printf(MSG_CRITICAL,
+                                "[RESULT#%u %s] result.update() failed: %s\n",
+                                result.id, result.name, boincerror(retval)
+                            );
+                        }
                     }
                 }
             } else {
@@ -639,13 +659,17 @@ leave:
 
     wu.need_validate = 0;
     
-    retval = validator.update_workunit(wu);
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL,
-            "[WU#%u %s] update_workunit() failed: %s\n",
-            wu.id, wu.name, boincerror(retval)
-        );
-        return retval;
+    if (dry_run) {
+        log_messages.printf(MSG_NORMAL, "DB not updated (dry run)\n");
+    } else {
+        retval = validator.update_workunit(wu);
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL,
+                "[WU#%u %s] update_workunit() failed: %s\n",
+                wu.id, wu.name, boincerror(retval)
+            );
+            return retval;
+        }
     }
     return 0;
 }
@@ -730,6 +754,7 @@ int main(int argc, char** argv) {
       "Optional arguments:\n"
       "  --one_pass_N_WU N       Validate at most N WUs, then exit\n"
       "  --one_pass              Make one pass through WU table, then exit\n"
+      "  --dry_run               Don't update db, just write logs (for debugging)\n"
       "  --mod n i               Process only WUs with (id mod n) == i\n"
       "  --max_granted_credit X  Grant no more than this amount of credit to a result\n"
       "  --update_credited_job   Add record to credited_job table after granting credit\n"
@@ -759,6 +784,8 @@ int main(int argc, char** argv) {
             one_pass = true;
         } else if (is_arg(argv[i], "sleep_interval")) {
             sleep_interval = atoi(argv[++i]);
+        } else if (is_arg(argv[i], "dry_run")) {
+            dry_run = true;
         } else if (is_arg(argv[i], "one_pass")) {
             one_pass = true;
         } else if (is_arg(argv[i], "app")) {
