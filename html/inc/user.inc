@@ -163,9 +163,9 @@ function show_user_stats_private($user) {
     row2(tra("Cross-project statistics"), $x);
     $x = '<a href="cert1.php">'.tra("Account").'</a>';
     if ($user->teamid) {
-        $x .= ' | <a href="cert_team.php">'.tra("Team").'</a>';
+        $x .= ' &middot; <a href="cert_team.php">'.tra("Team").'</a>';
     }
-    $x .= ' | <a href="cert_all.php">'.tra("Cross-project").'</a>';
+    $x .= ' &middot; <a href="cert_all.php">'.tra("Cross-project").'</a>';
     row2(tra("Certificate"), $x);
     row2(tra("Stats on your cell phone"), URL_BASE."userw.php?id=$user->id");
 }
@@ -208,8 +208,8 @@ function show_user_info_private($user) {
     row2(tra("%1 member since", PROJECT), date_str($user->create_time));
     $url_tokens = url_tokens($user->authenticator);
     row2(tra("Change"), "<a href=\"edit_email_form.php\">".tra("email address")."</a>
-        | <a href=\"".SECURE_URL_BASE."/edit_passwd_form.php\">".tra("password")."</a>
-        | <a href=\"edit_user_info_form.php?$url_tokens\">".tra("other account info")."</a>"
+        &middot; <a href=\"".SECURE_URL_BASE."/edit_passwd_form.php\">".tra("password")."</a>
+        &middot; <a href=\"edit_user_info_form.php?$url_tokens\">".tra("other account info")."</a>"
     );
     row2(tra("User ID")."<br/><span class=\"note\">".tra("Used in community functions")."</span>", $user->id);
     if (!no_computing()) {
@@ -240,7 +240,7 @@ function show_community_private($user) {
     row1(tra("Community"));
 
     if ($user->has_profile) {
-        $x = "<a href=\"view_profile.php?userid=$user->id\">".tra("View")."</a> | <a href=\"delete_profile.php\">".tra("Delete")."</a>";
+        $x = "<a href=\"view_profile.php?userid=$user->id\">".tra("View")."</a> &middot; <a href=\"delete_profile.php\">".tra("Delete")."</a>";
     } else {
         $x = "<a href=\"create_profile.php\">".tra("Create")."</a>";
     }
@@ -266,9 +266,9 @@ function show_community_private($user) {
         if ($user->teamid) {
             $team = lookup_team($user->teamid);
             $x = "<a href=\"team_display.php?teamid=$team->id\">$team->name</a>
-                | <a href=\"team_quit_form.php\">".tra("Quit team")."</a>";
+                &middot; <a href=\"team_quit_form.php\">".tra("Quit team")."</a>";
             if (is_team_admin($user, $team)) {
-                $x .= " | <a href=\"team_manage.php?teamid=$user->teamid\">".tra("Administer")."</a>";
+                $x .= " &middot; <a href=\"team_manage.php?teamid=$user->teamid\">".tra("Administer")."</a>";
             }
 
             // if there's a foundership request, notify the founder
@@ -278,7 +278,7 @@ function show_community_private($user) {
             }
             row2(tra("Member of team"), $x);
         } else {
-            row2(tra("Team"), tra("None")." | <a href=\"team_search.php\">".tra("find a team")."</a>");
+            row2(tra("Team"), tra("None")." &middot; <a href=\"team_search.php\">".tra("find a team")."</a>");
         }
         
         $teams_founded = BoincTeam::enum("userid=$user->id");

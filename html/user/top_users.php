@@ -124,7 +124,7 @@ foreach ($data as $user) {
 echo "</table>\n<p>";
 if ($offset > 0) {
     $new_offset = $offset - $users_per_page;
-    echo "<a href=top_users.php?sort_by=$sort_by&amp;offset=$new_offset>".tra("Previous %1", $users_per_page)."</a> | ";
+    echo "<a href=top_users.php?sort_by=$sort_by&amp;offset=$new_offset>".tra("Previous %1", $users_per_page)."</a> &middot; ";
 
 }
 if ($n==$users_per_page){ //If we aren't on the last page

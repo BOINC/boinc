@@ -154,7 +154,7 @@ function display_team_page($team, $user) {
             if ($first) {
                 $first = false;
             } else {
-                $x .= " | ";
+                $x .= " &middot; ";
             }
             $x .= user_links($a);
         }
@@ -168,7 +168,7 @@ function display_team_page($team, $user) {
             if ($first) {
                 $first = false;
             } else {
-                $x .= " | ";
+                $x .= " &middot; ";
             }
             $x .= user_links($a);
         }
@@ -266,7 +266,7 @@ function display_team_members($team, $offset, $sort_by) {
 
     if ($offset > 0) {
         $new_offset = $offset - $n;
-        echo "<a href=team_members.php?teamid=$team->id&amp;sort_by=$sort_by&amp;offset=$new_offset>".tra('Previous %1', $n)."</a> | ";
+        echo "<a href=team_members.php?teamid=$team->id&amp;sort_by=$sort_by&amp;offset=$new_offset>".tra('Previous %1', $n)."</a> &middot; ";
     }
     if ($j == $offset + $n + 1) {
         $new_offset = $offset + $n;

@@ -191,7 +191,7 @@ function show_host($host, $user, $ipprivate) {
         }
         row2(tra("Location"), location_form($host));
         if ($nresults == 0) {
-            $x = " | <a href=host_delete.php?hostid=$host->id".url_tokens($user->authenticator).">".tra("Delete this computer")."</a> ";
+            $x = " &middot; <a href=host_delete.php?hostid=$host->id".url_tokens($user->authenticator).">".tra("Delete this computer")."</a> ";
         } else {
             $x = "";
         }
@@ -627,10 +627,10 @@ function more_or_less($sort, $rev, $show_all) {
     echo "<p>";
     if ($show_all) {
         $url = link_url($sort, $rev, 0);
-        echo tra("Show:")." ".tra("All computers")." | <a href=$url>".tra("Only computers active in past 30 days")."</a>";
+        echo tra("Show:")." ".tra("All computers")." &middot; <a href=$url>".tra("Only computers active in past 30 days")."</a>";
     } else {
         $url = link_url($sort, $rev, 1);
-        echo tra("Show:")." <a href=$url>".tra("All computers")."</a> | ".tra("Only computers active in past 30 days");
+        echo tra("Show:")." <a href=$url>".tra("All computers")."</a> &middot; ".tra("Only computers active in past 30 days");
     }
     echo "<p>";
 }

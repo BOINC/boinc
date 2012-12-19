@@ -119,7 +119,7 @@ function show_login_info($prefix="") {
     ";
     if ($user) {
         $url_tokens = url_tokens($user->authenticator);
-        echo "<nobr>$user->name | <a href=".$prefix."logout.php?$url_tokens>".tra("log out")."</a></nobr>";
+        echo "<nobr>$user->name &middot; <a href=".$prefix."logout.php?$url_tokens>".tra("log out")."</a></nobr>";
     } else {
         echo "<a href=".$prefix."login_form.php>".tra("log in")."</a>";
     }

@@ -23,7 +23,7 @@ require_once("bbcode_html.inc");
 function pm_header() {
     echo "<div>\n";
     echo "    <a href=\"pm.php?action=inbox\">".tra("Inbox")."</a>\n";
-    echo "    | <a href=\"pm.php?action=new\">".tra("Write")."</a>\n";
+    echo "    &middot; <a href=\"pm.php?action=new\">".tra("Write")."</a>\n";
     echo "</div>\n";
 }
 
@@ -175,7 +175,7 @@ function pm_notification($user) {
     if ($unread) {
         $output .= "<span class=\"inboxunread\"> ($unread ".tra("unread").")</span>\n";
     }
-    $output .= " | <a href=\"pm.php?action=new\">".tra("Write")."</a>\n";
+    $output .= " &middot; <a href=\"pm.php?action=new\">".tra("Write")."</a>\n";
     return $output;
 }
 

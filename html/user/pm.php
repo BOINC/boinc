@@ -144,8 +144,8 @@ function do_read($logged_in_user) {
     echo "<tr><th>".tra("Message")."</th><td>".output_transform($message->content, $options)."</td></tr>";
     echo "<tr><td class=\"pm_footer\"></td><td>\n";
     echo "<a href=\"pm.php?action=new&amp;replyto=$id\">".tra("Reply")."</a>\n";
-    echo " | <a href=\"pm.php?action=delete&amp;id=$id\">".tra("Delete")."</a>\n";
-    echo " | <a href=\"pm.php?action=inbox\">".tra("Inbox")."</a>\n";
+    echo " &middot; <a href=\"pm.php?action=delete&amp;id=$id\">".tra("Delete")."</a>\n";
+    echo " &middot; <a href=\"pm.php?action=inbox\">".tra("Inbox")."</a>\n";
     end_table();
 
     if ($message->opened == 0) {

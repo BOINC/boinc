@@ -663,12 +663,12 @@ function show_post(
         echo "<p>", $posttext, "</p>";
         echo "</td></tr><tr><td class=\"postfooter\">ID: <i>", $post->id;
         if ($no_forum_rating) {
-            echo " | <a href=\"forum_report_post.php?post=".$post->id."\">";
+            echo " &middot; <a href=\"forum_report_post.php?post=".$post->id."\">";
             show_image(REPORT_POST_IMAGE, tra("Report this post as offensive"), tra("Report as offensive"), REPORT_POST_IMAGE_HEIGHT);
             echo "</a>";
         } else {
             $rating = $post->rating();
-            echo " | ".tra("Rating: %1", $rating)."</i> | ".tra("rate: ")."
+            echo " &middot; ".tra("Rating: %1", $rating)."</i> &middot; ".tra("rate: ")."
                 <a href=\"forum_rate.php?post=".$post->id."&amp;choice=p$tokens\">
             ";
             show_image(RATE_POSITIVE_IMAGE, tra("Click if you like this message"), tra("Rate +"), RATE_POSITIVE_IMAGE_HEIGHT);

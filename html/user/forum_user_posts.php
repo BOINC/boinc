@@ -122,7 +122,7 @@ if ($offset) {
 		<b>".tra("Previous %1", $items_per_page)."</b>
 		</a>
     ";
-	if ($show_next) echo " | ";
+	if ($show_next) echo " &middot; ";
 }
 
 if ($show_next) {

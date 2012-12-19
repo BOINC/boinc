@@ -7760,3 +7760,23 @@ Charlie 18 Dec 2012
     
     clientgui/
         BOINCInternetFSHandler.cpp,.h
+
+David  18 Dec 2012
+    - web: use &middot; instead of | as a separater
+
+    html/
+        inc/
+            forum.inc
+            host.inc
+            pm.inc
+            team.inc
+            user.inc
+            util.inc
+        user/
+            forum_user_posts.php
+            pm.php
+            submit.php
+            team_manage.php
+            top_hosts.php
+            top_teams.php
+            top_users.php

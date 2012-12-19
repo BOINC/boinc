@@ -389,7 +389,7 @@ function handle_query_job($user) {
     $results = BoincResult::enum("workunitid=$wuid");
     foreach($results as $result) {
         echo "<tr>
-            <td><a href=result.php?resultid=$result->id>$result->id | $result->name </a></td>
+            <td><a href=result.php?resultid=$result->id>$result->id &middot; $result->name </a></td>
             <td>".state_string($result)."</td>
             <td>
 ";
