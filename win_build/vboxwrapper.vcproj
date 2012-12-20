@@ -4,6 +4,7 @@
 	Version="8.00"
 	Name="vboxwrapper"
 	ProjectGUID="{F243B93C-73CB-44E7-9BDC-847BB95C27CA}"
+	RootNamespace="vboxwrapper"
 	>
 	<Platforms>
 		<Platform
@@ -81,13 +82,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="libcmt.lib libcpmt.lib kernel32.lib user32.lib gdi32.lib ole32.lib wsock32.lib psapi.lib"
-				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\vboxwrapper_26013_windows_intelx86.exe"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\vboxwrapper_26014_windows_intelx86.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
 				IgnoreAllDefaultLibraries="true"
 				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\vboxwrapper_26013_windows_intelx86.pdb"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\vboxwrapper_26014_windows_intelx86.pdb"
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -182,13 +183,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="libcmt.lib libcpmt.lib  kernel32.lib user32.lib gdi32.lib ole32.lib wsock32.lib psapi.lib"
-				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\vboxwrapper_26013_windows_x86_64.exe"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\vboxwrapper_26014_windows_x86_64.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
 				IgnoreAllDefaultLibraries="true"
 				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\vboxwrapper_26013_windows_x86_64.pdb"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\vboxwrapper_26014_windows_x86_64.pdb"
 				SubSystem="2"
 				TargetMachine="17"
 			/>

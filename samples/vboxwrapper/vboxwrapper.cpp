@@ -397,6 +397,17 @@ int main(int argc, char** argv) {
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
 
+    retval = vm.initialize();
+    if (retval) {
+        fprintf(
+            stderr,
+            "%s failed to initialize VM Hypervisor environment: %d\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+            retval
+        );
+        boinc_finish(retval);
+    }
+
     // Check to see if the system is in a state in which we expect to be able to run
     // VirtualBox successfully.  Sometimes the system is in a wierd state after a
     // reboot and the system needs a little bit of time.
