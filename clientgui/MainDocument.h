@@ -284,6 +284,7 @@ private:
     int                         m_iNoticeSequenceNumber;
     int                         m_iLastReadNoticeSequenceNumber;
     double                      m_dLastReadNoticeArrivalTime;
+    bool                        m_bWaitingForGetNoticesRPC;
 
 public:
     NOTICES                     notices;

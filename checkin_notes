@@ -7801,6 +7801,11 @@ Charlie 20 Dec 2012
         connection so use a shorter timeout for subsequent calls to OpenURL 
         until one succeeds; otherwise notices takes takes too long to display
         if there are multiple notices with images.
+    - Mgr: Display the fetching notices message until we have notices to 
+         display or have determined that there are no notices.
+    - Mgr: Don't call get_notices RPC before previous one is processed to 
+        prevent multiple display of notices.
 
     clientgui/
+        MainDocument.cpp,.h
         BOINCInternetFSHandler.cpp
