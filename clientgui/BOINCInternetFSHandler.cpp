@@ -1,19 +1,16 @@
-// This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2012 University of California
-//
-// BOINC is free software; you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License
-// as published by the Free Software Foundation,
-// either version 3 of the License, or (at your option) any later version.
-//
-// BOINC is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-// See the GNU Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+/////////////////////////////////////////////////////////////////////////////
+// Name:        src/msw/urlmsw.cpp
+// Purpose:     MS-Windows native URL support based on WinINet
+// Author:      Hajo Kirchhoff
+// Modified by:
+// Created:     06/11/2003
+// RCS-ID:      $Id: urlmsw.cpp 58116 2009-01-15 12:45:22Z VZ $
+// Copyright:   (c) 2003 Hajo Kirchhoff
+// Licence:     wxWindows licence
+/////////////////////////////////////////////////////////////////////////////
+
+// Modified for BOINC from wxWidgets 2.8.10 files src/common/fs_mem.cpp and
+// src/msw/urlmsw.cpp
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma implementation "BOINCInternetFSHandler.h"

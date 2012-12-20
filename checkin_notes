@@ -7794,3 +7794,9 @@ Rom    19 Dec 2012
         vboxwrapper.cpp
     win_build\
         vboxwrapper.vcproj
+
+Charlie 20 Dec 2012
+    - Mgr: fix license declaration in file derived from wxWidgets.
+
+    clientgui/
+        BOINCInternetFSHandler.cpp
