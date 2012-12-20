@@ -167,5 +167,7 @@ void CViewNotices::ReloadNotices() {
     if (internetFSHandler) {
         ((CBOINCInternetFSHandler*)internetFSHandler)->UnchacheMissingItems();
         m_pHtmlListPane->Clear();
+        m_FetchingNoticesText->Show();
+        m_NoNoticesText->Hide();
     }
 }
