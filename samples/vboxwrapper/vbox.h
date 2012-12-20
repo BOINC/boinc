@@ -111,8 +111,9 @@ struct VBOX_VM {
     void cleanup();
     void poll(bool log_state = true);
 
-    bool is_hdd_registered();
+    bool is_system_ready();
     bool is_registered();
+    bool is_hdd_registered();
     bool is_extpack_installed();
 
     int register_vm();

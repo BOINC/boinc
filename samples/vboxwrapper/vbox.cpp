@@ -601,18 +601,21 @@ void VBOX_VM::poll(bool log_state) {
     }
 }
 
-bool VBOX_VM::is_hdd_registered() {
+// Attempt to detect any condition that would prevent VirtualBox from running a VM properly, like:
+// 1. The DCOM service not being started on Windows
+// 2. Vboxmanage not being able to communicate with vboxsvc for some reason
+//
+// Luckly both of the above conditions can be detected by attempting to detect the host information
+// via vboxmanage and it is cross platform.
+//
+bool VBOX_VM::is_system_ready() {
     string command;
     string output;
-    string virtual_machine_root_dir;
 
-    get_slot_directory(virtual_machine_root_dir);
+    command  = "list hostinfo ";
 
-    command = "showhdinfo \"" + virtual_machine_root_dir + "/" + image_filename + "\" ";
-
-    if (vbm_popen(command, output, "hdd registration", false, false) == 0) {
-        if ((output.find("VBOX_E_FILE_ERROR") == string::npos) && (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos)) {
-            // Error message not found in text
+    if (vbm_popen(command, output, "host info", false, false) == 0) {
+        if (output.find("Processor count:") != string::npos) {
             return true;
         }
     }
@@ -628,6 +631,24 @@ bool VBOX_VM::is_registered() {
 
     if (vbm_popen(command, output, "registration", false, false) == 0) {
         if (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos) {
+            // Error message not found in text
+            return true;
+        }
+    }
+    return false;
+}
+
+bool VBOX_VM::is_hdd_registered() {
+    string command;
+    string output;
+    string virtual_machine_root_dir;
+
+    get_slot_directory(virtual_machine_root_dir);
+
+    command = "showhdinfo \"" + virtual_machine_root_dir + "/" + image_filename + "\" ";
+
+    if (vbm_popen(command, output, "hdd registration", false, false) == 0) {
+        if ((output.find("VBOX_E_FILE_ERROR") == string::npos) && (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos)) {
             // Error message not found in text
             return true;
         }

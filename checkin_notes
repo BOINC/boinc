@@ -7780,3 +7780,17 @@ David  18 Dec 2012
             top_hosts.php
             top_teams.php
             top_users.php
+
+Rom    19 Dec 2012
+    - VBOX: Perform a quick check that the wrapper can communicate with
+        vboxsvc via vboxmanage before attempting anything else.  If it
+        fails, get BOINC to reschedule task execution in 5 minutes.
+        
+      NOTE: After a reboot it might take a few moments before everything
+        is in working order.
+        
+    samples\vboxwrapper\
+        vbox.cpp, .h
+        vboxwrapper.cpp
+    win_build\
+        vboxwrapper.vcproj

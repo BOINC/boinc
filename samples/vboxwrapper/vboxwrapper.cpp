@@ -397,6 +397,19 @@ int main(int argc, char** argv) {
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
 
+    // Check to see if the system is in a state in which we expect to be able to run
+    // VirtualBox successfully.  Sometimes the system is in a wierd state after a
+    // reboot and the system needs a little bit of time.
+    //
+    if (!vm.is_system_ready()) {
+        fprintf(
+            stderr,
+            "%s couldn't communicate with VM Hypervisor, telling BOINC to reschedule execution for a later date.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+        boinc_temporary_exit(300, "Communication with VM Hypervisor failed.");
+    }
+
 #if defined(_WIN32) && defined(USE_WINSOCK)
     WSADATA wsdata;
     retval = WSAStartup( MAKEWORD( 1, 1 ), &wsdata);
