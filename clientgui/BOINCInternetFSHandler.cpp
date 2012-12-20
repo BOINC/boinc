@@ -22,7 +22,6 @@
 #include "MainDocument.h"
 #include "util.h"
 
-#define STANDARD_INTERNET_DELAY 5
 
 class MemFSHashObj : public wxObject
 {
@@ -64,6 +63,16 @@ static bool b_ShuttingDown = false;
 #ifdef __WXMSW__
 // *** code adapted from src/msw/urlmsw.cpp (wxWidgets 2.8.10)
 
+// If OpenURL fails, we probably don't have a connection to 
+// the Internet, so use a shorter timeout for subsequent calls
+// to OpenURL until one succeeds.
+// Otherwise notices takes too long to display if there are
+// multiple notices with images.
+
+#define STANDARD_INTERNET_TIMEOUT 5
+#define SHORT_INTERNET_TIMEOUT 2
+static double dInternetTimeout = STANDARD_INTERNET_TIMEOUT;
+
 #ifdef __VISUALC__  // be conservative about this pragma
     // tell the linker to include wininet.lib automatically
     #pragma comment(lib, "wininet.lib")
@@ -84,6 +93,7 @@ public:
 protected:
     // return the WinINet session handle
     static HINTERNET GetSessionHandle();
+    
 };
 
 ////static bool lastReadHadEOF = false;
@@ -248,7 +258,7 @@ size_t wxWinINetInputStream::OnSysRead(void *buffer, size_t bufsize)
         bufs.dwBufferLength = (DWORD)bufsize;
 
         lastInternetStatus = 0;
-        double endtimeout = dtime() + STANDARD_INTERNET_DELAY;
+        double endtimeout = dtime() + dInternetTimeout;
         complete = InternetReadFileEx(m_hFile, &bufs,  IRF_ASYNC | IRF_USE_CONTEXT, 2);
         
         if (!complete) {
@@ -371,7 +381,7 @@ static bool bAlreadyRunning = false;
     wxWinINetInputStream *newStream = new wxWinINetInputStream;
     
     operationEnded = false;
-    double endtimeout = dtime() + STANDARD_INTERNET_DELAY;
+    double endtimeout = dtime() + dInternetTimeout;
 
     HINTERNET newStreamHandle = InternetOpenUrl
                                 (
@@ -398,6 +408,7 @@ static bool bAlreadyRunning = false;
                 delete newStream;
                 newStream = NULL;
             }
+            dInternetTimeout = SHORT_INTERNET_TIMEOUT;
             bAlreadyRunning = false;
             return 0;
         }
@@ -419,6 +430,7 @@ static bool bAlreadyRunning = false;
     
     if (!newStreamHandle) {
         bAlreadyRunning = false;
+        dInternetTimeout = SHORT_INTERNET_TIMEOUT;
         return NULL;
     }
 
@@ -426,7 +438,8 @@ static bool bAlreadyRunning = false;
 
     InternetSetStatusCallback(newStreamHandle, BOINCInternetStatusCallback);    // IS THIS NEEDED???
 
-bAlreadyRunning = false;
+    dInternetTimeout = STANDARD_INTERNET_TIMEOUT;
+    bAlreadyRunning = false;
     return newStream;
 }
 

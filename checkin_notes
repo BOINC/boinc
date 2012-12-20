@@ -7797,6 +7797,10 @@ Rom    19 Dec 2012
 
 Charlie 20 Dec 2012
     - Mgr: fix license declaration in file derived from wxWidgets.
+    - Mgr: Windows only: If OpenURL fails, we probably don't have an Internet 
+        connection so use a shorter timeout for subsequent calls to OpenURL 
+        until one succeeds; otherwise notices takes takes too long to display
+        if there are multiple notices with images.
 
     clientgui/
         BOINCInternetFSHandler.cpp
