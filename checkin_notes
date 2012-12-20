@@ -7808,6 +7808,8 @@ Charlie 20 Dec 2012
     - Mgr: Display "Fetching notices..." instead of "There are no notices" 
         while getting notices.  Display "There are no notices" only if we 
         have actually determined there are no notices.
+    - Mgr: Add code to reload notices with images / items missing due to 
+        problems accessing their URLs.
 
     clientgui/
         MainDocument.cpp,.h

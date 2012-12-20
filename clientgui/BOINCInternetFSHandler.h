@@ -30,12 +30,16 @@ public:
 
     virtual bool CanOpen(const wxString& strLocation);
     virtual wxFSFile* OpenFile(wxFileSystem& fs, const wxString& strLocation);
+    void UnchacheMissingItems();
     void ShutDown();
 
 protected:
     static bool CheckHash(const wxString& strLocation);
     static wxHashTable *m_Hash;
     wxInputStream *m_InputStream;
+    
+private:
+    bool m_bMissingItems;
 };
 
 #endif // _WX_FS_CACHEDINTERNET_H_

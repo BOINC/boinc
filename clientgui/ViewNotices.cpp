@@ -27,6 +27,7 @@
 #include "BOINCTaskCtrl.h"
 #include "ViewNotices.h"
 #include "NoticeListCtrl.h"
+#include "BOINCInternetFSHandler.h"
 #include "Events.h"
 #include "error_numbers.h"
 
@@ -160,3 +161,11 @@ void CViewNotices::OnLinkClicked( NoticeListCtrlEvent& event ) {
     }
 }
 
+
+void CViewNotices::ReloadNotices() {
+    wxFileSystemHandler *internetFSHandler = wxGetApp().GetInternetFSHandler();
+    if (internetFSHandler) {
+        ((CBOINCInternetFSHandler*)internetFSHandler)->UnchacheMissingItems();
+        m_pHtmlListPane->Clear();
+    }
+}
