@@ -47,7 +47,8 @@ public:
 
 protected:
 	CNoticeListCtrl*        m_pHtmlListPane;
-    wxStaticText*           m_StatusText;
+    wxStaticText*           m_FetchingNoticesText;
+    wxStaticText*           m_NoNoticesText;
 
     virtual bool            OnSaveState( wxConfigBase* pConfig );
     virtual bool            OnRestoreState( wxConfigBase* pConfig );

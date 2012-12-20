@@ -116,6 +116,7 @@ public:
 
     int GetItemHeight(size_t i) { return (int)OnGetItemHeight(i); }
 
+    bool    m_bDisplayFetchingNotices;
     bool    m_bDisplayEmptyNotice;
 private:
     bool    m_bComputerChanged;

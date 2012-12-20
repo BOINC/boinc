@@ -7805,7 +7805,15 @@ Charlie 20 Dec 2012
          display or have determined that there are no notices.
     - Mgr: Don't call get_notices RPC before previous one is processed to 
         prevent multiple display of notices.
+    - Mgr: Display "Fetching notices..." instead of "There are no notices" 
+        while getting notices.  Display "There are no notices" only if we 
+        have actually determined there are no notices.
 
     clientgui/
         MainDocument.cpp,.h
         BOINCInternetFSHandler.cpp
+        NoticeListCtrl.cpp,.h
+        ViewNotices.cpp,.h
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp
