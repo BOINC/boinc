@@ -631,7 +631,6 @@ void CBOINCInternetFSHandler::UnchacheMissingItems() {
         // We must get next node before deleting this one
         node = m_Hash->Next();
         if (obj->m_Len == 0) {
-            delete obj;
             m_Hash->Delete(obj->m_Key);
         }
     }
@@ -647,7 +646,9 @@ void CBOINCInternetFSHandler::ClearCache() {
         MemFSHashObj* obj = (MemFSHashObj*)node->GetData();
         // We must get next node before deleting this one
         node = m_Hash->Next();
-        delete obj;
+        if (obj->m_Data) {
+            delete[] obj->m_Data;
+        }
         m_Hash->Delete(obj->m_Key);
     }
     m_bMissingItems = false;
