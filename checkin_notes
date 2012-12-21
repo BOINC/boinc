@@ -7833,6 +7833,10 @@ Rom    20 Dec 2012
 Charlie 21 Dec 2012
     - Mgr: If network activity is suspended, don't retrieve URL references within 
         notices unless they are already in our cache or in the Windows cache.
+    - Mgr: Clear our internal Internet cache when selecting a different computer; 
+        when removing entries from hash table, delete data to avoid memory leaks.
 
     clientgui/
-        BOINCInternetFSHandler.cpp
+        BOINCInternetFSHandler.cpp,.h
+        NoticeListCtrl.cpp
+        ViewNotices.cpp

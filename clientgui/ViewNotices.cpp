@@ -141,6 +141,8 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
             strLastMachineName = strNewMachineName;
             m_FetchingNoticesText->Show();
             m_NoNoticesText->Hide();
+            wxFileSystemHandler *internetFSHandler = wxGetApp().GetInternetFSHandler();
+            ((CBOINCInternetFSHandler*)internetFSHandler)->ClearCache();
             m_pHtmlListPane->Clear();
         }
     }
