@@ -1840,7 +1840,6 @@ int CMainDocument::CachedNoticeUpdate() {
 
     if (in_this_func) return 0;
     in_this_func = true;
-    m_bWaitingForGetNoticesRPC = false;
     
     if (IsConnected()) {
         // Can't look up previous last read message until we know machine name
