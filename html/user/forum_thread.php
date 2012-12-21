@@ -241,7 +241,7 @@ if (is_news_forum($forum) && $logged_in_user && ($logged_in_user->id == $thread-
         show_button(
             "forum_thread_status.php?action=clear&amp;id=$thread->id",
             tra("Export as Notice"),
-            tra("Export this news item as a Notice")
+            "Show this message to all volunteers in the desktop GUI.  Use this only for messages of interest or importance to all volunteers."
         );
     } else {
         show_button(

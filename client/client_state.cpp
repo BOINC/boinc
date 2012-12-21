@@ -476,7 +476,7 @@ int CLIENT_STATE::init() {
             avp->flops = avp->avg_ncpus * host_info.p_fpops;
 
             // for GPU apps, use conservative estimate:
-            // assume app will run at peak CPU speed, not peak GPU
+            // assume GPU runs at 10X peak CPU speed
             //
             if (avp->gpu_usage.rsc_type) {
                 avp->flops += avp->gpu_usage.usage * 10 * host_info.p_fpops;

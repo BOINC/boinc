@@ -23,6 +23,11 @@
 #include "boinc_db.h"
 #include "sched_types.h"
 
+const int MAX_GPUS = 64;
+    // don't believe clients who claim they have more GPUs than this
+const int MAX_CPUS = 4096;
+    // don't believe clients who claim they have more CPUs than this
+
 extern void send_work();
 
 extern int add_result_to_reply(

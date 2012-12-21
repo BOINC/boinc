@@ -139,9 +139,6 @@ const char* infeasible_string(int code) {
 const double MIN_REQ_SECS = 0;
 const double MAX_REQ_SECS = (28*SECONDS_IN_DAY);
 
-const int MAX_GPUS = 64;
-    // don't believe clients who claim they have more GPUs than this
-
 // get limits on:
 // # jobs per day
 // # jobs per RPC
@@ -155,6 +152,7 @@ void WORK_REQ::get_job_limits() {
     }
     if (n > config.max_ncpus) n = config.max_ncpus;
     if (n < 1) n = 1;
+    if (n > MAX_CPUS) n = MAX_CPUS;
     effective_ncpus = n;
 
     n = g_request->coprocs.ndevs();

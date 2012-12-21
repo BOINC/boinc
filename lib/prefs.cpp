@@ -225,7 +225,7 @@ void GLOBAL_PREFS::defaults() {
     max_ncpus = 0;
     cpu_scheduling_period_minutes = 60;
     disk_interval = 60;
-    disk_max_used_gb = 0;
+    disk_max_used_gb = 1000;
     disk_max_used_pct = 90;
     disk_min_free_gb = 0.1;
     vm_max_used_frac = 0.75;

@@ -7843,3 +7843,15 @@ Charlie 21 Dec 2012
         events.h
         NoticeListCtrl.cpp,.h
         ViewNotices.cpp,.h
+
+David  21 Dec 2012
+    - web: add advisory text to "Export as Notice" balloon
+    - scheduler: make max # of CPUs a #define, default 4096
+        
+    client/
+        client_state.cpp
+    html/user/
+        forum_thread.php
+    sched/
+        edf_sim.cpp
+        sched_send.cpp,h
