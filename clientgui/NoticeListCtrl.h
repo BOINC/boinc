@@ -119,7 +119,7 @@ public:
     bool    m_bDisplayFetchingNotices;
     bool    m_bDisplayEmptyNotice;
 private:
-    bool    m_bComputerChanged;
+    bool    m_bNeedsReloading;
 #ifdef __WXMAC__
     CNoticeListCtrlAccessible*    m_accessible;
 #endif

@@ -412,11 +412,11 @@ bool CNoticeListCtrl::Create( wxWindow* parent )
 #endif
 ////@end CNoticeListCtrl creation
 
-    // Display the fetching notices message until we have notices 
+    // Display the fetching notices message until we have notices
     // to display or have determined that there are no notices.
     m_bDisplayFetchingNotices = false;
     m_bDisplayEmptyNotice = true;
-    m_bComputerChanged = false;
+    m_bNeedsReloading = false;
 
     return TRUE;
 }
@@ -540,7 +540,7 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const {
 
 void CNoticeListCtrl::Clear() {
     SetItemCount(0);
-    m_bComputerChanged = true;
+    m_bNeedsReloading = true;
     UpdateUI();
     Refresh();
 }
@@ -560,13 +560,13 @@ bool CNoticeListCtrl::UpdateUI()
     // Call Freeze() / Thaw() only when actually needed; 
     // otherwise it causes unnecessary redraws
     int noticeCount = pDoc->GetNoticeCount();
-    if ((noticeCount < 0) || (!pDoc->IsConnected()) || m_bComputerChanged) {
+    if ((noticeCount < 0) || (!pDoc->IsConnected()) || m_bNeedsReloading) {
         if (GetItemCount()) {
             SetItemCount(0);
         }
         m_bDisplayFetchingNotices =  true;
         m_bDisplayEmptyNotice = false;
-        m_bComputerChanged = false;
+        m_bNeedsReloading = false;
         return true;
     }
     
@@ -576,7 +576,7 @@ bool CNoticeListCtrl::UpdateUI()
         }
         m_bDisplayFetchingNotices = false;
         m_bDisplayEmptyNotice = true;
-        m_bComputerChanged = false;
+        m_bNeedsReloading = false;
         return true;
     }
     

@@ -7835,6 +7835,9 @@ Charlie 21 Dec 2012
         notices unless they are already in our cache or in the Windows cache.
     - Mgr: Clear our internal Internet cache when selecting a different computer; 
         when removing entries from hash table, delete data to avoid memory leaks.
+    - Mgr: Display a message and "Retry now" button if some images or other items 
+        within notices failed to load from the Internet; if network activity is 
+        suspended, say so in the message.
 
     clientgui/
         BOINCInternetFSHandler.cpp,.h
