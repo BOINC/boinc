@@ -7859,5 +7859,9 @@ David  21 Dec 2012
 Charlie 22 Dec 2012
     - Mgr: When removing entries from our hash table, delete data to avoid memory 
         leaks.
+    -Mgr: Allow existing  to retrieve images or other items from the Internet even 
+        if network activity is suspended.  (But client won't get new notices.)
+
     clientgui/
         BOINCInternetFSHandler.cpp
+        ViewNotices.cpp,.h

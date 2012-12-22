@@ -56,10 +56,10 @@ CViewNotices::CViewNotices(wxNotebook* pNotebook) :
     wxFlexGridSizer* itemReloadButtonSizer = new wxFlexGridSizer(1, 2, 0, 0);
     itemReloadButtonSizer->AddGrowableCol(1);
    
-    m_ReloadNoticesText = new wxStaticText(
-                                    this, wxID_ANY, wxEmptyString, 
-                                    wxDefaultPosition, wxDefaultSize, 0
-                                    );
+    m_ReloadNoticesText = new wxStaticText(this, wxID_ANY,
+                            _("One or more items failed to load from the Internet."),
+                            wxDefaultPosition, wxDefaultSize, 0
+                            );
 
     itemReloadButtonSizer->Add(m_ReloadNoticesText, 1, wxALL, 5);
     
@@ -102,7 +102,6 @@ CViewNotices::CViewNotices(wxNotebook* pNotebook) :
     m_ReloadNoticesButton->Hide();
     
     m_bMissingItems =  false;
-    m_bNetworkSuspended = -1;
 }
 
 
@@ -186,26 +185,11 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
     m_pHtmlListPane->UpdateUI();
 
     bMissingItems = ((CBOINCInternetFSHandler*)internetFSHandler)->ItemsFailedToLoad();
-    if (bMissingItems) {
-        int retval = pDoc->GetCoreClientStatus(status);
-        if ((!retval) && (m_bNetworkSuspended != status.network_suspend_reason)) {
-            if (status.network_suspend_reason) {
-                m_ReloadNoticesText->SetLabel(_(
-                "One or more items failed to load from the Internet\nbecause Network activity is suspended."));
-            } else {
-                m_ReloadNoticesText->SetLabel(_("One or more items failed to load from the Internet."));
-            }
-        }
-    }
-    
-    if ((bMissingItems != m_bMissingItems) ||
-        (m_bNetworkSuspended != status.network_suspend_reason)
-        ) {
+    if (bMissingItems != m_bMissingItems) {
         m_ReloadNoticesText->Show(bMissingItems);
         m_ReloadNoticesButton->Show(bMissingItems);
         Layout();
         m_bMissingItems = bMissingItems;
-        m_bNetworkSuspended = status.network_suspend_reason;
     }
     
     m_FetchingNoticesText->Show(m_pHtmlListPane->m_bDisplayFetchingNotices);
