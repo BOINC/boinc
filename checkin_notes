@@ -7855,3 +7855,9 @@ David  21 Dec 2012
     sched/
         edf_sim.cpp
         sched_send.cpp,h
+
+Charlie 22 Dec 2012
+    - Mgr: When removing entries from our hash table, delete data to avoid memory 
+        leaks.
+    clientgui/
+        BOINCInternetFSHandler.cpp
