@@ -7874,5 +7874,6 @@ Charlie 23 Dec 2012
     - Mgr: Add all the new notices features to the Simple View notices dialog.
 
     clientgui/
-        BOINCInternetFSHandler.cpp
+        BOINCInternetFSHandler.cpp,.h
+        NoticeListCtrl.cpp
         sg_DlgMessages.cpp,.h

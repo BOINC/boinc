@@ -118,32 +118,36 @@ void CPanelMessages::CreateControls()
 {
     CPanelMessages* itemDialog1 = this;
 
+    m_ReloadNoticesPanel = new wxPanel(this);
+    m_ReloadNoticesPanel->SetBackgroundColour(*wxWHITE);
+
     wxFlexGridSizer* itemReloadButtonSizer = new wxFlexGridSizer(1, 2, 0, 0);
     itemReloadButtonSizer->AddGrowableCol(1);
    
-    m_ReloadNoticesText = new wxStaticText(this, wxID_ANY,
+    m_ReloadNoticesText = new wxStaticText(m_ReloadNoticesPanel,
+                            wxID_ANY,
                             _("One or more items failed to load from the Internet."),
                             wxDefaultPosition, wxDefaultSize, 0
                             );
-
-    m_ReloadNoticesText->SetBackgroundColour(*wxWHITE);
-    
     itemReloadButtonSizer->Add(m_ReloadNoticesText, 1, wxALL, 5);
     
     m_ReloadNoticesButton = new wxButton(
-                                    this, ID_LIST_RELOADNOTICES,
+                                    m_ReloadNoticesPanel,
+                                    ID_LIST_RELOADNOTICES,
                                     _("Retry now"),
                                     wxDefaultPosition, wxDefaultSize, 0
                                     );
-
     itemReloadButtonSizer->Add(m_ReloadNoticesButton, 1, wxALL, 5);
+    
+    m_ReloadNoticesPanel->SetSizer(itemReloadButtonSizer);
+    m_ReloadNoticesPanel->Layout();
 
     wxFlexGridSizer* itemFlexGridSizer2 = new wxFlexGridSizer(3, 1, 1, 0);
     itemFlexGridSizer2->AddGrowableRow(1);
     itemFlexGridSizer2->AddGrowableCol(0);
     itemDialog1->SetSizer(itemFlexGridSizer2);
 
-    itemFlexGridSizer2->Add(itemReloadButtonSizer, 1, wxGROW|wxALL, 1);
+    itemFlexGridSizer2->Add(m_ReloadNoticesPanel, 1, wxGROW|wxALL, 1);
 
     m_pHtmlListPane = new CNoticeListCtrl(itemDialog1);
     itemFlexGridSizer2->Add(m_pHtmlListPane, 0, wxGROW|wxALL, 5);
@@ -176,8 +180,8 @@ void CPanelMessages::CreateControls()
     m_NoNoticesText->SetBackgroundColour(*wxWHITE);
 
     m_NoNoticesText->Hide();
-    m_ReloadNoticesText->Hide();
-    m_ReloadNoticesButton->Hide();
+    m_ReloadNoticesPanel->Hide();
+    Layout();
     
     m_bMissingItems =  false;
 }
@@ -271,8 +275,7 @@ void CPanelMessages::OnRefresh() {
                 ((CBOINCInternetFSHandler*)internetFSHandler)->ClearCache();
                 m_pHtmlListPane->Clear();
                 if (m_bMissingItems) {
-                    m_ReloadNoticesText->Hide();
-                    m_ReloadNoticesButton->Hide();
+                    m_ReloadNoticesPanel->Hide();
                     m_bMissingItems = false;
                     Layout();
                 }
@@ -284,8 +287,7 @@ void CPanelMessages::OnRefresh() {
 
         bMissingItems = ((CBOINCInternetFSHandler*)internetFSHandler)->ItemsFailedToLoad();
         if (bMissingItems != m_bMissingItems) {
-            m_ReloadNoticesText->Show(bMissingItems);
-            m_ReloadNoticesButton->Show(bMissingItems);
+            m_ReloadNoticesPanel->Show(bMissingItems);
             Layout();
             m_bMissingItems = bMissingItems;
         }
@@ -303,6 +305,12 @@ void CPanelMessages::OnRefresh() {
  */
 
 void CPanelMessages::OnOK( wxCommandEvent& event ) {
+    // Shut down any asynchronous Internet access in progress
+    wxFileSystemHandler *internetFSHandler = wxGetApp().GetInternetFSHandler();
+    if (internetFSHandler) {
+        ((CBOINCInternetFSHandler*)internetFSHandler)->ShutDown();
+    }
+
     event.Skip();
 }
 
@@ -343,8 +351,7 @@ void CPanelMessages::OnLinkClicked( NoticeListCtrlEvent& event ) {
 
 
 void CPanelMessages::OnRetryButton( wxCommandEvent& event ) {
-    m_ReloadNoticesText->Hide();
-    m_ReloadNoticesButton->Hide();
+    m_ReloadNoticesPanel->Hide();
     m_bMissingItems = false;
     Layout();
     ReloadNotices();

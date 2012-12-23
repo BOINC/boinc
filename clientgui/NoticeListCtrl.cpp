@@ -24,6 +24,7 @@
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
 #include "NoticeListCtrl.h"
+#include "BOINCInternetFSHandler.h"
 
 ////@begin XPM images
 ////@end XPM images
@@ -386,6 +387,11 @@ CNoticeListCtrl::~CNoticeListCtrl( )
         delete m_accessible;
     }
 #endif
+
+    wxFileSystemHandler *internetFSHandler = wxGetApp().GetInternetFSHandler();
+    if (internetFSHandler) {
+        ((CBOINCInternetFSHandler*)internetFSHandler)->ShutDown(false);
+    }
 }
 
 

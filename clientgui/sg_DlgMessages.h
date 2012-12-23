@@ -123,6 +123,7 @@ private:
 	CNoticeListCtrl*        m_pHtmlListPane;
 
 protected:
+    wxPanel*                m_ReloadNoticesPanel;
     wxStaticText*           m_ReloadNoticesText;
     wxButton*               m_ReloadNoticesButton;
     wxStaticText*           m_FetchingNoticesText;
