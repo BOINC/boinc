@@ -7867,3 +7867,10 @@ Charlie 22 Dec 2012
     clientgui/
         BOINCInternetFSHandler.cpp
         ViewNotices.cpp,.h
+
+Charlie 23 Dec 2012
+    - Mgr: Bug fixes for Windows Async Internet access, including closing the 
+        WinINet handle when aborting due to timeout, etc. to prevent crashes.
+
+    clientgui/
+        BOINCInternetFSHandler.cpp

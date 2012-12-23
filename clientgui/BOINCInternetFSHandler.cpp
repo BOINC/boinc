@@ -94,7 +94,7 @@ public:
 
 protected:
     // return the WinINet session handle
-    static HINTERNET GetSessionHandle();
+    static HINTERNET GetSessionHandle(bool closeSessionHandle = false);
     
 };
 
@@ -133,7 +133,7 @@ static void CALLBACK BOINCInternetStatusCallback(
 }
 
 
-HINTERNET wxWinINetURL::GetSessionHandle()
+HINTERNET wxWinINetURL::GetSessionHandle(bool closeSessionHandle)
 {
     // this struct ensures that the session is opened when the
     // first call to GetSessionHandle is made
@@ -171,9 +171,14 @@ HINTERNET wxWinINetURL::GetSessionHandle()
         
         void INetCloseSession() {
             InternetSetStatusCallback(NULL, BOINCInternetStatusCallback);
-            if (m_handle) {
-                InternetCloseHandle(m_handle);
-                m_handle = NULL;
+            
+            while (m_handle) {
+                BOOL closedOK = InternetCloseHandle(m_handle);
+                if (closedOK) {
+                    m_handle = NULL;
+                } else {
+                    wxGetApp().Yield(true);
+                }
             }
         }
     
@@ -184,8 +189,15 @@ HINTERNET wxWinINetURL::GetSessionHandle()
 
     wxASSERT(pDoc);
 
-    if (b_ShuttingDown || (!pDoc->IsConnected())) {
-        session.INetCloseSession();
+    if (closeSessionHandle) {
+        while (session.m_handle) {
+            BOOL closedOK = InternetCloseHandle(session.m_handle);
+            if (closedOK) {
+                session.m_handle = NULL;
+            } else{
+                wxGetApp().Yield(true);
+            }
+        }
         return 0;
     }
 
@@ -242,53 +254,33 @@ size_t wxWinINetInputStream::OnSysRead(void *buffer, size_t bufsize)
     DWORD bytesread = 0;
     DWORD lError = ERROR_SUCCESS;
     INTERNET_BUFFERS bufs;
-    BOOL complete = false;
+    BOOL success = false;
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
 
     if (b_ShuttingDown || (!pDoc->IsConnected())) {
+        SetError(wxSTREAM_EOF);
         return 0;
     }
 
-    if (m_hFile) {
-        operationEnded = false;
-        memset(&bufs, 0, sizeof(bufs));
-        bufs.dwStructSize = sizeof(INTERNET_BUFFERS);
-        bufs.Next = NULL;
-        bufs.lpvBuffer = buffer;
-        bufs.dwBufferLength = (DWORD)bufsize;
-
-        lastInternetStatus = 0;
-        double endtimeout = dtime() + dInternetTimeout;
-        complete = InternetReadFileEx(m_hFile, &bufs,  IRF_ASYNC | IRF_USE_CONTEXT, 2);
-        
-        if (!complete) {
-            lError = ::GetLastError();
-            if ((lError == WSAEWOULDBLOCK) || (lError == ERROR_IO_PENDING)){
-                while (!operationEnded) {
-                    if (b_ShuttingDown || 
-                        (!pDoc->IsConnected()) || 
-                        (dtime() > endtimeout)
-                    ) {
-                         SetError(wxSTREAM_EOF);
-                        return 0;
-                    }
-                    wxGetApp().Yield(true);
-                }
-            }
-        }
-
-        lError = ::GetLastError();
-        bytesread = bufs.dwBufferLength;
-        complete = (lastInternetStatus == INTERNET_STATUS_REQUEST_COMPLETE);
+    if (!m_hFile) {
+        SetError(wxSTREAM_READ_ERROR);
+        return 0;
     }
+    
+    memset(&bufs, 0, sizeof(bufs));
+    bufs.dwStructSize = sizeof(INTERNET_BUFFERS);
+    bufs.Next = NULL;
+    bufs.lpvBuffer = buffer;
+    bufs.dwBufferLength = (DWORD)bufsize;
 
-    if (!complete) {
-        if ( lError != ERROR_SUCCESS )
-            SetError(wxSTREAM_READ_ERROR);
-
+    success = InternetReadFileEx(m_hFile, &bufs, IRF_SYNC, 2);
+    
+    lError = ::GetLastError();
+    
 #if 0       // Possibly useful for debugging
+    if ((!success) || (lError != ERROR_SUCCESS)) {
         DWORD iError, bLength = 0;
         InternetGetLastResponseInfo(&iError, NULL, &bLength);
         if ( bLength > 0 )
@@ -305,18 +297,21 @@ size_t wxWinINetInputStream::OnSysRead(void *buffer, size_t bufsize)
                     iError, errorString.c_str());
         }
 #endif
+
+    if (!success) {
+        return 0;
     }
 
-    if ( bytesread == 0 )
-    {
-        SetError(wxSTREAM_EOF);
+    bytesread = bufs.dwBufferLength;
+    if (lError != ERROR_SUCCESS) {
+        SetError(wxSTREAM_READ_ERROR);
     } else {
-        // Apparently buffer has not always received all the data even
-        // when callback returns INTERNET_STATUS_REQUEST_COMPLETE.
-        // This extra delay seems to fix that.  Why????
-        SleepEx(10, TRUE);
+        if ( bytesread == 0 )
+        {
+            SetError(wxSTREAM_EOF);
+        }
     }
-
+    
     return bytesread;
 }
 
@@ -360,7 +355,7 @@ static bool bAlreadyRunning = false;
     wxASSERT(pDoc);
 
     if (b_ShuttingDown || (!pDoc->IsConnected())) {
-        GetSessionHandle(); // Closes the session
+        GetSessionHandle(true); // Closes the session handle
         bAlreadyRunning = false;
         return 0;
     }
@@ -401,9 +396,8 @@ static bool bAlreadyRunning = false;
             (!pDoc->IsConnected()) || 
             (dtime() > endtimeout)
             ) {
-            GetSessionHandle(); // Closes the session
+            GetSessionHandle(true); // Closes the session handle
             if (newStreamHandle) {
-                delete newStreamHandle;
                 newStreamHandle = NULL;
             }
             if (newStream) {
@@ -423,7 +417,7 @@ static bool bAlreadyRunning = false;
             (!b_ShuttingDown)
         ) {
             INTERNET_ASYNC_RESULT* res = (INTERNET_ASYNC_RESULT*)lastlpvStatusInformation;
-            if (res) {
+            if (res && !res->dwError) {
                 newStreamHandle = (HINTERNET)(res->dwResult);
             } else {
                 newStreamHandle = NULL;
@@ -431,14 +425,13 @@ static bool bAlreadyRunning = false;
     }
     
     if (!newStreamHandle) {
-        bAlreadyRunning = false;
+        GetSessionHandle(true); // Closes the session handle
         dInternetTimeout = SHORT_INTERNET_TIMEOUT;
+        bAlreadyRunning = false;
         return NULL;
     }
 
     newStream->Attach(newStreamHandle);
-
-    InternetSetStatusCallback(newStreamHandle, BOINCInternetStatusCallback);    // IS THIS NEEDED???
 
     dInternetTimeout = STANDARD_INTERNET_TIMEOUT;
     bAlreadyRunning = false;
