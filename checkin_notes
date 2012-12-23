@@ -7871,6 +7871,8 @@ Charlie 22 Dec 2012
 Charlie 23 Dec 2012
     - Mgr: Bug fixes for Windows Async Internet access, including closing the 
         WinINet handle when aborting due to timeout, etc. to prevent crashes.
+    - Mgr: Add all the new notices features to the Simple View notices dialog.
 
     clientgui/
         BOINCInternetFSHandler.cpp
+        sg_DlgMessages.cpp,.h
