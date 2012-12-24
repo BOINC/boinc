@@ -550,7 +550,7 @@ struct RESULT {
     double granted_credit;          // == canonical credit of WU
     double opaque;                  // project-specific; usually external ID
     int random;                     // determines send order
-    int app_version_num;            // version# of app (not core client)
+    int app_version_num;            // version# of app
         // DEPRECATED - THIS DOESN'T DETERMINE VERSION ANY MORE
     int appid;                      // copy of WU's appid
     int exit_status;                // application exit status, if any

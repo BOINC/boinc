@@ -1690,14 +1690,13 @@ int DB_VALIDATOR_ITEM_SET::update_result(RESULT& res) {
 
     sprintf(query,
         "update result set validate_state=%d, granted_credit=%.15e, "
-        "server_state=%d, outcome=%d, opaque=%lf, random=%d, runtime_outlier=%d "
+        "server_state=%d, outcome=%d, opaque=%lf, runtime_outlier=%d "
         "where id=%u",
         res.validate_state,
         res.granted_credit,
         res.server_state,
         res.outcome,
         res.opaque,
-        res.random,
         res.runtime_outlier?1:0,
         res.id
     );

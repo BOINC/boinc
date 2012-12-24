@@ -53,8 +53,8 @@ using std::string;
 
 static struct random_init {
     random_init() {
-    srand48(getpid() + time(0));
-                        }
+        srand48(getpid() + time(0));
+    }
 } random_init;
 
 int read_file(FILE* f, char* buf, int len) {

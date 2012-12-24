@@ -44,7 +44,7 @@
 static bool quick_check(
     WU_RESULT& wu_result,
     WORKUNIT& wu,       // a mutable copy of wu_result.workunit.
-        // We may modify its delay_bound and rsc_fpops_est
+        // We may modify its delay_bound, rsc_fpops_est, and rsc_fpops_bound
     BEST_APP_VERSION* &bavp,
     APP* app,
     int& last_retval

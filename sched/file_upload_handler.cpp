@@ -50,6 +50,8 @@
 
 #include "sched_msgs.h"
 
+using std::string;
+
 #define LOCK_FILES
     // comment this out to not lock files
     // this may avoid filesystem hangs
@@ -121,7 +123,6 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
     bytes_left = nbytes - offset;
 
     while (bytes_left > 0) {
-
         int n, m, to_write;
 
         m = bytes_left<(double)BLOCK_SIZE ? (int)bytes_left : BLOCK_SIZE;
@@ -324,12 +325,8 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
                 signed_xml, xml_signature,
                 retval, is_valid
             );
-            log_messages.printf(MSG_NORMAL,
-                "signed xml: %s\n", signed_xml
-            );
-            log_messages.printf(MSG_NORMAL,
-                "signature: %s\n", xml_signature
-            );
+            log_messages.printf(MSG_NORMAL, "signed xml: %s\n", signed_xml);
+            log_messages.printf(MSG_NORMAL, "signature: %s\n", xml_signature);
             return return_error(ERR_PERMANENT, "invalid signature");
         }
     }
@@ -463,7 +460,7 @@ int handle_get_file_size(char* file_name) {
         return return_error(ERR_TRANSIENT, "can't open file");
     }
 
-    if ((pid=mylockf(fd))) {
+    if ((pid = mylockf(fd))) {
         // file locked by another file_upload_handler: try again later
         //
         close(fd);
@@ -631,7 +628,7 @@ int main(int argc, char *argv[]) {
 #endif
 
     for(int c = 1; c < argc; c++) {
-        std::string option(argv[c]);
+        string option(argv[c]);
         if(option == "-v" || option == "--version") {
             printf("%s\n", SVN_VERSION);
             exit(0);
@@ -681,10 +678,14 @@ int main(int argc, char *argv[]) {
     log_messages.pid = getpid();
     log_messages.set_debug_level(config.fuh_debug_level);
 
+#ifndef _USING_FCGI_
     if (boinc_file_exists(config.project_path("stop_upload"))) {
-        return_error(ERR_TRANSIENT, "Maintenance underway: file uploads are temporarily disabled.");
+        return_error(ERR_TRANSIENT,
+            "File uploads are temporarily disabled."
+        );
         exit(1);
     }
+#endif
 
     if (!config.ignore_upload_certificates) {
         retval = get_key(key);
@@ -698,6 +699,12 @@ int main(int argc, char *argv[]) {
     while(FCGI_Accept() >= 0) {
         counter++;
         //fprintf(stderr, "file_upload_handler (FCGI): counter: %d\n", counter);
+        if (boinc_file_exists(config.project_path("stop_upload"))) {
+            return_error(ERR_TRANSIENT,
+                "File uploads are temporarily disabled."
+            );
+            continue;
+        }
         log_messages.set_indent_level(0);
 #endif
         handle_request(stdin, key);

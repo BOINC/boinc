@@ -7877,3 +7877,17 @@ Charlie 23 Dec 2012
         BOINCInternetFSHandler.cpp,.h
         NoticeListCtrl.cpp
         sg_DlgMessages.cpp,.h
+
+David  24 Dec 2012
+    - file upload handler: in FCGI version, check for trigger file
+        each time through loop (from Bernd).
+    - validator: fix bug that zeroed result.random
+
+    db/
+        boinc_db.cpp
+        boinc_db_type.h
+    sched/
+        file_upload_handler.cpp
+        sched_array.cpp
+    tools/
+        backend_lib.cpp
