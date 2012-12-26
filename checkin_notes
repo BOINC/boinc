@@ -7891,3 +7891,9 @@ David  24 Dec 2012
         sched_array.cpp
     tools/
         backend_lib.cpp
+
+David  24 Dec 2012
+    - client: improved log messages for work fetch
+
+    client/
+        work_fetch.cpp
