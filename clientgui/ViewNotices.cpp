@@ -209,7 +209,7 @@ void CViewNotices::OnLinkClicked( NoticeListCtrlEvent& event ) {
 }
 
 
-void CViewNotices::OnRetryButton( wxCommandEvent& event ) {
+void CViewNotices::OnRetryButton( wxCommandEvent& ) {
     m_ReloadNoticesText->Hide();
     m_ReloadNoticesButton->Hide();
     m_bMissingItems = false;

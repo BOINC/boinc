@@ -367,7 +367,7 @@ void CPanelMessages::OnLinkClicked( NoticeListCtrlEvent& event ) {
 }
 
 
-void CPanelMessages::OnRetryButton( wxCommandEvent& event ) {
+void CPanelMessages::OnRetryButton( wxCommandEvent& ) {
     m_ReloadNoticesPanel->Hide();
     m_bMissingItems = false;
     Layout();
