@@ -21,7 +21,7 @@
 // To use this screensaver, please add the following to the 'programs'
 // preference in your .xscreensaver file:
 //
-// GL:  boincscr -root  \n\
+// GL:  "boincscr -root  \n\"
 //
 // If your BOINC directory differs from /var/lib/boinc-client, you can use
 // the -boinc_dir command line argument.
@@ -169,10 +169,9 @@ public:
         mask = XCB_CW_BACK_PIXEL | XCB_CW_EVENT_MASK;
         values[0] = scr->black_pixel;
         values[1] = XCB_EVENT_MASK_EXPOSURE;
-        xcb_void_cookie_t cookie =
-          xcb_change_window_attributes(con, win, mask, values);
+        cookie = xcb_change_window_attributes(con, win, mask, values);
 
-        xcb_generic_error_t *error = xcb_request_check(con, cookie);
+        error = xcb_request_check(con, cookie);
         if(error) {
             std::cerr << "Could not configure window." << std::endl;
             exit(1);
@@ -419,7 +418,7 @@ int main(int argc, char *argv[]) {
    }
 
   // get default screen
-  xcb_screen_t *screen;
+  xcb_screen_t *screen = NULL;
   for(xcb_screen_iterator_t it = xcb_setup_roots_iterator(xcb_get_setup(con));
       it.rem; screen_num--, xcb_screen_next(&it))
     if(!screen_num) screen = it.data;
@@ -515,7 +514,7 @@ int main(int argc, char *argv[]) {
         static_cast<xcb_window_t*>(xcb_get_property_value(reply));
 
       // check if one of them is our graphics app
-      for(int c = 0; c < reply->length; c++) {
+      for(unsigned int c = 0; c < reply->length; c++) {
           xcb_get_property_reply_t *reply2;
 
           // check WM_COMMAND

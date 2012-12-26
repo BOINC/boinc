@@ -7907,3 +7907,17 @@ Charlie 26 Dec 2012
         BOINCInternetFSHandler.cpp,.h
         NoticeListCtrl.cpp
         sg_DlgMessages.cpp,.h
+
+David  27 Dec 2012
+    - eliminate use of alloca() and strdupa().
+    - don't include malloc.h
+    - fix compile warnings
+
+    configure.ac
+    clientscr/
+        screensaver_x11.cpp
+    lib/
+        str_util.cpp
+    sched/
+        hr_info.cpp
+

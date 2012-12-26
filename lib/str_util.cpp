@@ -31,9 +31,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
-#if HAVE_ALLOCA_H
-#include "alloca.h"
-#endif
 #endif
 
 #ifdef _USING_FCGI_
@@ -83,56 +80,29 @@ size_t strlcat(char *dst, const char *src, size_t size) {
 #endif // !HAVE_STRLCAT
 
 #if !HAVE_STRCASESTR
+// BOINC only uses strcasestr() for short strings,
+// so the following till suffice
+//
 const char *strcasestr(const char *s1, const char *s2) {
-    char *needle=NULL, *haystack=NULL, *p=NULL;
-    bool need_free = false;
-    // Is alloca() really less likely to fail with out of memory error
-    // than strdup?
-#if HAVE_STRDUPA
-    haystack=strdupa(s1);
-    needle=strdupa(s2);
-#elif HAVE_ALLOCA_H || HAVE_ALLOCA
-    haystack=(char *)alloca(strlen(s1)+1);
-    needle=(char *)alloca(strlen(s2)+1);
-    if (needle && haystack) {
-        strlcpy(haystack,s1,strlen(s1)+1);
-        strlcpy(needle,s2,strlen(s2)+1);
+    char needle[1024], haystack[1024], *p=NULL;
+    strlcpy(haystack, s1, sizeof(haystack));
+    strlcpy(needle, s2, sizeof(needle));
+    // convert both strings to lower case
+    p = haystack;
+    while (*p) {
+        *p = tolower(*p);
+        p++;
     }
-#elif HAVE_STRDUP
-    haystack=strdup(s1);
-    needle=strdup(s1)
-    need_free = true;
-#else
-    haystack=(char *)malloc(strlen(s1)+1);
-    needle=(char *)malloc(strlen(s2)+1);
-    if (needle && haystack) {
-        strlcpy(haystack,s1,strlen(s1)+1);
-        strlcpy(needle,s2,strlen(s2)+1);
+    p = needle;
+    while (*p) {
+        *p = tolower(*p);
+        p++;
     }
-    need_free = true;
-#endif
-    if (needle && haystack) {
-        // convert both strings to lower case
-        p = haystack;
-        while (*p) {
-            *p = tolower(*p);
-            p++;
-        }
-        p = needle;
-        while (*p) {
-            *p = tolower(*p);
-            p++;
-        }
-        // find the substring
-        p = strstr(haystack, needle);
-        // correct the pointer to point to the substring within s1
-        if (p) {
-            p = const_cast<char *>(s1)+(p-haystack);
-        }
-    }
-    if (need_free) {
-        if (needle) free(needle);
-        if (haystack) free(haystack);
+    // find the substring
+    p = strstr(haystack, needle);
+    // correct the pointer to point to the substring within s1
+    if (p) {
+        p = const_cast<char *>(s1)+(p-haystack);
     }
     return p;
 }
