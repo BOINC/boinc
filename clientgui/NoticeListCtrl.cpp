@@ -377,6 +377,11 @@ CNoticeListCtrl::CNoticeListCtrl( )
 CNoticeListCtrl::CNoticeListCtrl( wxWindow* parent )
 {
     Create( parent );
+    
+    wxFileSystemHandler *internetFSHandler = wxGetApp().GetInternetFSHandler();
+    if (internetFSHandler) {
+        ((CBOINCInternetFSHandler*)internetFSHandler)->SetAbortInternetIO(false);
+    }
 }
  
  
@@ -390,7 +395,7 @@ CNoticeListCtrl::~CNoticeListCtrl( )
 
     wxFileSystemHandler *internetFSHandler = wxGetApp().GetInternetFSHandler();
     if (internetFSHandler) {
-        ((CBOINCInternetFSHandler*)internetFSHandler)->ShutDown(false);
+        ((CBOINCInternetFSHandler*)internetFSHandler)->SetAbortInternetIO(false);
     }
 }
 

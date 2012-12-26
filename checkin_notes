@@ -7897,3 +7897,13 @@ David  24 Dec 2012
 
     client/
         work_fetch.cpp
+
+Charlie 26 Dec 2012
+    - Mgr: When closing Simple View notices, wait for all Async Internet access
+        to complete before calling the notices panel destructor.
+
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCInternetFSHandler.cpp,.h
+        NoticeListCtrl.cpp
+        sg_DlgMessages.cpp,.h

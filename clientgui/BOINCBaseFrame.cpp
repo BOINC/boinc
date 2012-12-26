@@ -360,7 +360,7 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
 
     wxFileSystemHandler *internetFSHandler = wxGetApp().GetInternetFSHandler();
     if (internetFSHandler) {
-        ((CBOINCInternetFSHandler*)internetFSHandler)->ShutDown();
+        ((CBOINCInternetFSHandler*)internetFSHandler)->SetAbortInternetIO();
     }
 
         // Save state before exiting

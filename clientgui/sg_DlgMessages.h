@@ -129,6 +129,7 @@ protected:
     wxStaticText*           m_FetchingNoticesText;
     wxStaticText*           m_NoNoticesText;
     bool                    m_bMissingItems;
+    bool                    m_bWaitingToClose;
 };
 
 
