@@ -7908,7 +7908,7 @@ Charlie 26 Dec 2012
         NoticeListCtrl.cpp
         sg_DlgMessages.cpp,.h
 
-David  27 Dec 2012
+David  26 Dec 2012
     - eliminate use of alloca() and strdupa().
     - don't include malloc.h
     - fix compile warnings
@@ -7920,4 +7920,3 @@ David  27 Dec 2012
         str_util.cpp
     sched/
         hr_info.cpp
-

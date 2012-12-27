@@ -19,6 +19,7 @@ $sensing = array(
             tra("Stanford University"),
             tra("Seismology"),
             tra("The Quake-Catcher Network is developing the world's largest seismic network using sensors attached to Internet-connected computers.  You must buy a sensor to participate."),
+            ""
         ),
         array(
             "Radioactive@Home",
@@ -35,6 +36,14 @@ $sensing = array(
 $cogsci = array(
     tra("Cognitive science and artifical intelligence"),
     array(
+//        array(
+//            "MindModeling@Home",
+//            "http://mindmodeling.org/",
+//            "University of Dayton and Wright State University",
+//            "Cognitive Science",
+//            "MindModeling@Home uses computational cognitive process modeling to better understand the human mind, and specifically to study the mechanisms and processes that enable and moderate human performance and learning.",
+//            ""
+//        ),
         array(
             "FreeHAL",
             "http://www.freehal.net/freehal_at_home/",
@@ -408,7 +417,7 @@ $math = array(
             tra("Mathematical Institute of Leiden University / Kennislink"),
             tra("Mathematics"),
             tra("Search for 'abc-triples': positive integers a,b,c such that a+b=c, a &lt; b &lt; c, a,b,c have no common divisors and c > rad(abc), where rad(n) is the product of the distinct prime factors of n. The ABC conjecture says that there are only finitely many a,b,c such that log(c)/log(rad(abc)) > h for any real h > 1. The ABC conjecture is currently one of the greatest open problems in mathematics. If it is proven to be true, a lot of other open problems can be answered directly from it."),
-            ""
+            "abclogo.jpg"
         ),
         array(
             "PrimeGrid",
@@ -471,7 +480,7 @@ $math = array(
             "http://sudoku.nctu.edu.tw/",
             "National Chiao Tung University, Taiwan",
             tra("Mathematics"),
-            "Sudoku@vtaiwan seeks to solve the minimum Sudoku problem, which is a well-known problem in mathematics and computer science.",
+            "Sudoku@vtaiwan seeks to solve the minimum Sudoku problem, a well-known problem in mathematics and computer science.",
             "sudoku.png"
         ),
         array(

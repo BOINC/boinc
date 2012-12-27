@@ -1366,6 +1366,8 @@ void do_client_simulation() {
         exit(1);
     }
 
+    // if tasks have pending transfers, mark as completed
+    //
     for (unsigned int i=0; i<gstate.results.size(); i++) {
         RESULT* rp = gstate.results[i];
         if (rp->state() < RESULT_FILES_DOWNLOADED) {
