@@ -36,14 +36,14 @@ $sensing = array(
 $cogsci = array(
     tra("Cognitive science and artifical intelligence"),
     array(
-//        array(
-//            "MindModeling@Home",
-//            "http://mindmodeling.org/",
-//            "University of Dayton and Wright State University",
-//            "Cognitive Science",
-//            "MindModeling@Home uses computational cognitive process modeling to better understand the human mind, and specifically to study the mechanisms and processes that enable and moderate human performance and learning.",
-//            ""
-//        ),
+        array(
+            "MindModeling@Home",
+            "http://mindmodeling.org/",
+            "University of Dayton and Wright State University",
+            "Cognitive Science",
+            "MindModeling@Home uses computational cognitive process modeling to better understand the human mind, and specifically to study the mechanisms and processes that enable and moderate human performance and learning.",
+            "mmlogo.gif"
+        ),
         array(
             "FreeHAL",
             "http://www.freehal.net/freehal_at_home/",
@@ -179,6 +179,14 @@ $earth = array(
 $astro_phys_chem = array(
     tra("Astronomy/Physics/Chemistry"),
     array(
+        array(
+            "Constellation",
+            "http://aerospaceresearch.net/constellation/",
+            "<a href=http://rechenkraft.net/>Rechenkraft.net</a>, <a href=http://stuttgart.dglr.de/>DGLR</a>, <a href=http://selfnet.de/>Selfnet</a>, and <a href=http://shackspace.de/>shack</a>",
+            "Aerospace-related science and engineering",
+            "Constellation is a platform for aerospace-related simulations, including trajectory optimization of launchers, satellites and probes, simulation of Moon's near-surface exosphere, and analysis of dynamic systems of exploration-rovers",
+            "constellation2.png"
+        ),
         array(
             "eOn",
             "http://eon.ices.utexas.edu/eon2/",
