@@ -622,6 +622,7 @@ void VBOX_VM::poll(bool log_state) {
 // Attempt to detect any condition that would prevent VirtualBox from running a VM properly, like:
 // 1. The DCOM service not being started on Windows
 // 2. Vboxmanage not being able to communicate with vboxsvc for some reason
+// 3. VirtualBox driver not loaded for the current Linux kernel.
 //
 // Luckly both of the above conditions can be detected by attempting to detect the host information
 // via vboxmanage and it is cross platform.
@@ -629,15 +630,22 @@ void VBOX_VM::poll(bool log_state) {
 bool VBOX_VM::is_system_ready() {
     string command;
     string output;
+    bool rc = true;
 
     command  = "list hostinfo ";
-
     if (vbm_popen(command, output, "host info", false, false) == 0) {
-        if (output.find("Processor count:") != string::npos) {
-            return true;
+
+        if (output.find("Processor count:") == string::npos) {
+            rc = false;
         }
+
+        if (output.find("WARNING: The vboxdrv kernel module is not loaded.") != string::npos) {
+            rc = false;
+        }
+
     }
-    return false;
+
+    return rc;
 }
 
 bool VBOX_VM::is_registered() {

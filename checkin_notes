@@ -7953,3 +7953,10 @@ Rom    28 Dec 2012
     samples\vboxwrapper\
         vbox.cpp, .h
         vboxwrapper.cpp
+
+Rom    28 Dec 2012
+    - VBOX: On *nix systems, if the vboxdrv kernel module isn't loaded declare
+        it a temp error and reschedule execution at a later date.
+        
+    samples\vboxwrapper\
+        vbox.cpp
