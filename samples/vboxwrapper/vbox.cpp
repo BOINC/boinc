@@ -113,6 +113,7 @@ int VBOX_VM::initialize() {
     string new_path;
     string virtualbox_user_home;
     APP_INIT_DATA aid;
+    bool force_sandbox = false;
     char buf[256];
 
     boinc_get_init_data_p(&aid);
@@ -138,10 +139,21 @@ int VBOX_VM::initialize() {
     }
 #endif
 
+    // On *nix style systems, VirtualBox expects that there is a home directory specified
+    // by environment variable.  When it doesn't exist it attempts to store logging information
+    // in root's home directory.  Bad things happen if the process isn't owned by root.
+    //
+    // if the HOME environment variable is missing force VirtualBox to use a directory it
+    // has a reasonable chance of writing log files too.
+#ifndef _WIN32
+    if (NULL == getenv("HOME")) {
+        force_sandbox = true;
+    }
+#endif
+
     // Set the location in which the VirtualBox Configuration files can be
     // stored for this instance.
-    //
-    if (aid.using_sandbox) {
+    if (aid.using_sandbox || force_sandbox) {
         virtualbox_user_home = aid.project_dir;
         virtualbox_user_home += "/../virtualbox";
 
