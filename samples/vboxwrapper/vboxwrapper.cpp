@@ -454,7 +454,7 @@ int main(int argc, char** argv) {
 
     // Record if anonymous platform was used.
     // 
-    if (boinc_file_exists(aid.project_dir + "/app_info.xml")) {
+    if (boinc_file_exists((std::string(aid.project_dir) + std::string("/app_info.xml")).c_str())) {
         fprintf(
             stderr,
             "%s Detected: Anonymous Platform Enabled\n",
