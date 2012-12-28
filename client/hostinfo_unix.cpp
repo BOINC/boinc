@@ -466,6 +466,9 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
 #elif __ia64__
     strcpy(host.p_model, "IA-64 ");
     model_hack = true;
+#elif __arm__
+    strcpy(host.p_vendor, "ARM");
+    vendor_hack = vendor_found = true;
 #endif
 
     host.m_cache=-1;
@@ -504,6 +507,8 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
             strstr(buf, "family     : ") || strstr(buf, "model name : ")
 #elif __powerpc__ || __sparc__
             strstr(buf, "cpu\t\t: ")
+#elif __arm__
+            strstr(buf, "Processor\t: ")
 #else
             strstr(buf, "model name\t: ") || strstr(buf, "cpu model\t\t: ")
 #endif
@@ -589,6 +594,8 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
                 strlcpy(features, strchr(buf, ':') + 2, sizeof(features));
             } else if ((strstr(buf, "features   : ") == buf)) {    /* ia64 */
                 strlcpy(features, strchr(buf, ':') + 2, sizeof(features));
+            } else if ((strstr(buf, "Features\t: ") == buf)) { /* arm */
+               strlcpy(features, strchr(buf, ':') + 2, sizeof(features));
             }
             if (strlen(features)) {
                 features_found = true;

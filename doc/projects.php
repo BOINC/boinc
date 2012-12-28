@@ -107,7 +107,6 @@ function ordered_display($areas, $sort) {
     $projects = null;
     foreach ($areas as $area) {
         $title = $area[0];
-        if (sizeof($area)==3) $title .= $area[2];
         $projs = $area[1];
         foreach ($projs as $p) {
             $p['area'] = $title;

@@ -7920,3 +7920,11 @@ David  26 Dec 2012
         str_util.cpp
     sched/
         hr_info.cpp
+
+David  27 Dec 2012
+    - client: processor identification for ARM
+        (from Evandro Menezes and Joachim Fritzsch)
+
+    client/
+        hostinfo_unix.cpp
+        hostinfo_unix_test.cpp

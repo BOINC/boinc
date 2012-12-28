@@ -177,12 +177,12 @@ $earth = array(
     ),
 );
 $astro_phys_chem = array(
-    tra("Astronomy/Physics/Chemistry"),
+    tra("Astronomy, Physics, and Chemistry"),
     array(
         array(
             "Constellation",
             "http://aerospaceresearch.net/constellation/",
-            "<a href=http://rechenkraft.net/>Rechenkraft.net</a>, <a href=http://stuttgart.dglr.de/>DGLR</a>, <a href=http://selfnet.de/>Selfnet</a>, and <a href=http://shackspace.de/>shack</a>",
+            "<a href=\"http://rechenkraft.net\">Rechenkraft.net</a>, <a href=\"http://stuttgart.dglr.de\">DGLR</a>, <a href=\"http://selfnet.de\">Selfnet</a>, and <a href=\"http://shackspace.de\">shack</a>",
             "Aerospace-related science and engineering",
             "Constellation is a platform for aerospace-related simulations, including trajectory optimization of launchers, satellites and probes, simulation of Moon's near-surface exosphere, and analysis of dynamic systems of exploration-rovers",
             "constellation2.png"
