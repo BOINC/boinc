@@ -7928,3 +7928,11 @@ David  27 Dec 2012
     client/
         hostinfo_unix.cpp
         hostinfo_unix_test.cpp
+
+David  27 Dec 2012
+    - API: fix Unix bug when checking if client is alive based on PID.
+        Can't use waitpid() here; works only for children.
+        Use kill(pid, 0) instead.
+
+    api/
+        boinc_api.cpp

@@ -395,7 +395,8 @@ static bool client_dead() {
         }
         return true;
 #else
-        return (waitpid(aid.client_pid, 0, WNOHANG) < 0);
+        int retval = kill(aid.client_pid, 0);
+        return (retval == -1 && errno == ESRCH);
 #endif
     } else {
         return (interrupt_count > heartbeat_giveup_count);
