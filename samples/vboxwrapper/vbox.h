@@ -29,6 +29,9 @@ struct VBOX_VM {
     VBOX_VM();
     ~VBOX_VM();
 
+    // Virtualbox Version Information
+    std::string virtualbox_version;
+
     // Floppy IO abstraction
     FloppyIO* pFloppy;
 

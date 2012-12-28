@@ -397,6 +397,26 @@ int main(int argc, char** argv) {
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
 
+#if defined(_WIN32) && defined(USE_WINSOCK)
+    WSADATA wsdata;
+    retval = WSAStartup( MAKEWORD( 1, 1 ), &wsdata);
+    if (retval) {
+        fprintf(
+            stderr,
+            "%s can't initialize winsock: %d\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+            retval
+        );
+        boinc_finish(retval);
+    }
+#endif
+
+    // Prepare environment for detecting system conditions
+    //
+    boinc_get_init_data_p(&aid);
+
+    // Initialize VM Hypervisor
+    //
     retval = vm.initialize();
     if (retval) {
         fprintf(
@@ -421,20 +441,29 @@ int main(int argc, char** argv) {
         boinc_temporary_exit(300, "Communication with VM Hypervisor failed.");
     }
 
-#if defined(_WIN32) && defined(USE_WINSOCK)
-    WSADATA wsdata;
-    retval = WSAStartup( MAKEWORD( 1, 1 ), &wsdata);
-    if (retval) {
+    // Record what version of VirtualBox was used.
+    // 
+    if (!vm.virtualbox_version.empty()) {
         fprintf(
             stderr,
-            "%s can't initialize winsock: %d\n",
+            "%s Detected: %s\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            retval
+            vm.virtualbox_version.c_str()
         );
-        boinc_finish(retval);
     }
-#endif
 
+    // Record if anonymous platform was used.
+    // 
+    if (boinc_file_exists(aid.project_dir + "/app_info.xml")) {
+        fprintf(
+            stderr,
+            "%s Detected: Anonymous Platform Enabled\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+    }
+
+    // Parse Job File
+    //
     retval = parse_job_file(vm, copy_to_shared);
     if (retval) {
         fprintf(
@@ -493,7 +522,8 @@ int main(int argc, char** argv) {
         }
     }
 
-    boinc_get_init_data_p(&aid);
+    // Configure Instance specific VM Parameters
+    //
     vm.vm_master_name = "boinc_";
     vm.image_filename = IMAGE_FILENAME_COMPLETE;
     if (boinc_is_standalone()) {
@@ -525,10 +555,12 @@ int main(int argc, char** argv) {
     }
 
     // Restore from checkpoint
+    //
     read_checkpoint(checkpoint_cpu_time, vm);
     elapsed_time = checkpoint_cpu_time;
 
     // Should we even try to start things up?
+    //
     if (vm.job_duration && (elapsed_time > vm.job_duration)) {
         return EXIT_TIME_LIMIT_EXCEEDED;
     }

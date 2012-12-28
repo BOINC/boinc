@@ -7945,3 +7945,11 @@ Rom    28 Dec 2012
     
     samples\vboxwrapper\
         vbox.cpp
+
+Rom    28 Dec 2012
+    - VBOX: Record what version of VirtualBox was used, as well as whether
+        anonymous platform was specified for the project.
+
+    samples\vboxwrapper\
+        vbox.cpp, .h
+        vboxwrapper.cpp

@@ -58,6 +58,7 @@ using std::string;
 #include "vbox.h"
 
 VBOX_VM::VBOX_VM() {
+    virtualbox_version.clear();
     pFloppy = NULL;
     vm_master_name.clear();
     vm_name.clear();
@@ -112,6 +113,8 @@ int VBOX_VM::initialize() {
     string old_path;
     string new_path;
     string virtualbox_user_home;
+    string command;
+    string output;
     APP_INIT_DATA aid;
     bool force_sandbox = false;
     char buf[256];
@@ -207,6 +210,12 @@ int VBOX_VM::initialize() {
         }
 #endif
     }
+
+    // Record the VirtualBox version information for later use.
+    command = "--version ";
+    vbm_popen(command, output, "version check");
+
+    virtualbox_version = "VirtualBox " + output;
 
     return 0;
 }
