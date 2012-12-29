@@ -379,28 +379,44 @@ static void handle_heartbeat_msg() {
 }
 
 static bool client_dead() {
+    bool dead;
     if (aid.client_pid) {
         // check every 10 sec
         //
         if (interrupt_count%(TIMERS_PER_SEC*10)) return false;
 #ifdef _WIN32
-        // Windows doesn't have waitpid() :-(
+        // Windows lacks an easy way to check for process existence :-(
         //
         DWORD pids[4096], nb;
         BOOL r = EnumProcesses(pids, sizeof(pids), &nb);
         if (!r) return false;
         int n = nb/sizeof(DWORD);
+        dead = true;
         for (int i=0; i<n; i++) {
-            if (pids[i] == aid.client_pid) return false;
+            if (pids[i] == aid.client_pid) {
+                dead = false;
+                break;
+            }
         }
-        return true;
 #else
         int retval = kill(aid.client_pid, 0);
-        return (retval == -1 && errno == ESRCH);
+        dead = (retval == -1 && errno == ESRCH);
 #endif
     } else {
-        return (interrupt_count > heartbeat_giveup_count);
+        dead = (interrupt_count > heartbeat_giveup_count);
     }
+    if (dead) {
+        char buf[256];
+        boinc_msg_prefix(buf, sizeof(buf));
+        fputs(buf, stderr);     // don't use fprintf() here
+        if (aid.client_pid) {
+            fputs(" BOINC client no longer exists - exiting\n", stderr);
+        } else {
+            fputs(" No heartbeat from client for 30 sec - exiting\n", stderr);
+        }
+        return true;
+    }
+    return false;
 }
 
 #ifndef _WIN32
@@ -1207,9 +1223,6 @@ static void timer_handler() {
     //
     if (in_critical_section==0 && options.check_heartbeat) {
         if (client_dead()) {
-            boinc_msg_prefix(buf, sizeof(buf));
-            fputs(buf, stderr);     // don't use fprintf() here
-            fputs(" No heartbeat from client for 30 sec - exiting\n", stderr);
             if (options.direct_process_action) {
                 exit_from_timer_thread(0);
             } else {

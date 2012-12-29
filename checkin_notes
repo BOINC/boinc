@@ -7966,3 +7966,9 @@ Rom    28 Dec 2012
     
     samples\vboxwrapper\
         vbox.cpp
+
+David  29 Dec 2012
+    - API: improve log messages when detect dead client
+
+    api/
+        boinc_api.cpp
