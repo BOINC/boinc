@@ -215,6 +215,18 @@ int VBOX_VM::initialize() {
     command = "--version ";
     vbm_popen(command, output, "version check");
 
+#ifdef _WIN32
+    // Remove \r or \n from the output spew
+    string::iterator iter = output.begin();
+    while (iter != output.end()) {
+        if (*iter == '\r' || *iter == '\n') {
+            iter = output.erase(iter);
+        } else {
+            ++iter;
+        }
+    }
+#endif
+
     virtualbox_version = "VirtualBox " + output;
 
     return 0;

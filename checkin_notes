@@ -7960,3 +7960,9 @@ Rom    28 Dec 2012
         
     samples\vboxwrapper\
         vbox.cpp
+
+Rom    28 Dec 2012
+    - VBOX: Clean up version string.
+    
+    samples\vboxwrapper\
+        vbox.cpp
