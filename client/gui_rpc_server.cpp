@@ -122,6 +122,12 @@ int GUI_RPC_CONN_SET::get_password() {
             strip_whitespace(password);
         }
         fclose(f);
+        if (strlen(password) == 0) {
+            msg_printf(NULL, MSG_USER_ALERT,
+                "gui_rpc_auth.cfg is empty; disabling remote access"
+            );
+            return ERR_BAD_PASSWD;
+        }
     } else {
         // if no password file, make a random password
         //
@@ -137,22 +143,32 @@ int GUI_RPC_CONN_SET::get_password() {
             gstate.host_info.make_random_string("guirpc", password);
         }
         f = fopen(GUI_RPC_PASSWD_FILE, "w");
-        if (f) {
-            fputs(password, f);
-            fclose(f);
-#ifndef _WIN32
-            // if someone can read the password,
-            // they can cause code to execute as this user.
-            // So better protect it.
-            //
-            if (g_use_sandbox) {
-                // Allow group access so authorized administrator can modify it
-                chmod(GUI_RPC_PASSWD_FILE, S_IRUSR|S_IWUSR | S_IRGRP | S_IWGRP);
-            } else {
-                chmod(GUI_RPC_PASSWD_FILE, S_IRUSR|S_IWUSR);
-            }
-#endif
+        if (!f) {
+            msg_printf(NULL, MSG_USER_ALERT,
+                "Can't open gui_rpc_auth.cfg; disabling remote access"
+            );
+            return ERR_BAD_PASSWD;
         }
+        retval = fputs(password, f);
+        fclose(f);
+        if (retval == EOF) {
+            msg_printf(NULL, MSG_USER_ALERT,
+                "Can't write gui_rpc_auth.cfg; disabling remote access"
+            );
+            return ERR_BAD_PASSWD;
+        }
+#ifndef _WIN32
+        // if someone can read the password,
+        // they can cause code to execute as this user.
+        // So better protect it.
+        //
+        if (g_use_sandbox) {
+            // Allow group access so authorized administrator can modify it
+            chmod(GUI_RPC_PASSWD_FILE, S_IRUSR|S_IWUSR | S_IRGRP | S_IWGRP);
+        } else {
+            chmod(GUI_RPC_PASSWD_FILE, S_IRUSR|S_IWUSR);
+        }
+#endif
     }
     return 0;
 }
@@ -213,7 +229,8 @@ int GUI_RPC_CONN_SET::init(bool last_time) {
     sockaddr_in addr;
     int retval;
 
-    get_password();
+    retval = get_password();
+    if (retval) return retval;
     get_allowed_hosts();
 
     retval = boinc_socket(lsock);
