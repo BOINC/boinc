@@ -7978,6 +7978,14 @@ David  29 Dec 2012
         - gui_rpc_auth.cfg is empty, or
         - it doesn't exist and we can't open it for writing, or
         - the write to it fails
+        (from RustyBSD)
 
     client/
         gui_rpc_server.cpp
+
+David  29 Dec 2012
+    - client: don't crash if GUI RPC password is too long
+        (from RustyBSD)
+
+    client/
+        gui_rpc_server_ops.cpp

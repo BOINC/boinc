@@ -80,7 +80,7 @@ void GUI_RPC_CONN::handle_auth1(MIOFILE& fout) {
 }
 
 int GUI_RPC_CONN::handle_auth2(char* buf, MIOFILE& fout) {
-    char nonce_hash[256], nonce_hash_correct[256], buf2[256];
+    char nonce_hash[256], nonce_hash_correct[256], buf2[512];
     if (!parse_str(buf, "<nonce_hash>", nonce_hash, 256)) {
         auth_failure(fout);
         return ERR_AUTHENTICATOR;
