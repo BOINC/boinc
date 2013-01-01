@@ -7989,3 +7989,10 @@ David  29 Dec 2012
 
     client/
         gui_rpc_server_ops.cpp
+
+Rom    1 Jan 2013
+    - client: Account for the display management power system when
+        calculating idle time from the XSS system on Linux.
+
+    client/
+        hostinfo_unix.cpp
