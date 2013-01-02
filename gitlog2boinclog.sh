@@ -6,11 +6,5 @@
 
 # Command line customizations here
 
-
-
 # Get a list of commit ids to extract the log information for
-for i in `git log --since="1 week ago" --pretty="%H"`; 
-do
-    git show --name-status --pretty=fuller $i
-    echo "$ii"
-done
+git log --name-status --pretty=fuller --since="$1 day ago"
