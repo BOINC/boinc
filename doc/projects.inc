@@ -180,6 +180,14 @@ $astro_phys_chem = array(
     tra("Astronomy, Physics, and Chemistry"),
     array(
         array(
+            "Asteroids@home",
+            "http://asteroidsathome.net/boinc/",
+            "Charles University in Prague",
+            "Astrophysics",
+            "The aim of the project is to derive shapes and spin for a significant part of the asteroid population. As input data, we use any asteroid photometry that is available. The results are asteroid convex shape models with the direction of the spin axis and the rotation period.",
+            "asteroids_logo.jpg"
+        ),
+        array(
             "Constellation",
             "http://aerospaceresearch.net/constellation/",
             "<a href=\"http://rechenkraft.net\">Rechenkraft.net</a>, <a href=\"http://stuttgart.dglr.de\">DGLR</a>, <a href=\"http://selfnet.de\">Selfnet</a>, and <a href=\"http://shackspace.de\">shack</a>",
@@ -471,7 +479,7 @@ $math = array(
             "Chess960@home",
             "http://www.chess960athome.org/alpha/",
             tra("Chess-960.org"),
-            tra("Game-playing"),
+            tra("Game study"),
             tra("This project studies Chess 960, a variant of orthodox chess. In classical chess the starting position of the game never changes.  In Chess 960, just before the start of every game, the initial configuration of the chess pieces is determined randomly."),
             "chess960athome.jpg"
         ),

@@ -7989,3 +7989,10 @@ David  29 Dec 2012
 
     client/
         gui_rpc_server_ops.cpp
+
+David  29 Dec 2012
+    - Condor: initial checkin of BOINC GAHP framework
+
+    samples/condor/
+        boinc_gahp.cpp
+        Makefile

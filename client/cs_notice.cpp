@@ -22,7 +22,6 @@
 #else
 #include "config.h"
 #include <string>
-#include <set>
 #endif
 
 #include "parse.h"
@@ -38,7 +37,6 @@
 
 using std::vector;
 using std::string;
-using std::set;
 using std::deque;
 
 NOTICES notices;
