@@ -7996,3 +7996,10 @@ Rom    1 Jan 2013
 
     client/
         hostinfo_unix.cpp
+
+Rom    2 Jan 2013
+    - VBOX: Clean up VirtualBox version information for all platforms.
+    
+    samples\vboxwrapper\
+        vbox.cpp
+    

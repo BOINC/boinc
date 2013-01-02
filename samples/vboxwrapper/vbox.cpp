@@ -215,7 +215,6 @@ int VBOX_VM::initialize() {
     command = "--version ";
     vbm_popen(command, output, "version check");
 
-#ifdef _WIN32
     // Remove \r or \n from the output spew
     string::iterator iter = output.begin();
     while (iter != output.end()) {
@@ -225,7 +224,6 @@ int VBOX_VM::initialize() {
             ++iter;
         }
     }
-#endif
 
     virtualbox_version = "VirtualBox " + output;
 
