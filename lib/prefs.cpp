@@ -216,7 +216,6 @@ void GLOBAL_PREFS::defaults() {
     disk_max_used_pct = 90;
     disk_min_free_gb = 0.1;
     dont_verify_images = false;
-    end_hour = 0;
     hangup_if_dialed = false;
     idle_time_to_run = 3;
     leave_apps_in_memory = false;
@@ -231,7 +230,6 @@ void GLOBAL_PREFS::defaults() {
     run_gpu_if_user_active = false;
     run_if_user_active = true;
     run_on_batteries = true;
-    start_hour = 0;
     suspend_cpu_usage = 25;
     suspend_if_no_recent_input = 0;
     vm_max_used_frac = 0.75;
