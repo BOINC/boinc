@@ -112,7 +112,10 @@ bool GUI_RPC_CONN_SET::recent_rpc_needs_network(double interval) {
     return false;
 }
 
-int GUI_RPC_CONN_SET::get_password() {
+// read the GUI RPC password from gui_rpc_auth.cfg;
+// create one if missing.
+//
+void GUI_RPC_CONN_SET::get_password() {
     int retval;
 
     strcpy(password, "");
@@ -122,55 +125,56 @@ int GUI_RPC_CONN_SET::get_password() {
             strip_whitespace(password);
         }
         fclose(f);
-        if (strlen(password) == 0) {
-            msg_printf(NULL, MSG_USER_ALERT,
-                "gui_rpc_auth.cfg is empty; disabling remote access"
+        if (!strlen(password)) {
+            msg_printf(NULL, MSG_INFO,
+                "gui_rpc_auth.cfg is empty - no GUI RPC password protection"
             );
-            return ERR_BAD_PASSWD;
         }
-    } else {
-        // if no password file, make a random password
-        //
-        retval = make_random_string(password);
-        if (retval) {
-            if (config.os_random_only) {
-                msg_printf(
-                    NULL, MSG_INTERNAL_ERROR,
-                    "OS random string generation failed, exiting"
-                );
-                exit(1);
-            }
-            gstate.host_info.make_random_string("guirpc", password);
-        }
-        f = fopen(GUI_RPC_PASSWD_FILE, "w");
-        if (!f) {
-            msg_printf(NULL, MSG_USER_ALERT,
-                "Can't open gui_rpc_auth.cfg; disabling remote access"
-            );
-            return ERR_BAD_PASSWD;
-        }
-        retval = fputs(password, f);
-        fclose(f);
-        if (retval == EOF) {
-            msg_printf(NULL, MSG_USER_ALERT,
-                "Can't write gui_rpc_auth.cfg; disabling remote access"
-            );
-            return ERR_BAD_PASSWD;
-        }
-#ifndef _WIN32
-        // if someone can read the password,
-        // they can cause code to execute as this user.
-        // So better protect it.
-        //
-        if (g_use_sandbox) {
-            // Allow group access so authorized administrator can modify it
-            chmod(GUI_RPC_PASSWD_FILE, S_IRUSR|S_IWUSR | S_IRGRP | S_IWGRP);
-        } else {
-            chmod(GUI_RPC_PASSWD_FILE, S_IRUSR|S_IWUSR);
-        }
-#endif
+        return;
     }
-    return 0;
+
+    // if no password file, make a random password
+    //
+    retval = make_random_string(password);
+    if (retval) {
+        if (config.os_random_only) {
+            msg_printf(
+                NULL, MSG_INTERNAL_ERROR,
+                "OS random string generation failed, exiting"
+            );
+            exit(1);
+        }
+        gstate.host_info.make_random_string("guirpc", password);
+    }
+
+    // try to write it to the file.
+    // if fail, just return
+    //
+    f = fopen(GUI_RPC_PASSWD_FILE, "w");
+    if (!f) {
+        msg_printf(NULL, MSG_USER_ALERT,
+            "Can't open gui_rpc_auth.cfg - fix permissions"
+        );
+    }
+    retval = fputs(password, f);
+    fclose(f);
+    if (retval == EOF) {
+        msg_printf(NULL, MSG_USER_ALERT,
+            "Can't write gui_rpc_auth.cfg - fix permissions"
+        );
+    }
+#ifndef _WIN32
+    // if someone can read the password,
+    // they can cause code to execute as this user.
+    // So better protect it.
+    //
+    if (g_use_sandbox) {
+        // Allow group access so authorized administrator can modify it
+        chmod(GUI_RPC_PASSWD_FILE, S_IRUSR|S_IWUSR | S_IRGRP | S_IWGRP);
+    } else {
+        chmod(GUI_RPC_PASSWD_FILE, S_IRUSR|S_IWUSR);
+    }
+#endif
 }
 
 int GUI_RPC_CONN_SET::get_allowed_hosts() {
@@ -221,17 +225,20 @@ int GUI_RPC_CONN_SET::insert(GUI_RPC_CONN* p) {
 
 // If the client runs at boot time,
 // it may be a while (~10 sec) before the DNS system is working.
-// If this returns an error, it will get called once a second
-// for up to 30 seconds.
+// If this returns an error,
+// it will get called once a second for up to 30 seconds.
 // On the last call, "last_time" is set; print error messages then.
 //
 int GUI_RPC_CONN_SET::init(bool last_time) {
     sockaddr_in addr;
     int retval;
+    bool first = true;
 
-    retval = get_password();
-    if (retval) return retval;
-    get_allowed_hosts();
+    if (first) {
+        get_password();
+        get_allowed_hosts();
+        first = false;
+    }
 
     retval = boinc_socket(lsock);
     if (retval) {
@@ -375,7 +382,6 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
     int sock, retval;
     vector<GUI_RPC_CONN*>::iterator iter;
     GUI_RPC_CONN* gr;
-    bool is_local = false;
 
     if (lsock < 0) return;
 
@@ -405,24 +411,25 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
         fcntl(sock, F_SETFD, FD_CLOEXEC);
 #endif
 
-        bool allowed;
+        bool host_allowed;
          
         // accept the connection if:
         // 1) allow_remote_gui_rpc is set or
         // 2) client host is included in "remote_hosts" file or
         // 3) client is on localhost
         //
-        if (is_localhost(addr)) {
-            allowed = true;
-            is_local = true;
+        if (config.allow_remote_gui_rpc) {
+            host_allowed = true;
+        } else if (is_localhost(addr)) {
+            host_allowed = true;
         } else {
             // reread host file because IP addresses might have changed
             //
             get_allowed_hosts();
-            allowed = check_allowed_list(addr);
+            host_allowed = check_allowed_list(addr);
         }
 
-        if (!(config.allow_remote_gui_rpc) && !(allowed)) {
+        if (!host_allowed) {
             show_connect_error(addr);
             boinc_close_socket(sock);
         } else {
@@ -430,7 +437,7 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
             if (strlen(password)) {
                 gr->auth_needed = true;
             }
-            gr->is_local = is_local;
+            gr->is_local = is_localhost(addr);
             if (log_flags.gui_rpc_debug) {
                 msg_printf(0, MSG_INFO,
                     "[gui_rpc] got new GUI RPC connection"

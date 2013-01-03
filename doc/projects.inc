@@ -58,6 +58,14 @@ $biomed = array(
     tra("Biology and Medicine"),
     array(
         array(
+            "RNA World",
+            "http://www.rnaworld.de/rnaworld/",
+            "Rechenkraft.net e.V.",
+            "Molecular biology",
+            "RNA World seeks to identify, analyze, structurally predict and design RNA molecules on the basis of established bioinformatics software.",
+            "rna4.png"
+        ),
+        array(
             "FightMalaria@Home",
             "http://boinc.ucd.ie/fmah/",
             tra("University College Dublin"),
