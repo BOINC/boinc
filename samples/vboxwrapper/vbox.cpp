@@ -109,6 +109,7 @@ VBOX_VM::~VBOX_VM() {
 }
 
 int VBOX_VM::initialize() {
+    int rc = 0;
     string virtualbox_install_directory;
     string old_path;
     string new_path;
@@ -120,7 +121,9 @@ int VBOX_VM::initialize() {
     char buf[256];
 
     boinc_get_init_data_p(&aid);
-    get_install_directory(virtualbox_install_directory);
+
+    rc = get_install_directory(virtualbox_install_directory);
+    if (rc) return rc;
 
     // Prep the environment so we can execute the vboxmanage application
     //
@@ -1130,15 +1133,19 @@ int VBOX_VM::get_install_directory(string& virtualbox_install_directory ) {
 
     if (hkSetupHive) RegCloseKey(hkSetupHive);
     if (lpszRegistryValue) free(lpszRegistryValue);
+    if (virtualbox_install_directory.empty()) {
+        return 1;
+    }
+    return 0;
 #else
     virtualbox_install_directory = "";
-#endif
     return 0;
+#endif
 }
 
 // Returns the current directory in which the executable resides.
 //
-int VBOX_VM::get_slot_directory( string& dir ) {
+int VBOX_VM::get_slot_directory(string& dir) {
     char slot_dir[256];
 
     getcwd(slot_dir, sizeof(slot_dir));

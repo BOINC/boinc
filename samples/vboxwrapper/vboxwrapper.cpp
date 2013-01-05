@@ -421,11 +421,10 @@ int main(int argc, char** argv) {
     if (retval) {
         fprintf(
             stderr,
-            "%s failed to initialize VM Hypervisor environment: %d\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            retval
+            "%s couldn't detect VM Hypervisor, telling BOINC to reschedule execution for a later date.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
-        boinc_finish(retval);
+        boinc_temporary_exit(86400, "Detection of VM Hypervisor failed.");
     }
 
     // Check to see if the system is in a state in which we expect to be able to run
