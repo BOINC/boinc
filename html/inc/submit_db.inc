@@ -37,6 +37,10 @@ class BoincBatch {
         $db = BoincDb::get();
         return $db->update($this, 'batch', $clause);
     }
+    static function update_aux($clause) {
+        $db = BoincDb::get();
+        return $db->update_aux('batch', $clause);
+    }
 }
 
 // see db/boinc_db.h
@@ -65,6 +69,10 @@ class BoincUserSubmit {
     function update($clause) {
         $db = BoincDb::get();
         return $db->update_aux('user_submit', "$clause where user_id=$this->user_id");
+    }
+    static function update_aux($clause) {
+        $db = BoincDb::get();
+        return $db->update_aux('user_submit', $clause);
     }
 }
 

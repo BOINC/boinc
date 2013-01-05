@@ -127,5 +127,5 @@ extern int cancel_job(DB_WORKUNIT&);
 
 extern int get_total_quota(double&);
 extern int get_project_flops(double&);
-extern int adjust_user_priority(DB_USER_SUBMIT&, double, double, double);
+extern double user_priority_delta(DB_USER_SUBMIT&, double, double, double);
 #endif
