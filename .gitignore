@@ -17,3 +17,8 @@
 *.pfx
 *.pvk
 *.spc
+*.o
+*.lo
+*.a
+*.la
+*.in
