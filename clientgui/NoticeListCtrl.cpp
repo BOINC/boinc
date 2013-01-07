@@ -542,6 +542,7 @@ void CNoticeListCtrl::Clear() {
     SetItemCount(0);
     m_bComputerChanged = true;
     UpdateUI();
+    Refresh();
 }
 
 

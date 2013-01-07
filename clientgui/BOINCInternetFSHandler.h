@@ -31,6 +31,7 @@ public:
     virtual bool CanOpen(const wxString& strLocation);
     virtual wxFSFile* OpenFile(wxFileSystem& fs, const wxString& strLocation);
     void UnchacheMissingItems();
+    void ClearCache();
     void ShutDown();
 
 protected:
