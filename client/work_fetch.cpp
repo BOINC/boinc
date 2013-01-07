@@ -245,8 +245,8 @@ PROJECT* RSC_WORK_FETCH::choose_project_hyst(bool strict) {
 
     if (log_flags.work_fetch_debug) {
         msg_printf(0, MSG_INFO,
-            "[work_fetch] buffer_low: %s; sim_excluded_instances %d\n",
-            buffer_low?"yes":"no", sim_excluded_instances
+            "[work_fetch] %s: buffer_low: %s; sim_excluded_instances %d\n",
+            rsc_name(rsc_type), buffer_low?"yes":"no", sim_excluded_instances
         );
     }
 
@@ -495,13 +495,14 @@ void RSC_WORK_FETCH::set_request_excluded(PROJECT* p) {
 }
 
 void RSC_WORK_FETCH::print_state(const char* name) {
+    msg_printf(0, MSG_INFO, "[work_fetch] --- state for %s ---", name);
     msg_printf(0, MSG_INFO,
-        "[work_fetch] %s: shortfall %.2f nidle %.2f saturated %.2f busy %.2f",
-        name,
+        "[work_fetch] shortfall %.2f nidle %.2f saturated %.2f busy %.2f",
         shortfall, nidle_now, saturated_time,
         busy_time_estimator.get_busy_time()
     );
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        char buf[256];
         PROJECT* p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
         RSC_PROJECT_WORK_FETCH& pwf = project_state(p);
@@ -510,10 +511,15 @@ void RSC_WORK_FETCH::print_state(const char* name) {
         bool no_rsc_apps = p->no_rsc_apps[rsc_type];
         bool no_rsc_ams = p->no_rsc_ams[rsc_type];
         double bt = pwf.backoff_time>gstate.now?pwf.backoff_time-gstate.now:0;
+        if (bt) {
+            sprintf(buf, " (resource backoff: %.2f)", bt);
+        } else {
+            strcpy(buf, "");
+        }
         msg_printf(p, MSG_INFO,
-            "[work_fetch] %s: fetch share %.3f rsc backoff (dt %.2f, inc %.2f)%s%s%s%s",
-            name,
-            pwf.fetchable_share, bt, pwf.backoff_interval,
+            "[work_fetch] fetch share %.3f%s%s%s%s%s",
+            pwf.fetchable_share,
+            buf,
             no_rsc_pref?" (blocked by prefs)":"",
             no_rsc_apps?" (no apps)":"",
             no_rsc_ams?" (blocked by account manager)":"",
@@ -638,23 +644,21 @@ void WORK_FETCH::print_state() {
     msg_printf(0, MSG_INFO, "[work_fetch] target work buffer: %.2f + %.2f sec",
         gstate.work_buf_min(), gstate.work_buf_additional()
     );
+    msg_printf(0, MSG_INFO, "[work_fetch] --- project states ---");
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        char buf[256];
         PROJECT* p = gstate.projects[i];
-        if (p->non_cpu_intensive) continue;
-        if (p->min_rpc_time > gstate.now) {
-            sprintf(buf, " (project backoff %.2f)", p->min_rpc_time - gstate.now);
+        char buf[256];
+        if (p->pwf.cant_fetch_work_reason) {
+            sprintf(buf, "can't req work: %s",
+                cant_fetch_work_string(p->pwf.cant_fetch_work_reason)
+            );
         } else {
-            strcpy(buf, "");
+            strcpy(buf, "can req work");
         }
-        msg_printf(p, MSG_INFO, "[work_fetch] REC %.3f priority %.6f%s%s%s%s%s",
+        msg_printf(p, MSG_INFO, "[work_fetch] REC %.3f prio %.6f %s",
             p->pwf.rec,
             p->sched_priority,
-            buf,
-            p->suspended_via_gui?" (susp via GUI)":"",
-            p->master_url_fetch_pending?" (master fetch pending)":"",
-            p->dont_request_more_work?" (no new tasks)":"",
-            p->too_many_uploading_results?" (too many uploads)":""
+            buf
         );
     }
     for (int i=0; i<coprocs.n_rsc; i++) {
@@ -689,6 +693,12 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
         if (p->pwf.cant_fetch_work_reason == 0) {
             if (bestp) {
                 p->pwf.cant_fetch_work_reason = CANT_FETCH_WORK_NOT_HIGHEST_PRIORITY;
+                if (log_flags.work_fetch_debug) {
+                    msg_printf(0, MSG_INFO,
+                        "[work_fetch] not piggybacking work req: %s has higher priority",
+                        bestp->get_project_name()
+                    );
+                }
             } else {
                 p->pwf.cant_fetch_work_reason = CANT_FETCH_WORK_DONT_NEED;
             }

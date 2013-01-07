@@ -5454,3 +5454,9 @@ Charlie 23 Dec 2012
         BOINCInternetFSHandler.cpp,.h
         NoticeListCtrl.cpp
         sg_DlgMessages.cpp,.h
+
+David  24 Dec 2012
+    - client: improved log messages for work fetch
+
+    client/
+        work_fetch.cpp
