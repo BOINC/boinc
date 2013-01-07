@@ -139,6 +139,8 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
         pDoc->GetConnectedComputerName(strNewMachineName);
         if (strLastMachineName != strNewMachineName) {
             strLastMachineName = strNewMachineName;
+            m_FetchingNoticesText->Show();
+            m_NoNoticesText->Hide();
             m_pHtmlListPane->Clear();
         }
     }
