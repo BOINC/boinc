@@ -238,7 +238,6 @@ struct COPROC {
         have_cal = false;
         have_opencl = false;
         specified_in_config = false;
-        available_ram = -1;
         req_secs = 0;
         req_instances = 0;
         opencl_device_count = 0;
