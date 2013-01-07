@@ -524,12 +524,36 @@ wxFSFile* CBOINCInternetFSHandler::OpenFile(wxFileSystem& WXUNUSED(fs), const wx
             wxURL url(right);
             if (url.GetError() == wxURL_NOERR)
             {
+                CC_STATUS status;
+                CMainDocument* pDoc = wxGetApp().GetDocument();
+                int retval = pDoc->GetCoreClientStatus(status);
                 
 #ifdef __WXMSW__
-                wxWinINetURL * winURL = new wxWinINetURL;
-                wxInputStream* m_InputStream = winURL->GetInputStream(&url);
+                // Use WinInet fucntions only if network activity not suspended 
+                // or if the result is already in the Windows internet cache
+                bool CanUseWinInet = true;
+                if ((!retval) && status.network_suspend_reason) {
+                    INTERNET_CACHE_ENTRY_INFO cache_info;
+                    if (!GetUrlCacheEntryInfo(right.c_str(), sizeof(cache_info))) {
+                        CanUseWinInet = false;
+                    }
+                }
+                
+                if (CanUseWinInet) {
+                    wxWinINetURL * winURL = new wxWinINetURL;
+                    m_InputStream = winURL->GetInputStream(&url);
+                } else {
+                    m_InputStream = NULL;
+                }
 #else
-                wxInputStream* m_InputStream = url.GetInputStream();
+                // Mac OS does not cache BOINC's Internet accesses 
+                // so just check if network activity os suspended
+                // TODO: Does Linux OS cache BOINC's Internet accesses?
+                if (retval || status.network_suspend_reason) {
+                    m_InputStream = NULL;
+                } else {
+                    m_InputStream = url.GetInputStream();
+                }
 #endif
                 strMIME = url.GetProtocol().GetContentType();
                 if (strMIME == wxEmptyString) {
