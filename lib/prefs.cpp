@@ -31,12 +31,11 @@
 #include "boinc_fcgi.h"
 #endif
 
+#include "error_numbers.h"
 #include "parse.h"
 #include "util.h"
 
-#include "error_numbers.h"
 #include "prefs.h"
-
 
 GLOBAL_PREFS_MASK::GLOBAL_PREFS_MASK() {
     clear();
@@ -47,86 +46,86 @@ void GLOBAL_PREFS_MASK::clear() {
 }
 
 void GLOBAL_PREFS_MASK::set_all() {
-    run_on_batteries = true;
-    run_if_user_active = true;
-    run_gpu_if_user_active = true;
-    idle_time_to_run = true;
-    suspend_if_no_recent_input = true;
-    suspend_cpu_usage = 0;
-    start_hour = true;
-    end_hour = true;
-    net_start_hour = true;
-    net_end_hour = true;
-    leave_apps_in_memory = true;
     confirm_before_connecting = true;
-    hangup_if_dialed = true;
-    dont_verify_images = true;
-    work_buf_min_days = true;
-    work_buf_additional_days = true;
-    max_ncpus_pct = true;
-    max_ncpus= true;
     cpu_scheduling_period_minutes = true;
+    cpu_usage_limit = true;
+    daily_xfer_limit_mb = true;
+    daily_xfer_period_days = true;
     disk_interval = true;
     disk_max_used_gb = true;
     disk_max_used_pct = true;
     disk_min_free_gb = true;
-    vm_max_used_frac = true;
+    dont_verify_images = true;
+    end_hour = true;
+    hangup_if_dialed = true;
+    idle_time_to_run = true;
+    leave_apps_in_memory = true;
+    max_bytes_sec_down = true;
+    max_bytes_sec_up = true;
+    max_ncpus= true;
+    max_ncpus_pct = true;
+    net_end_hour = true;
+    net_start_hour = true;
+    network_wifi_only = true;
     ram_max_used_busy_frac = true;
     ram_max_used_idle_frac = true;
-    idle_time_to_run = true;
-    max_bytes_sec_up = true;
-    max_bytes_sec_down = true;
-    cpu_usage_limit = true;
-    daily_xfer_limit_mb = true;
-    daily_xfer_period_days = true;
+    run_gpu_if_user_active = true;
+    run_if_user_active = true;
+    run_on_batteries = true;
+    start_hour = true;
+    suspend_cpu_usage = 0;
+    suspend_if_no_recent_input = true;
+    vm_max_used_frac = true;
+    work_buf_additional_days = true;
+    work_buf_min_days = true;
 }
 
 bool GLOBAL_PREFS_MASK::are_prefs_set() {
-    if (run_on_batteries) return true;
-    if (run_if_user_active) return true;
-    if (run_gpu_if_user_active) return true;
-    if (idle_time_to_run) return true;
-    if (suspend_if_no_recent_input) return true;
-    if (suspend_cpu_usage) return true;
-    if (start_hour) return true;
-    if (end_hour) return true;
-    if (net_start_hour) return true;
-    if (net_end_hour) return true;
-    if (leave_apps_in_memory) return true;
     if (confirm_before_connecting) return true;
-    if (hangup_if_dialed) return true;
-    if (dont_verify_images) return true;
-    if (work_buf_min_days) return true;
-    if (work_buf_additional_days) return true;
-    if (max_ncpus_pct) return true;
-    if (max_ncpus) return true;
     if (cpu_scheduling_period_minutes) return true;
+    if (cpu_usage_limit) return true;
+    if (daily_xfer_limit_mb) return true;
+    if (daily_xfer_period_days) return true;
     if (disk_interval) return true;
     if (disk_max_used_gb) return true;
     if (disk_max_used_pct) return true;
     if (disk_min_free_gb) return true;
-    if (vm_max_used_frac) return true;
+    if (dont_verify_images) return true;
+    if (end_hour) return true;
+    if (hangup_if_dialed) return true;
+    if (idle_time_to_run) return true;
+    if (leave_apps_in_memory) return true;
+    if (max_bytes_sec_down) return true;
+    if (max_bytes_sec_up) return true;
+    if (max_ncpus) return true;
+    if (max_ncpus_pct) return true;
+    if (net_start_hour) return true;
+    if (network_wifi_only) return true;
+    if (net_end_hour) return true;
     if (ram_max_used_busy_frac) return true;
     if (ram_max_used_idle_frac) return true;
-    if (idle_time_to_run) return true;
-    if (max_bytes_sec_up) return true;
-    if (max_bytes_sec_down) return true;
-    if (cpu_usage_limit) return true;
-    if (daily_xfer_limit_mb) return true;
-    if (daily_xfer_period_days) return true;
+    if (run_gpu_if_user_active) return true;
+    if (run_if_user_active) return true;
+    if (run_on_batteries) return true;
+    if (start_hour) return true;
+    if (suspend_if_no_recent_input) return true;
+    if (suspend_cpu_usage) return true;
+    if (vm_max_used_frac) return true;
+    if (work_buf_additional_days) return true;
+    if (work_buf_min_days) return true;
     return false;
 }
 
 bool GLOBAL_PREFS_MASK::are_simple_prefs_set() {
-    if (start_hour) return true;
     if (end_hour) return true;
+    if (cpu_usage_limit) return true;
+    if (disk_max_used_gb) return true;
+    if (idle_time_to_run) return true;
     if (net_start_hour) return true;
     if (net_end_hour) return true;
-    if (disk_max_used_gb) return true;
-    if (cpu_usage_limit) return true;
     if (run_on_batteries) return true;
     if (run_if_user_active) return true;
-    if (idle_time_to_run) return true;
+    if (start_hour) return true;
     return false;
 }
 
@@ -206,35 +205,38 @@ void WEEK_PREFS::unset(int day) {
 // so that the client can do the RPC and get the global prefs from the server
 //
 void GLOBAL_PREFS::defaults() {
-    run_on_batteries = true;
-    run_if_user_active = true;
-    run_gpu_if_user_active = false;
-    idle_time_to_run = 3;
-    suspend_if_no_recent_input = 0;
-    suspend_cpu_usage = 25;
-    cpu_times.clear();
-    net_times.clear();
-    leave_apps_in_memory = false;
     confirm_before_connecting = true;
-    hangup_if_dialed = false;
-    dont_verify_images = false;
-    work_buf_min_days = 0.1;
-    work_buf_additional_days = 0.5;
-    max_ncpus_pct = 0;
-    max_ncpus = 0;
     cpu_scheduling_period_minutes = 60;
-    disk_interval = 60;
-    disk_max_used_gb = 10;
-    disk_max_used_pct = 50;
-    disk_min_free_gb = 0.1;
-    vm_max_used_frac = 0.75;
-    ram_max_used_busy_frac = 0.5;
-    ram_max_used_idle_frac = 0.9;
-    max_bytes_sec_up = 0;
-    max_bytes_sec_down = 0;
+    cpu_times.clear();
     cpu_usage_limit = 100;
     daily_xfer_limit_mb = 0;
     daily_xfer_period_days = 0;
+    disk_interval = 60;
+    disk_max_used_gb = 1000;
+    disk_max_used_pct = 90;
+    disk_min_free_gb = 0.1;
+    dont_verify_images = false;
+    end_hour = 0;
+    hangup_if_dialed = false;
+    idle_time_to_run = 3;
+    leave_apps_in_memory = false;
+    max_bytes_sec_down = 0;
+    max_bytes_sec_up = 0;
+    max_ncpus = 0;
+    max_ncpus_pct = 0;
+    net_times.clear();
+    network_wifi_only = false;
+    ram_max_used_busy_frac = 0.5;
+    ram_max_used_idle_frac = 0.9;
+    run_gpu_if_user_active = false;
+    run_if_user_active = true;
+    run_on_batteries = true;
+    start_hour = 0;
+    suspend_cpu_usage = 25;
+    suspend_if_no_recent_input = 0;
+    vm_max_used_frac = 0.75;
+    work_buf_additional_days = 0.5;
+    work_buf_min_days = 0.1;
 
     // don't initialize source_project, source_scheduler,
     // mod_time, host_specific here
@@ -251,6 +253,7 @@ void GLOBAL_PREFS::clear_bools() {
     confirm_before_connecting = false;
     hangup_if_dialed = false;
     dont_verify_images = false;
+    network_wifi_only = true;
 }
 
 void GLOBAL_PREFS::init() {
@@ -536,6 +539,9 @@ int GLOBAL_PREFS::parse_override(
             }
             continue;
         }
+        if (xp.parse_bool("network_wifi_only", network_wifi_only)) {
+            continue;
+        }
         if (xp.parse_bool("host_specific", host_specific)) {
             continue;
         }
@@ -611,6 +617,7 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         "   <daily_xfer_limit_mb>%f</daily_xfer_limit_mb>\n"
         "   <daily_xfer_period_days>%d</daily_xfer_period_days>\n"
         "   <override_file_present>%d</override_file_present>\n",
+        "   <network_wifi_only>%d</network_wifi_only>\n",
         source_project,
         mod_time,
         run_on_batteries?1:0,
@@ -644,6 +651,7 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         daily_xfer_limit_mb,
         daily_xfer_period_days,
         override_file_present?1:0
+        network_wifi_only?1:0
     );
     if (max_ncpus) {
         f.printf("   <max_cpus>%d</max_cpus>\n", max_ncpus);
@@ -805,6 +813,9 @@ int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
     }
     if (mask.daily_xfer_period_days) {
         f.printf("   <daily_xfer_period_days>%d</daily_xfer_period_days>\n", daily_xfer_period_days);
+    }
+    if (mask.network_wifi_only) {
+        f.printf("   <network_wifi_only>%d</network_wifi_only>\n", network_wifi_only?1:0 );
     }
 
     write_day_prefs(f);
