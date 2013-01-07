@@ -53,7 +53,6 @@ protected:
     wxStaticText*           m_FetchingNoticesText;
     wxStaticText*           m_NoNoticesText;
     bool                    m_bMissingItems;
-    int                     m_bNetworkSuspended;
 
     virtual bool            OnSaveState( wxConfigBase* pConfig );
     virtual bool            OnRestoreState( wxConfigBase* pConfig );
