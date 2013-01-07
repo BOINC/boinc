@@ -50,6 +50,7 @@
 #include "sched_vda.h"
 
 #include "credit.h"
+#include "sched_files.h"
 #include "sched_main.h"
 #include "sched_types.h"
 #include "sched_util.h"
@@ -1100,6 +1101,10 @@ void process_request(char* code_sign_key) {
     time_t t;
 
     memset(&g_reply->wreq, 0, sizeof(g_reply->wreq));
+
+    // if client has sticky files we don't need any more, tell it
+    //
+    do_file_delete_regex();
 
     // if different major version of BOINC, just send a message
     //

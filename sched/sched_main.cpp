@@ -43,22 +43,23 @@
 #include <sys/resource.h>
 
 #include "boinc_db.h"
-#include "parse.h"
-#include "filesys.h"
 #include "error_numbers.h"
+#include "filesys.h"
+#include "parse.h"
 #include "shmem.h"
-#include "util.h"
 #include "str_util.h"
-#include "synch.h"
 #include "svn_version.h"
+#include "synch.h"
+#include "util.h"
 
-#include "sched_config.h"
-#include "sched_types.h"
 #include "handle_request.h"
-#include "sched_util.h"
+#include "sched_config.h"
+#include "sched_files.h"
 #include "sched_msgs.h"
-#include "sched_main.h"
+#include "sched_types.h"
+#include "sched_util.h"
 
+#include "sched_main.h"
 
 // Useful for debugging, if your cgi script keeps crashing.  This
 // makes it dump a core file that you can load into a debugger to see
@@ -494,6 +495,7 @@ int main(int argc, char** argv) {
 
     gui_urls.init();
     project_files.init();
+    init_file_delete_regex();
 
     sprintf(path, "%s/code_sign_public", config.key_dir);
     retval = read_file_malloc(path, code_sign_key);

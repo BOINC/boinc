@@ -149,14 +149,15 @@ cgi_sources = \
     hr.cpp \
     hr_info.cpp \
     plan_class_spec.cpp \
-    sched_main.cpp \
     sched_array.cpp \
     sched_assign.cpp \
     sched_customize.cpp \
+    sched_files.cpp \
     sched_hr.cpp \
-    sched_resend.cpp \
     sched_limit.cpp \
     sched_locality.cpp \
+    sched_main.cpp \
+    sched_resend.cpp \
     sched_result.cpp \
     sched_score.cpp \
     sched_send.cpp \
