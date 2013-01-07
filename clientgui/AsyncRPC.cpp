@@ -1065,6 +1065,7 @@ void CMainDocument::HandleCompletedRPC() {
             if (!retval) {
                 CachedNoticeUpdate();  // Call this only when notice buffer is stable
             }
+            m_bWaitingForGetNoticesRPC = false;
             break;
         case RPC_GET_MESSAGES:
             if (current_rpc_request.exchangeBuf && !retval) {
