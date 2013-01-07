@@ -19,11 +19,6 @@
 #pragma implementation "AsyncRPC.h"
 #endif
 
-#if !(defined(_WIN32) || (defined(__WXMAC__) && (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4))) \
-    && defined(HAVE_XLOCALE_H)
-#include <xlocale.h>
-#endif
-
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
@@ -34,6 +29,11 @@
 #include "SkinManager.h"
 #include "DlgEventLog.h"
 #include "util.h"
+
+#if !(defined(_WIN32) || (defined(__WXMAC__) && (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4)))
+#include <xlocale.h>
+#include "gui_rpc_client.h"
+#endif
 
 extern bool s_bSkipExitConfirmation;
 
@@ -347,7 +347,7 @@ void *RPCThread::Entry() {
     wxMutexError mutexErr = wxMUTEX_NO_ERROR;
     wxCondError condErr = wxCOND_NO_ERROR;
 
-#ifdef HAVE_XLOCALE_H
+#ifndef NO_PER_THREAD_LOCALE
 #ifdef __WXMSW__
     // On Windows, set all locales for this thread on a per-thread basis
     _configthreadlocale(_ENABLE_PER_THREAD_LOCALE);
@@ -377,7 +377,7 @@ void *RPCThread::Entry() {
         wxASSERT(condErr == wxCOND_NO_ERROR);
         
         if (m_pDoc->m_bShutDownRPCThread) {
-#if defined(HAVE_XLOCALE_H) && !defined(__WXMSW__)
+#if !defined(NO_PER_THREAD_LOCALE) && !defined(__WXMSW__)
 #if defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4)
         if (uselocale)    // uselocale() is not available in Mac OS 10.3.9
 #endif
