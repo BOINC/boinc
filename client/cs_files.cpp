@@ -469,10 +469,18 @@ void CLIENT_STATE::check_file_existence() {
             get_pathname(fip, path, sizeof(path));
             double size;
             int retval = file_size(path, size);
-            if (retval || (fip->nbytes && (size != fip->nbytes))) {
+            if (retval) {
                 delete_project_owned_file(path, true);
                 fip->status = FILE_NOT_PRESENT;
-                msg_printf(NULL, MSG_INFO, "file %s not found", path);
+                msg_printf(NULL, MSG_INFO, "File %s not found", path);
+            } else if (fip->nbytes && (size != fip->nbytes)) {
+                if (gstate.global_prefs.dont_verify_images && is_image_file(path)) continue;
+                delete_project_owned_file(path, true);
+                fip->status = FILE_NOT_PRESENT;
+                msg_printf(NULL, MSG_INFO,
+                    "File %s has wrong size: expected %.0f, got %.0f",
+                    path, fip->nbytes, size
+                );
             }
         }
     }
