@@ -5433,3 +5433,10 @@ Charlie 21 Dec 2012
         events.h
         NoticeListCtrl.cpp,.h
         ViewNotices.cpp,.h
+
+Charlie 22 Dec 2012
+    - Mgr: When removing entries from our hash table, delete data to avoid memory 
+        leaks.
+
+    clientgui/
+        BOINCInternetFSHandler.cpp
