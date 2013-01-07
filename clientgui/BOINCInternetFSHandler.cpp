@@ -296,6 +296,7 @@ size_t wxWinINetInputStream::OnSysRead(void *buffer, size_t bufsize)
             wxLogError(wxT("Read failed with error %d: %s"),
                     iError, errorString.c_str());
         }
+    }
 #endif
 
     if (!success) {
@@ -523,6 +524,10 @@ wxFSFile* CBOINCInternetFSHandler::OpenFile(wxFileSystem& WXUNUSED(fs), const wx
 #else
                 m_InputStream = url.GetInputStream();
 #endif
+                if (b_ShuttingDown) {
+                    return NULL;
+                }
+
                 strMIME = url.GetProtocol().GetContentType();
                 if (strMIME == wxEmptyString) {
                     strMIME = GetMimeTypeFromExt(strLocation);
@@ -614,8 +619,8 @@ void CBOINCInternetFSHandler::ClearCache() {
 }
 
 
-void CBOINCInternetFSHandler::ShutDown() {
-    b_ShuttingDown = true;
+void CBOINCInternetFSHandler::ShutDown(bool set) {
+    b_ShuttingDown = set;
 #ifdef __WXMSW__
     if (m_InputStream) {
         delete m_InputStream;
