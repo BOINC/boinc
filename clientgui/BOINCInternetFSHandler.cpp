@@ -606,12 +606,18 @@ void CBOINCInternetFSHandler::UnchacheMissingItems() {
         }
     }
     m_bMissingItems = false;
+#ifdef __WXMSW__
+    dInternetTimeout = STANDARD_INTERNET_TIMEOUT;
+#endif
 }
 
 
 void CBOINCInternetFSHandler::ClearCache() {
     WX_CLEAR_HASH_TABLE(*m_Hash);
     m_bMissingItems = false;
+#ifdef __WXMSW__
+    dInternetTimeout = STANDARD_INTERNET_TIMEOUT;
+#endif
 }
 
 
