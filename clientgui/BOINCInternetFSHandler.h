@@ -33,7 +33,7 @@ public:
     bool ItemsFailedToLoad() { return m_bMissingItems; }
     void UnchacheMissingItems();
     void ClearCache();
-    void ShutDown(bool set = true);
+    void SetAbortInternetIO(bool set = true);
 
 protected:
     static bool CheckHash(const wxString& strLocation);

@@ -94,6 +94,7 @@ bool CPanelMessages::Create()
 {
 ////@begin CPanelMessages member initialisation
     m_bProcessingRefreshEvent = false;
+    m_bWaitingToClose = false;
 ////@end CPanelMessages member initialisation
 
     CreateControls();
@@ -251,6 +252,8 @@ void CPanelMessages::OnEraseBackground(wxEraseEvent& event){
  */
 
 void CPanelMessages::OnRefresh() {
+    if (m_bWaitingToClose) return;
+    
     if (!m_bProcessingRefreshEvent) {
         m_bProcessingRefreshEvent = true;
 
@@ -285,16 +288,21 @@ void CPanelMessages::OnRefresh() {
         // Don't call Freeze() / Thaw() here because it causes an unnecessary redraw
         m_pHtmlListPane->UpdateUI();
 
-        bMissingItems = ((CBOINCInternetFSHandler*)internetFSHandler)->ItemsFailedToLoad();
-        if (bMissingItems != m_bMissingItems) {
-            m_ReloadNoticesPanel->Show(bMissingItems);
-            Layout();
-            m_bMissingItems = bMissingItems;
+        if (m_bWaitingToClose) {
+            wxCommandEvent evt(wxEVT_COMMAND_BUTTON_CLICKED, wxID_OK);
+            GetEventHandler()->AddPendingEvent(evt);
+        } else {
+            bMissingItems = ((CBOINCInternetFSHandler*)internetFSHandler)->ItemsFailedToLoad();
+            if (bMissingItems != m_bMissingItems) {
+                m_ReloadNoticesPanel->Show(bMissingItems);
+                Layout();
+                m_bMissingItems = bMissingItems;
+            }
+            
+            m_FetchingNoticesText->Show(m_pHtmlListPane->m_bDisplayFetchingNotices);
+            m_NoNoticesText->Show(m_pHtmlListPane->m_bDisplayEmptyNotice);
         }
         
-        m_FetchingNoticesText->Show(m_pHtmlListPane->m_bDisplayFetchingNotices);
-        m_NoNoticesText->Show(m_pHtmlListPane->m_bDisplayEmptyNotice);
-
         m_bProcessingRefreshEvent = false;
     }
 }
@@ -308,9 +316,18 @@ void CPanelMessages::OnOK( wxCommandEvent& event ) {
     // Shut down any asynchronous Internet access in progress
     wxFileSystemHandler *internetFSHandler = wxGetApp().GetInternetFSHandler();
     if (internetFSHandler) {
-        ((CBOINCInternetFSHandler*)internetFSHandler)->ShutDown();
+        ((CBOINCInternetFSHandler*)internetFSHandler)->SetAbortInternetIO();
     }
-
+    
+    // If we were called during Yield() in async Internet I/O, 
+    // it is not safe to call our destructor until OnRefresh()
+    // has returned from m_pHtmlListPane->UpdateUI(), so just
+    // set a flag to close this dialog at that time.
+    if (m_bProcessingRefreshEvent) {
+        m_bWaitingToClose = true;
+        return;
+    }
+    
     event.Skip();
 }
 

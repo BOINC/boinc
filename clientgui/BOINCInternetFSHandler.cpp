@@ -619,7 +619,7 @@ void CBOINCInternetFSHandler::ClearCache() {
 }
 
 
-void CBOINCInternetFSHandler::ShutDown(bool set) {
+void CBOINCInternetFSHandler::SetAbortInternetIO(bool set) {
     b_ShuttingDown = set;
 #ifdef __WXMSW__
     if (m_InputStream) {
