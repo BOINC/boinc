@@ -412,8 +412,9 @@ bool CNoticeListCtrl::Create( wxWindow* parent )
 #endif
 ////@end CNoticeListCtrl creation
 
-    // Display the empty notice notification until we have some
-    // notices to display.
+    // Display the fetching notices message until we have notices 
+    // to display or have determined that there are no notices.
+    m_bDisplayFetchingNotices = false;
     m_bDisplayEmptyNotice = true;
     m_bComputerChanged = false;
 
@@ -558,7 +559,21 @@ bool CNoticeListCtrl::UpdateUI()
     // Call Freeze() / Thaw() only when actually needed; 
     // otherwise it causes unnecessary redraws
     int noticeCount = pDoc->GetNoticeCount();
-    if ((noticeCount <= 0) || (!pDoc->IsConnected()) || m_bComputerChanged) {
+    if ((noticeCount < 0) || (!pDoc->IsConnected()) || m_bComputerChanged) {
+        if (GetItemCount()) {
+            SetItemCount(0);
+        }
+        m_bDisplayFetchingNotices =  true;
+        m_bDisplayEmptyNotice = false;
+        m_bComputerChanged = false;
+        return true;
+    }
+    
+    if (noticeCount == 0) {
+        if (GetItemCount()) {
+            SetItemCount(0);
+        }
+        m_bDisplayFetchingNotices = false;
         m_bDisplayEmptyNotice = true;
         m_bComputerChanged = false;
         return true;
@@ -572,12 +587,12 @@ bool CNoticeListCtrl::UpdateUI()
         if (
             pDoc->IsConnected() &&
             (pDoc->notices.complete ||
-            ((int)GetItemCount() != noticeCount) ||
-            ((pDoc->GetNoticeCount() > 0) && (m_bDisplayEmptyNotice == true)))
+            ((int)GetItemCount() != noticeCount))
         ) {
             pDoc->notices.complete = false;
             Freeze();
             SetItemCount(noticeCount);
+            m_bDisplayFetchingNotices = false;
             m_bDisplayEmptyNotice = false;
             Thaw();
         }

@@ -463,6 +463,7 @@ struct MESSAGES {
 
 struct NOTICES {
     bool complete;
+    bool received;
         // whether vector contains all notices, or just new ones
     std::vector<NOTICE*> notices;
 

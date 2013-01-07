@@ -1168,6 +1168,7 @@ NOTICES::~NOTICES() {
 
 void NOTICES::clear() {
     complete = false;
+    received = false;
     unsigned int i;
     for (i=0; i<notices.size(); i++) {
         delete notices[i];
@@ -2530,6 +2531,7 @@ int RPC_CLIENT::get_notices(int seqno, NOTICES& notices) {
     );
     retval = rpc.do_rpc(buf);
     if (retval) return retval;
+    notices.received = true;
     return parse_notices(rpc.xp, notices);
 }
 
@@ -2547,6 +2549,7 @@ int RPC_CLIENT::get_notices_public(int seqno, NOTICES& notices) {
     );
     retval = rpc.do_rpc(buf);
     if (retval) return retval;
+    notices.received = true;
     return parse_notices(rpc.xp, notices);
 }
 

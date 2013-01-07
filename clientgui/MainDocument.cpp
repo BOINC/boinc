@@ -1936,7 +1936,7 @@ int CMainDocument::GetNoticeCount() {
     // only after a get_notices RPC completes so notices buffer is stable.
     CachedStateUpdate();
 
-    if (!notices.notices.empty()) {
+    if (notices.received) {
         iCount = (int)notices.notices.size();
     }
     

@@ -64,11 +64,18 @@ CViewNotices::CViewNotices(wxNotebook* pNotebook) :
 
     SetSizer(itemFlexGridSizer);
     
-    m_StatusText = new wxStaticText(
+    m_FetchingNoticesText = new wxStaticText(
+                                    this, wxID_ANY, 
+                                    _("Fetching notices; please wait..."), 
+                                    wxPoint(20, 20), wxDefaultSize, 0
+                                    );
+
+    m_NoNoticesText = new wxStaticText(
                                     this, wxID_ANY, 
                                     _("There are no notices at this time."), 
                                     wxPoint(20, 20), wxDefaultSize, 0
                                     );
+    m_NoNoticesText->Hide();
 }
 
 
@@ -137,7 +144,8 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
 
     // Don't call Freeze() / Thaw() here because it causes an unnecessary redraw
     m_pHtmlListPane->UpdateUI();
-    m_StatusText->Show(m_pHtmlListPane->m_bDisplayEmptyNotice);
+    m_FetchingNoticesText->Show(m_pHtmlListPane->m_bDisplayFetchingNotices);
+    m_NoNoticesText->Show(m_pHtmlListPane->m_bDisplayEmptyNotice);
     pDoc->UpdateUnreadNoticeState();
 
     s_bInProgress = false;
