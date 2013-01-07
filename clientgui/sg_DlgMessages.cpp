@@ -126,6 +126,8 @@ void CPanelMessages::CreateControls()
                             wxDefaultPosition, wxDefaultSize, 0
                             );
 
+    m_ReloadNoticesText->SetBackgroundColour(*wxWHITE);
+    
     itemReloadButtonSizer->Add(m_ReloadNoticesText, 1, wxALL, 5);
     
     m_ReloadNoticesButton = new wxButton(
@@ -164,12 +166,15 @@ void CPanelMessages::CreateControls()
                                     _("Fetching notices; please wait..."), 
                                     wxPoint(20, 20), wxDefaultSize, 0
                                     );
-
+    m_FetchingNoticesText->SetBackgroundColour(*wxWHITE);
+    
     m_NoNoticesText = new wxStaticText(
                                     this, wxID_ANY, 
                                     _("There are no notices at this time."), 
                                     wxPoint(20, 20), wxDefaultSize, 0
                                     );
+    m_NoNoticesText->SetBackgroundColour(*wxWHITE);
+
     m_NoNoticesText->Hide();
     m_ReloadNoticesText->Hide();
     m_ReloadNoticesButton->Hide();
