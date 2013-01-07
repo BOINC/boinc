@@ -5491,3 +5491,12 @@ David  27 Dec 2012
     client/
         hostinfo_unix.cpp
         hostinfo_unix_test.cpp
+
+David  29 Dec 2012
+    - client: disable remote access if
+        - gui_rpc_auth.cfg is empty, or
+        - it doesn't exist and we can't open it for writing, or
+        - the write to it fails
+
+    client/
+        gui_rpc_server.cpp
