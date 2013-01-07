@@ -407,6 +407,7 @@ CMainDocument::CMainDocument() : rpc(this) {
     m_iNoticeSequenceNumber = 0;
     m_iLastReadNoticeSequenceNumber = -1;
     m_dLastReadNoticeArrivalTime = 0.0;
+    m_bWaitingForGetNoticesRPC = false;
 
     m_dtCachedStateTimestamp = wxDateTime((time_t)0);
     m_iGet_state_rpc_result = 0;
@@ -972,18 +973,23 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
     ts = dtNow - m_dtNoticesTimeStamp;
     if ((currentTabView & VW_NOTIF) || 
         (ts.GetSeconds() >= NOTICESBACKGROUNDRPC_INTERVAL)) {
-    
-        request.clear();
-        request.which_rpc = RPC_GET_NOTICES;
-        // m_iNoticeSequenceNumber could change between request and execution
-        // of RPC, so pass in a pointer rather than its value
-        request.arg1 = &m_iNoticeSequenceNumber;
-        request.arg2 = &notices;
-        request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
-        request.completionTime = &m_dtNoticesTimeStamp;
-        request.resultPtr = &m_iGet_notices_rpc_result;
-       
-        RequestRPC(request);
+        // Don't request another get_notices RPC until we have 
+        // updated m_iNoticeSequenceNumber from the previous 
+        // one; otherwise we will get duplicate notices
+        if (!m_bWaitingForGetNoticesRPC) {
+            m_bWaitingForGetNoticesRPC =  true;
+            request.clear();
+            request.which_rpc = RPC_GET_NOTICES;
+            // m_iNoticeSequenceNumber could change between request and execution
+            // of RPC, so pass in a pointer rather than its value
+            request.arg1 = &m_iNoticeSequenceNumber;
+            request.arg2 = &notices;
+            request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
+            request.completionTime = &m_dtNoticesTimeStamp;
+            request.resultPtr = &m_iGet_notices_rpc_result;
+           
+            RequestRPC(request);
+        }
     }
     
     ts = dtNow - m_dtCachedStateTimestamp;
@@ -1834,7 +1840,8 @@ int CMainDocument::CachedNoticeUpdate() {
 
     if (in_this_func) return 0;
     in_this_func = true;
-
+    m_bWaitingForGetNoticesRPC = false;
+    
     if (IsConnected()) {
         // Can't look up previous last read message until we know machine name
         if (!strlen(state.host_info.domain_name)) {
