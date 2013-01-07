@@ -26,7 +26,7 @@
 class MemFSHashObj : public wxObject
 {
 public:
-    MemFSHashObj(wxInputStream* stream, const wxString& mime)
+    MemFSHashObj(wxInputStream* stream, const wxString& mime, const wxString& key)
     {
         if (stream) {
             wxMemoryOutputStream out;
@@ -38,6 +38,7 @@ public:
             m_Len = 0;
             m_Data = NULL;
         }
+        m_Key = key;
         m_MimeType = mime;
         m_Time = wxDateTime::Now();
     }
@@ -51,6 +52,7 @@ public:
     size_t m_Len;
     wxString m_MimeType;
     wxDateTime m_Time;
+    wxString m_Key;
 
     DECLARE_NO_COPY_CLASS(MemFSHashObj)
 };
@@ -451,6 +453,7 @@ CBOINCInternetFSHandler::CBOINCInternetFSHandler() : wxFileSystemHandler()
 {
     m_InputStream = NULL;
     b_ShuttingDown = false;
+    m_bMissingItems = false;
     
     if (!m_Hash)
     {
@@ -533,7 +536,7 @@ wxFSFile* CBOINCInternetFSHandler::OpenFile(wxFileSystem& WXUNUSED(fs), const wx
                     strMIME = GetMimeTypeFromExt(strLocation);
                 }
 
-                obj = new MemFSHashObj(m_InputStream, strMIME);
+                obj = new MemFSHashObj(m_InputStream, strMIME, strLocation);
                 delete m_InputStream;
                 m_InputStream = NULL;
 
@@ -542,6 +545,7 @@ wxFSFile* CBOINCInternetFSHandler::OpenFile(wxFileSystem& WXUNUSED(fs), const wx
                 // If we couldn't read image, then return NULL so 
                 // image tag handler displays "broken image" bitmap
                 if (obj->m_Len == 0) {
+                    m_bMissingItems = true;
                     return NULL;
                 }
 
@@ -587,6 +591,21 @@ bool CBOINCInternetFSHandler::CheckHash(const wxString& strLocation)
         return false;
     else
         return true;
+}
+
+
+void CBOINCInternetFSHandler::UnchacheMissingItems() {
+    m_Hash->BeginFind();
+    wxHashTable::Node* node = m_Hash->Next();
+    for(;;) {
+        if (node == NULL) return;
+        MemFSHashObj* obj = (MemFSHashObj*)node->GetData();
+        // We must get next node before deleting this one
+        node = m_Hash->Next();
+        if (obj->m_Len == 0) {
+            m_Hash->Delete(obj->m_Key);
+        }
+    }
 }
 
 

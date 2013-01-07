@@ -44,6 +44,7 @@ public:
     virtual const char**    GetViewIcon();
     virtual const int       GetViewRefreshRate();
     virtual const int       GetViewCurrentViewPage();
+    void                    ReloadNotices();
 
 protected:
 	CNoticeListCtrl*        m_pHtmlListPane;
