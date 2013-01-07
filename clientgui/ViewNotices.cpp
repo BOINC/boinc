@@ -39,6 +39,7 @@ IMPLEMENT_DYNAMIC_CLASS(CViewNotices, CBOINCBaseView)
 
 BEGIN_EVENT_TABLE (CViewNotices, CBOINCBaseView)
     EVT_NOTICELIST_ITEM_DISPLAY(CViewNotices::OnLinkClicked)
+    EVT_BUTTON( ID_LIST_RELOADNOTICES, CViewNotices::OnRetryButton )
 END_EVENT_TABLE ()
 
 
@@ -52,11 +53,31 @@ CViewNotices::CViewNotices(wxNotebook* pNotebook) :
     //
     // Setup View
     //
-    wxFlexGridSizer* itemFlexGridSizer = new wxFlexGridSizer(1, 1, 0);
+    wxFlexGridSizer* itemReloadButtonSizer = new wxFlexGridSizer(1, 2, 0, 0);
+    itemReloadButtonSizer->AddGrowableCol(1);
+   
+    m_ReloadNoticesText = new wxStaticText(
+                                    this, wxID_ANY, wxEmptyString, 
+                                    wxDefaultPosition, wxDefaultSize, 0
+                                    );
+
+    itemReloadButtonSizer->Add(m_ReloadNoticesText, 1, wxALL, 5);
+    
+    m_ReloadNoticesButton = new wxButton(
+                                    this, ID_LIST_RELOADNOTICES,
+                                    _("Retry now"),
+                                    wxDefaultPosition, wxDefaultSize, 0
+                                    );
+
+    itemReloadButtonSizer->Add(m_ReloadNoticesButton, 1, wxALL, 5);
+
+    wxFlexGridSizer* itemFlexGridSizer = new wxFlexGridSizer(2, 1, 1, 0);
     wxASSERT(itemFlexGridSizer);
 
-    itemFlexGridSizer->AddGrowableRow(0);
+    itemFlexGridSizer->AddGrowableRow(1);
     itemFlexGridSizer->AddGrowableCol(0);
+
+    itemFlexGridSizer->Add(itemReloadButtonSizer, 1, wxGROW|wxALL, 1);
 
 	m_pHtmlListPane = new CNoticeListCtrl(this);
 	wxASSERT(m_pHtmlListPane);
@@ -77,6 +98,11 @@ CViewNotices::CViewNotices(wxNotebook* pNotebook) :
                                     wxPoint(20, 20), wxDefaultSize, 0
                                     );
     m_NoNoticesText->Hide();
+    m_ReloadNoticesText->Hide();
+    m_ReloadNoticesButton->Hide();
+    
+    m_bMissingItems =  false;
+    m_bNetworkSuspended = -1;
 }
 
 
@@ -126,11 +152,15 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
     static bool s_bInProgress = false;
     static wxString strLastMachineName = wxEmptyString;
     wxString strNewMachineName = wxEmptyString;
+    bool bMissingItems;
+    CC_STATUS status;
     CMainDocument* pDoc = wxGetApp().GetDocument();
-
+    wxFileSystemHandler *internetFSHandler = wxGetApp().GetInternetFSHandler();
+    
     wxASSERT(pDoc);
 	wxASSERT(m_pHtmlListPane);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(internetFSHandler);
     
     if (s_bInProgress) return;
     s_bInProgress = true;
@@ -141,14 +171,43 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
             strLastMachineName = strNewMachineName;
             m_FetchingNoticesText->Show();
             m_NoNoticesText->Hide();
-            wxFileSystemHandler *internetFSHandler = wxGetApp().GetInternetFSHandler();
             ((CBOINCInternetFSHandler*)internetFSHandler)->ClearCache();
             m_pHtmlListPane->Clear();
+            if (m_bMissingItems) {
+                m_ReloadNoticesText->Hide();
+                m_ReloadNoticesButton->Hide();
+                m_bMissingItems = false;
+                Layout();
+            }
         }
     }
 
     // Don't call Freeze() / Thaw() here because it causes an unnecessary redraw
     m_pHtmlListPane->UpdateUI();
+
+    bMissingItems = ((CBOINCInternetFSHandler*)internetFSHandler)->ItemsFailedToLoad();
+    if (bMissingItems) {
+        int retval = pDoc->GetCoreClientStatus(status);
+        if ((!retval) && (m_bNetworkSuspended != status.network_suspend_reason)) {
+            if (status.network_suspend_reason) {
+                m_ReloadNoticesText->SetLabel(_(
+                "One or more items failed to load from the Internet\nbecause Network activity is suspended."));
+            } else {
+                m_ReloadNoticesText->SetLabel(_("One or more items failed to load from the Internet."));
+            }
+        }
+    }
+    
+    if ((bMissingItems != m_bMissingItems) ||
+        (m_bNetworkSuspended != status.network_suspend_reason)
+        ) {
+        m_ReloadNoticesText->Show(bMissingItems);
+        m_ReloadNoticesButton->Show(bMissingItems);
+        Layout();
+        m_bMissingItems = bMissingItems;
+        m_bNetworkSuspended = status.network_suspend_reason;
+    }
+    
     m_FetchingNoticesText->Show(m_pHtmlListPane->m_bDisplayFetchingNotices);
     m_NoNoticesText->Show(m_pHtmlListPane->m_bDisplayEmptyNotice);
     pDoc->UpdateUnreadNoticeState();
@@ -163,6 +222,15 @@ void CViewNotices::OnLinkClicked( NoticeListCtrlEvent& event ) {
     if (event.GetURL().StartsWith(wxT("http://"))) {
 		wxLaunchDefaultBrowser(event.GetURL());
     }
+}
+
+
+void CViewNotices::OnRetryButton( wxCommandEvent& event ) {
+    m_ReloadNoticesText->Hide();
+    m_ReloadNoticesButton->Hide();
+    m_bMissingItems = false;
+    Layout();
+    ReloadNotices();
 }
 
 

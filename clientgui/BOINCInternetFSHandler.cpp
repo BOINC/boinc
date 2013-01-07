@@ -529,8 +529,8 @@ wxFSFile* CBOINCInternetFSHandler::OpenFile(wxFileSystem& WXUNUSED(fs), const wx
                 int retval = pDoc->GetCoreClientStatus(status);
                 
 #ifdef __WXMSW__
-                // Use WinInet fucntions only if network activity not suspended 
-                // or if the result is already in the Windows internet cache
+                // Use WinInet functions only if network activity not suspended 
+                // or if the result is already in the Windows Internet cache
                 bool CanUseWinInet = true;
                 if ((!retval) && status.network_suspend_reason) {
                     unsigned char cache_info[2048];
@@ -626,7 +626,7 @@ void CBOINCInternetFSHandler::UnchacheMissingItems() {
     m_Hash->BeginFind();
     wxHashTable::Node* node = m_Hash->Next();
     for(;;) {
-        if (node == NULL) return;   // End of cache
+        if (node == NULL) break;   // End of cache
         MemFSHashObj* obj = (MemFSHashObj*)node->GetData();
         // We must get next node before deleting this one
         node = m_Hash->Next();
@@ -635,6 +635,7 @@ void CBOINCInternetFSHandler::UnchacheMissingItems() {
             m_Hash->Delete(obj->m_Key);
         }
     }
+    m_bMissingItems = false;
 }
 
 
@@ -642,13 +643,14 @@ void CBOINCInternetFSHandler::ClearCache() {
     m_Hash->BeginFind();
     wxHashTable::Node* node = m_Hash->Next();
     for(;;) {
-        if (node == NULL) return;   // End of cache
+        if (node == NULL) break;   // End of cache
         MemFSHashObj* obj = (MemFSHashObj*)node->GetData();
         // We must get next node before deleting this one
         node = m_Hash->Next();
         delete obj;
         m_Hash->Delete(obj->m_Key);
     }
+    m_bMissingItems = false;
 }
 
 
