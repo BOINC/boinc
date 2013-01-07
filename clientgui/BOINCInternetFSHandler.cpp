@@ -533,8 +533,12 @@ wxFSFile* CBOINCInternetFSHandler::OpenFile(wxFileSystem& WXUNUSED(fs), const wx
                 // or if the result is already in the Windows internet cache
                 bool CanUseWinInet = true;
                 if ((!retval) && status.network_suspend_reason) {
-                    INTERNET_CACHE_ENTRY_INFO cache_info;
-                    if (!GetUrlCacheEntryInfo(right.c_str(), sizeof(cache_info))) {
+                    unsigned char cache_info[2048];
+                    DWORD len = sizeof(cache_info);
+                    if (!GetUrlCacheEntryInfo(right.c_str(), 
+                        (LPINTERNET_CACHE_ENTRY_INFO)cache_info, 
+                        &len)
+                        ) {
                         CanUseWinInet = false;
                     }
                 }
