@@ -9,10 +9,10 @@ OBJS = \
 	acct_mgr.o \
 	acct_setup.o \
     app.o \
+    app_config.o \
     client_msgs.o \
     client_state.o \
     client_types.o \
-    coproc_detect.o \
     cpu_sched.o \
 	cs_account.o \
     cs_apps.o \
@@ -27,11 +27,18 @@ OBJS = \
 	current_version.o \
 	file_names.o \
 	file_xfer.o \
+	gpu_amd.o \
+	gpu_detect.o \
+	gpu_intel.o \
+	gpu_nvidia.o \
+	gpu_opencl.o \
 	gui_http.o \
 	http_curl.o \
     log_flags.o \
 	net_stats.o \
 	pers_file_xfer.o \
+	project.o \
+	result.o \
     rr_sim.o \
 	sandbox.o \
 	scheduler_op.o \

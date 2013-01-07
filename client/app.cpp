@@ -188,6 +188,8 @@ int ACTIVE_TASK::preempt(int preempt_type) {
     return 0;
 }
 
+#ifndef SIM
+
 // called when a process has exited
 //
 void ACTIVE_TASK::cleanup_task() {
@@ -237,7 +239,6 @@ void ACTIVE_TASK::cleanup_task() {
     }
 }
 
-#ifndef SIM
 int ACTIVE_TASK::init(RESULT* rp) {
     result = rp;
     wup = rp->wup;

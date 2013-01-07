@@ -5327,6 +5327,20 @@ David  12 Dec 2012
     lib/
         coproc.cpp
 
+Rom    13 Dec 2012
+    - Apply RustyBSD's patch for selectively disabling the detection of the
+        X screensaver framework in configure.ac
+
+    /
+        configure.ac
+
+Rom    13 Dec 2012
+    - SCR: Include the compiled X11 screensaver app in the self extracting
+        archive distro of the client software.
+
+    packages\generic\sea\
+        Makefile.am
+
 Charlie 14 Dec 2012
     - Mgr: Fix delay displaying notices.
 
@@ -5346,16 +5360,10 @@ Charlie 14 Dec 2012
             project.pbxproj
 
 
-Rom    13 Dec 2012
-    - Apply RustyBSD's patch for selectively disabling the detection of the
-        X screensaver framework in configure.ac
+David  18 Dec 2012
+    - client simulator: fix build errors
 
-    /
-        configure.ac
-
-Rom    13 Dec 2012
-    - SCR: Include the compiled X11 screensaver app in the self extracting
-        archive distro of the client software.
-
-    packages\generic\sea\
-        Makefile.am
+    client/
+        app.cpp
+        makefile_sim
+        sim.cpp
