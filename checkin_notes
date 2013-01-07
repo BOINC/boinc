@@ -5315,6 +5315,14 @@ Rom    11 Dec 2012
         version.h
 
 David  12 Dec 2012
+    - fix compile warning
+    - Git can ignore Unix compile outputs
+
+    .gitignore
+    client/
+        gpu_detect.h
+
+David  12 Dec 2012
     - client: show Intel GPU memory size as integer
     lib/
         coproc.cpp
@@ -5337,10 +5345,10 @@ Charlie 14 Dec 2012
         boinc.xcodeproj/
             project.pbxproj
 
-David  12 Dec 2012
-    - fix compile warning
-    - Git can ignore Unix compile outputs
 
-    .gitignore
-    client/
-        gpu_detect.h
+Rom    13 Dec 2012
+    - Apply RustyBSD's patch for selectively disabling the detection of the
+        X screensaver framework in configure.ac
+
+    /
+        configure.ac
