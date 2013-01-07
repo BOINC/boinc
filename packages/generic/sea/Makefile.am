@@ -4,7 +4,7 @@ EXTRA_DIST = make-sea.sh
 vers = \
   @BOINC_MAJOR_VERSION@.@BOINC_MINOR_VERSION@.@BOINC_RELEASE@_@boinc_platform@
 sea = boinc_$(vers).sh
-tarfiles = BOINC/boinc BOINC/boincmgr BOINC/boinccmd BOINC/binstall.sh \
+tarfiles = BOINC/boinc BOINC/boincmgr BOINC/boincscr BOINC/boinccmd BOINC/binstall.sh \
 	BOINC/boincmgr.16x16.png BOINC/boincmgr.32x32.png BOINC/boincmgr.48x48.png \
 	BOINC/ca-bundle.crt
 
@@ -23,6 +23,8 @@ $(top_builddir)/stage/$(bindir)/boinc: $(top_builddir)/stage
 
 $(top_builddir)/stage/$(bindir)/boincmgr: $(top_builddir)/stage
 
+$(top_builddir)/stage/$(bindir)/boincscr: $(top_builddir)/stage
+
 $(top_builddir)/stage/$(bindir)/boinccmd: $(top_builddir)/stage
 
 $(sea): sea.tar make-sea.sh Makefile
@@ -34,6 +36,9 @@ BOINC/boinc: $(top_builddir)/stage/$(bindir)/boinc BOINC
 
 BOINC/boincmgr: $(top_builddir)/stage/$(bindir)/boincmgr BOINC
 	cp $(top_builddir)/stage/$(bindir)/boincmgr BOINC/boincmgr
+
+BOINC/boincscr: $(top_builddir)/stage/$(bindir)/boincscr BOINC
+	cp $(top_builddir)/stage/$(bindir)/boincscr BOINC/boincscr
 
 BOINC/boinccmd: $(top_builddir)/stage/$(bindir)/boinccmd BOINC
 	cp $(top_builddir)/stage/$(bindir)/boinccmd BOINC/boinccmd
