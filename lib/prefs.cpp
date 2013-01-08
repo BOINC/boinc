@@ -614,7 +614,7 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         "   <cpu_usage_limit>%f</cpu_usage_limit>\n"
         "   <daily_xfer_limit_mb>%f</daily_xfer_limit_mb>\n"
         "   <daily_xfer_period_days>%d</daily_xfer_period_days>\n"
-        "   <override_file_present>%d</override_file_present>\n",
+        "   <override_file_present>%d</override_file_present>\n"
         "   <network_wifi_only>%d</network_wifi_only>\n",
         source_project,
         mod_time,
