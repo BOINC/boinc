@@ -18,10 +18,13 @@
 // Stuff related to catching SEH exceptions, monitoring threads, and trapping
 // debugger messages; used by both core client and by apps.
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#ifdef  _WIN32
+#ifndef __STDWX_H__
 #include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
+#else
 #include "stdwx.h"
+#endif
+#include "win_util.h"
 #endif
 
 #if defined(_MSC_VER) || defined(__MINGW32__)

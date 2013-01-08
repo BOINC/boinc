@@ -41,7 +41,6 @@
 #include "common_defs.h"
 #include "filesys.h"
 #include "str_replace.h"
-
 #include "str_util.h"
 
 using std::string;
@@ -577,9 +576,8 @@ const char* suspend_reason_string(int reason) {
     case SUSPEND_REASON_INITIAL_DELAY: return "initial delay";
     case SUSPEND_REASON_EXCLUSIVE_APP_RUNNING: return "an exclusive app is running";
     case SUSPEND_REASON_CPU_USAGE: return "CPU is busy";
-    case SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED: return "network transfer limit exceeded";
+    case SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED: return "network bandwidth limit exceeded";
     case SUSPEND_REASON_OS: return "requested by operating system";
-    case SUSPEND_REASON_WIFI_STATE: return "device is not on wifi";
     }
     return "unknown reason";
 }
@@ -592,79 +590,6 @@ const char* run_mode_string(int mode) {
     }
     return "unknown";
 }
-
-#ifdef WIN32
-
-// get message for last error
-//
-char* windows_error_string(char* pszBuf, int iSize) {
-    DWORD dwRet;
-    LPSTR lpszTemp = NULL;
-
-    dwRet = FormatMessageA(
-        FORMAT_MESSAGE_ALLOCATE_BUFFER |
-        FORMAT_MESSAGE_FROM_SYSTEM |
-        FORMAT_MESSAGE_ARGUMENT_ARRAY,
-        NULL,
-        GetLastError(),
-        LANG_NEUTRAL,
-        (LPSTR)&lpszTemp,
-        0,
-        NULL
-    );
-
-    // is supplied buffer long enough?
-    //
-    if (!dwRet || ((long)iSize < (long)dwRet+14)) {
-        pszBuf[0] = '\0';
-    } else {
-        lpszTemp[lstrlenA(lpszTemp)-2] = '\0';  // remove CRLF
-        sprintf(pszBuf, "%s (0x%x)", lpszTemp, GetLastError());
-    }
-
-    if (lpszTemp) {
-        LocalFree((HLOCAL) lpszTemp);
-    }
-
-    return pszBuf;
-}
-
-// get message for given error
-//
-char* windows_format_error_string(
-    unsigned long dwError, char* pszBuf, int iSize
-) {
-    DWORD dwRet;
-    LPSTR lpszTemp = NULL;
-
-    dwRet = FormatMessageA(
-        FORMAT_MESSAGE_ALLOCATE_BUFFER |
-        FORMAT_MESSAGE_FROM_SYSTEM |
-        FORMAT_MESSAGE_ARGUMENT_ARRAY,
-        NULL,
-        dwError,
-        LANG_NEUTRAL,
-        (LPSTR)&lpszTemp,
-        0,
-        NULL
-    );
-
-    // is supplied buffer long enough?
-    //
-    if (!dwRet || ( (long)iSize < (long)dwRet+14)) {
-        pszBuf[0] = '\0';
-    } else {
-        lpszTemp[lstrlenA(lpszTemp)-2] = '\0';  // remove CRLF
-        sprintf(pszBuf, "%s (0x%x)", lpszTemp, dwError);
-    }
-
-    if (lpszTemp) {
-        LocalFree((HLOCAL) lpszTemp);
-    }
-
-    return pszBuf;
-}
-#endif
 
 // string substitution:
 // haystack is the input string

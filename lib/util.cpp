@@ -15,24 +15,26 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
-
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#ifdef  _WIN32
+#ifndef __STDWX_H__
 #include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
+#else
 #include "stdwx.h"
 #endif
-#ifdef _WIN32
 #include "win_util.h"
-#ifdef _MSC_VER
-#define finite _finite
 #endif
+
+#if defined(_MSC_VER) || defined(__MINGW32__)
+#define finite _finite
 #endif
 
 #ifndef M_LN2
 #define M_LN2      0.693147180559945309417
+#endif
+
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+#define perror FCGI::perror
 #endif
 
 #ifndef _WIN32
@@ -410,7 +412,7 @@ int run_program(
         &process_info
     );
     if (!retval) {
-        windows_error_string(error_msg, sizeof(error_msg));
+        windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
         fprintf(stderr, "CreateProcess failed: '%s'\n", error_msg);
         return -1; // CreateProcess returns 1 if successful, false if it failed.
     }
@@ -438,11 +440,7 @@ int run_program(
             if (retval) return retval;
         }
         execv(file, argv);
-#ifdef _USING_FCGI_
-        FCGI::perror("execv");
-#else
         perror("execv");
-#endif
         exit(errno);
     }
 

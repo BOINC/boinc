@@ -696,7 +696,7 @@ int ACTIVE_TASK::start() {
 
             if (!pCEB(&environment_block, sandbox_account_service_token, FALSE)) {
                 if (log_flags.task) {
-                    windows_error_string(error_msg, sizeof(error_msg));
+                    windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
                     msg_printf(wup->project, MSG_INFO,
                         "Process environment block creation failed: %s", error_msg
                     );
@@ -719,7 +719,7 @@ int ACTIVE_TASK::start() {
                 success = true;
                 break;
             } else {
-                windows_error_string(error_msg, sizeof(error_msg));
+                windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
                 msg_printf(wup->project, MSG_INTERNAL_ERROR,
                     "Process creation failed: %s", error_msg
                 );
@@ -727,7 +727,7 @@ int ACTIVE_TASK::start() {
 
             if (!pDEB(environment_block)) {
                 if (log_flags.task) {
-                    windows_error_string(error_msg, sizeof(error_msg2));
+                    windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg2));
                     msg_printf(wup->project, MSG_INFO,
                         "Process environment block cleanup failed: %s",
                         error_msg2
@@ -757,7 +757,7 @@ int ACTIVE_TASK::start() {
                 success = true;
                 break;
             } else {
-                windows_error_string(error_msg, sizeof(error_msg));
+                windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
                 msg_printf(wup->project, MSG_INTERNAL_ERROR,
                     "Process creation failed: %s", error_msg
                 );

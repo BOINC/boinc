@@ -667,7 +667,7 @@ int TASK::run(int argct, char** argvt) {
     }
     if (!success) {
         char error_msg[1024];
-        windows_error_string(error_msg, sizeof(error_msg));
+        windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
         fprintf(stderr, "can't run app: %s\n", error_msg);
         if (env_vars) delete [] env_vars;
         return ERR_EXEC;

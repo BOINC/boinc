@@ -17,6 +17,7 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
+#include "win_util.h"
 #else
 #include "config.h"
 #include <cstring>
@@ -631,7 +632,7 @@ int CLIENT_STATE::write_state_file() {
 #ifdef _WIN32
                         msg_printf(0, MSG_INFO,
                             "Can't delete previous state file; %s",
-                            windows_error_string(win_error_msg, sizeof(win_error_msg))
+                            windows_format_error_string(GetLastError(), win_error_msg, sizeof(win_error_msg))
                         );
 #else
                         msg_printf(0, MSG_INFO,
@@ -650,7 +651,7 @@ int CLIENT_STATE::write_state_file() {
 #ifdef _WIN32
                     msg_printf(0, MSG_INFO,
                         "Can't rename current state file to previous state file; %s",
-                        windows_error_string(win_error_msg, sizeof(win_error_msg))
+                        windows_format_error_string(GetLastError(), win_error_msg, sizeof(win_error_msg))
                     );
 #else
                     msg_printf(0, MSG_INFO, 
@@ -675,7 +676,7 @@ int CLIENT_STATE::write_state_file() {
 #ifdef _WIN32
             msg_printf(0, MSG_INFO,
                 "rename error: %s",
-                windows_error_string(win_error_msg, sizeof(win_error_msg))
+                windows_format_error_string(GetLastError(), win_error_msg, sizeof(win_error_msg))
             );
 #elif defined (__APPLE__)
             if (log_flags.statefile_debug) {

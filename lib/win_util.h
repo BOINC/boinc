@@ -18,12 +18,7 @@
 #ifndef _WIN_UTIL_
 #define _WIN_UTIL_
 
-#include <string>
-#include <windows.h>
-#include <malloc.h>
-
-extern BOOL IsWindows2000Compatible();
-extern BOOL IsTerminalServicesEnabled();
+extern BOOL IsWindows2000Compatible();extern BOOL IsTerminalServicesEnabled();
 extern BOOL ValidateProductSuite(LPSTR SuiteName);
 extern BOOL TerminateProcessById(DWORD dwProcessId);
 extern BOOL AddAceToWindowStation(HWINSTA hwinsta, PSID psid);
@@ -36,20 +31,11 @@ extern BOOL GetAccountSid(
 extern void chdir_to_data_dir();
 extern bool is_remote_desktop();
 
-inline std::wstring A2W(const std::string& str) {
-  int length_wide = MultiByteToWideChar(CP_UTF8, 0, str.data(), (int)str.length(), NULL, 0);
-  wchar_t *string_wide = static_cast<wchar_t*>(_alloca(length_wide * sizeof(wchar_t)));
-  MultiByteToWideChar(CP_UTF8, 0, str.data(), (int)str.length(), string_wide, length_wide);
-  std::wstring result(string_wide, length_wide);
-  return result;
-}
+extern std::wstring A2W(const std::string& str);
+extern std::string W2A(const std::wstring& str);
 
-inline std::string W2A(const std::wstring& str) {
-  int length_ansi = WideCharToMultiByte(CP_UTF8, 0, str.data(), (int)str.length(), NULL, 0, NULL, NULL);
-  char* string_ansi = static_cast<char*>(_alloca(length_ansi));
-  WideCharToMultiByte(CP_UTF8, 0, str.data(), (int)str.length(), string_ansi, length_ansi, NULL, NULL);
-  std::string result(string_ansi, length_ansi);
-  return result;
-}
+extern char* windows_format_error_string(
+    unsigned long dwError, char* pszBuf, int iSize
+);
 
 #endif // _WIN_UTIL_

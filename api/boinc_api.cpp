@@ -563,7 +563,7 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
             );
 #ifdef _WIN32
             char buf2[256];
-            windows_error_string(buf2, 256);
+            windows_format_error_string(GetLastError(), buf2, 256);
             fprintf(stderr, "%s Error: %s\n", boinc_msg_prefix(buf, sizeof(buf)), buf2);
 #endif
             // if we can't acquire the lock file there must be
@@ -695,7 +695,7 @@ void boinc_exit(int status) {
         retval = file_lock.unlock(LOCKFILE);
         if (retval) {
 #ifdef _WIN32
-            windows_error_string(buf, 256);
+            windows_format_error_string(GetLastError(), buf, 256);
             fprintf(stderr,
                 "%s Can't unlock lockfile (%d): %s\n",
                 boinc_msg_prefix(buf, sizeof(buf)), retval, buf

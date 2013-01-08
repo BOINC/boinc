@@ -101,7 +101,8 @@ void log_message_error(const char* msg) {
     snprintf(evt_msg, sizeof(evt_msg),
         "%s\n"
         "GLE: %s\n",
-        msg, windows_error_string(evt_msg, (sizeof(evt_msg)-((int)strlen(msg)+7)))
+        msg, 
+        windows_format_error_string(GetLastError(), evt_msg, (sizeof(evt_msg)-((int)strlen(msg)+7)))
     );
 #else
     snprintf(evt_msg, sizeof(evt_msg),
