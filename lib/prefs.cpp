@@ -648,7 +648,7 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         cpu_usage_limit,
         daily_xfer_limit_mb,
         daily_xfer_period_days,
-        override_file_present?1:0
+        override_file_present?1:0,
         network_wifi_only?1:0
     );
     if (max_ncpus) {

@@ -47,13 +47,6 @@
 using std::string;
 using std::vector;
 
-bool in_vector(int n, vector<int>& v) {
-    for (unsigned int i=0; i<v.size(); i++) {
-        if (v[i] == n) return true;
-    }
-    return false;
-}
-
 #ifndef _WIN32
 jmp_buf resume;
 
