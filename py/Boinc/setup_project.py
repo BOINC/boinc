@@ -384,6 +384,7 @@ sys.path.insert(0, os.path.join('%s', 'py'))
         [ 'cgi', 'file_upload_handler'])
     map(lambda (s): install(builddir('sched',s), dir('bin',s)),
         [
+            'adjust_user_priority',
             'antique_file_deleter',
             'assimilator.py',
             'census',
