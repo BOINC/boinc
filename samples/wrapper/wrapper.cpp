@@ -615,14 +615,23 @@ int TASK::run(int argct, char** argvt) {
     if (stdout_filename != "") {
         boinc_resolve_filename_s(stdout_filename.c_str(), stdout_path);
         startup_info.hStdOutput = win_fopen(stdout_path.c_str(), "a");
+        if (!startup_info.hStdOutput) {
+            fprintf(stderr, "Error: startup_info.hStdOutput is NULL\n");
+        }
     }
     if (stdin_filename != "") {
         boinc_resolve_filename_s(stdin_filename.c_str(), stdin_path);
         startup_info.hStdInput = win_fopen(stdin_path.c_str(), "r");
+        if (!startup_info.hStdInput) {
+            fprintf(stderr, "Error: startup_info.hStdInput is NULL\n");
+        }
     }
     if (stderr_filename != "") {
         boinc_resolve_filename_s(stderr_filename.c_str(), stderr_path);
         startup_info.hStdError = win_fopen(stderr_path.c_str(), "a");
+        if (!startup_info.hStdError) {
+            fprintf(stderr, "Error: startup_info.hStdError is NULL\n");
+        }
     } else {
         startup_info.hStdError = win_fopen(STDERR_FILE, "a");
     }
@@ -669,6 +678,11 @@ int TASK::run(int argct, char** argvt) {
         char error_msg[1024];
         windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
         fprintf(stderr, "can't run app: %s\n", error_msg);
+
+        fprintf(stderr, "Error: app_path is '%s'\n", app_path);
+        fprintf(stderr, "Error: command is '%s'\n", command.c_str());
+        fprintf(stderr, "Error: exec_dir is '%s'\n", exec_dir.c_str());
+
         if (env_vars) delete [] env_vars;
         return ERR_EXEC;
     }
