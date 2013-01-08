@@ -89,6 +89,9 @@
 #if HAVE_NETINET_IN_H
 #include <netinet/in.h>
 #endif
+#if HAVE_SYS_SENSORS_H
+#include <sys/sensors.h>
+#endif
 
 #ifdef __EMX__
 #define INCL_DOSMISC
@@ -402,6 +405,40 @@ bool HOST_INFO::host_is_running_on_batteries() {
          // so we say we aren't
         return false;
     }
+#elif defined(__OpenBSD__)
+    static int mib[] = {CTL_HW, HW_SENSORS, 0, 0, 0};
+    static int devn = -1;
+    struct sensor s;
+    size_t slen = sizeof(struct sensor);
+
+    if (devn == -1) {
+        struct sensordev snsrdev;
+        size_t sdlen = sizeof(struct sensordev);
+        for (devn = 0;; devn++) {
+            mib[2] = devn;
+            if (sysctl(mib, 3, &snsrdev, &sdlen, NULL, 0) == -1) {
+                if (errno == ENXIO)
+                    continue;
+                if (errno == ENOENT)
+                    break;
+            }
+            if (!strcmp("acpiac0", snsrdev.xname)) {
+                break;
+            }
+        }
+        mib[3] = 9;
+        mib[4] = 0;
+    }
+
+    if (sysctl(mib, 5, &s, &slen, NULL, 0) != -1) {
+        if (s.value)
+            // AC present
+            return false;
+        else
+            return true;
+    }
+
+    return false;
 #else
     return false;
 #endif

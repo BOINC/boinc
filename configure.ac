@@ -625,7 +625,7 @@ AC_CHECK_HEADER(net/if_arp.h, [], [], [[
 #endif
 ]])
 
-AC_CHECK_HEADERS(sys/sysctl.h sys/mount.h sys/swap.h, [], [], [[
+AC_CHECK_HEADERS(sys/sysctl.h sys/mount.h sys/swap.h sys/sensors.h, [], [], [[
 #ifdef HAVE_SYS_PARAM_H
 # include <sys/param.h>
 #endif
