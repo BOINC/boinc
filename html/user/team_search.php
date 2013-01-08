@@ -149,7 +149,7 @@ function search($params) {
         $tried = true;
     }
     if ($params->type and $params->type>1) {
-        $list2 = get_teams("type=$type", $params->active);
+        $list2 = get_teams("type=$params->type", $params->active);
         //echo "<br>type matches: ",sizeof($list2);
         merge_lists($list2, $list, 2);
         $tried = true;
