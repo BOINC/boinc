@@ -887,22 +887,22 @@ char* windows_format_error_string(
     unsigned long dwError, char* pszBuf, int iSize
 ) {
     DWORD dwRet;
-    LPSTR lpszTemp = NULL;
+    LPWSTR lpszTemp = NULL;
 
-    dwRet = FormatMessageA(
+    dwRet = FormatMessageW(
         FORMAT_MESSAGE_ALLOCATE_BUFFER |
         FORMAT_MESSAGE_FROM_SYSTEM |
         FORMAT_MESSAGE_ARGUMENT_ARRAY,
         NULL,
         dwError,
         LANG_NEUTRAL,
-        (LPSTR)&lpszTemp,
+        (LPWSTR)&lpszTemp,
         0,
         NULL
     );
 
     // convert from current character encoding into UTF8
-    std::string encoded_message = W2A(A2W(std::string(lpszTemp)));
+    std::string encoded_message = W2A(std::wstring(lpszTemp));
 
     // include the hex error code as well
     snprintf(pszBuf, iSize, "%s (0x%x)", encoded_message.c_str(), dwError);
