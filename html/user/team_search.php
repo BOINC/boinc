@@ -149,7 +149,6 @@ function search($params) {
         $tried = true;
     }
     if ($params->type and $params->type>1) {
-        $type = BoincDb::escape_string($params->type);
         $list2 = get_teams("type=$type", $params->active);
         //echo "<br>type matches: ",sizeof($list2);
         merge_lists($list2, $list, 2);
@@ -169,7 +168,7 @@ if ($submit || $xml) {
     $params = null;
     $params->keywords = get_str('keywords', true);
     $params->country = get_str("country", true);
-    $params->type = get_str("type", true);
+    $params->type = get_int("type", true);
     $params->active = get_str('active', true);
     $list = search($params);
     if ($xml) {
