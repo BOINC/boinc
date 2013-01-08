@@ -64,9 +64,12 @@ double CLIENT_STATE::allowed_disk_usage(double boinc_total) {
 
     limit_pct = host_info.d_total*global_prefs.disk_max_used_pct/100.0;
     limit_min_free = boinc_total + host_info.d_free - global_prefs.disk_min_free_gb*GIGA;
-    limit_abs = global_prefs.disk_max_used_gb*(GIGA);
 
-    double size = min(min(limit_abs, limit_pct), limit_min_free);
+    double size = min(limit_pct, limit_min_free);
+    if (global_prefs.disk_max_used_gb) {
+        limit_abs = global_prefs.disk_max_used_gb*(GIGA);
+        size = min(size, limit_abs);
+    }
     if (size < 0) size = 0;
     return size;
 }

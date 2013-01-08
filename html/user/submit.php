@@ -196,6 +196,7 @@ function handle_main($user) {
     ";
     $x = "";
     foreach ($submit_urls as $appname=>$submit_url) {
+        $appname = BoincDb::escape_string($appname);
         $app = BoincApp::lookup("name='$appname'");
         if (!$app) error_page("bad submit_url name: $appname");
         $usa = BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$app->id");

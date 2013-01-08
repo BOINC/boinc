@@ -38,6 +38,7 @@ function error($s) {
 function authenticate_user($r, $app) {
     $auth = (string)$r->authenticator;
     if (!$auth) error("no authenticator");
+    $auth = BoincDb::escape_string($auth);
     $user = BoincUser::lookup("authenticator='$auth'");
     if (!$user) error("bad authenticator");
     $user_submit = BoincUserSubmit::lookup_userid($user->id);
@@ -53,6 +54,7 @@ function authenticate_user($r, $app) {
 
 function get_app($r) {
     $name = (string)($r->batch->app_name);
+    $name = BoincDb::escape_string($name);
     $app = BoincApp::lookup("name='$name'");
     if (!$app) error("no app");
     return $app;

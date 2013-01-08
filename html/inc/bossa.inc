@@ -45,6 +45,7 @@ function bossa_batch_create($appid, $name, $calibration) {
 }
 
 function bossa_app_lookup($name) {
+    $name = BoincDb::escape_string($name);
     $app = BossaApp::lookup("short_name='$name'");
     if (!$app) return 0;
     return $app->id;
