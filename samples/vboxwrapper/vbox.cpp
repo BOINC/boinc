@@ -121,9 +121,7 @@ int VBOX_VM::initialize() {
     char buf[256];
 
     boinc_get_init_data_p(&aid);
-
-    rc = get_install_directory(virtualbox_install_directory);
-    if (rc) return rc;
+    get_install_directory(virtualbox_install_directory);
 
     // Prep the environment so we can execute the vboxmanage application
     //
@@ -216,7 +214,7 @@ int VBOX_VM::initialize() {
 
     // Record the VirtualBox version information for later use.
     command = "--version ";
-    vbm_popen(command, output, "version check");
+    rc = vbm_popen(command, output, "version check");
 
     // Remove \r or \n from the output spew
     string::iterator iter = output.begin();
@@ -230,7 +228,7 @@ int VBOX_VM::initialize() {
 
     virtualbox_version = "VirtualBox " + output;
 
-    return 0;
+    return rc;
 }
 
 int VBOX_VM::run(double elapsed_time) {
