@@ -47,6 +47,7 @@ function show_all_link($batches, $state, $limit, $user, $app) {
 
         echo "Showing the most recent $limit of $n batches.
             <a href=submit.php?action=show_all&state=$state&userid=$userid&appid=$appid>Show all $n</a>
+            <p>
         ";
     }
 }
@@ -191,10 +192,12 @@ function handle_main($user) {
     }
 
     page_head("Job submission and control");
+
+    // show links to per-app job submission pages
+    //
     echo "<h2>Submit jobs</h2>
         <ul>
     ";
-    $x = "";
     foreach ($submit_urls as $appname=>$submit_url) {
         $appname = BoincDb::escape_string($appname);
         $app = BoincApp::lookup("name='$appname'");
@@ -203,22 +206,47 @@ function handle_main($user) {
         if ($usa || $user_submit->submit_all) {
             echo "<li> <a href=$submit_url> $app->user_friendly_name </a>";
         }
-        if ($usa && $usa->manage) {
-            $x .= "<li> <a href=submit.php?action=admin&app_id=$app->id>$app->user_friendly_name</a>
-            ";
+    }
+    echo "</ul>\n";
+
+    // show links to admin pages if relevant
+    //
+    $usas = BoincUserSubmitApp::enum("user_id=$user->id");
+    $app_admin = false;
+    foreach ($usas as $usa) {
+        if ($usa->manage) {
+            $app_admin = true;
+            break;
         }
     }
-    echo "</ul>";
-    if ($user_submit->manage_all || $x) {
-        echo "<h2>Administer applications</h2>
-            <ul>
-            $x
-        ";
+    if ($user_submit->manage_all || $add_admin) {
+        echo "<h2>Administrative functions</h2><ul>\n";
         if ($user_submit->manage_all) {
-            echo "<li><a href=submit.php?action=admin&app_id=0>All applications</a>";
+            echo "<li>All applications<br>
+                <a href=submit.php?action=admin&app_id=0>Batches</a>
+                &middot;
+                <a href=manage_project.php>Users</a>
+            ";
+            $apps = BoincApp::enum("");
+            foreach ($apps as $app) {
+                echo "<li>$app->user_friendly_name<br>
+                    <a href=submit.php?action=admin&app_id=$app->id>Batches</a>
+                    &middot;
+                    <a href=manage_app.php?app_id=$app->id&action=app_version_form>Versions</a>
+                ";
+            }
+        } else {
+            foreach ($usas as $usa) {
+                $app = BoincApp::lookup_id($usa->app_id);
+                echo "<li>$app->user_friendly_name<br>
+                    <a href=submit.php?action=admin&app_id=$app->id>Batches</a>
+                    &middot;
+                    <a href=manage_app.php?app_id=$app->id&action=app_version_form>Versions</a>
+                ";
+            }
         }
+        echo "</ul>\n";
     }
-    echo "</ul>";
 
     $batches = BoincBatch::enum("user_id = $user->id order by id desc");
     show_batches($batches, PAGE_SIZE, $user, null);
@@ -245,11 +273,11 @@ function handle_admin($user) {
     if ($app_id) {
         $app = BoincApp::lookup_id($app_id);
         if (!$app) error_page("no such app");
-        page_head("Administer $app->user_friendly_name");
+        page_head("Administer batches for $app->user_friendly_name");
         $batches = BoincBatch::enum("app_id = $app_id order by id desc");
         show_batches($batches, PAGE_SIZE, null, $app);
     } else {
-        page_head("Administer all apps");
+        page_head("Administer batches (all apps)");
         $batches = BoincBatch::enum("true order by id desc");
         show_batches($batches, PAGE_SIZE, null, null);
     }
