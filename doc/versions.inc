@@ -99,7 +99,7 @@ $m70dev = array(
 	"num"=>"7.0.44",
 	"status"=>"Development version (standard GUI)",
 	"file"=>"boinc_7.0.44_macOSX_i686.zip",
-	"date"=>"9 Jan 2012",
+	"date"=>"9 Jan 2013",
 	"type"=>"mac_advanced",
 );
 
