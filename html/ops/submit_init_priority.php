@@ -41,10 +41,10 @@ function process_batch($b) {
         $fpops_total = $db->sum(
             "workunit", "rsc_fpops_est*target_nresults", "where batch=$b->id"
         );
-        echo "batch $b->id fpops_total $fpops_total\n";
-        if ($fpops_total == 0) {
-            return;
-        }
+    }
+    echo "batch $b->id fpops_total $fpops_total\n";
+    if ($fpops_total == 0) {
+        return;
     }
 
     // adjust the user's logical start time
