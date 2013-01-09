@@ -227,7 +227,7 @@ function handle_main($user) {
                 &middot;
                 <a href=manage_project.php>Users</a>
             ";
-            $apps = BoincApp::enum("");
+            $apps = BoincApp::enum("deprecated=0");
             foreach ($apps as $app) {
                 echo "<li>$app->user_friendly_name<br>
                     <a href=submit.php?action=admin&app_id=$app->id>Batches</a>
