@@ -33,13 +33,18 @@ function process_batch($b) {
         echo "no app for batch $b->id\n";
         return;
     }
-    $db = BoincDb::get();
-    $fpops_total = $db->sum(
-        "workunit", "rsc_fpops_est*target_nresults", "where batch=$b->id"
-    );
-    echo "batch $b->id fpops_total $fpops_total\n";
-    if ($fpops_total == 0) {
-        return;
+    if ($b->fraction_done>0 && $b->credit_canonical>0) {
+        $credit_total = $b->credit_canonical/$b->fraction_done;
+        $fpops_total = $credit_total*(86400e9/200);
+    } else {
+        $db = BoincDb::get();
+        $fpops_total = $db->sum(
+            "workunit", "rsc_fpops_est*target_nresults", "where batch=$b->id"
+        );
+        echo "batch $b->id fpops_total $fpops_total\n";
+        if ($fpops_total == 0) {
+            return;
+        }
     }
 
     // adjust the user's logical start time
