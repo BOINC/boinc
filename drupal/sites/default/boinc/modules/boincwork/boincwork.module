@@ -480,7 +480,7 @@ function communityprefs_form(&$form_state) {
   $form['forums']['comments_per_page'] = array(
     '#type' => 'select',
     '#title' => t('In discussion topics, show at most @comments_per_page', array('@comments_per_page' => '')),
-    '#options' => array(10 => 10, 25 => 25, 50 => 50, 100 => 100),
+    '#options' => array(10 => 10, 20 => 20, 30 => 30, 50 => 50, 100 => 100),
     '#default_value' => $default['comments_per_page']
   );
   // Can't have a typical Drupal form suffix on a select box?
