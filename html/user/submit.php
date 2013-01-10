@@ -229,7 +229,7 @@ function handle_main($user) {
             break;
         }
     }
-    if ($user_submit->manage_all || $add_admin) {
+    if ($user_submit->manage_all || $app_admin) {
         echo "<h2>Administrative functions</h2><ul>\n";
         if ($user_submit->manage_all) {
             echo "<li>All applications<br>
