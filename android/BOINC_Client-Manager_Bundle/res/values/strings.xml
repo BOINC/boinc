@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  This file is part of BOINC.
+  http://boinc.berkeley.edu
+  Copyright (C) 2012 University of California
+  
+  BOINC is free software; you can redistribute it and/or modify it
+  under the terms of the GNU Lesser General Public License
+  as published by the Free Software Foundation,
+  either version 3 of the License, or (at your option) any later version.
+  
+  BOINC is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  See the GNU Lesser General Public License for more details.
+  
+  You should have received a copy of the GNU Lesser General Public License
+  along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
+    <!-- project settings -->
+    <string name="project_name">BOINC Test Project</string>
+    <string name="project_url">http://isaac.ssl.berkeley.edu/test/</string>
+    
+	<!-- app global -->
+    <string name="app_name">AndroidBOINC</string>
+    <string name="autostart_notification_header">BOINC started.</string>
+    <string name="autostart_notification_text">to manage auto-start configuration go to BOINC settings..</string>
+    
+    <!-- path and file configuration -->
+    <string name="client_name">boinc_client</string>
+    <string name="client_path">/data/data/edu.berkeley.boinc/client/</string>
+    <string name="auth_file_name">gui_rpc_auth.cfg</string>
+    
+    <!-- tab names -->
+    <string name="tab_status">Status</string>
+    <string name="tab_tasks">Tasks</string>
+    <string name="tab_transfers">Transfers</string>
+    <string name="tab_preferences">Settings</string>
+    <string name="tab_messages">Messages</string>
+    <string name="tab_debug">Debug</string>
+   
+    <!-- status tab strings -->
+    <string name="status_launching">Please wait&#8230;</string>
+    <string name="status_noproject">Login</string>
+    <string name="status_noproject_long">Please provide account information for BOINC Test Project!</string>
+    <string name="status_noproject_email">eMail:</string>
+    <string name="status_noproject_pwd">Password:</string>
+    <string name="status_noproject_button">Login</string>
+    <string name="status_noproject_button_wait">Please wait&#8230;</string>
+    <string name="status_running">Running&#8230;</string>
+    <string name="status_running_long">Thank you for participating in\nBOINC Test Project!</string>
+    <string name="status_paused">Paused</string>
+    <string name="status_paused_long">Computation suspended.</string>
+    <string name="status_error">Whooops</string>
+    <string name="status_error_long">&#8230;this should not happen!\nClick on the icon to try again.</string>
+    <string name="status_computing_disabled">Stopped.</string>
+    <string name="status_computing_disabled_long">Tap to continue!</string>
+    <string name="disable_computation">Tap to stop computation!</string>
+    <string name="enable_computation">Tap to stop computation!</string>
+    
+	    <!-- suspend reasons -->
+	    <string name="suspend_unknown">Computation paused.</string>
+	    <string name="suspend_idle">No BOINC tasks ready for computation.</string>
+	    <string name="suspend_batteries">Not connected to power source.</string>
+	    <string name="suspend_useractive">User is active.</string>
+	    <string name="suspend_userreq">Stopped manually.</string>
+	    <string name="suspend_tod">Out of computation time-frame.</string>
+	    <string name="suspend_bm">BOINC is benchmarking your device.</string>
+	    <string name="suspend_disksize">Out of disk space.</string>
+	    <string name="suspend_cputhrottle">Your device is busy.</string>
+	    <string name="suspend_noinput">No recent tasks available.</string>
+	    <string name="suspend_delay">Initialisation delay.</string>
+	    <string name="suspend_exclusiveapp">An exclusive app is running.</string>
+	    <string name="suspend_cpu">Your device is busy.</string>
+	    <string name="suspend_network_quota">BOINC reached network transfer limit.</string>
+	    <string name="suspend_os">Stopped by Android.</string>
+	    <string name="suspend_wifi">Not connected to Wifi network.</string>
+    
+	<!-- preferences tab strings -->
+	<string name="prefs_unbound">Reading preferences&#8230;</string>
+	<string name="prefs_submit_button">OK</string>
+	<string name="prefs_run_on_battery_header">Battery</string>
+	<string name="prefs_run_on_battery_true">Calculation while running on battery</string>
+	<string name="prefs_run_on_battery_false">Calculation only when connected to charger</string>
+	<string name="prefs_disk_max_pct_header">Maximal used storage space (in %)</string>
+	<string name="prefs_disk_min_free_gb_header">Storage left unused (in GB)</string>
+	<string name="prefs_daily_xfer_limit_mb_header">Data transfer limit (daily, in MB)</string>
+	<string name="prefs_network_wifi_only_header">Use only WiFi</string>
+	<string name="prefs_network_wifi_only_true">Transfer only on WiFi</string>
+	<string name="prefs_network_wifi_only_false">Transfer on all networks</string>
+	<string name="prefs_autostart_header">Autostart</string>
+	<string name="prefs_autostart_true">BOINC starts on boot up</string>
+	<string name="prefs_autostart_false">Start BOINC manually</string>
+	<string name="prefs_project_email_header">Login: eMail</string>
+	<string name="prefs_project_pwd_header">Login: password</string>
+	
+	
+	<!-- tasks tab strings -->
+	<string name="tasks_result_new">New</string>
+	<string name="tasks_result_files_downloading">Files downloading</string>
+	<string name="tasks_result_files_downloaded">Files downloaded</string>
+	<string name="tasks_result_compute_error">Compute error</string>
+	<string name="tasks_result_files_uploading">Files uploading</string>
+	<string name="tasks_result_files_uploaded">Files uploaded</string>
+	<string name="tasks_result_aborted">Aborted</string>
+	<string name="tasks_result_upload_failed">Upload failed</string>
+	
+	<string name="tasks_active_uninitialized">Ready</string>
+	<string name="tasks_active_executing">Running</string>
+	<string name="tasks_active_suspended">Paused</string>
+	<string name="tasks_active_abort_pending">Stopping</string>
+	<string name="tasks_active_quit_pending">Stopping</string>
+	    
+    <!-- debug tab strings -->
+    <string name="debug_kill">Kill BOINC Client</string>
+    <string name="debug_clear">Clear</string>
+    <string name="debug_refresh">Refresh</string>
+    <string name="debug_manager_header">AndroidBOINC manager messages:</string>
+    <string name="debug_client_header">BOINC Client messages:</string>
+    
+    
+    
+
+</resources>

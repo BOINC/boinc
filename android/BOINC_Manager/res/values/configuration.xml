@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  This file is part of BOINC.
+  http://boinc.berkeley.edu
+  Copyright (C) 2012 University of California
+  
+  BOINC is free software; you can redistribute it and/or modify it
+  under the terms of the GNU Lesser General Public License
+  as published by the Free Software Foundation,
+  either version 3 of the License, or (at your option) any later version.
+  
+  BOINC is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  See the GNU Lesser General Public License for more details.
+  
+  You should have received a copy of the GNU Lesser General Public License
+  along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
+    <!-- project configuration -->
+	    <string name="project_name">BOINC Test Project</string>
+	    <string name="project_url">http://isaac.ssl.berkeley.edu/test/</string>
+	    
+	<!-- global strings -->
+    	<string name="app_name">BOINC Manager</string>
+		<string name="title_activity_initial">BOINC on Android</string>
+	    
+    <!-- application behavior -->
+    	<integer name="monitor_refresh_interval_ms">3000</integer>
+    	<integer name="setup_connection_attempts">5</integer>
+    	<integer name="setup_connection_attempt_sleep_duration_ms">5000</integer>
+    	
+    <!-- menu customization -->
+    	<bool name="menu_show_home">true</bool>
+    	<bool name="menu_show_tasks">true</bool>
+    	<bool name="menu_show_transfers">true</bool>
+    	<bool name="menu_show_messages">true</bool>
+    	<bool name="menu_show_debug">true</bool>
+    	<bool name="menu_show_settings">false</bool>
+</resources>
