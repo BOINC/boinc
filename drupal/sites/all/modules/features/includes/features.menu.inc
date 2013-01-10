@@ -301,7 +301,8 @@ function menu_links_features_rebuild_ordered($menu_links, $reset = FALSE) {
             $all_links[$identifier] = $link;
             unset($unordered[$key]);
           }
-          elseif (isset($ordered[$parent])) {
+          elseif (!empty($parent)) {
+            $ordered[$parent] = 0;
             $ordered[$identifier] = $ordered[$parent] + 1;
             $all_links[$identifier] = $link;
             unset($unordered[$key]);
@@ -328,6 +329,7 @@ function menu_links_features_rebuild_ordered($menu_links, $reset = FALSE) {
       else {
         $link['plid'] = 0;
       }
+      $link['customized'] = TRUE;
       menu_link_save($link);
     }
   }
