@@ -3,4 +3,5 @@ name = BOINC work
 description = Enable BOINC features related to processing work and credit.
 core = 6.x
 dependencies[] = boincuser
+dependencies[] = jump
 package = BOINC
