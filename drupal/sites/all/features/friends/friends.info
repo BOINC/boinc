@@ -1,0 +1,8 @@
+name = "Friends"
+description = "Friend relationships between users"
+core = "6.x"
+package = "Features"
+dependencies[] = "features"
+dependencies[] = "flag_friend"
+dependencies[] = "menu"
+features[user_permission][] = "receive friend email notification"

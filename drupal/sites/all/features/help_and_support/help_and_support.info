@@ -1,0 +1,7 @@
+name = "Help and support"
+description = "Menu link to BOINC help"
+core = "6.x"
+package = "Features"
+dependencies[] = "features"
+dependencies[] = "menu"
+features[menu_links][] = "primary-links:http://boinc.berkeley.edu/help.php"

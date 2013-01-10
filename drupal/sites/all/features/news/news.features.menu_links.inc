@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * Implementation of hook_menu_default_menu_links().
+ */
+function news_menu_default_menu_links() {
+  $menu_links = array();
+
+  // Exported menu link: primary-links:news
+  $menu_links['primary-links:news'] = array(
+    'menu_name' => 'primary-links',
+    'link_path' => 'news',
+    'router_path' => 'news',
+    'link_title' => 'News & Blogs',
+    'options' => array(
+      'attributes' => array(
+        'title' => '',
+      ),
+    ),
+    'module' => 'menu',
+    'hidden' => '0',
+    'external' => '0',
+    'has_children' => '0',
+    'expanded' => '1',
+    'weight' => '15',
+  );
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('News & Blogs');
+
+
+  return $menu_links;
+}

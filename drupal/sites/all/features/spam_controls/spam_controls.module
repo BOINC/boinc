@@ -1,0 +1,3 @@
+<?php
+
+include_once('spam_controls.features.inc');

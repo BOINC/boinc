@@ -1,0 +1,3 @@
+<?php
+
+include_once('boinc_standard.features.inc');
