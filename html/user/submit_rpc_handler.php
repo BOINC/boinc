@@ -191,9 +191,12 @@ function submit_batch($r) {
             // TODO: if rsc_fpops_est not defined here, get it from template
     }
     $cmd = "cd ../../bin; ./adjust_user_priority --user $user->id --flops $total_flops --app $app->name";
-    system($cmd);
-    $us = BoincUserSubmit::lookup_userid($user->id);
-    $let = $us->logical_start_time;
+    $x = system($cmd);
+    if (!is_numeric($x) || (double)$x == 0) {
+        echo <error>adjust_user_priority returned $x</error>\n";
+        exit;
+    }
+    $let = (double)$x;
 
     $batch_id = BoincBatch::insert(
         "(user_id, create_time, njobs, name, app_id, logical_end_time, state) values ($user->id, $now, $njobs, '$batch_name', $app->id, $let, ".BATCH_STATE_IN_PROGRESS.")"

@@ -15,11 +15,13 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// adjust_user_priority [--print] --user userid --flops flop_count --app app_name
+// adjust_user_priority [--no_update] --user userid --flops flop_count --app app_name
 //
 // adjust user priority (i.e. logical start time)
 // to reflect a certain amount of computing
-// --print: don't update DB; write LST increment to stdout
+// and write the new value to stdout
+//
+// --no_update: don't update DB
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,7 +31,7 @@
 
 void usage(const char* msg="") {
     fprintf(stderr,
-        "%susage: adjust_user_priority [--print] --user userid --flops flop_count --app app_name\n",
+        "%susage: adjust_user_priority [--no_update] --user userid --flops flop_count --app app_name\n",
         msg
     );
     exit(1);
@@ -37,14 +39,14 @@ void usage(const char* msg="") {
 
 int main(int argc, char** argv) {
     char buf[256];
-    bool print = false;
+    bool no_update = false;
     int userid=0;
     char* app_name = NULL;
     double flop_count = 0;
 
     for (int i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "--print")) {
-            print = true;
+        if (!strcmp(argv[i], "--no_update")) {
+            no_update = true;
         } else if (!strcmp(argv[i], "--user")) {
             userid = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "--app")) {
@@ -120,19 +122,19 @@ int main(int argc, char** argv) {
         us, flop_count, total_quota, project_flops
     );
 
-    if (print) {
-        printf("%f\n", delta);
-    } else {
-        double x = us.logical_start_time;
-        if (x < dtime()) x = dtime();
-        x += delta;
+    double x = us.logical_start_time;
+    if (x < dtime()) x = dtime();
+    x += delta;
+
+    if (!no_update) {
         char set_clause[256], where_clause[256];
         sprintf(set_clause, "logical_start_time=%f", x);
         sprintf(where_clause, "user_id=%d", us.user_id);
         retval = us.update_fields_noid(set_clause, where_clause);
         if (retval) {
-            fprintf(stderr, "adjust_user_priority() failed: %d\n", retval);
+            fprintf(stderr, "update_fields_noid() failed: %d\n", retval);
             exit(1);
         }
     }
+    printf("%f\n", x);
 }

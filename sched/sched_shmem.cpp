@@ -322,13 +322,44 @@ void SCHED_SHMEM::show(FILE* f) {
     fprintf(f, "ready: %d\n", ready);
     fprintf(f, "max_wu_results: %d\n", max_wu_results);
     for (int i=0; i<max_wu_results; i++) {
+        if (i%24 == 0) {
+            fprintf(f,
+                "%4s %12s %10s %10s %10s %8s %10s %8s %12s %12s %9s\n",
+                "slot",
+                "app",
+                "WU ID",
+                "result ID",
+                "batch",
+                "HR class",
+                "priority",
+                "in shmem",
+                "size (stdev)",
+                "need reliable",
+                "inf count"
+            );
+        }
         WU_RESULT& wu_result = wu_results[i];
+        APP* app;
+        const char* appname;
+        int delta_t;
         switch(wu_result.state) {
         case WR_STATE_PRESENT:
-            fprintf(f, "%4d: ap %d ic %d wu %d rs %u hr %d nr %d\n",
-                i, wu_result.workunit.appid, wu_result.infeasible_count,
-                wu_result.workunit.id, wu_result.resultid,
-                wu_result.workunit.hr_class, wu_result.need_reliable
+            app = lookup_app(wu_result.workunit.appid);
+            appname = app?app->name:"missing";
+            delta_t = dtime() - wu_result.time_added_to_shared_memory;
+            fprintf(f,
+                "%4d %12.12s %10d %10d %10d %8d %10d %7ds %12f %12s %9d\n",
+                i,
+                appname,
+                wu_result.workunit.id,
+                wu_result.resultid,
+                wu_result.workunit.batch,
+                wu_result.workunit.hr_class,
+                wu_result.res_priority,
+                delta_t,
+                wu_result.fpops_size,
+                wu_result.need_reliable?"yes":"no",
+                wu_result.infeasible_count
             );
             break;
         case WR_STATE_EMPTY:
