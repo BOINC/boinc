@@ -24,15 +24,19 @@
 // To use this function, link your application with libboinc_opencl.a
 //
 
+#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
+#include "boinc_win.h"
+#endif
+
 #ifdef _WIN32
 #include "win_util.h"
-#endif
+#else
 #include <string>
+#endif
 
 #include "error_numbers.h"
 #include "coproc.h"
 #include "str_replace.h"
-
 #include "boinc_api.h"
 
 #include "boinc_opencl.h"

@@ -64,7 +64,6 @@
 // Unless otherwise noted, "CPU time" refers to the sum over all episodes
 // (not counting the part after the last checkpoint in an episode).
 
-#include <vector>
 
 #if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
 #include "boinc_win.h"
@@ -86,6 +85,7 @@
 #include <sys/resource.h>
 #include <sys/wait.h>
 #include <pthread.h>
+#include <vector>
 #ifndef __EMX__
 #include <sched.h>
 #endif
