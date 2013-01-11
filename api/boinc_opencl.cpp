@@ -49,26 +49,26 @@
 //  CUDA, so a device_num may not correspond to its opencl_device_index 
 //  even if all GPUs are from NVIDIA.
 //
-int get_vendor(cl_device_id device_id, char* vendor) {
+int get_vendor(cl_device_id device_id, char* vendor, int len) {
     int retval = 0;
 
     retval = clGetDeviceInfo(
-        device_id, CL_DEVICE_VENDOR, sizeof(vendor), vendor, NULL
+        device_id, CL_DEVICE_VENDOR, len, vendor, NULL
     );
     if ((retval != CL_SUCCESS) || (strlen(vendor)==0)) return retval;
         
-    if ((strstr(vendor, "AMD")) ||  
+    if ((strstr(vendor, "AMD")) ||
         (strstr(vendor, "Advanced Micro Devices, Inc."))
     ) {
-        strcpy(vendor, GPU_TYPE_ATI);
+        strcpy(vendor, GPU_TYPE_ATI);       // "ATI"
     }
     
     if (strcasestr(vendor, "nvidia")) {
-        strcpy(vendor, GPU_TYPE_NVIDIA);
+        strcpy(vendor, GPU_TYPE_NVIDIA);    // "NVIDIA"
     }
 
     if (strcasestr(vendor, "intel")) {
-        strcpy(vendor, GPU_TYPE_INTEL);
+        strcpy(vendor, GPU_TYPE_INTEL);     // "intel_gpu"
     }
 
     if (!strlen(vendor)) return CL_INVALID_DEVICE_TYPE;
@@ -108,7 +108,7 @@ int boinc_get_opencl_ids_aux(
         if (opencl_device_index >= 0) {
             if (opencl_device_index < (int)num_devices) {
                 device_id = devices[opencl_device_index];
-                retval = get_vendor(device_id, vendor);
+                retval = get_vendor(device_id, vendor, sizeof(vendor));
                 if (retval != CL_SUCCESS) continue;
             
                 if (!strcmp(vendor, type)) {
@@ -127,7 +127,7 @@ int boinc_get_opencl_ids_aux(
         for (device_index=0; device_index<(int)num_devices; ++device_index) {
             device_id = devices[device_index];
 
-            retval = get_vendor(device_id, vendor);
+            retval = get_vendor(device_id, vendor, sizeof(vendor));
             if (retval != CL_SUCCESS) continue;
     
             if (!strcmp(vendor, type)) {
