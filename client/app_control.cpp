@@ -1032,11 +1032,11 @@ void ACTIVE_TASK_SET::suspend_all(int reason) {
         if (atp->task_state() != PROCESS_EXECUTING) continue;
         switch (reason) {
         case SUSPEND_REASON_CPU_THROTTLE:
-            // if we're doing CPU throttling, don't bother suspending apps
-            // that don't use a full CPU
-            //
             if (atp->result->dont_throttle()) continue;
-            if (atp->app_version->avg_ncpus < 1) continue;
+            // if we're doing CPU throttling,
+            // don't suspend CPU apps that use < 1 CPU
+            //
+            if (!atp->result->uses_coprocs() && atp->app_version->avg_ncpus < 1) continue;
             atp->preempt(REMOVE_NEVER);
             break;
         case SUSPEND_REASON_BENCHMARKS:
