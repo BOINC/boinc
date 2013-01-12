@@ -1,8 +1,0 @@
-<resources>
-    <string name="app_name">BOINC Client Service</string>
-    
-    <!-- path and file configuration -->
-    <string name="client_name">boinc_client</string>
-    <string name="client_path">/data/data/edu.berkeley.boinc/client/</string>
-    <string name="auth_file_name">gui_rpc_auth.cfg</string>
-</resources>
