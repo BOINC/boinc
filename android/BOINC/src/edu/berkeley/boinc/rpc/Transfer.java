@@ -19,7 +19,10 @@
 
 package edu.berkeley.boinc.rpc;
 
-public class Transfer {
+import java.io.Serializable;
+
+public class Transfer implements Serializable{
+	private static final long serialVersionUID = 1L;
 	public String name;
 	public String project_url;
 	public boolean generated_locally;

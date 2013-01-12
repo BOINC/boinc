@@ -24,6 +24,8 @@ import android.util.Log;
 
 public class AppPreferences {
 	
+	//TODO needs to be restructured for multi-project support
+	
 	private final String PREFS = "PREFS";
 	private final String TAG = "AppPreferences";
 	private SharedPreferences prefs;

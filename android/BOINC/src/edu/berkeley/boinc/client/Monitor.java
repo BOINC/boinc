@@ -28,6 +28,17 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+import android.accounts.Account;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.Service;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Binder;
+import android.os.IBinder;
+import android.util.Log;
+import android.widget.Toast;
 import edu.berkeley.boinc.AndroidBOINCActivity;
 import edu.berkeley.boinc.AppPreferences;
 import edu.berkeley.boinc.R;
@@ -42,23 +53,16 @@ import edu.berkeley.boinc.rpc.ProjectAttachReply;
 import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.rpc.Transfer;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.Service;
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Binder;
-import android.os.IBinder;
-import android.util.Log;
-import android.widget.Toast;
-
 public class Monitor extends Service{
 	
 	private final String TAG = "BOINC Client Monitor Service";
 	
 	private static ClientStatus clientStatus; //holds the status of the client as determined by the Monitor
 	private static AppPreferences appPrefs; //hold the status of the app, controlled by AppPreferences
+	
+	private String clientName; 
+	private String authFileName; 
+	private String clientPath; 
 	
 	private Boolean started = false;
 	
@@ -83,6 +87,8 @@ public class Monitor extends Service{
 	
 	private RpcClient rpc = new RpcClient();
 
+	private final Integer maxDuration = 3000; //maximum polling duration
+
 	/*
 	 * returns this class, allows clients to access this service's functions and attributes.
 	 */
@@ -91,11 +97,23 @@ public class Monitor extends Service{
             return Monitor.this;
         }
     }
+    private final IBinder mBinder = new LocalBinder();
+
+    /*
+     * gets called every-time an activity binds to this service, but not the initial start (onCreate and onStartCommand are called there)
+     */
+    @Override
+    public IBinder onBind(Intent intent) {
+    	//Log.d(TAG,"onBind");
+        return mBinder;
+    }
 	
 	@Override
     public void onCreate() {
 		Log.d(TAG,"onCreate()");
-		//initialization of components gets performed in onStartCommand
+		clientName = getString(R.string.client_name); 
+		authFileName = getString(R.string.auth_file_name); 
+		clientPath = getString(R.string.client_path); 
     }
 	
     @Override
@@ -171,15 +189,6 @@ public class Monitor extends Service{
     }
     */
 
-    /*
-     * gets called every-time an activity binds to this service, but not the initial start (onCreate and onStartCommand are called there)
-     */
-    @Override
-    public IBinder onBind(Intent intent) {
-    	//Log.d(TAG,"onBind");
-        return mBinder;
-    }
-    private final IBinder mBinder = new LocalBinder();
     
     /*
      * Show a notification while service is running.
@@ -210,11 +219,13 @@ public class Monitor extends Service{
     	(new ShutdownClientAsync()).execute();
     }
     
-    public void attachProject(String email, String pwd) {
+    public void attachProjectAsync(String url, String name, String email, String pwd) {
 		Log.d(TAG,"attachProject");
-		String[] param = new String[2];
-		param[0] = email;
-		param[1] = pwd;
+		String[] param = new String[4];
+		param[0] = url;
+		param[1] = name;
+		param[2] = email;
+		param[3] = pwd;
 		(new ProjectAttachAsync()).execute(param);
     }
     
@@ -229,16 +240,146 @@ public class Monitor extends Service{
 		(new WriteClientPrefsAsync()).execute(globalPrefs);
 	}
 	
+	public String readAuthToken() {
+		File authFile = new File(clientPath+authFileName);
+    	StringBuffer fileData = new StringBuffer(100);
+    	char[] buf = new char[1024];
+    	int read = 0;
+    	try{
+    		BufferedReader br = new BufferedReader(new FileReader(authFile));
+    		while((read=br.read(buf)) != -1){
+    	    	String readData = String.valueOf(buf, 0, read);
+    	    	fileData.append(readData);
+    	    	buf = new char[1024];
+    	    }
+    		br.close();
+    	}
+    	catch (FileNotFoundException fnfe) {
+    		Log.e(TAG, "auth file not found",fnfe);
+    	}
+    	catch (IOException ioe) {
+    		Log.e(TAG, "ioexception",ioe);
+    	}
+
+		String authKey = fileData.toString();
+		Log.d(TAG, "authKey: " + authKey);
+		return authKey;
+	}
+	
+	public Boolean attachProject(String url, String name, String authenticator) {
+    	Boolean success = false;
+    	success = rpc.projectAttach(url, authenticator, name); //asynchronous call to attach project
+    	if(success) { //only continue if attach command did not fail
+    		// verify success of projectAttach with poll function
+    		success = false;
+    		Integer counter = 0;
+    		Integer sleepDuration = 500; //in mili seconds
+    		Integer maxLoops = maxDuration / sleepDuration;
+    		while(!success && (counter < maxLoops)) {
+    			try {
+    				Thread.sleep(sleepDuration);
+    			} catch (Exception e) {}
+    			counter ++;
+    			ProjectAttachReply reply = rpc.projectAttachPoll();
+    			Integer result = reply.error_num;
+    			if(result == 0) {
+    				success = true;
+    			}
+    		}
+    	}
+    	return success;
+    }
+	
+	public AccountOut lookupCredentials(String url, String id, String pwd) {
+    	Integer retval = -1;
+    	AccountOut auth = null;
+    	AccountIn credentials = new AccountIn();
+    	credentials.email_addr = id;
+    	credentials.passwd = pwd;
+    	credentials.url = getString(R.string.project_url);
+    	Boolean success = rpc.lookupAccount(credentials); //asynch
+    	if(success) { //only continue if lookupAccount command did not fail
+    		//get authentication token from lookupAccountPoll
+    		Integer counter = 0;
+    		Integer sleepDuration = 500; //in mili seconds
+    		Integer maxLoops = maxDuration / sleepDuration;
+    		Boolean loop = true;
+    		while(loop && (counter < maxLoops)) {
+    			loop = false;
+    			try {
+    				Thread.sleep(sleepDuration);
+    			} catch (Exception e) {}
+    			counter ++;
+    			auth = rpc.lookupAccountPoll();
+    			if(auth==null) {
+    				return null;
+    			}
+    			if (auth.error_num == -204) {
+    				loop = true; //no result yet, keep looping
+    			}
+    			else {
+    				//final result ready
+    				if(auth.error_num == 0) { 
+        				Log.d(TAG, "credentials verification result, retrieved authenticator: " + auth.authenticator);
+    				}
+    			}
+    		}
+    	}
+    	Log.d(TAG, "lookupCredentials returns " + retval);
+    	return auth;
+    }
+	
+	public Boolean detachProject(String url){
+		return rpc.projectOp(RpcClient.PROJECT_DETACH, url);
+	}
+	
+	public AccountOut createAccount(String url, String email, String userName, String pwd, String teamName) {
+		AccountIn information = new AccountIn();
+		information.url = url;
+		information.email_addr = email;
+		information.user_name = userName;
+		information.passwd = pwd;
+		information.team_name = teamName;
+		
+		AccountOut auth = null;
+		
+    	Boolean success = rpc.createAccount(information); //asynchronous call to attach project
+    	if(success) { //only continue if attach command did not fail
+    		// verify success of projectAttach with poll function
+    		Integer counter = 0;
+    		Integer sleepDuration = 500; //in mili seconds
+    		Integer maxLoops = maxDuration / sleepDuration;
+    		Boolean loop = true;
+    		while(loop && (counter < maxLoops)) {
+    			loop = false;
+    			try {
+    				Thread.sleep(sleepDuration);
+    			} catch (Exception e) {}
+    			counter ++;
+    			auth = rpc.createAccountPoll();
+    			if(auth==null) {
+    				return null;
+    			}
+    			if (auth.error_num == -204) {
+    				loop = true; //no result yet, keep looping
+    			}
+    			else {
+    				//final result ready
+    				if(auth.error_num == 0) { 
+        				Log.d(TAG, "account creation result, retrieved authenticator: " + auth.authenticator);
+    				}
+    			}
+    		}
+    	}
+    	return auth;
+	}
+	
 	private final class ClientMonitorAsync extends AsyncTask<Integer,String,Boolean> {
 
 		private final String TAG = "ClientMonitorAsync";
 		private final Boolean showRpcCommands = false;
 		
 		private Boolean clientStarted = false;
-		
-		private final String clientName = getString(R.string.client_name); 
-		private final String authFileName = getString(R.string.auth_file_name); 
-		private String clientPath = getString(R.string.client_path); 
 		
 		private Integer refreshFrequency = 3000; //frequency of which the monitor updates client status via RPC, to often can cause reduced performance!
 		
@@ -542,28 +683,7 @@ public class Monitor extends Service{
 	     * authorizes this application as valid RPC Manager by reading auth token from file and making RPC call.
 	     */
 	    private Boolean authorize() {
-	    	File authFile = new File(clientPath+authFileName);
-	    	StringBuffer fileData = new StringBuffer(100);
-	    	char[] buf = new char[1024];
-	    	int read = 0;
-	    	try{
-	    		BufferedReader br = new BufferedReader(new FileReader(authFile));
-	    		while((read=br.read(buf)) != -1){
-	    	    	String readData = String.valueOf(buf, 0, read);
-	    	    	fileData.append(readData);
-	    	    	buf = new char[1024];
-	    	    }
-	    		br.close();
-	    	}
-	    	catch (FileNotFoundException fnfe) {
-	    		Log.e(TAG, "auth file not found",fnfe);
-	    	}
-	    	catch (IOException ioe) {
-	    		Log.e(TAG, "ioexception",ioe);
-	    	}
-
-			String authKey = fileData.toString();
-			Log.d(TAG, "authKey: " + authKey);
+	    	String authKey = readAuthToken();
 			
 			//trigger client rpc
 			return rpc.authorize(authKey); 
@@ -587,10 +707,11 @@ public class Monitor extends Service{
 
 		private final String TAG = "ProjectAttachAsync";
 		
-		private final Integer maxDuration = 3000; //maximum polling duration
-		
+		private String url;
+		private String projectName;
 		private String email;
 		private String pwd;
+		private String authenticator = new String();
 		
 		@Override
 		protected void onPreExecute() {
@@ -601,13 +722,16 @@ public class Monitor extends Service{
 		
 		@Override
 		protected Boolean doInBackground(String... params) {
-			this.email = params[0];
-			this.pwd = params[1];
-			Log.d(TAG+"-doInBackground","login started with: " + email + "-" + pwd);
+			this.url = params[0];
+			this.projectName = params[1];
+			this.email = params[2];
+			this.pwd = params[3];
+			Log.d(TAG+"-doInBackground","attachProjectAsync started with: " + url + "-" + projectName + "-" + email + "-" + pwd);
 			
-			Integer retval = lookupCredentials();
+			AccountOut auth = lookupCredentials(url,email,pwd);
 			Boolean success = false;
-			switch (retval) {
+			//TODO use error message instead of own message??
+			switch (auth.error_num) {
 			case 0:
 				Log.d(TAG, "verified successful");
 				success = true;
@@ -634,8 +758,7 @@ public class Monitor extends Service{
 				Log.d(TAG, "verification failed - exit");
 				return false;
 			}
-			
-			Boolean attach = attachProject(); //tries credentials stored in AppPreferences singleton, terminates after 3000 ms in order to prevent "ANR application not responding" dialog
+			Boolean attach = attachProject(url, email, auth.authenticator); 
 			if(attach) {
 				publishProgress("Successful.");
 			}
@@ -653,6 +776,10 @@ public class Monitor extends Service{
 		@Override
 		protected void onPostExecute(Boolean success) {
 			if(success) { //login successful
+	    		AndroidBOINCActivity.logMessage(getApplicationContext(), TAG, "project attached!");
+				// Client is attached to project, publish setupStatus 1 -> setup complete!
+				getClientStatus().setupStatus = 1;
+				getClientStatus().fire();
 				Log.d(TAG,"login successful, restart monitor");
 				restartMonitor();
 			} else { //login failed
@@ -662,82 +789,6 @@ public class Monitor extends Service{
 			}
 			
 		}
-		
-		private Integer lookupCredentials() {
-	    	Integer retval = -1;
-	    	AccountIn credentials = new AccountIn();
-	    	credentials.email_addr = email;
-	    	credentials.passwd = pwd;
-	    	credentials.url = getString(R.string.project_url);
-	    	Boolean success = rpc.lookupAccount(credentials); //asynch
-	    	if(success) { //only continue if lookupAccount command did not fail
-	    		//get authentication token from lookupAccountPoll
-	    		Integer counter = 0;
-	    		Integer sleepDuration = 500; //in mili seconds
-	    		Integer maxLoops = maxDuration / sleepDuration;
-	    		Boolean loop = true;
-	    		while(loop && (counter < maxLoops)) {
-	    			loop = false;
-	    			try {
-	    				Thread.sleep(sleepDuration);
-	    			} catch (Exception e) {}
-	    			counter ++;
-	    			AccountOut auth = rpc.lookupAccountPoll();
-	    			if(auth==null) {
-	    				return -1;
-	    			}
-	    			if (auth.error_num == -204) {
-	    				loop = true; //no result yet, keep looping
-	    			}
-	    			else {
-	    				//final result ready
-	    				if(auth.error_num == 0) { //write usable results to AppPreferences
-	        				AppPreferences appPrefs = Monitor.getAppPrefs(); //get singleton appPrefs to save authToken
-	        				appPrefs.setEmail(email);
-	        				appPrefs.setPwd(pwd);
-	        				appPrefs.setMd5(auth.authenticator);
-	        				Log.d(TAG, "credentials verified");
-	    				}
-	    				retval = auth.error_num;
-	    			}
-	    		}
-	    	}
-	    	Log.d(TAG, "lookupCredentials returns " + retval);
-	    	return retval;
-	    }
-	    
-	    private Boolean attachProject() {
-	    	Boolean success = false;
-
-	    	//get singleton appPrefs to read authToken
-			AppPreferences appPrefs = Monitor.getAppPrefs(); 
-			
-			//make asynchronous call to attach project
-	    	success = rpc.projectAttach(getString(R.string.project_url), appPrefs.getMd5(), getString(R.string.project_name));
-	    	if(success) { //only continue if attach command did not fail
-	    		// verify success of projectAttach with poll function
-	    		success = false;
-	    		Integer counter = 0;
-	    		Integer sleepDuration = 500; //in mili seconds
-	    		Integer maxLoops = maxDuration / sleepDuration;
-	    		while(!success && (counter < maxLoops)) {
-	    			try {
-	    				Thread.sleep(sleepDuration);
-	    			} catch (Exception e) {}
-	    			counter ++;
-	    			ProjectAttachReply reply = rpc.projectAttachPoll();
-	    			Integer result = reply.error_num;
-	    			if(result == 0) {
-	    				success = true;
-	    	    		AndroidBOINCActivity.logMessage(getApplicationContext(), TAG, "project attached!");
-	    				// Client is attached to project, publish setupStatus 1 -> setup complete!
-	    				getClientStatus().setupStatus = 1;
-	    				getClientStatus().fire();
-	    			}
-	    		}
-	    	}
-	    	return success;
-	    }
 	}
 
 	private final class WriteClientPrefsAsync extends AsyncTask<GlobalPreferences,Void,Boolean> {

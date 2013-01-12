@@ -21,7 +21,7 @@ package edu.berkeley.boinc.rpc;
 
 import java.util.ArrayList;
 
-public class CcState {
+public class CcState{
 	public VersionInfo version_info;
 	public HostInfo host_info;
 	public ArrayList<Project> projects = new ArrayList<Project>();

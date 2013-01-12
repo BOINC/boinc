@@ -245,7 +245,10 @@ public class StatusActivity extends Activity {
 		}
 		
 		//trigger async attach
-		monitor.attachProject(email, pwd);
+		//TODO adapt layout to multi-project
+		String name = getString(R.string.project_name);
+		String url = getString(R.string.project_url);
+		monitor.attachProjectAsync(url, name, email, pwd);
 	}
 	
 	private OnClickListener mEnableClickListener = new OnClickListener() {

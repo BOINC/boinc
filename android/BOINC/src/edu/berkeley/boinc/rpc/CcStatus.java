@@ -19,8 +19,11 @@
 
 package edu.berkeley.boinc.rpc;
 
+import java.io.Serializable;
 
-public class CcStatus {
+
+public class CcStatus implements Serializable{
+	private static final long serialVersionUID = 1L;
 	// all attributes are public for simple access
 	/** Current mode - always/auto/never */
 	public int     task_mode           	  = -1;
