@@ -30,6 +30,10 @@ import edu.berkeley.boinc.rpc.AccountOut;
 
 interface IClientRemoteService {
 
+	/* Checks whether interface recipient is ready to serve commands.
+	 * returns success*/
+	boolean isReady();
+
 //== project management ==
 	/* Attach project to BOINC application.
 	 * packageName: package name of Android application causing this attach
@@ -38,6 +42,11 @@ interface IClientRemoteService {
 	 * pwd: project login password in plain text. Password gets encrypted by BOINC before transmitted over the internet.
 	 * returns success*/
 	boolean attachProject(in String packageName, in String url, in String id, in String authenticator);
+	
+	/* Check whether given project URL is attached to BOINC
+	 * url: project URL
+	 * returns success*/
+	boolean checkProjectAttached(in String url);
 	
 	/* Verifies given credentials to project account
 	 * url: project URL

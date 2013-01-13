@@ -18,20 +18,32 @@
  ******************************************************************************/
 package edu.berkeley.boinc.receiver;
 
+import edu.berkeley.boinc.AppPreferences;
 import edu.berkeley.boinc.client.Monitor;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 public class BootReceiver extends BroadcastReceiver {  
-
+	
+	private final String TAG = "BootReceiver";
+	
     @Override
     public void onReceive(Context context, Intent intent) {
     	
-    	// check whether preference "autostart" is enabled is done within the service
-    	Intent startServiceIntent = new Intent(context, Monitor.class);
-    	startServiceIntent.putExtra("autostart", true);
-    	context.startService(startServiceIntent);
+    	//TODO untested!
+    	AppPreferences prefs = new AppPreferences();
+    	prefs.readPrefs(context);
+    	if(prefs.getAutostart()) {
+    		Log.d(TAG,"autostart enabled, start Monitor...");
+	    	Intent startServiceIntent = new Intent(context, Monitor.class);
+	    	startServiceIntent.putExtra("autostart", true);
+	    	context.startService(startServiceIntent);
+    	} else {
+    		// do nothing
+    		Log.d(TAG,"autostart disabeld");
+    	}
     }
 }
 

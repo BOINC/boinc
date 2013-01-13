@@ -108,12 +108,28 @@ public class Monitor extends Service{
         return mBinder;
     }
 	
+    //onCreate is life-cycle method of service. regardless of bound or started service, this method gets called once upon first creation.
 	@Override
     public void onCreate() {
 		Log.d(TAG,"onCreate()");
+		
+		//populate attributes with XML resource values
 		clientName = getString(R.string.client_name); 
 		authFileName = getString(R.string.auth_file_name); 
 		clientPath = getString(R.string.client_path); 
+		
+		// initialize singleton helper classes and provide application context
+		getClientStatus().setCtx(this);
+		getAppPrefs().readPrefs(this);
+		
+		if(!started) {
+			started = true;
+	        (new ClientMonitorAsync()).execute(new Integer[0]); //start monitor in new thread
+	        Log.d(TAG, "asynchronous monitor started!");
+		}
+		else {
+			Log.d(TAG, "asynchronous monitor NOT started!");
+		}
     }
 	
     @Override
@@ -123,37 +139,12 @@ public class Monitor extends Service{
     	
     	Boolean autostart = false;
     	try {
-    		autostart = intent.getBooleanExtra("autostart", false); //if true, received intent is for autostart and got fired by the BootReceiver on start up.
-    	}
-    	catch (NullPointerException e) { // occurs, when onStartCommand is called with a null intent. Occurs on re-start, if START_STICKY is used. 
-    		Log.d(TAG,"NullPointerException, intent flags: " + flags);
-    	}
-		
-		getAppPrefs().readPrefs(this); //create singleton AppPreferences prefs with current application context
-		
-		/*
-		 * start monitor if either
-		 * the user's preference autostart is enabled and the intent carries the autostart flag (intent from BootReceiver)
-		 * or it is not an autostart-intent (not from BootReceiver) and the service hasnt been started yet
-		 */
-		Log.d(TAG, "values: intent-autostart " + autostart + " - prefs-autostart " + appPrefs.getAutostart() + " - started " + started);
-		if((!autostart && !started) || (autostart && appPrefs.getAutostart())) {
-			started = true;
-			Log.d(TAG, "starting service sticky & setup start of monitor...");
-			
-			getClientStatus().setCtx(this);
-	        
-			if(autostart) {
-		        // show notification about started service in notification panel
-		        showNotification();
-			}
-	        
-	        (new ClientMonitorAsync()).execute(new Integer[0]); //start monitor in new thread
-	    	
-	        Log.d(TAG, "asynchronous monitor started!");
-		}
-		else {
-			Log.d(TAG, "asynchronous monitor NOT started!");
+    		autostart = intent.getBooleanExtra("autostart", false);
+    	} catch (Exception e) {}
+		if(autostart) {
+	        // show notification about started service in notification panel
+			// only necessary
+	        showNotification();
 		}
 		/*
 		 * START_NOT_STICKY is now used and replaced START_STICKY in previous implementations.
@@ -289,6 +280,11 @@ public class Monitor extends Service{
     	}
     	return success;
     }
+	
+	public Boolean checkProjectAttached(String url) {
+		//TODO
+		return false;
+	}
 	
 	public AccountOut lookupCredentials(String url, String id, String pwd) {
     	Integer retval = -1;

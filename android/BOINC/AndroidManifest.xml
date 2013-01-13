@@ -36,7 +36,6 @@
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -52,6 +51,9 @@
             </intent-filter>
         </activity>
         <service android:name=".client.Monitor"></service>
+        <service android:name="edu.berkeley.boinc.client.ClientRemoteService"
+            android:enabled="true"
+            android:exported="true"></service>
         <receiver android:name=".receiver.LogReceiver">
             <intent-filter android:priority="999">
                 <action android:name="edu.berkeley.boinc.log" />
