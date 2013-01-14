@@ -211,7 +211,7 @@ public class Monitor extends Service{
     }
     
     public void attachProjectAsync(String url, String name, String email, String pwd) {
-		Log.d(TAG,"attachProject");
+		Log.d(TAG,"attachProjectAsync");
 		String[] param = new String[4];
 		param[0] = url;
 		param[1] = name;
@@ -327,6 +327,13 @@ public class Monitor extends Service{
 	
 	public Boolean detachProject(String url){
 		return rpc.projectOp(RpcClient.PROJECT_DETACH, url);
+	}
+	
+	public void detachProjectAsync(String url){
+		Log.d(TAG,"detachProjectAsync");
+		String[] param = new String[1];
+		param[0] = url;
+		(new ProjectDetachAsync()).execute(param);
 	}
 	
 	public AccountOut createAccount(String url, String email, String userName, String pwd, String teamName) {
@@ -783,7 +790,25 @@ public class Monitor extends Service{
 				getClientStatus().setupStatus = 3;
 				getClientStatus().fire();
 			}
+		}
+	}
+	
+	private final class ProjectDetachAsync extends AsyncTask<String,String,Boolean> {
+
+		private final String TAG = "ProjectDetachAsync";
+		
+		private String url;
+		
+		@Override
+		protected Boolean doInBackground(String... params) {
+			this.url = params[0];
+			Log.d(TAG+"-doInBackground","ProjectDetachAsync url: " + url);
 			
+			Boolean detach = rpc.projectOp(RpcClient.PROJECT_DETACH, url);
+			if(detach) {
+				Log.d(TAG,"successful.");
+			}
+			return detach;
 		}
 	}
 

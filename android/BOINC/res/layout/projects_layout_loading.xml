@@ -17,13 +17,24 @@
   You should have received a copy of the GNU Lesser General Public License
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<resources>
-    <!-- configuration on tab layout -->
-    	<bool name="tab_status">true</bool>
-    	<bool name="tab_tasks">true</bool>
-    	<bool name="tab_transfers">true</bool>
-    	<bool name="tab_preferences">true</bool>
-    	<bool name="tab_projects">true</bool>
-    	<bool name="tab_messages">false</bool>
-    	<bool name="tab_debug">true</bool>
-</resources>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dip"
+        android:text="@string/projects_loading"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
