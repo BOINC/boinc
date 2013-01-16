@@ -10,6 +10,16 @@ export OPENSSL_DIR=$BOINC/../boinc_depends_android_eclipse/openssl
 export CURL_DIR=$BOINC/../boinc_depends_android_eclipse/curl
 export PKG_CONFIG_DEBUG_SPEW=1
 
+export ANDROIDTC="~/android-tc"
+export TCBINARIES="$ANDROIDTC/bin"
+export TCINCLUDES="$ANDROIDTC/arm-linux-androideabi"
+export TCSYSROOT="$ANDROIDTC/sysroot"
+export STDCPPTC="$TCINCLUDES/lib/libstdc++.a"
+
+export PATH="$PATH:$TCBINARIES:$TCINCLUDES/bin"
+export CC=arm-linux-androideabi-gcc
+export CXX=arm-linux-androideabi-g++
+export LD=arm-linux-androideabi-ld
 export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DDECLARE_TIMEZONE -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer"
 export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall  -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer"
 export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog"

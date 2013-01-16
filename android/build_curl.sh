@@ -7,6 +7,16 @@ MAKECLEAN="yes"
 
 CURL="/home/boincadm/src/curl-7.28.1" #CURL sources, required by BOINC
 
+export ANDROIDTC="~/android-tc"
+export TCBINARIES="$ANDROIDTC/bin"
+export TCINCLUDES="$ANDROIDTC/arm-linux-androideabi"
+export TCSYSROOT="$ANDROIDTC/sysroot"
+export STDCPPTC="$TCINCLUDES/lib/libstdc++.a"
+
+export PATH="$PATH:$TCBINARIES:$TCINCLUDES/bin"
+export CC=arm-linux-androideabi-gcc
+export CXX=arm-linux-androideabi-g++
+export LD=arm-linux-androideabi-ld
 export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer"
 export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -funroll-loops -fexceptions -O3 -fomit-frame-pointer"
 export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog"

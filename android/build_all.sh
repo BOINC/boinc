@@ -5,3 +5,4 @@
 ./build_openssl.sh
 ./build_curl.sh
 ./build_boinc.sh
+./copy_assets.sh
