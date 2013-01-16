@@ -7,7 +7,7 @@ MAKECLEAN="yes"
 
 CURL="/home/boincadm/src/curl-7.28.1" #CURL sources, required by BOINC
 
-export ANDROIDTC="~/android-tc"
+export ANDROIDTC="$HOME/android-tc"
 export TCBINARIES="$ANDROIDTC/bin"
 export TCINCLUDES="$ANDROIDTC/arm-linux-androideabi"
 export TCSYSROOT="$ANDROIDTC/sysroot"

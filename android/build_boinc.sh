@@ -10,7 +10,7 @@ export OPENSSL_DIR=$BOINC/../boinc_depends_android_eclipse/openssl
 export CURL_DIR=$BOINC/../boinc_depends_android_eclipse/curl
 export PKG_CONFIG_DEBUG_SPEW=1
 
-export ANDROIDTC="~/android-tc"
+export ANDROIDTC="$HOME/android-tc"
 export TCBINARIES="$ANDROIDTC/bin"
 export TCINCLUDES="$ANDROIDTC/arm-linux-androideabi"
 export TCSYSROOT="$ANDROIDTC/sysroot"
