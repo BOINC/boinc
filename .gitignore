@@ -22,3 +22,4 @@
 *.a
 *.la
 *.in
+/client/Makefile
