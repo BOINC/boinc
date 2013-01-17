@@ -262,10 +262,6 @@ int parse_boinc_submit(COMMAND& c, char* p, SUBMIT_REQ& req) {
     return 0;
 }
 
-int create_batch() {
-
-}
-
 int submit_jobs(SUBMIT_REQ req) {
     return 0;
 }
@@ -283,7 +279,7 @@ void handle_boinc_submit(COMMAND& c, char* p) {
         printf("error parsing request: %d\n", retval);
         return;
     }
-    retval = create_batch();
+    retval = create_batch(req);
     if (retval) {
         printf("error creating batch: %d\n", retval);
         return;
