@@ -550,10 +550,13 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const {
 
 
 void CNoticeListCtrl::Clear() {
+    int oldItemCount = GetItemCount();
     SetItemCount(0);
     m_bNeedsReloading = true;
     UpdateUI();
-    Refresh();
+    if (oldItemCount) { // Prevents covering Fetching Notices text
+        Refresh();
+    }
 }
 
 
@@ -574,8 +577,10 @@ bool CNoticeListCtrl::UpdateUI()
     if ((noticeCount < 0) || (!pDoc->IsConnected()) || m_bNeedsReloading) {
         if (GetItemCount()) {
             SetItemCount(0);
+            Refresh();
         }
-        m_bDisplayFetchingNotices =  true;
+        // Display "Fetching Notices" text only when connected
+        m_bDisplayFetchingNotices = pDoc->IsConnected();
         m_bDisplayEmptyNotice = false;
         m_bNeedsReloading = false;
         return true;
@@ -584,6 +589,7 @@ bool CNoticeListCtrl::UpdateUI()
     if (noticeCount == 0) {
         if (GetItemCount()) {
             SetItemCount(0);
+            Refresh();
         }
         m_bDisplayFetchingNotices = false;
         m_bDisplayEmptyNotice = true;

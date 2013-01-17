@@ -97,6 +97,7 @@ CViewNotices::CViewNotices(wxNotebook* pNotebook) :
                                     _("There are no notices at this time."), 
                                     wxPoint(20, 20), wxDefaultSize, 0
                                     );
+    m_FetchingNoticesText->Hide();
     m_NoNoticesText->Hide();
     m_ReloadNoticesText->Hide();
     m_ReloadNoticesButton->Hide();
@@ -179,6 +180,8 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
                 Layout();
             }
         }
+    } else {
+        m_pHtmlListPane->Clear();
     }
 
     // Don't call Freeze() / Thaw() here because it causes an unnecessary redraw
