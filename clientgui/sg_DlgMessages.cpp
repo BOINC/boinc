@@ -180,6 +180,7 @@ void CPanelMessages::CreateControls()
                                     );
     m_NoNoticesText->SetBackgroundColour(*wxWHITE);
 
+    m_FetchingNoticesText->Hide();
     m_NoNoticesText->Hide();
     m_ReloadNoticesPanel->Hide();
     Layout();
@@ -283,6 +284,8 @@ void CPanelMessages::OnRefresh() {
                     Layout();
                 }
             }
+        } else {
+            m_pHtmlListPane->Clear();
         }
 
         // Don't call Freeze() / Thaw() here because it causes an unnecessary redraw

@@ -550,13 +550,8 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const {
 
 
 void CNoticeListCtrl::Clear() {
-    int oldItemCount = GetItemCount();
-    SetItemCount(0);
     m_bNeedsReloading = true;
     UpdateUI();
-    if (oldItemCount) { // Prevents covering Fetching Notices text
-        Refresh();
-    }
 }
 
 
