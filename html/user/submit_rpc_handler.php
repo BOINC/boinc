@@ -179,7 +179,22 @@ function submit_batch($r) {
     stage_files($jobs, $template);
     $njobs = count($jobs);
     $now = time();
-    $batch_name = (string)($r->batch->batch_name);
+    $batch_id = (int)($r->batch->batch_id);
+    if ($batch_id) {
+        $batch = BoincBatch:lookup_id($batch_id);
+        if (!$batch) {
+            echo "<error>no batch $batch_id</error>\n";
+            exit;
+        }
+        if ($batch->user_id != $user->id) {
+            echo "<error>not owner</error>\n";
+            exit;
+        }
+        if ($batch->state != BATCH_STATE_INIT) {
+            echo "<error>batch not in init state</error>\n";
+            exit;
+        }
+    }
 
     // - compute batch FLOP count
     // - run adjust_user_priorities to increment user_submit.logical_start_time
@@ -198,13 +213,27 @@ function submit_batch($r) {
     }
     $let = (double)$x;
 
-    $batch_id = BoincBatch::insert(
-        "(user_id, create_time, njobs, name, app_id, logical_end_time, state) values ($user->id, $now, $njobs, '$batch_name', $app->id, $let, ".BATCH_STATE_IN_PROGRESS.")"
-    );
+    if ($batch_id) {
+        $batch.update("logical_end_time=$let and state= ".BATCH_STATE_IN_PROGRESS);
+    } else {
+        $batch_name = (string)($r->batch->batch_name);
+        $batch_id = BoincBatch::insert(
+            "(user_id, create_time, njobs, name, app_id, logical_end_time, state) values ($user->id, $now, $njobs, '$batch_name', $app->id, $let, ".BATCH_STATE_IN_PROGRESS.")"
+        );
+    }
     $i = 0;
     foreach($jobs as $job) {
         submit_job($job, $template, $app, $batch_id, $i++, $let);
     }
+    echo "<batch_id>$batch_id</batch_id>\n";
+}
+
+function create_batch($r) {
+    $app = get_app($r);
+    list($user, $user_submit) = authenticate_user($r, $app);
+    $batch_id = BoincBatch::insert(
+        "(user_id, create_time, name, app_id, state) values ($user->id, $now, '$batch_name', $app->id, ".BATCH_STATE_INIT.")"
+    );
     echo "<batch_id>$batch_id</batch_id>\n";
 }
 
@@ -392,6 +421,7 @@ switch ($r->getName()) {
     case 'query_job': query_job($r); break;
     case 'retire_batch': handle_retire_batch($r); break;
     case 'submit_batch': submit_batch($r); break;
+    case 'create_batch': create_batch($r); break;
     default: error("bad command");
 }
 

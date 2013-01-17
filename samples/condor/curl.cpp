@@ -17,45 +17,57 @@
 
 #include <curl/curl.h>
 #include <stdio.h>
+#include <vector>
+#include <string>
 
-int do_http_post(const char* url) {
+#include "curl.h"
+
+using std::vector;
+using std::string;
+
+// send an HTTP POST request,
+// with an optional set of multi-part file attachments
+//
+int do_http_post(
+    const char* url,
+    const char* request,
+    FILE* reply,
+    vector<string> send_files
+) {
     CURL *curl;
     CURLcode res;
+    char buf[256];
      
-    struct curl_httppost *formpost=NULL;
-    struct curl_httppost *lastptr=NULL;
-    struct curl_slist *headerlist=NULL;
-
     curl = curl_easy_init();
     if (!curl) {
         return -1;
     }
 
+    struct curl_httppost *formpost=NULL;
+    struct curl_httppost *lastptr=NULL;
+    struct curl_slist *headerlist=NULL;
+
     curl_formadd(&formpost, &lastptr,
-        CURLFORM_COPYNAME, "sendfile",
-        CURLFORM_FILE, "curl.cpp",
+        CURLFORM_COPYNAME, "request",
+        CURLFORM_COPYCONTENTS, request,
         CURLFORM_END
     );
-    curl_formadd(&formpost, &lastptr,
-        CURLFORM_COPYNAME, "filename",
-        CURLFORM_COPYCONTENTS, "curl.cpp",
-        CURLFORM_END
-    );
-    curl_formadd(&formpost, &lastptr,
-        CURLFORM_COPYNAME, "sendfile2",
-        CURLFORM_FILE, "boinc_gahp.cpp",
-        CURLFORM_END
-    );
-    curl_formadd(&formpost, &lastptr,
-        CURLFORM_COPYNAME, "filename2",
-        CURLFORM_COPYCONTENTS, "boinc_gahp.cpp",
-        CURLFORM_END
-    );
+    for (unsigned int i=0; i<send_files.size(); i++) {
+        sprintf(buf, "file_%d", i);
+        string s = send_files[i];
+        curl_formadd(&formpost, &lastptr,
+            CURLFORM_COPYNAME, buf,
+            CURLFORM_FILE, s.c_str(),
+            CURLFORM_END
+        );
+    }
  
     headerlist = curl_slist_append(headerlist, "Expect:");
     curl_easy_setopt(curl, CURLOPT_URL, url);
     curl_easy_setopt(curl, CURLOPT_USERAGENT, "BOINC Condor adapter");
     curl_easy_setopt(curl, CURLOPT_HTTPPOST, formpost);
+    curl_easy_setopt(curl, CURLOPT_READDATA, request);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, reply);
 
     res = curl_easy_perform(curl);
     if (res != CURLE_OK) {
@@ -68,6 +80,17 @@ int do_http_post(const char* url) {
     return 0;
 }
 
+#if 0
 int main() {
-    do_http_post("http://isaac.ssl.berkeley.edu/foobar.php");
+    FILE* reply = fopen("reply", "w");
+    vector<string> send_files;
+    send_files.push_back("curl.cpp");
+    send_files.push_back("boinc_gahp.cpp");
+    do_http_post(
+        "http://isaac.ssl.berkeley.edu/foobar.php",
+        "<req>foo</req>",
+        reply,
+        send_files
+    );
 }
+#endif

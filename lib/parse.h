@@ -94,12 +94,11 @@ struct XML_PARSER {
     // Return true iff reached EOF
     //
     inline bool scan_nonws(int& first_char) {
-        char c;
+        int c;
         while (1) {
             c = f->_getc();
             if (c == EOF) return true;
-            unsigned char uc = c;
-            if (isspace(uc)) continue;
+            if (isspace(c)) continue;
             first_char = c;
             return false;
         }

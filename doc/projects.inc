@@ -198,7 +198,7 @@ $astro_phys_chem = array(
         array(
             "Constellation",
             "http://aerospaceresearch.net/constellation/",
-            "<a href=\"http://rechenkraft.net\">Rechenkraft.net</a>, <a href=\"http://stuttgart.dglr.de\">DGLR</a>, <a href=\"http://selfnet.de\">Selfnet</a>, and <a href=\"http://shackspace.de\">shack</a>",
+            "<a href='http://rechenkraft.net'>Rechenkraft.net</a>, <a href='http://stuttgart.dglr.de'>DGLR</a>, <a href='http://selfnet.de'>Selfnet</a>, and <a href='http://shackspace.de'>shack</a>",
             "Aerospace-related science and engineering",
             "Constellation is a platform for aerospace-related simulations, including trajectory optimization of launchers, satellites and probes, simulation of Moon's near-surface exosphere, and analysis of dynamic systems of exploration-rovers",
             "constellation2.png"
@@ -372,15 +372,15 @@ $math = array(
             "Solve hard and practically important problems (discrete functions inversion problems, discrete optimization, bioinformatics, etc.) that can be effectively reduced to Boolean satisfiability problem.",
             "sat_logo.png"
         ),
-        array(
-            "Mersenne@home",
-            "http://mersenneathome.net/",
-            tra("Private"),
-            tra("Mathematics"),
-            tra("Mersenne@home searches for 'Mersenne primes' - prime numbers of the form 2<sup>p</sup>-1."),
-
-            "mersenne_logo80.png"
-        ),
+//        array(
+//            "Mersenne@home",
+//            "http://mersenneathome.net/",
+//            tra("Private"),
+//            tra("Mathematics"),
+//            tra("Mersenne@home searches for 'Mersenne primes' - prime numbers of the form 2<sup>p</sup>-1."),
+//
+//            "mersenne_logo80.png"
+//        ),
         array(
             "DistrRTgen",
             "http://boinc.freerainbowtables.com/distrrtgen/",

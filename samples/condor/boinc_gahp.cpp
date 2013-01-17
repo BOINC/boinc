@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2012 University of California
+// Copyright (C) 2013 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -17,6 +17,10 @@
 
 // BOINC GAHP (Grid ASCII Helper Protocol) daemon
 
+// Notes:
+// - This is currently Unix-only (mostly because of its use of pthreads)
+//   but at some point we may want it to run on Windows
+
 #include <stdio.h>
 #include <pthread.h>
 #include <stdlib.h>
@@ -27,13 +31,20 @@
 #include <string>
 #include <vector>
 
+#include "md5_file.h"
+#include "parse.h"
+#include "curl.h"
+
 using std::map;
 using std::pair;
 using std::set;
 using std::string;
 using std::vector;
 
-bool async_mode = true;
+char project_url[256];
+char authenticator[256];
+
+bool async_mode = false;
 
 // represents a command.
 // if out is NULL the command is in progress;
@@ -60,14 +71,60 @@ struct JOB {
     vector<string> outfiles;
 };
 
+struct LOCAL_FILE {
+    char md5[64];
+    double nbytes;
+};
+
 struct SUBMIT_REQ {
     char batch_name[256];
     char app_name[256];
     vector<JOB> jobs;
+    map<string, LOCAL_FILE> local_files;
+        // maps local path to info about file
+    int batch_id;
 };
 
-void compute_md5(string& path) {
+int compute_md5(string path, LOCAL_FILE& f) {
+    return md5_file(path.c_str(), f.md5, f.nbytes);
 }
+
+int create_batch(SUBMIT_REQ& sr) {
+    char request[1024];
+    char url[1024];
+    sprintf(request,
+        "<create_batch>\n"
+        "   <authenticator>%s</authenticator>\n"
+        "      <batch>\n"
+        "         <batch_name>%s</batch_name>\n"
+        "         <app_name>%s</app_name>\n"
+        "      </batch>\n"
+        "</create_batch>\n",
+        authenticator,
+        sr.batch_name,
+        sr.app_name
+    );
+    sprintf(url, "%ssubmit_rpc_handler.php", project_url);
+    FILE* reply = tmpfile();
+    vector<string> x;
+    int retval = do_http_post(url, request, reply, x);
+    if (retval) {
+        fclose(reply);
+        return retval;
+    }
+    char buf[256];
+    sr.batch_id = 0;
+    fseek(reply, 0, SEEK_SET);
+    while (fgets(buf, 256, reply)) {
+        if (parse_int(buf, "<batch_id>", sr.batch_id)) break;
+    }
+    fclose(reply);
+    if (sr.batch_id == 0) {
+        return -1;
+    }
+    return 0;
+}
+
 
 // Get a list of the input files used by the batch.
 // Get their MD5s.
@@ -76,30 +133,98 @@ void compute_md5(string& path) {
 //
 int process_input_files(SUBMIT_REQ& req) {
     unsigned int i, j;
+    int retval;
+    char buf[1024];
 
-    // get the set of source paths w/o dups
+    // get the set of unique source paths
     //
-    set<string> files;
+    set<string> unique_paths;
     for (i=0; i<req.jobs.size(); i++) {
         JOB& job = req.jobs[i];
         for (j=0; j<job.infiles.size(); j++) {
             INFILE infile = job.infiles[j];
-            files.insert(infile.src_path);
+            unique_paths.insert(infile.src_path);
         }
     }
 
-    // compute the MD5s of these files
+    // compute the MD5s of these files,
+    // and make a map from filename to MD5 and other info (LOCAL_FILE)
     //
-    map<string, string> md5s;
-    set<string>::iterator iter = files.begin();
-    while (iter != files.end()) {
+    set<string>::iterator iter = unique_paths.begin();
+    while (iter != unique_paths.end()) {
         string s = *iter;
-        compute_md5(s);
+        LOCAL_FILE lf;
+        retval = compute_md5(s, lf);
+        if (retval) return retval;
+        req.local_files.insert(std::pair<string, LOCAL_FILE>(s, lf));
         iter++;
     }
 
+    // ask the server which files it doesn't already have.
+    // We send it the batch ID and a list of (filename, MD5) pairs.
+    // It
+    // - creates batch_file_assoc records for all the files
+    //   (to avoid race condition w/ file deletion)
+    // - returns the list of filenames it doesn't have.
+    //
+    string req_msg;
+    req_msg = "<query_files>\n";
+    map<string, LOCAL_FILE>::iterator map_iter;
+    map_iter = req.local_files.begin();
+    sprintf(buf, "<batch_id>%d</batch_id>\n", req.batch_id);
+    req_msg += string(buf);
+    while (map_iter != req.local_files.end()) {
+        LOCAL_FILE lf = map_iter->second;
+        string name = map_iter->first;
+        sprintf(buf,
+            "<file>\n"
+            "   <name>%s</name>\n"
+            "   <md5>%s</md5>\n"
+            "</file>\n",
+            name.c_str(),
+            lf.md5
+        );
+        req_msg += string(buf);
+        iter++;
+    }
+    req_msg += "</query_files>\n";
+    vector<string> send_files;
+    FILE* reply = tmpfile();
+    retval = do_http_post(project_url, req_msg.c_str(), reply, send_files);
+    fseek(reply, 0, SEEK_SET);
+    vector<string> missing_files;
+    string missing_file;
+    while (fgets(buf, 256, reply)) {
+        if (parse_str(buf, "<missing_file>", missing_file)) {
+            missing_files.push_back(missing_file);
+            continue;
+        }
+    }
+    fclose(reply);
 
-
+    // upload the missing files.
+    // Send a list of the MD5s so the server doesn't have to compute them.
+    //
+    req_msg = "<upload_files>\n";
+    for (i=0; i<missing_files.size(); i++) {
+        map_iter = req.local_files.find(missing_files[i]);
+        LOCAL_FILE& lf = map_iter->second;
+        sprintf(buf, "<md5>%s</md5>\n", lf.md5);
+        req_msg += string(buf);
+    }
+    req_msg = "</upload_files>\n";
+    reply = tmpfile();
+    retval = do_http_post(project_url, req_msg.c_str(), reply, missing_files);
+    bool success = false;
+    while (fgets(buf, 256, reply)) {
+        if (strstr(buf, "success")) {
+            success = true;
+            break;
+        }
+    }
+    fclose(reply);
+    if (!success) return -1;
+    return 0;
 }
 
 int parse_boinc_submit(COMMAND& c, char* p, SUBMIT_REQ& req) {
@@ -137,25 +262,52 @@ int parse_boinc_submit(COMMAND& c, char* p, SUBMIT_REQ& req) {
     return 0;
 }
 
+int create_batch() {
+
+}
+
 int submit_jobs(SUBMIT_REQ req) {
     return 0;
 }
 
+// To avoid a race condition with file deletion:
+// - create a batch record
+// - create batch/file associations, and upload files
+// - create jobs
+//
 void handle_boinc_submit(COMMAND& c, char* p) {
     SUBMIT_REQ req;
     int retval;
     retval = parse_boinc_submit(c, p, req);
-    process_input_files(req);
-    submit_jobs(req);
+    if (retval) {
+        printf("error parsing request: %d\n", retval);
+        return;
+    }
+    retval = create_batch();
+    if (retval) {
+        printf("error creating batch: %d\n", retval);
+        return;
+    }
+    retval = process_input_files(req);
+    if (retval) {
+        printf("error processing input files: %d\n", retval);
+        return;
+    }
+    retval = submit_jobs(req);
+    if (retval) {
+        printf("error submitting jobs: %d\n", retval);
+        return;
+    }
+    printf("success\n");
 }
 
 void* handle_command_aux(void* q) {
     COMMAND &c = *((COMMAND*)q);
     char *p;
 
-    strtok_r(c.in, " ", &p);
-    char* cmd = strtok_r(NULL, " ", &p);
+    char* cmd = strtok_r(c.in, " ", &p);
     char* id = strtok_r(NULL, " ", &p);
+    printf("handling cmd %s\n", cmd);
     if (!strcmp(cmd, "BOINC_SUBMIT")) {
         handle_boinc_submit(c, p);
     } else {
@@ -174,6 +326,7 @@ int handle_command(COMMAND& c) {
     // Handle synchronous commands
     //
     sscanf(c.in, "%s", cmd);
+    printf("cmd: %s\n", cmd);
     if (!strcmp(cmd, "VERSION")) {
         printf("1.0\n");
     } else if (!strcmp(cmd, "QUIT")) {
@@ -255,9 +408,29 @@ char* get_cmd() {
     }
 }
 
+void read_config() {
+    FILE* f = fopen("config.txt", "r");
+    if (!f) {
+        fprintf(stderr, "no config.txt\n");
+        exit(1);
+    }
+    fgets(project_url, 256, f);
+    fgets(authenticator, 256, f);
+    fclose(f);
+    if (!strlen(project_url)) {
+        fprintf(stderr, "no project URL given\n");
+        exit(1);
+    }
+    if (!strlen(authenticator)) {
+        fprintf(stderr, "no authenticator given\n");
+        exit(1);
+    }
+}
+
 int main() {
     char* p;
     int retval;
+    read_config();
     while (1) {
         p = get_cmd();
         if (p == NULL) break;
