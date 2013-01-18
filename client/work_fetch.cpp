@@ -512,7 +512,9 @@ void RSC_WORK_FETCH::print_state(const char* name) {
         bool no_rsc_ams = p->no_rsc_ams[rsc_type];
         double bt = pwf.backoff_time>gstate.now?pwf.backoff_time-gstate.now:0;
         if (bt) {
-            sprintf(buf, " (resource backoff: %.2f)", bt);
+            sprintf(buf, " (resource backoff: %.2f, inc %.2f)",
+                bt, pwf.backoff_interval
+            );
         } else {
             strcpy(buf, "");
         }
@@ -654,6 +656,11 @@ void WORK_FETCH::print_state() {
             );
         } else {
             strcpy(buf, "can req work");
+        }
+        if (p->min_rpc_time > gstate.now) {
+            char buf2[256];
+            sprintf(buf2, " (backoff: %.2f sec)", p->min_rpc_time - gstate.now);
+            strcat(buf, buf2);
         }
         msg_printf(p, MSG_INFO, "[work_fetch] REC %.3f prio %.6f %s",
             p->pwf.rec,
