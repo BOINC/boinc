@@ -52,6 +52,7 @@
 #include "async_file.h"
 #include "client_msgs.h"
 #include "cs_notice.h"
+#include "cs_proxy.h"
 #include "cs_trickle.h"
 #include "file_names.h"
 #include "hostinfo.h"
@@ -613,6 +614,24 @@ int CLIENT_STATE::init() {
 #endif
 
     http_ops->cleanup_temp_files();
+    
+    // must parse env vars after parsing state file
+    // otherwise items will get overwritten with state file info
+    //
+    parse_env_vars();
+
+    // do this after parsing env vars
+    //
+    proxy_info_startup();
+
+    if (gstate.projects.size() == 0) {
+        msg_printf(NULL, MSG_INFO,
+            "This computer is not attached to any projects"
+        );
+        msg_printf(NULL, MSG_INFO,
+            "Visit http://boinc.berkeley.edu for instructions"
+        );
+    }
 
     // get list of BOINC projects occasionally,
     // and initialize notice RSS feeds

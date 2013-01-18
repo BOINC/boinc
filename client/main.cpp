@@ -56,7 +56,6 @@
 #include "network.h"
 #include "idlemon.h"
 
-#include "cs_proxy.h"
 #include "client_state.h"
 #include "file_names.h"
 #include "log_flags.h"
@@ -313,24 +312,6 @@ int boinc_main_loop() {
     if (retval) {
         log_message_error("gstate.init() failed", retval);
         return retval;
-    }
-
-    // must parse env vars after gstate.init();
-    // otherwise items will get overwritten with state file info
-    //
-    gstate.parse_env_vars();
-
-    // do this after parsing env vars
-    //
-    proxy_info_startup();
-
-    if (gstate.projects.size() == 0) {
-        msg_printf(NULL, MSG_INFO,
-            "This computer is not attached to any projects"
-        );
-        msg_printf(NULL, MSG_INFO,
-            "Visit http://boinc.berkeley.edu for instructions"
-        );
     }
 
     log_message_startup("Initialization completed");
