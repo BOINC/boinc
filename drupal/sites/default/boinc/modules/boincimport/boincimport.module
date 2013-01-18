@@ -1590,8 +1590,9 @@ function _boincimport_text_sanitize($text) {
  * Functions for updating links via preg_replace
  */
 function _boincimport_replace_links_topic($matches) {
+  global $base_path;
   $topic = db_fetch_object(db_query('SELECT nid FROM {boincimport_temp_topic} WHERE topic_id = %d', $matches[1]));
-  $link = 'node/'. $topic->nid;
+  $link = "{$base_path}node/{$topic->nid}";
   return $link;
 }
 
@@ -1600,15 +1601,54 @@ function _boincimport_replace_links_topic($matches) {
  * in the thread, it is a topic node in Drupal, not a comment.
  */
 function _boincimport_replace_links_post($matches) {
+  global $base_path;
   $comment = db_fetch_object(db_query('SELECT c.cid, c.nid FROM {boincimport_temp_post} p JOIN {comments} c ON c.cid = p.cid WHERE p.post_id = %d', $matches[4]));
-  if ($comment) $link = "node/{$comment->nid}#comment-{$comment->cid}";
+  if ($comment) $link = "{$base_path}node/{$comment->nid}#comment-{$comment->cid}";
   else $link = _boincimport_replace_links_topic($matches);
   return $link;
 }
 
 function _boincimport_replace_links_forum($matches) {
+  global $base_path;
   $forum = db_fetch_object(db_query('SELECT tid FROM {boincimport_temp_forum} WHERE forum_id = %d', $matches[1]));
-  $link = 'forum/'. $forum->tid;
+  $link = "{$base_path}forum/{$forum->tid}";
+  return $link;
+}
+
+function _boincimport_replace_links_user($matches) {
+  global $base_path;
+  // If this is an RPC link, ignore it
+  if (preg_match('{format=xml}i', $matches[0])) {
+    return $matches[0];
+  }
+  else {
+    $uid = db_result(db_query('SELECT uid FROM {boincuser} WHERE boinc_id = %d', $matches[1]));
+    $link = "{$base_path}user/{$uid}";
+    return $link;
+  }
+}
+
+function _boincimport_replace_links_workunit($matches) {
+  global $base_path;
+  $link = "{$base_path}workunit/{$matches[1]}";
+  return $link;
+}
+
+function _boincimport_replace_links_result($matches) {
+  global $base_path;
+  $link = "{$base_path}task/{$matches[1]}";
+  return $link;
+}
+
+function _boincimport_replace_links_host_results($matches) {
+  global $base_path;
+  $link = "{$base_path}host/{$matches[1]}/tasks";
+  return $link;
+}
+
+function _boincimport_replace_links_host($matches) {
+  global $base_path;
+  $link = "{$base_path}host/{$matches[1]}";
   return $link;
 }
 
@@ -1617,14 +1657,18 @@ function _boincimport_replace_links_forum($matches) {
  * Replace all types of links.
  */
 function _boincimport_replace_links($html) {
+  global $base_path;
   // Update links to posts, threads, and forums
-  $html = preg_replace_callback('{forum_thread.php\?id=(\d+)(&\w+=\w*)*?(#(\d+)?)}i', '_boincimport_replace_links_post', $html);
-  $html = preg_replace_callback('{forum_thread.php\?id=(\d+)}i', '_boincimport_replace_links_topic', $html);
-  $html = preg_replace_callback('{forum_forum.php\?id=(\d+)}i', '_boincimport_replace_links_forum', $html);
+  $html = preg_replace_callback('{forum_thread\.php\?id=(\d+)(&\w+=\w*)*?(#(\d+)?)}i', '_boincimport_replace_links_post', $html);
+  $html = preg_replace_callback('{forum_thread\.php\?id=(\d+)}i', '_boincimport_replace_links_topic', $html);
+  $html = preg_replace_callback('{forum_forum\.php\?id=(\d+)}i', '_boincimport_replace_links_forum', $html);
+  $html = preg_replace_callback('{show_user\.php\?userid=(\d+)(&\w+=\w*)*}i', '_boincimport_replace_links_user', $html); 
+  $html = preg_replace_callback('{workunit\.php\?wuid=(\d+)}i', '_boincimport_replace_links_workunit', $html);
+  $html = preg_replace_callback('{result\.php\?resultid=(\d+)}i', '_boincimport_replace_links_result', $html);
+  $html = preg_replace_callback('{results\.php\?hostid=(\d+)}i', '_boincimport_replace_links_host_results', $html);
+  $html = preg_replace_callback('{show_host_detail\.php\?hostid=(\d+)}i', '_boincimport_replace_links_host', $html);
   // Update any links to the top level index
-  $html = preg_replace('{forum_index.php}i', "forum", $html);
-  // DEVELOPMENT ONLY
-  $html = preg_replace('{http://einstein.phys.uwm.edu}i', '/drupal6', $html);
+  $html = preg_replace('{forum_index.php}i', "{$base_path}forum", $html);
   return $html;
 }
 
