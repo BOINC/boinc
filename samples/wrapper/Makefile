@@ -22,7 +22,11 @@ PROGS = wrapper
 all: $(PROGS)
 
 libstdc++.a:
+ifdef ANDROIDTC
+	cp $(STDCPPTC) libstdc++.a
+else
 	ln -s `g++ -print-file-name=libstdc++.a`
+endif
 
 clean:
 	rm $(PROGS) *.o
