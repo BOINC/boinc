@@ -103,7 +103,7 @@ struct ALL_PROJECTS_LIST {
     ~ALL_PROJECTS_LIST();
 
     void clear();
-    void shuffle();
+    void alpha_sort();
 };
 
 struct RSC_DESC {

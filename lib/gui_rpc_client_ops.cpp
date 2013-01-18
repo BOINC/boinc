@@ -211,8 +211,9 @@ ALL_PROJECTS_LIST::~ALL_PROJECTS_LIST() {
     clear();
 }
 
-bool compare_project_list_entry(const PROJECT_LIST_ENTRY* a, const PROJECT_LIST_ENTRY* b) 
-{
+bool compare_project_list_entry(
+    const PROJECT_LIST_ENTRY* a, const PROJECT_LIST_ENTRY* b
+) {
 #ifdef _WIN32
     return _stricmp(a->name.c_str(), b->name.c_str()) < 0;
 #else
@@ -220,8 +221,7 @@ bool compare_project_list_entry(const PROJECT_LIST_ENTRY* a, const PROJECT_LIST_
 #endif
 }
 
-bool compare_am_list_entry(const AM_LIST_ENTRY* a, const AM_LIST_ENTRY* b) 
-{
+bool compare_am_list_entry(const AM_LIST_ENTRY* a, const AM_LIST_ENTRY* b) {
 #ifdef _WIN32
     return _stricmp(a->name.c_str(), b->name.c_str()) < 0;
 #else
@@ -229,7 +229,7 @@ bool compare_am_list_entry(const AM_LIST_ENTRY* a, const AM_LIST_ENTRY* b)
 #endif
 }
 
-void ALL_PROJECTS_LIST::shuffle() {
+void ALL_PROJECTS_LIST::alpha_sort() {
     sort(projects.begin(), projects.end(), compare_project_list_entry);
     sort(account_managers.begin(), account_managers.end(), compare_am_list_entry);
 }
@@ -1602,7 +1602,7 @@ int RPC_CLIENT::get_all_projects_list(ALL_PROJECTS_LIST& pl) {
         }
     }
 
-    pl.shuffle();
+    pl.alpha_sort();
 
     return 0;
 }
