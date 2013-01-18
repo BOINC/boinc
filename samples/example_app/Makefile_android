@@ -1,0 +1,11 @@
+# This should work on Linux.  Modify as needed for other platforms.
+
+PROGS = uc2
+
+all: $(PROGS)
+
+clean:
+	rm $(PROGS) *.o
+
+uc2: uc2.o $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o uc2 uc2.o $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a $(STDCPPTC)
