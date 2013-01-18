@@ -15,4 +15,4 @@ REGEXP_OBJS = \
 	regexp_report.o
 
 wrapper: wrapper.o $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a $(REGEXP_OBJS)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o wrapper wrapper.o $(REGEXP_OBJS) $(STDCPPTC) -pthread -lboinc_api -lboinc -lboinc_zip
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o wrapper wrapper.o $(REGEXP_OBJS) $(STDCPPTC) -lboinc_api -lboinc -lboinc_zip
