@@ -21,4 +21,4 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 # Prepare android toolchain and environment
 ../../android/build_androidtc.sh
 
-make Makefile_android
+make -f Makefile_android
