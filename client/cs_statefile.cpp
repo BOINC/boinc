@@ -927,7 +927,7 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
 
     f.printf("<client_state>\n");
 
-    retval = host_info.write(f, true, false);
+    retval = host_info.write(f, true, true);
     if (retval) return retval;
 
     // the following are for compatibility with old managers
