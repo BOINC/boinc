@@ -390,6 +390,10 @@ int CLIENT_STATE::init() {
         msg_printf(NULL, MSG_INFO, "Faking an ATI GPU");
         coprocs.ati.fake(512*MEGA, 256*MEGA, 2);
 #endif
+#if 0
+        msg_printf(NULL, MSG_INFO, "Faking an Intel GPU");
+        coprocs.intel_gpu.fake(512*MEGA, 256*MEGA, 2);
+#endif
     }
 
     if (coprocs.have_nvidia()) {
