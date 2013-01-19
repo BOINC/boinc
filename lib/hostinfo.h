@@ -65,7 +65,7 @@ public:
     //
     char virtualbox_version[256];
 
-    COPROCS _coprocs;
+    COPROCS coprocs;
 
     HOST_INFO();
     int parse(XML_PARSER&, bool benchmarks_only = false);

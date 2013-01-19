@@ -116,7 +116,7 @@ int HOST_INFO::parse(XML_PARSER& xp, bool benchmarks_only) {
         if (xp.parse_str("os_version", os_version, sizeof(os_version))) continue;
         if (xp.parse_str("virtualbox_version", virtualbox_version, sizeof(virtualbox_version))) continue;
         if (xp.match_tag("coprocs")) {
-            _coprocs.parse(xp);
+            this->coprocs.parse(xp);
         }
     }
     return ERR_XML_PARSE;
@@ -198,7 +198,7 @@ int HOST_INFO::write(
         );
     }
     if (include_coprocs) {
-        _coprocs.write_xml(out, false);
+        this->coprocs.write_xml(out, false);
     }
     out.printf(
         "</host_info>\n"

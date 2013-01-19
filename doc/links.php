@@ -187,11 +187,11 @@ echo "
 
 language("Belgium (Dutch/French/English)", array(
     site("http://www.boinc.be", "www.boinc.be"),
-    site("http://icewolves.plid.be", "IceWolves"),
+    //site("http://icewolves.plid.be", "IceWolves"),
 ));
-language("Bulgarian", array(
-    site("http://www.boinc-bulgaria.net", "BOINC Bulgaria")
-));
+//language("Bulgarian", array(
+    //site("http://www.boinc-bulgaria.net", "BOINC Bulgaria")
+//));
 language("Catalan", array(
     site("http://www.boinc.cat", "BOINC.cat"),
 ));
@@ -205,7 +205,7 @@ language("Czech", array(
 ));
 language("Danish", array(
     site("http://boincdenmark.dk", "BOINC@Denmark"),
-    site("http://www.boinc.dk", "www.boinc.dk"),
+    //site("http://www.boinc.dk", "www.boinc.dk"),
     site("http://www.setihome.dk", "www.setihome.dk")
 ));
 language("Dutch", array(
@@ -225,8 +225,8 @@ language("English", array(
     site("http://www.unitedmacs.com/", "United Macs"),
     //site("http://sirans-boincnews.com/", "Siran's BOINC Projects News Site"),
     site("http://www.ukboincteam.org.uk/", "UK BOINC Team"),
-    site("http://symbion.madnezz.com/", "Symbion"),
-    site("http://scotlandsseti.blogspot.com/", "Megacruncher's Blog"),
+    //site("http://symbion.madnezz.com/", "Symbion"),
+    //site("http://scotlandsseti.blogspot.com/", "Megacruncher's Blog"),
     site("http://www.bc-team.org/", "BOINC Confederation"),
     //site("http://theclangers.net/", "The Clangers"),
     site("http://www.free-dc.org/", "Free-DC"),
@@ -241,10 +241,10 @@ language("English", array(
     site("http://www.tswb.org", "Team Starfire World BOINC"),
     //site("http://www.geocities.com/boinc_volunteers/", "BOINC Volunteers")
 ));
-language("Estonian", array(
-    site("http://boinc.tmac.pri.ee", "boinc.tmac.pri.ee"),
+//language("Estonian", array(
+    //site("http://boinc.tmac.pri.ee", "boinc.tmac.pri.ee"),
     //site("http://setimehed.net/", "setimehed.net"),
-));
+//));
 language("Finnish", array(
     site( "http://www.universe-examiners.org/",
         "Universe Examiners"),
@@ -253,37 +253,37 @@ language("Finnish", array(
     //),
 ));
 language("French", array(
-    site("http://boinc.starwars-holonet.com/", "Star Wars [FR]"),
+    //site("http://boinc.starwars-holonet.com/", "Star Wars [FR]"),
     //site("http://wwww.boinc-2tf.org", "2TF Asso"),
-    site("http://boincfrance.org", "BOINCFRANCE.ORG"),
+    //site("http://boincfrance.org", "BOINCFRANCE.ORG"),
     site("http://www.boinc-af.org", "L'Alliance Francophone"),
 ));
 language("German", array(
     site("http://www.crunchers-freiburg.de/", "crunchers@freiburg"),
     //site("http://www.boinc-gemeinschaft.de/", "BOINC Gemeinschaft"),
-    site("http://www.gridcommunity.de/index.php", "International Grid Community"),
-    site("http://www.swissteam.net/", "SwissTeam.net"),
+    //site("http://www.gridcommunity.de/index.php", "International Grid Community"),
+    //site("http://www.swissteam.net/", "SwissTeam.net"),
     site("http://www.unitedmacs.com/", "United Macs"),
     site("http://www.rechenkraft.net/", "Rechenkraft"),
     site("http://www.seti-leipzig.de/", "SETI-Leipzig"),
     site("http://www.dc-gemeinschaft.com/", "DC - Gemeinschaft"),
     site("http://boinccast.podhost.de/", "BOINCcast (Podcast)"),
     site("http://www.boinc-team.de/", "BOINC@Heidelberg"),
-    site("http://www.crunching-family.wins.info/", "Crunching Family"),
+    //site("http://www.crunching-family.wins.info/", "Crunching Family"),
     site("http://www.boinc.at/", "www.boinc.at"),
     site("http://www.boinc-halle-saale.de", "BOINC@Halle/Saale"),
     site("http://www.bc-team.org/", "BOINC Confederation"),
-    site("http://www.boincfun.tk/", "BOINCfun"),
+    //site("http://www.boincfun.tk/", "BOINCfun"),
     site("http://www.seti-germany.de", "SETI.Germany"),
     site("http://www.sar-hessen.org", "Team Science and Research Hessen"),
     site("http://www.boinc.de/", "www.boinc.de"),
     //site( "http://www.boinc-lubeca.de/", "BOINC - LUBECA (L&uuml;beck, Germany)"),
-    site( "http://www.boinc-forum.de/", "www.boinc-forum.de"),
+    //site( "http://www.boinc-forum.de/", "www.boinc-forum.de"),
     //site( "http://www.emuleatboinc.de/board", "Official eMule @ BOINC Team Page")
 ));
-language("Hungarian", array(
-    site("http://seti.hwsw.hu/", "HWSW SETI@home Team")
-));
+//language("Hungarian", array(
+    //site("http://seti.hwsw.hu/", "HWSW SETI@home Team")
+//));
 language("Italian", array(
     site("http://www.calcolodistribuito.it/", "Calcolo Distribuito"),
     site("http://www.boincitaly.org/", "BOINC.Italy"),
@@ -297,25 +297,25 @@ language("Japanese", array(
 ));
 language("Korean", array(
     site("http://cafe.naver.com/setikah", "SETIKAH@KOREA"),
-    site("http://boincatkorea.xo.st/", "BOINC@KOREA"),
+    //site("http://boincatkorea.xo.st/", "BOINC@KOREA"),
 ));
 
 language("Polish", array(
     //site("http://www.boinc-polska.org/", "BOINC-Polska.org"),
     //site("http://www.boinc.org.pl/", "Team boinc.pl"),
-    site("http://www.boinc.prv.pl", "BOINC@Kolobrzeg"),
+    //site("http://www.boinc.prv.pl", "BOINC@Kolobrzeg"),
     site("http://www.boincatpoland.org", "BOINC@Poland"),
     site("http://boinc.pl", "BOINC Polish National Team"),
     site("http://www.tomaszpawel.republika.pl/", "TomaszPawelTeam"),
     //site("http://www.gpuforce.oxyone.pl/", "GPU Force"),
 ));
 language("Portuguese", array(
-    site( "http://portugalathome.pt.vu/", "Portugal@home"),
+    //site( "http://portugalathome.pt.vu/", "Portugal@home"),
     site("http://www.setibr.org/", "SETIBR"),
 ));
-language("Romanian", array(
-    site( "http://www.boinc.ro/", "SETI@home Romania")
-));
+//language("Romanian", array(
+//    site( "http://www.boinc.ro/", "SETI@home Romania")
+//));
 language("Russian", array(
     site("http://vkontakte.ru/club11963359", "BOINC group on vkontakte.ru"),
     site("http://www.boinc.ru", "BOINC.ru"),
@@ -329,19 +329,19 @@ language("Spanish", array(
     site("http://www.seti.cl/", "BOINC SETI Chile"),
     site("http://www.easyboinc.org/", "Computación Distribuida"),
     site("http://foro.noticias3d.com/vbulletin/showthread.php?t=192297", "Noticias3D"),
-    site("http://elmajo.blogspot.com", "Computación Distribuida"),
-    site("http://efren-canarias.blogcindario.com/", "El Pais De La Computacion"),
-    site("http://www.canalboinc.org/modules/news/", "Canal BOINC"),
+    //site("http://elmajo.blogspot.com", "Computación Distribuida"),
+    //site("http://efren-canarias.blogcindario.com/", "El Pais De La Computacion"),
+    //site("http://www.canalboinc.org/modules/news/", "Canal BOINC"),
     site("http://www.boinc-ecuador.com/", "BOINC - Ecuador"),
     site("http://www.hispaseti.org/", "HispaSeti"),
-    site("http://www.seti-argentina.com.ar", "BOINC Argentina"),
-    site("http://boinc.blogspot.com", "Boinc y Astronomia")
+    //site("http://www.seti-argentina.com.ar", "BOINC Argentina"),
+    //site("http://boinc.blogspot.com", "Boinc y Astronomia")
     //site("http://boincspain.shyper.com/", "BOINC España</a>")
 ));
-language("Turkish", array(
-    site("http://www.turksetiteam.org/", "www.turksetiteam.org"),
-    site("http://www.boinctr.com/", "www.boinctr.com")
-));
+//language("Turkish", array(
+    //site("http://www.turksetiteam.org/", "www.turksetiteam.org"),
+    //site("http://www.boinctr.com/", "www.boinctr.com")
+//));
 language("Ukrainian", array(
     site("http://distributed.org.ua/", "Ukraine - Distributed Computing"),
 ));
