@@ -32,10 +32,9 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class StatusActivity extends Activity {
 	
@@ -115,158 +114,134 @@ public class StatusActivity extends Activity {
 		//if this is not the case, "onServiceConnected" will call "loadLayout" as soon as the service is bound
 		if(mIsBound) {
 			ClientStatus status = Monitor.getClientStatus();
-			switch(status.setupStatus){
-			case 0: //launching
-				setContentView(R.layout.status_layout_launching);
-				break;
-			case 1: 
+			setContentView(R.layout.status_layout);
+			// get views
+			RelativeLayout statusWrapper = (RelativeLayout) findViewById(R.id.status_wrapper);
+			TextView statusHeader = (TextView) findViewById(R.id.status_header);
+			ImageView statusImage = (ImageView) findViewById(R.id.status_image);
+			TextView statusDescriptor = (TextView) findViewById(R.id.status_long);
+			ImageView changeRunmodeImage = (ImageView) findViewById(R.id.status_change_runmode_image);
+			TextView changeRunmodeDescriptor = (TextView) findViewById(R.id.status_change_runmode_long);
+			
+			if(status.setupStatus == ClientStatus.SETUP_STATUS_AVAILABLE) { 
+				statusWrapper.setVisibility(View.VISIBLE);
 				switch(status.computingStatus) {
-				case 0: //suspended by user
-					setContentView(R.layout.status_layout_computing_disabled);
-					findViewById(R.id.enableImage).setOnClickListener(mEnableClickListener);
-					findViewById(R.id.enableText).setOnClickListener(mEnableClickListener);
+				case ClientStatus.COMPUTING_STATUS_NEVER:
+					statusHeader.setText(R.string.status_computing_disabled);
+					statusImage.setImageResource(R.drawable.stopw48);
+					statusImage.setContentDescription(getString(R.string.status_computing_disabled_long));
+					statusDescriptor.setText("");
+					changeRunmodeImage.setImageResource(R.drawable.playw24);
+					changeRunmodeImage.setContentDescription(getString(R.string.enable_computation));
+					changeRunmodeImage.setTag(true);
+					changeRunmodeDescriptor.setText(R.string.enable_computation);
+					changeRunmodeDescriptor.setTag(true);
 					break;
-				case 1: //suspended because of preference
-					setContentView(R.layout.status_layout_suspended);
-					findViewById(R.id.disableImage).setOnClickListener(mDisableClickListener);
-					findViewById(R.id.disableText).setOnClickListener(mDisableClickListener);
-					TextView t=(TextView)findViewById(R.id.suspend_reason);
+				case ClientStatus.COMPUTING_STATUS_SUSPENDED:
+					statusHeader.setText(R.string.status_paused);
+					statusImage.setImageResource(R.drawable.pausew48);
+					statusImage.setContentDescription(getString(R.string.status_paused));
+					changeRunmodeImage.setImageResource(R.drawable.stopw24);
+					changeRunmodeImage.setContentDescription(getString(R.string.disable_computation));
+					changeRunmodeImage.setTag(false);
+					changeRunmodeDescriptor.setText(R.string.disable_computation);
+					changeRunmodeDescriptor.setTag(false);
 					switch(status.computingSuspendReason) {
 					case 1:
-						t.setText(R.string.suspend_batteries);
+						statusDescriptor.setText(R.string.suspend_batteries);
 						break;
 					case 2:
-						t.setText(R.string.suspend_useractive);
+						statusDescriptor.setText(R.string.suspend_useractive);
 						break;
 					case 4:
-						t.setText(R.string.suspend_userreq);
+						statusDescriptor.setText(R.string.suspend_userreq);
 						break;
 					case 8:
-						t.setText(R.string.suspend_tod);
+						statusDescriptor.setText(R.string.suspend_tod);
 						break;
 					case 16:
-						t.setText(R.string.suspend_bm);
+						statusDescriptor.setText(R.string.suspend_bm);
 						break;
 					case 32:
-						t.setText(R.string.suspend_disksize);
+						statusDescriptor.setText(R.string.suspend_disksize);
 						break;
 					case 64:
-						t.setText(R.string.suspend_cputhrottle);
+						statusDescriptor.setText(R.string.suspend_cputhrottle);
 						break;
 					case 128:
-						t.setText(R.string.suspend_noinput);
+						statusDescriptor.setText(R.string.suspend_noinput);
 						break;
 					case 256:
-						t.setText(R.string.suspend_delay);
+						statusDescriptor.setText(R.string.suspend_delay);
 						break;
 					case 512:
-						t.setText(R.string.suspend_exclusiveapp);
+						statusDescriptor.setText(R.string.suspend_exclusiveapp);
 						break;
 					case 1024:
-						t.setText(R.string.suspend_cpu);
+						statusDescriptor.setText(R.string.suspend_cpu);
 						break;
 					case 2048:
-						t.setText(R.string.suspend_network_quota);
+						statusDescriptor.setText(R.string.suspend_network_quota);
 						break;
 					case 4096:
-						t.setText(R.string.suspend_os);
+						statusDescriptor.setText(R.string.suspend_os);
 						break;
 					case 8192:
 						//pointless??! wifi causes network suspension, does not influence computing
-						t.setText(R.string.suspend_wifi);
+						statusDescriptor.setText(R.string.suspend_wifi);
 						break;
 					default:
-						t.setText(R.string.suspend_unknown);
+						statusDescriptor.setText(R.string.suspend_unknown);
 						break;
 					}
 					break;
-				case 2: //idle
-					setContentView(R.layout.status_layout_suspended);
-					TextView t2=(TextView)findViewById(R.id.suspend_reason);
-					findViewById(R.id.disableImage).setOnClickListener(mDisableClickListener);
-					findViewById(R.id.disableText).setOnClickListener(mDisableClickListener);
+				case ClientStatus.COMPUTING_STATUS_IDLE: 
+					statusHeader.setText(R.string.status_idle);
+					statusImage.setImageResource(R.drawable.pausew48);
+					statusImage.setContentDescription(getString(R.string.status_idle));
+					changeRunmodeImage.setImageResource(R.drawable.stopw24);
+					changeRunmodeImage.setContentDescription(getString(R.string.disable_computation));
+					changeRunmodeImage.setTag(false);
+					changeRunmodeDescriptor.setText(R.string.disable_computation);
+					changeRunmodeDescriptor.setTag(false);
 					Integer networkState = 0;
 					try{
 						networkState = status.networkSuspendReason;
 					} catch (Exception e) {}
 					if(networkState==8192){ //network suspended due to wifi state
-						t2.setText(R.string.suspend_wifi);
+						statusDescriptor.setText(R.string.suspend_wifi);
 					}else {
-						t2.setText(R.string.suspend_idle);
+						statusDescriptor.setText(R.string.status_idle_long);
 					}
 					break;
-				case 3: // computing
-					setContentView(R.layout.status_layout_computing);
-					findViewById(R.id.disableImage).setOnClickListener(mDisableClickListener);
-					findViewById(R.id.disableText).setOnClickListener(mDisableClickListener);
+				case ClientStatus.COMPUTING_STATUS_COMPUTING:
+					statusHeader.setText(R.string.status_running);
+					statusImage.setImageResource(R.drawable.playw48);
+					statusImage.setContentDescription(getString(R.string.status_running));
+					statusDescriptor.setText(R.string.status_running_long);
+					changeRunmodeImage.setImageResource(R.drawable.stopw24);
+					changeRunmodeImage.setContentDescription(getString(R.string.disable_computation));
+					changeRunmodeImage.setTag(false);
+					changeRunmodeDescriptor.setText(R.string.disable_computation);
+					changeRunmodeDescriptor.setTag(false);
 					break;
 				}
-				break;
-			case 2:
-				setContentView(R.layout.status_layout_error);
-				Log.d(TAG,"layout: status_layout_error");
-				break;
-			case 3:
-				setContentView(R.layout.status_layout_noproject);
-				Log.d(TAG,"layout: status_layout_noproject");
-				break;
+			} else { // BOINC client is not available, disable layout
+				statusWrapper.setVisibility(View.GONE);
 			}
 		}
 	}
 	
-	//gets called when user clicks on retry of error_layout
-	//has to be public in order to get triggered by layout component
-	public void reinitClient(View view) {
-		if(!mIsBound) return;
-		Log.d(TAG,"reinitClient");
-		monitor.restartMonitor(); //start over with setup of client
+	public void onClick (View v) {
+		Log.d(TAG,"onClick");
+		if(!mIsBound) {Log.w(TAG,"not bound");return;}
+		try {
+			Boolean enable = (Boolean) v.getTag();
+			if(enable) {
+				monitor.setRunMode(CommonDefs.RUN_MODE_AUTO);
+			} else {
+				monitor.setRunMode(CommonDefs.RUN_MODE_NEVER);
+			}
+		} catch (Exception e) {Log.e(TAG, "could not map status tag", e);}
 	}
-	
-	public void loginButtonClicked (View view) {
-		Log.d(TAG,"loginButtonClicked");
-		
-		//read input data
-		EditText emailET = (EditText) findViewById(R.id.emailIn);
-		EditText pwdET = (EditText) findViewById(R.id.pwdIn);
-		String email = emailET.getText().toString();
-		String pwd = pwdET.getText().toString();
-		Log.d(TAG,"Input data: " + email + " - " + pwd);
-		
-		//preventing 0 input
-		if(email.length()==0) {
-			Toast toast = Toast.makeText(this, "Please enter eMail!", Toast.LENGTH_SHORT);
-			toast.show();
-			return;
-		}
-		if(pwd.length()==0) {
-			Toast toast = Toast.makeText(this, "Please enter password!", Toast.LENGTH_SHORT);
-			toast.show();
-			return;
-		}
-		
-		//trigger async attach
-		//TODO adapt layout to multi-project
-		String name = getString(R.string.project_name);
-		String url = getString(R.string.project_url);
-		monitor.attachProjectAsync(url, name, email, pwd);
-	}
-	
-	private OnClickListener mEnableClickListener = new OnClickListener() {
-	    public void onClick(View v) {
-	    	Log.d(TAG,"mEnableClickListener - onClick");
-			if(!mIsBound) return;
-			Log.d(TAG,"enableComputation");
-			monitor.setRunMode(CommonDefs.RUN_MODE_AUTO);
-	    }
-	};
-	
-	private OnClickListener mDisableClickListener = new OnClickListener() {
-	    public void onClick(View v) {
-	    	Log.d(TAG,"mDisableClickListener - onClick");
-			if(!mIsBound) return;
-			Log.d(TAG,"disableComputation");
-			monitor.setRunMode(CommonDefs.RUN_MODE_NEVER);
-	    }
-	};
-
 }

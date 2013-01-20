@@ -18,6 +18,11 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
+    <!-- Monitor behavior -->
+    	<integer name="monitor_refresh_rate_ms">5000</integer>
+    	<integer name="monitor_setup_connection_retry_rate_ms">5000</integer>
+    	<integer name="monitor_setup_connection_retry_attempts">5</integer>
+    	<integer name="autostart_notification_id">4142</integer>
     <!-- configuration on tab layout -->
     	<bool name="tab_status">true</bool>
     	<bool name="tab_tasks">true</bool>

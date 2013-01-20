@@ -23,10 +23,8 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-
-import edu.berkeley.boinc.AndroidBOINCActivity;
+import edu.berkeley.boinc.MainActivity;
 import edu.berkeley.boinc.definitions.CommonDefs;
-import edu.berkeley.boinc.rpc.CcState;
 import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.Message;
@@ -45,33 +43,35 @@ public class ClientStatus {
 	
 	//RPC wrapper
 	private CcStatus status;
-	private CcState state;
+	private ArrayList<Result> results;
+	private ArrayList<Project> projects;
 	private ArrayList<Transfer> transfers;
 	private GlobalPreferences prefs;
 	private ArrayList<Message> messages; //debug tab
 	
-	//setup status, set by "setupClient" method of ClientMonitorAsync
-	// 0 = client is in setup routine (default)
-	// 1 = client is launched and available for RPC (connected and authorized)
-	// 2 = client is in a permanent error state, there are not attempts to fix it (otherwise 0)
-	// 3 = client is launched but not attached to the project (login)
+	// setup status
 	public Integer setupStatus = 0;
+	public static final int SETUP_STATUS_LAUNCHING = 0; // 0 = client is in setup routine (default)
+	public static final int SETUP_STATUS_AVAILABLE = 1; // 1 = client is launched and available for RPC (connected and authorized)
+	public static final int SETUP_STATUS_ERROR = 2; // 2 = client is in a permanent error state
+	public static final int SETUP_STATUS_NOPROJECT = 3; // 3 = client is launched but not attached to the project (login)
+	private Boolean setupStatusParseError = false;
 	
-	//computing status
+	// computing status
 	public Integer computingStatus = 2;
-	// 0 = client run mode is NEVER "stopped by user"
-	// 1 = client run mode is AUTO, but suspended due to certain reason (->computingSuspendReason)
-	// 2 = client run mode is AUTO, client is not suspended but idle (default)
-	// 3 = client run mode is AUTO, client is computing
-	public Integer computingSuspendReason = 0; //reason why computing got suspended
+	public static final int COMPUTING_STATUS_NEVER = 0;
+	public static final int COMPUTING_STATUS_SUSPENDED = 1;
+	public static final int COMPUTING_STATUS_IDLE = 2;
+	public static final int COMPUTING_STATUS_COMPUTING = 3;
+	public Integer computingSuspendReason = 0; //reason why computing got suspended, only if COMPUTING_STATUS_SUSPENDED
 	private Boolean computingParseError = false; //indicates that status could not be parsed and is therefore invalid
 	
 	//network status
 	public Integer networkStatus = 2;
-	// 0 = network run mode is NEVER "disabled by user"
-	// 1 = network run mode is AUTO, but suspended due to certain reason (->networkSuspendReason)
-	// 2 = network run mode is AUTO and not suspended (default)
-	public Integer networkSuspendReason = 0; //reason why network activity got suspended
+	public static final int NETWORK_STATUS_NEVER = 0;
+	public static final int NETWORK_STATUS_SUSPENDED = 1;
+	public static final int NETWORK_STATUS_AVAILABLE = 2;
+	public Integer networkSuspendReason = 0; //reason why network activity got suspended, only if NETWORK_STATUS_SUSPENDED
 	private Boolean networkParseError = false; //indicates that status could not be parsed and is therefore invalid
 	
 	/*
@@ -97,27 +97,28 @@ public class ClientStatus {
 	/*
 	 * called frequently by Monitor to set the RPC data. These objects are used to determine the client status and parse it in the data model of this class.
 	 */
-	public synchronized void setClientStatus(CcStatus status,CcState state, ArrayList<Transfer> transfers, GlobalPreferences clientPrefs, ArrayList<Message> msgs) {
+	public synchronized void setClientStatus(CcStatus status,ArrayList<Result> results,ArrayList<Project> projects, ArrayList<Transfer> transfers, GlobalPreferences clientPrefs, ArrayList<Message> msgs) {
 		this.status = status;
-		this.state = state;
+		this.results = results;
+		this.projects = projects;
 		this.transfers = transfers;
 		this.prefs = clientPrefs;
 		this.messages = msgs;
 		parseClientStatus();
 		Log.d(TAG,"parsing results: computing: " + computingParseError + computingStatus + computingSuspendReason + " - network: " + networkParseError + networkStatus + networkSuspendReason);
-		if(!computingParseError && !networkParseError) {
+		if(!computingParseError && !networkParseError && !setupStatusParseError) {
 			fire(); // broadcast that status has changed
 		} else {
-			AndroidBOINCActivity.logMessage(ctx, TAG, "discard status change due to parse error" + computingParseError + computingStatus + computingSuspendReason + "-" + networkParseError + networkStatus + networkSuspendReason);
+			MainActivity.logMessage(ctx, TAG, "discard status change due to parse error" + computingParseError + computingStatus + computingSuspendReason + "-" + networkParseError + networkStatus + networkSuspendReason + "-" + setupStatusParseError);
 		}
 	}
 	
 	public synchronized ArrayList<Result> getTasks() {
-		if(state == null) { //check in case monitor is not set up yet (e.g. while logging in)
+		if(results == null) { //check in case monitor is not set up yet (e.g. while logging in)
 			Log.d(TAG, "state is null");
 			return null;
 		}
-		return state.results;
+		return results;
 	}
 	
 	public synchronized ArrayList<Transfer> getTransfers() {
@@ -137,11 +138,11 @@ public class ClientStatus {
 	}
 	
 	public synchronized ArrayList<Project> getProjects() {
-		if(state == null) { //check in case monitor is not set up yet (e.g. while logging in)
+		if(projects == null) { //check in case monitor is not set up yet (e.g. while logging in)
 			Log.d(TAG, "getProject() state is null");
 			return null;
 		}
-		return state.projects;
+		return projects;
 	}
 	
 	//Debug Tab
@@ -166,20 +167,37 @@ public class ClientStatus {
 	 */
 	private void parseClientStatus() {
 		parseComputingStatus();
+		parseProjectStatus();
 		parseNetworkStatus();
+	}
+	
+	private void parseProjectStatus() {
+		try {
+			if (projects.size() > 0) { 
+				setupStatus = SETUP_STATUS_AVAILABLE;
+				setupStatusParseError = false;
+			} else { //not projects attached
+				setupStatus = SETUP_STATUS_NOPROJECT;
+				setupStatusParseError = false;
+			}
+		} catch (Exception e) {
+			setupStatusParseError = true;
+			Log.e(TAG, "parseProjectStatus - Exception", e);
+			MainActivity.logMessage(ctx, TAG, "error parsing setup status (project state)");
+		}
 	}
 	
 	private void parseComputingStatus() {
 		computingParseError = true;
 		try {
 			if(status.task_mode==CommonDefs.RUN_MODE_NEVER) {
-				computingStatus = 0;
+				computingStatus = COMPUTING_STATUS_NEVER;
 				computingSuspendReason = status.task_suspend_reason; // = 4 - SUSPEND_REASON_USER_REQ????
 				computingParseError = false;
 				return;
 			}
 			if((status.task_mode == CommonDefs.RUN_MODE_AUTO) && (status.task_suspend_reason != CommonDefs.SUSPEND_NOT_SUSPENDED)) {
-				computingStatus = 1;
+				computingStatus = COMPUTING_STATUS_SUSPENDED;
 				computingSuspendReason = status.task_suspend_reason;
 				computingParseError = false;
 				return;
@@ -187,8 +205,8 @@ public class ClientStatus {
 			if((status.task_mode == CommonDefs.RUN_MODE_AUTO) && (status.task_suspend_reason == CommonDefs.SUSPEND_NOT_SUSPENDED)) {
 				//figure out whether we have an active task
 				Boolean activeTask = false;
-				if(state.results!=null) {
-					for(Result task: state.results) {
+				if(results!=null) {
+					for(Result task: results) {
 						if(task.active_task) { // this result has corresponding "active task" in RPC XML
 							activeTask = true;
 							continue; // amount of active tasks does not matter.
@@ -197,12 +215,12 @@ public class ClientStatus {
 				}
 				
 				if(activeTask) { // client is currently computing
-					computingStatus = 3;
+					computingStatus = COMPUTING_STATUS_COMPUTING;
 					computingSuspendReason = status.task_suspend_reason; // = 0 - SUSPEND_NOT_SUSPENDED
 					computingParseError = false;
 					return;
 				} else { // client "is able but idle"
-					computingStatus = 2;
+					computingStatus = COMPUTING_STATUS_IDLE;
 					computingSuspendReason = status.task_suspend_reason; // = 0 - SUSPEND_NOT_SUSPENDED
 					computingParseError = false;
 					return;
@@ -210,7 +228,7 @@ public class ClientStatus {
 			}
 		} catch (Exception e) {
 			Log.e(TAG, "parseComputingStatus - Exception", e);
-			AndroidBOINCActivity.logMessage(ctx, TAG, "error - client computing status");
+			MainActivity.logMessage(ctx, TAG, "error - client computing status");
 		}
 	}
 	
@@ -218,26 +236,26 @@ public class ClientStatus {
 		networkParseError = true;
 		try {
 			if(status.network_mode==CommonDefs.RUN_MODE_NEVER) {
-				networkStatus = 0;
+				networkStatus = NETWORK_STATUS_NEVER;
 				networkSuspendReason = status.network_suspend_reason; // = 4 - SUSPEND_REASON_USER_REQ????
 				networkParseError = false;
 				return;
 			}
 			if((status.network_mode == CommonDefs.RUN_MODE_AUTO) && (status.network_suspend_reason != CommonDefs.SUSPEND_NOT_SUSPENDED)) {
-				networkStatus = 1;
+				networkStatus = NETWORK_STATUS_SUSPENDED;
 				networkSuspendReason = status.network_suspend_reason;
 				networkParseError = false;
 				return;
 			}
 			if((status.network_mode == CommonDefs.RUN_MODE_AUTO) && (status.network_suspend_reason == CommonDefs.SUSPEND_NOT_SUSPENDED)) {
-				networkStatus = 2;
+				networkStatus = NETWORK_STATUS_AVAILABLE;
 				networkSuspendReason = status.network_suspend_reason; // = 0 - SUSPEND_NOT_SUSPENDED
 				networkParseError = false;
 				return;
 			}
 		} catch (Exception e) {
 			Log.e(TAG, "parseNetworkStatus - Exception", e);
-			AndroidBOINCActivity.logMessage(ctx, TAG, "error - client network status");
+			MainActivity.logMessage(ctx, TAG, "error - client network status");
 		}
 	}
 	

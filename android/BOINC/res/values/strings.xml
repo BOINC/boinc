@@ -23,7 +23,7 @@
     <string name="project_url">http://isaac.ssl.berkeley.edu/test/</string>
     
 	<!-- app global -->
-    <string name="app_name">AndroidBOINC</string>
+    <string name="app_name">BOINC</string>
     <string name="autostart_notification_header">BOINC started.</string>
     <string name="autostart_notification_text">to manage auto-start configuration go to BOINC settings..</string>
     
@@ -31,6 +31,37 @@
     <string name="client_name">boinc</string>
     <string name="client_path">/data/data/edu.berkeley.boinc/client/</string>
     <string name="auth_file_name">gui_rpc_auth.cfg</string>
+    
+    <!-- login activity -->
+    <string name="login_header">Add a project:</string>
+    <string name="login_header_long_login">Login with your exisiting project account&#8230;</string>
+    <string name="login_header_long_register">Register a new account with a science project&#8230;</string>
+    <string name="login_register_instead">&#8230;or register new account</string>
+    <string name="login_login_instead">&#8230;or login with existing account</string>
+    <string name="login_url">URL:</string>
+    <string name="login_no_url">Please provide URL!</string>
+    <string name="login_email">eMail:</string>
+    <string name="login_no_email">Please provide eMail!</string>
+    <string name="login_username">Name: *</string>
+    <string name="login_teamname">Team: *</string>
+    <string name="login_pwd">Password:</string>
+    <string name="login_no_pwd">Please provide password!</string>
+    <string name="login_pwd_confirm">Repeat:</string>
+    <string name="login_pwd_nomatch">Passwords are not equal!</string>
+    <string name="login_register_hint">* optional fields</string>
+    <string name="login_button_login">Login</string>
+    <string name="login_button_register">Register</string>
+    <string name="login_toast_ok">Successful.</string>
+    <string name="login_toast_error_wrong_name">Unknown eMail address!</string>
+    <string name="login_toast_error_wrong_pwd">Wrong password!</string>
+    <string name="login_toast_error_no_internet">No internet connection!</string>
+    <string name="login_toast_error_unknown">Failed!</string>
+    
+    <!-- main activity -->
+    <string name="main_launching">Please wait&#8230;</string>
+    <string name="main_noproject_warning">No scientific project attached! tab here to enter account.</string>
+    <string name="main_error">Whooops</string>
+    <string name="main_error_long">&#8230;this should not happen!\nClick on the icon to try again.</string>
     
     <!-- tab names -->
     <string name="tab_status">Status</string>
@@ -42,23 +73,16 @@
     <string name="tab_debug">Debug</string>
    
     <!-- status tab strings -->
-    <string name="status_launching">Please wait&#8230;</string>
-    <string name="status_noproject">Login</string>
-    <string name="status_noproject_long">Please provide account information for BOINC Test Project!</string>
-    <string name="status_noproject_email">eMail:</string>
-    <string name="status_noproject_pwd">Password:</string>
-    <string name="status_noproject_button">Login</string>
-    <string name="status_noproject_button_wait">Please wait&#8230;</string>
-    <string name="status_running">Running&#8230;</string>
-    <string name="status_running_long">Thank you for participating in\nBOINC Test Project!</string>
+    <string name="status_running">Calculating&#8230;</string>
+    <string name="status_running_long">Thank you!</string>
     <string name="status_paused">Paused</string>
     <string name="status_paused_long">Computation suspended.</string>
-    <string name="status_error">Whooops</string>
-    <string name="status_error_long">&#8230;this should not happen!\nClick on the icon to try again.</string>
-    <string name="status_computing_disabled">Stopped.</string>
+    <string name="status_idle">Idle</string>
+    <string name="status_idle_long">Nothing to do right now.</string>
+    <string name="status_computing_disabled">Stopped</string>
     <string name="status_computing_disabled_long">Tap to continue!</string>
-    <string name="disable_computation">Tap to stop computation!</string>
-    <string name="enable_computation">Tap to stop computation!</string>
+    <string name="disable_computation">Disable computation</string>
+    <string name="enable_computation">Enable computation</string>
     
 	    <!-- suspend reasons -->
 	    <string name="suspend_unknown">Computation paused.</string>
@@ -76,7 +100,7 @@
 	    <string name="suspend_cpu">Your device is busy.</string>
 	    <string name="suspend_network_quota">BOINC reached network transfer limit.</string>
 	    <string name="suspend_os">Stopped by Android.</string>
-	    <string name="suspend_wifi">Not connected to Wifi network.</string>
+	    <string name="suspend_wifi">Can\'t fetch work, no WiFi connection!</string>
     
 	<!-- preferences tab strings -->
 	<string name="prefs_unbound">Reading preferences&#8230;</string>
@@ -101,22 +125,27 @@
 	<string name="confirm_deletion">Delete project: </string>
 	<string name="confirm_deletion_confirm">Delete</string>
 	<string name="confirm_deletion_cancel">Cancel</string>
+	<string name="projects_add_button">+ Add project</string>
 	
 	<!-- tasks tab strings -->
-	<string name="tasks_result_new">New</string>
-	<string name="tasks_result_files_downloading">Files downloading</string>
-	<string name="tasks_result_files_downloaded">Files downloaded</string>
-	<string name="tasks_result_compute_error">Compute error</string>
-	<string name="tasks_result_files_uploading">Files uploading</string>
-	<string name="tasks_result_files_uploaded">Files uploaded</string>
-	<string name="tasks_result_aborted">Aborted</string>
-	<string name="tasks_result_upload_failed">Upload failed</string>
+	<string name="tasks_result_new">new</string>
+	<string name="tasks_result_files_downloading">waiting for download</string>
+	<string name="tasks_result_files_downloaded">download complete</string>
+	<string name="tasks_result_compute_error">computation error</string>
+	<string name="tasks_result_files_uploading">uploading</string>
+	<string name="tasks_result_files_uploaded">upload complete</string>
+	<string name="tasks_result_aborted">aborted</string>
+	<string name="tasks_result_upload_failed">upload failed</string>
 	
-	<string name="tasks_active_uninitialized">Ready</string>
-	<string name="tasks_active_executing">Running</string>
-	<string name="tasks_active_suspended">Paused</string>
-	<string name="tasks_active_abort_pending">Stopping</string>
-	<string name="tasks_active_quit_pending">Stopping</string>
+	<string name="tasks_active_uninitialized">ready</string>
+	<string name="tasks_active_executing">running</string>
+	<string name="tasks_active_suspended">paused</string>
+	<string name="tasks_active_abort_pending">stopping</string>
+	<string name="tasks_active_quit_pending">stopping</string>
+	
+	<!-- transfers tab strings -->
+	<string name="trans_waiting">waiting for connection&#8230;</string>
+	<string name="trans_downloading">downloading&#8230;</string>
 	    
     <!-- debug tab strings -->
     <string name="debug_kill">Kill BOINC Client</string>

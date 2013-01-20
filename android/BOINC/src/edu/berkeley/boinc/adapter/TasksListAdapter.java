@@ -35,7 +35,7 @@ import android.widget.TextView;
 
 public class TasksListAdapter extends ArrayAdapter<Result>{
 	
-	private final String TAG = "TasksListAdapter";
+	//private final String TAG = "TasksListAdapter";
 	private ArrayList<Result> entries;
     private Activity activity;
  

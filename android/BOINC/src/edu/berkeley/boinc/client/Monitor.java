@@ -27,11 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-
-import android.accounts.Account;
-import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -39,17 +35,18 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
-import edu.berkeley.boinc.AndroidBOINCActivity;
+import edu.berkeley.boinc.LoginActivity;
+import edu.berkeley.boinc.MainActivity;
 import edu.berkeley.boinc.AppPreferences;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.AccountIn;
 import edu.berkeley.boinc.rpc.AccountOut;
-import edu.berkeley.boinc.rpc.CcState;
 import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.Message;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.ProjectAttachReply;
+import edu.berkeley.boinc.rpc.Result;
 import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.rpc.Transfer;
 
@@ -65,6 +62,7 @@ public class Monitor extends Service{
 	private String clientPath; 
 	
 	private Boolean started = false;
+	private Thread monitorThread = null;
 	
 	public static ClientStatus getClientStatus() { //singleton pattern
 		if (clientStatus == null) {
@@ -79,10 +77,10 @@ public class Monitor extends Service{
 		}
 		return appPrefs;
 	}
-	
-	private NotificationManager mNM;
+
 	
 	public static Boolean monitorActive = false;
+	public static Boolean clientSetupActive = false;
 	private Process clientProcess;
 	
 	private RpcClient rpc = new RpcClient();
@@ -136,16 +134,6 @@ public class Monitor extends Service{
     public int onStartCommand(Intent intent, int flags, int startId) {	
     	//this gets called after startService(intent) (either by BootReceiver or AndroidBOINCActivity, depending on the user's autostart configuration)
     	Log.d(TAG, "onStartCommand");
-    	
-    	Boolean autostart = false;
-    	try {
-    		autostart = intent.getBooleanExtra("autostart", false);
-    	} catch (Exception e) {}
-		if(autostart) {
-	        // show notification about started service in notification panel
-			// only necessary
-	        showNotification();
-		}
 		/*
 		 * START_NOT_STICKY is now used and replaced START_STICKY in previous implementations.
 		 * Lifecycle events - e.g. killing apps by calling their "onDestroy" methods, or killing an app in the task manager - does not effect the non-Dalvik code like the native BOINC Client.
@@ -161,48 +149,44 @@ public class Monitor extends Service{
 
     /*
      * this should not be reached
-     
+    */
     @Override
     public void onDestroy() {
     	Log.d(TAG,"onDestroy()");
     	
         // Cancel the persistent notification.
-        mNM.cancel(1234);
+    	((NotificationManager) getSystemService(Service.NOTIFICATION_SERVICE)).cancel(getResources().getInteger(R.integer.autostart_notification_id));
         
-		Boolean success = rpc.quit();
-		Log.d(TAG,"graceful client shutdown returned " + success);
-		if(!success) {
-			clientProcess.destroy();
-		}
-
-        // Tell the user we stopped.
+		// quitClient();
+        
         Toast.makeText(this, "service stopped", Toast.LENGTH_SHORT).show();
     }
-    */
 
     
-    /*
-     * Show a notification while service is running.
-     */
-    private void showNotification() {
-		mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-        Notification notification = new Notification(R.drawable.boinc, getString(R.string.autostart_notification_header), System.currentTimeMillis());
-        PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(getApplicationContext(), AndroidBOINCActivity.class), 0);
-
-        // Set current view for notification panel
-        notification.setLatestEventInfo(getApplicationContext(), getString(R.string.autostart_notification_header), getString(R.string.autostart_notification_text), contentIntent);
-
-        // Send notification
-        mNM.notify(1234, notification);
-    }
+    //sends broadcast about login (or register) result for login acitivty
+	private void sendLoginResultBroadcast(Integer type, Integer result, String message) {
+        Intent loginResults = new Intent();
+        loginResults.setAction("edu.berkeley.boinc.loginresults");
+        loginResults.putExtra("type", type);
+        loginResults.putExtra("result", result);
+        loginResults.putExtra("message", message);
+        getApplicationContext().sendBroadcast(loginResults,null);
+	}
 	
     public void restartMonitor() {
     	if(Monitor.monitorActive) { //monitor is already active, launch cancelled
-    		AndroidBOINCActivity.logMessage(getApplicationContext(), TAG, "monitor active - restart cancelled");
+    		MainActivity.logMessage(getApplicationContext(), TAG, "monitor active - restart cancelled");
     	}
     	else {
         	Log.d(TAG,"restart monitor");
         	(new ClientMonitorAsync()).execute(new Integer[0]);
+    	}
+    }
+    
+    public void forceRefresh() {
+    	Log.d(TAG,"forceRefresh()");
+    	if(monitorThread!= null) {
+    		monitorThread.interrupt();
     	}
     }
     
@@ -219,7 +203,6 @@ public class Monitor extends Service{
 		param[3] = pwd;
 		(new ProjectAttachAsync()).execute(param);
     }
-    
     
 	public void setRunMode(Integer mode) {
 		//execute in different thread, in order to avoid network communication in main thread and therefore ANR errors
@@ -315,6 +298,7 @@ public class Monitor extends Service{
     			}
     			else {
     				//final result ready
+    				retval = auth.error_num;
     				if(auth.error_num == 0) { 
         				Log.d(TAG, "credentials verification result, retrieved authenticator: " + auth.authenticator);
     				}
@@ -335,6 +319,17 @@ public class Monitor extends Service{
 		param[0] = url;
 		(new ProjectDetachAsync()).execute(param);
 	}
+    
+    public void createAccountAsync(String url, String email, String userName, String pwd, String teamName) {
+		Log.d(TAG,"createAccountAsync");
+		String[] param = new String[5];
+		param[0] = url;
+		param[1] = email;
+		param[2] = userName;
+		param[3] = pwd;
+		param[4] = teamName;
+		(new CreateAccountAsync()).execute(param);
+    }
 	
 	public AccountOut createAccount(String url, String email, String userName, String pwd, String teamName) {
 		AccountIn information = new AccountIn();
@@ -382,63 +377,63 @@ public class Monitor extends Service{
 		private final String TAG = "ClientMonitorAsync";
 		private final Boolean showRpcCommands = false;
 		
-		private Boolean clientStarted = false;
-		
-		private Integer refreshFrequency = 3000; //frequency of which the monitor updates client status via RPC, to often can cause reduced performance!
+		 //frequency of which the monitor updates client status via RPC, to often can cause reduced performance!
+		private Integer refreshFrequency = getResources().getInteger(R.integer.monitor_refresh_rate_ms);
 		
 		@Override
 		protected Boolean doInBackground(Integer... params) {
-			Log.d(TAG+"-doInBackground","monitor started.");
-			
+			monitorThread = Thread.currentThread(); //save current thread, to interrupt sleep from outside...
 			while(true) {
 				Log.d(TAG+"-doInBackground","monitor loop...");
 				
-				
 				if(!rpc.connectionAlive()) { //check whether connection is still alive
-					//if connection is not working, either client has not been set up yet, user not attached to project, or client crashed.
-					//in all cases trigger startUp again.
-					if(!startUp()) { //synchronous execution in same thread -> blocks monitor until finished
-						publishProgress("starting BOINC Client failed. Stop Monitor.");
-						//cancel(true); 
-						return false; //if startUp fails, stop monitor execution. restart has to be triggered by user.
-					}
-				}
-				
-				if(showRpcCommands) Log.d(TAG, "getCcStatus");
-				CcStatus status = rpc.getCcStatus();
-				if(showRpcCommands) Log.d(TAG, "getState"); 
-				CcState state = rpc.getState();
-				//TODO getState is quite verbose, optimize!
-				if(showRpcCommands) Log.d(TAG, "getTransers");
-				ArrayList<Transfer>  transfers = rpc.getFileTransfers();
-				if(showRpcCommands) Log.d(TAG, "getGlobalPrefsWorkingStruct");
-				GlobalPreferences clientPrefs = rpc.getGlobalPrefsWorkingStruct();
-				//TODO only when debug tab:
-				//TODO room for improvements, dont retrieve complete list every time, but only new messages.
-				Integer count = rpc.getMessageCount();
-				//Log.d(TAG, "message count: " + count);
-				if(showRpcCommands) Log.d(TAG, "getMessages, count: " + count);
-				ArrayList<Message> msgs = rpc.getMessages(count - 25); //get the most recent 25 messages
-				
-				if((state!=null)&&(status!=null)&&(transfers!=null)&&(clientPrefs!=null)) {
-					Monitor.clientStatus.setClientStatus(status,state,transfers,clientPrefs,msgs);
+					//if connection is not working, either client has not been set up yet or client crashed.
+					(new ClientSetupAsync()).execute();
 				} else {
-					AndroidBOINCActivity.logMessage(getApplicationContext(), TAG, "client status connection problem");
+					if(showRpcCommands) Log.d(TAG, "getCcStatus");
+					CcStatus status = rpc.getCcStatus();
+					/*
+					if(showRpcCommands) Log.d(TAG, "getState"); 
+					CcState state = rpc.getState();
+					*/
+					if(showRpcCommands) Log.d(TAG, "getResults");
+					ArrayList<Result>  results = rpc.getResults();
+					if(showRpcCommands) Log.d(TAG, "getProjects");
+					ArrayList<Project>  projects = rpc.getProjectStatus();
+					if(showRpcCommands) Log.d(TAG, "getTransers");
+					ArrayList<Transfer>  transfers = rpc.getFileTransfers();
+					if(showRpcCommands) Log.d(TAG, "getGlobalPrefsWorkingStruct");
+					GlobalPreferences clientPrefs = rpc.getGlobalPrefsWorkingStruct();
+					ArrayList<Message> msgs = new ArrayList<Message>();
+					if(getResources().getBoolean(R.bool.tab_debug)) { //retrieve messages only when debug tab is enabled
+						Integer count = rpc.getMessageCount();
+						if(showRpcCommands) Log.d(TAG, "getMessages, count: " + count);
+						msgs = rpc.getMessages(count - 25); //get the most recent 25 messages
+					}
+					
+					if((status!=null)&&(results!=null)&&(projects!=null)&&(transfers!=null)&&(clientPrefs!=null)) {
+						Monitor.clientStatus.setClientStatus(status,results,projects,transfers,clientPrefs,msgs);
+					} else {
+						MainActivity.logMessage(getApplicationContext(), TAG, "client status connection problem");
+					}
+					
+			        Intent clientStatus = new Intent();
+			        clientStatus.setAction("edu.berkeley.boinc.clientstatus");
+			        getApplicationContext().sendBroadcast(clientStatus);
 				}
 				
-		        Intent clientStatus = new Intent();
-		        clientStatus.setAction("edu.berkeley.boinc.clientstatus");
-		        getApplicationContext().sendBroadcast(clientStatus);
 	    		try {
 	    			Thread.sleep(refreshFrequency); //sleep
-	    		}catch(Exception e){}
+	    		}catch(InterruptedException e){
+	    			Log.d(TAG, "sleep interrupted...");
+	    		}
 			}
 		}
 
 		@Override
 		protected void onProgressUpdate(String... arg0) {
 			Log.d(TAG+"-onProgressUpdate",arg0[0]);
-			AndroidBOINCActivity.logMessage(getApplicationContext(), TAG, arg0[0]);
+			MainActivity.logMessage(getApplicationContext(), TAG, arg0[0]);
 		}
 		
 		@Override
@@ -446,64 +441,77 @@ public class Monitor extends Service{
 			Log.d(TAG+" - onPostExecute","monitor exit"); 
 			Monitor.monitorActive = false;
 		}
+	}
+	
+	private final class ClientSetupAsync extends AsyncTask<Void,String,Boolean> {
+		private final String TAG = "ClientSetupAsync";
 		
+		private Integer retryRate = getResources().getInteger(R.integer.monitor_setup_connection_retry_rate_ms);
+		private Integer retryAttempts = getResources().getInteger(R.integer.monitor_setup_connection_retry_attempts);
+		
+		@Override
+		protected void onPreExecute() {
+			if(Monitor.clientSetupActive) { // setup is already running, cancel execution...
+				Log.d(TAG,"setup is already active, quit.");
+				cancel(false);
+			} else {
+				Monitor.clientSetupActive = true;
+				getClientStatus().setupStatus = ClientStatus.SETUP_STATUS_LAUNCHING;
+				getClientStatus().fire();
+			}
+		}
+		
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			return startUp();
+		}
+		
+		@Override
+		protected void onPostExecute(Boolean success) {
+			Log.d(TAG+" - onPostExecute","setup exit"); 
+			Monitor.clientSetupActive = false;
+			if(success) {
+				getClientStatus().setupStatus = ClientStatus.SETUP_STATUS_AVAILABLE;
+				// do not fire new client status here, wait for ClientMonitorAsync to retrieve initial status
+				forceRefresh();
+			} else {
+				getClientStatus().setupStatus = ClientStatus.SETUP_STATUS_ERROR;
+				getClientStatus().fire();
+			}
+		}
 
+		@Override
+		protected void onProgressUpdate(String... arg0) {
+			Log.d(TAG+"-onProgressUpdate",arg0[0]);
+			MainActivity.logMessage(getApplicationContext(), TAG, arg0[0]);
+		}
 		
 		private Boolean startUp() {
-			
-			//adapt client status and broadcast event
-			getClientStatus().setupStatus = 0;
-			getClientStatus().fire();
-			
-			//status control
-			Boolean success = false;
-			
-			//try to connect, if client of another Manager lifecycle exists.
-			Boolean connect =  connectClient();
+			Boolean connect =  connectClient(); //try to connect, if client got started in previous life-cycle
 			
 			if(!connect) { //if connect did not work out, start new client instance and run connect attempts in loop
 				Integer counter = 0;
-				Integer max = 5; //max number of setup attempts
 				Boolean setup = setupClient();
 				if(!setup) {
-					//setup failed, publish setupStatus 2 -> permanent error!
-					getClientStatus().setupStatus = 2;
-					getClientStatus().fire();
+					return false; //setup failed
 				}
+				
 				//try to connect to executed Client in loop
-				while(!(connect=connectClient()) && (counter<max)) { //re-trys setting up the client several times, before giving up.
-					AndroidBOINCActivity.logMessage(getApplicationContext(), TAG, "--- restart setup ---");
+				while(!(connect=connectClient()) && (counter<retryAttempts)) { //re-trys setting up the client several times, before giving up.
+					MainActivity.logMessage(getApplicationContext(), TAG, "--- restart setup ---");
 					counter++;
 					try {
-						Thread.sleep(5000);
+						Thread.sleep(retryRate);
 					}catch (Exception e) {}
 				}
 				
-				//connect still not succeeded. publish setupStatus 2 -> permanent error!
-				if(!connect) {
-					getClientStatus().setupStatus = 2;
-					getClientStatus().fire();
+				if(!connect) { //connect still not succeeded.
 					return false;
 				}
-				
 			}
 
 			//client is connected.
-			
-			Boolean login = false;
-			login = checkLogin();
-			if(login) { // Client is attached to project, publish setupStatus 1 -> setup complete!
-				getClientStatus().setupStatus = 1;
-				getClientStatus().fire();
-				//return true in order to start monitor
-				success = true;
-			} else { //client is not attached to project, publish setupStatus 3 -> wait for user input
-				getClientStatus().setupStatus = 3;
-				getClientStatus().fire();
-			}
-			
-			//return success status, start monitor only if true.
-			return success;
+			return true;
 		}
 		
 		private Boolean connectClient() {
@@ -532,32 +540,9 @@ public class Monitor extends Service{
 	        return success;
 		}
 		
-		/*
-		 * checks whether client is attached to project
-		 */
-		private Boolean checkLogin() {
-			publishProgress("verify project login:");
-			Boolean success = false;
-			success = verifyProjectAttach();
-	        if(success) {
-	        	publishProgress("credentials verified. logged in!");
-	        }
-	        else {
-	        	publishProgress("not logged in!");
-	        	return success;
-	        }
-			return success;
-		}
-		
-		/*
-		 * called by startUp()
-		 * copies and executes the Client
-		 */
+		// copies client binaries from apk to install directory and exetuces them.
 		private Boolean setupClient() {
-			//setup client
 			Boolean success = false;
-			
-			shutdownExisitingClient();
 	
 			publishProgress("Client setup.");
 			
@@ -574,7 +559,6 @@ public class Monitor extends Service{
 	        success = runClient();
 	        if(success) {
 	        	publishProgress("started. (2/2)");
-	        	clientStarted = true; //mark that client process is running.
 	        }
 	        else {
 	        	publishProgress("start failed!");
@@ -582,31 +566,9 @@ public class Monitor extends Service{
 	        }
 	        return success;
 		}
-		
-		/*
-		 * called by setupClientRoutine()
-		 * checks whether client process exists (previous launch attempts) and kills it
-		 */
-		private void shutdownExisitingClient() {
-			if(clientStarted){ //client has been started before, connection is broken
-				publishProgress("shutdown of existing client");
-				Boolean success = rpc.quit();
-				Log.d(TAG+"-setupClient","graceful client shutdown returned " + success);
-				if(!success) {
-					clientProcess.destroy();
-				}
-				else{
-		    		try {
-		    			Thread.sleep(10000); //give client time for graceful shutdown
-		    		}catch(Exception e){}
-				}
-			}
-		}
 
-		/*
-		 * called by setupClientRoutine()
-		 * copies the binaries of BOINC client from assets directory into storage space of this application
-		 */
+
+		// copies the binaries of BOINC client from assets directory into storage space of this application
 	    private Boolean installClient(Boolean overwrite){
 	    	Boolean success = false;
 	    	try {
@@ -655,10 +617,8 @@ public class Monitor extends Service{
 	    	return success;
 	    }
 	    
-	    /*
-	     * called by setupClientRoutine()
-	     * executes the BOINC client using the Java Runtime exec method.
-	     */
+
+	    // executes the BOINC client using the Java Runtime exec method.
 	    private Boolean runClient() {
 	    	Boolean success = false;
 	    	try { 
@@ -673,37 +633,22 @@ public class Monitor extends Service{
 	    	return success;
 	    }
 	    
-	    /*
-	     * called by setupClientRoutine() and reconnectClient()
-	     * connects to running BOINC client.
-	     */
+
+	    // connects to running BOINC client.
 	    private Boolean connect() {
 	    	return rpc.open("127.0.0.1", 31416);
 	    }
 	    
-	    /*
-	     * called by setupClientRoutine() and reconnectClient()
-	     * authorizes this application as valid RPC Manager by reading auth token from file and making RPC call.
-	     */
+
+	    // authorizes this application as valid RPC Manager by reading auth token from file and making RPC call.
 	    private Boolean authorize() {
 	    	String authKey = readAuthToken();
 			
 			//trigger client rpc
 			return rpc.authorize(authKey); 
 	    }
-	    
-	    private Boolean verifyProjectAttach() {
-	    	Log.d(TAG, "verifyProjectAttach");
-	    	Boolean success = false;
-	    	ArrayList<Project> projects = rpc.getProjectStatus();
-	    	Integer attachedProjectsAmount = projects.size();
-	    	Log.d(TAG,"projects amount " + projects.size()); 
-	    	if(attachedProjectsAmount > 0) { // there are attached projects
-	    		success = true;
-	    	}
-	    	Log.d(TAG,"verifyProjectAttach about to return with " + success);
-	    	return success;
-	    }
+		
+		
 	}
 	
 	private final class ProjectAttachAsync extends AsyncTask<String,String,Boolean> {
@@ -714,14 +659,6 @@ public class Monitor extends Service{
 		private String projectName;
 		private String email;
 		private String pwd;
-		private String authenticator = new String();
-		
-		@Override
-		protected void onPreExecute() {
-			Log.d(TAG+"-onPreExecute","publish setupStatus 0"); //client is in setup routine... again.
-			getClientStatus().setupStatus = 0;
-			getClientStatus().fire();
-		}
 		
 		@Override
 		protected Boolean doInBackground(String... params) {
@@ -732,64 +669,64 @@ public class Monitor extends Service{
 			Log.d(TAG+"-doInBackground","attachProjectAsync started with: " + url + "-" + projectName + "-" + email + "-" + pwd);
 			
 			AccountOut auth = lookupCredentials(url,email,pwd);
-			Boolean success = false;
-			//TODO use error message instead of own message??
-			switch (auth.error_num) {
-			case 0:
-				Log.d(TAG, "verified successful");
-				success = true;
-				break;
-			case -206:
-				Log.d(TAG, "password incorrect!");
-				publishProgress("Password Incorrect!");
-				break;
-			case -136:
-				Log.d(TAG, "eMail incorrect!");
-				publishProgress("eMail Incorrect!");
-				break;
-			case -113:
-				Log.d(TAG, "No internet connection!");
-				publishProgress("No internet connection!");
-				break;
-			default:
-				Log.d(TAG, "unkown error occured!");
-				publishProgress("Unknown Error!");
-				break;
+			
+			if(auth == null) {
+				sendLoginResultBroadcast(LoginActivity.BROADCAST_TYPE_LOGIN,-1,"null");
+				Log.d(TAG, "verification failed - exit");
+				return false;
 			}
 			
-			if(!success) {
+			if(auth.error_num != 0) { // an error occured
+				sendLoginResultBroadcast(LoginActivity.BROADCAST_TYPE_LOGIN,auth.error_num,auth.error_msg);
 				Log.d(TAG, "verification failed - exit");
 				return false;
 			}
 			Boolean attach = attachProject(url, email, auth.authenticator); 
 			if(attach) {
-				publishProgress("Successful.");
+				sendLoginResultBroadcast(LoginActivity.BROADCAST_TYPE_LOGIN,0,"Successful!");
 			}
 			return attach;
 		}
+	}
+	
+	private final class CreateAccountAsync extends AsyncTask<String,String,Boolean> {
 
-		@Override
-		protected void onProgressUpdate(String... arg0) {
-			Log.d(TAG+"-onProgressUpdate",arg0[0]);
-			AndroidBOINCActivity.logMessage(getApplicationContext(), TAG, arg0[0]);
-			Toast toast = Toast.makeText(getApplicationContext(), arg0[0], Toast.LENGTH_SHORT);
-			toast.show();
-		}
+		private final String TAG = "CreateAccountAsync";
+		
+		private String url;
+		private String email;
+		private String userName;
+		private String pwd;
+		private String teamName;
 		
 		@Override
-		protected void onPostExecute(Boolean success) {
-			if(success) { //login successful
-	    		AndroidBOINCActivity.logMessage(getApplicationContext(), TAG, "project attached!");
-				// Client is attached to project, publish setupStatus 1 -> setup complete!
-				getClientStatus().setupStatus = 1;
-				getClientStatus().fire();
-				Log.d(TAG,"login successful, restart monitor");
-				restartMonitor();
-			} else { //login failed
-				Log.d(TAG,"login failed, publish");
-				getClientStatus().setupStatus = 3;
-				getClientStatus().fire();
+		protected Boolean doInBackground(String... params) {
+			this.url = params[0];
+			this.email = params[1];
+			this.userName = params[2];
+			this.pwd = params[3];
+			this.teamName = params[4];
+			Log.d(TAG+"-doInBackground","creating account with: " + url + "-" + email + "-" + userName + "-" + pwd + "-" + teamName);
+			
+			
+			AccountOut auth = createAccount(url, email, userName, pwd, teamName);
+			
+			if(auth == null) {
+				sendLoginResultBroadcast(LoginActivity.BROADCAST_TYPE_REGISTRATION,-1,"null");
+				Log.d(TAG, "verification failed - exit");
+				return false;
 			}
+			
+			if(auth.error_num != 0) { // an error occured
+				sendLoginResultBroadcast(LoginActivity.BROADCAST_TYPE_REGISTRATION,auth.error_num,auth.error_msg);
+				Log.d(TAG, "verification failed - exit");
+				return false;
+			}
+			Boolean attach = attachProject(url, email, auth.authenticator); 
+			if(attach) {
+				sendLoginResultBroadcast(LoginActivity.BROADCAST_TYPE_REGISTRATION,0,"Successful!");
+			}
+			return attach;
 		}
 	}
 	
@@ -810,6 +747,11 @@ public class Monitor extends Service{
 			}
 			return detach;
 		}
+		
+		@Override
+		protected void onPostExecute(Boolean success) {
+			forceRefresh();
+		}
 	}
 
 	private final class WriteClientPrefsAsync extends AsyncTask<GlobalPreferences,Void,Boolean> {
@@ -826,6 +768,11 @@ public class Monitor extends Service{
 			}
 			return false;
 		}
+		
+		@Override
+		protected void onPostExecute(Boolean success) {
+			forceRefresh();
+		}
 	}
 	
 	private final class WriteClientRunModeAsync extends AsyncTask<Integer,Void,Boolean> {
@@ -838,6 +785,11 @@ public class Monitor extends Service{
 			Log.d(TAG,"run mode set to " + params[0] + " returned " + success);
 			return success;
 		}
+		
+		@Override
+		protected void onPostExecute(Boolean success) {
+			forceRefresh();
+		}
 	}
 	
 	private final class ShutdownClientAsync extends AsyncTask<Void,Void,Boolean> {
@@ -847,10 +799,10 @@ public class Monitor extends Service{
 		protected Boolean doInBackground(Void... params) {
 			Log.d(TAG, "doInBackground");
 	    	Boolean success = rpc.quit();
-	    	AndroidBOINCActivity.logMessage(getApplicationContext(), TAG, "graceful shutdown returned " + success);
+	    	MainActivity.logMessage(getApplicationContext(), TAG, "graceful shutdown returned " + success);
 			if(!success) {
 				clientProcess.destroy();
-				AndroidBOINCActivity.logMessage(getApplicationContext(), TAG, "process killed ");
+				MainActivity.logMessage(getApplicationContext(), TAG, "process killed ");
 			}
 			return success;
 		}

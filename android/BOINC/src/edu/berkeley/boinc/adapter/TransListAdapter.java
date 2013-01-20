@@ -77,10 +77,10 @@ public class TransListAdapter extends ArrayAdapter<Transfer>{
 		String statusS = "";
 		if(listItem.xfer_active) {
 			Log.d(TAG, "transfer is active");
-			statusS = "Transferring...";
+			statusS = "downloading...";
 			pb.setProgressDrawable(this.activity.getResources().getDrawable((R.drawable.progressbar_active)));
 		} else {
-			statusS = "Waiting...";
+			statusS = "waiting for connection...";
 			pb.setProgressDrawable(this.activity.getResources().getDrawable((R.drawable.progressbar_paused)));
 		}
 		status.setText(statusS);

@@ -33,7 +33,7 @@ import android.widget.TextView;
 
 public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
 	
-	private final String TAG = "PrefsListAdapter";
+	//private final String TAG = "PrefsListAdapter";
 	private ArrayList<PrefsListItemWrapper> entries;
     private Activity activity;
  

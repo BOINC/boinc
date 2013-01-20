@@ -19,18 +19,10 @@
 package edu.berkeley.boinc;
 
 import java.util.ArrayList;
-
-import edu.berkeley.boinc.adapter.PrefsListAdapter;
-import edu.berkeley.boinc.adapter.PrefsListItemWrapper;
-import edu.berkeley.boinc.adapter.PrefsListItemWrapperBool;
-import edu.berkeley.boinc.adapter.PrefsListItemWrapperDouble;
-import edu.berkeley.boinc.adapter.PrefsListItemWrapperText;
 import edu.berkeley.boinc.adapter.ProjectsListAdapter;
+import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.Monitor;
-import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.Project;
-import edu.berkeley.boinc.rpc.Result;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
@@ -44,16 +36,10 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
-import android.text.InputType;
-import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class ProjectsActivity extends FragmentActivity {
 	
@@ -162,6 +148,12 @@ public class ProjectsActivity extends FragmentActivity {
 			if(dataOutdated) { //data is not present or not current, show loading instead!
 				setContentView(R.layout.projects_layout_loading);
 			} else {
+				//only show button, when other projects are present. If there are no projects attached, banner is shown!
+				if(Monitor.getClientStatus().setupStatus == ClientStatus.SETUP_STATUS_AVAILABLE) {
+					((Button) findViewById(R.id.add_project_button)).setVisibility(View.VISIBLE);
+				} else {
+					((Button) findViewById(R.id.add_project_button)).setVisibility(View.GONE);
+				}
 				//deep copy, so ArrayList adapter actually recognizes the difference
 				data.clear();
 				for (Project tmp: tmpA) {
@@ -189,6 +181,11 @@ public class ProjectsActivity extends FragmentActivity {
 		Project project = (Project) view.getTag(); //gets added to view by ProjectsListAdapter
 		Log.d(TAG,"onItemClick projectName: " + project.project_name + " - url: " + project.master_url);
 		(new ConfirmDeletionDialogFragment(project.project_name, project.master_url)).show(getSupportFragmentManager(), "confirm_projects_deletion");
+	}
+	
+	public void addProjectButtonClicked(View view) {
+		Log.d(TAG, "addProjectButtonClicked");
+		startActivity(new Intent(this,LoginActivity.class));
 	}
 
 	@Override
@@ -220,6 +217,7 @@ public class ProjectsActivity extends FragmentActivity {
 	                       Log.d(TAG,"confirm clicked.");
 	                       monitor.detachProjectAsync(url); //asynchronous call to detach project with given url.
 	                       dataOutdated = true; //async call started, data out dated until broadcast
+	                       loadProjects();
 	                   }
 	               })
 	               .setNegativeButton(R.string.confirm_deletion_cancel, new DialogInterface.OnClickListener() {

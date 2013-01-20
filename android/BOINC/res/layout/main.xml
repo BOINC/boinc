@@ -17,26 +17,133 @@
   You should have received a copy of the GNU Lesser General Public License
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@android:id/tabhost"
+
+<!--
+  This layout is split into four different parts, that are logically independent:
+  - tabhost
+  - launching
+  - error
+  Which layout to show depends on ClientStatus.setupStatus.
+  The layouts reside in the same XML file, because MainActivity is a TabActivity, which
+  need to have tabhost, tabs and tabcontent present in their layout.
+  Currently MainActivity decieds which layout to show, and sets the visibility attribute
+  of the other parts to View.GONE.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_entry"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
+    
+    <!-- tabbed layout, for normal manager operation -->
+	<TabHost 
+	    android:id="@android:id/tabhost"
+	    android:visibility="gone"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent" >
+	
+	    <LinearLayout
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        android:orientation="vertical" >
+	
+	        <TabWidget
+	            android:id="@android:id/tabs"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content" >
+	        </TabWidget>
+	        
+	        <HorizontalScrollView 
+	    	    android:visibility="gone"
+		        android:id="@+id/noproject_warning_wrapper"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content"
+		        android:layout_marginTop="10dip"
+		        android:layout_marginBottom="2dip"
+	        	android:layout_marginLeft="10dip"
+	        	android:layout_marginRight="10dip"
+	        	android:background="@drawable/yellow_border">
+		    	<TextView
+			        android:id="@+id/noproject_warning"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+		        	android:padding="10dip"
+		        	android:singleLine="true"
+			        android:text="@string/main_noproject_warning"
+			        android:textAppearance="?android:attr/textAppearanceSmall"
+			        android:clickable="true"
+			        android:onClick="noProjectClicked" />
+	    	</HorizontalScrollView>
+	
+	        <FrameLayout
+	            android:id="@android:id/tabcontent"
+	            android:layout_width="fill_parent"
+	            android:layout_height="fill_parent" >
+	        </FrameLayout>
+	    </LinearLayout>
+	</TabHost>
+	
+	<!-- launching layout, shown during start up -->
+	<LinearLayout
+    	android:id="@+id/main_launching"
+	    android:visibility="gone"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:gravity="center"
+	    android:orientation="vertical" >
+	
+	    <TextView
+	        android:id="@+id/launching_textView1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginBottom="20dip"
+	        android:text="@string/main_launching"
+	        android:textAppearance="?android:attr/textAppearanceMedium" />
+	
+	    <ProgressBar
+	        android:id="@+id/launching_progressBar1"
+	        style="?android:attr/progressBarStyleLarge"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content" />
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical" >
-
-        <TabWidget
-            android:id="@android:id/tabs"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
-        </TabWidget>
-
-        <FrameLayout
-            android:id="@android:id/tabcontent"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
-        </FrameLayout>
-    </LinearLayout>
-</TabHost>
+	</LinearLayout>
+	
+	<!-- error layout, in case of an error, i.e. cleint crash -->
+	<LinearLayout
+    	android:id="@+id/main_error"
+	    android:visibility="gone"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:gravity="center"
+	    android:orientation="vertical" >
+	
+	    <TextView
+	        android:id="@+id/error_textView1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/main_error"
+	        android:textAppearance="?android:attr/textAppearanceLarge"
+	        android:onClick="reinitClient" />
+	
+	    <ImageView
+	        android:id="@+id/error_imageView1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginBottom="30dip"
+	        android:layout_marginTop="30dip"
+	        android:contentDescription="@string/main_error"
+	        android:src="@drawable/reloadw48"
+	        android:onClick="reinitClient" />
+	
+	    <TextView
+	        android:id="@+id/error_textView2"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="20dip"
+	        android:layout_marginRight="20dip"
+	        android:gravity="center"
+	        android:text="@string/main_error_long"
+	        android:textAppearance="?android:attr/textAppearanceMedium"
+	        android:onClick="reinitClient" />
+	
+	</LinearLayout>
+</LinearLayout>

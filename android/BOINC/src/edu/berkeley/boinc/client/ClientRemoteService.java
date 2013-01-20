@@ -1,7 +1,6 @@
 package edu.berkeley.boinc.client;
 
 import edu.berkeley.boinc.rpc.AccountOut;
-import edu.berkeley.boinc.rpc.ProjectAttachReply;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
