@@ -145,6 +145,7 @@ CLIENT_STATE::CLIENT_STATE()
     launched_by_manager = false;
     initialized = false;
     last_wakeup_time = dtime();
+    have_sysmon_msg = false;
 }
 
 void CLIENT_STATE::show_host_info() {

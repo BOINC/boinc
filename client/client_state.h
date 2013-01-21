@@ -139,6 +139,10 @@ struct CLIENT_STATE {
         // exit when about to upload a file
 #ifndef _WIN32
     gid_t boinc_project_gid;
+    // vars so that the sysmon thread can write messages
+    //
+    bool have_sysmon_msg;
+    char sysmon_msg[256];
 #endif
 
     // backoff-related variables
