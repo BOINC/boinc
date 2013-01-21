@@ -802,7 +802,7 @@ void CBOINCGUIApp::OnActivateApp(wxActivateEvent& event) {
         if (m_pEventLog && !m_pEventLog->IsIconized()) {
             m_pEventLog->Raise();
         }
-        m_pFrame->Raise();
+        if (m_pFrame) m_pFrame->Raise();
     }
     event.Skip();
 }
