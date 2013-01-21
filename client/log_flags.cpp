@@ -537,33 +537,76 @@ int read_config_file(bool init, const char* fname) {
 // - Flag app versions and results for which all GPUs are excluded
 //
 void process_gpu_exclusions() {
-    unsigned int i, j;
+    unsigned int i, j, a;
     PROJECT *p;
+
+    for (i=0; i<gstate.apps.size(); i++) {
+        APP* app = gstate.apps[i];
+        for (int k=1; k<coprocs.n_rsc; k++) {
+            COPROC& cp = coprocs.coprocs[k];
+            app->non_excluded_instances[k] = (1<<cp.count)-1;  // all 1's
+        }
+    }
 
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
         for (int k=1; k<coprocs.n_rsc; k++) {
-            int n=0;
             COPROC& cp = coprocs.coprocs[k];
-            p->rsc_pwf[k].non_excluded_instances = (1<<cp.count)-1;  // all 1's
+            int all_instances = (1<<cp.count)-1;  // bitmap of 1 for all inst
+            p->rsc_pwf[k].non_excluded_instances = all_instances;
             for (j=0; j<config.exclude_gpus.size(); j++) {
                 EXCLUDE_GPU& eg = config.exclude_gpus[j];
-                if (strcmp(eg.url.c_str(), p->master_url)) continue;
-                if (!eg.appname.empty()) continue;
                 if (!eg.type.empty() && (eg.type != cp.type)) continue;
+                if (strcmp(eg.url.c_str(), p->master_url)) continue;
+                int mask;
                 if (eg.device_num >= 0) {
+                    int index = cp.device_num_index(eg.device_num);
                     // exclusion may refer to nonexistent GPU
                     //
-                    int ind = cp.device_num_index(eg.device_num);
-                    if (ind >= 0) {
-                        n++;
-                        p->rsc_pwf[k].non_excluded_instances &= ~(1<<ind);
+                    if (index < 0) continue;
+                    mask = 1<<index;
+                } else {
+                    mask = all_instances;
+                }
+                if (eg.appname.empty()) {
+                    // exclusion applies to all apps
+                    //
+                    for (a=0; a<gstate.apps.size(); a++) {
+                        APP* app = gstate.apps[a];
+                        if (app->project != p) continue;
+                        app->non_excluded_instances[k] &= ~mask;
                     }
                 } else {
-                    n = cp.count;
+                    // exclusion applies to a particular app
+                    //
+                    APP* app = gstate.lookup_app(p, eg.appname.c_str());
+                    if (!app) continue;
+                    app->non_excluded_instances[k] &= ~mask;
                 }
             }
-            p->rsc_pwf[k].ncoprocs_excluded = n;
+
+            p->rsc_pwf[k].non_excluded_instances = 0;
+            for (a=0; a<gstate.apps.size(); a++) {
+                APP* app = gstate.apps[a];
+                if (app->project != p) continue;
+                p->rsc_pwf[k].non_excluded_instances |= app->non_excluded_instances[k];
+            }
+
+            // compute ncoprocs_excluded as the number of instances
+            // excluded for at least 1 app
+            //
+            p->rsc_pwf[k].ncoprocs_excluded = 0;
+            for (int b=0; b<cp.count; b++) {
+                int mask = 1<<b;
+                for (a=0; a<gstate.apps.size(); a++) {
+                    APP* app = gstate.apps[a];
+                    if (app->project != p) continue;
+                    if (!(app->non_excluded_instances[k] & mask)) {
+                        p->rsc_pwf[k].ncoprocs_excluded++;
+                        break;
+                    }
+                }
+            }
         }
     }
 

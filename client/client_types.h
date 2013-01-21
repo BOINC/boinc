@@ -249,6 +249,8 @@ struct APP {
         // Specified in app_config.xml
     int n_concurrent;
         // temp during job scheduling, to enforce max_concurrent
+    int non_excluded_instances[MAX_RSC];
+        // for each resources type, the non-excluded instances
 #ifdef SIM
     double latency_bound;
     double fpops_est;

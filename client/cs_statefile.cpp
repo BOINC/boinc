@@ -403,7 +403,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
         if (xp.match_tag("host_info")) {
 #ifdef SIM
             retval = host_info.parse(xp, false);
-            coprocs = host_info._coprocs;
+            coprocs = host_info.coprocs;
 #else
             retval = host_info.parse(xp, true);
 #endif

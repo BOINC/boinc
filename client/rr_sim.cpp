@@ -74,7 +74,7 @@ struct RR_SIM {
         int rt = rp->avp->gpu_usage.rsc_type;
         if (rt) {
             rsc_work_fetch[rt].sim_nused += rp->avp->gpu_usage.usage;
-            rsc_work_fetch[rt].sim_used_instances |= p->rsc_pwf[rt].non_excluded_instances;
+            rsc_work_fetch[rt].sim_used_instances |= rp->app->non_excluded_instances[rt];
             p->rsc_pwf[rt].sim_nused += rp->avp->gpu_usage.usage;
         }
     }
