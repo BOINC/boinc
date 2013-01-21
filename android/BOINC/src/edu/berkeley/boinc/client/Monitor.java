@@ -157,7 +157,7 @@ public class Monitor extends Service{
         // Cancel the persistent notification.
     	((NotificationManager) getSystemService(Service.NOTIFICATION_SERVICE)).cancel(getResources().getInteger(R.integer.autostart_notification_id));
         
-		// quitClient();
+		quitClient();
         
         Toast.makeText(this, "service stopped", Toast.LENGTH_SHORT).show();
     }
@@ -275,7 +275,7 @@ public class Monitor extends Service{
     	AccountIn credentials = new AccountIn();
     	credentials.email_addr = id;
     	credentials.passwd = pwd;
-    	credentials.url = getString(R.string.project_url);
+    	credentials.url = url;
     	Boolean success = rpc.lookupAccount(credentials); //asynch
     	if(success) { //only continue if lookupAccount command did not fail
     		//get authentication token from lookupAccountPoll
@@ -487,9 +487,12 @@ public class Monitor extends Service{
 		}
 		
 		private Boolean startUp() {
+			
+			
 			Boolean connect =  connectClient(); //try to connect, if client got started in previous life-cycle
 			
-			if(!connect) { //if connect did not work out, start new client instance and run connect attempts in loop
+			if(!connect) { //if connect did not work, start new client instance and run connect attempts in loop
+				 
 				Integer counter = 0;
 				Boolean setup = setupClient();
 				if(!setup) {
@@ -546,7 +549,7 @@ public class Monitor extends Service{
 	
 			publishProgress("Client setup.");
 			
-	        success = installClient(true);
+	        success = installClient(false);
 	        if(success) {
 	        	publishProgress("installed. (1/2)");
 	        }
@@ -576,7 +579,7 @@ public class Monitor extends Service{
 	    		//end execution if no overwrite
 	    		File boincClient = new File(clientPath+clientName);
 	    		if (boincClient.exists() && !overwrite) {
-	    			Log.d(TAG,"client exists, end setup of client");
+	    			Log.d(TAG,"client exists, skip installation...");
 	    			return true;
 	    		}
 	    		
@@ -614,7 +617,7 @@ public class Monitor extends Service{
 	    		Log.e(TAG, "IOException", ioe);
 	    	}
 	    	
-	    	return success;
+	    	return success; 
 	    }
 	    
 
