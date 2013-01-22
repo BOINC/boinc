@@ -145,7 +145,9 @@ CLIENT_STATE::CLIENT_STATE()
     launched_by_manager = false;
     initialized = false;
     last_wakeup_time = dtime();
+#ifdef _WIN32
     have_sysmon_msg = false;
+#endif
 }
 
 void CLIENT_STATE::show_host_info() {
