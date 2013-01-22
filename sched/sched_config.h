@@ -186,6 +186,7 @@ struct SCHED_CONFIG {
     bool debug_edf_sim_detail;      // show details of EDF sim
     bool debug_edf_sim_workload;    // show workload for EDF sim
     bool debug_fcgi;
+    bool debug_client_files;        // stuff related to sticky files on client
     bool debug_handle_results;
     bool debug_locality;            // locality scheduling
     bool debug_locality_lite;       // locality scheduling Lite
