@@ -161,6 +161,7 @@
     <string name="status_noproject_long">long</string>
     <string name="status_noproject_pwd">Password</string>
     <string name="status_noproject">Project</string>
+    <string name="client_cabundle">ca-bundle.crt</string>
     
     
     

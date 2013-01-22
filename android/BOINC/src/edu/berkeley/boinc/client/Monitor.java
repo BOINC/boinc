@@ -58,6 +58,7 @@ public class Monitor extends Service{
 	private static AppPreferences appPrefs; //hold the status of the app, controlled by AppPreferences
 	
 	private String clientName; 
+	private String clientCABundle; 
 	private String authFileName; 
 	private String clientPath; 
 	
@@ -113,6 +114,7 @@ public class Monitor extends Service{
 		
 		//populate attributes with XML resource values
 		clientName = getString(R.string.client_name); 
+		clientCABundle = getString(R.string.client_cabundle); 
 		authFileName = getString(R.string.auth_file_name); 
 		clientPath = getString(R.string.client_path); 
 		
@@ -574,7 +576,10 @@ public class Monitor extends Service{
 		// copies the binaries of BOINC client from assets directory into storage space of this application
 	    private Boolean installClient(Boolean overwrite){
 	    	Boolean success = false;
-	    	try {
+	    	byte[] b;
+    		int read; 
+
+    		try {
 	    		
 	    		//end execution if no overwrite
 	    		File boincClient = new File(clientPath+clientName);
@@ -582,11 +587,13 @@ public class Monitor extends Service{
 	    			Log.d(TAG,"client exists, skip installation...");
 	    			return true;
 	    		}
+	    		File boincClientCABundle = new File(clientPath+clientCABundle);
 	    		
 	    		//delete old client
 	    		if(boincClient.exists() && overwrite) {
 	    			Log.d(TAG,"delete old client");
 	    			boincClient.delete();
+	    			boincClientCABundle.delete();
 	    		}
 	    		
 	    		//check path and create it
@@ -597,17 +604,30 @@ public class Monitor extends Service{
 	    		}
 	    		
 	    		//copy client from assets to clientPath
-	    		InputStream assets = getApplicationContext().getAssets().open(clientName); 
-	    		OutputStream data = new FileOutputStream(boincClient); 
-	    		byte[] b = new byte [1024];
-	    		int read; 
-	    		while((read = assets.read(b)) != -1){ 
-	    			data.write(b,0,read);
+	    		InputStream clientAsset = getApplicationContext().getAssets().open(clientName); 
+	    		OutputStream clientData = new FileOutputStream(boincClient); 
+	    		b = new byte [1024];
+	    		while((read = clientAsset.read(b)) != -1){ 
+	    			clientData.write(b,0,read);
 	    		}
-	    		assets.close(); 
-	    		data.flush(); 
-	    		data.close();
-	    		Log.d(TAG, "copy successful"); 
+	    		clientAsset.close(); 
+	    		clientData.flush(); 
+	    		clientData.close();
+	    		Log.d(TAG, "client copy successful");
+	    		
+	    		//copy client from assets to clientPath
+	    		InputStream clientCABudleAsset = getApplicationContext().getAssets().open(clientName); 
+	    		OutputStream clientCABundleData = new FileOutputStream(boincClientCABundle); 
+	    		b = new byte [1024];
+	    		while((read = clientCABudleAsset.read(b)) != -1){ 
+	    			clientCABundleData.write(b,0,read);
+	    		}
+	    		clientCABudleAsset.close(); 
+	    		clientCABundleData.flush(); 
+	    		clientCABundleData.close();
+	    		Log.d(TAG, "client ca bundle copy successful");
+	    		
+	    		
 	    		boincClient.setExecutable(true);
 	    		success = boincClient.canExecute();
 	    		Log.d(TAG, "native client file in app space is executable: " + success);  
