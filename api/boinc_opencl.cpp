@@ -59,8 +59,9 @@ int get_vendor(cl_device_id device_id, char* vendor, int len) {
     retval = clGetDeviceInfo(
         device_id, CL_DEVICE_VENDOR, len, vendor, NULL
     );
-    if ((retval != CL_SUCCESS) || (strlen(vendor)==0)) return retval;
-        
+    if (retval != CL_SUCCESS) return retval;
+    if (!strlen(vendor)) return CL_INVALID_DEVICE_TYPE;
+       
     if ((strstr(vendor, "AMD")) ||
         (strstr(vendor, "Advanced Micro Devices, Inc."))
     ) {
@@ -75,7 +76,6 @@ int get_vendor(cl_device_id device_id, char* vendor, int len) {
         strcpy(vendor, GPU_TYPE_INTEL);     // "intel_gpu"
     }
 
-    if (!strlen(vendor)) return CL_INVALID_DEVICE_TYPE;
     return 0;
 }
 
