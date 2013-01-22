@@ -153,6 +153,14 @@
     <string name="debug_refresh">Refresh</string>
     <string name="debug_manager_header">AndroidBOINC manager messages:</string>
     <string name="debug_client_header">BOINC Client messages:</string>
+    <string name="status_error">error</string>
+    <string name="status_error_long">error</string>
+    <string name="status_launching">Launching</string>
+    <string name="status_noproject_button">no project</string>
+    <string name="status_noproject_email">email</string>
+    <string name="status_noproject_long">long</string>
+    <string name="status_noproject_pwd">Password</string>
+    <string name="status_noproject">Project</string>
     
     
     
