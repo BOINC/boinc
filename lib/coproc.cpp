@@ -1011,7 +1011,7 @@ void COPROC_INTEL::fake(double ram, double avail_ram, int n) {
         device_nums[i] = i;
     }
     set_peak_flops();
-    opencl_prop.global_mem_size = ram;
+    opencl_prop.global_mem_size = (cl_ulong)ram;
 }
 
 // used wherever a processor type is specified in XML, e.g.

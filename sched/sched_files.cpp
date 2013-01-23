@@ -69,7 +69,7 @@ int do_file_delete_regex() {
                 if (config.debug_client_files) {
                     log_messages.printf(MSG_NORMAL,
                         "[client_files] Sticky file %s matched regex %s; deleting\n",
-                        fi.name, file_delete_regex_string[i].c_str()
+                        fi.name, file_delete_regex_string[j].c_str()
                     );
                 }
                 found = true;
