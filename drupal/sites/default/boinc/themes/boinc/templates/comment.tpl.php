@@ -122,7 +122,9 @@
       <?php print date('j M Y H:i:s T', $comment->timestamp); ?>
     </div>
     <div class="comment-id">
-      Message <?php print $comment->cid; ?>
+      <?php echo l(t('Message @id', array('@id' => $comment->cid)),
+        "node/{$comment->nid}", 
+        array('fragment' => "comment-{$comment->cid}")); ?>
     </div>
 
     <div class="content">
