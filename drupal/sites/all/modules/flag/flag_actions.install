@@ -46,7 +46,15 @@ function flag_actions_schema() {
       'threshold' => array(
         'type' => 'int',
         'size' => 'small',
-        'not null' => FALSE,
+        'not null' => TRUE,
+        'default' => 0,
+        'disp-width' => '5',
+      ),
+      'repeat_threshold' => array(
+        'type' => 'int',
+        'size' => 'small',
+        'not null' => TRUE,
+        'default' => 0,
         'disp-width' => '5',
       ),
       'callback' => array(
@@ -65,4 +73,35 @@ function flag_actions_schema() {
   );
 
   return $schema;
+}
+
+/**
+ * Add a "repeat_threshold" value to all existing Flag actions.
+ */
+function flag_actions_update_6200() {
+  $ret = array();
+
+  // Add the new repeat_threshold column.
+  if (!db_column_exists('flag_actions', 'repeat_threshold')) {
+    $column = array(
+      'type' => 'int',
+      'size' => 'small',
+      'not null' => TRUE,
+      'default' => 0,
+      'disp-width' => '5',
+    );
+    db_add_field($ret, 'flag_actions', 'repeat_threshold', $column);
+  }
+
+  // Update the normal threshold column to default to 0.
+  $column = array(
+    'type' => 'int',
+    'size' => 'small',
+    'not null' => TRUE,
+    'default' => 0,
+    'disp-width' => '5',
+  );
+  db_change_field($ret, 'flag_actions', 'threshold', 'threshold', $column);
+
+  return $ret;
 }

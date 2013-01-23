@@ -44,21 +44,26 @@ Besides editing the default view that comes with the module, Flag
 provides many views filters, fields, and sort criteria to make all sorts of
 displays possible relating to the number of times an item has been flagged.
 
-This module was formerly known as Views Bookmark.
+This module was formerly known as Views Bookmark, which was originally was
+written by Earl Miles. Flag was written by Nathan Haug and mystery man Mooffie.
 
-Ongoing development by Nathan Haug and mystery man Mooffie.
-
-Originally written by Earl Miles.
+This module built by robots: http://www.lullabot.com
 
 Recommended Modules
 -------------------
 - Views
+- Session API
 
 Installation
 ------------
 1) Copy the flag directory to the modules folder in your installation.
 
 2) Enable the module using Administer -> Modules (/admin/build/modules)
+
+Optional Installation
+---------------------
+1) The ability for anonymous users to flag content is provided by the Session
+   API module, available at http://drupal.org/project/session_api.
 
 Configuration
 -------------

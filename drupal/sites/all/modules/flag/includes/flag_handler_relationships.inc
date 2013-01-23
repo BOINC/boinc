@@ -6,27 +6,93 @@
  */
 
 /**
+ * Base class for all our relationship classes.
+ *
+ * @ingroup views
+ */
+abstract class flag_handler_relationship extends views_handler_relationship {
+
+  /**
+   * Every relationship has a 'flag' option.
+   */
+  function option_definition() {
+    $options = parent::option_definition();
+    $options['flag'] = array('default' => NULL);
+    $options['required'] = array('default' => 1);
+    return $options;
+  }
+
+  /**
+   * Make sure the flag exists.
+   *
+   * When importing views, or when deleting flags, inconsistent views may
+   * result. This validator is called by Views before saving or previewing a
+   * view.
+   */
+  function validate() {
+    $errors = array();
+    $tokens = array(
+      '@relationship-name' => $this->ui_name() . ' ' . $this->admin_summary(),
+      '@flag-name' => $this->options['flag'],
+    );
+    if (!$this->options['flag']) {
+      $errors[] = t('You must pick a flag to use for the relationship "@relationship-name".', $tokens);
+    }
+    elseif (!flag_get_flag($this->options['flag'])) {
+      $errors[] = t('This view is looking for a flag by the name "@flag-name", but there is no such flag. Perhaps it was deleted. Please update the relationship "@relationship-name" in this view to use an existing flag.', $tokens);
+    }
+    return $errors;
+  }
+
+  function get_flag_type() {
+    return isset($this->definition['flag type']) ? $this->definition['flag type'] : NULL;
+  }
+
+  /**
+   * Returns the flag object.
+   */
+  function get_flag() {
+
+    // Backward compatibility: There may exist old views on the system whose
+    // 'flag' option isn't set. (This happens if the admin had skippped
+    // clicking the 'Update' button.) When run, these views should behave as
+    // if the first flag was selected.
+    if (!isset($this->options['flag'])) {
+      $this->options['flag'] = flag_views_flag_default($this->get_flag_type());
+    }
+
+    // Validation: Since validate() is called only when in Views's
+    // administrative UI, we need to do validation at "run time" ourselves.
+    if (($errors = $this->validate())) {
+      foreach ($errors as $error) {
+        drupal_set_message($error, 'error');
+      }
+    }
+
+    return flag_get_flag($this->options['flag']);
+  }
+
+  // @todo: It's logical that this class should also implement options_form(),
+  // to show the flag selector, and query(), to filter on the flag.
+}
+
+/**
  * Specialized relationship handler associating flags and content.
  *
  * @ingroup views
  */
-class flag_handler_relationship_content extends views_handler_relationship {
+class flag_handler_relationship_content extends flag_handler_relationship {
 
   function option_definition() {
     $options = parent::option_definition();
-
-    $content_type = $this->definition['flag type'];
-    $options['flag'] = array('default' => flag_views_flag_default($content_type));
     $options['user_scope'] = array('default' => 'current');
-    $options['required'] = array('default' => 1);
-
     return $options;
   }
 
   function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
     $content_type = $this->definition['flag type'];
-    $form['label']['#description'] .= ' '. t('The name of the selected flag makes a good label.');
+    $form['label']['#description'] .= ' ' . t('The name of the selected flag makes a good label.');
     $form['flag'] = flag_views_flag_config_form('radios', $content_type, $this->options['flag']);
 
     $form['user_scope'] = array(
@@ -42,10 +108,15 @@ class flag_handler_relationship_content extends views_handler_relationship {
     if (!$form['flag']['#options']) {
       $form = array(
         'error' => array(
-          '#value' => '<p class="error">' . t('No %type flags exist. You must first <a href="@create-url">create a %type flag</a> before being able to use this relationship type.', array('%type' => $content_type, '@create-url' => url('admin/build/flags'))) . '</p>',
+          '#value' => '<p class="error form-item">' . t('No %type flags exist. You must first <a href="@create-url">create a %type flag</a> before being able to use this relationship type.', array('%type' => $content_type, '@create-url' => url('admin/build/flags'))) . '</p>',
         ),
       );
       $form_state['no flags exist'] = TRUE;
+    }
+    if (module_exists('session_api')) {
+      $form['session_warning'] = array(
+        '#value' => '<p class="warning form-item">' . t('<strong>Warning</strong>: Adding this relationship for any flag that contains <strong>anonymous flagging access</strong> will disable page caching for anonymous users when this view is executed. (But this is only true when the relationship is constrained to "Current user", not to "Any user".) It is recommended to create a dedicated page for views containing anonymous user data.') . '</p>',
+      );
     }
   }
 
@@ -61,14 +132,17 @@ class flag_handler_relationship_content extends views_handler_relationship {
 
   function ui_name() {
     // We put the bookmark name in the UI string to save space.
-    return t('!group: !title', array('!group' => $this->definition['group'], '!title' => $this->options['flag']));
+    return t('!group: !title', array('!group' => $this->definition['group'], '!title' => empty($this->options['flag']) ? t('(Please select a flag)') : $this->options['flag']));
   }
 
   /**
    * Called to implement a relationship in a query.
    */
   function query() {
-    $flag = flag_get_flag($this->options['flag']);
+    if (!($flag = $this->get_flag())) {
+      return;
+    }
+
     $this->definition['extra'][] = array(
       'field' => 'fid',
       'value' => $flag->fid,
@@ -80,6 +154,17 @@ class flag_handler_relationship_content extends views_handler_relationship {
         'value' => '***CURRENT_USER***',
         'numeric' => TRUE,
       );
+      if (array_search(DRUPAL_ANONYMOUS_RID, $flag->roles['flag']) !== FALSE) {
+        // Disable page caching for anonymous users.
+        $GLOBALS['conf']['cache'] = 0;
+
+        // Add in the SID from Session API for anonymous users.
+        $this->definition['extra'][] = array(
+          'field' => 'sid',
+          'value' => '***FLAG_CURRENT_USER_SID***',
+          'numeric' => TRUE,
+        );
+      }
     }
     parent::query();
   }
@@ -90,17 +175,7 @@ class flag_handler_relationship_content extends views_handler_relationship {
  *
  * @ingroup views
  */
-class flag_handler_relationship_counts extends views_handler_relationship {
-
-  function option_definition() {
-    $options = parent::option_definition();
-
-    $content_type = $this->definition['flag type'];
-    $options['flag'] = array('default' => flag_views_flag_default($content_type));
-    $options['required'] = array('default' => 1);
-
-    return $options;
-  }
+class flag_handler_relationship_counts extends flag_handler_relationship {
 
   function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
@@ -124,7 +199,10 @@ class flag_handler_relationship_counts extends views_handler_relationship {
    * Called to implement a relationship in a query.
    */
   function query() {
-    $flag = flag_get_flag($this->options['flag']);
+    if (!($flag = $this->get_flag())) {
+      return;
+    }
+
     $this->definition['extra'][] = array(
       'field' => 'fid',
       'value' => $flag->fid,
@@ -152,18 +230,11 @@ class flag_handler_relationship_counts extends views_handler_relationship {
  *
  * @ingroup views
  */
-class flag_handler_relationship_user_content extends views_handler_relationship {
-
-  function option_definition() {
-    $options = parent::option_definition();
-    $options['flag'] = array('default' => flag_views_flag_default(NULL));
-    $options['required'] = array('default' => 1);
-    return $options;
-  }
+class flag_handler_relationship_user_content extends flag_handler_relationship {
 
   function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
-    $form['label']['#description'] .= ' '. t('Including name of the selected flag helps identify this relationship.');
+    $form['label']['#description'] .= ' ' . t('Including name of the selected flag helps identify this relationship.');
 
     $form['flag'] = flag_views_flag_config_form('radios', NULL, $this->options['flag']);
     $form['flag']['#title'] = t('Flagged');
@@ -180,7 +251,10 @@ class flag_handler_relationship_user_content extends views_handler_relationship 
    * Called to implement a relationship in a query.
    */
   function query() {
-    $flag = flag_get_flag($this->options['flag']);
+    if (!($flag = $this->get_flag())) {
+      return;
+    }
+
     $this->definition['extra'][] = array(
       'field' => 'fid',
       'value' => $flag->fid,

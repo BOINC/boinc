@@ -27,6 +27,7 @@ function flag_token_list($type = 'all') {
       $flags = flag_get_flags($flag_type);
       foreach ($flags as $flag) {
         $tokens[$flag_type]['flag-'. str_replace('_', '-', $flag->name) .'-count'] = t('Total flag count for flag @flag', array('@flag' => $flag->get_title()));
+        $tokens[$flag_type]['flag-'. str_replace('_', '-', $flag->name) .'-link'] = t('Flag/unflag link for @flag', array('@flag' => $flag->get_title()));
       }
     }
   }
@@ -54,6 +55,7 @@ function flag_token_values($type, $object = NULL) {
     $flags = flag_get_flags($type);
     foreach ($flags as $flag) {
       $values['flag-'. str_replace('_', '-', $flag->name) .'-count'] = $flag->get_count($flag->get_content_id($object));
+      $values['flag-'. str_replace('_', '-', $flag->name) .'-link'] = flag_create_link($flag->name, $flag->get_content_id($object));
     }
   }
   return $values;
@@ -68,11 +70,11 @@ function flag_token_values($type, $object = NULL) {
  *
  * @todo Incorporate this feature into the Token module(?)
  */
-function theme_flag_token_help($types = array('all'), $prefix = '[', $suffix = ']') {
+function theme_flag_tokens_browser($types = array('all'), $prefix = '[', $suffix = ']') {
   token_include();
   $tokens = flag_token_get_list($types);
 
-  $headers = array(t('Token'), t('Replacement value'));
+  $header = array(t('Token'), t('Replacement value'));
   $rows = array();
   foreach ($tokens as $key => $category) {
     $rows[] = array(array('data' => drupal_ucfirst($key) . ' ' . t('tokens'), 'class' => 'region', 'colspan' => 2));
@@ -84,14 +86,14 @@ function theme_flag_token_help($types = array('all'), $prefix = '[', $suffix = '
     }
   }
 
-  $output = theme('table', $headers, $rows, array('class' => 'description'));
+  $output = theme('table', $header, $rows, array('class' => 'description'));
   return $output;
 }
 
 /**
  * This is a replacement for Token's token_get_list().
  *
- * It is used only by theme_flag_token_help(), above.
+ * It is used only by theme_flag_tokens_browser(), above.
  *
  * This is a duplicate of the Token's function, but with a small modification:
  * the $type parameter is now $types, allowing for listing tokens from several

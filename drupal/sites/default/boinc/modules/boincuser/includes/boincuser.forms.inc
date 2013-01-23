@@ -273,8 +273,10 @@ function boincuser_pull_subscriptions($account = NULL) {
       SELECT nid FROM {boincimport_temp_topic}
       WHERE topic_id = %d', $thread_id));
     // Flag this node for the user
-    $flag->flag('flag', $nid, $account);
-    $count++;
+    if ($nid > 0) {
+      $flag->flag('flag', $nid, $account);
+      $count++;
+    }
   }
   return $count;
 }

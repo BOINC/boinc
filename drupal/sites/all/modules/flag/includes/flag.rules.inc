@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @file flag.rules.inc
+ * @file
  * Rules integration for the Flag module.
  */
 
@@ -44,7 +44,7 @@ class flag_rules_data_type extends rules_data_type {
   }
 
   /**
-   * Returns radios for selecting a flag of the type given in 
+   * Returns radios for selecting a flag of the type given in
    * $info['flag_type'].
    */
   function get_default_input_form($info, $value, &$form_state) {
@@ -81,7 +81,7 @@ function flag_rules_event_info() {
 
   $flags = flag_get_flags();
   foreach ($flags as $flag) {
-    
+
     $arguments = array(
       // First, define ubiquitous arguments.
       'flag' => array(
@@ -167,6 +167,29 @@ function flag_rules_action_info() {
       ),
       'module' => 'Flag',
     ),
+    'flag_fetch_entity_by_user' => array(
+      'label' => t('Fetch content flagged by user'),
+      'base' => 'flag_rules_action_fetch_content_by_user',
+      'parameter' => array(
+        'flag' => array(
+          'type' => 'flag',
+          'label' => t('Flag'),
+        ),
+        'flagging_user' => array(
+          'type' => 'user',
+          'label' => t('User who flagged the content'),
+          'description' => t('For non-global flags, this is the user who flagged the content. (For global flags, this argument is ignored.)'),
+        ),
+      ),
+      'provides' => array(
+        'content_flagged_by_user' => array(
+          'label' => t('Content flagged by user'),
+          'type' => 'list<node>',
+        ),
+      ),
+      'group' => t('Flag'),
+      'access callback' => 'flag_rules_integration_access',
+    ),
   );
   foreach (flag_get_types() as $type) {
     $args = array(
@@ -179,7 +202,7 @@ function flag_rules_action_info() {
     $flag = flag_create_handler($type);
     if ($flag->rules_get_element_argument_definition()) {
       $args += array('object' => $flag->rules_get_element_argument_definition());
-      
+
       $items += array(
         'flag_rules_action_flag_'. $type => array(
           'label' => t('Flag a @type', array('@type' => $type)),
@@ -228,17 +251,25 @@ function flag_rules_action_unflag($flag, $object, $flagging_user, $settings) {
 }
 
 /**
- * Base action implementation.
+ * Base action implementation: Trim flag.
  */
 function flag_rules_action_trim($flag, $flagging_user, $cutoff_size, $settings) {
-  // We can't use db_query_range(), because we can't specify 'infinity'.
-  $result = db_query("SELECT * FROM {flag_content} WHERE fid = %d AND (uid = %d OR uid = 0) ORDER BY timestamp DESC", $flag->fid, $flagging_user->uid);
-  $i = 1;
-  while ($row = db_fetch_object($result)) {
-    if ($i++ > $cutoff_size) {
-      flag('unflag', $flag->name, $row->content_id, $flagging_user);
-    }
-  }
+  flag_trim_flag($flag, $flagging_user, $cutoff_size);
+}
+
+/**
+ * Base action implementation: Fetch content flagged by a user.
+ */
+function flag_rules_action_fetch_content_by_user($flag, $user) {
+  $result = db_select('flag_content', 'fc')
+    ->fields('fc', array('content_id'))
+    ->condition('content_type', $flag->content_type)
+    ->condition('uid', $user->uid)
+    ->condition('fid', $flag->fid)
+    ->execute();
+
+  $flagged = $result->fetchCol();
+  return array('content_flagged_by_user' => $flagged);
 }
 
 /**
@@ -257,7 +288,7 @@ function flag_rules_condition_info() {
     $flag = flag_create_handler($type);
     if ($flag->rules_get_element_argument_definition()) {
       $args += array('object' => $flag->rules_get_element_argument_definition());
-  
+
       $items += array(
         'flag_rules_condition_threshold_'. $type => array(
           'label' => drupal_ucfirst(t('@type has flagging count', array('@type' => $type))),

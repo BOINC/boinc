@@ -6,14 +6,14 @@
  */
 
 /**
- * Implementation of hook_flag(). Trigger actions if any are available.
+ * Implements hook_flag(). Trigger actions if any are available.
  */
 function flag_actions_flag($event, $flag, $content_id, $account) {
   flag_actions_do($event, $flag, $content_id, $account);
 }
 
 /**
- * Implementation of hook_menu().
+ * Implements hook_menu().
  */
 function flag_actions_menu() {
   $items = array();
@@ -54,12 +54,12 @@ function flag_actions_menu() {
 }
 
 /**
- * Implementation of hook_theme().
+ * Implements hook_theme().
  */
 function flag_actions_theme() {
   return array(
     'flag_actions_page' => array(
-      'arguments' => array('actions' => NULL),
+      'arguments' => array('actions' => NULL, 'form' => NULL),
     ),
     'flag_actions_add_form' => array(
       'arguments' => array('form' => NULL),
@@ -77,6 +77,7 @@ function flag_actions_get_action($aid) {
 
 function flag_actions_get_actions($flag_name = NULL, $reset = FALSE) {
   static $flag_actions;
+  module_load_include('inc', 'flag', 'includes/flag.actions');
 
   // Get a list of all possible actions defined by modules.
   $actions = module_invoke_all('action_info');
@@ -124,15 +125,19 @@ function flag_actions_get_actions($flag_name = NULL, $reset = FALSE) {
  *
  * @param $fid
  *   The flag object ID.
+ * @param $event
+ *   The flag event, such as "flag" or "unflag".
  * @param $threshold
  *   The flagging threshold at which this action will be executed.
+ * @param $repeat_threshold
+ *   The number of additional flaggings after which the action will be repeated.
  * @param $callback
  *   The action callback to be executed.
  * @param $parameters
  *   The action parameters.
  */
-function flag_actions_insert_action($fid, $event, $threshold, $callback, $parameters) {
-  db_query("INSERT INTO {flag_actions} (fid, event, threshold, callback, parameters) VALUES (%d, '%s', %d, '%s', '%s')", $fid, $event, $threshold, $callback, serialize($parameters));
+function flag_actions_insert_action($fid, $event, $threshold, $repeat_threshold, $callback, $parameters) {
+  db_query("INSERT INTO {flag_actions} (fid, event, threshold, repeat_threshold, callback, parameters) VALUES (%d, '%s', %d, %d, '%s', '%s')", $fid, $event, $threshold, $repeat_threshold, $callback, serialize($parameters));
   return db_last_insert_id('flag_actions', 'aid');
 }
 
@@ -141,13 +146,17 @@ function flag_actions_insert_action($fid, $event, $threshold, $callback, $parame
  *
  * @param $aid
  *   The flag action ID to update.
+ * @param $event
+ *   The flag event, such as "flag" or "unflag".
  * @param $threshold
  *   The flagging threshold at which this action will be executed.
+ * @param $repeat_threshold
+ *   The number of additional flaggings after which the action will be repeated.
  * @param $parameters
  *   The action parameters.
  */
-function flag_actions_update_action($aid, $event, $threshold, $parameters) {
-  return db_query("UPDATE {flag_actions} SET event = '%s', threshold = %d, parameters = '%s' WHERE aid = %d", $event, $threshold, serialize($parameters), $aid);
+function flag_actions_update_action($aid, $event, $threshold, $repeat_threshold, $parameters) {
+  return db_query("UPDATE {flag_actions} SET event = '%s', threshold = %d, repeat_threshold = %d, parameters = '%s' WHERE aid = %d", $event, $threshold, $repeat_threshold, serialize($parameters), $aid);
 }
 
 /**
@@ -173,12 +182,17 @@ function flag_actions_do($event, $flag, $content_id, $account) {
   $flag_action->action = $event;
   $flag_action->count = $count = $flag->get_count($content_id);
   $relevant_objects = $flag->get_relevant_action_objects($content_id);
-  $node_changed = FALSE;
+  $object_changed = FALSE;
   foreach ($actions as $aid => $action) {
-    $threshold = ($action->event == $event) &&
-                (($action->event == 'flag'   && $count == $action->threshold) ||
-                 ($action->event == 'unflag' && $count == $action->threshold - 1));
-    if ($threshold && !$action->missing) {
+    if ($action->event == 'flag') {
+      $at_threshold = ($count == $action->threshold);
+      $repeat = $action->repeat_threshold ? (($count > $action->threshold) && (($count - $action->threshold) % $action->repeat_threshold == 0)) : FALSE;
+    }
+    elseif ($action->event == 'unflag') {
+      $at_threshold = ($count == $action->threshold - 1);
+      $repeat = $action->repeat_threshold ? (($count < $action->threshold - 1) && (($count - $action->threshold - 1) % $action->repeat_threshold == 0)) : FALSE;
+    }
+    if (($at_threshold || $repeat) && $action->event == $event && !$action->missing) {
       $context = $action->parameters;
       $context['callback'] = $action->callback;
       // We're setting 'hook' to something, to prevent PHP warnings by actions
@@ -208,15 +222,19 @@ function flag_actions_do($event, $flag, $content_id, $account) {
         }
       }
 
-      if (is_array($action->behavior) && in_array('changes_node_property', $action->behavior)) {
-        $node_changed = TRUE;
+      if (is_array($action->behavior) && in_array('changes_' . $action->type . '_property', $action->behavior)) {
+        $object_changed = TRUE;
       }
     }
   }
-  if ($node_changed) {
-    node_save_action($relevant_objects['node']);
-    // Remember this modified node for the next round, if there's any.
-    $flag->remember_content($content_id, $relevant_objects['node']);
+
+  // Actions by default do not save elements unless the save action is
+  // explicitly added. We run it automatically upon flagging.
+  if ($object_changed) {
+    $save_action = $action->type . '_save_action';
+    if (function_exists($save_action)) {
+      $save_action($relevant_objects[$action->type]);
+    }
   }
 }
 
@@ -238,9 +256,30 @@ function theme_flag_actions_page($actions, $add_action_form) {
   foreach ($actions as $action) {
     $flag = flag_get_flag($action->flag);
 
+    // Build a sample string representing repeating actions.
+    if ($action->repeat_threshold) {
+      $repeat_count = 3;
+      $repeat_subtract = ($action->event == 'flag') ? 1 : -1;
+      $repeat_samples = array();
+      for ($n = 1; $n < $repeat_count + 2; $n++) {
+        $sample = $action->threshold + (($n * $action->repeat_threshold) * $repeat_subtract);
+        if ($sample > 0) {
+          $repeat_samples[] = $sample;
+        }
+      }
+      if (count($repeat_samples) > $repeat_count) {
+        $repeat_samples[$repeat_count] = '&hellip;';
+      }
+      $repeat_string = implode(', ', $repeat_samples);
+    }
+    else {
+      $repeat_string = '-';
+    }
+
     $row = array();
     $row[] = $flag->get_title();
-    $row[] = ($action->event == 'flag' ? '≥ ' : '< ') . $action->threshold;
+    $row[] = ($action->event == 'flag' ? '&ge; ' : '&lt; ') . $action->threshold;
+    $row[] = $repeat_string;
     $row[] = empty($action->missing) ? $action->description : '<div class="error">' . $action->description . '</div>';
     $row[] = l(t('edit'), 'admin/build/flags/actions/configure/'. $action->aid);
     $row[] = l(t('delete'), 'admin/build/flags/actions/delete/'. $action->aid);
@@ -254,6 +293,7 @@ function theme_flag_actions_page($actions, $add_action_form) {
   $header = array(
     t('Flag'),
     t('Threshold'),
+    t('Repeats'),
     t('Action'),
     array('data' => t('Operations'), 'colspan' => 2),
   );
@@ -378,6 +418,7 @@ function flag_actions_form($form_state, $aid = NULL, $flag_name = NULL) {
     $action->parameters = array();
     $action->event = 'flag';
     $action->threshold = 10;
+    $action->repeat_threshold = 0;
     drupal_set_title(t('Add "@action" action to the @title flag', array('@action' => $action->description, '@title' => $flag->get_title())));
   }
 
@@ -386,6 +427,7 @@ function flag_actions_form($form_state, $aid = NULL, $flag_name = NULL) {
     '#weight' => -9,
     '#theme' => 'flag_actions_flag_form',
     '#action' => $action,
+    '#flag' => $flag,
   );
 
   $form['flag']['flag'] = array(
@@ -420,17 +462,36 @@ function flag_actions_form($form_state, $aid = NULL, $flag_name = NULL) {
     '#required' => TRUE,
   );
 
-  $action_form = $callback .'_form';
-  if (function_exists($action_form)) {
-    $edit = $action->parameters;
-    $edit['actions_description'] = $action->description;
-    $edit['actions_type'] = $action->type;
-    $form = array_merge($form, $action_form($edit));
+  $form['flag']['repeat_threshold'] = array(
+    '#type' => 'textfield',
+    '#size' => 6,
+    '#maxlength' => 6,
+    '#default_value' => $action->repeat_threshold,
+  );
+
+  if ($flag->global) {
+    $form['flag']['threshold']['#disabled'] = 1;
+    $form['flag']['threshold']['#value'] = 1;
+    $form['flag']['repeat_threshold']['#access'] = FALSE;
+    $form['flag']['repeat_threshold']['#value'] = 0;
   }
 
+  // Merge in the standard flag action form.
+  $action_form = $callback .'_form';
+  $edit = array();
+  if (function_exists($action_form)) {
+    $edit += $action->parameters;
+    $edit['actions_description'] = $action->description;
+    $edit['actions_type'] = $action->type;
+    $edit['actions_flag'] = $flag->name;
+    $additions = flag_actions_form_additions($action_form, $edit);
+    $form = array_merge($form, $additions);
+  }
+
+  // Add a few customizations to existing flag actions.
   $flag_actions_form = 'flag_actions_'. $callback .'_form';
   if (function_exists($flag_actions_form)) {
-    $flag_actions_form($form, $flag, isset($edit) ? $edit : array());
+    $flag_actions_form($form, $flag, $edit);
   }
 
   $form['submit'] = array(
@@ -442,15 +503,26 @@ function flag_actions_form($form_state, $aid = NULL, $flag_name = NULL) {
 }
 
 /**
+ * Execute an action form callback to retrieve form additions.
+ *
+ * This function prevents the form callback from modifying local variables.
+ */
+function flag_actions_form_additions($callback, $edit) {
+  return $callback($edit);
+}
+
+/**
  * Generic submit handler for validating flag actions.
  */
 function flag_actions_form_validate($form, &$form_state) {
   // Special validation handlers may be needed to save this form properly.
   // Try to load the action's validation routine if needed.
-  $callback = $form_state['values']['flag']['callback'];
-  $validate_function = $callback . '_validate';
-  if (function_exists($validate_function)) {
-    $validate_function($form, $form_state);
+  if (isset($form_state['values']['flag']['callback'])) {
+    $callback = $form_state['values']['flag']['callback'];
+    $validate_function = $callback . '_validate';
+    if (function_exists($validate_function)) {
+      $validate_function($form, $form_state);
+    }
   }
 }
 
@@ -466,23 +538,24 @@ function flag_actions_form_submit($form, &$form_state) {
     return;
   }
 
-  $aid        = $form_state['values']['flag']['aid'];
-  $flag       = $form_state['values']['flag']['flag'];
-  $event      = $form_state['values']['flag']['event'];
-  $threshold  = $form_state['values']['flag']['threshold'];
-  $callback   = $form_state['values']['flag']['callback'];
+  $aid              = $form_state['values']['flag']['aid'];
+  $flag             = $form_state['values']['flag']['flag'];
+  $event            = $form_state['values']['flag']['event'];
+  $threshold        = $form_state['values']['flag']['threshold'];
+  $repeat_threshold = $form_state['values']['flag']['repeat_threshold'];
+  $callback         = $form_state['values']['flag']['callback'];
 
   // Specialized forms may need to execute their own submit handlers on save.
   $submit_function = $callback . '_submit';
   $parameters = function_exists($submit_function) ? $submit_function($form, $form_state) : array();
 
   if (empty($aid)) {
-    $aid = flag_actions_insert_action($flag->fid, $event, $threshold, $callback, $parameters);
+    $aid = flag_actions_insert_action($flag->fid, $event, $threshold, $repeat_threshold, $callback, $parameters);
     $form_state['values']['flag']['aid'] = $aid;
     $form_state['values']['flag']['is_new'] = TRUE;
   }
   else {
-    flag_actions_update_action($aid, $event, $threshold, $parameters);
+    flag_actions_update_action($aid, $event, $threshold, $repeat_threshold, $parameters);
   }
 
   $action = flag_actions_get_action($aid);
@@ -494,16 +567,24 @@ function flag_actions_form_submit($form, &$form_state) {
 function theme_flag_actions_flag_form($form) {
   $event = drupal_render($form['event']);
   $threshold = drupal_render($form['threshold']);
+  $repeat_threshold = drupal_render($form['repeat_threshold']);
   $action = $form['#action']->description;
 
   $output  = '';
   $output .= '<div class="container-inline">';
   $output .= t('Perform action when content !event !threshold flags', array('!event' => $event, '!threshold' => $threshold));
+  if ($form['#flag']->global) {
+    $output .= ' ' . t('(global flags always have a threshold of 1)');
+  }
+  $output .= '</div>';
+  $output .= '<div class="container-inline">';
+  if (!$form['#flag']->global) {
+    $output .= t('Repeat this action every !repeat_threshold additional flags after the threshold is reached', array('!repeat_threshold' => $repeat_threshold));
+  }
   $output .= '</div>';
 
   $element = array(
     '#title' => t('Flagging threshold'),
-    '#description' => t('Set the event for which this action should be executed.'),
     '#required' => TRUE,
   );
 
@@ -539,6 +620,9 @@ function flag_actions_delete_form_submit(&$form, &$form_state) {
   $form_state['redirect'] = 'admin/build/flags/actions';
 }
 
+/**
+ * Make modifications to the "Send e-mail" action form.
+ */
 function flag_actions_system_send_email_action_form(&$form, &$flag, $context) {
   $form['flag_tip'] = array(
     '#type' => 'fieldset',
@@ -548,9 +632,11 @@ function flag_actions_system_send_email_action_form(&$form, &$flag, $context) {
       : t('You may wish to enable the <em>Token actions</em> module, which is shipped with the <a href="@token-url">Token</a> module. That module provides a "Send tokenized e-mail" action, which is similar to the "Send e-mail" action you are now using, except it provides you with many more tokens to use. This is especially useful when flagging users and comments.', array('@token-url' => 'http://drupal.org/project/token')),
     '#weight' => -1,
   );
-  return $form;
 }
 
+/**
+ * Make modifications to the "Send tokenized e-mail" action form.
+ */
 function flag_actions_token_actions_send_email_action_form(&$form, &$flag, $context) {
   if (!isset($context['recipient'])) {
     $form['recipient']['#default_value'] = '[site-mail]';
@@ -572,14 +658,14 @@ function flag_actions_token_actions_send_email_action_form(&$form, &$flag, $cont
     '#collapsed' => TRUE,
   );
   $form['help']['basic'] = array(
-    '#value' => theme('flag_token_help', array('flag', 'flag-action')),
+    '#value' => theme('flag_tokens_browser', array('flag', 'flag-action')),
   );
 
   $form['help']['tokens'] = array(
     '#type' => 'fieldset',
     '#title' => t('More tokens'),
     '#description' => t("Depending on the type of the content being flagged, the following tokens can be used in the recipients, subject, or message. For example, if the content being flagged is a node, you can use any of the node tokens --but you can't use the comment tokens: they won't be recognized. Similarly, if the content being flagged is a user, you can use only the user tokens."),
-    '#value' => theme('flag_token_help', $flag->get_labels_token_types()),
+    '#value' => theme('flag_tokens_browser', $flag->get_labels_token_types()),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );

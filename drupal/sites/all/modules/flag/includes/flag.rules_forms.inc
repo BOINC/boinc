@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @file flag.rules_form.inc
+ * @file
  * Rules integration for the Flag module.
  */
 
@@ -96,7 +96,7 @@ function flag_rules_condition_flagged_label($settings, $argument_labels, $elemen
  ******************************************************************************/
 
 function theme_flag_rules_radios($element) {
-  
+
   if (!empty($element['#disabled'])) {
     drupal_set_message($element['#description'], 'error');
   }

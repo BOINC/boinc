@@ -19,15 +19,16 @@ class flag_handler_argument_content_id extends views_handler_argument_numeric {
    * relationship and reads its 'flag' option, which holds the flag name.
    */
   function get_flag() {
-    $flag_name = $this->view->relationship[$this->options['relationship']]->options['flag'];
-    return flag_get_flag($flag_name);
+    return $this->view->relationship[$this->options['relationship']]->get_flag();
   }
 
   /**
    * Override the behavior of title(). Get the title of the appropriate objects.
    */
   function title_query() {
-    $flag = $this->get_flag();
+    if (!($flag = $this->get_flag())) {
+      return array(); // Error message is printed by get_flag().
+    }
     $views_info = $flag->get_views_info();
 
     $titles = array();

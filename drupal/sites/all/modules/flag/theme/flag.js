@@ -1,3 +1,4 @@
+(function ($) {
 
 /**
  * Terminology:
@@ -7,6 +8,9 @@
  *   specifically of the <A> element, we say "element" or "the <A> element".
  */
 
+/**
+ * The main behavior to perform AJAX toggling of links.
+ */
 Drupal.flagLink = function(context) {
   /**
    * Helper function. Updates a link's HTML with a new one.
@@ -36,12 +40,10 @@ Drupal.flagLink = function(context) {
     }
     // Replace the old link with the new one.
     $wrapper.after($newLink).remove();
-
-    if (Drupal.attachBehaviors) { // So it won't crash on Drupal 5.
-      Drupal.attachBehaviors($newLink.get(0));
-    }
+    Drupal.attachBehaviors($newLink.get(0));
 
     $('.flag-message', $newLink).fadeIn();
+    setTimeout(function(){ $('.flag-message', $newLink).fadeOut() }, 3000);
     return $newLink.get(0);
   }
 
@@ -96,11 +98,133 @@ Drupal.flagLink = function(context) {
     return false;
   }
 
-  $('a.flag-link-toggle:not(.flag-processed)').addClass('flag-processed').click(flagClick);
+  $('a.flag-link-toggle:not(.flag-processed)', context).addClass('flag-processed').click(flagClick);
 };
 
+/**
+ * Prevent anonymous flagging unless the user has JavaScript enabled.
+ */
+Drupal.flagAnonymousLinks = function(context) {
+  $('a.flag:not(.flag-anonymous-processed)', context).each(function() {
+    this.href += (this.href.match(/\?/) ? '&' : '?') + 'has_js=1';
+    $(this).addClass('flag-anonymous-processed');
+  });
+}
+
+String.prototype.flagNameToCSS = function() {
+  return this.replace(/_/g, '-');
+}
+
+/**
+ * A behavior specifically for anonymous users. Update links to the proper state.
+ */
+Drupal.flagAnonymousLinkTemplates = function(context) {
+  // Swap in current links. Cookies are set by PHP's setcookie() upon flagging.
+
+  var templates = Drupal.settings.flag.templates;
+
+  // Build a list of user-flags.
+  var userFlags = Drupal.flagCookie('flags');
+  if (userFlags) {
+    userFlags = userFlags.split('+');
+    for (var n in userFlags) {
+      var flagInfo = userFlags[n].match(/(\w+)_(\d+)/);
+      var flagName = flagInfo[1];
+      var contentId = flagInfo[2];
+      // User flags always default to off and the JavaScript toggles them on.
+      if (templates[flagName + '_' + contentId]) {
+        $('.flag-' + flagName.flagNameToCSS() + '-' + contentId, context).after(templates[flagName + '_' + contentId]).remove();
+      }
+    }
+  }
+
+  // Build a list of global flags.
+  var globalFlags = document.cookie.match(/flag_global_(\w+)_(\d+)=([01])/g);
+  if (globalFlags) {
+    for (var n in globalFlags) {
+      var flagInfo = globalFlags[n].match(/flag_global_(\w+)_(\d+)=([01])/);
+      var flagName = flagInfo[1];
+      var contentId = flagInfo[2];
+      var flagState = (flagInfo[3] == '1') ? 'flag' : 'unflag';
+      // Global flags are tricky, they may or may not be flagged in the page
+      // cache. The template always contains the opposite of the current state.
+      // So when checking global flag cookies, we need to make sure that we
+      // don't swap out the link when it's already in the correct state.
+      if (templates[flagName + '_' + contentId]) {
+        $('.flag-' + flagName.flagNameToCSS() + '-' + contentId, context).each(function() {
+          if ($(this).find('.' + flagState + '-action').size()) {
+            $(this).after(templates[flagName + '_' + contentId]).remove();
+          }
+        });
+      }
+    }
+  }
+}
+
+/**
+ * Utility function used to set Flag cookies.
+ *
+ * Note this is a direct copy of the jQuery cookie library.
+ * Written by Klaus Hartl.
+ */
+Drupal.flagCookie = function(name, value, options) {
+  if (typeof value != 'undefined') { // name and value given, set cookie
+    options = options || {};
+    if (value === null) {
+      value = '';
+      options = $.extend({}, options); // clone object since it's unexpected behavior if the expired property were changed
+      options.expires = -1;
+    }
+    var expires = '';
+    if (options.expires && (typeof options.expires == 'number' || options.expires.toUTCString)) {
+      var date;
+      if (typeof options.expires == 'number') {
+        date = new Date();
+        date.setTime(date.getTime() + (options.expires * 24 * 60 * 60 * 1000));
+      } else {
+        date = options.expires;
+      }
+      expires = '; expires=' + date.toUTCString(); // use expires attribute, max-age is not supported by IE
+    }
+    // NOTE Needed to parenthesize options.path and options.domain
+    // in the following expressions, otherwise they evaluate to undefined
+    // in the packed version for some reason...
+    var path = options.path ? '; path=' + (options.path) : '';
+    var domain = options.domain ? '; domain=' + (options.domain) : '';
+    var secure = options.secure ? '; secure' : '';
+    document.cookie = [name, '=', encodeURIComponent(value), expires, path, domain, secure].join('');
+  } else { // only name given, get cookie
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+      var cookies = document.cookie.split(';');
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = jQuery.trim(cookies[i]);
+        // Does this cookie string begin with the name we want?
+        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+};
 
 Drupal.behaviors.flagLink = function(context) {
+  // For anonymous users with the page cache enabled, swap out links with their
+  // current state for the user.
+  if (Drupal.settings.flag && Drupal.settings.flag.templates) {
+    Drupal.flagAnonymousLinkTemplates(context);
+  }
+
+  // For all anonymous users, require JavaScript for flagging to prevent spiders
+  // from flagging things inadvertently.
+  if (Drupal.settings.flag && Drupal.settings.flag.anonymous) {
+    Drupal.flagAnonymousLinks(context);
+  }
+
   // On load, bind the click behavior for all links on the page.
   Drupal.flagLink(context);
 };
+
+})(jQuery);

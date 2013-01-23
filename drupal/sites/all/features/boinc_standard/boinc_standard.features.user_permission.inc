@@ -83,7 +83,9 @@ function boinc_standard_user_default_permissions() {
   // Exported permission: administer features
   $permissions['administer features'] = array(
     'name' => 'administer features',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'administrator',
+    ),
   );
 
   // Exported permission: administer files
@@ -131,7 +133,8 @@ function boinc_standard_user_default_permissions() {
   $permissions['administer nodes'] = array(
     'name' => 'administer nodes',
     'roles' => array(
-      '0' => 'administrator',
+      '0' => 'Forum Moderator',
+      '1' => 'administrator',
     ),
   );
 
@@ -406,7 +409,9 @@ function boinc_standard_user_default_permissions() {
   // Exported permission: manage features
   $permissions['manage features'] = array(
     'name' => 'manage features',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'administrator',
+    ),
   );
 
   // Exported permission: notify of path changes

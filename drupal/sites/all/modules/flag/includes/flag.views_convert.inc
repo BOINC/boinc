@@ -1,11 +1,12 @@
 <?php
+
 /**
  * @file
  * Update Views 1 views provided by both views_bookmark and flag modules.
  */
 
 /**
- * Implementation of hook_views_convert().
+ * Implements hook_views_convert().
  *
  * Intervene to convert field values from the Views 1 format to the
  * Views 2 format. Intervene only if $view->add_item() won't produce
@@ -23,10 +24,10 @@ function flag_views_convert($display, $type, &$view, $field, $id) {
   );
   foreach ($field as $property => $value) {
     foreach ($key_search as $search => $replace) {
-      if (!empty($value) && is_string($value) && preg_match('/'. $search .'/', $value, $matches)) {
+      if (!empty($value) && is_string($value) && preg_match('/' . $search . '/', $value, $matches)) {
         $flag = flag_get_flag(NULL, $matches[1]);
         $replace = $replace . $flag->name;
-        $field[$property] = preg_replace('/'. $search .'/', $replace, $value);
+        $field[$property] = preg_replace('/' . $search . '/', $replace, $value);
       }
     }
   }
@@ -188,7 +189,7 @@ function flag_views_convert($display, $type, &$view, $field, $id) {
     }
     elseif ($new_rel == 'flag_counts_rel') {
       $view->display[$display]->display_options['relationships'][$new_rel] = array(
-        'label' => $flag_name .' counts',
+        'label' => $flag_name . ' counts',
         'required' => 0,
         'flag' => $flag_name,
         'id' => 'flag_counts_rel',
@@ -199,7 +200,7 @@ function flag_views_convert($display, $type, &$view, $field, $id) {
     }
     elseif ($new_rel == 'uid') {
       $view->display[$display]->display_options['relationships'][$new_rel] = array(
-        'label' => isset($flag_name) ? $flag_name .' user' : 'user',
+        'label' => isset($flag_name) ? $flag_name . ' user' : 'user',
         'required' => 0,
         'id' => 'uid',
         'table' => 'flag_content',
