@@ -181,7 +181,7 @@ function submit_batch($r) {
     $now = time();
     $batch_id = (int)($r->batch->batch_id);
     if ($batch_id) {
-        $batch = BoincBatch:lookup_id($batch_id);
+        $batch = BoincBatch::lookup_id($batch_id);
         if (!$batch) {
             echo "<error>no batch $batch_id</error>\n";
             exit;
@@ -208,7 +208,7 @@ function submit_batch($r) {
     $cmd = "cd ../../bin; ./adjust_user_priority --user $user->id --flops $total_flops --app $app->name";
     $x = system($cmd);
     if (!is_numeric($x) || (double)$x == 0) {
-        echo <error>adjust_user_priority returned $x</error>\n";
+        echo "<error>adjust_user_priority returned $x</error>\n";
         exit;
     }
     $let = (double)$x;

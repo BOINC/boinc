@@ -413,7 +413,7 @@ function handle_query_job($user) {
         $s = stat($path);
         $size = $s['size'];
         table_row(
-            "<a href=/download/$dir/$pname>$lname</a>",
+            "<a href=download/$dir/$pname>$lname</a>",
             $size,
             $md5
         );

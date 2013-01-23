@@ -122,4 +122,21 @@ class BoincJobFile {
     }
 }
 
+class BoincBatchFileAssoc {
+    static function insert($clause) {
+        $db = BoincDb::get();
+        $ret = $db->insert('batch_file_assoc', $clause);
+        if (!$ret) return false;
+        return true;
+    }
+    static function lookup($clause) {
+        $db = BoincDb::get();
+        return $db->lookup('batch_file_assoc', 'BoincBatchFileAssoc', $clause);
+    }
+    function delete() {
+        $db = BoincDb::get();
+        $db->delete(this, 'batch_file_assoc');
+    }
+}
+
 ?>

@@ -68,7 +68,7 @@ int do_file_delete_regex() {
                 g_reply->file_deletes.push_back(fi);
                 if (config.debug_client_files) {
                     log_messages.printf(MSG_NORMAL,
-                        "Sticky file %s matched regex %s; deleting\n",
+                        "[client_files] Sticky file %s matched regex %s; deleting\n",
                         fi.name, file_delete_regex_string[i].c_str()
                     );
                 }
@@ -78,7 +78,7 @@ int do_file_delete_regex() {
         }
         if (config.debug_client_files && !found) {
             log_messages.printf(MSG_NORMAL,
-                "Sticky file %s didn't match any regex\n", fi.name
+                "[client_files] Sticky file %s didn't match any regex\n", fi.name
             );
         }
     }

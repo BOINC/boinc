@@ -19,7 +19,7 @@
 
 // Notes:
 // - This is currently Unix-only (mostly because of its use of pthreads)
-//   but at some point we may want it to run on Windows
+//   but with some work it could be made to run on Windows
 
 #include <stdio.h>
 #include <pthread.h>
@@ -65,7 +65,7 @@ struct INFILE {
 
 struct JOB {
     char job_name[256];
-    vector<string> args;
+    string cmdline_args;
     vector<INFILE> infiles;
     bool all_output_files;
     vector<string> outfiles;
@@ -227,6 +227,8 @@ int process_input_files(SUBMIT_REQ& req) {
     return 0;
 }
 
+// parse the text coming from Condor
+//
 int parse_boinc_submit(COMMAND& c, char* p, SUBMIT_REQ& req) {
     strcpy(req.batch_name, strtok_r(NULL, " ", &p));
     strcpy(req.app_name, strtok_r(NULL, " ", &p));
@@ -237,7 +239,7 @@ int parse_boinc_submit(COMMAND& c, char* p, SUBMIT_REQ& req) {
         int nargs = atoi(strtok_r(NULL, " ", &p));
         for (int j=0; j<nargs; j++) {
             string arg = strtok_r(NULL, " ", &p);
-            job.args.push_back(arg);
+            job.cmdline_args += arg + " ";
         }
         int ninfiles = atoi(strtok_r(NULL, " ", &p));
         for (int j=0; j<ninfiles; j++) {
@@ -262,7 +264,53 @@ int parse_boinc_submit(COMMAND& c, char* p, SUBMIT_REQ& req) {
     return 0;
 }
 
+// batch has been created and files staged.
+// Create the jobs, and flag batch as IN_PROGRESS
+//
 int submit_jobs(SUBMIT_REQ req) {
+    char buf[1024], url[1024];
+    sprintf(buf,
+        "<create_batch>\n"
+        "<authenticator>%s</authenticator>\n"
+        "<batch_id>%d</batch_id>\n",
+        authenticator,
+        req.batch_id
+    );
+    string request = buf;
+    for (unsigned int i=0; i<req.jobs.size(); i++) {
+        JOB job=req.jobs[i];
+        request += "<job>\n";
+        if (!job.cmdline_args.empty()) {
+            request += "<command_line>" + job.cmdline_args + "</command_line>\n";
+        }
+        for (unsigned int j=0; j<job.infiles.size(); j++) {
+            INFILE infile = job.infiles[i];
+            map<string, LOCAL_FILE>::iterator iter = req.local_files.find(infile.src_path);
+            LOCAL_FILE& lf = iter->second;
+            sprintf(buf,
+                "<input_file>\n"
+                "<mode>local</mode>\n"
+                "<path>%s</path>\n"
+                "</input_file>\n",
+                lf.md5
+            );
+            request += buf;
+        }
+        request += "</job>\n";
+    }
+    request += "</create_batch>\n";
+    sprintf(url, "%ssubmit_rpc_handler.php", project_url);
+    FILE* reply = tmpfile();
+    vector<string> x;
+    int retval = do_http_post(url, request.c_str(), reply, x);
+    if (retval) {
+        fclose(reply);
+        return retval;
+    }
+    fseek(reply, 0, SEEK_SET);
+    while (fgets(buf, 256, reply)) {
+    }
+    fclose(reply);
     return 0;
 }
 
