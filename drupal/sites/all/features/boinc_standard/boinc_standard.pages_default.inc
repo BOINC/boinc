@@ -12,7 +12,10 @@ function boinc_standard_default_page_manager_pages() {
   $page->admin_title = 'About Us';
   $page->admin_description = '';
   $page->path = 'about.fail';
-  $page->access = array();
+  $page->access = array(
+    'type' => 'none',
+    'settings' => NULL,
+  );
   $page->menu = array();
   $page->arguments = array();
   $page->conf = array();
@@ -41,6 +44,8 @@ function boinc_standard_default_page_manager_pages() {
       ),
     ),
     'logic' => 'and',
+    'type' => 'none',
+    'settings' => NULL,
   );
   $page->menu = array(
     'type' => 'none',
@@ -237,7 +242,10 @@ function boinc_standard_default_page_manager_pages() {
   $page->admin_title = 'Home page';
   $page->admin_description = '';
   $page->path = 'home';
-  $page->access = array();
+  $page->access = array(
+    'type' => 'none',
+    'settings' => NULL,
+  );
   $page->menu = array(
     'type' => 'normal',
     'title' => 'Home',

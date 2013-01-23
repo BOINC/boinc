@@ -825,7 +825,7 @@ function boinc_standard_strongarm() {
     'zen_breadcrumb_home' => 1,
     'zen_breadcrumb_trailing' => 1,
     'zen_breadcrumb_title' => 0,
-    'zen_rebuild_registry' => 1,
+    'zen_rebuild_registry' => 0,
     'zen_wireframes' => 0,
     'toggle_logo' => 1,
     'toggle_name' => 0,
