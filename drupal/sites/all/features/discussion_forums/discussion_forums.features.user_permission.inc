@@ -20,8 +20,9 @@ function discussion_forums_user_default_permissions() {
   $permissions['administer comments'] = array(
     'name' => 'administer comments',
     'roles' => array(
-      '0' => 'administrator',
-      '1' => 'moderator',
+      '0' => 'Forum Moderator',
+      '1' => 'administrator',
+      '2' => 'moderator',
     ),
   );
 
@@ -81,8 +82,9 @@ function discussion_forums_user_default_permissions() {
   $permissions['post comments'] = array(
     'name' => 'post comments',
     'roles' => array(
-      '0' => 'administrator',
-      '1' => 'authenticated user',
+      '0' => 'Forum Moderator',
+      '1' => 'administrator',
+      '2' => 'authenticated user',
     ),
   );
 
@@ -90,8 +92,9 @@ function discussion_forums_user_default_permissions() {
   $permissions['post comments without approval'] = array(
     'name' => 'post comments without approval',
     'roles' => array(
-      '0' => 'administrator',
-      '1' => 'authenticated user',
+      '0' => 'Forum Moderator',
+      '1' => 'administrator',
+      '2' => 'authenticated user',
     ),
   );
 
