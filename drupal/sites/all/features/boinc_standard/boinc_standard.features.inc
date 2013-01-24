@@ -40,23 +40,21 @@ function boinc_standard_flag_default_flags() {
     'flag_long' => 'Report this content as offensive.',
     'flag_message' => '',
     'unflag_short' => 'Cancel report',
-    'unflag_long' => 'Cancel reporting this content as offensive',
+    'unflag_long' => 'Cancel reporting this content as offensive.',
     'unflag_message' => '',
     'unflag_denied_text' => '',
     'link_type' => 'toggle',
     'roles' => array(
       'flag' => array(
-        '0' => '2',
+        '0' => 2,
       ),
       'unflag' => array(
-        '0' => '2',
+        '0' => 2,
       ),
     ),
     'weight' => 0,
     'access_author' => '',
     'show_on_comment' => 1,
-    'flag_confirmation' => 'Are you sure you want to report this content as offensive?',
-    'unflag_confirmation' => 'Are you sure you want to cancel reporting this content as offensive?',
     'module' => 'boinc_standard',
     'locked' => array(
       '0' => 'name',
@@ -76,16 +74,16 @@ function boinc_standard_flag_default_flags() {
     'flag_long' => 'Report this content as offensive.',
     'flag_message' => '',
     'unflag_short' => 'Cancel report',
-    'unflag_long' => 'Cancel reporting this content as offensive',
+    'unflag_long' => 'Cancel reporting this content as offensive.',
     'unflag_message' => '',
     'unflag_denied_text' => '',
     'link_type' => 'toggle',
     'roles' => array(
       'flag' => array(
-        '0' => '2',
+        '0' => 2,
       ),
       'unflag' => array(
-        '0' => '2',
+        '0' => 2,
       ),
     ),
     'weight' => 0,
@@ -94,8 +92,6 @@ function boinc_standard_flag_default_flags() {
     'show_on_form' => 0,
     'access_author' => '',
     'i18n' => 0,
-    'flag_confirmation' => 'Are you sure you want to flag this content as offensive?',
-    'unflag_confirmation' => 'Are you sure you want to cancel reporting this content as offensive?',
     'module' => 'boinc_standard',
     'locked' => array(
       '0' => 'name',
@@ -106,7 +102,7 @@ function boinc_standard_flag_default_flags() {
   $flags['abuse_user'] = array(
     'content_type' => 'user',
     'title' => 'User Abuse',
-    'global' => FALSE,
+    'global' => '0',
     'types' => array(),
     'flag_short' => 'Report User',
     'flag_long' => 'Report this user as offensive.',
@@ -125,7 +121,7 @@ function boinc_standard_flag_default_flags() {
       ),
     ),
     'weight' => 0,
-    'show_on_profile' => 1,
+    'show_on_profile' => TRUE,
     'access_uid' => '',
     'flag_confirmation' => 'Are you sure you want to report this user as offensive?',
     'unflag_confirmation' => 'Are you sure you want to remove your report of this user?',
@@ -141,8 +137,8 @@ function boinc_standard_flag_default_flags() {
     'title' => 'Subscriptions',
     'global' => '0',
     'types' => array(
-      '0' => 'forum',
-      '1' => 'news',
+      '0' => 'news',
+      '1' => 'forum',
     ),
     'flag_short' => 'subscribe',
     'flag_long' => 'Subscribe to this topic',
@@ -166,8 +162,6 @@ function boinc_standard_flag_default_flags() {
     'show_on_form' => 0,
     'access_author' => '',
     'i18n' => 0,
-    'flag_confirmation' => '',
-    'unflag_confirmation' => '',
     'module' => 'boinc_standard',
     'locked' => array(
       '0' => 'name',
