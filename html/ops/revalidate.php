@@ -21,6 +21,8 @@
 // and you want to rerun it on some jobs
 // (e.g. to grant credit to instances previously marked as invalid)
 
+ini_set ("memory_limit", "2G");
+
 require_once("../inc/util_ops.inc");
 
 function show_form() {
