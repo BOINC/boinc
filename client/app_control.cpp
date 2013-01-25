@@ -420,8 +420,9 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             strcpy(buf, "");
             if (temporary_exit_file_present(x, buf)) {
                 handle_temporary_exit(will_restart, x, buf);
+            } else {
+                handle_premature_exit(will_restart);
             }
-            handle_premature_exit(will_restart);
             break;
         case 0xc000013a:        // control-C??
         case 0x40010004:        // vista shutdown?? can someone explain this?
