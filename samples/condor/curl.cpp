@@ -138,11 +138,17 @@ int upload_files (
 ) {
     char buf[1024];
     string req_msg = "<upload_files>\n";
+    sprintf(buf, "<authenticator>%s</authenticator>\n", authenticator);
+    req_msg += string(buf);
+    if (batch_id) {
+        sprintf(buf, "<batch_id>%d</batch_id>\n", batch_id);
+        req_msg += string(buf);
+    }
     for (unsigned int i=0; i<md5s.size(); i++) {
         sprintf(buf, "<md5>%s</md5>\n", md5s[i].c_str());
         req_msg += string(buf);
     }
-    req_msg = "</upload_files>\n";
+    req_msg += "</upload_files>\n";
     FILE* reply = tmpfile();
     char url[256];
     sprintf(url, "%sjob_file.php", project_url);
@@ -151,8 +157,10 @@ int upload_files (
         fclose(reply);
         return retval;
     }
+    fseek(reply, 0, SEEK_SET);
     bool success = false;
     while (fgets(buf, 256, reply)) {
+        printf("reply: %s", buf);
         if (strstr(buf, "success")) {
             success = true;
             break;
