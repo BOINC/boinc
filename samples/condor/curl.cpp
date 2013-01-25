@@ -19,6 +19,9 @@
 #include <stdio.h>
 #include <vector>
 #include <string>
+#include <string.h>
+
+#include "parse.h"
 
 #include "curl.h"
 
@@ -28,7 +31,7 @@ using std::string;
 // send an HTTP POST request,
 // with an optional set of multi-part file attachments
 //
-int do_http_post(
+static int do_http_post(
     const char* url,
     const char* request,
     FILE* reply,
@@ -80,17 +83,173 @@ int do_http_post(
     return 0;
 }
 
-#if 0
-int main() {
-    FILE* reply = fopen("reply", "w");
-    vector<string> send_files;
-    send_files.push_back("curl.cpp");
-    send_files.push_back("boinc_gahp.cpp");
-    do_http_post(
-        "http://isaac.ssl.berkeley.edu/foobar.php",
-        "<req>foo</req>",
-        reply,
-        send_files
-    );
+int query_files(
+    const char* project_url,
+    const char* authenticator,
+    int batch_id,
+    vector<string> &md5s,
+    vector<string> &paths,
+    vector<int> &absent_files
+) {
+    string req_msg;
+    char buf[256];
+    req_msg = "<query_files>\n";
+    sprintf(buf, "<authenticator>%s</authenticator>\n", authenticator);
+    req_msg += string(buf);
+    if (batch_id) {
+        sprintf(buf, "<batch_id>%d</batch_id>\n", batch_id);
+        req_msg += string(buf);
+    }
+    for (unsigned int i=0; i<md5s.size(); i++) {
+        sprintf(buf, "   <md5>%s</md5>\n", md5s[i].c_str());
+        req_msg += string(buf);
+    }
+    req_msg += "</query_files>\n";
+    FILE* reply = tmpfile();
+    char url[256];
+    sprintf(url, "%sjob_file.php", project_url);
+    int retval = do_http_post(url, req_msg.c_str(), reply, paths);
+    if (retval) {
+        fclose(reply);
+        return retval;
+    }
+    fseek(reply, 0, SEEK_SET);
+    int x;
+    while (fgets(buf, 256, reply)) {
+        printf("reply: %s", buf);
+        if (strstr(buf, "error")) {
+            retval = -1;
+        }
+        if (parse_int(buf, "<absent_file>", x)) {
+            absent_files.push_back(x);
+            continue;
+        }
+    }
+    fclose(reply);
+    return retval;
 }
-#endif
+
+int upload_files (
+    const char* project_url,
+    const char* authenticator,
+    int batch_id,
+    vector<string> &md5s,
+    vector<string> &paths
+) {
+    char buf[1024];
+    string req_msg = "<upload_files>\n";
+    for (unsigned int i=0; i<md5s.size(); i++) {
+        sprintf(buf, "<md5>%s</md5>\n", md5s[i].c_str());
+        req_msg += string(buf);
+    }
+    req_msg = "</upload_files>\n";
+    FILE* reply = tmpfile();
+    char url[256];
+    sprintf(url, "%sjob_file.php", project_url);
+    int retval = do_http_post(url, req_msg.c_str(), reply, paths);
+    if (retval) {
+        fclose(reply);
+        return retval;
+    }
+    bool success = false;
+    while (fgets(buf, 256, reply)) {
+        if (strstr(buf, "success")) {
+            success = true;
+            break;
+        }
+    }
+    fclose(reply);
+    if (!success) return -1;
+    return 0;
+}
+
+int create_batch(
+    const char* project_url,
+    const char* authenticator,
+    SUBMIT_REQ& sr
+) {
+    char request[1024];
+    char url[1024];
+    sprintf(request,
+        "<create_batch>\n"
+        "   <authenticator>%s</authenticator>\n"
+        "      <batch>\n"
+        "         <batch_name>%s</batch_name>\n"
+        "         <app_name>%s</app_name>\n"
+        "      </batch>\n"
+        "</create_batch>\n",
+        authenticator,
+        sr.batch_name,
+        sr.app_name
+    );
+    sprintf(url, "%ssubmit_rpc_handler.php", project_url);
+    FILE* reply = tmpfile();
+    vector<string> x;
+    int retval = do_http_post(url, request, reply, x);
+    if (retval) {
+        fclose(reply);
+        return retval;
+    }
+    char buf[256];
+    sr.batch_id = 0;
+    fseek(reply, 0, SEEK_SET);
+    while (fgets(buf, 256, reply)) {
+        if (parse_int(buf, "<batch_id>", sr.batch_id)) break;
+    }
+    fclose(reply);
+    if (sr.batch_id == 0) {
+        return -1;
+    }
+    return 0;
+}
+
+int submit_jobs(
+    const char* project_url,
+    const char* authenticator,
+    SUBMIT_REQ req
+) {
+    char buf[1024], url[1024];
+    sprintf(buf,
+        "<create_batch>\n"
+        "<authenticator>%s</authenticator>\n"
+        "<batch_id>%d</batch_id>\n",
+        authenticator,
+        req.batch_id
+    );
+    string request = buf;
+    for (unsigned int i=0; i<req.jobs.size(); i++) {
+        JOB job=req.jobs[i];
+        request += "<job>\n";
+        if (!job.cmdline_args.empty()) {
+            request += "<command_line>" + job.cmdline_args + "</command_line>\n";
+        }
+        for (unsigned int j=0; j<job.infiles.size(); j++) {
+            INFILE infile = job.infiles[i];
+            map<string, LOCAL_FILE>::iterator iter = req.local_files.find(infile.src_path);
+            LOCAL_FILE& lf = iter->second;
+            sprintf(buf,
+                "<input_file>\n"
+                "<mode>local</mode>\n"
+                "<path>%s</path>\n"
+                "</input_file>\n",
+                lf.md5
+            );
+            request += buf;
+        }
+        request += "</job>\n";
+    }
+    request += "</create_batch>\n";
+    sprintf(url, "%ssubmit_rpc_handler.php", project_url);
+    FILE* reply = tmpfile();
+    vector<string> x;
+    int retval = do_http_post(url, request.c_str(), reply, x);
+    if (retval) {
+        fclose(reply);
+        return retval;
+    }
+    fseek(reply, 0, SEEK_SET);
+    while (fgets(buf, 256, reply)) {
+    }
+    fclose(reply);
+    return 0;
+}

@@ -58,73 +58,9 @@ struct COMMAND {
 typedef map<int, COMMAND*> COMMANDS;
 COMMANDS commands;
 
-struct INFILE {
-    char src_path[256];
-    char dst_path[256];
-};
-
-struct JOB {
-    char job_name[256];
-    string cmdline_args;
-    vector<INFILE> infiles;
-    bool all_output_files;
-    vector<string> outfiles;
-};
-
-struct LOCAL_FILE {
-    char md5[64];
-    double nbytes;
-};
-
-struct SUBMIT_REQ {
-    char batch_name[256];
-    char app_name[256];
-    vector<JOB> jobs;
-    map<string, LOCAL_FILE> local_files;
-        // maps local path to info about file
-    int batch_id;
-};
-
 int compute_md5(string path, LOCAL_FILE& f) {
     return md5_file(path.c_str(), f.md5, f.nbytes);
 }
-
-int create_batch(SUBMIT_REQ& sr) {
-    char request[1024];
-    char url[1024];
-    sprintf(request,
-        "<create_batch>\n"
-        "   <authenticator>%s</authenticator>\n"
-        "      <batch>\n"
-        "         <batch_name>%s</batch_name>\n"
-        "         <app_name>%s</app_name>\n"
-        "      </batch>\n"
-        "</create_batch>\n",
-        authenticator,
-        sr.batch_name,
-        sr.app_name
-    );
-    sprintf(url, "%ssubmit_rpc_handler.php", project_url);
-    FILE* reply = tmpfile();
-    vector<string> x;
-    int retval = do_http_post(url, request, reply, x);
-    if (retval) {
-        fclose(reply);
-        return retval;
-    }
-    char buf[256];
-    sr.batch_id = 0;
-    fseek(reply, 0, SEEK_SET);
-    while (fgets(buf, 256, reply)) {
-        if (parse_int(buf, "<batch_id>", sr.batch_id)) break;
-    }
-    fclose(reply);
-    if (sr.batch_id == 0) {
-        return -1;
-    }
-    return 0;
-}
-
 
 // Get a list of the input files used by the batch.
 // Get their MD5s.
@@ -148,7 +84,7 @@ int process_input_files(SUBMIT_REQ& req) {
     }
 
     // compute the MD5s of these files,
-    // and make a map from filename to MD5 and other info (LOCAL_FILE)
+    // and make a map from path to MD5 and size (LOCAL_FILE)
     //
     set<string>::iterator iter = unique_paths.begin();
     while (iter != unique_paths.end()) {
@@ -161,69 +97,43 @@ int process_input_files(SUBMIT_REQ& req) {
     }
 
     // ask the server which files it doesn't already have.
-    // We send it the batch ID and a list of (filename, MD5) pairs.
-    // It
-    // - creates batch_file_assoc records for all the files
-    //   (to avoid race condition w/ file deletion)
-    // - returns the list of filenames it doesn't have.
     //
-    string req_msg;
-    req_msg = "<query_files>\n";
     map<string, LOCAL_FILE>::iterator map_iter;
     map_iter = req.local_files.begin();
-    sprintf(buf, "<batch_id>%d</batch_id>\n", req.batch_id);
-    req_msg += string(buf);
+    vector<string> md5s, paths;
+    vector<int> absent_files;
     while (map_iter != req.local_files.end()) {
         LOCAL_FILE lf = map_iter->second;
-        string name = map_iter->first;
-        sprintf(buf,
-            "<file>\n"
-            "   <name>%s</name>\n"
-            "   <md5>%s</md5>\n"
-            "</file>\n",
-            name.c_str(),
-            lf.md5
-        );
-        req_msg += string(buf);
+        paths.push_back(map_iter->first);
+        md5s.push_back(lf.md5);
         iter++;
     }
-    req_msg += "</query_files>\n";
-    vector<string> send_files;
-    FILE* reply = tmpfile();
-    retval = do_http_post(project_url, req_msg.c_str(), reply, send_files);
-    fseek(reply, 0, SEEK_SET);
-    vector<string> missing_files;
-    string missing_file;
-    while (fgets(buf, 256, reply)) {
-        if (parse_str(buf, "<missing_file>", missing_file)) {
-            missing_files.push_back(missing_file);
-            continue;
-        }
-    }
-    fclose(reply);
+    retval = query_files(
+        project_url,
+        authenticator,
+        req.batch_id,
+        md5s,
+        paths,
+        absent_files
+    );
+    if (retval) return retval;
 
     // upload the missing files.
-    // Send a list of the MD5s so the server doesn't have to compute them.
     //
-    req_msg = "<upload_files>\n";
-    for (i=0; i<missing_files.size(); i++) {
-        map_iter = req.local_files.find(missing_files[i]);
-        LOCAL_FILE& lf = map_iter->second;
-        sprintf(buf, "<md5>%s</md5>\n", lf.md5);
-        req_msg += string(buf);
+    vector<string> upload_md5s, upload_paths;
+    for (unsigned int i=0; i<absent_files.size(); i++) {
+        int j = absent_files[i];
+        upload_md5s.push_back(md5s[j]);
+        upload_paths.push_back(paths[j]);
     }
-    req_msg = "</upload_files>\n";
-    reply = tmpfile();
-    retval = do_http_post(project_url, req_msg.c_str(), reply, missing_files);
-    bool success = false;
-    while (fgets(buf, 256, reply)) {
-        if (strstr(buf, "success")) {
-            success = true;
-            break;
-        }
-    }
-    fclose(reply);
-    if (!success) return -1;
+    retval = upload_files(
+        project_url,
+        authenticator,
+        req.batch_id,
+        upload_md5s,
+        upload_paths
+    );
+    if (retval) return retval;
     return 0;
 }
 
@@ -264,56 +174,6 @@ int parse_boinc_submit(COMMAND& c, char* p, SUBMIT_REQ& req) {
     return 0;
 }
 
-// batch has been created and files staged.
-// Create the jobs, and flag batch as IN_PROGRESS
-//
-int submit_jobs(SUBMIT_REQ req) {
-    char buf[1024], url[1024];
-    sprintf(buf,
-        "<create_batch>\n"
-        "<authenticator>%s</authenticator>\n"
-        "<batch_id>%d</batch_id>\n",
-        authenticator,
-        req.batch_id
-    );
-    string request = buf;
-    for (unsigned int i=0; i<req.jobs.size(); i++) {
-        JOB job=req.jobs[i];
-        request += "<job>\n";
-        if (!job.cmdline_args.empty()) {
-            request += "<command_line>" + job.cmdline_args + "</command_line>\n";
-        }
-        for (unsigned int j=0; j<job.infiles.size(); j++) {
-            INFILE infile = job.infiles[i];
-            map<string, LOCAL_FILE>::iterator iter = req.local_files.find(infile.src_path);
-            LOCAL_FILE& lf = iter->second;
-            sprintf(buf,
-                "<input_file>\n"
-                "<mode>local</mode>\n"
-                "<path>%s</path>\n"
-                "</input_file>\n",
-                lf.md5
-            );
-            request += buf;
-        }
-        request += "</job>\n";
-    }
-    request += "</create_batch>\n";
-    sprintf(url, "%ssubmit_rpc_handler.php", project_url);
-    FILE* reply = tmpfile();
-    vector<string> x;
-    int retval = do_http_post(url, request.c_str(), reply, x);
-    if (retval) {
-        fclose(reply);
-        return retval;
-    }
-    fseek(reply, 0, SEEK_SET);
-    while (fgets(buf, 256, reply)) {
-    }
-    fclose(reply);
-    return 0;
-}
-
 // To avoid a race condition with file deletion:
 // - create a batch record
 // - create batch/file associations, and upload files
@@ -327,7 +187,7 @@ void handle_boinc_submit(COMMAND& c, char* p) {
         printf("error parsing request: %d\n", retval);
         return;
     }
-    retval = create_batch(req);
+    retval = create_batch(project_url, authenticator, req);
     if (retval) {
         printf("error creating batch: %d\n", retval);
         return;
@@ -337,7 +197,7 @@ void handle_boinc_submit(COMMAND& c, char* p) {
         printf("error processing input files: %d\n", retval);
         return;
     }
-    retval = submit_jobs(req);
+    retval = submit_jobs(project_url, authenticator, req);
     if (retval) {
         printf("error submitting jobs: %d\n", retval);
         return;
