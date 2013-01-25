@@ -786,7 +786,7 @@ bool TASK::poll(int& status) {
     int wpid;
     struct rusage ru;
 
-    wpid = wait4(pid, &status, WNOHANG, &ru);
+    wpid = waitpid(pid, &status, WNOHANG);
     if (wpid) {
         getrusage(RUSAGE_CHILDREN, &ru);
         final_cpu_time = (float)ru.ru_utime.tv_sec + ((float)ru.ru_utime.tv_usec)/1e+6;
