@@ -285,25 +285,21 @@ int CLIENT_STATE::check_suspend_processing() {
             }
         }
 
-        if (log_flags.cpu_sched) {
-            if (old_gpu_suspend_reason && !gpu_suspend_reason) {
-                msg_printf(NULL, MSG_INFO, "[cpu_sched] resuming GPU activity");
-                request_schedule_cpus("GPU resumption");
-            } else if (!old_gpu_suspend_reason && gpu_suspend_reason) {
-                msg_printf(NULL, MSG_INFO, "[cpu_sched] suspending GPU activity");
-                request_schedule_cpus("GPU suspension");
+        if (old_gpu_suspend_reason && !gpu_suspend_reason) {
+            if (log_flags.task) {
+                msg_printf(NULL, MSG_INFO, "[task] resuming GPU activity");
             }
+            request_schedule_cpus("GPU resumption");
+        } else if (!old_gpu_suspend_reason && gpu_suspend_reason) {
+            if (log_flags.task) {
+                msg_printf(NULL, MSG_INFO, "[task] suspending GPU activity");
+            }
+            request_schedule_cpus("GPU suspension");
         }
     }
 
     return 0;
 }
-
-
-void print_suspend_tasks_message(int reason) {
-    msg_printf(NULL, MSG_INFO, "Suspending computation - %s", suspend_reason_string(reason));
-}
-
 
 int CLIENT_STATE::suspend_tasks(int reason) {
     if (reason == SUSPEND_REASON_CPU_THROTTLE) {
@@ -311,7 +307,12 @@ int CLIENT_STATE::suspend_tasks(int reason) {
             msg_printf(NULL, MSG_INFO, "[cpu_sched] Suspending - CPU throttle");
         }
     } else {
-        print_suspend_tasks_message(reason);
+        if (log_flags.task) {
+            msg_printf(NULL, MSG_INFO,
+                "[task] Suspending computation - %s",
+                suspend_reason_string(reason)
+            );
+        }
     }
     active_tasks.suspend_all(reason);
     return 0;
@@ -324,7 +325,9 @@ int CLIENT_STATE::resume_tasks(int reason) {
         }
         active_tasks.unsuspend_all();
     } else {
-        msg_printf(NULL, MSG_INFO, "Resuming computation");
+        if (log_flags.task) {
+            msg_printf(NULL, MSG_INFO, "[task] Resuming computation");
+        }
         active_tasks.unsuspend_all();
         request_schedule_cpus("Resuming computation");
     }

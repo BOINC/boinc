@@ -768,6 +768,13 @@ bool CLIENT_STATE::poll_slow_events() {
         start_cpu_benchmarks();
     }
 
+#ifdef _WIN32
+    if (have_sysmon_msg) {
+        msg_printf(NULL, MSG_INFO, sysmon_msg);
+        have_sysmon_msg = false;
+    }
+#endif
+
     bool old_user_active = user_active;
     user_active = !host_info.users_idle(
         check_all_logins, global_prefs.idle_time_to_run
@@ -836,7 +843,10 @@ bool CLIENT_STATE::poll_slow_events() {
         //
         first = false;
         if (suspend_reason) {
-            print_suspend_tasks_message(suspend_reason);
+            msg_printf(NULL, MSG_INFO,
+                "Suspending computation - %s",
+                suspend_reason_string(suspend_reason)
+            );
         }
     }
     tasks_suspended = (suspend_reason != 0);

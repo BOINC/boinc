@@ -46,7 +46,7 @@ struct LOG_FLAGS {
     bool sched_ops;
         // interactions with schedulers
     bool task;
-        // task start and finish
+        // task start and finish, and suspend/resume
 
     // off by default; intended for developers and testers
     //
