@@ -174,7 +174,9 @@ int upload_files (
 int create_batch(
     const char* project_url,
     const char* authenticator,
-    SUBMIT_REQ& sr
+    const char* batch_name,
+    const char* app_name,
+    int& batch_id
 ) {
     char request[1024];
     char url[1024];
@@ -187,8 +189,8 @@ int create_batch(
         "      </batch>\n"
         "</create_batch>\n",
         authenticator,
-        sr.batch_name,
-        sr.app_name
+        batch_name,
+        app_name
     );
     sprintf(url, "%ssubmit_rpc_handler.php", project_url);
     FILE* reply = tmpfile();
@@ -199,13 +201,14 @@ int create_batch(
         return retval;
     }
     char buf[256];
-    sr.batch_id = 0;
+    batch_id = 0;
     fseek(reply, 0, SEEK_SET);
     while (fgets(buf, 256, reply)) {
-        if (parse_int(buf, "<batch_id>", sr.batch_id)) break;
+        printf("reply: %s", buf);
+        if (parse_int(buf, "<batch_id>", batch_id)) break;
     }
     fclose(reply);
-    if (sr.batch_id == 0) {
+    if (batch_id == 0) {
         return -1;
     }
     return 0;
