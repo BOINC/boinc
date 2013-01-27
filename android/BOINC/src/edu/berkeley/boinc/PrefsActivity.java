@@ -71,7 +71,7 @@ public class PrefsActivity extends Activity implements OnClickListener {
 	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context,Intent intent) {
-			Log.d(TAG+"-localClientStatusRecNoisy","received");
+			//Log.d(TAG+"-localClientStatusRecNoisy","received");
 			if(dataOutdated) { //cause activity to re-init layout
 				Log.d(TAG, "data was outdated, go directly to reinitPrefsLayout");
 				dataOutdated = false;
@@ -150,7 +150,7 @@ public class PrefsActivity extends Activity implements OnClickListener {
 			Log.d(TAG, "readPrefs: null, return false");
 			return false;
 		}
-		Log.d(TAG, "readPrefs done");
+		//Log.d(TAG, "readPrefs done");
 		return true;
 	}
 	
@@ -164,7 +164,7 @@ public class PrefsActivity extends Activity implements OnClickListener {
 			//init layout instead
 			reinitPrefsLayout();
 		} else {
-			Log.d(TAG, "loadSettings outdated: " + dataOutdated );
+			//Log.d(TAG, "loadSettings outdated: " + dataOutdated );
 			if(dataOutdated) { //data is not present or not current, show loading instead!
 				setContentView(R.layout.prefs_layout_loading);
 			} else {
@@ -178,6 +178,8 @@ public class PrefsActivity extends Activity implements OnClickListener {
 				((PrefsListItemWrapperDouble)data.get(5)).status = clientPrefs.daily_xfer_limit_mb;
 				
 				listAdapter.notifyDataSetChanged(); //force list adapter to refresh
+				
+				//Log.d(TAG,"max used pct: " + clientPrefs.disk_max_used_pct);
 			}
 		}
 	}
@@ -273,7 +275,7 @@ public class PrefsActivity extends Activity implements OnClickListener {
 			edit.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
 			break;
 		default:
-			Log.d(TAG,"onCreateDialog, couldnt match ID");
+			Log.d(TAG,"onCreateDialog, couldnt match ID"); 
 			break;
 			
 		}
@@ -310,7 +312,7 @@ public class PrefsActivity extends Activity implements OnClickListener {
 				break;
 			case R.string.prefs_disk_min_free_gb_header:
 				tmp=tmp.replaceAll(",","."); //replace e.g. European decimal seperator "," by "."
-				clientPrefs.disk_max_used_gb = Double.parseDouble(tmp);
+				clientPrefs.disk_min_free_gb = Double.parseDouble(tmp);
 				monitor.setPrefs(clientPrefs);
 				dataOutdated = true; //async write of client prefs started, data out dated until broadcast
 				break;
