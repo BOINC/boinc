@@ -160,21 +160,21 @@ void COPROCS::get(
     // Create descriptions for OpenCL NVIDIA GPUs
     //
     for (i=0; i<nvidia_opencls.size(); i++) {
-        nvidia_opencls[i].description(buf, GPU_TYPE_NVIDIA);
+        nvidia_opencls[i].description(buf, proc_type_name(PROC_TYPE_NVIDIA_GPU));
         descs.push_back(string(buf));
     }
 
     // Create descriptions for OpenCL ATI GPUs
     //
     for (i=0; i<ati_opencls.size(); i++) {
-        ati_opencls[i].description(buf, GPU_TYPE_ATI);
+        ati_opencls[i].description(buf, proc_type_name(PROC_TYPE_AMD_GPU));
         descs.push_back(string(buf));
     }
 
     // Create descriptions for OpenCL Intel GPUs
     //
     for (i=0; i<intel_gpu_opencls.size(); i++) {
-        intel_gpu_opencls[i].description(buf, GPU_TYPE_INTEL);
+        intel_gpu_opencls[i].description(buf, proc_type_name(PROC_TYPE_INTEL_GPU));
         descs.push_back(string(buf));
     }
 
