@@ -86,7 +86,8 @@ boinc_client_SOURCES = \
 
 boinc_client_DEPENDENCIES = $(LIBBOINC)
 boinc_client_CPPFLAGS = $(AM_CPPFLAGS)
-boinc_client_LDFLAGS = $(AM_LDFLAGS) -L../lib
+boinc_client_CXXFLAGS = $(AM_CXXFLAGS) $(SSL_CXXFLAGS)
+boinc_client_LDFLAGS = $(AM_LDFLAGS) $(SSL_LDFLAGS) -L../lib
 if OS_DARWIN
 boinc_client_LDFLAGS += -Wl,-flat_namespace,-undefined,dynamic_lookup
 endif

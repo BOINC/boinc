@@ -46,7 +46,7 @@ if test "x${SSL_LIBS}" = "x" ; then
       SSLDIR="${ssldir}"
       SSL_CFLAGS="-I$ssldir/include -I$ssldir/include/openssl";
       SSL_CXXFLAGS="-I$ssldir/include -I$ssldir/include/openssl";
-      SSL_LIBS="-L$ssldir -lssl -lcrypto -ldl -lz"
+      SSL_LIBS="-L$ssldir -L$ssldir/lib -lssl -lcrypto -ldl -lz"
       break;
     fi
     if test -f "$dir/include/ssl.h"; then
@@ -54,7 +54,7 @@ if test "x${SSL_LIBS}" = "x" ; then
       SSLDIR="${ssldir}"
       SSL_CFLAGS="-I$ssldir/include/"
       SSL_CXXFLAGS="-I$ssldir/include/"
-      SSL_LIBS="-L$ssldir -lssl -lcrypto"
+      SSL_LIBS="-L$ssldir -L$ssldir/lib -lssl -lcrypto"
       break;
     fi
   done
