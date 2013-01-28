@@ -77,7 +77,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
     $account->boincuser_name = db_result(db_query("SELECT name FROM {user} WHERE id = %d", $account->boincuser_id));
     $account->boincuser_total_credit = round(db_result(db_query("SELECT total_credit FROM {user} WHERE id = %d", $account->boincuser_id)));
     $account->boincuser_expavg_credit = round(db_result(db_query("SELECT expavg_credit FROM {user} WHERE id = %d", $account->boincuser_id)));
-    $account->boincuser_cpid = db_result(db_query("SELECT cross_project_id FROM {user} WHERE id = %d", $account->boincuser_id));
+    $account->boincuser_cpid = md5(db_result(db_query("SELECT cross_project_id FROM {user} WHERE id = %d", $account->boincuser_id)).$account->mail);
     db_set_active('default');
     // Set post count
     $account->post_count = db_result(db_query("SELECT COUNT(cid) FROM {comments} WHERE uid = '%d'", $account->uid));
