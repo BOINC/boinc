@@ -783,10 +783,12 @@ bool TASK::poll(int& status) {
     if (GetExitCodeProcess(pid_handle, &exit_code)) {
         if (exit_code != STILL_ACTIVE) {
             status = exit_code;
-            final_cpu_time = cpu_time();
-            if (final_cpu_time < current_cpu_time) {
-                final_cpu_time = current_cpu_time;
-            }
+            final_cpu_time = current_cpu_time;
+#ifdef DEBUG
+            fprintf(stderr, "process exited; current CPU %f final CPU %f\n",
+                current_cpu_time, final_cpu_time
+            );
+#endif
             return true;
         }
     }
@@ -800,7 +802,7 @@ bool TASK::poll(int& status) {
         final_cpu_time = (float)ru.ru_utime.tv_sec + ((float)ru.ru_utime.tv_usec)/1e+6;
         final_cpu_time -= start_rusage;
 #ifdef DEBUG
-        printf("process exited; current CPU %f final CPU %f\n",
+        fprintf(stderr, "process exited; current CPU %f final CPU %f\n",
             current_cpu_time, final_cpu_time
         );
 #endif
@@ -847,7 +849,13 @@ void TASK::resume() {
 // so it shouldn't be called too frequently.
 //
 double TASK::cpu_time() {
-    current_cpu_time = process_tree_cpu_time(pid);
+    double x = process_tree_cpu_time(pid);
+    // if the process has exited, the above could return zero.
+    // So update carefully.
+    //
+    if (x > current_cpu_time) {
+        current_cpu_time = x;
+    }
     return current_cpu_time;
 }
 
@@ -920,6 +928,8 @@ int main(int argc, char** argv) {
     double checkpoint_cpu_time;
         // total CPU time at last checkpoint
 
+    char buf[256];
+    _getcwd(buf, 256);
 #ifdef _WIN32
     SetPriorityClass(GetCurrentProcess(), NORMAL_PRIORITY_CLASS);
 #endif
@@ -1020,7 +1030,7 @@ int main(int argc, char** argv) {
                 cpu_time = task.cpu_time();
             }
 #ifdef DEBUG
-            printf("cpu time %f, checkpoint CPU time %f frac done %f\n",
+            fprintf(stderr, "cpu time %f, checkpoint CPU time %f frac done %f\n",
                 task.starting_cpu + cpu_time,
                 checkpoint_cpu_time,
                 frac_done + delta
@@ -1041,7 +1051,7 @@ int main(int argc, char** argv) {
         }
         checkpoint_cpu_time = task.starting_cpu + task.final_cpu_time;
 #ifdef DEBUG
-        printf("cpu time %f, checkpoint CPU time %f frac done %f\n",
+        fprintf(stderr, "cpu time %f, checkpoint CPU time %f frac done %f\n",
             task.starting_cpu + task.final_cpu_time,
             checkpoint_cpu_time,
             frac_done + task.weight/total_weight
