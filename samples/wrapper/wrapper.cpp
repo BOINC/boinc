@@ -928,8 +928,6 @@ int main(int argc, char** argv) {
     double checkpoint_cpu_time;
         // total CPU time at last checkpoint
 
-    char buf[256];
-    _getcwd(buf, 256);
 #ifdef _WIN32
     SetPriorityClass(GetCurrentProcess(), NORMAL_PRIORITY_CLASS);
 #endif
