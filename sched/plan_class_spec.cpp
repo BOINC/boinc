@@ -105,6 +105,28 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         return false;
     }
 
+    // BOINC versions 
+    //
+    if (min_core_client_version && sreq.core_client_version < min_core_client_version) {
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] plan_class_spec: Need newer BOINC core client: %d < %d\n",
+                sreq.core_client_version, min_core_client_version
+            );
+        }
+        add_no_work_message("A newer BOINC may be required for some tasks.");
+        return false;
+    }
+    if (max_core_client_version && sreq.core_client_version > max_core_client_version) {
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] plan_class_spec: Need older BOINC core client: %d > %d\n",
+                sreq.core_client_version, max_core_client_version
+            );
+        }
+        return false;
+    }
+
     if (virtualbox) {
 
         // host must run 7.0+ client
@@ -553,6 +575,8 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
             return 0;
         }
         if (xp.parse_str("name", name, sizeof(name))) continue;
+        if (xp.parse_int("min_core_client_version", min_core_client_version)) continue;
+        if (xp.parse_int("max_core_client_version", max_core_client_version)) continue;
         if (xp.parse_str("gpu_type", gpu_type, sizeof(gpu_type))) continue;
         if (xp.parse_bool("cuda", cuda)) continue;
         if (xp.parse_bool("cal", cal)) continue;
@@ -651,6 +675,8 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     have_os_regex = false;
     strcpy(project_prefs_tag, "");
     avg_ncpus = 0;
+    min_core_client_version=0;
+    max_core_client_version=0;
 
     cpu_frac = .1;
     min_gpu_ram_mb = 0;
