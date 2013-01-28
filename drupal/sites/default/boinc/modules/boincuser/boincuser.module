@@ -688,7 +688,7 @@ function boincuser_get_projects($account = null) {
   // Tie into the BOINC code and use CPID to get cross project stats
   require_boinc('user');
   $boinc_user = BoincUser::lookup_id($account->boincuser_id);
-  $account_stats = boincuser_get_stats_user_data($boinc_user->cross_project_id);
+  $account_stats = boincuser_get_stats_user_data($account->boincuser_cpid);
   
   return ($account_stats AND isset($account_stats->project)) ? $account_stats->project : null;
 }
