@@ -22,7 +22,7 @@ function discussion_forums_user_default_permissions() {
     'roles' => array(
       '0' => 'Forum Moderator',
       '1' => 'administrator',
-      '2' => 'moderator',
+      '2' => 'assistant moderator',
     ),
   );
 
@@ -48,7 +48,7 @@ function discussion_forums_user_default_permissions() {
     'name' => 'delete any forum topic',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'moderator',
+      '1' => 'assistant moderator',
     ),
   );
 
@@ -65,7 +65,7 @@ function discussion_forums_user_default_permissions() {
     'name' => 'edit any forum topic',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'moderator',
+      '1' => 'assistant moderator',
     ),
   );
 
