@@ -901,14 +901,16 @@ char* windows_format_error_string(
         NULL
     );
 
-    // convert from current character encoding into UTF8
-    std::string encoded_message = W2A(std::wstring(lpszTemp));
+    if (dwRet != 0) {
+        // convert from current character encoding into UTF8
+        std::string encoded_message = W2A(std::wstring(lpszTemp));
 
-    // include the hex error code as well
-    snprintf(pszBuf, iSize, "%s (0x%x)", encoded_message.c_str(), dwError);
+        // include the hex error code as well
+        snprintf(pszBuf, iSize, "%s (0x%x)", encoded_message.c_str(), dwError);
 
-    if (lpszTemp) {
-        LocalFree((HLOCAL) lpszTemp);
+        if (lpszTemp) {
+            LocalFree((HLOCAL) lpszTemp);
+        }
     }
 
     return pszBuf;
