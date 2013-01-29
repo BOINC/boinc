@@ -295,14 +295,14 @@ void OPENCL_DEVICE_PROP::description(char* buf, const char* type) {
 
     switch(is_used) {
     case COPROC_IGNORED:
-        sprintf(buf, "OpenCL: %s GPU %d (ignored by config): %s", type, device_num, s2);
+        sprintf(buf, "OpenCL: %s %d (ignored by config): %s", type, device_num, s2);
         break;
     case COPROC_USED:
-        sprintf(buf, "OpenCL: %s GPU %d: %s", type, device_num, s2);
+        sprintf(buf, "OpenCL: %s %d: %s", type, device_num, s2);
         break;
     case COPROC_UNUSED:
     default:
-        sprintf(buf, "OpenCL: %s GPU %d (not used): %s", type, device_num, s2);
+        sprintf(buf, "OpenCL: %s %d (not used): %s", type, device_num, s2);
         break;
     }
 }
