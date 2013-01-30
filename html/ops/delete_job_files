@@ -1,0 +1,60 @@
+#! /usr/bin/env php
+<?php
+// This file is part of BOINC.
+// http://boinc.berkeley.edu
+// Copyright (C) 2013 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+// delete job files for which
+// - the delete time is in the past, and
+// - any batch/file associations are to retired batches
+
+require_once("../inc/submit_db.inc");
+require_once("../inc/dir_hier.inc");
+
+$fanout = parse_config(get_config(), "<uldl_dir_fanout>");
+
+$t = local_time_str(time());
+echo "$t: delete_job_files: starting\n";
+$id = 0;
+while (1) {
+    $now = time();
+    $files = BoincJobFile::enum(
+        "id > $id and delete_time<$now order by id limit 1000"
+    );
+    if (empty($files)) break;
+    foreach ($files as $file) {
+        $id = $file->id;
+        $comp = BATCH_STATE_COMPLETE;
+        $db = BoincDb::get();
+        $query = "select * from ".$db->db_name.".batch_file_assoc as bfa join ".$db->db_name.".batch where bfa.job_file_id=$file->id and bfa.batch_id=batch.id and batch.state<$comp";
+        $result = $db->do_query($query);
+        if (!$result) {
+            die("query failed: $query\n");
+        }
+        $b = mysql_fetch_object($result);
+        if (!$b) continue;
+
+        $fname = job_file_name($file->md5);
+        $path = dir_hier_path($fname, "../../download", $fanout);
+        unlink($path);
+        echo "deleted $path\n";
+        BoincBatchFileAssoc::delete_aux("job_file_id=$file->id");
+        $file->delete();
+    }
+}
+$t = local_time_str(time());
+echo "$t: delete_job_files: done\n";
+?>
