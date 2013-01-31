@@ -1040,12 +1040,17 @@ int get_processor_features(char* vendor, char* features, int features_size) {
     FEATURE_TEST(std_supported, (std_edx & (1 << 28)), "htt ");
     FEATURE_TEST(std_supported, (std_edx & (1 << 29)), "tm ");
 
-    FEATURE_TEST(std_supported, (std_ecx & (1 << 0)), "pni ");
+    FEATURE_TEST(std_supported, (std_ecx & (1 << 0)), "pni ");		// should be named like it is definded - SSE3 and not PNI !
     FEATURE_TEST(std_supported, (std_ecx & (1 << 9)), "ssse3 ");
-    FEATURE_TEST(std_supported, (std_ecx & (1 << 13)), "cx16 ");
+	FEATURE_TEST(std_supported, (std_ecx & (1 << 12)), "fma ");		// removed from Intel only because AMD Family 15h & 16h support it too
+	FEATURE_TEST(std_supported, (std_ecx & (1 << 13)), "cx16 ");
     FEATURE_TEST(std_supported, (std_ecx & (1 << 19)), "sse4_1 ");
     FEATURE_TEST(std_supported, (std_ecx & (1 << 20)), "sse4_2 ");
+    FEATURE_TEST(std_supported, (std_ecx & (1 << 22)), "movebe ");	// removed from Intel only because AMD Family 16h support it too	
+    FEATURE_TEST(std_supported, (std_ecx & (1 << 23)), "popcnt ");	// removed from Intel only because AMD Family 10h/11h/12h/14h/15h/16h support it too
+    FEATURE_TEST(std_supported, (std_ecx & (1 << 25)), "aes ");		// removed from Intel only because AMD Family 15h & 16h support it too
 
+	
     FEATURE_TEST(ext_supported, (ext_edx & (1 << 11)), "syscall ");
     FEATURE_TEST(ext_supported, (ext_edx & (1 << 20)), "nx ");
     FEATURE_TEST(ext_supported, (ext_edx & (1 << 29)), "lm ");
@@ -1055,11 +1060,7 @@ int get_processor_features(char* vendor, char* features, int features_size) {
         FEATURE_TEST(std_supported, (std_ecx & (1 << 5)), "vmx ");
         FEATURE_TEST(std_supported, (std_ecx & (1 << 6)), "smx ");
         FEATURE_TEST(std_supported, (std_ecx & (1 << 8)), "tm2 ");
-        FEATURE_TEST(std_supported, (std_ecx & (1 << 12)), "fma ");
         FEATURE_TEST(std_supported, (std_ecx & (1 << 18)), "dca ");
-        FEATURE_TEST(std_supported, (std_ecx & (1 << 22)), "movebe ");
-        FEATURE_TEST(std_supported, (std_ecx & (1 << 23)), "popcnt ");
-        FEATURE_TEST(std_supported, (std_ecx & (1 << 25)), "aes ");
 
         FEATURE_TEST(std_supported, (std_edx & (1 << 31)), "pbe ");
     }
@@ -1075,7 +1076,10 @@ int get_processor_features(char* vendor, char* features, int features_size) {
         FEATURE_TEST(ext_supported, (ext_ecx & (1 << 13)), "wdt ");
         FEATURE_TEST(ext_supported, (ext_ecx & (1 << 15)), "lwp ");
         FEATURE_TEST(ext_supported, (ext_ecx & (1 << 16)), "fma4 ");
-        FEATURE_TEST(ext_supported, (ext_ecx & (1 << 18)), "cvt16 ");
+		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 17)), "tce ");		// new - translation cache extension
+		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 18)), "cvt16 ");
+		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 21)), "tbm ");		// new - trailing bit manipulation instruction
+		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 22)), "topx ");	// new - topology extensions
 
         FEATURE_TEST(ext_supported, (ext_edx & (1 << 26)), "page1gb ");
         FEATURE_TEST(ext_supported, (ext_edx & (1 << 27)), "rdtscp ");
