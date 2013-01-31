@@ -139,7 +139,7 @@ int process_input_files(SUBMIT_REQ& req) {
 
 // parse the text coming from Condor
 //
-int parse_boinc_submit(COMMAND& c, char* p, SUBMIT_REQ& req) {
+int parse_submit(COMMAND& c, char* p, SUBMIT_REQ& req) {
     strcpy(req.batch_name, strtok_r(NULL, " ", &p));
     strcpy(req.app_name, strtok_r(NULL, " ", &p));
     int njobs = atoi(strtok_r(NULL, " ", &p));
@@ -179,10 +179,10 @@ int parse_boinc_submit(COMMAND& c, char* p, SUBMIT_REQ& req) {
 // - create batch/file associations, and upload files
 // - create jobs
 //
-void handle_boinc_submit(COMMAND& c, char* p) {
+void handle_submit(COMMAND& c, char* p) {
     SUBMIT_REQ req;
     int retval;
-    retval = parse_boinc_submit(c, p, req);
+    retval = parse_submit(c, p, req);
     if (retval) {
         printf("error parsing request: %d\n", retval);
         return;
@@ -207,6 +207,43 @@ void handle_boinc_submit(COMMAND& c, char* p) {
     printf("success\n");
 }
 
+void handle_query_batch(COMMAND&c, char* p) {
+    int batch_id = atoi(strtok_r(NULL, " ", &p));
+    QUERY_BATCH_REPLY reply;
+    query_batch(project_url, authenticator, batch_id, reply);
+    for (unsigned int i=0; i<reply.jobs.size(); i++) {
+        QUERY_BATCH_JOB &j = reply.jobs[i];
+        printf("job %s: status %s\n", j.job_name.c_str(), j.status.c_str());
+    }
+}
+
+// <job name> <dir> 
+//    <#files>
+//        <dst name>
+//        ...
+//
+void handle_fetch_output(COMMAND& c, char* p) {
+    FETCH_OUTPUT_REQ req;
+    strcpy(req.job_name, strtok_r(NULL, " ", &p));
+    strcpy(req.dir, strtok_r(NULL, " ", &p));
+    req.file_names.clear();
+    int nfiles = atoi(strtok_r(NULL, " ", &p));
+    for (int i=0; i<nfiles; i++) {
+        char* f = strtok_r(NULL, " ", &p);
+        req.file_names.push_back(string(f));
+    }
+    for (int i=0; i<nfiles; i++) {
+        char path[1024];
+        sprintf(path, "%s/%s", req.dir, req.file_names[i].c_str());
+        int retval = get_output_file(
+            project_url, authenticator, req.job_name, i, path
+        );
+        if (retval) {
+            printf("get_output_file() returned %d\n", retval);
+        }
+    }
+}
+
 void* handle_command_aux(void* q) {
     COMMAND &c = *((COMMAND*)q);
     char *p;
@@ -215,7 +252,11 @@ void* handle_command_aux(void* q) {
     char* id = strtok_r(NULL, " ", &p);
     printf("handling cmd %s\n", cmd);
     if (!strcmp(cmd, "BOINC_SUBMIT")) {
-        handle_boinc_submit(c, p);
+        handle_submit(c, p);
+    } else if (!strcmp(cmd, "BOINC_QUERY_BATCH")) {
+        handle_query_batch(c, p);
+    } else if (!strcmp(cmd, "BOINC_FETCH_OUTPUT")) {
+        handle_fetch_output(c, p);
     } else {
         sleep(10);
         char buf[256];

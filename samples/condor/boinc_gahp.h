@@ -49,3 +49,19 @@ struct SUBMIT_REQ {
         // maps local path to info about file
     int batch_id;
 };
+
+struct QUERY_BATCH_JOB {
+    string job_name;
+    string status;
+    QUERY_BATCH_JOB(){}
+};
+
+struct QUERY_BATCH_REPLY {
+    vector<QUERY_BATCH_JOB> jobs;
+};
+
+struct FETCH_OUTPUT_REQ {
+    char job_name[256];
+    char dir[256];
+    vector<string> file_names;
+};

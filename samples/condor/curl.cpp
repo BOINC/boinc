@@ -28,6 +28,31 @@
 using std::vector;
 using std::string;
 
+// do an HTTP GET request.
+//
+static int do_http_get(
+    const char* url,
+    const char* dst_path
+) {
+    FILE* reply = fopen(dst_path, "w");
+    if (!reply) return -1;
+    CURL *curl = curl_easy_init();
+    if (!curl) {
+        return -1;
+    }
+    curl_easy_setopt(curl, CURLOPT_URL, url);
+    curl_easy_setopt(curl, CURLOPT_USERAGENT, "BOINC Condor adapter");
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, reply);
+
+    CURLcode res = curl_easy_perform(curl);
+    if (res != CURLE_OK) {
+        fprintf(stderr, "CURL error: %s\n", curl_easy_strerror(res));
+    }
+
+    curl_easy_cleanup(curl);
+    return 0;
+}
+
 // send an HTTP POST request,
 // with an optional set of multi-part file attachments
 //
@@ -217,7 +242,7 @@ int create_batch(
 int submit_jobs(
     const char* project_url,
     const char* authenticator,
-    SUBMIT_REQ req
+    SUBMIT_REQ &req
 ) {
     char buf[1024], url[1024];
     sprintf(buf,
@@ -275,4 +300,62 @@ int submit_jobs(
     }
     fclose(reply);
     return retval;
+}
+
+int query_batch(
+    const char* project_url,
+    const char* authenticator,
+    int batch_id,
+    QUERY_BATCH_REPLY& qb_reply
+) {
+    string request;
+    char url[1024], buf[256];
+    request = "<query_batch_condor>\n";
+    sprintf(buf, "<batch_id>%d</batch_id>\n", batch_id);
+    request += string(buf);
+    sprintf(buf, "<authenticator>%s</authenticator>\n", authenticator);
+    request += string(buf);
+    request += "</query_batch_condor>\n";
+    sprintf(url, "%ssubmit_rpc_handler.php", project_url);
+    FILE* reply = tmpfile();
+    vector<string> x;
+    int retval = do_http_post(url, request.c_str(), reply, x);
+    if (retval) {
+        fclose(reply);
+        return retval;
+    }
+    fseek(reply, 0, SEEK_SET);
+    retval = 0;
+    while (fgets(buf, 256, reply)) {
+        printf("query_batch reply: %s", buf);
+        if (strstr(buf, "error")) {
+            retval = -1;
+        }
+        if (strstr(buf, "<job>")) {
+            QUERY_BATCH_JOB qbj;
+            while (fgets(buf, 256, reply)) {
+                if (strstr(buf, "</job>")) {
+                    qb_reply.jobs.push_back(qbj);
+                }
+                if (parse_str(buf, "job_name", qbj.job_name)) continue;
+                if (parse_str(buf, "status", qbj.status)) continue;
+            }
+        }
+    }
+    fclose(reply);
+    return retval;
+}
+
+int get_output_file(
+    const char* project_url,
+    const char* authenticator,
+    const char* job_name,
+    int file_num,
+    const char* dst_path
+) {
+    char url[1024];
+    sprintf(url, "%sget_output.php?auth_str=%s&instance_name=%s&file_num=%d",
+        project_url, authenticator, job_name, file_num
+    );
+    return do_http_get(url, dst_path);
 }

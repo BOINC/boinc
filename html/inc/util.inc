@@ -869,6 +869,7 @@ function flops_to_credit($f) {
 function credit_to_gflop_hours($c) {
     return $c/(200/24);
 }
+
 function do_download($path,$name="") {
     if (strcmp($name,"") == 0) {
         $name=basename($path);

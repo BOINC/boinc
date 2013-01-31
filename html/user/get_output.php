@@ -50,7 +50,6 @@ function get_output_file($instance_name, $file_num, $auth_str) {
     $path = dir_hier_path($name, $upload_dir, $fanout);
     if (!is_file($path)) die("no such file $path");
     do_download($path);    
-
 }
 
 // get all the output files of a batch (canonical instances only)
@@ -85,7 +84,7 @@ function get_batch_output_files($batch_id, $auth_str) {
     unlink($zip_filename);
 }
 
-// get all the output files of a workunit (canonical instances only)
+// get all the output files of a workunit (canonical instance only)
 // and make a zip of all of them
 //
 function get_wu_output_files($wu_id, $auth_str) {
@@ -118,19 +117,18 @@ function get_wu_output_files($wu_id, $auth_str) {
         unlink($zip_basename);
 }
 
-
 $auth_str = get_str('auth_str');
 $instance_name = get_str('instance_name', true);
+$batch_id = get_int('batch_id' , true);
+$wu_id = get_int('wu_id');
 if ($instance_name) {
     $file_num = get_int('file_num');
     get_output_file($instance_name, $file_num, $auth_str);
+} else if ($batch_id) {
+    get_batch_output_files($batch_id, $auth_str);
+} else if ($wu_id) {
+    get_wu_output_files($wu_id, $auth_str);
 } else {
-    $batch_id = get_int('batch_id' , true);
-    if ($batch_id) {
-        get_batch_output_files($batch_id, $auth_str);
-    }   else {
-        $wu_id=get_int('wu_id');
-        get_wu_output_files($wu_id,$auth_str);
-    }
+    echo "bad command\n";
 }
 ?>
