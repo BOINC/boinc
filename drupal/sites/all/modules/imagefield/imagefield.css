@@ -1,9 +1,0 @@
-
-.filefield-element .imagefield-preview {
-  min-width: 100px;
-  min-height: 100px;
-}
-
-.filefield-element .imagefield-text {
-  max-width: 40em; /* Reflect the maxlength of the ALT attribute (80 characters). */
-}

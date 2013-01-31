@@ -1,7 +1,0 @@
-<?php
-
-function og_actions_disable() {
-  // Make sure our actions get wiped form the DB.
-  // TOOD: does not work because this module is still enabled in module_implements()?
-  actions_synchronize(array(), TRUE);
-}
