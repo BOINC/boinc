@@ -84,51 +84,84 @@ function get_batch_output_files($batch_id, $auth_str) {
     unlink($zip_filename);
 }
 
-// get all the output files of a workunit (canonical instance only)
-// and make a zip of all of them
+// return a single output file of a WU's canonical instance
 //
-function get_wu_output_files($wu_id, $auth_str) {
-        $wu = BoincWorkunit::lookup_id($wu_id);
-        if (!$wu) die("no workunit $wu_id");
-        $batch = BoincBatch::lookup_id($wu->batch);
-        if (!batch) die("no batch $wu->batch");
-        $user = BoincUser::lookup_id($batch->user_id);
-        if (!$user) die("no user $batch->user_id");
-        $x = md5($user->authenticator.$wu_id);
-        echo "user authenticator= $user->authenticator, wu_id=$wu_id<br/>";
-        if ($x != $auth_str) die("bad auth str: x=$x, auth_str=$auth_str");
-
-        $zip_basename = tempnam("/tmp", "boinc_wu_".$wu->name."_");
-        $zip_filename = $zip_basename.".zip";
-        $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
-        $upload_dir = parse_config(get_config(), "<upload_dir>");
-
-        if (!$wu->canonical_resultid) die("no canonical result for wu $wu->name");
-        $result = BoincResult::lookup_id($wu->canonical_resultid);
-        $names = get_outfile_names($result);
-        foreach ($names as $name) {
-            $path = dir_hier_path($name, $upload_dir, $fanout);
-            if (is_file($path)) {
-                system("nice -9 zip -jq $zip_basename $path");
-            }
-        }
-        do_download($zip_filename);
-        unlink($zip_filename);
-        unlink($zip_basename);
+function get_wu_output_file($wu_name, $file_num, $auth_str) {
+    $wu_name = BoincDb::escape_string($wu_name);
+    $wu = BoincWorkunit::lookup("name='$wu_name'");
+    if (!$wu) die("no workunit $wu_name");
+    $batch = BoincBatch::lookup_id($wu->batch);
+    if (!batch) die("no batch $wu->batch");
+    $user = BoincUser::lookup_id($batch->user_id);
+    if (!$user) die("no user $batch->user_id");
+    if ($user->authenticator != $auth_str) die("bad auth str: x=$x, auth_str=$auth_str");
+    $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
+    $upload_dir = parse_config(get_config(), "<upload_dir>");
+    if (!$wu->canonical_resultid) die("no canonical result for wu $wu->name");
+    $result = BoincResult::lookup_id($wu->canonical_resultid);
+    $names = get_outfile_names($result);
+    $path = dir_hier_path($names[$file_num], $upload_dir, $fanout);
+    if (file_exists($path)) {
+        do_download($path);
+    } else {
+        echo "no such file: $path";
+    }
 }
 
+// return a zip of all the output files of a workunit's canonical instance
+//
+function get_wu_output_files($wu_id, $auth_str) {
+    $wu = BoincWorkunit::lookup_id($wu_id);
+    if (!$wu) die("no workunit $wu_id");
+    $batch = BoincBatch::lookup_id($wu->batch);
+    if (!batch) die("no batch $wu->batch");
+    $user = BoincUser::lookup_id($batch->user_id);
+    if (!$user) die("no user $batch->user_id");
+    $x = md5($user->authenticator.$wu_id);
+    echo "user authenticator= $user->authenticator, wu_id=$wu_id<br/>";
+    if ($x != $auth_str) die("bad auth str: x=$x, auth_str=$auth_str");
+
+    $zip_basename = tempnam("/tmp", "boinc_wu_".$wu->name."_");
+    $zip_filename = $zip_basename.".zip";
+    $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
+    $upload_dir = parse_config(get_config(), "<upload_dir>");
+
+    if (!$wu->canonical_resultid) die("no canonical result for wu $wu->name");
+    $result = BoincResult::lookup_id($wu->canonical_resultid);
+    $names = get_outfile_names($result);
+    foreach ($names as $name) {
+        $path = dir_hier_path($name, $upload_dir, $fanout);
+        if (is_file($path)) {
+            system("nice -9 zip -jq $zip_basename $path");
+        }
+    }
+    do_download($zip_filename);
+    unlink($zip_filename);
+    unlink($zip_basename);
+}
+
+$cmd = get_str('cmd');
 $auth_str = get_str('auth_str');
-$instance_name = get_str('instance_name', true);
-$batch_id = get_int('batch_id' , true);
-$wu_id = get_int('wu_id');
-if ($instance_name) {
+switch ($cmd) {
+case 'result_file';
+    $result_name = get_str('result_name');
     $file_num = get_int('file_num');
-    get_output_file($instance_name, $file_num, $auth_str);
-} else if ($batch_id) {
+    get_output_file($result_name, $file_num, $auth_str);
+    break;
+case 'batch_files':
+    $batch_id = get_int('batch_id');
     get_batch_output_files($batch_id, $auth_str);
-} else if ($wu_id) {
+    break;
+case 'workunit_file':
+    $file_num = get_int('file_num');
+    $wu_name = get_str('wu_name');
+    get_wu_output_file($wu_name, $file_num, $auth_str);
+    break;
+case 'workunit_files':
+    $wu_id = get_int('wu_id');
     get_wu_output_files($wu_id, $auth_str);
-} else {
+    break;
+default:
     echo "bad command\n";
 }
 ?>

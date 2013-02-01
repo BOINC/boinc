@@ -354,8 +354,9 @@ int get_output_file(
     const char* dst_path
 ) {
     char url[1024];
-    sprintf(url, "%sget_output.php?auth_str=%s&instance_name=%s&file_num=%d",
+    sprintf(url, "%sget_output.php?cmd=workunit_file&auth_str=%s&wu_name=%s&file_num=%d",
         project_url, authenticator, job_name, file_num
     );
+    printf("fetching %s to %s\n", url, dst_path);
     return do_http_get(url, dst_path);
 }

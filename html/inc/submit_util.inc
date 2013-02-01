@@ -168,18 +168,18 @@ function batch_output_file_size($batchid) {
 function boinc_get_output_file_url($user, $result, $i) {
     $name = $result->name;
     $auth_str = md5($user->authenticator.$name);
-    return "get_output.php?instance_name=$name&file_num=$i&auth_str=$auth_str";
+    return "get_output.php?cmd=result_file&result_name=$name&file_num=$i&auth_str=$auth_str";
 }
 
 function boinc_get_output_files_url($user, $batch_id) {
     $auth_str = md5($user->authenticator.$batch_id);
-    return "get_output.php?batch_id=$batch_id&auth_str=$auth_str";
+    return "get_output.php?cmd=batch_files&batch_id=$batch_id&auth_str=$auth_str";
 }
 
 function boinc_get_wu_output_files_url($user, $wu_id) {
     
     //echo "url: user authenticator= $user->authenticator, wu_id=$wu_id<br/>";
     $auth_str =  md5($user->authenticator.$wu_id);
-    return "get_output.php?wu_id=$wu_id&auth_str=$auth_str";
+    return "get_output.php?cmd=workunit_files&wu_id=$wu_id&auth_str=$auth_str";
 }
 ?>
