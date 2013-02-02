@@ -15,13 +15,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <map>
+#include <stdio.h>
 #include <string>
 #include <vector>
+#include <map>
 
-using std::map;
 using std::string;
 using std::vector;
+using std::map;
 
 struct INFILE {
     char src_path[256];
@@ -65,3 +66,52 @@ struct FETCH_OUTPUT_REQ {
     char dir[256];
     vector<string> file_names;
 };
+
+//////////////////////////
+
+
+extern int query_files(
+    const char* project_url,
+    const char* authenticator,
+    int batch_id,
+    vector<string> &md5s,
+    vector<string> &paths,
+    vector<int> &absent_files
+);
+
+extern int upload_files (
+    const char* project_url,
+    const char* authenticator,
+    int batch_id,
+    vector<string> &md5s,
+    vector<string> &paths
+);
+
+extern int create_batch(
+    const char* project_url,
+    const char* authenticator,
+    const char* batch_name,
+    const char* app_name,
+    int &batch_id
+);
+
+extern int submit_jobs(
+    const char* project_url,
+    const char* authenticator,
+    SUBMIT_REQ &req
+);
+
+extern int query_batch(
+    const char* project_url,
+    const char* authenticator,
+    int batch_id,
+    QUERY_BATCH_REPLY& reply
+);
+
+extern int get_output_file(
+    const char* project_url,
+    const char* authenticator,
+    const char* job_name,
+    int file_num,
+    const char* dst_path
+);

@@ -23,7 +23,7 @@
 
 #include "parse.h"
 
-#include "curl.h"
+#include "job_rpc.h"
 
 using std::vector;
 using std::string;
