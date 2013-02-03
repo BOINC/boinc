@@ -199,7 +199,7 @@ function process_create_profile($user, $profile) {
 
     $response1 = post_str('response1', true);
     $response2 = post_str('response2', true);
-    $language = post_str('language');
+    $language = post_str('language', true);
 
     $privatekey = parse_config($config, "<recaptcha_private_key>");
     if ($privatekey) {
