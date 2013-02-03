@@ -21,23 +21,6 @@ require_once("../inc/util_ops.inc");
 require_once("../inc/uotd.inc");
 require_once("../project/project.inc");
 
-function svn_revision($path) {
-    $out = array();
-    $cmd = "svn info http://boinc.berkeley.edu/svn/$path";
-    if (defined("SVN_CONFIG_DIRECTORY")) {
-        $cmd .= " --config-dir ". SVN_CONFIG_DIRECTORY;
-    }
-    exec($cmd, $out);
-    foreach ($out as $line) {
-        $x = strstr($line, "Last Changed Rev: ");
-        if ($x) {
-            $y = substr($x, strlen("Last Changed Rev: "));
-            return (int) $y;
-        }
-    }
-    return null;
-}
-
 $config = get_config();
 $cgi_url = parse_config($config, "<cgi_url>");
 $stripchart_cgi_url = parse_config($config, "<stripchart_cgi_url>");
@@ -49,29 +32,6 @@ admin_page_head($title);
 
 // Notification area
 echo "<ul>\n";
-
-echo "<li>";
-if (file_exists("../../local.revision")) {
-    $local_rev = file_get_contents("../../local.revision");
-}
-if ($local_rev) {
-    echo "Using BOINC SVN revision: ".$local_rev."; ";
-}
-
-if (0
-//if (file_exists("../cache/remote.revision")
-//    && (time() < filemtime("../cache/remote.revision")+(24*60*60))
-) {
-    $remote_rev = file_get_contents("../cache/remote.revision");
-} else {
-    $remote_rev = svn_revision("branches/server_stable");
-}
-
-if ($remote_rev) {
-    echo "BOINC server_stable SVN revision: $remote_rev";
-} else {
-    echo "Can't get BOINC server_stable SVN revision";
-}
 
 if (!file_exists(".htaccess")) {
     echo "<li><span style=\"color: #ff0000\">The Project Management directory is not
