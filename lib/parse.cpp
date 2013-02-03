@@ -229,14 +229,23 @@ int copy_element_contents(FILE* in, const char* end_tag, char* p, int len) {
 }
 
 int copy_element_contents(FILE* in, const char* end_tag, string& str) {
-    char buf[256];
+    int c;
+    size_t end_tag_len = strlen(end_tag);
+    size_t n = 0;
 
     str = "";
-    while (fgets(buf, 256, in)) {
-        if (strstr(buf, end_tag)) {
-            return 0;
+    while (1) {
+        c = fgetc(in);
+        if (c == EOF) break;
+        if (n >= end_tag_len) {
+            const char* p = str.c_str() + n - end_tag_len;
+            if (!strcmp(p, end_tag)) {
+                str.erase(n-end_tag_len, end_tag_len);
+                return 0;
+            }
         }
-        str += buf;
+        str += c;
+        n++;
     }
     return ERR_XML_PARSE;
 }
