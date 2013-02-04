@@ -38,7 +38,7 @@ import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
-public class MainActivity extends TabActivity {
+public class BOINCActivity extends TabActivity {
 	
 	private final String TAG = "MainActivity"; 
 	
@@ -250,7 +250,7 @@ public class MainActivity extends TabActivity {
     	
         Log.d(TAG,"tab layout setup done");
 
-        MainActivity.logMessage(this, TAG, "tab setup finished");
+        BOINCActivity.logMessage(this, TAG, "tab setup finished");
     }
 
 	// triggered by click on noproject_warning, starts login activity
