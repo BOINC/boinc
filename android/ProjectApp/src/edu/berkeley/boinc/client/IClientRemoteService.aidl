@@ -33,6 +33,11 @@ interface IClientRemoteService {
 	/* Checks whether interface recipient is ready to serve commands.
 	 * returns success*/
 	boolean isReady();
+	
+	/* Returns the version code specified in AndroidManifest.xml.
+	 * can be used to detect new AIDL versions.
+	 * returns version code as Integer*/
+	 int getVersionCode();
 
 //== project management ==
 	/* Attach project to BOINC application.
