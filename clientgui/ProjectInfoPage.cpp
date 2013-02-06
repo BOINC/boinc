@@ -449,9 +449,11 @@ void CProjectInfoPage::OnProjectCategorySelected( wxCommandEvent& WXUNUSED(event
     }
 
     // Set the first item to be the selected item and then pop the next event.
-    m_pProjectsCtrl->SetSelection(0);
-    wxCommandEvent evtEvent(wxEVT_COMMAND_LISTBOX_SELECTED, ID_PROJECTS);
-    ProcessEvent(evtEvent);
+    if (m_pProjectsCtrl->GetCount() > 0) {
+        m_pProjectsCtrl->SetSelection(0);
+        wxCommandEvent evtEvent(wxEVT_COMMAND_LISTBOX_SELECTED, ID_PROJECTS);
+        ProcessEvent(evtEvent);
+    }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnProjectCategorySelected - Function End"));
 }
