@@ -23,10 +23,10 @@
 #include "util.h"
 
 
-class MemFSHashObj : public wxObject
+class BOINCMemFSHashObj : public wxObject
 {
 public:
-    MemFSHashObj(wxInputStream* stream, const wxString& mime, const wxString& key)
+    BOINCMemFSHashObj(wxInputStream* stream, const wxString& mime, const wxString& key)
     {
         if (stream) {
             wxMemoryOutputStream out;
@@ -43,7 +43,7 @@ public:
         m_Time = wxDateTime::Now();
     }
     
-    virtual ~MemFSHashObj()
+    virtual ~BOINCMemFSHashObj()
     {
         delete[] m_Data;
     }
@@ -54,7 +54,7 @@ public:
     wxDateTime m_Time;
     wxString m_Key;
 
-    DECLARE_NO_COPY_CLASS(MemFSHashObj)
+    DECLARE_NO_COPY_CLASS(BOINCMemFSHashObj)
 };
 
 
@@ -510,7 +510,7 @@ wxFSFile* CBOINCInternetFSHandler::OpenFile(wxFileSystem& WXUNUSED(fs), const wx
 
     if (m_Hash)
     {
-        MemFSHashObj* obj = (MemFSHashObj*)m_Hash->Get(strLocation);
+        BOINCMemFSHashObj* obj = (BOINCMemFSHashObj*)m_Hash->Get(strLocation);
         if (obj == NULL)
         {
             wxString right = GetProtocol(strLocation) + wxT(":") + StripProtocolAnchor(strLocation);
@@ -533,7 +533,7 @@ wxFSFile* CBOINCInternetFSHandler::OpenFile(wxFileSystem& WXUNUSED(fs), const wx
                     strMIME = GetMimeTypeFromExt(strLocation);
                 }
 
-                obj = new MemFSHashObj(m_InputStream, strMIME, strLocation);
+                obj = new BOINCMemFSHashObj(m_InputStream, strMIME, strLocation);
                 delete m_InputStream;
                 m_InputStream = NULL;
 
@@ -596,7 +596,7 @@ void CBOINCInternetFSHandler::UnchacheMissingItems() {
     wxHashTable::Node* node = m_Hash->Next();
     for(;;) {
         if (node == NULL) break;   // End of cache
-        MemFSHashObj* obj = (MemFSHashObj*)node->GetData();
+        BOINCMemFSHashObj* obj = (BOINCMemFSHashObj*)node->GetData();
         // We must get next node before deleting this one
         node = m_Hash->Next();
         if (obj->m_Len == 0) {
