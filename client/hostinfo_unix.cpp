@@ -444,6 +444,37 @@ bool HOST_INFO::host_is_running_on_batteries() {
 #endif
 }
 
+// Returns the percent of which the battery is charged
+//
+int HOST_INFO::host_battery_charge() {
+#if defined(ANDROID)
+    // using /sys/class/power_supply/battery/capacity
+    char capacitypath[256];
+    int capacity = 0;
+
+    snprintf(capacitypath, sizeof(capacitypath), "/sys/class/power_supply/battery/capacity");
+
+    FILE *battery_capacity_file = fopen(acpath, "r");
+    if(battery_capacity_file) {
+        fscanf(battery_capacity_file, "%d", &capacity);
+        fclose(battery_capacity_file);
+    }
+
+    if (capacity) {
+        char msg[1024];
+        snprintf(msg, sizeof(msg),
+            "battery capacity at: %d%% charge",
+            capacity
+        );
+        LOGD(msg);
+        return capacity;
+    }
+#endif
+    return 0;
+}
+
+
+
 #if LINUX_LIKE_SYSTEM
 static void parse_meminfo_linux(HOST_INFO& host) {
     char buf[256];

@@ -75,6 +75,7 @@ public:
     void print();
 
     bool host_is_running_on_batteries();
+    int host_battery_charge();
 #ifdef __APPLE__
     bool users_idle(bool check_all_logins, double idle_time_to_run, double *actual_idle_time=NULL);
 #else
