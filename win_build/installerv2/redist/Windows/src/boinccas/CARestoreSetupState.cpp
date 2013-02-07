@@ -85,7 +85,7 @@ UINT CARestoreSetupState::OnExecution()
         GetProperty( _T("OVERRIDE_LAUNCHPROGRAM"), strOverrideLaunchProgram );
         GetProperty( _T("OVERRIDE_ENABLELAUNCHATLOGON"), strOverrideEnableLaunchAtLogon );
         GetProperty( _T("OVERRIDE_ENABLESCREENSAVER"), strOverrideEnableScreensaver );
-        GetProperty( _T("OVERRIDE_ENABLEPROTECTEDAPPLICATIONEXECUTION2"), strOverrideEnableProtectedApplicationExecution );
+        GetProperty( _T("OVERRIDE_ENABLEPROTECTEDAPPLICATIONEXECUTION3"), strOverrideEnableProtectedApplicationExecution );
         GetProperty( _T("OVERRIDE_ENABLEUSEBYALLUSERS"), strOverrideEnableUseByAllUsers );
 
         GetRegistryValue( _T("INSTALLDIR"), strInstallDirectory );
@@ -93,7 +93,7 @@ UINT CARestoreSetupState::OnExecution()
         GetRegistryValue( _T("LAUNCHPROGRAM"), strLaunchProgram );
         GetRegistryValue( _T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon );
         GetRegistryValue( _T("ENABLESCREENSAVER"), strEnableScreensaver );
-        GetRegistryValue( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION2"), strEnableProtectedApplicationExecution );
+        GetRegistryValue( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"), strEnableProtectedApplicationExecution );
         GetRegistryValue( _T("ENABLEUSEBYALLUSERS"), strEnableUseByAllUsers );
 
         if (strOverrideInstallDirectory.empty()) {
@@ -109,31 +109,51 @@ UINT CARestoreSetupState::OnExecution()
         }
 
         if (strOverrideLaunchProgram.empty()) {
-            SetProperty( _T("LAUNCHPROGRAM"), strLaunchProgram );
+            if (_T("1") == strLaunchProgram) {
+                SetProperty( _T("LAUNCHPROGRAM"), _T("1") );
+            } else {
+                SetProperty( _T("LAUNCHPROGRAM"), _T("") );
+            }
         } else {
             SetProperty( _T("LAUNCHPROGRAM"), strOverrideLaunchProgram );
         }
 
         if (strOverrideEnableLaunchAtLogon.empty()) {
-            SetProperty( _T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon );
+            if (_T("1") == strEnableLaunchAtLogon) {
+                SetProperty( _T("ENABLELAUNCHATLOGON"), _T("1") );
+            } else {
+                SetProperty( _T("ENABLELAUNCHATLOGON"), _T("") );
+            }
         } else {
             SetProperty( _T("ENABLELAUNCHATLOGON"), strOverrideEnableLaunchAtLogon );
         }
 
         if (strOverrideEnableScreensaver.empty()) {
-            SetProperty( _T("ENABLESCREENSAVER"), strEnableScreensaver );
+            if (_T("1") == strEnableScreensaver) {
+                SetProperty( _T("ENABLESCREENSAVER"), _T("1") );
+            } else {
+                SetProperty( _T("ENABLESCREENSAVER"), _T("") );
+            }
         } else {
             SetProperty( _T("ENABLESCREENSAVER"), strOverrideEnableScreensaver );
         }
 
         if (strOverrideEnableProtectedApplicationExecution.empty()) {
-            SetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION2"), strEnableProtectedApplicationExecution );
+            if (_T("1") == strEnableProtectedApplicationExecution) {
+                SetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"), _T("1") );
+            } else {
+                SetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"), _T("") );
+            }
         } else {
-            SetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION2"), strOverrideEnableProtectedApplicationExecution );
+            SetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"), strOverrideEnableProtectedApplicationExecution );
         }
 
         if (strEnableUseByAllUsers.empty()) {
-            SetProperty( _T("ENABLEUSEBYALLUSERS"), strEnableUseByAllUsers );
+            if (_T("1") == strEnableUseByAllUsers) {
+                SetProperty( _T("ENABLEUSEBYALLUSERS"), _T("1") );
+            } else {
+                SetProperty( _T("ENABLEUSEBYALLUSERS"), _T("") );
+            }
         } else {
             SetProperty( _T("ENABLEUSEBYALLUSERS"), strOverrideEnableUseByAllUsers );
         }
