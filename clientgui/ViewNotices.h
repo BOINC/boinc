@@ -42,8 +42,8 @@ public:
     virtual wxString&       GetViewName();
     virtual wxString&       GetViewDisplayName();
     virtual const char**    GetViewIcon();
-    virtual const int       GetViewRefreshRate();
-    virtual const int       GetViewCurrentViewPage();
+    virtual int             GetViewRefreshRate();
+    virtual int             GetViewCurrentViewPage();
     void                    ReloadNotices();
 
 protected:
