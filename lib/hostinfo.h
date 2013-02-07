@@ -75,7 +75,6 @@ public:
     void print();
 
     bool host_is_running_on_batteries();
-    int host_battery_charge();
 #ifdef __APPLE__
     bool users_idle(bool check_all_logins, double idle_time_to_run, double *actual_idle_time=NULL);
 #else
@@ -85,6 +84,8 @@ public:
     bool host_wifi_online();
 #endif
     int get_host_info();
+    int get_host_battery_charge();
+    int get_host_battery_state();
     int get_local_network_info();
     int get_virtualbox_version();
     void clear_host_info();

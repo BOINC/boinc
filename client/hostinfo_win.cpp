@@ -28,6 +28,7 @@
 #endif
 
 #include "error_numbers.h"
+#include "common_defs.h"
 #include "filesys.h"
 #include "str_util.h"
 #include "str_replace.h"
@@ -1296,7 +1297,7 @@ bool HOST_INFO::host_is_running_on_batteries() {
     return (bIsOnBatteryPower && !bIsBatteryCharging && !bIsBatteryMissing);
 }
 
-int HOST_INFO::host_battery_charge() {
+int HOST_INFO::get_host_battery_charge() {
     SYSTEM_POWER_STATUS Status;
     ZeroMemory(&Status, sizeof(SYSTEM_POWER_STATUS));
     if (!GetSystemPowerStatus(&Status)) {
@@ -1305,6 +1306,30 @@ int HOST_INFO::host_battery_charge() {
 
     if (((int)Status.BatteryLifePercent) == 255) return 0;
     return ((int)Status.BatteryLifePercent);
+}
+
+int HOST_INFO::get_host_battery_state() {
+    SYSTEM_POWER_STATUS Status;
+    ZeroMemory(&Status, sizeof(SYSTEM_POWER_STATUS));
+    if (!GetSystemPowerStatus(&Status)) {
+        return false;
+    }
+
+    // Sometimes the system reports the ACLineStatus as an
+    //   undocumented value, so lets check to see if the
+    //   battery is charging or missing and make that part
+    //   of the decision.
+    bool bIsOnBatteryPower  = (Status.ACLineStatus != 1);
+    bool bIsBatteryCharging = ((Status.BatteryFlag & 8) == 8);
+
+    if        (bIsOnBatteryPower && !bIsBatteryCharging) {
+        return BATTERY_STATE_DISCHARGING;
+    } else if (((int)Status.BatteryLifePercent) == 100) {
+        return BATTERY_STATE_FULL;
+    } else if (bIsBatteryCharging) {
+        return BATTERY_STATE_CHARGING;
+    }
+    return BATTERY_STATE_UNKNOwN;
 }
 
 bool HOST_INFO::users_idle(bool /*check_all_logins*/, double idle_time_to_run) {

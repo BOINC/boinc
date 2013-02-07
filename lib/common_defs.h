@@ -109,6 +109,16 @@ enum SUSPEND_REASON {
     SUSPEND_REASON_WIFI_STATE = 8192
 };
 
+// bitmap defs for battery_state
+//
+enum BATTERY_STATE {
+    BATTERY_STATE_DISCHARGING = 1,
+    BATTERY_STATE_CHARGING = 2,
+    BATTERY_STATE_FULL = 4,
+    BATTERY_STATE_OVERHEAT = 8,
+    BATTERY_STATE_UNKNOwN = 16
+};
+
 // Values of RESULT::state in client.
 // THESE MUST BE IN NUMERICAL ORDER
 // (because of the > comparison in RESULT::computing_done())
