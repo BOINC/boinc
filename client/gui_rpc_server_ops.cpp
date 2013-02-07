@@ -137,7 +137,15 @@ static void handle_get_disk_usage(GUI_RPC_CONN& grc) {
     double size, boinc_non_project, d_allowed, boinc_total;
 
     grc.mfout.printf("<disk_usage_summary>\n");
-    get_filesystem_info(gstate.host_info.d_total, gstate.host_info.d_free);
+    int retval = get_filesystem_info(
+        gstate.host_info.d_total, gstate.host_info.d_free
+    );
+    if (retval) {
+        msg_printf(0, MSG_INTERNAL_ERROR,
+            "get_filesystem_info(): %s", boincerror(retval)
+        );
+    }
+
     dir_size(".", boinc_non_project, false);
     dir_size("locale", size, false);
     boinc_non_project += size;

@@ -1271,7 +1271,12 @@ int HOST_INFO::get_virtualbox_version() {
 // - only one level of #if
 //
 int HOST_INFO::get_host_info() {
-    get_filesystem_info(d_total, d_free);
+    int retval = get_filesystem_info(d_total, d_free);
+    if (retval) {
+        msg_printf(0, MSG_INTERNAL_ERROR,
+            "get_filesystem_info() failed: %s", boincerror(retval)
+        );
+    }
     get_virtualbox_version();
 
 ///////////// p_vendor, p_model, p_features /////////////////

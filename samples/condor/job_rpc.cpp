@@ -111,9 +111,9 @@ static int do_http_post(
 int query_files(
     const char* project_url,
     const char* authenticator,
-    int batch_id,
-    vector<string> &md5s,
     vector<string> &paths,
+    vector<string> &md5s,
+    int batch_id,
     vector<int> &absent_files
 ) {
     string req_msg;
@@ -157,9 +157,9 @@ int query_files(
 int upload_files (
     const char* project_url,
     const char* authenticator,
-    int batch_id,
+    vector<string> &paths,
     vector<string> &md5s,
-    vector<string> &paths
+    int batch_id
 ) {
     char buf[1024];
     string req_msg = "<upload_files>\n";

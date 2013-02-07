@@ -199,6 +199,7 @@
 #define ERR_CRYPTO          -231
 #define ERR_ABORTED_ON_EXIT -232
 #define ERR_PROC_PARSE      -235
+#define ERR_STATFS          -236
 
 // PLEASE: add a text description of your error to 
 // the text description function boincerror() in str_util.cpp.

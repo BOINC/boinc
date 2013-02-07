@@ -111,9 +111,9 @@ int process_input_files(SUBMIT_REQ& req) {
     retval = query_files(
         project_url,
         authenticator,
-        req.batch_id,
-        md5s,
         paths,
+        md5s,
+        req.batch_id,
         absent_files
     );
     if (retval) return retval;
@@ -129,9 +129,9 @@ int process_input_files(SUBMIT_REQ& req) {
     retval = upload_files(
         project_url,
         authenticator,
-        req.batch_id,
+        upload_paths,
         upload_md5s,
-        upload_paths
+        req.batch_id
     );
     if (retval) return retval;
     return 0;
