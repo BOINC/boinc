@@ -446,7 +446,7 @@ bool HOST_INFO::host_is_running_on_batteries() {
 }
 
 #ifdef ANDROID
-// Get battery state and charge percentage
+// Get battery state, charge percentage, and temperature
 //
 void HOST_INFO::get_battery_status() {
     char msg[1024];
@@ -494,6 +494,17 @@ void HOST_INFO::get_battery_status() {
     } else if (strstr(status, "Full")) {
         LOGD("battery is charging");
         battery_state = BATTERY_STATE_CHARGING;
+    }
+
+    battery_temperature_celsius = 0;
+    f = fopen("/sys/class/power_supply/battery/batt_temp", "r");
+    if (!f) {
+        f = fopen("/sys/class/power_supply/battery/temp", "r");
+    }
+    if (f) {
+        fscanf(f, "%d", &battery_temperature_celsius);
+        battery_temperature_celsius /= 10;
+        fclose(f);
     }
 }
 #endif

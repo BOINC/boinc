@@ -268,6 +268,16 @@ int CLIENT_STATE::check_suspend_processing() {
     }
 
 #ifdef ANDROID
+    // check for hot battery
+    //
+    host_info.get_battery_status();
+    if (host_info.battery_state == BATTERY_STATE_OVERHEATED) {
+        return SUSPEND_REASON_BATTERY_OVERHEATED;
+    }
+    if (host_info.battery_temperature_celsius > 45) {
+        return SUSPEND_REASON_BATTERY_OVERHEATED;
+    }
+
     // on some devices, running jobs can drain the battery even
     // while it's recharging.
     // So use the following hysteresis policy:
@@ -276,10 +286,6 @@ int CLIENT_STATE::check_suspend_processing() {
     // Repeat.
     //
     static bool hyst_state = true;
-    host_info.get_battery_status();
-    if (host_info.battery_state == BATTERY_STATE_OVERHEATED) {
-        return SUSPEND_REASON_BATTERY_OVERHEATED;
-    }
     int cp = host_info.battery_charge_pct;
     if (cp >= 0) {
         if (cp < 90) {
