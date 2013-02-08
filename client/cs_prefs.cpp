@@ -33,6 +33,7 @@
 #endif
 #endif
 
+#include "common_defs.h"
 #include "filesys.h"
 #include "parse.h"
 #include "str_util.h"
