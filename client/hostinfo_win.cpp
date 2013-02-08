@@ -1329,7 +1329,7 @@ int HOST_INFO::get_host_battery_state() {
     } else if (bIsBatteryCharging) {
         return BATTERY_STATE_CHARGING;
     }
-    return BATTERY_STATE_UNKNOwN;
+    return BATTERY_STATE_UNKNOWN;
 }
 
 bool HOST_INFO::users_idle(bool /*check_all_logins*/, double idle_time_to_run) {
