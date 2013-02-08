@@ -82,7 +82,7 @@ bool HOST_INFO::host_wifi_online() {
         return false;
     }
 
-    if (strstr(wifi_state,"up"))) {
+    if (strstr(wifi_state,"up")) {
         return true;
     }
     return false;
