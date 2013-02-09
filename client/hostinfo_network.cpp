@@ -63,8 +63,6 @@
 // if value cant be read, default return false
 //
 bool HOST_INFO::host_wifi_online() {
-    char wifipath_pri[1024];
-    char wifipath_sec[1024];
     char wifi_state[64];
 
     // location in Android 2.3
