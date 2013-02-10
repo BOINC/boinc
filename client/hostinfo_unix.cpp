@@ -228,25 +228,25 @@ bool HOST_INFO::host_is_running_on_batteries() {
     // using /sys/class/power_supply/*/online
     // power supplies are both ac and usb!
     //
-    char acpath[1024];
-    snprintf(acpath, sizeof(acpath), "/sys/class/power_supply/ac/online");
-    char usbpath[1024];
-    snprintf(usbpath, sizeof(usbpath), "/sys/class/power_supply/usb/online");
-
-    FILE *fsysac = fopen(acpath, "r");
-    FILE *fsysusb = fopen(usbpath, "r");
+    static bool first = true;
+    FILE *fsysac, *fsysusb;
+    if (first) {
+        first = false;
+        fsysac = fopen("/sys/class/power_supply/ac/online", "r");
+        fsysusb = fopen("/sys/class/power_supply/usb/online", "r");
+    }
     int aconline = 0;
     int usbonline = 0;
     bool power_supply_online = false;
 
-    if(fsysac) {
+    if (fsysac) {
+        rewind(fsysac);
         (void) fscanf(fsysac, "%d", &aconline);
-        fclose(fsysac);
     }
 
-    if(fsysusb) {
+    if (fsysusb) {
+        rewind(fsysusb);
         (void) fscanf(fsysusb, "%d", &usbonline);
-        fclose(fsysusb);
     }
 
     if ((aconline == 1) || (usbonline == 1)){
@@ -451,17 +451,26 @@ bool HOST_INFO::host_is_running_on_batteries() {
 void HOST_INFO::get_battery_status() {
     char msg[1024];
     battery_charge_pct = -1;
+    static bool first = true;
+    static FILE *fcap, *fhealth, *fstatus, *ftemp;
 
-    FILE *f = fopen("/sys/class/power_supply/battery/capacity", "r");
-    if (f) {
-        fscanf(f, "%d", &battery_charge_pct);
-        fclose(f);
+    if (first) {
+        first = false;
+        fcap = fopen("/sys/class/power_supply/battery/capacity", "r");
+        fhealth = fopen("/sys/class/power_supply/battery/health", "r");
+        fstatus = fopen("/sys/class/power_supply/battery/status", "r");
+        ftemp = fopen("/sys/class/power_supply/battery/batt_temp", "r");
+        if (!ftemp) {
+            ftemp = fopen("/sys/class/power_supply/battery/temp", "r");
+        }
     }
 
-    snprintf(msg, sizeof(msg),
-        "battery capacity at: %d%% charge",
-        capacity
-    );
+    if (fcap) {
+        rewind(fcap);
+        fscanf(fcap, "%d", &battery_charge_pct);
+    }
+
+    snprintf(msg, sizeof(msg), "battery capacity at: %d%% charge", capacity);
     LOGD(msg);
 
     char health[256];
@@ -469,16 +478,14 @@ void HOST_INFO::get_battery_status() {
     strcpy(health, "");
     strcpy(status, "");
 
-    f = fopen("/sys/class/power_supply/battery/health", "r");
-    if (f) {
-        fgets(health, sizeof(health), f);
-        fclose(f);
+    if (fhealth) {
+        rewind(fhealth);
+        fgets(health, sizeof(health), fhealth);
     }
 
-    f = fopen("/sys/class/power_supply/battery/status", "r");
-    if (f) {
-        fgets(status, sizeof(status), f);
-        fclose(f);
+    if (fstatus) {
+        rewind(fstatus);
+        fgets(status, sizeof(status), fstatus);
     }
 
     battery_state = BATTERY_STATE_UNKNOWN;
@@ -497,14 +504,12 @@ void HOST_INFO::get_battery_status() {
     }
 
     battery_temperature_celsius = 0;
-    f = fopen("/sys/class/power_supply/battery/batt_temp", "r");
-    if (!f) {
-        f = fopen("/sys/class/power_supply/battery/temp", "r");
-    }
-    if (f) {
-        fscanf(f, "%d", &battery_temperature_celsius);
-        battery_temperature_celsius /= 10;
-        fclose(f);
+    if (ftemp) {
+        rewind(ftemp);
+        int x;
+        if (fscanf(ftemp, "%d", &x) == 1) {
+            battery_temperature_celsius = x/10.;
+        }
     }
 }
 #endif
