@@ -162,9 +162,6 @@ mach_port_t gEventHandle = NULL;
 #include <X11/extensions/scrnsaver.h>
 #endif
 
-#ifdef ANDROID
-#include "android_log.h"
-#endif
 
 // The following is intended to be true both on Linux
 // and Debian GNU/kFreeBSD (see trac #521)
@@ -251,15 +248,17 @@ bool HOST_INFO::host_is_running_on_batteries() {
 
     if ((aconline == 1) || (usbonline == 1)){
         power_supply_online = true;
-        char msg[1024];
-        snprintf(msg, sizeof(msg),
-            "power supply online! status for usb: %d and ac: %d",
+        msg_printf(0, MSG_INFO,
+            "HOST_INFO::host_is_running_on_batteries(): power supply online! status for usb: %d and ac: %d\n",
             usbonline,
             aconline
         );
-        LOGD(msg);
     } else {
-        LOGD("running on batteries");
+        msg_printf(0, MSG_INFO,
+            "HOST_INFO::host_is_running_on_batteries(): running on batteries\n",
+            usbonline,
+            aconline
+        );
     }
 
     return !power_supply_online;
@@ -449,10 +448,13 @@ bool HOST_INFO::host_is_running_on_batteries() {
 // Get battery state, charge percentage, and temperature
 //
 void HOST_INFO::get_battery_status() {
-    char msg[1024];
-    battery_charge_pct = -1;
     static bool first = true;
     static FILE *fcap, *fhealth, *fstatus, *ftemp;
+    battery_charge_pct = -1;
+    char health[256];
+    char status[256];
+    strcpy(health, "");
+    strcpy(status, "");
 
     if (first) {
         first = false;
@@ -468,17 +470,11 @@ void HOST_INFO::get_battery_status() {
     if (fcap) {
         rewind(fcap);
         fscanf(fcap, "%d", &battery_charge_pct);
-        snprintf(msg, sizeof(msg),
-            "battery capacity at: %d%% charge",
+        msg_printf(0, MSG_INFO,
+            "HOST_INFO::get_battery_status(): battery capacity at: %d%% charge\n",
             battery_charge_pct
         );
-        LOGD(msg);
     }
-
-    char health[256];
-    char status[256];
-    strcpy(health, "");
-    strcpy(status, "");
 
     if (fhealth) {
         rewind(fhealth);
@@ -492,16 +488,16 @@ void HOST_INFO::get_battery_status() {
 
     battery_state = BATTERY_STATE_UNKNOWN;
     if (strstr(health, "Overheat")) {
-        LOGD("battery is overheating");
+        msg_printf(0, MSG_INFO, "HOST_INFO::get_battery_status(): battery is overheating\n");
         battery_state = BATTERY_STATE_OVERHEATED;
     } else if (strstr(status, "Not charging")) {
-        LOGD("battery is discharging");
+        msg_printf(0, MSG_INFO, "HOST_INFO::get_battery_status(): battery is discharging\n");
         battery_state = BATTERY_STATE_DISCHARGING;
     } else if (strstr(status, "Charging")) {
-        LOGD("battery is charging");
+        msg_printf(0, MSG_INFO, "HOST_INFO::get_battery_status(): battery is charging\n");
         battery_state = BATTERY_STATE_CHARGING;
     } else if (strstr(status, "Full")) {
-        LOGD("battery is charging");
+        msg_printf(0, MSG_INFO, "HOST_INFO::get_battery_status(): battery is full\n");
         battery_state = BATTERY_STATE_CHARGING;
     }
 
@@ -511,6 +507,9 @@ void HOST_INFO::get_battery_status() {
         int x;
         if (fscanf(ftemp, "%d", &x) == 1) {
             battery_temperature_celsius = x/10.;
+            msg_printf(0, MSG_INFO, "HOST_INFO::get_battery_status(): battery is %fC\n",
+                battery_temperature_celsius
+            );
         }
     }
 }

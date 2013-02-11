@@ -40,7 +40,7 @@ using std::deque;
 #include "client_msgs.h"
 
 #ifdef ANDROID
-#include "android_log.h"
+#include "android/log.h"
 #endif
 
 MESSAGE_DESCS message_descs;
@@ -121,18 +121,18 @@ void show_message(PROJ_AM *p, char* msg, int priority, bool is_html, const char*
     } else {
         x = "---";
     }
-#ifdef ANDROID // print message to Logcat
-    char amessage[2048];
-    snprintf(amessage, sizeof(amessage), "client_msgs: %s", message);
-    LOGD(amessage);
-#endif //ANDROID
     printf("%s [%s] %s\n", time_string, x, message);
-#ifdef _WIN32
-    if (gstate.executing_as_daemon) {
-        char event_message[2048];
-        sprintf(event_message, "%s [%s] %s\n", time_string,  x, message);
-        ::OutputDebugString(event_message);
-    }
+#if defined(_WIN32) || defined(ANDROID)
+    char message[2048];
+    snprintf(message, "%s [%s] %s\n", time_string,  x, message);
+
+#ifdef _WIN32      // print message to the debugger view port
+    ::OutputDebugString(message);  
+#endif
+#ifdef ANDROID     // print message to Logcat
+    __android_log_print(ANDROID_LOG_DEBUG, "BOINC", message)
+#endif 
+
 #endif
 }
 #endif

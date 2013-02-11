@@ -50,20 +50,21 @@
 #include "parse.h"
 #include "util.h"
 #include "file_names.h"
-#include "client_msgs.h"
 #include "error_numbers.h"
+
+#include "client_msgs.h"
 
 #include "hostinfo.h"
 
 #ifdef ANDROID
-#include "android_log.h"
-
 // Returns TRUE if host is currently using a wifi connection
 // used on Android devices to prevent usage of data plans.
 // if value cant be read, default return false
 //
 bool HOST_INFO::host_wifi_online() {
     char wifi_state[64];
+
+    strcpy(wifi_state, "");
 
     // location in Android 2.3
     FILE *f = fopen("/sys/class/net/eth0/operstate", "r");
@@ -76,7 +77,7 @@ bool HOST_INFO::host_wifi_online() {
         fgets(wifi_state, 64, f);
         fclose(f);
     } else {
-        LOGD("wifi adapter not found!");
+        msg_printf(0, MSG_INFO, "HOST_INFO::host_wifi_online(): wifi adapter not found!\n");
         return false;
     }
 

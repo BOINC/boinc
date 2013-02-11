@@ -46,10 +46,6 @@
 #include "file_names.h"
 #include "project.h"
 
-#ifdef ANDROID
-#include "android_log.h"
-#endif
-
 using std::min;
 using std::string;
 
@@ -424,7 +420,6 @@ void CLIENT_STATE::check_suspend_network() {
         file_xfers_suspended = true;
         if (!recent_rpc) network_suspended = true;
         network_suspend_reason = SUSPEND_REASON_WIFI_STATE;
-        LOGD("supended due to wifi state");
     }
 #endif
 
