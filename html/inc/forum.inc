@@ -596,10 +596,11 @@ function show_post(
             echo tra("Credit: %1", number_format($user->total_credit)) ."<br>";
             echo tra("RAC: %1",    number_format($user->expavg_credit))."<br>";
         }
+
         // to use this feature:
         // - get flags from http://www.famfamfam.com/lab/icons/flags/famfamfam_flag_icons.zip
         // - put the .png's in html/user/flags/
-        // - put define(COUNTRY_FLAGS, 1) in your html/project/project.inc
+        // - put define("COUNTRY_FLAGS", 1); in your html/project/project.inc
         //
         if (defined("COUNTRY_FLAGS")) {
             if (array_key_exists($user->country, $country_to_iso3166_2)) {
