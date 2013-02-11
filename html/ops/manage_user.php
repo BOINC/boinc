@@ -37,6 +37,7 @@ db_init();
 
 $is_admin = true;
 $Nbf = sizeof($special_user_bitfield);
+$q = null;
 
 // Delete a user (or at least try to)
 //
@@ -132,7 +133,9 @@ $id = get_int("userid", true);
 if (!$id) {
     $id = post_int("userid", true);
 }
+if (!$id) error_page("No ID given");
 $user = lookup_user_id($id);
+if (!$user) error_page("No such user: $id");
 
 // but clear if page was reset (forcing search form) 
 
