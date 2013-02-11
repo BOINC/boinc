@@ -87,7 +87,7 @@ void log_message_startup(const char* msg) {
 #elif defined(__EMX__)
 #elif defined (__APPLE__)
 #elif defined (ANDROID)
-        __android_log_print(ANDROID_LOG_INFO, "BOINC", evt_msg)
+        __android_log_print(ANDROID_LOG_INFO, "BOINC", evt_msg);
 #else
         syslog(LOG_DAEMON|LOG_INFO, evt_msg);
 #endif
@@ -119,7 +119,7 @@ void log_message_error(const char* msg) {
 #elif defined(__EMX__)
 #elif defined (__APPLE__)
 #elif defined (ANDROID)
-        __android_log_print(ANDROID_LOG_ERROR, "BOINC", evt_msg)
+        __android_log_print(ANDROID_LOG_ERROR, "BOINC", evt_msg);
 #else
         syslog(LOG_DAEMON|LOG_ERR, evt_msg);
 #endif
@@ -141,7 +141,7 @@ void log_message_error(const char* msg, int error_code) {
 #elif defined(__EMX__)
 #elif defined (__APPLE__)
 #elif defined (ANDROID)
-        __android_log_print(ANDROID_LOG_ERROR, "BOINC", evt_msg)
+        __android_log_print(ANDROID_LOG_ERROR, "BOINC", evt_msg);
 #else
         syslog(LOG_DAEMON|LOG_ERR, evt_msg);
 #endif
