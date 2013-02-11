@@ -122,18 +122,20 @@ void show_message(PROJ_AM *p, char* msg, int priority, bool is_html, const char*
         x = "---";
     }
     printf("%s [%s] %s\n", time_string, x, message);
+
 #if defined(_WIN32) || defined(ANDROID)
-    char message[2048];
-    snprintf(message, "%s [%s] %s\n", time_string,  x, message);
+    char evt_message[2048];
+    snprintf(evt_message, sizeof(evt_message), "%s [%s] %s\n", time_string,  x, message);
 
 #ifdef _WIN32      // print message to the debugger view port
-    ::OutputDebugString(message);  
+    ::OutputDebugString(evt_message);  
 #endif
 #ifdef ANDROID     // print message to Logcat
-    __android_log_print(ANDROID_LOG_DEBUG, "BOINC", message)
+    __android_log_print(ANDROID_LOG_INFO, "BOINC", evt_message)
 #endif 
 
 #endif
+
 }
 #endif
 
