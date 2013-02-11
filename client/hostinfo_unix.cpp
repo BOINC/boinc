@@ -1315,6 +1315,9 @@ int HOST_INFO::get_virtualbox_version() {
 
     if (boinc_file_exists(path)) {
 #if LINUX_LIKE_SYSTEM
+        if (access(path, X_OK)) {
+            return 0;
+        }
         safe_strcpy(cmd, path);
         safe_strcat(cmd, " --version");
 #elif defined( __APPLE__)
