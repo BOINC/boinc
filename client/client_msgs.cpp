@@ -131,7 +131,7 @@ void show_message(PROJ_AM *p, char* msg, int priority, bool is_html, const char*
     ::OutputDebugString(evt_message);  
 #endif
 #ifdef ANDROID     // print message to Logcat
-    __android_log_print(ANDROID_LOG_INFO, "BOINC", evt_message)
+    __android_log_print(ANDROID_LOG_INFO, "BOINC", evt_message);
 #endif 
 
 #endif
