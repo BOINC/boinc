@@ -102,6 +102,8 @@
     <string name="suspend_network_quota">BOINC reached network transfer limit.</string>
     <string name="suspend_os">Stopped by Android.</string>
     <string name="suspend_wifi">Can\'t fetch work, no WiFi connection!</string>
+    <string name="suspend_battery_charging">Your device\'s battery is charging.</string>
+    <string name="suspend_battery_overheating">Your device\'s battery is overheating.</string>
     
 	<!-- preferences tab strings -->
 	<string name="prefs_unbound">Reading preferences&#8230;</string>
