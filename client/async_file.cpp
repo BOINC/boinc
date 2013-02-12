@@ -288,7 +288,7 @@ int ASYNC_VERIFY::verify_chunk() {
             return 1;
         } else {
             size_t m = fwrite(buf, 1, n, out);
-            if (m != n) {
+            if (m != n || ferror(out)) {
                 // write failed
                 //
                 error(ERR_FWRITE);
@@ -298,7 +298,7 @@ int ASYNC_VERIFY::verify_chunk() {
         }
     } else {
         n = fread(buf, 1, BUFSIZE, in);
-        if (!n) {
+        if (!n || ferror(in)) {
             fclose(in);
             finish();
             return 1;
