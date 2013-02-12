@@ -51,7 +51,7 @@ arm-linux-androideabi-strip *
 cd ../../../../
 
 echo "Copy Assets"
-cd $BOINC/android
+cd android
 mkdir "BOINC/assets"
 cp "$BOINC/stage/usr/local/bin/boinc" "BOINC/assets/boinc"
 cp "$BOINC/win_build/installerv2/redist/all_projects_list.xml" "BOINC/assets/all_projects_list.xml"
