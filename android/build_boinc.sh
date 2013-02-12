@@ -48,9 +48,10 @@ make stage
 echo "Stripping Binaries"
 cd stage/usr/local/bin
 arm-linux-androideabi-strip *
-cd ../../../..
+cd ../../../../
 
 echo "Copy Assets"
+cd $BOINC/android
 mkdir "BOINC/assets"
 cp "$BOINC/stage/usr/local/bin/boinc" "BOINC/assets/boinc"
 cp "$BOINC/win_build/installerv2/redist/all_projects_list.xml" "BOINC/assets/all_projects_list.xml"
