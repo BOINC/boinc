@@ -50,6 +50,12 @@ cd stage/usr/local/bin
 arm-linux-androideabi-strip *
 cd ../../../..
 
+echo "Copy Assets"
+mkdir "BOINC/assets"
+cp "$BOINC/stage/usr/local/bin/boinc" "BOINC/assets/boinc"
+cp "$BOINC/win_build/installerv2/redist/all_projects_list.xml" "BOINC/assets/all_projects_list.xml"
+cp "$CURL_DIR/ca-bundle.crt" "BOINC/assets/ca-bundle.crt"
+
 echo "=============================BOINC done============================="
 
 fi

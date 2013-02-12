@@ -227,14 +227,15 @@ bool HOST_INFO::host_is_running_on_batteries() {
     //
     static bool first = true;
     FILE *fsysac, *fsysusb;
+    int aconline = 0;
+    int usbonline = 0;
+    bool power_supply_online = false;
+
     if (first) {
         first = false;
         fsysac = fopen("/sys/class/power_supply/ac/online", "r");
         fsysusb = fopen("/sys/class/power_supply/usb/online", "r");
     }
-    int aconline = 0;
-    int usbonline = 0;
-    bool power_supply_online = false;
 
     if (fsysac) {
         rewind(fsysac);
@@ -246,19 +247,8 @@ bool HOST_INFO::host_is_running_on_batteries() {
         (void) fscanf(fsysusb, "%d", &usbonline);
     }
 
-    if ((aconline == 1) || (usbonline == 1)){
+    if ((aconline == 1) || (usbonline == 1)) {
         power_supply_online = true;
-        msg_printf(0, MSG_INFO,
-            "HOST_INFO::host_is_running_on_batteries(): power supply online! status for usb: %d and ac: %d\n",
-            usbonline,
-            aconline
-        );
-    } else {
-        msg_printf(0, MSG_INFO,
-            "HOST_INFO::host_is_running_on_batteries(): running on batteries\n",
-            usbonline,
-            aconline
-        );
     }
 
     return !power_supply_online;
@@ -456,8 +446,6 @@ void HOST_INFO::get_battery_status() {
     strcpy(health, "");
     strcpy(status, "");
 
-    msg_printf(0, MSG_INFO, "HOST_INFO::get_battery_status(): Updating battery status\n");
-
     if (first) {
         first = false;
 
@@ -468,52 +456,31 @@ void HOST_INFO::get_battery_status() {
         if (!ftemp) {
             ftemp = fopen("/sys/class/power_supply/battery/temp", "r");
         }
-
-        msg_printf(0, MSG_INFO, 
-            "HOST_INFO::get_battery_status(): fcap = '%p', fhealth = '%p', fstatus = '%p', ftemp = '%p'\n",
-            fcap, fhealth, fstatus, ftemp
-        );
     }
 
     if (fcap) {
         rewind(fcap);
         fscanf(fcap, "%d", &battery_charge_pct);
-        msg_printf(0, MSG_INFO,
-            "HOST_INFO::get_battery_status(): battery capacity at: %d%% charge\n",
-            battery_charge_pct
-        );
     }
 
     if (fhealth) {
         rewind(fhealth);
         fgets(health, sizeof(health), fhealth);
-        msg_printf(0, MSG_INFO,
-            "HOST_INFO::get_battery_status(): battery health: '%s'\n",
-            health
-        );
     }
 
     if (fstatus) {
         rewind(fstatus);
         fgets(status, sizeof(status), fstatus);
-        msg_printf(0, MSG_INFO,
-            "HOST_INFO::get_battery_status(): battery status: '%s'\n",
-            status
-        );
     }
 
     battery_state = BATTERY_STATE_UNKNOWN;
     if (strstr(health, "Overheat")) {
-        msg_printf(0, MSG_INFO, "HOST_INFO::get_battery_status(): battery is overheating\n");
         battery_state = BATTERY_STATE_OVERHEATED;
     } else if (strstr(status, "Not charging")) {
-        msg_printf(0, MSG_INFO, "HOST_INFO::get_battery_status(): battery is discharging\n");
         battery_state = BATTERY_STATE_DISCHARGING;
     } else if (strstr(status, "Charging")) {
-        msg_printf(0, MSG_INFO, "HOST_INFO::get_battery_status(): battery is charging\n");
         battery_state = BATTERY_STATE_CHARGING;
     } else if (strstr(status, "Full")) {
-        msg_printf(0, MSG_INFO, "HOST_INFO::get_battery_status(): battery is full\n");
         battery_state = BATTERY_STATE_FULL;
     }
 
@@ -523,9 +490,6 @@ void HOST_INFO::get_battery_status() {
         rewind(ftemp);
         if (fscanf(ftemp, "%d", &x) == 1) {
             battery_temperature_celsius = x/10.;
-            msg_printf(0, MSG_INFO, "HOST_INFO::get_battery_status(): battery is %fC\n",
-                battery_temperature_celsius
-            );
         }
     }
 }
