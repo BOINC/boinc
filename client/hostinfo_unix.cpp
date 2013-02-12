@@ -498,7 +498,7 @@ void HOST_INFO::get_battery_status() {
         battery_state = BATTERY_STATE_CHARGING;
     } else if (strstr(status, "Full")) {
         msg_printf(0, MSG_INFO, "HOST_INFO::get_battery_status(): battery is full\n");
-        battery_state = BATTERY_STATE_CHARGING;
+        battery_state = BATTERY_STATE_FULL;
     }
 
     battery_temperature_celsius = 0;
