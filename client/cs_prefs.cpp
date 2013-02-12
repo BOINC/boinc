@@ -277,24 +277,12 @@ int CLIENT_STATE::check_suspend_processing() {
 
     // on some devices, running jobs can drain the battery even
     // while it's recharging.
-    // So use the following hysteresis policy:
-    // start computing when the batter is 95% charged.
-    // stop computing if it falls below 90%.
-    // Repeat.
+    // So compute only if 95% charged or more.
     //
-    static bool hyst_state = true;
     int cp = host_info.battery_charge_pct;
-    if (cp >= 0) {
-        if (cp < 90) {
-            hyst_state = true;
-            return SUSPEND_REASON_BATTERY_CHARGING;
-        }
+    if (cp >= 0)
         if (cp < 95) {
-            if (hyst_state) {
-                return SUSPEND_REASON_BATTERY_CHARGING;
-            }
-        } else {
-            hyst_state = false;
+            return SUSPEND_REASON_BATTERY_CHARGING;
         }
     }
 #endif
