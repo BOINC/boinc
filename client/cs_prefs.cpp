@@ -280,7 +280,7 @@ int CLIENT_STATE::check_suspend_processing() {
     // So compute only if 95% charged or more.
     //
     int cp = host_info.battery_charge_pct;
-    if (cp >= 0)
+    if (cp >= 0) {
         if (cp < 95) {
             return SUSPEND_REASON_BATTERY_CHARGING;
         }
