@@ -616,7 +616,7 @@ public class Monitor extends Service{
 	    		Log.d(TAG, "client copy successful");
 	    		
 	    		//copy client from assets to clientPath
-	    		InputStream clientCABudleAsset = getApplicationContext().getAssets().open(clientName); 
+	    		InputStream clientCABudleAsset = getApplicationContext().getAssets().open(clientCABundle); 
 	    		OutputStream clientCABundleData = new FileOutputStream(boincClientCABundle); 
 	    		b = new byte [1024];
 	    		while((read = clientCABudleAsset.read(b)) != -1){ 
