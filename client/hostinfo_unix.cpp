@@ -456,8 +456,11 @@ void HOST_INFO::get_battery_status() {
     strcpy(health, "");
     strcpy(status, "");
 
+    msg_printf(0, MSG_INFO, "HOST_INFO::get_battery_status(): Updating battery status\n");
+
     if (first) {
         first = false;
+
         fcap = fopen("/sys/class/power_supply/battery/capacity", "r");
         fhealth = fopen("/sys/class/power_supply/battery/health", "r");
         fstatus = fopen("/sys/class/power_supply/battery/status", "r");
@@ -465,6 +468,11 @@ void HOST_INFO::get_battery_status() {
         if (!ftemp) {
             ftemp = fopen("/sys/class/power_supply/battery/temp", "r");
         }
+
+        msg_printf(0, MSG_INFO, 
+            "HOST_INFO::get_battery_status(): fcap = '%p', fhealth = '%p', fstatus = '%p', ftemp = '%p'\n",
+            fcap, fhealth, fstatus, ftemp
+        );
     }
 
     if (fcap) {
@@ -479,11 +487,19 @@ void HOST_INFO::get_battery_status() {
     if (fhealth) {
         rewind(fhealth);
         fgets(health, sizeof(health), fhealth);
+        msg_printf(0, MSG_INFO,
+            "HOST_INFO::get_battery_status(): battery health: '%s'\n",
+            health
+        );
     }
 
     if (fstatus) {
         rewind(fstatus);
         fgets(status, sizeof(status), fstatus);
+        msg_printf(0, MSG_INFO,
+            "HOST_INFO::get_battery_status(): battery status: '%s'\n",
+            status
+        );
     }
 
     battery_state = BATTERY_STATE_UNKNOWN;
@@ -503,8 +519,8 @@ void HOST_INFO::get_battery_status() {
 
     battery_temperature_celsius = 0;
     if (ftemp) {
-        rewind(ftemp);
         int x;
+        rewind(ftemp);
         if (fscanf(ftemp, "%d", &x) == 1) {
             battery_temperature_celsius = x/10.;
             msg_printf(0, MSG_INFO, "HOST_INFO::get_battery_status(): battery is %fC\n",
