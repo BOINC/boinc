@@ -204,7 +204,7 @@ void CLIENT_STATE::get_disk_shares() {
 // and if it's zero set gpu_suspend_reason
 //
 int CLIENT_STATE::check_suspend_processing() {
-    if (are_cpu_benchmarks_running()) {
+    if (benchmarks_running) {
         return SUSPEND_REASON_BENCHMARKS;
     }
 
