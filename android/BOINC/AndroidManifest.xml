@@ -21,7 +21,7 @@
     package="edu.berkeley.boinc"
     
     android:versionCode="1"
-    android:versionName="7.1.0" >
+    android:versionName="7.0.51" >
     
 	<!-- specifiying target sdk changes the layout! android:targetSdkVersion="15" -->
     <uses-sdk android:minSdkVersion="9" />
