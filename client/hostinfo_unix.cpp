@@ -226,7 +226,7 @@ bool HOST_INFO::host_is_running_on_batteries() {
     // power supplies are both ac and usb!
     //
     static bool first = true;
-    FILE *fsysac, *fsysusb;
+    static FILE *fsysac, *fsysusb;
     int aconline = 0;
     int usbonline = 0;
     bool power_supply_online = false;
@@ -448,13 +448,12 @@ void HOST_INFO::get_battery_status() {
 
     if (first) {
         first = false;
-
         fcap = fopen("/sys/class/power_supply/battery/capacity", "r");
         fhealth = fopen("/sys/class/power_supply/battery/health", "r");
         fstatus = fopen("/sys/class/power_supply/battery/status", "r");
-        ftemp = fopen("/sys/class/power_supply/battery/batt_temp", "r");
+        ftemp = fopen("/sys/class/power_supply/battery/temp", "r");
         if (!ftemp) {
-            ftemp = fopen("/sys/class/power_supply/battery/temp", "r");
+            ftemp = fopen("/sys/class/power_supply/battery/batt_temp", "r");
         }
     }
 
