@@ -435,25 +435,80 @@ bool HOST_INFO::host_is_running_on_batteries() {
 }
 
 #ifdef ANDROID
+
 // Get battery state, charge percentage, and temperature
 //
+
+static const char* battery_dirs[] = {
+    "battery",
+    "BAT0",
+    "bq27520",
+    "bq27200-0",
+    "max17042-0",
+    "ds2760-battery.0",
+    NULL
+};
+
 void HOST_INFO::get_battery_status() {
     static bool first = true;
     static FILE *fcap, *fhealth, *fstatus, *ftemp;
+    FILE *f;
     battery_charge_pct = -1;
+    battery_temperature_celsius = 0;
+    char buf[256];
     char health[256];
     char status[256];
+
     strcpy(health, "");
     strcpy(status, "");
 
     if (first) {
         first = false;
-        fcap = fopen("/sys/class/power_supply/battery/capacity", "r");
-        fhealth = fopen("/sys/class/power_supply/battery/health", "r");
-        fstatus = fopen("/sys/class/power_supply/battery/status", "r");
-        ftemp = fopen("/sys/class/power_supply/battery/temp", "r");
-        if (!ftemp) {
-            ftemp = fopen("/sys/class/power_supply/battery/batt_temp", "r");
+
+        // Find the battery location for this device.
+        // matszpk has already collected a bunch of battery locations.
+        //
+        for (i = 0; battery_dirs[i] != NULL; i++) {
+            snprintf(buf, sizeof(buf), "/sys/class/power_supply/%s/present",
+                battery_dirs[i]
+            );
+            f = fopen(buf, "r");
+            if (f != NULL) {
+                fclose(f);
+                break;
+            }
+        }
+
+        snprintf(buf, sizeof(buf), "/sys/class/power_supply/%s/capacity",
+            battery_dirs[i]
+        );
+        fcap = fopen(buf, "r");
+        if (fcap) setbuf(fcap, NULL);
+
+        snprintf(buf, sizeof(buf), "/sys/class/power_supply/%s/health",
+            battery_dirs[i]
+        );
+        fhealth = fopen(buf, "r");
+        if (fhealth) setbuf(fhealth, NULL);
+
+        snprintf(buf, sizeof(buf), "/sys/class/power_supply/%s/status",
+            battery_dirs[i]
+        );
+        fstatus = fopen(buf, "r");
+        if (fstatus) setbuf(fstatus, NULL);
+
+        snprintf(buf, sizeof(buf), "/sys/class/power_supply/%s/temp",
+            battery_dirs[i]
+        );
+        ftemp = fopen(buf, "r");
+        if (ftemp) {
+            setbuf(ftemp, NULL);
+        } else {
+            snprintf(buf, sizeof(buf), "/sys/class/power_supply/%s/batt_temp",
+                battery_dirs[i]
+            );
+            ftemp = fopen(buf, "r");
+            if (ftemp) setbuf(ftemp, NULL);
         }
     }
 
@@ -483,7 +538,6 @@ void HOST_INFO::get_battery_status() {
         battery_state = BATTERY_STATE_FULL;
     }
 
-    battery_temperature_celsius = 0;
     if (ftemp) {
         int x;
         rewind(ftemp);
