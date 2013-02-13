@@ -464,6 +464,7 @@ void HOST_INFO::get_battery_status() {
 
     if (first) {
         first = false;
+        int i = 0;
 
         // Find the battery location for this device.
         // matszpk has already collected a bunch of battery locations.
