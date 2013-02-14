@@ -157,14 +157,16 @@ if (get_str2('all_platforms')) {
 	} else {
 		show_download('mac');
 	}
-} else if (strstr($client_info, 'Linux')) {
-    if (strstr($client_info, 'x86_64')) {
-        show_download('linuxx64');
-    } else {
-        show_download('linux');
-    }
-} else if (strstr($client_info, 'Android')) {
+} else if (strstr($client_info, 'Linux') && strstr($client_info, 'Android')) {
+	// Check for Android before Linux, since Android contains the Linux kernel and the
+	// web browser user agent string list Linux too.
 	show_download('android');
+} else if (strstr($client_info, 'Linux')) {
+	if (strstr($client_info, 'x86_64')) {
+		show_download('linuxx64');
+	} else {
+		show_download('linux');
+	}
 } else {
     show_download(null);
 }
