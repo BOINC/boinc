@@ -498,9 +498,6 @@ public class Monitor extends Service {
 				// Client process exists
 				Log.d(TAG, "client process exists with pid: " + clientPid);
 				
-				// Prevent the UI from getting in a loop where it launches a new instance of the client which shuts down
-				// because one is already running.
-				//
 				// Do not just kill the client on the first attempt.  That leaves dangling science applications running
 				// which causes repeated spawning of applications.  Neither the UI or client are happy and each are
 				// trying to recover from the situation.  Instead send SIGQUIT and give the client time to clean up.
