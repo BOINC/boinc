@@ -52,7 +52,7 @@ import edu.berkeley.boinc.rpc.Result;
 import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.rpc.Transfer;
 
-public class Monitor extends Service{
+public class Monitor extends Service {
 	
 	private final String TAG = "BOINC Client Monitor Service";
 	
@@ -134,6 +134,21 @@ public class Monitor extends Service{
 		}
     }
 	
+    /*
+     * this should not be reached
+    */
+    @Override
+    public void onDestroy() {
+    	Log.d(TAG,"onDestroy()");
+    	
+        // Cancel the persistent notification.
+    	((NotificationManager)getSystemService(Service.NOTIFICATION_SERVICE)).cancel(getResources().getInteger(R.integer.autostart_notification_id));
+        
+		quitClient();
+        
+        Toast.makeText(this, "service stopped", Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {	
     	//this gets called after startService(intent) (either by BootReceiver or AndroidBOINCActivity, depending on the user's autostart configuration)
@@ -151,22 +166,6 @@ public class Monitor extends Service{
 		return START_NOT_STICKY;
     }
 
-    /*
-     * this should not be reached
-    */
-    @Override
-    public void onDestroy() {
-    	Log.d(TAG,"onDestroy()");
-    	
-        // Cancel the persistent notification.
-    	((NotificationManager) getSystemService(Service.NOTIFICATION_SERVICE)).cancel(getResources().getInteger(R.integer.autostart_notification_id));
-        
-		quitClient();
-        
-        Toast.makeText(this, "service stopped", Toast.LENGTH_SHORT).show();
-    }
-
-    
     //sends broadcast about login (or register) result for login acitivty
 	private void sendLoginResultBroadcast(Integer type, Integer result, String message) {
         Intent loginResults = new Intent();
@@ -491,12 +490,41 @@ public class Monitor extends Service{
 		}
 		
 		private Boolean startUp() {
+			String clientProcessName = getResources().getString(R.string.client_path) + getResources().getString(R.string.client_name);
 			
-			//kill client of previous life-cycle
-			Integer clientPid = getPidForProcessName(getResources().getString(R.string.client_path) + getResources().getString(R.string.client_name));
-			if(clientPid!=null) { //client process exists
+			// Kill client of previous life-cycle
+			Integer clientPid = getPidForProcessName(clientProcessName);
+			if(clientPid != null) {
+				// Client process exists
 				Log.d(TAG, "client process exists with pid: " + clientPid);
-				android.os.Process.killProcess(clientPid);
+				
+				// Prevent the UI from getting in a loop where it launches a new instance of the client which shuts down
+				// because one is already running.
+				//
+				// Do not just kill the client on the first attempt.  That leaves dangling science applications running
+				// which causes repeated spawning of applications.  Neither the UI or client are happy and each are
+				// trying to recover from the situation.  Instead send SIGQUIT and give the client time to clean up.
+				//
+				android.os.Process.sendSignal(clientPid, android.os.Process.SIGNAL_QUIT);
+
+				// Wait for up to 15 seconds for the client to shutdown gracefully
+				for (Integer i = 0; i <= 15; i++) {
+					clientPid = getPidForProcessName(clientProcessName);
+					if(clientPid != null) {
+						try {
+							Thread.sleep(1000);
+						} catch (Exception e) {}
+					} else {
+						break;
+					}
+				}
+
+				// If the client has not shutdown by now, force terminate it
+				//
+				clientPid = getPidForProcessName(clientProcessName);
+				if(clientPid != null) {
+					android.os.Process.killProcess(clientPid);
+				}	
 			}
 			
 			//install and execute client
@@ -508,7 +536,8 @@ public class Monitor extends Service{
 			//try to connect to executed Client in loop
 			Boolean connected = false;
 			Integer counter = 0;
-			while(!(connected=connectClient()) && (counter<retryAttempts)) { //re-trys setting up the client several times, before giving up.
+			while(!(connected=connectClient()) && (counter<retryAttempts)) {
+				//re-trys setting up the client several times, before giving up.
 				BOINCActivity.logMessage(getApplicationContext(), TAG, "--- restart setup ---");
 				counter++;
 				try {

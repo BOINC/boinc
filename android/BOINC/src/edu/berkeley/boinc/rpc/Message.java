@@ -24,7 +24,7 @@ import java.io.Serializable;
 
 public class Message implements Serializable{
 	private static final long serialVersionUID = 1L;
-	public static final int MSG_INFO =1;
+	public static final int MSG_INFO = 1;
 	public static final int MSG_USER_ALERT = 2;
 	public static final int MSG_INTERNAL_ERROR = 3;
 	// internally used by client
