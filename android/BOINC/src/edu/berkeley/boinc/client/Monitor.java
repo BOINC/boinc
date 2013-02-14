@@ -631,7 +631,7 @@ public class Monitor extends Service {
 	    		}
 	    		
 	    		//copy client from assets to clientPath
-	    		InputStream asset = getApplicationContext().getAssets().open(clientPath + file); 
+	    		InputStream asset = getApplicationContext().getAssets().open(file); 
 	    		OutputStream targetData = new FileOutputStream(target); 
 	    		b = new byte [1024];
 	    		while((read = asset.read(b)) != -1){ 
