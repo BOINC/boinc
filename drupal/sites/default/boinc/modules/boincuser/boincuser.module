@@ -187,7 +187,9 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
       if ($edit['update_source'] == 'user_account') {
         // Ensure that BOINC data is altered
         $boinc_user = lookup_user_id($account->boincuser_id);
-        if ($edit['pass'] OR $edit['mail']) {
+        $changing_email = ($edit['mail'] AND $edit['mail'] != $boinc_user->email_addr) ? true : false;
+        $changing_pass = ($edit['pass']) ? true : false;
+        if ($changing_email OR $changing_pass) {
           // Set password hash appropriately
           $passwd = ($edit['pass']) ? $edit['pass'] : $edit['current_pass'];
           $passwd_hash = md5($passwd.$edit['mail']);
@@ -287,6 +289,7 @@ function boincuser_views_api() {
 * Implementation of hook_form_alter()
 */
 function boincuser_form_alter(&$form, $form_state, $form_id) {
+  global $user;
   switch ($form_id) {
   // Login form
   case 'user_login':
@@ -340,6 +343,9 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       $_SESSION['reset_pass'] = 1;
     }
     
+    $form['account']['name']['#size'] = 40;
+    $form['account']['mail']['#size'] = 40;
+    
     // Add the BOINC user name (non-unique, user editable)
     $account = user_load($form['#uid']);
     if (!$edit['boincuser_name']) $edit['boincuser_name'] = $account->boincuser_name;
@@ -349,10 +355,11 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       '#default_value' => $edit['boincuser_name'],
       '#maxlength' => USERNAME_MAX_LENGTH,
       '#required' => TRUE,
-      '#description' => t('Spaces are allowed; punctuation is not allowed except for periods, hyphens, and underscores.')
+      '#description' => t(''),
+      '#size' => 40
     );
     
-    if (!$reset_pass) {
+    if (!$reset_pass AND ($user->uid == $account->uid OR !user_access('administer users'))) {
       // Add a password authenticator, required to change email or pw
       $form['account']['current_pass'] = array(
         '#type' => 'password',

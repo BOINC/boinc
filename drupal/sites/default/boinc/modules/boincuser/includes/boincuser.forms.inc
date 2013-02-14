@@ -220,7 +220,6 @@ function boincuser_create_drupal_profile($account, $boinc_user) {
   $profile_node->sticky = 0;
   $profile_node->format = $default_input_format;
   $profile_node->uid = $account->uid;
-  $profile_node->field_display_name[]['value'] = $boinc_user->name;
   $profile_node->field_country[]['value'] = $boinc_user->country;
   $profile_node->field_zip[]['value'] = $boinc_user->postal_code;
   $profile_node->field_url[]['value'] = $boinc_user->url;
@@ -304,7 +303,7 @@ function boincuser_account_validate($edit, $account) {
     }
   }
   
-  if ($changing_email OR $changing_pass) {
+  if (($changing_email OR $changing_pass) AND !user_access('administer users')) {
     // If changing email or password, require current password
     // (except in cases where password is being reset)
     if (isset($_SESSION['reset_pass'])) {
