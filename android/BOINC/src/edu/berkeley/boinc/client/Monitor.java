@@ -60,8 +60,10 @@ public class Monitor extends Service {
 	private static AppPreferences appPrefs; //hold the status of the app, controlled by AppPreferences
 	
 	private String clientName; 
+	private String clientCLI; 
 	private String clientCABundle; 
 	private String authFileName; 
+	private String allProjectsList; 
 	private String clientPath; 
 	
 	private Boolean started = false;
@@ -115,10 +117,12 @@ public class Monitor extends Service {
 		Log.d(TAG,"onCreate()");
 		
 		//populate attributes with XML resource values
+		clientPath = getString(R.string.client_path); 
 		clientName = getString(R.string.client_name); 
+		clientCLI = getString(R.string.client_cli); 
 		clientCABundle = getString(R.string.client_cabundle); 
 		authFileName = getString(R.string.auth_file_name); 
-		clientPath = getString(R.string.client_path); 
+		allProjectsList = getString(R.string.all_projects_list); 
 		
 		// initialize singleton helper classes and provide application context
 		getClientStatus().setCtx(this);
@@ -166,7 +170,7 @@ public class Monitor extends Service {
 		return START_NOT_STICKY;
     }
 
-    //sends broadcast about login (or register) result for login acitivty
+    //sends broadcast about login (or register) result for login activity
 	private void sendLoginResultBroadcast(Integer type, Integer result, String message) {
         Intent loginResults = new Intent();
         loginResults.setAction("edu.berkeley.boinc.loginresults");
@@ -250,7 +254,7 @@ public class Monitor extends Service {
     		// verify success of projectAttach with poll function
     		success = false;
     		Integer counter = 0;
-    		Integer sleepDuration = 500; //in mili seconds
+    		Integer sleepDuration = 500; //in milliseconds
     		Integer maxLoops = maxDuration / sleepDuration;
     		while(!success && (counter < maxLoops)) {
     			try {
@@ -283,7 +287,7 @@ public class Monitor extends Service {
     	if(success) { //only continue if lookupAccount command did not fail
     		//get authentication token from lookupAccountPoll
     		Integer counter = 0;
-    		Integer sleepDuration = 500; //in mili seconds
+    		Integer sleepDuration = 500; //in milliseconds
     		Integer maxLoops = maxDuration / sleepDuration;
     		Boolean loop = true;
     		while(loop && (counter < maxLoops)) {
@@ -348,7 +352,7 @@ public class Monitor extends Service {
     	if(success) { //only continue if attach command did not fail
     		// verify success of projectAttach with poll function
     		Integer counter = 0;
-    		Integer sleepDuration = 500; //in mili seconds
+    		Integer sleepDuration = 500; //in milliseconds
     		Integer maxLoops = maxDuration / sleepDuration;
     		Boolean loop = true;
     		while(loop && (counter < maxLoops)) {
@@ -490,7 +494,7 @@ public class Monitor extends Service {
 		}
 		
 		private Boolean startUp() {
-			String clientProcessName = getResources().getString(R.string.client_path) + getResources().getString(R.string.client_name);
+			String clientProcessName = clientPath + clientName;
 			
 			// Kill client of previous life-cycle
 			Integer clientPid = getPidForProcessName(clientProcessName);
@@ -571,7 +575,7 @@ public class Monitor extends Service {
 	        return success;
 		}
 		
-		// copies client binaries from apk to install directory and exetuces them.
+		// copies client binaries from apk to install directory and executes the BOINC client software.
 		private Boolean setupClient() {
 			Boolean success = false;
 	
@@ -597,76 +601,78 @@ public class Monitor extends Service {
 	        }
 	        return success;
 		}
-
-
-		// copies the binaries of BOINC client from assets directory into storage space of this application
-	    private Boolean installClient(Boolean overwrite){
-	    	Boolean success = false;
+		
+		private Boolean installFile(String file, Boolean overwrite) {
+	    	Boolean success = true;
 	    	byte[] b;
     		int read; 
-
+			
     		try {
+    			Log.d(TAG,"installing: " + file);
 	    		
-	    		//end execution if no overwrite
-	    		File boincClient = new File(clientPath+clientName);
-	    		if (boincClient.exists() && !overwrite) {
-	    			Log.d(TAG,"client exists, skip installation...");
+	    		// end execution if file already exists and we do not need to overwrite
+	    		File target = new File(clientPath + file);
+	    		if (target.exists() && !overwrite) {
+	    			Log.d(TAG,"file exists, skip installation...");
 	    			return true;
 	    		}
-	    		File boincClientCABundle = new File(clientPath+clientCABundle);
 	    		
-	    		//delete old client
-	    		if(boincClient.exists() && overwrite) {
-	    			Log.d(TAG,"delete old client");
-	    			boincClient.delete();
-	    			boincClientCABundle.delete();
+	    		//delete old target
+	    		if(target.exists() && overwrite) {
+	    			Log.d(TAG,"delete old file");
+	    			target.delete();
 	    		}
 	    		
 	    		//check path and create it
-	    		File clientDir = new File(clientPath);
-	    		if(!clientDir.exists()) {
-	    			clientDir.mkdir();
-	    			clientDir.setWritable(true); 
+	    		File installDir = new File(clientPath);
+	    		if(!installDir.exists()) {
+	    			installDir.mkdir();
+	    			installDir.setWritable(true); 
 	    		}
 	    		
 	    		//copy client from assets to clientPath
-	    		InputStream clientAsset = getApplicationContext().getAssets().open(clientName); 
-	    		OutputStream clientData = new FileOutputStream(boincClient); 
+	    		InputStream asset = getApplicationContext().getAssets().open(clientPath + file); 
+	    		OutputStream targetData = new FileOutputStream(target); 
 	    		b = new byte [1024];
-	    		while((read = clientAsset.read(b)) != -1){ 
-	    			clientData.write(b,0,read);
+	    		while((read = asset.read(b)) != -1){ 
+	    			targetData.write(b, 0, read);
 	    		}
-	    		clientAsset.close(); 
-	    		clientData.flush(); 
-	    		clientData.close();
-	    		Log.d(TAG, "client copy successful");
-	    		
-	    		//copy client from assets to clientPath
-	    		InputStream clientCABudleAsset = getApplicationContext().getAssets().open(clientCABundle); 
-	    		OutputStream clientCABundleData = new FileOutputStream(boincClientCABundle); 
-	    		b = new byte [1024];
-	    		while((read = clientCABudleAsset.read(b)) != -1){ 
-	    			clientCABundleData.write(b,0,read);
-	    		}
-	    		clientCABudleAsset.close(); 
-	    		clientCABundleData.flush(); 
-	    		clientCABundleData.close();
-	    		Log.d(TAG, "client ca bundle copy successful");
-	    		
-	    		
-	    		boincClient.setExecutable(true);
-	    		success = boincClient.canExecute();
-	    		Log.d(TAG, "native client file in app space is executable: " + success);  
+	    		asset.close(); 
+	    		targetData.flush(); 
+	    		targetData.close();
+	    		Log.d(TAG, "install successful");
+    		
 	    	}
 	    	catch (IOException ioe) {  
 	    		Log.d(TAG, "Exception: " + ioe.getMessage());
 	    		Log.e(TAG, "IOException", ioe);
+	    		success = false;
 	    	}
+			
+			return success;
+		}
+
+		// copies the binaries of BOINC client from assets directory into storage space of this application
+	    private Boolean installClient(Boolean overwrite){
+	    	Boolean success = false;
+
+			installFile(clientName, overwrite);
+			installFile(clientCLI, overwrite);
+			installFile(clientCABundle, overwrite);
+			installFile(allProjectsList, overwrite);
+    		
+    		// end execution if no overwrite
+    		File boincClient = new File(clientPath + clientName);
+    		boincClient.setExecutable(true);
+    		success = boincClient.canExecute();
+    		Log.d(TAG, "native client file in app space is executable: " + success);
+    		
+    		File boincCLI = new File(clientPath + clientCLI);
+    		boincCLI.setExecutable(true);
 	    	
 	    	return success; 
 	    }
 	    
-
 	    // executes the BOINC client using the Java Runtime exec method.
 	    private Boolean runClient() {
 	    	Boolean success = false;
