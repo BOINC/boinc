@@ -1,6 +1,0 @@
-// $Id: DEVELOPER.txt,v 1.5.2.3 2008/10/28 01:42:48 yched Exp $
-
-DEVELOPER DOCUMENTATION
-UPDATING FROM 5.x TO 6.x
-
-See http://drupal.org/node/191796 for a guide to updating field modules.

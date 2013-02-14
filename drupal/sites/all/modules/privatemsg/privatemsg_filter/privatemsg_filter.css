@@ -1,9 +1,0 @@
-
-form#privatemsg-filter-dropdown #edit-author-wrapper, form#privatemsg-filter-dropdown #edit-tags-wrapper {
-  float: left;
-  margin-right: 3em;
-}
-
-form#privatemsg-filter-dropdown #privatemsg-filter-buttons {
-  clear: left;
-}
