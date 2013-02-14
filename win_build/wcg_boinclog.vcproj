@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="boinccmd"
-	ProjectGUID="{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}"
+	Name="boinclog"
+	ProjectGUID="{3A8DFC5C-D169-4BB6-8282-EBD3D1318140}"
 	RootNamespace="boinc_guirpctest"
 	>
 	<Platforms>
@@ -466,7 +466,7 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath="..\client\boinc_cmd.cpp"
+				RelativePath="..\client\boinc_log.cpp"
 				>
 			</File>
 			<File
@@ -587,7 +587,7 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
-				RelativePath="..\client\win\boinc_cmd.h"
+				RelativePath="..\client\win\boinc_log.h"
 				>
 			</File>
 			<File
@@ -604,7 +604,7 @@
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 			>
 			<File
-				RelativePath="..\client\win\boinc_cmd.rc"
+				RelativePath="..\client\win\boinc_log.rc"
 				>
 			</File>
 		</Filter>

@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="boinc"
-	ProjectGUID="{C04F0FCC-BB5D-4627-8656-6173B28BD69E}"
-	RootNamespace="boinc_cli"
+	Name="boinc_os_ss"
+	ProjectGUID="{4A2C5963-6A8D-4CA1-A312-C3D749B2EA81}"
+	RootNamespace="boinc_ss"
 	>
 	<Platforms>
 		<Platform
@@ -23,7 +23,7 @@
 			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			UseOfMFC="0"
+			UseOfMFC="1"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
 			>
@@ -45,18 +45,18 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Build\Debug/boinc_cli.tlb"
+				TypeLibraryName=".\Build\Debug/boinc_ss.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2005/openssl/include;../../boinc_depends_win_vs2005/curl/include;../../boinc_depends_win_vs2005/zlib/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include"
-				PreprocessorDefinitions="WIN32;_WIN32;_DEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_USE_CURL;USE_SSL;USE_SSLEAY;USE_OPENSSL"
-				MinimalRebuild="false"
+				AdditionalIncludeDirectories="../;../api/;../lib;../client/;../coprocs/OpenCL/include"
+				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS;_CONSOLE;_WCG"
 				ExceptionHandling="2"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
+				BufferSecurityCheck="true"
 				FloatingPointModel="2"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="boinc_win.h"
@@ -65,7 +65,7 @@
 				ObjectFile="$(IntDir)\"
 				ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 				BrowseInformation="0"
-				WarningLevel="4"
+				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
 				CompileAs="2"
@@ -86,16 +86,18 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib1d.lib ssleay32.lib libeay32.lib libcurld_imp.lib nvapi.lib MSVCRTD.LIB MSVCPRTD.LIB wsock32.lib wininet.lib winmm.lib Iphlpapi.lib kernel32.lib user32.lib advapi32.lib sensapi.lib userenv.lib $(NOINHERIT)"
-				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.exe"
-				LinkIncremental="2"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib opengl32.lib glu32.lib wsock32.lib wininet.lib winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib comctl32.lib msimg32.lib userenv.lib $(NOINHERIT)"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.scr"
+				LinkIncremental="0"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;../../boinc_depends_win_vs2005/openssl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../../boinc_depends_win_vs2005/curl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../../boinc_depends_win_vs2005/zlib/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../coprocs/NVIDIA/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;../../;&quot;$(OutDir)&quot;"
 				IgnoreAllDefaultLibraries="true"
 				IgnoreDefaultLibraryNames=""
+				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc_exe.pdb"
-				SubSystem="1"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc_scr.pdb"
+				SubSystem="2"
+				StackReserveSize="0"
+				StackCommitSize="0"
 				OptimizeReferences="0"
 				TargetMachine="1"
 			/>
@@ -123,8 +125,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Checking boinc.exe dependencies"
-				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; devenvdir &quot;$(DevEnvDir)&quot; type &quot;$(ConfigurationName)&quot; platform &quot;$(PlatformName)&quot; exec updatedepends.cmd"
 			/>
 		</Configuration>
 		<Configuration
@@ -133,7 +133,7 @@
 			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			UseOfMFC="0"
+			UseOfMFC="1"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
 			>
@@ -155,18 +155,18 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Build\Release/boinc_cli.tlb"
+				TypeLibraryName=".\Build\Release/boinc_ss.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
-				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories="../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2005/openssl/include;../../boinc_depends_win_vs2005/curl/include;../../boinc_depends_win_vs2005/zlib/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include"
-				PreprocessorDefinitions="WIN32;_WIN32;NDEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_USE_CURL;USE_SSL;USE_SSLEAY;USE_OPENSSL;_WCG"
-				StringPooling="true"
+				Optimization="3"
+				AdditionalIncludeDirectories="../api/;../lib/;../client;..;../coprocs/OpenCL/include"
+				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_WINDOWS;_CONSOLE;_WCG"
+				StringPooling="false"
 				ExceptionHandling="2"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
+				EnableFunctionLevelLinking="false"
 				FloatingPointModel="2"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="boinc_win.h"
@@ -174,7 +174,8 @@
 				AssemblerListingLocation=""
 				ObjectFile="$(IntDir)\"
 				ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
-				WarningLevel="4"
+				BrowseInformation="0"
+				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
 				CompileAs="2"
@@ -195,17 +196,15 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib1.lib ssleay32.lib libeay32.lib libcurl_imp.lib nvapi.lib MSVCRT.LIB MSVCPRT.LIB wsock32.lib wininet.lib winmm.lib Iphlpapi.lib kernel32.lib user32.lib advapi32.lib sensapi.lib userenv.lib $(NOINHERIT)"
+				AdditionalDependencies="libcmt.lib libcpmt.lib opengl32.lib glu32.lib wsock32.lib wininet.lib winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib comctl32.lib msimg32.lib userenv.lib $(NOINHERIT)"
 				ShowProgress="0"
-				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.exe"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.scr"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;../../boinc_depends_win_vs2005/openssl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../../boinc_depends_win_vs2005/curl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../../boinc_depends_win_vs2005/zlib/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../coprocs/NVIDIA/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;../../;&quot;$(OutDir)&quot;"
 				IgnoreAllDefaultLibraries="true"
-				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc_exe.pdb"
-				SubSystem="1"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc_scr.pdb"
+				SubSystem="2"
 				OptimizeReferences="2"
 				SetChecksum="true"
 				TargetMachine="1"
@@ -234,8 +233,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Checking boinc.exe dependencies"
-				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; devenvdir &quot;$(DevEnvDir)&quot; type &quot;$(ConfigurationName)&quot; platform &quot;$(PlatformName)&quot; exec updatedepends.cmd"
 			/>
 		</Configuration>
 		<Configuration
@@ -244,7 +241,7 @@
 			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			UseOfMFC="0"
+			UseOfMFC="1"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
 			>
@@ -266,18 +263,18 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="3"
-				TypeLibraryName=".\Build\Debug/boinc_cli.tlb"
+				TypeLibraryName=".\Build\Debug/boinc_ss.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2005/openssl/include;../../boinc_depends_win_vs2005/curl/include;../../boinc_depends_win_vs2005/zlib/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include"
-				PreprocessorDefinitions="WIN32;_WIN32;_DEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_USE_CURL;USE_SSL;USE_SSLEAY;USE_OPENSSL"
-				MinimalRebuild="false"
+				AdditionalIncludeDirectories="../;../api/;../lib;../client/;../coprocs/OpenCL/include"
+				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS;_CONSOLE"
 				ExceptionHandling="2"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
+				BufferSecurityCheck="true"
 				FloatingPointModel="2"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="boinc_win.h"
@@ -288,6 +285,7 @@
 				BrowseInformation="0"
 				WarningLevel="4"
 				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
 				CompileAs="2"
 				DisableSpecificWarnings="4127;4702;4244"
@@ -307,16 +305,17 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib1d.lib ssleay32.lib libeay32.lib libcurld_imp.lib nvapi.lib MSVCRTD.LIB MSVCPRTD.LIB wsock32.lib wininet.lib winmm.lib sensapi.lib userenv.lib Iphlpapi.lib kernel32.lib user32.lib advapi32.lib sensapi.lib $(NOINHERIT)"
-				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.exe"
-				LinkIncremental="2"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib opengl32.lib glu32.lib wsock32.lib wininet.lib winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib comctl32.lib msimg32.lib userenv.lib $(NOINHERIT)"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.scr"
+				LinkIncremental="0"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;../../boinc_depends_win_vs2005/openssl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../../boinc_depends_win_vs2005/curl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../../boinc_depends_win_vs2005/zlib/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../coprocs/NVIDIA/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;../../;&quot;$(OutDir)&quot;"
 				IgnoreAllDefaultLibraries="true"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc_exe.pdb"
-				SubSystem="1"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc_scr.pdb"
+				SubSystem="2"
+				StackReserveSize="0"
+				StackCommitSize="0"
 				OptimizeReferences="0"
 				TargetMachine="17"
 			/>
@@ -344,8 +343,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Checking boinc.exe dependencies"
-				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; devenvdir &quot;$(DevEnvDir)&quot; type &quot;$(ConfigurationName)&quot; platform &quot;$(PlatformName)&quot; exec updatedepends.cmd"
 			/>
 		</Configuration>
 		<Configuration
@@ -354,7 +351,7 @@
 			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			UseOfMFC="0"
+			UseOfMFC="1"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
 			>
@@ -376,18 +373,18 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="3"
-				TypeLibraryName=".\Build\Release/boinc_cli.tlb"
+				TypeLibraryName=".\Build\Release/boinc_ss.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
-				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2005/openssl/include;../../boinc_depends_win_vs2005/curl/include;../../boinc_depends_win_vs2005/zlib/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include"
-				PreprocessorDefinitions="WIN32;_WIN32;NDEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_USE_CURL;USE_SSL;USE_SSLEAY;USE_OPENSSL"
+				Optimization="3"
+				AdditionalIncludeDirectories="../api/;../lib/;../client;..;../coprocs/OpenCL/include"
+				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_WINDOWS;_CONSOLE"
 				StringPooling="false"
 				ExceptionHandling="2"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
+				EnableFunctionLevelLinking="false"
 				FloatingPointModel="2"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="boinc_win.h"
@@ -395,8 +392,10 @@
 				AssemblerListingLocation=""
 				ObjectFile="$(IntDir)\"
 				ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
+				BrowseInformation="0"
 				WarningLevel="4"
 				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
 				CompileAs="2"
 				DisableSpecificWarnings="4127;4702;4244"
@@ -416,17 +415,15 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib1.lib ssleay32.lib libeay32.lib libcurl_imp.lib nvapi.lib MSVCRT.LIB MSVCPRT.LIB wsock32.lib wininet.lib winmm.lib sensapi.lib userenv.lib iphlpapi.lib kernel32.lib user32.lib advapi32.lib $(NOINHERIT)"
+				AdditionalDependencies="libcmt.lib libcpmt.lib opengl32.lib glu32.lib wsock32.lib wininet.lib winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib comctl32.lib msimg32.lib userenv.lib $(NOINHERIT)"
 				ShowProgress="0"
-				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.exe"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.scr"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;../../boinc_depends_win_vs2005/openssl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../../boinc_depends_win_vs2005/curl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../../boinc_depends_win_vs2005/zlib/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../coprocs/NVIDIA/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;../../;&quot;$(OutDir)&quot;"
 				IgnoreAllDefaultLibraries="true"
-				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc_exe.pdb"
-				SubSystem="1"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc_scr.pdb"
+				SubSystem="2"
 				OptimizeReferences="2"
 				SetChecksum="true"
 				TargetMachine="17"
@@ -455,8 +452,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Checking boinc.exe dependencies"
-				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; devenvdir &quot;$(DevEnvDir)&quot; type &quot;$(ConfigurationName)&quot; platform &quot;$(PlatformName)&quot; exec updatedepends.cmd"
 			/>
 		</Configuration>
 	</Configurations>
@@ -468,31 +463,7 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath="..\client\acct_mgr.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\client\acct_setup.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Client\app.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\client\app_config.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\client\app_control.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\client\app_start.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\client\async_file.cpp"
+				RelativePath="..\lib\base64.cpp"
 				>
 			</File>
 			<File
@@ -596,199 +567,99 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\client\check_state.cpp"
+				RelativePath="..\lib\cc_config.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\client_msgs.cpp"
+				RelativePath="..\lib\coproc.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Client\client_state.cpp"
+				RelativePath="..\lib\diagnostics.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Client\client_types.cpp"
+				RelativePath="..\lib\diagnostics_win.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\cpu_sched.cpp"
+				RelativePath="..\lib\filesys.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\cs_account.cpp"
+				RelativePath="..\lib\gui_rpc_client.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Client\cs_apps.cpp"
+				RelativePath="..\lib\gui_rpc_client_ops.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\cs_benchmark.cpp"
+				RelativePath="..\lib\hostinfo.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\cs_cmdline.cpp"
+				RelativePath="..\lib\md5.c"
 				>
 			</File>
 			<File
-				RelativePath="..\Client\cs_files.cpp"
+				RelativePath="..\lib\md5_file.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\cs_notice.cpp"
+				RelativePath="..\lib\mfile.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\cs_platforms.cpp"
+				RelativePath="..\lib\miofile.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\cs_prefs.cpp"
+				RelativePath="..\lib\network.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\cs_proxy.cpp"
+				RelativePath="..\lib\notice.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Client\cs_scheduler.cpp"
+				RelativePath="..\lib\parse.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\cs_statefile.cpp"
+				RelativePath="..\lib\prefs.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\cs_trickle.cpp"
+				RelativePath="..\lib\proxy_info.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\current_version.cpp"
+				RelativePath="..\clientscr\screensaver.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\dhrystone.cpp"
+				RelativePath="..\clientscr\screensaver_win.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\dhrystone2.cpp"
+				RelativePath="..\lib\stackwalker_win.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Client\file_names.cpp"
+				RelativePath="..\lib\str_util.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Client\file_xfer.cpp"
+				RelativePath="..\lib\url.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\gpu_amd.cpp"
+				RelativePath="..\lib\util.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\gpu_detect.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\client\gpu_intel.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\client\gpu_nvidia.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\client\gpu_opencl.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\client\gui_http.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\client\gui_rpc_server.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\client\gui_rpc_server_ops.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\client\hostinfo_network.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\client\hostinfo_win.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\client\http_curl.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Client\log_flags.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\client\main.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\lib\msg_log.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Client\net_stats.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Client\pers_file_xfer.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\lib\procinfo_win.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\client\project.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\client\result.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\client\rr_sim.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\lib\run_app_windows.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\client\sandbox.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Client\scheduler_op.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\client\sysmon_win.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Client\time_stats.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\client\whetstone.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\client\work_fetch.cpp"
+				RelativePath="..\lib\win_util.cpp"
 				>
 			</File>
 		</Filter>
@@ -797,31 +668,11 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
-				RelativePath="..\client\acct_mgr.h"
-				>
-			</File>
-			<File
-				RelativePath="..\client\acct_setup.h"
-				>
-			</File>
-			<File
-				RelativePath="..\client\app.h"
-				>
-			</File>
-			<File
-				RelativePath="..\client\app_config.h"
-				>
-			</File>
-			<File
-				RelativePath="..\client\async_file.h"
-				>
-			</File>
-			<File
 				RelativePath="..\lib\base64.h"
 				>
 			</File>
 			<File
-				RelativePath="..\client\win\boinc_cli.h"
+				RelativePath="..\clientscr\boinc_ss.h"
 				>
 			</File>
 			<File
@@ -829,71 +680,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\client\client_msgs.h"
+				RelativePath="..\lib\cc_config.h"
 				>
 			</File>
 			<File
-				RelativePath="..\client\client_state.h"
+				RelativePath="..\lib\diagnostics.h"
 				>
 			</File>
 			<File
-				RelativePath="..\client\client_types.h"
+				RelativePath="..\lib\filesys.h"
 				>
 			</File>
 			<File
-				RelativePath="..\client\cpp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\client\cpu_benchmark.h"
-				>
-			</File>
-			<File
-				RelativePath="..\client\cs_notice.h"
-				>
-			</File>
-			<File
-				RelativePath="..\client\cs_proxy.h"
-				>
-			</File>
-			<File
-				RelativePath="..\client\cs_trickle.h"
-				>
-			</File>
-			<File
-				RelativePath="..\client\current_version.h"
-				>
-			</File>
-			<File
-				RelativePath="..\client\dhrystone.h"
-				>
-			</File>
-			<File
-				RelativePath="..\lib\diagnostics_win.h"
-				>
-			</File>
-			<File
-				RelativePath="..\lib\error_numbers.h"
-				>
-			</File>
-			<File
-				RelativePath="..\client\file_names.h"
-				>
-			</File>
-			<File
-				RelativePath="..\client\file_xfer.h"
-				>
-			</File>
-			<File
-				RelativePath="..\client\gpu_detect.h"
-				>
-			</File>
-			<File
-				RelativePath="..\client\gui_http.h"
-				>
-			</File>
-			<File
-				RelativePath="..\client\gui_rpc_server.h"
+				RelativePath="..\lib\gui_rpc_client.h"
 				>
 			</File>
 			<File
@@ -901,79 +700,67 @@
 				>
 			</File>
 			<File
-				RelativePath="..\client\hostinfo_network.h"
+				RelativePath="..\lib\md5.h"
 				>
 			</File>
 			<File
-				RelativePath="..\client\http_curl.h"
+				RelativePath="..\lib\md5_file.h"
 				>
 			</File>
 			<File
-				RelativePath="..\client\http_curl_win.h"
+				RelativePath="..\lib\mfile.h"
 				>
 			</File>
 			<File
-				RelativePath="..\client\log_flags.h"
+				RelativePath="..\lib\miofile.h"
 				>
 			</File>
 			<File
-				RelativePath="..\client\main.h"
+				RelativePath="..\lib\network.h"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\msg_log.h"
+				RelativePath="..\lib\notice.h"
 				>
 			</File>
 			<File
-				RelativePath="..\client\net_stats.h"
+				RelativePath="..\lib\parse.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Client\pers_file_xfer.h"
+				RelativePath="..\lib\prefs.h"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\procinfo.h"
+				RelativePath="..\clientscr\screensaver.h"
 				>
 			</File>
 			<File
-				RelativePath="..\client\project.h"
+				RelativePath="..\clientscr\screensaver_win.h"
 				>
 			</File>
 			<File
-				RelativePath="..\client\result.h"
+				RelativePath="..\lib\stackwalker_imports.h"
 				>
 			</File>
 			<File
-				RelativePath="..\client\rr_sim.h"
+				RelativePath="..\lib\stackwalker_win.h"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\run_app_windows.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<File
-				RelativePath="..\client\sandbox.h"
+				RelativePath="..\lib\url.h"
 				>
 			</File>
 			<File
-				RelativePath="..\client\scheduler_op.h"
+				RelativePath="..\lib\util.h"
 				>
 			</File>
 			<File
-				RelativePath="..\client\sysmon_win.h"
-				>
-			</File>
-			<File
-				RelativePath="..\client\time_stats.h"
-				>
-			</File>
-			<File
-				RelativePath="..\version.h"
-				>
-			</File>
-			<File
-				RelativePath="..\client\work_fetch.h"
+				RelativePath="..\lib\win_util.h"
 				>
 			</File>
 		</Filter>
@@ -982,11 +769,39 @@
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 			>
 			<File
-				RelativePath="..\client\win\boinc_cli.rc"
+				RelativePath="..\clientscr\res\boinc.bmp"
+				>
+			</File>
+			<File
+				RelativePath="..\clientscr\boinc_ss.rc"
+				>
+			</File>
+			<File
+				RelativePath="..\client\win\res\gridrepublic.bmp"
+				>
+			</File>
+			<File
+				RelativePath="..\client\win\res\gridrepublic.ico"
+				>
+			</File>
+			<File
+				RelativePath="..\clientscr\res\icon.ico"
+				>
+			</File>
+			<File
+				RelativePath="..\client\win\res\Scricon3.ico"
+				>
+			</File>
+			<File
+				RelativePath="..\client\win\res\seed.bmp"
 				>
 			</File>
 		</Filter>
 	</Files>
 	<Globals>
+		<Global
+			Name="RESOURCE_FILE"
+			Value="\Src\BOINCSVN\trunk\boinc\clientscr\boinc_ss.rc"
+		/>
 	</Globals>
 </VisualStudioProject>
