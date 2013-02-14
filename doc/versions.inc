@@ -12,10 +12,12 @@ function type_text($type) {
             return "Core client only (command-line)";
         case "sea":
             return "Self-extracting archive";
-        case "mac_advanced":
-            return "Standard GUI";
+		case "mac_advanced":
+			return "Standard GUI";
+        case "apk":
+            return "Android Installer";
         }
-    } else {
+	} else {
         switch($type) {
         case "win_old":
             return "<a href=client_windows.php>Single-mode Windows installer</a>";
@@ -25,17 +27,27 @@ function type_text($type) {
             return "<a href=bare_core.php>Core client only (command-line)</a>";
         case "sea":
             return "<a href=sea.php>Self-extracting archive</a>";
-        case "mac_advanced":
-            return "<a href=mac_advanced.php>Standard GUI</a>";
-        }
+		case "mac_advanced":
+			return "<a href=mac_advanced.php>Standard GUI</a>";
+		case "apk":
+			return "TBD";
+		}
     }
 }
 
+function linux_info() {
+	return "Tested on the current Ubuntu distribution; may work on others.
+    <br>If available, we recommend that you install a
+    <a href=http://boinc.berkeley.edu/wiki/Installing_BOINC#Linux>
+    distribution-specific package</a>
+    instead.  ";
+}
+
 $w70dev = array(
-	"num"=>"7.0.44",
+	"num"=>"7.0.52",
 	"status"=>"Development version",
-	"file"=>"boinc_7.0.44_windows_intelx86.exe",
-	"date"=>"9 Jan 2013",
+	"file"=>"boinc_7.0.52_windows_intelx86.exe",
+	"date"=>"13 Feb 2013",
 	"type"=>"win_new",
 );
 
@@ -72,10 +84,10 @@ $w5816 = array(
 );
 
 $w70x64dev = array(
-	"num"=>"7.0.44",
+	"num"=>"7.0.52",
 	"status"=>"Development version",
-	"file"=>"boinc_7.0.44_windows_x86_64.exe",
-	"date"=>"9 Jan 2013",
+	"file"=>"boinc_7.0.52_windows_x86_64.exe",
+	"date"=>"13 Feb 2013",
 	"type"=>"win_new",
 );
 
@@ -96,10 +108,10 @@ $w612x64 = array(
 );
 
 $m70dev = array(
-	"num"=>"7.0.44",
+	"num"=>"7.0.52",
 	"status"=>"Development version (standard GUI)",
-	"file"=>"boinc_7.0.44_macOSX_i686.zip",
-	"date"=>"9 Jan 2013",
+	"file"=>"boinc_7.0.52_macOSX_i686.zip",
+	"date"=>"13 Feb 2013",
 	"type"=>"mac_advanced",
 );
 
@@ -136,10 +148,10 @@ $m66 = array(
 );
 
 $m70cdev = array(
-	"num"=>"7.0.44",
+	"num"=>"7.0.52",
 	"status"=>"Development version (Unix command-line version)",
-	"file"=>"boinc_7.0.44_i686-apple-darwin.zip",
-	"date"=>"9 Jan 2013",
+	"file"=>"boinc_7.0.52_i686-apple-darwin.zip",
+	"date"=>"13 Feb 2013",
 	"type"=>"bare_core",
 );
 
@@ -192,10 +204,10 @@ $l66 = array(
 	);
 
 $l70ubuntudev = array(
-	"num"=>"7.0.44",
+	"num"=>"7.0.52",
 	"status"=>"Development version",
-	"file"=>"boinc_7.0.44_i686-pc-linux-gnu.sh",
-	"date"=>"9 Jan 2013",
+	"file"=>"boinc_7.0.52_i686-pc-linux-gnu.sh",
+	"date"=>"13 Feb 2013",
 	"type"=>"sea",
 );
 
@@ -216,10 +228,10 @@ $l612ubuntu = array(
 );
 
 $l70ubuntux64dev = array(
-	"num"=>"7.0.44",
+	"num"=>"7.0.52",
 	"status"=>"Development version",
-	"file"=>"boinc_7.0.44_x86_64-pc-linux-gnu.sh",
-	"date"=>"9 Jan 2012",
+	"file"=>"boinc_7.0.52_x86_64-pc-linux-gnu.sh",
+	"date"=>"13 Feb 2013",
 	"type"=>"sea",
 );
 
@@ -237,6 +249,14 @@ $l612ubuntux64 = array(
 	"file"=>"boinc_6.12.34_x86_64-pc-linux-gnu.sh",
 	"date"=>"28 July 2011",
 	"type"=>"sea",
+);
+
+$adev = array(
+	"num"=>"7.0.52",
+	"status"=>"Development version",
+	"file"=>"boinc_7.0.52_arm-android-linux-gnu.apk",
+	"date"=>"13 Feb 2013",
+	"type"=>"apk",
 );
 
 // platform descriptors.  For each one, "versions"
@@ -293,24 +313,6 @@ $macppc = array(
     )
 );
 
-$linuxcompat = array(
-    "name"=>"Older Linux x86 and x64",
-    "description"=>"For older Linux versions, both x86 and x64; command-line interface only",
-    "dbname" => "i686-pc-linux-gnu",
-    "versions"=>array(
-		$l612,
-		$l66,
-    )
-);
-
-function linux_info() {
-    return "Tested on the current Ubuntu distribution; may work on others.
-    <br>If available, we recommend that you install a
-    <a href=http://boinc.berkeley.edu/wiki/Installing_BOINC#Linux>
-    distribution-specific package</a>
-    instead.  ";
-}
-
 $linux = array(
     "name"=>"Linux x86",
     "description"=> linux_info(),
@@ -333,6 +335,26 @@ $linuxx64 = array(
     )
 );
 
+$linuxcompat = array(
+	"name"=>"Older Linux x86 and x64",
+	"description"=>"For older Linux versions, both x86 and x64; command-line interface only",
+	"dbname" => "i686-pc-linux-gnu",
+	"versions"=>array(
+		$l612,
+		$l66,
+	)
+);
+
+$android = array(
+	"name"=>"Android",
+	"description"=>"For Android 2.3+ devices",
+	"dbname" => "arm-android-linux-gnu",
+	"versions"=>array(
+		$adev,
+	)
+);
+
+
 $platforms = array(
     "win"=>$windows,
     "winx64"=>$windowsx64,
@@ -340,7 +362,8 @@ $platforms = array(
     "macppc"=>$macppc,
     "linux"=>$linux,
     "linuxx64"=>$linuxx64,
-    "linuxcompat"=>$linuxcompat,
+	"linuxcompat"=>$linuxcompat,
+	"android"=>$android,
 );
 
 function is_dev($v) {

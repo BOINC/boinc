@@ -163,6 +163,8 @@ if (get_str2('all_platforms')) {
     } else {
         show_download('linux');
     }
+} else if (strstr($client_info, 'Android')) {
+	show_download('android');
 } else {
     show_download(null);
 }
