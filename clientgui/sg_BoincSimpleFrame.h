@@ -25,6 +25,7 @@
 #pragma interface "sg_BoincSimpleFrame.cpp"
 #endif
 
+class CTransparentButton;
 class CSimpleTaskPanel;
 class CSimpleProjectPanel;
 class CSimpleTaskPanel;
@@ -79,9 +80,9 @@ protected:
     int         m_iRedRingRadius;
 #endif
     wxBitmap    m_bmpBg;
-    wxButton    *m_NoticesButton;
-    wxButton    *m_SuspendResumeButton;
-    wxButton    *m_HelpButton;
+    CTransparentButton *m_NoticesButton;
+    CTransparentButton *m_SuspendResumeButton;
+    CTransparentButton *m_HelpButton;
     wxString    m_sSuspendString;
     wxString    m_sResumeString;
     int         m_oldWorkCount;

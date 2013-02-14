@@ -100,6 +100,40 @@ void CTransparentStaticText::OnPaint(wxPaintEvent& /*event*/) {
 }
 
 
+IMPLEMENT_DYNAMIC_CLASS (CTransparentButton, wxButton)
+
+BEGIN_EVENT_TABLE(CTransparentButton, wxButton)
+    EVT_ERASE_BACKGROUND(CTransparentButton::OnEraseBackground)
+END_EVENT_TABLE()
+
+CTransparentButton::CTransparentButton() {}
+
+CTransparentButton::CTransparentButton(wxWindow* parent, wxWindowID id, const wxString& label, const wxPoint& pos, const wxSize& size, long style, const wxValidator& validator, const wxString& name )
+{
+    Create(parent, id, label, pos, size, style, validator, name);
+}
+
+bool CTransparentButton::Create(wxWindow* parent, wxWindowID id, const wxString& label, const wxPoint& pos, const wxSize& size, long style, const wxValidator& validator, const wxString& name )
+{
+    bool bRetVal = wxButton::Create(parent, id, label, pos, size, style|wxTRANSPARENT_WINDOW, validator, name);
+
+    SetBackgroundStyle(wxBG_STYLE_CUSTOM);
+    SetBackgroundColour(parent->GetBackgroundColour());
+    SetForegroundColour(parent->GetForegroundColour());
+
+    return bRetVal;
+}
+
+void CTransparentButton::SetLabel(const wxString& label)
+{
+    wxButton::SetLabel(label);
+}
+
+void CTransparentButton::OnEraseBackground(wxEraseEvent& WXUNUSED(event))
+{
+}
+
+
 IMPLEMENT_DYNAMIC_CLASS (CTransparentStaticTextAssociate, wxPanel)
 
 BEGIN_EVENT_TABLE(CTransparentStaticTextAssociate, wxPanel)
