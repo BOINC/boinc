@@ -542,8 +542,11 @@ case "show_simulation":
 case "add_comment":
     add_comment();
     break;
-default:
+case null:
     show_scenarios();
+    break;
+default:
+    die("unknown action $action");
 }
 
 ?>
