@@ -160,7 +160,6 @@ function xml_get_jobs($r) {
 }
 
 function submit_batch($r) {
-    print_r($r);
     $app = get_app($r);
     list($user, $user_submit) = authenticate_user($r, $app);
     $template = read_input_template($app);
@@ -201,7 +200,7 @@ function submit_batch($r) {
         }
     }
     $cmd = "cd ../../bin; ./adjust_user_priority --user $user->id --flops $total_flops --app $app->name";
-    $x = system($cmd);
+    $x = exec($cmd);
     if (!is_numeric($x) || (double)$x == 0) {
         xml_error(-1, "$cmd returned $x");
     }
