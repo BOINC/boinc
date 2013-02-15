@@ -558,8 +558,10 @@ function user_account_host_list_views_default_views() {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -574,9 +576,10 @@ function user_account_host_list_views_default_views() {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'date_format' => 'custom',
       'custom_date_format' => 'j M Y G:i:s T',
-      'exclude' => 0,
+      'exclude' => 1,
       'id' => 'rpc_time',
       'table' => 'host',
       'field' => 'rpc_time',
@@ -589,8 +592,10 @@ function user_account_host_list_views_default_views() {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -605,11 +610,21 @@ function user_account_host_list_views_default_views() {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'value' => '<?php
-  require_boinc(\'util\');
-  echo sched_log_link($data->host_rpc_time);
+  $output = \'---\';
+  $log_name = \'NO_SUCH_LOG\';
+  $timestamp = $data->host_rpc_time;
+  if ($timestamp) {
+    $output = gmdate(\'j M Y | G:i:s\', $timestamp) . \' UTC\';
+    $log_name = gmdate(\'Y-m-d_H/Y-m-d_H:i\', $timestamp);
+  }
+  if (file_exists(boinc_get_path() . \'/html/sched_logs\')) {
+    $output = "<a href=\\"/sched_logs/{$log_name}\\">{$output}</a>";
+  }
+  echo $output;
 ?>',
-      'exclude' => 1,
+      'exclude' => 0,
       'id' => 'phpcode_2',
       'table' => 'customfield',
       'field' => 'phpcode',
