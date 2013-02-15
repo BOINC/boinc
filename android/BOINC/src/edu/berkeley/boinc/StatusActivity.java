@@ -38,7 +38,7 @@ import android.widget.TextView;
 
 public class StatusActivity extends Activity {
 	
-	private final String TAG = "StatusActivity";
+	private final String TAG = "BOINC StatusActivity";
 	
 	private Monitor monitor;
 	
@@ -57,14 +57,17 @@ public class StatusActivity extends Activity {
 
 	private ServiceConnection mConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
-	    	Log.d(TAG,"onServiceConnected");
-	        monitor = ((Monitor.LocalBinder)service).getService();
+	    	Log.d(TAG, "onServiceConnected");
+
+	    	monitor = ((Monitor.LocalBinder)service).getService();
 		    mIsBound = true;
 		    loadLayout();
 	    }
 
 	    public void onServiceDisconnected(ComponentName className) {
-	        monitor = null;
+	    	Log.d(TAG, "onServiceDisconnected");
+
+	    	monitor = null;
 	        mIsBound = false;
 	    }
 	};
@@ -147,52 +150,52 @@ public class StatusActivity extends Activity {
 					changeRunmodeDescriptor.setText(R.string.disable_computation);
 					changeRunmodeDescriptor.setTag(false);
 					switch(status.computingSuspendReason) {
-					case 1:
+					case CommonDefs.SUSPEND_REASON_BATTERIES:
 						statusDescriptor.setText(R.string.suspend_batteries);
 						break;
-					case 2:
+					case CommonDefs.SUSPEND_REASON_USER_ACTIVE:
 						statusDescriptor.setText(R.string.suspend_useractive);
 						break;
-					case 4:
+					case CommonDefs.SUSPEND_REASON_USER_REQ:
 						statusDescriptor.setText(R.string.suspend_userreq);
 						break;
-					case 8:
+					case CommonDefs.SUSPEND_REASON_TIME_OF_DAY:
 						statusDescriptor.setText(R.string.suspend_tod);
 						break;
-					case 16:
+					case CommonDefs.SUSPEND_REASON_BENCHMARKS:
 						statusDescriptor.setText(R.string.suspend_bm);
 						break;
-					case 32:
+					case CommonDefs.SUSPEND_REASON_DISK_SIZE:
 						statusDescriptor.setText(R.string.suspend_disksize);
 						break;
-					case 64:
+					case CommonDefs.SUSPEND_REASON_CPU_THROTTLE:
 						statusDescriptor.setText(R.string.suspend_cputhrottle);
 						break;
-					case 128:
+					case CommonDefs.SUSPEND_REASON_NO_RECENT_INPUT:
 						statusDescriptor.setText(R.string.suspend_noinput);
 						break;
-					case 256:
+					case CommonDefs.SUSPEND_REASON_INITIAL_DELAY:
 						statusDescriptor.setText(R.string.suspend_delay);
 						break;
-					case 512:
+					case CommonDefs.SUSPEND_REASON_EXCLUSIVE_APP_RUNNING:
 						statusDescriptor.setText(R.string.suspend_exclusiveapp);
 						break;
-					case 1024:
+					case CommonDefs.SUSPEND_REASON_CPU_USAGE:
 						statusDescriptor.setText(R.string.suspend_cpu);
 						break;
-					case 2048:
+					case CommonDefs.SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED:
 						statusDescriptor.setText(R.string.suspend_network_quota);
 						break;
-					case 4096:
+					case CommonDefs.SUSPEND_REASON_OS:
 						statusDescriptor.setText(R.string.suspend_os);
 						break;
-					case 4097:
+					case CommonDefs.SUSPEND_REASON_WIFI_STATE:
 						statusDescriptor.setText(R.string.suspend_wifi);
 						break;
-					case 4098:
+					case CommonDefs.SUSPEND_REASON_BATTERY_CHARGING:
 						statusDescriptor.setText(R.string.suspend_battery_charging);
 						break;
-					case 4099:
+					case CommonDefs.SUSPEND_REASON_BATTERY_OVERHEATED:
 						statusDescriptor.setText(R.string.suspend_battery_overheating);
 						break;
 					default:

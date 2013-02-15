@@ -54,10 +54,13 @@ import edu.berkeley.boinc.rpc.Transfer;
 
 public class Monitor extends Service {
 	
-	private final String TAG = "BOINC Client Monitor Service";
+	private final String TAG = "BOINC Monitor Service";
 	
 	private static ClientStatus clientStatus; //holds the status of the client as determined by the Monitor
 	private static AppPreferences appPrefs; //hold the status of the app, controlled by AppPreferences
+	
+	public static Boolean monitorActive = false;
+	public static Boolean clientSetupActive = false;
 	
 	private String clientName; 
 	private String clientCLI; 
@@ -68,6 +71,12 @@ public class Monitor extends Service {
 	
 	private Boolean started = false;
 	private Thread monitorThread = null;
+	
+	private Process clientProcess;
+	private RpcClient rpc = new RpcClient();
+
+	private final Integer maxDuration = 3000; //maximum polling duration
+
 	
 	public static ClientStatus getClientStatus() { //singleton pattern
 		if (clientStatus == null) {
@@ -84,14 +93,6 @@ public class Monitor extends Service {
 	}
 
 	
-	public static Boolean monitorActive = false;
-	public static Boolean clientSetupActive = false;
-	private Process clientProcess;
-	
-	private RpcClient rpc = new RpcClient();
-
-	private final Integer maxDuration = 3000; //maximum polling duration
-
 	/*
 	 * returns this class, allows clients to access this service's functions and attributes.
 	 */
@@ -111,12 +112,14 @@ public class Monitor extends Service {
         return mBinder;
     }
 	
-    //onCreate is life-cycle method of service. regardless of bound or started service, this method gets called once upon first creation.
+    /*
+     * onCreate is life-cycle method of service. regardless of bound or started service, this method gets called once upon first creation.
+     */
 	@Override
     public void onCreate() {
 		Log.d(TAG,"onCreate()");
 		
-		//populate attributes with XML resource values
+		// populate attributes with XML resource values
 		clientPath = getString(R.string.client_path); 
 		clientName = getString(R.string.client_name); 
 		clientCLI = getString(R.string.client_cli); 
@@ -136,7 +139,9 @@ public class Monitor extends Service {
 		else {
 			Log.d(TAG, "asynchronous monitor NOT started!");
 		}
-    }
+
+        Toast.makeText(this, "BOINC Monitor Service Starting", Toast.LENGTH_SHORT).show();
+	}
 	
     /*
      * this should not be reached
@@ -150,7 +155,7 @@ public class Monitor extends Service {
         
 		quitClient();
         
-        Toast.makeText(this, "service stopped", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "BOINC Monitor Service Stopped", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -192,7 +197,7 @@ public class Monitor extends Service {
     
     public void forceRefresh() {
     	Log.d(TAG,"forceRefresh()");
-    	if(monitorThread!= null) {
+    	if(monitorThread != null) {
     		monitorThread.interrupt();
     	}
     }

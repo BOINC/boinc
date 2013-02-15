@@ -40,7 +40,7 @@ import android.widget.TabHost.TabSpec;
 
 public class BOINCActivity extends TabActivity {
 	
-	private final String TAG = "MainActivity"; 
+	private final String TAG = "BOINC BOINCActivity"; 
 	
 	private Monitor monitor;
 	private Integer clientSetupStatus = ClientStatus.SETUP_STATUS_LAUNCHING;
@@ -96,7 +96,7 @@ public class BOINCActivity extends TabActivity {
 	protected void onResume() { // gets called by system every time activity comes to front. after onCreate upon first creation
     	Log.d(TAG, "onResume");
 	    super.onResume();
-	    registerReceiver(mClientStatusChangeRec,ifcsc);
+	    registerReceiver(mClientStatusChangeRec, ifcsc);
 	    layout();
 	}
 
