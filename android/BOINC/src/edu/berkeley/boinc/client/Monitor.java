@@ -456,7 +456,7 @@ public class Monitor extends Service {
 	}
 	
 	private final class ClientSetupAsync extends AsyncTask<Void,String,Boolean> {
-		private final String TAG = "ClientSetupAsync";
+		private final String TAG = "BOINC ClientSetupAsync";
 		
 		private Integer retryRate = getResources().getInteger(R.integer.monitor_setup_connection_retry_rate_ms);
 		private Integer retryAttempts = getResources().getInteger(R.integer.monitor_setup_connection_retry_attempts);
@@ -464,9 +464,10 @@ public class Monitor extends Service {
 		@Override
 		protected void onPreExecute() {
 			if(Monitor.clientSetupActive) { // setup is already running, cancel execution...
-				Log.d(TAG,"setup is already active, quit.");
+				Log.d(TAG, "onPreExecute - setup is already active, quit.");
 				cancel(false);
 			} else {
+				Log.d(TAG, "onPreExecute - running setup.");
 				Monitor.clientSetupActive = true;
 				getClientStatus().setupStatus = ClientStatus.SETUP_STATUS_LAUNCHING;
 				getClientStatus().fire();
@@ -480,13 +481,14 @@ public class Monitor extends Service {
 		
 		@Override
 		protected void onPostExecute(Boolean success) {
-			Log.d(TAG+" - onPostExecute","setup exit"); 
 			Monitor.clientSetupActive = false;
 			if(success) {
+				Log.d(TAG, "onPostExecute - setup completed successfully"); 
 				getClientStatus().setupStatus = ClientStatus.SETUP_STATUS_AVAILABLE;
 				// do not fire new client status here, wait for ClientMonitorAsync to retrieve initial status
 				forceRefresh();
 			} else {
+				Log.d(TAG, "onPostExecute - setup experienced an error"); 
 				getClientStatus().setupStatus = ClientStatus.SETUP_STATUS_ERROR;
 				getClientStatus().fire();
 			}
@@ -494,7 +496,7 @@ public class Monitor extends Service {
 
 		@Override
 		protected void onProgressUpdate(String... arg0) {
-			Log.d(TAG+"-onProgressUpdate",arg0[0]);
+			Log.d(TAG, "onProgressUpdate - " + arg0[0]);
 			BOINCActivity.logMessage(getApplicationContext(), TAG, arg0[0]);
 		}
 		
@@ -505,7 +507,7 @@ public class Monitor extends Service {
 			Integer clientPid = getPidForProcessName(clientProcessName);
 			if(clientPid != null) {
 				// Client process exists
-				Log.d(TAG, "client process exists with pid: " + clientPid);
+				Log.d(TAG, "Gracefully shutting down client (" + clientPid +")");
 				
 				// Do not just kill the client on the first attempt.  That leaves dangling science applications running
 				// which causes repeated spawning of applications.  Neither the UI or client are happy and each are
@@ -517,6 +519,7 @@ public class Monitor extends Service {
 				for (Integer i = 0; i <= 15; i++) {
 					clientPid = getPidForProcessName(clientProcessName);
 					if(clientPid != null) {
+						Log.d(TAG, "Waiting on client (" + clientPid + ") to shutdown");
 						try {
 							Thread.sleep(1000);
 						} catch (Exception e) {}
@@ -529,6 +532,7 @@ public class Monitor extends Service {
 				//
 				clientPid = getPidForProcessName(clientProcessName);
 				if(clientPid != null) {
+					Log.d(TAG, "Forcefully terminating client (" + clientPid + ")");
 					android.os.Process.killProcess(clientPid);
 				}	
 			}
@@ -542,13 +546,13 @@ public class Monitor extends Service {
 			//try to connect to executed Client in loop
 			Boolean connected = false;
 			Integer counter = 0;
-			while(!(connected=connectClient()) && (counter<retryAttempts)) {
+			while(!(connected = connectClient()) && (counter < retryAttempts)) {
 				//re-trys setting up the client several times, before giving up.
 				BOINCActivity.logMessage(getApplicationContext(), TAG, "--- restart setup ---");
 				counter++;
 				try {
 					Thread.sleep(retryRate);
-				}catch (Exception e) {}
+				} catch (Exception e) {}
 			}
 			
 			return connected;
@@ -613,18 +617,18 @@ public class Monitor extends Service {
     		int read; 
 			
     		try {
-    			Log.d(TAG,"installing: " + file);
+    			Log.d(TAG, "installing: " + file);
 	    		
 	    		// end execution if file already exists and we do not need to overwrite
 	    		File target = new File(clientPath + file);
 	    		if (target.exists() && !overwrite) {
-	    			Log.d(TAG,"file exists, skip installation...");
+	    			Log.d(TAG, "file exists, skip installation...");
 	    			return true;
 	    		}
 	    		
 	    		//delete old target
 	    		if(target.exists() && overwrite) {
-	    			Log.d(TAG,"delete old file");
+	    			Log.d(TAG, "delete old file");
 	    			target.delete();
 	    		}
 	    		
@@ -728,7 +732,9 @@ public class Monitor extends Service {
 		    	{
 		    	    sb.append(buf, 0, ch);
 		    	}
-	    	}catch (Exception e) {Log.e(TAG, "getPidForProcessName", e);}
+	    	} catch (Exception e) {
+	    		Log.e(TAG, "getPidForProcessName", e);
+	    	}
 	    	
 	    	//parse output into hashmap
 	    	HashMap<String,Integer> pMap = new HashMap<String, Integer>();
