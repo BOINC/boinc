@@ -33,6 +33,8 @@
 #include <locale.h>
 #endif
 
+#include <deque>
+
 #include "cc_config.h"
 #include "common_defs.h"
 #include "filesys.h"
@@ -456,7 +458,7 @@ struct FILE_TRANSFERS {
 };
 
 struct MESSAGES {
-    std::vector<MESSAGE*> messages;
+    std::deque<MESSAGE*> messages;
 
     MESSAGES();
     ~MESSAGES();

@@ -148,6 +148,9 @@ private:
     wxInt32                 m_iTotalDocCount;
     wxInt32                 m_iFilteredDocCount;
     wxInt32                 m_iPreviousTotalDocCount;
+    wxInt32                 m_iPreviousFirstMsgSeqNum;
+    wxInt32                 m_iPreviousLastMsgSeqNum;
+
     wxInt32                 m_iPreviousRowCount;
     wxButton*               m_pFilterButton;
     wxButton*               m_pCopySelectedButton;
