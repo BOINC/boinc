@@ -881,14 +881,14 @@ public class Monitor extends Service {
 		}
 	}
 	
-	private final class WriteClientRunModeAsync extends AsyncTask<Integer,Void,Boolean> {
+	private final class WriteClientRunModeAsync extends AsyncTask<Integer, String, Boolean> {
 
 		private final String TAG = "WriteClientRunModeAsync";
+		
 		@Override
 		protected Boolean doInBackground(Integer... params) {
-			Log.d(TAG, "doInBackground");
-			Boolean success = rpc.setRunMode(params[0],0);
-			Log.d(TAG,"run mode set to " + params[0] + " returned " + success);
+			Boolean success = rpc.setRunMode(params[0], 0);
+        	publishProgress("run mode set to " + params[0] + " returned " + success);
 			return success;
 		}
 		
@@ -896,21 +896,33 @@ public class Monitor extends Service {
 		protected void onPostExecute(Boolean success) {
 			forceRefresh();
 		}
+
+		@Override
+		protected void onProgressUpdate(String... arg0) {
+			Log.d(TAG, "onProgressUpdate - " + arg0[0]);
+			BOINCActivity.logMessage(getApplicationContext(), TAG, arg0[0]);
+		}
 	}
 	
-	private final class ShutdownClientAsync extends AsyncTask<Void,Void,Boolean> {
+	private final class ShutdownClientAsync extends AsyncTask<Void, String, Boolean> {
 
 		private final String TAG = "ShutdownClientAsync";
+
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			Log.d(TAG, "doInBackground");
 	    	Boolean success = rpc.quit();
-	    	BOINCActivity.logMessage(getApplicationContext(), TAG, "graceful shutdown returned " + success);
+        	publishProgress("Graceful shutdown returned " + success);
 			if(!success) {
 				clientProcess.destroy();
-				BOINCActivity.logMessage(getApplicationContext(), TAG, "process killed ");
+	        	publishProgress("Process killed");
 			}
 			return success;
+		}
+
+		@Override
+		protected void onProgressUpdate(String... arg0) {
+			Log.d(TAG, "onProgressUpdate - " + arg0[0]);
+			BOINCActivity.logMessage(getApplicationContext(), TAG, arg0[0]);
 		}
 	}
 }
