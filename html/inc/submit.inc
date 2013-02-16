@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2011 University of California
+// Copyright (C) 2013 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,16 +16,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// BOINC's remote job submission system allows users to:
-// 1) manage a set of files on the server,
-//    with physical names that are isolated from other users
-// 2) submit batches of jobs
-//
-// These features can be provided by a "portal" web site
-// that is distinct from the BOINC server.
-//
-// This file contains library functions that can be used by portals.
-// It communicates (using HTTP/XML) with the BOINC server.
+// This file contains a PHP binding of a web-service interface
+// for submitting jobs to a BOINC server.
 //
 // Functions:
 //      boinc_abort_batch(): abort a batch

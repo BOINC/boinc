@@ -246,7 +246,7 @@ static int process_file_info(
                 //
                 urlstr = "";
                 for (unsigned int i=0; i<urls.size(); i++) {
-                    urlstr += "    <url>" + urls.at(i) + "</url>\n";
+                    urlstr += "    <url>" + urls.at(i) + string(infiles[file_number]) + "</url>\n";
                 }
                 sprintf(buf,
                     "    <name>%s</name>\n"
