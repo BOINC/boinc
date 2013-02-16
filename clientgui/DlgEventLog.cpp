@@ -447,7 +447,12 @@ wxInt32 CDlgEventLog::GetFilteredMessageIndex( wxInt32 iRow) const {
 }
 
 
-// Get the (possibly filtered) item count (i.e., the Row count)
+// NOTE: this function is designed to be called only
+// from CDlgEventLog::OnRefresh().  If you need to call it
+// from other routines, it will need modification.
+//
+// Get the (possibly filtered) item count (i.e., the Row count) and
+// make any needed adjustments if oldest items have been deleted.
 wxInt32 CDlgEventLog::GetDocCount() {
     int i, j, numDeletedRows;
     CMainDocument* pDoc     = wxGetApp().GetDocument();
@@ -463,6 +468,7 @@ wxInt32 CDlgEventLog::GetDocCount() {
     }
 
     numDeletedRows = pDoc->GetFirstMsgSeqNum() - m_iPreviousFirstMsgSeqNum;
+    if (numDeletedRows < 0) numDeletedRows = 0;
     m_iNumDeletedFilteredRows = 0;
 
     if (s_bIsFiltered) {
