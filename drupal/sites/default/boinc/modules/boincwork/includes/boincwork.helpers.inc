@@ -1231,9 +1231,14 @@ function boincwork_validate_datatype($data, $datatype = NULL) {
   
   function xml_to_text($xml, $include_xml_declaration = true, $add_carriage_returns = false)
   {
+      $xml->formatOutput = true;
       $text = $xml->saveXML();
-      if (!$include_xml_declaration) $text = preg_replace('/<\?xml version=.*\?>\s*/i', '', $text, 1);
-      if ($add_carriage_returns) $text = preg_replace('/\n/i', "\r\n", $text);
+      if (!$include_xml_declaration) {
+        $text = preg_replace('/<\?xml version=.*\?>\s*/i', '', $text, 1);
+      }
+      if ($add_carriage_returns) {;
+        $text = preg_replace('/\n/i', "\r\n", $text);
+      }
       return trim($text);
   }
   
