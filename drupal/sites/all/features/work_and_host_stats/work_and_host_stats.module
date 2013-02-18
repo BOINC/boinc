@@ -1,0 +1,3 @@
+<?php
+
+include_once('work_and_host_stats.features.inc');
