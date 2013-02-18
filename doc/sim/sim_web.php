@@ -511,7 +511,7 @@ function add_comment() {
     file_put_contents("$p/userid", "$user->id");
     file_put_contents("$p/comment", get_str("comment"));
 
-    header("Location: sim_web.php?action=show_simulation?scen=$scen&sim=$sim");
+    header("Location: sim_web.php?action=show_simulation&scen=$scen&sim=$sim");
 }
 
 $action = get_str("action", true);
