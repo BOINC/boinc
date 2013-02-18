@@ -26,7 +26,10 @@ import android.content.Intent;
 
 public class LogReceiver extends BroadcastReceiver {
 
+	private final String TAG = "BOINC LogReceiver";
+
 	public static ArrayList<String> logHub = new ArrayList<String>();
+
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		String tag = intent.getStringExtra("tag");
@@ -35,8 +38,8 @@ public class LogReceiver extends BroadcastReceiver {
 		}
 		String message = intent.getStringExtra("message");
 		String entry = tag + " - " + message;
-		//Log.d("LogReceiver", entry);
 		LogReceiver.logHub.add(entry);
-	}
 
+		//Log.d(TAG, entry);
+    }
 }

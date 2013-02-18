@@ -54,7 +54,7 @@
                 <action android:name="edu.berkeley.boinc.log" />
             </intent-filter>
         </activity>
-        <service android:name=".client.Monitor"></service>
+        <service android:name="edu.berkeley.boinc.client.Monitor" android:process=":monitor" android:enabled="true"></service>
         <service android:name="edu.berkeley.boinc.client.ClientRemoteService"
             android:enabled="true"
             android:exported="true"></service>
