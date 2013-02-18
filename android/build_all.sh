@@ -1,5 +1,10 @@
 #/bin/sh
-#script to compile everything BOINC needs for Android
+
+#
+# See: http://boinc.berkeley.edu/trac/wiki/AndroidBuildClient#
+#
+
+# Script to compile everything BOINC needs for Android
 
 ./build_androidtc.sh
 ./build_openssl.sh

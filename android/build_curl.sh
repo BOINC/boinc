@@ -1,5 +1,10 @@
 #/bin/sh
-#script to compile Libcurl for Android
+
+#
+# See: http://boinc.berkeley.edu/trac/wiki/AndroidBuildClient#
+#
+
+# Script to compile Libcurl for Android
 
 COMPILECURL="yes"
 CONFIGURE="yes"

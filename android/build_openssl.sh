@@ -1,5 +1,10 @@
 #/bin/sh
-#script to compile OpenSSL for Android
+
+#
+# See: http://boinc.berkeley.edu/trac/wiki/AndroidBuildClient#
+#
+
+# Script to compile OpenSSL for Android
 
 COMPILEOPENSSL="yes"
 CONFIGURE="yes"

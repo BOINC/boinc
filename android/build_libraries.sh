@@ -1,5 +1,11 @@
 #/bin/sh
-#script to compile BOINC for Android
+
+#
+# See: http://boinc.berkeley.edu/trac/wiki/AndroidBuildApp#
+#
+
+# Script to compile various BOINC libraries for Android to be used
+# by science applications
 
 COMPILEBOINC="yes"
 CONFIGURE="yes"
