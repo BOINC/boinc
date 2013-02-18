@@ -403,7 +403,7 @@ void COPROC_NVIDIA::description(char* buf) {
 #else
         int maj = display_driver_version/100;
         int min = display_driver_version%100;
-        sprintf(vers, "%d.%d", maj, min);
+        sprintf(vers, "%d.%02d", maj, min);
 #endif
     } else {
         strcpy(vers, "unknown");

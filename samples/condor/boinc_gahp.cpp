@@ -47,12 +47,12 @@ char authenticator[256];
 bool async_mode = false;
 
 // represents a command.
-// if out is NULL the command is in progress;
-// otherwise it's the output
 //
 struct COMMAND {
     char* in;
+        // the input, in a malloc'd buffer
     char* out;
+        // if NULL the command is in progress; otherwise it's the output
 };
 
 typedef map<int, COMMAND*> COMMANDS;
@@ -377,15 +377,12 @@ void read_config() {
 }
 
 int main() {
-    char* p;
-    int retval;
     read_config();
     while (1) {
-        p = get_cmd();
+        char* p = get_cmd();
         if (p == NULL) break;
         COMMAND c;
         c.in = p;
-        retval = handle_command(c);
-        if (retval) break;
+        handle_command(c);
     }
 }
