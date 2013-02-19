@@ -417,14 +417,14 @@ public class Monitor extends Service {
 					if(showRpcCommands) Log.d(TAG, "getGlobalPrefsWorkingStruct");
 					GlobalPreferences clientPrefs = rpc.getGlobalPrefsWorkingStruct();
 					ArrayList<Message> msgs = new ArrayList<Message>();
-					if(getResources().getBoolean(R.bool.tab_debug)) { //retrieve messages only when debug tab is enabled
-						Integer count = rpc.getMessageCount();
-						if(showRpcCommands) Log.d(TAG, "getMessages, count: " + count);
-						msgs = rpc.getMessages(count - 25); //get the most recent 25 messages
-					}
+					Integer count = rpc.getMessageCount();
+					msgs = rpc.getMessages(count - 250); //get the most recent 250 messages
+					if(showRpcCommands) Log.d(TAG, "getMessages, count: " + count);
 					
-					if((status!=null)&&(results!=null)&&(projects!=null)&&(transfers!=null)&&(clientPrefs!=null)) {
-						Monitor.clientStatus.setClientStatus(status,results,projects,transfers,clientPrefs,msgs);
+					if( (status != null) && (results != null) && (projects != null) && (transfers != null) &&
+					    (clientPrefs != null)
+					) {
+						Monitor.clientStatus.setClientStatus(status, results, projects, transfers, clientPrefs, msgs);
 					} else {
 						BOINCActivity.logMessage(getApplicationContext(), TAG, "client status connection problem");
 					}
