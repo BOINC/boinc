@@ -984,6 +984,8 @@ static int send_new_file_work() {
 // also eventually move 'non locality' work through and out of the
 // system?
 //
+// Yes, Bruce, it will. BM
+//
 // This looks for work created in the range t_min < t < t_max.  Use
 // t_min=INT_MIN if you wish to leave off the left constraint.
 //
