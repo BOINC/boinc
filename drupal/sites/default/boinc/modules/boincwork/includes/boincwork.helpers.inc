@@ -1026,10 +1026,12 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
   }
   
   // Set modified time
-  if (!isset($main_prefs['mod_time'])) {
-    $main_prefs = array_merge(array('mod_time' => 0), $main_prefs);
+  if ($type == 'general') {
+    if (!isset($main_prefs['mod_time'])) {
+      $main_prefs = array_merge(array('mod_time' => 0), $main_prefs);
+    }
+    $main_prefs['mod_time'] = time();
   }
-  $main_prefs['mod_time'] = time();
   
   // Convert prefs back to XML and save to database
   $result = null;

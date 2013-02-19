@@ -1,0 +1,11 @@
+name = "Jump"
+description = "Turns a menu or taxonomy into a pick list"
+core = 6.x
+dependencies[] = ahah_helper
+
+; Information added by drupal.org packaging script on 2011-02-25
+version = "6.x-2.x-dev"
+core = "6.x"
+project = "jump"
+datestamp = "1298619515"
+
