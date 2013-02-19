@@ -19,6 +19,8 @@
 package edu.berkeley.boinc;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.lang.StringBuffer;
 
 import edu.berkeley.boinc.adapter.MessagesListAdapter;
 import edu.berkeley.boinc.client.Monitor;
@@ -86,8 +88,6 @@ public class MsgsActivity extends Activity {
 		lv = (ListView) findViewById(R.id.msgsList);
         listAdapter = new MessagesListAdapter(MsgsActivity.this, R.id.listview, data);
         lv.setAdapter(listAdapter);
-        
-        
 	}
 
 	@Override
@@ -115,6 +115,7 @@ public class MsgsActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+	    Log.d(TAG, "onCreateOptionsMenu()");
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.msgs_menu, menu);
 		return true;
@@ -122,12 +123,39 @@ public class MsgsActivity extends Activity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+	    Log.d(TAG, "onOptionsItemSelected()");
 		switch (item.getItemId()) {
-			case R.id.send_to:
-				//showHelp();
+			case R.id.email_to:
+				onEmailTo();
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
-	}	
+	}
+	
+	public void onEmailTo() {
+
+		Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+		StringBuffer emailText = new StringBuffer();
+		
+		emailIntent.setType("plain/text");
+		emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Event Log for BOINC on Android");
+
+		// Construct the message body
+		emailText.append("\n\nContents of the Event Log:\n\n");
+		for (Message msg: data) {
+			emailText.append(new Date(msg.timestamp).toString());
+			emailText.append("|");
+			emailText.append(msg.project);
+			emailText.append("|");
+			emailText.append(msg.body);
+			emailText.append("\n");
+		}
+		
+		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, emailText.toString());
+		
+		// Send it off to the Activity-Chooser
+		startActivity(Intent.createChooser(emailIntent, "Send mail..."));		
+
+	}
 }
