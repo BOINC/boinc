@@ -17,39 +17,31 @@
   You should have received a copy of the GNU Lesser General Public License
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/msgsRow"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal" >
 
-    <TableRow
-        android:id="@+id/msgs_row"
+    <TextView
+        android:id="@+id/msgs_project"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:text="Project" />
+
+    <TextView
+        android:id="@+id/msgs_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:text="Date" />
+
+    <TextView
+        android:id="@+id/msgs_message"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:layout_margin="2dp"
+        android:text="Message" />
 
-        <TextView
-            android:id="@+id/msgs_project"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:text="Project" />
-
-        <TextView
-            android:id="@+id/msgs_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:text="Date" />
-
-        <TextView
-            android:id="@+id/msgs_message"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:text="Message" />
-
-    </TableRow>
-
-</TableRow>
+</LinearLayout>
