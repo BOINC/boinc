@@ -21,19 +21,18 @@ package edu.berkeley.boinc;
 import java.util.ArrayList;
 
 import edu.berkeley.boinc.adapter.MessagesListAdapter;
-import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Message;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MenuInflater;
 import android.widget.ListView;
 
 
@@ -47,7 +46,7 @@ public class MsgsActivity extends Activity {
 
 	
 	/*
-	 * Receiver is necessary, because writing of prefs has to be done asynchroneously. 
+	 * Receiver is necessary, because writing of preferences has to be done asynchronously. 
 	 * PrefsActivity will change to "loading" layout, until monitor read new results.
 	 */
 	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
@@ -87,6 +86,8 @@ public class MsgsActivity extends Activity {
 		lv = (ListView) findViewById(R.id.msgsList);
         listAdapter = new MessagesListAdapter(MsgsActivity.this, R.id.listview, data);
         lv.setAdapter(listAdapter);
+        
+        
 	}
 
 	@Override
@@ -111,5 +112,22 @@ public class MsgsActivity extends Activity {
 
 	    super.onDestroy();
 	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.msgs_menu, menu);
+		return true;
+	}
 	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.send_to:
+				//showHelp();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}	
 }
