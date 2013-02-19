@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/email_to" android:enabled="true" android:visible="true" android:title="Email To..." android:icon="@drawable/mailb"></item>
+    <item android:id="@+id/email_to" android:enabled="true" android:visible="true" android:title="Email To..." android:icon="@drawable/mailw"></item>
     
 
 </menu>
