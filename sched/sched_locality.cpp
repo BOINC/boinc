@@ -1169,6 +1169,16 @@ void send_work_locality() {
             );
         }
 
+    // send old work if there is any. send this only to hosts which have
+    // high-bandwidth connections, since asking dial-up users to upload
+    // (presumably large) data files is onerous.
+    //
+    if (config.locality_scheduling_send_timeout && g_request->host.n_bwdown>100000) {
+        int until=time(0)-config.locality_scheduling_send_timeout;
+        int retval_sow=send_old_work(INT_MIN, until);
+        if (!work_needed(true)) return;
+    }
+
     // Look for work in order of increasing file name, or randomly?
     //
     if (config.locality_scheduling_sorted_order) {
@@ -1177,16 +1187,6 @@ void send_work_locality() {
     } else {
         if (!nfiles) nfiles = 1;
         j = rand()%nfiles;
-    }
-
-    // send old work if there is any. send this only to hosts which have
-    // high-bandwidth connections, since asking dial-up users to upload
-    // (presumably large) data files is onerous.
-    //
-    if (config.locality_scheduling_send_timeout && g_request->host.n_bwdown>100000) {
-        int until=time(0)-config.locality_scheduling_send_timeout;
-        int retval_sow=send_old_work(INT_MIN, until);
-        if (retval_sow==ERR_NO_APP_VERSION || retval_sow==ERR_INSUFFICIENT_RESOURCE) return;
     }
 
     // send work for existing files
