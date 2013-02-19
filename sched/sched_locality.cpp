@@ -555,8 +555,21 @@ static int send_results_for_file(
     nsent = 0;
 
     if (!work_needed(true)) {
+        if (config.debug_locality) {
+            log_messages.printf(MSG_NORMAL,
+                "[locality] send_results_for_file(): No work needed\n"
+            );
+        }
         return 0;
+    } else {
+        if (config.debug_locality) {
+            log_messages.printf(MSG_NORMAL,
+                "[locality] send_results_for_file(%s)\n",
+                filename
+            );
+        }
     }
+
 
     // find largest ID of results already sent to this user for this
     // file, if any.  Any result that is sent will have userid field
