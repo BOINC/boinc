@@ -58,7 +58,7 @@ public class MessagesListAdapter extends ArrayAdapter<Message>{
     	
 		// Construct output
 		String project = listItem.project;
-		String date = new Date(listItem.timestamp).toString();
+		String date = new Date(listItem.timestamp*1000).toString();
 		String message = listItem.body;
 
         // Instantiate layout elements
