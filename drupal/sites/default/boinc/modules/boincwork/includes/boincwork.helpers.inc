@@ -859,6 +859,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       $user_prefs['app_id'] = array($user_prefs['app_id']);
     }
     foreach ($user_prefs['app_id'] as $app) {
+      if (!$app) continue;
       if (is_array($app) AND isset($app['@value'])) {
         $app = $app['@value'];
       }

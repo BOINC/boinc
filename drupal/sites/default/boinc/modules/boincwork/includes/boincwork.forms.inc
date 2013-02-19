@@ -809,6 +809,12 @@ function boincwork_projectprefs_form_validate($form, &$form_state) {
         form_set_error(reset($validation_rules['apps']['list']), t('At least
           one application must be selected'));
       }
+      if ($apps_selected == count($validation_rules['apps']['list'])) {
+        foreach ($validation_rules['apps']['list'] as $app) {
+          unset($form_state['values'][$app]);
+        }
+        $form_state['storage']['all apps selected'] = TRUE;
+      }
     }
   }
 }
@@ -844,6 +850,11 @@ function boincwork_projectprefs_form_submit($form, &$form_state) {
   );
   $prefs = $updated_prefs + $prefs;
   
+  // Don't specify apps if all are selected
+  if (isset($form_state['storage']['all apps selected'])) {
+    unset($prefs['project_specific']['app_id']);
+    unset($form_state['storage']['all apps selected']);
+  }
   
   // Save preferences back to the BOINC account
   boincwork_save_prefs($prefs, 'project', $venue);
