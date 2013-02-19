@@ -21,6 +21,7 @@ package edu.berkeley.boinc;
 import java.util.ArrayList;
 
 import edu.berkeley.boinc.adapter.MessagesListAdapter;
+import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Message;
 import android.app.Activity;
@@ -39,9 +40,6 @@ import android.widget.ListView;
 public class MsgsActivity extends Activity {
 
 	private final String TAG = "BOINC MsgsActivity";
-	
-	private Monitor monitor;
-	private Boolean mIsBound = false;
 	
 	private ListView lv;
 	private MessagesListAdapter listAdapter;
@@ -77,44 +75,9 @@ public class MsgsActivity extends Activity {
 
 	
 	/*
-	 * Service binding part
-	 */
-	private ServiceConnection mConnection = new ServiceConnection() {
-	    public void onServiceConnected(ComponentName className, IBinder service) {
-	    	Log.d(TAG, "onServiceConnected");
-	    	
-	        monitor = ((Monitor.LocalBinder)service).getService();
-		    mIsBound = true;
-	    }
-
-	    public void onServiceDisconnected(ComponentName className) {
-	    	Log.d(TAG, "onServiceDisconnected");
-	    	
-	        monitor = null;
-	        mIsBound = false;
-	    }
-	};
-
-	private void doBindService() {
-		if(!mIsBound) {
-	    	Log.d(TAG, "doBindService - Binding to Monitor");
-
-	    	// calling within Tab needs getApplicationContext() for bindService to work!
-			getApplicationContext().bindService(new Intent(this, Monitor.class), mConnection, 0); 
-		}
-	}
-
-	private void doUnbindService() {
-	    if (mIsBound) {
-	    	Log.d(TAG, "doBindService - Unbinding from Monitor");
-
-	    	getApplicationContext().unbindService(mConnection);
-	    }
-	}
-	
-	/*
 	 * Message Activity
 	 */
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    Log.d(TAG, "onCreate()");
 
@@ -124,11 +87,9 @@ public class MsgsActivity extends Activity {
 		lv = (ListView) findViewById(R.id.listview);
         listAdapter = new MessagesListAdapter(MsgsActivity.this, R.id.listview, data);
         lv.setAdapter(listAdapter);
-		
-		//get monitor
-		doBindService();
 	}
 
+	@Override
 	public void onPause() {
 		Log.d(TAG, "onPause() - Unregister Receiver");
 
@@ -136,6 +97,7 @@ public class MsgsActivity extends Activity {
 		super.onPause();
 	}
 	
+	@Override
 	public void onResume() {
 		Log.d(TAG, "onResume() - Register Receiver");
 
@@ -147,9 +109,7 @@ public class MsgsActivity extends Activity {
 	protected void onDestroy() {
 	    Log.d(TAG, "onDestroy()");
 
-	    doUnbindService();
 	    super.onDestroy();
 	}
-	
 	
 }
