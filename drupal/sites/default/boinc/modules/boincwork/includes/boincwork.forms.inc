@@ -128,7 +128,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
   // Hidden elements
   $form['prefs']['modified'] = array(
     '#type' => 'hidden',
-    '#value' => (isset($prefs['mod_time']) ? $prefs['mod_time'] : null)
+    '#value' => (isset($prefs['mod_time']['@value']) ? $prefs['mod_time']['@value'] : null)
   );
   $form['prefs']['venue'] = array(
     '#type' => 'hidden',
@@ -662,10 +662,6 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
     '#type' => 'hidden',
     '#value' => $venue
   );
-  $form['modified'] = array(
-    '#type' => 'hidden',
-    '#value' => (isset($prefs['mod_time']) ? $prefs['mod_time'] : null)
-  );
   
   $form['form control tabs prefix'] = array(
     '#value' => '<ul class="tab-list">'
@@ -801,6 +797,20 @@ function boincwork_projectprefs_form_validate($form, &$form_state) {
       form_set_error($field, t('Maximum value exceeded for @field', array('@field' => $field)));
     }
   }
+  // Check for app validation
+  if (isset($validation_rules['apps'])) {
+    if (isset($validation_rules['apps']['minimum selected'])
+        AND $validation_rules['apps']['minimum selected'] > 0) {
+      $apps_selected = 0;
+      foreach ($validation_rules['apps']['list'] as $app) {
+        if ($form_state['values'][$app]) $apps_selected++;
+      }
+      if ($apps_selected < $validation_rules['apps']['minimum selected']) {
+        form_set_error(reset($validation_rules['apps']['list']), t('At least
+          one application must be selected'));
+      }
+    }
+  }
 }
 
 /**
@@ -876,11 +886,6 @@ function boincwork_privacyprefs_form(&$form_state) {
   $form['boolean_options'] = array(
     '#type' => 'value',
     '#value' => array(1 => t('yes'), 0 => t('no'))
-  );
-  
-  $form['modified'] = array(
-    '#type' => 'hidden',
-    '#value' => (isset($prefs['mod_time']) ? $prefs['mod_time'] : null)
   );
   
   $form['form control tabs prefix'] = array(

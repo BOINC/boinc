@@ -256,18 +256,24 @@ function boincwork_get_project_specific_config_validation_rules($xml = array()) 
         );
       }
       break;
-    
+    */
     case 'apps':
+      // At least one app needs to be selected
+      $rules['apps'] = array(
+        'minimum selected' => 1,
+        'list' => array()
+      );
       foreach ($elements as $element) {
         foreach ($element['app'] as $app) {
           $name = "app_{$app['@attributes']['id']}";
-          $rules[$name] = array(
-            'options' => $options
-          );
+          $rules['apps']['list'][] = $name;
+          //$rules[$name] = array(
+          //  'options' => $options
+          //);
         }
       }
       break;
-    
+    /*
     case 'boolean':
       // Shouldn't need to validate boolean...
       break;
@@ -849,8 +855,14 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       '#collapsed' => FALSE
     );
     $applications = array();
-    foreach ((array) $user_prefs['app_id'] as $app) {
-      $applications[] = isset($app['@value']) ? $app['@value'] : $app;
+    if (!is_array($user_prefs['app_id'])) {
+      $user_prefs['app_id'] = array($user_prefs['app_id']);
+    }
+    foreach ($user_prefs['app_id'] as $app) {
+      if (is_array($app) AND isset($app['@value'])) {
+        $app = $app['@value'];
+      }
+      $applications[] = $app;
     }
     foreach ($elements['app'] as $app) {
       $app_id = $app['@attributes']['id'];
