@@ -125,6 +125,21 @@
       <?php echo l(t('Message @id', array('@id' => $comment->cid)),
         "node/{$comment->nid}", 
         array('fragment' => "comment-{$comment->cid}")); ?>
+      <?php 
+        if ($comment->pid):
+          $parent = _comment_load($comment->pid);
+          if ($parent->status == COMMENT_PUBLISHED) {
+            $parent_link = l(t('message @id', array('@id' => $comment->pid)),
+            "node/{$comment->nid}", array('fragment' => "comment-{$comment->pid}"));
+          }
+          else {
+            $parent_link = '(' . t('parent removed') . ')';
+          }
+          echo t(' in response to !parent', array(
+            '!parent' => $parent_link
+          ));
+        endif;
+      ?>
     </div>
 
     <div class="content">
