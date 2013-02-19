@@ -918,7 +918,7 @@ static int send_new_file_work_working_set() {
 }
 
 // prototype
-static int send_old_work(int t_min, int t_max);
+static int send_old_work(int t_min, int t_max, bool locality_work_only=false);
 
 // The host doesn't have any files for which work is available.
 // Pick new file to send.  Returns nonzero if no work is available.
@@ -989,7 +989,7 @@ static int send_new_file_work() {
 // This looks for work created in the range t_min < t < t_max.  Use
 // t_min=INT_MIN if you wish to leave off the left constraint.
 //
-static int send_old_work(int t_min, int t_max) {
+static int send_old_work(int t_min, int t_max, bool locality_work_only) {
     char buf[1024], filename[256];
     int retval, extract_retval, nsent;
     SCHED_DB_RESULT result;
@@ -1012,14 +1012,24 @@ static int send_old_work(int t_min, int t_max) {
     //
     if (t_min != INT_MIN) {
         sprintf(buf,
+#ifdef EINSTEIN_AT_HOME
+            "INNER JOIN (SELECT id FROM result USE INDEX (res_create_server_state) WHERE server_state=%d and %d<create_time and create_time<%d %s limit 1) AS single USING (id)",
+            RESULT_SERVER_STATE_UNSENT, t_min, t_max, locality_work_only?"and name>binary '%s__' and name<binary '%s__~'":""
+#else
             "INNER JOIN (SELECT id FROM result WHERE server_state=%d and %d<create_time and create_time<%d limit 1) AS single USING (id)",
             RESULT_SERVER_STATE_UNSENT, t_min, t_max
+#endif
         );
     }
     else {
         sprintf(buf,
+#ifdef EINSTEIN_AT_HOME
+            "INNER JOIN (SELECT id FROM result USE INDEX (res_create_server_state) WHERE server_state=%d and create_time<%d %s limit 1) AS single USING (id)",
+            RESULT_SERVER_STATE_UNSENT, t_max, locality_work_only?"and name>binary '%s__' and name<binary '%s__~'":""
+#else
             "INNER JOIN (SELECT id FROM result WHERE server_state=%d and create_time<%d limit 1) AS single USING (id)",
             RESULT_SERVER_STATE_UNSENT, t_max
+#endif
         );
     }
 
