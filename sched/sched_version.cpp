@@ -533,6 +533,10 @@ BEST_APP_VERSION* get_app_version(
     bool job_needs_64b = (wu.rsc_memory_bound > max_32b_address_space());
 
     if (config.debug_version_select) {
+        log_messages.printf(MSG_NORMAL,
+            "[version] get_app_version(): getting app version for WU#%d (%s) appid:%d\n",
+            wu.id, wu.name, wu.appid
+        );
         if (job_needs_64b) {
             log_messages.printf(MSG_NORMAL,
                 "[version] job needs 64-bit app version: mem bnd %f\n",
