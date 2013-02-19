@@ -84,7 +84,7 @@ public class MsgsActivity extends Activity {
 	    super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.msgs_layout); 
-		lv = (ListView) findViewById(R.id.listview);
+		lv = (ListView) findViewById(R.id.msgsList);
         listAdapter = new MessagesListAdapter(MsgsActivity.this, R.id.listview, data);
         lv.setAdapter(listAdapter);
 	}
