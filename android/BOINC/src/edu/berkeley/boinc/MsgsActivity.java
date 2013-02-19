@@ -144,12 +144,12 @@ public class MsgsActivity extends Activity {
 		// Construct the message body
 		emailText.append("\n\nContents of the Event Log:\n\n");
 		for (Message msg: data) {
-			emailText.append(new Date(msg.timestamp).toString());
+			emailText.append(new Date(msg.timestamp*1000).toString());
 			emailText.append("|");
 			emailText.append(msg.project);
 			emailText.append("|");
 			emailText.append(msg.body);
-			emailText.append("\n");
+			emailText.append("\r\n");
 		}
 		
 		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, emailText.toString());
