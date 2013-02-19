@@ -131,7 +131,7 @@
     <xs:complexType name="apps">
         <xs:sequence>
             <xs:element name="title" type="title" minOccurs="1" maxOccurs="1" />
-            <xs:element name="app" type="app" minOccurs="1" maxOccurs="unbounded" />
+            <xs:element name="app" type="app" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>
     </xs:complexType>
 
