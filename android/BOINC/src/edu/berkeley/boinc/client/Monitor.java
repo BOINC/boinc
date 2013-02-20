@@ -517,7 +517,7 @@ public class Monitor extends Service {
 			// If client hashes do not match, we need to install the one that is a part
 			// of the package. Shutdown the currently running client if needed.
 			//
-			if (md5AssetClient != md5InstalledClient) {
+			if (md5InstalledClient.compareToIgnoreCase(md5AssetClient) != 0) {
 
 				// Determine if BOINC is already running.
 				//
