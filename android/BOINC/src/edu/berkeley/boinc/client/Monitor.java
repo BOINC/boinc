@@ -569,7 +569,7 @@ public class Monitor extends Service {
 			// Start the BOINC client if we need to.
 			//
 			clientPid = getPidForProcessName(clientProcessName);
-			if(clientPid != null) {
+			if(clientPid == null) {
 	        	publishProgress("Starting the BOINC client");
 				if (!runClient()) {
 		        	publishProgress("BOINC client failed to start");
