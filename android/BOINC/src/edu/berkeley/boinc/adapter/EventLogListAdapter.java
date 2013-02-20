@@ -32,14 +32,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class MessagesListAdapter extends ArrayAdapter<Message>{
+public class EventLogListAdapter extends ArrayAdapter<Message>{
 	
 	// private final String TAG = "MessagesListAdapter";
 
 	private ArrayList<Message> entries;
     private Activity activity;
  
-    public MessagesListAdapter(Activity a, int textViewResourceId, ArrayList<Message> entries) {
+    public EventLogListAdapter(Activity a, int textViewResourceId, ArrayList<Message> entries) {
         super(a, textViewResourceId, entries);
         this.entries = entries;
         this.activity = a;
@@ -51,7 +51,7 @@ public class MessagesListAdapter extends ArrayAdapter<Message>{
     	// Setup view
         View v = convertView;
         LayoutInflater vi = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        v = vi.inflate(R.layout.msgs_layout_listitem, null);
+        v = vi.inflate(R.layout.eventlog_layout_listitem, null);
 
     	// Get Message
     	Message listItem = entries.get(position);

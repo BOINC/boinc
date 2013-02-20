@@ -72,7 +72,7 @@
     <string name="tab_tasks">Tasks</string>
     <string name="tab_transfers">Transfers</string>
     <string name="tab_preferences">Preferences</string>
-    <string name="tab_messages">Messages</string>
+    <string name="tab_eventlog">Event Log</string>
     <string name="tab_debug">Debug</string>
    
     <!-- status tab strings -->
@@ -152,7 +152,10 @@
 	<string name="trans_waiting">waiting for connection&#8230;</string>
 	<string name="trans_downloading">downloading&#8230;</string>
 	    
-    <!-- debug tab strings -->
+	<!-- eventlog tab strings -->
+	<string name="eventlog_loading">Loading messages&#8230;</string>
+	
+	<!-- debug tab strings -->
     <string name="debug_kill">Kill BOINC Client</string>
     <string name="debug_clear">Clear</string>
     <string name="debug_refresh">Refresh</string>

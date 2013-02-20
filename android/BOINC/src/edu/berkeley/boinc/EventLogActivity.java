@@ -22,15 +22,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.lang.StringBuffer;
 
-import edu.berkeley.boinc.adapter.MessagesListAdapter;
+import edu.berkeley.boinc.adapter.EventLogListAdapter;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Message;
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,19 +38,24 @@ import android.view.MenuInflater;
 import android.widget.ListView;
 
 
-public class MsgsActivity extends Activity {
+public class EventLogActivity extends FragmentActivity {
 
-	private final String TAG = "BOINC MsgsActivity";
+	private final String TAG = "BOINC EventLogActivity";
 	
 	private ListView lv;
-	private MessagesListAdapter listAdapter;
+	private EventLogListAdapter listAdapter;
 	private ArrayList<Message> data = new ArrayList<Message>();
 
+	// Controls when to display the proper messages activity, by default we display a
+	// view that says we are loading messages.  When initialSetup is false, we have
+	// something to display.
+	//
+	private Boolean initialSetup; 
 	
-	/*
-	 * Receiver is necessary, because writing of preferences has to be done asynchronously. 
-	 * PrefsActivity will change to "loading" layout, until monitor read new results.
-	 */
+	// BroadcastReceiver event is used to update the UI with updated information from 
+	// the client.  This is generally called once a second.
+	//
+	private IntentFilter ifcsc = new IntentFilter("edu.berkeley.boinc.clientstatuschange");
 	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -60,6 +65,15 @@ public class MsgsActivity extends Activity {
 			ArrayList<Message> tmpA = Monitor.getClientStatus().getMessages(); 
 			if(tmpA == null) {
 				return;
+			}
+
+			// Switch to a view that can actually display messages
+			if (initialSetup) {
+				initialSetup = false;
+				setContentView(R.layout.eventlog_layout); 
+				lv = (ListView) findViewById(R.id.eventlogList);
+		        listAdapter = new EventLogListAdapter(EventLogActivity.this, R.id.eventlogList, data);
+		        lv.setAdapter(listAdapter);
 			}
 			
 			// Deep copy, so ArrayList adapter actually recognizes the difference
@@ -72,27 +86,21 @@ public class MsgsActivity extends Activity {
 			listAdapter.notifyDataSetChanged(); 
 		}
 	};
-	private IntentFilter ifcsc = new IntentFilter("edu.berkeley.boinc.clientstatuschange");
 
 	
-	/*
-	 * Message Activity
-	 */
+	//
+	// Message Activity
+	//
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    Log.d(TAG, "onCreate()");
 
 	    super.onCreate(savedInstanceState);
-
-		setContentView(R.layout.msgs_layout); 
-		lv = (ListView) findViewById(R.id.msgsList);
-        listAdapter = new MessagesListAdapter(MsgsActivity.this, R.id.listview, data);
-        lv.setAdapter(listAdapter);
 	}
 
 	@Override
 	public void onPause() {
-		Log.d(TAG, "onPause() - Unregister Receiver");
+		Log.d(TAG, "onPause()");
 
 		unregisterReceiver(mClientStatusChangeRec);
 		super.onPause();
@@ -100,9 +108,14 @@ public class MsgsActivity extends Activity {
 	
 	@Override
 	public void onResume() {
-		Log.d(TAG, "onResume() - Register Receiver");
+		Log.d(TAG, "onResume()");
 
 		super.onResume();
+		
+		// Switch to the loading view until we have something to display
+		initialSetup = true;
+		setContentView(R.layout.eventlog_layout_loading); 
+		
 		registerReceiver(mClientStatusChangeRec, ifcsc);
 	}
 	
@@ -116,15 +129,17 @@ public class MsgsActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    Log.d(TAG, "onCreateOptionsMenu()");
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.msgs_menu, menu);
+
+	    MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.eventlog_menu, menu);
 		return true;
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    Log.d(TAG, "onOptionsItemSelected()");
-		switch (item.getItemId()) {
+
+	    switch (item.getItemId()) {
 			case R.id.email_to:
 				onEmailTo();
 				return true;

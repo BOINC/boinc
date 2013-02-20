@@ -51,13 +51,15 @@ public class BOINCActivity extends TabActivity {
 
 	private ServiceConnection mConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
-	        // This is called when the connection with the service has been established, getService returns the Monitor object that is needed to call functions.
+	        // This is called when the connection with the service has been established, getService returns 
+	    	// the Monitor object that is needed to call functions.
 	        monitor = ((Monitor.LocalBinder)service).getService();
 		    mIsBound = true;
 		    determineStatus();
 	    }
 
-	    public void onServiceDisconnected(ComponentName className) { // This should not happen
+	    public void onServiceDisconnected(ComponentName className) {
+	    	// This should not happen
 	        monitor = null;
 		    mIsBound = false;
 	    }
@@ -66,7 +68,8 @@ public class BOINCActivity extends TabActivity {
 	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context,Intent intent) {
-			Log.d(TAG+"-clientstatuschange","received");
+			Log.d(TAG, "ClientStatusChange - onReceive()");
+
 			determineStatus();
 		}
 	};
@@ -74,10 +77,11 @@ public class BOINCActivity extends TabActivity {
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {  
+        Log.d(TAG, "onCreate()"); 
+
         super.onCreate(savedInstanceState);  
         setContentView(R.layout.main);  
          
-        Log.d(TAG, "onCreate"); 
         
         //bind monitor service
         doBindService();
@@ -87,14 +91,14 @@ public class BOINCActivity extends TabActivity {
     
 	@Override
 	protected void onDestroy() {
-    	Log.d(TAG, "onDestroy");
+    	Log.d(TAG, "onDestroy()");
 	    doUnbindService();
 	    super.onDestroy();
 	}
 
 	@Override
 	protected void onResume() { // gets called by system every time activity comes to front. after onCreate upon first creation
-    	Log.d(TAG, "onResume");
+    	Log.d(TAG, "onResume()");
 	    super.onResume();
 	    registerReceiver(mClientStatusChangeRec, ifcsc);
 	    layout();
@@ -102,7 +106,7 @@ public class BOINCActivity extends TabActivity {
 
 	@Override
 	protected void onPause() { // gets called by system every time activity loses focus.
-    	Log.d(TAG, "onPause");
+    	Log.d(TAG, "onPause()");
 	    super.onPause();
 	    unregisterReceiver(mClientStatusChangeRec);
 	}
@@ -177,7 +181,7 @@ public class BOINCActivity extends TabActivity {
     		noProjectWarning.setVisibility(View.VISIBLE);
     		break;
     	default:
-    		Log.w(TAG,"could not layout status: " + clientSetupStatus);
+    		Log.w(TAG, "could not layout status: " + clientSetupStatus);
     		break;
     	}
     	
@@ -195,7 +199,7 @@ public class BOINCActivity extends TabActivity {
     	if(res.getBoolean(R.bool.tab_status)) {
 	        TabSpec statusSpec = tabHost.newTabSpec(getResources().getString(R.string.tab_status));
 	        statusSpec.setIndicator(getResources().getString(R.string.tab_status), getResources().getDrawable(R.drawable.icon_status_tab));
-	        Intent statusIntent = new Intent(this,StatusActivity.class);
+	        Intent statusIntent = new Intent(this, StatusActivity.class);
 	        statusSpec.setContent(statusIntent);
 	        tabHost.addTab(statusSpec);
     	}
@@ -203,7 +207,7 @@ public class BOINCActivity extends TabActivity {
     	if(res.getBoolean(R.bool.tab_projects)) {
 	        TabSpec projectsSpec = tabHost.newTabSpec(getResources().getString(R.string.tab_projects));
 	        projectsSpec.setIndicator(getResources().getString(R.string.tab_projects), getResources().getDrawable(R.drawable.icon_projects_tab));
-	        Intent projectsIntent = new Intent(this,ProjectsActivity.class);
+	        Intent projectsIntent = new Intent(this, ProjectsActivity.class);
 	        projectsSpec.setContent(projectsIntent);
 	        tabHost.addTab(projectsSpec);
     	}
@@ -211,7 +215,7 @@ public class BOINCActivity extends TabActivity {
     	if(res.getBoolean(R.bool.tab_tasks)) {
 	        TabSpec tasksSpec = tabHost.newTabSpec(getResources().getString(R.string.tab_tasks));
 	        tasksSpec.setIndicator(getResources().getString(R.string.tab_tasks), getResources().getDrawable(R.drawable.icon_tasks_tab));
-	        Intent tasksIntent = new Intent(this,TasksActivity.class);
+	        Intent tasksIntent = new Intent(this, TasksActivity.class);
 	        tasksSpec.setContent(tasksIntent);
 	        tabHost.addTab(tasksSpec);
     	}
@@ -219,7 +223,7 @@ public class BOINCActivity extends TabActivity {
     	if(res.getBoolean(R.bool.tab_transfers)) {
 	        TabSpec transSpec = tabHost.newTabSpec(getResources().getString(R.string.tab_transfers));
 	        transSpec.setIndicator(getResources().getString(R.string.tab_transfers), getResources().getDrawable(R.drawable.icon_trans_tab));
-	        Intent transIntent = new Intent(this,TransActivity.class);
+	        Intent transIntent = new Intent(this, TransActivity.class);
 	        transSpec.setContent(transIntent);
 	        tabHost.addTab(transSpec);
     	}
@@ -227,15 +231,15 @@ public class BOINCActivity extends TabActivity {
     	if(res.getBoolean(R.bool.tab_preferences)) {
 	        TabSpec prefsSpec = tabHost.newTabSpec(getResources().getString(R.string.tab_preferences));
 	        prefsSpec.setIndicator(getResources().getString(R.string.tab_preferences), getResources().getDrawable(R.drawable.icon_prefs_tab));
-	        Intent prefsIntent = new Intent(this,PrefsActivity.class);
+	        Intent prefsIntent = new Intent(this, PrefsActivity.class);
 	        prefsSpec.setContent(prefsIntent);
 	        tabHost.addTab(prefsSpec);
     	}
         
     	if(res.getBoolean(R.bool.tab_messages)) {
-	        TabSpec msgsSpec = tabHost.newTabSpec(getResources().getString(R.string.tab_messages));
-	        msgsSpec.setIndicator(getResources().getString(R.string.tab_messages), getResources().getDrawable(R.drawable.icon_msgs_tab));
-	        Intent msgsIntent = new Intent(this,MsgsActivity.class);
+	        TabSpec msgsSpec = tabHost.newTabSpec(getResources().getString(R.string.tab_eventlog));
+	        msgsSpec.setIndicator(getResources().getString(R.string.tab_eventlog), getResources().getDrawable(R.drawable.icon_msgs_tab));
+	        Intent msgsIntent = new Intent(this, EventLogActivity.class);
 	        msgsSpec.setContent(msgsIntent);
 	        tabHost.addTab(msgsSpec);
     	}
@@ -243,20 +247,20 @@ public class BOINCActivity extends TabActivity {
     	if(res.getBoolean(R.bool.tab_debug)) {
 	        TabSpec debugSpec = tabHost.newTabSpec(getResources().getString(R.string.tab_debug));
 	        debugSpec.setIndicator(getResources().getString(R.string.tab_debug), getResources().getDrawable(R.drawable.icon_debug_tab));
-	        Intent debugIntent = new Intent(this,DebugActivity.class);
+	        Intent debugIntent = new Intent(this, DebugActivity.class);
 	        debugSpec.setContent(debugIntent);
 	        tabHost.addTab(debugSpec);
         }
     	
-        Log.d(TAG,"tab layout setup done");
+        Log.d(TAG, "tab layout setup done");
 
         BOINCActivity.logMessage(this, TAG, "tab setup finished");
     }
 
 	// triggered by click on noproject_warning, starts login activity
 	public void noProjectClicked(View view) {
-		Log.d(TAG,"noProjectClicked");
-		startActivity(new Intent(this,LoginActivity.class));
+		Log.d(TAG, "noProjectClicked()");
+		startActivity(new Intent(this, LoginActivity.class));
 	}
     
 	
@@ -264,7 +268,7 @@ public class BOINCActivity extends TabActivity {
 	//has to be public in order to get triggered by layout component
 	public void reinitClient(View view) {
 		if(!mIsBound) return;
-		Log.d(TAG,"reinitClient");
+		Log.d(TAG, "reinitClient()");
 		monitor.restartMonitor(); //start over with setup of client
 	}
 }
