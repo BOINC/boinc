@@ -570,8 +570,9 @@ public class Monitor extends Service {
 			//
 			clientPid = getPidForProcessName(clientProcessName);
 			if(clientPid != null) {
+	        	publishProgress("Starting the BOINC client");
 				if (!runClient()) {
-		        	publishProgress("BOINC client failed to start!");
+		        	publishProgress("BOINC client failed to start");
 					return false;
 				}
 			}
@@ -747,7 +748,6 @@ public class Monitor extends Service {
 	    	}
 	    	
 	    	// Find required pid
-    		publishProgress("getPidForProcessName(): " + processName + " is " + pMap.get(processName).toString());
 	    	return pMap.get(processName);
 	    }
 
