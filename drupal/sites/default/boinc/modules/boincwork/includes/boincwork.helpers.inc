@@ -1393,3 +1393,19 @@ function boincwork_views_host_list_empty_text($context = null) {
   }
   return $output;
 }
+
+/**
+  * Determine output for host last contact time
+  */
+function boincwork_host_last_contact($timestamp, $context = null) {
+  $output = '---';
+  $log_name = 'NO_SUCH_LOG';
+  if ($timestamp) {
+    $output = gmdate('j M Y | G:i:s', $timestamp) . ' UTC';
+    $log_name = gmdate('Y-m-d_H/Y-m-d_H:i', $timestamp);
+  }
+  if (file_exists(boinc_get_path() . '/html/sched_logs')) {
+    $output = "<a href=\"/sched_logs/{$log_name}\">{$output}</a>";
+  }
+  return $output;
+}

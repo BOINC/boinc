@@ -612,17 +612,7 @@ function user_account_host_list_views_default_views() {
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'value' => '<?php
-  $output = \'---\';
-  $log_name = \'NO_SUCH_LOG\';
-  $timestamp = $data->host_rpc_time;
-  if ($timestamp) {
-    $output = gmdate(\'j M Y | G:i:s\', $timestamp) . \' UTC\';
-    $log_name = gmdate(\'Y-m-d_H/Y-m-d_H:i\', $timestamp);
-  }
-  if (file_exists(boinc_get_path() . \'/html/sched_logs\')) {
-    $output = "<a href=\\"/sched_logs/{$log_name}\\">{$output}</a>";
-  }
-  echo $output;
+  echo boincwork_host_last_contact($data->host_rpc_time);
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_2',
