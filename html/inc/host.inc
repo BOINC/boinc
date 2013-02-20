@@ -272,7 +272,7 @@ function gpu_desc($x) {
                     $i = (int)$d[4];
                     $maj = (int)($i/100);
                     $min = $i%100;
-                    $str .= " driver: $maj.$min";
+                    $str .= sprintf(" driver: %d.%02d", $maj, $min);
                 }
             }
         }
