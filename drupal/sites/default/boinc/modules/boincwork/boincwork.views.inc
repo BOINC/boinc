@@ -353,7 +353,7 @@ function boincwork_views_data() {
   );
   $data['host']['max_results_day'] = array(
     'title' => t('Maximum daily WU quota per CPU'),
-    'help' => t('The maximum number of work units to be allocated per CPU.'),
+    'help' => t('The maximum number of workunits to be allocated per CPU.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
       'click sortable' => TRUE
@@ -668,8 +668,8 @@ function boincwork_views_data() {
     )
   );
   $data['result']['workunitid'] = array(
-    'title' => t('Work unit ID'),
-    'help' => t('The work unit associated with this result.'),
+    'title' => t('Workunit ID'),
+    'help' => t('The workunit associated with this result.'),
     // Foreign key to the {workunit} table
     'argument' => array(
       'handler' => 'views_handler_argument',
@@ -681,7 +681,7 @@ function boincwork_views_data() {
       'base' => 'workunit',
       'field' => 'workunitid',
       'handler' => 'views_handler_relationship',
-      'label' => t('WorkUnit')
+      'label' => t('Workunit')
     ),
     'field' => array(
       'handler' => 'views_handler_field_numeric',

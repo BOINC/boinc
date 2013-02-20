@@ -388,8 +388,10 @@ function work_and_host_stats_views_default_views() {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -404,53 +406,18 @@ function work_and_host_stats_views_default_views() {
       'empty' => '',
       'hide_empty' => 1,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'value' => '<?php
   if (!is_current_boinc_user($data->host_userid)) {
-    require_boinc(\'util\');
+    require_boinc(\'db\');
     $owner = BoincUser::lookup_id($data->host_userid);
-    $drupal_id = get_drupal_id($owner);
-    $profile_link = ($drupal_id) ? l($owner->name, "/user/{$drupal_id}") : $owner->name;
+    $drupal_id = get_drupal_id($owner->id);
+    $profile_link = ($drupal_id) ? l($owner->name, "user/{$drupal_id}") : $owner->name;
     echo ($owner->show_hosts) ? $profile_link : \'Anonymous\';
   }
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_29',
-      'table' => 'customfield',
-      'field' => 'phpcode',
-      'relationship' => 'none',
-    ),
-    'phpcode_6' => array(
-      'label' => 'Owner (TO DO)',
-      'alter' => array(
-        'alter_text' => 0,
-        'text' => '',
-        'make_link' => 0,
-        'path' => '',
-        'link_class' => '',
-        'alt' => '',
-        'prefix' => '',
-        'suffix' => '',
-        'target' => '',
-        'help' => '',
-        'trim' => 0,
-        'max_length' => '',
-        'word_boundary' => 1,
-        'ellipsis' => 1,
-        'html' => 0,
-        'strip_tags' => 0,
-      ),
-      'empty' => '',
-      'hide_empty' => 1,
-      'empty_zero' => 0,
-      'value' => '<?php
-  if (!is_current_boinc_user($data->host_userid)) {
-    require_boinc(\'util\');
-    $owner = BoincUser::lookup_id($data->host_userid);
-    echo ($owner->show_hosts) ? user_links($owner) : \'Anonymous\';
-  }
-?>',
-      'exclude' => 1,
-      'id' => 'phpcode_6',
       'table' => 'customfield',
       'field' => 'phpcode',
       'relationship' => 'none',
