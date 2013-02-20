@@ -313,22 +313,25 @@ void COPROCS::summary_string(char* buf, int len) {
     strcpy(buf, "");
     if (nvidia.count) {
         int mem = (int)(nvidia.prop.totalGlobalMem/MEGA);
-        sprintf(buf2, "[CUDA|%s|%d|%dMB|%d]",
-            nvidia.prop.name, nvidia.count, mem, nvidia.display_driver_version
+        sprintf(buf2, "[CUDA|%s|%d|%dMB|%d|%d]",
+            nvidia.prop.name, nvidia.count, mem, nvidia.display_driver_version,
+            nvidia.opencl_prop.opencl_device_version_int
         );
         strlcat(buf, buf2, len);
     }
     if (ati.count) {
-        sprintf(buf2,"[CAL|%s|%d|%dMB|%s]",
-            ati.name, ati.count, ati.attribs.localRAM, ati.version
+        sprintf(buf2,"[CAL|%s|%d|%dMB|%s|%d]",
+            ati.name, ati.count, ati.attribs.localRAM, ati.version,
+            ati.opencl_prop.opencl_device_version_int
         );
         strlcat(buf, buf2, len);
     }
     if (intel_gpu.count) {
-        sprintf(buf2,"[INTEL|%s|%d|%dMB|%s]",
+        sprintf(buf2,"[INTEL|%s|%d|%dMB|%s|%d]",
             intel_gpu.name, intel_gpu.count,
             (int)(intel_gpu.opencl_prop.global_mem_size/MEGA),
-            intel_gpu.version
+            intel_gpu.version,
+            intel_gpu.opencl_prop.opencl_device_version_int
         );
         strlcat(buf, buf2, len);
     }

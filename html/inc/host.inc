@@ -276,6 +276,19 @@ function gpu_desc($x) {
                 }
             }
         }
+        if (array_key_exists(5, $d)) {
+            if ($d[5] != "" && $d[5] != 0) {
+                if (strchr($d[5], '.')) {
+                    $str .= " OpenCL: ".$d[5];
+                } else {
+                    $i = (int)$d[5];
+                    $maj = (int)($i/100);
+                    $min = $i%100;
+                    $str .= sprintf(" OpenCL: %d.%02d", $maj, $min);
+                }
+            }
+        }
+
 
     }
     if (!$str) $str = "---";
