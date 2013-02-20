@@ -74,6 +74,7 @@ public class Monitor extends Service {
 	
 	private Boolean started = false;
 	private Thread monitorThread = null;
+	private Boolean monitorRunning = true;
 	
 	private Process clientProcess;
 	private RpcClient rpc = new RpcClient();
@@ -154,8 +155,21 @@ public class Monitor extends Service {
     	Log.d(TAG,"onDestroy()");
     	
         // Cancel the persistent notification.
+    	//
     	((NotificationManager)getSystemService(Service.NOTIFICATION_SERVICE)).cancel(getResources().getInteger(R.integer.autostart_notification_id));
         
+    	// Abort the monitoring thread
+    	//
+    	try {
+        	monitorRunning = false;
+			monitorThread.wait(5000);
+		} catch (InterruptedException e) {
+    		Log.d(TAG, "InterruptedException: " + e.getMessage());
+    		Log.e(TAG, "InterruptedException", e);
+		}
+    	
+    	// Now we can safely stop the client
+    	//
 		quitClient();
         
         Toast.makeText(this, "BOINC Monitor Service Stopped", Toast.LENGTH_SHORT).show();
@@ -164,7 +178,7 @@ public class Monitor extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {	
     	//this gets called after startService(intent) (either by BootReceiver or AndroidBOINCActivity, depending on the user's autostart configuration)
-    	Log.d(TAG, "onStartCommand");
+    	Log.d(TAG, "onStartCommand()");
 		/*
 		 * START_NOT_STICKY is now used and replaced START_STICKY in previous implementations.
 		 * Lifecycle events - e.g. killing apps by calling their "onDestroy" methods, or killing an app in the task manager - does not effect the non-Dalvik code like the native BOINC Client.
@@ -387,7 +401,7 @@ public class Monitor extends Service {
     	return auth;
 	}
 	
-	private final class ClientMonitorAsync extends AsyncTask<Integer,String,Boolean> {
+	private final class ClientMonitorAsync extends AsyncTask<Integer, String, Boolean> {
 
 		private final String TAG = "BOINC ClientMonitorAsync";
 		private final Boolean showRpcCommands = false;
@@ -399,7 +413,7 @@ public class Monitor extends Service {
 		protected Boolean doInBackground(Integer... params) {
 			// Save current thread, to interrupt sleep from outside...
 			monitorThread = Thread.currentThread();
-			while(true) {
+			while(monitorRunning) {
 				publishProgress("doInBackground() monitor loop...");
 				
 				if(!rpc.connectionAlive()) { //check whether connection is still alive
@@ -439,12 +453,11 @@ public class Monitor extends Service {
 				}
 				
 	    		try {
-	    			Thread.sleep(refreshFrequency); //sleep
-	    		}catch(InterruptedException e){
-		    		Log.d(TAG, "InterruptedException: " + e.getMessage());
-		    		Log.e(TAG, "InterruptedException", e);
-	    		}
+	    			Thread.sleep(refreshFrequency);
+	    		} catch(InterruptedException e) {}
 			}
+
+			return true;
 		}
 
 		@Override
