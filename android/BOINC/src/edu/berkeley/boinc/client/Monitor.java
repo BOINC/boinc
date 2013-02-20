@@ -389,20 +389,21 @@ public class Monitor extends Service {
 	
 	private final class ClientMonitorAsync extends AsyncTask<Integer,String,Boolean> {
 
-		private final String TAG = "ClientMonitorAsync";
+		private final String TAG = "BOINC ClientMonitorAsync";
 		private final Boolean showRpcCommands = false;
 		
-		 //frequency of which the monitor updates client status via RPC, to often can cause reduced performance!
+		// Frequency of which the monitor updates client status via RPC, to often can cause reduced performance!
 		private Integer refreshFrequency = getResources().getInteger(R.integer.monitor_refresh_rate_ms);
 		
 		@Override
 		protected Boolean doInBackground(Integer... params) {
-			monitorThread = Thread.currentThread(); //save current thread, to interrupt sleep from outside...
+			// Save current thread, to interrupt sleep from outside...
+			monitorThread = Thread.currentThread();
 			while(true) {
-				Log.d(TAG+"-doInBackground","monitor loop...");
+				publishProgress("doInBackground() monitor loop...");
 				
 				if(!rpc.connectionAlive()) { //check whether connection is still alive
-					//if connection is not working, either client has not been set up yet or client crashed.
+					// If connection is not working, either client has not been set up yet or client crashed.
 					(new ClientSetupAsync()).execute();
 				} else {
 					if(showRpcCommands) Log.d(TAG, "getCcStatus");
@@ -440,20 +441,21 @@ public class Monitor extends Service {
 	    		try {
 	    			Thread.sleep(refreshFrequency); //sleep
 	    		}catch(InterruptedException e){
-	    			Log.d(TAG, "sleep interrupted...");
+		    		Log.d(TAG, "InterruptedException: " + e.getMessage());
+		    		Log.e(TAG, "InterruptedException", e);
 	    		}
 			}
 		}
 
 		@Override
 		protected void onProgressUpdate(String... arg0) {
-			Log.d(TAG+"-onProgressUpdate",arg0[0]);
+			Log.d(TAG, "onProgressUpdate() " + arg0[0]);
 			BOINCActivity.logMessage(getApplicationContext(), TAG, arg0[0]);
 		}
 		
 		@Override
 		protected void onPostExecute(Boolean success) {
-			Log.d(TAG+" - onPostExecute","monitor exit"); 
+			Log.d(TAG, "onPostExecute() monitor exit"); 
 			Monitor.monitorActive = false;
 		}
 	}
@@ -467,7 +469,6 @@ public class Monitor extends Service {
 		@Override
 		protected void onPreExecute() {
 			if(Monitor.clientSetupActive) { // setup is already running, cancel execution...
-				Log.d(TAG, "onPreExecute - setup is already active, quit.");
 				cancel(false);
 			} else {
 				Log.d(TAG, "onPreExecute - running setup.");
@@ -593,21 +594,38 @@ public class Monitor extends Service {
 			return connected;
 		}
 		
+	    // Executes the BOINC client using the Java Runtime exec method.
+		//
+	    private Boolean runClient() {
+	    	Boolean success = false;
+	    	try { 
+	    		String[] cmd = new String[2];
+	    		
+	    		cmd[0] = clientPath + clientName;
+	    		cmd[1] = "--daemon";
+	    		
+	        	clientProcess = Runtime.getRuntime().exec(cmd, null, new File(clientPath));
+	        	success = true;
+	    	} catch (IOException e) {
+	    		Log.d(TAG, "Starting BOINC client failed with exception: " + e.getMessage());
+	    		Log.e(TAG, "IOException", e);
+	    	}
+	    	return success;
+	    }
+
 		private Boolean connectClient() {
 			Boolean success = false;
 			
-			publishProgress("connect client.");
-			
 	        success = connect();
 	        if(!success) {
-	        	publishProgress("socket connection failed!");
+	        	publishProgress("connection failed!");
 	        	return success;
 	        }
 	        
 	        //authorize
 	        success = authorize();
 	        if(!success) {
-	        	publishProgress("socket authorization failed!");
+	        	publishProgress("authorization failed!");
 	        }
 	        return success;
 		}
@@ -627,7 +645,7 @@ public class Monitor extends Service {
     		File boincClient = new File(clientPath + clientName);
     		boincClient.setExecutable(true);
     		success = boincClient.canExecute();
-    		Log.d(TAG, "native client file in app space is executable: " + success);
+    		publishProgress("native client file in app space is executable: " + success);
     		
     		File boincCLI = new File(clientPath + clientCLI);
     		boincCLI.setExecutable(true);
@@ -666,37 +684,15 @@ public class Monitor extends Service {
 	    		targetData.flush(); 
 	    		targetData.close();
 
-	    		Log.d(TAG, "install successful");
+	    		publishProgress("install successful");
 	    		success = true;   		
-	    	}
-	    	catch (IOException ioe) {  
-	    		Log.d(TAG, "Exception: " + ioe.getMessage());
-	    		Log.e(TAG, "IOException", ioe);
+	    	} catch (IOException e) {  
+	    		Log.d(TAG, "IOException: " + e.getMessage());
+	    		Log.e(TAG, "IOException", e);
 	    	}
 			
 			return success;
 		}
-
-	    // Executes the BOINC client using the Java Runtime exec method.
-		//
-	    private Boolean runClient() {
-	    	Boolean success = false;
-	    	try { 
-	    		String[] cmd = new String[2];
-	    		
-	    		cmd[0] = clientPath + clientName;
-	    		cmd[1] = "--daemon";
-	    		
-	        	clientProcess = Runtime.getRuntime().exec(cmd, null, new File(clientPath));
-	        	success = true;
-	    	}
-	    	catch (IOException e) {
-	    		Log.d(TAG, "Starting BOINC client failed with exception: " + e.getMessage());
-	    		Log.e(TAG, "IOException", e);
-	    	}
-	    	return success;
-	    }
-	    
 
 	    // Connects to running BOINC client.
 	    //
@@ -704,8 +700,9 @@ public class Monitor extends Service {
 	    	return rpc.open("127.0.0.1", 31416);
 	    }
 	    
-
-	    // authorizes this application as valid RPC Manager by reading auth token from file and making RPC call.
+	    // Authorizes this application as valid RPC Manager by reading auth token from file 
+	    // and making RPC call.
+	    //
 	    private Boolean authorize() {
 	    	String authKey = readAuthToken();
 			
@@ -714,6 +711,7 @@ public class Monitor extends Service {
 	    }
 		
 		// Get PID for process name using native 'ps' console command
+	    //
 	    private Integer getPidForProcessName(String processName) {
 	    	int count;
 	    	char[] buf = new char[1024];
@@ -729,7 +727,8 @@ public class Monitor extends Service {
 		    	    sb.append(buf, 0, count);
 		    	}
 	    	} catch (Exception e) {
-	    		Log.e(TAG, "getPidForProcessName", e);
+	    		Log.d(TAG, "Exception: " + e.getMessage());
+	    		Log.e(TAG, "Exception", e);
 	    	}
 	    	
 	    	//parse output into hashmap
@@ -747,7 +746,8 @@ public class Monitor extends Service {
 	    	    //Log.d(TAG,"added: " + packageName + pid); 
 	    	}
 	    	
-	    	//find required pid
+	    	// Find required pid
+    		publishProgress("getPidForProcessName(): " + processName + " is " + pMap.get(processName).toString());
 	    	return pMap.get(processName);
 	    }
 
@@ -774,11 +774,11 @@ public class Monitor extends Service {
 	    		
 	    		return sb.toString();
 	    	} catch (IOException e) {  
-	    		Log.d(TAG, "Exception: " + e.getMessage());
+	    		Log.d(TAG, "IOException: " + e.getMessage());
 	    		Log.e(TAG, "IOException", e);
 	    	} catch (NoSuchAlgorithmException e) {
-	    		Log.d(TAG, "Exception: " + e.getMessage());
-	    		Log.e(TAG, "IOException", e);
+	    		Log.d(TAG, "NoSuchAlgorithmException: " + e.getMessage());
+	    		Log.e(TAG, "NoSuchAlgorithmException", e);
 			}
 			
 			return "";
@@ -808,11 +808,11 @@ public class Monitor extends Service {
 	    		
 	    		return sb.toString();
 	    	} catch (IOException e) {  
-	    		Log.d(TAG, "Exception: " + e.getMessage());
+	    		Log.d(TAG, "IOException: " + e.getMessage());
 	    		Log.e(TAG, "IOException", e);
 	    	} catch (NoSuchAlgorithmException e) {
-	    		Log.d(TAG, "Exception: " + e.getMessage());
-	    		Log.e(TAG, "IOException", e);
+	    		Log.d(TAG, "NoSuchAlgorithmException: " + e.getMessage());
+	    		Log.e(TAG, "NoSuchAlgorithmException", e);
 			}
 			
 			return "";
