@@ -678,6 +678,9 @@ void COPROC_NVIDIA::fake(
    prop.clockRate = 1250000;
    prop.textureAlignment = 1000;
    prop.multiProcessorCount = 14;
+   have_opencl = true;
+   strcpy(opencl_prop.opencl_device_version, "OpenCL 3.17");
+   opencl_prop.opencl_device_version_int = 317;
    set_peak_flops();
 }
 
