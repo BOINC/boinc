@@ -495,7 +495,7 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
     m_SlideShowArea->SetMinSize(wxSize(290+(2*SLIDESHOWBORDER), 126+(2*SLIDESHOWBORDER)));
     m_SlideShowArea->Enable( false );
     
-    bSizer1->Add( m_SlideShowArea, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
+    bSizer1->Add( m_SlideShowArea, 0, wxLEFT | wxRIGHT, SIDEMARGINS );
 
     bSizer1->AddSpacer(10);
     
