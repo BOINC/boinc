@@ -766,7 +766,13 @@ public class Monitor extends Service {
 	    		}
 	    		asset.close();
 	    		
-	    		return md5.toString();
+				byte[] md5hash = md5.digest();
+				StringBuilder sb = new StringBuilder();
+				for (int i = 0; i < md5hash.length; ++i) {
+					sb.append(String.format("%02x", md5hash[i]));
+				}
+	    		
+	    		return sb.toString();
 	    	} catch (IOException e) {  
 	    		Log.d(TAG, "Exception: " + e.getMessage());
 	    		Log.e(TAG, "IOException", e);
@@ -787,14 +793,20 @@ public class Monitor extends Service {
     		try {
     			MessageDigest md5 = MessageDigest.getInstance("MD5");
 
-	    		File target = new File(clientPath + file);
+	    		File target = new File(file);
 	    		InputStream asset = new FileInputStream(target); 
 	    		while((count = asset.read(b)) != -1){ 
 	    			md5.update(b, 0, count);
 	    		}
 	    		asset.close();
+
+				byte[] md5hash = md5.digest();
+				StringBuilder sb = new StringBuilder();
+				for (int i = 0; i < md5hash.length; ++i) {
+					sb.append(String.format("%02x", md5hash[i]));
+				}
 	    		
-	    		return md5.toString();
+	    		return sb.toString();
 	    	} catch (IOException e) {  
 	    		Log.d(TAG, "Exception: " + e.getMessage());
 	    		Log.e(TAG, "IOException", e);
