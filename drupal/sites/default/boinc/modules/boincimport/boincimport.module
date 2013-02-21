@@ -413,7 +413,7 @@ function boincimport_users() {
   // by a separate process. 
   
   $batch_size = variable_get('boincimport_user_batch_size', 50);
-  $batch_limit = $user_count + ($user_count % $batch_size);
+  $batch_limit = $user_count - ($user_count % $batch_size) + $batch_size;
   $import_script_path = dirname(__FILE__) . '/includes';
   $import_script = "{$import_script_path}/import_users.php";
   $total_accounts_imported = 0;
@@ -1398,7 +1398,7 @@ function boincimport_subscriptions() {
   // resources. (see also boincimport_users() function)
   
   $batch_size = variable_get('boincimport_user_batch_size', 50);
-  $batch_limit = $users_with_subscriptions + ($users_with_subscriptions % $batch_size);
+  $batch_limit = $users_with_subscriptions - ($users_with_subscriptions % $batch_size) + $batch_size;
   $import_script_path = dirname(__FILE__) . '/includes';
   $import_script = "{$import_script_path}/import_subscriptions.php";
   $total_subscriptions_imported = 0;
