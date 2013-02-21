@@ -46,6 +46,7 @@ if (defined('TIMEZONE')) {
 
 $generating_xml = false;
 $caching = false;
+    // if set, we're writing to a file rather than to client
 $did_page_head = false;
 
 function send_cookie($name, $value, $permanent, $ops=false) {
@@ -153,8 +154,8 @@ function page_head(
     }
 
 
-    header("Content-type: text/html; charset=utf-8");
     if (!$caching) {
+        header("Content-type: text/html; charset=utf-8");
         header ("Expires: Mon, 26 Jul 1997 05:00:00 UTC");    // Date in the past
         header ("Last-Modified: " . gmdate("D, d M Y H:i:s") . " UTC"); // always modified
         header ("Cache-Control: $cache_control_extra no-cache, must-revalidate, post-check=0, pre-check=0");  // HTTP/1.1
