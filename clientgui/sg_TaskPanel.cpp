@@ -28,7 +28,9 @@
 
 
 #define SORTTASKLIST 1  /* TRUE to sort task selection control alphabetically */
-#define SLIDESHOWBORDER 3
+#define SLIDESHOWWIDTH 290
+#define SLIDESHOWHEIGHT 126
+#define SLIDESHOWBORDER 1
 #define DESCRIPTIONSPACER 4
 #define HIDEDEFAULTSLIDE 1
 #define TESTALLDESCRIPTIONS 0
@@ -183,7 +185,9 @@ CSlideShowPanel::CSlideShowPanel() {
 
 
 CSlideShowPanel::CSlideShowPanel( wxWindow* parent ) :
-    wxPanel( parent, wxID_ANY, wxDefaultPosition, wxSize(290+(2*SLIDESHOWBORDER), 126+(2*SLIDESHOWBORDER)), wxBORDER_NONE )
+    wxPanel( parent, wxID_ANY, wxDefaultPosition,
+            wxSize(SLIDESHOWWIDTH+(2*SLIDESHOWBORDER),
+            SLIDESHOWHEIGHT+(2*SLIDESHOWBORDER)), wxBORDER_NONE )
 {
     int w, h;
     wxBoxSizer* bSizer1;
@@ -343,8 +347,8 @@ numSlides = 0;
     if (m_SlideBitmap.Ok()) {
         // Check to see if they need to be rescaled to fit in the window
         ratio = 1.0;
-        xRatio = ((double) GetSize().GetWidth() - (2*SLIDESHOWBORDER))/((double) m_SlideBitmap.GetWidth());
-        yRatio = ((double) GetSize().GetHeight() - (2*SLIDESHOWBORDER))/((double) m_SlideBitmap.GetHeight());
+        xRatio = (double)SLIDESHOWWIDTH / (double)m_SlideBitmap.GetWidth();
+        yRatio = (double)SLIDESHOWHEIGHT / (double)m_SlideBitmap.GetHeight();
         if ( xRatio < ratio ) {
             ratio = xRatio;
         }
@@ -379,26 +383,27 @@ numSlides = 0;
     if (numSlides > 0)
 #endif  // HIDEDEFAULTSLIDE
     {
-        int w, h;
+        int w, h, x;
         wxPen oldPen = dc.GetPen();
         wxBrush oldBrush = dc.GetBrush();
         int oldMode = dc.GetBackgroundMode();
-        wxPen bgPen(*wxLIGHT_GREY, 3);
+        wxPen bgPen(*wxBLACK, 2*SLIDESHOWBORDER+1);
         dc.SetBackgroundMode(wxSOLID);
         dc.SetPen(bgPen);
         dc.SetBrush(*wxBLACK_BRUSH);
         
         GetSize(&w, &h);
-        dc.DrawRectangle(0, 0, w, h);
+        x = (w - SLIDESHOWWIDTH) / 2;
+        dc.DrawRectangle(x, SLIDESHOWBORDER, SLIDESHOWWIDTH, SLIDESHOWHEIGHT);
         // Restore Mode, Pen and Brush 
         dc.SetBackgroundMode(oldMode);
         dc.SetPen(oldPen);
         dc.SetBrush(oldBrush);
         
         if(m_SlideBitmap.Ok()) 
-        { 
-            dc.DrawBitmap(m_SlideBitmap, 
-                            (w - m_SlideBitmap.GetWidth())/2, 
+        {
+            dc.DrawBitmap(m_SlideBitmap,
+                            (w - m_SlideBitmap.GetWidth())/2,
                             (h - m_SlideBitmap.GetHeight())/2
                             ); 
         }
@@ -492,10 +497,10 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
     bSizer1->AddSpacer(10);
     
     m_SlideShowArea = new CSlideShowPanel(this);
-    m_SlideShowArea->SetMinSize(wxSize(290+(2*SLIDESHOWBORDER), 126+(2*SLIDESHOWBORDER)));
+    m_SlideShowArea->SetMinSize(wxSize(SLIDESHOWWIDTH+(2*SLIDESHOWBORDER), SLIDESHOWHEIGHT+(2*SLIDESHOWBORDER)));
     m_SlideShowArea->Enable( false );
     
-    bSizer1->Add( m_SlideShowArea, 0, wxLEFT | wxRIGHT, SIDEMARGINS );
+    bSizer1->Add( m_SlideShowArea, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
 
     bSizer1->AddSpacer(10);
     
