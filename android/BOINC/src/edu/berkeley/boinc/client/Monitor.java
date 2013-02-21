@@ -162,7 +162,7 @@ public class Monitor extends Service {
     	//
     	try {
         	monitorRunning = false;
-			monitorThread.wait(5000);
+			monitorThread.join();
 		} catch (InterruptedException e) {
     		Log.d(TAG, "InterruptedException: " + e.getMessage());
     		Log.e(TAG, "InterruptedException", e);
