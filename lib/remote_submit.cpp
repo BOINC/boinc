@@ -23,7 +23,7 @@
 
 #include "parse.h"
 
-#include "job_rpc.h"
+#include "remote_submit.h"
 
 using std::vector;
 using std::string;
@@ -41,7 +41,7 @@ static int do_http_get(
         return -1;
     }
     curl_easy_setopt(curl, CURLOPT_URL, url);
-    curl_easy_setopt(curl, CURLOPT_USERAGENT, "BOINC Condor adapter");
+    curl_easy_setopt(curl, CURLOPT_USERAGENT, "BOINC remote job submission");
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, reply);
 
     CURLcode res = curl_easy_perform(curl);
@@ -305,13 +305,13 @@ int submit_jobs(
 int query_batch(
     const char* project_url,
     const char* authenticator,
-    int batch_id,
+    string batch_name,
     QUERY_BATCH_REPLY& qb_reply
 ) {
     string request;
     char url[1024], buf[256];
     request = "<query_batch2>\n";
-    sprintf(buf, "<batch_id>%d</batch_id>\n", batch_id);
+    sprintf(buf, "<batch_name>%s</batch_name>\n", batch_name.c_str());
     request += string(buf);
     sprintf(buf, "<authenticator>%s</authenticator>\n", authenticator);
     request += string(buf);
@@ -340,6 +340,43 @@ int query_batch(
                 if (parse_str(buf, "job_name", qbj.job_name)) continue;
                 if (parse_str(buf, "status", qbj.status)) continue;
             }
+        }
+    }
+    fclose(reply);
+    return retval;
+}
+
+int abort_jobs(
+    const char* project_url,
+    const char* authenticator,
+    string batch_name,
+    vector<string> &job_names
+) {
+    string request;
+    char url[1024], buf[256];
+    request = "<abort_jobs>\n";
+    sprintf(buf, "<authenticator>%s</authenticator>\n", authenticator);
+    request += string(buf);
+    sprintf(buf, "<batch_name>%s</batch_name>\n", batch_name.c_str());
+    request += string(buf);
+    for (unsigned int i=0; i<job_names.size(); i++) {
+        sprintf(buf, "<job_name>%s</job_name>\n", job_names[i].c_str());
+        request += string(buf);
+    }
+    request += "</abort_jobs>\n";
+    sprintf(url, "%ssubmit_rpc_handler.php", project_url);
+    FILE* reply = tmpfile();
+    vector<string> x;
+    int retval = do_http_post(url, request.c_str(), reply, x);
+    if (retval) {
+        fclose(reply);
+        return retval;
+    }
+    fseek(reply, 0, SEEK_SET);
+    retval = 0;
+    while (fgets(buf, 256, reply)) {
+        if (strstr(buf, "error")) {
+            retval = -1;
         }
     }
     fclose(reply);
