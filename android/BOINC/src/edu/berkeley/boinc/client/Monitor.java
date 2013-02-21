@@ -158,15 +158,10 @@ public class Monitor extends Service {
     	//
     	((NotificationManager)getSystemService(Service.NOTIFICATION_SERVICE)).cancel(getResources().getInteger(R.integer.autostart_notification_id));
         
-    	// Abort the monitoring thread
+    	// Abort the ClientMonitorAsync thread
     	//
-    	try {
-        	monitorRunning = false;
-			monitorThread.join();
-		} catch (InterruptedException e) {
-    		Log.d(TAG, "InterruptedException: " + e.getMessage());
-    		Log.e(TAG, "InterruptedException", e);
-		}
+    	monitorRunning = false;
+		monitorThread.interrupt();
     	
     	// Now we can safely stop the client
     	//
