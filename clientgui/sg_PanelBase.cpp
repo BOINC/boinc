@@ -105,6 +105,13 @@ void CSimplePanelBase::MakeBGBitMap() {
     whiteBmp = wxBitmap(r.width, r.height);
     wxMemoryDC dc(whiteBmp);
     dc.SetBackgroundMode(wxSOLID);
+    // Set the corners (outside the rounded rectangle) to black
+    wxPen rawPen(*wxBLACK, 1);
+    wxBrush rawBrush(*wxBLACK);
+    dc.SetPen(rawPen);
+    dc.SetBrush(rawBrush);
+    dc.DrawRectangle(0, 0, r.width, r.height);
+    // Make the rounded rectangle white
     dc.SetPen(bgPen);
     dc.SetBrush(bgBrush);
     dc.DrawRoundedRectangle(0, 0, r.width, r.height, RECTANGLERADIUS);
