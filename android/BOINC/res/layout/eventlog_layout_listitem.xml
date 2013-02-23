@@ -26,7 +26,9 @@
     <CheckBox
         android:id="@+id/msgs_check"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:focusable="false" />
     
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:id="@+id/msgsRowVertical"

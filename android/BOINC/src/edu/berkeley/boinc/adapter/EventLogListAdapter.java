@@ -29,15 +29,27 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.CheckBox;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 
-public class EventLogListAdapter extends ArrayAdapter<Message> {
+
+public class EventLogListAdapter extends ArrayAdapter<Message> implements OnItemClickListener {
 	
 	private ArrayList<Message> entries;
     private Activity activity;
     private ListView listView;
+    
+    public static class ViewEventLog {
+    	CheckBox cbCheck;
+        TextView tvMessage;
+        TextView tvDate;
+        TextView tvProjectName;
+    }
  
     public EventLogListAdapter(Activity activity, ListView listView, int textViewResourceId, ArrayList<Message> entries) {
         super(activity, textViewResourceId, entries);
@@ -75,24 +87,47 @@ public class EventLogListAdapter extends ArrayAdapter<Message> {
 
 	@Override
     public View getView(int position, View convertView, ViewGroup parent) {
+	    View vi = convertView;
+		ViewEventLog viewEventLog;
     	
 		// Only inflate a new view if the ListView does not already have a view assigned.
 	    if (convertView == null) {
-	        LayoutInflater vi = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	        convertView = vi.inflate(R.layout.eventlog_layout_listitem, null);
+	    	
+	    	vi = ((LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.eventlog_layout_listitem, null);
+
+	        viewEventLog = new ViewEventLog();
+	        viewEventLog.cbCheck = (CheckBox)vi.findViewById(R.id.msgs_check);
+	        viewEventLog.tvMessage = (TextView)vi.findViewById(R.id.msgs_message);
+	        viewEventLog.tvDate = (TextView)vi.findViewById(R.id.msgs_date);
+	        viewEventLog.tvProjectName = (TextView)vi.findViewById(R.id.msgs_project);
+	    
+	        vi.setTag(viewEventLog);
+	        
+	    } else {
+	    	
+	    	viewEventLog = (ViewEventLog)vi.getTag();
+	    	
 	    }
 
-        // Find the layout elements
-	    TextView tvMessage = (TextView)convertView.findViewById(R.id.msgs_message);
-		TextView tvDate = (TextView)convertView.findViewById(R.id.msgs_date);
-		TextView tvProjectName = (TextView)convertView.findViewById(R.id.msgs_project);
-
 		// Populate UI Elements
-		tvMessage.setText(getMessage(position));
-		tvDate.setText(getDate(position));
-		tvProjectName.setText(getProject(position));
+	    viewEventLog.cbCheck.setChecked(listView.isItemChecked(position));
+	    viewEventLog.tvMessage.setText(getMessage(position));
+	    viewEventLog.tvDate.setText(getDate(position));
+	    viewEventLog.tvProjectName.setText(getProject(position));
 
-        return convertView;
+        return vi;
 
     }
+
+    public void onItemClick(AdapterView<?> adapter, View view, int position, long id ) {
+		ViewEventLog viewEventLog = (ViewEventLog)view.getTag();
+
+		if (viewEventLog.cbCheck.isChecked()) {
+			viewEventLog.cbCheck.setChecked(false);
+		} else {
+			viewEventLog.cbCheck.setChecked(true);
+		}
+
+    }
+
 }
