@@ -73,10 +73,6 @@ public class EventLogActivity extends FragmentActivity {
 				setContentView(R.layout.eventlog_layout); 
 				lv = (ListView) findViewById(R.id.eventlogList);
 		        listAdapter = new EventLogListAdapter(EventLogActivity.this, lv, R.id.eventlogList, data);
-
-		        lv.setAdapter(listAdapter);
-		        lv.setOnItemClickListener(listAdapter);
-		        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		    }
 			
 			// Add new messages to the event log

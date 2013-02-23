@@ -19,8 +19,11 @@
 package edu.berkeley.boinc.adapter;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.adapter.EventLogListAdapter.ViewEventLog;
+import edu.berkeley.boinc.rpc.Message;
 import edu.berkeley.boinc.rpc.Project;
 
 import android.app.Activity;
@@ -29,41 +32,92 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 
-public class ProjectsListAdapter extends ArrayAdapter<Project>{
+public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItemClickListener {
 	
-	//private final String TAG = "ProjectsListAdapter";
 	private ArrayList<Project> entries;
     private Activity activity;
- 
-    public ProjectsListAdapter(Activity a, int textViewResourceId, ArrayList<Project> entries) {
-        super(a, textViewResourceId, entries);
+    private ListView listView;
+
+    public static class ViewProject {
+    	int entryIndex;
+        TextView tvProjectName;
+        TextView tvUserName;
+    }
+    
+    public ProjectsListAdapter(Activity activity, ListView listView, int textViewResourceId, ArrayList<Project> entries) {
+        super(activity, textViewResourceId, entries);
         this.entries = entries;
-        this.activity = a;
+        this.activity = activity;
+        this.listView = listView;
+        
+        listView.setAdapter(this);
+        listView.setOnItemClickListener(this);
+        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
     }
  
-    @Override
+	@Override
+	public int getCount() {
+		return entries.size();
+	}
+
+	@Override
+	public Project getItem(int position) {
+		return entries.get(position);
+	}
+
+	@Override
+	public long getItemId(int position) {
+		return position;
+	}
+
+	public String getProject(int position) {
+		return entries.get(position).project_name;
+	}
+
+	public String getUserName(int position) {
+		return entries.get(position).user_name;
+	}
+
+	@Override
     public View getView(int position, View convertView, ViewGroup parent) {
+	    View vi = convertView;
+	    ViewProject viewProject;
     	
-    	//get file that which shall be presented
-    	Project listItem = entries.get(position);
-    	
-    	//setup view
-        View v = convertView;
-        LayoutInflater vi = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        v = vi.inflate(R.layout.projects_layout_listitem, null);
-        //instanciate layout elements
-		TextView projectName = (TextView) v.findViewById(R.id.project_name);
-		TextView account = (TextView) v.findViewById(R.id.account);
-		//customize layout elements
-		String projectNameS = listItem.project_name;
-		projectName.setText(projectNameS);
-		String accountS = listItem.user_name + " - " + "aquired credits: " + listItem.host_total_credit;
-		account.setText(accountS);
-		//Log.d(TAG,"project name: " + projectNameS + " - account: " + accountS);
-		//set tag to be parsed in confirmation dialog
-		v.setTag(listItem); //append project information to view
-        return v;
+		// Only inflate a new view if the ListView does not already have a view assigned.
+	    if (convertView == null) {
+	    	
+	    	vi = ((LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.projects_layout_listitem, null);
+
+	    	viewProject = new ViewProject();
+	    	viewProject.tvProjectName = (TextView)vi.findViewById(R.id.project_name);
+	    	viewProject.tvUserName = (TextView)vi.findViewById(R.id.project_username);
+	    
+	        vi.setTag(viewProject);
+	        
+	    } else {
+	    	
+	    	viewProject = (ViewProject)vi.getTag();
+	    	
+	    }
+
+		// Populate UI Elements
+	    viewProject.entryIndex = position;
+	    viewProject.tvProjectName.setText(getProject(position));
+	    viewProject.tvUserName.setText(getUserName(position));
+
+        return vi;
     }
+    
+    public void onItemClick(AdapterView<?> adapter, View view, int position, long id ) {
+    	ViewProject viewProject = (ViewProject)view.getTag();
+
+		notifyDataSetChanged();
+    }
+
 }

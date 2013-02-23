@@ -22,9 +22,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-
     <ListView
-        android:id="@+id/listview"
+        android:id="@+id/projectsList"
         android:layout_alignParentTop="true"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
