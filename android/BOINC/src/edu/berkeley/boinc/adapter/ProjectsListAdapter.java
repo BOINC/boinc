@@ -111,7 +111,6 @@ public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItem
 	    viewProject.entryIndex = position;
 	    viewProject.tvProjectName.setText(getProject(position));
 	    viewProject.tvUserName.setText(getUserName(position));
-	    /*
 	    if (listView.isItemChecked(position)) {
 	    	viewProject.ibProjectUpdate.setVisibility(View.VISIBLE);	    	
 	    	viewProject.ibProjectDelete.setVisibility(View.VISIBLE);	    	
@@ -119,7 +118,6 @@ public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItem
 	    	viewProject.ibProjectUpdate.setVisibility(View.INVISIBLE);	    	
 	    	viewProject.ibProjectDelete.setVisibility(View.INVISIBLE);	    	
 	    }
-	    */
 
         return vi;
     }
