@@ -75,8 +75,8 @@ public class EventLogActivity extends FragmentActivity {
 		        listAdapter = new EventLogListAdapter(EventLogActivity.this, lv, R.id.eventlogList, data);
 
 		        lv.setAdapter(listAdapter);
-		        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		        lv.setOnItemClickListener(listAdapter);
+		        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		    }
 			
 			// Add new messages to the event log
@@ -165,7 +165,7 @@ public class EventLogActivity extends FragmentActivity {
 
 		// Construct the message body
 		emailText.append("\n\nContents of the Event Log:\n\n");
-		if (lv.isSelected()) {
+		if (lv.getCheckedItemIds().length > 0) {
 			// Copy selected items
 		    for (long index: lv.getCheckedItemIds()) {
 				emailText.append(listAdapter.getDate((int)index));
