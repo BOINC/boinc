@@ -44,6 +44,7 @@ public class EventLogActivity extends FragmentActivity {
 	private ListView lv;
 	private EventLogListAdapter listAdapter;
 	private ArrayList<Message> data = new ArrayList<Message>();
+	private int lastSeqno = 0;
 
 	// Controls when to display the proper messages activity, by default we display a
 	// view that says we are loading messages.  When initialSetup is false, we have
@@ -77,10 +78,12 @@ public class EventLogActivity extends FragmentActivity {
 		        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 			}
 			
-			// Deep copy, so ArrayList adapter actually recognizes the difference
-			data.clear();
-			for (Message tmp: tmpA) {
-				data.add(tmp);
+			// Add new messages to the event log
+			for (Message msg: tmpA) {
+				if (msg.seqno > lastSeqno) {
+					data.add(msg);
+					lastSeqno = msg.seqno; 
+				}
 			}
 			
 			// Force list adapter to refresh
