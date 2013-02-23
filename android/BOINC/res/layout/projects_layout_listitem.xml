@@ -49,8 +49,7 @@
 	    android:clickable="false"
 	    android:contentDescription="@string/projects_update"
 	    android:focusable="false"
-	    android:src="@drawable/ic_menu_refresh"
-	    android:visibility="invisible" />
+	    android:src="@drawable/ic_menu_refresh" />
 
 	<ImageButton
 	    android:id="@+id/project_delete"
@@ -59,7 +58,6 @@
 	    android:clickable="false"
 	    android:contentDescription="@string/projects_delete"
 	    android:focusable="false"
-	    android:src="@drawable/ic_menu_delete"
-	    android:visibility="invisible" />
+	    android:src="@drawable/ic_menu_delete" />
 			
 </LinearLayout>
