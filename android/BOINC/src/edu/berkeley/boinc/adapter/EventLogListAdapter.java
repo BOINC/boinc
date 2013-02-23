@@ -30,6 +30,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckedTextView;
 import android.widget.TextView;
 import android.widget.ListView;
 
@@ -83,14 +84,14 @@ public class EventLogListAdapter extends ArrayAdapter<Message>{
 	    }
 
         // Find the layout elements
-		TextView tvProjectName = (TextView)convertView.findViewById(R.id.msgs_project);
+		CheckedTextView ctvMessage = (CheckedTextView)convertView.findViewById(R.id.msgs_message);
 		TextView tvDate = (TextView)convertView.findViewById(R.id.msgs_date);
-		TextView tvMessage = (TextView)convertView.findViewById(R.id.msgs_message);
+		TextView tvProjectName = (TextView)convertView.findViewById(R.id.msgs_project);
 
 		// Populate UI Elements
-		tvProjectName.setText(getProject(position));
+		ctvMessage.setText(getMessage(position));
 		tvDate.setText(getDate(position));
-		tvMessage.setText(getMessage(position));
+		tvProjectName.setText(getProject(position));
 
         return convertView;
 
