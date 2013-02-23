@@ -19,7 +19,6 @@
 package edu.berkeley.boinc;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.lang.StringBuffer;
 
 import edu.berkeley.boinc.adapter.EventLogListAdapter;
@@ -72,8 +71,10 @@ public class EventLogActivity extends FragmentActivity {
 				initialSetup = false;
 				setContentView(R.layout.eventlog_layout); 
 				lv = (ListView) findViewById(R.id.eventlogList);
-		        listAdapter = new EventLogListAdapter(EventLogActivity.this, R.id.eventlogList, data);
+		        listAdapter = new EventLogListAdapter(EventLogActivity.this, lv, R.id.eventlogList, data);
+
 		        lv.setAdapter(listAdapter);
+		        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 			}
 			
 			// Deep copy, so ArrayList adapter actually recognizes the difference
@@ -132,6 +133,7 @@ public class EventLogActivity extends FragmentActivity {
 
 	    MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.eventlog_menu, menu);
+
 		return true;
 	}
 	
@@ -158,13 +160,27 @@ public class EventLogActivity extends FragmentActivity {
 
 		// Construct the message body
 		emailText.append("\n\nContents of the Event Log:\n\n");
-		for (Message msg: data) {
-			emailText.append(new Date(msg.timestamp*1000).toString());
-			emailText.append("|");
-			emailText.append(msg.project);
-			emailText.append("|");
-			emailText.append(msg.body);
-			emailText.append("\r\n");
+		if (lv.isSelected()) {
+			// Copy selected items
+		    for (long index: lv.getCheckedItemIds()) {
+				emailText.append(listAdapter.getDate((int)index));
+				emailText.append("|");
+				emailText.append(listAdapter.getProject((int)index));
+				emailText.append("|");
+				emailText.append(listAdapter.getMessage((int)index));
+				emailText.append("\r\n");
+		    }
+			
+		} else {
+			// Copy all items
+		    for (int index = 0; index < lv.getCount(); index++) {
+				emailText.append(listAdapter.getDate(index));
+				emailText.append("|");
+				emailText.append(listAdapter.getProject(index));
+				emailText.append("|");
+				emailText.append(listAdapter.getMessage(index));
+				emailText.append("\r\n");
+			}
 		}
 		
 		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, emailText.toString());

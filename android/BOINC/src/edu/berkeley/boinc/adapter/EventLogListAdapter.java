@@ -31,48 +31,68 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.ListView;
 
 public class EventLogListAdapter extends ArrayAdapter<Message>{
 	
-	// private final String TAG = "MessagesListAdapter";
-
 	private ArrayList<Message> entries;
     private Activity activity;
+    private ListView listView;
  
-    public EventLogListAdapter(Activity a, int textViewResourceId, ArrayList<Message> entries) {
-        super(a, textViewResourceId, entries);
+    public EventLogListAdapter(Activity activity, ListView listView, int textViewResourceId, ArrayList<Message> entries) {
+        super(activity, textViewResourceId, entries);
         this.entries = entries;
-        this.activity = a;
+        this.activity = activity;
+        this.listView = listView;
     }
  
-    @Override
+	@Override
+	public int getCount() {
+		return entries.size();
+	}
+
+	public String getDate(int position) {
+		return new Date(entries.get(position).timestamp*1000).toString();
+	}
+
+	@Override
+	public Message getItem(int position) {
+		return entries.get(position);
+	}
+
+	@Override
+	public long getItemId(int position) {
+		return position;
+	}
+
+	public String getMessage(int position) {
+		return entries.get(position).body;
+	}
+
+	public String getProject(int position) {
+		return entries.get(position).project;
+	}
+
+	@Override
     public View getView(int position, View convertView, ViewGroup parent) {
     	
-    	// Setup view
-        View v = convertView;
-        LayoutInflater vi = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        v = vi.inflate(R.layout.eventlog_layout_listitem, null);
+		// Only inflate a new view if the ListView does not already have a view assigned.
+	    if (convertView == null) {
+	        LayoutInflater vi = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	        convertView = vi.inflate(R.layout.eventlog_layout_listitem, null);
+	    }
 
-    	// Get Message
-    	Message listItem = entries.get(position);
-    	
-		// Construct output
-		String project = listItem.project;
-		String date = new Date(listItem.timestamp*1000).toString();
-		String message = listItem.body;
-
-        // Instantiate layout elements
-		TextView tvProjectName = (TextView) v.findViewById(R.id.msgs_project);
-		TextView tvDate = (TextView) v.findViewById(R.id.msgs_date);
-		TextView tvMessage = (TextView) v.findViewById(R.id.msgs_message);
+        // Find the layout elements
+		TextView tvProjectName = (TextView)convertView.findViewById(R.id.msgs_project);
+		TextView tvDate = (TextView)convertView.findViewById(R.id.msgs_date);
+		TextView tvMessage = (TextView)convertView.findViewById(R.id.msgs_message);
 
 		// Populate UI Elements
-		tvProjectName.setText(project);
-		tvDate.setText(date);
-		tvMessage.setText(message);
+		tvProjectName.setText(getProject(position));
+		tvDate.setText(getDate(position));
+		tvMessage.setText(getMessage(position));
 
-		// Log.d(TAG, "project name: " + projectNameS + " - account: " + accountS);
-        return v;
+        return convertView;
 
     }
 }
