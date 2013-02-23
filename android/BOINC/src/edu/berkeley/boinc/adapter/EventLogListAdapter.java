@@ -30,11 +30,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckedTextView;
 import android.widget.TextView;
 import android.widget.ListView;
 
-public class EventLogListAdapter extends ArrayAdapter<Message>{
+public class EventLogListAdapter extends ArrayAdapter<Message> {
 	
 	private ArrayList<Message> entries;
     private Activity activity;
@@ -84,12 +83,12 @@ public class EventLogListAdapter extends ArrayAdapter<Message>{
 	    }
 
         // Find the layout elements
-		CheckedTextView ctvMessage = (CheckedTextView)convertView.findViewById(R.id.msgs_message);
+	    TextView tvMessage = (TextView)convertView.findViewById(R.id.msgs_message);
 		TextView tvDate = (TextView)convertView.findViewById(R.id.msgs_date);
 		TextView tvProjectName = (TextView)convertView.findViewById(R.id.msgs_project);
 
 		// Populate UI Elements
-		ctvMessage.setText(getMessage(position));
+		tvMessage.setText(getMessage(position));
 		tvDate.setText(getDate(position));
 		tvProjectName.setText(getProject(position));
 
