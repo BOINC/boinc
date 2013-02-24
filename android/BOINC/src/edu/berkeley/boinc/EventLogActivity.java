@@ -121,7 +121,8 @@ public class EventLogActivity extends FragmentActivity {
 	    super.onCreate(savedInstanceState);
 
 	    // Establish a connection with the service, onServiceConnected gets called when
-		bindService(new Intent(this, Monitor.class), mConnection, Service.BIND_AUTO_CREATE);
+	    // (calling within Tab needs getApplicationContext() for bindService to work!)
+		getApplicationContext().bindService(new Intent(this, Monitor.class), mConnection, Service.START_STICKY_COMPATIBILITY);
 	}
 
 	@Override
