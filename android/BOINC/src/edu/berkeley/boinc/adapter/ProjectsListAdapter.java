@@ -19,9 +19,11 @@
 package edu.berkeley.boinc.adapter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,6 +34,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import edu.berkeley.boinc.definitions.CommonDefs;
 import edu.berkeley.boinc.ProjectsActivity;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.Project;
@@ -85,9 +88,79 @@ public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItem
 	}
 
 	public String getProjectStatus(int position) {
-		return "";
+		Project project = getItem(position);
+		StringBuffer sb = new StringBuffer();
+		
+        if (project.suspended_via_gui) {
+        	appendToStatus(sb, activity.getResources().getString(R.string.projects_status_suspendedviagui));
+        }
+        if (project.dont_request_more_work) {
+        	appendToStatus(sb, activity.getResources().getString(R.string.projects_status_dontrequestmorework));
+        }
+        if (project.ended) {
+        	appendToStatus(sb, activity.getResources().getString(R.string.projects_status_ended));
+        }
+        if (project.detach_when_done) {
+        	appendToStatus(sb, activity.getResources().getString(R.string.projects_status_detachwhendone));
+        }
+        if (project.sched_rpc_pending > 0) {
+        	appendToStatus(sb, activity.getResources().getString(R.string.projects_status_schedrpcpending));
+            appendToStatus(sb,
+            	translateRPCReason(project.sched_rpc_pending)
+            );
+        }
+        if (project.scheduler_rpc_in_progress) {
+        	appendToStatus(sb, activity.getResources().getString(R.string.projects_status_schedrpcinprogress));
+        }
+        if (project.trickle_up_pending) {
+        	appendToStatus(sb, activity.getResources().getString(R.string.projects_status_trickleuppending));
+        }
+        
+        Calendar minRPCTime = Calendar.getInstance();
+        Calendar now = Calendar.getInstance();
+        minRPCTime.setTimeInMillis((long)project.min_rpc_time*1000);
+        if (minRPCTime.compareTo(now) > 0) {
+            appendToStatus(
+            	sb,
+            	activity.getResources().getString(R.string.projects_status_backoff) + " " +
+            	DateUtils.formatElapsedTime((minRPCTime.getTimeInMillis() - now.getTimeInMillis()) / 1000)
+            );
+        }
+		
+		return sb.toString();
 	}
 
+	private String translateRPCReason(int reason) {
+	    switch (reason) {
+		    case CommonDefs.RPC_REASON_USER_REQ:
+		    	return activity.getResources().getString(R.string.rpcreason_userreq);
+		    case CommonDefs.RPC_REASON_NEED_WORK:
+		    	return activity.getResources().getString(R.string.rpcreason_needwork);
+		    case CommonDefs.RPC_REASON_RESULTS_DUE:
+		    	return activity.getResources().getString(R.string.rpcreason_resultsdue);
+		    case CommonDefs.RPC_REASON_TRICKLE_UP:
+		    	return activity.getResources().getString(R.string.rpcreason_trickleup);
+		    case CommonDefs.RPC_REASON_ACCT_MGR_REQ:
+		    	return activity.getResources().getString(R.string.rpcreason_acctmgrreq);
+		    case CommonDefs.RPC_REASON_INIT:
+		    	return activity.getResources().getString(R.string.rpcreason_init);
+		    case CommonDefs.RPC_REASON_PROJECT_REQ:
+		    	return activity.getResources().getString(R.string.rpcreason_projectreq);
+		    default:
+		    	return activity.getResources().getString(R.string.rpcreason_unknown);
+	    }
+	}
+	
+	private void appendToStatus(StringBuffer existing, String additional) {
+	    if (existing.length() == 0) {
+	        existing.append(additional);
+	    } else {
+	        existing.append(", ");
+	        existing.append(additional);
+	    }
+	}
+
+	
 	@Override
     public View getView(int position, View convertView, ViewGroup parent) {
 	    View vi = convertView;
