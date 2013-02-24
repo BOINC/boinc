@@ -108,13 +108,6 @@ public class ProjectsActivity extends FragmentActivity {
 				data.add(tmp);
 			}
 			
-			//only show button, when other projects are present. If there are no projects attached, banner is shown!
-			if(Monitor.getClientStatus().setupStatus == ClientStatus.SETUP_STATUS_AVAILABLE) {
-				((Button) findViewById(R.id.add_project_button)).setVisibility(View.VISIBLE);
-			} else {
-				((Button) findViewById(R.id.add_project_button)).setVisibility(View.GONE);
-			}
-
 			// Force list adapter to refresh
 			listAdapter.notifyDataSetChanged(); 
 		}
