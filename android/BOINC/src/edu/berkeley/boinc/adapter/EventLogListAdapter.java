@@ -21,20 +21,19 @@ package edu.berkeley.boinc.adapter;
 import java.util.ArrayList;
 import java.util.Date;
 
-import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.rpc.Message;
-
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.CheckBox;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.ListView;
+import android.widget.TextView;
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.rpc.Message;
 
 
 public class EventLogListAdapter extends ArrayAdapter<Message> implements OnItemClickListener {

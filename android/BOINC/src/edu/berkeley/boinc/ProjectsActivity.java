@@ -26,12 +26,16 @@ import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Project;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.Service;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -44,6 +48,9 @@ public class ProjectsActivity extends FragmentActivity {
 	
 	private final String TAG = "BOINC ProjectsActivity";
 	
+	private Monitor monitor;
+	private Boolean mIsBound;
+
 	private ListView lv;
 	private ProjectsListAdapter listAdapter;
 	private ArrayList<Project> data = new ArrayList<Project>();
@@ -53,6 +60,21 @@ public class ProjectsActivity extends FragmentActivity {
 	// something to display.
 	//
 	private Boolean initialSetup; 
+	
+    // This is called when the connection with the service has been established, 
+	// getService returns the Monitor object that is needed to call functions.
+	//
+	private ServiceConnection mConnection = new ServiceConnection() {
+	    public void onServiceConnected(ComponentName className, IBinder service) {
+	        monitor = ((Monitor.LocalBinder)service).getService();
+		    mIsBound = true;
+	    }
+
+	    public void onServiceDisconnected(ComponentName className) {
+	        monitor = null;
+		    mIsBound = false;
+	    }
+	};
 	
 	// BroadcastReceiver event is used to update the UI with updated information from 
 	// the client.  This is generally called once a second.
@@ -101,6 +123,9 @@ public class ProjectsActivity extends FragmentActivity {
 	    Log.d(TAG, "onCreate()");
 
 	    super.onCreate(savedInstanceState);
+
+	    // Establish a connection with the service, onServiceConnected gets called when
+		bindService(new Intent(this, Monitor.class), mConnection, Service.BIND_AUTO_CREATE);
 	}
 	
 	@Override
@@ -128,9 +153,25 @@ public class ProjectsActivity extends FragmentActivity {
 	protected void onDestroy() {
 	    Log.d(TAG, "onDestroy()");
 
+	    if (mIsBound) {
+	        unbindService(mConnection);
+	        mIsBound = false;
+	    }
+	    
 	    super.onDestroy();
 	}
 	
+	public void onProjectUpdate(String masterURL) {
+	    Log.d(TAG, "onProjectUpdate()");
+
+	}
+	
+	public void onProjectDelete(String masterURL) {
+	    Log.d(TAG, "onProjectDelete()");
+	    
+	}
+	
+/* 	
 	// handler for onClick of listItem
 	public void onItemClick (View view) {
 		Project project = (Project) view.getTag(); //gets added to view by ProjectsListAdapter
@@ -175,5 +216,5 @@ public class ProjectsActivity extends FragmentActivity {
 	        return builder.create();
 	    }
 	}
-
+*/
 }
