@@ -90,8 +90,6 @@ public class LoginActivity extends Activity {
         
         //bind monitor service
         doBindService();
-
-        ((EditText) findViewById(R.id.urlIn)).setText(R.string.project_url); //TODO remove from final build
     }
     
 	@Override
