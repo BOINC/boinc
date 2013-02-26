@@ -45,6 +45,10 @@ void parse(FILE* f) {
 
 int main() {
     FILE* f = fopen("foo.xml", "r");
+    if (!f) {
+        fprintf(stderr, "no file\n");
+        exit(1);
+    }
     parse(f);
 }
 
