@@ -21,7 +21,6 @@ package edu.berkeley.boinc;
 import java.util.ArrayList;
 
 import edu.berkeley.boinc.adapter.ProjectsListAdapter;
-import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Project;
 import android.app.AlertDialog;
@@ -42,8 +41,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
 
 
@@ -88,7 +85,7 @@ public class ProjectsActivity extends FragmentActivity {
 		public void onReceive(Context context, Intent intent) {
 			Log.d(TAG, "ClientStatusChange - onReceive()");
 			
-			// Read messages from state saved in ClientStatus
+			// Read projects from state saved in ClientStatus
 			ArrayList<Project> tmpA = Monitor.getClientStatus().getProjects(); 
 			if(tmpA == null) {
 				return;
@@ -102,7 +99,7 @@ public class ProjectsActivity extends FragmentActivity {
 		        listAdapter = new ProjectsListAdapter(ProjectsActivity.this, lv, R.id.projectsList, data);
 		    }
 			
-			// Add new messages to the event log
+			// Update Project data
 			data.clear();
 			for (Project tmp: tmpA) {
 				data.add(tmp);
@@ -181,17 +178,21 @@ public class ProjectsActivity extends FragmentActivity {
 		}
 	}
 	
+	public void onProjectClicked(String url, String name) {
+	    Log.d(TAG, "onProjectClicked()");
+	}
+	
 	public void onProjectAdd() {
 		Log.d(TAG, "onProjectAdd()");
 		startActivity(new Intent(this,LoginActivity.class));
 	}
 
-	public void onProjectUpdate(String name, String url) {
+	public void onProjectUpdate(String url, String name) {
 	    Log.d(TAG, "onProjectUpdate()");
 	    monitor.updateProjectAsync(url);
 	}
 	
-	public void onProjectDelete(String name, String url) {
+	public void onProjectDelete(String url, String name) {
 	    Log.d(TAG, "onProjectDelete() - Name: " + name + ", URL: " + url);
 		(new ConfirmDeletionDialogFragment(name, url)).show(getSupportFragmentManager(), "confirm_projects_deletion");
 	}
@@ -203,7 +204,7 @@ public class ProjectsActivity extends FragmentActivity {
 		private String name = "";
 		private String url = "";
 		
-		public ConfirmDeletionDialogFragment(String name, String url) {
+		public ConfirmDeletionDialogFragment(String url, String name) {
 			this.name = name;
 			this.url = url;
 		}

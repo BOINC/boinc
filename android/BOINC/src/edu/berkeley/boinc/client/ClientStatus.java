@@ -113,6 +113,14 @@ public class ClientStatus {
 		}
 	}
 	
+	public synchronized CcStatus getClientStatus() {
+		if(results == null) { //check in case monitor is not set up yet (e.g. while logging in)
+			Log.d(TAG, "state is null");
+			return null;
+		}
+		return status;
+	}
+	
 	public synchronized ArrayList<Result> getTasks() {
 		if(results == null) { //check in case monitor is not set up yet (e.g. while logging in)
 			Log.d(TAG, "state is null");

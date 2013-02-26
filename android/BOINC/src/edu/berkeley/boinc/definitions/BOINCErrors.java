@@ -16,23 +16,22 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
+package edu.berkeley.boinc.definitions;
 
-package edu.berkeley.boinc.rpc;
+/*
+ * This tries to be the same as lib/error_numbers.h
+ */
 
-import java.io.Serializable;
+public class BOINCErrors {
 
-public class Transfer implements Serializable {
-	private static final long serialVersionUID = 1L;
-	public String name;
-	public String project_url;
-	public boolean generated_locally;
-	public long nbytes;
-	public boolean xfer_active;
-	public boolean is_upload;
-	public int status;
-	public long next_request_time;
-    public long time_so_far;
-	public long bytes_xferred;
-    public float xfer_speed;
-	public long project_backoff;
+	// Function return values.
+	// NOTE:  add new errors to the end of the list and don't change
+	// old error numbers to avoid confusion between versions.
+	// Add a text description of your error to boincerror() in util.C.
+	//
+	public static final int ERR_GIVEUP_DOWNLOAD                     = -114;
+	public static final int ERR_GIVEUP_UPLOAD                       = -115;
+
+
+
 }

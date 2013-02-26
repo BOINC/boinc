@@ -47,10 +47,10 @@ public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItem
 
     public static class ViewProject {
     	int entryIndex;
-        TextView tvProjectName;
-        TextView tvProjectStatus;
-        ImageButton ibProjectUpdate;
-        ImageButton ibProjectDelete;
+        TextView tvName;
+        TextView tvStatus;
+        ImageButton ibUpdate;
+        ImageButton ibDelete;
     }
     
     public ProjectsListAdapter(Activity activity, ListView listView, int textViewResourceId, ArrayList<Project> entries) {
@@ -79,15 +79,15 @@ public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItem
 		return position;
 	}
 
-	public String getProject(int position) {
+	public String getName(int position) {
 		return entries.get(position).project_name;
 	}
 
-	public String getProjectURL(int position) {
+	public String getURL(int position) {
 		return entries.get(position).master_url;
 	}
 
-	public String getProjectStatus(int position) {
+	public String getStatus(int position) {
 		Project project = getItem(position);
 		StringBuffer sb = new StringBuffer();
 		
@@ -172,10 +172,10 @@ public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItem
 	    	vi = ((LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.projects_layout_listitem, null);
 
 	    	viewProject = new ViewProject();
-	    	viewProject.tvProjectName = (TextView)vi.findViewById(R.id.project_name);
-	    	viewProject.tvProjectStatus = (TextView)vi.findViewById(R.id.project_status);
-	    	viewProject.ibProjectUpdate = (ImageButton)vi.findViewById(R.id.project_update);
-	    	viewProject.ibProjectDelete = (ImageButton)vi.findViewById(R.id.project_delete);
+	    	viewProject.tvName = (TextView)vi.findViewById(R.id.project_name);
+	    	viewProject.tvStatus = (TextView)vi.findViewById(R.id.project_status);
+	    	viewProject.ibUpdate = (ImageButton)vi.findViewById(R.id.project_update);
+	    	viewProject.ibDelete = (ImageButton)vi.findViewById(R.id.project_delete);
 	    
 	        vi.setTag(viewProject);
 	        
@@ -187,46 +187,48 @@ public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItem
 
 		// Populate UI Elements
 	    viewProject.entryIndex = position;
-	    viewProject.tvProjectName.setText(getProject(position));
-	    viewProject.tvProjectStatus.setText(getProjectStatus(position));
+	    viewProject.tvName.setText(getName(position));
+	    viewProject.tvStatus.setText(getStatus(position));
 	    if (listView.isItemChecked(position)) {
-	    	viewProject.ibProjectUpdate.setVisibility(View.VISIBLE);
-	    	viewProject.ibProjectUpdate.setTag(viewProject);
-	    	viewProject.ibProjectUpdate.setClickable(true);
-	    	viewProject.ibProjectUpdate.setOnClickListener(new OnClickListener() {
+	    	viewProject.ibUpdate.setVisibility(View.VISIBLE);
+	    	viewProject.ibUpdate.setTag(viewProject);
+	    	viewProject.ibUpdate.setClickable(true);
+	    	viewProject.ibUpdate.setOnClickListener(new OnClickListener() {
 	            public void onClick(View v) {
 	            	ViewProject viewProject = (ViewProject)v.getTag();
 	            	ProjectsActivity a = (ProjectsActivity)activity;
 	            	
-	            	a.onProjectUpdate(getProject(viewProject.entryIndex), getProjectURL(viewProject.entryIndex));
+	            	a.onProjectUpdate(getURL(viewProject.entryIndex), getName(viewProject.entryIndex));
 	            }
 	        });
 	    		    		    	
-	    	viewProject.ibProjectDelete.setVisibility(View.VISIBLE);
-	    	viewProject.ibProjectDelete.setTag(viewProject);
-	    	viewProject.ibProjectDelete.setClickable(true);
-	    	viewProject.ibProjectDelete.setOnClickListener(new OnClickListener() {
+	    	viewProject.ibDelete.setVisibility(View.VISIBLE);
+	    	viewProject.ibDelete.setTag(viewProject);
+	    	viewProject.ibDelete.setClickable(true);
+	    	viewProject.ibDelete.setOnClickListener(new OnClickListener() {
 	            public void onClick(View v) {
 	            	ViewProject viewProject = (ViewProject)v.getTag();
 	            	ProjectsActivity a = (ProjectsActivity)activity;
 	            	
-	            	a.onProjectDelete(getProject(viewProject.entryIndex), getProjectURL(viewProject.entryIndex));
+	            	a.onProjectDelete(getURL(viewProject.entryIndex), getName(viewProject.entryIndex));
 	            }
 	        });
 	    } else {
-	    	viewProject.ibProjectUpdate.setVisibility(View.GONE);	    	
-	    	viewProject.ibProjectUpdate.setClickable(false);
-	    	viewProject.ibProjectUpdate.setOnClickListener(null);
+	    	viewProject.ibUpdate.setVisibility(View.GONE);	    	
+	    	viewProject.ibUpdate.setClickable(false);
+	    	viewProject.ibUpdate.setOnClickListener(null);
 	    	
-	    	viewProject.ibProjectDelete.setVisibility(View.GONE);
-	    	viewProject.ibProjectDelete.setClickable(false);
-	    	viewProject.ibProjectDelete.setOnClickListener(null);
+	    	viewProject.ibDelete.setVisibility(View.GONE);
+	    	viewProject.ibDelete.setClickable(false);
+	    	viewProject.ibDelete.setOnClickListener(null);
 	    }
 
         return vi;
     }
     
     public void onItemClick(AdapterView<?> adapter, View view, int position, long id ) {
+	    ViewProject viewProject = (ViewProject)view.getTag();
+    	((ProjectsActivity)activity).onProjectClicked(getURL(viewProject.entryIndex), getName(viewProject.entryIndex));
 		notifyDataSetChanged();
     }
 

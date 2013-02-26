@@ -23,92 +23,184 @@ import java.util.ArrayList;
 import edu.berkeley.boinc.adapter.TransListAdapter;
 import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.Monitor;
+import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.Transfer;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.Service;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.ListView;
 
-public class TransActivity extends Activity {
+public class TransActivity extends FragmentActivity {
 	
 	private final String TAG = "BOINC TransActivity";
 	
-	private ClientStatus status; //client status, new information gets parsed by monitor, changes notified by "clientstatus" broadcast. read Result from here, to get information about tasks.
+	private Monitor monitor;
+	private Boolean mIsBound;
 
 	private ListView lv;
 	private TransListAdapter listAdapter;
+	private ArrayList<Transfer> data = new ArrayList<Transfer>();
+	private CcStatus status;
 	
-	private ArrayList<Transfer> data = new ArrayList<Transfer>(); //Adapter for list data
-	private Boolean setup = false;
 
-	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
-		
-		private final String TAG = "TransActivity-Receiver";
-		@Override
-		public void onReceive(Context context,Intent intent) {
-			Log.d(TAG,"onReceive");
-			loadData(); // refresh list view
-		}
+	// Controls when to display the proper projects activity, by default we display a
+	// view that says we are loading projects.  When initialSetup is false, we have
+	// something to display.
+	//
+	private Boolean initialSetup; 
+	
+    // This is called when the connection with the service has been established, 
+	// getService returns the Monitor object that is needed to call functions.
+	//
+	private ServiceConnection mConnection = new ServiceConnection() {
+	    public void onServiceConnected(ComponentName className, IBinder service) {
+	        monitor = ((Monitor.LocalBinder)service).getService();
+		    mIsBound = true;
+	    }
+
+	    public void onServiceDisconnected(ComponentName className) {
+	        monitor = null;
+		    mIsBound = false;
+	    }
 	};
+	
+	// BroadcastReceiver event is used to update the UI with updated information from 
+	// the client.  This is generally called once a second.
+	//
 	private IntentFilter ifcsc = new IntentFilter("edu.berkeley.boinc.clientstatuschange");
-	
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.trans_layout); 
-		
-		//get singleton client status from monitor
-		status = Monitor.getClientStatus();
-		
-        //load data model
-		loadData();
-		
-        Log.d(TAG,"onCreate");
-	}
-	
-	public void onResume() {
-		super.onResume();
-		//register noisy clientStatusChangeReceiver here, so only active when Activity is visible
-		Log.d(TAG+"-onResume","register receiver");
-		registerReceiver(mClientStatusChangeRec,ifcsc);
-		loadData();
-	}
-	
-	public void onPause() {
-		//unregister receiver, so there are not multiple intents flying in
-		Log.d(TAG+"-onPause","remove receiver");
-		unregisterReceiver(mClientStatusChangeRec);
-		super.onPause();
-	}
-	
-	
-	private void loadData() {
-		//setup list and adapter
-		ArrayList<Transfer> tmpA = status.getTransfers();
-		if(tmpA!=null) { //can be null before first monitor status cycle (e.g. when not logged in or during startup)
-				
-			//deep copy, so ArrayList adapter actually recognizes the difference
+	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			Log.d(TAG, "ClientStatusChange - onReceive()");
+			
+			// Read transfers from state saved in ClientStatus
+			ArrayList<Transfer> tmpA = Monitor.getClientStatus().getTransfers(); 
+			if(tmpA == null) {
+				return;
+			}
+			
+			// Read core client status (net up/down, cpu suspended, network suspended) from 
+			// state saved in ClientStatus
+			status = Monitor.getClientStatus().getClientStatus();
+
+			// Switch to a view that can actually display messages
+			if (initialSetup) {
+				initialSetup = false;
+				setContentView(R.layout.trans_layout); 
+				lv = (ListView) findViewById(R.id.transList);
+		        listAdapter = new TransListAdapter(TransActivity.this, lv, R.id.projectsList, data, status);
+		    }
+			
+			// Update Transfer data
 			data.clear();
 			for (Transfer tmp: tmpA) {
 				data.add(tmp);
 			}
+			
+			// Force list adapter to refresh
+			listAdapter.notifyDataSetChanged(); 
+		}
+	};
+	
+	public void onCreate(Bundle savedInstanceState) {
+	    Log.d(TAG, "onCreate()");
+
+	    super.onCreate(savedInstanceState);
+
+	    // Establish a connection with the service, onServiceConnected gets called when
+	    // (calling within Tab needs getApplicationContext() for bindService to work!)
+		getApplicationContext().bindService(new Intent(this, Monitor.class), mConnection, Service.START_STICKY_COMPATIBILITY);
+	}
+	
+	public void onPause() {
+		Log.d(TAG, "onPause()");
+
+		unregisterReceiver(mClientStatusChangeRec);
+		super.onPause();
+	}
+	
+	public void onResume() {
+		Log.d(TAG, "onResume()");
+
+		super.onResume();
 		
-			if(!setup) {// first time we got proper results, setup adapter
-				lv = (ListView) findViewById(R.id.transList);
-		        listAdapter = new TransListAdapter(TransActivity.this,R.id.transList,data);
-		        lv.setAdapter(listAdapter);
-		        
-		        setup = true;
-			}
+		// Switch to the loading view until we have something to display
+		initialSetup = true;
+		setContentView(R.layout.trans_layout_loading);
+
+		registerReceiver(mClientStatusChangeRec, ifcsc);
+	}
+	
+	@Override
+	protected void onDestroy() {
+	    Log.d(TAG, "onDestroy()");
+
+	    if (mIsBound) {
+	    	getApplicationContext().unbindService(mConnection);
+	        mIsBound = false;
+	    }
+	    
+	    super.onDestroy();
+	}
+	
+	public void onTransferClicked(String url, String name) {
+	    Log.d(TAG, "onTransferClicked()");
+	}
+	
+	public void onTransferRetry(String url, String name) {
+	    Log.d(TAG, "onTransferRetry()");
+	    monitor.retryTransferAsync(url, name);
+	}
+	
+	public void onTransferAbort(String url, String name) {
+	    Log.d(TAG, "ononTransferAbort() - Name: " + name + ", URL: " + url);
+		(new ConfirmAbortDialogFragment(name, url)).show(getSupportFragmentManager(), "confirm_transfer_abort");
+	}
+	
+	public class ConfirmAbortDialogFragment extends DialogFragment {
 		
-			Log.d(TAG,"loadData: array contains " + data.size() + " results.");
-			listAdapter.notifyDataSetChanged(); //force list adapter to refresh
-		} else {
-			Log.d(TAG, "loadData array is null");
+		private final String TAG = "ConfirmAbortDialogFragment";
+		
+		private String url = "";
+		private String name = "";
+		
+		public ConfirmAbortDialogFragment(String url, String name) {
+			this.url = url;
+			this.name = name;
 		}
 		
+	    @Override
+	    public Dialog onCreateDialog(Bundle savedInstanceState) {
+	        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+	        String dialogTitle = getString(R.string.confirm_abort) + " " + name + "?";
+	        builder.setMessage(dialogTitle)
+	               .setPositiveButton(R.string.confirm_abort_confirm, new DialogInterface.OnClickListener() {
+	                   public void onClick(DialogInterface dialog, int id) {
+	                       Log.d(TAG, "confirm clicked.");
+	                       //asynchronous call to detach project with given url.
+	                       monitor.abortTransferAsync(url, name);
+	                   }
+	               })
+	               .setNegativeButton(R.string.confirm_abort_cancel, new DialogInterface.OnClickListener() {
+	                   public void onClick(DialogInterface dialog, int id) {
+	                       Log.d(TAG, "dialog canceled.");
+	                   }
+	               });
+	        // Create the AlertDialog object and return it
+	        return builder.create();
+	    }
 	}
 }
