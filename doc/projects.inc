@@ -365,6 +365,14 @@ $math = array(
             "nf_banner_10.jpg"
         ),
         array(
+            "VolPEx",
+            "http://volpex.cs.uh.edu/VCP/",
+            "University of Houston",
+            "Computer science",
+            "Creating effective parallel computing on multiple volatile nodes. Apply research on REMD Protein Folding.",
+            ""
+        ),
+        array(
             "SAT@home",
             "http://sat.isa.ru/pdsat/",
             "Institute for Systems Analysis and Institute for System Dynamics and Control Theory, Russian Academy of Science",

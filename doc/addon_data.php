@@ -253,6 +253,16 @@ array('http://mion.faireal.net/BES/',
 
 $linux = array(
 array(
+    'http://kde-look.org/content/show.php?content=154630',
+    'BOINC Monitor',
+    '2.3',
+    'Plasmoid to show BOINC status on the KDE desktop',
+    'http://kde-look.org/content/show.php?content=154630',
+    'Linux, KDE',
+    'BOINC Monitor is a plasmoid written in Python that allows you to monitor the activities of BOINC directly on your desktop. The applet shows the progress work of each workunit with reference to the project, to the name, to the percentage of the work done and to the time elapsed and remained. Also shows the number of workunits in pending, in cache and finished, and the last few lines of the BOINC log.',
+    1361569229
+),
+array(
     'http://code.google.com/p/boinctui/',
     'boinctui',
     '',
