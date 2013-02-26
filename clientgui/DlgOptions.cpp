@@ -651,7 +651,7 @@ bool CDlgOptions::SaveSettings() {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
     CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
-    int                 iBuffer = 0;
+    long                lBuffer = 0;
     wxString            strBuffer = wxEmptyString;
 
 
@@ -731,8 +731,8 @@ bool CDlgOptions::SaveSettings() {
 			pDoc->proxy_info.noproxy_hosts = (const char*)m_HTTPNoProxiesCtrl->GetValue().mb_str();
 		}
         strBuffer = m_HTTPPortCtrl->GetValue();
-        strBuffer.ToLong((long*)&iBuffer);
-        pDoc->proxy_info.http_server_port = iBuffer;
+        strBuffer.ToLong((long*)&lBuffer);
+        pDoc->proxy_info.http_server_port = lBuffer;
 
         pDoc->proxy_info.use_socks_proxy = m_EnableSOCKSProxyCtrl->GetValue();
         pDoc->proxy_info.socks_server_name = (const char*)m_SOCKSAddressCtrl->GetValue().mb_str();
@@ -742,8 +742,8 @@ bool CDlgOptions::SaveSettings() {
 			pDoc->proxy_info.noproxy_hosts = (const char*)m_SOCKSNoProxiesCtrl->GetValue().mb_str();
 		}
         strBuffer = m_SOCKSPortCtrl->GetValue();
-        strBuffer.ToLong((long*)&iBuffer);
-        pDoc->proxy_info.socks_server_port = iBuffer;
+        strBuffer.ToLong((long*)&lBuffer);
+        pDoc->proxy_info.socks_server_port = lBuffer;
 
         pDoc->SetProxyConfiguration();
     }
