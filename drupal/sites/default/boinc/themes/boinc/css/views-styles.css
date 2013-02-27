@@ -103,16 +103,52 @@
 /**
  * Friends block
  */
-.view-friends .imagefield {
+.view-friends .imagefield,
+.view-boinc-friends .imagefield {
   width: 50px;
   height: 50px;
   margin: 0 1px;
 }
-.view-friends .views-row {
+.view-friends .views-row,
+.view-boinc-friends .views-row {
   float: left;
   clear: none;
   padding: 0;
 }
-.view-friends .more-link {
+.view-friends .more-link,
+.view-boinc-friends .more-link {
   clear: both;
+}
+
+/**
+ * Search pages
+ */
+.views-exposed-form {
+	border-bottom: 2px dotted #aaa;
+	margin-bottom: 40px;
+}
+.views-exposed-widgets {
+	border-bottom: 2px dotted #aaa;
+}
+.views-exposed-form .views-exposed-widget {
+	float: none;
+	clear: both;
+}
+.views-exposed-form label{
+	float: left;
+	clear: left;
+	line-height: 24px;
+	width: 100px;
+	margin-right: 40px;
+}
+.views-exposed-form .views-widget {
+	float: left;
+}
+.views-exposed-form .views-exposed-widget .form-submit{
+	margin: 2.4em 0 1.6em;
+}
+
+.view-user-list .imagefield {
+	width: 25px;
+	height: 25px;
 }

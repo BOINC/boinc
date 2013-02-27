@@ -41,3 +41,12 @@ function friends_flag_default_flags() {
   return $flags;
 
 }
+
+/**
+ * Implementation of hook_views_api().
+ */
+function friends_views_api() {
+  return array(
+    'api' => '2',
+  );
+}
