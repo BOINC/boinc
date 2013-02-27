@@ -1119,6 +1119,3 @@ UINT __stdcall MigrateBOINCData(MSIHANDLE hInstall)
 
     return uiReturnValue;
 }
-
-
-const char *BOINC_RCSID_8dca879ada="$Id: CAMigrateBOINCData.cpp 11773 2007-01-05 08:49:02Z rwalton $";

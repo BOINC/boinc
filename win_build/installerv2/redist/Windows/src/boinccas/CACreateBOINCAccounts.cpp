@@ -461,5 +461,3 @@ UINT __stdcall CreateBOINCAccounts(MSIHANDLE hInstall)
 
     return uiReturnValue;
 }
-
-const char *BOINC_RCSID_00ed9686df="$Id: CACreateBOINCAccounts.cpp 11804 2007-01-08 18:42:48Z rwalton $";

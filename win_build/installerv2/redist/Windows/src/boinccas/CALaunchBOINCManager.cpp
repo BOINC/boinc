@@ -103,6 +103,3 @@ UINT __stdcall LaunchBOINCManager(MSIHANDLE hInstall)
 
     return uiReturnValue;
 }
-
-
-const char *BOINC_RCSID_7bca979acf="$Id: CAShutdownBOINC.cpp 14659 2008-02-01 22:08:48Z romw $";

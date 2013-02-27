@@ -195,6 +195,3 @@ UINT __stdcall RestoreSetupState(MSIHANDLE hInstall)
 
     return uiReturnValue;
 }
-
-
-const char *BOINC_RCSID_7bca879adb="$Id$";

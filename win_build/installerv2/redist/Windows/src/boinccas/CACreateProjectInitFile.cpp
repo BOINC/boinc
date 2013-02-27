@@ -131,5 +131,3 @@ UINT __stdcall CreateProjectInitFile(MSIHANDLE hInstall)
 
     return uiReturnValue;
 }
-
-const char *BOINC_RCSID_01ed9786df="$Id: CACreateProjectInitFile.cpp 11804 2007-01-08 18:42:48Z rwalton $";

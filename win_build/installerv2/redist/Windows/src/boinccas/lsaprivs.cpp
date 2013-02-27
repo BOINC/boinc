@@ -296,6 +296,3 @@ GrantUserRight(
     LsaClose(PolicyHandle);
     return TRUE;
 }
-
-
-const char *BOINC_RCSID_0a9587b165 = "$Id$";
