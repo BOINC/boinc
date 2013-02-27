@@ -20,7 +20,7 @@ package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.Monitor;
-import edu.berkeley.boinc.definitions.CommonDefs;
+import edu.berkeley.boinc.utils.BOINCDefs;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -41,7 +41,6 @@ public class StatusActivity extends Activity {
 	private final String TAG = "BOINC StatusActivity";
 	
 	private Monitor monitor;
-	
 	private Boolean mIsBound = false;
 
 	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
@@ -150,52 +149,52 @@ public class StatusActivity extends Activity {
 					changeRunmodeDescriptor.setText(R.string.disable_computation);
 					changeRunmodeDescriptor.setTag(false);
 					switch(status.computingSuspendReason) {
-					case CommonDefs.SUSPEND_REASON_BATTERIES:
+					case BOINCDefs.SUSPEND_REASON_BATTERIES:
 						statusDescriptor.setText(R.string.suspend_batteries);
 						break;
-					case CommonDefs.SUSPEND_REASON_USER_ACTIVE:
+					case BOINCDefs.SUSPEND_REASON_USER_ACTIVE:
 						statusDescriptor.setText(R.string.suspend_useractive);
 						break;
-					case CommonDefs.SUSPEND_REASON_USER_REQ:
+					case BOINCDefs.SUSPEND_REASON_USER_REQ:
 						statusDescriptor.setText(R.string.suspend_userreq);
 						break;
-					case CommonDefs.SUSPEND_REASON_TIME_OF_DAY:
+					case BOINCDefs.SUSPEND_REASON_TIME_OF_DAY:
 						statusDescriptor.setText(R.string.suspend_tod);
 						break;
-					case CommonDefs.SUSPEND_REASON_BENCHMARKS:
+					case BOINCDefs.SUSPEND_REASON_BENCHMARKS:
 						statusDescriptor.setText(R.string.suspend_bm);
 						break;
-					case CommonDefs.SUSPEND_REASON_DISK_SIZE:
+					case BOINCDefs.SUSPEND_REASON_DISK_SIZE:
 						statusDescriptor.setText(R.string.suspend_disksize);
 						break;
-					case CommonDefs.SUSPEND_REASON_CPU_THROTTLE:
+					case BOINCDefs.SUSPEND_REASON_CPU_THROTTLE:
 						statusDescriptor.setText(R.string.suspend_cputhrottle);
 						break;
-					case CommonDefs.SUSPEND_REASON_NO_RECENT_INPUT:
+					case BOINCDefs.SUSPEND_REASON_NO_RECENT_INPUT:
 						statusDescriptor.setText(R.string.suspend_noinput);
 						break;
-					case CommonDefs.SUSPEND_REASON_INITIAL_DELAY:
+					case BOINCDefs.SUSPEND_REASON_INITIAL_DELAY:
 						statusDescriptor.setText(R.string.suspend_delay);
 						break;
-					case CommonDefs.SUSPEND_REASON_EXCLUSIVE_APP_RUNNING:
+					case BOINCDefs.SUSPEND_REASON_EXCLUSIVE_APP_RUNNING:
 						statusDescriptor.setText(R.string.suspend_exclusiveapp);
 						break;
-					case CommonDefs.SUSPEND_REASON_CPU_USAGE:
+					case BOINCDefs.SUSPEND_REASON_CPU_USAGE:
 						statusDescriptor.setText(R.string.suspend_cpu);
 						break;
-					case CommonDefs.SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED:
+					case BOINCDefs.SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED:
 						statusDescriptor.setText(R.string.suspend_network_quota);
 						break;
-					case CommonDefs.SUSPEND_REASON_OS:
+					case BOINCDefs.SUSPEND_REASON_OS:
 						statusDescriptor.setText(R.string.suspend_os);
 						break;
-					case CommonDefs.SUSPEND_REASON_WIFI_STATE:
+					case BOINCDefs.SUSPEND_REASON_WIFI_STATE:
 						statusDescriptor.setText(R.string.suspend_wifi);
 						break;
-					case CommonDefs.SUSPEND_REASON_BATTERY_CHARGING:
+					case BOINCDefs.SUSPEND_REASON_BATTERY_CHARGING:
 						statusDescriptor.setText(R.string.suspend_battery_charging);
 						break;
-					case CommonDefs.SUSPEND_REASON_BATTERY_OVERHEATED:
+					case BOINCDefs.SUSPEND_REASON_BATTERY_OVERHEATED:
 						statusDescriptor.setText(R.string.suspend_battery_overheating);
 						break;
 					default:
@@ -216,7 +215,8 @@ public class StatusActivity extends Activity {
 					try{
 						networkState = status.networkSuspendReason;
 					} catch (Exception e) {}
-					if(networkState==8192){ //network suspended due to wifi state
+					if(networkState == BOINCDefs.SUSPEND_REASON_WIFI_STATE){
+						// Network suspended due to wifi state
 						statusDescriptor.setText(R.string.suspend_wifi);
 					}else {
 						statusDescriptor.setText(R.string.status_idle_long);
@@ -246,9 +246,9 @@ public class StatusActivity extends Activity {
 		try {
 			Boolean enable = (Boolean) v.getTag();
 			if(enable) {
-				monitor.setRunMode(CommonDefs.RUN_MODE_AUTO);
+				monitor.setRunMode(BOINCDefs.RUN_MODE_AUTO);
 			} else {
-				monitor.setRunMode(CommonDefs.RUN_MODE_NEVER);
+				monitor.setRunMode(BOINCDefs.RUN_MODE_NEVER);
 			}
 		} catch (Exception e) {Log.e(TAG, "could not map status tag", e);}
 	}

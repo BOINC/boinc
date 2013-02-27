@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package edu.berkeley.boinc.definitions;
+package edu.berkeley.boinc.utils;
 
 /*
  * This tries to be the same as lib/error_numbers.h

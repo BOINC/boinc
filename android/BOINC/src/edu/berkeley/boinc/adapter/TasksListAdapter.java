@@ -21,8 +21,8 @@ package edu.berkeley.boinc.adapter;
 import java.util.ArrayList;
 
 import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.definitions.CommonDefs;
 import edu.berkeley.boinc.rpc.Result;
+import edu.berkeley.boinc.utils.BOINCDefs;
 
 import android.app.Activity;
 import android.content.Context;
@@ -132,7 +132,7 @@ public class TasksListAdapter extends ArrayAdapter<Result>{
     
     private Integer determineProgressBarLayout(Result tmp) {
     	if(tmp.active_task) {
-    		if(tmp.active_task_state == CommonDefs.PROCESS_EXECUTING) {
+    		if(tmp.active_task_state == BOINCDefs.PROCESS_EXECUTING) {
     			//running
     			return R.drawable.progressbar_active;
     		} else {
@@ -140,7 +140,7 @@ public class TasksListAdapter extends ArrayAdapter<Result>{
     			return R.drawable.progressbar_paused;
     		}
     	} else {
-    		if((tmp.state == CommonDefs.RESULT_ABORTED) || (tmp.state == CommonDefs.RESULT_UPLOAD_FAILED) || (tmp.state == CommonDefs.RESULT_COMPUTE_ERROR)) { 
+    		if((tmp.state == BOINCDefs.RESULT_ABORTED) || (tmp.state == BOINCDefs.RESULT_UPLOAD_FAILED) || (tmp.state == BOINCDefs.RESULT_COMPUTE_ERROR)) { 
     			//error
     			return R.drawable.progressbar_error;
     		} else if (tmp.ready_to_report) {
