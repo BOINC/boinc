@@ -188,27 +188,24 @@ void RSC_WORK_FETCH::rr_init() {
     saturated_time = 0;
     busy_time_estimator.reset();
     sim_used_instances = 0;
+    inst_secs_used = 0;
 }
 
-void RSC_WORK_FETCH::accumulate_shortfall(double d_time) {
+void RSC_WORK_FETCH::update_stats(double sim_now, double dt, double buf_end) {
     double idle = ninstances - sim_nused;
-    if (idle > 1e-6) {
-        //msg_printf(0, MSG_INFO, "adding shortfall %d %f", rsc_type, idle*d_time);
-        shortfall += idle*d_time;
+    if (idle > 1e-6 && sim_now < buf_end) {
+        double dt2;
+        if (sim_now + dt > buf_end) {
+            dt2 = buf_end - sim_now;
+        } else {
+            dt2 = dt;
+        }
+        shortfall += idle*dt2;
     }
-#if 0
-    msg_printf(0, MSG_INFO, "accum shortf (%s): idle %f dt %f sf %f",
-        rsc_name(rsc_type), idle, d_time, shortfall
-    );
-#endif
-}
-
-void RSC_WORK_FETCH::update_saturated_time(double dt) {
-    double idle = ninstances - sim_nused;
-    //msg_printf(0, MSG_INFO, "update_saturated rsc %d idle %f dt %f", rsc_type, idle, dt);
     if (idle < 1e-6) {
-        saturated_time = dt;
+        saturated_time = sim_now + dt - gstate.now;
     }
+    inst_secs_used += sim_nused * dt;
 }
 
 void RSC_WORK_FETCH::update_busy_time(double dur, double nused) {
@@ -279,9 +276,10 @@ PROJECT* RSC_WORK_FETCH::choose_project_hyst(bool strict) {
         }
 
         // if project has excluded GPUs of this type,
-        // and it has more runnable jobs than non-excluded instances,
-        // don't fetch work for it.
-        // TODO: THIS IS CRUDE. Making it smarter would require
+        // and the # of inst-secs used in the simulation is greater than
+        // #non_excl_inst * work_buf_min,
+        // don't fetch work for this resource.
+        // TODO: THIS IS FAIRLY CRUDE. Making it smarter would require
         // computing shortfall etc. on a per-project basis
         //
         if (rsc_type) {
@@ -289,9 +287,7 @@ PROJECT* RSC_WORK_FETCH::choose_project_hyst(bool strict) {
             if (n_not_excluded == 0) {
                 continue;
             }
-            if (p->rsc_pwf[rsc_type].ncoprocs_excluded
-                && p->rsc_pwf[rsc_type].n_runnable_jobs > n_not_excluded
-            ) {
+            if (inst_secs_used > gstate.work_buf_min()*n_not_excluded) {
                 continue;
             }
         }
@@ -453,6 +449,10 @@ void RSC_WORK_FETCH::set_request(PROJECT* p) {
             req_secs = 1;
         } else {
             req_secs = shortfall;
+            if (w.ncoprocs_excluded) {
+                double non_excl_inst = ninstances - w.ncoprocs_excluded;
+                req_secs *= non_excl_inst/ninstances;
+            }
         }
     }
 

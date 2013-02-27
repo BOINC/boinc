@@ -438,6 +438,11 @@ void RR_SIM::simulate() {
             }
         }
 
+#if 1
+        for (int i=0; i<coprocs.n_rsc; i++) {
+            rsc_work_fetch[i].update_stats(sim_now, delta_t, buf_end);
+        }
+#else
         // update saturated time
         //
         double end_time = sim_now + delta_t;
@@ -456,6 +461,7 @@ void RR_SIM::simulate() {
                 rsc_work_fetch[i].accumulate_shortfall(d_time);
             }
         }
+#endif
 
         // update project REC
         //
@@ -463,7 +469,7 @@ void RR_SIM::simulate() {
         for (unsigned int i=0; i<gstate.projects.size(); i++) {
             PROJECT* p = gstate.projects[i];
             double dtemp = sim_now;
-            x = 0;
+            double x = 0;
             for (int j=0; j<coprocs.n_rsc; j++) {
                 x += p->rsc_pwf[j].sim_nused * delta_t * f * rsc_work_fetch[j].relative_speed;
             }
@@ -502,7 +508,7 @@ void RR_SIM::simulate() {
     if (sim_now < buf_end) {
         double d_time = buf_end - sim_now;
         for (int i=0; i<coprocs.n_rsc; i++) {
-            rsc_work_fetch[i].accumulate_shortfall(d_time);
+            rsc_work_fetch[i].update_stats(sim_now, d_time, buf_end);
         }
     }
 }
