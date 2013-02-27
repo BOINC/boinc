@@ -189,7 +189,7 @@ function boinc_standard_default_page_manager_pages() {
     $pane->pid = 'new-4';
     $pane->panel = 'sidebar_first';
     $pane->type = 'views';
-    $pane->subtype = 'friends';
+    $pane->subtype = 'boinc_friends';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -198,18 +198,18 @@ function boinc_standard_default_page_manager_pages() {
       'nodes_per_page' => '6',
       'pager_id' => '',
       'offset' => '0',
-      'more_link' => 0,
+      'more_link' => 1,
       'feed_icons' => 0,
       'panel_args' => 0,
       'link_to_view' => 0,
       'args' => '',
       'url' => '',
       'display' => 'block_1',
-      'override_title' => 0,
-      'override_title_text' => '',
       'context' => array(
         0 => 'context_user_1.uid',
       ),
+      'override_title' => 0,
+      'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
