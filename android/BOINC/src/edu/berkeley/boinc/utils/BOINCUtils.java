@@ -37,27 +37,27 @@ public class BOINCUtils {
 
 	    if (fFileSize != 0) {
 	        if        (fFileSize >= xTera) {
-	            buf = String.format("%0.2f/%0.2f TB", fBytesSent/xTera, fFileSize/xTera);
+	            buf = String.format("%.2f/%.2f TB", fBytesSent/xTera, fFileSize/xTera);
 	        } else if (fFileSize >= xGiga) {
-	        	buf = String.format("%0.2f/%0.2f GB", fBytesSent/xGiga, fFileSize/xGiga);
+	        	buf = String.format("%.2f/%.2f GB", fBytesSent/xGiga, fFileSize/xGiga);
 	        } else if (fFileSize >= xMega) {
-	        	buf = String.format("%0.2f/%0.2f MB", fBytesSent/xMega, fFileSize/xMega);
+	        	buf = String.format("%.2f/%.2f MB", fBytesSent/xMega, fFileSize/xMega);
 	        } else if (fFileSize >= xKilo) {
-	        	buf = String.format("%0.2f/%0.2f KB", fBytesSent/xKilo, fFileSize/xKilo);
+	        	buf = String.format("%.2f/%.2f KB", fBytesSent/xKilo, fFileSize/xKilo);
 	        } else {
-	        	buf = String.format("%0.0f/%0.0f bytes", fBytesSent, fFileSize);
+	        	buf = String.format("%.0f/%.0f bytes", fBytesSent, fFileSize);
 	        }
 	    } else {
 	        if        (fBytesSent >= xTera) {
-	        	buf = String.format("%0.2f TB", fBytesSent/xTera);
+	        	buf = String.format("%.2f TB", fBytesSent/xTera);
 	        } else if (fBytesSent >= xGiga) {
-	        	buf = String.format("%0.2f GB", fBytesSent/xGiga);
+	        	buf = String.format("%.2f GB", fBytesSent/xGiga);
 	        } else if (fBytesSent >= xMega) {
-	        	buf = String.format("%0.2f MB", fBytesSent/xMega);
+	        	buf = String.format("%.2f MB", fBytesSent/xMega);
 	        } else if (fBytesSent >= xKilo) {
-	        	buf = String.format("%0.2f KB", fBytesSent/xKilo);
+	        	buf = String.format("%.2f KB", fBytesSent/xKilo);
 	        } else {
-	        	buf = String.format("%0.0f bytes", fBytesSent);
+	        	buf = String.format("%.0f bytes", fBytesSent);
 	        }
 	    }
 
