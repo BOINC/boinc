@@ -23,7 +23,7 @@ $sensing = array(
         ),
         array(
             "Radioactive@Home",
-            "http://radioactiveathome.org/",
+            "http://radioactiveathome.org/boinc/",
             tra("BOINC Poland Foundation"),
             tra("Environmental research"),
             tra("This project is creating a free and continuously updated map of radiation levels by using sensors connected to volunteers' computers.  You must buy a sensor to participate."),
