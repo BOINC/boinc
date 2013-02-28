@@ -58,14 +58,23 @@
       <td colspan="3"><?php print $topic->message; ?></td>
     <?php else: ?>
       <td class="replies">
+        <?php if ($topic->new_replies): ?>
+          <a href="<?php print $topic->new_url; ?>">
+        <?php endif; ?>
         <?php print $topic->num_comments; ?>
         <?php if ($topic->new_replies): ?>
-          <br />
-          <a href="<?php print $topic->new_url; ?>"><?php print $topic->new_text; ?></a>
+          <?php //print $topic->new_text; ?>
+          </a>
         <?php endif; ?>
       </td>
       <td class="created"><?php print $topic->created; ?></td>
-      <td class="last-reply"><?php print $topic->last_reply; ?></td>
+      <td class="last-reply">
+        <?php if ($topic->sticky): ?>
+          <?php print t('Featured item'); ?>
+        <?php else: ?>
+          <?php print $topic->last_reply; ?>
+        <?php endif; ?>
+      </td>
     <?php endif; ?>
     </tr>
   <?php endforeach; ?>

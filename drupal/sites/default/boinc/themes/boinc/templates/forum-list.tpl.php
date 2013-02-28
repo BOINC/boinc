@@ -58,10 +58,13 @@
           <?php print str_repeat('</div>', $forum->depth); ?>
         </td>
         <td class="topics">
+          <?php if ($forum->new_topics): ?>
+            <a href="<?php print $forum->new_url; ?>">
+          <?php endif; ?>
           <?php print $forum->num_topics ?>
           <?php if ($forum->new_topics): ?>
-            <br />
-            <a href="<?php print $forum->new_url; ?>"><?php print $forum->new_text; ?></a>
+            <?php //print $forum->new_text; ?>
+            </a>
           <?php endif; ?>
         </td>
         <td class="posts"><?php print $forum->num_posts ?></td>
