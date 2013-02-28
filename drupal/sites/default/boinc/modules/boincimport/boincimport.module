@@ -1448,26 +1448,7 @@ function boincimport_subscriptions() {
  * Clean UP
  */
 function boincimport_process_cleanup() {
-  $pre = variable_get('boincimport_table_prefix', '');
-
-  #
-  # Update Drupal sequence 
-  #
   db_set_active('default');
-  $term_data_tid = db_result(db_query('SELECT MAX(tid) FROM {term_data}'));
-  $comments_cid = db_result(db_query('SELECT MAX(cid) FROM {comments}'));
-  $node_nid = db_result(db_query('SELECT MAX(nid) FROM {node}'));
-  $users_uid = db_result(db_query('SELECT MAX(uid) FROM {users}'));
-
-  db_query("DELETE FROM {sequences} WHERE name='term_data_tid'");
-  db_query("DELETE FROM {sequences} WHERE name='comments_cid'");
-  db_query("DELETE FROM {sequences} WHERE name='node_nid'");
-  db_query("DELETE FROM {sequences} WHERE name='users_uid'");
-
-  db_query("INSERT INTO {sequences} (name,id) VALUES ('term_data_tid', '%s')", $term_data_tid);
-  db_query("INSERT INTO {sequences} (name,id) VALUES ('comments_cid', '%s')", $comments_cid);
-  db_query("INSERT INTO {sequences} (name,id) VALUES ('node_nid', '%s')", $node_nid);
-  db_query("INSERT INTO {sequences} (name,id) VALUES ('users_uid', '%s')", $users_uid);
   
   variable_del('boincimport_import_user_successful');
   variable_del('boincimport_import_user_started');
