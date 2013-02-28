@@ -20,9 +20,10 @@
 ?>
 <?php if ($forums_defined): ?>
 <div id="forum">
-  <?php print theme('links', $links); ?>
   <?php print $forums; ?>
   <?php print $topics; ?>
+  <?php print theme('links', $links); ?>
+  <div class="clearfix"></div>
 </div>
 
 <?php endif; ?>
