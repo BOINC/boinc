@@ -6257,6 +6257,12 @@ Charlie 18 Oct 2012
     lib/
         gui_rpc_client_ops.cpp
 
+Charlie 18 Oct 2012
+    - lib: don't clear entire APP_VERSION struct in APP_VERSION::parse_coproc().
+    
+    lib/
+        gui_rpc_client_ops.cpp
+
 Rom    19 Oct 2012
     - Add missing references to psapi.lib for various build configurations.
 
