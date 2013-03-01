@@ -68,7 +68,6 @@ void boinc_close_window_and_quit(const char* p) {
     if (window) {
         DestroyWindow(window);
     }
-    SendMessage(window, WM_QUIT, 0, 0);
 }
 
 void SetupPixelFormat(HDC win_dc) {

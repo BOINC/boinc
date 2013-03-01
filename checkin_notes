@@ -6324,6 +6324,14 @@ Rom    23 Oct 2012
     clientscr/
         screensaver_x11.cpp
 
+Rom    24 Oct 2012
+    - API: Remove the call to SendMessage(WM_QUIT, ...) after destroying the window.
+        There is no guarantee what order the event queue will be processed in and if
+        WM_QUIT is processed before WM_DESTROY something might linger around.
+        
+    api/
+        graphics2_win.cpp
+
 David  23 Oct 2012
     - server: add stage_file to project setup; add error checking to stage_file
 
