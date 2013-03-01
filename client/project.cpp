@@ -109,6 +109,7 @@ void PROJECT::init() {
     completions_ratio_stdev = 0.1;  // for the first couple of completions - guess.
     completions_required_stdevs = 3.0;
     result_index = 0;
+    ignore = false;
 #endif
 }
 

@@ -1311,21 +1311,48 @@ void cull_projects() {
             app->project->no_apps = false;
         }
     }
-    vector<PROJECT*>::iterator iter;
-    iter = gstate.projects.begin();
-    while (iter != gstate.projects.end()) {
-        p = *iter;
+    for (i=0; i<gstate.projects.size(); i++) {
+        p = gstate.projects[i];
         if (p->no_apps) {
             fprintf(summary_file,
                 "%s: Removing from simulation - no apps\n",
                 p->project_name
             );
-            iter = gstate.projects.erase(iter);
+            p->ignore = true;
         } else if (p->non_cpu_intensive) {
             fprintf(summary_file,
                 "%s: Removing from simulation - non CPU intensive\n",
                 p->project_name
             );
+            p->ignore = true;
+        }
+    }
+
+    // remove results and active tasks of projects we're culling
+    //
+    vector<ACTIVE_TASK*>::iterator ati = gstate.active_tasks.active_tasks.begin();
+    while (ati != gstate.active_tasks.active_tasks.end()) {
+        ACTIVE_TASK* atp = *ati;
+        if (atp->wup->project->ignore) {
+            ati = gstate.active_tasks.active_tasks.erase(ati);
+        } else {
+            ati++;
+        }
+    }
+    vector<RESULT*>::iterator ri = gstate.results.begin();
+    while (ri != gstate.results.end()) {
+        RESULT* rp = *ri;
+        if (rp->project->ignore) {
+            ri = gstate.results.erase(ri);
+        } else {
+            ri++;
+        }
+    }
+
+    vector<PROJECT*>::iterator iter = gstate.projects.begin();
+    while (iter != gstate.projects.end()) {
+        p = *iter;
+        if (p->ignore) {
             iter = gstate.projects.erase(iter);
         } else {
             iter++;

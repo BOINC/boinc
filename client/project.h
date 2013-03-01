@@ -331,6 +331,7 @@ struct PROJECT : PROJ_AM {
     bool idle;
     int max_infeasible_count;
     bool no_apps;
+    bool ignore;
     // for DCF variants:
     int completed_task_count;
     double completions_ratio_mean;
