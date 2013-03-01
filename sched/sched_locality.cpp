@@ -1098,6 +1098,14 @@ void send_work_locality() {
     unsigned int seed=time(0)+getpid();
     srand(seed);
 
+    // file names are used in SQL queries throughout; escape them now
+    // (this breaks things if file names legitimately contain ', but they don't)
+    //
+    for (unsigned int k=0; k<g_request->file_infos.size(); k++) {
+        FILE_INFO& fi = g_request->file_infos[k];
+        escape_string(fi.name, sizeof(fi.name));
+    }
+
 #ifdef EINSTEIN_AT_HOME
     std::vector<FILE_INFO> eah_copy = g_request->file_infos;
     g_request->file_infos.clear();
