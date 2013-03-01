@@ -6610,3 +6610,33 @@ Eric   1 Nov 2012
           sah_header_stdcxx.m4 
           sah_largefile_breaks_cxx.m4 
           sah_links.m4
+
+David  2 Nov 2012
+    - example app: get the graphics app to build on Fedora Core 14
+        Note: this required installing various packages,
+        and tweaking the Makefile in various ways,
+        some of them FC14-specific ways
+
+    html/ops/
+        upgrade_db.php
+    samples/example_app/
+        Makefile
+        uc2_graphics.cpp
+    sched/
+        sched_send.cpp
+    tools/
+        upgrade
+
+Rom    4 Nov 2012
+    - VBOX: Do not count the sleep time as part of the elapsed time when
+        the VM is supposed to be suspended.
+        
+    samples\vboxwrapper\
+        vboxwrapper.cpp
+
+Rom    5 Nov 2012
+    - VBOX: Ugh, if sleep_time is greater than zero, increment elapsed_time by
+        the poll interval.  
+        
+    samples\vboxwrapper\
+        vboxwrapper.cpp

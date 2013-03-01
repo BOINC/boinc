@@ -23,8 +23,6 @@
 
 require_once("../inc/util_ops.inc");
 
-echo "Checking for DB updates...\n";
-
 $db_revision = 0;
 if (file_exists("../../db_revision")) {
     $db_revision = (int) file_get_contents("../../db_revision");
@@ -41,7 +39,7 @@ foreach($db_updates as $db_update) {
 }
 
 if (empty($updates)) {
-    echo "\nNo updates needed\n";
+    echo "No updates needed\n";
     exit;
 }
 
