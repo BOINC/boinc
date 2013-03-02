@@ -142,6 +142,7 @@ void RR_SIM::init_pending_lists() {
         PROJECT* p = gstate.projects[i];
         for (int j=0; j<coprocs.n_rsc; j++) {
             p->rsc_pwf[j].pending.clear();
+            p->rsc_pwf[j].queue_est = 0;
         }
     }
     for (unsigned int i=0; i<gstate.results.size(); i++) {
@@ -159,13 +160,14 @@ void RR_SIM::init_pending_lists() {
         PROJECT* p = rp->project;
         p->pwf.n_runnable_jobs++;
         p->rsc_pwf[0].nused_total += rp->avp->avg_ncpus;
+        set_rrsim_flops(rp);
         int rt = rp->avp->gpu_usage.rsc_type;
         if (rt) {
             p->rsc_pwf[rt].nused_total += rp->avp->gpu_usage.usage;
             p->rsc_pwf[rt].n_runnable_jobs++;
+            p->rsc_pwf[rt].queue_est += rp->rrsim_flops_left/rp->rrsim_flops;
         }
         p->rsc_pwf[rt].pending.push_back(rp);
-        set_rrsim_flops(rp);
         rp->rrsim_done = false;
     }
 }
