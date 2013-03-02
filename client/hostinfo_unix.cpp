@@ -429,6 +429,19 @@ bool HOST_INFO::host_is_running_on_batteries() {
     }
 
     return false;
+#elif defined(__FreeBSD__)
+    int ac;
+    size_t len = sizeof(ac);
+
+    if (sysctlbyname("hw.acpi.acline", &ac, &len, NULL, 0) != -1) {
+        if (ac)
+            // AC present
+            return false;
+        else
+            return true;
+    }
+
+    return false;
 #else
     return false;
 #endif
