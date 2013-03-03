@@ -717,6 +717,13 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
         return;
     }
 
+    // if project was updated from manager and config says so,
+    // always fetch work if needed
+    //
+    if (p->sched_rpc_pending && config.fetch_on_update) {
+        set_all_requests_hyst(p, -1);
+        return;
+    }
     compute_cant_fetch_work_reason();
     PROJECT* bestp = choose_project(false);
     if (p != bestp) {

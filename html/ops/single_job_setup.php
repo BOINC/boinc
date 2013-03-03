@@ -119,7 +119,7 @@ function make_app_version_dir($app_name, $i, $platform) {
 }
 
 
-// check for apps/appname/appname/N/platform,
+// check for apps/appname/1.N/platform,
 // find the largest such N; see if have new wrapper
 // If needed, create new version, copy wrapper
 //

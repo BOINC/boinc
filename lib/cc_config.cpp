@@ -212,6 +212,7 @@ void CONFIG::defaults() {
     exit_before_start = false;
     exit_when_idle = false;
     fetch_minimal_work = false;
+    fetch_on_update = false;
     force_auth = "default";
     http_1_0 = false;
     http_transfer_timeout = 300;
@@ -356,6 +357,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_bool("fetch_minimal_work", fetch_minimal_work)) continue;
+        if (xp.parse_bool("fetch_on_update", fetch_on_update)) continue;
         if (xp.parse_string("force_auth", force_auth)) {
             downcase_string(force_auth);
             continue;
@@ -530,6 +532,7 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         "        <exit_before_start>%d</exit_before_start>\n"
         "        <exit_when_idle>%d</exit_when_idle>\n"
         "        <fetch_minimal_work>%d</fetch_minimal_work>\n"
+        "        <fetch_on_update>%d</fetch_on_update>\n"
         "        <force_auth>%s</force_auth>\n"
         "        <http_1_0>%d</http_1_0>\n"
         "        <http_transfer_timeout>%d</http_transfer_timeout>\n"
@@ -538,6 +541,7 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         exit_before_start,
         exit_when_idle,
         fetch_minimal_work,
+        fetch_on_update,
         force_auth.c_str(),
         http_1_0,
         http_transfer_timeout,
