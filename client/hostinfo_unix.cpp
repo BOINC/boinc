@@ -150,6 +150,10 @@ mach_port_t gEventHandle = NULL;
 #define _SC_PAGESIZE _SC_PAGE_SIZE
 #endif
 
+#if HAVE_DPMS
+#include <X11/extensions/dpms.h>
+#endif
+
 #if HAVE_XSS
 #include <X11/extensions/scrnsaver.h>
 #endif
@@ -1806,7 +1810,51 @@ bool xss_idle(long idle_treshold) {
     
     if(disp != NULL) {
         XScreenSaverQueryInfo(disp, DefaultRootWindow(disp), xssInfo);
-        idle_time = xssInfo->idle / 1000; // xssInfo->idle is in ms
+
+        idle_time = xssInfo->idle;
+
+#if HAVE_DPMS
+        int dummy;
+        CARD16 standby, suspend, off;
+        CARD16 state;
+        BOOL onoff;
+
+        if (DPMSQueryExtension(disp, &dummy, &dummy)) {
+            if (DPMSCapable(disp)) {
+                DPMSGetTimeouts(disp, &standby, &suspend, &off);
+                DPMSInfo(disp, &state, &onoff);
+
+                if (onoff) {
+                    switch (state) {
+                      case DPMSModeStandby:
+                          /* this check is a littlebit paranoid, but be sure */
+                          if (idle_time < (unsigned) (standby * 1000)) {
+                              idle_time += (standby * 1000);
+                          }
+                          break;
+                      case DPMSModeSuspend:
+                          if (idle_time < (unsigned) ((suspend + standby) * 1000)) {
+                              idle_time += ((suspend + standby) * 1000);
+                          }
+                          break;
+                      case DPMSModeOff:
+                          if (idle_time < (unsigned) ((off + suspend + standby) * 1000)) {
+                              idle_time += ((off + suspend + standby) * 1000);
+                          }
+                          break;
+                      case DPMSModeOn:
+                        default:
+                          break;
+                    }
+                }
+
+            } 
+        }
+#endif
+
+        // convert from milliseconds to seconds
+        idle_time = idle_time / 1000;
+
     } else {
         disp = XOpenDisplay(NULL);
         // XOpenDisplay may return NULL if there is no running X
