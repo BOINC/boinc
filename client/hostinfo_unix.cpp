@@ -1365,15 +1365,8 @@ int HOST_INFO::get_host_info() {
     getsysinfo( GSI_PHYSMEM, (caddr_t) &mem_size, sizeof( mem_size));
     m_nbytes = 1024.* (double)mem_size;
 #elif defined(HW_PHYSMEM) 
-    // for OpenBSD
-    mib[0] = CTL_HW; 
-    int mem_size; 
-    mib[1] = HW_PHYSMEM; 
-    len = sizeof(mem_size); 
-    sysctl(mib, 2, &mem_size, &len, NULL, 0); 
-    m_nbytes = mem_size; 
-#elif defined(__FreeBSD__)
-    unsigned int mem_size;
+    // for OpenBSD & NetBSD & FreeBSD
+    int mem_size;
     mib[0] = CTL_HW;
     mib[1] = HW_PHYSMEM;
     len = sizeof(mem_size);

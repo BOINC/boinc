@@ -552,13 +552,22 @@ void PROJECT_WORK_FETCH::reset(PROJECT* p) {
 
 ///////////////  WORK_FETCH  ///////////////
 
+// mark the projects from which we can fetch work
+//
+void WORK_FETCH::compute_cant_fetch_work_reason() {
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        p->pwf.cant_fetch_work_reason = p->pwf.compute_cant_fetch_work_reason(p);
+    }
+}
+
 void WORK_FETCH::rr_init() {
     for (int i=0; i<coprocs.n_rsc; i++) {
         rsc_work_fetch[i].rr_init();
     }
+    compute_cant_fetch_work_reason();
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-        p->pwf.cant_fetch_work_reason = p->pwf.compute_cant_fetch_work_reason(p);
         p->pwf.n_runnable_jobs = 0;
         for (int j=0; j<coprocs.n_rsc; j++) {
             p->rsc_pwf[j].rr_init(p, j);
@@ -663,7 +672,7 @@ void WORK_FETCH::clear_request() {
 // we're going to contact this project for reasons other than work fetch;
 // decide if we should piggy-back a work fetch request.
 //
-void WORK_FETCH::compute_work_request(PROJECT* p) {
+void WORK_FETCH::piggyback_work_request(PROJECT* p) {
     clear_request();
     if (config.fetch_minimal_work && gstate.had_or_requested_work) return;
     if (p->dont_request_more_work) return;
@@ -674,9 +683,10 @@ void WORK_FETCH::compute_work_request(PROJECT* p) {
         return;
     }
 
+    compute_cant_fetch_work_reason();
     PROJECT* bestp = choose_project(false);
     if (p != bestp) {
-        if (!p->pwf.cant_fetch_work_reason) {
+        if (p->pwf.cant_fetch_work_reason == 0) {
             if (bestp) {
                 p->pwf.cant_fetch_work_reason = CANT_FETCH_WORK_NOT_HIGHEST_PRIORITY;
             } else {
@@ -704,7 +714,8 @@ PROJECT* WORK_FETCH::non_cpu_intensive_project_needing_work() {
 }
 
 // choose a project to fetch work from,
-// and set the request fields of resource objects
+// and set the request fields of resource objects.
+// If strict is true, enforce hysteresis and backoff rules
 //
 PROJECT* WORK_FETCH::choose_project(bool strict) {
     PROJECT* p;

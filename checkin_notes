@@ -6745,6 +6745,15 @@ David  10 Nov 2012
     html/ops/
         mass_email.php
 
+David  11 Nov 2012
+    - remove job submission: fix SQL typo and error messages.
+        From Niclas Lockner.
+
+    html/user/
+        submit_rpc_handler.php
+    tools/
+        manage_privileges
+
 David  12 Nov 2012
 	- client: Win build fix
 	- add Visual Studio project for slide_show
@@ -6755,3 +6764,25 @@ David  12 Nov 2012
 		boinc.sln
 	client/
 		client_types.h
+
+David  13 Nov 2012
+    - client: fix bug where, when updating a project, we fail to request work
+        even though higher-priority projects are marked as no-new-tasks
+        or are otherwise ineligible for work fetch.
+
+    client/
+        cs_scheduler.cpp
+        work_fetch.cpp
+
+David  13 Nov 2012
+    - build fixes for OpenBSD, from rustyBSD
+
+    configure.ac
+    client/
+        hostinfo_unix.cpp
+
+David  13 Nov 2012
+    - web: update .pot file for project web site translations
+
+    locale/templates/
+        BOINC-Project-Generic.pot

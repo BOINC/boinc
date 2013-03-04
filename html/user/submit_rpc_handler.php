@@ -115,7 +115,7 @@ function stage_file($file) {
 
     $md5 = md5_file($file->source);
     if (!$md5) {
-        error("Can't get MD5 of file $source");
+        error("Can't get MD5 of file $file->source");
     }
     $name = "batch_$md5";
     $path = dir_hier_path($name, "../../download", $fanout);
