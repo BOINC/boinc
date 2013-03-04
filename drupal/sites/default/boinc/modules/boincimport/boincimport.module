@@ -1655,7 +1655,7 @@ function _boincimport_replace_links($html) {
 
 
 /**
- * Replace URLs to old BOINC forum to new Drupal forum
+ * Replace URLs to old BOINC components with corresponding Drupal components
  */
 function boincimport_replace_forum_url() {
   // Transform nodes:
@@ -1663,16 +1663,23 @@ function boincimport_replace_forum_url() {
   // so the query works as it is.
   $result = db_query('SELECT btt.nid, nr.body, nr.teaser FROM {boincimport_temp_topic} AS btt LEFT JOIN {node_revisions} AS nr ON btt.nid = nr.nid');
   while ($node = db_fetch_object($result)) {
+    $original_body = $node->body;
+    $original_teaser = $node->teaser;
     $node->body = _boincimport_replace_links($node->body);
     $node->teaser = _boincimport_replace_links($node->teaser);
-    db_query("UPDATE {node_revisions} SET body= '%s', teaser = '%s' WHERE nid = %d", $node->body, $node->teaser, $node->nid);
+    if ($node->body != $original_body OR $node->teaser != $original_teaser) {
+      db_query("UPDATE {node_revisions} SET body= '%s', teaser = '%s' WHERE nid = %d", $node->body, $node->teaser, $node->nid);
+    }
   }
 
   // Transform comments:
   $result = db_query('SELECT c.cid, c.comment FROM {boincimport_temp_post} AS p LEFT JOIN {comments} AS c ON p.cid = c.cid');
   while ($comment = db_fetch_object($result)) {
+    $original_comment = $comment->comment;
     $comment->comment = _boincimport_replace_links($comment->comment);
-    db_query("UPDATE {comments} SET comment= '%s' WHERE cid = %d", $comment->comment, $comment->cid);
+    if ($comment->comment != $original_comment) {
+      db_query("UPDATE {comments} SET comment= '%s' WHERE cid = %d", $comment->comment, $comment->cid);
+    }
   }
 
   variable_set('boincimport_replace_url_successful', '1');
