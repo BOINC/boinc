@@ -7088,3 +7088,5 @@ Charlie 28 Nov 2012
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+    win_build/
+            boincmgr.vcproj
