@@ -321,11 +321,8 @@ public:
 
     int                         ResetMessageState();
 
-    int                         m_iFirstMessageSequenceNumber;
-    int                         m_iLastMessageSequenceNumber;
+    int                         m_iMessageSequenceNumber;
 
-    int                         GetFirstMsgSeqNum() { return m_iFirstMessageSequenceNumber; }
-    int                         GetLastMsgSeqNum() { return m_iLastMessageSequenceNumber; }
 
     //
     // Transfers Tab

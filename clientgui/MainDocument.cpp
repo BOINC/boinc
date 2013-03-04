@@ -45,8 +45,6 @@
 #include <grp.h>
 #endif
 
-#define MAX_DISPLAYED_MESSAGES 2000
-
 #define USE_CACHE_TIMEOUTS 0
 
 // If get_results RPC takes x seconds, do it no more often than 
@@ -404,8 +402,7 @@ CMainDocument::CMainDocument() : rpc(this) {
 
     m_fProjectTotalResourceShare = 0.0;
 
-    m_iLastMessageSequenceNumber = 0;
-    m_iFirstMessageSequenceNumber = -1;
+    m_iMessageSequenceNumber = 0;
 
     m_iNoticeSequenceNumber = 0;
     m_iLastReadNoticeSequenceNumber = -1;
@@ -957,9 +954,9 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
     //
     request.clear();
     request.which_rpc = RPC_GET_MESSAGES;
-    // m_iLastMessageSequenceNumber could change between request and execution
+    // m_iMessageSequenceNumber could change between request and execution
     // of RPC, so pass in a pointer rather than its value
-    request.arg1 = &m_iLastMessageSequenceNumber;
+    request.arg1 = &m_iMessageSequenceNumber;
     request.arg2 = &messages;
     static bool _true = true;
     request.arg3 = &_true;
@@ -2022,33 +2019,21 @@ bool CMainDocument::LocalizeNoticeText(wxString& strMessage, bool bSanitize, boo
 //
 int CMainDocument::CachedMessageUpdate() {
     static bool in_this_func = false;
-    size_t last_ind;
 
     if (in_this_func) return 0;
     in_this_func = true;
 
     if (IsConnected()) {
         // rpc.get_messages is now called from RunPeriodicRPCs()
-        // retval = rpc.get_messages(m_iLastMessageSequenceNumber, messages);
+        // retval = rpc.get_messages(m_iMessageSequenceNumber, messages);
         if (m_iGet_messages_rpc_result) {
             wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedMessageUpdate - Get Messages Failed '%d'"), m_iGet_messages_rpc_result);
             m_pNetworkConnection->SetStateDisconnected();
             goto done;
         }
         if (messages.messages.size() != 0) {
-            last_ind = messages.messages.size()-1;
-            m_iLastMessageSequenceNumber = messages.messages[last_ind]->seqno;
-
-            if (last_ind >= MAX_DISPLAYED_MESSAGES) {
-                // Remove oldest messages if we have too many
-                while (messages.messages.size() > MAX_DISPLAYED_MESSAGES) {
-                    delete messages.messages.front();
-                    messages.messages.pop_front();
-                }
-                m_iFirstMessageSequenceNumber = messages.messages[0]->seqno;
-            } else if (m_iFirstMessageSequenceNumber < 0) {
-                m_iFirstMessageSequenceNumber = messages.messages[0]->seqno;
-            }
+            size_t last_ind = messages.messages.size()-1;
+            m_iMessageSequenceNumber = messages.messages[last_ind]->seqno;
         }
     }
 
@@ -2090,8 +2075,7 @@ int CMainDocument::GetMessageCount() {
 
 int CMainDocument::ResetMessageState() {
     messages.clear();
-    m_iLastMessageSequenceNumber = 0;
-    m_iFirstMessageSequenceNumber = -1;
+    m_iMessageSequenceNumber = 0;
     return 0;
 }
 

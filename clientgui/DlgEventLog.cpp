@@ -136,9 +136,6 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
     m_iPreviousRowCount = 0;
     m_iTotalDocCount = 0;
     m_iPreviousTotalDocCount = 0;
-    m_iPreviousFirstMsgSeqNum = 0;
-    m_iPreviousLastMsgSeqNum = 0;
-    
     if (!s_bIsFiltered) {
         s_strFilteredProjectName.clear();
     }
@@ -446,76 +443,29 @@ wxInt32 CDlgEventLog::GetFilteredMessageIndex( wxInt32 iRow) const {
 
 // Get the (possibly filtered) item count (i.e., the Row count)
 wxInt32 CDlgEventLog::GetDocCount() {
-    int i, j, numDeletedRows;
-    int numDeletedFilteredRows = 0;
-    CMainDocument* pDoc     = wxGetApp().GetDocument();
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    int i;
     
-    m_iTotalDocCount = pDoc->GetMessageCount();
+    m_iTotalDocCount = wxGetApp().GetDocument()->GetMessageCount();
     if (m_iTotalDocCount < m_iPreviousTotalDocCount) {
         // Usually due to a disconnect from client
         ResetMessageFiltering();
-        m_iPreviousFirstMsgSeqNum = 0;
-        m_iPreviousLastMsgSeqNum = 0;
     }
-
-    numDeletedRows = pDoc->GetFirstMsgSeqNum() - m_iPreviousFirstMsgSeqNum;
-
+    
     if (s_bIsFiltered) {
-        if (numDeletedRows > 0) {
-            // Remove any deleted messages from our filtered list
-            while (m_iFilteredIndexes.GetCount() > 0) {
-                if (m_iFilteredIndexes[0] >= numDeletedRows) break;
-                m_iFilteredIndexes.RemoveAt(0);
-                numDeletedFilteredRows++;
-            }
-            
-            // Adjust the remaining indexes
-            for (i = m_iFilteredIndexes.GetCount()-1; i >= 0; i--) {
-                m_iFilteredIndexes[i] -= numDeletedRows;
-            }
-        }
-        
-        // Add indexes of new messages to filtered list as appropriate
-        i = m_iTotalDocCount - (pDoc->GetLastMsgSeqNum() - m_iPreviousLastMsgSeqNum);
-        for (; i < m_iTotalDocCount; i++) {
-            MESSAGE*   message = pDoc->message(i);
+        for (i = m_iPreviousTotalDocCount; i < m_iTotalDocCount; i++) {
+            MESSAGE*   message = wxGetApp().GetDocument()->message(i);
             if (message->project.empty() || (message->project == s_strFilteredProjectName)) {
                 m_iFilteredIndexes.Add(i);
             }
         }
+        m_iPreviousTotalDocCount = m_iTotalDocCount;
         m_iFilteredDocCount = (int)(m_iFilteredIndexes.GetCount());
-    } else {
-        m_iFilteredDocCount = m_iTotalDocCount;
-        numDeletedFilteredRows = numDeletedRows;
-    }
-
-    if (numDeletedRows > 0) {
-        // Adjust the selected row numbers
-        wxArrayInt arrSelRows;
-        
-        i = -1;
-        for (;;) {
-            i = m_pList->GetNextItem(i, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-            if (i < 0) break;
-            arrSelRows.Add(i);
-        }
-        int count = arrSelRows.Count();
-        for (i=0; i<count; i++) {
-            m_pList->SetItemState(arrSelRows[i], 0, wxLIST_STATE_SELECTED);
-        }
-
-        for (i=0; i<count; i++) {
-            if ((j = arrSelRows[i] - numDeletedFilteredRows) >= 0) {
-                m_pList->SetItemState(j, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
-            }
-        }
+        return m_iFilteredDocCount;
     }
 
     m_iPreviousTotalDocCount = m_iTotalDocCount;
-    
-    return s_bIsFiltered ? m_iFilteredDocCount : m_iTotalDocCount;
+    m_iFilteredDocCount = m_iTotalDocCount;
+    return m_iTotalDocCount;
 }
 
 
@@ -535,16 +485,13 @@ void CDlgEventLog::OnRefresh() {
 
     if (!m_bProcessingRefreshEvent) {
         m_bProcessingRefreshEvent = true;
+
         wxASSERT(m_pList);
 
         wxInt32 iRowCount = GetDocCount();
-        long topItem = m_pList->GetTopItem();
-        
         if (0 >= iRowCount) {
             m_pList->DeleteAllItems();
             ResetMessageFiltering();
-            m_iPreviousFirstMsgSeqNum = 0;
-            m_iPreviousLastMsgSeqNum = 0;
         } else {
             // If connected computer changed, reset message filtering
             isConnected = wxGetApp().GetDocument()->IsConnected();
@@ -554,8 +501,6 @@ void CDlgEventLog::OnRefresh() {
                     strLastMachineName = strNewMachineName;
                     was_connected = false;
                     ResetMessageFiltering();
-                    m_iPreviousFirstMsgSeqNum = 0;
-                    m_iPreviousLastMsgSeqNum = 0;
                 }
             }
 
@@ -571,26 +516,19 @@ void CDlgEventLog::OnRefresh() {
 
             } else {
                 // Connection status didn't change
-                if (m_iPreviousLastMsgSeqNum != pDoc->GetLastMsgSeqNum()) {
+                if (m_iPreviousRowCount != iRowCount) {
                     m_pList->SetItemCount(iRowCount);
                 }
             }
         }
 
-        if ((iRowCount > 1) && (m_iPreviousLastMsgSeqNum != pDoc->GetLastMsgSeqNum())) {
-            if (EnsureLastItemVisible()) {
-                m_pList->EnsureVisible(iRowCount - 1);
-            } else if (topItem > 0) {
-                int numDeletedRows = pDoc->GetFirstMsgSeqNum() - m_iPreviousFirstMsgSeqNum;
-                Freeze();   // Avoid flicker if selected rows are visible
-                m_pList->EnsureVisible(topItem - numDeletedRows);
-                Thaw();
-            }
+        if ((iRowCount > 1) && (EnsureLastItemVisible()) && (m_iPreviousRowCount != iRowCount)) {
+            m_pList->EnsureVisible(iRowCount - 1);
         }
 
-        m_iPreviousRowCount = iRowCount;
-        m_iPreviousFirstMsgSeqNum = pDoc->GetFirstMsgSeqNum();
-        m_iPreviousLastMsgSeqNum = pDoc->GetLastMsgSeqNum();
+        if (m_iPreviousRowCount != iRowCount) {
+            m_iPreviousRowCount = iRowCount;
+        }
 
         UpdateButtons();
 
@@ -904,7 +842,6 @@ wxListItemAttr* CDlgEventLog::OnListGetItemAttr(long item) const {
     if (wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW) != wxColor(wxT("WHITE"))) return NULL;
 
     if (message) {
-        item += m_iPreviousFirstMsgSeqNum;
         switch(message->priority) {
         case MSG_USER_ALERT:
             pAttribute = item % 2 ? m_pMessageErrorGrayAttr : m_pMessageErrorAttr;
