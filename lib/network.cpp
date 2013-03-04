@@ -32,7 +32,7 @@
 #include <netinet/in.h>
 #include <netinet/tcp.h>
 #include <arpa/inet.h>
-#include <resolv.h>
+//#include <resolv.h>
 #include <netdb.h>
 #include <fcntl.h>
 #include <errno.h>
@@ -99,20 +99,18 @@ bool is_localhost(sockaddr_storage& s) {
     if (ntohl(s.sin_addr.s_addr) == 0x7f000001) return true;
 #else
     switch (s.ss_family) {
-    case AF_INET:
-        {
+        case AF_INET: {
             sockaddr_in* sin = (sockaddr_in*)&s;
             return (ntohl(sin->sin_addr.s_addr) == 0x7f000001);
+            break;
         }
-
-    case AF_INET6:
-        {
+        case AF_INET6: {
             sockaddr_in6* sin = (sockaddr_in6*)&s;
             char buf[256];
             inet_ntop(AF_INET6, (void*)(&sin->sin6_addr), buf, 256);
             return (strcmp(buf, "::1") == 0);
+            break;
         }
-
     }
 #endif
     return false;
@@ -124,15 +122,13 @@ bool same_ip_addr(sockaddr_storage& s1, sockaddr_storage& s2) {
 #else
     if (s1.ss_family != s2.ss_family) return false;
     switch (s1.ss_family) {
-    case AF_INET:
-        {
+        case AF_INET: {
             sockaddr_in* sin1 = (sockaddr_in*)&s1;
             sockaddr_in* sin2 = (sockaddr_in*)&s2;
             return (memcmp((void*)(&sin1->sin_addr), (void*)(&sin2->sin_addr), sizeof(in_addr)) == 0);
             break;
         }
-    case AF_INET6:
-        {
+        case AF_INET6: {
             sockaddr_in6* sin1 = (sockaddr_in6*)&s1;
             sockaddr_in6* sin2 = (sockaddr_in6*)&s2;
             return (memcmp((void*)(&sin1->sin6_addr), (void*)(&sin2->sin6_addr), sizeof(in6_addr)) == 0);
@@ -172,7 +168,9 @@ int resolve_hostname(const char* hostname, sockaddr_storage &ip_addr) {
 #endif
 }
 
-int resolve_hostname_or_ip_addr(const char* hostname, sockaddr_storage &ip_addr) {
+int resolve_hostname_or_ip_addr(
+    const char* hostname, sockaddr_storage &ip_addr
+) {
 #ifdef _WIN32   // inet_pton() only on Vista or later!!
     int x = inet_addr(hostname);
     if (x != -1) {
@@ -293,4 +291,3 @@ void reset_dns() {
     res_init();
 #endif
 }
-

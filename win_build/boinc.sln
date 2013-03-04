@@ -245,6 +245,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboincopencl_staticcrt", 
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "slide_show", "slide_show.vcproj", "{A4145505-5C0E-4675-BF6D-FC3F9119FD83}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -685,6 +691,22 @@ Global
 		{C0A2DEEE-2EC5-4F67-8048-53264B6BD14D}.Release|Win32.Build.0 = Release|Win32
 		{C0A2DEEE-2EC5-4F67-8048-53264B6BD14D}.Release|x64.ActiveCfg = Release|x64
 		{C0A2DEEE-2EC5-4F67-8048-53264B6BD14D}.Release|x64.Build.0 = Release|x64
+		{A4145505-5C0E-4675-BF6D-FC3F9119FD83}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A4145505-5C0E-4675-BF6D-FC3F9119FD83}.Debug|Win32.Build.0 = Debug|Win32
+		{A4145505-5C0E-4675-BF6D-FC3F9119FD83}.Debug|x64.ActiveCfg = Debug|x64
+		{A4145505-5C0E-4675-BF6D-FC3F9119FD83}.Debug|x64.Build.0 = Debug|x64
+		{A4145505-5C0E-4675-BF6D-FC3F9119FD83}.EmuDebug|Win32.ActiveCfg = Debug|Win32
+		{A4145505-5C0E-4675-BF6D-FC3F9119FD83}.EmuDebug|Win32.Build.0 = Debug|Win32
+		{A4145505-5C0E-4675-BF6D-FC3F9119FD83}.EmuDebug|x64.ActiveCfg = Debug|x64
+		{A4145505-5C0E-4675-BF6D-FC3F9119FD83}.EmuDebug|x64.Build.0 = Debug|x64
+		{A4145505-5C0E-4675-BF6D-FC3F9119FD83}.EmuRelease|Win32.ActiveCfg = Release|Win32
+		{A4145505-5C0E-4675-BF6D-FC3F9119FD83}.EmuRelease|Win32.Build.0 = Release|Win32
+		{A4145505-5C0E-4675-BF6D-FC3F9119FD83}.EmuRelease|x64.ActiveCfg = Release|x64
+		{A4145505-5C0E-4675-BF6D-FC3F9119FD83}.EmuRelease|x64.Build.0 = Release|x64
+		{A4145505-5C0E-4675-BF6D-FC3F9119FD83}.Release|Win32.ActiveCfg = Release|Win32
+		{A4145505-5C0E-4675-BF6D-FC3F9119FD83}.Release|Win32.Build.0 = Release|Win32
+		{A4145505-5C0E-4675-BF6D-FC3F9119FD83}.Release|x64.ActiveCfg = Release|x64
+		{A4145505-5C0E-4675-BF6D-FC3F9119FD83}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
