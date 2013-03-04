@@ -7640,3 +7640,8 @@ David  12 Dec 2012
     .gitignore
     client/
         gpu_detect.h
+
+David  12 Dec 2012
+    - client: show Intel GPU memory size as integer
+    lib/
+        coproc.cpp
