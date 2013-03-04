@@ -23,6 +23,7 @@
     	<bool name="tab_tasks">true</bool>
     	<bool name="tab_transfers">true</bool>
     	<bool name="tab_preferences">true</bool>
+    	<bool name="tab_projects">true</bool>
     	<bool name="tab_messages">false</bool>
     	<bool name="tab_debug">true</bool>
 </resources>

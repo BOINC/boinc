@@ -30,6 +30,7 @@ import edu.berkeley.boinc.rpc.CcState;
 import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.Message;
+import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.Result;
 import edu.berkeley.boinc.rpc.Transfer;
 
@@ -133,6 +134,14 @@ public class ClientStatus {
 			return null;
 		}
 		return prefs;
+	}
+	
+	public synchronized ArrayList<Project> getProjects() {
+		if(state == null) { //check in case monitor is not set up yet (e.g. while logging in)
+			Log.d(TAG, "getProject() state is null");
+			return null;
+		}
+		return state.projects;
 	}
 	
 	//Debug Tab

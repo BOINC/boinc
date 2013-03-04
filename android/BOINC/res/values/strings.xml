@@ -37,6 +37,7 @@
     <string name="tab_tasks">Tasks</string>
     <string name="tab_transfers">Transfers</string>
     <string name="tab_preferences">Settings</string>
+    <string name="tab_projects">Projects</string>
     <string name="tab_messages">Messages</string>
     <string name="tab_debug">Debug</string>
    
@@ -95,6 +96,11 @@
 	<string name="prefs_project_email_header">Login: eMail</string>
 	<string name="prefs_project_pwd_header">Login: password</string>
 	
+	<!-- projects tab strings -->
+	<string name="projects_loading">Reading projects&#8230;</string>
+	<string name="confirm_deletion">Delete project: </string>
+	<string name="confirm_deletion_confirm">Delete</string>
+	<string name="confirm_deletion_cancel">Cancel</string>
 	
 	<!-- tasks tab strings -->
 	<string name="tasks_result_new">New</string>

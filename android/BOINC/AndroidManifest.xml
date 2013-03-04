@@ -44,6 +44,7 @@
         <activity android:name=".TasksActivity" />
         <activity android:name=".TransActivity" />
         <activity android:name=".PrefsActivity" />
+        <activity android:name=".ProjectsActivity" />
         <activity android:name=".MsgsActivity" />
         <activity android:name=".DebugActivity" >
             <intent-filter>

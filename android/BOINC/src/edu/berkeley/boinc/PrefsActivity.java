@@ -170,14 +170,14 @@ public class PrefsActivity extends Activity implements OnClickListener {
 			if(dataOutdated) { //data is not present or not current, show loading instead!
 				setContentView(R.layout.prefs_layout_loading);
 			} else {
-				((PrefsListItemWrapperText)data.get(0)).status = appPrefs.getEmail();
-				((PrefsListItemWrapperText)data.get(1)).status = appPrefs.getPwd();
-				((PrefsListItemWrapperBool)data.get(2)).setStatus(appPrefs.getAutostart());
-				((PrefsListItemWrapperBool)data.get(3)).setStatus(clientPrefs.run_on_batteries);
-				((PrefsListItemWrapperBool)data.get(4)).setStatus(clientPrefs.network_wifi_only); 
-				((PrefsListItemWrapperDouble)data.get(5)).status = clientPrefs.disk_max_used_pct;
-				((PrefsListItemWrapperDouble)data.get(6)).status = clientPrefs.disk_min_free_gb;
-				((PrefsListItemWrapperDouble)data.get(7)).status = clientPrefs.daily_xfer_limit_mb;
+				//((PrefsListItemWrapperText)data.get(0)).status = appPrefs.getEmail();
+				//((PrefsListItemWrapperText)data.get(1)).status = appPrefs.getPwd();
+				((PrefsListItemWrapperBool)data.get(0)).setStatus(appPrefs.getAutostart());
+				((PrefsListItemWrapperBool)data.get(1)).setStatus(clientPrefs.run_on_batteries);
+				((PrefsListItemWrapperBool)data.get(2)).setStatus(clientPrefs.network_wifi_only); 
+				((PrefsListItemWrapperDouble)data.get(3)).status = clientPrefs.disk_max_used_pct;
+				((PrefsListItemWrapperDouble)data.get(4)).status = clientPrefs.disk_min_free_gb;
+				((PrefsListItemWrapperDouble)data.get(5)).status = clientPrefs.daily_xfer_limit_mb;
 				
 				listAdapter.notifyDataSetChanged(); //force list adapter to refresh
 			}
@@ -193,15 +193,15 @@ public class PrefsActivity extends Activity implements OnClickListener {
 
         if(initialSetup) { //prevent from re-population when reinit is called after dataOutdated
 			//parse app prefs
-			data.add(0, new PrefsListItemWrapperText(this,R.string.prefs_project_email_header,appPrefs.getEmail()));
-			data.add(1, new PrefsListItemWrapperText(this,R.string.prefs_project_pwd_header,appPrefs.getPwd()));
-			data.add(2, new PrefsListItemWrapperBool(this,R.string.prefs_autostart_header,appPrefs.getAutostart())); 
+			//data.add(0, new PrefsListItemWrapperText(this,R.string.prefs_project_email_header,appPrefs.getEmail()));
+			//data.add(1, new PrefsListItemWrapperText(this,R.string.prefs_project_pwd_header,appPrefs.getPwd()));
+			data.add(0, new PrefsListItemWrapperBool(this,R.string.prefs_autostart_header,appPrefs.getAutostart())); 
 			//parse client prefs
-			data.add(3, new PrefsListItemWrapperBool(this,R.string.prefs_run_on_battery_header,clientPrefs.run_on_batteries));
-			data.add(4, new PrefsListItemWrapperBool(this,R.string.prefs_network_wifi_only_header,clientPrefs.network_wifi_only));
-			data.add(5, new PrefsListItemWrapperDouble(this,R.string.prefs_disk_max_pct_header,clientPrefs.disk_max_used_pct));
-			data.add(6, new PrefsListItemWrapperDouble(this,R.string.prefs_disk_min_free_gb_header,clientPrefs.disk_min_free_gb));
-			data.add(7, new PrefsListItemWrapperDouble(this,R.string.prefs_daily_xfer_limit_mb_header,clientPrefs.daily_xfer_limit_mb));
+			data.add(1, new PrefsListItemWrapperBool(this,R.string.prefs_run_on_battery_header,clientPrefs.run_on_batteries));
+			data.add(2, new PrefsListItemWrapperBool(this,R.string.prefs_network_wifi_only_header,clientPrefs.network_wifi_only));
+			data.add(3, new PrefsListItemWrapperDouble(this,R.string.prefs_disk_max_pct_header,clientPrefs.disk_max_used_pct));
+			data.add(4, new PrefsListItemWrapperDouble(this,R.string.prefs_disk_min_free_gb_header,clientPrefs.disk_min_free_gb));
+			data.add(5, new PrefsListItemWrapperDouble(this,R.string.prefs_daily_xfer_limit_mb_header,clientPrefs.daily_xfer_limit_mb));
 			
         	initialSetup = false;
         }
@@ -252,7 +252,7 @@ public class PrefsActivity extends Activity implements OnClickListener {
 		button.setOnClickListener(this);
 		EditText edit = (EditText) dialog.findViewById(R.id.Input);
 		//customize:
-		switch (id) {
+		switch (id) {/*
 		case R.string.prefs_project_email_header:
 			title += "eMail address";
 			edit.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
@@ -261,7 +261,7 @@ public class PrefsActivity extends Activity implements OnClickListener {
 			title += "password";
 			edit.setTransformationMethod(PasswordTransformationMethod.getInstance());
 			button.setText("Login!");
-			break;
+			break;*/
 		case R.string.prefs_disk_max_pct_header:
 			title += "disk space limit (%)";
 			edit.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
@@ -304,16 +304,6 @@ public class PrefsActivity extends Activity implements OnClickListener {
 		Log.d(TAG,"onClick with input " + tmp);
 		try {
 			switch (id) {
-			case R.string.prefs_project_email_header:
-				//TODO cant be reached, clickable turned of in PrefsListAdapter
-				appPrefs.setEmail(tmp);
-				break;
-			case R.string.prefs_project_pwd_header:
-				appPrefs.setPwd(tmp);
-				//TODO logout (detach)
-				//TODO login (attach)
-				//TODO cant be reached, clickable turned of in PrefsListAdapter
-				break;
 			case R.string.prefs_disk_max_pct_header:
 				tmp=tmp.replaceAll(",","."); //replace e.g. European decimal seperator "," by "."
 				clientPrefs.disk_max_used_pct = Double.parseDouble(tmp);

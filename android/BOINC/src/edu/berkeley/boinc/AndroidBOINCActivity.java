@@ -143,6 +143,14 @@ public class AndroidBOINCActivity extends TabActivity {
 	        tabHost.addTab(prefsSpec);
     	}
         
+    	if(res.getBoolean(R.bool.tab_projects)) {
+	        TabSpec projectsSpec = tabHost.newTabSpec(getResources().getString(R.string.tab_projects));
+	        projectsSpec.setIndicator(getResources().getString(R.string.tab_projects), getResources().getDrawable(R.drawable.icon_projects_tab));
+	        Intent projectsIntent = new Intent(this,ProjectsActivity.class);
+	        projectsSpec.setContent(projectsIntent);
+	        tabHost.addTab(projectsSpec);
+    	}
+        
     	if(res.getBoolean(R.bool.tab_messages)) {
 	        TabSpec msgsSpec = tabHost.newTabSpec(getResources().getString(R.string.tab_messages));
 	        msgsSpec.setIndicator(getResources().getString(R.string.tab_messages), getResources().getDrawable(R.drawable.icon_msgs_tab));
