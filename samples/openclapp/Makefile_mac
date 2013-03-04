@@ -1,8 +1,9 @@
-# makefile for atiopencl BOINC example appication on Mac OS X 10.7
+# makefile for openclapp BOINC example appication on Mac OS X 10.7
 # To build:
-#   cd to the boinc/samples/atiopencl directory
+#   cd to the boinc/samples/openclapp directory
 #   make -f Makefile_mac [clean] all
 #
+
 
 BOINC_DIR = ../..
 BOINC_API_DIR = $(BOINC_DIR)/api
@@ -14,10 +15,9 @@ CXXFLAGS = -g \
     -I$(BOINC_DIR) \
     -I$(BOINC_LIB_DIR) \
     -I$(BOINC_API_DIR) \
-    -I$(BOINC_MAC_CONFIG_DIR) \
-    -L.
+    -I$(BOINC_MAC_CONFIG_DIR)
 
-PROGS = atiopencl \
+PROGS = openclapp \
 
 all: $(PROGS)
 
@@ -27,17 +27,17 @@ clean:
 distclean:
 	/bin/rm -f $(PROGS) *.o
 
-install: atiopencl
+install: openclapp
 
-atiopencl: atiopencl.o boinc_opencl.o
-	$(CXX) $(CXXFLAGS) -o atiopencl atiopencl.o \
+openclapp: openclapp.o boinc_opencl.o
+	$(CXX) $(CXXFLAGS) -o openclapp openclapp.o \
         boinc_opencl.o \
         -framework OpenCL \
         -lboinc_api -L$(BOINC_BUILD_DIR) \
         -lboinc -L$(BOINC_BUILD_DIR)
 
-atiopencl.o: atiopencl.cpp atiopencl.hpp
-	$(CXX) $(CXXFLAGS) -c atiopencl.cpp 
+openclapp.o: openclapp.cpp openclapp.hpp
+	$(CXX) $(CXXFLAGS) -c openclapp.cpp 
 
 boinc_opencl.o: $(BOINC_API_DIR)/boinc_opencl.cpp $(BOINC_API_DIR)/boinc_opencl.h
 	$(CXX) $(CXXFLAGS) -c $(BOINC_API_DIR)/boinc_opencl.cpp

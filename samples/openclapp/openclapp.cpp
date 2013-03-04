@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2013 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,23 +16,30 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
 // This program serves as both
-// - An example BOINC-ATIOpenCL application, illustrating the use of the BOINC API
-//   and ATIStream OpenCL API.
+// - An example BOINC-OpenCL application, illustrating the use of the BOINC API
+//   and OpenCL API.
 // - A program for testing various features of BOINC.
 //
 // The program reads the input nxn matrix from the "input" file, inverts the
 // matrix NUM_ITERATIONS times and write to "output" file.
 //
+// To run, place the executable in the same directory as an init_data.xml
+// file specifying the gpu_type (vendor) and gpu_device_num, then invoke
+// form the command line as follows:
+// $ cd to/the/directory/containing/executable/and/init_data.mxl/file
+// $ ./openclapp [options]
+//
 // command line options
 // -run_slow: sleep 1 second after each character
 // -cpu_time N: use about N CPU seconds after copying files
-// -early_exit: exit(10) after 30 chars
-// -early_crash: crash after 30 chars
+// -early_exit: exit(10) after 30 iterations
+// -early_crash: crash after 30 iterations
+// -early_sleep: go into infinite sleep after 30 iterations
 //
 // See http://boinc.berkeley.edu/trac/wiki/GPUApp for any compiling issues.
-// Contributor: Tuan Le (tuanle86@berkeley.edu)
+// Original contributor: Tuan Le (tuanle86@berkeley.edu)
 
-#include "atiopencl.hpp"
+#include "openclapp.hpp"
 #include "boinc_opencl.h"
 
 using std::string;
@@ -46,7 +53,6 @@ int main(int argc, char * argv[]) {
 
     generate_random_input_file(MATRIX_SIZE); //call this if you don't want to
                                              //construct the input file manually
-    
 	for (i=0; i<argc; i++) {
         if (!strcmp(argv[i], "-early_exit")) early_exit = true;
         if (!strcmp(argv[i], "-early_crash")) early_crash = true;
@@ -61,7 +67,8 @@ int main(int argc, char * argv[]) {
     if (retval) {
         fprintf(stderr, 
             "ERROR: %s boinc_init returned %d\n",
-            boinc_msg_prefix(buf, sizeof(buf)), retval );
+            boinc_msg_prefix(buf, sizeof(buf)), retval
+        );
         exit(retval);
     }
     
@@ -122,7 +129,7 @@ int main(int argc, char * argv[]) {
     shmem = (UC_SHMEM*)boinc_graphics_make_shmem("matrix_inversion", sizeof(UC_SHMEM));
     if (!shmem) {
         fprintf(stderr, 
-            "%s failed to create shared mem segment\n",
+            "ERROR: %s failed to create shared mem segment\n",
             boinc_msg_prefix(buf, sizeof(buf))
         );
     }
@@ -150,7 +157,7 @@ int main(int argc, char * argv[]) {
     }
 
     // Initialize OpenCL resources
-    if (initialize_cl()==1) {
+    if (initialize_cl(argc, argv) != 0) {
         return 1;
     }
 
@@ -213,7 +220,7 @@ int main(int argc, char * argv[]) {
 
     // Releases OpenCL resources 
     if (cleanup_cl()==1) {
-        printf("Error from cleanup_cl() !");
+        fprintf(stderr, "Error from cleanup_cl() !");
         return 1;
     }
 
@@ -432,15 +439,15 @@ char * convert_to_string(const char *fileName) {
     char c;
     int i=0;
 
-    // look for "atiopencl_kernels.cl" in "boinc/samples/atiopencl/debug" or
-    // in "boinc/samples/atiopencl/release". Note that "atiopencl_kernels.cl"
+    // look for "openclapp_kernels.cl" in "boinc/samples/openclapp/debug" or
+    // in "boinc/samples/openclapp/release". Note that "openclapp_kernels.cl"
     // is automatically copied to these directories along the building process.
     FILE *infile=fopen(fileName,"r");
     if (!infile) { //not found. This typically happens on Linux or Mac.
-        //look for "atiopencl_kernels.cl" in "boinc/sample/atiopencl/" instead.
+        //look for "openclapp_kernels.cl" in "boinc/sample/openclapp/" instead.
         infile = fopen(KERNELS_FILEPATH,"r"); 
         if (!infile) {
-            fprintf(stderr, "File open Error!");
+            fprintf(stderr, "ERROR: Failed to open file %s!", fileName);
             exit(0);
         }
     }
@@ -465,148 +472,49 @@ char * convert_to_string(const char *fileName) {
 
  // Note: OpenCL memory buffer objects will be created in invert
  //       function before kernel calls are made.
-int initialize_cl(void) {
+int initialize_cl(int argc, char * argv[]) {
     cl_int status = 0;
-    size_t deviceListSize;
-    bool standalone = false;
-    int retval;
-
-    devices = NULL;
+    int retval = 0;
 
     localThreads[0]  = LOCAL_WORK_SIZE;
     globalThreads[0] = GLOBAL_WORK_SIZE;
     cl_platform_id platform = NULL;
     cl_device_id device;
 
-    if (boinc_is_standalone()) {
-        /*
-         * Have a look at the available platforms and pick either
-         * the AMD one if available or a reasonable default.
-         */
+    // IMPORTANT NOTE: production applications should always specify
+    // the GPU type (vendor) in the call to boinc_get_opencl_ids as
+    // the third argument: it must be either PROC_TYPE_NVIDIA_GPU,
+    // PROC_TYPE_AMD_GPU or PROC_TYPE_INTEL_GPU.  This is to support
+    // older versions of the BOINC client which do not include the 
+    // <gpu-type> field in the init_data.xml file.  
+    //
+    // This sample passes -1 for the type argument to allow using
+    // just one sample for any GPU vendor (AMD, NVIDIA or Intel.)  
+    // As a result, the init_data.xml file for this sample must 
+    // specify the GPU type (vendor) and either gpu_device_num (the 
+    // GPU's index from that vendor) or gpu_opencl_dev_index (the 
+    // GPU's index among OpenCL-capable devices from that vendor.)
+    //
+    // See the ReadMe file for more details, including an explanation
+    // of the difference between the gpu_device_num and the
+    // gpu_opencl_dev_index.
+    retval = boinc_get_opencl_ids(argc, argv, -1, &device, &platform);
+    if (retval) {
+        fprintf(stderr, 
+            "Error: boinc_get_opencl_ids() failed with error %d\n", 
+            retval
+        );
+        return 1;
+    }
 
-        cl_uint numPlatforms;
-        status = clGetPlatformIDs(0, NULL, &numPlatforms);
-        if(status != CL_SUCCESS) {
-            fprintf(stderr, 
-                "Error: Getting Platforms. (clGetPlatformsIDs) returned %d\n", 
-                status
-            );
-            return 1;
-        }
-        
-        if (numPlatforms > 0) {
-            cl_platform_id* platforms = (cl_platform_id *)
-                                            malloc(sizeof(cl_platform_id)*numPlatforms);
-            status = clGetPlatformIDs(numPlatforms, platforms, NULL);
-            if (status != CL_SUCCESS) {
-                fprintf(stderr, 
-                    "Error: Getting Platform Ids. (clGetPlatformsIDs) returned %d\n", 
-                    status
-                );
-
-                return 1;
-            }
-            for (unsigned int i=0; i < numPlatforms; ++i) {
-                char pbuff[100];
-                status = clGetPlatformInfo(platforms[i],
-                                           CL_PLATFORM_VENDOR,
-                                           sizeof(pbuff),
-                                           pbuff,
-                                           NULL);
-                if (status != CL_SUCCESS) {
-                    fprintf(stderr, 
-                        "Error: Getting Platform Info.(clGetPlatformInfo)returned %d\n", 
-                        status
-                    );
-
-                    return 1;
-                }
-                platform = platforms[i];
-                if (!strcmp(pbuff, "Advanced Micro Devices, Inc.")) {
-                    break;
-                }
-            }
-            delete platforms;
-        }
-
-        if(NULL == platform) {
-            fprintf(stderr, "ERROR: NULL platform found so Exiting Application.");
-            return 1;
-        }
-
-        /*
-         * If we could find our platform, use it. Otherwise use just available platform.
-         */
-        cl_context_properties cps[3] = { CL_CONTEXT_PLATFORM,
-                                         (cl_context_properties)platform,
-                                         0 
-                                       };
-
-        /////////////////////////////////////////////////////////////////
-        // Create an OpenCL context
-        /////////////////////////////////////////////////////////////////
-        context = clCreateContextFromType(cps, CL_DEVICE_TYPE_ALL, NULL, NULL, &status);
-        if (status != CL_SUCCESS) {  
-            fprintf(stderr, 
-                "Error: Creating Context. (clCreateContextFromType) returned %d\n", 
-                status
-            );
-
-            return 1; 
-        }
-
-        /* First, get the size of device list data */
-        status = clGetContextInfo(context, CL_CONTEXT_DEVICES, 0, NULL, &deviceListSize);
-        if (status != CL_SUCCESS) {  
-            fprintf(stderr, 
-                "Error: Getting Context Info (device list size, clGetContextInfo)returned %d\n", 
-                status
-            );
-
-            return 1;
-        }
-
-        /////////////////////////////////////////////////////////////////
-        // Detect OpenCL devices
-        /////////////////////////////////////////////////////////////////
-        devices = (cl_device_id *)malloc(deviceListSize);
-        if (devices == 0) {
-            fprintf(stderr, "Error: No devices found.\n");
-            return 1;
-        }
-
-        /* Now, get the device list data */
-        status = clGetContextInfo(context, CL_CONTEXT_DEVICES, deviceListSize, devices, NULL);
-        if (status != CL_SUCCESS) { 
-            fprintf(stderr, 
-                "Error: Getting Context Info (device list, clGetContextInfo) returned %d\n", 
-                status
-            );
-
-            return 1;
-        }
-        
-        device = devices[0];
-
-    } else {    // NOT stand_alone
-        retval = boinc_get_opencl_ids(&device, &platform);
-        if (retval) {
-            fprintf(stderr, 
-                "Error: boinc_get_opencl_ids() failed with error %d\n", 
-                retval
-            );
-            return 1;
-        }
-        
-       cl_context_properties cps[3] = { CL_CONTEXT_PLATFORM,
-                                         (cl_context_properties)platform,
-                                         0 
-                                       };
-        context = clCreateContext(cps, 1, &device, NULL, NULL, &status);
-        if (status != CL_SUCCESS) {  
-            fprintf(stderr, "Error: clCreateContext() returned %d\n", status);
-            return 1; 
-        }
+   cl_context_properties cps[3] = { CL_CONTEXT_PLATFORM,
+                                     (cl_context_properties)platform,
+                                     0 
+                                   };
+    context = clCreateContext(cps, 1, &device, NULL, NULL, &status);
+    if (status != CL_SUCCESS) {
+        fprintf(stderr, "Error: clCreateContext() returned %d\n", status);
+        return 1; 
     }
 
     /////////////////////////////////////////////////////////////////
@@ -618,7 +526,6 @@ int initialize_cl(void) {
             "Error: Creating Command Queue. (clCreateCommandQueue) returned %d\n", 
             status
         );
-
         return 1;
     }
     
@@ -638,7 +545,7 @@ int initialize_cl(void) {
     }
 
     /* create a cl program executable for all the devices specified */
-    status = clBuildProgram(program, 1, devices, NULL, NULL, NULL);
+    status = clBuildProgram(program, 1, &device, NULL, NULL, NULL);
     if (status != CL_SUCCESS)  {
         fprintf(stderr, 
             "Error: Building Program (clBuildProgram) returned %d\n", 
@@ -724,15 +631,6 @@ int cleanup_cl(void) {
         return 1; 
     }
 
-    status = clReleaseMemObject(inputBuffer);
-    if (status != CL_SUCCESS) {
-        fprintf(stderr, 
-            "Error: In clReleaseMemObject (inputBuffer) returned %d\n", 
-            status
-        );
-        return 1; 
-    }
-
     status = clReleaseCommandQueue(commandQueue);
     if (status != CL_SUCCESS) {
         fprintf(stderr, 
@@ -768,11 +666,6 @@ void cleanup_host(void) {
         output = NULL;
     }
 
-    if (devices != NULL) {
-        free(devices);
-        devices = NULL;
-    }
-
     if (source != NULL) {
         free((char *)source);
         source = NULL;
@@ -806,7 +699,6 @@ void print_to_file(MFILE *out, float *h_odata, int n) {
  */
 int run_GEStep1A_kernel(cl_float * AI, int i, int n2, int lda2) {
     cl_int status;
-    cl_event events[2];
 
     /* 
      * the input array to the kernel. This array will eventually be modified
@@ -862,7 +754,8 @@ int run_GEStep1A_kernel(cl_float * AI, int i, int n2, int lda2) {
                                     localThreads,
                                     0,
                                     NULL,
-                                    &events[0]);
+                                    NULL);
+
     if (status != CL_SUCCESS) { 
         fprintf(stderr, 
             "Error: Enqueueing kernel onto command queue. (clEnqueueNDRangeKernel) returned %d\n", 
@@ -871,35 +764,18 @@ int run_GEStep1A_kernel(cl_float * AI, int i, int n2, int lda2) {
         return 1;
     }
 
-    /* wait for the kernel call to finish execution */
-    status = clWaitForEvents(1, &events[0]);
-    if (status != CL_SUCCESS) { 
-        fprintf(stderr, 
-            "Error: Waiting for kernel run to finish. (clWaitForEvents) returned %d\n", 
-            status
-        );
-        return 1;
-    }
-
-    status = clReleaseEvent(events[0]);
-    if (status != CL_SUCCESS) { 
-        fprintf(stderr, 
-            "Error: Release event object. (clReleaseEvent) returned %d\n", 
-            status
-        );
-        return 1;
-    }
+    clFinish(commandQueue);
 
     /* Enqueue readBuffer*/  //Note: we are reading back from inputBuffer since AI is modified directly in kernel
     status = clEnqueueReadBuffer(commandQueue,
                                  inputBuffer,
-                                 CL_TRUE,
+                                 CL_FALSE,
                                  0,
                                  globalThreads[0] * sizeof(cl_float),
                                  AI,
                                  0,
                                  NULL,
-                                 &events[1]);
+                                 NULL);
 
     if(status != CL_SUCCESS) { 
         fprintf(stderr, 
@@ -909,30 +785,11 @@ int run_GEStep1A_kernel(cl_float * AI, int i, int n2, int lda2) {
         return 1;
     }
 
-    /* Wait for the read buffer to finish execution */
-    status = clWaitForEvents(1, &events[1]);
-    if (status != CL_SUCCESS) {
-        fprintf(stderr, 
-            "Error: Waiting for read buffer call to finish. (clWaitForEvents) returned %d\n", 
-            status
-        );
-        return 1;
-    }
-
-    status = clReleaseEvent(events[1]);
-    if (status != CL_SUCCESS) { 
-        fprintf(stderr, 
-            "Error: Release event object. (clReleaseEvent) returned %d\n", 
-            status
-        );
-        return 1;
-    }
     return 0;
 }
 
 int run_GEStep2_kernel(cl_float * AI, cl_float diag, int i, int n2, int lda2) {
     cl_int status;
-    cl_event events[2];
 
     /* 
      * the input array to the kernel. This array will eventually be modified 
@@ -998,8 +855,9 @@ int run_GEStep2_kernel(cl_float * AI, cl_float diag, int i, int n2, int lda2) {
                                     localThreads,
                                     0,
                                     NULL,
-                                    &events[0]);
-    if (status != CL_SUCCESS) { 
+                                    NULL);
+
+    if (status != CL_SUCCESS) {
         fprintf(stderr, 
             "Error: Enqueueing kernel onto command queue. (clEnqueueNDRangeKernel) returned %d\n", 
             status
@@ -1007,65 +865,29 @@ int run_GEStep2_kernel(cl_float * AI, cl_float diag, int i, int n2, int lda2) {
         return 1;
     }
 
-    /* wait for the kernel call to finish execution */
-    status = clWaitForEvents(1, &events[0]);
-    if (status != CL_SUCCESS) { 
-        fprintf(stderr, 
-            "Error: Waiting for kernel run to finish. (clWaitForEvents) returned %d\n", 
-            status
-        );
-        return 1;
-    }
-
-    status = clReleaseEvent(events[0]);
-    if (status != CL_SUCCESS) { 
-        fprintf(stderr, 
-            "Error: Release event object. (clReleaseEvent) returned %d\n", 
-            status
-        );
-        return 1;
-    }
-
+    clFinish(commandQueue);
+    
     /* Enqueue readBuffer*/
 	//Note: we are reading back from inputBuffer since AI is modified directly in kernel
     status = clEnqueueReadBuffer(commandQueue,
                                  inputBuffer,
-                                 CL_TRUE,
+                                 CL_FALSE,
                                  0,
                                  globalThreads[0] * sizeof(cl_float),
                                  AI,
                                  0,
                                  NULL,
-                                 &events[1]);
+                                 NULL);
     if (status != CL_SUCCESS) { 
         fprintf(stderr, "Error: clEnqueueReadBuffer failed. (clEnqueueReadBuffer) returned %d\n", status);
         return 1;
     }
     
-    /* Wait for the read buffer to finish execution */
-    status = clWaitForEvents(1, &events[1]);
-    if (status != CL_SUCCESS) { 
-        fprintf(stderr, 
-            "Error: Waiting for read buffer call to finish. (clWaitForEvents) returned %d\n", 
-            status
-        );
-        return 1;
-    }
-
-    status = clReleaseEvent(events[1]);
-    if (status != CL_SUCCESS) { 
-        fprintf(stderr, 
-            "Error: Release event object. (clReleaseEvent) returned %d\n", 
-            status
-        );
-        return 1;
-    }
     return 0;
 }
 
 int run_GEStep3_kernel(cl_float * AI, int i, int n2, int lda2) {
     cl_int status;
-    cl_event events[2];
 
     /* 
      * The input array to the kernel. This array will eventually be modified
@@ -1121,8 +943,9 @@ int run_GEStep3_kernel(cl_float * AI, int i, int n2, int lda2) {
                                     localThreads,
                                     0,
                                     NULL,
-                                    &events[0]);
-    if (status != CL_SUCCESS) { 
+                                    NULL);
+
+    if (status != CL_SUCCESS) {
         fprintf(stderr, 
             "Error: Enqueueing kernel onto command queue. (clEnqueueNDRangeKernel) returned %d\n", 
             status
@@ -1130,24 +953,7 @@ int run_GEStep3_kernel(cl_float * AI, int i, int n2, int lda2) {
         return 1;
     }
 
-    /* wait for the kernel call to finish execution */
-    status = clWaitForEvents(1, &events[0]);
-    if (status != CL_SUCCESS) { 
-        fprintf(stderr, 
-            "Error: Waiting for kernel run to finish. (clWaitForEvents) returned %d\n", 
-            status
-        );
-        return 1;
-    }
-
-    status = clReleaseEvent(events[0]);
-    if (status != CL_SUCCESS) { 
-        fprintf(stderr, 
-            "Error: Release event object. (clReleaseEvent) returned %d\n", 
-            status
-        );
-        return 1;
-    }
+    clFinish(commandQueue);
 
     /* Enqueue readBuffer*/
 	//Note: we are reading back from inputBuffer since AI is modified directly in kernel
@@ -1159,29 +965,10 @@ int run_GEStep3_kernel(cl_float * AI, int i, int n2, int lda2) {
                                  AI,
                                  0,
                                  NULL,
-                                 &events[1]);
+                                 NULL);
     if (status != CL_SUCCESS) { 
         fprintf(stderr, 
             "Error: clEnqueueReadBuffer failed. (clEnqueueReadBuffer) returned %d\n", 
-            status
-        );
-        return 1;
-    }
-
-    /* Wait for the read buffer to finish execution */
-    status = clWaitForEvents(1, &events[1]);
-    if (status != CL_SUCCESS) { 
-        fprintf(stderr, 
-            "Error: Waiting for read buffer call to finish. (clWaitForEvents) returned %d\n", 
-            status
-        );
-        return 1;
-    }
-
-    status = clReleaseEvent(events[1]);
-    if(status != CL_SUCCESS) { 
-        fprintf(stderr, 
-            "Error: Release event object. (clReleaseEvent) returned %d\n", 
             status
         );
         return 1;
@@ -1213,7 +1000,7 @@ void invert(cl_float * input, cl_float *output, int n) {
     volatile clock_t gputime;
     gputime=clock();
 
-    int lda = ((n+15)&~15|16);
+    int lda = (((n+15)&(~15))|16);
     cl_float * AI_d = (cl_float *)malloc(sizeof(cl_float)*n*lda*2);
     memset(AI_d,0,sizeof(cl_float)*n*lda*2);
     for (int i = 0; i < n; i++) {
@@ -1238,14 +1025,15 @@ void invert(cl_float * input, cl_float *output, int n) {
         );
         exit(0);
     }
+
     // Note: there's no output buffer. In kernel, AI_d is modified directly.
 	// Thus, we should read the result back to host from inputBuffer as well.
-
     invertge(AI_d, lda, n);
-    gputime=clock()-gputime;fprintf(stderr, " %7.1f ms ",gputime/1.e3f);
+    gputime=clock()-gputime;
+    fprintf(stderr, " %7.1f ms ",gputime/1.e3f);
     fprintf(stderr, " %7.2f Gflops", 1e-3*(3.0)*n*n*n/3.0/gputime);
 
-#ifdef VERIFY	
+#ifdef VERIFY
     // let's verify that
     cl_float error=0.0;
 
@@ -1270,6 +1058,15 @@ void invert(cl_float * input, cl_float *output, int n) {
     for (int i = 0; i < n; i++) {
         memcpy(&output[n*i], &AI_d[lda*i*2+n], sizeof(cl_float)*n);
     }
+
+    status = clReleaseMemObject(inputBuffer);
+    if (status != CL_SUCCESS) {
+        fprintf(stderr, 
+            "Error: In clReleaseMemObject (inputBuffer) returned %d\n", 
+            status
+        );
+    }
+
     free(AI_d);
     fprintf(stderr," done!\n");
 }

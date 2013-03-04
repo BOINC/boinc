@@ -1,0 +1,4 @@
+<app_init_data>
+<gpu_type>intel_gpu</gpu_type>
+<gpu_device_num>0</gpu_device_num>
+</app_init_data>

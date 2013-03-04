@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2013 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,10 +16,10 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
 // See http://boinc.berkeley.edu/trac/wiki/GPUApp for any compiling issues.
-// Contributor: Tuan Le (tuanle86@berkeley.edu)
+// Original contributor: Tuan Le (tuanle86@berkeley.edu)
 
-#ifndef ATIOPENCL_H_
-#define ATIOPENCL_H_
+#ifndef OPENCLAPP_H_
+#define OPENCLAPP_H_
 
 #ifdef __APPLE__
 #include <OpenCL/opencl.h>
@@ -37,8 +37,8 @@
 
 #define INPUT_FILENAME "input"
 #define OUTPUT_FILENAME "output"
-#define KERNELS_FILENAME "atiopencl_kernels.cl"
-#define KERNELS_FILEPATH "../../atiopencl_kernels.cl" // for Linux and Mac
+#define KERNELS_FILENAME "openclapp_kernels.cl"
+#define KERNELS_FILEPATH "../../openclapp_kernels.cl" // for Linux and Mac
 #define CHECKPOINT_FILE "matrix_inversion_state"
 
 #define LOCAL_WORK_SIZE 1
@@ -115,7 +115,6 @@ cl_uint height;
 cl_mem   inputBuffer; //in this sample app, we will read the result
                       //from the device back to host from inputBuffer as well.
 cl_context          context;
-cl_device_id        *devices;
 cl_command_queue    commandQueue;
 
 cl_program program;
@@ -185,7 +184,7 @@ void update_shmem() {
  * Calls are made to set up OpenCL memory buffers that this program uses
  * and to load the programs into memory and get kernel handles.
  */
-int initialize_cl(void);
+int initialize_cl(int argc, char * argv[]);
 
 int initialize_host(FILE *infile);
 
@@ -226,4 +225,4 @@ void invertge(cl_float * AI_d,
               int lda,
               int n);
 
-#endif  /* #ifndef ATIOPENCL_H_ */
+#endif  /* #ifndef OPENCLAPP_H_ */

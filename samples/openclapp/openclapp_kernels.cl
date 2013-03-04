@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2013 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -21,6 +21,7 @@
 // Contributor: Tuan Le (tuanle86@berkeley.edu)
 
 __kernel void GEStep1A(__global float * AI, int i, int n2, int lda2) {
+    //int k = get_group_id(0) * get_local_size(0) + get_local_id(0);
     int k=get_global_id(0);
     if (k>i && k < n2 && AI[i*lda2+k]!=0) {
         float multiplyer = -AI[i*lda2+k]/AI[i*lda2+i];
