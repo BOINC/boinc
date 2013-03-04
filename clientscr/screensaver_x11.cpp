@@ -95,8 +95,8 @@ private:
    */
   xcb_char2b_t *char2b(std::string str) {
     xcb_char2b_t *s = new xcb_char2b_t[str.size()];
-    if(!s) return NULL;
-    for(unsigned int c = 0; c < str.size(); c++) {
+    if (!s) return NULL;
+    for (unsigned int c = 0; c < str.size(); c++) {
         s[c].byte1 = '\0';
         s[c].byte2 = str[c];
     }

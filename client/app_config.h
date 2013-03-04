@@ -33,14 +33,14 @@ struct APP_CONFIG {
     double gpu_gpu_usage;
     double gpu_cpu_usage;
 
-    int parse(XML_PARSER&);
+    int parse(XML_PARSER&, PROJECT*);
 };
 
 struct APP_CONFIGS {
     std::vector<APP_CONFIG> app_configs;
 
-    int parse(XML_PARSER&);
-    int parse_file(FILE*);
+    int parse(XML_PARSER&, PROJECT*);
+    int parse_file(FILE*, PROJECT*);
     void config_app_versions(PROJECT*);
 };
 
