@@ -7453,9 +7453,9 @@ David  8 Dec 2012
         procinfo.cpp
 
 David  8 Dec 2012
-	- client: win compile fix
-	client/
-		gpu_detect.cpp
+    - client: win compile fix
+    client/
+        gpu_detect.cpp
 
 Charlie 8 Dec 2012
     - client: add new file gpu_intel.cpp to Xcode project.
@@ -7521,8 +7521,8 @@ Charlie 10 Dec 2012
         "OpenCL: " preface in OPENCL_DEVICE_PROP::description().
         [3] Eliminate useless COPROC_INTEL::description().
 
-	client/
-		gpu_detect.cpp
+    client/
+        gpu_detect.cpp
         gpu_opencl.cpp
     lib/
         coproc.cpp,.h
@@ -7580,3 +7580,42 @@ Rom    11 Dec 2012
 
     sched/
         sched_customize.cpp
+
+
+David  11 Dec 2012
+    - Win process control (affects API and wrapper):
+        Since Win doesn't have an API for process suspend/resume,
+        we were suspending processes by
+            1) enumerating all the threads in the system
+            (typically several thousand)
+            2) suspending those belonging to the given process
+        The problem: for each thread, the code was calling a function
+        in diagnostics_win.cpp to see if the thread
+        was exempted from suspension.
+        This check (which is unnecessary anyway if we're
+        suspending another process)
+        was surrounded by a semaphore acquire/release.
+        The result: performance problems.
+        It could take a minute to suspend the threads.
+        Solution:
+            1) do the check for exemption only if we're suspending threads
+                in our own process (i.e. from the API)
+            2) if we're suspending multiple processes, enumerate the threads
+                only once, and see if each one belongs to any of the processes
+            3) have the wrapper elevate itself to normal priority.
+                Otherwise it can get preempted for long periods,
+                sometimes in the middle of scanning the threads.
+        Note: post-9x versions of Win have a process group API
+        that includes suspend/resume.
+        We'll switch to this soon.
+
+    api/
+        boinc_api.cpp
+    client/
+        gpu_detect.cpp
+    lib/
+        proc_control.cpp,h
+        procinfo.cpp
+        util.h
+    samples/wrapper/
+        wrapper.cpp

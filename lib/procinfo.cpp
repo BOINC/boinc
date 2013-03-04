@@ -31,6 +31,8 @@
 #include <signal.h>
 #endif
 
+#include "util.h"
+
 #include "procinfo.h"
 
 using std::vector;
@@ -62,13 +64,6 @@ void add_child_totals(PROCINFO& pi, PROC_MAP& pm, PROC_MAP::iterator i) {
         p.is_boinc_app = true;
         add_child_totals(pi, pm, i2); // recursion - woo hoo!
     }
-}
-
-static inline bool in_vector(int n, vector<int>& v) {
-    for (unsigned int i=0; i<v.size(); i++) {
-        if (n == v[i]) return true;
-    }
-    return false;
 }
 
 // Fill in the given PROCINFO (initially zero except for id)

@@ -61,6 +61,13 @@ extern void update_average(double, double, double, double, double&, double&);
 
 extern int boinc_calling_thread_cpu_time(double&);
 
+inline bool in_vector(int n, std::vector<int>& v) {
+    for (unsigned int i=0; i<v.size(); i++) {
+        if (n == v[i]) return true;
+    }
+    return false;
+}
+
 // fake a crash
 //
 extern void boinc_crash();

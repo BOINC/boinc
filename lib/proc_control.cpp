@@ -40,10 +40,14 @@
 #endif
 
 #include "procinfo.h"
+#include "str_util.h"
+#include "util.h"
 
 #include "proc_control.h"
 
 using std::vector;
+
+//#define DEBUG
 
 static void get_descendants_aux(PROC_MAP& pm, int pid, vector<int>& pids) {
     PROC_MAP::iterator i = pm.find(pid);
@@ -67,64 +71,81 @@ void get_descendants(int pid, vector<int>& pids) {
     retval = procinfo_setup(pm);
     if (retval) return;
     get_descendants_aux(pm, pid, pids);
+#ifdef DEBUG
+    fprintf(stderr, "descendants of %d:\n", pid);
+    for (unsigned int i=0; i<pids.size(); i++) {
+        fprintf(stderr, "   %d\n", pids[i]);
+    }
+#endif
 }
 
 #ifdef _WIN32
-// signature of OpenThread()
-//
-typedef HANDLE (WINAPI *tOT)(
-    DWORD dwDesiredAccess, BOOL bInheritHandle, DWORD dwThreadId
-);
 
-// Suspend or resume the threads in a given process,
+// Suspend or resume the threads in a set of processes,
 // but don't suspend 'calling_thread'.
 //
 // The only way to do this on Windows is to enumerate
 // all the threads in the entire system,
-// and find those belonging to the process (ugh!!)
+// and find those belonging to one of the process (ugh!!)
 //
 
 int suspend_or_resume_threads(
-    DWORD pid, DWORD calling_thread_id, bool resume
+    vector<int>pids, DWORD calling_thread_id, bool resume, bool check_exempt
 ) { 
     HANDLE threads, thread;
-    static HMODULE hKernel32Lib = NULL;
     THREADENTRY32 te = {0}; 
-    static tOT pOT = NULL;
- 
-    // Dynamically link to the proper function pointers.
-    if (!hKernel32Lib) {
-        hKernel32Lib = GetModuleHandleA("kernel32.dll");
-    }
-    if (!pOT) {
-        pOT = (tOT) GetProcAddress( hKernel32Lib, "OpenThread" );
-    }
 
-    if (!pOT) {
-        return -1;
+#ifdef DEBUG
+    fprintf(stderr, "start: check_exempt %d %s\n", check_exempt, precision_time_to_string(dtime()));
+    fprintf(stderr, "%s processes", resume?"resume":"suspend");
+    for (unsigned int i=0; i<pids.size(); i++) {
+        fprintf(stderr, " %d", pids[i]);
     }
+    fprintf(stderr, "\n");
+#endif
 
     threads = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0); 
-    if (threads == INVALID_HANDLE_VALUE) return -1;
+    if (threads == INVALID_HANDLE_VALUE) {
+        fprintf(stderr, "CreateToolhelp32Snapshot failed\n");
+        return -1;
+    }
  
     te.dwSize = sizeof(THREADENTRY32); 
     if (!Thread32First(threads, &te)) { 
+        fprintf(stderr, "Thread32First failed\n");
         CloseHandle(threads); 
         return -1;
     }
 
     do { 
-        if (!diagnostics_is_thread_exempt_suspend(te.th32ThreadID)) continue;
+        if (check_exempt && !diagnostics_is_thread_exempt_suspend(te.th32ThreadID)) {
+#ifdef DEBUG
+            fprintf(stderr, "thread is exempt\n");
+#endif
+            continue;
+        }
+        //fprintf(stderr, "thread %d PID %d %s\n", te.th32ThreadID, te.th32OwnerProcessID, precision_time_to_string(dtime()));
         if (te.th32ThreadID == calling_thread_id) continue;
-        if (te.th32OwnerProcessID == pid) {
-            thread = pOT(THREAD_SUSPEND_RESUME, FALSE, te.th32ThreadID);
-            resume ?  ResumeThread(thread) : SuspendThread(thread);
-            CloseHandle(thread);
-        } 
+        if (!in_vector(te.th32OwnerProcessID, pids)) continue;
+        thread = OpenThread(THREAD_SUSPEND_RESUME, FALSE, te.th32ThreadID);
+        if (resume) {
+            DWORD n = ResumeThread(thread);
+#ifdef DEBUG
+            fprintf(stderr, "ResumeThread returns %d\n", n);
+#endif
+        } else {
+            DWORD n = SuspendThread(thread);
+#ifdef DEBUG
+            fprintf(stderr, "SuspendThread returns %d\n", n);
+#endif
+        }
+        CloseHandle(thread);
     } while (Thread32Next(threads, &te)); 
 
     CloseHandle (threads); 
-
+#ifdef DEBUG
+    fprintf(stderr, "end: %s\n", precision_time_to_string(dtime()));
+#endif
     return 0;
 } 
 
@@ -192,39 +213,32 @@ void kill_descendants(int child_pid) {
 }
 #endif
 
-void suspend_or_resume_all(vector<int>& pids, bool resume) {
-    for (unsigned int i=0; i<pids.size(); i++) {
-#ifdef _WIN32
-        suspend_or_resume_threads(pids[i], 0, resume);
-#else
-        kill(pids[i], resume?SIGCONT:SIGSTOP);
-#endif
-    }
-}
-
-
-
-// suspend/resume the descendants of the given process
+// suspend/resume the descendants of the calling process
 // (or if pid==0, the calling process)
 //
-void suspend_or_resume_descendants(int pid, bool resume) {
+void suspend_or_resume_descendants(bool resume) {
     vector<int> descendants;
-    if (!pid) {
 #ifdef _WIN32
-        pid = GetCurrentProcessId();
-#else
-        pid = getpid();
-#endif
-    }
+    int pid = GetCurrentProcessId();
     get_descendants(pid, descendants);
-    suspend_or_resume_all(descendants, resume);
+    suspend_or_resume_threads(descendants, 0, resume, false);
+#else
+    int pid = getpid();
+    get_descendants(pid, descendants);
+    for (unsigned int i=0; i<descendants.size(); i++) {
+        kill(descendants[i], resume?SIGCONT:SIGSTOP);
+    }
+#endif
 }
 
+// used by the wrapper
+//
 void suspend_or_resume_process(int pid, bool resume) {
 #ifdef _WIN32
-    suspend_or_resume_threads(pid, 0, resume);
+    vector<int> pids;
+    pids.push_back(pid);
+    suspend_or_resume_threads(pids, 0, resume, false);
 #else
     ::kill(pid, resume?SIGCONT:SIGSTOP);
 #endif
-
 }
