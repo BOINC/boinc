@@ -122,63 +122,36 @@ void COPROCS::get(
 #endif
 
     for (i=0; i<nvidia_gpus.size(); i++) {
+        // This is really CUDA description
         nvidia_gpus[i].description(buf);
         switch(nvidia_gpus[i].is_used) {
         case COPROC_IGNORED:
-            sprintf(buf2, "NVIDIA GPU %d (ignored by config): %s", nvidia_gpus[i].device_num, buf);
+            sprintf(buf2, "CUDA: NVIDIA GPU %d (ignored by config): %s", nvidia_gpus[i].device_num, buf);
             break;
         case COPROC_USED:
-            sprintf(buf2, "NVIDIA GPU %d: %s", nvidia_gpus[i].device_num, buf);
+            sprintf(buf2, "CUDA: NVIDIA GPU %d: %s", nvidia_gpus[i].device_num, buf);
             break;
         case COPROC_UNUSED:
         default:
-            if (nvidia_gpus[i].opencl_prop.is_used) {
-                sprintf(buf2, "NVIDIA GPU %d (OpenCL only): %s", nvidia_gpus[i].device_num, buf);
-            } else {
-                sprintf(buf2, "NVIDIA GPU %d (not used): %s", nvidia_gpus[i].device_num, buf);
-            }
+            sprintf(buf2, "CUDA: NVIDIA GPU %d (not used): %s", nvidia_gpus[i].device_num, buf);
             break;
         }
         descs.push_back(string(buf2));
     }
 
     for (i=0; i<ati_gpus.size(); i++) {
+        // This is really CAL description
         ati_gpus[i].description(buf);
         switch(ati_gpus[i].is_used) {
         case COPROC_IGNORED:
-            sprintf(buf2, "ATI GPU %d (ignored by config): %s", ati_gpus[i].device_num, buf);
+            sprintf(buf2, "CAL: ATI GPU %d (ignored by config): %s", ati_gpus[i].device_num, buf);
             break;
         case COPROC_USED:
-            sprintf(buf2, "ATI GPU %d: %s", ati_gpus[i].device_num, buf);
+            sprintf(buf2, "CAL: ATI GPU %d: %s", ati_gpus[i].device_num, buf);
             break;
         case COPROC_UNUSED:
         default:
-            if (ati_gpus[i].opencl_prop.is_used) {
-                sprintf(buf2, "ATI GPU %d: (OpenCL only) %s", ati_gpus[i].device_num, buf);
-            } else {
-                sprintf(buf2, "ATI GPU %d: (not used) %s", ati_gpus[i].device_num, buf);
-            }
-            break;
-        }
-        descs.push_back(string(buf2));
-    }
-
-    for (i=0; i<intel_gpus.size(); i++) {
-        intel_gpus[i].description(buf);
-        switch(intel_gpus[i].is_used) {
-        case COPROC_IGNORED:
-            sprintf(buf2, "INTEL GPU %d (ignored by config): %s", intel_gpus[i].device_num, buf);
-            break;
-        case COPROC_USED:
-            sprintf(buf2, "INTEL GPU %d: %s", intel_gpus[i].device_num, buf);
-            break;
-        case COPROC_UNUSED:
-        default:
-            if (intel_gpus[i].opencl_prop.is_used) {
-                sprintf(buf2, "INTEL GPU %d: (OpenCL only) %s", intel_gpus[i].device_num, buf);
-            } else {
-                sprintf(buf2, "INTEL GPU %d: (not used) %s", intel_gpus[i].device_num, buf);
-            }
+            sprintf(buf2, "CAL: ATI GPU %d: (not used) %s", ati_gpus[i].device_num, buf);
             break;
         }
         descs.push_back(string(buf2));

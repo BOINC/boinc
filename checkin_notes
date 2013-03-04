@@ -7494,3 +7494,89 @@ David  8 Dec 2012
         sg_TaskPanel.cpp
     clientscr/
         screensaver_x11.cpp
+
+Charlie 10 Dec 2012
+    - client: clean up redundant and confusing GPU descriptions.
+        Problems:
+        COPROC_NVIDIA::description() is really description of CUDA GPUs.
+        COPROC_ATI::description() is really description of CAL GPUs.
+        On Windows and Linux, AMD OpenCL and CAL always coexist, and 
+        NVIDIA OpenCL and CUDA always coexist.  
+        But on the Mac, AMD OpenCL always exists without CAL and NVIDIA 
+        OpenCL often exists without CUDA.  Therefore, BOINC has never 
+        shown peak-flops on the Mac for AMD or for NVIDIA without CUDA 
+        because it does not display COPROC_ATI::description() and may 
+        not display COPROC_NVIDIA::description().
+
+        On all OS's, INTEL GPU OpenCL will always exist without any 
+        vendor-proprietary GPU computation framework, so 
+        COPROC_INTEL::description() would never show COPROC_USED.
+        
+        Solutions:
+        [1] Instead of adding "(OpenCL only)" to these descriptions just 
+        to show peak-flops for these cases, show peak_flops in all OpenCL 
+        descriptions.
+        [2] Preface COPROC_NVIDIA::description() with "CUDA: " and 
+        preface COPROC_ATI::description() with "CAL: " to match the 
+        "OpenCL: " preface in OPENCL_DEVICE_PROP::description().
+        [3] Eliminate useless COPROC_INTEL::description().
+
+	client/
+		gpu_detect.cpp
+        gpu_opencl.cpp
+    lib/
+        coproc.cpp,.h
+
+Charlie 10 Dec 2012
+    - client: COPROC_NVIDIA, COPROC_ATI and COPROC_INTEL constructors 
+        must initialize the entire struct, not just the GPU type field.
+
+    lib/
+        coproc.h
+
+David  10 Dec 2012
+    - client: re-apply app configuration after each scheduler RPC;
+        otherwise the changes get overwritten
+    client/
+        cs_scheduler.cpp
+
+David  10 Dec 2012
+    - lib: the XML tag for the description of an Intel GPU is
+        <coproc_intel_gpu>, not <intel_gpu>
+        
+    lib/
+        coproc.cpp
+
+David  10 Dec 2012
+    - lib: the XML type field for an Intel GPU is INTEL_GPU, not INTEL
+
+    lib/
+        coproc.cpp
+
+David  10 Dec 2012
+    - lib: actually let's make it "intel_gpu".
+
+    lib/
+        coproc.cpp
+    sched/
+        sched_customize.cpp
+
+Charlie 11 Dec 2012
+    - Manager: remove sqlite3.c from Xcode project; add build script to 
+        build libsqlite3.a from source files downloaded from sqlite3.org.
+    
+    clientgui/
+        sqlite3.c (deleted)
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+        buildsqlite3.sh (added)
+        HowToBuildBOINC_XCode.rtf
+        setupforBOINC.sh
+
+Rom    11 Dec 2012
+    - server: Add a default plan class for the Intel GPUs.
+        (opencl_intel_gpu_101)
+
+    sched/
+        sched_customize.cpp

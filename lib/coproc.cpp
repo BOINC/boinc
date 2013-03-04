@@ -289,8 +289,8 @@ void OPENCL_DEVICE_PROP::description(char* buf, const char* type) {
     strlcpy(s1, opencl_device_version, sizeof(s1));
     n = (int)strlen(s1) - 1;
     if ((n > 0) && (s1[n] == ' ')) s1[n] = '\0';
-    sprintf(s2, "%s (driver version %s, device version %s, %.0fMB, %.0fMB available)",
-        name, opencl_driver_version, s1, global_mem_size/MEGA, opencl_available_ram/MEGA
+    sprintf(s2, "%s (driver version %s, device version %s, %.0fMB, %.0fMB available, %.0f GFLOPS peak)",
+        name, opencl_driver_version, s1, global_mem_size/MEGA, opencl_available_ram/MEGA, peak_flops/1.e9
     );
 
     switch(is_used) {
@@ -360,7 +360,7 @@ int COPROCS::parse(XML_PARSER& xp) {
             }
             continue;
         }
-        if (xp.match_tag("intel_gpu")) {
+        if (xp.match_tag("coproc_intel_gpu")) {
             retval = intel_gpu.parse(xp);
             if (retval) {
                 intel_gpu.clear();
@@ -982,12 +982,6 @@ int COPROC_INTEL::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
-void COPROC_INTEL::description(char* buf) {
-    sprintf(buf, "%s (version %s, %.0fMB, %.0fMB available, %.0f GFLOPS peak)",
-        name, version, ((double)opencl_prop.global_mem_size)/MEGA, available_ram/MEGA, peak_flops/1.e9
-    );
-}
-
 // http://en.wikipedia.org/wiki/Comparison_of_Intel_graphics_processing_units says:
 // The raw performance of integrated GPU, in single-precision FLOPS,
 // can be calculated as follows:
@@ -1004,7 +998,6 @@ void COPROC_INTEL::set_peak_flops() {
     peak_flops = (x>0)?x:45e9;
 }
 
-//TODO: Fix this
 void COPROC_INTEL::fake(double ram, double avail_ram, int n) {
     strcpy(type, proc_type_name_xml(PROC_TYPE_INTEL_GPU));
     strcpy(version, "1.4.3");
@@ -1016,15 +1009,25 @@ void COPROC_INTEL::fake(double ram, double avail_ram, int n) {
         device_nums[i] = i;
     }
     set_peak_flops();
+    opencl_prop.global_mem_size = ram;
 }
 
-
+// used wherever a processor type is specified in XML, e.g.
+// <coproc>
+//    <type>xxx</type>
+//
+// Don't confused this with the element names used for GPUS within <coprocs>,
+// namely:
+// coproc_cuda
+// coproc_ati
+// coproc_intel_gpu
+//
 const char* proc_type_name_xml(int pt) {
     switch(pt) {
     case PROC_TYPE_CPU: return "CPU";
     case PROC_TYPE_NVIDIA_GPU: return "NVIDIA";
     case PROC_TYPE_AMD_GPU: return "ATI";
-    case PROC_TYPE_INTEL_GPU: return "INTEL";
+    case PROC_TYPE_INTEL_GPU: return "intel_gpu";
     }
     return "unknown";
 }

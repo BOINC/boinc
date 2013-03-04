@@ -321,7 +321,7 @@ struct COPROC_NVIDIA : public COPROC {
     void write_xml(MIOFILE&, bool scheduler_rpc);
 #endif
     COPROC_NVIDIA(): COPROC() {
-        strcpy(type, proc_type_name_xml(PROC_TYPE_NVIDIA_GPU));
+        clear();
     }
     void get(
         bool use_all,
@@ -360,7 +360,7 @@ struct COPROC_ATI : public COPROC {
     void write_xml(MIOFILE&, bool scheduler_rpc);
 #endif
     COPROC_ATI(): COPROC() {
-        strcpy(type, proc_type_name_xml(PROC_TYPE_AMD_GPU));
+        clear();
     }
     void get(
         bool use_all,
@@ -385,14 +385,13 @@ struct COPROC_INTEL : public COPROC {
     void write_xml(MIOFILE&, bool scheduler_rpc);
 #endif
     COPROC_INTEL(): COPROC() {
-        strcpy(type, proc_type_name_xml(PROC_TYPE_INTEL_GPU));
+        clear();
     }
     void get(
         bool use_all,
         std::vector<std::string>&,
         std::vector<int>& ignore_devs
     );
-    void description(char*);
     void clear();
     int parse(XML_PARSER&);
     void set_peak_flops();
