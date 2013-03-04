@@ -275,11 +275,11 @@ size_t wxWinINetInputStream::OnSysRead(void *buffer, size_t bufsize)
     bufs.lpvBuffer = buffer;
     bufs.dwBufferLength = (DWORD)bufsize;
 
-    success = InternetReadFileEx(m_hFile, &bufs, IRF_SYNC, 2);
+    success = InternetReadFileEx(m_hFile, &bufs, IRF_ASYNC|IRF_NO_WAIT, 2);
     
     lError = ::GetLastError();
     
-#if 0       // Possibly useful for debugging
+//#if 0       // Possibly useful for debugging
     if ((!success) || (lError != ERROR_SUCCESS)) {
         DWORD iError, bLength = 0;
         InternetGetLastResponseInfo(&iError, NULL, &bLength);
@@ -296,10 +296,15 @@ size_t wxWinINetInputStream::OnSysRead(void *buffer, size_t bufsize)
             wxLogError(wxT("Read failed with error %d: %s"),
                     iError, errorString.c_str());
         }
+        else
+        {
+            wxLogError(wxT("Read failed with error %d"), lError);
+        }
     }
-#endif
+//#endif
 
     if (!success) {
+        wxLogTrace(wxT("Function Status"), wxT("wxWinINetInputStream::OnSysRead - Download failure!\n"));
         return 0;
     }
 
@@ -346,7 +351,6 @@ wxInputStream *wxWinINetURL::GetInputStream(wxURL *owner)
 {
 static bool bAlreadyRunning = false;
     if (bAlreadyRunning) {
-        fprintf(stderr, "wxWinINetURL::GetInputStream reentered!");
         return NULL;
     }
     bAlreadyRunning = true;
@@ -381,6 +385,7 @@ static bool bAlreadyRunning = false;
     operationEnded = false;
     double endtimeout = dtime() + dInternetTimeout;
 
+    wxLogTrace(wxT("Function Status"), wxT("wxWinINetURL::GetInputStream - Downloading file: '%s'\n"), owner->GetURL().c_str());
     HINTERNET newStreamHandle = InternetOpenUrl
                                 (
                                     GetSessionHandle(),
