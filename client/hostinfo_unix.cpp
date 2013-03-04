@@ -628,9 +628,10 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
 
 void use_cpuid(HOST_INFO& host) {
     u_int p[4];
-    int hasMMX, hasSSE, hasSSE2, hasSSE3, has3DNow, has3DNowExt = 0;
+    int hasMMX, hasSSE, hasSSE2, hasSSE3, has3DNow, has3DNowExt;
     char capabilities[256];
 
+    hasMMX = hasSSE = hasSSE2 = hasSSE3 = has3DNow = has3DNowExt = 0;
     do_cpuid(0x0, p);
 
     if (p[0] >= 0x1) {
@@ -652,12 +653,12 @@ void use_cpuid(HOST_INFO& host) {
     }
 
     capabilities[0] = '\0';
-    if (hasSSE) strncat(capabilities, "sse ", 4);
-    if (hasSSE2) strncat(capabilities, "sse2 ", 5);
-    if (hasSSE3) strncat(capabilities, "sse3 ", 5);
-    if (has3DNow) strncat(capabilities, "3dnow ", 6);
-    if (has3DNowExt) strncat(capabilities, "3dnowext ", 9);
-    if (hasMMX) strncat(capabilities, "mmx ", 4);
+    if (hasSSE) strcat(capabilities, "sse ");
+    if (hasSSE2) strcat(capabilities, "sse2 ");
+    if (hasSSE3) strcat(capabilities, "sse3 ");
+    if (has3DNow) strcat(capabilities, "3dnow ");
+    if (has3DNowExt) strcat(capabilities, "3dnowext ");
+    if (hasMMX) strcat(capabilities, "mmx ");
     strip_whitespace(capabilities);
     char buf[1024];
     snprintf(buf, sizeof(buf), "%s [] [%s]",
@@ -1338,7 +1339,7 @@ int HOST_INFO::get_host_info() {
     m_nbytes = (double)sysconf(_SC_PAGESIZE) * (double)sysconf(_SC_PHYS_PAGES);
     if (m_nbytes < 0) {
         msg_printf(NULL, MSG_INTERNAL_ERROR,
-            "RAM size not measured correctly: page size %d, #pages %d",
+            "RAM size not measured correctly: page size %ld, #pages %ld",
             sysconf(_SC_PAGESIZE), sysconf(_SC_PHYS_PAGES)
         );
     }

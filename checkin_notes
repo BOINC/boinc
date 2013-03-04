@@ -6983,6 +6983,35 @@ David  21 Nov 2012
         job.xml
         wrapper.cpp
 
+David  21 Nov 2012
+    - Unix build: add configure option for minimal make output
+
+    configure.ac
+
+David  22 Nov 2012
+    - client: if a project is anonymous platform,
+        don't send list of alternate platforms in scheduler RPC.
+
+    client/
+        cs_platforms.cpp
+
+David  22 Nov 2012
+    - scheduler: if primary platform is anonymous, ignore alternate platforms.
+
+    sched/
+        handle_request.cpp
+
+David  23 Nov 2012
+    - client: fix uninitialized vars in CPU feature detection (from RustyBSD)
+
+    client/
+        hostinfo_unix.cpp
+    html/
+        inc/
+            submit.inc
+        user/
+            sandbox.php
+
 David  25 Nov 2012
 	- wrapper: compile fixes for Win
 
