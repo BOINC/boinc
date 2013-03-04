@@ -202,9 +202,6 @@ int VBOX_VM::initialize() {
 int VBOX_VM::run(double elapsed_time) {
     int retval;
 
-    retval = initialize();
-    if (retval) return retval;
-
     if (!is_registered()) {
         if (is_hdd_registered()) {
             // Handle the case where a previous instance of the same projects VM

@@ -7819,3 +7819,13 @@ Charlie 20 Dec 2012
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
+
+Rom    20 Dec 2012
+    - VBOX: Initialize the PATH variable before attempting to check to see if
+        the system is ready.
+
+    samples\vboxwrapper\
+        vbox.cpp, .h
+        vboxwrapper.cpp
+    win_build\
+        vboxwrapper.vcproj
