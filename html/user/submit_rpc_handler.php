@@ -138,8 +138,8 @@ function stage_files(&$jobs, $template) {
     }
 }
 
-function submit_job($job, $template, $app, $batch_id, $i) {
-    $cmd = "cd ../..; ./bin/create_work --appname $app->name --batch $batch_id --rsc_fpops_est $job->rsc_fpops_est";
+function submit_job($job, $template, $app, $batch_id, $i, $priority) {
+    $cmd = "cd ../..; ./bin/create_work --appname $app->name --batch $batch_id --rsc_fpops_est $job->rsc_fpops_est --priority $priority";
     if ($job->command_line) {
         $cmd .= " --command_line \"$job->command_line\"";
     }
@@ -180,15 +180,28 @@ function submit_batch($r) {
     $njobs = count($jobs);
     $now = time();
     $batch_name = (string)($r->batch->batch_name);
+
+    // - compute batch FLOP count
+    // - run adjust_user_priorities to increment user_submit.logical_start_time
+    // - use that for batch logical end time and job priority
+    //
+    $total_flops = 0;
+    foreach($jobs as $job) {
+        $total_flops += $job->rsc_fpops_est;
+            // TODO: if rsc_fpops_est not defined here, get it from template
+    }
+    $cmd = "cd ../../bin; ./adjust_user_priority --user $user->id --flops $total_flops --app $app->name";
+    system($cmd);
+    $us = BoincUserSubmit::lookup_userid($user->id);
+    $let = $us->logical_start_time;
+
     $batch_id = BoincBatch::insert(
-        "(user_id, create_time, njobs, name, app_id) values ($user->id, $now, $njobs, '$batch_name', $app->id)"
+        "(user_id, create_time, njobs, name, app_id, logical_end_time, state) values ($user->id, $now, $njobs, '$batch_name', $app->id, $let, ".BATCH_STATE_IN_PROGRESS.")"
     );
     $i = 0;
     foreach($jobs as $job) {
-        submit_job($job, $template, $app, $batch_id, $i++);
+        submit_job($job, $template, $app, $batch_id, $i++, $let);
     }
-    $batch = BoincBatch::lookup_id($batch_id);
-    $batch->update("state=".BATCH_STATE_IN_PROGRESS);
     echo "<batch_id>$batch_id</batch_id>\n";
 }
 

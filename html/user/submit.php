@@ -66,7 +66,16 @@ function show_in_progress($batches, $limit, $user, $app) {
                 show_all_link($batches, BATCH_STATE_IN_PROGRESS, $limit, $user, $app);
             }
             start_table();
-            table_header("name", "ID", "user", "app", "# jobs", "progress", "submitted");
+            table_header(
+                "Name",
+                "ID",
+                "User",
+                "App",
+                "# jobs",
+                "Progress",
+                "Submitted",
+                "Logical end time<br><span class=note>Determines priority</span>"
+            );
         }
         $pct_done = (int)($batch->fraction_done*100);
         table_row(
@@ -76,7 +85,8 @@ function show_in_progress($batches, $limit, $user, $app) {
             $batch->app_name,
             $batch->njobs,
             "$pct_done%",
-            local_time_str($batch->create_time)
+            local_time_str($batch->create_time),
+            local_time_str($batch->logical_end_time)
         );
     }
     if ($first) {
@@ -219,7 +229,7 @@ function handle_main($user) {
             break;
         }
     }
-    if ($user_submit->manage_all || $add_admin) {
+    if ($user_submit->manage_all || $app_admin) {
         echo "<h2>Administrative functions</h2><ul>\n";
         if ($user_submit->manage_all) {
             echo "<li>All applications<br>
@@ -300,6 +310,7 @@ function handle_query_batch($user) {
     row2("state", batch_state_string($batch->state));
     row2("# jobs", $batch->njobs);
     row2("# error jobs", $batch->nerror_jobs);
+    row2("logical end time", time_str($batch->logical_end_time));
     row2("progress", sprintf("%.0f%%", $batch->fraction_done*100));
     if ($batch->completion_time) {
         row2("completed", local_time_str($batch->completion_time));

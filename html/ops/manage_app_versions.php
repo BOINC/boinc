@@ -129,7 +129,7 @@ echo "<form action='$self' method='POST'>\n";
 start_table("align='center'");
 
 echo "<TR><TH>ID #</TH>
-      <TH>Application</TH>
+      <TH align=left>Application</TH>
       <TH>Version</TH>
       <TH>Platform</TH>
       <TH>Plan Class</TH>
@@ -153,32 +153,32 @@ for($j=1;$j<=$Nrow;$j++){
     }
 
     echo "<tr> ";
-    echo "  <TD align='center'>$f1 $id $f2</TD>\n";
+    echo "  <TD>$f1 $id $f2</TD>\n";
 
     $i=$item->appid;
-    echo "  <TD align='center'>$f1 $app[$i] $f2</TD>\n";
+    echo "  <TD>$f1 $app[$i] $f2</TD>\n";
 
-    echo "  <TD align='center'>$f1 $item->version_num $f2</TD>\n";
+    echo "  <TD>$f1 $item->version_num $f2</TD>\n";
 
     $i=$item->platformid;
-    echo "  <TD align='center'>$f1 $platform[$i] $f2</TD>\n";
+    echo "  <TD>$f1 $platform[$i] $f2</TD>\n";
 
-    echo "  <td align=center>$f1 $item->plan_class $f2</td>\n";
+    echo "  <td>$f1 $item->plan_class $f2</td>\n";
 
     $field="min_core_version_".$id;
     $v=$item->min_core_version;
-    echo "  <TD align='center'>
+    echo "  <TD>
     <input type='text' size='4' name='$field' value='$v'></TD>\n";
 
     $field="max_core_version_".$id;
     $v=$item->max_core_version;
-    echo "  <TD align='center'>
+    echo "  <TD>
     <input type='text' size='4' name='$field' value='$v'></TD>\n";
 
     $field="deprecated_".$id;
     $v='';
     if($item->deprecated) $v=' CHECKED ';
-    echo "  <TD align='center'>
+    echo "  <TD>
     <input name='$field' type='checkbox' $v></TD>\n";
 
     echo "</tr> "; 
@@ -187,7 +187,7 @@ mysql_free_result($result);
 
 
 echo "<tr><td colspan=7> </td>
-    <td align='center' colspan=2 bgcolor='#FFFF88'>
+    <td colspan=2 bgcolor='#FFFF88'>
     <input type='submit' value='Update'></td>
     </tr>
 ";

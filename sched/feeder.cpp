@@ -435,7 +435,7 @@ static bool scan_work_array(vector<DB_WORK_ITEM> &work_items) {
     int app_index;
     int nadditions=0, ncollisions=0;
     
-      for (i=0; i<napps; i++) {
+    for (i=0; i<napps; i++) {
         if (work_items[i].cursor.active) {
             enum_phase[i] = ENUM_FIRST_PASS;
         } else {
