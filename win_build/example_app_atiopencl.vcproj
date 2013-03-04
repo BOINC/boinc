@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="example_app_atiopencl"
+	Name="example_app_openclapp_ati"
 	ProjectGUID="{C41F5C14-772D-4B56-BAF3-0FE8BF6807D5}"
 	RootNamespace="atiopencl"
 	>
@@ -326,11 +326,11 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\samples\atiopencl\atiopencl.cpp"
+				RelativePath="..\samples\openclapp\openclapp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\samples\atiopencl\atiopencl_kernels.cl"
+				RelativePath="..\samples\openclapp\openclapp_kernels.cl"
 				>
 			</File>
 		</Filter>
@@ -340,7 +340,7 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\samples\atiopencl\atiopencl.hpp"
+				RelativePath="..\samples\openclapp\openclapp.hpp"
 				>
 			</File>
 		</Filter>
