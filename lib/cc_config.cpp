@@ -218,7 +218,7 @@ void CONFIG::defaults() {
     http_transfer_timeout_bps = 10;
     ignore_nvidia_dev.clear();
     ignore_ati_dev.clear();
-    ignore_intel_gpu_dev.clear();
+    ignore_intel_dev.clear();
     max_file_xfers = 8;
     max_file_xfers_per_project = 2;
     max_stderr_file_size = 0;
@@ -288,7 +288,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
     exclusive_gpu_apps.clear();
     ignore_nvidia_dev.clear();
     ignore_ati_dev.clear();
-    ignore_intel_gpu_dev.clear();
+    ignore_intel_dev.clear();
     exclude_gpus.clear();
 
     while (!xp.get_tag()) {
@@ -372,7 +372,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_int("ignore_intel_gpu_dev", n)) {
-            ignore_intel_gpu_dev.push_back(n);
+            ignore_intel_dev.push_back(n);
             continue;
         }
         if (xp.parse_int("max_file_xfers", max_file_xfers)) continue;
@@ -558,10 +558,10 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         );
     }
 
-    for (i=0; i<ignore_intel_gpu_dev.size(); ++i) {
+    for (i=0; i<ignore_intel_dev.size(); ++i) {
         out.printf(
             "        <ignore_intel_gpu_dev>%d</ignore_intel_gpu_dev>\n",
-            ignore_intel_gpu_dev[i]
+            ignore_intel_dev[i]
         );
     }
         

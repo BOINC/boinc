@@ -15,10 +15,36 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-extern vector<COPROC_ATI> ati_gpus;
-extern vector<COPROC_NVIDIA> nvidia_gpus;
-extern vector<COPROC_INTEL> intel_gpus;
-extern vector<OPENCL_DEVICE_PROP> nvidia_opencls;
-extern vector<OPENCL_DEVICE_PROP> ati_opencls;
-extern vector<OPENCL_DEVICE_PROP> intel_gpu_opencls;
-extern bool in_vector(int n, vector<int>& v);
+// Detection of Intel GPUs
+//
+
+#ifdef _WIN32
+#include "boinc_win.h"
+#else
+#ifdef __APPLE__
+// Suppress obsolete warning when building for OS 10.3.9
+#define DLOPEN_NO_WARN
+#include <mach-o/dyld.h>
+#endif
+#include "config.h"
+#include <dlfcn.h>
+#endif
+
+#include <vector>
+#include <string>
+
+using std::vector;
+using std::string;
+
+#include "coproc.h"
+#include "util.h"
+
+#include "client_msgs.h"
+#include "gpu_detect.h"
+
+void COPROC_INTEL::get(
+    bool,
+    vector<string>&,
+    vector<int>&
+) {
+}

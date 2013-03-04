@@ -7386,7 +7386,59 @@ Rom    7 Dec 2012
     client/
         gpu_detect.cpp
 
-David  7 Dec 2012
+Rom    8 Dec 2012
+    - client: Hook up the XML portion of the Intel GPU detection code so
+        the server scheduler knows about it.
+    - client: Print out the peak flops for the Intel GPU, the regular
+        OpenCL descriptions do not show peak flops.
+
+    NOTE: At this point we should be supporting Intel GPUs as far as 
+        detection and reporting its presence to the server goes.  I don't
+        know about scheduling though.
+        
+        Thanks Tank Master for the interactive debug session in IRC.
+
+    client/
+        gpu_intel.cpp (Added)
+        client_state.cpp
+        cs_scheduler.cpp
+        cs_statefile.cpp
+        gpu_detect.cpp, .h
+        gpu_opencl.cpp
+        log_flags.cpp
+    lib/
+        cc_config.cpp, .h
+        coproc.cpp, .h
+
+Rom    8 Dec 2012
+    - client/server: fix build breaks I introduced last night with a variable 
+        rename.
+
+    client/
+        acct_mgr.cpp
+        cpu_sched.cpp
+        gpu_detect.cpp
+    clientgui/
+        AdvancedFrame.cpp
+        AsyncRPC.cpp
+        BOINCTaskBar.cpp
+        DlgItemProperties.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp
+    sched/
+        plan_class_spec.cpp
+        sched_send.cpp
+        sched_types.cpp
+
+Rom    8 Dec 2012
+    - client/server: Make sure the GPU Type field is really classified as an Intel
+        GPU.
+        
+    lib/
+        coproc.cpp
+
+David  8 Dec 2012
     - client/manager: tweaks to Intel GPU code
     client/
         acct_mgr.cpp

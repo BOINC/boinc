@@ -1347,7 +1347,7 @@ static inline void assign_coprocs(vector<RESULT*>& jobs) {
     if (coprocs.have_ati()) {
         copy_available_ram(coprocs.ati, GPU_TYPE_ATI);
     }
-    if (coprocs.have_intel_gpu()) {
+    if (coprocs.have_intel()) {
         copy_available_ram(coprocs.intel_gpu, GPU_TYPE_INTEL);
     }
 #endif

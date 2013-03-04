@@ -62,6 +62,7 @@ boinc_client_SOURCES = \
     file_xfer.cpp \
 	gpu_amd.cpp \
 	gpu_detect.cpp \
+	gpu_intel.cpp \
 	gpu_nvidia.cpp \
 	gpu_opencl.cpp \
     gui_http.cpp \

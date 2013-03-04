@@ -372,7 +372,7 @@ int CLIENT_STATE::init() {
         vector<string> warnings;
         coprocs.get(
             config.use_all_gpus, descs, warnings,
-            config.ignore_nvidia_dev, config.ignore_ati_dev, config.ignore_intel_gpu_dev
+            config.ignore_nvidia_dev, config.ignore_ati_dev, config.ignore_intel_dev
         );
         for (i=0; i<descs.size(); i++) {
             msg_printf(NULL, MSG_INFO, "%s", descs[i].c_str());

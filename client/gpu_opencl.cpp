@@ -115,7 +115,7 @@ void COPROCS::get_opencl(
     vector<string>& warnings,
     vector<int>& ignore_ati_dev,
     vector<int>& ignore_nvidia_dev,
-    vector<int>& ignore_intel_gpu_dev
+    vector<int>& ignore_intel_dev
 ) {
     cl_int ciErrNum;
     cl_platform_id platforms[MAX_OPENCL_PLATFORMS];
@@ -337,11 +337,21 @@ void COPROCS::get_opencl(
                 
                 COPROC_INTEL c;
                 c.opencl_prop = prop;
+                c.is_used = COPROC_UNUSED;
+                c.available_ram = prop.global_mem_size;
+                strcpy(c.name, prop.name);
+                strcpy(c.version, prop.opencl_driver_version);
+
                 c.set_peak_flops();
                 prop.peak_flops = c.peak_flops;
-                
                 prop.opencl_available_ram = prop.global_mem_size;
+
                 intel_gpu_opencls.push_back(prop);
+
+                // At present Intel GPUs only support OpenCL and do not have a native
+                // GPGPU framework, so treat each detected Intel OpenCL GPU device as 
+                // a native device.
+                intel_gpus.push_back(c);
             }
         }
     }
@@ -388,7 +398,7 @@ void COPROCS::get_opencl(
         strcpy(ati.name, ati.opencl_prop.name);
     }
 
-    intel_gpu.find_best_opencls(use_all, intel_gpu_opencls, ignore_intel_gpu_dev);
+    intel_gpu.find_best_opencls(use_all, intel_gpu_opencls, ignore_intel_dev);
     intel_gpu.available_ram = intel_gpu.opencl_prop.global_mem_size;
     strcpy(intel_gpu.name, intel_gpu.opencl_prop.name);
 

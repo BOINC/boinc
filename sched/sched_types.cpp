@@ -98,7 +98,7 @@ int CLIENT_APP_VERSION::parse(XML_PARSER& xp) {
                     host_usage.proc_type = PROC_TYPE_NVIDIA_GPU;
                 } else if (!strcmp(coproc_req.type, "ATI")) {
                     host_usage.proc_type = PROC_TYPE_AMD_GPU;
-                } else if (!strcmp(coproc_req.type, "INTEL_GPU")) {
+                } else if (!strcmp(coproc_req.type, "INTEL")) {
                     host_usage.proc_type = PROC_TYPE_INTEL_GPU;
                 }
             }

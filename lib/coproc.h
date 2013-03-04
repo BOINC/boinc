@@ -166,7 +166,7 @@ struct OPENCL_DEVICE_PROP {
     void write_xml(MIOFILE&);
 #endif
     int parse(XML_PARSER&);
-void description(char* buf, const char* type);
+    void description(char* buf, const char* type);
 };
 
 
@@ -378,6 +378,7 @@ struct COPROC_ATI : public COPROC {
 struct COPROC_INTEL : public COPROC {
     char name[256];
     char version[50];
+    double global_mem_size;
     COPROC_USAGE is_used;               // temp used in scan process
 
 #ifndef _USING_FCGI_
@@ -386,6 +387,12 @@ struct COPROC_INTEL : public COPROC {
     COPROC_INTEL(): COPROC() {
         strcpy(type, proc_type_name_xml(PROC_TYPE_INTEL_GPU));
     }
+    void get(
+        bool use_all,
+        std::vector<std::string>&,
+        std::vector<int>& ignore_devs
+    );
+    void description(char*);
     void clear();
     int parse(XML_PARSER&);
     void set_peak_flops();
@@ -446,6 +453,7 @@ struct COPROCS {
         }
         nvidia.clear();
         ati.clear();
+        intel_gpu.clear();
         COPROC c;
         strcpy(c.type, "CPU");
         add(c);
