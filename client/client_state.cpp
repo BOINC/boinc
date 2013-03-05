@@ -131,6 +131,7 @@ CLIENT_STATE::CLIENT_STATE()
     redirect_io = false;
     disable_graphics = false;
     cant_write_state_file = false;
+    benchmarks_running = false;
 
     debt_interval_start = 0;
     retry_shmem_time = 0;
@@ -763,7 +764,7 @@ bool CLIENT_STATE::poll_slow_events() {
         last_wakeup_time = now;
     }
 
-    if (should_run_cpu_benchmarks() && !are_cpu_benchmarks_running()) {
+    if (should_run_cpu_benchmarks() && !benchmarks_running) {
         run_cpu_benchmarks = false;
         start_cpu_benchmarks();
     }
@@ -851,7 +852,7 @@ bool CLIENT_STATE::poll_slow_events() {
     }
     tasks_suspended = (suspend_reason != 0);
 
-    if (suspend_reason & SUSPEND_REASON_BENCHMARKS) {
+    if (benchmarks_running) {
         cpu_benchmarks_poll();
     }
 

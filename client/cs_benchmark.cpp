@@ -117,7 +117,6 @@ struct BENCHMARK_DESC {
 };
 
 static BENCHMARK_DESC* benchmark_descs=0;
-static bool benchmarks_running=false;    // at least 1 benchmark thread running
 static double cpu_benchmarks_start;
 static int bm_ncpus;
     // user might change ncpus during benchmarks.
@@ -560,10 +559,3 @@ void CLIENT_STATE::cpu_benchmarks_set_defaults() {
     if (!host_info.p_membw) host_info.p_membw = DEFAULT_MEMBW;
     if (!host_info.m_cache) host_info.m_cache = DEFAULT_CACHE;
 }
-
-// return true if any CPU benchmark thread/process is running
-//
-bool CLIENT_STATE::are_cpu_benchmarks_running() {
-    return benchmarks_running;
-}
-

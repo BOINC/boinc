@@ -351,11 +351,12 @@ struct CLIENT_STATE {
     ACTIVE_TASK* get_task(RESULT*);
 
 // --------------- cs_benchmark.cpp:
+    bool benchmarks_running;
+
     bool should_run_cpu_benchmarks();
     void start_cpu_benchmarks();
     bool cpu_benchmarks_poll();
     void abort_cpu_benchmarks();
-    bool are_cpu_benchmarks_running();
     bool cpu_benchmarks_done();
     void cpu_benchmarks_set_defaults();
     void print_benchmark_results();
