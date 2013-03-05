@@ -6,11 +6,6 @@
 function boinc_standard_user_default_roles() {
   $roles = array();
 
-  // Exported role: Forum Moderator
-  $roles['Forum Moderator'] = array(
-    'name' => 'Forum Moderator',
-  );
-
   // Exported role: administrator
   $roles['administrator'] = array(
     'name' => 'administrator',

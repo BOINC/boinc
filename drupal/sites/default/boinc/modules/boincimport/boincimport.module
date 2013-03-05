@@ -966,20 +966,33 @@ function boincimport_forum_categories() {
   
   // Import top level forum categories first
   $boincforums = db_query('SELECT * FROM %scategory ORDER BY orderID', $pre);
-  $importing_categories = true;
+  $importing_categories = TRUE;
+  $hidden_category_created = FALSE;
   $category_map = array();
   
   db_set_active('default');
   
   while ($boincforum = db_fetch_object($boincforums) OR $importing_categories) {
+    $hidden_forum = FALSE;
     if ($importing_categories) {
       if (!$boincforum) {
-        // Once all forum categories are done, import the public forums
-        db_set_active('boinc');
-        $importing_categories = false;
-        $boincforums = db_query('SELECT * FROM %sforum WHERE parent_type = 0 ORDER BY category', $pre);
-        db_set_active('default');
-        continue;
+        if (!$hidden_category_created) {
+          // Create a hidden category to catch any forums that don't have a
+          // valid category defined
+          $boincforum = new stdClass();
+          $boincforum->name = t('Hidden');
+          $boincforum->id = 0;
+          $hidden_category_created = TRUE;
+          $hidden_forum = TRUE;
+        }
+        else {
+          // Once all forum categories are done, import the public forums
+          db_set_active('boinc');
+          $importing_categories = FALSE;
+          $boincforums = db_query('SELECT * FROM %sforum WHERE parent_type = 0 ORDER BY category', $pre);
+          db_set_active('default');
+          continue;
+        }
       }
       // Set term parameters for categories
       $forum_id = 0;
@@ -989,7 +1002,7 @@ function boincimport_forum_categories() {
     } else {
       // Set term parameters for forums
       $forum_id = $boincforum->id;
-      $parent_id = $category_map[$boincforum->category];
+      $parent_id = isset($category_map[$boincforum->category]) ? $category_map[$boincforum->category] : $category_map[0];
       $name = $boincforum->title;
       $description = $boincforum->description;
     }
@@ -1014,7 +1027,7 @@ function boincimport_forum_categories() {
       $forum['description'] = _boincimport_text_sanitize($forum['description']);
 
       taxonomy_save_term($forum);
-        
+      
       // Serialize the forum containers
       if ($importing_categories) {
         // This is a category
@@ -1026,6 +1039,16 @@ function boincimport_forum_categories() {
       } else {
         // Save the forum ID to a temporary reference table - yes this is hackish.
         db_query('INSERT INTO {boincimport_temp_forum} (forum_id, tid) VALUES (%d, %d)', $boincforum->id, $forum['tid']);
+      }
+      
+      // If this forum should be visible to certain roles only, set access
+      if ($hidden_forum) {
+        $role_map = array_flip(user_roles());
+        db_query('UPDATE {forum_access} SET
+          grant_view = 0, grant_update = 0, grant_delete = 0, grant_create = 0
+          WHERE tid = %d AND rid IN (1,2)', $forum['tid']);
+        db_query('INSERT INTO {forum_access} (tid, rid, grant_view, grant_update, grant_delete, grant_create, priority) VALUES (%d, %d, %d, %d, %d, %d, %d)',
+          $forum['tid'], $role_map['moderator'], 1, 1, 1, 1, 0);
       }
     }
   }

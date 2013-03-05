@@ -133,8 +133,7 @@ function boinc_standard_user_default_permissions() {
   $permissions['administer nodes'] = array(
     'name' => 'administer nodes',
     'roles' => array(
-      '0' => 'Forum Moderator',
-      '1' => 'administrator',
+      '0' => 'administrator',
     ),
   );
 
