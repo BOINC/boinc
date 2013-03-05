@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
@@ -39,6 +40,17 @@ public class ClientRemoteService extends Service {
 		@Override
 		public boolean isReady() throws RemoteException {
 			return mIsMonitorBound;
+		}
+
+		@Override
+		public int getVersionCode() throws RemoteException {
+			Integer version = 0;
+			try {
+				version = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+		    } catch (NameNotFoundException e) {
+		        Log.e(TAG,"could not retrieve own version code!",e);
+		    }
+			return version;
 		}
 
 		@Override

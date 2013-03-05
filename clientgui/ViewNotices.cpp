@@ -127,12 +127,12 @@ const char** CViewNotices::GetViewIcon() {
 }
 
 
-const int CViewNotices::GetViewRefreshRate() {
+int CViewNotices::GetViewRefreshRate() {
     return 10;
 }
 
-const int CViewNotices::GetViewCurrentViewPage() {
-     return VW_NOTIF;
+int CViewNotices::GetViewCurrentViewPage() {
+    return VW_NOTIF;
 }
 
 

@@ -270,7 +270,7 @@ const char** CViewWork::GetViewIcon() {
 }
 
 
-const int CViewWork::GetViewCurrentViewPage() {
+int CViewWork::GetViewCurrentViewPage() {
     return VW_TASK;
 }
 

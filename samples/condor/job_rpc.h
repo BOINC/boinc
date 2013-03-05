@@ -73,18 +73,18 @@ struct FETCH_OUTPUT_REQ {
 extern int query_files(
     const char* project_url,
     const char* authenticator,
-    int batch_id,
-    vector<string> &md5s,
     vector<string> &paths,
+    vector<string> &md5s,
+    int batch_id,
     vector<int> &absent_files
 );
 
 extern int upload_files (
     const char* project_url,
     const char* authenticator,
-    int batch_id,
+    vector<string> &paths,
     vector<string> &md5s,
-    vector<string> &paths
+    int batch_id
 );
 
 extern int create_batch(

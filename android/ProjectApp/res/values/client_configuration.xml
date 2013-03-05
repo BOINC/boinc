@@ -23,6 +23,6 @@
 	    <string name="client_android_package_name">edu.berkeley.boinc</string>
 	    <string name="client_download_url">http://fridgelike.com/boinc/BOINC.apk</string>
 	    <string name="client_remote_service_name">edu.berkeley.boinc.client.ClientRemoteService</string>
-	    <string name="client_main_activity_name">edu.berkeley.boinc.AndroidBOINCActivity</string>
+	    <string name="client_main_activity_name">edu.berkeley.boinc.BOINCActivity</string>
     <!-- DO NOT CHANGE! -->
 </resources>

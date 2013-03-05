@@ -219,7 +219,7 @@ const char** CViewTransfers::GetViewIcon() {
 }
 
 
-const int CViewTransfers::GetViewCurrentViewPage() {
+int CViewTransfers::GetViewCurrentViewPage() {
     return VW_XFER;
 }
 

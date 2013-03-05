@@ -2075,11 +2075,11 @@ const char** CViewStatistics::GetViewIcon() {
     return stats_xpm;
 }
 
-const int CViewStatistics::GetViewRefreshRate() {
+int CViewStatistics::GetViewRefreshRate() {
     return 60;
 }
 
-const int CViewStatistics::GetViewCurrentViewPage() {
+int CViewStatistics::GetViewCurrentViewPage() {
     return VW_STAT;
 }
 
