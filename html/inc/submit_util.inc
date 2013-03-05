@@ -21,6 +21,29 @@
 
 require_once("../inc/submit_db.inc");
 
+function error($s) {
+    echo "error: $s\n";
+    echo "<error>\n<message>$s</message>\n</error>\n";
+    exit;
+}
+
+function authenticate_user($r, $app) {
+    $auth = (string)$r->authenticator;
+    if (!$auth) error("no authenticator");
+    $auth = BoincDb::escape_string($auth);
+    $user = BoincUser::lookup("authenticator='$auth'");
+    if (!$user) error("bad authenticator");
+    $user_submit = BoincUserSubmit::lookup_userid($user->id);
+    if (!$user_submit) error("no submit access");
+    if ($app && !$user_submit->submit_all) {
+        $usa = BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$app->id");
+        if (!$usa) {
+            error("no submit access");
+        }
+    }
+    return array($user, $user_submit);
+}
+
 // given its WUs, compute params of a batch
 // NOTE: eventually this should be done by server components
 // (transitioner, validator etc.) as jobs complete or time out

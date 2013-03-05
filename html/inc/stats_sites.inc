@@ -98,15 +98,15 @@ $stats_sites = array(
 $team_stats_sites = array(
     array("http://stats.czechnationalteam.cz/", "Czech National Team", "(in Czech)"),
     array("http://www.boincitaly.org/", "BOINC.Italy"),
-    array("http://www.spacepage.be/component/option,com_boinc/", "Spacepage"),
+    //array("http://www.spacepage.be/component/option,com_boinc/", "Spacepage"),
     array("http://boinc.radax.net/de_boinc.htm", "BOINC@Austria"),
-    array("http://www.myboinc.com/scores/", "L'Alliance Francophone"),
+    //array("http://www.myboinc.com/scores/", "L'Alliance Francophone"),
     array("http://boincdenmark.dk/", "BOINC@Denmark", "(Danish)"),
     array("http://boincdenmark.dk/default_en.html", "BOINC@Denmark", "(English)"),
-    array("http://www.bigbee.be/comp/boinc/index.php",
-        "Boinc.be team stats",
-        ""
-    ),
+    //array("http://www.bigbee.be/comp/boinc/index.php",
+    //    "Boinc.be team stats",
+    //    ""
+    //),
     array("http://www.seti-teamartbell.com/", "Team Art Bell", ""),
     array("http://www.crunchers-freiburg.de/", "crunchers@freiburg", "(German)"),
 );
@@ -131,10 +131,10 @@ $sig_sites = array(
         "http://boinc.mundayweb.com",
         "(User-configurable stats counters. Cool!)"
     ),
-    array("http://www.bigbee.be/comp/boinc/",
-        "boinc.be",
-        ""
-    ),
+    //array("http://www.bigbee.be/comp/boinc/",
+    //    "boinc.be",
+    //    ""
+    //),
     array("http://www.boincstats.com/page/faq.php#3",
         "BOINCstats",
         "by Willy de Zutter"

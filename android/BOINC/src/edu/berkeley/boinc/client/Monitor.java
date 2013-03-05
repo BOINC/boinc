@@ -25,8 +25,10 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
@@ -490,33 +492,31 @@ public class Monitor extends Service{
 		
 		private Boolean startUp() {
 			
-			
-			Boolean connect =  connectClient(); //try to connect, if client got started in previous life-cycle
-			
-			if(!connect) { //if connect did not work, start new client instance and run connect attempts in loop
-				 
-				Integer counter = 0;
-				Boolean setup = setupClient();
-				if(!setup) {
-					return false; //setup failed
-				}
-				
-				//try to connect to executed Client in loop
-				while(!(connect=connectClient()) && (counter<retryAttempts)) { //re-trys setting up the client several times, before giving up.
-					MainActivity.logMessage(getApplicationContext(), TAG, "--- restart setup ---");
-					counter++;
-					try {
-						Thread.sleep(retryRate);
-					}catch (Exception e) {}
-				}
-				
-				if(!connect) { //connect still not succeeded.
-					return false;
-				}
+			//kill client of previous life-cycle
+			Integer clientPid = getPidForProcessName(getResources().getString(R.string.client_path) + getResources().getString(R.string.client_name));
+			if(clientPid!=null) { //client process exists
+				Log.d(TAG, "client process exists with pid: " + clientPid);
+				android.os.Process.killProcess(clientPid);
 			}
-
-			//client is connected.
-			return true;
+			
+			//install and execute client
+			Boolean setup = setupClient();
+			if(!setup) {
+				return false; //setup failed 
+			}
+			
+			//try to connect to executed Client in loop
+			Boolean connected = false;
+			Integer counter = 0;
+			while(!(connected=connectClient()) && (counter<retryAttempts)) { //re-trys setting up the client several times, before giving up.
+				MainActivity.logMessage(getApplicationContext(), TAG, "--- restart setup ---");
+				counter++;
+				try {
+					Thread.sleep(retryRate);
+				}catch (Exception e) {}
+			}
+			
+			return connected;
 		}
 		
 		private Boolean connectClient() {
@@ -551,7 +551,7 @@ public class Monitor extends Service{
 	
 			publishProgress("Client setup.");
 			
-	        success = installClient(false);
+	        success = installClient(true);
 	        if(success) {
 	        	publishProgress("installed. (1/2)");
 	        }
@@ -671,7 +671,41 @@ public class Monitor extends Service{
 			return rpc.authorize(authKey); 
 	    }
 		
-		
+		// get PID for process name using native 'ps' console command
+	    private Integer getPidForProcessName(String processName) {
+	    	
+	    	//run ps and read output
+	    	StringBuffer sb = new StringBuffer();
+	    	try {
+		    	Process p = Runtime.getRuntime().exec("ps");
+		    	p.waitFor();
+		    	InputStreamReader isr = new InputStreamReader(p.getInputStream());
+		    	int ch;
+		    	char [] buf = new char[1024];
+		    	while((ch = isr.read(buf)) != -1)
+		    	{
+		    	    sb.append(buf, 0, ch);
+		    	}
+	    	}catch (Exception e) {Log.e(TAG, "getPidForProcessName", e);}
+	    	
+	    	//parse output into hashmap
+	    	HashMap<String,Integer> pMap = new HashMap<String, Integer>();
+	    	String [] processLinesAr = sb.toString().split("\n");
+	    	for(String line : processLinesAr)
+	    	{
+	    		Integer pid;
+	    		String packageName;
+	    	    String [] comps = line.split("[\\s]+");
+	    	    if(comps.length != 9) {continue;}     
+	    	    pid = Integer.parseInt(comps[1]);
+	    	    packageName = comps[8];
+	    	    pMap.put(packageName, pid);
+	    	    //Log.d(TAG,"added: " + packageName + pid); 
+	    	}
+	    	
+	    	//find required pid
+	    	return pMap.get(processName);
+	    }
 	}
 	
 	private final class ProjectAttachAsync extends AsyncTask<String,String,Boolean> {
@@ -785,6 +819,7 @@ public class Monitor extends Service{
 			Log.d(TAG, "doInBackground");
 			Boolean retval1 = rpc.setGlobalPrefsOverrideStruct(params[0]); //set new override settings
 			Boolean retval2 = rpc.readGlobalPrefsOverride(); //trigger reload of override settings
+			Log.d(TAG,retval1.toString() + retval2);
 			if(retval1 && retval2) {
 				Log.d(TAG, "successful.");
 				return true;

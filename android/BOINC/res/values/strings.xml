@@ -30,6 +30,7 @@
     <!-- path and file configuration -->
     <string name="client_name">boinc</string>
     <string name="client_path">/data/data/edu.berkeley.boinc/client/</string>
+    <string name="client_cabundle">ca-bundle.crt</string>
     <string name="auth_file_name">gui_rpc_auth.cfg</string>
     
     <!-- login activity -->
@@ -105,15 +106,15 @@
 	<!-- preferences tab strings -->
 	<string name="prefs_unbound">Reading preferences&#8230;</string>
 	<string name="prefs_submit_button">OK</string>
-	<string name="prefs_run_on_battery_header">Battery</string>
+	<string name="prefs_run_on_battery_header">Calculate on Battery</string>
 	<string name="prefs_run_on_battery_true">Calculation while running on battery</string>
 	<string name="prefs_run_on_battery_false">Calculation only when connected to charger</string>
 	<string name="prefs_disk_max_pct_header">Maximal used storage space (in %)</string>
 	<string name="prefs_disk_min_free_gb_header">Storage left unused (in GB)</string>
 	<string name="prefs_daily_xfer_limit_mb_header">Data transfer limit (daily, in MB)</string>
-	<string name="prefs_network_wifi_only_header">Use only WiFi</string>
-	<string name="prefs_network_wifi_only_true">Transfer only on WiFi</string>
-	<string name="prefs_network_wifi_only_false">Transfer on all networks</string>
+	<string name="prefs_network_wifi_only_header">Fetch work only on WiFi</string>
+	<string name="prefs_network_wifi_only_true">Transfer project work only on WiFi connection</string>
+	<string name="prefs_network_wifi_only_false">Transfer project work on all networks</string>
 	<string name="prefs_autostart_header">Autostart</string>
 	<string name="prefs_autostart_true">BOINC starts on boot up</string>
 	<string name="prefs_autostart_false">Start BOINC manually</string>
@@ -153,17 +154,5 @@
     <string name="debug_refresh">Refresh</string>
     <string name="debug_manager_header">AndroidBOINC manager messages:</string>
     <string name="debug_client_header">BOINC Client messages:</string>
-    <string name="status_error">error</string>
-    <string name="status_error_long">error</string>
-    <string name="status_launching">Launching</string>
-    <string name="status_noproject_button">no project</string>
-    <string name="status_noproject_email">email</string>
-    <string name="status_noproject_long">long</string>
-    <string name="status_noproject_pwd">Password</string>
-    <string name="status_noproject">Project</string>
-    <string name="client_cabundle">ca-bundle.crt</string>
     
-    
-    
-
 </resources>
