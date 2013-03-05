@@ -67,6 +67,13 @@ public:
 
     COPROCS coprocs;
 
+#ifdef ANDROID
+    int battery_charge_pct;
+    int battery_state;
+    double battery_temperature_celsius;
+    void get_battery_status();
+#endif
+
     HOST_INFO();
     int parse(XML_PARSER&, bool benchmarks_only = false);
     int write(MIOFILE&, bool include_net_info, bool include_coprocs);
@@ -84,6 +91,8 @@ public:
     bool host_wifi_online();
 #endif
     int get_host_info();
+    int get_host_battery_charge();
+    int get_host_battery_state();
     int get_local_network_info();
     int get_virtualbox_version();
     void clear_host_info();

@@ -40,6 +40,11 @@
 #include <cstdlib>
 #include <unistd.h>
 #include <csignal>
+
+#ifdef ANDROID
+#include "android/log.h"
+#endif
+
 #endif
 
 #if (defined (__APPLE__) && defined(SANDBOX) && defined(_DEBUG))
@@ -65,9 +70,6 @@
 
 #include "main.h"
 
-#ifdef ANDROID
-#include "android_log.h"
-#endif
 
 // Log informational messages to system specific places
 //
@@ -85,7 +87,7 @@ void log_message_startup(const char* msg) {
 #elif defined(__EMX__)
 #elif defined (__APPLE__)
 #elif defined (ANDROID)
-        LOGD(evt_msg);
+        __android_log_print(ANDROID_LOG_INFO, "BOINC", evt_msg);
 #else
         syslog(LOG_DAEMON|LOG_INFO, evt_msg);
 #endif
@@ -117,7 +119,7 @@ void log_message_error(const char* msg) {
 #elif defined(__EMX__)
 #elif defined (__APPLE__)
 #elif defined (ANDROID)
-        LOGD(evt_msg);
+        __android_log_print(ANDROID_LOG_ERROR, "BOINC", evt_msg);
 #else
         syslog(LOG_DAEMON|LOG_ERR, evt_msg);
 #endif
@@ -139,7 +141,7 @@ void log_message_error(const char* msg, int error_code) {
 #elif defined(__EMX__)
 #elif defined (__APPLE__)
 #elif defined (ANDROID)
-        LOGD(evt_msg);
+        __android_log_print(ANDROID_LOG_ERROR, "BOINC", evt_msg);
 #else
         syslog(LOG_DAEMON|LOG_ERR, evt_msg);
 #endif
@@ -353,14 +355,6 @@ int boinc_main_loop() {
 
 int main(int argc, char** argv) {
     int retval = 0;
-
-#ifdef ANDROID
-    char ccwd[1024];
-    getcwd(ccwd, sizeof(ccwd));
-    char msg[1024];
-    snprintf(msg, sizeof(msg), "Hello Logcat! cwd at: %s", ccwd);
-    LOGD(msg);
-#endif
 
     for (int index = 1; index < argc; index++) {
         if (strcmp(argv[index], "-daemon") == 0 || strcmp(argv[index], "--daemon") == 0) {

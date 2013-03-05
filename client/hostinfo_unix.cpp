@@ -100,6 +100,7 @@
 #endif
 
 #include "error_numbers.h"
+#include "common_defs.h"
 #include "filesys.h"
 #include "str_util.h"
 #include "str_replace.h"
@@ -161,9 +162,6 @@ mach_port_t gEventHandle = NULL;
 #include <X11/extensions/scrnsaver.h>
 #endif
 
-#ifdef ANDROID
-#include "android_log.h"
-#endif
 
 // The following is intended to be true both on Linux
 // and Debian GNU/kFreeBSD (see trac #521)
@@ -227,38 +225,40 @@ bool HOST_INFO::host_is_running_on_batteries() {
     // using /sys/class/power_supply/*/online
     // power supplies are both ac and usb!
     //
-    char acpath[1024];
-    snprintf(acpath, sizeof(acpath), "/sys/class/power_supply/ac/online");
-    char usbpath[1024];
-    snprintf(usbpath, sizeof(usbpath), "/sys/class/power_supply/usb/online");
-
-    FILE *fsysac = fopen(acpath, "r");
-    FILE *fsysusb = fopen(usbpath, "r");
+    static bool first = true;
+    FILE *fsysac, *fsysusb;
+    if (first) {
+        first = false;
+        fsysac = fopen("/sys/class/power_supply/ac/online", "r");
+        fsysusb = fopen("/sys/class/power_supply/usb/online", "r");
+    }
     int aconline = 0;
     int usbonline = 0;
     bool power_supply_online = false;
 
-    if(fsysac) {
+    if (fsysac) {
+        rewind(fsysac);
         (void) fscanf(fsysac, "%d", &aconline);
-        fclose(fsysac);
     }
 
-    if(fsysusb) {
+    if (fsysusb) {
+        rewind(fsysusb);
         (void) fscanf(fsysusb, "%d", &usbonline);
-        fclose(fsysusb);
     }
 
     if ((aconline == 1) || (usbonline == 1)){
         power_supply_online = true;
-        char msg[1024];
-        snprintf(msg, sizeof(msg),
-            "power supply online! status for usb: %d and ac: %d",
+        msg_printf(0, MSG_INFO,
+            "HOST_INFO::host_is_running_on_batteries(): power supply online! status for usb: %d and ac: %d\n",
             usbonline,
             aconline
         );
-        LOGD(msg);
     } else {
-        LOGD("running on batteries");
+        msg_printf(0, MSG_INFO,
+            "HOST_INFO::host_is_running_on_batteries(): running on batteries\n",
+            usbonline,
+            aconline
+        );
     }
 
     return !power_supply_online;
@@ -443,6 +443,77 @@ bool HOST_INFO::host_is_running_on_batteries() {
     return false;
 #endif
 }
+
+#ifdef ANDROID
+// Get battery state, charge percentage, and temperature
+//
+void HOST_INFO::get_battery_status() {
+    static bool first = true;
+    static FILE *fcap, *fhealth, *fstatus, *ftemp;
+    battery_charge_pct = -1;
+    char health[256];
+    char status[256];
+    strcpy(health, "");
+    strcpy(status, "");
+
+    if (first) {
+        first = false;
+        fcap = fopen("/sys/class/power_supply/battery/capacity", "r");
+        fhealth = fopen("/sys/class/power_supply/battery/health", "r");
+        fstatus = fopen("/sys/class/power_supply/battery/status", "r");
+        ftemp = fopen("/sys/class/power_supply/battery/batt_temp", "r");
+        if (!ftemp) {
+            ftemp = fopen("/sys/class/power_supply/battery/temp", "r");
+        }
+    }
+
+    if (fcap) {
+        rewind(fcap);
+        fscanf(fcap, "%d", &battery_charge_pct);
+        msg_printf(0, MSG_INFO,
+            "HOST_INFO::get_battery_status(): battery capacity at: %d%% charge\n",
+            battery_charge_pct
+        );
+    }
+
+    if (fhealth) {
+        rewind(fhealth);
+        fgets(health, sizeof(health), fhealth);
+    }
+
+    if (fstatus) {
+        rewind(fstatus);
+        fgets(status, sizeof(status), fstatus);
+    }
+
+    battery_state = BATTERY_STATE_UNKNOWN;
+    if (strstr(health, "Overheat")) {
+        msg_printf(0, MSG_INFO, "HOST_INFO::get_battery_status(): battery is overheating\n");
+        battery_state = BATTERY_STATE_OVERHEATED;
+    } else if (strstr(status, "Not charging")) {
+        msg_printf(0, MSG_INFO, "HOST_INFO::get_battery_status(): battery is discharging\n");
+        battery_state = BATTERY_STATE_DISCHARGING;
+    } else if (strstr(status, "Charging")) {
+        msg_printf(0, MSG_INFO, "HOST_INFO::get_battery_status(): battery is charging\n");
+        battery_state = BATTERY_STATE_CHARGING;
+    } else if (strstr(status, "Full")) {
+        msg_printf(0, MSG_INFO, "HOST_INFO::get_battery_status(): battery is full\n");
+        battery_state = BATTERY_STATE_CHARGING;
+    }
+
+    battery_temperature_celsius = 0;
+    if (ftemp) {
+        rewind(ftemp);
+        int x;
+        if (fscanf(ftemp, "%d", &x) == 1) {
+            battery_temperature_celsius = x/10.;
+            msg_printf(0, MSG_INFO, "HOST_INFO::get_battery_status(): battery is %fC\n",
+                battery_temperature_celsius
+            );
+        }
+    }
+}
+#endif
 
 #if LINUX_LIKE_SYSTEM
 static void parse_meminfo_linux(HOST_INFO& host) {
@@ -1244,6 +1315,9 @@ int HOST_INFO::get_virtualbox_version() {
 
     if (boinc_file_exists(path)) {
 #if LINUX_LIKE_SYSTEM
+        if (access(path, X_OK)) {
+            return 0;
+        }
         safe_strcpy(cmd, path);
         safe_strcat(cmd, " --version");
 #elif defined( __APPLE__)

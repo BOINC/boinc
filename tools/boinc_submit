@@ -16,8 +16,8 @@
 //   --stdin name: direct the given file to the program's stdin. 
 //   --outfile name: specifies an output file. 
 //   --stdout name: direct the program's stdout to the given file. 
-//   --platform: the [platform] on which the program is to be run
-//       (default: i686-pc-linux-gnu). 
+//   --platform: the platform on which the program is to be run
+//       (default: platform of server host; assumed to be Linux)
 //
 // You can include as many --infile and --outfile options as you want,
 // and at most one of others.
@@ -57,7 +57,7 @@ $job_params->delay_bound = 7*86400;         // delay bound: 1 week
 //
 $project_dir = null;
 $job_dir = getcwd();
-$platform = 'i686-pc-linux-gnu';
+$platform = `arch|tr -d "\n"`.'-pc-linux-gnu';
 $infiles = array();
 $infiles_phys = array();
     // input filename with _WUID appended

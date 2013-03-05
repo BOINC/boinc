@@ -50,44 +50,41 @@
 #include "parse.h"
 #include "util.h"
 #include "file_names.h"
-#include "client_msgs.h"
 #include "error_numbers.h"
+
+#include "client_msgs.h"
 
 #include "hostinfo.h"
 
 #ifdef ANDROID
-#include "android_log.h"
-
 // Returns TRUE if host is currently using a wifi connection
 // used on Android devices to prevent usage of data plans.
 // if value cant be read, default return false
 //
 bool HOST_INFO::host_wifi_online() {
-    char wifipath_pri[1024];
-    snprintf(wifipath_pri, sizeof(wifipath_pri), "/sys/class/net/eth0/operstate"); //location in Android 2.3
-    char wifipath_sec[1024];
-    snprintf(wifipath_sec, sizeof(wifipath_sec), "/sys/class/net/wlan0/operstate"); //location in Android 4
-
-    FILE *fsyswifi = fopen(wifipath_pri, "r");
-    if(!fsyswifi) { //primary location not available, try _sec
-        fsyswifi = fopen(wifipath_sec, "r");
-    }
-
     char wifi_state[64];
-    bool wifi_online = false;
 
-    if (fsyswifi) {
-        (void) fscanf(fsyswifi, "%s", &wifi_state);
-        fclose(fsyswifi);
+    strcpy(wifi_state, "");
+
+    // location in Android 2.3
+    FILE *f = fopen("/sys/class/net/eth0/operstate", "r");
+    if (!f) {
+        // location in Android 4
+        f = fopen("/sys/class/net/wlan0/operstate", "r");
+    }
+
+    if (f) {
+        fgets(wifi_state, 64, f);
+        fclose(f);
     } else {
-        LOGD("wifi adapter not found!");
+        msg_printf(0, MSG_INFO, "HOST_INFO::host_wifi_online(): wifi adapter not found!\n");
+        return false;
     }
 
-    if ((strcmp(wifi_state,"up")) == 0) { //operstate = up
-        wifi_online = true;
+    if (strstr(wifi_state,"up")) {
+        return true;
     }
-
-    return wifi_online;
+    return false;
 }
 #endif //ANDROID
 
