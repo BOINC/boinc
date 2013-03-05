@@ -400,6 +400,7 @@ int parse_unzip_input(XML_PARSER& xp) {
         }
         if (xp.parse_string("zipfilename", s)) {
             unzip_filenames.push_back(s);
+            continue;
         }
         fprintf(stderr,
             "%s unexpected tag in job.xml: %s\n",
@@ -938,16 +939,6 @@ int main(int argc, char** argv) {
         }
     }
 
-    memset(&options, 0, sizeof(options));
-    options.main_program = true;
-    options.check_heartbeat = true;
-    options.handle_process_control = true;
-
-    boinc_init_options(&options);
-    fprintf(stderr, "wrapper: starting\n");
-
-    boinc_get_init_data(aid);
-
     retval = parse_job_file();
     if (retval) {
         fprintf(stderr, "can't parse job file: %d\n", retval);
@@ -966,6 +957,20 @@ int main(int argc, char** argv) {
         write_checkpoint(0, 0);
         get_initial_file_list();
     }
+
+    // do initialization after getting initial file list,
+    // in case we're supposed to zip stderr.txt
+    //
+    memset(&options, 0, sizeof(options));
+    options.main_program = true;
+    options.check_heartbeat = true;
+    options.handle_process_control = true;
+
+    boinc_init_options(&options);
+    fprintf(stderr, "wrapper: starting\n");
+
+    boinc_get_init_data(aid);
+
     if (ntasks_completed > (int)tasks.size()) {
         fprintf(stderr,
             "Checkpoint file: ntasks_completed too large: %d > %d\n",

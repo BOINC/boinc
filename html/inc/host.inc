@@ -272,10 +272,23 @@ function gpu_desc($x) {
                     $i = (int)$d[4];
                     $maj = (int)($i/100);
                     $min = $i%100;
-                    $str .= " driver: $maj.$min";
+                    $str .= sprintf(" driver: %d.%02d", $maj, $min);
                 }
             }
         }
+        if (array_key_exists(5, $d)) {
+            if ($d[5] != "" && $d[5] != 0) {
+                if (strchr($d[5], '.')) {
+                    $str .= " OpenCL: ".$d[5];
+                } else {
+                    $i = (int)$d[5];
+                    $maj = (int)($i/100);
+                    $min = $i%100;
+                    $str .= sprintf(" OpenCL: %d.%02d", $maj, $min);
+                }
+            }
+        }
+
 
     }
     if (!$str) $str = "---";

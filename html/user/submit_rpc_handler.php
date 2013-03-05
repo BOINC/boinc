@@ -215,7 +215,9 @@ function submit_batch($r) {
         $batch_id = BoincBatch::insert(
             "(user_id, create_time, njobs, name, app_id, logical_end_time, state) values ($user->id, $now, $njobs, '$batch_name', $app->id, $let, ".BATCH_STATE_IN_PROGRESS.")"
         );
-        if (!$batch_id) xml_error(-1, "BoincBatch::insert() failed");
+        if (!$batch_id) {
+            xml_error(-1, "Can't create batch: ".mysql_error());
+        }
     }
     $i = 0;
     foreach($jobs as $job) {
@@ -232,6 +234,9 @@ function create_batch($r) {
     $batch_id = BoincBatch::insert(
         "(user_id, create_time, name, app_id, state) values ($user->id, $now, '$batch_name', $app->id, ".BATCH_STATE_INIT.")"
     );
+    if (!$batch_id) {
+        xml_error(-1, "Can't create batch: ".mysql_error());
+    }
     echo "<batch_id>$batch_id</batch_id>\n";
 }
 
@@ -299,9 +304,9 @@ function query_batch($r) {
     echo "</batch>\n";
 }
 
-// variant for Condor, which doesn't care about instances
+// variant for Condor, which doesn't care about job instances
 //
-function query_batch_condor($r) {
+function query_batch2($r) {
     list($user, $user_submit) = authenticate_user($r, null);
     $batch_id = (int)($r->batch_id);
     $batch = BoincBatch::lookup_id($batch_id);
@@ -439,7 +444,7 @@ switch ($r->getName()) {
     case 'abort_batch': handle_abort_batch($r); break;
     case 'estimate_batch': estimate_batch($r); break;
     case 'query_batch': query_batch($r); break;
-    case 'query_batch_condor': query_batch_condor($r); break;
+    case 'query_batch2': query_batch2($r); break;
     case 'query_batches': query_batches($r); break;
     case 'query_job': query_job($r); break;
     case 'retire_batch': handle_retire_batch($r); break;
