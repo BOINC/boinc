@@ -460,7 +460,7 @@ void HOST_INFO::get_battery_status() {
 
     snprintf(msg, sizeof(msg),
         "battery capacity at: %d%% charge",
-        capacity
+        battery_charge_pct
     );
     LOGD(msg);
 
@@ -484,7 +484,7 @@ void HOST_INFO::get_battery_status() {
     battery_state = BATTERY_STATE_UNKNOWN;
     if (strstr(health, "Overheat")) {
         LOGD("battery is overheating");
-        battery_state = BATTERY_STATE_OVERHEAT;
+        battery_state = BATTERY_STATE_OVERHEATED;
     } else if (strstr(status, "Not charging")) {
         LOGD("battery is discharging");
         battery_state = BATTERY_STATE_DISCHARGING;
