@@ -21,7 +21,16 @@
   * Implementation of hook_menu().
   */
 function boincstats_menu() {
-  //require_boinc('util');
+  $items['admin/boinc/stats'] = array(
+    'title' => 'BOINC stats system setup',
+    'description' => 'Configure the stats system for generating charts and 
+      providing cross project data.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('boincstats_admin_stats_system'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'boincstats.admin.inc'
+  );
   $items['charts/user'] = array(
     'page callback' => 'boincstats_get_user_stats_chart',
     'access arguments' => array('access content'),
@@ -52,18 +61,21 @@ function boincstats_get_user_stats_chart($cpid = null, $chart_size = 'medium') {
   module_load_include('php', 'boincstats', 'includes/pchart/class/pImage.class');
   module_load_include('php', 'boincstats', 'includes/pchart/class/pCache.class');
   
-  // Get CPID and fetch stats for data to plot
-  // [TODO] Set this stuff in site config!
-  $stats_server = 'stats.gridrepublic.org';
-  $stats_rpc = 'rpc/get_user_credit_history_by_project.php';
-  $project_id = 2;
-  $cache_name = null;
+  // Determine the stats environment
+  boincstats_check_configuration();
+  $stats_server = variable_get('boinc_stats_server', '');
+  $stats_rpc = variable_get('boinc_stats_user_credit_history_rpc', '');
+  $project_id = variable_get('boinc_stats_remote_project_id', '');
+  
+  $cache_name = NULL;
   $dataset_size = 0;
   $chart_height = 0;
   $chart_width = 0;
   $backdrop_color = array();
   $draw_x_lines = FALSE;
   $label_x_axis = FALSE;
+  
+  $stats_xml = NULL;
   
   switch($chart_size) {
   case 'small':
@@ -108,7 +120,10 @@ function boincstats_get_user_stats_chart($cpid = null, $chart_size = 'medium') {
     $query = '?' . implode('&', $args);
     
     // Load XML from RPC
-    $stats_xml = simplexml_load_file("http://{$stats_server}/{$stats_rpc}{$query}");
+    $target_url = "http://{$stats_server}/{$stats_rpc}{$query}";
+    if (url_exists($target_url)) {
+      $stats_xml = simplexml_load_file($target_url);
+    }
     
     // Create and populate the pData object
     $MyData = new pData();
@@ -330,11 +345,12 @@ function boincstats_check_cache_dir($cache_path = 'files/cache') {
  *
  */
 function boincstats_get_project_stats() {
-
-  // [TODO] Set this stuff in site config!
-  $stats_server = 'stats.gridrepublic.org';
-  $stats_rpc = 'rpc/get_project_tc_history.php';
-  $project_id = 2;
+  
+  // Determine the stats environment
+  boincstats_check_configuration();
+  $stats_server = variable_get('boinc_stats_server', '');
+  $stats_rpc = variable_get('boinc_stats_project_credit_history_rpc', '');
+  $project_id = variable_get('boinc_stats_remote_project_id', '');
   
   // Construct query string
   $get = array(
@@ -345,7 +361,13 @@ function boincstats_get_project_stats() {
   $query = '?' . implode('&', $args);
   
   // Load XML from RPC
-  return simplexml_load_file("http://{$stats_server}/{$stats_rpc}{$query}");
+  $stats_xml = NULL;
+  $target_url = "http://{$stats_server}/{$stats_rpc}{$query}";
+  if (url_exists($target_url)) {
+    $stats_xml = simplexml_load_file($target_url);
+  }
+  watchdog('boincstats', $target_url);
+  return $stats_xml;
 }
 
 /*
@@ -422,4 +444,38 @@ function boincstats_get_project_stats_overview() {
   
   return $output;
 }
- 
+
+
+/*
+ * Check that the stats system is configured, report if it isn't
+ */
+function boincstats_check_configuration() {
+  $project_id = variable_get('boinc_stats_remote_project_id', '');
+  if (!$project_id) {
+    watchdog('boincstats', 'The BOINC stats system is not configured. Please
+        !configure_it', array('!configure_it' => l(t('configure it now'),
+          'admin/boinc/stats')), WATCHDOG_ERROR);
+    if (user_access('administer site configuration')) {
+      drupal_set_message(t('The BOINC stats system is not configured. Please
+        !configure_it', array('!configure_it' => l(t('configure it now'),
+          'admin/boinc/stats'))), 'error');
+    }
+    else {
+      drupal_set_message(t('There is a problem with the site. Please contact
+        the system administrator.'), 'error');
+    }
+  }
+}
+
+/*
+ * If no function exists to check a URL for validity, define it here
+ */
+if (!function_exists('url_exists')) {
+  function url_exists($url) {
+    $url_headers = @get_headers($url);
+    if (!$url_headers OR (stripos($url_headers[0], '404 not found') !== FALSE)) {
+      return FALSE;
+    }
+    return TRUE;
+  }
+}

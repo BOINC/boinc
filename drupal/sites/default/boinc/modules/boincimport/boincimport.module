@@ -1041,14 +1041,36 @@ function boincimport_forum_categories() {
         db_query('INSERT INTO {boincimport_temp_forum} (forum_id, tid) VALUES (%d, %d)', $boincforum->id, $forum['tid']);
       }
       
-      // If this forum should be visible to certain roles only, set access
-      if ($hidden_forum) {
-        $role_map = array_flip(user_roles());
-        db_query('UPDATE {forum_access} SET
-          grant_view = 0, grant_update = 0, grant_delete = 0, grant_create = 0
-          WHERE tid = %d AND rid IN (1,2)', $forum['tid']);
-        db_query('INSERT INTO {forum_access} (tid, rid, grant_view, grant_update, grant_delete, grant_create, priority) VALUES (%d, %d, %d, %d, %d, %d, %d)',
-          $forum['tid'], $role_map['moderator'], 1, 1, 1, 1, 0);
+      // Set access controls
+      $forum_perms = array();
+      $role_map = array_flip(user_roles());
+      $forum_perms[$role_map['anonymous user']] = array(
+        'view' => (int) !$hidden_forum,
+        'update' => 0,
+        'delete' => 0,
+        'create' => 0
+      );
+      $forum_perms[$role_map['authenticated user']] = array(
+        'view' => (int) !$hidden_forum,
+        'update' => 0,
+        'delete' => 0,
+        'create' => (int) !$hidden_forum
+      );
+      $forum_perms[$role_map['moderator']] = array(
+        'view' => 1,
+        'update' => 1,
+        'delete' => 0,
+        'create' => 1
+      );
+      foreach ($forum_perms as $role => $perm) {
+        db_query('
+          UPDATE {forum_access}
+          SET grant_view = %d, grant_update = %d,
+            grant_delete = %d, grant_create = %d
+          WHERE tid = %d AND rid = %d',
+          $perm['view'], $perm['update'],
+          $perm['delete'], $perm['create'],
+          $forum['tid'], $role);
       }
     }
   }
