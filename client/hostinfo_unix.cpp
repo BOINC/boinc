@@ -162,9 +162,6 @@ mach_port_t gEventHandle = NULL;
 #include <X11/extensions/scrnsaver.h>
 #endif
 
-#ifdef ANDROID
-#include "android_log.h"
-#endif
 
 // The following is intended to be true both on Linux
 // and Debian GNU/kFreeBSD (see trac #521)
@@ -228,38 +225,30 @@ bool HOST_INFO::host_is_running_on_batteries() {
     // using /sys/class/power_supply/*/online
     // power supplies are both ac and usb!
     //
-    char acpath[1024];
-    snprintf(acpath, sizeof(acpath), "/sys/class/power_supply/ac/online");
-    char usbpath[1024];
-    snprintf(usbpath, sizeof(usbpath), "/sys/class/power_supply/usb/online");
-
-    FILE *fsysac = fopen(acpath, "r");
-    FILE *fsysusb = fopen(usbpath, "r");
+    static bool first = true;
+    static FILE *fsysac, *fsysusb;
     int aconline = 0;
     int usbonline = 0;
     bool power_supply_online = false;
 
-    if(fsysac) {
+    if (first) {
+        first = false;
+        fsysac = fopen("/sys/class/power_supply/ac/online", "r");
+        fsysusb = fopen("/sys/class/power_supply/usb/online", "r");
+    }
+
+    if (fsysac) {
+        rewind(fsysac);
         (void) fscanf(fsysac, "%d", &aconline);
-        fclose(fsysac);
     }
 
-    if(fsysusb) {
+    if (fsysusb) {
+        rewind(fsysusb);
         (void) fscanf(fsysusb, "%d", &usbonline);
-        fclose(fsysusb);
     }
 
-    if ((aconline == 1) || (usbonline == 1)){
+    if ((aconline == 1) || (usbonline == 1)) {
         power_supply_online = true;
-        char msg[1024];
-        snprintf(msg, sizeof(msg),
-            "power supply online! status for usb: %d and ac: %d",
-            usbonline,
-            aconline
-        );
-        LOGD(msg);
-    } else {
-        LOGD("running on batteries");
     }
 
     return !power_supply_online;
@@ -446,65 +435,116 @@ bool HOST_INFO::host_is_running_on_batteries() {
 }
 
 #ifdef ANDROID
+
 // Get battery state, charge percentage, and temperature
 //
+
+static const char* battery_dirs[] = {
+    "battery",
+    "BAT0",
+    "bq27520",
+    "bq27200-0",
+    "max17042-0",
+    "ds2760-battery.0",
+    NULL
+};
+
 void HOST_INFO::get_battery_status() {
-    char msg[1024];
+    static bool first = true;
+    static FILE *fcap, *fhealth, *fstatus, *ftemp;
+    FILE *f;
     battery_charge_pct = -1;
-
-    FILE *f = fopen("/sys/class/power_supply/battery/capacity", "r");
-    if (f) {
-        fscanf(f, "%d", &battery_charge_pct);
-        fclose(f);
-    }
-
-    snprintf(msg, sizeof(msg),
-        "battery capacity at: %d%% charge",
-        battery_charge_pct
-    );
-    LOGD(msg);
-
+    battery_temperature_celsius = 0;
+    char buf[256];
     char health[256];
     char status[256];
+
     strcpy(health, "");
     strcpy(status, "");
 
-    f = fopen("/sys/class/power_supply/battery/health", "r");
-    if (f) {
-        fgets(health, sizeof(health), f);
-        fclose(f);
+    if (first) {
+        first = false;
+        int i = 0;
+
+        // Find the battery location for this device.
+        // matszpk has already collected a bunch of battery locations.
+        //
+        for (i = 0; battery_dirs[i] != NULL; i++) {
+            snprintf(buf, sizeof(buf), "/sys/class/power_supply/%s/present",
+                battery_dirs[i]
+            );
+            f = fopen(buf, "r");
+            if (f != NULL) {
+                fclose(f);
+                break;
+            }
+        }
+
+        snprintf(buf, sizeof(buf), "/sys/class/power_supply/%s/capacity",
+            battery_dirs[i]
+        );
+        fcap = fopen(buf, "r");
+        if (fcap) setbuf(fcap, NULL);
+
+        snprintf(buf, sizeof(buf), "/sys/class/power_supply/%s/health",
+            battery_dirs[i]
+        );
+        fhealth = fopen(buf, "r");
+        if (fhealth) setbuf(fhealth, NULL);
+
+        snprintf(buf, sizeof(buf), "/sys/class/power_supply/%s/status",
+            battery_dirs[i]
+        );
+        fstatus = fopen(buf, "r");
+        if (fstatus) setbuf(fstatus, NULL);
+
+        snprintf(buf, sizeof(buf), "/sys/class/power_supply/%s/temp",
+            battery_dirs[i]
+        );
+        ftemp = fopen(buf, "r");
+        if (ftemp) {
+            setbuf(ftemp, NULL);
+        } else {
+            snprintf(buf, sizeof(buf), "/sys/class/power_supply/%s/batt_temp",
+                battery_dirs[i]
+            );
+            ftemp = fopen(buf, "r");
+            if (ftemp) setbuf(ftemp, NULL);
+        }
     }
 
-    f = fopen("/sys/class/power_supply/battery/status", "r");
-    if (f) {
-        fgets(status, sizeof(status), f);
-        fclose(f);
+    if (fcap) {
+        rewind(fcap);
+        fscanf(fcap, "%d", &battery_charge_pct);
+    }
+
+    if (fhealth) {
+        rewind(fhealth);
+        fgets(health, sizeof(health), fhealth);
+    }
+
+    if (fstatus) {
+        rewind(fstatus);
+        fgets(status, sizeof(status), fstatus);
     }
 
     battery_state = BATTERY_STATE_UNKNOWN;
     if (strstr(health, "Overheat")) {
-        LOGD("battery is overheating");
         battery_state = BATTERY_STATE_OVERHEATED;
     } else if (strstr(status, "Not charging")) {
-        LOGD("battery is discharging");
         battery_state = BATTERY_STATE_DISCHARGING;
     } else if (strstr(status, "Charging")) {
-        LOGD("battery is charging");
         battery_state = BATTERY_STATE_CHARGING;
     } else if (strstr(status, "Full")) {
-        LOGD("battery is charging");
-        battery_state = BATTERY_STATE_CHARGING;
+        battery_state = BATTERY_STATE_FULL;
     }
 
-    battery_temperature_celsius = 0;
-    f = fopen("/sys/class/power_supply/battery/batt_temp", "r");
-    if (!f) {
-        f = fopen("/sys/class/power_supply/battery/temp", "r");
-    }
-    if (f) {
-        fscanf(f, "%d", &battery_temperature_celsius);
-        battery_temperature_celsius /= 10;
-        fclose(f);
+    if (ftemp) {
+        int x;
+        rewind(ftemp);
+        if (fscanf(ftemp, "%d", &x) == 1) {
+            battery_temperature_celsius = x/10.;
+        }
     }
 }
 #endif
@@ -1309,6 +1349,9 @@ int HOST_INFO::get_virtualbox_version() {
 
     if (boinc_file_exists(path)) {
 #if LINUX_LIKE_SYSTEM
+        if (access(path, X_OK)) {
+            return 0;
+        }
         safe_strcpy(cmd, path);
         safe_strcat(cmd, " --version");
 #elif defined( __APPLE__)

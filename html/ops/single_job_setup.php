@@ -107,7 +107,19 @@ function add_apps_dir() {
     }
 }
 
-// check for apps/appname/appname_platform_N,
+function app_version_dir($app_name, $i, $platform) {
+    return "apps/$app_name/1.$i/$platform";
+}
+
+function make_app_version_dir($app_name, $i, $platform) {
+    @mkdir("apps/$app_name");
+    @mkdir("apps/$app_name/1.$i");
+    @mkdir("apps/$app_name/1.$i/$platform");
+    return 0;
+}
+
+
+// check for apps/appname/appname/N/platform,
 // find the largest such N; see if have new wrapper
 // If needed, create new version, copy wrapper
 //
@@ -119,7 +131,7 @@ function create_app_dir() {
     $latest_i = -1;
     $have_latest_wrapper = false;
     while (1) {
-        $app_dir = "apps/$app_name/".$app_name."_1.".$i."_$platform";
+        $app_dir = app_version_dir($app_name, $i, $platform);
         if (!file_exists($app_dir)) break;
         $latest_i = $i;
         $i++;
@@ -127,8 +139,8 @@ function create_app_dir() {
 
     if ($latest_i >= 0) {
         $i = $latest_i;
-        $app_dir = "apps/$app_name/".$app_name."_1.".$i."_$platform";
-        $file = "$app_dir/".$app_name."_1.".$i."_$platform";
+        $app_dir = app_version_dir($app_name, $i, $platform);
+        $file = "$app_dir/".$app_name."_1.".$i;
         $latest_md5 = md5_file($file);
         if ($latest_md5 == $wrapper_md5) {
             $have_latest_wrapper = true;
@@ -150,11 +162,11 @@ function create_app_dir() {
     } else {
         echo "Installing current wrapper.\n";
         $i = $latest_i + 1;
-        $app_dir = "apps/$app_name/".$app_name."_1.".$i."_$platform";
-        $file = "$app_dir/".$app_name."_1.".$i."_$platform";
-        if (!mkdir($app_dir)) {
-            error("Couldn't created dir: $app_dir");
+        $app_dir = app_version_dir($app_name, $i, $platform);
+        if (make_app_version_dir($app_name, $i, $platform)) {
+            error("Couldn't create dir: $app_dir");
         }
+        $file = "$app_dir/$app_name"."_1.".$i;
         if (!copy($wrapper_filename, $file)) {
             error("Couldn't copy $wrapper_filename to $file");
         }

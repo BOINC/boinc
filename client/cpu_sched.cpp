@@ -172,7 +172,13 @@ struct PROC_RESOURCES {
         }
         reserve_coprocs(*rp);
         if (rp->uses_coprocs()) {
-            ncpus_used_st += rp->avp->avg_ncpus;
+            //ncpus_used_st += rp->avp->avg_ncpus;
+            // don't increment CPU usage.
+            // This may seem odd; the reason is the following scenario:
+            // - this job uses lots of CPU (say, a whole one)
+            // - there's an uncheckpointed GPU job that uses little CPU
+            // - we end up running the uncheckpointed job
+            // - this causes all or part of a CPU to be idle
         } else if (rp->avp->avg_ncpus > 1) {
             ncpus_used_mt += rp->avp->avg_ncpus;
         } else {

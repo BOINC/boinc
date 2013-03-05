@@ -331,11 +331,14 @@ function check_main_program($fds) {
         if ($fd->main_program) $n++;
     }
     if ($n == 0) {
-        die("    No file was marked as the main program.\n");
+        echo "    No file was marked as the main program - skipping.\n";
+        return 1;
     }
     if ($n > 1) {
-        die("    More than one file was marked as the main program.\n");
+        echo "    More than one file was marked as the main program - skipping.\n";
+        return 1;
     }
+    return 0;
 }
 
 function confirm($fds) {
@@ -419,7 +422,9 @@ function process_version($a, $v, $p) {
     if (sizeof($fds) == 1) {
         $fds[0]->main_program = true;
     }
-    check_main_program($fds);
+    if (check_main_program($fds)) {
+        return;
+    }
     $api_version = get_api_version($a, $v, $p, $fds);
 
     if (!confirm($fds)) {

@@ -616,7 +616,7 @@ public class Monitor extends Service{
 	    		Log.d(TAG, "client copy successful");
 	    		
 	    		//copy client from assets to clientPath
-	    		InputStream clientCABudleAsset = getApplicationContext().getAssets().open(clientName); 
+	    		InputStream clientCABudleAsset = getApplicationContext().getAssets().open(clientCABundle); 
 	    		OutputStream clientCABundleData = new FileOutputStream(boincClientCABundle); 
 	    		b = new byte [1024];
 	    		while((read = clientCABudleAsset.read(b)) != -1){ 
@@ -646,7 +646,12 @@ public class Monitor extends Service{
 	    	Boolean success = false;
 	    	try { 
 	        	//starts a new process which executes the BOINC client 
-	        	clientProcess = Runtime.getRuntime().exec(clientPath + clientName, null, new File(clientPath));
+	    		String[] cmd = new String[2];
+	    		
+	    		cmd[0] = clientPath + clientName;
+	    		cmd[1] = "--daemon";
+	    		
+	        	clientProcess = Runtime.getRuntime().exec(cmd, null, new File(clientPath));
 	        	success = true;
 	    	}
 	    	catch (IOException ioe) {

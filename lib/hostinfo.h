@@ -70,7 +70,7 @@ public:
 #ifdef ANDROID
     int battery_charge_pct;
     int battery_state;
-    int battery_temperature_celsius;
+    double battery_temperature_celsius;
     void get_battery_status();
 #endif
 

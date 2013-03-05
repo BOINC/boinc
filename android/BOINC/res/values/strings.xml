@@ -66,10 +66,10 @@
     
     <!-- tab names -->
     <string name="tab_status">Status</string>
+    <string name="tab_projects">Projects</string>
     <string name="tab_tasks">Tasks</string>
     <string name="tab_transfers">Transfers</string>
-    <string name="tab_preferences">Settings</string>
-    <string name="tab_projects">Projects</string>
+    <string name="tab_preferences">Preferences</string>
     <string name="tab_messages">Messages</string>
     <string name="tab_debug">Debug</string>
    
@@ -85,23 +85,25 @@
     <string name="disable_computation">Disable computation</string>
     <string name="enable_computation">Enable computation</string>
     
-	    <!-- suspend reasons -->
-	    <string name="suspend_unknown">Computation paused.</string>
-	    <string name="suspend_idle">No BOINC tasks ready for computation.</string>
-	    <string name="suspend_batteries">Not connected to power source.</string>
-	    <string name="suspend_useractive">User is active.</string>
-	    <string name="suspend_userreq">Stopped manually.</string>
-	    <string name="suspend_tod">Out of computation time-frame.</string>
-	    <string name="suspend_bm">BOINC is benchmarking your device.</string>
-	    <string name="suspend_disksize">Out of disk space.</string>
-	    <string name="suspend_cputhrottle">Your device is busy.</string>
-	    <string name="suspend_noinput">No recent tasks available.</string>
-	    <string name="suspend_delay">Initialisation delay.</string>
-	    <string name="suspend_exclusiveapp">An exclusive app is running.</string>
-	    <string name="suspend_cpu">Your device is busy.</string>
-	    <string name="suspend_network_quota">BOINC reached network transfer limit.</string>
-	    <string name="suspend_os">Stopped by Android.</string>
-	    <string name="suspend_wifi">Can\'t fetch work, no WiFi connection!</string>
+    <!-- suspend reasons -->
+    <string name="suspend_unknown">Computation paused.</string>
+    <string name="suspend_idle">No BOINC tasks ready for computation.</string>
+    <string name="suspend_batteries">Not connected to power source.</string>
+    <string name="suspend_useractive">User is active.</string>
+    <string name="suspend_userreq">Stopped manually.</string>
+    <string name="suspend_tod">Out of computation time-frame.</string>
+    <string name="suspend_bm">BOINC is benchmarking your device.</string>
+    <string name="suspend_disksize">Out of disk space.</string>
+    <string name="suspend_cputhrottle">Your device is busy.</string>
+    <string name="suspend_noinput">No recent tasks available.</string>
+    <string name="suspend_delay">Initialisation delay.</string>
+    <string name="suspend_exclusiveapp">An exclusive app is running.</string>
+    <string name="suspend_cpu">Your device is busy.</string>
+    <string name="suspend_network_quota">BOINC reached network transfer limit.</string>
+    <string name="suspend_os">Stopped by Android.</string>
+    <string name="suspend_wifi">Can\'t fetch work, no WiFi connection!</string>
+    <string name="suspend_battery_charging">Your device\'s battery is charging.</string>
+    <string name="suspend_battery_overheating">Your device\'s battery is overheating.</string>
     
 	<!-- preferences tab strings -->
 	<string name="prefs_unbound">Reading preferences&#8230;</string>

@@ -710,7 +710,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
             // if we're running benchmarks, exited process
             // is probably a benchmark process; don't show error
             //
-            if (!gstate.are_cpu_benchmarks_running() && log_flags.task_debug) {
+            if (!gstate.benchmarks_running && log_flags.task_debug) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Process %d not found\n", pid
                 );

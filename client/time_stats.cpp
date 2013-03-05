@@ -155,7 +155,7 @@ void CLIENT_TIME_STATS::get_log_after(double t, MIOFILE& mf) {
 void CLIENT_TIME_STATS::update(int suspend_reason, int _gpu_suspend_reason) {
     double dt, w1, w2;
 
-    bool is_active = !(suspend_reason & ~SUSPEND_REASON_CPU_THROTTLE);
+    bool is_active = (suspend_reason == 0) || (suspend_reason == SUSPEND_REASON_CPU_THROTTLE);
     bool is_gpu_active = is_active && !_gpu_suspend_reason;
     if (last_update == 0) {
         // this is the first time this client has executed.

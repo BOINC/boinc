@@ -456,9 +456,7 @@ void RSC_WORK_FETCH::set_request(PROJECT* p) {
         }
     }
 
-    // our share of the idle instances
-    //
-    req_instances = nidle_now * w.fetchable_share;
+    req_instances = nidle_now;
 
     if (log_flags.work_fetch_debug) {
         msg_printf(0, MSG_INFO,

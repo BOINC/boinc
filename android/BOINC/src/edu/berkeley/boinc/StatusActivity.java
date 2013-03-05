@@ -186,9 +186,14 @@ public class StatusActivity extends Activity {
 					case 4096:
 						statusDescriptor.setText(R.string.suspend_os);
 						break;
-					case 8192:
-						//pointless??! wifi causes network suspension, does not influence computing
+					case 4097:
 						statusDescriptor.setText(R.string.suspend_wifi);
+						break;
+					case 4098:
+						statusDescriptor.setText(R.string.suspend_battery_charging);
+						break;
+					case 4099:
+						statusDescriptor.setText(R.string.suspend_battery_overheating);
 						break;
 					default:
 						statusDescriptor.setText(R.string.suspend_unknown);

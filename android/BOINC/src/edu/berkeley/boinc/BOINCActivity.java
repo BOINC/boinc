@@ -200,6 +200,14 @@ public class BOINCActivity extends TabActivity {
 	        tabHost.addTab(statusSpec);
     	}
         
+    	if(res.getBoolean(R.bool.tab_projects)) {
+	        TabSpec projectsSpec = tabHost.newTabSpec(getResources().getString(R.string.tab_projects));
+	        projectsSpec.setIndicator(getResources().getString(R.string.tab_projects), getResources().getDrawable(R.drawable.icon_projects_tab));
+	        Intent projectsIntent = new Intent(this,ProjectsActivity.class);
+	        projectsSpec.setContent(projectsIntent);
+	        tabHost.addTab(projectsSpec);
+    	}
+        
     	if(res.getBoolean(R.bool.tab_tasks)) {
 	        TabSpec tasksSpec = tabHost.newTabSpec(getResources().getString(R.string.tab_tasks));
 	        tasksSpec.setIndicator(getResources().getString(R.string.tab_tasks), getResources().getDrawable(R.drawable.icon_tasks_tab));
@@ -222,14 +230,6 @@ public class BOINCActivity extends TabActivity {
 	        Intent prefsIntent = new Intent(this,PrefsActivity.class);
 	        prefsSpec.setContent(prefsIntent);
 	        tabHost.addTab(prefsSpec);
-    	}
-        
-    	if(res.getBoolean(R.bool.tab_projects)) {
-	        TabSpec projectsSpec = tabHost.newTabSpec(getResources().getString(R.string.tab_projects));
-	        projectsSpec.setIndicator(getResources().getString(R.string.tab_projects), getResources().getDrawable(R.drawable.icon_projects_tab));
-	        Intent projectsIntent = new Intent(this,ProjectsActivity.class);
-	        projectsSpec.setContent(projectsIntent);
-	        tabHost.addTab(projectsSpec);
     	}
         
     	if(res.getBoolean(R.bool.tab_messages)) {

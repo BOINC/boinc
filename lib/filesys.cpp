@@ -834,7 +834,11 @@ int get_filesystem_info(double &total_space, double &free_space, char* path) {
 
     int retval = STATFS(path, &fs_info);
     if (retval) {
+#ifndef _USING_FCGI_
         perror("statvfs");
+#else
+        FCGI::perror("statvfs");
+#endif
         return ERR_STATFS;
     }
 #if HAVE_SYS_STATVFS_H

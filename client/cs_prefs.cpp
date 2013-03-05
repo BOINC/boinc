@@ -46,10 +46,6 @@
 #include "file_names.h"
 #include "project.h"
 
-#ifdef ANDROID
-#include "android_log.h"
-#endif
-
 using std::min;
 using std::string;
 
@@ -208,7 +204,7 @@ void CLIENT_STATE::get_disk_shares() {
 // and if it's zero set gpu_suspend_reason
 //
 int CLIENT_STATE::check_suspend_processing() {
-    if (are_cpu_benchmarks_running()) {
+    if (benchmarks_running) {
         return SUSPEND_REASON_BENCHMARKS;
     }
 
@@ -281,24 +277,12 @@ int CLIENT_STATE::check_suspend_processing() {
 
     // on some devices, running jobs can drain the battery even
     // while it's recharging.
-    // So use the following hysteresis policy:
-    // start computing when the batter is 95% charged.
-    // stop computing if it falls below 90%.
-    // Repeat.
+    // So compute only if 95% charged or more.
     //
-    static bool hyst_state = true;
     int cp = host_info.battery_charge_pct;
     if (cp >= 0) {
-        if (cp < 90) {
-            hyst_state = true;
-            return SUSPEND_REASON_BATTERY_CHARGING;
-        }
         if (cp < 95) {
-            if (hyst_state) {
-                return SUSPEND_REASON_BATTERY_CHARGING;
-            }
-        } else {
-            hyst_state = false;
+            return SUSPEND_REASON_BATTERY_CHARGING;
         }
     }
 #endif
@@ -424,7 +408,6 @@ void CLIENT_STATE::check_suspend_network() {
         file_xfers_suspended = true;
         if (!recent_rpc) network_suspended = true;
         network_suspend_reason = SUSPEND_REASON_WIFI_STATE;
-        LOGD("supended due to wifi state");
     }
 #endif
 
