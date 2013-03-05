@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// C++ interfaces to remote job submissions and file management RPCs
+
 #include <stdio.h>
 #include <string>
 #include <vector>
@@ -104,7 +106,7 @@ extern int submit_jobs(
 extern int query_batch(
     const char* project_url,
     const char* authenticator,
-    int batch_id,
+    string batch_name,
     QUERY_BATCH_REPLY& reply
 );
 
@@ -114,4 +116,11 @@ extern int get_output_file(
     const char* job_name,
     int file_num,
     const char* dst_path
+);
+
+extern int abort_jobs(
+    const char* project_url,
+    const char* authenticator,
+    string batch_name,
+    vector<string> &job_names
 );

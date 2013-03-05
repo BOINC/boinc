@@ -33,7 +33,7 @@
 
 #include "md5_file.h"
 #include "parse.h"
-#include "job_rpc.h"
+#include "remote_submit.h"
 
 using std::map;
 using std::pair;
@@ -208,9 +208,9 @@ void handle_submit(COMMAND& c, char* p) {
 }
 
 void handle_query_batch(COMMAND&c, char* p) {
-    int batch_id = atoi(strtok_r(NULL, " ", &p));
+    char* batch_name = strtok_r(NULL, " ", &p);
     QUERY_BATCH_REPLY reply;
-    query_batch(project_url, authenticator, batch_id, reply);
+    query_batch(project_url, authenticator, batch_name, reply);
     for (unsigned int i=0; i<reply.jobs.size(); i++) {
         QUERY_BATCH_JOB &j = reply.jobs[i];
         printf("job %s: status %s\n", j.job_name.c_str(), j.status.c_str());
@@ -244,6 +244,20 @@ void handle_fetch_output(COMMAND& c, char* p) {
     }
 }
 
+void handle_abort_jobs(COMMAND&c, char* p) {
+    vector<string> job_names;
+    char* batch_name = strtok_r(NULL, " ", &p);
+    while (1) {
+        char* job_name = strtok_r(NULL, " ", &p);
+        if (!job_name) break;
+        job_names.push_back(string(job_name));
+    }
+    int retval = abort_jobs(project_url, authenticator, string(batch_name), job_names);
+    if (retval) {
+        printf("abort_jobs() returned %d\n", retval);
+    }
+}
+
 void* handle_command_aux(void* q) {
     COMMAND &c = *((COMMAND*)q);
     char *p;
@@ -257,6 +271,8 @@ void* handle_command_aux(void* q) {
         handle_query_batch(c, p);
     } else if (!strcmp(cmd, "BOINC_FETCH_OUTPUT")) {
         handle_fetch_output(c, p);
+    } else if (!strcmp(cmd, "BOINC_ABORT_JOBS")) {
+        handle_abort_jobs(c, p);
     } else {
         sleep(10);
         char buf[256];
@@ -384,5 +400,6 @@ int main() {
         COMMAND c;
         c.in = p;
         handle_command(c);
+        fflush(stdout);
     }
 }
