@@ -253,7 +253,8 @@ size_t wxWinINetInputStream::OnSysRead(void *buffer, size_t bufsize)
 {
     DWORD bytesread = 0;
     DWORD lError = ERROR_SUCCESS;
-    INTERNET_BUFFERS bufs;
+    BYTE *buf = (BYTE*)buffer;
+    DWORD buflen = (DWORD)bufsize;
     BOOL success = false;
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
@@ -268,55 +269,64 @@ size_t wxWinINetInputStream::OnSysRead(void *buffer, size_t bufsize)
         SetError(wxSTREAM_READ_ERROR);
         return 0;
     }
+
+    while (1) {
+        bytesread = 0;
+        success = InternetReadFile(m_hFile, buf, buflen, &bytesread);
     
-    memset(&bufs, 0, sizeof(bufs));
-    bufs.dwStructSize = sizeof(INTERNET_BUFFERS);
-    bufs.Next = NULL;
-    bufs.lpvBuffer = buffer;
-    bufs.dwBufferLength = (DWORD)bufsize;
+        if (success) {
+            if ( bytesread == 0 ) {
+                SetError(wxSTREAM_EOF);
+            }
+            break;
+        } else {    // success == false
+            lError = ::GetLastError();
+            if (lError == ERROR_IO_PENDING) {
+                // We've received only part of the data so far
+                buf += bytesread;
+                buflen -= bytesread;
+                if (buflen <= 0) {
+                    // Buffer is full; I'll assume wxWinINetInputStream 
+                    // will call us again with a fresh empty buffer.
+                    break;  
+                }
+                continue;   // Read the enxt chunk of data
+            } else {
+                SetError(wxSTREAM_READ_ERROR);
+                break;
+            }
+        }
 
-    success = InternetReadFileEx(m_hFile, &bufs, IRF_ASYNC|IRF_NO_WAIT, 2);
     
-    lError = ::GetLastError();
-    
-//#if 0       // Possibly useful for debugging
-    if ((!success) || (lError != ERROR_SUCCESS)) {
-        DWORD iError, bLength = 0;
-        InternetGetLastResponseInfo(&iError, NULL, &bLength);
-        if ( bLength > 0 )
-        {
-            wxString errorString;
-            InternetGetLastResponseInfo
-            (
-                &iError,
-                wxStringBuffer(errorString, bLength),
-                &bLength
-            );
+#if 0       // Possibly useful for debugging
+        if ((!success) || (lError != ERROR_SUCCESS)) {
+            DWORD iError, bLength = 0;
+            InternetGetLastResponseInfo(&iError, NULL, &bLength);
+            if ( bLength > 0 )
+            {
+                wxString errorString;
+                InternetGetLastResponseInfo
+                (
+                    &iError,
+                    wxStringBuffer(errorString, bLength),
+                    &bLength
+                );
 
-            wxLogError(wxT("Read failed with error %d: %s"),
-                    iError, errorString.c_str());
+                wxLogError(wxT("Read failed with error %d: %s"),
+                        iError, errorString.c_str());
+            }
+            else
+            {
+                wxLogError(wxT("Read failed with error %d"), lError);
+            }
         }
-        else
-        {
-            wxLogError(wxT("Read failed with error %d"), lError);
-        }
-    }
-//#endif
+#endif
 
-    if (!success) {
-        wxLogTrace(wxT("Function Status"), wxT("wxWinINetInputStream::OnSysRead - Download failure!\n"));
-        return 0;
-    }
-
-    bytesread = bufs.dwBufferLength;
-    if (lError != ERROR_SUCCESS) {
-        SetError(wxSTREAM_READ_ERROR);
-    } else {
-        if ( bytesread == 0 )
-        {
-            SetError(wxSTREAM_EOF);
+        if (!success) {
+            wxLogTrace(wxT("Function Status"), wxT("wxWinINetInputStream::OnSysRead - Download failure!\n"));
+            return 0;
         }
-    }
+    }   // End while(1)
     
     return bytesread;
 }
