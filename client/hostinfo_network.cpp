@@ -64,18 +64,15 @@
 //
 bool HOST_INFO::host_wifi_online() {
     char wifipath_pri[1024];
-    snprintf(wifipath_pri, sizeof(wifipath_pri),
     char wifipath_sec[1024];
-    snprintf(wifipath_sec, sizeof(wifipath_sec),
-
-    FILE *f = fopen("/sys/class/net/eth0/operstate", "r");
-        // location in Android 2.3
-    if (!fsyswifi) {
-        fsyswifi = fopen("/sys/class/net/wlan0/operstate", "r");
-            // location in Android 4
-    }
-
     char wifi_state[64];
+
+    // location in Android 2.3
+    FILE *f = fopen("/sys/class/net/eth0/operstate", "r");
+    if (!f) {
+        // location in Android 4
+        f = fopen("/sys/class/net/wlan0/operstate", "r");
+    }
 
     if (f) {
         fgets(wifi_state, 64, f);
