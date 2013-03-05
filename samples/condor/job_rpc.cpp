@@ -310,12 +310,12 @@ int query_batch(
 ) {
     string request;
     char url[1024], buf[256];
-    request = "<query_batch_condor>\n";
+    request = "<query_batch2>\n";
     sprintf(buf, "<batch_id>%d</batch_id>\n", batch_id);
     request += string(buf);
     sprintf(buf, "<authenticator>%s</authenticator>\n", authenticator);
     request += string(buf);
-    request += "</query_batch_condor>\n";
+    request += "</query_batch2>\n";
     sprintf(url, "%ssubmit_rpc_handler.php", project_url);
     FILE* reply = tmpfile();
     vector<string> x;
