@@ -38,7 +38,7 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 import edu.berkeley.boinc.LoginActivity;
-import edu.berkeley.boinc.MainActivity;
+import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.AppPreferences;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.AccountIn;
@@ -179,7 +179,7 @@ public class Monitor extends Service{
 	
     public void restartMonitor() {
     	if(Monitor.monitorActive) { //monitor is already active, launch cancelled
-    		MainActivity.logMessage(getApplicationContext(), TAG, "monitor active - restart cancelled");
+    		BOINCActivity.logMessage(getApplicationContext(), TAG, "monitor active - restart cancelled");
     	}
     	else {
         	Log.d(TAG,"restart monitor");
@@ -418,7 +418,7 @@ public class Monitor extends Service{
 					if((status!=null)&&(results!=null)&&(projects!=null)&&(transfers!=null)&&(clientPrefs!=null)) {
 						Monitor.clientStatus.setClientStatus(status,results,projects,transfers,clientPrefs,msgs);
 					} else {
-						MainActivity.logMessage(getApplicationContext(), TAG, "client status connection problem");
+						BOINCActivity.logMessage(getApplicationContext(), TAG, "client status connection problem");
 					}
 					
 			        Intent clientStatus = new Intent();
@@ -437,7 +437,7 @@ public class Monitor extends Service{
 		@Override
 		protected void onProgressUpdate(String... arg0) {
 			Log.d(TAG+"-onProgressUpdate",arg0[0]);
-			MainActivity.logMessage(getApplicationContext(), TAG, arg0[0]);
+			BOINCActivity.logMessage(getApplicationContext(), TAG, arg0[0]);
 		}
 		
 		@Override
@@ -487,7 +487,7 @@ public class Monitor extends Service{
 		@Override
 		protected void onProgressUpdate(String... arg0) {
 			Log.d(TAG+"-onProgressUpdate",arg0[0]);
-			MainActivity.logMessage(getApplicationContext(), TAG, arg0[0]);
+			BOINCActivity.logMessage(getApplicationContext(), TAG, arg0[0]);
 		}
 		
 		private Boolean startUp() {
@@ -509,7 +509,7 @@ public class Monitor extends Service{
 			Boolean connected = false;
 			Integer counter = 0;
 			while(!(connected=connectClient()) && (counter<retryAttempts)) { //re-trys setting up the client several times, before giving up.
-				MainActivity.logMessage(getApplicationContext(), TAG, "--- restart setup ---");
+				BOINCActivity.logMessage(getApplicationContext(), TAG, "--- restart setup ---");
 				counter++;
 				try {
 					Thread.sleep(retryRate);
@@ -857,10 +857,10 @@ public class Monitor extends Service{
 		protected Boolean doInBackground(Void... params) {
 			Log.d(TAG, "doInBackground");
 	    	Boolean success = rpc.quit();
-	    	MainActivity.logMessage(getApplicationContext(), TAG, "graceful shutdown returned " + success);
+	    	BOINCActivity.logMessage(getApplicationContext(), TAG, "graceful shutdown returned " + success);
 			if(!success) {
 				clientProcess.destroy();
-				MainActivity.logMessage(getApplicationContext(), TAG, "process killed ");
+				BOINCActivity.logMessage(getApplicationContext(), TAG, "process killed ");
 			}
 			return success;
 		}

@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import edu.berkeley.boinc.MainActivity;
+import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.definitions.CommonDefs;
 import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
@@ -109,7 +109,7 @@ public class ClientStatus {
 		if(!computingParseError && !networkParseError && !setupStatusParseError) {
 			fire(); // broadcast that status has changed
 		} else {
-			MainActivity.logMessage(ctx, TAG, "discard status change due to parse error" + computingParseError + computingStatus + computingSuspendReason + "-" + networkParseError + networkStatus + networkSuspendReason + "-" + setupStatusParseError);
+			BOINCActivity.logMessage(ctx, TAG, "discard status change due to parse error" + computingParseError + computingStatus + computingSuspendReason + "-" + networkParseError + networkStatus + networkSuspendReason + "-" + setupStatusParseError);
 		}
 	}
 	
@@ -183,7 +183,7 @@ public class ClientStatus {
 		} catch (Exception e) {
 			setupStatusParseError = true;
 			Log.e(TAG, "parseProjectStatus - Exception", e);
-			MainActivity.logMessage(ctx, TAG, "error parsing setup status (project state)");
+			BOINCActivity.logMessage(ctx, TAG, "error parsing setup status (project state)");
 		}
 	}
 	
@@ -228,7 +228,7 @@ public class ClientStatus {
 			}
 		} catch (Exception e) {
 			Log.e(TAG, "parseComputingStatus - Exception", e);
-			MainActivity.logMessage(ctx, TAG, "error - client computing status");
+			BOINCActivity.logMessage(ctx, TAG, "error - client computing status");
 		}
 	}
 	
@@ -255,7 +255,7 @@ public class ClientStatus {
 			}
 		} catch (Exception e) {
 			Log.e(TAG, "parseNetworkStatus - Exception", e);
-			MainActivity.logMessage(ctx, TAG, "error - client network status");
+			BOINCActivity.logMessage(ctx, TAG, "error - client network status");
 		}
 	}
 	

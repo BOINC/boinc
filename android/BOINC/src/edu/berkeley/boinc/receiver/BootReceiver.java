@@ -19,7 +19,7 @@
 package edu.berkeley.boinc.receiver;
 
 import edu.berkeley.boinc.AppPreferences;
-import edu.berkeley.boinc.MainActivity;
+import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.client.Monitor;
 import android.app.Notification;
@@ -49,7 +49,7 @@ public class BootReceiver extends BroadcastReceiver {
 	    	
 			mNM = (NotificationManager) context.getSystemService(Service.NOTIFICATION_SERVICE);
 	        Notification notification = new Notification(R.drawable.boinc, context.getString(R.string.autostart_notification_header), System.currentTimeMillis());
-	        PendingIntent contentIntent = PendingIntent.getActivity(context.getApplicationContext(), 0, new Intent(context.getApplicationContext(), MainActivity.class), 0);
+	        PendingIntent contentIntent = PendingIntent.getActivity(context.getApplicationContext(), 0, new Intent(context.getApplicationContext(), BOINCActivity.class), 0);
 
 	        // Set current view for notification panel
 	        notification.setLatestEventInfo(context.getApplicationContext(), context.getString(R.string.autostart_notification_header), context.getString(R.string.autostart_notification_text), contentIntent);

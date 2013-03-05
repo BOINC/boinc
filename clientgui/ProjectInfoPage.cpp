@@ -42,6 +42,7 @@
 #include "res/windowsicon.xpm"
 #include "res/macosicon.xpm"
 #include "res/linuxicon.xpm"
+#include "res/freebsdicon.xpm"
 #include "res/atiicon.xpm"
 #include "res/nvidiaicon.xpm"
 #include "res/blankicon.xpm"
@@ -59,6 +60,7 @@ class CProjectInfo : public wxObject
         m_bProjectSupportsWindows = false;
         m_bProjectSupportsMac = false;
         m_bProjectSupportsLinux = false;
+        m_bProjectSupportsFreeBSD = false;
         m_bProjectSupportsCUDA = false;
         m_bProjectSupportsCAL = false;
     }
@@ -74,6 +76,7 @@ public:
     bool m_bProjectSupportsWindows;
     bool m_bProjectSupportsMac;
     bool m_bProjectSupportsLinux;
+    bool m_bProjectSupportsFreeBSD;
     bool m_bProjectSupportsCUDA;
     bool m_bProjectSupportsCAL;
 };
@@ -158,6 +161,7 @@ bool CProjectInfoPage::Create( CBOINCBaseWizard* parent )
     m_pProjectDetailsSupportedPlatformWindowsCtrl = NULL;
     m_pProjectDetailsSupportedPlatformMacCtrl = NULL;
     m_pProjectDetailsSupportedPlatformLinuxCtrl = NULL;
+    m_pProjectDetailsSupportedPlatformFreeBSDCtrl = NULL;
     m_pProjectDetailsSupportedPlatformATICtrl = NULL;
     m_pProjectDetailsSupportedPlatformNvidiaCtrl = NULL;
     m_pProjectDetailsSupportedPlatformBlankCtrl = NULL;
@@ -300,6 +304,9 @@ void CProjectInfoPage::CreateControls()
     m_pProjectDetailsSupportedPlatformLinuxCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("linuxicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
     itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformLinuxCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
 
+    m_pProjectDetailsSupportedPlatformFreeBSDCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("freebsdicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
+    itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformFreeBSDCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
+
     m_pProjectDetailsSupportedPlatformATICtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("atiicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
     itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformATICtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
 
@@ -389,6 +396,11 @@ wxBitmap CProjectInfoPage::GetBitmapResource( const wxString& name )
         wxBitmap bitmap(Linux_xpm);
         return bitmap;
     }
+    else if (name == wxT("freebsdicon.xpm"))
+    {
+        wxBitmap bitmap(FreeBSD_xpm);
+        return bitmap;
+    }
     else if (name == wxT("atiicon.xpm"))
     {
         wxBitmap bitmap(atiicon_xpm);
@@ -449,10 +461,12 @@ void CProjectInfoPage::OnProjectCategorySelected( wxCommandEvent& WXUNUSED(event
     }
 
     // Set the first item to be the selected item and then pop the next event.
-    m_pProjectsCtrl->SetSelection(0);
-    wxCommandEvent evtEvent(wxEVT_COMMAND_LISTBOX_SELECTED, ID_PROJECTS);
-    ProcessEvent(evtEvent);
-
+    if (m_pProjectsCtrl->GetCount() > 0) {
+        m_pProjectsCtrl->SetSelection(0);
+        wxCommandEvent evtEvent(wxEVT_COMMAND_LISTBOX_SELECTED, ID_PROJECTS);
+        ProcessEvent(evtEvent);
+    }
+    
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnProjectCategorySelected - Function End"));
 }
 
@@ -486,11 +500,13 @@ void CProjectInfoPage::OnProjectSelected( wxCommandEvent& WXUNUSED(event) ) {
         m_pProjectDetailsSupportedPlatformWindowsCtrl->Hide();
         m_pProjectDetailsSupportedPlatformMacCtrl->Hide();
         m_pProjectDetailsSupportedPlatformLinuxCtrl->Hide();
+        m_pProjectDetailsSupportedPlatformFreeBSDCtrl->Hide();
         m_pProjectDetailsSupportedPlatformATICtrl->Hide();
         m_pProjectDetailsSupportedPlatformNvidiaCtrl->Hide();
         if (pProjectInfo->m_bProjectSupportsWindows) m_pProjectDetailsSupportedPlatformWindowsCtrl->Show();
         if (pProjectInfo->m_bProjectSupportsMac) m_pProjectDetailsSupportedPlatformMacCtrl->Show();
         if (pProjectInfo->m_bProjectSupportsLinux) m_pProjectDetailsSupportedPlatformLinuxCtrl->Show();
+        if (pProjectInfo->m_bProjectSupportsFreeBSD) m_pProjectDetailsSupportedPlatformFreeBSDCtrl->Show();
         if (pProjectInfo->m_bProjectSupportsCAL) m_pProjectDetailsSupportedPlatformATICtrl->Show();
         if (pProjectInfo->m_bProjectSupportsCUDA) m_pProjectDetailsSupportedPlatformNvidiaCtrl->Show();
 
@@ -556,6 +572,7 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     wxASSERT(m_pProjectDetailsSupportedPlatformWindowsCtrl);
     wxASSERT(m_pProjectDetailsSupportedPlatformMacCtrl);
     wxASSERT(m_pProjectDetailsSupportedPlatformLinuxCtrl);
+    wxASSERT(m_pProjectDetailsSupportedPlatformFreeBSDCtrl);
     wxASSERT(m_pProjectDetailsSupportedPlatformATICtrl);
     wxASSERT(m_pProjectDetailsSupportedPlatformNvidiaCtrl);
     wxASSERT(m_pProjectURLStaticCtrl);
@@ -676,6 +693,10 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                     if (strProjectPlatform.Find(_T("linux")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsLinux = true;
                     }
+
+                    if (strProjectPlatform.Find(_T("freebsd")) != wxNOT_FOUND) {
+                        pProjectInfo->m_bProjectSupportsFreeBSD = true;
+                    }
                     
                     if (strProjectPlatform.Find(_T("[cuda")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsCUDA = true;
@@ -701,10 +722,11 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
             wxLogTrace(
                 wxT("Function Status"),
-                wxT("CProjectInfoPage::OnPageChanged - Windows: '%d', Mac: '%d', Linux: '%d', Nvidia: '%d', ATI: '%d', Platform: '%d'"),
+                wxT("CProjectInfoPage::OnPageChanged - Windows: '%d', Mac: '%d', Linux: '%d', FreeBSD: '%d', Nvidia: '%d', ATI: '%d', Platform: '%d'"),
                 pProjectInfo->m_bProjectSupportsWindows,
                 pProjectInfo->m_bProjectSupportsMac,
                 pProjectInfo->m_bProjectSupportsLinux,
+                pProjectInfo->m_bProjectSupportsFreeBSD,
                 pProjectInfo->m_bProjectSupportsCUDA,
                 pProjectInfo->m_bProjectSupportsCAL,
                 pProjectInfo->m_bSupportedPlatformFound

@@ -35,7 +35,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class MainActivity extends Activity implements OnClickListener{
+public class ProjectExampleMainActivity extends Activity implements OnClickListener{
 
 	private final String TAG = "MainActivity";
 	
