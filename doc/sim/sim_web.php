@@ -168,9 +168,14 @@ function show_scenarios() {
         </tr>
     ";
     $d = opendir("scenarios");
+    $dirs = array();
     while (false !== ($f = readdir($d))) {
         if ($f === ".") continue;
         if ($f === "..") continue;
+        $dirs[] = $f;
+    }
+    rsort($dirs);
+    foreach ($dirs as $f) {
         show_scenario_summary($f);
     }
     echo "</table>\n";
