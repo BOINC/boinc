@@ -1253,7 +1253,12 @@ int HOST_INFO::get_virtualbox_version() {
 //
 int HOST_INFO::get_host_info() {
     get_timezone(timezone);
-    get_filesystem_info(d_total, d_free);
+    int retval = get_filesystem_info(d_total, d_free);
+    if (retval) {
+        msg_printf(0, MSG_INTERNAL_ERROR,
+            "get_filesystem_info(): %s", boincerror(retval)
+        );
+    }
     get_memory_info(m_nbytes, m_swap);
     get_os_information(
         os_name, sizeof(os_name), os_version, sizeof(os_version)
