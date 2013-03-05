@@ -31,8 +31,9 @@
 //   you can strip out this stuff if the web site doesn't use BOINC
 
 require_once("../inc/submit.inc");
-require_once("../inc/submit_util.inc");
+require_once("../inc/common_defs.inc");
 require_once("../inc/submit_db.inc");
+    // needed for access control stuff
 require_once("../inc/util.inc");
 require_once("../project/project.inc");
 
@@ -74,7 +75,6 @@ function handle_main() {
         with permission to submit jobs.
         <p>
     ";
-    show_button("submit_example.php?action=manage_files", "Manage files");
     show_button("submit_example.php?action=create_form", "Create new batch");
 
     $first = true;
@@ -455,19 +455,13 @@ function handle_retire_batch() {
     page_tail();
 }
 
-function manage_files() {
-    $files = submit_get_file_list();
-}
-
 $action = get_str('action', true);
-
 switch ($action) {
 case '': handle_main(); break;
 case 'abort_batch': handle_abort_batch(); break;
 case 'abort_batch_confirm': handle_abort_batch_confirm(); break;
 case 'create_action': handle_create_action(); break;
 case 'create_form': handle_create_form(); break;
-case 'manage_files': manage_files(); break;
 case 'query_batch': handle_query_batch(); break;
 case 'query_job': handle_query_job(); break;
 case 'retire_batch': handle_retire_batch(); break;

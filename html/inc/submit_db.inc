@@ -18,10 +18,16 @@
 
 // Tables related to job submission
 
+require_once("../inc/common_defs.inc");
+
 class BoincBatch {
     static function lookup_id($id) {
         $db = BoincDb::get();
         return $db->lookup_id($id, 'batch', 'BoincBatch');
+    }
+    static function lookup_name($name) {
+        $db = BoincDb::get();
+        return $db->lookup('batch', 'BoincBatch', "name='$name'");
     }
     static function enum($clause) {
         $db = BoincDb::get();
@@ -42,14 +48,6 @@ class BoincBatch {
         return $db->update_aux('batch', $clause);
     }
 }
-
-// see db/boinc_db.h
-//
-define('BATCH_STATE_INIT', 0);
-define('BATCH_STATE_IN_PROGRESS', 1);
-define('BATCH_STATE_COMPLETE', 2);
-define('BATCH_STATE_ABORTED', 3);
-define('BATCH_STATE_RETIRED', 4);
 
 class BoincUserSubmit {
     static function enum($clause) {

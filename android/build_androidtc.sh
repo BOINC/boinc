@@ -1,5 +1,10 @@
 #/bin/sh
-#script to setup Android toolchain
+
+#
+# See: http://boinc.berkeley.edu/trac/wiki/AndroidBuildClient#
+#
+
+# Script to setup Android toolchain
 
 export ANDROIDTC="$HOME/android-tc"
 

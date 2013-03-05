@@ -1,10 +1,11 @@
 #/bin/sh
 
 #
-# See: http://boinc.berkeley.edu/trac/wiki/AndroidBuildClient#
+# See: http://boinc.berkeley.edu/trac/wiki/AndroidBuildApp#
 #
 
-# Script to compile BOINC for Android
+# Script to compile various BOINC libraries for Android to be used
+# by science applications
 
 COMPILEBOINC="yes"
 CONFIGURE="yes"
@@ -36,32 +37,17 @@ export PKG_CONFIG_PATH=$CURL_DIR/lib/pkgconfig:$OPENSSL_DIR/lib/pkgconfig
 ./build_androidtc.sh
 
 if [ -n "$COMPILEBOINC" ]; then
-echo "==================building BOINC from $BOINC=========================="
+echo "==================building Libraries from $BOINC=========================="
 cd $BOINC
 if [ -n "$MAKECLEAN" ]; then
 make clean
 fi
 if [ -n "$CONFIGURE" ]; then
 ./_autosetup
-./configure --host=arm-linux --with-boinc-platform="arm-android-linux-gnu" --with-ssl=$TCINCLUDES --disable-server --disable-manager --disable-shared --enable-static
-sed -e "s%^CLIENTLIBS *= *.*$%CLIENTLIBS = -lm $STDCPPTC%g" client/Makefile > client/Makefile.out
-mv client/Makefile.out client/Makefile
+./configure --host=arm-linux --with-boinc-platform="arm-android-linux-gnu" --with-ssl=$TCINCLUDES --disable-server --disable-manager --disable-client --disable-shared --enable-static
 fi
 make
 make stage
-
-echo "Stripping Binaries"
-cd stage/usr/local/bin
-arm-linux-androideabi-strip *
-cd ../../../../
-
-echo "Copy Assets"
-cd android
-mkdir "BOINC/assets"
-cp "$BOINC/stage/usr/local/bin/boinc" "BOINC/assets/boinc"
-cp "$BOINC/stage/usr/local/bin/boinccmd" "BOINC/assets/boinccmd"
-cp "$BOINC/win_build/installerv2/redist/all_projects_list.xml" "BOINC/assets/all_projects_list.xml"
-cp "$CURL_DIR/ca-bundle.crt" "BOINC/assets/ca-bundle.crt"
 
 echo "=============================BOINC done============================="
 

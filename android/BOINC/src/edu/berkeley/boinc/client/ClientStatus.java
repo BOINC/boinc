@@ -38,7 +38,7 @@ import edu.berkeley.boinc.rpc.Transfer;
  */
 public class ClientStatus {
 	
-	private final String TAG = "ClientStatus";
+	private final String TAG = "BOINC Client Status";
 	private Context ctx; // application context in order to fire broadcast events
 	
 	//RPC wrapper

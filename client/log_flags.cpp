@@ -540,6 +540,48 @@ void process_gpu_exclusions() {
     unsigned int i, j, a;
     PROJECT *p;
 
+    // check the syntactic validity of the exclusions
+    //
+    for (i=0; i<config.exclude_gpus.size(); i++) {
+        EXCLUDE_GPU& eg = config.exclude_gpus[i];
+        p = gstate.lookup_project(eg.url.c_str());
+        if (!p) {
+            msg_printf(0, MSG_USER_ALERT,
+                "Bad URL in GPU exclusion: %s", eg.url.c_str()
+            );
+            continue;
+        }
+        if (!eg.type.empty()) {
+            bool found = false;
+            string types;
+            for (int k=1; k<coprocs.n_rsc; k++) {
+                COPROC& cp = coprocs.coprocs[k];
+                if (eg.type == cp.type) {
+                    found = true;
+                    break;
+                }
+                types += " " + string(cp.type);
+            }
+            if (!found) {
+                msg_printf(p, MSG_USER_ALERT,
+                    "Bad type '%s' in GPU exclusion; valid types:%s",
+                    eg.type.c_str(), types.c_str()
+                );
+                continue;
+            }
+            if (!eg.appname.empty()) {
+                APP* app = gstate.lookup_app(p, eg.appname.c_str());
+                if (!app) {
+                    msg_printf(p, MSG_USER_ALERT,
+                        "Nonexistent app '%s' in GPU exclusion",
+                        eg.appname.c_str()
+                    );
+                    continue;
+                }
+            }
+        }
+    }
+
     for (i=0; i<gstate.apps.size(); i++) {
         APP* app = gstate.apps[i];
         for (int k=1; k<coprocs.n_rsc; k++) {

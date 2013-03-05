@@ -511,7 +511,7 @@ function add_comment() {
     file_put_contents("$p/userid", "$user->id");
     file_put_contents("$p/comment", get_str("comment"));
 
-    header("Location: sim_web.php?action=show_simulation?scen=$scen&sim=$sim");
+    header("Location: sim_web.php?action=show_simulation&scen=$scen&sim=$sim");
 }
 
 $action = get_str("action", true);
@@ -542,8 +542,11 @@ case "show_simulation":
 case "add_comment":
     add_comment();
     break;
-default:
+case null:
     show_scenarios();
+    break;
+default:
+    die("unknown action $action");
 }
 
 ?>

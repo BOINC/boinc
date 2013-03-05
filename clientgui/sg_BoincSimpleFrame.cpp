@@ -42,6 +42,7 @@
 #include "version.h"
 
 #include "sg_BoincSimpleFrame.h"
+#include "sg_CustomControls.h"
 #include "sg_TaskPanel.h"
 #include "sg_ProjectPanel.h"
 #include "sg_DlgMessages.h"
@@ -744,7 +745,7 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
 	wxBoxSizer* buttonsSizer;
 	buttonsSizer = new wxBoxSizer( wxHORIZONTAL );
 
-	m_NoticesButton = new wxButton( this, ID_SGNOTICESBUTTON, _("Notices"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_NoticesButton = new CTransparentButton( this, ID_SGNOTICESBUTTON, _("Notices"), wxDefaultPosition, wxDefaultSize, 0 );
     m_NoticesButton->SetToolTip( _("Open a window to view notices from projects or BOINC"));
 	buttonsSizer->Add( m_NoticesButton, 0, wxEXPAND | wxALIGN_LEFT, 0 );
     buttonsSizer->AddStretchSpacer();
@@ -754,7 +755,7 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
     GetTextExtent(m_sResumeString, &resumeWidth, &y);
     
     m_bIsSuspended = suspendWidth > resumeWidth;
-    m_SuspendResumeButton = new wxButton( this, ID_SGSUSPENDRESUMEBUTTON, 
+    m_SuspendResumeButton = new CTransparentButton( this, ID_SGSUSPENDRESUMEBUTTON, 
                             m_bIsSuspended ? m_sSuspendString : m_sResumeString,
                             wxDefaultPosition, wxDefaultSize, 0 );
     m_SuspendResumeButton->SetToolTip(wxEmptyString);
@@ -762,7 +763,7 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
 	buttonsSizer->Add( m_SuspendResumeButton, 0, wxEXPAND | wxALIGN_RIGHT, 0 );
     buttonsSizer->AddStretchSpacer();
 
-    m_HelpButton = new wxButton( this, ID_SIMPLE_HELP, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_HelpButton = new CTransparentButton( this, ID_SIMPLE_HELP, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
 	buttonsSizer->Add( m_HelpButton, 0, wxEXPAND | wxALIGN_RIGHT, 0 );
 
     wxString helpTip;

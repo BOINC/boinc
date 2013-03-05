@@ -33,7 +33,7 @@ import android.util.Log;
 
 public class BootReceiver extends BroadcastReceiver {  
 	
-	private final String TAG = "BootReceiver";
+	private final String TAG = "BOINC BootReceiver";
 	private NotificationManager mNM;
 	
     @Override
@@ -41,6 +41,7 @@ public class BootReceiver extends BroadcastReceiver {
     	
     	AppPreferences prefs = new AppPreferences();
     	prefs.readPrefs(context);
+    	
     	if(prefs.getAutostart()) {
     		Log.d(TAG,"autostart enabled, start Monitor...");
 	    	Intent startServiceIntent = new Intent(context, Monitor.class);
@@ -60,6 +61,7 @@ public class BootReceiver extends BroadcastReceiver {
     		// do nothing
     		Log.d(TAG,"autostart disabeld");
     	}
+    	
     }
 }
 

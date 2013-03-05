@@ -21,12 +21,15 @@ package edu.berkeley.boinc.client;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import android.app.NotificationManager;
@@ -52,20 +55,32 @@ import edu.berkeley.boinc.rpc.Result;
 import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.rpc.Transfer;
 
-public class Monitor extends Service{
+public class Monitor extends Service {
 	
-	private final String TAG = "BOINC Client Monitor Service";
+	private final String TAG = "BOINC Monitor Service";
 	
 	private static ClientStatus clientStatus; //holds the status of the client as determined by the Monitor
 	private static AppPreferences appPrefs; //hold the status of the app, controlled by AppPreferences
 	
+	public static Boolean monitorActive = false;
+	public static Boolean clientSetupActive = false;
+	
 	private String clientName; 
+	private String clientCLI; 
 	private String clientCABundle; 
 	private String authFileName; 
+	private String allProjectsList; 
 	private String clientPath; 
 	
 	private Boolean started = false;
 	private Thread monitorThread = null;
+	private Boolean monitorRunning = true;
+	
+	private Process clientProcess;
+	private RpcClient rpc = new RpcClient();
+
+	private final Integer maxDuration = 3000; //maximum polling duration
+
 	
 	public static ClientStatus getClientStatus() { //singleton pattern
 		if (clientStatus == null) {
@@ -82,14 +97,6 @@ public class Monitor extends Service{
 	}
 
 	
-	public static Boolean monitorActive = false;
-	public static Boolean clientSetupActive = false;
-	private Process clientProcess;
-	
-	private RpcClient rpc = new RpcClient();
-
-	private final Integer maxDuration = 3000; //maximum polling duration
-
 	/*
 	 * returns this class, allows clients to access this service's functions and attributes.
 	 */
@@ -109,16 +116,20 @@ public class Monitor extends Service{
         return mBinder;
     }
 	
-    //onCreate is life-cycle method of service. regardless of bound or started service, this method gets called once upon first creation.
+    /*
+     * onCreate is life-cycle method of service. regardless of bound or started service, this method gets called once upon first creation.
+     */
 	@Override
     public void onCreate() {
 		Log.d(TAG,"onCreate()");
 		
-		//populate attributes with XML resource values
+		// populate attributes with XML resource values
+		clientPath = getString(R.string.client_path); 
 		clientName = getString(R.string.client_name); 
+		clientCLI = getString(R.string.client_cli); 
 		clientCABundle = getString(R.string.client_cabundle); 
 		authFileName = getString(R.string.auth_file_name); 
-		clientPath = getString(R.string.client_path); 
+		allProjectsList = getString(R.string.all_projects_list); 
 		
 		// initialize singleton helper classes and provide application context
 		getClientStatus().setCtx(this);
@@ -132,12 +143,37 @@ public class Monitor extends Service{
 		else {
 			Log.d(TAG, "asynchronous monitor NOT started!");
 		}
-    }
+
+        Toast.makeText(this, "BOINC Monitor Service Starting", Toast.LENGTH_SHORT).show();
+	}
 	
+    /*
+     * this should not be reached
+    */
+    @Override
+    public void onDestroy() {
+    	Log.d(TAG,"onDestroy()");
+    	
+        // Cancel the persistent notification.
+    	//
+    	((NotificationManager)getSystemService(Service.NOTIFICATION_SERVICE)).cancel(getResources().getInteger(R.integer.autostart_notification_id));
+        
+    	// Abort the ClientMonitorAsync thread
+    	//
+    	monitorRunning = false;
+		monitorThread.interrupt();
+    	
+    	// Now we can safely stop the client
+    	//
+		quitClient();
+        
+        Toast.makeText(this, "BOINC Monitor Service Stopped", Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {	
     	//this gets called after startService(intent) (either by BootReceiver or AndroidBOINCActivity, depending on the user's autostart configuration)
-    	Log.d(TAG, "onStartCommand");
+    	Log.d(TAG, "onStartCommand()");
 		/*
 		 * START_NOT_STICKY is now used and replaced START_STICKY in previous implementations.
 		 * Lifecycle events - e.g. killing apps by calling their "onDestroy" methods, or killing an app in the task manager - does not effect the non-Dalvik code like the native BOINC Client.
@@ -151,23 +187,7 @@ public class Monitor extends Service{
 		return START_NOT_STICKY;
     }
 
-    /*
-     * this should not be reached
-    */
-    @Override
-    public void onDestroy() {
-    	Log.d(TAG,"onDestroy()");
-    	
-        // Cancel the persistent notification.
-    	((NotificationManager) getSystemService(Service.NOTIFICATION_SERVICE)).cancel(getResources().getInteger(R.integer.autostart_notification_id));
-        
-		quitClient();
-        
-        Toast.makeText(this, "service stopped", Toast.LENGTH_SHORT).show();
-    }
-
-    
-    //sends broadcast about login (or register) result for login acitivty
+    //sends broadcast about login (or register) result for login activity
 	private void sendLoginResultBroadcast(Integer type, Integer result, String message) {
         Intent loginResults = new Intent();
         loginResults.setAction("edu.berkeley.boinc.loginresults");
@@ -189,7 +209,7 @@ public class Monitor extends Service{
     
     public void forceRefresh() {
     	Log.d(TAG,"forceRefresh()");
-    	if(monitorThread!= null) {
+    	if(monitorThread != null) {
     		monitorThread.interrupt();
     	}
     }
@@ -251,7 +271,7 @@ public class Monitor extends Service{
     		// verify success of projectAttach with poll function
     		success = false;
     		Integer counter = 0;
-    		Integer sleepDuration = 500; //in mili seconds
+    		Integer sleepDuration = 500; //in milliseconds
     		Integer maxLoops = maxDuration / sleepDuration;
     		while(!success && (counter < maxLoops)) {
     			try {
@@ -284,7 +304,7 @@ public class Monitor extends Service{
     	if(success) { //only continue if lookupAccount command did not fail
     		//get authentication token from lookupAccountPoll
     		Integer counter = 0;
-    		Integer sleepDuration = 500; //in mili seconds
+    		Integer sleepDuration = 500; //in milliseconds
     		Integer maxLoops = maxDuration / sleepDuration;
     		Boolean loop = true;
     		while(loop && (counter < maxLoops)) {
@@ -349,7 +369,7 @@ public class Monitor extends Service{
     	if(success) { //only continue if attach command did not fail
     		// verify success of projectAttach with poll function
     		Integer counter = 0;
-    		Integer sleepDuration = 500; //in mili seconds
+    		Integer sleepDuration = 500; //in milliseconds
     		Integer maxLoops = maxDuration / sleepDuration;
     		Boolean loop = true;
     		while(loop && (counter < maxLoops)) {
@@ -376,22 +396,23 @@ public class Monitor extends Service{
     	return auth;
 	}
 	
-	private final class ClientMonitorAsync extends AsyncTask<Integer,String,Boolean> {
+	private final class ClientMonitorAsync extends AsyncTask<Integer, String, Boolean> {
 
-		private final String TAG = "ClientMonitorAsync";
+		private final String TAG = "BOINC ClientMonitorAsync";
 		private final Boolean showRpcCommands = false;
 		
-		 //frequency of which the monitor updates client status via RPC, to often can cause reduced performance!
+		// Frequency of which the monitor updates client status via RPC, to often can cause reduced performance!
 		private Integer refreshFrequency = getResources().getInteger(R.integer.monitor_refresh_rate_ms);
 		
 		@Override
 		protected Boolean doInBackground(Integer... params) {
-			monitorThread = Thread.currentThread(); //save current thread, to interrupt sleep from outside...
-			while(true) {
-				Log.d(TAG+"-doInBackground","monitor loop...");
+			// Save current thread, to interrupt sleep from outside...
+			monitorThread = Thread.currentThread();
+			while(monitorRunning) {
+				publishProgress("doInBackground() monitor loop...");
 				
 				if(!rpc.connectionAlive()) { //check whether connection is still alive
-					//if connection is not working, either client has not been set up yet or client crashed.
+					// If connection is not working, either client has not been set up yet or client crashed.
 					(new ClientSetupAsync()).execute();
 				} else {
 					if(showRpcCommands) Log.d(TAG, "getCcStatus");
@@ -409,14 +430,14 @@ public class Monitor extends Service{
 					if(showRpcCommands) Log.d(TAG, "getGlobalPrefsWorkingStruct");
 					GlobalPreferences clientPrefs = rpc.getGlobalPrefsWorkingStruct();
 					ArrayList<Message> msgs = new ArrayList<Message>();
-					if(getResources().getBoolean(R.bool.tab_debug)) { //retrieve messages only when debug tab is enabled
-						Integer count = rpc.getMessageCount();
-						if(showRpcCommands) Log.d(TAG, "getMessages, count: " + count);
-						msgs = rpc.getMessages(count - 25); //get the most recent 25 messages
-					}
+					Integer count = rpc.getMessageCount();
+					msgs = rpc.getMessages(count - 250); //get the most recent 250 messages
+					if(showRpcCommands) Log.d(TAG, "getMessages, count: " + count);
 					
-					if((status!=null)&&(results!=null)&&(projects!=null)&&(transfers!=null)&&(clientPrefs!=null)) {
-						Monitor.clientStatus.setClientStatus(status,results,projects,transfers,clientPrefs,msgs);
+					if( (status != null) && (results != null) && (projects != null) && (transfers != null) &&
+					    (clientPrefs != null)
+					) {
+						Monitor.clientStatus.setClientStatus(status, results, projects, transfers, clientPrefs, msgs);
 					} else {
 						BOINCActivity.logMessage(getApplicationContext(), TAG, "client status connection problem");
 					}
@@ -427,28 +448,28 @@ public class Monitor extends Service{
 				}
 				
 	    		try {
-	    			Thread.sleep(refreshFrequency); //sleep
-	    		}catch(InterruptedException e){
-	    			Log.d(TAG, "sleep interrupted...");
-	    		}
+	    			Thread.sleep(refreshFrequency);
+	    		} catch(InterruptedException e) {}
 			}
+
+			return true;
 		}
 
 		@Override
 		protected void onProgressUpdate(String... arg0) {
-			Log.d(TAG+"-onProgressUpdate",arg0[0]);
+			Log.d(TAG, "onProgressUpdate() " + arg0[0]);
 			BOINCActivity.logMessage(getApplicationContext(), TAG, arg0[0]);
 		}
 		
 		@Override
 		protected void onPostExecute(Boolean success) {
-			Log.d(TAG+" - onPostExecute","monitor exit"); 
+			Log.d(TAG, "onPostExecute() monitor exit"); 
 			Monitor.monitorActive = false;
 		}
 	}
 	
 	private final class ClientSetupAsync extends AsyncTask<Void,String,Boolean> {
-		private final String TAG = "ClientSetupAsync";
+		private final String TAG = "BOINC ClientSetupAsync";
 		
 		private Integer retryRate = getResources().getInteger(R.integer.monitor_setup_connection_retry_rate_ms);
 		private Integer retryAttempts = getResources().getInteger(R.integer.monitor_setup_connection_retry_attempts);
@@ -456,9 +477,9 @@ public class Monitor extends Service{
 		@Override
 		protected void onPreExecute() {
 			if(Monitor.clientSetupActive) { // setup is already running, cancel execution...
-				Log.d(TAG,"setup is already active, quit.");
 				cancel(false);
 			} else {
+				Log.d(TAG, "onPreExecute - running setup.");
 				Monitor.clientSetupActive = true;
 				getClientStatus().setupStatus = ClientStatus.SETUP_STATUS_LAUNCHING;
 				getClientStatus().fire();
@@ -472,13 +493,14 @@ public class Monitor extends Service{
 		
 		@Override
 		protected void onPostExecute(Boolean success) {
-			Log.d(TAG+" - onPostExecute","setup exit"); 
 			Monitor.clientSetupActive = false;
 			if(success) {
+				Log.d(TAG, "onPostExecute - setup completed successfully"); 
 				getClientStatus().setupStatus = ClientStatus.SETUP_STATUS_AVAILABLE;
 				// do not fire new client status here, wait for ClientMonitorAsync to retrieve initial status
 				forceRefresh();
 			} else {
+				Log.d(TAG, "onPostExecute - setup experienced an error"); 
 				getClientStatus().setupStatus = ClientStatus.SETUP_STATUS_ERROR;
 				getClientStatus().fire();
 			}
@@ -486,166 +508,106 @@ public class Monitor extends Service{
 
 		@Override
 		protected void onProgressUpdate(String... arg0) {
-			Log.d(TAG+"-onProgressUpdate",arg0[0]);
+			Log.d(TAG, "onProgressUpdate - " + arg0[0]);
 			BOINCActivity.logMessage(getApplicationContext(), TAG, arg0[0]);
 		}
 		
 		private Boolean startUp() {
-			
-			//kill client of previous life-cycle
-			Integer clientPid = getPidForProcessName(getResources().getString(R.string.client_path) + getResources().getString(R.string.client_name));
-			if(clientPid!=null) { //client process exists
-				Log.d(TAG, "client process exists with pid: " + clientPid);
-				android.os.Process.killProcess(clientPid);
+
+			String clientProcessName = clientPath + clientName;
+			Integer clientPid = null;
+
+			String md5AssetClient = ComputeMD5Asset(clientName);
+			publishProgress("Hash of client (Asset): '" + md5AssetClient + "'");
+
+			String md5InstalledClient = ComputeMD5File(clientPath + clientName);
+			publishProgress("Hash of client (File): '" + md5InstalledClient + "'");
+
+			// If client hashes do not match, we need to install the one that is a part
+			// of the package. Shutdown the currently running client if needed.
+			//
+			if (md5InstalledClient.compareToIgnoreCase(md5AssetClient) != 0) {
+
+				// Determine if BOINC is already running.
+				//
+				clientPid = getPidForProcessName(clientProcessName);
+				if(clientPid != null) {
+
+					// Do not just kill the client on the first attempt.  That leaves dangling 
+					// science applications running which causes repeated spawning of applications.
+					// Neither the UI or client are happy and each are trying to recover from the
+					// situation.  Instead send SIGQUIT and give the client time to clean up.
+					//
+					publishProgress("Gracefully shutting down BOINC client (" + clientPid +")");
+					android.os.Process.sendSignal(clientPid, android.os.Process.SIGNAL_QUIT);
+
+					// Wait for up to 15 seconds for the client to shutdown gracefully
+					//
+					for (Integer i = 0; i <= 15; i++) {
+						clientPid = getPidForProcessName(clientProcessName);
+						if(clientPid != null) {
+							publishProgress("Waiting on BOINC client (" + clientPid + ") to shutdown");
+							try {
+								Thread.sleep(1000);
+							} catch (Exception e) {}
+						} else {
+							break;
+						}
+					}
+
+					// If the client has not shutdown by now, force terminate it
+					//
+					clientPid = getPidForProcessName(clientProcessName);
+					if(clientPid != null) {
+						publishProgress("Forcefully terminating BOINC client (" + clientPid + ")");
+						android.os.Process.killProcess(clientPid);
+						clientPid = null;
+					}	
+				}
+
+				// Install BOINC client software
+				//
+		        if(!installClient()) {
+		        	publishProgress("BOINC client installation failed!");
+		        	return false;
+		        }
 			}
 			
-			//install and execute client
-			Boolean setup = setupClient();
-			if(!setup) {
-				return false; //setup failed 
-			}
 			
-			//try to connect to executed Client in loop
+			// Start the BOINC client if we need to.
+			//
+			clientPid = getPidForProcessName(clientProcessName);
+			if(clientPid == null) {
+	        	publishProgress("Starting the BOINC client");
+				if (!runClient()) {
+		        	publishProgress("BOINC client failed to start");
+					return false;
+				}
+			}
+
+			
+			// Try to connect to executed Client in loop
+			//
 			Boolean connected = false;
 			Integer counter = 0;
-			while(!(connected=connectClient()) && (counter<retryAttempts)) { //re-trys setting up the client several times, before giving up.
-				BOINCActivity.logMessage(getApplicationContext(), TAG, "--- restart setup ---");
+			while(!connected && (counter < retryAttempts)) {
+				publishProgress("Attempting BOINC client connection...");
+				connected = connectClient();
 				counter++;
+
 				try {
 					Thread.sleep(retryRate);
-				}catch (Exception e) {}
+				} catch (Exception e) {}
 			}
 			
 			return connected;
 		}
 		
-		private Boolean connectClient() {
-			Boolean success = false;
-			
-			publishProgress("connect client.");
-			
-	        success = connect();
-	        if(success) {
-	        	publishProgress("socket connection established (1/2)");
-	        }
-	        else {
-	        	publishProgress("socket connection failed!");
-	        	return success;
-	        }
-	        
-	        //authorize
-	        success = authorize();
-	        if(success) {
-	        	publishProgress("socket authorized. (2/2)");
-	        }
-	        else {
-	        	publishProgress("socket authorization failed!");
-	        	return success;
-	        }
-	        return success;
-		}
-		
-		// copies client binaries from apk to install directory and exetuces them.
-		private Boolean setupClient() {
-			Boolean success = false;
-	
-			publishProgress("Client setup.");
-			
-	        success = installClient(true);
-	        if(success) {
-	        	publishProgress("installed. (1/2)");
-	        }
-	        else {
-	        	publishProgress("installation failed!");
-	        	return success;
-	        }
-	        
-	        //run client
-	        success = runClient();
-	        if(success) {
-	        	publishProgress("started. (2/2)");
-	        }
-	        else {
-	        	publishProgress("start failed!");
-	        	return success;
-	        }
-	        return success;
-		}
-
-
-		// copies the binaries of BOINC client from assets directory into storage space of this application
-	    private Boolean installClient(Boolean overwrite){
-	    	Boolean success = false;
-	    	byte[] b;
-    		int read; 
-
-    		try {
-	    		
-	    		//end execution if no overwrite
-	    		File boincClient = new File(clientPath+clientName);
-	    		if (boincClient.exists() && !overwrite) {
-	    			Log.d(TAG,"client exists, skip installation...");
-	    			return true;
-	    		}
-	    		File boincClientCABundle = new File(clientPath+clientCABundle);
-	    		
-	    		//delete old client
-	    		if(boincClient.exists() && overwrite) {
-	    			Log.d(TAG,"delete old client");
-	    			boincClient.delete();
-	    			boincClientCABundle.delete();
-	    		}
-	    		
-	    		//check path and create it
-	    		File clientDir = new File(clientPath);
-	    		if(!clientDir.exists()) {
-	    			clientDir.mkdir();
-	    			clientDir.setWritable(true); 
-	    		}
-	    		
-	    		//copy client from assets to clientPath
-	    		InputStream clientAsset = getApplicationContext().getAssets().open(clientName); 
-	    		OutputStream clientData = new FileOutputStream(boincClient); 
-	    		b = new byte [1024];
-	    		while((read = clientAsset.read(b)) != -1){ 
-	    			clientData.write(b,0,read);
-	    		}
-	    		clientAsset.close(); 
-	    		clientData.flush(); 
-	    		clientData.close();
-	    		Log.d(TAG, "client copy successful");
-	    		
-	    		//copy client from assets to clientPath
-	    		InputStream clientCABudleAsset = getApplicationContext().getAssets().open(clientCABundle); 
-	    		OutputStream clientCABundleData = new FileOutputStream(boincClientCABundle); 
-	    		b = new byte [1024];
-	    		while((read = clientCABudleAsset.read(b)) != -1){ 
-	    			clientCABundleData.write(b,0,read);
-	    		}
-	    		clientCABudleAsset.close(); 
-	    		clientCABundleData.flush(); 
-	    		clientCABundleData.close();
-	    		Log.d(TAG, "client ca bundle copy successful");
-	    		
-	    		
-	    		boincClient.setExecutable(true);
-	    		success = boincClient.canExecute();
-	    		Log.d(TAG, "native client file in app space is executable: " + success);  
-	    	}
-	    	catch (IOException ioe) {  
-	    		Log.d(TAG, "Exception: " + ioe.getMessage());
-	    		Log.e(TAG, "IOException", ioe);
-	    	}
-	    	
-	    	return success; 
-	    }
-	    
-
-	    // executes the BOINC client using the Java Runtime exec method.
+	    // Executes the BOINC client using the Java Runtime exec method.
+		//
 	    private Boolean runClient() {
 	    	Boolean success = false;
 	    	try { 
-	        	//starts a new process which executes the BOINC client 
 	    		String[] cmd = new String[2];
 	    		
 	    		cmd[0] = clientPath + clientName;
@@ -653,22 +615,103 @@ public class Monitor extends Service{
 	    		
 	        	clientProcess = Runtime.getRuntime().exec(cmd, null, new File(clientPath));
 	        	success = true;
-	    	}
-	    	catch (IOException ioe) {
-	    		Log.d(TAG, "starting BOINC client failed with Exception: " + ioe.getMessage());
-	    		Log.e(TAG, "IOException", ioe);
+	    	} catch (IOException e) {
+	    		Log.d(TAG, "Starting BOINC client failed with exception: " + e.getMessage());
+	    		Log.e(TAG, "IOException", e);
 	    	}
 	    	return success;
 	    }
-	    
 
-	    // connects to running BOINC client.
+		private Boolean connectClient() {
+			Boolean success = false;
+			
+	        success = connect();
+	        if(!success) {
+	        	publishProgress("connection failed!");
+	        	return success;
+	        }
+	        
+	        //authorize
+	        success = authorize();
+	        if(!success) {
+	        	publishProgress("authorization failed!");
+	        }
+	        return success;
+		}
+		
+		// Copies the binaries of BOINC client from assets directory into 
+		// storage space of this application
+		//
+	    private Boolean installClient(){
+	    	Boolean success = false;
+
+			installFile(clientName);
+			installFile(clientCLI);
+			installFile(clientCABundle);
+			installFile(allProjectsList);
+    		
+    		// end execution if no overwrite
+    		File boincClient = new File(clientPath + clientName);
+    		boincClient.setExecutable(true);
+    		success = boincClient.canExecute();
+    		publishProgress("native client file in app space is executable: " + success);
+    		
+    		File boincCLI = new File(clientPath + clientCLI);
+    		boincCLI.setExecutable(true);
+	    	
+	    	return success; 
+	    }
+	    
+		private Boolean installFile(String file) {
+	    	Boolean success = false;
+	    	byte[] b = new byte [1024];
+    		int count; 
+			
+    		try {
+    			Log.d(TAG, "installing: " + file);
+	    		
+	    		// Check path and create it
+	    		File installDir = new File(clientPath);
+	    		if(!installDir.exists()) {
+	    			installDir.mkdir();
+	    			installDir.setWritable(true); 
+	    		}
+	    		
+	    		// Delete old target
+	    		File target = new File(clientPath + file);
+	    		if(target.exists()) {
+	    			target.delete();
+	    		}
+	    		
+	    		// Copy file from the asset manager to clientPath
+	    		InputStream asset = getApplicationContext().getAssets().open(file); 
+	    		OutputStream targetData = new FileOutputStream(target); 
+	    		while((count = asset.read(b)) != -1){ 
+	    			targetData.write(b, 0, count);
+	    		}
+	    		asset.close(); 
+	    		targetData.flush(); 
+	    		targetData.close();
+
+	    		publishProgress("install successful");
+	    		success = true;   		
+	    	} catch (IOException e) {  
+	    		Log.d(TAG, "IOException: " + e.getMessage());
+	    		Log.e(TAG, "IOException", e);
+	    	}
+			
+			return success;
+		}
+
+	    // Connects to running BOINC client.
+	    //
 	    private Boolean connect() {
 	    	return rpc.open("127.0.0.1", 31416);
 	    }
 	    
-
-	    // authorizes this application as valid RPC Manager by reading auth token from file and making RPC call.
+	    // Authorizes this application as valid RPC Manager by reading auth token from file 
+	    // and making RPC call.
+	    //
 	    private Boolean authorize() {
 	    	String authKey = readAuthToken();
 			
@@ -676,22 +719,26 @@ public class Monitor extends Service{
 			return rpc.authorize(authKey); 
 	    }
 		
-		// get PID for process name using native 'ps' console command
+		// Get PID for process name using native 'ps' console command
+	    //
 	    private Integer getPidForProcessName(String processName) {
+	    	int count;
+	    	char[] buf = new char[1024];
+	    	StringBuffer sb = new StringBuffer();
 	    	
 	    	//run ps and read output
-	    	StringBuffer sb = new StringBuffer();
 	    	try {
 		    	Process p = Runtime.getRuntime().exec("ps");
 		    	p.waitFor();
 		    	InputStreamReader isr = new InputStreamReader(p.getInputStream());
-		    	int ch;
-		    	char [] buf = new char[1024];
-		    	while((ch = isr.read(buf)) != -1)
+		    	while((count = isr.read(buf)) != -1)
 		    	{
-		    	    sb.append(buf, 0, ch);
+		    	    sb.append(buf, 0, count);
 		    	}
-	    	}catch (Exception e) {Log.e(TAG, "getPidForProcessName", e);}
+	    	} catch (Exception e) {
+	    		Log.d(TAG, "Exception: " + e.getMessage());
+	    		Log.e(TAG, "Exception", e);
+	    	}
 	    	
 	    	//parse output into hashmap
 	    	HashMap<String,Integer> pMap = new HashMap<String, Integer>();
@@ -708,8 +755,75 @@ public class Monitor extends Service{
 	    	    //Log.d(TAG,"added: " + packageName + pid); 
 	    	}
 	    	
-	    	//find required pid
+	    	// Find required pid
 	    	return pMap.get(processName);
+	    }
+
+	    // Compute MD5 of the requested asset
+	    //
+	    private String ComputeMD5Asset(String file) {
+	    	byte[] b = new byte [1024];
+    		int count; 
+			
+    		try {
+    			MessageDigest md5 = MessageDigest.getInstance("MD5");
+
+    			InputStream asset = getApplicationContext().getAssets().open(file); 
+	    		while((count = asset.read(b)) != -1){ 
+	    			md5.update(b, 0, count);
+	    		}
+	    		asset.close();
+	    		
+				byte[] md5hash = md5.digest();
+				StringBuilder sb = new StringBuilder();
+				for (int i = 0; i < md5hash.length; ++i) {
+					sb.append(String.format("%02x", md5hash[i]));
+				}
+	    		
+	    		return sb.toString();
+	    	} catch (IOException e) {  
+	    		Log.d(TAG, "IOException: " + e.getMessage());
+	    		Log.e(TAG, "IOException", e);
+	    	} catch (NoSuchAlgorithmException e) {
+	    		Log.d(TAG, "NoSuchAlgorithmException: " + e.getMessage());
+	    		Log.e(TAG, "NoSuchAlgorithmException", e);
+			}
+			
+			return "";
+	    }
+
+	    // Compute MD5 of the requested file
+	    //
+	    private String ComputeMD5File(String file) {
+	    	byte[] b = new byte [1024];
+    		int count; 
+			
+    		try {
+    			MessageDigest md5 = MessageDigest.getInstance("MD5");
+
+	    		File target = new File(file);
+	    		InputStream asset = new FileInputStream(target); 
+	    		while((count = asset.read(b)) != -1){ 
+	    			md5.update(b, 0, count);
+	    		}
+	    		asset.close();
+
+				byte[] md5hash = md5.digest();
+				StringBuilder sb = new StringBuilder();
+				for (int i = 0; i < md5hash.length; ++i) {
+					sb.append(String.format("%02x", md5hash[i]));
+				}
+	    		
+	    		return sb.toString();
+	    	} catch (IOException e) {  
+	    		Log.d(TAG, "IOException: " + e.getMessage());
+	    		Log.e(TAG, "IOException", e);
+	    	} catch (NoSuchAlgorithmException e) {
+	    		Log.d(TAG, "NoSuchAlgorithmException: " + e.getMessage());
+	    		Log.e(TAG, "NoSuchAlgorithmException", e);
+			}
+			
+			return "";
 	    }
 	}
 	
@@ -838,14 +952,14 @@ public class Monitor extends Service{
 		}
 	}
 	
-	private final class WriteClientRunModeAsync extends AsyncTask<Integer,Void,Boolean> {
+	private final class WriteClientRunModeAsync extends AsyncTask<Integer, String, Boolean> {
 
 		private final String TAG = "WriteClientRunModeAsync";
+		
 		@Override
 		protected Boolean doInBackground(Integer... params) {
-			Log.d(TAG, "doInBackground");
-			Boolean success = rpc.setRunMode(params[0],0);
-			Log.d(TAG,"run mode set to " + params[0] + " returned " + success);
+			Boolean success = rpc.setRunMode(params[0], 0);
+        	publishProgress("run mode set to " + params[0] + " returned " + success);
 			return success;
 		}
 		
@@ -853,21 +967,33 @@ public class Monitor extends Service{
 		protected void onPostExecute(Boolean success) {
 			forceRefresh();
 		}
+
+		@Override
+		protected void onProgressUpdate(String... arg0) {
+			Log.d(TAG, "onProgressUpdate - " + arg0[0]);
+			BOINCActivity.logMessage(getApplicationContext(), TAG, arg0[0]);
+		}
 	}
 	
-	private final class ShutdownClientAsync extends AsyncTask<Void,Void,Boolean> {
+	private final class ShutdownClientAsync extends AsyncTask<Void, String, Boolean> {
 
 		private final String TAG = "ShutdownClientAsync";
+
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			Log.d(TAG, "doInBackground");
 	    	Boolean success = rpc.quit();
-	    	BOINCActivity.logMessage(getApplicationContext(), TAG, "graceful shutdown returned " + success);
+        	publishProgress("Graceful shutdown returned " + success);
 			if(!success) {
 				clientProcess.destroy();
-				BOINCActivity.logMessage(getApplicationContext(), TAG, "process killed ");
+	        	publishProgress("Process killed");
 			}
 			return success;
+		}
+
+		@Override
+		protected void onProgressUpdate(String... arg0) {
+			Log.d(TAG, "onProgressUpdate - " + arg0[0]);
+			BOINCActivity.logMessage(getApplicationContext(), TAG, arg0[0]);
 		}
 	}
 }

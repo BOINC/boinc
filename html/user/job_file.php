@@ -25,12 +25,12 @@
 //  This eliminates issues related to file immutability
 //
 // 2) how do we keep track of the files?
-//  In the MySQL database, in a table called job_files.
+//  In the MySQL database, in a table called "job_file".
 //  Each row describes a file currently on the server.
-//  In addition, we maintain a table batch_file_assoc to record
+//  In addition, we maintain a table "batch_file_assoc" to record
 //  that a file is used by a particular batch.
 //  (Note: the association could be at the job level instead.
-//  but this way is more efficient if all the jobs in a batch use
+//  but this way is more efficient if many jobs in a batch use
 //  a particular file.)
 //
 // 3) how do we clean up unused files?

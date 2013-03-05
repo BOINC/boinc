@@ -160,7 +160,6 @@ function xml_get_jobs($r) {
 }
 
 function submit_batch($r) {
-    print_r($r);
     $app = get_app($r);
     list($user, $user_submit) = authenticate_user($r, $app);
     $template = read_input_template($app);
@@ -201,7 +200,7 @@ function submit_batch($r) {
         }
     }
     $cmd = "cd ../../bin; ./adjust_user_priority --user $user->id --flops $total_flops --app $app->name";
-    $x = system($cmd);
+    $x = exec($cmd);
     if (!is_numeric($x) || (double)$x == 0) {
         xml_error(-1, "$cmd returned $x");
     }
@@ -216,7 +215,9 @@ function submit_batch($r) {
         $batch_id = BoincBatch::insert(
             "(user_id, create_time, njobs, name, app_id, logical_end_time, state) values ($user->id, $now, $njobs, '$batch_name', $app->id, $let, ".BATCH_STATE_IN_PROGRESS.")"
         );
-        if (!$batch_id) xml_error(-1, "BoincBatch::insert() failed");
+        if (!$batch_id) {
+            xml_error(-1, "Can't create batch: ".mysql_error());
+        }
     }
     $i = 0;
     foreach($jobs as $job) {
@@ -233,6 +234,9 @@ function create_batch($r) {
     $batch_id = BoincBatch::insert(
         "(user_id, create_time, name, app_id, state) values ($user->id, $now, '$batch_name', $app->id, ".BATCH_STATE_INIT.")"
     );
+    if (!$batch_id) {
+        xml_error(-1, "Can't create batch: ".mysql_error());
+    }
     echo "<batch_id>$batch_id</batch_id>\n";
 }
 
@@ -277,11 +281,26 @@ function n_outfiles($wu) {
     return count($r->file_info);
 }
 
+// return a batch specified by the command, using either ID or name
+//
+function get_batch($r) {
+    if (!empty($r->batch_id)) {
+        $batch_id = (int)($r->batch_id);
+        $batch = BoincBatch::lookup_id($batch_id);
+    } else if (!empty($r->batch_name)) {
+        $batch_name = (string)($r->batch_name);
+        $batch_name = BoincDb::escape_string($batch_name);
+        $batch = BoincBatch::lookup("name='$batch_name'");
+    } else {
+        xml_error(-1, "batch not specified");
+    }
+    if (!$batch) xml_error(-1, "no such batch");
+    return $batch;
+}
+
 function query_batch($r) {
     list($user, $user_submit) = authenticate_user($r, null);
-    $batch_id = (int)($r->batch_id);
-    $batch = BoincBatch::lookup_id($batch_id);
-    if (!$batch) xml_error(-1, "no such batch");
+    $batch = get_batch($r);
     if ($batch->user_id != $user->id) xml_error(-1, "not owner");
 
     $wus = BoincWorkunit::enum("batch = $batch_id");
@@ -300,15 +319,14 @@ function query_batch($r) {
     echo "</batch>\n";
 }
 
-// variant for Condor, which doesn't care about instances
+// variant for Condor, which doesn't care about job instances
+// and refers to batches by name
 //
-function query_batch_condor($r) {
+function query_batch2($r) {
     list($user, $user_submit) = authenticate_user($r, null);
-    $batch_id = (int)($r->batch_id);
-    $batch = BoincBatch::lookup_id($batch_id);
-    if (!$batch) xml_error(-1, "no such batch");
+    $batch = get_batch($r);
     if ($batch->user_id != $user->id) xml_error(-1, "not owner");
-    $wus = BoincWorkunit::enum("batch = $batch_id");
+    $wus = BoincWorkunit::enum("batch = $batch->id");
     echo "<batch>\n";
     foreach ($wus as $wu) {
         if ($wu->canonical_resultid) {
@@ -364,9 +382,7 @@ function query_job($r) {
 
 function handle_abort_batch($r) {
     list($user, $user_submit) = authenticate_user($r, null);
-    $batch_id = (int)($r->batch_id);
-    $batch = BoincBatch::lookup_id($batch_id);
-    if (!$batch) xml_error(-1, "no such batch");
+    $batch = get_batch($r);
     if ($batch->user_id != $user->id) {
         xml_error(-1, "not owner");
     }
@@ -374,11 +390,29 @@ function handle_abort_batch($r) {
     echo "<success>1</success>";
 }
 
+function handle_abort_jobs($r) {
+    list($user, $user_submit) = authenticate_user($r, null);
+    $batch = get_batch($r);
+    if ($batch->user_id != $user->id) {
+        xml_error(-1, "not owner");
+    }
+    foreach ($r->job_names as $job_name) {
+        $job_name = BoincDb::escape_string($job_name);
+        $wu = BoincWorkunit::lookup("name='$job_name'");
+        if (!$wu) {
+            xml_error(-1, "No job $job_name");
+        }
+        if ($wu->batch != $batch_id) {
+            xml_error(-1, "Not owner of job $job_name");
+        }
+        abort_workunit($wu);
+    }
+    echo "<success>1</success>";
+}
+
 function handle_retire_batch($r) {
     list($user, $user_submit) = authenticate_user($r, null);
-    $batch_id = (int)($r->batch_id);
-    $batch = BoincBatch::lookup_id($batch_id);
-    if (!$batch) xml_error(-1, "no such batch");
+    $batch = get_batch($r);
     if ($batch->user_id != $user->id) {
         xml_error(-1, "not owner");
     }
@@ -438,9 +472,10 @@ if (!$r) {
 
 switch ($r->getName()) {
     case 'abort_batch': handle_abort_batch($r); break;
+    case 'abort_jobs': handle_abort_jobs($r); break;
     case 'estimate_batch': estimate_batch($r); break;
     case 'query_batch': query_batch($r); break;
-    case 'query_batch_condor': query_batch_condor($r); break;
+    case 'query_batch2': query_batch2($r); break;
     case 'query_batches': query_batches($r); break;
     case 'query_job': query_job($r); break;
     case 'retire_batch': handle_retire_batch($r); break;

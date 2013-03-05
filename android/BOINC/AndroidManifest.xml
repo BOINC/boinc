@@ -36,7 +36,7 @@
         
         <activity
             android:name="edu.berkeley.boinc.BOINCActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" android:configChanges="orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -48,7 +48,7 @@
         <activity android:name=".TransActivity" />
         <activity android:name=".PrefsActivity" />
         <activity android:name=".ProjectsActivity" />
-        <activity android:name=".MsgsActivity" />
+        <activity android:name=".EventLogActivity" />
         <activity android:name=".DebugActivity" >
             <intent-filter>
                 <action android:name="edu.berkeley.boinc.log" />

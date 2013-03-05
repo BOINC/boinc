@@ -55,12 +55,21 @@ function get_output_file($instance_name, $file_num, $auth_str) {
 // get all the output files of a batch (canonical instances only)
 // and make a zip of all of them
 //
-function get_batch_output_files($batch_id, $auth_str) {
-    $batch = BoincBatch::lookup_id($batch_id);
-    if (!$batch) die("no batch $batch_id");
+function get_batch_output_files($auth_str) {
+    $batch_id = get_int('batch_id', true);
+    if ($batch_id) {
+        $batch = BoincBatch::lookup_id($batch_id);
+        if (!$batch) die("no batch $batch_id");
+    } else {
+        $batch_name = get_int('batch_name');
+        $batch_name = BoincDb::escape_string($batch_name);
+        $batch = BoincBatch::lookup("name='$batch_name'");
+        if (!$batch) die("no batch $batch_name");
+    }
+
     $user = BoincUser::lookup_id($batch->user_id);
     if (!$user) die("no user $batch->user_id");
-    $x = md5($user->authenticator.$batch_id);
+    $x = md5($user->authenticator.$batch->id);
     if ($x != $auth_str) die("bad auth str");
 
     $zip_basename = tempnam("/tmp", "boinc_batch_");
@@ -68,7 +77,7 @@ function get_batch_output_files($batch_id, $auth_str) {
     $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
     $upload_dir = parse_config(get_config(), "<upload_dir>");
 
-    $wus = BoincWorkunit::enum("batch=$batch_id");
+    $wus = BoincWorkunit::enum("batch=$batch->id");
     foreach ($wus as $wu) {
         if (!$wu->canonical_resultid) continue;
         $result = BoincResult::lookup_id($wu->canonical_resultid);
@@ -149,7 +158,6 @@ case 'result_file';
     get_output_file($result_name, $file_num, $auth_str);
     break;
 case 'batch_files':
-    $batch_id = get_int('batch_id');
     get_batch_output_files($batch_id, $auth_str);
     break;
 case 'workunit_file':

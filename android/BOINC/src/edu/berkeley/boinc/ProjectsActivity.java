@@ -61,8 +61,8 @@ public class ProjectsActivity extends FragmentActivity {
 	 */
 	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
 		@Override
-		public void onReceive(Context context,Intent intent) {
-			Log.d(TAG+"-localClientStatusRecNoisy","received");
+		public void onReceive(Context context, Intent intent) {
+			Log.d(TAG+"-localClientStatusRecNoisy", "received");
 			if(dataOutdated) { //cause activity to re-init layout
 				Log.d(TAG, "data was outdated, go directly to reinitPrefsLayout");
 				dataOutdated = false;
@@ -83,7 +83,7 @@ public class ProjectsActivity extends FragmentActivity {
 		//gets called every time Activity comes to front, therefore also after onCreate
 		
 		//register receiver of client status
-		registerReceiver(mClientStatusChangeRec,ifcsc);
+		registerReceiver(mClientStatusChangeRec, ifcsc);
 		
 		//determine layout
 		if(initialSetup) { //no data available (first call) 
@@ -108,13 +108,16 @@ public class ProjectsActivity extends FragmentActivity {
 	 */
 	private ServiceConnection mConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
-	    	Log.d(TAG,"onServiceConnected");
+	    	Log.d(TAG, "onServiceConnected");
+	    	
 	        monitor = ((Monitor.LocalBinder)service).getService();
 		    mIsBound = true;
 			loadProjects();
 	    }
 
 	    public void onServiceDisconnected(ComponentName className) {
+	    	Log.d(TAG, "onServiceDisconnected");
+	    	
 	        monitor = null;
 	        mIsBound = false;
 	    }

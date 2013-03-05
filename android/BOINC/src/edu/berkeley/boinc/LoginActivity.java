@@ -42,7 +42,7 @@ import android.widget.Toast;
 
 public class LoginActivity extends Activity {
 	
-	private final String TAG = "LoginActivity"; 
+	private final String TAG = "BOINC LoginActivity"; 
 	
 	private Monitor monitor;
 	public static ClientStatus clientStatus;

@@ -622,6 +622,9 @@ double user_priority_delta(
     double total_quota,
     double project_flops
 ) {
+    if (total_quota == 0) return 0;
+    if (project_flops == 0) return 0;
+
     double runtime = flop_count / project_flops;
     double share = us.quota / total_quota;
 #if 0

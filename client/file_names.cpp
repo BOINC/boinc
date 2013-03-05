@@ -243,6 +243,7 @@ void delete_old_slot_dirs() {
         snprintf(path, sizeof(path), "%s/%s", SLOTS_DIR, filename);
         if (is_dir(path)) {
 #ifndef _WIN32
+#if HAVE_SYS_SHM_H
             char init_data_path[MAXPATHLEN];
             SHMEM_SEG_NAME shmem_seg_name;
 
@@ -257,6 +258,7 @@ void delete_old_slot_dirs() {
             if (shmem_seg_name != -1) {
                 destroy_shmem(shmem_seg_name);
             }
+#endif
 #endif
             if (!gstate.active_tasks.is_slot_dir_in_use(path)) {
                 client_clean_out_dir(path, "delete old slot dirs");

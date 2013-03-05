@@ -13,20 +13,20 @@ import android.util.Log;
 
 public class ClientRemoteService extends Service {
 
-	private final String TAG = "ClientRemoteService";
+	private final String TAG = "BOINC Client Remote Service";
 
 	private Monitor monitor;
 	private Boolean mIsMonitorBound = false;
 
 	@Override
 	public void onCreate() {
-		Log.d(TAG,"onCreate()");
+		Log.d(TAG, "onCreate()");
 		doBindService();
 	}
 	
 	@Override
     public void onDestroy() {
-    	Log.d(TAG,"onDestroy()");
+    	Log.d(TAG, "onDestroy()");
         doUnbindService();
     }
 	
@@ -48,7 +48,7 @@ public class ClientRemoteService extends Service {
 			try {
 				version = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
 		    } catch (NameNotFoundException e) {
-		        Log.e(TAG,"could not retrieve own version code!",e);
+		        Log.e(TAG, "could not retrieve own version code!", e);
 		    }
 			return version;
 		}
@@ -104,12 +104,13 @@ public class ClientRemoteService extends Service {
 	 */
 	private ServiceConnection mConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
-	    	Log.d(TAG,"onServiceConnected - local Monitor service bound.");
+	    	Log.d(TAG, "onServiceConnected - local Monitor service bound.");
 	        monitor = ((Monitor.LocalBinder)service).getService();
 	        mIsMonitorBound = true;
 	    }
 
 	    public void onServiceDisconnected(ComponentName className) {
+	    	Log.d(TAG, "onServiceDisconnected - local Monitor service bound.");
 	        monitor = null;
 	        mIsMonitorBound = false;
 	    }

@@ -35,7 +35,7 @@ import android.widget.ListView;
 
 public class TasksActivity extends Activity {
 	
-	private final String TAG = "TasksActivity";
+	private final String TAG = "BOINC TasksActivity";
 	
 	private ClientStatus status; //client status, new information gets parsed by monitor, changes notified by "clientstatus" broadcast. read Result from here, to get information about tasks.
 

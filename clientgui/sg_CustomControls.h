@@ -100,6 +100,42 @@ public:
 }; 
 
 
+class CTransparentButton : public wxButton
+{
+    DECLARE_DYNAMIC_CLASS (CTransparentButton)
+    DECLARE_EVENT_TABLE()
+
+public:
+    CTransparentButton();
+    CTransparentButton(
+        wxWindow* parent,
+        wxWindowID id,
+        const wxString& label,
+        const wxPoint& pos = wxDefaultPosition,
+        const wxSize& size = wxDefaultSize,
+        long style = 0,
+        const wxValidator& validator = wxDefaultValidator,
+        const wxString& name = wxButtonNameStr
+    );
+
+    bool Create(
+        wxWindow* parent,
+        wxWindowID id,
+        const wxString& label,
+        const wxPoint& pos = wxDefaultPosition,
+        const wxSize& size = wxDefaultSize,
+        long style = 0,
+        const wxValidator& validator = wxDefaultValidator,
+        const wxString& name = wxButtonNameStr
+    );
+
+    virtual bool HasTransparentBackground() { return true; };
+
+    virtual void SetLabel(const wxString& label);
+    virtual void OnEraseBackground(wxEraseEvent& event);
+};
+
+
 class CTransparentStaticTextAssociate : public wxPanel
 { 
     DECLARE_DYNAMIC_CLASS (CTransparentStaticTextAssociate)
