@@ -67,6 +67,12 @@ public:
 
     COPROCS coprocs;
 
+#ifdef ANDROID
+    int battery_charge_pct;
+    int battery_state;
+    void get_battery_status();
+#endif
+
     HOST_INFO();
     int parse(XML_PARSER&, bool benchmarks_only = false);
     int write(MIOFILE&, bool include_net_info, bool include_coprocs);

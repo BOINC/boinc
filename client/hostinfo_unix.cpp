@@ -445,74 +445,58 @@ bool HOST_INFO::host_is_running_on_batteries() {
 #endif
 }
 
-// Returns the percent of which the battery is charged
+#ifdef ANDROID
+// Get battery state and charge percentage
 //
-int HOST_INFO::get_host_battery_charge() {
-    int capacity = 0;
+void HOST_INFO::get_battery_status() {
+    char msg[1024];
+    battery_charge_pct = -1;
 
-#if defined(ANDROID)
-
-    FILE *battery_capacity_file = fopen("/sys/class/power_supply/battery/capacity", "r");
-    if(battery_capacity_file) {
-        fscanf(battery_capacity_file, "%d", &capacity);
-        fclose(battery_capacity_file);
+    FILE *f = fopen("/sys/class/power_supply/battery/capacity", "r");
+    if (f) {
+        fscanf(f, "%d", &battery_charge_pct);
+        fclose(f);
     }
 
-    if (capacity) {
-        char msg[1024];
-        snprintf(msg, sizeof(msg),
-            "battery capacity at: %d%% charge",
-            capacity
-        );
-        LOGD(msg);
-    }
-
-#endif
-
-    return capacity;
-}
-
-// Returns the percent of which the battery is charged
-//
-int HOST_INFO::get_host_battery_state() {
-    int rc = BATTERY_STATE_UNKNOwN;
-
-#if defined(ANDROID)
+    snprintf(msg, sizeof(msg),
+        "battery capacity at: %d%% charge",
+        capacity
+    );
+    LOGD(msg);
 
     char health[256];
     char status[256];
+    strcpy(health, "");
+    strcpy(status, "");
 
-    FILE *battery_health_file = fopen("/sys/class/power_supply/battery/health", "r");
-    if(battery_health_file) {
-        fscanf(battery_health_file, "%s", &health);
-        fclose(battery_health_file);
+    f = fopen("/sys/class/power_supply/battery/health", "r");
+    if (f) {
+        fgets(health, sizeof(health), f);
+        fclose(f);
     }
 
-    FILE *battery_status_file = fopen("/sys/class/power_supply/battery/status", "r");
-    if(battery_status_file) {
-        fscanf(battery_status_file, "%s", &status);
-        fclose(battery_status_file);
+    f = fopen("/sys/class/power_supply/battery/status", "r");
+    if (f) {
+        fgets(status, sizeof(status), f);
+        fclose(f);
     }
 
-    if        (strlen(health) && (strcmp(health, "Overheat") == 0)) {
-        rc = BATTERY_STATE_OVERHEAT;
-    } else if (strlen(status) && (strcmp(status, "Not charging") == 0)) {
-        rc = BATTERY_STATE_DISCHARGING;
-    } else if (strlen(status) && (strcmp(status, "Charging") == 0)) {
-        rc = BATTERY_STATE_CHARGING;
-    } else if (strlen(status) && (strcmp(status, "Full") == 0)) {
-        rc = BATTERY_STATE_CHARGING;
+    battery_state = BATTERY_STATE_UNKNOWN;
+    if (strstr(health, "Overheat")) {
+        LOGD("battery is overheating");
+        battery_state = BATTERY_STATE_OVERHEAT;
+    } else if (strstr(status, "Not charging")) {
+        LOGD("battery is discharging");
+        battery_state = BATTERY_STATE_DISCHARGING;
+    } else if (strstr(status, "Charging")) {
+        LOGD("battery is charging");
+        battery_state = BATTERY_STATE_CHARGING;
+    } else if (strstr(status, "Full")) {
+        LOGD("battery is charging");
+        battery_state = BATTERY_STATE_CHARGING;
     }
-
-    if (BATTERY_STATE_OVERHEAT == rc)    LOGD("battery is overheating");
-    if (BATTERY_STATE_DISCHARGING == rc) LOGD("battery is discharging");
-    if (BATTERY_STATE_CHARGING == rc)    LOGD("battery is charging");
-    if (BATTERY_STATE_CHARGING == rc)    LOGD("battery is full");
-
-#endif
-
-    return rc;
 }
+#endif
 
 #if LINUX_LIKE_SYSTEM
 static void parse_meminfo_linux(HOST_INFO& host) {
