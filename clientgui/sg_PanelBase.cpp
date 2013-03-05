@@ -26,7 +26,11 @@
 IMPLEMENT_DYNAMIC_CLASS(CSimplePanelBase, wxPanel)
 
 BEGIN_EVENT_TABLE(CSimplePanelBase, wxPanel)
-    	EVT_PAINT(CSimplePanelBase::OnPaint)
+#ifdef __WXMSW__
+    EVT_ERASE_BACKGROUND(CSimplePanelBase::OnEraseBackground)    
+#else
+    EVT_PAINT(CSimplePanelBase::OnPaint)
+#endif
 END_EVENT_TABLE()
 
 
@@ -146,40 +150,51 @@ void CSimplePanelBase::MakeBGBitMap() {
 // events here, so use Paint events
 void CSimplePanelBase::OnPaint(wxPaintEvent& /*event*/) {
     wxPaintDC dc(this);
+    EraseBackground(&dc);
+}
+
+
+void CSimplePanelBase::OnEraseBackground(wxEraseEvent& event) {
+    wxDC *dc = event.GetDC();
+    EraseBackground(dc);
+}
+
+
+void CSimplePanelBase::EraseBackground(wxDC *dc) {
 
     if (!m_GotBGBitMap) {
         MakeBGBitMap();
     }
 
-    dc.DrawBitmap(m_TaskPanelBGBitMap, 0, 0);
-    wxPen oldPen= dc.GetPen();
-    wxBrush oldBrush = dc.GetBrush();
-    int oldMode = dc.GetBackgroundMode();
+    dc->DrawBitmap(m_TaskPanelBGBitMap, 0, 0);
+    wxPen oldPen= dc->GetPen();
+    wxBrush oldBrush = dc->GetBrush();
+    int oldMode = dc->GetBackgroundMode();
     wxCoord w, h;
     wxPen bgPen(*wxLIGHT_GREY, 3);
     wxBrush bgBrush(*wxLIGHT_GREY, wxTRANSPARENT);
 
-    dc.SetBackgroundMode(wxSOLID);
-    dc.SetPen(bgPen);
-    dc.SetBrush(bgBrush);
-    dc.GetSize(&w, &h);
-    dc.DrawRoundedRectangle(0, 0, w, h, RECTANGLERADIUS);
+    dc->SetBackgroundMode(wxSOLID);
+    dc->SetPen(bgPen);
+    dc->SetBrush(bgBrush);
+    dc->GetSize(&w, &h);
+    dc->DrawRoundedRectangle(0, 0, w, h, RECTANGLERADIUS);
 
 #ifdef __WXMAC__
     // Mac progress bar can be hard to see on a colored 
     // background, so put it on a white background
     wxRect* progressRect = GetProgressRect();
     if (progressRect) {
-        dc.SetPen(*wxBLACK_PEN);
-        dc.SetBrush(*wxWHITE_BRUSH);
-        dc.DrawRoundedRectangle(progressRect->x, progressRect->y, progressRect->width, progressRect->height, 2);
+        dc->SetPen(*wxBLACK_PEN);
+        dc->SetBrush(*wxWHITE_BRUSH);
+        dc->DrawRoundedRectangle(progressRect->x, progressRect->y, progressRect->width, progressRect->height, 2);
     }
 #endif
 
     // Restore Mode, Pen and Brush 
-    dc.SetBackgroundMode(oldMode);
-    dc.SetPen(oldPen);
-    dc.SetBrush(oldBrush);
+    dc->SetBackgroundMode(oldMode);
+    dc->SetPen(oldPen);
+    dc->SetBrush(oldBrush);
 }
 
 

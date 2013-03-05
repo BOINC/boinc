@@ -77,6 +77,8 @@ class CSimplePanelBase : public wxPanel
 	protected:
         void MakeBGBitMap();
         void OnPaint(wxPaintEvent& event);
+        void OnEraseBackground(wxEraseEvent& event);
+        void EraseBackground(wxDC *dc);
 
         wxBitmap                    m_TaskPanelBGBitMap;
         bool                        m_GotBGBitMap;

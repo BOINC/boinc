@@ -59,7 +59,7 @@ class CSimpleProjectPanel : public CSimplePanelBase
 	protected:
 		CTransparentStaticText*             m_myProjectsLabel;
 		CBOINCBitmapComboBox*               m_ProjectSelectionCtrl;
-		wxButton*                           m_TaskAddProjectButton;
+		CTransparentButton*                 m_TaskAddProjectButton;
         CTransparentStaticText*             m_TotalCreditValue;
 		CSimpleProjectWebSitesPopupButton*  m_ProjectWebSitesButton;
 		CSimpleProjectCommandPopupButton*   m_ProjectCommandsButton;

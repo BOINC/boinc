@@ -94,7 +94,7 @@ CSimpleProjectPanel::CSimpleProjectPanel( wxWindow* parent ) :
     int addProjectWidth, synchronizeWidth, y;
     GetTextExtent(m_sAddProjectString, &addProjectWidth, &y);
     GetTextExtent(m_sSynchronizeString, &synchronizeWidth, &y);
-    m_TaskAddProjectButton = new wxButton( this, ID_ADDROJECTBUTTON, 
+    m_TaskAddProjectButton = new CTransparentButton( this, ID_ADDROJECTBUTTON, 
         (addProjectWidth > synchronizeWidth) ? m_sAddProjectString : m_sSynchronizeString,
         wxDefaultPosition, wxDefaultSize, 0
     );
