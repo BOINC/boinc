@@ -131,4 +131,4 @@ alter table assignment
     add index asgn_target(target_type, target_id);
 
 alter table job_file
-    add index md5(md5);
+    add unique jf_md5(md5);

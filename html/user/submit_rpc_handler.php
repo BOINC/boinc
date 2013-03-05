@@ -30,28 +30,6 @@ error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 
-function error($s) {
-    echo "<error>\n<message>$s</message>\n</error>\n";
-    exit;
-}
-
-function authenticate_user($r, $app) {
-    $auth = (string)$r->authenticator;
-    if (!$auth) error("no authenticator");
-    $auth = BoincDb::escape_string($auth);
-    $user = BoincUser::lookup("authenticator='$auth'");
-    if (!$user) error("bad authenticator");
-    $user_submit = BoincUserSubmit::lookup_userid($user->id);
-    if (!$user_submit) error("no submit access");
-    if ($app && !$user_submit->submit_all) {
-        $usa = BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$app->id");
-        if (!$usa) {
-            error("no submit access");
-        }
-    }
-    return array($user, $user_submit);
-}
-
 function get_app($r) {
     $name = (string)($r->batch->app_name);
     $name = BoincDb::escape_string($name);
@@ -183,16 +161,13 @@ function submit_batch($r) {
     if ($batch_id) {
         $batch = BoincBatch::lookup_id($batch_id);
         if (!$batch) {
-            echo "<error>no batch $batch_id</error>\n";
-            exit;
+            error("no batch $batch_id");
         }
         if ($batch->user_id != $user->id) {
-            echo "<error>not owner</error>\n";
-            exit;
+            error("not owner");
         }
         if ($batch->state != BATCH_STATE_INIT) {
-            echo "<error>batch not in init state</error>\n";
-            exit;
+            error("batch not in init state");
         }
     }
 
@@ -208,8 +183,7 @@ function submit_batch($r) {
     $cmd = "cd ../../bin; ./adjust_user_priority --user $user->id --flops $total_flops --app $app->name";
     $x = system($cmd);
     if (!is_numeric($x) || (double)$x == 0) {
-        echo "<error>adjust_user_priority returned $x</error>\n";
-        exit;
+        error("adjust_user_priority returned $x");
     }
     $let = (double)$x;
 

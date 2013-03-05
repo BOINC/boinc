@@ -41,6 +41,8 @@ struct PLAN_CLASS_SPEC {
     bool have_project_prefs_regex;
     regex_t project_prefs_regex;
     double avg_ncpus;
+    int min_core_client_version;
+    int max_core_client_version;
         // for non-compute-intensive, or override for GPU apps
 
     // GPU apps

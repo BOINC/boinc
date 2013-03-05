@@ -501,9 +501,6 @@ extern double calculate_exponential_backoff(
     int n, double MIN, double MAX
 );
 
-extern void print_suspend_tasks_message(int);
-
-
 //////// TIME-RELATED CONSTANTS ////////////
 
 //////// CLIENT INTERNAL

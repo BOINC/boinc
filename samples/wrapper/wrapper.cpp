@@ -66,11 +66,14 @@
 
 #include "regexp.h"
 
+//#define DEBUG
+#if 1
+#define debug_msg(x)
+#else
 inline void debug_msg(const char* x) {
-#if 0
     fprintf(stderr, "%s\n", x);
-#endif
 }
+#endif
 
 #define JOB_FILENAME "job.xml"
 #define CHECKPOINT_FILENAME "wrapper_checkpoint.txt"
@@ -116,10 +119,11 @@ struct TASK {
     HANDLE pid_handle;
     DWORD pid;
     HANDLE thread_handle;
-    struct _stat last_stat;    // mod time of checkpoint file
+    struct _stat last_stat;     // mod time of checkpoint file
 #else
     int pid;
     struct stat last_stat;
+    double start_rusage;        // getrusage() CPU time at start of task
 #endif
     bool stat_first;
 
@@ -699,6 +703,10 @@ int TASK::run(int argct, char** argvt) {
     FILE* stdin_file;
     FILE* stderr_file;
 
+    struct rusage ru;
+    getrusage(RUSAGE_CHILDREN, &ru);
+    start_rusage = (float)ru.ru_utime.tv_sec + ((float)ru.ru_utime.tv_usec)/1e+6;
+
     pid = fork();
     if (pid == -1) {
         perror("fork(): ");
@@ -775,10 +783,12 @@ bool TASK::poll(int& status) {
     if (GetExitCodeProcess(pid_handle, &exit_code)) {
         if (exit_code != STILL_ACTIVE) {
             status = exit_code;
-            final_cpu_time = cpu_time();
-            if (final_cpu_time < current_cpu_time) {
-                final_cpu_time = current_cpu_time;
-            }
+            final_cpu_time = current_cpu_time;
+#ifdef DEBUG
+            fprintf(stderr, "process exited; current CPU %f final CPU %f\n",
+                current_cpu_time, final_cpu_time
+            );
+#endif
             return true;
         }
     }
@@ -786,10 +796,16 @@ bool TASK::poll(int& status) {
     int wpid;
     struct rusage ru;
 
-    wpid = wait4(pid, &status, WNOHANG, &ru);
+    wpid = waitpid(pid, &status, WNOHANG);
     if (wpid) {
         getrusage(RUSAGE_CHILDREN, &ru);
         final_cpu_time = (float)ru.ru_utime.tv_sec + ((float)ru.ru_utime.tv_usec)/1e+6;
+        final_cpu_time -= start_rusage;
+#ifdef DEBUG
+        fprintf(stderr, "process exited; current CPU %f final CPU %f\n",
+            current_cpu_time, final_cpu_time
+        );
+#endif
         if (final_cpu_time < current_cpu_time) {
             final_cpu_time = current_cpu_time;
         }
@@ -833,7 +849,13 @@ void TASK::resume() {
 // so it shouldn't be called too frequently.
 //
 double TASK::cpu_time() {
-    current_cpu_time = process_tree_cpu_time(pid);
+    double x = process_tree_cpu_time(pid);
+    // if the process has exited, the above could return zero.
+    // So update carefully.
+    //
+    if (x > current_cpu_time) {
+        current_cpu_time = x;
+    }
     return current_cpu_time;
 }
 
@@ -1005,6 +1027,13 @@ int main(int argc, char** argv) {
             if (counter%10 == 0) {
                 cpu_time = task.cpu_time();
             }
+#ifdef DEBUG
+            fprintf(stderr, "cpu time %f, checkpoint CPU time %f frac done %f\n",
+                task.starting_cpu + cpu_time,
+                checkpoint_cpu_time,
+                frac_done + delta
+            );
+#endif
             boinc_report_app_status(
                 task.starting_cpu + cpu_time,
                 checkpoint_cpu_time,
@@ -1019,6 +1048,18 @@ int main(int argc, char** argv) {
             counter++;
         }
         checkpoint_cpu_time = task.starting_cpu + task.final_cpu_time;
+#ifdef DEBUG
+        fprintf(stderr, "cpu time %f, checkpoint CPU time %f frac done %f\n",
+            task.starting_cpu + task.final_cpu_time,
+            checkpoint_cpu_time,
+            frac_done + task.weight/total_weight
+        );
+#endif
+        boinc_report_app_status(
+            task.starting_cpu + task.final_cpu_time,
+            checkpoint_cpu_time,
+            frac_done + task.weight/total_weight
+        );
         write_checkpoint(i+1, checkpoint_cpu_time);
         weight_completed += task.weight;
     }
