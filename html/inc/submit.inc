@@ -55,19 +55,7 @@ function req_to_xml($req, $op) {
         foreach ($job->input_files as $file) {
             $x .= "        <input_file>\n";
             $x .= "            <mode>$file->mode</mode>\n";
-            switch ($file->mode) {
-            case "remote":
-                $x .= "             <source>$file->source</source>\n";
-                break;
-            case "local":
-                $x .= "             <path>$file->path</path>\n";
-                break;
-            case "inline":
-                break;
-            case "semilocal":
-                $x .= "             <url>$file->url</url>\n";
-                break;
-            }
+            $x .= "            <source>$file->source</source>\n";
             $x .= "        </input_file>\n";
         }
         $x .= "    </job>

@@ -106,7 +106,7 @@ int process_input_files(SUBMIT_REQ& req) {
         LOCAL_FILE lf = map_iter->second;
         paths.push_back(map_iter->first);
         md5s.push_back(lf.md5);
-        iter++;
+        map_iter++;
     }
     retval = query_files(
         project_url,
@@ -187,7 +187,9 @@ void handle_boinc_submit(COMMAND& c, char* p) {
         printf("error parsing request: %d\n", retval);
         return;
     }
-    retval = create_batch(project_url, authenticator, req);
+    retval = create_batch(
+        project_url, authenticator, req.batch_name, req.app_name, req.batch_id
+    );
     if (retval) {
         printf("error creating batch: %d\n", retval);
         return;
@@ -319,7 +321,9 @@ void read_config() {
         exit(1);
     }
     fgets(project_url, 256, f);
+    strip_whitespace(project_url);
     fgets(authenticator, 256, f);
+    strip_whitespace(authenticator);
     fclose(f);
     if (!strlen(project_url)) {
         fprintf(stderr, "no project URL given\n");

@@ -120,7 +120,7 @@ int query_files(
         if (strstr(buf, "error")) {
             retval = -1;
         }
-        if (parse_int(buf, "<absent_file>", x)) {
+        if (parse_int(buf, "<file>", x)) {
             absent_files.push_back(x);
             continue;
         }
@@ -160,7 +160,7 @@ int upload_files (
     fseek(reply, 0, SEEK_SET);
     bool success = false;
     while (fgets(buf, 256, reply)) {
-        printf("reply: %s", buf);
+        printf("upload_files reply: %s", buf);
         if (strstr(buf, "success")) {
             success = true;
             break;
@@ -204,7 +204,7 @@ int create_batch(
     batch_id = 0;
     fseek(reply, 0, SEEK_SET);
     while (fgets(buf, 256, reply)) {
-        printf("reply: %s", buf);
+        printf("create_batch reply: %s", buf);
         if (parse_int(buf, "<batch_id>", batch_id)) break;
     }
     fclose(reply);
@@ -221,11 +221,14 @@ int submit_jobs(
 ) {
     char buf[1024], url[1024];
     sprintf(buf,
-        "<create_batch>\n"
+        "<submit_batch>\n"
         "<authenticator>%s</authenticator>\n"
-        "<batch_id>%d</batch_id>\n",
+        "<batch>\n"
+        "   <batch_id>%d</batch_id>\n"
+        "   <app_name>%s</app_name>\n",
         authenticator,
-        req.batch_id
+        req.batch_id,
+        req.app_name
     );
     string request = buf;
     for (unsigned int i=0; i<req.jobs.size(); i++) {
@@ -235,13 +238,17 @@ int submit_jobs(
             request += "<command_line>" + job.cmdline_args + "</command_line>\n";
         }
         for (unsigned int j=0; j<job.infiles.size(); j++) {
-            INFILE infile = job.infiles[i];
+            INFILE infile = job.infiles[j];
             map<string, LOCAL_FILE>::iterator iter = req.local_files.find(infile.src_path);
+            if (iter == req.local_files.end()) {
+                fprintf(stderr, "file %s not in map\n", infile.src_path);
+                exit(1);
+            }
             LOCAL_FILE& lf = iter->second;
             sprintf(buf,
                 "<input_file>\n"
-                "<mode>local</mode>\n"
-                "<path>%s</path>\n"
+                "<mode>local_staged</mode>\n"
+                "<source>jf_%s</source>\n"
                 "</input_file>\n",
                 lf.md5
             );
@@ -249,7 +256,7 @@ int submit_jobs(
         }
         request += "</job>\n";
     }
-    request += "</create_batch>\n";
+    request += "</batch>\n</submit_batch>\n";
     sprintf(url, "%ssubmit_rpc_handler.php", project_url);
     FILE* reply = tmpfile();
     vector<string> x;
@@ -259,8 +266,13 @@ int submit_jobs(
         return retval;
     }
     fseek(reply, 0, SEEK_SET);
+    retval = 0;
     while (fgets(buf, 256, reply)) {
+        printf("submit_batch reply: %s", buf);
+        if (strstr(buf, "error")) {
+            retval = -1;
+        }
     }
     fclose(reply);
-    return 0;
+    return retval;
 }

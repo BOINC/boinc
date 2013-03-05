@@ -21,24 +21,25 @@
 
 require_once("../inc/submit_db.inc");
 
-function error($s) {
-    echo "error: $s\n";
-    echo "<error>\n<message>$s</message>\n</error>\n";
-    exit;
+// the physical name of a file is jf_(md5).
+// Prepend the jf_ to make the source of the file clear
+//
+function job_file_name($md5) {
+    return "jf_$md5";
 }
 
 function authenticate_user($r, $app) {
     $auth = (string)$r->authenticator;
-    if (!$auth) error("no authenticator");
+    if (!$auth) xml_error(-1, "no authenticator");
     $auth = BoincDb::escape_string($auth);
     $user = BoincUser::lookup("authenticator='$auth'");
-    if (!$user) error("bad authenticator");
+    if (!$user) xml_error(-1, "bad authenticator");
     $user_submit = BoincUserSubmit::lookup_userid($user->id);
-    if (!$user_submit) error("no submit access");
+    if (!$user_submit) xml_error(-1, "no submit access");
     if ($app && !$user_submit->submit_all) {
         $usa = BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$app->id");
         if (!$usa) {
-            error("no submit access");
+            xml_error(-1, "no submit access");
         }
     }
     return array($user, $user_submit);

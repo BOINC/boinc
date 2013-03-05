@@ -73,23 +73,17 @@ ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 
 require_once("../inc/boinc_db.inc");
+require_once("../inc/submit_db.inc");
 require_once("../inc/dir_hier.inc");
 require_once("../inc/xml.inc");
 require_once("../inc/submit_util.inc");
-
-// the physical name of a file is jf_(md5).
-// Prepend the jf_ to make the source of the file clear
-//
-function job_file_name($md5) {
-    return "jf_$md5";
-}
 
 function query_files($r) {
     list($user, $user_submit) = authenticate_user($r, null);
     $absent_files = array();
     $now = time();
     $delete_time = (int)$r->delete_time;
-    $batch_id = (int)$r->delete_time;
+    $batch_id = (int)$r->batch_id;
     $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
     $i = 0;
     foreach($r->md5 as $f) {
@@ -112,10 +106,20 @@ function query_files($r) {
         if (file_exists($path)) {
             // create the DB record if needed
             //
-            if (!$job_file) {
-                BoincJobFile::insert(
+            if ($job_file) {
+                $jf_id = $job_file->id;
+            } else {
+                $jf_id = BoincJobFile::insert(
                     "(md5, create_time, delete_time) values ('$md5', $now, $delete_time)"
                 );
+            }
+            // create batch association if needed
+            //
+            if ($batch_id) {
+                $ret = BoincBatchFileAssoc::insert(
+                    "(batch_id, job_file_id) values ($batch_id, $jf_id)"
+                );
+                if (!$ret) xml_error(-1, "BointBatchFileAssoc::insert() failed");
             }
         } else {
             if ($job_file) {
@@ -132,14 +136,11 @@ function query_files($r) {
     echo "</absent_files>\n";
 }
 
-// upload_files
-//  in: list of MD5s, and the files themselves as multipart attachment
-//  out: error code
-//
 function upload_files($r) {
     list($user, $user_submit) = authenticate_user($r, null);
     $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
     $delete_time = (int)$r->delete_time;
+    $batch_id = (int)$r->batch_id;
     print_r($_FILES);
     $i = 0;
     foreach ($r->md5 as $f) {
@@ -158,6 +159,11 @@ function upload_files($r) {
         );
         if (!$id) {
             xml_error(-1, "BoincJobFile::insert() failed");
+        }
+        if ($batch_id) {
+            BoincBatchFileAssoc::insert(
+                "(batch_id, job_file_id) values ($batch_id, $jf_id)"
+            );
         }
         $i++;
     }
@@ -186,7 +192,6 @@ case 'query_files':
     query_files($r);
     break;
 case 'upload_files':
-    echo "foo\n";
     upload_files($r);
     break;
 default:
