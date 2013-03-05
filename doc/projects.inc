@@ -282,14 +282,14 @@ $astro_phys_chem = array(
             tra("SETI (Search for Extraterrestrial Intelligence) is a scientific area whose goal is to detect intelligent life outside Earth. One approach, known as radio SETI, uses radio telescopes to listen for narrow-bandwidth radio signals from space. Such signals are not known to occur naturally, so a detection would provide evidence of extraterrestrial technology."),
             "seti_logo.png"
         ),
-        array(
-            "Quantum Monte Carlo at Home",
-            "http://qah.uni-muenster.de/",
-            tra("University of Muenster (Germany)"),
-            tra("Chemistry"),
-            tra("Study the structure and reactivity of molecules using Quantum Chemistry."),
-            "logo_oben.jpg"
-        ),
+//        array(
+//            "Quantum Monte Carlo at Home",
+//            "http://qah.uni-muenster.de/",
+//            tra("University of Muenster (Germany)"),
+//            tra("Chemistry"),
+//            tra("Study the structure and reactivity of molecules using Quantum Chemistry."),
+//            "logo_oben.jpg"
+//        ),
         array(
             "Spinhenge@home",
             "http://spin.fh-bielefeld.de/",

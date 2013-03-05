@@ -679,12 +679,12 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                     
                     if (strProjectPlatform.Find(_T("[cuda")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsCUDA = true;
-						if (!pDoc->state.have_nvidia) continue;
+						if (!pDoc->state.host_info.coprocs.have_nvidia()) continue;
                     }
 
                     if (strProjectPlatform.Find(_T("[ati")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsCAL = true;
-						if (!pDoc->state.have_ati) continue;
+						if (!pDoc->state.host_info.coprocs.have_ati()) continue;
                     }
 
                     if (strClientPlatform == strRootProjectPlatform) {

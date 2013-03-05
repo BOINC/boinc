@@ -1004,9 +1004,10 @@ void CMainDocument::HandleCompletedRPC() {
                 exchangeBuf->global_prefs = arg1->global_prefs;
                 exchangeBuf->version_info = arg1->version_info;
                 exchangeBuf->executing_as_daemon = arg1->executing_as_daemon;
+                exchangeBuf->host_info = arg1->host_info;
+                exchangeBuf->time_stats = arg1->time_stats;
                 exchangeBuf->have_nvidia = arg1->have_nvidia;
                 exchangeBuf->have_ati = arg1->have_ati;
-                exchangeBuf->have_intel = arg1->have_intel;
             }
             break;
         case RPC_GET_RESULTS:

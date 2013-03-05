@@ -417,7 +417,7 @@ int CLIENT_STATE::init() {
             coprocs.add(coprocs.intel_gpu);
         }
     }
-    host_info._coprocs = coprocs;
+    host_info.coprocs = coprocs;
     
     if (coprocs.none() ) {
         msg_printf(NULL, MSG_INFO, "No usable GPUs found");

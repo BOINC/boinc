@@ -982,7 +982,6 @@ int CC_STATE::parse(XML_PARSER& xp) {
         }
         if (xp.parse_bool("have_cuda", have_nvidia)) continue;
         if (xp.parse_bool("have_ati", have_ati)) continue;
-        if (xp.parse_bool("have_intel", have_intel)) continue;
     }
     return 0;
 }
@@ -1014,7 +1013,6 @@ void CC_STATE::clear() {
     host_info.clear_host_info();
     have_nvidia = false;
     have_ati = false;
-    have_intel = false;
 }
 
 PROJECT* CC_STATE::lookup_project(const char* url) {
