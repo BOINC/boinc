@@ -468,10 +468,12 @@ void HOST_INFO::get_battery_status() {
     if (fcap) {
         rewind(fcap);
         fscanf(fcap, "%d", &battery_charge_pct);
+        snprintf(msg, sizeof(msg),
+            "battery capacity at: %d%% charge",
+            battery_charge_pct
+        );
+        LOGD(msg);
     }
-
-    snprintf(msg, sizeof(msg), "battery capacity at: %d%% charge", capacity);
-    LOGD(msg);
 
     char health[256];
     char status[256];
@@ -491,7 +493,7 @@ void HOST_INFO::get_battery_status() {
     battery_state = BATTERY_STATE_UNKNOWN;
     if (strstr(health, "Overheat")) {
         LOGD("battery is overheating");
-        battery_state = BATTERY_STATE_OVERHEAT;
+        battery_state = BATTERY_STATE_OVERHEATED;
     } else if (strstr(status, "Not charging")) {
         LOGD("battery is discharging");
         battery_state = BATTERY_STATE_DISCHARGING;

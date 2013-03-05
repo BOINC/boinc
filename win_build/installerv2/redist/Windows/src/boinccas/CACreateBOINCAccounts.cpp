@@ -97,7 +97,7 @@ UINT CACreateBOINCAccounts::OnExecution()
     uiReturnValue = GetProperty( _T("MsiNTProductType"), strProductType );
     if ( uiReturnValue ) return uiReturnValue;
 
-    uiReturnValue = GetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION2"), strEnableProtectedApplicationExecution );
+    uiReturnValue = GetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"), strEnableProtectedApplicationExecution );
     if ( uiReturnValue ) return uiReturnValue;
 
 

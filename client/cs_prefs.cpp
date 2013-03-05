@@ -33,6 +33,7 @@
 #endif
 #endif
 
+#include "common_defs.h"
 #include "filesys.h"
 #include "parse.h"
 #include "str_util.h"
@@ -290,11 +291,11 @@ int CLIENT_STATE::check_suspend_processing() {
     if (cp >= 0) {
         if (cp < 90) {
             hyst_state = true;
-            return SUSPEND_REASON_BATTERY_CHARGE;
+            return SUSPEND_REASON_BATTERY_CHARGING;
         }
         if (cp < 95) {
             if (hyst_state) {
-                return SUSPEND_REASON_BATTERY_CHARGE;
+                return SUSPEND_REASON_BATTERY_CHARGING;
             }
         } else {
             hyst_state = false;

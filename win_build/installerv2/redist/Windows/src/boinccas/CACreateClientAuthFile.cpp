@@ -75,7 +75,7 @@ UINT CACreateClientAuthFile::OnExecution()
     uiReturnValue = GetProperty( _T("DATADIR"), strDataDirectory );
     if ( uiReturnValue ) return uiReturnValue;
 
-    uiReturnValue = GetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION2"), strEnableProtectedApplicationExecution );
+    uiReturnValue = GetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"), strEnableProtectedApplicationExecution );
     if ( uiReturnValue ) return uiReturnValue;
 
     uiReturnValue = GetProperty( _T("BOINC_PROJECT_ISUSERNAME"), strBOINCProjectAccountUsername );
