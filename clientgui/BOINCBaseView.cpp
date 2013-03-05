@@ -193,14 +193,14 @@ const char** CBOINCBaseView::GetViewIcon() {
 // The rate at which the view is refreshed.
 //   If it has not been defined by the view 1 second is retrned.
 //
-const int CBOINCBaseView::GetViewRefreshRate() {
+int CBOINCBaseView::GetViewRefreshRate() {
     return 1;
 }
 
 
 // Get bit mask of current view(s).
 //
-const int CBOINCBaseView::GetViewCurrentViewPage() {
+int CBOINCBaseView::GetViewCurrentViewPage() {
     return 0;
 }
 

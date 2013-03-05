@@ -612,8 +612,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     for (i=0; i<sr.messages.size(); i++) {
         USER_MESSAGE& um = sr.messages[i];
         int prio = (!strcmp(um.priority.c_str(), "notice"))?MSG_SCHEDULER_ALERT:MSG_INFO;
-        string_substitute(um.message.c_str(), buf, sizeof(buf), "%", "%%");
-        msg_printf(project, prio, "%s", buf);
+        msg_printf(project, prio, "%s", um.message.c_str());
     }
 
     if (log_flags.sched_op_debug && sr.request_delay) {

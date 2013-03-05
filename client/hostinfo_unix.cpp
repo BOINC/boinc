@@ -100,6 +100,7 @@
 #endif
 
 #include "error_numbers.h"
+#include "common_defs.h"
 #include "filesys.h"
 #include "str_util.h"
 #include "str_replace.h"
@@ -443,6 +444,70 @@ bool HOST_INFO::host_is_running_on_batteries() {
     return false;
 #endif
 }
+
+#ifdef ANDROID
+// Get battery state, charge percentage, and temperature
+//
+void HOST_INFO::get_battery_status() {
+    char msg[1024];
+    battery_charge_pct = -1;
+
+    FILE *f = fopen("/sys/class/power_supply/battery/capacity", "r");
+    if (f) {
+        fscanf(f, "%d", &battery_charge_pct);
+        fclose(f);
+    }
+
+    snprintf(msg, sizeof(msg),
+        "battery capacity at: %d%% charge",
+        capacity
+    );
+    LOGD(msg);
+
+    char health[256];
+    char status[256];
+    strcpy(health, "");
+    strcpy(status, "");
+
+    f = fopen("/sys/class/power_supply/battery/health", "r");
+    if (f) {
+        fgets(health, sizeof(health), f);
+        fclose(f);
+    }
+
+    f = fopen("/sys/class/power_supply/battery/status", "r");
+    if (f) {
+        fgets(status, sizeof(status), f);
+        fclose(f);
+    }
+
+    battery_state = BATTERY_STATE_UNKNOWN;
+    if (strstr(health, "Overheat")) {
+        LOGD("battery is overheating");
+        battery_state = BATTERY_STATE_OVERHEAT;
+    } else if (strstr(status, "Not charging")) {
+        LOGD("battery is discharging");
+        battery_state = BATTERY_STATE_DISCHARGING;
+    } else if (strstr(status, "Charging")) {
+        LOGD("battery is charging");
+        battery_state = BATTERY_STATE_CHARGING;
+    } else if (strstr(status, "Full")) {
+        LOGD("battery is charging");
+        battery_state = BATTERY_STATE_CHARGING;
+    }
+
+    battery_temperature_celsius = 0;
+    f = fopen("/sys/class/power_supply/battery/batt_temp", "r");
+    if (!f) {
+        f = fopen("/sys/class/power_supply/battery/temp", "r");
+    }
+    if (f) {
+        fscanf(f, "%d", &battery_temperature_celsius);
+        battery_temperature_celsius /= 10;
+        fclose(f);
+    }
+}
+#endif
 
 #if LINUX_LIKE_SYSTEM
 static void parse_meminfo_linux(HOST_INFO& host) {

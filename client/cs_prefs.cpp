@@ -202,7 +202,9 @@ void CLIENT_STATE::get_disk_shares() {
     }
 }
 
-// See if we should suspend processing
+// See if we should suspend CPU and/or GPU processing;
+// return the CPU suspend_reason,
+// and if it's zero set gpu_suspend_reason
 //
 int CLIENT_STATE::check_suspend_processing() {
     if (are_cpu_benchmarks_running()) {
@@ -265,6 +267,43 @@ int CLIENT_STATE::check_suspend_processing() {
         }
     }
 
+#ifdef ANDROID
+    // check for hot battery
+    //
+    host_info.get_battery_status();
+    if (host_info.battery_state == BATTERY_STATE_OVERHEATED) {
+        return SUSPEND_REASON_BATTERY_OVERHEATED;
+    }
+    if (host_info.battery_temperature_celsius > 45) {
+        return SUSPEND_REASON_BATTERY_OVERHEATED;
+    }
+
+    // on some devices, running jobs can drain the battery even
+    // while it's recharging.
+    // So use the following hysteresis policy:
+    // start computing when the batter is 95% charged.
+    // stop computing if it falls below 90%.
+    // Repeat.
+    //
+    static bool hyst_state = true;
+    int cp = host_info.battery_charge_pct;
+    if (cp >= 0) {
+        if (cp < 90) {
+            hyst_state = true;
+            return SUSPEND_REASON_BATTERY_CHARGE;
+        }
+        if (cp < 95) {
+            if (hyst_state) {
+                return SUSPEND_REASON_BATTERY_CHARGE;
+            }
+        } else {
+            hyst_state = false;
+        }
+    }
+#endif
+
+    // CPU is not suspended.  See if GPUs are
+    //
     if (!coprocs.none()) {
         int old_gpu_suspend_reason = gpu_suspend_reason;
         gpu_suspend_reason = 0;
@@ -378,7 +417,7 @@ void CLIENT_STATE::check_suspend_network() {
     }
 
 #ifdef ANDROID
-    //verify that device is on wifi before making project transfers.
+    // use only WiFi
     //
     if (global_prefs.network_wifi_only && !host_info.host_wifi_online()) {
         file_xfers_suspended = true;

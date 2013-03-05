@@ -47,41 +47,63 @@ OCL_OBJ = boinc_opencl.o
 
 GPH_OBJ = graphics2.o graphics2_util.o
 
-LIB_OBJ = util.o win_util.o app_ipc.o diagnostics.o diagnostics_win.o filesys.o \
-	hostinfo.o md5.o md5_file.o mem_usage.o mfile.o miofile.o procinfo_win.o procinfo.o proc_control.o parse.o prefs.o \
-	proxy_info.o str_util.o shmem.o base64.o stackwalker_win.o url.o coproc.o
-
-ZIP_OBJ = boinc_zip.o \
-	api.o \
-	apihelp.o \
-	crc32.o \
-	explode.o \
-	extract.o \
-	fileio.o \
-	globals.o \
-	inflate.o \
-	list.o \
-	match.o \
-	nt.o \
-	process.o \
-	ttyio.o \
-	unreduce.o \
-	unshrink.o \
-	unzip.o \
-	win32.o \
-	zipinfo.o \
-	deflate.o \
-	trees.o \
+LIB_OBJ = app_ipc.o \
+	base64.o \
+	coproc.o \
+	diagnostics.o \
+	diagnostics_win.o \
+	filesys.o \
+	hostinfo.o \
+	md5.o \
+	md5_file.o \
+	mem_usage.o \
+	mfile.o \
+	miofile.o \
+	procinfo_win.o \
+	procinfo.o \
+	proc_control.o \
+	parse.o \
+	prefs.o \
+	proxy_info.o \
+	str_util.o \
+	shmem.o \
+	stackwalker_win.o \
+	url.o \
 	util.o \
-	win32_boinc.o \
-	win32i64.o \
-	win32zip.o \
-	z_fileio.o \
-	z_globals.o \
-	z_nt.o \
-	zip.o \
-	zipfile.o \
-	zipup.o
+	win_util.o
+
+ZIP_OBJ = zip/boinc_zip.o \
+	zip/api.o \
+	zip/apihelp.o \
+	zip/crc32.o \
+	zip/crypt.o \
+	zip/explode.o \
+	zip/extract.o \
+	zip/fileio.o \
+	zip/globals.o \
+	zip/inflate.o \
+	zip/list.o \
+	zip/match.o \
+	zip/nt.o \
+	zip/process.o \
+	zip/ttyio.o \
+	zip/unreduce.o \
+	zip/unshrink.o \
+	zip/unzip.o \
+	zip/zipinfo.o \
+	zip/deflate.o \
+	zip/trees.o \
+	zip/util.o \
+	zip/win32.o \
+	zip/win32_boinc.o \
+	zip/win32i64.o \
+	zip/win32zip.o \
+	zip/z_fileio.o \
+	zip/z_globals.o \
+	zip/z_nt.o \
+	zip/zip.o \
+	zip/zipfile.o \
+	zip/zipup.o
 
 # libraries to build
 API_BIN = libboinc_api.a
@@ -116,7 +138,10 @@ CCXXFLAGS = $(INCS) $(DEBUG) --include $(BOINC_SRC)/version.h -DEINSTEINATHOME_C
 	-DNODB -D_CONSOLE -fexceptions $(OPTFLAGS) $(NOCYGWIN)
 
 # flags for compiling boinc_zip
-ZIP_FLAGS = -DWIN32 -D_LIB -D_MBCS -DNO_MKTEMP $(INCS) -O2 -DDLL -DUSE_ZIPMAIN $(NOCYGWIN)
+BOINC_ZIP_VCPROJ_FLAGS = -DWIN32 -D_LIB -DDLL -D_CRT_SECURE_NO_WARNINGS -DNO_MKTEMP -DUSE_ZIPMAIN -DNO_CRYPT \
+	-DIZ_PWLEN=80 -DNO_ASM -DNO_UNICODE_SUPPORT -Dinflate=inflate_boinc -Ddeflate=deflate_boinc \
+	-Dget_crc_table=get_crc_table_boinc -Dlongest_match=longest_match_boinc -Dinflate_codes=inflate_codes_boinc
+ZIP_FLAGS = $(BOINC_ZIP_VCPROJ_FLAGS) -DUSE_MINGW_GLOBBING -DUSE_STRM_INPUT $(INCS) -O2 $(NOCYGWIN)
 
 # LDFLAGS = -lwinmm 
 
@@ -133,6 +158,11 @@ all-la: $(BIN) $(API_LIB)
 .PHONY: boinc_zip
 boinc_zip: $(ZIP_BIN)
 
+.PHONY: wrapper
+wrapper: wrapper.exe
+wrapper.exe: wrapper.o regexp.o regsub.o regerror.o regexp_memory.o regexp_report.o $(API_BIN) $(LIB_BIN) $(ZIP_BIN)
+	 $(CXX) $(CPPFLAGS) $(CXXFLAGS) -o $@ $^ -lpsapi
+
 # set to the target tools when cross-compiling
 RANLIB ?= ranlib
 LIBTOOL ?= libtool
@@ -148,8 +178,8 @@ $(LIB_BIN): $(LIB_OBJ)
 	$(AR) rc $@ $^
 $(GPH_BIN): $(GPH_OBJ)
 	$(AR) rc $@ $^
-$(ZIP_BIN): $(ZIP_OBJ)
-	$(AR) rc $@ $^
+$(ZIP_BIN): zip $(ZIP_OBJ)
+	$(AR) rc $@ $(ZIP_OBJ)
 
 # standard BOINC code - .C and .cpp versions
 %.o: $(BOINC_SRC)/api/%.C
@@ -160,27 +190,37 @@ $(ZIP_BIN): $(ZIP_OBJ)
 	$(CXX) -c $< -o $@ $(CPPFLAGS) $(CXXFLAGS)
 %.o: $(BOINC_SRC)/lib/%.cpp
 	$(CXX) -c $< -o $@ $(CPPFLAGS) $(CXXFLAGS)
+
+# libtool libboinc_api
 %.lo: $(BOINC_SRC)/api/%.cpp
 	$(LIBTOOL) --mode=compile --tag=CXX $(CXX) -c $< -o $@ $(CPPFLAGS) $(CXXFLAGS)
 %.lo: $(BOINC_SRC)/lib/%.cpp
 	$(LIBTOOL) --mode=compile --tag=CXX $(CXX) -c $< -o $@ $(CPPFLAGS) $(CXXFLAGS)
+
+# for the wrapper
+wrapper.o: $(BOINC_SRC)/samples/wrapper/wrapper.cpp
+	$(CXX) -c $< -o $@ $(CPPFLAGS) $(CXXFLAGS)
+%.o: $(BOINC_SRC)/samples/wrapper/%.c
+	$(CC) -c $< -o $@ $(CPPFLAGS) $(CFLAGS)
 
 # C-mode file
 md5.o: $(BOINC_SRC)/lib/md5.c
 	$(CXX) -c $(BOINC_SRC)/lib/md5.c -o md5.o $(CPPFLAGS) $(CXXFLAGS)
 
 # for boinc_zip. Don't change the order!
-%.o: $(BOINC_SRC)/zip/%.cpp
+zip:
+	mkdir -p $@
+zip/%.o: $(BOINC_SRC)/zip/%.cpp
 	$(CXX) -c $< -o $@ $(ZIP_FLAGS)
-%.o: $(BOINC_SRC)/zip/unzip/win32/%.c
+zip/%.o: $(BOINC_SRC)/zip/unzip/win32/%.c
 	$(CC) -c $< -o $@ $(ZIP_FLAGS)
-%.o: $(BOINC_SRC)/zip/unzip/%.c
+zip/%.o: $(BOINC_SRC)/zip/unzip/%.c
 	$(CC) -c $< -o $@ $(ZIP_FLAGS)
-%.o: $(BOINC_SRC)/zip/zip/win32/%.c
+zip/%.o: $(BOINC_SRC)/zip/zip/win32/%.c
 	$(CC) -c $< -o $@ $(ZIP_FLAGS)
-%.o: $(BOINC_SRC)/zip/zip/%.c
+zip/%.o: $(BOINC_SRC)/zip/zip/%.c
 	$(CC) -c $< -o $@ $(ZIP_FLAGS)
-z_util.o: $(BOINC_SRC)/zip/zip/util.c
+zip/z_util.o: $(BOINC_SRC)/zip/zip/util.c
 	$(CC) -c $< -o $@ $(ZIP_FLAGS)
 
 $(BOINC_SRC)/svn_version.h:

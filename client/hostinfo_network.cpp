@@ -64,30 +64,31 @@
 //
 bool HOST_INFO::host_wifi_online() {
     char wifipath_pri[1024];
-    snprintf(wifipath_pri, sizeof(wifipath_pri), "/sys/class/net/eth0/operstate"); //location in Android 2.3
+    snprintf(wifipath_pri, sizeof(wifipath_pri),
     char wifipath_sec[1024];
-    snprintf(wifipath_sec, sizeof(wifipath_sec), "/sys/class/net/wlan0/operstate"); //location in Android 4
+    snprintf(wifipath_sec, sizeof(wifipath_sec),
 
-    FILE *fsyswifi = fopen(wifipath_pri, "r");
-    if(!fsyswifi) { //primary location not available, try _sec
-        fsyswifi = fopen(wifipath_sec, "r");
+    FILE *f = fopen("/sys/class/net/eth0/operstate", "r");
+        // location in Android 2.3
+    if (!fsyswifi) {
+        fsyswifi = fopen("/sys/class/net/wlan0/operstate", "r");
+            // location in Android 4
     }
 
     char wifi_state[64];
-    bool wifi_online = false;
 
-    if (fsyswifi) {
-        (void) fscanf(fsyswifi, "%s", &wifi_state);
-        fclose(fsyswifi);
+    if (f) {
+        fgets(wifi_state, 64, f);
+        fclose(f);
     } else {
         LOGD("wifi adapter not found!");
+        return false;
     }
 
-    if ((strcmp(wifi_state,"up")) == 0) { //operstate = up
-        wifi_online = true;
+    if (strstr(wifi_state,"up"))) {
+        return true;
     }
-
-    return wifi_online;
+    return false;
 }
 #endif //ANDROID
 
