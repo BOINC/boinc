@@ -18,14 +18,20 @@
 #include <regex.h>
 #include <stdio.h>
 #include <vector>
+#include <string>
 
+#include "sched_config.h"
 #include "sched_msgs.h"
 #include "sched_types.h"
 #include "str_util.h"
 
 #include "sched_files.h"
 
-std::vector<regex_t> file_delete_regex;
+using std::vector;
+using std::string;
+
+vector<regex_t> file_delete_regex;
+vector<string> file_delete_regex_string;
 
 int init_file_delete_regex() {
     char buf[256];
@@ -46,6 +52,7 @@ int init_file_delete_regex() {
             );
         } else {
             file_delete_regex.push_back(re);
+            file_delete_regex_string.push_back(string(buf));
         }
     }
     return 0;
@@ -54,12 +61,25 @@ int init_file_delete_regex() {
 int do_file_delete_regex() {
     for (unsigned int i=0; i<g_request->file_infos.size(); i++) {
         FILE_INFO& fi = g_request->file_infos[i];
+        bool found = false;
         for (unsigned int j=0; j<file_delete_regex.size(); j++) {
             regex_t& re = file_delete_regex[j];
             if (regexec(&re, fi.name, 0, NULL, 0)) {
                 g_reply->file_deletes.push_back(fi);
+                if (config.debug_client_files) {
+                    log_messages.printf(MSG_NORMAL,
+                        "Sticky file %s matched regex %s; deleting\n",
+                        fi.name, file_delete_regex_string[i].c_str()
+                    );
+                }
+                found = true;
                 break;
             }
+        }
+        if (config.debug_client_files && !found) {
+            log_messages.printf(MSG_NORMAL,
+                "Sticky file %s didn't match any regex\n", fi.name
+            );
         }
     }
     return 0;
