@@ -14,6 +14,8 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+#ifndef SCHED_CUSTOMIZE_H
+#define SCHED_CUSTOMIZE_H
 
 #include "boinc_db.h"
 #include "sched_types.h"
@@ -105,3 +107,5 @@ static inline void coproc_perf(
         // do the math
     u1 = frac*s2/y;
 }
+
+#endif
