@@ -244,13 +244,13 @@ function boinc_get_output_file($req) {
     $auth_str = md5($req->authenticator.$req->instance_name);
     $name = $req->instance_name;
     $file_num = $req->file_num;
-    return $req->project."/get_output.php?instance_name=$name&file_num=$file_num&auth_str=$auth_str";
+    return $req->project."/get_output.php?cmd=result_file&result_name=$name&file_num=$file_num&auth_str=$auth_str";
 }
 
 function boinc_get_output_files($req) {
     $auth_str = md5($req->authenticator.$req->batch_id);
     $batch_id = $req->batch_id;
-    return $req->project."/get_output.php?batch_id=$batch_id&auth_str=$auth_str";
+    return $req->project."/get_output.php?cmd=batch_files&batch_id=$batch_id&auth_str=$auth_str";
 }
 
 function boinc_retire_batch($req) {

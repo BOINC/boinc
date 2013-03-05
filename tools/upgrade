@@ -78,7 +78,6 @@ init()
 install_boinc_files(INSTALL_DIR, not options.server_only, not options.web_only)
 
 print "Upgrading files... done"
-print "Finding SVN revision"
 
 print "Updating translations"
 try:

@@ -515,14 +515,29 @@ wxWizardPageEx* CWizardAttach::_PopPageTransition() {
     if (GetCurrentPage()) {
         if (m_PageTransition.size() > 0) {
             pPage = m_PageTransition.top();
+
+            wxLogTrace(wxT("Function Status"), wxT("CWizardAttach::_PopPageTransition -     Popping Page: '%p'"), pPage);
             m_PageTransition.pop();
-            if ((pPage == m_ProjectProcessingPage) ||
-                (pPage == m_AccountManagerProcessingPage)) 
+
+            // TODO: Figure out the best way to handle the situation where the wizard has been launched with a
+            //   project init file and the volunteer hits the back button on the m_ProjectPropertiesPage/
+            //   m_AccountManagerPropertiesPage page.  Ideally they go back to the m_ProjectInfoPage/
+            //   m_AccountManagerInfoPage page, but since the wizard launched in automatic attach mode
+            //   that page isn't on the stack and the manager crashes.
+            //
+            //   It is probably enough to just push the correct InfoPage on the stack before launching the
+            //   wizard in automatic mode.  I need to think about it some more.
+            //
+            if ((pPage == m_ProjectPropertiesPage) || (pPage == m_ProjectProcessingPage) ||
+                (pPage == m_AccountManagerPropertiesPage) || (pPage == m_AccountManagerProcessingPage))
             {
                 // We want to go back to the page before we attempted to communicate
                 //   with any server.
                 pPage = m_PageTransition.top();
+
+                wxLogTrace(wxT("Function Status"), wxT("CWizardAttach::_PopPageTransition -     Popping Page: '%p'"), pPage);
                 m_PageTransition.pop();
+
             }
             wxASSERT(pPage);
             return pPage;
@@ -594,9 +609,11 @@ wxWizardPageEx* CWizardAttach::_PushPageTransition( wxWizardPageEx* pCurrentPage
  
         if (pPage) {
             if (m_PageTransition.size() == 0) {
+                wxLogTrace(wxT("Function Status"), wxT("CWizardAttach::_PushPageTransition -     Pushing Page: '%p'"), pPage);
                 m_PageTransition.push(NULL);
             }
             if (m_PageTransition.top() != pCurrentPage) {
+                wxLogTrace(wxT("Function Status"), wxT("CWizardAttach::_PushPageTransition -     Pushing Page: '%p'"), pPage);
                 m_PageTransition.push(pCurrentPage);
             }
             return pPage;

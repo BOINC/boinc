@@ -76,16 +76,42 @@ UINT CASaveSetupState::OnExecution()
     GetProperty( _T("LAUNCHPROGRAM"), strLaunchProgram );
     GetProperty( _T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon );
     GetProperty( _T("ENABLESCREENSAVER"), strEnableScreensaver );
-    GetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION2"), strEnableProtectedApplicationExecution );
+    GetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"), strEnableProtectedApplicationExecution );
     GetProperty( _T("ENABLEUSEBYALLUSERS"), strEnableUseByAllUsers );
 
     SetRegistryValue( _T("INSTALLDIR"), strInstallDirectory );
     SetRegistryValue( _T("DATADIR"), strDataDirectory );
-    SetRegistryValue( _T("LAUNCHPROGRAM"), strLaunchProgram );
-    SetRegistryValue( _T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon );
-    SetRegistryValue( _T("ENABLESCREENSAVER"), strEnableScreensaver );
-    SetRegistryValue( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION2"), strEnableProtectedApplicationExecution );
-    SetRegistryValue( _T("ENABLEUSEBYALLUSERS"), strEnableUseByAllUsers );
+
+    if (_T("1") == strLaunchProgram) {
+        SetRegistryValue( _T("LAUNCHPROGRAM"), _T("1") );
+    } else {
+        SetRegistryValue( _T("LAUNCHPROGRAM"), _T("0") );
+    }
+
+    if (_T("1") == strEnableLaunchAtLogon) {
+        SetRegistryValue( _T("ENABLELAUNCHATLOGON"), _T("1") );
+    } else {
+        SetRegistryValue( _T("ENABLELAUNCHATLOGON"), _T("0") );
+    }
+
+    if (_T("1") == strEnableScreensaver) {
+        SetRegistryValue( _T("ENABLESCREENSAVER"), _T("1") );
+    } else {
+        SetRegistryValue( _T("ENABLESCREENSAVER"), _T("0") );
+    }
+
+    if (_T("1") == strEnableProtectedApplicationExecution) {
+        SetRegistryValue( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"), _T("1") );
+    } else {
+        SetRegistryValue( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"), _T("0") );
+    }
+
+    if (_T("1") == strEnableUseByAllUsers) {
+        SetRegistryValue( _T("ENABLEUSEBYALLUSERS"), _T("1") );
+    } else {
+        SetRegistryValue( _T("ENABLEUSEBYALLUSERS"), _T("0") );
+    }
+
     SetRegistryValue( _T("SETUPSTATESTORED"), strSetupStateStored );
 
     return ERROR_SUCCESS;

@@ -208,12 +208,15 @@ function submit_batch($r) {
     $let = (double)$x;
 
     if ($batch_id) {
-        $batch->update("logical_end_time=$let and state= ".BATCH_STATE_IN_PROGRESS);
+        $njobs = count($jobs);
+        $ret = $batch->update("njobs=$njobs, logical_end_time=$let, state= ".BATCH_STATE_IN_PROGRESS);
+        if (!$ret) xml_error(-1, "batch->update() failed");
     } else {
         $batch_name = (string)($r->batch->batch_name);
         $batch_id = BoincBatch::insert(
             "(user_id, create_time, njobs, name, app_id, logical_end_time, state) values ($user->id, $now, $njobs, '$batch_name', $app->id, $let, ".BATCH_STATE_IN_PROGRESS.")"
         );
+        if (!$batch_id) xml_error(-1, "BoincBatch::insert() failed");
     }
     $i = 0;
     foreach($jobs as $job) {
@@ -278,12 +281,8 @@ function query_batch($r) {
     list($user, $user_submit) = authenticate_user($r, null);
     $batch_id = (int)($r->batch_id);
     $batch = BoincBatch::lookup_id($batch_id);
-    if (!$batch) {
-        xml_error(-1, "no such batch");
-    }
-    if ($batch->user_id != $user->id) {
-        xml_error(-1, "not owner");
-    }
+    if (!$batch) xml_error(-1, "no such batch");
+    if ($batch->user_id != $user->id) xml_error(-1, "not owner");
 
     $wus = BoincWorkunit::enum("batch = $batch_id");
     $batch = get_batch_params($batch, $wus);
@@ -296,6 +295,34 @@ function query_batch($r) {
         <canonical_instance_id>$wu->canonical_resultid</canonical_instance_id>
         <n_outfiles>$n_outfiles</n_outfiles>
         </job>
+";
+    }
+    echo "</batch>\n";
+}
+
+// variant for Condor, which doesn't care about instances
+//
+function query_batch_condor($r) {
+    list($user, $user_submit) = authenticate_user($r, null);
+    $batch_id = (int)($r->batch_id);
+    $batch = BoincBatch::lookup_id($batch_id);
+    if (!$batch) xml_error(-1, "no such batch");
+    if ($batch->user_id != $user->id) xml_error(-1, "not owner");
+    $wus = BoincWorkunit::enum("batch = $batch_id");
+    echo "<batch>\n";
+    foreach ($wus as $wu) {
+        if ($wu->canonical_resultid) {
+            $status = "done";
+        } else if ($wu->error_mask) {
+            $status = "error";
+        } else {
+            $status = "in progress";
+        }
+        echo
+"    <job>
+        <job_name>$wu->name</job_name>
+        <status>$status</status>
+    </job>
 ";
     }
     echo "</batch>\n";
@@ -413,12 +440,13 @@ switch ($r->getName()) {
     case 'abort_batch': handle_abort_batch($r); break;
     case 'estimate_batch': estimate_batch($r); break;
     case 'query_batch': query_batch($r); break;
+    case 'query_batch_condor': query_batch_condor($r); break;
     case 'query_batches': query_batches($r); break;
     case 'query_job': query_job($r); break;
     case 'retire_batch': handle_retire_batch($r); break;
     case 'submit_batch': submit_batch($r); break;
     case 'create_batch': create_batch($r); break;
-    default: xml_error(-1, "bad command");
+    default: xml_error(-1, "bad command: ".$r->getName());
 }
 
 ?>

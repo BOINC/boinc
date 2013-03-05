@@ -29,10 +29,6 @@ define("UOTD_ADMIN_EMAIL", "admin@$master_url");
 // offensive forum posts.
 define("POST_REPORT_EMAILS", "moderator1@$master_url|moderator2@$master_url");
 
-// set the following if SVN requires specific configuration (e.g. proxy)
-// Used on ops/index.php.
-// define("SVN_CONFIG_DIRECTORY", "/home/boincadm/.subversion/");
-
 function project_banner($title, $prefix) {
     // Put your project title and logo here
     // If you include any links, prepend URL with $prefix

@@ -555,6 +555,7 @@ class Project:
         install(srcdir('html/project.sample/cache_parameters.inc'),
             self.dir('html/project/cache_parameters.inc'))
         install(srcdir('tools/project.xml'), self.dir('project.xml'))
+        install(srcdir('tools/gui_urls.xml'), self.dir('gui_urls.xml'))
         if not self.production:
             install(srcdir('test/uc_result'), self.dir('templates/uc_result'))
             install(srcdir('test/uc_wu_nodelete'), self.dir('templates/uc_wu'))

@@ -765,8 +765,6 @@ void relative_to_absolute(const char* relname, char* path) {
     }
 }
 
-// get total and free space on current filesystem (in bytes)
-//
 #if defined(_WIN32) && !(defined(WXDEBUG) || defined(WXNDEBUG))
 int boinc_allocate_file(const char* path, double size) {
     int retval = 0;
@@ -794,6 +792,8 @@ int boinc_allocate_file(const char* path, double size) {
 }
 #endif
 
+// get total and free dpace on current filesystem (in bytes)
+//
 #ifdef _WIN32
 int get_filesystem_info(double &total_space, double &free_space, char*) {
     char cwd[MAXPATHLEN];
@@ -832,7 +832,11 @@ int get_filesystem_info(double &total_space, double &free_space, char* path) {
 #ifdef STATFS
     struct STATFS fs_info;
 
-    STATFS(path, &fs_info);
+    int retval = STATFS(path, &fs_info);
+    if (retval) {
+        perror("statvfs");
+        return ERR_STATFS;
+    }
 #if HAVE_SYS_STATVFS_H
     total_space = (double)fs_info.f_frsize * (double)fs_info.f_blocks;
     free_space = (double)fs_info.f_frsize * (double)fs_info.f_bavail;

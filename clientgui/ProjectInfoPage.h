@@ -126,6 +126,7 @@ public:
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformWindowsCtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformMacCtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformLinuxCtrl;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformFreeBSDCtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformATICtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformNvidiaCtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformBlankCtrl;
