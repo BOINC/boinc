@@ -252,10 +252,10 @@ $l612ubuntux64 = array(
 );
 
 $adev = array(
-	"num"=>"7.0.52",
+	"num"=>"7.0.53",
 	"status"=>"Development version",
-	"file"=>"boinc_7.0.52_arm-android-linux-gnu.apk",
-	"date"=>"13 Feb 2013",
+	"file"=>"boinc_7.0.53_arm-android-linux-gnu.apk",
+	"date"=>"20 Feb 2013",
 	"type"=>"apk",
 );
 

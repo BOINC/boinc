@@ -1105,6 +1105,11 @@ static void handle_read_cc_config(GUI_RPC_CONN& grc) {
     log_flags.show();
     gstate.set_ncpus();
     process_gpu_exclusions();
+
+    // also reread app_config.xml files
+    //
+    check_app_config();
+
     gstate.request_schedule_cpus("Core client configuration");
     gstate.request_work_fetch("Core client configuration");
     set_no_rsc_config();

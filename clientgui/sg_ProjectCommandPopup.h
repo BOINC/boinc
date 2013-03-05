@@ -18,7 +18,9 @@
 #ifndef __sg_ProjectCommandPopup__
 #define __sg_ProjectCommandPopup__
 
-class CSimpleProjectCommandPopupButton : public wxButton 
+#include "sg_CustomControls.h"
+
+class CSimpleProjectCommandPopupButton : public CTransparentButton 
 {
     DECLARE_DYNAMIC_CLASS( CSimpleProjectCommandPopupButton )
     DECLARE_EVENT_TABLE()

@@ -187,7 +187,7 @@ function display_team_members($team, $offset, $sort_by) {
 
     // there aren't indices to support sorting by credit.
     // set the following variable to disable sorted output.
-    // (though since caching is generally used this shouldn't needed)
+    // (though since caching is generally used this shouldn't be needed)
     //
     $nosort = false;
 

@@ -23,9 +23,9 @@
 #include "sg_ProjectWebSitesPopup.h"
 
 
-IMPLEMENT_DYNAMIC_CLASS(CSimpleProjectWebSitesPopupButton, wxButton)
+IMPLEMENT_DYNAMIC_CLASS(CSimpleProjectWebSitesPopupButton, CTransparentButton)
 
-BEGIN_EVENT_TABLE(CSimpleProjectWebSitesPopupButton, wxButton)
+BEGIN_EVENT_TABLE(CSimpleProjectWebSitesPopupButton, CTransparentButton)
     EVT_LEFT_DOWN(CSimpleProjectWebSitesPopupButton::OnProjectWebSiteButton)
 	EVT_MENU(WEBSITE_URL_MENU_ID,CSimpleProjectWebSitesPopupButton::OnMenuLinkClicked)
 	EVT_MENU(WEBSITE_URL_MENU_ID_REMOVE_PROJECT,CSimpleProjectWebSitesPopupButton::OnMenuLinkClicked)
@@ -37,7 +37,7 @@ CSimpleProjectWebSitesPopupButton::CSimpleProjectWebSitesPopupButton() {
 CSimpleProjectWebSitesPopupButton::CSimpleProjectWebSitesPopupButton(wxWindow* parent, wxWindowID id, 
         const wxString& label, const wxPoint& pos, const wxSize& size, 
         long style, const wxValidator& validator, const wxString& name) :
-        wxButton(parent, id, label, pos, size, style, validator, name)
+        CTransparentButton(parent, id, label, pos, size, style, validator, name)
     {
 
     m_ProjectWebSitesPopUpMenu = new wxMenu();
