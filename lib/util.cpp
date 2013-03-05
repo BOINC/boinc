@@ -440,7 +440,11 @@ int run_program(
             if (retval) return retval;
         }
         execv(file, argv);
+#ifdef _USING_FCGI_
+        FCGI::perror("execv");
+#else
         perror("execv");
+#endif
         exit(errno);
     }
 
