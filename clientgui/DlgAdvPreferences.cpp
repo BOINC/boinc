@@ -800,9 +800,9 @@ void CDlgAdvPreferences::OnAddExclusiveApp(wxCommandEvent&) {
                             wxT("C:/Program Files"), wxT(""), wxT("*.exe"), 
                             wxFD_OPEN|wxFD_FILE_MUST_EXIST|wxFD_CHANGE_DIR|wxFD_MULTIPLE|wxFD_CHANGE_DIR);
 #else
-//TODO: fill in the default directory and wildcard for Linux
+//TODO: fill in the default directory for Linux
         wxFileDialog picker(this, _("Applications to add"), 
-                            wxT("/"), wxT(""), wxT("*.*"), 
+                            wxT("/"), wxT(""), wxT("*"), 
                             wxFD_OPEN|wxFD_FILE_MUST_EXIST|wxFD_CHANGE_DIR|wxFD_MULTIPLE|wxFD_CHANGE_DIR);
 #endif
         if (picker.ShowModal() != wxID_OK) return;
