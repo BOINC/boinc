@@ -73,6 +73,7 @@ struct ACTIVE_TASK {
 
     // START OF ITEMS SAVED IN STATE FILE
     int _task_state;
+        // PROCESS_*; see common_defs.h
     int slot;
         // subdirectory of slots/ where this runs
     double checkpoint_cpu_time;
