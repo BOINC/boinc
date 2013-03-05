@@ -28,7 +28,7 @@ AM_CPPFLAGS =					\
         -I$(top_srcdir)/vda			\
 	$(PTHREAD_CFLAGS)
 
-AM_CFLAGS = -Wall -Wextra -Wshadow -Wredundant-decls -Wdisabled-optimization -Wpointer-arith -Wstrict-aliasing
+AM_CFLAGS = -Wall -Wextra -Wshadow -Wredundant-decls -Wdisabled-optimization -Wpointer-arith -Wstrict-aliasing -Wcast-align 
 
 AM_CXXFLAGS = $(AM_CFLAGS)
 
