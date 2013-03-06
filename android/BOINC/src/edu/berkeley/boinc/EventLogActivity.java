@@ -34,6 +34,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
+import android.view.View.OnClickListener;
 import android.widget.ListView;
 
 
@@ -76,6 +77,7 @@ public class EventLogActivity extends FragmentActivity {
 
 		        lv.setAdapter(listAdapter);
 		        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+		        lv.setOnClickListener((OnClickListener)listAdapter);
 		    }
 			
 			// Add new messages to the event log
