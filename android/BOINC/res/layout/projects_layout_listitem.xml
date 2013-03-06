@@ -18,19 +18,20 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/projectsRow"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:clickable="true"
-    android:onClick="onItemClick" >
+    android:orientation="vertical" >
+    
     <TextView android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/project_name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
     </TextView>
     <TextView android:textAppearance="?android:attr/textAppearanceSmall"
-        android:id="@+id/account"
+        android:id="@+id/project_username"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
     </TextView>
+
 </LinearLayout>

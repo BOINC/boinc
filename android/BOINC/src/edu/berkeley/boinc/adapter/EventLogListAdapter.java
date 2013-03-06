@@ -44,6 +44,7 @@ public class EventLogListAdapter extends ArrayAdapter<Message> implements OnItem
     private ListView listView;
     
     public static class ViewEventLog {
+    	int entryIndex;
     	CheckBox cbCheck;
         TextView tvMessage;
         TextView tvDate;
@@ -55,6 +56,10 @@ public class EventLogListAdapter extends ArrayAdapter<Message> implements OnItem
         this.entries = entries;
         this.activity = activity;
         this.listView = listView;
+        
+        listView.setAdapter(this);
+        listView.setOnItemClickListener(this);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
     }
  
 	@Override
@@ -109,13 +114,13 @@ public class EventLogListAdapter extends ArrayAdapter<Message> implements OnItem
 	    }
 
 		// Populate UI Elements
+	    viewEventLog.entryIndex = position;
 	    viewEventLog.cbCheck.setChecked(listView.isItemChecked(position));
 	    viewEventLog.tvMessage.setText(getMessage(position));
 	    viewEventLog.tvDate.setText(getDate(position));
 	    viewEventLog.tvProjectName.setText(getProject(position));
 
         return vi;
-
     }
 
     public void onItemClick(AdapterView<?> adapter, View view, int position, long id ) {
