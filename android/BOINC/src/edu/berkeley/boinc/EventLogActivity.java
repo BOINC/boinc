@@ -165,18 +165,22 @@ public class EventLogActivity extends FragmentActivity {
 
 		// Construct the message body
 		emailText.append("\n\nContents of the Event Log:\n\n");
-		if (lv.getCheckedItemIds().length > 0) {
+		if (lv.getCheckedItemPositions().size() > 0) {
+			
 			// Copy selected items
-		    for (long index: lv.getCheckedItemIds()) {
-				emailText.append(listAdapter.getDate((int)index));
-				emailText.append("|");
-				emailText.append(listAdapter.getProject((int)index));
-				emailText.append("|");
-				emailText.append(listAdapter.getMessage((int)index));
-				emailText.append("\r\n");
+		    for (int index = 0; index < lv.getCount(); index++) {
+		    	if (lv.isItemChecked(index)) {
+					emailText.append(listAdapter.getDate(index));
+					emailText.append("|");
+					emailText.append(listAdapter.getProject(index));
+					emailText.append("|");
+					emailText.append(listAdapter.getMessage(index));
+					emailText.append("\r\n");
+		    	}
 		    }
 			
 		} else {
+
 			// Copy all items
 		    for (int index = 0; index < lv.getCount(); index++) {
 				emailText.append(listAdapter.getDate(index));
@@ -186,6 +190,7 @@ public class EventLogActivity extends FragmentActivity {
 				emailText.append(listAdapter.getMessage(index));
 				emailText.append("\r\n");
 			}
+		    
 		}
 		
 		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, emailText.toString());
