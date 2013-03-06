@@ -40,7 +40,7 @@
 	    </TextView>
 
 	    <TextView
-	        android:id="@+id/project_username"
+	        android:id="@+id/project_status"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	        android:textAppearance="?android:attr/textAppearanceSmall" >

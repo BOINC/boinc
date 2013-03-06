@@ -20,20 +20,21 @@ package edu.berkeley.boinc.adapter;
 
 import java.util.ArrayList;
 
-import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.rpc.Project;
-
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.ImageButton;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.TextView;
+import edu.berkeley.boinc.ProjectsActivity;
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.rpc.Project;
 
 public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItemClickListener {
 	
@@ -44,7 +45,7 @@ public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItem
     public static class ViewProject {
     	int entryIndex;
         TextView tvProjectName;
-        TextView tvUserName;
+        TextView tvProjectStatus;
         ImageButton ibProjectUpdate;
         ImageButton ibProjectDelete;
     }
@@ -79,8 +80,12 @@ public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItem
 		return entries.get(position).project_name;
 	}
 
-	public String getUserName(int position) {
-		return entries.get(position).user_name;
+	public String getProjectURL(int position) {
+		return entries.get(position).master_url;
+	}
+
+	public String getProjectStatus(int position) {
+		return "";
 	}
 
 	@Override
@@ -95,7 +100,7 @@ public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItem
 
 	    	viewProject = new ViewProject();
 	    	viewProject.tvProjectName = (TextView)vi.findViewById(R.id.project_name);
-	    	viewProject.tvUserName = (TextView)vi.findViewById(R.id.project_username);
+	    	viewProject.tvProjectStatus = (TextView)vi.findViewById(R.id.project_status);
 	    	viewProject.ibProjectUpdate = (ImageButton)vi.findViewById(R.id.project_update);
 	    	viewProject.ibProjectDelete = (ImageButton)vi.findViewById(R.id.project_delete);
 	    
@@ -110,13 +115,39 @@ public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItem
 		// Populate UI Elements
 	    viewProject.entryIndex = position;
 	    viewProject.tvProjectName.setText(getProject(position));
-	    viewProject.tvUserName.setText(getUserName(position));
+	    viewProject.tvProjectStatus.setText(getProjectStatus(position));
 	    if (listView.isItemChecked(position)) {
-	    	viewProject.ibProjectUpdate.setVisibility(View.VISIBLE);	    	
-	    	viewProject.ibProjectDelete.setVisibility(View.VISIBLE);	    	
+	    	viewProject.ibProjectUpdate.setVisibility(View.VISIBLE);
+	    	viewProject.ibProjectUpdate.setTag(viewProject);
+	    	viewProject.ibProjectUpdate.setClickable(true);
+	    	viewProject.ibProjectUpdate.setOnClickListener(new OnClickListener() {
+	            public void onClick(View v) {
+	            	ViewProject viewProject = (ViewProject)v.getTag();
+	            	ProjectsActivity a = (ProjectsActivity)activity;
+	            	
+	            	a.onProjectUpdate(getProjectURL(viewProject.entryIndex));
+	            }
+	        });
+	    		    		    	
+	    	viewProject.ibProjectDelete.setVisibility(View.VISIBLE);
+	    	viewProject.ibProjectDelete.setTag(viewProject);
+	    	viewProject.ibProjectDelete.setClickable(true);
+	    	viewProject.ibProjectDelete.setOnClickListener(new OnClickListener() {
+	            public void onClick(View v) {
+	            	ViewProject viewProject = (ViewProject)v.getTag();
+	            	ProjectsActivity a = (ProjectsActivity)activity;
+	            	
+	            	a.onProjectDelete(getProjectURL(viewProject.entryIndex));
+	            }
+	        });
 	    } else {
 	    	viewProject.ibProjectUpdate.setVisibility(View.INVISIBLE);	    	
-	    	viewProject.ibProjectDelete.setVisibility(View.INVISIBLE);	    	
+	    	viewProject.ibProjectUpdate.setClickable(false);
+	    	viewProject.ibProjectUpdate.setOnClickListener(null);
+	    	
+	    	viewProject.ibProjectDelete.setVisibility(View.INVISIBLE);
+	    	viewProject.ibProjectDelete.setClickable(false);
+	    	viewProject.ibProjectDelete.setOnClickListener(null);
 	    }
 
         return vi;
