@@ -95,7 +95,7 @@ struct XML_PARSER {
             return true;
         }
         if (strlen(parsed_tag) > TAG_BUF_LEN-10) {
-            return true;
+            parsed_tag[TAG_BUF_LEN-10] = 0;
         }
         return false;
     }
