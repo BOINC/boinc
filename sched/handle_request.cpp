@@ -172,7 +172,7 @@ void unlock_sched() {
 // find the user's most recently-created host with given host CPID
 //
 static bool find_host_by_cpid(DB_USER& user, char* host_cpid, DB_HOST& host) {
-    char buf[256], buf2[256];
+    char buf[1024], buf2[256];
     sprintf(buf, "%s%s", host_cpid, user.email_addr);
     md5_block((const unsigned char*)buf, strlen(buf), buf2);
 
@@ -241,7 +241,7 @@ static void mark_results_over(DB_HOST& host) {
 //
 int authenticate_user() {
     int retval;
-    char buf[256];
+    char buf[1024];
     DB_HOST host;
     DB_USER user;
     DB_TEAM team;
@@ -299,6 +299,7 @@ int authenticate_user() {
                 strlcpy(
                     user.authenticator, g_request->authenticator, sizeof(user.authenticator)
                 );
+                escape_string(user.authenticator, sizeof(user.authenticator));
                 sprintf(buf, "where authenticator='%s'", user.authenticator);
                 retval = user.lookup(buf);
                 if (retval) {
@@ -365,6 +366,7 @@ lookup_user_and_make_new_host:
                 user.authenticator, g_request->authenticator,
                 sizeof(user.authenticator)
             );
+            escape_string(user.authenticator, sizeof(user.authenticator));
             sprintf(buf, "where authenticator='%s'", user.authenticator);
             retval = user.lookup(buf);
         }
@@ -497,7 +499,7 @@ got_host:
 static int modify_host_struct(HOST& host) {
     host.timezone = g_request->host.timezone;
     strncpy(host.domain_name, g_request->host.domain_name, sizeof(host.domain_name));
-    char buf[256], buf2[256];
+    char buf[1024], buf2[1024];
     sprintf(buf, "[BOINC|%d.%d.%d]",
         g_request->core_client_major_version,
         g_request->core_client_minor_version,
@@ -704,7 +706,7 @@ int send_result_abort() {
 // 2) send global prefs in reply msg if needed
 //
 int handle_global_prefs() {
-    char buf[BLOB_SIZE];
+    char buf[BLOB_SIZE+256];
     g_reply->send_global_prefs = false;
     bool have_working_prefs = (strlen(g_request->working_global_prefs_xml)>0);
     bool have_master_prefs = (strlen(g_request->global_prefs_xml)>0);

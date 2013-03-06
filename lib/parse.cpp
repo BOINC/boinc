@@ -497,7 +497,7 @@ int XML_PARSER::scan_comment() {
     char* p = buf;
     while (1) {
         int c = f->_getc();
-        if (c == EOF) return XML_PARSE_EOF;
+        if (!c || c == EOF) return XML_PARSE_EOF;
         *p++ = c;
         *p = 0;
         if (strstr(buf, "-->")) {
@@ -515,7 +515,7 @@ int XML_PARSER::scan_cdata(char* buf, int len) {
     len--;
     while (1) {
         int c = f->_getc();
-        if (c == EOF) return XML_PARSE_EOF;
+        if (!c || c == EOF) return XML_PARSE_EOF;
         if (len) {
             *p++ = c;
             len--;
@@ -540,11 +540,12 @@ int XML_PARSER::scan_cdata(char* buf, int len) {
 //
 bool XML_PARSER::parse_str(const char* start_tag, char* buf, int len) {
     bool eof;
-    char end_tag[256], tag[256];
+    char end_tag[TAG_BUF_LEN], tag[TAG_BUF_LEN];
+
+    size_t n = strlen(parsed_tag);
 
     // handle the archaic form <tag/>, which means empty string
     //
-    size_t n = strlen(parsed_tag);
     if (parsed_tag[n-1] == '/') {
         strcpy(tag, parsed_tag);
         tag[n-1] = 0;
@@ -600,7 +601,7 @@ bool XML_PARSER::parse_string(const char* start_tag, string& str) {
 bool XML_PARSER::parse_int(const char* start_tag, int& i) {
     char buf[256], *end;
     bool eof;
-    char end_tag[256], tag[256];
+    char end_tag[TAG_BUF_LEN], tag[TAG_BUF_LEN];
 
     if (strcmp(parsed_tag, start_tag)) return false;
 
@@ -635,7 +636,7 @@ bool XML_PARSER::parse_int(const char* start_tag, int& i) {
 bool XML_PARSER::parse_double(const char* start_tag, double& x) {
     char buf[256], *end;
     bool eof;
-    char end_tag[256], tag[256];
+    char end_tag[TAG_BUF_LEN], tag[TAG_BUF_LEN];
 
     if (strcmp(parsed_tag, start_tag)) return false;
 
@@ -670,7 +671,7 @@ bool XML_PARSER::parse_double(const char* start_tag, double& x) {
 bool XML_PARSER::parse_ulong(const char* start_tag, unsigned long& x) {
     char buf[256], *end;
     bool eof;
-    char end_tag[256], tag[256];
+    char end_tag[TAG_BUF_LEN], tag[TAG_BUF_LEN];
 
     if (strcmp(parsed_tag, start_tag)) return false;
 
@@ -705,7 +706,7 @@ bool XML_PARSER::parse_ulong(const char* start_tag, unsigned long& x) {
 bool XML_PARSER::parse_ulonglong(const char* start_tag, unsigned long long& x) {
     char buf[256], *end=0;
     bool eof;
-    char end_tag[256], tag[256];
+    char end_tag[TAG_BUF_LEN], tag[TAG_BUF_LEN];
 
     if (strcmp(parsed_tag, start_tag)) return false;
 
@@ -740,7 +741,7 @@ bool XML_PARSER::parse_ulonglong(const char* start_tag, unsigned long long& x) {
 bool XML_PARSER::parse_bool(const char* start_tag, bool& b) {
     char buf[256], *end;
     bool eof;
-    char end_tag[256], tag[256];
+    char end_tag[TAG_BUF_LEN], tag[TAG_BUF_LEN];
 
     // handle the archaic form <tag/>, which means true
     //
@@ -774,7 +775,7 @@ bool XML_PARSER::parse_bool(const char* start_tag, bool& b) {
 // parse a start tag (optionally preceded by <?xml>)
 //
 bool XML_PARSER::parse_start(const char* start_tag) {
-    char tag[256];
+    char tag[TAG_BUF_LEN];
     bool eof;
 
     eof = get(tag, sizeof(tag), is_tag);
@@ -800,7 +801,7 @@ bool XML_PARSER::parse_start(const char* start_tag) {
 void XML_PARSER::skip_unexpected(
     const char* start_tag, bool verbose, const char* where
 ) {
-    char tag[256], end_tag[256];
+    char tag[TAG_BUF_LEN], end_tag[TAG_BUF_LEN];
 
     if (verbose) {
         fprintf(stderr, "Unrecognized XML in %s: %s\n", where, start_tag);
@@ -821,7 +822,7 @@ void XML_PARSER::skip_unexpected(
 // copy this entire element, including start and end tags, to the buffer
 //
 int XML_PARSER::copy_element(string& out) {
-    char end_tag[256], buf[1024];
+    char end_tag[TAG_BUF_LEN], buf[1024];
 
     // handle <foo/> case
     //

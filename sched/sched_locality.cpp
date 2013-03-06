@@ -73,7 +73,7 @@ int delete_file_from_host() {
 #endif
 
     int nfiles = (int)g_request->file_infos.size();
-    char buf[256];
+    char buf[1024];
     if (!nfiles) {
 
         double maxdisk = max_allowable_disk();
@@ -1232,7 +1232,7 @@ void send_file_deletes() {
     int num_useless = g_request->files_not_needed.size();
     int i;
     for (i=0; i<num_useless; i++) {
-        char buf[256];
+        char buf[1024];
         FILE_INFO& fi = g_request->files_not_needed[i];
         g_reply->file_deletes.push_back(fi);
         if (config.debug_locality) {

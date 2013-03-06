@@ -34,6 +34,9 @@
 #define XML_PARSE_CDATA     3
 #define XML_PARSE_TAG       4
 #define XML_PARSE_DATA      5
+#define XML_PARSE_OVERFLOW  6
+
+#define TAG_BUF_LEN         256
 
 struct XML_PARSER {
     int scan_comment();
@@ -47,29 +50,34 @@ struct XML_PARSER {
     }
     // read and copy text to buf; stop when find a <;
     // ungetc() that so we read it again
-    // Return true iff reached EOF
+    // Return XML_PARSE_DATA if successful
     //
-    inline bool copy_until_tag(char* buf, int len) {
+    inline int copy_until_tag(char* buf, int len) {
         int c;
         while (1) {
             c = f->_getc();
-            if (c == EOF) return true;
+            if (!c || c == EOF) return XML_PARSE_EOF;
             if (c == '<') {
                 f->_ungetc(c);
                 *buf = 0;
-                return false;
+                return XML_PARSE_DATA;
             }
-            if (--len > 0) {
-                *buf++ = c;
+            if (--len <= 0) {
+                return XML_PARSE_OVERFLOW;
             }
+            *buf++ = c;
         }
     }
 
+    // return true if EOF or error
+    //
     inline bool get(
         char* buf, int len, bool& _is_tag, char* attr_buf=0, int attr_len=0
     ) {
         switch (get_aux(buf, len, attr_buf, attr_len)) {
-        case XML_PARSE_EOF: return true;
+        case XML_PARSE_EOF:
+        case XML_PARSE_OVERFLOW:
+            return true;
         case XML_PARSE_TAG:
             _is_tag = true;
             break;
@@ -83,7 +91,13 @@ struct XML_PARSER {
     }
 
     inline bool get_tag(char* ab=0, int al=0) {
-        return get(parsed_tag, sizeof(parsed_tag), is_tag, ab, al);
+        if (get(parsed_tag, sizeof(parsed_tag), is_tag, ab, al)) {
+            return true;
+        }
+        if (strlen(parsed_tag) > TAG_BUF_LEN-10) {
+            return true;
+        }
+        return false;
     }
     inline bool match_tag(const char* tag) {
         return !strcmp(parsed_tag, tag);
@@ -97,7 +111,7 @@ struct XML_PARSER {
         int c;
         while (1) {
             c = f->_getc();
-            if (c == EOF) return true;
+            if (!c || c == EOF) return true;
             if (isspace(c)) continue;
             first_char = c;
             return false;
@@ -120,12 +134,12 @@ struct XML_PARSER {
             if (c == '<') {
                 retval = scan_tag(buf, len, attr_buf, attr_len);
                 if (retval == XML_PARSE_EOF) return retval;
+                if (retval == XML_PARSE_OVERFLOW) return retval;
                 if (retval == XML_PARSE_COMMENT) continue;
             } else {
                 buf[0] = c;
-                eof = copy_until_tag(buf+1, len-1);
-                if (eof) return XML_PARSE_EOF;
-                retval = XML_PARSE_DATA;
+                retval = copy_until_tag(buf+1, len-1);
+                if (retval != XML_PARSE_DATA) return retval;
             }
             strip_whitespace(buf);
             return retval;
@@ -153,7 +167,7 @@ struct XML_PARSER {
 
         for (int i=0; ; i++) {
             c = f->_getc();
-            if (c == EOF) return XML_PARSE_EOF;
+            if (!c || c == EOF) return XML_PARSE_EOF;
             if (c == '>') {
                 *buf = 0;
                 if (attr_buf) *attr_buf = 0;
@@ -169,6 +183,8 @@ struct XML_PARSER {
             } else if (c == '/') {
                 if (--tag_len > 0) {
                     *buf++ = c;
+                } else {
+                    return XML_PARSE_OVERFLOW;
                 }
             } else {
                 if (found_space) {
@@ -180,6 +196,8 @@ struct XML_PARSER {
                 } else {
                     if (--tag_len > 0) {
                         *buf++ = c;
+                    } else {
+                        return XML_PARSE_OVERFLOW;
                     }
                 }
             }
@@ -208,7 +226,7 @@ struct XML_PARSER {
                 break;
             }
             int c = f->_getc();
-            if (c == EOF) {
+            if (!c || c == EOF) {
                 retval = ERR_XML_PARSE;
                 break;
             }
