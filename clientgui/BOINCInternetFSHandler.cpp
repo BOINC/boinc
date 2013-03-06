@@ -273,7 +273,6 @@ size_t wxWinINetInputStream::OnSysRead(void *buffer, size_t bufsize)
     while (1) {
         bytesread = 0;
         success = InternetReadFile(m_hFile, buf, buflen, &bytesread);
-m_hFile, buf, buflen, (int)success, bytesread);
         if (success) {
             if ( bytesread == 0 ) {
                 SetError(wxSTREAM_EOF);
