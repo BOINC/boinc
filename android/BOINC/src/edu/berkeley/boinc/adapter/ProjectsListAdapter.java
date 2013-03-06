@@ -115,8 +115,8 @@ public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItem
 	    	viewProject.ibProjectUpdate.setVisibility(View.VISIBLE);	    	
 	    	viewProject.ibProjectDelete.setVisibility(View.VISIBLE);	    	
 	    } else {
-	    	viewProject.ibProjectUpdate.setVisibility(View.GONE);	    	
-	    	viewProject.ibProjectDelete.setVisibility(View.GONE);	    	
+	    	viewProject.ibProjectUpdate.setVisibility(View.INVISIBLE);	    	
+	    	viewProject.ibProjectDelete.setVisibility(View.INVISIBLE);	    	
 	    }
 
         return vi;
