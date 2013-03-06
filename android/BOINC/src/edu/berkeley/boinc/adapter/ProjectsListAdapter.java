@@ -214,11 +214,11 @@ public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItem
 	            }
 	        });
 	    } else {
-	    	viewProject.ibProjectUpdate.setVisibility(View.INVISIBLE);	    	
+	    	viewProject.ibProjectUpdate.setVisibility(View.GONE);	    	
 	    	viewProject.ibProjectUpdate.setClickable(false);
 	    	viewProject.ibProjectUpdate.setOnClickListener(null);
 	    	
-	    	viewProject.ibProjectDelete.setVisibility(View.INVISIBLE);
+	    	viewProject.ibProjectDelete.setVisibility(View.GONE);
 	    	viewProject.ibProjectDelete.setClickable(false);
 	    	viewProject.ibProjectDelete.setOnClickListener(null);
 	    }
