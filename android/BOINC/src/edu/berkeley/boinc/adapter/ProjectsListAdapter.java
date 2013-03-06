@@ -34,10 +34,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import edu.berkeley.boinc.definitions.CommonDefs;
 import edu.berkeley.boinc.ProjectsActivity;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.Project;
+import edu.berkeley.boinc.utils.BOINCUtils;
 
 public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItemClickListener {
 	
@@ -106,7 +106,7 @@ public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItem
         if (project.sched_rpc_pending > 0) {
         	appendToStatus(sb, activity.getResources().getString(R.string.projects_status_schedrpcpending));
             appendToStatus(sb,
-            	translateRPCReason(project.sched_rpc_pending)
+            	BOINCUtils.translateRPCReason(activity, project.sched_rpc_pending)
             );
         }
         if (project.scheduler_rpc_in_progress) {
@@ -130,27 +130,6 @@ public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItem
 		return sb.toString();
 	}
 
-	private String translateRPCReason(int reason) {
-	    switch (reason) {
-		    case CommonDefs.RPC_REASON_USER_REQ:
-		    	return activity.getResources().getString(R.string.rpcreason_userreq);
-		    case CommonDefs.RPC_REASON_NEED_WORK:
-		    	return activity.getResources().getString(R.string.rpcreason_needwork);
-		    case CommonDefs.RPC_REASON_RESULTS_DUE:
-		    	return activity.getResources().getString(R.string.rpcreason_resultsdue);
-		    case CommonDefs.RPC_REASON_TRICKLE_UP:
-		    	return activity.getResources().getString(R.string.rpcreason_trickleup);
-		    case CommonDefs.RPC_REASON_ACCT_MGR_REQ:
-		    	return activity.getResources().getString(R.string.rpcreason_acctmgrreq);
-		    case CommonDefs.RPC_REASON_INIT:
-		    	return activity.getResources().getString(R.string.rpcreason_init);
-		    case CommonDefs.RPC_REASON_PROJECT_REQ:
-		    	return activity.getResources().getString(R.string.rpcreason_projectreq);
-		    default:
-		    	return activity.getResources().getString(R.string.rpcreason_unknown);
-	    }
-	}
-	
 	private void appendToStatus(StringBuffer existing, String additional) {
 	    if (existing.length() == 0) {
 	        existing.append(additional);

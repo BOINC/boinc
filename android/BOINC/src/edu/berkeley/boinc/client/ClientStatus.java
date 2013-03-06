@@ -24,13 +24,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import edu.berkeley.boinc.BOINCActivity;
-import edu.berkeley.boinc.definitions.CommonDefs;
 import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.Message;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.Result;
 import edu.berkeley.boinc.rpc.Transfer;
+import edu.berkeley.boinc.utils.BOINCDefs;
 
 /*
  * Singleton that holds the client status data, as determined by the Monitor.
@@ -198,19 +198,19 @@ public class ClientStatus {
 	private void parseComputingStatus() {
 		computingParseError = true;
 		try {
-			if(status.task_mode==CommonDefs.RUN_MODE_NEVER) {
+			if(status.task_mode==BOINCDefs.RUN_MODE_NEVER) {
 				computingStatus = COMPUTING_STATUS_NEVER;
 				computingSuspendReason = status.task_suspend_reason; // = 4 - SUSPEND_REASON_USER_REQ????
 				computingParseError = false;
 				return;
 			}
-			if((status.task_mode == CommonDefs.RUN_MODE_AUTO) && (status.task_suspend_reason != CommonDefs.SUSPEND_NOT_SUSPENDED)) {
+			if((status.task_mode == BOINCDefs.RUN_MODE_AUTO) && (status.task_suspend_reason != BOINCDefs.SUSPEND_NOT_SUSPENDED)) {
 				computingStatus = COMPUTING_STATUS_SUSPENDED;
 				computingSuspendReason = status.task_suspend_reason;
 				computingParseError = false;
 				return;
 			}
-			if((status.task_mode == CommonDefs.RUN_MODE_AUTO) && (status.task_suspend_reason == CommonDefs.SUSPEND_NOT_SUSPENDED)) {
+			if((status.task_mode == BOINCDefs.RUN_MODE_AUTO) && (status.task_suspend_reason == BOINCDefs.SUSPEND_NOT_SUSPENDED)) {
 				//figure out whether we have an active task
 				Boolean activeTask = false;
 				if(results!=null) {
@@ -243,19 +243,19 @@ public class ClientStatus {
 	private void parseNetworkStatus() {
 		networkParseError = true;
 		try {
-			if(status.network_mode==CommonDefs.RUN_MODE_NEVER) {
+			if(status.network_mode==BOINCDefs.RUN_MODE_NEVER) {
 				networkStatus = NETWORK_STATUS_NEVER;
 				networkSuspendReason = status.network_suspend_reason; // = 4 - SUSPEND_REASON_USER_REQ????
 				networkParseError = false;
 				return;
 			}
-			if((status.network_mode == CommonDefs.RUN_MODE_AUTO) && (status.network_suspend_reason != CommonDefs.SUSPEND_NOT_SUSPENDED)) {
+			if((status.network_mode == BOINCDefs.RUN_MODE_AUTO) && (status.network_suspend_reason != BOINCDefs.SUSPEND_NOT_SUSPENDED)) {
 				networkStatus = NETWORK_STATUS_SUSPENDED;
 				networkSuspendReason = status.network_suspend_reason;
 				networkParseError = false;
 				return;
 			}
-			if((status.network_mode == CommonDefs.RUN_MODE_AUTO) && (status.network_suspend_reason == CommonDefs.SUSPEND_NOT_SUSPENDED)) {
+			if((status.network_mode == BOINCDefs.RUN_MODE_AUTO) && (status.network_suspend_reason == BOINCDefs.SUSPEND_NOT_SUSPENDED)) {
 				networkStatus = NETWORK_STATUS_AVAILABLE;
 				networkSuspendReason = status.network_suspend_reason; // = 0 - SUSPEND_NOT_SUSPENDED
 				networkParseError = false;
