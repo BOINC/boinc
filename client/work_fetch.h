@@ -218,6 +218,8 @@ struct RSC_WORK_FETCH {
     double saturated_time;
         // estimated time until resource is not saturated
         // used to calculate work request
+    double inst_secs_used;
+        // how many instance-seconds were used in simulation
     double deadline_missed_instances;
         // instance count for jobs that miss deadline
     BUSY_TIME_ESTIMATOR busy_time_estimator;
@@ -243,8 +245,7 @@ struct RSC_WORK_FETCH {
     }
 
     void rr_init();
-    void accumulate_shortfall(double d_time);
-    void update_saturated_time(double dt);
+    void update_stats(double sim_now, double dt, double buf_end);
     void update_busy_time(double dur, double nused);
     PROJECT* choose_project_hyst(bool strict);
     PROJECT* choose_project(int);
