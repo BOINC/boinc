@@ -131,7 +131,9 @@
 	<string name="confirm_deletion_confirm">Delete</string>
 	<string name="confirm_deletion_cancel">Cancel</string>
 	<string name="projects_add_button">+ Add project</string>
-	
+	<string name="projects_delete">Delete project</string>
+	<string name="projects_update">Update project</string>
+			
 	<!-- tasks tab strings -->
 	<string name="tasks_result_new">new</string>
 	<string name="tasks_result_files_downloading">waiting for download</string>

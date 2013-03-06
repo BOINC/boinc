@@ -19,11 +19,8 @@
 package edu.berkeley.boinc.adapter;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.adapter.EventLogListAdapter.ViewEventLog;
-import edu.berkeley.boinc.rpc.Message;
 import edu.berkeley.boinc.rpc.Project;
 
 import android.app.Activity;
@@ -32,9 +29,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.ImageButton;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -48,6 +45,8 @@ public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItem
     	int entryIndex;
         TextView tvProjectName;
         TextView tvUserName;
+        ImageButton ibProjectUpdate;
+        ImageButton ibProjectDelete;
     }
     
     public ProjectsListAdapter(Activity activity, ListView listView, int textViewResourceId, ArrayList<Project> entries) {
@@ -97,6 +96,8 @@ public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItem
 	    	viewProject = new ViewProject();
 	    	viewProject.tvProjectName = (TextView)vi.findViewById(R.id.project_name);
 	    	viewProject.tvUserName = (TextView)vi.findViewById(R.id.project_username);
+	    	viewProject.ibProjectUpdate = (ImageButton)vi.findViewById(R.id.project_update);
+	    	viewProject.ibProjectDelete = (ImageButton)vi.findViewById(R.id.project_delete);
 	    
 	        vi.setTag(viewProject);
 	        
@@ -110,13 +111,18 @@ public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItem
 	    viewProject.entryIndex = position;
 	    viewProject.tvProjectName.setText(getProject(position));
 	    viewProject.tvUserName.setText(getUserName(position));
+	    if (listView.isItemChecked(position)) {
+	    	viewProject.ibProjectUpdate.setVisibility(View.VISIBLE);	    	
+	    	viewProject.ibProjectDelete.setVisibility(View.VISIBLE);	    	
+	    } else {
+	    	viewProject.ibProjectUpdate.setVisibility(View.GONE);	    	
+	    	viewProject.ibProjectDelete.setVisibility(View.GONE);	    	
+	    }
 
         return vi;
     }
     
     public void onItemClick(AdapterView<?> adapter, View view, int position, long id ) {
-    	ViewProject viewProject = (ViewProject)view.getTag();
-
 		notifyDataSetChanged();
     }
 

@@ -21,17 +21,41 @@
     android:id="@+id/projectsRow"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="horizontal" >
     
-    <TextView android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/project_name"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-    </TextView>
-    <TextView android:textAppearance="?android:attr/textAppearanceSmall"
-        android:id="@+id/project_username"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-    </TextView>
+	<LinearLayout
+	    android:id="@+id/projectsDescription"
+	    android:layout_width="fill_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="vertical" >
+	    
+	    <TextView android:textAppearance="?android:attr/textAppearanceMedium"
+	        android:id="@+id/project_name"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content">
+	    </TextView>
+	    <TextView android:textAppearance="?android:attr/textAppearanceSmall"
+	        android:id="@+id/project_username"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content">
+	    </TextView>
+	
+	</LinearLayout>
+	
+	<ImageButton
+	    android:id="@+id/project_update"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:contentDescription="@string/projects_update"
+	    android:src="@drawable/ic_menu_refresh"
+	    android:visibility="gone" />
 
+	<ImageButton
+	    android:id="@+id/project_delete"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:contentDescription="@string/projects_delete"
+	    android:src="@drawable/ic_menu_delete"
+	    android:visibility="gone" />
+			
 </LinearLayout>
