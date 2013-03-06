@@ -27,7 +27,8 @@
         android:id="@+id/msgs_message"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="2dp" />
+        android:layout_margin="2dp"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple" />
 	
    	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:id="@+id/msgsRowHorizontal"
