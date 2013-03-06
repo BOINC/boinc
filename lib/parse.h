@@ -112,7 +112,7 @@ struct XML_PARSER {
         while (1) {
             c = f->_getc();
             if (!c || c == EOF) return true;
-            if (isspace(c)) continue;
+            if (isascii(c) && isspace(c)) continue;
             first_char = c;
             return false;
         }
@@ -173,7 +173,7 @@ struct XML_PARSER {
                 if (attr_buf) *attr_buf = 0;
                 return XML_PARSE_TAG;
             }
-            if (isspace(c)) {
+            if (isascii(c) && isspace(c)) {
                 if (found_space && attr_buf) {
                     if (--attr_len > 0) {
                         *attr_buf++ = c;
