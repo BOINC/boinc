@@ -35,8 +35,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
 import android.widget.ListView;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 
 
 public class EventLogActivity extends FragmentActivity {
@@ -78,7 +76,7 @@ public class EventLogActivity extends FragmentActivity {
 
 		        lv.setAdapter(listAdapter);
 		        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-			}
+		    }
 			
 			// Add new messages to the event log
 			for (Message msg: tmpA) {
@@ -132,6 +130,7 @@ public class EventLogActivity extends FragmentActivity {
 	    super.onDestroy();
 	}
 
+	    
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    Log.d(TAG, "onCreateOptionsMenu()");
