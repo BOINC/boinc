@@ -87,26 +87,6 @@
     <string name="disable_computation">Disable computation</string>
     <string name="enable_computation">Enable computation</string>
     
-    <!-- suspend reasons -->
-    <string name="suspend_unknown">Computation paused.</string>
-    <string name="suspend_idle">No BOINC tasks ready for computation.</string>
-    <string name="suspend_batteries">Not connected to power source.</string>
-    <string name="suspend_useractive">User is active.</string>
-    <string name="suspend_userreq">Stopped manually.</string>
-    <string name="suspend_tod">Out of computation time-frame.</string>
-    <string name="suspend_bm">BOINC is benchmarking your device.</string>
-    <string name="suspend_disksize">Out of disk space.</string>
-    <string name="suspend_cputhrottle">Your device is busy.</string>
-    <string name="suspend_noinput">No recent tasks available.</string>
-    <string name="suspend_delay">Initialisation delay.</string>
-    <string name="suspend_exclusiveapp">An exclusive app is running.</string>
-    <string name="suspend_cpu">Your device is busy.</string>
-    <string name="suspend_network_quota">BOINC reached network transfer limit.</string>
-    <string name="suspend_os">Stopped by Android.</string>
-    <string name="suspend_wifi">Can\'t fetch work, no WiFi connection!</string>
-    <string name="suspend_battery_charging">Your device\'s battery is charging.</string>
-    <string name="suspend_battery_overheating">Your device\'s battery is overheating.</string>
-    
 	<!-- preferences tab strings -->
 	<string name="prefs_unbound">Reading preferences&#8230;</string>
 	<string name="prefs_submit_button">OK</string>
@@ -127,13 +107,23 @@
 	
 	<!-- projects tab strings -->
 	<string name="projects_loading">Reading projects&#8230;</string>
-	<string name="confirm_deletion">Delete project: </string>
-	<string name="confirm_deletion_confirm">Delete</string>
-	<string name="confirm_deletion_cancel">Cancel</string>
 	<string name="projects_add_button">+ Add project</string>
 	<string name="projects_delete">Delete project</string>
 	<string name="projects_update">Update project</string>
-			
+
+	<string name="projects_status_suspendedviagui">Suspended by user</string>
+	<string name="projects_status_dontrequestmorework">Won\'t get new tasks</string>
+	<string name="projects_status_ended">Project ended - OK to remove</string>
+	<string name="projects_status_detachwhendone">Will remove when tasks done</string>
+	<string name="projects_status_schedrpcpending">Scheduler request pending</string>
+	<string name="projects_status_schedrpcinprogress">Scheduler request in progress</string>
+	<string name="projects_status_trickleuppending">Trickle up message pending</string>
+	<string name="projects_status_backoff">Communication deferred</string>
+							
+	<string name="confirm_deletion">Delete project: </string>
+	<string name="confirm_deletion_confirm">Delete</string>
+	<string name="confirm_deletion_cancel">Cancel</string>
+				
 	<!-- tasks tab strings -->
 	<string name="tasks_result_new">new</string>
 	<string name="tasks_result_files_downloading">waiting for download</string>
@@ -163,5 +153,35 @@
     <string name="debug_refresh">Refresh</string>
     <string name="debug_manager_header">AndroidBOINC manager messages:</string>
     <string name="debug_client_header">BOINC Client messages:</string>
+
+    <!-- suspend reasons -->
+    <string name="suspend_unknown">Computation paused.</string>
+    <string name="suspend_idle">No BOINC tasks ready for computation.</string>
+    <string name="suspend_batteries">Not connected to power source.</string>
+    <string name="suspend_useractive">User is active.</string>
+    <string name="suspend_userreq">Stopped manually.</string>
+    <string name="suspend_tod">Out of computation time-frame.</string>
+    <string name="suspend_bm">BOINC is benchmarking your device.</string>
+    <string name="suspend_disksize">Out of disk space.</string>
+    <string name="suspend_cputhrottle">Your device is busy.</string>
+    <string name="suspend_noinput">No recent tasks available.</string>
+    <string name="suspend_delay">Initialisation delay.</string>
+    <string name="suspend_exclusiveapp">An exclusive app is running.</string>
+    <string name="suspend_cpu">Your device is busy.</string>
+    <string name="suspend_network_quota">BOINC reached network transfer limit.</string>
+    <string name="suspend_os">Stopped by Android.</string>
+    <string name="suspend_wifi">Can\'t fetch work, no WiFi connection!</string>
+    <string name="suspend_battery_charging">Your device\'s battery is charging.</string>
+    <string name="suspend_battery_overheating">Your device\'s battery is overheating.</string>
+    
+    <!-- rpc reasons -->
+    <string name="rpcreason_userreq">Requested by user</string>
+    <string name="rpcreason_needwork">To fetch work</string>
+    <string name="rpcreason_resultsdue">To report completed tasks</string>
+    <string name="rpcreason_trickleup">To send trickle-up message</string>
+    <string name="rpcreason_acctmgrreq">Requested by account manager</string>
+    <string name="rpcreason_init">Project initialization</string>
+    <string name="rpcreason_projectreq">Requested by project</string>
+    <string name="rpcreason_unknown">Unknown reason</string>
     
 </resources>
