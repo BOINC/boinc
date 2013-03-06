@@ -159,14 +159,22 @@ public class EventLogActivity extends FragmentActivity {
 
 		Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 		StringBuffer emailText = new StringBuffer();
+		Boolean copySelection = false;
 		
+		// Determine what kind of email operation we are going to use
+	    for (int index = 0; index < lv.getCount(); index++) {
+	    	if (lv.isItemChecked(index)) {
+	    		copySelection = true;
+	    	}
+	    }
+
+	    // Put together the email intent		
 		emailIntent.setType("plain/text");
 		emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Event Log for BOINC on Android");
 
 		// Construct the message body
 		emailText.append("\n\nContents of the Event Log:\n\n");
-		if (lv.getCheckedItemPositions().size() > 0) {
-			
+		if (copySelection) {
 			// Copy selected items
 		    for (int index = 0; index < lv.getCount(); index++) {
 		    	if (lv.isItemChecked(index)) {
@@ -178,9 +186,7 @@ public class EventLogActivity extends FragmentActivity {
 					emailText.append("\r\n");
 		    	}
 		    }
-			
 		} else {
-
 			// Copy all items
 		    for (int index = 0; index < lv.getCount(); index++) {
 				emailText.append(listAdapter.getDate(index));
@@ -190,7 +196,6 @@ public class EventLogActivity extends FragmentActivity {
 				emailText.append(listAdapter.getMessage(index));
 				emailText.append("\r\n");
 			}
-		    
 		}
 		
 		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, emailText.toString());
