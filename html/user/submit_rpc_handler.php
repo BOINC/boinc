@@ -30,8 +30,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 
-function get_app($r) {
-    $name = (string)($r->batch->app_name);
+function get_app($name) {
     $name = BoincDb::escape_string($name);
     $app = BoincApp::lookup("name='$name'");
     if (!$app) xml_error(-1, "no app");
@@ -62,7 +61,7 @@ function est_elapsed_time($r) {
 }
 
 function estimate_batch($r) {
-    $app = get_app($r);
+    $app = get_app((string)($r->batch->app_name));
     list($user, $user_submit) = authenticate_user($r, $app);
 
     $e = est_elapsed_time($r);
@@ -160,7 +159,7 @@ function xml_get_jobs($r) {
 }
 
 function submit_batch($r) {
-    $app = get_app($r);
+    $app = get_app((string)($r->batch->app_name));
     list($user, $user_submit) = authenticate_user($r, $app);
     $template = read_input_template($app);
     $jobs = xml_get_jobs($r);
@@ -227,7 +226,7 @@ function submit_batch($r) {
 }
 
 function create_batch($r) {
-    $app = get_app($r);
+    $app = get_app((string)($r->batch->app_name));
     list($user, $user_submit) = authenticate_user($r, $app);
     $now = time();
     $batch_name = (string)($r->batch->batch_name);
@@ -421,10 +420,10 @@ function handle_retire_batch($r) {
 }
 
 function get_templates($r) {
-    $app = get_app($r);
+    $app = get_app((string)($r->app_name));
     list($user, $user_submit) = authenticate_user($r, $app);
-    $in = file_get_string("../../templates/".$app->name."_in");
-    $out = file_get_string("../../templates/".$app->name."_out");
+    $in = file_get_contents("../../templates/".$app->name."_in");
+    $out = file_get_contents("../../templates/".$app->name."_out");
     if ($in === false || $out === false) {
         xml_error(-1, "template file missing");
     }

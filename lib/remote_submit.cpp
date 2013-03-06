@@ -120,7 +120,8 @@ int query_files(
     vector<string> &paths,
     vector<string> &md5s,
     int batch_id,
-    vector<int> &absent_files
+    vector<int> &absent_files,
+    string& error_msg
 ) {
     string req_msg;
     char buf[256];
@@ -146,11 +147,16 @@ int query_files(
     }
     fseek(reply, 0, SEEK_SET);
     int x;
+    retval = -1;
+    error_msg = "";
     while (fgets(buf, 256, reply)) {
-        printf("reply: %s", buf);
-        if (strstr(buf, "error")) {
-            retval = -1;
+        //printf("reply: %s", buf);
+        if (strstr(buf, "absent_files")) {
+            retval = 0;
+            continue;
         }
+        if (parse_int(buf, "<error_num>", retval)) continue;
+        if (parse_str(buf, "<error_msg>", error_msg)) continue;
         if (parse_int(buf, "<file>", x)) {
             absent_files.push_back(x);
             continue;
@@ -165,7 +171,8 @@ int upload_files (
     const char* authenticator,
     vector<string> &paths,
     vector<string> &md5s,
-    int batch_id
+    int batch_id,
+    string &error_msg
 ) {
     char buf[1024];
     string req_msg = "<upload_files>\n";
@@ -190,16 +197,19 @@ int upload_files (
     }
     fseek(reply, 0, SEEK_SET);
     bool success = false;
+    retval = -1;
+    error_msg = "";
     while (fgets(buf, 256, reply)) {
-        printf("upload_files reply: %s", buf);
+        //printf("upload_files reply: %s", buf);
         if (strstr(buf, "success")) {
-            success = true;
-            break;
+            retval = 0;
+            continue;
         }
+        if (parse_int(buf, "<error_num>", retval)) continue;
+        if (parse_str(buf, "<error_msg>", error_msg)) continue;
     }
     fclose(reply);
-    if (!success) return -1;
-    return 0;
+    return retval;
 }
 
 int create_batch(
@@ -207,7 +217,8 @@ int create_batch(
     const char* authenticator,
     const char* batch_name,
     const char* app_name,
-    int& batch_id
+    int& batch_id,
+    string& error_msg
 ) {
     char request[1024];
     char url[1024];
@@ -234,21 +245,24 @@ int create_batch(
     char buf[256];
     batch_id = 0;
     fseek(reply, 0, SEEK_SET);
+    int error_num = 0;
+    error_msg = "";
     while (fgets(buf, 256, reply)) {
-        printf("create_batch reply: %s", buf);
-        if (parse_int(buf, "<batch_id>", batch_id)) break;
+        //printf("create_batch reply: %s", buf);
+        if (parse_int(buf, "<batch_id>", batch_id)) continue;
+        if (parse_int(buf, "<error_num>", error_num)) continue;
+        if (parse_str(buf, "<error_msg>", error_msg)) continue;
+
     }
     fclose(reply);
-    if (batch_id == 0) {
-        return -1;
-    }
-    return 0;
+    return error_num;
 }
 
 int submit_jobs(
     const char* project_url,
     const char* authenticator,
-    SUBMIT_REQ &req
+    SUBMIT_REQ &req,
+    string& error_msg
 ) {
     char buf[1024], url[1024];
     sprintf(buf,
@@ -297,12 +311,17 @@ int submit_jobs(
         return retval;
     }
     fseek(reply, 0, SEEK_SET);
-    retval = 0;
+    retval = -1;
+    error_msg = "";
+    int temp;
     while (fgets(buf, 256, reply)) {
         printf("submit_batch reply: %s", buf);
-        if (strstr(buf, "error")) {
-            retval = -1;
+        if (parse_int(buf, "<batch_id>", temp)) {
+            retval = 0;
+            continue;
         }
+        if (parse_int(buf, "<error_num>", retval)) continue;
+        if (parse_str(buf, "<error_msg>", error_msg)) continue;
     }
     fclose(reply);
     return retval;
@@ -312,7 +331,8 @@ int query_batch(
     const char* project_url,
     const char* authenticator,
     string batch_name,
-    QUERY_BATCH_REPLY& qb_reply
+    QUERY_BATCH_REPLY& qb_reply,
+    string& error_msg
 ) {
     string request;
     char url[1024], buf[256];
@@ -331,12 +351,16 @@ int query_batch(
         return retval;
     }
     fseek(reply, 0, SEEK_SET);
-    retval = 0;
+    retval = -1;
+    error_msg = "";
     while (fgets(buf, 256, reply)) {
-        printf("query_batch reply: %s", buf);
-        if (strstr(buf, "error")) {
-            retval = -1;
+        //printf("query_batch reply: %s", buf);
+        if (strstr(buf, "batch")) {
+            retval = 0;
+            continue;
         }
+        if (parse_int(buf, "<error_num>", retval)) continue;
+        if (parse_str(buf, "<error_msg>", error_msg)) continue;
         if (strstr(buf, "<job>")) {
             QUERY_BATCH_JOB qbj;
             while (fgets(buf, 256, reply)) {
@@ -346,6 +370,7 @@ int query_batch(
                 if (parse_str(buf, "job_name", qbj.job_name)) continue;
                 if (parse_str(buf, "status", qbj.status)) continue;
             }
+            continue;
         }
     }
     fclose(reply);
@@ -356,7 +381,8 @@ int abort_jobs(
     const char* project_url,
     const char* authenticator,
     string batch_name,
-    vector<string> &job_names
+    vector<string> &job_names,
+    string &error_msg
 ) {
     string request;
     char url[1024], buf[256];
@@ -379,11 +405,15 @@ int abort_jobs(
         return retval;
     }
     fseek(reply, 0, SEEK_SET);
-    retval = 0;
+    retval = -1;
+    error_msg = "";
     while (fgets(buf, 256, reply)) {
-        if (strstr(buf, "error")) {
-            retval = -1;
+        if (strstr(buf, "success")) {
+            retval = 0;
+            continue;
         }
+        if (parse_int(buf, "<error_num>", retval)) continue;
+        if (parse_str(buf, "<error_msg>", error_msg)) continue;
     }
     fclose(reply);
     return retval;
@@ -393,7 +423,8 @@ int get_templates(
     const char* project_url,
     const char* authenticator,
     const char* app_name,
-    TEMPLATE_DESC &td
+    TEMPLATE_DESC &td,
+    string &error_msg
 ) {
     string request;
     char url[1024], buf[256];
@@ -402,7 +433,7 @@ int get_templates(
     request += string(buf);
     sprintf(buf, "<app_name>%s</app_name>\n", app_name);
     request += string(buf);
-    request = "</get_templates>\n";
+    request += "</get_templates>\n";
     sprintf(url, "%ssubmit_rpc_handler.php", project_url);
     FILE* reply = tmpfile();
     vector<string> x;
@@ -411,11 +442,20 @@ int get_templates(
         fclose(reply);
         return retval;
     }
+    retval = -1;
+    error_msg = "";
     fseek(reply, 0, SEEK_SET);
-    MIOFILE mf;
-    XML_PARSER xp(&mf);
-    mf.init_file(reply);
-    return td.parse(xp);
+    while (fgets(buf, 256, reply)) {
+        if (parse_int(buf, "<error_num>", retval)) continue;
+        if (parse_str(buf, "<error_msg>", error_msg)) continue;
+        if (strstr(buf, "<templates>")) {
+            MIOFILE mf;
+            XML_PARSER xp(&mf);
+            mf.init_file(reply);
+            retval = td.parse(xp);
+        }
+    }
+    return retval;
 }
 
 int TEMPLATE_DESC::parse(XML_PARSER& xp) {
@@ -455,12 +495,20 @@ int get_output_file(
     const char* authenticator,
     const char* job_name,
     int file_num,
-    const char* dst_path
+    const char* dst_path,
+    string &error_msg
 ) {
     char url[1024];
     sprintf(url, "%sget_output.php?cmd=workunit_file&auth_str=%s&wu_name=%s&file_num=%d",
         project_url, authenticator, job_name, file_num
     );
     printf("fetching %s to %s\n", url, dst_path);
-    return do_http_get(url, dst_path);
+    int retval = do_http_get(url, dst_path);
+    error_msg = "";
+    if (retval) {
+        char buf[1024];
+        sprintf(buf, "couldn't fetch %s: %d", url, retval);
+        error_msg = string(buf);
+    }
+    return retval;
 }

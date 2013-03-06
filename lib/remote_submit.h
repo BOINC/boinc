@@ -85,7 +85,8 @@ extern int query_files(
     vector<string> &paths,
     vector<string> &md5s,
     int batch_id,
-    vector<int> &absent_files
+    vector<int> &absent_files,
+    string& error_msg
 );
 
 extern int upload_files (
@@ -93,7 +94,8 @@ extern int upload_files (
     const char* authenticator,
     vector<string> &paths,
     vector<string> &md5s,
-    int batch_id
+    int batch_id,
+    string& error_msg
 );
 
 extern int create_batch(
@@ -101,20 +103,23 @@ extern int create_batch(
     const char* authenticator,
     const char* batch_name,
     const char* app_name,
-    int &batch_id
+    int &batch_id,
+    string& error_msg
 );
 
 extern int submit_jobs(
     const char* project_url,
     const char* authenticator,
-    SUBMIT_REQ &req
+    SUBMIT_REQ &req,
+    string& error_msg
 );
 
 extern int query_batch(
     const char* project_url,
     const char* authenticator,
     string batch_name,
-    QUERY_BATCH_REPLY& reply
+    QUERY_BATCH_REPLY& reply,
+    string& error_msg
 );
 
 extern int get_output_file(
@@ -122,19 +127,22 @@ extern int get_output_file(
     const char* authenticator,
     const char* job_name,
     int file_num,
-    const char* dst_path
+    const char* dst_path,
+    string& error_msg
 );
 
 extern int abort_jobs(
     const char* project_url,
     const char* authenticator,
     string batch_name,
-    vector<string> &job_names
+    vector<string> &job_names,
+    string& error_msg
 );
 
 extern int get_templates(
     const char* project_url,
     const char* authenticator,
     const char* app_name,
-    TEMPLATE_DESC&
+    TEMPLATE_DESC&,
+    string& error_msg
 );

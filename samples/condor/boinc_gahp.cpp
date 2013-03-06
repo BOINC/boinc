@@ -44,19 +44,39 @@ using std::vector;
 char project_url[256];
 char authenticator[256];
 
-bool async_mode = false;
+bool debug_mode = true;
 
 // represents a command.
 //
 struct COMMAND {
+    int id;
+    char cmd[256];
     char* in;
         // the input, in a malloc'd buffer
     char* out;
         // if NULL the command is in progress; otherwise it's the output
+
+    SUBMIT_REQ submit_req;
+    FETCH_OUTPUT_REQ fetch_output_req;
+    vector<string> abort_job_names;
+    char batch_name[256];
+
+    COMMAND(char* _in) {
+        in = _in;
+        out = NULL;
+    }
+    ~COMMAND() {
+        if (in) free(in);
+        if (out) free(out);
+    }
+    int parse_command();
+    int parse_submit(char*);
+    int parse_query_batch(char*);
+    int parse_fetch_output(char*);
+    int parse_abort_jobs(char*);
 };
 
-typedef map<int, COMMAND*> COMMANDS;
-COMMANDS commands;
+vector<COMMAND*> commands;
 
 int compute_md5(string path, LOCAL_FILE& f) {
     return md5_file(path.c_str(), f.md5, f.nbytes);
@@ -67,7 +87,7 @@ int compute_md5(string path, LOCAL_FILE& f) {
 // See if they're already on the server.
 // If not, upload them.
 //
-int process_input_files(SUBMIT_REQ& req) {
+int process_input_files(SUBMIT_REQ& req, string& error_msg) {
     unsigned int i, j;
     int retval;
     char buf[1024];
@@ -114,7 +134,8 @@ int process_input_files(SUBMIT_REQ& req) {
         paths,
         md5s,
         req.batch_id,
-        absent_files
+        absent_files,
+        error_msg
     );
     if (retval) return retval;
 
@@ -131,7 +152,8 @@ int process_input_files(SUBMIT_REQ& req) {
         authenticator,
         upload_paths,
         upload_md5s,
-        req.batch_id
+        req.batch_id,
+        error_msg
     );
     if (retval) return retval;
     return 0;
@@ -139,9 +161,9 @@ int process_input_files(SUBMIT_REQ& req) {
 
 // parse the text coming from Condor
 //
-int parse_submit(COMMAND& c, char* p, SUBMIT_REQ& req) {
-    strcpy(req.batch_name, strtok_r(NULL, " ", &p));
-    strcpy(req.app_name, strtok_r(NULL, " ", &p));
+int COMMAND::parse_submit(char* p) {
+    strcpy(submit_req.batch_name, strtok_r(NULL, " ", &p));
+    strcpy(submit_req.app_name, strtok_r(NULL, " ", &p));
     int njobs = atoi(strtok_r(NULL, " ", &p));
     for (int i=0; i<njobs; i++) {
         JOB job;
@@ -169,7 +191,7 @@ int parse_submit(COMMAND& c, char* p, SUBMIT_REQ& req) {
                 job.outfiles.push_back(outfile);
             }
         }
-        req.jobs.push_back(job);
+        submit_req.jobs.push_back(job);
     }
     return 0;
 }
@@ -179,42 +201,69 @@ int parse_submit(COMMAND& c, char* p, SUBMIT_REQ& req) {
 // - create batch/file associations, and upload files
 // - create jobs
 //
-void handle_submit(COMMAND& c, char* p) {
-    SUBMIT_REQ req;
+void handle_submit(COMMAND& c) {
+    SUBMIT_REQ& req = c.submit_req;
+    TEMPLATE_DESC td;
     int retval;
-    retval = parse_submit(c, p, req);
+    string error_msg, s;
+    char buf[1024];
+
+    retval = get_templates(
+        project_url, authenticator, req.app_name, td, error_msg
+    );
     if (retval) {
-        printf("error parsing request: %d\n", retval);
+        sprintf(buf, "error getting templates: %d\n", retval);
+        s = string(buf) + error_msg;
+        c.out = strdup(s.c_str());
         return;
     }
     retval = create_batch(
-        project_url, authenticator, req.batch_name, req.app_name, req.batch_id
+        project_url, authenticator, req.batch_name, req.app_name, req.batch_id, error_msg
     );
     if (retval) {
-        printf("error creating batch: %d\n", retval);
+        sprintf(buf, "error creating batch: %d ", retval);
+        s = string(buf) + error_msg;
+        c.out = strdup(s.c_str());
         return;
     }
-    retval = process_input_files(req);
+    retval = process_input_files(req, error_msg);
     if (retval) {
-        printf("error processing input files: %d\n", retval);
+        sprintf(buf, "error processing input files: %d ", retval);
+        s = string(buf) + error_msg;
+        c.out = strdup(s.c_str());
         return;
     }
-    retval = submit_jobs(project_url, authenticator, req);
+    retval = submit_jobs(project_url, authenticator, req, error_msg);
     if (retval) {
-        printf("error submitting jobs: %d\n", retval);
-        return;
+        sprintf(buf, "error submitting jobs: %d ", retval);
+        s = string(buf) + error_msg;
+    } else {
+        s = "NULL";
     }
-    printf("success\n");
+    c.out = strdup(s.c_str());
 }
 
-void handle_query_batch(COMMAND&c, char* p) {
-    char* batch_name = strtok_r(NULL, " ", &p);
+int COMMAND::parse_query_batch(char* p) {
+    strcpy(batch_name, strtok_r(NULL, " ", &p));
+    return 0;
+}
+
+void handle_query_batch(COMMAND&c) {
     QUERY_BATCH_REPLY reply;
-    query_batch(project_url, authenticator, batch_name, reply);
-    for (unsigned int i=0; i<reply.jobs.size(); i++) {
-        QUERY_BATCH_JOB &j = reply.jobs[i];
-        printf("job %s: status %s\n", j.job_name.c_str(), j.status.c_str());
+    char buf[256];
+    string error_msg, s;
+    int retval = query_batch(project_url, authenticator, c.batch_name, reply, error_msg);
+    if (retval) {
+        sprintf(buf, "error querying batch: %d ", retval);
+        s = string(buf) + error_msg;
+    } else {
+        for (unsigned int i=0; i<reply.jobs.size(); i++) {
+            QUERY_BATCH_JOB &j = reply.jobs[i];
+            sprintf(buf, "%s %s ", j.job_name.c_str(), j.status.c_str());
+            s += string(buf);
+        }
     }
+    c.out = strdup(s.c_str());
 }
 
 // <job name> <dir> 
@@ -222,111 +271,149 @@ void handle_query_batch(COMMAND&c, char* p) {
 //        <dst name>
 //        ...
 //
-void handle_fetch_output(COMMAND& c, char* p) {
-    FETCH_OUTPUT_REQ req;
-    strcpy(req.job_name, strtok_r(NULL, " ", &p));
-    strcpy(req.dir, strtok_r(NULL, " ", &p));
-    req.file_names.clear();
+int COMMAND::parse_fetch_output(char* p) {
+    char* q = strtok_r(NULL, " ", &p);
+    if (!q) return -1;
+    strcpy(fetch_output_req.job_name, q);
+    q = strtok_r(NULL, " ", &p);
+    if (!q) return -1;
+    strcpy(fetch_output_req.dir, q);
     int nfiles = atoi(strtok_r(NULL, " ", &p));
     for (int i=0; i<nfiles; i++) {
         char* f = strtok_r(NULL, " ", &p);
-        req.file_names.push_back(string(f));
+        fetch_output_req.file_names.push_back(string(f));
     }
-    for (int i=0; i<nfiles; i++) {
+    return 0;
+}
+
+void handle_fetch_output(COMMAND& c) {
+    string error_msg;
+    char buf[1024];
+    FETCH_OUTPUT_REQ &req = c.fetch_output_req;
+    string s = "NULL";
+    for (unsigned int i=0; i<req.file_names.size(); i++) {
         char path[1024];
         sprintf(path, "%s/%s", req.dir, req.file_names[i].c_str());
         int retval = get_output_file(
-            project_url, authenticator, req.job_name, i, path
+            project_url, authenticator, req.job_name, i, path, error_msg
         );
         if (retval) {
-            printf("get_output_file() returned %d\n", retval);
+            sprintf(buf, "get_output_file() returned %d ", retval);
+            s = string(buf) + error_msg;
+            break;
         }
     }
+    c.out = strdup(s.c_str());
 }
 
-void handle_abort_jobs(COMMAND&c, char* p) {
-    vector<string> job_names;
-    char* batch_name = strtok_r(NULL, " ", &p);
+int COMMAND::parse_abort_jobs(char* p) {
+    strcpy(batch_name, strtok_r(NULL, " ", &p));
     while (1) {
         char* job_name = strtok_r(NULL, " ", &p);
         if (!job_name) break;
-        job_names.push_back(string(job_name));
+        abort_job_names.push_back(string(job_name));
     }
-    int retval = abort_jobs(project_url, authenticator, string(batch_name), job_names);
+    return 0;
+}
+
+void handle_abort_jobs(COMMAND& c) {
+    string error_msg;
+    int retval = abort_jobs(
+        project_url, authenticator, string(c.batch_name),
+        c.abort_job_names, error_msg
+    );
+    string s;
+    char buf[256];
     if (retval) {
-        printf("abort_jobs() returned %d\n", retval);
+        sprintf(buf, "abort_jobs() returned %d \n", retval);
+        s = string(buf) + error_msg;
+    } else {
+        s = "NULL";
     }
+    c.out = strdup(s.c_str());
 }
 
 void* handle_command_aux(void* q) {
     COMMAND &c = *((COMMAND*)q);
-    char *p;
-
-    char* cmd = strtok_r(c.in, " ", &p);
-    char* id = strtok_r(NULL, " ", &p);
-    printf("handling cmd %s\n", cmd);
-    if (!strcmp(cmd, "BOINC_SUBMIT")) {
-        handle_submit(c, p);
-    } else if (!strcmp(cmd, "BOINC_QUERY_BATCH")) {
-        handle_query_batch(c, p);
-    } else if (!strcmp(cmd, "BOINC_FETCH_OUTPUT")) {
-        handle_fetch_output(c, p);
-    } else if (!strcmp(cmd, "BOINC_ABORT_JOBS")) {
-        handle_abort_jobs(c, p);
+    if (!strcmp(c.cmd, "BOINC_SUBMIT")) {
+        handle_submit(c);
+    } else if (!strcmp(c.cmd, "BOINC_QUERY_BATCH")) {
+        handle_query_batch(c);
+    } else if (!strcmp(c.cmd, "BOINC_FETCH_OUTPUT")) {
+        handle_fetch_output(c);
+    } else if (!strcmp(c.cmd, "BOINC_ABORT_JOBS")) {
+        handle_abort_jobs(c);
     } else {
-        sleep(10);
-        char buf[256];
-        sprintf(buf, "handled command %s", c.in);
-        c.out = strdup(buf);
+        c.out = strdup("Unknown command");
     }
     return NULL;
 }
 
-int handle_command(COMMAND& c) {
+int COMMAND::parse_command() {
+    int retval;
+    char *p;
+
+    int n = sscanf(in, "%s %d", cmd, &id);
+    if (n != 2) {
+        return -1;
+    }
+    char* q = strtok_r(in, " ", &p);
+    q = strtok_r(NULL, " ", &p);
+    if (!strcmp(cmd, "BOINC_SUBMIT")) {
+        retval = parse_submit(p);
+    } else if (!strcmp(cmd, "BOINC_QUERY_BATCH")) {
+        retval = parse_query_batch(p);
+    } else if (!strcmp(cmd, "BOINC_FETCH_OUTPUT")) {
+        retval = parse_fetch_output(p);
+    } else if (!strcmp(cmd, "BOINC_ABORT_JOBS")) {
+        retval = parse_abort_jobs(p);
+    } else {
+        retval = -1;
+    }
+    return retval;
+}
+
+// p is a malloc'ed buffer
+//
+int handle_command(char* p) {
     char cmd[256];
     int id;
 
-    // Handle synchronous commands
-    //
-    sscanf(c.in, "%s", cmd);
+    sscanf(p, "%s", cmd);
     printf("cmd: %s\n", cmd);
     if (!strcmp(cmd, "VERSION")) {
         printf("1.0\n");
     } else if (!strcmp(cmd, "QUIT")) {
         exit(0);
     } else if (!strcmp(cmd, "RESULTS")) {
-        sscanf(c.in, "%s %d", cmd, &id);
-        COMMANDS::iterator i = commands.find(id);
-        if (i == commands.end()) {
-            printf("command %d not found\n", id);
+        vector<COMMAND*>::iterator i = commands.begin();
+        while (i != commands.end()) {
+            COMMAND *c2 = *i;
+            if (c2->out) {
+                printf("%d %s\n", c2->id, c2->out);
+                free(c2->out);
+                free(c2->in);
+                free(c2);
+                i = commands.erase(i);
+            } else {
+                i++;
+            }
+        }
+    } else {
+        COMMAND *cp = new COMMAND(p);
+        int retval = cp->parse_command();
+        if (retval) {
+            printf("E\n");
+            delete cp;
             return 0;
         }
-        COMMAND *c2 = i->second;
-        if (c2->out) {
-            printf("command %d result: %s\n", id, c2->out);
-            free(c2->out);
-            free(c2->in);
-            free(c2);
-            commands.erase(i);
+        if (debug_mode) {
+            handle_command_aux(cp);
+            printf("result: %s\n", cp->out);
+            delete cp;
         } else {
-            printf("command %d not finished\n", id);
-        }
-        return 0;
-    } else {
-
-        // Handle asynchronous commands
-        //
-        int n = sscanf(c.in, "%s %d", cmd, &id);
-        if (n != 2) {
-            fprintf(stderr, "invalid command: %s\n", c.in);
-            return -1;
-        }
-        COMMAND *cp = new COMMAND;
-        cp->in = c.in;
-        cp->out = NULL;
-        printf("inserting cmd %d\n", id);
-        commands.insert(pair<int, COMMAND*>(id, cp));
-        if (async_mode) {
+            printf("S\n");
+            commands.push_back(cp);
             pthread_t thread_handle;
             pthread_attr_t thread_attrs;
             pthread_attr_init(&thread_attrs);
@@ -338,8 +425,6 @@ int handle_command(COMMAND& c) {
                 fprintf(stderr, "can't create thread\n");
                 return -1;
             }
-        } else {
-            handle_command_aux(cp);
         }
     }
     return 0;
@@ -397,9 +482,7 @@ int main() {
     while (1) {
         char* p = get_cmd();
         if (p == NULL) break;
-        COMMAND c;
-        c.in = p;
-        handle_command(c);
+        handle_command(p);
         fflush(stdout);
     }
 }
