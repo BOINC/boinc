@@ -128,6 +128,7 @@ public class EventLogListAdapter extends ArrayAdapter<Message> implements OnItem
 			viewEventLog.cbCheck.setChecked(true);
 		}
 
+		notifyDataSetChanged();
     }
 
 }
