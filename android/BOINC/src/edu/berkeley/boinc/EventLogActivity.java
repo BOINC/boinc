@@ -151,7 +151,7 @@ public class EventLogActivity extends FragmentActivity {
 	    Log.d(TAG, "onDestroy()");
 
 	    if (mIsBound) {
-	        unbindService(mConnection);
+	    	getApplicationContext().unbindService(mConnection);
 	        mIsBound = false;
 	    }
 	    
