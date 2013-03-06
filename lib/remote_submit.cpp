@@ -15,6 +15,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// C++ interfaces to web RPCs related to remote job submission,
+// namely those described here:
+// http://boinc.berkeley.edu/trac/wiki/RemoteInputFiles
+// http://boinc.berkeley.edu/trac/wiki/RemoteOutputFiles
+// http://boinc.berkeley.edu/trac/wiki/RemoteJobs
+
 #include <curl/curl.h>
 #include <stdio.h>
 #include <vector>
@@ -381,6 +387,67 @@ int abort_jobs(
     }
     fclose(reply);
     return retval;
+}
+
+int get_templates(
+    const char* project_url,
+    const char* authenticator,
+    const char* app_name,
+    TEMPLATE_DESC &td
+) {
+    string request;
+    char url[1024], buf[256];
+    request = "<get_templates>\n";
+    sprintf(buf, "<authenticator>%s</authenticator>\n", authenticator);
+    request += string(buf);
+    sprintf(buf, "<app_name>%s</app_name>\n", app_name);
+    request += string(buf);
+    request = "</get_templates>\n";
+    sprintf(url, "%ssubmit_rpc_handler.php", project_url);
+    FILE* reply = tmpfile();
+    vector<string> x;
+    int retval = do_http_post(url, request.c_str(), reply, x);
+    if (retval) {
+        fclose(reply);
+        return retval;
+    }
+    fseek(reply, 0, SEEK_SET);
+    MIOFILE mf;
+    XML_PARSER xp(&mf);
+    mf.init_file(reply);
+    return td.parse(xp);
+}
+
+int TEMPLATE_DESC::parse(XML_PARSER& xp) {
+    int retval;
+    string s;
+    while (!xp.get_tag()) {
+        if (xp.match_tag("error")) {
+            while (!xp.get_tag()) {
+                if (xp.parse_int("error_num", retval)) {
+                    return retval;
+                }
+            }
+            return -1;
+        } 
+        if (xp.match_tag("input_template")) {
+            while (!xp.get_tag()) {
+                if (xp.match_tag("/input_template")) break;
+                if (xp.parse_string("open_name", s)) {
+                    input_files.push_back(s);
+                }
+            }
+        }
+        if (xp.match_tag("output_template")) {
+            while (!xp.get_tag()) {
+                if (xp.match_tag("/output_template")) break;
+                if (xp.parse_string("open_name", s)) {
+                    output_files.push_back(s);
+                }
+            }
+        }
+    }
+    return 0;
 }
 
 int get_output_file(

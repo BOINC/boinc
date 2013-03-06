@@ -420,6 +420,17 @@ function handle_retire_batch($r) {
     echo "<success>1</success>";
 }
 
+function get_templates($r) {
+    $app = get_app($r);
+    list($user, $user_submit) = authenticate_user($r, $app);
+    $in = file_get_string("../../templates/".$app->name."_in");
+    $out = file_get_string("../../templates/".$app->name."_out");
+    if ($in === false || $out === false) {
+        xml_error(-1, "template file missing");
+    }
+    echo "<templates>\n$in\n$out\n</templates>\n";
+}
+
 if (0) {
 $r = simplexml_load_string("
 <query_batch>
@@ -481,6 +492,7 @@ switch ($r->getName()) {
     case 'retire_batch': handle_retire_batch($r); break;
     case 'submit_batch': submit_batch($r); break;
     case 'create_batch': create_batch($r); break;
+    case 'get_templates': get_templates($r); break;
     default: xml_error(-1, "bad command: ".$r->getName());
 }
 

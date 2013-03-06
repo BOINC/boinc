@@ -69,6 +69,13 @@ struct FETCH_OUTPUT_REQ {
     vector<string> file_names;
 };
 
+struct TEMPLATE_DESC {
+    vector<string> input_files;
+    vector<string> output_files;
+
+    int parse(XML_PARSER&);
+};
+
 //////////////////////////
 
 
@@ -123,4 +130,11 @@ extern int abort_jobs(
     const char* authenticator,
     string batch_name,
     vector<string> &job_names
+);
+
+extern int get_templates(
+    const char* project_url,
+    const char* authenticator,
+    const char* app_name,
+    TEMPLATE_DESC&
 );
