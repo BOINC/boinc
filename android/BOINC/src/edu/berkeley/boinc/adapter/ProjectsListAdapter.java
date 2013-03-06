@@ -125,7 +125,7 @@ public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItem
 	            	ViewProject viewProject = (ViewProject)v.getTag();
 	            	ProjectsActivity a = (ProjectsActivity)activity;
 	            	
-	            	a.onProjectUpdate(getProjectURL(viewProject.entryIndex));
+	            	a.onProjectUpdate(getProject(viewProject.entryIndex), getProjectURL(viewProject.entryIndex));
 	            }
 	        });
 	    		    		    	
@@ -137,7 +137,7 @@ public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItem
 	            	ViewProject viewProject = (ViewProject)v.getTag();
 	            	ProjectsActivity a = (ProjectsActivity)activity;
 	            	
-	            	a.onProjectDelete(getProjectURL(viewProject.entryIndex));
+	            	a.onProjectDelete(getProject(viewProject.entryIndex), getProjectURL(viewProject.entryIndex));
 	            }
 	        });
 	    } else {

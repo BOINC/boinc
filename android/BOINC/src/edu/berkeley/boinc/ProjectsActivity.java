@@ -161,35 +161,27 @@ public class ProjectsActivity extends FragmentActivity {
 	    super.onDestroy();
 	}
 	
-	public void onProjectUpdate(String masterURL) {
-	    Log.d(TAG, "onProjectUpdate()");
-
-	}
-	
-	public void onProjectDelete(String masterURL) {
-	    Log.d(TAG, "onProjectDelete()");
-	    
-	}
-	
-/* 	
-	// handler for onClick of listItem
-	public void onItemClick (View view) {
-		Project project = (Project) view.getTag(); //gets added to view by ProjectsListAdapter
-		Log.d(TAG,"onItemClick projectName: " + project.project_name + " - url: " + project.master_url);
-		(new ConfirmDeletionDialogFragment(project.project_name, project.master_url)).show(getSupportFragmentManager(), "confirm_projects_deletion");
-	}
-	
 	public void addProjectButtonClicked(View view) {
 		Log.d(TAG, "addProjectButtonClicked");
 		startActivity(new Intent(this,LoginActivity.class));
 	}
 
+	public void onProjectUpdate(String name, String url) {
+	    Log.d(TAG, "onProjectUpdate()");
+	    monitor.updateProjectAsync(url);
+	}
+	
+	public void onProjectDelete(String name, String url) {
+	    Log.d(TAG, "onProjectDelete() - Name: " + name + ", URL: " + url);
+		(new ConfirmDeletionDialogFragment(name, url)).show(getSupportFragmentManager(), "confirm_projects_deletion");
+	}
+	
 	public class ConfirmDeletionDialogFragment extends DialogFragment {
 		
 		private final String TAG = "ConfirmDeletionDialogFragment";
 		
 		private String name = "";
-		private String url;
+		private String url = "";
 		
 		public ConfirmDeletionDialogFragment(String name, String url) {
 			this.name = name;
@@ -203,18 +195,17 @@ public class ProjectsActivity extends FragmentActivity {
 	        builder.setMessage(dialogTitle)
 	               .setPositiveButton(R.string.confirm_deletion_confirm, new DialogInterface.OnClickListener() {
 	                   public void onClick(DialogInterface dialog, int id) {
-	                       Log.d(TAG,"confirm clicked.");
-	                       //monitor.detachProjectAsync(url); //asynchronous call to detach project with given url.
+	                       Log.d(TAG, "confirm clicked.");
+	                       monitor.detachProjectAsync(url); //asynchronous call to detach project with given url.
 	                   }
 	               })
 	               .setNegativeButton(R.string.confirm_deletion_cancel, new DialogInterface.OnClickListener() {
 	                   public void onClick(DialogInterface dialog, int id) {
-	                       Log.d(TAG,"dialog canceled.");
+	                       Log.d(TAG, "dialog canceled.");
 	                   }
 	               });
 	        // Create the AlertDialog object and return it
 	        return builder.create();
 	    }
 	}
-*/
 }
