@@ -27,17 +27,24 @@
 	    android:id="@+id/projectsDescription"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
+	    android:layout_gravity="left|center_vertical"
+	    android:layout_weight="1"
 	    android:orientation="vertical" >
 	    
-	    <TextView android:textAppearance="?android:attr/textAppearanceMedium"
+	    <TextView
 	        android:id="@+id/project_name"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content">
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:textAppearance="?android:attr/textAppearanceMedium" >
+
 	    </TextView>
-	    <TextView android:textAppearance="?android:attr/textAppearanceSmall"
+
+	    <TextView
 	        android:id="@+id/project_username"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content">
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:textAppearance="?android:attr/textAppearanceSmall" >
+
 	    </TextView>
 	
 	</LinearLayout>
@@ -47,6 +54,7 @@
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_gravity="right|center_vertical"
+	    android:layout_weight="0"
 	    android:clickable="false"
 	    android:contentDescription="@string/projects_update"
 	    android:focusable="false"
@@ -57,6 +65,7 @@
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_gravity="right|center_vertical"
+	    android:layout_weight="0"
 	    android:clickable="false"
 	    android:contentDescription="@string/projects_delete"
 	    android:focusable="false"
