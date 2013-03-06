@@ -789,11 +789,10 @@ void CSimpleTaskPanel::GetApplicationAndProjectNames(RESULT* result, wxString* a
             strAppBuffer = wxString(state_result->avp->app_name, wxConvUTF8);
         }
         
-        if (avp->ncudas) {
-            strGPUBuffer = wxString(" (NVIDIA GPU)", wxConvUTF8);
-        }
-        if (avp->natis) {
-            strGPUBuffer = wxString(" (ATI GPU)", wxConvUTF8);
+        char buf[256];
+        if (avp->gpu_type) {
+            sprintf(buf, " (%s)", proc_type_name(avp->gpu_type));
+            strGPUBuffer = wxString(buf, wxConvUTF8);
         }
 
         appName->Printf(
@@ -937,9 +936,16 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 
+    static bool bAlreadyRunning = false;
+
     wxASSERT(pDoc);
     wxASSERT(pSkinSimple);
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
+    
+    if (bAlreadyRunning) {
+        return;
+    }
+    bAlreadyRunning = true;
     
     count = m_TaskSelectionCtrl->GetCount();
 	// Mark all inactive (this lets us loop only once)
@@ -1109,6 +1115,9 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
     if (needRefresh) {
         m_TaskSelectionCtrl->Refresh();
     }
+
+    bAlreadyRunning = false;
+
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleTaskPanel::UpdateTaskSelectionList - Function End"));
 }
 
@@ -1248,7 +1257,7 @@ void CSimpleTaskPanel::OnEraseBackground(wxEraseEvent& event) {
             return;
         }
     }
-        
+    
 //    CSimplePanelBase::OnEraseBackground(event);
     event.Skip();
 }

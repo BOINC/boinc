@@ -478,7 +478,6 @@ APP_VERSION::~APP_VERSION() {
 }
 
 int APP_VERSION::parse_coproc(XML_PARSER& xp) {
-    memset(this, 0, sizeof(APP_VERSION));
     while (!xp.get_tag()) {
         if (xp.match_tag("/coproc")) {
             return 0;
@@ -490,6 +489,7 @@ int APP_VERSION::parse_coproc(XML_PARSER& xp) {
 }
 
 int APP_VERSION::parse(XML_PARSER& xp) {
+    clear();
     while (!xp.get_tag()) {
         if (xp.match_tag("/app_version")) return 0;
         if (xp.parse_str("app_name", app_name, sizeof(app_name))) continue;
