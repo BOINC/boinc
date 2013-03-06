@@ -286,7 +286,15 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
                 project->rsc_desc_intel_gpu
             );
         }
-        addProperty(_("Duration correction factor"), wxString::Format(wxT("%0.4f"), project->duration_correction_factor));
+        double dcf = project->duration_correction_factor;
+        // if it's exactly 1, it's not being used
+        //
+        if (dcf != 1) {
+            addProperty(
+                _("Duration correction factor"),
+                wxString::Format(wxT("%0.4f"), dcf)
+            );
+        }
     }
     m_gbSizer->Layout();
     m_scrolledWindow->FitInside();
