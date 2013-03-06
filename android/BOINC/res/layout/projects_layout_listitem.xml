@@ -25,18 +25,18 @@
     
 	<LinearLayout
 	    android:id="@+id/projectsDescription"
-	    android:layout_width="fill_parent"
-	    android:layout_height="match_parent"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
 	    android:orientation="vertical" >
 	    
 	    <TextView android:textAppearance="?android:attr/textAppearanceMedium"
 	        android:id="@+id/project_name"
-	        android:layout_width="fill_parent"
+	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content">
 	    </TextView>
 	    <TextView android:textAppearance="?android:attr/textAppearanceSmall"
 	        android:id="@+id/project_username"
-	        android:layout_width="fill_parent"
+	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content">
 	    </TextView>
 	
@@ -46,6 +46,7 @@
 	    android:id="@+id/project_update"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
+	    android:layout_gravity="right|center_vertical"
 	    android:clickable="false"
 	    android:contentDescription="@string/projects_update"
 	    android:focusable="false"
@@ -55,6 +56,7 @@
 	    android:id="@+id/project_delete"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
+	    android:layout_gravity="right|center_vertical"
 	    android:clickable="false"
 	    android:contentDescription="@string/projects_delete"
 	    android:focusable="false"
