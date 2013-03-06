@@ -191,6 +191,9 @@ void CONFIG::show() {
     if (fetch_minimal_work) {
         msg_printf(NULL, MSG_INFO, "Config: fetch minimal work");
     }
+    if (fetch_on_update) {
+        msg_printf(NULL, MSG_INFO, "Config: fetch on update");
+    }
     for (int j=1; j<NPROC_TYPES; j++) {
         show_gpu_ignore(ignore_gpu_instance[j], j);
     }
@@ -247,6 +250,7 @@ void CONFIG::show() {
 
 // This is used by the BOINC client.
 // KEEP IN SYNCH WITH CONFIG::parse_options()!!
+// (It's separate so that we can write messages in it)
 
 int CONFIG::parse_options_client(XML_PARSER& xp) {
     char path[MAXPATHLEN];
@@ -352,6 +356,7 @@ int CONFIG::parse_options_client(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_bool("fetch_minimal_work", fetch_minimal_work)) continue;
+        if (xp.parse_bool("fetch_on_update", fetch_on_update)) continue;
         if (xp.parse_string("force_auth", force_auth)) {
             downcase_string(force_auth);
             continue;

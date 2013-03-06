@@ -210,14 +210,14 @@ $astro_phys_chem = array(
             tra("Chemistry"),
             tra("A common problem in theoretical chemistry, condensed matter physics and materials science is the calculation of the time evolution of an atomic scale system where, for example, chemical reactions and/or diffusion occur. Generally the events of interest are quite rare (many orders of magnitude slower than the vibrational movements of the atoms), and therefore direct simulations, tracking every movement of the atoms, would take thousands of years of computer calculations on the fastest present day computer before a single event of interest can be expected to occur.  Our research group is interested in calculating the long time dynamics of systems.")
         ),
-        array(
-            "Orbit@home",
-            "http://orbit.psi.edu/oah/",
-            tra("Planetary Science Institute"),
-            tra("Astronomy"),
-            tra("Monitor and study the hazard posed by near-Earth asteroids"),
-            "http://orbit.psi.edu/"
-        ),
+//        array(
+//            "Orbit@home",
+//            "http://orbit.psi.edu/oah/",
+//            tra("Planetary Science Institute"),
+//            tra("Astronomy"),
+//            tra("Monitor and study the hazard posed by near-Earth asteroids"),
+//            "http://orbit.psi.edu/"
+//        ),
         array(
             "Cosmology@Home",
             "http://www.cosmologyathome.org/",
