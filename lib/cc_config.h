@@ -151,6 +151,7 @@ struct CONFIG {
     bool exit_before_start;
     bool exit_when_idle;
     bool fetch_minimal_work;
+    bool fetch_on_update;
     std::string force_auth;
     bool http_1_0;
     int http_transfer_timeout_bps;
