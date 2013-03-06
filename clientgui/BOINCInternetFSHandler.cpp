@@ -163,7 +163,6 @@ HINTERNET wxWinINetURL::GetSessionHandle(bool closeSessionHandle)
                         INTERNET_FLAG_ASYNC |
                             (rc == ERROR_SUCCESS ? 0 : INTERNET_FLAG_OFFLINE)
                        );
-fprintf(stderr, "wxWinINetURL::INetOpenSession returned Handle 0X%lX\n", session.m_handle); 
 
             if (m_handle) {
                 InternetSetStatusCallback(m_handle, BOINCInternetStatusCallback);
@@ -175,7 +174,6 @@ fprintf(stderr, "wxWinINetURL::INetOpenSession returned Handle 0X%lX\n", session
             
             while (m_handle) {
                 BOOL closedOK = InternetCloseHandle(m_handle);
-fprintf(stderr, "wxWinINetURL::INetCloseSession(): InternetCloseHandle(0X%lX) returned bool %d\n", m_handle, closedOK); 
                 if (closedOK) {
                     m_handle = NULL;
                 } else {
@@ -194,7 +192,6 @@ fprintf(stderr, "wxWinINetURL::INetCloseSession(): InternetCloseHandle(0X%lX) re
     if (closeSessionHandle) {
         while (session.m_handle) {
             BOOL closedOK = InternetCloseHandle(session.m_handle);
-fprintf(stderr, "wxWinINetURL::GetSessionHandle(true): InternetCloseHandle(0X%lX) returned bool %d\n", session.m_handle, closedOK); 
             if (closedOK) {
                 session.m_handle = NULL;
             } else{
@@ -276,17 +273,14 @@ size_t wxWinINetInputStream::OnSysRead(void *buffer, size_t bufsize)
     while (1) {
         bytesread = 0;
         success = InternetReadFile(m_hFile, buf, buflen, &bytesread);
-fprintf(stderr, "m_hFile=0X%lX; buf=0X%lX; buflen=%ld; InternetReadFile() returned success=%d; bytesread=%ld\n",
 m_hFile, buf, buflen, (int)success, bytesread);
         if (success) {
             if ( bytesread == 0 ) {
                 SetError(wxSTREAM_EOF);
-fprintf(stderr, "InternetReadFile: SetError(wxSTREAM_EOF)\n");
             }
             break;
         } else {    // success == false
             lError = ::GetLastError();
-fprintf(stderr, "InternetReadFile: Last Error = %ld\n", lError);
             if (lError == ERROR_IO_PENDING) {
                 // We've received only part of the data so far
                 buf += bytesread;
@@ -330,7 +324,6 @@ fprintf(stderr, "InternetReadFile: Last Error = %ld\n", lError);
 
         if (!success) {
             wxLogTrace(wxT("Function Status"), wxT("wxWinINetInputStream::OnSysRead - Download failure!\n"));
-fprintf(stderr, "wxWinINetInputStream::OnSysRead - Download failure!\n");
             return 0;
         }
     }   // End while(1)
@@ -358,7 +351,6 @@ wxWinINetInputStream::~wxWinINetInputStream()
 {
     if ( m_hFile )
     {
-fprintf(stderr, "wxWinINetInputStream::~wxWinINetInputStream() InternetCloseHandle(0X%lX)\n", m_hFile); 
         InternetCloseHandle(m_hFile);
         m_hFile=0;
     }
@@ -399,13 +391,11 @@ static bool bAlreadyRunning = false;
     }
     
     wxWinINetInputStream *newStream = new wxWinINetInputStream;
-fprintf(stderr, "wxWinINetURL::GetInputStream - newStream = 0X%lX\n", (DWORD)newStream);
     
     operationEnded = false;
     double endtimeout = dtime() + dInternetTimeout;
 
     wxLogTrace(wxT("Function Status"), wxT("wxWinINetURL::GetInputStream - Downloading file: '%s'\n"), owner->GetURL().c_str());
-fprintf(stderr, "wxWinINetURL::GetInputStream - Downloading file: <%s>\n", (char*)(owner->GetURL().char_str()));
     HINTERNET newStreamHandle = InternetOpenUrl
                                 (
                                     GetSessionHandle(),
@@ -423,12 +413,10 @@ fprintf(stderr, "wxWinINetURL::GetInputStream - Downloading file: <%s>\n", (char
             ) {
             GetSessionHandle(true); // Closes the session handle
             if (newStreamHandle) {
-fprintf(stderr, "wxWinINetURL::GetInputStream - InternetCloseHandle(0X%lX)\n", (DWORD)newStreamHandle);
                 InternetCloseHandle(newStreamHandle);
                 newStreamHandle = NULL;
             }
             if (newStream) {
-fprintf(stderr, "wxWinINetURL::GetInputStream - delete newStream = 0X%lX\n", (DWORD)newStream);
                 delete newStream;
                 newStream = NULL;
             }
@@ -451,11 +439,9 @@ fprintf(stderr, "wxWinINetURL::GetInputStream - delete newStream = 0X%lX\n", (DW
                 newStreamHandle = NULL;
             }
     }
-fprintf(stderr, "InternetOpenUrl (Session Handle = 0X%lx)returned handle 0X%lX\n", (DWORD)GetSessionHandle(), (DWORD)newStreamHandle);
     
     if (!newStreamHandle) {
         if (newStream) {
-fprintf(stderr, "wxWinINetURL::GetInputStream - delete newStream = 0X%lX\n", (DWORD)newStream);
             delete newStream;
             newStream = NULL;
         }
@@ -553,9 +539,7 @@ wxFSFile* CBOINCInternetFSHandler::OpenFile(wxFileSystem& WXUNUSED(fs), const wx
             {
 #ifdef __WXMSW__
                 wxWinINetURL * winURL = new wxWinINetURL;
-fprintf(stderr, "wCBOINCInternetFSHandler::OpenFile - winURL = 0X%lX\n", (DWORD)winURL);
                 m_InputStream = winURL->GetInputStream(&url);
-fprintf(stderr, "wCBOINCInternetFSHandler::OpenFile - m_InputStream = 0X%lX\n", (DWORD)m_InputStream);
                 delete winURL;
                 winURL = NULL;
 #else
@@ -572,7 +556,6 @@ fprintf(stderr, "wCBOINCInternetFSHandler::OpenFile - m_InputStream = 0X%lX\n", 
 
                 obj = new BOINCMemFSHashObj(m_InputStream, strMIME, strLocation);
                 if (m_InputStream) {
-fprintf(stderr, "wCBOINCInternetFSHandler::OpenFile - delete m_InputStream = 0X%lX\n", (DWORD)m_InputStream);
                     delete m_InputStream;
                     m_InputStream = NULL;
                 }
@@ -632,7 +615,6 @@ bool CBOINCInternetFSHandler::CheckHash(const wxString& strLocation)
 
 
 void CBOINCInternetFSHandler::UnchacheMissingItems() {
-fprintf(stderr, "Retry button pressed\n");
     m_Hash->BeginFind();
     wxHashTable::Node* node = m_Hash->Next();
     for(;;) {
@@ -664,7 +646,6 @@ void CBOINCInternetFSHandler::SetAbortInternetIO(bool set) {
     b_ShuttingDown = set;
 #ifdef __WXMSW__
     if (m_InputStream) {
-fprintf(stderr, "wCBOINCInternetFSHandler::SetAbortInternetIO - m_InputStream = 0X%lX\n", (DWORD)m_InputStream);
         delete m_InputStream;
         m_InputStream = NULL;
     }
