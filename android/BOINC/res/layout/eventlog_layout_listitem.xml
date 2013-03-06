@@ -23,7 +23,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <TextView
+    <CheckedTextView
         android:id="@+id/msgs_message"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
