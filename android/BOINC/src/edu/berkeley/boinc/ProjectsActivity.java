@@ -39,6 +39,9 @@ import android.os.IBinder;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -162,8 +165,31 @@ public class ProjectsActivity extends FragmentActivity {
 	    super.onDestroy();
 	}
 	
-	public void addProjectButtonClicked(View view) {
-		Log.d(TAG, "addProjectButtonClicked");
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    Log.d(TAG, "onCreateOptionsMenu()");
+
+	    MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.projects_menu, menu);
+
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    Log.d(TAG, "onOptionsItemSelected()");
+
+	    switch (item.getItemId()) {
+			case R.id.projects_add:
+				onProjectAdd();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
+	
+	public void onProjectAdd() {
+		Log.d(TAG, "onProjectAdd()");
 		startActivity(new Intent(this,LoginActivity.class));
 	}
 

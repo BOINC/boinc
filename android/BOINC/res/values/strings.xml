@@ -18,10 +18,6 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-    <!-- project settings -->
-    <string name="project_name">BOINC Test Project</string>
-    <string name="project_url">http://isaac.ssl.berkeley.edu/test/</string>
-    
 	<!-- app global -->
     <string name="app_name">BOINC</string>
     <string name="autostart_notification_header">BOINC started.</string>
@@ -107,7 +103,7 @@
 	
 	<!-- projects tab strings -->
 	<string name="projects_loading">Reading projects&#8230;</string>
-	<string name="projects_add_button">+ Add project</string>
+	<string name="projects_add">Add project</string>
 	<string name="projects_delete">Delete project</string>
 	<string name="projects_update">Update project</string>
 
@@ -183,5 +179,9 @@
     <string name="rpcreason_init">Project initialization</string>
     <string name="rpcreason_projectreq">Requested by project</string>
     <string name="rpcreason_unknown">Unknown reason</string>
+    
+    <!-- misc resources -->
+    <string name="email_to">Email to&#8230;</string>
+    <string name="send_mail">Send mail&#8230;</string>
     
 </resources>

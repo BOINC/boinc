@@ -158,7 +158,6 @@ public class EventLogActivity extends FragmentActivity {
 	    super.onDestroy();
 	}
 
-	    
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    Log.d(TAG, "onCreateOptionsMenu()");
