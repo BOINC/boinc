@@ -360,9 +360,9 @@ class BoincProfile {
         $db = BoincDb::get();
         return $db->enum('profile', 'BoincProfile', $clause, $clause2);
     }
-    static function enum_fields($fields, $clause=null, $clause2=null) {
+    static function enum_fields($fields, $where_clause=null, $order_clause=null) {
         $db = BoincDb::get();
-        return $db->enum_fields('profile', 'BoincProfile', $fields, $clause, $clause2);
+        return $db->enum_fields('profile', 'BoincProfile', $fields, $where_clause, $order_clause);
     }
     function delete_aux($clause) {
         $db = BoincDb::get();
