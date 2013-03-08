@@ -27,16 +27,16 @@ using std::vector;
 using std::map;
 
 struct INFILE {
-    char src_path[256];
-    char dst_path[256];
+    char src_path[256];         // path on submit machine
+    char dst_filename[256];
+        // filename on execution machine.
+        // must agree with the app's input template
 };
 
 struct JOB {
     char job_name[256];
     string cmdline_args;
     vector<INFILE> infiles;
-    bool all_output_files;
-    vector<string> outfiles;
 };
 
 struct LOCAL_FILE {
@@ -48,6 +48,8 @@ struct SUBMIT_REQ {
     char batch_name[256];
     char app_name[256];
     vector<JOB> jobs;
+    bool all_output_files;
+    vector<string> outfiles;
     map<string, LOCAL_FILE> local_files;
         // maps local path to info about file
     int batch_id;
@@ -66,6 +68,7 @@ struct QUERY_BATCH_REPLY {
 struct FETCH_OUTPUT_REQ {
     char job_name[256];
     char dir[256];
+    string stderr_filename;
     vector<string> file_names;
 };
 
@@ -73,6 +76,22 @@ struct TEMPLATE_DESC {
     vector<string> input_files;
     vector<string> output_files;
 
+    int parse(XML_PARSER&);
+};
+
+// describes a job that's completed, successfully or not
+//
+struct COMPLETED_JOB_DESC {
+    int canonical_resultid;
+    int error_mask;
+    int error_resultid;     // if error_mask is nonzero, this may be set
+    // the following fields describe either the canonical or error result
+    int exit_status;
+    double elapsed_time;
+    double cpu_time;
+    string stderr_out;
+
+    COMPLETED_JOB_DESC(){}
     int parse(XML_PARSER&);
 };
 
@@ -136,6 +155,14 @@ extern int abort_jobs(
     const char* authenticator,
     string batch_name,
     vector<string> &job_names,
+    string& error_msg
+);
+
+extern int query_completed_job(
+    const char* project_url,
+    const char* authenticator,
+    const char* job_name,
+    COMPLETED_JOB_DESC&,
     string& error_msg
 );
 

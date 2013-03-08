@@ -289,7 +289,7 @@ function get_batch($r) {
     } else if (!empty($r->batch_name)) {
         $batch_name = (string)($r->batch_name);
         $batch_name = BoincDb::escape_string($batch_name);
-        $batch = BoincBatch::lookup("name='$batch_name'");
+        $batch = BoincBatch::lookup_name($batch_name);
     } else {
         xml_error(-1, "batch not specified");
     }
@@ -329,11 +329,11 @@ function query_batch2($r) {
     echo "<batch>\n";
     foreach ($wus as $wu) {
         if ($wu->canonical_resultid) {
-            $status = "done";
+            $status = "DONE";
         } else if ($wu->error_mask) {
-            $status = "error";
+            $status = "ERROR";
         } else {
-            $status = "in progress";
+            $status = "IN_PROGRESS";
         }
         echo
 "    <job>
@@ -377,6 +377,53 @@ function query_job($r) {
         echo "</instance>\n";
     }
     echo "</job>\n";
+}
+
+// the following for Condor.
+// If the job has a canonical instance, return info about it.
+// Otherwise find an instance that completed
+// (possibly crashed) and return its info.
+//
+function query_completed_job($r) {
+    list($user, $user_submit) = authenticate_user($r, null);
+    $job_name = (string)($r->job_name);
+    $job_name = BoincDb::escape_string($job_name);
+    $wu = BoincWorkunit::lookup("name='$job_name'");
+    if (!$wu) xml_error(-1, "no such job");
+    $batch = BoincBatch::lookup_id($wu->batch);
+    if ($batch->user_id != $user->id) {
+        xml_error(-1, "not owner");
+    }
+
+    echo "<completed_job>\n";
+    echo "   <error_mask>$wu->error_mask</error_mask>\n";
+    if ($wu->canonical_resultid) {
+        $result = BoincResult::lookup_id($wu->canonical_resultid);
+        echo "   <canonical_resultid>$wu->canonical_resultid</canonical_resultid>\n";
+    } else {
+        $results = BoincResult::enum("workunitid=$job_id");
+        foreach ($results as $r) {
+            switch($r->outcome) {
+            case 1:
+            case 3:
+            case 6:
+                $result = $r;
+                break;
+            }
+        }
+        if ($result) {
+            echo "   <error_resultid>$result->id</error_resultid>\n";
+        }
+    }
+    if ($result) {
+        echo "   <exit_status>$result->exit_status</exit_status>\n";
+        echo "   <elapsed_time>$result->elapsed_time</elapsed_time>\n";
+        echo "   <cpu_time>$result->cpu_time</cpu_time>\n";
+        echo "   <stderr_out><![CDATA[\n";
+        echo htmlspecialchars($result->stderr_out);
+        echo "   ]]></stderr_out>\n";
+    }
+    echo "</completed_job>\n";
 }
 
 function handle_abort_batch($r) {
@@ -488,6 +535,7 @@ switch ($r->getName()) {
     case 'query_batch2': query_batch2($r); break;
     case 'query_batches': query_batches($r); break;
     case 'query_job': query_job($r); break;
+    case 'query_completed_job': query_completed_job($r); break;
     case 'retire_batch': handle_retire_batch($r); break;
     case 'submit_batch': submit_batch($r); break;
     case 'create_batch': create_batch($r); break;

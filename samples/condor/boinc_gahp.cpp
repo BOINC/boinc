@@ -177,21 +177,21 @@ int COMMAND::parse_submit(char* p) {
         for (int j=0; j<ninfiles; j++) {
             INFILE infile;
             strcpy(infile.src_path, strtok_r(NULL, " ", &p));
-            strcpy(infile.dst_path, strtok_r(NULL, " ", &p));
+            strcpy(infile.dst_filename, strtok_r(NULL, " ", &p));
             job.infiles.push_back(infile);
         }
-        char* q = strtok_r(NULL, " ", &p);
-        if (!strcmp(q, "ALL")) {
-            job.all_output_files = true;
-        } else {
-            job.all_output_files = false;
-            int noutfiles = atoi(q);
-            for (int j=0; j<noutfiles; j++) {
-                string outfile = strtok_r(NULL, " ", &p);
-                job.outfiles.push_back(outfile);
-            }
-        }
         submit_req.jobs.push_back(job);
+    }
+    char* q = strtok_r(NULL, " ", &p);
+    if (!strcmp(q, "ALL")) {
+        submit_req.all_output_files = true;
+    } else {
+        submit_req.all_output_files = false;
+        int noutfiles = atoi(q);
+        for (int j=0; j<noutfiles; j++) {
+            string outfile = strtok_r(NULL, " ", &p);
+            submit_req.outfiles.push_back(outfile);
+        }
     }
     return 0;
 }
@@ -257,6 +257,7 @@ void handle_query_batch(COMMAND&c) {
         sprintf(buf, "error querying batch: %d ", retval);
         s = string(buf) + error_msg;
     } else {
+        s = string("NULL ");
         for (unsigned int i=0; i<reply.jobs.size(); i++) {
             QUERY_BATCH_JOB &j = reply.jobs[i];
             sprintf(buf, "%s %s ", j.job_name.c_str(), j.status.c_str());
@@ -278,6 +279,9 @@ int COMMAND::parse_fetch_output(char* p) {
     q = strtok_r(NULL, " ", &p);
     if (!q) return -1;
     strcpy(fetch_output_req.dir, q);
+    q = strtok_r(NULL, " ", &p);
+    if (!q) return -1;
+    fetch_output_req.stderr_filename = string(q);
     int nfiles = atoi(strtok_r(NULL, " ", &p));
     for (int i=0; i<nfiles; i++) {
         char* f = strtok_r(NULL, " ", &p);
@@ -289,20 +293,67 @@ int COMMAND::parse_fetch_output(char* p) {
 void handle_fetch_output(COMMAND& c) {
     string error_msg;
     char buf[1024];
+    char path[1024];
+    int retval;
+    COMPLETED_JOB_DESC cjd;
     FETCH_OUTPUT_REQ &req = c.fetch_output_req;
     string s = "NULL";
-    for (unsigned int i=0; i<req.file_names.size(); i++) {
-        char path[1024];
-        sprintf(path, "%s/%s", req.dir, req.file_names[i].c_str());
-        int retval = get_output_file(
-            project_url, authenticator, req.job_name, i, path, error_msg
+
+    // get the job status
+    //
+    retval = query_completed_job(
+        project_url, authenticator, req.job_name, cjd, error_msg
+    );
+    if (retval) {
+        sprintf(buf, "query_completed_job() returned %d ", retval);
+        s = string(buf) + error_msg;
+        goto done;
+    }
+    sprintf(buf, " %d %f %f", cjd.exit_status, cjd.elapsed_time, cjd.cpu_time);
+    s += string(buf);
+    if (cjd.canonical_resultid || cjd.error_resultid) {
+        sprintf(path, "%s/%s", req.dir, req.stderr_filename.c_str());
+        FILE* f = fopen(path, "w");
+        if (!f) {
+            sprintf(buf, "can't open stderr output file %s ", path);
+            s = string(buf);
+            goto done;
+        }
+        fprintf(f, "%s", cjd.stderr_out.c_str());
+        fclose(f);
+    }
+
+    if (req.file_names[0] == "ALL") {
+        // the job's output file is a zip archive.  Get it and unzip
+        //
+        sprintf(path, "%s/temp.zip", req.dir);
+        retval = get_output_file(
+            project_url, authenticator, req.job_name, 0, path, error_msg
         );
         if (retval) {
             sprintf(buf, "get_output_file() returned %d ", retval);
             s = string(buf) + error_msg;
-            break;
+        } else {
+            sprintf(buf, "cd %s; unzip temp.zip");
+            retval = system(buf);
+            if (retval) {
+                s = string("unzip failed");
+            }
+        }
+    } else {
+        for (unsigned int i=0; i<req.file_names.size(); i++) {
+            sprintf(path, "%s/%s", req.dir, req.file_names[i].c_str());
+            retval = get_output_file(
+                project_url, authenticator, req.job_name, i, path, error_msg
+            );
+            if (retval) {
+                sprintf(buf, "get_output_file() returned %d ", retval);
+                s = string(buf) + error_msg;
+                break;
+            }
         }
     }
+done:
     c.out = strdup(s.c_str());
 }
 

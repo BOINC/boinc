@@ -354,7 +354,7 @@ int query_batch(
     retval = -1;
     error_msg = "";
     while (fgets(buf, 256, reply)) {
-        //printf("query_batch reply: %s", buf);
+        printf("query_batch reply: %s", buf);
         if (strstr(buf, "batch")) {
             retval = 0;
             continue;
@@ -462,14 +462,6 @@ int TEMPLATE_DESC::parse(XML_PARSER& xp) {
     int retval;
     string s;
     while (!xp.get_tag()) {
-        if (xp.match_tag("error")) {
-            while (!xp.get_tag()) {
-                if (xp.parse_int("error_num", retval)) {
-                    return retval;
-                }
-            }
-            return -1;
-        } 
         if (xp.match_tag("input_template")) {
             while (!xp.get_tag()) {
                 if (xp.match_tag("/input_template")) break;
@@ -488,6 +480,29 @@ int TEMPLATE_DESC::parse(XML_PARSER& xp) {
         }
     }
     return 0;
+}
+
+int COMPLETED_JOB_DESC::parse(XML_PARSER& xp) {
+    canonical_resultid = 0;
+    error_mask = 0;
+    error_resultid = 0;
+    exit_status = 0;
+    elapsed_time = 0;
+    cpu_time = 0;
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/completed_job")) return 0;
+        if (xp.parse_int("canonical_resultid", canonical_resultid)) continue;
+        if (xp.parse_int("error_mask", error_mask)) continue;
+        if (xp.parse_int("error_resultid", error_resultid)) continue;
+        if (xp.parse_int("exit_status", exit_status)) continue;
+        if (xp.parse_double("elapsed_time", elapsed_time)) continue;
+        if (xp.parse_double("cpu_time", cpu_time)) continue;
+        if (xp.parse_string("stderr_out", stderr_out)) {
+            xml_unescape(stderr_out);
+            continue;
+        }
+    }
+    return ERR_XML_PARSE;
 }
 
 int get_output_file(
@@ -509,6 +524,45 @@ int get_output_file(
         char buf[1024];
         sprintf(buf, "couldn't fetch %s: %d", url, retval);
         error_msg = string(buf);
+    }
+    return retval;
+}
+
+int query_completed_job(
+    const char* project_url,
+    const char* authenticator,
+    const char* job_name,
+    COMPLETED_JOB_DESC& jd,
+    string &error_msg
+) {
+    string request;
+    char url[1024], buf[256];
+    request = "<query_completed_job>\n";
+    sprintf(buf, "<authenticator>%s</authenticator>\n", authenticator);
+    request += string(buf);
+    sprintf(buf, "<job_name>%s</job_name>\n", job_name);
+    request += string(buf);
+    request += "</query_completed_job>\n";
+    sprintf(url, "%ssubmit_rpc_handler.php", project_url);
+    FILE* reply = tmpfile();
+    vector<string> x;
+    int retval = do_http_post(url, request.c_str(), reply, x);
+    if (retval) {
+        fclose(reply);
+        return retval;
+    }
+    retval = -1;
+    error_msg = "";
+    fseek(reply, 0, SEEK_SET);
+    while (fgets(buf, 256, reply)) {
+        if (parse_int(buf, "<error_num>", retval)) continue;
+        if (parse_str(buf, "<error_msg>", error_msg)) continue;
+        if (strstr(buf, "<completed_job>")) {
+            MIOFILE mf;
+            XML_PARSER xp(&mf);
+            mf.init_file(reply);
+            retval = jd.parse(xp);
+        }
     }
     return retval;
 }
