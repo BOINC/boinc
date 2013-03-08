@@ -613,9 +613,14 @@ function boincuser_get_weak_auth($boinc_id = null) {
  * Drupal User so must be inserted into comments, etc. (not so by default)
  */
 function boincuser_get_user_profile_image($uid, $avatar = TRUE) {
-  // Show the avatar by default, but allow override to show
-  if ($avatar) $image_fid = db_result(db_query("SELECT cfi.field_image_fid FROM {content_field_image} cfi INNER JOIN {node} n ON cfi.nid = n.nid WHERE n.uid = %d AND n.type = '%s'", $uid, 'profile'));
-  else $image_fid = db_result(db_query("SELECT ctp.field_profile_image_fid FROM {content_type_profile} ctp INNER JOIN {node} n ON ctp.nid = n.nid WHERE n.uid = %d AND n.type = '%s'", $uid, 'profile'));
+  // Show the avatar by default, but allow override to show profile-only image
+  $image_field = ($avatar) ? 'field_image_fid' : 'field_profile_image_fid';
+  $image_fid = db_result(db_query("
+    SELECT ctp.%s
+    FROM {content_type_profile} ctp
+    INNER JOIN {node} n ON ctp.nid = n.nid
+    WHERE n.uid = %d AND n.type = '%s'",
+    $image_field, $uid, 'profile'));
   $user_image['image'] = field_file_load($image_fid);
   if (!$user_image['image']['filepath']) {
     // Load the default image if one does not exist
