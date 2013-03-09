@@ -801,20 +801,21 @@ bool XML_PARSER::parse_start(const char* start_tag) {
 void XML_PARSER::skip_unexpected(
     const char* start_tag, bool verbose, const char* where
 ) {
-    char tag[TAG_BUF_LEN], end_tag[TAG_BUF_LEN];
+    char buf[MAX_XML_STRING], end_tag[TAG_BUF_LEN];
 
     if (verbose) {
         fprintf(stderr, "Unrecognized XML in %s: %s\n", where, start_tag);
     }
     if (strchr(start_tag, '/')) return;
     sprintf(end_tag, "/%s", start_tag);
-    while (!get(tag, sizeof(tag), is_tag)) {
+    while (!get(buf, sizeof(buf), is_tag)) {
+        printf("skip_unexpected: is_tag %d tag %s\n", is_tag, buf);
         if (verbose) {
-            fprintf(stderr, "Skipping: %s\n", tag);
+            fprintf(stderr, "Skipping: is_tag %d %s\n", is_tag, buf);
         }
         if (!is_tag) continue;
-        if (!strcmp(tag, end_tag)) return;
-        skip_unexpected(tag, false, where);
+        if (!strcmp(buf, end_tag)) return;
+        skip_unexpected(buf, false, where);
     }
 }
 
