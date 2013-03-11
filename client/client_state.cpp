@@ -162,12 +162,14 @@ void CLIENT_STATE::show_host_info() {
     if (ncpus != host_info.p_ncpus) {
         msg_printf(NULL, MSG_INFO, "Using %d CPUs", ncpus);
     }
+#if 0
     if (host_info.m_cache > 0) {
         msg_printf(NULL, MSG_INFO,
             "Processor: %s cache",
             buf
         );
     }
+#endif
     msg_printf(NULL, MSG_INFO,
         "Processor features: %s", host_info.p_features
     );

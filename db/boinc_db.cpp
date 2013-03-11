@@ -1035,6 +1035,7 @@ void DB_RESULT::db_parse(MYSQL_ROW &r) {
 
 void DB_MSG_FROM_HOST::db_print(char* buf) {
     ESCAPE(xml);
+    ESCAPE(variety);
     sprintf(buf,
         "create_time=%d, "
         "hostid=%d, variety='%s', "
@@ -1046,6 +1047,7 @@ void DB_MSG_FROM_HOST::db_print(char* buf) {
 
     );
     UNESCAPE(xml);
+    UNESCAPE(variety);
 }
 
 void DB_MSG_FROM_HOST::db_parse(MYSQL_ROW& r) {
@@ -1061,6 +1063,7 @@ void DB_MSG_FROM_HOST::db_parse(MYSQL_ROW& r) {
 
 void DB_MSG_TO_HOST::db_print(char* buf) {
     ESCAPE(xml);
+    ESCAPE(variety);
     sprintf(buf,
         "create_time=%d, "
         "hostid=%d, variety='%s', "
@@ -1070,6 +1073,7 @@ void DB_MSG_TO_HOST::db_print(char* buf) {
         handled, xml
     );
     UNESCAPE(xml);
+    UNESCAPE(variety);
 }
 
 void DB_MSG_TO_HOST::db_parse(MYSQL_ROW& r) {
