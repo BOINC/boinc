@@ -11,17 +11,17 @@
       </background_image>
       <workunit_running_image>
         <image>
-          <imagesrc>workunit_running_image.png</imagesrc>
+          <imagesrc>Green_dot.png</imagesrc>
         </image>
       </workunit_running_image>
       <workunit_waiting_image>
         <image>
-          <imagesrc>workunit_waiting_image.png</imagesrc>
+          <imagesrc>Yellow_dot.png</imagesrc>
         </image>
       </workunit_waiting_image>
       <workunit_suspended_image>
         <image>
-          <imagesrc>workunit_suspended_image.png</imagesrc>
+          <imagesrc>Red_dot.png</imagesrc>
         </image>
       </workunit_suspended_image>
     </simple>
