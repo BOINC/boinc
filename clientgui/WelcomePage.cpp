@@ -55,12 +55,12 @@ BEGIN_EVENT_TABLE( CWelcomePage, wxWizardPageEx )
     EVT_WIZARDEX_PAGE_CHANGED( -1, CWelcomePage::OnPageChanged )
     EVT_RADIOBUTTON( ID_WELCOMESELECTWIZARDPROJECT, CWelcomePage::OnWizardSelectionChanged )
     EVT_RADIOBUTTON( ID_WELCOMESELECTWIZARDACCOUNTMGR, CWelcomePage::OnWizardSelectionChanged )
-    EVT_BUTTON( ID_WELCOMECHANGEAPPS, CWelcomePage::OnChangeApplications )
+    EVT_RADIOBUTTON( ID_WELCOMECHANGEAPPS, CWelcomePage::OnWizardSelectionChanged )
     EVT_WIZARDEX_CANCEL( -1, CWelcomePage::OnCancel )
 ////@end CWelcomePage event table entries
  
 END_EVENT_TABLE()
- 
+
 /*!
  * CWelcomePage constructors
  */
@@ -87,6 +87,12 @@ bool CWelcomePage::Create( CBOINCBaseWizard* parent )
     m_pAttachToAccountManagerCtrl = NULL;
     m_pDirectionsStaticCtrl = NULL;
 ////@end CWelcomePage member initialisation
+
+#if defined (_WCG)
+	((CWizardAttach*)parent)->IsFirstPass = true;
+#elif
+	((CWizardAttach*)parent)->IsFirstPass = false;
+#endif
  
 ////@begin CWelcomePage creation
     wxWizardPageEx::Create( parent, ID_WELCOMEPAGE );
@@ -95,7 +101,7 @@ bool CWelcomePage::Create( CBOINCBaseWizard* parent )
     GetSizer()->Fit(this);
 ////@end CWelcomePage creation
 
-    return TRUE;
+	return TRUE;
 }
  
 /*!
@@ -125,9 +131,22 @@ void CWelcomePage::CreateControls()
     itemFlexGridSizer62->AddGrowableCol(1);
     itemBoxSizer3->Add(itemFlexGridSizer62, 0, wxGROW|wxALL, 5);
 
+    m_pChangeApplicationsCtrl = new wxRadioButton;
+    m_pChangeApplicationsCtrl->Create(itemWizardPage2, ID_WELCOMECHANGEAPPS, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxRB_GROUP );
+#if defined (_WCG)
+	m_pChangeApplicationsCtrl->SetValue(TRUE);
+#elif
+	m_pChangeApplicationsCtrl->SetValue(FALSE);
+#endif
+    itemFlexGridSizer62->Add(m_pChangeApplicationsCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
     m_pAttachToProjectCtrl = new wxRadioButton;
-    m_pAttachToProjectCtrl->Create( itemWizardPage2, ID_WELCOMESELECTWIZARDPROJECT, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxRB_GROUP );
+    m_pAttachToProjectCtrl->Create( itemWizardPage2, ID_WELCOMESELECTWIZARDPROJECT, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+#if defined (_WCG)
+    m_pAttachToProjectCtrl->SetValue(FALSE);
+#elif
     m_pAttachToProjectCtrl->SetValue(TRUE);
+#endif
     itemFlexGridSizer62->Add(m_pAttachToProjectCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_pAttachToAccountManagerCtrl = new wxRadioButton;
@@ -138,10 +157,6 @@ void CWelcomePage::CreateControls()
     m_pDirectionsStaticCtrl = new wxStaticText;
     m_pDirectionsStaticCtrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer3->Add(m_pDirectionsStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
-
-    m_pChangeApplicationsCtrl = new wxButton;
-    m_pChangeApplicationsCtrl->Create(itemWizardPage2, ID_WELCOMECHANGEAPPS, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer3->Add(m_pChangeApplicationsCtrl, 0, wxALIGN_CENTER, 5);
 
     itemWizardPage2->SetSizer(itemBoxSizer3);
 
@@ -178,7 +193,13 @@ wxWizardPageEx* CWelcomePage::GetNext() const
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTMANAGERPROCESSINGPAGE);
     } else if (IS_ACCOUNTMANAGERWIZARD()) {
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTMANAGERINFOPAGE);
-    }
+	} else if (IS_CHANGEWCGAPPS()) {
+		if ( ((CWizardAttach*)GetParent())->IsFirstPass ) {
+			((CWizardAttach*)GetParent())->IsFirstPass = false;
+		} else {
+			this->OpenWorldCommunityGridProjectsPage();
+		}
+	}
     return NULL;
 }
  
@@ -250,9 +271,15 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
 #endif
 
 
-    m_pTitleStaticCtrl->SetLabel(
-        _("Add project or account manager")
-    );
+	if ( !is_wcg_client ) {
+		m_pTitleStaticCtrl->SetLabel(
+			_("Add project or account manager")
+		);
+	} else {
+		m_pTitleStaticCtrl->SetLabel(
+			_("Add project or use BOINC Account Manager")
+		);
+	}
 
     pDoc->rpc.acct_mgr_info(ami);
     is_acct_mgr_detected = ami.acct_mgr_url.size() ? true : false;
@@ -278,33 +305,51 @@ and you can volunteer for as many of them as you like.\n\
 You can add a project directly,\n\
 or use an 'Account Manager' web site to select projects.")
             );
+
+			m_pAttachToAccountManagerCtrl->SetLabel(
+				_("Use account manager")
+			);
         } else {
             m_pDescriptionStaticCtrl->SetLabel(
-                _("You have chosen to add a new BOINC project.  Adding a new\nproject means that you will be connecting your computer to a new organization.\nIf this is what you wanted to do, please click on\nthe 'Next' button below.\n\nSome projects like World Community Grid run multiple research applications.\nIf you want to change which research applications are sent to your computer\nto run, visit the project's website and modify your\npreferences there.\n\nTo change which research applications are sent to you from\nWorld Community Grid then please click on the following button:")
+ _("You have chosen to add a new volunteer computing project or change which projects\n\
+you contribute to.\n\
+\n\
+Some of these projects are run and managed by World Community Grid, while others\n\
+are run and managed by other researchers or organizations. The BOINC software\n\
+can divide your spare processing power among any combination of projects.\n\
+\n\
+Alternatively, if you have registered with a BOINC Account Manager, you can use\n\
+this to choose which projects to support.\n\
+\n\
+Please choose which type of change you would like to make:\n")
             );
-            m_pChangeApplicationsCtrl->SetLabel(
-                _("Change Research Applications at World Community Grid")
-            );
+
+			m_pAttachToAccountManagerCtrl->SetLabel(
+				_("Use a BOINC Account Manager")
+			);
         }
 
-        m_pAttachToAccountManagerCtrl->Enable();
+		m_pAttachToAccountManagerCtrl->Enable();
     }
 
-    m_pAttachToProjectCtrl->SetLabel(
-        _("Add project")
-    );
-
-    m_pAttachToAccountManagerCtrl->SetLabel(
-        _("Use account manager")
-    );
-
     if (!is_wcg_client) {
+		m_pAttachToProjectCtrl->SetLabel(
+			_("Add project")
+		);
+
         m_pDirectionsStaticCtrl->SetLabel(
             _("To continue, click Next.")
         );
         m_pChangeApplicationsCtrl->Hide();
-    }
-
+	} else {
+        m_pChangeApplicationsCtrl->SetLabel(
+			 _("Add or change your World Community Grid projects")
+        );
+		m_pAttachToProjectCtrl->SetLabel(
+			_("Add projects run by other researchers or organizations")
+		);
+	}
+ 
     Fit();
     wxLogTrace(wxT("Function Start/End"), wxT("CWelcomePage::OnPageChanged - Function End"));
 }
@@ -326,10 +371,16 @@ void CWelcomePage::OnWizardSelectionChanged( wxCommandEvent& event ) {
     if (ID_WELCOMESELECTWIZARDPROJECT == event.GetId()) {
         pWAP->IsAttachToProjectWizard = true;
         pWAP->IsAccountManagerWizard = false;
+		pWAP->IsChangeWCGApps = false;
     } else if (ID_WELCOMESELECTWIZARDACCOUNTMGR == event.GetId()) {
         pWAP->IsAttachToProjectWizard = false;
         pWAP->IsAccountManagerWizard = true;
-    }
+		pWAP->IsChangeWCGApps = false;
+	} else if (ID_WELCOMECHANGEAPPS == event.GetId()) {
+        pWAP->IsAttachToProjectWizard = false;
+        pWAP->IsAccountManagerWizard = false;
+		pWAP->IsChangeWCGApps = true;
+	}
 
     wxLogTrace(wxT("Function Start/End"), wxT("CWelcomePage::OnWizardSelectionChanged - Function End"));
 }
@@ -339,8 +390,8 @@ void CWelcomePage::OnWizardSelectionChanged( wxCommandEvent& event ) {
  * wxEVT_BUTTON event handler for ID_WELCOMECHANGEAPPS
  */
 
-void CWelcomePage::OnChangeApplications( wxCommandEvent& /* event */ ) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CWelcomePage::OnChangeApplications - Function Begin"));
+void CWelcomePage::OpenWorldCommunityGridProjectsPage() const {
+    wxLogTrace(wxT("Function Start/End"), wxT("CWelcomePage::OpenWorldCommunityGridProjectsPage - Function Begin"));
     CWizardAttach*  pWAP = ((CWizardAttach*)GetParent());
 
     wxASSERT(pWAP);
@@ -350,7 +401,7 @@ void CWelcomePage::OnChangeApplications( wxCommandEvent& /* event */ ) {
 
     pWAP->SimulateCancelButton();
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CWelcomePage::OnChangeApplications - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CWelcomePage::OpenWorldCommunityGridProjectsPage - Function End"));
 }
 
 

@@ -55,12 +55,12 @@ public:
     /// wxEVT_WIZARD_CANCEL event handler for ID_WELCOMEPAGE
     void OnCancel( wxWizardExEvent& event );
 
-	/// wxEVT_BUTTON event handler for ID_WELCOMECHANGEAPPS
-	void OnChangeApplications( wxCommandEvent& event );
-
 ////@end CWelcomePage event handler declarations
 
 ////@begin CWelcomePage member function declarations
+
+    /// Logic to handle when the user chooses to change World Community Grid projects selected
+    void OpenWorldCommunityGridProjectsPage() const;
 
     /// Gets the previous page.
     virtual wxWizardPageEx* GetPrev() const;
@@ -85,7 +85,7 @@ public:
     wxStaticText* m_pDirectionsStaticCtrl;
     wxRadioButton* m_pAttachToProjectCtrl;
     wxRadioButton* m_pAttachToAccountManagerCtrl;
-	wxButton* m_pChangeApplicationsCtrl;
+	wxRadioButton* m_pChangeApplicationsCtrl;
 ////@end CWelcomePage member variables
 };
 
