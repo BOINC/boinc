@@ -240,14 +240,6 @@
             <para>Port for RPCs.</para>
           </listitem>
         </varlistentry>
-<!-- this option is for Apple only
-        <varlistentry>
-          <term><option>--launched_by_manager</option></term>
-          <listitem>
-            <para>Client was launched by Manager.</para>
-          </listitem>
-        </varlistentry>
--->
         <varlistentry>
           <term><option>--no_gui_rpc</option></term>
           <listitem>
@@ -257,14 +249,6 @@
               command tool (&cmd_boinccmd;).</para>
           </listitem>
         </varlistentry>
-<!-- this option is for Apple only
-        <varlistentry>
-          <term><option>--saver</option></term>
-          <listitem>
-            <para>client was launched by screensaver</para>
-          </listitem>
-        </varlistentry>
--->
       </variablelist>
     </refsect2>
 
