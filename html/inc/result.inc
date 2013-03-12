@@ -18,6 +18,7 @@
 
 require_once("../inc/translation.inc");
 require_once("../inc/dir_hier.inc");
+require_once("../inc/common_defs.inc");
 
 // used by app_version_string(), see below
 //
@@ -42,11 +43,19 @@ function app_version_string($result) {
     global $apps, $app_versions;
 
     $id = $result->app_version_id;
-    if ($id == 0) return "";
-    if ($id == -1) return anon_platform_string($result);
-    if ($id == -2) return anon_platform_string($result, tra("CPU"));
-    if ($id == -3) return anon_platform_string($result, tra("NVIDIA GPU"));
-    if ($id == -4) return anon_platform_string($result, tra("ATI GPU"));
+    switch ($id) {
+    case 0: return "";
+    case ANON_PLATFORM_UNKNOWN:
+        return anon_platform_string($result);
+    case ANON_PLATFORM_CPU:
+        return anon_platform_string($result, tra("CPU"));
+    case ANON_PLATFORM_NVIDIA:
+        return anon_platform_string($result, tra("NVIDIA GPU"));
+    case ANON_PLATFORM_ATI:
+        return anon_platform_string($result, tra("ATI GPU"));
+    case ANON_PLATFORM_INTEL:
+        return anon_platform_string($result, tra("Intel GPU"));
+    }
     if (array_key_exists($id, $app_versions)) {
         $av = $app_versions[$id];
         $app = $apps[$av->appid];
@@ -70,15 +79,15 @@ function app_version_string($result) {
 }
 
 function result_granted_credit_string($result, $string_to_show) {
-    if ($result->server_state == 4 && $result->granted_credit > 0) {
+    if ($result->server_state == RESULT_SERVER_STATE_IN_PROGRESS && $result->granted_credit > 0) {
         return $string_to_show;
     }
-    if ($result->server_state <> 5) return "---";
+    if ($result->server_state <> RESULT_SERVER_STATE_OVER) return "---";
     switch($result->outcome) {
-    case 1:              //Success
+    case RESULT_OUTCOME_SUCCESS:
         switch ($result->validate_state) {
-        case 0:
-        case 4:
+        case VALIDATE_STATE_INIT:
+        case VALIDATE_STATE_INCONCLUSIVE:
             return tra("pending");
         }
         return $string_to_show;
