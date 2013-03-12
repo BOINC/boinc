@@ -349,6 +349,14 @@ $math = array(
     tra("Mathematics, computing, and games"),
     array(
         array(
+            "SubsetSum@Home",
+            "http://volunteer.cs.und.edu/subset_sum/",
+            "University of North Dakota, Computer Science Department",
+            tra("Computer Science"),
+            "Research in computational complexity",
+            ""
+        ),
+        array(
             "OProject@Home",
             "http://oproject.info/",
             tra("Private"),

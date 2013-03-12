@@ -809,7 +809,6 @@ void XML_PARSER::skip_unexpected(
     if (strchr(start_tag, '/')) return;
     sprintf(end_tag, "/%s", start_tag);
     while (!get(buf, sizeof(buf), is_tag)) {
-        printf("skip_unexpected: is_tag %d tag %s\n", is_tag, buf);
         if (verbose) {
             fprintf(stderr, "Skipping: is_tag %d %s\n", is_tag, buf);
         }
