@@ -90,7 +90,7 @@ bool CWelcomePage::Create( CBOINCBaseWizard* parent )
 
 #if defined (_WCG)
 	((CWizardAttach*)parent)->IsFirstPass = true;
-#elif
+#else
 	((CWizardAttach*)parent)->IsFirstPass = false;
 #endif
  
@@ -135,7 +135,7 @@ void CWelcomePage::CreateControls()
     m_pChangeApplicationsCtrl->Create(itemWizardPage2, ID_WELCOMECHANGEAPPS, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxRB_GROUP );
 #if defined (_WCG)
 	m_pChangeApplicationsCtrl->SetValue(TRUE);
-#elif
+#else
 	m_pChangeApplicationsCtrl->SetValue(FALSE);
 #endif
     itemFlexGridSizer62->Add(m_pChangeApplicationsCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
@@ -144,7 +144,7 @@ void CWelcomePage::CreateControls()
     m_pAttachToProjectCtrl->Create( itemWizardPage2, ID_WELCOMESELECTWIZARDPROJECT, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 #if defined (_WCG)
     m_pAttachToProjectCtrl->SetValue(FALSE);
-#elif
+#else
     m_pAttachToProjectCtrl->SetValue(TRUE);
 #endif
     itemFlexGridSizer62->Add(m_pAttachToProjectCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);

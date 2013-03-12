@@ -122,7 +122,7 @@ bool CWizardAttach::Create( wxWindow* parent, wxWindowID id, const wxString& /* 
 #if defined (_WCG)
     IsAttachToProjectWizard = false;
 	IsChangeWCGApps = true;
-#elif
+#else
     IsAttachToProjectWizard = true;
 	IsChangeWCGApps = false;
 	IsFirstPass = false;
