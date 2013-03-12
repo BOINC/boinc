@@ -245,7 +245,6 @@ struct RSC_WORK_FETCH {
     void update_stats(double sim_now, double dt, double buf_end);
     void update_busy_time(double dur, double nused);
     PROJECT* choose_project_hyst(bool strict);
-    PROJECT* choose_project(int);
     void supplement(PROJECT*);
     RSC_PROJECT_WORK_FETCH& project_state(PROJECT*);
     void print_state(const char*);

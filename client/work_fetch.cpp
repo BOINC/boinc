@@ -35,8 +35,6 @@
 
 using std::vector;
 
-bool use_hyst_fetch = true;
-
 RSC_WORK_FETCH rsc_work_fetch[MAX_RSC];
 WORK_FETCH work_fetch;
 
@@ -343,105 +341,6 @@ PROJECT* RSC_WORK_FETCH::choose_project_hyst(bool strict) {
     } else {
         set_request_excluded(pbest);
     }
-    return pbest;
-}
-
-// Choose the best project to ask for work for this resource,
-// given the specific criterion
-//
-PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
-    PROJECT* pbest = NULL;
-
-    switch (criterion) {
-    case FETCH_IF_IDLE_INSTANCE:
-        if (nidle_now == 0) return NULL;
-        break;
-    case FETCH_IF_MAJOR_SHORTFALL:
-        if (saturated_time > gstate.work_buf_min()) return NULL;
-        break;
-    case FETCH_IF_MINOR_SHORTFALL:
-        if (saturated_time > gstate.work_buf_total()) return NULL;
-        break;
-    case FETCH_IF_PROJECT_STARVED:
-        if (deadline_missed_instances >= ninstances) return NULL;
-        break;
-    }
-
-    for (unsigned i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
-        if (p->pwf.cant_fetch_work_reason) continue;
-        if (!project_state(p).may_have_work) continue;
-        RSC_PROJECT_WORK_FETCH& rpwf = project_state(p);
-        if (rpwf.anon_skip) continue;
-        switch (criterion) {
-        case FETCH_IF_MINOR_SHORTFALL:
-            if (wacky_dcf(p)) continue;
-            if (!p->resource_share) continue;
-            break;
-        case FETCH_IF_MAJOR_SHORTFALL:
-            if (wacky_dcf(p)) continue;
-            if (!p->resource_share) continue;
-            break;
-        case FETCH_IF_PROJECT_STARVED:
-            if (p->sched_priority < 0) continue;
-            if (rpwf.nused_total >= ninstances) continue;
-            if (!p->resource_share) continue;
-            break;
-        }
-
-        if (pbest) {
-            if (!p->resource_share) {
-                continue;
-            }
-            if (pbest->sched_priority > p->sched_priority) {
-                continue;
-            }
-        }
-        pbest = p;
-    }
-    if (!pbest) return NULL;
-
-    // decide how much work to request from each resource
-    //
-    work_fetch.clear_request();
-    switch (criterion) {
-    case FETCH_IF_IDLE_INSTANCE:
-    case FETCH_IF_MAJOR_SHORTFALL:
-        set_request(pbest);
-        break;
-    case FETCH_IF_PROJECT_STARVED:
-        set_request(pbest);
-        break;
-    case FETCH_IF_MINOR_SHORTFALL:
-        // in this case, potentially request work for all resources
-        //
-        if (pbest->sched_priority < 0) {
-            set_request(pbest);
-        } else {
-            work_fetch.set_all_requests(pbest);
-        }
-        break;
-    }
-    // in principle there should be a nonzero request.
-    // check, just in case
-    //
-    if (!req_secs && !req_instances) {
-        if (log_flags.work_fetch_debug) {
-            msg_printf(pbest, MSG_INFO,
-                "[work_fetch] error: project chosen but zero request"
-            );
-        }
-        return 0;
-    }
-
-    if (log_flags.work_fetch_debug) {
-        msg_printf(pbest, MSG_INFO,
-            "[work_fetch] chosen: %s %s: %.2f inst, %.2f sec",
-            criterion_name(criterion), rsc_name(rsc_type),
-            req_instances, req_secs
-        );
-    }
-
     return pbest;
 }
 
@@ -794,7 +693,6 @@ PROJECT* WORK_FETCH::choose_project(bool strict) {
     }
 
     p = 0;
-if (use_hyst_fetch) {
     if (gpus_usable) {
         for (int i=1; i<coprocs.n_rsc; i++) {
             p = rsc_work_fetch[i].choose_project_hyst(strict);
@@ -804,47 +702,6 @@ if (use_hyst_fetch) {
     if (!p) {
         p = rsc_work_fetch[0].choose_project_hyst(strict);
     }
-} else {
-    if (gpus_usable) {
-        for (int i=1; i<coprocs.n_rsc; i++) {
-            p = rsc_work_fetch[i].choose_project(FETCH_IF_IDLE_INSTANCE);
-            if (p) break;
-        }
-    }
-    if (!p) {
-        p = rsc_work_fetch[0].choose_project(FETCH_IF_IDLE_INSTANCE);
-    }
-
-    if (!p && gpus_usable) {
-        for (int i=1; i<coprocs.n_rsc; i++) {
-            p = rsc_work_fetch[i].choose_project(FETCH_IF_MAJOR_SHORTFALL);
-            if (p) break;
-        }
-    }
-    if (!p) {
-        p = rsc_work_fetch[0].choose_project(FETCH_IF_MAJOR_SHORTFALL);
-    }
-    
-    if (!p && gpus_usable) {
-        for (int i=1; i<coprocs.n_rsc; i++) {
-            p = rsc_work_fetch[i].choose_project(FETCH_IF_MINOR_SHORTFALL);
-            if (p) break;
-        }
-    }
-    if (!p) {
-        p = rsc_work_fetch[0].choose_project(FETCH_IF_MINOR_SHORTFALL);
-    }
-
-    if (!p && gpus_usable) {
-        for (int i=1; i<coprocs.n_rsc; i++) {
-            p = rsc_work_fetch[i].choose_project(FETCH_IF_PROJECT_STARVED);
-            if (p) break;
-        }
-    }
-    if (!p) {
-        p = rsc_work_fetch[0].choose_project(FETCH_IF_PROJECT_STARVED);
-    }
-}
 
     if (log_flags.work_fetch_debug) {
         print_state();

@@ -359,7 +359,6 @@ function simulation_form_short() {
         <input type=hidden name=scen value=$scen>
         <input type=hidden name=rec_half_life_days value=10>
         <input type=hidden name=existing_jobs_only value=0>
-        <input type=hidden name=use_hyst_fetch value=1>
         <input type=hidden name=cpu_sched_rr_only value=0>
         <input type=hidden name=server_uses_workload value=0>
     ";
@@ -391,13 +390,6 @@ function simulation_form() {
         Otherwise, simulate an infinite stream of jobs
         modeled after those in the state file.",
         "<input type=checkbox name=existing_jobs_only>"
-    );
-    row2("Use hysteresis work fetch?
-        <br><span class=note>If checked, use 6.14 work fetch policies.
-        Tthe client will wait
-        until the work buffer falls below X, then fill it to X+Y.
-        Otherwise it will keep it filled to X+Y.</span>",
-        "<input type=checkbox name=use_hyst_fetch checked>"
     );
     row2("Scheduler does detailed deadline check?
         <br><span class=note>If checked, the scheduler's deadline
@@ -434,7 +426,6 @@ function simulation_action() {
     $policy->delta = (double)post_str("delta");
     $policy->rec_half_life = (double)post_str("rec_half_life_days")*86400;
     $policy->existing_jobs_only = post_str("existing_jobs_only", true);
-    $policy->use_hyst_fetch = post_str("use_hyst_fetch", true);
     $policy->cpu_sched_rr_only = post_str("cpu_sched_rr_only", true);
     $policy->server_uses_workload = post_str("server_uses_workload", true);
     file_put_contents("$sim_path/userid", "$user->id");
