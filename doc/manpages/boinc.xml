@@ -17,12 +17,17 @@
   <!ENTITY % COMMON SYSTEM "common.ent">
   %COMMON;
 
-  <!ENTITY date "<date>April 06, 2008</date>">
+  <!ENTITY date "<date>04 March 2013</date>">
 ]>
 
 <refentry>
   <refentryinfo>
     <authorgroup>
+      <author>
+        <firstname>Christian</firstname>
+        <lastname>Beer</lastname>
+        <email>djangofett@gmx.net</email>
+      </author>
       <author>
         <firstname>Steffen</firstname>
         <lastname>Moeller</lastname>
@@ -41,7 +46,7 @@
    </authorgroup>
     <copyright>
       <year>2007</year>
-      <year>2008</year>
+      <year>2013</year>
       <holder>University of California</holder>
     </copyright>
     &date;
@@ -54,7 +59,7 @@
 
   <refnamediv>
     <refname>&boinc;</refname>
-    <refpurpose>The BOINC core client program.</refpurpose>
+    <refpurpose>The BOINC client program.</refpurpose>
   </refnamediv>
 
   <refsynopsisdiv>
@@ -66,16 +71,16 @@
 
   <refsect1>
     <title>DESCRIPTION</title>
-    <para>The BOINC "core client", &cmd_boinc;, is the heart of BOINC.
+    <para>The BOINC "client", &cmd_boinc;, is the heart of BOINC.
       It controls which project applications are run on your computer,
-      downloading "Workunits" and uploading the "Result" files from completed
+      downloading "Tasks" and uploading the resulting files from completed
       tasks. &cmd_boinc; is usually run in the background, ideally as a
       daemon. It can then be controlled either by a graphical tool called the
       BOINC Manager, &man_boincmgr;, or a command-line tool called
-      &man_boinccmd;, by means of Remote Proceedure Calls (RPCs) over port
+      &man_boinccmd;, by means of Remote Procedure Calls (RPCs) over port
       &rpc_port;.</para>
 
-    <para>The BOINC core client can be controlled by command-line options,
+    <para>The BOINC client can be controlled by command-line options,
       configuration files, and environment variables. Standard usage is simply
       to start the client running in the background.</para>
   </refsect1>
@@ -85,178 +90,349 @@
     <para>These command-line options for &cmd_boinc; can be used to control
       how BOINC is started. Once the client has started, you should use a
       separate program, (&man_boincmgr; or &man_boinccmd;) which communicates
-      with it by means of Remote Proceedure Calls (RPCs).</para>
+      with it by means of Remote Procedure Calls (RPCs).</para>
 
-    <variablelist>
-      <varlistentry>
-        <term><option>--help</option></term>
-        <listitem>
-          <para>show options</para>
-        </listitem>
-      </varlistentry>
+    <refsect2>
+      <title>General options</title>
+      <variablelist>
 
+        <varlistentry>
+          <term><option>--help</option></term>
+          <listitem>
+           <para>Show options.</para>
+          </listitem>
+        </varlistentry>
 
-      <varlistentry>
-        <term><option>--version</option></term>
-        <listitem>
-          <para>show version info</para>
-        </listitem>
-      </varlistentry>
+        <varlistentry>
+          <term><option>--version</option></term>
+          <listitem>
+            <para>Show version info.</para>
+          </listitem>
+        </varlistentry>
 
-      <varlistentry>
-        <term><option>--exit_when_idle</option></term>
-        <listitem>
-          <para>exit when there are no results</para>
-        </listitem>
-      </varlistentry>
+        <varlistentry>
+          <term><option>--run_cpu_benchmarks</option></term>
+          <listitem>
+            <para>Run the CPU benchmarks.</para>
+          </listitem>
+        </varlistentry>
 
-      <varlistentry>
-        <term><option>--show_projects</option></term>
-        <listitem>
-          <para>show attached projects</para>
-        </listitem>
-      </varlistentry>
+        <varlistentry>
+          <term><option>--check_all_logins</option></term>
+          <listitem>
+            <para>For idle detection, check remote logins too.</para>
+          </listitem>
+        </varlistentry>
 
-      <varlistentry>
-        <term>
-          <option>--detach_project <replaceable>URL</replaceable></option>
-        </term>
-        <listitem>
-          <para>detach from a project</para>
-        </listitem>
-      </varlistentry>
+        <varlistentry>
+          <term><option>--daemon</option></term>
+          <listitem>
+            <para>Run as daemon. Will redirect stderr and stdout to syslog.</para>
+          </listitem>
+        </varlistentry>
 
-      <varlistentry>
-        <term>
-          <option>--reset_project <replaceable>URL</replaceable></option>
-        </term>
-        <listitem>
-          <para>reset (clear) a project</para>
-        </listitem>
-      </varlistentry>
+        <varlistentry>
+          <term><option>--dir <replaceable>path</replaceable></option></term>
+          <listitem>
+            <para>Use given dir as the client working directory.</para>
+          </listitem>
+        </varlistentry>
 
-      <varlistentry>
-        <term>
-          <option>--attach_project <replaceable>URL</replaceable> 
-            <replaceable>key</replaceable></option>
-        </term>
-        <listitem>
-          <para>attach to a project</para>
-        </listitem>
-      </varlistentry>
+        <varlistentry>
+          <term><option>--no_gpus</option></term>
+          <listitem>
+            <para>Don't check for GPUs.</para>
+          </listitem>
+        </varlistentry>
 
-      <varlistentry>
-        <term>
-          <option>--update_prefs <replaceable>URL</replaceable></option>
-        </term>
-        <listitem>
-          <para>contact a project to update preferences</para>
-        </listitem>
-      </varlistentry>
+        <varlistentry>
+          <term><option>--no_info_fetch</option></term>
+          <listitem>
+            <para>Don't fetch project list or client version info from
+              boinc.berkeley.edu.</para>
+          </listitem>
+        </varlistentry>
 
-      <varlistentry>
-        <term><option>--run_cpu_benchmarks</option></term>
-        <listitem>
-          <para>run the CPU benchmarks</para>
-        </listitem>
-      </varlistentry>
+        <varlistentry>
+          <term><option>--skip_cpu_benchmarks</option></term>
+          <listitem>
+            <para>Don't run CPU benchmarks.</para>
+          </listitem>
+        </varlistentry>
 
-      <varlistentry>
-        <term><option>--check_all_logins</option></term>
-        <listitem>
-          <para>for idle detection, check remote logins too</para>
-        </listitem>
-      </varlistentry>
+        <varlistentry>
+          <term>
+            <option>--start_delay <replaceable>X</replaceable></option>
+          </term>
+          <listitem>
+            <para>Delay starting apps for X secs.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </refsect2>
 
-      <varlistentry>
-        <term><option>--allow_remote_gui_rpc</option></term>
-        <listitem>
-          <para>allow remote GUI RPC connections</para>
-        </listitem>
-      </varlistentry>
+    <refsect2>
+      <title>Project options</title>
+      <variablelist>
+        <title>PROJECT CONTROL</title>
 
-      <varlistentry>
-        <term>
-          <option>--gui_rpc_port <replaceable>port</replaceable></option>
-        </term>
-        <listitem>
-          <para>port for GUI RPCs</para>
-        </listitem>
-      </varlistentry>
+        <varlistentry>
+          <term>
+            <option>--attach_project <replaceable>URL</replaceable>
+              <replaceable>key</replaceable></option>
+          </term>
+          <listitem>
+            <para>Attach to a project using URL and authenticator.</para>
+          </listitem>
+        </varlistentry>
 
-      <varlistentry>
-        <term><option>--redirectio</option></term>
-        <listitem>
-          <para>redirect stdout and stderr to log files</para>
-        </listitem>
-      </varlistentry>
+        <varlistentry>
+          <term><option>--show_projects</option></term>
+          <listitem>
+            <para>Show attached projects.</para>
+          </listitem>
+        </varlistentry>
 
-      <varlistentry>
-        <term><option>--dir <replaceable>path</replaceable></option></term>
-        <listitem>
-          <para>use given dir as BOINC home</para>
-        </listitem>
-      </varlistentry>
+        <varlistentry>
+          <term>
+            <option>--detach_project <replaceable>URL</replaceable></option>
+          </term>
+          <listitem>
+            <para>Detach from project specified by URL.</para>
+          </listitem>
+        </varlistentry>
 
-      <varlistentry>
-        <term><option>--no_gui_rpc</option></term>
-        <listitem>
-          <para>Omits creation of a socket as required for the remote control
-            of the client. Consequently the client cannot be controlled by
-            external tools like GUIs (&cmd_boincmgr; etc.) or the console
-            command tool (&cmd_boinccmd;).</para>
-        </listitem>
-      </varlistentry>
+        <varlistentry>
+          <term>
+            <option>--reset_project <replaceable>URL</replaceable></option>
+          </term>
+          <listitem>
+            <para>Reset (clear) the projectspecified by URL.</para>
+          </listitem>
+        </varlistentry>
 
-      <varlistentry>
-        <term><option>--daemon</option></term>
-        <listitem>
-          <para>run as daemon</para>
-        </listitem>
-      </varlistentry>
+        <varlistentry>
+          <term>
+            <option>--update_prefs <replaceable>URL</replaceable></option>
+          </term>
+          <listitem>
+            <para>Contact the project specified by URL to update preferences</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </refsect2>
 
-      <varlistentry>
-        <term><option>--exit_before_start</option></term>
-        <listitem>
-          <para>exit right before starting a job</para>
-        </listitem>
-      </varlistentry>
+    <refsect2>
+      <title>Communication options</title>
+      <variablelist>
+        <varlistentry>
+          <term><option>--allow_remote_gui_rpc</option></term>
+          <listitem>
+            <para>Allow RPC connections from remote hosts.</para>
+          </listitem>
+        </varlistentry>
 
-      <varlistentry>
-        <term><option>--exit_after_finish</option></term>
-        <listitem>
-          <para>exit right after finishing a job</para>
-        </listitem>
-      </varlistentry>
+        <varlistentry>
+          <term>
+            <option>--gui_rpc_port <replaceable>port</replaceable></option>
+          </term>
+          <listitem>
+            <para>Port for RPCs.</para>
+          </listitem>
+        </varlistentry>
+<!-- this option is for Apple only
+        <varlistentry>
+          <term><option>--launched_by_manager</option></term>
+          <listitem>
+            <para>Client was launched by Manager.</para>
+          </listitem>
+        </varlistentry>
+-->
+        <varlistentry>
+          <term><option>--no_gui_rpc</option></term>
+          <listitem>
+            <para>Omits creation of a socket as required for the remote control
+              of the client. Consequently the client cannot be controlled by
+              external tools like GUIs (&cmd_boincmgr; etc.) or the console
+              command tool (&cmd_boinccmd;).</para>
+          </listitem>
+        </varlistentry>
+<!-- this option is for Apple only
+        <varlistentry>
+          <term><option>--saver</option></term>
+          <listitem>
+            <para>client was launched by screensaver</para>
+          </listitem>
+        </varlistentry>
+-->
+      </variablelist>
+    </refsect2>
 
-      <varlistentry>
-        <term><option>--insecure</option></term>
-        <listitem>
-          <para>disable app sandboxing</para>
-        </listitem>
-      </varlistentry>
+    <refsect2>
+      <title>Debugging options</title>
+      <variablelist>
+        <varlistentry>
+          <term><option>--abort_jobs_on_exit</option></term>
+          <listitem>
+            <para>When client exits, abort and report tasks.</para>
+          </listitem>
+        </varlistentry>
 
-      <varlistentry>
-        <term><option>--launched_by_manager</option></term>
-        <listitem>
-          <para>core client was launched by Manager</para>
-        </listitem>
-      </varlistentry>
+        <varlistentry>
+          <term><option>--allow_multiple_clients</option></term>
+          <listitem>
+            <para>Allow more than one client instance per host.</para>
+          </listitem>
+        </varlistentry>
 
-      <varlistentry>
-        <term><option>--run_by_updater</option></term>
-        <listitem>
-          <para>set by updater</para>
-        </listitem>
-      </varlistentry>
-    </variablelist>
+        <varlistentry>
+          <term>
+            <option>--exit_after_app_start <replaceable>N</replaceable></option>
+          </term>
+          <listitem>
+            <para>Exit N seconds after an app starts. Useful to look at the
+              files in the slot directory.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><option>--exit_after_finish</option></term>
+          <listitem>
+            <para>Exit right after finishing a task. Useful to look at the
+              files in the slot directory.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><option>--exit_before_start</option></term>
+          <listitem>
+            <para>Exit right before starting a task. Useful to look at the
+                files in the slot directory.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><option>--exit_before_upload</option></term>
+          <listitem>
+            <para>Exit right before starting an upload.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><option>--exit_when_idle</option></term>
+          <listitem>
+            <para>Exit when there are no more tasks to work on.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><option>--fetch_minimal_work</option></term>
+          <listitem>
+            <para>Fetch only 1 task per device.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><option>--file_xfer_giveup_period <replaceable>N</replaceable></option></term>
+          <listitem>
+            <para>Give up on file transfers after N sec.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><option>--master_fetch_interval <replaceable>N</replaceable></option></term>
+          <listitem>
+            <para>Limiting the period of project master file dowload retries.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><option>--master_fetch_period <replaceable>N</replaceable></option></term>
+          <listitem>
+            <para>Reload a project's master file after N RPC failures.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><option>--master_fetch_retry_cap <replaceable>N</replaceable></option></term>
+          <listitem>
+            <para>Exponential backoff limit for downloading project master files.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><option>--no_priority_change</option></term>
+          <listitem>
+            <para>Run applications at same priority as client.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><option>--pers_giveup <replaceable>N</replaceable></option></term>
+          <listitem>
+            <para>Giveup time for persistent file transfer errors.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><option>--pers_retry_delay_max <replaceable>N</replaceable></option></term>
+          <listitem>
+            <para>Maximum time (sec) for file transfer exponential backoff.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><option>--pers_retry_delay_min <replaceable>N</replaceable></option></term>
+          <listitem>
+            <para>Minimum time (sec) for file transfer exponential backoff.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><option>--redirectio</option></term>
+          <listitem>
+              <para>Redirect stdout and stderr to log files
+                (<filename>stdoutdae.txt</filename> and <filename>stderrdae.txt</filename>).
+              </para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><option>--retry_cap <replaceable>N</replaceable></option></term>
+          <listitem>
+            <para>Limit the maximum exponential backoff time.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><option>--sched_retry_delay_max <replaceable>N</replaceable></option></term>
+          <listitem>
+            <para>Maximum time (sec) for project RPC exponential backoff.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><option>--sched_retry_delay_min <replaceable>N</replaceable></option></term>
+          <listitem>
+            <para>Minimum time (sec) for project RPC exponential backoff.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><option>--unsigned_apps_ok</option></term>
+          <listitem>
+            <para>Allow unsigned apps (for testing).</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </refsect2>
   </refsect1>
 
   <refsect1>
     <title>Access control for GUI RPC</title>
-    <para>By default the core client accepts GUI RPC connections only from
+    <para>By default the client accepts GUI RPC connections only from
       programs on the same host, which means that any user on this host can
-      control the core client.</para>
+      control the client.</para>
   </refsect1>
 
   <refsect1>

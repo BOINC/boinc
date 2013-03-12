@@ -70,7 +70,9 @@ static void print_options(char* prog) {
 #ifdef SANDBOX
         "    --insecure                     disable app sandboxing (Unix)\n"
 #endif
+#ifdef __APPLE__
         "    --launched_by_manager          client was launched by Manager\n"
+#endif
         "    --master_fetch_interval N      limiting period of master retry\n"
         "    --master_fetch_period N        reload master URL after N RPC failures\n"
         "    --master_fetch_retry_cap N     exponential backoff limit\n"
@@ -86,7 +88,9 @@ static void print_options(char* prog) {
         "    --retry_cap N                  exponential backoff limit\n"
         "    --run_cpu_benchmarks           run the CPU benchmarks\n"
         "    --run_by_updater               set by updater\n"
+#ifdef __APPLE__
         "    --saver                        client was launched by screensaver\n"
+#endif
         "    --sched_retry_delay_max N      max for RPC exponential backoff\n"
         "    --sched_retry_delay_min N      min for RPC exponential backoff\n"
         "    --show_projects                show attached projects\n"

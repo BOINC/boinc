@@ -77,7 +77,7 @@ Commands:\n\
  --lookup_account URL email passwd\n\
  --network_available                retry deferred network communication\n\
  --project URL op                   project operation\n\
-   op = reset | detach | update | suspend | resume | nomorework | allowmorework\n\
+   op = reset | detach | update | suspend | resume | nomorework | allowmorework | detach_when_done | dont_detach_when_done\n\
  --project_attach URL auth          attach to project\n\
  --quit                             tell client to exit\n\
  --quit_acct_mgr                    quit current account manager\n\
@@ -87,7 +87,8 @@ Commands:\n\
  --set_debts URL1 std1 ltd1 [URL2 std2 ltd2 ...]\n\
  --set_gpu_mode mode duration       set GPU run mode for given duration\n\
    mode = always | auto | never\n\
- --set_network_mode mode duration\n\
+ --set_network_mode mode duration   set network mode for given duration\n\
+   mode = always | auto | never\n\
  --set_proxy_settings\n\
  --set_run_mode mode duration       set run mode for given duration\n\
    mode = always | auto | never\n\
