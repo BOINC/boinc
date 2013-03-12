@@ -525,7 +525,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         must_check_work_fetch = false;
         last_work_fetch_time = now;
 
-        p = work_fetch.choose_project(true);
+        p = work_fetch.choose_project(true, NULL);
 
         if (p) {
             action = simulate_rpc(p);
