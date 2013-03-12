@@ -52,8 +52,6 @@
 //      simulate use of EDF sim by scheduler
 //  [--cpu_sched_rr_only]
 //      use only RR scheduling
-//  [--use_hyst_fetch]
-//      client work fetch uses hysteresis
 //  [--rec_half_life X]
 //      half-life of recent est credit
 
@@ -126,7 +124,6 @@ void usage(char* prog) {
         "[--delta X]\n"
         "[--server_uses_workload]\n"
         "[--cpu_sched_rr_only]\n"
-        "[--use_hyst_fetch]\n"
         "[--rec_half_life X]\n",
         prog
     );
@@ -1033,12 +1030,10 @@ static void write_inputs() {
     fprintf(f,
         "Existing jobs only: %s\n"
         "Round-robin only: %s\n"
-        "scheduler EDF sim: %s\n"
-        "hysteresis work fetch: %s\n",
+        "scheduler EDF sim: %s\n",
         existing_jobs_only?"yes":"no",
         cpu_sched_rr_only?"yes":"no",
-        server_uses_workload?"yes":"no",
-        use_hyst_fetch?"yes":"no"
+        server_uses_workload?"yes":"no"
     );
     fprintf(f,
         "REC half-life: %f\n", config.rec_half_life
@@ -1073,13 +1068,11 @@ void simulate() {
         "   Scheduling period %f\n"
         "Scheduling policies\n"
         "   Round-robin only: %s\n"
-        "   Scheduler EDF simulation: %s\n"
-        "   Hysteresis work fetch: %s\n",
+        "   Scheduler EDF simulation: %s\n",
         gstate.work_buf_min(), gstate.work_buf_total(),
         gstate.global_prefs.cpu_scheduling_period(),
         cpu_sched_rr_only?"yes":"no",
-        server_uses_workload?"yes":"no",
-        use_hyst_fetch?"yes":"no"
+        server_uses_workload?"yes":"no"
     );
     fprintf(summary_file,
         "   REC half-life: %f\n", config.rec_half_life
@@ -1514,8 +1507,6 @@ int main(int argc, char** argv) {
             server_uses_workload = true;
         } else if (!strcmp(opt, "--cpu_sched_rr_only")) {
             cpu_sched_rr_only = true;
-        } else if (!strcmp(opt, "--use_hyst_fetch")) {
-            use_hyst_fetch = true;
         } else if (!strcmp(opt, "--rec_half_life")) {
             config.rec_half_life = atof(argv[i++]);
         } else {
