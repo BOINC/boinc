@@ -491,7 +491,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         && !(config.fetch_minimal_work && had_or_requested_work)
     ) {
 
-        p = work_fetch.choose_project(true);
+        p = work_fetch.choose_project(true, NULL);
         if (p) {
             if (actively_uploading(p)) {
                 if (log_flags.work_fetch_debug) {
