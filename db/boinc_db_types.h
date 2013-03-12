@@ -465,6 +465,7 @@ struct CREDITED_JOB {
 // the database will become inconsistent
 
 // values of result.server_state
+// see html/inc/common_defs.inc
 //
 //#define RESULT_SERVER_STATE_INACTIVE       1
 #define RESULT_SERVER_STATE_UNSENT         2
@@ -474,6 +475,7 @@ struct CREDITED_JOB {
     // Note: we could get a reply even after timing out.
 
 // values of result.outcome
+// see html/inc/common_defs.inc
 //
 #define RESULT_OUTCOME_INIT             0
 #define RESULT_OUTCOME_SUCCESS          1
@@ -493,6 +495,7 @@ struct CREDITED_JOB {
     // we believe that the client detached
 
 // values of result.validate_state
+// see html/inc/common_defs.inc
 //
 #define VALIDATE_STATE_INIT         0
 #define VALIDATE_STATE_VALID        1
@@ -516,6 +519,7 @@ struct CREDITED_JOB {
 #define ASSIGN_TEAM     3
 
 // values for RESULT.app_version_id for anonymous platform
+// see html/inc/common_defs.inc
 #define ANON_PLATFORM_UNKNOWN -1    // relic of old scheduler
 #define ANON_PLATFORM_CPU     -2
 #define ANON_PLATFORM_NVIDIA  -3
@@ -608,6 +612,7 @@ struct BATCH {
 };
 
 // values of batch.state
+// see html/inc/common_defs.inc
 //
 #define BATCH_STATE_INIT            0
 #define BATCH_STATE_IN_PROGRESS     1

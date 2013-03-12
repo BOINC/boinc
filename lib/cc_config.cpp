@@ -82,6 +82,7 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool("http_xfer_debug", http_xfer_debug)) continue;
         if (xp.parse_bool("mem_usage_debug", mem_usage_debug)) continue;
         if (xp.parse_bool("network_status_debug", network_status_debug)) continue;
+        if (xp.parse_bool("notice_debug", notice_debug)) continue;
         if (xp.parse_bool("poll_debug", poll_debug)) continue;
         if (xp.parse_bool("proxy_debug", proxy_debug)) continue;
         if (xp.parse_bool("rr_simulation", rr_simulation)) continue;
@@ -97,7 +98,6 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool("trickle_debug", trickle_debug)) continue;
         if (xp.parse_bool("unparsed_xml", unparsed_xml)) continue;
         if (xp.parse_bool("work_fetch_debug", work_fetch_debug)) continue;
-        if (xp.parse_bool("notice_debug", notice_debug)) continue;
         xp.skip_unexpected(true, "LOG_FLAGS::parse");
     }
     return ERR_XML_PARSE;
@@ -128,6 +128,7 @@ int LOG_FLAGS::write(MIOFILE& out) {
         "        <http_xfer_debug>%d</http_xfer_debug>\n"
         "        <mem_usage_debug>%d</mem_usage_debug>\n"
         "        <network_status_debug>%d</network_status_debug>\n"
+        "        <notice_debug>%d</notice_debug>\n"
         "        <poll_debug>%d</poll_debug>\n"
         "        <proxy_debug>%d</proxy_debug>\n"
         "        <rr_simulation>%d</rr_simulation>\n"
@@ -143,7 +144,6 @@ int LOG_FLAGS::write(MIOFILE& out) {
         "        <trickle_debug>%d</trickle_debug>\n"
         "        <unparsed_xml>%d</unparsed_xml>\n"
         "        <work_fetch_debug>%d</work_fetch_debug>\n"
-        "        <notice_debug>%d</notice_debug>\n"
         "    </log_flags>\n",
         file_xfer ? 1 : 0,
         sched_ops ? 1 : 0,
@@ -167,6 +167,7 @@ int LOG_FLAGS::write(MIOFILE& out) {
         http_xfer_debug ? 1 : 0,
         mem_usage_debug ? 1 : 0,
         network_status_debug ? 1 : 0,
+        notice_debug ? 1 : 0,
         poll_debug ? 1 : 0,
         proxy_debug ? 1 : 0,
         rr_simulation ? 1 : 0,
@@ -181,8 +182,7 @@ int LOG_FLAGS::write(MIOFILE& out) {
         time_debug ? 1 : 0,
         trickle_debug ? 1 : 0,
         unparsed_xml ? 1 : 0,
-        work_fetch_debug ? 1 : 0,
-        notice_debug ? 1 : 0
+        work_fetch_debug ? 1 : 0
     );
     
     return 0;

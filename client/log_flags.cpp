@@ -536,10 +536,17 @@ int read_config_file(bool init, const char* fname) {
 }
 
 // Do stuff involving GPU exclusions.
-// - Count excluded GPUS per project.
-//   NOTE: this is currently done just on the project level.
-//   Could do it at the app level also.
-// - Flag app versions and results for which all GPUs are excluded
+// - check syntax
+// - set APP::non_excluded_instances[rsc_type]
+//   (used in RR sim)
+// - set PROJECT::rsc_pwf[rsc_type].non_excluded_instances
+//   (used in work fetch)
+// - set PROJECT::rsc_pwf[rsc_type].ncoprocs_excluded
+//   (used in RR sim and work fetch)
+// - set APP_VERSION::coproc_missing for app versions where
+//   all instances are excluded
+// - set RESULT::coproc_missing for results for which
+//   APP_VERSION::coproc_missing is set.
 //
 void process_gpu_exclusions() {
     unsigned int i, j, a;

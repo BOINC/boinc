@@ -124,6 +124,7 @@ enum BATTERY_STATE {
 // Values of RESULT::state in client.
 // THESE MUST BE IN NUMERICAL ORDER
 // (because of the > comparison in RESULT::computing_done())
+// see html/inc/common_defs.inc
 //
 #define RESULT_NEW                  0
     // New result
