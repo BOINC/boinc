@@ -24,8 +24,6 @@
 #include <vector>
 #include <deque>
 
-extern bool use_hyst_fetch;
-
 #define RSC_TYPE_ANY    -1
 #define RSC_TYPE_CPU    0
 
@@ -244,7 +242,7 @@ struct RSC_WORK_FETCH {
     void rr_init();
     void update_stats(double sim_now, double dt, double buf_end);
     void update_busy_time(double dur, double nused);
-    PROJECT* choose_project_hyst(bool strict);
+    PROJECT* choose_project_hyst(bool strict_hyst, PROJECT*);
     void supplement(PROJECT*);
     RSC_PROJECT_WORK_FETCH& project_state(PROJECT*);
     void print_state(const char*);
@@ -289,7 +287,7 @@ struct PROJECT_WORK_FETCH {
 // global work fetch state
 //
 struct WORK_FETCH {
-    PROJECT* choose_project(bool strict);
+    PROJECT* choose_project(bool strict_hyst, PROJECT*);
         // Find a project to ask for work.
         // If strict is false consider requesting work
         // even if buffer is above min level
