@@ -2,7 +2,7 @@
 
 <!--
  This is the manual page for the BOINC manager (boincmgr), a monitor
- and control utility for the core client.
+ and control utility for the client.
 
  Copyright © 2007-2008 University of California
 
@@ -18,19 +18,26 @@
   <!ENTITY % COMMON SYSTEM "common.ent">
   %COMMON;
 
-  <!ENTITY date "<date>13 January 2008</date>">
+  <!ENTITY date "<date>04 March 2013</date>">
 ]>
 
 <refentry>
   <refentryinfo>
-    <author>
-      <firstname>Frank</firstname>
-      <lastname>Thomas</lastname>
-      <email>frank@thomas-alfeld.de</email>
-    </author>
+    <authorgroup>
+      <author>
+        <firstname>Christian</firstname>
+        <lastname>Beer</lastname>
+        <email>djangofett@gmx.net</email>
+      </author>
+      <author>
+        <firstname>Frank</firstname>
+        <lastname>Thomas</lastname>
+        <email>frank@thomas-alfeld.de</email>
+      </author>
+    </authorgroup>
     <copyright>
       <year>2007</year>
-      <year>2008</year>
+      <year>2013</year>
       <holder>University of California</holder>
     </copyright>
     &date;
@@ -42,17 +49,24 @@
   </refmeta>
 
   <refnamediv>
-    <refname>&boincmgr;</refname> 
-    <refpurpose>The graphical BOINC manager for the core client.</refpurpose>
+    <refname>&boincmgr;</refname>
+    <refpurpose>The graphical BOINC manager for the client.</refpurpose>
   </refnamediv>
 
   <refsynopsisdiv>
     <cmdsynopsis>
       &cmd_boincmgr;
       <arg><option>--verbose</option></arg>
-      <arg><option>-s</option></arg>
+      <arg><option>-a</option></arg>
+      <arg><option>-e</option> <replaceable>client_dir</replaceable></arg>
+      <arg><option>-d</option> <replaceable>data_dir</replaceable></arg>
+      <arg><option>-n</option> <replaceable>hostname</replaceable></arg>
+      <arg><option>-g</option> <replaceable>port</replaceable></arg>
+      <arg><option>-p</option> <replaceable>passwd</replaceable></arg>
       <arg><option>-b</option> <replaceable>BOINC_ARGS</replaceable></arg>
       <arg><option>-i</option></arg>
+      <arg><option>-c</option></arg>
+      <arg><option>-m</option></arg>
     </cmdsynopsis>
     <cmdsynopsis>
       &cmd_boincmgr;
@@ -65,13 +79,15 @@
 
   <refsect1>
     <title>DESCRIPTION</title>
-    <para>The BOINC manager (&cmd_boincmgr;) is a controling and monitoring
-      utility for the BOINC core client (&man_boinc;).</para>
+    <para>The BOINC manager (&cmd_boincmgr;) is a graphical controlling and monitoring
+      utility for the BOINC client (&man_boinc;). It communicates with a running
+      client using port &rpc_port; over TCP/IP. It can only connect to one client at a time.
+    </para>
   </refsect1>
 
   <refsect1>
     <title>OPTIONS</title>
-    <para>A full summary of options is included below.</para>
+    <para></para>
 
     <variablelist>
       <varlistentry>
@@ -89,10 +105,67 @@
       </varlistentry>
 
       <varlistentry>
-        <term><option>-s</option>, <option>--systray</option></term>
+        <term><option>-a</option>, <option>--autostart</option></term>
         <listitem>
-          <para>Startup BOINC Manager so only the system tray icon is
-            visible.</para>
+          <para>Tells the BOINC Manager that it was started by the operating system
+                automatically. Use this if the Manager is started at login time.
+          </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+          <option>-e</option> <replaceable>client_dir</replaceable>,
+          <option>--clientdir=</option><replaceable>client_dir</replaceable>
+        </term>
+        <listitem>
+            <para>Directory containing the <filename>locale</filename> directory
+            containing the Manager localisation files.
+            </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+          <option>-d</option> <replaceable>data_dir</replaceable>,
+          <option>--datadir=</option><replaceable>data_dir</replaceable>
+        </term>
+        <listitem>
+          <para>Directory containing the configuration files .
+          </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+          <option>-n</option> <replaceable>hostname</replaceable>,
+          <option>--namehost=</option><replaceable>hostname</replaceable>
+        </term>
+        <listitem>
+          <para>Hostname or IP address of client to which the manager should connect to.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+          <option>-g</option> <replaceable>port</replaceable>,
+          <option>--gui_rpc_port=</option><replaceable>port</replaceable>
+        </term>
+        <listitem>
+          <para>RPC port number used to communicate with the client. Has to be the same value as on the client (see &man_boinc;).</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+          <option>-p</option> <replaceable>passwd</replaceable>,
+          <option>--password=</option><replaceable>passwd</replaceable>
+        </term>
+        <listitem>
+          <para>Use <replaceable>passwd</replaceable> as password for RPC
+            authentication. If the current working directory contains a file
+            <filename>gui_rpc_auth.cfg</filename>, &cmd_boincmgr; will read
+            the password from this file.</para>
         </listitem>
       </varlistentry>
 
@@ -102,7 +175,7 @@
           <option>--boincargs=</option><replaceable>BOINC_ARGS</replaceable>
         </term>
         <listitem>
-          <para>Startup BOINC with these optional arguments.</para>
+          <para>Startup the BOINC client with these optional arguments if necessary.</para>
         </listitem>
       </varlistentry>
 
@@ -110,6 +183,20 @@
         <term><option>-i</option>, <option>--insecure</option></term>
         <listitem>
           <para>Disable BOINC security users and permissions.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-c</option>, <option>--checkskins</option></term>
+        <listitem>
+          <para>Set skin debugging mode to enable skin manager error messages.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-m</option>, <option>--multiple</option></term>
+        <listitem>
+          <para>Allow multiple instances of BOINC manager on this host.</para>
         </listitem>
       </varlistentry>
     </variablelist>
@@ -125,7 +212,7 @@
 
   <refsect1>
     <title>COPYRIGHT</title>
-    <para>Copyright © 2007-2008 University of California.</para>
+    <para>Copyright © 2007-2013 University of California.</para>
     <para>Permission is granted to copy, distribute and/or modify this
       document under the terms of the &gnu; Free Documentation License,
       Version 1.2 or any later version published by the Free Software

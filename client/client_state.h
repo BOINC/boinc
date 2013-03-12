@@ -188,7 +188,6 @@ struct CLIENT_STATE {
         // not be displayable, so GUIs shouldn't offer graphics.
     bool detach_console;
     bool launched_by_manager;
-        // this affects auto-update
     bool run_by_updater;
     double now;
     double last_wakeup_time;
