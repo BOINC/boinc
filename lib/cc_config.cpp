@@ -74,7 +74,6 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool("cpu_sched_status", cpu_sched_status)) continue;
         if (xp.parse_bool("dcf_debug", dcf_debug)) continue;
         if (xp.parse_bool("disk_usage_debug", disk_usage_debug)) continue;
-        if (xp.parse_bool("priority_debug", priority_debug)) continue;
         if (xp.parse_bool("file_xfer_debug", file_xfer_debug)) continue;
         if (xp.parse_bool("gui_rpc_debug", gui_rpc_debug)) continue;
         if (xp.parse_bool("heartbeat_debug", heartbeat_debug)) continue;
@@ -84,6 +83,7 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool("network_status_debug", network_status_debug)) continue;
         if (xp.parse_bool("notice_debug", notice_debug)) continue;
         if (xp.parse_bool("poll_debug", poll_debug)) continue;
+        if (xp.parse_bool("priority_debug", priority_debug)) continue;
         if (xp.parse_bool("proxy_debug", proxy_debug)) continue;
         if (xp.parse_bool("rr_simulation", rr_simulation)) continue;
         if (xp.parse_bool("rrsim_detail", rrsim_detail)) continue;
@@ -120,7 +120,6 @@ int LOG_FLAGS::write(MIOFILE& out) {
         "        <cpu_sched_status>%d</cpu_sched_status>\n"
         "        <dcf_debug>%d</dcf_debug>\n"
         "        <disk_usage_debug>%d</disk_usage_debug>\n"
-        "        <priority_debug>%d</priority_debug>\n"
         "        <file_xfer_debug>%d</file_xfer_debug>\n"
         "        <gui_rpc_debug>%d</gui_rpc_debug>\n"
         "        <heartbeat_debug>%d</heartbeat_debug>\n"
@@ -130,6 +129,7 @@ int LOG_FLAGS::write(MIOFILE& out) {
         "        <network_status_debug>%d</network_status_debug>\n"
         "        <notice_debug>%d</notice_debug>\n"
         "        <poll_debug>%d</poll_debug>\n"
+        "        <priority_debug>%d</priority_debug>\n"
         "        <proxy_debug>%d</proxy_debug>\n"
         "        <rr_simulation>%d</rr_simulation>\n"
         "        <rrsim_detail>%d</rrsim_detail>\n"
@@ -159,7 +159,6 @@ int LOG_FLAGS::write(MIOFILE& out) {
         cpu_sched_status ? 1 : 0,
         dcf_debug ? 1 : 0,
         disk_usage_debug ? 1 : 0,
-        priority_debug ? 1 : 0,
         file_xfer_debug ? 1 : 0,
         gui_rpc_debug ? 1 : 0,
         heartbeat_debug ? 1 : 0,
@@ -169,6 +168,7 @@ int LOG_FLAGS::write(MIOFILE& out) {
         network_status_debug ? 1 : 0,
         notice_debug ? 1 : 0,
         poll_debug ? 1 : 0,
+        priority_debug ? 1 : 0,
         proxy_debug ? 1 : 0,
         rr_simulation ? 1 : 0,
         rrsim_detail ? 1 : 0,
