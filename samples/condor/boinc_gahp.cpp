@@ -54,11 +54,13 @@ struct COMMAND {
     char* in;
         // the input, in a malloc'd buffer
     char* out;
-        // if NULL the command is in progress; otherwise it's the output
+        // if NULL the command is in progress;
+        // otherwise the output in a malloc'd buffer
 
     SUBMIT_REQ submit_req;
     FETCH_OUTPUT_REQ fetch_output_req;
     vector<string> abort_job_names;
+    vector<string> batch_names;
     char batch_name[256];
 
     COMMAND(char* _in) {
@@ -71,7 +73,7 @@ struct COMMAND {
     }
     int parse_command();
     int parse_submit(char*);
-    int parse_query_batch(char*);
+    int parse_query_batches(char*);
     int parse_fetch_output(char*);
     int parse_abort_jobs(char*);
 };
@@ -243,16 +245,22 @@ void handle_submit(COMMAND& c) {
     c.out = strdup(s.c_str());
 }
 
-int COMMAND::parse_query_batch(char* p) {
-    strcpy(batch_name, strtok_r(NULL, " ", &p));
+int COMMAND::parse_query_batches(char* p) {
+    int n = atoi(strtok_r(NULL, " ", &p));
+    for (int i=0; i<n; i++) {
+        char* q = strtok_r(NULL, " ", &p);
+        batch_names.push_back(string(q));
+    }
     return 0;
 }
 
-void handle_query_batch(COMMAND&c) {
+void handle_query_batches(COMMAND&c) {
     QUERY_BATCH_REPLY reply;
     char buf[256];
     string error_msg, s;
-    int retval = query_batch(project_url, authenticator, c.batch_name, reply, error_msg);
+    int retval = query_batches(
+        project_url, authenticator, c.batch_names, reply, error_msg
+    );
     if (retval) {
         sprintf(buf, "error querying batch: %d ", retval);
         s = string(buf) + error_msg;
@@ -384,16 +392,31 @@ void handle_abort_jobs(COMMAND& c) {
     c.out = strdup(s.c_str());
 }
 
+void handle_ping(COMMAND& c) {
+    string error_msg, s;
+    char buf[256];
+    int retval = ping_server(project_url, error_msg);
+    if (retval) {
+        sprintf(buf, "ping_server returned %d \n", retval);
+        s = string(buf) + error_msg;
+    } else {
+        s = "NULL";
+    }
+    c.out = strdup(s.c_str());
+}
+
 void* handle_command_aux(void* q) {
     COMMAND &c = *((COMMAND*)q);
     if (!strcmp(c.cmd, "BOINC_SUBMIT")) {
         handle_submit(c);
-    } else if (!strcmp(c.cmd, "BOINC_QUERY_BATCH")) {
-        handle_query_batch(c);
+    } else if (!strcmp(c.cmd, "BOINC_QUERY_BATCHES")) {
+        handle_query_batches(c);
     } else if (!strcmp(c.cmd, "BOINC_FETCH_OUTPUT")) {
         handle_fetch_output(c);
     } else if (!strcmp(c.cmd, "BOINC_ABORT_JOBS")) {
         handle_abort_jobs(c);
+    } else if (!strcmp(c.cmd, "BOINC_PING")) {
+        handle_ping(c);
     } else {
         c.out = strdup("Unknown command");
     }
@@ -412,12 +435,14 @@ int COMMAND::parse_command() {
     q = strtok_r(NULL, " ", &p);
     if (!strcmp(cmd, "BOINC_SUBMIT")) {
         retval = parse_submit(p);
-    } else if (!strcmp(cmd, "BOINC_QUERY_BATCH")) {
-        retval = parse_query_batch(p);
+    } else if (!strcmp(cmd, "BOINC_QUERY_BATCHES")) {
+        retval = parse_query_batches(p);
     } else if (!strcmp(cmd, "BOINC_FETCH_OUTPUT")) {
         retval = parse_fetch_output(p);
     } else if (!strcmp(cmd, "BOINC_ABORT_JOBS")) {
         retval = parse_abort_jobs(p);
+    } else if (!strcmp(cmd, "BOINC_PING")) {
+        retval = 0;
     } else {
         retval = -1;
     }

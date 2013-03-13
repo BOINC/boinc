@@ -327,20 +327,22 @@ int submit_jobs(
     return retval;
 }
 
-int query_batch(
+int query_batches(
     const char* project_url,
     const char* authenticator,
-    string batch_name,
+    vector<string> &batch_names,
     QUERY_BATCH_REPLY& qb_reply,
     string& error_msg
 ) {
     string request;
     char url[1024], buf[256];
     request = "<query_batch2>\n";
-    sprintf(buf, "<batch_name>%s</batch_name>\n", batch_name.c_str());
-    request += string(buf);
     sprintf(buf, "<authenticator>%s</authenticator>\n", authenticator);
     request += string(buf);
+    for (unsigned int i=0; i<batch_names.size(); i++) {
+        sprintf(buf, "<batch_name>%s</batch_name>\n", batch_names[i].c_str());
+        request += string(buf);
+    }
     request += "</query_batch2>\n";
     sprintf(url, "%ssubmit_rpc_handler.php", project_url);
     FILE* reply = tmpfile();
@@ -354,8 +356,7 @@ int query_batch(
     retval = -1;
     error_msg = "";
     while (fgets(buf, 256, reply)) {
-        printf("query_batch reply: %s", buf);
-        if (strstr(buf, "batch")) {
+        if (strstr(buf, "jobs")) {
             retval = 0;
             continue;
         }
@@ -455,6 +456,7 @@ int get_templates(
             retval = td.parse(xp);
         }
     }
+    fclose(reply);
     return retval;
 }
 
@@ -564,5 +566,37 @@ int query_completed_job(
             retval = jd.parse(xp);
         }
     }
+    fclose(reply);
+    return retval;
+}
+
+int ping_server(
+    const char* project_url,
+    string &error_msg
+) {
+    string request;
+    char url[1024], buf[256];
+    request = "<ping> </ping>\n";   // the space is needed
+    sprintf(url, "%ssubmit_rpc_handler.php", project_url);
+    FILE* reply = tmpfile();
+    vector<string> x;
+    int retval = do_http_post(url, request.c_str(), reply, x);
+    if (retval) {
+        fclose(reply);
+        return retval;
+    }
+    retval = -1;
+    error_msg = "";
+    fseek(reply, 0, SEEK_SET);
+    while (fgets(buf, 256, reply)) {
+        //printf("reply: %s\n", buf);
+        if (parse_int(buf, "<error_num>", retval)) continue;
+        if (parse_str(buf, "<error_msg>", error_msg)) continue;
+        if (strstr(buf, "success")) {
+            retval = 0;
+            continue;
+        }
+    }
+    fclose(reply);
     return retval;
 }

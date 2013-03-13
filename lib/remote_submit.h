@@ -133,10 +133,10 @@ extern int submit_jobs(
     string& error_msg
 );
 
-extern int query_batch(
+extern int query_batches(
     const char* project_url,
     const char* authenticator,
-    string batch_name,
+    vector<string> &batch_names,
     QUERY_BATCH_REPLY& reply,
     string& error_msg
 );
@@ -171,5 +171,10 @@ extern int get_templates(
     const char* authenticator,
     const char* app_name,
     TEMPLATE_DESC&,
+    string& error_msg
+);
+
+extern int ping_server(
+    const char* project_url,
     string& error_msg
 );

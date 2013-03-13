@@ -323,26 +323,41 @@ function query_batch($r) {
 //
 function query_batch2($r) {
     list($user, $user_submit) = authenticate_user($r, null);
-    $batch = get_batch($r);
-    if ($batch->user_id != $user->id) xml_error(-1, "not owner");
-    $wus = BoincWorkunit::enum("batch = $batch->id");
-    echo "<batch>\n";
-    foreach ($wus as $wu) {
-        if ($wu->canonical_resultid) {
-            $status = "DONE";
-        } else if ($wu->error_mask) {
-            $status = "ERROR";
-        } else {
-            $status = "IN_PROGRESS";
+    $batch_names = $r->batch_name;
+    $batches = array();
+    foreach ($batch_names as $b) {
+        $batch_name = (string)$b;
+        $batch_name = BoincDb::escape_string($batch_name);
+        $batch = BoincBatch::lookup_name($batch_name);
+        if (!$batch) {
+            xml_error(-1, "no batch named $batch_name");
         }
-        echo
+        if ($batch->user_id != $user->id) {
+            xml_error(-1, "not owner of $batch_name");
+        }
+        $batches[] = $batch;
+    }
+
+    echo "<jobs>\n";
+    foreach ($batches as $batch) {
+        $wus = BoincWorkunit::enum("batch = $batch->id");
+        foreach ($wus as $wu) {
+            if ($wu->canonical_resultid) {
+                $status = "DONE";
+            } else if ($wu->error_mask) {
+                $status = "ERROR";
+            } else {
+                $status = "IN_PROGRESS";
+            }
+            echo
 "    <job>
         <job_name>$wu->name</job_name>
         <status>$status</status>
     </job>
 ";
+        }
     }
-    echo "</batch>\n";
+    echo "</jobs>\n";
 }
 
 function query_job($r) {
@@ -477,6 +492,11 @@ function get_templates($r) {
     echo "<templates>\n$in\n$out\n</templates>\n";
 }
 
+function ping($r) {
+    BoincDb::get();     // errors out if DB down or web disabled
+    echo "<success>1</success>";
+}
+
 if (0) {
 $r = simplexml_load_string("
 <query_batch>
@@ -530,7 +550,10 @@ if (!$r) {
 switch ($r->getName()) {
     case 'abort_batch': handle_abort_batch($r); break;
     case 'abort_jobs': handle_abort_jobs($r); break;
+    case 'create_batch': create_batch($r); break;
     case 'estimate_batch': estimate_batch($r); break;
+    case 'get_templates': get_templates($r); break;
+    case 'ping': ping($r); break;
     case 'query_batch': query_batch($r); break;
     case 'query_batch2': query_batch2($r); break;
     case 'query_batches': query_batches($r); break;
@@ -538,8 +561,6 @@ switch ($r->getName()) {
     case 'query_completed_job': query_completed_job($r); break;
     case 'retire_batch': handle_retire_batch($r); break;
     case 'submit_batch': submit_batch($r); break;
-    case 'create_batch': create_batch($r); break;
-    case 'get_templates': get_templates($r); break;
     default: xml_error(-1, "bad command: ".$r->getName());
 }
 

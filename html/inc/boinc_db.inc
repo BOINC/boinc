@@ -69,21 +69,30 @@ class BoincDb extends DbConn {
     // 2) check whether the "stop_web" trigger file is present
     //
     static function get($readonly = false) {
+        global $generating_xml;
         if (!isset(self::$instance)) {
             if (web_stopped()) {
-                show_page("Project down for maintenance",
-                    "Please check back in a few hours."
-                );
-                exit;
+                if ($generating_xml) {
+                    xml_error(-183, "project down for maintenance");
+                } else {
+                    show_page("Project down for maintenance",
+                        "Please check back in a few hours."
+                    );
+                    exit;
+                }
             }
             self::get_aux($readonly);
             if (!self::$instance) {
-                show_page(
-                    "Project is down",
-                    "The project's database server is down.
-                    Please check back in a few hours."
-                );
-                exit;
+                if ($generating_xml) {
+                    xml_error(-138, "the project's database server is down");
+                } else {
+                    show_page(
+                        "Project is down",
+                        "The project's database server is down.
+                        Please check back in a few hours."
+                    );
+                    exit;
+                }
             }
         }
         return self::$instance;
