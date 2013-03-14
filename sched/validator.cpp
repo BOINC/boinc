@@ -328,12 +328,11 @@ int handle_wu(
             }
         }
     } else {
-        vector<RESULT> results;
-        vector<DB_HOST_APP_VERSION> host_app_versions, host_app_versions_orig;
-        int nsuccess_results;
-
         // Here if WU doesn't have a canonical result yet.
         // Try to get one
+
+        vector<RESULT> viable_results;
+        vector<DB_HOST_APP_VERSION> host_app_versions, host_app_versions_orig;
 
         log_messages.printf(MSG_NORMAL,
             "[WU#%d %s] handle_wu(): No canonical result yet\n",
@@ -341,40 +340,40 @@ int handle_wu(
         );
         ++log_messages;
 
-        // make a vector of the successful results,
+        // make a vector of the "viable" (i.e. possibly canonical) results,
         // and a parallel vector of host_app_versions
         //
         for (i=0; i<items.size(); i++) {
             RESULT& result = items[i].res;
 
-            if ((result.server_state == RESULT_SERVER_STATE_OVER) &&
-                (result.outcome == RESULT_OUTCOME_SUCCESS)
-            ) {
-                results.push_back(result);
-                DB_HOST_APP_VERSION hav;
-                retval = hav_lookup(hav, result.hostid,
-                    generalized_app_version_id(result.app_version_id, result.appid)
-                );
-                if (retval) {
-                    hav.host_id=0;   // flag that it's missing
-                }
-                host_app_versions.push_back(hav);
-                host_app_versions_orig.push_back(hav);
+            if (result.server_state != RESULT_SERVER_STATE_OVER) continue;
+            if (result.outcome != RESULT_OUTCOME_SUCCESS) continue;
+            if (result.validate_state == VALIDATE_STATE_INVALID) continue;
+
+            viable_results.push_back(result);
+            DB_HOST_APP_VERSION hav;
+            retval = hav_lookup(hav, result.hostid,
+                generalized_app_version_id(result.app_version_id, result.appid)
+            );
+            if (retval) {
+                hav.host_id=0;   // flag that it's missing
             }
+            host_app_versions.push_back(hav);
+            host_app_versions_orig.push_back(hav);
         }
 
         log_messages.printf(MSG_DEBUG,
-            "[WU#%d %s] Found %d successful results\n",
-            wu.id, wu.name, (int)results.size()
+            "[WU#%d %s] Found %d viable results\n",
+            wu.id, wu.name, (int)viable_results.size()
         );
-        if (results.size() >= (unsigned int)wu.min_quorum) {
+        if (viable_results.size() >= (unsigned int)wu.min_quorum) {
             log_messages.printf(MSG_DEBUG,
                 "[WU#%d %s] Enough for quorum, checking set.\n",
                 wu.id, wu.name
             );
 
             double dummy;
-            retval = check_set(results, wu, canonicalid, dummy, retry);
+            retval = check_set(viable_results, wu, canonicalid, dummy, retry);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
                     "[WU#%d %s] check_set() error: %s\n",
@@ -391,7 +390,7 @@ int handle_wu(
                 // even if we're granting credit a different way
                 //
                 retval = assign_credit_set(
-                    wu, results, app, app_versions, host_app_versions,
+                    wu, viable_results, app, app_versions, host_app_versions,
                     max_granted_credit, credit
                 );
                 if (retval) {
@@ -404,7 +403,7 @@ int handle_wu(
                 }
 
                 if (credit_from_wu) {
-                    retval = get_credit_from_wu(wu, results, credit);
+                    retval = get_credit_from_wu(wu, viable_results, credit);
                     if (retval) {
                         log_messages.printf(MSG_CRITICAL,
                             "[WU#%d %s] get_credit_from_wu(): credit not specified in WU\n",
@@ -414,8 +413,8 @@ int handle_wu(
                     }
                 } else if (credit_from_runtime) {
                     credit = 0;
-                    for (i=0; i<results.size(); i++) {
-                        RESULT& result = results[i];
+                    for (i=0; i<viable_results.size(); i++) {
+                        RESULT& result = viable_results[i];
                         if (result.id == canonicalid) {
                             DB_HOST host;
                             retval = host.lookup_id(result.hostid);
@@ -447,24 +446,28 @@ int handle_wu(
                 }
             }
 
-            // scan results.
-            // update as needed, and count the # of results
-            // that are still outcome=SUCCESS
-            // (some may have changed to VALIDATE_ERROR)
+            // scan the viable results.
+            // update as needed,
+            // and count the # of results that are still viable
+            // (some may now have outcome VALIDATE_ERROR,
+            // or validate_state INVALID)
             //
-            nsuccess_results = 0;
-            for (i=0; i<results.size(); i++) {
-                RESULT& result = results[i];
+            int n_viable_results = 0;
+            for (i=0; i<viable_results.size(); i++) {
+                RESULT& result = viable_results[i];
                 DB_HOST_APP_VERSION& hav = host_app_versions[i];
                 DB_HOST_APP_VERSION& hav_orig = host_app_versions_orig[i];
 
                 update_result = false;
                 bool update_host = false;
-                if (result.outcome == RESULT_OUTCOME_VALIDATE_ERROR) {
+
+                if (result.outcome != RESULT_OUTCOME_SUCCESS
+                    || result.validate_state == VALIDATE_STATE_INVALID
+                ) {
                     transition_time = IMMEDIATE;
                     update_result = true;
                 } else {
-                    nsuccess_results++;
+                    n_viable_results++;
                 }
 
                 DB_HOST host;
@@ -576,20 +579,20 @@ int handle_wu(
             } else {
                 // here if no consensus.
 
-                // check if #success results is too large
+                // check if #viable results is too large
                 //
-                if (nsuccess_results > wu.max_success_results) {
+                if (n_viable_results > wu.max_success_results) {
                     wu.error_mask |= WU_ERROR_TOO_MANY_SUCCESS_RESULTS;
                     transition_time = IMMEDIATE;
                 }
 
-                // if #success results >= target_nresults,
+                // if #viable results >= target_nresults,
                 // we need more results, so bump target_nresults
-                // NOTE: nsuccess_results should never be > target_nresults,
+                // NOTE: n_viable_results should never be > target_nresults,
                 // but accommodate that if it should happen
                 //
-                if (nsuccess_results >= wu.target_nresults) {
-                    wu.target_nresults = nsuccess_results+1;
+                if (n_viable_results >= wu.target_nresults) {
+                    wu.target_nresults = n_viable_results+1;
                     transition_time = IMMEDIATE;
                 }
             }

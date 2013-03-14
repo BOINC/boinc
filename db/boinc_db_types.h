@@ -350,6 +350,7 @@ struct HOST {
 };
 
 // values for file_delete state
+// see html/inc/common_defs.inc
 #define FILE_DELETE_INIT        0
 #define FILE_DELETE_READY       1
     // set to this value only when we believe all files are uploaded
@@ -367,7 +368,8 @@ struct HOST {
 // There's just a bunch of independent substates
 // (file delete, assimilate, and states of results, error flags)
 
-// bit fields of error_mask
+// bit fields of workunit.error_mask
+// see html/inc/common_defs.inc
 //
 #define WU_ERROR_COULDNT_SEND_RESULT            1
 #define WU_ERROR_TOO_MANY_ERROR_RESULTS         2
