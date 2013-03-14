@@ -133,11 +133,16 @@ CDlgEventLog::~CDlgEventLog() {
 bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
 ////@begin CDlgEventLog member initialisation
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    
     m_iPreviousRowCount = 0;
     m_iTotalDocCount = 0;
     m_iPreviousTotalDocCount = 0;
-    m_iPreviousFirstMsgSeqNum = 0;
-    m_iPreviousLastMsgSeqNum = 0;
+    m_iPreviousFirstMsgSeqNum = pDoc->GetFirstMsgSeqNum();
+    m_iPreviousLastMsgSeqNum = pDoc->GetLastMsgSeqNum();
+
     m_iNumDeletedFilteredRows = 0;
     m_iTotalDeletedFilterRows = 0;
     
@@ -465,10 +470,14 @@ wxInt32 CDlgEventLog::GetDocCount() {
         ResetMessageFiltering();
         m_iPreviousFirstMsgSeqNum = 0;
         m_iPreviousLastMsgSeqNum = 0;
+        m_iPreviousTotalDocCount = m_iTotalDocCount;
+        return m_iTotalDocCount;
     }
 
     numDeletedRows = pDoc->GetFirstMsgSeqNum() - m_iPreviousFirstMsgSeqNum;
-    if (numDeletedRows < 0) numDeletedRows = 0;
+    if ((numDeletedRows < 0) || (m_iPreviousFirstMsgSeqNum < 0)) {
+        numDeletedRows = 0;
+    }
     m_iNumDeletedFilteredRows = 0;
 
     if (s_bIsFiltered) {
@@ -564,8 +573,8 @@ void CDlgEventLog::OnRefresh() {
                     strLastMachineName = strNewMachineName;
                     was_connected = false;
                     ResetMessageFiltering();
-                    m_iPreviousFirstMsgSeqNum = 0;
-                    m_iPreviousLastMsgSeqNum = 0;
+                    m_iPreviousFirstMsgSeqNum = pDoc->GetFirstMsgSeqNum();
+                    m_iPreviousLastMsgSeqNum = pDoc->GetLastMsgSeqNum();
                 }
             }
 
