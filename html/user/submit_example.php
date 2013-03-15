@@ -248,7 +248,7 @@ function form_to_request() {
     $req->jobs = Array();
 
     $f->source = $input_url;
-    $f->mode = "remote";
+    $f->mode = "semilocal";
 
     for ($x=$param_lo; $x<$param_hi; $x += $param_inc) {
         $job = null;
