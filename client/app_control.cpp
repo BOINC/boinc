@@ -85,7 +85,7 @@ bool ACTIVE_TASK_SET::poll() {
     bool action;
     unsigned int i;
     static double last_time = 0;
-    if (gstate.now - last_time < TASK_POLL_PERIOD) return false;
+    if (!gstate.clock_change && gstate.now - last_time < TASK_POLL_PERIOD) return false;
     last_time = gstate.now;
 
     action = check_app_exited();
@@ -125,7 +125,7 @@ bool ACTIVE_TASK_SET::poll() {
     // it must be hung somewhere in boinc_finish();
     //
     static double last_finish_check_time = 0;
-    if (gstate.now - last_finish_check_time > 10) {
+    if (gstate.clock_change || gstate.now - last_finish_check_time > 10) {
         last_finish_check_time = gstate.now;
         for (i=0; i<active_tasks.size(); i++) {
             ACTIVE_TASK* atp = active_tasks[i];
@@ -1311,7 +1311,7 @@ void ACTIVE_TASK_SET::get_msgs() {
     double old_time;
     static double last_time=0;
     double delta_t;
-    if (last_time) {
+    if (!gstate.clock_change && last_time) {
         delta_t = gstate.now - last_time;
 
         // Normally this is called every second.

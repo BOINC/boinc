@@ -50,7 +50,7 @@ bool CLIENT_STATE::handle_finished_apps() {
     ACTIVE_TASK* atp;
     bool action = false;
     static double last_time = 0;
-    if (now - last_time < HANDLE_FINISHED_APPS_PERIOD) return false;
+    if (!clock_change && now - last_time < HANDLE_FINISHED_APPS_PERIOD) return false;
     last_time = now;
 
     vector<ACTIVE_TASK*>::iterator iter;

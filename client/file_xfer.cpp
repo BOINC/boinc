@@ -243,7 +243,7 @@ bool FILE_XFER_SET::poll() {
     char pathname[256];
     double size;
 
-    if (gstate.now - last_time < FILE_XFER_POLL_PERIOD) return false;
+    if (!gstate.clock_change && gstate.now - last_time < FILE_XFER_POLL_PERIOD) return false;
     last_time = gstate.now;
 
     for (i=0; i<file_xfers.size(); i++) {

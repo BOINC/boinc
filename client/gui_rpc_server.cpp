@@ -318,7 +318,7 @@ static void show_connect_error(sockaddr_storage& s) {
         last_time = gstate.now;
         count = 1;
     } else {
-        if (gstate.now - last_time < CONNECT_ERROR_PERIOD) {
+        if (!gstate.clock_change && gstate.now - last_time < CONNECT_ERROR_PERIOD) {
             count++;
             return;
         }

@@ -220,7 +220,7 @@ bool PERS_FILE_XFER::poll() {
     // don't count suspended periods in total time
     //
     double diff = gstate.now - last_time;
-    if (diff <= 2) {
+    if (diff > 0 && diff <= 2) {
         time_so_far += diff;
     }
     last_time = gstate.now;
@@ -485,7 +485,7 @@ bool PERS_FILE_XFER_SET::poll() {
     bool action = false;
     static double last_time=0;
 
-    if (gstate.now - last_time < PERS_FILE_XFER_POLL_PERIOD) return false;
+    if (!gstate.clock_change && gstate.now - last_time < PERS_FILE_XFER_POLL_PERIOD) return false;
     last_time = gstate.now;
 
     // try to finish ones we've already started

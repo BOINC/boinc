@@ -88,7 +88,7 @@ int GUI_HTTP::do_rpc_post_str(GUI_HTTP_OP* op, char* url, char* req_buf, int len
 bool GUI_HTTP::poll() {
     if (gui_http_state == GUI_HTTP_STATE_IDLE) return false;
     static double last_time=0;
-    if (gstate.now-last_time < GUI_HTTP_POLL_PERIOD) return false;
+    if (!gstate.clock_change && gstate.now-last_time < GUI_HTTP_POLL_PERIOD) return false;
     last_time = gstate.now;
 
     if (http_op.http_op_state == HTTP_STATE_DONE) {

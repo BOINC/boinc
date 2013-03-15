@@ -348,7 +348,7 @@ bool CLIENT_STATE::create_and_delete_pers_file_xfers() {
     int retval;
     static double last_time;
 
-    if (now - last_time < PERS_FILE_XFER_START_PERIOD) return false;
+    if (!clock_change && now - last_time < PERS_FILE_XFER_START_PERIOD) return false;
     last_time = now;
 
     // Look for FILE_INFOs for which we should start a transfer,

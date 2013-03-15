@@ -424,7 +424,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
 
     // check only every 5 sec
     //
-    if (now - last_time < SCHEDULER_RPC_POLL_PERIOD) return false;
+    if (!clock_change && now - last_time < SCHEDULER_RPC_POLL_PERIOD) return false;
     last_time = now;
 
     if (scheduler_op->check_master_fetch_start()) {
@@ -469,7 +469,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         last_work_fetch_time = 0;
     }
     elapsed_time = now - last_work_fetch_time;
-    if (elapsed_time < WORK_FETCH_PERIOD) return false;
+    if (!clock_change && elapsed_time < WORK_FETCH_PERIOD) return false;
     must_check_work_fetch = false;
     last_work_fetch_time = now;
 
