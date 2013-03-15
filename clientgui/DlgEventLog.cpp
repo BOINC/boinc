@@ -596,8 +596,10 @@ void CDlgEventLog::OnRefresh() {
             if (EnsureLastItemVisible()) {
                 m_pList->EnsureVisible(iRowCount - 1);
             } else if (topItem > 0) {
+                int n = topItem - m_iNumDeletedFilteredRows;
+                if (n < 0) n = 0;
                 Freeze();   // Avoid flicker if selected rows are visible
-                m_pList->EnsureVisible(topItem - m_iNumDeletedFilteredRows);
+                m_pList->EnsureVisible(n);
                 Thaw();
             }
         }
