@@ -140,7 +140,7 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
     m_iPreviousRowCount = 0;
     m_iTotalDocCount = 0;
     m_iPreviousFirstMsgSeqNum = pDoc->GetFirstMsgSeqNum();
-    m_iPreviousLastMsgSeqNum = m_iPreviousFirstMsgSeqNum;
+    m_iPreviousLastMsgSeqNum = m_iPreviousFirstMsgSeqNum - 1;
 
     m_iNumDeletedFilteredRows = 0;
     m_iTotalDeletedFilterRows = 0;
@@ -491,6 +491,7 @@ wxInt32 CDlgEventLog::GetDocCount() {
         
         // Add indexes of new messages to filtered list as appropriate
         i = m_iTotalDocCount - (pDoc->GetLastMsgSeqNum() - m_iPreviousLastMsgSeqNum);
+        if (i < 0) i = 0;
         for (; i < m_iTotalDocCount; i++) {
             MESSAGE* message = pDoc->message(i);
             if (message->project.empty() || (message->project == s_strFilteredProjectName)) {
@@ -564,7 +565,8 @@ void CDlgEventLog::OnRefresh() {
                     m_bWasConnected = false;
                     ResetMessageFiltering();
                     m_iPreviousFirstMsgSeqNum = pDoc->GetFirstMsgSeqNum();
-                    m_iPreviousLastMsgSeqNum = m_iPreviousFirstMsgSeqNum;
+                    m_iPreviousLastMsgSeqNum = m_iPreviousFirstMsgSeqNum - 1;
+                    iRowCount = m_iTotalDocCount;   // In case we had filtering set
                 }
             }
 
