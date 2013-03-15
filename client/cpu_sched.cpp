@@ -731,7 +731,7 @@ bool CLIENT_STATE::schedule_cpus() {
     // (meaning a new result is available, or a CPU has been freed).
     //
     elapsed_time = now - last_reschedule;
-    if (elapsed_time >= CPU_SCHED_PERIOD) {
+    if (gstate.clock_change || elapsed_time >= CPU_SCHED_PERIOD) {
         request_schedule_cpus("periodic CPU scheduling");
     }
 
