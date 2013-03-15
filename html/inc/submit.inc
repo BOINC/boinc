@@ -100,7 +100,12 @@ function do_http_op($req, $xml, $op) {
     if (!$reply) return array(null, "HTTP error");
     $r = simplexml_load_string($reply);
     if (!$r) return array(null, "Can't parse reply XML: <pre>".htmlentities($reply)."</pre>");
-    return array($r, null);
+    $e = (string)$r->error_msg;
+    if ($e) {
+        return array(null, $e);
+    } else {
+        return array($r, null);
+    }
 }
 
 function do_batch_op($req, $op) {
@@ -149,7 +154,7 @@ function boinc_submit_batch($req) {
     if ($name == 'batch_id') {
         return array((int)$reply, null);
     }  else if ($name == 'error') {
-        return array(null, (string)$reply->message);
+        return array(null, (string)$reply->err_message);
     } else {
         return array(null, "Bad reply message");
     }
