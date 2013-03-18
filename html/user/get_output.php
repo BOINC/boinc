@@ -2,7 +2,7 @@
 
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2011 University of California
+// Copyright (C) 2013 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -158,7 +158,7 @@ case 'result_file';
     get_output_file($result_name, $file_num, $auth_str);
     break;
 case 'batch_files':
-    get_batch_output_files($batch_id, $auth_str);
+    get_batch_output_files($auth_str);
     break;
 case 'workunit_file':
     $file_num = get_int('file_num');
