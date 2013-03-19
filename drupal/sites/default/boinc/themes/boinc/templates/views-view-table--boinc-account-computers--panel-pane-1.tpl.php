@@ -3,6 +3,14 @@
   $inactive_threshold = time() - (30 * 24 * 60 * 60);
 ?>
 
+<script>
+  $(document).ready(function() {
+    $("tr.link").click(function() {
+      window.location = $(this).attr("dest");
+    });
+  });
+</script>
+
 <table>
 <thead>
   <tr>
@@ -13,7 +21,7 @@
 </thead>
 <tbody>
   <?php foreach ($rows as $row): ?>
-    <tr <?php print ($row['rpc_time'] < $inactive_threshold) ? 'class="inactive"' : ''; ?>>
+    <tr class="link <?php print ($row['rpc_time'] < $inactive_threshold) ? 'inactive"' : ''; ?>" dest="host/<?php print $row['id']; ?>">
       <td><?php print $row['domain_name']; ?>
       <td class="numeric"><?php print $row['expavg_credit']; ?>
       <td class="numeric"><?php print $row['total_credit']; ?>
