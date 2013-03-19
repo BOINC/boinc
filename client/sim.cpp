@@ -343,6 +343,21 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     int infeasible_count = 0;
     vector<RESULT*> new_results;
 
+    bool avail;
+    if (p->last_rpc_time) {
+        double delta = now - p->last_rpc_time;
+        avail = p->available.sample(delta);
+    } else {
+        avail = p->available.sample(0);
+    }
+    p->last_rpc_time = now;
+    if (!avail) {
+        sprintf(buf, "RPC to %s skipped - project down<br>", p->project_name);
+        html_msg += buf;
+        msg_printf(p, MSG_INFO, "RPC skipped: project down");
+        return false;
+    }
+
     // save request params for WORK_FETCH::handle_reply
     //
     double save_cpu_req_secs = rsc_work_fetch[0].req_secs;

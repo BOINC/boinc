@@ -175,8 +175,7 @@ bool RANDOM_PROCESS::sample(double diff) {
     }
 #if 0
     msg_printf(0, MSG_INFO,
-        "value: %d lambda: %f time_left %f",
-        value, lambda, time_left
+        "value: %d lambda: %f time_left %f", value, lambda, time_left
     );
 #endif
     return value;
@@ -191,9 +190,30 @@ void RANDOM_PROCESS::init(double f, double l) {
     frac = f;
     lambda = l;
     last_time = 0;
-    value = true;
-    time_left = exponential(lambda);
     off_lambda = lambda/frac - lambda;
+    if (drand() > frac) {
+        value = false;
+        time_left = exponential(off_lambda);
+    } else {
+        value = true;
+        time_left = exponential(lambda);
+    }
+}
+
+int RANDOM_PROCESS::parse(XML_PARSER& xp, const char* end_tag) {
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) return ERR_XML_PARSE;
+        if (xp.parse_double("lambda", lambda)) continue;
+        else if (xp.parse_double("frac", frac)) continue;
+        else if (xp.match_tag(end_tag)) {
+            init(frac, lambda);
+            return 0;
+        } else {
+            printf("unrecognized: %s\n", xp.parsed_tag);
+            return ERR_XML_PARSE;
+        }
+    }
+    return ERR_XML_PARSE;
 }
 
 int UNIFORM_DIST::parse(XML_PARSER& xp, const char* end_tag) {

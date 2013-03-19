@@ -302,6 +302,12 @@ int PROJECT::parse_state(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_double("desired_disk_usage", desired_disk_usage)) continue;
+#ifdef SIM
+        if (xp.match_tag("available")) {
+            available.parse(xp, "/available");
+            continue;
+        }
+#endif
         if (log_flags.unparsed_xml) {
             msg_printf(0, MSG_INFO,
                 "[unparsed_xml] PROJECT::parse_state(): unrecognized: %s",
