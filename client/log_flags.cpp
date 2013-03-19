@@ -81,7 +81,6 @@ void LOG_FLAGS::show() {
     show_flag(buf, cpu_sched_debug, "cpu_sched_debug");
     show_flag(buf, cpu_sched_status, "cpu_sched_status");
     show_flag(buf, dcf_debug, "dcf_debug");
-    show_flag(buf, priority_debug, "priority_debug");
     show_flag(buf, file_xfer_debug, "file_xfer_debug");
     show_flag(buf, gui_rpc_debug, "gui_rpc_debug");
     show_flag(buf, heartbeat_debug, "heartbeat_debug");
@@ -89,7 +88,9 @@ void LOG_FLAGS::show() {
     show_flag(buf, http_xfer_debug, "http_xfer_debug");
     show_flag(buf, mem_usage_debug, "mem_usage_debug");
     show_flag(buf, network_status_debug, "network_status_debug");
+    show_flag(buf, notice_debug, "notice_debug");
     show_flag(buf, poll_debug, "poll_debug");
+    show_flag(buf, priority_debug, "priority_debug");
     show_flag(buf, proxy_debug, "proxy_debug");
     show_flag(buf, rr_simulation, "rr_simulation");
     show_flag(buf, sched_op_debug, "sched_op_debug");
@@ -101,7 +102,6 @@ void LOG_FLAGS::show() {
     show_flag(buf, time_debug, "time_debug");
     show_flag(buf, unparsed_xml, "unparsed_xml");
     show_flag(buf, work_fetch_debug, "work_fetch_debug");
-    show_flag(buf, notice_debug, "notice_debug");
 
     if (strlen(buf)) {
         msg_printf(NULL, MSG_INFO, "log flags: %s", buf);
