@@ -318,6 +318,9 @@
 #define PRODUCT_EMBEDDED_INDUSTRY_A_E               0x0000005C
 #endif
 #ifndef PRODUCT_STORAGE_WORKGROUP_EVALUATION_SERVER
+#define PRODUCT_STORAGE_WORKGROUP_EVALUATION_SERVER 0x0000005F
+#endif
+#ifndef PRODUCT_STORAGE_STANDARD_EVALUATION_SERVER
 #define PRODUCT_STORAGE_STANDARD_EVALUATION_SERVER  0x00000060
 #endif
 #ifndef PRODUCT_CORE_ARM                            
@@ -338,7 +341,9 @@
 #ifndef PRODUCT_PROFESSIONAL_WMC                    
 #define PRODUCT_PROFESSIONAL_WMC                    0x00000067
 #endif
-
+#ifndef PRODUCT_MOBILE_CORE
+#define PRODUCT_MOBILE_CORE                         0x00000068
+#endif
 // Newer suite types than what is currently defined in
 //   Visual Studio 2005
 #ifndef VER_SUITE_WH_SERVER
@@ -585,14 +590,25 @@ int get_os_information(
                             case PRODUCT_PRERELEASE_N:
                                 strcat(szSKU, "Developer Preview N ");
                                 break;
-							// added Embbedded SKUs:
 							case PRODUCT_EMBEDDED:
 								strcat(szSKU, "Embedded Standard ");
 								break;
 							case PRODUCT_THINPC:    
 								strcat(szSKU, "ThinPC ");
 								break;
-
+							case PRODUCT_CORE:
+								strcat(szSKU, "Core ");
+								break;
+							case PRODUCT_CORE_N:
+								strcat(szSKU, "Core N ");
+								break;
+							case PRODUCT_CORE_ARM:
+								strcat(szSKU, "Core "); // just Core because Boinc will add ARM later
+								break;
+							case PRODUCT_PROFESSIONAL_WMC:
+								strcat(szSKU, "Professional with Media Center ");
+								break;
+							
                        }
                     } else if( (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2) ) {
                         if( osvi.wSuiteMask & VER_SUITE_PERSONAL ) {
