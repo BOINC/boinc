@@ -70,6 +70,7 @@ public class Monitor extends Service {
 	private String clientCABundle; 
 	private String authFileName; 
 	private String allProjectsList; 
+	private String globalOverridePreferences;
 	private String clientPath; 
 	
 	private Boolean started = false;
@@ -130,6 +131,7 @@ public class Monitor extends Service {
 		clientCABundle = getString(R.string.client_cabundle); 
 		authFileName = getString(R.string.auth_file_name); 
 		allProjectsList = getString(R.string.all_projects_list); 
+		globalOverridePreferences = getString(R.string.global_prefs_override); 
 		
 		// initialize singleton helper classes and provide application context
 		getClientStatus().setCtx(this);
@@ -678,32 +680,26 @@ public class Monitor extends Service {
 		// storage space of this application
 		//
 	    private Boolean installClient(){
-	    	Boolean success = false;
 
-			installFile(clientName);
-			installFile(clientCLI);
-			installFile(clientCABundle);
-			installFile(allProjectsList);
-    		
-    		// end execution if no overwrite
-    		File boincClient = new File(clientPath + clientName);
-    		boincClient.setExecutable(true);
-    		success = boincClient.canExecute();
-    		publishProgress("native client file in app space is executable: " + success);
-    		
-    		File boincCLI = new File(clientPath + clientCLI);
-    		boincCLI.setExecutable(true);
+			installFile(clientName, true, true);
+			installFile(clientCLI, true, true);
+			installFile(clientCABundle, true, false);
+			installFile(allProjectsList, true, false);
+			installFile(globalOverridePreferences, false, false);
 	    	
-	    	return success; 
+			//TODO return proper status
+	    	return true; 
 	    }
 	    
-		private Boolean installFile(String file) {
+		private Boolean installFile(String file, Boolean override, Boolean executable) {
 	    	Boolean success = false;
 	    	byte[] b = new byte [1024];
     		int count; 
 			
     		try {
     			Log.d(TAG, "installing: " + file);
+    			
+	    		File target = new File(clientPath + file);
 	    		
 	    		// Check path and create it
 	    		File installDir = new File(clientPath);
@@ -713,8 +709,7 @@ public class Monitor extends Service {
 	    		}
 	    		
 	    		// Delete old target
-	    		File target = new File(clientPath + file);
-	    		if(target.exists()) {
+	    		if(override && target.exists()) {
 	    			target.delete();
 	    		}
 	    		
@@ -728,11 +723,23 @@ public class Monitor extends Service {
 	    		targetData.flush(); 
 	    		targetData.close();
 
-	    		publishProgress("install successful");
-	    		success = true;   		
+	    		success = true; //copy succeeded without exception
+	    		
+	    		// Set executable, if requested
+	    		Boolean isExecutable = false;
+	    		if(executable) {
+	    			target.setExecutable(executable);
+	    			isExecutable = target.canExecute();
+	    			success = isExecutable; // return false, if not executable
+	    		}
+
+	    		publishProgress("install of " + file + " successfull. executable: " + executable + "/" + isExecutable);
+	    		
 	    	} catch (IOException e) {  
 	    		Log.d(TAG, "IOException: " + e.getMessage());
 	    		Log.e(TAG, "IOException", e);
+	    		
+	    		publishProgress("install of " + file + " failed.");
 	    	}
 			
 			return success;

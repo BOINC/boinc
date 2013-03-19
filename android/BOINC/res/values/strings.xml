@@ -30,6 +30,7 @@
     <string name="client_cabundle">ca-bundle.crt</string>
     <string name="auth_file_name">gui_rpc_auth.cfg</string>
     <string name="all_projects_list">all_projects_list.xml</string>
+    <string name="global_prefs_override">global_prefs_override.xml</string>
     
     <!-- login activity -->
     <string name="login_header">Add a project:</string>
