@@ -19,15 +19,27 @@
 package edu.berkeley.boinc.adapter;
 
 import android.content.Context;
+import android.view.View;
 
 public class PrefsListItemWrapper {
 	
 	public Context ctx;
-	
 	public Integer ID;
+	public Integer categoryID;
+	public Boolean isCategory;
 	
-	public PrefsListItemWrapper (Context ctx, Integer ID) {
+	// Constructor for elements
+	public PrefsListItemWrapper (Context ctx, Integer ID, Integer categoryID) {
 		this.ctx = ctx;
 		this.ID = ID;
+		this.categoryID = categoryID;
+		this.isCategory = false;
+	}
+	
+	// Constructor for categories
+	public PrefsListItemWrapper (Context ctx, Integer ID, Boolean isCategory) {
+		this.ctx = ctx;
+		this.ID = ID;
+		this.isCategory = isCategory;
 	}
 }

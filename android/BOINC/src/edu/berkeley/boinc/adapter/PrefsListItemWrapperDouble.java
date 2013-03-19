@@ -29,8 +29,8 @@ public class PrefsListItemWrapperDouble extends PrefsListItemWrapper {
 	public String header = "";
 	public Double status;
 	
-	public PrefsListItemWrapperDouble(Context ctx, Integer ID, Double status) {
-		super(ctx, ID);
+	public PrefsListItemWrapperDouble(Context ctx, Integer ID, Integer categoryID, Double status) {
+		super(ctx, ID, categoryID);
 		this.status = status;
 		mapStrings(ID);
 	}
@@ -43,8 +43,23 @@ public class PrefsListItemWrapperDouble extends PrefsListItemWrapper {
 		case R.string.prefs_disk_min_free_gb_header:
 			header = ctx.getString(R.string.prefs_disk_min_free_gb_header);
 			break;
-		case R.string.prefs_daily_xfer_limit_mb_header:
-			header = ctx.getString(R.string.prefs_daily_xfer_limit_mb_header);
+		case R.string.prefs_network_daily_xfer_limit_mb_header:
+			header = ctx.getString(R.string.prefs_network_daily_xfer_limit_mb_header);
+			break;
+		case R.string.prefs_cpu_number_cpus_header:
+			header = ctx.getString(R.string.prefs_cpu_number_cpus_header);
+			break;
+		case R.string.prefs_cpu_other_load_suspension_header:
+			header = ctx.getString(R.string.prefs_cpu_other_load_suspension_header);
+			break;
+		case R.string.prefs_cpu_time_max_header:
+			header = ctx.getString(R.string.prefs_cpu_time_max_header);
+			break;
+		case R.string.prefs_memory_max_busy_header:
+			header = ctx.getString(R.string.prefs_memory_max_busy_header);
+			break;
+		case R.string.prefs_memory_max_idle_header:
+			header = ctx.getString(R.string.prefs_memory_max_idle_header);
 			break;
 		default:
 			Log.d(TAG, "map failed!");

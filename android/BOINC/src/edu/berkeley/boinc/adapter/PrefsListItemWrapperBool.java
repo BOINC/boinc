@@ -32,8 +32,8 @@ public class PrefsListItemWrapperBool extends PrefsListItemWrapper {
 	public String status_text;
 	private Boolean status;
 	
-	public PrefsListItemWrapperBool(Context ctx, Integer ID, Boolean status) {
-		super(ctx, ID);
+	public PrefsListItemWrapperBool(Context ctx, Integer ID, Integer categoryID, Boolean status) {
+		super(ctx, ID, categoryID);
 		this.status = status;
 		mapStrings(ID);
 		setStatusMessage();
@@ -55,6 +55,10 @@ public class PrefsListItemWrapperBool extends PrefsListItemWrapper {
 			header = ctx.getString(R.string.prefs_network_wifi_only_header);
 			status_true = ctx.getString(R.string.prefs_network_wifi_only_true);
 			status_false = ctx.getString(R.string.prefs_network_wifi_only_false);
+			break;
+		case R.string.prefs_show_advanced_header:
+			header = ctx.getString(R.string.prefs_show_advanced_header);
+			// no status Strings
 			break;
 		default:
 			Log.d(TAG, "map failed!");
