@@ -295,11 +295,14 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
             strBuffer
         );
 
+		m_pAttachToAccountManagerCtrl->SetLabel(
+			_("Use account manager")
+		);
         m_pAttachToAccountManagerCtrl->Disable();
     } else {
         if (!is_wcg_client) {
             m_pDescriptionStaticCtrl->SetLabel(
-                _("There are over 30 BOINC-based projects\n\
+_("There are over 30 BOINC-based projects\n\
 doing research in many areas of science,\n\
 and you can volunteer for as many of them as you like.\n\
 You can add a project directly,\n\
@@ -311,7 +314,7 @@ or use an 'Account Manager' web site to select projects.")
 			);
         } else {
             m_pDescriptionStaticCtrl->SetLabel(
- _("You have chosen to add a new volunteer computing project or change which projects\n\
+_("You have chosen to add a new volunteer computing project or change which projects\n\
 you contribute to.\n\
 \n\
 Some of these projects are run and managed by World Community Grid, while others\n\
@@ -340,6 +343,7 @@ Please choose which type of change you would like to make:\n")
         m_pDirectionsStaticCtrl->SetLabel(
             _("To continue, click Next.")
         );
+
         m_pChangeApplicationsCtrl->Hide();
 	} else {
         m_pChangeApplicationsCtrl->SetLabel(
