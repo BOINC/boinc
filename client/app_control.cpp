@@ -768,7 +768,7 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
     //
     double min_interval = gstate.global_prefs.disk_interval;
     if (min_interval < 300) min_interval = 300;
-    if (gstate.now > last_disk_check_time + min_interval) {
+    if (gstate.clock_change || gstate.now > last_disk_check_time + min_interval) {
         do_disk_check = true;
     }
     for (i=0; i<active_tasks.size(); i++) {
