@@ -146,8 +146,10 @@ function work_and_host_stats_views_default_views() {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -159,14 +161,18 @@ function work_and_host_stats_views_default_views() {
         'html' => 0,
         'strip_tags' => 0,
       ),
-      'empty' => '',
-      'hide_empty' => 1,
+      'empty' => 'n/a',
+      'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 0,
       'value' => '<?php
   if (is_current_boinc_user($data->host_userid)) {
     $showIP = arg(2);
     if ($showIP) {
-      echo "{$data->host_last_ip_addr}<br/>(same the last {$data->host_nsame_ip_addr} times)";
+      $last_ip = $data->host_last_ip_addr;
+      if ($last_ip) {
+        echo "{$data->host_last_ip_addr} (same the last {$data->host_nsame_ip_addr} times)";
+      }
     } else {
       echo l(\'Show IP address\', arg(0).\'/\'.arg(1).\'/1\');
     }
@@ -429,8 +435,10 @@ function work_and_host_stats_views_default_views() {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -445,8 +453,9 @@ function work_and_host_stats_views_default_views() {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'date_format' => 'custom',
-      'custom_date_format' => 'j M Y G:i:s e',
+      'custom_date_format' => 'j M Y G:i:s T',
       'exclude' => 0,
       'id' => 'create_time',
       'table' => 'host',
@@ -460,8 +469,10 @@ function work_and_host_stats_views_default_views() {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -473,13 +484,17 @@ function work_and_host_stats_views_default_views() {
         'html' => 0,
         'strip_tags' => 0,
       ),
-      'empty' => '',
+      'empty' => '0',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 0,
       'set_precision' => 1,
       'precision' => '0',
       'decimal' => '.',
       'separator' => ',',
+      'format_plural' => 0,
+      'format_plural_singular' => '1',
+      'format_plural_plural' => '@count',
       'prefix' => '',
       'suffix' => '',
       'exclude' => 0,
@@ -524,9 +539,36 @@ function work_and_host_stats_views_default_views() {
       'relationship' => 'none',
     ),
     'host_cpid' => array(
+      'label' => 'Cross project ID',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'absolute' => 0,
+        'link_class' => '',
+        'alt' => '',
+        'rel' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'hide_alter_empty' => 1,
+      'exclude' => 1,
       'id' => 'host_cpid',
       'table' => 'host',
       'field' => 'host_cpid',
+      'relationship' => 'none',
     ),
     'phpcode_7' => array(
       'label' => 'Cross project credit',
@@ -636,12 +678,13 @@ function work_and_host_stats_views_default_views() {
       'label' => 'CPU type',
       'alter' => array(
         'alter_text' => 1,
-        'text' => '[p_vendor]<br/>
-[p_model]',
+        'text' => '[p_vendor] [p_model]',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -656,6 +699,7 @@ function work_and_host_stats_views_default_views() {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'exclude' => 0,
       'id' => 'p_model',
       'table' => 'host',
@@ -759,12 +803,13 @@ function work_and_host_stats_views_default_views() {
       'label' => 'Operating system',
       'alter' => array(
         'alter_text' => 1,
-        'text' => '[os_name] <br/>
-[os_version]',
+        'text' => '[os_name] [os_version]',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -779,6 +824,7 @@ function work_and_host_stats_views_default_views() {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'exclude' => 0,
       'id' => 'os_version',
       'table' => 'host',
@@ -1539,8 +1585,10 @@ function work_and_host_stats_views_default_views() {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -1552,24 +1600,22 @@ function work_and_host_stats_views_default_views() {
         'html' => 0,
         'strip_tags' => 0,
       ),
-      'empty' => '',
-      'hide_empty' => 1,
+      'empty' => '0',
+      'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 0,
       'value' => '<?php
   //require_boint(\'util\');
-  $config = get_config();
-  if (parse_bool($config, "show_results")) {
+  //$config = get_config();
+  //if (parse_bool($config, "show_results")) {
     // Create makeshift host object for host_nresults function
     $host = new stdClass();
     $host->id = $data->id;
     $nresults = host_nresults($host);
     if ($nresults) {
-      $results = l($nresults, "host/{$host->id}/tasks");
-    } else {
-      $results = "0";
+      echo l($nresults, "host/{$host->id}/tasks");
     }
-    echo $results;
-  }
+  //}
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_18',
@@ -1619,8 +1665,10 @@ function work_and_host_stats_views_default_views() {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -1632,9 +1680,10 @@ function work_and_host_stats_views_default_views() {
         'html' => 0,
         'strip_tags' => 0,
       ),
-      'empty' => '',
-      'hide_empty' => 1,
+      'empty' => '0',
+      'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 0,
       'value' => '<?php
   if (is_current_boinc_user($data->host_userid)) {
     echo $data->host_rpc_seqno;
@@ -2072,8 +2121,10 @@ function work_and_host_stats_views_default_views() {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -2086,8 +2137,9 @@ function work_and_host_stats_views_default_views() {
         'strip_tags' => 0,
       ),
       'empty' => '',
-      'hide_empty' => 0,
+      'hide_empty' => 1,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'value' => '<?php
   if (is_current_boinc_user($data->host_userid)) {
     echo \'[TO DO]\';
@@ -2243,7 +2295,7 @@ function work_and_host_stats_views_default_views() {
   $handler->override_option('row_options', array(
     'inline' => array(),
     'separator' => '',
-    'hide_empty' => 1,
+    'hide_empty' => 0,
   ));
   $handler = $view->new_display('page', 'Page', 'page_1');
   $handler->override_option('row_options', array());
