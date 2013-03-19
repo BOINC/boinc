@@ -1064,18 +1064,21 @@ function boincimport_forum_categories() {
       );
       foreach ($forum_perms as $role => $perm) {
         db_query('
-          UPDATE {forum_access}
-          SET grant_view = %d, grant_update = %d,
-            grant_delete = %d, grant_create = %d
-          WHERE tid = %d AND rid = %d',
+          REPLACE INTO {forum_access}
+          SET  tid = %d, rid = %d,
+            grant_view = %d, grant_update = %d,
+            grant_delete = %d, grant_create = %d',
+          $forum['tid'], $role,
           $perm['view'], $perm['update'],
-          $perm['delete'], $perm['create'],
-          $forum['tid'], $role);
+          $perm['delete'], $perm['create']);
       }
     }
   }
   // Set the forums import successful flag in the variable table
   variable_set('boincimport_import_category_successful', '1');
+  
+  // Clear permissions cache...?
+  variable_del('forum_access_rids');
 
   $count = db_result(db_query('SELECT COUNT(*) FROM {boincimport_temp_forum}'));
   drupal_set_message(t('Successfully Imported %count forums and containers.', array('%count' => $count)));
