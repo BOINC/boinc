@@ -280,7 +280,9 @@ void CLIENT_STATE::set_now() {
 
     // if time went backward significantly, clear delays
     //
+    clock_change = false;
     if (x < (now-60)) {
+        clock_change = true;
         clear_absolute_times();
     }
 
@@ -2011,15 +2013,13 @@ int CLIENT_STATE::quit_activities() {
 
 #endif
 
-// See if a timestamp in the client state file
+// Called at startup to see if a timestamp in the client state file
 // is later than the current time.
 // If so, the user must have decremented the system clock.
 //
 void CLIENT_STATE::check_clock_reset() {
-    clock_change = false;
     if (!time_stats.last_update) return;
     if (time_stats.last_update <= now) return;
-    clock_change = true;
     clear_absolute_times();
 }
 
