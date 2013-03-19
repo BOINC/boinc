@@ -190,6 +190,7 @@ struct CLIENT_STATE {
     bool launched_by_manager;
     bool run_by_updater;
     double now;
+    bool clock_change;      // system clock was recently decreased
     double last_wakeup_time;
     bool initialized;
     bool cant_write_state_file;

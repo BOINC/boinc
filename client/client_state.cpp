@@ -84,6 +84,7 @@ CLIENT_STATE::CLIENT_STATE()
     scheduler_op = new SCHEDULER_OP(http_ops);
 #endif
     client_state_dirty = false;
+    clock_change = false;
     check_all_logins = false;
     cmdline_gui_rpc_port = 0;
     run_cpu_benchmarks = false;
@@ -1267,7 +1268,7 @@ bool CLIENT_STATE::abort_unstarted_late_jobs() {
 bool CLIENT_STATE::garbage_collect() {
     bool action;
     static double last_time=0;
-    if (gstate.now - last_time < GARBAGE_COLLECT_PERIOD) return false;
+    if (!clock_change && now - last_time < GARBAGE_COLLECT_PERIOD) return false;
     last_time = gstate.now;
 
     action = abort_unstarted_late_jobs();
@@ -1575,8 +1576,8 @@ bool CLIENT_STATE::update_results() {
     static double last_time=0;
     int retval;
 
-    if (gstate.now - last_time < UPDATE_RESULTS_PERIOD) return false;
-    last_time = gstate.now;
+    if (!clock_change && now - last_time < UPDATE_RESULTS_PERIOD) return false;
+    last_time = now;
 
     result_iter = results.begin();
     while (result_iter != results.end()) {
@@ -2015,8 +2016,10 @@ int CLIENT_STATE::quit_activities() {
 // If so, the user must have decremented the system clock.
 //
 void CLIENT_STATE::check_clock_reset() {
+    clock_change = false;
     if (!time_stats.last_update) return;
     if (time_stats.last_update <= now) return;
+    clock_change = true;
     clear_absolute_times();
 }
 
@@ -2032,6 +2035,8 @@ void CLIENT_STATE::clear_absolute_times() {
         "System clock was turned backwards; clearing timeouts"
     );
 
+    exclusive_app_running = 0;
+    exclusive_gpu_app_running = 0;
     new_version_check_time = now;
     all_projects_list_check_time = now;
     retry_shmem_time = 0;
