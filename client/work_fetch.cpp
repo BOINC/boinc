@@ -209,7 +209,7 @@ PROJECT* RSC_WORK_FETCH::choose_project_hyst(
 
     if (log_flags.work_fetch_debug) {
         msg_printf(0, MSG_INFO,
-            "[work_fetch] %s: buffer_low: %s; sim_excluded_instances %d\n",
+            "[work_fetch] choose_project() for %s: buffer_low: %s; sim_excluded_instances %d\n",
             rsc_name(rsc_type), buffer_low?"yes":"no", sim_excluded_instances
         );
     }
@@ -355,9 +355,10 @@ void RSC_WORK_FETCH::set_request(PROJECT* p) {
     req_instances = nidle_now;
 
     if (log_flags.work_fetch_debug) {
-        msg_printf(0, MSG_INFO,
-            "[work_fetch] set_request(): ninst %d nused_total %f nidle_now %f fetch share %f req_inst %f",
-            ninstances, w.nused_total, nidle_now, w.fetchable_share, req_instances
+        msg_printf(p, MSG_INFO,
+            "[work_fetch] set_request() for %s: ninst %d nused_total %f nidle_now %f fetch share %f req_inst %f req_secs %f",
+            rsc_name(rsc_type), ninstances, w.nused_total, nidle_now,
+            w.fetchable_share, req_instances, req_secs
         );
     }
     if (req_instances && !req_secs) {
@@ -490,6 +491,12 @@ void RSC_WORK_FETCH::supplement(PROJECT* pp) {
         RSC_PROJECT_WORK_FETCH& rpwf = project_state(p);
         if (rpwf.anon_skip) continue;
         if (p->sched_priority > x) {
+            if (log_flags.work_fetch_debug) {
+                msg_printf(pp, MSG_INFO,
+                    "[work_fetch]: not requesting work for %s: %s has higher priority",
+                    rsc_name(rsc_type), p->get_project_name()
+                );
+            }
             return;
         }
     }
