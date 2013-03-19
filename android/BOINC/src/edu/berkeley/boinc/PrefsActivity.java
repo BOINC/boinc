@@ -36,7 +36,6 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -44,6 +43,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class PrefsActivity extends Activity implements OnClickListener {
@@ -62,8 +62,7 @@ public class PrefsActivity extends Activity implements OnClickListener {
 	
 	private Dialog dialog; //Dialog for input on non-Bool preferences
 	
-	private Boolean dataOutdated = false; //shows that current data is out of date. this happens when writing client status async just started and has not returned (clientstatechanged broadcast) yet.
-	private Boolean initialSetup = true; //prevents reinitPrefsLayout() from adding elements to the list, every time it gets called. also prevent loadLayout from reading elements out of bounds (array not set up, if this is not false)
+	private Boolean dataOutdated = true;
 	
 	/*
 	 * Receiver is necessary, because writing of prefs has to be done asynchroneously. PrefsActivity will change to "loading" layout, until monitor read new results.
@@ -72,12 +71,7 @@ public class PrefsActivity extends Activity implements OnClickListener {
 		@Override
 		public void onReceive(Context context,Intent intent) {
 			//Log.d(TAG+"-localClientStatusRecNoisy","received");
-			if(dataOutdated) { //cause activity to re-init layout
-				Log.d(TAG, "data was outdated, go directly to reinitPrefsLayout");
-				dataOutdated = false;
-				reinitPrefsLayout();
-			}
-			loadSettings();
+			if(dataOutdated) loadSettings(); //otherwise view gets refreshed on every broadcast.
 		}
 	};
 	private IntentFilter ifcsc = new IntentFilter("edu.berkeley.boinc.clientstatuschange");
@@ -93,11 +87,6 @@ public class PrefsActivity extends Activity implements OnClickListener {
 		
 		//register receiver of client status
 		registerReceiver(mClientStatusChangeRec,ifcsc);
-		
-		//determine layout
-		if(initialSetup) { //no data available (first call) 
-			setContentView(R.layout.prefs_layout_loading);
-		}
 		
 		loadSettings();
 	}
@@ -154,6 +143,7 @@ public class PrefsActivity extends Activity implements OnClickListener {
 		return true;
 	}
 	
+	/*
 	private void loadSettings() {
 		if(!readPrefs() || appPrefs == null) {
 			Log.d(TAG, "loadSettings returns, data is not present");
@@ -168,43 +158,73 @@ public class PrefsActivity extends Activity implements OnClickListener {
 			if(dataOutdated) { //data is not present or not current, show loading instead!
 				setContentView(R.layout.prefs_layout_loading);
 			} else {
-				//((PrefsListItemWrapperText)data.get(0)).status = appPrefs.getEmail();
-				//((PrefsListItemWrapperText)data.get(1)).status = appPrefs.getPwd();
-				((PrefsListItemWrapperBool)data.get(0)).setStatus(appPrefs.getAutostart());
-				((PrefsListItemWrapperBool)data.get(1)).setStatus(clientPrefs.run_on_batteries);
-				((PrefsListItemWrapperBool)data.get(2)).setStatus(clientPrefs.network_wifi_only); 
-				((PrefsListItemWrapperDouble)data.get(3)).status = clientPrefs.disk_max_used_pct;
-				((PrefsListItemWrapperDouble)data.get(4)).status = clientPrefs.disk_min_free_gb;
-				((PrefsListItemWrapperDouble)data.get(5)).status = clientPrefs.daily_xfer_limit_mb;
+				// prefs_category_general
+				((PrefsListItemWrapperBool) data.get(1)).setStatus(appPrefs.getAutostart());
+				((PrefsListItemWrapperBool) data.get(2)).setStatus(appPrefs.getShowAdvanced());
+				// prefs_category_network
+				((PrefsListItemWrapperBool) data.get(4)).setStatus(clientPrefs.network_wifi_only);
+				((PrefsListItemWrapperDouble) data.get(5)).status = clientPrefs.daily_xfer_limit_mb;
+				// prefs_category_power
+				((PrefsListItemWrapperBool) data.get(7)).setStatus(clientPrefs.run_on_batteries);
+				// prefs_category_cpu
+				((PrefsListItemWrapperDouble) data.get(9)).status = clientPrefs.max_ncpus_pct;
+				((PrefsListItemWrapperDouble) data.get(10)).status = clientPrefs.cpu_usage_limit;
+				((PrefsListItemWrapperDouble) data.get(11)).status = clientPrefs.suspend_cpu_usage;
+				// prefs_category_storage
+				((PrefsListItemWrapperDouble) data.get(13)).status = clientPrefs.disk_max_used_pct;
+				((PrefsListItemWrapperDouble) data.get(14)).status = clientPrefs.disk_min_free_gb;
+				// prefs_category_memory
+				((PrefsListItemWrapperDouble) data.get(16)).status = clientPrefs.ram_max_used_busy_frac;
+				((PrefsListItemWrapperDouble) data.get(17)).status = clientPrefs.ram_max_used_idle_frac;
 				
 				listAdapter.notifyDataSetChanged(); //force list adapter to refresh
-				
-				//Log.d(TAG,"max used pct: " + clientPrefs.disk_max_used_pct);
 			}
 		}
-	}
+	}*/
 	
-	private void reinitPrefsLayout() {
+	private void loadSettings() {
 		
+		if(!readPrefs() || appPrefs == null) {
+			Log.d(TAG, "loadSettings returns, data is not present");
+			setDataOutdated();
+			return;
+		}
+		
+		// setup layout
 		setContentView(R.layout.prefs_layout);
 		lv = (ListView) findViewById(R.id.listview);
         listAdapter = new PrefsListAdapter(PrefsActivity.this,R.id.listview,data);
         lv.setAdapter(listAdapter);
+		
+		data.clear();
+		
+		Boolean advanced = appPrefs.getShowAdvanced();
 
-        if(initialSetup) { //prevent from re-population when reinit is called after dataOutdated
-			//parse app prefs
-			//data.add(0, new PrefsListItemWrapperText(this,R.string.prefs_project_email_header,appPrefs.getEmail()));
-			//data.add(1, new PrefsListItemWrapperText(this,R.string.prefs_project_pwd_header,appPrefs.getPwd()));
-			data.add(0, new PrefsListItemWrapperBool(this,R.string.prefs_autostart_header,appPrefs.getAutostart())); 
-			//parse client prefs
-			data.add(1, new PrefsListItemWrapperBool(this,R.string.prefs_run_on_battery_header,clientPrefs.run_on_batteries));
-			data.add(2, new PrefsListItemWrapperBool(this,R.string.prefs_network_wifi_only_header,clientPrefs.network_wifi_only));
-			data.add(3, new PrefsListItemWrapperDouble(this,R.string.prefs_disk_max_pct_header,clientPrefs.disk_max_used_pct));
-			data.add(4, new PrefsListItemWrapperDouble(this,R.string.prefs_disk_min_free_gb_header,clientPrefs.disk_min_free_gb));
-			data.add(5, new PrefsListItemWrapperDouble(this,R.string.prefs_daily_xfer_limit_mb_header,clientPrefs.daily_xfer_limit_mb));
-			
-        	initialSetup = false;
-        }
+    	data.add(new PrefsListItemWrapper(this,R.string.prefs_category_general,true));
+		data.add(new PrefsListItemWrapperBool(this,R.string.prefs_autostart_header,R.string.prefs_category_general,appPrefs.getAutostart())); 
+		data.add(new PrefsListItemWrapperBool(this,R.string.prefs_show_advanced_header,R.string.prefs_category_general,appPrefs.getShowAdvanced()));
+    	data.add(new PrefsListItemWrapper(this,R.string.prefs_category_network,true));
+		data.add(new PrefsListItemWrapperBool(this,R.string.prefs_network_wifi_only_header,R.string.prefs_category_network,clientPrefs.network_wifi_only));
+		if(advanced) data.add(new PrefsListItemWrapperDouble(this,R.string.prefs_network_daily_xfer_limit_mb_header,R.string.prefs_category_network,clientPrefs.daily_xfer_limit_mb));
+    	data.add(new PrefsListItemWrapper(this,R.string.prefs_category_power,true));
+		data.add(new PrefsListItemWrapperBool(this,R.string.prefs_run_on_battery_header,R.string.prefs_category_power,clientPrefs.run_on_batteries));
+		if(advanced) data.add(new PrefsListItemWrapper(this,R.string.prefs_category_cpu,true));
+		if(advanced) data.add(new PrefsListItemWrapperDouble(this,R.string.prefs_cpu_number_cpus_header,R.string.prefs_category_cpu,clientPrefs.max_ncpus_pct));
+		if(advanced) data.add(new PrefsListItemWrapperDouble(this,R.string.prefs_cpu_time_max_header,R.string.prefs_category_cpu,clientPrefs.cpu_usage_limit));
+		if(advanced) data.add(new PrefsListItemWrapperDouble(this,R.string.prefs_cpu_other_load_suspension_header,R.string.prefs_category_cpu,clientPrefs.suspend_cpu_usage));
+		if(advanced) data.add(new PrefsListItemWrapper(this,R.string.prefs_category_storage,true));
+		if(advanced) data.add(new PrefsListItemWrapperDouble(this,R.string.prefs_disk_max_pct_header,R.string.prefs_category_storage,clientPrefs.disk_max_used_pct));
+		if(advanced) data.add(new PrefsListItemWrapperDouble(this,R.string.prefs_disk_min_free_gb_header,R.string.prefs_category_storage,clientPrefs.disk_min_free_gb));
+		if(advanced) data.add(new PrefsListItemWrapper(this,R.string.prefs_category_memory,true));
+		if(advanced) data.add(new PrefsListItemWrapperDouble(this,R.string.prefs_memory_max_busy_header,R.string.prefs_category_memory,clientPrefs.ram_max_used_busy_frac));
+		if(advanced) data.add(new PrefsListItemWrapperDouble(this,R.string.prefs_memory_max_idle_header,R.string.prefs_category_memory,clientPrefs.ram_max_used_idle_frac));
+
+		dataOutdated = false;
+	}
+	
+	private void setDataOutdated() {
+		setContentView(R.layout.prefs_layout_loading);
+		dataOutdated = true;
 	}
 	
 	/*
@@ -220,18 +240,19 @@ public class PrefsActivity extends Activity implements OnClickListener {
 		case R.string.prefs_autostart_header: //app pref
 			appPrefs.setAutostart(isSet);
 			break;
+		case R.string.prefs_show_advanced_header: //app pref
+			appPrefs.setShowAdvanced(isSet);
+			loadSettings(); // force reload of list view;
+			break;
 		case R.string.prefs_run_on_battery_header: //client pref
 			clientPrefs.run_on_batteries = isSet;
 			monitor.setPrefs(clientPrefs);
-			dataOutdated = true; //async write of client prefs started, data out dated until broadcast
 			break;
 		case R.string.prefs_network_wifi_only_header: //client pref
 			clientPrefs.network_wifi_only = isSet;
 			monitor.setPrefs(clientPrefs);
-			dataOutdated = true; //async write of client prefs started, data out dated until broadcast
 			break;
 		}
-		loadSettings();
 	}
 	
 	public void onItemClick (View view) {
@@ -247,39 +268,12 @@ public class PrefsActivity extends Activity implements OnClickListener {
 	protected Dialog onCreateDialog(int id) {
 		dialog = new Dialog(this); //instance new dialog
 		dialog.setContentView(R.layout.prefs_layout_dialog);
-		String title = "Enter new ";
 		Button button = (Button) dialog.findViewById(R.id.buttonPrefSubmit);
 		button.setOnClickListener(this);
 		EditText edit = (EditText) dialog.findViewById(R.id.Input);
-		//customize:
-		switch (id) {/*
-		case R.string.prefs_project_email_header:
-			title += "eMail address";
-			edit.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-			break;
-		case R.string.prefs_project_pwd_header:
-			title += "password";
-			edit.setTransformationMethod(PasswordTransformationMethod.getInstance());
-			button.setText("Login!");
-			break;*/
-		case R.string.prefs_disk_max_pct_header:
-			title += "disk space limit (%)";
-			edit.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
-			break;
-		case R.string.prefs_disk_min_free_gb_header:
-			title += "free disk space (GB)";
-			edit.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
-			break;
-		case R.string.prefs_daily_xfer_limit_mb_header:
-			title += "transfer limit (MB)";
-			edit.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
-			break;
-		default:
-			Log.d(TAG,"onCreateDialog, couldnt match ID"); 
-			break;
-			
-		}
-		dialog.setTitle(title + ":");
+		TextView description = (TextView) dialog.findViewById(R.id.description);
+		description.setText(id);
+		dialog.setTitle(R.string.prefs_dialog_title);
 		button.setId(id); //set input id, for evaluation in onClick
 		return dialog;
 	}
@@ -300,40 +294,56 @@ public class PrefsActivity extends Activity implements OnClickListener {
 		Button button = (Button) v;
 		Integer id = button.getId();
 		EditText input = (EditText) dialog.findViewById(R.id.Input);
-		String tmp = input.getText().toString();
-		Log.d(TAG,"onClick with input " + tmp);
+		
+		// parse value
+		Double value = 0.0;
 		try {
-			switch (id) {
-			case R.string.prefs_disk_max_pct_header:
-				tmp=tmp.replaceAll(",","."); //replace e.g. European decimal seperator "," by "."
-				clientPrefs.disk_max_used_pct = Double.parseDouble(tmp);
-				monitor.setPrefs(clientPrefs);
-				dataOutdated = true; //async write of client prefs started, data out dated until broadcast
-				break;
-			case R.string.prefs_disk_min_free_gb_header:
-				tmp=tmp.replaceAll(",","."); //replace e.g. European decimal seperator "," by "."
-				clientPrefs.disk_min_free_gb = Double.parseDouble(tmp);
-				monitor.setPrefs(clientPrefs);
-				dataOutdated = true; //async write of client prefs started, data out dated until broadcast
-				break;
-			case R.string.prefs_daily_xfer_limit_mb_header:
-				tmp=tmp.replaceAll(",","."); //replace e.g. European decimal seperator "," by "."
-				clientPrefs.daily_xfer_limit_mb = Double.parseDouble(tmp);
-				monitor.setPrefs(clientPrefs);
-				dataOutdated = true; //async write of client prefs started, data out dated until broadcast
-				break;
-			default:
-				Log.d(TAG,"onClick (dialog submit button), couldnt match ID");
-				break;
-			
-			}
-			dialog.dismiss();
-			loadSettings();
-		} catch (Exception e) { //e.g. when parsing fails
-			Log.e(TAG, "Exception in dialog onClick", e);
+			String tmp = input.getText().toString();
+			tmp=tmp.replaceAll(",","."); //replace e.g. European decimal seperator "," by "."
+			value = Double.parseDouble(tmp);
+			Log.d(TAG,"onClick with input value " + value);
+		} catch (Exception e) {
+			Log.w(TAG, e);
 			Toast toast = Toast.makeText(getApplicationContext(), "wrong format!", Toast.LENGTH_SHORT);
 			toast.show();
+			return;
 		}
+		
+		// update preferences
+		switch (id) {
+		case R.string.prefs_disk_max_pct_header:
+			clientPrefs.disk_max_used_pct = value;
+			break;
+		case R.string.prefs_disk_min_free_gb_header:
+			clientPrefs.disk_min_free_gb = value;
+			break;
+		case R.string.prefs_network_daily_xfer_limit_mb_header:
+			clientPrefs.daily_xfer_limit_mb = value;
+			break;
+		case R.string.prefs_cpu_number_cpus_header:
+			clientPrefs.max_ncpus_pct = value;
+			break;
+		case R.string.prefs_cpu_time_max_header:
+			clientPrefs.cpu_usage_limit = value;
+			break;
+		case R.string.prefs_cpu_other_load_suspension_header:
+			clientPrefs.suspend_cpu_usage = value;
+			break;
+		case R.string.prefs_memory_max_busy_header:
+			clientPrefs.ram_max_used_busy_frac = value;
+			break;
+		case R.string.prefs_memory_max_idle_header:
+			clientPrefs.ram_max_used_idle_frac = value;
+			break;
+		default:
+			Log.d(TAG,"onClick (dialog submit button), couldnt match ID");
+			Toast toast = Toast.makeText(getApplicationContext(), "ooops! something went wrong...", Toast.LENGTH_SHORT);
+			toast.show();
+			return;
+		}
+		monitor.setPrefs(clientPrefs);
+		setDataOutdated();
+		dialog.dismiss();
 	}
 	
 

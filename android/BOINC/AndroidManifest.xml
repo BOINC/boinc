@@ -21,7 +21,9 @@
     package="edu.berkeley.boinc"
     
     android:versionCode="1"
-    android:versionName="7.0.56" >
+    android:versionName="7.1.0"
+    
+    android:installLocation="internalOnly" > <!-- installation on SD card would break boot receiver -->
     
 	<!-- specifiying target sdk changes the layout! android:targetSdkVersion="15" -->
     <uses-sdk android:minSdkVersion="9" />
@@ -68,6 +70,7 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
+        
         
     </application>
 

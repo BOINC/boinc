@@ -87,20 +87,32 @@
 	<!-- preferences tab strings -->
 	<string name="prefs_unbound">Reading preferences&#8230;</string>
 	<string name="prefs_submit_button">OK</string>
+	<string name="prefs_dialog_title">Please enter desired value for: </string>
+	<string name="prefs_category_general">General</string>
+	<string name="prefs_category_network">Network</string>
+	<string name="prefs_category_power">Power</string>
+	<string name="prefs_category_cpu">CPU</string>
+	<string name="prefs_category_storage">Storage</string>
+	<string name="prefs_category_memory">Memory</string>
+	
+	<string name="prefs_show_advanced_header">Show advanced preferences&#8230;</string>
 	<string name="prefs_run_on_battery_header">Calculate on Battery</string>
 	<string name="prefs_run_on_battery_true">Calculation while running on battery</string>
 	<string name="prefs_run_on_battery_false">Calculation only when connected to charger</string>
 	<string name="prefs_disk_max_pct_header">Maximal used storage space (in %)</string>
 	<string name="prefs_disk_min_free_gb_header">Storage left unused (in GB)</string>
-	<string name="prefs_daily_xfer_limit_mb_header">Data transfer limit (daily, in MB)</string>
+	<string name="prefs_network_daily_xfer_limit_mb_header">Data transfer limit (daily, in MB)</string>
 	<string name="prefs_network_wifi_only_header">Fetch work only on WiFi</string>
 	<string name="prefs_network_wifi_only_true">Transfer project work only on WiFi connection</string>
 	<string name="prefs_network_wifi_only_false">Transfer project work on all networks</string>
 	<string name="prefs_autostart_header">Autostart</string>
 	<string name="prefs_autostart_true">BOINC starts on boot up</string>
 	<string name="prefs_autostart_false">Start BOINC manually</string>
-	<string name="prefs_project_email_header">Login: eMail</string>
-	<string name="prefs_project_pwd_header">Login: password</string>
+	<string name="prefs_cpu_number_cpus_header">Used CPU cores (in %)</string>
+	<string name="prefs_cpu_other_load_suspension_header">Pause when other CPU usage exceeds&#8230; (in %)</string>
+	<string name="prefs_cpu_time_max_header">CPU limit (in %)</string>
+	<string name="prefs_memory_max_busy_header">RAM limit when busy (in %)</string>
+	<string name="prefs_memory_max_idle_header">RAM limit when idle (in %)</string>
 	
 	<!-- projects tab strings -->
 	<string name="projects_loading">Reading projects&#8230;</string>

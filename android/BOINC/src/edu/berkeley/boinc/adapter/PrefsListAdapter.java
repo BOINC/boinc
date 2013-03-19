@@ -20,6 +20,7 @@ package edu.berkeley.boinc.adapter;
 
 import java.util.ArrayList;
 
+import edu.berkeley.boinc.AppPreferences;
 import edu.berkeley.boinc.R;
 
 import android.app.Activity;
@@ -51,34 +52,32 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
         
     	PrefsListItemWrapper listItem = entries.get(position);
     	
-    	if(listItem instanceof PrefsListItemWrapperBool) {
-    		v = vi.inflate(R.layout.prefs_layout_listitem_bool, null);
-    		CheckBox header = (CheckBox) v.findViewById(R.id.checkbox);
-    		header.setText(((PrefsListItemWrapperBool) listItem).header);
-    		header.setTag(listItem.ID); //set ID as tag to checkbox, since checkbox is clicked
-        	header.setChecked(((PrefsListItemWrapperBool) listItem).getStatus());
-    		TextView status = (TextView) v.findViewById(R.id.status);
-    		status.setText(((PrefsListItemWrapperBool) listItem).status_text);
-    	} else if(listItem instanceof PrefsListItemWrapperDouble) {
-    		v = vi.inflate(R.layout.prefs_layout_listitem, null);
-    		v.setTag(listItem.ID); //set ID as tag to view, since root layout defines onClick method
-    		TextView header = (TextView) v.findViewById(R.id.header);
-    		header.setText(((PrefsListItemWrapperDouble) listItem).header);
-    		TextView status = (TextView) v.findViewById(R.id.status);
-    		status.setText(((PrefsListItemWrapperDouble) listItem).status.toString());
-    		
-    	} else if(listItem instanceof PrefsListItemWrapperText) {
-    		v = vi.inflate(R.layout.prefs_layout_listitem, null);
-    		v.setTag(listItem.ID);
-    		TextView header = (TextView) v.findViewById(R.id.header);
-    		header.setText(((PrefsListItemWrapperText) listItem).header);
-    		TextView status = (TextView) v.findViewById(R.id.status);
-    		status.setText(((PrefsListItemWrapperText) listItem).display);
-    	}
-    	
-    	if((listItem.ID == R.string.prefs_project_email_header) || (listItem.ID == R.string.prefs_project_pwd_header)) {
-    		//if item is project credentials, make non-clickable, since it can not be changed, once logged in.
-    		v.setClickable(false);
+    	if(listItem.isCategory) { // item is category
+    		v = vi.inflate(R.layout.prefs_layout_listitem_category, null);
+    		TextView header = (TextView) v.findViewById(R.id.category_header);
+    		header.setText(listItem.ID);
+    	} else { // item is element
+	    	if(listItem instanceof PrefsListItemWrapperBool) {
+	    		v = vi.inflate(R.layout.prefs_layout_listitem_bool, null);
+	    		CheckBox header = (CheckBox) v.findViewById(R.id.checkbox);
+	    		header.setText(((PrefsListItemWrapperBool) listItem).header);
+	    		header.setTag(listItem.ID); //set ID as tag to checkbox, since checkbox is clicked
+	        	header.setChecked(((PrefsListItemWrapperBool) listItem).getStatus());
+	    		TextView status = (TextView) v.findViewById(R.id.status);
+	        	
+	    		if(((PrefsListItemWrapperBool) listItem).ID == R.string.prefs_show_advanced_header) { // bool item without status text
+	    			status.setVisibility(View.GONE);
+	    		} else {
+		    		status.setText(((PrefsListItemWrapperBool) listItem).status_text);
+	    		}
+	    	} else if(listItem instanceof PrefsListItemWrapperDouble) {
+	    		v = vi.inflate(R.layout.prefs_layout_listitem, null);
+	    		v.setTag(listItem.ID); //set ID as tag to view, since root layout defines onClick method
+	    		TextView header = (TextView) v.findViewById(R.id.header);
+	    		header.setText(((PrefsListItemWrapperDouble) listItem).header);
+	    		TextView status = (TextView) v.findViewById(R.id.status);
+	    		status.setText(((PrefsListItemWrapperDouble) listItem).status.toString());
+	    	} 
     	}
     	
         return v;

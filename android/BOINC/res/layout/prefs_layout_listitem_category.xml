@@ -18,32 +18,12 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:padding="10dip"
-    android:orientation="vertical">
-    <TextView
-         android:id="@+id/description"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:textAppearance="@android:style/TextAppearance.Medium" >
-     </TextView>
-     
-    <EditText
-         android:id="@+id/Input"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content" 
-         android:inputType="numberDecimal"
-         android:layout_marginTop="20dip">
-         <requestFocus />
-     </EditText>
-     
-     
-    <Button
-        android:id="@+id/buttonPrefSubmit"
-        android:layout_width="100dip"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dip"
-        android:text="@string/prefs_submit_button" />
+    android:orientation="vertical"
+    android:clickable="false" >
+    
+    <include 
+        android:id="@+id/category_header"
+        layout="@android:layout/preference_category"/>    
 </LinearLayout>
