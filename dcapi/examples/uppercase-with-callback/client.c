@@ -4,7 +4,15 @@
 
 #include <dc_client.h>
 
+#ifdef _WIN32
+#include <windows.h>
+#include <io.h>
+#else
 #include <unistd.h>
+#include <errno.h>
+#include <time.h>
+#endif
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
@@ -145,7 +153,12 @@ static void init_files(void)
 
 	/* If we are starting from a checkpoint file, restore the state of
 	 * the output file as well */
+#ifdef _WIN32
+	_chsize(fileno(outfile), frac_current_pos);
+#else
 	ftruncate(fileno(outfile), frac_current_pos);
+#endif
+
 	fseek(outfile, 0, SEEK_END);
 }
 
@@ -153,6 +166,9 @@ static void init_files(void)
 static void do_work(void)
 {
 	int c;
+#ifndef _WIN32
+	struct timespec time_to_sleep;
+#endif
 
 	while ((c = fgetc(infile)) != EOF)
 	{
@@ -166,9 +182,20 @@ static void do_work(void)
 		}
 		frac_current_pos++;
 
-		/* Real applications do real computation that takes time. Here
-		 * we just emulate it */
-		sleep(5);
+		/* Real applications do real computation here that takes time. Here
+		 * we will emulate waiting a second at the end of each line */
+
+		if (c == '\n')
+#ifdef _WIN32
+			::Sleep(1000);
+#else
+		{
+			time_to_sleep.tv_sec=1;
+			time_to_sleep.tv_nsec=0;
+			while (0 > nanosleep(&time_to_sleep, &time_to_sleep))
+				if (errno != EINTR) break;
+		}
+#endif
 
 		/* Check if either the master or the BOINC core client asked
 		 * us to do something */
@@ -213,6 +240,9 @@ int main(int argc, char *argv[])
 }
 
 #ifdef _WIN32
+
+extern int parse_command_line( char *, char ** );
+
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode)
 {
 	LPSTR command_line;
