@@ -161,10 +161,10 @@ function work_and_host_stats_views_default_views() {
         'html' => 0,
         'strip_tags' => 0,
       ),
-      'empty' => 'n/a',
-      'hide_empty' => 0,
+      'empty' => '',
+      'hide_empty' => 1,
       'empty_zero' => 0,
-      'hide_alter_empty' => 0,
+      'hide_alter_empty' => 1,
       'value' => '<?php
   if (is_current_boinc_user($data->host_userid)) {
     $showIP = arg(2);
@@ -172,6 +172,9 @@ function work_and_host_stats_views_default_views() {
       $last_ip = $data->host_last_ip_addr;
       if ($last_ip) {
         echo "{$data->host_last_ip_addr} (same the last {$data->host_nsame_ip_addr} times)";
+      }
+      else {
+        echo \'n/a\';
       }
     } else {
       echo l(\'Show IP address\', arg(0).\'/\'.arg(1).\'/1\');
