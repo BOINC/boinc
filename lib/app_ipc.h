@@ -199,6 +199,7 @@ struct APP_INIT_DATA {
     char gpu_type[64];
     int gpu_device_num;
     int gpu_opencl_dev_index;
+    double gpu_usage;   // APP_VERSION.gpu_usage.usage
 
     // info for multicore apps: how many cores to use
     //

@@ -264,11 +264,12 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
         }
         aid.gpu_device_num = cp.device_nums[k];
         aid.gpu_opencl_dev_index = cp.opencl_device_indexes[k];
+        aid.gpu_usage = app_version->gpu_usage.usage;
     } else {
         strcpy(aid.gpu_type, "");
         aid.gpu_device_num = -1;
         aid.gpu_opencl_dev_index = -1;
-
+        aid.gpu_usage = 0;
     }
     aid.ncpus = app_version->avg_ncpus;
     aid.vbox_window = config.vbox_window;

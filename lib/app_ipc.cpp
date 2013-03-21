@@ -120,6 +120,7 @@ void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
     fraction_done_end             = a.fraction_done_end;
     gpu_device_num                = a.gpu_device_num;
     gpu_opencl_dev_index          = a.gpu_opencl_dev_index;
+    gpu_usage                     = a.gpu_usage;
     ncpus                         = a.ncpus;
     checkpoint_period             = a.checkpoint_period;
     wu_cpu_time                   = a.wu_cpu_time;
@@ -209,6 +210,7 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         "<gpu_type>%s</gpu_type>\n"
         "<gpu_device_num>%d</gpu_device_num>\n"
         "<gpu_opencl_dev_index>%d</gpu_opencl_dev_index>\n"
+        "<gpu_usage>%f</gpu_usage>\n"
         "<ncpus>%f</ncpus>\n"
         "<rsc_fpops_est>%f</rsc_fpops_est>\n"
         "<rsc_fpops_bound>%f</rsc_fpops_bound>\n"
@@ -232,6 +234,7 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         ai.gpu_type,
         ai.gpu_device_num,
         ai.gpu_opencl_dev_index,
+        ai.gpu_usage,
         ai.ncpus,
         ai.rsc_fpops_est,
         ai.rsc_fpops_bound,
@@ -292,6 +295,7 @@ void APP_INIT_DATA::clear() {
     gpu_device_num = -1;
     // -1 means an older version without gpu_opencl_dev_index field
     gpu_opencl_dev_index = -1;
+    gpu_usage = 0;
     ncpus = 0;
     memset(&shmem_seg_name, 0, sizeof(shmem_seg_name));
     wu_cpu_time = 0;
@@ -393,6 +397,7 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         if (xp.parse_str("gpu_type", ai.gpu_type, sizeof(ai.gpu_type))) continue;
         if (xp.parse_int("gpu_device_num", ai.gpu_device_num)) continue;
         if (xp.parse_int("gpu_opencl_dev_index", ai.gpu_opencl_dev_index)) continue;
+        if (xp.parse_double("gpu_usage", ai.gpu_usage)) continue;
         if (xp.parse_double("ncpus", ai.ncpus)) continue;
         if (xp.parse_double("fraction_done_start", ai.fraction_done_start)) continue;
         if (xp.parse_double("fraction_done_end", ai.fraction_done_end)) continue;
