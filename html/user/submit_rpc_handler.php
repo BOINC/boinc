@@ -522,11 +522,12 @@ $r = simplexml_load_string("
     <authenticator>x</authenticator>
     <batch>
     <app_name>remote_test</app_name>
-    <batch_name>Aug 6 batch 2</batch_name>
+    <batch_name>Aug 6 batch 4</batch_name>
     <job>
         <rsc_fpops_est>19000000000</rsc_fpops_est>
         <command_line>--t 19</command_line>
         <input_file>
+            <mode>remote</mode>
             <source>http://google.com/</source>
         </input_file>
     </job>
