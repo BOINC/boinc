@@ -848,13 +848,27 @@ void CDlgAdvPreferences::OnAddExclusiveApp(wxCommandEvent&) {
         // wxFileName::IsFileExecutable() doesn't seem to work on Windows, 
         // and we can only perform minimal validation on remote hosts, so 
         // check filename extension on Mac and Win
-        if (hostIsMac || hostIsWin) {
-            if (!appNames[0].EndsWith(extension)) {
-                errmsg.Printf(_("Application names must end with '%s'"), extension);
-                wxGetApp().SafeMessageBox(errmsg, _("Add Exclusive App"),
-                            wxOK | wxICON_EXCLAMATION, this);
-                return;
+        bool bad_name = false;
+        if (hostIsMac) {
+            bad_name = !appNames[i].EndsWith(extension);
+        } else if (hostIsWin) {
+            size_t len = appNames[i].Len();
+            size_t xl = 4;
+            if (len < xl) {
+                bad_name = true;
+            } else {
+                wxString x = appNames[i].Mid(len-xl);
+                if (x.CmpNoCase(extension) != 0) {
+                    bad_name = true;
+                }
             }
+        }
+        if (bad_name) {
+            errmsg.Printf(_("Application names must end with '%s'"), extension);
+            wxGetApp().SafeMessageBox(errmsg, _("Add Exclusive App"),
+                wxOK | wxICON_EXCLAMATION, this
+            );
+            return;
         }
 
         if (hostIsMac) {
@@ -917,7 +931,7 @@ void CDlgAdvPreferences::OnOK(wxCommandEvent& ev) {
 		return;
 	}
 	if(SavePreferencesSettings()) {
-		pDoc->rpc.set_global_prefs_override_struct(prefs,mask);		
+		pDoc->rpc.set_global_prefs_override_struct(prefs,mask);
 		pDoc->rpc.read_global_prefs_override();
 	}
     
