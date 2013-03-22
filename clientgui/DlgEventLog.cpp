@@ -133,11 +133,15 @@ CDlgEventLog::~CDlgEventLog() {
 bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
 ////@begin CDlgEventLog member initialisation
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    
     m_iPreviousRowCount = 0;
     m_iTotalDocCount = 0;
-    m_iPreviousTotalDocCount = 0;
-    m_iPreviousFirstMsgSeqNum = 0;
-    m_iPreviousLastMsgSeqNum = 0;
+    m_iPreviousFirstMsgSeqNum = pDoc->GetFirstMsgSeqNum();
+    m_iPreviousLastMsgSeqNum = m_iPreviousFirstMsgSeqNum;
+
     m_iNumDeletedFilteredRows = 0;
     m_iTotalDeletedFilterRows = 0;
     
@@ -146,6 +150,7 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
     }
     m_iFilteredIndexes.Clear();
 	m_bProcessingRefreshEvent = false;
+    m_bWasConnected = false;
     m_bEventLogIsOpen = true;
 ////@end CDlgEventLog member initialisation
 
@@ -227,6 +232,7 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
 
     SetTextColor();
     RestoreState();
+    OnRefresh();
 
     return true;
 }
@@ -460,15 +466,11 @@ wxInt32 CDlgEventLog::GetDocCount() {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     
     m_iTotalDocCount = pDoc->GetMessageCount();
-    if (m_iTotalDocCount < m_iPreviousTotalDocCount) {
-        // Usually due to a disconnect from client
-        ResetMessageFiltering();
-        m_iPreviousFirstMsgSeqNum = 0;
-        m_iPreviousLastMsgSeqNum = 0;
-    }
 
     numDeletedRows = pDoc->GetFirstMsgSeqNum() - m_iPreviousFirstMsgSeqNum;
-    if (numDeletedRows < 0) numDeletedRows = 0;
+    if ((numDeletedRows < 0) || (m_iPreviousFirstMsgSeqNum < 0)) {
+        numDeletedRows = 0;
+    }
     m_iNumDeletedFilteredRows = 0;
 
     if (s_bIsFiltered) {
@@ -522,8 +524,6 @@ wxInt32 CDlgEventLog::GetDocCount() {
             }
         }
     }
-
-    m_iPreviousTotalDocCount = m_iTotalDocCount;
     
     return s_bIsFiltered ? m_iFilteredDocCount : m_iTotalDocCount;
 }
@@ -534,7 +534,6 @@ wxInt32 CDlgEventLog::GetDocCount() {
  */
 void CDlgEventLog::OnRefresh() {
     bool isConnected;
-    static bool was_connected = false;
     static wxString strLastMachineName = wxEmptyString;
     wxString strNewMachineName = wxEmptyString;
     CMainDocument* pDoc     = wxGetApp().GetDocument();
@@ -562,16 +561,16 @@ void CDlgEventLog::OnRefresh() {
                 pDoc->GetConnectedComputerName(strNewMachineName);
                 if (strLastMachineName != strNewMachineName) {
                     strLastMachineName = strNewMachineName;
-                    was_connected = false;
+                    m_bWasConnected = false;
                     ResetMessageFiltering();
-                    m_iPreviousFirstMsgSeqNum = 0;
-                    m_iPreviousLastMsgSeqNum = 0;
+                    m_iPreviousFirstMsgSeqNum = pDoc->GetFirstMsgSeqNum();
+                    m_iPreviousLastMsgSeqNum = m_iPreviousFirstMsgSeqNum;
                 }
             }
 
             // If connection status changed, adjust color of messages display
-            if (was_connected != isConnected) {
-                was_connected = isConnected;
+            if (m_bWasConnected != isConnected) {
+                m_bWasConnected = isConnected;
                 SetTextColor();
 
                 // Force a complete update
@@ -602,9 +601,11 @@ void CDlgEventLog::OnRefresh() {
         }
 
         m_iPreviousRowCount = iRowCount;
-        m_iPreviousFirstMsgSeqNum = pDoc->GetFirstMsgSeqNum();
-        m_iPreviousLastMsgSeqNum = pDoc->GetLastMsgSeqNum();
-
+        if (m_iTotalDocCount > 0) {
+            m_iPreviousFirstMsgSeqNum = pDoc->GetFirstMsgSeqNum();
+            m_iPreviousLastMsgSeqNum = pDoc->GetLastMsgSeqNum();
+        }
+        
         UpdateButtons();
 
         m_bProcessingRefreshEvent = false;

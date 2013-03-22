@@ -44,7 +44,6 @@ if (defined('TIMEZONE')) {
     date_default_timezone_set('UTC');
 }
 
-$generating_xml = false;
 $caching = false;
     // if set, we're writing to a file rather than to client
 $did_page_head = false;

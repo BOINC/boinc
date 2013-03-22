@@ -19,6 +19,8 @@
 // minimal set of util functions;
 // doesn't pull in translation.inc etc.
 
+$generating_xml = false;
+
 function web_stopped() {
     $d = dirname(__FILE__);
     return file_exists("$d/../../stop_web");
