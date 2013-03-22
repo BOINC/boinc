@@ -93,6 +93,7 @@ function stage_file($file) {
     global $fanout;
 
     switch ($file->mode) {
+    case "semilocal":
     case "local":
         $md5 = md5_file($file->source);
         if (!$md5) {
@@ -107,12 +108,8 @@ function stage_file($file) {
         return $name;
     case "local_staged":
         return $file->source;
-    case "remote":
-        xml_error(-1, "remote file mode not implemented");
-    case "semilocal":
-        xml_error(-1, "semilocal file mode not implemented");
     }
-    xml_error(-1, "unknown file mode $file->mode");
+    xml_error(-1, "unsupported file mode: $file->mode");
 }
 
 // stage all the files
