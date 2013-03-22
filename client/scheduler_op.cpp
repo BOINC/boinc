@@ -67,7 +67,7 @@ bool SCHEDULER_OP::check_master_fetch_start() {
             "Couldn't start download of scheduler list: %s", boincerror(retval)
         );
         p->master_fetch_failures++;
-        backoff(p, "scheduler list fetch failed\n");
+        project_rpc_backoff(p, "scheduler list fetch failed\n");
         return false;
     }
     msg_printf(p, MSG_INFO, "Fetching scheduler list");
@@ -78,7 +78,7 @@ bool SCHEDULER_OP::check_master_fetch_start() {
 
 // try to initiate an RPC to the given project.
 // If there are multiple schedulers, start with a random one.
-// User messages and backoff() is done at this level.
+// User messages and project RPC backoff is done at this level.
 //
 int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
     int retval;
@@ -100,7 +100,7 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
             sprintf(err_msg,
                 "Scheduler list fetch initialization failed: %d\n", retval
             );
-            backoff(p, err_msg);
+            project_rpc_backoff(p, err_msg);
         }
         return retval;
     }
@@ -122,7 +122,7 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
             "scheduler request to %s failed: %s\n",
             p->get_scheduler_url(url_index, url_random), boincerror(retval)
         );
-        backoff(p, err_msg);
+        project_rpc_backoff(p, err_msg);
     } else {
         // RPC started OK, so we must have network connectivity.
         // Now's a good time to check for new BOINC versions
@@ -148,7 +148,7 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
 // Back off contacting this project's schedulers,
 // and output an error msg if needed
 //
-void SCHEDULER_OP::backoff(PROJECT* p, const char *reason_msg) {
+void SCHEDULER_OP::project_rpc_backoff(PROJECT* p, const char *reason_msg) {
     char buf[1024];
 
     if (gstate.in_abort_sequence) {
@@ -199,7 +199,7 @@ void SCHEDULER_OP::backoff(PROJECT* p, const char *reason_msg) {
 // will be retriggered automatically
 //
 void SCHEDULER_OP::rpc_failed(const char* msg) {
-    backoff(cur_proj, msg);
+    project_rpc_backoff(cur_proj, msg);
     switch (cur_proj->sched_rpc_pending) {
     case RPC_REASON_INIT:
     case RPC_REASON_ACCT_MGR_REQ:
@@ -500,10 +500,10 @@ bool SCHEDULER_OP::poll() {
                 case 0:
                     break;
                 case ERR_PROJECT_DOWN:
-                    backoff(cur_proj, "project is down");
+                    project_rpc_backoff(cur_proj, "project is down");
                     break;
                 default:
-                    backoff(cur_proj, "can't parse scheduler reply");
+                    project_rpc_backoff(cur_proj, "can't parse scheduler reply");
                     break;
                 }
                 cur_proj->sched_rpc_pending = 0;
