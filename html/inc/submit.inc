@@ -94,7 +94,6 @@ function do_http_op($req, $xml, $op) {
             }
         }
     }
-    //curl_setopt($ch, CURLOPT_POSTFIELDS, "request=$xml");
     curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
     $reply = curl_exec($ch);
     if (!$reply) return array(null, "HTTP error");
@@ -271,13 +270,21 @@ $req->project = "http://isaac.ssl.berkeley.edu/test/";
 $req->authenticator = "x";
 if (0) {
     $req->app_name = "uppercase";
-    $req->batch_name = "batch_name";
+    $req->batch_name = "batch_name3";
     $req->jobs = array();
 
-    $f->source = "http://isaac.ssl.berkeley.edu/index.php";
-    $job->input_files = array($f);
+    $job->input_files = array();
+    $f->source = "http://isaac.ssl.berkeley.edu/validate_logic.txt";
+    $f->mode = "remote";
+    $f->md5 = "eec5a142cea5202c9ab2e4575a8aaaa7";
+    $f->size = 4250;
+    $job->input_files[] = $f;
+    $f = null;
+    $f->mode = "local";
+    $f->source = "foobar";
+    //$job->input_files[] = $f;
 
-    for ($i=10; $i<20; $i++) {
+    for ($i=10; $i<11; $i++) {
         $job->rsc_fpops_est = $i*1e9;
         $job->command_line = "--t $i";
         $req->jobs[] = $job;
