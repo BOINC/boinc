@@ -20,6 +20,7 @@ void parse(FILE* f) {
     }
     strcpy(foo, "xxx");
     while (!xp.get_tag()) {
+        printf("get_tag(): is_tag %d text %s\n", xp.is_tag, xp.parsed_tag);
         if (!xp.is_tag) {
             printf("unexpected text: %s\n", xp.parsed_tag);
             continue;
