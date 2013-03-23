@@ -30,10 +30,17 @@ error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 
+function get_wu($name) {
+    $name = BoincDb::escape_string($name);
+    $wu = BoincWorkunit::lookup("name='$name'");
+    if (!$wu) xml_error(-1, "BOINC server: no job named $name was found");
+    return $wu;
+}
+
 function get_app($name) {
     $name = BoincDb::escape_string($name);
     $app = BoincApp::lookup("name='$name'");
-    if (!$app) xml_error(-1, "no app");
+    if (!$app) xml_error(-1, "BOINC server: no app named $name was found");
     return $app;
 }
 
@@ -79,7 +86,7 @@ function validate_batch($jobs, $template) {
     foreach($jobs as $job) {
         $m = count($job->input_files);
         if ($n != $m) {
-            xml_error(-1, "wrong # of input files for job $i: need $n, got $m");
+            xml_error(-1, "BOINC server: wrong # of input files for job $i: need $n, got $m");
         }
         $i++;
     }
@@ -97,19 +104,19 @@ function stage_file($file) {
     case "local":
         $md5 = md5_file($file->source);
         if (!$md5) {
-            xml_error(-1, "Can't get MD5 of file $file->source");
+            xml_error(-1, "BOINC server: Can't get MD5 of file $file->source");
         }
         $name = "jf_$md5";
         $path = dir_hier_path($name, "../../download", $fanout);
         if (file_exists($path)) return $name;
         if (!copy($file->source, $path)) {
-            xml_error(-1, "can't copy file from $file->source to $path");
+            xml_error(-1, "BOINC server: can't copy file from $file->source to $path");
         }
         return $name;
     case "local_staged":
         return $file->source;
     }
-    xml_error(-1, "unsupported file mode: $file->mode");
+    xml_error(-1, "BOINC server: unsupported file mode: $file->mode");
 }
 
 // stage all the files
@@ -133,7 +140,7 @@ function submit_job($job, $template, $app, $batch_id, $i, $priority) {
     }
     $ret = system($cmd);
     if ($ret === FALSE) {
-        xml_error(-1, "can't create job");
+        xml_error(-1, "BOINC server: can't create job");
     }
 }
 
@@ -168,13 +175,13 @@ function submit_batch($r) {
     if ($batch_id) {
         $batch = BoincBatch::lookup_id($batch_id);
         if (!$batch) {
-            xml_error(-1, "no batch $batch_id");
+            xml_error(-1, "BOINC server: no batch $batch_id");
         }
         if ($batch->user_id != $user->id) {
-            xml_error(-1, "not owner");
+            xml_error(-1, "BOINC server: not owner of batch");
         }
         if ($batch->state != BATCH_STATE_INIT) {
-            xml_error(-1, "batch not in init state");
+            xml_error(-1, "BOINC server: batch not in init state");
         }
     }
 
@@ -191,28 +198,28 @@ function submit_batch($r) {
             if ($x) {
                 $total_flops += $x;
             } else {
-                xml_error(-1, "no rsc_fpops_est given");
+                xml_error(-1, "BOINC server: no rsc_fpops_est given");
             }
         }
     }
     $cmd = "cd ../../bin; ./adjust_user_priority --user $user->id --flops $total_flops --app $app->name";
     $x = exec($cmd);
     if (!is_numeric($x) || (double)$x == 0) {
-        xml_error(-1, "$cmd returned $x");
+        xml_error(-1, "BOINC server: $cmd returned $x");
     }
     $let = (double)$x;
 
     if ($batch_id) {
         $njobs = count($jobs);
         $ret = $batch->update("njobs=$njobs, logical_end_time=$let, state= ".BATCH_STATE_IN_PROGRESS);
-        if (!$ret) xml_error(-1, "batch->update() failed");
+        if (!$ret) xml_error(-1, "BOINC server: batch->update() failed");
     } else {
         $batch_name = (string)($r->batch->batch_name);
         $batch_id = BoincBatch::insert(
             "(user_id, create_time, njobs, name, app_id, logical_end_time, state) values ($user->id, $now, $njobs, '$batch_name', $app->id, $let, ".BATCH_STATE_IN_PROGRESS.")"
         );
         if (!$batch_id) {
-            xml_error(-1, "Can't create batch: ".mysql_error());
+            xml_error(-1, "BOINC server: Can't create batch: ".mysql_error());
         }
     }
     $i = 0;
@@ -231,7 +238,7 @@ function create_batch($r) {
         "(user_id, create_time, name, app_id, state) values ($user->id, $now, '$batch_name', $app->id, ".BATCH_STATE_INIT.")"
     );
     if (!$batch_id) {
-        xml_error(-1, "Can't create batch: ".mysql_error());
+        xml_error(-1, "BOINC server: Can't create batch: ".mysql_error());
     }
     echo "<batch_id>$batch_id</batch_id>\n";
 }
@@ -288,16 +295,18 @@ function get_batch($r) {
         $batch_name = BoincDb::escape_string($batch_name);
         $batch = BoincBatch::lookup_name($batch_name);
     } else {
-        xml_error(-1, "batch not specified");
+        xml_error(-1, "BOINC server: batch not specified");
     }
-    if (!$batch) xml_error(-1, "no such batch");
+    if (!$batch) xml_error(-1, "BOINC server: no such batch");
     return $batch;
 }
 
 function query_batch($r) {
     list($user, $user_submit) = authenticate_user($r, null);
     $batch = get_batch($r);
-    if ($batch->user_id != $user->id) xml_error(-1, "not owner");
+    if ($batch->user_id != $user->id) {
+        xml_error(-1, "BOINC server: not owner of batch");
+    }
 
     $wus = BoincWorkunit::enum("batch = $batch_id");
     $batch = get_batch_params($batch, $wus);
@@ -479,7 +488,9 @@ function handle_retire_batch($r) {
 }
 
 function get_templates($r) {
-    $app = get_app((string)($r->app_name));
+    $app_name = (string)($r->app_name);
+    if ($app_name) {
+        $app = get_app($app_name);
     list($user, $user_submit) = authenticate_user($r, $app);
     $in = file_get_contents("../../templates/".$app->name."_in");
     $out = file_get_contents("../../templates/".$app->name."_out");

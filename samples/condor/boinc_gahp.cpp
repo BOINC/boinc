@@ -184,17 +184,6 @@ int COMMAND::parse_submit(char* p) {
         }
         submit_req.jobs.push_back(job);
     }
-    char* q = strtok_r(NULL, " ", &p);
-    if (!strcmp(q, "ALL")) {
-        submit_req.all_output_files = true;
-    } else {
-        submit_req.all_output_files = false;
-        int noutfiles = atoi(q);
-        for (int j=0; j<noutfiles; j++) {
-            string outfile = strtok_r(NULL, " ", &p);
-            submit_req.outfiles.push_back(outfile);
-        }
-    }
     return 0;
 }
 
@@ -211,7 +200,7 @@ void handle_submit(COMMAND& c) {
     char buf[1024];
 
     retval = get_templates(
-        project_url, authenticator, req.app_name, td, error_msg
+        project_url, authenticator, req.app_name, NULL, td, error_msg
     );
     if (retval) {
         sprintf(buf, "error getting templates: %d\n", retval);
@@ -275,27 +264,59 @@ void handle_query_batches(COMMAND&c) {
     c.out = strdup(s.c_str());
 }
 
-// <job name> <dir> 
-//    <#files>
-//        <dst name>
-//        ...
+// <job name> <dir> <stderr_filename>
+//      <ALL | SOME>
+//      <#files>
+//          <src name> <dst>
+//          ...
 //
 int COMMAND::parse_fetch_output(char* p) {
     char* q = strtok_r(NULL, " ", &p);
     if (!q) return -1;
     strcpy(fetch_output_req.job_name, q);
+
     q = strtok_r(NULL, " ", &p);
     if (!q) return -1;
     strcpy(fetch_output_req.dir, q);
+
     q = strtok_r(NULL, " ", &p);
     if (!q) return -1;
     fetch_output_req.stderr_filename = string(q);
+
+    q = strtok_r(NULL, " ", &p);
+    if (!q) return -1;
+    if (!strcmp(q, "ALL")) {
+        fetch_output_req.fetch_all = true;
+    } else if (!strcmp(q, "SOME")) {
+        fetch_output_req.fetch_all = false;
+    } else {
+        return -1;
+    }
+
     int nfiles = atoi(strtok_r(NULL, " ", &p));
     for (int i=0; i<nfiles; i++) {
-        char* f = strtok_r(NULL, " ", &p);
-        fetch_output_req.file_names.push_back(string(f));
+        OUTFILE of;
+        strcpy(of.src, strtok_r(NULL, " ", &p));
+        strcpy(of.dest, strtok_r(NULL, " ", &p));
+        fetch_output_req.file_descs.push_back(of);
     }
     return 0;
+}
+
+// does the job have a single output file whose name ends w/ .zip?
+//
+bool zipped_output(TEMPLATE_DESC& td) {
+    if (td.output_files.size() != 1) return false;
+    return ends_with(td.output_files[0].c_str(), ".zip");
+}
+
+int output_file_index(TEMPLATE_DESC& td, const char* lname) {
+    for (unsigned int i=0; i<td.output_files.size(); i++) {
+        if (!strcmp(lname, td.output_files[i].c_str())) {
+            return (int)i;
+        }
+    }
+    return -1;
 }
 
 void handle_fetch_output(COMMAND& c) {
@@ -303,9 +324,23 @@ void handle_fetch_output(COMMAND& c) {
     char buf[1024];
     char path[1024];
     int retval;
+    unsigned int i;
     COMPLETED_JOB_DESC cjd;
     FETCH_OUTPUT_REQ &req = c.fetch_output_req;
     string s = "NULL";
+    TEMPLATE_DESC td;
+
+    // get the output template
+    //
+    retval = get_templates(
+        project_url, authenticator, NULL, req.job_name, td, error_msg
+    );
+    if (retval) {
+        sprintf(buf, "error getting templates: %d\n", retval);
+        s = string(buf) + error_msg;
+        c.out = strdup(s.c_str());
+        return;
+    }
 
     // get the job status
     //
@@ -319,6 +354,9 @@ void handle_fetch_output(COMMAND& c) {
     }
     sprintf(buf, " %d %f %f", cjd.exit_status, cjd.elapsed_time, cjd.cpu_time);
     s += string(buf);
+
+    // write stderr output to specified file
+    //
     if (cjd.canonical_resultid || cjd.error_resultid) {
         sprintf(path, "%s/%s", req.dir, req.stderr_filename.c_str());
         FILE* f = fopen(path, "w");
@@ -331,7 +369,7 @@ void handle_fetch_output(COMMAND& c) {
         fclose(f);
     }
 
-    if (req.file_names[0] == "ALL") {
+    if (zipped_output(td)) {
         // the job's output file is a zip archive.  Get it and unzip
         //
         sprintf(path, "%s/temp.zip", req.dir);
@@ -348,9 +386,9 @@ void handle_fetch_output(COMMAND& c) {
                 s = string("unzip failed");
             }
         }
-    } else {
-        for (unsigned int i=0; i<req.file_names.size(); i++) {
-            sprintf(path, "%s/%s", req.dir, req.file_names[i].c_str());
+    } else if (req.fetch_all) {
+        for (i=0; i<td.output_files.size(); i++) {
+            sprintf(path, "%s/%s", req.dir, td.output_files[i].c_str());
             retval = get_output_file(
                 project_url, authenticator, req.job_name, i, path, error_msg
             );
@@ -359,6 +397,45 @@ void handle_fetch_output(COMMAND& c) {
                 s = string(buf) + error_msg;
                 break;
             }
+        }
+    } else {
+        for (i=0; i<req.file_descs.size(); i++) {
+            char* lname = req.file_descs[i].src;
+            int j = output_file_index(td, lname);
+            if (j < 0) {
+                sprintf(buf, "requested file %s not in template", lname);
+                s = string(buf);
+                goto done;
+            }
+            sprintf(path, "%s/%s", req.dir, lname);
+            retval = get_output_file(
+                project_url, authenticator, req.job_name, i, path, error_msg
+            );
+            if (retval) {
+                sprintf(buf, "get_output_file() returned %d ", retval);
+                s = string(buf) + error_msg;
+                break;
+            }
+        }
+    }
+
+    // We've fetched all required output files; now move or rename them.
+    // Use system("mv...") rather than rename(),
+    // since the latter doesn't work across filesystems
+    //
+    for (i=0; i<req.file_descs.size(); i++) {
+        char dst_path[4096];
+        OUTFILE& of = req.file_descs[i];
+        if (!strcmp(of.src, of.dest)) continue;
+        if (of.dest[0] == '/') {
+            strcpy(dst_path, of.dest);
+        } else {
+            sprintf(dst_path, "%s/%s", req.dir, of.dest);
+        }
+        sprintf(buf, "mv %s/%s %s", req.dir, of.src, dst_path);
+        retval = system(buf);
+        if (retval) {
+            s = string("mv failed");
         }
     }
 done:
@@ -475,7 +552,16 @@ int handle_command(char* p) {
                 i++;
             }
         }
+    } else if (!strcmp(cmd, "BOINC_SELECT_PROJECT")) {
+        int n = sscanf(p, "%s %s %s", cmd, project_url, authenticator);
+        if (n ==3) {
+            printf("S\n");
+        } else {
+            printf("E\n");
+        }
     } else {
+        // asynchronous commands go here
+        //
         COMMAND *cp = new COMMAND(p);
         int retval = cp->parse_command();
         if (retval) {

@@ -424,6 +424,7 @@ int get_templates(
     const char* project_url,
     const char* authenticator,
     const char* app_name,
+    const char* job_name,
     TEMPLATE_DESC &td,
     string &error_msg
 ) {
@@ -432,8 +433,13 @@ int get_templates(
     request = "<get_templates>\n";
     sprintf(buf, "<authenticator>%s</authenticator>\n", authenticator);
     request += string(buf);
-    sprintf(buf, "<app_name>%s</app_name>\n", app_name);
-    request += string(buf);
+    if (app_name) {
+        sprintf(buf, "<app_name>%s</app_name>\n", app_name);
+        request += string(buf);
+    } else {
+        sprintf(buf, "<job_name>%s</job_name>\n", job_name);
+        request += string(buf);
+    }
     request += "</get_templates>\n";
     sprintf(url, "%ssubmit_rpc_handler.php", project_url);
     FILE* reply = tmpfile();

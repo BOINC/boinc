@@ -452,7 +452,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     if (new_results.size() == 0) {
         for (int i=0; i<coprocs.n_rsc; i++) {
             if (rsc_work_fetch[i].req_secs) {
-                p->rsc_pwf[i].backoff(p, rsc_name(i));
+                p->rsc_pwf[i].resource_backoff(p, rsc_name(i));
             }
         }
     } else {
@@ -1237,6 +1237,15 @@ void get_app_params() {
                     "   app %s: ignoring - no usable app versions\n",
                     app->name
                 );
+                continue;
+            }
+
+            if (app->non_cpu_intensive) {
+                fprintf(summary_file,
+                    "   app %s: ignoring - non CPU intensive\n",
+                    app->name
+                );
+                app->ignore = true;
                 continue;
             }
 

@@ -48,8 +48,6 @@ struct SUBMIT_REQ {
     char batch_name[256];
     char app_name[256];
     vector<JOB> jobs;
-    bool all_output_files;
-    vector<string> outfiles;
     map<string, LOCAL_FILE> local_files;
         // maps local path to info about file
     int batch_id;
@@ -65,11 +63,17 @@ struct QUERY_BATCH_REPLY {
     vector<QUERY_BATCH_JOB> jobs;
 };
 
+struct OUTFILE {
+    char src[256];      // logical name
+    char dest[256];     // name or path on submit host
+};
+
 struct FETCH_OUTPUT_REQ {
     char job_name[256];
     char dir[256];
+    bool fetch_all;
     string stderr_filename;
-    vector<string> file_names;
+    vector<OUTFILE> file_descs;
 };
 
 struct TEMPLATE_DESC {
@@ -169,7 +173,8 @@ extern int query_completed_job(
 extern int get_templates(
     const char* project_url,
     const char* authenticator,
-    const char* app_name,
+    const char* app_name,   // either this
+    const char* job_name,   // or this must be non-NULL
     TEMPLATE_DESC&,
     string& error_msg
 );
