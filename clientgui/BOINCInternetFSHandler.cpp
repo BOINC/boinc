@@ -100,10 +100,15 @@ protected:
 
 ////static bool lastReadHadEOF = false;
 static bool operationEnded = false;
-static DWORD lastInternetStatus;
-static LPVOID lastlpvStatusInformation;
+static bool handleClosed = false;
 static DWORD lastStatusInfo;
 static DWORD lastStatusInfoLength;
+static HINTERNET urlStreamHandle;
+
+// These two may be useful for debugging:
+static DWORD lastInternetStatus;
+static LPVOID lastlpvStatusInformation;
+
 
 // Callback for InternetOpenURL() and InternetReadFileEx()
 static void CALLBACK BOINCInternetStatusCallback(
@@ -114,13 +119,24 @@ static void CALLBACK BOINCInternetStatusCallback(
                     DWORD dwStatusInformationLength
             )
 {
+    INTERNET_ASYNC_RESULT* res;
+
     lastInternetStatus = dwInternetStatus;
     lastlpvStatusInformation = lpvStatusInformation;
     lastStatusInfoLength = dwStatusInformationLength;
     if (lastStatusInfoLength == sizeof(DWORD)) {
         lastStatusInfo = *(DWORD*)lpvStatusInformation;
+    } else {
+        lastStatusInfo = 0;
     }
     switch (dwInternetStatus) {
+    case INTERNET_STATUS_HANDLE_CREATED:
+        res = (INTERNET_ASYNC_RESULT*)lpvStatusInformation;
+        urlStreamHandle = (HINTERNET)(res->dwResult);
+        break;
+    case INTERNET_STATUS_HANDLE_CLOSING:
+        handleClosed = true;
+        break;
     case INTERNET_STATUS_REQUEST_COMPLETE:
         operationEnded = true;
         break;
@@ -129,6 +145,21 @@ static void CALLBACK BOINCInternetStatusCallback(
             operationEnded = true;
         }
         break;
+    }
+}
+
+
+static void BOINCCloseInternetHandle(HINTERNET handle) {
+    if (!handle) return;
+    
+    // Setting callback should be redundant, but do it for safety
+    InternetSetStatusCallback(handle, BOINCInternetStatusCallback);
+    handleClosed = false;
+    InternetCloseHandle(handle);
+
+    while (!handleClosed) {
+        wxThread::Sleep(20);
+        wxGetApp().Yield(true);
     }
 }
 
@@ -170,15 +201,12 @@ HINTERNET wxWinINetURL::GetSessionHandle(bool closeSessionHandle)
         }
         
         void INetCloseSession() {
-            InternetSetStatusCallback(NULL, BOINCInternetStatusCallback);
-            
-            while (m_handle) {
-                BOOL closedOK = InternetCloseHandle(m_handle);
-                if (closedOK) {
-                    m_handle = NULL;
-                } else {
-                    wxGetApp().Yield(true);
-                }
+            if (m_handle) {
+                // We can't call BOINCCloseInternetHandle() here
+                // because wxGetApp().Yield() is no longer valid.
+                InternetSetStatusCallback(m_handle, NULL);
+                InternetCloseHandle(m_handle);
+                m_handle = NULL;
             }
         }
     
@@ -190,14 +218,8 @@ HINTERNET wxWinINetURL::GetSessionHandle(bool closeSessionHandle)
     wxASSERT(pDoc);
 
     if (closeSessionHandle) {
-        while (session.m_handle) {
-            BOOL closedOK = InternetCloseHandle(session.m_handle);
-            if (closedOK) {
-                session.m_handle = NULL;
-            } else{
-                wxGetApp().Yield(true);
-            }
-        }
+        BOINCCloseInternetHandle(session.m_handle);
+        session.m_handle = NULL;
         return 0;
     }
 
@@ -252,6 +274,7 @@ size_t wxWinINetInputStream::GetSize() const
 size_t wxWinINetInputStream::OnSysRead(void *buffer, size_t bufsize)
 {
     DWORD bytesread = 0;
+    DWORD totalbytesread = 0;
     DWORD lError = ERROR_SUCCESS;
     BYTE *buf = (BYTE*)buffer;
     DWORD buflen = (DWORD)bufsize;
@@ -269,12 +292,12 @@ size_t wxWinINetInputStream::OnSysRead(void *buffer, size_t bufsize)
         SetError(wxSTREAM_READ_ERROR);
         return 0;
     }
-
     while (1) {
         bytesread = 0;
         success = InternetReadFile(m_hFile, buf, buflen, &bytesread);
+        totalbytesread += bytesread;
         if (success) {
-            if ( bytesread == 0 ) {
+            if ( totalbytesread == 0 ) {
                 SetError(wxSTREAM_EOF);
             }
             break;
@@ -289,14 +312,15 @@ size_t wxWinINetInputStream::OnSysRead(void *buffer, size_t bufsize)
                     // will call us again with a fresh empty buffer.
                     break;  
                 }
-                continue;   // Read the enxt chunk of data
+                wxThread::Sleep(20);
+                wxGetApp().Yield(true);
+                continue;   // Read the next chunk of data
             } else {
                 SetError(wxSTREAM_READ_ERROR);
                 break;
             }
         }
 
-    
 #if 0       // Possibly useful for debugging
         if ((!success) || (lError != ERROR_SUCCESS)) {
             DWORD iError, bLength = 0;
@@ -327,7 +351,7 @@ size_t wxWinINetInputStream::OnSysRead(void *buffer, size_t bufsize)
         }
     }   // End while(1)
     
-    return bytesread;
+    return totalbytesread;
 }
 
 
@@ -350,7 +374,7 @@ wxWinINetInputStream::~wxWinINetInputStream()
 {
     if ( m_hFile )
     {
-        InternetCloseHandle(m_hFile);
+        BOINCCloseInternetHandle(m_hFile);
         m_hFile=0;
     }
 }
@@ -367,6 +391,8 @@ static bool bAlreadyRunning = false;
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
+
+    urlStreamHandle = NULL;
 
     if (b_ShuttingDown || (!pDoc->IsConnected())) {
         GetSessionHandle(true); // Closes the session handle
@@ -395,26 +421,25 @@ static bool bAlreadyRunning = false;
     double endtimeout = dtime() + dInternetTimeout;
 
     wxLogTrace(wxT("Function Status"), wxT("wxWinINetURL::GetInputStream - Downloading file: '%s'\n"), owner->GetURL().c_str());
-    HINTERNET newStreamHandle = InternetOpenUrl
-                                (
-                                    GetSessionHandle(),
-                                    owner->GetURL(),
-                                    NULL,
-                                    0,
-                                    INTERNET_FLAG_KEEP_CONNECTION |
-                                    INTERNET_FLAG_PASSIVE,
-                                    1
-                                );
+    InternetOpenUrl (
+                    GetSessionHandle(),
+                    owner->GetURL(),
+                    NULL,
+                    0,
+                    INTERNET_FLAG_KEEP_CONNECTION |
+                    INTERNET_FLAG_PASSIVE,
+                    1
+                    );
     while (!operationEnded) {
         if (b_ShuttingDown || 
             (!pDoc->IsConnected()) || 
             (dtime() > endtimeout)
             ) {
-            GetSessionHandle(true); // Closes the session handle
-            if (newStreamHandle) {
-                InternetCloseHandle(newStreamHandle);
-                newStreamHandle = NULL;
+            if (urlStreamHandle) {
+                BOINCCloseInternetHandle(urlStreamHandle);
+                urlStreamHandle = NULL;
             }
+            GetSessionHandle(true); // Closes the session handle
             if (newStream) {
                 delete newStream;
                 newStream = NULL;
@@ -424,22 +449,11 @@ static bool bAlreadyRunning = false;
             return 0;
         }
         
+        wxThread::Sleep(20);
         wxGetApp().Yield(true);
     }
 
-    if ((lastInternetStatus == INTERNET_STATUS_REQUEST_COMPLETE) &&
-            (lastStatusInfoLength >= sizeof(HINTERNET)) &&
-            (!b_ShuttingDown)
-        ) {
-            INTERNET_ASYNC_RESULT* res = (INTERNET_ASYNC_RESULT*)lastlpvStatusInformation;
-            if (res && !res->dwError) {
-                newStreamHandle = (HINTERNET)(res->dwResult);
-            } else {
-                newStreamHandle = NULL;
-            }
-    }
-    
-    if (!newStreamHandle) {
+    if (!urlStreamHandle) {
         if (newStream) {
             delete newStream;
             newStream = NULL;
@@ -450,7 +464,7 @@ static bool bAlreadyRunning = false;
         return NULL;
     }
 
-    newStream->Attach(newStreamHandle);
+    newStream->Attach(urlStreamHandle);
 
     dInternetTimeout = STANDARD_INTERNET_TIMEOUT;
     bAlreadyRunning = false;
@@ -510,6 +524,7 @@ bool CBOINCInternetFSHandler::CanOpen(const wxString& location)
 {
     if (b_ShuttingDown) return false;
 
+#if 0
     // Check to see if we support the download of the specified file type
     // TODO: We'll need to revisit this policy after the next public release.
     //   Either wait for the wxWidgets 3.0 migration, or fix the async file
@@ -524,6 +539,7 @@ bool CBOINCInternetFSHandler::CanOpen(const wxString& location)
     if (file.GetExt() == wxT("png")) return false;
     if (file.GetExt() == wxT("tiff")) return false;
     if (file.GetExt() == wxT("jpeg")) return false;
+#endif
 
     // Regular check based on protocols
     //
