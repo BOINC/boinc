@@ -376,9 +376,9 @@ void CLIENT_STATE::assign_results_to_projects() {
 // find the project P with the largest priority,
 // and return its next runnable result
 //
-RESULT* CLIENT_STATE::largest_debt_project_best_result() {
+RESULT* CLIENT_STATE::highest_prio_project_best_result() {
     PROJECT *best_project = NULL;
-    double best_debt = 0;
+    double best_prio = 0;
     bool first = true;
     unsigned int i;
 
@@ -386,10 +386,10 @@ RESULT* CLIENT_STATE::largest_debt_project_best_result() {
         PROJECT* p = projects[i];
         if (!p->next_runnable_result) continue;
         if (p->non_cpu_intensive) continue;
-        if (first || p->sched_priority > best_debt) {
+        if (first || p->sched_priority > best_prio) {
             first = false;
             best_project = p;
-            best_debt = p->sched_priority;
+            best_prio = p->sched_priority;
         }
     }
     if (!best_project) return NULL;
@@ -526,18 +526,18 @@ static RESULT* earliest_deadline_result(int rsc_type) {
     return best_result;
 }
 
-void CLIENT_STATE::reset_debt_accounting() {
+void CLIENT_STATE::reset_rec_accounting() {
     unsigned int i;
     for (i=0; i<projects.size(); i++) {
         PROJECT* p = projects[i];
         for (int j=0; j<coprocs.n_rsc; j++) {
-            p->rsc_pwf[j].reset_debt_accounting();
+            p->rsc_pwf[j].reset_rec_accounting();
         }
     }
     for (int j=0; j<coprocs.n_rsc; j++) {
-        rsc_work_fetch[j].reset_debt_accounting();
+        rsc_work_fetch[j].reset_rec_accounting();
     }
-    debt_interval_start = now;
+    rec_interval_start = now;
 }
 
 // update REC (recent estimated credit)
@@ -550,7 +550,7 @@ static void update_rec() {
 
         double x = 0;
         for (int j=0; j<coprocs.n_rsc; j++) {
-            x += p->rsc_pwf[j].secs_this_debt_interval * f * rsc_work_fetch[j].relative_speed;
+            x += p->rsc_pwf[j].secs_this_rec_interval * f * rsc_work_fetch[j].relative_speed;
         }
         x *= COBBLESTONE_SCALE;
         double old = p->pwf.rec;
@@ -558,12 +558,12 @@ static void update_rec() {
         // start averages at zero
         //
         if (p->pwf.rec_time == 0) {
-            p->pwf.rec_time = gstate.debt_interval_start;
+            p->pwf.rec_time = gstate.rec_interval_start;
         }
 
         update_average(
             gstate.now,
-            gstate.debt_interval_start,
+            gstate.rec_interval_start,
             x,
             config.rec_half_life,
             p->pwf.rec,
@@ -571,7 +571,7 @@ static void update_rec() {
         );
 
         if (log_flags.priority_debug) {
-            double dt = gstate.now - gstate.debt_interval_start;
+            double dt = gstate.now - gstate.rec_interval_start;
             msg_printf(p, MSG_INFO,
                 "[prio] recent est credit: %.2fG in %.2f sec, %f + %f ->%f",
                 x, dt, old, p->pwf.rec-old, p->pwf.rec
@@ -670,26 +670,28 @@ void adjust_rec_sched(RESULT* rp) {
 
 // make this a variable so simulator can change it
 //
-double debt_adjust_period = DEBT_ADJUST_PERIOD;
+double rec_adjust_period = REC_ADJUST_PERIOD;
 
 // adjust project REC
 //
 void CLIENT_STATE::adjust_rec() {
     unsigned int i;
-    double elapsed_time = now - debt_interval_start;
+    double elapsed_time = now - rec_interval_start;
 
-    // If the elapsed time is more than 2*DEBT_ADJUST_PERIOD
-    // it must be because the host was suspended for a long time.
-    // In this case, ignore the last period
+    // If the elapsed time is negative or more than 2*REC_ADJUST_PERIOD
+    // it must be because either
+    // - the system clock was changed.
+    // - the host was suspended for a long time.
+    // In either case, ignore the last period
     //
-    if (elapsed_time > 2*debt_adjust_period || elapsed_time < 0) {
+    if (elapsed_time > 2*rec_adjust_period || elapsed_time < 0) {
         if (log_flags.priority_debug) {
             msg_printf(NULL, MSG_INFO,
-                "[priority] adjust_rec: elapsed time (%d) longer than sched enforce period(%d).  Ignoring this period.",
-                (int)elapsed_time, (int)debt_adjust_period
+                "[priority] adjust_rec: elapsed time (%.0f) negative or longer than sched enforce period(%.0f).  Ignoring this period.",
+                elapsed_time, rec_adjust_period
             );
         }
-        reset_debt_accounting();
+        reset_rec_accounting();
         return;
     }
 
@@ -711,7 +713,7 @@ void CLIENT_STATE::adjust_rec() {
 
     update_rec();
 
-    reset_debt_accounting();
+    reset_rec_accounting();
 }
 
 
@@ -915,11 +917,11 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
     }
 #endif
 
-    // Next, choose CPU jobs from projects with large debt
+    // Next, choose CPU jobs from highest priority projects
     //
     while (!proc_rsc.stop_scan_cpu()) {
         assign_results_to_projects();
-        rp = largest_debt_project_best_result();
+        rp = highest_prio_project_best_result();
         if (!rp) break;
         atp = lookup_active_task_by_result(rp);
         if (!proc_rsc.can_schedule(rp, atp)) continue;

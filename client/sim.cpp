@@ -83,13 +83,13 @@ const char* outfile_prefix = "./";
 #define RESULTS_DAT_FNAME "results.dat"
 #define RESULTS_TXT_FNAME "results.txt"
 #define SUMMARY_FNAME "summary.txt"
-#define DEBT_FNAME "debt.dat"
+#define REC_FNAME "rec.dat"
 
 bool user_active;
 double duration = 86400, delta = 60;
 FILE* logfile;
 FILE* html_out;
-FILE* debt_file;
+FILE* rec_file;
 FILE* index_file;
 FILE* summary_file;
 char log_filename[256];
@@ -110,7 +110,7 @@ bool active;
 bool gpu_active;
 bool connected;
 
-extern double debt_adjust_period;
+extern double rec_adjust_period;
 
 SIM_RESULTS sim_results;
 int njobs;
@@ -1004,12 +1004,12 @@ void set_initial_rec() {
 }
 
 void write_recs() {
-    fprintf(debt_file, "%f ", gstate.now);
+    fprintf(rec_file, "%f ", gstate.now);
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-        fprintf(debt_file, "%f ", p->pwf.rec);
+        fprintf(rec_file, "%f ", p->pwf.rec);
     }
-    fprintf(debt_file, "\n");
+    fprintf(rec_file, "\n");
 }
 
 void make_graph(const char* title, const char* fname, int field) {
@@ -1026,7 +1026,7 @@ void make_graph(const char* title, const char* fname, int field) {
     );
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-        fprintf(f, "\"%sdebt.dat\" using 1:%d title \"%s\" with lines%s",
+        fprintf(f, "\"%srec.dat\" using 1:%d title \"%s\" with lines%s",
             outfile_prefix, 2+i+field, p->project_name,
             (i==gstate.projects.size()-1)?"\n":", \\\n"
         );
@@ -1289,7 +1289,7 @@ void get_app_params() {
     );
 }
 
-// zero backoffs and debts.
+// zero backoffs and REC
 //
 void clear_backoff() {
     unsigned int i;
@@ -1461,7 +1461,7 @@ void do_client_simulation() {
 
     //set_initial_rec();
 
-    debt_adjust_period = delta;
+    rec_adjust_period = delta;
 
     gstate.request_work_fetch("init");
     simulate();
@@ -1498,7 +1498,7 @@ void do_client_simulation() {
     );
     print_project_results(summary_file);
 
-    fclose(debt_file);
+    fclose(rec_file);
     make_graph("REC", "rec", 0);
 }
 
@@ -1558,8 +1558,8 @@ int main(int argc, char** argv) {
     }
     setbuf(logfile, 0);
 
-    sprintf(buf, "%s%s", outfile_prefix, DEBT_FNAME);
-    debt_file = fopen(buf, "w");
+    sprintf(buf, "%s%s", outfile_prefix, REC_FNAME);
+    rec_file = fopen(buf, "w");
 
     sprintf(buf, "%s%s", outfile_prefix, SUMMARY_FNAME);
     summary_file = fopen(buf, "w");

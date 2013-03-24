@@ -84,7 +84,6 @@ Commands:\n\
  --read_cc_config\n\
  --read_global_prefs_override\n\
  --run_benchmarks\n\
- --set_debts URL1 std1 ltd1 [URL2 std2 ltd2 ...]\n\
  --set_gpu_mode mode duration       set GPU run mode for given duration\n\
    mode = always | auto | never\n\
  --set_network_mode mode duration   set network mode for given duration\n\

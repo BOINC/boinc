@@ -491,6 +491,12 @@ function get_templates($r) {
     $app_name = (string)($r->app_name);
     if ($app_name) {
         $app = get_app($app_name);
+    } else {
+        $job_name = (string)($r->job_name);
+        $wu = get_wu($job_name);
+        $app = BoincApp::lookup_id($wu->appid);
+    }
+
     list($user, $user_submit) = authenticate_user($r, $app);
     $in = file_get_contents("../../templates/".$app->name."_in");
     $out = file_get_contents("../../templates/".$app->name."_out");

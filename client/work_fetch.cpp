@@ -698,13 +698,13 @@ void WORK_FETCH::accumulate_inst_sec(ACTIVE_TASK* atp, double dt) {
     APP_VERSION* avp = atp->result->avp;
     PROJECT* p = atp->result->project;
     double x = dt*avp->avg_ncpus;
-    p->rsc_pwf[0].secs_this_debt_interval += x;
-    rsc_work_fetch[0].secs_this_debt_interval += x;
+    p->rsc_pwf[0].secs_this_rec_interval += x;
+    rsc_work_fetch[0].secs_this_rec_interval += x;
     int rt = avp->gpu_usage.rsc_type;
     if (rt) {
         x = dt*avp->gpu_usage.usage;
-        p->rsc_pwf[rt].secs_this_debt_interval += x;
-        rsc_work_fetch[rt].secs_this_debt_interval += x;
+        p->rsc_pwf[rt].secs_this_rec_interval += x;
+        rsc_work_fetch[rt].secs_this_rec_interval += x;
     }
 }
 

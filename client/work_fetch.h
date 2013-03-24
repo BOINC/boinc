@@ -80,10 +80,10 @@ struct RSC_PROJECT_WORK_FETCH {
     double backoff_time;
     double backoff_interval;
 
-    // the following used by debt accounting
-    double secs_this_debt_interval;
-    inline void reset_debt_accounting() {
-        secs_this_debt_interval = 0;
+    // the following used by REC accounting
+    double secs_this_rec_interval;
+    inline void reset_rec_accounting() {
+        secs_this_rec_interval = 0;
     }
     double queue_est;
         // an estimate of instance-secs of queued work;
@@ -111,7 +111,7 @@ struct RSC_PROJECT_WORK_FETCH {
     RSC_PROJECT_WORK_FETCH() {
         backoff_time = 0;
         backoff_interval = 0;
-        secs_this_debt_interval = 0;
+        secs_this_rec_interval = 0;
         queue_est = 0;
         anon_skip = false;
         fetchable_share = 0;
@@ -233,10 +233,10 @@ struct RSC_WORK_FETCH {
     double req_secs;
     double req_instances;
 
-    // debt accounting
-    double secs_this_debt_interval;
-    inline void reset_debt_accounting() {
-        this->secs_this_debt_interval = 0;
+    // REC accounting
+    double secs_this_rec_interval;
+    inline void reset_rec_accounting() {
+        this->secs_this_rec_interval = 0;
     }
 
     void rr_init();

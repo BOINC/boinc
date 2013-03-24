@@ -275,14 +275,14 @@ struct CLIENT_STATE {
     double potentially_runnable_resource_share();
     double nearly_runnable_resource_share();
     double fetchable_resource_share();
-    double debt_interval_start;
-    double total_cpu_time_this_debt_interval;
+    double rec_interval_start;
+    double total_cpu_time_this_rec_interval;
     bool must_enforce_cpu_schedule;
     bool must_schedule_cpus;
     bool must_check_work_fetch;
     void assign_results_to_projects();
-    RESULT* largest_debt_project_best_result();
-    void reset_debt_accounting();
+    RESULT* highest_prio_project_best_result();
+    void reset_rec_accounting();
     bool schedule_cpus();
     void make_run_list(vector<RESULT*>&);
     bool enforce_run_list(vector<RESULT*>&);
@@ -561,9 +561,9 @@ extern double calculate_exponential_backoff(
 #define CPU_SCHED_PERIOD    60
     // do CPU schedule at least this often
 
-#define DEBT_ADJUST_PERIOD CPU_SCHED_PERIOD
-    // debt is adjusted at least this often,
-    // since adjust_debts() is called from enforce_schedule()
+#define REC_ADJUST_PERIOD CPU_SCHED_PERIOD
+    // REC is adjusted at least this often,
+    // since adjust_rec() is called from enforce_schedule()
 
 #define DEADLINE_CUSHION    0
     // try to finish jobs this much in advance of their deadline
@@ -590,9 +590,6 @@ extern double calculate_exponential_backoff(
     // wait this long after app exits before restarting jobs
 
 #define DAILY_XFER_HISTORY_PERIOD   60
-
-#define MAX_STD   (86400)
-    // maximum short-term debt
 
 #define ACCT_MGR_MIN_BACKOFF    600
 #define ACCT_MGR_MAX_BACKOFF    86400
