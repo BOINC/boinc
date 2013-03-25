@@ -317,7 +317,7 @@ PROJECT* RSC_WORK_FETCH::choose_project_hyst(
 }
 
 // request this project's share of shortfall and instances.
-// don't request anything if project is overworked or backed off.
+// don't request anything if project is backed off.
 //
 void RSC_WORK_FETCH::set_request(PROJECT* p) {
     if (dont_fetch(p, rsc_type)) return;
@@ -337,6 +337,7 @@ void RSC_WORK_FETCH::set_request(PROJECT* p) {
     RSC_PROJECT_WORK_FETCH& w = project_state(p);
     if (!w.may_have_work) return;
     if (w.anon_skip) return;
+    double non_excl_inst = ninstances - w.ncoprocs_excluded;
     if (shortfall) {
         if (wacky_dcf(p)) {
             // if project's DCF is too big or small,
@@ -346,13 +347,17 @@ void RSC_WORK_FETCH::set_request(PROJECT* p) {
         } else {
             req_secs = shortfall;
             if (w.ncoprocs_excluded) {
-                double non_excl_inst = ninstances - w.ncoprocs_excluded;
                 req_secs *= non_excl_inst/ninstances;
             }
         }
     }
 
-    req_instances = nidle_now;
+    double instance_share = ninstances*w.fetchable_share;
+    if (instance_share > non_excl_inst) {
+        instance_share = non_excl_inst;
+    }
+    instance_share -= w.nused_total;
+    req_instances = std::max(nidle_now, instance_share);
 
     if (log_flags.work_fetch_debug) {
         msg_printf(p, MSG_INFO,
