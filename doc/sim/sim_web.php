@@ -330,9 +330,15 @@ function show_scenario() {
             <th>Comments</th>
         </tr>
     ";
+
+    $dirs = array();
     $s = opendir("$d/simulations");
     while (false !== ($f = readdir($s))) {
         if (!is_numeric($f)) continue;
+        $dirs[] = $f;
+    }
+    rsort($dirs);
+    foreach ($dirs as $f) {
         show_simulation_summary($name, $f);
     }
     end_table();
