@@ -20,7 +20,7 @@ function boincimport_menu() {
   $items = array();
   
   $items['admin/boinc/import'] = array(
-    'title' => 'BOINC data import',
+    'title' => 'Environment: Data import',
     'description' => 'Overview of the BOINC data import process.',
     'access callback' => 'user_access',
     'access arguments' => array('import boinc data'),

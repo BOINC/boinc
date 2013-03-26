@@ -44,7 +44,7 @@ function boincuser_menu() {
     'file path' => drupal_get_path('module', 'system'),
   );
   $items['admin/boinc/environment'] = array(
-    'title' => 'BOINC environment settings',
+    'title' => 'Environment: General',
     'description' => 'Set paths to BOINC functions and any other necessary
       variables that establish a BOINC environment.',
     'page callback' => 'drupal_get_form',
@@ -54,7 +54,7 @@ function boincuser_menu() {
     'file' => 'boincuser.admin.inc'
   );
   $items['admin/boinc/scheduler'] = array(
-    'title' => 'BOINC scheduling server URLs',
+    'title' => 'Environment: Scheduling server URLs',
     'description' => 'Set BOINC scheduler options.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('boincuser_admin_scheduler'),

@@ -22,7 +22,7 @@
   */
 function boincstats_menu() {
   $items['admin/boinc/stats'] = array(
-    'title' => 'BOINC stats system setup',
+    'title' => 'Environment: Statistics setup',
     'description' => 'Configure the stats system for generating charts and 
       providing cross project data.',
     'page callback' => 'drupal_get_form',
