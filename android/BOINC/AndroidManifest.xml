@@ -38,13 +38,19 @@
         
         <activity
             android:name="edu.berkeley.boinc.BOINCActivity"
-            android:label="@string/app_name" android:configChanges="orientation">
+            android:label="@string/app_name"
+            android:configChanges="orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" android:noHistory="true"/>
+        <activity android:name=".AttachProjectListActivity"
+            android:configChanges="orientation"/>
+        <activity android:name=".AttachProjectLoginActivity"
+            android:configChanges="orientation"/>
+        <activity android:name=".AttachProjectRegistrationActivity"
+            android:configChanges="orientation"/>
         <activity android:name=".StatusActivity" />
         <activity android:name=".TasksActivity" />
         <activity android:name=".TransActivity" />
