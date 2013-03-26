@@ -16,29 +16,29 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package edu.berkeley.boinc.adapter;
 
-import android.content.Context;
+package edu.berkeley.boinc.rpc;
 
-public class PrefsListItemWrapper {
+import java.util.ArrayList;
+
+// according to http://boinc.berkeley.edu/trac/wiki/WebRpc
+
+public class ProjectConfig{
+	public Integer error_num = 0; // if results are not present yet. (polling)
+	public String name = "";
+	public String masterUrl = "";
+	public String localRevision = "";
+	public Integer minPwdLength = 0;
+	public Boolean userName = false;
+	public Boolean webStopped = false;
+	public Boolean schedulerStopped = false;
+	public Boolean accountCreationDisabled = false; 
+	public Boolean clientAccountCreationDisabled = false;
+	public Boolean accountManager = false;
+	public Integer minClientVersion = 0;
+	public String rpcPrefix = "";
+	public ArrayList<PlatformInfo> platforms = new ArrayList<PlatformInfo>();
 	
-	public Context ctx;
-	public Integer ID;
-	public Integer categoryID;
-	public Boolean isCategory;
+	//TODO system requirements
 	
-	// Constructor for elements
-	public PrefsListItemWrapper (Context ctx, Integer ID, Integer categoryID) {
-		this.ctx = ctx;
-		this.ID = ID;
-		this.categoryID = categoryID;
-		this.isCategory = false;
-	}
-	
-	// Constructor for categories
-	public PrefsListItemWrapper (Context ctx, Integer ID, Boolean isCategory) {
-		this.ctx = ctx;
-		this.ID = ID;
-		this.isCategory = isCategory;
-	}
 }

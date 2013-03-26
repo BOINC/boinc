@@ -143,45 +143,6 @@ public class PrefsActivity extends Activity implements OnClickListener {
 		return true;
 	}
 	
-	/*
-	private void loadSettings() {
-		if(!readPrefs() || appPrefs == null) {
-			Log.d(TAG, "loadSettings returns, data is not present");
-			return;
-		}
-		
-		if(initialSetup) {
-			//init layout instead
-			reinitPrefsLayout();
-		} else {
-			//Log.d(TAG, "loadSettings outdated: " + dataOutdated );
-			if(dataOutdated) { //data is not present or not current, show loading instead!
-				setContentView(R.layout.prefs_layout_loading);
-			} else {
-				// prefs_category_general
-				((PrefsListItemWrapperBool) data.get(1)).setStatus(appPrefs.getAutostart());
-				((PrefsListItemWrapperBool) data.get(2)).setStatus(appPrefs.getShowAdvanced());
-				// prefs_category_network
-				((PrefsListItemWrapperBool) data.get(4)).setStatus(clientPrefs.network_wifi_only);
-				((PrefsListItemWrapperDouble) data.get(5)).status = clientPrefs.daily_xfer_limit_mb;
-				// prefs_category_power
-				((PrefsListItemWrapperBool) data.get(7)).setStatus(clientPrefs.run_on_batteries);
-				// prefs_category_cpu
-				((PrefsListItemWrapperDouble) data.get(9)).status = clientPrefs.max_ncpus_pct;
-				((PrefsListItemWrapperDouble) data.get(10)).status = clientPrefs.cpu_usage_limit;
-				((PrefsListItemWrapperDouble) data.get(11)).status = clientPrefs.suspend_cpu_usage;
-				// prefs_category_storage
-				((PrefsListItemWrapperDouble) data.get(13)).status = clientPrefs.disk_max_used_pct;
-				((PrefsListItemWrapperDouble) data.get(14)).status = clientPrefs.disk_min_free_gb;
-				// prefs_category_memory
-				((PrefsListItemWrapperDouble) data.get(16)).status = clientPrefs.ram_max_used_busy_frac;
-				((PrefsListItemWrapperDouble) data.get(17)).status = clientPrefs.ram_max_used_idle_frac;
-				
-				listAdapter.notifyDataSetChanged(); //force list adapter to refresh
-			}
-		}
-	}*/
-	
 	private void loadSettings() {
 		
 		if(!readPrefs() || appPrefs == null) {
@@ -270,7 +231,7 @@ public class PrefsActivity extends Activity implements OnClickListener {
 		dialog.setContentView(R.layout.prefs_layout_dialog);
 		Button button = (Button) dialog.findViewById(R.id.buttonPrefSubmit);
 		button.setOnClickListener(this);
-		EditText edit = (EditText) dialog.findViewById(R.id.Input);
+		//EditText edit = (EditText) dialog.findViewById(R.id.Input);
 		TextView description = (TextView) dialog.findViewById(R.id.description);
 		description.setText(id);
 		dialog.setTitle(R.string.prefs_dialog_title);

@@ -184,7 +184,7 @@ public class ProjectsActivity extends FragmentActivity {
 	
 	public void onProjectAdd() {
 		Log.d(TAG, "onProjectAdd()");
-		startActivity(new Intent(this,LoginActivity.class));
+		startActivity(new Intent(this,AttachProjectListActivity.class));
 	}
 
 	public void onProjectUpdate(String url, String name) {

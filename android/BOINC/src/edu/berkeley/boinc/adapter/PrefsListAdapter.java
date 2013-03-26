@@ -20,7 +20,6 @@ package edu.berkeley.boinc.adapter;
 
 import java.util.ArrayList;
 
-import edu.berkeley.boinc.AppPreferences;
 import edu.berkeley.boinc.R;
 
 import android.app.Activity;

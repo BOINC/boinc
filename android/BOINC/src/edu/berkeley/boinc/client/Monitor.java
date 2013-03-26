@@ -40,7 +40,6 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
-import edu.berkeley.boinc.LoginActivity;
 import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.AppPreferences;
 import edu.berkeley.boinc.R;
@@ -51,6 +50,8 @@ import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.Message;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.ProjectAttachReply;
+import edu.berkeley.boinc.rpc.ProjectInfo;
+import edu.berkeley.boinc.rpc.ProjectConfig;
 import edu.berkeley.boinc.rpc.Result;
 import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.rpc.Transfer;
@@ -190,6 +191,7 @@ public class Monitor extends Service {
     }
 
     //sends broadcast about login (or register) result for login activity
+    /*
 	private void sendLoginResultBroadcast(Integer type, Integer result, String message) {
         Intent loginResults = new Intent();
         loginResults.setAction("edu.berkeley.boinc.loginresults");
@@ -197,7 +199,7 @@ public class Monitor extends Service {
         loginResults.putExtra("result", result);
         loginResults.putExtra("message", message);
         getApplicationContext().sendBroadcast(loginResults,null);
-	}
+	}*/
 	
     public void restartMonitor() {
     	if(Monitor.monitorActive) { //monitor is already active, launch cancelled
@@ -220,6 +222,7 @@ public class Monitor extends Service {
     	(new ShutdownClientAsync()).execute();
     }
     
+    /*
     public void attachProjectAsync(String url, String name, String email, String pwd) {
 		Log.d(TAG,"attachProjectAsync");
 		String[] param = new String[4];
@@ -228,7 +231,7 @@ public class Monitor extends Service {
 		param[2] = email;
 		param[3] = pwd;
 		(new ProjectAttachAsync()).execute(param);
-    }
+    }*/
     
 	public void setRunMode(Integer mode) {
 		//execute in different thread, in order to avoid network communication in main thread and therefore ANR errors
@@ -264,6 +267,55 @@ public class Monitor extends Service {
 		String authKey = fileData.toString();
 		Log.d(TAG, "authKey: " + authKey);
 		return authKey;
+	}
+	
+	public ArrayList<ProjectInfo> getAndroidProjectsList() {
+		ArrayList<ProjectInfo> allProjects = rpc.getAllProjectsList();
+		ArrayList<ProjectInfo> androidProjects = new ArrayList<ProjectInfo>();
+		
+		//filter projects that do not support Android
+		for (ProjectInfo project: allProjects) {
+			if(project.platforms.contains(getString(R.string.boinc_platform_name))) {
+				Log.d(TAG, project.name + " supports " + getString(R.string.boinc_platform_name));
+				androidProjects.add(project);
+			} 
+		}
+		return androidProjects;
+	}
+	
+	public ProjectConfig getProjectConfig(String url) {
+		ProjectConfig config = null;
+		
+    	Boolean success = rpc.getProjectConfig(url); //asynchronous call
+    	if(success) { //only continue if attach command did not fail
+    		// verify success of getProjectConfig with poll function
+    		Integer counter = 0;
+    		Integer sleepDuration = 500; //in milliseconds
+    		Integer maxLoops = maxDuration / sleepDuration;
+    		Boolean loop = true;
+    		while(loop && (counter < maxLoops)) {
+    			loop = false;
+    			try {
+    				Thread.sleep(sleepDuration);
+    			} catch (Exception e) {}
+    			counter ++;
+    			config = rpc.getProjectConfigPoll();
+    			if(config==null) {
+    				return null;
+    			}
+    			if (config.error_num == -204) {
+    				loop = true; //no result yet, keep looping
+    			} else {
+    				//final result ready
+    				if(config.error_num == 0) { 
+        				Log.d(TAG, "ProjectConfig retrieved: " + config.name);
+    				} else {
+    					Log.d(TAG, "final result with error_num: " + config.error_num);
+    				}
+    			}
+    		}
+    	}
+		return config;
 	}
 	
 	public Boolean attachProject(String url, String name, String authenticator) {
@@ -381,6 +433,7 @@ public class Monitor extends Service {
 		(new TransferRetryAsync()).execute(param);
 	}
     
+	/*
     public void createAccountAsync(String url, String email, String userName, String pwd, String teamName) {
 		Log.d(TAG,"createAccountAsync");
 		String[] param = new String[5];
@@ -390,7 +443,7 @@ public class Monitor extends Service {
 		param[3] = pwd;
 		param[4] = teamName;
 		(new CreateAccountAsync()).execute(param);
-    }
+    }*/
 	
 	public AccountOut createAccount(String url, String email, String userName, String pwd, String teamName) {
 		AccountIn information = new AccountIn();
@@ -465,11 +518,14 @@ public class Monitor extends Service {
 					if(showRpcCommands) Log.d(TAG, "getTransers");
 					ArrayList<Transfer>  transfers = rpc.getFileTransfers();
 					if(showRpcCommands) Log.d(TAG, "getGlobalPrefsWorkingStruct");
-					GlobalPreferences clientPrefs = rpc.getGlobalPrefsWorkingStruct();
+					GlobalPreferences clientPrefs = rpc.getGlobalPrefsWorkingStruct(); 
 					ArrayList<Message> msgs = new ArrayList<Message>();
-					Integer count = rpc.getMessageCount();
-					msgs = rpc.getMessages(count - 250); //get the most recent 250 messages
-					if(showRpcCommands) Log.d(TAG, "getMessages, count: " + count);
+					// retrieve messages only, if tabs are actually enabled. very resource intense with logging on emulator!
+					if(getResources().getBoolean(R.bool.tab_messages) || getResources().getBoolean(R.bool.tab_debug)) { 
+						Integer count = rpc.getMessageCount();
+						msgs = rpc.getMessages(count - 250); //get the most recent 250 messages
+						if(showRpcCommands) Log.d(TAG, "getMessages, count: " + count);
+					}
 					
 					if( (status != null) && (results != null) && (projects != null) && (transfers != null) &&
 					    (clientPrefs != null)
@@ -869,6 +925,7 @@ public class Monitor extends Service {
 	    }
 	}
 	
+	/*
 	private final class ProjectAttachAsync extends AsyncTask<String,String,Boolean> {
 
 		private final String TAG = "ProjectAttachAsync";
@@ -905,8 +962,9 @@ public class Monitor extends Service {
 			}
 			return attach;
 		}
-	}
+	}*/
 	
+	/*
 	private final class CreateAccountAsync extends AsyncTask<String,String,Boolean> {
 
 		private final String TAG = "CreateAccountAsync";
@@ -946,7 +1004,7 @@ public class Monitor extends Service {
 			}
 			return attach;
 		}
-	}
+	}*/
 	
 	private final class ProjectDetachAsync extends AsyncTask<String,String,Boolean> {
 
