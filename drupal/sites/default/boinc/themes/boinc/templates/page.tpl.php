@@ -117,6 +117,25 @@
   <?php print $head; ?>
   <?php print $styles; ?>
   <?php print $scripts; ?>
+  <?php if ($is_front): ?>
+    <?php
+      // Insert the scheduler tags
+      $scheduler_tags = boinc_get_scheduler_tags();
+      if ($use_old_tags = variable_get('boinc_scheduler_tag_format_old', 1)) {
+        print "<!-- Project scheduling servers -->\n";
+        print "<!--\n";
+        foreach ($scheduler_tags as $tag) {
+          print "  <scheduler>{$tag}</scheduler>\n";
+        }
+        print "-->\n";
+      }
+      if ($use_new_tags = variable_get('boinc_scheduler_tag_format_new', 1)) {
+        foreach ($scheduler_tags as $tag) {
+          print "  <link rel=\"boinc_scheduler\" href=\"{$tag}\">\n";
+        }
+      }
+    ?>
+  <?php endif; ?>
 </head>
 <body class="<?php print $classes; ?>">
 

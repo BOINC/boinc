@@ -122,6 +122,33 @@ function boinc_get_path($type = 'root') {
   return FALSE;
 }
 
+/**
+ * Get the configured scheduler tags
+ */
+function boinc_get_scheduler_tags() {
+  if ($url_config = variable_get('boinc_scheduler_urls', '')) {
+    return explode("\r\n", $url_config);
+  }
+  else {
+    watchdog('boincuser', 'The BOINC scheduling server settings are not
+        configured. Please !configure_it',
+          array('!configure_it' => l(t('configure them now'), 
+            'admin/boinc/scheduler')
+          ), WATCHDOG_ERROR);
+    if (user_access('administer site configuration')) {
+      drupal_set_message(t('The BOINC scheduling server settings are not
+          configured. Please !configure_it',
+            array('!configure_it' => l(t('configure them now'),
+              'admin/boinc/scheduler')
+            )), 'error');
+    }
+    else {
+      drupal_set_message(t('There is a problem with the site. Please contact
+        the system administrator.'), 'error');
+    }
+  }
+  return array();
+}
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * BOINC user account functions

@@ -177,4 +177,84 @@ function boincuser_admin_environment_submit($form, &$form_state) {
   drupal_set_message(t('BOINC environment settings have been updated.'));
 }
 
+/**
+  * The BOINC scheduler form provides options for how scheduler tags are
+  * inserted into the front page
+  */
+function boincuser_admin_scheduler(&$form_state) {
+  $form = array();
+  $config_cgi_url = '';
+  if ($config_xml_dir = variable_get('boinc_config_xml_dir', '')) {
+    // Get the cgi_url option from the config file as the default scheduler URL
+    $xml = new DOMDocument();
+    if ($xml->load("{$config_xml_dir}/config.xml")) {
+      $config = xml_to_array($xml);
+      if (isset($config['boinc']['config']['cgi_url']['@value'])) {
+        $config_cgi_url = rtrim($config['boinc']['config']['cgi_url']['@value'], '/');
+        $config_cgi_url .= '/cgi';
+      }
+    }
+  }
+  $default = array(
+    'boinc_scheduler_urls' => variable_get('boinc_scheduler_urls', $config_cgi_url),
+    'boinc_scheduler_tag_format_old' => variable_get('boinc_scheduler_tag_format_old', 1),
+    'boinc_scheduler_tag_format_new' => variable_get('boinc_scheduler_tag_format_new', 1)
+  );
+  
+  // Define the form
+  $form['boinc_scheduler_urls'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Scheduling server URLs'),
+    '#default_value' => $default['boinc_scheduler_urls'],
+    '#cols' => 60,
+    '#rows' => 5,
+    '#description' => t('If there are multiple URLs, please enter one per line.'),
+  );
+  $form['boinc_scheduler_tag_format_old'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Old format (@scheduler tag)', array('@scheduler' => '<scheduler>')),
+    '#default_value' => $default['boinc_scheduler_tag_format_old']
+  );
+  $form['boinc_scheduler_tag_format_new'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('New format (@link tag)', array('@link' => '<link>')),
+    '#default_value' => $default['boinc_scheduler_tag_format_new']
+  );
+  
+  return system_settings_form($form);
+}
+
+/**
+  * Validate the BOINC scheduler form.
+  */
+function boincuser_admin_scheduler_validate($form, &$form_state) {
+  $values = $form_state['values'];
+  if (!$values['boinc_scheduler_urls']) {
+    form_set_error('boinc_scheduler_urls', t('At least one scheduling server
+      URL must be specified.'));
+  }
+  else {
+    $urls = explode("\r\n", $values['boinc_scheduler_urls']);
+    foreach ($urls as $key => $url) {
+      if (!$url) {
+        unset($urls[$key]);
+        continue;
+      }
+      if (!filter_var($url, FILTER_VALIDATE_URL)) {
+        form_set_error('boinc_scheduler_urls', t('@url is not a valid URL
+          format.', array('@url' => $url)));
+        break;
+      }
+    }
+    $form_state['values']['boinc_scheduler_urls'] = implode("\r\n", $urls);
+  }
+}
+
+/**
+  * Handle post-validation submission of BOINC scheduler form.
+  */
+function boincuser_admin_scheduler_submit($form, &$form_state) {
+  drupal_set_message(t('BOINC scheduling server settings have been updated.'));
+}
+
 

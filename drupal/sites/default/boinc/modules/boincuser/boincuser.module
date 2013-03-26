@@ -53,6 +53,15 @@ function boincuser_menu() {
     'type' => MENU_NORMAL_ITEM,
     'file' => 'boincuser.admin.inc'
   );
+  $items['admin/boinc/scheduler'] = array(
+    'title' => 'BOINC scheduling server URLs',
+    'description' => 'Set BOINC scheduler options.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('boincuser_admin_scheduler'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'boincuser.admin.inc'
+  );
   
   $items['create_account.php'] = array(
     'title' => 'Create Account RPC',
