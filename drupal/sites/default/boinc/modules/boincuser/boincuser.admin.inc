@@ -190,7 +190,7 @@ function boincuser_admin_scheduler(&$form_state) {
     if ($xml->load("{$config_xml_dir}/config.xml")) {
       $config = xml_to_array($xml);
       if (isset($config['boinc']['config']['cgi_url']['@value'])) {
-        $config_cgi_url = rtrim($config['boinc']['config']['cgi_url']['@value'], '/');
+        $config_cgi_url = rtrim(trim($config['boinc']['config']['cgi_url']['@value']), '/');
         $config_cgi_url .= '/cgi';
       }
     }
