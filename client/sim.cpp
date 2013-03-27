@@ -1297,15 +1297,11 @@ void cull_projects() {
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
         p->no_apps = true;
-        for (int j=0; j<coprocs.n_rsc; j++) {
-            p->no_rsc_apps[j] = true;
-        }
     }
     for (i=0; i<gstate.app_versions.size(); i++) {
         APP_VERSION* avp = gstate.app_versions[i];
         if (avp->app->ignore) continue;
         int rt = avp->gpu_usage.rsc_type;
-        avp->project->no_rsc_apps[rt] = false;
     }
     for (i=0; i<gstate.apps.size(); i++) {
         APP* app = gstate.apps[i];
