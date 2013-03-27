@@ -236,7 +236,7 @@ public class BOINCActivity extends TabActivity {
 	        tabHost.addTab(prefsSpec);
     	}
         
-    	if(res.getBoolean(R.bool.tab_messages)) {
+    	if(res.getBoolean(R.bool.tab_eventlog)) {
 	        TabSpec msgsSpec = tabHost.newTabSpec(getResources().getString(R.string.tab_eventlog));
 	        msgsSpec.setIndicator(getResources().getString(R.string.tab_eventlog), getResources().getDrawable(R.drawable.icon_msgs_tab));
 	        Intent msgsIntent = new Intent(this, EventLogActivity.class);

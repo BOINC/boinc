@@ -31,6 +31,6 @@
         <bool name="tab_tasks">true</bool>
     	<bool name="tab_transfers">true</bool>
     	<bool name="tab_preferences">true</bool>
-    	<bool name="tab_messages">false</bool>
+    	<bool name="tab_eventlog">true</bool>
     	<bool name="tab_debug">false</bool>
 </resources>

@@ -521,7 +521,7 @@ public class Monitor extends Service {
 					GlobalPreferences clientPrefs = rpc.getGlobalPrefsWorkingStruct(); 
 					ArrayList<Message> msgs = new ArrayList<Message>();
 					// retrieve messages only, if tabs are actually enabled. very resource intense with logging on emulator!
-					if(getResources().getBoolean(R.bool.tab_messages) || getResources().getBoolean(R.bool.tab_debug)) { 
+					if(getResources().getBoolean(R.bool.tab_eventlog) || getResources().getBoolean(R.bool.tab_debug)) { 
 						Integer count = rpc.getMessageCount();
 						msgs = rpc.getMessages(count - 250); //get the most recent 250 messages
 						if(showRpcCommands) Log.d(TAG, "getMessages, count: " + count);

@@ -20,59 +20,35 @@ package edu.berkeley.boinc;
 
 import java.util.ArrayList;
 import java.lang.StringBuffer;
-
 import edu.berkeley.boinc.adapter.EventLogListAdapter;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Message;
-import android.app.Service;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
 public class EventLogActivity extends FragmentActivity {
 
 	private final String TAG = "BOINC EventLogActivity";
-		
-	private Monitor monitor;
-	private Boolean mIsBound;
 
 	private ListView lv;
 	private EventLogListAdapter listAdapter;
 	private ArrayList<Message> data = new ArrayList<Message>();
 	private int lastSeqno = 0;
 
-	// Controls when to display the proper messages activity, by default we display a
-	// view that says we are loading messages.  When initialSetup is false, we have
-	// something to display.
-	//
-	private Boolean initialSetup; 
-	
-    // This is called when the connection with the service has been established, 
-	// getService returns the Monitor object that is needed to call functions.
-	//
-	private ServiceConnection mConnection = new ServiceConnection() {
-	    public void onServiceConnected(ComponentName className, IBinder service) {
-	        monitor = ((Monitor.LocalBinder)service).getService();
-		    mIsBound = true;
-	    }
-
-	    public void onServiceDisconnected(ComponentName className) {
-	        monitor = null;
-		    mIsBound = false;
-	    }
-	};
+	// Controls whether initialization of view elements of "projects_layout"
+	// is required. This is the case, every time the layout switched.
+	private Boolean initialSetupRequired = true; 
 	
 	// BroadcastReceiver event is used to update the UI with updated information from 
 	// the client.  This is generally called once a second.
@@ -83,30 +59,7 @@ public class EventLogActivity extends FragmentActivity {
 		public void onReceive(Context context, Intent intent) {
 			Log.d(TAG, "ClientStatusChange - onReceive()");
 			
-			// Read messages from state saved in ClientStatus
-			ArrayList<Message> tmpA = Monitor.getClientStatus().getMessages(); 
-			if(tmpA == null) {
-				return;
-			}
-
-			// Switch to a view that can actually display messages
-			if (initialSetup) {
-				initialSetup = false;
-				setContentView(R.layout.eventlog_layout); 
-				lv = (ListView) findViewById(R.id.eventlogList);
-		        listAdapter = new EventLogListAdapter(EventLogActivity.this, lv, R.id.eventlogList, data);
-		    }
-			
-			// Add new messages to the event log
-			for (Message msg: tmpA) {
-				if (msg.seqno > lastSeqno) {
-					data.add(msg);
-					lastSeqno = msg.seqno; 
-				}
-			}
-			
-			// Force list adapter to refresh
-			listAdapter.notifyDataSetChanged(); 
+			populateLayout();
 		}
 	};
 
@@ -119,10 +72,6 @@ public class EventLogActivity extends FragmentActivity {
 	    Log.d(TAG, "onCreate()");
 
 	    super.onCreate(savedInstanceState);
-
-	    // Establish a connection with the service, onServiceConnected gets called when
-	    // (calling within Tab needs getApplicationContext() for bindService to work!)
-		getApplicationContext().bindService(new Intent(this, Monitor.class), mConnection, Service.START_STICKY_COMPATIBILITY);
 	}
 
 	@Override
@@ -139,9 +88,7 @@ public class EventLogActivity extends FragmentActivity {
 
 		super.onResume();
 		
-		// Switch to the loading view until we have something to display
-		initialSetup = true;
-		setContentView(R.layout.eventlog_layout_loading); 
+		populateLayout();
 		
 		registerReceiver(mClientStatusChangeRec, ifcsc);
 	}
@@ -149,13 +96,50 @@ public class EventLogActivity extends FragmentActivity {
 	@Override
 	protected void onDestroy() {
 	    Log.d(TAG, "onDestroy()");
-
-	    if (mIsBound) {
-	    	getApplicationContext().unbindService(mConnection);
-	        mIsBound = false;
-	    }
 	    
 	    super.onDestroy();
+	}
+	
+	private void populateLayout() {
+		try {
+			// Read messages from state saved in ClientStatus
+			ArrayList<Message> tmpA = Monitor.getClientStatus().getMessages(); 
+			
+			if(tmpA == null) {
+				setLayoutLoading();
+				return;
+			}
+
+			// Switch to a view that can actually display messages
+			if (initialSetupRequired) {
+				initialSetupRequired = false;
+				setContentView(R.layout.eventlog_layout); 
+				lv = (ListView) findViewById(R.id.eventlogList);
+		        listAdapter = new EventLogListAdapter(EventLogActivity.this, lv, R.id.eventlogList, data);
+		    }
+			
+			// Add new messages to the event log
+			for (Message msg: tmpA) {
+				if (msg.seqno > lastSeqno) {
+					data.add(msg);
+					lastSeqno = msg.seqno; 
+				}
+			}
+			
+			// Force list adapter to refresh
+			listAdapter.notifyDataSetChanged(); 
+			
+		} catch (Exception e) {
+			// data retrieval failed, set layout to loading...
+			setLayoutLoading();
+		}
+	}
+	
+	private void setLayoutLoading() {
+		setContentView(R.layout.generic_layout_loading); 
+        TextView loadingHeader = (TextView)findViewById(R.id.loading_header);
+        loadingHeader.setText(R.string.eventlog_loading);
+        initialSetupRequired = true;
 	}
 
 	@Override
