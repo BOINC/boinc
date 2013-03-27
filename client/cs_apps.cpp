@@ -71,7 +71,7 @@ bool CLIENT_STATE::handle_finished_apps() {
             }
             app_finished(*atp);
             if (!action) {
-                adjust_rec();     // update debts before erasing ACTIVE_TASK
+                adjust_rec();     // update REC before erasing ACTIVE_TASK
             }
             iter = active_tasks.active_tasks.erase(iter);
             delete atp;
@@ -203,7 +203,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
         rp->project->update_duration_correction_factor(&at);
     }
 
-    double elapsed_time = now - debt_interval_start;
+    double elapsed_time = now - rec_interval_start;
     work_fetch.accumulate_inst_sec(&at, elapsed_time);
 
     return 0;

@@ -134,7 +134,7 @@ CLIENT_STATE::CLIENT_STATE()
     cant_write_state_file = false;
     benchmarks_running = false;
 
-    debt_interval_start = 0;
+    rec_interval_start = 0;
     retry_shmem_time = 0;
     must_schedule_cpus = true;
     no_gui_rpc = false;
@@ -571,7 +571,7 @@ int CLIENT_STATE::init() {
     request_schedule_cpus("Startup");
     request_work_fetch("Startup");
     work_fetch.init();
-    debt_interval_start = now;
+    rec_interval_start = now;
 
     // set up the project and slot directories
     //
@@ -1994,7 +1994,7 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
 // e.g. flush buffers, but why bother)
 //
 int CLIENT_STATE::quit_activities() {
-    // calculate long-term debts (for state file)
+    // calculate REC (for state file)
     //
     adjust_rec();
 

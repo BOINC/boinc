@@ -22,9 +22,8 @@
 //
 // 1) The use of "CUDA" is misleading; it really means "NVIDIA GPU".
 // 2) The design treats each resource type as a pool of identical devices;
-//  for example, there is a single "CUDA long-term debt" per project,
-//  and a scheduler request contains a request (#instances, instance-seconds)
-//  for CUDA jobs.
+//  for example, a scheduler request contains a request
+// (#instances, instance-seconds) for CUDA jobs.
 //  In reality, the instances of a resource type can have different properties:
 //  In the case of CUDA, "compute capability", driver version, RAM, speed, etc.
 //  How to resolve this discrepancy?
@@ -39,7 +38,7 @@
 //  the jobs fail, the host is punished, etc.
 //
 //  We could treat each GPU has a separate resource,
-//  with its own set of debts, backoffs, etc.
+//  with its own backoffs, etc.
 //  However, this would imply tying jobs to instances,
 //  which is undesirable from a scheduling viewpoint.
 //  It would also be a big code change in both client and server.
