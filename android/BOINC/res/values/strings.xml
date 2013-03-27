@@ -32,6 +32,9 @@
     <string name="all_projects_list">all_projects_list.xml</string>
     <string name="global_prefs_override">global_prefs_override.xml</string>
     
+    <!-- generic. used by multiple Activities/tabs -->
+    <string name="generic_loading">Loading! Please wait&#8230;</string>
+    
     <!-- attach project -->
     	<!-- project list -->
     <string name="attachproject_list_loading">Loading supported projects&#8230;</string>
@@ -117,7 +120,7 @@
     <string name="enable_computation">Enable computation</string>
     
 	<!-- preferences tab strings -->
-	<string name="prefs_unbound">Reading preferences&#8230;</string>
+	<string name="prefs_loading">Reading preferences&#8230;</string>
 	<string name="prefs_submit_button">OK</string>
 	<string name="prefs_dialog_title">Please enter desired value for: </string>
 	<string name="prefs_category_general">General</string>
@@ -166,6 +169,7 @@
 	<string name="confirm_deletion_cancel">Cancel</string>
 				
 	<!-- tasks tab strings -->
+	<string name="tasks_loading">Reading tasks&#8230;</string>
 	<string name="tasks_result_new">new</string>
 	<string name="tasks_result_files_downloading">waiting for download</string>
 	<string name="tasks_result_files_downloaded">download complete</string>

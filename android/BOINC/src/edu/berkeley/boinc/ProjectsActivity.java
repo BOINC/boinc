@@ -42,6 +42,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
 public class ProjectsActivity extends FragmentActivity {
@@ -55,11 +56,9 @@ public class ProjectsActivity extends FragmentActivity {
 	private ProjectsListAdapter listAdapter;
 	private ArrayList<Project> data = new ArrayList<Project>();
 	
-	// Controls when to display the proper projects activity, by default we display a
-	// view that says we are loading projects.  When initialSetup is false, we have
-	// something to display.
-	//
-	private Boolean initialSetup; 
+	// Controls whether initialization of view elements of "projects_layout"
+	// is required. This is the case, every time the layout switched.
+	private Boolean initialSetupRequired = true; 
 	
     // This is called when the connection with the service has been established, 
 	// getService returns the Monitor object that is needed to call functions.
@@ -84,29 +83,7 @@ public class ProjectsActivity extends FragmentActivity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			Log.d(TAG, "ClientStatusChange - onReceive()");
-			
-			// Read projects from state saved in ClientStatus
-			ArrayList<Project> tmpA = Monitor.getClientStatus().getProjects(); 
-			if(tmpA == null) {
-				return;
-			}
-
-			// Switch to a view that can actually display messages
-			if (initialSetup) {
-				initialSetup = false;
-				setContentView(R.layout.projects_layout); 
-				lv = (ListView) findViewById(R.id.projectsList);
-		        listAdapter = new ProjectsListAdapter(ProjectsActivity.this, lv, R.id.projectsList, data);
-		    }
-			
-			// Update Project data
-			data.clear();
-			for (Project tmp: tmpA) {
-				data.add(tmp);
-			}
-			
-			// Force list adapter to refresh
-			listAdapter.notifyDataSetChanged(); 
+			populateLayout();
 		}
 	};
 
@@ -136,9 +113,7 @@ public class ProjectsActivity extends FragmentActivity {
 
 		super.onResume();
 		
-		// Switch to the loading view until we have something to display
-		initialSetup = true;
-		setContentView(R.layout.projects_layout_loading);
+		populateLayout();
 
 		registerReceiver(mClientStatusChangeRec, ifcsc);
 	}
@@ -153,6 +128,46 @@ public class ProjectsActivity extends FragmentActivity {
 	    }
 	    
 	    super.onDestroy();
+	}
+	
+	private void populateLayout() {
+		try {
+			// read projects from state saved in ClientStatus
+			ArrayList<Project> tmpA = Monitor.getClientStatus().getProjects();
+			
+			if(tmpA == null) {
+				setLayoutLoading();
+				return;
+			}
+
+			// Switch to a view that can actually display messages
+			if (initialSetupRequired) {
+				initialSetupRequired = false;
+				setContentView(R.layout.projects_layout); 
+				lv = (ListView) findViewById(R.id.projectsList);
+		        listAdapter = new ProjectsListAdapter(ProjectsActivity.this, lv, R.id.projectsList, data);
+		    }
+			
+			// Update Project data
+			data.clear();
+			for (Project tmp: tmpA) {
+				data.add(tmp);
+			}
+			
+			// Force list adapter to refresh
+			listAdapter.notifyDataSetChanged(); 
+			
+		} catch (Exception e) {
+			// data retrieval failed, set layout to loading...
+			setLayoutLoading();
+		}
+	}
+	
+	private void setLayoutLoading() {
+		setContentView(R.layout.generic_layout_loading); 
+        TextView loadingHeader = (TextView)findViewById(R.id.loading_header);
+        loadingHeader.setText(R.string.projects_loading);
+        initialSetupRequired = true;
 	}
 	
 	@Override

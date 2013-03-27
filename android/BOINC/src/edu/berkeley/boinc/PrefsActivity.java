@@ -184,7 +184,9 @@ public class PrefsActivity extends Activity implements OnClickListener {
 	}
 	
 	private void setDataOutdated() {
-		setContentView(R.layout.prefs_layout_loading);
+        setContentView(R.layout.generic_layout_loading);
+        TextView loadingHeader = (TextView)findViewById(R.id.loading_header);
+        loadingHeader.setText(R.string.prefs_loading);
 		dataOutdated = true;
 	}
 	
