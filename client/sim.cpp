@@ -68,6 +68,7 @@
 #include "client_state.h"
 #include "project.h"
 #include "result.h"
+#include "scheduler_op.h"
 
 #include "sim.h"
 
@@ -342,6 +343,22 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     vector<IP_RESULT> ip_results;
     int infeasible_count = 0;
     vector<RESULT*> new_results;
+
+    bool avail;
+    if (p->last_rpc_time) {
+        double delta = now - p->last_rpc_time;
+        avail = p->available.sample(delta);
+    } else {
+        avail = p->available.sample(0);
+    }
+    p->last_rpc_time = now;
+    if (!avail) {
+        sprintf(buf, "RPC to %s skipped - project down<br>", p->project_name);
+        html_msg += buf;
+        msg_printf(p, MSG_INFO, "RPC skipped: project down");
+        gstate.scheduler_op->project_rpc_backoff(p, "project down");
+        return false;
+    }
 
     // save request params for WORK_FETCH::handle_reply
     //
