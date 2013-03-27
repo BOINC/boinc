@@ -234,7 +234,7 @@ public class RpcClient {
 	 * @param password Clear text password used for authorization
 	 * @return true for success, false for failure
 	 */
-	public boolean authorize(String password) {
+	public synchronized boolean authorize(String password) {
 		if (!isConnected()) {
 			return false;
 		}
@@ -287,7 +287,7 @@ public class RpcClient {
 	 * socket still opened, but other side already closed connection, it will be detected.
 	 * @return true if other side responds, false if data cannot be sent or received
 	 */
-	public boolean connectionAlive() {
+	public synchronized boolean connectionAlive() {
 		if (!isConnected()) return false;
 		try {
 			// We just get the status via socket and do not parse reply
@@ -384,7 +384,7 @@ public class RpcClient {
 	 * GUI RPC calls
 	 */
 
-	public VersionInfo exchangeVersions() {
+	public synchronized VersionInfo exchangeVersions() {
 		mLastErrorMessage = null;
 		mRequest.setLength(0);
 		mRequest.append("<exchange_versions>\n  <major>");
@@ -410,7 +410,7 @@ public class RpcClient {
 	 * Performs get_cc_status RPC towards BOINC client
 	 * @return result of RPC call in case of success, null otherwise
 	 */
-	public CcStatus getCcStatus() {
+	public synchronized CcStatus getCcStatus() {
 		mLastErrorMessage = null;
 		try {
 			sendRequest("<get_cc_status/>\n");
@@ -427,7 +427,7 @@ public class RpcClient {
 	 * Performs get_file_transfers RPC towards BOINC client
 	 * @return result of RPC call in case of success, null otherwise
 	 */
-	public ArrayList<Transfer> getFileTransfers() {
+	public synchronized ArrayList<Transfer> getFileTransfers() {
 		mLastErrorMessage = null;
 		try {
 			sendRequest("<get_file_transfers/>\n");
@@ -445,7 +445,7 @@ public class RpcClient {
 	 * 
 	 * @return result of RPC call in case of success, null otherwise
 	 */
-	public HostInfo getHostInfo() {
+	public synchronized HostInfo getHostInfo() {
 		mLastErrorMessage = null;
 		try {
 			sendRequest("<get_host_info/>\n");
@@ -463,7 +463,7 @@ public class RpcClient {
 	 * 
 	 * @return result of RPC call in case of success, null otherwise
 	 */
-	public int getMessageCount() {
+	public synchronized int getMessageCount() {
 		mLastErrorMessage = null;
 		try {
 			sendRequest("<get_message_count/>\n");
@@ -480,7 +480,7 @@ public class RpcClient {
 	 * 
 	 * @return result of RPC call in case of success, null otherwise
 	 */
-	public ArrayList<Message> getMessages(int seqNo) {
+	public synchronized ArrayList<Message> getMessages(int seqNo) {
 		mLastErrorMessage = null;
 		try {
 			String request;
@@ -509,7 +509,7 @@ public class RpcClient {
 	 * 
 	 * @return result of RPC call in case of success, null otherwise
 	 */
-	public ArrayList<Project> getProjectStatus() {
+	public synchronized ArrayList<Project> getProjectStatus() {
 		mLastErrorMessage = null;
 		try {
 			sendRequest("<get_project_status/>\n");
@@ -528,7 +528,7 @@ public class RpcClient {
 	 * 
 	 * @return result of RPC call in case of success, null otherwise
 	 */
-	public ArrayList<Result> getActiveResults() {
+	public synchronized ArrayList<Result> getActiveResults() {
 		mLastErrorMessage = null;
 		final String request =
 			"<get_results>\n" +
@@ -550,7 +550,7 @@ public class RpcClient {
 	 * 
 	 * @return result of RPC call in case of success, null otherwise
 	 */
-	public ArrayList<Result> getResults() {
+	public synchronized ArrayList<Result> getResults() {
 		mLastErrorMessage = null;
 		try {
 			sendRequest("<get_results/>\n");
@@ -568,7 +568,7 @@ public class RpcClient {
 	 * 
 	 * @return result of RPC call in case of success, null otherwise
 	 */
-	public CcState getState() {
+	public synchronized CcState getState() {
 		mLastErrorMessage = null;
 		try {
 			sendRequest("<get_state/>\n");
@@ -586,7 +586,7 @@ public class RpcClient {
 	 * and that it should do as much network activity as it can.
 	 * @return true for success, false for failure
 	 */
-	public boolean networkAvailable() {
+	public synchronized boolean networkAvailable() {
 		mLastErrorMessage = null;
 		try {
 			sendRequest("<network_available/>\n");
@@ -608,7 +608,7 @@ public class RpcClient {
 	 * @param projectUrl master URL of project
 	 * @return true for success, false for failure
 	 */
-	public boolean projectOp(int operation, String projectUrl) {
+	public synchronized boolean projectOp(int operation, String projectUrl) {
 		try {
 			String opTag;
 			switch (operation) {
@@ -661,7 +661,7 @@ public class RpcClient {
 	 * @param accountIn - account info
 	 * @return true for success, false for failure
 	 */
-	public boolean createAccount(AccountIn accountIn) {
+	public synchronized boolean createAccount(AccountIn accountIn) {
 		try {
 			mRequest.setLength(0);
 			mRequest.append("<create_account>\n   <url>");
@@ -695,7 +695,7 @@ public class RpcClient {
 	 * polling create account
 	 * @return account output
 	 */
-	public AccountOut createAccountPoll() {
+	public synchronized AccountOut createAccountPoll() {
 		try {
 			mRequest.setLength(0);
 			mRequest.append("<create_account_poll/>");
@@ -713,7 +713,7 @@ public class RpcClient {
 	 * @param accountIn - account info
 	 * @return true for success, false for failure
 	 */
-	public boolean lookupAccount(AccountIn accountIn) {
+	public synchronized boolean lookupAccount(AccountIn accountIn) {
 		try {
 			mRequest.setLength(0);
 			mRequest.append("<lookup_account>\n   <url>");
@@ -741,7 +741,7 @@ public class RpcClient {
 	 * polling lookup account
 	 * @return account output
 	 */
-	public AccountOut lookupAccountPoll() {
+	public synchronized AccountOut lookupAccountPoll() {
 		try {
 			mRequest.setLength(0);
 			mRequest.append("<lookup_account_poll/>");
@@ -761,7 +761,7 @@ public class RpcClient {
 	 * @param name project name
 	 * @return
 	 */
-	public boolean projectAttach(String url, String authenticator, String name) {
+	public synchronized boolean projectAttach(String url, String authenticator, String name) {
 		try {
 			mRequest.setLength(0);
 			mRequest.append("<project_attach>\n   <project_url>");
@@ -788,7 +788,7 @@ public class RpcClient {
 	 * polling project attach
 	 * @return project attach reply
 	 */
-	public ProjectAttachReply projectAttachPoll() {
+	public synchronized ProjectAttachReply projectAttachPoll() {
 		try {
 			mRequest.setLength(0);
 			mRequest.append("<project_attach_poll/>");
@@ -801,7 +801,7 @@ public class RpcClient {
 		}
 	}
 	
-	public boolean getProjectConfig(String url) {
+	public synchronized boolean getProjectConfig(String url) {
 		try {
 			mRequest.setLength(0);
 			mRequest.append("<get_project_config>\n   <url>");
@@ -820,7 +820,34 @@ public class RpcClient {
 		}
 	}
 	
-	public GlobalPreferences getGlobalPrefsWorkingStruct() {
+	public synchronized ProjectConfig getProjectConfigPoll() {
+		try {
+			mRequest.setLength(0);
+			mRequest.append("<get_project_config_poll/>");
+			
+			sendRequest(mRequest.toString());
+			return ProjectConfigReplyParser.parse(receiveReply());
+		} catch (IOException e) {
+			if (Logging.WARNING) Log.w(TAG, "error in getProjectConfigPoll()", e);
+			return null;
+		}
+	}
+	
+	public synchronized ArrayList<ProjectInfo> getAllProjectsList() {
+		try {
+			mRequest.setLength(0);
+			mRequest.append("<get_all_projects_list/>");
+			
+			sendRequest(mRequest.toString());
+			return ProjectInfoParser.parse(receiveReply());
+		} catch (IOException e) {
+			if (Logging.WARNING) Log.w(TAG, "error in getAllProjectsList()", e);
+			return null;
+		}
+		
+	}
+	
+	public synchronized GlobalPreferences getGlobalPrefsWorkingStruct() {
 		try {
 			mRequest.setLength(0);
 			mRequest.append("<get_global_prefs_working/>");
@@ -833,7 +860,7 @@ public class RpcClient {
 		}
 	}
 	
-	public boolean setGlobalPrefsOverride(String globalPrefs) {
+	public synchronized boolean setGlobalPrefsOverride(String globalPrefs) {
 		try {
 			mRequest.setLength(0);
 			mRequest.append("<set_global_prefs_override>\n");
@@ -849,7 +876,7 @@ public class RpcClient {
 		}
 	}
 	
-	public boolean setGlobalPrefsOverrideStruct(GlobalPreferences globalPrefs) {
+	public synchronized boolean setGlobalPrefsOverrideStruct(GlobalPreferences globalPrefs) {
 		try {
 			mRequest.setLength(0);
 			mRequest.append("<set_global_prefs_override>\n<global_preferences>\n  <run_on_batteries>");
@@ -945,7 +972,7 @@ public class RpcClient {
 		}
 	}
 	
-	public boolean readGlobalPrefsOverride() {
+	public synchronized boolean readGlobalPrefsOverride() {
 		try {
 			mRequest.setLength(0);
 			mRequest.append("<read_global_prefs_override/>");
@@ -964,7 +991,7 @@ public class RpcClient {
 	 * Tells the BOINC core client to exit. 
 	 * @return true for success, false for failure
 	 */
-	public boolean quit() {
+	public synchronized boolean quit() {
 		try {
 			sendRequest("<quit/>\n");
 			SimpleReplyParser parser = SimpleReplyParser.parse(receiveReply());
@@ -986,7 +1013,7 @@ public class RpcClient {
 	 *        last permanent mode after duration seconds elapse.
 	 * @return true for success, false for failure
 	 */
-	public boolean setNetworkMode(int mode, double duration) {
+	public synchronized boolean setNetworkMode(int mode, double duration) {
 		final String request =
 			"<set_network_mode>\n" +
 			modeName(mode) + "\n" +
@@ -1013,7 +1040,7 @@ public class RpcClient {
 	 *        last permanent mode after duration seconds elapse.
 	 * @return true for success, false for failure
 	 */
-	public boolean setRunMode(int mode, double duration) {
+	public synchronized boolean setRunMode(int mode, double duration) {
 		final String request =
 			"<set_run_mode>\n" +
 			modeName(mode) + "\n" +
@@ -1040,7 +1067,7 @@ public class RpcClient {
 	 * @param fileName name of the file
 	 * @return true for success, false for failure
 	 */
-	public boolean transferOp(int operation, String projectUrl, String fileName) {
+	public synchronized boolean transferOp(int operation, String projectUrl, String fileName) {
 		try {
 			String opTag;
 			switch (operation) {

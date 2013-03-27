@@ -18,27 +18,39 @@
  ******************************************************************************/
 package edu.berkeley.boinc.adapter;
 
-import android.content.Context;
+import edu.berkeley.boinc.rpc.ProjectInfo;
 
-public class PrefsListItemWrapper {
+public class AttachListItemWrapper {
 	
-	public Context ctx;
-	public Integer ID;
-	public Integer categoryID;
 	public Boolean isCategory;
+	public String categoryName;
 	
-	// Constructor for elements
-	public PrefsListItemWrapper (Context ctx, Integer ID, Integer categoryID) {
-		this.ctx = ctx;
-		this.ID = ID;
-		this.categoryID = categoryID;
+	public Boolean isManual;
+	
+	public Boolean isProject;
+	public ProjectInfo project;
+	
+	// Constructor for projects
+	public AttachListItemWrapper (ProjectInfo project) {
+		this.project = project;
+		this.isProject = true;
 		this.isCategory = false;
+		this.isManual = false;
 	}
 	
 	// Constructor for categories
-	public PrefsListItemWrapper (Context ctx, Integer ID, Boolean isCategory) {
-		this.ctx = ctx;
-		this.ID = ID;
-		this.isCategory = isCategory;
+	public AttachListItemWrapper (String categoryName) {
+		this.categoryName = categoryName;
+		this.isProject = false;
+		this.isCategory = true;
+		this.isManual = false;
 	}
+	
+	// Constructor for manual field
+	public AttachListItemWrapper () {
+		this.isProject = false;
+		this.isCategory = false;
+		this.isManual = true;
+	}
+	
 }

@@ -16,29 +16,28 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package edu.berkeley.boinc.adapter;
 
-import android.content.Context;
+package edu.berkeley.boinc.rpc;
 
-public class PrefsListItemWrapper {
+import java.io.Serializable;
+import java.util.ArrayList;
+
+// needs to be serializable to be put into Activity start Intent
+public class ProjectInfo implements Serializable{
+	private static final long serialVersionUID = -5944047529950035455L; // auto generated
+	public String name = "";
+	public String url = "";
+	public String generalArea;
+	public String specificArea;
+	public String description;
+	public String home;
+	public ArrayList<String> platforms;
+	public String imageUrl;
 	
-	public Context ctx;
-	public Integer ID;
-	public Integer categoryID;
-	public Boolean isCategory;
-	
-	// Constructor for elements
-	public PrefsListItemWrapper (Context ctx, Integer ID, Integer categoryID) {
-		this.ctx = ctx;
-		this.ID = ID;
-		this.categoryID = categoryID;
-		this.isCategory = false;
-	}
-	
-	// Constructor for categories
-	public PrefsListItemWrapper (Context ctx, Integer ID, Boolean isCategory) {
-		this.ctx = ctx;
-		this.ID = ID;
-		this.isCategory = isCategory;
+	@Override
+	public String toString() {
+		String platformString = "";
+		for (String platform : platforms) { platformString = platformString + platform + "/";}
+		return "ProjectInfo: " + name + " ; " + url + " ; " + generalArea + " ; " + specificArea + " ; " + description + " ; " + home + " ; " + platformString + " ; " + imageUrl;
 	}
 }

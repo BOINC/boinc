@@ -20,6 +20,8 @@
 <resources>
     <!-- global colors -->
 		<color name="warning">#FCEC3D</color>
+		<color name="link">#05c5cf</color>
+		<color name="link_inverse">#0000EE</color>
     <!-- preferences tab colors -->
 		<color name="status">#11A800</color>
     <!-- tasks tab colors -->

@@ -32,30 +32,62 @@
     <string name="all_projects_list">all_projects_list.xml</string>
     <string name="global_prefs_override">global_prefs_override.xml</string>
     
-    <!-- login activity -->
-    <string name="login_header">Add a project:</string>
-    <string name="login_header_long_login">Login with your exisiting project account&#8230;</string>
-    <string name="login_header_long_register">Register a new account with a science project&#8230;</string>
-    <string name="login_register_instead">&#8230;or register new account</string>
-    <string name="login_login_instead">&#8230;or login with existing account</string>
-    <string name="login_url">URL:</string>
-    <string name="login_no_url">Please provide URL!</string>
-    <string name="login_email">eMail:</string>
-    <string name="login_no_email">Please provide eMail!</string>
-    <string name="login_username">Name: *</string>
-    <string name="login_teamname">Team: *</string>
-    <string name="login_pwd">Password:</string>
-    <string name="login_no_pwd">Please provide password!</string>
-    <string name="login_pwd_confirm">Repeat:</string>
-    <string name="login_pwd_nomatch">Passwords are not equal!</string>
-    <string name="login_register_hint">* optional fields</string>
-    <string name="login_button_login">Login</string>
-    <string name="login_button_register">Register</string>
-    <string name="login_toast_ok">Successful.</string>
-    <string name="login_toast_error_wrong_name">Unknown eMail address!</string>
-    <string name="login_toast_error_wrong_pwd">Wrong password!</string>
-    <string name="login_toast_error_no_internet">No internet connection!</string>
-    <string name="login_toast_error_unknown">Failed!</string>
+    <!-- attach project -->
+    	<!-- project list -->
+    <string name="attachproject_list_loading">Loading supported projects&#8230;</string>
+    <string name="attachproject_list_header">Welcome!</string>
+    <string name="attachproject_list_subheader">Where do you want to participate?</string>
+    <string name="attachproject_list_category_defined">Scientific Projects with Android support</string>
+    <string name="attachproject_list_category_manual">Others</string>
+    <string name="attachproject_list_manual_header">Enter project URL manually</string>
+    <string name="attachproject_list_manual__dialog_title">Enter URL of scientific project:</string>
+    <string name="attachproject_list_manual__dialog_button">></string>
+    <string name="attachproject_list_manual_no_url">Please enter project URL!</string>
+    	<!-- project login -->
+    <string name="attachproject_login_loading">Contacting project server&#8230;</string>
+    <string name="attachproject_login_image_description">Project logo.</string>
+    <string name="attachproject_login_header_project_name">Project Name:</string>
+    <string name="attachproject_login_header_general_area">General Area:</string>
+    <string name="attachproject_login_header_specific_area">Specific Area:</string>
+    <string name="attachproject_login_header_description">Description:</string>
+    <string name="attachproject_login_header_home">Home:</string>
+    <string name="attachproject_login_header_url">Website:</string>
+    <string name="attachproject_login_category_login">Sign in with existing account</string>
+    <string name="attachproject_login_header_id_email">eMail:</string>
+    <string name="attachproject_login_header_id_name">Name:</string>
+    <string name="attachproject_login_header_pwd">Password:</string>
+    <string name="attachproject_login_category_creation">New to </string>
+    <string name="attachproject_login_header_creation_enabled">Create yourself an account to participate:</string>
+    <string name="attachproject_login_header_creation_client_disabled">Visit project website to create an account:</string>
+    <string name="attachproject_login_header_creation_disabled">Project does currently now allow creation of new accounts!</string>
+    <string name="attachproject_login_button_registration">></string>
+    <string name="attachproject_login_button_login">Login</string>
+    <string name="attachproject_login_toast_ok">Successful.</string>
+    <string name="attachproject_login_error_toast">Server connection failed!</string>
+    <string name="attachproject_login_toast_error_wrong_name">Unknown eMail address!</string>
+    <string name="attachproject_login_toast_error_wrong_pwd">Wrong password!</string>
+    <string name="attachproject_login_toast_error_no_internet">No internet connection!</string>
+    <string name="attachproject_login_toast_error_unknown">Login failed.</string>
+    <string name="attachproject_login_toast_error_no_name">Name missing!</string>
+    <string name="attachproject_login_toast_error_no_pwd">Password missing!</string>
+    	<!-- project registration -->
+    <string name="attachproject_registration_header">Account registration for </string>
+    <string name="attachproject_registration_header_url">Project:</string>
+    <string name="attachproject_registration_header_email">eMail:</string>
+    <string name="attachproject_registration_header_username">Name:</string>
+    <string name="attachproject_registration_header_teamname">Team:</string>
+    <string name="attachproject_registration_header_pwd">Password:</string>
+    <string name="attachproject_registration_header_pwd_confirm">&#8230; Retype:</string>
+    <string name="attachproject_registration_button">Create</string>
+    <string name="attachproject_registration_toast_error_whoops">Whoops! Something went wrong&#8230;</string>
+    <string name="attachproject_registration_toast_error_short_pwd">Password too short!</string>
+    <string name="attachproject_registration_toast_error_pwd_no_match">Passwords do not match!</string>
+    <string name="attachproject_registration_toast_error_no_email">eMail missing!</string>
+    <string name="attachproject_registration_toast_error_no_pwd">Password missing!</string>
+    <string name="attachproject_registration_toast_error_unknown">Registration failed.</string>
+    <string name="attachproject_registration_toast_error_username_required">User name is required!</string>
+    <string name="attachproject_registration_toast_creation_successful">Account created. Logging in&#8230;</string>
+    <string name="attachproject_registration_toast_login_successful">Successful.</string>
     
     <!-- main activity -->
     <string name="main_launching">Please wait&#8230;</string>
