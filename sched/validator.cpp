@@ -309,7 +309,16 @@ int handle_wu(
                 is_invalid(havv[0]);
             }
             if (hav.host_id && update_hav) {
-                havv[0].update_validator(hav_orig);
+		log_messages.printf(MSG_NORMAL,
+		    "[HOST#%d AV#%d] [outlier=%d] Updating HAV in db.  pfc.n=%f->%f\n",
+		    havv[0].host_id, havv[0].app_version_id, result.runtime_outlier, hav_orig.pfc.n,havv[0].pfc.n);
+                retval=havv[0].update_validator(hav_orig);
+		if (retval) {
+		    log_messages.printf(MSG_CRITICAL,
+                        "[HOST#%d AV%d] hav.update_validator() failed: %s\n",
+                        hav.host_id, hav.app_version_id, boincerror(retval)
+                    );
+		}
             }
             host.update_diff_validator(host_initial);
             if (update_result) {
@@ -527,7 +536,17 @@ int handle_wu(
                 }
 
                 if (hav.host_id) {
+		    log_messages.printf(MSG_NORMAL,
+		        "[HOST#%d AV#%d] [outlier=%d] Updating HAV in db.  pfc.n=%f->%f\n",
+			hav.host_id, hav.app_version_id, result.runtime_outlier, hav_orig.pfc.n,hav.pfc.n);
                     retval = hav.update_validator(hav_orig);
+		    if (retval) {
+		        log_messages.printf(MSG_CRITICAL,
+                            "[HOST#%d AV%d] hav.update_validator() failed: %s\n",
+                            hav.host_id, hav.app_version_id, boincerror(retval)
+                        );
+		    }
+
                 }
                 if (update_host) {
                     retval = host.update_diff_validator(host_initial);
