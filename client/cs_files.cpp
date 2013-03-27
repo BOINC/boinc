@@ -461,10 +461,16 @@ void CLIENT_STATE::check_file_existence() {
     unsigned int i;
     char path[MAXPATHLEN];
 
-    if (config.dont_check_file_sizes) return;
-
     for (i=0; i<file_infos.size(); i++) {
         FILE_INFO* fip = file_infos[i];
+        if (fip->status < 0 && fip->downloadable()) {
+            // file had an error; reset it so that we download again
+            get_pathname(fip, path, sizeof(path));
+            msg_printf(NULL, MSG_INFO, "Resetting file %s: %s", path, boincerror(fip->status));
+            fip->reset();
+            continue;
+        }
+        if (config.dont_check_file_sizes) continue;
         if (fip->status == FILE_PRESENT) {
             get_pathname(fip, path, sizeof(path));
             double size;
