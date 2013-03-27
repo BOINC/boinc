@@ -1709,7 +1709,7 @@ int CLIENT_STATE::report_result_error(RESULT& res, const char* format, ...) {
 
     sprintf(buf, "Unrecoverable error for task %s", res.name);
 #ifndef SIM
-    scheduler_op->backoff(res.project, buf);
+    scheduler_op->project_rpc_backoff(res.project, buf);
 #endif
 
     sprintf( buf, "<message>\n%s\n</message>\n", err_msg);

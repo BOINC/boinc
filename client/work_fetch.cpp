@@ -121,7 +121,7 @@ void RSC_PROJECT_WORK_FETCH::rr_init(PROJECT* p, int rsc_type) {
     deadlines_missed = 0;
 }
 
-void RSC_PROJECT_WORK_FETCH::backoff(PROJECT* p, const char* name) {
+void RSC_PROJECT_WORK_FETCH::resource_backoff(PROJECT* p, const char* name) {
     if (backoff_interval) {
         backoff_interval *= 2;
         if (backoff_interval > WF_MAX_BACKOFF_INTERVAL) backoff_interval = WF_MAX_BACKOFF_INTERVAL;
@@ -801,7 +801,7 @@ void WORK_FETCH::handle_reply(
         if (p->sched_rpc_pending != RPC_REASON_PROJECT_REQ) {
             for (int i=0; i<coprocs.n_rsc; i++) {
                 if (rsc_work_fetch[i].req_secs) {
-                    p->rsc_pwf[i].backoff(p, rsc_name(i));
+                    p->rsc_pwf[i].resource_backoff(p, rsc_name(i));
                 }
             }
         }

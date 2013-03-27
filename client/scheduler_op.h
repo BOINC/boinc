@@ -76,7 +76,7 @@ public:
     int init_op_project(PROJECT*, int);
     int init_master_fetch(PROJECT*);
     bool check_master_fetch_start();
-    void backoff(PROJECT* p, const char *error_msg);
+    void project_rpc_backoff(PROJECT* p, const char *error_msg);
     void abort(PROJECT*);
         // if we're doing an op to this project, abort it
 private:
