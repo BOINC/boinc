@@ -39,6 +39,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.TextView;
 
 public class AttachProjectListActivity extends Activity implements android.view.View.OnClickListener{
 	
@@ -69,7 +70,9 @@ public class AttachProjectListActivity extends Activity implements android.view.
     @Override
     public void onCreate(Bundle savedInstanceState) {  
         super.onCreate(savedInstanceState);  
-        setContentView(R.layout.attach_project_list_layout_loading);  
+        setContentView(R.layout.generic_layout_loading);
+        TextView loadingHeader = (TextView)findViewById(R.id.loading_header);
+        loadingHeader.setText(R.string.attachproject_list_loading);
          
         Log.d(TAG, "onCreate"); 
         

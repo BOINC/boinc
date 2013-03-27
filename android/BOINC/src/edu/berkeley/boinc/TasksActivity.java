@@ -21,7 +21,6 @@ package edu.berkeley.boinc;
 import java.util.ArrayList;
 
 import edu.berkeley.boinc.adapter.TasksListAdapter;
-import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Result;
 import android.app.Activity;
@@ -32,18 +31,20 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class TasksActivity extends Activity {
 	
 	private final String TAG = "BOINC TasksActivity";
 	
-	private ClientStatus status; //client status, new information gets parsed by monitor, changes notified by "clientstatus" broadcast. read Result from here, to get information about tasks.
-
 	private ListView lv;
 	private TasksListAdapter listAdapter;
 	
 	private ArrayList<Result> data = new ArrayList<Result>(); //Adapter for list data
-	private Boolean setup = false;
+	
+	// Controls whether initialization of view elements of "tasks_layout"
+	// is required. This is the case, every time the layout switched.
+	private Boolean initialSetupRequired = true;
 
 	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
 		
@@ -51,21 +52,13 @@ public class TasksActivity extends Activity {
 		@Override
 		public void onReceive(Context context,Intent intent) {
 			Log.d(TAG,"onReceive");
-			loadData(); // refresh list view
+			populateLayout();
 		}
 	};
 	private IntentFilter ifcsc = new IntentFilter("edu.berkeley.boinc.clientstatuschange");
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.tasks_layout); 
-		
-		//get singleton client status from monitor
-		status = Monitor.getClientStatus();
-		
-        //load data model
-		loadData();
-		
         
         Log.d(TAG,"onCreate");
 	}
@@ -75,7 +68,7 @@ public class TasksActivity extends Activity {
 		//register noisy clientStatusChangeReceiver here, so only active when Activity is visible
 		Log.d(TAG+"-onResume","register receiver");
 		registerReceiver(mClientStatusChangeRec,ifcsc);
-		loadData();
+		populateLayout();
 	}
 	
 	public void onPause() {
@@ -86,31 +79,43 @@ public class TasksActivity extends Activity {
 	}
 	
 	
-	private void loadData() {
-
-		//setup list and adapter
-		ArrayList<Result> tmpA = status.getTasks();
-		if(tmpA!=null) { //can be null before first monitor status cycle (e.g. when not logged in or during startup)
-		
+	private void populateLayout() {
+		try {
+			//setup list and adapter
+			ArrayList<Result> tmpA = Monitor.getClientStatus().getTasks();
+			
+			if(tmpA == null) {
+				setLayoutLoading();
+				return;
+			}
+			
 			//deep copy, so ArrayList adapter actually recognizes the difference
 			data.clear();
 			for (Result tmp: tmpA) {
 				data.add(tmp);
 			}
 			
-			if(!setup) {// first time we got proper results, setup adapter
+			if(initialSetupRequired) {// first time we got proper results, setup adapter
+				initialSetupRequired = false;
+				setContentView(R.layout.tasks_layout); 
 				lv = (ListView) findViewById(R.id.tasksList);
 		        listAdapter = new TasksListAdapter(TasksActivity.this,R.id.tasksList,data);
 		        lv.setAdapter(listAdapter);
-		        
-		        setup = true;
 			} 
 		
 			Log.d(TAG,"loadData: array contains " + data.size() + " results.");
 			listAdapter.notifyDataSetChanged(); //force list adapter to refresh
-		}else {
-			Log.d(TAG, "loadData array is null");
+			
+		} catch (Exception e) {
+			// data retrieval failed, set layout to loading...
+			setLayoutLoading();
 		}
-		
+	}
+	
+	private void setLayoutLoading() {
+		setContentView(R.layout.generic_layout_loading); 
+        TextView loadingHeader = (TextView)findViewById(R.id.loading_header);
+        loadingHeader.setText(R.string.tasks_loading);
+        initialSetupRequired = true;
 	}
 }
