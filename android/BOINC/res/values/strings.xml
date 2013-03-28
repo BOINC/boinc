@@ -55,6 +55,9 @@
     <string name="attachproject_login_header_description">Description:</string>
     <string name="attachproject_login_header_home">Home:</string>
     <string name="attachproject_login_header_url">Website:</string>
+    <string name="attachproject_login_header_platform">Android:</string>
+    <string name="attachproject_login_platform_supported">This project supports calculation on Android devices.</string>
+    <string name="attachproject_login_platform_not_supported">This project does not support caculation on Android devices yet!</string>
     <string name="attachproject_login_category_login">Sign in with existing account</string>
     <string name="attachproject_login_header_id_email">eMail:</string>
     <string name="attachproject_login_header_id_name">Name:</string>
@@ -88,7 +91,12 @@
     <string name="attachproject_registration_toast_error_no_email">eMail missing!</string>
     <string name="attachproject_registration_toast_error_no_pwd">Password missing!</string>
     <string name="attachproject_registration_toast_error_unknown">Registration failed.</string>
-    <string name="attachproject_registration_toast_error_username_required">User name is required!</string>
+    <string name="attachproject_registration_toast_error_bad_username">user name refused, change and try again!</string>
+    <string name="attachproject_registration_toast_error_email_in_use">eMail is already in use!</string>
+    <string name="attachproject_registration_toast_error_project_down">Can\'t reach project server!</string>
+    <string name="attachproject_registration_toast_error_email_bad_syntax">eMail refused, change and try again!</string>
+    <string name="attachproject_registration_toast_error_bad_pwd">Password refused, change and try again!</string>
+    <string name="attachproject_registration_toast_error_creation_disabled">Account creation is disabled on this project!</string>
     <string name="attachproject_registration_toast_creation_successful">Account created. Logging in&#8230;</string>
     <string name="attachproject_registration_toast_login_successful">Successful.</string>
     
