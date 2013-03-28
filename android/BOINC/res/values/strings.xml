@@ -93,7 +93,8 @@
     <string name="attachproject_registration_toast_login_successful">Successful.</string>
     
     <!-- main activity -->
-    <string name="main_launching">Please wait&#8230;</string>
+    <string name="main_launching">Starting BOINC&#8230;</string>
+    <string name="main_quitting">Closing BOINC&#8230;</string>
     <string name="main_noproject_warning">No scientific project attached! tab here to enter account.</string>
     <string name="main_error">Whooops</string>
     <string name="main_error_long">&#8230;this should not happen!\nClick on the icon to try again.</string>
@@ -118,6 +119,7 @@
     <string name="status_computing_disabled_long">Tap to continue!</string>
     <string name="disable_computation">Disable computation</string>
     <string name="enable_computation">Enable computation</string>
+    <string name="status_exit">Exit BOINC</string>
     
 	<!-- preferences tab strings -->
 	<string name="prefs_loading">Reading preferences&#8230;</string>

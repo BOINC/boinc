@@ -262,6 +262,7 @@ public class AttachProjectRegistrationActivity extends Activity{
 			}
 		}
 		
+		@SuppressWarnings("unused") // used by calling publishProgress()
 		protected void onProgressUpdate() {
 			//only show positive progress, others are shown in onPostExecute
 			Toast toast = Toast.makeText(getApplicationContext(), R.string.attachproject_registration_toast_creation_successful, Toast.LENGTH_SHORT);

@@ -78,11 +78,93 @@ public class Monitor extends Service {
 	private Thread monitorThread = null;
 	private Boolean monitorRunning = true;
 	
-	private Process clientProcess;
+	//private Process clientProcess;
 	private RpcClient rpc = new RpcClient();
 
 	private final Integer maxDuration = 3000; //maximum polling duration
 
+	
+	// Get PID for process name using native 'ps' console command
+    //
+    private Integer getPidForProcessName(String processName) {
+    	int count;
+    	char[] buf = new char[1024];
+    	StringBuffer sb = new StringBuffer();
+    	
+    	//run ps and read output
+    	try {
+	    	Process p = Runtime.getRuntime().exec("ps");
+	    	p.waitFor();
+	    	InputStreamReader isr = new InputStreamReader(p.getInputStream());
+	    	while((count = isr.read(buf)) != -1)
+	    	{
+	    	    sb.append(buf, 0, count);
+	    	}
+    	} catch (Exception e) {
+    		Log.d(TAG, "Exception: " + e.getMessage());
+    		Log.e(TAG, "Exception", e);
+    	}
+    	
+    	//parse output into hashmap
+    	HashMap<String,Integer> pMap = new HashMap<String, Integer>();
+    	String [] processLinesAr = sb.toString().split("\n");
+    	for(String line : processLinesAr)
+    	{
+    		Integer pid;
+    		String packageName;
+    	    String [] comps = line.split("[\\s]+");
+    	    if(comps.length != 9) {continue;}     
+    	    pid = Integer.parseInt(comps[1]);
+    	    packageName = comps[8];
+    	    pMap.put(packageName, pid);
+    	    //Log.d(TAG,"added: " + packageName + pid); 
+    	}
+    	
+    	// Find required pid
+    	return pMap.get(processName);
+    }
+    
+    // Exit a process with OS signals SIGQUIT and SIGKILL
+    //
+    private void quitProcessOsLevel(String processName) {
+    	Integer clientPid = getPidForProcessName(processName);
+    	
+    	// client PID could not be read, client already ended / not yet started?
+    	if (clientPid == null) {
+    		Log.d(TAG, "quitProcessOsLevel could not find PID, already ended or not yet started?");
+    		return;
+    	}
+    	
+    	Log.d(TAG, "quitProcessOsLevel for " + processName + ", pid: " + clientPid);
+    	
+    	// Do not just kill the client on the first attempt.  That leaves dangling 
+		// science applications running which causes repeated spawning of applications.
+		// Neither the UI or client are happy and each are trying to recover from the
+		// situation.  Instead send SIGQUIT and give the client time to clean up.
+		//
+    	android.os.Process.sendSignal(clientPid, android.os.Process.SIGNAL_QUIT);
+    	
+    	// Wait for up to 30 seconds for the client to shutdown gracefully
+    	Integer loopCounter = 0;
+    	while((loopCounter < 6) && (getPidForProcessName(processName) != null)) {
+    		loopCounter++;
+			try {
+				Thread.sleep(5000);
+			} catch (Exception e) {}
+    	}
+    	
+    	// Process is still alive, sind SIGKILL
+    	clientPid = getPidForProcessName(processName);
+    	if(clientPid != null) {
+    		Log.d(TAG, "SIGQUIT failed. SIGKILL pid: " + clientPid);
+    		android.os.Process.killProcess(clientPid);
+    	}
+    	
+    	clientPid = getPidForProcessName(processName);
+    	if(clientPid != null) {
+    		Log.d(TAG, "SIGKILL failed. still living pid: " + clientPid);
+    	}
+    }
 	
 	public static ClientStatus getClientStatus() { //singleton pattern
 		if (clientStatus == null) {
@@ -141,18 +223,15 @@ public class Monitor extends Service {
 		if(!started) {
 			started = true;
 	        (new ClientMonitorAsync()).execute(new Integer[0]); //start monitor in new thread
-	        Log.d(TAG, "asynchronous monitor started!");
+	        //Log.d(TAG, "asynchronous monitor started!");
 		}
 		else {
 			Log.d(TAG, "asynchronous monitor NOT started!");
 		}
 
-        Toast.makeText(this, "BOINC Monitor Service Starting", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "BOINC Monitor Service Starting", Toast.LENGTH_SHORT).show();
 	}
 	
-    /*
-     * this should not be reached
-    */
     @Override
     public void onDestroy() {
     	Log.d(TAG,"onDestroy()");
@@ -166,11 +245,11 @@ public class Monitor extends Service {
     	monitorRunning = false;
 		monitorThread.interrupt();
     	
-    	// Now we can safely stop the client
-    	//
-		quitClient();
+    	// Quit client here is not appropriate?!
+		// Keep Client running until explecitely killed, independently from UI
+		//quitClient();
         
-        Toast.makeText(this, "BOINC Monitor Service Stopped", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "BOINC Monitor Service Stopped", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -211,6 +290,8 @@ public class Monitor extends Service {
     	}
     }
     
+    // force ClientMonitorAsync to start with loop.
+    // This will read client status using RPCs and fire event eventually.
     public void forceRefresh() {
     	Log.d(TAG,"forceRefresh()");
     	if(monitorThread != null) {
@@ -218,8 +299,28 @@ public class Monitor extends Service {
     	}
     }
     
+    // exits both, UI and BOINC client.
+    // BLOCKING! call from AsyncTask!
     public void quitClient() {
-    	(new ShutdownClientAsync()).execute();
+    	monitorRunning = false; // stops ClientMonitorAsync loop
+    	monitorThread.interrupt(); // wakening ClientMonitorAsync from sleep
+    	// ClientMonitorAsync is not using RPC anymore
+    	
+    	// set client status to SETUP_STATUS_CLOSING to adapt layout accordingly
+		getClientStatus().setSetupStatus(ClientStatus.SETUP_STATUS_CLOSING,true);
+    	
+    	// try graceful shutdown via RPC
+    	rpc.quit();
+    	
+    	// there might be still other AsyncTasks executing RPCs
+    	// close sockets in a synchronized way
+    	rpc.close();
+    	
+    	// there are now more RPCs going on
+    	quitProcessOsLevel(clientPath + clientName);
+    	
+    	// set client status to SETUP_STATUS_CLOSED to adapt layout accordingly
+		getClientStatus().setSetupStatus(ClientStatus.SETUP_STATUS_CLOSED,true);
     }
     
     /*
@@ -542,7 +643,7 @@ public class Monitor extends Service {
 				
 	    		try {
 	    			Thread.sleep(refreshFrequency);
-	    		} catch(InterruptedException e) {}
+	    		} catch(InterruptedException e) {Log.d(TAG,"sleep interrupted");}
 			}
 
 			return true;
@@ -574,8 +675,7 @@ public class Monitor extends Service {
 			} else {
 				Log.d(TAG, "onPreExecute - running setup.");
 				Monitor.clientSetupActive = true;
-				getClientStatus().setupStatus = ClientStatus.SETUP_STATUS_LAUNCHING;
-				getClientStatus().fire();
+				getClientStatus().setSetupStatus(ClientStatus.SETUP_STATUS_LAUNCHING,true);
 			}
 		}
 		
@@ -589,13 +689,12 @@ public class Monitor extends Service {
 			Monitor.clientSetupActive = false;
 			if(success) {
 				Log.d(TAG, "onPostExecute - setup completed successfully"); 
-				getClientStatus().setupStatus = ClientStatus.SETUP_STATUS_AVAILABLE;
-				// do not fire new client status here, wait for ClientMonitorAsync to retrieve initial status
+				getClientStatus().setSetupStatus(ClientStatus.SETUP_STATUS_AVAILABLE,false);
+				// do not fire new client status, wait for ClientMonitorAsync to retrieve initial status
 				forceRefresh();
 			} else {
 				Log.d(TAG, "onPostExecute - setup experienced an error"); 
-				getClientStatus().setupStatus = ClientStatus.SETUP_STATUS_ERROR;
-				getClientStatus().fire();
+				getClientStatus().setSetupStatus(ClientStatus.SETUP_STATUS_ERROR,true);
 			}
 		}
 
@@ -608,12 +707,11 @@ public class Monitor extends Service {
 		private Boolean startUp() {
 
 			String clientProcessName = clientPath + clientName;
-			Integer clientPid = null;
 
 			String md5AssetClient = ComputeMD5Asset(clientName);
 			publishProgress("Hash of client (Asset): '" + md5AssetClient + "'");
 
-			String md5InstalledClient = ComputeMD5File(clientPath + clientName);
+			String md5InstalledClient = ComputeMD5File(clientProcessName);
 			publishProgress("Hash of client (File): '" + md5InstalledClient + "'");
 
 			// If client hashes do not match, we need to install the one that is a part
@@ -623,40 +721,7 @@ public class Monitor extends Service {
 
 				// Determine if BOINC is already running.
 				//
-				clientPid = getPidForProcessName(clientProcessName);
-				if(clientPid != null) {
-
-					// Do not just kill the client on the first attempt.  That leaves dangling 
-					// science applications running which causes repeated spawning of applications.
-					// Neither the UI or client are happy and each are trying to recover from the
-					// situation.  Instead send SIGQUIT and give the client time to clean up.
-					//
-					publishProgress("Gracefully shutting down BOINC client (" + clientPid +")");
-					android.os.Process.sendSignal(clientPid, android.os.Process.SIGNAL_QUIT);
-
-					// Wait for up to 15 seconds for the client to shutdown gracefully
-					//
-					for (Integer i = 0; i <= 15; i++) {
-						clientPid = getPidForProcessName(clientProcessName);
-						if(clientPid != null) {
-							publishProgress("Waiting on BOINC client (" + clientPid + ") to shutdown");
-							try {
-								Thread.sleep(1000);
-							} catch (Exception e) {}
-						} else {
-							break;
-						}
-					}
-
-					// If the client has not shutdown by now, force terminate it
-					//
-					clientPid = getPidForProcessName(clientProcessName);
-					if(clientPid != null) {
-						publishProgress("Forcefully terminating BOINC client (" + clientPid + ")");
-						android.os.Process.killProcess(clientPid);
-						clientPid = null;
-					}	
-				}
+				quitProcessOsLevel(clientProcessName);
 
 				// Install BOINC client software
 				//
@@ -666,10 +731,9 @@ public class Monitor extends Service {
 		        }
 			}
 			
-			
 			// Start the BOINC client if we need to.
 			//
-			clientPid = getPidForProcessName(clientProcessName);
+			Integer clientPid = getPidForProcessName(clientProcessName);
 			if(clientPid == null) {
 	        	publishProgress("Starting the BOINC client");
 				if (!runClient()) {
@@ -706,7 +770,7 @@ public class Monitor extends Service {
 	    		cmd[0] = clientPath + clientName;
 	    		cmd[1] = "--daemon";
 	    		
-	        	clientProcess = Runtime.getRuntime().exec(cmd, null, new File(clientPath));
+	        	Runtime.getRuntime().exec(cmd, null, new File(clientPath));
 	        	success = true;
 	    	} catch (IOException e) {
 	    		Log.d(TAG, "Starting BOINC client failed with exception: " + e.getMessage());
@@ -817,46 +881,6 @@ public class Monitor extends Service {
 			return rpc.authorize(authKey); 
 	    }
 		
-		// Get PID for process name using native 'ps' console command
-	    //
-	    private Integer getPidForProcessName(String processName) {
-	    	int count;
-	    	char[] buf = new char[1024];
-	    	StringBuffer sb = new StringBuffer();
-	    	
-	    	//run ps and read output
-	    	try {
-		    	Process p = Runtime.getRuntime().exec("ps");
-		    	p.waitFor();
-		    	InputStreamReader isr = new InputStreamReader(p.getInputStream());
-		    	while((count = isr.read(buf)) != -1)
-		    	{
-		    	    sb.append(buf, 0, count);
-		    	}
-	    	} catch (Exception e) {
-	    		Log.d(TAG, "Exception: " + e.getMessage());
-	    		Log.e(TAG, "Exception", e);
-	    	}
-	    	
-	    	//parse output into hashmap
-	    	HashMap<String,Integer> pMap = new HashMap<String, Integer>();
-	    	String [] processLinesAr = sb.toString().split("\n");
-	    	for(String line : processLinesAr)
-	    	{
-	    		Integer pid;
-	    		String packageName;
-	    	    String [] comps = line.split("[\\s]+");
-	    	    if(comps.length != 9) {continue;}     
-	    	    pid = Integer.parseInt(comps[1]);
-	    	    packageName = comps[8];
-	    	    pMap.put(packageName, pid);
-	    	    //Log.d(TAG,"added: " + packageName + pid); 
-	    	}
-	    	
-	    	// Find required pid
-	    	return pMap.get(processName);
-	    }
-
 	    // Compute MD5 of the requested asset
 	    //
 	    private String ComputeMD5Asset(String file) {
@@ -1163,6 +1187,7 @@ public class Monitor extends Service {
 		}
 	}
 	
+	/*
 	private final class ShutdownClientAsync extends AsyncTask<Void, String, Boolean> {
 
 		private final String TAG = "ShutdownClientAsync";
@@ -1183,5 +1208,5 @@ public class Monitor extends Service {
 			Log.d(TAG, "onProgressUpdate - " + arg0[0]);
 			BOINCActivity.logMessage(getApplicationContext(), TAG, arg0[0]);
 		}
-	}
+	}*/
 }
