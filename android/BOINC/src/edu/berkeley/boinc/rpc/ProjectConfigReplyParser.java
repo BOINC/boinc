@@ -137,6 +137,9 @@ public class ProjectConfigReplyParser extends BaseParser {
 					else if (localName.equalsIgnoreCase("plan_class") && withinPlatforms) { 
 						platformPlanClass = mCurrentElement.toString();
 					}
+					else if (localName.equalsIgnoreCase("terms_of_use")) {
+						mProjectConfig.termsOfUse = mCurrentElement.toString();
+					}
 					else if (localName.equalsIgnoreCase("platform") && withinPlatforms) { // finish platform object and add to array
 						mPlatforms.add(new PlatformInfo(platformName, platformFriendlyName, platformPlanClass));
 						platformFriendlyName = "";

@@ -27,7 +27,7 @@ public class ProjectConfig{
 	public Integer error_num = 0; // if results are not present yet. (polling)
 	public String name = "";
 	public String masterUrl = "";
-	public String localRevision = "";
+	public String localRevision = ""; // e.g. 4.3.2 can't be parse as int or float.
 	public Integer minPwdLength = 0;
 	public Boolean userName = false;
 	public Boolean webStopped = false;
@@ -38,6 +38,7 @@ public class ProjectConfig{
 	public Integer minClientVersion = 0;
 	public String rpcPrefix = "";
 	public ArrayList<PlatformInfo> platforms = new ArrayList<PlatformInfo>();
+	public String termsOfUse;
 	
 	//TODO system requirements
 	

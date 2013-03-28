@@ -41,11 +41,10 @@ import android.widget.TextView;
 
 public class BOINCActivity extends TabActivity {
 	
-	private final String TAG = "BOINC BOINCActivity"; 
+	private final String TAG = "BOINCActivity"; 
 	
 	private Monitor monitor;
 	private Integer clientSetupStatus = ClientStatus.SETUP_STATUS_LAUNCHING;
-	public static ClientStatus clientStatus;
 	private Boolean intialStart = true;
 	
 	private Boolean mIsBound;
@@ -124,13 +123,14 @@ public class BOINCActivity extends TabActivity {
 	    }
 	}
     
+	/*
     public static void logMessage(Context ctx, String tag, String message) {
         Intent testLog = new Intent();
         testLog.setAction("edu.berkeley.boinc.log");
         testLog.putExtra("message", message);   
         testLog.putExtra("tag", tag);
         ctx.sendBroadcast(testLog);
-    }
+    }*/
     
     // tests whether status is available and whether it changed since the last event.
     private void determineStatus() {
@@ -255,18 +255,8 @@ public class BOINCActivity extends TabActivity {
 	        msgsSpec.setContent(msgsIntent);
 	        tabHost.addTab(msgsSpec);
     	}
-        
-    	if(res.getBoolean(R.bool.tab_debug)) {
-	        TabSpec debugSpec = tabHost.newTabSpec(getResources().getString(R.string.tab_debug));
-	        debugSpec.setIndicator(getResources().getString(R.string.tab_debug), getResources().getDrawable(R.drawable.icon_debug_tab));
-	        Intent debugIntent = new Intent(this, DebugActivity.class);
-	        debugSpec.setContent(debugIntent);
-	        tabHost.addTab(debugSpec);
-        }
     	
         Log.d(TAG, "tab layout setup done");
-
-        BOINCActivity.logMessage(this, TAG, "tab setup finished");
     }
 
 	// triggered by click on noproject_warning, starts login activity
