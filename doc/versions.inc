@@ -44,10 +44,10 @@ function linux_info() {
 }
 
 $w70dev = array(
-	"num"=>"7.0.58",
+	"num"=>"7.0.59",
 	"status"=>"Development version",
-	"file"=>"boinc_7.0.58_windows_intelx86.exe",
-	"date"=>"21 Mar 2013",
+	"file"=>"boinc_7.0.59_windows_intelx86.exe",
+	"date"=>"28 Mar 2013",
 	"type"=>"win_new",
 );
 
@@ -84,10 +84,10 @@ $w5816 = array(
 );
 
 $w70x64dev = array(
-	"num"=>"7.0.58",
+	"num"=>"7.0.59",
 	"status"=>"Development version",
-	"file"=>"boinc_7.0.58_windows_x86_64.exe",
-	"date"=>"21 Mar 2013",
+	"file"=>"boinc_7.0.59_windows_x86_64.exe",
+	"date"=>"28 Mar 2013",
 	"type"=>"win_new",
 );
 
@@ -204,10 +204,10 @@ $l66 = array(
 	);
 
 $l70ubuntudev = array(
-	"num"=>"7.0.58",
+	"num"=>"7.0.59",
 	"status"=>"Development version",
-	"file"=>"boinc_7.0.58_i686-pc-linux-gnu.sh",
-	"date"=>"21 Mar 2013",
+	"file"=>"boinc_7.0.59_i686-pc-linux-gnu.sh",
+	"date"=>"28 Mar 2013",
 	"type"=>"sea",
 );
 
@@ -228,10 +228,10 @@ $l612ubuntu = array(
 );
 
 $l70ubuntux64dev = array(
-	"num"=>"7.0.58",
+	"num"=>"7.0.59",
 	"status"=>"Development version",
-	"file"=>"boinc_7.0.58_x86_64-pc-linux-gnu.sh",
-	"date"=>"21 Mar 2013",
+	"file"=>"boinc_7.0.59_x86_64-pc-linux-gnu.sh",
+	"date"=>"28 Mar 2013",
 	"type"=>"sea",
 );
 
