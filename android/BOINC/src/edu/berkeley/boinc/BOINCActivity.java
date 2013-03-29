@@ -37,6 +37,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
+import android.widget.TextView;
 
 public class BOINCActivity extends TabActivity {
 	
@@ -82,7 +83,6 @@ public class BOINCActivity extends TabActivity {
         super.onCreate(savedInstanceState);  
         setContentView(R.layout.main);  
          
-        
         //bind monitor service
         doBindService();
         
@@ -153,32 +153,44 @@ public class BOINCActivity extends TabActivity {
     
     private void layout() {
     	TabHost tabLayout = (TabHost) findViewById(android.R.id.tabhost);
-    	LinearLayout launchingLayout = (LinearLayout) findViewById(R.id.main_launching);
+    	LinearLayout loadingLayout = (LinearLayout) findViewById(R.id.main_loading);
     	LinearLayout errorLayout = (LinearLayout) findViewById(R.id.main_error);
     	//TextView noProjectWarning = (TextView) findViewById(R.id.noproject_warning);
     	HorizontalScrollView noProjectWarning = (HorizontalScrollView) findViewById(R.id.noproject_warning_wrapper);
     	switch (clientSetupStatus) {
     	case ClientStatus.SETUP_STATUS_AVAILABLE:
     		noProjectWarning.setVisibility(View.GONE);
-        	launchingLayout.setVisibility(View.GONE);
+    		loadingLayout.setVisibility(View.GONE);
         	errorLayout.setVisibility(View.GONE);
     		tabLayout.setVisibility(View.VISIBLE);
     		break;
     	case ClientStatus.SETUP_STATUS_ERROR:
     		tabLayout.setVisibility(View.GONE); 
-        	launchingLayout.setVisibility(View.GONE);
+    		loadingLayout.setVisibility(View.GONE);
         	errorLayout.setVisibility(View.VISIBLE);
     		break;
     	case ClientStatus.SETUP_STATUS_LAUNCHING:
     		tabLayout.setVisibility(View.GONE); 
         	errorLayout.setVisibility(View.GONE);
-        	launchingLayout.setVisibility(View.VISIBLE);
+        	loadingLayout.setVisibility(View.VISIBLE);
+        	TextView launchingHeader = (TextView) findViewById(R.id.loading_header);
+        	launchingHeader.setText(R.string.main_launching);
     		break;
     	case ClientStatus.SETUP_STATUS_NOPROJECT:
-        	launchingLayout.setVisibility(View.GONE);
+    		loadingLayout.setVisibility(View.GONE);
         	errorLayout.setVisibility(View.GONE);
     		tabLayout.setVisibility(View.VISIBLE);
     		noProjectWarning.setVisibility(View.VISIBLE);
+    		break;
+    	case ClientStatus.SETUP_STATUS_CLOSING:
+    		tabLayout.setVisibility(View.GONE); 
+        	errorLayout.setVisibility(View.GONE);
+        	loadingLayout.setVisibility(View.VISIBLE);
+        	TextView quittingHeader = (TextView) findViewById(R.id.loading_header);
+        	quittingHeader.setText(R.string.main_quitting);
+    		break;
+    	case ClientStatus.SETUP_STATUS_CLOSED:
+    		finish(); // close application
     		break;
     	default:
     		Log.w(TAG, "could not layout status: " + clientSetupStatus);
@@ -270,5 +282,10 @@ public class BOINCActivity extends TabActivity {
 		if(!mIsBound) return;
 		Log.d(TAG, "reinitClient()");
 		monitor.restartMonitor(); //start over with setup of client
+	}
+	
+	public void finish() {
+		Log.d(TAG, "finishing application, good bye!");
+		super.finish();
 	}
 }
