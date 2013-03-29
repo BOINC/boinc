@@ -552,9 +552,9 @@ function handle_show_all($user) {
         //
         check_admin_access($user, $appid);
         if ($appid) {
-            $app = BoincApp::lookup_id($app_id);
+            $app = BoincApp::lookup_id($appid);
             if (!$app) error_page("no such app");
-            $batches = BoincBatch::enum("app_id = $app_id and state=$state order by id desc");
+            $batches = BoincBatch::enum("app_id = $appid and state=$state order by id desc");
         } else {
             $batches = BoincBatch::enum("state=$state order by id desc");
         }
