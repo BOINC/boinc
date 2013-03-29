@@ -43,8 +43,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import edu.berkeley.boinc.rpc.AccountOut;
+import edu.berkeley.boinc.rpc.PlatformInfo;
 import edu.berkeley.boinc.rpc.ProjectConfig;
 import edu.berkeley.boinc.rpc.ProjectInfo;
+import edu.berkeley.boinc.utils.BOINCErrors;
 
 public class AttachProjectLoginActivity extends Activity{
 	
@@ -58,12 +60,6 @@ public class AttachProjectLoginActivity extends Activity{
 	private Boolean projectInfoPresent = false; // complete ProjectInfo available, if selection from list
 	private ProjectConfig projectConfig;
 	private Bitmap projectLogo;
-	
-	// result definitions
-	public final static int RESULT_OK = 0;
-	public final static int RESULT_PWD_INCORRECT = -206;
-	public final static int RESULT_EMAIL_INCORRECT = -136;
-	public final static int RESULT_NO_CONNECTION = -113;
 	
 	private ServiceConnection mConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
@@ -102,6 +98,11 @@ public class AttachProjectLoginActivity extends Activity{
         		url = projectInfo.url; // set url field to information of projectInfo
         	}
         } catch (Exception e) {Log.d(TAG,"no project info...");}
+        
+        if(!projectInfoPresent) { // url can not be taken of ProjectInfo
+        	// format user input on URL right to avoid exceptions
+        	if (!url.startsWith("http://") && !url.startsWith("https://")) url = "http://" + url; // add http:// in case user leaves it out
+        }
         
         if(!urlPresent && !projectInfoPresent) {
         	// neither url (manual input) nor project info (list selection) is present
@@ -164,6 +165,15 @@ public class AttachProjectLoginActivity extends Activity{
 		TextView website = (TextView) findViewById(R.id.project_url);
 		website.setText(projectConfig.masterUrl);
 		website.setTag(projectConfig.masterUrl); // set tag to use in onClick
+		
+		// set android support
+		TextView platform = (TextView) findViewById(R.id.project_platform);
+		if(platformSupported()) {
+			platform.setText(R.string.attachproject_login_platform_supported);
+		} else {
+			platform.setText(R.string.attachproject_login_platform_not_supported);
+			platform.setTextColor(getResources().getColor(R.color.warning));
+		}
 		
 		// set ProjectInfo fields, if ProjectInfo available (after list selection)
 		if(projectInfoPresent) {
@@ -248,6 +258,7 @@ public class AttachProjectLoginActivity extends Activity{
 		new ProjectLoginAsync().execute();
 	}
 	
+	// register button's onClick
 	public void register (View view) {
 		Log.d(TAG, "register: " + view.getTag());
 		Boolean clientCreation = (Boolean) view.getTag();
@@ -266,6 +277,14 @@ public class AttachProjectLoginActivity extends Activity{
 		}
 	}
 	
+	// project url textview's onClick
+	public void projectUrlClicked (View view) {
+		// start intent to project website
+		Intent i = new Intent(Intent.ACTION_VIEW);
+		i.setData(Uri.parse(url));
+		startActivity(i);
+	}
+	
 	private Boolean verifyInput(String id, String pwd) {
 		if(id.length() == 0) {
 			Toast toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_error_no_name, Toast.LENGTH_SHORT);
@@ -281,28 +300,28 @@ public class AttachProjectLoginActivity extends Activity{
 	}
 	
 	private void showResultToast(Integer code) {
+		Log.d(TAG,"showResultToast for error: " + code);
 		Toast toast;
-		toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_error_unknown, Toast.LENGTH_LONG);
 		if(code == null) {
 			toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_error_unknown, Toast.LENGTH_LONG);
-		}
-		Log.d(TAG,"showResultToast for error: " + code);
-		switch (code) {
-		case RESULT_OK:
-			toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_ok, Toast.LENGTH_LONG);
-			break;
-		case RESULT_PWD_INCORRECT:
-			toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_error_wrong_pwd, Toast.LENGTH_LONG);
-			break;
-		case RESULT_EMAIL_INCORRECT:
-			toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_error_wrong_name, Toast.LENGTH_LONG);
-			break;
-		case RESULT_NO_CONNECTION:
-			toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_error_no_internet, Toast.LENGTH_LONG);
-			break;
-		default:
-			toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_error_unknown, Toast.LENGTH_LONG);
-			break;
+		} else {
+			switch (code) {
+			case BOINCErrors.ERR_OK:
+				toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_ok, Toast.LENGTH_LONG);
+				break;
+			case BOINCErrors.ERR_BAD_PASSWD:
+				toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_error_wrong_pwd, Toast.LENGTH_LONG);
+				break;
+			case BOINCErrors.ERR_DB_NOT_FOUND:
+				toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_error_wrong_name, Toast.LENGTH_LONG);
+				break;
+			case BOINCErrors.ERR_GETHOSTBYNAME:
+				toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_error_no_internet, Toast.LENGTH_LONG);
+				break;
+			default:
+				toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_error_unknown, Toast.LENGTH_LONG);
+				break;
+			}
 		}
 		toast.show();
 	}
@@ -325,6 +344,19 @@ public class AttachProjectLoginActivity extends Activity{
 		Intent intent = new Intent(this, BOINCActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //clear_top closes AttachProjectListActivity!
 		startActivity(intent);
+	}
+	
+	private Boolean platformSupported() {
+		if(projectConfig == null) return false;
+		String platformName = getString(R.string.boinc_platform_name);
+		Boolean supported = false;
+		for(PlatformInfo platform: projectConfig.platforms) {
+			if(platform.name.equals(platformName)) {
+				supported = true;
+				continue;
+			}
+		}
+		return supported;
 	}
 	
 	private final class ProjectLoginAsync extends AsyncTask<Void, Void, Integer> {
@@ -357,11 +389,13 @@ public class AttachProjectLoginActivity extends Activity{
 			AccountOut account = monitor.lookupCredentials(url, id, pwd);
 			
 			try {
-				if(account.error_num == RESULT_OK) {
+				if(account.error_num == BOINCErrors.ERR_OK) {
 					Boolean attach = monitor.attachProject(url, id, account.authenticator);
 					if(attach) {
-						return RESULT_OK;
+						return BOINCErrors.ERR_OK;
 					} else {
+						Log.d(TAG,"attachProject failed");
+						// happens if project already attached
 						return null;
 					}
 				} else { // error code
@@ -374,7 +408,7 @@ public class AttachProjectLoginActivity extends Activity{
 		@Override
 		protected void onPostExecute(Integer errorCode) {
 			showResultToast(errorCode);
-			if(errorCode == RESULT_OK) { //successful
+			if((errorCode != null) && (errorCode == BOINCErrors.ERR_OK)) { //successful
 				monitor.forceRefresh(); // force refresh, so "no project banner" disappears
 				goToMainActivity();
 			}

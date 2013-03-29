@@ -36,6 +36,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import edu.berkeley.boinc.rpc.AccountOut;
+import edu.berkeley.boinc.utils.BOINCErrors;
 
 public class AttachProjectRegistrationActivity extends Activity{
 	
@@ -47,13 +48,6 @@ public class AttachProjectRegistrationActivity extends Activity{
 	private String projectUrl;
 	private String projectName;
 	private Integer minPwdLength;
-	
-	// result definitions
-	public final static int RESULT_OK = 0;
-	public final static int RESULT_PWD_INCORRECT = -206;
-	public final static int RESULT_EMAIL_INCORRECT = -136;
-	public final static int RESULT_NO_CONNECTION = -113;
-	public final static int RESULT_USER_NAME_REQUIRED = -188;
 	
 	private ServiceConnection mConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
@@ -159,31 +153,42 @@ public class AttachProjectRegistrationActivity extends Activity{
 	}
 	
 	private void showResultToast(Integer code) {
+		Log.d(TAG,"showResultToast for error: " + code);
 		Toast toast;
-		toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_error_unknown, Toast.LENGTH_LONG);
 		if(code == null) {
 			toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_error_unknown, Toast.LENGTH_LONG);
-		}
-		Log.d(TAG,"showResultToast for error: " + code);
-		switch (code) {
-		case RESULT_OK:
-			toast = Toast.makeText(getApplicationContext(), R.string.attachproject_registration_toast_login_successful, Toast.LENGTH_LONG);
-			break;
-		case RESULT_PWD_INCORRECT:
-			toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_error_wrong_pwd, Toast.LENGTH_LONG);
-			break;
-		case RESULT_EMAIL_INCORRECT:
-			toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_error_wrong_name, Toast.LENGTH_LONG);
-			break;
-		case RESULT_NO_CONNECTION:
-			toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_error_no_internet, Toast.LENGTH_LONG);
-			break;
-		case RESULT_USER_NAME_REQUIRED:
-			toast = Toast.makeText(getApplicationContext(), R.string.attachproject_registration_toast_error_username_required, Toast.LENGTH_LONG);
-			break;
-		default:
-			toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_error_unknown, Toast.LENGTH_LONG);
-			break;
+		} else {
+			switch (code) {
+			case BOINCErrors.ERR_OK:
+				toast = Toast.makeText(getApplicationContext(), R.string.attachproject_registration_toast_login_successful, Toast.LENGTH_LONG);
+				break;
+			case BOINCErrors.ERR_NONUNIQUE_EMAIL: // treat the same as -137, ERR_DB_NOT_UNIQUE
+				// no break!!
+			case BOINCErrors.ERR_DB_NOT_UNIQUE:
+				toast = Toast.makeText(getApplicationContext(), R.string.attachproject_registration_toast_error_email_in_use, Toast.LENGTH_LONG);
+				break;
+			case BOINCErrors.ERR_PROJECT_DOWN:
+				toast = Toast.makeText(getApplicationContext(), R.string.attachproject_registration_toast_error_project_down, Toast.LENGTH_LONG);
+				break;
+			case BOINCErrors.ERR_BAD_EMAIL_ADDR:
+				toast = Toast.makeText(getApplicationContext(), R.string.attachproject_registration_toast_error_email_bad_syntax, Toast.LENGTH_LONG);
+				break;
+			case BOINCErrors.ERR_BAD_PASSWD:
+				toast = Toast.makeText(getApplicationContext(), R.string.attachproject_registration_toast_error_bad_pwd, Toast.LENGTH_LONG);
+				break;
+			case BOINCErrors.ERR_BAD_USER_NAME:
+				toast = Toast.makeText(getApplicationContext(), R.string.attachproject_registration_toast_error_bad_username, Toast.LENGTH_LONG);
+				break;
+			case BOINCErrors.ERR_GETHOSTBYNAME:
+				toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_error_no_internet, Toast.LENGTH_LONG);
+				break;
+			case BOINCErrors.ERR_ACCT_CREATION_DISABLED:
+				toast = Toast.makeText(getApplicationContext(), R.string.attachproject_registration_toast_error_creation_disabled, Toast.LENGTH_LONG);
+				break;
+			default:
+				toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_error_unknown, Toast.LENGTH_LONG);
+				break;
+			}
 		}
 		toast.show();
 	}
@@ -246,15 +251,17 @@ public class AttachProjectRegistrationActivity extends Activity{
 			AccountOut account = monitor.createAccount(projectUrl, email, user, pwd, team);
 			
 			if(account == null) {
+				Log.d(TAG, "createAccount returned null");
 				return null;
 			}
 			
-			if(account.error_num == RESULT_OK) { //only continue if creation succeeded
+			if(account.error_num == BOINCErrors.ERR_OK) { //only continue if creation succeeded
 				publishProgress();
 				Boolean attach = monitor.attachProject(projectUrl, email, account.authenticator);
 				if(attach) {
-					return RESULT_OK;
+					return BOINCErrors.ERR_OK;
 				} else {
+					Log.d(TAG, "attachProject returned false");
 					return null;
 				}
 			} else { // error code
@@ -272,7 +279,7 @@ public class AttachProjectRegistrationActivity extends Activity{
 		@Override
 		protected void onPostExecute(Integer errorCode) {
 			showResultToast(errorCode);
-			if(errorCode == RESULT_OK) { //successful
+			if((errorCode != null) && (errorCode == BOINCErrors.ERR_OK)) { //successful
 				monitor.forceRefresh(); // force refresh, so "no project banner" disappears
 				goToMainActivity();
 			}
