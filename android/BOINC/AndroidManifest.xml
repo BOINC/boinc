@@ -57,20 +57,11 @@
         <activity android:name=".PrefsActivity" />
         <activity android:name=".ProjectsActivity" />
         <activity android:name=".EventLogActivity" />
-        <activity android:name=".DebugActivity" >
-            <intent-filter>
-                <action android:name="edu.berkeley.boinc.log" />
-            </intent-filter>
-        </activity>
         <service android:name=".client.Monitor"></service>
         <service android:name="edu.berkeley.boinc.client.ClientRemoteService"
             android:enabled="true"
-            android:exported="true"></service>
-        <receiver android:name=".receiver.LogReceiver">
-            <intent-filter android:priority="999">
-                <action android:name="edu.berkeley.boinc.log" />
-            </intent-filter>
-        </receiver>
+            android:exported="true">
+        </service>
         <receiver android:name=".receiver.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>

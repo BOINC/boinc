@@ -102,12 +102,13 @@ public class AttachProjectLoginActivity extends Activity{
         if(!projectInfoPresent) { // url can not be taken of ProjectInfo
         	// format user input on URL right to avoid exceptions
         	if (!url.startsWith("http://") && !url.startsWith("https://")) url = "http://" + url; // add http:// in case user leaves it out
+        	if (!url.endsWith("/")) url = url + "/"; // add trailing slash
         }
         
         if(!urlPresent && !projectInfoPresent) {
         	// neither url (manual input) nor project info (list selection) is present
         	Log.d(TAG,"neither url nor projectInfo available! finish activity...");
-        	finish(true);
+        	finish(R.string.attachproject_login_error_toast);
         }
         
         // setup layout
@@ -126,11 +127,9 @@ public class AttachProjectLoginActivity extends Activity{
 	    super.onDestroy();
 	}
 	
-	public void finish(Boolean forced){
-		if(forced) {
-			Toast toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_error_toast, Toast.LENGTH_LONG);
-			toast.show();
-		}
+	public void finish(Integer toastStringId){
+		Toast toast = Toast.makeText(getApplicationContext(), toastStringId, Toast.LENGTH_LONG);
+		toast.show();
 		super.finish();
 	}
 
@@ -224,6 +223,16 @@ public class AttachProjectLoginActivity extends Activity{
 				LinearLayout wrapper = (LinearLayout) findViewById(R.id.home_wrapper);
 				wrapper.setVisibility(View.GONE);
 			}
+		}
+		
+		// terms of use
+		if((projectConfig.termsOfUse != null) && (projectConfig.termsOfUse.length() > 0)) {
+			LinearLayout termsOfUseWrapper = (LinearLayout) findViewById(R.id.terms_of_use_wrapper);
+			termsOfUseWrapper.setVisibility(View.VISIBLE);
+			TextView termsOfUseCategory = (TextView) findViewById(R.id.category_terms_of_use);
+			termsOfUseCategory.setText(getString(R.string.attachproject_login_category_terms_of_use) + " " + projectConfig.name);
+			TextView termsOfUseText = (TextView) findViewById(R.id.project_terms_of_use);
+			termsOfUseText.setText(projectConfig.termsOfUse);
 		}
 		
 		// set account creation
@@ -416,19 +425,23 @@ public class AttachProjectLoginActivity extends Activity{
 		}
 	}
 	
-	private final class GetProjectConfig extends AsyncTask<Void, Void, Boolean> {
+	private final class GetProjectConfig extends AsyncTask<Void, Void, Integer> {
 
 		private final String TAG = "GetProjectConfig";
 		
 		@Override
-		protected Boolean doInBackground(Void... params) {
+		protected Integer doInBackground(Void... params) {
 			if(!projectInfoPresent) { // only url string is available
 				Log.d(TAG, "doInBackground() - GetProjectConfig for manual input url: " + url);
+				
+				if(checkProjectAlreadyAttached(url)) return R.string.attachproject_login_error_project_exists;
 				
 				//fetch ProjectConfig
 				projectConfig = monitor.getProjectConfig(url);
 			} else {
 				Log.d(TAG, "doInBackground() - GetProjectConfig for list selection url: " + projectInfo.url);
+				
+				if(checkProjectAlreadyAttached(projectInfo.url)) return R.string.attachproject_login_error_project_exists;
 				
 				//fetch ProjectConfig
 				projectConfig = monitor.getProjectConfig(projectInfo.url);
@@ -438,19 +451,19 @@ public class AttachProjectLoginActivity extends Activity{
 			}
 			
 			if (projectConfig != null && projectConfig.error_num != null && projectConfig.error_num == 0) {
-				return true;
+				return 0;
 			} else { 
 				Log.d(TAG,"getProjectConfig returned error num:" + projectConfig.error_num);
-				return false;
+				return R.string.attachproject_login_error_toast;
 			}
 		}
 		
 		@Override
-		protected void onPostExecute(Boolean success) {
-			if(success) {
+		protected void onPostExecute(Integer toastStringId) {
+			if(toastStringId == 0) { // no error, no toast...
 				populateLayout();
 			} else {
-				finish(true);
+				finish(toastStringId);
 			}
 			
 		}
@@ -464,6 +477,11 @@ public class AttachProjectLoginActivity extends Activity{
 			} catch (Exception e) {
 				Log.w(TAG,"loadBitmap failed.",e);
 			}
+		}
+		
+		private Boolean checkProjectAlreadyAttached(String url) {
+			Log.d(TAG, "check whether project with url is already attached: " + url);
+			return monitor.checkProjectAttached(url);
 		}
 	}
 }

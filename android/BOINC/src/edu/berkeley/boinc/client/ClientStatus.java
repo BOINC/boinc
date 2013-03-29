@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.Message;
@@ -99,19 +98,18 @@ public class ClientStatus {
 	/*
 	 * called frequently by Monitor to set the RPC data. These objects are used to determine the client status and parse it in the data model of this class.
 	 */
-	public synchronized void setClientStatus(CcStatus status,ArrayList<Result> results,ArrayList<Project> projects, ArrayList<Transfer> transfers, GlobalPreferences clientPrefs, ArrayList<Message> msgs) {
+	public synchronized void setClientStatus(CcStatus status,ArrayList<Result> results,ArrayList<Project> projects, ArrayList<Transfer> transfers, ArrayList<Message> msgs) {
 		this.status = status;
 		this.results = results;
 		this.projects = projects;
 		this.transfers = transfers;
-		this.prefs = clientPrefs;
 		this.messages = msgs;
 		parseClientStatus();
 		Log.d(TAG,"parsing results: computing: " + computingParseError + computingStatus + computingSuspendReason + " - network: " + networkParseError + networkStatus + networkSuspendReason);
 		if(!computingParseError && !networkParseError && !setupStatusParseError) {
 			fire(); // broadcast that status has changed
 		} else {
-			BOINCActivity.logMessage(ctx, TAG, "discard status change due to parse error" + computingParseError + computingStatus + computingSuspendReason + "-" + networkParseError + networkStatus + networkSuspendReason + "-" + setupStatusParseError);
+			Log.d(TAG, "discard status change due to parse error" + computingParseError + computingStatus + computingSuspendReason + "-" + networkParseError + networkStatus + networkSuspendReason + "-" + setupStatusParseError);
 		}
 	}
 	
@@ -123,6 +121,14 @@ public class ClientStatus {
 	public synchronized void setSetupStatus(Integer newStatus, Boolean fireStatusChangeEvent) {
 		setupStatus = newStatus;
 		if (fireStatusChangeEvent) fire();
+	}
+	
+	/* 
+	 * called after reading global preferences, e.g. during ClientStartAsync
+	 */
+	public synchronized void setPrefs(GlobalPreferences prefs) {
+		//Log.d(TAG, "setPrefs");
+		this.prefs = prefs;
 	}
 	
 	public synchronized CcStatus getClientStatus() {
@@ -203,7 +209,7 @@ public class ClientStatus {
 		} catch (Exception e) {
 			setupStatusParseError = true;
 			Log.e(TAG, "parseProjectStatus - Exception", e);
-			BOINCActivity.logMessage(ctx, TAG, "error parsing setup status (project state)");
+			Log.d(TAG, "error parsing setup status (project state)");
 		}
 	}
 	
@@ -248,7 +254,7 @@ public class ClientStatus {
 			}
 		} catch (Exception e) {
 			Log.e(TAG, "parseComputingStatus - Exception", e);
-			BOINCActivity.logMessage(ctx, TAG, "error - client computing status");
+			Log.d(TAG, "error - client computing status");
 		}
 	}
 	
@@ -275,7 +281,7 @@ public class ClientStatus {
 			}
 		} catch (Exception e) {
 			Log.e(TAG, "parseNetworkStatus - Exception", e);
-			BOINCActivity.logMessage(ctx, TAG, "error - client network status");
+			Log.d(TAG, "error - client network status");
 		}
 	}
 	
