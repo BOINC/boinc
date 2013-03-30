@@ -166,13 +166,13 @@ $biomed = array(
 $earth = array(
     tra("Earth Sciences"),
     array(
-        array(
-            "Virtual Prairie",
-            "http://vcsc.cs.uh.edu/virtual-prairie/",
-            tra("University of Houston"),
-            tra("Study of botanical ecosystems"),
-            tra("Provide ecological guidelines on the design of prairies with the best potential for water purification.")
-        ),
+//        array(
+//            "Virtual Prairie",
+//            "http://vcsc.cs.uh.edu/virtual-prairie/",
+//            tra("University of Houston"),
+//            tra("Study of botanical ecosystems"),
+//            tra("Provide ecological guidelines on the design of prairies with the best potential for water purification.")
+//        ),
         array(
             "Climateprediction.net",
             "http://climateprediction.net/",
@@ -242,14 +242,14 @@ $astro_phys_chem = array(
             tra("Surface science calculations using Classical Dynamics.  Leiden Classical allows volunteers, students and other scientist to submit their personal calculations to the grid. Each user has his own personal queue for Classical Dynamics jobs. In this way students have used the grid to simulate liquid argon, or to test the validity of the ideal gas law by actually doing the simulations through the grid."),
             "leiden_classical.png"
         ),
-        array(
-            "uFluids@home",
-            "http://www.ufluids.net/",
-            tra("Purdue University"),
-            tra("Physics/Aeronautics"),
-            tra("The uFluids project simulates two-phase fluid behavior in microgravity and microfluidics problems. Our goal is to design better satellite propellant management devices and address two-phase flow in microchannel and MEMS devices."),
-            "ufluids.gif"
-        ),
+//        array(
+//            "uFluids@home",
+//            "http://www.ufluids.net/",
+//            tra("Purdue University"),
+//            tra("Physics/Aeronautics"),
+//            tra("The uFluids project simulates two-phase fluid behavior in microgravity and microfluidics problems. Our goal is to design better satellite propellant management devices and address two-phase flow in microchannel and MEMS devices."),
+//            "ufluids.gif"
+//        ),
         array(
             "Einstein@home",
             "http://einstein.phys.uwm.edu/",
@@ -499,14 +499,14 @@ $math = array(
 //            tra("What is the least number of crossings a straight-edge drawing of the complete graph on top of a set of n points in the plane obtains?  From very recent (not even published yet) mathematical considerations the rectilinear crossing numbers for n=19 and n=21 are also known. So the most tantalizing problem now is to determine the true value for n=18, which is the main focus of this project."),
 //            ""
 //        ),
-        array(
-            "Chess960@home",
-            "http://www.chess960athome.org/alpha/",
-            tra("Chess-960.org"),
-            tra("Game study"),
-            tra("This project studies Chess 960, a variant of orthodox chess. In classical chess the starting position of the game never changes.  In Chess 960, just before the start of every game, the initial configuration of the chess pieces is determined randomly."),
-            "chess960athome.jpg"
-        ),
+//        array(
+//            "Chess960@home",
+//            "http://www.chess960athome.org/alpha/",
+//            tra("Chess-960.org"),
+//            tra("Game study"),
+//            tra("This project studies Chess 960, a variant of orthodox chess. In classical chess the starting position of the game never changes.  In Chess 960, just before the start of every game, the initial configuration of the chess pieces is determined randomly."),
+//            "chess960athome.jpg"
+//        ),
 //        array(
 //            "NQueens@home",
 //            "http://nqueens.ing.udec.cl/",
@@ -523,14 +523,14 @@ $math = array(
             "Sudoku@vtaiwan seeks to solve the minimum Sudoku problem, a well-known problem in mathematics and computer science.",
             "sudoku.png"
         ),
-        array(
-            "Surveill@Home",
-            "http://surveill.dei.uc.pt/surveill",
-            "University of Coimbra, Portugal",
-            "Web performance",
-            tra("Surveill@Home is a research project that conducts end-to-end fine-grained monitoring of web sites.  The project will deploy thousands of probes, each of which repeatedly performs transactions on web sites.  This approach provides end-user failure and performance statistics."),
-            "surveill.png"
-        ),
+//        array(
+//            "Surveill@Home",
+//            "http://surveill.dei.uc.pt/surveill",
+//            "University of Coimbra, Portugal",
+//            "Web performance",
+//            tra("Surveill@Home is a research project that conducts end-to-end fine-grained monitoring of web sites.  The project will deploy thousands of probes, each of which repeatedly performs transactions on web sites.  This approach provides end-user failure and performance statistics."),
+//            "surveill.png"
+//        ),
     ),
 );
 
