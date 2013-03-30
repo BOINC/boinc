@@ -549,10 +549,12 @@ int CLIENT_STATE::init() {
     }
     // if new version of client,
     // - run CPU benchmarks
+    // - get new project list
     // - contact reference site (or some project) to trigger firewall alert
     //
     if (new_client) {
         run_cpu_benchmarks = true;
+        all_projects_list_check_time = 0;
         if (config.dont_contact_ref_site) {
             if (projects.size() > 0) {
                 projects[0]->master_url_fetch_pending = true;
