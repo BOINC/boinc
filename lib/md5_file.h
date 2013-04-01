@@ -21,6 +21,10 @@
 #include <string>
 
 // length of buffer to hold an MD5 hash
+// In principle need 32 + 1 for NULL,
+// but leave some room for XML whitespace
+// (since we parse before stripping whitespace)
+//
 #define MD5_LEN 64
 
 extern int md5_file(const char* path, char* output, double& nbytes);

@@ -13,6 +13,7 @@ void parse(FILE* f) {
     int val;
     double x;
 
+    strcpy(name, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     mf.init_file(f);
     if (!xp.parse_start("blah")) {
         printf("missing start tag\n");
@@ -28,8 +29,8 @@ void parse(FILE* f) {
         if (xp.match_tag("/blah")) {
             printf("success\n");
             return;
-        } else if (xp.parse_str("str", name, sizeof(name))) {
-            printf("got str: %s\n", name);
+        } else if (xp.parse_str("str", name, 33)) {
+            printf("got str: [%s]\n", name);
         } else if (xp.parse_int("int", val)) {
             printf("got int: %d\n", val);
         } else if (xp.parse_double("double", x)) {

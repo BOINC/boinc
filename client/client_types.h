@@ -95,7 +95,7 @@ struct URL_LIST {
 
 struct FILE_INFO {
     char name[256];
-    char md5_cksum[33];
+    char md5_cksum[MD5_LEN];
     double max_nbytes;
     double nbytes;
     double gzipped_nbytes;  // defined if download_gzipped is true
