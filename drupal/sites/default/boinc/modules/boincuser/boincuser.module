@@ -247,38 +247,41 @@ function boincuser_nodeapi(&$node, $op, $a3 = null, $a4 = null) {
 function boincuser_node_update($node) {
   switch($node->type) {
   case 'profile':
-    // Load the BOINC user record and save the updated account data
-    require_boinc('db');
+    // Update the BOINC database directly
     $account = user_load($node->uid);
-    $boinc_user = lookup_user_email_addr($account->mail);
-    $db_result = $boinc_user->update("
-      country = '{$node->field_country[0]['value']}',
-      postal_code = '{$node->field_zip[0]['value']}',
-      url = '{$node->field_url[0]['value']}'"
+    // Save user account data
+    $country = $node->field_country[0]['value'];
+    $postal_code = $node->field_zip[0]['value'];
+    $url = $node->field_url[0]['value'];
+    db_set_active('boinc');
+    $account_updated = db_query("
+      UPDATE user
+      SET country = '%s', postal_code = '%s', url = '%s', has_profile = 1
+      WHERE id = %d",
+      $country, $postal_code, $url, $account->boincuser_id
     );
-    if (!$db_result) drupal_set_message(t('Error updating BOINC account info.'), 'error');
-    // Also save data to the BOINC profile object
-    $boinc_profile = get_profile($boinc_user->id);
-    $response1 = boinc_real_escape_string($node->field_background[0]['value']);
-    $response2 = boinc_real_escape_string($node->field_opinions[0]['value']);
-    $query = "
-      response1 = '{$response1}',
-      response2 = '{$response2}' ";
-    if ($boinc_profile) {
-      $db_result = BoincProfile::update_aux("
-        {$query}
-        WHERE userid = '{$boinc_user->id}'"
-      );
-      if (!$db_result) drupal_set_message(t('Error updating BOINC profile.'), 'error');
-    } else {
-      $db_result = BoincProfile::insert("
-        SET userid = '{$boinc_user->id}',
-        {$query}"
-      );
-      if (!$db_result) drupal_set_message(t('Error creating BOINC profile.'), 'error');
-      $boinc_user->update('has_profile = 1');
+    db_set_active('default');
+    if (!$account_updated) {
+      drupal_set_message(t('Error saving BOINC account info.'), 'error');
+    }
+    // Save profile data
+    $response1 = $node->field_background[0]['value'];
+    $response2 = $node->field_opinions[0]['value'];
+    db_set_active('boinc');
+    $profile_updated = db_query("
+      INSERT INTO profile
+      SET userid = %d, response1 = '%s', response2 = '%s'
+      ON DUPLICATE KEY UPDATE
+        response1 = '%s', response2 = '%s'",
+      $account->boincuser_id, $response1, $response2,
+      $response1, $response2
+    );
+    db_set_active('default');
+    if (!$profile_updated) {
+      drupal_set_message(t('Error saving BOINC profile.'), 'error');
     }
     break;
+    
   default:
     
   }
