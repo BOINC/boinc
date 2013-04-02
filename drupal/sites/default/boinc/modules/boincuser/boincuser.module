@@ -90,6 +90,12 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
     db_set_active('default');
     // Set post count
     $account->post_count = db_result(db_query("SELECT COUNT(cid) FROM {comments} WHERE uid = '%d'", $account->uid));
+    // If admin user, do some basic site functionality checks
+    if (user_access('administer site configuration')) {
+      // Ensure we have a configured BOINC environment
+      boinc_get_path();
+      boinc_get_scheduler_tags();
+    }
     break;
     
   case 'view':

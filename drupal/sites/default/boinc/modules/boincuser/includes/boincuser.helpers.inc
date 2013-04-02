@@ -107,11 +107,11 @@ function boinc_get_path($type = 'root') {
     if (user_access('administer site configuration')) {
       drupal_set_message(t('The BOINC environment is not configured. Please
         !configure_it', array('!configure_it' => l(t('configure it now'),
-          'admin/boinc/environment'))), 'error');
+          'admin/boinc/environment'))), 'error', FALSE);
     }
     else {
       drupal_set_message(t('There is a problem with the site. Please contact
-        the system administrator.'), 'error');
+        the system administrator.'), 'error', FALSE);
     }
     // Redirect home to display the error message and avoid fatal errors
     // (unless trying to flush the cache, don't get in the way of that...)
@@ -129,18 +129,20 @@ function boinc_get_scheduler_tags() {
   if ($url_config = variable_get('boinc_scheduler_urls', '')) {
     return explode("\r\n", $url_config);
   }
-  else {
-    watchdog('boincuser', 'The BOINC scheduling server settings are not
+  elseif ($_GET['q'] != 'admin/boinc/scheduler') {
+    watchdog('boincuser', 'The BOINC scheduling server settings are not yet
         configured. Please !verify for the settings to become effective.',
-          array('!verify' => l(t('verify the default values and save the
-            configuration'), 'admin/boinc/scheduler')
+          array('!verify' => l(t('verify the default values') . ' <strong>' . 
+            t('and') . '</strong> ' . t('save the configuration'),
+            'admin/boinc/scheduler', array('html' => TRUE))
           ), WATCHDOG_WARNING);
     if (user_access('administer site configuration')) {
-      drupal_set_message(t('The BOINC scheduling server settings are not
+      drupal_set_message(t('The BOINC scheduling server settings are not yet
           configured. Please !verify for the settings to become effective',
-            array('!verify' => l(t('verify the default values and save the
-              configuration'), 'admin/boinc/scheduler')
-            )), 'warning');
+            array('!verify' => l(t('verify the default values') . ' <strong>' . 
+              t('and') . '</strong> ' . t('save the configuration'),
+              'admin/boinc/scheduler', array('html' => TRUE))
+            )), 'warning', FALSE);
     }
   }
   return array();
