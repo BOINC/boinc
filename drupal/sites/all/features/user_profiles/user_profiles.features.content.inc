@@ -625,7 +625,7 @@ Zimbabwe|Zimbabwe',
     'allowed_values_php' => '',
     'widget' => array(
       'rows' => 5,
-      'size' => '60',
+      'size' => '42',
       'default_value' => array(
         '0' => array(
           'value' => '',

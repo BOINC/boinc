@@ -8,7 +8,7 @@ function spam_controls_captcha_default_points() {
     'edit_profile_node_form' => array(
       'form_id' => 'edit_profile_node_form',
       'module' => NULL,
-      'captcha_type' => 'default',
+      'captcha_type' => NULL,
     ),
   );
 }

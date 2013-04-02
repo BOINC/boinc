@@ -408,6 +408,15 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     break;
     
   case 'profile_node_form':
+    
+    if (module_exists('captcha')) {
+      // Add an optional captcha
+      $form['profile_captcha'] = array(
+        '#type' => 'captcha',
+        '#weight' => 999,
+      );
+    }
+    
     unset($form['title']);
     unset($form['body_field']);
     $form['#redirect'] = 'account/profile';
