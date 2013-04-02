@@ -311,12 +311,12 @@ int CLIENT_STATE::check_suspend_processing() {
 
         if (old_gpu_suspend_reason && !gpu_suspend_reason) {
             if (log_flags.task) {
-                msg_printf(NULL, MSG_INFO, "[task] Resuming GPU computation");
+                msg_printf(NULL, MSG_INFO, "Resuming GPU computation");
             }
             request_schedule_cpus("GPU resumption");
         } else if (!old_gpu_suspend_reason && gpu_suspend_reason) {
             if (log_flags.task) {
-                msg_printf(NULL, MSG_INFO, "[task] Suspending GPU computation - %s",
+                msg_printf(NULL, MSG_INFO, "Suspending GPU computation - %s",
                     suspend_reason_string(gpu_suspend_reason)
                 );
             }
@@ -335,7 +335,7 @@ int CLIENT_STATE::suspend_tasks(int reason) {
     } else {
         if (log_flags.task) {
             msg_printf(NULL, MSG_INFO,
-                "[task] Suspending computation - %s",
+                "Suspending computation - %s",
                 suspend_reason_string(reason)
             );
         }
@@ -352,7 +352,7 @@ int CLIENT_STATE::resume_tasks(int reason) {
         active_tasks.unsuspend_all();
     } else {
         if (log_flags.task) {
-            msg_printf(NULL, MSG_INFO, "[task] Resuming computation");
+            msg_printf(NULL, MSG_INFO, "Resuming computation");
         }
         active_tasks.unsuspend_all();
         request_schedule_cpus("Resuming computation");
