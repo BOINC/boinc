@@ -972,39 +972,56 @@ function boincimport_forum_categories() {
   
   db_set_active('default');
   
-  while ($boincforum = db_fetch_object($boincforums) OR $importing_categories) {
+  do {
     $hidden_forum = FALSE;
+    
+    // Manually define the hidden category first, hence the awkward do loop.
+    // This is to support empty categories being automatically hidden.
+    
+    if (!$hidden_category_created) {
+      // Create a hidden category to catch any forums that don't have a
+      // valid category defined
+      $boincforum = new stdClass();
+      $boincforum->name = t('Hidden');
+      $boincforum->id = 0;
+      $hidden_category_created = TRUE;
+      $hidden_forum = TRUE;
+    }
+    
     if ($importing_categories) {
       if (!$boincforum) {
-        if (!$hidden_category_created) {
-          // Create a hidden category to catch any forums that don't have a
-          // valid category defined
-          $boincforum = new stdClass();
-          $boincforum->name = t('Hidden');
-          $boincforum->id = 0;
-          $hidden_category_created = TRUE;
-          $hidden_forum = TRUE;
-        }
-        else {
-          // Once all forum categories are done, import the public forums
-          db_set_active('boinc');
-          $importing_categories = FALSE;
-          $boincforums = db_query('SELECT * FROM %sforum WHERE parent_type = 0 ORDER BY category', $pre);
-          db_set_active('default');
-          continue;
-        }
+        // Once all forum categories are done, import the public forums
+        db_set_active('boinc');
+        $importing_categories = FALSE;
+        $boincforums = db_query('SELECT * FROM %sforum WHERE parent_type = 0 ORDER BY category', $pre);
+        db_set_active('default');
+        continue;
       }
       // Set term parameters for categories
       $forum_id = 0;
       $parent_id = 0;
       $name = $boincforum->name;
       $description = '';
+      $weight = 0;
+      // If this container is empty, put it into the hidden container
+      db_set_active('boinc');
+      $forums_contained = db_result(db_query('SELECT count(*) FROM %sforum WHERE parent_type = 0 AND category = %d', $pre, $boincforum->id));
+      db_set_active('default');
+      if (!$forums_contained) {
+        $parent_id = $category_map[0];
+        $hidden_forum = TRUE;
+      }
     } else {
       // Set term parameters for forums
       $forum_id = $boincforum->id;
       $parent_id = isset($category_map[$boincforum->category]) ? $category_map[$boincforum->category] : $category_map[0];
       $name = $boincforum->title;
       $description = $boincforum->description;
+      $weight = $boincforum->orderID;
+      if ($parent_id == $category_map[0]) {
+        // If this forum is hidden, flag for appropriate access controls
+        $hidden_forum = TRUE;
+      }
     }
     
     // Try to detect a BOINC news forum and flag it so that news can be
@@ -1022,6 +1039,7 @@ function boincimport_forum_categories() {
         'vid' => $forum_vid,
         'description' => $description,
         'parent' => $parent_id,
+        'weight' => $weight,
       );
       $forum['name'] = _boincimport_text_sanitize($forum['name']);
       $forum['description'] = _boincimport_text_sanitize($forum['description']);
@@ -1064,16 +1082,22 @@ function boincimport_forum_categories() {
       );
       foreach ($forum_perms as $role => $perm) {
         db_query('
-          REPLACE INTO {forum_access}
+          INSERT INTO {forum_access}
           SET  tid = %d, rid = %d,
+            grant_view = %d, grant_update = %d,
+            grant_delete = %d, grant_create = %d
+          ON DUPLICATE KEY UPDATE
             grant_view = %d, grant_update = %d,
             grant_delete = %d, grant_create = %d',
           $forum['tid'], $role,
           $perm['view'], $perm['update'],
+          $perm['delete'], $perm['create'],
+          $perm['view'], $perm['update'],
           $perm['delete'], $perm['create']);
       }
     }
-  }
+  } while ($boincforum = db_fetch_object($boincforums) OR $importing_categories);
+  
   // Set the forums import successful flag in the variable table
   variable_set('boincimport_import_category_successful', '1');
   
