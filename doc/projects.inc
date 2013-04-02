@@ -366,7 +366,7 @@ $math = array(
         ),
         array(
             "NumberFields@home",
-            "http://stat.la.asu.edu/NumberFields/",
+            "http://numberfields.asu.edu/NumberFields/",
             "Arizona State University, school of Mathematics",
             "Mathematics",
             "NumberFields@home searches for fields with special properties. The primary application of this research is in the realm of algebraic number theory. Number theorists can mine the data for interesting patterns to help them formulate conjectures about number fields. Ultimately, this research will lead to a deeper understanding of the profound properties of numbers, the basic building blocks of all mathematics.",
