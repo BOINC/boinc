@@ -29,14 +29,14 @@
 // represents info stored in acct_mgr_url.xml and acct_mgr_login.xml
 
 struct ACCT_MGR_INFO : PROJ_AM {
-	// the following used to be std::string but there
-	// were mysterious bugs where setting it to "" didn't work
-	//
+    // the following used to be std::string but there
+    // were mysterious bugs where setting it to "" didn't work
+    //
     char login_name[256];
     char password_hash[256];
         // md5 of password.lowercase(login_name)
-	char opaque[256];
-		// whatever the AMS sends us
+    char opaque[256];
+        // whatever the AMS sends us
     char signing_key[MAX_KEY_LEN];
     char previous_host_cpid[64];
         // the host CPID sent in last RPC

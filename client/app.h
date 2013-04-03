@@ -69,7 +69,7 @@ struct ACTIVE_TASK {
     WORKUNIT* wup;
     APP_VERSION* app_version;
     PROCESS_ID pid;
-	PROCINFO procinfo;
+    PROCINFO procinfo;
 
     // START OF ITEMS SAVED IN STATE FILE
     int _task_state;
@@ -180,7 +180,7 @@ struct ACTIVE_TASK {
     }
 
     ACTIVE_TASK();
-	~ACTIVE_TASK();
+    ~ACTIVE_TASK();
     int init(RESULT*);
     void cleanup_task();
 
@@ -258,7 +258,7 @@ struct ACTIVE_TASK {
     void upload_notify_app(const FILE_INFO*, const FILE_REF*);
     int copy_output_files();
     int setup_file(FILE_INFO*, FILE_REF&, char*, bool, bool);
-	bool must_copy_file(FILE_REF&, bool);
+    bool must_copy_file(FILE_REF&, bool);
     void write_task_state_file();
     void read_task_state_file();
 

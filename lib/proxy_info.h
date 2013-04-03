@@ -43,7 +43,7 @@ struct PROXY_INFO {
     char socks_server_name[256];
     int socks_server_port;
     char socks5_user_name[256];
-    char socks5_user_passwd[256];	
+    char socks5_user_passwd[256];
 
     // a list of hosts for which we should NOT go through a proxy
     // (e.g. a company PC attached to both local and remote projects)

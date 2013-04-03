@@ -56,7 +56,7 @@ void MIOFILE::init_buf_read(const char* _buf) {
 void MIOFILE::init_buf_write(char* _buf, int _len) {
     wbuf = _buf;
     len = _len;
-	wbuf[0] = 0;
+    wbuf[0] = 0;
 }
 
 bool MIOFILE::eof() {

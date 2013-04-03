@@ -351,9 +351,9 @@ static void prepend_prefix(APP_VERSION* avp, char* in, char* out) {
 // - the APP_VERSION has a non-empty file_prefix
 //
 bool ACTIVE_TASK::must_copy_file(FILE_REF& fref, bool is_io_file) {
-	if (fref.copy_file) return true;
-	if (is_io_file && strlen(app_version->file_prefix)) return true;
-	return false;
+    if (fref.copy_file) return true;
+    if (is_io_file && strlen(app_version->file_prefix)) return true;
+    return false;
 }
 
 // set up a file reference, given a slot dir and project dir.
@@ -369,11 +369,11 @@ int ACTIVE_TASK::setup_file(
     PROJECT* project = result->project;
 
     if (strlen(fref.open_name)) {
-		if (is_io_file) {
-			prepend_prefix(app_version, fref.open_name, open_name);
-		} else {
-			strcpy(open_name, fref.open_name);
-		}
+        if (is_io_file) {
+            prepend_prefix(app_version, fref.open_name, open_name);
+        } else {
+            strcpy(open_name, fref.open_name);
+        }
         retval = create_dirs_for_logical_name(open_name, slot_dir);
         if (retval) return retval;
         sprintf(link_path, "%s/%s", slot_dir, open_name);

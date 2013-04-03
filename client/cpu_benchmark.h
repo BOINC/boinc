@@ -15,11 +15,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#define MAX_CPU_BENCHMARKS_SECONDS	300
-#define CPU_BENCHMARKS_RUNNING		0
-#define CPU_BENCHMARKS_COMPLETE		1
-#define CPU_BENCHMARKS_NOT_RUNNING	2	
-#define CPU_BENCHMARKS_ERROR		3
+#define MAX_CPU_BENCHMARKS_SECONDS    300
+#define CPU_BENCHMARKS_RUNNING        0
+#define CPU_BENCHMARKS_COMPLETE       1
+#define CPU_BENCHMARKS_NOT_RUNNING    2    
+#define CPU_BENCHMARKS_ERROR          3
 
 #define BM_TYPE_FP       0
 #define BM_TYPE_INT      1
