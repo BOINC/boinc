@@ -1,5 +1,8 @@
 all: boinc_gahp
 
+clean:
+	rm boinc_gahp
+
 boinc_gahp: boinc_gahp.cpp ../../lib/remote_submit.h ../../lib/remote_submit.cpp
 	g++ -g -O0 -I../../lib \
 	-o boinc_gahp boinc_gahp.cpp ../../lib/remote_submit.cpp \

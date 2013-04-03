@@ -504,6 +504,10 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
             for (unsigned int j=0; j<gstate.projects.size(); j++) {
                 p2 = gstate.projects[j];
                 if (p2 == p) break;
+                if (p2->pwf.cant_fetch_work_reason) {
+                    DEBUG(msg_printf(p, MSG_INFO, "piggyback: %s can't fetch work", p2->project_name);)
+                    continue;
+                }
                 if (rwf.can_fetch(p2)) {
                     DEBUG(msg_printf(p, MSG_INFO, "piggyback: better proj %s", p2->project_name);)
                     break;
@@ -552,7 +556,7 @@ bool RSC_WORK_FETCH::can_fetch(PROJECT *p) {
         return false;
     }
 
-    // check backoff
+    // check resource-level backoff
     //
     if (project_state(p).backoff_time > gstate.now) {
         DEBUG(msg_printf(p, MSG_INFO, "skip: backoff");)
@@ -638,6 +642,9 @@ void WORK_FETCH::setup() {
         gstate.projects.end(),
         higher_priority
     );
+    if (log_flags.work_fetch_debug) {
+        print_state();
+    }
 }
 
 // Choose a project to fetch work from,
@@ -739,7 +746,6 @@ PROJECT* WORK_FETCH::choose_project() {
     }
 
     if (log_flags.work_fetch_debug) {
-        print_state();
         if (!p) {
             msg_printf(0, MSG_INFO, "[work_fetch] No project chosen for work fetch");
         }

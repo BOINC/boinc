@@ -543,7 +543,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         must_check_work_fetch = false;
         last_work_fetch_time = now;
 
-        p = work_fetch.choose_project(true, NULL);
+        p = work_fetch.choose_project();
 
         if (p) {
             msg_printf(p, MSG_INFO, "doing RPC to get work");
