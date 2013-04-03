@@ -117,14 +117,14 @@ bool GLOBAL_PREFS_MASK::are_prefs_set() {
 }
 
 bool GLOBAL_PREFS_MASK::are_simple_prefs_set() {
-    if (end_hour) return true;
     if (cpu_usage_limit) return true;
     if (disk_max_used_gb) return true;
+    if (end_hour) return true;
     if (idle_time_to_run) return true;
-    if (net_start_hour) return true;
     if (net_end_hour) return true;
-    if (run_on_batteries) return true;
+    if (net_start_hour) return true;
     if (run_if_user_active) return true;
+    if (run_on_batteries) return true;
     if (start_hour) return true;
     return false;
 }

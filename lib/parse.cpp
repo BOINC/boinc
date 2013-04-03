@@ -566,6 +566,7 @@ bool XML_PARSER::parse_str(const char* start_tag, char* buf, int len) {
     //
     int retval = get_aux(buf, len, 0, 0);
     if (retval == XML_PARSE_EOF) return false;
+    if (retval == XML_PARSE_OVERFLOW) return false;
 
     // if it's the end tag, return empty string
     //

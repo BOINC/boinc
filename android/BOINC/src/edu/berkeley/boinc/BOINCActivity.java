@@ -37,14 +37,14 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
+import android.widget.TextView;
 
 public class BOINCActivity extends TabActivity {
 	
-	private final String TAG = "BOINC BOINCActivity"; 
+	private final String TAG = "BOINCActivity"; 
 	
 	private Monitor monitor;
 	private Integer clientSetupStatus = ClientStatus.SETUP_STATUS_LAUNCHING;
-	public static ClientStatus clientStatus;
 	private Boolean intialStart = true;
 	
 	private Boolean mIsBound;
@@ -82,7 +82,6 @@ public class BOINCActivity extends TabActivity {
         super.onCreate(savedInstanceState);  
         setContentView(R.layout.main);  
          
-        
         //bind monitor service
         doBindService();
         
@@ -124,13 +123,14 @@ public class BOINCActivity extends TabActivity {
 	    }
 	}
     
+	/*
     public static void logMessage(Context ctx, String tag, String message) {
         Intent testLog = new Intent();
         testLog.setAction("edu.berkeley.boinc.log");
         testLog.putExtra("message", message);   
         testLog.putExtra("tag", tag);
         ctx.sendBroadcast(testLog);
-    }
+    }*/
     
     // tests whether status is available and whether it changed since the last event.
     private void determineStatus() {
@@ -153,32 +153,44 @@ public class BOINCActivity extends TabActivity {
     
     private void layout() {
     	TabHost tabLayout = (TabHost) findViewById(android.R.id.tabhost);
-    	LinearLayout launchingLayout = (LinearLayout) findViewById(R.id.main_launching);
+    	LinearLayout loadingLayout = (LinearLayout) findViewById(R.id.main_loading);
     	LinearLayout errorLayout = (LinearLayout) findViewById(R.id.main_error);
     	//TextView noProjectWarning = (TextView) findViewById(R.id.noproject_warning);
     	HorizontalScrollView noProjectWarning = (HorizontalScrollView) findViewById(R.id.noproject_warning_wrapper);
     	switch (clientSetupStatus) {
     	case ClientStatus.SETUP_STATUS_AVAILABLE:
     		noProjectWarning.setVisibility(View.GONE);
-        	launchingLayout.setVisibility(View.GONE);
+    		loadingLayout.setVisibility(View.GONE);
         	errorLayout.setVisibility(View.GONE);
     		tabLayout.setVisibility(View.VISIBLE);
     		break;
     	case ClientStatus.SETUP_STATUS_ERROR:
     		tabLayout.setVisibility(View.GONE); 
-        	launchingLayout.setVisibility(View.GONE);
+    		loadingLayout.setVisibility(View.GONE);
         	errorLayout.setVisibility(View.VISIBLE);
     		break;
     	case ClientStatus.SETUP_STATUS_LAUNCHING:
     		tabLayout.setVisibility(View.GONE); 
         	errorLayout.setVisibility(View.GONE);
-        	launchingLayout.setVisibility(View.VISIBLE);
+        	loadingLayout.setVisibility(View.VISIBLE);
+        	TextView launchingHeader = (TextView) findViewById(R.id.loading_header);
+        	launchingHeader.setText(R.string.main_launching);
     		break;
     	case ClientStatus.SETUP_STATUS_NOPROJECT:
-        	launchingLayout.setVisibility(View.GONE);
+    		loadingLayout.setVisibility(View.GONE);
         	errorLayout.setVisibility(View.GONE);
     		tabLayout.setVisibility(View.VISIBLE);
     		noProjectWarning.setVisibility(View.VISIBLE);
+    		break;
+    	case ClientStatus.SETUP_STATUS_CLOSING:
+    		tabLayout.setVisibility(View.GONE); 
+        	errorLayout.setVisibility(View.GONE);
+        	loadingLayout.setVisibility(View.VISIBLE);
+        	TextView quittingHeader = (TextView) findViewById(R.id.loading_header);
+        	quittingHeader.setText(R.string.main_quitting);
+    		break;
+    	case ClientStatus.SETUP_STATUS_CLOSED:
+    		finish(); // close application
     		break;
     	default:
     		Log.w(TAG, "could not layout status: " + clientSetupStatus);
@@ -236,25 +248,15 @@ public class BOINCActivity extends TabActivity {
 	        tabHost.addTab(prefsSpec);
     	}
         
-    	if(res.getBoolean(R.bool.tab_messages)) {
+    	if(res.getBoolean(R.bool.tab_eventlog)) {
 	        TabSpec msgsSpec = tabHost.newTabSpec(getResources().getString(R.string.tab_eventlog));
 	        msgsSpec.setIndicator(getResources().getString(R.string.tab_eventlog), getResources().getDrawable(R.drawable.icon_msgs_tab));
 	        Intent msgsIntent = new Intent(this, EventLogActivity.class);
 	        msgsSpec.setContent(msgsIntent);
 	        tabHost.addTab(msgsSpec);
     	}
-        
-    	if(res.getBoolean(R.bool.tab_debug)) {
-	        TabSpec debugSpec = tabHost.newTabSpec(getResources().getString(R.string.tab_debug));
-	        debugSpec.setIndicator(getResources().getString(R.string.tab_debug), getResources().getDrawable(R.drawable.icon_debug_tab));
-	        Intent debugIntent = new Intent(this, DebugActivity.class);
-	        debugSpec.setContent(debugIntent);
-	        tabHost.addTab(debugSpec);
-        }
     	
         Log.d(TAG, "tab layout setup done");
-
-        BOINCActivity.logMessage(this, TAG, "tab setup finished");
     }
 
 	// triggered by click on noproject_warning, starts login activity
@@ -270,5 +272,10 @@ public class BOINCActivity extends TabActivity {
 		if(!mIsBound) return;
 		Log.d(TAG, "reinitClient()");
 		monitor.restartMonitor(); //start over with setup of client
+	}
+	
+	public void finish() {
+		Log.d(TAG, "finishing application, good bye!");
+		super.finish();
 	}
 }

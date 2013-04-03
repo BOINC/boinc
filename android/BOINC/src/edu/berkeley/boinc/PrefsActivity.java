@@ -28,12 +28,10 @@ import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -62,40 +60,9 @@ public class PrefsActivity extends Activity implements OnClickListener {
 	
 	private Dialog dialog; //Dialog for input on non-Bool preferences
 	
-	private Boolean dataOutdated = true;
-	
-	/*
-	 * Receiver is necessary, because writing of prefs has to be done asynchroneously. PrefsActivity will change to "loading" layout, until monitor read new results.
-	 */
-	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context,Intent intent) {
-			//Log.d(TAG+"-localClientStatusRecNoisy","received");
-			if(dataOutdated) loadSettings(); //otherwise view gets refreshed on every broadcast.
-		}
-	};
-	private IntentFilter ifcsc = new IntentFilter("edu.berkeley.boinc.clientstatuschange");
-	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		doBindService();
-	}
-	
-	public void onResume() {
-		super.onResume();
-		//gets called every time Activity comes to front, therefore also after onCreate
-		
-		//register receiver of client status
-		registerReceiver(mClientStatusChangeRec,ifcsc);
-		
-		loadSettings();
-	}
-	
-	public void onPause() {
-		//unregister receiver, so there are not multiple intents flying in
-		Log.d(TAG+"-onPause","remove receiver");
-		unregisterReceiver(mClientStatusChangeRec);
-		super.onPause();
 	}
 	
 	/*
@@ -111,7 +78,7 @@ public class PrefsActivity extends Activity implements OnClickListener {
 		    mIsBound = true;
 			appPrefs = Monitor.getAppPrefs();
 			Log.d(TAG, "appPrefs available");
-			loadSettings();
+			populateLayout();
 	    }
 
 	    public void onServiceDisconnected(ComponentName className) {
@@ -133,7 +100,7 @@ public class PrefsActivity extends Activity implements OnClickListener {
 	    }
 	}
 	
-	private Boolean readPrefs() {
+	private Boolean getPrefs() {
 		clientPrefs = Monitor.getClientStatus().getPrefs(); //read prefs from client via rpc
 		if(clientPrefs == null) {
 			Log.d(TAG, "readPrefs: null, return false");
@@ -143,11 +110,11 @@ public class PrefsActivity extends Activity implements OnClickListener {
 		return true;
 	}
 	
-	private void loadSettings() {
+	private void populateLayout() {
 		
-		if(!readPrefs() || appPrefs == null) {
-			Log.d(TAG, "loadSettings returns, data is not present");
-			setDataOutdated();
+		if(!getPrefs() || appPrefs == null) {
+			Log.d(TAG, "populateLayout returns, data is not present");
+			setLayoutLoading();
 			return;
 		}
 		
@@ -179,13 +146,13 @@ public class PrefsActivity extends Activity implements OnClickListener {
 		if(advanced) data.add(new PrefsListItemWrapper(this,R.string.prefs_category_memory,true));
 		if(advanced) data.add(new PrefsListItemWrapperDouble(this,R.string.prefs_memory_max_busy_header,R.string.prefs_category_memory,clientPrefs.ram_max_used_busy_frac));
 		if(advanced) data.add(new PrefsListItemWrapperDouble(this,R.string.prefs_memory_max_idle_header,R.string.prefs_category_memory,clientPrefs.ram_max_used_idle_frac));
-
-		dataOutdated = false;
 	}
 	
-	private void setDataOutdated() {
-		setContentView(R.layout.prefs_layout_loading);
-		dataOutdated = true;
+	private void setLayoutLoading() {
+		Log.d(TAG,"setLayoutLoading()");
+        setContentView(R.layout.generic_layout_loading);
+        TextView loadingHeader = (TextView)findViewById(R.id.loading_header);
+        loadingHeader.setText(R.string.prefs_loading);
 	}
 	
 	/*
@@ -200,18 +167,20 @@ public class PrefsActivity extends Activity implements OnClickListener {
 		switch (ID) {
 		case R.string.prefs_autostart_header: //app pref
 			appPrefs.setAutostart(isSet);
+			populateLayout();
 			break;
 		case R.string.prefs_show_advanced_header: //app pref
 			appPrefs.setShowAdvanced(isSet);
-			loadSettings(); // force reload of list view;
+			 // call reload of list directly, whithout detour via setDataOutdated and waiting for event.
+			populateLayout();
 			break;
 		case R.string.prefs_run_on_battery_header: //client pref
 			clientPrefs.run_on_batteries = isSet;
-			monitor.setPrefs(clientPrefs);
+			new WriteClientPrefsAsync().execute(clientPrefs);
 			break;
 		case R.string.prefs_network_wifi_only_header: //client pref
 			clientPrefs.network_wifi_only = isSet;
-			monitor.setPrefs(clientPrefs);
+			new WriteClientPrefsAsync().execute(clientPrefs);
 			break;
 		}
 	}
@@ -251,7 +220,7 @@ public class PrefsActivity extends Activity implements OnClickListener {
 	 */
 	@Override
 	public void onClick(View v) {
-		Log.d(TAG,"dialogDismiss");
+		Log.d(TAG,"dialogs confirm button clicked");
 		Button button = (Button) v;
 		Integer id = button.getId();
 		EditText input = (EditText) dialog.findViewById(R.id.Input);
@@ -302,11 +271,29 @@ public class PrefsActivity extends Activity implements OnClickListener {
 			toast.show();
 			return;
 		}
-		monitor.setPrefs(clientPrefs);
-		setDataOutdated();
+		
+		// preferences adapted, dismiss dialog and write preferences to client
 		dialog.dismiss();
+		new WriteClientPrefsAsync().execute(clientPrefs);
 	}
 	
+	private final class WriteClientPrefsAsync extends AsyncTask<GlobalPreferences,Void,Boolean> {
 
+		@Override
+		protected void onPreExecute() {
+			setLayoutLoading();
+			super.onPreExecute();
+		}
+
+		@Override
+		protected Boolean doInBackground(GlobalPreferences... params) {
+			return monitor.setGlobalPreferences(params[0]);
+		}
+		
+		@Override
+		protected void onPostExecute(Boolean success) {
+			populateLayout();
+		}
+	}
 
 }

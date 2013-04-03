@@ -36,38 +36,38 @@
 // to indicate which prefs are (or should be) specified in the override file
 //
 struct GLOBAL_PREFS_MASK {
-    bool run_on_batteries;
-    bool run_if_user_active;
-    bool run_gpu_if_user_active;
-    bool idle_time_to_run;
-    bool suspend_if_no_recent_input;
-    bool suspend_cpu_usage;
-    bool start_hour;
-    bool end_hour;
-    bool net_start_hour;
-    bool net_end_hour;
-    bool leave_apps_in_memory;
     bool confirm_before_connecting;
-    bool hangup_if_dialed;
-    bool dont_verify_images;
-    bool work_buf_min_days;
-    bool work_buf_additional_days;
-    bool max_ncpus_pct;
-    bool max_ncpus;
     bool cpu_scheduling_period_minutes;
+    bool cpu_usage_limit;
+    bool daily_xfer_limit_mb;
+    bool daily_xfer_period_days;
     bool disk_interval;
     bool disk_max_used_gb;
     bool disk_max_used_pct;
     bool disk_min_free_gb;
-    bool vm_max_used_frac;
-	bool ram_max_used_busy_frac;
-	bool ram_max_used_idle_frac;
-    bool max_bytes_sec_up;
+    bool dont_verify_images;
+    bool end_hour;
+    bool hangup_if_dialed;
+    bool idle_time_to_run;
+    bool leave_apps_in_memory;
     bool max_bytes_sec_down;
-    bool cpu_usage_limit;
-    bool daily_xfer_limit_mb;
-    bool daily_xfer_period_days;
+    bool max_bytes_sec_up;
+    bool max_ncpus;
+    bool max_ncpus_pct;
+    bool net_end_hour;
+    bool net_start_hour;
     bool network_wifi_only;
+    bool ram_max_used_busy_frac;
+    bool ram_max_used_idle_frac;
+    bool run_if_user_active;
+    bool run_gpu_if_user_active;
+    bool run_on_batteries;
+    bool start_hour;
+    bool suspend_cpu_usage;
+    bool suspend_if_no_recent_input;
+    bool vm_max_used_frac;
+    bool work_buf_additional_days;
+    bool work_buf_min_days;
 
     GLOBAL_PREFS_MASK();
     void clear();
@@ -135,49 +135,51 @@ struct TIME_PREFS : public TIME_SPAN {
 
 struct GLOBAL_PREFS {
     double mod_time;
-    bool run_on_batteries;
-        // poorly named; what it really means is:
-        // if false, suspend while on batteries
-    bool run_if_user_active;
-    bool run_gpu_if_user_active;
-    double idle_time_to_run;
-    double suspend_if_no_recent_input;
-    double suspend_cpu_usage;
-    bool leave_apps_in_memory;
+
     bool confirm_before_connecting;
-    bool hangup_if_dialed;
-    bool dont_verify_images;
-    TIME_PREFS cpu_times;
-    TIME_PREFS net_times;
-    double work_buf_min_days;
-    double work_buf_additional_days;
-    double max_ncpus_pct;
-    int max_ncpus;
     double cpu_scheduling_period_minutes;
         // length of a time slice.
         // scheduling happens more often.
+    TIME_PREFS cpu_times;
+    double cpu_usage_limit;
+    double daily_xfer_limit_mb;
+    int daily_xfer_period_days;
     double disk_interval;
     double disk_max_used_gb;
     double disk_max_used_pct;
     double disk_min_free_gb;
-    double vm_max_used_frac;
-	double ram_max_used_busy_frac;
-	double ram_max_used_idle_frac;
-    double max_bytes_sec_up;
+    bool dont_verify_images;
+    bool hangup_if_dialed;
+    double idle_time_to_run;
+    bool leave_apps_in_memory;
     double max_bytes_sec_down;
-    double cpu_usage_limit;
-    double daily_xfer_limit_mb;
-    int daily_xfer_period_days;
-    char source_project[256];
-    char source_scheduler[256];
-    bool host_specific;
-        // an account manager can set this; if set, don't propagate
-    bool override_file_present;
+    double max_bytes_sec_up;
+    int max_ncpus;
+    double max_ncpus_pct;
+    TIME_PREFS net_times;
     bool network_wifi_only;
         // introduced with Android. Do network communication only when on Wifi,
         // not on public cell networks.
         // CAUTION: this only applies to file transfers.
         // scheduler RPCs are made regardless of this preference.
+    double ram_max_used_busy_frac;
+    double ram_max_used_idle_frac;
+    bool run_gpu_if_user_active;
+    bool run_if_user_active;
+    bool run_on_batteries;
+        // poorly named; what it really means is:
+        // if false, suspend while on batteries
+    double suspend_cpu_usage;
+    double suspend_if_no_recent_input;
+    double vm_max_used_frac;
+    double work_buf_additional_days;
+    double work_buf_min_days;
+
+    char source_project[256];
+    char source_scheduler[256];
+    bool host_specific;
+        // an account manager can set this; if set, don't propagate
+    bool override_file_present;
 
     GLOBAL_PREFS();
     void defaults();

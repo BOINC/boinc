@@ -146,9 +146,9 @@ static void show_exclude_gpu(EXCLUDE_GPU& e) {
             for (unsigned int i=0; i<gstate.apps.size(); i++) {
                 app = gstate.apps[i];
                 if (app->project != p) continue;
-				if (!app_list.empty()) {
-					app_list += ", ";
-				}
+                if (!app_list.empty()) {
+                    app_list += ", ";
+                }
                 app_list += "'";
                 app_list += app->name;
                 app_list += "'";

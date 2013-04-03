@@ -252,9 +252,9 @@ int main(int argc, char** argv) {
         } else if (is_arg(argv[i], "v") || is_arg(argv[i], "version")) {
             printf("%s\n", SVN_VERSION);
             exit(0);
-	} else if (is_arg(argv[i], "results_prefix")) {
-	    results_prefix=argv[++i];
-	} else if (is_arg(argv[i], "transcripts_prefix")) {
+        } else if (is_arg(argv[i], "results_prefix")) {
+            results_prefix=argv[++i];
+        } else if (is_arg(argv[i], "transcripts_prefix")) {
             transcripts_prefix=argv[++i];
         } else {
             log_messages.printf(MSG_CRITICAL, "Unrecognized arg: %s\n", argv[i]);

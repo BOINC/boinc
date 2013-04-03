@@ -84,7 +84,7 @@
 	
 	<!-- launching layout, shown during start up -->
 	<LinearLayout
-    	android:id="@+id/main_launching"
+    	android:id="@+id/main_loading"
 	    android:visibility="gone"
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"
@@ -92,11 +92,10 @@
 	    android:orientation="vertical" >
 	
 	    <TextView
-	        android:id="@+id/launching_textView1"
+	        android:id="@+id/loading_header"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_marginBottom="20dip"
-	        android:text="@string/main_launching"
 	        android:textAppearance="?android:attr/textAppearanceMedium" />
 	
 	    <ProgressBar

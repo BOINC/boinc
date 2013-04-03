@@ -57,10 +57,10 @@ public:
     PROXY_INFO pi;
     PROJECT* project;   // associated project, if any
 
-	char m_url[256];  
-	char m_curl_ca_bundle_location[256];
+    char m_url[256];  
+    char m_curl_ca_bundle_location[256];
         // string needed for ssl support
-	char m_curl_user_credentials[128];
+    char m_curl_user_credentials[128];
         // string needed for proxy username/password
 
     int content_length;
@@ -68,17 +68,17 @@ public:
     char request_header[4096];
 
     FILE* fileIn;
-	FILE* fileOut;
+    FILE* fileOut;
         // output file for POST responses
-	CURL* curlEasy;
+    CURL* curlEasy;
         // the "easy curl" handle for this net_xfer request
-	struct curl_slist *pcurlList;
+    struct curl_slist *pcurlList;
         // curl slist for http headers
-	struct curl_httppost *pcurlFormStart;
+    struct curl_httppost *pcurlFormStart;
         // a pointer to a form item for POST
-	struct curl_httppost *pcurlFormEnd;
+    struct curl_httppost *pcurlFormEnd;
         // a pointer to a form item for POST
-	unsigned char* pByte;
+    unsigned char* pByte;
         // pointer to bytes for reading via libcurl_read function
 
     // request message stuff
@@ -100,22 +100,22 @@ public:
     int req1_len;
         // with this limit
 
-	long lSeek;
+    long lSeek;
         // offset within the file or memory buffer we're reading,
     char error_msg[256];
         // put Curl error message here
-	bool bTempOutfile;
+    bool bTempOutfile;
         // CMC -- flag that outfile is really a tempfile we should delete
-	bool bSentHeader;
+    bool bSentHeader;
         // CMC -- a flag that I already sent the header
-	CURLcode CurlResult;
+    CURLcode CurlResult;
         // CMC -- send up curl result code
 
     bool want_download;     // at most one should be true
     bool want_upload;
     long connect_error;
         // errno from connect() (not used for anything)
-	long response;
+    long response;
         // HTTP status code from server
         // the above two MUST be long (not int)
         // otherwise breaks on 64-bit machines
@@ -125,13 +125,13 @@ public:
         // In the case of "post2" this includes only the file part
         // In the case of restartable ops (file upload/download)
         // this includes previous count (i.e. file offset)
-	double start_bytes_xferred;
+    double start_bytes_xferred;
         // bytes_xferred at the start of this operation;
         // used to compute transfer speed
     double xfer_speed;
         // tranfer rate based on elapsed time and bytes_xferred
         // (hence doesn't reflect compression; used only for GUI)
-	int http_op_state;      // values above
+    int http_op_state;      // values above
     int http_op_type;
         // HTTP_OP_* (see above)
     int http_op_retval;
@@ -155,7 +155,7 @@ public:
     void set_speed_limit(bool is_upload, double bytes_sec);
     void handle_messages(CURLMsg*);
 
-	//int init_head(const char* url);
+    //int init_head(const char* url);
     int init_get(
         PROJECT*, const char* url, const char* outfile,
         bool del_old_file, double offset, double size
@@ -171,17 +171,17 @@ public:
         const char* infile, double offset     // infile is NULL if no file sent
     );
     bool http_op_done();
-	void setup_proxy_session(bool no_proxy);
-	bool no_proxy_for_url(const char* url);
-	bool is_active() {
-		return curlEasy!=NULL;
-	}
+    void setup_proxy_session(bool no_proxy);
+    bool no_proxy_for_url(const char* url);
+    bool is_active() {
+        return curlEasy!=NULL;
+    }
 
 private:
-	// take an init_get/post/post2 and turns it into a libcurl request
+    // take an init_get/post/post2 and turns it into a libcurl request
     //
-	int libcurl_exec(const char* url, const char* in, const char* out, 
-		double offset, double size, bool is_post
+    int libcurl_exec(const char* url, const char* in, const char* out, 
+        double offset, double size, bool is_post
     );
 };
 
@@ -198,7 +198,7 @@ public:
     double bytes_up, bytes_down;
         // total bytes transferred
 
-	void get_fdset(FDSET_GROUP&);
+    void get_fdset(FDSET_GROUP&);
     void got_select(FDSET_GROUP&, double);
     HTTP_OP* lookup_curl(CURL* pcurl);
         // lookup by easycurl handle

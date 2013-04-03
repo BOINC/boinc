@@ -251,7 +251,7 @@ void COPROC_ATI::get(
             gpu_name="ATI Radeon HD 2900 (RV600)";
             break;
         case CAL_TARGET_610:
-            gpu_name="ATI Radeon HD 2300/2400/3200 (RV610)";
+            gpu_name="ATI Radeon HD 2300/2400/3200/4200 (RV610)";
             attribs.numberOfSIMD=1;        // set correct values (reported wrong by driver)
             attribs.wavefrontSize=32;
             break;
@@ -323,6 +323,26 @@ void COPROC_ATI::get(
             break;
         case 23:
             gpu_name="AMD Radeon HD 7400/7500/7600 serie (Trinity)";
+            break;
+//////////////////////////////////////////////////////////////////////
+//
+// new CAL_TARGET_IDs
+//
+// AMD released new GPUs (Sun, Venus, Mars, Neptune, ... and Bonaire
+//
+// they could be even more than the current max of 26!
+//
+// Kaveri and Kabini will have other new TargetIDs
+//
+//////////////////////////////////////////////////////////////////////
+		case 24:
+            gpu_name="AMD Radeon HD (unknown)";
+            break;
+        case 25:
+            gpu_name="AMD Radeon HD (unknown)";
+            break;
+		case 26:
+            gpu_name="AMD Radeon HD 7790 series (Bonaire)"; 
             break;
         default:
             gpu_name="AMD Radeon HD (unknown)";

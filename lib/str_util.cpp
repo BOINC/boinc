@@ -542,13 +542,13 @@ const char* boincerror(int which_error) {
 }
 
 const char* network_status_string(int n) {
-	switch (n) {
-	case NETWORK_STATUS_ONLINE: return "online";
-	case NETWORK_STATUS_WANT_CONNECTION: return "need connection";
-	case NETWORK_STATUS_WANT_DISCONNECT: return "don't need connection";
-	case NETWORK_STATUS_LOOKUP_PENDING: return "reference site lookup pending";
-	default: return "unknown";
-	}
+    switch (n) {
+    case NETWORK_STATUS_ONLINE: return "online";
+    case NETWORK_STATUS_WANT_CONNECTION: return "need connection";
+    case NETWORK_STATUS_WANT_DISCONNECT: return "don't need connection";
+    case NETWORK_STATUS_LOOKUP_PENDING: return "reference site lookup pending";
+    default: return "unknown";
+    }
 }
 
 const char* rpc_reason_string(int reason) {

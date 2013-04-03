@@ -83,8 +83,8 @@ static int send_assigned_job(ASSIGNMENT& asg) {
     rtfpath = config.project_path("%s", wu.result_template_file);
     sprintf(suffix, "%d_%d_%d", getpid(), (int)time(0), seqno++);
     retval = create_result(
-		wu, const_cast<char*>(rtfpath), suffix, key, config, 0, 0
-	);
+        wu, const_cast<char*>(rtfpath), suffix, key, config, 0, 0
+    );
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
             "[WU#%d %s] create_result(): %s\n", wu.id, wu.name, boincerror(retval)

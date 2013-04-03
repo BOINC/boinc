@@ -119,7 +119,9 @@ struct XML_PARSER {
     }
 
     // Scan something, either tag or text.
-    // Strip whitespace at start and end.
+    // Strip whitespace at start and end
+    // (however, the supplied buffer must accommodate this white space).
+    // Ignore comments.
     // Return true iff reached EOF
     //
     inline int get_aux(

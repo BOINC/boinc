@@ -32,6 +32,9 @@
     <string name="all_projects_list">all_projects_list.xml</string>
     <string name="global_prefs_override">global_prefs_override.xml</string>
     
+    <!-- generic. used by multiple Activities/tabs -->
+    <string name="generic_loading">Loading! Please wait&#8230;</string>
+    
     <!-- attach project -->
     	<!-- project list -->
     <string name="attachproject_list_loading">Loading supported projects&#8230;</string>
@@ -52,6 +55,11 @@
     <string name="attachproject_login_header_description">Description:</string>
     <string name="attachproject_login_header_home">Home:</string>
     <string name="attachproject_login_header_url">Website:</string>
+    <string name="attachproject_login_header_platform">Android:</string>
+    <string name="attachproject_login_platform_supported">This project supports calculation on Android devices.</string>
+    <string name="attachproject_login_platform_not_supported">This project does not support caculation on Android devices yet!</string>
+    <string name="attachproject_login_category_terms_of_use">Terms of use for</string>
+    <string name="attachproject_login_accept_terms_of_use">By creating an account with this project, you accept the terms of use as shown above.</string>
     <string name="attachproject_login_category_login">Sign in with existing account</string>
     <string name="attachproject_login_header_id_email">eMail:</string>
     <string name="attachproject_login_header_id_name">Name:</string>
@@ -64,6 +72,7 @@
     <string name="attachproject_login_button_login">Login</string>
     <string name="attachproject_login_toast_ok">Successful.</string>
     <string name="attachproject_login_error_toast">Server connection failed!</string>
+    <string name="attachproject_login_error_project_exists">Project is already attached!</string>
     <string name="attachproject_login_toast_error_wrong_name">Unknown eMail address!</string>
     <string name="attachproject_login_toast_error_wrong_pwd">Wrong password!</string>
     <string name="attachproject_login_toast_error_no_internet">No internet connection!</string>
@@ -85,12 +94,18 @@
     <string name="attachproject_registration_toast_error_no_email">eMail missing!</string>
     <string name="attachproject_registration_toast_error_no_pwd">Password missing!</string>
     <string name="attachproject_registration_toast_error_unknown">Registration failed.</string>
-    <string name="attachproject_registration_toast_error_username_required">User name is required!</string>
+    <string name="attachproject_registration_toast_error_bad_username">user name refused, change and try again!</string>
+    <string name="attachproject_registration_toast_error_email_in_use">eMail is already in use!</string>
+    <string name="attachproject_registration_toast_error_project_down">Can\'t reach project server!</string>
+    <string name="attachproject_registration_toast_error_email_bad_syntax">eMail refused, change and try again!</string>
+    <string name="attachproject_registration_toast_error_bad_pwd">Password refused, change and try again!</string>
+    <string name="attachproject_registration_toast_error_creation_disabled">Account creation is disabled on this project!</string>
     <string name="attachproject_registration_toast_creation_successful">Account created. Logging in&#8230;</string>
     <string name="attachproject_registration_toast_login_successful">Successful.</string>
     
     <!-- main activity -->
-    <string name="main_launching">Please wait&#8230;</string>
+    <string name="main_launching">Starting BOINC&#8230;</string>
+    <string name="main_quitting">Closing BOINC&#8230;</string>
     <string name="main_noproject_warning">No scientific project attached! tab here to enter account.</string>
     <string name="main_error">Whooops</string>
     <string name="main_error_long">&#8230;this should not happen!\nClick on the icon to try again.</string>
@@ -115,9 +130,10 @@
     <string name="status_computing_disabled_long">Tap to continue!</string>
     <string name="disable_computation">Disable computation</string>
     <string name="enable_computation">Enable computation</string>
+    <string name="status_exit">Exit BOINC</string>
     
 	<!-- preferences tab strings -->
-	<string name="prefs_unbound">Reading preferences&#8230;</string>
+	<string name="prefs_loading">Reading preferences&#8230;</string>
 	<string name="prefs_submit_button">OK</string>
 	<string name="prefs_dialog_title">Please enter desired value for: </string>
 	<string name="prefs_category_general">General</string>
@@ -166,6 +182,7 @@
 	<string name="confirm_deletion_cancel">Cancel</string>
 				
 	<!-- tasks tab strings -->
+	<string name="tasks_loading">Reading tasks&#8230;</string>
 	<string name="tasks_result_new">new</string>
 	<string name="tasks_result_files_downloading">waiting for download</string>
 	<string name="tasks_result_files_downloaded">download complete</string>

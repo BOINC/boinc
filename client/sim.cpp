@@ -476,6 +476,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     work_fetch.handle_reply(p, &sr, new_results);
     p->nrpc_failures = 0;
     p->sched_rpc_pending = false;
+    p->min_rpc_time = now + 900;
     if (sent_something) {
         request_schedule_cpus("simulate_rpc");
         request_work_fetch("simulate_rpc");
@@ -524,7 +525,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     
         p = find_project_with_overdue_results(false);
         if (p) {
-            //printf("doing RPC to %s to report results\n", p->project_name);
+            msg_printf(p, MSG_INFO, "doing RPC to report results");
             work_fetch.piggyback_work_request(p);
             action = simulate_rpc(p);
             break;
@@ -542,9 +543,10 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         must_check_work_fetch = false;
         last_work_fetch_time = now;
 
-        p = work_fetch.choose_project(true, NULL);
+        p = work_fetch.choose_project();
 
         if (p) {
+            msg_printf(p, MSG_INFO, "doing RPC to get work");
             action = simulate_rpc(p);
             break;
         }
@@ -869,7 +871,7 @@ void show_resource(int rsc_type) {
             found = true;
             fprintf(html_out,
                 "<table>\n"
-                "<tr><th>#devs</th><th>Job name</th><th>GFLOPs left</th>%s</tr>\n",
+                "<tr><th>#devs</th><th>Job name (* = high priority)</th><th>GFLOPs left</th>%s</tr>\n",
                 rsc_type?"<th>GPU</th>":""
             );
         }
@@ -881,7 +883,7 @@ void show_resource(int rsc_type) {
         fprintf(html_out, "<tr><td>%.2f</td><td bgcolor=%s><font color=#ffffff>%s%s</font></td><td>%.0f</td>%s</tr>\n",
             ninst,
             colors[p->index%NCOLORS],
-            rp->rr_sim_misses_deadline?"*":"",
+            rp->edf_scheduled?"*":"",
             rp->name,
             rp->sim_flops_left/1e9,
             buf
@@ -1005,8 +1007,17 @@ void set_initial_rec() {
     }
 }
 
+static bool compare_names(PROJECT* p1, PROJECT* p2) {
+    return (strcmp(p1->project_name, p2->project_name) < 0);
+}
+
 void write_recs() {
     fprintf(rec_file, "%f ", gstate.now);
+    std::sort(
+        gstate.projects.begin(),
+        gstate.projects.end(),
+        compare_names
+    );
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         fprintf(rec_file, "%f ", p->pwf.rec);

@@ -538,7 +538,7 @@ double RESULT::estimated_runtime() {
     if (!project->dont_use_dcf) {
         x *= project->duration_correction_factor;
     }
-	return x;
+    return x;
 }
 
 double RESULT::estimated_runtime_remaining() {

@@ -712,7 +712,7 @@ bool CPanelPreferences::ReadPreferenceSettings() {
     // Use no more than %s of disk space
     wxArrayString aDiskUsage = wxArrayString(iDiskUsageArraySize, astrDiskUsageStrings);
     wxString strDiskUsage = wxEmptyString;
-    int iDiskUsageIndex = iDiskUsageArraySize;
+    int iDiskUsageIndex = iDiskUsageArraySize - 1;
 
     if (display_global_preferences.disk_max_used_gb > 0) {
         if (display_global_preferences.disk_max_used_gb < 1) {

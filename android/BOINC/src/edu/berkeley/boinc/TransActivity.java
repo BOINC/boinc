@@ -19,13 +19,10 @@
 package edu.berkeley.boinc;
 
 import java.util.ArrayList;
-
 import edu.berkeley.boinc.adapter.TransListAdapter;
-import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.Transfer;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Service;
@@ -42,6 +39,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class TransActivity extends FragmentActivity {
 	
@@ -55,12 +53,9 @@ public class TransActivity extends FragmentActivity {
 	private ArrayList<Transfer> data = new ArrayList<Transfer>();
 	private CcStatus status;
 	
-
-	// Controls when to display the proper projects activity, by default we display a
-	// view that says we are loading projects.  When initialSetup is false, we have
-	// something to display.
-	//
-	private Boolean initialSetup; 
+	// Controls whether initialization of view elements of "projects_layout"
+	// is required. This is the case, every time the layout switched.
+	private Boolean initialSetupRequired = true; 
 	
     // This is called when the connection with the service has been established, 
 	// getService returns the Monitor object that is needed to call functions.
@@ -86,32 +81,7 @@ public class TransActivity extends FragmentActivity {
 		public void onReceive(Context context, Intent intent) {
 			Log.d(TAG, "ClientStatusChange - onReceive()");
 			
-			// Read transfers from state saved in ClientStatus
-			ArrayList<Transfer> tmpA = Monitor.getClientStatus().getTransfers(); 
-			if(tmpA == null) {
-				return;
-			}
-			
-			// Read core client status (net up/down, cpu suspended, network suspended) from 
-			// state saved in ClientStatus
-			status = Monitor.getClientStatus().getClientStatus();
-
-			// Switch to a view that can actually display messages
-			if (initialSetup) {
-				initialSetup = false;
-				setContentView(R.layout.trans_layout); 
-				lv = (ListView) findViewById(R.id.transList);
-		        listAdapter = new TransListAdapter(TransActivity.this, lv, R.id.projectsList, data, status);
-		    }
-			
-			// Update Transfer data
-			data.clear();
-			for (Transfer tmp: tmpA) {
-				data.add(tmp);
-			}
-			
-			// Force list adapter to refresh
-			listAdapter.notifyDataSetChanged(); 
+			populateLayout();
 		}
 	};
 	
@@ -138,8 +108,7 @@ public class TransActivity extends FragmentActivity {
 		super.onResume();
 		
 		// Switch to the loading view until we have something to display
-		initialSetup = true;
-		setContentView(R.layout.trans_layout_loading);
+		populateLayout();
 
 		registerReceiver(mClientStatusChangeRec, ifcsc);
 	}
@@ -154,6 +123,49 @@ public class TransActivity extends FragmentActivity {
 	    }
 	    
 	    super.onDestroy();
+	}
+	
+	private void populateLayout() {
+		try {
+			// Read transfers from state saved in ClientStatus
+			ArrayList<Transfer> tmpA = Monitor.getClientStatus().getTransfers(); 
+			
+			// Read core client status (net up/down, cpu suspended, network suspended) from 
+			// state saved in ClientStatus
+			status = Monitor.getClientStatus().getClientStatus();
+			
+			if(tmpA == null || status == null) {
+				setLayoutLoading();
+				return;
+			}
+
+			// Switch to a view that can actually display messages
+			if (initialSetupRequired) {
+				initialSetupRequired = false;
+				setContentView(R.layout.trans_layout); 
+				lv = (ListView) findViewById(R.id.transList);
+		        listAdapter = new TransListAdapter(TransActivity.this, lv, R.id.projectsList, data, status);
+		    }
+			
+			// Update Transfer data
+			data.clear();
+			for (Transfer tmp: tmpA) {
+				data.add(tmp);
+			}
+			
+			// Force list adapter to refresh
+			listAdapter.notifyDataSetChanged(); 
+		} catch (Exception e) {
+			// data retrieval failed, set layout to loading...
+			setLayoutLoading();
+		}
+	}
+	
+	private void setLayoutLoading() {
+		setContentView(R.layout.generic_layout_loading); 
+        TextView loadingHeader = (TextView)findViewById(R.id.loading_header);
+        loadingHeader.setText(R.string.trans_loading);
+        initialSetupRequired = true;
 	}
 	
 	public void onTransferClicked(String url, String name) {

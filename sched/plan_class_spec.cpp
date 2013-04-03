@@ -266,7 +266,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
 
         if (need_ati_libs) {
             if (!cp.atirt_detected) {
-	        if (config.debug_version_select) {
+                if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
                         "[version] plan_class_spec: ATI libraries not found\n"
                     );
@@ -275,7 +275,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
             }
         } else {
             if (!cp.amdrt_detected) {
-	        if (config.debug_version_select) {
+                if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
                         "[version] plan_class_spec: AMD libraries not found\n"
                     );

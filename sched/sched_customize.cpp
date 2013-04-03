@@ -133,7 +133,7 @@ bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
     if (bav.host_usage.uses_gpu()) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
-	        "[version] [setiathome] VLAR workunit is infeasible on GPU\n"
+                "[version] [setiathome] VLAR workunit is infeasible on GPU\n"
             );
         }
         if (strstr(wu.name, ".vlar")) {
@@ -191,30 +191,30 @@ static bool ati_check(COPROC_ATI& c, HOST_USAGE& hu,
 
     if (min_hd_model) {
         char *p=strcasestr(c.name,"hd");
-	if (p) {
-	    p+=2;
-	    while (p && !isnum(*p)) p++;
-	    char modelnum[64];
-	    int i=0;
-	    while ((i<63) && p[i] && isnumorx(p[i])) {
-	        modelnum[i]=p[i];
-	        if ((modelnum[i]=='x') || (modelnum[i]=='X')) {
-	          modelnum[i]='0';
+        if (p) {
+            p+=2;
+            while (p && !isnum(*p)) p++;
+            char modelnum[64];
+            int i=0;
+            while ((i<63) && p[i] && isnumorx(p[i])) {
+                modelnum[i]=p[i];
+                if ((modelnum[i]=='x') || (modelnum[i]=='X')) {
+                    modelnum[i]='0';
                 }
-	        i++;
-	    }
-	    modelnum[i]=0;
-	    i=atoi(modelnum);
+                i++;
+            }
+            modelnum[i]=0;
+            i=atoi(modelnum);
             if (i<min_hd_model) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
                         "[version] Requires ATI HD%4d+.  Found HD%4d\n",
-		        min_hd_model, i
+                        min_hd_model, i
                     );
                 }
-	        return false;
-	    }
-	}
+                return false;
+            }
+        }
     }
 
 
@@ -348,7 +348,7 @@ static inline bool app_plan_ati(
             OPENCL_ATI_MIN_RAM,
             1, .01,
             .14,
-	    4600
+            4600
         )) {
             return false;
         }
@@ -408,7 +408,7 @@ static bool cuda_check(COPROC_NVIDIA& c, HOST_USAGE& hu,
     if (min_cc && (cc < min_cc)) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
-	        "[version] App requires compute capability > %d.%d (has %d.%d).\n",
+                "[version] App requires compute capability > %d.%d (has %d.%d).\n",
                 min_cc/100,min_cc%100,
                 c.prop.major,c.prop.minor
             );
@@ -419,7 +419,7 @@ static bool cuda_check(COPROC_NVIDIA& c, HOST_USAGE& hu,
     if (max_cc && cc >= max_cc) { 
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
-	        "[version] App requires compute capability <= %d.%d (has %d.%d).\n",
+                "[version] App requires compute capability <= %d.%d (has %d.%d).\n",
                 max_cc/100,max_cc%100,
                 c.prop.major,c.prop.minor
             );
@@ -528,26 +528,26 @@ static inline bool app_plan_nvidia(
     //
     if (!strcmp(plan_class, "cuda_opencl_100")) {
         if (!cuda_check(c, hu,
-	    100, 0,
+            100, 0,
             0,CUDA_OPENCL_MIN_DRIVER_VERSION,
             CUDA_MIN_RAM,
-	    1,
-	    .01,
-	    0.14
-	)) {
-	    return false;
-	}
+            1,
+            .01,
+            0.14
+        )) {
+            return false;
+        }
     } else if (!strcmp(plan_class, "cuda_opencl_101")) {
         if (!cuda_check(c, hu,
-	    200, 0,
+            200, 0,
             0,CUDA_OPENCL_101_MIN_DRIVER_VERSION,
             CUDA_MIN_RAM,
-	    1,
-	    .01,
-	    0.14
-	)) {
-	    return false;
-	}
+            1,
+            .01,
+            0.14
+        )) {
+            return false;
+        }
     } else 
 #endif // SETIATHOME   
     if (!strcmp(plan_class, "cuda_fermi")) {
@@ -653,7 +653,7 @@ static inline bool opencl_check(
             log_messages.printf(MSG_NORMAL,
                 "[version] [opencl_check] App requires OpenCL verion >= %d (has %d).\n",
                 min_opencl_device_version,
-	        cp.opencl_prop.opencl_device_version_int
+                cp.opencl_prop.opencl_device_version_int
             );
         }
         return false;
@@ -674,7 +674,7 @@ static inline bool opencl_check(
                 min_global_mem_size, cp.opencl_prop.global_mem_size
             );
         }
-	return false;
+        return false;
     }
 
     hu.gpu_ram = min_global_mem_size;
@@ -711,14 +711,14 @@ static inline bool app_plan_opencl(
     // modifications if someone wants a opencl_nvidia_102 plan class.
     const char *p=plan_class+strlen(plan_class);
     while (isnum(p[-1])) {
-	p--;
+        p--;
     }
     int ver=atoi(p);
     if (config.debug_version_select) {
         log_messages.printf(MSG_NORMAL,
             "[version] plan_class %s uses OpenCl version %d\n",
             plan_class,
-	    ver
+            ver
         );
     }
     if (strstr(plan_class, "nvidia")) {
@@ -748,8 +748,8 @@ static inline bool app_plan_opencl(
                     "[version] [opencl] HOST has no ATI/AMD GPUs\n"
                 );
             }
-	    return false;
-	}
+            return false;
+        }
 
         if (!c.have_opencl) {
             if (config.debug_version_select) {
@@ -757,8 +757,8 @@ static inline bool app_plan_opencl(
                     "[version] [opencl] GPU/Driver/BOINC revision doesn not support OpenCL\n"
                 );
             }
-	    return false;
-	}
+            return false;
+        }
 
         if (strstr(plan_class,"opencl_ati") == plan_class) {
             return opencl_check(
@@ -784,8 +784,8 @@ static inline bool app_plan_opencl(
                     "[version] [opencl] HOST has no INTEL GPUs\n"
                 );
             }
-	    return false;
-	}
+            return false;
+        }
 
         if (!c.have_opencl) {
             if (config.debug_version_select) {
@@ -793,8 +793,8 @@ static inline bool app_plan_opencl(
                     "[version] [opencl] GPU/Driver/BOINC revision doesn not support OpenCL\n"
                 );
             }
-	    return false;
-	}
+            return false;
+        }
 
 
         if (strstr(plan_class,"opencl_intel_gpu") == plan_class) {

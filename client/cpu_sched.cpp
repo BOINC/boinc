@@ -1001,7 +1001,7 @@ static inline bool more_important(RESULT* r0, RESULT* r1) {
     if (!unfin0 && unfin1) return false;
 
     // favor jobs selected first by schedule_cpus()
-    // (e.g., because their project has high STD)
+    // (e.g., because their project has high sched priority)
     //
     if (r0->seqno < r1->seqno) return true;
     if (r0->seqno > r1->seqno) return false;

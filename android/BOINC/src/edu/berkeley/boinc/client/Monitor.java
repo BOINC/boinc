@@ -39,8 +39,6 @@ import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
-import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.AppPreferences;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.AccountIn;
@@ -64,7 +62,6 @@ public class Monitor extends Service {
 	private static AppPreferences appPrefs; //hold the status of the app, controlled by AppPreferences
 	
 	public static Boolean monitorActive = false;
-	public static Boolean clientSetupActive = false;
 	
 	private String clientName; 
 	private String clientCLI; 
@@ -78,11 +75,356 @@ public class Monitor extends Service {
 	private Thread monitorThread = null;
 	private Boolean monitorRunning = true;
 	
-	private Process clientProcess;
+	//private Process clientProcess;
 	private RpcClient rpc = new RpcClient();
 
 	private final Integer maxDuration = 3000; //maximum polling duration
+	
+	private Integer retryRate;
+	private Integer retryAttempts;
 
+
+	// installs client and required files, executes client and reads initial preferences
+	// used by ClientMonitorAsync if no connection is available
+	// includes network communication => don't call from UI thread!
+	private Boolean clientSetup() {
+		getClientStatus().setSetupStatus(ClientStatus.SETUP_STATUS_LAUNCHING,true);
+		String clientProcessName = clientPath + clientName;
+
+		String md5AssetClient = ComputeMD5Asset(clientName);
+		Log.d(TAG, "Hash of client (Asset): '" + md5AssetClient + "'");
+
+		String md5InstalledClient = ComputeMD5File(clientProcessName);
+		Log.d(TAG, "Hash of client (File): '" + md5InstalledClient + "'");
+
+		// If client hashes do not match, we need to install the one that is a part
+		// of the package. Shutdown the currently running client if needed.
+		//
+		if (md5InstalledClient.compareToIgnoreCase(md5AssetClient) != 0) {
+
+			// Determine if BOINC is already running.
+			//
+			quitProcessOsLevel(clientProcessName);
+
+			// Install BOINC client software
+			//
+	        if(!installClient()) {
+	        	Log.d(TAG, "BOINC client installation failed!");
+	        	return false;
+	        }
+		}
+		
+		// Start the BOINC client if we need to.
+		//
+		Integer clientPid = getPidForProcessName(clientProcessName);
+		if(clientPid == null) {
+        	Log.d(TAG, "Starting the BOINC client");
+			if (!runClient()) {
+	        	Log.d(TAG, "BOINC client failed to start");
+				return false;
+			}
+		}
+
+		
+		// Try to connect to executed Client in loop
+		//
+		Boolean connected = false;
+		Integer counter = 0;
+		while(!connected && (counter < retryAttempts)) {
+			Log.d(TAG, "Attempting BOINC client connection...");
+			connected = connectClient();
+			counter++;
+
+			try {
+				Thread.sleep(retryRate);
+			} catch (Exception e) {}
+		}
+		
+		if(connected) {
+			// if connection is set up, initial read of preferences
+			GlobalPreferences clientPrefs = rpc.getGlobalPrefsWorkingStruct();
+			Monitor.getClientStatus().setPrefs(clientPrefs);
+		}
+		
+		if(connected) {
+			Log.d(TAG, "setup completed successfully"); 
+			getClientStatus().setSetupStatus(ClientStatus.SETUP_STATUS_AVAILABLE,false);
+		} else {
+			Log.d(TAG, "onPostExecute - setup experienced an error"); 
+			getClientStatus().setSetupStatus(ClientStatus.SETUP_STATUS_ERROR,true);
+		}
+		
+		return connected;
+	}
+	
+    // Executes the BOINC client using the Java Runtime exec method.
+	//
+    private Boolean runClient() {
+    	Boolean success = false;
+    	try { 
+    		String[] cmd = new String[2];
+    		
+    		cmd[0] = clientPath + clientName;
+    		cmd[1] = "--daemon";
+    		
+        	Runtime.getRuntime().exec(cmd, null, new File(clientPath));
+        	success = true;
+    	} catch (IOException e) {
+    		Log.d(TAG, "Starting BOINC client failed with exception: " + e.getMessage());
+    		Log.e(TAG, "IOException", e);
+    	}
+    	return success;
+    }
+
+	private Boolean connectClient() {
+		Boolean success = false;
+		
+        success = connect();
+        if(!success) {
+        	Log.d(TAG, "connection failed!");
+        	return success;
+        }
+        
+        //authorize
+        success = authorize();
+        if(!success) {
+        	Log.d(TAG, "authorization failed!");
+        }
+        return success;
+	}
+	
+	// Copies the binaries of BOINC client from assets directory into 
+	// storage space of this application
+	//
+    private Boolean installClient(){
+
+		installFile(clientName, true, true);
+		installFile(clientCLI, true, true);
+		installFile(clientCABundle, true, false);
+		installFile(allProjectsList, true, false);
+		installFile(globalOverridePreferences, false, false);
+    	
+    	return true; 
+    }
+    
+	private Boolean installFile(String file, Boolean override, Boolean executable) {
+    	Boolean success = false;
+    	byte[] b = new byte [1024];
+		int count; 
+		
+		try {
+			Log.d(TAG, "installing: " + file);
+			
+    		File target = new File(clientPath + file);
+    		
+    		// Check path and create it
+    		File installDir = new File(clientPath);
+    		if(!installDir.exists()) {
+    			installDir.mkdir();
+    			installDir.setWritable(true); 
+    		}
+    		
+    		// Delete old target
+    		if(override && target.exists()) {
+    			target.delete();
+    		}
+    		
+    		// Copy file from the asset manager to clientPath
+    		InputStream asset = getApplicationContext().getAssets().open(file); 
+    		OutputStream targetData = new FileOutputStream(target); 
+    		while((count = asset.read(b)) != -1){ 
+    			targetData.write(b, 0, count);
+    		}
+    		asset.close(); 
+    		targetData.flush(); 
+    		targetData.close();
+
+    		success = true; //copy succeeded without exception
+    		
+    		// Set executable, if requested
+    		Boolean isExecutable = false;
+    		if(executable) {
+    			target.setExecutable(executable);
+    			isExecutable = target.canExecute();
+    			success = isExecutable; // return false, if not executable
+    		}
+
+    		Log.d(TAG, "install of " + file + " successfull. executable: " + executable + "/" + isExecutable);
+    		
+    	} catch (IOException e) {  
+    		Log.d(TAG, "IOException: " + e.getMessage());
+    		Log.e(TAG, "IOException", e);
+    		
+    		Log.d(TAG, "install of " + file + " failed.");
+    	}
+		
+		return success;
+	}
+
+    // Connects to running BOINC client.
+    //
+    private Boolean connect() {
+    	return rpc.open("127.0.0.1", 31416);
+    }
+    
+    // Authorizes this application as valid RPC Manager by reading auth token from file 
+    // and making RPC call.
+    //
+    private Boolean authorize() {
+    	String authKey = readAuthToken();
+		
+		//trigger client rpc
+		return rpc.authorize(authKey); 
+    }
+	
+    // Compute MD5 of the requested asset
+    //
+    private String ComputeMD5Asset(String file) {
+    	byte[] b = new byte [1024];
+		int count; 
+		
+		try {
+			MessageDigest md5 = MessageDigest.getInstance("MD5");
+
+			InputStream asset = getApplicationContext().getAssets().open(file); 
+    		while((count = asset.read(b)) != -1){ 
+    			md5.update(b, 0, count);
+    		}
+    		asset.close();
+    		
+			byte[] md5hash = md5.digest();
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < md5hash.length; ++i) {
+				sb.append(String.format("%02x", md5hash[i]));
+			}
+    		
+    		return sb.toString();
+    	} catch (IOException e) {  
+    		Log.d(TAG, "IOException: " + e.getMessage());
+    		Log.e(TAG, "IOException", e);
+    	} catch (NoSuchAlgorithmException e) {
+    		Log.d(TAG, "NoSuchAlgorithmException: " + e.getMessage());
+    		Log.e(TAG, "NoSuchAlgorithmException", e);
+		}
+		
+		return "";
+    }
+
+    // Compute MD5 of the requested file
+    //
+    private String ComputeMD5File(String file) {
+    	byte[] b = new byte [1024];
+		int count; 
+		
+		try {
+			MessageDigest md5 = MessageDigest.getInstance("MD5");
+
+    		File target = new File(file);
+    		InputStream asset = new FileInputStream(target); 
+    		while((count = asset.read(b)) != -1){ 
+    			md5.update(b, 0, count);
+    		}
+    		asset.close();
+
+			byte[] md5hash = md5.digest();
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < md5hash.length; ++i) {
+				sb.append(String.format("%02x", md5hash[i]));
+			}
+    		
+    		return sb.toString();
+    	} catch (IOException e) {  
+    		Log.d(TAG, "IOException: " + e.getMessage());
+    		Log.e(TAG, "IOException", e);
+    	} catch (NoSuchAlgorithmException e) {
+    		Log.d(TAG, "NoSuchAlgorithmException: " + e.getMessage());
+    		Log.e(TAG, "NoSuchAlgorithmException", e);
+		}
+		
+		return "";
+    }
+    
+	// Get PID for process name using native 'ps' console command
+    //
+    private Integer getPidForProcessName(String processName) {
+    	int count;
+    	char[] buf = new char[1024];
+    	StringBuffer sb = new StringBuffer();
+    	
+    	//run ps and read output
+    	try {
+	    	Process p = Runtime.getRuntime().exec("ps");
+	    	p.waitFor();
+	    	InputStreamReader isr = new InputStreamReader(p.getInputStream());
+	    	while((count = isr.read(buf)) != -1)
+	    	{
+	    	    sb.append(buf, 0, count);
+	    	}
+    	} catch (Exception e) {
+    		Log.d(TAG, "Exception: " + e.getMessage());
+    		Log.e(TAG, "Exception", e);
+    	}
+    	
+    	//parse output into hashmap
+    	HashMap<String,Integer> pMap = new HashMap<String, Integer>();
+    	String [] processLinesAr = sb.toString().split("\n");
+    	for(String line : processLinesAr)
+    	{
+    		Integer pid;
+    		String packageName;
+    	    String [] comps = line.split("[\\s]+");
+    	    if(comps.length != 9) {continue;}     
+    	    pid = Integer.parseInt(comps[1]);
+    	    packageName = comps[8];
+    	    pMap.put(packageName, pid);
+    	    //Log.d(TAG,"added: " + packageName + pid); 
+    	}
+    	
+    	// Find required pid
+    	return pMap.get(processName);
+    }
+    
+    // Exit a process with OS signals SIGQUIT and SIGKILL
+    //
+    private void quitProcessOsLevel(String processName) {
+    	Integer clientPid = getPidForProcessName(processName);
+    	
+    	// client PID could not be read, client already ended / not yet started?
+    	if (clientPid == null) {
+    		Log.d(TAG, "quitProcessOsLevel could not find PID, already ended or not yet started?");
+    		return;
+    	}
+    	
+    	Log.d(TAG, "quitProcessOsLevel for " + processName + ", pid: " + clientPid);
+    	
+    	// Do not just kill the client on the first attempt.  That leaves dangling 
+		// science applications running which causes repeated spawning of applications.
+		// Neither the UI or client are happy and each are trying to recover from the
+		// situation.  Instead send SIGQUIT and give the client time to clean up.
+		//
+    	android.os.Process.sendSignal(clientPid, android.os.Process.SIGNAL_QUIT);
+    	
+    	// Wait for up to 30 seconds for the client to shutdown gracefully
+    	Integer loopCounter = 0;
+    	while((loopCounter < 6) && (getPidForProcessName(processName) != null)) {
+    		loopCounter++;
+			try {
+				Thread.sleep(5000);
+			} catch (Exception e) {}
+    	}
+    	
+    	// Process is still alive, sind SIGKILL
+    	clientPid = getPidForProcessName(processName);
+    	if(clientPid != null) {
+    		Log.d(TAG, "SIGQUIT failed. SIGKILL pid: " + clientPid);
+    		android.os.Process.killProcess(clientPid);
+    	}
+    	
+    	clientPid = getPidForProcessName(processName);
+    	if(clientPid != null) {
+    		Log.d(TAG, "SIGKILL failed. still living pid: " + clientPid);
+    	}
+    }
 	
 	public static ClientStatus getClientStatus() { //singleton pattern
 		if (clientStatus == null) {
@@ -132,7 +474,10 @@ public class Monitor extends Service {
 		clientCABundle = getString(R.string.client_cabundle); 
 		authFileName = getString(R.string.auth_file_name); 
 		allProjectsList = getString(R.string.all_projects_list); 
-		globalOverridePreferences = getString(R.string.global_prefs_override); 
+		globalOverridePreferences = getString(R.string.global_prefs_override);
+
+		retryRate = getResources().getInteger(R.integer.monitor_setup_connection_retry_rate_ms);
+		retryAttempts = getResources().getInteger(R.integer.monitor_setup_connection_retry_attempts);
 		
 		// initialize singleton helper classes and provide application context
 		getClientStatus().setCtx(this);
@@ -141,18 +486,15 @@ public class Monitor extends Service {
 		if(!started) {
 			started = true;
 	        (new ClientMonitorAsync()).execute(new Integer[0]); //start monitor in new thread
-	        Log.d(TAG, "asynchronous monitor started!");
+	        //Log.d(TAG, "asynchronous monitor started!");
 		}
 		else {
 			Log.d(TAG, "asynchronous monitor NOT started!");
 		}
 
-        Toast.makeText(this, "BOINC Monitor Service Starting", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "BOINC Monitor Service Starting", Toast.LENGTH_SHORT).show();
 	}
 	
-    /*
-     * this should not be reached
-    */
     @Override
     public void onDestroy() {
     	Log.d(TAG,"onDestroy()");
@@ -166,11 +508,11 @@ public class Monitor extends Service {
     	monitorRunning = false;
 		monitorThread.interrupt();
     	
-    	// Now we can safely stop the client
-    	//
-		quitClient();
+    	// Quit client here is not appropriate?!
+		// Keep Client running until explecitely killed, independently from UI
+		//quitClient();
         
-        Toast.makeText(this, "BOINC Monitor Service Stopped", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "BOINC Monitor Service Stopped", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -203,7 +545,7 @@ public class Monitor extends Service {
 	
     public void restartMonitor() {
     	if(Monitor.monitorActive) { //monitor is already active, launch cancelled
-    		BOINCActivity.logMessage(getApplicationContext(), TAG, "monitor active - restart cancelled");
+    		Log.d(TAG, "monitor active - restart cancelled");
     	}
     	else {
         	Log.d(TAG,"restart monitor");
@@ -211,6 +553,8 @@ public class Monitor extends Service {
     	}
     }
     
+    // force ClientMonitorAsync to start with loop.
+    // This will read client status using RPCs and fire event eventually.
     public void forceRefresh() {
     	Log.d(TAG,"forceRefresh()");
     	if(monitorThread != null) {
@@ -218,31 +562,54 @@ public class Monitor extends Service {
     	}
     }
     
+    // exits both, UI and BOINC client. 
+    // BLOCKING! call from AsyncTask!
     public void quitClient() {
-    	(new ShutdownClientAsync()).execute();
+    	monitorRunning = false; // stops ClientMonitorAsync loop
+    	monitorThread.interrupt(); // wakening ClientMonitorAsync from sleep
+    	// ClientMonitorAsync is not using RPC anymore
+    	
+    	// set client status to SETUP_STATUS_CLOSING to adapt layout accordingly
+		getClientStatus().setSetupStatus(ClientStatus.SETUP_STATUS_CLOSING,true);
+    	
+    	// try graceful shutdown via RPC
+    	rpc.quit();
+    	
+    	// there might be still other AsyncTasks executing RPCs
+    	// close sockets in a synchronized way
+    	rpc.close();
+    	
+    	// there are now more RPCs going on
+    	quitProcessOsLevel(clientPath + clientName);
+    	
+    	// set client status to SETUP_STATUS_CLOSED to adapt layout accordingly
+		getClientStatus().setSetupStatus(ClientStatus.SETUP_STATUS_CLOSED,true);
     }
-    
-    /*
-    public void attachProjectAsync(String url, String name, String email, String pwd) {
-		Log.d(TAG,"attachProjectAsync");
-		String[] param = new String[4];
-		param[0] = url;
-		param[1] = name;
-		param[2] = email;
-		param[3] = pwd;
-		(new ProjectAttachAsync()).execute(param);
-    }*/
-    
+       
 	public void setRunMode(Integer mode) {
 		//execute in different thread, in order to avoid network communication in main thread and therefore ANR errors
 		(new WriteClientRunModeAsync()).execute(mode);
 	}
 	
-	public void setPrefs(GlobalPreferences globalPrefs) {
-		//execute in different thread, in order to avoid network communication in main thread and therefore ANR errors
-		(new WriteClientPrefsAsync()).execute(globalPrefs);
+	// writes the given GlobalPreferences via RPC to the client
+	// after writing, the active preferences are read back and
+	// written to ClientStatus.
+	public Boolean setGlobalPreferences(GlobalPreferences prefs) {
+
+		Boolean retval1 = rpc.setGlobalPrefsOverrideStruct(prefs); //set new override settings
+		Boolean retval2 = rpc.readGlobalPrefsOverride(); //trigger reload of override settings
+		if(!retval1 || !retval2) {
+			return false;
+		}
+		GlobalPreferences workingPrefs = rpc.getGlobalPrefsWorkingStruct();
+		if(workingPrefs != null){
+			Monitor.getClientStatus().setPrefs(workingPrefs);
+			return true;
+		}
+		return false;
 	}
 	
+
 	public String readAuthToken() {
 		File authFile = new File(clientPath+authFileName);
     	StringBuffer fileData = new StringBuffer(100);
@@ -343,8 +710,16 @@ public class Monitor extends Service {
     }
 	
 	public Boolean checkProjectAttached(String url) {
-		//TODO
-		return false;
+		Boolean match = false;
+		ArrayList<Project> attachedProjects = rpc.getProjectStatus();
+		for (Project project: attachedProjects) {
+			Log.d(TAG, project.master_url + " vs " + url);
+			if(project.master_url.equals(url)) {
+				match = true;
+				continue;
+			}
+		}
+		return match;
 	}
 	
 	public AccountOut lookupCredentials(String url, String id, String pwd) {
@@ -432,18 +807,6 @@ public class Monitor extends Service {
 		param[1] = name;
 		(new TransferRetryAsync()).execute(param);
 	}
-    
-	/*
-    public void createAccountAsync(String url, String email, String userName, String pwd, String teamName) {
-		Log.d(TAG,"createAccountAsync");
-		String[] param = new String[5];
-		param[0] = url;
-		param[1] = email;
-		param[2] = userName;
-		param[3] = pwd;
-		param[4] = teamName;
-		(new CreateAccountAsync()).execute(param);
-    }*/
 	
 	public AccountOut createAccount(String url, String email, String userName, String pwd, String teamName) {
 		AccountIn information = new AccountIn();
@@ -498,12 +861,14 @@ public class Monitor extends Service {
 		protected Boolean doInBackground(Integer... params) {
 			// Save current thread, to interrupt sleep from outside...
 			monitorThread = Thread.currentThread();
+			Boolean sleep = true;
 			while(monitorRunning) {
 				publishProgress("doInBackground() monitor loop...");
 				
 				if(!rpc.connectionAlive()) { //check whether connection is still alive
 					// If connection is not working, either client has not been set up yet or client crashed.
-					(new ClientSetupAsync()).execute();
+					clientSetup();
+					sleep = false;
 				} else {
 					if(showRpcCommands) Log.d(TAG, "getCcStatus");
 					CcStatus status = rpc.getCcStatus();
@@ -517,32 +882,32 @@ public class Monitor extends Service {
 					ArrayList<Project>  projects = rpc.getProjectStatus();
 					if(showRpcCommands) Log.d(TAG, "getTransers");
 					ArrayList<Transfer>  transfers = rpc.getFileTransfers();
-					if(showRpcCommands) Log.d(TAG, "getGlobalPrefsWorkingStruct");
-					GlobalPreferences clientPrefs = rpc.getGlobalPrefsWorkingStruct(); 
 					ArrayList<Message> msgs = new ArrayList<Message>();
 					// retrieve messages only, if tabs are actually enabled. very resource intense with logging on emulator!
-					if(getResources().getBoolean(R.bool.tab_messages) || getResources().getBoolean(R.bool.tab_debug)) { 
+					if(getResources().getBoolean(R.bool.tab_eventlog)) { 
 						Integer count = rpc.getMessageCount();
 						msgs = rpc.getMessages(count - 250); //get the most recent 250 messages
 						if(showRpcCommands) Log.d(TAG, "getMessages, count: " + count);
 					}
 					
-					if( (status != null) && (results != null) && (projects != null) && (transfers != null) &&
-					    (clientPrefs != null)
-					) {
-						Monitor.clientStatus.setClientStatus(status, results, projects, transfers, clientPrefs, msgs);
+					if( (status != null) && (results != null) && (projects != null) && (transfers != null)) {
+						Monitor.getClientStatus().setClientStatus(status, results, projects, transfers, msgs);
 					} else {
-						BOINCActivity.logMessage(getApplicationContext(), TAG, "client status connection problem");
+						Log.d(TAG, "client status connection problem");
 					}
 					
 			        Intent clientStatus = new Intent();
 			        clientStatus.setAction("edu.berkeley.boinc.clientstatus");
 			        getApplicationContext().sendBroadcast(clientStatus);
+			        
+			        sleep = true;
 				}
 				
-	    		try {
-	    			Thread.sleep(refreshFrequency);
-	    		} catch(InterruptedException e) {}
+				if(sleep) {
+		    		try {
+		    			Thread.sleep(refreshFrequency);
+		    		} catch(InterruptedException e) {Log.d(TAG,"sleep interrupted");}
+				}
 			}
 
 			return true;
@@ -551,7 +916,6 @@ public class Monitor extends Service {
 		@Override
 		protected void onProgressUpdate(String... arg0) {
 			Log.d(TAG, "onProgressUpdate() " + arg0[0]);
-			BOINCActivity.logMessage(getApplicationContext(), TAG, arg0[0]);
 		}
 		
 		@Override
@@ -560,451 +924,6 @@ public class Monitor extends Service {
 			Monitor.monitorActive = false;
 		}
 	}
-	
-	private final class ClientSetupAsync extends AsyncTask<Void,String,Boolean> {
-		private final String TAG = "BOINC ClientSetupAsync";
-		
-		private Integer retryRate = getResources().getInteger(R.integer.monitor_setup_connection_retry_rate_ms);
-		private Integer retryAttempts = getResources().getInteger(R.integer.monitor_setup_connection_retry_attempts);
-		
-		@Override
-		protected void onPreExecute() {
-			if(Monitor.clientSetupActive) { // setup is already running, cancel execution...
-				cancel(false);
-			} else {
-				Log.d(TAG, "onPreExecute - running setup.");
-				Monitor.clientSetupActive = true;
-				getClientStatus().setupStatus = ClientStatus.SETUP_STATUS_LAUNCHING;
-				getClientStatus().fire();
-			}
-		}
-		
-		@Override
-		protected Boolean doInBackground(Void... params) {
-			return startUp();
-		}
-		
-		@Override
-		protected void onPostExecute(Boolean success) {
-			Monitor.clientSetupActive = false;
-			if(success) {
-				Log.d(TAG, "onPostExecute - setup completed successfully"); 
-				getClientStatus().setupStatus = ClientStatus.SETUP_STATUS_AVAILABLE;
-				// do not fire new client status here, wait for ClientMonitorAsync to retrieve initial status
-				forceRefresh();
-			} else {
-				Log.d(TAG, "onPostExecute - setup experienced an error"); 
-				getClientStatus().setupStatus = ClientStatus.SETUP_STATUS_ERROR;
-				getClientStatus().fire();
-			}
-		}
-
-		@Override
-		protected void onProgressUpdate(String... arg0) {
-			Log.d(TAG, "onProgressUpdate - " + arg0[0]);
-			BOINCActivity.logMessage(getApplicationContext(), TAG, arg0[0]);
-		}
-		
-		private Boolean startUp() {
-
-			String clientProcessName = clientPath + clientName;
-			Integer clientPid = null;
-
-			String md5AssetClient = ComputeMD5Asset(clientName);
-			publishProgress("Hash of client (Asset): '" + md5AssetClient + "'");
-
-			String md5InstalledClient = ComputeMD5File(clientPath + clientName);
-			publishProgress("Hash of client (File): '" + md5InstalledClient + "'");
-
-			// If client hashes do not match, we need to install the one that is a part
-			// of the package. Shutdown the currently running client if needed.
-			//
-			if (md5InstalledClient.compareToIgnoreCase(md5AssetClient) != 0) {
-
-				// Determine if BOINC is already running.
-				//
-				clientPid = getPidForProcessName(clientProcessName);
-				if(clientPid != null) {
-
-					// Do not just kill the client on the first attempt.  That leaves dangling 
-					// science applications running which causes repeated spawning of applications.
-					// Neither the UI or client are happy and each are trying to recover from the
-					// situation.  Instead send SIGQUIT and give the client time to clean up.
-					//
-					publishProgress("Gracefully shutting down BOINC client (" + clientPid +")");
-					android.os.Process.sendSignal(clientPid, android.os.Process.SIGNAL_QUIT);
-
-					// Wait for up to 15 seconds for the client to shutdown gracefully
-					//
-					for (Integer i = 0; i <= 15; i++) {
-						clientPid = getPidForProcessName(clientProcessName);
-						if(clientPid != null) {
-							publishProgress("Waiting on BOINC client (" + clientPid + ") to shutdown");
-							try {
-								Thread.sleep(1000);
-							} catch (Exception e) {}
-						} else {
-							break;
-						}
-					}
-
-					// If the client has not shutdown by now, force terminate it
-					//
-					clientPid = getPidForProcessName(clientProcessName);
-					if(clientPid != null) {
-						publishProgress("Forcefully terminating BOINC client (" + clientPid + ")");
-						android.os.Process.killProcess(clientPid);
-						clientPid = null;
-					}	
-				}
-
-				// Install BOINC client software
-				//
-		        if(!installClient()) {
-		        	publishProgress("BOINC client installation failed!");
-		        	return false;
-		        }
-			}
-			
-			
-			// Start the BOINC client if we need to.
-			//
-			clientPid = getPidForProcessName(clientProcessName);
-			if(clientPid == null) {
-	        	publishProgress("Starting the BOINC client");
-				if (!runClient()) {
-		        	publishProgress("BOINC client failed to start");
-					return false;
-				}
-			}
-
-			
-			// Try to connect to executed Client in loop
-			//
-			Boolean connected = false;
-			Integer counter = 0;
-			while(!connected && (counter < retryAttempts)) {
-				publishProgress("Attempting BOINC client connection...");
-				connected = connectClient();
-				counter++;
-
-				try {
-					Thread.sleep(retryRate);
-				} catch (Exception e) {}
-			}
-			
-			return connected;
-		}
-		
-	    // Executes the BOINC client using the Java Runtime exec method.
-		//
-	    private Boolean runClient() {
-	    	Boolean success = false;
-	    	try { 
-	    		String[] cmd = new String[2];
-	    		
-	    		cmd[0] = clientPath + clientName;
-	    		cmd[1] = "--daemon";
-	    		
-	        	clientProcess = Runtime.getRuntime().exec(cmd, null, new File(clientPath));
-	        	success = true;
-	    	} catch (IOException e) {
-	    		Log.d(TAG, "Starting BOINC client failed with exception: " + e.getMessage());
-	    		Log.e(TAG, "IOException", e);
-	    	}
-	    	return success;
-	    }
-
-		private Boolean connectClient() {
-			Boolean success = false;
-			
-	        success = connect();
-	        if(!success) {
-	        	publishProgress("connection failed!");
-	        	return success;
-	        }
-	        
-	        //authorize
-	        success = authorize();
-	        if(!success) {
-	        	publishProgress("authorization failed!");
-	        }
-	        return success;
-		}
-		
-		// Copies the binaries of BOINC client from assets directory into 
-		// storage space of this application
-		//
-	    private Boolean installClient(){
-
-			installFile(clientName, true, true);
-			installFile(clientCLI, true, true);
-			installFile(clientCABundle, true, false);
-			installFile(allProjectsList, true, false);
-			installFile(globalOverridePreferences, false, false);
-	    	
-			//TODO return proper status
-	    	return true; 
-	    }
-	    
-		private Boolean installFile(String file, Boolean override, Boolean executable) {
-	    	Boolean success = false;
-	    	byte[] b = new byte [1024];
-    		int count; 
-			
-    		try {
-    			Log.d(TAG, "installing: " + file);
-    			
-	    		File target = new File(clientPath + file);
-	    		
-	    		// Check path and create it
-	    		File installDir = new File(clientPath);
-	    		if(!installDir.exists()) {
-	    			installDir.mkdir();
-	    			installDir.setWritable(true); 
-	    		}
-	    		
-	    		// Delete old target
-	    		if(override && target.exists()) {
-	    			target.delete();
-	    		}
-	    		
-	    		// Copy file from the asset manager to clientPath
-	    		InputStream asset = getApplicationContext().getAssets().open(file); 
-	    		OutputStream targetData = new FileOutputStream(target); 
-	    		while((count = asset.read(b)) != -1){ 
-	    			targetData.write(b, 0, count);
-	    		}
-	    		asset.close(); 
-	    		targetData.flush(); 
-	    		targetData.close();
-
-	    		success = true; //copy succeeded without exception
-	    		
-	    		// Set executable, if requested
-	    		Boolean isExecutable = false;
-	    		if(executable) {
-	    			target.setExecutable(executable);
-	    			isExecutable = target.canExecute();
-	    			success = isExecutable; // return false, if not executable
-	    		}
-
-	    		publishProgress("install of " + file + " successfull. executable: " + executable + "/" + isExecutable);
-	    		
-	    	} catch (IOException e) {  
-	    		Log.d(TAG, "IOException: " + e.getMessage());
-	    		Log.e(TAG, "IOException", e);
-	    		
-	    		publishProgress("install of " + file + " failed.");
-	    	}
-			
-			return success;
-		}
-
-	    // Connects to running BOINC client.
-	    //
-	    private Boolean connect() {
-	    	return rpc.open("127.0.0.1", 31416);
-	    }
-	    
-	    // Authorizes this application as valid RPC Manager by reading auth token from file 
-	    // and making RPC call.
-	    //
-	    private Boolean authorize() {
-	    	String authKey = readAuthToken();
-			
-			//trigger client rpc
-			return rpc.authorize(authKey); 
-	    }
-		
-		// Get PID for process name using native 'ps' console command
-	    //
-	    private Integer getPidForProcessName(String processName) {
-	    	int count;
-	    	char[] buf = new char[1024];
-	    	StringBuffer sb = new StringBuffer();
-	    	
-	    	//run ps and read output
-	    	try {
-		    	Process p = Runtime.getRuntime().exec("ps");
-		    	p.waitFor();
-		    	InputStreamReader isr = new InputStreamReader(p.getInputStream());
-		    	while((count = isr.read(buf)) != -1)
-		    	{
-		    	    sb.append(buf, 0, count);
-		    	}
-	    	} catch (Exception e) {
-	    		Log.d(TAG, "Exception: " + e.getMessage());
-	    		Log.e(TAG, "Exception", e);
-	    	}
-	    	
-	    	//parse output into hashmap
-	    	HashMap<String,Integer> pMap = new HashMap<String, Integer>();
-	    	String [] processLinesAr = sb.toString().split("\n");
-	    	for(String line : processLinesAr)
-	    	{
-	    		Integer pid;
-	    		String packageName;
-	    	    String [] comps = line.split("[\\s]+");
-	    	    if(comps.length != 9) {continue;}     
-	    	    pid = Integer.parseInt(comps[1]);
-	    	    packageName = comps[8];
-	    	    pMap.put(packageName, pid);
-	    	    //Log.d(TAG,"added: " + packageName + pid); 
-	    	}
-	    	
-	    	// Find required pid
-	    	return pMap.get(processName);
-	    }
-
-	    // Compute MD5 of the requested asset
-	    //
-	    private String ComputeMD5Asset(String file) {
-	    	byte[] b = new byte [1024];
-    		int count; 
-			
-    		try {
-    			MessageDigest md5 = MessageDigest.getInstance("MD5");
-
-    			InputStream asset = getApplicationContext().getAssets().open(file); 
-	    		while((count = asset.read(b)) != -1){ 
-	    			md5.update(b, 0, count);
-	    		}
-	    		asset.close();
-	    		
-				byte[] md5hash = md5.digest();
-				StringBuilder sb = new StringBuilder();
-				for (int i = 0; i < md5hash.length; ++i) {
-					sb.append(String.format("%02x", md5hash[i]));
-				}
-	    		
-	    		return sb.toString();
-	    	} catch (IOException e) {  
-	    		Log.d(TAG, "IOException: " + e.getMessage());
-	    		Log.e(TAG, "IOException", e);
-	    	} catch (NoSuchAlgorithmException e) {
-	    		Log.d(TAG, "NoSuchAlgorithmException: " + e.getMessage());
-	    		Log.e(TAG, "NoSuchAlgorithmException", e);
-			}
-			
-			return "";
-	    }
-
-	    // Compute MD5 of the requested file
-	    //
-	    private String ComputeMD5File(String file) {
-	    	byte[] b = new byte [1024];
-    		int count; 
-			
-    		try {
-    			MessageDigest md5 = MessageDigest.getInstance("MD5");
-
-	    		File target = new File(file);
-	    		InputStream asset = new FileInputStream(target); 
-	    		while((count = asset.read(b)) != -1){ 
-	    			md5.update(b, 0, count);
-	    		}
-	    		asset.close();
-
-				byte[] md5hash = md5.digest();
-				StringBuilder sb = new StringBuilder();
-				for (int i = 0; i < md5hash.length; ++i) {
-					sb.append(String.format("%02x", md5hash[i]));
-				}
-	    		
-	    		return sb.toString();
-	    	} catch (IOException e) {  
-	    		Log.d(TAG, "IOException: " + e.getMessage());
-	    		Log.e(TAG, "IOException", e);
-	    	} catch (NoSuchAlgorithmException e) {
-	    		Log.d(TAG, "NoSuchAlgorithmException: " + e.getMessage());
-	    		Log.e(TAG, "NoSuchAlgorithmException", e);
-			}
-			
-			return "";
-	    }
-	}
-	
-	/*
-	private final class ProjectAttachAsync extends AsyncTask<String,String,Boolean> {
-
-		private final String TAG = "ProjectAttachAsync";
-		
-		private String url;
-		private String projectName;
-		private String email;
-		private String pwd;
-		
-		@Override
-		protected Boolean doInBackground(String... params) {
-			this.url = params[0];
-			this.projectName = params[1];
-			this.email = params[2];
-			this.pwd = params[3];
-			Log.d(TAG+"-doInBackground","attachProjectAsync started with: " + url + "-" + projectName + "-" + email + "-" + pwd);
-			
-			AccountOut auth = lookupCredentials(url,email,pwd);
-			
-			if(auth == null) {
-				sendLoginResultBroadcast(LoginActivity.BROADCAST_TYPE_LOGIN,-1,"null");
-				Log.d(TAG, "verification failed - exit");
-				return false;
-			}
-			
-			if(auth.error_num != 0) { // an error occured
-				sendLoginResultBroadcast(LoginActivity.BROADCAST_TYPE_LOGIN,auth.error_num,auth.error_msg);
-				Log.d(TAG, "verification failed - exit");
-				return false;
-			}
-			Boolean attach = attachProject(url, email, auth.authenticator); 
-			if(attach) {
-				sendLoginResultBroadcast(LoginActivity.BROADCAST_TYPE_LOGIN,0,"Successful!");
-			}
-			return attach;
-		}
-	}*/
-	
-	/*
-	private final class CreateAccountAsync extends AsyncTask<String,String,Boolean> {
-
-		private final String TAG = "CreateAccountAsync";
-		
-		private String url;
-		private String email;
-		private String userName;
-		private String pwd;
-		private String teamName;
-		
-		@Override
-		protected Boolean doInBackground(String... params) {
-			this.url = params[0];
-			this.email = params[1];
-			this.userName = params[2];
-			this.pwd = params[3];
-			this.teamName = params[4];
-			Log.d(TAG+"-doInBackground","creating account with: " + url + "-" + email + "-" + userName + "-" + pwd + "-" + teamName);
-			
-			
-			AccountOut auth = createAccount(url, email, userName, pwd, teamName);
-			
-			if(auth == null) {
-				sendLoginResultBroadcast(LoginActivity.BROADCAST_TYPE_REGISTRATION,-1,"null");
-				Log.d(TAG, "verification failed - exit");
-				return false;
-			}
-			
-			if(auth.error_num != 0) { // an error occured
-				sendLoginResultBroadcast(LoginActivity.BROADCAST_TYPE_REGISTRATION,auth.error_num,auth.error_msg);
-				Log.d(TAG, "verification failed - exit");
-				return false;
-			}
-			Boolean attach = attachProject(url, email, auth.authenticator); 
-			if(attach) {
-				sendLoginResultBroadcast(LoginActivity.BROADCAST_TYPE_REGISTRATION,0,"Successful!");
-			}
-			return attach;
-		}
-	}*/
 	
 	private final class ProjectDetachAsync extends AsyncTask<String,String,Boolean> {
 
@@ -1082,7 +1001,6 @@ public class Monitor extends Service {
 		@Override
 		protected void onProgressUpdate(String... arg0) {
 			Log.d(TAG, "onProgressUpdate - " + arg0[0]);
-			BOINCActivity.logMessage(getApplicationContext(), TAG, arg0[0]);
 		}
 	}
 
@@ -1114,32 +1032,9 @@ public class Monitor extends Service {
 		@Override
 		protected void onProgressUpdate(String... arg0) {
 			Log.d(TAG, "onProgressUpdate - " + arg0[0]);
-			BOINCActivity.logMessage(getApplicationContext(), TAG, arg0[0]);
 		}
 	}
 
-	private final class WriteClientPrefsAsync extends AsyncTask<GlobalPreferences,Void,Boolean> {
-
-		private final String TAG = "WriteClientPrefsAsync";
-		@Override
-		protected Boolean doInBackground(GlobalPreferences... params) {
-			Log.d(TAG, "doInBackground");
-			Boolean retval1 = rpc.setGlobalPrefsOverrideStruct(params[0]); //set new override settings
-			Boolean retval2 = rpc.readGlobalPrefsOverride(); //trigger reload of override settings
-			Log.d(TAG,retval1.toString() + retval2);
-			if(retval1 && retval2) {
-				Log.d(TAG, "successful.");
-				return true;
-			}
-			return false;
-		}
-		
-		@Override
-		protected void onPostExecute(Boolean success) {
-			forceRefresh();
-		}
-	}
-	
 	private final class WriteClientRunModeAsync extends AsyncTask<Integer, String, Boolean> {
 
 		private final String TAG = "WriteClientRunModeAsync";
@@ -1159,29 +1054,6 @@ public class Monitor extends Service {
 		@Override
 		protected void onProgressUpdate(String... arg0) {
 			Log.d(TAG, "onProgressUpdate - " + arg0[0]);
-			BOINCActivity.logMessage(getApplicationContext(), TAG, arg0[0]);
-		}
-	}
-	
-	private final class ShutdownClientAsync extends AsyncTask<Void, String, Boolean> {
-
-		private final String TAG = "ShutdownClientAsync";
-
-		@Override
-		protected Boolean doInBackground(Void... params) {
-	    	Boolean success = rpc.quit();
-        	publishProgress("Graceful shutdown returned " + success);
-			if(!success) {
-				clientProcess.destroy();
-	        	publishProgress("Process killed");
-			}
-			return success;
-		}
-
-		@Override
-		protected void onProgressUpdate(String... arg0) {
-			Log.d(TAG, "onProgressUpdate - " + arg0[0]);
-			BOINCActivity.logMessage(getApplicationContext(), TAG, arg0[0]);
 		}
 	}
 }

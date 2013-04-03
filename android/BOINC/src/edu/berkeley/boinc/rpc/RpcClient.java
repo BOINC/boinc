@@ -196,7 +196,7 @@ public class RpcClient {
 	/**
 	 * Closes the currently opened connection to BOINC core client
 	 */
-	public void close() {
+	public synchronized void close() {
 		if (!isConnected()) {
 			// Not connected - just return (can be cleanup "for sure")
 			return;
