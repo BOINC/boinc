@@ -749,8 +749,10 @@ PROJECT* WORK_FETCH::choose_project() {
         }
     }
 
-    if (log_flags.work_fetch_debug) {
-        if (!p) {
+    if (p) {
+        p->sched_rpc_pending = RPC_REASON_NEED_WORK;
+    } else {
+        if (log_flags.work_fetch_debug) {
             msg_printf(0, MSG_INFO, "[work_fetch] No project chosen for work fetch");
         }
     }
