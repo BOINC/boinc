@@ -143,6 +143,10 @@ int APP::parse(XML_PARSER& xp) {
             fpops.parse(xp, "/fpops");
             continue;
         }
+        if (xp.parse_int("max_concurrent", max_concurrent)) {
+            if (max_concurrent) have_max_concurrent = true;
+            continue;
+        }
         if (xp.match_tag("checkpoint_period")) {
             checkpoint_period.parse(xp, "/checkpoint_period");
             continue;

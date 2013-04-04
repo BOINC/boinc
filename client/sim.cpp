@@ -1168,12 +1168,17 @@ void show_app(APP* app) {
     fprintf(summary_file,
         "   app %s\n"
         "      job params: fpops_est %.0fG fpops mean %.0fG std_dev %.0fG\n"
-        "         latency %.2f weight %.2f\n",
+        "         latency %.2f weight %.2f",
         app->name, app->fpops_est/1e9,
         app->fpops.mean/1e9, app->fpops.std_dev/1e9,
         app->latency_bound,
         app->weight
     );
+    if (app->max_concurrent) {
+        fprintf(summary_file, " max_concurrent %d\n", app->max_concurrent);
+    } else {
+        fprintf(summary_file, "\n");
+    }
     for (unsigned int i=0; i<gstate.app_versions.size(); i++) {
         APP_VERSION* avp = gstate.app_versions[i];
         if (avp->app != app) continue;

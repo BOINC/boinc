@@ -253,6 +253,7 @@ struct RSC_WORK_FETCH {
     void set_request_excluded(PROJECT*);
     bool may_have_work(PROJECT*);
     bool can_fetch(PROJECT*);
+    bool backed_off(PROJECT*);
     bool uses_starved_excluded_instances(PROJECT*);
     RSC_WORK_FETCH() {
         rsc_type = 0;

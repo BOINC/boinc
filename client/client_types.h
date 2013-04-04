@@ -247,6 +247,7 @@ struct APP {
     int max_concurrent;
         // Limit on # of concurrent jobs of this app; 0 if none
         // Specified in app_config.xml
+        // Can also specify in client_state.xml (for client emulator)
     int n_concurrent;
         // temp during job scheduling, to enforce max_concurrent
     int non_excluded_instances[MAX_RSC];
