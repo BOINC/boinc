@@ -451,26 +451,6 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     sprintf(buf, "got %d tasks<br>", new_results.size());
     html_msg += buf;
 
-    if (new_results.size() == 0) {
-        for (int i=0; i<coprocs.n_rsc; i++) {
-            if (rsc_work_fetch[i].req_secs) {
-                p->rsc_pwf[i].resource_backoff(p, rsc_name(i));
-            }
-        }
-    } else {
-        bool got_rsc[MAX_RSC];
-        for (int i=0; i<coprocs.n_rsc; i++) {
-            got_rsc[i] = false;
-        }
-        for (unsigned int i=0; i<new_results.size(); i++) {
-            RESULT* rp = new_results[i];
-            got_rsc[rp->avp->gpu_usage.rsc_type] = true;
-        }
-        for (int i=0; i<coprocs.n_rsc; i++) {
-            if (got_rsc[i]) p->rsc_pwf[i].clear_backoff();
-        }
-    }
-
     SCHEDULER_REPLY sr;
     rsc_work_fetch[0].req_secs = save_cpu_req_secs;
     work_fetch.handle_reply(p, &sr, new_results);
@@ -526,6 +506,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         p = find_project_with_overdue_results(false);
         if (p) {
             msg_printf(p, MSG_INFO, "doing RPC to report results");
+            p->sched_rpc_pending = RPC_REASON_RESULTS_DUE;
             work_fetch.piggyback_work_request(p);
             action = simulate_rpc(p);
             break;

@@ -208,11 +208,11 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
                 project_prefs_tag, p?"true":"false"
             );
         }
-        if (regexec(&(project_prefs_regex), value, 0, NULL, 0)) {
+        if (!p || regexec(&(project_prefs_regex), value, 0, NULL, 0)) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[version] plan_class_spec: project prefs setting '%s' prevents using plan class.\n",
-                    project_prefs_tag
+                    "[version] plan_class_spec: project prefs setting '%s' value='%s' prevents using plan class.\n",
+                    project_prefs_tag, p ? value : "(tag missing)"
                 );
             }
             return false;
@@ -674,6 +674,7 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     projected_flops_scale = 1;
     have_os_regex = false;
     strcpy(project_prefs_tag, "");
+    have_project_prefs_regex = false;
     avg_ncpus = 0;
     min_core_client_version=0;
     max_core_client_version=0;
