@@ -22,6 +22,8 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 import android.util.Log;
 import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
@@ -39,6 +41,9 @@ public class ClientStatus {
 	
 	private final String TAG = "BOINC Client Status";
 	private Context ctx; // application context in order to fire broadcast events
+	
+	//WakeLock
+	WakeLock wakeLock;
 	
 	//RPC wrapper
 	private CcStatus status;
@@ -75,6 +80,33 @@ public class ClientStatus {
 	public Integer networkSuspendReason = 0; //reason why network activity got suspended, only if NETWORK_STATUS_SUSPENDED
 	private Boolean networkParseError = false; //indicates that status could not be parsed and is therefore invalid
 	
+	public ClientStatus(Context ctx) {
+		this.ctx = ctx;
+		
+		// set up Wake Lock
+		// see documentation at http://developer.android.com/reference/android/os/PowerManager.html
+		PowerManager pm = (PowerManager) ctx.getSystemService(Context.POWER_SERVICE);
+		wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
+		wakeLock.setReferenceCounted(false); // "one call to release() is sufficient to undo the effect of all previous calls to acquire()"
+	}
+	
+	// call to acquire or release resources held by the WakeLock.
+	// acquisition: every time the Monitor loop calls setClientStatus and computingStatus == COMPUTING_STATUS_COMPUTING
+	// release: every time computingStatus != COMPUTING_STATUS_COMPUTING , and in Monitor.onDestroy()
+	public void setWakeLock(Boolean acquire) {
+		try {
+			if(wakeLock.isHeld() == acquire) return; // wakeLock already in desired state
+			
+			if(acquire) { // acquire wakeLock
+				wakeLock.acquire();
+				Log.d(TAG, "wakeLock acquired");
+			} else { // release wakeLock
+				wakeLock.release();
+				Log.d(TAG, "wakeLock released");
+			}
+		} catch (Exception e) {Log.w(TAG, "Exception durign setWakeLock " + acquire, e);}
+	}
+	
 	/*
 	 * fires "clientstatuschange" broadcast, so registered Activities can update their model.
 	 */
@@ -90,10 +122,10 @@ public class ClientStatus {
 	
 	/*
 	 * Application context is required by the broadcast mechanism, reference is copied by Monitor service on start up.
-	 */
+	 
 	public synchronized void setCtx(Context tctx) {
 		this.ctx = tctx;
-	}
+	}*/
 	
 	/*
 	 * called frequently by Monitor to set the RPC data. These objects are used to determine the client status and parse it in the data model of this class.
@@ -220,12 +252,14 @@ public class ClientStatus {
 				computingStatus = COMPUTING_STATUS_NEVER;
 				computingSuspendReason = status.task_suspend_reason; // = 4 - SUSPEND_REASON_USER_REQ????
 				computingParseError = false;
+				setWakeLock(false);
 				return;
 			}
 			if((status.task_mode == BOINCDefs.RUN_MODE_AUTO) && (status.task_suspend_reason != BOINCDefs.SUSPEND_NOT_SUSPENDED)) {
 				computingStatus = COMPUTING_STATUS_SUSPENDED;
 				computingSuspendReason = status.task_suspend_reason;
 				computingParseError = false;
+				setWakeLock(false);
 				return;
 			}
 			if((status.task_mode == BOINCDefs.RUN_MODE_AUTO) && (status.task_suspend_reason == BOINCDefs.SUSPEND_NOT_SUSPENDED)) {
@@ -244,11 +278,13 @@ public class ClientStatus {
 					computingStatus = COMPUTING_STATUS_COMPUTING;
 					computingSuspendReason = status.task_suspend_reason; // = 0 - SUSPEND_NOT_SUSPENDED
 					computingParseError = false;
+					setWakeLock(true);
 					return;
 				} else { // client "is able but idle"
 					computingStatus = COMPUTING_STATUS_IDLE;
 					computingSuspendReason = status.task_suspend_reason; // = 0 - SUSPEND_NOT_SUSPENDED
 					computingParseError = false;
+					setWakeLock(false);
 					return;
 				}
 			}

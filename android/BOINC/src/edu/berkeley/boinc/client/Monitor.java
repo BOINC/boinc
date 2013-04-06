@@ -56,7 +56,7 @@ import edu.berkeley.boinc.rpc.Transfer;
 
 public class Monitor extends Service {
 	
-	private final String TAG = "BOINC Monitor Service";
+	private static final String TAG = "BOINC Monitor Service";
 	
 	private static ClientStatus clientStatus; //holds the status of the client as determined by the Monitor
 	private static AppPreferences appPrefs; //hold the status of the app, controlled by AppPreferences
@@ -428,7 +428,7 @@ public class Monitor extends Service {
 	
 	public static ClientStatus getClientStatus() { //singleton pattern
 		if (clientStatus == null) {
-			clientStatus = new ClientStatus();
+			Log.d(TAG,"WARNING: clientStatus not yet initialized");
 		}
 		return clientStatus;
 	}
@@ -480,7 +480,7 @@ public class Monitor extends Service {
 		retryAttempts = getResources().getInteger(R.integer.monitor_setup_connection_retry_attempts);
 		
 		// initialize singleton helper classes and provide application context
-		getClientStatus().setCtx(this);
+		clientStatus = new ClientStatus(this);
 		getAppPrefs().readPrefs(this);
 		
 		if(!started) {
@@ -507,12 +507,14 @@ public class Monitor extends Service {
     	//
     	monitorRunning = false;
 		monitorThread.interrupt();
+		
+		clientStatus.setWakeLock(false); // release wakeLock, if held.
     	
     	// Quit client here is not appropriate?!
 		// Keep Client running until explecitely killed, independently from UI
 		//quitClient();
         
-        //Toast.makeText(this, "BOINC Monitor Service Stopped", Toast.LENGTH_SHORT).show();
+        //android.widget.Toast.makeText(this, "BOINC Monitor Service Stopped", android.widget.Toast.LENGTH_SHORT).show();
     }
 
     @Override
