@@ -22,11 +22,16 @@
     android:layout_height="wrap_content"
     android:padding="10dip"
     android:orientation="vertical">
-    <EditText
-         android:id="@+id/Input"
+    <SeekBar
+         android:id="@+id/seekbar"
          android:layout_width="match_parent"
          android:layout_height="wrap_content" 
-         android:inputType="numberDecimal">
-         <requestFocus />
-     </EditText>
+         android:max="100">
+     </SeekBar>
+    <TextView
+         android:id="@+id/seekbar_status"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_gravity="center_horizontal" >
+     </TextView>
 </LinearLayout>

@@ -146,6 +146,9 @@ public class EventLogActivity extends FragmentActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    Log.d(TAG, "onCreateOptionsMenu()");
 
+		// call BOINCActivity's onCreateOptionsMenu to combine both menus
+		getParent().onCreateOptionsMenu(menu);
+		
 	    MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.eventlog_menu, menu);
 
@@ -161,7 +164,7 @@ public class EventLogActivity extends FragmentActivity {
 				onEmailTo();
 				return true;
 			default:
-				return super.onOptionsItemSelected(item);
+				return getParent().onOptionsItemSelected(item);
 		}
 	}
 	
