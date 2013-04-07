@@ -292,10 +292,10 @@ void COPROC_ATI::get(
             gpu_name="AMD Radeon HD 5900 (Hemlock)";
             break;
         case 13:
-            gpu_name="AMD Radeon HD 6410/6480/6520 series (Sumo)";
+            gpu_name="AMD Radeon HD 6300/6400/6500/6600 series (Sumo)"; //real names would be AMD Radeon HD 6370D/6380G/6410D/6480G/6520G/6530D/6550D/6620G series (Sumo)
             break;
         case 14:
-            gpu_name="AMD Radeon HD 6250/6310/7290 series (Wrestler)";
+            gpu_name="AMD Radeon HD 6200/6300/7300 series (Wrestler)"; // real names would be AMD Radeon HD 6250/6290/6310/6320/7290/7310/7340 series (Wrestler)
             break;
         case 15:
             gpu_name="AMD Radeon HD 6900 series (Cayman)";
@@ -322,7 +322,7 @@ void COPROC_ATI::get(
             gpu_name="AMD Radeon HD 7700 series (Cape Verde)";
             break;
         case 23:
-            gpu_name="AMD Radeon HD 7990 series (New Zealand)";
+            gpu_name="AMD Radeon HD 7400/7500/7600 series (Trinity)"; // it is not NEW ZEALAND - those are the GPUs inside AMD Trinity & Richland APUs !
             break;
 //////////////////////////////////////////////////////////////////////
 //
