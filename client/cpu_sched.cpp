@@ -84,7 +84,7 @@ using std::list;
 
 static double rec_sum;
 
-// used in schedule_cpus() to keep track of resources used
+// used in make_run_list() to keep track of resources used
 // by jobs tentatively scheduled so far
 //
 struct PROC_RESOURCES {
@@ -170,8 +170,21 @@ struct PROC_RESOURCES {
                 rp->project->sched_priority
             );
         }
-        reserve_coprocs(*rp);
         if (rp->uses_coprocs()) {
+            // if this job is currently running,
+            // and the resource type has exclusions,
+            // don't reserve instances;
+            // This allows more jobs in the run list
+            // and avoids a starvation case
+            //
+            int rt = rp->avp->gpu_usage.rsc_type;
+            bool dont_reserve =
+                rsc_work_fetch[rt].has_exclusions
+                && atp != NULL
+                && atp->task_state() == PROCESS_EXECUTING;
+            if (!dont_reserve) {
+                reserve_coprocs(*rp);
+            }
             //ncpus_used_st += rp->avp->avg_ncpus;
             // don't increment CPU usage.
             // This may seem odd; the reason is the following scenario:
@@ -220,7 +233,6 @@ struct PROC_RESOURCES {
         double x;
         APP_VERSION& av = *r.avp;
         int rt = av.gpu_usage.rsc_type;
-        if (!rt) return;
         COPROC& cp = pr_coprocs.coprocs[rt];
         x = av.gpu_usage.usage;
         for (int i=0; i<cp.count; i++) {
@@ -1067,7 +1079,7 @@ void CLIENT_STATE::append_unfinished_time_slice(vector<RESULT*> &run_list) {
 //     for each scheduled job J
 //         if J is running
 //             if J's assignment fits
-//                 confirm assignment: dev pending_usage, inc usage
+//                 confirm assignment: dec pending_usage, inc usage
 //             else
 //                 prune J
 //         else

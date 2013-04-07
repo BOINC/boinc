@@ -563,6 +563,16 @@ void process_gpu_exclusions() {
             );
             continue;
         }
+        if (!eg.appname.empty()) {
+            APP* app = gstate.lookup_app(p, eg.appname.c_str());
+            if (!app) {
+                msg_printf(p, MSG_USER_ALERT,
+                    "Nonexistent app '%s' in GPU exclusion",
+                    eg.appname.c_str()
+                );
+                continue;
+            }
+        }
         if (!eg.type.empty()) {
             bool found = false;
             string types;
@@ -570,6 +580,7 @@ void process_gpu_exclusions() {
                 COPROC& cp = coprocs.coprocs[k];
                 if (eg.type == cp.type) {
                     found = true;
+                    rsc_work_fetch[k].has_exclusions = true;
                     break;
                 }
                 types += " " + string(cp.type);
@@ -581,15 +592,9 @@ void process_gpu_exclusions() {
                 );
                 continue;
             }
-            if (!eg.appname.empty()) {
-                APP* app = gstate.lookup_app(p, eg.appname.c_str());
-                if (!app) {
-                    msg_printf(p, MSG_USER_ALERT,
-                        "Nonexistent app '%s' in GPU exclusion",
-                        eg.appname.c_str()
-                    );
-                    continue;
-                }
+        } else {
+            for (int k=1; k<coprocs.n_rsc; k++) {
+                rsc_work_fetch[k].has_exclusions = true;
             }
         }
     }

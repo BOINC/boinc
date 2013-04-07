@@ -198,6 +198,7 @@ struct RSC_WORK_FETCH {
     int rsc_type;
     int ninstances;
     double relative_speed;   // total FLOPS relative to CPU total FLOPS
+    bool has_exclusions;
 
     // the following used/set by rr_simulation():
     //
@@ -265,6 +266,7 @@ struct RSC_WORK_FETCH {
         total_fetchable_share = 0;
         saturated_time = 0;
         deadline_missed_instances = 0;
+        has_exclusions = false;
     }
 };
 
