@@ -671,6 +671,7 @@ PROJECT* WORK_FETCH::choose_project() {
 
     // scan projects in order of decreasing priority
     //
+    bool found = false;
     for (unsigned int j=0; j<gstate.projects.size(); j++) {
         p = gstate.projects[j];
         DEBUG(msg_printf(p, MSG_INFO, "scanning");)
@@ -743,18 +744,20 @@ PROJECT* WORK_FETCH::choose_project() {
                     rwf.set_request_excluded(p);
                 }
             }
+            found = true;
             break;
         } else {
             p = NULL;
         }
     }
 
-    if (p) {
+    if (found) {
         p->sched_rpc_pending = RPC_REASON_NEED_WORK;
     } else {
         if (log_flags.work_fetch_debug) {
             msg_printf(0, MSG_INFO, "[work_fetch] No project chosen for work fetch");
         }
+        p = NULL;
     }
 
     return p;

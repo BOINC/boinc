@@ -357,6 +357,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
         html_msg += buf;
         msg_printf(p, MSG_INFO, "RPC skipped: project down");
         gstate.scheduler_op->project_rpc_backoff(p, "project down");
+        p->master_url_fetch_pending = false;
         return false;
     }
 
