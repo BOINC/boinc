@@ -2100,6 +2100,9 @@ int RPC_CLIENT::quit() {
         if (match_tag(buf, "success")) {
             return 0;
         }
+        if (strstr(buf, "unauthorized")) {
+            return ERR_AUTHENTICATOR;
+        }
     }
     return ERR_XML_PARSE;
 }
