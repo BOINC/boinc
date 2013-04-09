@@ -18,7 +18,7 @@
 #include "stdwx.h"
 #include "MacBitmapComboBox.h"
 
-#define POPUPBUTTONCONTROLHEIGHT 20
+#define POPUPBUTTONCONTROLHEIGHT 22
 
 // wxChoice uses CreatePopupButtonControl
 
