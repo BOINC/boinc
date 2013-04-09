@@ -57,6 +57,7 @@ using std::string;
 #include "str_util.h"
 #include "util.h"
 
+#include "sched_check.h"
 #include "sched_config.h"
 #include "sched_main.h"
 #include "sched_msgs.h"
@@ -973,7 +974,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
     return false;
 }
 
-#if 1
+#ifndef NEW_SCORE
 // compute a "score" for sending this job to this host.
 // Return false if the WU is infeasible.
 // Otherwise set est_time and disk_usage.

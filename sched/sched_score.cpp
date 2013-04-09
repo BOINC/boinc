@@ -23,18 +23,19 @@
 #include "error_numbers.h"
 #include "util.h"
 
-#include "sched_main.h"
+#include "sched_check.h"
 #include "sched_config.h"
 #include "sched_hr.h"
+#include "sched_main.h"
 #include "sched_msgs.h"
-#include "sched_shmem.h"
 #include "sched_send.h"
-#include "sched_version.h"
+#include "sched_shmem.h"
 #include "sched_types.h"
+#include "sched_version.h"
 
 #include "sched_score.h"
 
-#if 0
+#ifdef NEW_SCORE
 
 bool JOB::get_score(WU_RESULT& wu_result) {
     score = 0;

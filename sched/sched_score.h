@@ -15,7 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if 0
+#define NEW_SCORE
+
+#ifdef NEW_SCORE
 struct JOB {
     int index;
     int result_id;
