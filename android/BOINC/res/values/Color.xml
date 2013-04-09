@@ -28,4 +28,7 @@
 		<color name="active">#11A800</color>
 		<color name="paused">#FCEC3D</color>
 		<color name="error">#ED0202</color>
+		
+		
+		<color name="black">#000000</color>
 </resources>

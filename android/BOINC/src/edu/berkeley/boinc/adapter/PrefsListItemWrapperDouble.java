@@ -28,6 +28,7 @@ public class PrefsListItemWrapperDouble extends PrefsListItemWrapper {
 
 	public String header = "";
 	public Double status;
+	public Boolean isPct; // shows whether value is percentage, therefore using a SeekBar
 	
 	public PrefsListItemWrapperDouble(Context ctx, Integer ID, Integer categoryID, Double status) {
 		super(ctx, ID, categoryID);
@@ -39,27 +40,35 @@ public class PrefsListItemWrapperDouble extends PrefsListItemWrapper {
 		switch (id) {
 		case R.string.prefs_disk_max_pct_header:
 			header = ctx.getString(R.string.prefs_disk_max_pct_header);
+			isPct = true;
 			break;
 		case R.string.prefs_disk_min_free_gb_header:
 			header = ctx.getString(R.string.prefs_disk_min_free_gb_header);
+			isPct = false;
 			break;
 		case R.string.prefs_network_daily_xfer_limit_mb_header:
 			header = ctx.getString(R.string.prefs_network_daily_xfer_limit_mb_header);
+			isPct = false;
 			break;
 		case R.string.prefs_cpu_number_cpus_header:
 			header = ctx.getString(R.string.prefs_cpu_number_cpus_header);
+			isPct = true;
 			break;
 		case R.string.prefs_cpu_other_load_suspension_header:
 			header = ctx.getString(R.string.prefs_cpu_other_load_suspension_header);
+			isPct = true;
 			break;
 		case R.string.prefs_cpu_time_max_header:
 			header = ctx.getString(R.string.prefs_cpu_time_max_header);
+			isPct = true;
 			break;
 		case R.string.prefs_memory_max_busy_header:
 			header = ctx.getString(R.string.prefs_memory_max_busy_header);
+			isPct = true;
 			break;
 		case R.string.prefs_memory_max_idle_header:
 			header = ctx.getString(R.string.prefs_memory_max_idle_header);
+			isPct = true;
 			break;
 		default:
 			Log.d(TAG, "map failed!");
