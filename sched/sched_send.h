@@ -21,6 +21,7 @@
 #include <string.h>
 
 #include "boinc_db.h"
+#include "sched_shmem.h"
 #include "sched_types.h"
 
 const int MAX_GPUS = 64;
@@ -61,6 +62,8 @@ extern int wu_is_infeasible_fast(
     int res_server_state, int res_priority, double res_report_deadline,
     APP&, BEST_APP_VERSION&
 );
+extern int slow_check(WU_RESULT&, APP*, BEST_APP_VERSION*);
+extern bool result_still_sendable(DB_RESULT& result, WORKUNIT& wu);
  
 extern double max_allowable_disk();
 

@@ -1990,7 +1990,7 @@ void send_work() {
     } else if (config.locality_scheduling) {
         send_work_locality();
     } else if (config.matchmaker) {
-        send_work_matchmaker();
+        send_work_score();
     } else {
         send_work_old();
     }

@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _SERVER_TYPES_
-#define _SERVER_TYPES_
+#ifndef _SCHED_TYPES_
+#define _SCHED_TYPES_
 
 #include <cstdio>
 #include <vector>

@@ -207,7 +207,7 @@ static bool quick_check(
 // 1 if can't send to this host
 // 2 if can't send to ANY host
 //
-static int slow_check(
+int slow_check(
     WU_RESULT& wu_result,       // the job cache entry.
         // We may refresh its hr_class and app_version_id fields.
     APP* app,
@@ -328,7 +328,7 @@ static int slow_check(
 // Check for pathological conditions that mean
 // result is not sendable at all.
 //
-static bool result_still_sendable(DB_RESULT& result, WORKUNIT& wu) {
+bool result_still_sendable(DB_RESULT& result, WORKUNIT& wu) {
     int retval = result.lookup_id(result.id);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,

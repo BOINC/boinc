@@ -973,6 +973,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
     return false;
 }
 
+#if 1
 // compute a "score" for sending this job to this host.
 // Return false if the WU is infeasible.
 // Otherwise set est_time and disk_usage.
@@ -1076,6 +1077,7 @@ bool JOB::get_score() {
     disk_usage = wu.rsc_disk_bound;
     return true;
 }
+#endif
 
 void handle_file_xfer_results() {
     for (unsigned int i=0; i<g_request->file_xfer_results.size(); i++) {
