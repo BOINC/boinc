@@ -1537,38 +1537,41 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
             saved_sum_stat.host_expavg_credit = 0.0;
             saved_sum_stat.day = 0.0;
             prev_proj_stat = saved_sum_stat;
-            std::vector<DAILY_STATS>::iterator sum_iter = sumstats.begin();
-            std::vector<DAILY_STATS>::const_iterator proj_iter = (*i)->statistics.begin();
-            for (;;) {
-                if ((*proj_iter).day >= min_val_x) {
-                    if ((*proj_iter).day < (*sum_iter).day) {
-                        sum_iter = sumstats.insert(sum_iter, stat);
-                        *sum_iter = saved_sum_stat;
-                        (*sum_iter).day = (*proj_iter).day;
-                    } else {
-                        saved_sum_stat = *sum_iter;
-                    }
-                    
-                    if ((*proj_iter).day > (*sum_iter).day) {
-                        AddToStats(prev_proj_stat, *sum_iter);
-                    } else {
-                        AddToStats(*proj_iter, *sum_iter);
-                    }
-                    
-                    ++sum_iter;
-                    if (sum_iter == sumstats.end()) {
-                        break;
-                    }
-                }
-                
-                if ((*proj_iter).day <= (*sum_iter).day) {
-                    prev_proj_stat = *proj_iter;
-                    ++proj_iter;
-                    if (proj_iter == (*i)->statistics.end()) {
-                        for (; sum_iter != sumstats.end(); ++sum_iter) {
-                            AddToStats(prev_proj_stat, *sum_iter);
+
+            if (sumstats.size() && (*i)->statistics.size()) {
+                std::vector<DAILY_STATS>::iterator sum_iter = sumstats.begin();
+                std::vector<DAILY_STATS>::const_iterator proj_iter = (*i)->statistics.begin();
+                for (;;) {
+                    if ((*proj_iter).day >= min_val_x) {
+                        if ((*proj_iter).day < (*sum_iter).day) {
+                            sum_iter = sumstats.insert(sum_iter, stat);
+                            *sum_iter = saved_sum_stat;
+                            (*sum_iter).day = (*proj_iter).day;
+                        } else {
+                            saved_sum_stat = *sum_iter;
                         }
-                        break;
+                        
+                        if ((*proj_iter).day > (*sum_iter).day) {
+                            AddToStats(prev_proj_stat, *sum_iter);
+                        } else {
+                            AddToStats(*proj_iter, *sum_iter);
+                        }
+                        
+                        ++sum_iter;
+                        if (sum_iter == sumstats.end()) {
+                            break;
+                        }
+                    }
+                    
+                    if ((*proj_iter).day <= (*sum_iter).day) {
+                        prev_proj_stat = *proj_iter;
+                        ++proj_iter;
+                        if (proj_iter == (*i)->statistics.end()) {
+                            for (; sum_iter != sumstats.end(); ++sum_iter) {
+                                AddToStats(prev_proj_stat, *sum_iter);
+                            }
+                            break;
+                        }
                     }
                 }
             }

@@ -251,7 +251,7 @@ void COPROC_ATI::get(
             gpu_name="ATI Radeon HD 2900 (RV600)";
             break;
         case CAL_TARGET_610:
-            gpu_name="ATI Radeon HD 2300/2400/3200 (RV610)";
+            gpu_name="ATI Radeon HD 2300/2400/3200/4200 (RV610)";
             attribs.numberOfSIMD=1;        // set correct values (reported wrong by driver)
             attribs.wavefrontSize=32;
             break;
@@ -283,46 +283,66 @@ void COPROC_ATI::get(
             gpu_name="ATI Radeon HD 5700 series (Juniper)";
             break;
         case 10:
-            gpu_name="ATI Radeon HD 5x00 series (Redwood)";
+            gpu_name="ATI Radeon HD 5500/5600 series (Redwood)";
             break;
         case 11:
-            gpu_name="ATI Radeon HD 5x00 series (Cedar)";
+            gpu_name="ATI Radeon HD 5400 series (Cedar)";
             break;
         case 12:
-            gpu_name="AMD Radeon HD (unknown)";
+            gpu_name="AMD Radeon HD 5900 (Hemlock)";
             break;
         case 13:
-            gpu_name="AMD Radeon HD 6x00 series (Sumo)";
+            gpu_name="AMD Radeon HD 6300/6400/6500/6600 series (Sumo)"; //real names would be AMD Radeon HD 6370D/6380G/6410D/6480G/6520G/6530D/6550D/6620G series (Sumo)
             break;
         case 14:
-            gpu_name="AMD Radeon HD 6200/6300/7300 series (Wrestler)";
+            gpu_name="AMD Radeon HD 6200/6300/7300 series (Wrestler)"; // real names would be AMD Radeon HD 6250/6290/6310/6320/7290/7310/7340 series (Wrestler)
             break;
         case 15:
             gpu_name="AMD Radeon HD 6900 series (Cayman)";
             break;
         case 16:
-            gpu_name="AMD Radeon HD (unknown)";
+            gpu_name="AMD Radeon HD 6990 (Antilles)";
             break;
         case 17:
-            gpu_name="AMD Radeon HD 6800 series (Barts)";
+            gpu_name="AMD Radeon HD 6790/6850/6870 series (Barts)";
             break;
         case 18:
-            gpu_name="AMD Radeon HD 6x00 series (Turks)";
+            gpu_name="AMD Radeon HD 6570/6670/7570/7670 series (Turks)";
             break;
         case 19:
-            gpu_name="AMD Radeon HD 6300 series (Caicos)";
+            gpu_name="AMD Radeon HD 6350/6450/7450/7470 series (Caicos)";
             break;
         case 20:
-            gpu_name="AMD Radeon HD 7900 series (Tahiti)";
+            gpu_name="AMD Radeon HD 7870/7950/7970 series (Tahiti)";
             break;
         case 21:
-            gpu_name="AMD Radeon HD 7800 series (Pitcairn)";
+            gpu_name="AMD Radeon HD 7850/7870 series (Pitcairn)";
             break;
         case 22:
             gpu_name="AMD Radeon HD 7700 series (Cape Verde)";
             break;
         case 23:
-            gpu_name="AMD Radeon HD 7400/7500/7600 serie (Trinity)";
+            gpu_name="AMD Radeon HD 7400/7500/7600 series (Trinity)"; // it is not NEW ZEALAND - those are the GPUs inside AMD Trinity & Richland APUs !
+            break;
+//////////////////////////////////////////////////////////////////////
+//
+// new CAL_TARGET_IDs
+//
+// AMD released new GPUs (Sun, Venus, Mars, Neptune, ... and Bonaire
+//
+// they could be even more than the current max of 26!
+//
+// Kaveri and Kabini will have other new TargetIDs
+//
+//////////////////////////////////////////////////////////////////////
+		case 24:
+            gpu_name="AMD Radeon HD (unknown)";
+            break;
+        case 25:
+            gpu_name="AMD Radeon HD (unknown)";
+            break;
+		case 26:
+            gpu_name="AMD Radeon HD 7790 series (Bonaire)"; 
             break;
         default:
             gpu_name="AMD Radeon HD (unknown)";

@@ -120,12 +120,12 @@
     <string name="tab_debug">Debug</string>
    
     <!-- status tab strings -->
-    <string name="status_running">Calculating&#8230;</string>
-    <string name="status_running_long">Thank you!</string>
+    <string name="status_running">Thanks!</string>
+    <string name="status_running_long">Calculating tasks&#8230;</string>
     <string name="status_paused">Paused</string>
     <string name="status_paused_long">Computation suspended.</string>
     <string name="status_idle">Idle</string>
-    <string name="status_idle_long">Nothing to do right now.</string>
+    <string name="status_idle_long">Waiting for tasks&#8230;</string>
     <string name="status_computing_disabled">Stopped</string>
     <string name="status_computing_disabled_long">Tap to continue!</string>
     <string name="disable_computation">Disable computation</string>
@@ -134,7 +134,8 @@
     
 	<!-- preferences tab strings -->
 	<string name="prefs_loading">Reading preferences&#8230;</string>
-	<string name="prefs_submit_button">OK</string>
+	<string name="prefs_submit_button">Save</string>
+	<string name="prefs_cancel_button">Cancel</string>
 	<string name="prefs_dialog_title">Please enter desired value for: </string>
 	<string name="prefs_category_general">General</string>
 	<string name="prefs_category_network">Network</string>
@@ -230,7 +231,7 @@
     <!-- suspend reasons -->
     <string name="suspend_unknown">Computation paused.</string>
     <string name="suspend_idle">No BOINC tasks ready for computation.</string>
-    <string name="suspend_batteries">Not connected to power source.</string>
+    <string name="suspend_batteries">Not connected to charger.</string>
     <string name="suspend_useractive">User is active.</string>
     <string name="suspend_userreq">Stopped manually.</string>
     <string name="suspend_tod">Out of computation time-frame.</string>
@@ -245,7 +246,7 @@
     <string name="suspend_os">Stopped by Android.</string>
     <string name="suspend_wifi">Can\'t fetch work, no WiFi connection!</string>
     <string name="suspend_battery_charging">Your device\'s battery is charging.</string>
-    <string name="suspend_battery_overheating">Your device\'s battery is overheating.</string>
+    <string name="suspend_battery_overheating">Your device\'s battery needs to cool down.</string>
     
     <!-- rpc reasons -->
     <string name="rpcreason_userreq">Requested by user</string>

@@ -437,6 +437,15 @@ int get_os_information(
     switch (osvi.dwPlatformId) {
         case VER_PLATFORM_WIN32_NT:
 
+			if ( osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 3 ) {
+                if( osvi.wProductType == VER_NT_WORKSTATION ) {
+                    strcat(os_name, "Windows Blue");
+                } else {
+                    strcat(os_name, "Windows Blue Server");
+                }
+                pGPI( 6, 3, 0, 0, &dwType);
+            }
+
             if ( osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 2 ) {
                 if( osvi.wProductType == VER_NT_WORKSTATION ) {
                     strcat(os_name, "Windows 8");

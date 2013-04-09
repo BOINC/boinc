@@ -174,6 +174,9 @@ public class ProjectsActivity extends FragmentActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    Log.d(TAG, "onCreateOptionsMenu()");
 
+		// call BOINCActivity's onCreateOptionsMenu to combine both menus
+		getParent().onCreateOptionsMenu(menu);
+
 	    MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.projects_menu, menu);
 
@@ -189,7 +192,7 @@ public class ProjectsActivity extends FragmentActivity {
 				onProjectAdd();
 				return true;
 			default:
-				return super.onOptionsItemSelected(item);
+				return getParent().onOptionsItemSelected(item); // if item id can not be mapped, call parents method
 		}
 	}
 	

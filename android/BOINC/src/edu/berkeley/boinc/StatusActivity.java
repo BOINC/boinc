@@ -28,13 +28,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -155,6 +151,8 @@ public class StatusActivity extends Activity {
 					switch(status.computingSuspendReason) {
 					case BOINCDefs.SUSPEND_REASON_BATTERIES:
 						statusDescriptor.setText(R.string.suspend_batteries);
+						statusImage.setImageResource(R.drawable.notconnectedw48);
+						statusHeader.setVisibility(View.GONE);
 						break;
 					case BOINCDefs.SUSPEND_REASON_USER_ACTIVE:
 						statusDescriptor.setText(R.string.suspend_useractive);
@@ -167,6 +165,8 @@ public class StatusActivity extends Activity {
 						break;
 					case BOINCDefs.SUSPEND_REASON_BENCHMARKS:
 						statusDescriptor.setText(R.string.suspend_bm);
+						statusImage.setImageResource(R.drawable.watchw48);
+						statusHeader.setVisibility(View.GONE);
 						break;
 					case BOINCDefs.SUSPEND_REASON_DISK_SIZE:
 						statusDescriptor.setText(R.string.suspend_disksize);
@@ -197,9 +197,13 @@ public class StatusActivity extends Activity {
 						break;
 					case BOINCDefs.SUSPEND_REASON_BATTERY_CHARGING:
 						statusDescriptor.setText(R.string.suspend_battery_charging);
+						statusImage.setImageResource(R.drawable.batteryw48);
+						statusHeader.setVisibility(View.GONE);
 						break;
 					case BOINCDefs.SUSPEND_REASON_BATTERY_OVERHEATED:
 						statusDescriptor.setText(R.string.suspend_battery_overheating);
+						statusImage.setImageResource(R.drawable.batteryw48);
+						statusHeader.setVisibility(View.GONE);
 						break;
 					default:
 						statusDescriptor.setText(R.string.suspend_unknown);
@@ -227,8 +231,8 @@ public class StatusActivity extends Activity {
 					}
 					break;
 				case ClientStatus.COMPUTING_STATUS_COMPUTING:
-					statusHeader.setText(R.string.status_running);
-					statusImage.setImageResource(R.drawable.playw48);
+					statusHeader.setVisibility(View.GONE);
+					statusImage.setImageResource(R.drawable.cogsw48);
 					statusImage.setContentDescription(getString(R.string.status_running));
 					statusDescriptor.setText(R.string.status_running_long);
 					changeRunmodeImage.setImageResource(R.drawable.stopw24);
@@ -255,40 +259,5 @@ public class StatusActivity extends Activity {
 				monitor.setRunMode(BOINCDefs.RUN_MODE_NEVER);
 			}
 		} catch (Exception e) {Log.e(TAG, "could not map status tag", e);}
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-	    Log.d(TAG, "onCreateOptionsMenu()");
-
-	    MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.status_menu, menu);
-
-		return true;
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-	    Log.d(TAG, "onOptionsItemSelected()");
-
-	    switch (item.getItemId()) {
-			case R.id.exit_boinc:
-				Log.d(TAG,"exit BOINC");
-				new QuitClientAsync().execute();
-				return true;
-			default:
-				return super.onOptionsItemSelected(item);
-		}
-	}
-	
-	// monitor.quitClient is blocking (Thread.sleep)
-	// execute in AsyncTask to maintain UI responsiveness
-	private final class QuitClientAsync extends AsyncTask<Void, Void, Void> {
-
-		@Override
-		protected Void doInBackground(Void... params) {
-			monitor.quitClient();
-			return null;
-		}
 	}
 }

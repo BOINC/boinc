@@ -29,9 +29,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.res.Resources;
+import android.os.AsyncTask;
 import android.os.Bundle; 
 import android.os.IBinder;
 import android.util.Log;  
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
@@ -277,5 +281,40 @@ public class BOINCActivity extends TabActivity {
 	public void finish() {
 		Log.d(TAG, "finishing application, good bye!");
 		super.finish();
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    Log.d(TAG, "onCreateOptionsMenu()");
+
+	    MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.status_menu, menu);
+
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    Log.d(TAG, "onOptionsItemSelected()");
+
+	    switch (item.getItemId()) {
+			case R.id.exit_boinc:
+				Log.d(TAG,"exit BOINC");
+				new QuitClientAsync().execute();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
+	
+	// monitor.quitClient is blocking (Thread.sleep)
+	// execute in AsyncTask to maintain UI responsiveness
+	private final class QuitClientAsync extends AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			monitor.quitClient();
+			return null;
+		}
 	}
 }

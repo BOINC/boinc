@@ -26,25 +26,27 @@ import edu.berkeley.boinc.adapter.PrefsListItemWrapperBool;
 import edu.berkeley.boinc.adapter.PrefsListItemWrapperDouble;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
-import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class PrefsActivity extends Activity implements OnClickListener {
+public class PrefsActivity extends FragmentActivity {
 	
 	private final String TAG = "BOINC PrefsActivity";
 	
@@ -59,6 +61,7 @@ public class PrefsActivity extends Activity implements OnClickListener {
 	private AppPreferences appPrefs = null; //Android specific preferences, singleton of monitor
 	
 	private Dialog dialog; //Dialog for input on non-Bool preferences
+	private PrefsListItemWrapperDouble dialogItem; // saves content of preference Dialog is showing
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -155,9 +158,7 @@ public class PrefsActivity extends Activity implements OnClickListener {
         loadingHeader.setText(R.string.prefs_loading);
 	}
 	
-	/*
-	 * Gets triggered by change of checkboxes. (Boolean prefs)
-	 */
+	// onClick of listview items with PrefsListItemBool
 	public void onCbClick (View view) {
 		Log.d(TAG,"onCbClick");
 		Integer ID = (Integer) view.getTag();
@@ -185,27 +186,60 @@ public class PrefsActivity extends Activity implements OnClickListener {
 		}
 	}
 	
+	// onClick of listview items with PrefsListItemWrapperDouble
 	public void onItemClick (View view) {
-		Integer ID = (Integer) view.getTag();
-		Log.d(TAG,"onItemClick " + ID);
-		showDialog(ID);
-	}
-	
-	/*
-	 * Gets called when showDialog is triggered
-	 */
-	@Override
-	protected Dialog onCreateDialog(int id) {
-		dialog = new Dialog(this); //instance new dialog
-		dialog.setContentView(R.layout.prefs_layout_dialog);
-		Button button = (Button) dialog.findViewById(R.id.buttonPrefSubmit);
-		button.setOnClickListener(this);
-		//EditText edit = (EditText) dialog.findViewById(R.id.Input);
-		TextView description = (TextView) dialog.findViewById(R.id.description);
-		description.setText(id);
-		dialog.setTitle(R.string.prefs_dialog_title);
-		button.setId(id); //set input id, for evaluation in onClick
-		return dialog;
+		PrefsListItemWrapperDouble listItem = (PrefsListItemWrapperDouble) view.getTag();
+		Log.d(TAG,"onItemClick " + listItem.ID);
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		LayoutInflater inflater = getLayoutInflater();
+		final View dialogContent;
+		if(listItem.isPct) {
+			dialogContent = inflater.inflate(R.layout.prefs_layout_dialog_pct, null);
+			TextView sliderProgress = (TextView) dialogContent.findViewById(R.id.seekbar_status);
+			sliderProgress.setText(listItem.status.intValue() + " %");
+			SeekBar slider = (SeekBar) dialogContent.findViewById(R.id.seekbar);
+			slider.setProgress(listItem.status.intValue());
+			slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+		        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
+		        	String progressString = progress + " %";
+		        	TextView sliderProgress = (TextView) dialogContent.findViewById(R.id.seekbar_status);
+		            sliderProgress.setText(progressString);
+		        }
+				@Override
+				public void onStartTrackingTouch(SeekBar seekBar) {}
+				@Override
+				public void onStopTrackingTouch(SeekBar seekBar) {}
+		    });
+		} else {
+			dialogContent = inflater.inflate(R.layout.prefs_layout_dialog, null);
+		}
+        builder.setMessage(listItem.ID)
+        	   .setView(dialogContent)
+               .setNegativeButton(R.string.prefs_cancel_button, new DialogInterface.OnClickListener() {
+                   public void onClick(DialogInterface dialogI, int id) {
+                       dialog.cancel();
+                   }
+               })
+               .setPositiveButton(R.string.prefs_submit_button, new DialogInterface.OnClickListener() {
+                   public void onClick(DialogInterface dialogI, int id) {
+                	   double value;
+                	   if(dialogItem.isPct) {
+                		   SeekBar slider = (SeekBar) dialog.findViewById(R.id.seekbar);
+                		   value = slider.getProgress();
+                	   } else {
+                		   EditText edit = (EditText) dialog.findViewById(R.id.Input);
+                		   String input = edit.getText().toString();
+                		   Double valueTmp = parseInputValueToDouble(input);
+                		   if(valueTmp == null) return;
+                		   value = valueTmp;
+                	   }
+                	   writeDoublePreference(dialogItem.ID, value);
+                   }
+               });
+        dialog = builder.create();
+        dialog.show();
+        dialogItem = listItem; // set dialog content
 	}
 
 	@Override
@@ -214,31 +248,8 @@ public class PrefsActivity extends Activity implements OnClickListener {
 	    super.onDestroy();
 	    doUnbindService();
 	}
-
-	/*
-	 * Gets called when Dialog's confirm button is clicked
-	 */
-	@Override
-	public void onClick(View v) {
-		Log.d(TAG,"dialogs confirm button clicked");
-		Button button = (Button) v;
-		Integer id = button.getId();
-		EditText input = (EditText) dialog.findViewById(R.id.Input);
-		
-		// parse value
-		Double value = 0.0;
-		try {
-			String tmp = input.getText().toString();
-			tmp=tmp.replaceAll(",","."); //replace e.g. European decimal seperator "," by "."
-			value = Double.parseDouble(tmp);
-			Log.d(TAG,"onClick with input value " + value);
-		} catch (Exception e) {
-			Log.w(TAG, e);
-			Toast toast = Toast.makeText(getApplicationContext(), "wrong format!", Toast.LENGTH_SHORT);
-			toast.show();
-			return;
-		}
-		
+	
+	private void writeDoublePreference(int id, double value) {
 		// update preferences
 		switch (id) {
 		case R.string.prefs_disk_max_pct_header:
@@ -275,6 +286,22 @@ public class PrefsActivity extends Activity implements OnClickListener {
 		// preferences adapted, dismiss dialog and write preferences to client
 		dialog.dismiss();
 		new WriteClientPrefsAsync().execute(clientPrefs);
+	}
+
+	public Double parseInputValueToDouble(String input) {
+		// parse value
+		Double value = 0.0;
+		try {
+			input=input.replaceAll(",","."); //replace e.g. European decimal seperator "," by "."
+			value = Double.parseDouble(input);
+			Log.d(TAG,"parseInputValueToDouble: " + value);
+			return value;
+		} catch (Exception e) {
+			Log.w(TAG, e);
+			Toast toast = Toast.makeText(getApplicationContext(), "wrong format!", Toast.LENGTH_SHORT);
+			toast.show();
+			return null;
+		}
 	}
 	
 	private final class WriteClientPrefsAsync extends AsyncTask<GlobalPreferences,Void,Boolean> {

@@ -391,7 +391,9 @@ int main(int argc, char** argv) {
         // FIXME FIXME.  Duplicate instances of -detach may cause this to be
         // executed unnecessarily.  At worst, I think it leads to a few extra
         // processes being created and destroyed.
-        if (strcmp(argv[index], "-detach_console") == 0 || strcmp(argv[index], "--detach_console") == 0) {
+        if (strcmp(argv[index], "-detach") == 0 || strcmp(argv[index], "--detach") == 0 ||
+            strcmp(argv[index], "-detach_console") == 0 || strcmp(argv[index], "--detach_console") == 0
+        ) {
             int i, len;
             char *commandLine;
             STARTUPINFO si;

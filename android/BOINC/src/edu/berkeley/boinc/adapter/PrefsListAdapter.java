@@ -71,7 +71,7 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
 	    		}
 	    	} else if(listItem instanceof PrefsListItemWrapperDouble) {
 	    		v = vi.inflate(R.layout.prefs_layout_listitem, null);
-	    		v.setTag(listItem.ID); //set ID as tag to view, since root layout defines onClick method
+	    		v.setTag(listItem); //set listItem as tag to view, since root layout defines onClick method
 	    		TextView header = (TextView) v.findViewById(R.id.header);
 	    		header.setText(((PrefsListItemWrapperDouble) listItem).header);
 	    		TextView status = (TextView) v.findViewById(R.id.status);
