@@ -573,8 +573,8 @@ bool CAdvancedFrame::CreateMenu() {
     );
     menuAdvanced->Append(
         ID_READCONFIG, 
-        _("Read config files"),
-        _("Read configuration info from cc_config.xml and any app_config.xml files")
+        _("Read config file"),
+        _("Read configuration info from cc_config.xml")
     );
     menuAdvanced->Append(
         ID_READPREFERENCES, 
