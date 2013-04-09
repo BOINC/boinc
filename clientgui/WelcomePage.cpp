@@ -249,6 +249,7 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
     bool                   is_acct_mgr_detected = false;
     bool                   is_wcg_client = false;
     wxString               strBuffer = wxEmptyString;
+    CWizardAttach*         pWAP = ((CWizardAttach*)GetParent());
 
 
     wxASSERT(pDoc);
@@ -267,6 +268,8 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
 	std::string wcgUrl = "http://www.worldcommunitygrid.org/";
 	if ( pDoc->state.lookup_project(wcgUrl.c_str()) ) {
         is_wcg_client = true;
+        pWAP->IsAttachToProjectWizard = false;
+        pWAP->IsChangeWCGApps = true;
     }
 #endif
 
