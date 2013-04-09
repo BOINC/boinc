@@ -119,14 +119,9 @@ bool CWizardAttach::Create( wxWindow* parent, wxWindowID id, const wxString& /* 
  
     // Wizard Detection
 
-#if defined (_WCG)
-    IsAttachToProjectWizard = false;
-	IsChangeWCGApps = true;
-#else
     IsAttachToProjectWizard = true;
-	IsChangeWCGApps = false;
-	IsFirstPass = false;
-#endif
+    IsChangeWCGApps = false;
+    IsFirstPass = false;
     IsAccountManagerWizard = false;
     IsAccountManagerUpdateWizard = false;
 
