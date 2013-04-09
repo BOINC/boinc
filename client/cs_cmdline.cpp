@@ -142,7 +142,7 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             check_all_logins = true;
         } else if (ARG(daemon)) {
             executing_as_daemon = true;
-        } else if (ARG(detach_phase_two) || ARG(detach) || ARG(detach_console)) {
+        } else if (ARG(detach_phase_two)) {
             detach_console = true;
         } else if (ARG(detach_project)) {
             if (i == argc-1) show_options = true;
