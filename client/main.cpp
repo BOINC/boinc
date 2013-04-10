@@ -75,9 +75,11 @@
 //
 void log_message_startup(const char* msg) {
     char evt_msg[2048];
+    char* time_string = time_to_string(dtime());
+
     snprintf(evt_msg, sizeof(evt_msg),
-        "%s\n",
-        msg
+        "%s %s\n",
+        time_string, msg
     );
     if (!gstate.executing_as_daemon) {
         fprintf(stdout, evt_msg);
@@ -98,11 +100,12 @@ void log_message_startup(const char* msg) {
 //
 void log_message_error(const char* msg) {
     char evt_msg[2048];
+    char* time_string = time_to_string(dtime());
 #ifdef _WIN32
     snprintf(evt_msg, sizeof(evt_msg),
-        "%s\n"
+        "%s %s\n"
         "GLE: %s\n",
-        msg, 
+        time_string, msg, 
         windows_format_error_string(GetLastError(), evt_msg, (sizeof(evt_msg)-((int)strlen(msg)+7)))
     );
 #else
@@ -128,10 +131,11 @@ void log_message_error(const char* msg) {
 
 void log_message_error(const char* msg, int error_code) {
     char evt_msg[2048];
+    char* time_string = time_to_string(dtime());
     snprintf(evt_msg, sizeof(evt_msg),
-        "%s\n"
+        "%s %s\n"
         "Error Code: %d\n",
-        msg, error_code
+        time_string, msg, error_code
     );
     if (!gstate.executing_as_daemon) {
         fprintf(stderr, evt_msg);
