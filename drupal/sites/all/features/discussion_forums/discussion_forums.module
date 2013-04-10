@@ -1,3 +1,24 @@
 <?php
 
-// Drupal needs this blank file.
+// 
+
+/**
+ * Make some changes to configurations after the feature has been enabled
+ */
+function discussion_forums_enable() {
+  // Check that the forum access module has its internal role set up and that
+  // it has been renamed from "Forum Moderator," which is ridiculous
+  if (!$rid = forum_access_query_moderator_rid()) {
+    module_load_include('inc', 'forum_access', 'forum_access.admin');
+    $rid = _forum_access_create_moderator_rid();
+  }
+  $ret = array();
+  $roles = user_roles();
+  if ($rid AND isset($roles[$rid])) {
+    $role_name = $roles[$rid];
+    if ($role_name == 'Forum Moderator') {
+      $ret[] = db_query("UPDATE {role} SET name = '%s' WHERE rid = %d",
+        t('forum control (system use only)'), $rid);
+    }
+  }
+}
