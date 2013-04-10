@@ -37,37 +37,53 @@
 
 #ifdef NEW_SCORE
 
+// Assign a score to this job,
+// representing the value of sending the job to this host.
+// Also do some initial screening,
+// and return false if can't send the job to host
+//
 bool JOB::get_score(WU_RESULT& wu_result) {
     score = 0;
-    if (bavp->reliable && (wu_result.need_reliable)) {
-        score += 1;
+
+    if (!app->beta && wu_result.need_reliable) {
+        if (!bavp->reliable) {
+            return false;
+        }
     }
 
-    // check if user has selected apps,
-    // and send beta work to beta users
-    //
-    if (app->beta && !config.distinct_beta_apps) {
+    if (app->beta) {
         if (g_wreq->allow_beta_work) {
             score += 1;
         } else {
             return false;
         }
-    } else {
-        if (app_not_selected(wu_result.workunit)) {
-            if (!g_wreq->allow_non_preferred_apps) {
-                return false;
-            } else {
-            // Allow work to be sent, but it will not get a bump in its score
-            }
+    }
+
+    if (app_not_selected(wu_result.workunit)) {
+        if (g_wreq->allow_non_preferred_apps) {
+            score -= 1;
         } else {
-            score += 1;
+            return false;
         }
     }
-    // if job already committed to an HR class,
-    // try to send to host in that class
-    //
+
     if (wu_result.infeasible_count) {
         score += 1;
+    }
+
+    if (app->locality_scheduling == LOCALITY_SCHED_LITE
+        && g_request->file_infos.size()
+    ) {
+        int n = nfiles_on_host(wu_result.workunit);
+        if (config.debug_locality_lite) {
+            log_messages.printf(MSG_NORMAL,
+                "[loc_lite] job %s has %d files on this host\n",
+                wu_result.workunit.name, n
+            );
+        }
+        if (n > 0) {
+            score += 10;
+        }
     }
 
     return true;
@@ -212,6 +228,7 @@ void send_work_score_type(int rt) {
     }
 
     restore_others(rt);
+    g_wreq->best_app_versions.clear();
 }
 
 void send_work_score() {
