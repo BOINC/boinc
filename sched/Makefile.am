@@ -151,6 +151,7 @@ cgi_sources = \
     plan_class_spec.cpp \
     sched_array.cpp \
     sched_assign.cpp \
+    sched_check.cpp \
     sched_customize.cpp \
     sched_files.cpp \
     sched_hr.cpp \

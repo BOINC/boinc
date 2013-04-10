@@ -288,6 +288,14 @@ void SCHED_SHMEM::restore_work(int pid) {
 }
 
 void SCHED_SHMEM::show(FILE* f) {
+    fprintf(f, "apps:\n");
+    for (int i=0; i<napps; i++) {
+        APP& app = apps[i];
+        fprintf(f, "id: %d name: %s hr: %d weight: %.2f beta: %d hav: %d nci: %d\n",
+            app.id, app.name, app.homogeneous_redundancy, app.weight,
+            app.beta, app.homogeneous_app_version, app.non_cpu_intensive
+        );
+    }
     fprintf(f, "app versions:\n");
     for (int i=0; i<napp_versions; i++) {
         APP_VERSION av = app_versions[i];

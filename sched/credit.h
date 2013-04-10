@@ -19,9 +19,6 @@
 
 #include "boinc_db.h"
 
-#define ERROR_RATE_INIT 0.1
-    // the initial error rate of a host or app version
-
 #define MIN_HOST_SAMPLES  10
     // use host scaling only if have this many samples for host
 #define MIN_VERSION_SAMPLES   100

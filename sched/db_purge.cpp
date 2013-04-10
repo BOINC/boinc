@@ -95,7 +95,7 @@ bool time_to_quit() {
 }
 
 void fail(const char* msg) {
-    log_messages.printf(MSG_CRITICAL, msg);
+    log_messages.printf(MSG_CRITICAL, "%s", msg);
     exit(1);
 }
 

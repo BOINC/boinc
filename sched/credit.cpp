@@ -963,22 +963,6 @@ int assign_credit_set(
     return 0;
 }
 
-// A job has:
-// - errored out (scheduler)
-// - timed out (transitioner)
-// - failed validation (validator).
-// Put (host/app_version) on "host scale probation",
-// so that we won't use host scaling for a while.
-//
-void got_error(DB_HOST_APP_VERSION &hav) {
-    if (config.debug_credit) {
-        log_messages.printf(MSG_NORMAL,
-            "[credit] [HAV#%d] got error, setting error rate to %f\n",
-            hav.app_version_id, ERROR_RATE_INIT
-        );
-    }
-}
-
 // carefully write any app_version records that have changed;
 // done at the end of every validator scan.
 //

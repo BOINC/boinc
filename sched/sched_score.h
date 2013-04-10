@@ -15,6 +15,20 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#define NEW_SCORE
+
+#ifdef NEW_SCORE
+struct JOB {
+    int index;
+    int result_id;
+    double score;
+    APP* app;
+    BEST_APP_VERSION* bavp;
+
+    bool get_score(WU_RESULT&);
+};
+
+#else
 #include <list>
 
 struct JOB {
@@ -52,4 +66,5 @@ struct JOB_SET {
     void send();
 };
 
-extern void send_work_matchmaker();
+#endif
+extern void send_work_score();

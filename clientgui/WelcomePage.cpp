@@ -104,6 +104,26 @@ bool CWelcomePage::Create( CBOINCBaseWizard* parent )
 	return TRUE;
 }
  
+// Determine if this the WCG branded version of the client
+// and connected to WCG.
+bool CWelcomePage::isWCGClient() {
+	bool                   is_wcg_client = false;
+#if defined (_WCG)
+    CMainDocument*         pDoc = wxGetApp().GetDocument();
+	CWizardAttach*         pWAP = ((CWizardAttach*)GetParent());
+
+    // Determine if we are the World Community Grid version of the client
+    // and connected to World Community Grid
+	std::string wcgUrl = "http://www.worldcommunitygrid.org/";
+	if ( pDoc->state.lookup_project(wcgUrl.c_str()) ) {
+        is_wcg_client = true;
+        pWAP->IsAttachToProjectWizard = false;
+        pWAP->IsChangeWCGApps = true;
+    }
+#endif
+	return is_wcg_client;
+}
+   
 /*!
  * Control creation for WizardPage
  */
@@ -133,20 +153,20 @@ void CWelcomePage::CreateControls()
 
     m_pChangeApplicationsCtrl = new wxRadioButton;
     m_pChangeApplicationsCtrl->Create(itemWizardPage2, ID_WELCOMECHANGEAPPS, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxRB_GROUP );
-#if defined (_WCG)
-	m_pChangeApplicationsCtrl->SetValue(TRUE);
-#else
-	m_pChangeApplicationsCtrl->SetValue(FALSE);
-#endif
+    if ( isWCGClient() ) {
+        m_pChangeApplicationsCtrl->SetValue(TRUE);
+    } else {
+        m_pChangeApplicationsCtrl->SetValue(FALSE);
+    }
     itemFlexGridSizer62->Add(m_pChangeApplicationsCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_pAttachToProjectCtrl = new wxRadioButton;
     m_pAttachToProjectCtrl->Create( itemWizardPage2, ID_WELCOMESELECTWIZARDPROJECT, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-#if defined (_WCG)
-    m_pAttachToProjectCtrl->SetValue(FALSE);
-#else
-    m_pAttachToProjectCtrl->SetValue(TRUE);
-#endif
+    if ( isWCGClient() ) {
+        m_pAttachToProjectCtrl->SetValue(FALSE);
+    } else {
+        m_pAttachToProjectCtrl->SetValue(TRUE);
+    }
     itemFlexGridSizer62->Add(m_pAttachToProjectCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_pAttachToAccountManagerCtrl = new wxRadioButton;
@@ -235,7 +255,7 @@ wxIcon CWelcomePage::GetIconResource( const wxString& WXUNUSED(name) )
     return wxNullIcon;
 ////@end CWelcomePage icon retrieval
 }
-   
+
 /*!
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_WELCOMEPAGE
  */
@@ -247,9 +267,8 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
     CMainDocument*         pDoc = wxGetApp().GetDocument();
     ACCT_MGR_INFO          ami;
     bool                   is_acct_mgr_detected = false;
-    bool                   is_wcg_client = false;
+    bool                   is_wcg_client = isWCGClient();
     wxString               strBuffer = wxEmptyString;
-
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -259,17 +278,6 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
     wxASSERT(m_pAttachToAccountManagerCtrl);
     wxASSERT(m_pDirectionsStaticCtrl);
     wxASSERT(m_pChangeApplicationsCtrl);
-
-
-#if defined (_WCG)
-    // Determine if we are the World Community Grid version of the client
-    // and connected to World Community Grid
-	std::string wcgUrl = "http://www.worldcommunitygrid.org/";
-	if ( pDoc->state.lookup_project(wcgUrl.c_str()) ) {
-        is_wcg_client = true;
-    }
-#endif
-
 
 	if ( !is_wcg_client ) {
 		m_pTitleStaticCtrl->SetLabel(

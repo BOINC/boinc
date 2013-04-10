@@ -17,21 +17,211 @@
 
 // Matchmaker scheduling code
 
+#include <algorithm>
+
 #include "boinc_db.h"
 #include "error_numbers.h"
 #include "util.h"
 
-#include "sched_main.h"
+#include "sched_check.h"
 #include "sched_config.h"
 #include "sched_hr.h"
+#include "sched_main.h"
 #include "sched_msgs.h"
-#include "sched_shmem.h"
 #include "sched_send.h"
-#include "sched_version.h"
+#include "sched_shmem.h"
 #include "sched_types.h"
+#include "sched_version.h"
 
 #include "sched_score.h"
 
+#ifdef NEW_SCORE
+
+bool JOB::get_score(WU_RESULT& wu_result) {
+    score = 0;
+    if (bavp->reliable && (wu_result.need_reliable)) {
+        score += 1;
+    }
+
+    // check if user has selected apps,
+    // and send beta work to beta users
+    //
+    if (app->beta && !config.distinct_beta_apps) {
+        if (g_wreq->allow_beta_work) {
+            score += 1;
+        } else {
+            return false;
+        }
+    } else {
+        if (app_not_selected(wu_result.workunit)) {
+            if (!g_wreq->allow_non_preferred_apps) {
+                return false;
+            } else {
+            // Allow work to be sent, but it will not get a bump in its score
+            }
+        } else {
+            score += 1;
+        }
+    }
+    // if job already committed to an HR class,
+    // try to send to host in that class
+    //
+    if (wu_result.infeasible_count) {
+        score += 1;
+    }
+
+    return true;
+}
+
+bool job_compare(JOB j1, JOB j2) {
+    return (j1.score < j2.score);
+}
+
+static double req_sec_save[NPROC_TYPES];
+static double req_inst_save[NPROC_TYPES];
+
+static void clear_others(int rt) {
+    for (int i=0; i<NPROC_TYPES; i++) {
+        if (i == rt) continue;
+        req_sec_save[i] = g_wreq->req_secs[i];
+        g_wreq->req_secs[i] = 0;
+        req_inst_save[i] = g_wreq->req_instances[i];
+        g_wreq->req_instances[i] = 0;
+    }
+}
+
+static void restore_others(int rt) {
+    for (int i=0; i<NPROC_TYPES; i++) {
+        if (i == rt) continue;
+        g_wreq->req_secs[i] += req_sec_save[i];
+        g_wreq->req_instances[i] += req_inst_save[i];
+    }
+}
+
+// send work for a particular processor type
+//
+void send_work_score_type(int rt) {
+    vector<JOB> jobs;
+
+    clear_others(rt);
+
+    int nscan = config.mm_max_slots;
+    if (!nscan) nscan = ssp->max_wu_results;
+    int rnd_off = rand() % ssp->max_wu_results;
+    for (int j=0; j<nscan; j++) {
+        int i = (j+rnd_off) % ssp->max_wu_results;
+        WU_RESULT& wu_result = ssp->wu_results[i];
+        if (wu_result.state != WR_STATE_PRESENT) {
+            continue;
+        }
+        WORKUNIT wu = wu_result.workunit;
+        JOB job;
+        job.app = ssp->lookup_app(wu.appid);
+        if (job.app->non_cpu_intensive) continue;
+        job.bavp = get_app_version(wu, true, false);
+        if (!job.bavp) continue;
+
+        job.index = i;
+        job.result_id = wu_result.resultid;
+        if (!job.get_score(wu_result)) {
+            continue;
+        }
+        jobs.push_back(job);
+    }
+
+    std::sort(jobs.begin(), jobs.end(), job_compare);
+
+    bool sema_locked = false;
+    for (unsigned int i=0; i<jobs.size(); i++) {
+        if (!g_wreq->need_proc_type(rt)) break;
+        JOB& job = jobs[i];
+        if (!sema_locked) {
+            lock_sema();
+            sema_locked = true;
+        }
+
+        // make sure the job is still in the cache
+        // array is locked at this point.
+        //
+        WU_RESULT& wu_result = ssp->wu_results[job.index];
+        if (wu_result.state != WR_STATE_PRESENT) {
+            continue;
+        }
+        if (wu_result.resultid != job.result_id) {
+            continue;
+        }
+        WORKUNIT wu = wu_result.workunit;
+        int retval = wu_is_infeasible_fast(
+            wu,
+            wu_result.res_server_state, wu_result.res_priority,
+            wu_result.res_report_deadline,
+            *job.app,
+            *job.bavp
+        );
+
+        if (retval) {
+            continue;
+        }
+        wu_result.state = g_pid;
+
+        // It passed fast checks.
+        // Release sema and to slow checks
+        unlock_sema();
+        sema_locked = false;
+
+        switch (slow_check(wu_result, job.app, job.bavp)) {
+        case 1:
+            wu_result.state = WR_STATE_PRESENT;
+            break;
+        case 2:
+            wu_result.state = WR_STATE_EMPTY;
+            break;
+        default:
+            // slow_check() refreshes fields of wu_result.workunit;
+            // update our copy too
+            //
+            wu.hr_class = wu_result.workunit.hr_class;
+            wu.app_version_id = wu_result.workunit.app_version_id;
+
+            // mark slot as empty AFTER we've copied out of it
+            // (since otherwise feeder might overwrite it)
+            //
+            wu_result.state = WR_STATE_EMPTY;
+
+            // reread result from DB, make sure it's still unsent
+            // TODO: from here to end of add_result_to_reply()
+            // (which updates the DB record) should be a transaction
+            //
+            SCHED_DB_RESULT result;
+            result.id = wu_result.resultid;
+            if (result_still_sendable(result, wu)) {
+                add_result_to_reply(result, wu, job.bavp, false);
+
+                // add_result_to_reply() fails only in pathological cases -
+                // e.g. we couldn't update the DB record or modify XML fields.
+                // If this happens, don't replace the record in the array
+                // (we can't anyway, since we marked the entry as "empty").
+                // The feeder will eventually pick it up again,
+                // and hopefully the problem won't happen twice.
+            }
+            break;
+        }
+    }
+    if (sema_locked) {
+        unlock_sema();
+    }
+
+    restore_others(rt);
+}
+
+void send_work_score() {
+    for (int i=0; i<NPROC_TYPES; i++) {
+        if (g_wreq->need_proc_type(i)) {
+            send_work_score_type(i);
+        }
+    }
+}
+#else
 // reread result from DB, make sure it's still unsent
 // TODO: from here to add_result_to_reply()
 // (which updates the DB record) should be a transaction
@@ -232,7 +422,7 @@ void JOB_SET::send() {
     }
 }
 
-void send_work_matchmaker() {
+void send_work_score() {
     int i, slots_locked=0, slots_nonempty=0;
     JOB_SET jobs;
     int min_slots = config.mm_min_slots;
@@ -316,3 +506,4 @@ void send_work_matchmaker() {
     }
 }
 
+#endif
