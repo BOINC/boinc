@@ -12,7 +12,10 @@ function boinc_standard_default_page_manager_pages() {
   $page->admin_title = 'About Us';
   $page->admin_description = '';
   $page->path = 'about.fail';
-  $page->access = array();
+  $page->access = array(
+    'type' => 'none',
+    'settings' => NULL,
+  );
   $page->menu = array();
   $page->arguments = array();
   $page->conf = array();
@@ -41,6 +44,8 @@ function boinc_standard_default_page_manager_pages() {
       ),
     ),
     'logic' => 'and',
+    'type' => 'none',
+    'settings' => NULL,
   );
   $page->menu = array(
     'type' => 'none',
@@ -309,16 +314,13 @@ function boinc_standard_default_page_manager_pages() {
     $pane = new stdClass;
     $pane->pid = 'new-2';
     $pane->panel = 'sidebar_first';
-    $pane->type = 'custom';
-    $pane->subtype = 'custom';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'boinc_account_stats-panel_pane_2';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'admin_title' => 'User stats overview',
-      'title' => '%user:display-name\'s stats',
-      'body' => '<?php echo boincstats_get_user_stats_overview(%user:uid); ?>',
-      'format' => '3',
-      'substitute' => 1,
+      'override_title' => 1,
+      'override_title_text' => '%user:display-name\'s stats',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -371,7 +373,7 @@ function boinc_standard_default_page_manager_pages() {
     $display->content['new-3'] = $pane;
     $display->panels['sidebar_first'][1] = 'new-3';
   $display->hide_title = PANELS_TITLE_NONE;
-  $display->title_pane = 'new-2';
+  $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['boinc_user'] = $page;
@@ -384,7 +386,10 @@ function boinc_standard_default_page_manager_pages() {
   $page->admin_title = 'Home page';
   $page->admin_description = '';
   $page->path = 'home';
-  $page->access = array();
+  $page->access = array(
+    'type' => 'none',
+    'settings' => NULL,
+  );
   $page->menu = array(
     'type' => 'normal',
     'title' => 'Home',

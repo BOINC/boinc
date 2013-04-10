@@ -422,18 +422,6 @@ function boincstats_credit_to_flops($credit, $prefix = 0) {
  * Data access support functions
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
 
-function boincstats_get_user_stats_overview($uid) {
-  global $base_path;
-  $account = user_load($uid);
-  $output = '';
-  $output .= '<div class="stats"><label>' . t('Total credit: ') . '</label><span>' . number_format($account->boincuser_total_credit) . '</span></div>' . "\n";
-  $output .= '<div class="stats"><label>' . t('Avg credit: ') . '</label><span>' . number_format($account->boincuser_expavg_credit) . '</span></div>' . "\n";
-  //$output .= '<div class="stats"><a href="#">' . t('Pending credits') . '</a></div>' . "\n";
-  $output .= '<div class="chart"><img src="' . $base_path . 'charts/user/' . $account->boincuser_cpid . '/small" /></div>' . "\n";
-  
-  return $output;
-}
-
 function boincstats_get_project_stats_overview() {
   global $base_path;
   $output = '';
@@ -445,6 +433,10 @@ function boincstats_get_project_stats_overview() {
   return $output;
 }
 
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Miscellaneous support functions
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
 
 /*
  * Check that the stats system is configured, report if it isn't

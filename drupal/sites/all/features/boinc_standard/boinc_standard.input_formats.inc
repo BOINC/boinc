@@ -15,6 +15,7 @@ function boinc_standard_input_formats() {
   );
   $input_format->filters = array(
     'php' => array(
+      // Delta => Weight for: PHP evaluator
       '0' => '0',
     ),
   );

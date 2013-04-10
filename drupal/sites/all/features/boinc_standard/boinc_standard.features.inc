@@ -31,7 +31,7 @@ function boinc_standard_flag_default_flags() {
   $flags['abuse_comment'] = array(
     'content_type' => 'comment',
     'title' => 'Comment Abuse',
-    'global' => FALSE,
+    'global' => '0',
     'types' => array(
       '0' => 'news',
       '1' => 'forum',
@@ -65,7 +65,7 @@ function boinc_standard_flag_default_flags() {
   $flags['abuse_node'] = array(
     'content_type' => 'node',
     'title' => 'Node Abuse',
-    'global' => FALSE,
+    'global' => '0',
     'types' => array(
       '0' => 'profile',
       '1' => 'forum',
