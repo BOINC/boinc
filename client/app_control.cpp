@@ -208,6 +208,7 @@ int ACTIVE_TASK::request_abort() {
 
 #ifdef _WIN32
 static void kill_app_process(int pid, bool will_restart) {
+    int retval = 0;
     HANDLE h = OpenProcess(READ_CONTROL | PROCESS_TERMINATE, false, pid);
     if (h == NULL) return;
     TerminateProcess(h, will_restart?0:EXIT_ABORTED_BY_CLIENT);
@@ -215,9 +216,22 @@ static void kill_app_process(int pid, bool will_restart) {
 #else
 static void kill_app_process(int pid, bool) {
 #ifdef SANDBOX
-    kill_via_switcher(pid);
+    int retval = 0;
+    retval = kill_via_switcher(pid);
+    if (retval && log_flags.task_debug) {
+        msg_printf(0, MSG_INFO,
+            "[task] kill_via_switcher() failed: %s",
+            boincerror(retval)
+        );
+    }
 #endif
-    kill(pid, SIGKILL);
+    retval = kill(pid, SIGKILL);
+    if (retval && log_flags.task_debug) {
+        msg_printf(0, MSG_INFO,
+            "[task] kill() failed: %s",
+            boincerror(retval)
+        );
+    }
 #endif
 }
 

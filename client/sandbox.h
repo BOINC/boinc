@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-extern void kill_via_switcher(int pid);
+extern int kill_via_switcher(int pid);
 extern int get_project_gid();
 extern int set_to_project_group(const char* path);
 extern int switcher_exec(const char* util_filename, const char* cmdline);

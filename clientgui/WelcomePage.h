@@ -79,6 +79,10 @@ public:
     /// Should we show tooltips?
     static bool ShowToolTips();
 
+    // Determine if this the WCG branded version of the client
+    // and connected to WCG.
+    bool isWCGClient();
+
 ////@begin CWelcomePage member variables
     wxStaticText* m_pTitleStaticCtrl;
     wxStaticText* m_pDescriptionStaticCtrl;
