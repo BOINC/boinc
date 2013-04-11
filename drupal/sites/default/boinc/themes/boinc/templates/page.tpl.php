@@ -210,7 +210,10 @@
               endif;
             ?>
             </li>
-            <li class="last"><a class="search" href="<?php print $base_path; ?>search"><span class="tab">Search</span></a></li>
+            <?php if (module_exists('global_search')): ?>
+              <li class="last"><a class="search" href="<?php print $base_path; ?>find"><span class="tab">Search</span></a></li>
+            <?php endif; ?>
+          </ul>
         </div>
         
         <?php print theme(array('links__system_secondary_menu', 'links'), $secondary_links,
