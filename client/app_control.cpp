@@ -215,6 +215,7 @@ static void kill_app_process(int pid, bool will_restart) {
     if (h == NULL) return;
     TerminateProcess(h, will_restart?0:EXIT_ABORTED_BY_CLIENT);
     CloseHandle(h);
+}
 #else
 static void kill_app_process(int pid, bool) {
     int retval = 0;
@@ -234,8 +235,8 @@ static void kill_app_process(int pid, bool) {
             boincerror(retval)
         );
     }
-#endif
 }
+#endif
 
 static inline void kill_processes(vector<int> pids, bool will_restart) {
     for (unsigned int i=0; i<pids.size(); i++) {
