@@ -27,6 +27,7 @@
 #endif
 #include <cstring>
 #include <cstdlib>
+#include <cmath>
 #endif
 
 #ifdef _WIN32
@@ -198,6 +199,7 @@ int OPENCL_DEVICE_PROP::parse(XML_PARSER& xp) {
     while (!xp.get_tag()) {
         if (xp.match_tag("/coproc_opencl")) {
             get_device_version_int();
+            get_opencl_driver_revision();
             return 0;
         }
         if (xp.parse_str("name", name, sizeof(name))) continue;
@@ -279,6 +281,29 @@ int OPENCL_DEVICE_PROP::get_device_version_int() {
         return ERR_NOT_FOUND;
     }
     opencl_device_version_int = 100*maj + min;
+    return 0;
+}
+
+int OPENCL_DEVICE_PROP::get_opencl_driver_revision() {
+    // gets the OpenCL runtime revision
+    // Thus far this is only necessary for ATI/AMD because there are bad 
+    // driver sets only distinguisable by the runtime library version.  
+    // Fortunately this info is in the opencl_device_version string.
+    float rev=0;
+    char *p=opencl_device_version+sizeof(opencl_device_version)-1;
+    // find the last opening bracket
+    while ((p > opencl_device_version) && (*p!='(')) p--;
+    if (p!=opencl_device_version) {
+      int n=sscanf(
+          p, "(%f", &rev
+      );
+      // I don't care about errors because for non-ATI GPUs this should 
+      // be zero.
+      if (n!=1) {
+        rev=0;
+      }
+    }
+    opencl_driver_revision=floor(rev*100+0.5);
     return 0;
 }
 

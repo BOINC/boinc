@@ -154,6 +154,8 @@ struct OPENCL_DEVICE_PROP {
                                         // example: "OpenCL 1.1 beta"
     int opencl_device_version_int;      // same, encoded as e.g. 101
     int get_device_version_int();       // call this to encode
+    int opencl_driver_revision;         // OpenCL runtime revision is available
+    int get_opencl_driver_revision();   // call this to encode
     char opencl_driver_version[32];     // For example: "CLH 1.0"
     int device_num;                     // temp used in scan process
     double peak_flops;                  // temp used in scan process
