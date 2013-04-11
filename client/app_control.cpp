@@ -217,8 +217,8 @@ static void kill_app_process(int pid, bool will_restart) {
     CloseHandle(h);
 #else
 static void kill_app_process(int pid, bool) {
-#ifdef SANDBOX
     int retval = 0;
+#ifdef SANDBOX
     retval = kill_via_switcher(pid);
     if (retval && log_flags.task_debug) {
         msg_printf(0, MSG_INFO,
