@@ -81,7 +81,7 @@ public:
 
     // Determine if this the WCG branded version of the client
     // and connected to WCG.
-    bool CWelcomePage::isWCGClient();
+    bool isWCGClient();
 
 ////@begin CWelcomePage member variables
     wxStaticText* m_pTitleStaticCtrl;

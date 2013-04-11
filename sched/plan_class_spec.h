@@ -79,6 +79,8 @@ struct PLAN_CLASS_SPEC {
     //
     int min_opencl_version;
     int max_opencl_version;
+    int min_opencl_driver_revision;
+    int max_opencl_driver_revision;
 
     // VirtualBox apps
     //

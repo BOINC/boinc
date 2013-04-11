@@ -426,11 +426,45 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
 
         // OpenCL device version
         //
-        if (min_opencl_version && min_opencl_version > cpp->opencl_prop.opencl_device_version_int) {
+        if (min_opencl_version && cpp->opencl_prop.opencl_device_version_int 
+            && min_opencl_version > cpp->opencl_prop.opencl_device_version_int) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
                     "[version] OpenCL device version required min: %d, supplied: %d\n",
                     min_opencl_version, cpp->opencl_prop.opencl_device_version_int
+                );
+            }
+            return false;
+        }
+
+        if (max_opencl_version && cpp->opencl_prop.opencl_device_version_int 
+            && max_opencl_version < cpp->opencl_prop.opencl_device_version_int) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] OpenCL device version required max: %d, supplied: %d\n",
+                    max_opencl_version, cpp->opencl_prop.opencl_device_version_int
+                );
+            }
+            return false;
+        }
+
+        if (min_opencl_driver_revision && cpp->opencl_prop.opencl_device_version_int 
+            && min_opencl_driver_revision > cpp->opencl_prop.opencl_driver_revision) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] OpenCL driver revision required min: %d, supplied: %d\n",
+                    min_opencl_driver_revision, cpp->opencl_prop.opencl_driver_revision
+                );
+            }
+            return false;
+        }
+
+        if (max_opencl_driver_revision && cpp->opencl_prop.opencl_device_version_int 
+            && max_opencl_driver_revision < cpp->opencl_prop.opencl_driver_revision) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] OpenCL driver revision required max: %d, supplied: %d\n",
+                    max_opencl_driver_revision, cpp->opencl_prop.opencl_driver_revision
                 );
             }
             return false;
@@ -631,6 +665,9 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         if (xp.parse_int("min_opencl_version", min_opencl_version)) continue;
         if (xp.parse_int("max_opencl_version", max_opencl_version)) continue;
 
+        if (xp.parse_int("min_opencl_driver_revision", min_opencl_driver_revision)) continue;
+        if (xp.parse_int("max_opencl_driver_revision", max_opencl_driver_revision)) continue;
+
         if (xp.parse_int("min_vbox_version", min_vbox_version)) continue;
         if (xp.parse_int("max_vbox_version", max_vbox_version)) continue;
     }
@@ -697,6 +734,9 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
 
     min_opencl_version = 0;
     max_opencl_version = 0;
+
+    min_opencl_driver_revision = 0;
+    max_opencl_driver_revision = 0;
 
     min_vbox_version = 0;
     max_vbox_version = 0;
