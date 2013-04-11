@@ -911,6 +911,8 @@ char* windows_format_error_string(
         if (lpszTemp) {
             LocalFree((HLOCAL) lpszTemp);
         }
+    } else {
+        strcpy(pszBuf, "(unknown error)");
     }
 
     return pszBuf;
