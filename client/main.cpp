@@ -110,8 +110,8 @@ void log_message_error(const char* msg) {
     );
 #else
     snprintf(evt_msg, sizeof(evt_msg),
-        "%s\n",
-        msg
+        "%s %s\n",
+        time_string, msg
     );
 #endif
     if (!gstate.executing_as_daemon) {

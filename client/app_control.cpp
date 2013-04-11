@@ -121,7 +121,7 @@ bool ACTIVE_TASK_SET::poll() {
     }
 
     // Check for finish files every 10 sec.
-    // If we already found a finish file, kill the app;
+    // If we already found a finish file, abort the app;
     // it must be hung somewhere in boinc_finish();
     //
     static double last_finish_check_time = 0;
@@ -131,7 +131,9 @@ bool ACTIVE_TASK_SET::poll() {
             ACTIVE_TASK* atp = active_tasks[i];
             if (atp->task_state() == PROCESS_UNINITIALIZED) continue;
             if (atp->finish_file_time) {
-                atp->kill_task(false);
+                // process is still there 10 sec after it wrote finish file.
+                // abort the job
+                atp->abort_task(EXIT_ABORTED_BY_CLIENT, "finish file present too long");
             } else if (atp->finish_file_present()) {
                 atp->finish_file_time = gstate.now;
             }
