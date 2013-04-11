@@ -45,18 +45,23 @@
  *
  * @see template_preprocess_search_result()
  */
+ 
+ global $base_path;
+ 
 ?>
 <?php switch ($info_split['type']): ?>
 <?php
   case 'Profile':
     $parsed_url = parse_url($url);
-    $path = drupal_lookup_path('source', trim($parsed_url['path'], '/'));
+    $base_length = strlen($base_path);
+    $core_path = trim(substr($parsed_url['path'], $base_length), '/');
+    $path = drupal_lookup_path('source', $core_path);
     $matches = array();
     if (preg_match('/node\/([0-9]+)/', $path, $matches)) {
       $node = node_load($matches[1]);
       $account = user_load($node->uid);
       $user_image = boincuser_get_user_profile_image($account->uid);
-      $url = base_path() . "account/{$account->uid}";
+      $url = "{$base_path}account/{$account->uid}";
       $forum = $node->taxonomy[$node->forum_tid]->name;
       if ($forum) {
         $title_prefix = "{$forum} : ";
@@ -90,7 +95,9 @@
 <?php
   case 'Forum topic':
     $parsed_url = parse_url($url);
-    $path = drupal_lookup_path('source', trim($parsed_url['path'], '/'));
+    $base_length = strlen($base_path);
+    $core_path = trim(substr($parsed_url['path'], $base_length), '/');
+    $path = drupal_lookup_path('source', $core_path);
     $matches = array();
     if (preg_match('/node\/([0-9]+)/', $path, $matches)) {
       $node = node_load($matches[1]);
