@@ -22,7 +22,6 @@ require_once("../inc/uotd.inc");
 require_once("../project/project.inc");
 
 $config = get_config();
-$cgi_url = parse_config($config, "<cgi_url>");
 $stripchart_cgi_url = parse_config($config, "<stripchart_cgi_url>");
 
 db_init();
