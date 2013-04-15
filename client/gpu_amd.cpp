@@ -256,7 +256,7 @@ void COPROC_ATI::get(
             attribs.wavefrontSize=32;
             break;
         case CAL_TARGET_630:
-            gpu_name="ATI Radeon HD 2600 (RV630)";
+            gpu_name="ATI Radeon HD 2600/3650 (RV630/RV635)";
             // set correct values (reported wrong by driver)
             attribs.numberOfSIMD=3;
             attribs.wavefrontSize=32;
