@@ -225,26 +225,22 @@ bool HOST_INFO::host_is_running_on_batteries() {
     // using /sys/class/power_supply/*/online
     // power supplies are both ac and usb!
     //
-    static bool first = true;
     static FILE *fsysac, *fsysusb;
     int aconline = 0;
     int usbonline = 0;
     bool power_supply_online = false;
 
-    if (first) {
-        first = false;
-        fsysac = fopen("/sys/class/power_supply/ac/online", "r");
-        fsysusb = fopen("/sys/class/power_supply/usb/online", "r");
-    }
+    fsysac = fopen("/sys/class/power_supply/ac/online", "r");
+    fsysusb = fopen("/sys/class/power_supply/usb/online", "r");
 
     if (fsysac) {
-        rewind(fsysac);
         (void) fscanf(fsysac, "%d", &aconline);
+        fclose(fsysac);
     }
 
     if (fsysusb) {
-        rewind(fsysusb);
         (void) fscanf(fsysusb, "%d", &usbonline);
+        fclose(fsysusb);
     }
 
     if ((aconline == 1) || (usbonline == 1)) {
