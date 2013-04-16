@@ -78,6 +78,9 @@ bool CDlgAbout::Create(wxWindow* parent, wxWindowID id, const wxString& caption,
     m_AboutBOINCLogoCtrl = NULL;
     m_AboutBOINCSloganCtrl = NULL;
     m_AboutBOINCURLCtrl = NULL;
+#if defined __WXMAC__
+    m_strVersion = wxT(BOINC_VERSION_STRING);
+#else
 #if defined(__x86_64__) || defined(__x86_64) || defined(_M_AMD64)
     m_strVersion.Printf(wxT("%s (x64)"), wxT(BOINC_VERSION_STRING));
 #elif defined(__i386__) || defined(__i386) || defined(_M_IX86)
@@ -86,6 +89,7 @@ bool CDlgAbout::Create(wxWindow* parent, wxWindowID id, const wxString& caption,
     m_strVersion.Printf(wxT("%s (PowerPC)"), wxT(BOINC_VERSION_STRING));
 #else
     m_strVersion.Printf(wxT("%s (unknown)"), wxT(BOINC_VERSION_STRING));
+#endif
 #endif
     m_strWidgetsVersion.Printf(wxT("%d.%d.%d"), wxMAJOR_VERSION, wxMINOR_VERSION, wxRELEASE_NUMBER);
 ////@end CDlgAbout member initialisation
