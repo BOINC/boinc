@@ -40,6 +40,10 @@
 #include "config.h"
 #endif
 
+////@begin XPM images
+#include "res/boinc_logo.xpm"
+////@end XPM images
+
 
 /*!
  * CDlgAbout type definition
@@ -156,7 +160,7 @@ void CDlgAbout::CreateControls() {
     wxBoxSizer* itemBoxSizer5 = new wxBoxSizer(wxVERTICAL);
     itemBoxSizer4->Add(itemBoxSizer5, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxBitmap m_AboutBOINCLogoCtrlBitmap(wxNullBitmap);
+    wxBitmap m_AboutBOINCLogoCtrlBitmap((const char**)boinc_logo_xpm);
     m_AboutBOINCLogoCtrl = new wxStaticBitmap;
     m_AboutBOINCLogoCtrl->Create( itemDialog1, wxID_STATIC, m_AboutBOINCLogoCtrlBitmap, wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer5->Add(m_AboutBOINCLogoCtrl, 0, wxALIGN_LEFT|wxALL, 5);
