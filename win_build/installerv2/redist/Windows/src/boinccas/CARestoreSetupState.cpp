@@ -109,7 +109,7 @@ UINT CARestoreSetupState::OnExecution()
         }
 
         if (strOverrideLaunchProgram.empty()) {
-            if (_T("1") == strLaunchProgram) {
+            if ((_T("1") == strLaunchProgram) || (strLaunchProgram.size() == 0)) {
                 SetProperty( _T("LAUNCHPROGRAM"), _T("1") );
             } else {
                 SetProperty( _T("LAUNCHPROGRAM"), _T("") );
@@ -148,7 +148,7 @@ UINT CARestoreSetupState::OnExecution()
             SetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"), strOverrideEnableProtectedApplicationExecution );
         }
 
-        if (strEnableUseByAllUsers.empty()) {
+        if (strOverrideEnableUseByAllUsers.empty()) {
             if (_T("1") == strEnableUseByAllUsers) {
                 SetProperty( _T("ENABLEUSEBYALLUSERS"), _T("1") );
             } else {
