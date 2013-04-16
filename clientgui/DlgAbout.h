@@ -105,7 +105,6 @@ public:
 ////@begin CDlgAbout member variables
     wxStaticText* m_AboutBOINCTitleCtrl;
     wxStaticBitmap* m_AboutBOINCLogoCtrl;
-    wxStaticText* m_AboutBOINCSloganCtrl;
     wxHyperlinkCtrl* m_AboutBOINCURLCtrl;
     wxString m_strVersion;
     wxString m_strWidgetsVersion;
