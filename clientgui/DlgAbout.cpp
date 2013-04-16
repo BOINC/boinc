@@ -76,7 +76,6 @@ bool CDlgAbout::Create(wxWindow* parent, wxWindowID id, const wxString& caption,
 ////@begin CDlgAbout member initialisation
     m_AboutBOINCTitleCtrl = NULL;
     m_AboutBOINCLogoCtrl = NULL;
-    m_AboutBOINCSloganCtrl = NULL;
     m_AboutBOINCURLCtrl = NULL;
 #if defined __WXMAC__
     m_strVersion = wxT(BOINC_VERSION_STRING);
@@ -118,6 +117,7 @@ bool CDlgAbout::Create(wxWindow* parent, wxWindowID id, const wxString& caption,
     );
     m_AboutBOINCTitleCtrl->SetLabel(buf);
 
+#if 0
     m_AboutBOINCLogoCtrl->SetBitmap(wxBitmap(*(pSkinAdvanced->GetApplicationLogo())));
 
     m_AboutBOINCSloganCtrl->SetLabel(wxEmptyString);
@@ -125,6 +125,7 @@ bool CDlgAbout::Create(wxWindow* parent, wxWindowID id, const wxString& caption,
     m_AboutBOINCURLCtrl->SetLabel(
         pSkinAdvanced->GetOrganizationWebsite().c_str()
     );
+#endif
 
     GetSizer()->Fit(this);
     GetSizer()->SetSizeHints(this);
@@ -186,10 +187,6 @@ void CDlgAbout::CreateControls() {
     wxStaticText* itemStaticText13 = new wxStaticText;
     itemStaticText13->Create( itemDialog1, wxID_STATIC, _("(C) 2003-2013 University of California, Berkeley.\nAll Rights Reserved."), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer7->Add(itemStaticText13, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 5);
-
-    m_AboutBOINCSloganCtrl = new wxStaticText;
-    m_AboutBOINCSloganCtrl->Create( itemDialog1, wxID_STATIC, _("Berkeley Open Infrastructure for Network Computing"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer2->Add(m_AboutBOINCSloganCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     wxStaticText* itemStaticText14 = new wxStaticText;
     itemStaticText14->Create( itemDialog1, wxID_STATIC, _("Berkeley Open Infrastructure for Network Computing"), wxDefaultPosition, wxDefaultSize, 0 );
