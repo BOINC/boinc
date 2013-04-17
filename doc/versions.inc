@@ -44,10 +44,10 @@ function linux_info() {
 }
 
 $w70dev = array(
-	"num"=>"7.0.62",
+	"num"=>"7.0.64",
 	"status"=>"Development version",
-	"file"=>"boinc_7.0.62_windows_intelx86.exe",
-	"date"=>"9 Apr 2013",
+	"file"=>"boinc_7.0.64_windows_intelx86.exe",
+	"date"=>"17 Apr 2013",
 	"type"=>"win_new",
 );
 
@@ -84,10 +84,10 @@ $w5816 = array(
 );
 
 $w70x64dev = array(
-	"num"=>"7.0.62",
+	"num"=>"7.0.64",
 	"status"=>"Development version",
-	"file"=>"boinc_7.0.62_windows_x86_64.exe",
-	"date"=>"9 Apr 2013",
+	"file"=>"boinc_7.0.64_windows_x86_64.exe",
+	"date"=>"17 Apr 2013",
 	"type"=>"win_new",
 );
 
@@ -108,10 +108,10 @@ $w612x64 = array(
 );
 
 $m70dev = array(
-	"num"=>"7.0.62",
+	"num"=>"7.0.65",
 	"status"=>"Development version (standard GUI)",
-	"file"=>"boinc_7.0.62_macOSX_i686.zip",
-	"date"=>"10 Apr 2013",
+	"file"=>"boinc_7.0.65_macOSX_i686.zip",
+	"date"=>"17 Apr 2013",
 	"type"=>"mac_advanced",
 );
 
@@ -148,10 +148,10 @@ $m66 = array(
 );
 
 $m70cdev = array(
-	"num"=>"7.0.62",
+	"num"=>"7.0.65",
 	"status"=>"Development version (Unix command-line version)",
-	"file"=>"boinc_7.0.62_i686-apple-darwin.zip",
-	"date"=>"10 Apr 2013",
+	"file"=>"boinc_7.0.65_i686-apple-darwin.zip",
+	"date"=>"17 Apr 2013",
 	"type"=>"bare_core",
 );
 
@@ -204,10 +204,10 @@ $l66 = array(
 	);
 
 $l70ubuntudev = array(
-	"num"=>"7.0.62",
+	"num"=>"7.0.65",
 	"status"=>"Development version",
-	"file"=>"boinc_7.0.62_i686-pc-linux-gnu.sh",
-	"date"=>"9 Apr 2013",
+	"file"=>"boinc_7.0.65_i686-pc-linux-gnu.sh",
+	"date"=>"17 Apr 2013",
 	"type"=>"sea",
 );
 
@@ -228,10 +228,10 @@ $l612ubuntu = array(
 );
 
 $l70ubuntux64dev = array(
-	"num"=>"7.0.62",
+	"num"=>"7.0.65",
 	"status"=>"Development version",
-	"file"=>"boinc_7.0.62_x86_64-pc-linux-gnu.sh",
-	"date"=>"9 Apr 2013",
+	"file"=>"boinc_7.0.65_x86_64-pc-linux-gnu.sh",
+	"date"=>"17 Apr 2013",
 	"type"=>"sea",
 );
 
