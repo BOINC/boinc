@@ -27,7 +27,6 @@ import android.os.PowerManager.WakeLock;
 import android.util.Log;
 import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
-import edu.berkeley.boinc.rpc.Message;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.Result;
 import edu.berkeley.boinc.rpc.Transfer;
@@ -51,7 +50,6 @@ public class ClientStatus {
 	private ArrayList<Project> projects;
 	private ArrayList<Transfer> transfers;
 	private GlobalPreferences prefs;
-	private ArrayList<Message> messages; //debug tab
 	
 	// setup status
 	public Integer setupStatus = 0;
@@ -130,12 +128,11 @@ public class ClientStatus {
 	/*
 	 * called frequently by Monitor to set the RPC data. These objects are used to determine the client status and parse it in the data model of this class.
 	 */
-	public synchronized void setClientStatus(CcStatus status,ArrayList<Result> results,ArrayList<Project> projects, ArrayList<Transfer> transfers, ArrayList<Message> msgs) {
+	public synchronized void setClientStatus(CcStatus status,ArrayList<Result> results,ArrayList<Project> projects, ArrayList<Transfer> transfers) {
 		this.status = status;
 		this.results = results;
 		this.projects = projects;
 		this.transfers = transfers;
-		this.messages = msgs;
 		parseClientStatus();
 		Log.d(TAG,"parsing results: computing: " + computingParseError + computingStatus + computingSuspendReason + " - network: " + networkParseError + networkStatus + networkSuspendReason);
 		if(!computingParseError && !networkParseError && !setupStatusParseError) {
@@ -201,23 +198,6 @@ public class ClientStatus {
 			return null;
 		}
 		return projects;
-	}
-	
-	//Debug Tab
-	public synchronized ArrayList<Message> getMessages() {
-		if(messages == null) { //check in case monitor is not set up yet (e.g. while logging in)
-			Log.d(TAG, "messages is null");
-			return null;
-		}
-		return messages;
-	}
-	
-	public synchronized void resetMessages() {
-		if(messages == null) { //check in case monitor is not set up yet (e.g. while logging in)
-			Log.d(TAG, "messages is null");
-			return;
-		}
-		messages.clear();
 	}
 	
 	/*

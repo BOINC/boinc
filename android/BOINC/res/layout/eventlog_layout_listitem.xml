@@ -17,51 +17,39 @@
   You should have received a copy of the GNU Lesser General Public License
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/msgsRow"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal" >
+    android:layout_height="match_parent" >
 
     <CheckBox
         android:id="@+id/msgs_check"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="false"
-        android:focusable="false" />
+        android:focusable="false"
+        android:layout_margin="5dp" />
     
-	<LinearLayout 
-	    android:id="@+id/msgsRowVertical"
-	    android:layout_width="match_parent"
-	    android:layout_height="match_parent"
-	    android:orientation="vertical" >
+    <TextView android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/msgs_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:layout_toRightOf="@+id/msgs_check" />
+	   	    
+  	<TextView android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/msgs_project"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:layout_below="@+id/msgs_date"
+        android:layout_alignLeft="@+id/msgs_date"/>
     
-	    <TextView
-	        android:id="@+id/msgs_message"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_margin="2dp" />
-		
-	   	<LinearLayout 
-		    android:id="@+id/msgsRowHorizontal"
-		    android:layout_width="match_parent"
-		    android:layout_height="match_parent"
-		    android:orientation="horizontal" >
-		    
-		    <TextView android:textAppearance="?android:attr/textAppearanceSmall"
-		        android:id="@+id/msgs_date"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_margin="2dp" />
-		
-	   	    <TextView android:textAppearance="?android:attr/textAppearanceSmall"
-		        android:id="@+id/msgs_project"
-		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
-		        android:layout_margin="2dp" />
-		
-		</LinearLayout>    
-	
-	</LinearLayout>
+    <TextView
+        android:id="@+id/msgs_message"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/msgs_project"
+        android:layout_alignLeft="@+id/msgs_project" />  
 
-</LinearLayout>
+</RelativeLayout>

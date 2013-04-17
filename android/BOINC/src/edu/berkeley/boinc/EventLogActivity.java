@@ -19,20 +19,24 @@
 package edu.berkeley.boinc;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.lang.StringBuffer;
 import edu.berkeley.boinc.adapter.EventLogListAdapter;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Message;
-import android.content.BroadcastReceiver;
-import android.content.Context;
+import android.content.ComponentName;
 import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.ServiceConnection;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -40,46 +44,25 @@ import android.widget.TextView;
 public class EventLogActivity extends FragmentActivity {
 
 	private final String TAG = "BOINC EventLogActivity";
+	
+	private Monitor monitor;
+	private Boolean mIsBound = false;
 
 	private ListView lv;
 	private EventLogListAdapter listAdapter;
 	private ArrayList<Message> data = new ArrayList<Message>();
-	private int lastSeqno = 0;
-
-	// Controls whether initialization of view elements of "projects_layout"
-	// is required. This is the case, every time the layout switched.
-	private Boolean initialSetupRequired = true; 
 	
-	// BroadcastReceiver event is used to update the UI with updated information from 
-	// the client.  This is generally called once a second.
-	//
-	private IntentFilter ifcsc = new IntentFilter("edu.berkeley.boinc.clientstatuschange");
-	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			Log.d(TAG, "ClientStatusChange - onReceive()");
-			
-			populateLayout();
-		}
-	};
-
+	// message retrieval
+	private Integer pastMsgsLoadingRange = 50; // amount messages loaded when end of list is reached
 	
-	//
-	// Message Activity
-	//
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    Log.d(TAG, "onCreate()");
 
+		doBindService();
+		setLayoutLoading();
+		
 	    super.onCreate(savedInstanceState);
-	}
-
-	@Override
-	public void onPause() {
-		Log.d(TAG, "onPause()");
-
-		unregisterReceiver(mClientStatusChangeRec);
-		super.onPause();
 	}
 	
 	@Override
@@ -88,47 +71,87 @@ public class EventLogActivity extends FragmentActivity {
 
 		super.onResume();
 		
-		populateLayout();
-		
-		registerReceiver(mClientStatusChangeRec, ifcsc);
+		new RetrieveRecentMsgs().execute(); // refresh messages
 	}
 	
 	@Override
 	protected void onDestroy() {
 	    Log.d(TAG, "onDestroy()");
-	    
+	    doUnbindService();
 	    super.onDestroy();
 	}
 	
-	private void populateLayout() {
+	/*
+	 * Service binding part
+	 * only necessary, when function on monitor instance has to be called
+	 */
+	private ServiceConnection mConnection = new ServiceConnection() {
+	    public void onServiceConnected(ComponentName className, IBinder service) {
+	    	Log.d(TAG,"onServiceConnected");
+	        monitor = ((Monitor.LocalBinder)service).getService();
+		    mIsBound = true;
+		    initializeLayout();
+	    }
+
+	    public void onServiceDisconnected(ComponentName className) {
+	        monitor = null;
+	        mIsBound = false;
+	    }
+	};
+
+	private void doBindService() {
+		if(!mIsBound) {
+			getApplicationContext().bindService(new Intent(this, Monitor.class), mConnection, 0); //calling within Tab needs getApplicationContext() for bindService to work!
+		}
+	}
+
+	private void doUnbindService() {
+	    if (mIsBound) {
+	    	getApplicationContext().unbindService(mConnection);
+	        mIsBound = false;
+	    }
+	}
+	
+	// updates data list with most recent messages
+	private void loadRecentMsgs(ArrayList<Message> tmpA) {
+		// Prepend new messages to the event log
 		try {
-			// Read messages from state saved in ClientStatus
-			ArrayList<Message> tmpA = Monitor.getClientStatus().getMessages(); 
-			
-			if(tmpA == null) {
+			int y = 0;
+			for (int x = tmpA.size()-1; x >= 0; x--) {
+				data.add(y, tmpA.get(x));
+				y++;
+			}
+		} catch (Exception e) {} //IndexOutOfBoundException
+		listAdapter.notifyDataSetChanged();
+	}
+	
+	// appends older messages to data list
+	private void loadPastMsgs(List<Message> tmpA) {
+		// Append old messages to the event log
+		try {
+			for(int x = tmpA.size()-1; x >= 0; x--) {
+				data.add(tmpA.get(x));
+			}
+		} catch (Exception e) {} //IndexOutOfBoundException
+		
+		listAdapter.notifyDataSetChanged();
+	}
+	
+	private void initializeLayout() {
+		try {
+			// check whether monitor is bound
+			if(!mIsBound) {
 				setLayoutLoading();
 				return;
 			}
-
-			// Switch to a view that can actually display messages
-			if (initialSetupRequired) {
-				initialSetupRequired = false;
-				setContentView(R.layout.eventlog_layout); 
-				lv = (ListView) findViewById(R.id.eventlogList);
-		        listAdapter = new EventLogListAdapter(EventLogActivity.this, lv, R.id.eventlogList, data);
-		    }
+				
+			setContentView(R.layout.eventlog_layout); 
+			lv = (ListView) findViewById(R.id.eventlogList);
+		    listAdapter = new EventLogListAdapter(EventLogActivity.this, lv, R.id.eventlogList, data);
+		    lv.setOnScrollListener(new EndlessScrollListener(5));
 			
-			// Add new messages to the event log
-			for (Message msg: tmpA) {
-				if (msg.seqno > lastSeqno) {
-					data.add(msg);
-					lastSeqno = msg.seqno; 
-				}
-			}
-			
-			// Force list adapter to refresh
-			listAdapter.notifyDataSetChanged(); 
-			
+			// initial data retrieval
+			new RetrievePastMsgs().execute();
 		} catch (Exception e) {
 			// data retrieval failed, set layout to loading...
 			setLayoutLoading();
@@ -139,7 +162,6 @@ public class EventLogActivity extends FragmentActivity {
 		setContentView(R.layout.generic_layout_loading); 
         TextView loadingHeader = (TextView)findViewById(R.id.loading_header);
         loadingHeader.setText(R.string.eventlog_loading);
-        initialSetupRequired = true;
 	}
 
 	@Override
@@ -216,5 +238,95 @@ public class EventLogActivity extends FragmentActivity {
 		// Send it off to the Activity-Chooser
 		startActivity(Intent.createChooser(emailIntent, "Send mail..."));		
 
+	}
+	
+	// onScrollListener for list view, implementing "endless scrolling"
+	public final class EndlessScrollListener implements OnScrollListener {
+
+        private int visibleThreshold = 5;
+        private int previousTotal = 0;
+        private boolean loading = true;
+
+        public EndlessScrollListener(int visibleThreshold) {
+            this.visibleThreshold = visibleThreshold;
+        }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            if (loading) {
+                if (totalItemCount > previousTotal) {
+                    loading = false;
+                    previousTotal = totalItemCount;
+                }
+            }
+            if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
+                new RetrievePastMsgs().execute();
+                loading = true;
+            }
+        }
+
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+        }
+    }
+	
+	private final class RetrieveRecentMsgs extends AsyncTask<Void,Void,ArrayList<Message>> {
+		
+		private Integer mostRecentSeqNo = 0;
+
+		@Override
+		protected void onPreExecute() {
+			if(!mIsBound) cancel(true); // cancel execution if monitor is not bound yet
+			try {
+				mostRecentSeqNo = data.get(0).seqno;
+			} catch (Exception e) {} //IndexOutOfBoundException
+		}
+		
+		@Override
+		protected ArrayList<Message> doInBackground(Void... params) {
+			return monitor.getEventLogMessages(mostRecentSeqNo); 
+		}
+
+		@Override
+		protected void onPostExecute(ArrayList<Message> result) {
+			// back in UI thread
+			loadRecentMsgs(result);
+		}
+	}
+	
+	private final class RetrievePastMsgs extends AsyncTask<Void,Void,List<Message>> {
+		
+		private Integer mostRecentSeqNo = null;
+		private Integer pastSeqNo = null;
+
+		@Override
+		protected void onPreExecute() {
+			if(!mIsBound) cancel(true); // cancel execution if monitor is not bound yet
+			try {
+				mostRecentSeqNo = data.get(0).seqno;
+				pastSeqNo = data.get(data.size()-1).seqno;
+				Log.d("RetrievePastMsgs","mostRecentSeqNo: " + mostRecentSeqNo + " ; pastSeqNo: " + pastSeqNo);
+				if(pastSeqNo==0) {
+					Log.d("RetrievePastMsgs", "cancel, all past messages are present");
+					cancel(true); // cancel if all past messages are present
+				}
+			} catch (Exception e) {} //IndexOutOfBoundException
+		}
+		
+		@Override
+		protected List<Message> doInBackground(Void... params) {
+			Integer startIndex = 0;
+			if(mostRecentSeqNo != null && pastSeqNo != null && mostRecentSeqNo != 0 && pastSeqNo != 0) startIndex = mostRecentSeqNo - pastSeqNo + 1;
+			Integer lastIndexOfList = 0;
+			if(mostRecentSeqNo != null) lastIndexOfList = mostRecentSeqNo - 1;
+			//Log.d("RetrievePastMsgs", "calling monitor with: " + startIndex + lastIndexOfList);
+			return monitor.getEventLogMessages(startIndex, pastMsgsLoadingRange, lastIndexOfList); 
+		}
+
+		@Override
+		protected void onPostExecute(List<Message> result) {
+			// back in UI thread
+			loadPastMsgs(result);
+		}
 	}
 }

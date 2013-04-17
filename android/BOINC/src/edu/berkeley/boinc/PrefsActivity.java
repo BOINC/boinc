@@ -71,8 +71,6 @@ public class PrefsActivity extends FragmentActivity {
 	/*
 	 * Service binding part
 	 * only necessary, when function on monitor instance has to be called
-	 * currently in Prefs- and DebugActivity 
-	 * 
 	 */
 	private ServiceConnection mConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {

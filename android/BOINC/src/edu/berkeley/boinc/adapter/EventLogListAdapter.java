@@ -117,7 +117,12 @@ public class EventLogListAdapter extends ArrayAdapter<Message> implements OnItem
 	    viewEventLog.cbCheck.setChecked(listView.isItemChecked(position));
 	    viewEventLog.tvMessage.setText(getMessage(position));
 	    viewEventLog.tvDate.setText(getDate(position));
-	    viewEventLog.tvProjectName.setText(getProject(position));
+	    if(getProject(position).isEmpty()){
+	    	viewEventLog.tvProjectName.setVisibility(View.GONE);
+	    } else {
+	    	viewEventLog.tvProjectName.setVisibility(View.VISIBLE);
+	    	viewEventLog.tvProjectName.setText(getProject(position));
+	    }
 
         return vi;
     }

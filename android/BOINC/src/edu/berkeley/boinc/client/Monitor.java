@@ -32,6 +32,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
@@ -851,6 +853,40 @@ public class Monitor extends Service {
     	return auth;
 	}
 	
+	// returns client messages to be shown in EventLog tab.
+	// start is counting from beginning, e.g. start=0 number=50
+	// needs lastIndexOfList as reference for consistency
+	// returns 50 most recent messages
+	public List<Message> getEventLogMessages(int startIndex, int number, int lastIndexOfList) {
+		//Log.d(TAG,"getEventLogMessage from start: " + startIndex + " amount: " + number + "lastIndexOfList: " + lastIndexOfList);
+		Integer requestedLastIndex = startIndex + number;
+		if(lastIndexOfList == 0) { // list is empty, initial start
+			lastIndexOfList = rpc.getMessageCount() - 1; // possible lastIndexOfList if all messages were read
+			//Log.d(TAG,"list ist empty, initial start, read message count: " + (lastIndexOfList+1));
+		}
+		if(requestedLastIndex > lastIndexOfList + 1) { // requesting more messages than actually present
+			number = lastIndexOfList - startIndex + 1; 
+			//Log.d(TAG,"getEventLogMessage requesting more messages than left, number changed to " + number);
+		}
+		Integer param = lastIndexOfList + 1 - startIndex - number;
+		//Log.d(TAG,"getEventLogMessage calling RPC with: " + param);
+		try {
+			ArrayList<Message> tmpL = rpc.getMessages(param);
+			List<Message> msgs = tmpL.subList(0, tmpL.size() - startIndex); // tmp.size - start is amount of actually new values. Usually equals number, except for end of list
+			//Log.d(TAG,"getEventLogMessages returning " + msgs.size() + " messages with oldest element seq no: " + msgs.get(0).seqno + " and recent seq no: " + msgs.get(msgs.size()-1).seqno);
+			return msgs;
+		} catch (Exception e) {
+			//Log.w(TAG,"error in retrieving sublist", e);
+			return null;
+		} 
+	}
+	
+	// returns client messages that are more recent than given seqNo
+	public ArrayList<Message> getEventLogMessages(int seqNo) {
+		//Log.d(TAG, "getEventLogMessage more recent than seqNo: " + seqNo);
+		return rpc.getMessages(seqNo);
+	}
+	
 	private final class ClientMonitorAsync extends AsyncTask<Integer, String, Boolean> {
 
 		private final String TAG = "BOINC ClientMonitorAsync";
@@ -884,16 +920,9 @@ public class Monitor extends Service {
 					ArrayList<Project>  projects = rpc.getProjectStatus();
 					if(showRpcCommands) Log.d(TAG, "getTransers");
 					ArrayList<Transfer>  transfers = rpc.getFileTransfers();
-					ArrayList<Message> msgs = new ArrayList<Message>();
-					// retrieve messages only, if tabs are actually enabled. very resource intense with logging on emulator!
-					if(getResources().getBoolean(R.bool.tab_eventlog)) { 
-						Integer count = rpc.getMessageCount();
-						msgs = rpc.getMessages(count - 250); //get the most recent 250 messages
-						if(showRpcCommands) Log.d(TAG, "getMessages, count: " + count);
-					}
 					
 					if( (status != null) && (results != null) && (projects != null) && (transfers != null)) {
-						Monitor.getClientStatus().setClientStatus(status, results, projects, transfers, msgs);
+						Monitor.getClientStatus().setClientStatus(status, results, projects, transfers);
 					} else {
 						Log.d(TAG, "client status connection problem");
 					}

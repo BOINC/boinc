@@ -72,7 +72,7 @@ public class BOINCActivity extends TabActivity {
 	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context,Intent intent) {
-			Log.d(TAG, "ClientStatusChange - onReceive()");
+			//Log.d(TAG, "ClientStatusChange - onReceive()"); 
 
 			determineStatus();
 		}
@@ -142,10 +142,10 @@ public class BOINCActivity extends TabActivity {
     	try {
 			if(mIsBound) { 
 				newStatus = Monitor.getClientStatus().setupStatus;
-				Log.d(TAG,"determineStatus() old clientSetupStatus: " + clientSetupStatus + " - newStatus: " + newStatus);
 				if(newStatus != clientSetupStatus) { //only act, when status actually different form old status
+					Log.d(TAG,"determineStatus() client setup status changed! old clientSetupStatus: " + clientSetupStatus + " - new: " + newStatus);
 					clientSetupStatus = newStatus;
-					layout();
+					layout(); 
 				}
 				if(intialStart && (clientSetupStatus == ClientStatus.SETUP_STATUS_NOPROJECT)) { // if it is first start and no project attached, show login activity
 					startActivity(new Intent(this,AttachProjectListActivity.class));
