@@ -160,8 +160,7 @@
 	<string name="prefs_cpu_number_cpus_header">Used CPU cores (in %)</string>
 	<string name="prefs_cpu_other_load_suspension_header">Pause when other CPU usage exceeds&#8230; (in %)</string>
 	<string name="prefs_cpu_time_max_header">CPU limit (in %)</string>
-	<string name="prefs_memory_max_busy_header">RAM limit when busy (in %)</string>
-	<string name="prefs_memory_max_idle_header">RAM limit when idle (in %)</string>
+	<string name="prefs_memory_max_idle_header">RAM limit (in %)</string>
 	
 	<!-- projects tab strings -->
 	<string name="projects_loading">Reading projects&#8230;</string>

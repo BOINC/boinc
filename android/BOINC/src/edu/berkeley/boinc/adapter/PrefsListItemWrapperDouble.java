@@ -62,10 +62,6 @@ public class PrefsListItemWrapperDouble extends PrefsListItemWrapper {
 			header = ctx.getString(R.string.prefs_cpu_time_max_header);
 			isPct = true;
 			break;
-		case R.string.prefs_memory_max_busy_header:
-			header = ctx.getString(R.string.prefs_memory_max_busy_header);
-			isPct = true;
-			break;
 		case R.string.prefs_memory_max_idle_header:
 			header = ctx.getString(R.string.prefs_memory_max_idle_header);
 			isPct = true;

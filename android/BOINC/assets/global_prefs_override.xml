@@ -8,7 +8,7 @@
   <end_hour>0.0</end_hour>
   <net_start_hour>0.0</net_start_hour>
   <net_end_hour>0.0</net_end_hour>
-  <max_ncpus_pct>100.0</max_ncpus_pct>
+  <max_ncpus_pct>50.0</max_ncpus_pct>
   <leave_apps_in_memory>0</leave_apps_in_memory>
   <dont_verify_images>0</dont_verify_images>
   <work_buf_min_days>0.1</work_buf_min_days>

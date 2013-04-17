@@ -145,7 +145,6 @@ public class PrefsActivity extends FragmentActivity {
 		if(advanced) data.add(new PrefsListItemWrapperDouble(this,R.string.prefs_disk_max_pct_header,R.string.prefs_category_storage,clientPrefs.disk_max_used_pct));
 		if(advanced) data.add(new PrefsListItemWrapperDouble(this,R.string.prefs_disk_min_free_gb_header,R.string.prefs_category_storage,clientPrefs.disk_min_free_gb));
 		if(advanced) data.add(new PrefsListItemWrapper(this,R.string.prefs_category_memory,true));
-		if(advanced) data.add(new PrefsListItemWrapperDouble(this,R.string.prefs_memory_max_busy_header,R.string.prefs_category_memory,clientPrefs.ram_max_used_busy_frac));
 		if(advanced) data.add(new PrefsListItemWrapperDouble(this,R.string.prefs_memory_max_idle_header,R.string.prefs_category_memory,clientPrefs.ram_max_used_idle_frac));
 	}
 	
@@ -267,9 +266,6 @@ public class PrefsActivity extends FragmentActivity {
 			break;
 		case R.string.prefs_cpu_other_load_suspension_header:
 			clientPrefs.suspend_cpu_usage = value;
-			break;
-		case R.string.prefs_memory_max_busy_header:
-			clientPrefs.ram_max_used_busy_frac = value;
 			break;
 		case R.string.prefs_memory_max_idle_header:
 			clientPrefs.ram_max_used_idle_frac = value;
