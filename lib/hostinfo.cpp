@@ -70,6 +70,7 @@ void HOST_INFO::clear_host_info() {
     strcpy(os_version, "");
 
     strcpy(virtualbox_version, "");
+    have_cpu_opencl = false;
 }
 
 int HOST_INFO::parse(XML_PARSER& xp, bool benchmarks_only) {
@@ -117,6 +118,10 @@ int HOST_INFO::parse(XML_PARSER& xp, bool benchmarks_only) {
         if (xp.parse_str("virtualbox_version", virtualbox_version, sizeof(virtualbox_version))) continue;
         if (xp.match_tag("coprocs")) {
             this->coprocs.parse(xp);
+        }
+        if (xp.match_tag("cpu_opencl_prop")) {
+            int retval = cpu_opencl_prop.parse(xp, "/cpu_opencl_prop");
+            if (!retval) have_cpu_opencl = true;
         }
     }
     return ERR_XML_PARSE;
@@ -199,6 +204,9 @@ int HOST_INFO::write(
     }
     if (include_coprocs) {
         this->coprocs.write_xml(out, false);
+    }
+    if (have_cpu_opencl) {
+        cpu_opencl_prop.write_xml(out, "cpu_opencl_prop");
     }
     out.printf(
         "</host_info>\n"

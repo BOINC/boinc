@@ -36,10 +36,11 @@ using std::vector;
 using std::string;
 
 #include "coproc.h"
-#include "util.h"
 #include "str_replace.h"
+#include "util.h"
 
 #include "client_msgs.h"
+#include "client_state.h"
 #include "gpu_detect.h"
 
 #ifdef _WIN32
@@ -410,7 +411,11 @@ void COPROCS::get_opencl(
                     warnings.push_back("clGetDeviceInfo failed to get device type for Intel device");
                     continue;
                 }
-                if (device_type == CL_DEVICE_TYPE_CPU) continue;
+                if (device_type == CL_DEVICE_TYPE_CPU) {
+                    gstate.host_info.have_cpu_opencl = true;
+                    gstate.host_info.cpu_opencl_prop = prop;
+                    continue;
+                }
 
                 prop.device_num = (int)(intel_gpu_opencls.size());
                 prop.opencl_device_index = device_index;
@@ -429,7 +434,7 @@ void COPROCS::get_opencl(
                 intel_gpu_opencls.push_back(prop);
 
                 // At present Intel GPUs only support OpenCL and do not have a native
-                // GPGPU framework, so treat each detected Intel OpenCL GPU device as 
+                // GPGPU framework, so treat each detected Intel OpenCL GPU device as
                 // a native device.
                 intel_gpus.push_back(c);
             }
@@ -438,7 +443,7 @@ void COPROCS::get_opencl(
 
 
 #ifdef __APPLE__
-    // Work around a bug in OpenCL which returns only 
+    // Work around a bug in OpenCL which returns only
     // 1/2 of total global RAM size. 
     // This bug applies only to ATI GPUs, not to NVIDIA
     // This has already been fixed on latest Catalyst 
