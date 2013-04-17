@@ -441,8 +441,9 @@ sys.path.insert(0, os.path.join('%s', 'py'))
 class Project:
     def __init__(self,
                  short_name, long_name,
+                 cgi_url,
                  project_dir=None, key_dir=None,
-                 master_url=None, cgi_url=None,
+                 master_url=None,
                  db_name=None,
                  web_only=False,
                  production=False
@@ -486,8 +487,7 @@ class Project:
 
         config.master_url    = master_url or os.path.join(options.html_url , self.short_name , '')
         config.download_url  = os.path.join(config.master_url, 'download')
-        config.cgi_url       = cgi_url or os.path.join(options.cgi_url, self.short_name)
-        config.upload_url    = os.path.join(config.cgi_url     , 'file_upload_handler')
+        config.upload_url    = os.path.join(cgi_url     , 'file_upload_handler')
         config.download_dir  = os.path.join(self.project_dir , 'download')
         config.upload_dir    = os.path.join(self.project_dir , 'upload')
         config.key_dir       = key_dir or os.path.join(self.project_dir , 'keys')
@@ -495,7 +495,7 @@ class Project:
         config.log_dir       = self.project_dir+'log_'+config.host
         if production:
             config.min_sendwork_interval = 6
-        self.scheduler_url = os.path.join(config.cgi_url     , 'cgi')
+        self.scheduler_url = os.path.join(cgi_url     , 'cgi')
 
     def dir(self, *dirs):
         return apply(os.path.join,(self.project_dir,)+dirs)
@@ -524,7 +524,7 @@ class Project:
         return True
 
     # create new project.  Called only from make_project
-    def install_project(self, scheduler_file = None):
+    def install_project(self):
         if os.path.exists(self.dir()):
             raise SystemExit('Project directory "%s" already exists; this would clobber it!'%self.dir())
 
@@ -563,28 +563,10 @@ class Project:
         my_symlink(self.config.config.download_dir, self.dir('html', 'user', 'download'))
         my_symlink('../stats', self.dir('html/user/stats'))
 
-        # Copy the sched server in the cgi directory with the cgi names given
-        # source_dir/html/user/schedulers.txt
-        #
-
-        if scheduler_file:
-            r = re.compile('<scheduler>([^<]+)</scheduler>', re.IGNORECASE)
-            f = open(self.dir('html/user', scheduler_file))
-            for line in f:
-                # not sure if this is what the scheduler file is supposed to
-                # mean
-                match = r.search(line)
-                if match:
-                    cgi_name = match.group(1)
-                    verbose_echo(2, "Copying " + cgi_name);
-                    install(builddir('sched/cgi'), self.dir('cgi-bin', cgi_name,''))
-            f.close()
-        else:
-            scheduler_file = 'schedulers.txt'
-            f = open(self.dir('html/user', scheduler_file), 'w')
-            print >>f, "<!-- <scheduler>" + self.scheduler_url.strip() + "</scheduler> -->"
-            print >>f, "<link rel=\"boinc_scheduler\" href=\"" + self.scheduler_url.strip()+ "\">"
-            f.close()
+        f = open(self.dir('html/user', 'schedulers.txt'), 'w')
+        print >>f, "<!-- <scheduler>" + self.scheduler_url.strip() + "</scheduler> -->"
+        print >>f, "<link rel=\"boinc_scheduler\" href=\"" + self.scheduler_url.strip()+ "\">"
+        f.close()
 
         verbose_echo(1, "Setting up database")
         database.create_database(

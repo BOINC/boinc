@@ -44,7 +44,6 @@ Dir-options:
 
    --html_user_url      default: URL_BASE/PROJECT/
    --html_ops_url       default: URL_BASE/PROJECT_ops/
-   --cgi_url            default: URL_BASE/PROJECT_cgi/
 
 Other:
    --db_name            default: PROJECT
@@ -87,7 +86,6 @@ try:
             'url_base=',
             'html_user_url=',
             'html_ops_url=',
-            'cgi_url=',
             'db_name=',
             'db_user=',
             'db_passwd=',
@@ -120,7 +118,6 @@ for o,a in opts:
     elif o == '--url_base':      options.url_base       = a
     elif o == '--html_user_url': options.html_user_url  = a
     elif o == '--html_ops_url':  options.html_ops_url   = a
-    elif o == '--cgi_url':       options.cgi_url        = a
     elif o == '--db_name':       options.db_name        = a
     elif o == '--db_user':       options.db_user        = a
     elif o == '--db_passwd':     options.db_passwd      = a
@@ -167,7 +164,6 @@ if not isurl(options.url_base):
 
 defopt('html_user_url' , 'URL_BASE/PROJECT')
 defopt('html_ops_url'  , 'URL_BASE/PROJECT_ops')
-defopt('cgi_url'       , 'URL_BASE/PROJECT_cgi')
 
 defopt('user_name'     , USER, isdir=False)
 defopt('project_root'  , HOME+'/projects/PROJECT')
@@ -184,7 +180,6 @@ for k in [
     'url_base',
     'html_user_url',
     'html_ops_url',
-    'cgi_url',
     'key_dir',
     'db_name',
     'db_host',
@@ -214,9 +209,9 @@ init()
 project = Project(
     project_shortname,
     project_longname,
+    options.url_base + project_shortname + '_cgi',
     project_dir = options.project_root,
     master_url = options.html_user_url,
-    cgi_url = options.cgi_url,
     key_dir = options.key_dir,
     db_name = options.db_name,
     web_only = options.web_only,

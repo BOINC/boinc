@@ -67,6 +67,9 @@ public:
 
     COPROCS coprocs;
 
+    bool have_cpu_opencl;
+    OPENCL_DEVICE_PROP cpu_opencl_prop;
+
 #ifdef ANDROID
     int battery_charge_pct;
     int battery_state;

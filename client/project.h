@@ -305,8 +305,9 @@ struct PROJECT : PROJ_AM {
     std::vector<DAILY_STATS> statistics;
     int parse_statistics(MIOFILE&);
     int parse_statistics(FILE*);
-    int write_statistics(MIOFILE&, bool gui_rpc=false);
+    int write_statistics(MIOFILE&);
     int write_statistics_file();
+    void trim_statistics();
 
     void suspend();
     void resume();

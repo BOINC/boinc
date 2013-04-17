@@ -551,9 +551,10 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     use_symlinks = p.use_symlinks;
 }
 
-// Write project statistic to project statistics file
+// Write project statistic to GUI RPC reply
 //
-int PROJECT::write_statistics(MIOFILE& out, bool /*gui_rpc*/) {
+int PROJECT::write_statistics(MIOFILE& out) {
+    trim_statistics();
     out.printf(
         "<project_statistics>\n"
         "    <master_url>%s</master_url>\n",
@@ -831,3 +832,26 @@ bool PROJECT::waiting_until_min_rpc_time() {
     return (min_rpc_time > gstate.now);
 }
 
+void PROJECT::trim_statistics() {
+    double cutoff = dday() - config.save_stats_days*86400;
+    // delete old stats; fill in the gaps if some days missing
+    //
+    while (!statistics.empty()) {
+        DAILY_STATS& ds = statistics[0];
+        if (ds.day >= cutoff) {
+            break;
+        }
+        if (statistics.size() > 1) {
+            DAILY_STATS& ds2 = statistics[1];
+            if (ds2.day <= cutoff) {
+                statistics.erase(statistics.begin());
+            } else {
+                ds.day = cutoff;
+                break;
+            }
+        } else {
+            ds.day = cutoff;
+            break;
+        }
+    }
+}

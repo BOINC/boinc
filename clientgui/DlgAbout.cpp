@@ -40,6 +40,10 @@
 #include "config.h"
 #endif
 
+////@begin XPM images
+#include "res/boinc_logo.xpm"
+////@end XPM images
+
 
 /*!
  * CDlgAbout type definition
@@ -76,8 +80,10 @@ bool CDlgAbout::Create(wxWindow* parent, wxWindowID id, const wxString& caption,
 ////@begin CDlgAbout member initialisation
     m_AboutBOINCTitleCtrl = NULL;
     m_AboutBOINCLogoCtrl = NULL;
-    m_AboutBOINCSloganCtrl = NULL;
     m_AboutBOINCURLCtrl = NULL;
+#if defined __WXMAC__
+    m_strVersion = wxT(BOINC_VERSION_STRING);
+#else
 #if defined(__x86_64__) || defined(__x86_64) || defined(_M_AMD64)
     m_strVersion.Printf(wxT("%s (x64)"), wxT(BOINC_VERSION_STRING));
 #elif defined(__i386__) || defined(__i386) || defined(_M_IX86)
@@ -86,6 +92,7 @@ bool CDlgAbout::Create(wxWindow* parent, wxWindowID id, const wxString& caption,
     m_strVersion.Printf(wxT("%s (PowerPC)"), wxT(BOINC_VERSION_STRING));
 #else
     m_strVersion.Printf(wxT("%s (unknown)"), wxT(BOINC_VERSION_STRING));
+#endif
 #endif
     m_strWidgetsVersion.Printf(wxT("%d.%d.%d"), wxMAJOR_VERSION, wxMINOR_VERSION, wxRELEASE_NUMBER);
 ////@end CDlgAbout member initialisation
@@ -114,6 +121,7 @@ bool CDlgAbout::Create(wxWindow* parent, wxWindowID id, const wxString& caption,
     );
     m_AboutBOINCTitleCtrl->SetLabel(buf);
 
+#if 0
     m_AboutBOINCLogoCtrl->SetBitmap(wxBitmap(*(pSkinAdvanced->GetApplicationLogo())));
 
     m_AboutBOINCSloganCtrl->SetLabel(wxEmptyString);
@@ -121,6 +129,7 @@ bool CDlgAbout::Create(wxWindow* parent, wxWindowID id, const wxString& caption,
     m_AboutBOINCURLCtrl->SetLabel(
         pSkinAdvanced->GetOrganizationWebsite().c_str()
     );
+#endif
 
     GetSizer()->Fit(this);
     GetSizer()->SetSizeHints(this);
@@ -151,7 +160,7 @@ void CDlgAbout::CreateControls() {
     wxBoxSizer* itemBoxSizer5 = new wxBoxSizer(wxVERTICAL);
     itemBoxSizer4->Add(itemBoxSizer5, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxBitmap m_AboutBOINCLogoCtrlBitmap(wxNullBitmap);
+    wxBitmap m_AboutBOINCLogoCtrlBitmap((const char**)boinc_logo_xpm);
     m_AboutBOINCLogoCtrl = new wxStaticBitmap;
     m_AboutBOINCLogoCtrl->Create( itemDialog1, wxID_STATIC, m_AboutBOINCLogoCtrlBitmap, wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer5->Add(m_AboutBOINCLogoCtrl, 0, wxALIGN_LEFT|wxALL, 5);
@@ -182,10 +191,6 @@ void CDlgAbout::CreateControls() {
     wxStaticText* itemStaticText13 = new wxStaticText;
     itemStaticText13->Create( itemDialog1, wxID_STATIC, _("(C) 2003-2013 University of California, Berkeley.\nAll Rights Reserved."), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer7->Add(itemStaticText13, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 5);
-
-    m_AboutBOINCSloganCtrl = new wxStaticText;
-    m_AboutBOINCSloganCtrl->Create( itemDialog1, wxID_STATIC, _("Berkeley Open Infrastructure for Network Computing"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer2->Add(m_AboutBOINCSloganCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     wxStaticText* itemStaticText14 = new wxStaticText;
     itemStaticText14->Create( itemDialog1, wxID_STATIC, _("Berkeley Open Infrastructure for Network Computing"), wxDefaultPosition, wxDefaultSize, 0 );
