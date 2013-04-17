@@ -608,28 +608,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             // add new record if vector is empty or we have a new day
             //
             if (project->statistics.empty() || project->statistics.back().day!=dday()) {
-                double cutoff = dday() - config.save_stats_days*86400;
-                // delete old stats; fill in the gaps if some days missing
-                //
-                while (!project->statistics.empty()) {
-                    DAILY_STATS& ds = project->statistics[0];
-                    if (ds.day >= cutoff) {
-                        break;
-                    }
-                    if (project->statistics.size() > 1) {
-                        DAILY_STATS& ds2 = project->statistics[1];
-                        if (ds2.day <= cutoff) {
-                            project->statistics.erase(project->statistics.begin());
-                        } else {
-                            ds.day = cutoff;
-                            break;
-                        }
-                    } else {
-                        ds.day = cutoff;
-                        break;
-                    }
-                }
-
+                project->trim_statistics();
                 DAILY_STATS nds;
                 project->statistics.push_back(nds);
             }

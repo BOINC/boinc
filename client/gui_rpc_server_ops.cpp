@@ -614,10 +614,9 @@ static void handle_acct_mgr_info(GUI_RPC_CONN& grc) {
 
 static void handle_get_statistics(GUI_RPC_CONN& grc) {
     grc.mfout.printf("<statistics>\n");
-    for (std::vector<PROJECT*>::iterator i=gstate.projects.begin();
-        i!=gstate.projects.end();++i
-    ) {
-        (*i)->write_statistics(grc.mfout,true);
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        p->write_statistics(grc.mfout);
     }
     grc.mfout.printf("</statistics>\n");
 }
