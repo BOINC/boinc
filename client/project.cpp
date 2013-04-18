@@ -468,6 +468,9 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         if (strlen(host_venue)) {
             out.printf("    <venue>%s</venue>\n", host_venue);
         }
+        char project_dir[MAXPATHLEN];
+        get_project_dir(this, project_dir, sizeof(project_dir));
+        out.printf("    <project_dir>%s</project_dir>\n", project_dir);
     } else {
        for (i=0; i<scheduler_urls.size(); i++) {
             out.printf(
@@ -487,9 +490,6 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
                 t->url.c_str()
             );
         }
-        char project_dir[MAXPATHLEN];
-        get_project_dir(this, project_dir, sizeof(project_dir));
-        out.printf("    <project_dir>%s</project_dir>\n", project_dir);
     }
     out.printf(
         "</project>\n"
