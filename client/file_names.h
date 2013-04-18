@@ -27,7 +27,6 @@ extern int make_soft_link(PROJECT* project, char* link_path, char* rel_file_path
 // get the pathname (relative to client home dir) of a project file
 //
 extern void get_pathname(FILE_INFO* fip, char* path, int len);
-extern void get_project_dir(PROJECT*, char*, int);
 
 // get the pathname (relative to client home dir) of the
 // directory used for a particular application "slot"

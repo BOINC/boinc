@@ -79,19 +79,18 @@ double CLIENT_STATE::allowed_disk_usage(double boinc_total) {
 // GLOBAL_STATE::total_disk_usage
 //
 int CLIENT_STATE::get_disk_usages() {
-    char buf[256];
     unsigned int i;
     double size;
     PROJECT* p;
     int retval;
+    char buf[MAXPATHLEN];
 
     client_disk_usage = 0;
     total_disk_usage = 0;
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         p->disk_usage = 0;
-        get_project_dir(p, buf, sizeof(buf));
-        retval = dir_size(buf, size);
+        retval = dir_size(p->project_dir(), size);
         if (!retval) p->disk_usage = size;
     }
 

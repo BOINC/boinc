@@ -420,14 +420,13 @@ void ACTIVE_TASK_SET::get_memory_usage() {
 // Move it from slot dir to project dir
 //
 int ACTIVE_TASK::move_trickle_file() {
-    char project_dir[MAXPATHLEN], new_path[MAXPATHLEN], old_path[MAXPATHLEN];
+    char new_path[MAXPATHLEN], old_path[MAXPATHLEN];
     int retval;
 
-    get_project_dir(result->project, project_dir, sizeof(project_dir));
     sprintf(old_path, "%s/trickle_up.xml", slot_dir);
     sprintf(new_path,
         "%s/trickle_up_%s_%d.xml",
-        project_dir, result->name, (int)time(0)
+        result->project->project_dir(), result->name, (int)time(0)
     );
     retval = boinc_rename(old_path, new_path);
 

@@ -806,14 +806,13 @@ int CLIENT_STATE::write_state_file_if_needed() {
 //
 void CLIENT_STATE::check_anonymous() {
     unsigned int i;
-    char dir[256], path[MAXPATHLEN];
+    char path[MAXPATHLEN];
     FILE* f;
     int retval;
 
     for (i=0; i<projects.size(); i++) {
         PROJECT* p = projects[i];
-        get_project_dir(p, dir, sizeof(dir));
-        sprintf(path, "%s/%s", dir, APP_INFO_FILE_NAME);
+        sprintf(path, "%s/%s", p->project_dir(), APP_INFO_FILE_NAME);
         f = fopen(path, "r");
         if (!f) continue;
         msg_printf(p, MSG_INFO,

@@ -193,8 +193,6 @@ int ACTIVE_TASK::get_shmem_seg_name() {
 }
 
 void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
-    char project_dir[256], project_path[MAXPATHLEN];
-
     aid.major_version = BOINC_MAJOR_VERSION;
     aid.minor_version = BOINC_MINOR_VERSION;
     aid.release = BOINC_RELEASE;
@@ -212,9 +210,7 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
     aid.hostid = wup->project->hostid;
     safe_strcpy(aid.user_name, wup->project->user_name);
     safe_strcpy(aid.team_name, wup->project->team_name);
-    get_project_dir(wup->project, project_dir, sizeof(project_dir));
-    relative_to_absolute(project_dir, project_path);
-    strcpy(aid.project_dir, project_path);
+    strcpy(aid.project_dir, wup->project->project_dir_absolute());
     relative_to_absolute("", aid.boinc_dir);
     strcpy(aid.authenticator, wup->project->authenticator);
     aid.slot = slot;
@@ -941,8 +937,7 @@ int ACTIVE_TASK::start() {
         //
         char libpath[8192];
         char newlibs[256];
-        get_project_dir(wup->project, buf, sizeof(buf));
-        sprintf(newlibs, "../../%s:.:../..", buf);
+        sprintf(newlibs, "../../%s:.:../..", wup->project->project_dir());
 #ifdef __APPLE__
         strcat(newlibs, ":/usr/local/cuda/lib/");
 #endif

@@ -65,12 +65,6 @@ int make_soft_link(PROJECT* project, char* link_path, char* rel_file_path) {
     return 0;
 }
 
-void get_project_dir(PROJECT* p, char* path, int len) {
-    char buf[1024];
-    escape_project_url(p->master_url, buf);
-    snprintf(path, len, "%s/%s", PROJECTS_DIR, buf);
-}
-
 // Gets the pathname of a file
 //
 void get_pathname(FILE_INFO* fip, char* path, int len) {
@@ -85,10 +79,10 @@ void get_pathname(FILE_INFO* fip, char* path, int len) {
         if (fip->is_auto_update_file) {
             boinc_version_dir(*p, gstate.auto_update.version, buf);
         } else {
-            get_project_dir(p, buf, sizeof(buf));
+            strcpy(buf, p->project_dir());
         }
 #else
-        get_project_dir(p, buf, sizeof(buf));
+        strcpy(buf, p->project_dir());
 #endif
         snprintf(path, len, "%s/%s", buf, fip->name);
     } else {
@@ -133,7 +127,6 @@ void get_slot_dir(int slot, char* path, int len) {
 // Create the directory for the project p
 //
 int make_project_dir(PROJECT& p) {
-    char buf[1024];
     int retval;
 
     boinc_mkdir(PROJECTS_DIR);
@@ -151,36 +144,33 @@ int make_project_dir(PROJECT& p) {
         set_to_project_group(PROJECTS_DIR);
     }
 #endif
-    get_project_dir(&p, buf, sizeof(buf));
-    retval = boinc_mkdir(buf);
+    retval = boinc_mkdir(p.project_dir());
 #ifndef _WIN32
     if (g_use_sandbox) {
         old_mask = umask(2);
         // Contents of projects directory must be world-readable so BOINC Client can read
         // files written by projects which have user boinc_project and group boinc_project
-        chmod(buf,
+        chmod(p.project_dir(),
             S_IRUSR|S_IWUSR|S_IXUSR
             |S_IRGRP|S_IWGRP|S_IXGRP
             |S_IROTH|S_IXOTH
         );
         umask(old_mask);
-        set_to_project_group(buf);
+        set_to_project_group(p.project_dir());
     }
 #endif
     return retval;
 }
 
 int remove_project_dir(PROJECT& p) {
-    char buf[1024];
     int retval;
 
-    get_project_dir(&p, buf, sizeof(buf));
-    retval = client_clean_out_dir(buf, "remove project dir");
+    retval = client_clean_out_dir(p.project_dir(), "remove project dir");
     if (retval) {
         msg_printf(&p, MSG_INTERNAL_ERROR, "Can't delete file %s", boinc_failed_file);
         return retval;
     }
-    return remove_project_owned_dir(buf);
+    return remove_project_owned_dir(p.project_dir());
 }
 
 // Create the slot directory for the specified slot #
@@ -341,9 +331,9 @@ bool is_image_file(const char* filename) {
 }
 
 void boinc_version_dir(PROJECT& p, VERSION_INFO& vi, char* buf) {
-    char projdir[1024];
-    get_project_dir(&p, projdir, sizeof(projdir));
-    sprintf(buf, "%s/boinc_version_%d_%d_%d", projdir, vi.major, vi.minor, vi.release);
+    sprintf(buf, "%s/boinc_version_%d_%d_%d",
+        p.project_dir(), vi.major, vi.minor, vi.release
+    );
 }
 
 bool is_version_dir(char* buf, VERSION_INFO& vi) {

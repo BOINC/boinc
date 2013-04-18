@@ -18,6 +18,7 @@
 #include <string.h>
 
 #include "str_replace.h"
+#include "url.h"
 
 #include "client_msgs.h"
 #include "client_state.h"
@@ -468,9 +469,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         if (strlen(host_venue)) {
             out.printf("    <venue>%s</venue>\n", host_venue);
         }
-        char project_dir[MAXPATHLEN];
-        get_project_dir(this, project_dir, sizeof(project_dir));
-        out.printf("    <project_dir>%s</project_dir>\n", project_dir);
+        out.printf("    <project_dir>%s</project_dir>\n", project_dir_absolute());
     } else {
        for (i=0; i<scheduler_urls.size(); i++) {
             out.printf(
@@ -639,12 +638,11 @@ const char* PROJECT::get_scheduler_url(int index, double r) {
 //
 void PROJECT::delete_project_file_symlinks() {
     unsigned int i;
-    char project_dir[256], path[MAXPATHLEN];
+    char path[MAXPATHLEN];
 
-    get_project_dir(this, project_dir, sizeof(project_dir));
     for (i=0; i<project_files.size(); i++) {
         FILE_REF& fref = project_files[i];
-        sprintf(path, "%s/%s", project_dir, fref.open_name);
+        sprintf(path, "%s/%s", project_dir(), fref.open_name);
         delete_project_owned_file(path, false);
     }
 }
@@ -698,15 +696,14 @@ void PROJECT::write_project_files(MIOFILE& f) {
 // has several logical names, so try them all
 //
 int PROJECT::write_symlink_for_project_file(FILE_INFO* fip) {
-    char project_dir[256], link_path[MAXPATHLEN], file_path[MAXPATHLEN];
+    char link_path[MAXPATHLEN], file_path[MAXPATHLEN];
     unsigned int i;
 
-    get_project_dir(this, project_dir, sizeof(project_dir));
     for (i=0; i<project_files.size(); i++) {
         FILE_REF& fref = project_files[i];
         if (fref.file_info != fip) continue;
-        sprintf(link_path, "%s/%s", project_dir, fref.open_name);
-        sprintf(file_path, "%s/%s", project_dir, fip->name);
+        sprintf(link_path, "%s/%s", project_dir(), fref.open_name);
+        sprintf(file_path, "%s/%s", project_dir(), fip->name);
         make_soft_link(this, link_path, file_path);
     }
     return 0;
@@ -857,4 +854,20 @@ void PROJECT::trim_statistics() {
             break;
         }
     }
+}
+
+const char* PROJECT::project_dir() {
+    if (_project_dir[0] == 0) {
+        char buf[1024];
+        escape_project_url(master_url, buf);
+        sprintf(_project_dir, "%s/%s", PROJECTS_DIR, buf);
+    }
+    return _project_dir;
+}
+
+const char* PROJECT::project_dir_absolute() {
+    if (_project_dir_absolute[0] == 0) {
+        relative_to_absolute(project_dir(), _project_dir_absolute);
+    }
+    return _project_dir_absolute;
 }
