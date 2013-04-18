@@ -210,7 +210,6 @@ int ACTIVE_TASK::request_abort() {
 
 #ifdef _WIN32
 static void kill_app_process(int pid, bool will_restart) {
-    int retval = 0;
     HANDLE h = OpenProcess(READ_CONTROL | PROCESS_TERMINATE, false, pid);
     if (h == NULL) return;
     TerminateProcess(h, will_restart?0:EXIT_ABORTED_BY_CLIENT);
