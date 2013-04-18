@@ -522,7 +522,6 @@ public class RpcClient {
 		}
 	}
 	
-
 	/**
 	 * Performs get_results RPC towards BOINC client (only active results)
 	 * 

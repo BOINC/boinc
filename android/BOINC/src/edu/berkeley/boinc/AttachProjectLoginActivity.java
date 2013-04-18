@@ -431,29 +431,34 @@ public class AttachProjectLoginActivity extends Activity{
 		
 		@Override
 		protected Integer doInBackground(Void... params) {
-			if(!projectInfoPresent) { // only url string is available
-				Log.d(TAG, "doInBackground() - GetProjectConfig for manual input url: " + url);
+			try{
+				if(!projectInfoPresent) { // only url string is available
+					Log.d(TAG, "doInBackground() - GetProjectConfig for manual input url: " + url);
+					
+					if(checkProjectAlreadyAttached(url)) return R.string.attachproject_login_error_project_exists;
+					
+					//fetch ProjectConfig
+					projectConfig = monitor.getProjectConfig(url);
+				} else {
+					Log.d(TAG, "doInBackground() - GetProjectConfig for list selection url: " + projectInfo.url);
+					
+					if(checkProjectAlreadyAttached(projectInfo.url)) return R.string.attachproject_login_error_project_exists;
+					
+					//fetch ProjectConfig
+					projectConfig = monitor.getProjectConfig(projectInfo.url);
+					
+					// fetch project logo	
+					loadBitmap();
+				}
 				
-				if(checkProjectAlreadyAttached(url)) return R.string.attachproject_login_error_project_exists;
-				
-				//fetch ProjectConfig
-				projectConfig = monitor.getProjectConfig(url);
-			} else {
-				Log.d(TAG, "doInBackground() - GetProjectConfig for list selection url: " + projectInfo.url);
-				
-				if(checkProjectAlreadyAttached(projectInfo.url)) return R.string.attachproject_login_error_project_exists;
-				
-				//fetch ProjectConfig
-				projectConfig = monitor.getProjectConfig(projectInfo.url);
-				
-				// fetch project logo	
-				loadBitmap();
-			}
-			
-			if (projectConfig != null && projectConfig.error_num != null && projectConfig.error_num == 0) {
-				return 0;
-			} else { 
-				Log.d(TAG,"getProjectConfig returned error num:" + projectConfig.error_num);
+				if (projectConfig != null && projectConfig.error_num != null && projectConfig.error_num == 0) {
+					return 0;
+				} else { 
+					Log.d(TAG,"getProjectConfig returned error num:" + projectConfig.error_num);
+					return R.string.attachproject_login_error_toast;
+				}
+			} catch(Exception e) {
+				Log.w(TAG,"error in doInBackround",e);
 				return R.string.attachproject_login_error_toast;
 			}
 		}

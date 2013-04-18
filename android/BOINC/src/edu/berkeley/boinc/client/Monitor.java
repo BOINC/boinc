@@ -613,7 +613,6 @@ public class Monitor extends Service {
 		return false;
 	}
 	
-
 	public String readAuthToken() {
 		File authFile = new File(clientPath+authFileName);
     	StringBuffer fileData = new StringBuffer(100);

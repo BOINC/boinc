@@ -46,6 +46,7 @@
     <string name="attachproject_list_manual__dialog_title">Enter URL of scientific project:</string>
     <string name="attachproject_list_manual__dialog_button">></string>
     <string name="attachproject_list_manual_no_url">Please enter project URL!</string>
+    <string name="attachproject_list_no_internet">No internet connection!</string>
     	<!-- project login -->
     <string name="attachproject_login_loading">Contacting project server&#8230;</string>
     <string name="attachproject_login_image_description">Project logo.</string>
@@ -71,7 +72,7 @@
     <string name="attachproject_login_button_registration">></string>
     <string name="attachproject_login_button_login">Login</string>
     <string name="attachproject_login_toast_ok">Successful.</string>
-    <string name="attachproject_login_error_toast">Server connection failed!</string>
+    <string name="attachproject_login_error_toast">Contacting project failed!</string>
     <string name="attachproject_login_error_project_exists">Project is already attached!</string>
     <string name="attachproject_login_toast_error_wrong_name">Unknown eMail address!</string>
     <string name="attachproject_login_toast_error_wrong_pwd">Wrong password!</string>

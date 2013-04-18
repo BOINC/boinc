@@ -40,6 +40,4 @@ public class ProjectConfig{
 	public ArrayList<PlatformInfo> platforms = new ArrayList<PlatformInfo>();
 	public String termsOfUse;
 	
-	//TODO system requirements
-	
 }

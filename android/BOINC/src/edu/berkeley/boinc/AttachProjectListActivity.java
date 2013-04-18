@@ -29,8 +29,11 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.Service;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -121,6 +124,16 @@ public class AttachProjectListActivity extends Activity implements android.view.
         lv.setAdapter(listAdapter);
 	}
 	
+	// check whether device is online before starting connection attempt
+	// as needed for AttachProjectLoginActivity (retrieval of ProjectConfig)
+	// note: available internet does not imply connection to project server
+	// is possible!
+	private Boolean checkDeviceOnline() {
+	    ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+	    return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+	}
+	
 	// get called by manual input list item
 	public void manualUrlItem(View view) {
 		//Log.d(TAG,"manualUrlItem");
@@ -147,10 +160,13 @@ public class AttachProjectListActivity extends Activity implements android.view.
 			String url = ((EditText)manualUrlInputDialog.findViewById(R.id.Input)).getText().toString();
 
 			if(url == null) { // error while parsing
-				showErrorToast();
+				showErrorToast(R.string.attachproject_list_manual_no_url);
 			}
 			else if(url.length()== 0) { //nothing in edittext
-				showErrorToast();
+				showErrorToast(R.string.attachproject_list_manual_no_url);
+			}
+			else if(!checkDeviceOnline()) {
+				showErrorToast(R.string.attachproject_list_no_internet);
 			} else {
 				manualUrlInputDialog.dismiss();
 				startAttachProjectLoginActivity(null, url);
@@ -163,12 +179,16 @@ public class AttachProjectListActivity extends Activity implements android.view.
 	// gets called by project list item
 	public void onProjectClick(View view) {
 		//Log.d(TAG,"onProjectClick");
+		if(!checkDeviceOnline()) {
+			showErrorToast(R.string.attachproject_list_no_internet);
+			return;
+		}
 		try {
 			ProjectInfo project = (ProjectInfo) view.getTag();
 			startAttachProjectLoginActivity(project, null); 
 		} catch (Exception e) {
 			Log.w(TAG,"error parsing view tag",e);
-			showErrorToast();
+			showErrorToast(R.string.attachproject_list_manual_no_url);
 		}
 	}
 	
@@ -180,8 +200,8 @@ public class AttachProjectListActivity extends Activity implements android.view.
 		startActivity(intent);
 	}
 
-	private void showErrorToast() {
-		Toast toast = Toast.makeText(getApplicationContext(), R.string.attachproject_list_manual_no_url, Toast.LENGTH_SHORT);
+	private void showErrorToast(int resourceId) {
+		Toast toast = Toast.makeText(getApplicationContext(), resourceId, Toast.LENGTH_SHORT);
 		toast.show();
 	}
 
