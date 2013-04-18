@@ -35,6 +35,8 @@ PROJECT::PROJECT() {
 void PROJECT::init() {
     strcpy(master_url, "");
     strcpy(authenticator, "");
+    strcpy(_project_dir, "");
+    strcpy(_project_dir_absolute, "");
     project_specific_prefs = "";
     gui_urls = "";
     resource_share = 100;
