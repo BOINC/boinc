@@ -127,6 +127,7 @@ struct PROJECT {
     std::string team_name;
     int hostid;
     std::vector<GUI_URL> gui_urls;
+    std::string project_dir;
     double user_total_credit;
     double user_expavg_credit;
     double host_total_credit;      // as reported by server

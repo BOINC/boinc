@@ -530,7 +530,7 @@ BEST_APP_VERSION* get_app_version(
         return NULL;
     }
 
-    // if the app uses, homogeneous app version,
+    // if the app uses homogeneous app version,
     // don't send to anonymous platform client.
     // Then check if the WU is already committed to an app version
     //

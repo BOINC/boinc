@@ -279,6 +279,7 @@ int PROJECT::parse(XML_PARSER& xp) {
             xml_unescape(team_name);
             continue;
         }
+        if (xp.parse_string("project_dir", project_dir)) continue;
         if (xp.parse_int("hostid", hostid)) continue;
         if (xp.parse_double("user_total_credit", user_total_credit)) continue;
         if (xp.parse_double("user_expavg_credit", user_expavg_credit)) continue;
@@ -445,6 +446,7 @@ void PROJECT::clear() {
     strcpy(master_url, "");
     resource_share = 0;
     project_name.clear();
+    project_dir.clear();
     user_name.clear();
     team_name.clear();
     user_total_credit = 0;
