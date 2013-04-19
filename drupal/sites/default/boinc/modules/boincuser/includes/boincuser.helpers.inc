@@ -115,7 +115,8 @@ function boinc_get_path($type = 'root') {
     }
     // Redirect home to display the error message and avoid fatal errors
     // (unless trying to flush the cache, don't get in the way of that...)
-    if ($_GET['q'] != 'admin/settings/performance') {
+    if ($_GET['q'] != 'admin/settings/performance' AND
+        $_GET['q'] != 'admin/boinc/environment') {
       drupal_goto('');
     }
   }
