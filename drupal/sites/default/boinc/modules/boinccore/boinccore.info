@@ -1,0 +1,8 @@
+; $Id$
+name = BOINC core
+description = Common BOINC features and functions
+core = 6.x
+dependencies[] = user
+dependencies[] = node
+dependencies[] = taxonomy
+package = BOINC

@@ -144,9 +144,10 @@ function boinc_preprocess_page(&$vars, $hook) {
  * @param $hook
  *   The name of the template being rendered ("node" in this case.)
  */
-/* -- Delete this line if you want to use this function
+///* -- Delete this line if you want to use this function
 function boinc_preprocess_node(&$vars, $hook) {
-  $vars['sample_variable'] = t('Lorem ipsum.');
+  
+  //$vars['sample_variable'] = t('Lorem ipsum.');
 
   // Optionally, run node-type-specific preprocess functions, like
   // boinc_preprocess_node_page() or boinc_preprocess_node_story().
@@ -156,6 +157,72 @@ function boinc_preprocess_node(&$vars, $hook) {
   }
 }
 // */
+
+/**
+ * Preprocessing for forum type nodes
+ */
+function boinc_preprocess_node_forum(&$vars, $hook) {
+  //drupal_set_message('<pre>' . print_r(get_defined_vars(),TRUE) . '</pre>'); // print what variables are available
+  //drupal_set_message('<pre>' . print_r($vars['node']->links, TRUE . '</pre>')); // print what links are available
+  if (user_access('edit any forum topic')) {
+    $node_control = "node_control/{$vars['node']->nid}";
+    if ($vars['node']->status) {
+      $vars['node']->links['hide'] = array(
+        'title' => t('Hide'),
+        'href' => "{$node_control}/hide",
+        'attributes' => array(
+          'title' => t('Hide this topic')
+        )
+      );
+    }
+    else {
+      $vars['node']->links['unhide'] = array(
+        'title' => t('Unhide'),
+        'href' => "{$node_control}/unhide",
+        'attributes' => array(
+          'title' => t('Unhide this topic')
+        )
+      );
+    }
+    if ($vars['node']->comment == 2) {
+      $vars['node']->links['lock'] = array(
+        'title' => t('Lock'),
+        'href' => "{$node_control}/lock",
+        'attributes' => array(
+          'title' => t('Lock this thread for comments')
+        )
+      );
+    }
+    else {
+      $vars['node']->links['unlock'] = array(
+        'title' => t('Unlock'),
+        'href' => "{$node_control}/unlock",
+        'attributes' => array(
+          'title' => t('Unlock this thread for comments')
+        )
+      );
+    }
+    if ($vars['node']->sticky) {
+      $vars['node']->links['make_unsticky'] = array(
+        'title' => t('Make unsticky'),
+        'href' => "{$node_control}/unsticky",
+        'attributes' => array(
+          'title' => t('Make this topic sticky')
+        )
+      );
+    }
+    else {
+      $vars['node']->links['make_sticky'] = array(
+        'title' => t('Make sticky'),
+        'href' => "{$node_control}/sticky",
+        'attributes' => array(
+          'title' => t('Remove sticky status from this topic')
+        )
+      );
+    }
+  }
+  $vars['links'] = theme_links($vars['node']->links, array('class' => 'links inline'));
+}
 
 /**
  * Override or insert variables into the comment templates.

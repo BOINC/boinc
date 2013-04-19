@@ -1,0 +1,80 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Provides common BOINC module functionality.
+ *
+ * In general, any custom feature or function required independently by
+ * multiple BOINC modules should be in this module.
+ */
+
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Includes that provide supporting functions
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+//require_once('includes/boinccore.forms.inc');
+//require_once('includes/boinccore.helpers.inc');
+
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Hooks into core modules
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+ 
+/**
+ * Implementation of hook_menu(); determine the actions that correspond
+ * with defined URL paths
+ */
+function boinccore_menu() {
+  $items['node_control'] = array(
+    'page callback' => 'boinccore_node_control',
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_CALLBACK
+  );
+  return $items;
+}
+
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Page callbacks from hook_menu()
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+ * Controller for handling simple node status configuration.
+ * Allow published, sticky, and comment status to be set on nodes by direct
+ * link rather than through the node form.
+ */
+function boinccore_node_control($nid = NULL, $action = NULL) {
+  if (!$nid OR !$node = node_load($nid)) {
+    // What are you even doing here...
+    return FALSE;
+  }
+  switch ($action) {
+  case 'unhide':
+    node_publish_action($node);
+    break;
+  case 'hide':
+    node_unpublish_action($node);
+    break;
+  case 'sticky':
+    node_make_sticky_action($node);
+    break;
+  case 'unsticky':
+    node_make_unsticky_action($node);
+    break;
+  case 'lock':
+    $node->comment = 1;
+    watchdog('action', 'Locked comments on @type %title.', array(
+      '@type' => node_get_types('name', $node), '%title' => $node->title));
+    break;
+  case 'unlock':
+    $node->comment = 2;
+    watchdog('action', 'Unlocked comments on @type %title.', array(
+      '@type' => node_get_types('name', $node), '%title' => $node->title));
+    break;
+  default:
+  }
+  node_save($node);
+  drupal_goto("node/{$nid}");
+}
