@@ -29,12 +29,45 @@
 function boinccore_menu() {
   $items['node_control'] = array(
     'page callback' => 'boinccore_node_control',
-    'access arguments' => array('administer site configuration'),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK
+  );
+  $items['comment_control'] = array(
+    'page callback' => 'boinccore_comment_control',
+    'access arguments' => array('administer comments'),
     'type' => MENU_CALLBACK
   );
   return $items;
 }
 
+
+function boinccore_link($type, $object, $teaser = FALSE) {
+  $links = array();
+  if ($type == 'comment') {
+    if (user_access('administer comments')) {
+      $comment_control = "comment_control/{$object->cid}";
+      if ($object->status == 0) {
+        $links['hide'] = array(
+          'title' => t('Hide'),
+          'href' => "{$comment_control}/hide",
+          'attributes' => array(
+            'title' => t('Hide this comment')
+          )
+        );
+      }
+      else {
+        $links['unhide'] = array(
+          'title' => t('Unhide'),
+          'href' => "{$comment_control}/unhide",
+          'attributes' => array(
+            'title' => t('Unhide this comment')
+          )
+        );
+      }
+    }
+  }
+  return $links;
+}
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Page callbacks from hook_menu()
@@ -46,7 +79,9 @@ function boinccore_menu() {
  * link rather than through the node form.
  */
 function boinccore_node_control($nid = NULL, $action = NULL) {
-  if (!$nid OR !$node = node_load($nid)) {
+  if ((!$nid OR !$node = node_load($nid)) OR
+      ($node->type == 'forum' AND !user_access('edit any forum topic')) OR
+      ($node->type != 'forum' AND !user_access('administer nodes'))) {
     // What are you even doing here...
     return FALSE;
   }
@@ -77,4 +112,25 @@ function boinccore_node_control($nid = NULL, $action = NULL) {
   }
   node_save($node);
   drupal_goto("node/{$nid}");
+}
+/**
+ * Controller for handling simple node status configuration.
+ * Allow published, sticky, and comment status to be set on nodes by direct
+ * link rather than through the node form.
+ */
+function boinccore_comment_control($cid = NULL, $action = NULL) {
+  if (!$cid OR !$comment = _comment_load($cid)) {
+    // What are you even doing here...
+    return FALSE;
+  }
+  switch ($action) {
+  case 'unhide':
+    comment_publish_action($comment);
+    break;
+  case 'hide':
+    comment_unpublish_action($comment);
+    break;
+  default:
+  }
+  drupal_goto("node/{$comment->nid}", NULL, "comment-{$cid}");
 }
