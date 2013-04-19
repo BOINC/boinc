@@ -47,7 +47,6 @@ function discussion_forums_user_default_permissions() {
     'name' => 'delete any forum topic',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'moderator',
     ),
   );
 
