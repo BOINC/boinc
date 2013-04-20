@@ -45,6 +45,8 @@ struct ACCT_MGR_INFO : PROJ_AM {
     bool send_gui_rpc_info;
         // whether to include GUI RPC port and password hash
         // in AM RPCs (used for "farm management")
+    bool no_project_notices;
+        // if set, don't show notices from projects
     bool cookie_required;
         // use of cookies are required during initial signup
         // NOTE: This bool gets dropped after the client has
@@ -53,8 +55,6 @@ struct ACCT_MGR_INFO : PROJ_AM {
         // if the cookies could not be detected, provide a
         // link to a website to go to so the user can find
         // what login name and password they have been assigned
-        // NOTE: This bool gets dropped after the client has
-        //   successfully attached to an account manager
     bool password_error;
 
     inline bool using_am() {
@@ -62,6 +62,10 @@ struct ACCT_MGR_INFO : PROJ_AM {
         if (!strlen(login_name)) return false;
         if (!strlen(password_hash)) return false;
         return true;
+    }
+    inline bool get_no_project_notices() {
+        if (!using_am()) return false;
+        return no_project_notices;
     }
 
     ACCT_MGR_INFO();
