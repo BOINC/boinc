@@ -450,6 +450,7 @@ double estimate_duration(WORKUNIT& wu, BEST_APP_VERSION& bav) {
     return ed;
 }
 
+// Parse user's project prferences.
 // TODO: use XML_PARSER
 //
 static void get_prefs_info() {
@@ -497,7 +498,7 @@ static void get_prefs_info() {
     if (parse_bool(buf,"no_ati", flag)) {
         g_wreq->dont_use_proc_type[PROC_TYPE_AMD_GPU] = flag;
     }
-    if (parse_bool(buf,"no_intel", flag)) {
+    if (parse_bool(buf,"no_intel_gpu", flag)) {
         g_wreq->dont_use_proc_type[PROC_TYPE_INTEL_GPU] = flag;
     }
 }
