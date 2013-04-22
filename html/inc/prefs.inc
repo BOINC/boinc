@@ -45,6 +45,7 @@
 //    [ <no_cpu>1</no_cpu> ]
 //    [ <no_cuda>1</no_cuda> ]
 //    [ <no_ati>1</no_ati> ]
+//    [ <no_intel_gpu>1</no_intel_gpu> ]
 //    <project-specific>
 //            ... (arbitrary project-specific XML)
 //    </project-specific>
@@ -333,6 +334,18 @@ if ($app_types->count > 1) {
                 "</span>"
             ),
             "no_cuda",
+            false,
+            true
+        );
+    }
+    if ($app_types->intel_gpu) {
+        $project_pref_descs[] = new PREF_BOOL (
+            tra(
+                "Use Intel GPU %1 Enforced by version 7.0+ %2",
+                "<br><span class=note>",
+                "</span>"
+            ),
+            "no_intel_gpu",
             false,
             true
         );

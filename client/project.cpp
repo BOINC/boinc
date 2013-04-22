@@ -33,6 +33,8 @@ PROJECT::PROJECT() {
 }
 
 void PROJECT::init() {
+    strcpy(_project_dir, "");
+    strcpy(_project_dir_absolute, "");
     strcpy(master_url, "");
     strcpy(authenticator, "");
     strcpy(_project_dir, "");

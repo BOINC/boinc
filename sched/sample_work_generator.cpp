@@ -15,17 +15,24 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// sample_work_generator.cpp: an example BOINC work generator.
-// This work generator has the following properties
-// (you may need to change some or all of these):
+// sample_work_generator: example BOINC work generator.
+//
+// --app name               app name (default example_app)
+// --in_template_file       input template file (default example_app_in)
+// --out_template_file      output template file (default example_app_out)
+// -d N                     log verbosity level (0..4)
+// --help                   show usage
+// --version                show version
 //
 // - Runs as a daemon, and creates an unbounded supply of work.
-//   It attempts to maintain a "cushion" of 100 unsent job instances.
+//   It attempts to maintain a "cushion" of 100 unsent job instances
+//   for the given app.
 //   (your app may not work this way; e.g. you might create work in batches)
-// - Creates work for the application "example_app".
 // - Creates a new input file for each job;
 //   the file (and the workunit names) contain a timestamp
 //   and sequence number, so they're unique.
+//
+// This is an example - customize for your needs
 
 #include <sys/param.h>
 #include <unistd.h>
@@ -48,6 +55,7 @@
 #define CUSHION 10
     // maintain at least this many unsent results
 #define REPLICATION_FACTOR  1
+    // number of instances of each job
 
 const char* app_name = "example_app";
 const char* in_template_file = "example_app_in";
@@ -117,7 +125,7 @@ void main_loop() {
     while (1) {
         check_stop_daemons();
         int n;
-        retval = count_unsent_results(n, 0);
+        retval = count_unsent_results(n, app.id);
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
                 "count_unsent_jobs() failed: %s\n", boincerror(retval)

@@ -115,6 +115,7 @@ case 1:
     break;
 }
 
+if (false) {
 if ($forum->parent_type == 0) {
     if ($category->is_helpdesk && !$thread->status){
         if ($logged_in_user){
@@ -138,6 +139,7 @@ if ($forum->parent_type == 0) {
             }
         }
     }
+}
 }
 
 echo "
