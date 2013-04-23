@@ -43,27 +43,19 @@ function linux_info() {
     instead.  ";
 }
 
-$w70dev = array(
+$w70 = array(
 	"num"=>"7.0.64",
-	"status"=>"Development version",
+	"status"=>"Recommended version",
 	"file"=>"boinc_7.0.64_windows_intelx86.exe",
 	"date"=>"17 Apr 2013",
 	"type"=>"win_new",
 );
 
-$w70 = array(
+$w70old = array(
 	"num"=>"7.0.28",
-	"status"=>"Recommended version",
+	"status"=>"Older version",
 	"file"=>"boinc_7.0.28_windows_intelx86.exe",
 	"date"=>"21 May 2012",
-	"type"=>"win_new",
-);
-
-$w612 = array(
-	"num"=>"6.12.34",
-	"status"=>"Older version",
-	"file"=>"boinc_6.12.34_windows_intelx86.exe",
-	"date"=>"28 July 2011",
 	"type"=>"win_new",
 );
 
@@ -83,51 +75,35 @@ $w5816 = array(
     "type"=>"win_new",
 );
 
-$w70x64dev = array(
+$w70x64 = array(
 	"num"=>"7.0.64",
-	"status"=>"Development version",
+	"status"=>"Recommended version",
 	"file"=>"boinc_7.0.64_windows_x86_64.exe",
 	"date"=>"17 Apr 2013",
 	"type"=>"win_new",
 );
 
-$w70x64 = array(
+$w70x64old = array(
 	"num"=>"7.0.28",
-	"status"=>"Recommended version",
+	"status"=>"Older version",
 	"file"=>"boinc_7.0.28_windows_x86_64.exe",
 	"date"=>"21 May 2012",
 	"type"=>"win_new",
 );
 
-$w612x64 = array(
-	"num"=>"6.12.34",
-	"status"=>"Older version",
-	"file"=>"boinc_6.12.34_windows_x86_64.exe",
-	"date"=>"28 July 2011",
-	"type"=>"win_new",
-);
-
-$m70dev = array(
+$m70 = array(
 	"num"=>"7.0.65",
-	"status"=>"Development version (standard GUI)",
+	"status"=>"Recommended version (standard GUI)",
 	"file"=>"boinc_7.0.65_macOSX_i686.zip",
 	"date"=>"17 Apr 2013",
 	"type"=>"mac_advanced",
 );
 
-$m70 = array(
+$m70old = array(
 	"num"=>"7.0.31",
-	"status"=>"Recommended version (standard GUI)",
+	"status"=>"Older version (standard GUI)",
 	"file"=>"boinc_7.0.31_macOSX_i686.zip",
 	"date"=>"7 July 2012",
-	"type"=>"mac_advanced",
-);
-
-$m612 = array(
-	"num"=>"6.12.35",
-	"status"=>"Older version (standard GUI)",
-	"file"=>"boinc_6.12.35_macOSX_universal.zip",
-	"date"=>"11 Aug 2011",
 	"type"=>"mac_advanced",
 );
 
@@ -147,27 +123,19 @@ $m66 = array(
     "type"=>"mac_advanced",
 );
 
-$m70cdev = array(
+$m70c = array(
 	"num"=>"7.0.65",
-	"status"=>"Development version (Unix command-line version)",
+	"status"=>"Recommended version (Unix command-line version)",
 	"file"=>"boinc_7.0.65_i686-apple-darwin.zip",
 	"date"=>"17 Apr 2013",
 	"type"=>"bare_core",
 );
 
-$m70c = array(
+$m70cold = array(
 	"num"=>"7.0.31",
-	"status"=>"Recommended version (Unix command-line version)",
+	"status"=>"Older version (Unix command-line version)",
 	"file"=>"boinc_7.0.31_i686-apple-darwin.zip",
 	"date"=>"29 July 2012",
-	"type"=>"bare_core",
-);
-
-$m612c = array(
-	"num"=>"6.12.35",
-	"status"=>"Older version (Unix command-line version)",
-	"file"=>"boinc_6.12.35_universal-apple-darwin.zip",
-	"date"=>"11 Aug 2011",
 	"type"=>"bare_core",
 );
 
@@ -203,51 +171,35 @@ $l66 = array(
 	"type"=>"sea",
 	);
 
-$l70ubuntudev = array(
+$l70ubuntu = array(
 	"num"=>"7.0.65",
-	"status"=>"Development version",
+	"status"=>"Recommended version",
 	"file"=>"boinc_7.0.65_i686-pc-linux-gnu.sh",
 	"date"=>"17 Apr 2013",
 	"type"=>"sea",
 );
 
-$l70ubuntu = array(
+$l70ubuntuold = array(
 	"num"=>"7.0.28",
-	"status"=>"Recommended version",
+	"status"=>"Older version",
 	"file"=>"boinc_7.0.28_i686-pc-linux-gnu.sh",
 	"date"=>"21 May 2012",
 	"type"=>"sea",
 );
 
-$l612ubuntu = array(
-	"num"=>"6.12.34",
-	"status"=>"Older version",
-	"file"=>"boinc_6.12.34_i686-pc-linux-gnu.sh",
-	"date"=>"28 July 2011",
-	"type"=>"sea",
-);
-
-$l70ubuntux64dev = array(
+$l70ubuntux64 = array(
 	"num"=>"7.0.65",
-	"status"=>"Development version",
+	"status"=>"Recommended version",
 	"file"=>"boinc_7.0.65_x86_64-pc-linux-gnu.sh",
 	"date"=>"17 Apr 2013",
 	"type"=>"sea",
 );
 
-$l70ubuntux64 = array(
+$l70ubuntux64old = array(
 	"num"=>"7.0.28",
-	"status"=>"Recommended version",
+	"status"=>"Older version",
 	"file"=>"boinc_7.0.28_x86_64-pc-linux-gnu.sh",
 	"date"=>"21 May 2012",
-	"type"=>"sea",
-);
-
-$l612ubuntux64 = array(
-	"num"=>"6.12.34",
-	"status"=>"Older version",
-	"file"=>"boinc_6.12.34_x86_64-pc-linux-gnu.sh",
-	"date"=>"28 July 2011",
 	"type"=>"sea",
 );
 
@@ -268,9 +220,8 @@ $windows = array(
     "description"=>"2000/XP/Vista/7",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-		$w70dev,
 		$w70,
-		$w612,
+		$w70old,
 		$w66,
         $w5816,
     )
@@ -281,8 +232,8 @@ $windowsx64 = array(
     "description"=>"XP/Vista/7",
     "dbname" => "windows_x86_64",
     "versions"=>array(
-		$w70x64dev,
 		$w70x64,
+		$w70x64old,
 		$w612x64,
     )
 );
@@ -292,10 +243,10 @@ $mac = array(
     "description"=>"Version 10.4.0+",
     "dbname" => "x86_64-apple-darwin",
     "versions"=>array(
-		$m70dev,
 		$m70,
-		$m70cdev,
+		$m70old,
 		$m70c,
+		$m70cold,
 		$m612,
 		$m612c,
     )
@@ -318,9 +269,8 @@ $linux = array(
     "description"=> linux_info(),
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
-		$l70ubuntudev,
 		$l70ubuntu,
-		$l612ubuntu,
+		$l70ubuntuold,
     )
 );
 
@@ -329,9 +279,8 @@ $linuxx64 = array(
     "description"=> linux_info(),
     "dbname" => "x86_64-pc-linux-gnu",
     "versions"=>array(
-		$l70ubuntux64dev,
 		$l70ubuntux64,
-		$l612ubuntux64,
+		$l70ubuntux64old,
     )
 );
 
