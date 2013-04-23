@@ -54,6 +54,7 @@ public class TasksListAdapter extends ArrayAdapter<Result>{
 		ProgressBar pb = (ProgressBar) v.findViewById(R.id.progressBar);
 		TextView header = (TextView) v.findViewById(R.id.taskName);
 		TextView status = (TextView) v.findViewById(R.id.taskStatus);
+		TextView time = (TextView) v.findViewById(R.id.taskTime);
 		TextView progress = (TextView) v.findViewById(R.id.taskProgress);
         
     	Result listItem = entries.get(position);
@@ -75,6 +76,9 @@ public class TasksListAdapter extends ArrayAdapter<Result>{
 		
 		String statusT = determineStatusText(listItem);
 		status.setText(statusT);
+		
+		int elapsedTime = (int)listItem.elapsed_time;
+		time.setText(String.format("%02d:%02d:%02d", elapsedTime/3600, (elapsedTime/60)%60, elapsedTime%60));
     	
         return v;
     }

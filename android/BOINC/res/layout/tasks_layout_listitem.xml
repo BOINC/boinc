@@ -51,11 +51,27 @@
         	android:progressDrawable="@drawable/progressbar_paused" />
         
     </LinearLayout>
-    <TextView android:textAppearance="?android:attr/textAppearanceSmall"
-        android:id="@+id/taskStatus"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-    </TextView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/taskStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/taskTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:paddingRight="10dp"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    </LinearLayout>
 
     
 
