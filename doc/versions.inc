@@ -247,8 +247,6 @@ $mac = array(
 		$m70old,
 		$m70c,
 		$m70cold,
-		$m612,
-		$m612c,
     )
 );
 
