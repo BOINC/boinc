@@ -762,6 +762,8 @@ int VBOX_VM::register_vm() {
     command += "--nic1 nat ";
     command += "--natdnsproxy1 on ";
     command += "--cableconnected1 off ";
+    command += "--usb off ";
+    command += "--usbcardreader off ";
 
     retval = vbm_popen(command, output, "modify");
     if (retval) return retval;
