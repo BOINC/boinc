@@ -101,28 +101,38 @@ function boinc_get_path($type = 'root') {
     return $include_dir;
   }
   else {
-    watchdog('boincuser', 'The BOINC environment is not configured. Please
-        !configure_it', array('!configure_it' => l(t('configure it now'),
-          'admin/boinc/environment')), WATCHDOG_ERROR);
-    if (user_access('administer site configuration')) {
-      drupal_set_message(t('The BOINC environment is not configured. Please
-        !configure_it', array('!configure_it' => l(t('configure it now'),
-          'admin/boinc/environment'))), 'error', FALSE);
+    // Don't show errors on blacklisted pages
+    $page_blacklist = array(
+      'admin/boinc/environment'
+    );
+    if (!in_array($_GET['q'], $page_blacklist)) {
+      watchdog('boincuser', 'The BOINC environment is not configured. Please
+          !configure_it', array('!configure_it' => l(t('configure it now'),
+            'admin/boinc/environment')), WATCHDOG_ERROR);
+      if (user_access('administer site configuration')) {
+        drupal_set_message(t('The BOINC environment is not configured. Please
+          !configure_it', array('!configure_it' => l(t('configure it now'),
+            'admin/boinc/environment'))), 'error', FALSE);
+      }
+      else {
+        drupal_set_message(t('There is a problem with the site. Please contact
+          the system administrator.'), 'error', FALSE);
+      }
+      // Redirect home to display the error message and avoid fatal errors
+      // (unless on a blacklisted page)
+      $redirect_blacklist = array(
+        'admin/settings/performance',
+        'admin/boinc/environment',
+        'home',
+        ''
+      );
+      if (!in_array($_GET['q'], $redirect_blacklist)) {
+        drupal_goto('');
+      }
     }
     else {
-      drupal_set_message(t('There is a problem with the site. Please contact
-        the system administrator.'), 'error', FALSE);
-    }
-    // Redirect home to display the error message and avoid fatal errors
-    // (unless trying to flush the cache, don't get in the way of that...)
-    $page_whitelist = array(
-      'admin/settings/performance',
-      'admin/boinc/environment',
-      'home',
-      ''
-    );
-    if (!in_array($_GET['q'], $page_whitelist)) {
-      drupal_goto('');
+      // Clear the messages on the environment config page
+      drupal_get_messages();
     }
   }
   return FALSE;
@@ -132,10 +142,15 @@ function boinc_get_path($type = 'root') {
  * Get the configured scheduler tags
  */
 function boinc_get_scheduler_tags() {
+  // Don't generate messages for blacklisted pages
+  $page_blacklist = array(
+    'admin/boinc/environment',
+    'admin/boinc/scheduler'
+  );
   if ($url_config = variable_get('boinc_scheduler_urls', '')) {
     return explode("\r\n", $url_config);
   }
-  elseif ($_GET['q'] != 'admin/boinc/scheduler') {
+  elseif (!in_array($_GET['q'], $page_blacklist)) {
     watchdog('boincuser', 'The BOINC scheduling server settings are not yet
         configured. Please !verify for the settings to become effective.',
           array('!verify' => l(t('verify the default values') . ' <strong>' . 
