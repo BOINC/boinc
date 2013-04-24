@@ -764,6 +764,13 @@ int VBOX_VM::register_vm() {
     command += "--cableconnected1 off ";
     command += "--usb off ";
     command += "--usbcardreader off ";
+    command += "--uart1 off ";
+    command += "--uart2 off ";
+    command += "--lpt1 off ";
+    command += "--lpt2 off ";
+    command += "--audio none ";
+    command += "--clipboard disabled ";
+    command += "--draganddrop disabled ";
 
     retval = vbm_popen(command, output, "modify");
     if (retval) return retval;
