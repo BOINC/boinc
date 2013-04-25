@@ -302,7 +302,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
             if (cp.have_opencl) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
-                        "[version] plan_class_spec: OpenCL detected. Plan restricted to CAL only GPUs"
+                        "[version] plan_class_spec: OpenCL detected. Plan restricted to CAL only GPUs\n"
                     );
                 }
                 return false;
