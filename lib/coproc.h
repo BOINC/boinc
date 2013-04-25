@@ -163,9 +163,7 @@ struct OPENCL_DEVICE_PROP {
     double opencl_available_ram;        // temp used in scan process
     int opencl_device_index;            // temp used in scan process
 
-#ifndef _USING_FCGI_
     void write_xml(MIOFILE&, const char* tag);
-#endif
     int parse(XML_PARSER&, const char* end_tag);
     void description(char* buf, const char* type);
 };

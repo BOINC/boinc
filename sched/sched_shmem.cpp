@@ -127,7 +127,11 @@ int SCHED_SHMEM::scan_tables() {
         if (app.n_size_classes > 1) {
             char path[MAXPATHLEN];
             sprintf(path, "../size_census_%s", app.name);
+#ifndef _USING_FCGI_
             FILE* f = fopen(path, "r");
+#else
+            FCGI_FILE* f = FCGI::fopen(path, "r");
+#endif
             if (!f) {
                 log_messages.printf(MSG_CRITICAL,
                     "Missing size census file for app %s\n", app.name
