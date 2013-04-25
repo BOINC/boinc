@@ -22,6 +22,7 @@
         <gpu_ram_used_mb>       250         </gpu_ram_used_mb>
         <gpu_peak_flops_scale>  .23         </gpu_peak_flops_scale>
         <cpu_frac>              .1          </cpu_frac>
+        <without_opencl/>
     </plan_class>
     <plan_class>
         <name>                  cuda        </name>
@@ -48,6 +49,19 @@
         <gpu_peak_flops_scale>  .22         </gpu_peak_flops_scale>
         <cpu_frac>              .01         </cpu_frac>
     </plan_class>
+     <plan_class>
+        <name>                  cuda42      </name>
+        <gpu_type>              nvidia      </gpu_type>
+        <cuda/>
+        <min_cuda_version>      4020        </min_cuda_version>
+        <min_driver_version>    30124       </min_driver_version>
+        <min_nvidia_compcap>    200         </min_nvidia_compcap>
+        <ngpus>                 1           </ngpus>
+        <min_gpu_ram_mb>        384         </min_gpu_ram_mb>
+        <gpu_ram_used_mb>       384         </gpu_ram_used_mb>
+        <gpu_peak_flops_scale>  0.22        </gpu_peak_flops_scale>
+        <cpu_frac>              0.01        </cpu_frac>
+     </plan_class>
     <plan_class>
         <name>                  nci         </name>
         <avg_ncpus>             .01         </avg_ncpus>
@@ -62,6 +76,7 @@
         <name>                  opencl_nvidia_101        </name>
         <gpu_type>              nvidia      </gpu_type>
         <opencl/>
+        <min_core_client_version>70000      </min_core_client_version>
         <min_opencl_version>    101         <min_opencl_version>
         <min_gpu_ram_mb>        256         </min_gpu_ram_mb>
         <gpu_ram_used_mb>       256         </gpu_ram_used_mb>
@@ -72,6 +87,7 @@
         <name>                  opencl_ati_101        </name>
         <gpu_type>              amd         </gpu_type>
         <opencl/>
+        <min_core_client_version>70000      </min_core_client_version>
         <min_opencl_version>    101         <min_opencl_version>
         <min_gpu_ram_mb>        256         </min_gpu_ram_mb>
         <gpu_ram_used_mb>       256         </gpu_ram_used_mb>
