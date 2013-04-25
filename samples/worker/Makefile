@@ -1,4 +1,4 @@
-CXXFLAGS = -g 
+CXXFLAGS += -g
 
 PROGS = worker
 
@@ -11,4 +11,4 @@ distclean:
 	rm $(PROGS)
 
 worker: worker.o
-	g++ $(CXXFLAGS) -o worker worker.o
+	g++ $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o worker worker.o
