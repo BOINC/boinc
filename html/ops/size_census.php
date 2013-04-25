@@ -44,15 +44,15 @@ function do_app($app) {
     $result = $db->do_query($query);
     $a = array();
     while ($x = mysql_fetch_object($result)) {
-        $a[] = $x->et_avg * $x->on_frac * $x->active_frac;
+        $a[] = (1/$x->et_avg) * $x->on_frac * $x->active_frac;
     }
     mysql_free_result($result);
     sort($a);
     $n = count($a);
     $f = fopen("../../size_census_".$app->name, "w");
     for ($i=1; $i<$app->n_size_classes; $i++) {
-        $k = (int)(($i*n)/$app->n_size_classes);
-        fprintf($f, "%f\n", $a[$k]);
+        $k = (int)(($i*$n)/$app->n_size_classes);
+        fprintf($f, "%e\n", $a[$k]);
     }
     fclose($f);
 }

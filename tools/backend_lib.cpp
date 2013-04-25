@@ -82,7 +82,12 @@ static void initialize_result(DB_RESULT& result, WORKUNIT& wu) {
     result.id = 0;
     result.create_time = time(0);
     result.workunitid = wu.id;
-    result.server_state = RESULT_SERVER_STATE_UNSENT;
+    result.size_class = wu.size_class;
+    if (result.size_class < 0) {
+        result.server_state = RESULT_SERVER_STATE_UNSENT;
+    } else {
+        result.server_state = RESULT_SERVER_STATE_INACTIVE;
+    }
     result.hostid = 0;
     result.report_deadline = 0;
     result.sent_time = 0;
@@ -120,6 +125,7 @@ int create_result_ti(
     wu.appid = ti.appid;
     wu.priority = ti.priority;
     wu.batch = ti.batch;
+    wu.size_class = ti.size_class;
     return create_result(
         wu,
         result_template_filename,
@@ -528,7 +534,7 @@ int cancel_jobs(int min_id, int max_id) {
     sprintf(set_clause, "server_state=%d, outcome=%d",
         RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_DIDNT_NEED
     );
-    sprintf(where_clause, "server_state=%d and workunitid >=%d and workunitid<= %d",
+    sprintf(where_clause, "server_state<=%d and workunitid >=%d and workunitid<= %d",
         RESULT_SERVER_STATE_UNSENT, min_id, max_id
     );
     retval = result.update_fields_noid(set_clause, where_clause);
@@ -555,7 +561,7 @@ int cancel_job(DB_WORKUNIT& wu) {
     sprintf(set_clause, "server_state=%d, outcome=%d",
         RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_DIDNT_NEED
     );
-    sprintf(where_clause, "server_state=%d and workunitid=%d",
+    sprintf(where_clause, "server_state<=%d and workunitid=%d",
         RESULT_SERVER_STATE_UNSENT, wu.id
     );
     retval = result.update_fields_noid(set_clause, where_clause);

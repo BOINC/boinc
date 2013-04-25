@@ -25,6 +25,7 @@
 #include <cstring>
 #include <string>
 #include <vector>
+#include <sys/param.h>
 
 using std::vector;
 
@@ -98,8 +99,7 @@ int SCHED_SHMEM::scan_tables() {
     int i, j, n;
 
     n = 0;
-    while (!platform.enumerate()) {
-        if (platform.deprecated) continue;
+    while (!platform.enumerate("where deprecated=0")) {
         platforms[n++] = platform;
         if (n == MAX_PLATFORMS) {
             overflow("platforms", "MAX_PLATFORMS");
@@ -109,9 +109,7 @@ int SCHED_SHMEM::scan_tables() {
 
     n = 0;
     app_weight_sum = 0;
-    while (!app.enumerate()) {
-        if (app.deprecated) continue;
-        apps[n++] = app;
+    while (!app.enumerate("where deprecated=0")) {
         if (n == MAX_APPS) {
             overflow("apps", "MAX_APPS");
         }
@@ -126,6 +124,30 @@ int SCHED_SHMEM::scan_tables() {
             have_nci_app = true;
             app.non_cpu_intensive = true;
         }
+        if (app.n_size_classes > 1) {
+            char path[MAXPATHLEN];
+            sprintf(path, "../size_census_%s", app.name);
+            FILE* f = fopen(path, "r");
+            if (!f) {
+                log_messages.printf(MSG_CRITICAL,
+                    "Missing size census file for app %s\n", app.name
+                );
+                return ERR_FOPEN;
+            }
+            for (int i=0; i<app.n_size_classes-1; i++) {
+                char buf[256];
+                char* p = fgets(buf, 256, f);
+                if (!p) {
+                    log_messages.printf(MSG_CRITICAL,
+                        "Size census file for app %s is too short\n", app.name
+                    );
+                    return ERR_XML_PARSE;   // whatever
+                }
+                app.size_class_quantiles[i] = atof(buf);
+            }
+            fclose(f);
+        }
+        apps[n++] = app;
     }
     napps = n;
 
@@ -341,7 +363,7 @@ void SCHED_SHMEM::show(FILE* f) {
                 "HR class",
                 "priority",
                 "in shmem",
-                "size (stdev)",
+                "size class",
                 "need reliable",
                 "inf count"
             );
@@ -356,7 +378,7 @@ void SCHED_SHMEM::show(FILE* f) {
             appname = app?app->name:"missing";
             delta_t = dtime() - wu_result.time_added_to_shared_memory;
             fprintf(f,
-                "%4d %12.12s %10d %10d %10d %8d %10d %7ds %12f %12s %9d\n",
+                "%4d %12.12s %10d %10d %10d %8d %10d %7ds %9d %12s %9d\n",
                 i,
                 appname,
                 wu_result.workunit.id,
@@ -365,7 +387,7 @@ void SCHED_SHMEM::show(FILE* f) {
                 wu_result.workunit.hr_class,
                 wu_result.res_priority,
                 delta_t,
-                wu_result.fpops_size,
+                wu_result.workunit.size_class,
                 wu_result.need_reliable?"yes":"no",
                 wu_result.infeasible_count
             );
