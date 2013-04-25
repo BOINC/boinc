@@ -151,6 +151,12 @@ function boincuser_create_drupal_user($boinc_user) {
     'access' => time()
   );
   
+  // Add user to community member role
+  $community_role = array_search('community member', user_roles(true)); 
+  $userinfo['roles'] = array(
+    $community_role => ''
+  );
+  
   // Mark account as imported so a BOINC account is not created on Insert (i.e. user_save)
   $_SESSION['importedUser'] = true;
   $account = user_save('', $userinfo);

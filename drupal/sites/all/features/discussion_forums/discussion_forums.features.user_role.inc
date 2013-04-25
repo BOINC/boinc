@@ -6,6 +6,11 @@
 function discussion_forums_user_default_roles() {
   $roles = array();
 
+  // Exported role: community member
+  $roles['community member'] = array(
+    'name' => 'community member',
+  );
+
   // Exported role: moderator
   $roles['moderator'] = array(
     'name' => 'moderator',

@@ -1072,6 +1072,12 @@ function boincimport_forum_categories() {
         'view' => (int) !$hidden_forum,
         'update' => 0,
         'delete' => 0,
+        'create' => 0
+      );
+      $forum_perms[$role_map['community member']] = array(
+        'view' => (int) !$hidden_forum,
+        'update' => 0,
+        'delete' => 0,
         'create' => (int) !$hidden_forum
       );
       $forum_perms[$role_map['moderator']] = array(

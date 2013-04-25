@@ -33,12 +33,21 @@ function discussion_forums_user_default_permissions() {
     ),
   );
 
+  // Exported permission: assign community member role
+  $permissions['assign community member role'] = array(
+    'name' => 'assign community member role',
+    'roles' => array(
+      '0' => 'moderator',
+    ),
+  );
+
   // Exported permission: create forum topics
   $permissions['create forum topics'] = array(
     'name' => 'create forum topics',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'authenticated user',
+      '1' => 'community member',
+      '2' => 'moderator',
     ),
   );
 
@@ -72,7 +81,7 @@ function discussion_forums_user_default_permissions() {
     'name' => 'edit own forum topics',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'authenticated user',
+      '1' => 'community member',
     ),
   );
 
@@ -81,7 +90,8 @@ function discussion_forums_user_default_permissions() {
     'name' => 'post comments',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'authenticated user',
+      '1' => 'community member',
+      '2' => 'moderator',
     ),
   );
 
@@ -90,7 +100,8 @@ function discussion_forums_user_default_permissions() {
     'name' => 'post comments without approval',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'authenticated user',
+      '1' => 'community member',
+      '2' => 'moderator',
     ),
   );
 
