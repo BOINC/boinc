@@ -16,8 +16,6 @@ function boinc_standard_enable() {
     $default_theme = 'boinc';
     variable_set('theme_default', $default_theme);
   }
-  drupal_set_message('default theme: ' . $default_theme);
   $default_theme_enabled = db_query("UPDATE {system} SET status = 1
     WHERE type = 'theme' and name = '%s'", $default_theme);
-  if ($default_theme_enabled) drupal_set_message('default theme enabled');
 }

@@ -450,11 +450,11 @@ function boincstats_check_configuration() {
     if (user_access('administer site configuration')) {
       drupal_set_message(t('The BOINC stats system is not configured. Please
         !configure_it', array('!configure_it' => l(t('configure it now'),
-          'admin/boinc/stats'))), 'error');
+          'admin/boinc/stats'))), 'error', FALSE);
     }
     else {
       drupal_set_message(t('There is a problem with the site. Please contact
-        the system administrator.'), 'error');
+        the system administrator.'), 'error', FALSE);
     }
   }
 }
