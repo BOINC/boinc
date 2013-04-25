@@ -848,7 +848,7 @@ void WORK_FETCH::write_request(FILE* f, PROJECT* p) {
     if (log_flags.work_fetch_debug) {
         char buf[256];
         request_string(buf);
-        msg_printf(p, MSG_INFO, buf);
+        msg_printf(p, MSG_INFO, "%s", buf);
     }
 }
 
