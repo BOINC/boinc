@@ -62,6 +62,18 @@ foreach($updates as $update) {
     list($rev, $func) = $update;
     echo "performing update $func\n";
     call_user_func($func);
+    $e = mysql_error();
+    if ($e) {
+        echo "\nWARNING: database upgrade failed.
+MySQL error message: $e
+Please find the update queries in html/ops/db_update.php
+and perform them manually.
+When done, edit PROJECT_DIR/db_revision so that it contains the line
+$rev
+
+";
+        break;
+    }
     file_put_contents("../../db_revision", $rev);
 }
 echo "All done.\n";

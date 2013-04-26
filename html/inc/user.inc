@@ -317,8 +317,10 @@ function show_user_summary_public($user) {
     row2(tra("Country"), $user->country);
     // don't show URL if user has no recent credit (spam suppression)
     //
-    if (strlen($user->url) && $user->expavg_credit > 1) {
-        row2(tra("URL"), "<a href=\"http://$user->url\">http://$user->url</a>");
+    if (strlen($user->url)) {
+        if (no_computing() || $user->expavg_credit > 1) {
+            row2(tra("URL"), "<a href=\"http://$user->url\">http://$user->url</a>");
+        }
     }
     if (!no_computing()) {
         show_credit($user);

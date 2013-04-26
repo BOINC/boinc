@@ -47,7 +47,7 @@ echo "<p><h3>"
     .tra("If you have run BOINC under this account, you can still access it. Here's how:")."
 
 <ul>
-<li> ".tra("Go to the BOINC data directory on your computer (on Windows this is usually <b>C:\\Documents and Settings\All Users\Application Data\BOINC</b> or <b>C:\\Program Files\BOINC</b>.")."
+<li> ".tra("Go to the BOINC data directory on your computer (its location is written to the Event Log at startup).")."
 <li> ".tra("Find your account file for this project; it will be named <b>%1</b>.", $account_file)."
 <li> ".tra("Open the file in a text editor like Notepad. You'll see something like")."
 <pre>

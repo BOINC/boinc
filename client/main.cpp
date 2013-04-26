@@ -82,7 +82,7 @@ void log_message_startup(const char* msg) {
         time_string, msg
     );
     if (!gstate.executing_as_daemon) {
-        fprintf(stdout, evt_msg);
+        fprintf(stdout, "%s", evt_msg);
     } else {
 #ifdef _WIN32
         LogEventInfoMessage(evt_msg);
@@ -91,7 +91,7 @@ void log_message_startup(const char* msg) {
 #elif defined (ANDROID)
         __android_log_print(ANDROID_LOG_INFO, "BOINC", evt_msg);
 #else
-        syslog(LOG_DAEMON|LOG_INFO, evt_msg);
+        syslog(LOG_DAEMON|LOG_INFO, "%s", evt_msg);
 #endif
     }
 }
@@ -115,7 +115,7 @@ void log_message_error(const char* msg) {
     );
 #endif
     if (!gstate.executing_as_daemon) {
-        fprintf(stderr, evt_msg);
+        fprintf(stderr, "%s", evt_msg);
     } else {
 #ifdef _WIN32
         LogEventErrorMessage(evt_msg);
@@ -124,7 +124,7 @@ void log_message_error(const char* msg) {
 #elif defined (ANDROID)
         __android_log_print(ANDROID_LOG_ERROR, "BOINC", evt_msg);
 #else
-        syslog(LOG_DAEMON|LOG_ERR, evt_msg);
+        syslog(LOG_DAEMON|LOG_ERR, "%s", evt_msg);
 #endif
     }
 }
@@ -138,7 +138,7 @@ void log_message_error(const char* msg, int error_code) {
         time_string, msg, error_code
     );
     if (!gstate.executing_as_daemon) {
-        fprintf(stderr, evt_msg);
+        fprintf(stderr, "%s", evt_msg);
     } else {
 #ifdef _WIN32
         LogEventErrorMessage(evt_msg);
@@ -147,7 +147,7 @@ void log_message_error(const char* msg, int error_code) {
 #elif defined (ANDROID)
         __android_log_print(ANDROID_LOG_ERROR, "BOINC", evt_msg);
 #else
-        syslog(LOG_DAEMON|LOG_ERR, evt_msg);
+        syslog(LOG_DAEMON|LOG_ERR, "%s", evt_msg);
 #endif
     }
 }

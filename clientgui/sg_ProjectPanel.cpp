@@ -281,6 +281,30 @@ void CSimpleProjectPanel::UpdateInterface() {
 }
 
 
+void CSimpleProjectPanel::ReskinInterface() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleProjectPanel::ReskinInterface - Function Begin"));
+
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    ProjectSelectionData* selData;
+    PROJECT* project;
+    char* ctrl_url;
+
+    CSimplePanelBase::ReskinInterface();
+
+    // Check to see if we need to reload the project icon
+    int ctrlCount = m_ProjectSelectionCtrl->GetCount();
+    for(int j=0; j<ctrlCount; j++) {
+        selData = (ProjectSelectionData*)m_ProjectSelectionCtrl->GetClientData(j);
+        ctrl_url = selData->project_url;
+        project = pDoc->state.lookup_project(ctrl_url);
+        wxBitmap* projectBM = GetProjectSpecificBitmap(ctrl_url);
+        m_ProjectSelectionCtrl->SetItemBitmap(j, *projectBM);
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleProjectPanel::ReskinInterface - Function Begin"));
+}
+
+
 void CSimpleProjectPanel::OnAddProject(wxCommandEvent& /*event*/) {
     if (m_UsingAccountManager) {
         OnWizardUpdate();
@@ -504,7 +528,7 @@ wxBitmap* CSimpleProjectPanel::GetProjectSpecificBitmap(char* project_url) {
 
     wxASSERT(pSkinSimple);
 
-    // Only update if it is project specific is found
+    // Only update it if project specific is found
     if(boinc_resolve_filename(GetProjectIconLoc(project_url).c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0) {
         wxBitmap* projectBM = new wxBitmap();
         wxString strIconPath = wxString(defaultIcnPath,wxConvUTF8);

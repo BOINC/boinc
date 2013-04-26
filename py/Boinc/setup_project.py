@@ -404,6 +404,7 @@ sys.path.insert(0, os.path.join('%s', 'py'))
             'sample_work_generator',
             'show_shmem',
             'single_job_assimilator', 
+            'size_regulator', 
             'transitioner',
             'transitioner_catchup.php',
             'update_stats'
