@@ -317,6 +317,7 @@ struct WORK_FETCH {
     void compute_shares();
     void clear_backoffs(APP_VERSION&);
     void request_string(char*);
+    bool requested_work();
 };
 
 extern RSC_WORK_FETCH rsc_work_fetch[MAX_RSC];
