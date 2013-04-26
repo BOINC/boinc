@@ -536,7 +536,12 @@ void CSimpleFrame::OnHelp(wxHelpEvent& event) {
 void CSimpleFrame::OnReloadSkin(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnReloadSkin - Function Start"));
     
+    CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    wxASSERT(pSkinAdvanced);
+
     m_pBackgroundPanel->ReskinInterface();
+    SetTitle(pSkinAdvanced->GetApplicationName());
+    SetIcon(*pSkinAdvanced->GetApplicationIcon());
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnReloadSkin - Function End"));
 }
