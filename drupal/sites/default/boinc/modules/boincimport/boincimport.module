@@ -331,6 +331,7 @@ function boincimport_process_form_submit($form, $form_state) {
       else {
         drupal_set_message('Congratulations.  Import Finished');
         drupal_set_message('Please visit the '. l('Post migration configuration', 'admin/boinc/import/post_configuration') .' page');
+        watchdog('boincimport', 'Import process is complete', array(), WATCHDOG_INFO); 
         unset($_SESSION['boincimport_stage_selected']);
       }
       break;
@@ -347,7 +348,7 @@ function boincimport_users() {
   // Check whether the user table has been successfully imported already
   if (variable_get('boincimport_import_user_successful', 0)) {
     drupal_set_message(t('Users already imported successfully'));
-    watchdog('boincimport','Users already imported successfully', array(), WATCHDOG_INFO); 
+    watchdog('boincimport', 'Users already imported successfully', array(), WATCHDOG_INFO); 
     return;
   } 
 
@@ -401,12 +402,13 @@ function boincimport_users() {
   db_set_active('default');
   
   if (!$user_count) {
-      drupal_set_message(t('There were no users found: Aborting script'), 'error');
-      return t('There were no users found: Aborting script.');
+    drupal_set_message(t('There were no users found: Aborting script'), 'error');
+    watchdog('boincimport', 'There were no users found: Aborting script', array(), WATCHDOG_INFO); 
+    return t('There were no users found: Aborting script.');
   }
 
   drupal_set_message(t('Found %user_count users: Beginning import', array('%user_count' => $user_count)));
-  watchdog('boincimport','Found %user_count users: Beginning import', array('%user_count' => $user_count), WATCHDOG_INFO); 
+  watchdog('boincimport', 'Found %user_count users: Beginning import', array('%user_count' => $user_count), WATCHDOG_INFO); 
   
   // User import relies on Drupal and BOINC APIs to manage data being read
   // from one database and saved to the other. This approach keeps things
@@ -457,7 +459,7 @@ function boincimport_users() {
   variable_set('boincimport_import_user_successful', 1);
   $count = db_result(db_query('SELECT COUNT(*) FROM {boincuser}'));
   drupal_set_message(t('Successfully imported %count users', array('%count' => $count)));
-  watchdog('boincimport','Successfully imported %count users', array('%count' => $count), WATCHDOG_INFO); 
+  watchdog('boincimport', 'Successfully imported %count users', array('%count' => $count), WATCHDOG_INFO); 
   
   // Indicate that the process is complete and return to the main migration page
   echo "<br/>\n<br/>\n";
@@ -486,6 +488,7 @@ function boincimport_teams() {
   // Check whether the team table has been successfully imported already
   if (variable_get('boincimport_import_team_successful', 0)) {
     //drupal_set_message(t('Teams already imported successfully'));
+    //watchdog('boincimport', 'Teams already imported successfully', array(), WATCHDOG_INFO); 
     //return;
   } 
   
@@ -546,11 +549,13 @@ function boincimport_teams() {
   db_set_active('default');
 
   if (!$team_count) {
-      drupal_set_message(t('There were no teams found: Aborting script'), 'error');
-      return t('There were no teams found: Aborting script.');
+    drupal_set_message(t('There were no teams found: Aborting script'), 'error');
+    watchdog('boincimport', 'There were no teams found: Aborting script', array(), WATCHDOG_INFO); 
+    return t('There were no teams found: Aborting script.');
   }
 
   drupal_set_message(t('Found %team_count teams: Beginning Import', array('%team_count' => $team_count)));
+  watchdog('boincimport', 'Found %team_count teams: Beginning Import', array('%team_count' => $team_count), WATCHDOG_INFO);
   
   // Get teams from BOINC
   db_set_active('boinc');
@@ -605,6 +610,7 @@ function boincimport_teams() {
 
   $count = db_result(db_query('SELECT COUNT(*) FROM {boincteam}'));
   drupal_set_message(t('Successfully Imported %count teams.', array('%count' => $count)));
+  watchdog('boincimport', 'Successfully Imported %count teams.', array('%count' => $count), WATCHDOG_INFO); 
   
   // Indicate that the process is complete and return to the main migration page
   echo "<br/>\n<br/>\n";
@@ -639,11 +645,13 @@ function boincimport_friends() {
   db_set_active('default');
 
   if (!$friendship_count) {
-      drupal_set_message(t('There were no friendships found: Aborting script'), 'error');
-      return t('There were no friendships found: Aborting script.');
+    drupal_set_message(t('There were no friendships found: Aborting script'), 'error');
+    watchdog('boincimport', 'There were no friendships found: Aborting script', array(), WATCHDOG_INFO); 
+    return t('There were no friendships found: Aborting script.');
   }
 
   drupal_set_message(t('Found %friendship_count friend relationships: Beginning Import', array('%friendship_count' => $friendship_count)));
+  watchdog('boincimport', 'Found %friendship_count friend relationships: Beginning Import', array('%friendship_count' => $friendship_count), WATCHDOG_INFO); 
   
   echo t('Importing %friendship_count friend relationships from BOINC database', array('%friendship_count' => $friendship_count));
   ob_flush();
@@ -698,6 +706,7 @@ function boincimport_friends() {
   variable_set('boincimport_import_friend_successful', 1);
   $count = db_result(db_query('SELECT COUNT(*) FROM {flag_friend}'));
   drupal_set_message(t('Successfully imported %count friend relationships', array('%count' => $count)));
+  watchdog('boincimport', 'Successfully imported %count friend relationships', array('%count' => $count), WATCHDOG_INFO); 
   
   // Indicate that the process is complete and return to the main migration page
   echo "<br/>\n<br/>\n";
@@ -741,6 +750,7 @@ function boincimport_preferences() {
   if ($quarreler_count) {
     
     drupal_set_message(t('Found %quarreler_count quarreling users: Beginning Import', array('%quarreler_count' => $quarreler_count)));
+    watchdog('boincimport', 'Found %quarreler_count quarreling users: Beginning Import', array('%quarreler_count' => $quarreler_count), WATCHDOG_INFO); 
     
     echo t('Processing %quarreler_count quarreling users from BOINC database', array('%quarreler_count' => $quarreler_count));
     ob_flush();
@@ -797,10 +807,12 @@ function boincimport_preferences() {
     // Get the final count of users with filter preferences imported
     $count = db_result(db_query('SELECT COUNT(*) FROM {ignore_user}'));
     drupal_set_message(t('Successfully imported %count user filter preferences', array('%count' => $count)));
+    watchdog('boincimport', 'Successfully imported %count user filter preferences', array('%count' => $count), WATCHDOG_INFO); 
     
   }
   else {
     drupal_set_message(t('There were no quarrels found: moving on...'), 'notice');
+    watchdog('boincimport', 'There were no quarrels found: moving on...', array(), WATCHDOG_INFO); 
   }
   
   variable_set('boincimport_import_preferences_successful', 1);
@@ -840,11 +852,13 @@ function boincimport_private_msgs() {
   db_set_active('default');
 
   if (!$pm_count) {
-      drupal_set_message(t('There were no private messages found: Aborting script.'), 'notice');
-      return t('There were no private messages found: Aborting script.');
+    drupal_set_message(t('There were no private messages found: Aborting script.'), 'notice');
+    watchdog('boincimport', 'There were no private messages found: Aborting script.', array(), WATCHDOG_INFO); 
+    return t('There were no private messages found: Aborting script.');
   }
 
   drupal_set_message(t('Found %pm_count private messages: Beginning Import', array('%pm_count' => $pm_count)));
+  watchdog('boincimport', 'Found %pm_count private messages: Beginning Import', array('%pm_count' => $pm_count), WATCHDOG_INFO); 
   
   echo t('Processing %pm_count private messages from BOINC database', array('%pm_count' => $pm_count));
   ob_flush();
@@ -919,6 +933,7 @@ function boincimport_private_msgs() {
   // Get the final count of private messages imported
   $count = db_result(db_query('SELECT COUNT(*) FROM {pm_message}'));
   drupal_set_message(t('Successfully imported %count private messages', array('%count' => $count)));
+  watchdog('boincimport', 'Successfully imported %count private messages', array('%count' => $count), WATCHDOG_INFO); 
   
   variable_set('boincimport_import_private_msg_successful', 1);
   
@@ -949,6 +964,7 @@ function boincimport_forum_categories() {
   db_set_active('default');
   if (variable_get('boincimport_import_category_successful', 0)) {
     drupal_set_message(t('Forum Containers already imported successfully'));
+    watchdog('boincimport', 'Forum Containers already imported successfully', array(), WATCHDOG_INFO); 
     return;
   }    
 
@@ -964,6 +980,7 @@ function boincimport_forum_categories() {
     $forum_vid = db_result(db_query('SELECT vid FROM {vocabulary} WHERE name="%s"', 'Forums'));
   }
   drupal_set_message(t('Forum vid: %forum_vid', array('%forum_vid' => $forum_vid)));
+  watchdog('boincimport', 'Forum vid is set to: %forum_vid', array('%forum_vid' => $forum_vid), WATCHDOG_INFO); 
 
   // Get both categories and forums from BOINC
   db_set_active('boinc');
@@ -1116,6 +1133,7 @@ function boincimport_forum_categories() {
 
   $count = db_result(db_query('SELECT COUNT(*) FROM {boincimport_temp_forum}'));
   drupal_set_message(t('Successfully Imported %count forums and containers.', array('%count' => $count)));
+  watchdog('boincimport', 'Successfully Imported %count forums and containers.', array('%count' => $count), WATCHDOG_INFO); 
 }
 
 /**
@@ -1130,6 +1148,7 @@ function boincimport_forum_topics() {
   db_set_active('default');
   if (variable_get('boincimport_import_topic_successful', 0)) {
     drupal_set_message(t('Topics already imported successfully'));
+    watchdog('boincimport', 'Topics already imported successfully', array(), WATCHDOG_INFO); 
     return;
   }
 
@@ -1139,6 +1158,7 @@ function boincimport_forum_topics() {
   $topic_count = db_result(db_query('SELECT COUNT(*) FROM %sthread', $pre));
   db_set_active('default');
   drupal_set_message(t('Found %topic_count discussion threads: Beginning Import', array('%topic_count' => $topic_count)));
+  watchdog('boincimport', 'Found %topic_count discussion threads: Beginning Import', array('%topic_count' => $topic_count), WATCHDOG_INFO); 
   
   $total_topics_imported = 0;
   $total_runtime = 0;
@@ -1171,7 +1191,8 @@ function boincimport_forum_topics() {
       
     // Skip this topic if there are no posts
     if (!$post = db_fetch_object($query)) {
-      drupal_set_message(t('Could not find post details of thread: %topic_id', array('%topic_id' => $topic->id)));    
+      drupal_set_message(t('Could not find any posts in thread: %topic_id', array('%topic_id' => $topic->id)));    
+      watchdog('boincimport', 'Could not find any posts in thread: %topic_id', array('%topic_id' => $topic->id), WATCHDOG_INFO); 
       continue;
     }
     
@@ -1229,7 +1250,8 @@ function boincimport_forum_topics() {
       // Hack to keep the topics in correct order
       db_query('UPDATE {node_comment_statistics} SET last_comment_timestamp = %d WHERE nid = %d', $node->created, $node->nid);
     } else {
-      drupal_set_message(t('Failed importing %topic_id', array('%topic_id' => $topic->id)));
+      drupal_set_message(t('Failed importing %topic_id', array('%topic_id' => $topic->id)), 'error');
+      watchdog('boincimport', 'Failed importing %topic_id', array('%topic_id' => $topic->id), WATCHDOG_ERROR); 
       continue;
     }
 
@@ -1259,6 +1281,7 @@ function boincimport_forum_topics() {
   
   $count = db_result(db_query('SELECT COUNT(*) FROM {boincimport_temp_topic}'));
   drupal_set_message(t('Successfully Imported %count topics', array('%count' => $count)));
+  watchdog('boincimport', 'Successfully Imported %count topics', array('%count' => $count), WATCHDOG_INFO); 
   
   boincimport_subscriptions();
   
@@ -1288,6 +1311,7 @@ function boincimport_forum_posts() {
   // Check if the post data has been successfully imported
   if (variable_get('boincimport_import_post_successful', 0)) {
     drupal_set_message(t('Posts already imported successfully'));
+    watchdog('boincimport', 'Posts already imported successfully', array(), WATCHDOG_INFO); 
     return;
   }    
 
@@ -1303,6 +1327,7 @@ function boincimport_forum_posts() {
   db_set_active('default');
   
   drupal_set_message(t('Found %post_count posts in %topic_count threads: Beginning Import', array('%post_count' => $post_count, '%topic_count' => $topic_count)));
+  watchdog('boincimport', 'Found %post_count posts in %topic_count threads: Beginning Import', array('%post_count' => $post_count, '%topic_count' => $topic_count), WATCHDOG_INFO); 
   
   $total_posts_imported = 0;
   $total_runtime = 0;
@@ -1400,6 +1425,7 @@ function boincimport_forum_posts() {
         $total_posts_imported++;
       } else {
         drupal_set_message(t('Failed importing %post_id', array('%post_id' => $post->id)), 'error');
+        watchdog('boincimport', 'Failed importing %post_id', array('%post_id' => $post->id), WATCHDOG_ERROR); 
         $errors++;
       }
     }
@@ -1427,11 +1453,14 @@ function boincimport_forum_posts() {
   // Set the post import successful flag in the variable table
   variable_set('boincimport_import_post_successful', '1');
   drupal_set_message(t('Successfully Imported %imported posts', array('%imported' => $total_posts_imported)));
+  watchdog('boincimport', 'Successfully Imported %imported posts', array('%imported' => $total_posts_imported), WATCHDOG_INFO); 
   if ($empty_posts) {
     drupal_set_message(t('Skipped importing %empty empty posts', array('%empty' => $empty_posts)));
+    watchdog('boincimport', 'Skipped importing %empty empty posts', array('%empty' => $empty_posts), WATCHDOG_INFO); 
   }
   if ($errors) {
     drupal_set_message(t('There were %errors errors while importing posts', array('%errors' => $errors)), 'error');
+    watchdog('boincimport', 'There were %errors errors while importing posts', array('%errors' => $errors), WATCHDOG_ERROR); 
   }
   
   // Indicate that the process is complete and return to the main migration page
@@ -1472,7 +1501,8 @@ function boincimport_subscriptions() {
   echo "<br/>\n<br/>\n";
   
   if (!$subscription_count) {
-    drupal_set_message(t('There were no subscriptions found: Skipping import'), 'warning');
+    drupal_set_message(t('There were no subscriptions found: Skipping import'));
+    watchdog('boincimport', 'There were no subscriptions found: Skipping import', array(), WATCHDOG_INFO); 
     echo t('There were no subscriptions found: Skipping import.');
     ob_flush();
     flush();
@@ -1480,6 +1510,7 @@ function boincimport_subscriptions() {
   }
 
   drupal_set_message(t('Found %subscription_count subscriptions: Beginning Import', array('%subscription_count' => $subscription_count)));
+  watchdog('boincimport', 'Found %subscription_count subscriptions: Beginning Import', array('%subscription_count' => $subscription_count), WATCHDOG_INFO); 
   
   // Subscription flagging requires the use of the Drupal user account object,
   // therefore it requires batch processing to avoid exhausting system
@@ -1525,6 +1556,7 @@ function boincimport_subscriptions() {
   
   // Get the final count of subscriptions
   drupal_set_message(t('Successfully imported %count subscriptions', array('%count' => $total_subscriptions_imported)));
+  watchdog('boincimport', 'Successfully imported %count subscriptions', array('%count' => $total_subscriptions_imported), WATCHDOG_INFO); 
 }
 
 
