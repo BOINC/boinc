@@ -347,6 +347,7 @@ function boincimport_users() {
   // Check whether the user table has been successfully imported already
   if (variable_get('boincimport_import_user_successful', 0)) {
     drupal_set_message(t('Users already imported successfully'));
+    watchdog('boincimport','Users already imported successfully', array(), WATCHDOG_INFO); 
     return;
   } 
 
@@ -404,7 +405,8 @@ function boincimport_users() {
       return t('There were no users found: Aborting script.');
   }
 
-  drupal_set_message(t('Found %user_count users: Beginning Import', array('%user_count' => $user_count)));
+  drupal_set_message(t('Found %user_count users: Beginning import', array('%user_count' => $user_count)));
+  watchdog('boincimport','Found %user_count users: Beginning import', array('%user_count' => $user_count), WATCHDOG_INFO); 
   
   // User import relies on Drupal and BOINC APIs to manage data being read
   // from one database and saved to the other. This approach keeps things
@@ -442,6 +444,7 @@ function boincimport_users() {
     $batches_without_update++;
     if ($last_status_update > 150 OR $batches_without_update > 50 OR $batch + $batch_size >= $batch_limit) {
       $progress = round(100*$total_accounts_imported/$user_count, 1);
+      watchdog('boincimport','%num_accounts accounts imported so far in %time (%progress% complete)', array('%num_accounts' => $total_accounts_imported, '%time' => gmdate('H:i:s', $total_runtime), '%progress' => $progress), WATCHDOG_INFO); 
       echo "<br/>\n" . t("%num_accounts accounts imported in %time (%progress% complete)", array('%num_accounts' => $total_accounts_imported, '%time' => gmdate('H:i:s', $total_runtime), '%progress' => $progress));
       ob_flush();
       flush();
@@ -454,6 +457,7 @@ function boincimport_users() {
   variable_set('boincimport_import_user_successful', 1);
   $count = db_result(db_query('SELECT COUNT(*) FROM {boincuser}'));
   drupal_set_message(t('Successfully imported %count users', array('%count' => $count)));
+  watchdog('boincimport','Successfully imported %count users', array('%count' => $count), WATCHDOG_INFO); 
   
   // Indicate that the process is complete and return to the main migration page
   echo "<br/>\n<br/>\n";
