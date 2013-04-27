@@ -37,6 +37,13 @@
 
 #ifdef NEW_SCORE
 
+static int get_size_class(APP& app, double es) {
+    for (int i=0; i<app.n_size_classes-1; i++) {
+        if (es < app.size_class_quantiles[i]) return i;
+    }
+    return app.n_size_classes - 1;
+}
+
 // Assign a score to this job,
 // representing the value of sending the job to this host.
 // Also do some initial screening,
@@ -84,6 +91,29 @@ bool JOB::get_score(WU_RESULT& wu_result) {
         if (n > 0) {
             score += 10;
         }
+    }
+
+    if (app->n_size_classes > 1) {
+        double effective_speed = bavp->host_usage.projected_flops * g_reply->host.on_frac * g_reply->host.active_frac;
+        int target_size = get_size_class(*app, effective_speed);
+        if (config.debug_send) {
+            log_messages.printf(MSG_NORMAL,
+                "[send] size: host %d job %d speed %f\n",
+                target_size, wu_result.workunit.size_class, effective_speed
+            );
+        }
+        if (target_size == wu_result.workunit.size_class) {
+            score += 5;
+        } else if (target_size < wu_result.workunit.size_class) {
+            score -= 2;
+        } else {
+            score -= 1;
+        }
+    }
+    if (config.debug_send) {
+        log_messages.printf(MSG_NORMAL,
+            "[send]: job score %f\n", score
+        );
     }
 
     return true;

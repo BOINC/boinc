@@ -54,6 +54,7 @@ create table app (
     homogeneous_app_version tinyint         not null default 0,
     non_cpu_intensive       tinyint         not null default 0,
     locality_scheduling     integer         not null default 0,
+    n_size_classes          smallint        not null default 0,
     primary key (id)
 ) engine=InnoDB;
 
@@ -246,6 +247,7 @@ create table workunit (
     fileset_id              integer         not null,
     app_version_id          integer         not null,
     transitioner_flags      tinyint         not null,
+    size_class              smallint        not null default -1,
     primary key (id)
 ) engine=InnoDB;
 
@@ -283,6 +285,7 @@ create table result (
     flops_estimate          double          not null,
     app_version_id          integer         not null,
     runtime_outlier         tinyint         not null,
+    size_class              smallint        not null default -1,
     primary key (id)
 ) engine=InnoDB;
 

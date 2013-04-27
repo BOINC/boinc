@@ -311,6 +311,8 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
+// parse RPC reply from account manager
+//
 int ACCT_MGR_OP::parse(FILE* f) {
     string message;
     int retval;
@@ -324,6 +326,7 @@ int ACCT_MGR_OP::parse(FILE* f) {
     repeat_sec = 0;
     strcpy(host_venue, "");
     strcpy(ami.opaque, "");
+    ami.no_project_notices = false;
     rss_feeds.clear();
     if (!xp.parse_start("acct_mgr_reply")) return ERR_XML_PARSE;
     while (!xp.get_tag()) {
@@ -389,6 +392,9 @@ int ACCT_MGR_OP::parse(FILE* f) {
         if (xp.match_tag("rss_feeds")) {
             got_rss_feeds = true;
             parse_rss_feed_descs(xp, rss_feeds);
+            continue;
+        }
+        if (xp.parse_bool("no_project_notices", ami.no_project_notices)) {
             continue;
         }
         if (log_flags.unparsed_xml) {
@@ -494,6 +500,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         strcpy(gstate.acct_mgr_info.login_name, ami.login_name);
         strcpy(gstate.acct_mgr_info.password_hash, ami.password_hash);
         strcpy(gstate.acct_mgr_info.opaque, ami.opaque);
+        gstate.acct_mgr_info.no_project_notices = ami.no_project_notices;
 
         // process projects
         //
@@ -708,12 +715,14 @@ int ACCT_MGR_INFO::write_info() {
                 "    <next_rpc_time>%f</next_rpc_time>\n"
                 "    <opaque>\n%s\n"
                 "    </opaque>\n"
+                "    <no_project_notices>%d</no_project_notices>\n"
                 "</acct_mgr_login>\n",
                 login_name,
                 password_hash,
                 previous_host_cpid,
                 next_rpc_time,
-                opaque
+                opaque,
+                no_project_notices?1:0
             );
             fclose(p);
         }
@@ -733,6 +742,7 @@ void ACCT_MGR_INFO::clear() {
     nfailures = 0;
     send_gui_rpc_info = false;
     password_error = false;
+    no_project_notices = false;
 }
 
 ACCT_MGR_INFO::ACCT_MGR_INFO() {
@@ -767,6 +777,7 @@ int ACCT_MGR_INFO::parse_login_file(FILE* p) {
             }
             continue;
         }
+        else if (xp.parse_bool("no_project_notices", no_project_notices)) continue;
         if (log_flags.unparsed_xml) {
             msg_printf(NULL, MSG_INFO,
                 "[unparsed_xml] unrecognized %s in acct_mgr_login.xml",

@@ -63,8 +63,14 @@ void APP_VERSION::clear() {memset(this, 0, sizeof(*this));}
 void USER::clear() {memset(this, 0, sizeof(*this));}
 void TEAM::clear() {memset(this, 0, sizeof(*this));}
 void HOST::clear() {memset(this, 0, sizeof(*this));}
-void RESULT::clear() {memset(this, 0, sizeof(*this));}
-void WORKUNIT::clear() {memset(this, 0, sizeof(*this));}
+void RESULT::clear() {
+    memset(this, 0, sizeof(*this));
+    size_class = -1;
+}
+void WORKUNIT::clear() {
+    memset(this, 0, sizeof(*this));
+    size_class = -1;
+}
 void CREDITED_JOB::clear() {memset(this, 0, sizeof(*this));}
 void MSG_FROM_HOST::clear() {memset(this, 0, sizeof(*this));}
 void MSG_TO_HOST::clear() {memset(this, 0, sizeof(*this));}
@@ -208,7 +214,8 @@ void DB_APP::db_print(char* buf){
         "host_scale_check=%d, "
         "homogeneous_app_version=%d, "
         "non_cpu_intensive=%d, "
-        "locality_scheduling=%d ",
+        "locality_scheduling=%d, "
+        "n_size_classes=%d ",
         create_time,
         name,
         min_version,
@@ -222,7 +229,8 @@ void DB_APP::db_print(char* buf){
         host_scale_check?1:0,
         homogeneous_app_version?1:0,
         non_cpu_intensive?1:0,
-        locality_scheduling
+        locality_scheduling,
+        n_size_classes
     );
 }
 
@@ -244,6 +252,7 @@ void DB_APP::db_parse(MYSQL_ROW &r) {
     homogeneous_app_version = (atoi(r[i++]) != 0);
     non_cpu_intensive = (atoi(r[i++]) != 0);
     locality_scheduling = atoi(r[i++]);
+    n_size_classes = atoi(r[i++]);
 }
 
 void DB_APP_VERSION::db_print(char* buf){
@@ -832,7 +841,8 @@ void DB_WORKUNIT::db_print(char* buf){
         "rsc_bandwidth_bound=%.15e, "
         "fileset_id=%d, "
         "app_version_id=%d, "
-        "transitioner_flags=%d ",
+        "transitioner_flags=%d, "
+        "size_class=%d ",
         create_time, appid,
         name, xml_doc, batch,
         rsc_fpops_est, rsc_fpops_bound, rsc_memory_bound, rsc_disk_bound,
@@ -851,7 +861,8 @@ void DB_WORKUNIT::db_print(char* buf){
         rsc_bandwidth_bound,
         fileset_id,
         app_version_id,
-        transitioner_flags
+        transitioner_flags,
+        size_class
     );
 }
 
@@ -890,6 +901,7 @@ void DB_WORKUNIT::db_parse(MYSQL_ROW &r) {
     fileset_id = atoi(r[i++]);
     app_version_id = atoi(r[i++]);
     transitioner_flags = atoi(r[i++]);
+    size_class = atoi(r[i++]);
 }
 
 void DB_CREDITED_JOB::db_print(char* buf){
@@ -921,7 +933,7 @@ void DB_RESULT::db_print(char* buf){
         "claimed_credit=%.15e, granted_credit=%.15e, opaque=%.15e, random=%d, "
         "app_version_num=%d, appid=%d, exit_status=%d, teamid=%d, "
         "priority=%d, mod_time=null, elapsed_time=%.15e, flops_estimate=%.15e, "
-        "app_version_id=%d, runtime_outlier=%d",
+        "app_version_id=%d, runtime_outlier=%d, size_class=%d",
         create_time, workunitid,
         server_state, outcome, client_state,
         hostid, userid,
@@ -933,7 +945,8 @@ void DB_RESULT::db_print(char* buf){
         app_version_num, appid, exit_status, teamid,
         priority, elapsed_time, flops_estimate,
         app_version_id,
-        runtime_outlier?1:0
+        runtime_outlier?1:0,
+        size_class
     );
     UNESCAPE(xml_doc_out);
     UNESCAPE(stderr_out);
@@ -954,7 +967,7 @@ void DB_RESULT::db_print_values(char* buf){
         "'%s', '%s', '%s', "
         "%d, %d, %d, "
         "%.15e, %.15e, %.15e, %d, "
-        "%d, %d, %d, %d, %d, null, 0, 0, 0, 0)",
+        "%d, %d, %d, %d, %d, null, 0, 0, 0, 0, %d)",
         create_time, workunitid,
         server_state, outcome, client_state,
         hostid, userid,
@@ -963,7 +976,7 @@ void DB_RESULT::db_print_values(char* buf){
         xml_doc_in, xml_doc_out, stderr_out,
         batch, file_delete_state, validate_state,
         claimed_credit, granted_credit, opaque, random,
-        app_version_num, appid, exit_status, teamid, priority
+        app_version_num, appid, exit_status, teamid, priority, size_class
     );
     UNESCAPE(xml_doc_out);
     UNESCAPE(stderr_out);
@@ -1031,6 +1044,58 @@ void DB_RESULT::db_parse(MYSQL_ROW &r) {
     flops_estimate = atof(r[i++]);
     app_version_id = atoi(r[i++]);
     runtime_outlier = (atoi(r[i++]) != 0);
+    size_class = atoi(r[i++]);
+}
+
+int DB_RESULT::get_unsent_counts(APP& app, int* unsent_count) {
+    char query[1024];
+    MYSQL_RES *rp;
+
+    for (int i=0; i<app.n_size_classes; i++) {
+        unsent_count[i] = 0;
+    }
+
+    sprintf(query,
+        "select size_class, count(size_class) from result where appid=%d and server_state=%d group by size_class",
+        app.id, RESULT_SERVER_STATE_UNSENT
+    );
+    int retval = db->do_query(query);
+    if (retval) return mysql_errno(db->mysql);
+    rp = mysql_store_result(db->mysql);
+    if (!rp) return mysql_errno(db->mysql);
+    while (1) {
+        MYSQL_ROW row = mysql_fetch_row(rp);
+        if (!row) break;
+        int sc = atoi(row[0]);
+        int count = atoi(row[1]);
+        if (sc >= app.n_size_classes) {
+            fprintf(stderr, "size class %d too large\n", sc);
+            retval = -1;
+            break;
+        }
+        unsent_count[sc] = count;
+    };
+    mysql_free_result(rp);
+    return retval;
+}
+
+int DB_RESULT::make_unsent(
+    APP& app, int size_class, int n, const char* order_clause, int& nchanged
+) {
+    char query[1024];
+    sprintf(query,
+        "update result set server_state=%d where appid=%d and server_state=%d and size_class=%d %s limit %d",
+        RESULT_SERVER_STATE_UNSENT,
+        app.id,
+        RESULT_SERVER_STATE_INACTIVE,
+        size_class,
+        order_clause,
+        n
+    );
+    int retval = db->do_query(query);
+    if (retval) return mysql_errno(db->mysql);
+    nchanged = db->affected_rows();
+    return 0;
 }
 
 void DB_MSG_FROM_HOST::db_print(char* buf) {
@@ -1332,6 +1397,7 @@ void TRANSITIONER_ITEM::parse(MYSQL_ROW& r) {
     batch = atoi(r[i++]);
     app_version_id = atoi(r[i++]);
     transitioner_flags = atoi(r[i++]);
+    size_class = atoi(r[i++]);
 
     // use safe_atoi() from here on cuz they might not be there
     //
@@ -1392,6 +1458,7 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
             "   wu.batch, "
             "   wu.app_version_id, "
             "   wu.transitioner_flags, "
+            "   wu.size_class, "
             "   res.id, "
             "   res.name, "
             "   res.report_deadline, "
@@ -1770,6 +1837,8 @@ void WORK_ITEM::parse(MYSQL_ROW& r) {
     wu.rsc_bandwidth_bound = atof(r[i++]);
     wu.fileset_id = atoi(r[i++]);
     wu.app_version_id = atoi(r[i++]);
+    wu.transitioner_flags = atoi(r[i++]);
+    wu.size_class = atoi(r[i++]);
 }
 
 int DB_WORK_ITEM::enumerate(

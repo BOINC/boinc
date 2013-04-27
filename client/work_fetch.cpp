@@ -452,6 +452,13 @@ void WORK_FETCH::clear_request() {
     }
 }
 
+bool WORK_FETCH::requested_work() {
+    for (int i=0; i<coprocs.n_rsc; i++) {
+        if (rsc_work_fetch[i].req_secs) return true;
+    }
+    return false;
+}
+
 // we're going to contact this project for reasons other than work fetch;
 // decide if we should piggy-back a work fetch request.
 //
@@ -517,6 +524,9 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
         } else {
             rwf.set_request_excluded(p);
         }
+    }
+    if (!requested_work()) {
+        p->pwf.cant_fetch_work_reason = CANT_FETCH_WORK_DONT_NEED;
     }
 }
 
@@ -848,7 +858,7 @@ void WORK_FETCH::write_request(FILE* f, PROJECT* p) {
     if (log_flags.work_fetch_debug) {
         char buf[256];
         request_string(buf);
-        msg_printf(p, MSG_INFO, buf);
+        msg_printf(p, MSG_INFO, "%s", buf);
     }
 }
 
@@ -858,10 +868,10 @@ void WORK_FETCH::handle_reply(
     PROJECT* p, SCHEDULER_REPLY*, vector<RESULT*> new_results
 ) {
     bool got_work[MAX_RSC];
-    bool requested_work[MAX_RSC];
+    bool requested_work_rsc[MAX_RSC];
     for (int i=0; i<coprocs.n_rsc; i++) {
         got_work[i] = false;
-        requested_work[i] = (rsc_work_fetch[i].req_secs > 0);
+        requested_work_rsc[i] = (rsc_work_fetch[i].req_secs > 0);
     }
     for (unsigned int i=0; i<new_results.size(); i++) {
         RESULT* rp = new_results[i];
@@ -877,7 +887,7 @@ void WORK_FETCH::handle_reply(
         // - the RPC was done for a reason that is automatic
         //   and potentially frequent
         //
-        if (requested_work[i] && !got_work[i]) {
+        if (requested_work_rsc[i] && !got_work[i]) {
             if (p->rsc_pwf[i].backoff_time < gstate.now) {
                 switch (p->sched_rpc_pending) {
                 case RPC_REASON_RESULTS_DUE:

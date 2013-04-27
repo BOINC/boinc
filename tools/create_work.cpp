@@ -62,6 +62,7 @@ void usage() {
         "   [ --rsc_fpops_est x ]\n"
         "   [ --rsc_fpops_bound x ]\n"
         "   [ --rsc_memory_bound x ]\n"
+        "   [ --size_class n ]\n"
         "   [ --target_host ID ]\n"
         "   [ --target_nresults n ]\n"
         "   [ --target_team ID ]\n"
@@ -154,6 +155,8 @@ int main(int argc, const char** argv) {
             wu.rsc_fpops_bound = atof(argv[++i]);
         } else if (arg(argv, i, "rsc_memory_bound")) {
             wu.rsc_memory_bound = atof(argv[++i]);
+        } else if (arg(argv, i, "size_class")) {
+            wu.size_class = atoi(argv[++i]);
         } else if (arg(argv, i, "rsc_disk_bound")) {
             wu.rsc_disk_bound = atof(argv[++i]);
         } else if (arg(argv, i, "delay_bound")) {

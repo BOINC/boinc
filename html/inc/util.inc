@@ -800,14 +800,16 @@ function db_init($try_replica=false) {
     return 0;
 }
 
-// return a structure indicating whether project has non-deprecated apps
-// for various resource types.
+// return a structure indicating whether project has non-deprecated
+// apps versions for various resource types,
+// and with a count of app versions
 //
 function get_app_types() {
     $t = null;
     $t->cpu = false;
     $t->cuda = false;
     $t->ati = false;
+    $t->intel_gpu = false;
     $t->count = 0;
     $avs = BoincAppVersion::enum("deprecated=0");
     foreach ($avs as $av) {
@@ -819,6 +821,9 @@ function get_app_types() {
             $t->count++;
         } else if (strstr($av->plan_class, "nvidia")) {
             $t->cuda = true;
+            $t->count++;
+        } else if (strstr($av->plan_class, "intel_gpu")) {
+            $t->intel_gpu = true;
             $t->count++;
         } else {
             $t->cpu = true;

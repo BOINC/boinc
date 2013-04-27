@@ -462,7 +462,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
             }
             ndone++;
             if (benchmark_descs[i].error) {
-                msg_printf(0, MSG_INFO, benchmark_descs[i].error_str);
+                msg_printf(0, MSG_INFO, "%s", benchmark_descs[i].error_str);
                 had_error = true;
             }
         }

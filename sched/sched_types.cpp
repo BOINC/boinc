@@ -899,6 +899,8 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
         fprintf(fout, "%s", file_transfer_requests[i].c_str());
     }
 
+    // write deprecated form for old clients
+    //
     if (g_request->core_client_version < 70040) {
         fprintf(fout,
             "<no_cpu_apps>%d</no_cpu_apps>\n"

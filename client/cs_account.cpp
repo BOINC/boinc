@@ -79,7 +79,7 @@ int PROJECT::write_account_file() {
     fprintf(f, "<project_preferences>\n%s</project_preferences>\n",
         project_prefs.c_str()
     );
-    fprintf(f, gui_urls.c_str());
+    fprintf(f, "%s", gui_urls.c_str());
     fprintf(f, "</account>\n");
     fclose(f);
     retval = boinc_rename(TEMP_ACCT_FILE_NAME, path);

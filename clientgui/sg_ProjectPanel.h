@@ -44,7 +44,8 @@ class CSimpleProjectPanel : public CSimplePanelBase
         
         ProjectSelectionData* GetProjectSelectionData();
         void UpdateInterface();
-
+        void ReskinInterface();
+        
 	private:
         void OnProjectSelection(wxCommandEvent &event);
         void OnProjectCommandButton(wxCommandEvent& /*event*/);

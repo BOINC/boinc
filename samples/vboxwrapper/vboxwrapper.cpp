@@ -451,6 +451,18 @@ int main(int argc, char** argv) {
         );
     }
 
+    // Check against known incompatible versions of VirtualBox.  
+    // NOTE: Incompatible in this case means that VirtualBox 4.2.6 crashes during snapshot operations
+    //
+    if (vm.virtualbox_version.find("4.2.6r") != std::string::npos) {
+        fprintf(
+            stderr,
+            "%s Incompatible version of VirtualBox detected. Please upgrade to a later version.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+        boinc_temporary_exit(86400, "Incompatible version of VirtualBox detected.");
+    }
+
     // Record if anonymous platform was used.
     // 
     if (boinc_file_exists((std::string(aid.project_dir) + std::string("/app_info.xml")).c_str())) {

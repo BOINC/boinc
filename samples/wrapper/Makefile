@@ -6,7 +6,7 @@ BOINC_API_DIR = $(BOINC_DIR)/api
 BOINC_LIB_DIR = $(BOINC_DIR)/lib
 BOINC_ZIP_DIR = $(BOINC_DIR)/zip
 
-CXXFLAGS = -g -O0 \
+CXXFLAGS += -g -O0 \
 	-Wall -W -Wshadow -Wpointer-arith -Wcast-qual -Wcast-align -Wwrite-strings -fno-common \
     -I$(BOINC_DIR) \
     -I$(BOINC_LIB_DIR) \
@@ -24,11 +24,10 @@ all: $(PROGS)
 libstdc++.a:
 	ln -s `g++ -print-file-name=libstdc++.a`
 
-clean:
-	rm $(PROGS) *.o
+clean: distclean
 
 distclean:
-	/bin/rm -f $(PROGS) *.o libstdc++.a
+	rm -f $(PROGS) *.o libstdc++.a
 
 REGEXP_OBJS = \
 	regexp.o \
@@ -38,4 +37,4 @@ REGEXP_OBJS = \
 	regexp_report.o
 
 wrapper: wrapper.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a $(REGEXP_OBJS)
-	g++ $(CXXFLAGS) -o wrapper wrapper.o $(REGEXP_OBJS) libstdc++.a -pthread -lboinc_api -lboinc -lboinc_zip
+	g++ $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o wrapper wrapper.o $(REGEXP_OBJS) libstdc++.a -pthread -lboinc_api -lboinc -lboinc_zip

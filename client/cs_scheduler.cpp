@@ -508,13 +508,6 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     return false;
 }
 
-static inline bool requested_work() {
-    for (int i=0; i<coprocs.n_rsc; i++) {
-        if (rsc_work_fetch[i].req_secs) return true;
-    }
-    return false;
-}
-
 // Handle the reply from a scheduler
 //
 int CLIENT_STATE::handle_scheduler_reply(
@@ -532,7 +525,7 @@ int CLIENT_STATE::handle_scheduler_reply(
 
     project->last_rpc_time = now;
 
-    if (requested_work()) {
+    if (work_fetch.requested_work()) {
         had_or_requested_work = true;
     }
 
@@ -545,7 +538,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (retval) return retval;
 
     if (log_flags.sched_ops) {
-        if (requested_work()) {
+        if (work_fetch.requested_work()) {
             sprintf(buf, ": got %d new tasks", (int)sr.results.size());
         } else {
             strcpy(buf, "");

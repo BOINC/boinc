@@ -55,6 +55,7 @@ struct TRANSITIONER_ITEM {
     int batch;
     int app_version_id;
     int transitioner_flags;
+    int size_class;
     int res_id; // This is the RESULT ID
     char res_name[256];
     int res_report_deadline;
@@ -182,6 +183,10 @@ public:
     void db_print_values(char*);
     void db_parse(MYSQL_ROW &row);
     void operator=(RESULT& r) {RESULT::operator=(r);}
+    int get_unsent_counts(APP&, int* unsent);
+    int make_unsent(
+        APP&, int size_class, int n, const char* order_clause, int& nchanged
+    );
 };
 
 class DB_WORKUNIT : public DB_BASE, public WORKUNIT {
