@@ -121,17 +121,16 @@
     <string name="tab_debug">Debug</string>
    
     <!-- status tab strings -->
-    <string name="status_running">Thanks!</string>
-    <string name="status_running_long">Calculating tasks&#8230;</string>
+    <string name="status_running">Computing</string>
+    <string name="status_running_long">Thank you for participating!</string>
     <string name="status_paused">Paused</string>
     <string name="status_paused_long">Computation suspended.</string>
     <string name="status_idle">Idle</string>
     <string name="status_idle_long">Waiting for tasks&#8230;</string>
     <string name="status_computing_disabled">Stopped</string>
-    <string name="status_computing_disabled_long">Tap to continue!</string>
-    <string name="disable_computation">Disable computation</string>
-    <string name="enable_computation">Enable computation</string>
-    <string name="status_exit">Exit BOINC</string>
+    <string name="status_computing_disabled_long">&#8230;until you allow me to continue!</string>
+    <string name="disable_computation">Stop computation</string>
+    <string name="enable_computation">Allow computation</string>
     
 	<!-- preferences tab strings -->
 	<string name="prefs_loading">Reading preferences&#8230;</string>
@@ -166,8 +165,9 @@
 	<!-- projects tab strings -->
 	<string name="projects_loading">Reading projects&#8230;</string>
 	<string name="projects_add">Add project</string>
-	<string name="projects_delete">Delete project</string>
 	<string name="projects_update">Update project</string>
+	<string name="projects_icon">Project icon</string>
+	<string name="projects_more">Show details</string>
 
 	<string name="projects_status_suspendedviagui">Suspended by user</string>
 	<string name="projects_status_dontrequestmorework">Won\'t get new tasks</string>
@@ -176,11 +176,7 @@
 	<string name="projects_status_schedrpcpending">Scheduler request pending</string>
 	<string name="projects_status_schedrpcinprogress">Scheduler request in progress</string>
 	<string name="projects_status_trickleuppending">Trickle up message pending</string>
-	<string name="projects_status_backoff">Communication deferred</string>
-							
-	<string name="confirm_deletion">Delete project: </string>
-	<string name="confirm_deletion_confirm">Delete</string>
-	<string name="confirm_deletion_cancel">Cancel</string>
+	<string name="projects_status_backoff">Communication scheduled in:</string>
 				
 	<!-- tasks tab strings -->
 	<string name="tasks_loading">Reading tasks&#8230;</string>
@@ -233,7 +229,7 @@
     <string name="suspend_idle">No BOINC tasks ready for computation.</string>
     <string name="suspend_batteries">Not connected to charger.</string>
     <string name="suspend_useractive">User is active.</string>
-    <string name="suspend_userreq">Stopped manually.</string>
+    <string name="suspend_userreq">Restarting computation&#8230;</string>
     <string name="suspend_tod">Out of computation time-frame.</string>
     <string name="suspend_bm">BOINC is benchmarking your device.</string>
     <string name="suspend_disksize">Out of disk space.</string>
@@ -258,8 +254,9 @@
     <string name="rpcreason_projectreq">Requested by project</string>
     <string name="rpcreason_unknown">Unknown reason</string>
     
-    <!-- misc resources -->
+    <!-- menu -->
     <string name="email_to">Email to&#8230;</string>
     <string name="send_mail">Send mail&#8230;</string>
+    <string name="menu_exit">Exit BOINC</string>
     
 </resources>

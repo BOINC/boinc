@@ -19,7 +19,7 @@
 package edu.berkeley.boinc.client;
 
 import java.util.ArrayList;
-
+import java.util.HashMap;
 import android.content.Context;
 import android.content.Intent;
 import android.os.PowerManager;
@@ -50,6 +50,7 @@ public class ClientStatus {
 	private ArrayList<Project> projects;
 	private ArrayList<Transfer> transfers;
 	private GlobalPreferences prefs;
+	private HashMap<String,ProjectGraphics> projectGraphics = new HashMap<String,ProjectGraphics>(); // key is master url
 	
 	// setup status
 	public Integer setupStatus = 0;
@@ -117,13 +118,6 @@ public class ClientStatus {
 			Log.d(TAG,"cant fire, not context set!");
 		}
 	}
-	
-	/*
-	 * Application context is required by the broadcast mechanism, reference is copied by Monitor service on start up.
-	 
-	public synchronized void setCtx(Context tctx) {
-		this.ctx = tctx;
-	}*/
 	
 	/*
 	 * called frequently by Monitor to set the RPC data. These objects are used to determine the client status and parse it in the data model of this class.
@@ -199,6 +193,10 @@ public class ClientStatus {
 		}
 		return projects;
 	}
+
+	public synchronized HashMap<String,ProjectGraphics> getProjectGraphics() {
+		return projectGraphics;
+	}
 	
 	/*
 	 * parses RPC data to ClientStatus data model.
@@ -222,6 +220,32 @@ public class ClientStatus {
 			setupStatusParseError = true;
 			Log.e(TAG, "parseProjectStatus - Exception", e);
 			Log.d(TAG, "error parsing setup status (project state)");
+		}
+		
+		//check whether projectGraphics is still consistent with attached projects
+		//	check whether all projectGraphics are loaded
+		for (Project project : projects) {
+			// add, if not already added AND all files are successfully downloaded
+			if(!projectGraphics.containsKey(project.master_url) && project.project_files_downloaded_time > 0) {
+				Log.d(TAG, "parseProjectStatus() new project found: " + project.master_url + " with projects dir: " + project.project_dir);
+				ProjectGraphics graphics = new ProjectGraphics(project.project_dir);
+				projectGraphics.put(project.master_url, graphics);
+			} 
+			if(!(project.project_files_downloaded_time > 0)) Log.d(TAG, "skip loading graphics, files are not downloaded...");
+		}
+		//	check whether there is a projectGraphics element that needs to be deleted (project got detached)
+		for (String projectUrl : projectGraphics.keySet()) {
+			Boolean found = false;
+			for (Project project: projects) {
+				if (project.master_url.equals(projectUrl)) {
+					found = true;
+					continue;
+				}
+			}
+			if(!found) {
+				projectGraphics.remove(projectUrl);
+				Log.d(TAG, "parseProjectStatus() removed graphics structure for " + projectUrl);
+			}
 		}
 	}
 	

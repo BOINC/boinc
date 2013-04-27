@@ -3,7 +3,7 @@
     <item android:id="@+id/exit_boinc"
          android:enabled="true"
          android:visible="true"
-         android:title="@string/status_exit"
+         android:title="@string/menu_exit"
          android:icon="@drawable/offw"></item>
 
 </menu>

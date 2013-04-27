@@ -25,6 +25,7 @@ import java.util.ArrayList;
 public class Project {
 	// all attributes are public for simple access
 	public String  master_url = "";
+	public String project_dir = "";
 	public float   resource_share = 0;
 	public String  project_name = "";
 	public String  user_name = "";
