@@ -322,8 +322,10 @@ void estimate_flops_anon_platform() {
 }
 
 // compute HOST_USAGE::projected_flops as best we can:
-// 1) if we have statistics for (host, app version) elapsed time,
-//    use those.
+// 
+// 1) if we have statistics for (host, app version) and
+//    <estimate_flops_from_hav_pfc> is not set use elapsed time,
+//    otherwise use pfc_avg.
 // 2) if we have statistics for app version elapsed time, use those.
 // 3) else use a conservative estimate (p_fpops*(cpus+gpus))
 //    This prevents jobs from aborting with "time limit exceeded"
@@ -332,7 +334,12 @@ void estimate_flops_anon_platform() {
 void estimate_flops(HOST_USAGE& hu, APP_VERSION& av) {
     DB_HOST_APP_VERSION* havp = gavid_to_havp(av.id);
     if (havp && havp->et.n > MIN_HOST_SAMPLES) {
-        double new_flops = 1./havp->et.get_avg();
+        double new_flops;
+        if (config.estimate_flops_from_hav_pfc) {
+            new_flops = hu.peak_flops / (havp->pfc.get_avg()+1e-18);
+        } else { 
+            new_flops = 1./havp->et.get_avg();
+        }
         // cap this at ET_RATIO_LIMIT*projected,
         // in case we've had a bunch of short jobs recently
         //
@@ -350,9 +357,21 @@ void estimate_flops(HOST_USAGE& hu, APP_VERSION& av) {
         hu.projected_flops = new_flops;
 
         if (config.debug_version_select) {
+            if (config.estimate_flops_from_hav_pfc) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] [AV#%d] (%s) setting projected flops based on host_app_version pfc: %.2fG\n",
+                    av.id, av.plan_class, hu.projected_flops/1e9
+                );
+            } else {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] [AV#%d] (%s) setting projected flops based on host elapsed time avg: %.2fG\n",
+                    av.id, av.plan_class, hu.projected_flops/1e9
+                );
+            }
             log_messages.printf(MSG_NORMAL,
-                "[version] [AV#%d] (%s) setting projected flops based on host elapsed time avg: %.2fG\n",
-                av.id, av.plan_class, hu.projected_flops/1e9
+                "[version] [AV#%d] (%s) comparison pfc: %.2fG  et: %.2fG\n",
+                av.id, av.plan_class, hu.peak_flops/(havp->pfc.get_avg()+1e-18)/1e+9,
+                1e-9/havp->et.get_avg()
             );
         }
     } else {
