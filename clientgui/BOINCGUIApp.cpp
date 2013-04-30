@@ -519,6 +519,7 @@ int CBOINCGUIApp::OnExit() {
 
     if (m_pSkinManager) {
         delete m_pSkinManager;
+        m_pSkinManager = NULL;
     }
 
     if (m_pLocale) {
