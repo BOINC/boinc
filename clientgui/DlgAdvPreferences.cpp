@@ -161,6 +161,9 @@ bool CDlgAdvPreferences::SaveState() {
 
     pConfig->SetPath(strBaseConfigLocation);
     pConfig->Write(wxT("CurrentPage"),m_Notebook->GetSelection());
+    
+    pConfig->Flush();
+    
     return true;
 }
 

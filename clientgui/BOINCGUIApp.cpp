@@ -1024,8 +1024,14 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             if (pOldFrame) pOldFrame->Hide();
 
             // Delete the old one if it exists
-            // Note: this has the side effect of hiding the Event Log
             if (pOldFrame) pOldFrame->Destroy();
+
+            if (iGUISelection != m_iGUISelected) {
+                m_iGUISelected = iGUISelection;
+                m_pConfig->SetPath(wxT("/"));
+                m_pConfig->Write(wxT("GUISelection"), iGUISelection);
+                m_pConfig->Flush();
+            }
         }
     }
 
@@ -1051,10 +1057,6 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
         ::SetForegroundWindow((HWND)m_pFrame->GetHWND());
 #endif
     }
-
-    m_iGUISelected = iGUISelection;
-    m_pConfig->SetPath(wxT("/"));
-    m_pConfig->Write(wxT("GUISelection"), iGUISelection);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCGUIApp::SetActiveGUI - Function End"));
     return true;

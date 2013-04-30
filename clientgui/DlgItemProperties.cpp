@@ -109,6 +109,9 @@ bool CDlgItemProperties::SaveState() {
     pConfig->Write(wxT("XPos"), GetPosition().x);
     pConfig->Write(wxT("YPos"), GetPosition().y);
 #endif
+
+    pConfig->Flush();
+    
     return true;
 }
 
