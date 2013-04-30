@@ -530,15 +530,20 @@ int CBOINCGUIApp::OnExit() {
         m_pEventLog = NULL;
     }
 
-
     // Save Application State
-    m_pConfig->Write(wxT("AutomaticallyShutdownClient"), m_iShutdownCoreClient);
-    m_pConfig->Write(wxT("DisplayShutdownClientDialog"), m_iDisplayExitDialog);
-    m_pConfig->Write(wxT("DisableAutoStart"), m_iBOINCMGRDisableAutoStart);
+    SaveState();
 
     diagnostics_finish();
 
     return wxApp::OnExit();
+}
+
+
+void CBOINCGUIApp::SaveState() {
+    // Save Application State
+    m_pConfig->Write(wxT("AutomaticallyShutdownClient"), m_iShutdownCoreClient);
+    m_pConfig->Write(wxT("DisplayShutdownClientDialog"), m_iDisplayExitDialog);
+    m_pConfig->Write(wxT("DisableAutoStart"), m_iBOINCMGRDisableAutoStart);
 }
 
 
