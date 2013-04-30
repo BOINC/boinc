@@ -80,7 +80,6 @@ CDlgOptions::CDlgOptions(wxWindow* parent, wxWindowID id, const wxString& captio
 CDlgOptions::~CDlgOptions() {
     CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
 
-    wxASSERT(pDoc);
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
     
