@@ -514,9 +514,10 @@ int CBOINCGUIApp::OnExit() {
         m_pDocument = NULL;
     }
 
-    m_pConfig->SetPath(wxT("/"));
+    // Save Application State
+    SaveState();
+
     if (m_pSkinManager) {
-        m_pConfig->Write(wxT("Skin"), m_pSkinManager->GetSelectedSkin());
         delete m_pSkinManager;
     }
 
@@ -530,9 +531,6 @@ int CBOINCGUIApp::OnExit() {
         m_pEventLog = NULL;
     }
 
-    // Save Application State
-    SaveState();
-
     diagnostics_finish();
 
     return wxApp::OnExit();
@@ -541,6 +539,10 @@ int CBOINCGUIApp::OnExit() {
 
 void CBOINCGUIApp::SaveState() {
     // Save Application State
+    m_pConfig->SetPath(wxT("/"));
+    if (m_pSkinManager) {
+        m_pConfig->Write(wxT("Skin"), m_pSkinManager->GetSelectedSkin());
+    }
     m_pConfig->Write(wxT("AutomaticallyShutdownClient"), m_iShutdownCoreClient);
     m_pConfig->Write(wxT("DisplayShutdownClientDialog"), m_iDisplayExitDialog);
     m_pConfig->Write(wxT("DisableAutoStart"), m_iBOINCMGRDisableAutoStart);

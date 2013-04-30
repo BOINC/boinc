@@ -446,6 +446,9 @@ void CSimpleFrame::OnSelectSkin( wxCommandEvent& event ){
 
     selectedItem->Check(true);
     pSkinManager->ReloadSkin(newSkinName);
+    
+    wxGetApp().SaveState();
+    wxConfigBase::Get(FALSE)->Flush();
 }
 
 
