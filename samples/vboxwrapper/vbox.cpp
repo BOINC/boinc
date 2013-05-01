@@ -644,7 +644,7 @@ bool VBOX_VM::is_system_ready() {
     bool rc = true;
 
     command  = "list hostinfo ";
-    if (vbm_popen(command, output, "host info", false, false) == 0) {
+    if (vbm_popen(command, output, "host info") == 0) {
 
         if (output.find("Processor count:") == string::npos) {
             rc = false;
@@ -1537,7 +1537,7 @@ int VBOX_VM::set_network_access(bool enabled) {
     return 0;
 }
 
-int VBOX_VM::set_cpu_usage_fraction(double x) {
+int VBOX_VM::set_cpu_usage(int percentage) {
     string command;
     string output;
     char buf[256];
@@ -1549,9 +1549,9 @@ int VBOX_VM::set_cpu_usage_fraction(double x) {
         stderr,
         "%s Setting cpu throttle for VM. (%d%%)\n",
         vboxwrapper_msg_prefix(buf, sizeof(buf)),
-        (int)x
+        percentage
     );
-    sprintf(buf, "%d", (int)x);
+    sprintf(buf, "%d", percentage);
     command  = "controlvm \"" + vm_name + "\" ";
     command += "cpuexecutioncap ";
     command += buf;
@@ -1562,7 +1562,7 @@ int VBOX_VM::set_cpu_usage_fraction(double x) {
     return 0;
 }
 
-int VBOX_VM::set_network_max_bytes_sec(double x) {
+int VBOX_VM::set_network_usage(int kilobytes) {
     string command;
     string output;
     char buf[256];
@@ -1576,7 +1576,7 @@ int VBOX_VM::set_network_max_bytes_sec(double x) {
         "%s Setting network throttle for VM.\n",
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
-    sprintf(buf, "%d", (int)(x*8./1000.));
+    sprintf(buf, "%d", kilobytes);
     command  = "modifyvm \"" + vm_name + "\" ";
     command += "--nicspeed1 ";
     command += buf;

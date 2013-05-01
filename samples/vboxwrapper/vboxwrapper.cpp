@@ -223,22 +223,33 @@ void read_fraction_done(double& frac_done, VBOX_VM& vm) {
 // set CPU and network throttling if needed
 //
 void set_throttles(APP_INIT_DATA& aid, VBOX_VM& vm) {
-    double x = aid.global_prefs.cpu_usage_limit;
+    double x, y;
+
+    x = aid.global_prefs.cpu_usage_limit;
+
+    // VirtualBox freaks out if the CPU Throttle value is too low to actually
+    // do any processing.  It probably wouldn't be so bad if the RDP interface
+    // didn't also get hosed by it.
+    //
+    // For now srt the minimum CPU Throttle value to 5.
+    //
+    if (5 > x) x = 5;
+
     if (x) {
-        vm.set_cpu_usage_fraction(x);
+        vm.set_cpu_usage((int)x);
     }
 
     // vbox doesn't distinguish up and down bandwidth; use the min of the prefs
     //
     x = aid.global_prefs.max_bytes_sec_up;
-    double y = aid.global_prefs.max_bytes_sec_down;
+    y = aid.global_prefs.max_bytes_sec_down;
     if (y) {
         if (!x || y<x) {
             x = y;
         }
     }
     if (x) {
-        vm.set_network_max_bytes_sec(x);
+        vm.set_network_usage(((int)x*8/1000));
     }
 }
 
@@ -427,19 +438,6 @@ int main(int argc, char** argv) {
         boinc_temporary_exit(86400, "Detection of VM Hypervisor failed.");
     }
 
-    // Check to see if the system is in a state in which we expect to be able to run
-    // VirtualBox successfully.  Sometimes the system is in a wierd state after a
-    // reboot and the system needs a little bit of time.
-    //
-    if (!vm.is_system_ready()) {
-        fprintf(
-            stderr,
-            "%s couldn't communicate with VM Hypervisor, telling BOINC to reschedule execution for a later date.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
-        boinc_temporary_exit(300, "Communication with VM Hypervisor failed.");
-    }
-
     // Record what version of VirtualBox was used.
     // 
     if (!vm.virtualbox_version.empty()) {
@@ -454,13 +452,26 @@ int main(int argc, char** argv) {
     // Check against known incompatible versions of VirtualBox.  
     // NOTE: Incompatible in this case means that VirtualBox 4.2.6 crashes during snapshot operations
     //
-    if (vm.virtualbox_version.find("4.2.6r") != std::string::npos) {
+    if (vm.virtualbox_version.find("4.2.6") != std::string::npos) {
         fprintf(
             stderr,
             "%s Incompatible version of VirtualBox detected. Please upgrade to a later version.\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
         boinc_temporary_exit(86400, "Incompatible version of VirtualBox detected.");
+    }
+
+    // Check to see if the system is in a state in which we expect to be able to run
+    // VirtualBox successfully.  Sometimes the system is in a wierd state after a
+    // reboot and the system needs a little bit of time.
+    //
+    if (!vm.is_system_ready()) {
+        fprintf(
+            stderr,
+            "%s couldn't communicate with VM Hypervisor, telling BOINC to reschedule execution for a later date.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+        boinc_temporary_exit(300, "Communication with VM Hypervisor failed.");
     }
 
     // Record if anonymous platform was used.
