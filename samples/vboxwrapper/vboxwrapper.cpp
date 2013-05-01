@@ -223,18 +223,16 @@ void read_fraction_done(double& frac_done, VBOX_VM& vm) {
 // set CPU and network throttling if needed
 //
 void set_throttles(APP_INIT_DATA& aid, VBOX_VM& vm) {
-    double x, y;
+    double x = 0, y = 0;
 
-    x = aid.global_prefs.cpu_usage_limit;
-
-    // VirtualBox freaks out if the CPU Throttle value is too low to actually
+    // VirtualBox freaks out if the CPU Usage value is too low to actually
     // do any processing.  It probably wouldn't be so bad if the RDP interface
     // didn't also get hosed by it.
     //
-    // For now set the minimum CPU Throttle value to 5.
+    // For now set the minimum CPU Usage value to 1.
     //
-    if (5 > x) x = 5;
-
+    x = aid.global_prefs.cpu_usage_limit;
+    if (1 > x) x = 1;
     if (x) {
         vm.set_cpu_usage((int)x);
     }
@@ -244,13 +242,14 @@ void set_throttles(APP_INIT_DATA& aid, VBOX_VM& vm) {
     x = aid.global_prefs.max_bytes_sec_up;
     y = aid.global_prefs.max_bytes_sec_down;
     if (y) {
-        if (!x || y<x) {
+        if (!x || y < x) {
             x = y;
         }
     }
     if (x) {
         vm.set_network_usage(((int)x*8/1000));
     }
+
 }
 
 // If the Floppy device has been specified, initialize its state so that
