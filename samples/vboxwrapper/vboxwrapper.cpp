@@ -231,7 +231,7 @@ void set_throttles(APP_INIT_DATA& aid, VBOX_VM& vm) {
     // do any processing.  It probably wouldn't be so bad if the RDP interface
     // didn't also get hosed by it.
     //
-    // For now srt the minimum CPU Throttle value to 5.
+    // For now set the minimum CPU Throttle value to 5.
     //
     if (5 > x) x = 5;
 
