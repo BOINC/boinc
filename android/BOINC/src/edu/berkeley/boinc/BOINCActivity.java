@@ -142,6 +142,20 @@ public class BOINCActivity extends TabActivity {
     	try {
 			if(mIsBound) { 
 				newStatus = Monitor.getClientStatus().setupStatus;
+				switch(Monitor.getClientStatus().computingStatus) {
+				case ClientStatus.COMPUTING_STATUS_COMPUTING:
+					this.setTitle("BOINC - Running");
+					break;
+				case ClientStatus.COMPUTING_STATUS_IDLE:
+					this.setTitle("BOINC - Idle");
+					break;
+				case ClientStatus.COMPUTING_STATUS_SUSPENDED:
+					this.setTitle("BOINC - Suspended");
+					break;
+				default:
+					this.setTitle("BOINC");
+					break;
+				}
 				if(newStatus != clientSetupStatus) { //only act, when status actually different form old status
 					Log.d(TAG,"determineStatus() client setup status changed! old clientSetupStatus: " + clientSetupStatus + " - new: " + newStatus);
 					clientSetupStatus = newStatus;
