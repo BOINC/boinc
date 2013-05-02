@@ -52,6 +52,33 @@ $country = check_plain($content_profile->field_country[0]['value']);
 $website = check_plain($content_profile->field_url[0]['value']);
 $background = $content_profile->field_background[0]['value'];
 $opinions = $content_profile->field_opinions[0]['value'];
+$user_links = array();
+
+if ($user->uid AND ($user->uid != $account->uid)) {
+  $user_links[] = array(
+    'title' => t('Send message'),
+    'href' => privatemsg_get_link(array($account))
+  );
+  $user_links[] = array(
+    'title' => t('Add as friend'),
+    'href' => "flag/confirm/flag/friend/{$account->uid}"
+  );
+  if (user_access('assign community member role')) {
+    if (array_search('community member', $account->roles)) {
+      $user_links[] = array(
+        'title' => t('Ban user'),
+        'href' => "user_control/{$account->uid}/ban"
+      );
+    }
+    else {
+      $user_links[] = array(
+        'title' => t('Lift user ban'),
+        'href' => "user_control/{$account->uid}/lift-ban"
+      );
+    }
+  }
+}
+$link_index = 0;
 
 ?>
 <div class="user-profile">
@@ -83,8 +110,13 @@ $opinions = $content_profile->field_opinions[0]['value'];
     <?php endif; ?>
     <?php if ($user->uid AND ($user->uid != $account->uid)): ?>
       <ul class="tab-list">
-        <li class="first tab"><?php print l(t('Send message'), privatemsg_get_link(array($account)), array('query' => drupal_get_destination())); ?></li>
-        <li class="last tab"><a href="<?php print base_path() . "flag/confirm/flag/friend/{$account->uid}?" . drupal_get_destination(); ?>"><?php print t('Add as friend'); ?></a></li>
+        <?php foreach ($user_links as $link): ?>
+          <li class="<?php print ($link_index == 0) ? 'first ' : ''; ?>tab<?php print ($link_index == count($user_links)-1) ? ' last' : ''; ?>">
+            <?php print l($link['title'], $link['href'], array('query' => drupal_get_destination())); ?>
+          </li>
+        <!--<li class="first tab"><?php print l(t('Send message'), privatemsg_get_link(array($account)), array('query' => drupal_get_destination())); ?></li>
+        <li class="last tab"><?php print l(t('Add as friend'), "flag/confirm/flag/friend/{$account->uid}", array('query' => drupal_get_destination())); ?></li>-->
+        <?php endforeach; ?>
       </ul>
     <?php endif; ?>
     <div class="clearfix"></div>

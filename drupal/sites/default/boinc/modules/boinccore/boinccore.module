@@ -37,6 +37,11 @@ function boinccore_menu() {
     'access arguments' => array('administer comments'),
     'type' => MENU_CALLBACK
   );
+  $items['user_control'] = array(
+    'page callback' => 'boinccore_user_control',
+    'access arguments' => array('access user profiles'),
+    'type' => MENU_CALLBACK
+  );
   return $items;
 }
 
@@ -113,10 +118,11 @@ function boinccore_node_control($nid = NULL, $action = NULL) {
   node_save($node);
   drupal_goto("node/{$nid}");
 }
+
 /**
- * Controller for handling simple node status configuration.
- * Allow published, sticky, and comment status to be set on nodes by direct
- * link rather than through the node form.
+ * Controller for handling simple comment status configuration.
+ * Allow published status to be set on comments by direct link rather than
+ * through the comment edit form.
  */
 function boinccore_comment_control($cid = NULL, $action = NULL) {
   if (!$cid OR !$comment = _comment_load($cid)) {
@@ -133,4 +139,34 @@ function boinccore_comment_control($cid = NULL, $action = NULL) {
   default:
   }
   drupal_goto("node/{$comment->nid}", NULL, "comment-{$cid}");
+}
+
+/**
+ * Controller for handling simple user account status configuration.
+ * Allow community membership status to be set for users by direct link rather
+ * than through the user account info form.
+ */
+function boinccore_user_control($uid = NULL, $action = NULL) {
+  if (!$uid OR !$account = user_load($uid)) {
+    // What are you even doing here...
+    return FALSE;
+  }
+  switch ($action) {
+  case 'ban':
+    $community_role = array_search('community member', user_roles(true));
+    if (isset($account->roles[$community_role])) {
+      unset($account->roles[$community_role]);
+      user_save($account, array('roles' => $account->roles));
+    }
+    break;
+  case 'lift-ban':
+    $community_role = array_search('community member', user_roles(true));
+    if (!isset($account->roles[$community_role])) {
+      $account->roles[$community_role] = 'community member';
+      user_save($account, array('roles' => $account->roles));
+    }
+    break;
+  default:
+  }
+  drupal_goto("user/{$account->uid}");
 }
