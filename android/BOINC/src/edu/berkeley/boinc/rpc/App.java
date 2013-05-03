@@ -22,6 +22,16 @@ package edu.berkeley.boinc.rpc;
 public class App {
 	public String name = "";
 	public String user_friendly_name = "";
+	public int non_cpu_intensive = 0;
+	public Project project;
+	
+	public boolean compare(App myapp) {
+		//Check if name is the same
+		if(!this.name.equalsIgnoreCase(myapp.name)) {
+			return false;
+		}
+		return true;
+	}
 
 	public final String getName() {
 		return user_friendly_name.equals("") ? name : user_friendly_name;

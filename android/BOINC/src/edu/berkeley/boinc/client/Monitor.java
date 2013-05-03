@@ -45,6 +45,7 @@ import edu.berkeley.boinc.AppPreferences;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.AccountIn;
 import edu.berkeley.boinc.rpc.AccountOut;
+import edu.berkeley.boinc.rpc.CcState;
 import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.Message;
@@ -945,19 +946,15 @@ public class Monitor extends Service {
 				} else {
 					if(showRpcCommands) Log.d(TAG, "getCcStatus");
 					CcStatus status = rpc.getCcStatus();
-					/*
+					
 					if(showRpcCommands) Log.d(TAG, "getState"); 
 					CcState state = rpc.getState();
-					*/
-					if(showRpcCommands) Log.d(TAG, "getResults");
-					ArrayList<Result>  results = rpc.getResults();
-					if(showRpcCommands) Log.d(TAG, "getProjects");
-					ArrayList<Project>  projects = rpc.getProjectStatus();
+					
 					if(showRpcCommands) Log.d(TAG, "getTransers");
 					ArrayList<Transfer>  transfers = rpc.getFileTransfers();
 					
-					if( (status != null) && (results != null) && (projects != null) && (transfers != null)) {
-						Monitor.getClientStatus().setClientStatus(status, results, projects, transfers);
+					if( (status != null) && (state.results != null) && (state.projects != null) && (transfers != null)) {
+						Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers);
 						// Update status bar notification
 						ClientNotification.getInstance().update(getApplicationContext(), getClientStatus());
 					} else {

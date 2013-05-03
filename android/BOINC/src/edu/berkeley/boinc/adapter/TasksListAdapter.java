@@ -98,8 +98,15 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 			String deadline = (String) DateFormat.format("E d MMM yyyy hh:mm:ss aa", new Date(listItem.result.report_deadline*1000));
 			((TextView) v.findViewById(R.id.deadline)).setText("Deadline: " + deadline);
 			// set project name
-			((TextView) v.findViewById(R.id.projectName)).setText("Project name: " + listItem.result.project_url);
-			// TODO: set application friendly name
+			String tempProjectName = listItem.result.project_url;
+			if(listItem.result.project != null) {
+				tempProjectName = listItem.result.project.getName();
+			}
+			((TextView) v.findViewById(R.id.projectName)).setText("Project name: " + tempProjectName);
+			// set application friendly name
+			if(listItem.result.app != null) {
+				((TextView) v.findViewById(R.id.friendlyAppName)).setText("App Name: " + listItem.result.app.getName());
+			}
 
 			ImageView suspendResume = (ImageView) v.findViewById(R.id.suspendResumeTask);
 			if (listItem.currentRunState == listItem.nextRunState) {

@@ -65,5 +65,10 @@ public class Result {
 	public String  slot_path;
 
 	public String  resources = null;
+	
+	public Project project;
+	public AppVersion avp;
+	public App app;
+	public Workunit wup;
 
 }

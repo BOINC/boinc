@@ -100,6 +100,9 @@ public class AppsParser extends BaseParser {
 				else if (localName.equalsIgnoreCase("user_friendly_name")) {
 					mApp.user_friendly_name = mCurrentElement.toString();
 				}
+				else if (localName.equalsIgnoreCase("non_cpu_intensive")) {
+					mApp.non_cpu_intensive = Integer.parseInt(mCurrentElement.toString());
+				}
 			}
 		}
 		mElementStarted = false;

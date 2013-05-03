@@ -92,4 +92,17 @@ public class Project {
 	public final String getName() {
 		return project_name.equals("") ? master_url : project_name;
 	}
+
+	public boolean compare(Project proj) {
+		//Test that master_url's match...
+		if(!this.master_url.equalsIgnoreCase(proj.master_url)) {
+			return false;
+		}
+
+		//Test if user_name matches
+		if(!this.user_name.equalsIgnoreCase(proj.user_name)) {
+			return false;
+		}
+		return true;
+	}
 }

@@ -1103,7 +1103,7 @@ public class RpcClient {
 			return false;
 		}
 	}
-
+	
 	/**
 	 * Triggers operation on task in BOINC core client
 	 * @param operation operation to be triggered
@@ -1139,7 +1139,7 @@ public class RpcClient {
 			mRequest.append(opTag);
 			mRequest.append(">\n");
 			sendRequest(mRequest.toString());
-
+			
 			SimpleReplyParser parser = SimpleReplyParser.parse(receiveReply());
 			if (parser == null)
 				return false;

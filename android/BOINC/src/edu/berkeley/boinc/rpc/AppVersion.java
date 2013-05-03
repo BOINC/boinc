@@ -22,4 +22,14 @@ package edu.berkeley.boinc.rpc;
 public class AppVersion {
 	public String app_name;
 	public int version_num;
+	public String platform;
+	public String plan_class;
+	public String api_version;
+	public double avg_ncpus;
+	public double max_ncpus;
+
+	public double gpu_ram;
+	
+	App app;
+	Project project;
 }
