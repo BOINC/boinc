@@ -37,6 +37,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -195,6 +197,10 @@ public class ProjectsActivity extends FragmentActivity {
 	
 	public void onProjectClicked(String url, String name) {
 	    Log.d(TAG, "onProjectClicked()");
+	}
+
+	public void addProjectClicked(View view) {
+		onProjectAdd();
 	}
 	
 	public void onProjectAdd() {
