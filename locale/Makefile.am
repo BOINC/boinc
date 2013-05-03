@@ -42,7 +42,7 @@ locale_dirs = \
 	zh_CN \
 	zh_TW
 
-install-exec-hook:
+install-data-hook:
 	mydir=$(DESTDIR)$(datadir) ;\
 	for ldir in $(locale_dirs) ; do \
 	  $(INSTALL) -d $$mydir/$$ldir ; \
