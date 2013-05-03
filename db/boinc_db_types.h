@@ -461,6 +461,7 @@ struct WORKUNIT {
     // the following not used in the DB
     char app_name[256];
     void clear();
+    WORKUNIT(){clear();}
 };
 
 struct CREDITED_JOB {
@@ -588,6 +589,7 @@ struct RESULT {
         // -1 means none
 
     void clear();
+    RESULT() {clear();}
 };
 
 struct BATCH {
