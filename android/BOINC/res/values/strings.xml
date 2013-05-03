@@ -157,6 +157,9 @@
 	<string name="prefs_autostart_header">Autostart</string>
 	<string name="prefs_autostart_true">BOINC starts on boot up</string>
 	<string name="prefs_autostart_false">Start BOINC manually</string>
+	<string name="prefs_show_notification_header">Notification</string>
+	<string name="prefs_show_notification_true">Shown when client is working</string>
+	<string name="prefs_show_notification_false">Hidden</string>
 	<string name="prefs_cpu_number_cpus_header">Used CPU cores (in %)</string>
 	<string name="prefs_cpu_other_load_suspension_header">Pause when other CPU usage exceeds&#8230; (in %)</string>
 	<string name="prefs_cpu_time_max_header">CPU limit (in %)</string>

@@ -922,6 +922,8 @@ public class Monitor extends Service {
 					
 					if( (status != null) && (results != null) && (projects != null) && (transfers != null)) {
 						Monitor.getClientStatus().setClientStatus(status, results, projects, transfers);
+						// Update status bar notification
+						ClientNotification.getInstance().update(getApplicationContext(), getClientStatus());
 					} else {
 						Log.d(TAG, "client status connection problem");
 					}

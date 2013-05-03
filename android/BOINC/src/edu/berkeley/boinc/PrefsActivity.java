@@ -24,6 +24,7 @@ import edu.berkeley.boinc.adapter.PrefsListAdapter;
 import edu.berkeley.boinc.adapter.PrefsListItemWrapper;
 import edu.berkeley.boinc.adapter.PrefsListItemWrapperBool;
 import edu.berkeley.boinc.adapter.PrefsListItemWrapperDouble;
+import edu.berkeley.boinc.client.ClientNotification;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import android.app.AlertDialog;
@@ -130,7 +131,8 @@ public class PrefsActivity extends FragmentActivity {
 		Boolean advanced = appPrefs.getShowAdvanced();
 
     	data.add(new PrefsListItemWrapper(this,R.string.prefs_category_general,true));
-		data.add(new PrefsListItemWrapperBool(this,R.string.prefs_autostart_header,R.string.prefs_category_general,appPrefs.getAutostart())); 
+		data.add(new PrefsListItemWrapperBool(this,R.string.prefs_autostart_header,R.string.prefs_category_general,appPrefs.getAutostart()));
+		data.add(new PrefsListItemWrapperBool(this,R.string.prefs_show_notification_header,R.string.prefs_category_general,appPrefs.getShowNotification())); 
 		data.add(new PrefsListItemWrapperBool(this,R.string.prefs_show_advanced_header,R.string.prefs_category_general,appPrefs.getShowAdvanced()));
     	data.add(new PrefsListItemWrapper(this,R.string.prefs_category_network,true));
 		data.add(new PrefsListItemWrapperBool(this,R.string.prefs_network_wifi_only_header,R.string.prefs_category_network,clientPrefs.network_wifi_only));
@@ -166,6 +168,12 @@ public class PrefsActivity extends FragmentActivity {
 		case R.string.prefs_autostart_header: //app pref
 			appPrefs.setAutostart(isSet);
 			populateLayout();
+			break;
+		case R.string.prefs_show_notification_header: //app pref
+			appPrefs.setShowNotification(isSet);
+			//TODO: needs to be checked against app design. Is does not look to be at the right place
+			// Enable/disable notification instantly
+			ClientNotification.getInstance().enable(getApplicationContext(), isSet);
 			break;
 		case R.string.prefs_show_advanced_header: //app pref
 			appPrefs.setShowAdvanced(isSet);

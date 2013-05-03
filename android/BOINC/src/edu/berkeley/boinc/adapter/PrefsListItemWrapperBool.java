@@ -46,6 +46,11 @@ public class PrefsListItemWrapperBool extends PrefsListItemWrapper {
 			status_true = ctx.getString(R.string.prefs_autostart_true);
 			status_false = ctx.getString(R.string.prefs_autostart_false);
 			break;
+		case R.string.prefs_show_notification_header:
+			header = ctx.getString(R.string.prefs_show_notification_header);
+			status_true = ctx.getString(R.string.prefs_show_notification_true);
+			status_false = ctx.getString(R.string.prefs_show_notification_false);
+			break;
 		case R.string.prefs_run_on_battery_header:
 			header = ctx.getString(R.string.prefs_run_on_battery_header);
 			status_true = ctx.getString(R.string.prefs_run_on_battery_true);
