@@ -109,7 +109,7 @@ struct TASK {
 
     // dynamic stuff follows
     double current_cpu_time;
-        // most recently measure CPU time of this task
+        // most recently measured CPU time of this task
     double final_cpu_time;
         // final CPU time of this task
     double starting_cpu;
