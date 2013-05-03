@@ -1103,4 +1103,52 @@ public class RpcClient {
 			return false;
 		}
 	}
+
+	/**
+	 * Triggers operation on task in BOINC core client
+	 * @param operation operation to be triggered
+	 * @param projectUrl master URL of project
+	 * @param fileName name of the file
+	 * @return true for success, false for failure
+	 */
+	public boolean resultOp(int operation, String projectUrl, String resultName) {
+		try {
+			String opTag;
+			switch (operation) {
+			case RESULT_SUSPEND:
+				opTag = "suspend_result";
+				break;
+			case RESULT_RESUME:
+				opTag = "resume_result";
+				break;
+			case RESULT_ABORT:
+				opTag = "abort_result";
+				break;
+			default:
+				if (Logging.ERROR) Log.e(TAG, "resultOp() - unsupported operation: " + operation);
+				return false;
+			}
+			mRequest.setLength(0);
+			mRequest.append("<");
+			mRequest.append(opTag);
+			mRequest.append(">\n   <project_url>");
+			mRequest.append(projectUrl);
+			mRequest.append("</project_url>\n   <name>");
+			mRequest.append(resultName);
+			mRequest.append("</name>\n</");
+			mRequest.append(opTag);
+			mRequest.append(">\n");
+			sendRequest(mRequest.toString());
+
+			SimpleReplyParser parser = SimpleReplyParser.parse(receiveReply());
+			if (parser == null)
+				return false;
+			mLastErrorMessage = parser.getErrorMessage();
+			return parser.result();
+		}
+		catch (IOException e) {
+			if (Logging.WARNING) Log.w(TAG, "error in transferOp()", e);
+			return false;
+		}
+	}
 }

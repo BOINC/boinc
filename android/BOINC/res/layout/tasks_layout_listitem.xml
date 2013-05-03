@@ -73,6 +73,8 @@
 
     </LinearLayout>
 
-    
+    <include
+	android:id="@+id/expansion"
+	layout="@layout/tasks_layout_listitem_expansion" />
 
 </LinearLayout>

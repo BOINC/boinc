@@ -22,8 +22,6 @@ import edu.berkeley.boinc.AppPreferences;
 import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.client.Monitor;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -34,7 +32,6 @@ import android.util.Log;
 public class BootReceiver extends BroadcastReceiver {  
 	
 	private final String TAG = "BOINC BootReceiver";
-	private NotificationManager mNM;
 	
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -48,15 +45,8 @@ public class BootReceiver extends BroadcastReceiver {
 	    	//startServiceIntent.putExtra("autostart", true);
 	    	context.startService(startServiceIntent);
 	    	
-			mNM = (NotificationManager) context.getSystemService(Service.NOTIFICATION_SERVICE);
-	        Notification notification = new Notification(R.drawable.boinc, context.getString(R.string.autostart_notification_header), System.currentTimeMillis());
 	        PendingIntent contentIntent = PendingIntent.getActivity(context.getApplicationContext(), 0, new Intent(context.getApplicationContext(), BOINCActivity.class), 0);
 
-	        // Set current view for notification panel
-	        notification.setLatestEventInfo(context.getApplicationContext(), context.getString(R.string.autostart_notification_header), context.getString(R.string.autostart_notification_text), contentIntent);
-
-	        // Send notification
-	        mNM.notify(context.getResources().getInteger(R.integer.autostart_notification_id), notification);
     	} else {
     		// do nothing
     		Log.d(TAG,"autostart disabeld");

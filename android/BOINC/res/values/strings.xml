@@ -197,6 +197,12 @@
 	<string name="tasks_active_suspended">paused</string>
 	<string name="tasks_active_abort_pending">stopping</string>
 	<string name="tasks_active_quit_pending">stopping</string>
+
+	<!-- confirmation dialog -->
+	<string name="confirm_abort_task_title">Abort task</string>
+	<string name="confirm_abort_task_message">Abort task:</string>
+	<string name="confirm_abort_task_confirm">Abort</string>
+	<string name="confirm_abort_task_cancel">Cancel</string>
 	
 	<!-- transfers tab strings -->
 	<string name="trans_loading">Reading transfers&#8230;</string>

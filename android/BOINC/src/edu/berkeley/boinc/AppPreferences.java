@@ -18,7 +18,6 @@
  ******************************************************************************/
 package edu.berkeley.boinc;
 
-import edu.berkeley.boinc.client.ClientNotification;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
