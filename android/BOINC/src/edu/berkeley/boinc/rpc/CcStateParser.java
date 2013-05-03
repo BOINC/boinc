@@ -61,11 +61,12 @@ public class CcStateParser extends BaseParser {
 	public static CcState parse(String rpcResult) {
 		try {
 			String tmp = rpcResult;
-			while(tmp.length() > 4000) {
-				Log.d(TAG, "WCG:  " + tmp.substring(0, 4000));
-				tmp = tmp.substring(4000);
-			}
-			Log.d(TAG, "WCG:  " + tmp);
+			//Log d has a limit on string size to print, loop to print it all...
+//			while(tmp.length() > 4000) {
+//				Log.d(TAG, "WCG:  " + tmp.substring(0, 4000));
+//				tmp = tmp.substring(4000);
+//			}
+//			Log.d(TAG, "WCG:  " + tmp);
 			
 			CcStateParser parser = new CcStateParser();
 			Xml.parse(rpcResult, parser);
