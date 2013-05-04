@@ -115,7 +115,7 @@ function do_batch_op($req, $op) {
 }
 
 function batch_xml_to_object($batch) {
-    $b = null;
+    $b = new StdClass;
     $b->id = (int)($batch->id);
     $b->create_time = (double)($batch->create_time);
     $b->est_completion_time = (double)($batch->est_completion_time);
@@ -184,7 +184,7 @@ function boinc_query_batch($req) {
     if ($errmsg) return array(null, $errmsg);
     $jobs = array();
     foreach ($reply->job as $job) {
-        $j = null;
+        $j = new StdClass;
         $j->id = (int)($job->id);
         $j->canonical_instance_id = (int)($job->canonical_instance_id);
         $jobs[] = $j;
@@ -204,19 +204,19 @@ function boinc_query_job($req) {
     if ($errmsg) return array(null, $errmsg);
     $instances = array();
     foreach ($reply->instance as $instance) {
-        $i = null;
+        $i = new StdClass;
         $i->name = (string)($instance->name);
         $i->id = (int)($instance->id);
         $i->state = (string)($instance->state);
         $i->outfiles = array();
         foreach ($instance->outfile as $outfile) {
-            $f = null;
+            $f = new StdClass;
             $f->size = (double)$outfile->size;
             $i->outfiles[] = $f;
         }
         $instances[] = $i;
     }
-    $r = null;
+    $r = new StdClass;
     $r->instances = $instances;
     return array($r, null);
 }
@@ -279,7 +279,7 @@ if (0) {
     $f->md5 = "eec5a142cea5202c9ab2e4575a8aaaa7";
     $f->size = 4250;
     $job->input_files[] = $f;
-    $f = null;
+    $f = new StdClass;
     $f->mode = "local";
     $f->source = "foobar";
     //$job->input_files[] = $f;

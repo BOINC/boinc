@@ -57,15 +57,21 @@ if ($query_all_versions == "1") {
     $app_versions = latest_avs_app($query_appid);
     $valid_app_versions = "";
 
-    foreach ($app_versions as $av) {
-        if (strlen($valid_app_versions) == 0) {
-            $valid_app_versions = "$av->id";
-        } else {
-            $valid_app_versions .= ", $av->id";
+    if (count($app_versions) > 0) {
+        foreach ($app_versions as $av) {
+            if (strlen($valid_app_versions) == 0) {
+                $valid_app_versions = "$av->id";
+            } else {
+                $valid_app_versions .= ", $av->id";
+            }
         }
+        $limit_app_versions = "app_version_id IN ( $valid_app_versions ) AND";    
+        $query_order = "app_version_id DESC";
+    } else {
+        $limit_app_versions = "";
+        $query_order = "platform";
+        $allversions = "checked";
     }
-    $limit_app_versions = "app_version_id IN ( $valid_app_versions ) AND";    
-    $query_order = "app_version_id DESC";
 }
 
 // Now that we have a valid list of app_version_nums'

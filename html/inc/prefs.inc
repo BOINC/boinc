@@ -580,7 +580,7 @@ function default_prefs_global() {
     global $disk_prefs;
     global $net_prefs;
 
-    $p = null;
+    $p = new StdClass;
     foreach ($cpu_prefs as $pref) {
         $pref->set_default($p);
     }
@@ -596,7 +596,7 @@ function default_prefs_global() {
 function default_prefs_project() {
     global $project_pref_descs;
 
-    $p = null;
+    $p = new StdClass;
     foreach ($project_pref_descs as $pref) {
         $pref->set_default($p);
     }

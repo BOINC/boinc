@@ -351,7 +351,6 @@ function get_community_links_object($user){
     $friends = BoincFriend::enum("user_src=$user->id and reciprocated=1");
     $n = count($friends);
     if ($n) {
-        $x = null;
         foreach($friends as $friend) {
             $fuser = BoincUser::lookup_id($friend->user_dest);
             $cache_object->friends[] = $fuser;
@@ -391,7 +390,7 @@ function community_links($clo, $logged_in_user){
     }
     
     if ($friends) {
-        $x = null;
+        $x = "";
         foreach($friends as $friend) {
             $x .= friend_links($friend);
         }
