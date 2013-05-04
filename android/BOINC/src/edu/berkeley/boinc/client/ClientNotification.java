@@ -9,7 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 
 public class ClientNotification {
-	private static final String TAG = "ClientNotification";
+	//private static final String TAG = "ClientNotification";
 
 	private static final int NOTIFICATION_ID = 460;
 
@@ -66,24 +66,28 @@ public class ClientNotification {
 	private void updateNotification(Context context, int status) {
 		switch(status) {
 		case ClientStatus.COMPUTING_STATUS_NEVER:
-//			hide(context);
-//			break;
+			show(context, R.drawable.ic_stat_notify_boinc_paused, BOINCActivity.class);
+			break;
 		case ClientStatus.COMPUTING_STATUS_SUSPENDED:
+			show(context, R.drawable.ic_stat_notify_boinc_paused, BOINCActivity.class);
+			break;
 		case ClientStatus.COMPUTING_STATUS_IDLE:
-			show(context, R.drawable.ic_stat_notify_boinc_paused, R.string.status_idle, BOINCActivity.class);
+			show(context, R.drawable.ic_stat_notify_boinc_paused, BOINCActivity.class);
 			break;
 		case ClientStatus.COMPUTING_STATUS_COMPUTING:
-			show(context, R.drawable.ic_stat_notify_boinc_normal, R.string.status_running, BOINCActivity.class);
+			show(context, R.drawable.ic_stat_notify_boinc_normal, BOINCActivity.class);
 			break;
 		}
 	}
 
-	private void show(Context context, int icon, int message, Class<?> launchActivity) {
+	private void show(Context context, int icon, Class<?> launchActivity) {
+		// get status string from ClientStatus
+		String statusText = Monitor.getClientStatus().getCurrentStatusString();
 
 		// Set the icon, scrolling text and time-stamp
 		Notification notification = new Notification(
 				icon, 
-				context.getText(message),
+				statusText,
 				System.currentTimeMillis());
 		// The PendingIntent to launch activity
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
@@ -91,7 +95,7 @@ public class ClientNotification {
 
 		// Set the info for the views that show in the notification panel.
 		notification.setLatestEventInfo(context, context.getText(R.string.app_name),
-				context.getText(message), pendingIntent);
+				statusText, pendingIntent);
 		notification.flags |= Notification.FLAG_NO_CLEAR;
 
 		NotificationManager nm = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);

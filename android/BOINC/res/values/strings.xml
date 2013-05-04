@@ -20,8 +20,6 @@
 <resources>
 	<!-- app global -->
     <string name="app_name">BOINC</string>
-    <string name="autostart_notification_header">BOINC started.</string>
-    <string name="autostart_notification_text">to manage auto-start configuration go to BOINC settings..</string>
     
     <!-- path and file configuration -->
     <string name="client_path">/data/data/edu.berkeley.boinc/client/</string>
@@ -105,8 +103,6 @@
     <string name="attachproject_registration_toast_login_successful">Successful.</string>
     
     <!-- main activity -->
-    <string name="main_launching">Starting BOINC&#8230;</string>
-    <string name="main_quitting">Closing BOINC&#8230;</string>
     <string name="main_noproject_warning">No scientific project attached! tab here to enter account.</string>
     <string name="main_error">Whooops</string>
     <string name="main_error_long">&#8230;this should not happen!\nClick on the icon to try again.</string>
@@ -120,15 +116,18 @@
     <string name="tab_eventlog">Event Log</string>
     <string name="tab_debug">Debug</string>
    
-    <!-- status tab strings -->
+    <!-- status strings -->
     <string name="status_running">Computing</string>
     <string name="status_running_long">Thank you for participating!</string>
     <string name="status_paused">Paused</string>
     <string name="status_paused_long">Computation suspended.</string>
-    <string name="status_idle">Idle</string>
+    <string name="status_idle">Nothing to do</string>
     <string name="status_idle_long">Waiting for tasks&#8230;</string>
     <string name="status_computing_disabled">Stopped</string>
     <string name="status_computing_disabled_long">&#8230;until you allow me to continue!</string>
+    <string name="status_launching">Starting&#8230;</string>
+    <string name="status_noproject">Add a project!</string>
+    <string name="status_closing">Closing&#8230;</string>
     <string name="disable_computation">Stop computation</string>
     <string name="enable_computation">Allow computation</string>
     
@@ -238,7 +237,6 @@
     <string name="suspend_idle">No BOINC tasks ready for computation.</string>
     <string name="suspend_batteries">Not connected to charger.</string>
     <string name="suspend_useractive">User is active.</string>
-    <string name="suspend_userreq">Restarting computation&#8230;</string>
     <string name="suspend_tod">Out of computation time-frame.</string>
     <string name="suspend_bm">BOINC is benchmarking your device.</string>
     <string name="suspend_disksize">Out of disk space.</string>
@@ -252,6 +250,7 @@
     <string name="suspend_wifi">Can\'t fetch work, no WiFi connection!</string>
     <string name="suspend_battery_charging">Your device\'s battery is charging.</string>
     <string name="suspend_battery_overheating">Your device\'s battery needs to cool down.</string>
+    <string name="suspend_user_req">Restarting computation&#8230;</string>
     
     <!-- rpc reasons -->
     <string name="rpcreason_userreq">Requested by user</string>

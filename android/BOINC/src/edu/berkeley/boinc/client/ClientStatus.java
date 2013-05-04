@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.util.Log;
+import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.Project;
@@ -196,6 +197,55 @@ public class ClientStatus {
 
 	public synchronized HashMap<String,ProjectGraphics> getProjectGraphics() {
 		return projectGraphics;
+	}
+	
+	// returns a string describing the current client status.
+	// use this method, to harmonize UI text, e.g. in Notification, Status Tab, App Title.
+	public String getCurrentStatusString() {
+		String statusString = "";
+		try {
+			switch(setupStatus) {
+			case SETUP_STATUS_AVAILABLE:
+				switch(computingStatus) {
+				case COMPUTING_STATUS_COMPUTING:
+					statusString = ctx.getString(R.string.status_running);
+					break;
+				case COMPUTING_STATUS_IDLE:
+					statusString = ctx.getString(R.string.status_idle);
+					break;
+				case COMPUTING_STATUS_SUSPENDED:
+					switch(computingSuspendReason) {
+					case BOINCDefs.SUSPEND_REASON_USER_REQ:
+						// restarting after user has previously manually suspended computation
+						statusString = ctx.getString(R.string.suspend_user_req);
+						break;
+					case BOINCDefs.SUSPEND_REASON_BENCHMARKS:
+						statusString = ctx.getString(R.string.suspend_bm);
+						break;
+					default:
+						statusString = ctx.getString(R.string.status_paused);
+						break;
+					}
+					break;
+				case COMPUTING_STATUS_NEVER:
+					statusString = ctx.getString(R.string.status_computing_disabled);
+					break;
+				}
+				break;
+			case SETUP_STATUS_CLOSING:
+				statusString = ctx.getString(R.string.status_closing);
+				break;
+			case SETUP_STATUS_LAUNCHING:
+				statusString = ctx.getString(R.string.status_launching);
+				break;
+			case SETUP_STATUS_NOPROJECT:
+				statusString = ctx.getString(R.string.status_noproject);
+				break;
+			}
+		} catch (Exception e) {
+			Log.w(TAG, "error parsing setup status string",e);
+		}
+		return statusString;
 	}
 	
 	/*

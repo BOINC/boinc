@@ -24,7 +24,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -44,7 +43,7 @@ import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.utils.BOINCUtils;
 
 public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItemClickListener {
-    private final String TAG = "ProjectsListAdapter";
+    //private final String TAG = "ProjectsListAdapter";
 	
 	private ArrayList<Project> entries;
     private Activity activity;

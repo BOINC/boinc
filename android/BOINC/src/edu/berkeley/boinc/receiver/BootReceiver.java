@@ -19,11 +19,7 @@
 package edu.berkeley.boinc.receiver;
 
 import edu.berkeley.boinc.AppPreferences;
-import edu.berkeley.boinc.BOINCActivity;
-import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.client.Monitor;
-import android.app.PendingIntent;
-import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -42,14 +38,10 @@ public class BootReceiver extends BroadcastReceiver {
     	if(prefs.getAutostart()) {
     		Log.d(TAG,"autostart enabled, start Monitor...");
 	    	Intent startServiceIntent = new Intent(context, Monitor.class);
-	    	//startServiceIntent.putExtra("autostart", true);
 	    	context.startService(startServiceIntent);
-	    	
-	        PendingIntent contentIntent = PendingIntent.getActivity(context.getApplicationContext(), 0, new Intent(context.getApplicationContext(), BOINCActivity.class), 0);
-
     	} else {
     		// do nothing
-    		Log.d(TAG,"autostart disabeld");
+    		Log.d(TAG,"autostart disabeld - do nothing");
     	}
     	
     }

@@ -33,7 +33,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
@@ -53,7 +52,6 @@ import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.ProjectAttachReply;
 import edu.berkeley.boinc.rpc.ProjectInfo;
 import edu.berkeley.boinc.rpc.ProjectConfig;
-import edu.berkeley.boinc.rpc.Result;
 import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.rpc.Transfer;
 
@@ -95,16 +93,16 @@ public class Monitor extends Service {
 		String clientProcessName = clientPath + clientName;
 
 		String md5AssetClient = ComputeMD5Asset(clientName);
-		Log.d(TAG, "Hash of client (Asset): '" + md5AssetClient + "'");
+		//Log.d(TAG, "Hash of client (Asset): '" + md5AssetClient + "'");
 
 		String md5InstalledClient = ComputeMD5File(clientProcessName);
-		Log.d(TAG, "Hash of client (File): '" + md5InstalledClient + "'");
+		//Log.d(TAG, "Hash of client (File): '" + md5InstalledClient + "'");
 
 		// If client hashes do not match, we need to install the one that is a part
 		// of the package. Shutdown the currently running client if needed.
 		//
 		if (md5InstalledClient.compareToIgnoreCase(md5AssetClient) != 0) {
-
+			Log.d(TAG,"Hashes of installed client does not match binary in assets - re-install.");
 			// Determine if BOINC is already running.
 			//
 			quitProcessOsLevel(clientProcessName);

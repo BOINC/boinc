@@ -216,7 +216,7 @@ public class StatusActivity extends Activity {
 						centerWrapper.setVisibility(View.GONE);
 						LinearLayout restartingWrapper = (LinearLayout) findViewById(R.id.restarting_wrapper);
 						restartingWrapper.setVisibility(View.VISIBLE);
-						statusDescriptor.setText(R.string.suspend_userreq);
+						statusDescriptor.setText(R.string.suspend_user_req);
 						break;
 					case BOINCDefs.SUSPEND_REASON_TIME_OF_DAY:
 						statusDescriptor.setText(R.string.suspend_tod);

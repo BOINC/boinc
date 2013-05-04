@@ -90,7 +90,7 @@
 	        android:id="@+id/restarting_text"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:text="@string/suspend_userreq"
+	        android:text="@string/suspend_user_req"
 	        android:textAppearance="?android:attr/textAppearanceSmall" />
     
     </LinearLayout>
