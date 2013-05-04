@@ -417,6 +417,7 @@ global $venue_name;
 function get_disk_space_config() {
     global  $config;
     $config = get_config();
+    $dp = new StdClass;
     $dp->disk_max_used_gb = parse_config($config, "<default_disk_max_used_gb>");
     $dp->disk_max_used_pct = parse_config($config, "<default_disk_max_used_pct>");
     $dp->disk_min_free_gb = parse_config($config, "<default_disk_min_free_gb>");
