@@ -11,16 +11,10 @@ import android.content.Intent;
 public class ClientNotification {
 	//private static final String TAG = "ClientNotification";
 
-	private static final int NOTIFICATION_ID = 460;
-
 	private static ClientNotification clientNotification = null;
 
 	private boolean mIsEnabled = true;
 	private int mOldComputingStatus = -1;
-
-	private ClientNotification() {
-
-	}
 
 	/**
 	 * Returns a reference to a singleton ClientNotification object.
@@ -83,6 +77,9 @@ public class ClientNotification {
 	private void show(Context context, int icon, Class<?> launchActivity) {
 		// get status string from ClientStatus
 		String statusText = Monitor.getClientStatus().getCurrentStatusString();
+		
+		// get notification ID
+		Integer notificationId = context.getResources().getInteger(R.integer.autostart_notification_id);
 
 		// Set the icon, scrolling text and time-stamp
 		Notification notification = new Notification(
@@ -99,11 +96,14 @@ public class ClientNotification {
 		notification.flags |= Notification.FLAG_NO_CLEAR;
 
 		NotificationManager nm = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-		nm.notify(NOTIFICATION_ID, notification);
+		nm.notify(notificationId, notification);
 	}
 
 	private void hide(Context context) {
+		// get notification ID
+		Integer notificationId = context.getResources().getInteger(R.integer.autostart_notification_id);
+		
 		NotificationManager nm = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-		nm.cancel(NOTIFICATION_ID);
+		nm.cancel(notificationId);
 	}
 }

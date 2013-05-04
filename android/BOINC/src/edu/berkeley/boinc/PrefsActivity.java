@@ -167,12 +167,11 @@ public class PrefsActivity extends FragmentActivity {
 		switch (ID) {
 		case R.string.prefs_autostart_header: //app pref
 			appPrefs.setAutostart(isSet);
-			populateLayout();
+			populateLayout(); // updates status text
 			break;
 		case R.string.prefs_show_notification_header: //app pref
 			appPrefs.setShowNotification(isSet);
-			//TODO: needs to be checked against app design. Is does not look to be at the right place
-			// Enable/disable notification instantly
+			populateLayout(); // updates status text
 			ClientNotification.getInstance().enable(getApplicationContext(), isSet);
 			break;
 		case R.string.prefs_show_advanced_header: //app pref

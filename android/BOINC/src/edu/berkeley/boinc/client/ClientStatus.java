@@ -18,10 +18,21 @@
  ******************************************************************************/
 package edu.berkeley.boinc.client;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.util.Log;
@@ -51,7 +62,6 @@ public class ClientStatus {
 	private ArrayList<Project> projects;
 	private ArrayList<Transfer> transfers;
 	private GlobalPreferences prefs;
-	private HashMap<String,ProjectGraphics> projectGraphics = new HashMap<String,ProjectGraphics>(); // key is master url
 	
 	// setup status
 	public Integer setupStatus = 0;
@@ -195,8 +205,66 @@ public class ClientStatus {
 		return projects;
 	}
 
-	public synchronized HashMap<String,ProjectGraphics> getProjectGraphics() {
-		return projectGraphics;
+	// returns list with slideshow images of all projects
+	// 126 * 29 pixel from /projects/PNAME/slideshow_appname_n
+	// not aware of project or application!
+	public synchronized ArrayList<Bitmap> getSlideshowImages() {
+
+		ArrayList<Bitmap> slideshowImages = new ArrayList<Bitmap>(); 
+		
+		for (Project project: projects) {
+			// get file paths
+			File dir = new File(project.project_dir);
+			File[] foundFiles = dir.listFiles(new FilenameFilter() {
+			    public boolean accept(File dir, String name) {
+			        return name.startsWith("slideshow_");
+			    }
+			});
+			ArrayList<String> filePaths = new ArrayList<String>();
+			if(foundFiles == null) continue; // prevent NPE
+			for (File file: foundFiles) {
+				String slideshowImagePath = parseSoftLinkToAbsPath(file.getAbsolutePath(), project.project_dir);
+				//check whether path is not empty, and avoid duplicates (slideshow images can 
+				//re-occur for multiple apps, since we do not distinct apps, skip duplicates.
+				if(slideshowImagePath != null && !slideshowImagePath.isEmpty() && !filePaths.contains(slideshowImagePath)) filePaths.add(slideshowImagePath);
+				//Log.d(TAG, "getSlideshowImages() path: " + slideshowImagePath);
+			}
+			//Log.d(TAG,"getSlideshowImages() retrieve number file paths: " + filePaths.size());
+			
+			// load images from paths
+			BitmapFactory.Options options = new BitmapFactory.Options();
+			options.inDither = true;
+			options.inSampleSize = 1;
+			for (String filePath : filePaths) {
+				Bitmap tmp = BitmapFactory.decodeFile(filePath, options);
+				if(tmp!=null) slideshowImages.add(tmp);
+				else Log.d(TAG,"loadSlideshowImagesFromFile(): null for path: " + filePath);
+			}
+		}
+		Log.d(TAG,"getSlideshowImages() loaded number of files: " + slideshowImages.size());
+		return slideshowImages;
+	}
+	
+	// returns project icon for given master url
+	// bitmap: 40 * 40 pixel, symbolic link in /projects/PNAME/stat_icon
+	public synchronized Bitmap getProjectIcon (String masterUrl) {
+		try{
+			// loop through all projects
+			for (Project project: projects) {
+				if(project.master_url.equals(masterUrl)) {
+					// read file name of icon
+					String iconAbsPath = parseSoftLinkToAbsPath(project.project_dir + "/stat_icon", project.project_dir);
+					if (iconAbsPath == null) return null;
+					//Log.d(TAG, "getProjectIcons() absolute path to icon: " + iconAbsPath);
+					
+					Bitmap icon = BitmapFactory.decodeFile(iconAbsPath);
+					return icon;
+				}
+			}
+		} catch (Exception e) {
+			Log.w(TAG, "getProjectIcon failed", e);
+		}
+		return null;
 	}
 	
 	// returns a string describing the current client status.
@@ -220,7 +288,7 @@ public class ClientStatus {
 						statusString = ctx.getString(R.string.suspend_user_req);
 						break;
 					case BOINCDefs.SUSPEND_REASON_BENCHMARKS:
-						statusString = ctx.getString(R.string.suspend_bm);
+						statusString = ctx.getString(R.string.status_benchmarking);
 						break;
 					default:
 						statusString = ctx.getString(R.string.status_paused);
@@ -270,32 +338,6 @@ public class ClientStatus {
 			setupStatusParseError = true;
 			Log.e(TAG, "parseProjectStatus - Exception", e);
 			Log.d(TAG, "error parsing setup status (project state)");
-		}
-		
-		//check whether projectGraphics is still consistent with attached projects
-		//	check whether all projectGraphics are loaded
-		for (Project project : projects) {
-			// add, if not already added AND all files are successfully downloaded
-			if(!projectGraphics.containsKey(project.master_url) && project.project_files_downloaded_time > 0) {
-				Log.d(TAG, "parseProjectStatus() new project found: " + project.master_url + " with projects dir: " + project.project_dir);
-				ProjectGraphics graphics = new ProjectGraphics(project.project_dir);
-				projectGraphics.put(project.master_url, graphics);
-			} 
-			if(!(project.project_files_downloaded_time > 0)) Log.d(TAG, "skip loading graphics, files are not downloaded...");
-		}
-		//	check whether there is a projectGraphics element that needs to be deleted (project got detached)
-		for (String projectUrl : projectGraphics.keySet()) {
-			Boolean found = false;
-			for (Project project: projects) {
-				if (project.master_url.equals(projectUrl)) {
-					found = true;
-					continue;
-				}
-			}
-			if(!found) {
-				projectGraphics.remove(projectUrl);
-				Log.d(TAG, "parseProjectStatus() removed graphics structure for " + projectUrl);
-			}
 		}
 	}
 	
@@ -374,5 +416,45 @@ public class ClientStatus {
 			Log.d(TAG, "error - client network status");
 		}
 	}
-	
+
+	// helper method for loading images from file
+	// reads the symbolic link provided in pathOfSoftLink file
+	// and returns absolute path to an image file.
+	private String parseSoftLinkToAbsPath(String pathOfSoftLink, String projectDir){
+		//Log.d(TAG,"parseSoftLinkToAbsPath() for path: " + pathOfSoftLink);
+		
+		// reading text of symbolic link
+		String softLinkContent = "";
+		try {
+			FileInputStream stream = new FileInputStream(new File(pathOfSoftLink));
+			try {
+				FileChannel fc = stream.getChannel();
+			    MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
+			    /* Instead of using default, pass in a decoder. */
+			    softLinkContent =  Charset.defaultCharset().decode(bb).toString();
+			} catch (IOException e) {Log.w(TAG,"IOException in parseIconFileName()",e);}
+			finally {
+				stream.close();
+			}
+		} catch (Exception e) {
+			// probably FileNotFoundException
+			Log.d(TAG,"Exception in parseSoftLinkToAbsPath() " + e.getMessage());
+			return null;
+		}
+		//Log.d(TAG,"parseSoftLinkToAbsPath() softLinkContent: " + softLinkContent);
+		
+		// matching relevant path of String
+		// matching 1+ word characters and 0 or 1 dot . and 0+ word characters
+		// e.g. "icon.png", "icon", "icon.bmp"
+		Pattern statIconPattern = Pattern.compile("/(\\w+?\\.?\\w*?)</soft_link>");
+		Matcher m = statIconPattern.matcher(softLinkContent);
+		if(!m.find()) {
+			Log.w(TAG,"parseSoftLinkToAbsPath() could not match pattern in soft link!");
+			return null;
+		}
+		String fileName = m.group(1);
+		//Log.d(TAG, "parseSoftLinkToAbsPath() fileName: " + fileName);
+		
+		return projectDir + "/" + fileName;
+	}
 }

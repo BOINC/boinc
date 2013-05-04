@@ -18,11 +18,9 @@
  ******************************************************************************/
 package edu.berkeley.boinc;
 
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.ArrayList;
 import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.Monitor;
-import edu.berkeley.boinc.client.ProjectGraphics;
 import edu.berkeley.boinc.utils.BOINCDefs;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -291,18 +289,13 @@ public class StatusActivity extends Activity {
 					}
 					break;
 				case ClientStatus.COMPUTING_STATUS_COMPUTING:
-					// check whether slideshow available
-					if(Monitor.getClientStatus().getProjectGraphics().isEmpty()) {
-						//slideshow not available
+					// load slideshow
+					if(!loadSlideshow()) {
+						Log.d(TAG, "slideshow not available, load plain old status instead...");
 						statusHeader.setText(R.string.status_running);
 						statusImage.setImageResource(R.drawable.playw48);
 						statusImage.setContentDescription(getString(R.string.status_running));
 						statusDescriptor.setText(R.string.status_running_long);
-					} else {
-						//slideshow available
-						centerWrapper.setVisibility(View.GONE);
-				        imageFrame.setVisibility(View.VISIBLE);
-						loadSlideshow();
 					}
 					changeRunmodeImage.setImageResource(R.drawable.stopw24);
 					changeRunmodeImage.setContentDescription(getString(R.string.disable_computation));
@@ -332,22 +325,25 @@ public class StatusActivity extends Activity {
 		} catch (Exception e) {Log.e(TAG, "could not map status tag", e);}
 	}
 	
-	private void loadSlideshow() {
-
-    	HashMap<String,ProjectGraphics> graphicsMap = Monitor.getClientStatus().getProjectGraphics();
-    	Collection<ProjectGraphics> collection = graphicsMap.values();
+	private Boolean loadSlideshow() {
+		// get slideshow images
+		ArrayList<Bitmap> images = Monitor.getClientStatus().getSlideshowImages();
+		if(images == null || images.size() == 0) return false;
+		
+		// images available, adapt layout
+		LinearLayout centerWrapper = (LinearLayout) findViewById(R.id.center_wrapper);
+		centerWrapper.setVisibility(View.GONE);
+        imageFrame.setVisibility(View.VISIBLE);
         LayoutParams params = new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT);
         imageFrame.removeAllViews();
         
-        //loop through all available bitmaps
-    	for (ProjectGraphics graphics: collection) {
-    		for(Bitmap slideshowImage : graphics.getSlideshow()) {
-                ImageView imageView = new ImageView(this);
-                imageView.setLayoutParams(params);
-                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                imageView.setImageBitmap(slideshowImage);
-                imageFrame.addView(imageView);
-    		}
+        // create views for all available bitmaps
+    	for (Bitmap image: images) {
+            ImageView imageView = new ImageView(this);
+            imageView.setLayoutParams(params);
+            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            imageView.setImageBitmap(image);
+            imageFrame.addView(imageView);
     	}
         
         // capture click events and pass on to Gesture Detector
@@ -358,5 +354,7 @@ public class StatusActivity extends Activity {
                 return true;
             }
          });
+        
+        return true;
 	}
 }

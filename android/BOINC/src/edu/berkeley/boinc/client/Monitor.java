@@ -951,7 +951,7 @@ public class Monitor extends Service {
 					if(showRpcCommands) Log.d(TAG, "getTransers");
 					ArrayList<Transfer>  transfers = rpc.getFileTransfers();
 					
-					if( (status != null) && (state.results != null) && (state.projects != null) && (transfers != null)) {
+					if( (status != null) && (state != null) && (state.results != null) && (state.projects != null) && (transfers != null)) {
 						Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers);
 						// Update status bar notification
 						ClientNotification.getInstance().update(getApplicationContext(), getClientStatus());

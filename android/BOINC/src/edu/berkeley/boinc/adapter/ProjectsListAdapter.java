@@ -38,7 +38,6 @@ import android.widget.TextView;
 import edu.berkeley.boinc.ProjectsActivity;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.client.Monitor;
-import edu.berkeley.boinc.client.ProjectGraphics;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.utils.BOINCUtils;
 
@@ -93,9 +92,7 @@ public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItem
 	}
 	
 	public Bitmap getIcon(int position) {
-		ProjectGraphics graphics = Monitor.getClientStatus().getProjectGraphics().get(entries.get(position).master_url);
-		if(graphics != null) return graphics.getIcon();
-		else return null;
+		return Monitor.getClientStatus().getProjectIcon(entries.get(position).master_url);
 	}
 
 	public String getStatus(int position) {
