@@ -86,13 +86,14 @@ char* vboxwrapper_msg_prefix(char* sbuf, int len) {
     time_t x = time(0);
 #ifdef _WIN32
 #ifdef __MINGW32__
-    if ((tmp = localtime(&x)) == NULL) {
+    if ((tmp = localtime(&x)) == NULL)
 #else
-    if (localtime_s(&tm, &x) == EINVAL) {
+    if (localtime_s(&tm, &x) == EINVAL)
 #endif
 #else
-    if (localtime_r(&x, &tm) == NULL) {
+    if (localtime_r(&x, &tm) == NULL)
 #endif
+    {
         strcpy(sbuf, "localtime() failed");
         return sbuf;
     }
