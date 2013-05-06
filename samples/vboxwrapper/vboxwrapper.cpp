@@ -230,13 +230,14 @@ void set_throttles(APP_INIT_DATA& aid, VBOX_VM& vm) {
     // do any processing.  It probably wouldn't be so bad if the RDP interface
     // didn't also get hosed by it.
     //
+    x = aid.global_prefs.cpu_usage_limit;
+    // 0 means "no limit"
+    //
+    if (x == 0.0) x = 100;
     // For now set the minimum CPU Usage value to 1.
     //
-    x = aid.global_prefs.cpu_usage_limit;
-    if (1 > x) x = 1;
-    if (x) {
-        vm.set_cpu_usage((int)x);
-    }
+    if (x < 1) x = 1;
+    vm.set_cpu_usage((int)x);
 
     // vbox doesn't distinguish up and down bandwidth; use the min of the prefs
     //
