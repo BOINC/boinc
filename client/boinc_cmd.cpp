@@ -99,10 +99,6 @@ Commands:\n\
     exit(1);
 }
 
-void show_error(int retval) {
-    fprintf(stderr, "Error %d: %s\n", retval, boincerror(retval));
-}
-
 char* next_arg(int argc, char** argv, int& i) {
     if (i >= argc) {
         fprintf(stderr, "Missing command-line argument\n");
@@ -539,8 +535,8 @@ int main(int argc, char** argv) {
     } else {
         usage();
     }
-    if (retval < 0) {
-        show_error(retval);
+    if (retval) {
+        fprintf(stderr, "Operation failed: %s\n", boincerror(retval));
     }
 
 #if defined(_WIN32) && defined(USE_WINSOCK)

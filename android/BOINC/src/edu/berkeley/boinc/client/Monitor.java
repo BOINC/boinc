@@ -33,7 +33,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
@@ -45,6 +44,7 @@ import edu.berkeley.boinc.AppPreferences;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.AccountIn;
 import edu.berkeley.boinc.rpc.AccountOut;
+import edu.berkeley.boinc.rpc.CcState;
 import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.Message;
@@ -52,7 +52,6 @@ import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.ProjectAttachReply;
 import edu.berkeley.boinc.rpc.ProjectInfo;
 import edu.berkeley.boinc.rpc.ProjectConfig;
-import edu.berkeley.boinc.rpc.Result;
 import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.rpc.Transfer;
 
@@ -94,16 +93,16 @@ public class Monitor extends Service {
 		String clientProcessName = clientPath + clientName;
 
 		String md5AssetClient = ComputeMD5Asset(clientName);
-		Log.d(TAG, "Hash of client (Asset): '" + md5AssetClient + "'");
+		//Log.d(TAG, "Hash of client (Asset): '" + md5AssetClient + "'");
 
 		String md5InstalledClient = ComputeMD5File(clientProcessName);
-		Log.d(TAG, "Hash of client (File): '" + md5InstalledClient + "'");
+		//Log.d(TAG, "Hash of client (File): '" + md5InstalledClient + "'");
 
 		// If client hashes do not match, we need to install the one that is a part
 		// of the package. Shutdown the currently running client if needed.
 		//
 		if (md5InstalledClient.compareToIgnoreCase(md5AssetClient) != 0) {
-
+			Log.d(TAG,"Hashes of installed client does not match binary in assets - re-install.");
 			// Determine if BOINC is already running.
 			//
 			quitProcessOsLevel(clientProcessName);
@@ -810,6 +809,42 @@ public class Monitor extends Service {
 		param[1] = name;
 		(new TransferRetryAsync()).execute(param);
 	}
+
+	public Boolean suspendResult(String url, String name){
+		return rpc.resultOp(RpcClient.RESULT_SUSPEND, url, name);
+	}
+
+	public void suspendResultAsync(String url, String name){
+		Log.d(TAG, "suspendResultAsync");
+		String[] param = new String[2];
+		param[0] = url;
+		param[1] = name;
+		(new SuspendResultAsync()).execute(param);
+	}
+
+	public Boolean resumeResult(String url, String name){
+		return rpc.resultOp(RpcClient.RESULT_RESUME, url, name);
+	}
+
+	public void resumeResultAsync(String url, String name){
+		Log.d(TAG, "resumeResultAsync");
+		String[] param = new String[2];
+		param[0] = url;
+		param[1] = name;
+		(new ResumeResultAsync()).execute(param);
+	}
+
+	public Boolean abortResult(String url, String name){
+		return rpc.resultOp(RpcClient.RESULT_RESUME, url, name);
+	}
+
+	public void abortResultAsync(String url, String name){
+		Log.d(TAG, "abortResultAsync");
+		String[] param = new String[2];
+		param[0] = url;
+		param[1] = name;
+		(new AbortResultAsync()).execute(param);
+	}
 	
 	public AccountOut createAccount(String url, String email, String userName, String pwd, String teamName) {
 		AccountIn information = new AccountIn();
@@ -909,19 +944,17 @@ public class Monitor extends Service {
 				} else {
 					if(showRpcCommands) Log.d(TAG, "getCcStatus");
 					CcStatus status = rpc.getCcStatus();
-					/*
+					
 					if(showRpcCommands) Log.d(TAG, "getState"); 
 					CcState state = rpc.getState();
-					*/
-					if(showRpcCommands) Log.d(TAG, "getResults");
-					ArrayList<Result>  results = rpc.getResults();
-					if(showRpcCommands) Log.d(TAG, "getProjects");
-					ArrayList<Project>  projects = rpc.getProjectStatus();
+					
 					if(showRpcCommands) Log.d(TAG, "getTransers");
 					ArrayList<Transfer>  transfers = rpc.getFileTransfers();
 					
-					if( (status != null) && (results != null) && (projects != null) && (transfers != null)) {
-						Monitor.getClientStatus().setClientStatus(status, results, projects, transfers);
+					if( (status != null) && (state != null) && (state.results != null) && (state.projects != null) && (transfers != null)) {
+						Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers);
+						// Update status bar notification
+						ClientNotification.getInstance().update(getApplicationContext(), getClientStatus());
 					} else {
 						Log.d(TAG, "client status connection problem");
 					}
@@ -1054,6 +1087,98 @@ public class Monitor extends Service {
 			return retry;
 		}
 		
+		@Override
+		protected void onPostExecute(Boolean success) {
+			forceRefresh();
+		}
+
+		@Override
+		protected void onProgressUpdate(String... arg0) {
+			Log.d(TAG, "onProgressUpdate - " + arg0[0]);
+		}
+	}
+
+	private final class SuspendResultAsync extends AsyncTask<String,String,Boolean> {
+
+		private final String TAG = "SuspendResultAsync";
+
+		private String url;
+		private String name;
+
+		@Override
+		protected Boolean doInBackground(String... params) {
+			this.url = params[0];
+			this.name = params[1];
+			publishProgress("doInBackground() - SuspendResultAsync url: " + url + " Name: " + name);
+
+			Boolean retry = rpc.resultOp(RpcClient.RESULT_SUSPEND, url, name);
+			if(retry) {
+				publishProgress("successful.");
+			}
+			return retry;
+		}
+
+		@Override
+		protected void onPostExecute(Boolean success) {
+			forceRefresh();
+		}
+
+		@Override
+		protected void onProgressUpdate(String... arg0) {
+			Log.d(TAG, "onProgressUpdate - " + arg0[0]);
+		}
+	}
+
+	private final class ResumeResultAsync extends AsyncTask<String,String,Boolean> {
+
+		private final String TAG = "ResumeResultAsync";
+
+		private String url;
+		private String name;
+
+		@Override
+		protected Boolean doInBackground(String... params) {
+			this.url = params[0];
+			this.name = params[1];
+			publishProgress("doInBackground() - ResumeResultAsync url: " + url + " Name: " + name);
+			Boolean retry = rpc.resultOp(RpcClient.RESULT_RESUME, url, name);
+			if(retry) {
+				publishProgress("successful.");
+			}
+			return retry;
+		}
+
+		@Override
+		protected void onPostExecute(Boolean success) {
+			forceRefresh();
+		}
+
+		@Override
+		protected void onProgressUpdate(String... arg0) {
+			Log.d(TAG, "onProgressUpdate - " + arg0[0]);
+		}
+	}
+
+	private final class AbortResultAsync extends AsyncTask<String,String,Boolean> {
+
+		private final String TAG = "AbortResultAsync";
+
+		private String url;
+		private String name;
+
+		@Override
+		protected Boolean doInBackground(String... params) {
+			this.url = params[0];
+			this.name = params[1];
+			publishProgress("doInBackground() - AbortResultAsync url: " + url + " Name: " + name);
+
+			Boolean retry = rpc.resultOp(RpcClient.RESULT_ABORT, url, name);
+			if(retry) {
+				publishProgress("successful.");
+			}
+			return retry;
+		}
+
 		@Override
 		protected void onPostExecute(Boolean success) {
 			forceRefresh();

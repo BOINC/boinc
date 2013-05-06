@@ -109,7 +109,7 @@ struct TASK {
 
     // dynamic stuff follows
     double current_cpu_time;
-        // most recently measure CPU time of this task
+        // most recently measured CPU time of this task
     double final_cpu_time;
         // final CPU time of this task
     double starting_cpu;
@@ -279,7 +279,9 @@ void do_unzip_inputs() {
     for (unsigned int i=0; i<unzip_filenames.size(); i++) {
         string zipfilename = unzip_filenames[i];
         if (boinc_file_exists(zipfilename.c_str())) {
-            int retval = boinc_zip(UNZIP_IT, zipfilename, NULL);
+            string path;
+            boinc_resolve_filename_s(zipfilename.c_str(), path);
+            int retval = boinc_zip(UNZIP_IT, path, NULL);
             if (retval) {
                 fprintf(stderr, "boinc_unzip() error: %d\n", retval);
                 exit(1);
@@ -333,7 +335,9 @@ void do_zip_outputs() {
         fprintf(stderr, "boinc_zip() failed: %d\n", retval);
         exit(1);
     }
-    retval = boinc_rename("temp.zip", zip_filename.c_str());
+    string path;
+    boinc_resolve_filename_s(zip_filename.c_str(), path);
+    retval = boinc_rename("temp.zip", path.c_str());
     if (retval) {
         fprintf(stderr, "failed to rename temp.zip: %d\n", retval);
         exit(1);

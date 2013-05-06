@@ -209,6 +209,7 @@ function project_specific_prefs_show($prefs, $columns=false) {
 }
 
 function project_specific_prefs_parse($prefs_xml) {
+    $prefs = new StdClass;
     if (COLOR_PREFS) {
         $prefs->color_scheme = parse_element($prefs_xml, "<color_scheme>");
     }

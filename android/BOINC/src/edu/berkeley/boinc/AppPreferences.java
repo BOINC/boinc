@@ -29,6 +29,7 @@ public class AppPreferences {
 	private SharedPreferences prefs;
 	
 	private Boolean autostart;
+	private Boolean showNotification;
 	private Boolean showAdvanced;
 	
 	public void readPrefs (Context ctx) {
@@ -37,6 +38,7 @@ public class AppPreferences {
 		}
 		//second parameter of reading function is the initial value after installation.
 		autostart = prefs.getBoolean("autostart", false);
+		showNotification = prefs.getBoolean("showNotification", true);
 		showAdvanced = prefs.getBoolean("showAdvanced", false);
 		
 		Log.d(TAG, "appPrefs read successful." + autostart + showAdvanced);
@@ -51,6 +53,17 @@ public class AppPreferences {
 	
 	public Boolean getAutostart () {
 		return this.autostart;
+	}
+
+	public void setShowNotification(Boolean as) {
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putBoolean("showNotification", as);
+		editor.commit();
+		this.showNotification = as;
+	}
+
+	public Boolean getShowNotification() {
+		return this.showNotification;
 	}
 	
 	public void setShowAdvanced(Boolean as) {

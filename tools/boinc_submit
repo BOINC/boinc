@@ -46,7 +46,7 @@ ini_set('error_reporting', E_ALL);
 // Job parameters.  Edit as needed
 // (should eventually make them cmdline args)
 
-$job_params = null;
+$job_params = new StdClass;
 $job_params->rsc_fpops_est = 3600e9;        // estimate: 1 GFLOPS-hour
 $job_params->rsc_fpops_bound = 86400e9;     // limit: 1 GFLOPS-day
 $job_params->rsc_memory_bound = 5e8;        // mem bound: 500MB

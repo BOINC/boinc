@@ -19,44 +19,88 @@
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/status_wrapper"
-    android:visibility="gone"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/status_header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/status_image"
-        android:layout_centerHorizontal="true"
-        android:text="@string/status_paused"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <ImageView
-        android:id="@+id/status_image"
+    <LinearLayout 
+        android:id="@+id/center_wrapper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:contentDescription="@string/status_running"
-        android:src="@drawable/pausew48" />
+        android:orientation="vertical">
+        
+	    <TextView
+	        android:id="@+id/status_header"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/status_paused"
+        	android:layout_gravity="center_horizontal"
+	        android:textAppearance="?android:attr/textAppearanceLarge" />
+        
+	    <ImageView
+	        android:id="@+id/status_image"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+        	android:layout_gravity="center_horizontal"
+	        android:contentDescription="@string/status_paused"
+	        android:src="@drawable/pausew48" />
+	    
+	    <TextView
+	        android:id="@+id/status_long"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+        	android:layout_gravity="center_horizontal"
+	        android:text="@string/suspend_unknown"
+	        android:textAppearance="?android:attr/textAppearanceSmall" />
+    
+    </LinearLayout>
+    
+    <ViewFlipper
+        android:id="@+id/slideshowFrame"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:autoStart="false"
+        android:paddingTop="20dp"
+        android:paddingBottom="50dp"
+        android:background="@android:drawable/screen_background_dark"
+        android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/status_long"
+    <LinearLayout 
+        android:id="@+id/restarting_wrapper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/status_image"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:text="@string/suspend_unknown"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:orientation="horizontal"
+        android:visibility="gone" >
+        
+	    <ProgressBar
+	        android:id="@+id/restarting_progressBar"
+	        style="?android:attr/progressBarStyleSmall"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginRight="10dp"/>
+	    
+	    <TextView
+	        android:id="@+id/restarting_text"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/suspend_user_req"
+	        android:textAppearance="?android:attr/textAppearanceSmall" />
+    
+    </LinearLayout>
     
     <RelativeLayout 
-        android:id="@+id/InnerRelativeLayout"
+        android:id="@+id/bottow_wrapper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:paddingBottom="10dp"
         android:orientation="horizontal" >
 
 	    <ImageView
@@ -64,9 +108,8 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_alignParentBottom="true"
-	        android:layout_marginBottom="20dip"
 	        android:layout_marginLeft="20dip"
-	        android:contentDescription="@string/status_running"
+	        android:contentDescription="@string/status_paused"
 	        android:clickable="true"
 	        android:onClick="onClick"
 	        android:src="@drawable/stopw24" />
@@ -76,7 +119,6 @@
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:layout_alignParentBottom="true"
-	        android:layout_marginBottom="20dip"
 	        android:layout_toRightOf="@id/status_change_runmode_image"
 	        android:layout_marginLeft="10dip"
 	        android:clickable="true"

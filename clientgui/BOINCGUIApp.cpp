@@ -514,10 +514,12 @@ int CBOINCGUIApp::OnExit() {
         m_pDocument = NULL;
     }
 
-    m_pConfig->SetPath(wxT("/"));
+    // Save Application State
+    SaveState();
+
     if (m_pSkinManager) {
-        m_pConfig->Write(wxT("Skin"), m_pSkinManager->GetSelectedSkin());
         delete m_pSkinManager;
+        m_pSkinManager = NULL;
     }
 
     if (m_pLocale) {
@@ -530,15 +532,21 @@ int CBOINCGUIApp::OnExit() {
         m_pEventLog = NULL;
     }
 
-
-    // Save Application State
-    m_pConfig->Write(wxT("AutomaticallyShutdownClient"), m_iShutdownCoreClient);
-    m_pConfig->Write(wxT("DisplayShutdownClientDialog"), m_iDisplayExitDialog);
-    m_pConfig->Write(wxT("DisableAutoStart"), m_iBOINCMGRDisableAutoStart);
-
     diagnostics_finish();
 
     return wxApp::OnExit();
+}
+
+
+void CBOINCGUIApp::SaveState() {
+    // Save Application State
+    m_pConfig->SetPath(wxT("/"));
+    if (m_pSkinManager) {
+        m_pConfig->Write(wxT("Skin"), m_pSkinManager->GetSelectedSkin());
+    }
+    m_pConfig->Write(wxT("AutomaticallyShutdownClient"), m_iShutdownCoreClient);
+    m_pConfig->Write(wxT("DisplayShutdownClientDialog"), m_iDisplayExitDialog);
+    m_pConfig->Write(wxT("DisableAutoStart"), m_iBOINCMGRDisableAutoStart);
 }
 
 
@@ -1024,8 +1032,14 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             if (pOldFrame) pOldFrame->Hide();
 
             // Delete the old one if it exists
-            // Note: this has the side effect of hiding the Event Log
             if (pOldFrame) pOldFrame->Destroy();
+
+            if (iGUISelection != m_iGUISelected) {
+                m_iGUISelected = iGUISelection;
+                m_pConfig->SetPath(wxT("/"));
+                m_pConfig->Write(wxT("GUISelection"), iGUISelection);
+                m_pConfig->Flush();
+            }
         }
     }
 
@@ -1051,10 +1065,6 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
         ::SetForegroundWindow((HWND)m_pFrame->GetHWND());
 #endif
     }
-
-    m_iGUISelected = iGUISelection;
-    m_pConfig->SetPath(wxT("/"));
-    m_pConfig->Write(wxT("GUISelection"), iGUISelection);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCGUIApp::SetActiveGUI - Function End"));
     return true;

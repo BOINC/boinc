@@ -1802,6 +1802,8 @@ void CAdvancedFrame::OnRefreshState(wxTimerEvent& WXUNUSED(event)) {
     //   we still want the UI state to have been stored
     //   for their next use
     SaveState();
+    
+    wxConfigBase::Get(FALSE)->Flush();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRefreshState - Function End"));
 }

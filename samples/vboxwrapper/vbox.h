@@ -135,8 +135,8 @@ struct VBOX_VM {
     int get_remote_desktop_port();
 
     int set_network_access(bool enabled);
-    int set_cpu_usage_fraction(double);
-    int set_network_max_bytes_sec(double);
+    int set_cpu_usage(int percentage);
+    int set_network_usage(int kilobytes);
 
     int read_floppy(std::string& data);
     int write_floppy(std::string& data);

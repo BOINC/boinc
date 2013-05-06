@@ -1078,15 +1078,24 @@ void simulate() {
         "   Scheduling period %f\n"
         "Scheduling policies\n"
         "   Round-robin only: %s\n"
-        "   Scheduler EDF simulation: %s\n",
+        "   Scheduler EDF simulation: %s\n"
+        "   REC half-life: %f\n",
         gstate.work_buf_min(), gstate.work_buf_total(),
         gstate.global_prefs.cpu_scheduling_period(),
         cpu_sched_rr_only?"yes":"no",
-        server_uses_workload?"yes":"no"
+        server_uses_workload?"yes":"no",
+        config.rec_half_life
     );
-    fprintf(summary_file,
-        "   REC half-life: %f\n", config.rec_half_life
-    );
+    fprintf(summary_file, "Jobs\n");
+    for (int i=0; i<gstate.results.size(); i++) {
+        RESULT* rp = gstate.results[i];
+        fprintf(summary_file,
+            "   %s time left %s deadline %s\n",
+            rp->name,
+            timediff_format(rp->sim_flops_left/rp->avp->flops).c_str(),
+            timediff_format(rp->report_deadline - START_TIME).c_str()
+        );
+    }
     fprintf(summary_file,
         "Simulation parameters\n"
         "   time step %f, duration %f\n"

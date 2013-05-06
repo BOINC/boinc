@@ -142,6 +142,7 @@ struct GLOBAL_PREFS {
         // scheduling happens more often.
     TIME_PREFS cpu_times;
     double cpu_usage_limit;
+        // for CPU throttling.  This is a percentage 0..100
     double daily_xfer_limit_mb;
     int daily_xfer_period_days;
     double disk_interval;

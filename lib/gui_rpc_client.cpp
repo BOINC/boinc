@@ -321,6 +321,9 @@ RPC::~RPC() {
     if (mbuf) free(mbuf);
 }
 
+// return value indicates only whether network comm succeeded
+// (not whether the op succeeded)
+//
 int RPC::do_rpc(const char* req) {
     int retval;
 
@@ -341,15 +344,19 @@ int RPC::do_rpc(const char* req) {
 }
 
 int RPC::parse_reply() {
-    char buf[256];
+    char buf[256], error_msg[256];
     while (fin.fgets(buf, 256)) {
+        if (parse_str(buf, "<error>", error_msg, sizeof(error_msg))) {
+            fprintf(stderr, "RPC error: %s\n", error_msg);
+            continue;
+        }
         if (strstr(buf, "unauthorized")) return ERR_AUTHENTICATOR;
         if (strstr(buf, "Missing authenticator")) return ERR_AUTHENTICATOR;
         if (strstr(buf, "Missing URL")) return ERR_INVALID_URL;
         if (strstr(buf, "Already attached to project")) return ERR_ALREADY_ATTACHED;
-        if (strstr(buf, "success")) return BOINC_SUCCESS;
+        if (strstr(buf, "success")) return 0;
     }
-    return ERR_NOT_FOUND;
+    return -1;
 }
 
 // If there's a password file, read it

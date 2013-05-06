@@ -566,6 +566,8 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event ) {
         pConfig->Write(wxT("DefaultEmailAddress"), m_strAccountEmailAddress);
         pConfig->Write(wxT("DefaultUsername"), m_strAccountUsername);
 
+        pConfig->Flush();
+        
         // Construct potiental dialog title
         if (IS_ATTACHTOPROJECTWIZARD()) {
             strTitle = _("Add project");

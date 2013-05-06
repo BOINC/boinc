@@ -35,14 +35,19 @@ public class CcStateParser extends BaseParser {
 	private boolean mInHostInfo = false;
 	private ProjectsParser mProjectsParser = new ProjectsParser();
 	private boolean mInProject = false;
+	private Project myProject = new Project();
 	private AppsParser mAppsParser = new AppsParser();
 	private boolean mInApp = false;
+	private App myApp = new App();
 	private AppVersionsParser mAppVersionsParser = new AppVersionsParser();
 	private boolean mInAppVersion = false;
+	private AppVersion myAppVersion = new AppVersion();
 	private WorkunitsParser mWorkunitsParser = new WorkunitsParser();
 	private boolean mInWorkunit = false;
+	private Workunit myWorkunit = new Workunit();
 	private ResultsParser mResultsParser = new ResultsParser();
 	private boolean mInResult = false;
+	private Result myResult = new Result();
 	
 	public final CcState getCcState() {
 		return mCcState;
@@ -72,16 +77,20 @@ public class CcStateParser extends BaseParser {
 		// Commit sub-parsers data to resulting CcState
 		mCcState.version_info = mVersionInfo;
 		mCcState.host_info = mHostInfoParser.getHostInfo();
-		mCcState.projects = mProjectsParser.getProjects();
-		mCcState.apps = mAppsParser.getApps();
-		mCcState.app_versions = mAppVersionsParser.getAppVersions();
-		mCcState.workunits = mWorkunitsParser.getWorkunits();
-		mCcState.results = mResultsParser.getResults();
+		//mCcState.projects = mProjectsParser.getProjects();
+		//mCcState.apps = mAppsParser.getApps();
+		//mCcState.app_versions = mAppVersionsParser.getAppVersions();
+		//mCcState.workunits = mWorkunitsParser.getWorkunits();
+		//mCcState.results = mResultsParser.getResults();
 	}
 
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 		super.startElement(uri, localName, qName, attributes);
+		if (localName.equalsIgnoreCase("client_state")) {
+			//Starting the query, clear mCcState
+			mCcState.clearArrays();
+		}
 		if (localName.equalsIgnoreCase("host_info")) {
 			// Just stepped inside <host_info>
 			mInHostInfo = true;
@@ -185,6 +194,10 @@ public class CcStateParser extends BaseParser {
 				if (localName.equalsIgnoreCase("project")) {
 					// Closing tag of <project>
 					mInProject = false;
+					if(mProjectsParser.getProjects().size() > 0) {
+						myProject = mProjectsParser.getProjects().get(mProjectsParser.getProjects().size() - 1);
+						mCcState.projects.add(myProject);
+					}
 				}
 			}
 			if (mInApp) {
@@ -194,6 +207,11 @@ public class CcStateParser extends BaseParser {
 				if (localName.equalsIgnoreCase("app")) {
 					// Closing tag of <app>
 					mInApp = false;
+					if(mAppsParser.getApps().size() > 0) {
+						myApp = mAppsParser.getApps().get(mAppsParser.getApps().size() - 1);
+						myApp.project = myProject;
+						mCcState.apps.add(myApp);
+					}
 				}
 			}
 			if (mInAppVersion) {
@@ -203,6 +221,12 @@ public class CcStateParser extends BaseParser {
 				if (localName.equalsIgnoreCase("app_version")) {
 					// Closing tag of <app_version>
 					mInAppVersion = false;
+					if(mAppVersionsParser.getAppVersions().size() > 0) {
+						myAppVersion = mAppVersionsParser.getAppVersions().get(mAppVersionsParser.getAppVersions().size() - 1);
+						myAppVersion.project = myProject;
+						myAppVersion.app = mCcState.lookup_app(myProject, myAppVersion.app_name);
+						mCcState.app_versions.add(myAppVersion);
+					}
 				}
 			}
 			if (mInWorkunit) {
@@ -212,6 +236,12 @@ public class CcStateParser extends BaseParser {
 				if (localName.equalsIgnoreCase("workunit")) {
 					// Closing tag of <workunit>
 					mInWorkunit = false;
+					if(mWorkunitsParser.getWorkunits().size() > 0) {
+						myWorkunit = mWorkunitsParser.getWorkunits().get(mWorkunitsParser.getWorkunits().size() - 1);
+						myWorkunit.project = myProject;
+						myWorkunit.app = mCcState.lookup_app(myProject, myWorkunit.app_name);
+						mCcState.workunits.add(myWorkunit);
+					}
 				}
 			}
 			if (mInResult) {
@@ -221,6 +251,18 @@ public class CcStateParser extends BaseParser {
 				if (localName.equalsIgnoreCase("result")) {
 					// Closing tag of <result>
 					mInResult = false;
+				
+					if(mResultsParser.getResults().size() > 0) {
+						myResult = mResultsParser.getResults().get(mResultsParser.getResults().size() - 1);
+						myResult.project = myProject;
+						myResult.wup = mCcState.lookup_wu(myProject, myResult.wu_name);
+						if(myResult.wup != null) {
+							myResult.app = myResult.wup.app;
+							myResult.avp = mCcState.lookup_app_version(myProject, myResult.app, myResult.version_num, myResult.plan_class);
+							
+						}
+						mCcState.results.add(myResult);
+					}
 				}
 			}
 			if (mElementStarted) {

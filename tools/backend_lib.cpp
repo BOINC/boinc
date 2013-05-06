@@ -157,7 +157,6 @@ int create_result(
     char result_template[BLOB_SIZE];
     int retval;
 
-    result.clear();
     initialize_result(result, wu);
     result.priority += priority_increase;
     sprintf(result.name, "%s_%s", wu.name, result_name_suffix);

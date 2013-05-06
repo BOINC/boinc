@@ -176,6 +176,9 @@ struct SCHED_CONFIG {
         // DEPRECATED: use assignment instead
     bool workload_sim;
         // Do workload simulation in deciding whether to send a result
+    bool estimate_flops_from_hav_pfc;
+        // Use host_app_version peak flop count rather than elapsed time 
+        // to calculate projected_flops when choosing version.
 
     // scheduler log flags
     //

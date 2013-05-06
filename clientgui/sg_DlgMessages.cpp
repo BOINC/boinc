@@ -437,6 +437,7 @@ CDlgMessages::~CDlgMessages() {
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgMessages::CDlgMessages - Destructor Function Begin"));
 
 	SaveState();    // Save state if close box on window frame clicked
+    wxConfigBase::Get(FALSE)->Flush();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgMessages::CDlgMessages - Destructor Function End"));
 }
@@ -566,7 +567,6 @@ void CDlgMessages::OnHelp(wxHelpEvent& WXUNUSED(event)) {
  */
 
 void CDlgMessages::OnOK( wxCommandEvent& /*event*/ ) {
-    SaveState();
     EndModal(wxID_OK);
 }
 

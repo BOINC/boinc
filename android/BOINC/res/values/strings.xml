@@ -20,8 +20,6 @@
 <resources>
 	<!-- app global -->
     <string name="app_name">BOINC</string>
-    <string name="autostart_notification_header">BOINC started.</string>
-    <string name="autostart_notification_text">to manage auto-start configuration go to BOINC settings..</string>
     
     <!-- path and file configuration -->
     <string name="client_path">/data/data/edu.berkeley.boinc/client/</string>
@@ -105,8 +103,6 @@
     <string name="attachproject_registration_toast_login_successful">Successful.</string>
     
     <!-- main activity -->
-    <string name="main_launching">Starting BOINC&#8230;</string>
-    <string name="main_quitting">Closing BOINC&#8230;</string>
     <string name="main_noproject_warning">No scientific project attached! tab here to enter account.</string>
     <string name="main_error">Whooops</string>
     <string name="main_error_long">&#8230;this should not happen!\nClick on the icon to try again.</string>
@@ -120,18 +116,21 @@
     <string name="tab_eventlog">Event Log</string>
     <string name="tab_debug">Debug</string>
    
-    <!-- status tab strings -->
-    <string name="status_running">Thanks!</string>
-    <string name="status_running_long">Calculating tasks&#8230;</string>
+    <!-- status strings -->
+    <string name="status_running">Computing</string>
+    <string name="status_running_long">Thank you for participating!</string>
     <string name="status_paused">Paused</string>
     <string name="status_paused_long">Computation suspended.</string>
-    <string name="status_idle">Idle</string>
+    <string name="status_idle">Nothing to do</string>
     <string name="status_idle_long">Waiting for tasks&#8230;</string>
     <string name="status_computing_disabled">Stopped</string>
-    <string name="status_computing_disabled_long">Tap to continue!</string>
-    <string name="disable_computation">Disable computation</string>
-    <string name="enable_computation">Enable computation</string>
-    <string name="status_exit">Exit BOINC</string>
+    <string name="status_computing_disabled_long">&#8230;until you allow me to continue!</string>
+    <string name="status_launching">Starting&#8230;</string>
+    <string name="status_noproject">Add a project!</string>
+    <string name="status_closing">Closing&#8230;</string>
+    <string name="status_benchmarking">Benchmarking&#8230;</string>
+    <string name="disable_computation">Stop computation</string>
+    <string name="enable_computation">Allow computation</string>
     
 	<!-- preferences tab strings -->
 	<string name="prefs_loading">Reading preferences&#8230;</string>
@@ -158,6 +157,9 @@
 	<string name="prefs_autostart_header">Autostart</string>
 	<string name="prefs_autostart_true">BOINC starts on boot up</string>
 	<string name="prefs_autostart_false">Start BOINC manually</string>
+	<string name="prefs_show_notification_header">Notifications</string>
+	<string name="prefs_show_notification_true">Show notification with BOINC status</string>
+	<string name="prefs_show_notification_false">Notifications are disabled</string>
 	<string name="prefs_cpu_number_cpus_header">Used CPU cores (in %)</string>
 	<string name="prefs_cpu_other_load_suspension_header">Pause when other CPU usage exceeds&#8230; (in %)</string>
 	<string name="prefs_cpu_time_max_header">CPU limit (in %)</string>
@@ -166,8 +168,9 @@
 	<!-- projects tab strings -->
 	<string name="projects_loading">Reading projects&#8230;</string>
 	<string name="projects_add">Add project</string>
-	<string name="projects_delete">Delete project</string>
 	<string name="projects_update">Update project</string>
+	<string name="projects_icon">Project icon</string>
+	<string name="projects_more">Show details</string>
 
 	<string name="projects_status_suspendedviagui">Suspended by user</string>
 	<string name="projects_status_dontrequestmorework">Won\'t get new tasks</string>
@@ -176,11 +179,7 @@
 	<string name="projects_status_schedrpcpending">Scheduler request pending</string>
 	<string name="projects_status_schedrpcinprogress">Scheduler request in progress</string>
 	<string name="projects_status_trickleuppending">Trickle up message pending</string>
-	<string name="projects_status_backoff">Communication deferred</string>
-							
-	<string name="confirm_deletion">Delete project: </string>
-	<string name="confirm_deletion_confirm">Delete</string>
-	<string name="confirm_deletion_cancel">Cancel</string>
+	<string name="projects_status_backoff">Communication scheduled in:</string>
 				
 	<!-- tasks tab strings -->
 	<string name="tasks_loading">Reading tasks&#8230;</string>
@@ -198,6 +197,12 @@
 	<string name="tasks_active_suspended">paused</string>
 	<string name="tasks_active_abort_pending">stopping</string>
 	<string name="tasks_active_quit_pending">stopping</string>
+
+	<!-- confirmation dialog -->
+	<string name="confirm_abort_task_title">Abort task</string>
+	<string name="confirm_abort_task_message">Abort task:</string>
+	<string name="confirm_abort_task_confirm">Abort</string>
+	<string name="confirm_abort_task_cancel">Cancel</string>
 	
 	<!-- transfers tab strings -->
 	<string name="trans_loading">Reading transfers&#8230;</string>
@@ -233,7 +238,6 @@
     <string name="suspend_idle">No BOINC tasks ready for computation.</string>
     <string name="suspend_batteries">Not connected to charger.</string>
     <string name="suspend_useractive">User is active.</string>
-    <string name="suspend_userreq">Stopped manually.</string>
     <string name="suspend_tod">Out of computation time-frame.</string>
     <string name="suspend_bm">BOINC is benchmarking your device.</string>
     <string name="suspend_disksize">Out of disk space.</string>
@@ -247,6 +251,7 @@
     <string name="suspend_wifi">Can\'t fetch work, no WiFi connection!</string>
     <string name="suspend_battery_charging">Your device\'s battery is charging.</string>
     <string name="suspend_battery_overheating">Your device\'s battery needs to cool down.</string>
+    <string name="suspend_user_req">Restarting computation&#8230;</string>
     
     <!-- rpc reasons -->
     <string name="rpcreason_userreq">Requested by user</string>
@@ -258,8 +263,9 @@
     <string name="rpcreason_projectreq">Requested by project</string>
     <string name="rpcreason_unknown">Unknown reason</string>
     
-    <!-- misc resources -->
+    <!-- menu -->
     <string name="email_to">Email to&#8230;</string>
     <string name="send_mail">Send mail&#8230;</string>
+    <string name="menu_exit">Exit BOINC</string>
     
 </resources>

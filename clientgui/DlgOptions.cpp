@@ -76,6 +76,20 @@ CDlgOptions::CDlgOptions(wxWindow* parent, wxWindowID id, const wxString& captio
     Create(parent, id, caption, pos, size, style);
 }
 
+
+CDlgOptions::~CDlgOptions() {
+    CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
+
+    wxASSERT(pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
+    
+    wxGetApp().SaveState();
+    pFrame->SaveState();
+    
+    wxConfigBase::Get(FALSE)->Flush();
+}
+
+
 /*!
  * CDlgToolsOptions creator
  */

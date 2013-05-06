@@ -20,9 +20,9 @@ package edu.berkeley.boinc.adapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,14 +32,17 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import edu.berkeley.boinc.ProjectsActivity;
 import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.utils.BOINCUtils;
 
 public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItemClickListener {
+    //private final String TAG = "ProjectsListAdapter";
 	
 	private ArrayList<Project> entries;
     private Activity activity;
@@ -50,7 +53,8 @@ public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItem
         TextView tvName;
         TextView tvStatus;
         ImageButton ibUpdate;
-        ImageButton ibDelete;
+        ImageButton ibMore;
+        ImageView ivIcon;
     }
     
     public ProjectsListAdapter(Activity activity, ListView listView, int textViewResourceId, ArrayList<Project> entries) {
@@ -85,6 +89,10 @@ public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItem
 
 	public String getURL(int position) {
 		return entries.get(position).master_url;
+	}
+	
+	public Bitmap getIcon(int position) {
+		return Monitor.getClientStatus().getProjectIcon(entries.get(position).master_url);
 	}
 
 	public String getStatus(int position) {
@@ -154,7 +162,8 @@ public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItem
 	    	viewProject.tvName = (TextView)vi.findViewById(R.id.project_name);
 	    	viewProject.tvStatus = (TextView)vi.findViewById(R.id.project_status);
 	    	viewProject.ibUpdate = (ImageButton)vi.findViewById(R.id.project_update);
-	    	viewProject.ibDelete = (ImageButton)vi.findViewById(R.id.project_delete);
+	    	viewProject.ibMore = (ImageButton)vi.findViewById(R.id.project_more);
+	    	viewProject.ivIcon = (ImageView)vi.findViewById(R.id.projectIcon);
 	    
 	        vi.setTag(viewProject);
 	        
@@ -167,7 +176,18 @@ public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItem
 		// Populate UI Elements
 	    viewProject.entryIndex = position;
 	    viewProject.tvName.setText(getName(position));
-	    viewProject.tvStatus.setText(getStatus(position));
+	    String statusText = getStatus(position);
+	    if(statusText.isEmpty()) {
+	    	viewProject.tvStatus.setVisibility(View.GONE);
+	    } else {
+	    	viewProject.tvStatus.setVisibility(View.VISIBLE);
+		    viewProject.tvStatus.setText(statusText);
+	    }
+	    Bitmap icon = getIcon(position);
+	    // if available set icon, if not boinc logo
+	    if (icon == null) viewProject.ivIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.boinc));
+	    else viewProject.ivIcon.setImageBitmap(icon);
+	    
 	    if (listView.isItemChecked(position)) {
 	    	viewProject.ibUpdate.setVisibility(View.VISIBLE);
 	    	viewProject.ibUpdate.setTag(viewProject);
@@ -181,25 +201,25 @@ public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItem
 	            }
 	        });
 	    		    		    	
-	    	viewProject.ibDelete.setVisibility(View.VISIBLE);
-	    	viewProject.ibDelete.setTag(viewProject);
-	    	viewProject.ibDelete.setClickable(true);
-	    	viewProject.ibDelete.setOnClickListener(new OnClickListener() {
+	    	viewProject.ibMore.setVisibility(View.VISIBLE);
+	    	viewProject.ibMore.setTag(viewProject);
+	    	viewProject.ibMore.setClickable(true);
+	    	viewProject.ibMore.setOnClickListener(new OnClickListener() {
 	            public void onClick(View v) {
 	            	ViewProject viewProject = (ViewProject)v.getTag();
 	            	ProjectsActivity a = (ProjectsActivity)activity;
 	            	
-	            	a.onProjectDelete(getURL(viewProject.entryIndex), getName(viewProject.entryIndex));
+	            	a.onProjectMore(getURL(viewProject.entryIndex), getName(viewProject.entryIndex));
 	            }
 	        });
-	    } else {
-	    	viewProject.ibUpdate.setVisibility(View.GONE);	    	
+	    } else { // item is not checked
+	    	viewProject.ibUpdate.setVisibility(View.INVISIBLE);	    	
 	    	viewProject.ibUpdate.setClickable(false);
 	    	viewProject.ibUpdate.setOnClickListener(null);
 	    	
-	    	viewProject.ibDelete.setVisibility(View.GONE);
-	    	viewProject.ibDelete.setClickable(false);
-	    	viewProject.ibDelete.setOnClickListener(null);
+	    	viewProject.ibMore.setVisibility(View.INVISIBLE);
+	    	viewProject.ibMore.setClickable(false);
+	    	viewProject.ibMore.setOnClickListener(null);
 	    }
 
         return vi;

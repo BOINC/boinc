@@ -19,11 +19,10 @@ all: $(PROGS)
 libstdc++.a:
 	ln -s `g++ -print-file-name=libstdc++.a`
 
-clean:
-	rm $(PROGS)
+clean: distclean
 
 distclean:
-	/bin/rm -f $(PROGS) *.o libstdc++.a
+	rm -f $(PROGS) *.o libstdc++.a
 
 sleeper: sleeper.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a
 	g++ $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o sleeper sleeper.o libstdc++.a -pthread -lboinc_api -lboinc

@@ -133,6 +133,9 @@ public class ProjectsParser extends BaseParser {
 					else if (localName.equalsIgnoreCase("master_url")) {
 						mProject.master_url = mCurrentElement.toString();
 					}
+					else if (localName.equalsIgnoreCase("project_dir")) {
+						mProject.project_dir = mCurrentElement.toString();
+					}
 					else if (localName.equalsIgnoreCase("resource_share")) {
 						mProject.resource_share = Float.parseFloat(mCurrentElement.toString());
 					}

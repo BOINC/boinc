@@ -27,4 +27,7 @@ public class Workunit {
     public double rsc_fpops_bound;
     public double rsc_memory_bound;
     public double rsc_disk_bound;
+    
+    public Project project;
+    public App app;
 }

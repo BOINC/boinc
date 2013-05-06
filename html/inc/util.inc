@@ -455,7 +455,7 @@ function sub_sentence($sentence, $delimiter, $max_chars, $ellipsis=false) {
     $words = explode($delimiter, $sentence);
     $total_chars = 0;
     $trunc = false;
-    $result = null;
+    $result = "";
 
     foreach ($words as $word) {
         if (strlen($result) + strlen($word) > $max_chars) {
@@ -805,7 +805,7 @@ function db_init($try_replica=false) {
 // and with a count of app versions
 //
 function get_app_types() {
-    $t = null;
+    $t = new StdClass;
     $t->cpu = false;
     $t->cuda = false;
     $t->ati = false;

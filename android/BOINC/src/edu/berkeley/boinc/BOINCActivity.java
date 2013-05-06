@@ -127,15 +127,6 @@ public class BOINCActivity extends TabActivity {
 	    }
 	}
     
-	/*
-    public static void logMessage(Context ctx, String tag, String message) {
-        Intent testLog = new Intent();
-        testLog.setAction("edu.berkeley.boinc.log");
-        testLog.putExtra("message", message);   
-        testLog.putExtra("tag", tag);
-        ctx.sendBroadcast(testLog);
-    }*/
-    
     // tests whether status is available and whether it changed since the last event.
     private void determineStatus() {
     	Integer newStatus = -1;
@@ -151,6 +142,7 @@ public class BOINCActivity extends TabActivity {
 					startActivity(new Intent(this,AttachProjectListActivity.class));
 					intialStart = false;
 				}
+				setAppTitle();
 			} 
     	} catch (Exception e) {}
     }
@@ -178,7 +170,7 @@ public class BOINCActivity extends TabActivity {
         	errorLayout.setVisibility(View.GONE);
         	loadingLayout.setVisibility(View.VISIBLE);
         	TextView launchingHeader = (TextView) findViewById(R.id.loading_header);
-        	launchingHeader.setText(R.string.main_launching);
+        	launchingHeader.setText(R.string.status_launching);
     		break;
     	case ClientStatus.SETUP_STATUS_NOPROJECT:
     		loadingLayout.setVisibility(View.GONE);
@@ -191,7 +183,7 @@ public class BOINCActivity extends TabActivity {
         	errorLayout.setVisibility(View.GONE);
         	loadingLayout.setVisibility(View.VISIBLE);
         	TextView quittingHeader = (TextView) findViewById(R.id.loading_header);
-        	quittingHeader.setText(R.string.main_quitting);
+        	quittingHeader.setText(R.string.status_closing);
     		break;
     	case ClientStatus.SETUP_STATUS_CLOSED:
     		finish(); // close application
@@ -261,6 +253,16 @@ public class BOINCActivity extends TabActivity {
     	}
     	
         Log.d(TAG, "tab layout setup done");
+    }
+    
+    // set app title to status string of ClientStatus
+    private void setAppTitle() {
+		String title = getString(R.string.app_name);
+		String status = Monitor.getClientStatus().getCurrentStatusString();
+		if (!status.isEmpty()) {
+			title += " - " + status;
+		}
+		this.setTitle(title);
     }
 
 	// triggered by click on noproject_warning, starts login activity

@@ -113,7 +113,7 @@ DB_WORKUNIT::DB_WORKUNIT(DB_CONN* dc) :
 DB_CREDITED_JOB::DB_CREDITED_JOB(DB_CONN* dc) :
     DB_BASE("credited_job", dc?dc:&boinc_db){}
 DB_RESULT::DB_RESULT(DB_CONN* dc) :
-    DB_BASE("result", dc?dc:&boinc_db){}
+    DB_BASE("result", dc?dc:&boinc_db), RESULT() {}
 DB_MSG_FROM_HOST::DB_MSG_FROM_HOST(DB_CONN* dc) :
     DB_BASE("msg_from_host", dc?dc:&boinc_db){}
 DB_MSG_TO_HOST::DB_MSG_TO_HOST(DB_CONN* dc) :

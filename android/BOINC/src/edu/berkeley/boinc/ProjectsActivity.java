@@ -23,26 +23,24 @@ import java.util.ArrayList;
 import edu.berkeley.boinc.adapter.ProjectsListAdapter;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Project;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class ProjectsActivity extends FragmentActivity {
@@ -199,6 +197,10 @@ public class ProjectsActivity extends FragmentActivity {
 	public void onProjectClicked(String url, String name) {
 	    Log.d(TAG, "onProjectClicked()");
 	}
+
+	public void addProjectClicked(View view) {
+		onProjectAdd();
+	}
 	
 	public void onProjectAdd() {
 		Log.d(TAG, "onProjectAdd()");
@@ -210,41 +212,9 @@ public class ProjectsActivity extends FragmentActivity {
 	    monitor.updateProjectAsync(url);
 	}
 	
-	public void onProjectDelete(String url, String name) {
-	    Log.d(TAG, "onProjectDelete() - Name: " + name + ", URL: " + url);
-		(new ConfirmDeletionDialogFragment(name, url)).show(getSupportFragmentManager(), "confirm_projects_deletion");
-	}
-	
-	public class ConfirmDeletionDialogFragment extends DialogFragment {
-		
-		private final String TAG = "ConfirmDeletionDialogFragment";
-		
-		private String name = "";
-		private String url = "";
-		
-		public ConfirmDeletionDialogFragment(String url, String name) {
-			this.name = name;
-			this.url = url;
-		}
-		
-	    @Override
-	    public Dialog onCreateDialog(Bundle savedInstanceState) {
-	        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-	        String dialogTitle = getString(R.string.confirm_deletion) + " " + name + "?";
-	        builder.setMessage(dialogTitle)
-	               .setPositiveButton(R.string.confirm_deletion_confirm, new DialogInterface.OnClickListener() {
-	                   public void onClick(DialogInterface dialog, int id) {
-	                       Log.d(TAG, "confirm clicked.");
-	                       monitor.detachProjectAsync(url); //asynchronous call to detach project with given url.
-	                   }
-	               })
-	               .setNegativeButton(R.string.confirm_deletion_cancel, new DialogInterface.OnClickListener() {
-	                   public void onClick(DialogInterface dialog, int id) {
-	                       Log.d(TAG, "dialog canceled.");
-	                   }
-	               });
-	        // Create the AlertDialog object and return it
-	        return builder.create();
-	    }
+	public void onProjectMore(String url, String name) {
+	    Log.d(TAG, "onProjectMore() - Name: " + name + ", URL: " + url);
+		Toast toast = Toast.makeText(getApplicationContext(), "not implemented yet...", Toast.LENGTH_LONG);
+		toast.show();
 	}
 }

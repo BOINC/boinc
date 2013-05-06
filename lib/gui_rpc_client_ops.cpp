@@ -1749,11 +1749,8 @@ int RPC_CLIENT::project_op(PROJECT& project, const char* op) {
         tag
     );
     retval = rpc.do_rpc(buf);
-    if (!retval) {
-        retval = rpc.parse_reply();
-    }
-
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::project_attach_from_file() {
@@ -1768,13 +1765,13 @@ int RPC_CLIENT::project_attach_from_file() {
         "</project_attach>\n"
     );
     retval = rpc.do_rpc(buf);
-    if (!retval) {
-        retval = rpc.parse_reply();
-    }
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
-int RPC_CLIENT::project_attach(const char* url, const char* auth, const char* name) {
+int RPC_CLIENT::project_attach(
+    const char* url, const char* auth, const char* name
+) {
     int retval;
     SET_LOCALE sl;
     char buf[768];
@@ -1790,10 +1787,8 @@ int RPC_CLIENT::project_attach(const char* url, const char* auth, const char* na
     );
 
     retval = rpc.do_rpc(buf);
-    if (!retval) {
-        retval = rpc.parse_reply();
-    }
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::project_attach_poll(PROJECT_ATTACH_REPLY& reply) {
@@ -1834,7 +1829,8 @@ int RPC_CLIENT::set_run_mode(int mode, double duration) {
     );
 
     retval = rpc.do_rpc(buf);
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::set_gpu_mode(int mode, double duration) {
@@ -1852,7 +1848,8 @@ int RPC_CLIENT::set_gpu_mode(int mode, double duration) {
     );
 
     retval = rpc.do_rpc(buf);
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::set_network_mode(int mode, double duration) {
@@ -1869,7 +1866,8 @@ int RPC_CLIENT::set_network_mode(int mode, double duration) {
         mode_name(mode), duration
     );
     retval = rpc.do_rpc(buf);
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::get_screensaver_tasks(int& suspend_reason, RESULTS& t) {
@@ -1902,7 +1900,8 @@ int RPC_CLIENT::run_benchmarks() {
     RPC rpc(this);
 
     retval = rpc.do_rpc("<run_benchmarks/>\n");
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::set_proxy_settings(GR_PROXY_INFO& pi) {
@@ -1940,7 +1939,8 @@ int RPC_CLIENT::set_proxy_settings(GR_PROXY_INFO& pi) {
 		pi.noproxy_hosts.c_str()
     );
     retval = rpc.do_rpc(buf);
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::get_proxy_settings(GR_PROXY_INFO& p) {
@@ -2034,7 +2034,8 @@ int RPC_CLIENT::file_transfer_op(FILE_TRANSFER& ft, const char* op) {
         tag
     );
     retval = rpc.do_rpc(buf);
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::result_op(RESULT& result, const char* op) {
@@ -2067,7 +2068,8 @@ int RPC_CLIENT::result_op(RESULT& result, const char* op) {
         tag
     );
     retval = rpc.do_rpc(buf);
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::get_host_info(HOST_INFO& h) {
@@ -2092,21 +2094,12 @@ int RPC_CLIENT::get_host_info(HOST_INFO& h) {
 
 int RPC_CLIENT::quit() {
     int retval;
-    char buf[256];
     SET_LOCALE sl;
     RPC rpc(this);
 
     retval = rpc.do_rpc("<quit/>\n");
     if (retval) return retval;
-    while (rpc.fin.fgets(buf, 256)) {
-        if (match_tag(buf, "success")) {
-            return 0;
-        }
-        if (strstr(buf, "unauthorized")) {
-            return ERR_AUTHENTICATOR;
-        }
-    }
-    return ERR_XML_PARSE;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::acct_mgr_rpc(const char* url, const char* name, const char* password, bool use_config_file) {
@@ -2132,7 +2125,8 @@ int RPC_CLIENT::acct_mgr_rpc(const char* url, const char* name, const char* pass
         );
     }
     retval = rpc.do_rpc(buf);
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::acct_mgr_rpc_poll(ACCT_MGR_RPC_REPLY& r) {
@@ -2186,11 +2180,8 @@ int RPC_CLIENT::get_project_config(std::string url) {
     );
 
     retval =  rpc.do_rpc(buf);
-    if (!retval) {
-        retval = rpc.parse_reply();
-    }
-
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::get_project_config_poll(PROJECT_CONFIG& pc) {
@@ -2229,10 +2220,8 @@ int RPC_CLIENT::lookup_account(ACCOUNT_IN& ai) {
     );
 
     retval =  rpc.do_rpc(buf);
-    if (!retval) {
-        retval = rpc.parse_reply();
-    }
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::lookup_account_poll(ACCOUNT_OUT& ao) {
@@ -2271,10 +2260,8 @@ int RPC_CLIENT::create_account(ACCOUNT_IN& ai) {
     );
 
     retval =  rpc.do_rpc(buf);
-    if (!retval) {
-        retval = rpc.parse_reply();
-    }
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::create_account_poll(ACCOUNT_OUT& ao) {
@@ -2309,7 +2296,9 @@ int RPC_CLIENT::get_newer_version(std::string& version, std::string& version_dow
 int RPC_CLIENT::read_global_prefs_override() {
     SET_LOCALE sl;
     RPC rpc(this);
-    return rpc.do_rpc("<read_global_prefs_override/>");
+    int retval = rpc.do_rpc("<read_global_prefs_override/>");
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::get_global_prefs_file(string& s) {
@@ -2431,7 +2420,8 @@ int RPC_CLIENT::set_global_prefs_override(string& s) {
         s.c_str()
     );
     retval = rpc.do_rpc(buf);
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::get_global_prefs_override_struct(GLOBAL_PREFS& prefs, GLOBAL_PREFS_MASK& mask) {
@@ -2471,7 +2461,8 @@ int RPC_CLIENT::read_cc_config() {
     RPC rpc(this);
 
     retval = rpc.do_rpc("<read_cc_config/>");
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::get_cc_config(CONFIG& config, LOG_FLAGS& log_flags) {
@@ -2496,7 +2487,8 @@ int RPC_CLIENT::set_cc_config(CONFIG& config, LOG_FLAGS& log_flags) {
     config.write(mf, log_flags);
 
     retval = rpc.do_rpc(buf);
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 static int parse_notices(XML_PARSER& xp, NOTICES& notices) {

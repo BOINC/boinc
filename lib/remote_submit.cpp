@@ -44,6 +44,7 @@ static int do_http_get(
     if (!reply) return -1;
     CURL *curl = curl_easy_init();
     if (!curl) {
+        fclose(reply);
         return -1;
     }
     curl_easy_setopt(curl, CURLOPT_URL, url);
@@ -56,6 +57,7 @@ static int do_http_get(
     }
 
     curl_easy_cleanup(curl);
+    fclose(reply);
     return 0;
 }
 

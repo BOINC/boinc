@@ -98,7 +98,7 @@ function get_data() {
         while ($result = mysql_fetch_object($r2)) {
             if ($result->granted_credit==0) continue;   // skip invalid
             $host = lookup_host($result->hostid);
-            $r = null;
+            $r = new StdClass;
             $r->cpu_time = $result->cpu_time;
             $r->p_fpops = $host->p_fpops;
             $r->p_iops = $host->p_iops;

@@ -424,7 +424,7 @@ function show_host_row($host, $i, $private, $show_owner) {
 //
 function parse_model($model) {
     $y = explode(" ", $model);
-    $x = null;
+    $x = new StdClass;
     $x->speed = null;
     $x->arch = null;
     $x->info = null;

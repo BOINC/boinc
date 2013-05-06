@@ -516,7 +516,7 @@ FROM result WHERE
     echo "<td><table border=2 cellpadding=4>\n";
     echo "<tr><th>Server state</th><th># results</th></tr>\n";
     for ($ss=1; $ss<6; $ss++) {
-        $res = null;
+        $res = new StdClass;
         $res->server_state = $ss;
         row2(result_server_state_string($res),
              link_results("$server_state[$ss]",  $urlquery,"server_state=$ss", '')
@@ -528,7 +528,7 @@ FROM result WHERE
     echo "<tr><th>Outcome</th><th># results</th></tr>\n";
 
     for ($ro=0; $ro<8; $ro++) {
-        $res = null;
+        $res = new StdClass;
         $res->outcome = $ro;
         $res->exit_status = 0;
         c_row2($outcome[$ro]?outcome_color($ro):'', result_outcome_string($res),
@@ -540,7 +540,7 @@ FROM result WHERE
     echo "<td><table border=2 cellpadding=4>\n";
     echo "<tr><th>Validate state</th><th># results</th></tr>\n";
     for ($vs=0; $vs<NVALIDATE_STATES; $vs++) {
-        $res = null;
+        $res = new StdClass;
         $res->validate_state = $vs;
         $res->exit_status = 0;
         c_row2($validate_state[$vs]?validate_color($vs):'', validate_state_str($res),
@@ -561,7 +561,7 @@ FROM result WHERE
     echo "<td><table border=2 cellpadding=4>\n";
     echo "<tr><th>Client state</th><th># results</th></tr>\n";
     for ($cs=1; $cs<7; $cs++) {
-        $res = null;
+        $res = new StdClass;
         $res->client_state = $cs;
         $res->exit_status = 0;
         row2(result_client_state_string($res),
@@ -579,7 +579,7 @@ function server_state_select() {
         <option value=\"CHOOSE_ALL\" selected=\"selected\"> Any </option>
     ";
     for($i=1; $i<6; $i++) {
-        $res = null;
+        $res = new StdClass;
         $res->server_state=$i;
         echo "<option value=\"$i\"> "."[$i]&nbsp;&nbsp;".'   '.result_server_state_string($res)."</option>\n";
     }
@@ -592,7 +592,7 @@ function outcome_select() {
         <option value=\"CHOOSE_ALL\" selected=\"selected\"> Any </option>
     ";
     for($i=0; $i<8; $i++) {
-        $res = null;
+        $res = new StdClass;
         $res->outcome = $i;
         $res->exit_status = 0;
         echo "<option value=\"$i\"> "."[$i]&nbsp;&nbsp;".'   '.result_outcome_string($res)."</option>\n";
@@ -606,7 +606,7 @@ function validate_state_select() {
         <option value=\"CHOOSE_ALL\" selected=\"selected\"> Any </option>
         ";
     for($i=0; $i<NVALIDATE_STATES; $i++) {
-        $res = null;
+        $res = new StdClass;
         $res->validate_state = $vs;
         $res->exit_status = 0;
         echo "<option value=\"$i\"> "."[$i]&nbsp;&nbsp;".'   '.validate_state_str($res)."</option>\n";
@@ -620,7 +620,7 @@ function client_state_select() {
         <option value=\"CHOOSE_ALL\" selected=\"selected\"> Any </option>
     ";
     for($i=0; $i<7; $i++) {
-        $res = null;
+        $res = new StdClass;
         $res->client_state = $i;
         $res->exit_status = 0;
         echo "<option value=\"$i\"> "."[$i]&nbsp;&nbsp;".result_client_state_string($res)."</option>\n";
