@@ -815,40 +815,10 @@ public class Monitor extends Service {
 		(new TransferRetryAsync()).execute(param);
 	}
 
-	public Boolean suspendResult(String url, String name){
-		return rpc.resultOp(RpcClient.RESULT_SUSPEND, url, name);
-	}
-
-	public void suspendResultAsync(String url, String name){
-		Log.d(TAG, "suspendResultAsync");
-		String[] param = new String[2];
-		param[0] = url;
-		param[1] = name;
-		(new SuspendResultAsync()).execute(param);
-	}
-
-	public Boolean resumeResult(String url, String name){
-		return rpc.resultOp(RpcClient.RESULT_RESUME, url, name);
-	}
-
-	public void resumeResultAsync(String url, String name){
-		Log.d(TAG, "resumeResultAsync");
-		String[] param = new String[2];
-		param[0] = url;
-		param[1] = name;
-		(new ResumeResultAsync()).execute(param);
-	}
-
-	public Boolean abortResult(String url, String name){
-		return rpc.resultOp(RpcClient.RESULT_RESUME, url, name);
-	}
-
-	public void abortResultAsync(String url, String name){
-		Log.d(TAG, "abortResultAsync");
-		String[] param = new String[2];
-		param[0] = url;
-		param[1] = name;
-		(new AbortResultAsync()).execute(param);
+	// executes specified operation on result
+	// e.g. RpcClient.RESULT_SUSPEND, RpcClient.RESULT_RESUME, RpcClient.RESULT_ABORT
+	public Boolean resultOperation(String url, String name, int operation) {
+		return rpc.resultOp(operation, url, name);
 	}
 	
 	public AccountOut createAccount(String url, String email, String userName, String pwd, String teamName) {
@@ -1092,98 +1062,6 @@ public class Monitor extends Service {
 			return retry;
 		}
 		
-		@Override
-		protected void onPostExecute(Boolean success) {
-			forceRefresh();
-		}
-
-		@Override
-		protected void onProgressUpdate(String... arg0) {
-			Log.d(TAG, "onProgressUpdate - " + arg0[0]);
-		}
-	}
-
-	private final class SuspendResultAsync extends AsyncTask<String,String,Boolean> {
-
-		private final String TAG = "SuspendResultAsync";
-
-		private String url;
-		private String name;
-
-		@Override
-		protected Boolean doInBackground(String... params) {
-			this.url = params[0];
-			this.name = params[1];
-			publishProgress("doInBackground() - SuspendResultAsync url: " + url + " Name: " + name);
-
-			Boolean retry = rpc.resultOp(RpcClient.RESULT_SUSPEND, url, name);
-			if(retry) {
-				publishProgress("successful.");
-			}
-			return retry;
-		}
-
-		@Override
-		protected void onPostExecute(Boolean success) {
-			forceRefresh();
-		}
-
-		@Override
-		protected void onProgressUpdate(String... arg0) {
-			Log.d(TAG, "onProgressUpdate - " + arg0[0]);
-		}
-	}
-
-	private final class ResumeResultAsync extends AsyncTask<String,String,Boolean> {
-
-		private final String TAG = "ResumeResultAsync";
-
-		private String url;
-		private String name;
-
-		@Override
-		protected Boolean doInBackground(String... params) {
-			this.url = params[0];
-			this.name = params[1];
-			publishProgress("doInBackground() - ResumeResultAsync url: " + url + " Name: " + name);
-			Boolean retry = rpc.resultOp(RpcClient.RESULT_RESUME, url, name);
-			if(retry) {
-				publishProgress("successful.");
-			}
-			return retry;
-		}
-
-		@Override
-		protected void onPostExecute(Boolean success) {
-			forceRefresh();
-		}
-
-		@Override
-		protected void onProgressUpdate(String... arg0) {
-			Log.d(TAG, "onProgressUpdate - " + arg0[0]);
-		}
-	}
-
-	private final class AbortResultAsync extends AsyncTask<String,String,Boolean> {
-
-		private final String TAG = "AbortResultAsync";
-
-		private String url;
-		private String name;
-
-		@Override
-		protected Boolean doInBackground(String... params) {
-			this.url = params[0];
-			this.name = params[1];
-			publishProgress("doInBackground() - AbortResultAsync url: " + url + " Name: " + name);
-
-			Boolean retry = rpc.resultOp(RpcClient.RESULT_ABORT, url, name);
-			if(retry) {
-				publishProgress("successful.");
-			}
-			return retry;
-		}
-
 		@Override
 		protected void onPostExecute(Boolean success) {
 			forceRefresh();

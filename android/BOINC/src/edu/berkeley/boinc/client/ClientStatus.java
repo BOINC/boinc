@@ -139,7 +139,7 @@ public class ClientStatus {
 		this.projects = projects;
 		this.transfers = transfers;
 		parseClientStatus();
-		Log.d(TAG,"parsing results: computing: " + computingParseError + computingStatus + computingSuspendReason + " - network: " + networkParseError + networkStatus + networkSuspendReason);
+		Log.d(TAG,"setClientStatus: #results:" + results.size() + " #projects:" + projects.size() + " #transfers:" + transfers.size() + " // computing: " + computingParseError + computingStatus + computingSuspendReason + " - network: " + networkParseError + networkStatus + networkSuspendReason);
 		if(!computingParseError && !networkParseError && !setupStatusParseError) {
 			fire(); // broadcast that status has changed
 		} else {

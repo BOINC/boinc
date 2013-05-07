@@ -315,7 +315,8 @@ public class PrefsActivity extends FragmentActivity {
 
 		@Override
 		protected Boolean doInBackground(GlobalPreferences... params) {
-			return monitor.setGlobalPreferences(params[0]);
+			if(mIsBound) return monitor.setGlobalPreferences(params[0]);
+			else return false;
 		}
 		
 		@Override

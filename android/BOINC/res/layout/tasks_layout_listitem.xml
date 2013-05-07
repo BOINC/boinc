@@ -21,25 +21,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:clickable="false" >
+    android:clickable="true" >
+    
     <TextView android:textAppearance="?android:attr/textAppearanceSmall"
-        android:id="@+id/taskName"
+        android:id="@+id/taskHeader"
+        android:text="@string/tasks_header_friendly_name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
     </TextView>
     
-    <LinearLayout 
+    <RelativeLayout 
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView android:textAppearance="?android:attr/textAppearanceSmall"
-	        android:id="@+id/taskProgress"
-        	android:layout_marginLeft="10dip"
-        	android:ems="5"
-        	android:singleLine="true"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content">
-	    </TextView>
+        android:layout_height="match_parent">
 	    
         <ProgressBar
         	android:id="@+id/progressBar"
@@ -50,28 +43,31 @@
         	android:layout_height="20dip"
         	android:progressDrawable="@drawable/progressbar_paused" />
         
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
         <TextView
             android:id="@+id/taskStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_below="@+id/progressBar"
+            android:layout_alignLeft="@+id/progressBar" />
+        
+        <TextView android:textAppearance="?android:attr/textAppearanceSmall"
+	        android:id="@+id/taskProgress"
+        	android:singleLine="true"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/progressBar"
+	        android:layout_centerInParent="true" />
+	    
         <TextView
             android:id="@+id/taskTime"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="right"
-            android:paddingRight="10dp"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    </LinearLayout>
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_below="@+id/progressBar"
+            android:layout_alignRight="@+id/progressBar" />
+        
+    </RelativeLayout>
 
     <include
 	android:id="@+id/expansion"

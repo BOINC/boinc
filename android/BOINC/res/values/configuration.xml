@@ -21,7 +21,7 @@
     <!-- BOINC platform -->
     	<string name="boinc_platform_name">arm-android-linux-gnu</string>
     <!-- Monitor behavior -->
-    	<integer name="monitor_refresh_rate_ms">5000</integer>
+    	<integer name="monitor_refresh_rate_ms">1000</integer>
     	<integer name="monitor_setup_connection_retry_rate_ms">5000</integer>
     	<integer name="monitor_setup_connection_retry_attempts">5</integer>
     	<integer name="autostart_notification_id">460</integer>
@@ -32,4 +32,6 @@
     	<bool name="tab_transfers">true</bool>
     	<bool name="tab_preferences">true</bool>
     	<bool name="tab_eventlog">true</bool>
+    <!-- configuration on tasks layout -->
+    	<integer name="tasks_transistion_timeout_number_monitor_loops">10</integer>
 </resources>

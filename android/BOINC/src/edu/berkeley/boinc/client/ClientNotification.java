@@ -15,6 +15,7 @@ public class ClientNotification {
 
 	private boolean mIsEnabled = true;
 	private int mOldComputingStatus = -1;
+	private int mOldSuspendReason = -1;
 
 	/**
 	 * Returns a reference to a singleton ClientNotification object.
@@ -35,10 +36,12 @@ public class ClientNotification {
 	 */
 	public synchronized void update(Context context, ClientStatus updatedStatus) {
 		if (clientNotification.mOldComputingStatus == -1 
-				|| updatedStatus.computingStatus.intValue() != clientNotification.mOldComputingStatus) {
+				|| updatedStatus.computingStatus.intValue() != clientNotification.mOldComputingStatus
+				|| (updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_SUSPENDED && updatedStatus.computingSuspendReason != clientNotification.mOldSuspendReason)) {
 			if (clientNotification.mIsEnabled)
 				updateNotification(context, updatedStatus.computingStatus);
 			clientNotification.mOldComputingStatus = updatedStatus.computingStatus;
+			clientNotification.mOldSuspendReason = updatedStatus.computingSuspendReason;
 		}
 	}
 
