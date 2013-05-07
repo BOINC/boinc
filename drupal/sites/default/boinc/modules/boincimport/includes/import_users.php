@@ -62,11 +62,6 @@
   db_set_active('default');
   
   while ($boinc_account = db_fetch_object($boinc_accounts)) {
-    
-    // Make sure the user has not already been imported
-    $already_imported = db_result(db_query('SELECT COUNT(*) FROM {boincuser} WHERE boinc_id = %d', $boinc_account->id));
-    if ($already_imported) continue;
-    
     // Grab the BOINC user object and create a Drupal user from it
     if (boincuser_register_make_drupal_user($boinc_account->id)) {
       $count++;

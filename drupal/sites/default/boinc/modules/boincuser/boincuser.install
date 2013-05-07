@@ -45,7 +45,8 @@ function boincuser_schema() {
       'uid', 'boinc_id'
     ),
     'unique keys' => array(
-      'uid', 'boinc_id'
+      'uid' => array('uid'),
+      'boinc_id' => array('boinc_id')
     )
   );
   return $schema;

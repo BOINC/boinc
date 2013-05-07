@@ -123,7 +123,9 @@ function boincuser_register_make_drupal_user($boinc_user) {
   }
   if ($boinc_user) {
     $account = boincuser_create_drupal_user($boinc_user);
-    boincuser_create_drupal_profile($account, $boinc_user);
+    if ($account) {
+      boincuser_create_drupal_profile($account, $boinc_user);
+    }
   }
   return $account;
 }
@@ -133,6 +135,15 @@ function boincuser_create_drupal_user($boinc_user) {
   BoincForumPrefs::lookup($boinc_user);
   $account = null;
   $module = 'boincuser';
+  
+  // Verify that this account has not already been imported
+  $already_imported = db_result(db_query('
+    SELECT COUNT(*) FROM {boincuser} WHERE boinc_id = %d',
+    $boinc_user->id)
+  );
+  if ($already_imported) {
+    return NULL;
+  }
   
   // Make sure name is unique
   $unique_name = find_unique_name($boinc_user->name);
@@ -167,7 +178,7 @@ function boincuser_create_drupal_user($boinc_user) {
   // Terminate if an error occured during user_save().
   if (!$account) {
     drupal_set_message(t("Error saving user account."), 'error');
-    return null;
+    return NULL;
   }
   
   // Cross reference the Drupal and BOINC accounts
