@@ -226,7 +226,7 @@ function process_file($a, $v, $p, $name, $fds) {
     global $key_dir;
     $fd = lookup_file($fds, $name);
     if (!$fd) {
-        $fd = null;
+        $fd = new StdClass;
         $fd->physical_name = $name;
         $fd->logical_name = null;
         $fd->url = array();
@@ -370,7 +370,7 @@ function convert_simplexml($x) {
     $fxs = $x->xpath('file');
     foreach ($fxs as $fx) {
         //echo "fx: "; print_r($fx);
-        $fd = null;
+        $fd = new StdClass;
 
         $fd->present = false;
         $fd->physical_name = trim((string) $fx->physical_name);
@@ -385,7 +385,7 @@ function convert_simplexml($x) {
 
         $fds[] = $fd;
     }
-    $v = null;
+    $v = new StdClass;
     $v->files = $fds;
     $v->dont_throttle = get_bool($x, "dont_throttle");
     $v->needs_network = get_bool($x, "needs_network");
@@ -409,7 +409,7 @@ function process_version($a, $v, $p) {
         }
         $vers = convert_simplexml($x);
     } else {
-        $vers = null;
+        $vers = new StdClass;
         $vers->files = array();
         $vers->dont_throttle = false;
         $vers->needs_network = false;

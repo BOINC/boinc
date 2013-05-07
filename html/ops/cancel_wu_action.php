@@ -28,8 +28,8 @@ admin_page_head("Cancel WU");
 
 db_init();
 
-$wuid1 = $_GET['wuid1'];
-$wuid2 = $_GET['wuid2'];
+$wuid1 = get_int('wuid1');
+$wuid2 = get_int('wuid2');
 
 if ($wuid1<1 || $wuid2<$wuid1) {
     echo "<h2>Workunit IDs fail to satisfy the conditions:<br/>

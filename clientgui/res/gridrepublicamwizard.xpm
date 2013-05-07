@@ -1,20 +1,3 @@
-// This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
-//
-// BOINC is free software; you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License
-// as published by the Free Software Foundation,
-// either version 3 of the License, or (at your option) any later version.
-//
-// BOINC is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-// See the GNU Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
-
 /* XPM */
 static const char *gridrepublicamwizard_xpm[] = {
 /* columns rows colors chars-per-pixel */
@@ -530,3 +513,19 @@ static const char *gridrepublicamwizard_xpm[] = {
 "rXrXrXqXqXqXqXqXqX6XqX6X6X6X6X1X1X=X1X=X  =X    =X      .   X   X . . X   X 5 . X . X . X X X X a X a X 6 X ~ a 6 6 6 X 6 X 6 6 6 6 6 o 6 6 o [ &.o o &.o o o o o o o C o o C o 2.C C 2.C ^.P ^.^ 3X!.wXs.sX4XfXdXaXW.pX+ @ @ 8 @ @ 8 ",
 "rXuXrXrXrXqXqXqX8XqX6X6X8X6X6X6X1X=X1X=X1X  =X      . 5   .   .   . 5 . X . . X X X X X X X a X X a ~ a ~ a a ~ a ~ a 6 6 6 6 6 6 o 6 6 o [ &.[ &.6 o [ o o &.o o o 2.o o C o C o C 2.C C C C P P ^.^ 3X!.s.wXsX4X4XfX&Xi.8 @ H A @ @ "
 };
+// This file is part of BOINC.
+// http://boinc.berkeley.edu
+// Copyright (C) 2013 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.

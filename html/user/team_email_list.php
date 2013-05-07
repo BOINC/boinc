@@ -39,7 +39,7 @@ if ($xml) {
     $user = lookup_user_auth($account_key);
     $show_email = ($user && is_team_founder($user, $team));
     echo "<users>\n";
-    $users = BoincUser::enum_fields("id, email_addr, send_email, name, total_credit, expavg_credit, has_profile, donated, country, cross_project_id, create_time, url", "teamid=$team->id");
+    $users = BoincUser::enum_fields("id, email_addr, send_email, name, total_credit, expavg_credit, expavg_time, has_profile, donated, country, cross_project_id, create_time, url", "teamid=$team->id");
     //$users = BoincUser::enum("teamid=$team->id");
     foreach($users as $user) {
         show_team_member($user, $show_email, $creditonly);

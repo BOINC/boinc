@@ -596,7 +596,7 @@ function get_int($name, $optional=false) {
     return (int)$x;
 }
 
-function post_int($name, $optional=false) {
+function post_num($name, $optional=false) {
     $x = null;
     if (isset($_POST[$name])) $x = $_POST[$name];
     if (!is_numeric($x)) {
@@ -606,7 +606,16 @@ function post_int($name, $optional=false) {
             error_page("missing or bad parameter: $name; supplied: ".htmlspecialchars($x));
         }
     }
-    return (int)$x;
+    return (double)$x;
+}
+
+function post_int($name, $optional=false) {
+    $x = post_num($name, $optional);
+    $y = (int)$x;
+    if ($x != $y) {
+        error_page("param $name must be an integer");
+    }
+    return $y;
 }
 
 function get_str($name, $optional=false) {
