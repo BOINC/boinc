@@ -54,14 +54,14 @@ function do_updates() {
         }
 
         $field = "weight_".$id;
-        $new_v = $_POST[$field] + 0;
+        $new_v = post_num($field);
         $old_v = $app->weight;
         if ($new_v != $old_v ) {
             $app->update("weight=$new_v");
         }
 
         $field = "homogeneous_redundancy_".$id;
-        $new_v = $_POST[$field];
+        $new_v = post_int($field);
         $old_v = $app->homogeneous_redundancy;
         if ($new_v != $old_v ) {
             $app->update("homogeneous_redundancy=$new_v");
@@ -92,8 +92,8 @@ function do_updates() {
     // Adding a new application
 
     if (post_str('add_app', true)) {
-        $name = mysql_real_escape_string($_POST['add_name']);
-        $user_friendly_name = mysql_real_escape_string($_POST['add_user_friendly_name']);
+        $name = mysql_real_escape_string(post_str('add_name'));
+        $user_friendly_name = mysql_real_escape_string(post_str('add_user_friendly_name'));
         if (empty($name) || empty($user_friendly_name) ) {
             $warnings .= "<p><font color='red'>
                 To add a new application please supply both a brief name and a

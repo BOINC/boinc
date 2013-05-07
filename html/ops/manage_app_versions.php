@@ -84,7 +84,7 @@ if( !empty($_POST) ) {
 
         /* Minimum core version limit */
         $field="min_core_version_".$id;
-        $new_v= $_POST[$field];
+        $new_v= post_int($field);
         $old_v=$item->min_core_version;
         if ($new_v != $old_v ) {
             $cmd =  "UPDATE app_version SET min_core_version=$new_v WHERE id=$id";
@@ -94,7 +94,7 @@ if( !empty($_POST) ) {
 
         /* Maximum core version limit */
         $field="max_core_version_".$id;
-        $new_v= $_POST[$field];
+        $new_v= post_int($field);
         $old_v=$item->max_core_version;
         if($new_v != $old_v ) {
             $cmd =  "UPDATE app_version SET max_core_version=$new_v WHERE id=$id";
