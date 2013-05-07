@@ -145,11 +145,23 @@ function boincuser_create_drupal_user($boinc_user) {
     return NULL;
   }
   
+  // Email is limited to 64 characters...
+  $boinc_email = substr($boinc_user->email_addr, 0, 64);
+  
+  // Email should be unique
+  $already_imported = db_result(db_query("
+    SELECT COUNT(*) FROM {users} WHERE mail = '%s'",
+    $boinc_email)
+  );
+  if ($already_imported) {
+    drupal_set_message(t('An account for @email already exists', array('@email' => $boinc_email)), 'warning');
+    watchdog('boincimport', 'An account for @email already exists', array('@email' => $boinc_email), WATCHDOG_WARNING); 
+    return NULL;
+  }
+  
   // Make sure name is unique
   $unique_name = find_unique_name($boinc_user->name);
   
-  // Email is limited to 64 characters...
-  $boinc_email = substr($boinc_user->email_addr, 0, 64);
   $userinfo = array(
     'name' => $unique_name,
     'pass' => $boinc_user->passwd_hash,
@@ -193,7 +205,7 @@ function boincuser_create_drupal_profile($account, $boinc_user) {
   BoincForumPrefs::lookup($boinc_user);
   
   $image_dir = boinc_get_path('user_image');
-  watchdog('boincuser', "image_dir: $image_dir");
+  
   // Automatically create a content profile
   $now = time();
   $profile_background = null;
@@ -223,8 +235,7 @@ function boincuser_create_drupal_profile($account, $boinc_user) {
   $default_input_format = db_result(db_query("
     SELECT format FROM {filter_formats} WHERE name = '%s'", 'Rich text'));
   if (!$default_input_format) $default_input_format = 1;
-  if (is_null($avatar_image)) watchdog('boincuser', "avatar null");
-  if (is_null($profile_image)) watchdog('boincuser', "profile image null");
+  
   // Populate the profile object
   $profile_node = new stdClass();
   $profile_node->title = $boinc_user->name;
