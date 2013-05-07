@@ -405,9 +405,9 @@ public class Monitor extends Service {
 		//
     	android.os.Process.sendSignal(clientPid, android.os.Process.SIGNAL_QUIT);
     	
-    	// Wait for up to 30 seconds for the client to shutdown gracefully
+    	// Wait for up to 60 seconds for the client to shutdown gracefully
     	Integer loopCounter = 0;
-    	while((loopCounter < 6) && (getPidForProcessName(processName) != null)) {
+    	while((loopCounter < 12) && (getPidForProcessName(processName) != null)) {
     		loopCounter++;
 			try {
 				Thread.sleep(5000);
@@ -417,13 +417,13 @@ public class Monitor extends Service {
     	// Process is still alive, sind SIGKILL
     	clientPid = getPidForProcessName(processName);
     	if(clientPid != null) {
-    		Log.d(TAG, "SIGQUIT failed. SIGKILL pid: " + clientPid);
+    		Log.w(TAG, "SIGQUIT failed. SIGKILL pid: " + clientPid);
     		android.os.Process.killProcess(clientPid);
     	}
     	
     	clientPid = getPidForProcessName(processName);
     	if(clientPid != null) {
-    		Log.d(TAG, "SIGKILL failed. still living pid: " + clientPid);
+    		Log.w(TAG, "SIGKILL failed. still living pid: " + clientPid);
     	}
     }
 	
@@ -581,6 +581,11 @@ public class Monitor extends Service {
     	// there might be still other AsyncTasks executing RPCs
     	// close sockets in a synchronized way
     	rpc.close();
+    	
+    	// give client 10 seconds to shutdown gracefully
+		try {
+			Thread.sleep(10000);
+		} catch (Exception e) {}
     	
     	// there are now more RPCs going on
     	quitProcessOsLevel(clientPath + clientName);
