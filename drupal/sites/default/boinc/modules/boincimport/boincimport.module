@@ -59,6 +59,13 @@ function boincimport_menu() {
     'page callback' => 'boincimport_reset',
     'type' => MENU_CALLBACK,
   );
+  $items['admin/boinc/import/unlock'] = array(
+    'title' => 'Unlock BOINC import process',
+    'access callback' => 'user_access',
+    'access arguments' => array('import boinc data'),
+    'page callback' => 'boincimport_unlock',
+    'type' => MENU_CALLBACK,
+  );
   $items['admin/boinc/import/settings'] = array(
     'title' => 'BOINC data import settings',
     'description' => 'Configure the BOINC data import process in preparation
@@ -90,6 +97,18 @@ function boincimport_reset() {
   variable_set('boincimport_ready', 0);
   return '<p>'. t('The BOINC database URL has been reset. You may now <a href="@configlink">go back to the configuration page</a>.',
       array('@configlink' => url('admin/boinc/import/settings'))) .'</p>';
+}
+
+/**
+ * Callback admin/boinc/import/unlock
+ */
+function boincimport_unlock() {
+  variable_del('boincimport_process_locked');
+  return '<p>'. t('The BOINC data import process has been unlocked. You may
+    now !proceed_with_import.', array(
+      '!proceed_with_import' => l(t('proceed with the import'),
+        'admin/boinc/import/process')
+    )) .'</p>';
 }
 
 /**
@@ -206,6 +225,7 @@ function boincimport_process() {
 }
 
 function boincimport_process_form() {
+  $form = array();
   _boincimport_db_connect() ;
   // Causes problems with form api redirect
   //ini_set('display_errors', TRUE);
@@ -215,33 +235,57 @@ function boincimport_process_form() {
     set_time_limit(variable_get('boincimport_time_limit', 0));
   }
   
-  $boincimport_functions = array(
-    'users' => t('Import users'),
-    'teams' => t('Import teams'),
-    'friends' => t('Import friendships'), 
-    'preferences' => t('Import user preferences'),
-    'private messages' => t('Import private messages'),
-    'categories' => t('Import forum containers'),
-    'topics' => t('Import topics'),
-    'posts' => t('Import posts'),
-    'url' => t('Transform URLs'),
-  );
+  // Check for a lock on the import process
+  if (variable_get('boincimport_process_locked', 0)) {
+    drupal_set_message(t('The import process is locked. If you are sure that
+      it is no longer running, you may !unlock_it', 
+      array('!unlock_it' => l(t('release the lock'),
+        'admin/boinc/import/unlock')
+      )), 'warning');
+    watchdog('boincimport', 'The import process is locked. If you are sure that
+      it is no longer running, you may !unlock_it', 
+      array('!unlock_it' => l(t('release the lock'),
+        'admin/boinc/import/unlock')
+      ), WATCHDOG_WARNING); 
+  }
+  else {
+    $boincimport_functions = array(
+      'users' => t('Import users'),
+      'teams' => t('Import teams'),
+      'friends' => t('Import friendships'), 
+      'preferences' => t('Import user preferences'),
+      'private messages' => t('Import private messages'),
+      'categories' => t('Import forum containers'),
+      'topics' => t('Import topics'),
+      'posts' => t('Import posts'),
+      'url' => t('Transform URLs'),
+    );
 
-  $form['import'] = array(
-    '#type' => 'select',
-    '#title' => t('Next import to perform'),
-    '#default_value' => $_SESSION['boincimport_stage_selected'],
-    '#options' => $boincimport_functions,
-  );
-  $form[] = array(
-    '#type' => 'submit',
-    '#value' => t('Import'),
-  );
+    $form['import'] = array(
+      '#type' => 'select',
+      '#title' => t('Next import to perform'),
+      '#default_value' => $_SESSION['boincimport_stage_selected'],
+      '#options' => $boincimport_functions,
+    );
+    $form[] = array(
+      '#type' => 'submit',
+      '#value' => t('Import'),
+    );
+  }
   return $form;
 }
 
 function boincimport_process_form_submit($form, $form_state) {
-
+  
+  // Lock the import process
+  if (!variable_get('boincimport_process_locked', 0)) {
+    variable_set('boincimport_process_locked', 1);
+  }
+  else {
+    watchdog('boincimport', 'The import process is locked, but another process
+      is trying to access it...', array(), WATCHDOG_WARNING); 
+  }
+  
   switch ($form_state['values']['import']) {
     case 'users':
       boincimport_users();
@@ -339,6 +383,9 @@ function boincimport_process_form_submit($form, $form_state) {
       $_SESSION['boincimport_stage_selected'] = 'users';
       break;
   }
+  
+  // Release the lock on the import process
+  variable_del('boincimport_process_locked');
 }
 
 /**
