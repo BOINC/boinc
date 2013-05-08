@@ -2769,10 +2769,10 @@
 			files = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/../client/version.h",
+				"$(SRCROOT)/../version.h",
 			);
 			outputPaths = (
-				"$(SRCROOT)/English.lproj/InfoPlist.strings",
+				"$(SRCROOT)/Info.plist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
