@@ -277,6 +277,7 @@ void CSkinSimple::Clear() {
     m_DialogBackgroundImage.Clear();
     m_ProjectImage.Clear();
 	m_StaticLineColor = wxNullColour;
+	m_NoticeAlertColor = *wxRED;
     m_WorkunitAnimationImage.Clear();
     m_WorkunitRunningImage.Clear();
     m_WorkunitSuspendedImage.Clear();
@@ -302,6 +303,9 @@ int CSkinSimple::Parse(MIOFILE& in) {
             continue;
         } else if (parse_str(buf, "<static_line_color>", strBuffer)) {
             m_StaticLineColor = ParseColor(wxString(strBuffer.c_str(), wxConvUTF8));
+            continue;
+        } else if (parse_str(buf, "<notice_alert_color>", strBuffer)) {
+            m_NoticeAlertColor = ParseColor(wxString(strBuffer.c_str(), wxConvUTF8));
             continue;
         } else if (match_tag(buf, "<workunit_animation_image>")) {
             m_WorkunitAnimationImage.Parse(in);

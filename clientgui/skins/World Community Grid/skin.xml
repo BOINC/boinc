@@ -24,6 +24,7 @@
           <imagesrc>Red_dot.png</imagesrc>
         </image>
       </workunit_suspended_image>
+      <notice_alert_color>36:117:107</notice_alert_color>
     </simple>
     <advanced>
       <application_name>World Community Grid - BOINC Manager</application_name>
