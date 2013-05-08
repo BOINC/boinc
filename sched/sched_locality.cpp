@@ -1228,10 +1228,31 @@ void send_work_locality() {
                 );
             }
 #ifdef EINSTEIN_AT_HOME
-            // For name matching pattern h1_XXXX.XX_S5R4
-            // generate corresponding l1_XXXX.XX_S5R4 and *_S5R7 patterns and delete it also
+            // For name matching patterns h1_
+            // generate corresponding l1_ patterns and delete these also
             //
-            if (strlen(fi.name)==15 && !strncmp("h1_", fi.name, 3)) {
+            if ( /* files like h1_0340.30_S6GC1 */
+                   (   strlen(fi.name) == 16 &&
+                       !strncmp("h1_", fi.name, 3) &&
+                       !strncmp("_S6GC1", fi.name + 10, 6)
+                   )
+               ) {
+                FILE_INFO fil;
+                fil=fi;
+                fil.name[0]='l';
+                g_reply->file_deletes.push_back(fil);
+                if (config.debug_locality) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[locality] [HOST#%d]: delete file %s (not needed)\n",
+                        g_reply->host.id, fil.name
+                    );
+                }
+            } else if ( /* for files like h1_XXXX.XX_S5R4 */
+                   (   strlen(fi.name) == 15 &&
+                       !strncmp("h1_", fi.name, 3) &&
+                       !strncmp("_S5R4", fi.name + 10, 5)
+                   )
+               ) {
                 FILE_INFO fil4,fil7,fih7;
                 fil4=fi;
                 fil4.name[0]='l';
