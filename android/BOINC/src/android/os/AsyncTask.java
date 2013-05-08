@@ -29,8 +29,6 @@ package android.os;
  * executeOnExecutor() used instead.
  */
 
-
-//import java.util.ArrayDeque;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
@@ -44,14 +42,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import android.os.Handler;
 import android.os.Message;
 import android.os.Process;
 
-/**
- * ### I delete this comments as it make the answer too long to submit ###
- */
+@SuppressWarnings("all")
 public abstract class AsyncTask<Params, Progress, Result> {
     private static final String LOG_TAG = "AsyncTask";
 

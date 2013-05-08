@@ -139,6 +139,12 @@ public class BOINCDefs {
 	    // process exceeded limits; send "abort" message, waiting to exit
 	public static final int PROCESS_QUIT_PENDING                    = 8;
 	    // we've sent it a "quit" message, waiting to exit
+	
+	// custom value, representing booleans of edu.berkeley.boinc.rpc.Result
+	public static final int RESULT_SUSPENDED_VIA_GUI				= 100;
+		// process goes back to PROCESS_UNINITIALIZED after suspending
+	public static final int RESULT_PROJECT_SUSPENDED				= 101;
+	public static final int RESULT_READY_TO_REPORT					= 102;
 
 	
 	// states in which the process has exited

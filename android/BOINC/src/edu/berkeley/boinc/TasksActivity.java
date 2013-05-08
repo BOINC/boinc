@@ -141,7 +141,7 @@ public class TasksActivity extends FragmentActivity {
 				setup = true;
 			}
 		
-			Log.d(TAG,"loadData: data set contains " + data.size() + " results.");
+			//Log.d(TAG,"loadData: data set contains " + data.size() + " results.");
 			listAdapter.notifyDataSetChanged(); //force list adapter to refresh
 		
 		} else {
@@ -189,7 +189,7 @@ public class TasksActivity extends FragmentActivity {
 			this.result = data;
 			Integer currentState = determineState();
 			if (nextState == -1) return;
-			if(currentState == nextState || (nextState == BOINCDefs.PROCESS_SUSPENDED && currentState == BOINCDefs.PROCESS_UNINITIALIZED)) {
+			if(currentState == nextState) {
 				Log.d(TAG,"nextState met! " + nextState);
 				nextState = -1;
 				loopCounter = 0;
@@ -220,7 +220,7 @@ public class TasksActivity extends FragmentActivity {
 					final Integer operation = (Integer)v.getTag();
 					switch(operation) {
 					case RpcClient.RESULT_SUSPEND:
-						nextState = BOINCDefs.PROCESS_SUSPENDED;
+						nextState = BOINCDefs.RESULT_SUSPENDED_VIA_GUI;
 						new ResultOperationAsync().execute(result.project_url, result.name, operation.toString());
 						break;
 					case RpcClient.RESULT_RESUME:
@@ -250,6 +250,9 @@ public class TasksActivity extends FragmentActivity {
 		};
 		
 		public int determineState() {
+			if(result.suspended_via_gui) return BOINCDefs.RESULT_SUSPENDED_VIA_GUI;
+			if(result.project_suspended_via_gui) return BOINCDefs.RESULT_PROJECT_SUSPENDED;
+			if(result.ready_to_report) return BOINCDefs.RESULT_READY_TO_REPORT;
 			if(result.active_task){
 				return result.active_task_state;
 			} else {

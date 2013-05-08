@@ -21,13 +21,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:clickable="true" >
+    android:clickable="true"
+    android:padding="10dp" >
     
-    <TextView android:textAppearance="?android:attr/textAppearanceSmall"
+    <TextView android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/taskHeader"
-        android:text="@string/tasks_header_friendly_name"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:singleLine="true">
     </TextView>
     
     <RelativeLayout 
@@ -37,8 +39,6 @@
         <ProgressBar
         	android:id="@+id/progressBar"
         	style="?android:attr/progressBarStyleHorizontal"
-        	android:layout_marginLeft="10dip"
-        	android:layout_marginRight="10dip"
         	android:layout_width="match_parent"
         	android:layout_height="20dip"
         	android:progressDrawable="@drawable/progressbar_paused" />

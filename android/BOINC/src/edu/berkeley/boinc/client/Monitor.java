@@ -80,9 +80,6 @@ public class Monitor extends Service {
 	private RpcClient rpc = new RpcClient();
 
 	private final Integer maxDuration = 3000; //maximum polling duration
-	
-	private Integer retryRate;
-	private Integer retryAttempts;
 
 
 	// installs client and required files, executes client and reads initial preferences
@@ -126,9 +123,10 @@ public class Monitor extends Service {
 			}
 		}
 
-		
 		// Try to connect to executed Client in loop
 		//
+		Integer retryRate = getResources().getInteger(R.integer.monitor_setup_connection_retry_rate_ms);
+		Integer retryAttempts = getResources().getInteger(R.integer.monitor_setup_connection_retry_attempts);
 		Boolean connected = false;
 		Integer counter = 0;
 		while(!connected && (counter < retryAttempts)) {
@@ -141,8 +139,10 @@ public class Monitor extends Service {
 			} catch (Exception e) {}
 		}
 		
-		if(connected) {
-			// if connection is set up, initial read of preferences
+		if(connected) { // connection established
+			// make client read override settings from file
+			rpc.readGlobalPrefsOverride();
+			// read preferences for GUI to be able to display data
 			GlobalPreferences clientPrefs = rpc.getGlobalPrefsWorkingStruct();
 			Monitor.getClientStatus().setPrefs(clientPrefs);
 		}
@@ -405,18 +405,22 @@ public class Monitor extends Service {
 		//
     	android.os.Process.sendSignal(clientPid, android.os.Process.SIGNAL_QUIT);
     	
-    	// Wait for up to 60 seconds for the client to shutdown gracefully
-    	Integer loopCounter = 0;
-    	while((loopCounter < 12) && (getPidForProcessName(processName) != null)) {
-    		loopCounter++;
+    	// Wait for the client to shutdown gracefully
+    	Integer attempts = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_os_check_attempts);
+    	Integer sleepPeriod = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_os_check_rate_ms);
+    	for(int x = 0; x < attempts; x++) {
 			try {
-				Thread.sleep(5000);
+				Thread.sleep(sleepPeriod);
 			} catch (Exception e) {}
+    		if(getPidForProcessName(processName) == null) { //client is now closed
+        		Log.d(TAG,"quitClient: gracefull SIGQUIT shutdown successful after " + x + " seconds");
+    			x = attempts;
+    		}
     	}
     	
-    	// Process is still alive, sind SIGKILL
     	clientPid = getPidForProcessName(processName);
     	if(clientPid != null) {
+    		// Process is still alive, send SIGKILL
     		Log.w(TAG, "SIGQUIT failed. SIGKILL pid: " + clientPid);
     		android.os.Process.killProcess(clientPid);
     	}
@@ -476,9 +480,6 @@ public class Monitor extends Service {
 		authFileName = getString(R.string.auth_file_name); 
 		allProjectsList = getString(R.string.all_projects_list); 
 		globalOverridePreferences = getString(R.string.global_prefs_override);
-
-		retryRate = getResources().getInteger(R.integer.monitor_setup_connection_retry_rate_ms);
-		retryAttempts = getResources().getInteger(R.integer.monitor_setup_connection_retry_attempts);
 		
 		// initialize singleton helper classes and provide application context
 		clientStatus = new ClientStatus(this);
@@ -568,6 +569,8 @@ public class Monitor extends Service {
     // exits both, UI and BOINC client. 
     // BLOCKING! call from AsyncTask!
     public void quitClient() {
+    	String processName = clientPath + clientName;
+    	
     	monitorRunning = false; // stops ClientMonitorAsync loop
     	monitorThread.interrupt(); // wakening ClientMonitorAsync from sleep
     	// ClientMonitorAsync is not using RPC anymore
@@ -581,14 +584,27 @@ public class Monitor extends Service {
     	// there might be still other AsyncTasks executing RPCs
     	// close sockets in a synchronized way
     	rpc.close();
+    	// there are now no more RPCs...
     	
-    	// give client 10 seconds to shutdown gracefully
-		try {
-			Thread.sleep(10000);
-		} catch (Exception e) {}
+    	// graceful RPC shutdown waiting period...
+    	Boolean success = false;
+    	Integer attempts = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_attempts);
+    	Integer sleepPeriod = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_rate_ms);
+    	for(int x = 0; x < attempts; x++) {
+    		try {
+    			Thread.sleep(sleepPeriod);
+    		} catch (Exception e) {}
+    		if(getPidForProcessName(processName) == null) { //client is now closed
+        		Log.d(TAG,"quitClient: gracefull RPC shutdown successful after " + x + " seconds");
+    			success = true;
+    			x = attempts;
+    		}
+    	}
     	
-    	// there are now more RPCs going on
-    	quitProcessOsLevel(clientPath + clientName);
+    	if(!success) {
+    		// graceful RPC shutdown was not successful, try OS signals
+        	quitProcessOsLevel(processName);
+    	}
     	
     	// set client status to SETUP_STATUS_CLOSED to adapt layout accordingly
 		getClientStatus().setSetupStatus(ClientStatus.SETUP_STATUS_CLOSED,true);
@@ -934,14 +950,18 @@ public class Monitor extends Service {
 						Log.d(TAG, "client status connection problem");
 					}
 					
-			        Intent clientStatus = new Intent();
-			        clientStatus.setAction("edu.berkeley.boinc.clientstatus");
-			        getApplicationContext().sendBroadcast(clientStatus);
-			        
-			        sleep = true;
+					// check whether monitor is still intended to update, if not, skip broadcast and exit...
+					if(monitorRunning) {
+				        Intent clientStatus = new Intent();
+				        clientStatus.setAction("edu.berkeley.boinc.clientstatus");
+				        getApplicationContext().sendBroadcast(clientStatus);
+				        
+				        sleep = true;
+					}
 				}
 				
 				if(sleep) {
+					sleep = false;
 		    		try {
 		    			Thread.sleep(refreshFrequency);
 		    		} catch(InterruptedException e) {Log.d(TAG,"sleep interrupted");}

@@ -29,6 +29,7 @@ import edu.berkeley.boinc.utils.BOINCDefs;
 import android.app.Activity;
 import android.content.Context;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +42,7 @@ import android.widget.TextView;
 
 public class TasksListAdapter extends ArrayAdapter<TaskData>{
 	
-	//private final String TAG = "TasksListAdapter";
+	private final String TAG = "TasksListAdapter";
 	private ArrayList<TaskData> entries;
 	private Activity activity;
  
@@ -71,16 +72,19 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 		pb.setProgressDrawable(this.activity.getResources().getDrawable((determineProgressBarLayout(listItem))));
 		
 		//v.setTag(listItem.name);
-		String headerT = getContext().getString(R.string.tasks_header_friendly_name) + " " + listItem.result.app.getName();
+		String headerT = listItem.result.app.getName();
 		header.setText(headerT);
 		
-		Float fraction =  listItem.result.fraction_done;
-		if(!listItem.result.active_task && listItem.result.ready_to_report) { //fraction not available, set it to 100
-			fraction = Float.valueOf((float) 1.0);
+		Float fraction = Float.valueOf((float) 1.0); // default is 100 (e.g. abort show full red progress bar)
+		if(!listItem.result.active_task && listItem.result.ready_to_report) { //fraction not available
+			progress.setVisibility(View.GONE);
+			pb.setProgress(Math.round(fraction * pb.getMax()));
+		} else { // fraction available
+			fraction =  listItem.result.fraction_done;
+			pb.setProgress(Math.round(fraction * pb.getMax()));
+			progress.setVisibility(View.VISIBLE);
+			progress.setText(Math.round(fraction * 100) + "%");
 		}
-		pb.setProgress(Math.round(fraction * pb.getMax()));
-		String pT = Math.round(fraction * 100) + "%";
-		progress.setText(pT);
 		
 		String statusT = determineStatusText(listItem);
 		status.setText(statusT);
@@ -99,6 +103,9 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 			String tempProjectName = listItem.result.project_url;
 			if(listItem.result.project != null) {
 				tempProjectName = listItem.result.project.getName();
+				if(listItem.result.project_suspended_via_gui) {
+					tempProjectName = tempProjectName + " " + getContext().getString(R.string.tasks_header_project_paused);
+				}
 			}
 			((TextView) v.findViewById(R.id.projectName)).setText(getContext().getString(R.string.tasks_header_project_name) + " " + tempProjectName);
 			// set application friendly name
@@ -121,12 +128,20 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 				if (listItem.nextState == -1) { // not waiting for new state
 					((LinearLayout)v.findViewById(R.id.requestPendingWrapper)).setVisibility(View.GONE);
 					((LinearLayout)v.findViewById(R.id.taskButtons)).setVisibility(View.VISIBLE);
-					if (listItem.determineState() == BOINCDefs.PROCESS_EXECUTING) {
-						suspendResume.setImageResource(R.drawable.pausew24);
-						suspendResume.setTag(RpcClient.RESULT_SUSPEND); // tag on button specified operation triggered in iconClickListener
-					} else {
+					
+					// checking what suspendResume button should be shown
+					if(listItem.result.suspended_via_gui) { // show play
+						suspendResume.setVisibility(View.VISIBLE);
 						suspendResume.setImageResource(R.drawable.playw24);
 						suspendResume.setTag(RpcClient.RESULT_RESUME); // tag on button specified operation triggered in iconClickListener
+						
+					} else if (listItem.determineState() == BOINCDefs.PROCESS_EXECUTING){ // show pause
+						suspendResume.setVisibility(View.VISIBLE);
+						suspendResume.setImageResource(R.drawable.pausew24);
+						suspendResume.setTag(RpcClient.RESULT_SUSPEND); // tag on button specified operation triggered in iconClickListener
+						
+					} else { // show nothing
+						suspendResume.setVisibility(View.GONE);
 					}
 				} else {
 					((LinearLayout)v.findViewById(R.id.taskButtons)).setVisibility(View.GONE);
@@ -141,76 +156,70 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 	}
 
 	private String determineStatusText(TaskData tmp) {
-		String text = "";
+		
+		//read status
+		Integer status = tmp.determineState();
+		//Log.d(TAG,"determineStatusText for status: " + status);
+		
+		// custom state
+		if(status == BOINCDefs.RESULT_SUSPENDED_VIA_GUI) return activity.getString(R.string.tasks_custom_suspended_via_gui);
+		if(status == BOINCDefs.RESULT_PROJECT_SUSPENDED) return activity.getString(R.string.tasks_custom_project_suspended_via_gui);
+		if(status == BOINCDefs.RESULT_READY_TO_REPORT) return activity.getString(R.string.tasks_custom_ready_to_report);
+		
+		//active state
 		if(tmp.result.active_task) {
-			switch (tmp.result.active_task_state) {
+			switch(status) {
 			case BOINCDefs.PROCESS_UNINITIALIZED:
-				text = activity.getString(R.string.tasks_active_uninitialized);
-				break;
+				return activity.getString(R.string.tasks_active_uninitialized);
 			case BOINCDefs.PROCESS_EXECUTING:
-				text = activity.getString(R.string.tasks_active_executing);
-				break;
+				return activity.getString(R.string.tasks_active_executing);
 			case BOINCDefs.PROCESS_ABORT_PENDING:
-				text = activity.getString(R.string.tasks_active_abort_pending);
-				break;
+				return activity.getString(R.string.tasks_active_abort_pending);
 			case BOINCDefs.PROCESS_QUIT_PENDING:
-				text = activity.getString(R.string.tasks_active_quit_pending);
-				break;
+				return activity.getString(R.string.tasks_active_quit_pending);
 			case BOINCDefs.PROCESS_SUSPENDED:
-				text = activity.getString(R.string.tasks_active_suspended);
-				break;
+				return activity.getString(R.string.tasks_active_suspended);
+			default:
+				Log.w(TAG,"determineStatusText could not map: " + tmp.determineState());
+				return "";
 			}
-		} else {
-			switch (tmp.result.state) {
+		} else { 
+			// passive state
+			switch(status) {
 			case BOINCDefs.RESULT_NEW:
-				text = activity.getString(R.string.tasks_result_new);
-				break;
+				return activity.getString(R.string.tasks_result_new);
 			case BOINCDefs.RESULT_FILES_DOWNLOADING:
-				text = activity.getString(R.string.tasks_result_files_downloading);
-				break;
+				return activity.getString(R.string.tasks_result_files_downloading);
 			case BOINCDefs.RESULT_FILES_DOWNLOADED:
-				text = activity.getString(R.string.tasks_result_files_downloaded);
-				break;
+				return activity.getString(R.string.tasks_result_files_downloaded);
 			case BOINCDefs.RESULT_COMPUTE_ERROR:
-				text = activity.getString(R.string.tasks_result_compute_error);
-				break;
+				return activity.getString(R.string.tasks_result_compute_error);
 			case BOINCDefs.RESULT_FILES_UPLOADING:
-				text = activity.getString(R.string.tasks_result_files_uploading);
-				break;
+				return activity.getString(R.string.tasks_result_files_uploading);
 			case BOINCDefs.RESULT_FILES_UPLOADED:
-				text = activity.getString(R.string.tasks_result_files_uploaded);
-				break;
+				return activity.getString(R.string.tasks_result_files_uploaded);
 			case BOINCDefs.RESULT_ABORTED:
-				text = activity.getString(R.string.tasks_result_aborted);
-				break;
+				return activity.getString(R.string.tasks_result_aborted);
 			case BOINCDefs.RESULT_UPLOAD_FAILED:
-				text = activity.getString(R.string.tasks_result_upload_failed);
-				break;
+				return activity.getString(R.string.tasks_result_upload_failed);
+			default:
+				Log.w(TAG,"determineStatusText could not map: " + tmp.determineState());
+				return "";
 			}
 		}
-		return text;
 	}
     
 	private Integer determineProgressBarLayout(TaskData tmp) {
-		if(tmp.result.active_task) {
-			if(tmp.result.active_task_state == BOINCDefs.PROCESS_EXECUTING) {
-				//running
-				return R.drawable.progressbar_active;
-			} else {
-				//suspended - ready to run
-				return R.drawable.progressbar_paused;
-			}
-		} else {
-			if((tmp.result.state == BOINCDefs.RESULT_ABORTED) || (tmp.result.state == BOINCDefs.RESULT_UPLOAD_FAILED) || (tmp.result.state == BOINCDefs.RESULT_COMPUTE_ERROR)) { 
-				//error
-				return R.drawable.progressbar_error;
-			} else if (tmp.result.ready_to_report) {
-				//finished
-				return R.drawable.progressbar_active;
-			} else {
-				//paused or stopped
-				return R.drawable.progressbar_paused;
-			}
+		switch(tmp.determineState()){
+		case BOINCDefs.PROCESS_EXECUTING:
+		case BOINCDefs.RESULT_READY_TO_REPORT:
+			return R.drawable.progressbar_active;
+		case BOINCDefs.RESULT_ABORTED:
+		case BOINCDefs.RESULT_UPLOAD_FAILED:
+		case BOINCDefs.RESULT_COMPUTE_ERROR:
+			return R.drawable.progressbar_error;
+		default:
+			return R.drawable.progressbar_paused;
 		}
 	}
 }
