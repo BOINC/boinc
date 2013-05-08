@@ -124,6 +124,7 @@ public:
     CSkinImage*         GetDialogBackgroundImage() { return &m_DialogBackgroundImage; }
     CSkinImage*         GetProjectImage() { return &m_ProjectImage; }
     wxColour            GetStaticLineColor() { return m_StaticLineColor; }
+    wxColour            GetNoticeAlertColor() { return m_NoticeAlertColor; }
     CSkinImage*         GetWorkunitAnimationImage() { return &m_WorkunitAnimationImage; }
     CSkinImage*         GetWorkunitRunningImage() { return &m_WorkunitRunningImage; }
     CSkinImage*         GetWorkunitSuspendedImage() { return &m_WorkunitSuspendedImage; }
@@ -135,6 +136,7 @@ private:
     CSkinImage          m_DialogBackgroundImage;
     CSkinImage          m_ProjectImage;
 	wxColour            m_StaticLineColor;
+	wxColour            m_NoticeAlertColor;
     CSkinImage          m_WorkunitAnimationImage;
     CSkinImage          m_WorkunitRunningImage;
     CSkinImage          m_WorkunitSuspendedImage;
