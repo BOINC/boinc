@@ -45,12 +45,12 @@ locale_dirs = \
 install-data-hook:
 	mydir=$(DESTDIR)$(datadir) ;\
 	for ldir in $(locale_dirs) ; do \
-	  $(INSTALL) -d $$mydir/$$ldir ; \
+	  $(INSTALL_DATA) -d $$mydir/$$ldir ; \
 	  if [ -f $$ldir/BOINC-Manager.mo ] ; then \
-	    $(INSTALL) $$ldir/BOINC-Manager.mo $$mydir/$$ldir/BOINC-Manager.mo ; \
+	    $(INSTALL_DATA) $$ldir/BOINC-Manager.mo $$mydir/$$ldir/BOINC-Manager.mo ; \
 	  fi ;\
 	  if [ -f $$ldir/BOINC-Client.mo ] ; then \
-	    $(INSTALL) $$ldir/BOINC-Client.mo $$mydir/$$ldir/BOINC-Client.mo ; \
+	    $(INSTALL_DATA) $$ldir/BOINC-Client.mo $$mydir/$$ldir/BOINC-Client.mo ; \
 	  fi ;\
 	done
 
