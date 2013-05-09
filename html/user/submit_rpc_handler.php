@@ -147,12 +147,12 @@ function submit_job($job, $template, $app, $batch_id, $i, $priority) {
 function xml_get_jobs($r) {
     $jobs = array();
     foreach($r->batch->job as $j) {
-        $job = null;
+        $job = new StdClass;
         $job->input_files = array();
         $job->command_line = (string)$j->command_line;
         $job->rsc_fpops_est = (double)$j->rsc_fpops_est;
         foreach ($j->input_file as $f) {
-            $file = null;
+            $file = new StdClass;
             $file->mode = (string)$f->mode;
             $file->source = (string)$f->source;
             $job->input_files[] = $file;
