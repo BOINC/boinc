@@ -115,6 +115,8 @@ struct TASK {
     double starting_cpu;
         // how much CPU time was used by tasks before this one
     bool suspended;
+    double time_limit;
+    double elapsed_time;
 #ifdef _WIN32
     HANDLE pid_handle;
     DWORD pid;
@@ -355,6 +357,7 @@ int TASK::parse(XML_PARSER& xp) {
     is_daemon = false;
     multi_process = false;
     append_cmdline_args = false;
+    time_limit = 0;
 
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
@@ -391,6 +394,7 @@ int TASK::parse(XML_PARSER& xp) {
         else if (xp.parse_bool("daemon", is_daemon)) continue;
         else if (xp.parse_bool("multi_process", multi_process)) continue;
         else if (xp.parse_bool("append_cmdline_args", append_cmdline_args)) continue;
+        else if (xp.parse_double("time_limit", time_limit)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -759,7 +763,11 @@ int TASK::run(int argct, char** argvt) {
         if (!exec_dir.empty()) {
             retval = chdir(exec_dir.c_str());
             if (!retval) {
-                fprintf(stderr, "chdir() to %s failed\n", exec_dir.c_str());
+                fprintf(stderr,
+                    "%s chdir() to %s failed\n",
+                    boinc_msg_prefix(buf, sizeof(buf)),
+                    exec_dir.c_str()
+                );
                 exit(1);
             }
         }
@@ -779,10 +787,24 @@ int TASK::run(int argct, char** argvt) {
     }  // pid = 0 i.e. child proc of the fork
 #endif
     suspended = false;
+    elapsed_time = 0;
     return 0;
 }
 
+// return true if task exited
+//
 bool TASK::poll(int& status) {
+    char buf[256];
+    if (time_limit && elapsed_time > time_limit) {
+        fprintf(stderr,
+            "%s task %s reached time limit %.0f\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            application.c_str(), time_limit
+        );
+        kill();
+        status = 0;
+        return true;
+    }
 #ifdef _WIN32
     unsigned long exit_code;
     if (GetExitCodeProcess(pid_handle, &exit_code)) {
@@ -790,7 +812,8 @@ bool TASK::poll(int& status) {
             status = exit_code;
             final_cpu_time = current_cpu_time;
 #ifdef DEBUG
-            fprintf(stderr, "process exited; current CPU %f final CPU %f\n",
+            fprintf(stderr, "%s process exited; current CPU %f final CPU %f\n",
+                boinc_message_prefix(buf, sizeof(buf)),
                 current_cpu_time, final_cpu_time
             );
 #endif
@@ -807,7 +830,8 @@ bool TASK::poll(int& status) {
         final_cpu_time = (float)ru.ru_utime.tv_sec + ((float)ru.ru_utime.tv_usec)/1e+6;
         final_cpu_time -= start_rusage;
 #ifdef DEBUG
-        fprintf(stderr, "process exited; current CPU %f final CPU %f\n",
+        fprintf(stderr, "%s process exited; current CPU %f final CPU %f\n",
+            boinc_message_prefix(buf, sizeof(buf)),
             current_cpu_time, final_cpu_time
         );
 #endif
@@ -823,7 +847,6 @@ bool TASK::poll(int& status) {
 // kill this task (gracefully if possible) and any other subprocesses
 //
 void TASK::kill() {
-    kill_daemons();
 #ifdef _WIN32
     kill_descendants();
 #else
@@ -871,16 +894,19 @@ void poll_boinc_messages(TASK& task) {
     if (status.no_heartbeat) {
         debug_msg("wrapper: kill");
         task.kill();
+        kill_daemons();
         exit(0);
     }
     if (status.quit_request) {
         debug_msg("wrapper: quit");
         task.kill();
+        kill_daemons();
         exit(0);
     }
     if (status.abort_request) {
         debug_msg("wrapper: abort");
         task.kill();
+        kill_daemons();
         exit(0);
     }
     if (status.suspended) {
@@ -932,6 +958,7 @@ int main(int argc, char** argv) {
     double total_weight=0, weight_completed=0;
     double checkpoint_cpu_time;
         // total CPU time at last checkpoint
+    char buf[256];
 
 #ifdef _WIN32
     SetPriorityClass(GetCurrentProcess(), NORMAL_PRIORITY_CLASS);
@@ -945,7 +972,10 @@ int main(int argc, char** argv) {
 
     retval = parse_job_file();
     if (retval) {
-        fprintf(stderr, "can't parse job file: %d\n", retval);
+        fprintf(stderr, "%s can't parse job file: %d\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            retval
+        );
         boinc_finish(retval);
     }
 
@@ -971,13 +1001,17 @@ int main(int argc, char** argv) {
     options.handle_process_control = true;
 
     boinc_init_options(&options);
-    fprintf(stderr, "wrapper: starting\n");
+    fprintf(stderr,
+        "%s wrapper: starting\n",
+        boinc_msg_prefix(buf, sizeof(buf))
+    );
 
     boinc_get_init_data(aid);
 
     if (ntasks_completed > (int)tasks.size()) {
         fprintf(stderr,
-            "Checkpoint file: ntasks_completed too large: %d > %d\n",
+            "%s Checkpoint file: ntasks_completed too large: %d > %d\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
             ntasks_completed, (int)tasks.size()
         );
         boinc_finish(1);
@@ -988,7 +1022,11 @@ int main(int argc, char** argv) {
 
     retval = start_daemons(argc, argv);
     if (retval) {
-        fprintf(stderr, "start_daemons(): %d\n", retval);
+        fprintf(stderr,
+            "%s start_daemons(): %d\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            retval
+        );
         kill_daemons();
         boinc_finish(retval);
     }
@@ -1014,7 +1052,11 @@ int main(int argc, char** argv) {
             int status;
             if (task.poll(status)) {
                 if (status) {
-                    fprintf(stderr, "app exit status: 0x%x\n", status);
+                    fprintf(stderr,
+                        "%s app exit status: 0x%x\n",
+                        boinc_msg_prefix(buf, sizeof(buf)),
+                        status
+                    );
                     // On Unix, if the app is non-executable,
                     // the child status will be 0x6c00.
                     // If we return this the client will treat it
@@ -1037,7 +1079,9 @@ int main(int argc, char** argv) {
                 cpu_time = task.cpu_time();
             }
 #ifdef DEBUG
-            fprintf(stderr, "cpu time %f, checkpoint CPU time %f frac done %f\n",
+            fprintf(stderr,
+                "%s cpu time %f, checkpoint CPU time %f frac done %f\n",
+                boinc_msg_prefix(buf, sizeof(buf)),
                 task.starting_cpu + cpu_time,
                 checkpoint_cpu_time,
                 frac_done + delta
@@ -1054,11 +1098,15 @@ int main(int argc, char** argv) {
                 write_checkpoint(i, checkpoint_cpu_time);
             }
             boinc_sleep(POLL_PERIOD);
+            if (!task.suspended) {
+                task.elapsed_time += POLL_PERIOD;
+            }
             counter++;
         }
         checkpoint_cpu_time = task.starting_cpu + task.final_cpu_time;
 #ifdef DEBUG
-        fprintf(stderr, "cpu time %f, checkpoint CPU time %f frac done %f\n",
+        fprintf(stderr, "%s cpu time %f, checkpoint CPU time %f frac done %f\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
             task.starting_cpu + task.final_cpu_time,
             checkpoint_cpu_time,
             frac_done + task.weight/total_weight
