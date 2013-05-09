@@ -34,6 +34,8 @@ struct CODING {
 struct POLICY {
     int replication;
     int coding_levels;
+    int max_ft;
+        // max fault tolerance given this policy
     CODING codings[10];
     double chunk_sizes[10];
     double chunk_size() {

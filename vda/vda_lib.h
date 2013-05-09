@@ -30,6 +30,9 @@
 #include "stats.h"
 #include "vda_policy.h"
 
+extern bool debug_status;
+extern bool debug_ft;
+
 // a host with rpc_time < now-HOST_TIMEOUT is considered dead.
 // Make sure you set next_rpc_delay accordingly (e.g., to 86400)
 //

@@ -29,7 +29,8 @@
 using std::vector;
 using std::set;
 
-#define DEBUG_RECOVERY
+bool debug_status = false;
+bool debug_ft = false;
 
 ///////////////// Utility functions ///////////////////////
 
@@ -47,14 +48,13 @@ bool compare_min_failures(const DATA_UNIT* d1, const DATA_UNIT* d2) {
 
 char* time_str(double t) {
     static char buf[256];
-    int n = (int)t;
-    int nsec = n % 60;
-    n /= 60;
-    int nmin = n % 60;
-    n /= 60;
-    int nhour = n % 24;
-    n /= 24;
-    sprintf(buf, "%4d days %02d:%02d:%02d", n, nhour, nmin, nsec);
+    int nsec = (int)fmod(t, 60);
+    t /= 60;
+    int nmin = (int)fmod(t, 60);
+    t /= 60;
+    int nhour = (int)fmod(t, 24);
+    t /= 24;
+    sprintf(buf, "%4d days %02d:%02d:%02d", (int)t, nhour, nmin, nsec);
     return buf;
 }
 
@@ -199,18 +199,18 @@ int META_CHUNK::recovery_action(double now) {
     if (data_now_present) {
         status = PRESENT;
     }
-#ifdef DEBUG_RECOVERY
-    printf("   meta chunk %s: status %s have_unrec_children %d\n",
-        name, status_str(status), have_unrecoverable_children
-    );
-#endif
+    if (debug_status) {
+        printf("   meta chunk %s: status %s have_unrec_children %d\n",
+            name, status_str(status), have_unrecoverable_children
+        );
+    }
     for (i=0; i<children.size(); i++) {
         DATA_UNIT* c = children[i];
-#ifdef DEBUG_RECOVERY
-        printf("     child %s status %s in rec set %d\n",
-            c->name, status_str(c->status), c->in_recovery_set
-        );
-#endif
+        if (debug_status) {
+            printf("     child %s status %s in rec set %d\n",
+                c->name, status_str(c->status), c->in_recovery_set
+            );
+        }
         switch (status) {
         case PRESENT:
             if (c->status == UNRECOVERABLE) {
@@ -261,7 +261,7 @@ int META_CHUNK::compute_min_failures() {
     }
     if ((int)(present.size()) >= coding.n) {
         status = PRESENT;
-        min_failures = INT_MAX;
+        min_failures = dfile->policy.max_ft;
     } else if ((int)(present.size() + recoverable.size()) >= coding.n) {
         status = RECOVERABLE;
 
@@ -280,10 +280,14 @@ int META_CHUNK::compute_min_failures() {
         //
         for (i=0; i<j; i++) {
             DATA_UNIT* c = recoverable[i];
-            //printf("  Min failures of %s: %d\n", c->name, c->min_failures);
+            if (debug_ft) {
+                printf("  Min failures of %s: %d\n", c->name, c->min_failures);
+            };
             min_failures += c->min_failures;
         }
-        //printf("  our min failures: %d\n", min_failures);
+        if (debug_ft) {
+            printf("  our min failures: %d\n", min_failures);
+        }
     }
     return 0;
 }
@@ -464,14 +468,14 @@ void CHUNK::recovery_plan() {
     } else {
         status = UNRECOVERABLE;
     }
-#ifdef DEBUG_RECOVERY
-    printf("   chunk %s: status %s\n", name, status_str(status));
-#endif
+    if (debug_status) {
+        printf("   chunk %s: status %s\n", name, status_str(status));
+    }
 }
 
 int CHUNK::compute_min_failures() {
     if (present_on_server) {
-        min_failures = INT_MAX;
+        min_failures = parent->dfile->policy.max_ft;
         return 0;
     }
     int nreplicas = 0;
@@ -502,11 +506,14 @@ int CHUNK::recovery_action(double now) {
     VDA_FILE_AUX* fp = parent->dfile;
     if (data_now_present) {
         present_on_server = true;
+#if 0
         fp->disk_usage.sample_inc(
             size,
             fp->collecting_stats(),
-            now
+            now,
+            "recovery_action: now present"
         );
+#endif
         status = PRESENT;
     }
     if (status == PRESENT && (int)(hosts.size()) < fp->policy.replication) {
@@ -517,11 +524,11 @@ int CHUNK::recovery_action(double now) {
     if (download_in_progress()) {
         keep_present = true;
     }
-#ifdef DEBUG_RECOVERY
-    printf("      chunk %s: data_needed %d present_on_server %d keep_present %d\n",
-        name, data_needed, present_on_server, keep_present
-    );
-#endif
+    if (debug_status) {
+        printf("      chunk %s: data_needed %d present_on_server %d keep_present %d\n",
+            name, data_needed, present_on_server, keep_present
+        );
+    }
     if (present_on_server) {
         if (!keep_present) {
             sprintf(buf,
@@ -536,7 +543,8 @@ int CHUNK::recovery_action(double now) {
             parent->dfile->disk_usage.sample_inc(
                 -size,
                 fp->collecting_stats(),
-                now
+                now,
+                "recovery_action: don't need"
             );
         }
     } else {

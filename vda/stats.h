@@ -37,10 +37,11 @@ struct STATS_ITEM {
     bool first;
     char name[256];
     FILE* f;
+    bool log_changes;
 
     void init(const char* n, const char* filename, STATS_KIND k);
     void sample(double v, bool collecting_stats, double now);
-    void sample_inc(double inc, bool collecting_stats, double now);
+    void sample_inc(double inc, bool collecting_stats, double now, const char* reason=NULL);
     void print(double now);
     void print_summary(FILE* f, double now);
 };

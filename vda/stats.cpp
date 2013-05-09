@@ -39,23 +39,20 @@ void STATS_ITEM::init(const char* n, const char* filename, STATS_KIND k) {
     }
     extreme_val_time = 0;
     first = true;
+    log_changes = false;
 }
 
 void STATS_ITEM::sample(double v, bool collecting_stats, double now) {
-    char buf[256];
-    if (value != v) {
+    if (value != v && log_changes) {
+        char buf[256];
         switch (kind) {
         case DISK:
-#if 0
             sprintf(buf, "%s: %f GB -> %f GB\n", name, value/1e9, v/1e9);
             show_msg(buf);
-#endif
             break;
         case NETWORK:
-#if 0
             sprintf(buf, "%s: %f Mbps -> %f Mbps\n", name, value/1e6, v/1e6);
             show_msg(buf);
-#endif
             break;
         case FAULT_TOLERANCE:
             sprintf(buf, "%s: %.0f -> %.0f\n", name, value, v);
@@ -94,8 +91,11 @@ void STATS_ITEM::sample(double v, bool collecting_stats, double now) {
     fprintf(f, "%f %f\n", now, v);
 }
 
-void STATS_ITEM::sample_inc(double inc, bool collecting_stats, double now) {
+void STATS_ITEM::sample_inc(double inc, bool collecting_stats, double now, const char* reason) {
     sample(value+inc, collecting_stats, now);
+    if (reason) {
+        printf("   reason: %s\n", reason);
+    }
 }
 
 void STATS_ITEM::print(double now) {
