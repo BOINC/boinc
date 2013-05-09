@@ -743,36 +743,158 @@ int VBOX_VM::register_vm() {
     retval = vbm_popen(command, output, "register");
     if (retval) return retval;
 
-    // Tweak the VM from it's default configuration
+    // Tweak the VM's CPU Count
     //
     fprintf(
         stderr,
-        "%s Modifying VM.\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf))
+        "%s Setting CPU Count for VM. (%s)\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+        vm_cpu_count.c_str()
     );
     command  = "modifyvm \"" + vm_name + "\" ";
     command += "--cpus " + vm_cpu_count + " ";
+
+    retval = vbm_popen(command, output, "modifycpu");
+    if (retval) return retval;
+
+    // Tweak the VM's Memory Size
+    //
+    fprintf(
+        stderr,
+        "%s Setting Memory Size for VM. (%sMB)\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+        memory_size_mb.c_str()
+    );
+    command  = "modifyvm \"" + vm_name + "\" ";
     command += "--memory " + memory_size_mb + " ";
+
+    retval = vbm_popen(command, output, "modifymem");
+    if (retval) return retval;
+
+    // Tweak the VM's Chipset Options
+    //
+    fprintf(
+        stderr,
+        "%s Setting Chipset Options for VM.\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf))
+    );
+    command  = "modifyvm \"" + vm_name + "\" ";
     command += "--acpi on ";
     command += "--ioapic on ";
+
+    retval = vbm_popen(command, output, "modifychipset");
+    if (retval) return retval;
+
+    // Tweak the VM's Boot Options
+    //
+    fprintf(
+        stderr,
+        "%s Setting Boot Options for VM.\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf))
+    );
+    command  = "modifyvm \"" + vm_name + "\" ";
     command += "--boot1 disk ";
     command += "--boot2 none ";
     command += "--boot3 none ";
     command += "--boot4 none ";
+
+    retval = vbm_popen(command, output, "modifyboot");
+    if (retval) return retval;
+
+    // Tweak the VM's Network Configuration
+    //
+    fprintf(
+        stderr,
+        "%s Setting Network Configuration for VM.\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf))
+    );
+    command  = "modifyvm \"" + vm_name + "\" ";
     command += "--nic1 nat ";
     command += "--natdnsproxy1 on ";
     command += "--cableconnected1 off ";
+
+    retval = vbm_popen(command, output, "modifynetwork");
+    if (retval) return retval;
+
+    // Tweak the VM's USB Configuration
+    //
+    fprintf(
+        stderr,
+        "%s Disabling USB Support for VM.\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf))
+    );
+    command  = "modifyvm \"" + vm_name + "\" ";
     command += "--usb off ";
     command += "--usbcardreader off ";
+
+    retval = vbm_popen(command, output, "modifyusb", false, false);
+    if (retval) return retval;
+
+    // Tweak the VM's COM Port Support
+    //
+    fprintf(
+        stderr,
+        "%s Disabling COM Port Support for VM.\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf))
+    );
+    command  = "modifyvm \"" + vm_name + "\" ";
     command += "--uart1 off ";
     command += "--uart2 off ";
+
+    retval = vbm_popen(command, output, "modifycom", false, false);
+    if (retval) return retval;
+
+    // Tweak the VM's LPT Port Support
+    //
+    fprintf(
+        stderr,
+        "%s Disabling LPT Port Support for VM.\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf))
+    );
+    command  = "modifyvm \"" + vm_name + "\" ";
     command += "--lpt1 off ";
     command += "--lpt2 off ";
+
+    retval = vbm_popen(command, output, "modifylpt", false, false);
+    if (retval) return retval;
+
+    // Tweak the VM's Audio Support
+    //
+    fprintf(
+        stderr,
+        "%s Disabling Audio Support for VM.\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf))
+    );
+    command  = "modifyvm \"" + vm_name + "\" ";
     command += "--audio none ";
+
+    retval = vbm_popen(command, output, "modifyaudio", false, false);
+    if (retval) return retval;
+
+    // Tweak the VM's Clipboard Support
+    //
+    fprintf(
+        stderr,
+        "%s Disabling Clipboard Support for VM.\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf))
+    );
+    command  = "modifyvm \"" + vm_name + "\" ";
     command += "--clipboard disabled ";
+
+    retval = vbm_popen(command, output, "modifyclipboard", false, false);
+    if (retval) return retval;
+
+    // Tweak the VM's Drag & Drop Support
+    //
+    fprintf(
+        stderr,
+        "%s Disabling Drag and Drop Support for VM.\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf))
+    );
+    command  = "modifyvm \"" + vm_name + "\" ";
     command += "--draganddrop disabled ";
 
-    retval = vbm_popen(command, output, "modify");
+    retval = vbm_popen(command, output, "modifydragdrop", false, false);
     if (retval) return retval;
 
     // Only perform hardware acceleration check on 32-bit VM types, 64-bit VM types require it.
