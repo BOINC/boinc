@@ -31,8 +31,31 @@ function boincuser_menu() {
     'title' => 'Profile',
     'description' => 'Show a user profile',
     'page callback' => 'boincuser_view_profile',
-    'access callback' => TRUE,
+    'access arguments' => array('access content'),
     'type' => MENU_CALLBACK
+  );
+  $items['join'] = array(
+    'title' => '',
+    'description' => '',
+    'page callback' => 'join_page',
+    'access arguments' => array('access content'),
+    'type' => MENU_NORMAL_ITEM
+  );
+  $items['join/new'] = array(
+    'title' => t('I\'m new'),
+    'page callback' => 'join_page',
+    'page arguments' => array(1),
+    'access arguments' => array('access content'),
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => 0
+  );
+  $items['join/boinc'] = array(
+    'title' => t('I\'m a BOINC user'),
+    'page callback' => 'join_page',
+    'page arguments' => array(1),
+    'access arguments' => array('access content'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 5
   );
   $items['admin/boinc'] = array(
     'title' => 'BOINC configuration',
@@ -548,7 +571,41 @@ function boincuser_view_profile($account = null) {
   user_build_content($account);
   return theme('user_profile', $account);
 }
- 
+
+/**
+  * Join page menu callback.
+  * Display instructions on joining for new or existing BOINC users
+  */
+function join_page($type = null) {
+  global $base_url;
+  $output = '<div class="join">';
+  switch ($type) {
+  case 'boinc':
+    $output .= '<p>' . t('If you\'re already running BOINC, select Attach to
+      Project.') . '</p>';
+    $output .= '<p>' . t('If you\'re running a command-line or pre-5.0 version
+      of BOINC, !create_an_account first.', array('!create_an_account' => 
+        l(t('create an account'), 'user/register'))) . '</p>';
+    break;
+  case 'new':
+  default:
+    $output .= '<ol>';
+    $output .= '  <li>' . t('Download the desktop software');
+    $output .= '    <p class="platforms">';
+    $output .= '      <a href="files/boinc_windows_intelx86.exe" class="platform windows">Windows</a>';
+    $output .= '      <a href="files/boinc_macOSX_universal.zip" class="platform mac">Mac</a>';
+    $output .= '      <a href="files/boinc_i686-pc-linux-gnu.sh" class="platform linux">Linux</a>';
+    $output .= '    </p>';
+    $output .= '  </li>';
+    $output .= '  <li>' . t('Run the installer') . '</li>';
+    $output .= '  <li>' . t('When prompted enter @siteurl', array(
+      '@siteurl' => $base_url)) . '</li>';
+    $output .=  '</ol>';
+  }
+  $output .= '</div>';
+  return $output;
+}
+
 /**
  * Page callback for the create account RPC (create_account.php).
  * Create a new user account based on supplied parameters.
