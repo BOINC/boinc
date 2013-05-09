@@ -731,8 +731,8 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
 	checkForNewNoticesTimer->Start(5000); 
 
 	dlgOpen = false;
-    m_sSuspendString = _("Suspend");
-    m_sResumeString = _("Resume");
+    m_sSuspendString = _("Suspend Client");
+    m_sResumeString = _("Resume Client");
     m_sSuspendButtonToolTip = _("Suspend Computing");
     m_sResumeButtonToolTip = _("Resume Computing");
 
