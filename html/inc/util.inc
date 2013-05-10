@@ -32,10 +32,6 @@ if (array_key_exists("PATH_INFO", $_SERVER)) {
 
 ini_set("memory_limit", "256M");
 
-if (!defined('SECURE_URL_BASE')) {
-    define('SECURE_URL_BASE', URL_BASE);
-}
-
 // define TIMEZONE in project.inc
 //
 if (defined('TIMEZONE')) {
@@ -898,6 +894,22 @@ function do_download($path,$name="") {
     header('Content-Length: ' . filesize($path));
     flush();
     readfile($path);
+}
+
+function secure_url_base() {
+    if (defined('SECURE_URL_BASE')) return SECURE_URL_BASE;
+    return URL_BASE;
+}
+
+function redirect_to_secure_url($url) {
+    if (defined('SECURE_URL_BASE')
+        && strstr(SECURE_URL_BASE, "https://")
+        && !$_SERVER['HTTPS']
+    ) {
+        Header("Location: ".SECURE_URL_BASE."/$url");
+        exit;
+
+    }
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

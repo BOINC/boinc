@@ -23,14 +23,7 @@ check_get_args(array("next_url"));
 
 $next_url = sanitize_local_url(get_str('next_url', true));
 
-if (defined('SECURE_URL_BASE')
-    && strstr(SECURE_URL_BASE, "https://")
-    && !$_SERVER['HTTPS']
-) {
-    Header("Location: ".SECURE_URL_BASE."/login_form.php?next_url=$next_url");
-    exit;
-
-}
+redirect_to_secure_url("login_form.php?next_url=$next_url");
 
 $user = get_logged_in_user(false);
 
@@ -45,7 +38,7 @@ echo '
 }
 
 echo "
-    <form name=\"f\" method=\"post\" action=\"".SECURE_URL_BASE."/login_action.php\">
+    <form name=\"f\" method=\"post\" action=\"".secure_url_base()."/login_action.php\">
     <input type=\"hidden\" name=\"next_url\" value=\"$next_url\">
 ";
 start_table();

@@ -22,6 +22,7 @@ require_once("../inc/email.inc");
 
 check_get_args(array());
 
+redirect_to_secure_url("edit_email_form.php");
 db_init();
 $user = get_logged_in_user();
 
@@ -32,7 +33,7 @@ if (is_valid_email_addr($user->email_addr)) {
     $email_text = $user->email_addr;
 }
 
-echo "<form method=post action=edit_email_action.php>\n";
+echo "<form method=post action=".secure_url_base()."/edit_email_action.php>\n";
 start_table();
 row1(tra("Change the email address of your account"));
 row2(tra("New email address").
@@ -46,7 +47,7 @@ row2(tra("New email address").
 
 row2(
     tra("Password").
-    "<br><a href=".SECURE_URL_BASE."/edit_passwd_form.php><span class=note>".tra("No password?")."</span></a>",
+    "<br><a href=".secure_url_base()."/edit_passwd_form.php><span class=note>".tra("No password?")."</span></a>",
     "<input type=password name=passwd>"
 );
 row2("", "<input type=submit value='".tra("Change email address")."'>");
