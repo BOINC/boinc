@@ -26,54 +26,75 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="false"
-        android:layout_centerVertical="false"
-        android:gravity="left"
+        android:layout_alignParentLeft="true"
         android:orientation="vertical" >
 
         <TextView
             android:id="@+id/projectName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Project Name:"
+            android:text="@string/tasks_header_project_name"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
-            android:id="@+id/friendlyAppName"
+            android:id="@+id/taskName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Freindly App Name:"
+            android:text="@string/tasks_header_name"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
             android:id="@+id/deadline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Deadline:"
+            android:text="@string/tasks_header_deadline"
             android:textAppearance="?android:attr/textAppearanceSmall" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/taskButtons"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="right"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:orientation="vertical" >
 
-        <ImageView
+        <ImageButton
             android:id="@+id/abortTask"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="5dp"
             android:clickable="true"
-            android:contentDescription="@drawable/stopw48"
+		    android:background="@android:color/black"
+            android:contentDescription="@string/tasks_button_abort"
             android:src="@drawable/abortw24" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/suspendResumeTask"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="5dp"
             android:clickable="true"
+		    android:background="@android:color/black"
+            android:contentDescription="@string/tasks_button_resume"
             android:src="@drawable/playw24" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/requestPendingWrapper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <ProgressBar
+	        android:id="@+id/request_progressBar"
+	        style="?android:attr/progressBarStyleSmall"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_margin="5dp"/>
     </LinearLayout>
 
 </RelativeLayout>

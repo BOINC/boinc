@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2013 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,10 +16,11 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 /*
- *  SetVersion.c
+ *  SetVersion.cpp
  *  boinc
  *
  *  Created by Charlie Fenton on 3/29/05.
+ *  Last updated by Charlie Fenton on 5/8/13.
  *
  */
 
@@ -30,10 +31,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/param.h>  // for MAXPATHLEN
+#include <sys/stat.h>
 #include "version.h"
 
 int IsFileCurrent(char* filePath);
-int FixInfoPlistFile(char* myPath);
+int file_exists(const char* path);
+int FixInfoPlistFile(char* name);
 int FixInfoPlist_Strings(char* myPath, char* name);
 int MakeBOINCPackageInfoPlistFile(char* myPath, char* brand);
 int MakeMetaPackageInfoPlistFile(char* myPath, char* brand);
@@ -45,46 +49,43 @@ int main(int argc, char** argv) {
     char myPath[1024];
     getcwd(myPath, sizeof(myPath));
     printf("%s\n", myPath);       // For debugging
-    err = chdir("../");
-    getcwd(myPath, sizeof(myPath));
-    printf("%s\n", myPath);       // For debugging
 #endif
 
     // BOINC Manager
     err = FixInfoPlist_Strings("./English.lproj/InfoPlist.strings", "BOINC Manager");
     if (err) retval = err;
-    err = FixInfoPlistFile("./Info.plist");
+    err = FixInfoPlistFile("Info.plist");
     if (err) retval = err;
     
     // BOINC Installer
     err = FixInfoPlist_Strings("./English.lproj/Installer-InfoPlist.strings", "BOINC Installer");
     if (err) retval = err;
-    err = FixInfoPlistFile("./Installer-Info.plist");
+    err = FixInfoPlistFile("Installer-Info.plist");
     if (err) retval = err;
     
     // BOINC PostInstall app
     err = FixInfoPlist_Strings("./English.lproj/PostInstall-InfoPlist.strings", "Install BOINC");
     if (err) retval = err;
-    err = FixInfoPlistFile("./PostInstall-Info.plist");
+    err = FixInfoPlistFile("PostInstall-Info.plist");
     if (err) retval = err;
     
     // BOINC Screen Saver
     err = FixInfoPlist_Strings("./English.lproj/ScreenSaver-InfoPlist.strings", "BOINC Screen Saver");
     if (err) retval = err;
-    err = FixInfoPlistFile("./ScreenSaver-Info.plist");
+    err = FixInfoPlistFile("ScreenSaver-Info.plist");
     if (err) retval = err;
     
     // BOINC Uninstaller
     err = FixInfoPlist_Strings("./English.lproj/Uninstaller-InfoPlist.strings", "Uninstall BOINC");
     if (err) retval = err;
-    err = FixInfoPlistFile("./Uninstaller-Info.plist");
+    err = FixInfoPlistFile("Uninstaller-Info.plist");
     if (err) retval = err;
     
-    err = FixInfoPlistFile("./SystemMenu-Info.plist");
+    err = FixInfoPlistFile("SystemMenu-Info.plist");
     if (err) retval = err;
 
     // WaitPermissions is not currently used
-    err = FixInfoPlistFile("./WaitPermissions-Info.plist");
+    err = FixInfoPlistFile("WaitPermissions-Info.plist");
     if (err) retval = err;
     
     err = MakeBOINCPackageInfoPlistFile("./Pkg-Info.plist", "BOINC Manager");
@@ -117,6 +118,15 @@ int IsFileCurrent(char* filePath) {
 }
 
 
+int file_exists(const char* path) {
+    struct stat buf;
+    if (stat(path, &buf)) {
+        return false;     // stat() returns zero on success
+    }
+    return true;
+}
+
+
 int FixInfoPlist_Strings(char* myPath, char* name) {
     int retval = 0;
     FILE *f;
@@ -130,7 +140,7 @@ int FixInfoPlist_Strings(char* myPath, char* name) {
         fprintf(f, "/* Localized versions of Info.plist keys */\n\n");
         fprintf(f, "CFBundleName = \"%s\";\n", name);
         fprintf(f, "CFBundleShortVersionString = \"%s version %s\";\n", name, BOINC_VERSION_STRING);
-        fprintf(f, "CFBundleGetInfoString = \"%s version %s, Copyright 2012 University of California.\";\n", name, BOINC_VERSION_STRING);
+        fprintf(f, "CFBundleGetInfoString = \"%s version %s, Copyright 2013 University of California.\";\n", name, BOINC_VERSION_STRING);
         fflush(f);
         retval = fclose(f);
     }
@@ -142,24 +152,31 @@ int FixInfoPlist_Strings(char* myPath, char* name) {
     return retval;
 }
 
-
-int FixInfoPlistFile(char* myPath) {
+int FixInfoPlistFile(char* name) {
     int retval = 0;
     FILE *fin = NULL, *fout = NULL;
     char *c, a, buf[1024];
+    char srcPath[MAXPATHLEN], dstPath[MAXPATHLEN];
+
+    strcpy(dstPath, "./");
+    strcat(dstPath, name);
     
-    if (IsFileCurrent(myPath))
+    strcpy(srcPath, "../clientgui/mac/templates/");
+    strcat(srcPath, name);
+    
+    if (IsFileCurrent(dstPath))
         return 0;
 
-    rename(myPath, "./temp");
-//    sprintf(buf, "mv -f %s temp", myPath);
-//    retval = system(buf);
+    // Save the old file in case there is an error updating it
+    if (file_exists(dstPath)) {
+        rename(dstPath, "./temp");
+    }
 
-    fin = fopen("temp", "r");
+    fin = fopen(srcPath, "r");
     if (fin == NULL)
         goto bail;
 
-    fout = fopen(myPath, "w");
+    fout = fopen(dstPath, "w");
     if (fout == NULL) {
         goto bail;
     }
@@ -205,7 +222,7 @@ int FixInfoPlistFile(char* myPath) {
     fclose(fin);
     fflush(fout);
     fclose(fout);
-    
+        
     unlink("temp");
     
     return retval;
@@ -216,11 +233,16 @@ bail:
     if (fout)
         fclose(fout);
 
-    rename("./temp", myPath);
+    if (file_exists("./temp")) {
+        rename("./temp", dstPath);
 //    sprintf(buf, "mv -f temp %s", myPath);
 //    retval = system(buf);
+    } else {
+        sprintf(buf, "cp -f %s %s", srcPath, dstPath);
+        retval = system(buf);
+    }
     
-    printf("Error updating version number in file %s\n", myPath);
+    printf("Error updating version number in file %s\n", dstPath);
     return -1;
 }
 

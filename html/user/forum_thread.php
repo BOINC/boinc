@@ -74,10 +74,10 @@ $title = cleanup_title($thread->title);
 if ($temp_sort_style) {
     $sort_style = $temp_sort_style;
 } else if ($sort_style) {
+    $forum_style = 0;   // this is deprecated
     if ($logged_in_user){
         $logged_in_user->prefs->thread_sorting = $sort_style;
         $logged_in_user->prefs->update("thread_sorting=$sort_style");
-        $forum_style = 0;   // I guess this is deprecated
     } else if (array_key_exists('sorting', $_COOKIE)) {
         list($forum_style, $old_style) = explode("|", $_COOKIE['sorting']);
     }

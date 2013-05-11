@@ -80,7 +80,7 @@ if ($forum) {
 
 $items = array();
 foreach ($notifies as $n) {
-    $i = null;
+    $i = new StdClass;
     $i->type = 0;
     $i->time = $n->create_time;
     $i->val = $n;
@@ -88,7 +88,7 @@ foreach ($notifies as $n) {
 }
 
 foreach ($threads as $t) {
-    $i = null;
+    $i = new StdClass;
     $i->type = 1;
     $i->time = $t->create_time;
     $i->val = $t;

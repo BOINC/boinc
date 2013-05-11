@@ -86,8 +86,7 @@ public class StatusActivity extends Activity {
 	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context,Intent intent) {
-			String action = intent.getAction();
-			Log.d(TAG+"-localClientStatusRecNoisy","received action " + action);
+			//Log.d(TAG+"-localClientStatusRecNoisy","received action " + intent.getAction());
 			loadLayout(); // load layout, function distincts whether there is something to do
 		}
 	};

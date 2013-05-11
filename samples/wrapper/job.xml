@@ -1,15 +1,10 @@
 <job_desc>
     <task>
-        <application>./echo</application>
-        <command_line>Hello World</command_line>
+        <application>worker</application>
+        <command_line>40</command_line>
+        <stdin_filename>stdin_file</stdin_filename>
         <stdout_filename>stdout_file</stdout_filename>
         <stderr_filename>stderr_file</stderr_filename>
+        <time_limit>5</time_limit>
     </task>
-    <unzip_input>
-        <zipfilename>in.zip</zipfilename>
-    </unzip_input>
-    <zip_output>
-        <zipfilename>out.zip</zipfilename>
-        <filename>stderr.txt</filename>
-    </zip_output>
 </job_desc>

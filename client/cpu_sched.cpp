@@ -1567,7 +1567,11 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         if (rp->non_cpu_intensive() && rp->runnable()) {
             atp = get_task(rp);
             atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
-            ram_left -= atp->procinfo.working_set_size_smoothed;
+
+            // don't count RAM usage because it's used sporadically,
+            // and doing so can starve other jobs
+            //
+            //ram_left -= atp->procinfo.working_set_size_smoothed;
             swap_left -= atp->procinfo.swap_size;
         }
         if (rp->schedule_backoff) {

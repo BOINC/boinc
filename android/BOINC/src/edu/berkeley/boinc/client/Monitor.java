@@ -80,9 +80,6 @@ public class Monitor extends Service {
 	private RpcClient rpc = new RpcClient();
 
 	private final Integer maxDuration = 3000; //maximum polling duration
-	
-	private Integer retryRate;
-	private Integer retryAttempts;
 
 
 	// installs client and required files, executes client and reads initial preferences
@@ -126,9 +123,10 @@ public class Monitor extends Service {
 			}
 		}
 
-		
 		// Try to connect to executed Client in loop
 		//
+		Integer retryRate = getResources().getInteger(R.integer.monitor_setup_connection_retry_rate_ms);
+		Integer retryAttempts = getResources().getInteger(R.integer.monitor_setup_connection_retry_attempts);
 		Boolean connected = false;
 		Integer counter = 0;
 		while(!connected && (counter < retryAttempts)) {
@@ -141,8 +139,10 @@ public class Monitor extends Service {
 			} catch (Exception e) {}
 		}
 		
-		if(connected) {
-			// if connection is set up, initial read of preferences
+		if(connected) { // connection established
+			// make client read override settings from file
+			rpc.readGlobalPrefsOverride();
+			// read preferences for GUI to be able to display data
 			GlobalPreferences clientPrefs = rpc.getGlobalPrefsWorkingStruct();
 			Monitor.getClientStatus().setPrefs(clientPrefs);
 		}
@@ -405,25 +405,29 @@ public class Monitor extends Service {
 		//
     	android.os.Process.sendSignal(clientPid, android.os.Process.SIGNAL_QUIT);
     	
-    	// Wait for up to 30 seconds for the client to shutdown gracefully
-    	Integer loopCounter = 0;
-    	while((loopCounter < 6) && (getPidForProcessName(processName) != null)) {
-    		loopCounter++;
+    	// Wait for the client to shutdown gracefully
+    	Integer attempts = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_os_check_attempts);
+    	Integer sleepPeriod = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_os_check_rate_ms);
+    	for(int x = 0; x < attempts; x++) {
 			try {
-				Thread.sleep(5000);
+				Thread.sleep(sleepPeriod);
 			} catch (Exception e) {}
+    		if(getPidForProcessName(processName) == null) { //client is now closed
+        		Log.d(TAG,"quitClient: gracefull SIGQUIT shutdown successful after " + x + " seconds");
+    			x = attempts;
+    		}
     	}
     	
-    	// Process is still alive, sind SIGKILL
     	clientPid = getPidForProcessName(processName);
     	if(clientPid != null) {
-    		Log.d(TAG, "SIGQUIT failed. SIGKILL pid: " + clientPid);
+    		// Process is still alive, send SIGKILL
+    		Log.w(TAG, "SIGQUIT failed. SIGKILL pid: " + clientPid);
     		android.os.Process.killProcess(clientPid);
     	}
     	
     	clientPid = getPidForProcessName(processName);
     	if(clientPid != null) {
-    		Log.d(TAG, "SIGKILL failed. still living pid: " + clientPid);
+    		Log.w(TAG, "SIGKILL failed. still living pid: " + clientPid);
     	}
     }
 	
@@ -476,9 +480,6 @@ public class Monitor extends Service {
 		authFileName = getString(R.string.auth_file_name); 
 		allProjectsList = getString(R.string.all_projects_list); 
 		globalOverridePreferences = getString(R.string.global_prefs_override);
-
-		retryRate = getResources().getInteger(R.integer.monitor_setup_connection_retry_rate_ms);
-		retryAttempts = getResources().getInteger(R.integer.monitor_setup_connection_retry_attempts);
 		
 		// initialize singleton helper classes and provide application context
 		clientStatus = new ClientStatus(this);
@@ -568,6 +569,8 @@ public class Monitor extends Service {
     // exits both, UI and BOINC client. 
     // BLOCKING! call from AsyncTask!
     public void quitClient() {
+    	String processName = clientPath + clientName;
+    	
     	monitorRunning = false; // stops ClientMonitorAsync loop
     	monitorThread.interrupt(); // wakening ClientMonitorAsync from sleep
     	// ClientMonitorAsync is not using RPC anymore
@@ -581,9 +584,27 @@ public class Monitor extends Service {
     	// there might be still other AsyncTasks executing RPCs
     	// close sockets in a synchronized way
     	rpc.close();
+    	// there are now no more RPCs...
     	
-    	// there are now more RPCs going on
-    	quitProcessOsLevel(clientPath + clientName);
+    	// graceful RPC shutdown waiting period...
+    	Boolean success = false;
+    	Integer attempts = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_attempts);
+    	Integer sleepPeriod = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_rate_ms);
+    	for(int x = 0; x < attempts; x++) {
+    		try {
+    			Thread.sleep(sleepPeriod);
+    		} catch (Exception e) {}
+    		if(getPidForProcessName(processName) == null) { //client is now closed
+        		Log.d(TAG,"quitClient: gracefull RPC shutdown successful after " + x + " seconds");
+    			success = true;
+    			x = attempts;
+    		}
+    	}
+    	
+    	if(!success) {
+    		// graceful RPC shutdown was not successful, try OS signals
+        	quitProcessOsLevel(processName);
+    	}
     	
     	// set client status to SETUP_STATUS_CLOSED to adapt layout accordingly
 		getClientStatus().setSetupStatus(ClientStatus.SETUP_STATUS_CLOSED,true);
@@ -810,40 +831,10 @@ public class Monitor extends Service {
 		(new TransferRetryAsync()).execute(param);
 	}
 
-	public Boolean suspendResult(String url, String name){
-		return rpc.resultOp(RpcClient.RESULT_SUSPEND, url, name);
-	}
-
-	public void suspendResultAsync(String url, String name){
-		Log.d(TAG, "suspendResultAsync");
-		String[] param = new String[2];
-		param[0] = url;
-		param[1] = name;
-		(new SuspendResultAsync()).execute(param);
-	}
-
-	public Boolean resumeResult(String url, String name){
-		return rpc.resultOp(RpcClient.RESULT_RESUME, url, name);
-	}
-
-	public void resumeResultAsync(String url, String name){
-		Log.d(TAG, "resumeResultAsync");
-		String[] param = new String[2];
-		param[0] = url;
-		param[1] = name;
-		(new ResumeResultAsync()).execute(param);
-	}
-
-	public Boolean abortResult(String url, String name){
-		return rpc.resultOp(RpcClient.RESULT_RESUME, url, name);
-	}
-
-	public void abortResultAsync(String url, String name){
-		Log.d(TAG, "abortResultAsync");
-		String[] param = new String[2];
-		param[0] = url;
-		param[1] = name;
-		(new AbortResultAsync()).execute(param);
+	// executes specified operation on result
+	// e.g. RpcClient.RESULT_SUSPEND, RpcClient.RESULT_RESUME, RpcClient.RESULT_ABORT
+	public Boolean resultOperation(String url, String name, int operation) {
+		return rpc.resultOp(operation, url, name);
 	}
 	
 	public AccountOut createAccount(String url, String email, String userName, String pwd, String teamName) {
@@ -959,14 +950,18 @@ public class Monitor extends Service {
 						Log.d(TAG, "client status connection problem");
 					}
 					
-			        Intent clientStatus = new Intent();
-			        clientStatus.setAction("edu.berkeley.boinc.clientstatus");
-			        getApplicationContext().sendBroadcast(clientStatus);
-			        
-			        sleep = true;
+					// check whether monitor is still intended to update, if not, skip broadcast and exit...
+					if(monitorRunning) {
+				        Intent clientStatus = new Intent();
+				        clientStatus.setAction("edu.berkeley.boinc.clientstatus");
+				        getApplicationContext().sendBroadcast(clientStatus);
+				        
+				        sleep = true;
+					}
 				}
 				
 				if(sleep) {
+					sleep = false;
 		    		try {
 		    			Thread.sleep(refreshFrequency);
 		    		} catch(InterruptedException e) {Log.d(TAG,"sleep interrupted");}
@@ -1087,98 +1082,6 @@ public class Monitor extends Service {
 			return retry;
 		}
 		
-		@Override
-		protected void onPostExecute(Boolean success) {
-			forceRefresh();
-		}
-
-		@Override
-		protected void onProgressUpdate(String... arg0) {
-			Log.d(TAG, "onProgressUpdate - " + arg0[0]);
-		}
-	}
-
-	private final class SuspendResultAsync extends AsyncTask<String,String,Boolean> {
-
-		private final String TAG = "SuspendResultAsync";
-
-		private String url;
-		private String name;
-
-		@Override
-		protected Boolean doInBackground(String... params) {
-			this.url = params[0];
-			this.name = params[1];
-			publishProgress("doInBackground() - SuspendResultAsync url: " + url + " Name: " + name);
-
-			Boolean retry = rpc.resultOp(RpcClient.RESULT_SUSPEND, url, name);
-			if(retry) {
-				publishProgress("successful.");
-			}
-			return retry;
-		}
-
-		@Override
-		protected void onPostExecute(Boolean success) {
-			forceRefresh();
-		}
-
-		@Override
-		protected void onProgressUpdate(String... arg0) {
-			Log.d(TAG, "onProgressUpdate - " + arg0[0]);
-		}
-	}
-
-	private final class ResumeResultAsync extends AsyncTask<String,String,Boolean> {
-
-		private final String TAG = "ResumeResultAsync";
-
-		private String url;
-		private String name;
-
-		@Override
-		protected Boolean doInBackground(String... params) {
-			this.url = params[0];
-			this.name = params[1];
-			publishProgress("doInBackground() - ResumeResultAsync url: " + url + " Name: " + name);
-			Boolean retry = rpc.resultOp(RpcClient.RESULT_RESUME, url, name);
-			if(retry) {
-				publishProgress("successful.");
-			}
-			return retry;
-		}
-
-		@Override
-		protected void onPostExecute(Boolean success) {
-			forceRefresh();
-		}
-
-		@Override
-		protected void onProgressUpdate(String... arg0) {
-			Log.d(TAG, "onProgressUpdate - " + arg0[0]);
-		}
-	}
-
-	private final class AbortResultAsync extends AsyncTask<String,String,Boolean> {
-
-		private final String TAG = "AbortResultAsync";
-
-		private String url;
-		private String name;
-
-		@Override
-		protected Boolean doInBackground(String... params) {
-			this.url = params[0];
-			this.name = params[1];
-			publishProgress("doInBackground() - AbortResultAsync url: " + url + " Name: " + name);
-
-			Boolean retry = rpc.resultOp(RpcClient.RESULT_ABORT, url, name);
-			if(retry) {
-				publishProgress("successful.");
-			}
-			return retry;
-		}
-
 		@Override
 		protected void onPostExecute(Boolean success) {
 			forceRefresh();

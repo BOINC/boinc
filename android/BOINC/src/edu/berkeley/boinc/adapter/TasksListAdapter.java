@@ -23,23 +23,26 @@ import java.util.ArrayList;
 
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.TasksActivity.TaskData;
+import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.utils.BOINCDefs;
 
 import android.app.Activity;
 import android.content.Context;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class TasksListAdapter extends ArrayAdapter<TaskData>{
 	
-	//private final String TAG = "TasksListAdapter";
+	private final String TAG = "TasksListAdapter";
 	private ArrayList<TaskData> entries;
 	private Activity activity;
  
@@ -58,7 +61,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 		v.setOnClickListener(entries.get(position).taskClickListener);
 
 		ProgressBar pb = (ProgressBar) v.findViewById(R.id.progressBar);
-		TextView header = (TextView) v.findViewById(R.id.taskName);
+		TextView header = (TextView) v.findViewById(R.id.taskHeader);
 		TextView status = (TextView) v.findViewById(R.id.taskStatus);
 		TextView time = (TextView) v.findViewById(R.id.taskTime);
 		TextView progress = (TextView) v.findViewById(R.id.taskProgress);
@@ -69,16 +72,19 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 		pb.setProgressDrawable(this.activity.getResources().getDrawable((determineProgressBarLayout(listItem))));
 		
 		//v.setTag(listItem.name);
-		String headerT = "Name: " + listItem.result.name;
+		String headerT = listItem.result.app.getName();
 		header.setText(headerT);
 		
-		Float fraction =  listItem.result.fraction_done;
-		if(!listItem.result.active_task && listItem.result.ready_to_report) { //fraction not available, set it to 100
-			fraction = Float.valueOf((float) 1.0);
+		Float fraction = Float.valueOf((float) 1.0); // default is 100 (e.g. abort show full red progress bar)
+		if(!listItem.result.active_task && listItem.result.ready_to_report) { //fraction not available
+			progress.setVisibility(View.GONE);
+			pb.setProgress(Math.round(fraction * pb.getMax()));
+		} else { // fraction available
+			fraction =  listItem.result.fraction_done;
+			pb.setProgress(Math.round(fraction * pb.getMax()));
+			progress.setVisibility(View.VISIBLE);
+			progress.setText(Math.round(fraction * 100) + "%");
 		}
-		pb.setProgress(Math.round(fraction * pb.getMax()));
-		String pT = Math.round(fraction * 100) + "%";
-		progress.setText(pT);
 		
 		String statusT = determineStatusText(listItem);
 		status.setText(statusT);
@@ -90,63 +96,57 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 		if (listItem.expanded) {
 			ll.setVisibility(View.VISIBLE);
 			// update resume/suspend state (button state)
-			listItem.currentRunState = listItem.determineRunningState();
-			// update abort state (button state)
-			listItem.currentAbortState = listItem.determineAbortState();
 			// set deadline
 			String deadline = (String) DateFormat.format("E d MMM yyyy hh:mm:ss aa", new Date(listItem.result.report_deadline*1000));
-			((TextView) v.findViewById(R.id.deadline)).setText("Deadline: " + deadline);
+			((TextView) v.findViewById(R.id.deadline)).setText(getContext().getString(R.string.tasks_header_deadline) + " " + deadline);
 			// set project name
 			String tempProjectName = listItem.result.project_url;
 			if(listItem.result.project != null) {
 				tempProjectName = listItem.result.project.getName();
+				if(listItem.result.project_suspended_via_gui) {
+					tempProjectName = tempProjectName + " " + getContext().getString(R.string.tasks_header_project_paused);
+				}
 			}
-			((TextView) v.findViewById(R.id.projectName)).setText("Project name: " + tempProjectName);
+			((TextView) v.findViewById(R.id.projectName)).setText(getContext().getString(R.string.tasks_header_project_name) + " " + tempProjectName);
 			// set application friendly name
 			if(listItem.result.app != null) {
-				((TextView) v.findViewById(R.id.friendlyAppName)).setText("App Name: " + listItem.result.app.getName());
+				((TextView) v.findViewById(R.id.taskName)).setText(getContext().getString(R.string.tasks_header_name) + " " + listItem.result.name);
 			}
+			
+			if(listItem.determineState() == BOINCDefs.PROCESS_ABORTED) { //dont show buttons for aborted task
+				((LinearLayout)v.findViewById(R.id.requestPendingWrapper)).setVisibility(View.GONE);
+				((LinearLayout)v.findViewById(R.id.taskButtons)).setVisibility(View.GONE);
+			} else {
+				
+				ImageView suspendResume = (ImageView) v.findViewById(R.id.suspendResumeTask);
+				suspendResume.setOnClickListener(listItem.iconClickListener);
 
-			ImageView suspendResume = (ImageView) v.findViewById(R.id.suspendResumeTask);
-			if (listItem.currentRunState == listItem.nextRunState) {
-				// current button state is same as expected
-				suspendResume.setEnabled(true);
-				suspendResume.setClickable(true);
-				if (listItem.currentRunState == TaskData.TASK_STATE_RUNNING) {
-					suspendResume.setOnClickListener(listItem.suspendClickListener);
-					suspendResume.setImageResource(R.drawable.pausew24);
+				ImageView abortButton = (ImageView) v.findViewById(R.id.abortTask);
+				abortButton.setOnClickListener(listItem.iconClickListener);
+				abortButton.setTag(RpcClient.RESULT_ABORT); // tag on button specified operation triggered in iconClickListener
+			
+				if (listItem.nextState == -1) { // not waiting for new state
+					((LinearLayout)v.findViewById(R.id.requestPendingWrapper)).setVisibility(View.GONE);
+					((LinearLayout)v.findViewById(R.id.taskButtons)).setVisibility(View.VISIBLE);
+					
+					// checking what suspendResume button should be shown
+					if(listItem.result.suspended_via_gui) { // show play
+						suspendResume.setVisibility(View.VISIBLE);
+						suspendResume.setImageResource(R.drawable.playw24);
+						suspendResume.setTag(RpcClient.RESULT_RESUME); // tag on button specified operation triggered in iconClickListener
+						
+					} else if (listItem.determineState() == BOINCDefs.PROCESS_EXECUTING){ // show pause
+						suspendResume.setVisibility(View.VISIBLE);
+						suspendResume.setImageResource(R.drawable.pausew24);
+						suspendResume.setTag(RpcClient.RESULT_SUSPEND); // tag on button specified operation triggered in iconClickListener
+						
+					} else { // show nothing
+						suspendResume.setVisibility(View.GONE);
+					}
 				} else {
-					suspendResume.setOnClickListener(listItem.resumeClickListener);
-					suspendResume.setImageResource(R.drawable.playw24);
+					((LinearLayout)v.findViewById(R.id.taskButtons)).setVisibility(View.GONE);
+					((LinearLayout)v.findViewById(R.id.requestPendingWrapper)).setVisibility(View.VISIBLE);
 				}
-			} else {
-				// waiting for transient state to be as expected
-				// button needs to be disabled (no action should be taken while waiting)
-				suspendResume.setEnabled(false);
-				suspendResume.setClickable(false);
-				suspendResume.setOnClickListener(null);
-				if (listItem.currentRunState == TaskData.TASK_STATE_RUNNING) {
-					suspendResume.setImageResource(R.drawable.pausew24);
-				} else {
-					suspendResume.setImageResource(R.drawable.playw24);
-				}
-			}
-			if (listItem.currentAbortState == listItem.nextAbortState) {
-				// current button state is same as expected
-				if (listItem.currentAbortState == TaskData.TASK_STATE_ABORTED) {
-					suspendResume.setEnabled(false);
-					suspendResume.setClickable(false);
-				} else { 
-					suspendResume.setEnabled(true);
-					suspendResume.setClickable(true);
-					((ImageView) v.findViewById(R.id.abortTask)).setOnClickListener(listItem.abortClickListener);
-				}
-			} else {
-				// waiting for transient state to be as expected
-				// button needs to be disabled (no action should be taken while waiting)
-				suspendResume.setEnabled(false);
-				suspendResume.setClickable(false);
-				suspendResume.setOnClickListener(null);
 			}
 		} else {
 			ll.setVisibility(View.GONE);
@@ -156,76 +156,70 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 	}
 
 	private String determineStatusText(TaskData tmp) {
-		String text = "";
+		
+		//read status
+		Integer status = tmp.determineState();
+		//Log.d(TAG,"determineStatusText for status: " + status);
+		
+		// custom state
+		if(status == BOINCDefs.RESULT_SUSPENDED_VIA_GUI) return activity.getString(R.string.tasks_custom_suspended_via_gui);
+		if(status == BOINCDefs.RESULT_PROJECT_SUSPENDED) return activity.getString(R.string.tasks_custom_project_suspended_via_gui);
+		if(status == BOINCDefs.RESULT_READY_TO_REPORT) return activity.getString(R.string.tasks_custom_ready_to_report);
+		
+		//active state
 		if(tmp.result.active_task) {
-			switch (tmp.result.active_task_state) {
-			case 0:
-				text = activity.getString(R.string.tasks_active_uninitialized);
-				break;
-			case 1:
-				text = activity.getString(R.string.tasks_active_executing);
-				break;
-			case 5:
-				text = activity.getString(R.string.tasks_active_abort_pending);
-				break;
-			case 8:
-				text = activity.getString(R.string.tasks_active_quit_pending);
-				break;
-			case 9:
-				text = activity.getString(R.string.tasks_active_suspended);
-				break;
+			switch(status) {
+			case BOINCDefs.PROCESS_UNINITIALIZED:
+				return activity.getString(R.string.tasks_active_uninitialized);
+			case BOINCDefs.PROCESS_EXECUTING:
+				return activity.getString(R.string.tasks_active_executing);
+			case BOINCDefs.PROCESS_ABORT_PENDING:
+				return activity.getString(R.string.tasks_active_abort_pending);
+			case BOINCDefs.PROCESS_QUIT_PENDING:
+				return activity.getString(R.string.tasks_active_quit_pending);
+			case BOINCDefs.PROCESS_SUSPENDED:
+				return activity.getString(R.string.tasks_active_suspended);
+			default:
+				Log.w(TAG,"determineStatusText could not map: " + tmp.determineState());
+				return "";
 			}
-		} else {
-			switch (tmp.result.state) {
-			case 0:
-				text = activity.getString(R.string.tasks_result_new);
-				break;
-			case 1:
-				text = activity.getString(R.string.tasks_result_files_downloading);
-				break;
-			case 2:
-				text = activity.getString(R.string.tasks_result_files_downloaded);
-				break;
-			case 3:
-				text = activity.getString(R.string.tasks_result_compute_error);
-				break;
-			case 4:
-				text = activity.getString(R.string.tasks_result_files_uploading);
-				break;
-			case 5:
-				text = activity.getString(R.string.tasks_result_files_uploaded);
-				break;
-			case 6:
-				text = activity.getString(R.string.tasks_result_aborted);
-				break;
-			case 7:
-				text = activity.getString(R.string.tasks_result_upload_failed);
-				break;
+		} else { 
+			// passive state
+			switch(status) {
+			case BOINCDefs.RESULT_NEW:
+				return activity.getString(R.string.tasks_result_new);
+			case BOINCDefs.RESULT_FILES_DOWNLOADING:
+				return activity.getString(R.string.tasks_result_files_downloading);
+			case BOINCDefs.RESULT_FILES_DOWNLOADED:
+				return activity.getString(R.string.tasks_result_files_downloaded);
+			case BOINCDefs.RESULT_COMPUTE_ERROR:
+				return activity.getString(R.string.tasks_result_compute_error);
+			case BOINCDefs.RESULT_FILES_UPLOADING:
+				return activity.getString(R.string.tasks_result_files_uploading);
+			case BOINCDefs.RESULT_FILES_UPLOADED:
+				return activity.getString(R.string.tasks_result_files_uploaded);
+			case BOINCDefs.RESULT_ABORTED:
+				return activity.getString(R.string.tasks_result_aborted);
+			case BOINCDefs.RESULT_UPLOAD_FAILED:
+				return activity.getString(R.string.tasks_result_upload_failed);
+			default:
+				Log.w(TAG,"determineStatusText could not map: " + tmp.determineState());
+				return "";
 			}
 		}
-		return text;
 	}
     
 	private Integer determineProgressBarLayout(TaskData tmp) {
-		if(tmp.result.active_task) {
-			if(tmp.result.active_task_state == BOINCDefs.PROCESS_EXECUTING) {
-				//running
-				return R.drawable.progressbar_active;
-			} else {
-				//suspended - ready to run
-				return R.drawable.progressbar_paused;
-			}
-		} else {
-			if((tmp.result.state == BOINCDefs.RESULT_ABORTED) || (tmp.result.state == BOINCDefs.RESULT_UPLOAD_FAILED) || (tmp.result.state == BOINCDefs.RESULT_COMPUTE_ERROR)) { 
-				//error
-				return R.drawable.progressbar_error;
-			} else if (tmp.result.ready_to_report) {
-				//finished
-				return R.drawable.progressbar_active;
-			} else {
-				//paused or stopped
-				return R.drawable.progressbar_paused;
-			}
+		switch(tmp.determineState()){
+		case BOINCDefs.PROCESS_EXECUTING:
+		case BOINCDefs.RESULT_READY_TO_REPORT:
+			return R.drawable.progressbar_active;
+		case BOINCDefs.RESULT_ABORTED:
+		case BOINCDefs.RESULT_UPLOAD_FAILED:
+		case BOINCDefs.RESULT_COMPUTE_ERROR:
+			return R.drawable.progressbar_error;
+		default:
+			return R.drawable.progressbar_paused;
 		}
 	}
 }

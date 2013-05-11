@@ -251,7 +251,7 @@ function form_to_request() {
     $f->mode = "semilocal";
 
     for ($x=$param_lo; $x<$param_hi; $x += $param_inc) {
-        $job = null;
+        $job = new StdClass;
         $job->rsc_fpops_est = $x*1e9;
         $job->command_line = "--t $x";
         $job->input_files = array($f);

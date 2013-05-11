@@ -344,17 +344,16 @@ function show_user_summary_public($user) {
 // @param user The user to produce a community links object for
 
 function get_community_links_object($user){
+    $cache_object = new StdClass;
     $cache_object->post_count = total_posts($user);
     $cache_object->user = $user;
     $cache_object->team = lookup_team($user->teamid);
+    $cache_object->friends = array();
 
     $friends = BoincFriend::enum("user_src=$user->id and reciprocated=1");
-    $n = count($friends);
-    if ($n) {
-        foreach($friends as $friend) {
-            $fuser = BoincUser::lookup_id($friend->user_dest);
-            $cache_object->friends[] = $fuser;
-        }
+    foreach($friends as $friend) {
+        $fuser = BoincUser::lookup_id($friend->user_dest);
+        $cache_object->friends[] = $fuser;
     }
     return $cache_object;
 }

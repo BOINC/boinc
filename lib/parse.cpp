@@ -214,14 +214,18 @@ int dup_element(FILE* in, const char* tag_name, char** pp) {
 int copy_element_contents(FILE* in, const char* end_tag, char* p, int len) {
     char buf[256];
     int n;
+    int retval = 0;
 
     strcpy(p, "");
     while (fgets(buf, 256, in)) {
         if (strstr(buf, end_tag)) {
-            return 0;
+            return retval;
         }
         n = (int)strlen(buf);
-        if (n >= len-1) return ERR_XML_PARSE;
+        if (n >= len-1) {
+            retval = ERR_XML_PARSE;
+            continue;
+        }
         strcat(p, buf);
         len -= n;
     }

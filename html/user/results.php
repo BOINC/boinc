@@ -77,7 +77,7 @@ if ($appid) {
 $query = "$clause2 order by id desc limit $offset,".($results_per_page+1);
 $results = BoincResult::enum($query);
 
-$info = null;
+$info = new StdClass;
 $info->number_of_results = count($results);
 $info->clause = $clause;
 $info->results_per_page = $results_per_page;

@@ -333,7 +333,7 @@ function prepare_batch($user) {
     $cmdline_file_path = get_file_path($user, 'cmdline_file');
     $pot_files_path = get_file_path($user, 'zip');
 
-    $info = null;
+    $info = new StdClass;
     $info->structure_file_path = $structure_file_path;
     $info->command_file_path = $command_file_path;
     $info->cmdline_file_path = $cmdline_file_path;

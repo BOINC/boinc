@@ -52,7 +52,7 @@ echo "<p><h3>"
 <li> ".tra("Open the file in a text editor like Notepad. You'll see something like")."
 <pre>
 &lt;account>
-    &lt;master_url>".MASTER_URL."/&lt;/master_url>
+    &lt;master_url>$master_url&lt;/master_url>
     &lt;authenticator>8b8496fdd26df7dc0423ecd43c09a56b&lt;/authenticator>
     &lt;project_name>".PROJECT."&lt;/project_name>
     ...
