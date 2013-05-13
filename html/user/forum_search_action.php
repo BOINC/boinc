@@ -213,7 +213,7 @@ if (count($posts)){
     end_table();
 }
 
-if (!count($thread) && !count($posts)){
+if (!count($threads) && !count($posts)){
     echo "<p>".tra("Sorry, couldn't find anything matching your search query. You can try to broaden your search by using less words (or less specific words).")."</p>
     <p>"
     .tra("You can also %1try the same search on Google.%2",

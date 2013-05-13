@@ -28,6 +28,13 @@ require_once("../inc/time.inc");
 require_once("../inc/stats_sites.inc");
 
 function team_search_form($params) {
+    if (!$params) {
+        $params = new StdClass;
+        $params->keywords = "";
+        $params->country = "";
+        $params->type = "";
+        $params->active = false;
+    }
     echo '<form name="form" action="team_search.php">';
     start_table();
     row2('<b>'.tra('Search criteria (use one or more)').'</b>', '');

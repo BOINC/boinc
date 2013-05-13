@@ -48,9 +48,7 @@ if (!$sort_style) {
     if ($user){
         $sort_style = $user->prefs->forum_sorting;
     } else {
-        if (isset($_COOKIE['sorting'])) {
-            list($sort_style,$thread_style)=explode("|",$_COOKIE['sorting']);
-        }
+        list($sort_style, $thread_style) = parse_forum_cookie();
     }
 } else {
     // set the sort style
@@ -58,8 +56,10 @@ if (!$sort_style) {
         $user->prefs->forum_sorting = $sort_style;
         $user->prefs->update("forum_sorting=$sort_style");
     } else {
-        list($old_style,$thread_style)=explode("|",$_COOKIE['sorting']);
-        send_cookie('sorting', implode("|",array($sort_style,$thread_style)), true);
+        list($old_style, $thread_style) = parse_forum_cookie();
+        send_cookie(
+            'sorting', implode("|", array($sort_style, $thread_style)), true
+        );
     }
 }
 
