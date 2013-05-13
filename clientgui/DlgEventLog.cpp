@@ -156,20 +156,31 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
         GetWindowDimensions( oTempPoint, oTempSize );
 
 #ifdef __WXMSW__
-        // Make sure that it fits within displayable area
-        wxDisplay *display = new wxDisplay();
+        // Get the current display space for the current window
+		int iDisplay = wxDisplay::GetFromWindow(parent);
+		if ( iDisplay == wxNOT_FOUND ) iDisplay = 0;
+        wxDisplay *display = new wxDisplay(iDisplay);
         wxRect rDisplay = display->GetClientArea();
+
+		// Check that the saved height and width is not larger than the displayable space.
+		// If it is, then reduce the size.
         if ( oTempSize.GetWidth() > rDisplay.width ) oTempSize.SetWidth(rDisplay.width);
         if ( oTempSize.GetHeight() > rDisplay.height ) oTempSize.SetHeight(rDisplay.height);
 
         // Check if part of the display was going to be off the screen, if so, center the 
         // display on that axis
-        if ( oTempPoint.x < 0 || oTempPoint.x + oTempSize.GetWidth() > rDisplay.width ) {
-            oTempPoint.x = (rDisplay.width - oTempSize.GetWidth())/2;
-        }
-        if ( oTempPoint.y < 0 || oTempPoint.y + oTempSize.GetHeight() > rDisplay.height ) {
-            oTempPoint.y = (rDisplay.height - oTempSize.GetHeight())/2;
-        }
+		if ( oTempPoint.x < 0 ) {
+			oTempPoint.x = 0;
+		} else if ( oTempPoint.x + oTempSize.GetWidth() > rDisplay.width ) {
+			oTempPoint.x = rDisplay.width - oTempSize.GetWidth();
+		}
+
+		if ( oTempPoint.y < 0 ) {
+			oTempPoint.y = 0;
+		} else if ( oTempPoint.y + oTempSize.GetHeight() > rDisplay.height ) {
+			oTempPoint.y = rDisplay.height - oTempSize.GetHeight();
+		}
+
         delete display;
 #endif
 
