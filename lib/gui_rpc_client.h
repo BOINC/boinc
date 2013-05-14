@@ -692,6 +692,7 @@ struct RPC_CLIENT {
     int get_statistics(PROJECTS&);
     int network_available();
     int get_project_init_status(PROJECT_INIT_STATUS& pis);
+    int report_device_status(DEVICE_STATUS&);
 
     // the following are asynch operations.
     // Make the first call to start the op,

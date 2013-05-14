@@ -595,4 +595,5 @@ extern double calculate_exponential_backoff(
 #define ACCT_MGR_MAX_BACKOFF    86400
     // min/max account manager RPC backoff
 
+#define ANDROID_KEEPALIVE_TIMEOUT   30
 #endif

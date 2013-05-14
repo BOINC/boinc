@@ -222,32 +222,7 @@ bool HOST_INFO::host_is_running_on_batteries() {
     return retval;
 
 #elif ANDROID
-    // using /sys/class/power_supply/*/online
-    // power supplies are both ac and usb!
-    //
-    static FILE *fsysac, *fsysusb;
-    int aconline = 0;
-    int usbonline = 0;
-    bool power_supply_online = false;
-
-    fsysac = fopen("/sys/class/power_supply/ac/online", "r");
-    fsysusb = fopen("/sys/class/power_supply/usb/online", "r");
-
-    if (fsysac) {
-        (void) fscanf(fsysac, "%d", &aconline);
-        fclose(fsysac);
-    }
-
-    if (fsysusb) {
-        (void) fscanf(fsysusb, "%d", &usbonline);
-        fclose(fsysusb);
-    }
-
-    if ((aconline == 1) || (usbonline == 1)) {
-        power_supply_online = true;
-    }
-
-    return !power_supply_online;
+    return !(device_status.on_ac_power || device_status.on_usb_power);
 
 #elif LINUX_LIKE_SYSTEM
     static enum {

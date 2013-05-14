@@ -249,6 +249,8 @@ int CLIENT_STATE::check_suspend_processing() {
         }
     }
 
+    // CPU throttling
+    //
     if (global_prefs.cpu_usage_limit < 99) {        // round-off?
         static double last_time=0, debt=0;
         double diff = now - last_time;
@@ -264,13 +266,16 @@ int CLIENT_STATE::check_suspend_processing() {
     }
 
 #ifdef ANDROID
+    if (now > host_info.device_status_time + ANDROID_KEEPALIVE_TIMEOUT) {
+        return SUSPEND_REASON_NO_GUI_KEEPALIVE;
+    }
+
     // check for hot battery
     //
-    host_info.get_battery_status();
-    if (host_info.battery_state == BATTERY_STATE_OVERHEATED) {
+    if (host_info.device_status.battery_state == BATTERY_STATE_OVERHEATED) {
         return SUSPEND_REASON_BATTERY_OVERHEATED;
     }
-    if (host_info.battery_temperature_celsius > 45) {
+    if (host_info.device_status.battery_temperature_celsius > 45) {
         return SUSPEND_REASON_BATTERY_OVERHEATED;
     }
 
@@ -278,7 +283,7 @@ int CLIENT_STATE::check_suspend_processing() {
     // while it's recharging.
     // So compute only if 95% charged or more.
     //
-    int cp = host_info.battery_charge_pct;
+    int cp = host_info.device_status.battery_charge_pct;
     if (cp >= 0) {
         if (cp < 95) {
             return SUSPEND_REASON_BATTERY_CHARGING;
@@ -401,9 +406,14 @@ void CLIENT_STATE::check_suspend_network() {
     }
 
 #ifdef ANDROID
+    if (now > host_info.device_status_time + ANDROID_KEEPALIVE_TIMEOUT) {
+        file_xfers_suspended = true;
+        if (!recent_rpc) network_suspended = true;
+        network_suspend_reason = SUSPEND_REASON_NO_GUI_KEEPALIVE;
+    }
     // use only WiFi
     //
-    if (global_prefs.network_wifi_only && !host_info.host_wifi_online()) {
+    if (global_prefs.network_wifi_only && !host_info.device_status.wifi_online) {
         file_xfers_suspended = true;
         if (!recent_rpc) network_suspended = true;
         network_suspend_reason = SUSPEND_REASON_WIFI_STATE;
