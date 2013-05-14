@@ -25,6 +25,7 @@ require_once("../inc/forum_db.inc");
 require_once("../inc/notify.inc");
 
 function parse_project($f) {
+    $p = new StdClass;
     $p->total_credit = 0.0;
     $p->expavg_credit = 0.0;
     while (!feof($f)) {
