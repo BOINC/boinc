@@ -1069,6 +1069,11 @@ int CLIENT_STATE::handle_scheduler_reply(
     //
     gstate.garbage_collect_always();
 
+    // if the user provided app_config.xml for this project,
+    // apply it to any app versions we just got
+    //
+    project->app_configs.config_app_versions(project);
+
     return 0;
 }
 
