@@ -357,7 +357,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
         '#value' => 'user_login'
       )
     ));
-    $form['#redirect'] = 'account';
+    $form['#redirect'] = 'home';
     
     // Set the tab indices to follow a logical procession...
     isset($form['pass']['#attributes']) ? array_push($form['pass']['#attributes'], array('tabindex' => '2')) : $form['pass']['#attributes'] = array('tabindex' => '2');

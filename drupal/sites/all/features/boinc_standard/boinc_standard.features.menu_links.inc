@@ -47,7 +47,7 @@ function boinc_standard_menu_default_menu_links() {
     'menu_name' => 'primary-links',
     'link_path' => 'dashboard',
     'router_path' => 'dashboard',
-    'link_title' => 'Account',
+    'link_title' => 'Dashboard',
     'options' => array(
       'attributes' => array(
         'title' => '',
@@ -56,9 +56,10 @@ function boinc_standard_menu_default_menu_links() {
     'module' => 'menu',
     'hidden' => '0',
     'external' => '0',
-    'has_children' => '1',
-    'expanded' => '1',
-    'weight' => '5',
+    'has_children' => '0',
+    'expanded' => '0',
+    'weight' => '0',
+    'parent_path' => 'dashboard',
   );
   // Exported menu link: primary-links:user/me/edit
   $menu_links['primary-links:user/me/edit'] = array(
@@ -81,9 +82,9 @@ function boinc_standard_menu_default_menu_links() {
   );
   // Translatables
   // Included for use with string extractors like potx.
-  t('Account');
   t('Account Info');
   t('BOINC');
+  t('Dashboard');
   t('Home');
 
 

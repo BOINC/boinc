@@ -242,7 +242,10 @@ function boinc_standard_default_page_manager_pages() {
   $page->admin_title = 'User profile template (boinc)';
   $page->admin_description = '';
   $page->path = 'account/%user';
-  $page->access = array();
+  $page->access = array(
+    'type' => 'none',
+    'settings' => NULL,
+  );
   $page->menu = array();
   $page->arguments = array(
     'user' => array(
@@ -518,7 +521,7 @@ function boinc_standard_default_page_manager_pages() {
       'title' => 'Welcome back!',
       'body' => '<div class="boinc-overview">
   <div>Einstein@Home is a program that uses your computer\'s idle time to run a screensaver to search for gravitational waves from spinning neutron stars (also called pulsars) using data from the LIGO gravitational wave detector. <a href="about">Learn more.</a></div>
-  <div><a class="join button" href="account">View account</a></div>
+  <div><a class="join button" href="dashboard">View account</a></div>
 </div>
 <div class="boinc-overview-details">
   <div class="detail-container">
