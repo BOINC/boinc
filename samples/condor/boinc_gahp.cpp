@@ -43,8 +43,11 @@ using std::vector;
 
 char project_url[256];
 char authenticator[256];
+char response_prefix[256];
 
 bool debug_mode = true;
+    // if set, handle commands synchronously rather than
+    // handling them in separate threads
 
 // represents a command.
 //
@@ -484,15 +487,15 @@ void handle_ping(COMMAND& c) {
 
 void* handle_command_aux(void* q) {
     COMMAND &c = *((COMMAND*)q);
-    if (!strcmp(c.cmd, "BOINC_SUBMIT")) {
+    if (!strcasecmp(c.cmd, "BOINC_SUBMIT")) {
         handle_submit(c);
-    } else if (!strcmp(c.cmd, "BOINC_QUERY_BATCHES")) {
+    } else if (!strcasecmp(c.cmd, "BOINC_QUERY_BATCHES")) {
         handle_query_batches(c);
-    } else if (!strcmp(c.cmd, "BOINC_FETCH_OUTPUT")) {
+    } else if (!strcasecmp(c.cmd, "BOINC_FETCH_OUTPUT")) {
         handle_fetch_output(c);
-    } else if (!strcmp(c.cmd, "BOINC_ABORT_JOBS")) {
+    } else if (!strcasecmp(c.cmd, "BOINC_ABORT_JOBS")) {
         handle_abort_jobs(c);
-    } else if (!strcmp(c.cmd, "BOINC_PING")) {
+    } else if (!strcasecmp(c.cmd, "BOINC_PING")) {
         handle_ping(c);
     } else {
         c.out = strdup("Unknown command");
@@ -510,20 +513,36 @@ int COMMAND::parse_command() {
     }
     char* q = strtok_r(in, " ", &p);
     q = strtok_r(NULL, " ", &p);
-    if (!strcmp(cmd, "BOINC_SUBMIT")) {
+    if (!strcasecmp(cmd, "BOINC_SUBMIT")) {
         retval = parse_submit(p);
-    } else if (!strcmp(cmd, "BOINC_QUERY_BATCHES")) {
+    } else if (!strcasecmp(cmd, "BOINC_QUERY_BATCHES")) {
         retval = parse_query_batches(p);
-    } else if (!strcmp(cmd, "BOINC_FETCH_OUTPUT")) {
+    } else if (!strcasecmp(cmd, "BOINC_FETCH_OUTPUT")) {
         retval = parse_fetch_output(p);
-    } else if (!strcmp(cmd, "BOINC_ABORT_JOBS")) {
+    } else if (!strcasecmp(cmd, "BOINC_ABORT_JOBS")) {
         retval = parse_abort_jobs(p);
-    } else if (!strcmp(cmd, "BOINC_PING")) {
+    } else if (!strcasecmp(cmd, "BOINC_PING")) {
         retval = 0;
     } else {
         retval = -1;
     }
     return retval;
+}
+
+void print_version() {
+    printf("1.0: %s BOINC\\ GAHP $\n", __DATE__);
+}
+
+int n_results() {
+    int n = 0;
+    vector<COMMAND*>::iterator i = commands.begin();
+    while (i != commands.end()) {
+        COMMAND *c2 = *i;
+        if (c2->out) {
+            n++;
+        }
+    }
+    return n;
 }
 
 // p is a malloc'ed buffer
@@ -533,12 +552,20 @@ int handle_command(char* p) {
     int id;
 
     sscanf(p, "%s", cmd);
-    printf("cmd: %s\n", cmd);
-    if (!strcmp(cmd, "VERSION")) {
-        printf("1.0\n");
-    } else if (!strcmp(cmd, "QUIT")) {
+    if (!strcasecmp(cmd, "VERSION")) {
+        printf("S ");
+        print_version();
+    } else if (!strcasecmp(cmd, "COMMANDS")) {
+        printf("S COMMANDS BOINC_ABORT_JOBS BOINC_FETCH_OUTPUT BOINC_PING BOINC_QUERY_BATCHES BOINC_SELECT_PROJECT BOINC_SUBMITQUIT RESULTS VERSION\n");
+    } else if (!strcasecmp(cmd, "RESPONSE_PREFIX")) {
+        printf("S\n");
+        strcpy(response_prefix, p+strlen("RESPONSE_PREFIX "));
+    } else if (!strcasecmp(cmd, "ASYNC_MOD_ON")) {
+    } else if (!strcasecmp(cmd, "ASYNC_MOD_OFF")) {
+    } else if (!strcasecmp(cmd, "QUIT")) {
         exit(0);
-    } else if (!strcmp(cmd, "RESULTS")) {
+    } else if (!strcasecmp(cmd, "RESULTS")) {
+        printf("S %d\n", n_results());
         vector<COMMAND*>::iterator i = commands.begin();
         while (i != commands.end()) {
             COMMAND *c2 = *i;
@@ -552,7 +579,7 @@ int handle_command(char* p) {
                 i++;
             }
         }
-    } else if (!strcmp(cmd, "BOINC_SELECT_PROJECT")) {
+    } else if (!strcasecmp(cmd, "BOINC_SELECT_PROJECT")) {
         int n = sscanf(p, "%s %s %s", cmd, project_url, authenticator);
         if (n ==3) {
             printf("S\n");
@@ -622,7 +649,7 @@ void read_config() {
     FILE* f = fopen("config.txt", "r");
     if (!f) {
         fprintf(stderr, "no config.txt\n");
-        exit(1);
+        return;
     }
     fgets(project_url, 256, f);
     strip_whitespace(project_url);
@@ -641,9 +668,14 @@ void read_config() {
 
 int main() {
     read_config();
+    strcpy(response_prefix, "");
+    print_version();
     while (1) {
         char* p = get_cmd();
         if (p == NULL) break;
+        if (strlen(response_prefix)) {
+            printf("%s", response_prefix);
+        }
         handle_command(p);
         fflush(stdout);
     }
