@@ -110,6 +110,20 @@ int return_success(const char* text) {
 #define BLOCK_SIZE  (256*1024)
 double bytes_left=-1;
 
+int accept_empty_file(char* path) {
+    int fd = open(path,
+        O_WRONLY|O_CREAT,
+        S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH
+    );
+    if (fd<0) {
+        return return_error(ERR_TRANSIENT,
+            "can't open file %s: %s\n", path, strerror(errno)
+        );
+    }
+    close(fd);
+    return return_success(0);
+}
+
 // read from socket, write to file
 // ALWAYS returns an HTML reply
 //
@@ -382,19 +396,26 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
 #ifndef _USING_FCGI_
     fflush(stderr);
 #endif
-    if (offset >= nbytes) {
-        log_messages.printf(MSG_CRITICAL,
-            "ERROR: offset >= nbytes!!\n"
+    if (nbytes == 0) {
+        retval = accept_empty_file(path);
+        log_messages.printf(MSG_NORMAL,
+            "accepted empty file %s from %s\n", name, get_remote_addr()
         );
-        return return_success(0);
+    } else {
+        if (offset >= nbytes) {
+            log_messages.printf(MSG_CRITICAL,
+                "ERROR: offset >= nbytes!!\n"
+            );
+            return return_success(0);
+        }
+        retval = copy_socket_to_file(in, path, offset, nbytes);
+        log_messages.printf(MSG_NORMAL,
+            "Ended upload of %s from %s; retval %d\n",
+            name,
+            get_remote_addr(),
+            retval
+        );
     }
-    retval = copy_socket_to_file(in, path, offset, nbytes);
-    log_messages.printf(MSG_NORMAL,
-        "Ended upload of %s from %s; retval %d\n",
-        name,
-        get_remote_addr(),
-        retval
-    );
 #ifndef _USING_FCGI_
     fflush(stderr);
 #endif
