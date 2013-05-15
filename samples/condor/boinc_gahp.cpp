@@ -556,7 +556,7 @@ int handle_command(char* p) {
         printf("S ");
         print_version();
     } else if (!strcasecmp(cmd, "COMMANDS")) {
-        printf("S COMMANDS BOINC_ABORT_JOBS BOINC_FETCH_OUTPUT BOINC_PING BOINC_QUERY_BATCHES BOINC_SELECT_PROJECT BOINC_SUBMITQUIT RESULTS VERSION\n");
+        printf("S ASYNC_MODE_OFF ASYNC_MODE_ON BOINC_ABORT_JOBS BOINC_FETCH_OUTPUT BOINC_PING BOINC_QUERY_BATCHES BOINC_SELECT_PROJECT BOINC_SUBMIT COMMANDS QUIT RESULTS VERSION\n");
     } else if (!strcasecmp(cmd, "RESPONSE_PREFIX")) {
         printf("S\n");
         strcpy(response_prefix, p+strlen("RESPONSE_PREFIX "));
