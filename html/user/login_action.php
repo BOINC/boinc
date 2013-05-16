@@ -55,7 +55,10 @@ if ($email_addr && $passwd) {
     }
     $authenticator = $user->authenticator;
     Header("Location: ".URL_BASE."$next_url");
-    $perm = $_POST['stay_logged_in'];
+    $perm = false;
+    if (isset($_POST['stay_logged_in'])) {
+        $perm = $_POST['stay_logged_in'];
+    }
     send_cookie('auth', $authenticator, $perm);
     exit();
 }

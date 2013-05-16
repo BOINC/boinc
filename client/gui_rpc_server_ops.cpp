@@ -1131,6 +1131,37 @@ static bool complete_post_request(char* buf) {
     return true;
 }
 
+static void handle_report_device_status(GUI_RPC_CONN& grc) {
+    DEVICE_STATUS d;
+    while (!grc.xp.get_tag()) {
+        if (grc.xp.match_tag("device_status")) {
+            int retval = d.parse(grc.xp);
+            if (!retval) {
+                gstate.host_info.device_status = d;
+                gstate.host_info.device_status_time = gstate.now;
+                grc.mfout.printf("<success/>\n");
+                return;
+            }
+        }
+    }
+    grc.mfout.printf("<error/>\n");
+}
+
+int DEVICE_STATUS::parse(XML_PARSER& xp) {
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/device_status")) {
+            return 0;
+        }
+        if (xp.parse_bool("on_ac_power", on_ac_power)) continue;
+        if (xp.parse_bool("on_usb_power", on_usb_power)) continue;
+        if (xp.parse_double("battery_charge_pct", battery_charge_pct)) continue;
+        if (xp.parse_int("battery_state", battery_state)) continue;
+        if (xp.parse_double("battery_temperature_celsius", battery_temperature_celsius)) continue;
+        if (xp.parse_bool("wifi_online", wifi_online)) continue;
+    }
+    return ERR_XML_PARSE;
+}
+
 // Some of the RPCs have empty-element request messages.
 // We accept both <foo/> and <foo></foo>
 //
@@ -1216,6 +1247,7 @@ GUI_RPC gui_rpcs[] = {
     GUI_RPC("read_cc_config", handle_read_cc_config,                true,   false,  false),
     GUI_RPC("read_global_prefs_override", handle_read_global_prefs_override,
                                                                     true,   false,  false),
+    GUI_RPC("report_device_status", handle_report_device_status,    true,   false,  false),
     GUI_RPC("resume_result", handle_resume_result,                  true,   false,  false),
     GUI_RPC("run_benchmarks", handle_run_benchmarks,                true,   false,  false),
     GUI_RPC("set_cc_config", handle_set_cc_config,                  true,   false,  false),

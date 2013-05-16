@@ -71,6 +71,8 @@ void HOST_INFO::clear_host_info() {
 
     strcpy(virtualbox_version, "");
     have_cpu_opencl = false;
+
+    device_status_time = 0;
 }
 
 int HOST_INFO::parse(XML_PARSER& xp, bool benchmarks_only) {

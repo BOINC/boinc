@@ -11,5 +11,5 @@ vda_LDADD = $(SERVERLIBS)
 vdad_SOURCES = vdad.cpp vda_lib.cpp vda_lib2.cpp vda_policy.cpp stats.cpp
 vdad_LDADD = $(SERVERLIBS)
 
-ssim_SOURCES = ssim.cpp vda_lib.cpp vda_policy.cpp stats.cpp
+ssim_SOURCES = ssim.cpp vda_lib.cpp vda_policy.cpp stats.cpp des.h
 ssim_LDADD = $(SERVERLIBS)

@@ -904,7 +904,7 @@ function secure_url_base() {
 function redirect_to_secure_url($url) {
     if (defined('SECURE_URL_BASE')
         && strstr(SECURE_URL_BASE, "https://")
-        && !$_SERVER['HTTPS']
+        && (!isset($_SERVER['HTTPS']) || !$_SERVER['HTTPS'])
     ) {
         Header("Location: ".SECURE_URL_BASE."/$url");
         exit;

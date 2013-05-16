@@ -108,7 +108,8 @@ enum SUSPEND_REASON {
     SUSPEND_REASON_OS = 4096,
     SUSPEND_REASON_WIFI_STATE = 4097,
     SUSPEND_REASON_BATTERY_CHARGING = 4098,
-    SUSPEND_REASON_BATTERY_OVERHEATED = 4099
+    SUSPEND_REASON_BATTERY_OVERHEATED = 4099,
+    SUSPEND_REASON_NO_GUI_KEEPALIVE = 4100
 };
 
 // battery state (currently used only for Android)
@@ -231,6 +232,27 @@ struct VERSION_INFO {
     int parse(MIOFILE&); 
     void write(MIOFILE&); 
     bool greater_than(VERSION_INFO&);
+};
+
+// used for Android
+//
+struct DEVICE_STATUS {
+    bool on_ac_power;
+    bool on_usb_power;
+    double battery_charge_pct;
+    int battery_state;      // see above
+    double battery_temperature_celsius;
+    bool wifi_online;
+
+    int parse(XML_PARSER&);
+    DEVICE_STATUS() {
+        on_ac_power = false;
+        on_usb_power = false;
+        battery_charge_pct = 0;
+        battery_state =  BATTERY_STATE_UNKNOWN;
+        battery_temperature_celsius = 0;
+        wifi_online = false;
+    }
 };
 
 #define RUN_MUTEX                   "BoincSingleInstance"

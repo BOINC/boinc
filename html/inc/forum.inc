@@ -1276,4 +1276,17 @@ function remove_subscriptions_thread($userid, $threadid) {
     BoincNotify::delete_aux("userid=$userid and type=".NOTIFY_SUBSCRIBED_POST." and opaque=$threadid");
 }
 
+function parse_forum_cookie() {
+    $x = array("", "");
+    if (isset($_COOKIE['sorting'])) {
+        $a = explode("|", $_COOKIE['sorting']);
+        if (array_key_exists(0, $a)) {
+            $x[0] = $a[0];
+        }
+        if (array_key_exists(1, $a)) {
+            $x[1] = $a[1];
+        }
+    }
+    return $x;
+}
 ?>

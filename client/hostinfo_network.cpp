@@ -56,38 +56,6 @@
 
 #include "hostinfo.h"
 
-#ifdef ANDROID
-// Returns TRUE if host is currently using a wifi connection
-// used on Android devices to prevent usage of data plans.
-// if value cant be read, default return false
-//
-bool HOST_INFO::host_wifi_online() {
-    char wifi_state[64];
-
-    strcpy(wifi_state, "");
-
-    // location in Android 2.3
-    FILE *f = fopen("/sys/class/net/eth0/operstate", "r");
-    if (!f) {
-        // location in Android 4
-        f = fopen("/sys/class/net/wlan0/operstate", "r");
-    }
-
-    if (f) {
-        fgets(wifi_state, 64, f);
-        fclose(f);
-    } else {
-        msg_printf(0, MSG_INFO, "HOST_INFO::host_wifi_online(): wifi adapter not found!\n");
-        return false;
-    }
-
-    if (strstr(wifi_state,"up")) {
-        return true;
-    }
-    return false;
-}
-#endif //ANDROID
-
 // get domain name and IP address of this host
 //
 int HOST_INFO::get_local_network_info() {

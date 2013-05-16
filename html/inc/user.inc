@@ -25,6 +25,7 @@ require_once("../inc/forum_db.inc");
 require_once("../inc/notify.inc");
 
 function parse_project($f) {
+    $p = new StdClass;
     $p->total_credit = 0.0;
     $p->expavg_credit = 0.0;
     while (!feof($f)) {
@@ -110,22 +111,23 @@ function cmp($a, $b) {
 }
 
 function show_other_projects($user, $personal) {
-    if (count($user->projects) > 1) {
-        usort($user->projects, "cmp");
-        if ($personal) {
-            echo "<h2>".tra("Projects in which you are participating")."</h2>";
-        } else {
-            echo "<h2>".tra("Projects in which %1 is participating", $user->name)."</h2>";
-        }
-        start_table();
-        row_heading_array(array(
-            tra("Project")."<br/><span class=\"note\">".tra("Click for user page")."</span>", tra("Total credit"), tra("Average credit"), tra("Since")
-        ));
-        foreach($user->projects as $project) {
-            show_project($project);
-        }
-        end_table();
+    if (!isset($user->projects)) return;
+    if (count($user->projects) < 2) return;
+
+    usort($user->projects, "cmp");
+    if ($personal) {
+        echo "<h2>".tra("Projects in which you are participating")."</h2>";
+    } else {
+        echo "<h2>".tra("Projects in which %1 is participating", $user->name)."</h2>";
     }
+    start_table();
+    row_heading_array(array(
+        tra("Project")."<br/><span class=\"note\">".tra("Click for user page")."</span>", tra("Total credit"), tra("Average credit"), tra("Since")
+    ));
+    foreach($user->projects as $project) {
+        show_project($project);
+    }
+    end_table();
 }
 
 function total_posts($user) {
