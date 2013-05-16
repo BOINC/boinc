@@ -79,7 +79,7 @@ Both:
 
 import boinc_path_config
 from Boinc import boinc_project_path, configxml
-import sys, os, getopt, time, glob, fcntl, signal, socket
+import sys, os, getopt, time, glob, fcntl, signal, socket, getpass
 
 right_now = int(time.time())
 verbose = os.isatty(sys.stdout.fileno())
@@ -705,6 +705,12 @@ if not command:
     raise SystemExit('No command specified and script name is not "start", "stop", or "status"')
 
 config = configxml.ConfigFile(config_filename).read()
+
+# if a <tasks_user> (name) is configured, terminate script if not ran by this user
+if 'tasks_user' in config.config.__dict__:
+    if getpass.getuser() != config.config.tasks_user:
+        raise SystemExit('The script must be run by user "' + config.config.tasks_user + '"')
+
 run_state = configxml.RunStateFile(run_state_filename).read(failopen_ok = True)
 
 if 'ssh_exec' in config.config.__dict__:
