@@ -104,6 +104,14 @@ function boinc_standard_user_default_permissions() {
     ),
   );
 
+  // Exported permission: administer flags
+  $permissions['administer flags'] = array(
+    'name' => 'administer flags',
+    'roles' => array(
+      '0' => 'administrator',
+    ),
+  );
+
   // Exported permission: administer imce(execute PHP)
   $permissions['administer imce(execute PHP)'] = array(
     'name' => 'administer imce(execute PHP)',
@@ -236,6 +244,14 @@ function boinc_standard_user_default_permissions() {
   // Exported permission: administer views
   $permissions['administer views'] = array(
     'name' => 'administer views',
+    'roles' => array(
+      '0' => 'administrator',
+    ),
+  );
+
+  // Exported permission: assign all roles
+  $permissions['assign all roles'] = array(
+    'name' => 'assign all roles',
     'roles' => array(
       '0' => 'administrator',
     ),
@@ -378,7 +394,6 @@ function boinc_standard_user_default_permissions() {
     'name' => 'edit own page content',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'authenticated user',
     ),
   );
 
@@ -395,7 +410,14 @@ function boinc_standard_user_default_permissions() {
     'name' => 'edit own story content',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'authenticated user',
+    ),
+  );
+
+  // Exported permission: ignore user
+  $permissions['ignore user'] = array(
+    'name' => 'ignore user',
+    'roles' => array(
+      '0' => 'authenticated user',
     ),
   );
 
@@ -418,6 +440,15 @@ function boinc_standard_user_default_permissions() {
     'name' => 'notify of path changes',
     'roles' => array(
       '0' => 'administrator',
+    ),
+  );
+
+  // Exported permission: reset abuse flags
+  $permissions['reset abuse flags'] = array(
+    'name' => 'reset abuse flags',
+    'roles' => array(
+      '0' => 'administrator',
+      '1' => 'moderator',
     ),
   );
 
@@ -449,6 +480,14 @@ function boinc_standard_user_default_permissions() {
   // Exported permission: use PHP for me alias paths
   $permissions['use PHP for me alias paths'] = array(
     'name' => 'use PHP for me alias paths',
+    'roles' => array(
+      '0' => 'administrator',
+    ),
+  );
+
+  // Exported permission: use flag import
+  $permissions['use flag import'] = array(
+    'name' => 'use flag import',
     'roles' => array(
       '0' => 'administrator',
     ),
