@@ -416,8 +416,7 @@ def run_daemon(task):
 def run_daemons():
     found_any = False
     if verbose: print "Starting daemons"
-    if is_main_host:
-        remove_stop_daemons()
+    remove_stop_daemons()
     for task in config.daemons:
         if task.host != local_hostname:
             continue
