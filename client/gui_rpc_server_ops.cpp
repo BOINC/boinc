@@ -545,7 +545,7 @@ static void handle_result_op(GUI_RPC_CONN& grc, const char* op) {
         msg_printf(p, MSG_INFO, "task %s resumed by user", result_name);
         rp->suspended_via_gui = false;
     }
-    gstate.request_schedule_cpus("result suspended, resumed or aborted by user");
+    gstate.request_schedule_cpus("task suspended, resumed or aborted by user");
     gstate.set_client_state_dirty("Result RPC");
     grc.mfout.printf("<success/>\n");
 }
