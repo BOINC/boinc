@@ -50,8 +50,7 @@ libstdc++.a:
 ttfont.cpp:
 	ln -s ../../api/ttfont.cpp .
 
-clean:
-	/bin/rm -f $(PROGS) *.o libstdc++.a
+clean: distclean
 
 distclean:
 	/bin/rm -f $(PROGS) *.o libstdc++.a

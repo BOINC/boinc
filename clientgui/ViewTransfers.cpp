@@ -161,14 +161,14 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
 
 	pItem = new CTaskItem(
         _("Retry Now"),
-        _("Click 'Retry now' to transfer the file now"),
+        _("Retry the file transfer now"),
         ID_TASK_TRANSFERS_RETRYNOW 
     );
     pGroup->m_Tasks.push_back( pItem );
 
 	pItem = new CTaskItem(
         _("Abort Transfer"),
-        _("Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."),
+        _("Abort this file transfer.  You won't get credit for the task."),
         ID_TASK_TRANSFERS_ABORT 
     );
     pGroup->m_Tasks.push_back( pItem );

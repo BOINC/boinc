@@ -286,6 +286,7 @@ static void handle_project_allowmorework(GUI_RPC_CONN& grc) {
     gstate.set_client_state_dirty("Project modified by user");
     msg_printf(p, MSG_INFO, "work fetch resumed by user");
     p->dont_request_more_work = false;
+    gstate.request_work_fetch("project work fetch resumed by user");
     grc.mfout.printf("<success/>\n");
 }
 

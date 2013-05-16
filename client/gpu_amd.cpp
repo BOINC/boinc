@@ -277,40 +277,50 @@ void COPROC_ATI::get(
             gpu_name="ATI Radeon HD 4700/4800 (RV740/RV770)";
             break;
         case 8:
-            gpu_name="ATI Radeon HD 5800 series (Cypress)";
+            gpu_name="ATI Radeon HD 5800/5900 series (Cypress/Hemlock)";
             break;
         case 9:
             gpu_name="ATI Radeon HD 5700 series (Juniper)";
             break;
         case 10:
             gpu_name="ATI Radeon HD 5500/5600 series (Redwood)";
-            break;
+			// AMD Radeon HD 6390/7510 (OEM rebranded)
+			break;
         case 11:
             gpu_name="ATI Radeon HD 5400 series (Cedar)";
-            break;
+			// real names would be AMD Radeon HD 6290/6350/7350/8350 (OEM rebranded)
+			break;
         case 12:
-            gpu_name="AMD Radeon HD 5900 (Hemlock)";
-            break;
+            gpu_name="AMD Radeon HD (Sumo)";
+			// this is Sumo - see http://developer.amd.com/download/AMD_Accelerated_Parallel_Processing_OpenCL_Programming_Guide.pdf @page 230
+			// could be lower Parts of Supersome like 63xx/64xx
+			break;
         case 13:
-            gpu_name="AMD Radeon HD 6300/6400/6500/6600 series (Sumo)"; //real names would be AMD Radeon HD 6370D/6380G/6410D/6480G/6520G/6530D/6550D/6620G series (Sumo)
-            break;
+            gpu_name="AMD Radeon HD 6300/6400/6500/6600 series (SuperSumo)"; 
+			// real names would be AMD Radeon HD 6370D/6380G/6410D/6480G/6520G/6530D/6550D/6620G series (Sumo)
+            // this is Supersumo - see http://developer.amd.com/download/AMD_Accelerated_Parallel_Processing_OpenCL_Programming_Guide.pdf @page 230
+			break;
         case 14:
-            gpu_name="AMD Radeon HD 6200/6300/7300 series (Wrestler)"; // real names would be AMD Radeon HD 6250/6290/6310/6320/7290/7310/7340 series (Wrestler)
+            gpu_name="AMD Radeon HD 6200/6300/7300 series (Wrestler)"; 
+			// real names would be AMD Radeon HD 6250/6290/6310/6320/7290/7310/7340 series (Wrestler)
             break;
         case 15:
             gpu_name="AMD Radeon HD 6900 series (Cayman)";
             break;
         case 16:
-            gpu_name="AMD Radeon HD 6990 (Antilles)";
-            break;
+            gpu_name="AMD Radeon HD (Kauai)";
+			// see http://developer.amd.com/download/AMD_Accelerated_Parallel_Processing_OpenCL_Programming_Guide.pdf @page 230
+			break;
         case 17:
             gpu_name="AMD Radeon HD 6790/6850/6870 series (Barts)";
+			// AMD Radeon 7720 (OEM rebranded)
             break;
         case 18:
             gpu_name="AMD Radeon HD 6570/6670/7570/7670 series (Turks)";
             break;
         case 19:
             gpu_name="AMD Radeon HD 6350/6450/7450/7470 series (Caicos)";
+			// AMD Radeon HD 7450/7470/8450/8470/8490 (OEM rebranded)
             break;
         case 20:
             gpu_name="AMD Radeon HD 7870/7950/7970 series (Tahiti)";
@@ -322,19 +332,11 @@ void COPROC_ATI::get(
             gpu_name="AMD Radeon HD 7700 series (Cape Verde)";
             break;
         case 23:
-            gpu_name="AMD Radeon HD 7400/7500/7600 series (Trinity)"; // it is not NEW ZEALAND - those are the GPUs inside AMD Trinity & Richland APUs !
+            gpu_name="AMD Radeon HD 7400/7500/7600/8300/8400/8500/8600 series (Trinity/Richland)"; 
+			// it is not NEW ZEALAND
+			// real names would be AMD Radeon HD 7400G/7420G/7480D/7500G/7520G/7540D/7560D/7600G/7620G/7640G/7660D/7660G/FirePro A300 for Trinity APUs
+			// real names would be AMD Radeon HD 8310G/8350G/8370D/8410G/8450G/8470D/8510G/8550G/8570D/8610G/8650G/8670D for Richland APUs
             break;
-//////////////////////////////////////////////////////////////////////
-//
-// new CAL_TARGET_IDs
-//
-// AMD released new GPUs (Sun, Venus, Mars, Neptune, ... and Bonaire
-//
-// they could be even more than the current max of 26!
-//
-// Kaveri and Kabini will have other new TargetIDs
-//
-//////////////////////////////////////////////////////////////////////
 		case 24:
             gpu_name="AMD Radeon HD (unknown)";
             break;
