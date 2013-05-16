@@ -21,8 +21,7 @@ all: $(PROGS)
 libstdc++.a:
 	ln -s `g++ -print-file-name=libstdc++.a`
 
-clean:
-	rm $(PROGS) *.o
+clean: distclean
 
 distclean:
 	/bin/rm -f $(PROGS) *.o libstdc++.a
