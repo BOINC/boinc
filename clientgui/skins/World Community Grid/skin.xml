@@ -30,7 +30,7 @@
       <application_name>World Community Grid - BOINC Manager</application_name>
       <application_short_name>World Community Grid</application_short_name>
 
-      <application_logo>wcg_about.ico</application_logo>
+      <application_logo>wcg_about.png</application_logo>
       <application_icon>
 
         <image>
@@ -46,7 +46,7 @@
 
         <image>
 
-          <imagesrc>wcg_about.ico</imagesrc>
+          <imagesrc>wcg_32.png</imagesrc>
           <transparency_mask>255:0:255</transparency_mask>
 
         </image>
