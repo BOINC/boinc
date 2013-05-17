@@ -22,7 +22,7 @@ function help_and_support_menu_default_menu_links() {
     'external' => '1',
     'has_children' => '0',
     'expanded' => '0',
-    'weight' => '25',
+    'weight' => '-46',
   );
   // Translatables
   // Included for use with string extractors like potx.

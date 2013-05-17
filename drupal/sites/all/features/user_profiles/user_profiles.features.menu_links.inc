@@ -22,7 +22,7 @@ function user_profiles_menu_default_menu_links() {
     'external' => '0',
     'has_children' => '0',
     'expanded' => '0',
-    'weight' => '5',
+    'weight' => '-49',
     'parent_path' => 'dashboard',
   );
   // Translatables

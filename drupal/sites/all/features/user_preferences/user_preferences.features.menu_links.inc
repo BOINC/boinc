@@ -22,7 +22,7 @@ function user_preferences_menu_default_menu_links() {
     'external' => '0',
     'has_children' => '0',
     'expanded' => '0',
-    'weight' => '15',
+    'weight' => '-47',
     'parent_path' => 'dashboard',
   );
   // Translatables
