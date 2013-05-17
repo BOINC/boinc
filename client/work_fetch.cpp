@@ -599,7 +599,9 @@ bool RSC_WORK_FETCH::can_fetch(PROJECT *p) {
     int nexcl = rpwf.ncoprocs_excluded;
     if (rsc_type && nexcl) {
         int n_not_excluded = ninstances - nexcl;
-        if (rpwf.queue_est > (gstate.work_buf_min() * n_not_excluded)/ninstances) {
+        if (rpwf.n_runnable_jobs >= n_not_excluded
+            && rpwf.queue_est > (gstate.work_buf_min() * n_not_excluded)/ninstances
+        ) {
             DEBUG(msg_printf(p, MSG_INFO, "skip: too much work");)
             return false;
         }

@@ -59,6 +59,9 @@ using std::set;
 
 bool log_actions = false;
 
+double min_failures_time[100];
+int min_min_failures = 100;
+
 // We simulate policies based on coding and replication.
 //
 // Coding means that data is divided into M = N+K units,
@@ -245,7 +248,10 @@ struct SIM_FILE : VDA_FILE_AUX, EVENT {
         meta_chunk->recovery_plan();
         if (meta_chunk->status == UNRECOVERABLE) {
             printf("FILE IS LOST!!\n");
-            exit(0);
+            sim.done = true;
+            min_min_failures = 0;
+            min_failures_time[0] = sim.now;
+            return;
         }
         if (debug_status) {
             printf("decide_reconstruct():\n");
@@ -260,10 +266,15 @@ struct SIM_FILE : VDA_FILE_AUX, EVENT {
         }
         meta_chunk->recovery_action(sim.now);
         meta_chunk->compute_min_failures();
-        printf("   Min failures: %d\n", meta_chunk->min_failures);
+        int mf = meta_chunk->min_failures;
+        printf("   Min failures: %d\n", mf);
         fault_tolerance.sample(
-            meta_chunk->min_failures-1, collecting_stats(), sim.now
+            mf-1, collecting_stats(), sim.now
         );
+        while (mf < min_min_failures) {
+            min_min_failures--;
+            min_failures_time[min_min_failures] = sim.now;
+        }
     }
 
     void print_stats(double now) {
@@ -628,4 +639,10 @@ int main(int argc, char** argv) {
 
     printf("%s: simulation finished\n", now_str());
     dfile->print_stats(sim.now);
+
+    FILE* f = fopen("mft.dat", "w");
+    for (int i=0; i<=policy.max_ft; i++) {
+        fprintf(f, "%d %f\n", i, min_failures_time[i]);
+    }
+    fclose(f);
 }

@@ -75,4 +75,6 @@ extern void msg_printf_notice(PROJ_AM *p, bool is_html, const char* link, const 
 
 #define _(x) "_(\""x"\")"
 
+extern std::string app_list_string(PROJECT*);
+
 #endif

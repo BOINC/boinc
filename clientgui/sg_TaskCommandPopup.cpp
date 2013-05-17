@@ -64,13 +64,13 @@ void CSimpleTaskPopupButton::AddMenuItems() {
     m_SuspendResumeMenuItem = m_TaskCommandPopUpMenu->Append(
         ID_TASK_WORK_SUSPEND, 
         _("Suspend"),
-        _("Suspend work for this result.")
+        _("Suspend this task.")
     );
 
     m_AbortMenuItem = m_TaskCommandPopUpMenu->Append(
         ID_TASK_WORK_ABORT,
         _("Abort"),
-        _("Abandon work on the result. You will get no credit for it.")
+        _("Abandon this task. You will get no credit for it.")
     );
 
     m_ShowPropertiesMenuItem = m_TaskCommandPopUpMenu->Append(

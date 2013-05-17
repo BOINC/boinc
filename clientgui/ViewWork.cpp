@@ -495,7 +495,7 @@ void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
         return;
     }
 
-    pFrame->UpdateStatusText(_("Aborting result..."));
+    pFrame->UpdateStatusText(_("Aborting task..."));
 
     row = -1;
     while (1) {

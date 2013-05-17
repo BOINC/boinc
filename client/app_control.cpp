@@ -1069,6 +1069,12 @@ void ACTIVE_TASK_SET::suspend_all(int reason) {
             if (atp->result->non_cpu_intensive()) break;
             atp->preempt(REMOVE_NEVER);
             break;
+        case SUSPEND_REASON_BATTERY_OVERHEATED:
+        case SUSPEND_REASON_BATTERY_CHARGING:
+            // these conditions can oscillate, so leave apps in mem
+            //
+            atp->preempt(REMOVE_NEVER);
+            break;
         default:
             atp->preempt(REMOVE_MAYBE_USER);
         }
