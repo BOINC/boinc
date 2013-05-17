@@ -12,6 +12,8 @@ public class ClientNotification {
 	//private static final String TAG = "ClientNotification";
 
 	private static ClientNotification clientNotification = null;
+	
+	public Notification notification;
 
 	private boolean mIsEnabled = true;
 	private int mOldComputingStatus = -1;
@@ -34,7 +36,17 @@ public class ClientNotification {
 	 * @param context
 	 * @param updatedStatus new status
 	 */
-	public synchronized void update(Context context, ClientStatus updatedStatus) {
+	public synchronized void update(Context context) {
+		// check whether notification is allowed in preferences
+		if (!Monitor.getAppPrefs().getShowNotification()) {
+			hide(context);
+			return;
+		}
+		
+		// get current client status
+		ClientStatus updatedStatus = Monitor.getClientStatus();
+		
+		// update notification
 		if (clientNotification.mOldComputingStatus == -1 
 				|| updatedStatus.computingStatus.intValue() != clientNotification.mOldComputingStatus
 				|| (updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_SUSPENDED && updatedStatus.computingSuspendReason != clientNotification.mOldSuspendReason)) {
@@ -42,21 +54,6 @@ public class ClientNotification {
 				updateNotification(context, updatedStatus.computingStatus);
 			clientNotification.mOldComputingStatus = updatedStatus.computingStatus;
 			clientNotification.mOldSuspendReason = updatedStatus.computingSuspendReason;
-		}
-	}
-
-	/**
-	 * Set notification enabled/disabled
-	 * @param context
-	 * @param enabled
-	 */
-	public synchronized void enable(Context context, boolean enabled) {
-		clientNotification.mIsEnabled = enabled;
-		if (clientNotification.mIsEnabled) {
-			if (clientNotification.mOldComputingStatus != -1)
-				updateNotification(context, clientNotification.mOldComputingStatus);
-		} else {
-			hide(context);
 		}
 	}
 
@@ -85,7 +82,7 @@ public class ClientNotification {
 		Integer notificationId = context.getResources().getInteger(R.integer.autostart_notification_id);
 
 		// Set the icon, scrolling text and time-stamp
-		Notification notification = new Notification(
+		notification = new Notification(
 				icon, 
 				statusText,
 				System.currentTimeMillis());

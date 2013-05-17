@@ -172,7 +172,7 @@ public class PrefsActivity extends FragmentActivity {
 		case R.string.prefs_show_notification_header: //app pref
 			appPrefs.setShowNotification(isSet);
 			populateLayout(); // updates status text
-			ClientNotification.getInstance().enable(getApplicationContext(), isSet);
+			ClientNotification.getInstance().update(getApplicationContext());
 			break;
 		case R.string.prefs_show_advanced_header: //app pref
 			appPrefs.setShowAdvanced(isSet);
