@@ -86,6 +86,8 @@
 
 #define MAX_OPENCL_PLATFORMS 16
 
+// arguments to proc_type_name() and proc_type_name_xml().
+//
 #define PROC_TYPE_CPU        0
 #define PROC_TYPE_NVIDIA_GPU 1
 #define PROC_TYPE_AMD_GPU    2
@@ -107,7 +109,7 @@ enum COPROC_USAGE {
     COPROC_UNUSED,
     COPROC_USED
 };
-    
+
 
 // represents a requirement for a coproc.
 // This is a parsed version of the <coproc> elements in an <app_version>
@@ -129,7 +131,7 @@ struct PCI_INFO {
     int parse(XML_PARSER&);
 };
 
-// there's some duplication between the values in 
+// there's some duplication between the values in
 // the OPENCL_DEVICE_PROP struct and the NVIDIA/ATI structs
 //
 struct OPENCL_DEVICE_PROP {
@@ -186,7 +188,7 @@ struct COPROC {
     bool specified_in_config;
         // If true, this coproc was listed in cc_config.xml
         // rather than being detected by the client.
-    
+
     // the following are used in both client and server for work-fetch info
     //
     double req_secs;
@@ -217,12 +219,12 @@ struct COPROC {
     bool running_graphics_app[MAX_COPROC_INSTANCES];
         // is this GPU running a graphics app (NVIDIA only)
 #if DEFER_ON_GPU_AVAIL_RAM
-   double available_ram_temp[MAX_COPROC_INSTANCES];
+    double available_ram_temp[MAX_COPROC_INSTANCES];
         // used during job scheduling
 #endif
 
     double last_print_time;
-    
+
     OPENCL_DEVICE_PROP opencl_prop;
 
 #ifndef _USING_FCGI_
@@ -270,12 +272,12 @@ struct COPROC {
         return -1;
     }
     void merge_opencl(
-        std::vector<OPENCL_DEVICE_PROP> &opencls, 
+        std::vector<OPENCL_DEVICE_PROP> &opencls,
         std::vector<int>& ignore_dev
     );
     void find_best_opencls(
         bool use_all,
-        std::vector<OPENCL_DEVICE_PROP> &opencls, 
+        std::vector<OPENCL_DEVICE_PROP> &opencls,
         std::vector<int>& ignore_dev
     );
 };
@@ -297,9 +299,9 @@ struct CUDA_DEVICE_PROP {
     double   memPitch;
     int   maxThreadsPerBlock;
     int   maxThreadsDim[3];
-    int   maxGridSize[3]; 
+    int   maxGridSize[3];
     int   clockRate;
-    double   totalConstMem; 
+    double   totalConstMem;
     int   major;     // compute capability
     int   minor;
     double   textureAlignment;
@@ -350,7 +352,7 @@ struct COPROC_ATI : public COPROC {
         // CAL version (not driver version) encoded as an int
     bool atirt_detected;
     bool amdrt_detected;
-    CALdeviceattribs attribs; 
+    CALdeviceattribs attribs;
     CALdeviceinfo info;
     COPROC_USAGE is_used;               // temp used in scan process
 
@@ -401,25 +403,32 @@ typedef std::vector<int> IGNORE_GPU_INSTANCE[NPROC_TYPES];
 struct COPROCS {
     int n_rsc;
     COPROC coprocs[MAX_RSC];
+        // array of processor types on this host.
+        // element 0 always represents the CPU.
+        // The remaining elements, if any, are GPUs or other coprocessors
+
+    // The following contain vendor-specific info about GPUs.
+    // (These GPUs are also represented by elements in the coprocs array)
+    //
     COPROC_NVIDIA nvidia;
     COPROC_ATI ati;
     COPROC_INTEL intel_gpu;
 
     void write_xml(MIOFILE& out, bool scheduler_rpc);
     void get(
-        bool use_all, 
+        bool use_all,
         std::vector<std::string> &descs,
         std::vector<std::string> &warnings,
         IGNORE_GPU_INSTANCE &ignore_gpu_instance
     );
     void get_opencl(
-        bool use_all, 
+        bool use_all,
         std::vector<std::string> &warnings,
         IGNORE_GPU_INSTANCE &ignore_gpu_instance
     );
     cl_int get_opencl_info(
-        OPENCL_DEVICE_PROP& prop, 
-        cl_uint device_index, 
+        OPENCL_DEVICE_PROP& prop,
+        cl_uint device_index,
         std::vector<std::string>& warnings
     );
     int parse(XML_PARSER&);

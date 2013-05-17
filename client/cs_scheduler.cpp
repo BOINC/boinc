@@ -1074,6 +1074,12 @@ int CLIENT_STATE::handle_scheduler_reply(
     //
     project->app_configs.config_app_versions(project);
 
+    // make sure we don't set no_rsc_apps[] for all processor types
+    //
+    if (!project->anonymous_platform) {
+        project->check_no_rsc_apps();
+    }
+
     return 0;
 }
 
