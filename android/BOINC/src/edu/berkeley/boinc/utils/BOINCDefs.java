@@ -105,6 +105,7 @@ public class BOINCDefs {
 	public static final int SUSPEND_REASON_WIFI_STATE               = 4097;
 	public static final int SUSPEND_REASON_BATTERY_CHARGING         = 4098;
 	public static final int SUSPEND_REASON_BATTERY_OVERHEATED       = 4099;
+	public static final int SUSPEND_REASON_NO_GUI_KEEPALIVE		    = 4100;
 	
 	// Values of RESULT::state
 	// THESE MUST BE IN NUMERICAL ORDER

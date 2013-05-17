@@ -614,6 +614,17 @@ SCHEDULER_REPLY::SCHEDULER_REPLY() {
     strcpy(email_hash, "");
 }
 
+static bool have_apps_for_client() {
+    for (int i=0; i<NPROC_TYPES; i++) {
+        if (ssp->have_apps_for_proc_type[i]) {
+            if (!i) return true;
+            COPROC* cp = g_request->coprocs.type_to_coproc(i);
+            if (cp->count) return true;
+        }
+    }
+    return false;
+}
+
 int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
     unsigned int i;
     char buf[BLOB_SIZE];
@@ -899,26 +910,40 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
         fprintf(fout, "%s", file_transfer_requests[i].c_str());
     }
 
-    // write deprecated form for old clients
+    // before writing no_X_apps elements,
+    // make sure that we're not going tell it we have no apps
+    // for any of its resources.
+    // Otherwise (for 7.0.x clients) it will never contact us again
     //
-    if (g_request->core_client_version < 70040) {
-        fprintf(fout,
-            "<no_cpu_apps>%d</no_cpu_apps>\n"
-            "<no_cuda_apps>%d</no_cuda_apps>\n"
-            "<no_ati_apps>%d</no_ati_apps>\n",
-            ssp->have_apps_for_proc_type[PROC_TYPE_CPU]?0:1,
-            ssp->have_apps_for_proc_type[PROC_TYPE_NVIDIA_GPU]?0:1,
-            ssp->have_apps_for_proc_type[PROC_TYPE_AMD_GPU]?0:1
-        );
-    }
-    for (i=0; i<NPROC_TYPES; i++) {
-        if (!ssp->have_apps_for_proc_type[i]) {
+    if (have_apps_for_client()) {
+        // write deprecated form for old clients
+        //
+        if (g_request->core_client_version < 70040) {
             fprintf(fout,
-                "<no_rsc_apps>%s</no_rsc_apps>\n",
-                proc_type_name_xml(i)
+                "<no_cpu_apps>%d</no_cpu_apps>\n"
+                "<no_cuda_apps>%d</no_cuda_apps>\n"
+                "<no_ati_apps>%d</no_ati_apps>\n",
+                ssp->have_apps_for_proc_type[PROC_TYPE_CPU]?0:1,
+                ssp->have_apps_for_proc_type[PROC_TYPE_NVIDIA_GPU]?0:1,
+                ssp->have_apps_for_proc_type[PROC_TYPE_AMD_GPU]?0:1
+            );
+        }
+        for (i=0; i<NPROC_TYPES; i++) {
+            if (!ssp->have_apps_for_proc_type[i]) {
+                fprintf(fout,
+                    "<no_rsc_apps>%s</no_rsc_apps>\n",
+                    proc_type_name_xml(i)
+                );
+            }
+        }
+    } else {
+        if (config.debug_send) {
+            log_messages.printf(MSG_NORMAL,
+                "[send] no app versions for client resources; suppressing no_rsc_apps\n"
             );
         }
     }
+
     gui_urls.get_gui_urls(user, host, team, buf);
     fputs(buf, fout);
     if (project_files.text) {

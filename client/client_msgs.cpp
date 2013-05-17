@@ -250,3 +250,21 @@ void MESSAGE_DESCS::cleanup() {
     }
     msgs.clear();
 }
+
+string app_list_string(PROJECT* p) {
+    string app_list;
+    for (unsigned int i=0; i<gstate.apps.size(); i++) {
+        APP* app = gstate.apps[i];
+        if (app->project != p) continue;
+        if (!app_list.empty()) {
+            app_list += ", ";
+        }
+        app_list += "'";
+        app_list += app->name;
+        app_list += "'";
+    }
+    if (app_list.empty()) {
+        app_list = "None";
+    }
+    return app_list;
+}

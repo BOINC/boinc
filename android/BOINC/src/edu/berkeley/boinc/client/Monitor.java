@@ -46,6 +46,7 @@ import edu.berkeley.boinc.rpc.AccountIn;
 import edu.berkeley.boinc.rpc.AccountOut;
 import edu.berkeley.boinc.rpc.CcState;
 import edu.berkeley.boinc.rpc.CcStatus;
+import edu.berkeley.boinc.rpc.DeviceStatus;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.Message;
 import edu.berkeley.boinc.rpc.Project;
@@ -919,6 +920,11 @@ public class Monitor extends Service {
 		
 		// Frequency of which the monitor updates client status via RPC, to often can cause reduced performance!
 		private Integer refreshFrequency = getResources().getInteger(R.integer.monitor_refresh_rate_ms);
+		private Integer minimumDeviceStatusFrequency = getResources().getInteger(R.integer.minimum_device_status_refresh_rate_in_monitor_loops);
+		private Integer deviceStatusOmitCounter = 0;
+		
+		// DeviceStatus wrapper class
+		private DeviceStatus deviceStatus = new DeviceStatus(getApplicationContext());
 		
 		@Override
 		protected Boolean doInBackground(Integer... params) {
@@ -933,6 +939,19 @@ public class Monitor extends Service {
 					clientSetup();
 					sleep = false;
 				} else {
+					// connection alive
+					
+					// set devices status
+					try {
+						if(deviceStatus.update() || deviceStatusOmitCounter >= minimumDeviceStatusFrequency) {
+							if(showRpcCommands) Log.d(TAG, "reportDeviceStatus");
+							Boolean  reportStatusSuccess = rpc.reportDeviceStatus(deviceStatus);
+							Log.d(TAG,"reportDeviceStatus returned: " + reportStatusSuccess);
+							if(reportStatusSuccess) deviceStatusOmitCounter = 0;
+						} else deviceStatusOmitCounter++;
+					} catch (Exception e) { Log.w(TAG, "device status update failed: " + e.getLocalizedMessage()); }
+					
+					// retrieve client status
 					if(showRpcCommands) Log.d(TAG, "getCcStatus");
 					CcStatus status = rpc.getCcStatus();
 					

@@ -27,18 +27,18 @@
 #define RSC_TYPE_ANY    -1
 #define RSC_TYPE_CPU    0
 
-// reasons for not being able to fetch work
+// reasons for not fetching work
 //
-#define CANT_FETCH_WORK_NON_CPU_INTENSIVE   1
-#define CANT_FETCH_WORK_SUSPENDED_VIA_GUI   2
-#define CANT_FETCH_WORK_MASTER_URL_FETCH_PENDING   3
-#define CANT_FETCH_WORK_MIN_RPC_TIME        4
-#define CANT_FETCH_WORK_DONT_REQUEST_MORE_WORK        5
-#define CANT_FETCH_WORK_DOWNLOAD_STALLED    6
-#define CANT_FETCH_WORK_RESULT_SUSPENDED    7
-#define CANT_FETCH_WORK_TOO_MANY_UPLOADS    8
-#define CANT_FETCH_WORK_NOT_HIGHEST_PRIORITY    9
-#define CANT_FETCH_WORK_DONT_NEED           10
+#define CANT_FETCH_WORK_NON_CPU_INTENSIVE           1
+#define CANT_FETCH_WORK_SUSPENDED_VIA_GUI           2
+#define CANT_FETCH_WORK_MASTER_URL_FETCH_PENDING    3
+#define CANT_FETCH_WORK_MIN_RPC_TIME                4
+#define CANT_FETCH_WORK_DONT_REQUEST_MORE_WORK      5
+#define CANT_FETCH_WORK_DOWNLOAD_STALLED            6
+#define CANT_FETCH_WORK_RESULT_SUSPENDED            7
+#define CANT_FETCH_WORK_TOO_MANY_UPLOADS            8
+#define CANT_FETCH_WORK_NOT_HIGHEST_PRIORITY        9
+#define CANT_FETCH_WORK_DONT_NEED                   10
 
 inline const char* cant_fetch_work_string(int reason) {
     switch (reason) {

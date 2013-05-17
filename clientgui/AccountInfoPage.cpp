@@ -382,9 +382,10 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         m_pAccountManagerLinkLabelStaticCtrl->Hide();
     }
 
-    m_pTitleStaticCtrl->SetLabel(
-        _("Identify your account ")
-    );
+    wxString str;
+    wxString name = wxString(pc.name.c_str(), wxConvUTF8);
+    str.Printf(_("Identify your account at %s"), name.c_str());
+    m_pTitleStaticCtrl->SetLabel(str);
 
     if (!IS_ACCOUNTMANAGERWIZARD() && !IS_ACCOUNTMANAGERUPDATEWIZARD()) {
 		if (pc.client_account_creation_disabled) {
