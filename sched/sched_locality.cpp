@@ -1243,8 +1243,8 @@ void send_work_locality() {
                 g_reply->file_deletes.push_back(fil);
                 if (config.debug_locality) {
                     log_messages.printf(MSG_NORMAL,
-                        "[locality] [HOST#%d]: delete file %s (not needed)\n",
-                        g_reply->host.id, fil.name
+                        "[locality] [HOST#%d]: delete file %s (accompanies %s)\n",
+                        g_reply->host.id, fil.name, fi.name
                     );
                 }
             } else if ( /* for files like h1_XXXX.XX_S5R4 */
@@ -1265,8 +1265,8 @@ void send_work_locality() {
                 g_reply->file_deletes.push_back(fih7);
                 if (config.debug_locality) {
                     log_messages.printf(MSG_NORMAL,
-                        "[locality] [HOST#%d]: delete files %s,%s,%s (not needed)\n",
-                        g_reply->host.id, fil4.name,fil7.name,fih7.name
+                        "[locality] [HOST#%d]: delete files %s,%s,%s (accompanies %s)\n",
+                        g_reply->host.id, fil4.name,fil7.name,fih7.name, fi.name
                     );
                 }
             }
