@@ -1394,6 +1394,7 @@ int CC_STATUS::parse(XML_PARSER& xp) {
 		if (xp.parse_double("network_mode_delay", network_mode_delay)) continue;
         if (xp.parse_bool("disallow_attach", disallow_attach)) continue;
         if (xp.parse_bool("simple_gui_only", simple_gui_only)) continue;
+        if (xp.parse_int("max_event_log_lines", max_event_log_lines)) continue;
     }
     return ERR_XML_PARSE;
 }
