@@ -377,6 +377,16 @@ public class ClientStatus {
 				setWifiLock(false);
 				return;
 			}
+			if(status.task_mode == BOINCDefs.RUN_MODE_AUTO && status.task_suspend_reason == BOINCDefs.SUSPEND_REASON_CPU_THROTTLE) {
+				// suspended due to CPU throttling, treat as if was running!
+				computingStatus = COMPUTING_STATUS_COMPUTING;
+				computingSuspendReason = status.task_suspend_reason; // = 64 - SUSPEND_REASON_CPU_THROTTLE
+				computingParseError = false;
+				setWakeLock(true);
+				setWifiLock(true);
+				return;
+				
+			}
 			if((status.task_mode == BOINCDefs.RUN_MODE_AUTO) && (status.task_suspend_reason != BOINCDefs.SUSPEND_NOT_SUSPENDED)) {
 				computingStatus = COMPUTING_STATUS_SUSPENDED;
 				computingSuspendReason = status.task_suspend_reason;

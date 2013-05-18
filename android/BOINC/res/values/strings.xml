@@ -249,7 +249,7 @@
     <string name="suspend_tod">Out of computation time-frame.</string>
     <string name="suspend_bm">BOINC is benchmarking your device&#8230;</string>
     <string name="suspend_disksize">Out of disk space.</string>
-    <string name="suspend_cputhrottle">Your device is busy.</string>
+    <string name="suspend_cputhrottle">Scheduled CPU throttle.</string>
     <string name="suspend_noinput">No recent tasks available.</string>
     <string name="suspend_delay">Initialisation delay.</string>
     <string name="suspend_exclusiveapp">An exclusive app is running.</string>
