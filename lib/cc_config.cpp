@@ -36,7 +36,7 @@
 
 #include "cc_config.h"
 
-#define DEFAULT_MAX_DISPLAYED_EVENT_LOG_LINES 50
+#define DEFAULT_MAX_DISPLAYED_EVENT_LOG_LINES 2000
 
 using std::string;
 
