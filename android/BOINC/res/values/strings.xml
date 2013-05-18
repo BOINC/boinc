@@ -129,6 +129,7 @@
     <string name="status_noproject">Add a project!</string>
     <string name="status_closing">Closing&#8230;</string>
     <string name="status_benchmarking">Benchmarking&#8230;</string>
+    <string name="status_image_description">project image</string>
     
 	<!-- preferences tab strings -->
 	<string name="prefs_loading">Reading preferences&#8230;</string>

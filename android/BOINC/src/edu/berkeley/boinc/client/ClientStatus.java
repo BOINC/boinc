@@ -233,9 +233,9 @@ public class ClientStatus {
 	// returns list with slideshow images of all projects
 	// 126 * 29 pixel from /projects/PNAME/slideshow_appname_n
 	// not aware of project or application!
-	public synchronized ArrayList<Bitmap> getSlideshowImages() {
+	public synchronized ArrayList<ImageWrapper> getSlideshowImages() {
 
-		ArrayList<Bitmap> slideshowImages = new ArrayList<Bitmap>(); 
+		ArrayList<ImageWrapper> slideshowImages = new ArrayList<ImageWrapper>(); 
 		
 		for (Project project: projects) {
 			// get file paths
@@ -262,7 +262,7 @@ public class ClientStatus {
 			options.inSampleSize = 1;
 			for (String filePath : filePaths) {
 				Bitmap tmp = BitmapFactory.decodeFile(filePath, options);
-				if(tmp!=null) slideshowImages.add(tmp);
+				if(tmp!=null) slideshowImages.add(new ImageWrapper(tmp,project.project_name));
 				else Log.d(TAG,"loadSlideshowImagesFromFile(): null for path: " + filePath);
 			}
 		}
@@ -485,5 +485,16 @@ public class ClientStatus {
 		//Log.d(TAG, "parseSoftLinkToAbsPath() fileName: " + fileName);
 		
 		return projectDir + "/" + fileName;
+	}
+	
+	// Wrapper for slideshow images
+	public class ImageWrapper {
+		public Bitmap image;
+		public String projectName;
+		
+		public ImageWrapper(Bitmap image, String projectName) {
+			this.image = image;
+			this.projectName = projectName;
+		}
 	}
 }
