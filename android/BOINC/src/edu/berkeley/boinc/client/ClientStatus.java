@@ -33,6 +33,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.wifi.WifiManager;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.util.Log;
@@ -53,8 +54,10 @@ public class ClientStatus {
 	private final String TAG = "BOINC Client Status";
 	private Context ctx; // application context in order to fire broadcast events
 	
-	//WakeLock
-	WakeLock wakeLock;
+	// CPU WakeLock
+	private WakeLock wakeLock;
+	// WiFi lock
+	private WifiManager.WifiLock wifiLock;
 	
 	//RPC wrapper
 	private CcStatus status;
@@ -93,16 +96,21 @@ public class ClientStatus {
 	public ClientStatus(Context ctx) {
 		this.ctx = ctx;
 		
-		// set up Wake Lock
+		// set up CPU Wake Lock
 		// see documentation at http://developer.android.com/reference/android/os/PowerManager.html
 		PowerManager pm = (PowerManager) ctx.getSystemService(Context.POWER_SERVICE);
 		wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
 		wakeLock.setReferenceCounted(false); // "one call to release() is sufficient to undo the effect of all previous calls to acquire()"
+		
+		// set up Wifi wake lock
+		WifiManager wm = (WifiManager) ctx.getSystemService(Context.WIFI_SERVICE);
+		wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL , "MyWifiLock");
+		wifiLock.setReferenceCounted(false);
 	}
 	
 	// call to acquire or release resources held by the WakeLock.
 	// acquisition: every time the Monitor loop calls setClientStatus and computingStatus == COMPUTING_STATUS_COMPUTING
-	// release: every time computingStatus != COMPUTING_STATUS_COMPUTING , and in Monitor.onDestroy()
+	// release: every time acquisition criteria is not met , and in Monitor.onDestroy()
 	public void setWakeLock(Boolean acquire) {
 		try {
 			if(wakeLock.isHeld() == acquire) return; // wakeLock already in desired state
@@ -115,6 +123,23 @@ public class ClientStatus {
 				Log.d(TAG, "wakeLock released");
 			}
 		} catch (Exception e) {Log.w(TAG, "Exception durign setWakeLock " + acquire, e);}
+	}
+	
+	// call to acquire or release resources held by the WifiLock.
+	// acquisition: every time the Monitor loop calls setClientStatus: computingStatus == COMPUTING_STATUS_COMPUTING || COMPUTING_STATUS_IDLE
+	// release: every time acquisition criteria is not met , and in Monitor.onDestroy()
+	public void setWifiLock(Boolean acquire) {
+		try {
+			if(wifiLock.isHeld() == acquire) return; // wifiLock already in desired state
+			
+			if(acquire) { // acquire wakeLock
+				wifiLock.acquire();
+				Log.d(TAG, "wifiLock acquired");
+			} else { // release wakeLock
+				wifiLock.release();
+				Log.d(TAG, "wifiLock released");
+			}
+		} catch (Exception e) {Log.w(TAG, "Exception durign setWifiLock " + acquire, e);}
 	}
 	
 	/*
@@ -349,6 +374,7 @@ public class ClientStatus {
 				computingSuspendReason = status.task_suspend_reason; // = 4 - SUSPEND_REASON_USER_REQ????
 				computingParseError = false;
 				setWakeLock(false);
+				setWifiLock(false);
 				return;
 			}
 			if((status.task_mode == BOINCDefs.RUN_MODE_AUTO) && (status.task_suspend_reason != BOINCDefs.SUSPEND_NOT_SUSPENDED)) {
@@ -356,6 +382,7 @@ public class ClientStatus {
 				computingSuspendReason = status.task_suspend_reason;
 				computingParseError = false;
 				setWakeLock(false);
+				setWifiLock(false);
 				return;
 			}
 			if((status.task_mode == BOINCDefs.RUN_MODE_AUTO) && (status.task_suspend_reason == BOINCDefs.SUSPEND_NOT_SUSPENDED)) {
@@ -375,12 +402,14 @@ public class ClientStatus {
 					computingSuspendReason = status.task_suspend_reason; // = 0 - SUSPEND_NOT_SUSPENDED
 					computingParseError = false;
 					setWakeLock(true);
+					setWifiLock(true);
 					return;
 				} else { // client "is able but idle"
 					computingStatus = COMPUTING_STATUS_IDLE;
 					computingSuspendReason = status.task_suspend_reason; // = 0 - SUSPEND_NOT_SUSPENDED
 					computingParseError = false;
 					setWakeLock(false);
+					setWifiLock(true);
 					return;
 				}
 			}

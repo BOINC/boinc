@@ -106,7 +106,7 @@ public class DeviceStatus{
 			wifi_online = false;
 		}
 		
-		Log.d(TAG, "change: " + change + " - power supply: " + on_ac_power + " ; level: " + battery_charge_pct + " ; temperature: " + battery_temperature_celcius + " ; wifi: " + wifi_online);
+		//Log.d(TAG, "change: " + change + " - power supply: " + on_ac_power + " ; level: " + battery_charge_pct + " ; temperature: " + battery_temperature_celcius + " ; wifi: " + wifi_online);
 		return change;
 	}
 	

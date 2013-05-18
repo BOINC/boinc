@@ -510,7 +510,9 @@ public class Monitor extends Service {
     	monitorRunning = false;
 		monitorThread.interrupt();
 		
-		clientStatus.setWakeLock(false); // release wakeLock, if held.
+		 // release locks, if held.
+		clientStatus.setWakeLock(false);
+		clientStatus.setWifiLock(false);
     }
 
     @Override
@@ -894,7 +896,7 @@ public class Monitor extends Service {
 		return rpc.getMessages(seqNo);
 	}
 	
-	private final class ClientMonitorAsync extends AsyncTask<Integer, String, Boolean> {
+	private final class ClientMonitorAsync extends AsyncTask<Integer, Void, Boolean> {
 
 		private final String TAG = "BOINC ClientMonitorAsync";
 		private final Boolean showRpcCommands = false;
@@ -913,7 +915,7 @@ public class Monitor extends Service {
 			monitorThread = Thread.currentThread();
 			Boolean sleep = true;
 			while(monitorRunning) {
-				publishProgress("doInBackground() monitor loop...");
+				//Log.d(TAG,"doInBackground() monitor loop...");
 				
 				if(!rpc.connectionAlive()) { //check whether connection is still alive
 					// If connection is not working, either client has not been set up yet or client crashed.
@@ -969,11 +971,6 @@ public class Monitor extends Service {
 			}
 
 			return true;
-		}
-
-		@Override
-		protected void onProgressUpdate(String... arg0) {
-			Log.d(TAG, "onProgressUpdate() " + arg0[0]);
 		}
 		
 		@Override
