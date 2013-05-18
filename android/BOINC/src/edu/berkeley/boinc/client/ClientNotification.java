@@ -7,15 +7,20 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 public class ClientNotification {
-	//private static final String TAG = "ClientNotification";
+	private static final String TAG = "ClientNotification";
 
 	private static ClientNotification clientNotification = null;
 	
-	public Notification notification;
+	private Context context;
+	private NotificationManager nm;
+	private Integer notificationId;
+	private PendingIntent contentIntent;
 
-	private boolean mIsEnabled = true;
 	private int mOldComputingStatus = -1;
 	private int mOldSuspendReason = -1;
 
@@ -24,22 +29,30 @@ public class ClientNotification {
 	 * Constructs a new instance of the ClientNotification if not already constructed.
 	 * @return ClientNotification static instance
 	 */
-	public static synchronized ClientNotification getInstance() {
-		if (clientNotification == null)
-			clientNotification = new ClientNotification();
-
+	public static synchronized ClientNotification getInstance(Context ctx) {
+		if (clientNotification == null) {
+			clientNotification = new ClientNotification(ctx);
+		}
 		return clientNotification;
+	}
+	
+	public ClientNotification (Context ctx) {
+		this.context = ctx;
+		this.nm = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+		notificationId = context.getResources().getInteger(R.integer.autostart_notification_id);
+		Intent intent = new Intent(context, BOINCActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+		contentIntent = PendingIntent.getActivity(context, 0, intent, 0);
 	}
 
 	/**
 	 * Updates notification with client's current status
-	 * @param context
-	 * @param updatedStatus new status
 	 */
-	public synchronized void update(Context context) {
-		// check whether notification is allowed in preferences
+	public synchronized void update() {
+		// check whether notification is allowed in preferences	
 		if (!Monitor.getAppPrefs().getShowNotification()) {
-			hide(context);
+			Log.d(TAG,"cancelling notification");
+			nm.cancel(notificationId);
 			return;
 		}
 		
@@ -49,61 +62,55 @@ public class ClientNotification {
 		// update notification
 		if (clientNotification.mOldComputingStatus == -1 
 				|| updatedStatus.computingStatus.intValue() != clientNotification.mOldComputingStatus
-				|| (updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_SUSPENDED && updatedStatus.computingSuspendReason != clientNotification.mOldSuspendReason)) {
-			if (clientNotification.mIsEnabled)
-				updateNotification(context, updatedStatus.computingStatus);
+				|| (updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_SUSPENDED
+				&& updatedStatus.computingSuspendReason != clientNotification.mOldSuspendReason)) {
+			
+			nm.notify(notificationId, buildNotification());
+			
+			// save status for comparison next time
 			clientNotification.mOldComputingStatus = updatedStatus.computingStatus;
 			clientNotification.mOldSuspendReason = updatedStatus.computingSuspendReason;
 		}
 	}
 
-	private void updateNotification(Context context, int status) {
-		switch(status) {
-		case ClientStatus.COMPUTING_STATUS_NEVER:
-			show(context, R.drawable.ic_stat_notify_boinc_paused, BOINCActivity.class);
-			break;
-		case ClientStatus.COMPUTING_STATUS_SUSPENDED:
-			show(context, R.drawable.ic_stat_notify_boinc_paused, BOINCActivity.class);
-			break;
-		case ClientStatus.COMPUTING_STATUS_IDLE:
-			show(context, R.drawable.ic_stat_notify_boinc_paused, BOINCActivity.class);
-			break;
-		case ClientStatus.COMPUTING_STATUS_COMPUTING:
-			show(context, R.drawable.ic_stat_notify_boinc_normal, BOINCActivity.class);
-			break;
-		}
-	}
-
-	private void show(Context context, int icon, Class<?> launchActivity) {
+	private Notification buildNotification() {
+		// get current client computingstatus
+		Integer computingStatus = Monitor.getClientStatus().computingStatus;
 		// get status string from ClientStatus
 		String statusText = Monitor.getClientStatus().getCurrentStatusString();
 		
-		// get notification ID
-		Integer notificationId = context.getResources().getInteger(R.integer.autostart_notification_id);
-
-		// Set the icon, scrolling text and time-stamp
-		notification = new Notification(
-				icon, 
-				statusText,
-				System.currentTimeMillis());
-		// The PendingIntent to launch activity
-		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
-				new Intent(context, launchActivity), 0);
-
-		// Set the info for the views that show in the notification panel.
-		notification.setLatestEventInfo(context, context.getText(R.string.app_name),
-				statusText, pendingIntent);
-		notification.flags |= Notification.FLAG_NO_CLEAR;
-
-		NotificationManager nm = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-		nm.notify(notificationId, notification);
+		// build notification
+		Notification notification = new NotificationCompat.Builder(context)
+        	.setContentTitle(context.getString(R.string.app_name))
+        	.setContentText(statusText)
+        	.setSmallIcon(getIcon(computingStatus))
+        	.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), getIcon(computingStatus)))
+        	.setContentIntent(contentIntent)
+        	.setOngoing(true)
+        	.build();
+		
+		return notification;
 	}
 
-	private void hide(Context context) {
-		// get notification ID
-		Integer notificationId = context.getResources().getInteger(R.integer.autostart_notification_id);
-		
-		NotificationManager nm = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-		nm.cancel(notificationId);
+	// returns resource id of icon
+	private int getIcon(int status) {
+		int icon;
+		switch(status) {
+		case ClientStatus.COMPUTING_STATUS_NEVER:
+			icon = R.drawable.ic_stat_notify_boinc_paused;
+			break;
+		case ClientStatus.COMPUTING_STATUS_SUSPENDED:
+			icon = R.drawable.ic_stat_notify_boinc_paused;
+			break;
+		case ClientStatus.COMPUTING_STATUS_IDLE:
+			icon = R.drawable.ic_stat_notify_boinc_paused;
+			break;
+		case ClientStatus.COMPUTING_STATUS_COMPUTING:
+			icon = R.drawable.ic_stat_notify_boinc_normal;
+			break;
+		default:
+			icon = R.drawable.ic_stat_notify_boinc_normal;
+		}
+		return icon;
 	}
 }

@@ -115,6 +115,8 @@ public class BOINCActivity extends TabActivity {
 	}
 
 	private void doBindService() {
+		// start service to allow setForeground later on...
+		startService(new Intent(this, Monitor.class));
 	    // Establish a connection with the service, onServiceConnected gets called when
 		bindService(new Intent(this, Monitor.class), mConnection, Service.BIND_AUTO_CREATE);
 	}
