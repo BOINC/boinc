@@ -205,7 +205,7 @@
 	<string name="tasks_active_quit_pending">stopping</string>
 	<string name="tasks_custom_suspended_via_gui">paused</string>
 	<string name="tasks_custom_project_suspended_via_gui">paused</string>
-	<string name="tasks_custom_ready_to_report">reporting&#8230;</string>
+	<string name="tasks_custom_ready_to_report">ready to report</string>
 
 	<!-- confirmation dialog -->
 	<string name="confirm_abort_task_title">Abort task</string>
