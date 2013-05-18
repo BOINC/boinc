@@ -45,6 +45,7 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
         	android:layout_gravity="center_horizontal"
+        	android:layout_margin="10dp"
 	        android:contentDescription="@string/status_paused"
 	        android:src="@drawable/pausew48" />
 	    
@@ -94,36 +95,5 @@
 	        android:textAppearance="?android:attr/textAppearanceSmall" />
     
     </LinearLayout>
-    
-    <RelativeLayout 
-        android:id="@+id/bottow_wrapper"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:paddingBottom="10dp"
-        android:orientation="horizontal" >
-
-	    <ImageView
-	        android:id="@+id/status_change_runmode_image"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentBottom="true"
-	        android:layout_marginLeft="20dip"
-	        android:contentDescription="@string/status_paused"
-	        android:clickable="true"
-	        android:onClick="onClick"
-	        android:src="@drawable/stopw24" />
-	
-	    <TextView
-	        android:id="@+id/status_change_runmode_long"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentBottom="true"
-	        android:layout_toRightOf="@id/status_change_runmode_image"
-	        android:layout_marginLeft="10dip"
-	        android:clickable="true"
-	        android:onClick="onClick"
-	        android:textAppearance="?android:attr/textAppearanceMedium" />
-    </RelativeLayout>
  
 </RelativeLayout>

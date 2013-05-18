@@ -123,14 +123,12 @@
     <string name="status_paused_long">Computation suspended.</string>
     <string name="status_idle">Nothing to do</string>
     <string name="status_idle_long">Waiting for tasks&#8230;</string>
-    <string name="status_computing_disabled">Stopped</string>
-    <string name="status_computing_disabled_long">Allow computation to continue!</string>
+    <string name="status_computing_disabled">Disabled</string>
+    <string name="status_computing_disabled_long">Press play!</string>
     <string name="status_launching">Starting&#8230;</string>
     <string name="status_noproject">Add a project!</string>
     <string name="status_closing">Closing&#8230;</string>
     <string name="status_benchmarking">Benchmarking&#8230;</string>
-    <string name="disable_computation">Stop computation</string>
-    <string name="enable_computation">Allow computation</string>
     
 	<!-- preferences tab strings -->
 	<string name="prefs_loading">Reading preferences&#8230;</string>
@@ -276,5 +274,7 @@
     <string name="email_to">Email to&#8230;</string>
     <string name="send_mail">Send mail&#8230;</string>
     <string name="menu_exit">Exit BOINC</string>
+    <string name="menu_run_mode_disable">Stop</string>
+    <string name="menu_run_mode_enable">Continue</string>
     
 </resources>

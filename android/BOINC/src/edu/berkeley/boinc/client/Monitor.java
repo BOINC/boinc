@@ -594,9 +594,8 @@ public class Monitor extends Service {
 		stopSelf();
     }
        
-	public void setRunMode(Integer mode) {
-		//execute in different thread, in order to avoid network communication in main thread and therefore ANR errors
-		(new WriteClientRunModeAsync()).execute(mode);
+	public Boolean setRunMode(Integer mode) {
+		return rpc.setRunMode(mode, 0);
 	}
 	
 	// writes the given GlobalPreferences via RPC to the client
@@ -1077,28 +1076,6 @@ public class Monitor extends Service {
 				publishProgress("successful.");
 			}
 			return retry;
-		}
-		
-		@Override
-		protected void onPostExecute(Boolean success) {
-			forceRefresh();
-		}
-
-		@Override
-		protected void onProgressUpdate(String... arg0) {
-			Log.d(TAG, "onProgressUpdate - " + arg0[0]);
-		}
-	}
-
-	private final class WriteClientRunModeAsync extends AsyncTask<Integer, String, Boolean> {
-
-		private final String TAG = "WriteClientRunModeAsync";
-		
-		@Override
-		protected Boolean doInBackground(Integer... params) {
-			Boolean success = rpc.setRunMode(params[0], 0);
-        	publishProgress("run mode set to " + params[0] + " returned " + success);
-			return success;
 		}
 		
 		@Override

@@ -30,6 +30,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -37,6 +38,7 @@ import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
@@ -44,7 +46,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-public class StatusActivity extends Activity {
+public class StatusActivity extends Activity implements OnClickListener{
 	
 	private final String TAG = "BOINC StatusActivity";
 	
@@ -171,8 +173,6 @@ public class StatusActivity extends Activity {
 				TextView statusHeader = (TextView) findViewById(R.id.status_header);
 				ImageView statusImage = (ImageView) findViewById(R.id.status_image);
 				TextView statusDescriptor = (TextView) findViewById(R.id.status_long);
-				ImageView changeRunmodeImage = (ImageView) findViewById(R.id.status_change_runmode_image);
-				TextView changeRunmodeDescriptor = (TextView) findViewById(R.id.status_change_runmode_long);
 		        imageFrame = (ViewFlipper) findViewById(R.id.slideshowFrame);
 				
 				// adapt to specific computing status
@@ -180,25 +180,18 @@ public class StatusActivity extends Activity {
 				case ClientStatus.COMPUTING_STATUS_NEVER:
 					imageFrame.setVisibility(View.GONE);
 					statusHeader.setText(R.string.status_computing_disabled);
-					statusImage.setImageResource(R.drawable.stopw48);
+					statusImage.setImageResource(R.drawable.playw48);
 					statusImage.setContentDescription(getString(R.string.status_computing_disabled));
+					statusImage.setClickable(true);
+					statusImage.setOnClickListener(this);
 					statusDescriptor.setText(R.string.status_computing_disabled_long);
-					changeRunmodeImage.setImageResource(R.drawable.playw24);
-					changeRunmodeImage.setContentDescription(getString(R.string.enable_computation));
-					changeRunmodeImage.setTag(true);
-					changeRunmodeDescriptor.setText(R.string.enable_computation);
-					changeRunmodeDescriptor.setTag(true);
 					break;
 				case ClientStatus.COMPUTING_STATUS_SUSPENDED:
 					imageFrame.setVisibility(View.GONE);
 					statusHeader.setText(R.string.status_paused);
 					statusImage.setImageResource(R.drawable.pausew48);
 					statusImage.setContentDescription(getString(R.string.status_paused));
-					changeRunmodeImage.setImageResource(R.drawable.stopw24);
-					changeRunmodeImage.setContentDescription(getString(R.string.disable_computation));
-					changeRunmodeImage.setTag(false);
-					changeRunmodeDescriptor.setText(R.string.disable_computation);
-					changeRunmodeDescriptor.setTag(false);
+					statusImage.setClickable(false);
 					switch(status.computingSuspendReason) {
 					case BOINCDefs.SUSPEND_REASON_BATTERIES:
 						statusDescriptor.setText(R.string.suspend_batteries);
@@ -271,11 +264,7 @@ public class StatusActivity extends Activity {
 					statusHeader.setText(R.string.status_idle);
 					statusImage.setImageResource(R.drawable.pausew48);
 					statusImage.setContentDescription(getString(R.string.status_idle));
-					changeRunmodeImage.setImageResource(R.drawable.stopw24);
-					changeRunmodeImage.setContentDescription(getString(R.string.disable_computation));
-					changeRunmodeImage.setTag(false);
-					changeRunmodeDescriptor.setText(R.string.disable_computation);
-					changeRunmodeDescriptor.setTag(false);
+					statusImage.setClickable(false);
 					Integer networkState = 0;
 					try{
 						networkState = status.networkSuspendReason;
@@ -292,15 +281,10 @@ public class StatusActivity extends Activity {
 					if(!loadSlideshow()) {
 						Log.d(TAG, "slideshow not available, load plain old status instead...");
 						statusHeader.setText(R.string.status_running);
-						statusImage.setImageResource(R.drawable.playw48);
+						statusImage.setImageResource(R.drawable.cogsw48);
 						statusImage.setContentDescription(getString(R.string.status_running));
 						statusDescriptor.setText(R.string.status_running_long);
 					}
-					changeRunmodeImage.setImageResource(R.drawable.stopw24);
-					changeRunmodeImage.setContentDescription(getString(R.string.disable_computation));
-					changeRunmodeImage.setTag(false);
-					changeRunmodeDescriptor.setText(R.string.disable_computation);
-					changeRunmodeDescriptor.setTag(false);
 					break;
 				}
 				computingStatus = status.computingStatus; //save new computing status
@@ -309,19 +293,6 @@ public class StatusActivity extends Activity {
 				computingStatus = -1;
 			}
 		}
-	}
-	
-	public void onClick (View v) {
-		Log.d(TAG,"onClick");
-		if(!mIsBound) {Log.w(TAG,"not bound");return;}
-		try {
-			Boolean enable = (Boolean) v.getTag();
-			if(enable) {
-				monitor.setRunMode(BOINCDefs.RUN_MODE_AUTO);
-			} else {
-				monitor.setRunMode(BOINCDefs.RUN_MODE_NEVER);
-			}
-		} catch (Exception e) {Log.e(TAG, "could not map status tag", e);}
 	}
 	
 	private Boolean loadSlideshow() {
@@ -355,5 +326,26 @@ public class StatusActivity extends Activity {
          });
         
         return true;
+	}
+
+	@Override
+	public void onClick(View v) {
+		new WriteClientRunModeAsync().execute(BOINCDefs.RUN_MODE_AUTO);
+	}
+	
+	private final class WriteClientRunModeAsync extends AsyncTask<Integer, Void, Boolean> {
+
+		private final String TAG = "WriteClientRunModeAsync";
+		
+		@Override
+		protected Boolean doInBackground(Integer... params) {
+			return monitor.setRunMode(params[0]);
+		}
+		
+		@Override
+		protected void onPostExecute(Boolean success) {
+			if(success) monitor.forceRefresh();
+			else Log.w(TAG,"setting run mode failed");
+		}
 	}
 }
