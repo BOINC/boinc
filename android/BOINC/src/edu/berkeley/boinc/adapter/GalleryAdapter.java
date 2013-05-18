@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import edu.berkeley.boinc.client.ClientStatus.ImageWrapper;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
@@ -60,11 +59,8 @@ public class GalleryAdapter extends BaseAdapter{
 
         LayoutParams params = new Gallery.LayoutParams(290, 126);
         imageView.setLayoutParams(params);
-        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         imageView.setImageBitmap(images.get(position).image);
 
         return imageView;
     }
-	
-	
 }
