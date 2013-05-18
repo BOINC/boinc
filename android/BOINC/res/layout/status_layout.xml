@@ -59,17 +59,13 @@
     
     </LinearLayout>
     
-    <LinearLayout 
+    <RelativeLayout 
         android:id="@+id/slideshow_wrapper"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:visibility="gone"
         android:padding="10dp"
     	android:orientation="vertical">
-	    <Gallery 
-	        android:id="@+id/gallery"
-        	android:layout_width="fill_parent"
-        	android:layout_height="wrap_content"/>
             
         <ImageView
 	        android:id="@+id/image_view"
@@ -77,18 +73,26 @@
 	        android:layout_height="fill_parent"
 	        android:contentDescription="@string/status_image_description"
 	        android:scaleType="fitCenter"
-	        android:padding="20dp"
-	        android:layout_marginTop="10dp"
+	        android:layout_alignParentTop="true"
+	        android:paddingBottom="135dp"
 	        android:adjustViewBounds="true"/>
 	    
 	    <TextView 
             android:id="@+id/image_description"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/gallery"
             android:gravity="center_horizontal"
-            android:layout_marginTop="10dp"/>  
+            android:layout_marginTop="10dp"
+	        android:textAppearance="?android:attr/textAppearanceMedium"/>  
+            
+	    <Gallery 
+	        android:id="@+id/gallery"
+        	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:layout_alignParentBottom="true"/>
 
-    </LinearLayout>
+    </RelativeLayout>
     
 
 

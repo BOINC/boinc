@@ -66,7 +66,7 @@ public class StatusActivity extends Activity implements OnClickListener{
 	private Integer suspendReason = -1;
 	
 	//slide show
-    private LinearLayout slideshowWrapper;
+    private RelativeLayout slideshowWrapper;
 
 	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
 		@Override
@@ -156,7 +156,7 @@ public class StatusActivity extends Activity implements OnClickListener{
 				TextView statusHeader = (TextView) findViewById(R.id.status_header);
 				ImageView statusImage = (ImageView) findViewById(R.id.status_image);
 				TextView statusDescriptor = (TextView) findViewById(R.id.status_long);
-				slideshowWrapper = (LinearLayout) findViewById(R.id.slideshow_wrapper);
+				slideshowWrapper = (RelativeLayout) findViewById(R.id.slideshow_wrapper);
 				
 				// adapt to specific computing status
 				switch(status.computingStatus) {
