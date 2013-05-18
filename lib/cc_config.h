@@ -143,6 +143,7 @@ struct CONFIG {
     char data_dir[256];
     bool disallow_attach;
     bool dont_check_file_sizes;
+    int max_event_log_lines;
     bool dont_contact_ref_site;
     std::vector<EXCLUDE_GPU> exclude_gpus;
     std::vector<std::string> exclusive_apps;

@@ -640,7 +640,8 @@ static void handle_get_cc_status(GUI_RPC_CONN& grc) {
         "   <network_mode_perm>%d</network_mode_perm>\n"
         "   <network_mode_delay>%f</network_mode_delay>\n"
         "   <disallow_attach>%d</disallow_attach>\n"
-        "   <simple_gui_only>%d</simple_gui_only>\n",
+        "   <simple_gui_only>%d</simple_gui_only>\n"
+        "   <max_event_log_lines>%d</max_event_log_lines>\n",
         net_status.network_status(),
         gstate.acct_mgr_info.password_error?1:0,
         gstate.suspend_reason,
@@ -656,7 +657,8 @@ static void handle_get_cc_status(GUI_RPC_CONN& grc) {
         gstate.network_run_mode.get_perm(),
         gstate.network_run_mode.delay(),
         config.disallow_attach?1:0,
-        config.simple_gui_only?1:0
+        config.simple_gui_only?1:0,
+        config.max_event_log_lines
     );
     if (grc.au_mgr_state == AU_MGR_QUIT_REQ) {
         grc.mfout.printf(

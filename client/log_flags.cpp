@@ -304,6 +304,7 @@ int CONFIG::parse_options_client(XML_PARSER& xp) {
         }
         if (xp.parse_bool("disallow_attach", disallow_attach)) continue;
         if (xp.parse_bool("dont_check_file_sizes", dont_check_file_sizes)) continue;
+        if (xp.parse_int("max_event_log_lines", max_event_log_lines)) continue;
         if (xp.parse_bool("dont_contact_ref_site", dont_contact_ref_site)) continue;
         if (xp.match_tag("exclude_gpu")) {
             EXCLUDE_GPU eg;
