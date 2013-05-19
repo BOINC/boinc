@@ -17,23 +17,8 @@
   You should have received a copy of the GNU Lesser General Public License
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<resources>
-    <!-- layout colors -->
-		<color name="white_smoke">#F5F5F5</color>
-		<color name="dark_blue">#003366</color>
-		<color name="dark_blue_gradient">#0C4175</color>
-		<color name="light_blue">#5DA0E3</color>
-    <!-- global colors -->
-		<color name="warning">#FCEC3D</color>
-		<color name="link">#05c5cf</color>
-		<color name="link_inverse">#0000EE</color>
-    <!-- preferences tab colors -->
-		<color name="status">#11A800</color>
-    <!-- tasks tab colors -->
-		<color name="active">#11A800</color>
-		<color name="paused">#FCEC3D</color>
-		<color name="error">#ED0202</color>
-		
-		
-		<color name="black">#000000</color>
-</resources>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+	android:shape="rectangle">
+	<gradient android:startColor="@color/dark_blue_gradient" android:centerColor="@color/dark_blue"
+		android:endColor="@color/dark_blue_gradient" android:angle="-90" />
+</shape>

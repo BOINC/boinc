@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  This file is part of BOINC.
+  http://boinc.berkeley.edu
+  Copyright (C) 2012 University of California
+  
+  BOINC is free software; you can redistribute it and/or modify it
+  under the terms of the GNU Lesser General Public License
+  as published by the Free Software Foundation,
+  either version 3 of the License, or (at your option) any later version.
+  
+  BOINC is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  See the GNU Lesser General Public License for more details.
+  
+  You should have received a copy of the GNU Lesser General Public License
+  along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/titleBar"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:padding="5dp"
+	android:orientation="horizontal"
+	android:background="@color/black">
+	
+    <ImageView android:id="@+id/titleIcon"
+	    android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:src="@drawable/boinc"
+		android:background="@android:color/transparent" />
+
+	<TextView android:id="@+id/titleText"
+	    android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_toRightOf="@+id/titleIcon"
+		android:layout_marginLeft="5dp"
+		android:layout_centerVertical="true"
+		android:textStyle="bold"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:text="@string/app_name"
+		android:background="@android:color/transparent"
+		android:textColor="@color/light_blue" />
+
+	<TextView android:id="@+id/titleStatus"
+	    android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentRight="true"
+		android:layout_centerVertical="true"
+		android:textStyle="italic"
+		android:textAppearance="?android:attr/textAppearanceSmall"
+		android:background="@android:color/transparent"
+		android:textColor="@color/light_blue" />
+</RelativeLayout>

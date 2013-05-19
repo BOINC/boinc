@@ -106,6 +106,7 @@
     <string name="main_noproject_warning">No scientific project attached! tab here to enter account.</string>
     <string name="main_error">Whooops</string>
     <string name="main_error_long">&#8230;this should not happen!\nClick on the icon to try again.</string>
+    <string name="main_title_icon_desc">BOINC icon</string>
     
     <!-- tab names -->
     <string name="tab_status">Status</string>

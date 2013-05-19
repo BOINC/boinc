@@ -67,7 +67,7 @@ public class CcState{
 	public Workunit lookup_wu(Project project, String wu_name) {
 		for(int i = 0; i < workunits.size(); i++) {
 			if(!workunits.get(i).project.compare(project)) {
-				Log.d("Workunit", "Projects Do not compare");
+				//Log.d("Workunit", "Projects Do not compare");
 				continue;
 			}
 			if(workunits.get(i).name.equalsIgnoreCase(wu_name)) {
