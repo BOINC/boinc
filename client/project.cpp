@@ -883,7 +883,7 @@ void PROJECT::check_no_rsc_apps() {
         if (!no_rsc_apps[i]) return;
     }
     msg_printf(this, MSG_INFO,
-        "Error: no_rsc_apps flag set for all resources.  Clearing them."
+        "Warning: no_rsc_apps flag set for all resources.  Clearing flags."
     );
     for (int i=0; i<coprocs.n_rsc; i++) {
         no_rsc_apps[i] = false;

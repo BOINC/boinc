@@ -88,15 +88,17 @@ int APP_CONFIGS::parse_file(FILE* f, PROJECT* p) {
     return retval;
 }
 
-void APP_CONFIGS::config_app_versions(PROJECT* p) {
+void APP_CONFIGS::config_app_versions(PROJECT* p, bool show_warnings) {
     for (unsigned int i=0; i<app_configs.size(); i++) {
         APP_CONFIG& ac = app_configs[i];
         APP* app = gstate.lookup_app(p, ac.name);
         if (!app) {
-            msg_printf(p, MSG_USER_ALERT,
-                "Your app_config.xml file refers to an unknown application '%s'.  Known applications: %s",
-                ac.name, app_list_string(p).c_str()
-            );
+            if (show_warnings) {
+                msg_printf(p, MSG_USER_ALERT,
+                    "Your app_config.xml file refers to an unknown application '%s'.  Known applications: %s",
+                    ac.name, app_list_string(p).c_str()
+                );
+            }
             continue;
         }
         app->max_concurrent = ac.max_concurrent;
@@ -131,7 +133,7 @@ void check_app_config() {
         );
         int retval = p->app_configs.parse_file(f, p);
         if (!retval) {
-            p->app_configs.config_app_versions(p);
+            p->app_configs.config_app_versions(p, true);
         }
         fclose(f);
     }
