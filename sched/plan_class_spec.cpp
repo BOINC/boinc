@@ -369,6 +369,9 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
             }
             return false;
         }
+        
+        // in analogy to ATI/AMD 
+        driver_version=cp.display_driver_version;
 
         if (min_gpu_ram_mb) {
             gpu_requirements[PROC_TYPE_NVIDIA_GPU].update(0, min_gpu_ram_mb * MEGA);
@@ -603,6 +606,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
     }
     hu.max_ncpus = hu.avg_ncpus;
 
+#if 0
     if (config.debug_version_select) {
         log_messages.printf(MSG_NORMAL,
             "[version] plan_class_spec: host_flops: %e, \tscale: %.2f, \tprojected_flops: %e, \tpeak_flops: %e\n",
@@ -610,6 +614,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
             hu.peak_flops
         );
     }
+#endif
 
     return true;
 
