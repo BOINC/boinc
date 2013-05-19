@@ -603,6 +603,7 @@ struct CC_STATUS {
 	double network_mode_delay;
     bool disallow_attach;
     bool simple_gui_only;
+    int max_event_log_lines;
 
     CC_STATUS();
     ~CC_STATUS();

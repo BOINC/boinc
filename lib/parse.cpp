@@ -178,7 +178,12 @@ int dup_element_contents(FILE* in, const char* end_tag, char** pp) {
         int n = (int)strlen(line);
         if (nused + n >= bufsize) {
             bufsize *= 2;
-            buf = (char*)realloc(buf, bufsize);
+            char *b = buf;
+            buf = (char*)realloc(b, bufsize);
+            if (!buf) {
+                free(b);
+                return ERR_XML_PARSE;
+            }
         }
         strcpy(buf+nused, line);
         nused += n;

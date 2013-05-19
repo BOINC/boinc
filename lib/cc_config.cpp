@@ -36,6 +36,8 @@
 
 #include "cc_config.h"
 
+#define DEFAULT_MAX_DISPLAYED_EVENT_LOG_LINES 2000
+
 using std::string;
 
 LOG_FLAGS::LOG_FLAGS() {
@@ -204,6 +206,7 @@ void CONFIG::defaults() {
     data_dir[0] = 0;
     disallow_attach = false;
     dont_check_file_sizes = false;
+    max_event_log_lines = DEFAULT_MAX_DISPLAYED_EVENT_LOG_LINES;
     dont_contact_ref_site = false;
     exclude_gpus.clear();
     exclusive_apps.clear();
@@ -328,6 +331,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         }
         if (xp.parse_bool("disallow_attach", disallow_attach)) continue;
         if (xp.parse_bool("dont_check_file_sizes", dont_check_file_sizes)) continue;
+        if (xp.parse_int("max_event_log_lines", max_event_log_lines)) continue;
         if (xp.parse_bool("dont_contact_ref_site", dont_contact_ref_site)) continue;
         if (xp.match_tag("exclude_gpu")) {
             EXCLUDE_GPU eg;
@@ -507,9 +511,11 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
     out.printf(
         "        <disallow_attach>%d</disallow_attach>\n"
         "        <dont_check_file_sizes>%d</dont_check_file_sizes>\n"
+        "        <max_event_log_lines>%d</max_event_log_lines>\n"
         "        <dont_contact_ref_site>%d</dont_contact_ref_site>\n",
         disallow_attach,
         dont_check_file_sizes,
+        max_event_log_lines,
         dont_contact_ref_site
     );
     

@@ -41,7 +41,7 @@ struct APP_CONFIGS {
 
     int parse(XML_PARSER&, PROJECT*);
     int parse_file(FILE*, PROJECT*);
-    void config_app_versions(PROJECT*);
+    void config_app_versions(PROJECT*, bool show_warnings);
 };
 
 extern bool have_max_concurrent;

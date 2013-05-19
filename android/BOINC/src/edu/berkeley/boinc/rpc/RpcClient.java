@@ -581,6 +581,41 @@ public class RpcClient {
 	}
 
 	/**
+	 * Reports the current device state to the BOINC core client,
+	 * if not called frequently, BOINC core client will suspend
+	 * @return true for success, false for failure
+	 */
+	public synchronized boolean reportDeviceStatus(DeviceStatus deviceStatus) {
+		mLastErrorMessage = null;
+		mRequest.setLength(0);
+		mRequest.append("<report_device_status>\n <device_status>\n  <on_ac_power>");
+		mRequest.append(deviceStatus.isOn_ac_power() ? 1 : 0);
+		mRequest.append("</on_ac_power>\n  <on_usb_power>");
+		mRequest.append(deviceStatus.isOn_usb_power() ? 1 : 0);
+		mRequest.append("</on_usb_power>\n  <battery_charge_pct>");
+		mRequest.append(deviceStatus.getBattery_charge_pct());
+		mRequest.append("</battery_charge_pct>\n  <battery_state>");
+		mRequest.append(deviceStatus.getBattery_state());
+		mRequest.append("</battery_state>\n  <battery_temperature_celsius>");
+		mRequest.append(deviceStatus.getBattery_temperature_celcius());
+		mRequest.append("</battery_temperature_celsius>\n  <wifi_online>");
+		mRequest.append(deviceStatus.isWifi_online() ? 1 : 0);
+		mRequest.append("</wifi_online>\n </device_status>\n</report_device_status>\n");
+		try {
+			sendRequest(mRequest.toString());
+			SimpleReplyParser parser = SimpleReplyParser.parse(receiveReply());
+			if (parser == null)
+				return false;
+			mLastErrorMessage = parser.getErrorMessage();
+			return parser.result();
+		}
+		catch (IOException e) {
+			if (Logging.WARNING) Log.w(TAG, "error in networkAvailable()", e);
+			return false;
+		}
+	}
+
+	/**
 	 * Tells the BOINC core client that a network connection is available,
 	 * and that it should do as much network activity as it can.
 	 * @return true for success, false for failure

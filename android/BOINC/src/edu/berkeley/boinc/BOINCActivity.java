@@ -20,6 +20,7 @@ package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.Monitor;
+import edu.berkeley.boinc.utils.BOINCDefs;
 import android.app.Service;
 import android.app.TabActivity;
 import android.content.BroadcastReceiver;
@@ -115,6 +116,8 @@ public class BOINCActivity extends TabActivity {
 	}
 
 	private void doBindService() {
+		// start service to allow setForeground later on...
+		startService(new Intent(this, Monitor.class));
 	    // Establish a connection with the service, onServiceConnected gets called when
 		bindService(new Intent(this, Monitor.class), mConnection, Service.BIND_AUTO_CREATE);
 	}
@@ -290,9 +293,27 @@ public class BOINCActivity extends TabActivity {
 	    Log.d(TAG, "onCreateOptionsMenu()");
 
 	    MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.status_menu, menu);
+		inflater.inflate(R.menu.main_menu, menu);
 
 		return true;
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		//customize run mode menu, according to current status
+		MenuItem item = menu.findItem(R.id.run_mode);
+		
+		if(Monitor.getClientStatus().computingStatus == ClientStatus.COMPUTING_STATUS_NEVER) {
+			// display play button
+			item.setTitle(R.string.menu_run_mode_enable);
+			item.setIcon(R.drawable.playw);
+		} else {
+			// display stop button
+			item.setTitle(R.string.menu_run_mode_disable);
+			item.setIcon(R.drawable.stopw);
+		}
+		
+		return super.onPrepareOptionsMenu(menu);
 	}
 	
 	@Override
@@ -304,11 +325,20 @@ public class BOINCActivity extends TabActivity {
 				Log.d(TAG,"exit BOINC");
 				new QuitClientAsync().execute();
 				return true;
+			case R.id.run_mode:
+				if(item.getTitle().equals(getApplication().getString(R.string.menu_run_mode_disable))) {
+					Log.d(TAG,"run mode: disable");
+					new WriteClientRunModeAsync().execute(BOINCDefs.RUN_MODE_NEVER);
+				} else if (item.getTitle().equals(getApplication().getString(R.string.menu_run_mode_enable))) {
+					Log.d(TAG,"run mode: enable");
+					new WriteClientRunModeAsync().execute(BOINCDefs.RUN_MODE_AUTO);
+				} else Log.d(TAG,"run mode: unrecognized command");
+				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
 	}
-	
+
 	// monitor.quitClient is blocking (Thread.sleep)
 	// execute in AsyncTask to maintain UI responsiveness
 	private final class QuitClientAsync extends AsyncTask<Void, Void, Void> {
@@ -317,6 +347,22 @@ public class BOINCActivity extends TabActivity {
 		protected Void doInBackground(Void... params) {
 			monitor.quitClient();
 			return null;
+		}
+	}
+	
+	private final class WriteClientRunModeAsync extends AsyncTask<Integer, Void, Boolean> {
+
+		private final String TAG = "WriteClientRunModeAsync";
+		
+		@Override
+		protected Boolean doInBackground(Integer... params) {
+			return monitor.setRunMode(params[0]);
+		}
+		
+		@Override
+		protected void onPostExecute(Boolean success) {
+			if(success) monitor.forceRefresh();
+			else Log.w(TAG,"setting run mode failed");
 		}
 	}
 }

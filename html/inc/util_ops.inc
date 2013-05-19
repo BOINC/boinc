@@ -31,7 +31,11 @@ function admin_page_head($title) {
     $stylesheet = URL_BASE.STYLESHEET;
 
     echo "<html><head><title>$title</title>
-        <link rel=stylesheet type=\"text/css\" href=\"".URL_BASE."main.css\" media=\"all\" />
+        <link rel=stylesheet type=\"text/css\" href=\"".URL_BASE."main.css\" media=\"all\" />";
+    if (defined('ADMIN_STYLESHEET')) {
+        echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".URL_BASE.ADMIN_STYLESHEET."\" media=\"all\" />";
+    }
+    echo "
         </head>
         <body bgcolor=\"#ffffff\">
         <h2>".PROJECT.": $title</h2>

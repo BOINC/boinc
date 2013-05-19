@@ -24,7 +24,9 @@
     	<integer name="monitor_refresh_rate_ms">1000</integer>
     	<integer name="monitor_setup_connection_retry_rate_ms">1000</integer>
     	<integer name="monitor_setup_connection_retry_attempts">10</integer>
-    	<integer name="autostart_notification_id">460</integer>
+    	<integer name="autostart_notification_id">1</integer>
+    <!-- Device status -->
+    	<integer name="minimum_device_status_refresh_rate_in_monitor_loops">10</integer>
     <!-- configuration on tab layout -->
     	<bool name="tab_status">true</bool>
         <bool name="tab_projects">true</bool>

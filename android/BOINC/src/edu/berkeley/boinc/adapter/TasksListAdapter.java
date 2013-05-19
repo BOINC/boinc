@@ -89,7 +89,10 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 		String statusT = determineStatusText(listItem);
 		status.setText(statusT);
 		
-		int elapsedTime = (int)listItem.result.elapsed_time;
+		int elapsedTime;
+		// show time depending whether task is active or not
+		if(listItem.result.active_task) elapsedTime = (int)listItem.result.elapsed_time; //is 0 when task finished
+		else elapsedTime = (int) listItem.result.final_elapsed_time;
 		time.setText(String.format("%02d:%02d:%02d", elapsedTime/3600, (elapsedTime/60)%60, elapsedTime%60));
 
 		RelativeLayout ll = (RelativeLayout) v.findViewById(R.id.expansion);

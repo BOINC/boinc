@@ -832,9 +832,6 @@ int CLIENT_STATE::handle_scheduler_reply(
             //
             avp->clear_errors();
 
-            // apply app config if present
-            //
-            project->app_configs.config_app_versions(project);
             continue;
         }
         avp = new APP_VERSION;
@@ -1072,7 +1069,13 @@ int CLIENT_STATE::handle_scheduler_reply(
     // if the user provided app_config.xml for this project,
     // apply it to any app versions we just got
     //
-    project->app_configs.config_app_versions(project);
+    project->app_configs.config_app_versions(project, false);
+
+    // make sure we don't set no_rsc_apps[] for all processor types
+    //
+    if (!project->anonymous_platform) {
+        project->check_no_rsc_apps();
+    }
 
     return 0;
 }

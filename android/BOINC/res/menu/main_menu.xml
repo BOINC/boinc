@@ -5,5 +5,7 @@
          android:visible="true"
          android:title="@string/menu_exit"
          android:icon="@drawable/offw"></item>
-
+    <item android:id="@+id/run_mode"
+         android:enabled="true"
+         android:visible="true"></item>
 </menu>
