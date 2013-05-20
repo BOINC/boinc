@@ -963,6 +963,7 @@ AC_CONFIG_FILES([
                  db/Makefile
                  doc/Makefile
                  doc/manpages/Makefile
+                 html/Makefile
                  lib/Makefile
                  locale/Makefile
                  Makefile

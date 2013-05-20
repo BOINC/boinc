@@ -9,4 +9,5 @@ pkginclude_HEADERS =  boinc_db.h db_base.h boinc_db_types.h
 endif
 
 ## other stuff to go into the distribution
-EXTRA_DIST = constraints.sql schema.sql init_db
+extradir = $(prefix)/share/boinc-server-maker/db
+dist_extra_DATA = constraints.sql schema.sql init_db
