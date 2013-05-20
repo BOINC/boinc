@@ -25,6 +25,7 @@
         <item name="android:windowTitleSize">35dp</item>
         <item name="android:windowTitleStyle">@style/CustomWindowTitle</item>
         <item name="android:windowTitleBackgroundStyle">@style/CustomWindowTitleBackground</item>
+		<item name="android:listViewStyle">@style/CustomListView</item>
     </style>
     
     <!-- title bar -->
@@ -38,5 +39,32 @@
     <style name="CustomWindowTitleBackground">
         <item name="android:background">@color/black</item>
     </style>
+    
+    <!-- sub header -->
+    <style name="SubHeader">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">5dp</item>
+     	<item name="android:singleLine">true</item>
+    	<item name="android:background">@drawable/shape_gallery_background</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    
+    <!-- list view -->
+    <style name="CustomListView" parent="@android:style/Widget.ListView">
+		<item name="android:background">@color/white_smoke</item>
+		<item name="android:cacheColorHint">@color/lightest_blue</item>
+		<item name="android:divider">@color/lightest_blue</item>
+		<item name="android:dividerHeight">1dp</item>
+	</style>
+    
+    <!-- list view -->
+    <style name="CustomListView" parent="@android:style/Widget.Dialog">
+		<item name="android:background">@color/white_smoke</item>
+		<item name="android:cacheColorHint">@color/lightest_blue</item>
+		<item name="android:divider">@color/lightest_blue</item>
+		<item name="android:dividerHeight">1dp</item>
+	</style>
     
 </resources>

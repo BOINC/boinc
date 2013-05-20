@@ -17,21 +17,52 @@
   You should have received a copy of the GNU Lesser General Public License
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:clickable="true"
-    android:onClick="onItemClick" >
-    <TextView android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/header"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-    </TextView>
-    <TextView android:textAppearance="?android:attr/textAppearanceSmall"
-        android:id="@+id/status"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/status">
-    </TextView>
-</LinearLayout>
+    android:onClick="onItemClick"
+    android:padding="5dp" >
+    <LinearLayout 
+    	android:layout_width="wrap_content"
+    	android:layout_height="match_parent"
+    	android:orientation="vertical"
+    	android:layout_alignParentLeft="true"
+    	android:layout_centerVertical="true"
+    	android:layout_marginRight="105dp">
+    	
+        <TextView android:textAppearance="?android:attr/textAppearanceMedium"
+	        android:id="@+id/header"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content">
+	    </TextView>
+    	
+        <TextView android:textAppearance="?android:attr/textAppearanceSmall"
+	        android:id="@+id/description"
+	        android:textStyle="italic"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content">
+	    </TextView>
+	    
+    </LinearLayout>
+    
+    <LinearLayout 
+    	android:layout_width="wrap_content"
+    	android:layout_height="match_parent"
+    	android:orientation="vertical"
+    	android:layout_alignParentRight="true"
+    	android:layout_centerVertical="true">
+        
+	    <TextView android:textAppearance="?android:attr/textAppearanceMedium"
+	        android:id="@+id/status"
+	        android:layout_width="100dp"
+	        android:gravity="center"
+	        android:padding="3dp"
+	        android:layout_height="wrap_content"
+	        android:textColor="@color/lightest_blue"
+	        android:textStyle="bold"
+	        android:background="@drawable/shape_preferences_status_background">
+	    </TextView>    
+    </LinearLayout>
+</RelativeLayout>

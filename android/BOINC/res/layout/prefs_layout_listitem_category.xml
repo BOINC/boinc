@@ -23,7 +23,7 @@
     android:orientation="vertical"
     android:clickable="false" >
     
-    <include 
+    <TextView 
         android:id="@+id/category_header"
-        layout="@android:layout/preference_category"/>    
+    	style="@style/SubHeader"/>
 </LinearLayout>

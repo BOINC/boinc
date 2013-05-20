@@ -62,20 +62,21 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
 	    		header.setText(((PrefsListItemWrapperBool) listItem).header);
 	    		header.setTag(listItem.ID); //set ID as tag to checkbox, since checkbox is clicked
 	        	header.setChecked(((PrefsListItemWrapperBool) listItem).getStatus());
-	    		TextView status = (TextView) v.findViewById(R.id.status);
-	        	
-	    		if(((PrefsListItemWrapperBool) listItem).ID == R.string.prefs_show_advanced_header) { // bool item without status text
-	    			status.setVisibility(View.GONE);
-	    		} else {
-		    		status.setText(((PrefsListItemWrapperBool) listItem).status_text);
-	    		}
 	    	} else if(listItem instanceof PrefsListItemWrapperDouble) {
+	    		PrefsListItemWrapperDouble item = (PrefsListItemWrapperDouble) listItem;
 	    		v = vi.inflate(R.layout.prefs_layout_listitem, null);
 	    		v.setTag(listItem); //set listItem as tag to view, since root layout defines onClick method
 	    		TextView header = (TextView) v.findViewById(R.id.header);
-	    		header.setText(((PrefsListItemWrapperDouble) listItem).header);
+	    		header.setText(item.header);
+	    		TextView description = (TextView) v.findViewById(R.id.description);
+	    		description.setText(item.description.toString());
+	    		
+	    		String value = item.status.toString();
+	    		if(item.isPct) {
+	    			value = "" + item.status.intValue();
+	    		}
 	    		TextView status = (TextView) v.findViewById(R.id.status);
-	    		status.setText(((PrefsListItemWrapperDouble) listItem).status.toString());
+	    		status.setText(value + " " + item.unit);
 	    	} 
     	}
     	

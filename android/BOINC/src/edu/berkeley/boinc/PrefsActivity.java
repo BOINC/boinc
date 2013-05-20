@@ -309,7 +309,7 @@ public class PrefsActivity extends FragmentActivity {
 
 		@Override
 		protected void onPreExecute() {
-			setLayoutLoading();
+			//setLayoutLoading();
 			super.onPreExecute();
 		}
 
