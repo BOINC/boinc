@@ -88,7 +88,7 @@ static void show_newer_version_msg(const char* new_vers) {
         "%s (%s) <a href=%s>%s</a>",
         config.client_new_version_text.empty()
             ? _("A new version of BOINC is available.")
-            : client_new_version_text.c_str(),
+            : config.client_new_version_text.c_str(),
         new_vers,
         config.client_download_url.c_str(),
         _("Download")
