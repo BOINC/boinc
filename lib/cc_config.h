@@ -137,8 +137,9 @@ struct CONFIG {
     bool allow_multiple_clients;
     bool allow_remote_gui_rpc;
     std::vector<std::string> alt_platforms;
-    std::string client_version_check_url;
     std::string client_download_url;
+    std::string client_new_version_text;
+    std::string client_version_check_url;
     COPROCS config_coprocs;
     char data_dir[256];
     bool disallow_attach;
