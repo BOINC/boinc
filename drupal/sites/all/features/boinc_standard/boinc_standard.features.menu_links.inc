@@ -40,7 +40,7 @@ function boinc_standard_menu_default_menu_links() {
     'external' => '1',
     'has_children' => '0',
     'expanded' => '0',
-    'weight' => '0',
+    'weight' => '-50',
   );
   // Exported menu link: primary-links:dashboard
   $menu_links['primary-links:dashboard'] = array(
@@ -58,7 +58,7 @@ function boinc_standard_menu_default_menu_links() {
     'external' => '0',
     'has_children' => '0',
     'expanded' => '0',
-    'weight' => '0',
+    'weight' => '-50',
     'parent_path' => 'dashboard',
   );
   // Exported menu link: primary-links:user/me/edit
@@ -77,7 +77,7 @@ function boinc_standard_menu_default_menu_links() {
     'external' => '0',
     'has_children' => '0',
     'expanded' => '0',
-    'weight' => '10',
+    'weight' => '-48',
     'parent_path' => 'dashboard',
   );
   // Translatables
