@@ -17,9 +17,7 @@
   You should have received a copy of the GNU Lesser General Public License
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
-
-
 <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle" >
-   <solid />
-   <stroke android:width="1dip" android:color="#FCEC3D"/>
+   <solid android:color="@color/lightest_blue" />
+   <stroke android:width="1dip" android:color="@color/light_blue"/>
 </shape>

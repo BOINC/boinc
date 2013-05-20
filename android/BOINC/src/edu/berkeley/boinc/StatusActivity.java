@@ -155,7 +155,7 @@ public class StatusActivity extends Activity implements OnClickListener{
 				case ClientStatus.COMPUTING_STATUS_NEVER:
 					slideshowWrapper.setVisibility(View.GONE);
 					statusHeader.setText(R.string.status_computing_disabled);
-					statusImage.setImageResource(R.drawable.playw48);
+					statusImage.setImageResource(R.drawable.playb48);
 					statusImage.setContentDescription(getString(R.string.status_computing_disabled));
 					statusImage.setClickable(true);
 					statusImage.setOnClickListener(this);
@@ -164,13 +164,13 @@ public class StatusActivity extends Activity implements OnClickListener{
 				case ClientStatus.COMPUTING_STATUS_SUSPENDED:
 					slideshowWrapper.setVisibility(View.GONE);
 					statusHeader.setText(R.string.status_paused);
-					statusImage.setImageResource(R.drawable.pausew48);
+					statusImage.setImageResource(R.drawable.pauseb48);
 					statusImage.setContentDescription(getString(R.string.status_paused));
 					statusImage.setClickable(false);
 					switch(status.computingSuspendReason) {
 					case BOINCDefs.SUSPEND_REASON_BATTERIES:
 						statusDescriptor.setText(R.string.suspend_batteries);
-						statusImage.setImageResource(R.drawable.notconnectedw48);
+						statusImage.setImageResource(R.drawable.notconnectedb48);
 						statusHeader.setVisibility(View.GONE);
 						break;
 					case BOINCDefs.SUSPEND_REASON_USER_ACTIVE:
@@ -188,7 +188,7 @@ public class StatusActivity extends Activity implements OnClickListener{
 						break;
 					case BOINCDefs.SUSPEND_REASON_BENCHMARKS:
 						statusDescriptor.setText(R.string.suspend_bm);
-						statusImage.setImageResource(R.drawable.watchw48);
+						statusImage.setImageResource(R.drawable.watchb48);
 						statusHeader.setVisibility(View.GONE);
 						break;
 					case BOINCDefs.SUSPEND_REASON_DISK_SIZE:
@@ -220,12 +220,12 @@ public class StatusActivity extends Activity implements OnClickListener{
 						break;
 					case BOINCDefs.SUSPEND_REASON_BATTERY_CHARGING:
 						statusDescriptor.setText(R.string.suspend_battery_charging);
-						statusImage.setImageResource(R.drawable.batteryw48);
+						statusImage.setImageResource(R.drawable.batteryb48);
 						statusHeader.setVisibility(View.GONE);
 						break;
 					case BOINCDefs.SUSPEND_REASON_BATTERY_OVERHEATED:
 						statusDescriptor.setText(R.string.suspend_battery_overheating);
-						statusImage.setImageResource(R.drawable.batteryw48);
+						statusImage.setImageResource(R.drawable.batteryb48);
 						statusHeader.setVisibility(View.GONE);
 						break;
 					default:
@@ -237,7 +237,7 @@ public class StatusActivity extends Activity implements OnClickListener{
 				case ClientStatus.COMPUTING_STATUS_IDLE: 
 					slideshowWrapper.setVisibility(View.GONE);
 					statusHeader.setText(R.string.status_idle);
-					statusImage.setImageResource(R.drawable.pausew48);
+					statusImage.setImageResource(R.drawable.pauseb48);
 					statusImage.setContentDescription(getString(R.string.status_idle));
 					statusImage.setClickable(false);
 					Integer networkState = 0;
@@ -256,7 +256,7 @@ public class StatusActivity extends Activity implements OnClickListener{
 					if(!loadSlideshow()) {
 						Log.d(TAG, "slideshow not available, load plain old status instead...");
 						statusHeader.setText(R.string.status_running);
-						statusImage.setImageResource(R.drawable.cogsw48);
+						statusImage.setImageResource(R.drawable.cogsb48);
 						statusImage.setContentDescription(getString(R.string.status_running));
 						statusDescriptor.setText(R.string.status_running_long);
 					}

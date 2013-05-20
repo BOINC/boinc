@@ -26,37 +26,46 @@
 
     <LinearLayout 
         android:id="@+id/center_wrapper"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:orientation="vertical">
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:background="@drawable/shape_gallery_background">
         
-	    <TextView
-	        android:id="@+id/status_header"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/status_paused"
-        	android:layout_gravity="center_horizontal"
-	        android:textAppearance="?android:attr/textAppearanceLarge" />
-        
-	    <ImageView
+        <ImageView
 	        android:id="@+id/status_image"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-        	android:layout_gravity="center_horizontal"
-        	android:layout_margin="10dp"
+        	android:layout_marginRight="10dp"
 	        android:contentDescription="@string/status_paused"
-	        android:src="@drawable/pausew48" />
-	    
-	    <TextView
-	        android:id="@+id/status_long"
+	        android:src="@drawable/pausew48"
+	        android:background="@android:color/transparent" />
+ 
+        <LinearLayout
+        	android:id="@+id/text_wrapper"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-        	android:layout_gravity="center_horizontal"
-	        android:text="@string/suspend_unknown"
-	        android:textAppearance="?android:attr/textAppearanceSmall" />
-    
+        	android:orientation="vertical"
+		    android:background="@android:color/transparent"  >
+            <TextView
+		        android:id="@+id/status_header"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/status_paused"
+		        android:textAppearance="?android:attr/textAppearanceMedium"
+		        android:background="@android:color/transparent" />
+	        
+		    <TextView
+		        android:id="@+id/status_long"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/suspend_unknown"
+		        android:textAppearance="?android:attr/textAppearanceSmall"
+		        android:background="@android:color/transparent"  />
+        </LinearLayout>
     </LinearLayout>
     
     <RelativeLayout 
@@ -64,7 +73,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:visibility="gone"
-        android:padding="10dp"
+        android:paddingTop="10dp"
     	android:orientation="vertical">
             
         <ImageView
@@ -73,8 +82,8 @@
 	        android:layout_height="fill_parent"
 	        android:contentDescription="@string/status_image_description"
 	        android:scaleType="fitCenter"
+	        android:layout_marginBottom="130dp"
 	        android:layout_alignParentTop="true"
-	        android:paddingBottom="135dp"
 	        android:adjustViewBounds="true"/>
 	    
 	    <TextView 
@@ -83,42 +92,46 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/gallery"
             android:gravity="center_horizontal"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
 	        android:textAppearance="?android:attr/textAppearanceMedium"/>  
             
 	    <Gallery 
 	        android:id="@+id/gallery"
         	android:layout_width="fill_parent"
         	android:layout_height="wrap_content"
+        	android:background="@drawable/shape_gallery_background"
         	android:layout_alignParentBottom="true"/>
 
     </RelativeLayout>
     
-
-
     <LinearLayout 
-        android:id="@+id/restarting_wrapper"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:orientation="horizontal"
-        android:visibility="gone" >
-        
+    	android:id="@+id/restarting_wrapper"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center"
+	    android:layout_centerInParent="true"
+	    android:orientation="horizontal"
+	    android:paddingTop="20dp"
+	    android:paddingBottom="20dp"
+	    android:background="@drawable/shape_gallery_background"
+	    android:visibility="gone" >
+
 	    <ProgressBar
 	        android:id="@+id/restarting_progressBar"
-	        style="?android:attr/progressBarStyleSmall"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_marginRight="10dp"/>
-	    
+	        style="?android:attr/progressBarStyleSmall"
+	        android:layout_marginRight="10dp"
+	        android:background="@android:color/transparent" />
+	
 	    <TextView
 	        android:id="@+id/restarting_text"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:text="@string/suspend_user_req"
-	        android:textAppearance="?android:attr/textAppearanceSmall" />
-    
-    </LinearLayout>
+	        android:textAppearance="?android:attr/textAppearanceMedium"
+	        android:maxWidth="300dp"
+	        android:background="@android:color/transparent" />
+	</LinearLayout>
  
 </RelativeLayout>

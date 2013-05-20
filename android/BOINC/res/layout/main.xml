@@ -49,20 +49,19 @@
 	        <TabWidget
 	            android:id="@android:id/tabs"
 	            android:layout_width="fill_parent"
-	            android:layout_height="wrap_content"
-	            android:divider="@color/light_blue" >
+	            android:layout_height="wrap_content"  >
 	        </TabWidget>
 	        
 	        <HorizontalScrollView 
 	    	    android:visibility="gone"
 		        android:id="@+id/noproject_warning_wrapper"
-		    	android:layout_width="wrap_content"
+		    	android:layout_width="fill_parent"
 		    	android:layout_height="wrap_content"
 		        android:layout_marginTop="10dip"
 		        android:layout_marginBottom="2dip"
 	        	android:layout_marginLeft="10dip"
 	        	android:layout_marginRight="10dip"
-	        	android:background="@drawable/yellow_border">
+	        	android:background="@drawable/shape_yellow_border">
 		    	<TextView
 			        android:id="@+id/noproject_warning"
 			        android:layout_width="wrap_content"
@@ -84,30 +83,37 @@
 	</TabHost>
 	
 	<!-- launching layout, shown during start up -->
-	<LinearLayout
+	<LinearLayout 
     	android:id="@+id/main_loading"
-	    android:visibility="gone"
 	    android:layout_width="match_parent"
-	    android:layout_height="match_parent"
+	    android:layout_height="wrap_content"
 	    android:gravity="center"
-	    android:orientation="vertical" >
+	    android:layout_gravity="center"
+	    android:orientation="horizontal"
+	    android:paddingTop="20dp"
+	    android:paddingBottom="20dp"
+	    android:background="@drawable/shape_gallery_background"
+	    android:visibility="gone" >
+
+	    <ProgressBar
+	        android:id="@+id/loading_progressBar"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        style="?android:attr/progressBarStyleSmall"
+	        android:layout_marginRight="10dp"
+	        android:background="@android:color/transparent" />
 	
 	    <TextView
 	        android:id="@+id/loading_header"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_marginBottom="20dip"
-	        android:textAppearance="?android:attr/textAppearanceMedium" />
-	
-	    <ProgressBar
-	        android:id="@+id/launching_progressBar1"
-	        style="?android:attr/progressBarStyleLarge"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content" />
-
+	        android:text="@string/generic_loading"
+	        android:textAppearance="?android:attr/textAppearanceMedium"
+	        android:maxWidth="100dp"
+	        android:background="@android:color/transparent" />
 	</LinearLayout>
 	
-	<!-- error layout, in case of an error, i.e. cleint crash -->
+	<!-- error layout, in case of an error, i.e. client crash -->
 	<LinearLayout
     	android:id="@+id/main_error"
 	    android:visibility="gone"

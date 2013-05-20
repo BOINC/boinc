@@ -21,7 +21,6 @@ package edu.berkeley.boinc;
 import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.utils.BOINCDefs;
-import android.app.Activity;
 import android.app.Service;
 import android.app.TabActivity;
 import android.content.BroadcastReceiver;
@@ -216,6 +215,7 @@ public class BOINCActivity extends TabActivity {
     	Resources res = getResources();
     	tabHost = getTabHost();
         
+    	// set tabs
     	if(res.getBoolean(R.bool.tab_status))
     		setupTab(new TextView(this), getResources().getString(R.string.tab_status), R.drawable.icon_status_tab, StatusActivity.class);
     	if(res.getBoolean(R.bool.tab_projects))
