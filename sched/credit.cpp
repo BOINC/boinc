@@ -859,11 +859,19 @@ double vec_min(vector<double>& v) {
 }
 
 // Called by validator when canonical result has been selected.
-// Compute credit for valid instances.
-// This is called exactly once for each valid result.
+// For each valid result in the list:
+// - calculate a peak FLOP count (PFC) and a "mode" that indicates
+//   our confidence in the PFC
+// - upate the statistics of PFC in host_app_version and app_version
+// - Compute a credit value based on a weighted average of
+//   the PFCs of valid results
+//   (this value can be used or ignored by the caller)
+//
+// This must be called exactly once for each valid result.
 //
 int assign_credit_set(
-    WORKUNIT &wu, vector<RESULT>& results,
+    WORKUNIT &wu,
+    vector<RESULT>& results,
     DB_APP &app,
     vector<DB_APP_VERSION>& app_versions,
     vector<DB_HOST_APP_VERSION>& host_app_versions,
@@ -940,15 +948,14 @@ int assign_credit_set(
         // fall through
     case 0:
         if (approx.size()) {
-            x = pegged_average(approx,wu_estimated_pfc(wu, app));
+            x = pegged_average(approx, wu_estimated_pfc(wu, app));
         } else {
-            // there were only PFC_MODE_INVALID results, so
-            // we guess
+            // there were only PFC_MODE_INVALID results, so we guess
             x = wu_estimated_pfc(wu, app);
         }
         break;
     default:
-        x = pegged_average(normal,wu_estimated_pfc(wu, app));
+        x = pegged_average(normal, wu_estimated_pfc(wu, app));
         break;
     }
 
