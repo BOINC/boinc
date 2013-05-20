@@ -147,7 +147,9 @@ function show_form($updated) {
     $total_weight = mysql_fetch_assoc($total_weight);
     $total_weight = $total_weight['total_weight'];
     $swi = parse_config(get_config(), "<shmem_work_items>");
-    if (!$swi) { $swi = 100; }
+    if (!$swi) {
+        $swi = 100;
+    }
 
     $q="SELECT * FROM app ORDER BY id";
     $result = mysql_query($q);
@@ -177,7 +179,7 @@ function show_form($updated) {
         echo "  <TD align='center'>
         <input type='text' size='4' name='$field' value='$v'></TD>\n";
         
-        if (($item->deprecated) && ($total_weight > 0)) {
+        if ($item->deprecated || ($total_weight == 0)) {
             echo '<td></td>';
         } else {
             echo '<td align="right">'.round($item->weight/$total_weight*$swi).'</td>';
