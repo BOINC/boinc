@@ -86,6 +86,7 @@ Commands:\n\
  --run_benchmarks\n\
  --set_gpu_mode mode duration       set GPU run mode for given duration\n\
    mode = always | auto | never\n\
+ --set_host_info product_name\n\
  --set_network_mode mode duration   set network mode for given duration\n\
    mode = always | auto | never\n\
  --set_proxy_settings\n\
@@ -323,6 +324,12 @@ int main(int argc, char** argv) {
         } else {
             fprintf(stderr, "Unknown op %s\n", op);
         }
+    } else if (!strcmp(cmd, "--set_host_info")) {
+        HOST_INFO h;
+        memset(&h, 0, sizeof(h));
+        char* pn = next_arg(argc, argv, i);
+        strcpy(h.product_name, pn);
+        retval = rpc.set_host_info(h);
     } else if (!strcmp(cmd, "--set_network_mode")) {
         char* op = next_arg(argc, argv, i);
         double duration;

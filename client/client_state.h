@@ -98,6 +98,10 @@ struct CLIENT_STATE {
     ACTIVE_TASK_SET active_tasks;
     HOST_INFO host_info;
 
+    // the following used only on Android
+    DEVICE_STATUS device_status;
+    double device_status_time;
+
     VERSION_INFO core_client_version;
     string statefile_platform_name;
     int file_xfer_giveup_period;

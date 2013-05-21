@@ -68,11 +68,10 @@ void HOST_INFO::clear_host_info() {
 
     strcpy(os_name, "");
     strcpy(os_version, "");
+    strcpy(product_name, "");
 
     strcpy(virtualbox_version, "");
     have_cpu_opencl = false;
-
-    device_status_time = 0;
 }
 
 int HOST_INFO::parse(XML_PARSER& xp, bool benchmarks_only) {
@@ -94,6 +93,7 @@ int HOST_INFO::parse(XML_PARSER& xp, bool benchmarks_only) {
         }
         if (xp.parse_double("p_calculated", p_calculated)) continue;
         if (xp.parse_bool("p_vm_extensions_disabled", p_vm_extensions_disabled)) continue;
+        if (xp.parse_str("product_name", product_name, sizeof(product_name))) continue;
 
         if (benchmarks_only) continue;
 
@@ -141,7 +141,7 @@ int HOST_INFO::parse(XML_PARSER& xp, bool benchmarks_only) {
 int HOST_INFO::write(
     MIOFILE& out, bool include_net_info, bool include_coprocs
 ) {
-    char pv[265], pm[256], pf[1024], osn[256], osv[256];
+    char pv[265], pm[256], pf[1024], osn[256], osv[256], pn[256];
     out.printf(
         "<host_info>\n"
         "    <timezone>%d</timezone>\n",
@@ -196,6 +196,13 @@ int HOST_INFO::write(
         osn,
         osv
     );
+    if (strlen(product_name)) {
+        xml_escape(product_name, pn, sizeof(pn));
+        out.printf(
+            "    <product_name>%s</product_name>\n",
+            pn
+        );
+    }
     if (strlen(virtualbox_version)) {
         char buf[256];
         xml_escape(virtualbox_version, buf, sizeof(buf));

@@ -373,6 +373,26 @@ static void handle_set_gpu_mode(GUI_RPC_CONN& grc) {
     grc.mfout.printf("<success/>\n");
 }
 
+static void handle_set_host_info(GUI_RPC_CONN& grc) {
+    while (!grc.xp.get_tag()) {
+        if (grc.xp.match_tag("host_info")) {
+            HOST_INFO hi;
+            int retval = hi.parse(grc.xp);
+            if (retval) {
+                grc.mfout.printf("<error>host_info parse error</error>\n");
+                return;
+            }
+            if (strlen(hi.product_name)) {
+                strcpy(gstate.host_info.product_name, hi.product_name);
+            }
+            grc.mfout.printf("<success/>\n");
+            gstate.set_client_state_dirty("set_host_info RPC");
+            return;
+        }
+    }
+    grc.mfout.printf("<error>Missing host_info</error>\n");
+}
+
 static void handle_set_network_mode(GUI_RPC_CONN& grc) {
     double duration = 0;
     bool btemp;
@@ -1140,8 +1160,8 @@ static void handle_report_device_status(GUI_RPC_CONN& grc) {
         if (grc.xp.match_tag("device_status")) {
             int retval = d.parse(grc.xp);
             if (!retval) {
-                gstate.host_info.device_status = d;
-                gstate.host_info.device_status_time = gstate.now;
+                gstate.device_status = d;
+                gstate.device_status_time = gstate.now;
                 grc.mfout.printf("<success/>\n");
                 return;
             }
@@ -1257,6 +1277,7 @@ GUI_RPC gui_rpcs[] = {
     GUI_RPC("set_global_prefs_override", handle_set_global_prefs_override,
                                                                     true,   false,  false),
     GUI_RPC("set_gpu_mode", handle_set_gpu_mode,                    true,   false,  false),
+    GUI_RPC("set_host_info", handle_set_host_info,                  true,   false,  false),
     GUI_RPC("set_network_mode", handle_set_network_mode,            true,   false,  false),
     GUI_RPC("set_proxy_settings", handle_set_proxy_settings,        true,   false,  false),
     GUI_RPC("set_run_mode", handle_set_run_mode,                    true,   false,  false),
