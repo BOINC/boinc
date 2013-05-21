@@ -59,12 +59,4 @@
 		<item name="android:dividerHeight">1dp</item>
 	</style>
     
-    <!-- list view -->
-    <style name="CustomListView" parent="@android:style/Widget.Dialog">
-		<item name="android:background">@color/white_smoke</item>
-		<item name="android:cacheColorHint">@color/lightest_blue</item>
-		<item name="android:divider">@color/lightest_blue</item>
-		<item name="android:dividerHeight">1dp</item>
-	</style>
-    
 </resources>
