@@ -873,3 +873,34 @@ const char* PROJECT::project_dir_absolute() {
     }
     return _project_dir_absolute;
 }
+
+// If no_rsc_apps flags are set for all resource types, something's wrong;
+// clear them, and fall back to per-resource backoff.
+// Otherwise we might never contact the project again
+//
+void PROJECT::check_no_rsc_apps() {
+    for (int i=0; i<coprocs.n_rsc; i++) {
+        if (!no_rsc_apps[i]) return;
+    }
+    msg_printf(this, MSG_INFO,
+        "Warning: no_rsc_apps flag set for all resources.  Clearing flags."
+    );
+    for (int i=0; i<coprocs.n_rsc; i++) {
+        no_rsc_apps[i] = false;
+    }
+}
+
+// set no_X_apps for anonymous platform project
+//
+void PROJECT::check_no_apps() {
+    for (int i=0; i<coprocs.n_rsc; i++) {
+        no_rsc_apps[i] = true;
+    }
+
+    for (unsigned int i=0; i<gstate.app_versions.size(); i++) {
+        APP_VERSION* avp = gstate.app_versions[i];
+        if (avp->project != this) continue;
+        no_rsc_apps[avp->gpu_usage.rsc_type] = false;
+    }
+}
+

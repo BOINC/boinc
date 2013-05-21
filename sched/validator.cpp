@@ -103,7 +103,8 @@ bool no_credit = false;
 
 WORKUNIT* g_wup;
 vector<DB_APP_VERSION> app_versions;
-    // cache of app_versions; used by v2 credit system
+    // cache of app_versions; the PFC statistics of these are
+    // updated in memory, and periodically flushed to the DB
 
 bool is_unreplicated(WORKUNIT& wu) {
     return (wu.target_nresults == 1 && app.target_nresults > 1);

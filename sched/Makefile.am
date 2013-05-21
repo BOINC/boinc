@@ -87,11 +87,12 @@ endif
 
 if ENABLE_SERVER
 
-cgidir = $(libexecdir)/cgi-bin
-scheddir = $(libexecdir)/sched
+schedcgidir = $(prefix)/lib/boinc-server-maker/sched
+schedsharedir = $(prefix)/lib/boinc-server-maker/sched
+schedbindir = $(prefix)/lib/boinc-server-maker/sched
 
-bin_PROGRAMS = \
-	adjust_user_priority \
+schedbin_PROGRAMS = \
+    adjust_user_priority \
     delete_file \
     get_file \
     make_work \
@@ -100,9 +101,9 @@ bin_PROGRAMS = \
     show_shmem \
     wu_check
 
-sched_PROGRAMS = \
+schedshare_PROGRAMS = \
     census \
-	credit_test \
+    credit_test \
     db_dump \
     db_purge \
     feeder \
@@ -121,12 +122,18 @@ sched_PROGRAMS = \
     trickle_echo \
     update_stats
 
-cgi_PROGRAMS= \
+schedcgi_PROGRAMS= \
     cgi \
     file_upload_handler
 
+schedshare_DATA = \
+    db_dump_spec.xml \
+    assimilator.py \
+    pymw_assimilator.py \
+    transitioner_catchup.php
+
 # scripts that 'make install' should put in bindir
-bin_SCRIPTS = start stop status
+schedshare_SCRIPTS = start stop status
 
 noinst_HEADERS = \
     assimilate_handler.h \
@@ -281,8 +288,7 @@ sched_driver_LDADD = $(SERVERLIBS)
 
 if ENABLE_FCGI
 
-cgi_PROGRAMS += fcgi \
-                fcgi_file_upload_handler
+schedcgi_PROGRAMS += fcgi fcgi_file_upload_handler
 
 fcgi_SOURCES = $(cgi_sources)
 fcgi_CPPFLAGS = -D_USING_FCGI_ $(AM_CPPFLAGS)

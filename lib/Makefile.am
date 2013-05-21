@@ -8,7 +8,8 @@ bin_PROGRAMS =
 # Stuff needed for server builds goes here.
 if ENABLE_SERVER
 
-bin_PROGRAMS += crypt_prog parse_test
+serverbindir = $(prefix)/lib/boinc-server-maker/lib
+serverbin_PROGRAMS = crypt_prog parse_test
 
 endif
 # end of "if ENABLE_SERVER"
@@ -147,13 +148,13 @@ libboinc_la_SOURCES = $(generic_sources) $(mac_sources)
 libboinc_la_CFLAGS = $(AM_CFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
 libboinc_la_CXXFLAGS = $(AM_CXXFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
 libboinc_la_LDFLAGS = -L$(libdir) -rpath $(libdir) -static -version-number $(LIBBOINC_VERSION)
-libboinc_la_LIBADD =
+libboinc_la_LIBADD = -lm -lstdc++
 
 libboinc_crypt_la_SOURCES = crypt.cpp
 libboinc_crypt_la_CFLAGS = $(AM_CFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS) $(SSL_CFLAGS)
 libboinc_crypt_la_CXXFLAGS = $(AM_CXXFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS) $(SSL_CXXFLAGS)
 libboinc_crypt_la_LDFLAGS = -L$(libdir) -rpath $(libdir) -static -version-number $(LIBBOINC_VERSION)
-libboinc_crypt_la_LIBADD = 
+libboinc_crypt_la_LIBADD = -lm -lstdc++
 
 
 if ENABLE_FCGI

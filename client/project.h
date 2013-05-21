@@ -267,6 +267,11 @@ struct PROJECT : PROJ_AM {
         return rsc_pwf[rsc_type].deadlines_missed;
     }
     void get_task_durs(double& not_started_dur, double& in_progress_dur);
+    void check_no_rsc_apps();
+        // if flags are set for all resource types,
+        // something's wrong; clear them.
+    void check_no_apps();
+        // set no_X_apps for anonymous platform projects
 
     int nresults_returned;
         // # of results being returned in current scheduler op

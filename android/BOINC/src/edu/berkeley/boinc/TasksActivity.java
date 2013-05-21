@@ -19,6 +19,7 @@
 package edu.berkeley.boinc;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import edu.berkeley.boinc.adapter.TasksListAdapter;
 import edu.berkeley.boinc.client.ClientStatus;
@@ -150,9 +151,8 @@ public class TasksActivity extends FragmentActivity {
 	}
 	
 	private void updateData(ArrayList<Result> newData) {
-		//loop through all received Result items
+		//loop through all received Result items to add new results
 		for(Result rpcResult: newData) {
-			
 			//check whether this Result is new
 			Integer index = null;
 			for(int x = 0; x < data.size(); x++) {
@@ -167,6 +167,21 @@ public class TasksActivity extends FragmentActivity {
 			} else { // result was present before, update its data
 				data.get(index).updateResultData(rpcResult);
 			}
+		}
+		
+		//loop through the list adapter to find removed (ready/aborted) Results
+		// use iterator to safely remove while iterating
+		Iterator<TaskData> iData = data.iterator();
+		while(iData.hasNext()) {
+			Boolean found = false;
+			TaskData listItem = iData.next();
+			for(Result rpcResult: newData) {
+				if(listItem.id.equals(rpcResult.name)) {
+					found = true;
+					continue;
+				}
+			}
+			if(!found) iData.remove();
 		}
 	}
 
@@ -252,7 +267,7 @@ public class TasksActivity extends FragmentActivity {
 		public int determineState() {
 			if(result.suspended_via_gui) return BOINCDefs.RESULT_SUSPENDED_VIA_GUI;
 			if(result.project_suspended_via_gui) return BOINCDefs.RESULT_PROJECT_SUSPENDED;
-			if(result.ready_to_report) return BOINCDefs.RESULT_READY_TO_REPORT;
+			if(result.ready_to_report && result.state != BOINCDefs.RESULT_ABORTED && result.state != BOINCDefs.RESULT_COMPUTE_ERROR) return BOINCDefs.RESULT_READY_TO_REPORT;
 			if(result.active_task){
 				return result.active_task_state;
 			} else {

@@ -796,10 +796,21 @@ BEST_APP_VERSION* get_app_version(
             double r = 1;
             long n=1;
             if (havp) {
+                // slowly move from raw calc to measured performance as number
+                // of results increases
                 n=std::max((long)havp->pfc.n,(long)n);
-            } 
+                double old_projected_flops=host_usage.projected_flops;
+                estimate_flops(host_usage, av);
+                host_usage.projected_flops=(host_usage.projected_flops*(n-1)+old_projected_flops)/n;
+            }
             if (config.version_select_random_factor) {
                 r += config.version_select_random_factor*rand_normal()/n;
+            }
+            if (config.debug_version_select  && bavp && bavp->avp) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] Comparing AV#%d (%.2f GFLOP) against AV#%d (%.2f GFLOP)\n",
+                    av.id,host_usage.projected_flops/1e+9,bavp->avp->id,bavp->host_usage.projected_flops/1e+9
+                );
             }
             if (r*host_usage.projected_flops > bavp->host_usage.projected_flops) {
                 if (config.debug_version_select && (host_usage.projected_flops <= bavp->host_usage.projected_flops)) {
@@ -813,6 +824,13 @@ BEST_APP_VERSION* get_app_version(
                 bavp->avp = &av;
                 bavp->reliable = app_version_is_reliable(av.id);
                 bavp->trusted = app_version_is_trusted(av.id);
+                if (config.debug_version_select) {
+                      log_messages.printf(MSG_NORMAL,
+                          "[version] Best app version is now AV%d (%.2f GFLOP)\n",
+                          bavp->avp->id, bavp->host_usage.projected_flops/1e+9
+                    );
+                }
+
             }
         }   // loop over app versions
 

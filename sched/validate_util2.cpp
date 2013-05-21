@@ -37,15 +37,26 @@
 
 using std::vector;
 
-// Given a set of results, check for a canonical result,
-// i.e. a set of at least min_quorum/2+1 results for which
-// that are equivalent according to check_pair().
+// Given a set of results:
+// 1) call init_result() for each one;
+//    this detects results with bad or missing output files
+// 2) if # of good results is >= wu.min_quorum,
+//    check for a canonical result,
+//    i.e. a set of at least min_quorum/2+1 results for which
+//    that are equivalent according to check_pair().
 //
-// invariants:
-// results.size() >= wu.min_quorum
+// input invariants:
 // for each result:
 //   result.outcome == SUCCESS
 //   result.validate_state == INIT
+//
+// Outputs:
+// canonicalid: the ID of canonical result, if any
+// result.outcome, result.validate_state
+//    modified; caller must update DB
+// retry: set to true if some result had a transient failure
+//    (i.e. there was a broken NFS mount).
+//    Should call this again after a while.
 //
 int check_set(
     vector<RESULT>& results, WORKUNIT& wu,
@@ -75,6 +86,7 @@ int check_set(
                 "check_set: init_result([RESULT#%d %s]) transient failure\n",
                 results[i].id, results[i].name
             );
+            retry = true;
             had_error[i] = true;
         } else if (retval) {
             log_messages.printf(MSG_CRITICAL,

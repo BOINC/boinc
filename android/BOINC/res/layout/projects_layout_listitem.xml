@@ -27,10 +27,11 @@
     
     <ImageView 
         android:id="@+id/projectIcon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:minWidth="45dp"
-        android:minHeight="45dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:minWidth="85dp"
+        android:minHeight="85dp"
+        android:scaleType="fitCenter"
 	    android:contentDescription="@string/projects_icon"
         android:layout_margin="5dp"
         android:layout_gravity="center_vertical" />
@@ -47,13 +48,13 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:singleLine="true"
-	        android:textAppearance="?android:attr/textAppearanceMedium" />
+	        android:textAppearance="?android:attr/textAppearanceLarge" />
 	
 	    <TextView
 	        android:id="@+id/project_status"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:textAppearance="?android:attr/textAppearanceSmall" />
+	        android:textAppearance="?android:attr/textAppearanceMedium" />
     
     </LinearLayout>
     

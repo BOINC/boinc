@@ -45,8 +45,6 @@
 #include <grp.h>
 #endif
 
-#define MAX_DISPLAYED_MESSAGES 2000
-
 #define USE_CACHE_TIMEOUTS 0
 
 // If get_results RPC takes x seconds, do it no more often than 
@@ -449,6 +447,8 @@ CMainDocument::CMainDocument() : rpc(this) {
     
     m_dtLasAsyncRPCDlgTime = wxDateTime((time_t)0);
     m_dtLastFrameViewRefreshRPCTime = wxDateTime((time_t)0);
+    
+    status.max_event_log_lines = 0;
 }
 
 
@@ -1645,7 +1645,7 @@ void CMainDocument::KillGraphicsApp(HANDLE pid) {
 void CMainDocument::KillGraphicsApp(int pid) {
     char* argv[6];
     char currentDir[1024];
-    char thePIDbuf[10];
+    char thePIDbuf[20];
     int id, iRetVal;
     
 
@@ -2039,9 +2039,12 @@ int CMainDocument::CachedMessageUpdate() {
             last_ind = messages.messages.size()-1;
             m_iLastMessageSequenceNumber = messages.messages[last_ind]->seqno;
 
-            if (last_ind >= MAX_DISPLAYED_MESSAGES) {
+            // status.max_event_log_lines <= 0 means no limit
+            if ((status.max_event_log_lines > 0) &&
+                    (last_ind >= (unsigned)status.max_event_log_lines)
+            ) {
                 // Remove oldest messages if we have too many
-                while (messages.messages.size() > MAX_DISPLAYED_MESSAGES) {
+                while (messages.messages.size() > (unsigned)status.max_event_log_lines) {
                     delete messages.messages.front();
                     messages.messages.pop_front();
                 }

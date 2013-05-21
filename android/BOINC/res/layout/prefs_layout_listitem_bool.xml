@@ -26,12 +26,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/checkbox"
         android:onClick="onCbClick"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-    
-    <TextView android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="@color/status"
-        android:id="@+id/status"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-    </TextView>
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/black" />
 </LinearLayout>

@@ -13,7 +13,7 @@ if ENABLE_LIBRARIES
 endif
 
 if ENABLE_SERVER
-   SERVER_SUBDIRS = db test py sched apps tools vda
+   SERVER_SUBDIRS = db test py sched apps tools vda html
 ## once contained samples/example_app which breaks out-of-source-tree builds
 endif
 

@@ -177,7 +177,7 @@ void make_work(vector<string> &wu_names) {
     char buf[BLOB_SIZE];
     R_RSA_PRIVATE_KEY key;
     int nwu_names = wu_names.size();
-    DB_WORKUNIT wus[nwu_names];
+    DB_WORKUNIT *wus = new DB_WORKUNIT[nwu_names]();
     int i;
     static int index=0;
 
@@ -265,6 +265,7 @@ void make_work(vector<string> &wu_names) {
 
         wait_for_results(new_wu_id);
     }
+    delete[] wus;
 }
 
 void usage(char *name) {

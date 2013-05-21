@@ -503,7 +503,6 @@ public class Monitor extends Service {
     	Log.d(TAG,"onDestroy()");
     	
         // Cancel the persistent notification.
-    	//
     	((NotificationManager)getSystemService(Service.NOTIFICATION_SERVICE)).cancel(getResources().getInteger(R.integer.autostart_notification_id));
         
     	// Abort the ClientMonitorAsync thread
@@ -511,13 +510,9 @@ public class Monitor extends Service {
     	monitorRunning = false;
 		monitorThread.interrupt();
 		
-		clientStatus.setWakeLock(false); // release wakeLock, if held.
-    	
-    	// Quit client here is not appropriate?!
-		// Keep Client running until explecitely killed, independently from UI
-		//quitClient();
-        
-        //android.widget.Toast.makeText(this, "BOINC Monitor Service Stopped", android.widget.Toast.LENGTH_SHORT).show();
+		 // release locks, if held.
+		clientStatus.setWakeLock(false);
+		clientStatus.setWifiLock(false);
     }
 
     @Override
@@ -525,28 +520,13 @@ public class Monitor extends Service {
     	//this gets called after startService(intent) (either by BootReceiver or AndroidBOINCActivity, depending on the user's autostart configuration)
     	Log.d(TAG, "onStartCommand()");
 		/*
-		 * START_NOT_STICKY is now used and replaced START_STICKY in previous implementations.
-		 * Lifecycle events - e.g. killing apps by calling their "onDestroy" methods, or killing an app in the task manager - does not effect the non-Dalvik code like the native BOINC Client.
-		 * Therefore, it is not necessary for the service to get reactivated. When the user navigates back to the app (BOINC Manager), the service gets re-started from scratch.
-		 * Con: After user navigates back, it takes some time until current Client status is present.
-		 * Pro: Saves RAM/CPU.
-		 * 
+		 * START_STICKY causes service to stay in memory until stopSelf() is called, even if all
+		 * Activities get destroyed by the system. Important for GUI keep-alive
 		 * For detailed service documentation see
 		 * http://android-developers.blogspot.com.au/2010/02/service-api-changes-starting-with.html
 		 */
-		return START_NOT_STICKY;
+		return START_STICKY;
     }
-
-    //sends broadcast about login (or register) result for login activity
-    /*
-	private void sendLoginResultBroadcast(Integer type, Integer result, String message) {
-        Intent loginResults = new Intent();
-        loginResults.setAction("edu.berkeley.boinc.loginresults");
-        loginResults.putExtra("type", type);
-        loginResults.putExtra("result", result);
-        loginResults.putExtra("message", message);
-        getApplicationContext().sendBroadcast(loginResults,null);
-	}*/
 	
     public void restartMonitor() {
     	if(Monitor.monitorActive) { //monitor is already active, launch cancelled
@@ -609,11 +589,13 @@ public class Monitor extends Service {
     	
     	// set client status to SETUP_STATUS_CLOSED to adapt layout accordingly
 		getClientStatus().setSetupStatus(ClientStatus.SETUP_STATUS_CLOSED,true);
+		
+		//stop service, triggers onDestroy
+		stopSelf();
     }
        
-	public void setRunMode(Integer mode) {
-		//execute in different thread, in order to avoid network communication in main thread and therefore ANR errors
-		(new WriteClientRunModeAsync()).execute(mode);
+	public Boolean setRunMode(Integer mode) {
+		return rpc.setRunMode(mode, 0);
 	}
 	
 	// writes the given GlobalPreferences via RPC to the client
@@ -913,7 +895,7 @@ public class Monitor extends Service {
 		return rpc.getMessages(seqNo);
 	}
 	
-	private final class ClientMonitorAsync extends AsyncTask<Integer, String, Boolean> {
+	private final class ClientMonitorAsync extends AsyncTask<Integer, Void, Boolean> {
 
 		private final String TAG = "BOINC ClientMonitorAsync";
 		private final Boolean showRpcCommands = false;
@@ -932,7 +914,7 @@ public class Monitor extends Service {
 			monitorThread = Thread.currentThread();
 			Boolean sleep = true;
 			while(monitorRunning) {
-				publishProgress("doInBackground() monitor loop...");
+				//Log.d(TAG,"doInBackground() monitor loop...");
 				
 				if(!rpc.connectionAlive()) { //check whether connection is still alive
 					// If connection is not working, either client has not been set up yet or client crashed.
@@ -964,7 +946,7 @@ public class Monitor extends Service {
 					if( (status != null) && (state != null) && (state.results != null) && (state.projects != null) && (transfers != null)) {
 						Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers);
 						// Update status bar notification
-						ClientNotification.getInstance().update(getApplicationContext(), getClientStatus());
+						ClientNotification.getInstance(getApplicationContext()).update();
 					} else {
 						Log.d(TAG, "client status connection problem");
 					}
@@ -988,11 +970,6 @@ public class Monitor extends Service {
 			}
 
 			return true;
-		}
-
-		@Override
-		protected void onProgressUpdate(String... arg0) {
-			Log.d(TAG, "onProgressUpdate() " + arg0[0]);
 		}
 		
 		@Override
@@ -1099,28 +1076,6 @@ public class Monitor extends Service {
 				publishProgress("successful.");
 			}
 			return retry;
-		}
-		
-		@Override
-		protected void onPostExecute(Boolean success) {
-			forceRefresh();
-		}
-
-		@Override
-		protected void onProgressUpdate(String... arg0) {
-			Log.d(TAG, "onProgressUpdate - " + arg0[0]);
-		}
-	}
-
-	private final class WriteClientRunModeAsync extends AsyncTask<Integer, String, Boolean> {
-
-		private final String TAG = "WriteClientRunModeAsync";
-		
-		@Override
-		protected Boolean doInBackground(Integer... params) {
-			Boolean success = rpc.setRunMode(params[0], 0);
-        	publishProgress("run mode set to " + params[0] + " returned " + success);
-			return success;
 		}
 		
 		@Override

@@ -18,6 +18,12 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
+    <!-- layout colors -->
+		<color name="white_smoke">#F5F5F5</color>
+		<color name="dark_blue">#003366</color>
+		<color name="dark_blue_gradient">#0C4175</color>
+		<color name="light_blue">#A2CFFC</color>
+		<color name="lightest_blue">#D6EBFF</color>
     <!-- global colors -->
 		<color name="warning">#FCEC3D</color>
 		<color name="link">#05c5cf</color>
@@ -26,7 +32,7 @@
 		<color name="status">#11A800</color>
     <!-- tasks tab colors -->
 		<color name="active">#11A800</color>
-		<color name="paused">#FCEC3D</color>
+		<color name="paused">#EDDA07</color>
 		<color name="error">#ED0202</color>
 		
 		

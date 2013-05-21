@@ -91,7 +91,7 @@ int SCHED_CONFIG::parse(FILE* f) {
     strcpy(httpd_user, "apache");
     max_ncpus = MAX_NCPUS;
     scheduler_log_buffer = 32768;
-    version_select_random_factor = .1;
+    version_select_random_factor = 1.;
 
     if (!xp.parse_start("boinc")) return ERR_XML_PARSE;
     if (!xp.parse_start("config")) return ERR_XML_PARSE;

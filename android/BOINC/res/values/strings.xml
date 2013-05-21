@@ -106,6 +106,7 @@
     <string name="main_noproject_warning">No scientific project attached! tab here to enter account.</string>
     <string name="main_error">Whooops</string>
     <string name="main_error_long">&#8230;this should not happen!\nClick on the icon to try again.</string>
+    <string name="main_title_icon_desc">BOINC icon</string>
     
     <!-- tab names -->
     <string name="tab_status">Status</string>
@@ -123,14 +124,13 @@
     <string name="status_paused_long">Computation suspended.</string>
     <string name="status_idle">Nothing to do</string>
     <string name="status_idle_long">Waiting for tasks&#8230;</string>
-    <string name="status_computing_disabled">Stopped</string>
-    <string name="status_computing_disabled_long">Allow computation to continue!</string>
+    <string name="status_computing_disabled">Disabled</string>
+    <string name="status_computing_disabled_long">Press play!</string>
     <string name="status_launching">Starting&#8230;</string>
     <string name="status_noproject">Add a project!</string>
     <string name="status_closing">Closing&#8230;</string>
     <string name="status_benchmarking">Benchmarking&#8230;</string>
-    <string name="disable_computation">Stop computation</string>
-    <string name="enable_computation">Allow computation</string>
+    <string name="status_image_description">project image</string>
     
 	<!-- preferences tab strings -->
 	<string name="prefs_loading">Reading preferences&#8230;</string>
@@ -145,25 +145,28 @@
 	<string name="prefs_category_memory">Memory</string>
 	
 	<string name="prefs_show_advanced_header">Show advanced preferences&#8230;</string>
-	<string name="prefs_run_on_battery_header">Calculate on Battery</string>
-	<string name="prefs_run_on_battery_true">Calculation while running on battery</string>
-	<string name="prefs_run_on_battery_false">Calculation only when connected to charger</string>
-	<string name="prefs_disk_max_pct_header">Maximal used storage space (in %)</string>
-	<string name="prefs_disk_min_free_gb_header">Storage left unused (in GB)</string>
-	<string name="prefs_network_daily_xfer_limit_mb_header">Data transfer limit (daily, in MB)</string>
-	<string name="prefs_network_wifi_only_header">Fetch work only on WiFi</string>
-	<string name="prefs_network_wifi_only_true">Transfer project work only on WiFi connection</string>
-	<string name="prefs_network_wifi_only_false">Transfer project work on all networks</string>
+	<string name="prefs_run_on_battery_header">Compute on Battery</string>
+	<string name="prefs_disk_max_pct_header">Max used storage space</string>
+	<string name="prefs_disk_max_pct_description">How many percent of your device\'s storage space is BOINC allowed to use?</string>
+	<string name="prefs_disk_min_free_gb_header">Min spare storage</string>
+	<string name="prefs_disk_min_free_gb_description">How much of your device\'s storage space shall stay free?</string>
+	<string name="prefs_network_daily_xfer_limit_mb_header">Daily transfer limit</string>
+	<string name="prefs_network_daily_xfer_limit_mb_description">Limits the daily data traffic caused by BOINC.</string>
+	<string name="prefs_network_wifi_only_header">Transfer tasks on WiFi only</string>
 	<string name="prefs_autostart_header">Autostart</string>
-	<string name="prefs_autostart_true">BOINC starts on boot up</string>
-	<string name="prefs_autostart_false">Start BOINC manually</string>
-	<string name="prefs_show_notification_header">Notifications</string>
-	<string name="prefs_show_notification_true">Show notification with BOINC status</string>
-	<string name="prefs_show_notification_false">Notifications are disabled</string>
-	<string name="prefs_cpu_number_cpus_header">Used CPU cores (in %)</string>
-	<string name="prefs_cpu_other_load_suspension_header">Pause when other CPU usage exceeds&#8230; (in %)</string>
-	<string name="prefs_cpu_time_max_header">CPU limit (in %)</string>
-	<string name="prefs_memory_max_idle_header">RAM limit (in %)</string>
+	<string name="prefs_show_notification_header">Show notifications</string>
+	<string name="prefs_cpu_number_cpus_header">Used CPU cores</string>
+	<string name="prefs_cpu_number_cpus_description">Limits the number of CPU cores BOINC uses for computation.</string>
+	<string name="prefs_cpu_other_load_suspension_header">Pause at CPU usage above</string>
+	<string name="prefs_cpu_other_load_suspension_description">Determines when BOINC pauses computation due to other app\'s CPU usage.</string>
+	<string name="prefs_cpu_time_max_header">CPU limit</string>
+	<string name="prefs_cpu_time_max_description">Limits the CPU time BOINC uses for computation.</string>
+	<string name="prefs_memory_max_idle_header">RAM limit</string>
+	<string name="prefs_memory_max_idle_description">Limits the amount of RAM tasks are allowed to occupy.</string>
+	
+	<string name="prefs_unit_mb">MB</string>
+	<string name="prefs_unit_gb">GB</string>
+	<string name="prefs_unit_pct">%</string>
 	
 	<!-- projects tab strings -->
 	<string name="projects_loading">Reading projects&#8230;</string>
@@ -205,7 +208,7 @@
 	<string name="tasks_active_quit_pending">stopping</string>
 	<string name="tasks_custom_suspended_via_gui">paused</string>
 	<string name="tasks_custom_project_suspended_via_gui">paused</string>
-	<string name="tasks_custom_ready_to_report">reporting&#8230;</string>
+	<string name="tasks_custom_ready_to_report">ready to report</string>
 
 	<!-- confirmation dialog -->
 	<string name="confirm_abort_task_title">Abort task</string>
@@ -250,7 +253,7 @@
     <string name="suspend_tod">Out of computation time-frame.</string>
     <string name="suspend_bm">BOINC is benchmarking your device&#8230;</string>
     <string name="suspend_disksize">Out of disk space.</string>
-    <string name="suspend_cputhrottle">Your device is busy.</string>
+    <string name="suspend_cputhrottle">Scheduled CPU throttle.</string>
     <string name="suspend_noinput">No recent tasks available.</string>
     <string name="suspend_delay">Initialisation delay.</string>
     <string name="suspend_exclusiveapp">An exclusive app is running.</string>
@@ -276,5 +279,7 @@
     <string name="email_to">Email to&#8230;</string>
     <string name="send_mail">Send mail&#8230;</string>
     <string name="menu_exit">Exit BOINC</string>
+    <string name="menu_run_mode_disable">Stop</string>
+    <string name="menu_run_mode_enable">Continue</string>
     
 </resources>

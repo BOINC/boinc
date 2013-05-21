@@ -20,6 +20,7 @@ package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.Monitor;
+import edu.berkeley.boinc.utils.BOINCDefs;
 import android.app.Service;
 import android.app.TabActivity;
 import android.content.BroadcastReceiver;
@@ -33,11 +34,14 @@ import android.os.AsyncTask;
 import android.os.Bundle; 
 import android.os.IBinder;
 import android.util.Log;  
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
@@ -52,6 +56,8 @@ public class BOINCActivity extends TabActivity {
 	private Boolean intialStart = true;
 	
 	private Boolean mIsBound;
+	
+	private TabHost tabHost;
 
 	private ServiceConnection mConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
@@ -83,12 +89,15 @@ public class BOINCActivity extends TabActivity {
     public void onCreate(Bundle savedInstanceState) {  
         Log.d(TAG, "onCreate()"); 
 
-        super.onCreate(savedInstanceState);  
+        super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.main);  
          
         //bind monitor service
         doBindService();
         
+        // adapt to custom title bar
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_bar);
         setupTabLayout();
     }
     
@@ -115,6 +124,8 @@ public class BOINCActivity extends TabActivity {
 	}
 
 	private void doBindService() {
+		// start service to allow setForeground later on...
+		startService(new Intent(this, Monitor.class));
 	    // Establish a connection with the service, onServiceConnected gets called when
 		bindService(new Intent(this, Monitor.class), mConnection, Service.BIND_AUTO_CREATE);
 	}
@@ -202,67 +213,46 @@ public class BOINCActivity extends TabActivity {
     private void setupTabLayout() {
     	
     	Resources res = getResources();
-    	TabHost tabHost = getTabHost();
+    	tabHost = getTabHost();
         
-    	if(res.getBoolean(R.bool.tab_status)) {
-	        TabSpec statusSpec = tabHost.newTabSpec(getResources().getString(R.string.tab_status));
-	        statusSpec.setIndicator(getResources().getString(R.string.tab_status), getResources().getDrawable(R.drawable.icon_status_tab));
-	        Intent statusIntent = new Intent(this, StatusActivity.class);
-	        statusSpec.setContent(statusIntent);
-	        tabHost.addTab(statusSpec);
-    	}
-        
-    	if(res.getBoolean(R.bool.tab_projects)) {
-	        TabSpec projectsSpec = tabHost.newTabSpec(getResources().getString(R.string.tab_projects));
-	        projectsSpec.setIndicator(getResources().getString(R.string.tab_projects), getResources().getDrawable(R.drawable.icon_projects_tab));
-	        Intent projectsIntent = new Intent(this, ProjectsActivity.class);
-	        projectsSpec.setContent(projectsIntent);
-	        tabHost.addTab(projectsSpec);
-    	}
-        
-    	if(res.getBoolean(R.bool.tab_tasks)) {
-	        TabSpec tasksSpec = tabHost.newTabSpec(getResources().getString(R.string.tab_tasks));
-	        tasksSpec.setIndicator(getResources().getString(R.string.tab_tasks), getResources().getDrawable(R.drawable.icon_tasks_tab));
-	        Intent tasksIntent = new Intent(this, TasksActivity.class);
-	        tasksSpec.setContent(tasksIntent);
-	        tabHost.addTab(tasksSpec);
-    	}
-        
-    	if(res.getBoolean(R.bool.tab_transfers)) {
-	        TabSpec transSpec = tabHost.newTabSpec(getResources().getString(R.string.tab_transfers));
-	        transSpec.setIndicator(getResources().getString(R.string.tab_transfers), getResources().getDrawable(R.drawable.icon_trans_tab));
-	        Intent transIntent = new Intent(this, TransActivity.class);
-	        transSpec.setContent(transIntent);
-	        tabHost.addTab(transSpec);
-    	}
-        
-    	if(res.getBoolean(R.bool.tab_preferences)) {
-	        TabSpec prefsSpec = tabHost.newTabSpec(getResources().getString(R.string.tab_preferences));
-	        prefsSpec.setIndicator(getResources().getString(R.string.tab_preferences), getResources().getDrawable(R.drawable.icon_prefs_tab));
-	        Intent prefsIntent = new Intent(this, PrefsActivity.class);
-	        prefsSpec.setContent(prefsIntent);
-	        tabHost.addTab(prefsSpec);
-    	}
-        
-    	if(res.getBoolean(R.bool.tab_eventlog)) {
-	        TabSpec msgsSpec = tabHost.newTabSpec(getResources().getString(R.string.tab_eventlog));
-	        msgsSpec.setIndicator(getResources().getString(R.string.tab_eventlog), getResources().getDrawable(R.drawable.icon_msgs_tab));
-	        Intent msgsIntent = new Intent(this, EventLogActivity.class);
-	        msgsSpec.setContent(msgsIntent);
-	        tabHost.addTab(msgsSpec);
-    	}
-    	
-        Log.d(TAG, "tab layout setup done");
+    	// set tabs
+    	if(res.getBoolean(R.bool.tab_status))
+    		setupTab(new TextView(this), getResources().getString(R.string.tab_status), R.drawable.icon_status_tab, StatusActivity.class);
+    	if(res.getBoolean(R.bool.tab_projects))
+    		setupTab(new TextView(this), getResources().getString(R.string.tab_projects), R.drawable.icon_projects_tab, ProjectsActivity.class);
+    	if(res.getBoolean(R.bool.tab_tasks))
+    		setupTab(new TextView(this), getResources().getString(R.string.tab_tasks), R.drawable.icon_tasks_tab, TasksActivity.class);
+    	if(res.getBoolean(R.bool.tab_transfers))
+    		setupTab(new TextView(this), getResources().getString(R.string.tab_transfers), R.drawable.icon_trans_tab, TransActivity.class);
+    	if(res.getBoolean(R.bool.tab_preferences))
+    		setupTab(new TextView(this), getResources().getString(R.string.tab_preferences), R.drawable.icon_prefs_tab, PrefsActivity.class);
+    	if(res.getBoolean(R.bool.tab_eventlog))
+    		setupTab(new TextView(this), getResources().getString(R.string.tab_eventlog), R.drawable.icon_msgs_tab, EventLogActivity.class);
+
+        //Log.d(TAG, "tab layout setup done");
+    }
+    
+    private void setupTab(final View view, final String tag, int icon, Class<?> target) {
+    	View tabview = createTabView(tabHost.getContext(), tag, icon);
+        TabSpec tabSpec = tabHost.newTabSpec(tag);
+        tabSpec.setIndicator(tabview);
+        tabSpec.setContent(new Intent(this, target));
+    	tabHost.addTab(tabSpec);
+    }
+
+    private static View createTabView(final Context context, final String text, int icon) {
+    	View view = LayoutInflater.from(context).inflate(R.layout.main_tab_layout, null);
+    	TextView tv = (TextView) view.findViewById(R.id.tabsText);
+    	tv.setText(text);
+    	ImageView iv = (ImageView) view.findViewById(R.id.tabsIcon);
+    	iv.setImageResource(icon);
+    	return view;
     }
     
     // set app title to status string of ClientStatus
     private void setAppTitle() {
-		String title = getString(R.string.app_name);
-		String status = Monitor.getClientStatus().getCurrentStatusString();
-		if (!status.isEmpty()) {
-			title += " - " + status;
-		}
-		this.setTitle(title);
+		TextView status = (TextView) findViewById(R.id.titleStatus);
+		status.setText(Monitor.getClientStatus().getCurrentStatusString());
     }
 
 	// triggered by click on noproject_warning, starts login activity
@@ -290,9 +280,27 @@ public class BOINCActivity extends TabActivity {
 	    Log.d(TAG, "onCreateOptionsMenu()");
 
 	    MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.status_menu, menu);
+		inflater.inflate(R.menu.main_menu, menu);
 
 		return true;
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		//customize run mode menu, according to current status
+		MenuItem item = menu.findItem(R.id.run_mode);
+		
+		if(Monitor.getClientStatus().computingStatus == ClientStatus.COMPUTING_STATUS_NEVER) {
+			// display play button
+			item.setTitle(R.string.menu_run_mode_enable);
+			item.setIcon(R.drawable.playw);
+		} else {
+			// display stop button
+			item.setTitle(R.string.menu_run_mode_disable);
+			item.setIcon(R.drawable.stopw);
+		}
+		
+		return super.onPrepareOptionsMenu(menu);
 	}
 	
 	@Override
@@ -304,11 +312,20 @@ public class BOINCActivity extends TabActivity {
 				Log.d(TAG,"exit BOINC");
 				new QuitClientAsync().execute();
 				return true;
+			case R.id.run_mode:
+				if(item.getTitle().equals(getApplication().getString(R.string.menu_run_mode_disable))) {
+					Log.d(TAG,"run mode: disable");
+					new WriteClientRunModeAsync().execute(BOINCDefs.RUN_MODE_NEVER);
+				} else if (item.getTitle().equals(getApplication().getString(R.string.menu_run_mode_enable))) {
+					Log.d(TAG,"run mode: enable");
+					new WriteClientRunModeAsync().execute(BOINCDefs.RUN_MODE_AUTO);
+				} else Log.d(TAG,"run mode: unrecognized command");
+				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
 	}
-	
+
 	// monitor.quitClient is blocking (Thread.sleep)
 	// execute in AsyncTask to maintain UI responsiveness
 	private final class QuitClientAsync extends AsyncTask<Void, Void, Void> {
@@ -317,6 +334,22 @@ public class BOINCActivity extends TabActivity {
 		protected Void doInBackground(Void... params) {
 			monitor.quitClient();
 			return null;
+		}
+	}
+	
+	private final class WriteClientRunModeAsync extends AsyncTask<Integer, Void, Boolean> {
+
+		private final String TAG = "WriteClientRunModeAsync";
+		
+		@Override
+		protected Boolean doInBackground(Integer... params) {
+			return monitor.setRunMode(params[0]);
+		}
+		
+		@Override
+		protected void onPostExecute(Boolean success) {
+			if(success) monitor.forceRefresh();
+			else Log.w(TAG,"setting run mode failed");
 		}
 	}
 }
