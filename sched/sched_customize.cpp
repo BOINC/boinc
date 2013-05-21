@@ -123,24 +123,28 @@ bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
     }
 #endif
 #if defined(SETIATHOME)
-    // example: if GPU app and WU name contains ".vlar", don't send
-    if (config.debug_version_select) {
+    bool infeasible=false;
+    // example: if CUDA app and WU name contains ".vlar", don't send
+    // to NVIDIA, INTEL or older ATI cards
+    //
+    if (bav.host_usage.uses_gpu() && strstr(wu.name, ".vlar")) {
+        if (bav.host_usage.proc_type == PROC_TYPE_AMD_GPU) {
+            // ATI GPUs older than HD7870
+            COPROC_ATI &cp = g_request->coprocs.ati;
+            if (cp.count && (cp.attribs.target < 19)) {
+              infeasible=true;
+            }
+        } else {   
+          // all other GPUS
+          infeasible=true;
+        }
+    }
+    if (infeasible && config.debug_version_select) {
         log_messages.printf(MSG_NORMAL,
-            "[version] [wu_is_infeasible_custom] checking feasibility.\n"
+            "[version] [setiathome] VLAR workunit is infeasible on this GPU\n"
         );
     }
-    // example: if CUDA app and WU name contains ".vlar", don't send
-    //
-    if (bav.host_usage.uses_gpu()) {
-        if (config.debug_version_select) {
-            log_messages.printf(MSG_NORMAL,
-                "[version] [setiathome] VLAR workunit is infeasible on GPU\n"
-            );
-        }
-        if (strstr(wu.name, ".vlar")) {
-            return true;
-        }
-    }
+    return infeasible;
 #endif
     return false;
 }
