@@ -1,11 +1,13 @@
 ## -*- mode: makefile; tab-width: 4 -*-
 include $(top_srcdir)/Makefile.incl
 
-scheddir = $(libexecdir)/sched
+scheddir = $(prefix)/lib/boinc-server-maker/sched
+toolsdir = $(prefix)/lib/boinc-server-maker/tools
+toolbindir = $(prefix)/lib/boinc-server-maker/tools
 
-bin_PROGRAMS = create_work sign_executable dir_hier_path dir_hier_move cancel_jobs
+toolbin_PROGRAMS = create_work sign_executable dir_hier_path dir_hier_move cancel_jobs
 
-dist_bin_SCRIPTS = \
+dist_toolbin_SCRIPTS = \
 	    boinc_submit \
 		dbcheck_files_exist \
 		demo_submit \
@@ -22,6 +24,15 @@ dist_sched_SCRIPTS = \
 		cleanlogs.sh \
 		makelog.sh \
 		run_in_ops
+
+dist_tools_SCRIPTS = \
+    appmgr \
+    db_query \
+    manage_privileges \
+    run_in_ops \
+    stage_file \
+    watch_tcp \
+    project.xml
 
 AM_CXXFLAGS += $(MYSQL_CFLAGS)
 AM_LDFLAGS += -static

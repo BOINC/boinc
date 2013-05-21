@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
     int retval;
 
     if ( (argc == 1) ||  !strcmp(argv[1], "-h")  || !strcmp(argv[1],"--help") || (argc != 2) ) {
-        fprintf(stderr, usage);
+        fprintf(stderr, "%s", usage);
         exit(1);
     }
 

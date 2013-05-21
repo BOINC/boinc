@@ -162,7 +162,7 @@ int handle_wu(
     // and check for timed-out results
     //
     ntotal = 0;
-    nunsent = 0;
+    nunsent = 0;    // including INACTIVE
     ninprogress = 0;
     nover = 0;
     nerrors = 0;
@@ -221,6 +221,7 @@ int handle_wu(
         if (rs > max_result_suffix) max_result_suffix = rs;
 
         switch (res_item.res_server_state) {
+        case RESULT_SERVER_STATE_INACTIVE:
         case RESULT_SERVER_STATE_UNSENT:
             nunsent++;
             break;
@@ -388,6 +389,7 @@ int handle_wu(
             if (!res_item.res_id) continue;
             bool update_result = false;
             switch(res_item.res_server_state) {
+            case RESULT_SERVER_STATE_INACTIVE:
             case RESULT_SERVER_STATE_UNSENT:
                 log_messages.printf(MSG_NORMAL,
                     "[WU#%d %s] [RESULT#%d %s] server_state:UNSENT=>OVER; outcome:=>DIDNT_NEED\n",

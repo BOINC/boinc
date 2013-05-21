@@ -86,7 +86,9 @@ static void show_newer_version_msg(const char* new_vers) {
     msg_printf_notice(0, true,
         "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=download",
         "%s (%s) <a href=%s>%s</a>",
-        _("A new version of BOINC is available."),
+        config.client_new_version_text.empty()
+            ? _("A new version of BOINC is available.")
+            : config.client_new_version_text.c_str(),
         new_vers,
         config.client_download_url.c_str(),
         _("Download")

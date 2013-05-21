@@ -1,6 +1,7 @@
 include $(top_srcdir)/Makefile.incl
 
-bin_PROGRAMS = vda vdad ssim
+vdadir=$(prefix)/lib/boinc-server-maker/vda
+vda_PROGRAMS = vda vdad ssim
 
 AM_CXXFLAGS += $(MYSQL_CFLAGS)
 AM_LDFLAGS += -static

@@ -33,6 +33,7 @@
 
 #include "client_msgs.h"
 #include "client_state.h"
+#include "cs_notice.h"
 #include "file_names.h"
 #include "filesys.h"
 #include "gui_http.h"
@@ -74,6 +75,7 @@ int ACCT_MGR_OP::do_rpc(
         for (i=0; i<gstate.projects.size(); i++) {
             gstate.projects[i]->detach_ams();
         }
+        ::rss_feeds.update_feed_list();
         return 0;
     }
 

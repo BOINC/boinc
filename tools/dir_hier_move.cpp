@@ -43,14 +43,14 @@ int main(int argc, char** argv) {
     int retval;
     
     if ( (argc == 1) || !strcmp(argv[1], "-h")  || !strcmp(argv[1],"--help") || (argc != 4) ) {
-        fprintf(stderr, usage);
+        fprintf(stderr, "%s", usage);
         exit(1);
     }
     src_dir = argv[1];
     dst_dir = argv[2];
     fanout = atoi(argv[3]);
     if (!fanout) {
-        fprintf(stderr, usage);
+        fprintf(stderr, "%s", usage);
         exit(1);
     }
 

@@ -1645,7 +1645,7 @@ void CMainDocument::KillGraphicsApp(HANDLE pid) {
 void CMainDocument::KillGraphicsApp(int pid) {
     char* argv[6];
     char currentDir[1024];
-    char thePIDbuf[10];
+    char thePIDbuf[20];
     int id, iRetVal;
     
 
