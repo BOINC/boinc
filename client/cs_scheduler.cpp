@@ -491,7 +491,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         && !(config.fetch_minimal_work && had_or_requested_work)
     ) {
 
-        p = work_fetch.choose_project(true, NULL);
+        p = work_fetch.choose_project();
         if (p) {
             if (actively_uploading(p)) {
                 if (log_flags.work_fetch_debug) {
@@ -504,13 +504,6 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
             scheduler_op->init_op_project(p, RPC_REASON_NEED_WORK);
             return true;
         }
-    }
-    return false;
-}
-
-static inline bool requested_work() {
-    for (int i=0; i<coprocs.n_rsc; i++) {
-        if (rsc_work_fetch[i].req_secs) return true;
     }
     return false;
 }
@@ -532,7 +525,7 @@ int CLIENT_STATE::handle_scheduler_reply(
 
     project->last_rpc_time = now;
 
-    if (requested_work()) {
+    if (work_fetch.requested_work()) {
         had_or_requested_work = true;
     }
 
@@ -545,7 +538,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (retval) return retval;
 
     if (log_flags.sched_ops) {
-        if (requested_work()) {
+        if (work_fetch.requested_work()) {
             sprintf(buf, ": got %d new tasks", (int)sr.results.size());
         } else {
             strcpy(buf, "");
@@ -1075,6 +1068,17 @@ int CLIENT_STATE::handle_scheduler_reply(
     // avoid starting transfers for them
     //
     gstate.garbage_collect_always();
+
+    // if the user provided app_config.xml for this project,
+    // apply it to any app versions we just got
+    //
+    project->app_configs.config_app_versions(project);
+
+    // make sure we don't set no_rsc_apps[] for all processor types
+    //
+    if (!project->anonymous_platform) {
+        project->check_no_rsc_apps();
+    }
 
     return 0;
 }
