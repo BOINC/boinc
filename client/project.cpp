@@ -557,7 +557,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
 
 // Write project statistic to GUI RPC reply
 //
-int PROJECT::write_statistics(MIOFILE& out) {
+int PROJECT::write_statistics(MIOFILE& out, bool /*gui_rpc*/) {
     trim_statistics();
     out.printf(
         "<project_statistics>\n"
