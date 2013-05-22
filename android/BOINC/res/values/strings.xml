@@ -119,15 +119,15 @@
    
     <!-- status strings -->
     <string name="status_running">Computing</string>
-    <string name="status_running_long">Thank you for participating!</string>
+    <string name="status_running_long">Thank you for participating.</string>
     <string name="status_paused">Paused</string>
     <string name="status_paused_long">Computation suspended.</string>
     <string name="status_idle">Nothing to do</string>
     <string name="status_idle_long">Waiting for tasks&#8230;</string>
-    <string name="status_computing_disabled">Disabled</string>
-    <string name="status_computing_disabled_long">Press play!</string>
+    <string name="status_computing_disabled">Suspended</string>
+    <string name="status_computing_disabled_long">Press play to allow computation.</string>
     <string name="status_launching">Starting&#8230;</string>
-    <string name="status_noproject">Add a project!</string>
+    <string name="status_noproject">Choose a project to participate in.</string>
     <string name="status_closing">Closing&#8230;</string>
     <string name="status_benchmarking">Benchmarking&#8230;</string>
     <string name="status_image_description">project image</string>
@@ -188,10 +188,10 @@
 	<string name="tasks_loading">Reading tasks&#8230;</string>
 	<string name="tasks_header_name">ID:</string>
 	<string name="tasks_header_project_name">Project:</string>
-	<string name="tasks_header_project_paused">(paused)</string>
+	<string name="tasks_header_project_paused">(suspended)</string>
 	<string name="tasks_header_deadline">Deadline:</string>
 	<string name="tasks_button_resume">resume task</string>
-	<string name="tasks_button_pause">pause task</string>
+	<string name="tasks_button_pause">suspend task</string>
 	<string name="tasks_button_abort">abort task</string>
 	<string name="tasks_result_new">new</string>
 	<string name="tasks_result_files_downloading">waiting for download</string>
@@ -203,11 +203,11 @@
 	<string name="tasks_result_upload_failed">upload failed</string>
 	<string name="tasks_active_uninitialized">ready</string>
 	<string name="tasks_active_executing">running</string>
-	<string name="tasks_active_suspended">paused</string>
-	<string name="tasks_active_abort_pending">stopping</string>
-	<string name="tasks_active_quit_pending">stopping</string>
-	<string name="tasks_custom_suspended_via_gui">paused</string>
-	<string name="tasks_custom_project_suspended_via_gui">paused</string>
+	<string name="tasks_active_suspended">suspended</string>
+	<string name="tasks_active_abort_pending">suspending</string>
+	<string name="tasks_active_quit_pending">suspending</string>
+	<string name="tasks_custom_suspended_via_gui">suspended</string>
+	<string name="tasks_custom_project_suspended_via_gui">project suspended</string>
 	<string name="tasks_custom_ready_to_report">ready to report</string>
 
 	<!-- confirmation dialog -->
@@ -246,24 +246,24 @@
     <string name="debug_client_header">BOINC Client messages:</string>
 
     <!-- suspend reasons -->
-    <string name="suspend_unknown">Computation paused.</string>
+    <string name="suspend_unknown">Computation suspended.</string>
     <string name="suspend_idle">No BOINC tasks ready for computation.</string>
-    <string name="suspend_batteries">Connect your device to a charger!</string>
+    <string name="suspend_batteries">Connect your device to a charger to continue computing.</string>
     <string name="suspend_useractive">User is active.</string>
     <string name="suspend_tod">Out of computation time-frame.</string>
     <string name="suspend_bm">BOINC is benchmarking your device&#8230;</string>
     <string name="suspend_disksize">Out of disk space.</string>
     <string name="suspend_cputhrottle">Scheduled CPU throttle.</string>
     <string name="suspend_noinput">No recent tasks available.</string>
-    <string name="suspend_delay">Initialisation delay.</string>
+    <string name="suspend_delay">Initialization delay.</string>
     <string name="suspend_exclusiveapp">An exclusive app is running.</string>
     <string name="suspend_cpu">Your device is busy with a different application.</string>
     <string name="suspend_network_quota">BOINC reached network transfer limit.</string>
     <string name="suspend_os">Stopped by Android.</string>
-    <string name="suspend_wifi">Can\'t fetch work, no WiFi connection!</string>
+    <string name="suspend_wifi">Can\'t fetch tasks, no WiFi connection!</string>
     <string name="suspend_battery_charging">Battery needs to charge prior to computation.</string>
     <string name="suspend_battery_overheating">Battery needs to cool down.</string>
-    <string name="suspend_user_req">Restarting computation&#8230;</string>
+    <string name="suspend_user_req">Resuming computation&#8230;</string>
     
     <!-- rpc reasons -->
     <string name="rpcreason_userreq">Requested by user</string>
@@ -279,7 +279,7 @@
     <string name="email_to">Email to&#8230;</string>
     <string name="send_mail">Send mail&#8230;</string>
     <string name="menu_exit">Exit BOINC</string>
-    <string name="menu_run_mode_disable">Stop</string>
-    <string name="menu_run_mode_enable">Continue</string>
+    <string name="menu_run_mode_disable">Suspend</string>
+    <string name="menu_run_mode_enable">Resume</string>
     
 </resources>
