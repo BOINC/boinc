@@ -22,50 +22,41 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.text.SpannableString;
 import android.text.format.DateUtils;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import edu.berkeley.boinc.ProjectsActivity;
+import edu.berkeley.boinc.ProjectsActivity.ProjectData;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Project;
+import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.utils.BOINCUtils;
 
-public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItemClickListener {
+public class ProjectsListAdapter extends ArrayAdapter<ProjectData> {
     //private final String TAG = "ProjectsListAdapter";
 	
-	private ArrayList<Project> entries;
+	private ArrayList<ProjectData> entries;
     private Activity activity;
-    private ListView listView;
-
-    public static class ViewProject {
-    	int entryIndex;
-        TextView tvName;
-        TextView tvStatus;
-        ImageButton ibUpdate;
-        ImageButton ibMore;
-        ImageView ivIcon;
-    }
     
-    public ProjectsListAdapter(Activity activity, ListView listView, int textViewResourceId, ArrayList<Project> entries) {
+    public ProjectsListAdapter(Activity activity, ListView listView, int textViewResourceId, ArrayList<ProjectData> entries) {
         super(activity, textViewResourceId, entries);
         this.entries = entries;
         this.activity = activity;
-        this.listView = listView;
         
         listView.setAdapter(this);
-        listView.setOnItemClickListener(this);
-        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
     }
  
 	@Override
@@ -74,7 +65,7 @@ public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItem
 	}
 
 	@Override
-	public Project getItem(int position) {
+	public ProjectData getItem(int position) {
 		return entries.get(position);
 	}
 
@@ -84,19 +75,27 @@ public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItem
 	}
 
 	public String getName(int position) {
-		return entries.get(position).project_name;
+		return entries.get(position).project.project_name;
+	}
+
+	public String getUser(int position) {
+		String user = entries.get(position).project.user_name;
+		String team = entries.get(position).project.team_name;
+		String userString = user;
+		if(!team.isEmpty()) user = user + " (" + team + ")";
+		return userString;
 	}
 
 	public String getURL(int position) {
-		return entries.get(position).master_url;
+		return entries.get(position).id;
 	}
 	
 	public Bitmap getIcon(int position) {
-		return Monitor.getClientStatus().getProjectIcon(entries.get(position).master_url);
+		return Monitor.getClientStatus().getProjectIcon(entries.get(position).id);
 	}
 
 	public String getStatus(int position) {
-		Project project = getItem(position);
+		Project project = getItem(position).project;
 		StringBuffer sb = new StringBuffer();
 		
         if (project.suspended_via_gui) {
@@ -151,84 +150,79 @@ public class ProjectsListAdapter extends ArrayAdapter<Project> implements OnItem
 	@Override
     public View getView(int position, View convertView, ViewGroup parent) {
 	    View vi = convertView;
-	    ViewProject viewProject;
+	    ProjectData data = entries.get(position);
+    	vi = ((LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.projects_layout_listitem, null);
     	
-		// Only inflate a new view if the ListView does not already have a view assigned.
-	    if (convertView == null) {
-	    	
-	    	vi = ((LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.projects_layout_listitem, null);
-
-	    	viewProject = new ViewProject();
-	    	viewProject.tvName = (TextView)vi.findViewById(R.id.project_name);
-	    	viewProject.tvStatus = (TextView)vi.findViewById(R.id.project_status);
-	    	viewProject.ibUpdate = (ImageButton)vi.findViewById(R.id.project_update);
-	    	viewProject.ibMore = (ImageButton)vi.findViewById(R.id.project_more);
-	    	viewProject.ivIcon = (ImageView)vi.findViewById(R.id.projectIcon);
+    	//set onclicklistener for expansion
+		vi.setOnClickListener(entries.get(position).projectClickListener);
 	    
-	        vi.setTag(viewProject);
-	        
-	    } else {
-	    	
-	    	viewProject = (ViewProject)vi.getTag();
-	    	
-	    }
-
-		// Populate UI Elements
-	    viewProject.entryIndex = position;
-	    viewProject.tvName.setText(getName(position));
+	    // set data of standard elements
+        TextView tvName = (TextView)vi.findViewById(R.id.project_name);
+        tvName.setText(getName(position));
+        
+        TextView tvUser = (TextView)vi.findViewById(R.id.project_user);
+        tvUser.setText(getUser(position));
+        
+        TextView tvStatus = (TextView)vi.findViewById(R.id.project_status);
 	    String statusText = getStatus(position);
-	    if(statusText.isEmpty()) {
-	    	viewProject.tvStatus.setVisibility(View.GONE);
-	    } else {
-	    	viewProject.tvStatus.setVisibility(View.VISIBLE);
-		    viewProject.tvStatus.setText(statusText);
-	    }
+	    if(statusText.isEmpty()) tvStatus.setVisibility(View.GONE);
+	    else tvStatus.setText(statusText);
+	    
+	    ImageView ivIcon = (ImageView)vi.findViewById(R.id.project_icon);
 	    Bitmap icon = getIcon(position);
 	    // if available set icon, if not boinc logo
-	    if (icon == null) viewProject.ivIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.boinc));
-	    else viewProject.ivIcon.setImageBitmap(icon);
-	    
-	    if (listView.isItemChecked(position)) {
-	    	viewProject.ibUpdate.setVisibility(View.VISIBLE);
-	    	viewProject.ibUpdate.setTag(viewProject);
-	    	viewProject.ibUpdate.setClickable(true);
-	    	viewProject.ibUpdate.setOnClickListener(new OnClickListener() {
-	            public void onClick(View v) {
-	            	ViewProject viewProject = (ViewProject)v.getTag();
-	            	ProjectsActivity a = (ProjectsActivity)activity;
-	            	
-	            	a.onProjectUpdate(getURL(viewProject.entryIndex), getName(viewProject.entryIndex));
-	            }
-	        });
-	    		    		    	
-	    	viewProject.ibMore.setVisibility(View.VISIBLE);
-	    	viewProject.ibMore.setTag(viewProject);
-	    	viewProject.ibMore.setClickable(true);
-	    	viewProject.ibMore.setOnClickListener(new OnClickListener() {
-	            public void onClick(View v) {
-	            	ViewProject viewProject = (ViewProject)v.getTag();
-	            	ProjectsActivity a = (ProjectsActivity)activity;
-	            	
-	            	a.onProjectMore(getURL(viewProject.entryIndex), getName(viewProject.entryIndex));
-	            }
-	        });
-	    } else { // item is not checked
-	    	viewProject.ibUpdate.setVisibility(View.INVISIBLE);	    	
-	    	viewProject.ibUpdate.setClickable(false);
-	    	viewProject.ibUpdate.setOnClickListener(null);
-	    	
-	    	viewProject.ibMore.setVisibility(View.INVISIBLE);
-	    	viewProject.ibMore.setClickable(false);
-	    	viewProject.ibMore.setOnClickListener(null);
-	    }
-
+	    if (icon == null) ivIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.boinc));
+	    else ivIcon.setImageBitmap(icon);
+        
+        if(data.expanded) { // expansion elements
+            LinearLayout llProjectExtensionWrapper = (LinearLayout)vi.findViewById(R.id.project_expansion_wrapper);
+        	llProjectExtensionWrapper.setVisibility(View.VISIBLE);
+        	
+        	// credits
+        	Integer totalCredit = Double.valueOf(data.project.user_total_credit).intValue();
+        	Integer hostCredit = Double.valueOf(data.project.host_total_credit).intValue();
+    		TextView tvHostCredits = (TextView)vi.findViewById(R.id.project_credits_host_value);
+    		tvHostCredits.setText(hostCredit.toString());
+        	if(!hostCredit.equals(totalCredit)) { // show host credit only if not like user credit
+        		TextView tvHostCreditsHeader = (TextView)vi.findViewById(R.id.project_credits_user_total_header);
+        		tvHostCreditsHeader.setVisibility(View.VISIBLE);
+            	TextView tvTotalCredits = (TextView)vi.findViewById(R.id.project_credits_user_total_value);
+            	tvTotalCredits.setVisibility(View.VISIBLE);
+            	tvTotalCredits.setText(totalCredit.toString());
+        		TextView tvTotalCreditsHeader = (TextView)vi.findViewById(R.id.project_credits_host_header);
+        		tvTotalCreditsHeader.setVisibility(View.VISIBLE);
+        	}
+        	
+        	// website
+        	final String website = data.project.master_url;
+        	TextView tvWebsite = (TextView)vi.findViewById(R.id.project_website);
+        	SpannableString content = new SpannableString(website);
+        	content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        	tvWebsite.setText(content);
+        	final Context ctx = getContext();
+        	tvWebsite.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent i = new Intent(Intent.ACTION_VIEW);
+					i.setData(Uri.parse(website));
+					ctx.startActivity(i);}});
+        	
+        	// buttons
+        	Button bUpdate = (Button)vi.findViewById(R.id.project_control_update);
+        	bUpdate.setTag(RpcClient.PROJECT_UPDATE);
+        	bUpdate.setOnClickListener(entries.get(position).iconClickListener);
+        	Button bRemove = (Button)vi.findViewById(R.id.project_control_remove);
+        	bRemove.setTag(RpcClient.PROJECT_DETACH);
+        	bRemove.setOnClickListener(entries.get(position).iconClickListener);
+        	if(Monitor.getAppPrefs().getShowAdvanced()) { 
+            	// show advanced options only if enabled in preferences
+        		LinearLayout llAdvanced = (LinearLayout)vi.findViewById(R.id.project_control_advanced_wrapper);
+        		llAdvanced.setVisibility(View.VISIBLE);
+	        	Button bAdvanced = (Button)vi.findViewById(R.id.project_control_advanced);
+	        	bAdvanced.setTag(RpcClient.PROJECT_ADVANCED);
+	        	bAdvanced.setOnClickListener(entries.get(position).iconClickListener);
+        	}
+        }
         return vi;
     }
-    
-    public void onItemClick(AdapterView<?> adapter, View view, int position, long id ) {
-	    ViewProject viewProject = (ViewProject)view.getTag();
-    	((ProjectsActivity)activity).onProjectClicked(getURL(viewProject.entryIndex), getName(viewProject.entryIndex));
-		notifyDataSetChanged();
-    }
-
 }

@@ -767,17 +767,6 @@ public class Monitor extends Service {
     	Log.d(TAG, "lookupCredentials returns " + retval);
     	return auth;
     }
-	
-	public Boolean detachProject(String url){
-		return rpc.projectOp(RpcClient.PROJECT_DETACH, url);
-	}
-	
-	public void detachProjectAsync(String url){
-		Log.d(TAG, "detachProjectAsync");
-		String[] param = new String[1];
-		param[0] = url;
-		(new ProjectDetachAsync()).execute(param);
-	}
     
 	public Boolean abortTransfer(String url, String name){
 		return rpc.transferOp(RpcClient.TRANSFER_ABORT, url, name);
@@ -791,15 +780,8 @@ public class Monitor extends Service {
 		(new TransferAbortAsync()).execute(param);
 	}
     
-	public Boolean updateProject(String url){
-		return rpc.projectOp(RpcClient.PROJECT_UPDATE, url);
-	}
-	
-	public void updateProjectAsync(String url){
-		Log.d(TAG, "updateProjectAsync");
-		String[] param = new String[1];
-		param[0] = url;
-		(new ProjectUpdateAsync()).execute(param);
+	public Boolean projectOperation(int operation, String url){
+		return rpc.projectOp(operation, url);
 	}
     
 	public Boolean retryTransfer(String url, String name){
@@ -976,54 +958,6 @@ public class Monitor extends Service {
 		protected void onPostExecute(Boolean success) {
 			Log.d(TAG, "onPostExecute() monitor exit"); 
 			Monitor.monitorActive = false;
-		}
-	}
-	
-	private final class ProjectDetachAsync extends AsyncTask<String,String,Boolean> {
-
-		private final String TAG = "ProjectDetachAsync";
-		
-		private String url;
-		
-		@Override
-		protected Boolean doInBackground(String... params) {
-			this.url = params[0];
-			Log.d(TAG+"-doInBackground","ProjectDetachAsync url: " + url);
-			
-			Boolean detach = rpc.projectOp(RpcClient.PROJECT_DETACH, url);
-			if(detach) {
-				Log.d(TAG, "successful.");
-			}
-			return detach;
-		}
-		
-		@Override
-		protected void onPostExecute(Boolean success) {
-			forceRefresh();
-		}
-	}
-
-	private final class ProjectUpdateAsync extends AsyncTask<String,String,Boolean> {
-
-		private final String TAG = "ProjectUpdateAsync";
-		
-		private String url;
-		
-		@Override
-		protected Boolean doInBackground(String... params) {
-			this.url = params[0];
-			Log.d(TAG, "doInBackground() - ProjectUpdateAsync url: " + url);
-			
-			Boolean update = rpc.projectOp(RpcClient.PROJECT_UPDATE, url);
-			if(update) {
-				Log.d(TAG, "successful.");
-			}
-			return update;
-		}
-		
-		@Override
-		protected void onPostExecute(Boolean success) {
-			forceRefresh();
 		}
 	}
 

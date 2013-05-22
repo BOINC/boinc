@@ -30,20 +30,20 @@
 
     </ListView>	 
     
-    <TextView
+    <Button
 		android:id="@+id/addProjectButton"
-		android:layout_width="wrap_content"
+		android:layout_width="250dp"
 		android:layout_height="wrap_content"
+		android:padding="5dp"
+		android:layout_margin="10dp"
 		android:layout_gravity="center_horizontal"
 		android:layout_centerHorizontal="true"
 		android:layout_alignParentBottom="true"
 		android:clickable="true"
-		android:drawableTop="@android:drawable/ic_input_add"
-		android:onClick="addProjectClicked"
+		android:background="@drawable/shape_button_blue"
+		android:textColor="@color/white_smoke"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:onClick="addProject"
 		android:text="@string/projects_add" /> 
-    
-
-
-
 
 </RelativeLayout>

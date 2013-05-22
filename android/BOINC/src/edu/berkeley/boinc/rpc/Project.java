@@ -33,8 +33,8 @@ public class Project {
 	public String  venue = "";
 	public int     hostid = 0;
 	public ArrayList<GuiUrl> gui_urls = new ArrayList<GuiUrl>();
-	public double  user_total_credit = 0;
-	public double  user_expavg_credit = 0;
+	public double  user_total_credit = 0.0;
+	public double  user_expavg_credit = 0.0;
 
 	/** As reported by server */
 	public double  host_total_credit = 0;

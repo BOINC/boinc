@@ -1,6 +1,7 @@
 package edu.berkeley.boinc.client;
 
 import edu.berkeley.boinc.rpc.AccountOut;
+import edu.berkeley.boinc.rpc.RpcClient;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
@@ -79,7 +80,7 @@ public class ClientRemoteService extends Service {
 		public boolean detachProject(String packageName, String url) throws RemoteException {
 			// TODO remove packageName in AppPreferences
 			if(mIsMonitorBound) {
-				return monitor.detachProject(url);
+				return monitor.projectOperation(RpcClient.PROJECT_DETACH,url);
 			} else {Log.e(TAG, "could not detach project, service not bound!"); return false;}
 		}
 

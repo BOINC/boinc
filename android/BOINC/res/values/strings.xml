@@ -144,7 +144,7 @@
 	<string name="prefs_category_storage">Storage</string>
 	<string name="prefs_category_memory">Memory</string>
 	
-	<string name="prefs_show_advanced_header">Show advanced preferences&#8230;</string>
+	<string name="prefs_show_advanced_header">Show advanced preferences and controls&#8230;</string>
 	<string name="prefs_run_on_battery_header">Compute on Battery</string>
 	<string name="prefs_disk_max_pct_header">Max used storage space</string>
 	<string name="prefs_disk_max_pct_description">How many percent of your device\'s storage space is BOINC allowed to use?</string>
@@ -174,7 +174,13 @@
 	<string name="projects_update">Update project</string>
 	<string name="projects_icon">Project icon</string>
 	<string name="projects_more">Show details</string>
-
+	<string name="projects_account_header">Account:</string>
+	<string name="projects_status_header">Status:</string>
+	<string name="projects_credits_header">Acquired credits:</string>
+	<string name="projects_credits_host_header">(on this device)</string>
+	<string name="projects_credits_user_header">(total)</string>
+	<string name="projects_website_header">Website:</string>
+		<!-- project status strings -->
 	<string name="projects_status_suspendedviagui">Suspended by user</string>
 	<string name="projects_status_dontrequestmorework">Won\'t get new tasks</string>
 	<string name="projects_status_ended">Project ended - OK to remove</string>
@@ -183,6 +189,24 @@
 	<string name="projects_status_schedrpcinprogress">Scheduler request in progress</string>
 	<string name="projects_status_trickleuppending">Trickle up message pending</string>
 	<string name="projects_status_backoff">Communication scheduled in:</string>
+    	<!-- project controls -->
+	<string name="projects_control_update">Update project</string>
+	<string name="projects_control_remove">Remove project</string>
+	<string name="projects_control_advanced">Advanced&#8230;</string>
+    <string-array name="projects_advanced_controls">
+      	<item>Suspend</item>
+      	<item>Resume</item>
+      	<item>No new tasks</item>
+      	<item>Allow new tasks</item>
+      	<item>Reset</item>
+  	</string-array>
+		<!-- project dialogs -->
+	<string name="projects_confirm_detach_title">Detach project</string>
+	<string name="projects_confirm_detach_message">Detach project:</string>
+	<string name="projects_confirm_detach_confirm">Detach</string>
+	<string name="projects_confirm_detach_cancel">Cancel</string>
+	<string name="projects_confirm_advanced_title">Project operation</string>
+	<string name="projects_confirm_advanced_message">Choose an operation to execute:</string>
 				
 	<!-- tasks tab strings -->
 	<string name="tasks_loading">Reading tasks&#8230;</string>

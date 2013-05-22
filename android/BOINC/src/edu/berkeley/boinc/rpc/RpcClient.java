@@ -63,6 +63,9 @@ public class RpcClient {
 	public static final int PROJECT_NNW     = 4;
 	public static final int PROJECT_ANW     = 5;
 	public static final int PROJECT_DETACH	= 6;
+	public static final int PROJECT_RESET	= 7;
+	// for UI only
+	public static final int PROJECT_ADVANCED= 8;
 
 	public static final int RESULT_SUSPEND  = 1;
 	public static final int RESULT_RESUME   = 2;
@@ -663,6 +666,9 @@ public class RpcClient {
 				break;
 			case PROJECT_DETACH:
 				opTag = "project_detach";
+				break;
+			case PROJECT_RESET:
+				opTag = "project_reset";
 				break;
 			default:
 				if (Logging.ERROR) Log.e(TAG, "projectOp() - unsupported operation: " + operation);
