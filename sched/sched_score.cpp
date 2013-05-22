@@ -120,7 +120,7 @@ bool JOB::get_score(WU_RESULT& wu_result) {
 }
 
 bool job_compare(JOB j1, JOB j2) {
-    return (j1.score < j2.score);
+    return (j1.score > j2.score);
 }
 
 static double req_sec_save[NPROC_TYPES];
