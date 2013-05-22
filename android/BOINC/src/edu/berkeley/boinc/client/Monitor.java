@@ -958,8 +958,8 @@ public class Monitor extends Service {
 					if(showRpcCommands) Log.d(TAG, "getTransers");
 					ArrayList<Transfer>  transfers = rpc.getFileTransfers();
 					
-					if( (status != null) && (state != null) && (state.results != null) && (state.projects != null) && (transfers != null)) {
-						Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers);
+					if( (status != null) && (state != null) && (state.results != null) && (state.projects != null) && (transfers != null) && (state.host_info != null)) {
+						Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers, state.host_info);
 						// Update status bar notification
 						ClientNotification.getInstance(getApplicationContext()).update();
 					} else {

@@ -22,10 +22,11 @@ import java.util.ArrayList;
 import edu.berkeley.boinc.adapter.PrefsListAdapter;
 import edu.berkeley.boinc.adapter.PrefsListItemWrapper;
 import edu.berkeley.boinc.adapter.PrefsListItemWrapperBool;
-import edu.berkeley.boinc.adapter.PrefsListItemWrapperDouble;
+import edu.berkeley.boinc.adapter.PrefsListItemWrapperValue;
 import edu.berkeley.boinc.client.ClientNotification;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
+import edu.berkeley.boinc.rpc.HostInfo;
 import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -59,6 +60,7 @@ public class PrefsActivity extends FragmentActivity {
 	private ArrayList<PrefsListItemWrapper> data = new ArrayList<PrefsListItemWrapper>(); //Adapter for list data
 	private GlobalPreferences clientPrefs = null; //preferences of the client, read on every onResume via RPC
 	private AppPreferences appPrefs = null; //Android specific preferences, singleton of monitor
+	private HostInfo hostinfo = null;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -108,9 +110,18 @@ public class PrefsActivity extends FragmentActivity {
 		return true;
 	}
 	
+	private Boolean getHostInfo() {
+		hostinfo = Monitor.getClientStatus().getHostInfo(); //Get the hostinfo from client via rpc
+		if(hostinfo == null) {
+			Log.d(TAG, "getHostInfo: null, return false");
+			return false;
+		}
+		return true;
+	}
+	
 	private void populateLayout() {
 		
-		if(!getPrefs() || appPrefs == null) {
+		if(!getPrefs() || appPrefs == null || !getHostInfo()) {
 			Log.d(TAG, "populateLayout returns, data is not present");
 			setLayoutLoading();
 			return;
@@ -134,23 +145,23 @@ public class PrefsActivity extends FragmentActivity {
 		// network
     	data.add(new PrefsListItemWrapper(this,R.string.prefs_category_network,true));
 		data.add(new PrefsListItemWrapperBool(this,R.string.prefs_network_wifi_only_header,R.string.prefs_category_network,clientPrefs.network_wifi_only));
-		if(advanced) data.add(new PrefsListItemWrapperDouble(this,R.string.prefs_network_daily_xfer_limit_mb_header,R.string.prefs_category_network,clientPrefs.daily_xfer_limit_mb));
+		if(advanced) data.add(new PrefsListItemWrapperValue(this,R.string.prefs_network_daily_xfer_limit_mb_header,R.string.prefs_category_network,clientPrefs.daily_xfer_limit_mb));
     	// power
 		data.add(new PrefsListItemWrapper(this,R.string.prefs_category_power,true));
 		data.add(new PrefsListItemWrapperBool(this,R.string.prefs_run_on_battery_header,R.string.prefs_category_power,clientPrefs.run_on_batteries));
-		data.add(new PrefsListItemWrapperDouble(this,R.string.battery_charge_min_pct_header,R.string.prefs_category_power,clientPrefs.battery_charge_min_pct));
+		data.add(new PrefsListItemWrapperValue(this,R.string.battery_charge_min_pct_header,R.string.prefs_category_power,clientPrefs.battery_charge_min_pct));
 		// cpu
 		if(advanced) data.add(new PrefsListItemWrapper(this,R.string.prefs_category_cpu,true));
-		if(advanced) data.add(new PrefsListItemWrapperDouble(this,R.string.prefs_cpu_number_cpus_header,R.string.prefs_category_cpu,clientPrefs.max_ncpus_pct));
-		if(advanced) data.add(new PrefsListItemWrapperDouble(this,R.string.prefs_cpu_time_max_header,R.string.prefs_category_cpu,clientPrefs.cpu_usage_limit));
-		if(advanced) data.add(new PrefsListItemWrapperDouble(this,R.string.prefs_cpu_other_load_suspension_header,R.string.prefs_category_cpu,clientPrefs.suspend_cpu_usage));
+		if(advanced) data.add(new PrefsListItemWrapperValue(this,R.string.prefs_cpu_number_cpus_header,R.string.prefs_category_cpu,pctCpuCoresToNumber(clientPrefs.max_ncpus_pct)));
+		if(advanced) data.add(new PrefsListItemWrapperValue(this,R.string.prefs_cpu_time_max_header,R.string.prefs_category_cpu,clientPrefs.cpu_usage_limit));
+		if(advanced) data.add(new PrefsListItemWrapperValue(this,R.string.prefs_cpu_other_load_suspension_header,R.string.prefs_category_cpu,clientPrefs.suspend_cpu_usage));
 		// storage
 		if(advanced) data.add(new PrefsListItemWrapper(this,R.string.prefs_category_storage,true));
-		if(advanced) data.add(new PrefsListItemWrapperDouble(this,R.string.prefs_disk_max_pct_header,R.string.prefs_category_storage,clientPrefs.disk_max_used_pct));
-		if(advanced) data.add(new PrefsListItemWrapperDouble(this,R.string.prefs_disk_min_free_gb_header,R.string.prefs_category_storage,clientPrefs.disk_min_free_gb));
+		if(advanced) data.add(new PrefsListItemWrapperValue(this,R.string.prefs_disk_max_pct_header,R.string.prefs_category_storage,clientPrefs.disk_max_used_pct));
+		if(advanced) data.add(new PrefsListItemWrapperValue(this,R.string.prefs_disk_min_free_gb_header,R.string.prefs_category_storage,clientPrefs.disk_min_free_gb));
 		// memory
 		if(advanced) data.add(new PrefsListItemWrapper(this,R.string.prefs_category_memory,true));
-		if(advanced) data.add(new PrefsListItemWrapperDouble(this,R.string.prefs_memory_max_idle_header,R.string.prefs_category_memory,clientPrefs.ram_max_used_idle_frac));
+		if(advanced) data.add(new PrefsListItemWrapperValue(this,R.string.prefs_memory_max_idle_header,R.string.prefs_category_memory,clientPrefs.ram_max_used_idle_frac));
 	}
 	
 	private void setLayoutLoading() {
@@ -193,8 +204,10 @@ public class PrefsActivity extends FragmentActivity {
 		}
 	}
 	
-	// onClick of listview items with PrefsListItemWrapperDouble
+	// onClick of listview items with PrefsListItemWrapperValue
 	public void onItemClick (View view) {
+		/*
+<<<<<<< HEAD
 		final PrefsListItemWrapperDouble listItem = (PrefsListItemWrapperDouble) view.getTag();
 		Log.d(TAG,"onItemClick " + listItem.ID);
 		
@@ -256,6 +269,210 @@ public class PrefsActivity extends FragmentActivity {
 		});
 		
 		dialog.show();
+=======
+		if(view.getTag() instanceof PrefsListItemWrapperDouble) {
+			PrefsListItemWrapperDouble listItem = (PrefsListItemWrapperDouble) view.getTag();
+			Log.d(TAG,"onItemClick Double " + listItem.ID);
+
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			LayoutInflater inflater = getLayoutInflater();
+			final View dialogContent;
+			if(listItem.isPct) {
+				dialogContent = inflater.inflate(R.layout.prefs_layout_dialog_pct, null);
+				TextView sliderProgress = (TextView) dialogContent.findViewById(R.id.seekbar_status);
+				sliderProgress.setText(listItem.status.intValue() + " %");
+				SeekBar slider = (SeekBar) dialogContent.findViewById(R.id.seekbar);
+				slider.setProgress(listItem.status.intValue());
+				slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+					public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
+						String progressString = progress + " %";
+						TextView sliderProgress = (TextView) dialogContent.findViewById(R.id.seekbar_status);
+						sliderProgress.setText(progressString);
+					}
+					@Override
+					public void onStartTrackingTouch(SeekBar seekBar) {}
+					@Override
+					public void onStopTrackingTouch(SeekBar seekBar) {}
+				});
+			} else {
+				dialogContent = inflater.inflate(R.layout.prefs_layout_dialog, null);
+			}
+			builder.setMessage(listItem.ID)
+        	   	.setView(dialogContent)
+        	   	.setNegativeButton(R.string.prefs_cancel_button, new DialogInterface.OnClickListener() {
+        	   		public void onClick(DialogInterface dialogI, int id) {
+        	   			dialog.cancel();
+        	   			}
+        	   		})
+        	   	.setPositiveButton(R.string.prefs_submit_button, new DialogInterface.OnClickListener() {
+                   public void onClick(DialogInterface dialogI, int id) {
+                	   double value;
+                	   if(dialogItem.isPct) {
+                		   SeekBar slider = (SeekBar) dialog.findViewById(R.id.seekbar);
+                		   value = slider.getProgress();
+                	   } else {
+                		   EditText edit = (EditText) dialog.findViewById(R.id.Input);
+                		   String input = edit.getText().toString();
+                		   Double valueTmp = parseInputValueToDouble(input);
+                		   if(valueTmp == null) return;
+                		   value = valueTmp;
+                	   }
+                	   writeDoublePreference(dialogItem.ID, value);
+                   }
+               });
+			dialog = builder.create();
+        	dialog.show();
+        	dialogItem = listItem; // set dialog content
+		} else if(view.getTag() instanceof PrefsListItemWrapperInteger) {
+			PrefsListItemWrapperInteger listItem = (PrefsListItemWrapperInteger) view.getTag();
+			Log.d(TAG,"onItemClick Integer " + listItem.ID);
+			
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			LayoutInflater inflater = getLayoutInflater();
+			final View dialogContent;
+			if(listItem.ID.equals(R.string.prefs_cpu_number_cpus_header)) {
+				if(!getHostInfo()) {
+					Log.d(TAG, "onItemClick missing hostInfo");
+					return;
+				}
+				
+				dialogContent = inflater.inflate(R.layout.prefs_layout_dialog_pct, null);
+				TextView sliderProgress = (TextView) dialogContent.findViewById(R.id.seekbar_status);
+				if(listItem.status > 1) {
+					sliderProgress.setText(listItem.status + " CPUS");
+				} else {
+					sliderProgress.setText(listItem.status + " CPU");
+				}
+				SeekBar slider = (SeekBar) dialogContent.findViewById(R.id.seekbar);
+				slider.setMax(hostinfo.p_ncpus);
+				slider.setProgress(listItem.status);
+				slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+					public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
+						String progressString = String.valueOf(progress);
+						TextView sliderProgress = (TextView) dialogContent.findViewById(R.id.seekbar_status);
+						sliderProgress.setText(progressString);
+					}
+					@Override
+					public void onStartTrackingTouch(SeekBar seekBar) {}
+					@Override
+					public void onStopTrackingTouch(SeekBar seekBar) {}
+				});
+			} else {
+				dialogContent = inflater.inflate(R.layout.prefs_layout_dialog, null);
+			}
+			builder.setMessage(listItem.ID)
+        	   	.setView(dialogContent)
+        	   	.setNegativeButton(R.string.prefs_cancel_button, new DialogInterface.OnClickListener() {
+        	   		public void onClick(DialogInterface dialogI, int id) {
+        	   			dialog.cancel();
+        	   			}
+        	   		})
+        	   	.setPositiveButton(R.string.prefs_submit_button, new DialogInterface.OnClickListener() {
+                   public void onClick(DialogInterface dialogI, int id) {
+                	   int value;
+                	   SeekBar slider = (SeekBar) dialog.findViewById(R.id.seekbar);
+                	   value = slider.getProgress();
+                	   writeIntegerAsDoublePreference(dialogItemInteger.ID, value, hostinfo.p_ncpus);
+                   }
+               });
+			dialog = builder.create();
+        	dialog.show();
+        	dialogItemInteger = listItem; // set dialog content
+		}
+>>>>>>> These changes are for having the hostinfo being pulled for preferences to show cpu selector in quantity with max ncpus of the device.
+*/
+			final PrefsListItemWrapperValue listItem = (PrefsListItemWrapperValue) view.getTag();
+			Log.d(TAG,"onItemClick Value " + listItem.ID);
+			
+			final Dialog dialog = new Dialog(this);
+			dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+			if(listItem.isPct) {
+				// show dialog with slider
+				dialog.setContentView(R.layout.prefs_layout_dialog_pct);
+				// setup slider
+				TextView sliderProgress = (TextView) dialog.findViewById(R.id.seekbar_status);
+				sliderProgress.setText(listItem.status.intValue() + " " + getString(R.string.prefs_unit_pct));
+				Double seekBarDefault = listItem.status / 10;
+				SeekBar slider = (SeekBar) dialog.findViewById(R.id.seekbar);
+				slider.setProgress(seekBarDefault.intValue());
+				slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+			        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
+			        	String progressString = (progress * 10) + " " + getString(R.string.prefs_unit_pct);
+			        	TextView sliderProgress = (TextView) dialog.findViewById(R.id.seekbar_status);
+			            sliderProgress.setText(progressString);
+			        }
+					@Override
+					public void onStartTrackingTouch(SeekBar seekBar) {}
+					@Override
+					public void onStopTrackingTouch(SeekBar seekBar) {}
+			    });
+			} else if(listItem.isNumber) { 
+				if(!getHostInfo()) {
+					Log.w(TAG, "onItemClick missing hostInfo");
+					return;
+				}
+				
+				// show dialog with slider
+				dialog.setContentView(R.layout.prefs_layout_dialog_pct);
+				TextView sliderProgress = (TextView) dialog.findViewById(R.id.seekbar_status);
+				sliderProgress.setText(""+listItem.status.intValue());
+				SeekBar slider = (SeekBar) dialog.findViewById(R.id.seekbar);
+				slider.setMax(hostinfo.p_ncpus);
+				slider.setProgress(listItem.status.intValue());
+				slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+					public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
+						if(progress == 0) progress = 1;
+						String progressString = String.valueOf(progress);
+						TextView sliderProgress = (TextView) dialog.findViewById(R.id.seekbar_status);
+						sliderProgress.setText(progressString);
+					}
+					@Override
+					public void onStartTrackingTouch(SeekBar seekBar) {}
+					@Override
+					public void onStopTrackingTouch(SeekBar seekBar) {}
+				});
+			} else {
+				// show dialog with edit text
+				dialog.setContentView(R.layout.prefs_layout_dialog);
+			}
+			// show preference name
+			((TextView)dialog.findViewById(R.id.pref)).setText(listItem.ID);
+			
+			// setup buttons
+			Button confirm = (Button) dialog.findViewById(R.id.confirm);
+			confirm.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+		         	   double value;
+		         	   if(listItem.isPct) {
+		         		   SeekBar slider = (SeekBar) dialog.findViewById(R.id.seekbar);
+		         		   value = slider.getProgress()*10;
+		         	   } else if(listItem.isNumber) {
+		         		   SeekBar slider = (SeekBar) dialog.findViewById(R.id.seekbar);
+		         		   int sbProgress = slider.getProgress();
+		         		   if(sbProgress == 0) sbProgress = 1;
+		         		   value = numberCpuCoresToPct(sbProgress);
+		         	   } else {
+		         		   EditText edit = (EditText) dialog.findViewById(R.id.Input);
+		         		   String input = edit.getText().toString();
+		         		   Double valueTmp = parseInputValueToDouble(input);
+		         		   if(valueTmp == null) return;
+		         		   value = valueTmp;
+		         	   }
+		         	   writeValuePreference(listItem.ID, value);
+		         	   dialog.dismiss();
+				}
+			});
+			Button cancel = (Button) dialog.findViewById(R.id.cancel);
+			cancel.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					dialog.dismiss();
+				}
+			});
+			
+			dialog.show();
+		
 	}
 
 	@Override
@@ -265,7 +482,7 @@ public class PrefsActivity extends FragmentActivity {
 	    doUnbindService();
 	}
 	
-	private void writeDoublePreference(int id, double value) {
+	private void writeValuePreference(int id, double value) {
 		// update preferences
 		switch (id) {
 		case R.string.prefs_disk_max_pct_header:
@@ -278,7 +495,7 @@ public class PrefsActivity extends FragmentActivity {
 			clientPrefs.daily_xfer_limit_mb = value;
 			break;
 		case R.string.battery_charge_min_pct_header:
-			clientPrefs.battery_charge_min_pct = value;
+			clientPrefs.battery_charge_min_pct = numberCpuCoresToPct(value);
 			break;
 		case R.string.prefs_cpu_number_cpus_header:
 			clientPrefs.max_ncpus_pct = value;
@@ -300,6 +517,18 @@ public class PrefsActivity extends FragmentActivity {
 		}
 		// preferences adapted, write preferences to client
 		new WriteClientPrefsAsync().execute(clientPrefs);
+	}
+	
+	private double numberCpuCoresToPct(double ncpus) {
+		   double pct = (ncpus / (double)hostinfo.p_ncpus) * 100;
+		   Log.d(TAG,"numberCpuCoresToPct: " + ncpus + hostinfo.p_ncpus + pct);
+		   return pct;
+	}
+	
+	private double pctCpuCoresToNumber(double pct) {
+		double ncpus = (double)hostinfo.p_ncpus * (pct / 100.0);
+		if(ncpus < 1.0) ncpus = 1.0;
+		return ncpus;
 	}
 
 	public Double parseInputValueToDouble(String input) {

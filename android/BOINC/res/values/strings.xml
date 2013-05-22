@@ -173,6 +173,8 @@
 	<string name="prefs_unit_mb">MB</string>
 	<string name="prefs_unit_gb">GB</string>
 	<string name="prefs_unit_pct">%</string>
+	<string name="prefs_unit_cpu">CPU</string>
+	<string name="prefs_unit_cpus">CPUS</string>
 	
 	<!-- projects tab strings -->
 	<string name="projects_loading">Reading projects&#8230;</string>

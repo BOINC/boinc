@@ -22,17 +22,18 @@ import edu.berkeley.boinc.R;
 import android.content.Context;
 import android.util.Log;
 
-public class PrefsListItemWrapperDouble extends PrefsListItemWrapper {
+public class PrefsListItemWrapperValue extends PrefsListItemWrapper {
 	
-	private final String TAG = "PrefsListItemWrapperDouble";
+	private final String TAG = "PrefsListItemWrapperValue";
 
 	public String header = "";
 	public String description = "";
 	public String unit = "";
 	public Double status;
 	public Boolean isPct = false; // shows whether value is percentage, therefore using a SeekBar
+	public Boolean isNumber = false; // shows whether value is a number (e.g. cpu cores) to adjust seekbar
 	
-	public PrefsListItemWrapperDouble(Context ctx, Integer ID, Integer categoryID, Double status) {
+	public PrefsListItemWrapperValue(Context ctx, Integer ID, Integer categoryID, Double status) {
 		super(ctx, ID, categoryID);
 		this.status = status;
 		mapStrings(ID);
@@ -63,7 +64,7 @@ public class PrefsListItemWrapperDouble extends PrefsListItemWrapper {
 		case R.string.prefs_cpu_number_cpus_header:
 			header = ctx.getString(R.string.prefs_cpu_number_cpus_header);
 			description = ctx.getString(R.string.prefs_cpu_number_cpus_description);
-			unit = ctx.getString(R.string.prefs_unit_pct);
+			isNumber = true;
 			break;
 		case R.string.prefs_cpu_other_load_suspension_header:
 			header = ctx.getString(R.string.prefs_cpu_other_load_suspension_header);
