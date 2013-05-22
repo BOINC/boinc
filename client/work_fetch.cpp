@@ -460,12 +460,14 @@ bool WORK_FETCH::requested_work() {
 }
 
 // we're going to contact this project for reasons other than work fetch;
-// decide if we should piggy-back a work fetch request.
+// decide if we should "piggyback" a work fetch request.
 //
 void WORK_FETCH::piggyback_work_request(PROJECT* p) {
     DEBUG(msg_printf(p, MSG_INFO, "piggyback_work_request()");)
+    clear_request();
     if (config.fetch_minimal_work && gstate.had_or_requested_work) return;
     if (p->dont_request_more_work) return;
+    if (p->suspended_via_gui) return;
     if (p->non_cpu_intensive) {
         if (!has_a_job(p)) {
             rsc_work_fetch[0].req_secs = 1;
