@@ -84,13 +84,14 @@ void set_no_rsc_config() {
     }
 }
 
-// does the project have a downloading or runnable job?
+// does the project have a job that's not ready to report?
+// (don't request another job from NCI project if so)
 //
 static bool has_a_job(PROJECT* p) {
     for (unsigned int j=0; j<gstate.results.size(); j++) {
         RESULT* rp = gstate.results[j];
         if (rp->project != p) continue;
-        if (rp->state() <= RESULT_FILES_DOWNLOADED) {
+        if (rp->state() <= RESULT_FILES_UPLOADED) {
             return true;
         }
     }
