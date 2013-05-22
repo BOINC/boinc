@@ -285,7 +285,7 @@ int CLIENT_STATE::check_suspend_processing() {
     //
     int cp = host_info.device_status.battery_charge_pct;
     if (cp >= 0) {
-        if (cp < 95) {
+        if (cp < global_prefs.battery_charge_min_pct) {
             return SUSPEND_REASON_BATTERY_CHARGING;
         }
     }

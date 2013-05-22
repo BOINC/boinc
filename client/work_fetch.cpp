@@ -459,17 +459,28 @@ bool WORK_FETCH::requested_work() {
     return false;
 }
 
-// we're going to contact this project for reasons other than work fetch;
-// decide if we should piggy-back a work fetch request.
+// We're going to contact this project for reasons other than work fetch
+// (e.g., to report completed results, or at user request).
+// Decide if we should "piggyback" a work fetch request.
 //
 void WORK_FETCH::piggyback_work_request(PROJECT* p) {
     DEBUG(msg_printf(p, MSG_INFO, "piggyback_work_request()");)
+    clear_request();
     if (config.fetch_minimal_work && gstate.had_or_requested_work) return;
-    if (p->dont_request_more_work) return;
     if (p->non_cpu_intensive) {
         if (!has_a_job(p)) {
             rsc_work_fetch[0].req_secs = 1;
         }
+        return;
+    }
+
+    setup();
+
+    switch (p->pwf.cant_fetch_work_reason) {
+    case 0:
+    case CANT_FETCH_WORK_MIN_RPC_TIME:
+        break;
+    default:
         return;
     }
 
@@ -481,8 +492,6 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
     if (p->sched_rpc_pending && config.fetch_on_update) {
         check_higher_priority_projects = false;
     }
-
-    setup();
 
     // For each resource, scan projects in decreasing priority,
     // seeing if there's one that's higher-priority than this

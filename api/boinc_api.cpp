@@ -821,7 +821,7 @@ int boinc_report_app_status_aux(
     double _bytes_sent,
     double _bytes_received
 ) {
-    char msg_buf[MSG_CHANNEL_SIZE], buf[256];
+    char msg_buf[MSG_CHANNEL_SIZE], buf[1024];
     if (standalone) return 0;
 
     sprintf(msg_buf,
@@ -931,7 +931,7 @@ static void handle_upload_file_status() {
             );
             continue;
         }
-        p = fgets(buf, 256, f);
+        p = fgets(buf, sizeof(buf), f);
         fclose(f);
         if (p && parse_int(buf, "<status>", status)) {
             UPLOAD_FILE_STATUS uf;

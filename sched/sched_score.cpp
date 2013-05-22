@@ -179,7 +179,12 @@ void send_work_score_type(int rt) {
 
     bool sema_locked = false;
     for (unsigned int i=0; i<jobs.size(); i++) {
-        if (!g_wreq->need_proc_type(rt)) break;
+        if (!work_needed(false)) {
+            break;
+        }
+        if (!g_wreq->need_proc_type(rt)) {
+            break;
+        }
         JOB& job = jobs[i];
         if (!sema_locked) {
             lock_sema();

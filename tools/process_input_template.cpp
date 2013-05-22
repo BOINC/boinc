@@ -367,6 +367,8 @@ static int process_workunit(
             continue;
         } else if (xp.parse_int("max_success_results", wu.max_success_results)) {
             continue;
+        } else if (xp.parse_int("size_class", wu.size_class)) {
+            continue;
         } else {
             retval = xp.copy_element(tmpstr);
             if (retval) return retval;

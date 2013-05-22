@@ -36,6 +36,7 @@
 // to indicate which prefs are (or should be) specified in the override file
 //
 struct GLOBAL_PREFS_MASK {
+    bool battery_charge_min_pct;
     bool confirm_before_connecting;
     bool cpu_scheduling_period_minutes;
     bool cpu_usage_limit;
@@ -136,6 +137,7 @@ struct TIME_PREFS : public TIME_SPAN {
 struct GLOBAL_PREFS {
     double mod_time;
 
+    double battery_charge_min_pct;
     bool confirm_before_connecting;
     double cpu_scheduling_period_minutes;
         // length of a time slice.

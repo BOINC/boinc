@@ -133,6 +133,7 @@ CLIENT_STATE::CLIENT_STATE()
     disable_graphics = false;
     cant_write_state_file = false;
     benchmarks_running = false;
+    device_status_time = 0;
 
     rec_interval_start = 0;
     retry_shmem_time = 0;

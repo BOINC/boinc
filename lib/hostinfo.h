@@ -61,6 +61,8 @@ public:
 
     char os_name[256];
     char os_version[256];
+    char product_name[256];       // manufacturer and/or model of system
+                                  // currently used for Android devices
 
     // the following is non-empty if VBox is installed
     //
@@ -70,10 +72,6 @@ public:
 
     bool have_cpu_opencl;
     OPENCL_DEVICE_PROP cpu_opencl_prop;
-
-    // the following used only on Android
-    DEVICE_STATUS device_status;
-    double device_status_time;
 
     HOST_INFO();
     int parse(XML_PARSER&, bool benchmarks_only = false);
