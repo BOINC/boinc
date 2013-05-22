@@ -45,7 +45,7 @@ char project_url[256];
 char authenticator[256];
 char response_prefix[256];
 
-bool debug_mode = true;
+bool debug_mode = false;
     // if set, handle commands synchronously rather than
     // handling them in separate threads
 
@@ -530,13 +530,13 @@ int COMMAND::parse_command() {
 }
 
 void print_version() {
-    printf("1.0: %s BOINC\\ GAHP $\n", __DATE__);
+    printf("$GahpVersion: 1.0 %s BOINC\\ GAHP $\n", __DATE__);
 }
 
 int n_results() {
     int n = 0;
-    vector<COMMAND*>::iterator i = commands.begin();
-    while (i != commands.end()) {
+    vector<COMMAND*>::iterator i;
+    for (i = commands.begin(); i != commands.end(); i++) {
         COMMAND *c2 = *i;
         if (c2->out) {
             n++;
@@ -560,8 +560,10 @@ int handle_command(char* p) {
     } else if (!strcasecmp(cmd, "RESPONSE_PREFIX")) {
         printf("S\n");
         strcpy(response_prefix, p+strlen("RESPONSE_PREFIX "));
-    } else if (!strcasecmp(cmd, "ASYNC_MOD_ON")) {
-    } else if (!strcasecmp(cmd, "ASYNC_MOD_OFF")) {
+    } else if (!strcasecmp(cmd, "ASYNC_MODE_ON")) {
+        printf("S\n");
+    } else if (!strcasecmp(cmd, "ASYNC_MODE_OFF")) {
+        printf("S\n");
     } else if (!strcasecmp(cmd, "QUIT")) {
         exit(0);
     } else if (!strcasecmp(cmd, "RESULTS")) {
@@ -570,7 +572,7 @@ int handle_command(char* p) {
         while (i != commands.end()) {
             COMMAND *c2 = *i;
             if (c2->out) {
-                printf("%d %s\n", c2->id, c2->out);
+	        printf("%s%d %s\n", response_prefix, c2->id, c2->out);
                 free(c2->out);
                 free(c2->in);
                 free(c2);
@@ -670,6 +672,7 @@ int main() {
     read_config();
     strcpy(response_prefix, "");
     print_version();
+    fflush(stdout);
     while (1) {
         char* p = get_cmd();
         if (p == NULL) break;
