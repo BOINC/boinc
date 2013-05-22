@@ -69,7 +69,7 @@ int make_soft_link(PROJECT* project, char* link_path, char* rel_file_path) {
 //
 void get_pathname(FILE_INFO* fip, char* path, int len) {
     PROJECT* p = fip->project;
-    char buf[1024];
+    char buf[MAXPATHLEN];
 
     // for testing purposes, it's handy to allow a FILE_INFO without
     // an associated PROJECT.
@@ -176,7 +176,7 @@ int remove_project_dir(PROJECT& p) {
 // Create the slot directory for the specified slot #
 //
 int make_slot_dir(int slot) {
-    char buf[1024];
+    char buf[MAXPATHLEN];
 
     if (slot<0) {
         msg_printf(NULL, MSG_INTERNAL_ERROR, "Bad slot number %d", slot);

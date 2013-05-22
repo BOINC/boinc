@@ -179,7 +179,7 @@ void CLIENT_STATE::detect_platforms() {
                 for (i=0; i < nlibdirs; i++) {
                     struct dirent *entry;
                     DIR *a = opendir(libdir[i]);
-                    // if dir doesn't exist, do to the next one
+                    // if dir doesn't exist, do the next one
                     if (a == 0) continue;
                     // dir exists. read each entry until you find a 32bit lib
                     while ((support32 == 0) && ((entry=readdir(a)) != 0)) {

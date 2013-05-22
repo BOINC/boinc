@@ -74,14 +74,14 @@ static _CrtMemState difference_snapshot;
 
 static int         diagnostics_initialized = false;
 static int         flags;
-static char        stdout_log[256];
-static char        stdout_archive[256];
+static char        stdout_log[MAXPATHLEN];
+static char        stdout_archive[MAXPATHLEN];
 static FILE*       stdout_file;
-static char        stderr_log[256];
-static char        stderr_archive[256];
+static char        stderr_log[MAXPATHLEN];
+static char        stderr_archive[MAXPATHLEN];
 static FILE*       stderr_file;
-static char        boinc_dir[256];
-static char        boinc_install_dir[256];
+static char        boinc_dir[MAXPATHLEN];
+static char        boinc_install_dir[MAXPATHLEN];
 static int         boinc_proxy_enabled;
 static char        boinc_proxy[256];
 static char        symstore[256];
@@ -330,13 +330,13 @@ int diagnostics_init(
 			mf.init_file(p);
 			while(mf.fgets(buf, sizeof(buf))) {
 				if (match_tag(buf, "</app_init_data>")) break;
-				else if (parse_str(buf, "<boinc_dir>", boinc_dir, 256)) continue;
-				else if (parse_str(buf, "<symstore>", symstore, 256)) continue;
+				else if (parse_str(buf, "<boinc_dir>", boinc_dir, sizeof(boinc_dir))) continue;
+				else if (parse_str(buf, "<symstore>", symstore, sizeof(symstore))) ;
 				else if (match_tag(buf, "<use_http_proxy/>")) {
 					boinc_proxy_enabled = true;
 					continue;
 				}
-				else if (parse_str(buf, "<http_server_name>", proxy_address, 256)) continue;
+				else if (parse_str(buf, "<http_server_name>", proxy_address, sizeof(proxy_address))) continue;
 				else if (parse_int(buf, "<http_server_port>", proxy_port)) continue;
 			}
 			fclose(p);

@@ -107,7 +107,7 @@ bool is_localhost(sockaddr_storage& s) {
         case AF_INET6: {
             sockaddr_in6* sin = (sockaddr_in6*)&s;
             char buf[256];
-            inet_ntop(AF_INET6, (void*)(&sin->sin6_addr), buf, 256);
+            inet_ntop(AF_INET6, (void*)(&sin->sin6_addr), buf, sizeof(buf));
             return (strcmp(buf, "::1") == 0);
             break;
         }
