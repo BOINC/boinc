@@ -22,6 +22,9 @@
 #include "client_types.h"
 
 struct PROJECT : PROJ_AM {
+    char _project_dir[MAXPATHLEN];
+    char _project_dir_absolute[MAXPATHLEN];
+
     // the following items come from the account file
     // They are a function only of the user and the project
     //
@@ -305,6 +308,8 @@ struct PROJECT : PROJ_AM {
     int parse_account_file();
     int parse_state(XML_PARSER&);
     int write_state(MIOFILE&, bool gui_rpc=false);
+    const char* project_dir();
+    const char* project_dir_absolute();
 
     // statistic of the last x days
     std::vector<DAILY_STATS> statistics;
@@ -312,6 +317,7 @@ struct PROJECT : PROJ_AM {
     int parse_statistics(FILE*);
     int write_statistics(MIOFILE&, bool gui_rpc=false);
     int write_statistics_file();
+    void trim_statistics();
 
     void suspend();
     void resume();

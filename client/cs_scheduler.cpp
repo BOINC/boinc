@@ -491,7 +491,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         && !(config.fetch_minimal_work && had_or_requested_work)
     ) {
 
-        p = work_fetch.choose_project();
+        p = work_fetch.choose_project(true, NULL);
         if (p) {
             if (actively_uploading(p)) {
                 if (log_flags.work_fetch_debug) {
@@ -507,6 +507,13 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     }
     return false;
 }
+
+static inline bool requested_work() { 
+    for (int i=0; i<coprocs.n_rsc; i++) { 
+        if (rsc_work_fetch[i].req_secs) return true; 
+    } 
+    return false; 
+} 
 
 // Handle the reply from a scheduler
 //
@@ -525,7 +532,7 @@ int CLIENT_STATE::handle_scheduler_reply(
 
     project->last_rpc_time = now;
 
-    if (work_fetch.requested_work()) {
+    if (requested_work()) {
         had_or_requested_work = true;
     }
 
@@ -538,7 +545,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (retval) return retval;
 
     if (log_flags.sched_ops) {
-        if (work_fetch.requested_work()) {
+        if (requested_work()) {
             sprintf(buf, ": got %d new tasks", (int)sr.results.size());
         } else {
             strcpy(buf, "");
