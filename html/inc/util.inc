@@ -30,8 +30,6 @@ if (array_key_exists("PATH_INFO", $_SERVER)) {
     die("bad URL");
 }
 
-ini_set("memory_limit", "256M");
-
 // define TIMEZONE in project.inc
 //
 if (defined('TIMEZONE')) {
