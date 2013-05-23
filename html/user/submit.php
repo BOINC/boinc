@@ -391,7 +391,7 @@ function handle_query_job($user) {
 
     echo "
         <a href=workunit.php?wuid=$wuid>Workunit details</a> &middot;
-        <a href=submit.php?action=query_batch?batch_id=$wu->batch>Batch $wu->batch</a>
+        <a href=submit.php?action=query_batch&batch_id=$wu->batch>Batch $wu->batch</a>
     ";
 
     // show input files
@@ -578,7 +578,7 @@ case 'retire_batch': handle_retire_batch($user); break;
 case 'retire_batch_confirm': handle_retire_batch_confirm(); break;
 case 'show_all': handle_show_all($user); break;
 default:
-    error_page('no such action');
+    error_page("no such action $action");
 }
 
 ?>
