@@ -99,11 +99,30 @@ public class Monitor extends Service {
 		// If client hashes do not match, we need to install the one that is a part
 		// of the package. Shutdown the currently running client if needed.
 		//
-		if (md5InstalledClient.compareToIgnoreCase(md5AssetClient) != 0) {
+		if (!md5InstalledClient.equals(md5AssetClient)) {
+		//if (md5InstalledClient.compareToIgnoreCase(md5AssetClient) != 0) {
 			Log.d(TAG,"Hashes of installed client does not match binary in assets - re-install.");
-			// Determine if BOINC is already running.
-			//
-			quitProcessOsLevel(clientProcessName);
+			
+			// try graceful shutdown using RPC (faster)
+	    	Boolean success = false;
+			if(connectClient()) {
+				rpc.quit();
+		    	Integer attempts = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_attempts);
+		    	Integer sleepPeriod = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_rate_ms);
+		    	for(int x = 0; x < attempts; x++) {
+		    		try {
+		    			Thread.sleep(sleepPeriod);
+		    		} catch (Exception e) {}
+		    		if(getPidForProcessName(clientProcessName) == null) { //client is now closed
+		        		Log.d(TAG,"quitClient: gracefull RPC shutdown successful after " + x + " seconds");
+		    			success = true;
+		    			x = attempts;
+		    		}
+		    	}
+			}
+			
+			// quit with OS signals
+			if(!success) quitProcessOsLevel(clientProcessName);
 
 			// Install BOINC client software
 			//
