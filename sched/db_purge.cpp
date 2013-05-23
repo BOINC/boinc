@@ -86,6 +86,8 @@ int max_wu_per_file = 0;
     // after getting some max no of WU in the file
 int wu_stored_in_file = 0;
     // keep track of how many WU archived in file so far
+int id_modulus=0, id_remainder=0;
+    // allow more than one to run - doesn't work if archiving is enabled
 
 bool time_to_quit() {
     if (max_number_workunits_to_purge) {
@@ -138,7 +140,7 @@ void open_archive(const char* filename_prefix, FILE*& f){
     if (compression_type == COMPRESSION_GZIP) {
         sprintf(command, "gzip - > %s", path);
     }
-   
+
     if (compression_type == COMPRESSION_ZIP) {
         sprintf(command, "zip - - > %s", path);
     }
@@ -147,7 +149,7 @@ void open_archive(const char* filename_prefix, FILE*& f){
         "Opening archive %s\n", path
     );
 
-    if (compression_type == COMPRESSION_NONE) {   
+    if (compression_type == COMPRESSION_NONE) {
         if (!(f = fopen(path,"w"))) {
             char buf[256];
             sprintf(buf, "Can't open archive file %s %s\n",
@@ -159,7 +161,7 @@ void open_archive(const char* filename_prefix, FILE*& f){
         f = popen(command,"w");
         if (!f) {
             log_messages.printf(MSG_CRITICAL,
-                "Can't open pipe %s %s\n", 
+                "Can't open pipe %s %s\n",
                 command, errno?strerror(errno):""
             );
             exit(4);
@@ -188,7 +190,7 @@ void close_archive(const char *filename, FILE*& fp){
     } else {
         pclose(fp);
     }
-    
+
     fp = NULL;
 
     // reconstruct the filename
@@ -208,7 +210,7 @@ void close_archive(const char *filename, FILE*& fp){
     }
     // append appropriate file type
     strcat(path, suffix[compression_type]);
-    
+
     log_messages.printf(MSG_NORMAL,
         "Closed archive file %s containing records of %d workunits\n",
         path, wu_stored_in_file
@@ -222,13 +224,13 @@ void close_archive(const char *filename, FILE*& fp){
 //
 void open_all_archives() {
     int old_time=time_int;
-    
+
     // make sure we get a NEW value of the file timestamp!
     //
     while (old_time == (time_int = (int)time(0))) {
         sleep(1);
     }
-    
+
     // open all the archives.
     open_archive(WU_FILENAME_PREFIX, wu_stream);
     open_archive(RESULT_FILENAME_PREFIX, re_stream);
@@ -264,7 +266,7 @@ void close_all_archives() {
 //
 void close_db_exit_handler() {
     boinc_db.close();
-    return; 
+    return;
 }
 
 int archive_result(DB_RESULT& result) {
@@ -475,6 +477,7 @@ bool do_pass() {
     //
     int do_pass_purged_workunits = 0;
     int do_pass_purged_results = 0;
+    int min_age_seconds = 0;
 
     // check to see if we got a stop signal.
     // Note that if we do catch a stop signal here,
@@ -488,17 +491,30 @@ bool do_pass() {
     char buf[256];
 
     if (min_age_days) {
-        char timestamp[15];
-        mysql_timestamp(dtime()-min_age_days*86400., timestamp);
-        sprintf(buf,
-            "where file_delete_state=%d and mod_time<'%s' limit %d",
-            FILE_DELETE_DONE, timestamp, DB_QUERY_LIMIT
-        );
+        min_age_seconds = (int) min_age_days*86400;
+        if (id_modulus) {
+            sprintf(buf,
+                "where file_delete_state=%d and mod_time<current_timestamp() - interval %d second and id %% %d = %d limit %d",
+                FILE_DELETE_DONE, min_age_seconds, id_modulus, id_remainder, DB_QUERY_LIMIT
+            );
+        } else {
+            sprintf(buf,
+                "where file_delete_state=%d and mod_time<current_timestamp() - interval %d second limit %d",
+                FILE_DELETE_DONE, min_age_seconds, DB_QUERY_LIMIT
+            );
+        }
     } else {
-        sprintf(buf,
-            "where file_delete_state=%d limit %d",
-            FILE_DELETE_DONE, DB_QUERY_LIMIT
-        );
+        if (id_modulus) {
+            sprintf(buf,
+                "where file_delete_state=%d and id %% %d = %d limit %d",
+                FILE_DELETE_DONE, id_modulus, id_remainder, DB_QUERY_LIMIT
+            );
+        } else {
+            sprintf(buf,
+                "where file_delete_state=%d limit %d",
+                FILE_DELETE_DONE, DB_QUERY_LIMIT
+            );
+        }
     }
 
     int n=0;
@@ -515,7 +531,7 @@ bool do_pass() {
         }
         if (strstr(wu.name, "nodelete")) continue;
         did_something = true;
-        
+
         // if archives have not already been opened, then open them.
         //
         if (!no_archive && !wu_stream) {
@@ -588,7 +604,7 @@ bool do_pass() {
             "Archived %d workunits and %d results\n",
             do_pass_purged_workunits, do_pass_purged_results
         );
-    } 
+    }
 
     if (did_something && wu_stored_in_file>0) {
         log_messages.printf(MSG_DEBUG,
@@ -619,6 +635,7 @@ void usage(char* name) {
         "    [--sleep N]                   Sleep N sec after DB scan\n"
         "    [--one_pass]                  Make one DB scan, then exit\n"
         "    [--dont_delete]               Don't actually delete anything from the DB (for testing only)\n"
+        "    [--mod M R ]                  Handle only WUs with ID mod M == R\n"
         "    [--h | --help]                Show this help text\n"
         "    [--v | --version]             Show version information\n",
         name
@@ -696,6 +713,16 @@ int main(int argc, char** argv) {
         } else if (is_arg(argv[i], "--version") || is_arg(argv[i], "-version")) {
             printf("%s\n", SVN_VERSION);
             exit(0);
+        } else if (is_arg(argv[i], "mod")) {
+            if (!argv[i+1] || !argv[i+2]) {
+                log_messages.printf(MSG_CRITICAL,
+                    "%s requires two arguments\n\n", argv[i]
+                );
+                usage(argv[0]);
+                exit(1);
+            }
+            id_modulus   = atoi(argv[++i]);
+            id_remainder = atoi(argv[++i]);
         } else {
             log_messages.printf(MSG_CRITICAL,
                 "unknown command line argument: %s\n\n", argv[i]
@@ -703,6 +730,14 @@ int main(int argc, char** argv) {
             usage(argv[0]);
             exit(1);
         }
+    }
+
+    if (id_modulus && !no_archive) {
+        log_messages.printf(MSG_CRITICAL,
+            "If you use modulus, you must set no_archive\n\n"
+        );
+        usage(argv[0]);
+        exit(1);
     }
 
     retval = config.parse_file();
