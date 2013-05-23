@@ -1,5 +1,6 @@
 <global_preferences>
   <run_on_batteries>0</run_on_batteries>
+  <battery_charge_min_pct>94</battery_charge_min_pct>
   <run_gpu_if_user_active>0</run_gpu_if_user_active>
   <run_if_user_active>1</run_if_user_active>
   <idle_time_to_run>3.0</idle_time_to_run>

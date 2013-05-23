@@ -20,6 +20,7 @@ package edu.berkeley.boinc.rpc;
 
 public class GlobalPreferences{
 	
+	public double battery_charge_min_pct;
 	public boolean run_on_batteries;
     // poorly named; what it really means is:
     // if false, suspend while on batteries

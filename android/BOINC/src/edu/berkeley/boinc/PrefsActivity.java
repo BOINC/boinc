@@ -130,22 +130,29 @@ public class PrefsActivity extends FragmentActivity {
 		
 		Boolean advanced = appPrefs.getShowAdvanced();
 
+		// general
     	data.add(new PrefsListItemWrapper(this,R.string.prefs_category_general,true));
 		data.add(new PrefsListItemWrapperBool(this,R.string.prefs_autostart_header,R.string.prefs_category_general,appPrefs.getAutostart()));
 		data.add(new PrefsListItemWrapperBool(this,R.string.prefs_show_notification_header,R.string.prefs_category_general,appPrefs.getShowNotification())); 
 		data.add(new PrefsListItemWrapperBool(this,R.string.prefs_show_advanced_header,R.string.prefs_category_general,appPrefs.getShowAdvanced()));
+		// network
     	data.add(new PrefsListItemWrapper(this,R.string.prefs_category_network,true));
 		data.add(new PrefsListItemWrapperBool(this,R.string.prefs_network_wifi_only_header,R.string.prefs_category_network,clientPrefs.network_wifi_only));
 		if(advanced) data.add(new PrefsListItemWrapperDouble(this,R.string.prefs_network_daily_xfer_limit_mb_header,R.string.prefs_category_network,clientPrefs.daily_xfer_limit_mb));
-    	data.add(new PrefsListItemWrapper(this,R.string.prefs_category_power,true));
+    	// power
+		data.add(new PrefsListItemWrapper(this,R.string.prefs_category_power,true));
 		data.add(new PrefsListItemWrapperBool(this,R.string.prefs_run_on_battery_header,R.string.prefs_category_power,clientPrefs.run_on_batteries));
+		data.add(new PrefsListItemWrapperDouble(this,R.string.battery_charge_min_pct_header,R.string.prefs_category_power,clientPrefs.battery_charge_min_pct));
+		// cpu
 		if(advanced) data.add(new PrefsListItemWrapper(this,R.string.prefs_category_cpu,true));
 		if(advanced) data.add(new PrefsListItemWrapperDouble(this,R.string.prefs_cpu_number_cpus_header,R.string.prefs_category_cpu,clientPrefs.max_ncpus_pct));
 		if(advanced) data.add(new PrefsListItemWrapperDouble(this,R.string.prefs_cpu_time_max_header,R.string.prefs_category_cpu,clientPrefs.cpu_usage_limit));
 		if(advanced) data.add(new PrefsListItemWrapperDouble(this,R.string.prefs_cpu_other_load_suspension_header,R.string.prefs_category_cpu,clientPrefs.suspend_cpu_usage));
+		// storage
 		if(advanced) data.add(new PrefsListItemWrapper(this,R.string.prefs_category_storage,true));
 		if(advanced) data.add(new PrefsListItemWrapperDouble(this,R.string.prefs_disk_max_pct_header,R.string.prefs_category_storage,clientPrefs.disk_max_used_pct));
 		if(advanced) data.add(new PrefsListItemWrapperDouble(this,R.string.prefs_disk_min_free_gb_header,R.string.prefs_category_storage,clientPrefs.disk_min_free_gb));
+		// memory
 		if(advanced) data.add(new PrefsListItemWrapper(this,R.string.prefs_category_memory,true));
 		if(advanced) data.add(new PrefsListItemWrapperDouble(this,R.string.prefs_memory_max_idle_header,R.string.prefs_category_memory,clientPrefs.ram_max_used_idle_frac));
 	}
@@ -264,6 +271,9 @@ public class PrefsActivity extends FragmentActivity {
 			break;
 		case R.string.prefs_network_daily_xfer_limit_mb_header:
 			clientPrefs.daily_xfer_limit_mb = value;
+			break;
+		case R.string.battery_charge_min_pct_header:
+			clientPrefs.battery_charge_min_pct = value;
 			break;
 		case R.string.prefs_cpu_number_cpus_header:
 			clientPrefs.max_ncpus_pct = value;

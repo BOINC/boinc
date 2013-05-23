@@ -120,12 +120,12 @@
     <!-- status strings -->
     <string name="status_running">Computing</string>
     <string name="status_running_long">Thank you for participating.</string>
-    <string name="status_paused">Paused</string>
-    <string name="status_paused_long">Computation suspended.</string>
+    <string name="status_paused">Suspended</string>
+    <string name="status_paused_long">BOINC suspended computation.</string>
     <string name="status_idle">Nothing to do</string>
     <string name="status_idle_long">Waiting for tasks&#8230;</string>
     <string name="status_computing_disabled">Suspended</string>
-    <string name="status_computing_disabled_long">Press play to allow computation.</string>
+    <string name="status_computing_disabled_long">Press play to resume computation.</string>
     <string name="status_launching">Starting&#8230;</string>
     <string name="status_noproject">Choose a project to participate in.</string>
     <string name="status_closing">Closing&#8230;</string>
@@ -146,9 +146,11 @@
 	
 	<string name="prefs_show_advanced_header">Show advanced preferences and controls&#8230;</string>
 	<string name="prefs_run_on_battery_header">Compute on Battery</string>
-	<string name="prefs_disk_max_pct_header">Max used storage space</string>
+	<string name="battery_charge_min_pct_header">Min. battery level</string>
+	<string name="battery_charge_min_pct_description">BOINC suspends computation below defined battery charge level.</string>
+	<string name="prefs_disk_max_pct_header">Max. used storage space</string>
 	<string name="prefs_disk_max_pct_description">How many percent of your device\'s storage space is BOINC allowed to use?</string>
-	<string name="prefs_disk_min_free_gb_header">Min spare storage</string>
+	<string name="prefs_disk_min_free_gb_header">Min. spare storage</string>
 	<string name="prefs_disk_min_free_gb_description">How much of your device\'s storage space shall stay free?</string>
 	<string name="prefs_network_daily_xfer_limit_mb_header">Daily transfer limit</string>
 	<string name="prefs_network_daily_xfer_limit_mb_description">Limits the daily data traffic caused by BOINC.</string>

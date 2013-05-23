@@ -921,7 +921,9 @@ public class RpcClient {
 			mRequest.setLength(0);
 			mRequest.append("<set_global_prefs_override>\n<global_preferences>\n  <run_on_batteries>");
 			mRequest.append(globalPrefs.run_on_batteries ? 1 : 0);
-			mRequest.append("</run_on_batteries>\n  <run_gpu_if_user_active>");
+			mRequest.append("</run_on_batteries>\n  <battery_charge_min_pct>");
+			mRequest.append(globalPrefs.battery_charge_min_pct);
+			mRequest.append("</battery_charge_min_pct>\n  <run_gpu_if_user_active>");
 			mRequest.append(globalPrefs.run_gpu_if_user_active ? 1 : 0);
 			mRequest.append("</run_gpu_if_user_active>\n  <run_if_user_active>");
 			mRequest.append(globalPrefs.run_if_user_active ? 1 : 0);

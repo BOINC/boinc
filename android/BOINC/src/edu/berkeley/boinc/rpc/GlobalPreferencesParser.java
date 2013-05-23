@@ -118,6 +118,8 @@ public class GlobalPreferencesParser extends BaseParser {
 					trimEnd();
 					if (localName.equalsIgnoreCase("run_on_batteries")) {
 						mPreferences.run_on_batteries = Integer.parseInt(mCurrentElement.toString()) != 0;
+					} else if (localName.equalsIgnoreCase("battery_charge_min_pct")) {
+						mPreferences.battery_charge_min_pct = Double.parseDouble(mCurrentElement.toString());
 					} else if (localName.equalsIgnoreCase("run_gpu_if_user_active")) {
 						mPreferences.run_gpu_if_user_active = Integer.parseInt(mCurrentElement.toString()) != 0;
 					} else if (localName.equalsIgnoreCase("run_if_user_active")) {
