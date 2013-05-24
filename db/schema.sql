@@ -185,6 +185,7 @@ create table host (
     external_ip_addr        varchar(254),
     max_results_day         integer         not null,
     error_rate              double          not null default 0,
+    product_name            varchar(254)    not null,
 
     primary key (id)
 ) engine=InnoDB;

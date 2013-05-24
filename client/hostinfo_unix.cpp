@@ -222,7 +222,7 @@ bool HOST_INFO::host_is_running_on_batteries() {
     return retval;
 
 #elif ANDROID
-    return !(device_status.on_ac_power || device_status.on_usb_power);
+    return !(gstate.device_status.on_ac_power || gstate.device_status.on_usb_power);
 
 #elif LINUX_LIKE_SYSTEM
     static enum {

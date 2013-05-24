@@ -93,7 +93,9 @@ int HOST_INFO::parse(XML_PARSER& xp, bool benchmarks_only) {
         }
         if (xp.parse_double("p_calculated", p_calculated)) continue;
         if (xp.parse_bool("p_vm_extensions_disabled", p_vm_extensions_disabled)) continue;
+#ifdef ANDROID
         if (xp.parse_str("product_name", product_name, sizeof(product_name))) continue;
+#endif
 
         if (benchmarks_only) continue;
 
