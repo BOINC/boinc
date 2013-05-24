@@ -40,6 +40,9 @@
     	<integer name="status_min_screen_height_for_slideshow_px">400</integer>
     	<integer name="status_min_screen_height_for_image_px">700</integer>
     	<integer name="status_max_slideshow_images_per_project">15</integer>
+    <!-- configuration on projects layout -->
+    	<integer name="projects_min_screen_width_for_2_parallel_buttons_dp">500</integer>
+    	<integer name="projects_min_screen_width_for_3_parallel_buttons_dp">700</integer>
     <!-- configuration on tasks layout -->
     	<integer name="tasks_transistion_timeout_number_monitor_loops">10</integer>
     <!-- shutdown -->

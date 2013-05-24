@@ -38,40 +38,52 @@
    		android:textAppearance="?android:attr/textAppearanceSmall"
    		android:background="@android:color/transparent"
    		android:textColor="@color/dark_blue"/>
+   	
+   	<LinearLayout 
+	    android:id="@+id/button_wrapper"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:gravity="center"
+    	android:orientation="vertical">
     	
-   	<Button 
-		android:id="@+id/project_control_update"
-   		android:layout_width="150dp"
-   		android:layout_height="wrap_content"
-   		android:text="@string/projects_control_update"
-   		android:textAppearance="?android:attr/textAppearanceMedium"
-   		android:textColor="@color/white_smoke"
-   		android:background="@drawable/shape_button_blue"
-   		android:padding="5dp"
-   		android:layout_margin="10dp"
-   		android:layout_gravity="center_horizontal"/>
-   	<Button 
-		android:id="@+id/project_control_remove"
-   		android:layout_width="150dp"
-   		android:layout_height="wrap_content"
-   		android:text="@string/projects_control_remove"
-   		android:textAppearance="?android:attr/textAppearanceMedium"
-   		android:textColor="@color/white_smoke"
-   		android:background="@drawable/shape_button_red"
-   		android:padding="5dp"
-   		android:layout_margin="10dp"
-   		android:layout_gravity="center_horizontal"/>
-   	<Button 
-		android:id="@+id/project_control_advanced"
-   		android:layout_width="150dp"
-   		android:layout_height="wrap_content"
-   		android:text="@string/projects_control_advanced"
-   		android:textAppearance="?android:attr/textAppearanceMedium"
-   		android:textColor="@color/white_smoke"
-   		android:background="@drawable/shape_button_blue"
-   		android:padding="5dp"
-   		android:layout_margin="10dp"
-   		android:layout_gravity="center_horizontal"
-   		android:visibility="gone"/>
+	   	<Button 
+			android:id="@+id/project_control_update"
+	   		android:layout_width="150dp"
+	   		android:layout_height="wrap_content"
+	   		android:text="@string/projects_control_update"
+	   		android:textAppearance="?android:attr/textAppearanceMedium"
+	   		android:textColor="@color/white_smoke"
+	   		android:background="@drawable/shape_button_blue"
+	   		android:padding="5dp"
+	   		android:layout_margin="10dp"
+	   		android:layout_marginLeft="20dp"
+	   		android:layout_marginRight="20dp"/>
+	   	<Button 
+			android:id="@+id/project_control_remove"
+	   		android:layout_width="150dp"
+	   		android:layout_height="wrap_content"
+	   		android:text="@string/projects_control_remove"
+	   		android:textAppearance="?android:attr/textAppearanceMedium"
+	   		android:textColor="@color/white_smoke"
+	   		android:background="@drawable/shape_button_red"
+	   		android:padding="5dp"
+	   		android:layout_margin="10dp"
+	   		android:layout_marginLeft="20dp"
+	   		android:layout_marginRight="20dp"/>
+	   	<Button 
+			android:id="@+id/project_control_advanced"
+	   		android:layout_width="150dp"
+	   		android:layout_height="wrap_content"
+	   		android:text="@string/projects_control_advanced"
+	   		android:textAppearance="?android:attr/textAppearanceMedium"
+	   		android:textColor="@color/white_smoke"
+	   		android:background="@drawable/shape_button_blue"
+	   		android:padding="5dp"
+	   		android:layout_margin="10dp"
+	   		android:visibility="gone"
+	   		android:layout_marginLeft="20dp"
+	   		android:layout_marginRight="20dp"/>
+   	
+   	</LinearLayout>
     
 </LinearLayout>

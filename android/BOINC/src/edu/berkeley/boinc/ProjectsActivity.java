@@ -38,6 +38,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -58,6 +59,7 @@ public class ProjectsActivity extends FragmentActivity {
 	private ProjectsListAdapter listAdapter;
 	private ArrayList<ProjectData> data = new ArrayList<ProjectData>();
 	private final FragmentActivity activity = this;
+	private Integer numberProjects = 0;
 	
 	// Controls whether initialization of view elements of "projects_layout"
 	// is required. This is the case, every time the layout switched.
@@ -86,7 +88,7 @@ public class ProjectsActivity extends FragmentActivity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			//Log.d(TAG, "ClientStatusChange - onReceive()");
-			populateLayout();
+			populateLayout(false);
 		}
 	};
 
@@ -113,10 +115,9 @@ public class ProjectsActivity extends FragmentActivity {
 	@Override
 	public void onResume() {
 		Log.d(TAG, "onResume()");
-
 		super.onResume();
 		
-		populateLayout();
+		populateLayout(true);
 
 		registerReceiver(mClientStatusChangeRec, ifcsc);
 	}
@@ -133,7 +134,7 @@ public class ProjectsActivity extends FragmentActivity {
 	    super.onDestroy();
 	}
 	
-	private void populateLayout() {
+	private void populateLayout(Boolean force) {
 		try {
 			// read projects from state saved in ClientStatus
 			ArrayList<Project> tmpA = Monitor.getClientStatus().getProjects();
@@ -142,6 +143,9 @@ public class ProjectsActivity extends FragmentActivity {
 				setLayoutLoading();
 				return;
 			}
+			
+			// limit layout update on when project number changes.
+			if(!force && tmpA.size() == numberProjects) return;
 
 			// Switch to a view that can actually display messages
 			if (initialSetupRequired) {

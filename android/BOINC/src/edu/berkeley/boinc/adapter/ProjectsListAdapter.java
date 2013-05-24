@@ -23,20 +23,27 @@ import java.util.Calendar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.text.SpannableString;
 import android.text.format.DateUtils;
 import android.text.style.UnderlineSpan;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import edu.berkeley.boinc.ProjectsActivity.ProjectData;
 import edu.berkeley.boinc.R;
@@ -46,15 +53,24 @@ import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.utils.BOINCUtils;
 
 public class ProjectsListAdapter extends ArrayAdapter<ProjectData> {
-    //private final String TAG = "ProjectsListAdapter";
+    private final String TAG = "ProjectsListAdapter";
 	
 	private ArrayList<ProjectData> entries;
     private Activity activity;
+	
+    private Integer screenHeight;
+    private Integer screenWidth;
     
     public ProjectsListAdapter(Activity activity, ListView listView, int textViewResourceId, ArrayList<ProjectData> entries) {
         super(activity, textViewResourceId, entries);
         this.entries = entries;
         this.activity = activity;
+        
+        WindowManager wm = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+		screenWidth = display.getWidth();
+		screenHeight = display.getHeight();
+		Log.d(TAG,"screen dimensions: " + screenWidth + "*" + screenHeight);
         
         listView.setAdapter(this);
     }
@@ -205,20 +221,44 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectData> {
 					ctx.startActivity(i);}});
         	
         	// buttons
+        	Boolean advanced = Monitor.getAppPrefs().getShowAdvanced();
         	Button bUpdate = (Button)vi.findViewById(R.id.project_control_update);
         	bUpdate.setTag(RpcClient.PROJECT_UPDATE);
         	bUpdate.setOnClickListener(entries.get(position).iconClickListener);
         	Button bRemove = (Button)vi.findViewById(R.id.project_control_remove);
         	bRemove.setTag(RpcClient.PROJECT_DETACH);
         	bRemove.setOnClickListener(entries.get(position).iconClickListener);
-        	if(Monitor.getAppPrefs().getShowAdvanced()) { 
+        	if(advanced) { 
             	// show advanced options only if enabled in preferences
 	        	Button bAdvanced = (Button)vi.findViewById(R.id.project_control_advanced);
 	        	bAdvanced.setTag(RpcClient.PROJECT_ADVANCED);
 	        	bAdvanced.setOnClickListener(entries.get(position).iconClickListener);
 	        	bAdvanced.setVisibility(View.VISIBLE);
         	}
+        	
+        	// adapt layout for wide screens
+        	float minWidthInPx;
+        	if(advanced) minWidthInPx = convertDpToPixel(vi.getResources().getInteger(R.integer.projects_min_screen_width_for_3_parallel_buttons_dp), vi.getContext());
+        	else minWidthInPx = convertDpToPixel(vi.getResources().getInteger(R.integer.projects_min_screen_width_for_2_parallel_buttons_dp), vi.getContext());
+        	if(screenWidth >= minWidthInPx) {
+        		LinearLayout buttonWrapper = (LinearLayout) vi.findViewById(R.id.button_wrapper);
+        		buttonWrapper.setOrientation(LinearLayout.HORIZONTAL);
+        	}
         }
         return vi;
     }
+	
+	/**
+	 * This method converts dp unit to equivalent pixels, depending on device density. 
+	 * 
+	 * @param dp A value in dp (density independent pixels) unit. Which we need to convert into pixels
+	 * @param context Context to get resources and device specific display metrics
+	 * @return A float value to represent px equivalent to dp depending on device density
+	 */
+	public static float convertDpToPixel(int dp, Context context){
+	    Resources resources = context.getResources();
+	    DisplayMetrics metrics = resources.getDisplayMetrics();
+	    float px = dp * (metrics.densityDpi / 160f);
+	    return px;
+	}
 }

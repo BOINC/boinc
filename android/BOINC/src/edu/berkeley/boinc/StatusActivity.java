@@ -61,8 +61,10 @@ public class StatusActivity extends Activity implements OnClickListener{
 	
 	//slide show
     private RelativeLayout slideshowWrapper;
-    private Integer screenHeight;
-    private Integer screenWidth;
+    private Integer screenHeight = 0;
+    private Integer screenWidth = 0;
+    private Integer minScreenHeightForSlideshow = 1000;
+    private Integer minScreenHeightForImage = 1000;
 
 	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
 		@Override
@@ -121,6 +123,11 @@ public class StatusActivity extends Activity implements OnClickListener{
 		screenWidth = display.getWidth();
 		screenHeight = display.getHeight();
 		Log.d(TAG,"screen dimensions: " + screenWidth + "*" + screenHeight);
+		
+		try{
+			minScreenHeightForSlideshow = getResources().getInteger(R.integer.status_min_screen_height_for_slideshow_px);
+			minScreenHeightForImage = getResources().getInteger(R.integer.status_min_screen_height_for_image_px);
+		} catch(Exception e){}
 	}
 	
 	public void onPause() {
@@ -281,7 +288,7 @@ public class StatusActivity extends Activity implements OnClickListener{
 	
 	private Boolean loadSlideshow() {
 		// check if screen is high enough for slideshow
-		if(screenHeight < getResources().getInteger(R.integer.status_min_screen_height_for_slideshow_px)) return false;
+		if(screenHeight < minScreenHeightForSlideshow) return false;
 		
 		// get slideshow images
 		final ArrayList<ImageWrapper> images = Monitor.getClientStatus().getSlideshowImages();
@@ -299,8 +306,8 @@ public class StatusActivity extends Activity implements OnClickListener{
         //setup gallery
         gallery.setAdapter(new GalleryAdapter(this,images));
         
-        // adapt layout accoding to screen size
-		if(screenHeight < getResources().getInteger(R.integer.status_min_screen_height_for_image_px)) {
+        // adapt layout according to screen size
+		if(screenHeight < minScreenHeightForImage) {
 			// screen is not high enough for large image
 			imageView.setVisibility(View.GONE);
 			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
