@@ -35,7 +35,6 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
@@ -43,7 +42,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import edu.berkeley.boinc.ProjectsActivity.ProjectData;
 import edu.berkeley.boinc.R;
@@ -240,6 +238,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectData> {
         	float minWidthInPx;
         	if(advanced) minWidthInPx = convertDpToPixel(vi.getResources().getInteger(R.integer.projects_min_screen_width_for_3_parallel_buttons_dp), vi.getContext());
         	else minWidthInPx = convertDpToPixel(vi.getResources().getInteger(R.integer.projects_min_screen_width_for_2_parallel_buttons_dp), vi.getContext());
+        	//Log.d(TAG,"screen width: " + screenWidth + " min. width: " + minWidthInPx);
         	if(screenWidth >= minWidthInPx) {
         		LinearLayout buttonWrapper = (LinearLayout) vi.findViewById(R.id.button_wrapper);
         		buttonWrapper.setOrientation(LinearLayout.HORIZONTAL);
