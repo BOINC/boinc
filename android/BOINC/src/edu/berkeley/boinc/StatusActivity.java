@@ -36,8 +36,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Gallery;
@@ -59,6 +61,8 @@ public class StatusActivity extends Activity implements OnClickListener{
 	
 	//slide show
     private RelativeLayout slideshowWrapper;
+    private Integer screenHeight;
+    private Integer screenWidth;
 
 	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
 		@Override
@@ -112,6 +116,11 @@ public class StatusActivity extends Activity implements OnClickListener{
 		registerReceiver(mClientStatusChangeRec,ifcsc);
 		loadLayout();
 		super.onResume();
+		
+		Display display = getWindowManager().getDefaultDisplay();
+		screenWidth = display.getWidth();
+		screenHeight = display.getHeight();
+		//Log.d(TAG,"screen dimensions: " + screenWidth + "*" + screenHeight);
 	}
 	
 	public void onPause() {
@@ -271,6 +280,9 @@ public class StatusActivity extends Activity implements OnClickListener{
 	}
 	
 	private Boolean loadSlideshow() {
+		// check if screen is high enough for slideshow
+		if(screenHeight < getResources().getInteger(R.integer.status_min_screen_height_for_slideshow_px)) return false;
+		
 		// get slideshow images
 		final ArrayList<ImageWrapper> images = Monitor.getClientStatus().getSlideshowImages();
 		if(images == null || images.size() == 0) return false;
@@ -279,42 +291,38 @@ public class StatusActivity extends Activity implements OnClickListener{
 	    Gallery gallery = (Gallery) findViewById(R.id.gallery);
 	    final ImageView imageView = (ImageView) findViewById(R.id.image_view);
 	    final TextView imageDesc = (TextView)findViewById(R.id.image_description);
-        imageView.setImageBitmap(images.get(0).image);
         imageDesc.setText(images.get(0).projectName);
 		LinearLayout centerWrapper = (LinearLayout) findViewById(R.id.center_wrapper);
 		centerWrapper.setVisibility(View.GONE);
         slideshowWrapper.setVisibility(View.VISIBLE);
         
-        //gallery.setVisibility(View.GONE);
-        
         //setup gallery
         gallery.setAdapter(new GalleryAdapter(this,images));
-
-        gallery.setOnItemClickListener(new OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                imageView.setImageBitmap(images.get(position).image);
-                imageDesc.setText(images.get(position).projectName);
-            }
-        });
         
-        /*
-        // create views for all available bitmaps
-    	for (Bitmap image: images) {
-            ImageView imageView = new ImageView(this);
-            imageView.setLayoutParams(params);
-            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            imageView.setImageBitmap(image);
-            viewFlipper.addView(imageView);
-    	}*/
-        /*
-        // capture click events and pass on to Gesture Detector
-        slideshowWrapper.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(final View view, final MotionEvent event) {
-                gdt.onTouchEvent(event);
-                return true;
-            }
-         });*/
+        // adapt layout accoding to screen size
+		if(screenHeight < getResources().getInteger(R.integer.status_min_screen_height_for_image_px)) {
+			// screen is not high enough for large image
+			imageView.setVisibility(View.GONE);
+			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+			params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+			LinearLayout galleryWrapper = (LinearLayout) findViewById(R.id.gallery_wrapper);
+			galleryWrapper.setLayoutParams(params);
+			galleryWrapper.setPadding(0, 0, 0, 5);
+	        gallery.setOnItemClickListener(new OnItemClickListener() {
+	            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+	                imageDesc.setText(images.get(position).projectName);
+	            }
+	        });
+		} else {
+			// screen is high enough, fully blown layout
+	        imageView.setImageBitmap(images.get(0).image);
+	        gallery.setOnItemClickListener(new OnItemClickListener() {
+	            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+	                imageView.setImageBitmap(images.get(position).image);
+	                imageDesc.setText(images.get(position).projectName);
+	            }
+	        });
+		}
         
         return true;
 	}

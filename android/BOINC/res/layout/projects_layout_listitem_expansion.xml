@@ -22,148 +22,56 @@
     android:layout_height="wrap_content"
     android:visibility="gone"
     android:orientation="vertical">
-    
-    <LinearLayout 
-		android:id="@+id/project_credits_wrapper"
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	android:orientation="horizontal"
-    	android:layout_marginBottom="5dp">
     	
-    	<TextView 
-    		android:layout_width="180dp"
-    		android:layout_height="wrap_content"
-    		android:text="@string/projects_credits_header"
-    		android:textAppearance="?android:attr/textAppearanceMedium"
-    		android:textColor="@color/dark_grey"/>
-  	
-    	<TextView 
-		    android:id="@+id/project_credits_host_value"
-    		android:layout_width="wrap_content"
-    		android:layout_height="wrap_content"
-    		android:textAppearance="?android:attr/textAppearanceMedium"
-    		android:textStyle="bold"
-    		android:layout_marginRight="3dp"
-    		android:textColor="@color/dark_grey"/>
-   	
-    	<TextView 
-		    android:id="@+id/project_credits_host_header"
-    		android:layout_width="wrap_content"
-    		android:layout_height="wrap_content"
-    		android:text="@string/projects_credits_host_header"
-    		android:textAppearance="?android:attr/textAppearanceSmall"
-    		android:textColor="@color/dark_grey"
-    		android:layout_marginRight="3dp"
-    		android:visibility="gone"/>
+   	<TextView 
+   		android:layout_width="wrap_content"
+	    android:id="@+id/project_credits"
+   		android:layout_height="wrap_content"
+   		android:text="@string/projects_credits_header"
+   		android:textAppearance="?android:attr/textAppearanceSmall"
+   		android:textColor="@color/dark_grey"/>
 		    	
-    	<TextView 
-		    android:id="@+id/project_credits_user_total_value"
-    		android:layout_width="wrap_content"
-    		android:layout_height="wrap_content"
-    		android:textAppearance="?android:attr/textAppearanceMedium"
-    		android:textStyle="bold"
-    		android:layout_marginRight="3dp"
-    		android:background="@android:color/transparent"
-    		android:textColor="@color/dark_grey"
-    		android:visibility="gone"/>
-   	
-    	<TextView 
-		    android:id="@+id/project_credits_user_total_header"
-    		android:layout_width="wrap_content"
-    		android:layout_height="wrap_content"
-    		android:text="@string/projects_credits_user_header"
-    		android:textAppearance="?android:attr/textAppearanceSmall"
-    		android:background="@android:color/transparent"
-    		android:layout_marginRight="3dp"
-    		android:textColor="@color/dark_grey"
-    		android:visibility="gone"/>
-        
-    </LinearLayout>
-    
-    <LinearLayout 
-		android:id="@+id/project_website_wrapper"
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	android:orientation="horizontal"
-    	android:layout_marginBottom="5dp">
+   	<TextView 
+	    android:id="@+id/project_website"
+   		android:layout_width="wrap_content"
+   		android:layout_height="wrap_content"
+   		android:textAppearance="?android:attr/textAppearanceSmall"
+   		android:background="@android:color/transparent"
+   		android:textColor="@color/dark_blue"/>
     	
-    	<TextView 
-    		android:layout_width="180dp"
-    		android:layout_height="wrap_content"
-    		android:text="@string/projects_website_header"
-    		android:textAppearance="?android:attr/textAppearanceMedium"
-    		android:textColor="@color/dark_grey"/>
-		    	
-    	<TextView 
-		    android:id="@+id/project_website"
-    		android:layout_width="wrap_content"
-    		android:layout_height="wrap_content"
-    		android:textAppearance="?android:attr/textAppearanceMedium"
-    		android:background="@android:color/transparent"
-    		android:textColor="@color/dark_blue"/>
-        
-    </LinearLayout>
-    
-    <LinearLayout 
-		android:id="@+id/project_controls_wrapper"
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	android:orientation="horizontal"
-    	android:layout_marginTop="10dp"
-    	android:layout_marginBottom="10dp">
-    	
-        <LinearLayout 
-			android:id="@+id/project_control_update_wrapper"
-    		android:layout_width="0dp"
-    		android:layout_height="wrap_content"
-    		android:layout_weight="0.33"
-    		android:gravity="center_horizontal">
-	    	<Button 
-				android:id="@+id/project_control_update"
-	    		android:layout_width="150dp"
-	    		android:layout_height="wrap_content"
-	    		android:text="@string/projects_control_update"
-	    		android:textAppearance="?android:attr/textAppearanceMedium"
-	    		android:textColor="@color/white_smoke"
-	    		android:background="@drawable/shape_button_blue"
-	    		android:padding="5dp"/>
-    	</LinearLayout>
-    	
-        <LinearLayout 
-			android:id="@+id/project_control_remove_wrapper"
-    		android:layout_width="0dp"
-    		android:layout_height="wrap_content"
-    		android:layout_weight="0.33"
-    		android:gravity="center_horizontal">
-	    	<Button 
-				android:id="@+id/project_control_remove"
-	    		android:layout_width="150dp"
-	    		android:layout_height="wrap_content"
-	    		android:text="@string/projects_control_remove"
-	    		android:textAppearance="?android:attr/textAppearanceMedium"
-	    		android:textColor="@color/white_smoke"
-	    		android:background="@drawable/shape_button_red"
-	    		android:padding="5dp"/>
-    	</LinearLayout>
-    	
-        <LinearLayout 
-			android:id="@+id/project_control_advanced_wrapper"
-    		android:layout_width="0dp"
-    		android:layout_height="wrap_content"
-    		android:layout_weight="0.33"
-    		android:visibility="gone"
-    		android:gravity="center_horizontal">
-	    	<Button 
-				android:id="@+id/project_control_advanced"
-	    		android:layout_width="150dp"
-	    		android:layout_height="wrap_content"
-	    		android:text="@string/projects_control_advanced"
-	    		android:textAppearance="?android:attr/textAppearanceMedium"
-	    		android:textColor="@color/white_smoke"
-	    		android:background="@drawable/shape_button_blue"
-	    		android:padding="5dp"/>
-    	</LinearLayout>
-		
-    </LinearLayout>
+   	<Button 
+		android:id="@+id/project_control_update"
+   		android:layout_width="150dp"
+   		android:layout_height="wrap_content"
+   		android:text="@string/projects_control_update"
+   		android:textAppearance="?android:attr/textAppearanceMedium"
+   		android:textColor="@color/white_smoke"
+   		android:background="@drawable/shape_button_blue"
+   		android:padding="5dp"
+   		android:layout_margin="10dp"
+   		android:layout_gravity="center_horizontal"/>
+   	<Button 
+		android:id="@+id/project_control_remove"
+   		android:layout_width="150dp"
+   		android:layout_height="wrap_content"
+   		android:text="@string/projects_control_remove"
+   		android:textAppearance="?android:attr/textAppearanceMedium"
+   		android:textColor="@color/white_smoke"
+   		android:background="@drawable/shape_button_red"
+   		android:padding="5dp"
+   		android:layout_margin="10dp"
+   		android:layout_gravity="center_horizontal"/>
+   	<Button 
+		android:id="@+id/project_control_advanced"
+   		android:layout_width="150dp"
+   		android:layout_height="wrap_content"
+   		android:text="@string/projects_control_advanced"
+   		android:textAppearance="?android:attr/textAppearanceMedium"
+   		android:textColor="@color/white_smoke"
+   		android:background="@drawable/shape_button_blue"
+   		android:padding="5dp"
+   		android:layout_margin="10dp"
+   		android:layout_gravity="center_horizontal"
+   		android:visibility="gone"/>
     
 </LinearLayout>

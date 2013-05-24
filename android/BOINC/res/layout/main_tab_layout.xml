@@ -21,7 +21,8 @@
 	android:id="@+id/tabsLayout"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
-	android:padding="5dp"
+	android:paddingTop="5dp"
+	android:paddingBottom="5dp"
 	android:gravity="center"
 	android:orientation="vertical"
 	android:background="@drawable/tab_background">
@@ -29,7 +30,8 @@
     <ImageView android:id="@+id/tabsIcon"
 	    android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:background="@android:color/transparent" />
+		android:background="@android:color/transparent"
+		android:contentDescription="@string/tab_desc" />
 
 	<TextView android:id="@+id/tabsText"
 	    android:layout_width="wrap_content"
@@ -37,5 +39,6 @@
 		android:layout_marginTop="2dp"
 		android:textAppearance="?android:attr/textAppearanceSmall"
 		android:background="@android:color/transparent"
-		android:textColor="@drawable/tab_text" />
+		android:textColor="@drawable/tab_text"
+		android:singleLine="true" />
 </LinearLayout>

@@ -161,16 +161,14 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectData> {
         tvName.setText(getName(position));
         
         TextView tvUser = (TextView)vi.findViewById(R.id.project_user);
-        tvUser.setText(getUser(position));
+        String userText = getUser(position);
+        if(userText.isEmpty()) tvUser.setVisibility(View.GONE);
+        else tvUser.setText(userText);
         
 	    String statusText = getStatus(position);
-	    if(statusText.isEmpty()) {
-	    	LinearLayout statusWrapper= (LinearLayout)vi.findViewById(R.id.project_status_wrapper);
-	    	statusWrapper.setVisibility(View.GONE);
-	    } else {
-	        TextView tvStatus = (TextView)vi.findViewById(R.id.project_status);
-	        tvStatus.setText(statusText);
-	    }
+        TextView tvStatus = (TextView)vi.findViewById(R.id.project_status);
+	    if(statusText.isEmpty()) tvStatus.setVisibility(View.GONE);
+	    else tvStatus.setText(statusText);
 	    
 	    ImageView ivIcon = (ImageView)vi.findViewById(R.id.project_icon);
 	    Bitmap icon = getIcon(position);
@@ -185,17 +183,12 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectData> {
         	// credits
         	Integer totalCredit = Double.valueOf(data.project.user_total_credit).intValue();
         	Integer hostCredit = Double.valueOf(data.project.host_total_credit).intValue();
-    		TextView tvHostCredits = (TextView)vi.findViewById(R.id.project_credits_host_value);
-    		tvHostCredits.setText(hostCredit.toString());
-        	if(!hostCredit.equals(totalCredit)) { // show host credit only if not like user credit
-        		TextView tvHostCreditsHeader = (TextView)vi.findViewById(R.id.project_credits_user_total_header);
-        		tvHostCreditsHeader.setVisibility(View.VISIBLE);
-            	TextView tvTotalCredits = (TextView)vi.findViewById(R.id.project_credits_user_total_value);
-            	tvTotalCredits.setVisibility(View.VISIBLE);
-            	tvTotalCredits.setText(totalCredit.toString());
-        		TextView tvTotalCreditsHeader = (TextView)vi.findViewById(R.id.project_credits_host_header);
-        		tvTotalCreditsHeader.setVisibility(View.VISIBLE);
-        	}
+        	String creditsText = vi.getContext().getString(R.string.projects_credits_header) + " " + hostCredit;
+    		TextView tvCredits = (TextView)vi.findViewById(R.id.project_credits);
+        	if(!hostCredit.equals(totalCredit)) // show host credit only if not like user credit
+        		creditsText += " " + vi.getContext().getString(R.string.projects_credits_host_header) + " "
+        					+ totalCredit + " " + vi.getContext().getString(R.string.projects_credits_user_header);
+        	tvCredits.setText(creditsText);
         	
         	// website
         	final String website = data.project.master_url;
@@ -220,11 +213,10 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectData> {
         	bRemove.setOnClickListener(entries.get(position).iconClickListener);
         	if(Monitor.getAppPrefs().getShowAdvanced()) { 
             	// show advanced options only if enabled in preferences
-        		LinearLayout llAdvanced = (LinearLayout)vi.findViewById(R.id.project_control_advanced_wrapper);
-        		llAdvanced.setVisibility(View.VISIBLE);
 	        	Button bAdvanced = (Button)vi.findViewById(R.id.project_control_advanced);
 	        	bAdvanced.setTag(RpcClient.PROJECT_ADVANCED);
 	        	bAdvanced.setOnClickListener(entries.get(position).iconClickListener);
+	        	bAdvanced.setVisibility(View.VISIBLE);
         	}
         }
         return vi;

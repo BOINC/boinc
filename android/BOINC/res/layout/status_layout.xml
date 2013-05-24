@@ -17,7 +17,7 @@
   You should have received a copy of the GNU Lesser General Public License
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/status_wrapper"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -28,7 +28,6 @@
         android:id="@+id/center_wrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingTop="20dp"
@@ -40,6 +39,7 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
         	android:layout_marginRight="10dp"
+        	android:layout_marginLeft="10dp"
 	        android:contentDescription="@string/status_paused"
 	        android:src="@drawable/pausew48"
 	        android:background="@android:color/transparent" />
@@ -85,23 +85,30 @@
 	        android:layout_marginBottom="130dp"
 	        android:layout_alignParentTop="true"
 	        android:adjustViewBounds="true"/>
-	    
-	    <TextView 
-            android:id="@+id/image_description"
+        
+        <LinearLayout 
+        	android:id="@+id/gallery_wrapper"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/gallery"
-            android:gravity="center_horizontal"
-            android:layout_marginBottom="10dp"
-	        android:textAppearance="?android:attr/textAppearanceMedium"/>  
+	        android:background="@drawable/shape_light_blue_background"
+	        android:layout_alignParentBottom="true"
+	        android:orientation="vertical">
+		    <TextView 
+	            android:id="@+id/image_description"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:gravity="center_horizontal"
+	            android:background="@android:color/transparent"
+	            android:textStyle="bold"
+		        android:textAppearance="?android:attr/textAppearanceSmall"/>  
             
-	    <Gallery 
-	        android:id="@+id/gallery"
-        	android:layout_width="fill_parent"
-        	android:layout_height="wrap_content"
-        	android:background="@drawable/shape_light_blue_background"
-        	android:layout_alignParentBottom="true"/>
-
+		    <Gallery 
+		        android:id="@+id/gallery"
+	        	android:layout_width="fill_parent"
+	        	android:layout_height="wrap_content"
+	        	android:spacing="5dp"
+	            android:background="@android:color/transparent"/>
+        </LinearLayout>
     </RelativeLayout>
     
     <LinearLayout 
@@ -109,7 +116,6 @@
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:gravity="center"
-	    android:layout_centerInParent="true"
 	    android:orientation="horizontal"
 	    android:paddingTop="20dp"
 	    android:paddingBottom="20dp"
@@ -134,4 +140,4 @@
 	        android:background="@android:color/transparent" />
 	</LinearLayout>
  
-</RelativeLayout>
+</LinearLayout>

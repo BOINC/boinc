@@ -35,25 +35,21 @@
     <application
         android:icon="@drawable/boinc"
         android:label="@string/app_name"
-        android:theme="@style/Theme" >
+        android:theme="@style/Theme"
+        android:allowBackup="true" >
         
         <activity
             android:name="edu.berkeley.boinc.BOINCActivity"
-            android:label="@string/app_name"
-            android:configChanges="orientation">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AttachProjectListActivity"
-            android:configChanges="orientation"/>
-        <activity android:name=".AttachProjectLoginActivity"
-            android:configChanges="orientation"/>
-        <activity android:name=".AttachProjectRegistrationActivity"
-            android:configChanges="orientation"/>
-        <activity android:name=".AttachProjectWorkingActivity"
-            android:configChanges="orientation"/>
+        <activity android:name=".AttachProjectListActivity"/>
+        <activity android:name=".AttachProjectLoginActivity"/>
+        <activity android:name=".AttachProjectRegistrationActivity"/>
+        <activity android:name=".AttachProjectWorkingActivity"/>
         <activity android:name=".StatusActivity" />
         <activity android:name=".TasksActivity" />
         <activity android:name=".TransActivity" />
@@ -63,8 +59,7 @@
         <service android:name=".client.Monitor"></service>
         <service android:name="edu.berkeley.boinc.client.ClientRemoteService"
             android:enabled="true"
-            android:exported="true">
-        </service>
+            android:exported="true"/>
         <receiver android:name=".receiver.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>

@@ -23,7 +23,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:clickable="true"
-    android:padding="5dp">
+    android:padding="2dp">
     
     <ImageView 
         android:id="@+id/project_icon"
@@ -33,17 +33,15 @@
 	    android:contentDescription="@string/projects_icon"
 	    android:background="@drawable/shape_blue_border"
 	    android:padding="1dp"
-	    android:layout_alignParentTop="true"
 	    android:layout_alignParentLeft="true" />
         
     <LinearLayout 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="37dp"
-	    android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/project_icon">
+        android:layout_marginLeft="3dp"
+        android:layout_toRightOf="@+id/project_icon"
+        android:layout_toLeftOf="@+id/project_expand">
         
 	    <TextView
 	        android:id="@+id/project_name"
@@ -53,44 +51,20 @@
 	        android:singleLine="true"
 	        android:textAppearance="?android:attr/textAppearanceLarge" />
         
-        <LinearLayout 
-        	android:layout_width="fill_parent"
-        	android:layout_height="wrap_content"
-        	android:orientation="horizontal"
-		    android:layout_marginBottom="5dp">
-		    <TextView
-		        android:layout_width="180dp"
-		        android:layout_height="wrap_content"
-		        android:textColor="@color/dark_grey"
-		        android:text="@string/projects_account_header"
-		        android:textAppearance="?android:attr/textAppearanceMedium" />
-		    <TextView
-		        android:id="@+id/project_user"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:textColor="@color/dark_grey"
-		        android:textAppearance="?android:attr/textAppearanceMedium" />
-        </LinearLayout>
+	    <TextView
+	        android:id="@+id/project_user"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textColor="@color/dark_grey"
+	        android:textAppearance="?android:attr/textAppearanceMedium"
+	        android:layout_marginBottom="5dp" />
         
-        <LinearLayout 
-	        android:id="@+id/project_status_wrapper"
-        	android:layout_width="fill_parent"
-        	android:layout_height="wrap_content"
-        	android:orientation="horizontal"
-		    android:layout_marginBottom="5dp">
-		    <TextView
-		        android:layout_width="180dp"
-		        android:layout_height="wrap_content"
-		        android:textColor="@color/dark_grey"
-		        android:text="@string/projects_status_header"
-		        android:textAppearance="?android:attr/textAppearanceMedium" />
-		    <TextView
-		        android:id="@+id/project_status"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:textColor="@color/dark_grey"
-		        android:textAppearance="?android:attr/textAppearanceMedium" />
-        </LinearLayout>
+	    <TextView
+	        android:id="@+id/project_status"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textColor="@color/dark_grey"
+	        android:textAppearance="?android:attr/textAppearanceSmall" />
 	    
 	    <include
 			android:id="@+id/project_expansion_wrapper"
@@ -106,8 +80,7 @@
 	    android:contentDescription="@string/projects_more"
 	    android:background="@android:color/transparent"
 	    android:padding="5dp"
-	    android:layout_alignParentTop="true"
-	    android:layout_alignParentRight="true"
-	    android:src="@drawable/reloadw"/>
+	    android:src="@drawable/failedb"
+	    android:layout_alignParentRight="true"/>
     
 </RelativeLayout>

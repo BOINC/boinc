@@ -26,7 +26,8 @@
         android:id="@+id/wrapper"
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
-    	android:orientation="vertical">
+    	android:orientation="vertical"
+    	android:paddingBottom="10dp">
     	
 	    <LinearLayout 
 		    android:id="@+id/projectNameWrapper"
