@@ -21,6 +21,7 @@ package edu.berkeley.boinc.adapter;
 import java.util.ArrayList;
 
 import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.rpc.ProjectInfo;
 
 import android.app.Activity;
 import android.content.Context;
@@ -30,13 +31,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class AttachProjectListAdapter extends ArrayAdapter<AttachListItemWrapper>{
+public class AttachProjectListAdapter extends ArrayAdapter<ProjectInfo>{
 	
 	//private final String TAG = "AttachProjectListAdapter";
-	private ArrayList<AttachListItemWrapper> entries;
+	private ArrayList<ProjectInfo> entries;
     private Activity activity;
  
-    public AttachProjectListAdapter(Activity a, int textViewResourceId, ArrayList<AttachListItemWrapper> entries) {
+    public AttachProjectListAdapter(Activity a, int textViewResourceId, ArrayList<ProjectInfo> entries) {
         super(a, textViewResourceId, entries);
         this.entries = entries;
         this.activity = a;
@@ -48,26 +49,15 @@ public class AttachProjectListAdapter extends ArrayAdapter<AttachListItemWrapper
         View v = convertView;
         LayoutInflater vi = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         
-		AttachListItemWrapper listItem = entries.get(position);
+		ProjectInfo listItem = entries.get(position);
 		
-		if(listItem.isCategory) {
-	        v = vi.inflate(R.layout.attach_project_list_layout_listitem_category, null);
-			TextView name = (TextView) v.findViewById(R.id.category_header);
-			name.setText(listItem.categoryName);
-		} else if (listItem.isProject) {
-	        v = vi.inflate(R.layout.attach_project_list_layout_listitem, null);
-			TextView name = (TextView) v.findViewById(R.id.name);
-			TextView description = (TextView) v.findViewById(R.id.description);
-			name.setText(listItem.project.name);
-			description.setText(listItem.project.generalArea);
-			v.setTag(listItem.project); //add ProjectInfo to view
-		} else if (listItem.isManual) {
-	        v = vi.inflate(R.layout.attach_project_list_layout_listitem_manual, null);
-			TextView name = (TextView) v.findViewById(R.id.name);
-			name.setText(R.string.attachproject_list_manual_header);
-		}
+        v = vi.inflate(R.layout.attach_project_list_layout_listitem, null);
+		TextView name = (TextView) v.findViewById(R.id.name);
+		TextView description = (TextView) v.findViewById(R.id.description);
+		name.setText(listItem.name);
+		description.setText(listItem.generalArea);
+		v.setTag(listItem); //add ProjectInfo to view
 		
-    	
         return v;
     }
 }

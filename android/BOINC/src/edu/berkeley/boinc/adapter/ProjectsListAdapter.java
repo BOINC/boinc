@@ -163,10 +163,14 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectData> {
         TextView tvUser = (TextView)vi.findViewById(R.id.project_user);
         tvUser.setText(getUser(position));
         
-        TextView tvStatus = (TextView)vi.findViewById(R.id.project_status);
 	    String statusText = getStatus(position);
-	    if(statusText.isEmpty()) tvStatus.setVisibility(View.GONE);
-	    else tvStatus.setText(statusText);
+	    if(statusText.isEmpty()) {
+	    	LinearLayout statusWrapper= (LinearLayout)vi.findViewById(R.id.project_status_wrapper);
+	    	statusWrapper.setVisibility(View.GONE);
+	    } else {
+	        TextView tvStatus = (TextView)vi.findViewById(R.id.project_status);
+	        tvStatus.setText(statusText);
+	    }
 	    
 	    ImageView ivIcon = (ImageView)vi.findViewById(R.id.project_icon);
 	    Bitmap icon = getIcon(position);

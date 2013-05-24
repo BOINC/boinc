@@ -57,10 +57,11 @@ interface IClientRemoteService {
 	 * url: project URL
 	 * id: project login identifier, i.e. email address
 	 * pwd: project login password in plain text. Password gets encrypted by BOINC before transmitted over the internet.
+	 * usesName: set flag if project uses user name instead of email adress for login
 	 *
 	 * returns AccountOut object including status code (0:verified, -206:pwd incorrect, -136:id unknown,
 	 * -113:internet connection error) status message and authenticator required by attachProject*/
-	AccountOut verifyCredentials(in String url, in String id, in String pwd);
+	AccountOut verifyCredentials(in String url, in String id, in String pwd, in boolean usesName);
 	
 	/* Detaches given project from BOINC application.
 	 * packageName: package name of Android application causing this detach

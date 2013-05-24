@@ -26,17 +26,23 @@
 	    android:id="@+id/registration_wrapper"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
-	    android:orientation="vertical"
-	    android:padding="10dp">
-	
-	    <TextView
-	        android:id="@+id/registration_header"
-	        android:layout_width="wrap_content"
+	    android:orientation="vertical">
+    	
+	    <LinearLayout 
+	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:layout_gravity="center_horizontal"
-	        android:layout_marginBottom="20dp"
-	        android:text="@string/attachproject_registration_header"
-	        android:textAppearance="?android:attr/textAppearanceMedium" />
+	        android:background="@drawable/shape_dark_blue_gradient_background"
+	        android:padding="15dp"
+		    android:gravity="center_horizontal"
+		    android:layout_marginBottom="10dp">
+	        <TextView android:textAppearance="?android:attr/textAppearanceLarge"
+		        android:id="@+id/registration_header"
+		        android:background="@android:color/transparent"
+		        android:textColor="@color/white_smoke"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:singleLine="true"/>
+	    </LinearLayout>
 	    
         <LinearLayout 
 	        android:id="@+id/url_wrapper"
@@ -177,29 +183,35 @@
 		            android:layout_weight="1"
 		            android:inputType="textPassword"/>
 		    </LinearLayout>
-		
-		    <Button
+		    
+			<TextView
+		        android:id="@+id/warning"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:gravity="center_horizontal"
+		        android:textAppearance="?android:attr/textAppearanceSmall"
+		        android:background="@drawable/shape_light_red_background"
+		        android:paddingTop="10dp"
+		        android:paddingBottom="10dp"
+		        android:layout_marginTop="10dp"
+		        android:visibility="gone" />
+		    
+		    <Button 
 		        android:id="@+id/registration_button"
-		        android:layout_width="wrap_content"
+		        android:layout_width="100dp"
 		        android:layout_height="wrap_content"
 		        android:layout_gravity="right"
 		        android:paddingLeft="20dp"
 		        android:paddingRight="20dp"
-		        android:layout_marginTop="20dip"
-			    android:layout_marginRight="10dp"
+		        android:layout_marginRight="10dp"
+		        android:layout_marginTop="10dp"
+			    android:background="@drawable/shape_button_blue"
+			    android:textColor="@color/white_smoke"
+		        android:textAppearance="?android:attr/textAppearanceMedium"
+		        android:padding="5dp"
 		        android:onClick="register"
-		        android:text="@string/attachproject_registration_button" />
+			    android:text="@string/attachproject_registration_button" />		
 	    
 	    </LinearLayout>
-	    
-	    <ProgressBar
-	        android:visibility="gone"
-	        android:id="@+id/registration_pending"
-	        style="?android:attr/progressBarStyleLarge"
-	        android:layout_gravity="center_horizontal"
-	        android:layout_marginTop="20dip"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content" />
-	
 	</LinearLayout>
 </ScrollView>

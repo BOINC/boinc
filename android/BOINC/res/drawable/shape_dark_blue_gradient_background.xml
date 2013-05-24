@@ -17,20 +17,7 @@
   You should have received a copy of the GNU Lesser General Public License
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:clickable="true"
-    android:onClick="onProjectClick"
-	android:padding="10dp" >
-    <TextView android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold" />
-    <TextView android:textAppearance="?android:attr/textAppearanceSmall"
-        android:id="@+id/description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle" >
+	<gradient android:startColor="@color/dark_blue_gradient" android:centerColor="@color/dark_blue"
+		android:endColor="@color/dark_blue_gradient" android:angle="-90" />
+</shape>

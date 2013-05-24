@@ -19,271 +19,125 @@
 
 package edu.berkeley.boinc;
 
-import edu.berkeley.boinc.client.Monitor;
 import android.app.Activity;
-import android.app.Service;
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-import edu.berkeley.boinc.rpc.AccountOut;
-import edu.berkeley.boinc.utils.BOINCErrors;
 
 public class AttachProjectRegistrationActivity extends Activity{
 	
 	private final String TAG = "BOINC AttachProjectRegistrationActivity"; 
 	
-	private Monitor monitor;
-	private Boolean mIsBound;
-	
 	private String projectUrl;
 	private String projectName;
 	private Integer minPwdLength;
-	
-	private ServiceConnection mConnection = new ServiceConnection() {
-	    public void onServiceConnected(ComponentName className, IBinder service) {
-	        // This is called when the connection with the service has been established, getService returns the Monitor object that is needed to call functions.
-	        monitor = ((Monitor.LocalBinder)service).getService();
-		    mIsBound = true;
-	    }
-
-	    public void onServiceDisconnected(ComponentName className) { // This should not happen
-	        monitor = null;
-		    mIsBound = false;
-	    }
-	};
+	private Boolean usesName;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {  
         super.onCreate(savedInstanceState);  
         Log.d(TAG, "onCreate"); 
-        
-        // bind monitor service
-        doBindService();
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 
     	//parse master url from intent extras
         try {
         	projectUrl = getIntent().getCharSequenceExtra("projectUrl").toString();
         	projectName = getIntent().getCharSequenceExtra("projectName").toString();
         	minPwdLength = getIntent().getIntExtra("minPwdLength", 0);
+        	usesName = getIntent().getBooleanExtra("usesName", false);
         	Log.d(TAG,"intent extras: " + projectUrl + projectName + minPwdLength);
         } catch (Exception e) {
         	Log.w(TAG, "error while parsing url", e);
-        	finish(true); // no point to continue without url
+        	finish(); // no point to continue without url
         }
         
-        populateLayout();
-    }
-    
-	@Override
-	protected void onDestroy() {
-    	Log.d(TAG, "onDestroy");
-	    doUnbindService();
-	    super.onDestroy();
-	}
-
-	private void doBindService() {
-	    // Establish a connection with the service, onServiceConnected gets called when
-		bindService(new Intent(this, Monitor.class), mConnection, Service.BIND_AUTO_CREATE);
-	}
-
-	private void doUnbindService() {
-	    if (mIsBound) {
-	        // Detach existing connection.
-	        unbindService(mConnection);
-	        mIsBound = false;
-	    }
-	}
-	
-	public void finish(Boolean forced){
-		if(forced) {
-			Toast toast = Toast.makeText(getApplicationContext(), R.string.attachproject_registration_toast_error_whoops, Toast.LENGTH_LONG);
-			toast.show();
-		}
-		super.finish();
-	}
-	
-	// gets called by GetProjectConfig when ProjectConfig is available
-	private void populateLayout() {
-		Log.d(TAG, "populateLayout");
-		
+		// setup layout
 		setContentView(R.layout.attach_project_registration_layout);
+        
+        // set title bar
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_bar);
 		
 		TextView headerName = (TextView) findViewById(R.id.registration_header);
 		headerName.setText(getString(R.string.attachproject_registration_header) + " " + projectName);
 		TextView urlTv = (TextView) findViewById(R.id.url);
 		urlTv.setText(projectUrl);
+    }
+    
+	@Override
+	protected void onDestroy() {
+    	Log.d(TAG, "onDestroy");
+	    super.onDestroy();
 	}
 	
-	public void register (View view) {
-		new ProjectRegisterAsync().execute();
+	// onclick of button
+	public void register (View view) {		
+		// get user input
+		EditText emailInput = (EditText) findViewById(R.id.email_input);
+		EditText userInput = (EditText) findViewById(R.id.username_input);
+		EditText teamInput = (EditText) findViewById(R.id.teamname_input);
+		EditText pwdInput = (EditText) findViewById(R.id.pwd_input);
+		EditText pwdConfirmInput = (EditText) findViewById(R.id.pwd_confirm_input);
+		String email = emailInput.getText().toString();
+		String user = userInput.getText().toString();
+		String team = teamInput.getText().toString();
+		String pwd = pwdInput.getText().toString();
+		String pwdConfirm = pwdConfirmInput.getText().toString();
+		
+		// verify and start AttachProjectWorkingActivity
+		if(verifyInput(email, user, team, pwd, pwdConfirm, usesName)){
+			Intent intent = new Intent(this, AttachProjectWorkingActivity.class);
+			intent.putExtra("registration", true);
+			intent.putExtra("usesName", false);
+			intent.putExtra("projectUrl", projectUrl);
+			intent.putExtra("projectName", projectName);
+			intent.putExtra("userName", user);
+			intent.putExtra("teamName", team);
+			intent.putExtra("eMail", email);
+			intent.putExtra("pwd", pwd);
+			startActivity(intent);
+		}
 	}
 	
-	private Boolean verifyInput(String email, String user, String team, String pwd, String pwdConfirm) {
+	private Boolean verifyInput(String email, String user, String team, String pwd, String pwdConfirm, Boolean usesName) {
+		int stringResource = R.string.attachproject_error_unknown;
+		Boolean success = true;
+		
+		// check input
 		if(email.length() == 0) {
-			Toast toast = Toast.makeText(getApplicationContext(), R.string.attachproject_registration_toast_error_no_email, Toast.LENGTH_SHORT);
-			toast.show();
-			return false;
+			stringResource = R.string.attachproject_error_no_email;
+			success = false;
 		}
-		if(pwd.length() == 0) {
-			Toast toast = Toast.makeText(getApplicationContext(), R.string.attachproject_registration_toast_error_no_pwd, Toast.LENGTH_SHORT);
-			toast.show();
-			return false;
+		else if(usesName && user.length() == 0) {
+			stringResource = R.string.attachproject_error_no_name;
+			success = false;
 		}
-		if(pwd.length() < minPwdLength) {
-			Toast toast = Toast.makeText(getApplicationContext(), R.string.attachproject_registration_toast_error_short_pwd, Toast.LENGTH_SHORT);
-			toast.show();
-			return false;
+		else if(pwd.length() == 0) {
+			stringResource = R.string.attachproject_error_no_pwd;
+			success = false;
 		}
-		if(!pwd.equals(pwdConfirm)) {
-			Toast toast = Toast.makeText(getApplicationContext(), R.string.attachproject_registration_toast_error_pwd_no_match, Toast.LENGTH_SHORT);
-			toast.show();
-			return false;
+		else if(pwd.length() < minPwdLength) {
+			stringResource = R.string.attachproject_error_short_pwd;
+			success = false;
 		}
-		return true;
-	}
-	
-	private void showResultToast(Integer code) {
-		Log.d(TAG,"showResultToast for error: " + code);
-		Toast toast;
-		if(code == null) {
-			toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_error_unknown, Toast.LENGTH_LONG);
+		else if(!pwd.equals(pwdConfirm)) {
+			stringResource = R.string.attachproject_error_pwd_no_match;
+			success = false;
+		}
+		
+		// show warning
+		TextView warning = (TextView) findViewById(R.id.warning);
+		if(!success) {
+			warning.setText(stringResource);
+			warning.setVisibility(View.VISIBLE);
 		} else {
-			switch (code) {
-			case BOINCErrors.ERR_OK:
-				toast = Toast.makeText(getApplicationContext(), R.string.attachproject_registration_toast_login_successful, Toast.LENGTH_LONG);
-				break;
-			case BOINCErrors.ERR_NONUNIQUE_EMAIL: // treat the same as -137, ERR_DB_NOT_UNIQUE
-				// no break!!
-			case BOINCErrors.ERR_DB_NOT_UNIQUE:
-				toast = Toast.makeText(getApplicationContext(), R.string.attachproject_registration_toast_error_email_in_use, Toast.LENGTH_LONG);
-				break;
-			case BOINCErrors.ERR_PROJECT_DOWN:
-				toast = Toast.makeText(getApplicationContext(), R.string.attachproject_registration_toast_error_project_down, Toast.LENGTH_LONG);
-				break;
-			case BOINCErrors.ERR_BAD_EMAIL_ADDR:
-				toast = Toast.makeText(getApplicationContext(), R.string.attachproject_registration_toast_error_email_bad_syntax, Toast.LENGTH_LONG);
-				break;
-			case BOINCErrors.ERR_BAD_PASSWD:
-				toast = Toast.makeText(getApplicationContext(), R.string.attachproject_registration_toast_error_bad_pwd, Toast.LENGTH_LONG);
-				break;
-			case BOINCErrors.ERR_BAD_USER_NAME:
-				toast = Toast.makeText(getApplicationContext(), R.string.attachproject_registration_toast_error_bad_username, Toast.LENGTH_LONG);
-				break;
-			case BOINCErrors.ERR_GETHOSTBYNAME:
-				toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_error_no_internet, Toast.LENGTH_LONG);
-				break;
-			case BOINCErrors.ERR_ACCT_CREATION_DISABLED:
-				toast = Toast.makeText(getApplicationContext(), R.string.attachproject_registration_toast_error_creation_disabled, Toast.LENGTH_LONG);
-				break;
-			default:
-				toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_error_unknown, Toast.LENGTH_LONG);
-				break;
-			}
-		}
-		toast.show();
-	}
-	
-	private void changeLayoutLoggingIn(Boolean loggingIn) {
-		Log.d(TAG,"changeLayoutLoggingIn: " + loggingIn);
-		LinearLayout inputWrapper = (LinearLayout) findViewById(R.id.input_wrapper);
-		ProgressBar registrationLoading = (ProgressBar) findViewById(R.id.registration_pending);
-		
-		if(loggingIn) {
-			inputWrapper.setVisibility(View.GONE);
-			registrationLoading.setVisibility(View.VISIBLE);
-		} else {
-			registrationLoading.setVisibility(View.GONE);
-			inputWrapper.setVisibility(View.VISIBLE);
-		}
-	}
-	
-	private void goToMainActivity() {
-		Intent intent = new Intent(this, BOINCActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //clear_top closes AttachProjectListActivity!
-		startActivity(intent);
-	}
-	
-	private final class ProjectRegisterAsync extends AsyncTask<Void, Void, Integer> {
-
-		//private final String TAG = "ProjectRegisterAsync";
-		
-		private String email;
-		private String user;
-		private String team;
-		private String pwd;
-		private String pwdConfirm;
-		
-		@Override 
-		protected void onPreExecute() {
-			changeLayoutLoggingIn(true);
-			
-			// read input data
-			EditText emailInput = (EditText) findViewById(R.id.email_input);
-			EditText userInput = (EditText) findViewById(R.id.username_input);
-			EditText teamInput = (EditText) findViewById(R.id.teamname_input);
-			EditText pwdInput = (EditText) findViewById(R.id.pwd_input);
-			EditText pwdConfirmInput = (EditText) findViewById(R.id.pwd_confirm_input);
-			email = emailInput.getText().toString();
-			user = userInput.getText().toString();
-			team = teamInput.getText().toString();
-			pwd = pwdInput.getText().toString();
-			pwdConfirm = pwdConfirmInput.getText().toString();
-
-			if(!verifyInput(email, user, team, pwd, pwdConfirm)) {
-				changeLayoutLoggingIn(false);
-				cancel(true); // cancel asynctask if validation fails
-			}
+			// making sure previous warnings are gone
+			warning.setVisibility(View.GONE);
 		}
 		
-		@Override
-		protected Integer doInBackground(Void... params) {
-			
-			AccountOut account = monitor.createAccount(projectUrl, email, user, pwd, team);
-			
-			if(account == null) {
-				Log.d(TAG, "createAccount returned null");
-				return null;
-			}
-			
-			if(account.error_num == BOINCErrors.ERR_OK) { //only continue if creation succeeded
-				publishProgress();
-				Boolean attach = monitor.attachProject(projectUrl, email, account.authenticator);
-				if(attach) {
-					return BOINCErrors.ERR_OK;
-				} else {
-					Log.d(TAG, "attachProject returned false");
-					return null;
-				}
-			} else { // error code
-				return account.error_num;
-			}
-		}
-		
-		@SuppressWarnings("unused") // used by calling publishProgress()
-		protected void onProgressUpdate() {
-			//only show positive progress, others are shown in onPostExecute
-			Toast toast = Toast.makeText(getApplicationContext(), R.string.attachproject_registration_toast_creation_successful, Toast.LENGTH_SHORT);
-			toast.show();
-		}
-		
-		@Override
-		protected void onPostExecute(Integer errorCode) {
-			showResultToast(errorCode);
-			if((errorCode != null) && (errorCode == BOINCErrors.ERR_OK)) { //successful
-				monitor.forceRefresh(); // force refresh, so "no project banner" disappears
-				goToMainActivity();
-			}
-			changeLayoutLoggingIn(false);
-		}
+		return success;
 	}
 }

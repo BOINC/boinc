@@ -28,13 +28,22 @@
     	android:layout_height="wrap_content"
     	android:orientation="vertical">
     	
-        <TextView
-	        android:id="@+id/project_name"
-	        android:layout_width="wrap_content"
+	    <LinearLayout 
+		    android:id="@+id/projectNameWrapper"
+	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:layout_margin="10dp"
-	        android:layout_gravity="center_horizontal"
-	        android:textAppearance="?android:attr/textAppearanceMedium" />
+	        android:background="@drawable/shape_dark_blue_gradient_background"
+	        android:padding="15dp"
+		    android:gravity="center_horizontal"
+		    android:layout_marginBottom="10dp">
+	        <TextView android:textAppearance="?android:attr/textAppearanceLarge"
+		        android:id="@+id/project_name"
+		        android:background="@android:color/transparent"
+		        android:textColor="@color/white_smoke"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:singleLine="true"/>
+	    </LinearLayout>
         
         <!-- data in this section only available after list selection -->
         <LinearLayout 
@@ -164,7 +173,7 @@
 		        android:textAppearance="?android:attr/textAppearanceSmall"
 		        android:clickable="true"
 		        android:onClick="projectUrlClicked"
-		        android:textColor="@color/link"/>
+		        android:textColor="@color/dark_blue"/>
 	    </LinearLayout>
 	    
         <LinearLayout 
@@ -233,9 +242,9 @@
             android:orientation="vertical"
             android:paddingTop="20dp" > 
             
-            <include 
-		        android:id="@+id/category_creation"
-		        layout="@android:layout/preference_category"/>  
+            <TextView 
+        		android:id="@+id/category_creation"
+    			style="@style/SubHeader"/>
 		        
 	        <LinearLayout 
 	            android:layout_height="wrap_content"
@@ -253,12 +262,14 @@
 			    
 			    <Button 
 			        android:id="@+id/registration_button"
-			        android:layout_width="wrap_content"
+			        android:layout_width="100dp"
 			        android:layout_height="wrap_content"
-			        android:paddingLeft="20dp"
-			        android:paddingRight="20dp"
 			        android:onClick="register"
 				    android:text="@string/attachproject_login_button_registration"
+				    android:background="@drawable/shape_button_blue"
+				    android:textColor="@color/white_smoke"
+			        android:textAppearance="?android:attr/textAppearanceMedium"
+			        android:padding="5dp"
 				    android:layout_gravity="center_vertical"/>
 		    </LinearLayout>
 	    </LinearLayout>
@@ -270,10 +281,10 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingTop="20dp" > 
-		    
-		    <include 
-		        android:id="@+id/category_login"
-		        layout="@android:layout/preference_category"/>  
+            
+            <TextView 
+        		android:id="@+id/category_login"
+    			style="@style/SubHeader"/>
 		    
 	        <LinearLayout 
 	            android:layout_height="wrap_content"
@@ -321,13 +332,17 @@
 
 		    <Button 
 		        android:id="@+id/login_button"
-		        android:layout_width="wrap_content"
+		        android:layout_width="100dp"
 		        android:layout_height="wrap_content"
 		        android:layout_gravity="right"
 		        android:paddingLeft="20dp"
 		        android:paddingRight="20dp"
 		        android:layout_marginRight="10dp"
 		        android:layout_marginTop="10dp"
+			    android:background="@drawable/shape_button_blue"
+			    android:textColor="@color/white_smoke"
+		        android:textAppearance="?android:attr/textAppearanceMedium"
+		        android:padding="5dp"
 		        android:onClick="login"
 			    android:text="@string/attachproject_login_button_login" />
 	    

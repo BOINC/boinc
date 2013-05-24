@@ -19,29 +19,29 @@
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical" >
-
-    <TextView
-        android:id="@+id/login_loading_header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dip"
-        android:text="@string/attachproject_login_loading"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/login_loading_url"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dip"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    android:gravity="center_vertical"
+    android:background="@drawable/shape_light_blue_background" >
 
     <ProgressBar
-        android:id="@+id/login_loading_progressBar1"
-        style="?android:attr/progressBarStyleLarge"
+        android:id="@+id/working_progressBar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
+        android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="10dp"
+        android:background="@android:color/transparent" />
+	<TextView
+       android:id="@+id/header"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="@string/generic_loading"
+       android:textAppearance="?android:attr/textAppearanceMedium"
+       android:background="@android:color/transparent" />
+	
 </LinearLayout>

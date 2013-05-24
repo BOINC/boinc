@@ -70,9 +70,9 @@ public class ClientRemoteService extends Service {
 		}
 
 		@Override
-		public AccountOut verifyCredentials(String url, String id, String pwd) throws RemoteException {
+		public AccountOut verifyCredentials(String url, String id, String pwd, boolean usesName) throws RemoteException {
 			if(mIsMonitorBound) {
-				return monitor.lookupCredentials(url, id, pwd);
+				return monitor.lookupCredentials(url, id, pwd, usesName);
 			} else {Log.e(TAG, "could not verify credentials, service not bound!"); return null;}
 		}
 

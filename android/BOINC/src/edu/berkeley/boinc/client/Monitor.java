@@ -710,9 +710,9 @@ public class Monitor extends Service {
 		return config;
 	}
 	
-	public Boolean attachProject(String url, String name, String authenticator) {
+	public Boolean attachProject(String url, String projectName, String authenticator) {
     	Boolean success = false;
-    	success = rpc.projectAttach(url, authenticator, name); //asynchronous call to attach project
+    	success = rpc.projectAttach(url, authenticator, projectName); //asynchronous call to attach project
     	if(success) { //only continue if attach command did not fail
     		// verify success of projectAttach with poll function
     		success = false;
@@ -736,22 +736,25 @@ public class Monitor extends Service {
 	
 	public Boolean checkProjectAttached(String url) {
 		Boolean match = false;
-		ArrayList<Project> attachedProjects = rpc.getProjectStatus();
-		for (Project project: attachedProjects) {
-			Log.d(TAG, project.master_url + " vs " + url);
-			if(project.master_url.equals(url)) {
-				match = true;
-				continue;
+		try{
+			ArrayList<Project> attachedProjects = rpc.getProjectStatus();
+			for (Project project: attachedProjects) {
+				Log.d(TAG, project.master_url + " vs " + url);
+				if(project.master_url.equals(url)) {
+					match = true;
+					continue;
+				}
 			}
-		}
+		} catch(Exception e){}
 		return match;
 	}
 	
-	public AccountOut lookupCredentials(String url, String id, String pwd) {
+	public AccountOut lookupCredentials(String url, String id, String pwd, Boolean usesName) {
     	Integer retval = -1;
     	AccountOut auth = null;
     	AccountIn credentials = new AccountIn();
-    	credentials.email_addr = id;
+    	if(usesName) credentials.user_name = id;
+    	else credentials.email_addr = id;
     	credentials.passwd = pwd;
     	credentials.url = url;
     	Boolean success = rpc.lookupAccount(credentials); //asynch

@@ -36,11 +36,8 @@
     <!-- attach project -->
     	<!-- project list -->
     <string name="attachproject_list_loading">Loading supported projects&#8230;</string>
-    <string name="attachproject_list_header">Welcome!</string>
-    <string name="attachproject_list_subheader">Where do you want to participate?</string>
-    <string name="attachproject_list_category_defined">Scientific Projects with Android support</string>
-    <string name="attachproject_list_category_manual">Others</string>
-    <string name="attachproject_list_manual_header">Enter project URL manually</string>
+    <string name="attachproject_list_header">Choose a project:</string>
+    <string name="attachproject_list_manual_button">Add project by URL</string>
     <string name="attachproject_list_manual__dialog_title">Enter URL of scientific project:</string>
     <string name="attachproject_list_manual__dialog_button">></string>
     <string name="attachproject_list_manual_no_url">Please enter project URL!</string>
@@ -64,20 +61,12 @@
     <string name="attachproject_login_header_id_name">Name:</string>
     <string name="attachproject_login_header_pwd">Password:</string>
     <string name="attachproject_login_category_creation">New to </string>
-    <string name="attachproject_login_header_creation_enabled">Create yourself an account to participate:</string>
+    <string name="attachproject_login_header_creation_enabled">Register an account to participate:</string>
     <string name="attachproject_login_header_creation_client_disabled">Visit project website to create an account:</string>
     <string name="attachproject_login_header_creation_disabled">Project does currently now allow creation of new accounts!</string>
-    <string name="attachproject_login_button_registration">></string>
-    <string name="attachproject_login_button_login">Login</string>
-    <string name="attachproject_login_toast_ok">Successful.</string>
+    <string name="attachproject_login_button_registration">Register</string>
+    <string name="attachproject_login_button_login">Sign in</string>
     <string name="attachproject_login_error_toast">Contacting project failed!</string>
-    <string name="attachproject_login_error_project_exists">Project is already attached!</string>
-    <string name="attachproject_login_toast_error_wrong_name">Unknown eMail address!</string>
-    <string name="attachproject_login_toast_error_wrong_pwd">Wrong password!</string>
-    <string name="attachproject_login_toast_error_no_internet">No internet connection!</string>
-    <string name="attachproject_login_toast_error_unknown">Login failed.</string>
-    <string name="attachproject_login_toast_error_no_name">Name missing!</string>
-    <string name="attachproject_login_toast_error_no_pwd">Password missing!</string>
     	<!-- project registration -->
     <string name="attachproject_registration_header">Account registration for </string>
     <string name="attachproject_registration_header_url">Project:</string>
@@ -87,23 +76,37 @@
     <string name="attachproject_registration_header_pwd">Password:</string>
     <string name="attachproject_registration_header_pwd_confirm">&#8230; Retype:</string>
     <string name="attachproject_registration_button">Create</string>
-    <string name="attachproject_registration_toast_error_whoops">Whoops! Something went wrong&#8230;</string>
-    <string name="attachproject_registration_toast_error_short_pwd">Password too short!</string>
-    <string name="attachproject_registration_toast_error_pwd_no_match">Passwords do not match!</string>
-    <string name="attachproject_registration_toast_error_no_email">eMail missing!</string>
-    <string name="attachproject_registration_toast_error_no_pwd">Password missing!</string>
-    <string name="attachproject_registration_toast_error_unknown">Registration failed.</string>
-    <string name="attachproject_registration_toast_error_bad_username">user name refused, change and try again!</string>
-    <string name="attachproject_registration_toast_error_email_in_use">eMail is already in use!</string>
-    <string name="attachproject_registration_toast_error_project_down">Can\'t reach project server!</string>
-    <string name="attachproject_registration_toast_error_email_bad_syntax">eMail refused, change and try again!</string>
-    <string name="attachproject_registration_toast_error_bad_pwd">Password refused, change and try again!</string>
-    <string name="attachproject_registration_toast_error_creation_disabled">Account creation is disabled on this project!</string>
-    <string name="attachproject_registration_toast_creation_successful">Account created. Logging in&#8230;</string>
-    <string name="attachproject_registration_toast_login_successful">Successful.</string>
+    	<!-- error strings -->
+    <string name="attachproject_error_project_exists">Project is already attached!</string>
+    <string name="attachproject_error_wrong_name">User not found.</string>
+    <string name="attachproject_error_short_pwd">Password too short.</string>
+    <string name="attachproject_error_no_internet">Connection failure.</string>
+    <string name="attachproject_error_pwd_no_match">Passwords do not match.</string>
+    <string name="attachproject_error_no_email">Please enter eMail address.</string>
+    <string name="attachproject_error_no_pwd">Please enter a password.</string>
+    <string name="attachproject_error_no_name">Please enter user name.</string>
+    <string name="attachproject_error_unknown">Unknown failure.</string>
+    <string name="attachproject_error_bad_username">User name refused.</string>
+    <string name="attachproject_error_email_in_use">eMail is already in use.</string>
+    <string name="attachproject_error_project_down">Project is offline.</string>
+    <string name="attachproject_error_email_bad_syntax">eMail refused.</string>
+    <string name="attachproject_error_bad_pwd">Password refused.</string>
+    <string name="attachproject_error_creation_disabled">Account creation is disabled on this project!</string>
+    	<!-- working activity -->
+    <string name="attachproject_working_back_button">Back</string>
+    <string name="attachproject_working_finish_button">Finish</string>
+    <string name="attachproject_working_check_desc">Successful</string>
+    <string name="attachproject_working_failed_desc">Failed</string>
+    <string name="attachproject_working_ongoing">&#8230;</string>
+    <string name="attachproject_working_finished">.</string>
+    <string name="attachproject_working_description">:</string>
+    <string name="attachproject_working_connect">Establish connection</string>
+    <string name="attachproject_working_verify">Verify credentials</string>
+    <string name="attachproject_working_register">Register account</string>
+    <string name="attachproject_working_login">Log in</string>
     
     <!-- main activity -->
-    <string name="main_noproject_warning">No scientific project attached! tab here to enter account.</string>
+    <string name="main_noproject_warning">Tab here to choose a project.</string>
     <string name="main_error">Whooops</string>
     <string name="main_error_long">&#8230;this should not happen!\nClick on the icon to try again.</string>
     <string name="main_title_icon_desc">BOINC icon</string>
@@ -203,9 +206,9 @@
       	<item>Reset</item>
   	</string-array>
 		<!-- project dialogs -->
-	<string name="projects_confirm_detach_title">Detach project</string>
-	<string name="projects_confirm_detach_message">Detach project:</string>
-	<string name="projects_confirm_detach_confirm">Detach</string>
+	<string name="projects_confirm_detach_title">Remove project</string>
+	<string name="projects_confirm_detach_message">Remove project:</string>
+	<string name="projects_confirm_detach_confirm">Remove</string>
 	<string name="projects_confirm_detach_cancel">Cancel</string>
 	<string name="projects_confirm_advanced_title">Project operation</string>
 	<string name="projects_confirm_advanced_message">Choose an operation to execute:</string>

@@ -20,8 +20,6 @@
 package edu.berkeley.boinc;
 
 import java.util.ArrayList;
-
-import edu.berkeley.boinc.adapter.AttachListItemWrapper;
 import edu.berkeley.boinc.adapter.AttachProjectListAdapter;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.ProjectInfo;
@@ -38,11 +36,11 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.TextView;
 
 public class AttachProjectListActivity extends Activity implements android.view.View.OnClickListener{
 	
@@ -73,9 +71,7 @@ public class AttachProjectListActivity extends Activity implements android.view.
     @Override
     public void onCreate(Bundle savedInstanceState) {  
         super.onCreate(savedInstanceState);  
-        setContentView(R.layout.generic_layout_loading);
-        TextView loadingHeader = (TextView)findViewById(R.id.loading_header);
-        loadingHeader.setText(R.string.attachproject_list_loading);
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
          
         Log.d(TAG, "onCreate"); 
         
@@ -105,23 +101,17 @@ public class AttachProjectListActivity extends Activity implements android.view.
 	
 	private void populateView(){
 		//retrieve projects from monitor
-		ArrayList<AttachListItemWrapper> data = new ArrayList<AttachListItemWrapper>();
-		ArrayList<ProjectInfo> android = monitor.getAndroidProjectsList();
-		Log.d(TAG,"monitor.getAndroidProjectsList returned with " + android.size() + " elements");
-		
-		// add projects, categories and manual field to data source
-		data.add(new AttachListItemWrapper(getString(R.string.attachproject_list_category_defined)));
-		for (ProjectInfo project: android) {
-			data.add(new AttachListItemWrapper(project));
-		}
-		data.add(new AttachListItemWrapper(getString(R.string.attachproject_list_category_manual)));
-		data.add(new AttachListItemWrapper()); // manual input item
+		ArrayList<ProjectInfo> data = monitor.getAndroidProjectsList();
+		Log.d(TAG,"monitor.getAndroidProjectsList returned with " + data.size() + " elements");
 		
 		// setup layout
         setContentView(R.layout.attach_project_list_layout);  
 		lv = (ListView) findViewById(R.id.listview);
         listAdapter = new AttachProjectListAdapter(AttachProjectListActivity.this,R.id.listview,data);
         lv.setAdapter(listAdapter);
+        
+        // set title bar
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_bar);
 	}
 	
 	// check whether device is online before starting connection attempt

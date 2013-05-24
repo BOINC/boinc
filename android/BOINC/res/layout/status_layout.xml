@@ -33,7 +33,7 @@
         android:orientation="horizontal"
         android:paddingTop="20dp"
         android:paddingBottom="20dp"
-        android:background="@drawable/shape_gallery_background">
+        android:background="@drawable/shape_light_blue_background">
         
         <ImageView
 	        android:id="@+id/status_image"
@@ -99,7 +99,7 @@
 	        android:id="@+id/gallery"
         	android:layout_width="fill_parent"
         	android:layout_height="wrap_content"
-        	android:background="@drawable/shape_gallery_background"
+        	android:background="@drawable/shape_light_blue_background"
         	android:layout_alignParentBottom="true"/>
 
     </RelativeLayout>
@@ -113,7 +113,7 @@
 	    android:orientation="horizontal"
 	    android:paddingTop="20dp"
 	    android:paddingBottom="20dp"
-	    android:background="@drawable/shape_gallery_background"
+	    android:background="@drawable/shape_light_blue_background"
 	    android:visibility="gone" >
 
 	    <ProgressBar

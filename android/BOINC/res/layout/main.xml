@@ -57,21 +57,21 @@
 		        android:id="@+id/noproject_warning_wrapper"
 		    	android:layout_width="fill_parent"
 		    	android:layout_height="wrap_content"
-		        android:layout_marginTop="10dip"
-		        android:layout_marginBottom="2dip"
-	        	android:layout_marginLeft="10dip"
-	        	android:layout_marginRight="10dip"
-	        	android:background="@drawable/shape_yellow_border">
+		        android:layout_margin="10dp"
+	        	android:background="@drawable/shape_yellow_background">
 		    	<TextView
 			        android:id="@+id/noproject_warning"
 			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
-		        	android:padding="10dip"
+		        	android:padding="10dp"
 		        	android:singleLine="true"
 			        android:text="@string/main_noproject_warning"
 			        android:textAppearance="?android:attr/textAppearanceSmall"
-			        android:clickable="true"
-			        android:onClick="noProjectClicked" />
+			        android:background="@android:color/transparent"
+			        android:textStyle="bold"
+			        android:layout_gravity="center_horizontal"
+		        	android:clickable="true"
+		        	android:onClick="noProjectClicked" />
 	    	</HorizontalScrollView>
 	
 	        <FrameLayout
@@ -92,7 +92,7 @@
 	    android:orientation="horizontal"
 	    android:paddingTop="20dp"
 	    android:paddingBottom="20dp"
-	    android:background="@drawable/shape_gallery_background"
+	    android:background="@drawable/shape_light_blue_background"
 	    android:visibility="gone" >
 
 	    <ProgressBar

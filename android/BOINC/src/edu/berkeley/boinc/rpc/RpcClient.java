@@ -755,15 +755,17 @@ public class RpcClient {
 	 */
 	public synchronized boolean lookupAccount(AccountIn accountIn) {
 		try {
+			String id;
+			if(accountIn.email_addr == null || accountIn.email_addr.isEmpty()) id = accountIn.user_name;
+			else id = accountIn.email_addr;
 			mRequest.setLength(0);
 			mRequest.append("<lookup_account>\n   <url>");
 			mRequest.append(accountIn.url);
 			mRequest.append("</url>\n   <email_addr>");
-			mRequest.append(accountIn.email_addr);
+			mRequest.append(id);
 			mRequest.append("</email_addr>\n   <passwd_hash>");
-			mRequest.append(getPasswdHash(accountIn.passwd, accountIn.email_addr));
-			mRequest.append("</passwd_hash>\n<lookup_account>\n");
-			
+			mRequest.append(getPasswdHash(accountIn.passwd, id));
+			mRequest.append("</passwd_hash>\n</lookup_account>\n");
 			sendRequest(mRequest.toString());
 			
 			SimpleReplyParser parser = SimpleReplyParser.parse(receiveReply());

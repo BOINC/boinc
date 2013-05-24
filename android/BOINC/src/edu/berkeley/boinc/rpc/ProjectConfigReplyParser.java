@@ -111,6 +111,9 @@ public class ProjectConfigReplyParser extends BaseParser {
 					else if (localName.equalsIgnoreCase("user_name")) {
 						mProjectConfig.userName = true;
 					}
+					else if (localName.equalsIgnoreCase("uses_username")) {
+						mProjectConfig.userName = true;
+					}
 					else if (localName.equalsIgnoreCase("web_stopped")) {
 						mProjectConfig.webStopped = false; //default in case parsing fails
 						if(Integer.parseInt(mCurrentElement.toString()) != 0) mProjectConfig.webStopped = true;

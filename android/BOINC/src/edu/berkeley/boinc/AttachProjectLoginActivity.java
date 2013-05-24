@@ -33,20 +33,20 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.text.InputType;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import edu.berkeley.boinc.rpc.AccountOut;
 import edu.berkeley.boinc.rpc.PlatformInfo;
 import edu.berkeley.boinc.rpc.ProjectConfig;
 import edu.berkeley.boinc.rpc.ProjectInfo;
-import edu.berkeley.boinc.utils.BOINCErrors;
 
 public class AttachProjectLoginActivity extends Activity{
 	
@@ -80,6 +80,7 @@ public class AttachProjectLoginActivity extends Activity{
     public void onCreate(Bundle savedInstanceState) {  
         super.onCreate(savedInstanceState);  
         Log.d(TAG, "onCreate"); 
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 
     	//parse master url from intent extras
         Boolean urlPresent = false;
@@ -112,9 +113,15 @@ public class AttachProjectLoginActivity extends Activity{
         }
         
         // setup layout
-        setContentView(R.layout.attach_project_login_layout_loading);
-        TextView urlView = (TextView) findViewById(R.id.login_loading_url);
-      	urlView.setText(url);
+        setContentView(R.layout.generic_layout_loading);
+        TextView header = (TextView) findViewById(R.id.loading_header);
+        header.setText(R.string.attachproject_login_loading);
+        TextView subHeader = (TextView) findViewById(R.id.loading_subheader);
+        subHeader.setVisibility(View.VISIBLE);
+        subHeader.setText(url);
+        
+        // set title bar
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_bar);
         
         // bind monitor service
         doBindService();
@@ -154,15 +161,13 @@ public class AttachProjectLoginActivity extends Activity{
 		
 		// set name
 		TextView name = (TextView) findViewById(R.id.project_name);
-		if(projectLogo != null) {
-			name.setVisibility(View.GONE); // disable name if logo present
-		} else {
-			name.setText(projectConfig.name);
-		}
+		name.setText(projectConfig.name);
 		
 		// set website
 		TextView website = (TextView) findViewById(R.id.project_url);
-		website.setText(projectConfig.masterUrl);
+    	SpannableString content = new SpannableString(projectConfig.masterUrl);
+    	content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+		website.setText(content);
 		website.setTag(projectConfig.masterUrl); // set tag to use in onClick
 		
 		// set android support
@@ -171,7 +176,8 @@ public class AttachProjectLoginActivity extends Activity{
 			platform.setText(R.string.attachproject_login_platform_supported);
 		} else {
 			platform.setText(R.string.attachproject_login_platform_not_supported);
-			platform.setTextColor(getResources().getColor(R.color.warning));
+			platform.setBackgroundResource(R.drawable.shape_yellow_background);
+			platform.setPadding(3, 3, 3, 3);
 		}
 		
 		// set ProjectInfo fields, if ProjectInfo available (after list selection)
@@ -256,6 +262,7 @@ public class AttachProjectLoginActivity extends Activity{
 		TextView loginCategory = (TextView) findViewById(R.id.category_login);
 		loginCategory.setText(R.string.attachproject_login_category_login);
 		if(projectConfig.userName) { // user vs. email?
+			Log.d(TAG,"project is using user name instead of email for login");
 			TextView idHeader = (TextView) findViewById(R.id.header_id);
 			idHeader.setText(R.string.attachproject_login_header_id_name);
 			EditText idInput = (EditText) findViewById(R.id.id_input);
@@ -264,7 +271,23 @@ public class AttachProjectLoginActivity extends Activity{
 	}
 	
 	public void login (View view) {
-		new ProjectLoginAsync().execute();
+		// parse user input
+		EditText idInput = (EditText) findViewById(R.id.id_input);
+		EditText pwdInput = (EditText) findViewById(R.id.pwd_input);
+		String id = idInput.getText().toString();
+		String pwd = pwdInput.getText().toString();
+		
+		// verify input and start AttachProjectWorkingActivity
+		if(verifyInput(id, pwd)){
+			Intent intent = new Intent(this, AttachProjectWorkingActivity.class);
+			intent.putExtra("registration", false);
+			intent.putExtra("usesName", projectConfig.userName);
+			intent.putExtra("projectUrl", url);
+			intent.putExtra("projectName", projectConfig.name);
+			intent.putExtra("id", id);
+			intent.putExtra("pwd", pwd);
+			startActivity(intent);
+		}
 	}
 	
 	// register button's onClick
@@ -272,11 +295,12 @@ public class AttachProjectLoginActivity extends Activity{
 		Log.d(TAG, "register: " + view.getTag());
 		Boolean clientCreation = (Boolean) view.getTag();
 		if (clientCreation) {
-			// start intent to AttachProjectRegistrationActivity
+			// start intent to AttachProjectWorkingActivity
 			Intent intent = new Intent(this, AttachProjectRegistrationActivity.class);
 			intent.putExtra("projectUrl", url);
 			intent.putExtra("projectName", projectConfig.name);
 			intent.putExtra("minPwdLength", projectConfig.minPwdLength);
+			intent.putExtra("usesName", projectConfig.userName);
 			startActivity(intent);
 		} else {
 			// start intent to project website
@@ -296,63 +320,16 @@ public class AttachProjectLoginActivity extends Activity{
 	
 	private Boolean verifyInput(String id, String pwd) {
 		if(id.length() == 0) {
-			Toast toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_error_no_name, Toast.LENGTH_SHORT);
+			Toast toast = Toast.makeText(getApplicationContext(), R.string.attachproject_error_no_name, Toast.LENGTH_SHORT);
 			toast.show();
 			return false;
 		}
 		if(pwd.length() == 0) {
-			Toast toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_error_no_pwd, Toast.LENGTH_SHORT);
+			Toast toast = Toast.makeText(getApplicationContext(), R.string.attachproject_error_no_pwd, Toast.LENGTH_SHORT);
 			toast.show();
 			return false;
 		}
 		return true;
-	}
-	
-	private void showResultToast(Integer code) {
-		Log.d(TAG,"showResultToast for error: " + code);
-		Toast toast;
-		if(code == null) {
-			toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_error_unknown, Toast.LENGTH_LONG);
-		} else {
-			switch (code) {
-			case BOINCErrors.ERR_OK:
-				toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_ok, Toast.LENGTH_LONG);
-				break;
-			case BOINCErrors.ERR_BAD_PASSWD:
-				toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_error_wrong_pwd, Toast.LENGTH_LONG);
-				break;
-			case BOINCErrors.ERR_DB_NOT_FOUND:
-				toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_error_wrong_name, Toast.LENGTH_LONG);
-				break;
-			case BOINCErrors.ERR_GETHOSTBYNAME:
-				toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_error_no_internet, Toast.LENGTH_LONG);
-				break;
-			default:
-				toast = Toast.makeText(getApplicationContext(), R.string.attachproject_login_toast_error_unknown, Toast.LENGTH_LONG);
-				break;
-			}
-		}
-		toast.show();
-	}
-	
-	private void changeLayoutLoggingIn(Boolean loggingIn) {
-		Log.d(TAG,"changeLayoutLoggingIn: " + loggingIn);
-		LinearLayout loginWrapper = (LinearLayout) findViewById(R.id.login_wrapper);
-		ProgressBar loginLoading = (ProgressBar) findViewById(R.id.login_pending);
-		
-		if(loggingIn) {
-			loginWrapper.setVisibility(View.GONE);
-			loginLoading.setVisibility(View.VISIBLE);
-		} else {
-			loginLoading.setVisibility(View.GONE);
-			loginWrapper.setVisibility(View.VISIBLE);
-		}
-	}
-	
-	private void goToMainActivity() {
-		Intent intent = new Intent(this, BOINCActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //clear_top closes AttachProjectListActivity!
-		startActivity(intent);
 	}
 	
 	private Boolean platformSupported() {
@@ -368,63 +345,6 @@ public class AttachProjectLoginActivity extends Activity{
 		return supported;
 	}
 	
-	private final class ProjectLoginAsync extends AsyncTask<Void, Void, Integer> {
-
-		//private final String TAG = "ProjectLoginAsync";
-		
-		private String id;
-		private String pwd;
-		
-		@Override 
-		protected void onPreExecute() {
-			changeLayoutLoggingIn(true);
-			
-			// read input data
-			EditText idInput = (EditText) findViewById(R.id.id_input);
-			EditText pwdInput = (EditText) findViewById(R.id.pwd_input);
-			id = idInput.getText().toString();
-			pwd = pwdInput.getText().toString();
-
-			if(!verifyInput(id, pwd)) {
-				changeLayoutLoggingIn(false);
-				cancel(true); // cancel asynctask if validation fails
-			}
-			
-		}
-		
-		@Override
-		protected Integer doInBackground(Void... params) {
-			
-			AccountOut account = monitor.lookupCredentials(url, id, pwd);
-			
-			try {
-				if(account.error_num == BOINCErrors.ERR_OK) {
-					Boolean attach = monitor.attachProject(url, id, account.authenticator);
-					if(attach) {
-						return BOINCErrors.ERR_OK;
-					} else {
-						Log.d(TAG,"attachProject failed");
-						// happens if project already attached
-						return null;
-					}
-				} else { // error code
-					return account.error_num;
-				}
-			} catch (Exception e) {}
-			return null;
-		}
-		
-		@Override
-		protected void onPostExecute(Integer errorCode) {
-			showResultToast(errorCode);
-			if((errorCode != null) && (errorCode == BOINCErrors.ERR_OK)) { //successful
-				monitor.forceRefresh(); // force refresh, so "no project banner" disappears
-				goToMainActivity();
-			}
-			changeLayoutLoggingIn(false);
-		}
-	}
-	
 	private final class GetProjectConfig extends AsyncTask<Void, Void, Integer> {
 
 		private final String TAG = "GetProjectConfig";
@@ -435,14 +355,14 @@ public class AttachProjectLoginActivity extends Activity{
 				if(!projectInfoPresent) { // only url string is available
 					Log.d(TAG, "doInBackground() - GetProjectConfig for manual input url: " + url);
 					
-					if(checkProjectAlreadyAttached(url)) return R.string.attachproject_login_error_project_exists;
+					if(checkProjectAlreadyAttached(url)) return R.string.attachproject_error_project_exists;
 					
 					//fetch ProjectConfig
 					projectConfig = monitor.getProjectConfig(url);
 				} else {
 					Log.d(TAG, "doInBackground() - GetProjectConfig for list selection url: " + projectInfo.url);
 					
-					if(checkProjectAlreadyAttached(projectInfo.url)) return R.string.attachproject_login_error_project_exists;
+					if(checkProjectAlreadyAttached(projectInfo.url)) return R.string.attachproject_error_project_exists;
 					
 					//fetch ProjectConfig
 					projectConfig = monitor.getProjectConfig(projectInfo.url);

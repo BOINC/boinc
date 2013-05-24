@@ -26,10 +26,15 @@
 		<color name="lightest_blue">#D6EBFF</color>
 		<color name="dark_grey">#6E6E6E</color>
 		<color name="red">#990033</color>
+		<color name="yellow">#FCEC3D</color>
+		<color name="dark_yellow">#E3D10E</color>
+		<color name="light_yellow">#FCF281</color>
+		<color name="light_green">#B1F5A4</color>
+		<color name="dark_green">#1FBD00</color>
+		<color name="light_red">#FFB3B3</color>
+		<color name="dark_red">#DB0000</color>
     <!-- global colors -->
 		<color name="warning">#FCEC3D</color>
-		<color name="link">#05c5cf</color>
-		<color name="link_inverse">#0000EE</color>
     <!-- preferences tab colors -->
 		<color name="status">#11A800</color>
     <!-- tasks tab colors -->

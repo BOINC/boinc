@@ -19,18 +19,32 @@
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:clickable="true"
-    android:onClick="onProjectClick"
-	android:padding="10dp" >
-    <TextView android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/name"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="horizontal"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:layout_marginTop="20dp"
+    android:gravity="center_vertical"
+    android:background="@drawable/shape_light_red_background" >
+
+
+    <ImageView 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold" />
-    <TextView android:textAppearance="?android:attr/textAppearanceSmall"
-        android:id="@+id/description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:background="@android:color/transparent"
+        android:src="@drawable/failedb"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="10dp"
+        android:contentDescription="@string/attachproject_working_failed_desc"/>
+
+	<TextView
+       android:id="@+id/header"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="@string/generic_loading"
+       android:textAppearance="?android:attr/textAppearanceMedium"
+       android:background="@android:color/transparent" />
+
+	
 </LinearLayout>
