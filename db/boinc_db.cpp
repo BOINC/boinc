@@ -470,6 +470,7 @@ void DB_HOST::db_print(char* buf){
     ESCAPE(p_model);
     ESCAPE(os_name);
     ESCAPE(os_version);
+    ESCAPE(product_name);
     sprintf(buf,
         "create_time=%d, userid=%d, "
         "rpc_seqno=%d, rpc_time=%d, "
@@ -490,7 +491,8 @@ void DB_HOST::db_print(char* buf){
         "venue='%s', nresults_today=%d, "
         "avg_turnaround=%.15e, "
         "host_cpid='%s', external_ip_addr='%s', max_results_day=%d, "
-        "error_rate=%.15e ",
+        "error_rate=%.15e, "
+        "product_name='%s' ",
         create_time, userid,
         rpc_seqno, rpc_time,
         total_credit, expavg_credit, expavg_time,
@@ -509,7 +511,8 @@ void DB_HOST::db_print(char* buf){
         venue, nresults_today,
         avg_turnaround,
         host_cpid, external_ip_addr, _max_results_day,
-        _error_rate
+        _error_rate,
+        product_name
     );
     UNESCAPE(domain_name);
     UNESCAPE(serialnum);
@@ -519,6 +522,7 @@ void DB_HOST::db_print(char* buf){
     UNESCAPE(os_name);
     UNESCAPE(os_version);
     UNESCAPE(host_cpid);
+    UNESCAPE(product_name);
 }
 
 void DB_HOST::db_parse(MYSQL_ROW &r) {
@@ -568,6 +572,7 @@ void DB_HOST::db_parse(MYSQL_ROW &r) {
     strcpy2(external_ip_addr, r[i++]);
     _max_results_day = atoi(r[i++]);
     _error_rate = atof(r[i++]);
+    strcpy2(product_name, r[i++]);
 }
 
 int DB_HOST::update_diff_validator(HOST& h) {
@@ -783,6 +788,12 @@ int DB_HOST::update_diff_sched(HOST& h) {
         strcat(updates, buf);
     }
 #endif
+    if (strcmp(product_name, h.product_name)) {
+        escape_string(product_name, sizeof(product_name));
+        sprintf(buf, " product_name='%s',", product_name);
+        unescape_string(product_name, sizeof(product_name));
+        strcat(updates, buf);
+    }
 
     int n = strlen(updates);
     if (n == 0) return 0;

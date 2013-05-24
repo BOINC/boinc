@@ -849,6 +849,10 @@ function update_4_26_2013() {
     do_query("alter table result add size_class smallint not null default -1");
 }
 
+function update_5_23_2013() {
+    do_query("alter table host add product_name varchar(254) not null");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -882,6 +886,7 @@ $db_updates = array (
     array(26062, "update_8_26_2012"),
     array(27000, "update_11_25_2012"),
     array(27001, "update_4_26_2013"),
+    array(27002, "update_5_23_2013"),
 );
 
 ?>

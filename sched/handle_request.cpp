@@ -550,6 +550,7 @@ static int modify_host_struct(HOST& host) {
     if (strlen(g_request->host.host_cpid)) {
         strcpy(host.host_cpid, g_request->host.host_cpid);
     }
+    strncpy(host.product_name, g_request->host.product_name, sizeof(host.product_name));
     host.fix_nans();
 
     return 0;

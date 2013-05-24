@@ -333,6 +333,7 @@ struct HOST {
         // dynamic estimate of fraction of results
         // that fail validation
         // DEPRECATED
+    char product_name[256];
 
     // the following not in DB
     char p_features[1024];

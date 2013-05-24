@@ -1206,6 +1206,7 @@ int HOST::parse(XML_PARSER& xp) {
         if (xp.parse_double("p_membw", p_membw)) continue;
         if (xp.parse_str("os_name", os_name, sizeof(os_name))) continue;
         if (xp.parse_str("os_version", os_version, sizeof(os_version))) continue;
+        if (xp.parse_str("product_name", product_name, sizeof(product_name))) continue;
         if (xp.parse_double("m_nbytes", m_nbytes)) continue;
         if (xp.parse_double("m_cache", m_cache)) continue;
         if (xp.parse_double("m_swap", m_swap)) continue;
