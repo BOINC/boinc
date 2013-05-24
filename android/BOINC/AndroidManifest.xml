@@ -52,6 +52,8 @@
             android:configChanges="orientation"/>
         <activity android:name=".AttachProjectRegistrationActivity"
             android:configChanges="orientation"/>
+        <activity android:name=".AttachProjectWorkingActivity"
+            android:configChanges="orientation"/>
         <activity android:name=".StatusActivity" />
         <activity android:name=".TasksActivity" />
         <activity android:name=".TransActivity" />
