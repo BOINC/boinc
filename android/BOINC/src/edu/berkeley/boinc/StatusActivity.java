@@ -120,7 +120,7 @@ public class StatusActivity extends Activity implements OnClickListener{
 		Display display = getWindowManager().getDefaultDisplay();
 		screenWidth = display.getWidth();
 		screenHeight = display.getHeight();
-		//Log.d(TAG,"screen dimensions: " + screenWidth + "*" + screenHeight);
+		Log.d(TAG,"screen dimensions: " + screenWidth + "*" + screenHeight);
 	}
 	
 	public void onPause() {

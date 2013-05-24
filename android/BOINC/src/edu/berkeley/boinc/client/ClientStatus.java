@@ -231,40 +231,46 @@ public class ClientStatus {
 	}
 
 	// returns list with slideshow images of all projects
-	// 126 * 29 pixel from /projects/PNAME/slideshow_appname_n
+	// 126 * 290 pixel from /projects/PNAME/slideshow_appname_n
 	// not aware of project or application!
 	public synchronized ArrayList<ImageWrapper> getSlideshowImages() {
 
-		ArrayList<ImageWrapper> slideshowImages = new ArrayList<ImageWrapper>(); 
+		ArrayList<ImageWrapper> slideshowImages = new ArrayList<ImageWrapper>();
+		int maxImagesPerProject = ctx.getResources().getInteger(R.integer.status_max_slideshow_images_per_project);
 		
 		for (Project project: projects) {
-			// get file paths
-			File dir = new File(project.project_dir);
-			File[] foundFiles = dir.listFiles(new FilenameFilter() {
-			    public boolean accept(File dir, String name) {
-			        return name.startsWith("slideshow_");
-			    }
-			});
-			ArrayList<String> filePaths = new ArrayList<String>();
-			if(foundFiles == null) continue; // prevent NPE
-			for (File file: foundFiles) {
-				String slideshowImagePath = parseSoftLinkToAbsPath(file.getAbsolutePath(), project.project_dir);
-				//check whether path is not empty, and avoid duplicates (slideshow images can 
-				//re-occur for multiple apps, since we do not distinct apps, skip duplicates.
-				if(slideshowImagePath != null && !slideshowImagePath.isEmpty() && !filePaths.contains(slideshowImagePath)) filePaths.add(slideshowImagePath);
-				//Log.d(TAG, "getSlideshowImages() path: " + slideshowImagePath);
-			}
-			//Log.d(TAG,"getSlideshowImages() retrieve number file paths: " + filePaths.size());
-			
-			// load images from paths
-			BitmapFactory.Options options = new BitmapFactory.Options();
-			options.inDither = true;
-			options.inSampleSize = 1;
-			for (String filePath : filePaths) {
-				Bitmap tmp = BitmapFactory.decodeFile(filePath, options);
-				if(tmp!=null) slideshowImages.add(new ImageWrapper(tmp,project.project_name));
-				else Log.d(TAG,"loadSlideshowImagesFromFile(): null for path: " + filePath);
-			}
+			try{
+				// get file paths
+				File dir = new File(project.project_dir);
+				File[] foundFiles = dir.listFiles(new FilenameFilter() {
+				    public boolean accept(File dir, String name) {
+				        return name.startsWith("slideshow_");
+				    }
+				});
+				ArrayList<String> filePaths = new ArrayList<String>();
+				if(foundFiles == null) continue; // prevent NPE
+				for (File file: foundFiles) {
+					String slideshowImagePath = parseSoftLinkToAbsPath(file.getAbsolutePath(), project.project_dir);
+					//check whether path is not empty, and avoid duplicates (slideshow images can 
+					//re-occur for multiple apps, since we do not distinct apps, skip duplicates.
+					if(slideshowImagePath != null && !slideshowImagePath.isEmpty() && !filePaths.contains(slideshowImagePath)) filePaths.add(slideshowImagePath);
+					//Log.d(TAG, "getSlideshowImages() path: " + slideshowImagePath);
+				}
+				//Log.d(TAG,"getSlideshowImages() retrieve number file paths: " + filePaths.size());
+				
+				// load images from paths
+				BitmapFactory.Options options = new BitmapFactory.Options();
+				options.inDither = true;
+				options.inSampleSize = 1;
+				int x = 0;
+				for (String filePath : filePaths) {
+					if(x >= maxImagesPerProject) continue;
+					Bitmap tmp = BitmapFactory.decodeFile(filePath, options);
+					if(tmp!=null) slideshowImages.add(new ImageWrapper(tmp,project.project_name));
+					else Log.d(TAG,"loadSlideshowImagesFromFile(): null for path: " + filePath);
+					x++;
+				}
+			} catch(Exception e) {Log.w(TAG,"exception for project " + project.master_url,e);}
 		}
 		Log.d(TAG,"getSlideshowImages() loaded number of files: " + slideshowImages.size());
 		return slideshowImages;
