@@ -1868,7 +1868,6 @@ int DB_WORK_ITEM::enumerate(
             " and r1.workunitid=workunit.id "
             " and workunit.appid=app.id "
             " and app.deprecated=0 "
-            " and workunit.error_mask=0 "
             " and workunit.transitioner_flags=0 "
             " %s "
             " %s "
