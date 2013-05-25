@@ -50,6 +50,8 @@
 #include <set>
 #include <limits.h>
 #include <cmath>
+#include <sys/types.h>
+#include <unistd.h>
 
 #include "des.h"
 #include "stats.h"
