@@ -24,35 +24,32 @@
     android:background="@color/white_smoke" >
         
     <TextView
-     	android:id="@+id/title"
-     	android:layout_width="fill_parent"
+    	android:id="@+id/title"
+     	android:layout_width="wrap_content"
      	android:layout_height="wrap_content"
-		android:padding="10dp"
-		android:layout_marginBottom="10dp"
+    	android:padding="10dp"
+    	android:minWidth="180dp"
     	android:singleLine="true"
     	android:textColor="@color/black"
-		android:textAppearance="?android:attr/textAppearanceMedium" 
-		android:background="@drawable/shape_light_blue_background" />
+     	android:textAppearance="?android:attr/textAppearanceMedium"
+     	android:background="@drawable/shape_light_blue_background" />
     
-    <EditText
-        android:id="@+id/Input"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content" 
-        android:inputType="textUri"
-    	android:layout_margin="5dp">
-         <requestFocus />
-     </EditText>
-         
+    <ListView
+        android:id="@+id/options"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    
     <Button
-        android:id="@+id/buttonUrlSubmit"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
+		android:id="@+id/cancel"
+		android:layout_width="fill_parent"
+		android:layout_height="0dip"
+		android:padding="5dp"
+		android:clickable="true"
+		android:layout_margin="5dp"
 		android:background="@drawable/shape_button_blue"
 		android:textColor="@color/white_smoke"
 		android:textAppearance="?android:attr/textAppearanceMedium" 
-		android:padding="5dp"
+		android:text="@string/confirm_cancel"
 		android:layout_gravity="center_horizontal"
-		android:clickable="true"
-		android:layout_margin="5dp"
-        android:text="@string/attachproject_list_manual_dialog_button"/>
+		android:layout_weight="0.5"/> 
 </LinearLayout>

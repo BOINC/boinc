@@ -40,6 +40,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class AttachProjectListActivity extends Activity implements android.view.View.OnClickListener{
@@ -135,10 +136,11 @@ public class AttachProjectListActivity extends Activity implements android.view.
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		manualUrlInputDialog = new Dialog(this); //instance new dialog
+		manualUrlInputDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		manualUrlInputDialog.setContentView(R.layout.attach_project_list_layout_manual_dialog);
 		Button button = (Button) manualUrlInputDialog.findViewById(R.id.buttonUrlSubmit);
 		button.setOnClickListener(this);
-		manualUrlInputDialog.setTitle(R.string.attachproject_list_manual__dialog_title);
+		((TextView)manualUrlInputDialog.findViewById(R.id.title)).setText(R.string.attachproject_list_manual_dialog_title);
 		return manualUrlInputDialog;
 	}
 

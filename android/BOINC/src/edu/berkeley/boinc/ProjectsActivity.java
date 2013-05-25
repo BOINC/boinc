@@ -20,16 +20,12 @@ package edu.berkeley.boinc;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import edu.berkeley.boinc.adapter.ProjectsListAdapter;
-import edu.berkeley.boinc.client.Monitor;
-import edu.berkeley.boinc.rpc.Project;
-import edu.berkeley.boinc.rpc.RpcClient;
-import android.app.AlertDialog;
+
+import android.app.Dialog;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
@@ -43,8 +39,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import edu.berkeley.boinc.adapter.ProjectsListAdapter;
+import edu.berkeley.boinc.client.Monitor;
+import edu.berkeley.boinc.rpc.Project;
+import edu.berkeley.boinc.rpc.RpcClient;
+import android.widget.ArrayAdapter;
 
 
 public class ProjectsActivity extends FragmentActivity {
@@ -52,7 +57,7 @@ public class ProjectsActivity extends FragmentActivity {
 	private final String TAG = "BOINC ProjectsActivity";
 	
 	private Monitor monitor;
-	private Boolean mIsBound;
+	private Boolean mIsBound = false;
 
 	private ListView lv;
 	private ProjectsListAdapter listAdapter;
@@ -68,11 +73,13 @@ public class ProjectsActivity extends FragmentActivity {
 	// getService returns the Monitor object that is needed to call functions.
 	//
 	private ServiceConnection mConnection = new ServiceConnection() {
+		@Override
 	    public void onServiceConnected(ComponentName className, IBinder service) {
 	        monitor = ((Monitor.LocalBinder)service).getService();
 		    mIsBound = true;
+		    Log.d(TAG,"service bound");
 	    }
-
+		@Override
 	    public void onServiceDisconnected(ComponentName className) {
 	        monitor = null;
 		    mIsBound = false;
@@ -100,7 +107,7 @@ public class ProjectsActivity extends FragmentActivity {
 
 	    // Establish a connection with the service, onServiceConnected gets called when
 	    // (calling within Tab needs getApplicationContext() for bindService to work!)
-		getApplicationContext().bindService(new Intent(this, Monitor.class), mConnection, Service.START_STICKY_COMPATIBILITY);
+	    getApplicationContext().bindService(new Intent(this, Monitor.class), mConnection, Service.START_STICKY_COMPATIBILITY);
 	}
 	
 	@Override
@@ -272,19 +279,72 @@ public class ProjectsActivity extends FragmentActivity {
 						new ProjectOperationAsync().execute(project.master_url, operation.toString());
 						break;
 					case RpcClient.PROJECT_DETACH:
-						ConfirmationDialog cd = ConfirmationDialog.newInstance(
-							getString(R.string.projects_confirm_detach_title) + "?",
-							getString(R.string.projects_confirm_detach_message) + " " + project.project_name,
-							getString(R.string.projects_confirm_detach_confirm));
-						cd.setConfirmationClicklistener(new DialogInterface.OnClickListener() {
+						final Dialog dialog = new Dialog(activity);
+						dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+						dialog.setContentView(R.layout.dialog_confirm);
+						((TextView)dialog.findViewById(R.id.title)).setText(R.string.projects_confirm_detach_title);
+						((TextView)dialog.findViewById(R.id.message)).setText(getString(R.string.projects_confirm_detach_message) + " "
+								+ project.project_name +  " " + getString(R.string.projects_confirm_detach_message2));
+						Button confirm = (Button) dialog.findViewById(R.id.confirm);
+						confirm.setText(R.string.projects_confirm_detach_confirm);
+						confirm.setOnClickListener(new OnClickListener() {
 							@Override
-							public void onClick(DialogInterface dialog, int which) {
+							public void onClick(View v) {
 								new ProjectOperationAsync().execute(project.master_url, ""+RpcClient.PROJECT_DETACH);
+								dialog.dismiss();
 							}
 						});
-						cd.show(getSupportFragmentManager(), "");
+						Button cancel = (Button) dialog.findViewById(R.id.cancel);
+						cancel.setOnClickListener(new OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								dialog.dismiss();
+							}
+						});
+						dialog.show();
 						break;
 					case RpcClient.PROJECT_ADVANCED:
+						final Dialog dialogAdvanced = new Dialog(activity);
+						dialogAdvanced.requestWindowFeature(Window.FEATURE_NO_TITLE);
+						dialogAdvanced.setContentView(R.layout.dialog_list);
+						((TextView)dialogAdvanced.findViewById(R.id.title)).setText(R.string.projects_confirm_advanced_title);
+						ListView list = (ListView)dialogAdvanced.findViewById(R.id.options);
+						String[] controls = getResources().getStringArray(R.array.projects_advanced_controls);
+						list.setAdapter(new ArrayAdapter<String>(activity,R.layout.dialog_list_item,controls));
+						list.setOnItemClickListener(new OnItemClickListener() {
+							@Override
+							public void onItemClick(AdapterView<?> arg0, View v, int position, long id) {
+				                switch(position) {
+				                case 0:
+									new ProjectOperationAsync().execute(project.master_url, ""+RpcClient.PROJECT_SUSPEND);
+				                	break;
+				                case 1:
+									new ProjectOperationAsync().execute(project.master_url, ""+RpcClient.PROJECT_RESUME);
+				                	break;
+				                case 2:
+									new ProjectOperationAsync().execute(project.master_url, ""+RpcClient.PROJECT_NNW);
+				                	break;
+				                case 3:
+									new ProjectOperationAsync().execute(project.master_url, ""+RpcClient.PROJECT_ANW);
+				                	break;
+				                case 4:
+									new ProjectOperationAsync().execute(project.master_url, ""+RpcClient.PROJECT_RESET);
+				                	break;
+				                default:
+				                	break;
+				                }
+				                dialogAdvanced.dismiss();
+							}});
+						Button cancelButton = (Button) dialogAdvanced.findViewById(R.id.cancel);
+						cancelButton.setOnClickListener(new OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								dialogAdvanced.dismiss();
+							}
+						});
+						dialogAdvanced.show();
+						
+						/*
 						AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 					    builder.setTitle(R.string.projects_confirm_advanced_title);
 					    builder.setItems(R.array.projects_advanced_controls, new DialogInterface.OnClickListener() {
@@ -309,13 +369,13 @@ public class ProjectsActivity extends FragmentActivity {
 						                	break;
 						                }
 					           }});
-					    builder.create().show();
+					    builder.create().show(); */
 						break;
 					default:
 						Log.w(TAG,"could not map operation tag");
 					}
 					listAdapter.notifyDataSetChanged(); //force list adapter to refresh
-				} catch (Exception e) {Log.w(TAG,"failed parsing view tag");}
+				} catch (Exception e) {Log.w(TAG,"onclick failed",e);}
 			}
 		};
 	}
@@ -329,7 +389,7 @@ public class ProjectsActivity extends FragmentActivity {
 			try{
 				String url = params[0];
 				Integer operation = Integer.parseInt(params[1]);
-				Log.d(TAG,"url: " + url + " operation: " + operation);
+				Log.d(TAG,"url: " + url + " operation: " + operation + " monitor bound: " + mIsBound);
 	
 				if(mIsBound) return monitor.projectOperation(operation, url);
 				else return false;

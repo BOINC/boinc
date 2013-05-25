@@ -38,8 +38,8 @@
     <string name="attachproject_list_loading">Loading supported projects&#8230;</string>
     <string name="attachproject_list_header">Choose a project:</string>
     <string name="attachproject_list_manual_button">Add project by URL</string>
-    <string name="attachproject_list_manual__dialog_title">Enter URL of scientific project:</string>
-    <string name="attachproject_list_manual__dialog_button">></string>
+    <string name="attachproject_list_manual_dialog_title">Enter project URL:</string>
+    <string name="attachproject_list_manual_dialog_button">Add project</string>
     <string name="attachproject_list_manual_no_url">Please enter project URL!</string>
     <string name="attachproject_list_no_internet">No internet connection!</string>
     	<!-- project login -->
@@ -208,11 +208,10 @@
   	</string-array>
 		<!-- project dialogs -->
 	<string name="projects_confirm_detach_title">Remove project</string>
-	<string name="projects_confirm_detach_message">Remove project:</string>
+	<string name="projects_confirm_detach_message">Are you sure to remove</string>
+	<string name="projects_confirm_detach_message2">from BOINC?</string>
 	<string name="projects_confirm_detach_confirm">Remove</string>
-	<string name="projects_confirm_detach_cancel">Cancel</string>
-	<string name="projects_confirm_advanced_title">Project operation</string>
-	<string name="projects_confirm_advanced_message">Choose an operation to execute:</string>
+	<string name="projects_confirm_advanced_title">Project operations:</string>
 				
 	<!-- tasks tab strings -->
 	<string name="tasks_loading">Reading tasks&#8230;</string>
@@ -244,7 +243,8 @@
 	<string name="confirm_abort_task_title">Abort task</string>
 	<string name="confirm_abort_task_message">Abort task:</string>
 	<string name="confirm_abort_task_confirm">Abort</string>
-	<string name="confirm_abort_task_cancel">Cancel</string>
+	<string name="confirm_cancel">Cancel</string>
+	<string name="confirm_image_desc">Confirmation dialog</string>
 	
 	<!-- transfers tab strings -->
 	<string name="trans_loading">Reading transfers&#8230;</string>

@@ -51,7 +51,7 @@ public class ClientNotification {
 	public synchronized void update() {
 		// check whether notification is allowed in preferences	
 		if (!Monitor.getAppPrefs().getShowNotification()) {
-			Log.d(TAG,"cancelling notification");
+			//Log.d(TAG,"cancelling notification");
 			nm.cancel(notificationId);
 			return;
 		}
