@@ -9,10 +9,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 public class ClientNotification {
-	private static final String TAG = "ClientNotification";
+	//private static final String TAG = "ClientNotification";
 
 	private static ClientNotification clientNotification = null;
 	
@@ -51,7 +50,6 @@ public class ClientNotification {
 	public synchronized void update() {
 		// check whether notification is allowed in preferences	
 		if (!Monitor.getAppPrefs().getShowNotification()) {
-			//Log.d(TAG,"cancelling notification");
 			nm.cancel(notificationId);
 			return;
 		}

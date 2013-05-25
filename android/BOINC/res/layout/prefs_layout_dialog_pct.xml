@@ -18,20 +18,77 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="10dip"
-    android:orientation="vertical">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@color/white_smoke" >
+    
+    <TextView
+     	android:id="@+id/title"
+     	android:layout_width="fill_parent"
+     	android:layout_height="wrap_content"
+    	android:singleLine="true"
+    	android:textColor="@color/black"
+     	android:textAppearance="?android:attr/textAppearanceMedium"
+		android:layout_marginBottom="10dp"
+		android:padding="10dp"
+		android:background="@drawable/shape_light_blue_background"
+		android:text="@string/prefs_dialog_title" />
+    
+    <TextView
+     	android:id="@+id/pref"
+     	android:layout_width="wrap_content"
+     	android:layout_height="wrap_content"
+    	android:textColor="@color/black"
+     	android:textAppearance="?android:attr/textAppearanceSmall"
+		android:layout_margin="10dp"
+		android:background="@android:color/transparent"/>
+    
     <SeekBar
          android:id="@+id/seekbar"
-         android:layout_width="match_parent"
+         android:layout_width="fill_parent"
          android:layout_height="wrap_content" 
-         android:max="100">
-     </SeekBar>
+         android:max="10"
+         android:layout_margin="10dp" />
+    
     <TextView
          android:id="@+id/seekbar_status"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:layout_gravity="center_horizontal" >
-     </TextView>
+         android:layout_gravity="center_horizontal"
+     	 android:textAppearance="?android:attr/textAppearanceMedium"
+     	 android:textStyle="bold" />
+        
+    <LinearLayout 
+    	android:layout_width="220dp"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal">
+    	
+        <Button
+			android:id="@+id/cancel"
+			android:layout_width="100dp"
+			android:layout_height="wrap_content"
+			android:padding="5dp"
+			android:clickable="true"
+			android:layout_margin="5dp"
+			android:background="@drawable/shape_button_blue"
+			android:textColor="@color/white_smoke"
+			android:textAppearance="?android:attr/textAppearanceMedium" 
+			android:text="@string/confirm_cancel"
+			android:layout_weight="0.5"/> 
+    	
+        <Button
+			android:id="@+id/confirm"
+			android:layout_width="100dp"
+			android:layout_height="wrap_content"
+			android:padding="5dp"
+			android:clickable="true"
+			android:layout_margin="5dp"
+			android:background="@drawable/shape_button_red"
+			android:textColor="@color/white_smoke"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:text="@string/prefs_submit_button"
+			android:layout_weight="0.5" /> 
+        
+    </LinearLayout>  
 </LinearLayout>

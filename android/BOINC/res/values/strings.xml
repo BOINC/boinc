@@ -139,8 +139,7 @@
 	<!-- preferences tab strings -->
 	<string name="prefs_loading">Reading preferences&#8230;</string>
 	<string name="prefs_submit_button">Save</string>
-	<string name="prefs_cancel_button">Cancel</string>
-	<string name="prefs_dialog_title">Please enter desired value for: </string>
+	<string name="prefs_dialog_title">Enter new value:</string>
 	<string name="prefs_category_general">General</string>
 	<string name="prefs_category_network">Network</string>
 	<string name="prefs_category_power">Power</string>

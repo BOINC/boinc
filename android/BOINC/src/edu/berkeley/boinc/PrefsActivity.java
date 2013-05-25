@@ -19,7 +19,6 @@
 package edu.berkeley.boinc;
 
 import java.util.ArrayList;
-
 import edu.berkeley.boinc.adapter.PrefsListAdapter;
 import edu.berkeley.boinc.adapter.PrefsListItemWrapper;
 import edu.berkeley.boinc.adapter.PrefsListItemWrapperBool;
@@ -27,10 +26,8 @@ import edu.berkeley.boinc.adapter.PrefsListItemWrapperDouble;
 import edu.berkeley.boinc.client.ClientNotification;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ComponentName;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.AsyncTask;
@@ -38,8 +35,10 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -60,9 +59,6 @@ public class PrefsActivity extends FragmentActivity {
 	private ArrayList<PrefsListItemWrapper> data = new ArrayList<PrefsListItemWrapper>(); //Adapter for list data
 	private GlobalPreferences clientPrefs = null; //preferences of the client, read on every onResume via RPC
 	private AppPreferences appPrefs = null; //Android specific preferences, singleton of monitor
-	
-	private Dialog dialog; //Dialog for input on non-Bool preferences
-	private PrefsListItemWrapperDouble dialogItem; // saves content of preference Dialog is showing
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -199,22 +195,24 @@ public class PrefsActivity extends FragmentActivity {
 	
 	// onClick of listview items with PrefsListItemWrapperDouble
 	public void onItemClick (View view) {
-		PrefsListItemWrapperDouble listItem = (PrefsListItemWrapperDouble) view.getTag();
+		final PrefsListItemWrapperDouble listItem = (PrefsListItemWrapperDouble) view.getTag();
 		Log.d(TAG,"onItemClick " + listItem.ID);
-
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		LayoutInflater inflater = getLayoutInflater();
-		final View dialogContent;
+		
+		final Dialog dialog = new Dialog(this);
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		if(listItem.isPct) {
-			dialogContent = inflater.inflate(R.layout.prefs_layout_dialog_pct, null);
-			TextView sliderProgress = (TextView) dialogContent.findViewById(R.id.seekbar_status);
-			sliderProgress.setText(listItem.status.intValue() + " %");
-			SeekBar slider = (SeekBar) dialogContent.findViewById(R.id.seekbar);
-			slider.setProgress(listItem.status.intValue());
+			// show dialog with slider
+			dialog.setContentView(R.layout.prefs_layout_dialog_pct);
+			// setup slider
+			TextView sliderProgress = (TextView) dialog.findViewById(R.id.seekbar_status);
+			sliderProgress.setText(listItem.status.intValue() + " " + getString(R.string.prefs_unit_pct));
+			Double seekBarDefault = listItem.status / 10;
+			SeekBar slider = (SeekBar) dialog.findViewById(R.id.seekbar);
+			slider.setProgress(seekBarDefault.intValue());
 			slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 		        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
-		        	String progressString = progress + " %";
-		        	TextView sliderProgress = (TextView) dialogContent.findViewById(R.id.seekbar_status);
+		        	String progressString = (progress * 10) + " " + getString(R.string.prefs_unit_pct);
+		        	TextView sliderProgress = (TextView) dialog.findViewById(R.id.seekbar_status);
 		            sliderProgress.setText(progressString);
 		        }
 				@Override
@@ -223,34 +221,41 @@ public class PrefsActivity extends FragmentActivity {
 				public void onStopTrackingTouch(SeekBar seekBar) {}
 		    });
 		} else {
-			dialogContent = inflater.inflate(R.layout.prefs_layout_dialog, null);
+			// show dialog with edit text
+			dialog.setContentView(R.layout.prefs_layout_dialog);
 		}
-        builder.setMessage(listItem.ID)
-        	   .setView(dialogContent)
-               .setNegativeButton(R.string.prefs_cancel_button, new DialogInterface.OnClickListener() {
-                   public void onClick(DialogInterface dialogI, int id) {
-                       dialog.cancel();
-                   }
-               })
-               .setPositiveButton(R.string.prefs_submit_button, new DialogInterface.OnClickListener() {
-                   public void onClick(DialogInterface dialogI, int id) {
-                	   double value;
-                	   if(dialogItem.isPct) {
-                		   SeekBar slider = (SeekBar) dialog.findViewById(R.id.seekbar);
-                		   value = slider.getProgress();
-                	   } else {
-                		   EditText edit = (EditText) dialog.findViewById(R.id.Input);
-                		   String input = edit.getText().toString();
-                		   Double valueTmp = parseInputValueToDouble(input);
-                		   if(valueTmp == null) return;
-                		   value = valueTmp;
-                	   }
-                	   writeDoublePreference(dialogItem.ID, value);
-                   }
-               });
-        dialog = builder.create();
-        dialog.show();
-        dialogItem = listItem; // set dialog content
+		// show preference name
+		((TextView)dialog.findViewById(R.id.pref)).setText(listItem.ID);
+		
+		// setup buttons
+		Button confirm = (Button) dialog.findViewById(R.id.confirm);
+		confirm.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+	         	   double value;
+	         	   if(listItem.isPct) {
+	         		   SeekBar slider = (SeekBar) dialog.findViewById(R.id.seekbar);
+	         		   value = slider.getProgress()*10;
+	         	   } else {
+	         		   EditText edit = (EditText) dialog.findViewById(R.id.Input);
+	         		   String input = edit.getText().toString();
+	         		   Double valueTmp = parseInputValueToDouble(input);
+	         		   if(valueTmp == null) return;
+	         		   value = valueTmp;
+	         	   }
+	         	   writeDoublePreference(listItem.ID, value);
+	         	   dialog.dismiss();
+			}
+		});
+		Button cancel = (Button) dialog.findViewById(R.id.cancel);
+		cancel.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+		
+		dialog.show();
 	}
 
 	@Override
@@ -293,9 +298,7 @@ public class PrefsActivity extends FragmentActivity {
 			toast.show();
 			return;
 		}
-		
-		// preferences adapted, dismiss dialog and write preferences to client
-		dialog.dismiss();
+		// preferences adapted, write preferences to client
 		new WriteClientPrefsAsync().execute(clientPrefs);
 	}
 
