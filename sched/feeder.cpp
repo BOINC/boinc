@@ -300,6 +300,24 @@ static bool get_job_from_db(
                 continue;
             }
             
+            // if the WU had an error, mark result as DIDNT_NEED
+            //
+            if (wi.wu.error_mask) {
+                char buf[256];
+                DB_RESULT result;
+                result.id = wi.res_id;
+                sprintf(buf, "server_state=%d, outcome=%d",
+                    RESULT_SERVER_STATE_OVER,
+                    RESULT_OUTCOME_DIDNT_NEED
+                );
+                result.update_field(buf);
+                log_messages.printf(MSG_NORMAL,
+                    "[RESULT#%u] WU had error, marking as DIDNT_NEED\n",
+                    wi.res_id
+                );
+                continue;
+            }
+
             // Check for collision (i.e. this result already is in the array)
             //
             collision = false;
