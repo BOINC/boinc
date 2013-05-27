@@ -1,6 +1,9 @@
 // test program for XML parser
 
 #include <stdio.h>
+#include <string>
+
+using std::string;
 
 #include "parse.h"
 
@@ -12,6 +15,7 @@ void parse(FILE* f) {
     char foo[64];
     int val;
     double x;
+    string s;
 
     strcpy(name, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     mf.init_file(f);
@@ -29,8 +33,9 @@ void parse(FILE* f) {
         if (xp.match_tag("/blah")) {
             printf("success\n");
             return;
-        } else if (xp.parse_str("str", name, 33)) {
-            printf("got str: [%s]\n", name);
+        } else if (xp.parse_str("str", name, 64)) {
+        //} else if (xp.parse_string("str", s)) {
+            printf("got str: [%s]\n", s.c_str());
         } else if (xp.parse_int("int", val)) {
             printf("got int: %d\n", val);
         } else if (xp.parse_double("double", x)) {

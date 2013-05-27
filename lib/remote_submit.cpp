@@ -317,7 +317,7 @@ int submit_jobs(
     error_msg = "";
     int temp;
     while (fgets(buf, 256, reply)) {
-        printf("submit_batch reply: %s", buf);
+        //printf("submit_batch reply: %s", buf);
         if (parse_int(buf, "<batch_id>", temp)) {
             retval = 0;
             continue;
@@ -527,7 +527,7 @@ int get_output_file(
     sprintf(url, "%sget_output.php?cmd=workunit_file&auth_str=%s&wu_name=%s&file_num=%d",
         project_url, authenticator, job_name, file_num
     );
-    printf("fetching %s to %s\n", url, dst_path);
+    //printf("fetching %s to %s\n", url, dst_path);
     int retval = do_http_get(url, dst_path);
     error_msg = "";
     if (retval) {

@@ -87,6 +87,24 @@ int compute_md5(string path, LOCAL_FILE& f) {
     return md5_file(path.c_str(), f.md5, f.nbytes);
 }
 
+const char *escape_str(const string &str)
+{
+	static string out;
+	out = "";
+	for ( const char *ptr = str.c_str(); *ptr; ptr++ ) {
+		switch ( *ptr ) {
+		case ' ':
+		case '\\':
+		case '\r':
+		case '\n':
+			out += '\\';
+		default:
+			out += *ptr;
+		}
+	}
+	return out.c_str();
+}
+
 // Get a list of the input files used by the batch.
 // Get their MD5s.
 // See if they're already on the server.
@@ -206,8 +224,8 @@ void handle_submit(COMMAND& c) {
         project_url, authenticator, req.app_name, NULL, td, error_msg
     );
     if (retval) {
-        sprintf(buf, "error getting templates: %d\n", retval);
-        s = string(buf) + error_msg;
+        sprintf(buf, "error\\ getting\\ templates:\\ %d\\ ", retval);
+        s = string(buf) + escape_str(error_msg);
         c.out = strdup(s.c_str());
         return;
     }
@@ -215,22 +233,22 @@ void handle_submit(COMMAND& c) {
         project_url, authenticator, req.batch_name, req.app_name, req.batch_id, error_msg
     );
     if (retval) {
-        sprintf(buf, "error creating batch: %d ", retval);
-        s = string(buf) + error_msg;
+        sprintf(buf, "error\\ creating\\ batch:\\ %d\\ ", retval);
+        s = string(buf) + escape_str(error_msg);
         c.out = strdup(s.c_str());
         return;
     }
     retval = process_input_files(req, error_msg);
     if (retval) {
-        sprintf(buf, "error processing input files: %d ", retval);
-        s = string(buf) + error_msg;
+        sprintf(buf, "error\\ processing\\ input\\ files:\\ %d\\ ", retval);
+        s = string(buf) + escape_str(error_msg);
         c.out = strdup(s.c_str());
         return;
     }
     retval = submit_jobs(project_url, authenticator, req, error_msg);
     if (retval) {
-        sprintf(buf, "error submitting jobs: %d ", retval);
-        s = string(buf) + error_msg;
+        sprintf(buf, "error\\ submitting\\ jobs:\\ %d\\ ", retval);
+        s = string(buf) + escape_str(error_msg);
     } else {
         s = "NULL";
     }
@@ -254,13 +272,15 @@ void handle_query_batches(COMMAND&c) {
         project_url, authenticator, c.batch_names, reply, error_msg
     );
     if (retval) {
-        sprintf(buf, "error querying batch: %d ", retval);
-        s = string(buf) + error_msg;
+        sprintf(buf, "error\\ querying\\ batch:\\ %d\\ ", retval);
+        s = string(buf) + escape_str(error_msg);
     } else {
         s = string("NULL ");
+		sprintf(buf, "%d", (int)reply.jobs.size());
+		s += string(buf);
         for (unsigned int i=0; i<reply.jobs.size(); i++) {
             QUERY_BATCH_JOB &j = reply.jobs[i];
-            sprintf(buf, "%s %s ", j.job_name.c_str(), j.status.c_str());
+            sprintf(buf, " %s %s", j.job_name.c_str(), j.status.c_str());
             s += string(buf);
         }
     }
@@ -339,8 +359,8 @@ void handle_fetch_output(COMMAND& c) {
         project_url, authenticator, NULL, req.job_name, td, error_msg
     );
     if (retval) {
-        sprintf(buf, "error getting templates: %d\n", retval);
-        s = string(buf) + error_msg;
+        sprintf(buf, "error\\ getting\\ templates:\\ %d\\ ", retval);
+        s = string(buf) + escape_str(error_msg);
         c.out = strdup(s.c_str());
         return;
     }
@@ -351,8 +371,8 @@ void handle_fetch_output(COMMAND& c) {
         project_url, authenticator, req.job_name, cjd, error_msg
     );
     if (retval) {
-        sprintf(buf, "query_completed_job() returned %d ", retval);
-        s = string(buf) + error_msg;
+        sprintf(buf, "query_completed_job()\\ returned\\ %d\\ ", retval);
+        s = string(buf) + escape_str(error_msg);
         goto done;
     }
     sprintf(buf, " %d %f %f", cjd.exit_status, cjd.elapsed_time, cjd.cpu_time);
@@ -364,7 +384,7 @@ void handle_fetch_output(COMMAND& c) {
         sprintf(path, "%s/%s", req.dir, req.stderr_filename.c_str());
         FILE* f = fopen(path, "w");
         if (!f) {
-            sprintf(buf, "can't open stderr output file %s ", path);
+            sprintf(buf, "can't\\ open\\ stderr\\ output\\ file\\ %s ", path);
             s = string(buf);
             goto done;
         }
@@ -380,13 +400,13 @@ void handle_fetch_output(COMMAND& c) {
             project_url, authenticator, req.job_name, 0, path, error_msg
         );
         if (retval) {
-            sprintf(buf, "get_output_file() returned %d ", retval);
-            s = string(buf) + error_msg;
+            sprintf(buf, "get_output_file()\\ returned\\ %d\\ ", retval);
+            s = string(buf) + escape_str(error_msg);
         } else {
             sprintf(buf, "cd %s; unzip temp.zip");
             retval = system(buf);
             if (retval) {
-                s = string("unzip failed");
+                s = string("unzip\\ failed");
             }
         }
     } else if (req.fetch_all) {
@@ -396,8 +416,8 @@ void handle_fetch_output(COMMAND& c) {
                 project_url, authenticator, req.job_name, i, path, error_msg
             );
             if (retval) {
-                sprintf(buf, "get_output_file() returned %d ", retval);
-                s = string(buf) + error_msg;
+                sprintf(buf, "get_output_file()\\ returned\\ %d\\ ", retval);
+                s = string(buf) + escape_str(error_msg);
                 break;
             }
         }
@@ -406,7 +426,7 @@ void handle_fetch_output(COMMAND& c) {
             char* lname = req.file_descs[i].src;
             int j = output_file_index(td, lname);
             if (j < 0) {
-                sprintf(buf, "requested file %s not in template", lname);
+                sprintf(buf, "requested\\ file\\ %s\\ not\\ in\\ template", lname);
                 s = string(buf);
                 goto done;
             }
@@ -415,8 +435,8 @@ void handle_fetch_output(COMMAND& c) {
                 project_url, authenticator, req.job_name, i, path, error_msg
             );
             if (retval) {
-                sprintf(buf, "get_output_file() returned %d ", retval);
-                s = string(buf) + error_msg;
+                sprintf(buf, "get_output_file()\\ returned\\ %d\\ ", retval);
+                s = string(buf) + escape_str(error_msg);
                 break;
             }
         }
@@ -438,7 +458,7 @@ void handle_fetch_output(COMMAND& c) {
         sprintf(buf, "mv %s/%s %s", req.dir, of.src, dst_path);
         retval = system(buf);
         if (retval) {
-            s = string("mv failed");
+            s = string("mv\\ failed");
         }
     }
 done:
@@ -464,8 +484,8 @@ void handle_abort_jobs(COMMAND& c) {
     string s;
     char buf[256];
     if (retval) {
-        sprintf(buf, "abort_jobs() returned %d \n", retval);
-        s = string(buf) + error_msg;
+        sprintf(buf, "abort_jobs()\\ returned\\ %d\\ ", retval);
+        s = string(buf) + escape_str(error_msg);
     } else {
         s = "NULL";
     }
@@ -477,8 +497,8 @@ void handle_ping(COMMAND& c) {
     char buf[256];
     int retval = ping_server(project_url, error_msg);
     if (retval) {
-        sprintf(buf, "ping_server returned %d \n", retval);
-        s = string(buf) + error_msg;
+        sprintf(buf, "ping_server\\ returned\\ %d\\ ", retval);
+        s = string(buf) + escape_str(error_msg);
     } else {
         s = "NULL";
     }
