@@ -35,7 +35,7 @@
 #define finite _finite
 #endif
 
-#include <math.h>
+#include <cmath>
 
 #include "error_numbers.h"
 #include "filesys.h"

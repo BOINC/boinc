@@ -50,7 +50,7 @@
 #include <errno.h>
 #include <string>
 #include <cstring>
-#include <math.h>
+#include <cmath>
 #if HAVE_IEEEFP_H
 #include <ieeefp.h>
 extern "C" {

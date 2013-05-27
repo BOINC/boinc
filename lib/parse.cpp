@@ -31,7 +31,7 @@
 #include <cstring>
 #include <cstdlib>
 #include <string>
-#include <math.h>
+#include <cmath>
 #include <ctype.h>
 #include <errno.h>
 #if HAVE_IEEEFP_H

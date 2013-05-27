@@ -22,7 +22,6 @@
 #include <ctime>
 #include <unistd.h>
 #include <cmath>
-#include <math.h>
 
 // For machines with finite() defined in ieeefp.h
 #if HAVE_IEEEFP_H

@@ -19,7 +19,7 @@
 
 #include <algorithm>
 #include <limits.h>
-#include <math.h>
+#include <cmath>
 #include <set>
 #include <stdio.h>
 #include <vector>

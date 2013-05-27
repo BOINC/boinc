@@ -55,7 +55,7 @@
 //  [--rec_half_life X]
 //      half-life of recent est credit
 
-#include <math.h>
+#include <cmath>
 
 #include "error_numbers.h"
 #include "str_util.h"

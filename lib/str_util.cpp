@@ -27,7 +27,7 @@
 #ifndef _WIN32
 #include "config.h"
 #include <string>
-#include <math.h>
+#include <cmath>
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
