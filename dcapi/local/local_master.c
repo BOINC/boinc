@@ -451,7 +451,7 @@ static int copy_file(const char *src, const char *dst)
 		g_free(buf);
 		return -1;
 	}
-	dfd = open(dst, O_WRONLY | O_CREAT | O_TRUNC);
+	dfd = open(dst, O_WRONLY | O_CREAT | O_TRUNC, 00664);
 	if (dfd == -1)
 	{
 		DC_log(LOG_ERR, "Failed to create %s: %s", dst, strerror(errno));
