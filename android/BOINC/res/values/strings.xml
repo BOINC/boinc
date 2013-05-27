@@ -40,20 +40,20 @@
     <string name="attachproject_list_manual_button">Add project by URL</string>
     <string name="attachproject_list_manual_dialog_title">Enter project URL:</string>
     <string name="attachproject_list_manual_dialog_button">Add project</string>
-    <string name="attachproject_list_manual_no_url">Please enter project URL!</string>
-    <string name="attachproject_list_no_internet">No internet connection!</string>
+    <string name="attachproject_list_manual_no_url">Please enter project URL</string>
+    <string name="attachproject_list_no_internet">No Internet connection</string>
     	<!-- project login -->
     <string name="attachproject_login_loading">Contacting project server&#8230;</string>
     <string name="attachproject_login_image_description">Project logo.</string>
-    <string name="attachproject_login_header_project_name">Project Name:</string>
-    <string name="attachproject_login_header_general_area">General Area:</string>
-    <string name="attachproject_login_header_specific_area">Specific Area:</string>
+    <string name="attachproject_login_header_project_name">Project name:</string>
+    <string name="attachproject_login_header_general_area">General area:</string>
+    <string name="attachproject_login_header_specific_area">Specific area:</string>
     <string name="attachproject_login_header_description">Description:</string>
     <string name="attachproject_login_header_home">Home:</string>
     <string name="attachproject_login_header_url">Website:</string>
     <string name="attachproject_login_header_platform">Android:</string>
-    <string name="attachproject_login_platform_supported">This project supports calculation on Android devices.</string>
-    <string name="attachproject_login_platform_not_supported">This project does not support caculation on Android devices yet!</string>
+    <string name="attachproject_login_platform_supported">This project supports Android devices</string>
+    <string name="attachproject_login_platform_not_supported">This project does not support Android devices</string>
     <string name="attachproject_login_category_terms_of_use">Terms of use for</string>
     <string name="attachproject_login_accept_terms_of_use">By creating an account with this project, you accept the terms of use as shown above.</string>
     <string name="attachproject_login_category_login">Sign in with existing account</string>
@@ -100,8 +100,8 @@
     <string name="attachproject_working_ongoing">&#8230;</string>
     <string name="attachproject_working_finished">.</string>
     <string name="attachproject_working_description">:</string>
-    <string name="attachproject_working_connect">Establish connection</string>
-    <string name="attachproject_working_verify">Verify credentials</string>
+    <string name="attachproject_working_connect">Connect</string>
+    <string name="attachproject_working_verify">Verify account</string>
     <string name="attachproject_working_register">Register account</string>
     <string name="attachproject_working_login">Log in</string>
     
@@ -181,7 +181,7 @@
 	<string name="projects_more">Show details</string>
 	<string name="projects_account_header">Account:</string>
 	<string name="projects_status_header">Status:</string>
-	<string name="projects_credits_header">Credits:</string>
+	<string name="projects_credits_header">Credit:</string>
 	<string name="projects_credits_host_header">(on this device)</string>
 	<string name="projects_credits_user_header">(total)</string>
 	<string name="projects_website_header">Website:</string>
@@ -207,7 +207,7 @@
   	</string-array>
 		<!-- project dialogs -->
 	<string name="projects_confirm_detach_title">Remove project</string>
-	<string name="projects_confirm_detach_message">Are you sure to remove</string>
+	<string name="projects_confirm_detach_message">Are you sure you want to remove</string>
 	<string name="projects_confirm_detach_message2">from BOINC?</string>
 	<string name="projects_confirm_detach_confirm">Remove</string>
 	<string name="projects_confirm_advanced_title">Project operations:</string>
@@ -291,10 +291,10 @@
     <string name="suspend_os">Stopped by Android.</string>
     <string name="suspend_wifi">Can\'t fetch tasks, no WiFi connection!</string>
     <string name="suspend_battery_charging">Battery needs to charge before resuming computation.</string>
-    <string name="suspend_battery_charging_long">Battery low. Charging until</string>
-    <string name="suspend_battery_charging_long2">before resuming computation.</string>
+    <string name="suspend_battery_charging_long">Computing will resume when battery charge reaches</string>
+    <string name="suspend_battery_charging_long2"></string>
     <string name="suspend_battery_charging_current">currently</string>
-    <string name="suspend_battery_overheating">Battery needs to cool down.</string>
+    <string name="suspend_battery_overheating">Waiting for battery to cool down</string>
     <string name="suspend_user_req">Resuming computation&#8230;</string>
     
     <!-- rpc reasons -->
