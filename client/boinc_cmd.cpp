@@ -244,7 +244,7 @@ int main(int argc, char** argv) {
     } else if (!strcmp(cmd, "--project")) {
         PROJECT project;
         strcpy(project.master_url, next_arg(argc, argv, i));
-        canonicalize_master_url(project.master_url);
+        canonicalize_master_url(project.master_url, sizeof(project.master_url));
         char* op = next_arg(argc, argv, i);
         if (!strcmp(op, "reset")) {
             retval = rpc.project_op(project, "reset");
@@ -274,7 +274,7 @@ int main(int argc, char** argv) {
     } else if (!strcmp(cmd, "--project_attach")) {
         char url[256];
         strcpy(url, next_arg(argc, argv, i));
-        canonicalize_master_url(url);
+        canonicalize_master_url(url, sizeof(url));
         char* auth = next_arg(argc, argv, i);
         retval = rpc.project_attach(url, auth, "");
     } else if (!strcmp(cmd, "--file_transfer")) {
