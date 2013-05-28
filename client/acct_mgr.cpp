@@ -79,7 +79,7 @@ int ACCT_MGR_OP::do_rpc(
         return 0;
     }
 
-    canonicalize_master_url(url);
+    canonicalize_master_url(url, sizeof(url));
     if (!valid_master_url(url)) {
         error_num = ERR_INVALID_URL;
         return 0;

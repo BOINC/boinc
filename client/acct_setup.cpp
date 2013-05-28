@@ -57,12 +57,12 @@ int PROJECT_INIT::init() {
     XML_PARSER xp(&mf);
     while (!xp.get_tag()) {
         if (xp.match_tag("/project_init")) break;
-        else if (xp.parse_str("name", name, 256)) continue;
-        else if (xp.parse_str("team_name", team_name, 256)) continue;
-        else if (xp.parse_str("url", url, 256)) {
-            canonicalize_master_url(url);
+        else if (xp.parse_str("name", name, sizeof(name))) continue;
+        else if (xp.parse_str("team_name", team_name, sizeof(team_name))) continue;
+        else if (xp.parse_str("url", url, sizeof(url))) {
+            canonicalize_master_url(url, sizeof(url));
             continue;
-        } else if (xp.parse_str("account_key", account_key, 256)) {
+        } else if (xp.parse_str("account_key", account_key, sizeof(account_key))) {
             continue;
         }
     }

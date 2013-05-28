@@ -46,6 +46,10 @@
 #include "boinc_win.h"
 #endif
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #ifdef _WIN32
 #include "../version.h"
 #else
@@ -1741,7 +1745,7 @@ int RPC_CLIENT::project_op(PROJECT& project, const char* op) {
     } else {
         return -1;
     }
-    sprintf(buf,
+    snprintf(buf, sizeof(buf),
         "<%s>\n"
         "  <project_url>%s</project_url>\n"
         "</%s>\n",
@@ -1749,6 +1753,7 @@ int RPC_CLIENT::project_op(PROJECT& project, const char* op) {
         project.master_url,
         tag
     );
+    buf[sizeof(buf)-1] = 0;
     retval = rpc.do_rpc(buf);
     if (retval) return retval;
     return rpc.parse_reply();
@@ -1778,7 +1783,7 @@ int RPC_CLIENT::project_attach(
     char buf[768];
     RPC rpc(this);
 
-    sprintf(buf,
+    snprintf(buf, sizeof(buf),
         "<project_attach>\n"
         "  <project_url>%s</project_url>\n"
         "  <authenticator>%s</authenticator>\n"
@@ -1786,6 +1791,7 @@ int RPC_CLIENT::project_attach(
         "</project_attach>\n",
         url, auth, name
     );
+    buf[sizeof(buf)-1] = 0;
 
     retval = rpc.do_rpc(buf);
     if (retval) return retval;
@@ -1911,7 +1917,7 @@ int RPC_CLIENT::set_proxy_settings(GR_PROXY_INFO& pi) {
     char buf[1792];
     RPC rpc(this);
 
-    sprintf(buf,
+    snprintf(buf, sizeof(buf),
         "<set_proxy_settings>\n"
         "    <proxy_info>\n"
         "%s%s%s"
@@ -1939,6 +1945,7 @@ int RPC_CLIENT::set_proxy_settings(GR_PROXY_INFO& pi) {
         pi.socks5_user_passwd.c_str(),
 		pi.noproxy_hosts.c_str()
     );
+    buf[sizeof(buf)-1] = 0;
     retval = rpc.do_rpc(buf);
     if (retval) return retval;
     return rpc.parse_reply();
@@ -2024,7 +2031,7 @@ int RPC_CLIENT::file_transfer_op(FILE_TRANSFER& ft, const char* op) {
     } else {
         return -1;
     }
-    sprintf(buf,
+    snprintf(buf, sizeof(buf),
         "<%s>\n"
         "   <project_url>%s</project_url>\n"
         "   <filename>%s</filename>\n"
@@ -2034,6 +2041,7 @@ int RPC_CLIENT::file_transfer_op(FILE_TRANSFER& ft, const char* op) {
         ft.name.c_str(),
         tag
     );
+    buf[sizeof(buf)-1] = 0;
     retval = rpc.do_rpc(buf);
     if (retval) return retval;
     return rpc.parse_reply();
@@ -2058,7 +2066,7 @@ int RPC_CLIENT::result_op(RESULT& result, const char* op) {
         return -1;
     }
 
-    sprintf(buf,
+    snprintf(buf, sizeof(buf),
         "<%s>\n"
         "   <project_url>%s</project_url>\n"
         "   <name>%s</name>\n"
@@ -2068,6 +2076,7 @@ int RPC_CLIENT::result_op(RESULT& result, const char* op) {
         result.name,
         tag
     );
+    buf[sizeof(buf)-1] = 0;
     retval = rpc.do_rpc(buf);
     if (retval) return retval;
     return rpc.parse_reply();
@@ -2101,7 +2110,7 @@ int RPC_CLIENT::set_host_info(HOST_INFO& h) {
     RPC rpc(this);
     char buf[1024];
 
-    sprintf(buf,
+    snprintf(buf, sizeof(buf),
         "<set_host_info>\n"
         "    <host_info>\n"
         "        <product_name>%s</product_name>\n"
@@ -2109,6 +2118,7 @@ int RPC_CLIENT::set_host_info(HOST_INFO& h) {
         "</set_host_info>\n",
         h.product_name
     );
+    buf[sizeof(buf)-1] = 0;
     int retval = rpc.do_rpc(buf);
     if (retval) return retval;
     return rpc.parse_reply();
@@ -2124,7 +2134,9 @@ int RPC_CLIENT::quit() {
     return rpc.parse_reply();
 }
 
-int RPC_CLIENT::acct_mgr_rpc(const char* url, const char* name, const char* password, bool use_config_file) {
+int RPC_CLIENT::acct_mgr_rpc(
+    const char* url, const char* name, const char* password, bool use_config_file
+) {
     int retval;
     SET_LOCALE sl;
     char buf[1024];
@@ -2137,7 +2149,7 @@ int RPC_CLIENT::acct_mgr_rpc(const char* url, const char* name, const char* pass
             "</acct_mgr_rpc>\n"
         );
     } else {
-        sprintf(buf,
+        snprintf(buf, sizeof(buf),
             "<acct_mgr_rpc>\n"
             "  <url>%s</url>\n"
             "  <name>%s</name>\n"
@@ -2145,6 +2157,7 @@ int RPC_CLIENT::acct_mgr_rpc(const char* url, const char* name, const char* pass
             "</acct_mgr_rpc>\n",
             url, name, password
         );
+        buf[sizeof(buf)-1] = 0;
     }
     retval = rpc.do_rpc(buf);
     if (retval) return retval;
@@ -2194,12 +2207,13 @@ int RPC_CLIENT::get_project_config(std::string url) {
     SET_LOCALE sl;
     RPC rpc(this);
 
-    sprintf(buf,
+    snprintf(buf, sizeof(buf),
         "<get_project_config>\n"
         "   <url>%s</url>\n"
         "</get_project_config>\n",
         url.c_str()
     );
+    buf[sizeof(buf)-1] = 0;
 
     retval =  rpc.do_rpc(buf);
     if (retval) return retval;
@@ -2230,7 +2244,7 @@ int RPC_CLIENT::lookup_account(ACCOUNT_IN& ai) {
 
     downcase_string(ai.email_addr);
     string passwd_hash = get_passwd_hash(ai.passwd, ai.email_addr);
-    sprintf(buf,
+    snprintf(buf, sizeof(buf),
         "<lookup_account>\n"
         "   <url>%s</url>\n"
         "   <email_addr>%s</email_addr>\n"
@@ -2240,6 +2254,7 @@ int RPC_CLIENT::lookup_account(ACCOUNT_IN& ai) {
         ai.email_addr.c_str(),
         passwd_hash.c_str()
     );
+    buf[sizeof(buf)-1] = 0;
 
     retval =  rpc.do_rpc(buf);
     if (retval) return retval;
@@ -2266,7 +2281,7 @@ int RPC_CLIENT::create_account(ACCOUNT_IN& ai) {
 
     downcase_string(ai.email_addr);
     string passwd_hash = get_passwd_hash(ai.passwd, ai.email_addr);
-    sprintf(buf,
+    snprintf(buf, sizeof(buf),
         "<create_account>\n"
         "   <url>%s</url>\n"
         "   <email_addr>%s</email_addr>\n"
@@ -2280,6 +2295,7 @@ int RPC_CLIENT::create_account(ACCOUNT_IN& ai) {
         ai.user_name.c_str(),
         ai.team_name.c_str()
     );
+    buf[sizeof(buf)-1] = 0;
 
     retval =  rpc.do_rpc(buf);
     if (retval) return retval;
@@ -2435,12 +2451,14 @@ int RPC_CLIENT::set_global_prefs_override(string& s) {
     RPC rpc(this);
     char buf[64000];
 
-    sprintf(buf,
+    snprintf(buf, sizeof(buf),
         "<set_global_prefs_override>\n"
         "%s\n"
         "</set_global_prefs_override>\n",
         s.c_str()
     );
+    buf[sizeof(buf)-1] = 0;
+
     retval = rpc.do_rpc(buf);
     if (retval) return retval;
     return rpc.parse_reply();

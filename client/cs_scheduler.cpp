@@ -557,7 +557,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     // check that master URL is correct
     //
     if (strlen(sr.master_url)) {
-        canonicalize_master_url(sr.master_url);
+        canonicalize_master_url(sr.master_url, sizeof(sr.master_url));
         string url1 = sr.master_url;
         string url2 = project->master_url;
         downcase_string(url1);

@@ -348,7 +348,7 @@ void CLIENT_STATE::do_cmdline_actions() {
     }
 
     if (strlen(detach_project_url)) {
-        canonicalize_master_url(detach_project_url);
+        canonicalize_master_url(detach_project_url, sizeof(detach_project_url));
         PROJECT* project = lookup_project(detach_project_url);
         if (project) {
             // do this before detaching - it frees the project
@@ -362,7 +362,7 @@ void CLIENT_STATE::do_cmdline_actions() {
     }
 
     if (strlen(reset_project_url)) {
-        canonicalize_master_url(reset_project_url);
+        canonicalize_master_url(reset_project_url, sizeof(reset_project_url));
         PROJECT* project = lookup_project(reset_project_url);
         if (project) {
             reset_project(project, false);
@@ -374,7 +374,7 @@ void CLIENT_STATE::do_cmdline_actions() {
     }
 
     if (strlen(update_prefs_url)) {
-        canonicalize_master_url(update_prefs_url);
+        canonicalize_master_url(update_prefs_url, sizeof(update_prefs_url));
         PROJECT* project = lookup_project(update_prefs_url);
         if (project) {
             project->sched_rpc_pending = RPC_REASON_USER_REQ;
@@ -384,7 +384,7 @@ void CLIENT_STATE::do_cmdline_actions() {
     }
 
     if (strlen(attach_project_url)) {
-        canonicalize_master_url(attach_project_url);
+        canonicalize_master_url(attach_project_url, sizeof(attach_project_url));
         add_project(attach_project_url, attach_project_auth, "", false);
     }
 }
