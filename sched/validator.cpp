@@ -92,6 +92,8 @@ char app_name[256];
 DB_APP app;
 int wu_id_modulus=0;
 int wu_id_remainder=0;
+int wu_id_min=0;
+int wu_id_max=0;
 int one_pass_N_WU=0;
 bool one_pass = false;
 double max_granted_credit = 200 * 1000 * 365;
@@ -687,7 +689,8 @@ bool do_validate_scan() {
     //
     while (1) {
         retval = validator.enumerate(
-            app.id, SELECT_LIMIT, wu_id_modulus, wu_id_remainder, items
+            app.id, SELECT_LIMIT, wu_id_modulus, wu_id_remainder,
+            wu_id_min, wu_id_max, items
         );
         if (retval) {
             if (retval != ERR_DB_NOT_FOUND) {
@@ -756,6 +759,8 @@ int main(int argc, char** argv) {
       "  --one_pass              Make one pass through WU table, then exit\n"
       "  --dry_run               Don't update db, just write logs (for debugging)\n"
       "  --mod n i               Process only WUs with (id mod n) == i\n"
+      "  --max_wu_id n           Process only WUs with id <= n\n"
+      "  --min_wu_id n           Process only WUs with id >= n\n"
       "  --max_granted_credit X  Grant no more than this amount of credit to a result\n"
       "  --update_credited_job   Add record to credited_job table after granting credit\n"
       "  --credit_from_wu        Credit is specified in WU XML\n"
@@ -797,6 +802,10 @@ int main(int argc, char** argv) {
         } else if (is_arg(argv[i], "mod")) {
             wu_id_modulus = atoi(argv[++i]);
             wu_id_remainder = atoi(argv[++i]);
+        } else if (is_arg(argv[i], "min_wu_id")) {
+            wu_id_min = atoi(argv[++i]);
+        } else if (is_arg(argv[i], "max_wu_id")) {
+            wu_id_max = atoi(argv[++i]);
         } else if (is_arg(argv[i], "max_granted_credit")) {
             max_granted_credit = atof(argv[++i]);
         } else if (is_arg(argv[i], "update_credited_job")) {
@@ -857,6 +866,16 @@ int main(int argc, char** argv) {
     if (wu_id_modulus) {
         log_messages.printf(MSG_NORMAL,
             "Modulus %d, remainder %d\n", wu_id_modulus, wu_id_remainder
+        );
+    }
+    if (wu_id_min) {
+        log_messages.printf(MSG_NORMAL,
+            "min wu id %d\n", wu_id_min
+        );
+    }
+    if (wu_id_max) {
+        log_messages.printf(MSG_NORMAL,
+            "max wu id %d\n", wu_id_max
         );
     }
 

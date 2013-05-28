@@ -1652,6 +1652,7 @@ void VALIDATOR_ITEM::parse(MYSQL_ROW& r) {
 int DB_VALIDATOR_ITEM_SET::enumerate(
     int appid, int nresult_limit,
     int wu_id_modulus, int wu_id_remainder,
+    int wu_id_min, int wu_id_max,
     std::vector<VALIDATOR_ITEM>& items
 ) {
     int retval;
@@ -1667,6 +1668,12 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
             );
         } else {
             strcpy(mod_clause, "");
+        }
+        if (wu_id_min) {
+          sprintf(mod_clause+(strlen(mod_clause)), " and wu.id >= %d", wu_id_min);
+        }
+        if (wu_id_max) {
+          sprintf(mod_clause+(strlen(mod_clause)), " and wu.id <= %d", wu_id_max);
         }
 
         sprintf(query,

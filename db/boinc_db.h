@@ -264,6 +264,8 @@ public:
         int nresult_limit,
         int wu_id_modulus,
         int wu_id_remainder,
+        int wu_id_min,
+        int wu_id_max,
         std::vector<VALIDATOR_ITEM>& items
     );
     int update_result(RESULT&);
