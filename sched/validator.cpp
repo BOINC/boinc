@@ -740,6 +740,7 @@ int main_loop() {
             daemon_sleep(sleep_interval);
 #endif
         }
+        if (one_pass) break;
     }
     return 0;
 }
