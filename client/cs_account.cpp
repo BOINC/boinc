@@ -127,7 +127,7 @@ int PROJECT::parse_account(FILE* in) {
             if (retval) return retval;
             continue;
         } else if (xp.parse_str("master_url", master_url, sizeof(master_url))) {
-            canonicalize_master_url(master_url);
+            canonicalize_master_url(master_url, sizeof(master_url));
             continue;
         } else if (xp.parse_str("authenticator", authenticator, sizeof(authenticator))) continue;
         else if (xp.parse_double("resource_share", resource_share)) continue;
@@ -381,7 +381,7 @@ int PROJECT::parse_statistics(FILE* in) {
             continue;
         }
         if (xp.parse_str("master_url", master_url, sizeof(master_url))) {
-            canonicalize_master_url(master_url);
+            canonicalize_master_url(master_url, sizeof(master_url));
             continue;
         }
         if (log_flags.unparsed_xml) {
@@ -490,7 +490,7 @@ int CLIENT_STATE::add_project(
 
     safe_strcpy(canonical_master_url, master_url);
     strip_whitespace(canonical_master_url);
-    canonicalize_master_url(canonical_master_url);
+    canonicalize_master_url(canonical_master_url, sizeof(canonical_master_url));
     if (!valid_master_url(canonical_master_url)) {
         msg_printf(0, MSG_INFO, "Invalid URL: %s", canonical_master_url);
         return ERR_INVALID_URL;
