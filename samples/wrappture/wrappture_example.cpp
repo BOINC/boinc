@@ -15,7 +15,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <math.h>
+#include <cmath>
 #ifndef _WIN32
 #include <unistd.h>
 #endif

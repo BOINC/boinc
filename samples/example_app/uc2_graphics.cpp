@@ -33,7 +33,7 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
-#include <math.h>
+#include <cmath>
 #endif
 
 #include "parse.h"
