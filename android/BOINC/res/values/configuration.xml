@@ -20,6 +20,10 @@
 <resources>
     <!-- BOINC platform -->
     	<string name="boinc_platform_name">arm-android-linux-gnu</string>
+    <!-- Default preferences of Android app, for BOINC client see assets/global_prefs_override.xml -->
+    	<bool name="prefs_default_autostart">true</bool>
+        <bool name="prefs_default_notifications">true</bool>
+        <bool name="prefs_default_advanced">false</bool>
     <!-- Monitor behavior -->
     	<integer name="monitor_refresh_rate_ms">1000</integer>
     	<integer name="monitor_setup_connection_retry_rate_ms">1000</integer>

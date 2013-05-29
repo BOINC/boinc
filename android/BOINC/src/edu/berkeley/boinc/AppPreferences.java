@@ -37,11 +37,11 @@ public class AppPreferences {
 			prefs = ctx.getSharedPreferences(PREFS, 0);
 		}
 		//second parameter of reading function is the initial value after installation.
-		autostart = prefs.getBoolean("autostart", false);
-		showNotification = prefs.getBoolean("showNotification", true);
-		showAdvanced = prefs.getBoolean("showAdvanced", false);
+		autostart = prefs.getBoolean("autostart", ctx.getResources().getBoolean(R.bool.prefs_default_autostart));
+		showNotification = prefs.getBoolean("showNotification", ctx.getResources().getBoolean(R.bool.prefs_default_notifications));
+		showAdvanced = prefs.getBoolean("showAdvanced", ctx.getResources().getBoolean(R.bool.prefs_default_advanced);
 		
-		Log.d(TAG, "appPrefs read successful." + autostart + showAdvanced);
+		Log.d(TAG, "appPrefs read successful." + autostart + showNotification + showAdvanced);
 	}
 	
 	public void setAutostart(Boolean as) {
