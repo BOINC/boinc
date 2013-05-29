@@ -104,6 +104,8 @@ const char *  RunningOnBatteryMsg = "Displaying minimum screensaver to save batt
 
 //const char *  BOINCExitedSaverMode = "BOINC is no longer in screensaver mode.";
 
+void force_discrete_gpu() {};   // To satisfy the linker
+
 // If there are multiple displays, this may get called 
 // multiple times (once for each display), so we need to guard 
 // against any problems that may cause.
@@ -443,6 +445,7 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
     
     if (ScreenIsBlanked) {
         setSSMessageText(0);   // No text message
+        *theMessage = m_MessageText;
         return NOTEXTLOGOFREQUENCY;
     }
     
@@ -511,6 +514,10 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
         case SCRAPPERR_SCREENSAVERBLANKED:
             setSSMessageText(0);   // No text message
             ScreenIsBlanked = true;
+            if (IsDualGPUMacbook && (GPUSelectConnect != IO_OBJECT_NULL)) {
+                IOServiceClose(GPUSelectConnect);
+                GPUSelectConnect = IO_OBJECT_NULL;
+            }
             break;
 #if 0   // Not currently used
         case SCRAPPERR_QUITSCREENSAVERREQUESTED:
@@ -916,6 +923,26 @@ bool CScreensaver::Host_is_running_on_batteries() {
 }
 
 
+// On Dual-GPU Macbook Pros, Apple's Screensaver Engine 
+// will detect any GPU change and call stopAnimation,
+// then initWithFrame and startAnimation.
+//
+// When we launch boincscr or a project screensaver
+// app which uses OpenGL, that will trigger a switch to
+// the discrete GPU, causing the Screensaver Engine to
+// call stopAnimation, which will then shut down boincscr
+// or the project screensaver.  This will then release
+// the discrete GPU, triggering a switch to the intrinsic
+// GPU, which will again cause a call to stopAnimation,
+// and so forth in an infinite loop.
+//
+// The solution is to request the discrete GPU ourselves
+// before launching boincscr or a project screensaver so
+// the OpenGL app does not cause a GPU switch.
+//
+// We initially call this with setDiscrete = false to
+// test whether we are running on a Dual-GPU Macbook Pro.
+//
 void CScreensaver::SetDiscreteGPU(bool setDiscrete) {
     kern_return_t kernResult = 0;
     io_service_t service = IO_OBJECT_NULL;
@@ -929,7 +956,6 @@ void CScreensaver::SetDiscreteGPU(bool setDiscrete) {
             }
         }
     }
-
 }
 
 
@@ -959,7 +985,7 @@ void CScreensaver::CheckDualGPUStatus() {
             IOServiceClose(GPUSelectConnect);
             GPUSelectConnect = IO_OBJECT_NULL;
         }
-        // If an OpenGL screensaver app is running, ew must shut it down
+        // If an OpenGL screensaver app is running, we must shut it down
         // to release its claim on the discrete GPU to save battery power.
         DestroyDataManagementThread();
     } else {
