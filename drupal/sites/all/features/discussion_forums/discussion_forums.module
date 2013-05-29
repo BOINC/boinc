@@ -2,6 +2,8 @@
 
 // 
 
+require_once('discussion_forums.features.inc');
+
 /**
  * Make some changes to configurations after the feature has been enabled
  */
