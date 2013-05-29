@@ -134,7 +134,7 @@ function submit_job($job, $template, $app, $batch_id, $i, $priority) {
     if ($job->command_line) {
         $cmd .= " --command_line \"$job->command_line\"";
     }
-    $cmd .= " --wu_name batch_".$batch_id."_".$i;
+    $cmd .= " --wu_name $job->name";
     foreach ($job->input_files as $file) {
         $cmd .= " $file->name";
     }
@@ -150,6 +150,7 @@ function xml_get_jobs($r) {
         $job = new StdClass;
         $job->input_files = array();
         $job->command_line = (string)$j->command_line;
+        $job->name = (string)$j->name;
         $job->rsc_fpops_est = (double)$j->rsc_fpops_est;
         foreach ($j->input_file as $f) {
             $file = new StdClass;

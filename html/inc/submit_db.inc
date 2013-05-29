@@ -112,7 +112,7 @@ class BoincJobFile {
     }
     function delete() {
         $db = BoincDb::get();
-        $db->delete(this, 'job_file');
+        $db->delete($this, 'job_file');
     }
     function update($clause) {
         $db = BoincDb::get();
@@ -133,7 +133,9 @@ class BoincBatchFileAssoc {
     }
     function delete() {
         $db = BoincDb::get();
-        $db->delete(this, 'batch_file_assoc');
+        $db->delete_aux('batch_file_assoc',
+            "job_file_id=$this->job_file_id and batch_id=$this->batch_id"
+        );
     }
 }
 
