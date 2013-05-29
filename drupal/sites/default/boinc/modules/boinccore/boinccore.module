@@ -69,6 +69,19 @@ function boinccore_link($type, $object, $teaser = FALSE) {
           )
         );
       }
+      $reply_count = db_result(db_query('
+        SELECT COUNT(*) FROM comments WHERE pid = %d',
+        $object->cid
+      ));
+      if ($reply_count == 0) {
+        $links['convert'] = array(
+          'title' => t('Convert'),
+          'href' => "{$comment_control}/convert",
+          'attributes' => array(
+            'title' => t('Convert this comment to a new topic')
+          ) 
+        );
+      }
     }
   }
   return $links;
@@ -129,6 +142,8 @@ function boinccore_comment_control($cid = NULL, $action = NULL) {
     // What are you even doing here...
     return FALSE;
   }
+  $return_path = "node/{$comment->nid}";
+  $return_anchor = "comment-{$cid}";
   switch ($action) {
   case 'unhide':
     comment_publish_action($comment);
@@ -136,9 +151,43 @@ function boinccore_comment_control($cid = NULL, $action = NULL) {
   case 'hide':
     comment_unpublish_action($comment);
     break;
+  case 'convert':
+    $node = new stdClass();
+    $node->name = $comment->subject;
+    $node->title = $node->name;
+    $node->body = $comment->comment;
+    $node->type = 'forum';
+    $node->created = $comment->timestamp;
+    $node->changed = $node->created;
+    $node->promote = 0; // Display on front page?
+    $node->sticky = 0;  // Display top of page?
+    $node->status = 1;   // Published?
+    $node->comment = 2;
+    //$node->language = 'en';
+    $node->uid = $comment->uid;
+    
+    // Preselect the parent's taxonomy ID
+    $parent_node = node_load($comment->nid);
+    $node->tid = $parent_node->tid;
+ 
+    if (filter_access($comment->format)) {
+      $node->format = $comment->format;
+    }
+    
+    // Save the new node
+    node_save($node);
+    taxonomy_node_save($node, array($node->tid));
+    
+    // Delete the comment
+    module_load_include('inc', 'comment', 'comment.admin');
+    _comment_delete_thread($comment);
+    
+    $return_path = "node/{$node->nid}";
+    $return_anchor = NULL;
+    break;
   default:
   }
-  drupal_goto("node/{$comment->nid}", NULL, "comment-{$cid}");
+  drupal_goto($return_path, NULL, $return_anchor);
 }
 
 /**
