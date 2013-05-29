@@ -15,6 +15,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// XIdleTime:
+// Copyright (C) 2011 Universidade Federal de Campina Grande
+// Initial version: Magnus Henoch
+// Contributors: Danny Kukawka, Eivind Magnus Hvidevold
+// LGPL Version of xidletime: https://github.com/rodrigods/xidletime
+
 // There is a reason that having a file called "cpp.h" that includes config.h
 // and some of the C++ header files is bad.  That reason is because there are
 // #defines that alter the behiour of the standard C and C++ headers.  In
@@ -1831,6 +1837,47 @@ bool xss_idle(long idle_treshold) {
         XScreenSaverQueryInfo(disp, DefaultRootWindow(disp), xssInfo);
 
         idle_time = xssInfo->idle;
+
+#if HAVE_DPMS
+        // XIdleTime Detection
+        // See header for location and copywrites.
+        //
+        int dummy;
+        CARD16 standby, suspend, off;
+        CARD16 state;
+        BOOL onoff;
+
+        if (DPMSQueryExtension(disp, &dummy, &dummy)) {
+            if (DPMSCapable(disp)) {
+                DPMSGetTimeouts(disp, &standby, &suspend, &off);
+                DPMSInfo(disp, &state, &onoff);
+
+                if (onoff) {
+                    switch (state) {
+                      case DPMSModeStandby:
+                          /* this check is a littlebit paranoid, but be sure */
+                          if (idle_time < (unsigned) (standby * 1000)) {
+                              idle_time += (standby * 1000);
+                          }
+                          break;
+                      case DPMSModeSuspend:
+                          if (idle_time < (unsigned) ((suspend + standby) * 1000)) {
+                              idle_time += ((suspend + standby) * 1000);
+                          }
+                          break;
+                      case DPMSModeOff:
+                          if (idle_time < (unsigned) ((off + suspend + standby) * 1000)) {
+                              idle_time += ((off + suspend + standby) * 1000);
+                          }
+                          break;
+                      case DPMSModeOn:
+                        default:
+                          break;
+                    }
+                }
+            } 
+        }
+#endif
 
         // convert from milliseconds to seconds
         idle_time = idle_time / 1000;
