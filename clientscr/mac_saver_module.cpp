@@ -20,7 +20,18 @@
 //  BOINC_Saver_Module
 //
 
+#include <IOKit/IOKitLib.h>
 #include <Carbon/Carbon.h>
+#include <CoreFoundation/CoreFoundation.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+#include <IOKit/ps/IOPowerSources.h>
+#include <IOKit/ps/IOPSKeys.h>
+#ifdef __cplusplus
+}    // extern "C"
+#endif
 
 #include <stdio.h>
 #include <time.h>
@@ -49,7 +60,7 @@
 #define NOTEXTLOGOFREQUENCY 4 /* Times per second to call animateOneFrame if no moving logo with text */
 #define GFX_STARTING_MSG_DURATION 45 /* seconds to show ScreenSaverAppStartingMsg */
 #define RPC_RETRY_INTERVAL 10 /* # of seconds between retries connecting to core client */
-
+#define BATTERY_CHECK_INTERVAL 3 /* # of seconds between checks of whether running on batteries */
 
 enum SaverState {
     SaverState_Idle,
@@ -73,8 +84,13 @@ extern CFStringRef gPathToBundleResources;
 static SaverState saverState = SaverState_Idle;
 // int gQuitCounter = 0;
 
+static bool IsDualGPUMacbook = false;
+static io_connect_t GPUSelectConnect = IO_OBJECT_NULL;
+static bool RunningOnBattery = true;
+static time_t ScreenSaverStartTime = 0;
+static bool ScreenIsBlanked = false;
 
-const char * CantLaunchCCMsg = "Unable to launch BOINC application.";
+const char *  CantLaunchCCMsg = "Unable to launch BOINC application.";
 const char *  LaunchingCCMsg = "Launching BOINC application.";
 const char *  ConnectingCCMsg = "Connecting to BOINC application.";
 const char *  ConnectedCCMsg = "Communicating with BOINC application.";
@@ -84,6 +100,7 @@ const char *  ScreenSaverAppStartingMsg = "Starting screensaver graphics.\nPleas
 const char *  CantLaunchDefaultGFXAppMsg = "Can't launch default screensaver module. Please reinstall BOINC";
 const char *  DefaultGFXAppCantRPCMsg = "Default screensaver module couldn't connect to BOINC application";
 const char *  DefaultGFXAppCrashedMsg = "Default screensaver module had an unrecoverable error";
+const char *  RunningOnBatteryMsg = "Displaying minimum screensaver to save battery power";
 
 //const char *  BOINCExitedSaverMode = "BOINC is no longer in screensaver mode.";
 
@@ -281,6 +298,22 @@ int CScreensaver::Create() {
         saverState = SaverState_ControlPanelTestMode;
     }
 
+    // Calculate the estimated blank time by adding the starting
+    //  time and and the user-specified time which is in minutes
+    // On dual-GPU Macbok Pros, the CScreensaver class will be
+    // constructed and destructed each time we switch beteen
+    // battery and AC power, so we need to get the starting time
+    // only once.
+    if (!ScreenSaverStartTime) {
+        ScreenSaverStartTime = time(0);
+    }
+    
+    m_dwBlankScreen = gGoToBlank;
+    if (gGoToBlank && (gBlankingTime > 0))
+        m_dwBlankTime = ScreenSaverStartTime + (gBlankingTime * 60);
+    else
+        m_dwBlankTime = 0;
+    
     // If there are multiple displays, initBOINCSaver may get called 
     // multiple times (once for each display), so we need to guard 
     // against launching multiple instances of the core client
@@ -302,6 +335,15 @@ int CScreensaver::Create() {
             }
         }
     }
+    
+    if (!IsDualGPUMacbook) {
+        SetDiscreteGPU(false);
+        if (IsDualGPUMacbook && (GPUSelectConnect != IO_OBJECT_NULL)) {
+            IOServiceClose(GPUSelectConnect);
+            GPUSelectConnect = IO_OBJECT_NULL;
+        }
+    }
+    
     return TEXTLOGOFREQUENCY;
 }
 
@@ -399,19 +441,32 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
     pid_t myPid;
     OSStatus err;
     
+    if (ScreenIsBlanked) {
+        setSSMessageText(0);   // No text message
+        return NOTEXTLOGOFREQUENCY;
+    }
+    
+    CheckDualGPUStatus();
+    
     switch (saverState) {
     case SaverState_RelaunchCoreClient:
         err = initBOINCApp();
         break;
     
     case  SaverState_LaunchingCoreClient:
-        if (m_wasAlreadyRunning)
+        if (IsDualGPUMacbook && RunningOnBattery) {
+            setSSMessageText(RunningOnBatteryMsg);
+            break;
+        }
+
+        if (m_wasAlreadyRunning) {
             setSSMessageText(ConnectingCCMsg);
-        else
+        } else {
             setSSMessageText(LaunchingCCMsg);
-       
+        }
+            
         myPid = FindProcessPID(NULL, m_CoreClientPID);
-       if (myPid) {
+        if (myPid) {
             saverState = SaverState_CoreClientRunning;
             if (!rpc->init(NULL)) {     // Initialize communications with Core Client
                 m_bConnected = true;
@@ -431,20 +486,31 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
          break;
 
     case SaverState_CoreClientRunning:
-            // RPC called in DataManagementProc()
-            setSSMessageText(ConnectingCCMsg);
-            if (! m_bResetCoreState) {
-                saverState = SaverState_ConnectedToCoreClient;
-            }
-        break;
+        if (IsDualGPUMacbook && RunningOnBattery) {
+            setSSMessageText(RunningOnBatteryMsg);
+            break;
+        }
+
+        // RPC called in DataManagementProc()
+        setSSMessageText(ConnectingCCMsg);
+        if (! m_bResetCoreState) {
+            saverState = SaverState_ConnectedToCoreClient;
+        }
+    break;
     
     case SaverState_ConnectedToCoreClient:
+        if (IsDualGPUMacbook && RunningOnBattery) {
+            setSSMessageText(RunningOnBatteryMsg);
+            break;
+        }
+
         switch (m_hrError) {
         case 0:
             setSSMessageText(ConnectedCCMsg);
             break;  // No status response yet from DataManagementProc
         case SCRAPPERR_SCREENSAVERBLANKED:
             setSSMessageText(0);   // No text message
+            ScreenIsBlanked = true;
             break;
 #if 0   // Not currently used
         case SCRAPPERR_QUITSCREENSAVERREQUESTED:
@@ -520,6 +586,12 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
         break;      // Should never get here; fixes compiler warning
     }           // end switch (saverState)
 
+    if (IsDualGPUMacbook && RunningOnBattery) {
+        if ((m_dwBlankScreen) && (time(0) > m_dwBlankTime) && (m_dwBlankTime > 0)) {
+            setSSMessageText(0);   // No text message
+            ScreenIsBlanked = true;
+        }
+    }
     
     if (m_MessageText[0]) {
         newFrequency = TEXTLOGOFREQUENCY;
@@ -621,14 +693,12 @@ void CScreensaver::HandleRPCError() {
 bool CScreensaver::CreateDataManagementThread() {
     int retval;
     
-    // Calculate the estimated blank time by adding the starting 
-    //  time and and the user-specified time which is in minutes
-    m_dwBlankScreen = gGoToBlank;
-    if (gGoToBlank && (gBlankingTime > 0))
-        m_dwBlankTime = time(0) + (gBlankingTime * 60);
-    else
-        m_dwBlankTime = 0;
-
+    // On dual-GPU Macbook Pros, our OpenGL scrensaver
+    // applications trigger a switch to the power-hungry 
+    // discrete GPU. To extend battery life, don't run
+    // them when on battery power.
+    if (IsDualGPUMacbook && RunningOnBattery) return true;
+    
     if (m_hDataManagementThread == NULL) {
         retval = pthread_create(&m_hDataManagementThread, NULL, DataManagementProcStub, 0);
         if (retval) {
@@ -819,6 +889,82 @@ OSErr CScreensaver::KillScreenSaver() {
     if (err == noErr)
         err = kill(thisPID, SIGABRT);   // SIGINT
     return err;
+}
+
+
+bool CScreensaver::Host_is_running_on_batteries() {
+    CFDictionaryRef pSource = NULL;
+    CFStringRef psState;
+    int i;
+    bool retval = false;
+
+    CFTypeRef blob = IOPSCopyPowerSourcesInfo();
+    CFArrayRef list = IOPSCopyPowerSourcesList(blob);
+
+    for (i=0; i<CFArrayGetCount(list); i++) {
+        pSource = IOPSGetPowerSourceDescription(blob, CFArrayGetValueAtIndex(list, i));
+        if(!pSource) break;
+        psState = (CFStringRef)CFDictionaryGetValue(pSource, CFSTR(kIOPSPowerSourceStateKey));
+        if(!CFStringCompare(psState,CFSTR(kIOPSBatteryPowerValue),0))
+        retval = true;
+    }
+
+    CFRelease(blob);
+    CFRelease(list);
+        
+    return retval;
+}
+
+
+void CScreensaver::SetDiscreteGPU(bool setDiscrete) {
+    kern_return_t kernResult = 0;
+    io_service_t service = IO_OBJECT_NULL;
+
+    if (GPUSelectConnect == IO_OBJECT_NULL) {
+        service = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleGraphicsControl"));
+        if (service != IO_OBJECT_NULL) {
+            kernResult = IOServiceOpen(service, mach_task_self(), setDiscrete ? 1 : 0, &GPUSelectConnect);
+            if (kernResult == KERN_SUCCESS) {
+                IsDualGPUMacbook = true;
+            }
+        }
+    }
+
+}
+
+
+// On Dual-GPU Macbook Pros only:
+// switch to intrinsic GPU if running on battery
+// switch to discrete GPU if running on AC power
+//
+// Apple's Screensaver Engine will detect the GPU change and
+// call stopAnimation, then initWithFrame and startAnimation.
+void CScreensaver::CheckDualGPUStatus() {
+    static double lastBatteryCheckTime = 0;
+    double currentTime;
+    bool nowOnBattery;
+    
+    if (!IsDualGPUMacbook) return;
+    
+    currentTime = dtime();
+    if (currentTime < lastBatteryCheckTime + BATTERY_CHECK_INTERVAL) return;
+    lastBatteryCheckTime = currentTime;
+    
+    nowOnBattery = Host_is_running_on_batteries();
+    if (nowOnBattery == RunningOnBattery) return;
+    
+    RunningOnBattery = nowOnBattery;
+    if (nowOnBattery) {
+        if (GPUSelectConnect != IO_OBJECT_NULL) {
+            IOServiceClose(GPUSelectConnect);
+            GPUSelectConnect = IO_OBJECT_NULL;
+        }
+        // If an OpenGL screensaver app is running, ew must shut it down
+        // to release its claim on the discrete GPU to save battery power.
+        DestroyDataManagementThread();
+    } else {
+        SetDiscreteGPU(true);
+    }
 }
 
 
