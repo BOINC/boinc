@@ -304,7 +304,6 @@ int CONFIG::parse_options_client(XML_PARSER& xp) {
         }
         if (xp.parse_bool("disallow_attach", disallow_attach)) continue;
         if (xp.parse_bool("dont_check_file_sizes", dont_check_file_sizes)) continue;
-        if (xp.parse_int("max_event_log_lines", max_event_log_lines)) continue;
         if (xp.parse_bool("dont_contact_ref_site", dont_contact_ref_site)) continue;
         if (xp.match_tag("exclude_gpu")) {
             EXCLUDE_GPU eg;
@@ -359,6 +358,7 @@ int CONFIG::parse_options_client(XML_PARSER& xp) {
             ignore_gpu_instance[PROC_TYPE_INTEL_GPU].push_back(n);
             continue;
         }
+        if (xp.parse_int("max_event_log_lines", max_event_log_lines)) continue;
         if (xp.parse_int("max_file_xfers", max_file_xfers)) continue;
         if (xp.parse_int("max_file_xfers_per_project", max_file_xfers_per_project)) continue;
         if (xp.parse_int("max_stderr_file_size", max_stderr_file_size)) continue;

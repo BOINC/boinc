@@ -207,7 +207,6 @@ void CONFIG::defaults() {
     data_dir[0] = 0;
     disallow_attach = false;
     dont_check_file_sizes = false;
-    max_event_log_lines = DEFAULT_MAX_DISPLAYED_EVENT_LOG_LINES;
     dont_contact_ref_site = false;
     exclude_gpus.clear();
     exclusive_apps.clear();
@@ -224,6 +223,7 @@ void CONFIG::defaults() {
     for (int i=1; i<NPROC_TYPES; i++) {
         ignore_gpu_instance[i].clear();
     }
+    max_event_log_lines = DEFAULT_MAX_DISPLAYED_EVENT_LOG_LINES;
     max_file_xfers = 8;
     max_file_xfers_per_project = 2;
     max_stderr_file_size = 0;
@@ -335,7 +335,6 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         }
         if (xp.parse_bool("disallow_attach", disallow_attach)) continue;
         if (xp.parse_bool("dont_check_file_sizes", dont_check_file_sizes)) continue;
-        if (xp.parse_int("max_event_log_lines", max_event_log_lines)) continue;
         if (xp.parse_bool("dont_contact_ref_site", dont_contact_ref_site)) continue;
         if (xp.match_tag("exclude_gpu")) {
             EXCLUDE_GPU eg;
@@ -385,6 +384,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
             ignore_gpu_instance[PROC_TYPE_INTEL_GPU].push_back(n);
             continue;
         }
+        if (xp.parse_int("max_event_log_lines", max_event_log_lines)) continue;
         if (xp.parse_int("max_file_xfers", max_file_xfers)) continue;
         if (xp.parse_int("max_file_xfers_per_project", max_file_xfers_per_project)) continue;
         if (xp.parse_int("max_stderr_file_size", max_stderr_file_size)) continue;
@@ -517,11 +517,9 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
     out.printf(
         "        <disallow_attach>%d</disallow_attach>\n"
         "        <dont_check_file_sizes>%d</dont_check_file_sizes>\n"
-        "        <max_event_log_lines>%d</max_event_log_lines>\n"
         "        <dont_contact_ref_site>%d</dont_contact_ref_site>\n",
         disallow_attach,
         dont_check_file_sizes,
-        max_event_log_lines,
         dont_contact_ref_site
     );
     
@@ -582,6 +580,7 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
     }
         
     out.printf(
+        "        <max_event_log_lines>%d</max_event_log_lines>\n"
         "        <max_file_xfers>%d</max_file_xfers>\n"
         "        <max_file_xfers_per_project>%d</max_file_xfers_per_project>\n"
         "        <max_stderr_file_size>%d</max_stderr_file_size>\n"
@@ -594,6 +593,7 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         "        <no_info_fetch>%d</no_info_fetch>\n"
         "        <no_priority_change>%d</no_priority_change>\n"
         "        <os_random_only>%d</os_random_only>\n",
+        max_event_log_lines,
         max_file_xfers,
         max_file_xfers_per_project,
         max_stderr_file_size,
