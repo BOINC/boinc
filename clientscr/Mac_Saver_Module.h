@@ -92,6 +92,10 @@ protected:
     void            updateSSMessageText(char *msg);
     void            strip_cr(char *buf);
     char            m_gfx_Switcher_Path[PATH_MAX];
+    void            SetDiscreteGPU(bool setDiscrete);
+    void            CheckDualGPUStatus();
+    bool            Host_is_running_on_batteries();
+    
     bool            m_bErrorMode;        // Whether to draw moving logo and possibly display an error
     unsigned int    m_hrError;           // Error code to display
 
