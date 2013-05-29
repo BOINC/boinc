@@ -210,7 +210,7 @@ function show_user_info_private($user) {
     row2(tra("%1 member since", PROJECT), date_str($user->create_time));
     $url_tokens = url_tokens($user->authenticator);
     row2(tra("Change"), "<a href=\"edit_email_form.php\">".tra("email address")."</a>
-        &middot; <a href=\"".SECURE_URL_BASE."/edit_passwd_form.php\">".tra("password")."</a>
+        &middot; <a href=\"".secure_url_base()."/edit_passwd_form.php\">".tra("password")."</a>
         &middot; <a href=\"edit_user_info_form.php?$url_tokens\">".tra("other account info")."</a>"
     );
     row2(tra("User ID")."<br/><span class=\"note\">".tra("Used in community functions")."</span>", $user->id);
