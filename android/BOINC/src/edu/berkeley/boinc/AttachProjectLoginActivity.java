@@ -128,6 +128,17 @@ public class AttachProjectLoginActivity extends Activity{
     }
     
 	@Override
+	protected void onResume() {
+		// clear the password input from edittext
+		// scenario: login fails and user navigates back to this activity
+		try {
+			EditText pwdInput = (EditText) findViewById(R.id.pwd_input);
+			pwdInput.setText("");
+		} catch (Exception e){} // catch exception because edittext does not exist upon first onResume.
+		super.onResume();
+	}
+
+	@Override
 	protected void onDestroy() {
     	Log.d(TAG, "onDestroy");
 	    doUnbindService();
