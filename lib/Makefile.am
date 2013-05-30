@@ -30,13 +30,13 @@ libfcgi_sources = \
     shmem.cpp \
     str_util.cpp \
     synch.cpp \
-	url.cpp \
+    url.cpp \
     util.cpp
 
 generic_sources = \
     app_ipc.cpp \
     base64.cpp \
-	cc_config.cpp \
+    cc_config.cpp \
     cert_sig.cpp \
     coproc.cpp \
     diagnostics.cpp \
@@ -52,17 +52,17 @@ generic_sources = \
     miofile.cpp \
     msg_log.cpp \
     network.cpp \
-	notice.cpp \
+    notice.cpp \
     parse.cpp \
     prefs.cpp \
-	procinfo.cpp \
-	proc_control.cpp \
+    procinfo.cpp \
+    proc_control.cpp \
     proxy_info.cpp \
     shmem.cpp \
     str_util.cpp \
     synch.cpp \
     unix_util.cpp \
-	url.cpp \
+    url.cpp \
     util.cpp
 
 if OS_DARWIN
@@ -100,7 +100,7 @@ pkginclude_HEADERS = \
     boinc_fcgi.h \
     boinc_win.h \
     cal_boinc.h \
-	cc_config.h \
+    cc_config.h \
     cert_sig.h \
     cl_boinc.h \
     common_defs.h \
@@ -119,15 +119,15 @@ pkginclude_HEADERS = \
     miofile.h \
     msg_log.h \
     network.h \
-	notice.h \
+    notice.h \
     parse.h \
     prefs.h \
-	procinfo.h \
+    procinfo.h \
     proxy_info.h \
     stackwalker_imports.h \
     stackwalker_win.h \
     str_util.h \
-	url.h \
+    url.h \
     util.h \
     win_util.h \
     $(mac_headers)

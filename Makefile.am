@@ -11,7 +11,7 @@ ACLOCAL_AMFLAGS = -I m4
 if ENABLE_LIBRARIES
     API_SUBDIRS = api lib
 if ENABLE_SERVER
-	API_SUBDIRS += zip
+    API_SUBDIRS += zip
 endif
 endif
 
@@ -39,10 +39,10 @@ SUBDIRS = m4 $(API_SUBDIRS) $(SERVER_SUBDIRS) $(CLIENT_SUBDIRS) $(CLIENTGUI_SUBD
 # dist-hook below gets rid of CVS directories.
 
 EXTRA_DIST =                                    \
-	win_build                                   \
-	doc                                         \
-	stripchart                                  \
-    INSTALL										
+    win_build                                   \
+    doc                                         \
+    stripchart                                  \
+    INSTALL
 
 if INSTALL_HEADERS
 pkginclude_HEADERS = \

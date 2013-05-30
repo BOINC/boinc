@@ -179,6 +179,13 @@ extern int get_templates(
     string& error_msg
 );
 
+extern int retire_batch(
+    const char* project_url,
+    const char* authenticator,
+    const char* batch_name,
+    string& error_msg
+);
+
 extern int ping_server(
     const char* project_url,
     string& error_msg

@@ -79,6 +79,7 @@ struct COMMAND {
     int parse_query_batches(char*);
     int parse_fetch_output(char*);
     int parse_abort_jobs(char*);
+    int parse_retire_batch(char*);
 };
 
 vector<COMMAND*> commands;
@@ -87,11 +88,10 @@ int compute_md5(string path, LOCAL_FILE& f) {
     return md5_file(path.c_str(), f.md5, f.nbytes);
 }
 
-const char *escape_str(const string &str)
-{
+const char *escape_str(const string &str) {
 	static string out;
 	out = "";
-	for ( const char *ptr = str.c_str(); *ptr; ptr++ ) {
+	for (const char *ptr = str.c_str(); *ptr; ptr++) {
 		switch ( *ptr ) {
 		case ' ':
 		case '\\':
@@ -492,6 +492,27 @@ void handle_abort_jobs(COMMAND& c) {
     c.out = strdup(s.c_str());
 }
 
+int COMMAND::parse_retire_batch(char* p) {
+    strcpy(batch_name, strtok_r(NULL, " ", &p));
+    return 0;
+}
+
+void handle_retire_batch(COMMAND& c) {
+    string error_msg;
+    int retval = retire_batch(
+        project_url, authenticator, c.batch_name, error_msg
+    );
+    string s;
+    char buf[256];
+    if (retval) {
+        sprintf(buf, "retire_batch()\\ returned\\ %d\\ ", retval);
+        s = string(buf) + escape_str(error_msg);
+    } else {
+        s = "NULL";
+    }
+    c.out = strdup(s.c_str());
+}
+
 void handle_ping(COMMAND& c) {
     string error_msg, s;
     char buf[256];
@@ -515,6 +536,8 @@ void* handle_command_aux(void* q) {
         handle_fetch_output(c);
     } else if (!strcasecmp(c.cmd, "BOINC_ABORT_JOBS")) {
         handle_abort_jobs(c);
+    } else if (!strcasecmp(c.cmd, "BOINC_RETIRE_BATCH")) {
+        handle_retire_batch(c);
     } else if (!strcasecmp(c.cmd, "BOINC_PING")) {
         handle_ping(c);
     } else {
@@ -541,6 +564,8 @@ int COMMAND::parse_command() {
         retval = parse_fetch_output(p);
     } else if (!strcasecmp(cmd, "BOINC_ABORT_JOBS")) {
         retval = parse_abort_jobs(p);
+    } else if (!strcasecmp(cmd, "BOINC_RETIRE_BATCH")) {
+        retval = parse_retire_batch(p);
     } else if (!strcasecmp(cmd, "BOINC_PING")) {
         retval = 0;
     } else {
@@ -576,7 +601,7 @@ int handle_command(char* p) {
         printf("S ");
         print_version();
     } else if (!strcasecmp(cmd, "COMMANDS")) {
-        printf("S ASYNC_MODE_OFF ASYNC_MODE_ON BOINC_ABORT_JOBS BOINC_FETCH_OUTPUT BOINC_PING BOINC_QUERY_BATCHES BOINC_SELECT_PROJECT BOINC_SUBMIT COMMANDS QUIT RESULTS VERSION\n");
+        printf("S ASYNC_MODE_OFF ASYNC_MODE_ON BOINC_ABORT_JOBS BOINC_FETCH_OUTPUT BOINC_PING BOINC_QUERY_BATCHES BOINC_RETIRE_BATCH BOINC_SELECT_PROJECT BOINC_SUBMIT COMMANDS QUIT RESULTS VERSION\n");
     } else if (!strcasecmp(cmd, "RESPONSE_PREFIX")) {
         printf("S\n");
         strcpy(response_prefix, p+strlen("RESPONSE_PREFIX "));
