@@ -86,6 +86,7 @@ static SaverState saverState = SaverState_Idle;
 
 static bool IsDualGPUMacbook = false;
 static io_connect_t GPUSelectConnect = IO_OBJECT_NULL;
+static bool OKToRunOnBatteries = false;
 static bool RunningOnBattery = true;
 static time_t ScreenSaverStartTime = 0;
 static bool ScreenIsBlanked = false;
@@ -100,11 +101,10 @@ const char *  ScreenSaverAppStartingMsg = "Starting screensaver graphics.\nPleas
 const char *  CantLaunchDefaultGFXAppMsg = "Can't launch default screensaver module. Please reinstall BOINC";
 const char *  DefaultGFXAppCantRPCMsg = "Default screensaver module couldn't connect to BOINC application";
 const char *  DefaultGFXAppCrashedMsg = "Default screensaver module had an unrecoverable error";
-const char *  RunningOnBatteryMsg = "Displaying minimum screensaver to save battery power";
+const char *  RunningOnBatteryMsg = "Computing and screensaver disabled while running on battery power.";
 
 //const char *  BOINCExitedSaverMode = "BOINC is no longer in screensaver mode.";
 
-void force_discrete_gpu() {};   // To satisfy the linker
 
 // If there are multiple displays, this may get called 
 // multiple times (once for each display), so we need to guard 
@@ -441,6 +441,7 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
     int newFrequency = TEXTLOGOFREQUENCY;
     *coveredFreq = 0;
     pid_t myPid;
+    CC_STATE state;
     OSStatus err;
     
     if (ScreenIsBlanked) {
@@ -457,11 +458,6 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
         break;
     
     case  SaverState_LaunchingCoreClient:
-        if (IsDualGPUMacbook && RunningOnBattery) {
-            setSSMessageText(RunningOnBatteryMsg);
-            break;
-        }
-
         if (m_wasAlreadyRunning) {
             setSSMessageText(ConnectingCCMsg);
         } else {
@@ -473,9 +469,23 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
             saverState = SaverState_CoreClientRunning;
             if (!rpc->init(NULL)) {     // Initialize communications with Core Client
                 m_bConnected = true;
+                if (IsDualGPUMacbook) {
+                    state.clear();
+                    state.global_prefs.clear_bools();
+                    int result = rpc->get_state(state);
+                    if (!result) {
+                        OKToRunOnBatteries = state.global_prefs.run_on_batteries;
+                    } else {
+                        OKToRunOnBatteries = false;
+                    }
+                    
+                    if (OKToRunOnBatteries) {
+                        SetDiscreteGPU(true);
+                    }
+                }
             }
 
-            // Set up a separate thread for communicating with Core Client 
+            // Set up a separate thread for communicating with Core Client
             // and running screensaver graphics
             CreateDataManagementThread();
             // ToDo: Add a timeout after which we display error message
@@ -489,20 +499,21 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
          break;
 
     case SaverState_CoreClientRunning:
-        if (IsDualGPUMacbook && RunningOnBattery) {
+        if (IsDualGPUMacbook && RunningOnBattery && !OKToRunOnBatteries) {
             setSSMessageText(RunningOnBatteryMsg);
             break;
         }
-
+            
         // RPC called in DataManagementProc()
         setSSMessageText(ConnectingCCMsg);
+        
         if (! m_bResetCoreState) {
             saverState = SaverState_ConnectedToCoreClient;
         }
     break;
     
     case SaverState_ConnectedToCoreClient:
-        if (IsDualGPUMacbook && RunningOnBattery) {
+        if (IsDualGPUMacbook && RunningOnBattery && !OKToRunOnBatteries) {
             setSSMessageText(RunningOnBatteryMsg);
             break;
         }
@@ -583,7 +594,11 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
         break;
 
     case SaverState_CantLaunchCoreClient:
-        setSSMessageText(CantLaunchCCMsg);
+        if (IsDualGPUMacbook && RunningOnBattery && !OKToRunOnBatteries) {
+            setSSMessageText(RunningOnBatteryMsg);
+        } else {
+            setSSMessageText(CantLaunchCCMsg);
+        }
         // Set up a separate thread for running screensaver graphics 
         // even if we can't communicate with core client
         CreateDataManagementThread();
@@ -593,7 +608,7 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
         break;      // Should never get here; fixes compiler warning
     }           // end switch (saverState)
 
-    if (IsDualGPUMacbook && RunningOnBattery) {
+    if (IsDualGPUMacbook && RunningOnBattery && !OKToRunOnBatteries) {
         if ((m_dwBlankScreen) && (time(0) > m_dwBlankTime) && (m_dwBlankTime > 0)) {
             setSSMessageText(0);   // No text message
             ScreenIsBlanked = true;
@@ -704,7 +719,7 @@ bool CScreensaver::CreateDataManagementThread() {
     // applications trigger a switch to the power-hungry 
     // discrete GPU. To extend battery life, don't run
     // them when on battery power.
-    if (IsDualGPUMacbook && RunningOnBattery) return true;
+    if (IsDualGPUMacbook && RunningOnBattery && !OKToRunOnBatteries) return true;
     
     if (m_hDataManagementThread == NULL) {
         retval = pthread_create(&m_hDataManagementThread, NULL, DataManagementProcStub, 0);
@@ -971,6 +986,7 @@ void CScreensaver::CheckDualGPUStatus() {
     bool nowOnBattery;
     
     if (!IsDualGPUMacbook) return;
+    if (OKToRunOnBatteries) return;
     
     currentTime = dtime();
     if (currentTime < lastBatteryCheckTime + BATTERY_CHECK_INTERVAL) return;

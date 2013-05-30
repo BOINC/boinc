@@ -274,7 +274,7 @@ int signof(float x) {
             NSImage *myImage = [[ NSImage alloc ] initWithContentsOfFile:fileName ];
             [ myImage setScalesWhenResized:YES ];
             [ myImage setSize:theFrame.size ];
-            [ myImage compositeToPoint:NSZeroPoint operation:NSCompositeSourceOver ];
+            [ myImage drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 ];
             [ myImage release ];
         }
         [ self setAnimationTimeInterval:1/1.0 ];
@@ -449,7 +449,7 @@ int signof(float x) {
         imagePosition.x = (float) ((int)gCurrentPosition.x + gImageXIndent);
         imagePosition.y = (float) (int)gCurrentPosition.y;
 
-        [ gBOINC_Logo compositeToPoint:imagePosition operation:NSCompositeCopy ];
+        [ gBOINC_Logo drawAtPoint:imagePosition fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 ];
 
         if ( (msg != NULL) && (msg[0] != '\0') ) {
             cf_msg = CFStringCreateWithCString(NULL, msg, kCFStringEncodingMacRoman);
