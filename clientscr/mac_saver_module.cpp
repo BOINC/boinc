@@ -90,6 +90,7 @@ static bool OKToRunOnBatteries = false;
 static bool RunningOnBattery = true;
 static time_t ScreenSaverStartTime = 0;
 static bool ScreenIsBlanked = false;
+static int retryCount = 0;
 
 const char *  CantLaunchCCMsg = "Unable to launch BOINC application.";
 const char *  LaunchingCCMsg = "Launching BOINC application.";
@@ -259,7 +260,7 @@ CScreensaver::CScreensaver() {
     
     m_hDataManagementThread = NULL;
     m_hGraphicsApplication = NULL;
-    m_bResetCoreState = TRUE;
+    m_bResetCoreState = true;
     rpc = 0;
     m_bConnected = false;
     
@@ -355,7 +356,6 @@ OSStatus CScreensaver::initBOINCApp() {
     pid_t myPid;
     int status;
     OSStatus err;
-    static int retryCount = 0;
     long brandId = 0;
 
     saverState = SaverState_CantLaunchCoreClient;
@@ -378,8 +378,9 @@ OSStatus CScreensaver::initBOINCApp() {
 
     m_CoreClientPID = FindProcessPID("boinc", 0);
     if (m_CoreClientPID) {
-       m_wasAlreadyRunning = true;
+        m_wasAlreadyRunning = true;
         saverState = SaverState_LaunchingCoreClient;
+        retryCount = 0;
         return noErr;
     }
     
@@ -596,9 +597,11 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
     case SaverState_CantLaunchCoreClient:
         if (IsDualGPUMacbook && RunningOnBattery && !OKToRunOnBatteries) {
             setSSMessageText(RunningOnBatteryMsg);
-        } else {
-            setSSMessageText(CantLaunchCCMsg);
+            break;
         }
+        
+        setSSMessageText(CantLaunchCCMsg);
+        
         // Set up a separate thread for running screensaver graphics 
         // even if we can't communicate with core client
         CreateDataManagementThread();
@@ -662,6 +665,7 @@ void CScreensaver::ShutdownSaver() {
     m_wasAlreadyRunning = false;
     m_bQuitDataManagementProc = false;
     saverState = SaverState_Idle;
+    retryCount = 0;
 }
 
 
