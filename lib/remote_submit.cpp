@@ -350,6 +350,8 @@ int query_batches(
 ) {
     string request;
     char url[1024], buf[256];
+    int batch_size;
+
     request = "<query_batch2>\n";
     sprintf(buf, "<authenticator>%s</authenticator>\n", authenticator);
     request += string(buf);
@@ -379,6 +381,10 @@ int query_batches(
         }
         if (parse_int(buf, "<error_num>", retval)) continue;
         if (parse_str(buf, "<error_msg>", error_msg)) continue;
+        if (parse_int(buf, "<batch_size>", batch_size)) {
+            qb_reply.batch_sizes.push_back(batch_size);
+            continue;
+        }
         if (strstr(buf, "<job>")) {
             QUERY_BATCH_JOB qbj;
             while (fgets(buf, 256, reply)) {
@@ -387,6 +393,7 @@ int query_batches(
 #endif
                 if (strstr(buf, "</job>")) {
                     qb_reply.jobs.push_back(qbj);
+                    break;
                 }
                 if (parse_str(buf, "job_name", qbj.job_name)) continue;
                 if (parse_str(buf, "status", qbj.status)) continue;
@@ -401,7 +408,6 @@ int query_batches(
 int abort_jobs(
     const char* project_url,
     const char* authenticator,
-    string batch_name,
     vector<string> &job_names,
     string &error_msg
 ) {
@@ -409,8 +415,6 @@ int abort_jobs(
     char url[1024], buf[256];
     request = "<abort_jobs>\n";
     sprintf(buf, "<authenticator>%s</authenticator>\n", authenticator);
-    request += string(buf);
-    sprintf(buf, "<batch_name>%s</batch_name>\n", batch_name.c_str());
     request += string(buf);
     for (unsigned int i=0; i<job_names.size(); i++) {
         sprintf(buf, "<job_name>%s</job_name>\n", job_names[i].c_str());

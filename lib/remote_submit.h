@@ -60,7 +60,8 @@ struct QUERY_BATCH_JOB {
 };
 
 struct QUERY_BATCH_REPLY {
-    vector<QUERY_BATCH_JOB> jobs;
+    vector<int> batch_sizes;    // how many jobs in each of the queried batches
+    vector<QUERY_BATCH_JOB> jobs;   // the jobs, sequentially
 };
 
 struct OUTFILE {
@@ -157,7 +158,6 @@ extern int get_output_file(
 extern int abort_jobs(
     const char* project_url,
     const char* authenticator,
-    string batch_name,
     vector<string> &job_names,
     string& error_msg
 );

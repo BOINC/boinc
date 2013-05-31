@@ -275,13 +275,17 @@ void handle_query_batches(COMMAND&c) {
         sprintf(buf, "error\\ querying\\ batch:\\ %d\\ ", retval);
         s = string(buf) + escape_str(error_msg);
     } else {
-        s = string("NULL ");
-		sprintf(buf, "%d", (int)reply.jobs.size());
-		s += string(buf);
-        for (unsigned int i=0; i<reply.jobs.size(); i++) {
-            QUERY_BATCH_JOB &j = reply.jobs[i];
-            sprintf(buf, " %s %s", j.job_name.c_str(), j.status.c_str());
+        s = string("NULL");
+        int i = 0;
+        for (unsigned int j=0; j<reply.batch_sizes.size(); j++) {
+            int n = reply.batch_sizes[j];
+            sprintf(buf, " %d", n);
             s += string(buf);
+            for (int k=0; k<n; k++) {
+                QUERY_BATCH_JOB &j = reply.jobs[i++];
+                sprintf(buf, " %s %s", j.job_name.c_str(), j.status.c_str());
+                s += string(buf);
+            }
         }
     }
     c.out = strdup(s.c_str());
@@ -466,7 +470,6 @@ done:
 }
 
 int COMMAND::parse_abort_jobs(char* p) {
-    strcpy(batch_name, strtok_r(NULL, " ", &p));
     while (1) {
         char* job_name = strtok_r(NULL, " ", &p);
         if (!job_name) break;
@@ -478,8 +481,7 @@ int COMMAND::parse_abort_jobs(char* p) {
 void handle_abort_jobs(COMMAND& c) {
     string error_msg;
     int retval = abort_jobs(
-        project_url, authenticator, string(c.batch_name),
-        c.abort_job_names, error_msg
+        project_url, authenticator, c.abort_job_names, error_msg
     );
     string s;
     char buf[256];
