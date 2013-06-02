@@ -27,10 +27,11 @@
 
     <!-- Add Google Play store metadata informing the store we can run on tablets and other large screen devices -->
     <supports-screens
+        android:anyDensity="true"
         android:smallScreens="true"
         android:normalScreens="true"
-        android:anyDensity="true"
-        android:largeScreens="true" />
+        android:largeScreens="true"
+        android:xlargeScreens="true" />
 
     <!-- CAUTION: specifiying target sdk can change the layout!  android:targetSdkVersion="15"-->
     <uses-sdk android:minSdkVersion="9" />
