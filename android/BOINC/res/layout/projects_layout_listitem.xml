@@ -17,7 +17,7 @@
   You should have received a copy of the GNU Lesser General Public License
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/projectsRow"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -32,16 +32,13 @@
         android:scaleType="fitCenter"
 	    android:contentDescription="@string/projects_icon"
 	    android:background="@drawable/shape_blue_border"
-	    android:padding="1dp"
-	    android:layout_alignParentLeft="true" />
+	    android:padding="1dp" />
         
     <LinearLayout 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginLeft="3dp"
-        android:layout_toRightOf="@+id/project_icon"
-        android:layout_toLeftOf="@+id/project_expand">
+        android:layout_marginLeft="3dp">
         
 	    <TextView
 	        android:id="@+id/project_name"
@@ -66,21 +63,12 @@
 	        android:textColor="@color/dark_grey"
 	        android:textAppearance="?android:attr/textAppearanceSmall" />
 	    
-	    <include
-			android:id="@+id/project_expansion_wrapper"
-			layout="@layout/projects_layout_listitem_expansion" />
-    
+	    <TextView 
+	   		android:layout_width="wrap_content"
+		    android:id="@+id/project_credits"
+	   		android:layout_height="wrap_content"
+	   		android:text="@string/projects_credits_header"
+	   		android:textAppearance="?android:attr/textAppearanceSmall"
+	   		android:textColor="@color/dark_grey"/>
     </LinearLayout>
-    
-    <ImageButton 
-	    android:id="@+id/project_expand"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:clickable="true"
-	    android:contentDescription="@string/projects_more"
-	    android:background="@android:color/transparent"
-	    android:padding="5dp"
-	    android:src="@drawable/failedb"
-	    android:layout_alignParentRight="true"/>
-    
-</RelativeLayout>
+</LinearLayout>

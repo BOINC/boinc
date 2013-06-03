@@ -483,7 +483,7 @@ public class ClientStatus {
 			}
 		} catch (Exception e) {
 			// probably FileNotFoundException
-			Log.d(TAG,"Exception in parseSoftLinkToAbsPath() " + e.getMessage());
+			// Log.d(TAG,"Exception in parseSoftLinkToAbsPath() " + e.getMessage());
 			return null;
 		}
 		//Log.d(TAG,"parseSoftLinkToAbsPath() softLinkContent: " + softLinkContent);

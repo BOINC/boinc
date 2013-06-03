@@ -40,16 +40,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import edu.berkeley.boinc.adapter.ProjectControlsListAdapter;
 import edu.berkeley.boinc.adapter.ProjectsListAdapter;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.RpcClient;
-import android.widget.ArrayAdapter;
 
 
 public class ProjectsActivity extends FragmentActivity {
@@ -64,6 +62,9 @@ public class ProjectsActivity extends FragmentActivity {
 	private ArrayList<ProjectData> data = new ArrayList<ProjectData>();
 	private final FragmentActivity activity = this;
 	private Integer numberProjects = 0;
+
+	// controls popup dialog
+	Dialog dialogControls;
 	
 	// Controls whether initialization of view elements of "projects_layout"
 	// is required. This is the case, every time the layout switched.
@@ -248,134 +249,112 @@ public class ProjectsActivity extends FragmentActivity {
 
 	public class ProjectData {
 		public Project project = null;
-		public boolean expanded = false;
 		public String id = "";
 
 		public ProjectData(Project data) {
 			this.project = data;
-			this.expanded = false;
 			this.id = data.master_url;
 		}
-
-		public final OnClickListener projectClickListener = new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				expanded = !expanded;
-				listAdapter.notifyDataSetChanged(); //force list adapter to refresh
-			}
-		};
 		
 		public void updateProjectData(Project data) {
 			this.project = data;
 		}
-
-		public final OnClickListener iconClickListener = new OnClickListener() {
+		
+		public final OnClickListener projectsListClickListener = new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				try {
-					final Integer operation = (Integer)v.getTag();
-					switch(operation) {
-					case RpcClient.PROJECT_UPDATE:
-						new ProjectOperationAsync().execute(project.master_url, operation.toString());
-						break;
-					case RpcClient.PROJECT_DETACH:
-						final Dialog dialog = new Dialog(activity);
-						dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-						dialog.setContentView(R.layout.dialog_confirm);
-						((TextView)dialog.findViewById(R.id.title)).setText(R.string.projects_confirm_detach_title);
-						((TextView)dialog.findViewById(R.id.message)).setText(getString(R.string.projects_confirm_detach_message) + " "
-								+ project.project_name +  " " + getString(R.string.projects_confirm_detach_message2));
-						Button confirm = (Button) dialog.findViewById(R.id.confirm);
-						confirm.setText(R.string.projects_confirm_detach_confirm);
-						confirm.setOnClickListener(new OnClickListener() {
-							@Override
-							public void onClick(View v) {
-								new ProjectOperationAsync().execute(project.master_url, ""+RpcClient.PROJECT_DETACH);
-								dialog.dismiss();
-							}
-						});
-						Button cancel = (Button) dialog.findViewById(R.id.cancel);
-						cancel.setOnClickListener(new OnClickListener() {
-							@Override
-							public void onClick(View v) {
-								dialog.dismiss();
-							}
-						});
-						dialog.show();
-						break;
-					case RpcClient.PROJECT_ADVANCED:
-						final Dialog dialogAdvanced = new Dialog(activity);
-						dialogAdvanced.requestWindowFeature(Window.FEATURE_NO_TITLE);
-						dialogAdvanced.setContentView(R.layout.dialog_list);
-						((TextView)dialogAdvanced.findViewById(R.id.title)).setText(R.string.projects_confirm_advanced_title);
-						ListView list = (ListView)dialogAdvanced.findViewById(R.id.options);
-						String[] controls = getResources().getStringArray(R.array.projects_advanced_controls);
-						list.setAdapter(new ArrayAdapter<String>(activity,R.layout.dialog_list_item,controls));
-						list.setOnItemClickListener(new OnItemClickListener() {
-							@Override
-							public void onItemClick(AdapterView<?> arg0, View v, int position, long id) {
-				                switch(position) {
-				                case 0:
-									new ProjectOperationAsync().execute(project.master_url, ""+RpcClient.PROJECT_SUSPEND);
-				                	break;
-				                case 1:
-									new ProjectOperationAsync().execute(project.master_url, ""+RpcClient.PROJECT_RESUME);
-				                	break;
-				                case 2:
-									new ProjectOperationAsync().execute(project.master_url, ""+RpcClient.PROJECT_NNW);
-				                	break;
-				                case 3:
-									new ProjectOperationAsync().execute(project.master_url, ""+RpcClient.PROJECT_ANW);
-				                	break;
-				                case 4:
-									new ProjectOperationAsync().execute(project.master_url, ""+RpcClient.PROJECT_RESET);
-				                	break;
-				                default:
-				                	break;
-				                }
-				                dialogAdvanced.dismiss();
-							}});
-						Button cancelButton = (Button) dialogAdvanced.findViewById(R.id.cancel);
-						cancelButton.setOnClickListener(new OnClickListener() {
-							@Override
-							public void onClick(View v) {
-								dialogAdvanced.dismiss();
-							}
-						});
-						dialogAdvanced.show();
-						
-						/*
-						AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-					    builder.setTitle(R.string.projects_confirm_advanced_title);
-					    builder.setItems(R.array.projects_advanced_controls, new DialogInterface.OnClickListener() {
-					               public void onClick(DialogInterface dialog, int which) {
-						                switch(which) {
-						                case 0:
-											new ProjectOperationAsync().execute(project.master_url, ""+RpcClient.PROJECT_SUSPEND);
-						                	break;
-						                case 1:
-											new ProjectOperationAsync().execute(project.master_url, ""+RpcClient.PROJECT_RESUME);
-						                	break;
-						                case 2:
-											new ProjectOperationAsync().execute(project.master_url, ""+RpcClient.PROJECT_NNW);
-						                	break;
-						                case 3:
-											new ProjectOperationAsync().execute(project.master_url, ""+RpcClient.PROJECT_ANW);
-						                	break;
-						                case 4:
-											new ProjectOperationAsync().execute(project.master_url, ""+RpcClient.PROJECT_RESET);
-						                	break;
-						                default:
-						                	break;
-						                }
-					           }});
-					    builder.create().show(); */
-						break;
-					default:
-						Log.w(TAG,"could not map operation tag");
+				dialogControls = new Dialog(activity);
+				// layout
+				dialogControls.requestWindowFeature(Window.FEATURE_NO_TITLE);
+				dialogControls.setContentView(R.layout.dialog_list);
+				((TextView)dialogControls.findViewById(R.id.title)).setText(R.string.projects_control_dialog_title);
+				ListView list = (ListView)dialogControls.findViewById(R.id.options);
+				
+				// add control items depending on:
+				// - client status, e.g. either suspend or resume
+				// - show advanced preference
+				ArrayList<ProjectControl> controls = new ArrayList<ProjectControl>();
+				controls.add(new ProjectControl(project, RpcClient.PROJECT_UPDATE));
+				if(project.suspended_via_gui) controls.add(new ProjectControl(project, RpcClient.PROJECT_RESUME));
+				else controls.add(new ProjectControl(project, RpcClient.PROJECT_SUSPEND));
+				if(Monitor.getAppPrefs().getShowAdvanced() && project.dont_request_more_work) controls.add(new ProjectControl(project, RpcClient.PROJECT_ANW));
+				if(Monitor.getAppPrefs().getShowAdvanced() && !project.dont_request_more_work) controls.add(new ProjectControl(project, RpcClient.PROJECT_NNW));
+				if(Monitor.getAppPrefs().getShowAdvanced()) controls.add(new ProjectControl(project, RpcClient.PROJECT_RESET));
+				controls.add(new ProjectControl(project, RpcClient.PROJECT_DETACH));
+				
+				// list adapter
+				list.setAdapter(new ProjectControlsListAdapter(activity,list,R.layout.projects_controls_listitem_layout,controls));
+				Log.d(TAG,"dialog list adapter entries: " + controls.size());
+				
+				// buttons
+				Button cancelButton = (Button) dialogControls.findViewById(R.id.cancel);
+				cancelButton.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						dialogControls.dismiss();
 					}
-					listAdapter.notifyDataSetChanged(); //force list adapter to refresh
-				} catch (Exception e) {Log.w(TAG,"onclick failed",e);}
+				});
+				
+				// show dialog
+				dialogControls.show();
+			}
+		};
+	}
+	
+	public class ProjectControl {
+		public Integer operation;
+		public Project project = null;
+		
+		public ProjectControl(Project project, Integer operation) {
+			this.operation = operation;
+			this.project = project;
+		}
+
+		public final OnClickListener projectCommandClickListener = new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				//check whether command requires confirmation
+				if(operation == RpcClient.PROJECT_DETACH || operation == RpcClient.PROJECT_RESET) {
+					final Dialog dialog = new Dialog(activity);
+					dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+					dialog.setContentView(R.layout.dialog_confirm);
+					Button confirm = (Button) dialog.findViewById(R.id.confirm);
+					TextView tvTitle = (TextView)dialog.findViewById(R.id.title);
+					TextView tvMessage = (TextView)dialog.findViewById(R.id.message);
+					
+					// operation dependend texts
+					if (operation == RpcClient.PROJECT_DETACH) {
+						tvTitle.setText(R.string.projects_confirm_detach_title);
+						tvMessage.setText(getString(R.string.projects_confirm_detach_message) + " "
+								+ project.project_name + getString(R.string.projects_confirm_detach_message2));
+						confirm.setText(R.string.projects_confirm_detach_confirm);
+					} else if(operation == RpcClient.PROJECT_RESET) {
+						tvTitle.setText(R.string.projects_confirm_reset_title);
+						tvMessage.setText(getString(R.string.projects_confirm_reset_message) + " "
+								+ project.project_name + " " + getString(R.string.projects_confirm_reset_message2));
+						confirm.setText(R.string.projects_confirm_reset_confirm);
+					}
+					
+					confirm.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							new ProjectOperationAsync().execute(project.master_url, "" + operation);
+							dialog.dismiss();
+							dialogControls.dismiss();
+						}
+					});
+					Button cancel = (Button) dialog.findViewById(R.id.cancel);
+					cancel.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							dialog.dismiss();
+						}
+					});
+					dialog.show();
+				} else { // command does not required confirmation
+					new ProjectOperationAsync().execute(project.master_url, "" + operation);
+					dialogControls.dismiss();
+				}
 			}
 		};
 	}

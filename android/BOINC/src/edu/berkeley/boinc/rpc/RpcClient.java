@@ -64,8 +64,6 @@ public class RpcClient {
 	public static final int PROJECT_ANW     = 5;
 	public static final int PROJECT_DETACH	= 6;
 	public static final int PROJECT_RESET	= 7;
-	// for UI only
-	public static final int PROJECT_ADVANCED= 8;
 
 	public static final int RESULT_SUSPEND  = 1;
 	public static final int RESULT_RESUME   = 2;
