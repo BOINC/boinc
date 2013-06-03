@@ -65,15 +65,15 @@ int get_vendor(cl_device_id device_id, char* vendor, int len) {
     if ((strstr(vendor, "AMD")) ||
         (strstr(vendor, "Advanced Micro Devices, Inc."))
     ) {
-        strcpy(vendor, GPU_TYPE_ATI);       // "ATI"
+        strlcpy(vendor, GPU_TYPE_ATI, len);       // "ATI"
     }
     
     if (strcasestr(vendor, "nvidia")) {
-        strcpy(vendor, GPU_TYPE_NVIDIA);    // "NVIDIA"
+        strlcpy(vendor, GPU_TYPE_NVIDIA, len);    // "NVIDIA"
     }
 
     if (strcasestr(vendor, "intel")) {
-        strcpy(vendor, GPU_TYPE_INTEL);     // "intel_gpu"
+        strlcpy(vendor, GPU_TYPE_INTEL, len);     // "intel_gpu"
     }
 
     return 0;

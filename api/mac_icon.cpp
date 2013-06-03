@@ -146,7 +146,7 @@ void getPathToThisApp(char* pathBuf, size_t bufSize) {
     int i;
     struct stat stat_buf;
 
-    strcpy(pathBuf, GRAPHICS_APP_FILENAME);
+    strlcpy(pathBuf, GRAPHICS_APP_FILENAME, bufSize);
     if (!stat(pathBuf, &stat_buf)) {
        // stat() returns zero on success
        return;

@@ -218,7 +218,7 @@ char* boinc_msg_prefix(char* sbuf, int len) {
 
     time_t x = time(0);
     if (x == -1) {
-        strcpy(sbuf, "time() failed");
+        strlcpy(sbuf, "time() failed", len);
         return sbuf;
     }
 #ifdef _WIN32
@@ -230,11 +230,11 @@ char* boinc_msg_prefix(char* sbuf, int len) {
 #else
     if (localtime_r(&x, &tm) == NULL) {
 #endif
-        strcpy(sbuf, "localtime() failed");
+        strlcpy(sbuf, "localtime() failed", len);
         return sbuf;
     }
     if (strftime(buf, sizeof(buf)-1, "%H:%M:%S", tmp) == 0) {
-        strcpy(sbuf, "strftime() failed");
+        strlcpy(sbuf, "strftime() failed", len);
         return sbuf;
     }
 #ifdef _WIN32
@@ -243,7 +243,7 @@ char* boinc_msg_prefix(char* sbuf, int len) {
     n = snprintf(sbuf, len, "%s (%d):", buf, getpid());
 #endif
     if (n < 0) {
-        strcpy(sbuf, "sprintf() failed");
+        strlcpy(sbuf, "sprintf() failed", len);
         return sbuf;
     }
     sbuf[len-1] = 0;    // just in case
@@ -920,9 +920,9 @@ static void handle_upload_file_status() {
     relative_to_absolute("", path);
     DirScanner dirscan(path);
     while (dirscan.scan(filename)) {
-        strcpy(buf, filename.c_str());
+        strlcpy(buf, filename.c_str(), sizeof(buf));
         if (strstr(buf, UPLOAD_FILE_STATUS_PREFIX) != buf) continue;
-        strcpy(log_name, buf+strlen(UPLOAD_FILE_STATUS_PREFIX));
+        strlcpy(log_name, buf+strlen(UPLOAD_FILE_STATUS_PREFIX), sizeof(log_name));
         FILE* f = boinc_fopen(filename.c_str(), "r");
         if (!f) {
             fprintf(stderr,
@@ -1072,7 +1072,7 @@ struct GRAPHICS_APP {
 #ifdef _WIN32
         GetFullPathName(path, MAXPATHLEN, abspath, NULL);
 #else
-        strcpy(abspath, path);
+        strlcpy(abspath, path, sizeof(abspath));
 #endif
         argv[0] = const_cast<char*>(GRAPHICS_APP_FILENAME);
         if (fullscreen) {
@@ -1535,12 +1535,12 @@ double boinc_elapsed_time() {
 
 void boinc_web_graphics_url(char* url) {
     if (standalone) return;
-    strcpy(web_graphics_url, url);
+    strlcpy(web_graphics_url, url, sizeof(web_graphics_url));
     send_web_graphics_url = true;
 }
 
 void boinc_remote_desktop_addr(char* addr) {
     if (standalone) return;
-    strcpy(remote_desktop_addr, addr);
+    strlcpy(remote_desktop_addr, addr, sizeof(remote_desktop_addr));
     send_remote_desktop_addr = true;
 }
