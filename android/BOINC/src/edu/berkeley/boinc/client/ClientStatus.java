@@ -41,6 +41,7 @@ import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.Project;
+import edu.berkeley.boinc.rpc.ProjectInfo;
 import edu.berkeley.boinc.rpc.Result;
 import edu.berkeley.boinc.rpc.Transfer;
 import edu.berkeley.boinc.utils.BOINCDefs;
@@ -85,13 +86,16 @@ public class ClientStatus {
 	public Integer computingSuspendReason = 0; //reason why computing got suspended, only if COMPUTING_STATUS_SUSPENDED
 	private Boolean computingParseError = false; //indicates that status could not be parsed and is therefore invalid
 	
-	//network status
+	// network status
 	public Integer networkStatus = 2;
 	public static final int NETWORK_STATUS_NEVER = 0;
 	public static final int NETWORK_STATUS_SUSPENDED = 1;
 	public static final int NETWORK_STATUS_AVAILABLE = 2;
 	public Integer networkSuspendReason = 0; //reason why network activity got suspended, only if NETWORK_STATUS_SUSPENDED
 	private Boolean networkParseError = false; //indicates that status could not be parsed and is therefore invalid
+	
+	// supported projects
+	public ArrayList<ProjectInfo> supportedProjects;
 	
 	public ClientStatus(Context ctx) {
 		this.ctx = ctx;
@@ -188,6 +192,10 @@ public class ClientStatus {
 	public synchronized void setPrefs(GlobalPreferences prefs) {
 		//Log.d(TAG, "setPrefs");
 		this.prefs = prefs;
+	}
+	
+	public synchronized ArrayList<ProjectInfo> getSupprtedProjects () {
+		return supportedProjects;
 	}
 	
 	public synchronized CcStatus getClientStatus() {

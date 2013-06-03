@@ -165,6 +165,8 @@ public class Monitor extends Service {
 			// read preferences for GUI to be able to display data
 			GlobalPreferences clientPrefs = rpc.getGlobalPrefsWorkingStruct();
 			Monitor.getClientStatus().setPrefs(clientPrefs);
+			// read supported projects
+			readAndroidProjectsList();
 		}
 		
 		if(connected) {
@@ -451,6 +453,26 @@ public class Monitor extends Service {
     	}
     }
 	
+    // reads all_project_list.xml from Client and filters
+ 	// projects not supporting Android. List does not change
+    // during run-time. Called once during setup.
+    // Stored in ClientStatus.
+	private void readAndroidProjectsList() {
+		ArrayList<ProjectInfo> allProjects = rpc.getAllProjectsList();
+		ArrayList<ProjectInfo> androidProjects = new ArrayList<ProjectInfo>();
+		
+		//filter projects that do not support Android
+		for (ProjectInfo project: allProjects) {
+			if(project.platforms.contains(getString(R.string.boinc_platform_name))) {
+				Log.d(TAG, project.name + " supports " + getString(R.string.boinc_platform_name));
+				androidProjects.add(project);
+			} 
+		}
+		
+		// set list in ClientStatus
+		getClientStatus().supportedProjects = androidProjects;
+	}
+	
 	public static ClientStatus getClientStatus() { //singleton pattern
 		if (clientStatus == null) {
 			Log.d(TAG,"WARNING: clientStatus not yet initialized");
@@ -465,7 +487,6 @@ public class Monitor extends Service {
 		return appPrefs;
 	}
 
-	
 	/*
 	 * returns this class, allows clients to access this service's functions and attributes.
 	 */
@@ -659,20 +680,6 @@ public class Monitor extends Service {
 		String authKey = fileData.toString();
 		Log.d(TAG, "authKey: " + authKey);
 		return authKey;
-	}
-	
-	public ArrayList<ProjectInfo> getAndroidProjectsList() {
-		ArrayList<ProjectInfo> allProjects = rpc.getAllProjectsList();
-		ArrayList<ProjectInfo> androidProjects = new ArrayList<ProjectInfo>();
-		
-		//filter projects that do not support Android
-		for (ProjectInfo project: allProjects) {
-			if(project.platforms.contains(getString(R.string.boinc_platform_name))) {
-				Log.d(TAG, project.name + " supports " + getString(R.string.boinc_platform_name));
-				androidProjects.add(project);
-			} 
-		}
-		return androidProjects;
 	}
 	
 	public ProjectConfig getProjectConfig(String url) {

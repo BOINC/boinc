@@ -25,15 +25,11 @@ import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.ProjectInfo;
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.Service;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -46,28 +42,10 @@ import android.widget.Toast;
 public class AttachProjectListActivity extends Activity implements android.view.View.OnClickListener{
 	
 	private final String TAG = "BOINC AttachProjectListActivity"; 
-	
-	private Monitor monitor;
-	private Boolean mIsBound;
 
 	private ListView lv;
 	private AttachProjectListAdapter listAdapter;
 	private Dialog manualUrlInputDialog;
-	
-	private ServiceConnection mConnection = new ServiceConnection() {
-	    public void onServiceConnected(ComponentName className, IBinder service) {
-	        // This is called when the connection with the service has been established, getService returns the Monitor object that is needed to call functions.
-	        monitor = ((Monitor.LocalBinder)service).getService();
-		    mIsBound = true;
-		    
-		    populateView();
-	    }
-
-	    public void onServiceDisconnected(ComponentName className) { // This should not happen
-	        monitor = null;
-		    mIsBound = false;
-	    }
-	};
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {  
@@ -76,33 +54,8 @@ public class AttachProjectListActivity extends Activity implements android.view.
          
         Log.d(TAG, "onCreate"); 
         
-        //bind monitor service
-        doBindService();
-    }
-    
-	@Override
-	protected void onDestroy() {
-    	Log.d(TAG, "onDestroy");
-	    doUnbindService();
-	    super.onDestroy();
-	}
-
-	private void doBindService() {
-	    // Establish a connection with the service, onServiceConnected gets called when
-		bindService(new Intent(this, Monitor.class), mConnection, Service.BIND_AUTO_CREATE);
-	}
-
-	private void doUnbindService() {
-	    if (mIsBound) {
-	        // Detach existing connection.
-	        unbindService(mConnection);
-	        mIsBound = false;
-	    }
-	}
-	
-	private void populateView(){
-		//retrieve projects from monitor
-		ArrayList<ProjectInfo> data = monitor.getAndroidProjectsList();
+		//get supported projects
+		ArrayList<ProjectInfo> data = Monitor.getClientStatus().supportedProjects;
 		Log.d(TAG,"monitor.getAndroidProjectsList returned with " + data.size() + " elements");
 		
 		// setup layout
@@ -113,6 +66,12 @@ public class AttachProjectListActivity extends Activity implements android.view.
         
         // set title bar
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_bar);
+    }
+    
+	@Override
+	protected void onDestroy() {
+    	Log.d(TAG, "onDestroy");
+	    super.onDestroy();
 	}
 	
 	// check whether device is online before starting connection attempt

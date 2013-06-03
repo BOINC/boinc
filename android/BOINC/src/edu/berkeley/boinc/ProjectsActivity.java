@@ -364,7 +364,14 @@ public class ProjectsActivity extends FragmentActivity {
 		private final String TAG = "ProjectOperationAsync";
 
 		@Override
+		protected void onPreExecute() {
+			Log.d(TAG,"onPreExecute");
+			super.onPreExecute();
+		}
+
+		@Override
 		protected Boolean doInBackground(String... params) {
+			Log.d(TAG,"doInBackground");
 			try{
 				String url = params[0];
 				Integer operation = Integer.parseInt(params[1]);
