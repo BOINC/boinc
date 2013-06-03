@@ -2096,29 +2096,6 @@ int RPC_CLIENT::get_host_info(HOST_INFO& h) {
     return ERR_XML_PARSE;
 }
 
-// set HOST_INFO fields that are easier to get in the GUI than in the client.
-// Currently this is just the product name on Android,
-// which uses a Java version of this function
-//
-int RPC_CLIENT::set_host_info(HOST_INFO& h) {
-    SET_LOCALE sl;
-    RPC rpc(this);
-    char buf[1024];
-
-    snprintf(buf, sizeof(buf),
-        "<set_host_info>\n"
-        "    <host_info>\n"
-        "        <product_name>%s</product_name>\n"
-        "    </host_info>\n"
-        "</set_host_info>\n",
-        h.product_name
-    );
-    buf[sizeof(buf)-1] = 0;
-    int retval = rpc.do_rpc(buf);
-    if (retval) return retval;
-    return rpc.parse_reply();
-}
-
 int RPC_CLIENT::quit() {
     int retval;
     char buf[256];
