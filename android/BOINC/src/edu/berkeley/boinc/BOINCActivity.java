@@ -58,6 +58,13 @@ public class BOINCActivity extends TabActivity {
 	private Boolean mIsBound;
 	
 	private TabHost tabHost;
+	
+	// dummy jni to trigger PlayStore filter for CPU architecture
+	static{
+		System.loadLibrary("dummyjni");
+	}
+	private native String getDummyString();
+	// ---
 
 	private ServiceConnection mConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
@@ -87,7 +94,7 @@ public class BOINCActivity extends TabActivity {
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {  
-        Log.d(TAG, "onCreate()"); 
+        Log.d(TAG, "onCreate(), dummy jni: " + getDummyString()); 
 
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
