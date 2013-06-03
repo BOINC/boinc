@@ -33,8 +33,9 @@
         android:largeScreens="true"
         android:xlargeScreens="true" />
 
-    <!-- CAUTION: specifiying target sdk can change the layout!  android:targetSdkVersion="15"-->
-    <uses-sdk android:minSdkVersion="9" />
+    <!-- CAUTION: increasing targetSDK to >10 changes AsynTask's threadpool size!  -->
+    <uses-sdk android:minSdkVersion="9"
+        android:targetSdkVersion="10" />
     
     <!-- Required Permissions -->
     <uses-permission android:name="android.permission.INTERNET"/>
