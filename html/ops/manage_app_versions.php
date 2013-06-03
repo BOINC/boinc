@@ -138,7 +138,7 @@ echo "<TR><TH>ID #</TH>
       <TH>deprecated?</TH>
        </TR>\n";
 
-$q="SELECT * FROM app_version ORDER BY appid, version_num, platformid";
+$q="SELECT * FROM app_version ORDER BY appid, platformid, plan_class, version_num";
 $result = mysql_query($q);
 $Nrow=mysql_num_rows($result);
 for($j=1;$j<=$Nrow;$j++){
