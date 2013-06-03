@@ -326,12 +326,12 @@ public class ProjectsActivity extends FragmentActivity {
 					if (operation == RpcClient.PROJECT_DETACH) {
 						tvTitle.setText(R.string.projects_confirm_detach_title);
 						tvMessage.setText(getString(R.string.projects_confirm_detach_message) + " "
-								+ project.project_name + getString(R.string.projects_confirm_detach_message2));
+								+ project.project_name + " " + getString(R.string.projects_confirm_detach_message2));
 						confirm.setText(R.string.projects_confirm_detach_confirm);
 					} else if(operation == RpcClient.PROJECT_RESET) {
 						tvTitle.setText(R.string.projects_confirm_reset_title);
 						tvMessage.setText(getString(R.string.projects_confirm_reset_message) + " "
-								+ project.project_name + " " + getString(R.string.projects_confirm_reset_message2));
+								+ project.project_name + getString(R.string.projects_confirm_reset_message2));
 						confirm.setText(R.string.projects_confirm_reset_confirm);
 					}
 					
