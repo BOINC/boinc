@@ -21,7 +21,7 @@
     package="edu.berkeley.boinc"
     
     android:versionCode="1"
-    android:versionName="7.1.3"
+    android:versionName="7.1.4"
     
     android:installLocation="internalOnly" > <!-- installation on SD card would break boot receiver -->
 
@@ -33,8 +33,9 @@
         android:largeScreens="true"
         android:xlargeScreens="true" />
 
-    <!-- CAUTION: increasing targetSDK to >10 changes AsynTask's threadpool size!  -->
-    <uses-sdk android:minSdkVersion="9"
+    <!-- CAUTION: increasing targetSDK to >10 changes AsyncTask's threadpool size!  -->
+    <uses-sdk
+        android:minSdkVersion="9"
         android:targetSdkVersion="10" />
     
     <!-- Required Permissions -->
