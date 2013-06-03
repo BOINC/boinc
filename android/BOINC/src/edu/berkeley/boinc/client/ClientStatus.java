@@ -267,13 +267,10 @@ public class ClientStatus {
 				//Log.d(TAG,"getSlideshowImages() retrieve number file paths: " + filePaths.size());
 				
 				// load images from paths
-				BitmapFactory.Options options = new BitmapFactory.Options();
-				options.inDither = true;
-				options.inSampleSize = 1;
 				int x = 0;
 				for (String filePath : filePaths) {
 					if(x >= maxImagesPerProject) continue;
-					Bitmap tmp = BitmapFactory.decodeFile(filePath, options);
+					Bitmap tmp = BitmapFactory.decodeFile(filePath);
 					if(tmp!=null) slideshowImages.add(new ImageWrapper(tmp,project.project_name));
 					else Log.d(TAG,"loadSlideshowImagesFromFile(): null for path: " + filePath);
 					x++;
@@ -295,7 +292,6 @@ public class ClientStatus {
 					String iconAbsPath = parseSoftLinkToAbsPath(project.project_dir + "/stat_icon", project.project_dir);
 					if (iconAbsPath == null) return null;
 					//Log.d(TAG, "getProjectIcons() absolute path to icon: " + iconAbsPath);
-					
 					Bitmap icon = BitmapFactory.decodeFile(iconAbsPath);
 					return icon;
 				}
