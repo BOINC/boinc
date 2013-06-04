@@ -497,7 +497,7 @@ void COPROC_NVIDIA::write_xml(MIOFILE& f, bool scheduler_rpc) {
 
 void COPROC_NVIDIA::clear() {
     COPROC::clear();
-    strcpy(type, proc_type_name_xml(PROC_TYPE_NVIDIA_GPU));
+    safe_strcpy(type, proc_type_name_xml(PROC_TYPE_NVIDIA_GPU));
     estimated_delay = -1;   // mark as absent
     cuda_version = 0;
     display_driver_version = 0;
@@ -661,7 +661,7 @@ void COPROC_NVIDIA::fake(
    display_driver_version = driver_version;
    cuda_version = 2020;
    have_cuda = true;
-   strcpy(prop.name, "Fake NVIDIA GPU");
+   safe_strcpy(prop.name, "Fake NVIDIA GPU");
    memset(&prop, 0, sizeof(prop));
    prop.totalGlobalMem = ram;
    prop.sharedMemPerBlock = 100;
@@ -682,7 +682,7 @@ void COPROC_NVIDIA::fake(
    prop.textureAlignment = 1000;
    prop.multiProcessorCount = 14;
    have_opencl = true;
-   strcpy(opencl_prop.opencl_device_version, "OpenCL 3.17");
+   safe_strcpy(opencl_prop.opencl_device_version, "OpenCL 3.17");
    opencl_prop.opencl_device_version_int = 317;
    set_peak_flops();
 }
@@ -760,7 +760,7 @@ void COPROC_ATI::write_xml(MIOFILE& f, bool scheduler_rpc) {
 
 void COPROC_ATI::clear() {
     COPROC::clear();
-    strcpy(type, proc_type_name_xml(PROC_TYPE_AMD_GPU));
+    safe_strcpy(type, proc_type_name_xml(PROC_TYPE_AMD_GPU));
     estimated_delay = -1;
     strcpy(name, "");
     strcpy(version, "");
@@ -897,9 +897,9 @@ void COPROC_ATI::set_peak_flops() {
 }
 
 void COPROC_ATI::fake(double ram, double avail_ram, int n) {
-    strcpy(type, proc_type_name_xml(PROC_TYPE_AMD_GPU));
-    strcpy(version, "1.4.3");
-    strcpy(name, "foobar");
+    safe_strcpy(type, proc_type_name_xml(PROC_TYPE_AMD_GPU));
+    safe_strcpy(version, "1.4.3");
+    safe_strcpy(name, "foobar");
     count = n;
     available_ram = avail_ram;
     have_cal = true;
@@ -950,7 +950,7 @@ void COPROC_INTEL::write_xml(MIOFILE& f, bool scheduler_rpc) {
 
 void COPROC_INTEL::clear() {
     COPROC::clear();
-    strcpy(type, proc_type_name_xml(PROC_TYPE_INTEL_GPU));
+    safe_strcpy(type, proc_type_name_xml(PROC_TYPE_INTEL_GPU));
     estimated_delay = -1;
     strcpy(name, "");
     strcpy(version, "");
@@ -1007,9 +1007,9 @@ void COPROC_INTEL::set_peak_flops() {
 }
 
 void COPROC_INTEL::fake(double ram, double avail_ram, int n) {
-    strcpy(type, proc_type_name_xml(PROC_TYPE_INTEL_GPU));
-    strcpy(version, "1.4.3");
-    strcpy(name, "foobar");
+    safe_strcpy(type, proc_type_name_xml(PROC_TYPE_INTEL_GPU));
+    safe_strcpy(version, "1.4.3");
+    safe_strcpy(name, "foobar");
     count = n;
     available_ram = avail_ram;
     have_opencl = true;

@@ -290,7 +290,7 @@ bool str_replace(char* str, const char* substr, const char* replacement) {
     p = strstr(str, substr);
     if (!p) return false;
     int n = (int)strlen(substr);
-    strcpy(temp, p+n);
+    safe_strcpy(temp, p+n);
     strcpy(p, replacement);
     strcat(p, temp);
     return true;
@@ -303,7 +303,7 @@ bool str_replace(char* str, const char* substr, const char* replacement) {
 // then return the contents of that element.
 // Otherwise strip out all <venue> elements
 //
-void extract_venue(const char* in, const char* venue_name, char* out) {
+void extract_venue(const char* in, const char* venue_name, char* out, int len) {
     const char* p, *q;
     char* wp;
     char buf[256];
@@ -313,7 +313,7 @@ void extract_venue(const char* in, const char* venue_name, char* out) {
         // prefs contain the specified venue
         //
         p += strlen(buf);
-        strcpy(out, p);
+        strlcpy(out, p, len);
         wp = strstr(out, "</venue");
         if (wp) *wp = 0;
     } else {
@@ -324,9 +324,9 @@ void extract_venue(const char* in, const char* venue_name, char* out) {
            while (1) {
                p = strstr(q, "<venue");
                if (!p) {
-                   strcat(out, q);
-                break;
-            }
+                   strlcat(out, q, len);
+                   break;
+               }
                strncat(out, q, p-q);
                q = strstr(p, "</venue>");
                if (!q) break;

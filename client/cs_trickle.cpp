@@ -58,13 +58,13 @@ int CLIENT_STATE::read_trickle_files(PROJECT* project, FILE* f) {
     // trickle-up filenames are of the form trickle_up_RESULTNAME_TIME[.sent]
     //
     while (ds.scan(fn)) {
-        strcpy(fname, fn.c_str());
+        safe_strcpy(fname, fn.c_str());
         if (strstr(fname, "trickle_up_") != fname) continue;
         q = fname + strlen("trickle_up_");
         p = strrchr(fname, '_');
         if (p <= q) continue;
         *p = 0;
-        strcpy(result_name, q);
+        safe_strcpy(result_name, q);
         *p = '_';
         t = atoi(p+1);
 
@@ -106,7 +106,7 @@ int CLIENT_STATE::remove_trickle_files(PROJECT* project) {
     DirScanner ds(project_dir);
 
     while (ds.scan(fn)) {
-        strcpy(fname, fn.c_str());
+        safe_strcpy(fname, fn.c_str());
         if (!starts_with(fname, "trickle_up")) continue;
         if (!ends_with(fname, ".sent")) continue;
         sprintf(path, "%s/%s", project_dir, fname);
@@ -126,7 +126,7 @@ int CLIENT_STATE::handle_trickle_down(PROJECT* project, FILE* in) {
     string body;
     int send_time=0;
 
-    strcpy(result_name, "");
+    safe_strcpy(result_name, "");
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</trickle_down>")) {
             RESULT* rp = lookup_result(project, result_name);

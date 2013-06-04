@@ -199,7 +199,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
     if (have_project_prefs_regex && strlen(project_prefs_tag)) {
         char tag[256], value[256];
         char buf[65536];
-        extract_venue(g_reply->user.project_prefs, g_reply->host.venue, buf);
+        extract_venue(g_reply->user.project_prefs, g_reply->host.venue, buf, sizeof(buf));
         sprintf(tag,"<%s>",project_prefs_tag);
         bool p = parse_str(buf, tag, value, sizeof(value));
         if (config.debug_version_select) {
@@ -229,7 +229,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         char tag[256];
         char buf[65536];
         double v = 0;
-        extract_venue(g_reply->user.project_prefs, g_reply->host.venue, buf);
+        extract_venue(g_reply->user.project_prefs, g_reply->host.venue, buf, sizeof(buf));
         sprintf(tag,"<%s>",gpu_utilization_tag);
         bool p = parse_double(buf, tag, v);
         if (config.debug_version_select) {

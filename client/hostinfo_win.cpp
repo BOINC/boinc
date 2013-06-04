@@ -388,7 +388,7 @@ typedef void (WINAPI *PGNSI)(LPSYSTEM_INFO);
 typedef BOOL (WINAPI *PGPI)(DWORD, DWORD, DWORD, DWORD, PDWORD);
 
 int get_os_information(
-    char* os_name, int /*os_name_size*/, char* os_version, int os_version_size
+    char* os_name, int os_name_size, char* os_version, int os_version_size
 ) {
     // This code snip-it was copied straight out of the MSDN Platform SDK
     //   Getting the System Version example and modified to dump the output
@@ -432,7 +432,7 @@ int get_os_information(
 
 
     // Windows is a Microsoft OS
-    strcpy(os_name, "Microsoft ");
+    strlcpy(os_name, "Microsoft ", os_name_size);
 
     switch (osvi.dwPlatformId) {
         case VER_PLATFORM_WIN32_NT:

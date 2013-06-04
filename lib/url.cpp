@@ -73,10 +73,10 @@ void parse_url(const char* url, PARSED_URL& purl) {
         q = strchr(buf, ':');
         if (q) {
             *q = 0;
-            strcpy(purl.user, buf);
-            strcpy(purl.passwd, q+1);
+            safe_strcpy(purl.user, buf);
+            safe_strcpy(purl.passwd, q+1);
         } else {
-            strcpy(purl.user, buf);
+            safe_strcpy(purl.user, buf);
         }
         buf = p+1;
     }
@@ -85,10 +85,10 @@ void parse_url(const char* url, PARSED_URL& purl) {
     //
     p = strchr(buf, '/');
     if (p) {
-        strcpy(purl.file, p+1);
+        safe_strcpy(purl.file, p+1);
         *p = 0;
     } else {
-        strcpy(purl.file, "");
+        safe_strcpy(purl.file, "");
     }
 
     // parse and strip off port if present
@@ -106,7 +106,7 @@ void parse_url(const char* url, PARSED_URL& purl) {
 
     // what remains is the host
     //
-    strcpy(purl.host, buf);
+    safe_strcpy(purl.host, buf);
 }
 
 static char x2c(char *what) {
@@ -246,7 +246,7 @@ void canonicalize_master_url(char* url, int len) {
 
 void canonicalize_master_url(string& url) {
     char buf[1024];
-    strlcpy(buf, url.c_str(), sizeof(buf));
+    safe_strcpy(buf, url.c_str());
     canonicalize_master_url(buf, sizeof(buf));
     url = buf;
 }

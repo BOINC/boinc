@@ -351,7 +351,7 @@ void COPROC_ATI::get(
         cc.have_cal = true;
         cc.attribs = attribs;
         cc.info = info;
-        strcpy(cc.name, gpu_name.c_str());
+        safe_strcpy(cc.name, gpu_name.c_str());
         sprintf(cc.version, "%d.%d.%d", cal_major, cal_minor, cal_imp);
         cc.amdrt_detected = amdrt_detected;
         cc.atirt_detected = atirt_detected;

@@ -236,8 +236,8 @@ void make_job(
     wup->project = p;
     wup->rsc_fpops_est = app->fpops_est;
     rp->sim_flops_left = rp->wup->rsc_fpops_est;
-    strcpy(wup->name, rp->name);
-    strcpy(wup->app_name, app->name);
+    safe_strcpy(wup->name, rp->name);
+    safe_strcpy(wup->app_name, app->name);
     wup->app = app;
     double ops = app->fpops.sample();
     if (ops < 0) ops = 0;

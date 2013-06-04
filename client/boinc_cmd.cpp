@@ -231,9 +231,9 @@ int main(int argc, char** argv) {
     } else if (!strcmp(cmd, "--task")) {
         RESULT result;
         char* project_url = next_arg(argc, argv, i);
-        strcpy(result.project_url, project_url);
+        safe_strcpy(result.project_url, project_url);
         char* name = next_arg(argc, argv, i);
-        strcpy(result.name, name);
+        safe_strcpy(result.name, name);
         char* op = next_arg(argc, argv, i);
         if (!strcmp(op, "suspend")) {
             retval = rpc.result_op(result, "suspend");
@@ -246,8 +246,8 @@ int main(int argc, char** argv) {
         }
     } else if (!strcmp(cmd, "--project")) {
         PROJECT project;
-        strcpy(project.master_url, next_arg(argc, argv, i));
-        canonicalize_master_url(project.master_url, (int)strlen(project.master_url));
+        safe_strcpy(project.master_url, next_arg(argc, argv, i));
+        canonicalize_master_url(project.master_url, sizeof(project.master_url));
         char* op = next_arg(argc, argv, i);
         if (!strcmp(op, "reset")) {
             retval = rpc.project_op(project, "reset");
@@ -276,7 +276,7 @@ int main(int argc, char** argv) {
         }
     } else if (!strcmp(cmd, "--project_attach")) {
         char url[256];
-        strcpy(url, next_arg(argc, argv, i));
+        safe_strcpy(url, next_arg(argc, argv, i));
         canonicalize_master_url(url, sizeof(url));
         char* auth = next_arg(argc, argv, i);
         retval = rpc.project_attach(url, auth, "");

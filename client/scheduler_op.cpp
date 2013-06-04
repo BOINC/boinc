@@ -585,7 +585,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     double cpid_time = 0;
 
     clear();
-    strcpy(host_venue, project->host_venue);
+    safe_strcpy(host_venue, project->host_venue);
         // the project won't send us a venue if it's doing maintenance
         // or doesn't check the DB because no work.
         // Don't overwrite the host venue in that case.

@@ -212,11 +212,9 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
     aid.hostid = wup->project->hostid;
     safe_strcpy(aid.user_name, wup->project->user_name);
     safe_strcpy(aid.team_name, wup->project->team_name);
-    get_project_dir(wup->project, project_dir, sizeof(project_dir));
-    relative_to_absolute(project_dir, project_path);
-    strcpy(aid.project_dir, project_path);
+    safe_strcpy(aid.project_dir, wup->project->project_dir_absolute());
     relative_to_absolute("", aid.boinc_dir);
-    strcpy(aid.authenticator, wup->project->authenticator);
+    safe_strcpy(aid.authenticator, wup->project->authenticator);
     aid.slot = slot;
 #ifdef _WIN32
     if (strstr(gstate.host_info.os_name, "Windows 2000")) {
@@ -229,8 +227,8 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
 #else
     aid.client_pid = getpid();
 #endif
-    strcpy(aid.wu_name, wup->name);
-    strcpy(aid.result_name, result->name);
+    safe_strcpy(aid.wu_name, wup->name);
+    safe_strcpy(aid.result_name, result->name);
     aid.user_total_credit = wup->project->user_total_credit;
     aid.user_expavg_credit = wup->project->user_expavg_credit;
     aid.host_total_credit = wup->project->host_total_credit;
@@ -254,7 +252,7 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
     int rt = app_version->gpu_usage.rsc_type;
     if (rt) {
         COPROC& cp = coprocs.coprocs[rt];
-        strcpy(aid.gpu_type, cp.type);
+        safe_strcpy(aid.gpu_type, cp.type);
         int k = result->coproc_indices[0];
         if (k<0 || k>=cp.count) {
             msg_printf(0, MSG_INTERNAL_ERROR,
@@ -276,7 +274,7 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
     aid.fraction_done_start = 0;
     aid.fraction_done_end = 1;
 #ifdef _WIN32
-    strcpy(aid.shmem_seg_name, shmem_seg_name);
+    safe_strcpy(aid.shmem_seg_name, shmem_seg_name);
 #else
     aid.shmem_seg_name = shmem_seg_name;
 #endif
@@ -321,8 +319,8 @@ static int create_dirs_for_logical_name(
     char dir_path[MAXPATHLEN];
     int retval;
 
-    strcpy(buf, name);
-    strcpy(dir_path, slot_dir);
+    safe_strcpy(buf, name);
+    safe_strcpy(dir_path, slot_dir);
     char* p = buf;
     while (1) {
         char* q = strstr(p, "/");
@@ -337,11 +335,11 @@ static int create_dirs_for_logical_name(
     return 0;
 }
 
-static void prepend_prefix(APP_VERSION* avp, char* in, char* out) {
+static void prepend_prefix(APP_VERSION* avp, char* in, char* out, int len) {
     if (strlen(avp->file_prefix)) {
         sprintf(out, "%s/%s", avp->file_prefix, in);
     } else {
-        strcpy(out, in);
+        strlcpy(out, in, len);
     }
 }
 
@@ -368,11 +366,13 @@ int ACTIVE_TASK::setup_file(
     PROJECT* project = result->project;
 
     if (strlen(fref.open_name)) {
-		if (is_io_file) {
-			prepend_prefix(app_version, fref.open_name, open_name);
-		} else {
-			strcpy(open_name, fref.open_name);
-		}
+        if (is_io_file) {
+            prepend_prefix(
+                app_version, fref.open_name, open_name, sizeof(open_name)
+            );
+        } else {
+            safe_strcpy(open_name, fref.open_name);
+        }
         retval = create_dirs_for_logical_name(open_name, slot_dir);
         if (retval) return retval;
         sprintf(link_path, "%s/%s", slot_dir, open_name);
@@ -455,7 +455,9 @@ int ACTIVE_TASK::copy_output_files() {
         FILE_REF& fref = result->output_files[i];
         if (!must_copy_file(fref, true)) continue;
         FILE_INFO* fip = fref.file_info;
-        prepend_prefix(app_version, fref.open_name, open_name);
+        prepend_prefix(
+            app_version, fref.open_name, open_name, sizeof(open_name)
+        );
         sprintf(slotfile, "%s/%s", slot_dir, open_name);
         get_pathname(fip, projfile, sizeof(projfile));
 #if 1
@@ -523,7 +525,7 @@ int ACTIVE_TASK::start() {
                     fip->name, boincerror(retval)
                 );
             } else {
-                strcpy(buf, "Input file missing or invalid");
+                safe_strcpy(buf, "Input file missing or invalid");
             }
             goto error;
         }
@@ -585,12 +587,12 @@ int ACTIVE_TASK::start() {
             set_task_state(PROCESS_COPY_PENDING, "start");
             return 0;
         } else if (retval) {
-            strcpy(buf, "Can't link app version file");
+            safe_strcpy(buf, "Can't link app version file");
             goto error;
         }
     }
     if (!strlen(exec_name)) {
-        strcpy(buf, "No main program specified");
+        safe_strcpy(buf, "No main program specified");
         retval = ERR_NOT_FOUND;
         goto error;
     }
@@ -606,7 +608,7 @@ int ACTIVE_TASK::start() {
             set_task_state(PROCESS_COPY_PENDING, "start");
             return 0;
         } else if (retval) {
-            strcpy(buf, "Can't link input file");
+            safe_strcpy(buf, "Can't link input file");
             goto error;
         }
     }
@@ -617,7 +619,7 @@ int ACTIVE_TASK::start() {
         get_pathname(fref.file_info, file_path, sizeof(file_path));
         retval = setup_file(fip, fref, file_path, false, true);
         if (retval) {
-            strcpy(buf, "Can't link output file");
+            safe_strcpy(buf, "Can't link output file");
             goto error;
         }
     }
@@ -808,7 +810,7 @@ int ACTIVE_TASK::start() {
 
     argv[0] = exec_name;
     char cmdline[8192];
-    strcpy(cmdline, wup->command_line.c_str());
+    safe_strcpy(cmdline, wup->command_line.c_str());
     if (strlen(result->cmdline)) {
         strcat(cmdline, " ");
         strcat(cmdline, result->cmdline);
@@ -940,8 +942,7 @@ int ACTIVE_TASK::start() {
         //
         char libpath[8192];
         char newlibs[256];
-        get_project_dir(wup->project, buf, sizeof(buf));
-        sprintf(newlibs, "../../%s:.:../..", buf);
+        sprintf(newlibs, "../../%s:.:../..", wup->project->project_dir());
 #ifdef __APPLE__
         strcat(newlibs, ":/usr/local/cuda/lib/");
 #endif
@@ -949,7 +950,7 @@ int ACTIVE_TASK::start() {
         if (p) {
             sprintf(libpath, "%s:%s", newlibs, p);
         } else {
-            strcpy(libpath, newlibs);
+            safe_strcpy(libpath, newlibs);
         }
         setenv("LD_LIBRARY_PATH", libpath, 1);
 
@@ -960,7 +961,7 @@ int ACTIVE_TASK::start() {
         if (p) {
             sprintf(libpath, "%s:%s", newlibs, p);
         } else {
-            strcpy(libpath, newlibs);
+            safe_strcpy(libpath, newlibs);
         }
         setenv("DYLD_LIBRARY_PATH", libpath, 1);
 #endif

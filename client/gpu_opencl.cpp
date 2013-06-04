@@ -40,6 +40,7 @@ using std::string;
 #include "str_replace.h"
 
 #include "client_msgs.h"
+#include "client_state.h"
 #include "gpu_detect.h"
 
 #ifdef _WIN32
@@ -289,7 +290,15 @@ void COPROCS::get_opencl(
                         // Assumes OpenCL and CAL return the devices
                         // in the same order
                         //
-                        strcpy(prop.name, ati_gpus[prop.device_num].name);
+                        ++current_CAL_index;
+                    }
+                    prop.device_num = current_CAL_index;
+
+                    // Always use GPU model name from CAL if
+                    // available for ATI / AMD  GPUs because
+                    // (we believe) it is more user-friendly.
+                    //
+                    safe_strcpy(prop.name, ati_gpus[prop.device_num].name);
 
                         // Work around a bug in OpenCL which returns only 
                         // 1/2 of total global RAM size: use the value from CAL.
@@ -343,8 +352,8 @@ void COPROCS::get_opencl(
                 c.opencl_prop = prop;
                 c.is_used = COPROC_UNUSED;
                 c.available_ram = prop.global_mem_size;
-                strcpy(c.name, prop.name);
-                strcpy(c.version, prop.opencl_driver_version);
+                safe_strcpy(c.name, prop.name);
+                safe_strcpy(c.version, prop.opencl_driver_version);
 
                 c.set_peak_flops();
                 prop.peak_flops = c.peak_flops;
@@ -393,7 +402,7 @@ void COPROCS::get_opencl(
         nvidia.prop.totalGlobalMem = nvidia.opencl_prop.global_mem_size;
         nvidia.available_ram = nvidia.opencl_prop.global_mem_size;
         nvidia.prop.clockRate = nvidia.opencl_prop.max_clock_frequency * 1000;
-        strcpy(nvidia.prop.name, nvidia.opencl_prop.name);
+        safe_strcpy(nvidia.prop.name, nvidia.opencl_prop.name);
     }
 
     if (ati.have_cal) { // If CAL already found the "best" CAL GPU
@@ -403,12 +412,12 @@ void COPROCS::get_opencl(
         ati.attribs.localRAM = ati.opencl_prop.global_mem_size/MEGA;
         ati.available_ram = ati.opencl_prop.global_mem_size;
         ati.attribs.engineClock = ati.opencl_prop.max_clock_frequency;
-        strcpy(ati.name, ati.opencl_prop.name);
+        safe_strcpy(ati.name, ati.opencl_prop.name);
     }
 
     intel_gpu.find_best_opencls(use_all, intel_gpu_opencls, ignore_gpu_instance[PROC_TYPE_INTEL_GPU]);
     intel_gpu.available_ram = intel_gpu.opencl_prop.global_mem_size;
-    strcpy(intel_gpu.name, intel_gpu.opencl_prop.name);
+    safe_strcpy(intel_gpu.name, intel_gpu.opencl_prop.name);
 
 // TODO: Add code to allow adding other GPU vendors
 }

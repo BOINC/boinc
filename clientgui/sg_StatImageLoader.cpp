@@ -51,7 +51,7 @@ END_EVENT_TABLE()
 StatImageLoader::StatImageLoader(wxWindow* parent, char* url) : 
     wxWindow(parent, wxID_ANY, wxDefaultPosition, wxSize(40,40), wxNO_BORDER) 
 {
-    strcpy(project_url,  url);
+    safe_strcpy(project_url,  url);
 	project_files_downloaded_time = 1;
 	project_last_rpc_time = 1;
 	BuildUserStatToolTip();

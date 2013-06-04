@@ -288,9 +288,9 @@ void CLIENT_STATE::parse_env_vars() {
         case URL_PROTOCOL_HTTPS:
             env_var_proxy_info.present = true;
             env_var_proxy_info.use_http_proxy = true;
-            strcpy(env_var_proxy_info.http_user_name, purl.user);
-            strcpy(env_var_proxy_info.http_user_passwd, purl.passwd);
-            strcpy(env_var_proxy_info.http_server_name, purl.host);
+            safe_strcpy(env_var_proxy_info.http_user_name, purl.user);
+            safe_strcpy(env_var_proxy_info.http_user_passwd, purl.passwd);
+            safe_strcpy(env_var_proxy_info.http_server_name, purl.host);
             env_var_proxy_info.http_server_port = purl.port;
             break;
         default:
@@ -303,10 +303,10 @@ void CLIENT_STATE::parse_env_vars() {
     p = getenv("HTTP_USER_NAME");
     if (p) {
         env_var_proxy_info.use_http_auth = true;
-        strcpy(env_var_proxy_info.http_user_name, p);
+        safe_strcpy(env_var_proxy_info.http_user_name, p);
         p = getenv("HTTP_USER_PASSWD");
         if (p) {
-            strcpy(env_var_proxy_info.http_user_passwd, p);
+            safe_strcpy(env_var_proxy_info.http_user_passwd, p);
         }
     }
 
@@ -316,21 +316,21 @@ void CLIENT_STATE::parse_env_vars() {
         parse_url(p, purl);
         env_var_proxy_info.present = true;
         env_var_proxy_info.use_socks_proxy = true;
-        strcpy(env_var_proxy_info.socks5_user_name, purl.user);
-        strcpy(env_var_proxy_info.socks5_user_passwd, purl.passwd);
-        strcpy(env_var_proxy_info.socks_server_name, purl.host);
+        safe_strcpy(env_var_proxy_info.socks5_user_name, purl.user);
+        safe_strcpy(env_var_proxy_info.socks5_user_passwd, purl.passwd);
+        safe_strcpy(env_var_proxy_info.socks_server_name, purl.host);
         env_var_proxy_info.socks_server_port = purl.port;
     }
 
     p = getenv("SOCKS5_USER");
     if (!p) p = getenv("SOCKS_USER");
     if (p) {
-        strcpy(env_var_proxy_info.socks5_user_name, p);
+        safe_strcpy(env_var_proxy_info.socks5_user_name, p);
     }
 
     p = getenv("SOCKS5_PASSWD");
     if (p) {
-        strcpy(env_var_proxy_info.socks5_user_passwd, p);
+        safe_strcpy(env_var_proxy_info.socks5_user_passwd, p);
     }
 }
 

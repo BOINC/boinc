@@ -101,7 +101,6 @@
 #include "proc_control.h"
 #include "shmem.h"
 #include "str_util.h"
-#include "str_replace.h"
 #include "util.h"
 
 #include "boinc_api.h"

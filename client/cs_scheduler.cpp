@@ -665,7 +665,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         msg_printf(project, MSG_INFO, "New computer location: %s", sr.host_venue);
         update_project_prefs = true;
         if (project == global_prefs_source_project()) {
-            strcpy(main_host_venue, sr.host_venue);
+            safe_strcpy(main_host_venue, sr.host_venue);
             update_global_prefs = true;
         }
     }
@@ -741,7 +741,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     for (i=0; i<sr.apps.size(); i++) {
         APP* app = lookup_app(project, sr.apps[i].name);
         if (app) {
-            strcpy(app->user_friendly_name, sr.apps[i].user_friendly_name);
+            safe_strcpy(app->user_friendly_name, sr.apps[i].user_friendly_name);
         } else {
             app = new APP;
             *app = sr.apps[i];
@@ -796,7 +796,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         }
         APP_VERSION& avpp = sr.app_versions[i];
         if (strlen(avpp.platform) == 0) {
-            strcpy(avpp.platform, get_primary_platform());
+            safe_strcpy(avpp.platform, get_primary_platform());
         } else {
             if (!is_supported_platform(avpp.platform)) {
                 msg_printf(project, MSG_INTERNAL_ERROR,
@@ -829,7 +829,7 @@ int CLIENT_STATE::handle_scheduler_reply(
             avp->avg_ncpus = avpp.avg_ncpus;
             avp->max_ncpus = avpp.max_ncpus;
             avp->flops = avpp.flops;
-            strcpy(avp->cmdline, avpp.cmdline);
+            safe_strcpy(avp->cmdline, avpp.cmdline);
             avp->gpu_usage = avpp.gpu_usage;
             strlcpy(avp->api_version, avpp.api_version, sizeof(avp->api_version));
             avp->dont_throttle = avpp.dont_throttle;
@@ -891,7 +891,7 @@ int CLIENT_STATE::handle_scheduler_reply(
             continue;
         }
         if (strlen(rp->platform) == 0) {
-            strcpy(rp->platform, get_primary_platform());
+            safe_strcpy(rp->platform, get_primary_platform());
             rp->version_num = latest_version(rp->wup->app, rp->platform);
         }
         rp->avp = lookup_app_version(

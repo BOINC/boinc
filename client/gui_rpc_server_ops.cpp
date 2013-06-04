@@ -286,6 +286,7 @@ static void handle_project_allowmorework(GUI_RPC_CONN& grc) {
     gstate.set_client_state_dirty("Project modified by user");
     msg_printf(p, MSG_INFO, "work fetch resumed by user");
     p->dont_request_more_work = false;
+    gstate.request_work_fetch("project work fetch resumed by user");
     grc.mfout.printf("<success/>\n");
 }
 
@@ -614,10 +615,9 @@ static void handle_acct_mgr_info(GUI_RPC_CONN& grc) {
 
 static void handle_get_statistics(GUI_RPC_CONN& grc) {
     grc.mfout.printf("<statistics>\n");
-    for (std::vector<PROJECT*>::iterator i=gstate.projects.begin();
-        i!=gstate.projects.end();++i
-    ) {
-        (*i)->write_statistics(grc.mfout,true);
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        p->write_statistics(grc.mfout);
     }
     grc.mfout.printf("</statistics>\n");
 }
@@ -1156,7 +1156,7 @@ struct GUI_RPC {
 
     GUI_RPC(const char* req, GUI_RPC_HANDLER h, bool ar, bool en, bool ro) {
         req_tag = req;
-        strcpy(alt_req_tag, req);
+        safe_strcpy(alt_req_tag, req);
         strcat(alt_req_tag, "/");
         handler = h;
         auth_required = ar;

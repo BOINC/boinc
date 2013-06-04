@@ -101,8 +101,6 @@ Boolean CheckDeleteFile(char *name);
 void SetEUIDBackToUser (void);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
 Boolean IsUserMemberOfGroup(const char *userName, const char *groupName);
-static void c2x(char *what);
-static void escape_url(char *in, char*out);
 int CountGroupMembershipEntries(const char *userName, const char *groupName);
 OSErr UpdateAllVisibleUsers(long brandID);
 long GetBrandID(void);
@@ -117,10 +115,11 @@ static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply
 void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
 
-extern int check_security(char *bundlePath, char *dataPath, 
-                            int use_sandbox, int isManager, 
-                            char* path_to_error = NULL
-                        );
+extern int check_security(
+    char *bundlePath, char *dataPath, 
+    int use_sandbox, int isManager, 
+    char* path_to_error, int len
+);
 
 #define NUMBRANDS 4
 
@@ -318,7 +317,11 @@ int main(int argc, char *argv[])
             continue;
         }
         
-        err = check_security(appPath[brandID], "/Library/Application Support/BOINC Data", true, false);
+        err = check_security(
+            appPath[brandID],
+            "/Library/Application Support/BOINC Data",
+            true, false, NULL, 0
+        );
         if (err != noErr) {
             printf("check_security returned %ld (repetition=%d)", err, i);
             fflush(stdout);
@@ -1139,46 +1142,6 @@ Boolean IsUserMemberOfGroup(const char *userName, const char *groupName) {
     return false;
 }
 
-
-static void c2x(char *what) {
-    char buf[3];
-    char num = atoi(what);
-    char d1 = num / 16;
-    char d2 = num % 16;
-    int abase1, abase2;
-    if (d1 < 10) abase1 = 48;
-    else abase1 = 55;
-    if (d2 < 10) abase2 = 48;
-    else abase2 = 55;
-    buf[0] = d1+abase1;
-    buf[1] = d2+abase2;
-    buf[2] = 0;
-
-    strcpy(what, buf);
-}
-
-
-static void escape_url(char *in, char*out) {
-    int x, y;
-    for (x=0, y=0; in[x]; ++x) {
-        if (isalnum(in[x])) {
-            out[y] = in[x];
-            ++y;
-        } else {
-            out[y] = '%';
-            ++y;
-            out[y] = 0;
-            char buf[256];
-            sprintf(buf, "%d", (char)in[x]);
-            c2x(buf);
-            strcat(out, buf);
-            y += 2;
-        }
-    }
-    out[y] = 0;
-}
-
-
 // OS 10.7 dscl merge command has a bug such that the command:
 //     dscl . -merge /Groups/GROUPNAME users USERNAME
 // adds the user to the group even if it was already a member, resulting in 
@@ -1195,7 +1158,7 @@ int CountGroupMembershipEntries(const char *userName, const char *groupName) {
     char                *p, *q;
     
     // getgrnam(groupName)->gr_mem[] only returns one entry, so we must use dscl
-    escape_url((char *)userName, escapedUserName); // Avoid confusion if name has embedded spaces
+    escape_url(userName, escapedUserName, sizeof(escapedUserName)); // Avoid confusion if name has embedded spaces
     sprintf(cmd, "dscl -url . -read /Groups/%s GroupMembership", groupName);
     f = popen(cmd, "r");
     if (f == NULL)

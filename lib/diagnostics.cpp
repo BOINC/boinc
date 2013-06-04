@@ -663,7 +663,7 @@ void boinc_trace(const char *pszFormat, ...) {
         char *theCR;
     
         time(&t);
-        strcpy(szTime, asctime(localtime(&t)));
+        safe_strcpy(szTime, asctime(localtime(&t)));
         theCR = strrchr(szTime, '\n');
         if (theCR) *theCR = '\0';
         theCR = strrchr(szTime, '\r');
