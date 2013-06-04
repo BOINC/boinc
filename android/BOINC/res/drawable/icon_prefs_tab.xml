@@ -19,8 +19,8 @@
 -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android" >
     <!-- when selected use dark icons -->
-    <item android:drawable="@drawable/wrenchb"
+    <item android:drawable="@drawable/tabsettingsb"
         android:state_selected="true"></item>
     <!-- when not selected, use white -->
-    <item android:drawable="@drawable/wrenchw"></item>
+    <item android:drawable="@drawable/tabsettings"></item>
 </selector>
