@@ -327,7 +327,7 @@ static void show_connect_error(sockaddr_storage& s) {
     char buf[256];
 #ifdef _WIN32
     sockaddr_in* sin = (sockaddr_in*)&s;
-    strcpy(buf, inet_ntoa(sin->sin_addr));
+    safe_strcpy(buf, inet_ntoa(sin->sin_addr));
 #else
     inet_ntop(s.ss_family, &s, buf, 256);
 #endif

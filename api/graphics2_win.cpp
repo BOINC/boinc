@@ -148,11 +148,13 @@ static void make_window(const char* title) {
 
     char window_title[256];
     if (title) {
-        strcpy(window_title, title);
+        strlcpy(window_title, title, sizeof(window_title));
     } else {
         APP_INIT_DATA aid;
         boinc_get_init_data(aid);
-        if (!strlen(aid.app_name)) strcpy(aid.app_name, "BOINC Application");
+        if (!strlen(aid.app_name)) {
+            strlcpy(aid.app_name, "BOINC Application", sizeof(aid.app_name));
+        }
         get_window_title(window_title, 256);
     }
 

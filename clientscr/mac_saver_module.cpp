@@ -113,10 +113,10 @@ const char *  RunningOnBatteryMsg = "Computing and screensaver disabled while ru
 void initBOINCSaver() {
 #ifdef _DEBUG
     char buf1[256], buf2[256];
-    strcpy(buf1, getenv("HOME"));
-    strcat(buf1, "/Documents/ss_stdout");
-    strcpy(buf2, getenv("HOME"));
-    strcat(buf2, "/Documents/ss_stderr");
+    safe_strcpy(buf1, getenv("HOME"));
+    safe_strcat(buf1, "/Documents/ss_stdout");
+    safe_strcpy(buf2, getenv("HOME"));
+    safe_strcat(buf2, "/Documents/ss_stderr");
 
     diagnostics_init(BOINC_DIAG_REDIRECTSTDOUTOVERWRITE
         | BOINC_DIAG_REDIRECTSTDERROVERWRITE
@@ -413,8 +413,8 @@ OSStatus CScreensaver::initBOINCApp() {
       // We don't customize BOINC Data directory name for branding
 #if 0   // Code for separate data in each user's private directory
         char buf[256];
-        strcpy(buf, getenv("HOME"));
-        strcat(buf, "/Library/Application Support/BOINC Data");
+        safe_strcpy(buf, getenv("HOME"));
+        safe_strcat(buf, "/Library/Application Support/BOINC Data");
         status = chdir(buf);
 #else   // All users share the same data
         status = chdir("/Library/Application Support/BOINC Data");
@@ -1020,8 +1020,8 @@ void print_to_log_file(const char *format, ...) {
     char buf[256];
     time_t t;
 #if USE_SPECIAL_LOG_FILE
-    strcpy(buf, getenv("HOME"));
-    strcat(buf, "/Documents/test_log.txt");
+    safe_strcpy(buf, getenv("HOME"));
+    safe_strcat(buf, "/Documents/test_log.txt");
     FILE *f;
     f = fopen(buf, "a");
     if (!f) return;
@@ -1032,7 +1032,7 @@ void print_to_log_file(const char *format, ...) {
     #define f stderr
 #endif
     time(&t);
-    strcpy(buf, asctime(localtime(&t)));
+    safe_strcpy(buf, asctime(localtime(&t)));
     strip_cr(buf);
 
     fputs(buf, f);

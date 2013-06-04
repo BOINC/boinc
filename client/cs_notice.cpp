@@ -437,8 +437,8 @@ int NOTICES::read_archive_file(const char* path, RSS_FEED* rfp) {
                 }
             } else {
                 if (rfp) {
-                    strcpy(n.feed_url, rfp->url);
-                    strcpy(n.project_name, rfp->project_name);
+                    safe_strcpy(n.feed_url, rfp->url);
+                    safe_strcpy(n.project_name, rfp->project_name);
                 }
                 append(n);
             }
@@ -460,7 +460,7 @@ void NOTICES::write_archive(RSS_FEED* rfp) {
     if (rfp) {
         rfp->archive_file_name(path);
     } else {
-        strcpy(path, NOTICES_DIR"/archive.xml");
+        safe_strcpy(path, NOTICES_DIR"/archive.xml");
     }
     FILE* f = fopen(path, "w");
     if (!f) return;
@@ -584,7 +584,7 @@ int RSS_FEED::parse_desc(XML_PARSER& xp) {
                 }
                 return ERR_XML_PARSE;
             }
-            strcpy(url_base, url);
+            safe_strcpy(url_base, url);
             char* p = strchr(url_base, '?');
             if (p) *p = 0;
             return 0;
@@ -600,7 +600,7 @@ int RSS_FEED::parse_desc(XML_PARSER& xp) {
 
 void RSS_FEED::write(MIOFILE& fout) {
     char buf[256];
-    strcpy(buf, url);
+    safe_strcpy(buf, url);
     xml_escape(url, buf, sizeof(buf));
     fout.printf(
         "  <rss_feed>\n"
@@ -656,8 +656,8 @@ int RSS_FEED::parse_items(XML_PARSER& xp, int& nitems) {
             } else {
                 n.arrival_time = gstate.now;
                 n.keep = true;
-                strcpy(n.feed_url, url);
-                strcpy(n.project_name, project_name);
+                safe_strcpy(n.feed_url, url);
+                safe_strcpy(n.project_name, project_name);
                 new_notices.push_back(n);
             }
             continue;
@@ -713,7 +713,7 @@ bool RSS_FEED_OP::poll() {
                 );
             }
             char url[256];
-            strcpy(url, rf.url);
+            safe_strcpy(url, rf.url);
             gstate.gui_http.do_rpc(this, url, filename, true);
             break;
         }
@@ -847,7 +847,7 @@ void RSS_FEEDS::update_proj_am(PROJ_AM* p) {
             rfp->found = true;
         } else {
             rf.found = true;
-            strcpy(rf.project_name, p->get_project_name());
+            safe_strcpy(rf.project_name, p->get_project_name());
             feeds.push_back(rf);
             if (log_flags.notice_debug) {
                 msg_printf(0, MSG_INFO,

@@ -202,6 +202,8 @@
 		DD6ABCD10BD4C5CA009AA7A1 /* browser_safari.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD6ABCD00BD4C5CA009AA7A1 /* browser_safari.mm */; };
 		DD6D0A8707E9A61E007F882B /* network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.cpp */; };
 		DD6FCB68167745E700C740DB /* libsqlite3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DD6FCB67167745E700C740DB /* libsqlite3.a */; };
+		DD728D45175DD3B900A1CE23 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; };
+		DD728D47175DD41B00A1CE23 /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.cpp */; };
 		DD73E36E08A0720500656EB1 /* gui_rpc_server_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E36208A06ED400656EB1 /* gui_rpc_server_ops.cpp */; };
 		DD73E3A708A07CA600656EB1 /* hostinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BB607C5AEEE0043025C /* hostinfo.cpp */; };
 		DD73E3B608A07FC600656EB1 /* gui_rpc_client_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.cpp */; };
@@ -2832,6 +2834,8 @@
 				DDA12AA20A369B5500FBDD12 /* SetupSecurity.cpp in Sources */,
 				DD51DC8F0A4943A300BD24E6 /* check_security.cpp in Sources */,
 				DD2FE5CB142DE94700A1E6F3 /* LoginItemAPI.c in Sources */,
+				DD728D45175DD3B900A1CE23 /* url.cpp in Sources */,
+				DD728D47175DD41B00A1CE23 /* str_util.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

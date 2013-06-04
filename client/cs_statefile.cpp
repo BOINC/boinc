@@ -273,7 +273,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
                 continue;
             } 
             if (strlen(avp->platform) == 0) {
-                strcpy(avp->platform, get_primary_platform());
+                safe_strcpy(avp->platform, get_primary_platform());
             } else {
                 if (!is_supported_platform(avp->platform)) {
                     // if it's a platform we haven't heard of,
@@ -287,7 +287,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
                         avp->platform, get_primary_platform()
                     );
 #endif
-                    strcpy(avp->platform, get_primary_platform());
+                    safe_strcpy(avp->platform, get_primary_platform());
                 }
             }
             if (avp->missing_coproc) {
@@ -363,7 +363,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
             // skip for anon platform
             if (!project->anonymous_platform) {
                 if (!strlen(rp->platform) || !is_supported_platform(rp->platform)) {
-                    strcpy(rp->platform, get_primary_platform());
+                    safe_strcpy(rp->platform, get_primary_platform());
                     rp->version_num = latest_version(rp->wup->app, rp->platform);
                 }
             }
@@ -865,7 +865,7 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
             //
             get_pathname(fip, path, sizeof(path));
             if (!boinc_file_exists(path)) {
-                strcpy(buf,
+                safe_strcpy(buf,
                     _("File referenced in app_info.xml does not exist: ")
                 );
                 strcat(buf, fip->name);
@@ -899,7 +899,7 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
                 continue;
             }
             if (strlen(avp->platform) == 0) {
-                strcpy(avp->platform, get_primary_platform());
+                safe_strcpy(avp->platform, get_primary_platform());
             }
             if (link_app_version(p, avp)) {
                 delete avp;

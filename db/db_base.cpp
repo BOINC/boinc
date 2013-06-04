@@ -75,7 +75,7 @@ int DB_CONN::open(
     //
     char host[256];
     int port = 0;
-    strcpy(host, db_host);
+    safe_strcpy(host, db_host);
     char* p = strchr(host, ':');
     if (p) {
         *p = 0;

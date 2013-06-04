@@ -72,7 +72,7 @@ int get_output_file_info(RESULT& result, OUTPUT_FILE_INFO& fi) {
             int retval = fi.parse(xp);
             if (retval) return retval;
             if (standalone) {
-                strcpy(path, fi.name.c_str());
+                safe_strcpy(path, fi.name.c_str());
             } else {
                 dir_hier_path(
                     fi.name.c_str(), config.upload_dir,
@@ -100,7 +100,7 @@ int get_output_file_infos(RESULT& result, vector<OUTPUT_FILE_INFO>& fis) {
             int retval =  fi.parse(xp);
             if (retval) return retval;
             if (standalone) {
-                strcpy(path, fi.name.c_str());
+                safe_strcpy(path, fi.name.c_str());
             } else {
                 dir_hier_path(
                     fi.name.c_str(), config.upload_dir,
@@ -154,17 +154,17 @@ struct FILE_REF {
 // given a path returned by the above, get the corresponding logical name
 //
 int get_logical_name(RESULT& result, string& path, string& name) {
-    char phys_name[1024];
+    char buf[1024], phys_name[1024];
     MIOFILE mf;
     int retval;
 
     mf.init_buf_read(result.xml_doc_in);
     XML_PARSER xp(&mf);
 
-    strcpy(phys_name, path.c_str());
-    char* p = strrchr(phys_name, '/');
+    safe_strcpy(buf, path.c_str());
+    char* p = strrchr(buf, '/');
     if (!p) return ERR_NOT_FOUND;
-    strcpy(phys_name, p+1);
+    safe_strcpy(phys_name, p+1);
 
     while (!xp.get_tag()) {
         if (!xp.is_tag) continue;

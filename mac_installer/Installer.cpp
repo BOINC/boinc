@@ -30,6 +30,7 @@
 #include <sys/param.h>  // for MAXPATHLEN
 #include <sys/stat.h>
 
+#include "str_util.h"
 
 #define boinc_master_user_name "boinc_master"
 #define boinc_master_group_name "boinc_master"
@@ -43,6 +44,10 @@ OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberP
 static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
 void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
+
+/* BEGIN TEMPORARY ITEM TO ALLOW TRANSLATORS TO START WORK */
+#define _(x) x
+/* END TEMPORARY ITEM TO ALLOW TRANSLATORS TO START WORK */
 
 Boolean			gQuitFlag = false;	/* global */
 
@@ -113,7 +118,7 @@ int main(int argc, char *argv[])
         p = strrchr(brand, ' ');         // Strip off last space character and everything following
         if (p)
             *p = '\0'; 
-        s[0] = sprintf(s+1, "Sorry, this version of %s requires system 10.4 or higher.", brand);
+        s[0] = sprintf(s+1, _("Sorry, this version of %s requires system 10.4 or higher."), brand);
         StandardAlert (kAlertStopAlert, (StringPtr)s, NULL, NULL, &itemHit);
 
         err = FindProcess ('APPL', 'xins', &installerPSN);
@@ -354,8 +359,8 @@ void print_to_log_file(const char *format, ...) {
     va_list args;
     char buf[256];
     time_t t;
-    strcpy(buf, getenv("HOME"));
-    strcat(buf, "/Documents/test_log.txt");
+    safe_strcpy(buf, getenv("HOME"));
+    safe_strcat(buf, "/Documents/test_log.txt");
     f = fopen(buf, "a");
     if (!f) return;
 
@@ -363,7 +368,7 @@ void print_to_log_file(const char *format, ...) {
 //  freopen(buf, "a", stderr);
 
     time(&t);
-    strcpy(buf, asctime(localtime(&t)));
+    safe_strcpy(buf, asctime(localtime(&t)));
     strip_cr(buf);
 
     fputs(buf, f);

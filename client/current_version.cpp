@@ -59,7 +59,7 @@ static bool is_version_newer(const char* p) {
 // If there is a newer version for our primary platform,
 // copy it to new_version and return true.
 //
-static bool parse_version(FILE* f, char* new_version) {
+static bool parse_version(FILE* f, char* new_version, int len) {
     char buf2[256];
     bool same_platform = false, newer_version_exists = false;
 
@@ -76,7 +76,7 @@ static bool parse_version(FILE* f, char* new_version) {
         }
         if (xp.parse_str("version_num", buf2, sizeof(buf2))) {
             newer_version_exists = is_version_newer(buf2);
-            strcpy(new_version, buf2);
+            strlcpy(new_version, buf2, len);
         }
     }
     return false;
@@ -106,7 +106,7 @@ void GET_CURRENT_VERSION_OP::handle_reply(int http_op_retval) {
     if (!f) return;
     while (fgets(buf, 256, f)) {
         if (match_tag(buf, "<version>")) {
-            if (parse_version(f, new_version)) {
+            if (parse_version(f, new_version, sizeof(new_version))) {
                 show_newer_version_msg(new_version);
                 gstate.newer_version = string(new_version);
                 break;

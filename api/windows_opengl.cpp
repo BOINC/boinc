@@ -138,7 +138,9 @@ static void make_new_window() {
 
     APP_INIT_DATA aid;
     boinc_get_init_data(aid);
-    if (!strlen(aid.app_name)) strcpy(aid.app_name, "BOINC Application");
+    if (!strlen(aid.app_name)) {
+        strlcpy(aid.app_name, "BOINC Application", sizeof(aid.app_name));
+    }
     char window_title[256];
     get_window_title(aid, window_title, 256);
     hWnd = CreateWindowEx(dwExStyle, BOINC_WINDOW_CLASS_NAME, window_title,

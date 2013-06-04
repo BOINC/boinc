@@ -77,18 +77,18 @@ APP_INIT_DATA &APP_INIT_DATA::operator=(const APP_INIT_DATA& a) {
 }
 
 void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
-    strcpy(app_name, a.app_name);
-    strcpy(symstore, a.symstore);
-    strcpy(acct_mgr_url, a.acct_mgr_url);
-    strcpy(user_name, a.user_name);
-    strcpy(team_name, a.team_name);
-    strcpy(project_dir, a.project_dir);
-    strcpy(boinc_dir, a.boinc_dir);
-    strcpy(wu_name, a.wu_name);
-    strcpy(result_name, a.result_name);
-    strcpy(authenticator, a.authenticator);
+    safe_strcpy(app_name, a.app_name);
+    safe_strcpy(symstore, a.symstore);
+    safe_strcpy(acct_mgr_url, a.acct_mgr_url);
+    safe_strcpy(user_name, a.user_name);
+    safe_strcpy(team_name, a.team_name);
+    safe_strcpy(project_dir, a.project_dir);
+    safe_strcpy(boinc_dir, a.boinc_dir);
+    safe_strcpy(wu_name, a.wu_name);
+    safe_strcpy(result_name, a.result_name);
+    safe_strcpy(authenticator, a.authenticator);
     memcpy(&shmem_seg_name, &a.shmem_seg_name, sizeof(SHMEM_SEG_NAME));
-    strcpy(gpu_type, a.gpu_type);
+    safe_strcpy(gpu_type, a.gpu_type);
                 
     // use assignment for the rest, especially the classes
     // (so that the overloaded operators are called!)

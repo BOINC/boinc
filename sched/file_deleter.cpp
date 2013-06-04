@@ -424,7 +424,7 @@ int main(int argc, char** argv) {
         } else if (is_arg(argv[i], "preserve_result_files")) {
             preserve_result_files = true;
         } else if (is_arg(argv[i], "app")) {
-            strcpy(app.name, argv[++i]);
+            safe_strcpy(app.name, argv[++i]);
         } else if (is_arg(argv[i], "appid")) {
             if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);

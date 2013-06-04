@@ -78,7 +78,7 @@ int main(int argc, char** argv) {
                 usage();
                 exit(1);
             }
-            strcpy(file_name, argv[i]);
+            safe_strcpy(file_name, argv[i]);
         } else if (is_arg(argv[i], "h") || is_arg(argv[i], "help")) {
             usage();
             exit(0);

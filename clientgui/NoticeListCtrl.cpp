@@ -497,7 +497,7 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const {
             if (strlen(np->project_name)) {
                 sprintf(buf, "%s: %s", np->project_name, "_(\"Notice from BOINC\")");
             } else {
-                strcpy(buf, "_(\"Notice from BOINC\")");
+                safe_strcpy(buf, "_(\"Notice from BOINC\")");
             }
         } else if (!strcmp(np->category, "scheduler")) {
             sprintf(buf, "%s: %s", np->project_name, "_(\"Notice from server\")");
@@ -505,7 +505,7 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const {
             if (strlen(np->project_name)) {
                 sprintf(buf, "%s: %s", np->project_name, np->title);
             } else {
-                strcpy(buf, np->title);
+                safe_strcpy(buf, np->title);
             }
         }
         strTitle = wxString(buf, wxConvUTF8);

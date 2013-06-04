@@ -48,8 +48,8 @@
 
       </simple>
 	  <advanced>
-      <application_name>Grid Republic - BOINC Manager</application_name>
-      <application_short_name>Grid Republic</application_short_name>
+      <application_name>GridRepublic - BOINC Manager</application_name>
+      <application_short_name>GridRepublic</application_short_name>
       <application_logo>gr_about.ico</application_logo>
 
       <application_icon>
@@ -82,7 +82,7 @@
 	  
 	  <is_branded>1</is_branded>
 
-      <organization_name>Grid Republic</organization_name>
+      <organization_name>GridRepublic</organization_name>
       <organization_website>http://www.gridrepublic.org</organization_website>
       <organization_help_url>http://www.gridrepublic.org/joomla/index.php?option=com_mambowiki&board=4&Itemid=35&page=Help&compars=help_documentation</organization_help_url> 
 
@@ -91,7 +91,7 @@
 	<wizards>  
 			<attach_to_project>
 				<!-- title displayed on the attach to project wizard -->
-				<title>Grid Republic Desktop - Attach to Project</title>
+				<title>GridRepublic Desktop - Attach to Project</title>
 			</attach_to_project>
 			<attach_to_account_manager>
 				<!-- title displayed on the attach to account manager wizard -->

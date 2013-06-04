@@ -72,7 +72,7 @@ int main(int argc, char** argv) {
             host_id = atoi(argv[i]);
         } else if (is_arg(argv[i], "file_name")) {
             if (!argv[++i]) usage();
-            strcpy(file_name, argv[i]);
+            safe_strcpy(file_name, argv[i]);
         } else if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help")) {
             usage();
         } else if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "--version")) {
@@ -80,7 +80,7 @@ int main(int argc, char** argv) {
         } else if (is_arg(argv[i], "url")) {
             urls.push_back(argv[++i]);
         } else if (is_arg(argv[i], "md5")) {
-            strcpy(md5, argv[++i]);
+            safe_strcpy(md5, argv[++i]);
         } else if (is_arg(argv[i], "nbytes")) {
             nbytes = atof(argv[++i]);
         } else if (is_arg(argv[i], "max_latency")) {
