@@ -211,7 +211,8 @@
 				
 	<!-- tasks tab strings -->
 	<string name="tasks_loading">Reading tasks&#8230;</string>
-	<string name="tasks_header_name">ID:</string>
+	<string name="tasks_header_name">Task Name:</string>
+	<string name="tasks_header_elapsed_time">Elapsed time:</string>
 	<string name="tasks_header_project_name">Project:</string>
 	<string name="tasks_header_project_paused">(suspended)</string>
 	<string name="tasks_header_deadline">Deadline:</string>

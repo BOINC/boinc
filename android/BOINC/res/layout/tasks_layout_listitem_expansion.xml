@@ -17,84 +17,159 @@
   You should have received a copy of the GNU Lesser General Public License
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="false"
-    android:orientation="horizontal" >
+    android:orientation="vertical"
+    android:paddingRight="5dip" >
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+        
+        <LinearLayout
+            android:id="@+id/taskButtons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="right"
+            android:orientation="horizontal" >
+            
+            <ImageView
+                android:id="@+id/suspendResumeTask"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:contentDescription="@drawable/resumetask"
+                android:paddingLeft="5dip"
+                android:paddingRight="5dip"
+                android:src="@drawable/resumetask" />
+            
+            <ImageView
+                android:id="@+id/abortTask"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:contentDescription="@drawable/aborttask"
+                android:paddingLeft="5dip"
+                android:paddingRight="5dip"
+                android:src="@drawable/aborttask" />
+        </LinearLayout>
+        
+        <LinearLayout
+            android:id="@+id/requestPendingWrapper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/taskButtons"
+            android:layout_alignLeft="@id/taskButtons"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/taskButtons"
+            android:orientation="vertical"
+            android:visibility="visible" >
+            
+            <ProgressBar
+                android:id="@+id/request_progressBar"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="5dp" />
+        </LinearLayout>
+        
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/taskButtons" >
+            
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="20dip"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                android:progressDrawable="@drawable/progressbar_paused" />
+        </RelativeLayout>
+        
+    </RelativeLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:gravity="left"
         android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/projectName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/tasks_header_project_name"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-        <TextView
-            android:id="@+id/taskName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/tasks_header_name"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-        <TextView
-            android:id="@+id/deadline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/tasks_header_deadline"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+            
+            <TextView
+                android:id="@+id/taskTimeLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="5dp"
+                android:text="@string/tasks_header_elapsed_time"
+                android:textColor="@color/black"
+                android:textStyle="bold|italic" />
+            
+            <TextView
+                android:id="@+id/taskTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingRight="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/black"
+                android:textStyle="italic" />
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+            
+            <TextView
+                android:id="@+id/taskNameLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="5dp"
+                android:text="@string/tasks_header_name"
+                android:textColor="@color/black"
+                android:textStyle="bold|italic" />
+            <TextView
+                android:id="@+id/taskName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/black"
+                android:textStyle="italic" />
+        </LinearLayout>
+        
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content" >
+            
+            <TextView
+                android:id="@+id/deadlineLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="5dp"
+                android:text="@string/tasks_header_deadline"
+                android:textColor="@color/black"
+                android:textStyle="bold|italic" />
+            
+            <TextView
+                android:id="@+id/deadline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/black"
+                android:textStyle="italic" />
+		</LinearLayout>
+        
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/taskButtons"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:orientation="vertical" >
-
-        <ImageButton
-            android:id="@+id/abortTask"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:clickable="true"
-		    android:background="@android:color/black"
-            android:contentDescription="@string/tasks_button_abort"
-            android:src="@drawable/abortw24" />
-
-        <ImageButton
-            android:id="@+id/suspendResumeTask"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:clickable="true"
-		    android:background="@android:color/black"
-            android:contentDescription="@string/tasks_button_resume"
-            android:src="@drawable/playw24" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/requestPendingWrapper"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:orientation="vertical"
-        android:visibility="gone" >
-
-        <ProgressBar
-	        android:id="@+id/request_progressBar"
-	        style="?android:attr/progressBarStyleSmall"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_margin="5dp"/>
-    </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>
