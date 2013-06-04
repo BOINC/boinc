@@ -72,6 +72,7 @@
 #include <time.h>       // for time()
 #include <vector>
 #include <string>
+#include "url.h"
 
 using std::vector;
 using std::string;

@@ -30,7 +30,7 @@
 #include <sys/param.h>  // for MAXPATHLEN
 #include <sys/stat.h>
 
-#include "std_util.h"
+#include "str_util.h"
 
 #define boinc_master_user_name "boinc_master"
 #define boinc_master_group_name "boinc_master"
