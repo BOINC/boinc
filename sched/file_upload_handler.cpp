@@ -301,7 +301,7 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             continue;
         }
         if (parse_str(buf, "<name>", name, sizeof(name))) {
-            strcpy(this_filename, name);
+            safe_strcpy(this_filename, name);
             continue;
         }
         if (parse_double(buf, "<max_nbytes>", max_nbytes)) continue;

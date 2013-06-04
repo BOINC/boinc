@@ -672,8 +672,8 @@ int boinc_make_dirs(const char* dirpath, const char* filepath) {
     char *p, *q;
 
     if (strlen(filepath) + strlen(dirpath) > MAXPATHLEN-1) return ERR_BUFFER_OVERFLOW;
-    strcpy(buf, filepath);
-    strcpy(oldpath, dirpath);
+    safe_strcpy(buf, filepath);
+    safe_strcpy(oldpath, dirpath);
 
     q = buf;
     while(*q) {
@@ -683,7 +683,7 @@ int boinc_make_dirs(const char* dirpath, const char* filepath) {
         sprintf(newpath, "%s/%s", oldpath, q);
         retval = boinc_mkdir(newpath);
         if (retval) return retval;
-        strcpy(oldpath, newpath);
+        safe_strcpy(oldpath, newpath);
         q = p+1;
     }
     return 0;

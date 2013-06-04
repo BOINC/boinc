@@ -310,7 +310,7 @@ int HTTP_OP::init_post(
     req1 = NULL;  // not using req1, but init_post2 uses it
 
     if (in) {
-        strcpy(infile, in);
+        safe_strcpy(infile, in);
         retval = file_size(infile, size);
         if (retval) return retval;  // this will return 0 or ERR_NOT_FOUND
         content_length = (int)size;
@@ -370,7 +370,7 @@ bool HTTP_OP::no_proxy_for_url(const char* url) {
 
     // tokenize the noproxy-entry and check for identical hosts
     //
-    strcpy(noproxy, working_proxy_info.noproxy_hosts);
+    safe_strcpy(noproxy, working_proxy_info.noproxy_hosts);
     char* token = strtok(noproxy, ",");
     while (token != NULL) {
         // extract the host from the no_proxy url
@@ -419,11 +419,11 @@ int HTTP_OP::libcurl_exec(
     }
 
     if (in) {
-        strcpy(infile, in);
+        safe_strcpy(infile, in);
     }
     if (out) {
         bTempOutfile = false;
-        strcpy(outfile, out);
+        safe_strcpy(outfile, out);
     } else {
         // always want an outfile for the server response, delete when op done
         bTempOutfile = true;
@@ -1003,16 +1003,16 @@ void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
             return;
         case HTTP_STATUS_INTERNAL_SERVER_ERROR:
             http_op_retval = ERR_HTTP_TRANSIENT;
-            strcpy(error_msg, boincerror(response));
+            safe_strcpy(error_msg, boincerror(response));
             break;
         default:
             http_op_retval = ERR_HTTP_PERMANENT;
-            strcpy(error_msg, boincerror(response));
+            safe_strcpy(error_msg, boincerror(response));
             break;
         }
         net_status.http_op_succeeded();
     } else {
-        strcpy(error_msg, curl_easy_strerror(CurlResult));
+        safe_strcpy(error_msg, curl_easy_strerror(CurlResult));
         switch(CurlResult) {
         case CURLE_COULDNT_RESOLVE_HOST:
             reset_dns();

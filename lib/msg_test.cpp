@@ -52,7 +52,7 @@ int main(int argc, char** argv) {
         if (!retval) printf("Received message: %s\n", the_msg.msg_text);
     } else if (!strcmp(argv[1], "-s")) {
         the_msg.msg_type = 1;
-        strcpy(the_msg.msg_text, argv[2]);
+        safe_strcpy(the_msg.msg_text, argv[2]);
         send_message(KEY, &the_msg, sizeof(my_msg),true);
     }
 

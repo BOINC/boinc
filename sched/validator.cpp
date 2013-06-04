@@ -761,7 +761,7 @@ int main(int argc, char** argv) {
         } else if (is_arg(argv[i], "one_pass")) {
             one_pass = true;
         } else if (is_arg(argv[i], "app")) {
-            strcpy(app_name, argv[++i]);
+            safe_strcpy(app_name, argv[++i]);
         } else if (is_arg(argv[i], "d") || is_arg(argv[i], "debug_level")) {
             debug_level = atoi(argv[++i]);
             log_messages.set_debug_level(debug_level);

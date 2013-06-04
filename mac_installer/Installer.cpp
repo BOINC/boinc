@@ -30,6 +30,7 @@
 #include <sys/param.h>  // for MAXPATHLEN
 #include <sys/stat.h>
 
+#include "str_util.h"
 
 #define boinc_master_user_name "boinc_master"
 #define boinc_master_group_name "boinc_master"
@@ -358,8 +359,8 @@ void print_to_log_file(const char *format, ...) {
     va_list args;
     char buf[256];
     time_t t;
-    strcpy(buf, getenv("HOME"));
-    strcat(buf, "/Documents/test_log.txt");
+    safe_strcpy(buf, getenv("HOME"));
+    safe_strcat(buf, "/Documents/test_log.txt");
     f = fopen(buf, "a");
     if (!f) return;
 
@@ -367,7 +368,7 @@ void print_to_log_file(const char *format, ...) {
 //  freopen(buf, "a", stderr);
 
     time(&t);
-    strcpy(buf, asctime(localtime(&t)));
+    safe_strcpy(buf, asctime(localtime(&t)));
     strip_cr(buf);
 
     fputs(buf, f);

@@ -588,6 +588,16 @@ const char* run_mode_string(int mode) {
     return "unknown";
 }
 
+const char* battery_state_string(int state) {
+    switch (state) {
+    case BATTERY_STATE_DISCHARGING: return "discharging";
+    case BATTERY_STATE_CHARGING: return "charging";
+    case BATTERY_STATE_FULL: return "full";
+    case BATTERY_STATE_OVERHEATED: return "overheated";
+    }
+    return "unknown";
+}
+
 // string substitution:
 // haystack is the input string
 // out is the output buffer

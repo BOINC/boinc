@@ -623,7 +623,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
             }
         }
     }
-    strcpy(model_buf, host.p_model);
+    safe_strcpy(model_buf, host.p_model);
     if (family>=0 || model>=0 || stepping>0) {
         strcat(model_buf, " [");
         if (family>=0) {
@@ -641,10 +641,10 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
         strcat(model_buf, "]");
     }
     if (strlen(features)) {
-        strlcpy(host.p_features, features, sizeof(host.p_features));
+        safe_strcpy(host.p_features, features);
     }
 
-    strlcpy(host.p_model, model_buf, sizeof(host.p_model));
+    safe_strcpy(host.p_model, model_buf);
     fclose(f);
 }
 #endif  // LINUX_LIKE_SYSTEM
@@ -1204,7 +1204,7 @@ int HOST_INFO::get_virtualbox_version() {
     FILE* fd;
 
 #if LINUX_LIKE_SYSTEM
-    strcpy(path, "/usr/lib/virtualbox/VBoxManage");
+    safe_strcpy(path, "/usr/lib/virtualbox/VBoxManage");
 #elif defined( __APPLE__)
     FSRef theFSRef;
     OSStatus status = noErr;

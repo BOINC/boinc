@@ -216,7 +216,7 @@ struct GLOBAL_PREFS {
 struct GUI_URLS {
     char* text;
     void init();
-    void get_gui_urls(USER& user, HOST& host, TEAM& team, char*);
+    void get_gui_urls(USER& user, HOST& host, TEAM& team, char*, int len);
 };
 
 struct PROJECT_FILES {

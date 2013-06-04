@@ -37,7 +37,7 @@ struct IP_RESULT {
 
     IP_RESULT() {}
     IP_RESULT(const char* n, double d, double c) {
-        strcpy(name, n);
+        safe_strcpy(name, n);
         report_deadline = d;
         computation_deadline = d;
         cpu_time_remaining = c;

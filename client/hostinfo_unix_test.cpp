@@ -187,7 +187,7 @@ int main(void) {
             }
         }
     }
-    strcpy(model_buf, p_model);
+    safe_strcpy(model_buf, p_model);
     if (family>=0 || model>=0 || stepping>0) {
         strcat(model_buf, " [");
         if (family>=0) {

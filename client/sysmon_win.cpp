@@ -96,7 +96,7 @@ static BOOL WINAPI console_control_handler( DWORD dwCtrlType ){
 
 static void post_sysmon_msg(const char* msg) {
     if (gstate.have_sysmon_msg) return;
-    strcpy(gstate.sysmon_msg, msg);
+    safe_strcpy(gstate.sysmon_msg, msg);
     gstate.have_sysmon_msg = true;
 }
 
@@ -326,7 +326,7 @@ static void windows_detect_autoproxy_settings() {
                     net_status.need_physical_connection = false;
 
                     working_proxy_info.autodetect_protocol = purl.protocol;
-                    strcpy(working_proxy_info.autodetect_server_name, purl.host);
+                    safe_strcpy(working_proxy_info.autodetect_server_name, purl.host);
                     working_proxy_info.autodetect_port = purl.port;
                 }
 

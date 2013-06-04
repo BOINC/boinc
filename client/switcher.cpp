@@ -106,7 +106,7 @@ int main(int /*argc*/, char** argv) {
         if (p) {
             sprintf(libpath, "%s:%s", newlibs, p);
         } else {
-            strcpy(libpath, newlibs);
+            safe_strcpy(libpath, newlibs);
         }
         setenv("LD_LIBRARY_PATH", libpath, 1);
 
@@ -117,7 +117,7 @@ int main(int /*argc*/, char** argv) {
         if (p) {
             sprintf(libpath, "%s:%s", newlibs, p);
         } else {
-            strcpy(libpath, newlibs);
+            safe_strcpy(libpath, newlibs);
         }
         setenv("DYLD_LIBRARY_PATH", libpath, 1);
 #endif

@@ -67,7 +67,7 @@ void replace_file_name(char* xml_doc, char* filename, char* new_filename) {
     char buf[BLOB_SIZE], temp[256];
     char * p;
 
-    strcpy(buf, xml_doc);
+    safe_strcpy(buf, xml_doc);
     p = strtok(buf,"\n");
     while (p) {
         if (parse_str(p, "<name>", temp, sizeof(temp))) {
@@ -95,7 +95,7 @@ void make_new_wu(DB_WORKUNIT& original_wu, char* starting_xml, int start_time) {
     DB_WORKUNIT wu = original_wu;
     static int file_seqno = 0, wu_seqno = 0;
 
-    strcpy(buf, starting_xml);
+    safe_strcpy(buf, starting_xml);
     p = strtok(buf, "\n");
     strcpy(file_name, "");
 
@@ -108,9 +108,9 @@ void make_new_wu(DB_WORKUNIT& original_wu, char* starting_xml, int start_time) {
             sprintf(
                 new_file_name, "%s__%d_%d", file_name, start_time, file_seqno++
             );
-            strcpy(new_buf, starting_xml);
+            safe_strcpy(new_buf, starting_xml);
             replace_file_name(new_buf, file_name, new_file_name);
-            strcpy(wu.xml_doc, new_buf);
+            safe_strcpy(wu.xml_doc, new_buf);
         }
         p = strtok(0, "\n");
     }

@@ -513,9 +513,9 @@ int CLIENT_STATE::add_project(
     // create project state
     //
     project = new PROJECT;
-    strcpy(project->master_url, canonical_master_url);
-    strcpy(project->authenticator, auth);
-    strcpy(project->project_name, project_name);
+    safe_strcpy(project->master_url, canonical_master_url);
+    safe_strcpy(project->authenticator, auth);
+    safe_strcpy(project->project_name, project_name);
     project->attached_via_acct_mgr = attached_via_acct_mgr;
 
     retval = project->write_account_file();

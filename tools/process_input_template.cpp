@@ -440,6 +440,6 @@ int process_input_template(
         return ERR_BUFFER_OVERFLOW;
     }
     //fprintf(stderr, "copying to xml_doc: %s\n", out.c_str());
-    strcpy(wu.xml_doc, out.c_str());
+    safe_strcpy(wu.xml_doc, out.c_str());
     return 0;
 }

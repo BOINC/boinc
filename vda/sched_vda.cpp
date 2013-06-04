@@ -47,10 +47,10 @@ using std::string;
 using std::pair;
 
 static int parse_physical_filename(
-    const char* name, int& hostid, char* chunk_name, char* file_name
+    const char* name, int& hostid, char* chunk_name, int cn_len, char* file_name, int fn_len
 ) {
     char buf[1024];
-    strcpy(buf, name);
+    safe_strcpy(buf, name);
     if (strstr(buf, "vda_") != buf) {
         return 1;
     }
@@ -64,8 +64,8 @@ static int parse_physical_filename(
     char* q = strchr(p, '_');
     if (!q) return 1;
     *q = 0;
-    strcpy(chunk_name, p);
-    strcpy(file_name, q+1);
+    strlcpy(chunk_name, p, cn_len);
+    strlcpy(file_name, q+1, fn_len);
     return 0;
 }
 
@@ -83,7 +83,7 @@ typedef map<string, DB_VDA_CHUNK_HOST> CHUNK_LIST;
 //
 static void get_chunk_dir(DB_VDA_FILE& vf, const char* chunk_name, char* dir) {
     char chunk_dirs[256];
-    strcpy(chunk_dirs, chunk_name);
+    safe_strcpy(chunk_dirs, chunk_name);
     while (1) {
         char* p = strchr(chunk_dirs, '.');
         if (!p) break;
@@ -94,7 +94,7 @@ static void get_chunk_dir(DB_VDA_FILE& vf, const char* chunk_name, char* dir) {
 
 static void get_chunk_url(DB_VDA_FILE& vf, const char* chunk_name, char* url) {
     char chunk_dirs[256], buf[1024];
-    strcpy(chunk_dirs, chunk_name);
+    safe_strcpy(chunk_dirs, chunk_name);
     while (1) {
         char* p = strchr(chunk_dirs, '.');
         if (!p) break;
@@ -139,7 +139,9 @@ static int process_completed_upload(char* phys_filename, CHUNK_LIST& chunks) {
     int retval, hostid;
 
     retval = parse_physical_filename(
-        phys_filename, hostid, chunk_name, file_name
+        phys_filename, hostid,
+        chunk_name, sizeof(chunk_name),
+        file_name, sizeof(file_name)
     );
     if (retval) {
         log_messages.printf(MSG_NORMAL,
@@ -240,7 +242,9 @@ static int process_completed_upload(char* phys_filename, CHUNK_LIST& chunks) {
 static void process_chunk_present_on_client(FILE_INFO& fi, CHUNK_LIST& chunks) {
     char fname[256], chunk_name[256], buf[1024];
     int hostid, retval;
-    retval = parse_physical_filename(fi.name, hostid, chunk_name, fname);
+    retval = parse_physical_filename(
+        fi.name, hostid, chunk_name, sizeof(chunk_name), fname, sizeof(fname)
+    );
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
             "Can't parse VDA filename %s\n", fi.name
@@ -278,7 +282,7 @@ static void process_chunk_present_on_client(FILE_INFO& fi, CHUNK_LIST& chunks) {
         ch.create_time = dtime();
         ch.vda_file_id = vf.id;
         ch.host_id = g_reply->host.id;
-        strcpy(ch.physical_file_name, fi.name);
+        safe_strcpy(ch.physical_file_name, fi.name);
         ch.present_on_host = true;
         ch.transfer_in_progress = false;
         ch.transfer_wait = false;
@@ -368,7 +372,7 @@ static int enforce_quota(CHUNK_LIST& chunks) {
         DB_VDA_CHUNK_HOST& ch = it->second;
         if (!ch.found) continue;
         FILE_INFO fi;
-        strcpy(fi.name, ch.physical_file_name);
+        safe_strcpy(fi.name, ch.physical_file_name);
         if (config.debug_vda) {
             log_messages.printf(MSG_NORMAL,
                 "[vda] deleting: %s\n", ch.physical_file_name
@@ -465,8 +469,8 @@ static int issue_transfer_commands(CHUNK_LIST& chunks) {
             parse_physical_filename(
                 ch.physical_file_name,
                 hostid,
-                chunk_name,
-                file_name
+                chunk_name, sizeof(chunk_name),
+                file_name, sizeof(file_name)
             );
 
             get_chunk_url(vf, chunk_name, url);
