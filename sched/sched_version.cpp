@@ -802,6 +802,25 @@ BEST_APP_VERSION* get_app_version(
                 double old_projected_flops=host_usage.projected_flops;
                 estimate_flops(host_usage, av);
                 host_usage.projected_flops=(host_usage.projected_flops*(n-1)+old_projected_flops)/n;
+
+                // special case for versions that don't work on a given host.
+                // This is defined as:
+                // 1. pfc.n is 0
+                // 2. The max_jobs_per_day is 1
+                // 3. Consecutive valid is 0.
+                // In that case, heavily penalize this app_version most of the
+                // time.
+                if ((havp->pfc.n==0) && (havp->max_jobs_per_day==1) && (havp->consecutive_valid==0)) {
+                    if (drand()>0.01) {
+                        host_usage.projected_flops*=0.01;
+                        if (config.debug_version_select  && bavp && bavp->avp) {
+                            log_messages.printf(MSG_NORMAL,
+                                "[version] App version AV#%d is failing on HOST#%d\n",
+                                havp->app_version_id,havp->host_id
+                            );
+                        }
+                   }
+                }
             }
             if (config.version_select_random_factor) {
                 r += config.version_select_random_factor*rand_normal()/n;
