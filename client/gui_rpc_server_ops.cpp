@@ -1159,6 +1159,29 @@ static void handle_report_device_status(GUI_RPC_CONN& grc) {
     while (!grc.xp.get_tag()) {
         if (grc.xp.match_tag("device_status")) {
             int retval = d.parse(grc.xp);
+            if (log_flags.android_debug) {
+                if (retval) {
+                    msg_printf(0, MSG_INFO,
+                        "report_device_status RPC parse failed: %d", retval
+                    );
+                } else {
+                    msg_printf(0, MSG_INFO,
+                        "Android device status:"
+                    );
+                    msg_printf(0, MSG_INFO,
+                        "On AC: %s; on USB: %s; on WiFi: %s",
+                        d.on_ac_power?"yes":"no",
+                        d.on_usb_power?"yes":"no",
+                        d.wifi_online?"yes":"no"
+                    );
+                    msg_printf(0, MSG_INFO,
+                        "Battery: charge pct: %f; temp %f state %s",
+                        d.battery_charge_pct,
+                        d.battery_temperature_celsius,
+                        battery_state_string(d.battery_state)
+                    );
+                }
+            }
             if (!retval) {
                 gstate.device_status = d;
                 gstate.device_status_time = gstate.now;

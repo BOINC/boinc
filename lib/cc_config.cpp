@@ -65,6 +65,7 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool("sched_ops", sched_ops)) continue;
         if (xp.parse_bool("task", task)) continue;
 
+        if (xp.parse_bool("android_debug", android_debug)) continue;
         if (xp.parse_bool("app_msg_receive", app_msg_receive)) continue;
         if (xp.parse_bool("app_msg_send", app_msg_send)) continue;
         if (xp.parse_bool("async_file_debug", async_file_debug)) continue;
@@ -111,6 +112,7 @@ int LOG_FLAGS::write(MIOFILE& out) {
         "        <file_xfer>%d</file_xfer>\n"
         "        <sched_ops>%d</sched_ops>\n"
         "        <task>%d</task>\n"
+        "        <android_debug>%d</android_debug>\n"
         "        <app_msg_receive>%d</app_msg_receive>\n"
         "        <app_msg_send>%d</app_msg_send>\n"
         "        <async_file_debug>%d</async_file_debug>\n"
@@ -150,6 +152,7 @@ int LOG_FLAGS::write(MIOFILE& out) {
         file_xfer ? 1 : 0,
         sched_ops ? 1 : 0,
         task ? 1 : 0,
+        android_debug ? 1 : 0,
         app_msg_receive ? 1 : 0,
         app_msg_send ? 1 : 0,
         async_file_debug ? 1 : 0,
