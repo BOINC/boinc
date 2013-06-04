@@ -797,7 +797,7 @@ int CMainDocument::SetGPURunMode(int iMode, int iTimeout) {
         if (iMode == RUN_MODE_RESTORE) {
             GetCoreClientStatus(ccs, true);
         } else {
-            status.network_mode = iMode;
+            status.gpu_mode = iMode;
         }
     }
     return 0;
