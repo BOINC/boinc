@@ -44,6 +44,10 @@ static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply
 void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
 
+/* BEGIN TEMPORARY ITEM TO ALLOW TRANSLATORS TO START WORK */
+#define _(x) x
+/* END TEMPORARY ITEM TO ALLOW TRANSLATORS TO START WORK */
+
 Boolean			gQuitFlag = false;	/* global */
 
 CFStringRef     valueRestartRequired = CFSTR("RequiredRestart");
@@ -113,7 +117,7 @@ int main(int argc, char *argv[])
         p = strrchr(brand, ' ');         // Strip off last space character and everything following
         if (p)
             *p = '\0'; 
-        s[0] = sprintf(s+1, "Sorry, this version of %s requires system 10.4 or higher.", brand);
+        s[0] = sprintf(s+1, _("Sorry, this version of %s requires system 10.4 or higher."), brand);
         StandardAlert (kAlertStopAlert, (StringPtr)s, NULL, NULL, &itemHit);
 
         err = FindProcess ('APPL', 'xins', &installerPSN);

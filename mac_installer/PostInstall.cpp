@@ -100,6 +100,7 @@ void SetSkinInUserPrefs(char *userName, char *skinName);
 Boolean CheckDeleteFile(char *name);
 void SetEUIDBackToUser (void);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
+static Boolean ShowMessage(Boolean allowCancel, const char *format, ...);
 Boolean IsUserMemberOfGroup(const char *userName, const char *groupName);
 static void c2x(char *what);
 static void escape_url(char *in, char*out);
@@ -121,6 +122,17 @@ extern int check_security(char *bundlePath, char *dataPath,
                             int use_sandbox, int isManager, 
                             char* path_to_error = NULL
                         );
+
+/* BEGIN TEMPORARY ITEMS TO ALLOW TRANSLATORS TO START WORK */
+#define _(x) x
+
+void notused() {
+    ShowMessage(true, _("Yes"));
+    ShowMessage(true, _("No"));
+    // Future feature
+    ShowMessage(true, _("Should BOINC run even when no user is logged in?"));
+}
+/* END TEMPORARY ITEMS TO ALLOW TRANSLATORS TO START WORK */
 
 #define NUMBRANDS 4
 
@@ -1418,9 +1430,9 @@ OSErr UpdateAllVisibleUsers(long brandID)
             }
         } else {
             if (ShowMessage(true, 
-                "Users who are permitted to administer this computer will automatically be allowed to "
+                _("Users who are permitted to administer this computer will automatically be allowed to "
                 "run and control %s.\n\n"
-                "Do you also want non-administrative users to be able to run and control %s on this Mac?",
+                "Do you also want non-administrative users to be able to run and control %s on this Mac?"),
                 brandName[brandID], brandName[brandID])
             ) {
                 allowNonAdminUsersToRunBOINC = true;
@@ -1446,7 +1458,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
             }
         } else {
             setSaverForAllUsers = ShowMessage(true, 
-                    "Do you want to set %s as the screensaver for all %s users on this Mac?", 
+                    _("Do you want to set %s as the screensaver for all %s users on this Mac?"),
                     brandName[brandID], brandName[brandID]);
         }
     }
