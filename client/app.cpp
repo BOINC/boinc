@@ -788,7 +788,7 @@ int ACTIVE_TASK_SET::parse(XML_PARSER& xp) {
 #ifndef SIM
 
 void MSG_QUEUE::init(char* n) {
-    strcpy(name, n);
+    safe_strcpy(name, n);
     last_block = 0;
     msgs.clear();
 }
@@ -897,7 +897,7 @@ int ACTIVE_TASK::handle_upload_files() {
 
     DirScanner dirscan(slot_dir);
     while (dirscan.scan(filename)) {
-        strcpy(buf, filename.c_str());
+        safe_strcpy(buf, filename.c_str());
         if (strstr(buf, UPLOAD_FILE_REQ_PREFIX) == buf) {
             char* p = buf+strlen(UPLOAD_FILE_REQ_PREFIX);
             FILE_INFO* fip = result->lookup_file_logical(p);

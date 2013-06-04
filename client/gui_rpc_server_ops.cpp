@@ -383,7 +383,7 @@ static void handle_set_host_info(GUI_RPC_CONN& grc) {
                 return;
             }
             if (strlen(hi.product_name)) {
-                strcpy(gstate.host_info.product_name, hi.product_name);
+                safe_strcpy(gstate.host_info.product_name, hi.product_name);
             }
             grc.mfout.printf("<success/>\n");
             gstate.set_client_state_dirty("set_host_info RPC");
@@ -1209,7 +1209,7 @@ struct GUI_RPC {
 
     GUI_RPC(const char* req, GUI_RPC_HANDLER h, bool ar, bool en, bool ro) {
         req_tag = req;
-        strcpy(alt_req_tag, req);
+        safe_strcpy(alt_req_tag, req);
         strcat(alt_req_tag, "/");
         handler = h;
         auth_required = ar;

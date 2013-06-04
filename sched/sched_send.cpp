@@ -460,7 +460,7 @@ static void get_prefs_info() {
     int temp_int=0;
     bool flag;
 
-    extract_venue(g_reply->user.project_prefs, g_reply->host.venue, buf);
+    extract_venue(g_reply->user.project_prefs, g_reply->host.venue, buf, sizeof(buf));
     str = buf;
 
     // scan user's project prefs for elements of the form <app_id>N</app_id>,

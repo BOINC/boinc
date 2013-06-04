@@ -1317,7 +1317,7 @@ void GLOBAL_PREFS::parse(const char* buf, const char* venue) {
         // mod_time is outside of venue
         if (mod_time > dtime()) mod_time = dtime();
     }
-    extract_venue(buf, venue, buf2);
+    extract_venue(buf, venue, buf2, sizeof(buf2));
     parse_double(buf2, "<disk_max_used_gb>", disk_max_used_gb);
     parse_double(buf2, "<disk_max_used_pct>", disk_max_used_pct);
     parse_double(buf2, "<disk_min_free_gb>", disk_min_free_gb);

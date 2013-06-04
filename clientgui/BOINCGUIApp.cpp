@@ -325,13 +325,15 @@ bool CBOINCGUIApp::OnInit() {
 #if (defined(__WXMAC__) && defined(_DEBUG))     // TODO: implement this for other platforms
         // GDB can't attach to applications which are running as a different user   
         //  or group, so fix up data with current user and group during debugging
-        if (check_security(g_use_sandbox, true)) {
+        if (check_security(g_use_sandbox, true, NULL, 0)) {
             CreateBOINCUsersAndGroups();
             SetBOINCDataOwnersGroupsAndPermissions();
             SetBOINCAppOwnersGroupsAndPermissions(NULL);
         }
 #endif
-        iErrorCode = check_security(g_use_sandbox, true, path_to_error);
+        iErrorCode = check_security(
+            g_use_sandbox, true, path_to_error, sizeof(path_to_error)
+        );
     }
 
     if (iErrorCode) {
