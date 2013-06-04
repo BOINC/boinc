@@ -21,7 +21,7 @@
     package="edu.berkeley.boinc"
     
     android:versionCode="3"
-    android:versionName="7.1.6"
+    android:versionName="7.1.7"
     
     android:installLocation="internalOnly" > <!-- installation on SD card would break boot receiver -->
 
