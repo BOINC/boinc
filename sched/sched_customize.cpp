@@ -131,8 +131,16 @@ bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
         if (bav.host_usage.proc_type == PROC_TYPE_AMD_GPU) {
             // ATI GPUs older than HD7870
             COPROC_ATI &cp = g_request->coprocs.ati;
-            if (cp.count && (cp.attribs.target < 19)) {
+            if (cp.count && (cp.attribs.target < 15)) {
               infeasible=true;
+            }
+        } else if (bav.host_usage.proc_type == PROC_TYPE_NVIDIA_GPU)  {
+            COPROC_NVIDIA &cp = g_request->coprocs.nvidia;
+            if (cp.count) {
+                int v = (cp.prop.major)*100 + cp.prop.minor;
+                if (v < 300) {
+                    infeasible=true;
+                }
             }
         } else {   
           // all other GPUS
