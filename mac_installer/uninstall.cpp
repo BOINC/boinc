@@ -64,6 +64,17 @@ static OSStatus GetpathToBOINCManagerApp(char* path, int maxLen, FSRef *theFSRef
 #endif
 
 
+/* BEGIN TEMPORARY ITEMS TO ALLOW TRANSLATORS TO START WORK */
+#define _(x) x
+
+void notused() {
+    ShowMessage(true, false, _("OK"));
+    ShowMessage(true, false, _("Cancel"));
+    ShowMessage(true, false, _("Continue..."));
+}
+/* END TEMPORARY ITEMS TO ALLOW TRANSLATORS TO START WORK */
+
+
 int main(int argc, char *argv[])
 {
     char                        pathToSelf[MAXPATHLEN], appName[256], *p;
@@ -75,11 +86,11 @@ int main(int argc, char *argv[])
     // Determine whether this is the intial launch or the relaunch with privileges
     if ( (argc == 2) && (strcmp(argv[1], "--privileged") == 0) ) {
         if (geteuid() != 0) {        // Confirm that we are running as root
-            ShowMessage(false, false, "Permission error after relaunch");
+            ShowMessage(false, false, _("Permission error after relaunch"));
             return permErr;
         }
         
-        ShowMessage(false, true, "Removal may take several minutes.\nPlease be patient.");
+        ShowMessage(false, true, _("Removal may take several minutes.\nPlease be patient."));
         
         return DoUninstall();
     }
@@ -119,8 +130,8 @@ int main(int argc, char *argv[])
         cancelled = (Alert(128, NULL)  == cancel);
     } else {
         // Grid Republic uses generic dialog with Uninstall application's icon
-        cancelled = ! ShowMessage(true, false, "Are you sure you want to completely remove %s from your computer?\n\n"
-                                        "This will remove the executables but will not touch %s data files.", p, p);
+        cancelled = ! ShowMessage(true, false, _("Are you sure you want to completely remove %s from your computer?\n\n"
+                                        "This will remove the executables but will not touch %s data files."), p, p);
     }
 
     if (! cancelled) {
@@ -128,7 +139,7 @@ int main(int argc, char *argv[])
     }
     
     if (cancelled || (err == errAuthorizationCanceled)) {
-        ShowMessage(false, false, "Canceled: %s has not been touched.", p);
+        ShowMessage(false, false, _("Canceled: %s has not been touched."), p);
         return err;
     }
 
@@ -137,11 +148,11 @@ int main(int argc, char *argv[])
 #endif
 
     if (err)
-        ShowMessage(false, false, "An error occurred: error code %d", err);
+        ShowMessage(false, false, _("An error occurred: error code %d"), err);
     else
-        ShowMessage(false, false, "Removal completed.\n\n You may want to remove the following remaining items using the Finder: \n"
+        ShowMessage(false, false, _("Removal completed.\n\n You may want to remove the following remaining items using the Finder: \n"
          "\"/Library/Application Support/BOINC Data\" directory\n\nfor each user, the file\n"
-         "\"/Users/[username]/Library/Preferences/BOINC Manager Preferences\".");
+         "\"/Users/[username]/Library/Preferences/BOINC Manager Preferences\"."));
         
     return err;
 }
@@ -287,7 +298,7 @@ static OSStatus DeleteOurBundlesFromDirectory(CFStringRef bundleID, char *extens
 
     dirp = opendir(dirPath);
     if (dirp == NULL) {      // Should never happen
-        ShowMessage(false, false, "opendir(\"%s\") failed", dirPath);
+        ShowMessage(false, false, "Error: opendir(\"%s\") failed", dirPath);
         return -1;
     }
     
@@ -672,7 +683,7 @@ static OSStatus GetAuthorization(AuthorizationRef * authRef, const char *pathToT
     if (sIsAuthorized)
         return noErr;
     
-    sprintf(prompt, "Enter administrator password to completely remove %s from you computer.\n\n", brandName);
+    sprintf(prompt, _("Enter your administrator password to completely remove %s from you computer.\n\n"), brandName);
 
     ourAuthRights.count = 0;
     ourAuthRights.items = NULL;
