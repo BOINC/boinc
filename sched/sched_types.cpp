@@ -287,7 +287,7 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
         if (xp.parse_double("estimated_delay", cpu_estimated_delay)) continue;
         if (xp.parse_double("duration_correction_factor", host.duration_correction_factor)) continue;
         if (xp.match_tag("global_preferences")) {
-            strcpy(global_prefs_xml, "<global_preferences>\n");
+            safe_strcpy(global_prefs_xml, "<global_preferences>\n");
             char buf[BLOB_SIZE];
             retval = xp.element_contents(
                 "</global_preferences>", buf, sizeof(buf)
@@ -701,7 +701,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
         char prio[256];
         for (i=0; i<messages.size(); i++) {
             USER_MESSAGE& um = messages[i];
-            strcpy(prio, um.priority.c_str());
+            safe_strcpy(prio, um.priority.c_str());
             if (!strcmp(prio, "notice")) {
                 strcpy(prio, "high");
             }
@@ -944,7 +944,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
         }
     }
 
-    gui_urls.get_gui_urls(user, host, team, buf);
+    gui_urls.get_gui_urls(user, host, team, buf, sizeof(buf));
     fputs(buf, fout);
     if (project_files.text) {
         fputs(project_files.text, fout);
@@ -1010,7 +1010,7 @@ void SCHEDULER_REPLY::insert_message(USER_MESSAGE& um) {
 USER_MESSAGE::USER_MESSAGE(const char* m, const char* p) {
     if (g_request->core_client_version < 61200) {
         char buf[1024];
-        strcpy(buf, m);
+        safe_strcpy(buf, m);
         strip_translation(buf);
         message = buf;
     } else {
@@ -1035,7 +1035,7 @@ int APP::write(FILE* fout) {
 int APP_VERSION::write(FILE* fout) {
     char buf[APP_VERSION_XML_BLOB_SIZE];
 
-    strcpy(buf, xml_doc);
+    safe_strcpy(buf, xml_doc);
     char* p = strstr(buf, "</app_version>");
     if (!p) {
         fprintf(stderr, "ERROR: app version %d XML has no end tag!\n", id);
@@ -1098,7 +1098,7 @@ int APP_VERSION::write(FILE* fout) {
 int SCHED_DB_RESULT::write_to_client(FILE* fout) {
     char buf[BLOB_SIZE];
 
-    strcpy(buf, xml_doc_in);
+    safe_strcpy(buf, xml_doc_in);
     char* p = strstr(buf, "</result>");
     if (!p) {
         fprintf(stderr, "ERROR: result %d XML has no end tag!\n", id);
@@ -1340,12 +1340,12 @@ void GUI_URLS::init() {
     read_file_malloc(config.project_path("gui_urls.xml"), text);
 }
 
-void GUI_URLS::get_gui_urls(USER& user, HOST& host, TEAM& team, char* buf) {
+void GUI_URLS::get_gui_urls(USER& user, HOST& host, TEAM& team, char* buf, int len) {
     bool found;
     char userid[256], teamid[256], hostid[256], weak_auth[256], rss_auth[256];
     strcpy(buf, "");
     if (!text) return;
-    strcpy(buf, text);
+    strlcpy(buf, text, len);
 
     sprintf(userid, "%d", user.id);
     sprintf(hostid, "%d", host.id);

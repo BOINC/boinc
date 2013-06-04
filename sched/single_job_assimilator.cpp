@@ -75,7 +75,7 @@ int assimilate_handler(
         log_messages.printf(MSG_CRITICAL, "garbage in job file: %s\n", buf);
         return 0;
     }
-    strcpy(job_dir, buf+strlen("<job_dir>"));
+    safe_strcpy(job_dir, buf+strlen("<job_dir>"));
     p = strstr(job_dir, "</job_dir>");
     if (!p) {
         log_messages.printf(MSG_CRITICAL, "garbage in job file: %s\n", buf);

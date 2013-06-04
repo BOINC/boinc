@@ -83,14 +83,14 @@ static bool find_host_by_other(DB_USER& user, HOST req_host, DB_HOST& host) {
     // Only check if all the fields are populated
     //
     if (strlen(req_host.domain_name) && strlen(req_host.last_ip_addr) && strlen(req_host.os_name) && strlen(req_host.p_model)) {
-        strcpy(dn, req_host.domain_name);
-        escape_string(dn, 512);
-        strcpy(ip, req_host.last_ip_addr);
-        escape_string(ip, 512);
-        strcpy(os, req_host.os_name);
-        escape_string(os, 512);
-        strcpy(pm, req_host.p_model);
-        escape_string(pm, 512);
+        safe_strcpy(dn, req_host.domain_name);
+        escape_string(dn, sizeof(dn));
+        safe_strcpy(ip, req_host.last_ip_addr);
+        escape_string(ip, sizeof(ip));
+        safe_strcpy(os, req_host.os_name);
+        escape_string(os, sizeof(os));
+        safe_strcpy(pm, req_host.p_model);
+        escape_string(pm, sizeof(pm));
 
         sprintf(buf,
             "where userid=%d and id>%d and domain_name='%s' and last_ip_addr = '%s' and os_name = '%s' and p_model = '%s'"
@@ -439,7 +439,7 @@ make_new_host:
         host.userid = g_reply->user.id;
         host.rpc_seqno = 0;
         host.expavg_time = time(0);
-        strcpy(host.venue, g_reply->user.venue);
+        safe_strcpy(host.venue, g_reply->user.venue);
         host.fix_nans();
         retval = host.insert();
         if (retval) {
@@ -548,7 +548,7 @@ static int modify_host_struct(HOST& host) {
     host.n_bwup = g_request->host.n_bwup;
     host.n_bwdown = g_request->host.n_bwdown;
     if (strlen(g_request->host.host_cpid)) {
-        strcpy(host.host_cpid, g_request->host.host_cpid);
+        safe_strcpy(host.host_cpid, g_request->host.host_cpid);
     }
     strncpy(host.product_name, g_request->host.product_name, sizeof(host.product_name));
     host.fix_nans();
@@ -623,8 +623,8 @@ int send_result_abort() {
         if (i > 0) result_names.append(", ");
         result_names.append("'");
         char buf[1024];
-        strcpy(buf, orp.name);
-        escape_string(buf, 1024);
+        safe_strcpy(buf, orp.name);
+        escape_string(buf, sizeof(buf));
         result_names.append(buf);
         result_names.append("'");
     }
@@ -792,7 +792,7 @@ int handle_global_prefs() {
             if (config.debug_prefs) {
                 log_messages.printf(MSG_NORMAL, "[prefs] updating db prefs\n");
             }
-            strcpy(g_reply->user.global_prefs, g_request->global_prefs_xml);
+            safe_strcpy(g_reply->user.global_prefs, g_request->global_prefs_xml);
             DB_USER user;
             user.id = g_reply->user.id;
             escape_string(g_request->global_prefs_xml, sizeof(g_request->global_prefs_xml));
@@ -931,9 +931,9 @@ bool unacceptable_os() {
 
     for (i=0; i<config.ban_os->size(); i++) {
         regex_t& re = (*config.ban_os)[i];
-        strcpy(buf, g_request->host.os_name);
-        strcat(buf, "\t");
-        strcat(buf, g_request->host.os_version);
+        safe_strcpy(buf, g_request->host.os_name);
+        safe_strcat(buf, "\t");
+        safe_strcat(buf, g_request->host.os_version);
         if (!regexec(&re, buf, 0, NULL, 0)) {
             log_messages.printf(MSG_NORMAL,
                 "Unacceptable OS %s %s\n",
@@ -957,9 +957,9 @@ bool unacceptable_cpu() {
 
     for (i=0; i<config.ban_cpu->size(); i++) {
         regex_t& re = (*config.ban_cpu)[i];
-        strcpy(buf, g_request->host.p_vendor);
-        strcat(buf, "\t");
-        strcat(buf, g_request->host.p_model);
+        safe_strcpy(buf, g_request->host.p_vendor);
+        safe_strcat(buf, "\t");
+        safe_strcat(buf, g_request->host.p_model);
         if (!regexec(&re, buf, 0, NULL, 0)) {
             log_messages.printf(MSG_NORMAL,
                 "Unacceptable CPU %s %s\n",

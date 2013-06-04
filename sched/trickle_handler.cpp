@@ -124,7 +124,7 @@ int main(int argc, char** argv) {
                 usage(argv[0]);
                 exit(1);
             }
-            strcpy(variety, argv[i]);
+            safe_strcpy(variety, argv[i]);
         } else if (!strcmp(argv[i], "-d")) {
             if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL,

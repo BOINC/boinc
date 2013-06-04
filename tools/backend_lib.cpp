@@ -120,7 +120,7 @@ int create_result_ti(
 
     // copy relevant fields from TRANSITIONER_ITEM to WORKUNIT
     //
-    strcpy(wu.name, ti.name);
+    safe_strcpy(wu.name, ti.name);
     wu.id = ti.id;
     wu.appid = ti.appid;
     wu.priority = ti.priority;
@@ -245,7 +245,7 @@ int create_work(
     }
 #endif
 
-    strcpy(wu_template, _wu_template);
+    safe_strcpy(wu_template, _wu_template);
     wu.create_time = time(0);
     retval = process_input_template(
         wu, wu_template, infiles, ninfiles, config_loc, command_line, additional_xml

@@ -107,14 +107,14 @@ void fail(const char* msg) {
 // This does 'in place' compression.
 //
 void open_archive(const char* filename_prefix, FILE*& f){
-    char path[256];
-    char command[512];
+    char path[MAXPATHLEN];
+    char command[MAXPATHLEN+512];
 
     if (daily_dir) {
         time_t time_time = time_int;
         char dirname[32];
         strftime(dirname, sizeof(dirname), "%Y_%m_%d", gmtime(&time_time));
-        strcpy(path, config.project_path("archives/%s",dirname));
+        safe_strcpy(path, config.project_path("archives/%s",dirname));
         if (mkdir(path,0775)) {
             if(errno!=EEXIST) {
                 char errstr[256];
@@ -123,13 +123,13 @@ void open_archive(const char* filename_prefix, FILE*& f){
                 fail(errstr);
             }
         }
-        strcpy(path,
+        safe_strcpy(path,
             config.project_path(
                 "archives/%s/%s_%d.xml", dirname, filename_prefix, time_int
             )
         );
     } else {
-        strcpy(path,
+        safe_strcpy(path,
             config.project_path("archives/%s_%d.xml", filename_prefix, time_int)
         );
     }
@@ -177,7 +177,7 @@ void open_archive(const char* filename_prefix, FILE*& f){
 }
 
 void close_archive(const char *filename, FILE*& fp){
-    char path[256];
+    char path[MAXPATHLEN];
 
     // Set file pointer to NULL after closing file to indicate that it's closed.
     //
@@ -198,13 +198,13 @@ void close_archive(const char *filename, FILE*& fp){
         time_t time_time = time_int;
         char dirname[32];
         strftime(dirname, sizeof(dirname), "%Y_%m_%d", gmtime(&time_time));
-        strcpy(path,
+        safe_strcpy(path,
             config.project_path(
                   "archives/%s/%s_%d.xml", dirname, filename, time_int
             )
         );
     } else {
-        strcpy(path,
+        safe_strcpy(path,
             config.project_path("archives/%s_%d.xml", filename, time_int)
         );
     }

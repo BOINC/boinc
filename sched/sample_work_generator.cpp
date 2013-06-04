@@ -92,7 +92,7 @@ int make_job() {
     //
     wu.clear();
     wu.appid = app.id;
-    strcpy(wu.name, name);
+    safe_strcpy(wu.name, name);
     wu.rsc_fpops_est = 1e12;
     wu.rsc_fpops_bound = 1e14;
     wu.rsc_memory_bound = 1e8;
