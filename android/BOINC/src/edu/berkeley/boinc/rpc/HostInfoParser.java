@@ -129,6 +129,9 @@ public class HostInfoParser extends BaseParser {
 					else if (localName.equalsIgnoreCase("p_calculated")) {
 						mHostInfo.p_calculated = (long)Double.parseDouble(mCurrentElement.toString());
 					}
+					else if (localName.equalsIgnoreCase("product_name")) {
+						mHostInfo.product_name = mCurrentElement.toString();
+					}
 					else if (localName.equalsIgnoreCase("m_nbytes")) {
 						mHostInfo.m_nbytes = Double.parseDouble(mCurrentElement.toString());
 					}

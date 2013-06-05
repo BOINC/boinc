@@ -26,6 +26,7 @@
     <string name="client_name">boinc</string>
     <string name="client_cli">boinccmd</string>
     <string name="client_cabundle">ca-bundle.crt</string>
+    <string name="client_config">cc_config.xml</string>
     <string name="auth_file_name">gui_rpc_auth.cfg</string>
     <string name="all_projects_list">all_projects_list.xml</string>
     <string name="global_prefs_override">global_prefs_override.xml</string>
@@ -172,6 +173,8 @@
 	<string name="prefs_unit_mb">MB</string>
 	<string name="prefs_unit_gb">GB</string>
 	<string name="prefs_unit_pct">%</string>
+	<string name="prefs_unit_cpu">CPU</string>
+	<string name="prefs_unit_cpus">CPUS</string>
 	
 	<!-- projects tab strings -->
 	<string name="projects_loading">Reading projects&#8230;</string>
@@ -210,7 +213,8 @@
 				
 	<!-- tasks tab strings -->
 	<string name="tasks_loading">Reading tasks&#8230;</string>
-	<string name="tasks_header_name">ID:</string>
+	<string name="tasks_header_name">Task Name:</string>
+	<string name="tasks_header_elapsed_time">Elapsed time:</string>
 	<string name="tasks_header_project_name">Project:</string>
 	<string name="tasks_header_project_paused">(suspended)</string>
 	<string name="tasks_header_deadline">Deadline:</string>

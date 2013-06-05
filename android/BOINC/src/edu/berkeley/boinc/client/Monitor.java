@@ -38,6 +38,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 import edu.berkeley.boinc.AppPreferences;
@@ -68,6 +69,7 @@ public class Monitor extends Service {
 	private String clientName; 
 	private String clientCLI; 
 	private String clientCABundle; 
+	private String clientConfig; 
 	private String authFileName; 
 	private String allProjectsList; 
 	private String globalOverridePreferences;
@@ -167,6 +169,11 @@ public class Monitor extends Service {
 			Monitor.getClientStatus().setPrefs(clientPrefs);
 			// read supported projects
 			readAndroidProjectsList();
+			// set Android model as hostinfo
+			// should output something like "Samsung Galaxy SII - SDK:15 ABI:armeabi-v7a"
+			String model = Build.MANUFACTURER + " " + Build.MODEL + " - SDK:" + Build.VERSION.SDK_INT + " ABI: " + Build.CPU_ABI;
+			Log.d(TAG,"reporting hostinfo model name: " + model);
+			rpc.setHostInfo(model);
 		}
 		
 		if(connected) {
@@ -224,6 +231,7 @@ public class Monitor extends Service {
 		installFile(clientName, true, true);
 		installFile(clientCLI, true, true);
 		installFile(clientCABundle, true, false);
+		installFile(clientConfig, true, false);
 		installFile(allProjectsList, true, false);
 		installFile(globalOverridePreferences, false, false);
     	
@@ -518,6 +526,7 @@ public class Monitor extends Service {
 		clientName = getString(R.string.client_name); 
 		clientCLI = getString(R.string.client_cli); 
 		clientCABundle = getString(R.string.client_cabundle); 
+		clientConfig = getString(R.string.client_config); 
 		authFileName = getString(R.string.auth_file_name); 
 		allProjectsList = getString(R.string.all_projects_list); 
 		globalOverridePreferences = getString(R.string.global_prefs_override);
@@ -938,11 +947,12 @@ public class Monitor extends Service {
 					try {
 						if(deviceStatus.update() || deviceStatusOmitCounter >= minimumDeviceStatusFrequency) {
 							if(showRpcCommands) Log.d(TAG, "reportDeviceStatus");
-							Boolean  reportStatusSuccess = rpc.reportDeviceStatus(deviceStatus);
-							Log.d(TAG,"reportDeviceStatus returned: " + reportStatusSuccess);
+							Boolean reportStatusSuccess = rpc.reportDeviceStatus(deviceStatus);
+							Log.d(TAG,"reporting device status to client returned: " + reportStatusSuccess);
 							if(reportStatusSuccess) deviceStatusOmitCounter = 0;
-						} else deviceStatusOmitCounter++;
-					} catch (Exception e) { Log.w(TAG, "device status update failed: " + e.getLocalizedMessage()); }
+						}
+					} catch (Exception e) { Log.w(TAG, "device status report failed: " + e.getLocalizedMessage()); }
+					deviceStatusOmitCounter++;
 					
 					// retrieve client status
 					if(showRpcCommands) Log.d(TAG, "getCcStatus");
@@ -954,8 +964,8 @@ public class Monitor extends Service {
 					if(showRpcCommands) Log.d(TAG, "getTransers");
 					ArrayList<Transfer>  transfers = rpc.getFileTransfers();
 					
-					if( (status != null) && (state != null) && (state.results != null) && (state.projects != null) && (transfers != null)) {
-						Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers);
+					if( (status != null) && (state != null) && (state.results != null) && (state.projects != null) && (transfers != null) && (state.host_info != null)) {
+						Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers, state.host_info);
 						// Update status bar notification
 						ClientNotification.getInstance(getApplicationContext()).update();
 					} else {

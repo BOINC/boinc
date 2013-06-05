@@ -1,0 +1,8 @@
+<cc_config>
+  <log_flags>
+      <android_debug/>
+      <http_debug/>
+  </log_flags>
+  <options>
+  </options>
+</cc_config>

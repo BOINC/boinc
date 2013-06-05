@@ -44,6 +44,7 @@ import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.ProjectInfo;
 import edu.berkeley.boinc.rpc.Result;
 import edu.berkeley.boinc.rpc.Transfer;
+import edu.berkeley.boinc.rpc.HostInfo;
 import edu.berkeley.boinc.utils.BOINCDefs;
 
 /*
@@ -66,6 +67,7 @@ public class ClientStatus {
 	private ArrayList<Project> projects;
 	private ArrayList<Transfer> transfers;
 	private GlobalPreferences prefs;
+	private HostInfo hostinfo;
 	
 	// setup status
 	public Integer setupStatus = 0;
@@ -162,11 +164,12 @@ public class ClientStatus {
 	/*
 	 * called frequently by Monitor to set the RPC data. These objects are used to determine the client status and parse it in the data model of this class.
 	 */
-	public synchronized void setClientStatus(CcStatus status,ArrayList<Result> results,ArrayList<Project> projects, ArrayList<Transfer> transfers) {
+	public synchronized void setClientStatus(CcStatus status,ArrayList<Result> results,ArrayList<Project> projects, ArrayList<Transfer> transfers, HostInfo hostinfo) {
 		this.status = status;
 		this.results = results;
 		this.projects = projects;
 		this.transfers = transfers;
+		this.hostinfo = hostinfo;
 		parseClientStatus();
 		Log.d(TAG,"setClientStatus: #results:" + results.size() + " #projects:" + projects.size() + " #transfers:" + transfers.size() + " // computing: " + computingParseError + computingStatus + computingSuspendReason + " - network: " + networkParseError + networkStatus + networkSuspendReason);
 		if(!computingParseError && !networkParseError && !setupStatusParseError) {
@@ -236,6 +239,14 @@ public class ClientStatus {
 			return null;
 		}
 		return projects;
+	}
+	
+	public synchronized HostInfo getHostInfo() {
+		if(hostinfo == null) {
+			Log.d(TAG, "getHostInfo() state is null");
+			return null;
+		}
+		return hostinfo;
 	}
 
 	// returns list with slideshow images of all projects

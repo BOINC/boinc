@@ -62,8 +62,8 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
 	    		header.setText(((PrefsListItemWrapperBool) listItem).header);
 	    		header.setTag(listItem.ID); //set ID as tag to checkbox, since checkbox is clicked
 	        	header.setChecked(((PrefsListItemWrapperBool) listItem).getStatus());
-	    	} else if(listItem instanceof PrefsListItemWrapperDouble) {
-	    		PrefsListItemWrapperDouble item = (PrefsListItemWrapperDouble) listItem;
+	    	} else if(listItem instanceof PrefsListItemWrapperValue) {
+	    		PrefsListItemWrapperValue item = (PrefsListItemWrapperValue) listItem;
 	    		v = vi.inflate(R.layout.prefs_layout_listitem, null);
 	    		v.setTag(listItem); //set listItem as tag to view, since root layout defines onClick method
 	    		TextView header = (TextView) v.findViewById(R.id.header);
@@ -72,12 +72,12 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
 	    		description.setText(item.description.toString());
 	    		
 	    		String value = item.status.toString();
-	    		if(item.isPct) {
+	    		if(item.isPct || item.isNumber) {
 	    			value = "" + item.status.intValue();
-	    		}
+	    		} 
 	    		TextView status = (TextView) v.findViewById(R.id.status);
 	    		status.setText(value + " " + item.unit);
-	    	} 
+	    	}
     	}
     	
         return v;

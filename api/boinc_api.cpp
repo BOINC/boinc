@@ -359,21 +359,21 @@ static bool update_app_progress(double cpu_t, double cp_cpu_t) {
         cpu_t, cp_cpu_t
     );
     if (want_network) {
-        strlcat(msg_buf, "<want_network>1</want_network>\n", MSG_CHANNEL_SIZE);
+        strlcat(msg_buf, "<want_network>1</want_network>\n", sizeof(msg_buf));
     }
     if (fraction_done >= 0) {
         double range = aid.fraction_done_end - aid.fraction_done_start;
         double fdone = aid.fraction_done_start + fraction_done*range;
         sprintf(buf, "<fraction_done>%e</fraction_done>\n", fdone);
-        strlcat(msg_buf, buf, MSG_CHANNEL_SIZE);
+        strlcat(msg_buf, buf, sizeof(msg_buf));
     }
     if (bytes_sent) {
         sprintf(buf, "<bytes_sent>%f</bytes_sent>\n", bytes_sent);
-        strcat(msg_buf, buf);
+        strlcat(msg_buf, buf, sizeof(msg_buf));
     }
     if (bytes_received) {
         sprintf(buf, "<bytes_received>%f</bytes_received>\n", bytes_received);
-        strcat(msg_buf, buf);
+        strlcat(msg_buf, buf, sizeof(msg_buf));
     }
     return app_client_shm->shm->app_status.send_msg(msg_buf);
 }

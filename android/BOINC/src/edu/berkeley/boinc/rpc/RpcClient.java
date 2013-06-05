@@ -615,6 +615,30 @@ public class RpcClient {
 			return false;
 		}
 	}
+	
+	/**
+	 * Reports the Android model as host info to the client
+	 * @return true for success, false for failure
+	 */
+	public synchronized boolean setHostInfo(String hostInfo){
+		mLastErrorMessage = null;
+		mRequest.setLength(0);
+		mRequest.append("<set_host_info>\n <host_info>\n  <product_name>");
+		mRequest.append(hostInfo);
+		mRequest.append("</product_name>\n </host_info>\n</set_host_info>\n");
+		try {
+			sendRequest(mRequest.toString());
+			SimpleReplyParser parser = SimpleReplyParser.parse(receiveReply());
+			if (parser == null)
+				return false;
+			mLastErrorMessage = parser.getErrorMessage();
+			return parser.result();
+		}
+		catch (IOException e) {
+			if (Logging.WARNING) Log.w(TAG, "error in networkAvailable()", e);
+			return false;
+		}
+	}
 
 	/**
 	 * Tells the BOINC core client that a network connection is available,

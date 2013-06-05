@@ -1,0 +1,110 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-06-03 18:11-0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Translate Toolkit 1.9.0\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: Installer.cpp:120
+#, c-format
+msgid "Sorry, this version of %s requires system 10.4 or higher."
+msgstr ""
+
+#: PostInstall.cpp:130
+msgid "Yes"
+msgstr ""
+
+#: PostInstall.cpp:131
+msgid "No"
+msgstr ""
+
+#: PostInstall.cpp:133
+msgid "Should BOINC run even when no user is logged in?"
+msgstr ""
+
+#: PostInstall.cpp:1433
+#, c-format
+msgid ""
+"Users who are permitted to administer this computer will automatically be "
+"allowed to run and control %s.\n"
+"\n"
+"Do you also want non-administrative users to be able to run and control %s "
+"on this Mac?"
+msgstr ""
+
+#: PostInstall.cpp:1461
+#, c-format
+msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
+msgstr ""
+
+#: uninstall.cpp:71
+msgid "OK"
+msgstr ""
+
+#: uninstall.cpp:72
+msgid "Cancel"
+msgstr ""
+
+#: uninstall.cpp:73
+msgid "Continue..."
+msgstr ""
+
+#: uninstall.cpp:89
+msgid "Permission error after relaunch"
+msgstr ""
+
+#: uninstall.cpp:93
+msgid ""
+"Removal may take several minutes.\n"
+"Please be patient."
+msgstr ""
+
+#: uninstall.cpp:133
+#, c-format
+msgid ""
+"Are you sure you want to completely remove %s from your computer?\n"
+"\n"
+"This will remove the executables but will not touch %s data files."
+msgstr ""
+
+#: uninstall.cpp:142
+#, c-format
+msgid "Canceled: %s has not been touched."
+msgstr ""
+
+#: uninstall.cpp:151
+#, c-format
+msgid "An error occurred: error code %d"
+msgstr ""
+
+#: uninstall.cpp:153
+msgid ""
+"Removal completed.\n"
+"\n"
+" You may want to remove the following remaining items using the Finder: \n"
+"\"/Library/Application Support/BOINC Data\" directory\n"
+"\n"
+"for each user, the file\n"
+"\"/Users/[username]/Library/Preferences/BOINC Manager Preferences\"."
+msgstr ""
+
+#: uninstall.cpp:686
+#, c-format
+msgid ""
+"Enter your administrator password to completely remove %s from you "
+"computer.\n"
+"\n"
+msgstr ""

@@ -23,11 +23,13 @@ import java.util.ArrayList;
 
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.TasksActivity.TaskData;
+import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.utils.BOINCDefs;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,7 +39,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class TasksListAdapter extends ArrayAdapter<TaskData>{
@@ -60,6 +61,15 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 		v = vi.inflate(R.layout.tasks_layout_listitem, null);
 		v.setOnClickListener(entries.get(position).taskClickListener);
 
+		ImageView ivIcon = (ImageView)v.findViewById(R.id.projectIcon);
+		Bitmap icon = getIcon(position);
+		// if available set icon, if not boinc logo
+		if(icon == null) { 
+			ivIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.boinc));
+		} else {
+			ivIcon.setImageBitmap(icon);
+		}
+		
 		ProgressBar pb = (ProgressBar) v.findViewById(R.id.progressBar);
 		TextView header = (TextView) v.findViewById(R.id.taskHeader);
 		TextView status = (TextView) v.findViewById(R.id.taskStatus);
@@ -74,6 +84,16 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 		//v.setTag(listItem.name);
 		String headerT = listItem.result.app.getName();
 		header.setText(headerT);
+		
+		// set project name
+		String tempProjectName = listItem.result.project_url;
+		if(listItem.result.project != null) {
+			tempProjectName = listItem.result.project.getName();
+			if(listItem.result.project_suspended_via_gui) {
+				tempProjectName = tempProjectName + " " + getContext().getString(R.string.tasks_header_project_paused);
+			}
+		}
+		((TextView) v.findViewById(R.id.projectName)).setText(tempProjectName);
 		
 		Float fraction = Float.valueOf((float) 1.0); // default is 100 (e.g. abort show full red progress bar)
 		if(!listItem.result.active_task && listItem.result.ready_to_report) { //fraction not available
@@ -95,30 +115,22 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 		else elapsedTime = (int) listItem.result.final_elapsed_time;
 		time.setText(String.format("%02d:%02d:%02d", elapsedTime/3600, (elapsedTime/60)%60, elapsedTime%60));
 
-		RelativeLayout ll = (RelativeLayout) v.findViewById(R.id.expansion);
+		LinearLayout ll = (LinearLayout) v.findViewById(R.id.expansion);
 		if (listItem.expanded) {
+			((ImageView)v.findViewById(R.id.expandCollapse)).setImageResource(R.drawable.expand);
 			ll.setVisibility(View.VISIBLE);
 			// update resume/suspend state (button state)
 			// set deadline
 			String deadline = (String) DateFormat.format("E d MMM yyyy hh:mm:ss aa", new Date(listItem.result.report_deadline*1000));
-			((TextView) v.findViewById(R.id.deadline)).setText(getContext().getString(R.string.tasks_header_deadline) + " " + deadline);
-			// set project name
-			String tempProjectName = listItem.result.project_url;
-			if(listItem.result.project != null) {
-				tempProjectName = listItem.result.project.getName();
-				if(listItem.result.project_suspended_via_gui) {
-					tempProjectName = tempProjectName + " " + getContext().getString(R.string.tasks_header_project_paused);
-				}
-			}
-			((TextView) v.findViewById(R.id.projectName)).setText(getContext().getString(R.string.tasks_header_project_name) + " " + tempProjectName);
+			((TextView) v.findViewById(R.id.deadline)).setText(deadline);
 			// set application friendly name
 			if(listItem.result.app != null) {
-				((TextView) v.findViewById(R.id.taskName)).setText(getContext().getString(R.string.tasks_header_name) + " " + listItem.result.name);
+				((TextView) v.findViewById(R.id.taskName)).setText(listItem.result.name);
 			}
 			
 			if(listItem.determineState() == BOINCDefs.PROCESS_ABORTED) { //dont show buttons for aborted task
 				((LinearLayout)v.findViewById(R.id.requestPendingWrapper)).setVisibility(View.GONE);
-				((LinearLayout)v.findViewById(R.id.taskButtons)).setVisibility(View.GONE);
+				((LinearLayout)v.findViewById(R.id.taskButtons)).setVisibility(View.INVISIBLE);
 			} else {
 				
 				ImageView suspendResume = (ImageView) v.findViewById(R.id.suspendResumeTask);
@@ -135,27 +147,32 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 					// checking what suspendResume button should be shown
 					if(listItem.result.suspended_via_gui) { // show play
 						suspendResume.setVisibility(View.VISIBLE);
-						suspendResume.setImageResource(R.drawable.playw24);
+						suspendResume.setImageResource(R.drawable.resumetask);
 						suspendResume.setTag(RpcClient.RESULT_RESUME); // tag on button specified operation triggered in iconClickListener
 						
 					} else if (listItem.determineState() == BOINCDefs.PROCESS_EXECUTING){ // show pause
 						suspendResume.setVisibility(View.VISIBLE);
-						suspendResume.setImageResource(R.drawable.pausew24);
+						suspendResume.setImageResource(R.drawable.pausetask);
 						suspendResume.setTag(RpcClient.RESULT_SUSPEND); // tag on button specified operation triggered in iconClickListener
 						
 					} else { // show nothing
 						suspendResume.setVisibility(View.GONE);
 					}
 				} else {
-					((LinearLayout)v.findViewById(R.id.taskButtons)).setVisibility(View.GONE);
+					((LinearLayout)v.findViewById(R.id.taskButtons)).setVisibility(View.INVISIBLE);
 					((LinearLayout)v.findViewById(R.id.requestPendingWrapper)).setVisibility(View.VISIBLE);
 				}
 			}
 		} else {
+			((ImageView)v.findViewById(R.id.expandCollapse)).setImageResource(R.drawable.collapse);
 			ll.setVisibility(View.GONE);
 		}
 
 		return v;
+	}
+	
+	public Bitmap getIcon(int position) {
+		return Monitor.getClientStatus().getProjectIcon(entries.get(position).id);
 	}
 
 	private String determineStatusText(TaskData tmp) {
