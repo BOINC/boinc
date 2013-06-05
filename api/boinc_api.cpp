@@ -919,13 +919,13 @@ static int suspend_activities(bool called_from_worker) {
     // suspension is done by signal handler in worker thread
     //
     if (called_from_worker) {
-        // mutex is locked here
+        // mutex is locked in this case
         while (boinc_status.suspended) {
             release_mutex();
             sleep(1);
             acquire_mutex();
         }
-        release_mutex();
+        // return with mutex locked
     }
 #endif
     return 0;
@@ -1465,9 +1465,12 @@ void boinc_end_critical_section() {
     if (in_critical_section < 0) {
         in_critical_section = 0;        // just in case
     }
+
+    if (in_critical_section) return;
+
+    // We're out of the critical section.
     // See if we got suspend/quit/abort while in critical section,
-    // and handle them here
-    // (needed for apps that are in critical section most of the time).
+    // and handle them here.
     //
     if (boinc_status.quit_request) {
         boinc_exit(0);
@@ -1475,11 +1478,14 @@ void boinc_end_critical_section() {
     if (boinc_status.abort_request) {
         boinc_exit(EXIT_ABORTED_BY_CLIENT);
     }
-    if (suspend_request && options.direct_process_action) {
+    if (options.direct_process_action) {
         acquire_mutex();
-        suspend_request = false;
-        boinc_status.suspended = true;
-        suspend_activities(true);
+        if (suspend_request) {
+            suspend_request = false;
+            boinc_status.suspended = true;
+            suspend_activities(true);
+        }
+        release_mutex();
     }
 }
 
