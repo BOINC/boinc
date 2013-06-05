@@ -31,7 +31,7 @@
 //      and do the rest in a separate "timer thread".
 //    Win
 //      the timer thread does everything
-//  Parallel apps.
+//  Multi-thread apps:
 //    Unix:
 //      fork
 //      original process runs timer loop:
@@ -203,7 +203,6 @@ static bool have_new_upload_file;
 static std::vector<UPLOAD_FILE_STATUS> upload_file_status;
 
 static void graphics_cleanup();
-static int suspend_activities();
 static int resume_activities();
 static void boinc_exit(int);
 static void block_sigalrm();
@@ -292,6 +291,30 @@ static int setup_shared_mem() {
     if (app_client_shm == NULL) return -1;
     return 0;
 }
+
+// a mutex for data structures shared between time and worker threads
+//
+#ifdef _WIN32
+static HANDLE mutex;
+static void init_mutex() {
+    mutex = CreateMutex(NULL, TRUE, NULL);
+}
+static inline void acquire_mutex() {
+    WaitForSingleObject(mutex, INFINITE);
+}
+static inline void release_mutex() {
+    ReleaseMutex(mutex);
+}
+#else
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+static void init_mutex() {}
+static inline void acquire_mutex() {
+    pthread_mutex_lock(&mutex);
+}
+static inline void release_mutex() {
+    pthread_mutex_unlock(&mutex);
+}
+#endif
 
 // Return CPU time of process.
 //
@@ -603,6 +626,8 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
     }
     heartbeat_giveup_count = interrupt_count + HEARTBEAT_GIVEUP_COUNT;
 
+    init_mutex();
+
     return 0;
 }
 
@@ -874,7 +899,9 @@ int boinc_wu_cpu_time(double& cpu_t) {
     return 0;
 }
 
-int suspend_activities() {
+// suspend this job
+//
+static int suspend_activities(bool called_from_worker) {
 #ifdef _WIN32
     static vector<int> pids;
     if (options.multi_thread) {
@@ -884,11 +911,21 @@ int suspend_activities() {
         SuspendThread(worker_thread_handle);
     }
 #else
-    // don't need to do anything in single-process case;
-    // suspension is done by signal handler in worker thread
-    //
     if (options.multi_process) {
         suspend_or_resume_descendants(false);
+    }
+    // if called from worker thread, sleep until suspension is over
+    // if called from time thread, don't need to do anything;
+    // suspension is done by signal handler in worker thread
+    //
+    if (called_from_worker) {
+        // mutex is locked here
+        while (boinc_status.suspended) {
+            release_mutex();
+            sleep(1);
+            acquire_mutex();
+        }
+        release_mutex();
     }
 #endif
     return 0;
@@ -971,6 +1008,7 @@ static bool suspend_request = false;
 static void handle_process_control_msg() {
     char buf[MSG_CHANNEL_SIZE];
     if (app_client_shm->shm->process_control_request.get_msg(buf)) {
+        acquire_mutex();
 #ifdef DEBUG_BOINC_API
         char log_buf[256]
         fprintf(stderr, "%s got process control msg %s\n",
@@ -985,7 +1023,7 @@ static void handle_process_control_msg() {
                 } else {
                     boinc_status.suspended = true;
                     suspend_request = false;
-                    suspend_activities();
+                    suspend_activities(false);
                 }
             } else {
                 boinc_status.suspended = true;
@@ -1031,23 +1069,7 @@ static void handle_process_control_msg() {
         if (match_tag(buf, "<network_available/>")) {
             have_network = 1;
         }
-    }
-
-    // if we got a suspend/quit/abort msg while in critical section,
-    // and we've left the critical section, suspend/quit/abort now
-    //
-    if (options.direct_process_action && !in_critical_section) {
-        if (boinc_status.quit_request) {
-            exit_from_timer_thread(0);
-        }
-        if (boinc_status.abort_request) {
-            exit_from_timer_thread(EXIT_ABORTED_BY_CLIENT);
-        }
-        if (suspend_request && !boinc_status.suspended) {
-            boinc_status.suspended = true;
-            suspend_activities();
-        }
-        suspend_request = false;
+        release_mutex();
     }
 }
 
@@ -1442,6 +1464,22 @@ void boinc_end_critical_section() {
     in_critical_section--;
     if (in_critical_section < 0) {
         in_critical_section = 0;        // just in case
+    }
+    // See if we got suspend/quit/abort while in critical section,
+    // and handle them here
+    // (needed for apps that are in critical section most of the time).
+    //
+    if (boinc_status.quit_request) {
+        boinc_exit(0);
+    }
+    if (boinc_status.abort_request) {
+        boinc_exit(EXIT_ABORTED_BY_CLIENT);
+    }
+    if (suspend_request && options.direct_process_action) {
+        acquire_mutex();
+        suspend_request = false;
+        boinc_status.suspended = true;
+        suspend_activities(true);
     }
 }
 
