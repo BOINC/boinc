@@ -38,6 +38,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 import edu.berkeley.boinc.AppPreferences;
@@ -168,6 +169,11 @@ public class Monitor extends Service {
 			Monitor.getClientStatus().setPrefs(clientPrefs);
 			// read supported projects
 			readAndroidProjectsList();
+			// set Android model as hostinfo
+			// should output something like "Samsung Galaxy SII - SDK:15 ABI:armeabi-v7a"
+			String model = Build.MANUFACTURER + " " + Build.MODEL + " - SDK:" + Build.VERSION.SDK_INT + " ABI: " + Build.CPU_ABI;
+			Log.d(TAG,"reporting hostinfo model name: " + model);
+			rpc.setHostInfo(model);
 		}
 		
 		if(connected) {
