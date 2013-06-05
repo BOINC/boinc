@@ -40,7 +40,6 @@ using std::string;
 #include "str_replace.h"
 
 #include "client_msgs.h"
-#include "client_state.h"
 #include "gpu_detect.h"
 
 #ifdef _WIN32
@@ -290,15 +289,7 @@ void COPROCS::get_opencl(
                         // Assumes OpenCL and CAL return the devices
                         // in the same order
                         //
-                        ++current_CAL_index;
-                    }
-                    prop.device_num = current_CAL_index;
-
-                    // Always use GPU model name from CAL if
-                    // available for ATI / AMD  GPUs because
-                    // (we believe) it is more user-friendly.
-                    //
-                    safe_strcpy(prop.name, ati_gpus[prop.device_num].name);
+                        safe_strcpy(prop.name, ati_gpus[prop.device_num].name);
 
                         // Work around a bug in OpenCL which returns only 
                         // 1/2 of total global RAM size: use the value from CAL.

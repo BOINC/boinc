@@ -45,6 +45,8 @@ struct ACCT_MGR_INFO : PROJ_AM {
     bool send_gui_rpc_info;
         // whether to include GUI RPC port and password hash
         // in AM RPCs (used for "farm management")
+    bool no_project_notices;
+        // if set, don't show notices from projects
     bool cookie_required;
         // use of cookies are required during initial signup
         // NOTE: This bool gets dropped after the client has
