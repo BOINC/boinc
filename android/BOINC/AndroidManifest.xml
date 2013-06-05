@@ -20,8 +20,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.berkeley.boinc"
     
-    android:versionCode="3"
-    android:versionName="7.1.7"
+    android:versionCode="43"
+    android:versionName="7.1.8"
     
     android:installLocation="internalOnly" > <!-- installation on SD card would break boot receiver -->
 
