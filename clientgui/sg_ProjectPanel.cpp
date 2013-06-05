@@ -131,7 +131,7 @@ CSimpleProjectPanel::CSimpleProjectPanel( wxWindow* parent ) :
     
     // Make sure m_TotalCreditValue string is large enough 
     m_fDisplayedCredit = 9999999999.99;
-    str.Printf(_("%s: %.0f"), m_sTotalWorkDoneString.c_str(), m_fDisplayedCredit);
+    str.Printf(wxT("%s: %.0f"), m_sTotalWorkDoneString.c_str(), m_fDisplayedCredit);
     m_TotalCreditValue = new CTransparentStaticText( this, wxID_ANY, str, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
     m_TotalCreditValue->Wrap( -1 );
     
@@ -259,7 +259,7 @@ void CSimpleProjectPanel::UpdateInterface() {
         
         if (m_fDisplayedCredit != project->user_total_credit) {
             m_fDisplayedCredit = project->user_total_credit;
-            str.Printf(_("%s: %.0f"), m_sTotalWorkDoneString.c_str(), m_fDisplayedCredit);
+            str.Printf(wxT("%s: %.0f"), m_sTotalWorkDoneString.c_str(), m_fDisplayedCredit);
             UpdateStaticText(&m_TotalCreditValue, str);
             m_TotalCreditValue->SetName(str);   // For accessibility on Windows
         }
