@@ -938,11 +938,12 @@ public class Monitor extends Service {
 					try {
 						if(deviceStatus.update() || deviceStatusOmitCounter >= minimumDeviceStatusFrequency) {
 							if(showRpcCommands) Log.d(TAG, "reportDeviceStatus");
-							Boolean  reportStatusSuccess = rpc.reportDeviceStatus(deviceStatus);
-							Log.d(TAG,"reportDeviceStatus returned: " + reportStatusSuccess);
+							Boolean reportStatusSuccess = rpc.reportDeviceStatus(deviceStatus);
+							Log.d(TAG,"reporting device status to client returned: " + reportStatusSuccess);
 							if(reportStatusSuccess) deviceStatusOmitCounter = 0;
-						} else deviceStatusOmitCounter++;
-					} catch (Exception e) { Log.w(TAG, "device status update failed: " + e.getLocalizedMessage()); }
+						}
+					} catch (Exception e) { Log.w(TAG, "device status report failed: " + e.getLocalizedMessage()); }
+					deviceStatusOmitCounter++;
 					
 					// retrieve client status
 					if(showRpcCommands) Log.d(TAG, "getCcStatus");
