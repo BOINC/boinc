@@ -68,6 +68,7 @@ public class Monitor extends Service {
 	private String clientName; 
 	private String clientCLI; 
 	private String clientCABundle; 
+	private String clientConfig; 
 	private String authFileName; 
 	private String allProjectsList; 
 	private String globalOverridePreferences;
@@ -224,6 +225,7 @@ public class Monitor extends Service {
 		installFile(clientName, true, true);
 		installFile(clientCLI, true, true);
 		installFile(clientCABundle, true, false);
+		installFile(clientConfig, true, false);
 		installFile(allProjectsList, true, false);
 		installFile(globalOverridePreferences, false, false);
     	
@@ -518,6 +520,7 @@ public class Monitor extends Service {
 		clientName = getString(R.string.client_name); 
 		clientCLI = getString(R.string.client_cli); 
 		clientCABundle = getString(R.string.client_cabundle); 
+		clientConfig = getString(R.string.client_config); 
 		authFileName = getString(R.string.auth_file_name); 
 		allProjectsList = getString(R.string.all_projects_list); 
 		globalOverridePreferences = getString(R.string.global_prefs_override);

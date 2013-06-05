@@ -38,6 +38,7 @@ extern void parse_url(const char* url, PARSED_URL&);
 extern void unescape_url(std::string& url);
 extern void unescape_url(char *url, int len);
 extern void escape_url(std::string& url);
+extern void escape_url(const char *in, char*out, int out_size);
 extern void escape_url_unsage(char *in, char *out);
 extern void escape_url_readable(char* in, char* out);
 extern void escape_project_url(char *in, char* out);

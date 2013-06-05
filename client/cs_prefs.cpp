@@ -527,13 +527,13 @@ int PROJECT::parse_preferences_for_user_files() {
             fip = new FILE_INFO;
             fip->project = this;
             fip->download_urls.add(url);
-            strcpy(fip->name, filename.c_str());
+            safe_strcpy(fip->name, filename.c_str());
             fip->is_user_file = true;
             gstate.file_infos.push_back(fip);
         }
 
         fr.file_info = fip;
-        strcpy(fr.open_name, open_name.c_str());
+        safe_strcpy(fr.open_name, open_name.c_str());
         user_files.push_back(fr);
     }
     return 0;
@@ -591,7 +591,7 @@ void CLIENT_STATE::read_global_prefs(
             //
             PROJECT* p = global_prefs_source_project();
             if (p && strcmp(main_host_venue, p->host_venue)) {
-                strcpy(main_host_venue, p->host_venue);
+                safe_strcpy(main_host_venue, p->host_venue);
                 global_prefs.parse_file(fname, main_host_venue, found_venue);
             }
         }

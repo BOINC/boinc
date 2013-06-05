@@ -41,8 +41,6 @@ static BOINC_MAIN_STATE boinc_main_state;
 
 void* graphics_lib_handle=NULL;
 
-#define BOINC_STRLEN    512
-
 typedef int (*BIOGI_FUNC_PTR)(BOINC_OPTIONS&, WORKER_FUNC_PTR, BOINC_MAIN_STATE*);
     // ptr to a function like boinc_init_options_graphics_impl()
 
@@ -64,8 +62,8 @@ int boinc_init_graphics_lib(WORKER_FUNC_PTR worker, char* argv0) {
 int boinc_init_options_graphics_lib(
     BOINC_OPTIONS& opt, WORKER_FUNC_PTR worker, char* argv0
 ) {
-    char graphics_lib[BOINC_STRLEN];
-    char resolved_name[BOINC_STRLEN];
+    char graphics_lib[MAXPATHLEN];
+    char resolved_name[MAXPATHLEN];
     char *ptr;
     int retval;
     char *errormsg;
@@ -84,13 +82,12 @@ int boinc_init_options_graphics_lib(
     } else {
         ptr = argv0;
     }
-    strcpy(graphics_lib, ptr);
-    strncat(graphics_lib, ".so", BOINC_STRLEN);
-    graphics_lib[BOINC_STRLEN-1] = 0;
+    strlcpy(graphics_lib, ptr, sizeof(graphics_lib));
+    strlcat(graphics_lib, ".so", sizeof(graphics_lib));
   
     // boinc-resolve library name: it could be a XML symlink
     //
-    if (boinc_resolve_filename(graphics_lib, resolved_name, BOINC_STRLEN)) {
+    if (boinc_resolve_filename(graphics_lib, resolved_name, MAXPATHLEN)) {
         fprintf(stderr,
             "Unable to boinc_resolve name of shared object file %s\n",
             graphics_lib

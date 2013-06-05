@@ -40,7 +40,7 @@ struct PROJECT {
     double rrsim_proc_rate;
     int rr_sim_deadlines_missed;
     PROJECT(char* n, double rs) {
-        strcpy(name,  n);
+        safe_strcpy(name,  n);
         resource_share = rs;
         non_cpu_intensive = false;
     }
@@ -64,7 +64,7 @@ struct RESULT {
     PROJECT* project;
     RESULT(PROJECT* p, char* n, double e, double rd) {
         project = p;
-        strcpy(name,  n);
+        safe_strcpy(name,  n);
         ectr = e;
         report_deadline = rd;
     }

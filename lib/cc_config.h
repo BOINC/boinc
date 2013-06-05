@@ -50,6 +50,8 @@ struct LOG_FLAGS {
 
     // off by default; intended for developers and testers
     //
+    bool android_debug;
+        // show Android-specific info (battery etc.)
     bool app_msg_receive;
         // show shared-mem message from apps
     bool app_msg_send;

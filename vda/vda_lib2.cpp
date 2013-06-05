@@ -70,7 +70,7 @@ void encoder_filename(
 
 int get_chunk_numbers(VDA_CHUNK_HOST& vch, vector<int>& chunk_numbers) {
     char buf[256];
-    strcpy(buf, vch.physical_file_name);   // vda_hostid_chunknums_filename
+    safe_strcpy(buf, vch.physical_file_name);   // vda_hostid_chunknums_filename
     char* p = buf;
     p = strchr(p, '_') + 1;
     p = strchr(p, '_') + 1;
@@ -128,7 +128,7 @@ int META_CHUNK::init(const char* _dir, POLICY& p, int coding_level) {
     double size;
     char child_dir[1024];
 
-    strcpy(dir, _dir);
+    safe_strcpy(dir, _dir);
     coding = p.codings[coding_level];
     int retval = encode(true);
     if (retval) return retval;
@@ -167,7 +167,7 @@ int META_CHUNK::init(const char* _dir, POLICY& p, int coding_level) {
 int META_CHUNK::get_state(const char* _dir, POLICY& p, int coding_level) {
     int retval;
 
-    strcpy(dir, _dir);
+    safe_strcpy(dir, _dir);
     coding = p.codings[coding_level];
     if (coding_level < p.coding_levels - 1) {
         for (int i=0; i<coding.m; i++) {

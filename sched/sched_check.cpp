@@ -230,7 +230,7 @@ static inline int check_deadline(
             return INFEASIBLE_WORKLOAD;
         }
         IP_RESULT candidate("", wu.delay_bound, est_dur);
-        strcpy(candidate.name, wu.name);
+        safe_strcpy(candidate.name, wu.name);
         if (check_candidate(candidate, g_wreq->effective_ncpus, g_request->ip_results)) {
             // it passed the feasibility test,
             // but don't add it to the workload yet;

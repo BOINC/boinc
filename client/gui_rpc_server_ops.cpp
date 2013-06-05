@@ -383,7 +383,7 @@ static void handle_set_host_info(GUI_RPC_CONN& grc) {
                 return;
             }
             if (strlen(hi.product_name)) {
-                strcpy(gstate.host_info.product_name, hi.product_name);
+                safe_strcpy(gstate.host_info.product_name, hi.product_name);
             }
             grc.mfout.printf("<success/>\n");
             gstate.set_client_state_dirty("set_host_info RPC");
@@ -1159,6 +1159,29 @@ static void handle_report_device_status(GUI_RPC_CONN& grc) {
     while (!grc.xp.get_tag()) {
         if (grc.xp.match_tag("device_status")) {
             int retval = d.parse(grc.xp);
+            if (log_flags.android_debug) {
+                if (retval) {
+                    msg_printf(0, MSG_INFO,
+                        "report_device_status RPC parse failed: %d", retval
+                    );
+                } else {
+                    msg_printf(0, MSG_INFO,
+                        "Android device status:"
+                    );
+                    msg_printf(0, MSG_INFO,
+                        "On AC: %s; on USB: %s; on WiFi: %s",
+                        d.on_ac_power?"yes":"no",
+                        d.on_usb_power?"yes":"no",
+                        d.wifi_online?"yes":"no"
+                    );
+                    msg_printf(0, MSG_INFO,
+                        "Battery: charge pct: %f; temp %f state %s",
+                        d.battery_charge_pct,
+                        d.battery_temperature_celsius,
+                        battery_state_string(d.battery_state)
+                    );
+                }
+            }
             if (!retval) {
                 gstate.device_status = d;
                 gstate.device_status_time = gstate.now;
@@ -1209,7 +1232,7 @@ struct GUI_RPC {
 
     GUI_RPC(const char* req, GUI_RPC_HANDLER h, bool ar, bool en, bool ro) {
         req_tag = req;
-        strcpy(alt_req_tag, req);
+        safe_strcpy(alt_req_tag, req);
         strcat(alt_req_tag, "/");
         handler = h;
         auth_required = ar;

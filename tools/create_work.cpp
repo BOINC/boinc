@@ -129,7 +129,7 @@ int main(int argc, const char** argv) {
 
     while (i < argc) {
         if (arg(argv, i, "appname")) {
-            strcpy(app.name, argv[++i]);
+            safe_strcpy(app.name, argv[++i]);
         } else if (arg(argv, i, "batch")) {
             wu.batch = atoi(argv[++i]);
         } else if (arg(argv, i, "d")) {
@@ -138,11 +138,11 @@ int main(int argc, const char** argv) {
             if (dl ==4) g_print_queries = true;
         } else if (arg(argv, i, "wu_name")) {
             show_wu_name = false;
-            strcpy(wu.name, argv[++i]);
+            safe_strcpy(wu.name, argv[++i]);
         } else if (arg(argv, i, "wu_template")) {
-            strcpy(wu_template_file, argv[++i]);
+            safe_strcpy(wu_template_file, argv[++i]);
         } else if (arg(argv, i, "result_template")) {
-            strcpy(result_template_file, argv[++i]);
+            safe_strcpy(result_template_file, argv[++i]);
         } else if (arg(argv, i, "config_dir")) {
             config_dir = argv[++i];
         } else if (arg(argv, i, "batch")) {

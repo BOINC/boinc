@@ -24,7 +24,7 @@
 
 void STATS_ITEM::init(const char* n, const char* filename, STATS_KIND k) {
     f = fopen(filename, "w");
-    strcpy(name, n);
+    safe_strcpy(name, n);
     kind = k;
     value = 0;
     integral = 0;

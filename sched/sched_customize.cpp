@@ -926,8 +926,8 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
 
     if (check_plan_class_spec) {
         check_plan_class_spec = false;
-        strcpy(buf, config.project_dir);
-        strcat(buf, "/plan_class_spec.xml");
+        safe_strcpy(buf, config.project_dir);
+        safe_strcat(buf, "/plan_class_spec.xml");
         int retval = plan_class_specs.parse_file(buf);
         if (retval == ERR_FOPEN) {
             if (config.debug_version_select) {

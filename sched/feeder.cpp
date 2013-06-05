@@ -249,7 +249,7 @@ static bool get_job_from_db(
         );
         enum_size = enum_sizes[app_index];
     } else {
-        strcpy(select_clause, mod_select_clause);
+        safe_strcpy(select_clause, mod_select_clause);
         enum_size = enum_limit;
     }
     int hrt = ssp->apps[app_index].homogeneous_redundancy;

@@ -2484,8 +2484,8 @@ void DB_VDA_FILE::db_parse(MYSQL_ROW &r) {
     clear();
     id = atoi(r[i++]);
     create_time = atof(r[i++]);
-    strcpy(dir, r[i++]);
-    strcpy(file_name, r[i++]);
+    strcpy2(dir, r[i++]);
+    strcpy2(file_name, r[i++]);
     size = atof(r[i++]);
     chunk_size = atof(r[i++]);
     need_update = (atoi(r[i++]) != 0);
@@ -2523,7 +2523,7 @@ void DB_VDA_CHUNK_HOST::db_parse(MYSQL_ROW &r) {
     create_time = atof(r[i++]);
     vda_file_id = atoi(r[i++]);
     host_id = atoi(r[i++]);
-    strcpy(physical_file_name, r[i++]);
+    strcpy2(physical_file_name, r[i++]);
     present_on_host = (atoi(r[i++]) != 0);
     transfer_in_progress = (atoi(r[i++]) != 0);
     transfer_wait = (atoi(r[i++]) != 0);

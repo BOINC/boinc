@@ -461,11 +461,11 @@ int main(int argc, char** argv) {
     // GDB can't attach to applications which are running as a different user
     // or group, so fix up data with current user and group during debugging
     //
-    if (check_security(g_use_sandbox, false)) {
+    if (check_security(g_use_sandbox, false, NULL, 0)) {
         SetBOINCDataOwnersGroupsAndPermissions();
     }
 #endif  // _DEBUG && __APPLE__
-    int securityErr = check_security(g_use_sandbox, false);
+    int securityErr = check_security(g_use_sandbox, false, NULL, 0);
     if (securityErr) {
         printf(
             "File ownership or permissions are set in a way that\n"

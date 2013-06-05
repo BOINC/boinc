@@ -373,7 +373,7 @@ void ACTIVE_TASK::handle_temporary_exit(
         }
         will_restart = true;
         result->schedule_backoff = gstate.now + backoff;
-        strcpy(result->schedule_backoff_reason, reason);
+        safe_strcpy(result->schedule_backoff_reason, reason);
         set_task_state(PROCESS_UNINITIALIZED, "handle_temporary_exit");
     }
 }
@@ -488,7 +488,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
                 set_task_state(PROCESS_UNINITIALIZED, "temporary exit");
                 will_restart = true;
                 result->schedule_backoff = gstate.now + x;
-                strcpy(result->schedule_backoff_reason, buf);
+                safe_strcpy(result->schedule_backoff_reason, buf);
             } else {
                 if (log_flags.task_debug) {
                     msg_printf(result->project, MSG_INFO,

@@ -101,7 +101,7 @@ void VDA_CHUNK_HOST::print_status(int level) {
 }
 
 int handle_add(const char* path) {
-    char dir[256], filename[256], buf[1024];
+    char dir[MAXPATHLEN], filename[256], buf[1024];
     DB_VDA_FILE vf;
     POLICY policy;
     double size;
@@ -113,10 +113,10 @@ int handle_add(const char* path) {
         return -1;
     }
 
-    strcpy(dir, path);
+    safe_strcpy(dir, path);
     char* p = strrchr(dir, '/');
     *p = 0;
-    strcpy(filename, p+1);
+    safe_strcpy(filename, p+1);
 
     // make sure there's a valid policy file in the dir
     //
@@ -130,8 +130,8 @@ int handle_add(const char* path) {
     // add a DB record and mark it for update
     //
     vf.create_time = dtime();
-    strcpy(vf.dir, dir);
-    strcpy(vf.file_name, filename);
+    safe_strcpy(vf.dir, dir);
+    safe_strcpy(vf.file_name, filename);
     vf.size = size;
     vf.chunk_size = 0;  // don't know this yet; set by vdad
     vf.need_update = 1;

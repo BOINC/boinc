@@ -53,7 +53,7 @@ static void show_flag(char* buf, bool flag, const char* flag_name) {
     if (!flag) return;
     int n = (int)strlen(buf);
     if (!n) {
-        strcpy(buf, flag_name);
+        strlcpy(buf, flag_name, 256);
         return;
     }
     strcat(buf, ", ");
@@ -124,17 +124,17 @@ static void show_exclude_gpu(EXCLUDE_GPU& e) {
     PROJECT *p = gstate.lookup_project(e.url.c_str());
     if (!p) return;
     if (e.type.empty()) {
-        strcpy(t, "all");
+        safe_strcpy(t, "all");
     } else {
-        strcpy(t, e.type.c_str());
+        safe_strcpy(t, e.type.c_str());
     }
     if (e.appname.empty()) {
-        strcpy(app_name, "all");
+        safe_strcpy(app_name, "all");
     } else {
-        strcpy(app_name, e.appname.c_str());
+        safe_strcpy(app_name, e.appname.c_str());
     }
     if (e.device_num < 0) {
-        strcpy(dev, "all");
+        safe_strcpy(dev, "all");
     } else {
         sprintf(dev, "%d", e.device_num);
     }

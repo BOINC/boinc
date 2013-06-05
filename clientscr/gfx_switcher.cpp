@@ -169,7 +169,7 @@ static void print_to_log_file(const char *format, ...) {
 //  freopen(buf, "a", stderr);
 
     time(&t);
-    strcpy(buf, asctime(localtime(&t)));
+    safe_strcpy(buf, asctime(localtime(&t)));
     strip_cr(buf);
 
     fputs(buf, f);
