@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-09 09:39-0800\n"
-"PO-Revision-Date: 2012-01-05 17:54+0200\n"
+"POT-Creation-Date: 2013-06-05 10:24-0700\n"
+"PO-Revision-Date: 2012-01-05 17:57+0200\n"
 "Last-Translator: Erik <ersi@digitalfractions.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sv_SE\n"
@@ -17,12 +17,12 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.6\n"
 
-#: acct_mgr.cpp:435 acct_mgr.cpp:444
+#: acct_mgr.cpp:448 acct_mgr.cpp:457
 #, fuzzy
 msgid "Message from account manager"
 msgstr "Meddelande från servern"
 
-#: client_msgs.cpp:79
+#: client_msgs.cpp:85
 msgid "Message from server"
 msgstr "Meddelande från servern"
 
@@ -34,15 +34,15 @@ msgstr ""
 "Vissa uppgifter kräver mer minne än du tillåtit i dina inställningar. Var "
 "vänlig kontrollera dina inställningar."
 
-#: client_state.cpp:482
+#: client_state.cpp:501
 msgid "Couldn't write state file; check directory permissions"
 msgstr "Kunde inte skriva tillståndsfil; kontrollera katalogsbehörigheter"
 
-#: cs_cmdline.cpp:291
+#: cs_cmdline.cpp:299
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "Miljövariabeln HTTP_PROXY måste specifiera en HTTP-proxy"
 
-#: cs_scheduler.cpp:546
+#: cs_scheduler.cpp:575
 #, c-format
 msgid ""
 "You used the wrong URL for this project.  When convenient, remove this "
@@ -51,56 +51,56 @@ msgstr ""
 "Du använde en felaktig URL för detta projekt. Vid tillfälle, ta bort "
 "projektet och lägg sedan till %s"
 
-#: cs_statefile.cpp:810 ../sched/sched_types.cpp:252
+#: cs_statefile.cpp:829 ../sched/sched_types.cpp:259
 msgid "Syntax error in app_info.xml"
 msgstr "Syntaxfel i app_info.xml"
 
-#: cs_statefile.cpp:850
+#: cs_statefile.cpp:869
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "Fil refererad i app_info.xml saknas: "
 
-#: current_version.cpp:89
+#: current_version.cpp:90
 msgid "A new version of BOINC is available."
 msgstr "En ny version av BOINC finns tillgänglig."
 
-#: current_version.cpp:91
-msgid "Download it."
-msgstr "Ladda ned den."
+#: current_version.cpp:94
+msgid "Download"
+msgstr ""
 
-#: log_flags.cpp:256 log_flags.cpp:427
+#: log_flags.cpp:259 log_flags.cpp:436
 msgid "Unexpected text in cc_config.xml"
 msgstr "Oväntad text i cc_config.xml"
 
-#: log_flags.cpp:401 log_flags.cpp:453
+#: log_flags.cpp:410 log_flags.cpp:462
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Okänd tagg i cc_config.xml"
 
-#: log_flags.cpp:418
+#: log_flags.cpp:427
 msgid "Missing start tag in cc_config.xml"
 msgstr "Starttagg i cc_config.xml saknas"
 
-#: log_flags.cpp:443
+#: log_flags.cpp:452
 #, fuzzy
 msgid "Error in cc_config.xml options"
 msgstr "Okänd tagg i cc_config.xml"
 
-#: log_flags.cpp:461
+#: log_flags.cpp:470
 msgid "Missing end tag in cc_config.xml"
 msgstr "Sluttagg i cc_config.xml saknas"
 
-#: ../sched/handle_request.cpp:299
+#: ../sched/handle_request.cpp:307
 msgid "Invalid or missing account key.  To fix, remove and add this project."
 msgstr ""
 "Ogiltig eller saknad kontonyckel.  Lös detta genom att ta bort och lägg till "
 "detta projekt på nytt."
 
-#: ../sched/handle_request.cpp:831
+#: ../sched/handle_request.cpp:849
 msgid "Invalid code signing key.  To fix, remove and add this project."
 msgstr ""
 "Ogiltig kodsigneringsnyckel. Lös detta genom att ta bort och lägg till detta "
 "projekt på nytt."
 
-#: ../sched/handle_request.cpp:841
+#: ../sched/handle_request.cpp:859
 msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
@@ -108,38 +108,38 @@ msgstr ""
 "Projektet har ändrat sin säkerhetsnyckel. Vänligen ta bort och lägg till "
 "projektet igen."
 
-#: ../sched/handle_request.cpp:925
+#: ../sched/handle_request.cpp:943
 msgid "This project doesn't support operating system"
 msgstr "Projektet stödjer inte operativsystemet"
 
-#: ../sched/handle_request.cpp:951
+#: ../sched/handle_request.cpp:969
 msgid "This project doesn't support CPU type"
 msgstr "Projektet stödjer inte processortypen"
 
-#: ../sched/handle_request.cpp:975
+#: ../sched/handle_request.cpp:993
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
 msgstr ""
 "Din BOINC-klient är för gammal. Vänligen installera den senaste versionen."
 
-#: ../sched/handle_request.cpp:1235
+#: ../sched/handle_request.cpp:1259
 msgid "This project doesn't support computers of type"
 msgstr "Projektet stödjer inte datortypen"
 
-#: ../sched/sched_send.cpp:1365
+#: ../sched/sched_send.cpp:1092
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr ""
 "Uppgradera grafikdrivrutiner till den senaste versionen för att köra "
 "processer med din dators GPU"
 
-#: ../sched/sched_send.cpp:1372
+#: ../sched/sched_send.cpp:1099
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr ""
 "Uppgradera grafikdrivrutinerna till den senaste versionen för att använda "
 "projektets alla GPU-kapabla applikationer"
 
-#: ../sched/sched_send.cpp:1391
+#: ../sched/sched_send.cpp:1118
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
 "the current version"
@@ -147,63 +147,73 @@ msgstr ""
 "En nyare version av BOINC behövs för att använda din NVIDIA GPU; vänligen "
 "uppgradera till den senaste versionen"
 
-#: ../sched/sched_send.cpp:1404
-msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
-msgstr "En NVIDIA eller ATI GPU behövs för att köra processer för projektet"
-
-#: ../sched/sched_send.cpp:1409
-msgid "An NVIDIA GPU is required to run tasks for this project"
-msgstr "En NVIDIA GPU behövs för att köra processer för projektet"
-
-#: ../sched/sched_send.cpp:1415
-msgid "An ATI GPU is required to run tasks for this project"
+# 94%
+#: ../sched/sched_send.cpp:1146
+#, c-format
+#, c-format, fuzzy
+msgid "An %s GPU is required to run tasks for this project"
 msgstr "Ett ATI GPU behövs för att köra processer för projektet"
 
-#: ../sched/sched_send.cpp:1523
+#: ../sched/sched_send.cpp:1262
 #, fuzzy
 msgid "No tasks are available for the applications you have selected."
 msgstr ""
 "Inga processer tillgängliga för applikationen du har valt. Vänligen "
 "kontrollera dina projektinställningar på webbsidan."
 
-#: ../sched/sched_send.cpp:1549
+#: ../sched/sched_send.cpp:1288
 msgid "Your computer type is not supported by this project"
 msgstr "Din datortyp stöds inte av detta projekt"
 
-#: ../sched/sched_send.cpp:1555
+#: ../sched/sched_send.cpp:1294
 msgid "Newer BOINC version required; please install current version"
 msgstr "En nyare BOINC-version krävs; vänligen installera en aktuell version"
 
-#: ../sched/sched_send.cpp:1565
+#: ../sched/sched_send.cpp:1305
+#, c-format
 msgid ""
-"Tasks for NVIDIA GPU are available, but your preferences are set to not "
-"accept them"
+"Tasks for %s are available, but your preferences are set to not accept them"
 msgstr ""
-"Uppgifter för NVIDIA GPU:er finns tillgängliga, men dina inställningar är "
-"satta till att inte acceptera dessa"
 
-#: ../sched/sched_send.cpp:1571
-msgid ""
-"Tasks for ATI GPU are available, but your preferences are set to not accept "
-"them"
-msgstr ""
-"Uppgifter för ATI GPU:er finns tillgängliga, men dina inställningar är satta "
-"till att inte acceptera dessa"
-
-#: ../sched/sched_send.cpp:1577
-msgid ""
-"Tasks for CPU are available, but your preferences are set to not accept them"
-msgstr ""
-"Uppgifter för CPU finns tillgängliga, men du har valt att inte acceptera "
-"dessa"
-
-#: ../sched/sched_types.cpp:247
+#: ../sched/sched_types.cpp:254
 msgid "Unknown app name in app_info.xml"
 msgstr "Okänt applikationsnamn i app_info.xml"
 
-#: ../sched/sched_version.cpp:230
+#: ../sched/sched_version.cpp:214
 msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr "Din app_info.xml fil saknar en användbar version av"
+
+#~ msgid "Download it."
+#~ msgstr "Ladda ned den."
+
+#~ msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
+#~ msgstr "En NVIDIA eller ATI GPU behövs för att köra processer för projektet"
+
+#~ msgid "An NVIDIA GPU is required to run tasks for this project"
+#~ msgstr "En NVIDIA GPU behövs för att köra processer för projektet"
+
+#~ msgid "An ATI GPU is required to run tasks for this project"
+#~ msgstr "Ett ATI GPU behövs för att köra processer för projektet"
+
+#~ msgid ""
+#~ "Tasks for NVIDIA GPU are available, but your preferences are set to not "
+#~ "accept them"
+#~ msgstr ""
+#~ "Uppgifter för NVIDIA GPU:er finns tillgängliga, men dina inställningar är "
+#~ "satta till att inte acceptera dessa"
+
+#~ msgid ""
+#~ "Tasks for ATI GPU are available, but your preferences are set to not accept "
+#~ "them"
+#~ msgstr ""
+#~ "Uppgifter för ATI GPU:er finns tillgängliga, men dina inställningar är satta "
+#~ "till att inte acceptera dessa"
+
+#~ msgid ""
+#~ "Tasks for CPU are available, but your preferences are set to not accept them"
+#~ msgstr ""
+#~ "Uppgifter för CPU finns tillgängliga, men du har valt att inte acceptera "
+#~ "dessa"
 
 #~ msgid "error"
 #~ msgstr "fel"
