@@ -472,7 +472,6 @@ public class PrefsActivity extends FragmentActivity {
 			});
 			
 			dialog.show();
-		
 	}
 
 	@Override
@@ -495,7 +494,7 @@ public class PrefsActivity extends FragmentActivity {
 			clientPrefs.daily_xfer_limit_mb = value;
 			break;
 		case R.string.battery_charge_min_pct_header:
-			clientPrefs.battery_charge_min_pct = numberCpuCoresToPct(value);
+			clientPrefs.battery_charge_min_pct = value;
 			break;
 		case R.string.prefs_cpu_number_cpus_header:
 			clientPrefs.max_ncpus_pct = value;
