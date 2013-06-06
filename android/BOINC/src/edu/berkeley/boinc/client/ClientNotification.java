@@ -51,6 +51,7 @@ public class ClientNotification {
 		// check whether notification is allowed in preferences	
 		if (!Monitor.getAppPrefs().getShowNotification()) {
 			nm.cancel(notificationId);
+			clientNotification.mOldComputingStatus = -1;
 			return;
 		}
 		

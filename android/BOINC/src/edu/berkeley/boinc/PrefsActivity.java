@@ -164,6 +164,34 @@ public class PrefsActivity extends FragmentActivity {
 		if(advanced) data.add(new PrefsListItemWrapperValue(this,R.string.prefs_memory_max_idle_header,R.string.prefs_category_memory,clientPrefs.ram_max_used_idle_frac));
 	}
 	
+	private void updateLayout(){
+		listAdapter.notifyDataSetChanged();
+	}
+
+	// updates list item of boolean preference
+	// requires updateLayout to be called afterwards
+	private void updateBoolPref(int ID, Boolean newValue) {
+		Log.d(TAG, "updateBoolPref for ID: " + ID + " value: " + newValue);
+		for (PrefsListItemWrapper item: data) {
+			if(item.ID == ID){
+				((PrefsListItemWrapperBool) item).setStatus(newValue);
+				continue;
+			}
+		}
+	}
+	
+	// updates list item of value preference
+	// requires updateLayout to be called afterwards
+	private void updateValuePref(int ID, Double newValue) {
+		Log.d(TAG, "updateBoolPref for ID: " + ID + " value: " + newValue);
+		for (PrefsListItemWrapper item: data) {
+			if(item.ID == ID){
+				((PrefsListItemWrapperValue) item).status = newValue;
+				continue;
+			}
+		}
+	}
+	
 	private void setLayoutLoading() {
 		Log.d(TAG,"setLayoutLoading()");
         setContentView(R.layout.generic_layout_loading);
@@ -181,206 +209,35 @@ public class PrefsActivity extends FragmentActivity {
 		switch (ID) {
 		case R.string.prefs_autostart_header: //app pref
 			appPrefs.setAutostart(isSet);
-			populateLayout(); // updates status text
+			updateBoolPref(ID, isSet);
+			updateLayout();
 			break;
 		case R.string.prefs_show_notification_header: //app pref
 			appPrefs.setShowNotification(isSet);
 			ClientNotification.getInstance(getApplicationContext()).update(); // update notification
-			populateLayout(); // updates status text
+			updateBoolPref(ID, isSet);
+			updateLayout();
 			break;
 		case R.string.prefs_show_advanced_header: //app pref
 			appPrefs.setShowAdvanced(isSet);
-			 // call reload of list directly, whithout detour via setDataOutdated and waiting for event.
+			// reload complete layout to remove/add advanced elements
 			populateLayout();
 			break;
 		case R.string.prefs_run_on_battery_header: //client pref
 			clientPrefs.run_on_batteries = isSet;
-			new WriteClientPrefsAsync().execute(clientPrefs);
+			updateBoolPref(ID, isSet);
+			new WriteClientPrefsAsync().execute(clientPrefs); //async task triggers layout update
 			break;
 		case R.string.prefs_network_wifi_only_header: //client pref
 			clientPrefs.network_wifi_only = isSet;
-			new WriteClientPrefsAsync().execute(clientPrefs);
+			updateBoolPref(ID, isSet);
+			new WriteClientPrefsAsync().execute(clientPrefs); //async task triggers layout update
 			break;
 		}
 	}
 	
 	// onClick of listview items with PrefsListItemWrapperValue
 	public void onItemClick (View view) {
-		/*
-<<<<<<< HEAD
-		final PrefsListItemWrapperDouble listItem = (PrefsListItemWrapperDouble) view.getTag();
-		Log.d(TAG,"onItemClick " + listItem.ID);
-		
-		final Dialog dialog = new Dialog(this);
-		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		if(listItem.isPct) {
-			// show dialog with slider
-			dialog.setContentView(R.layout.prefs_layout_dialog_pct);
-			// setup slider
-			TextView sliderProgress = (TextView) dialog.findViewById(R.id.seekbar_status);
-			sliderProgress.setText(listItem.status.intValue() + " " + getString(R.string.prefs_unit_pct));
-			Double seekBarDefault = listItem.status / 10;
-			SeekBar slider = (SeekBar) dialog.findViewById(R.id.seekbar);
-			slider.setProgress(seekBarDefault.intValue());
-			slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-		        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
-		        	String progressString = (progress * 10) + " " + getString(R.string.prefs_unit_pct);
-		        	TextView sliderProgress = (TextView) dialog.findViewById(R.id.seekbar_status);
-		            sliderProgress.setText(progressString);
-		        }
-				@Override
-				public void onStartTrackingTouch(SeekBar seekBar) {}
-				@Override
-				public void onStopTrackingTouch(SeekBar seekBar) {}
-		    });
-		} else {
-			// show dialog with edit text
-			dialog.setContentView(R.layout.prefs_layout_dialog);
-		}
-		// show preference name
-		((TextView)dialog.findViewById(R.id.pref)).setText(listItem.ID);
-		
-		// setup buttons
-		Button confirm = (Button) dialog.findViewById(R.id.confirm);
-		confirm.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-	         	   double value;
-	         	   if(listItem.isPct) {
-	         		   SeekBar slider = (SeekBar) dialog.findViewById(R.id.seekbar);
-	         		   value = slider.getProgress()*10;
-	         	   } else {
-	         		   EditText edit = (EditText) dialog.findViewById(R.id.Input);
-	         		   String input = edit.getText().toString();
-	         		   Double valueTmp = parseInputValueToDouble(input);
-	         		   if(valueTmp == null) return;
-	         		   value = valueTmp;
-	         	   }
-	         	   writeDoublePreference(listItem.ID, value);
-	         	   dialog.dismiss();
-			}
-		});
-		Button cancel = (Button) dialog.findViewById(R.id.cancel);
-		cancel.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				dialog.dismiss();
-			}
-		});
-		
-		dialog.show();
-=======
-		if(view.getTag() instanceof PrefsListItemWrapperDouble) {
-			PrefsListItemWrapperDouble listItem = (PrefsListItemWrapperDouble) view.getTag();
-			Log.d(TAG,"onItemClick Double " + listItem.ID);
-
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			LayoutInflater inflater = getLayoutInflater();
-			final View dialogContent;
-			if(listItem.isPct) {
-				dialogContent = inflater.inflate(R.layout.prefs_layout_dialog_pct, null);
-				TextView sliderProgress = (TextView) dialogContent.findViewById(R.id.seekbar_status);
-				sliderProgress.setText(listItem.status.intValue() + " %");
-				SeekBar slider = (SeekBar) dialogContent.findViewById(R.id.seekbar);
-				slider.setProgress(listItem.status.intValue());
-				slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-					public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
-						String progressString = progress + " %";
-						TextView sliderProgress = (TextView) dialogContent.findViewById(R.id.seekbar_status);
-						sliderProgress.setText(progressString);
-					}
-					@Override
-					public void onStartTrackingTouch(SeekBar seekBar) {}
-					@Override
-					public void onStopTrackingTouch(SeekBar seekBar) {}
-				});
-			} else {
-				dialogContent = inflater.inflate(R.layout.prefs_layout_dialog, null);
-			}
-			builder.setMessage(listItem.ID)
-        	   	.setView(dialogContent)
-        	   	.setNegativeButton(R.string.prefs_cancel_button, new DialogInterface.OnClickListener() {
-        	   		public void onClick(DialogInterface dialogI, int id) {
-        	   			dialog.cancel();
-        	   			}
-        	   		})
-        	   	.setPositiveButton(R.string.prefs_submit_button, new DialogInterface.OnClickListener() {
-                   public void onClick(DialogInterface dialogI, int id) {
-                	   double value;
-                	   if(dialogItem.isPct) {
-                		   SeekBar slider = (SeekBar) dialog.findViewById(R.id.seekbar);
-                		   value = slider.getProgress();
-                	   } else {
-                		   EditText edit = (EditText) dialog.findViewById(R.id.Input);
-                		   String input = edit.getText().toString();
-                		   Double valueTmp = parseInputValueToDouble(input);
-                		   if(valueTmp == null) return;
-                		   value = valueTmp;
-                	   }
-                	   writeDoublePreference(dialogItem.ID, value);
-                   }
-               });
-			dialog = builder.create();
-        	dialog.show();
-        	dialogItem = listItem; // set dialog content
-		} else if(view.getTag() instanceof PrefsListItemWrapperInteger) {
-			PrefsListItemWrapperInteger listItem = (PrefsListItemWrapperInteger) view.getTag();
-			Log.d(TAG,"onItemClick Integer " + listItem.ID);
-			
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			LayoutInflater inflater = getLayoutInflater();
-			final View dialogContent;
-			if(listItem.ID.equals(R.string.prefs_cpu_number_cpus_header)) {
-				if(!getHostInfo()) {
-					Log.d(TAG, "onItemClick missing hostInfo");
-					return;
-				}
-				
-				dialogContent = inflater.inflate(R.layout.prefs_layout_dialog_pct, null);
-				TextView sliderProgress = (TextView) dialogContent.findViewById(R.id.seekbar_status);
-				if(listItem.status > 1) {
-					sliderProgress.setText(listItem.status + " CPUS");
-				} else {
-					sliderProgress.setText(listItem.status + " CPU");
-				}
-				SeekBar slider = (SeekBar) dialogContent.findViewById(R.id.seekbar);
-				slider.setMax(hostinfo.p_ncpus);
-				slider.setProgress(listItem.status);
-				slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-					public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
-						String progressString = String.valueOf(progress);
-						TextView sliderProgress = (TextView) dialogContent.findViewById(R.id.seekbar_status);
-						sliderProgress.setText(progressString);
-					}
-					@Override
-					public void onStartTrackingTouch(SeekBar seekBar) {}
-					@Override
-					public void onStopTrackingTouch(SeekBar seekBar) {}
-				});
-			} else {
-				dialogContent = inflater.inflate(R.layout.prefs_layout_dialog, null);
-			}
-			builder.setMessage(listItem.ID)
-        	   	.setView(dialogContent)
-        	   	.setNegativeButton(R.string.prefs_cancel_button, new DialogInterface.OnClickListener() {
-        	   		public void onClick(DialogInterface dialogI, int id) {
-        	   			dialog.cancel();
-        	   			}
-        	   		})
-        	   	.setPositiveButton(R.string.prefs_submit_button, new DialogInterface.OnClickListener() {
-                   public void onClick(DialogInterface dialogI, int id) {
-                	   int value;
-                	   SeekBar slider = (SeekBar) dialog.findViewById(R.id.seekbar);
-                	   value = slider.getProgress();
-                	   writeIntegerAsDoublePreference(dialogItemInteger.ID, value, hostinfo.p_ncpus);
-                   }
-               });
-			dialog = builder.create();
-        	dialog.show();
-        	dialogItemInteger = listItem; // set dialog content
-		}
->>>>>>> These changes are for having the hostinfo being pulled for preferences to show cpu selector in quantity with max ncpus of the device.
-*/
 			final PrefsListItemWrapperValue listItem = (PrefsListItemWrapperValue) view.getTag();
 			Log.d(TAG,"onItemClick Value " + listItem.ID);
 			
@@ -498,6 +355,8 @@ public class PrefsActivity extends FragmentActivity {
 			break;
 		case R.string.prefs_cpu_number_cpus_header:
 			clientPrefs.max_ncpus_pct = value;
+			//convert value back to number for layout update
+			value = pctCpuCoresToNumber(value);
 			break;
 		case R.string.prefs_cpu_time_max_header:
 			clientPrefs.cpu_usage_limit = value;
@@ -514,14 +373,16 @@ public class PrefsActivity extends FragmentActivity {
 			toast.show();
 			return;
 		}
+		// update list item
+		updateValuePref(id, value);
 		// preferences adapted, write preferences to client
 		new WriteClientPrefsAsync().execute(clientPrefs);
 	}
 	
 	private double numberCpuCoresToPct(double ncpus) {
-		   double pct = (ncpus / (double)hostinfo.p_ncpus) * 100;
-		   Log.d(TAG,"numberCpuCoresToPct: " + ncpus + hostinfo.p_ncpus + pct);
-		   return pct;
+		double pct = (ncpus / (double)hostinfo.p_ncpus) * 100;
+		Log.d(TAG,"numberCpuCoresToPct: " + ncpus + hostinfo.p_ncpus + pct);
+		return pct;
 	}
 	
 	private double pctCpuCoresToNumber(double pct) {
@@ -547,13 +408,6 @@ public class PrefsActivity extends FragmentActivity {
 	}
 	
 	private final class WriteClientPrefsAsync extends AsyncTask<GlobalPreferences,Void,Boolean> {
-
-		@Override
-		protected void onPreExecute() {
-			//setLayoutLoading();
-			super.onPreExecute();
-		}
-
 		@Override
 		protected Boolean doInBackground(GlobalPreferences... params) {
 			if(mIsBound) return monitor.setGlobalPreferences(params[0]);
@@ -562,8 +416,7 @@ public class PrefsActivity extends FragmentActivity {
 		
 		@Override
 		protected void onPostExecute(Boolean success) {
-			populateLayout();
+			updateLayout();
 		}
 	}
-
 }
