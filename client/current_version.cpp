@@ -83,16 +83,24 @@ static bool parse_version(FILE* f, char* new_version, int len) {
 }
 
 static void show_newer_version_msg(const char* new_vers) {
-    msg_printf_notice(0, true,
-        "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=download",
-        "%s (%s) <a href=%s>%s</a>",
-        config.client_new_version_text.empty()
-            ? _("A new version of BOINC is available.")
-            : config.client_new_version_text.c_str(),
-        new_vers,
-        config.client_download_url.c_str(),
-        _("Download")
-    );
+    if (config.client_new_version_text.empty()) {
+        msg_printf_notice(0, true,
+            "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=download",
+            "%s (%s) <a href=%s>%s</a>",
+            _("A new version of BOINC is available."),
+            new_vers,
+            config.client_download_url.c_str(),
+            _("Download")
+        );
+    } else {
+        msg_printf_notice(0, true, NULL,
+            "%s (%s) <a href=%s>%s</a>",
+            config.client_new_version_text.c_str(),
+            new_vers,
+            config.client_download_url.c_str(),
+            _("Download")
+        );
+    }
 }
 
 void GET_CURRENT_VERSION_OP::handle_reply(int http_op_retval) {
