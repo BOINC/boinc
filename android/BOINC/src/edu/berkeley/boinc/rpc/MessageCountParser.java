@@ -22,15 +22,9 @@ package edu.berkeley.boinc.rpc;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-
-import edu.berkeley.boinc.debug.Logging;
-
-import android.util.Log;
 import android.util.Xml;
 
 public class MessageCountParser extends DefaultHandler {
-	private static final String TAG = "MessageCountParser";
-
 	private boolean mParsed = false;
 	private boolean mInReply = false;
 	private int mSeqno = -1;
@@ -50,8 +44,6 @@ public class MessageCountParser extends DefaultHandler {
 			return parser.seqno();
 		}
 		catch (SAXException e) {
-			if (Logging.DEBUG) Log.d(TAG, "Malformed XML:\n" + reply);
-			else if (Logging.INFO) Log.i(TAG, "Malformed XML");
 			return -1;
 		}		
 
@@ -100,7 +92,6 @@ public class MessageCountParser extends DefaultHandler {
 			}
 		}
 		catch (NumberFormatException e) {
-			if (Logging.INFO) Log.i(TAG, "Exception when decoding " + localName);
 		}
 		mCurrentElement.setLength(0);
 	}

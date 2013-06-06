@@ -40,7 +40,7 @@ public class AttachProjectRegistrationActivity extends Activity{
     @Override
     public void onCreate(Bundle savedInstanceState) {  
         super.onCreate(savedInstanceState);  
-        Log.d(TAG, "onCreate"); 
+        if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onCreate"); 
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 
     	//parse master url from intent extras
@@ -49,9 +49,9 @@ public class AttachProjectRegistrationActivity extends Activity{
         	projectName = getIntent().getCharSequenceExtra("projectName").toString();
         	minPwdLength = getIntent().getIntExtra("minPwdLength", 0);
         	usesName = getIntent().getBooleanExtra("usesName", false);
-        	Log.d(TAG,"intent extras: " + projectUrl + projectName + minPwdLength);
+        	if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"intent extras: " + projectUrl + projectName + minPwdLength);
         } catch (Exception e) {
-        	Log.w(TAG, "error while parsing url", e);
+        	if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 3) Log.w(TAG, "error while parsing url", e);
         	finish(); // no point to continue without url
         }
         
@@ -69,7 +69,7 @@ public class AttachProjectRegistrationActivity extends Activity{
     
 	@Override
 	protected void onDestroy() {
-    	Log.d(TAG, "onDestroy");
+    	if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onDestroy");
 	    super.onDestroy();
 	}
 	

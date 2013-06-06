@@ -21,13 +21,7 @@ package edu.berkeley.boinc.rpc;
 
 import java.util.ArrayList;
 
-import edu.berkeley.boinc.debug.Logging;
-
-import android.util.Log;
-
-
 public class MessagesParser {
-	private static final String TAG = "MessagesParser";
 
 	private ArrayList<Message> mMessages = new ArrayList<Message>();
 	//private Message mMessage = null;
@@ -136,7 +130,6 @@ public class MessagesParser {
 				} 
 			}
 		} catch (NumberFormatException e) {
-			if (Logging.INFO) Log.i(TAG, "Exception when decoding");
 		}
 	}
 }

@@ -118,8 +118,6 @@
     <string name="tab_tasks">Tasks</string>
     <string name="tab_transfers">Transfers</string>
     <string name="tab_preferences">Preferences</string>
-    <string name="tab_eventlog">Event Log</string>
-    <string name="tab_debug">Debug</string>
     <string name="tab_desc">Navigation</string>
    
     <!-- status strings -->
@@ -265,14 +263,9 @@
 	<string name="confirm_abort_cancel">Cancel</string>
 	
 	<!-- eventlog tab strings -->
-	<string name="eventlog_loading">Loading messages&#8230;</string>
-	
-	<!-- debug tab strings -->
-    <string name="debug_kill">Kill BOINC Client</string>
-    <string name="debug_clear">Clear</string>
-    <string name="debug_refresh">Refresh</string>
-    <string name="debug_manager_header">AndroidBOINC manager messages:</string>
-    <string name="debug_client_header">BOINC Client messages:</string>
+	<string name="eventlog_loading">Loading log messages&#8230;</string>
+	<string name="eventlog_client_header">Client Messages</string>
+	<string name="eventlog_gui_header">GUI Messages</string>
 
     <!-- suspend reasons -->
     <string name="suspend_unknown">Computation suspended.</string>
@@ -308,8 +301,9 @@
     <string name="rpcreason_unknown">Unknown reason</string>
     
     <!-- menu -->
-    <string name="email_to">Email to&#8230;</string>
-    <string name="send_mail">Send mail&#8230;</string>
+    <string name="menu_emailto">Send as Email</string>
+    <string name="menu_copy">Copy to Clipboard</string>
+    <string name="menu_eventlog">Event Log</string>
     <string name="menu_exit">Exit BOINC</string>
     <string name="menu_run_mode_disable">Suspend</string>
     <string name="menu_run_mode_enable">Resume</string>

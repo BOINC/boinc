@@ -36,12 +36,12 @@ public class BootReceiver extends BroadcastReceiver {
     	prefs.readPrefs(context);
     	
     	if(prefs.getAutostart()) {
-    		Log.d(TAG,"autostart enabled, start Monitor...");
+    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"autostart enabled, start Monitor...");
 	    	Intent startServiceIntent = new Intent(context, Monitor.class);
 	    	context.startService(startServiceIntent);
     	} else {
     		// do nothing
-    		Log.d(TAG,"autostart disabeld - do nothing");
+    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"autostart disabeld - do nothing");
     	}
     	
     }

@@ -23,15 +23,10 @@ import java.util.ArrayList;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-
-import edu.berkeley.boinc.debug.Logging;
-
-import android.util.Log;
 import android.util.Xml;
 
 
 public class AppsParser extends BaseParser {
-	private static final String TAG = "AppsParser";
 
 	private ArrayList<App> mApps = new ArrayList<App>();
 	private App mApp = null;
@@ -53,8 +48,6 @@ public class AppsParser extends BaseParser {
 			return parser.getApps();
 		}
 		catch (SAXException e) {
-			if (Logging.DEBUG) Log.d(TAG, "Malformed XML:\n" + rpcResult);
-			else if (Logging.INFO) Log.i(TAG, "Malformed XML");
 			return null;
 		}
 	}

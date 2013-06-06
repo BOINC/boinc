@@ -23,13 +23,9 @@ import java.util.ArrayList;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-
-import edu.berkeley.boinc.debug.Logging;
-import android.util.Log;
 import android.util.Xml;
 
 public class ProjectConfigReplyParser extends BaseParser {
-	private static final String TAG = "ProjectConfigParser";
 
 	private ProjectConfig mProjectConfig = new ProjectConfig();
 	
@@ -60,8 +56,6 @@ public class ProjectConfigReplyParser extends BaseParser {
 			return parser.getProjectConfig();
 		}
 		catch (SAXException e) {
-			if (Logging.DEBUG) Log.d(TAG, "Malformed XML:\n" + rpcResult);
-			else if (Logging.INFO) Log.i(TAG, "Malformed XML");
 			return null;
 		}		
 
@@ -167,7 +161,6 @@ public class ProjectConfigReplyParser extends BaseParser {
 			mElementStarted = false;
 		}
 		catch (NumberFormatException e) {
-			if (Logging.INFO) Log.i(TAG, "Exception when decoding " + localName);
 		}
 	}
 }

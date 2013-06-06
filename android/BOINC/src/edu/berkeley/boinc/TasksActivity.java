@@ -78,7 +78,7 @@ public class TasksActivity extends FragmentActivity {
 		//private final String TAG = "TasksActivity-Receiver";
 		@Override
 		public void onReceive(Context context,Intent intent) {
-			//Log.d(TAG,"onReceive");
+			//if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"onReceive");
 			loadData();
 		}
 	};
@@ -102,21 +102,21 @@ public class TasksActivity extends FragmentActivity {
 	public void onResume() {
 		super.onResume();
 		//register noisy clientStatusChangeReceiver here, so only active when Activity is visible
-		Log.d(TAG+"-onResume","register receiver");
+		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG+"-onResume","register receiver");
 		registerReceiver(mClientStatusChangeRec,ifcsc);
 		loadData();
 	}
 	
 	public void onPause() {
 		//unregister receiver, so there are not multiple intents flying in
-		Log.d(TAG+"-onPause","remove receiver");
+		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG+"-onPause","remove receiver");
 		unregisterReceiver(mClientStatusChangeRec);
 		super.onPause();
 	}
 	
 	@Override
 	protected void onDestroy() {
-		Log.d(TAG, "onDestroy()");
+		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onDestroy()");
 
 		if (mIsBound) {
 			getApplicationContext().unbindService(mConnection);
@@ -142,11 +142,11 @@ public class TasksActivity extends FragmentActivity {
 				setup = true;
 			}
 		
-			//Log.d(TAG,"loadData: data set contains " + data.size() + " results.");
+			//if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"loadData: data set contains " + data.size() + " results.");
 			listAdapter.notifyDataSetChanged(); //force list adapter to refresh
 		
 		} else {
-			Log.w(TAG, "loadData: array is null, rpc failed");
+			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 3) Log.w(TAG, "loadData: array is null, rpc failed");
 		}
 	}
 	
@@ -162,7 +162,7 @@ public class TasksActivity extends FragmentActivity {
 				}
 			}
 			if(index == null) { // result is new, add
-				Log.d(TAG,"new result found, id: " + rpcResult.name);
+				if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"new result found, id: " + rpcResult.name);
 				data.add(new TaskData(rpcResult));
 			} else { // result was present before, update its data
 				data.get(index).updateResultData(rpcResult);
@@ -205,15 +205,15 @@ public class TasksActivity extends FragmentActivity {
 			Integer currentState = determineState();
 			if (nextState == -1) return;
 			if(currentState == nextState) {
-				Log.d(TAG,"nextState met! " + nextState);
+				if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"nextState met! " + nextState);
 				nextState = -1;
 				loopCounter = 0;
 			} else {
 				if(loopCounter<transistionTimeout) {
-					Log.d(TAG,"nextState not met yet! " + nextState + " vs " + currentState + " loopCounter: " + loopCounter);
+					if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"nextState not met yet! " + nextState + " vs " + currentState + " loopCounter: " + loopCounter);
 					loopCounter++;
 				} else {
-					Log.d(TAG,"transition timed out! " + nextState + " vs " + currentState + " loopCounter: " + loopCounter);
+					if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"transition timed out! " + nextState + " vs " + currentState + " loopCounter: " + loopCounter);
 					nextState = -1;
 					loopCounter = 0;
 				}
@@ -257,10 +257,10 @@ public class TasksActivity extends FragmentActivity {
 						cd.show(getSupportFragmentManager(), "");
 						break;
 					default:
-						Log.w(TAG,"could not map operation tag");
+						if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 3) Log.w(TAG,"could not map operation tag");
 					}
 					listAdapter.notifyDataSetChanged(); //force list adapter to refresh
-				} catch (Exception e) {Log.w(TAG,"failed parsing view tag");}
+				} catch (Exception e) {if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 3) Log.w(TAG,"failed parsing view tag");}
 			}
 		};
 		
@@ -286,18 +286,18 @@ public class TasksActivity extends FragmentActivity {
 				String url = params[0];
 				String name = params[1];
 				Integer operation = Integer.parseInt(params[2]);
-				Log.d(TAG,"url: " + url + " Name: " + name + " operation: " + operation);
+				if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"url: " + url + " Name: " + name + " operation: " + operation);
 	
 				if(mIsBound) return monitor.resultOperation(url, name, operation);
 				else return false;
-			} catch(Exception e) {Log.w(TAG,"error in do in background",e);}
+			} catch(Exception e) {if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 3) Log.w(TAG,"error in do in background",e);}
 			return false;
 		}
 
 		@Override
 		protected void onPostExecute(Boolean success) {
 			if(success) monitor.forceRefresh();
-			else Log.w(TAG,"failed.");
+			else if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 3) Log.w(TAG,"failed.");
 		}
 	}
 }

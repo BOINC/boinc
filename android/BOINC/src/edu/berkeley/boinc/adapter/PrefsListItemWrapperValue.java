@@ -82,7 +82,7 @@ public class PrefsListItemWrapperValue extends PrefsListItemWrapper {
 			unit = ctx.getString(R.string.prefs_unit_pct);
 			break;
 		default:
-			Log.d(TAG, "map failed!");
+			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "map failed!");
 		}
 		if(unit.equals(ctx.getString(R.string.prefs_unit_pct))) isPct = true;
 	}

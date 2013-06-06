@@ -179,7 +179,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 		
 		//read status
 		Integer status = tmp.determineState();
-		//Log.d(TAG,"determineStatusText for status: " + status);
+		//if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"determineStatusText for status: " + status);
 		
 		// custom state
 		if(status == BOINCDefs.RESULT_SUSPENDED_VIA_GUI) return activity.getString(R.string.tasks_custom_suspended_via_gui);
@@ -200,7 +200,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 			case BOINCDefs.PROCESS_SUSPENDED:
 				return activity.getString(R.string.tasks_active_suspended);
 			default:
-				Log.w(TAG,"determineStatusText could not map: " + tmp.determineState());
+				if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 3) Log.w(TAG,"determineStatusText could not map: " + tmp.determineState());
 				return "";
 			}
 		} else { 
@@ -223,7 +223,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 			case BOINCDefs.RESULT_UPLOAD_FAILED:
 				return activity.getString(R.string.tasks_result_upload_failed);
 			default:
-				Log.w(TAG,"determineStatusText could not map: " + tmp.determineState());
+				if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 3) Log.w(TAG,"determineStatusText could not map: " + tmp.determineState());
 				return "";
 			}
 		}

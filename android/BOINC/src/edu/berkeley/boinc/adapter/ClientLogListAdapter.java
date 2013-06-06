@@ -36,7 +36,7 @@ import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.Message;
 
 
-public class EventLogListAdapter extends ArrayAdapter<Message> implements OnItemClickListener {
+public class ClientLogListAdapter extends ArrayAdapter<Message> implements OnItemClickListener {
 	
 	private ArrayList<Message> entries;
     private Activity activity;
@@ -50,7 +50,7 @@ public class EventLogListAdapter extends ArrayAdapter<Message> implements OnItem
         TextView tvProjectName;
     }
  
-    public EventLogListAdapter(Activity activity, ListView listView, int textViewResourceId, ArrayList<Message> entries) {
+    public ClientLogListAdapter(Activity activity, ListView listView, int textViewResourceId, ArrayList<Message> entries) {
         super(activity, textViewResourceId, entries);
         this.entries = entries;
         this.activity = activity;
@@ -96,7 +96,7 @@ public class EventLogListAdapter extends ArrayAdapter<Message> implements OnItem
 		// Only inflate a new view if the ListView does not already have a view assigned.
 	    if (convertView == null) {
 	    	
-	    	vi = ((LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.eventlog_layout_listitem, null);
+	    	vi = ((LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.eventlog_client_listitem_layout, null);
 
 	        viewEventLog = new ViewEventLog();
 	        viewEventLog.cbCheck = (CheckBox)vi.findViewById(R.id.msgs_check);

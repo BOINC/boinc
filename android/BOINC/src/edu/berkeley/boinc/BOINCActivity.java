@@ -85,7 +85,7 @@ public class BOINCActivity extends TabActivity {
 	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context,Intent intent) {
-			//Log.d(TAG, "ClientStatusChange - onReceive()"); 
+			//if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "ClientStatusChange - onReceive()"); 
 
 			determineStatus();
 		}
@@ -94,7 +94,7 @@ public class BOINCActivity extends TabActivity {
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {  
-        Log.d(TAG, "onCreate(), dummy jni: " + getDummyString()); 
+        if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onCreate(), dummy jni: " + getDummyString()); 
 
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
@@ -110,14 +110,14 @@ public class BOINCActivity extends TabActivity {
     
 	@Override
 	protected void onDestroy() {
-    	Log.d(TAG, "onDestroy()");
+    	if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onDestroy()");
 	    doUnbindService();
 	    super.onDestroy();
 	}
 
 	@Override
 	protected void onResume() { // gets called by system every time activity comes to front. after onCreate upon first creation
-    	Log.d(TAG, "onResume()");
+    	if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onResume()");
 	    super.onResume();
 	    registerReceiver(mClientStatusChangeRec, ifcsc);
 	    layout();
@@ -125,7 +125,7 @@ public class BOINCActivity extends TabActivity {
 
 	@Override
 	protected void onPause() { // gets called by system every time activity loses focus.
-    	Log.d(TAG, "onPause()");
+    	if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onPause()");
 	    super.onPause();
 	    unregisterReceiver(mClientStatusChangeRec);
 	}
@@ -152,7 +152,7 @@ public class BOINCActivity extends TabActivity {
 			if(mIsBound) { 
 				newStatus = Monitor.getClientStatus().setupStatus;
 				if(newStatus != clientSetupStatus) { //only act, when status actually different form old status
-					Log.d(TAG,"determineStatus() client setup status changed! old clientSetupStatus: " + clientSetupStatus + " - new: " + newStatus);
+					if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"determineStatus() client setup status changed! old clientSetupStatus: " + clientSetupStatus + " - new: " + newStatus);
 					clientSetupStatus = newStatus;
 					layout(); 
 				}
@@ -207,7 +207,7 @@ public class BOINCActivity extends TabActivity {
     		finish(); // close application
     		break;
     	default:
-    		Log.w(TAG, "could not layout status: " + clientSetupStatus);
+    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 3) Log.w(TAG, "could not layout status: " + clientSetupStatus);
     		break;
     	}
     	
@@ -233,10 +233,8 @@ public class BOINCActivity extends TabActivity {
     		setupTab(new TextView(this), getResources().getString(R.string.tab_transfers), R.drawable.icon_trans_tab, TransActivity.class);
     	if(res.getBoolean(R.bool.tab_preferences))
     		setupTab(new TextView(this), getResources().getString(R.string.tab_preferences), R.drawable.icon_prefs_tab, PrefsActivity.class);
-    	if(res.getBoolean(R.bool.tab_eventlog))
-    		setupTab(new TextView(this), getResources().getString(R.string.tab_eventlog), R.drawable.icon_msgs_tab, EventLogActivity.class);
 
-        //Log.d(TAG, "tab layout setup done");
+        if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "tab layout setup done");
     }
     
     private void setupTab(final View view, final String tag, int icon, Class<?> target) {
@@ -264,7 +262,7 @@ public class BOINCActivity extends TabActivity {
 
 	// triggered by click on noproject_warning, starts login activity
 	public void noProjectClicked(View view) {
-		Log.d(TAG, "noProjectClicked()");
+		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "noProjectClicked()");
 		startActivity(new Intent(this, AttachProjectListActivity.class));
 	}
     
@@ -273,13 +271,13 @@ public class BOINCActivity extends TabActivity {
 	//has to be public in order to get triggered by layout component
 	public void reinitClient(View view) {
 		if(!mIsBound) return;
-		Log.d(TAG, "reinitClient()");
+		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "reinitClient()");
 		monitor.restartMonitor(); //start over with setup of client
 	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-	    Log.d(TAG, "onCreateOptionsMenu()");
+	    if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onCreateOptionsMenu()");
 
 	    MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main_menu, menu);
@@ -289,39 +287,45 @@ public class BOINCActivity extends TabActivity {
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		//customize run mode menu, according to current status
-		MenuItem item = menu.findItem(R.id.run_mode);
-		
+		// run mode, set title and icon based on status
+		MenuItem runMode = menu.findItem(R.id.run_mode);
 		if(Monitor.getClientStatus().computingStatus == ClientStatus.COMPUTING_STATUS_NEVER) {
 			// display play button
-			item.setTitle(R.string.menu_run_mode_enable);
-			item.setIcon(R.drawable.playw);
+			runMode.setTitle(R.string.menu_run_mode_enable);
+			runMode.setIcon(R.drawable.playw);
 		} else {
 			// display stop button
-			item.setTitle(R.string.menu_run_mode_disable);
-			item.setIcon(R.drawable.stopw);
+			runMode.setTitle(R.string.menu_run_mode_disable);
+			runMode.setIcon(R.drawable.pausew);
 		}
+		
+		// event log, show only in advanced mode
+		MenuItem eventLog = menu.findItem(R.id.event_log);
+		if(Monitor.getAppPrefs().getShowAdvanced()) eventLog.setVisible(true);
 		
 		return super.onPrepareOptionsMenu(menu);
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    Log.d(TAG, "onOptionsItemSelected()");
+	    if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onOptionsItemSelected()");
 
 	    switch (item.getItemId()) {
 			case R.id.exit_boinc:
-				Log.d(TAG,"exit BOINC");
+				if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"exit BOINC");
 				new QuitClientAsync().execute();
 				return true;
 			case R.id.run_mode:
 				if(item.getTitle().equals(getApplication().getString(R.string.menu_run_mode_disable))) {
-					Log.d(TAG,"run mode: disable");
+					if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"run mode: disable");
 					new WriteClientRunModeAsync().execute(BOINCDefs.RUN_MODE_NEVER);
 				} else if (item.getTitle().equals(getApplication().getString(R.string.menu_run_mode_enable))) {
-					Log.d(TAG,"run mode: enable");
+					if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"run mode: enable");
 					new WriteClientRunModeAsync().execute(BOINCDefs.RUN_MODE_AUTO);
-				} else Log.d(TAG,"run mode: unrecognized command");
+				} else if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"run mode: unrecognized command");
+				return true;
+			case R.id.event_log:
+				startActivity(new Intent(this,EventLogActivity.class));
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -351,7 +355,7 @@ public class BOINCActivity extends TabActivity {
 		@Override
 		protected void onPostExecute(Boolean success) {
 			if(success) monitor.forceRefresh();
-			else Log.w(TAG,"setting run mode failed");
+			else if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 3) Log.w(TAG,"setting run mode failed");
 		}
 	}
 }

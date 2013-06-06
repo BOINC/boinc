@@ -16,10 +16,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package edu.berkeley.boinc.debug;
+package edu.berkeley.boinc.utils;
 
-public class Debugging {
+public class Logging {
+	// 0 v+
+	// 1 d+
+	// 2 i+
+	// 3 w+
+	// 4 e
+	// >4 nothing
+	static public int LOGLEVEL = 1;
 
-	static public Boolean PERFORMANCE = false;
-	static public Boolean DATA = false; 
+	static public Boolean RPC_PERFORMANCE = false;
+	static public Boolean RPC_DATA = false; 
 }

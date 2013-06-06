@@ -20,13 +20,9 @@ package edu.berkeley.boinc.rpc;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-
-import edu.berkeley.boinc.debug.Logging;
-import android.util.Log;
 import android.util.Xml;
 
 public class GlobalPreferencesParser extends BaseParser {
-	private static final String TAG = "GlobalPreferencesParser";
 	
 	private GlobalPreferences mPreferences = null;
 	
@@ -45,8 +41,6 @@ public class GlobalPreferencesParser extends BaseParser {
 			Xml.parse(rpcResult, parser);
 			return parser.getGlobalPreferences();
 		} catch (SAXException e) {
-			if (Logging.DEBUG) Log.d(TAG, "Malformed XML:\n" + rpcResult);
-			else if (Logging.INFO) Log.i(TAG, "Malformed XML");
 			return null;
 		}
 	}
@@ -55,16 +49,9 @@ public class GlobalPreferencesParser extends BaseParser {
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 		super.startElement(uri, localName, qName, attributes);
 		if (localName.equalsIgnoreCase("global_preferences")) {
-			if (Logging.INFO) { 
-				if (mPreferences!= null) {
-					// previous <global_preferences> not closed - dropping it!
-					Log.i(TAG, "Dropping unfinished <global_preferences> data");
-				}
-			}
 			mPreferences = new GlobalPreferences();
 		} else if (localName.equalsIgnoreCase("day_prefs")) {
 			if (mInsideDayPrefs) 
-				if (Logging.INFO) Log.i(TAG, "Dropping all <day_prefs>");
 			mInsideDayPrefs = true;
 		} else {
 			// Another element, hopefully primitive and not constructor
@@ -184,7 +171,6 @@ public class GlobalPreferencesParser extends BaseParser {
 				}
 			}
 		} catch (NumberFormatException e) {
-			if (Logging.INFO) Log.i(TAG, "Exception when decoding " + localName);
 		}
 		mElementStarted = false;
 	}

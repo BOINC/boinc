@@ -93,17 +93,17 @@ public class Monitor extends Service {
 		String clientProcessName = clientPath + clientName;
 
 		String md5AssetClient = ComputeMD5Asset(clientName);
-		//Log.d(TAG, "Hash of client (Asset): '" + md5AssetClient + "'");
+		//if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "Hash of client (Asset): '" + md5AssetClient + "'");
 
 		String md5InstalledClient = ComputeMD5File(clientProcessName);
-		//Log.d(TAG, "Hash of client (File): '" + md5InstalledClient + "'");
+		//if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "Hash of client (File): '" + md5InstalledClient + "'");
 
 		// If client hashes do not match, we need to install the one that is a part
 		// of the package. Shutdown the currently running client if needed.
 		//
 		if (!md5InstalledClient.equals(md5AssetClient)) {
 		//if (md5InstalledClient.compareToIgnoreCase(md5AssetClient) != 0) {
-			Log.d(TAG,"Hashes of installed client does not match binary in assets - re-install.");
+			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"Hashes of installed client does not match binary in assets - re-install.");
 			
 			// try graceful shutdown using RPC (faster)
 	    	Boolean success = false;
@@ -116,7 +116,7 @@ public class Monitor extends Service {
 		    			Thread.sleep(sleepPeriod);
 		    		} catch (Exception e) {}
 		    		if(getPidForProcessName(clientProcessName) == null) { //client is now closed
-		        		Log.d(TAG,"quitClient: gracefull RPC shutdown successful after " + x + " seconds");
+		        		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"quitClient: gracefull RPC shutdown successful after " + x + " seconds");
 		    			success = true;
 		    			x = attempts;
 		    		}
@@ -129,7 +129,7 @@ public class Monitor extends Service {
 			// Install BOINC client software
 			//
 	        if(!installClient()) {
-	        	Log.d(TAG, "BOINC client installation failed!");
+	        	if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "BOINC client installation failed!");
 	        	return false;
 	        }
 		}
@@ -138,9 +138,9 @@ public class Monitor extends Service {
 		//
 		Integer clientPid = getPidForProcessName(clientProcessName);
 		if(clientPid == null) {
-        	Log.d(TAG, "Starting the BOINC client");
+        	if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "Starting the BOINC client");
 			if (!runClient()) {
-	        	Log.d(TAG, "BOINC client failed to start");
+	        	if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "BOINC client failed to start");
 				return false;
 			}
 		}
@@ -152,7 +152,7 @@ public class Monitor extends Service {
 		Boolean connected = false;
 		Integer counter = 0;
 		while(!connected && (counter < retryAttempts)) {
-			Log.d(TAG, "Attempting BOINC client connection...");
+			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "Attempting BOINC client connection...");
 			connected = connectClient();
 			counter++;
 
@@ -172,15 +172,15 @@ public class Monitor extends Service {
 			// set Android model as hostinfo
 			// should output something like "Samsung Galaxy SII - SDK:15 ABI:armeabi-v7a"
 			String model = Build.MANUFACTURER + " " + Build.MODEL + " - SDK:" + Build.VERSION.SDK_INT + " ABI: " + Build.CPU_ABI;
-			Log.d(TAG,"reporting hostinfo model name: " + model);
+			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"reporting hostinfo model name: " + model);
 			rpc.setHostInfo(model);
 		}
 		
 		if(connected) {
-			Log.d(TAG, "setup completed successfully"); 
+			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "setup completed successfully"); 
 			getClientStatus().setSetupStatus(ClientStatus.SETUP_STATUS_AVAILABLE,false);
 		} else {
-			Log.d(TAG, "onPostExecute - setup experienced an error"); 
+			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onPostExecute - setup experienced an error"); 
 			getClientStatus().setSetupStatus(ClientStatus.SETUP_STATUS_ERROR,true);
 		}
 		
@@ -200,8 +200,8 @@ public class Monitor extends Service {
         	Runtime.getRuntime().exec(cmd, null, new File(clientPath));
         	success = true;
     	} catch (IOException e) {
-    		Log.d(TAG, "Starting BOINC client failed with exception: " + e.getMessage());
-    		Log.e(TAG, "IOException", e);
+    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "Starting BOINC client failed with exception: " + e.getMessage());
+    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(TAG, "IOException", e);
     	}
     	return success;
     }
@@ -211,14 +211,14 @@ public class Monitor extends Service {
 		
         success = connect();
         if(!success) {
-        	Log.d(TAG, "connection failed!");
+        	if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "connection failed!");
         	return success;
         }
         
         //authorize
         success = authorize();
         if(!success) {
-        	Log.d(TAG, "authorization failed!");
+        	if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "authorization failed!");
         }
         return success;
 	}
@@ -244,7 +244,7 @@ public class Monitor extends Service {
 		int count; 
 		
 		try {
-			Log.d(TAG, "installing: " + file);
+			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "installing: " + file);
 			
     		File target = new File(clientPath + file);
     		
@@ -280,13 +280,13 @@ public class Monitor extends Service {
     			success = isExecutable; // return false, if not executable
     		}
 
-    		Log.d(TAG, "install of " + file + " successfull. executable: " + executable + "/" + isExecutable);
+    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "install of " + file + " successfull. executable: " + executable + "/" + isExecutable);
     		
     	} catch (IOException e) {  
-    		Log.d(TAG, "IOException: " + e.getMessage());
-    		Log.e(TAG, "IOException", e);
+    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "IOException: " + e.getMessage());
+    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(TAG, "IOException", e);
     		
-    		Log.d(TAG, "install of " + file + " failed.");
+    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "install of " + file + " failed.");
     	}
 		
 		return success;
@@ -331,11 +331,11 @@ public class Monitor extends Service {
     		
     		return sb.toString();
     	} catch (IOException e) {  
-    		Log.d(TAG, "IOException: " + e.getMessage());
-    		Log.e(TAG, "IOException", e);
+    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "IOException: " + e.getMessage());
+    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(TAG, "IOException", e);
     	} catch (NoSuchAlgorithmException e) {
-    		Log.d(TAG, "NoSuchAlgorithmException: " + e.getMessage());
-    		Log.e(TAG, "NoSuchAlgorithmException", e);
+    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "NoSuchAlgorithmException: " + e.getMessage());
+    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(TAG, "NoSuchAlgorithmException", e);
 		}
 		
 		return "";
@@ -365,11 +365,11 @@ public class Monitor extends Service {
     		
     		return sb.toString();
     	} catch (IOException e) {  
-    		Log.d(TAG, "IOException: " + e.getMessage());
-    		Log.e(TAG, "IOException", e);
+    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "IOException: " + e.getMessage());
+    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(TAG, "IOException", e);
     	} catch (NoSuchAlgorithmException e) {
-    		Log.d(TAG, "NoSuchAlgorithmException: " + e.getMessage());
-    		Log.e(TAG, "NoSuchAlgorithmException", e);
+    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "NoSuchAlgorithmException: " + e.getMessage());
+    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(TAG, "NoSuchAlgorithmException", e);
 		}
 		
 		return "";
@@ -392,8 +392,8 @@ public class Monitor extends Service {
 	    	    sb.append(buf, 0, count);
 	    	}
     	} catch (Exception e) {
-    		Log.d(TAG, "Exception: " + e.getMessage());
-    		Log.e(TAG, "Exception", e);
+    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "Exception: " + e.getMessage());
+    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(TAG, "Exception", e);
     	}
     	
     	//parse output into hashmap
@@ -408,7 +408,7 @@ public class Monitor extends Service {
     	    pid = Integer.parseInt(comps[1]);
     	    packageName = comps[8];
     	    pMap.put(packageName, pid);
-    	    //Log.d(TAG,"added: " + packageName + pid); 
+    	    //if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"added: " + packageName + pid); 
     	}
     	
     	// Find required pid
@@ -422,11 +422,11 @@ public class Monitor extends Service {
     	
     	// client PID could not be read, client already ended / not yet started?
     	if (clientPid == null) {
-    		Log.d(TAG, "quitProcessOsLevel could not find PID, already ended or not yet started?");
+    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "quitProcessOsLevel could not find PID, already ended or not yet started?");
     		return;
     	}
     	
-    	Log.d(TAG, "quitProcessOsLevel for " + processName + ", pid: " + clientPid);
+    	if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "quitProcessOsLevel for " + processName + ", pid: " + clientPid);
     	
     	// Do not just kill the client on the first attempt.  That leaves dangling 
 		// science applications running which causes repeated spawning of applications.
@@ -443,7 +443,7 @@ public class Monitor extends Service {
 				Thread.sleep(sleepPeriod);
 			} catch (Exception e) {}
     		if(getPidForProcessName(processName) == null) { //client is now closed
-        		Log.d(TAG,"quitClient: gracefull SIGQUIT shutdown successful after " + x + " seconds");
+        		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"quitClient: gracefull SIGQUIT shutdown successful after " + x + " seconds");
     			x = attempts;
     		}
     	}
@@ -451,13 +451,13 @@ public class Monitor extends Service {
     	clientPid = getPidForProcessName(processName);
     	if(clientPid != null) {
     		// Process is still alive, send SIGKILL
-    		Log.w(TAG, "SIGQUIT failed. SIGKILL pid: " + clientPid);
+    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 3) Log.w(TAG, "SIGQUIT failed. SIGKILL pid: " + clientPid);
     		android.os.Process.killProcess(clientPid);
     	}
     	
     	clientPid = getPidForProcessName(processName);
     	if(clientPid != null) {
-    		Log.w(TAG, "SIGKILL failed. still living pid: " + clientPid);
+    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 3) Log.w(TAG, "SIGKILL failed. still living pid: " + clientPid);
     	}
     }
 	
@@ -472,7 +472,7 @@ public class Monitor extends Service {
 		//filter projects that do not support Android
 		for (ProjectInfo project: allProjects) {
 			if(project.platforms.contains(getString(R.string.boinc_platform_name))) {
-				Log.d(TAG, project.name + " supports " + getString(R.string.boinc_platform_name));
+				if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, project.name + " supports " + getString(R.string.boinc_platform_name));
 				androidProjects.add(project);
 			} 
 		}
@@ -483,7 +483,7 @@ public class Monitor extends Service {
 	
 	public static ClientStatus getClientStatus() { //singleton pattern
 		if (clientStatus == null) {
-			Log.d(TAG,"WARNING: clientStatus not yet initialized");
+			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"WARNING: clientStatus not yet initialized");
 		}
 		return clientStatus;
 	}
@@ -510,7 +510,7 @@ public class Monitor extends Service {
      */
     @Override
     public IBinder onBind(Intent intent) {
-    	//Log.d(TAG,"onBind");
+    	//if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"onBind");
         return mBinder;
     }
 	
@@ -519,7 +519,7 @@ public class Monitor extends Service {
      */
 	@Override
     public void onCreate() {
-		Log.d(TAG,"onCreate()");
+		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"onCreate()");
 		
 		// populate attributes with XML resource values
 		clientPath = getString(R.string.client_path); 
@@ -538,10 +538,10 @@ public class Monitor extends Service {
 		if(!started) {
 			started = true;
 	        (new ClientMonitorAsync()).execute(new Integer[0]); //start monitor in new thread
-	        //Log.d(TAG, "asynchronous monitor started!");
+	        //if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "asynchronous monitor started!");
 		}
 		else {
-			Log.d(TAG, "asynchronous monitor NOT started!");
+			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "asynchronous monitor NOT started!");
 		}
 
         //Toast.makeText(this, "BOINC Monitor Service Starting", Toast.LENGTH_SHORT).show();
@@ -549,7 +549,7 @@ public class Monitor extends Service {
 	
     @Override
     public void onDestroy() {
-    	Log.d(TAG,"onDestroy()");
+    	if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"onDestroy()");
     	
         // Cancel the persistent notification.
     	((NotificationManager)getSystemService(Service.NOTIFICATION_SERVICE)).cancel(getResources().getInteger(R.integer.autostart_notification_id));
@@ -567,7 +567,7 @@ public class Monitor extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {	
     	//this gets called after startService(intent) (either by BootReceiver or AndroidBOINCActivity, depending on the user's autostart configuration)
-    	Log.d(TAG, "onStartCommand()");
+    	if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onStartCommand()");
 		/*
 		 * START_STICKY causes service to stay in memory until stopSelf() is called, even if all
 		 * Activities get destroyed by the system. Important for GUI keep-alive
@@ -579,10 +579,10 @@ public class Monitor extends Service {
 	
     public void restartMonitor() {
     	if(Monitor.monitorActive) { //monitor is already active, launch cancelled
-    		Log.d(TAG, "monitor active - restart cancelled");
+    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "monitor active - restart cancelled");
     	}
     	else {
-        	Log.d(TAG,"restart monitor");
+        	if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"restart monitor");
         	(new ClientMonitorAsync()).execute(new Integer[0]);
     	}
     }
@@ -590,7 +590,7 @@ public class Monitor extends Service {
     // force ClientMonitorAsync to start with loop.
     // This will read client status using RPCs and fire event eventually.
     public void forceRefresh() {
-    	Log.d(TAG,"forceRefresh()");
+    	if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"forceRefresh()");
     	if(monitorThread != null) {
     		monitorThread.interrupt();
     	}
@@ -625,7 +625,7 @@ public class Monitor extends Service {
     			Thread.sleep(sleepPeriod);
     		} catch (Exception e) {}
     		if(getPidForProcessName(processName) == null) { //client is now closed
-        		Log.d(TAG,"quitClient: gracefull RPC shutdown successful after " + x + " seconds");
+        		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"quitClient: gracefull RPC shutdown successful after " + x + " seconds");
     			success = true;
     			x = attempts;
     		}
@@ -683,14 +683,14 @@ public class Monitor extends Service {
     		br.close();
     	}
     	catch (FileNotFoundException fnfe) {
-    		Log.e(TAG, "auth file not found",fnfe);
+    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(TAG, "auth file not found",fnfe);
     	}
     	catch (IOException ioe) {
-    		Log.e(TAG, "ioexception",ioe);
+    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(TAG, "ioexception",ioe);
     	}
 
 		String authKey = fileData.toString();
-		Log.d(TAG, "authKey: " + authKey);
+		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "authKey: " + authKey);
 		return authKey;
 	}
 	
@@ -719,9 +719,9 @@ public class Monitor extends Service {
     			} else {
     				//final result ready
     				if(config.error_num == 0) { 
-        				Log.d(TAG, "ProjectConfig retrieved: " + config.name);
+        				if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "ProjectConfig retrieved: " + config.name);
     				} else {
-    					Log.d(TAG, "final result with error_num: " + config.error_num);
+    					if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "final result with error_num: " + config.error_num);
     				}
     			}
     		}
@@ -758,7 +758,7 @@ public class Monitor extends Service {
 		try{
 			ArrayList<Project> attachedProjects = rpc.getProjectStatus();
 			for (Project project: attachedProjects) {
-				Log.d(TAG, project.master_url + " vs " + url);
+				if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, project.master_url + " vs " + url);
 				if(project.master_url.equals(url)) {
 					match = true;
 					continue;
@@ -800,12 +800,12 @@ public class Monitor extends Service {
     				//final result ready
     				retval = auth.error_num;
     				if(auth.error_num == 0) { 
-        				Log.d(TAG, "credentials verification result, retrieved authenticator: " + auth.authenticator);
+        				if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "credentials verification result, retrieved authenticator: " + auth.authenticator);
     				}
     			}
     		}
     	}
-    	Log.d(TAG, "lookupCredentials returns " + retval);
+    	if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "lookupCredentials returns " + retval);
     	return auth;
     }
     
@@ -814,7 +814,7 @@ public class Monitor extends Service {
 	}
 	
 	public void abortTransferAsync(String url, String name){
-		Log.d(TAG, "abortTransferAsync");
+		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "abortTransferAsync");
 		String[] param = new String[2];
 		param[0] = url;
 		param[1] = name;
@@ -830,7 +830,7 @@ public class Monitor extends Service {
 	}
 	
 	public void retryTransferAsync(String url, String name){
-		Log.d(TAG, "retryTransferAsync");
+		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "retryTransferAsync");
 		String[] param = new String[2];
 		param[0] = url;
 		param[1] = name;
@@ -876,7 +876,7 @@ public class Monitor extends Service {
     			else {
     				//final result ready
     				if(auth.error_num == 0) { 
-        				Log.d(TAG, "account creation result, retrieved authenticator: " + auth.authenticator);
+        				if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "account creation result, retrieved authenticator: " + auth.authenticator);
     				}
     			}
     		}
@@ -889,32 +889,32 @@ public class Monitor extends Service {
 	// needs lastIndexOfList as reference for consistency
 	// returns 50 most recent messages
 	public List<Message> getEventLogMessages(int startIndex, int number, int lastIndexOfList) {
-		//Log.d(TAG,"getEventLogMessage from start: " + startIndex + " amount: " + number + "lastIndexOfList: " + lastIndexOfList);
+		//if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"getEventLogMessage from start: " + startIndex + " amount: " + number + "lastIndexOfList: " + lastIndexOfList);
 		Integer requestedLastIndex = startIndex + number;
 		if(lastIndexOfList == 0) { // list is empty, initial start
 			lastIndexOfList = rpc.getMessageCount() - 1; // possible lastIndexOfList if all messages were read
-			//Log.d(TAG,"list ist empty, initial start, read message count: " + (lastIndexOfList+1));
+			//if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"list ist empty, initial start, read message count: " + (lastIndexOfList+1));
 		}
 		if(requestedLastIndex > lastIndexOfList + 1) { // requesting more messages than actually present
 			number = lastIndexOfList - startIndex + 1; 
-			//Log.d(TAG,"getEventLogMessage requesting more messages than left, number changed to " + number);
+			//if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"getEventLogMessage requesting more messages than left, number changed to " + number);
 		}
 		Integer param = lastIndexOfList + 1 - startIndex - number;
-		//Log.d(TAG,"getEventLogMessage calling RPC with: " + param);
+		//if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"getEventLogMessage calling RPC with: " + param);
 		try {
 			ArrayList<Message> tmpL = rpc.getMessages(param);
 			List<Message> msgs = tmpL.subList(0, tmpL.size() - startIndex); // tmp.size - start is amount of actually new values. Usually equals number, except for end of list
-			//Log.d(TAG,"getEventLogMessages returning " + msgs.size() + " messages with oldest element seq no: " + msgs.get(0).seqno + " and recent seq no: " + msgs.get(msgs.size()-1).seqno);
+			//if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"getEventLogMessages returning " + msgs.size() + " messages with oldest element seq no: " + msgs.get(0).seqno + " and recent seq no: " + msgs.get(msgs.size()-1).seqno);
 			return msgs;
 		} catch (Exception e) {
-			//Log.w(TAG,"error in retrieving sublist", e);
+			//if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 3) Log.w(TAG,"error in retrieving sublist", e);
 			return null;
 		} 
 	}
 	
 	// returns client messages that are more recent than given seqNo
 	public ArrayList<Message> getEventLogMessages(int seqNo) {
-		//Log.d(TAG, "getEventLogMessage more recent than seqNo: " + seqNo);
+		//if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "getEventLogMessage more recent than seqNo: " + seqNo);
 		return rpc.getMessages(seqNo);
 	}
 	
@@ -937,7 +937,7 @@ public class Monitor extends Service {
 			monitorThread = Thread.currentThread();
 			Boolean sleep = true;
 			while(monitorRunning) {
-				//Log.d(TAG,"doInBackground() monitor loop...");
+				//if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"doInBackground() monitor loop...");
 				
 				if(!rpc.connectionAlive()) { //check whether connection is still alive
 					// If connection is not working, either client has not been set up yet or client crashed.
@@ -949,22 +949,22 @@ public class Monitor extends Service {
 					// set devices status
 					try {
 						if(deviceStatus.update() || deviceStatusOmitCounter >= minimumDeviceStatusFrequency) {
-							if(showRpcCommands) Log.d(TAG, "reportDeviceStatus");
+							if(showRpcCommands) if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "reportDeviceStatus");
 							Boolean reportStatusSuccess = rpc.reportDeviceStatus(deviceStatus);
-							Log.d(TAG,"reporting device status to client returned: " + reportStatusSuccess);
+							if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"reporting device status to client returned: " + reportStatusSuccess);
 							if(reportStatusSuccess) deviceStatusOmitCounter = 0;
 						}
-					} catch (Exception e) { Log.w(TAG, "device status report failed: " + e.getLocalizedMessage()); }
+					} catch (Exception e) { if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 3) Log.w(TAG, "device status report failed: " + e.getLocalizedMessage()); }
 					deviceStatusOmitCounter++;
 					
 					// retrieve client status
-					if(showRpcCommands) Log.d(TAG, "getCcStatus");
+					if(showRpcCommands) if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "getCcStatus");
 					CcStatus status = rpc.getCcStatus();
 					
-					if(showRpcCommands) Log.d(TAG, "getState"); 
+					if(showRpcCommands) if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "getState"); 
 					CcState state = rpc.getState();
 					
-					if(showRpcCommands) Log.d(TAG, "getTransers");
+					if(showRpcCommands) if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "getTransers");
 					ArrayList<Transfer>  transfers = rpc.getFileTransfers();
 					
 					if( (status != null) && (state != null) && (state.results != null) && (state.projects != null) && (transfers != null) && (state.host_info != null)) {
@@ -972,7 +972,7 @@ public class Monitor extends Service {
 						// Update status bar notification
 						ClientNotification.getInstance(getApplicationContext()).update();
 					} else {
-						Log.d(TAG, "client status connection problem");
+						if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "client status connection problem");
 					}
 					
 					// check whether monitor is still intended to update, if not, skip broadcast and exit...
@@ -989,7 +989,7 @@ public class Monitor extends Service {
 					sleep = false;
 		    		try {
 		    			Thread.sleep(refreshFrequency);
-		    		} catch(InterruptedException e) {Log.d(TAG,"sleep interrupted");}
+		    		} catch(InterruptedException e) {if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"sleep interrupted");}
 				}
 			}
 
@@ -998,7 +998,7 @@ public class Monitor extends Service {
 		
 		@Override
 		protected void onPostExecute(Boolean success) {
-			Log.d(TAG, "onPostExecute() monitor exit"); 
+			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onPostExecute() monitor exit"); 
 			Monitor.monitorActive = false;
 		}
 	}
@@ -1018,7 +1018,7 @@ public class Monitor extends Service {
 			
 			Boolean abort = rpc.transferOp(RpcClient.TRANSFER_ABORT, url, name);
 			if(abort) {
-				Log.d(TAG, "successful.");
+				if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "successful.");
 			}
 			return abort;
 		}
@@ -1030,7 +1030,7 @@ public class Monitor extends Service {
 
 		@Override
 		protected void onProgressUpdate(String... arg0) {
-			Log.d(TAG, "onProgressUpdate - " + arg0[0]);
+			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onProgressUpdate - " + arg0[0]);
 		}
 	}
 
@@ -1061,7 +1061,7 @@ public class Monitor extends Service {
 
 		@Override
 		protected void onProgressUpdate(String... arg0) {
-			Log.d(TAG, "onProgressUpdate - " + arg0[0]);
+			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onProgressUpdate - " + arg0[0]);
 		}
 	}
 }

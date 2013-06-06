@@ -21,12 +21,50 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+    
+    <LinearLayout 
+    	android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal">
+        <TextView 
+        	android:id="@+id/clientLogHeader"
+    		android:layout_width="match_parent"
+    		android:layout_height="wrap_content"
+    		android:layout_weight="0.5"
+    		android:clickable="true"
+    		android:onClick="onClientLog"
+    		android:background="@android:color/transparent"
+    		android:padding="10dp"
+    		android:gravity="center"
+    		android:textAppearance="?android:attr/textAppearanceMedium"
+    		android:textStyle="bold"
+    		android:text="@string/eventlog_client_header"/>
+        <TextView 
+        	android:id="@+id/guiLogHeader"
+    		android:layout_width="match_parent"
+    		android:layout_height="wrap_content"
+    		android:layout_weight="0.5"
+    		android:clickable="true"
+    		android:onClick="onGuiLog"
+    		android:background="@drawable/shape_light_blue_background"
+    		android:padding="10dp"
+    		android:gravity="center"
+    		android:textAppearance="?android:attr/textAppearanceMedium"
+    		android:textStyle="bold"
+    		android:text="@string/eventlog_gui_header"/>
+    </LinearLayout>
 
     <ListView
-        android:id="@+id/eventlogList"
+        android:id="@+id/clientLogList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
+    </ListView>
 
+    <ListView
+        android:id="@+id/guiLogList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" >
     </ListView>
 
 </LinearLayout>

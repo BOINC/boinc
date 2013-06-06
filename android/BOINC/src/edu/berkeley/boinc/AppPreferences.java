@@ -41,7 +41,7 @@ public class AppPreferences {
 		showNotification = prefs.getBoolean("showNotification", ctx.getResources().getBoolean(R.bool.prefs_default_notifications));
 		showAdvanced = prefs.getBoolean("showAdvanced", ctx.getResources().getBoolean(R.bool.prefs_default_advanced));
 		
-		Log.d(TAG, "appPrefs read successful." + autostart + showNotification + showAdvanced);
+		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "appPrefs read successful." + autostart + showNotification + showAdvanced);
 	}
 	
 	public void setAutostart(Boolean as) {

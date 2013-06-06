@@ -64,7 +64,7 @@ public class DeviceStatus{
 		valid = false;
 		
 		if(ctx == null) {
-			Log.w(TAG,"context not set");
+			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 3) Log.w(TAG,"context not set");
 			return false;
 		}
 		
@@ -125,7 +125,7 @@ public class DeviceStatus{
 			wifi_online = true;
 		}
 		
-		Log.d(TAG, "change: " + change + " - ac: " + on_ac_power + " ; usb: " + on_usb_power + " ; level: " + battery_charge_pct + " ; temperature: " + battery_temperature_celcius + " ; wifi: " + wifi_online);
+		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "change: " + change + " - ac: " + on_ac_power + " ; usb: " + on_usb_power + " ; level: " + battery_charge_pct + " ; temperature: " + battery_temperature_celcius + " ; wifi: " + wifi_online);
 		
 		valid = true; // end reached without exception
 		return change;

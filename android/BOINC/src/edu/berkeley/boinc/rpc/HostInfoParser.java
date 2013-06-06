@@ -21,16 +21,10 @@ package edu.berkeley.boinc.rpc;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-
-import edu.berkeley.boinc.debug.Logging;
-
-import android.util.Log;
 import android.util.Xml;
 
 
 public class HostInfoParser extends BaseParser {
-	private static final String TAG = "HostInfoParser";
-
 	private HostInfo mHostInfo = null;
 
 
@@ -50,8 +44,6 @@ public class HostInfoParser extends BaseParser {
 			return parser.getHostInfo();
 		}
 		catch (SAXException e) {
-			if (Logging.DEBUG) Log.d(TAG, "Malformed XML:\n" + rpcResult);
-			else if (Logging.INFO) Log.i(TAG, "Malformed XML");
 			return null;
 		}		
 	}
@@ -60,12 +52,6 @@ public class HostInfoParser extends BaseParser {
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 		super.startElement(uri, localName, qName, attributes);
 		if (localName.equalsIgnoreCase("host_info")) {
-			if (Logging.INFO) { 
-				if (mHostInfo != null) {
-					// previous <host_info> not closed - dropping it!
-					Log.i(TAG, "Dropping unfinished <host_info> data");
-				}
-			}
 			mHostInfo = new HostInfo();
 		}
 		else {
@@ -160,7 +146,6 @@ public class HostInfoParser extends BaseParser {
 			}
 		}
 		catch (NumberFormatException e) {
-			if (Logging.INFO) Log.i(TAG, "Exception when decoding " + localName);
 		}
 		mElementStarted = false;
 	}

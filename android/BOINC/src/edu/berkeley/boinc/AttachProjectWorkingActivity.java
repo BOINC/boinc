@@ -85,7 +85,7 @@ public class AttachProjectWorkingActivity extends Activity{
     @Override
     public void onCreate(Bundle savedInstanceState) {  
         super.onCreate(savedInstanceState);  
-        Log.d(TAG, "onCreate"); 
+        if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onCreate"); 
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         
         // bind monitor service
@@ -103,9 +103,9 @@ public class AttachProjectWorkingActivity extends Activity{
         	pwd = getIntent().getStringExtra("pwd");
         	id = getIntent().getStringExtra("id");
         			
-        	Log.d(TAG,"intent extras: " + projectUrl + projectName + id + userName + teamName + eMail + pwd.length() + usesName);
+        	if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"intent extras: " + projectUrl + projectName + id + userName + teamName + eMail + pwd.length() + usesName);
         } catch (Exception e) {
-        	Log.w(TAG, "error while parsing extras", e);
+        	if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 3) Log.w(TAG, "error while parsing extras", e);
         	finish(); // no point to continue without data
         }
         
@@ -122,7 +122,7 @@ public class AttachProjectWorkingActivity extends Activity{
     
 	@Override
 	protected void onDestroy() {
-    	Log.d(TAG, "onDestroy");
+    	if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onDestroy");
 	    doUnbindService();
 	    super.onDestroy();
 	}
@@ -151,7 +151,7 @@ public class AttachProjectWorkingActivity extends Activity{
 	}
 	
 	private int mapErrorNumToString(int code) {
-		Log.d(TAG,"mapErrorNumToString for error: " + code);
+		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"mapErrorNumToString for error: " + code);
 		int stringResource;
 		switch (code) {
 		case BOINCErrors.ERR_DB_NOT_FOUND:
@@ -274,7 +274,7 @@ public class AttachProjectWorkingActivity extends Activity{
 		
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			Log.d(TAG,"doInBackground");
+			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"doInBackground");
 			
 			//check device online
 			publishProgress(new Update(false, false, R.string.attachproject_working_connect,0));
@@ -290,7 +290,7 @@ public class AttachProjectWorkingActivity extends Activity{
 			if(registration) {
 				// register account
 				publishProgress(new Update(false, false, R.string.attachproject_working_register,0));
-				Log.d(TAG,"" + url + email + userName + pwd.length() + teamName);
+				if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"" + url + email + userName + pwd.length() + teamName);
 				account = monitor.createAccount(url, email, userName, pwd, teamName);
 				try {Thread.sleep(timeInterval);} catch (Exception e){}
 				if(account == null) {
@@ -305,7 +305,7 @@ public class AttachProjectWorkingActivity extends Activity{
 			} else {
 				// lookup authenticator
 				publishProgress(new Update(false, false, R.string.attachproject_working_verify,0));
-				Log.d(TAG,"" + url + id + pwd.length() + usesName);
+				if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"" + url + id + pwd.length() + usesName);
 				account = monitor.lookupCredentials(url, id, pwd, usesName);
 				try {Thread.sleep(timeInterval);} catch (Exception e){}
 				if(account == null) {
@@ -334,7 +334,7 @@ public class AttachProjectWorkingActivity extends Activity{
 		
 		@Override
 		protected void onProgressUpdate(Update... values) {
-			Log.d(TAG,"onProgressUpdate");
+			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"onProgressUpdate");
 			appendElementToLayout(values[0]);
 			super.onProgressUpdate(values);
 		}

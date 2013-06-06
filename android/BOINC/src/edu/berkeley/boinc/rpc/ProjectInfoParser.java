@@ -23,15 +23,10 @@ import java.util.ArrayList;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-
-import edu.berkeley.boinc.debug.Logging;
-
-import android.util.Log;
 import android.util.Xml;
 
 
 public class ProjectInfoParser extends BaseParser {
-	private static final String TAG = "ProjectInfoParser";
 
 	private ArrayList<ProjectInfo> mProjectInfos = new ArrayList<ProjectInfo>();
 	private ProjectInfo mProjectInfo = null;
@@ -46,16 +41,11 @@ public class ProjectInfoParser extends BaseParser {
 	public static ArrayList<ProjectInfo> parse(String rpcResult) {
 		try {
 			ProjectInfoParser parser = new ProjectInfoParser();
-			//TODO report malformated XML to BOINC and remove String.replace here...
-			//<boinc_gui_rpc_reply>
-			//<?xml version="1.0" encoding="ISO-8859-1" ?>
-			//<projects>
+			// report malformated XML to BOINC and remove String.replace here...
 			Xml.parse(rpcResult.replace("<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>", ""), parser);
 			return parser.getProjectInfos();
 		}
 		catch (SAXException e) {
-			if (Logging.DEBUG) Log.w(TAG, "Malformed XML:\n" + rpcResult);
-			else if (Logging.INFO) Log.i(TAG, "Malformed XML");
 			return null;
 		}
 	}

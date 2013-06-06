@@ -24,15 +24,10 @@ import java.util.ArrayList;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-
-import edu.berkeley.boinc.debug.Logging;
-
-import android.util.Log;
 import android.util.Xml;
 
 
 public class AppVersionsParser extends DefaultHandler {
-	private static final String TAG = "AppVersionsParser";
 
 	private ArrayList<AppVersion> mAppVersions = new ArrayList<AppVersion>();
 	private AppVersion mAppVersion = null;
@@ -55,8 +50,6 @@ public class AppVersionsParser extends DefaultHandler {
 			return parser.getAppVersions();
 		}
 		catch (SAXException e) {
-			if (Logging.DEBUG) Log.d(TAG, "Malformed XML:\n" + rpcResult);
-			else if (Logging.INFO) Log.i(TAG, "Malformed XML");
 			return null;
 		}
 	}
@@ -114,7 +107,6 @@ public class AppVersionsParser extends DefaultHandler {
 			}
 		}
 		catch (NumberFormatException e) {
-			if (Logging.INFO) Log.i(TAG, "Exception when decoding " + localName);
 		}
 		mCurrentElement.setLength(0); // to be clean for next one
 	}
