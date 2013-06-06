@@ -277,11 +277,6 @@ public class BOINCActivity extends TabActivity {
 		monitor.restartMonitor(); //start over with setup of client
 	}
 	
-	public void finish() {
-		Log.d(TAG, "finishing application, good bye!");
-		super.finish();
-	}
-	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    Log.d(TAG, "onCreateOptionsMenu()");

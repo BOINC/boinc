@@ -70,6 +70,11 @@ public class ClientNotification {
 			clientNotification.mOldSuspendReason = updatedStatus.computingSuspendReason;
 		}
 	}
+	
+	// cancels notification, called during client shutdown
+	public synchronized void cancel() {
+		nm.cancel(notificationId);
+	}
 
 	private Notification buildNotification() {
 		// get current client computingstatus

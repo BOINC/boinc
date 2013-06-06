@@ -636,6 +636,9 @@ public class Monitor extends Service {
         	quitProcessOsLevel(processName);
     	}
     	
+    	// cancel notification
+		ClientNotification.getInstance(getApplicationContext()).cancel();
+    	
     	// set client status to SETUP_STATUS_CLOSED to adapt layout accordingly
 		getClientStatus().setSetupStatus(ClientStatus.SETUP_STATUS_CLOSED,true);
 		
