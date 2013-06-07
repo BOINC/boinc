@@ -32,6 +32,7 @@
 
 #include "app_ipc.h"
 #include "filesys.h"
+#include "str_replace.h"
 
 using std::strcpy;
 

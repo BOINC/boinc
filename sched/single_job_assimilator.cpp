@@ -29,6 +29,8 @@
 #include "boinc_db.h"
 #include "error_numbers.h"
 #include "filesys.h"
+#include "str_replace.h"
+
 #include "sched_msgs.h"
 #include "validate_util.h"
 #include "sched_config.h"

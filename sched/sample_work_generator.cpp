@@ -44,6 +44,7 @@
 #include "error_numbers.h"
 #include "backend_lib.h"
 #include "parse.h"
+#include "str_replace.h"
 #include "util.h"
 #include "svn_version.h"
 

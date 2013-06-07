@@ -20,6 +20,7 @@
 // every so often to see if there's a newer client version
 
 #include "filesys.h"
+#include "str_replace.h"
 
 #include "client_msgs.h"
 #include "client_state.h"

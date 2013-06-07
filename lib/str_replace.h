@@ -22,6 +22,7 @@
 
 #ifndef _WIN32
 #include "config.h"
+#include <sys/types.h>
 #endif
 
 #ifdef __APPLE__
@@ -51,5 +52,8 @@ inline int strcasecmp(const char* s1, const char* s2) {
     return 0;
 }
 #endif
+
+#define safe_strcpy(x, y) strlcpy(x, y, sizeof(x))
+#define safe_strcat(x, y) strlcat(x, y, sizeof(x))
 
 #endif

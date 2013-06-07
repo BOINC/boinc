@@ -28,6 +28,7 @@
 #include "filesys.h"
 #include "sched_config.h"
 #include "sched_util.h"
+#include "str_replace.h"
 #include "util.h"
 
 #include "vda_lib.h"

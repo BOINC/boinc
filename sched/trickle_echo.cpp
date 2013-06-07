@@ -27,6 +27,7 @@
 // user.lookup_id(host.userid);
 
 #include "error_numbers.h"
+#include "str_replace.h"
 
 #include "trickle_handler.h"
 

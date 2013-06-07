@@ -29,8 +29,9 @@
 
 #include "backend_lib.h"
 #include "md5_file.h"
-#include "svn_version.h"
 #include "filesys.h"
+#include "str_replace.h"
+#include "svn_version.h"
 
 #include "sched_config.h"
 #include "sched_util.h"

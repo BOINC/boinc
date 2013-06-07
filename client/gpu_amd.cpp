@@ -40,6 +40,7 @@ using std::vector;
 using std::string;
 
 #include "coproc.h"
+#include "str_replace.h"
 #include "util.h"
 
 #include "client_msgs.h"

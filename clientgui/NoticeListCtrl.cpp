@@ -21,6 +21,9 @@
 
 #include "stdwx.h"
 #include "Events.h"
+
+#include "str_replace.h"
+
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
 #include "NoticeListCtrl.h"

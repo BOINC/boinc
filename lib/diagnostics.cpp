@@ -59,6 +59,7 @@
 #include "error_numbers.h"
 #include "filesys.h"
 #include "util.h"
+#include "str_replace.h"
 #include "parse.h"
 
 #include "diagnostics.h"

@@ -44,6 +44,10 @@
         <user_friendly_name>Sony Playstation 3 running Linux</user_friendly_name>
     </platform>
     <platform>
+        <name>arm-android-linux-gnu</name>
+        <user_friendly_name>Android running on ARM</user_friendly_name>
+    </platform>
+    <platform>
         <name>anonymous</name>
         <user_friendly_name>anonymous</user_friendly_name>
     </platform>
