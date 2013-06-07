@@ -55,7 +55,7 @@ public class AttachProjectLoginActivity extends Activity{
 	private final String TAG = "BOINC AttachProjectLoginActivity"; 
 	
 	private Monitor monitor;
-	private Boolean mIsBound;
+	private Boolean mIsBound = false;
 	
 	private String url;
 	private ProjectInfo projectInfo;

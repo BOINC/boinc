@@ -48,7 +48,7 @@ public class TransActivity extends FragmentActivity {
 	private final String TAG = "BOINC TransActivity";
 	
 	private Monitor monitor;
-	private Boolean mIsBound;
+	private Boolean mIsBound = false;
 
 	private ListView lv;
 	private TransListAdapter listAdapter;

@@ -50,7 +50,7 @@ public class AttachProjectWorkingActivity extends Activity{
 	private final String TAG = "BOINC AttachProjectWorkingActivity"; 
 	
 	private Monitor monitor;
-	private Boolean mIsBound;
+	private Boolean mIsBound = false;
 	
 	private Integer timeInterval;
 	

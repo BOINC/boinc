@@ -57,7 +57,7 @@ public class BOINCActivity extends TabActivity {
 	private Integer clientSetupStatus = ClientStatus.SETUP_STATUS_LAUNCHING;
 	private Boolean intialStart = true;
 	
-	private Boolean mIsBound;
+	private Boolean mIsBound = false;
 	
 	private TabHost tabHost;
 	
