@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.StringBuffer;
 import edu.berkeley.boinc.adapter.ClientLogListAdapter;
-import edu.berkeley.boinc.adapter.GuiLogListAdapter;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Message;
 import android.content.ComponentName;
@@ -45,8 +44,10 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class EventLogActivity extends FragmentActivity {
@@ -61,7 +62,7 @@ public class EventLogActivity extends FragmentActivity {
 	private ArrayList<Message> clientLogData = new ArrayList<Message>();
 
 	private ListView guiLogList;
-	private GuiLogListAdapter guiLogListAdapter;
+	private ArrayAdapter<String> guiLogListAdapter;
 	private ArrayList<String> guiLogData = new ArrayList<String>();
 	
 	// message retrieval
@@ -78,7 +79,7 @@ public class EventLogActivity extends FragmentActivity {
         
         // adapt to custom title bar
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_bar);
-		
+
 	    super.onCreate(savedInstanceState);
 	}
 	
@@ -169,7 +170,8 @@ public class EventLogActivity extends FragmentActivity {
 			clientLogList.setOnScrollListener(new EndlessScrollListener(5));
 			
 			guiLogList = (ListView) findViewById(R.id.guiLogList);
-			guiLogListAdapter = new GuiLogListAdapter(EventLogActivity.this, guiLogList, R.id.guiLogList, guiLogData);
+			guiLogListAdapter = new ArrayAdapter<String>(EventLogActivity.this, R.layout.eventlog_gui_listitem_layout, guiLogData);
+			guiLogList.setAdapter(guiLogListAdapter);
 			
 			// initial data retrieval
 			new RetrievePastClientMsgs().execute();
@@ -214,8 +216,7 @@ public class EventLogActivity extends FragmentActivity {
 		clientLogList.setVisibility(View.GONE);
 		guiLogList.setVisibility(View.VISIBLE);
 		// read messages
-		readLogcat(100);
-		guiLogListAdapter.notifyDataSetChanged();
+		readLogcat();
 	}
 	
 	@Override
@@ -223,6 +224,10 @@ public class EventLogActivity extends FragmentActivity {
 	    if(Logging.DEBUG) Log.d(TAG, "onOptionsItemSelected()");
 
 	    switch (item.getItemId()) {
+			case R.id.refresh:
+				new RetrieveRecentClientMsgs().execute();
+				readLogcat();
+				return true;
 			case R.id.email_to:
 				onEmailTo();
 				return true;
@@ -234,65 +239,79 @@ public class EventLogActivity extends FragmentActivity {
 	}
 	
 	private void onCopy() {
-		ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE); 
-		clipboard.setText("test");
-		//TODO
+		try {
+			ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE); 
+			clipboard.setText(getLogDataAsString(clientLogList.getVisibility() == View.VISIBLE));
+			Toast.makeText(this, "log copied to clipboard.", Toast.LENGTH_SHORT).show();
+		} catch(Exception e) {if(Logging.WARNING) Log.w(TAG,"onCopy failed");}
 	}
 	
 	private void onEmailTo() {
-
-		Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-		StringBuffer emailText = new StringBuffer();
-		Boolean copySelection = false;
-		
-		// Determine what kind of email operation we are going to use
-	    for (int index = 0; index < clientLogList.getCount(); index++) {
-	    	if (clientLogList.isItemChecked(index)) {
-	    		copySelection = true;
-	    	}
-	    }
-
-	    // Put together the email intent		
-		emailIntent.setType("plain/text");
-		emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Event Log for BOINC on Android");
-
-		// Construct the message body
-		emailText.append("\n\nContents of the Event Log:\n\n");
-		if (copySelection) {
-			// Copy selected items
-		    for (int index = 0; index < clientLogList.getCount(); index++) {
-		    	if (clientLogList.isItemChecked(index)) {
-					emailText.append(clientLogListAdapter.getDate(index));
-					emailText.append("|");
-					emailText.append(clientLogListAdapter.getProject(index));
-					emailText.append("|");
-					emailText.append(clientLogListAdapter.getMessage(index));
-					emailText.append("\r\n");
-		    	}
-		    }
-		} else {
-			// Copy all items
-		    for (int index = 0; index < clientLogList.getCount(); index++) {
-				emailText.append(clientLogListAdapter.getDate(index));
-				emailText.append("|");
-				emailText.append(clientLogListAdapter.getProject(index));
-				emailText.append("|");
-				emailText.append(clientLogListAdapter.getMessage(index));
-				emailText.append("\r\n");
-			}
-		}
-		
-		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, emailText.toString());
-		
-		// Send it off to the Activity-Chooser
-		startActivity(Intent.createChooser(emailIntent, "Send mail..."));		
-
+		try {
+			String emailText = getLogDataAsString(clientLogList.getVisibility() == View.VISIBLE);
+			
+			Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+	
+		    // Put together the email intent		
+			emailIntent.setType("plain/text");
+			emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Event Log for BOINC on Android");
+	
+			emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, emailText);
+			
+			// Send it off to the Activity-Chooser
+			startActivity(Intent.createChooser(emailIntent, "Send mail..."));	
+		} catch(Exception e) {if(Logging.WARNING) Log.w(TAG,"onEmailTo failed");}
 	}
 	
-	private void readLogcat(int number) {
+	// returns the content of the log as string
+	// clientLog = true: client log
+	// clientlog = false: gui log
+	private String getLogDataAsString(Boolean clientLog) {
+		StringBuffer text = new StringBuffer();
+		if(clientLog) {
+			text.append("Contents of the Client Event Log:\n\n");
+		    for (int index = 0; index < clientLogList.getCount(); index++) {
+				text.append(clientLogListAdapter.getDate(index));
+				text.append("|");
+				text.append(clientLogListAdapter.getProject(index));
+				text.append("|");
+				text.append(clientLogListAdapter.getMessage(index));
+				text.append("\n");
+			}
+		} else {
+			text.append("Contents of the GUI Event Log:\n\n");
+		    for (String line: guiLogData) {
+				text.append(line);
+				text.append("\n");
+			}
+		}
+		return text.toString();
+	}
+	
+	private void readLogcat() {
+		int number = 100;
 		guiLogData.clear();
 		try {
-			Process process = Runtime.getRuntime().exec("logcat -d -t " + number + " -v time *:D");
+			String logLevelFilter = " *";
+			switch(Logging.LOGLEVEL){
+			case 0: return;
+			case 1:
+				logLevelFilter += ":E";
+				break;
+			case 2:
+				logLevelFilter += ":W";
+				break;
+			case 3:
+				logLevelFilter += ":I";
+				break;
+			case 4:
+				logLevelFilter += ":D";
+				break;
+			case 5:
+				logLevelFilter += ":V";
+				break;
+			}
+			Process process = Runtime.getRuntime().exec("logcat -d -t " + number + " -v time" + logLevelFilter);
 			// filtering logcat output by application package is not possible on command line
 			// devices with SDK > 13 will automatically "session filter"
 			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -303,6 +322,8 @@ public class EventLogActivity extends FragmentActivity {
 				if(x > 1) guiLogData.add(0,line); // cut off first two lines, prepend to array (most current on top)
 				x++;
 			}
+			if(Logging.DEBUG) Log.w(TAG, "readLogcat read " + guiLogData.size() + " lines.");
+			guiLogListAdapter.notifyDataSetChanged();
 		} catch (IOException e) {if(Logging.WARNING) Log.w(TAG, "readLogcat failed", e);}
 	}
 	
