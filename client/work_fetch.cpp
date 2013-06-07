@@ -707,7 +707,7 @@ PROJECT* WORK_FETCH::choose_project() {
         //   if so set a flag so that lower-priority projects
         //   won't request it
         // - If so, see if work is needed for this type;
-        //   if so, set "found"
+        //   if so, set "found_project" flag
         //
         int rsc_index = -1;
         for (int i=0; i<coprocs.n_rsc; i++) {
@@ -738,6 +738,7 @@ PROJECT* WORK_FETCH::choose_project() {
         // able to request work
         //
         if (rsc_index >= 0) {
+            bool any_request = false;
             for (int i=0; i<coprocs.n_rsc; i++) {
                 if (i && !gpus_usable) continue;
                 RSC_WORK_FETCH& rwf = rsc_work_fetch[i];
@@ -765,11 +766,14 @@ PROJECT* WORK_FETCH::choose_project() {
                 } else {
                     rwf.set_request_excluded(p);
                 }
+                if (rwf.req_secs > 0) {
+                    any_request = true;
+                }
             }
-            found = true;
-            break;
-        } else {
-            p = NULL;
+            if (any_request) {
+                found = true;
+                break;
+            }
         }
     }
 
