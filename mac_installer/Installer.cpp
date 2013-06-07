@@ -31,6 +31,7 @@
 #include <sys/stat.h>
 
 #include "str_util.h"
+#include "str_replace.h"
 
 #define boinc_master_user_name "boinc_master"
 #define boinc_master_group_name "boinc_master"

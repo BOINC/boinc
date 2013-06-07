@@ -49,6 +49,7 @@ extern "C" {
 #include "Mac_Saver_Module.h"
 #include "screensaver.h"
 #include "diagnostics.h"
+#include "str_replace.h"
 
 //#include <drivers/event_status_driver.h>
 
