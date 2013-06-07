@@ -44,10 +44,10 @@ function linux_info() {
 }
 
 $w72dev = array(
-	"num"=>"7.1.3",
+	"num"=>"7.1.10",
 	"status"=>"Development version",
-	"file"=>"boinc_7.1.3_windows_intelx86.exe",
-	"date"=>"1 June 2013",
+	"file"=>"boinc_7.1.10_windows_intelx86.exe",
+	"date"=>"7 June 2013",
 	"type"=>"win_new",
 );
 
@@ -84,10 +84,10 @@ $w5816 = array(
 );
 
 $w72x64dev = array(
-	"num"=>"7.1.3",
+	"num"=>"7.1.10",
 	"status"=>"Development version",
-	"file"=>"boinc_7.1.3_windows_x86_64.exe",
-	"date"=>"1 June 2013",
+	"file"=>"boinc_7.1.10_windows_x86_64.exe",
+	"date"=>"7 June 2013",
 	"type"=>"win_new",
 );
 
@@ -204,10 +204,10 @@ $l66 = array(
 	);
 
 $l72ubuntudev = array(
-	"num"=>"7.1.3",
+	"num"=>"7.1.10",
 	"status"=>"Development version",
-	"file"=>"boinc_7.1.3_i686-pc-linux-gnu.sh",
-	"date"=>"1 June 2013",
+	"file"=>"boinc_7.1.10_i686-pc-linux-gnu.sh",
+	"date"=>"7 June 2013",
 	"type"=>"sea",
 );
 
@@ -228,10 +228,10 @@ $l70ubuntuold = array(
 );
 
 $l72ubuntux64dev = array(
-	"num"=>"7.1.3",
+	"num"=>"7.1.10",
 	"status"=>"Development version",
-	"file"=>"boinc_7.1.3_x86_64-pc-linux-gnu.sh",
-	"date"=>"1 June 2013",
+	"file"=>"boinc_7.1.10_x86_64-pc-linux-gnu.sh",
+	"date"=>"7 June 2013",
 	"type"=>"sea",
 );
 
@@ -249,14 +249,6 @@ $l70ubuntux64old = array(
 	"file"=>"boinc_7.0.28_x86_64-pc-linux-gnu.sh",
 	"date"=>"21 May 2012",
 	"type"=>"sea",
-);
-
-$adev = array(
-	"num"=>"7.0.58",
-	"status"=>"Development version",
-	"file"=>"boinc_7.0.58_arm-android-linux-gnu.apk",
-	"date"=>"21 Mar 2013",
-	"type"=>"apk",
 );
 
 // platform descriptors.  For each one, "versions"
@@ -345,16 +337,6 @@ $linuxcompat = array(
 	)
 );
 
-$android = array(
-	"name"=>"Android",
-	"description"=>"For Android 2.3+ devices",
-	"dbname" => "arm-android-linux-gnu",
-	"versions"=>array(
-		$adev,
-	)
-);
-
-
 $platforms = array(
     "win"=>$windows,
     "winx64"=>$windowsx64,
@@ -363,7 +345,6 @@ $platforms = array(
     "linux"=>$linux,
     "linuxx64"=>$linuxx64,
 	"linuxcompat"=>$linuxcompat,
-	"android"=>$android,
 );
 
 function is_dev($v) {
