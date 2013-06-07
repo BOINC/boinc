@@ -19,6 +19,8 @@
 #include <stdio.h>
 #include <limits.h>
 
+#include "str_replace.h"
+
 #include "vda_lib.h"
 #include "stats.h"
 

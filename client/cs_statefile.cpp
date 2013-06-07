@@ -28,6 +28,7 @@
 #include "filesys.h"
 #include "md5_file.h"
 #include "parse.h"
+#include "str_replace.h"
 #include "str_util.h"
 #include "util.h"
 

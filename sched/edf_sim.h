@@ -22,6 +22,7 @@
 #include <vector>
 
 #include "parse.h"
+#include "str_replace.h"
 
 struct IP_RESULT {
     char name[256];

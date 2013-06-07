@@ -23,6 +23,7 @@
 
 #include "filesys.h"
 #include "md5_file.h"
+#include "str_replace.h"
 
 #include "sched_config.h"
 #include "sched_util.h"

@@ -21,8 +21,6 @@
 #include <string>
 #include <string.h>
 
-#include "str_replace.h"
-
 extern void strcpy_overlap(char*, const char*);
 extern int ndays_to_string(double x, int smallest_timescale, char *buf);
 extern void nbytes_to_string(double nbytes, double total_bytes, char* str, int len);
@@ -30,8 +28,6 @@ extern int parse_command_line(char*, char**);
 extern void c2x(char *what);
 extern void strip_whitespace(char *str);
 extern void strip_whitespace(std::string&);
-#define safe_strcpy(x, y) strlcpy(x, y, sizeof(x))
-#define safe_strcat(x, y) if (strlen(x)+strlen(y)<sizeof(x)) strcat(x, y)
 extern char* time_to_string(double);
 extern char* precision_time_to_string(double);
 extern void secs_to_hmsf(double, char*);
