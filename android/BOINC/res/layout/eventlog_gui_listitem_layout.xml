@@ -17,24 +17,9 @@
   You should have received a copy of the GNU Lesser General Public License
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/msgsRow"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:gravity="center_vertical" >
-
-    <CheckBox
-        android:id="@+id/msgs_gui_check"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="false"
-        android:focusable="false"
-        android:layout_margin="5dp" />
-    
-    <TextView
-        android:id="@+id/msgs_gui_message"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />  
-
-</LinearLayout>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/msgs_gui_message"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+	android:padding="3dp"  />  

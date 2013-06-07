@@ -20,31 +20,24 @@ package edu.berkeley.boinc.adapter;
 
 import java.util.ArrayList;
 import java.util.Date;
-
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.Message;
 
-
-public class ClientLogListAdapter extends ArrayAdapter<Message> implements OnItemClickListener {
+public class ClientLogListAdapter extends ArrayAdapter<Message> {
 	
 	private ArrayList<Message> entries;
     private Activity activity;
-    private ListView listView;
     
     public static class ViewEventLog {
     	int entryIndex;
-    	CheckBox cbCheck;
         TextView tvMessage;
         TextView tvDate;
         TextView tvProjectName;
@@ -54,10 +47,8 @@ public class ClientLogListAdapter extends ArrayAdapter<Message> implements OnIte
         super(activity, textViewResourceId, entries);
         this.entries = entries;
         this.activity = activity;
-        this.listView = listView;
         
         listView.setAdapter(this);
-        listView.setOnItemClickListener(this);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
     }
  
@@ -99,7 +90,6 @@ public class ClientLogListAdapter extends ArrayAdapter<Message> implements OnIte
 	    	vi = ((LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.eventlog_client_listitem_layout, null);
 
 	        viewEventLog = new ViewEventLog();
-	        viewEventLog.cbCheck = (CheckBox)vi.findViewById(R.id.msgs_check);
 	        viewEventLog.tvMessage = (TextView)vi.findViewById(R.id.msgs_message);
 	        viewEventLog.tvDate = (TextView)vi.findViewById(R.id.msgs_date);
 	        viewEventLog.tvProjectName = (TextView)vi.findViewById(R.id.msgs_project);
@@ -114,7 +104,6 @@ public class ClientLogListAdapter extends ArrayAdapter<Message> implements OnIte
 
 		// Populate UI Elements
 	    viewEventLog.entryIndex = position;
-	    viewEventLog.cbCheck.setChecked(listView.isItemChecked(position));
 	    viewEventLog.tvMessage.setText(getMessage(position));
 	    viewEventLog.tvDate.setText(getDate(position));
 	    if(getProject(position).isEmpty()){
@@ -126,17 +115,4 @@ public class ClientLogListAdapter extends ArrayAdapter<Message> implements OnIte
 
         return vi;
     }
-
-    public void onItemClick(AdapterView<?> adapter, View view, int position, long id ) {
-		ViewEventLog viewEventLog = (ViewEventLog)view.getTag();
-
-		if (viewEventLog.cbCheck.isChecked()) {
-			viewEventLog.cbCheck.setChecked(false);
-		} else {
-			viewEventLog.cbCheck.setChecked(true);
-		}
-
-		notifyDataSetChanged();
-    }
-
 }

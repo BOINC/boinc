@@ -49,6 +49,7 @@ using std::string;
 #include "parse.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
+#include "str_replace.h"
 #include "str_util.h"
 #include "svn_version.h"
 

@@ -301,6 +301,7 @@
     <string name="rpcreason_unknown">Unknown reason</string>
     
     <!-- menu -->
+    <string name="menu_refresh">Refresh</string>
     <string name="menu_emailto">Send as Email</string>
     <string name="menu_copy">Copy to Clipboard</string>
     <string name="menu_eventlog">Event Log</string>

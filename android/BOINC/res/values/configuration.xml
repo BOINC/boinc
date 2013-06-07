@@ -30,7 +30,7 @@
     	<integer name="monitor_setup_connection_retry_attempts">10</integer>
     	<integer name="autostart_notification_id">1</integer>
     <!-- Device status -->
-    	<integer name="minimum_device_status_refresh_rate_in_monitor_loops">10</integer>
+    	<integer name="minimum_device_status_refresh_rate_in_monitor_loops">1</integer>
     <!-- configuration project attach -->
     	<integer name="attach_step_interval_ms">1000</integer>
     <!-- configuration on tab layout -->

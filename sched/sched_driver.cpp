@@ -46,6 +46,7 @@
 #include <cstring>
 
 #include "util.h"
+#include "str_replace.h"
 #include "str_util.h"
 #include "svn_version.h"
 

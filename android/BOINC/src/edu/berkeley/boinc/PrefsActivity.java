@@ -18,6 +18,8 @@
  ******************************************************************************/
 package edu.berkeley.boinc;
 
+import edu.berkeley.boinc.utils.*;
+
 import java.util.ArrayList;
 import edu.berkeley.boinc.adapter.PrefsListAdapter;
 import edu.berkeley.boinc.adapter.PrefsListItemWrapper;
@@ -73,11 +75,11 @@ public class PrefsActivity extends FragmentActivity {
 	 */
 	private ServiceConnection mConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
-	    	if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"onServiceConnected");
+	    	if(Logging.DEBUG) Log.d(TAG,"onServiceConnected");
 	        monitor = ((Monitor.LocalBinder)service).getService();
 		    mIsBound = true;
 			appPrefs = Monitor.getAppPrefs();
-			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "appPrefs available");
+			if(Logging.DEBUG) Log.d(TAG, "appPrefs available");
 			populateLayout();
 	    }
 
@@ -103,17 +105,17 @@ public class PrefsActivity extends FragmentActivity {
 	private Boolean getPrefs() {
 		clientPrefs = Monitor.getClientStatus().getPrefs(); //read prefs from client via rpc
 		if(clientPrefs == null) {
-			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "readPrefs: null, return false");
+			if(Logging.DEBUG) Log.d(TAG, "readPrefs: null, return false");
 			return false;
 		}
-		//if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "readPrefs done");
+		//if(Logging.DEBUG) Log.d(TAG, "readPrefs done");
 		return true;
 	}
 	
 	private Boolean getHostInfo() {
 		hostinfo = Monitor.getClientStatus().getHostInfo(); //Get the hostinfo from client via rpc
 		if(hostinfo == null) {
-			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "getHostInfo: null, return false");
+			if(Logging.DEBUG) Log.d(TAG, "getHostInfo: null, return false");
 			return false;
 		}
 		return true;
@@ -122,7 +124,7 @@ public class PrefsActivity extends FragmentActivity {
 	private void populateLayout() {
 		
 		if(!getPrefs() || appPrefs == null || !getHostInfo()) {
-			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "populateLayout returns, data is not present");
+			if(Logging.DEBUG) Log.d(TAG, "populateLayout returns, data is not present");
 			setLayoutLoading();
 			return;
 		}
@@ -171,7 +173,7 @@ public class PrefsActivity extends FragmentActivity {
 	// updates list item of boolean preference
 	// requires updateLayout to be called afterwards
 	private void updateBoolPref(int ID, Boolean newValue) {
-		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "updateBoolPref for ID: " + ID + " value: " + newValue);
+		if(Logging.DEBUG) Log.d(TAG, "updateBoolPref for ID: " + ID + " value: " + newValue);
 		for (PrefsListItemWrapper item: data) {
 			if(item.ID == ID){
 				((PrefsListItemWrapperBool) item).setStatus(newValue);
@@ -183,7 +185,7 @@ public class PrefsActivity extends FragmentActivity {
 	// updates list item of value preference
 	// requires updateLayout to be called afterwards
 	private void updateValuePref(int ID, Double newValue) {
-		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "updateBoolPref for ID: " + ID + " value: " + newValue);
+		if(Logging.DEBUG) Log.d(TAG, "updateBoolPref for ID: " + ID + " value: " + newValue);
 		for (PrefsListItemWrapper item: data) {
 			if(item.ID == ID){
 				((PrefsListItemWrapperValue) item).status = newValue;
@@ -193,7 +195,7 @@ public class PrefsActivity extends FragmentActivity {
 	}
 	
 	private void setLayoutLoading() {
-		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"setLayoutLoading()");
+		if(Logging.DEBUG) Log.d(TAG,"setLayoutLoading()");
         setContentView(R.layout.generic_layout_loading);
         TextView loadingHeader = (TextView)findViewById(R.id.loading_header);
         loadingHeader.setText(R.string.prefs_loading);
@@ -201,7 +203,7 @@ public class PrefsActivity extends FragmentActivity {
 	
 	// onClick of listview items with PrefsListItemBool
 	public void onCbClick (View view) {
-		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"onCbClick");
+		if(Logging.DEBUG) Log.d(TAG,"onCbClick");
 		Integer ID = (Integer) view.getTag();
 		CheckBox source = (CheckBox) view;
 		Boolean isSet = source.isChecked();
@@ -239,7 +241,7 @@ public class PrefsActivity extends FragmentActivity {
 	// onClick of listview items with PrefsListItemWrapperValue
 	public void onItemClick (View view) {
 			final PrefsListItemWrapperValue listItem = (PrefsListItemWrapperValue) view.getTag();
-			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"onItemClick Value " + listItem.ID);
+			if(Logging.DEBUG) Log.d(TAG,"onItemClick Value " + listItem.ID);
 			
 			final Dialog dialog = new Dialog(this);
 			dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -265,7 +267,7 @@ public class PrefsActivity extends FragmentActivity {
 			    });
 			} else if(listItem.isNumber) { 
 				if(!getHostInfo()) {
-					if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 3) Log.w(TAG, "onItemClick missing hostInfo");
+					if(Logging.WARNING) Log.w(TAG, "onItemClick missing hostInfo");
 					return;
 				}
 				
@@ -333,7 +335,7 @@ public class PrefsActivity extends FragmentActivity {
 
 	@Override
 	protected void onDestroy() {
-	    if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"onDestroy()");
+	    if(Logging.DEBUG) Log.d(TAG,"onDestroy()");
 	    super.onDestroy();
 	    doUnbindService();
 	}
@@ -368,7 +370,7 @@ public class PrefsActivity extends FragmentActivity {
 			clientPrefs.ram_max_used_idle_frac = value;
 			break;
 		default:
-			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"onClick (dialog submit button), couldnt match ID");
+			if(Logging.DEBUG) Log.d(TAG,"onClick (dialog submit button), couldnt match ID");
 			Toast toast = Toast.makeText(getApplicationContext(), "ooops! something went wrong...", Toast.LENGTH_SHORT);
 			toast.show();
 			return;
@@ -381,7 +383,7 @@ public class PrefsActivity extends FragmentActivity {
 	
 	private double numberCpuCoresToPct(double ncpus) {
 		double pct = (ncpus / (double)hostinfo.p_ncpus) * 100;
-		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"numberCpuCoresToPct: " + ncpus + hostinfo.p_ncpus + pct);
+		if(Logging.DEBUG) Log.d(TAG,"numberCpuCoresToPct: " + ncpus + hostinfo.p_ncpus + pct);
 		return pct;
 	}
 	
@@ -397,10 +399,10 @@ public class PrefsActivity extends FragmentActivity {
 		try {
 			input=input.replaceAll(",","."); //replace e.g. European decimal seperator "," by "."
 			value = Double.parseDouble(input);
-			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"parseInputValueToDouble: " + value);
+			if(Logging.DEBUG) Log.d(TAG,"parseInputValueToDouble: " + value);
 			return value;
 		} catch (Exception e) {
-			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 3) Log.w(TAG, e);
+			if(Logging.WARNING) Log.w(TAG, e);
 			Toast toast = Toast.makeText(getApplicationContext(), "wrong format!", Toast.LENGTH_SHORT);
 			toast.show();
 			return null;

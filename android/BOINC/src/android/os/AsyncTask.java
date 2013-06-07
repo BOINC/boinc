@@ -168,7 +168,7 @@ public abstract class AsyncTask<Params, Progress, Result> {
 
                     postResultIfNotInvoked(result);
                 } catch (InterruptedException e) {
-                    if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 3) android.util.Log.w(LOG_TAG, e);
+                    if(edu.berkeley.boinc.utils.Logging.WARNING) android.util.Log.w(LOG_TAG, e);
                 } catch (ExecutionException e) {
                     throw new RuntimeException("An error occured while executing doInBackground()",
                             e.getCause());

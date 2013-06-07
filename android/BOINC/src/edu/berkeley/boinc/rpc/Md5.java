@@ -20,6 +20,8 @@
 
 package edu.berkeley.boinc.rpc;
 
+import edu.berkeley.boinc.utils.*;
+
 import java.security.MessageDigest;
 
 import android.util.Log;
@@ -50,7 +52,7 @@ public class Md5 {
 			return sb.toString();
 		}
 		catch (Exception e) {
-			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 3) Log.w(TAG, "Error when calculating MD5 hash");
+			if(Logging.WARNING) Log.w(TAG, "Error when calculating MD5 hash");
 			return "";
 		}
 	}

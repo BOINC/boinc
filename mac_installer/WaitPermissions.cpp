@@ -25,6 +25,7 @@
 #include <unistd.h>	// getuid
 #include <dirent.h>
 #include "str_util.h"
+#include "str_replace.h"
 
 void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);

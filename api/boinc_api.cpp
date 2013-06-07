@@ -100,6 +100,7 @@
 #include "parse.h"
 #include "proc_control.h"
 #include "shmem.h"
+#include "str_replace.h"
 #include "str_util.h"
 #include "util.h"
 

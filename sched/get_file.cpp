@@ -37,6 +37,7 @@
 #include <time.h>
 
 #include "backend_lib.h"
+#include "str_replace.h"
 
 #include "sched_config.h"
 #include "sched_util.h"

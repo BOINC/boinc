@@ -18,6 +18,11 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/refresh"
+        android:enabled="true"
+        android:visible="true"
+        android:title="@string/menu_refresh"
+        android:icon="@drawable/refreshw"></item>
     <item android:id="@+id/email_to"
         android:enabled="true"
         android:visible="true"

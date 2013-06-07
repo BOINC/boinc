@@ -18,6 +18,8 @@
  ******************************************************************************/
 package edu.berkeley.boinc;
 
+import edu.berkeley.boinc.utils.*;
+
 import java.util.ArrayList;
 
 import edu.berkeley.boinc.adapter.GalleryAdapter;
@@ -70,7 +72,7 @@ public class StatusActivity extends Activity implements OnClickListener{
 	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context,Intent intent) {
-			//if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG+"-localClientStatusRecNoisy","received action " + intent.getAction());
+			//if(Logging.DEBUG) Log.d(TAG+"-localClientStatusRecNoisy","received action " + intent.getAction());
 			loadLayout(); // load layout, function distincts whether there is something to do
 		}
 	};
@@ -79,7 +81,7 @@ public class StatusActivity extends Activity implements OnClickListener{
 	// connection to Monitor Service.
 	private ServiceConnection mConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
-	    	if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onServiceConnected");
+	    	if(Logging.DEBUG) Log.d(TAG, "onServiceConnected");
 
 	    	monitor = ((Monitor.LocalBinder)service).getService();
 		    mIsBound = true;
@@ -87,7 +89,7 @@ public class StatusActivity extends Activity implements OnClickListener{
 	    }
 
 	    public void onServiceDisconnected(ComponentName className) {
-	    	if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onServiceDisconnected");
+	    	if(Logging.DEBUG) Log.d(TAG, "onServiceDisconnected");
 
 	    	monitor = null;
 	        mIsBound = false;
@@ -115,7 +117,7 @@ public class StatusActivity extends Activity implements OnClickListener{
 	
 	public void onResume() {
 		//register noisy clientStatusChangeReceiver here, so only active when Activity is visible
-		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG+"-onResume","register receiver");
+		if(Logging.DEBUG) Log.d(TAG+"-onResume","register receiver");
 		registerReceiver(mClientStatusChangeRec,ifcsc);
 		loadLayout();
 		super.onResume();
@@ -123,7 +125,7 @@ public class StatusActivity extends Activity implements OnClickListener{
 		Display display = getWindowManager().getDefaultDisplay();
 		screenWidth = display.getWidth();
 		screenHeight = display.getHeight();
-		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"screen dimensions: " + screenWidth + "*" + screenHeight);
+		if(Logging.DEBUG) Log.d(TAG,"screen dimensions: " + screenWidth + "*" + screenHeight);
 		
 		try{
 			minScreenHeightForSlideshow = getResources().getInteger(R.integer.status_min_screen_height_for_slideshow_px);
@@ -133,7 +135,7 @@ public class StatusActivity extends Activity implements OnClickListener{
 	
 	public void onPause() {
 		//unregister receiver, so there are not multiple intents flying in
-		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG+"-onPause","remove receiver");
+		if(Logging.DEBUG) Log.d(TAG+"-onPause","remove receiver");
 		unregisterReceiver(mClientStatusChangeRec);
 		super.onPause();
 	}
@@ -281,7 +283,7 @@ public class StatusActivity extends Activity implements OnClickListener{
 				case ClientStatus.COMPUTING_STATUS_COMPUTING:
 					// load slideshow
 					if(!loadSlideshow()) {
-						if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "slideshow not available, load plain old status instead...");
+						if(Logging.DEBUG) Log.d(TAG, "slideshow not available, load plain old status instead...");
 						statusHeader.setText(R.string.status_running);
 						statusImage.setImageResource(R.drawable.cogsb48);
 						statusImage.setContentDescription(getString(R.string.status_running));
@@ -362,7 +364,7 @@ public class StatusActivity extends Activity implements OnClickListener{
 		@Override
 		protected void onPostExecute(Boolean success) {
 			if(success) monitor.forceRefresh();
-			else if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 3) Log.w(TAG,"setting run mode failed");
+			else if(Logging.WARNING) Log.w(TAG,"setting run mode failed");
 		}
 	}
 }

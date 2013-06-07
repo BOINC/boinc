@@ -25,6 +25,7 @@
 #include "error_numbers.h"
 #include "filesys.h"
 #include "md5_file.h"
+#include "str_replace.h"
 
 #include "app.h"
 #include "client_msgs.h"

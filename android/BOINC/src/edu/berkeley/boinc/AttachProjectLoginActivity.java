@@ -19,6 +19,8 @@
 
 package edu.berkeley.boinc;
 
+import edu.berkeley.boinc.utils.*;
+
 import java.net.URL;
 import edu.berkeley.boinc.client.Monitor;
 import android.app.Activity;
@@ -53,7 +55,7 @@ public class AttachProjectLoginActivity extends Activity{
 	private final String TAG = "BOINC AttachProjectLoginActivity"; 
 	
 	private Monitor monitor;
-	private Boolean mIsBound;
+	private Boolean mIsBound = false;
 	
 	private String url;
 	private ProjectInfo projectInfo;
@@ -79,26 +81,26 @@ public class AttachProjectLoginActivity extends Activity{
     @Override
     public void onCreate(Bundle savedInstanceState) {  
         super.onCreate(savedInstanceState);  
-        if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onCreate"); 
+        if(Logging.DEBUG) Log.d(TAG, "onCreate"); 
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 
     	//parse master url from intent extras
         Boolean urlPresent = false;
         try {
         	url = getIntent().getCharSequenceExtra("url").toString();
-        	if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"url: " + url);
+        	if(Logging.DEBUG) Log.d(TAG,"url: " + url);
         	if(url != null) urlPresent = true;
         } catch (Exception e) {}
         
         //parse  project info from intent extras
         try {
         	projectInfo = (ProjectInfo) getIntent().getSerializableExtra("projectInfo");
-        	if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"projectInfo: " + projectInfo);
+        	if(Logging.DEBUG) Log.d(TAG,"projectInfo: " + projectInfo);
         	if(projectInfo != null) {
         		projectInfoPresent = true;
         		url = projectInfo.url; // set url field to information of projectInfo
         	}
-        } catch (Exception e) {if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"no project info...");}
+        } catch (Exception e) {if(Logging.DEBUG) Log.d(TAG,"no project info...");}
         
         if(!projectInfoPresent) { // url can not be taken of ProjectInfo
         	// format user input on URL right to avoid exceptions
@@ -108,7 +110,7 @@ public class AttachProjectLoginActivity extends Activity{
         
         if(!urlPresent && !projectInfoPresent) {
         	// neither url (manual input) nor project info (list selection) is present
-        	if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"neither url nor projectInfo available! finish activity...");
+        	if(Logging.DEBUG) Log.d(TAG,"neither url nor projectInfo available! finish activity...");
         	finish(R.string.attachproject_login_error_toast);
         }
         
@@ -140,7 +142,7 @@ public class AttachProjectLoginActivity extends Activity{
 
 	@Override
 	protected void onDestroy() {
-    	if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onDestroy");
+    	if(Logging.DEBUG) Log.d(TAG, "onDestroy");
 	    doUnbindService();
 	    super.onDestroy();
 	}
@@ -166,7 +168,7 @@ public class AttachProjectLoginActivity extends Activity{
 	
 	// gets called by GetProjectConfig when ProjectConfig is available
 	private void populateLayout() {
-		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "populateLayout");
+		if(Logging.DEBUG) Log.d(TAG, "populateLayout");
 		
 		setContentView(R.layout.attach_project_login_layout);
 		
@@ -273,7 +275,7 @@ public class AttachProjectLoginActivity extends Activity{
 		TextView loginCategory = (TextView) findViewById(R.id.category_login);
 		loginCategory.setText(R.string.attachproject_login_category_login);
 		if(projectConfig.userName) { // user vs. email?
-			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"project is using user name instead of email for login");
+			if(Logging.DEBUG) Log.d(TAG,"project is using user name instead of email for login");
 			TextView idHeader = (TextView) findViewById(R.id.header_id);
 			idHeader.setText(R.string.attachproject_login_header_id_name);
 			EditText idInput = (EditText) findViewById(R.id.id_input);
@@ -303,7 +305,7 @@ public class AttachProjectLoginActivity extends Activity{
 	
 	// register button's onClick
 	public void register (View view) {
-		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "register: " + view.getTag());
+		if(Logging.DEBUG) Log.d(TAG, "register: " + view.getTag());
 		Boolean clientCreation = (Boolean) view.getTag();
 		if (clientCreation) {
 			// start intent to AttachProjectWorkingActivity
@@ -364,14 +366,14 @@ public class AttachProjectLoginActivity extends Activity{
 		protected Integer doInBackground(Void... params) {
 			try{
 				if(!projectInfoPresent) { // only url string is available
-					if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "doInBackground() - GetProjectConfig for manual input url: " + url);
+					if(Logging.DEBUG) Log.d(TAG, "doInBackground() - GetProjectConfig for manual input url: " + url);
 					
 					if(checkProjectAlreadyAttached(url)) return R.string.attachproject_error_project_exists;
 					
 					//fetch ProjectConfig
 					projectConfig = monitor.getProjectConfig(url);
 				} else {
-					if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "doInBackground() - GetProjectConfig for list selection url: " + projectInfo.url);
+					if(Logging.DEBUG) Log.d(TAG, "doInBackground() - GetProjectConfig for list selection url: " + projectInfo.url);
 					
 					if(checkProjectAlreadyAttached(projectInfo.url)) return R.string.attachproject_error_project_exists;
 					
@@ -385,11 +387,11 @@ public class AttachProjectLoginActivity extends Activity{
 				if (projectConfig != null && projectConfig.error_num != null && projectConfig.error_num == 0) {
 					return 0;
 				} else { 
-					if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"getProjectConfig returned error num:" + projectConfig.error_num);
+					if(Logging.DEBUG) Log.d(TAG,"getProjectConfig returned error num:" + projectConfig.error_num);
 					return R.string.attachproject_login_error_toast;
 				}
 			} catch(Exception e) {
-				if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 3) Log.w(TAG,"error in doInBackround",e);
+				if(Logging.WARNING) Log.w(TAG,"error in doInBackround",e);
 				return R.string.attachproject_login_error_toast;
 			}
 		}
@@ -409,14 +411,14 @@ public class AttachProjectLoginActivity extends Activity{
 			try {
 				URL logoUrlUrl = new URL(projectInfo.imageUrl);
 				projectLogo = BitmapFactory.decodeStream(logoUrlUrl.openConnection().getInputStream());
-				if(projectLogo!=null) if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "logo download successful.");
+				if(projectLogo!=null) if(Logging.DEBUG) Log.d(TAG, "logo download successful.");
 			} catch (Exception e) {
-				if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 3) Log.w(TAG,"loadBitmap failed.",e);
+				if(Logging.WARNING) Log.w(TAG,"loadBitmap failed.",e);
 			}
 		}
 		
 		private Boolean checkProjectAlreadyAttached(String url) {
-			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "check whether project with url is already attached: " + url);
+			if(Logging.DEBUG) Log.d(TAG, "check whether project with url is already attached: " + url);
 			return monitor.checkProjectAttached(url);
 		}
 	}
