@@ -1,5 +1,7 @@
 package edu.berkeley.boinc.client;
 
+import edu.berkeley.boinc.utils.*;
+
 import edu.berkeley.boinc.rpc.AccountOut;
 import edu.berkeley.boinc.rpc.RpcClient;
 import android.app.Service;
@@ -21,13 +23,13 @@ public class ClientRemoteService extends Service {
 
 	@Override
 	public void onCreate() {
-		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onCreate()");
+		if(Logging.DEBUG) Log.d(TAG, "onCreate()");
 		doBindService();
 	}
 	
 	@Override
     public void onDestroy() {
-    	if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onDestroy()");
+    	if(Logging.DEBUG) Log.d(TAG, "onDestroy()");
         doUnbindService();
     }
 	
@@ -105,13 +107,13 @@ public class ClientRemoteService extends Service {
 	 */
 	private ServiceConnection mConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
-	    	if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onServiceConnected - local Monitor service bound.");
+	    	if(Logging.DEBUG) Log.d(TAG, "onServiceConnected - local Monitor service bound.");
 	        monitor = ((Monitor.LocalBinder)service).getService();
 	        mIsMonitorBound = true;
 	    }
 
 	    public void onServiceDisconnected(ComponentName className) {
-	    	if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onServiceDisconnected - local Monitor service bound.");
+	    	if(Logging.DEBUG) Log.d(TAG, "onServiceDisconnected - local Monitor service bound.");
 	        monitor = null;
 	        mIsMonitorBound = false;
 	    }
@@ -119,7 +121,7 @@ public class ClientRemoteService extends Service {
 
 	private void doBindService() {
 		if(!mIsMonitorBound) {
-			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "binding local Monitor service...");
+			if(Logging.DEBUG) Log.d(TAG, "binding local Monitor service...");
 			getApplicationContext().bindService(new Intent(this, Monitor.class), mConnection, Context.BIND_AUTO_CREATE);
 		}
 	}

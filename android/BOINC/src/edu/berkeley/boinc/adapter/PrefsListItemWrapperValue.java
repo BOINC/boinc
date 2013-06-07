@@ -18,6 +18,8 @@
  ******************************************************************************/
 package edu.berkeley.boinc.adapter;
 
+import edu.berkeley.boinc.utils.*;
+
 import edu.berkeley.boinc.R;
 import android.content.Context;
 import android.util.Log;
@@ -82,7 +84,7 @@ public class PrefsListItemWrapperValue extends PrefsListItemWrapper {
 			unit = ctx.getString(R.string.prefs_unit_pct);
 			break;
 		default:
-			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "map failed!");
+			if(Logging.DEBUG) Log.d(TAG, "map failed!");
 		}
 		if(unit.equals(ctx.getString(R.string.prefs_unit_pct))) isPct = true;
 	}

@@ -19,13 +19,12 @@
 package edu.berkeley.boinc.utils;
 
 public class Logging {
-	// 0 v+
-	// 1 d+
-	// 2 i+
-	// 3 w+
-	// 4 e
-	// >4 nothing
-	static public int LOGLEVEL = 1;
+	static public int LOGLEVEL = 4;
+	static public Boolean ERROR = LOGLEVEL > 0;
+	static public Boolean WARNING = LOGLEVEL > 1;
+	static public Boolean INFO = LOGLEVEL > 2;
+	static public Boolean DEBUG = LOGLEVEL > 3;
+	static public Boolean VERBOSE = LOGLEVEL > 4;
 
 	static public Boolean RPC_PERFORMANCE = false;
 	static public Boolean RPC_DATA = false; 

@@ -18,6 +18,7 @@
  ******************************************************************************/
 package edu.berkeley.boinc;
 
+import edu.berkeley.boinc.utils.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.BufferedReader;
@@ -68,7 +69,7 @@ public class EventLogActivity extends FragmentActivity {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-	    if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onCreate()");
+	    if(Logging.DEBUG) Log.d(TAG, "onCreate()");
 	    
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 
@@ -83,7 +84,7 @@ public class EventLogActivity extends FragmentActivity {
 	
 	@Override
 	public void onResume() {
-		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onResume()");
+		if(Logging.DEBUG) Log.d(TAG, "onResume()");
 
 		super.onResume();
 		
@@ -92,7 +93,7 @@ public class EventLogActivity extends FragmentActivity {
 	
 	@Override
 	protected void onDestroy() {
-	    if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onDestroy()");
+	    if(Logging.DEBUG) Log.d(TAG, "onDestroy()");
 	    doUnbindService();
 	    super.onDestroy();
 	}
@@ -103,7 +104,7 @@ public class EventLogActivity extends FragmentActivity {
 	 */
 	private ServiceConnection mConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
-	    	if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG,"onServiceConnected");
+	    	if(Logging.DEBUG) Log.d(TAG,"onServiceConnected");
 	        monitor = ((Monitor.LocalBinder)service).getService();
 		    mIsBound = true;
 		    initializeLayout();
@@ -186,7 +187,7 @@ public class EventLogActivity extends FragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-	    if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onCreateOptionsMenu()");
+	    if(Logging.DEBUG) Log.d(TAG, "onCreateOptionsMenu()");
 		
 	    MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.eventlog_menu, menu);
@@ -219,7 +220,7 @@ public class EventLogActivity extends FragmentActivity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onOptionsItemSelected()");
+	    if(Logging.DEBUG) Log.d(TAG, "onOptionsItemSelected()");
 
 	    switch (item.getItemId()) {
 			case R.id.email_to:
@@ -302,7 +303,7 @@ public class EventLogActivity extends FragmentActivity {
 				if(x > 1) guiLogData.add(0,line); // cut off first two lines, prepend to array (most current on top)
 				x++;
 			}
-		} catch (IOException e) {if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 3) Log.w(TAG, "readLogcat failed", e);}
+		} catch (IOException e) {if(Logging.WARNING) Log.w(TAG, "readLogcat failed", e);}
 	}
 	
 	// onScrollListener for list view, implementing "endless scrolling"
@@ -370,9 +371,9 @@ public class EventLogActivity extends FragmentActivity {
 			try {
 				mostRecentSeqNo = clientLogData.get(0).seqno;
 				pastSeqNo = clientLogData.get(clientLogData.size()-1).seqno;
-				if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d("RetrievePastMsgs","mostRecentSeqNo: " + mostRecentSeqNo + " ; pastSeqNo: " + pastSeqNo);
+				if(Logging.DEBUG) Log.d("RetrievePastMsgs","mostRecentSeqNo: " + mostRecentSeqNo + " ; pastSeqNo: " + pastSeqNo);
 				if(pastSeqNo==0) {
-					if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d("RetrievePastMsgs", "cancel, all past messages are present");
+					if(Logging.DEBUG) Log.d("RetrievePastMsgs", "cancel, all past messages are present");
 					cancel(true); // cancel if all past messages are present
 				}
 			} catch (Exception e) {} //IndexOutOfBoundException
@@ -384,7 +385,7 @@ public class EventLogActivity extends FragmentActivity {
 			if(mostRecentSeqNo != null && pastSeqNo != null && mostRecentSeqNo != 0 && pastSeqNo != 0) startIndex = mostRecentSeqNo - pastSeqNo + 1;
 			Integer lastIndexOfList = 0;
 			if(mostRecentSeqNo != null) lastIndexOfList = mostRecentSeqNo - 1;
-			//if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d("RetrievePastMsgs", "calling monitor with: " + startIndex + lastIndexOfList);
+			//if(Logging.DEBUG) Log.d("RetrievePastMsgs", "calling monitor with: " + startIndex + lastIndexOfList);
 			return monitor.getEventLogMessages(startIndex, pastMsgsLoadingRange, lastIndexOfList); 
 		}
 

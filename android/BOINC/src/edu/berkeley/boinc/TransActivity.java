@@ -18,6 +18,8 @@
  ******************************************************************************/
 package edu.berkeley.boinc;
 
+import edu.berkeley.boinc.utils.*;
+
 import java.util.ArrayList;
 import edu.berkeley.boinc.adapter.TransListAdapter;
 import edu.berkeley.boinc.client.Monitor;
@@ -79,14 +81,14 @@ public class TransActivity extends FragmentActivity {
 	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "ClientStatusChange - onReceive()");
+			if(Logging.DEBUG) Log.d(TAG, "ClientStatusChange - onReceive()");
 			
 			populateLayout();
 		}
 	};
 	
 	public void onCreate(Bundle savedInstanceState) {
-	    if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onCreate()");
+	    if(Logging.DEBUG) Log.d(TAG, "onCreate()");
 
 	    super.onCreate(savedInstanceState);
 
@@ -96,14 +98,14 @@ public class TransActivity extends FragmentActivity {
 	}
 	
 	public void onPause() {
-		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onPause()");
+		if(Logging.DEBUG) Log.d(TAG, "onPause()");
 
 		unregisterReceiver(mClientStatusChangeRec);
 		super.onPause();
 	}
 	
 	public void onResume() {
-		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onResume()");
+		if(Logging.DEBUG) Log.d(TAG, "onResume()");
 
 		super.onResume();
 		
@@ -115,7 +117,7 @@ public class TransActivity extends FragmentActivity {
 	
 	@Override
 	protected void onDestroy() {
-	    if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onDestroy()");
+	    if(Logging.DEBUG) Log.d(TAG, "onDestroy()");
 
 	    if (mIsBound) {
 	    	getApplicationContext().unbindService(mConnection);
@@ -169,16 +171,16 @@ public class TransActivity extends FragmentActivity {
 	}
 	
 	public void onTransferClicked(String url, String name) {
-	    if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onTransferClicked()");
+	    if(Logging.DEBUG) Log.d(TAG, "onTransferClicked()");
 	}
 	
 	public void onTransferRetry(String url, String name) {
-	    if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "onTransferRetry()");
+	    if(Logging.DEBUG) Log.d(TAG, "onTransferRetry()");
 	    monitor.retryTransferAsync(url, name);
 	}
 	
 	public void onTransferAbort(String url, String name) {
-	    if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "ononTransferAbort() - Name: " + name + ", URL: " + url);
+	    if(Logging.DEBUG) Log.d(TAG, "ononTransferAbort() - Name: " + name + ", URL: " + url);
 		(new ConfirmAbortDialogFragment(name, url)).show(getSupportFragmentManager(), "confirm_transfer_abort");
 	}
 	
@@ -201,14 +203,14 @@ public class TransActivity extends FragmentActivity {
 	        builder.setMessage(dialogTitle)
 	               .setPositiveButton(R.string.confirm_abort_confirm, new DialogInterface.OnClickListener() {
 	                   public void onClick(DialogInterface dialog, int id) {
-	                       if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "confirm clicked.");
+	                       if(Logging.DEBUG) Log.d(TAG, "confirm clicked.");
 	                       //asynchronous call to detach project with given url.
 	                       monitor.abortTransferAsync(url, name);
 	                   }
 	               })
 	               .setNegativeButton(R.string.confirm_abort_cancel, new DialogInterface.OnClickListener() {
 	                   public void onClick(DialogInterface dialog, int id) {
-	                       if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "dialog canceled.");
+	                       if(Logging.DEBUG) Log.d(TAG, "dialog canceled.");
 	                   }
 	               });
 	        // Create the AlertDialog object and return it

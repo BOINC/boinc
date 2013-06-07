@@ -18,6 +18,7 @@
  ******************************************************************************/
 package edu.berkeley.boinc;
 
+import edu.berkeley.boinc.utils.*;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -41,7 +42,7 @@ public class AppPreferences {
 		showNotification = prefs.getBoolean("showNotification", ctx.getResources().getBoolean(R.bool.prefs_default_notifications));
 		showAdvanced = prefs.getBoolean("showAdvanced", ctx.getResources().getBoolean(R.bool.prefs_default_advanced));
 		
-		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 1) Log.d(TAG, "appPrefs read successful." + autostart + showNotification + showAdvanced);
+		if(Logging.DEBUG) Log.d(TAG, "appPrefs read successful." + autostart + showNotification + showAdvanced);
 	}
 	
 	public void setAutostart(Boolean as) {
