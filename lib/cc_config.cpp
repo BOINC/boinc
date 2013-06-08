@@ -36,8 +36,6 @@
 
 #include "cc_config.h"
 
-#define DEFAULT_MAX_DISPLAYED_EVENT_LOG_LINES 2000
-
 using std::string;
 
 LOG_FLAGS::LOG_FLAGS() {
@@ -226,7 +224,7 @@ void CONFIG::defaults() {
     for (int i=1; i<NPROC_TYPES; i++) {
         ignore_gpu_instance[i].clear();
     }
-    max_event_log_lines = DEFAULT_MAX_DISPLAYED_EVENT_LOG_LINES;
+    max_event_log_lines = DEFAULT_MAX_EVENT_LOG_LINES;
     max_file_xfers = 8;
     max_file_xfers_per_project = 2;
     max_stderr_file_size = 0;
