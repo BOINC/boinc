@@ -322,7 +322,7 @@ public class EventLogActivity extends FragmentActivity {
 				if(x > 1) guiLogData.add(0,line); // cut off first two lines, prepend to array (most current on top)
 				x++;
 			}
-			if(Logging.DEBUG) Log.w(TAG, "readLogcat read " + guiLogData.size() + " lines.");
+			if(Logging.DEBUG) Log.d(TAG, "readLogcat read " + guiLogData.size() + " lines.");
 			guiLogListAdapter.notifyDataSetChanged();
 		} catch (IOException e) {if(Logging.WARNING) Log.w(TAG, "readLogcat failed", e);}
 	}
