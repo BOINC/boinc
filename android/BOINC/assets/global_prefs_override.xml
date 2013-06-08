@@ -1,10 +1,10 @@
 <global_preferences>
   <run_on_batteries>0</run_on_batteries>
-  <battery_charge_min_pct>94</battery_charge_min_pct>
+  <battery_charge_min_pct>90</battery_charge_min_pct>
   <run_gpu_if_user_active>0</run_gpu_if_user_active>
   <run_if_user_active>1</run_if_user_active>
   <idle_time_to_run>3.0</idle_time_to_run>
-  <suspend_cpu_usage>25.0</suspend_cpu_usage>
+  <suspend_cpu_usage>50.0</suspend_cpu_usage>
   <start_hour>0.0</start_hour>
   <end_hour>0.0</end_hour>
   <net_start_hour>0.0</net_start_hour>
