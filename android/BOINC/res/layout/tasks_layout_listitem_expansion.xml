@@ -17,96 +17,71 @@
   You should have received a copy of the GNU Lesser General Public License
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="false"
-    android:orientation="vertical"
-    android:paddingRight="5dip" >
-    
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+    android:orientation="vertical" >
         
-        <LinearLayout
-            android:id="@+id/taskButtons"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:gravity="right"
-            android:orientation="horizontal" >
-            
-            <ImageView
-                android:id="@+id/suspendResumeTask"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:contentDescription="@drawable/resumetask"
-                android:paddingLeft="5dip"
-                android:paddingRight="5dip"
-                android:src="@drawable/resumetask" />
-            
-            <ImageView
-                android:id="@+id/abortTask"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:contentDescription="@drawable/aborttask"
-                android:paddingLeft="5dip"
-                android:paddingRight="5dip"
-                android:src="@drawable/aborttask" />
-        </LinearLayout>
-        
-        <LinearLayout
-            android:id="@+id/requestPendingWrapper"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/taskButtons"
-            android:layout_alignLeft="@id/taskButtons"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@id/taskButtons"
-            android:orientation="vertical"
-            android:visibility="visible" >
-            
-            <ProgressBar
-                android:id="@+id/request_progressBar"
-                style="?android:attr/progressBarStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="5dp" />
-        </LinearLayout>
-        
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/taskButtons" >
-            
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="20dip"
-                android:layout_marginLeft="10dip"
-                android:layout_marginRight="10dip"
-                android:progressDrawable="@drawable/progressbar_paused" />
-        </RelativeLayout>
-        
-    </RelativeLayout>
+	<RelativeLayout
+	    android:id="@+id/taskButtons"
+	    android:layout_width="wrap_content"
+	    android:layout_height="fill_parent"
+	    android:gravity="center_vertical"
+	    android:layout_alignParentRight="true"
+	    android:orientation="vertical" >
+	    
+	    <ImageView
+	        android:id="@+id/suspendResumeTask"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:clickable="true"
+	        android:contentDescription="@drawable/resumetask"
+	        android:src="@drawable/resumetask"
+	        android:layout_marginTop="5dp" />
+	    
+	    <ImageView
+	        android:id="@+id/abortTask"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:clickable="true"
+	        android:contentDescription="@drawable/aborttask"
+	        android:src="@drawable/aborttask"
+	        android:layout_marginTop="5dp"
+	        android:layout_below="@+id/suspendResumeTask"  />
+	    
+	    <ProgressBar
+	        android:id="@+id/request_progressBar"
+	        style="?android:attr/progressBarStyleSmall"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerInParent="true"
+	        android:layout_margin="5dp"
+	        android:visibility="gone" />
+	</RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:gravity="left"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:layout_toLeftOf="@+id/taskButtons" >
+        
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="20dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_marginTop="5dip"
+            android:layout_marginBottom="5dip"
+            android:progressDrawable="@drawable/progressbar" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+        	android:orientation="horizontal" >
             
             <TextView
                 android:id="@+id/taskTimeLabel"
@@ -114,8 +89,8 @@
                 android:layout_height="wrap_content"
                 android:paddingRight="5dp"
                 android:text="@string/tasks_header_elapsed_time"
-                android:textColor="@color/black"
-                android:textStyle="bold|italic" />
+                android:textColor="@color/dark_grey"
+                android:textStyle="bold" />
             
             <TextView
                 android:id="@+id/taskTime"
@@ -123,13 +98,13 @@
                 android:layout_height="wrap_content"
                 android:paddingRight="10dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/black"
-                android:textStyle="italic" />
+                android:textColor="@color/dark_grey"/>
         </LinearLayout>
         
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+        	android:orientation="horizontal" >
             
             <TextView
                 android:id="@+id/taskNameLabel"
@@ -137,20 +112,20 @@
                 android:layout_height="wrap_content"
                 android:paddingRight="5dp"
                 android:text="@string/tasks_header_name"
-                android:textColor="@color/black"
-                android:textStyle="bold|italic" />
+                android:textColor="@color/dark_grey"
+                android:textStyle="bold" />
             <TextView
                 android:id="@+id/taskName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/black"
-                android:textStyle="italic" />
+                android:textColor="@color/dark_grey" />
         </LinearLayout>
         
 		<LinearLayout
 		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content" >
+		    android:layout_height="wrap_content"
+        	android:orientation="horizontal" >
             
             <TextView
                 android:id="@+id/deadlineLabel"
@@ -158,18 +133,17 @@
                 android:layout_height="wrap_content"
                 android:paddingRight="5dp"
                 android:text="@string/tasks_header_deadline"
-                android:textColor="@color/black"
-                android:textStyle="bold|italic" />
+                android:textColor="@color/dark_grey"
+                android:textStyle="bold" />
             
             <TextView
                 android:id="@+id/deadline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/black"
-                android:textStyle="italic" />
+                android:textColor="@color/dark_grey" />
 		</LinearLayout>
         
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

@@ -297,13 +297,17 @@ public class ClientStatus {
 	// returns project icon for given master url
 	// bitmap: 40 * 40 pixel, symbolic link in /projects/PNAME/stat_icon
 	public synchronized Bitmap getProjectIcon (String masterUrl) {
+		if(Logging.DEBUG) Log.d(TAG, "getProjectIcon for: " + masterUrl);
 		try{
 			// loop through all projects
 			for (Project project: projects) {
 				if(project.master_url.equals(masterUrl)) {
 					// read file name of icon
 					String iconAbsPath = parseSoftLinkToAbsPath(project.project_dir + "/stat_icon", project.project_dir);
-					if (iconAbsPath == null) return null;
+					if (iconAbsPath == null) {
+						if(Logging.WARNING) Log.w(TAG, "getProjectIcon could not parse sym link.");
+						return null;
+					}
 					//if(Logging.DEBUG) Log.d(TAG, "getProjectIcons() absolute path to icon: " + iconAbsPath);
 					Bitmap icon = BitmapFactory.decodeFile(iconAbsPath);
 					return icon;
@@ -312,6 +316,7 @@ public class ClientStatus {
 		} catch (Exception e) {
 			if(Logging.WARNING) Log.w(TAG, "getProjectIcon failed", e);
 		}
+		if(Logging.WARNING) Log.w(TAG, "getProjectIcon: project not found.");
 		return null;
 	}
 	

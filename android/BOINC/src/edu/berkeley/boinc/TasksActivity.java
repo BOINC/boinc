@@ -22,18 +22,17 @@ import edu.berkeley.boinc.utils.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import edu.berkeley.boinc.adapter.TasksListAdapter;
 import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Result;
 import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.utils.BOINCDefs;
+import android.app.Dialog;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
@@ -43,8 +42,11 @@ import android.os.IBinder;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class TasksActivity extends FragmentActivity {
 	
@@ -57,6 +59,7 @@ public class TasksActivity extends FragmentActivity {
 	
 	private ListView lv;
 	private TasksListAdapter listAdapter;
+	private FragmentActivity activity = this;
 	
 	private ArrayList<TaskData> data = new ArrayList<TaskData>(); //Adapter for list data
 	private Boolean setup = false;
@@ -245,18 +248,33 @@ public class TasksActivity extends FragmentActivity {
 						new ResultOperationAsync().execute(result.project_url, result.name, operation.toString());
 						break;
 					case RpcClient.RESULT_ABORT:
-						ConfirmationDialog cd = ConfirmationDialog.newInstance(
-							getString(R.string.confirm_abort_task_title) + "?",
-							getString(R.string.confirm_abort_task_message) + " " + result.name,
-							getString(R.string.confirm_abort_task_confirm));
-						cd.setConfirmationClicklistener(new DialogInterface.OnClickListener() {
+						final Dialog dialog = new Dialog(activity);
+						dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+						dialog.setContentView(R.layout.dialog_confirm);
+						Button confirm = (Button) dialog.findViewById(R.id.confirm);
+						TextView tvTitle = (TextView)dialog.findViewById(R.id.title);
+						TextView tvMessage = (TextView)dialog.findViewById(R.id.message);
+						
+						tvTitle.setText(R.string.confirm_abort_task_title);
+						tvMessage.setText(getString(R.string.confirm_abort_task_message) + " "
+								+ result.name);
+						confirm.setText(R.string.confirm_abort_task_confirm);
+						confirm.setOnClickListener(new OnClickListener() {
 							@Override
-							public void onClick(DialogInterface dialog, int which) {
+							public void onClick(View v) {
 								nextState = BOINCDefs.RESULT_ABORTED;
 								new ResultOperationAsync().execute(result.project_url, result.name, operation.toString());
+								dialog.dismiss();
 							}
 						});
-						cd.show(getSupportFragmentManager(), "");
+						Button cancel = (Button) dialog.findViewById(R.id.cancel);
+						cancel.setOnClickListener(new OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								dialog.dismiss();
+							}
+						});
+						dialog.show();
 						break;
 					default:
 						if(Logging.WARNING) Log.w(TAG,"could not map operation tag");
