@@ -21,6 +21,7 @@
     <!-- layout colors -->
 		<color name="white_smoke">#F5F5F5</color>
 		<color name="dark_blue">#003366</color>
+		<color name="dark_blue_transparent">#DD003366</color>
 		<color name="dark_blue_gradient">#0C4175</color>
 		<color name="light_blue">#A2CFFC</color>
 		<color name="lightest_blue">#D6EBFF</color>
