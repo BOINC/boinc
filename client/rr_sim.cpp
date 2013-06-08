@@ -60,6 +60,23 @@ inline void rsc_string(RESULT* rp, char* buf) {
     }
 }
 
+// set "nused" bits of the source bitmap in the dest bitmap
+//
+static inline void set_bits(int src, double nused, int& dst) {
+    // if all bits are already set, we're done
+    //
+    if (src&dst == dst) return;
+    int bit = 1;
+    for (int i=0; i<32; i++) {
+        if (nused <= 0) break;
+        if (bit & src) {
+            dst |= bit;
+            nused -= 1;
+        }
+        bit <<= 1;
+    }
+}
+
 // this is here (rather than rr_sim.h) because its inline functions
 // refer to RESULT
 //
@@ -74,8 +91,12 @@ struct RR_SIM {
         int rt = rp->avp->gpu_usage.rsc_type;
         if (rt) {
             rsc_work_fetch[rt].sim_nused += rp->avp->gpu_usage.usage;
-            rsc_work_fetch[rt].sim_used_instances |= rp->app->non_excluded_instances[rt];
             p->rsc_pwf[rt].sim_nused += rp->avp->gpu_usage.usage;
+            set_bits(
+                rp->app->non_excluded_instances[rt],
+                p->rsc_pwf[rt].sim_nused,
+                rsc_work_fetch[rt].sim_used_instances
+            );
         }
     }
 
