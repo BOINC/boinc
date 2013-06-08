@@ -242,7 +242,7 @@ public class EventLogActivity extends FragmentActivity {
 		try {
 			ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE); 
 			clipboard.setText(getLogDataAsString(clientLogList.getVisibility() == View.VISIBLE));
-			Toast.makeText(this, "log copied to clipboard.", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), R.string.eventlog_copy_toast, Toast.LENGTH_SHORT).show();
 		} catch(Exception e) {if(Logging.WARNING) Log.w(TAG,"onCopy failed");}
 	}
 	
@@ -254,7 +254,7 @@ public class EventLogActivity extends FragmentActivity {
 	
 		    // Put together the email intent		
 			emailIntent.setType("plain/text");
-			emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Event Log for BOINC on Android");
+			emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.eventlog_email_subject));
 	
 			emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, emailText);
 			
@@ -269,7 +269,7 @@ public class EventLogActivity extends FragmentActivity {
 	private String getLogDataAsString(Boolean clientLog) {
 		StringBuffer text = new StringBuffer();
 		if(clientLog) {
-			text.append("Contents of the Client Event Log:\n\n");
+			text.append(getString(R.string.eventlog_client_header) + "\n\n");
 		    for (int index = 0; index < clientLogList.getCount(); index++) {
 				text.append(clientLogListAdapter.getDate(index));
 				text.append("|");
@@ -279,7 +279,7 @@ public class EventLogActivity extends FragmentActivity {
 				text.append("\n");
 			}
 		} else {
-			text.append("Contents of the GUI Event Log:\n\n");
+			text.append(getString(R.string.eventlog_gui_header) + "\n\n");
 		    for (String line: guiLogData) {
 				text.append(line);
 				text.append("\n");

@@ -266,6 +266,10 @@
 	<string name="eventlog_loading">Loading log messages&#8230;</string>
 	<string name="eventlog_client_header">Client Messages</string>
 	<string name="eventlog_gui_header">GUI Messages</string>
+	<string name="eventlog_copy_toast">Log copied to clipboard.</string>
+	<string name="eventlog_email_subject">Event Log for BOINC on Android:</string>
+	<string name="eventlog_client_text_header">Contents of the Client Event Log:</string>
+	<string name="eventlog_gui_text_header">Contents of the GUI Event Log:</string>
 
     <!-- suspend reasons -->
     <string name="suspend_unknown">Computation suspended.</string>
