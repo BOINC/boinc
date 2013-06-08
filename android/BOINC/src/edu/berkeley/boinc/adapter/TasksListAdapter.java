@@ -44,20 +44,20 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class TasksListAdapter extends ArrayAdapter<TaskData>{
-	
+
 	private final String TAG = "TasksListAdapter";
 	private ArrayList<TaskData> entries;
 	private Activity activity;
- 
+
 	public TasksListAdapter(Activity a, int textViewResourceId, ArrayList<TaskData> entries) {
 		super(a, textViewResourceId, entries);
 		this.entries = entries;
 		this.activity = a;
 	}
- 
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-    	
+
 		View v = convertView;
 		LayoutInflater vi = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		v = vi.inflate(R.layout.tasks_layout_listitem, null);
@@ -71,22 +71,19 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 		} else {
 			ivIcon.setImageBitmap(icon);
 		}
-		
-		ProgressBar pb = (ProgressBar) v.findViewById(R.id.progressBar);
+
+		//		ProgressBar pb = (ProgressBar) v.findViewById(R.id.progressBar);
+		//		ProgressBar cpb = (ProgressBar) v.findViewById(R.id.collapsedProgressBar);
 		TextView header = (TextView) v.findViewById(R.id.taskHeader);
 		TextView status = (TextView) v.findViewById(R.id.taskStatus);
 		TextView time = (TextView) v.findViewById(R.id.taskTime);
-		TextView progress = (TextView) v.findViewById(R.id.taskProgress);
-        
+
 		TaskData listItem = entries.get(position);
 
-		pb.setIndeterminate(false);
-		pb.setProgressDrawable(this.activity.getResources().getDrawable((determineProgressBarLayout(listItem))));
-		
-		//v.setTag(listItem.name);
+		//v.setdataItem.name);
 		String headerT = listItem.result.app.getName();
 		header.setText(headerT);
-		
+
 		// set project name
 		String tempProjectName = listItem.result.project_url;
 		if(listItem.result.project != null) {
@@ -96,21 +93,13 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 			}
 		}
 		((TextView) v.findViewById(R.id.projectName)).setText(tempProjectName);
-		
-		Float fraction = Float.valueOf((float) 1.0); // default is 100 (e.g. abort show full red progress bar)
-		if(!listItem.result.active_task && listItem.result.ready_to_report) { //fraction not available
-			progress.setVisibility(View.GONE);
-			pb.setProgress(Math.round(fraction * pb.getMax()));
-		} else { // fraction available
-			fraction =  listItem.result.fraction_done;
-			pb.setProgress(Math.round(fraction * pb.getMax()));
-			progress.setVisibility(View.VISIBLE);
-			progress.setText(Math.round(fraction * 100) + "%");
-		}
-		
+
 		String statusT = determineStatusText(listItem);
 		status.setText(statusT);
-		
+
+		int barState = determineProgressBarLayout(listItem);
+		TextView progress;
+
 		int elapsedTime;
 		// show time depending whether task is active or not
 		if(listItem.result.active_task) elapsedTime = (int)listItem.result.elapsed_time; //is 0 when task finished
@@ -121,6 +110,16 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 		if (listItem.expanded) {
 			((ImageView)v.findViewById(R.id.expandCollapse)).setImageResource(R.drawable.expand);
 			ll.setVisibility(View.VISIBLE);
+
+			// Expanded progress bar
+			ProgressBar pb = (ProgressBar) v.findViewById(R.id.progressBar);
+			pb.setIndeterminate(false);
+			pb.setProgressDrawable(this.activity.getResources().getDrawable(barState));
+			v.findViewById(R.id.statusCollapsed).setVisibility(View.GONE);
+
+			progress = (TextView) v.findViewById(R.id.taskProgressExpanded);
+			determineProgress(listItem, progress, pb);
+
 			// update resume/suspend state (button state)
 			// set deadline
 			String deadline = (String) DateFormat.format("E d MMM yyyy hh:mm:ss aa", new Date(listItem.result.report_deadline*1000));
@@ -129,34 +128,34 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 			if(listItem.result.app != null) {
 				((TextView) v.findViewById(R.id.taskName)).setText(listItem.result.name);
 			}
-			
+
 			if(listItem.determineState() == BOINCDefs.PROCESS_ABORTED) { //dont show buttons for aborted task
 				((LinearLayout)v.findViewById(R.id.requestPendingWrapper)).setVisibility(View.GONE);
 				((LinearLayout)v.findViewById(R.id.taskButtons)).setVisibility(View.INVISIBLE);
 			} else {
-				
+
 				ImageView suspendResume = (ImageView) v.findViewById(R.id.suspendResumeTask);
 				suspendResume.setOnClickListener(listItem.iconClickListener);
 
 				ImageView abortButton = (ImageView) v.findViewById(R.id.abortTask);
 				abortButton.setOnClickListener(listItem.iconClickListener);
 				abortButton.setTag(RpcClient.RESULT_ABORT); // tag on button specified operation triggered in iconClickListener
-			
+
 				if (listItem.nextState == -1) { // not waiting for new state
 					((LinearLayout)v.findViewById(R.id.requestPendingWrapper)).setVisibility(View.GONE);
 					((LinearLayout)v.findViewById(R.id.taskButtons)).setVisibility(View.VISIBLE);
-					
+
 					// checking what suspendResume button should be shown
 					if(listItem.result.suspended_via_gui) { // show play
 						suspendResume.setVisibility(View.VISIBLE);
 						suspendResume.setImageResource(R.drawable.resumetask);
 						suspendResume.setTag(RpcClient.RESULT_RESUME); // tag on button specified operation triggered in iconClickListener
-						
+
 					} else if (listItem.determineState() == BOINCDefs.PROCESS_EXECUTING){ // show pause
 						suspendResume.setVisibility(View.VISIBLE);
 						suspendResume.setImageResource(R.drawable.pausetask);
 						suspendResume.setTag(RpcClient.RESULT_SUSPEND); // tag on button specified operation triggered in iconClickListener
-						
+
 					} else { // show nothing
 						suspendResume.setVisibility(View.GONE);
 					}
@@ -168,10 +167,38 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 		} else {
 			((ImageView)v.findViewById(R.id.expandCollapse)).setImageResource(R.drawable.collapse);
 			ll.setVisibility(View.GONE);
+			
+			// Collapsed progress bar
+			ProgressBar cpb = (ProgressBar) v.findViewById(R.id.collapsedProgressBar);
+			cpb.setIndeterminate(false);
+			if (barState == R.drawable.progressbar_active) {
+				cpb.setProgressDrawable(this.activity.getResources().getDrawable(barState));
+				// hide status text
+                v.findViewById(R.id.statusExpanded).setVisibility(View.GONE);
+                progress = (TextView) v.findViewById(R.id.taskProgressCollapsed);
+			} else {
+                v.findViewById(R.id.statusCollapsed).setVisibility(View.GONE);
+                progress = (TextView) v.findViewById(R.id.taskProgressExpanded);
+			}
+			determineProgress(listItem, progress, cpb);
+
 		}
 
 		return v;
 	}
+	
+	private void determineProgress(TaskData data, TextView progress, ProgressBar pb) {
+		Float fraction = Float.valueOf((float) 1.0); // default is 100 (e.g. abort show full red progress bar)
+		if(!data.result.active_task && data.result.ready_to_report) { //fraction not available
+			progress.setVisibility(View.GONE);
+		} else { // fraction available
+			fraction =  data.result.fraction_done;
+			progress.setVisibility(View.VISIBLE);
+			progress.setText(Math.round(fraction * 100) + "%");
+		}
+		pb.setProgress(Math.round(fraction * pb.getMax()));
+	}
+
 	
 	public Bitmap getIcon(int position) {
 		return Monitor.getClientStatus().getProjectIcon(entries.get(position).id);
@@ -230,7 +257,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 			}
 		}
 	}
-    
+
 	private Integer determineProgressBarLayout(TaskData tmp) {
 		switch(tmp.determineState()){
 		case BOINCDefs.PROCESS_EXECUTING:
