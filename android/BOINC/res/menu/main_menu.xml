@@ -18,17 +18,27 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/exit_boinc"
+    <item android:id="@+id/help"
          android:enabled="true"
          android:visible="true"
-         android:title="@string/menu_exit"
-         android:icon="@drawable/offw"></item>
-    <item android:id="@+id/run_mode"
+         android:title="@string/menu_help"
+         android:icon="@drawable/helpw"></item>
+    <item android:id="@+id/about"
          android:enabled="true"
-         android:visible="true"></item>
+         android:visible="true"
+         android:title="@string/menu_about"
+         android:icon="@drawable/infow"></item>
     <item android:id="@+id/event_log"
          android:enabled="true"
          android:visible="false"
          android:title="@string/menu_eventlog"
          android:icon="@drawable/bugw"></item>
+    <item android:id="@+id/run_mode"
+         android:enabled="true"
+         android:visible="true"></item>
+    <item android:id="@+id/exit_boinc"
+         android:enabled="true"
+         android:visible="true"
+         android:title="@string/menu_exit"
+         android:icon="@drawable/offw"></item>
 </menu>

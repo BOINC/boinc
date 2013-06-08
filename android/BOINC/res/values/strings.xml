@@ -312,5 +312,15 @@
     <string name="menu_exit">Exit BOINC</string>
     <string name="menu_run_mode_disable">Suspend</string>
     <string name="menu_run_mode_enable">Resume</string>
+    <string name="menu_about">About</string>
+    <string name="menu_help">Help</string>
+    
+    <!-- about dialog -->
+    <string name="about_button">Return</string>
+    <string name="about_title">About</string>
+    <string name="about_name">BOINC</string>
+    <string name="about_version">Version</string>
+    <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
+    <string name="about_copyright">\u00A9 2003&#8211;2013 University of California, Berkeley.\nAll Rights Reserved.</string>
     
 </resources>

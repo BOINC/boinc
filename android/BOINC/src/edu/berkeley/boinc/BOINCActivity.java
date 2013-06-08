@@ -19,10 +19,10 @@
 package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.utils.*;
-
 import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.utils.BOINCDefs;
+import android.app.Dialog;
 import android.app.Service;
 import android.app.TabActivity;
 import android.content.BroadcastReceiver;
@@ -31,7 +31,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle; 
 import android.os.IBinder;
@@ -42,6 +44,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -173,6 +177,7 @@ public class BOINCActivity extends TabActivity {
     	LinearLayout errorLayout = (LinearLayout) findViewById(R.id.main_error);
     	//TextView noProjectWarning = (TextView) findViewById(R.id.noproject_warning);
     	HorizontalScrollView noProjectWarning = (HorizontalScrollView) findViewById(R.id.noproject_warning_wrapper);
+    	TextView launchingHeader = (TextView) findViewById(R.id.loading_header);
     	switch (clientSetupStatus) {
     	case ClientStatus.SETUP_STATUS_AVAILABLE:
     		noProjectWarning.setVisibility(View.GONE);
@@ -189,7 +194,6 @@ public class BOINCActivity extends TabActivity {
     		tabLayout.setVisibility(View.GONE); 
         	errorLayout.setVisibility(View.GONE);
         	loadingLayout.setVisibility(View.VISIBLE);
-        	TextView launchingHeader = (TextView) findViewById(R.id.loading_header);
         	launchingHeader.setText(R.string.status_launching);
     		break;
     	case ClientStatus.SETUP_STATUS_NOPROJECT:
@@ -202,8 +206,7 @@ public class BOINCActivity extends TabActivity {
     		tabLayout.setVisibility(View.GONE); 
         	errorLayout.setVisibility(View.GONE);
         	loadingLayout.setVisibility(View.VISIBLE);
-        	TextView quittingHeader = (TextView) findViewById(R.id.loading_header);
-        	quittingHeader.setText(R.string.status_closing);
+        	launchingHeader.setText(R.string.status_closing);
     		break;
     	case ClientStatus.SETUP_STATUS_CLOSED:
     		finish(); // close application
@@ -314,6 +317,29 @@ public class BOINCActivity extends TabActivity {
 	    if(Logging.DEBUG) Log.d(TAG, "onOptionsItemSelected()");
 
 	    switch (item.getItemId()) {
+	    	case R.id.help:
+	    		Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("http://boinc.berkeley.edu/wiki/BOINC_Help"));
+	    		startActivity(i);
+	    		return true;
+	    	case R.id.about:
+				final Dialog dialog = new Dialog(this);
+				dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+				dialog.setContentView(R.layout.dialog_about);
+				Button returnB = (Button) dialog.findViewById(R.id.returnB);
+				TextView tvVersion = (TextView)dialog.findViewById(R.id.version);
+				try {
+					tvVersion.setText(getString(R.string.about_version) + " "
+							+ getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+				} catch (NameNotFoundException e) {if(Logging.WARNING) Log.w(TAG, "version name not found.");}
+				
+				returnB.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						dialog.dismiss();
+					}
+				});
+				dialog.show();
+	    		return true;
 			case R.id.exit_boinc:
 				if(Logging.DEBUG) Log.d(TAG,"exit BOINC");
 				new QuitClientAsync().execute();
