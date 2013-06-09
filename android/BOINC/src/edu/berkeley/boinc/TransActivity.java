@@ -45,8 +45,6 @@ import android.widget.TextView;
 
 public class TransActivity extends FragmentActivity {
 	
-	private final String TAG = "BOINC TransActivity";
-	
 	private Monitor monitor;
 	private Boolean mIsBound = false;
 
@@ -81,14 +79,14 @@ public class TransActivity extends FragmentActivity {
 	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if(Logging.DEBUG) Log.d(TAG, "ClientStatusChange - onReceive()");
+			if(Logging.DEBUG) Log.d(Logging.TAG, "TransActivity ClientStatusChange - onReceive()");
 			
 			populateLayout();
 		}
 	};
 	
 	public void onCreate(Bundle savedInstanceState) {
-	    if(Logging.DEBUG) Log.d(TAG, "onCreate()");
+	    if(Logging.DEBUG) Log.d(Logging.TAG, "TransActivity onCreate()");
 
 	    super.onCreate(savedInstanceState);
 
@@ -98,14 +96,14 @@ public class TransActivity extends FragmentActivity {
 	}
 	
 	public void onPause() {
-		if(Logging.DEBUG) Log.d(TAG, "onPause()");
+		if(Logging.DEBUG) Log.d(Logging.TAG, "TransActivity onPause()");
 
 		unregisterReceiver(mClientStatusChangeRec);
 		super.onPause();
 	}
 	
 	public void onResume() {
-		if(Logging.DEBUG) Log.d(TAG, "onResume()");
+		if(Logging.DEBUG) Log.d(Logging.TAG, "TransActivity onResume()");
 
 		super.onResume();
 		
@@ -117,7 +115,7 @@ public class TransActivity extends FragmentActivity {
 	
 	@Override
 	protected void onDestroy() {
-	    if(Logging.DEBUG) Log.d(TAG, "onDestroy()");
+	    if(Logging.DEBUG) Log.d(Logging.TAG, "TransActivity onDestroy()");
 
 	    if (mIsBound) {
 	    	getApplicationContext().unbindService(mConnection);
@@ -171,22 +169,20 @@ public class TransActivity extends FragmentActivity {
 	}
 	
 	public void onTransferClicked(String url, String name) {
-	    if(Logging.DEBUG) Log.d(TAG, "onTransferClicked()");
+	    if(Logging.DEBUG) Log.d(Logging.TAG, "onTransferClicked()");
 	}
 	
 	public void onTransferRetry(String url, String name) {
-	    if(Logging.DEBUG) Log.d(TAG, "onTransferRetry()");
+	    if(Logging.DEBUG) Log.d(Logging.TAG, "onTransferRetry()");
 	    monitor.retryTransferAsync(url, name);
 	}
 	
 	public void onTransferAbort(String url, String name) {
-	    if(Logging.DEBUG) Log.d(TAG, "ononTransferAbort() - Name: " + name + ", URL: " + url);
+	    if(Logging.DEBUG) Log.d(Logging.TAG, "ononTransferAbort() - Name: " + name + ", URL: " + url);
 		(new ConfirmAbortDialogFragment(name, url)).show(getSupportFragmentManager(), "confirm_transfer_abort");
 	}
 	
 	public class ConfirmAbortDialogFragment extends DialogFragment {
-		
-		private final String TAG = "ConfirmAbortDialogFragment";
 		
 		private String url = "";
 		private String name = "";
@@ -203,14 +199,14 @@ public class TransActivity extends FragmentActivity {
 	        builder.setMessage(dialogTitle)
 	               .setPositiveButton(R.string.confirm_abort_confirm, new DialogInterface.OnClickListener() {
 	                   public void onClick(DialogInterface dialog, int id) {
-	                       if(Logging.DEBUG) Log.d(TAG, "confirm clicked.");
+	                       if(Logging.DEBUG) Log.d(Logging.TAG, "confirm clicked.");
 	                       //asynchronous call to detach project with given url.
 	                       monitor.abortTransferAsync(url, name);
 	                   }
 	               })
 	               .setNegativeButton(R.string.confirm_abort_cancel, new DialogInterface.OnClickListener() {
 	                   public void onClick(DialogInterface dialog, int id) {
-	                       if(Logging.DEBUG) Log.d(TAG, "dialog canceled.");
+	                       if(Logging.DEBUG) Log.d(Logging.TAG, "dialog canceled.");
 	                   }
 	               });
 	        // Create the AlertDialog object and return it

@@ -55,7 +55,6 @@ import edu.berkeley.boinc.utils.BOINCDefs;
  */
 public class ClientStatus {
 	
-	private final String TAG = "BOINC Client Status";
 	private Context ctx; // application context in order to fire broadcast events
 	
 	// CPU WakeLock
@@ -107,7 +106,7 @@ public class ClientStatus {
 		// set up CPU Wake Lock
 		// see documentation at http://developer.android.com/reference/android/os/PowerManager.html
 		PowerManager pm = (PowerManager) ctx.getSystemService(Context.POWER_SERVICE);
-		wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
+		wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Logging.TAG);
 		wakeLock.setReferenceCounted(false); // "one call to release() is sufficient to undo the effect of all previous calls to acquire()"
 		
 		// set up Wifi wake lock
@@ -125,12 +124,12 @@ public class ClientStatus {
 			
 			if(acquire) { // acquire wakeLock
 				wakeLock.acquire();
-				if(Logging.DEBUG) Log.d(TAG, "wakeLock acquired");
+				if(Logging.DEBUG) Log.d(Logging.TAG, "wakeLock acquired");
 			} else { // release wakeLock
 				wakeLock.release();
-				if(Logging.DEBUG) Log.d(TAG, "wakeLock released");
+				if(Logging.DEBUG) Log.d(Logging.TAG, "wakeLock released");
 			}
-		} catch (Exception e) {if(Logging.WARNING) Log.w(TAG, "Exception durign setWakeLock " + acquire, e);}
+		} catch (Exception e) {if(Logging.WARNING) Log.w(Logging.TAG, "Exception durign setWakeLock " + acquire, e);}
 	}
 	
 	// call to acquire or release resources held by the WifiLock.
@@ -142,12 +141,12 @@ public class ClientStatus {
 			
 			if(acquire) { // acquire wakeLock
 				wifiLock.acquire();
-				if(Logging.DEBUG) Log.d(TAG, "wifiLock acquired");
+				if(Logging.DEBUG) Log.d(Logging.TAG, "wifiLock acquired");
 			} else { // release wakeLock
 				wifiLock.release();
-				if(Logging.DEBUG) Log.d(TAG, "wifiLock released");
+				if(Logging.DEBUG) Log.d(Logging.TAG, "wifiLock released");
 			}
-		} catch (Exception e) {if(Logging.WARNING) Log.w(TAG, "Exception durign setWifiLock " + acquire, e);}
+		} catch (Exception e) {if(Logging.WARNING) Log.w(Logging.TAG, "Exception durign setWifiLock " + acquire, e);}
 	}
 	
 	/*
@@ -159,7 +158,7 @@ public class ClientStatus {
 	        clientChanged.setAction("edu.berkeley.boinc.clientstatuschange");
 			ctx.sendBroadcast(clientChanged,null);
 		}else {
-			if(Logging.DEBUG) Log.d(TAG,"cant fire, not context set!");
+			if(Logging.DEBUG) Log.d(Logging.TAG,"ClientStatus cant fire, not context set!");
 		}
 	}
 	
@@ -173,11 +172,11 @@ public class ClientStatus {
 		this.transfers = transfers;
 		this.hostinfo = hostinfo;
 		parseClientStatus();
-		if(Logging.VERBOSE) Log.v(TAG,"setClientStatus: #results:" + results.size() + " #projects:" + projects.size() + " #transfers:" + transfers.size() + " // computing: " + computingParseError + computingStatus + computingSuspendReason + " - network: " + networkParseError + networkStatus + networkSuspendReason);
+		if(Logging.VERBOSE) Log.v(Logging.TAG,"setClientStatus: #results:" + results.size() + " #projects:" + projects.size() + " #transfers:" + transfers.size() + " // computing: " + computingParseError + computingStatus + computingSuspendReason + " - network: " + networkParseError + networkStatus + networkSuspendReason);
 		if(!computingParseError && !networkParseError && !setupStatusParseError) {
 			fire(); // broadcast that status has changed
 		} else {
-			if(Logging.DEBUG) Log.d(TAG, "discard status change due to parse error" + computingParseError + computingStatus + computingSuspendReason + "-" + networkParseError + networkStatus + networkSuspendReason + "-" + setupStatusParseError);
+			if(Logging.DEBUG) Log.d(Logging.TAG, "ClientStatus discard status change due to parse error" + computingParseError + computingStatus + computingSuspendReason + "-" + networkParseError + networkStatus + networkSuspendReason + "-" + setupStatusParseError);
 		}
 	}
 	
@@ -195,7 +194,7 @@ public class ClientStatus {
 	 * called after reading global preferences, e.g. during ClientStartAsync
 	 */
 	public synchronized void setPrefs(GlobalPreferences prefs) {
-		//if(Logging.DEBUG) Log.d(TAG, "setPrefs");
+		//if(Logging.DEBUG) Log.d(Logging.TAG, "setPrefs");
 		this.prefs = prefs;
 	}
 	
@@ -205,7 +204,7 @@ public class ClientStatus {
 	
 	public synchronized CcStatus getClientStatus() {
 		if(results == null) { //check in case monitor is not set up yet (e.g. while logging in)
-			if(Logging.DEBUG) Log.d(TAG, "state is null");
+			if(Logging.DEBUG) Log.d(Logging.TAG, "state is null");
 			return null;
 		}
 		return status;
@@ -213,7 +212,7 @@ public class ClientStatus {
 	
 	public synchronized ArrayList<Result> getTasks() {
 		if(results == null) { //check in case monitor is not set up yet (e.g. while logging in)
-			if(Logging.DEBUG) Log.d(TAG, "state is null");
+			if(Logging.DEBUG) Log.d(Logging.TAG, "state is null");
 			return null;
 		}
 		return results;
@@ -221,7 +220,7 @@ public class ClientStatus {
 	
 	public synchronized ArrayList<Transfer> getTransfers() {
 		if(transfers == null) { //check in case monitor is not set up yet (e.g. while logging in)
-			if(Logging.DEBUG) Log.d(TAG, "transfers is null");
+			if(Logging.DEBUG) Log.d(Logging.TAG, "transfers is null");
 			return null;
 		}
 		return transfers;
@@ -229,7 +228,7 @@ public class ClientStatus {
 	
 	public synchronized GlobalPreferences getPrefs() {
 		if(prefs == null) { //check in case monitor is not set up yet (e.g. while logging in)
-			if(Logging.DEBUG) Log.d(TAG, "prefs is null");
+			if(Logging.DEBUG) Log.d(Logging.TAG, "prefs is null");
 			return null;
 		}
 		return prefs;
@@ -237,7 +236,7 @@ public class ClientStatus {
 	
 	public synchronized ArrayList<Project> getProjects() {
 		if(projects == null) { //check in case monitor is not set up yet (e.g. while logging in)
-			if(Logging.DEBUG) Log.d(TAG, "getProject() state is null");
+			if(Logging.DEBUG) Log.d(Logging.TAG, "getProject() state is null");
 			return null;
 		}
 		return projects;
@@ -245,7 +244,7 @@ public class ClientStatus {
 	
 	public synchronized HostInfo getHostInfo() {
 		if(hostinfo == null) {
-			if(Logging.DEBUG) Log.d(TAG, "getHostInfo() state is null");
+			if(Logging.DEBUG) Log.d(Logging.TAG, "getHostInfo() state is null");
 			return null;
 		}
 		return hostinfo;
@@ -275,9 +274,9 @@ public class ClientStatus {
 					//check whether path is not empty, and avoid duplicates (slideshow images can 
 					//re-occur for multiple apps, since we do not distinct apps, skip duplicates.
 					if(slideshowImagePath != null && !slideshowImagePath.isEmpty() && !filePaths.contains(slideshowImagePath)) filePaths.add(slideshowImagePath);
-					//if(Logging.DEBUG) Log.d(TAG, "getSlideshowImages() path: " + slideshowImagePath);
+					//if(Logging.DEBUG) Log.d(Logging.TAG, "getSlideshowImages() path: " + slideshowImagePath);
 				}
-				//if(Logging.DEBUG) Log.d(TAG,"getSlideshowImages() retrieve number file paths: " + filePaths.size());
+				//if(Logging.DEBUG) Log.d(Logging.TAG,"getSlideshowImages() retrieve number file paths: " + filePaths.size());
 				
 				// load images from paths
 				int x = 0;
@@ -285,19 +284,19 @@ public class ClientStatus {
 					if(x >= maxImagesPerProject) continue;
 					Bitmap tmp = BitmapFactory.decodeFile(filePath);
 					if(tmp!=null) slideshowImages.add(new ImageWrapper(tmp,project.project_name));
-					else if(Logging.DEBUG) Log.d(TAG,"loadSlideshowImagesFromFile(): null for path: " + filePath);
+					else if(Logging.DEBUG) Log.d(Logging.TAG,"loadSlideshowImagesFromFile(): null for path: " + filePath);
 					x++;
 				}
-			} catch(Exception e) {if(Logging.WARNING) Log.w(TAG,"exception for project " + project.master_url,e);}
+			} catch(Exception e) {if(Logging.WARNING) Log.w(Logging.TAG,"exception for project " + project.master_url,e);}
 		}
-		if(Logging.DEBUG) Log.d(TAG,"getSlideshowImages() loaded number of files: " + slideshowImages.size());
+		if(Logging.DEBUG) Log.d(Logging.TAG,"getSlideshowImages() loaded number of files: " + slideshowImages.size());
 		return slideshowImages;
 	}
 	
 	// returns project icon for given master url
 	// bitmap: 40 * 40 pixel, symbolic link in /projects/PNAME/stat_icon
 	public synchronized Bitmap getProjectIcon (String masterUrl) {
-		if(Logging.DEBUG) Log.d(TAG, "getProjectIcon for: " + masterUrl);
+		if(Logging.DEBUG) Log.d(Logging.TAG, "getProjectIcon for: " + masterUrl);
 		try{
 			// loop through all projects
 			for (Project project: projects) {
@@ -305,18 +304,18 @@ public class ClientStatus {
 					// read file name of icon
 					String iconAbsPath = parseSoftLinkToAbsPath(project.project_dir + "/stat_icon", project.project_dir);
 					if (iconAbsPath == null) {
-						if(Logging.WARNING) Log.w(TAG, "getProjectIcon could not parse sym link.");
+						if(Logging.WARNING) Log.w(Logging.TAG, "getProjectIcon could not parse sym link.");
 						return null;
 					}
-					//if(Logging.DEBUG) Log.d(TAG, "getProjectIcons() absolute path to icon: " + iconAbsPath);
+					//if(Logging.DEBUG) Log.d(Logging.TAG, "getProjectIcons() absolute path to icon: " + iconAbsPath);
 					Bitmap icon = BitmapFactory.decodeFile(iconAbsPath);
 					return icon;
 				}
 			}
 		} catch (Exception e) {
-			if(Logging.WARNING) Log.w(TAG, "getProjectIcon failed", e);
+			if(Logging.WARNING) Log.w(Logging.TAG, "getProjectIcon failed", e);
 		}
-		if(Logging.WARNING) Log.w(TAG, "getProjectIcon: project not found.");
+		if(Logging.WARNING) Log.w(Logging.TAG, "getProjectIcon: project not found.");
 		return null;
 	}
 	
@@ -364,7 +363,7 @@ public class ClientStatus {
 				break;
 			}
 		} catch (Exception e) {
-			if(Logging.WARNING) Log.w(TAG, "error parsing setup status string",e);
+			if(Logging.WARNING) Log.w(Logging.TAG, "error parsing setup status string",e);
 		}
 		return statusString;
 	}
@@ -389,8 +388,8 @@ public class ClientStatus {
 			}
 		} catch (Exception e) {
 			setupStatusParseError = true;
-			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(TAG, "parseProjectStatus - Exception", e);
-			if(Logging.DEBUG) Log.d(TAG, "error parsing setup status (project state)");
+			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(Logging.TAG, "parseProjectStatus - Exception", e);
+			if(Logging.DEBUG) Log.d(Logging.TAG, "error parsing setup status (project state)");
 		}
 	}
 	
@@ -452,8 +451,8 @@ public class ClientStatus {
 				}
 			}
 		} catch (Exception e) {
-			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(TAG, "parseComputingStatus - Exception", e);
-			if(Logging.DEBUG) Log.d(TAG, "error - client computing status");
+			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(Logging.TAG, "ClientStatus parseComputingStatus - Exception", e);
+			if(Logging.DEBUG) Log.d(Logging.TAG, "ClientStatus error - client computing status");
 		}
 	}
 	
@@ -479,8 +478,8 @@ public class ClientStatus {
 				return;
 			}
 		} catch (Exception e) {
-			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(TAG, "parseNetworkStatus - Exception", e);
-			if(Logging.DEBUG) Log.d(TAG, "error - client network status");
+			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(Logging.TAG, "ClientStatus parseNetworkStatus - Exception", e);
+			if(Logging.DEBUG) Log.d(Logging.TAG, "ClientStatus error - client network status");
 		}
 	}
 
@@ -488,7 +487,7 @@ public class ClientStatus {
 	// reads the symbolic link provided in pathOfSoftLink file
 	// and returns absolute path to an image file.
 	private String parseSoftLinkToAbsPath(String pathOfSoftLink, String projectDir){
-		//if(Logging.DEBUG) Log.d(TAG,"parseSoftLinkToAbsPath() for path: " + pathOfSoftLink);
+		//if(Logging.DEBUG) Log.d(Logging.TAG,"parseSoftLinkToAbsPath() for path: " + pathOfSoftLink);
 		
 		// reading text of symbolic link
 		String softLinkContent = "";
@@ -499,16 +498,16 @@ public class ClientStatus {
 			    MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
 			    /* Instead of using default, pass in a decoder. */
 			    softLinkContent =  Charset.defaultCharset().decode(bb).toString();
-			} catch (IOException e) {if(Logging.WARNING) Log.w(TAG,"IOException in parseIconFileName()",e);}
+			} catch (IOException e) {if(Logging.WARNING) Log.w(Logging.TAG,"IOException in parseIconFileName()",e);}
 			finally {
 				stream.close();
 			}
 		} catch (Exception e) {
 			// probably FileNotFoundException
-			// if(Logging.DEBUG) Log.d(TAG,"Exception in parseSoftLinkToAbsPath() " + e.getMessage());
+			// if(Logging.DEBUG) Log.d(Logging.TAG,"Exception in parseSoftLinkToAbsPath() " + e.getMessage());
 			return null;
 		}
-		//if(Logging.DEBUG) Log.d(TAG,"parseSoftLinkToAbsPath() softLinkContent: " + softLinkContent);
+		//if(Logging.DEBUG) Log.d(Logging.TAG,"parseSoftLinkToAbsPath() softLinkContent: " + softLinkContent);
 		
 		// matching relevant path of String
 		// matching 1+ word characters and 0 or 1 dot . and 0+ word characters
@@ -516,11 +515,11 @@ public class ClientStatus {
 		Pattern statIconPattern = Pattern.compile("/(\\w+?\\.?\\w*?)</soft_link>");
 		Matcher m = statIconPattern.matcher(softLinkContent);
 		if(!m.find()) {
-			if(Logging.WARNING) Log.w(TAG,"parseSoftLinkToAbsPath() could not match pattern in soft link!");
+			if(Logging.WARNING) Log.w(Logging.TAG,"parseSoftLinkToAbsPath() could not match pattern in soft link!");
 			return null;
 		}
 		String fileName = m.group(1);
-		//if(Logging.DEBUG) Log.d(TAG, "parseSoftLinkToAbsPath() fileName: " + fileName);
+		//if(Logging.DEBUG) Log.d(Logging.TAG, "parseSoftLinkToAbsPath() fileName: " + fileName);
 		
 		return projectDir + "/" + fileName;
 	}

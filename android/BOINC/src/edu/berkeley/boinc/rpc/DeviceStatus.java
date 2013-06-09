@@ -30,8 +30,6 @@ import android.util.Log;
 
 public class DeviceStatus{
 	
-	private final String TAG = "Rpc.DeviceState";
-	
 	// current data in structure valid?
 	// is only true if "update()" finished, i.e. did not fire exception
 	// if false, getter methods return negative values and cause client
@@ -66,7 +64,7 @@ public class DeviceStatus{
 		valid = false;
 		
 		if(ctx == null) {
-			if(Logging.WARNING) Log.w(TAG,"context not set");
+			if(Logging.WARNING) Log.w(Logging.TAG,"context not set");
 			return false;
 		}
 		
@@ -127,8 +125,8 @@ public class DeviceStatus{
 			wifi_online = true;
 		}
 		
-		if(change) if(Logging.DEBUG) Log.d(TAG, "change: " + change + " - ac: " + on_ac_power + " ; usb: " + on_usb_power + " ; level: " + battery_charge_pct + " ; temperature: " + battery_temperature_celcius + " ; wifi: " + wifi_online);
-		if(Logging.VERBOSE) Log.v(TAG, "change: " + change + " - ac: " + on_ac_power + " ; usb: " + on_usb_power + " ; level: " + battery_charge_pct + " ; temperature: " + battery_temperature_celcius + " ; wifi: " + wifi_online);
+		if(change) if(Logging.DEBUG) Log.d(Logging.TAG, "change: " + change + " - ac: " + on_ac_power + " ; usb: " + on_usb_power + " ; level: " + battery_charge_pct + " ; temperature: " + battery_temperature_celcius + " ; wifi: " + wifi_online);
+		if(Logging.VERBOSE) Log.v(Logging.TAG, "change: " + change + " - ac: " + on_ac_power + " ; usb: " + on_usb_power + " ; level: " + battery_charge_pct + " ; temperature: " + battery_temperature_celcius + " ; wifi: " + wifi_online);
 		
 		valid = true; // end reached without exception
 		return change;

@@ -51,8 +51,6 @@ import android.widget.Toast;
 
 
 public class EventLogActivity extends FragmentActivity {
-
-	private final String TAG = "BOINC EventLogActivity";
 	
 	private Monitor monitor;
 	private Boolean mIsBound = false;
@@ -83,7 +81,7 @@ public class EventLogActivity extends FragmentActivity {
 	
 	@Override
 	public void onResume() {
-		if(Logging.DEBUG) Log.d(TAG, "onResume()");
+		if(Logging.DEBUG) Log.d(Logging.TAG, "EventLogActivity onResume()");
 
 		super.onResume();
 		
@@ -102,7 +100,7 @@ public class EventLogActivity extends FragmentActivity {
 	 */
 	private ServiceConnection mConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
-	    	if(Logging.DEBUG) Log.d(TAG,"onServiceConnected");
+	    	if(Logging.DEBUG) Log.d(Logging.TAG,"EventLogActivity onServiceConnected");
 	        monitor = ((Monitor.LocalBinder)service).getService();
 		    mIsBound = true;
 		    initializeLayout();
@@ -236,7 +234,7 @@ public class EventLogActivity extends FragmentActivity {
 			ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE); 
 			clipboard.setText(getLogDataAsString(clientLogList.getVisibility() == View.VISIBLE));
 			Toast.makeText(getApplicationContext(), R.string.eventlog_copy_toast, Toast.LENGTH_SHORT).show();
-		} catch(Exception e) {if(Logging.WARNING) Log.w(TAG,"onCopy failed");}
+		} catch(Exception e) {if(Logging.WARNING) Log.w(Logging.TAG,"onCopy failed");}
 	}
 	
 	private void onEmailTo() {
@@ -253,7 +251,7 @@ public class EventLogActivity extends FragmentActivity {
 			
 			// Send it off to the Activity-Chooser
 			startActivity(Intent.createChooser(emailIntent, "Send mail..."));	
-		} catch(Exception e) {if(Logging.WARNING) Log.w(TAG,"onEmailTo failed");}
+		} catch(Exception e) {if(Logging.WARNING) Log.w(Logging.TAG,"onEmailTo failed");}
 	}
 	
 	// returns the content of the log as string
@@ -285,7 +283,7 @@ public class EventLogActivity extends FragmentActivity {
 		int number = 100;
 		guiLogData.clear();
 		try {
-			String logLevelFilter = " BOINC*";
+			String logLevelFilter = Logging.TAG;
 			switch(Logging.LOGLEVEL){
 			case 0: return;
 			case 1:
@@ -304,7 +302,7 @@ public class EventLogActivity extends FragmentActivity {
 				logLevelFilter += ":V";
 				break;
 			}
-			Process process = Runtime.getRuntime().exec("logcat -d -t " + number + " -v time" + logLevelFilter);
+			Process process = Runtime.getRuntime().exec("logcat -d -t " + number + " -v time " + logLevelFilter + " *:S");
 			// filtering logcat output by application package is not possible on command line
 			// devices with SDK > 13 will automatically "session filter"
 			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -315,9 +313,9 @@ public class EventLogActivity extends FragmentActivity {
 				if(x > 1) guiLogData.add(0,line); // cut off first two lines, prepend to array (most current on top)
 				x++;
 			}
-			if(Logging.DEBUG) Log.d(TAG, "readLogcat read " + guiLogData.size() + " lines.");
+			if(Logging.DEBUG) Log.d(Logging.TAG, "readLogcat read " + guiLogData.size() + " lines.");
 			guiLogListAdapter.notifyDataSetChanged();
-		} catch (IOException e) {if(Logging.WARNING) Log.w(TAG, "readLogcat failed", e);}
+		} catch (IOException e) {if(Logging.WARNING) Log.w(Logging.TAG, "readLogcat failed", e);}
 	}
 	
 	// onScrollListener for list view, implementing "endless scrolling"

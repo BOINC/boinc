@@ -47,8 +47,6 @@ import edu.berkeley.boinc.utils.BOINCErrors;
 
 public class AttachProjectWorkingActivity extends Activity{
 	
-	private final String TAG = "BOINC AttachProjectWorkingActivity"; 
-	
 	private Monitor monitor;
 	private Boolean mIsBound = false;
 	
@@ -104,9 +102,9 @@ public class AttachProjectWorkingActivity extends Activity{
         	pwd = getIntent().getStringExtra("pwd");
         	id = getIntent().getStringExtra("id");
         			
-        	if(Logging.DEBUG) Log.d(TAG,"intent extras: " + projectUrl + projectName + id + userName + teamName + eMail + pwd.length() + usesName);
+        	if(Logging.DEBUG) Log.d(Logging.TAG,"AttachProjectWorkingActivity intent extras: " + projectUrl + projectName + id + userName + teamName + eMail + pwd.length() + usesName);
         } catch (Exception e) {
-        	if(Logging.WARNING) Log.w(TAG, "error while parsing extras", e);
+        	if(Logging.WARNING) Log.w(Logging.TAG, "AttachProjectWorkingActivity error while parsing extras", e);
         	finish(); // no point to continue without data
         }
         
@@ -123,7 +121,7 @@ public class AttachProjectWorkingActivity extends Activity{
     
 	@Override
 	protected void onDestroy() {
-    	if(Logging.DEBUG) Log.d(TAG, "onDestroy");
+    	if(Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectWorkingActivity onDestroy");
 	    doUnbindService();
 	    super.onDestroy();
 	}
@@ -152,7 +150,7 @@ public class AttachProjectWorkingActivity extends Activity{
 	}
 	
 	private int mapErrorNumToString(int code) {
-		if(Logging.DEBUG) Log.d(TAG,"mapErrorNumToString for error: " + code);
+		if(Logging.DEBUG) Log.d(Logging.TAG,"mapErrorNumToString for error: " + code);
 		int stringResource;
 		switch (code) {
 		case BOINCErrors.ERR_DB_NOT_FOUND:
@@ -248,8 +246,6 @@ public class AttachProjectWorkingActivity extends Activity{
 	}
 	
 	private final class ProjectAccountAsync extends AsyncTask<Void, Update, Boolean> {
-
-		private final String TAG = "ProjectAccountAsync";
 		
 		private Boolean registration;
 		private String url;
@@ -275,7 +271,7 @@ public class AttachProjectWorkingActivity extends Activity{
 		
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			if(Logging.DEBUG) Log.d(TAG,"doInBackground");
+			if(Logging.DEBUG) Log.d(Logging.TAG,"ProjectAccountAsync doInBackground");
 			
 			//check device online
 			publishProgress(new Update(false, false, R.string.attachproject_working_connect,0));
@@ -291,16 +287,16 @@ public class AttachProjectWorkingActivity extends Activity{
 			if(registration) {
 				// register account
 				publishProgress(new Update(false, false, R.string.attachproject_working_register,0));
-				if(Logging.DEBUG) Log.d(TAG,"registration with: " + url + email + userName + pwd.length() + teamName);
+				if(Logging.DEBUG) Log.d(Logging.TAG,"registration with: " + url + email + userName + pwd.length() + teamName);
 				account = monitor.createAccount(url, email, userName, pwd, teamName);
 				try {Thread.sleep(timeInterval);} catch (Exception e){}
 				if(account == null) {
-					if(Logging.DEBUG) Log.d(TAG,"registration failed, account info is null.");
+					if(Logging.DEBUG) Log.d(Logging.TAG,"registration failed, account info is null.");
 					publishProgress(new Update(true, false, R.string.attachproject_working_register, mapErrorNumToString(0)));
 					return false;
 				}
 				if(account.error_num != BOINCErrors.ERR_OK) {
-					if(Logging.DEBUG) Log.d(TAG,"registration failed, error code: " + account.error_num);
+					if(Logging.DEBUG) Log.d(Logging.TAG,"registration failed, error code: " + account.error_num);
 					publishProgress(new Update(true, false, R.string.attachproject_working_register, mapErrorNumToString(account.error_num)));
 					return false;
 				}
@@ -308,16 +304,16 @@ public class AttachProjectWorkingActivity extends Activity{
 			} else {
 				// lookup authenticator
 				publishProgress(new Update(false, false, R.string.attachproject_working_verify,0));
-				if(Logging.DEBUG) Log.d(TAG,"loging with: " + url + id + pwd.length() + usesName);
+				if(Logging.DEBUG) Log.d(Logging.TAG,"loging with: " + url + id + pwd.length() + usesName);
 				account = monitor.lookupCredentials(url, id, pwd, usesName);
 				try {Thread.sleep(timeInterval);} catch (Exception e){}
 				if(account == null) {
-					if(Logging.DEBUG) Log.d(TAG,"login failed, account info is null.");
+					if(Logging.DEBUG) Log.d(Logging.TAG,"login failed, account info is null.");
 					publishProgress(new Update(true, false, R.string.attachproject_working_verify, mapErrorNumToString(0)));
 					return false;
 				}
 				if(account.error_num != BOINCErrors.ERR_OK) {
-					if(Logging.DEBUG) Log.d(TAG,"login failed, error code: " + account.error_num);
+					if(Logging.DEBUG) Log.d(Logging.TAG,"login failed, error code: " + account.error_num);
 					publishProgress(new Update(true, false, R.string.attachproject_working_verify, mapErrorNumToString(account.error_num)));
 					return false;
 				}
@@ -339,7 +335,7 @@ public class AttachProjectWorkingActivity extends Activity{
 		
 		@Override
 		protected void onProgressUpdate(Update... values) {
-			if(Logging.DEBUG) Log.d(TAG,"onProgressUpdate");
+			if(Logging.DEBUG) Log.d(Logging.TAG,"onProgressUpdate");
 			appendElementToLayout(values[0]);
 			super.onProgressUpdate(values);
 		}

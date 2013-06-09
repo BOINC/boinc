@@ -53,8 +53,6 @@ import android.widget.TextView;
 
 public class StatusActivity extends Activity implements OnClickListener{
 	
-	private final String TAG = "BOINC StatusActivity";
-	
 	private Monitor monitor;
 	private Boolean mIsBound = false;
 	
@@ -81,7 +79,7 @@ public class StatusActivity extends Activity implements OnClickListener{
 	// connection to Monitor Service.
 	private ServiceConnection mConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
-	    	if(Logging.DEBUG) Log.d(TAG, "onServiceConnected");
+	    	if(Logging.DEBUG) Log.d(Logging.TAG, "StatusActivity onServiceConnected");
 
 	    	monitor = ((Monitor.LocalBinder)service).getService();
 		    mIsBound = true;
@@ -89,7 +87,7 @@ public class StatusActivity extends Activity implements OnClickListener{
 	    }
 
 	    public void onServiceDisconnected(ComponentName className) {
-	    	if(Logging.DEBUG) Log.d(TAG, "onServiceDisconnected");
+	    	if(Logging.DEBUG) Log.d(Logging.TAG, "StatusActivity onServiceDisconnected");
 
 	    	monitor = null;
 	        mIsBound = false;
@@ -117,7 +115,7 @@ public class StatusActivity extends Activity implements OnClickListener{
 	
 	public void onResume() {
 		//register noisy clientStatusChangeReceiver here, so only active when Activity is visible
-		if(Logging.DEBUG) Log.d(TAG+"-onResume","register receiver");
+		if(Logging.DEBUG) Log.d(Logging.TAG,"StatusActivity register receiver");
 		registerReceiver(mClientStatusChangeRec,ifcsc);
 		loadLayout();
 		super.onResume();
@@ -125,7 +123,7 @@ public class StatusActivity extends Activity implements OnClickListener{
 		Display display = getWindowManager().getDefaultDisplay();
 		screenWidth = display.getWidth();
 		screenHeight = display.getHeight();
-		if(Logging.DEBUG) Log.d(TAG,"screen dimensions: " + screenWidth + "*" + screenHeight);
+		if(Logging.DEBUG) Log.d(Logging.TAG,"screen dimensions: " + screenWidth + "*" + screenHeight);
 		
 		try{
 			minScreenHeightForSlideshow = getResources().getInteger(R.integer.status_min_screen_height_for_slideshow_px);
@@ -135,7 +133,7 @@ public class StatusActivity extends Activity implements OnClickListener{
 	
 	public void onPause() {
 		//unregister receiver, so there are not multiple intents flying in
-		if(Logging.DEBUG) Log.d(TAG+"-onPause","remove receiver");
+		if(Logging.DEBUG) Log.d(Logging.TAG,"StatusActivity remove receiver");
 		unregisterReceiver(mClientStatusChangeRec);
 		super.onPause();
 	}
@@ -283,7 +281,7 @@ public class StatusActivity extends Activity implements OnClickListener{
 				case ClientStatus.COMPUTING_STATUS_COMPUTING:
 					// load slideshow
 					if(!loadSlideshow()) {
-						if(Logging.DEBUG) Log.d(TAG, "slideshow not available, load plain old status instead...");
+						if(Logging.DEBUG) Log.d(Logging.TAG, "slideshow not available, load plain old status instead...");
 						statusHeader.setText(R.string.status_running);
 						statusImage.setImageResource(R.drawable.cogsb48);
 						statusImage.setContentDescription(getString(R.string.status_running));
@@ -353,8 +351,6 @@ public class StatusActivity extends Activity implements OnClickListener{
 	}
 	
 	private final class WriteClientRunModeAsync extends AsyncTask<Integer, Void, Boolean> {
-
-		private final String TAG = "WriteClientRunModeAsync";
 		
 		@Override
 		protected Boolean doInBackground(Integer... params) {
@@ -364,7 +360,7 @@ public class StatusActivity extends Activity implements OnClickListener{
 		@Override
 		protected void onPostExecute(Boolean success) {
 			if(success) monitor.forceRefresh();
-			else if(Logging.WARNING) Log.w(TAG,"setting run mode failed");
+			else if(Logging.WARNING) Log.w(Logging.TAG,"setting run mode failed");
 		}
 	}
 }

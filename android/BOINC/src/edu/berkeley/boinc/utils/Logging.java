@@ -19,6 +19,8 @@
 package edu.berkeley.boinc.utils;
 
 public class Logging {
+	static public String TAG = "BOINC_GUI";
+	
 	static public int LOGLEVEL = 4;
 	static public Boolean ERROR = LOGLEVEL > 0;
 	static public Boolean WARNING = LOGLEVEL > 1;

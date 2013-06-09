@@ -32,8 +32,6 @@ import android.widget.TextView;
 
 public class AttachProjectRegistrationActivity extends Activity{
 	
-	private final String TAG = "BOINC AttachProjectRegistrationActivity"; 
-	
 	private String projectUrl;
 	private String projectName;
 	private Integer minPwdLength;
@@ -42,7 +40,7 @@ public class AttachProjectRegistrationActivity extends Activity{
     @Override
     public void onCreate(Bundle savedInstanceState) {  
         super.onCreate(savedInstanceState);  
-        if(Logging.DEBUG) Log.d(TAG, "onCreate"); 
+        if(Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectRegistrationActivity onCreate"); 
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 
     	//parse master url from intent extras
@@ -51,9 +49,9 @@ public class AttachProjectRegistrationActivity extends Activity{
         	projectName = getIntent().getCharSequenceExtra("projectName").toString();
         	minPwdLength = getIntent().getIntExtra("minPwdLength", 0);
         	usesName = getIntent().getBooleanExtra("usesName", false);
-        	if(Logging.DEBUG) Log.d(TAG,"intent extras: " + projectUrl + projectName + minPwdLength);
+        	if(Logging.DEBUG) Log.d(Logging.TAG,"intent extras: " + projectUrl + projectName + minPwdLength);
         } catch (Exception e) {
-        	if(Logging.WARNING) Log.w(TAG, "error while parsing url", e);
+        	if(Logging.WARNING) Log.w(Logging.TAG, "error while parsing url", e);
         	finish(); // no point to continue without url
         }
         
@@ -71,7 +69,7 @@ public class AttachProjectRegistrationActivity extends Activity{
     
 	@Override
 	protected void onDestroy() {
-    	if(Logging.DEBUG) Log.d(TAG, "onDestroy");
+    	if(Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectRegistrationActivity onDestroy");
 	    super.onDestroy();
 	}
 	

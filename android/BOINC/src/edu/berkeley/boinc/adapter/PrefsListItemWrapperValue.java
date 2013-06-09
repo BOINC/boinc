@@ -25,8 +25,6 @@ import android.content.Context;
 import android.util.Log;
 
 public class PrefsListItemWrapperValue extends PrefsListItemWrapper {
-	
-	private final String TAG = "PrefsListItemWrapperValue";
 
 	public String header = "";
 	public String description = "";
@@ -84,7 +82,7 @@ public class PrefsListItemWrapperValue extends PrefsListItemWrapper {
 			unit = ctx.getString(R.string.prefs_unit_pct);
 			break;
 		default:
-			if(Logging.DEBUG) Log.d(TAG, "map failed!");
+			if(Logging.DEBUG) Log.d(Logging.TAG, "PrefsListItemWrapperValue map failed!");
 		}
 		if(unit.equals(ctx.getString(R.string.prefs_unit_pct))) isPct = true;
 	}
