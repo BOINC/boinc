@@ -70,8 +70,6 @@ public class EventLogActivity extends FragmentActivity {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-	    if(Logging.DEBUG) Log.d(TAG, "onCreate()");
-	    
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 
 		doBindService();
@@ -94,7 +92,6 @@ public class EventLogActivity extends FragmentActivity {
 	
 	@Override
 	protected void onDestroy() {
-	    if(Logging.DEBUG) Log.d(TAG, "onDestroy()");
 	    doUnbindService();
 	    super.onDestroy();
 	}
@@ -189,8 +186,6 @@ public class EventLogActivity extends FragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-	    if(Logging.DEBUG) Log.d(TAG, "onCreateOptionsMenu()");
-		
 	    MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.eventlog_menu, menu);
 
@@ -221,8 +216,6 @@ public class EventLogActivity extends FragmentActivity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    if(Logging.DEBUG) Log.d(TAG, "onOptionsItemSelected()");
-
 	    switch (item.getItemId()) {
 			case R.id.refresh:
 				new RetrieveRecentClientMsgs().execute();
@@ -292,7 +285,7 @@ public class EventLogActivity extends FragmentActivity {
 		int number = 100;
 		guiLogData.clear();
 		try {
-			String logLevelFilter = " *";
+			String logLevelFilter = " BOINC*";
 			switch(Logging.LOGLEVEL){
 			case 0: return;
 			case 1:

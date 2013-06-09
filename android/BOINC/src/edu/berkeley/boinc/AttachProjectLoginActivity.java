@@ -81,14 +81,13 @@ public class AttachProjectLoginActivity extends Activity{
     @Override
     public void onCreate(Bundle savedInstanceState) {  
         super.onCreate(savedInstanceState);  
-        if(Logging.DEBUG) Log.d(TAG, "onCreate"); 
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 
     	//parse master url from intent extras
         Boolean urlPresent = false;
         try {
         	url = getIntent().getCharSequenceExtra("url").toString();
-        	if(Logging.DEBUG) Log.d(TAG,"url: " + url);
+        	if(Logging.DEBUG) Log.d(TAG,"onCreate with url: " + url);
         	if(url != null) urlPresent = true;
         } catch (Exception e) {}
         
@@ -106,11 +105,12 @@ public class AttachProjectLoginActivity extends Activity{
         	// format user input on URL right to avoid exceptions
         	if (!url.startsWith("http://") && !url.startsWith("https://")) url = "http://" + url; // add http:// in case user leaves it out
         	if (!url.endsWith("/")) url = url + "/"; // add trailing slash
+        	if(Logging.DEBUG) Log.d(TAG,"onCreate url sanitized to: " + url);
         }
         
         if(!urlPresent && !projectInfoPresent) {
         	// neither url (manual input) nor project info (list selection) is present
-        	if(Logging.DEBUG) Log.d(TAG,"neither url nor projectInfo available! finish activity...");
+        	if(Logging.WARNING) Log.w(TAG,"neither url nor projectInfo available! finish activity...");
         	finish(R.string.attachproject_login_error_toast);
         }
         
@@ -399,6 +399,7 @@ public class AttachProjectLoginActivity extends Activity{
 		@Override
 		protected void onPostExecute(Integer toastStringId) {
 			if(toastStringId == 0) { // no error, no toast...
+				if(Logging.DEBUG) Log.d(TAG, "onPostExecute() - GetProjectConfig successful.");
 				populateLayout();
 			} else {
 				finish(toastStringId);

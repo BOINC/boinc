@@ -87,7 +87,6 @@ public class AttachProjectWorkingActivity extends Activity{
     @Override
     public void onCreate(Bundle savedInstanceState) {  
         super.onCreate(savedInstanceState);  
-        if(Logging.DEBUG) Log.d(TAG, "onCreate"); 
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         
         // bind monitor service
@@ -292,14 +291,16 @@ public class AttachProjectWorkingActivity extends Activity{
 			if(registration) {
 				// register account
 				publishProgress(new Update(false, false, R.string.attachproject_working_register,0));
-				if(Logging.DEBUG) Log.d(TAG,"" + url + email + userName + pwd.length() + teamName);
+				if(Logging.DEBUG) Log.d(TAG,"registration with: " + url + email + userName + pwd.length() + teamName);
 				account = monitor.createAccount(url, email, userName, pwd, teamName);
 				try {Thread.sleep(timeInterval);} catch (Exception e){}
 				if(account == null) {
+					if(Logging.DEBUG) Log.d(TAG,"registration failed, account info is null.");
 					publishProgress(new Update(true, false, R.string.attachproject_working_register, mapErrorNumToString(0)));
 					return false;
 				}
 				if(account.error_num != BOINCErrors.ERR_OK) {
+					if(Logging.DEBUG) Log.d(TAG,"registration failed, error code: " + account.error_num);
 					publishProgress(new Update(true, false, R.string.attachproject_working_register, mapErrorNumToString(account.error_num)));
 					return false;
 				}
@@ -307,14 +308,16 @@ public class AttachProjectWorkingActivity extends Activity{
 			} else {
 				// lookup authenticator
 				publishProgress(new Update(false, false, R.string.attachproject_working_verify,0));
-				if(Logging.DEBUG) Log.d(TAG,"" + url + id + pwd.length() + usesName);
+				if(Logging.DEBUG) Log.d(TAG,"loging with: " + url + id + pwd.length() + usesName);
 				account = monitor.lookupCredentials(url, id, pwd, usesName);
 				try {Thread.sleep(timeInterval);} catch (Exception e){}
 				if(account == null) {
+					if(Logging.DEBUG) Log.d(TAG,"login failed, account info is null.");
 					publishProgress(new Update(true, false, R.string.attachproject_working_verify, mapErrorNumToString(0)));
 					return false;
 				}
 				if(account.error_num != BOINCErrors.ERR_OK) {
+					if(Logging.DEBUG) Log.d(TAG,"login failed, error code: " + account.error_num);
 					publishProgress(new Update(true, false, R.string.attachproject_working_verify, mapErrorNumToString(account.error_num)));
 					return false;
 				}

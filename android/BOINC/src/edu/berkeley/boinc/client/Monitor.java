@@ -19,6 +19,7 @@
 package edu.berkeley.boinc.client;
 
 import edu.berkeley.boinc.utils.*;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -745,12 +746,12 @@ public class Monitor extends Service {
     			} catch (Exception e) {}
     			counter ++;
     			ProjectAttachReply reply = rpc.projectAttachPoll();
-    			Integer result = reply.error_num;
-    			if(result == 0) {
-    				success = true;
+    			if(reply != null) {
+    				if(Logging.DEBUG) Log.d(TAG, "rpc.projectAttachPoll reply error_num: " + reply.error_num);
+    				if(reply.error_num == 0) success = true;
     			}
-    		}
-    	}
+    		} if(Logging.DEBUG) Log.d(TAG, "rpc.projectAttachPoll did not succeed in time.");
+    	} else if(Logging.DEBUG) Log.d(TAG, "rpc.projectAttach failed.");
     	return success;
     }
 	
@@ -770,7 +771,6 @@ public class Monitor extends Service {
 	}
 	
 	public AccountOut lookupCredentials(String url, String id, String pwd, Boolean usesName) {
-    	Integer retval = -1;
     	AccountOut auth = null;
     	AccountIn credentials = new AccountIn();
     	if(usesName) credentials.user_name = id;
@@ -792,6 +792,7 @@ public class Monitor extends Service {
     			counter ++;
     			auth = rpc.lookupAccountPoll();
     			if(auth==null) {
+    				if(Logging.DEBUG) Log.d(TAG,"error in rpc.lookupAccountPoll.");
     				return null;
     			}
     			if (auth.error_num == -204) {
@@ -799,14 +800,11 @@ public class Monitor extends Service {
     			}
     			else {
     				//final result ready
-    				retval = auth.error_num;
-    				if(auth.error_num == 0) { 
-        				if(Logging.DEBUG) Log.d(TAG, "credentials verification result, retrieved authenticator: " + auth.authenticator);
-    				}
+    				if(auth.error_num == 0) if(Logging.DEBUG) Log.d(TAG, "credentials verification result, retrieved authenticator.");
+    				else Log.d(TAG, "credentials verification result, error: " + auth.error_num);
     			}
     		}
-    	}
-    	if(Logging.DEBUG) Log.d(TAG, "lookupCredentials returns " + retval);
+    	} else if(Logging.DEBUG) Log.d(TAG, "rpc.lookupAccount failed.");
     	return auth;
     }
     
@@ -869,6 +867,7 @@ public class Monitor extends Service {
     			counter ++;
     			auth = rpc.createAccountPoll();
     			if(auth==null) {
+    				if(Logging.DEBUG) Log.d(TAG,"error in rpc.createAccountPoll.");
     				return null;
     			}
     			if (auth.error_num == -204) {
@@ -876,12 +875,11 @@ public class Monitor extends Service {
     			}
     			else {
     				//final result ready
-    				if(auth.error_num == 0) { 
-        				if(Logging.DEBUG) Log.d(TAG, "account creation result, retrieved authenticator: " + auth.authenticator);
-    				}
+    				if(auth.error_num == 0) if(Logging.DEBUG) Log.d(TAG, "account creation result, retrieved authenticator.");
+    				else if(Logging.DEBUG) Log.d(TAG, "account creation result, error: " + auth.error_num);
     			}
     		}
-    	}
+    	} else {if(Logging.DEBUG) Log.d(TAG,"rpc.createAccount returned false.");}
     	return auth;
 	}
 	
@@ -952,7 +950,7 @@ public class Monitor extends Service {
 						if(deviceStatus.update() || deviceStatusOmitCounter >= minimumDeviceStatusFrequency) {
 							if(showRpcCommands) if(Logging.DEBUG) Log.d(TAG, "reportDeviceStatus");
 							Boolean reportStatusSuccess = rpc.reportDeviceStatus(deviceStatus);
-							if(Logging.DEBUG) Log.d(TAG,"reporting device status to client returned: " + reportStatusSuccess);
+							if(!reportStatusSuccess) if(Logging.DEBUG) Log.d(TAG,"reporting device status returned false.");
 							if(reportStatusSuccess) deviceStatusOmitCounter = 0;
 						}
 					} catch (Exception e) { if(Logging.WARNING) Log.w(TAG, "device status report failed: " + e.getLocalizedMessage()); }

@@ -127,7 +127,8 @@ public class DeviceStatus{
 			wifi_online = true;
 		}
 		
-		if(Logging.DEBUG) Log.d(TAG, "change: " + change + " - ac: " + on_ac_power + " ; usb: " + on_usb_power + " ; level: " + battery_charge_pct + " ; temperature: " + battery_temperature_celcius + " ; wifi: " + wifi_online);
+		if(change) if(Logging.DEBUG) Log.d(TAG, "change: " + change + " - ac: " + on_ac_power + " ; usb: " + on_usb_power + " ; level: " + battery_charge_pct + " ; temperature: " + battery_temperature_celcius + " ; wifi: " + wifi_online);
+		if(Logging.VERBOSE) Log.v(TAG, "change: " + change + " - ac: " + on_ac_power + " ; usb: " + on_usb_power + " ; level: " + battery_charge_pct + " ; temperature: " + battery_temperature_celcius + " ; wifi: " + wifi_online);
 		
 		valid = true; // end reached without exception
 		return change;
