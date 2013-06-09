@@ -119,7 +119,7 @@ public class TasksActivity extends FragmentActivity {
 	
 	@Override
 	protected void onDestroy() {
-		if(Logging.DEBUG) Log.d(Logging.TAG, "TasksActivity onDestroy()");
+		if(Logging.VERBOSE) Log.v(Logging.TAG, "TasksActivity onDestroy()");
 
 		if (mIsBound) {
 			getApplicationContext().unbindService(mConnection);

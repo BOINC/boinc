@@ -748,7 +748,7 @@ public class Monitor extends Service {
     				if(Logging.DEBUG) Log.d(Logging.TAG, "rpc.projectAttachPoll reply error_num: " + reply.error_num);
     				if(reply.error_num == 0) success = true;
     			}
-    		} if(Logging.DEBUG) Log.d(Logging.TAG, "rpc.projectAttachPoll did not succeed in time.");
+    		}
     	} else if(Logging.DEBUG) Log.d(Logging.TAG, "rpc.projectAttach failed.");
     	return success;
     }

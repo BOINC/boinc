@@ -79,7 +79,7 @@ public class StatusActivity extends Activity implements OnClickListener{
 	// connection to Monitor Service.
 	private ServiceConnection mConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
-	    	if(Logging.DEBUG) Log.d(Logging.TAG, "StatusActivity onServiceConnected");
+	    	if(Logging.VERBOSE) Log.v(Logging.TAG, "StatusActivity onServiceConnected");
 
 	    	monitor = ((Monitor.LocalBinder)service).getService();
 		    mIsBound = true;
@@ -115,7 +115,7 @@ public class StatusActivity extends Activity implements OnClickListener{
 	
 	public void onResume() {
 		//register noisy clientStatusChangeReceiver here, so only active when Activity is visible
-		if(Logging.DEBUG) Log.d(Logging.TAG,"StatusActivity register receiver");
+		if(Logging.VERBOSE) Log.v(Logging.TAG,"StatusActivity register receiver");
 		registerReceiver(mClientStatusChangeRec,ifcsc);
 		loadLayout();
 		super.onResume();
@@ -133,7 +133,7 @@ public class StatusActivity extends Activity implements OnClickListener{
 	
 	public void onPause() {
 		//unregister receiver, so there are not multiple intents flying in
-		if(Logging.DEBUG) Log.d(Logging.TAG,"StatusActivity remove receiver");
+		if(Logging.VERBOSE) Log.v(Logging.TAG,"StatusActivity remove receiver");
 		unregisterReceiver(mClientStatusChangeRec);
 		super.onPause();
 	}

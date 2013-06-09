@@ -121,7 +121,7 @@ public class BOINCActivity extends TabActivity {
 
 	@Override
 	protected void onResume() { // gets called by system every time activity comes to front. after onCreate upon first creation
-    	if(Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity onResume()");
+    	if(Logging.VERBOSE) Log.v(Logging.TAG, "BOINCActivity onResume()");
 	    super.onResume();
 	    registerReceiver(mClientStatusChangeRec, ifcsc);
 	    layout();
@@ -129,7 +129,7 @@ public class BOINCActivity extends TabActivity {
 
 	@Override
 	protected void onPause() { // gets called by system every time activity loses focus.
-    	if(Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity onPause()");
+    	if(Logging.VERBOSE) Log.v(Logging.TAG, "BOINCActivity onPause()");
 	    super.onPause();
 	    unregisterReceiver(mClientStatusChangeRec);
 	}
@@ -237,7 +237,7 @@ public class BOINCActivity extends TabActivity {
     	if(res.getBoolean(R.bool.tab_preferences))
     		setupTab(new TextView(this), getResources().getString(R.string.tab_preferences), R.drawable.icon_prefs_tab, PrefsActivity.class);
 
-        if(Logging.DEBUG) Log.d(Logging.TAG, "tab layout setup done");
+        if(Logging.VERBOSE) Log.v(Logging.TAG, "BOINCActivity tab layout setup done");
     }
     
     private void setupTab(final View view, final String tag, int icon, Class<?> target) {
@@ -280,7 +280,7 @@ public class BOINCActivity extends TabActivity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-	    if(Logging.DEBUG) Log.d(Logging.TAG, "onCreateOptionsMenu()");
+	    if(Logging.VERBOSE) Log.v(Logging.TAG, "BOINCActivity onCreateOptionsMenu()");
 
 	    MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main_menu, menu);
@@ -312,7 +312,7 @@ public class BOINCActivity extends TabActivity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    if(Logging.DEBUG) Log.d(Logging.TAG, "onOptionsItemSelected()");
+	    if(Logging.VERBOSE) Log.v(Logging.TAG, "BOINCActivity onOptionsItemSelected()");
 
 	    switch (item.getItemId()) {
 	    	case R.id.help:

@@ -92,7 +92,7 @@ public class AttachProjectLoginActivity extends Activity{
         //parse  project info from intent extras
         try {
         	projectInfo = (ProjectInfo) getIntent().getSerializableExtra("projectInfo");
-        	if(Logging.DEBUG) Log.d(Logging.TAG,"projectInfo: " + projectInfo);
+        	if(Logging.VERBOSE) Log.v(Logging.TAG,"projectInfo: " + projectInfo);
         	if(projectInfo != null) {
         		projectInfoPresent = true;
         		url = projectInfo.url; // set url field to information of projectInfo
@@ -140,7 +140,7 @@ public class AttachProjectLoginActivity extends Activity{
 
 	@Override
 	protected void onDestroy() {
-    	if(Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectLoginActivity onDestroy");
+    	if(Logging.VERBOSE) Log.v(Logging.TAG, "AttachProjectLoginActivity onDestroy");
 	    doUnbindService();
 	    super.onDestroy();
 	}

@@ -78,7 +78,7 @@ public class ProjectsActivity extends FragmentActivity {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
 	        monitor = ((Monitor.LocalBinder)service).getService();
 		    mIsBound = true;
-		    if(Logging.DEBUG) Log.d(Logging.TAG,"service bound");
+		    if(Logging.VERBOSE) Log.v(Logging.TAG,"ProjectsActivity service bound");
 	    }
 		@Override
 	    public void onServiceDisconnected(ComponentName className) {
@@ -102,7 +102,7 @@ public class ProjectsActivity extends FragmentActivity {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-	    if(Logging.DEBUG) Log.d(Logging.TAG, "onCreate()");
+	    if(Logging.VERBOSE) Log.v(Logging.TAG, "ProjectsActivity onCreate()");
 
 	    super.onCreate(savedInstanceState);
 
@@ -113,7 +113,7 @@ public class ProjectsActivity extends FragmentActivity {
 	
 	@Override
 	public void onPause() {
-		if(Logging.DEBUG) Log.d(Logging.TAG, "onPause()");
+		if(Logging.DEBUG) Log.d(Logging.TAG, "ProjectsActivity onPause()");
 
 		unregisterReceiver(mClientStatusChangeRec);
 		super.onPause();
@@ -121,7 +121,7 @@ public class ProjectsActivity extends FragmentActivity {
 
 	@Override
 	public void onResume() {
-		if(Logging.DEBUG) Log.d(Logging.TAG, "onResume()");
+		if(Logging.DEBUG) Log.d(Logging.TAG, "ProjectsActivity onResume()");
 		super.onResume();
 		
 		populateLayout(true);
@@ -131,7 +131,7 @@ public class ProjectsActivity extends FragmentActivity {
 	
 	@Override
 	protected void onDestroy() {
-	    if(Logging.DEBUG) Log.d(Logging.TAG, "onDestroy()");
+	    if(Logging.VERBOSE) Log.v(Logging.TAG, "ProjectsActivity onDestroy()");
 
 	    if (mIsBound) {
 	    	getApplicationContext().unbindService(mConnection);
@@ -218,7 +218,7 @@ public class ProjectsActivity extends FragmentActivity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-	    if(Logging.DEBUG) Log.d(Logging.TAG, "onCreateOptionsMenu()");
+	    if(Logging.VERBOSE) Log.v(Logging.TAG, "ProjectsActivity onCreateOptionsMenu()");
 
 		// call BOINCActivity's onCreateOptionsMenu to combine both menus
 		getParent().onCreateOptionsMenu(menu);
@@ -231,7 +231,7 @@ public class ProjectsActivity extends FragmentActivity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    if(Logging.DEBUG) Log.d(Logging.TAG, "onOptionsItemSelected()");
+	    if(Logging.VERBOSE) Log.v(Logging.TAG, "ProjectsActivity onOptionsItemSelected()");
 
 	    switch (item.getItemId()) {
 			case R.id.projects_add:

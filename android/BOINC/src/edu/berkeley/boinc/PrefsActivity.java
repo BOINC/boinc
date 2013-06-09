@@ -239,7 +239,7 @@ public class PrefsActivity extends FragmentActivity {
 	// onClick of listview items with PrefsListItemWrapperValue
 	public void onItemClick (View view) {
 			final PrefsListItemWrapperValue listItem = (PrefsListItemWrapperValue) view.getTag();
-			if(Logging.DEBUG) Log.d(Logging.TAG,"onItemClick Value " + listItem.ID);
+			if(Logging.DEBUG) Log.d(Logging.TAG,"PrefsActivity onItemClick Value " + listItem.ID);
 			
 			final Dialog dialog = new Dialog(this);
 			dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -333,7 +333,7 @@ public class PrefsActivity extends FragmentActivity {
 
 	@Override
 	protected void onDestroy() {
-	    if(Logging.DEBUG) Log.d(Logging.TAG,"onDestroy()");
+	    if(Logging.VERBOSE) Log.v(Logging.TAG,"PrefsActivity onDestroy()");
 	    super.onDestroy();
 	    doUnbindService();
 	}

@@ -53,4 +53,6 @@
     	<integer name="shutdown_graceful_rpc_check_attempts">10</integer>
     	<integer name="shutdown_graceful_os_check_rate_ms">1000</integer>
     	<integer name="shutdown_graceful_os_check_attempts">30</integer>
+    <!-- eventlog -->
+    	<integer name="eventlog_gui_messages">100</integer>
 </resources>

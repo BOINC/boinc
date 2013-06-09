@@ -121,7 +121,7 @@ public class AttachProjectWorkingActivity extends Activity{
     
 	@Override
 	protected void onDestroy() {
-    	if(Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectWorkingActivity onDestroy");
+    	if(Logging.VERBOSE) Log.v(Logging.TAG, "AttachProjectWorkingActivity onDestroy");
 	    doUnbindService();
 	    super.onDestroy();
 	}
@@ -335,7 +335,6 @@ public class AttachProjectWorkingActivity extends Activity{
 		
 		@Override
 		protected void onProgressUpdate(Update... values) {
-			if(Logging.DEBUG) Log.d(Logging.TAG,"onProgressUpdate");
 			appendElementToLayout(values[0]);
 			super.onProgressUpdate(values);
 		}

@@ -81,7 +81,7 @@ public class EventLogActivity extends FragmentActivity {
 	
 	@Override
 	public void onResume() {
-		if(Logging.DEBUG) Log.d(Logging.TAG, "EventLogActivity onResume()");
+		if(Logging.VERBOSE) Log.v(Logging.TAG, "EventLogActivity onResume()");
 
 		super.onResume();
 		
@@ -100,7 +100,7 @@ public class EventLogActivity extends FragmentActivity {
 	 */
 	private ServiceConnection mConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
-	    	if(Logging.DEBUG) Log.d(Logging.TAG,"EventLogActivity onServiceConnected");
+	    	if(Logging.VERBOSE) Log.v(Logging.TAG,"EventLogActivity onServiceConnected");
 	        monitor = ((Monitor.LocalBinder)service).getService();
 		    mIsBound = true;
 		    initializeLayout();
@@ -280,7 +280,7 @@ public class EventLogActivity extends FragmentActivity {
 	}
 	
 	private void readLogcat() {
-		int number = 100;
+		int number = getResources().getInteger(R.integer.eventlog_gui_messages);
 		guiLogData.clear();
 		try {
 			String logLevelFilter = Logging.TAG;
@@ -313,7 +313,7 @@ public class EventLogActivity extends FragmentActivity {
 				if(x > 1) guiLogData.add(0,line); // cut off first two lines, prepend to array (most current on top)
 				x++;
 			}
-			if(Logging.DEBUG) Log.d(Logging.TAG, "readLogcat read " + guiLogData.size() + " lines.");
+			if(Logging.VERBOSE) Log.v(Logging.TAG, "readLogcat read " + guiLogData.size() + " lines.");
 			guiLogListAdapter.notifyDataSetChanged();
 		} catch (IOException e) {if(Logging.WARNING) Log.w(Logging.TAG, "readLogcat failed", e);}
 	}

@@ -70,7 +70,7 @@ public class AttachProjectListActivity extends Activity implements android.view.
     
 	@Override
 	protected void onDestroy() {
-    	if(Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectListActivity onDestroy");
+    	if(Logging.VERBOSE) Log.v(Logging.TAG, "AttachProjectListActivity onDestroy");
 	    super.onDestroy();
 	}
 	
