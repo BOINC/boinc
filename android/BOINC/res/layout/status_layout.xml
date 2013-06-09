@@ -32,7 +32,8 @@
         android:orientation="horizontal"
         android:paddingTop="20dp"
         android:paddingBottom="20dp"
-        android:background="@drawable/shape_light_blue_background">
+        android:background="@drawable/shape_light_blue_background"
+        android:visibility="gone">
         
         <ImageView
 	        android:id="@+id/status_image"
@@ -41,7 +42,6 @@
         	android:layout_marginRight="10dp"
         	android:layout_marginLeft="10dp"
 	        android:contentDescription="@string/status_paused"
-	        android:src="@drawable/pausew48"
 	        android:background="@android:color/transparent" />
  
         <LinearLayout
@@ -54,7 +54,6 @@
 		        android:id="@+id/status_header"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:text="@string/status_paused"
 		        android:textAppearance="?android:attr/textAppearanceMedium"
 		        android:background="@android:color/transparent" />
 	        
@@ -62,7 +61,6 @@
 		        android:id="@+id/status_long"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:text="@string/suspend_unknown"
 		        android:textAppearance="?android:attr/textAppearanceSmall"
 		        android:background="@android:color/transparent"  />
         </LinearLayout>
