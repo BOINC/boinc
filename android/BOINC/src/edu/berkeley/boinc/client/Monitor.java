@@ -840,6 +840,10 @@ public class Monitor extends Service {
 		return rpc.resultOp(operation, url, name);
 	}
 	
+	public Boolean transferOperation(String url, String name, int operation) {
+		return rpc.transferOp(operation, url, name);
+	}
+	
 	public AccountOut createAccount(String url, String email, String userName, String pwd, String teamName) {
 		AccountIn information = new AccountIn();
 		information.url = url;

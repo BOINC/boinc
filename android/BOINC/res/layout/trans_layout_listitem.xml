@@ -18,77 +18,93 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/projectsRow"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="false"
     android:orientation="horizontal" >
     
-	<LinearLayout
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:orientation="vertical"
-	    android:clickable="false" >
-	
-	    <TextView android:textAppearance="?android:attr/textAppearanceSmall"
-	        android:id="@+id/trans_name"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content">
-	    </TextView>
-	    
-	    <LinearLayout 
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:orientation="horizontal">
-	
-	        <TextView android:textAppearance="?android:attr/textAppearanceSmall"
-		        android:id="@+id/trans_progress"
-	        	android:layout_marginLeft="10dip"
-	        	android:ems="5"
-	        	android:singleLine="true"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content">
-		    </TextView>
-		    
-	        <ProgressBar
-	        	android:id="@+id/trans_progressbar"
-	        	style="?android:attr/progressBarStyleHorizontal"
-	        	android:layout_marginLeft="10dip"
-	        	android:layout_marginRight="10dip"
-	        	android:layout_width="match_parent"
-	        	android:layout_height="20dip"
-	        	android:progressDrawable="@drawable/progressbar" />
-	        
-	    </LinearLayout>
-	
-	    <TextView android:textAppearance="?android:attr/textAppearanceSmall"
-	        android:id="@+id/trans_status"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content">
-	    </TextView>
-	
-	</LinearLayout>
-
-	<ImageButton
-	    android:id="@+id/trans_retry"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_gravity="right|center_vertical"
-	    android:layout_weight="0"
-	    android:clickable="false"
-	    android:contentDescription="@string/trans_retry"
-	    android:focusable="false"
-	    android:src="@drawable/ic_menu_refresh" />
-
-	<ImageButton
-	    android:id="@+id/trans_abort"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_gravity="right|center_vertical"
-	    android:layout_weight="0"
-	    android:clickable="false"
-	    android:contentDescription="@string/trans_abort"
-	    android:focusable="false"
-	    android:src="@drawable/ic_menu_delete" />
-			
+    <ImageView 
+        android:id="@+id/projectIcon"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="10dip"
+        android:layout_marginLeft="10dip"
+        android:background="@drawable/shape_blue_border"
+        android:contentDescription="@drawable/shape_blue_border"
+        android:padding="1dp"
+        android:scaleType="fitCenter" />
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dip"
+        android:layout_marginTop="12dip"
+        android:orientation="vertical" >
+        
+        <RelativeLayout 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dip"
+            android:orientation="horizontal" >
+            
+            <LinearLayout 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+                
+                <TextView
+                    android:id="@+id/transHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+                
+                <TextView
+                    android:id="@+id/projectName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                    
+                    <TextView
+                        android:id="@+id/transStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/black" />
+                    
+                    <TextView
+                        android:id="@+id/transProgress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dip"
+                        android:ems="5"
+                        android:singleLine="true"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+                    
+                </LinearLayout>
+                
+            </LinearLayout>
+            
+            <ImageView
+                android:id="@+id/expandCollapse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/collapse"
+                android:contentDescription="@drawable/collapse" />
+            
+        </RelativeLayout>
+        
+        <include
+            android:id="@+id/expansion"
+            layout="@layout/trans_layout_listitem_expansion" />
+        
+    </LinearLayout>
 </LinearLayout>
-	
