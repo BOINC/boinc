@@ -1,0 +1,11 @@
+
+/**
+ * openWYSIWYG.
+ */
+table.tableTextareaEditor, table.tableTextareaEditor table {
+  margin: 0;
+  border-collapse: separate;
+}
+table.tableTextareaEditor td {
+  padding: 0;
+}
