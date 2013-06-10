@@ -780,9 +780,9 @@ public class RpcClient {
 			mRequest.append("<lookup_account>\n <url>");
 			mRequest.append(accountIn.url);
 			mRequest.append("</url>\n <email_addr>");
-			mRequest.append(id);
+			mRequest.append(id.toLowerCase());
 			mRequest.append("</email_addr>\n <passwd_hash>");
-			mRequest.append(getPasswdHash(accountIn.passwd, id));
+			mRequest.append(getPasswdHash(accountIn.passwd, id.toLowerCase()));
 			mRequest.append("</passwd_hash>\n</lookup_account>\n");
 			sendRequest(mRequest.toString());
 			
