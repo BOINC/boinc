@@ -34,6 +34,7 @@
 #include "error_numbers.h"
 #include "filesys.h"
 #include "parse.h"
+#include "str_replace.h"
 #include "str_util.h"
 
 #include "client_state.h"
@@ -172,6 +173,11 @@ void CONFIG::show() {
     }
     if (fetch_minimal_work) {
         msg_printf(NULL, MSG_INFO, "Config: fetch minimal work");
+    }
+    if (max_event_log_lines != DEFAULT_MAX_EVENT_LOG_LINES) {
+        msg_printf(NULL, MSG_INFO,
+            "Config: event log limit %d lines", max_event_log_lines
+        );
     }
     if (fetch_on_update) {
         msg_printf(NULL, MSG_INFO, "Config: fetch on update");

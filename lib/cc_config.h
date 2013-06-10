@@ -30,6 +30,8 @@
 #include "proxy_info.h"
 #include "coproc.h"
 
+#define DEFAULT_MAX_EVENT_LOG_LINES 2000
+
 struct XML_PARSER;
 
 #define MAX_FILE_XFERS_PER_PROJECT      2

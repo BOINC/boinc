@@ -6,172 +6,207 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-09 09:39-0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-06-05 10:24-0700\n"
+"PO-Revision-Date: 2013-05-19 22:11+0200\n"
+"Last-Translator: Dimitar <mexicoman@abv.bg>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.1.6\n"
 
-#: acct_mgr.cpp:435 acct_mgr.cpp:444
+#: acct_mgr.cpp:448 acct_mgr.cpp:457
 msgid "Message from account manager"
-msgstr ""
+msgstr "Съобщение от акаунт мениджър"
 
-#: client_msgs.cpp:79
+#: client_msgs.cpp:85
 msgid "Message from server"
-msgstr ""
+msgstr "Съобщение от сървър"
 
 #: client_state.cpp:246
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr ""
+"Някои задачи се нуждаят от повече памет отколкото е позволена във вашите "
+"предпочитания.  Моля проверете предпочитанията си."
 
-#: client_state.cpp:482
+#: client_state.cpp:501
 msgid "Couldn't write state file; check directory permissions"
 msgstr ""
+"Не може да се запише файл за състоянието; проверете правата върху папката"
 
-#: cs_cmdline.cpp:291
+#: cs_cmdline.cpp:299
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
-msgstr ""
+msgstr "Променливата на средата HTTP_PROXY трябва да посочва HTTP прокси"
 
-#: cs_scheduler.cpp:546
+#: cs_scheduler.cpp:575
 #, c-format
 msgid ""
 "You used the wrong URL for this project.  When convenient, remove this "
 "project, then add %s"
 msgstr ""
+"Използвали сте грешен URL за този проект.  Когато е удобно премахнете този "
+"проект и тогава добавете %s"
 
-#: cs_statefile.cpp:810 ../sched/sched_types.cpp:252
+#: cs_statefile.cpp:829 ../sched/sched_types.cpp:259
 msgid "Syntax error in app_info.xml"
-msgstr ""
+msgstr "Синтактична грешка в app_info.xml"
 
-#: cs_statefile.cpp:850
+#: cs_statefile.cpp:869
 msgid "File referenced in app_info.xml does not exist: "
-msgstr ""
+msgstr "Файлът посочен в app_info.xml не съществува: "
 
-#: current_version.cpp:89
+#: current_version.cpp:90
 msgid "A new version of BOINC is available."
+msgstr "Налична е нова версия на BOINC."
+
+#: current_version.cpp:94
+msgid "Download"
 msgstr ""
 
-#: current_version.cpp:91
-msgid "Download it."
-msgstr ""
-
-#: log_flags.cpp:256 log_flags.cpp:427
+#: log_flags.cpp:259 log_flags.cpp:436
 msgid "Unexpected text in cc_config.xml"
-msgstr ""
+msgstr "Неочакван текст в cc_config.xml"
 
-#: log_flags.cpp:401 log_flags.cpp:453
+#: log_flags.cpp:410 log_flags.cpp:462
 msgid "Unrecognized tag in cc_config.xml"
-msgstr ""
+msgstr "Неразпознат таг в cc_config.xml"
 
-#: log_flags.cpp:418
+#: log_flags.cpp:427
 msgid "Missing start tag in cc_config.xml"
-msgstr ""
+msgstr "Липсва начален таг в cc_config.xml"
 
-#: log_flags.cpp:443
+#: log_flags.cpp:452
 msgid "Error in cc_config.xml options"
-msgstr ""
+msgstr "Грешка в настройките на cc_config.xml"
 
-#: log_flags.cpp:461
+#: log_flags.cpp:470
 msgid "Missing end tag in cc_config.xml"
-msgstr ""
+msgstr "Липсва завършващ таг в cc_config.xml"
 
-#: ../sched/handle_request.cpp:299
+#: ../sched/handle_request.cpp:307
 msgid "Invalid or missing account key.  To fix, remove and add this project."
 msgstr ""
+"Невалиден или липсващ ключ на акаунта.  За да поправите това, премахнете и "
+"добавете този проект."
 
-#: ../sched/handle_request.cpp:831
+#: ../sched/handle_request.cpp:849
 msgid "Invalid code signing key.  To fix, remove and add this project."
 msgstr ""
+"Невалиден ключ за присъединяване.  За да поправите това, премахнете и "
+"добавете този проект."
 
-#: ../sched/handle_request.cpp:841
+#: ../sched/handle_request.cpp:859
 msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
 msgstr ""
+"Проектът е сменил своя ключ за сигурност.  Моля премахнете и добавете този "
+"проект."
 
-#: ../sched/handle_request.cpp:925
+#: ../sched/handle_request.cpp:943
 msgid "This project doesn't support operating system"
-msgstr ""
+msgstr "Този проект не поддържа операционна система"
 
-#: ../sched/handle_request.cpp:951
+#: ../sched/handle_request.cpp:969
 msgid "This project doesn't support CPU type"
-msgstr ""
+msgstr "Този проект не поддържа CPU тип"
 
-#: ../sched/handle_request.cpp:975
+#: ../sched/handle_request.cpp:993
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
-msgstr ""
+msgstr "Вашият BOINC клиент е много стар.  Моля, инсталирайте текущата версия."
 
-#: ../sched/handle_request.cpp:1235
+#: ../sched/handle_request.cpp:1259
 msgid "This project doesn't support computers of type"
-msgstr ""
+msgstr "Този проект не поддържа компютри от тип"
 
-#: ../sched/sched_send.cpp:1365
+#: ../sched/sched_send.cpp:1092
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr ""
+"Обновете до последната версия на драйвера за да изпълнявате задачи с помощта "
+"на GPU-то на компютъра Ви"
 
-#: ../sched/sched_send.cpp:1372
+#: ../sched/sched_send.cpp:1099
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr ""
+"Обновете до последната версия на драйвера за да използвате всички GPU "
+"приложения на този проект"
 
-#: ../sched/sched_send.cpp:1391
+#: ../sched/sched_send.cpp:1118
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
 "the current version"
 msgstr ""
+"Нужна е по-нова версия на BOINC за да използвате вашето NVIDIA GPU; моля "
+"обновете до текущата версия"
 
-#: ../sched/sched_send.cpp:1404
-msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
-msgstr ""
+# 94%
+#: ../sched/sched_send.cpp:1146
+#, c-format
+#, c-format, fuzzy
+msgid "An %s GPU is required to run tasks for this project"
+msgstr "Необходим е ATI GPU за стартиране на задачи на този проект"
 
-#: ../sched/sched_send.cpp:1409
-msgid "An NVIDIA GPU is required to run tasks for this project"
-msgstr ""
-
-#: ../sched/sched_send.cpp:1415
-msgid "An ATI GPU is required to run tasks for this project"
-msgstr ""
-
-#: ../sched/sched_send.cpp:1523
+#: ../sched/sched_send.cpp:1262
 msgid "No tasks are available for the applications you have selected."
-msgstr ""
+msgstr "Няма налични задачи за приложенията които сте избрали."
 
-#: ../sched/sched_send.cpp:1549
+#: ../sched/sched_send.cpp:1288
 msgid "Your computer type is not supported by this project"
-msgstr ""
+msgstr "Типът на вашия компютър не се поддържа от този проект"
 
-#: ../sched/sched_send.cpp:1555
+#: ../sched/sched_send.cpp:1294
 msgid "Newer BOINC version required; please install current version"
 msgstr ""
+"Необходима е по-нова версия на BOINC; моля, инсталирайте текущата версия"
 
-#: ../sched/sched_send.cpp:1565
+#: ../sched/sched_send.cpp:1305
+#, c-format
 msgid ""
-"Tasks for NVIDIA GPU are available, but your preferences are set to not "
-"accept them"
+"Tasks for %s are available, but your preferences are set to not accept them"
 msgstr ""
 
-#: ../sched/sched_send.cpp:1571
-msgid ""
-"Tasks for ATI GPU are available, but your preferences are set to not accept "
-"them"
-msgstr ""
-
-#: ../sched/sched_send.cpp:1577
-msgid ""
-"Tasks for CPU are available, but your preferences are set to not accept them"
-msgstr ""
-
-#: ../sched/sched_types.cpp:247
+#: ../sched/sched_types.cpp:254
 msgid "Unknown app name in app_info.xml"
-msgstr ""
+msgstr "Неизвестно име на приложение в app_info.xml"
 
-#: ../sched/sched_version.cpp:230
+#: ../sched/sched_version.cpp:214
 msgid "Your app_info.xml file doesn't have a usable version of"
-msgstr ""
+msgstr "Вашият файл app_info.xml няма използваема версия на"
+
+#~ msgid "Download it."
+#~ msgstr "Изтеглете я."
+
+#~ msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
+#~ msgstr "Необходим е NVIDIA или ATI GPU за стартиране на задачи на този проект"
+
+#~ msgid "An NVIDIA GPU is required to run tasks for this project"
+#~ msgstr "Необходим е NVIDIA GPU за стартиране на задачи на този проект"
+
+#~ msgid "An ATI GPU is required to run tasks for this project"
+#~ msgstr "Необходим е ATI GPU за стартиране на задачи на този проект"
+
+#~ msgid ""
+#~ "Tasks for NVIDIA GPU are available, but your preferences are set to not "
+#~ "accept them"
+#~ msgstr ""
+#~ "Налични са задачи за NVIDIA GPU, но вашите предпочитания са зададени да не "
+#~ "ги получавате"
+
+#~ msgid ""
+#~ "Tasks for ATI GPU are available, but your preferences are set to not accept "
+#~ "them"
+#~ msgstr ""
+#~ "Достъпни са задачи за ATI GPU, но вашите предпочитания са зададени да не ги "
+#~ "получавате"
+
+#~ msgid ""
+#~ "Tasks for CPU are available, but your preferences are set to not accept them"
+#~ msgstr ""
+#~ "Достъпни са задачи за CPU, но вашите предпочитания са зададени да не ги "
+#~ "получавате"

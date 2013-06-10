@@ -26,13 +26,14 @@
 #include "config.h"
 #endif
 
-#include "diagnostics.h"
-#include "boinc_api.h"
 #include "app_ipc.h"
-#include "util.h"
-#include "str_util.h"
+#include "boinc_api.h"
+#include "diagnostics.h"
 #include "filesys.h"
 #include "graphics2.h"
+#include "str_replace.h"
+#include "str_util.h"
+#include "util.h"
 
 #define BOINC_WINDOW_CLASS_NAME     "BOINC_app"
 #define WM_SHUTDOWNGFX              WM_USER+1

@@ -31,7 +31,7 @@
 //      and do the rest in a separate "timer thread".
 //    Win
 //      the timer thread does everything
-//  Parallel apps.
+//  Multi-thread apps:
 //    Unix:
 //      fork
 //      original process runs timer loop:
@@ -100,6 +100,7 @@
 #include "parse.h"
 #include "proc_control.h"
 #include "shmem.h"
+#include "str_replace.h"
 #include "str_util.h"
 #include "util.h"
 
@@ -203,7 +204,6 @@ static bool have_new_upload_file;
 static std::vector<UPLOAD_FILE_STATUS> upload_file_status;
 
 static void graphics_cleanup();
-static int suspend_activities();
 static int resume_activities();
 static void boinc_exit(int);
 static void block_sigalrm();
@@ -293,6 +293,30 @@ static int setup_shared_mem() {
     return 0;
 }
 
+// a mutex for data structures shared between time and worker threads
+//
+#ifdef _WIN32
+static HANDLE mutex;
+static void init_mutex() {
+    mutex = CreateMutex(NULL, TRUE, NULL);
+}
+static inline void acquire_mutex() {
+    WaitForSingleObject(mutex, INFINITE);
+}
+static inline void release_mutex() {
+    ReleaseMutex(mutex);
+}
+#else
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+static void init_mutex() {}
+static inline void acquire_mutex() {
+    pthread_mutex_lock(&mutex);
+}
+static inline void release_mutex() {
+    pthread_mutex_unlock(&mutex);
+}
+#endif
+
 // Return CPU time of process.
 //
 double boinc_worker_thread_cpu_time() {
@@ -336,21 +360,21 @@ static bool update_app_progress(double cpu_t, double cp_cpu_t) {
         cpu_t, cp_cpu_t
     );
     if (want_network) {
-        strlcat(msg_buf, "<want_network>1</want_network>\n", MSG_CHANNEL_SIZE);
+        strlcat(msg_buf, "<want_network>1</want_network>\n", sizeof(msg_buf));
     }
     if (fraction_done >= 0) {
         double range = aid.fraction_done_end - aid.fraction_done_start;
         double fdone = aid.fraction_done_start + fraction_done*range;
         sprintf(buf, "<fraction_done>%e</fraction_done>\n", fdone);
-        strlcat(msg_buf, buf, MSG_CHANNEL_SIZE);
+        strlcat(msg_buf, buf, sizeof(msg_buf));
     }
     if (bytes_sent) {
         sprintf(buf, "<bytes_sent>%f</bytes_sent>\n", bytes_sent);
-        strcat(msg_buf, buf);
+        strlcat(msg_buf, buf, sizeof(msg_buf));
     }
     if (bytes_received) {
         sprintf(buf, "<bytes_received>%f</bytes_received>\n", bytes_received);
-        strcat(msg_buf, buf);
+        strlcat(msg_buf, buf, sizeof(msg_buf));
     }
     return app_client_shm->shm->app_status.send_msg(msg_buf);
 }
@@ -602,6 +626,8 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
         options.check_heartbeat = false;
     }
     heartbeat_giveup_count = interrupt_count + HEARTBEAT_GIVEUP_COUNT;
+
+    init_mutex();
 
     return 0;
 }
@@ -874,7 +900,9 @@ int boinc_wu_cpu_time(double& cpu_t) {
     return 0;
 }
 
-int suspend_activities() {
+// suspend this job
+//
+static int suspend_activities(bool called_from_worker) {
 #ifdef _WIN32
     static vector<int> pids;
     if (options.multi_thread) {
@@ -884,11 +912,21 @@ int suspend_activities() {
         SuspendThread(worker_thread_handle);
     }
 #else
-    // don't need to do anything in single-process case;
-    // suspension is done by signal handler in worker thread
-    //
     if (options.multi_process) {
         suspend_or_resume_descendants(false);
+    }
+    // if called from worker thread, sleep until suspension is over
+    // if called from time thread, don't need to do anything;
+    // suspension is done by signal handler in worker thread
+    //
+    if (called_from_worker) {
+        // mutex is locked in this case
+        while (boinc_status.suspended) {
+            release_mutex();
+            sleep(1);
+            acquire_mutex();
+        }
+        // return with mutex locked
     }
 #endif
     return 0;
@@ -971,6 +1009,7 @@ static bool suspend_request = false;
 static void handle_process_control_msg() {
     char buf[MSG_CHANNEL_SIZE];
     if (app_client_shm->shm->process_control_request.get_msg(buf)) {
+        acquire_mutex();
 #ifdef DEBUG_BOINC_API
         char log_buf[256]
         fprintf(stderr, "%s got process control msg %s\n",
@@ -985,7 +1024,7 @@ static void handle_process_control_msg() {
                 } else {
                     boinc_status.suspended = true;
                     suspend_request = false;
-                    suspend_activities();
+                    suspend_activities(false);
                 }
             } else {
                 boinc_status.suspended = true;
@@ -1031,23 +1070,7 @@ static void handle_process_control_msg() {
         if (match_tag(buf, "<network_available/>")) {
             have_network = 1;
         }
-    }
-
-    // if we got a suspend/quit/abort msg while in critical section,
-    // and we've left the critical section, suspend/quit/abort now
-    //
-    if (options.direct_process_action && !in_critical_section) {
-        if (boinc_status.quit_request) {
-            exit_from_timer_thread(0);
-        }
-        if (boinc_status.abort_request) {
-            exit_from_timer_thread(EXIT_ABORTED_BY_CLIENT);
-        }
-        if (suspend_request && !boinc_status.suspended) {
-            boinc_status.suspended = true;
-            suspend_activities();
-        }
-        suspend_request = false;
+        release_mutex();
     }
 }
 
@@ -1442,6 +1465,28 @@ void boinc_end_critical_section() {
     in_critical_section--;
     if (in_critical_section < 0) {
         in_critical_section = 0;        // just in case
+    }
+
+    if (in_critical_section) return;
+
+    // We're out of the critical section.
+    // See if we got suspend/quit/abort while in critical section,
+    // and handle them here.
+    //
+    if (boinc_status.quit_request) {
+        boinc_exit(0);
+    }
+    if (boinc_status.abort_request) {
+        boinc_exit(EXIT_ABORTED_BY_CLIENT);
+    }
+    if (options.direct_process_action) {
+        acquire_mutex();
+        if (suspend_request) {
+            suspend_request = false;
+            boinc_status.suspended = true;
+            suspend_activities(true);
+        }
+        release_mutex();
     }
 }
 

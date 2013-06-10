@@ -193,9 +193,9 @@ public class TransListAdapter extends ArrayAdapter<Transfer> implements OnItemCl
 	    viewTransfer.pbProgressBar.setIndeterminate(false);
 	    viewTransfer.pbProgressBar.setProgress(getProgress(position));
 		if(getItem(position).xfer_active) {
-			viewTransfer.pbProgressBar.setProgressDrawable(this.activity.getResources().getDrawable((R.drawable.progressbar_active)));
+			viewTransfer.pbProgressBar.setProgressDrawable(this.activity.getResources().getDrawable((R.drawable.progressbar)));
 		} else {
-			viewTransfer.pbProgressBar.setProgressDrawable(this.activity.getResources().getDrawable((R.drawable.progressbar_paused)));
+			viewTransfer.pbProgressBar.setProgressDrawable(this.activity.getResources().getDrawable((R.drawable.progressbar)));
 		}
 
 	    viewTransfer.tvStatus.setText(getStatus(position));

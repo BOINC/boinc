@@ -18,16 +18,20 @@
  ******************************************************************************/
 package edu.berkeley.boinc.adapter;
 
+import edu.berkeley.boinc.utils.*;
+
 import java.sql.Date;
 import java.util.ArrayList;
 
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.TasksActivity.TaskData;
+import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.utils.BOINCDefs;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,128 +45,182 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class TasksListAdapter extends ArrayAdapter<TaskData>{
-	
-	private final String TAG = "TasksListAdapter";
 	private ArrayList<TaskData> entries;
 	private Activity activity;
- 
+
 	public TasksListAdapter(Activity a, int textViewResourceId, ArrayList<TaskData> entries) {
 		super(a, textViewResourceId, entries);
 		this.entries = entries;
 		this.activity = a;
 	}
- 
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-    	
-		View v = convertView;
-		LayoutInflater vi = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		v = vi.inflate(R.layout.tasks_layout_listitem, null);
-		v.setOnClickListener(entries.get(position).taskClickListener);
 
-		ProgressBar pb = (ProgressBar) v.findViewById(R.id.progressBar);
+		View v = convertView;
+		if(v == null){
+			LayoutInflater vi = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			v = vi.inflate(R.layout.tasks_layout_listitem, null);
+			v.setOnClickListener(entries.get(position).taskClickListener);
+		}
+
+		TaskData listItem = entries.get(position);
+		
+		ProgressBar epb = (ProgressBar) v.findViewById(R.id.progressBar);
+		ProgressBar cpb = (ProgressBar) v.findViewById(R.id.collapsedProgressBar);
 		TextView header = (TextView) v.findViewById(R.id.taskHeader);
 		TextView status = (TextView) v.findViewById(R.id.taskStatus);
 		TextView time = (TextView) v.findViewById(R.id.taskTime);
-		TextView progress = (TextView) v.findViewById(R.id.taskProgress);
-        
-		TaskData listItem = entries.get(position);
-
-		pb.setIndeterminate(false);
-		pb.setProgressDrawable(this.activity.getResources().getDrawable((determineProgressBarLayout(listItem))));
+		TextView cpbPercentageText = (TextView) v.findViewById(R.id.taskProgressCollapsedActive);
+		TextView statusPercentage = (TextView) v.findViewById(R.id.taskStatusPercentage);
 		
-		//v.setTag(listItem.name);
+		// set up view elements that are independent of "active" and "expanded" state
+		ImageView ivIcon = (ImageView)v.findViewById(R.id.projectIcon);
+		Boolean iconLoaded = (Boolean)ivIcon.getTag();
+		if(iconLoaded == null || !iconLoaded) {
+			Bitmap icon = getIcon(position);
+			// if available set icon, if not boinc logo
+			if(icon == null) { 
+				ivIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.boinc));
+			} else {
+				ivIcon.setImageBitmap(icon);
+			}
+			ivIcon.setTag(true);
+		}
+		
 		String headerT = listItem.result.app.getName();
 		header.setText(headerT);
 		
-		Float fraction = Float.valueOf((float) 1.0); // default is 100 (e.g. abort show full red progress bar)
-		if(!listItem.result.active_task && listItem.result.ready_to_report) { //fraction not available
-			progress.setVisibility(View.GONE);
-			pb.setProgress(Math.round(fraction * pb.getMax()));
-		} else { // fraction available
-			fraction =  listItem.result.fraction_done;
-			pb.setProgress(Math.round(fraction * pb.getMax()));
-			progress.setVisibility(View.VISIBLE);
-			progress.setText(Math.round(fraction * 100) + "%");
+		// set project name
+		String tempProjectName = listItem.result.project_url;
+		if(listItem.result.project != null) {
+			tempProjectName = listItem.result.project.getName();
+			if(listItem.result.project_suspended_via_gui) {
+				tempProjectName = tempProjectName + " " + getContext().getString(R.string.tasks_header_project_paused);
+			}
 		}
+		((TextView) v.findViewById(R.id.projectName)).setText(tempProjectName);
+		// --- end of independent view elements
 		
-		String statusT = determineStatusText(listItem);
-		status.setText(statusT);
-		
-		int elapsedTime;
-		// show time depending whether task is active or not
-		if(listItem.result.active_task) elapsedTime = (int)listItem.result.elapsed_time; //is 0 when task finished
-		else elapsedTime = (int) listItem.result.final_elapsed_time;
-		time.setText(String.format("%02d:%02d:%02d", elapsedTime/3600, (elapsedTime/60)%60, elapsedTime%60));
+		RelativeLayout expansionWrapper = (RelativeLayout) v.findViewById(R.id.expansion);
+		LinearLayout statusTextWrapper = (LinearLayout) v.findViewById(R.id.statusTextWrapper);
+		RelativeLayout statusCollapsedActiveWrapper = (RelativeLayout) v.findViewById(R.id.statusCollapsedActiveWrapper);
+		if(!listItem.expanded) {
+			// view is collapsed
+			((ImageView)v.findViewById(R.id.expandCollapse)).setImageResource(R.drawable.collapse);
+			expansionWrapper.setVisibility(View.GONE);
 
-		RelativeLayout ll = (RelativeLayout) v.findViewById(R.id.expansion);
-		if (listItem.expanded) {
-			ll.setVisibility(View.VISIBLE);
-			// update resume/suspend state (button state)
+			
+			if(listItem.determineState() == BOINCDefs.PROCESS_EXECUTING) {
+				// task is active
+				statusTextWrapper.setVisibility(View.GONE);
+				statusCollapsedActiveWrapper.setVisibility(View.VISIBLE);
+				cpb.setIndeterminate(false);
+				cpb.setProgressDrawable(this.activity.getResources().getDrawable(R.drawable.progressbar));
+				determineProgress(listItem, cpbPercentageText, cpb);
+			} else {
+				// task is not active
+				statusTextWrapper.setVisibility(View.VISIBLE);
+				statusCollapsedActiveWrapper.setVisibility(View.GONE);
+				
+				String statusT = determineStatusText(listItem);
+				status.setText(statusT);
+				
+				determineProgress(listItem, statusPercentage, epb);
+			}
+		} else {
+			// view is expanded
+			((ImageView)v.findViewById(R.id.expandCollapse)).setImageResource(R.drawable.expand);
+			expansionWrapper.setVisibility(View.VISIBLE);
+			statusTextWrapper.setVisibility(View.VISIBLE);
+			statusCollapsedActiveWrapper.setVisibility(View.GONE);
+			
+			// status text
+			String statusT = determineStatusText(listItem);
+			status.setText(statusT);
+			
+			// progress bar
+			epb.setIndeterminate(false);
+			epb.setProgressDrawable(this.activity.getResources().getDrawable(R.drawable.progressbar));
+			determineProgress(listItem, statusPercentage, epb);
+			
+			// elapsed time
+			int elapsedTime;
+			// show time depending whether task is active or not
+			if(listItem.result.active_task) elapsedTime = (int)listItem.result.elapsed_time; //is 0 when task finished
+			else elapsedTime = (int) listItem.result.final_elapsed_time;
+			time.setText(String.format("%02d:%02d:%02d", elapsedTime/3600, (elapsedTime/60)%60, elapsedTime%60));
+			
 			// set deadline
 			String deadline = (String) DateFormat.format("E d MMM yyyy hh:mm:ss aa", new Date(listItem.result.report_deadline*1000));
-			((TextView) v.findViewById(R.id.deadline)).setText(getContext().getString(R.string.tasks_header_deadline) + " " + deadline);
-			// set project name
-			String tempProjectName = listItem.result.project_url;
-			if(listItem.result.project != null) {
-				tempProjectName = listItem.result.project.getName();
-				if(listItem.result.project_suspended_via_gui) {
-					tempProjectName = tempProjectName + " " + getContext().getString(R.string.tasks_header_project_paused);
-				}
-			}
-			((TextView) v.findViewById(R.id.projectName)).setText(getContext().getString(R.string.tasks_header_project_name) + " " + tempProjectName);
+			((TextView) v.findViewById(R.id.deadline)).setText(deadline);
 			// set application friendly name
 			if(listItem.result.app != null) {
-				((TextView) v.findViewById(R.id.taskName)).setText(getContext().getString(R.string.tasks_header_name) + " " + listItem.result.name);
+				((TextView) v.findViewById(R.id.taskName)).setText(listItem.result.name);
 			}
 			
+			// buttons
+			ImageView suspendResume = (ImageView) v.findViewById(R.id.suspendResumeTask);
+			ImageView abortButton = (ImageView) v.findViewById(R.id.abortTask);
 			if(listItem.determineState() == BOINCDefs.PROCESS_ABORTED) { //dont show buttons for aborted task
-				((LinearLayout)v.findViewById(R.id.requestPendingWrapper)).setVisibility(View.GONE);
-				((LinearLayout)v.findViewById(R.id.taskButtons)).setVisibility(View.GONE);
+				((RelativeLayout)v.findViewById(R.id.taskButtons)).setVisibility(View.INVISIBLE);
 			} else {
-				
-				ImageView suspendResume = (ImageView) v.findViewById(R.id.suspendResumeTask);
-				suspendResume.setOnClickListener(listItem.iconClickListener);
-
-				ImageView abortButton = (ImageView) v.findViewById(R.id.abortTask);
-				abortButton.setOnClickListener(listItem.iconClickListener);
-				abortButton.setTag(RpcClient.RESULT_ABORT); // tag on button specified operation triggered in iconClickListener
-			
 				if (listItem.nextState == -1) { // not waiting for new state
-					((LinearLayout)v.findViewById(R.id.requestPendingWrapper)).setVisibility(View.GONE);
-					((LinearLayout)v.findViewById(R.id.taskButtons)).setVisibility(View.VISIBLE);
+					suspendResume.setOnClickListener(listItem.iconClickListener);
+
+					abortButton.setOnClickListener(listItem.iconClickListener);
+					abortButton.setTag(RpcClient.RESULT_ABORT); // tag on button specified operation triggered in iconClickListener
+					abortButton.setVisibility(View.VISIBLE);
 					
+					((ProgressBar)v.findViewById(R.id.request_progressBar)).setVisibility(View.GONE);
+
 					// checking what suspendResume button should be shown
 					if(listItem.result.suspended_via_gui) { // show play
 						suspendResume.setVisibility(View.VISIBLE);
-						suspendResume.setImageResource(R.drawable.playw24);
+						suspendResume.setImageResource(R.drawable.resumetask);
 						suspendResume.setTag(RpcClient.RESULT_RESUME); // tag on button specified operation triggered in iconClickListener
-						
+
 					} else if (listItem.determineState() == BOINCDefs.PROCESS_EXECUTING){ // show pause
 						suspendResume.setVisibility(View.VISIBLE);
-						suspendResume.setImageResource(R.drawable.pausew24);
+						suspendResume.setImageResource(R.drawable.pausetask);
 						suspendResume.setTag(RpcClient.RESULT_SUSPEND); // tag on button specified operation triggered in iconClickListener
-						
+
 					} else { // show nothing
 						suspendResume.setVisibility(View.GONE);
 					}
 				} else {
-					((LinearLayout)v.findViewById(R.id.taskButtons)).setVisibility(View.GONE);
-					((LinearLayout)v.findViewById(R.id.requestPendingWrapper)).setVisibility(View.VISIBLE);
+					suspendResume.setVisibility(View.INVISIBLE);
+					abortButton.setVisibility(View.INVISIBLE);
+					((ProgressBar)v.findViewById(R.id.request_progressBar)).setVisibility(View.VISIBLE);
 				}
 			}
-		} else {
-			ll.setVisibility(View.GONE);
 		}
 
 		return v;
+	}
+	
+	private void determineProgress(TaskData data, TextView progress, ProgressBar pb) {
+		Float fraction = Float.valueOf((float) 1.0); // default is 100 (e.g. abort show full red progress bar)
+		if(!data.result.active_task && data.result.ready_to_report) { //fraction not available
+			progress.setVisibility(View.GONE);
+		} else { // fraction available
+			fraction =  data.result.fraction_done;
+			progress.setVisibility(View.VISIBLE);
+			progress.setText(Math.round(fraction * 100) + "%");
+		}
+		pb.setProgress(Math.round(fraction * pb.getMax()));
+	}
+
+	
+	private Bitmap getIcon(int position) {
+		return Monitor.getClientStatus().getProjectIcon(entries.get(position).result.project_url);
 	}
 
 	private String determineStatusText(TaskData tmp) {
 		
 		//read status
 		Integer status = tmp.determineState();
-		//Log.d(TAG,"determineStatusText for status: " + status);
+		//if(Logging.DEBUG) Log.d(Logging.TAG,"determineStatusText for status: " + status);
 		
 		// custom state
 		if(status == BOINCDefs.RESULT_SUSPENDED_VIA_GUI) return activity.getString(R.string.tasks_custom_suspended_via_gui);
@@ -183,7 +241,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 			case BOINCDefs.PROCESS_SUSPENDED:
 				return activity.getString(R.string.tasks_active_suspended);
 			default:
-				Log.w(TAG,"determineStatusText could not map: " + tmp.determineState());
+				if(Logging.WARNING) Log.w(Logging.TAG,"determineStatusText could not map: " + tmp.determineState());
 				return "";
 			}
 		} else { 
@@ -206,23 +264,9 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 			case BOINCDefs.RESULT_UPLOAD_FAILED:
 				return activity.getString(R.string.tasks_result_upload_failed);
 			default:
-				Log.w(TAG,"determineStatusText could not map: " + tmp.determineState());
+				if(Logging.WARNING) Log.w(Logging.TAG,"determineStatusText could not map: " + tmp.determineState());
 				return "";
 			}
-		}
-	}
-    
-	private Integer determineProgressBarLayout(TaskData tmp) {
-		switch(tmp.determineState()){
-		case BOINCDefs.PROCESS_EXECUTING:
-		case BOINCDefs.RESULT_READY_TO_REPORT:
-			return R.drawable.progressbar_active;
-		case BOINCDefs.RESULT_ABORTED:
-		case BOINCDefs.RESULT_UPLOAD_FAILED:
-		case BOINCDefs.RESULT_COMPUTE_ERROR:
-			return R.drawable.progressbar_error;
-		default:
-			return R.drawable.progressbar_paused;
 		}
 	}
 }

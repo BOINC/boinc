@@ -18,6 +18,8 @@
  ******************************************************************************/
 package edu.berkeley.boinc;
 
+import edu.berkeley.boinc.utils.*;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -52,8 +54,6 @@ import edu.berkeley.boinc.rpc.RpcClient;
 
 public class ProjectsActivity extends FragmentActivity {
 	
-	private final String TAG = "BOINC ProjectsActivity";
-	
 	private Monitor monitor;
 	private Boolean mIsBound = false;
 
@@ -78,7 +78,7 @@ public class ProjectsActivity extends FragmentActivity {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
 	        monitor = ((Monitor.LocalBinder)service).getService();
 		    mIsBound = true;
-		    Log.d(TAG,"service bound");
+		    if(Logging.VERBOSE) Log.v(Logging.TAG,"ProjectsActivity service bound");
 	    }
 		@Override
 	    public void onServiceDisconnected(ComponentName className) {
@@ -94,7 +94,7 @@ public class ProjectsActivity extends FragmentActivity {
 	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			//Log.d(TAG, "ClientStatusChange - onReceive()");
+			//if(Logging.DEBUG) Log.d(Logging.TAG, "ClientStatusChange - onReceive()");
 			populateLayout(false);
 		}
 	};
@@ -102,7 +102,7 @@ public class ProjectsActivity extends FragmentActivity {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-	    Log.d(TAG, "onCreate()");
+	    if(Logging.VERBOSE) Log.v(Logging.TAG, "ProjectsActivity onCreate()");
 
 	    super.onCreate(savedInstanceState);
 
@@ -113,7 +113,7 @@ public class ProjectsActivity extends FragmentActivity {
 	
 	@Override
 	public void onPause() {
-		Log.d(TAG, "onPause()");
+		if(Logging.DEBUG) Log.d(Logging.TAG, "ProjectsActivity onPause()");
 
 		unregisterReceiver(mClientStatusChangeRec);
 		super.onPause();
@@ -121,7 +121,7 @@ public class ProjectsActivity extends FragmentActivity {
 
 	@Override
 	public void onResume() {
-		Log.d(TAG, "onResume()");
+		if(Logging.DEBUG) Log.d(Logging.TAG, "ProjectsActivity onResume()");
 		super.onResume();
 		
 		populateLayout(true);
@@ -131,7 +131,7 @@ public class ProjectsActivity extends FragmentActivity {
 	
 	@Override
 	protected void onDestroy() {
-	    Log.d(TAG, "onDestroy()");
+	    if(Logging.VERBOSE) Log.v(Logging.TAG, "ProjectsActivity onDestroy()");
 
 	    if (mIsBound) {
 	    	getApplicationContext().unbindService(mConnection);
@@ -186,7 +186,7 @@ public class ProjectsActivity extends FragmentActivity {
 				}
 			}
 			if(index == null) { // result is new, add
-				Log.d(TAG,"new result found, id: " + rpcResult.master_url);
+				if(Logging.DEBUG) Log.d(Logging.TAG,"new result found, id: " + rpcResult.master_url);
 				data.add(new ProjectData(rpcResult));
 			} else { // result was present before, update its data
 				data.get(index).updateProjectData(rpcResult);
@@ -218,7 +218,7 @@ public class ProjectsActivity extends FragmentActivity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-	    Log.d(TAG, "onCreateOptionsMenu()");
+	    if(Logging.VERBOSE) Log.v(Logging.TAG, "ProjectsActivity onCreateOptionsMenu()");
 
 		// call BOINCActivity's onCreateOptionsMenu to combine both menus
 		getParent().onCreateOptionsMenu(menu);
@@ -231,7 +231,7 @@ public class ProjectsActivity extends FragmentActivity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    Log.d(TAG, "onOptionsItemSelected()");
+	    if(Logging.VERBOSE) Log.v(Logging.TAG, "ProjectsActivity onOptionsItemSelected()");
 
 	    switch (item.getItemId()) {
 			case R.id.projects_add:
@@ -284,7 +284,7 @@ public class ProjectsActivity extends FragmentActivity {
 				
 				// list adapter
 				list.setAdapter(new ProjectControlsListAdapter(activity,list,R.layout.projects_controls_listitem_layout,controls));
-				Log.d(TAG,"dialog list adapter entries: " + controls.size());
+				if(Logging.DEBUG) Log.d(Logging.TAG,"dialog list adapter entries: " + controls.size());
 				
 				// buttons
 				Button cancelButton = (Button) dialogControls.findViewById(R.id.cancel);
@@ -361,32 +361,30 @@ public class ProjectsActivity extends FragmentActivity {
 	
 	private final class ProjectOperationAsync extends AsyncTask<String,Void,Boolean> {
 
-		private final String TAG = "ProjectOperationAsync";
-
 		@Override
 		protected void onPreExecute() {
-			Log.d(TAG,"onPreExecute");
+			if(Logging.DEBUG) Log.d(Logging.TAG,"onPreExecute");
 			super.onPreExecute();
 		}
 
 		@Override
 		protected Boolean doInBackground(String... params) {
-			Log.d(TAG,"doInBackground");
+			if(Logging.DEBUG) Log.d(Logging.TAG,"doInBackground");
 			try{
 				String url = params[0];
 				Integer operation = Integer.parseInt(params[1]);
-				Log.d(TAG,"url: " + url + " operation: " + operation + " monitor bound: " + mIsBound);
+				if(Logging.DEBUG) Log.d(Logging.TAG,"url: " + url + " operation: " + operation + " monitor bound: " + mIsBound);
 	
 				if(mIsBound) return monitor.projectOperation(operation, url);
 				else return false;
-			} catch(Exception e) {Log.w(TAG,"error in do in background",e);}
+			} catch(Exception e) {if(Logging.WARNING) Log.w(Logging.TAG,"error in do in background",e);}
 			return false;
 		}
 
 		@Override
 		protected void onPostExecute(Boolean success) {
 			if(success) monitor.forceRefresh();
-			else Log.w(TAG,"failed.");
+			else if(Logging.WARNING) Log.w(Logging.TAG,"failed.");
 		}
 	}
 }

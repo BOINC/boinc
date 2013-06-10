@@ -19,6 +19,8 @@
 
 package edu.berkeley.boinc;
 
+import edu.berkeley.boinc.utils.*;
+
 import java.util.ArrayList;
 import edu.berkeley.boinc.adapter.AttachProjectListAdapter;
 import edu.berkeley.boinc.client.Monitor;
@@ -40,8 +42,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class AttachProjectListActivity extends Activity implements android.view.View.OnClickListener{
-	
-	private final String TAG = "BOINC AttachProjectListActivity"; 
 
 	private ListView lv;
 	private AttachProjectListAdapter listAdapter;
@@ -52,11 +52,11 @@ public class AttachProjectListActivity extends Activity implements android.view.
         super.onCreate(savedInstanceState);  
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
          
-        Log.d(TAG, "onCreate"); 
+        if(Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectListActivity onCreate"); 
         
 		//get supported projects
 		ArrayList<ProjectInfo> data = Monitor.getClientStatus().supportedProjects;
-		Log.d(TAG,"monitor.getAndroidProjectsList returned with " + data.size() + " elements");
+		if(Logging.DEBUG) Log.d(Logging.TAG,"monitor.getAndroidProjectsList returned with " + data.size() + " elements");
 		
 		// setup layout
         setContentView(R.layout.attach_project_list_layout);  
@@ -70,7 +70,7 @@ public class AttachProjectListActivity extends Activity implements android.view.
     
 	@Override
 	protected void onDestroy() {
-    	Log.d(TAG, "onDestroy");
+    	if(Logging.VERBOSE) Log.v(Logging.TAG, "AttachProjectListActivity onDestroy");
 	    super.onDestroy();
 	}
 	
@@ -86,7 +86,7 @@ public class AttachProjectListActivity extends Activity implements android.view.
 	
 	// get called by manual input list item
 	public void manualUrlItem(View view) {
-		//Log.d(TAG,"manualUrlItem");
+		//if(Logging.DEBUG) Log.d(Logging.TAG,"manualUrlItem");
 		//show dialog
 		showDialog(view.getId());
 	}
@@ -106,7 +106,7 @@ public class AttachProjectListActivity extends Activity implements android.view.
 	// gets called by dialog button
 	@Override
 	public void onClick(View v) {
-		//Log.d(TAG,"buttonUrlSubmit clicked");
+		//if(Logging.DEBUG) Log.d(Logging.TAG,"buttonUrlSubmit clicked");
 		try {
 			String url = ((EditText)manualUrlInputDialog.findViewById(R.id.Input)).getText().toString();
 
@@ -123,13 +123,13 @@ public class AttachProjectListActivity extends Activity implements android.view.
 				startAttachProjectLoginActivity(null, url);
 			}
 		} catch (Exception e) {
-			Log.w(TAG,"error parsing edit text",e);
+			if(Logging.WARNING) Log.w(Logging.TAG,"error parsing edit text",e);
 		}
 	}
 	
 	// gets called by project list item
 	public void onProjectClick(View view) {
-		//Log.d(TAG,"onProjectClick");
+		//if(Logging.DEBUG) Log.d(Logging.TAG,"onProjectClick");
 		if(!checkDeviceOnline()) {
 			showErrorToast(R.string.attachproject_list_no_internet);
 			return;
@@ -138,13 +138,13 @@ public class AttachProjectListActivity extends Activity implements android.view.
 			ProjectInfo project = (ProjectInfo) view.getTag();
 			startAttachProjectLoginActivity(project, null); 
 		} catch (Exception e) {
-			Log.w(TAG,"error parsing view tag",e);
+			if(Logging.WARNING) Log.w(Logging.TAG,"error parsing view tag",e);
 			showErrorToast(R.string.attachproject_list_manual_no_url);
 		}
 	}
 	
 	private void startAttachProjectLoginActivity(ProjectInfo project, String url) {
-		//Log.d(TAG,"startAttachProjectLoginActivity ");
+		//if(Logging.DEBUG) Log.d(Logging.TAG,"startAttachProjectLoginActivity ");
 		Intent intent = new Intent(this, AttachProjectLoginActivity.class);
 		intent.putExtra("projectInfo", project);
 		intent.putExtra("url", url);

@@ -23,14 +23,9 @@ import java.util.ArrayList;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-
-import edu.berkeley.boinc.debug.Logging;
-
-import android.util.Log;
 import android.util.Xml;
 
 public class ResultsParser extends BaseParser {
-	private static final String TAG = "ResultsParser";
 
 	private ArrayList<Result> mResults = new ArrayList<Result>();
 	private Result mResult = null;
@@ -53,8 +48,6 @@ public class ResultsParser extends BaseParser {
 			Xml.parse(rpcResult, parser);
 			return parser.getResults();
 		} catch (SAXException e) {
-			if (Logging.DEBUG) Log.d(TAG, "Malformed XML:\n" + rpcResult);
-			else if (Logging.INFO) Log.i(TAG, "Malformed XML");
 			return null;
 		}
 
@@ -64,12 +57,6 @@ public class ResultsParser extends BaseParser {
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 		super.startElement(uri, localName, qName, attributes);
 		if (localName.equalsIgnoreCase("result")) {
-			if (Logging.INFO) {
-				if (mResult != null) {
-					// previous <result> not closed - dropping it!
-					Log.i(TAG, "Dropping unfinished <result> data");
-				}
-			}
 			mResult = new Result();
 		}
 		else if (localName.equalsIgnoreCase("active_task")) {
@@ -225,7 +212,6 @@ public class ResultsParser extends BaseParser {
 				}
 			}
 		} catch (NumberFormatException e) {
-			if (Logging.INFO) Log.i(TAG, "Exception when decoding " + localName);
 		}
 		mElementStarted = false;
 	}

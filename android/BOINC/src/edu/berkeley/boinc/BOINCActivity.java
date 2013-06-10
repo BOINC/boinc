@@ -18,9 +18,11 @@
  ******************************************************************************/
 package edu.berkeley.boinc;
 
+import edu.berkeley.boinc.utils.*;
 import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.utils.BOINCDefs;
+import android.app.Dialog;
 import android.app.Service;
 import android.app.TabActivity;
 import android.content.BroadcastReceiver;
@@ -29,7 +31,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle; 
 import android.os.IBinder;
@@ -40,6 +44,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -49,13 +55,11 @@ import android.widget.TextView;
 
 public class BOINCActivity extends TabActivity {
 	
-	private final String TAG = "BOINCActivity"; 
-	
 	private Monitor monitor;
 	private Integer clientSetupStatus = ClientStatus.SETUP_STATUS_LAUNCHING;
 	private Boolean intialStart = true;
 	
-	private Boolean mIsBound;
+	private Boolean mIsBound = false;
 	
 	private TabHost tabHost;
 	
@@ -85,7 +89,7 @@ public class BOINCActivity extends TabActivity {
 	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context,Intent intent) {
-			//Log.d(TAG, "ClientStatusChange - onReceive()"); 
+			//if(Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity ClientStatusChange - onReceive()"); 
 
 			determineStatus();
 		}
@@ -94,7 +98,7 @@ public class BOINCActivity extends TabActivity {
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {  
-        Log.d(TAG, "onCreate(), dummy jni: " + getDummyString()); 
+        if(Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity onCreate(), dummy jni: " + getDummyString()); 
 
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
@@ -110,14 +114,14 @@ public class BOINCActivity extends TabActivity {
     
 	@Override
 	protected void onDestroy() {
-    	Log.d(TAG, "onDestroy()");
+    	if(Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity onDestroy()");
 	    doUnbindService();
 	    super.onDestroy();
 	}
 
 	@Override
 	protected void onResume() { // gets called by system every time activity comes to front. after onCreate upon first creation
-    	Log.d(TAG, "onResume()");
+    	if(Logging.VERBOSE) Log.v(Logging.TAG, "BOINCActivity onResume()");
 	    super.onResume();
 	    registerReceiver(mClientStatusChangeRec, ifcsc);
 	    layout();
@@ -125,7 +129,7 @@ public class BOINCActivity extends TabActivity {
 
 	@Override
 	protected void onPause() { // gets called by system every time activity loses focus.
-    	Log.d(TAG, "onPause()");
+    	if(Logging.VERBOSE) Log.v(Logging.TAG, "BOINCActivity onPause()");
 	    super.onPause();
 	    unregisterReceiver(mClientStatusChangeRec);
 	}
@@ -152,7 +156,7 @@ public class BOINCActivity extends TabActivity {
 			if(mIsBound) { 
 				newStatus = Monitor.getClientStatus().setupStatus;
 				if(newStatus != clientSetupStatus) { //only act, when status actually different form old status
-					Log.d(TAG,"determineStatus() client setup status changed! old clientSetupStatus: " + clientSetupStatus + " - new: " + newStatus);
+					if(Logging.DEBUG) Log.d(Logging.TAG,"determineStatus() client setup status changed! old clientSetupStatus: " + clientSetupStatus + " - new: " + newStatus);
 					clientSetupStatus = newStatus;
 					layout(); 
 				}
@@ -171,6 +175,7 @@ public class BOINCActivity extends TabActivity {
     	LinearLayout errorLayout = (LinearLayout) findViewById(R.id.main_error);
     	//TextView noProjectWarning = (TextView) findViewById(R.id.noproject_warning);
     	HorizontalScrollView noProjectWarning = (HorizontalScrollView) findViewById(R.id.noproject_warning_wrapper);
+    	TextView launchingHeader = (TextView) findViewById(R.id.loading_header);
     	switch (clientSetupStatus) {
     	case ClientStatus.SETUP_STATUS_AVAILABLE:
     		noProjectWarning.setVisibility(View.GONE);
@@ -187,7 +192,6 @@ public class BOINCActivity extends TabActivity {
     		tabLayout.setVisibility(View.GONE); 
         	errorLayout.setVisibility(View.GONE);
         	loadingLayout.setVisibility(View.VISIBLE);
-        	TextView launchingHeader = (TextView) findViewById(R.id.loading_header);
         	launchingHeader.setText(R.string.status_launching);
     		break;
     	case ClientStatus.SETUP_STATUS_NOPROJECT:
@@ -200,14 +204,13 @@ public class BOINCActivity extends TabActivity {
     		tabLayout.setVisibility(View.GONE); 
         	errorLayout.setVisibility(View.GONE);
         	loadingLayout.setVisibility(View.VISIBLE);
-        	TextView quittingHeader = (TextView) findViewById(R.id.loading_header);
-        	quittingHeader.setText(R.string.status_closing);
+        	launchingHeader.setText(R.string.status_closing);
     		break;
     	case ClientStatus.SETUP_STATUS_CLOSED:
     		finish(); // close application
     		break;
     	default:
-    		Log.w(TAG, "could not layout status: " + clientSetupStatus);
+    		if(Logging.WARNING) Log.w(Logging.TAG, "could not layout status: " + clientSetupStatus);
     		break;
     	}
     	
@@ -233,10 +236,8 @@ public class BOINCActivity extends TabActivity {
     		setupTab(new TextView(this), getResources().getString(R.string.tab_transfers), R.drawable.icon_trans_tab, TransActivity.class);
     	if(res.getBoolean(R.bool.tab_preferences))
     		setupTab(new TextView(this), getResources().getString(R.string.tab_preferences), R.drawable.icon_prefs_tab, PrefsActivity.class);
-    	if(res.getBoolean(R.bool.tab_eventlog))
-    		setupTab(new TextView(this), getResources().getString(R.string.tab_eventlog), R.drawable.icon_msgs_tab, EventLogActivity.class);
 
-        //Log.d(TAG, "tab layout setup done");
+        if(Logging.VERBOSE) Log.v(Logging.TAG, "BOINCActivity tab layout setup done");
     }
     
     private void setupTab(final View view, final String tag, int icon, Class<?> target) {
@@ -264,7 +265,7 @@ public class BOINCActivity extends TabActivity {
 
 	// triggered by click on noproject_warning, starts login activity
 	public void noProjectClicked(View view) {
-		Log.d(TAG, "noProjectClicked()");
+		if(Logging.DEBUG) Log.d(Logging.TAG, "noProjectClicked()");
 		startActivity(new Intent(this, AttachProjectListActivity.class));
 	}
     
@@ -273,18 +274,13 @@ public class BOINCActivity extends TabActivity {
 	//has to be public in order to get triggered by layout component
 	public void reinitClient(View view) {
 		if(!mIsBound) return;
-		Log.d(TAG, "reinitClient()");
+		if(Logging.DEBUG) Log.d(Logging.TAG, "reinitClient()");
 		monitor.restartMonitor(); //start over with setup of client
-	}
-	
-	public void finish() {
-		Log.d(TAG, "finishing application, good bye!");
-		super.finish();
 	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-	    Log.d(TAG, "onCreateOptionsMenu()");
+	    if(Logging.VERBOSE) Log.v(Logging.TAG, "BOINCActivity onCreateOptionsMenu()");
 
 	    MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main_menu, menu);
@@ -294,39 +290,69 @@ public class BOINCActivity extends TabActivity {
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		//customize run mode menu, according to current status
-		MenuItem item = menu.findItem(R.id.run_mode);
-		
+		// run mode, set title and icon based on status
+		MenuItem runMode = menu.findItem(R.id.run_mode);
 		if(Monitor.getClientStatus().computingStatus == ClientStatus.COMPUTING_STATUS_NEVER) {
 			// display play button
-			item.setTitle(R.string.menu_run_mode_enable);
-			item.setIcon(R.drawable.playw);
+			runMode.setTitle(R.string.menu_run_mode_enable);
+			runMode.setIcon(R.drawable.playw);
 		} else {
 			// display stop button
-			item.setTitle(R.string.menu_run_mode_disable);
-			item.setIcon(R.drawable.stopw);
+			runMode.setTitle(R.string.menu_run_mode_disable);
+			runMode.setIcon(R.drawable.pausew);
 		}
+		
+		// event log, show only in advanced mode
+		MenuItem eventLog = menu.findItem(R.id.event_log);
+		if(Monitor.getAppPrefs().getShowAdvanced()) eventLog.setVisible(true);
+		else eventLog.setVisible(false);
 		
 		return super.onPrepareOptionsMenu(menu);
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    Log.d(TAG, "onOptionsItemSelected()");
+	    if(Logging.VERBOSE) Log.v(Logging.TAG, "BOINCActivity onOptionsItemSelected()");
 
 	    switch (item.getItemId()) {
+	    	case R.id.help:
+	    		Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("http://boinc.berkeley.edu/wiki/BOINC_Help"));
+	    		startActivity(i);
+	    		return true;
+	    	case R.id.about:
+				final Dialog dialog = new Dialog(this);
+				dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+				dialog.setContentView(R.layout.dialog_about);
+				Button returnB = (Button) dialog.findViewById(R.id.returnB);
+				TextView tvVersion = (TextView)dialog.findViewById(R.id.version);
+				try {
+					tvVersion.setText(getString(R.string.about_version) + " "
+							+ getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+				} catch (NameNotFoundException e) {if(Logging.WARNING) Log.w(Logging.TAG, "version name not found.");}
+				
+				returnB.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						dialog.dismiss();
+					}
+				});
+				dialog.show();
+	    		return true;
 			case R.id.exit_boinc:
-				Log.d(TAG,"exit BOINC");
+				if(Logging.DEBUG) Log.d(Logging.TAG,"exit BOINC");
 				new QuitClientAsync().execute();
 				return true;
 			case R.id.run_mode:
 				if(item.getTitle().equals(getApplication().getString(R.string.menu_run_mode_disable))) {
-					Log.d(TAG,"run mode: disable");
+					if(Logging.DEBUG) Log.d(Logging.TAG,"run mode: disable");
 					new WriteClientRunModeAsync().execute(BOINCDefs.RUN_MODE_NEVER);
 				} else if (item.getTitle().equals(getApplication().getString(R.string.menu_run_mode_enable))) {
-					Log.d(TAG,"run mode: enable");
+					if(Logging.DEBUG) Log.d(Logging.TAG,"run mode: enable");
 					new WriteClientRunModeAsync().execute(BOINCDefs.RUN_MODE_AUTO);
-				} else Log.d(TAG,"run mode: unrecognized command");
+				} else if(Logging.DEBUG) Log.d(Logging.TAG,"run mode: unrecognized command");
+				return true;
+			case R.id.event_log:
+				startActivity(new Intent(this,EventLogActivity.class));
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -345,8 +371,6 @@ public class BOINCActivity extends TabActivity {
 	}
 	
 	private final class WriteClientRunModeAsync extends AsyncTask<Integer, Void, Boolean> {
-
-		private final String TAG = "WriteClientRunModeAsync";
 		
 		@Override
 		protected Boolean doInBackground(Integer... params) {
@@ -356,7 +380,7 @@ public class BOINCActivity extends TabActivity {
 		@Override
 		protected void onPostExecute(Boolean success) {
 			if(success) monitor.forceRefresh();
-			else Log.w(TAG,"setting run mode failed");
+			else if(Logging.WARNING) Log.w(Logging.TAG,"setting run mode failed");
 		}
 	}
 }

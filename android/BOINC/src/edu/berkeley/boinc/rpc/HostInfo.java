@@ -34,6 +34,7 @@ public class HostInfo {
 	public double p_fpops;
 	public double p_iops;
 	public double p_membw;
+	public String product_name;
 	/** When benchmarks were last run, or zero */
 	public long   p_calculated;
 	/** Total amount of memory in bytes */

@@ -20,13 +20,9 @@ package edu.berkeley.boinc.rpc;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-
-import edu.berkeley.boinc.debug.Logging;
-import android.util.Log;
 import android.util.Xml;
 
 public class ProjectAttachReplyParser extends BaseParser {
-	private static final String TAG = "ProjectAttachReplyParser";
 
 	private ProjectAttachReply mPAR;
 	
@@ -40,8 +36,6 @@ public class ProjectAttachReplyParser extends BaseParser {
 			Xml.parse(rpcResult, parser);
 			return parser.getProjectAttachReply();
 		} catch (SAXException e) {
-			if (Logging.DEBUG) Log.d(TAG, "Malformed XML:\n" + rpcResult);
-			else if (Logging.INFO) Log.i(TAG, "Malformed XML");
 			return null;
 		}
 	}
@@ -50,12 +44,6 @@ public class ProjectAttachReplyParser extends BaseParser {
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 		super.startElement(uri, localName, qName, attributes);
 		if (localName.equalsIgnoreCase("project_attach_reply")) {
-			if (Logging.INFO) { 
-				if (mPAR != null) {
-					// previous <project_attach_reply> not closed - dropping it!
-					Log.i(TAG, "Dropping unfinished <project_attach_reply> data");
-				}
-			}
 			mPAR = new ProjectAttachReply();
 		}
 		else {
@@ -86,7 +74,6 @@ public class ProjectAttachReplyParser extends BaseParser {
 				}
 			}
 		} catch (NumberFormatException e) {
-			if (Logging.INFO) Log.i(TAG, "Exception when decoding " + localName);
 		}
 		mElementStarted = false;
 	}

@@ -1261,7 +1261,7 @@ void get_app_params() {
             // if missing app params, fill in defaults
             //
             if (!app->fpops_est) {
-                app->fpops_est = 3600e9;
+                app->fpops_est = 3600e11;
             }
             if (!app->latency_bound) {
                 app->latency_bound = 864000;

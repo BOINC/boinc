@@ -18,24 +18,31 @@
  ******************************************************************************/
 package edu.berkeley.boinc.rpc;
 
+import edu.berkeley.boinc.utils.*;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.BatteryManager;
 import android.util.Log;
 
 public class DeviceStatus{
 	
-	private final String TAG = "Rpc.DeviceState";
+	// current data in structure valid?
+	// is only true if "update()" finished, i.e. did not fire exception
+	// if false, getter methods return negative values and cause client
+	// to suspend computation and network
+	public boolean valid = false;
 	
 	// variables describing device status
-	private boolean on_ac_power;
-	private boolean on_usb_power; //not used
-	private int battery_charge_pct;
-	private int battery_state; //not used
-	private int battery_temperature_celcius;
-	private boolean wifi_online;
+	private boolean on_ac_power = false;
+	private boolean on_usb_power = false;
+	private int battery_charge_pct = 0;
+	private int battery_state = -1; //not used
+	private int battery_temperature_celcius = 100;
+	private boolean wifi_online = false;
 
 	// android specifics
 	private Context ctx;// context required for reading device status
@@ -53,8 +60,11 @@ public class DeviceStatus{
 	// returns true if data model has actually changed
 	// returns false if device status is unchanged -> avoid RPC call
 	public Boolean update() throws Exception {
+		// invalid data
+		valid = false;
+		
 		if(ctx == null) {
-			Log.w(TAG,"context not set");
+			if(Logging.WARNING) Log.w(Logging.TAG,"context not set");
 			return false;
 		}
 		
@@ -67,8 +77,9 @@ public class DeviceStatus{
 			// calculate charging level
 			int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
 			int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+			if(level == -1 || scale == -1) throw new Exception("battery level parsing error");
 			int batteryPct = (int) ((level / (float) scale) * 100); // always rounds down
-			if(batteryPct <= 1 || batteryPct > 100) throw new Exception("battery level parsing error");
+			if(batteryPct < 1 || batteryPct > 100) throw new Exception("battery level parsing error");
 			if(batteryPct != battery_charge_pct) {
 				battery_charge_pct = batteryPct;
 				change = true;
@@ -83,55 +94,74 @@ public class DeviceStatus{
 			}
 			
 			// plugged in
-			int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-			if(status != BatteryManager.BATTERY_STATUS_DISCHARGING){
-				// power supply online. not equivalent to BATTERY_STATUS_CHARGING which is not the case when full and plugged in
-				if(!on_ac_power) change = true; // if different from before, set flag
-				on_ac_power = true;
-			} else {
-				//power supply offline
-				if(on_ac_power) change = true; // if different from before, set flag
-				on_ac_power = false;
+			int plugged = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
+			switch (plugged) {
+				case BatteryManager.BATTERY_PLUGGED_AC:
+					if(!on_ac_power) change = true; // if different from before, set flag
+					on_ac_power = true;
+					break;
+				case BatteryManager.BATTERY_PLUGGED_USB:
+					if(!on_usb_power) change = true; // if different from before, set flag
+					on_usb_power = true;
+					break;
+				default: 
+					if(on_usb_power || on_ac_power) change = true;
+					on_usb_power = false;
+					on_ac_power = false;
+					break;
 			}
-		}
+		} else throw new Exception ("battery intent null");
 		
 		// check wifi status
-		if(connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnected()){
-			//wifi is online
-			if(!wifi_online) change = true; // if different from before, set flag
-			wifi_online = true;
-		} else {
+		//if(connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isAvailable()){
+		NetworkInfo activeNetwork = connManager.getActiveNetworkInfo();
+		if(activeNetwork == null || activeNetwork.getType() != ConnectivityManager.TYPE_WIFI) {
 			//wifi offline
 			if(wifi_online) change = true; // if different from before, set flag
 			wifi_online = false;
+		} else {
+			//wifi is online
+			if(!wifi_online) change = true; // if different from before, set flag
+			wifi_online = true;
 		}
 		
-		Log.d(TAG, "change: " + change + " - power supply: " + on_ac_power + " ; level: " + battery_charge_pct + " ; temperature: " + battery_temperature_celcius + " ; wifi: " + wifi_online);
+		if(change) if(Logging.DEBUG) Log.d(Logging.TAG, "change: " + change + " - ac: " + on_ac_power + " ; usb: " + on_usb_power + " ; level: " + battery_charge_pct + " ; temperature: " + battery_temperature_celcius + " ; wifi: " + wifi_online);
+		if(Logging.VERBOSE) Log.v(Logging.TAG, "change: " + change + " - ac: " + on_ac_power + " ; usb: " + on_usb_power + " ; level: " + battery_charge_pct + " ; temperature: " + battery_temperature_celcius + " ; wifi: " + wifi_online);
+		
+		valid = true; // end reached without exception
 		return change;
 	}
 	
 	// getter
+	// if data not valid, i.e. has not finished update routine
+	// getter shall return values that cause client so suspend
 	public boolean isOn_ac_power() {
+		if(!valid) return false;
 		return on_ac_power;
 	}
 
 	public boolean isOn_usb_power() {
+		if(!valid) return false;
 		return on_usb_power;
 	}
 
 	public int getBattery_charge_pct() {
+		if(!valid) return 0;
 		return battery_charge_pct;
 	}
 
 	public int getBattery_state() {
+		if(!valid) return -1;
 		return battery_state;
 	}
 
 	public int getBattery_temperature_celcius() {
+		if(!valid) return 100;
 		return battery_temperature_celcius;
 	}
 
 	public boolean isWifi_online() {
+		if(!valid) return false;
 		return wifi_online;
 	}
 }

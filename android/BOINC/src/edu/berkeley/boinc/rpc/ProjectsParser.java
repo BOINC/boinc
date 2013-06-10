@@ -23,15 +23,10 @@ import java.util.ArrayList;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-
-import edu.berkeley.boinc.debug.Logging;
-
-import android.util.Log;
 import android.util.Xml;
 
 
 public class ProjectsParser extends BaseParser {
-	private static final String TAG = "ProjectsParser";
 
 	private ArrayList<Project> mProjects = new ArrayList<Project>();
 	private Project mProject = null;
@@ -54,8 +49,6 @@ public class ProjectsParser extends BaseParser {
 			return parser.getProjects();
 		}
 		catch (SAXException e) {
-			if (Logging.DEBUG) Log.d(TAG, "Malformed XML:\n" + rpcResult);
-			else if (Logging.INFO) Log.i(TAG, "Malformed XML");
 			return null;
 		}
 	}
@@ -64,21 +57,9 @@ public class ProjectsParser extends BaseParser {
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 		super.startElement(uri, localName, qName, attributes);
 		if (localName.equalsIgnoreCase("project")) {
-			if (Logging.INFO) {
-				if (mProject != null) {
-					// previous <project> not closed - dropping it!
-					Log.i(TAG, "Dropping unfinished <project> data");
-				}
-			}
 			mProject = new Project();
 		}
 		else if (localName.equalsIgnoreCase("gui_url")) {
-			if (Logging.INFO) {
-				if (mGuiUrl != null) {
-					// previous <gui_url> not closed - dropping it!
-					Log.i(TAG, "Dropping unfinished <gui_url> data");
-				}
-			}
 			mGuiUrl = new GuiUrl();
 		}
 		else {
@@ -278,7 +259,6 @@ public class ProjectsParser extends BaseParser {
 			}
 		}
 		catch (NumberFormatException e) {
-			if (Logging.INFO) Log.i(TAG, "Exception when decoding " + localName);
 		}
 		mElementStarted = false;
 	}

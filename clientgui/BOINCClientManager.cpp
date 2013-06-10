@@ -20,8 +20,12 @@
 #endif
 
 #include "stdwx.h"
+
 #include "diagnostics.h"
 #include "miofile.h"
+#include "str_replace.h"
+#include "util.h"
+
 #include "LogBOINC.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
@@ -33,7 +37,6 @@
 #include "procinfo.h"
 #include "filesys.h"
 #include "daemonmgt.h"
-#include "util.h"
 #include "Events.h"
 #include "version.h"
 

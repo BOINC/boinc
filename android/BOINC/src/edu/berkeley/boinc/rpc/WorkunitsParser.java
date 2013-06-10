@@ -23,14 +23,9 @@ import java.util.ArrayList;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-
-import edu.berkeley.boinc.debug.Logging;
-
-import android.util.Log;
 import android.util.Xml;
 
 public class WorkunitsParser extends BaseParser {
-	private static final String TAG = "WorkunitsParser";
 
 	private ArrayList<Workunit> mWorkunits = new ArrayList<Workunit>();
 	private Workunit mWorkunit = null;
@@ -52,8 +47,6 @@ public class WorkunitsParser extends BaseParser {
 			return parser.getWorkunits();
 		}
 		catch (SAXException e) {
-			if (Logging.DEBUG) Log.d(TAG, "Malformed XML:\n" + rpcResult);
-			else if (Logging.INFO) Log.i(TAG, "Malformed XML");
 			return null;
 		}
 	}
@@ -119,7 +112,6 @@ public class WorkunitsParser extends BaseParser {
 			}
 		}
 		catch (NumberFormatException e) {
-			if (Logging.INFO) Log.i(TAG, "Exception when decoding " + localName);
 		}
 		mElementStarted = false;
 	}

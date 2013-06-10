@@ -1,5 +1,7 @@
 package edu.berkeley.boinc.client;
 
+import edu.berkeley.boinc.utils.*;
+
 import edu.berkeley.boinc.rpc.AccountOut;
 import edu.berkeley.boinc.rpc.RpcClient;
 import android.app.Service;
@@ -14,20 +16,18 @@ import android.util.Log;
 
 public class ClientRemoteService extends Service {
 
-	private final String TAG = "BOINC Client Remote Service";
-
 	private Monitor monitor;
 	private Boolean mIsMonitorBound = false;
 
 	@Override
 	public void onCreate() {
-		Log.d(TAG, "onCreate()");
+		if(Logging.DEBUG) Log.d(Logging.TAG, "ClientRemoteService onCreate()");
 		doBindService();
 	}
 	
 	@Override
     public void onDestroy() {
-    	Log.d(TAG, "onDestroy()");
+    	if(Logging.DEBUG) Log.d(Logging.TAG, "ClientRemoteService onDestroy()");
         doUnbindService();
     }
 	
@@ -49,7 +49,7 @@ public class ClientRemoteService extends Service {
 			try {
 				version = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
 		    } catch (NameNotFoundException e) {
-		        Log.e(TAG, "could not retrieve own version code!", e);
+		        if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(Logging.TAG, "ClientRemoteService could not retrieve own version code!", e);
 		    }
 			return version;
 		}
@@ -59,21 +59,21 @@ public class ClientRemoteService extends Service {
 			// TODO store packageName in AppPreferences
 			if(mIsMonitorBound) {
 				return monitor.attachProject(url, id, pwd);
-			} else {Log.e(TAG, "could not attach project, service not bound!"); return false;}
+			} else {if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(Logging.TAG, "ClientRemoteService could not attach project, service not bound!"); return false;}
 		}
 
 		@Override
 		public boolean checkProjectAttached(String url) throws RemoteException {
 			if(mIsMonitorBound) {
 				return monitor.checkProjectAttached(url);
-			} else {Log.e(TAG, "could not attach project, service not bound!"); return false;}
+			} else {if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(Logging.TAG, "ClientRemoteService could not attach project, service not bound!"); return false;}
 		}
 
 		@Override
 		public AccountOut verifyCredentials(String url, String id, String pwd, boolean usesName) throws RemoteException {
 			if(mIsMonitorBound) {
 				return monitor.lookupCredentials(url, id, pwd, usesName);
-			} else {Log.e(TAG, "could not verify credentials, service not bound!"); return null;}
+			} else {if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(Logging.TAG, "ClientRemoteService could not verify credentials, service not bound!"); return null;}
 		}
 
 		@Override
@@ -81,21 +81,21 @@ public class ClientRemoteService extends Service {
 			// TODO remove packageName in AppPreferences
 			if(mIsMonitorBound) {
 				return monitor.projectOperation(RpcClient.PROJECT_DETACH,url);
-			} else {Log.e(TAG, "could not detach project, service not bound!"); return false;}
+			} else {if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(Logging.TAG, "ClientRemoteService could not detach project, service not bound!"); return false;}
 		}
 
 		@Override
 		public AccountOut createAccount(String url, String email, String userName, String pwd, String teamName) throws RemoteException {
 			if(mIsMonitorBound) {
 				return monitor.createAccount(url, email, userName, pwd, teamName);
-			} else {Log.e(TAG, "could not create account, service not bound!"); return null;}
+			} else {if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(Logging.TAG, "ClientRemoteService could not create account, service not bound!"); return null;}
 		}
 
 		@Override
 		public String getRpcAuthToken() throws RemoteException {
 			if(mIsMonitorBound) {
 				return monitor.readAuthToken();
-			} else {Log.e(TAG, "could not read auth token, service not bound!"); return null;}
+			} else {if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(Logging.TAG, "ClientRemoteService could not read auth token, service not bound!"); return null;}
 		}
     };
 	
@@ -105,13 +105,13 @@ public class ClientRemoteService extends Service {
 	 */
 	private ServiceConnection mConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
-	    	Log.d(TAG, "onServiceConnected - local Monitor service bound.");
+	    	if(Logging.DEBUG) Log.d(Logging.TAG, "ClientRemoteService onServiceConnected - local Monitor service bound.");
 	        monitor = ((Monitor.LocalBinder)service).getService();
 	        mIsMonitorBound = true;
 	    }
 
 	    public void onServiceDisconnected(ComponentName className) {
-	    	Log.d(TAG, "onServiceDisconnected - local Monitor service bound.");
+	    	if(Logging.DEBUG) Log.d(Logging.TAG, "ClientRemoteService onServiceDisconnected - local Monitor service bound.");
 	        monitor = null;
 	        mIsMonitorBound = false;
 	    }
@@ -119,7 +119,7 @@ public class ClientRemoteService extends Service {
 
 	private void doBindService() {
 		if(!mIsMonitorBound) {
-			Log.d(TAG, "binding local Monitor service...");
+			if(Logging.DEBUG) Log.d(Logging.TAG, "ClientRemoteService binding local Monitor service...");
 			getApplicationContext().bindService(new Intent(this, Monitor.class), mConnection, Context.BIND_AUTO_CREATE);
 		}
 	}

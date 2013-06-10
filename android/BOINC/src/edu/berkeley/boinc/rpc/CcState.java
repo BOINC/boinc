@@ -21,8 +21,6 @@ package edu.berkeley.boinc.rpc;
 
 import java.util.ArrayList;
 
-import android.util.Log;
-
 public class CcState{
 	public VersionInfo version_info;
 	public HostInfo host_info;
@@ -67,7 +65,7 @@ public class CcState{
 	public Workunit lookup_wu(Project project, String wu_name) {
 		for(int i = 0; i < workunits.size(); i++) {
 			if(!workunits.get(i).project.compare(project)) {
-				//Log.d("Workunit", "Projects Do not compare");
+				//if(Logging.DEBUG) Log.d("Workunit", "Projects Do not compare");
 				continue;
 			}
 			if(workunits.get(i).name.equalsIgnoreCase(wu_name)) {

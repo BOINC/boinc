@@ -23,15 +23,10 @@ import java.util.ArrayList;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-
-import edu.berkeley.boinc.debug.Logging;
-
-import android.util.Log;
 import android.util.Xml;
 
 
 public class TransfersParser extends BaseParser {
-	private static final String TAG = "TransfersParser";
 
 	private ArrayList<Transfer> mTransfers = new ArrayList<Transfer>();
 	private Transfer mTransfer = null;
@@ -53,8 +48,6 @@ public class TransfersParser extends BaseParser {
 			return parser.getTransfers();
 		}
 		catch (SAXException e) {
-			if (Logging.DEBUG) Log.d(TAG, "Malformed XML:\n" + rpcResult);
-			else if (Logging.INFO) Log.i(TAG, "Malformed XML");
 			return null;
 		}
 	}
@@ -63,12 +56,6 @@ public class TransfersParser extends BaseParser {
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 		super.startElement(uri, localName, qName, attributes);
 		if (localName.equalsIgnoreCase("file_transfer")) {
-			if (Logging.INFO) {
-				if (mTransfer != null) {
-					// previous <file_transfer> not closed - dropping it!
-					Log.i(TAG, "Dropping unfinished <file_transfer> data");
-				}
-			}
 			mTransfer = new Transfer();
 		}
 		else if (localName.equalsIgnoreCase("file_xfer")) {
@@ -163,7 +150,6 @@ public class TransfersParser extends BaseParser {
 			}
 		}
 		catch (NumberFormatException e) {
-			if (Logging.INFO) Log.i(TAG, "Exception when decoding " + localName);
 		}
 		mElementStarted = false;
 	}

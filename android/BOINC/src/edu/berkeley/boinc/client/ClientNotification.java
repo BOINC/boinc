@@ -51,6 +51,7 @@ public class ClientNotification {
 		// check whether notification is allowed in preferences	
 		if (!Monitor.getAppPrefs().getShowNotification()) {
 			nm.cancel(notificationId);
+			clientNotification.mOldComputingStatus = -1;
 			return;
 		}
 		
@@ -69,6 +70,11 @@ public class ClientNotification {
 			clientNotification.mOldComputingStatus = updatedStatus.computingStatus;
 			clientNotification.mOldSuspendReason = updatedStatus.computingSuspendReason;
 		}
+	}
+	
+	// cancels notification, called during client shutdown
+	public synchronized void cancel() {
+		nm.cancel(notificationId);
 	}
 
 	private Notification buildNotification() {

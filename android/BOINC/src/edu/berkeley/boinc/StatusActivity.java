@@ -18,6 +18,8 @@
  ******************************************************************************/
 package edu.berkeley.boinc;
 
+import edu.berkeley.boinc.utils.*;
+
 import java.util.ArrayList;
 
 import edu.berkeley.boinc.adapter.GalleryAdapter;
@@ -51,8 +53,6 @@ import android.widget.TextView;
 
 public class StatusActivity extends Activity implements OnClickListener{
 	
-	private final String TAG = "BOINC StatusActivity";
-	
 	private Monitor monitor;
 	private Boolean mIsBound = false;
 	
@@ -65,13 +65,16 @@ public class StatusActivity extends Activity implements OnClickListener{
     private Integer screenHeight = 0;
     private Integer screenWidth = 0;
     private Integer minScreenHeightForSlideshow = 1000;
-    private Integer minScreenHeightForImage = 1000;;
+    private Integer minScreenHeightForImage = 1000;
+    private ArrayList<ImageWrapper> slideshowImages = new ArrayList<ImageWrapper>();
+    private GalleryAdapter galleryAdapter;
+    private Activity activity = this;
 
 	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context,Intent intent) {
-			//Log.d(TAG+"-localClientStatusRecNoisy","received action " + intent.getAction());
-			loadLayout(); // load layout, function distincts whether there is something to do
+			//if(Logging.DEBUG) Log.d(TAG+"-localClientStatusRecNoisy","received action " + intent.getAction());
+			loadLayout(false); // load layout, function distincts whether there is something to do
 		}
 	};
 	private IntentFilter ifcsc = new IntentFilter("edu.berkeley.boinc.clientstatuschange");
@@ -79,15 +82,15 @@ public class StatusActivity extends Activity implements OnClickListener{
 	// connection to Monitor Service.
 	private ServiceConnection mConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
-	    	Log.d(TAG, "onServiceConnected");
+	    	if(Logging.VERBOSE) Log.v(Logging.TAG, "StatusActivity onServiceConnected");
 
 	    	monitor = ((Monitor.LocalBinder)service).getService();
 		    mIsBound = true;
-		    loadLayout();
+		    loadLayout(true);
 	    }
 
 	    public void onServiceDisconnected(ComponentName className) {
-	    	Log.d(TAG, "onServiceDisconnected");
+	    	if(Logging.DEBUG) Log.d(Logging.TAG, "StatusActivity onServiceDisconnected");
 
 	    	monitor = null;
 	        mIsBound = false;
@@ -115,25 +118,26 @@ public class StatusActivity extends Activity implements OnClickListener{
 	
 	public void onResume() {
 		//register noisy clientStatusChangeReceiver here, so only active when Activity is visible
-		Log.d(TAG+"-onResume","register receiver");
+		if(Logging.VERBOSE) Log.v(Logging.TAG,"StatusActivity register receiver");
 		registerReceiver(mClientStatusChangeRec,ifcsc);
-		loadLayout();
-		super.onResume();
 		
 		Display display = getWindowManager().getDefaultDisplay();
 		screenWidth = display.getWidth();
 		screenHeight = display.getHeight();
-		Log.d(TAG,"screen dimensions: " + screenWidth + "*" + screenHeight);
+		if(Logging.DEBUG) Log.d(Logging.TAG,"screen dimensions: " + screenWidth + "*" + screenHeight);
 		
 		try{
 			minScreenHeightForSlideshow = getResources().getInteger(R.integer.status_min_screen_height_for_slideshow_px);
 			minScreenHeightForImage = getResources().getInteger(R.integer.status_min_screen_height_for_image_px);
 		} catch(Exception e){}
+		
+		loadLayout(true);
+		super.onResume();
 	}
 	
 	public void onPause() {
 		//unregister receiver, so there are not multiple intents flying in
-		Log.d(TAG+"-onPause","remove receiver");
+		if(Logging.VERBOSE) Log.v(Logging.TAG,"StatusActivity remove receiver");
 		unregisterReceiver(mClientStatusChangeRec);
 		super.onPause();
 	}
@@ -144,7 +148,7 @@ public class StatusActivity extends Activity implements OnClickListener{
 	    super.onDestroy();
 	}
 	
-	private void loadLayout() {
+	private void loadLayout(Boolean forceUpdate) {
 		//load layout, if service is available and ClientStatus can be accessed.
 		//if this is not the case, "onServiceConnected" will call "loadLayout" as soon as the service is bound
 		if(mIsBound) {
@@ -156,8 +160,8 @@ public class StatusActivity extends Activity implements OnClickListener{
 			if(status.setupStatus == ClientStatus.SETUP_STATUS_AVAILABLE) { 
 				
 				// return in cases nothing has changed
-				if (computingStatus == status.computingStatus && computingStatus != ClientStatus.COMPUTING_STATUS_SUSPENDED) return; 
-				if (computingStatus == status.computingStatus && computingStatus == ClientStatus.COMPUTING_STATUS_SUSPENDED && status.computingSuspendReason == suspendReason) return;
+				if (!forceUpdate && computingStatus == status.computingStatus && computingStatus != ClientStatus.COMPUTING_STATUS_SUSPENDED) return; 
+				if (!forceUpdate && computingStatus == status.computingStatus && computingStatus == ClientStatus.COMPUTING_STATUS_SUSPENDED && status.computingSuspendReason == suspendReason) return;
 				
 				// set layout and retrieve elements
 				setContentView(R.layout.status_layout);
@@ -177,6 +181,7 @@ public class StatusActivity extends Activity implements OnClickListener{
 					statusImage.setClickable(true);
 					statusImage.setOnClickListener(this);
 					statusDescriptor.setText(R.string.status_computing_disabled_long);
+					centerWrapper.setVisibility(View.VISIBLE);
 					break;
 				case ClientStatus.COMPUTING_STATUS_SUSPENDED:
 					slideshowWrapper.setVisibility(View.GONE);
@@ -184,6 +189,7 @@ public class StatusActivity extends Activity implements OnClickListener{
 					statusImage.setImageResource(R.drawable.pauseb48);
 					statusImage.setContentDescription(getString(R.string.status_paused));
 					statusImage.setClickable(false);
+					centerWrapper.setVisibility(View.VISIBLE);
 					switch(status.computingSuspendReason) {
 					case BOINCDefs.SUSPEND_REASON_BATTERIES:
 						statusDescriptor.setText(R.string.suspend_batteries);
@@ -263,6 +269,7 @@ public class StatusActivity extends Activity implements OnClickListener{
 					break;
 				case ClientStatus.COMPUTING_STATUS_IDLE: 
 					slideshowWrapper.setVisibility(View.GONE);
+					centerWrapper.setVisibility(View.VISIBLE);
 					statusHeader.setText(R.string.status_idle);
 					statusImage.setImageResource(R.drawable.pauseb48);
 					statusImage.setContentDescription(getString(R.string.status_idle));
@@ -279,14 +286,11 @@ public class StatusActivity extends Activity implements OnClickListener{
 					}
 					break;
 				case ClientStatus.COMPUTING_STATUS_COMPUTING:
-					// load slideshow
-					if(!loadSlideshow()) {
-						Log.d(TAG, "slideshow not available, load plain old status instead...");
-						statusHeader.setText(R.string.status_running);
-						statusImage.setImageResource(R.drawable.cogsb48);
-						statusImage.setContentDescription(getString(R.string.status_running));
-						statusDescriptor.setText(R.string.status_running_long);
-					}
+					// check if screen is high enough for slideshow
+					if(screenHeight < minScreenHeightForSlideshow) { 
+						if(Logging.DEBUG) Log.d(Logging.TAG, "loadPlainOldComputingScreen, screen too small.");
+						loadPlainOldComputingScreen();
+					} else new UpdateSlideshowImagesAsync().execute();
 					break;
 				}
 				computingStatus = status.computingStatus; //save new computing status
@@ -297,52 +301,19 @@ public class StatusActivity extends Activity implements OnClickListener{
 		}
 	}
 	
-	private Boolean loadSlideshow() {
-		// check if screen is high enough for slideshow
-		if(screenHeight < minScreenHeightForSlideshow) return false;
-		
-		// get slideshow images
-		final ArrayList<ImageWrapper> images = Monitor.getClientStatus().getSlideshowImages();
-		if(images == null || images.size() == 0) return false;
-		
-		// images available, adapt layout
-	    Gallery gallery = (Gallery) findViewById(R.id.gallery);
-	    final ImageView imageView = (ImageView) findViewById(R.id.image_view);
-	    final TextView imageDesc = (TextView)findViewById(R.id.image_description);
-        imageDesc.setText(images.get(0).projectName);
+	// load computing screen, if
+	// no slideshow images available, or
+	// screen too small for slideshow
+	private void loadPlainOldComputingScreen() {
 		LinearLayout centerWrapper = (LinearLayout) findViewById(R.id.center_wrapper);
-		centerWrapper.setVisibility(View.GONE);
-        slideshowWrapper.setVisibility(View.VISIBLE);
-        
-        //setup gallery
-        gallery.setAdapter(new GalleryAdapter(this,images));
-        
-        // adapt layout according to screen size
-		if(screenHeight < minScreenHeightForImage) {
-			// screen is not high enough for large image
-			imageView.setVisibility(View.GONE);
-			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
-			params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-			LinearLayout galleryWrapper = (LinearLayout) findViewById(R.id.gallery_wrapper);
-			galleryWrapper.setLayoutParams(params);
-			galleryWrapper.setPadding(0, 0, 0, 5);
-	        gallery.setOnItemClickListener(new OnItemClickListener() {
-	            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-	                imageDesc.setText(images.get(position).projectName);
-	            }
-	        });
-		} else {
-			// screen is high enough, fully blown layout
-	        imageView.setImageBitmap(images.get(0).image);
-	        gallery.setOnItemClickListener(new OnItemClickListener() {
-	            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-	                imageView.setImageBitmap(images.get(position).image);
-	                imageDesc.setText(images.get(position).projectName);
-	            }
-	        });
-		}
-        
-        return true;
+		centerWrapper.setVisibility(View.VISIBLE);
+		TextView statusHeader = (TextView) findViewById(R.id.status_header);
+		ImageView statusImage = (ImageView) findViewById(R.id.status_image);
+		TextView statusDescriptor = (TextView) findViewById(R.id.status_long);
+		statusHeader.setText(R.string.status_running);
+		statusImage.setImageResource(R.drawable.cogsb48);
+		statusImage.setContentDescription(getString(R.string.status_running));
+		statusDescriptor.setText(R.string.status_running_long);
 	}
 
 	@Override
@@ -351,8 +322,6 @@ public class StatusActivity extends Activity implements OnClickListener{
 	}
 	
 	private final class WriteClientRunModeAsync extends AsyncTask<Integer, Void, Boolean> {
-
-		private final String TAG = "WriteClientRunModeAsync";
 		
 		@Override
 		protected Boolean doInBackground(Integer... params) {
@@ -362,7 +331,67 @@ public class StatusActivity extends Activity implements OnClickListener{
 		@Override
 		protected void onPostExecute(Boolean success) {
 			if(success) monitor.forceRefresh();
-			else Log.w(TAG,"setting run mode failed");
+			else if(Logging.WARNING) Log.w(Logging.TAG,"setting run mode failed");
+		}
+	}
+	
+	private final class UpdateSlideshowImagesAsync extends AsyncTask<Void, Void, Boolean> {
+		
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			if(Logging.DEBUG) Log.d(Logging.TAG, "UpdateSlideshowImagesAsync updating images in new thread.");
+			// load slideshow images
+			Monitor.getClientStatus().updateSlideshowImages(slideshowImages);
+			if(slideshowImages == null || slideshowImages.size() == 0) return false;
+			return true;
+		}
+		
+		@Override
+		protected void onPostExecute(Boolean success) {
+			if(Logging.DEBUG) Log.d(Logging.TAG, "UpdateSlideshowImagesAsync success: " + success);
+			
+			// check whether computingStatus has changed in the meantime.
+			if(computingStatus != ClientStatus.COMPUTING_STATUS_COMPUTING) return;
+			
+			if(success) {
+				// images available, adapt layout
+			    Gallery gallery = (Gallery) findViewById(R.id.gallery);
+			    final ImageView imageView = (ImageView) findViewById(R.id.image_view);
+			    final TextView imageDesc = (TextView)findViewById(R.id.image_description);
+		        imageDesc.setText(slideshowImages.get(0).projectName);
+				LinearLayout centerWrapper = (LinearLayout) findViewById(R.id.center_wrapper);
+				centerWrapper.setVisibility(View.GONE);
+		        slideshowWrapper.setVisibility(View.VISIBLE);
+		        
+		        //setup adapter
+		        galleryAdapter = new GalleryAdapter(activity, slideshowImages);
+		        gallery.setAdapter(galleryAdapter);
+		        
+		        // adapt layout according to screen size
+				if(screenHeight < minScreenHeightForImage) {
+					// screen is not high enough for large image
+					imageView.setVisibility(View.GONE);
+					RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+					params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+					LinearLayout galleryWrapper = (LinearLayout) findViewById(R.id.gallery_wrapper);
+					galleryWrapper.setLayoutParams(params);
+					galleryWrapper.setPadding(0, 0, 0, 5);
+			        gallery.setOnItemClickListener(new OnItemClickListener() {
+			            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+			                imageDesc.setText(slideshowImages.get(position).projectName);
+			            }
+			        });
+				} else {
+					// screen is high enough, fully blown layout
+			        imageView.setImageBitmap(slideshowImages.get(0).image);
+			        gallery.setOnItemClickListener(new OnItemClickListener() {
+			            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+			                imageView.setImageBitmap(slideshowImages.get(position).image);
+			                imageDesc.setText(slideshowImages.get(position).projectName);
+			            }
+			        });
+				}
+			} else loadPlainOldComputingScreen();
 		}
 	}
 }

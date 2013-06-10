@@ -20,8 +20,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.berkeley.boinc"
     
-    android:versionCode="3"
-    android:versionName="7.1.7"
+    android:versionCode="6"
+    android:versionName="7.1.11"
     
     android:installLocation="internalOnly" > <!-- installation on SD card would break boot receiver -->
 
@@ -43,6 +43,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_LOGS"/>
 
     <application
         android:icon="@drawable/boinc"

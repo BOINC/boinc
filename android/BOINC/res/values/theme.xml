@@ -26,6 +26,7 @@
         <item name="android:windowTitleStyle">@style/CustomWindowTitle</item>
         <item name="android:windowTitleBackgroundStyle">@style/CustomWindowTitleBackground</item>
 		<item name="android:listViewStyle">@style/CustomListView</item>
+		<item name="android:panelFullBackground">@color/dark_blue_transparent</item>
     </style>
     
     <!-- title bar -->

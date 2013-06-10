@@ -41,9 +41,11 @@
 #include <errno.h>
 
 #include "boinc_db.h"
-#include "util.h"
 #include "filesys.h"
 #include "parse.h"
+#include "str_replace.h"
+#include "util.h"
+
 #include "sched_config.h"
 #include "sched_util.h"
 #include "sched_msgs.h"

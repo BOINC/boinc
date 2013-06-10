@@ -140,11 +140,12 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectData> {
     public View getView(int position, View convertView, ViewGroup parent) {
 	    View vi = convertView;
 	    ProjectData data = entries.get(position);
-    	vi = ((LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.projects_layout_listitem, null);
-    	
-    	//set onclicklistener for expansion
-		vi.setOnClickListener(entries.get(position).projectsListClickListener);
-	    
+	    if(vi == null) {
+	    	// first time getView is called for this element
+	    	vi = ((LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.projects_layout_listitem, null);
+	    	//set onclicklistener for expansion
+			vi.setOnClickListener(entries.get(position).projectsListClickListener);
+	    }
 	    // set data of standard elements
         TextView tvName = (TextView)vi.findViewById(R.id.project_name);
         tvName.setText(getName(position));
@@ -152,18 +153,34 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectData> {
         TextView tvUser = (TextView)vi.findViewById(R.id.project_user);
         String userText = getUser(position);
         if(userText.isEmpty()) tvUser.setVisibility(View.GONE);
-        else tvUser.setText(userText);
+        else {
+        	tvUser.setVisibility(View.VISIBLE);
+        	tvUser.setText(userText);
+        }
         
 	    String statusText = getStatus(position);
         TextView tvStatus = (TextView)vi.findViewById(R.id.project_status);
 	    if(statusText.isEmpty()) tvStatus.setVisibility(View.GONE);
-	    else tvStatus.setText(statusText);
+	    else {
+	    	tvStatus.setVisibility(View.VISIBLE);
+	    	tvStatus.setText(statusText);
+	    }
 	    
 	    ImageView ivIcon = (ImageView)vi.findViewById(R.id.project_icon);
-	    Bitmap icon = getIcon(position);
-	    // if available set icon, if not boinc logo
-	    if (icon == null) ivIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.boinc));
-	    else ivIcon.setImageBitmap(icon);
+	    String finalIconId = (String)ivIcon.getTag();
+	    if(finalIconId == null || !finalIconId.equals(data.id)) {
+		    Bitmap icon = getIcon(position);
+		    // if available set icon, if not boinc logo
+		    if (icon == null) {
+		    	// boinc logo
+		    	ivIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.boinc));
+		    } else {
+		    	// project icon
+		    	ivIcon.setImageBitmap(icon);
+		    	// mark as final
+		    	ivIcon.setTag(data.id);
+		    }
+	    }
 	    
     	// credits
     	Integer totalCredit = Double.valueOf(data.project.user_total_credit).intValue();

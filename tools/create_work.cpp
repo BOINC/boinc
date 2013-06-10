@@ -35,6 +35,7 @@
 #include "common_defs.h"
 #include "crypt.h"
 #include "sched_config.h"
+#include "str_replace.h"
 #include "util.h"
 
 void usage() {

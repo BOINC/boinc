@@ -21,15 +21,9 @@ package edu.berkeley.boinc.rpc;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-
-import edu.berkeley.boinc.debug.Logging;
-
-import android.util.Log;
 import android.util.Xml;
 
 public class SimpleReplyParser extends BaseParser {
-	private static final String TAG = "SimpleReplyParser";
-
 	private boolean mParsed = false;
 	private boolean mInReply = false;
 	private boolean mSuccess = false;
@@ -54,8 +48,6 @@ public class SimpleReplyParser extends BaseParser {
 			return parser;
 		}
 		catch (SAXException e) {
-			if (Logging.DEBUG) Log.d(TAG, "Malformed XML:\n" + reply);
-			else if (Logging.INFO) Log.i(TAG, "Malformed XML");
 			return null;
 		}		
 	}

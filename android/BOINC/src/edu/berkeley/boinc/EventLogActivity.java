@@ -18,10 +18,14 @@
  ******************************************************************************/
 package edu.berkeley.boinc;
 
+import edu.berkeley.boinc.utils.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.StringBuffer;
-import edu.berkeley.boinc.adapter.EventLogListAdapter;
+import edu.berkeley.boinc.adapter.ClientLogListAdapter;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Message;
 import android.content.ComponentName;
@@ -31,52 +35,61 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.FragmentActivity;
+import android.text.ClipboardManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
+import android.view.View;
+import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class EventLogActivity extends FragmentActivity {
-
-	private final String TAG = "BOINC EventLogActivity";
 	
 	private Monitor monitor;
 	private Boolean mIsBound = false;
 
-	private ListView lv;
-	private EventLogListAdapter listAdapter;
-	private ArrayList<Message> data = new ArrayList<Message>();
+	private ListView clientLogList;
+	private ClientLogListAdapter clientLogListAdapter;
+	private ArrayList<Message> clientLogData = new ArrayList<Message>();
+
+	private ListView guiLogList;
+	private ArrayAdapter<String> guiLogListAdapter;
+	private ArrayList<String> guiLogData = new ArrayList<String>();
 	
 	// message retrieval
 	private Integer pastMsgsLoadingRange = 50; // amount messages loaded when end of list is reached
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-	    Log.d(TAG, "onCreate()");
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 
 		doBindService();
 		setLayoutLoading();
-		
+        
+        // adapt to custom title bar
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_bar);
+
 	    super.onCreate(savedInstanceState);
 	}
 	
 	@Override
 	public void onResume() {
-		Log.d(TAG, "onResume()");
+		if(Logging.VERBOSE) Log.v(Logging.TAG, "EventLogActivity onResume()");
 
 		super.onResume();
 		
-		new RetrieveRecentMsgs().execute(); // refresh messages
+		new RetrieveRecentClientMsgs().execute(); // refresh messages
 	}
 	
 	@Override
 	protected void onDestroy() {
-	    Log.d(TAG, "onDestroy()");
 	    doUnbindService();
 	    super.onDestroy();
 	}
@@ -87,7 +100,7 @@ public class EventLogActivity extends FragmentActivity {
 	 */
 	private ServiceConnection mConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
-	    	Log.d(TAG,"onServiceConnected");
+	    	if(Logging.VERBOSE) Log.v(Logging.TAG,"EventLogActivity onServiceConnected");
 	        monitor = ((Monitor.LocalBinder)service).getService();
 		    mIsBound = true;
 		    initializeLayout();
@@ -118,11 +131,11 @@ public class EventLogActivity extends FragmentActivity {
 		try {
 			int y = 0;
 			for (int x = tmpA.size()-1; x >= 0; x--) {
-				data.add(y, tmpA.get(x));
+				clientLogData.add(y, tmpA.get(x));
 				y++;
 			}
 		} catch (Exception e) {} //IndexOutOfBoundException
-		listAdapter.notifyDataSetChanged();
+		clientLogListAdapter.notifyDataSetChanged();
 	}
 	
 	// appends older messages to data list
@@ -130,11 +143,11 @@ public class EventLogActivity extends FragmentActivity {
 		// Append old messages to the event log
 		try {
 			for(int x = tmpA.size()-1; x >= 0; x--) {
-				data.add(tmpA.get(x));
+				clientLogData.add(tmpA.get(x));
 			}
 		} catch (Exception e) {} //IndexOutOfBoundException
 		
-		listAdapter.notifyDataSetChanged();
+		clientLogListAdapter.notifyDataSetChanged();
 	}
 	
 	private void initializeLayout() {
@@ -146,12 +159,17 @@ public class EventLogActivity extends FragmentActivity {
 			}
 				
 			setContentView(R.layout.eventlog_layout); 
-			lv = (ListView) findViewById(R.id.eventlogList);
-		    listAdapter = new EventLogListAdapter(EventLogActivity.this, lv, R.id.eventlogList, data);
-		    lv.setOnScrollListener(new EndlessScrollListener(5));
+			
+			clientLogList = (ListView) findViewById(R.id.clientLogList);
+			clientLogListAdapter = new ClientLogListAdapter(EventLogActivity.this, clientLogList, R.id.clientLogList, clientLogData);
+			clientLogList.setOnScrollListener(new EndlessScrollListener(5));
+			
+			guiLogList = (ListView) findViewById(R.id.guiLogList);
+			guiLogListAdapter = new ArrayAdapter<String>(EventLogActivity.this, R.layout.eventlog_gui_listitem_layout, guiLogData);
+			guiLogList.setAdapter(guiLogListAdapter);
 			
 			// initial data retrieval
-			new RetrievePastMsgs().execute();
+			new RetrievePastClientMsgs().execute();
 		} catch (Exception e) {
 			// data retrieval failed, set layout to loading...
 			setLayoutLoading();
@@ -166,78 +184,138 @@ public class EventLogActivity extends FragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-	    Log.d(TAG, "onCreateOptionsMenu()");
-
-		// call BOINCActivity's onCreateOptionsMenu to combine both menus
-		getParent().onCreateOptionsMenu(menu);
-		
 	    MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.eventlog_menu, menu);
 
 		return true;
 	}
 	
+	public void onClientLog(View v) {
+		//adapt header
+		v.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+		TextView guiLogHeader = (TextView) findViewById(R.id.guiLogHeader);
+		guiLogHeader.setBackgroundResource(R.drawable.shape_light_blue_background);
+		// change lists
+		guiLogList.setVisibility(View.GONE);
+		clientLogList.setVisibility(View.VISIBLE);
+	}
+	
+	public void onGuiLog(View v) {
+		//adapt header
+		v.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+		TextView clientLogHeader = (TextView) findViewById(R.id.clientLogHeader);
+		clientLogHeader.setBackgroundResource(R.drawable.shape_light_blue_background);
+		// change lists
+		clientLogList.setVisibility(View.GONE);
+		guiLogList.setVisibility(View.VISIBLE);
+		// read messages
+		readLogcat();
+	}
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    Log.d(TAG, "onOptionsItemSelected()");
-
 	    switch (item.getItemId()) {
+			case R.id.refresh:
+				new RetrieveRecentClientMsgs().execute();
+				readLogcat();
+				return true;
 			case R.id.email_to:
 				onEmailTo();
 				return true;
-			default:
-				return getParent().onOptionsItemSelected(item);
+			case R.id.copy:
+				onCopy();
+				return true;
 		}
+		return true;
 	}
 	
-	public void onEmailTo() {
-
-		Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-		StringBuffer emailText = new StringBuffer();
-		Boolean copySelection = false;
-		
-		// Determine what kind of email operation we are going to use
-	    for (int index = 0; index < lv.getCount(); index++) {
-	    	if (lv.isItemChecked(index)) {
-	    		copySelection = true;
-	    	}
-	    }
-
-	    // Put together the email intent		
-		emailIntent.setType("plain/text");
-		emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Event Log for BOINC on Android");
-
-		// Construct the message body
-		emailText.append("\n\nContents of the Event Log:\n\n");
-		if (copySelection) {
-			// Copy selected items
-		    for (int index = 0; index < lv.getCount(); index++) {
-		    	if (lv.isItemChecked(index)) {
-					emailText.append(listAdapter.getDate(index));
-					emailText.append("|");
-					emailText.append(listAdapter.getProject(index));
-					emailText.append("|");
-					emailText.append(listAdapter.getMessage(index));
-					emailText.append("\r\n");
-		    	}
-		    }
+	private void onCopy() {
+		try {
+			ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE); 
+			clipboard.setText(getLogDataAsString(clientLogList.getVisibility() == View.VISIBLE));
+			Toast.makeText(getApplicationContext(), R.string.eventlog_copy_toast, Toast.LENGTH_SHORT).show();
+		} catch(Exception e) {if(Logging.WARNING) Log.w(Logging.TAG,"onCopy failed");}
+	}
+	
+	private void onEmailTo() {
+		try {
+			String emailText = getLogDataAsString(clientLogList.getVisibility() == View.VISIBLE);
+			
+			Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+	
+		    // Put together the email intent		
+			emailIntent.setType("plain/text");
+			emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.eventlog_email_subject));
+	
+			emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, emailText);
+			
+			// Send it off to the Activity-Chooser
+			startActivity(Intent.createChooser(emailIntent, "Send mail..."));	
+		} catch(Exception e) {if(Logging.WARNING) Log.w(Logging.TAG,"onEmailTo failed");}
+	}
+	
+	// returns the content of the log as string
+	// clientLog = true: client log
+	// clientlog = false: gui log
+	private String getLogDataAsString(Boolean clientLog) {
+		StringBuffer text = new StringBuffer();
+		if(clientLog) {
+			text.append(getString(R.string.eventlog_client_header) + "\n\n");
+		    for (int index = 0; index < clientLogList.getCount(); index++) {
+				text.append(clientLogListAdapter.getDate(index));
+				text.append("|");
+				text.append(clientLogListAdapter.getProject(index));
+				text.append("|");
+				text.append(clientLogListAdapter.getMessage(index));
+				text.append("\n");
+			}
 		} else {
-			// Copy all items
-		    for (int index = 0; index < lv.getCount(); index++) {
-				emailText.append(listAdapter.getDate(index));
-				emailText.append("|");
-				emailText.append(listAdapter.getProject(index));
-				emailText.append("|");
-				emailText.append(listAdapter.getMessage(index));
-				emailText.append("\r\n");
+			text.append(getString(R.string.eventlog_gui_header) + "\n\n");
+		    for (String line: guiLogData) {
+				text.append(line);
+				text.append("\n");
 			}
 		}
-		
-		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, emailText.toString());
-		
-		// Send it off to the Activity-Chooser
-		startActivity(Intent.createChooser(emailIntent, "Send mail..."));		
+		return text.toString();
+	}
+	
+	private void readLogcat() {
+		int number = getResources().getInteger(R.integer.eventlog_gui_messages);
+		guiLogData.clear();
+		try {
+			String logLevelFilter = Logging.TAG;
+			switch(Logging.LOGLEVEL){
+			case 0: return;
+			case 1:
+				logLevelFilter += ":E";
+				break;
+			case 2:
+				logLevelFilter += ":W";
+				break;
+			case 3:
+				logLevelFilter += ":I";
+				break;
+			case 4:
+				logLevelFilter += ":D";
+				break;
+			case 5:
+				logLevelFilter += ":V";
+				break;
+			}
+			Process process = Runtime.getRuntime().exec("logcat -d -t " + number + " -v time " + logLevelFilter + " *:S");
+			// filtering logcat output by application package is not possible on command line
+			// devices with SDK > 13 will automatically "session filter"
+			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
+			String line = "";
+			int x = 0;
+			while ((line = bufferedReader.readLine()) != null) {
+				if(x > 1) guiLogData.add(0,line); // cut off first two lines, prepend to array (most current on top)
+				x++;
+			}
+			if(Logging.VERBOSE) Log.v(Logging.TAG, "readLogcat read " + guiLogData.size() + " lines.");
+			guiLogListAdapter.notifyDataSetChanged();
+		} catch (IOException e) {if(Logging.WARNING) Log.w(Logging.TAG, "readLogcat failed", e);}
 	}
 	
 	// onScrollListener for list view, implementing "endless scrolling"
@@ -260,7 +338,7 @@ public class EventLogActivity extends FragmentActivity {
                 }
             }
             if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
-                new RetrievePastMsgs().execute();
+                new RetrievePastClientMsgs().execute();
                 loading = true;
             }
         }
@@ -270,7 +348,7 @@ public class EventLogActivity extends FragmentActivity {
         }
     }
 	
-	private final class RetrieveRecentMsgs extends AsyncTask<Void,Void,ArrayList<Message>> {
+	private final class RetrieveRecentClientMsgs extends AsyncTask<Void,Void,ArrayList<Message>> {
 		
 		private Integer mostRecentSeqNo = 0;
 
@@ -278,7 +356,7 @@ public class EventLogActivity extends FragmentActivity {
 		protected void onPreExecute() {
 			if(!mIsBound) cancel(true); // cancel execution if monitor is not bound yet
 			try {
-				mostRecentSeqNo = data.get(0).seqno;
+				mostRecentSeqNo = clientLogData.get(0).seqno;
 			} catch (Exception e) {} //IndexOutOfBoundException
 		}
 		
@@ -294,7 +372,7 @@ public class EventLogActivity extends FragmentActivity {
 		}
 	}
 	
-	private final class RetrievePastMsgs extends AsyncTask<Void,Void,List<Message>> {
+	private final class RetrievePastClientMsgs extends AsyncTask<Void,Void,List<Message>> {
 		
 		private Integer mostRecentSeqNo = null;
 		private Integer pastSeqNo = null;
@@ -303,11 +381,11 @@ public class EventLogActivity extends FragmentActivity {
 		protected void onPreExecute() {
 			if(!mIsBound) cancel(true); // cancel execution if monitor is not bound yet
 			try {
-				mostRecentSeqNo = data.get(0).seqno;
-				pastSeqNo = data.get(data.size()-1).seqno;
-				Log.d("RetrievePastMsgs","mostRecentSeqNo: " + mostRecentSeqNo + " ; pastSeqNo: " + pastSeqNo);
+				mostRecentSeqNo = clientLogData.get(0).seqno;
+				pastSeqNo = clientLogData.get(clientLogData.size()-1).seqno;
+				if(Logging.DEBUG) Log.d("RetrievePastMsgs","mostRecentSeqNo: " + mostRecentSeqNo + " ; pastSeqNo: " + pastSeqNo);
 				if(pastSeqNo==0) {
-					Log.d("RetrievePastMsgs", "cancel, all past messages are present");
+					if(Logging.DEBUG) Log.d("RetrievePastMsgs", "cancel, all past messages are present");
 					cancel(true); // cancel if all past messages are present
 				}
 			} catch (Exception e) {} //IndexOutOfBoundException
@@ -319,7 +397,7 @@ public class EventLogActivity extends FragmentActivity {
 			if(mostRecentSeqNo != null && pastSeqNo != null && mostRecentSeqNo != 0 && pastSeqNo != 0) startIndex = mostRecentSeqNo - pastSeqNo + 1;
 			Integer lastIndexOfList = 0;
 			if(mostRecentSeqNo != null) lastIndexOfList = mostRecentSeqNo - 1;
-			//Log.d("RetrievePastMsgs", "calling monitor with: " + startIndex + lastIndexOfList);
+			//if(Logging.DEBUG) Log.d("RetrievePastMsgs", "calling monitor with: " + startIndex + lastIndexOfList);
 			return monitor.getEventLogMessages(startIndex, pastMsgsLoadingRange, lastIndexOfList); 
 		}
 

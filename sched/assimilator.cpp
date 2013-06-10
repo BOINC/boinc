@@ -32,6 +32,7 @@
 #include "parse.h"
 #include "util.h"
 #include "error_numbers.h"
+#include "str_replace.h"
 #include "str_util.h"
 #include "svn_version.h"
 

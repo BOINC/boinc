@@ -21,10 +21,11 @@
     <!-- layout colors -->
 		<color name="white_smoke">#F5F5F5</color>
 		<color name="dark_blue">#003366</color>
+		<color name="dark_blue_transparent">#DD003366</color>
 		<color name="dark_blue_gradient">#0C4175</color>
 		<color name="light_blue">#A2CFFC</color>
 		<color name="lightest_blue">#D6EBFF</color>
-		<color name="dark_grey">#6E6E6E</color>
+		<color name="dark_grey">#4D4D4D</color>
 		<color name="red">#990033</color>
 		<color name="yellow">#FCEC3D</color>
 		<color name="dark_yellow">#E3D10E</color>
