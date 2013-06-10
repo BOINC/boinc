@@ -266,6 +266,7 @@ void RSC_WORK_FETCH::print_state(const char* name) {
         shortfall, nidle_now, saturated_time,
         busy_time_estimator.get_busy_time()
     );
+    //msg_printf(0, MSG_INFO, "[work_fetch] sim used inst %d sim excl inst %d", sim_used_instances, sim_excluded_instances);
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         char buf[256];
         PROJECT* p = gstate.projects[i];
