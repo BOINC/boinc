@@ -107,7 +107,7 @@ int main(int argc, char *argv[])
     strlcat(MetaPkgPath, "+VirtualBox.mpkg", sizeof(MetaPkgPath));
     
     strlcpy(MetaPkgRestartPath, pkgPath, sizeof(MetaPkgRestartPath));
-    strlcat(MetaPkgRestartPath, "+VirtualBox .mpkg", sizeof(MetaPkgRestartPath));
+    strlcat(MetaPkgRestartPath, " + VirtualBox.mpkg", sizeof(MetaPkgRestartPath));
     
     strlcpy(pkgRestartPath, pkgPath, sizeof(MetaPkgPath));
     strlcat(pkgRestartPath, ".mpkg", sizeof(pkgPath));
