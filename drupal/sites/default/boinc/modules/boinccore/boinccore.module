@@ -45,6 +45,25 @@ function boinccore_menu() {
   return $items;
 }
 
+/**
+ * Implementation of hook_menu_alter()
+ */
+function boinccore_menu_alter(&$items) {
+  // If using Solr search and not core Drupal search, disable core search!
+  if (module_exists('global_search_solr') AND !module_exists('global_search')) {
+    // Add permission to user search.
+    $check = array(
+      'search/node/%menu_tail',
+      'search/user/%menu_tail',
+      'user/autocomplete'
+    );
+    foreach ($check as $path) {
+      if (isset($items[$path])) {
+        $items[$path]['access callback'] = FALSE;
+      }
+    }
+  }
+}
 
 function boinccore_link($type, $object, $teaser = FALSE) {
   $links = array();
