@@ -55,7 +55,7 @@ public class AttachProjectLoginActivity extends Activity{
 	private Monitor monitor;
 	private Boolean mIsBound = false;
 	
-	private String url;
+	private String url = "";
 	private ProjectInfo projectInfo;
 	private Boolean projectInfoPresent = false; // complete ProjectInfo available, if selection from list
 	private ProjectConfig projectConfig;
@@ -67,7 +67,7 @@ public class AttachProjectLoginActivity extends Activity{
 	        monitor = ((Monitor.LocalBinder)service).getService();
 		    mIsBound = true;
 		    
-		    (new GetProjectConfig()).execute((Void[]) null);
+		    (new GetProjectConfig()).execute(url);
 	    }
 
 	    public void onServiceDisconnected(ComponentName className) { // This should not happen
@@ -293,7 +293,7 @@ public class AttachProjectLoginActivity extends Activity{
 			Intent intent = new Intent(this, AttachProjectWorkingActivity.class);
 			intent.putExtra("registration", false);
 			intent.putExtra("usesName", projectConfig.userName);
-			intent.putExtra("projectUrl", url);
+			intent.putExtra("projectUrl", projectConfig.masterUrl);
 			intent.putExtra("projectName", projectConfig.name);
 			intent.putExtra("id", id);
 			intent.putExtra("pwd", pwd);
@@ -308,7 +308,7 @@ public class AttachProjectLoginActivity extends Activity{
 		if (clientCreation) {
 			// start intent to AttachProjectWorkingActivity
 			Intent intent = new Intent(this, AttachProjectRegistrationActivity.class);
-			intent.putExtra("projectUrl", url);
+			intent.putExtra("projectUrl", projectConfig.masterUrl);
 			intent.putExtra("projectName", projectConfig.name);
 			intent.putExtra("minPwdLength", projectConfig.minPwdLength);
 			intent.putExtra("usesName", projectConfig.userName);
@@ -316,7 +316,7 @@ public class AttachProjectLoginActivity extends Activity{
 		} else {
 			// start intent to project website
 			Intent i = new Intent(Intent.ACTION_VIEW);
-			i.setData(Uri.parse(url));
+			i.setData(Uri.parse(projectConfig.masterUrl));
 			startActivity(i);
 		}
 	}
@@ -325,7 +325,7 @@ public class AttachProjectLoginActivity extends Activity{
 	public void projectUrlClicked (View view) {
 		// start intent to project website
 		Intent i = new Intent(Intent.ACTION_VIEW);
-		i.setData(Uri.parse(url));
+		i.setData(Uri.parse(projectConfig.masterUrl));
 		startActivity(i);
 	}
 	
@@ -356,10 +356,11 @@ public class AttachProjectLoginActivity extends Activity{
 		return supported;
 	}
 	
-	private final class GetProjectConfig extends AsyncTask<Void, Void, Integer> {
+	private final class GetProjectConfig extends AsyncTask<String, Void, Integer> {
 		
 		@Override
-		protected Integer doInBackground(Void... params) {
+		protected Integer doInBackground(String... params) {
+			String url = params[0];
 			try{
 				if(!projectInfoPresent) { // only url string is available
 					if(Logging.DEBUG) Log.d(Logging.TAG, "doInBackground() - GetProjectConfig for manual input url: " + url);
