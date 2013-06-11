@@ -199,7 +199,6 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 		return v;
 	}
 	
-<<<<<<< HEAD
 	private void determineProgress(TaskData data, TextView progress, ProgressBar pb) {
 		Float fraction = Float.valueOf((float) 1.0); // default is 100 (e.g. abort show full red progress bar)
 		if(!data.result.active_task && data.result.ready_to_report) { //fraction not available
@@ -214,9 +213,6 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 
 	
 	private Bitmap getIcon(int position) {
-=======
-	public Bitmap getIcon(int position) {
->>>>>>> Fixed issue with default icons being used in TaskList view
 		return Monitor.getClientStatus().getProjectIcon(entries.get(position).result.project_url);
 	}
 
