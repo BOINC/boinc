@@ -52,6 +52,7 @@
 <?php switch ($info_split['type']): ?>
 <?php
   case 'Profile':
+  case 'profile':
     $parsed_url = parse_url($url);
     $base_length = strlen($base_path);
     $core_path = trim(substr($parsed_url['path'], $base_length), '/');
@@ -78,9 +79,6 @@
     <?php endif; ?>
     <div class="name"><a href="<?php print $url; ?>"><?php print $title; ?></a></div>
     <div class="details">
-      <?php if ($snippet) : ?>
-        <p class="search-snippet"><?php print $snippet; ?></p>
-      <?php endif; ?>
       <div class="user-stats">
         <div class="join-date">Joined: <?php print date('j M y', $account->created); ?></div>
         <div class="post-count">Posts: <?php print $account->post_count; ?></div>
@@ -88,6 +86,9 @@
         <div class="rac">RAC: <?php print $account->boincuser_expavg_credit; ?></div>
       </div>
     </div>
+    <?php if ($snippet) : ?>
+      <p class="search-snippet"><?php print $snippet; ?></p>
+    <?php endif; ?>
   </div>
   
   <?php break; ?>
