@@ -275,6 +275,19 @@ if [ ! -d ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BO
 fi
 cp -fp mac_installer/Description.plist ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources/en.lproj/
 
+# Build the "BOINC.mpkg" metapackage (used if installer.app determines
+# that we need user to restart OS X after installation)
+mkdir -p "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/BOINC.mpkg/Contents/Resources"
+cp -fp mac_build/Pkg_Restart-Info.plist ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.mpkg/Contents/Info.plist
+cp -fp mac_installer/License.rtf ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.mpkg/Contents/Resources/
+cp -fp ../BOINC_Installer/Installer\ Resources/ReadMe.rtf ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.mpkg/Contents/Resources/
+cat >> ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.mpkg/Contents/Resources/package_version << ENDOFFILE
+major: $1
+minor: $2
+ENDOFFILE
+echo "pmkrpkg1" > ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.mpkg/Contents/PkgInfo
+
+
 # Build the BOINC+VirtualBox.mpkg metapackage if VirtualBox.pkg exists
 
 VirtualBoxPackageName="VirtualBox.pkg"
@@ -290,6 +303,13 @@ ENDOFFILE
     echo "pmkrpkg1" > ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC+VirtualBox.mpkg/Contents/PkgInfo
     
     cp -fpR mac_installer/${VirtualBoxPackageName} ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/
+
+    # Now create the "BOINC + VirtualBox.mpkg" metapackage (used if installer.app
+    # determines that we need user to restart OS X after installation)
+    # Note the name of this version has spaces around the "+"
+    cp -fpR "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/BOINC+VirtualBox.mpkg" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/BOINC + VirtualBox.mpkg"
+    # Change "NoRestart" to "RequiredRestart" in BOINC + VirtualBox.mpkg
+    sed -i "" s/"NoRestart"/"RequiredRestart"/g "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/BOINC + VirtualBox.mpkg/Contents/Info.plist"
 fi
 
 # Build the stand-alone client distribution

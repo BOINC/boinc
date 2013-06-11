@@ -92,6 +92,7 @@ void Initialize(void);	/* function prototypes */
 Boolean myFilterProc(DialogRef theDialog, EventRecord *theEvent, DialogItemIndex *itemHit);
 int DeleteReceipt(void);
 OSStatus CheckLogoutRequirement(int *finalAction);
+Boolean IsRestartNeeded();
 void CheckUserAndGroupConflicts();
 Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userName);
 Boolean SetLoginItemAPI(long brandID, Boolean deleteLogInItem);
@@ -424,14 +425,14 @@ int main(int argc, char *argv[])
     pid_t                   waitPermissionsPID = 0;
     uid_t                   saved_euid, saved_uid, b_m_uid;
     passwd                  *pw;
-    int                     finalInstallAction;
+    Boolean                 restartNeeded;
     DialogRef               theWin;
 
-    err = CheckLogoutRequirement(&finalInstallAction);
-    printf("CheckLogoutRequirement returned %d\n", finalInstallAction);
+    restartNeeded = IsRestartNeeded();
+    printf("IsRestartNeeded() returned %d\n", (int)restartNeeded);
     fflush(stdout);
     
-    if (finalInstallAction == launchWhenDone) {
+    if (!restartNeeded) {
 
         // Wait for BOINC's RPC socket address to become available to user boinc_master, in
         // case we are upgrading from a version which did not run as user boinc_master.
@@ -536,7 +537,7 @@ int DeleteReceipt()
     int                     i;
     pid_t                   installerPID = 0;
     OSStatus                err;
-    int                     finalInstallAction;
+    Boolean                 restartNeeded = true;
     FSRef                   fileRef;
     char                    s[256];
     struct stat             sbuf;
@@ -544,8 +545,8 @@ int DeleteReceipt()
 
     Initialize();
 
-    err = CheckLogoutRequirement(&finalInstallAction);
-//    print_to_log_file("CheckLogoutRequirement returned %d\n", finalInstallAction);
+    restartNeeded = IsRestartNeeded();
+//    print_to_log_file("IsRestartNeeded() returned %d\n", (int)restartNeeded);
     
     brandID = GetBrandID();
 
@@ -556,7 +557,7 @@ int DeleteReceipt()
 
     // err_fsref = FSPathMakeRef((StringPtr)"/Applications/GridRepublic Desktop.app", &fileRef, NULL);
     err_fsref = FSPathMakeRef((StringPtr)appPath[brandID], &fileRef, NULL);
-    if (finalInstallAction == launchWhenDone) {
+    if (!restartNeeded) {
 
         err = FindProcess ('APPL', 'xins', &installerPSN);
         if (err == noErr) {
@@ -585,6 +586,21 @@ int DeleteReceipt()
     return 0;
 }
 
+
+// BOINC Installer.app wrote a file to tell us whether a restart is required
+Boolean IsRestartNeeded() {
+    FILE *restartNeededFile;
+    int value;
+
+    restartNeededFile = fopen("/tmp/BOINC_restart_flag", "r");
+    if (restartNeededFile) {
+        fscanf(restartNeededFile,"%d", &value);
+        fclose(restartNeededFile);
+        return (value != 0);
+    }
+    
+    return true;
+}
 
 OSStatus CheckLogoutRequirement(int *finalAction)
 {    
