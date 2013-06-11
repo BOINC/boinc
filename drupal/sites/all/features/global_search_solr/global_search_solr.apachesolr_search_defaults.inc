@@ -13,15 +13,17 @@ function global_search_solr_apachesolr_search_default_searchers() {
   $searcher->label = 'Core Search';
   $searcher->description = 'Core Search';
   $searcher->search_path = 'search/site';
-  $searcher->page_title = 'Site';
+  $searcher->page_title = 'Search for %value';
   $searcher->env_id = 'solr';
   $searcher->settings = array(
+    'fq' => array(),
+    'apachesolr_search_custom_enable' => 0,
     'apachesolr_search_search_type' => 'custom',
-    'apachesolr_search_per_page' => 10,
-    'apachesolr_search_browse' => 'browse',
-    'apachesolr_search_spellcheck' => TRUE,
-    'apachesolr_search_not_removable' => TRUE,
     'apachesolr_search_search_box' => TRUE,
+    'apachesolr_search_per_page' => '10',
+    'apachesolr_search_browse' => 'none',
+    'apachesolr_search_spellcheck' => 1,
+    'apachesolr_search_allow_user_input' => 0,
   );
   $export['core_search'] = $searcher;
 
