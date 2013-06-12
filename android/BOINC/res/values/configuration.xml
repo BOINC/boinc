@@ -33,6 +33,10 @@
     	<integer name="minimum_device_status_refresh_rate_in_monitor_loops">1</integer>
     <!-- configuration project attach -->
     	<integer name="attach_step_interval_ms">1000</integer>
+    	<integer name="attach_get_project_config_retries">3</integer>
+    	<integer name="attach_login_retries">5</integer>
+    	<integer name="attach_creation_retries">5</integer>
+    	<integer name="attach_attach_retries">5</integer>
     <!-- configuration on tab layout -->
     	<bool name="tab_status">true</bool>
         <bool name="tab_projects">true</bool>

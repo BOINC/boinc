@@ -361,36 +361,43 @@ public class AttachProjectLoginActivity extends Activity{
 		@Override
 		protected Integer doInBackground(String... params) {
 			String url = params[0];
+			Integer attemptCounter = 0;
+			Integer maxAttempts = getResources().getInteger(R.integer.attach_get_project_config_retries);
 			try{
-				if(!projectInfoPresent) { // only url string is available
-					if(Logging.DEBUG) Log.d(Logging.TAG, "doInBackground() - GetProjectConfig for manual input url: " + url);
+				while(attemptCounter < maxAttempts) {
+					if(!projectInfoPresent) { // only url string is available
+						if(Logging.DEBUG) Log.d(Logging.TAG, "doInBackground() - GetProjectConfig for manual input url: " + url);
+						
+						if(checkProjectAlreadyAttached(url)) return R.string.attachproject_error_project_exists;
+						
+						//fetch ProjectConfig
+						projectConfig = monitor.getProjectConfig(url);
+					} else {
+						if(Logging.DEBUG) Log.d(Logging.TAG, "doInBackground() - GetProjectConfig for list selection url: " + projectInfo.url);
+						
+						if(checkProjectAlreadyAttached(projectInfo.url)) return R.string.attachproject_error_project_exists;
+						
+						//fetch ProjectConfig
+						projectConfig = monitor.getProjectConfig(projectInfo.url);
+						
+						// fetch project logo	
+						loadBitmap();
+					}
 					
-					if(checkProjectAlreadyAttached(url)) return R.string.attachproject_error_project_exists;
-					
-					//fetch ProjectConfig
-					projectConfig = monitor.getProjectConfig(url);
-				} else {
-					if(Logging.DEBUG) Log.d(Logging.TAG, "doInBackground() - GetProjectConfig for list selection url: " + projectInfo.url);
-					
-					if(checkProjectAlreadyAttached(projectInfo.url)) return R.string.attachproject_error_project_exists;
-					
-					//fetch ProjectConfig
-					projectConfig = monitor.getProjectConfig(projectInfo.url);
-					
-					// fetch project logo	
-					loadBitmap();
-				}
-				
-				if (projectConfig != null && projectConfig.error_num != null && projectConfig.error_num == 0) {
-					return 0;
-				} else { 
-					if(Logging.DEBUG) Log.d(Logging.TAG,"getProjectConfig returned error num:" + projectConfig.error_num);
-					return R.string.attachproject_login_error_toast;
+					if (projectConfig != null && projectConfig.error_num != null && projectConfig.error_num == 0) {
+						// success
+						return 0;
+					} else { 
+						if(Logging.DEBUG) if(projectConfig != null) Log.d(Logging.TAG,"getProjectConfig returned error num:" + projectConfig.error_num);
+						attemptCounter++;
+					}
 				}
 			} catch(Exception e) {
 				if(Logging.WARNING) Log.w(Logging.TAG,"error in doInBackround",e);
-				return R.string.attachproject_login_error_toast;
 			}
+			// if this code is reached, it failed, return
+			if(Logging.DEBUG) if(projectConfig != null) Log.d(Logging.TAG,"getProjectConfig returned error num:" + projectConfig.error_num);
+			return R.string.attachproject_login_error_toast;
 		}
 		
 		@Override

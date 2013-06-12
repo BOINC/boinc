@@ -283,52 +283,103 @@ public class AttachProjectWorkingActivity extends Activity{
 			publishProgress(new Update(true, true, R.string.attachproject_working_connect,0));
 			
 			// get authenticator
-			AccountOut account;
+			AccountOut account = null;
+			Integer attemptCounter = 0;
+			Integer maxAttempts = 0;
+			Boolean success = false;
+			int err = -1;
 			if(registration) {
 				// register account
 				publishProgress(new Update(false, false, R.string.attachproject_working_register,0));
-				if(Logging.DEBUG) Log.d(Logging.TAG,"registration with: " + url + email + userName + pwd.length() + teamName);
-				account = monitor.createAccount(url, email, userName, pwd, teamName);
-				try {Thread.sleep(timeInterval);} catch (Exception e){}
-				if(account == null) {
-					if(Logging.DEBUG) Log.d(Logging.TAG,"registration failed, account info is null.");
-					publishProgress(new Update(true, false, R.string.attachproject_working_register, mapErrorNumToString(0)));
+				maxAttempts = getResources().getInteger(R.integer.attach_creation_retries);
+				if(Logging.DEBUG) Log.d(Logging.TAG,"registration with: " + url + email + userName + pwd.length() + teamName + maxAttempts);
+				// retry a defined number of times, if non deterministic failure occurs.
+				// makes login more robust on bad network connections
+				while(!success && attemptCounter < maxAttempts) {
+					account = monitor.createAccount(url, email, userName, pwd, teamName);
+					
+					if(account == null || account.error_num != BOINCErrors.ERR_OK) {
+						// failed
+						if(account != null) err = account.error_num;
+						if(Logging.DEBUG) Log.d(Logging.TAG,"registration failed, error code: " + err);
+						if(err == -1 || err == BOINCErrors.ERR_GETHOSTBYNAME){
+							// worth a retry
+							attemptCounter++;
+						} else {
+							// not worth a retry, return
+							publishProgress(new Update(true, false, R.string.attachproject_working_register, mapErrorNumToString(err)));
+							return false;
+						}
+					} else {
+						// successful
+						try {Thread.sleep(timeInterval);} catch (Exception e){}
+						publishProgress(new Update(true, true, R.string.attachproject_working_register,0));
+						success = true;
+					}
+				}
+				// reached end of loop, check if successful
+				if(!success) {
+					publishProgress(new Update(true, false, R.string.attachproject_working_register, mapErrorNumToString(err)));
 					return false;
 				}
-				if(account.error_num != BOINCErrors.ERR_OK) {
-					if(Logging.DEBUG) Log.d(Logging.TAG,"registration failed, error code: " + account.error_num);
-					publishProgress(new Update(true, false, R.string.attachproject_working_register, mapErrorNumToString(account.error_num)));
-					return false;
-				}
-				publishProgress(new Update(true, true, R.string.attachproject_working_register,0));
 			} else {
 				// lookup authenticator
 				publishProgress(new Update(false, false, R.string.attachproject_working_verify,0));
-				if(Logging.DEBUG) Log.d(Logging.TAG,"loging with: " + url + id + pwd.length() + usesName);
-				account = monitor.lookupCredentials(url, id, pwd, usesName);
-				try {Thread.sleep(timeInterval);} catch (Exception e){}
-				if(account == null) {
-					if(Logging.DEBUG) Log.d(Logging.TAG,"login failed, account info is null.");
-					publishProgress(new Update(true, false, R.string.attachproject_working_verify, mapErrorNumToString(0)));
+				maxAttempts = getResources().getInteger(R.integer.attach_login_retries);
+				if(Logging.DEBUG) Log.d(Logging.TAG,"loging with: " + url + id + pwd.length() + usesName + maxAttempts);
+				// retry a defined number of times, if non deterministic failure occurs.
+				// makes login more robust on bad network connections
+				while(!success && attemptCounter < maxAttempts) {
+					account = monitor.lookupCredentials(url, id, pwd, usesName);
+					
+					if(account == null || account.error_num != BOINCErrors.ERR_OK) {
+						// failed
+						if(account != null) err = account.error_num;
+						if(Logging.DEBUG) Log.d(Logging.TAG,"registration failed, error code: " + err);
+						if(err == -1 || err == BOINCErrors.ERR_GETHOSTBYNAME){
+							// worth a retry
+							attemptCounter++;
+						} else {
+							// not worth a retry, return
+							publishProgress(new Update(true, false, R.string.attachproject_working_verify, mapErrorNumToString(err)));
+							return false;
+						}
+					} else {
+						// successful
+						try {Thread.sleep(timeInterval);} catch (Exception e){}
+						publishProgress(new Update(true, true, R.string.attachproject_working_verify,0));
+						success = true;
+					}
+				}
+				// reached end of loop, check if successful
+				if(!success) {
+					publishProgress(new Update(true, false, R.string.attachproject_working_verify, mapErrorNumToString(err)));
 					return false;
 				}
-				if(account.error_num != BOINCErrors.ERR_OK) {
-					if(Logging.DEBUG) Log.d(Logging.TAG,"login failed, error code: " + account.error_num);
-					publishProgress(new Update(true, false, R.string.attachproject_working_verify, mapErrorNumToString(account.error_num)));
-					return false;
-				}
-				publishProgress(new Update(true, true, R.string.attachproject_working_verify,0));
 			}
 			
 			// attach project
+			attemptCounter = 0;
+			success = false;
+			maxAttempts = getResources().getInteger(R.integer.attach_attach_retries);
 			publishProgress(new Update(false, false, R.string.attachproject_working_login,0));
-			Boolean attach = monitor.attachProject(url, projectName, account.authenticator);
-			try {Thread.sleep(timeInterval);} catch (Exception e){}
-			if(!attach) {
+			while(!success && attemptCounter < maxAttempts) {
+				Boolean attach = monitor.attachProject(url, projectName, account.authenticator);
+				if(attach) {
+					// successful
+					success = true;
+					try {Thread.sleep(timeInterval);} catch (Exception e){}
+					publishProgress(new Update(true, true, R.string.attachproject_working_login,0));
+				} else {
+					// failed
+					attemptCounter++;
+				}
+			}
+			if(!success) {
+				// still failed
 				publishProgress(new Update(true, false, R.string.attachproject_working_login,0));
 				return false;
 			}
-			publishProgress(new Update(true, true, R.string.attachproject_working_login,0));
 			
 			return true;
 		}		
