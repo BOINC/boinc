@@ -37,7 +37,6 @@ function boinc_standard_default_wysiwyg() {
         'sup' => 1,
         'sub' => 1,
         'blockquote' => 1,
-        'code' => 1,
         'removeformat' => 1,
         'charmap' => 1,
       ),
