@@ -57,8 +57,6 @@ public class DeviceStatus{
 	}
 	
 	// polls current device status
-	// returns true if data model has actually changed
-	// returns false if device status is unchanged -> avoid RPC call
 	public Boolean update() throws Exception {
 		// invalid data
 		valid = false;
