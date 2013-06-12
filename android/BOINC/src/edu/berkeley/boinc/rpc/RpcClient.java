@@ -32,6 +32,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 import android.util.Log;
 import android.util.Xml;
+import edu.berkeley.boinc.utils.BOINCDefs;
 import edu.berkeley.boinc.utils.Logging;
 
 
@@ -139,10 +140,10 @@ public class RpcClient {
 
 	private static final String modeName(int mode) {
 		switch (mode) {
-		case 1: return "<always/>";
-		case 2: return "<auto/>";
-		case 3: return "<never/>";
-		case 4: return "<restore/>";
+		case BOINCDefs.RUN_MODE_ALWAYS: return "<always/>";
+		case BOINCDefs.RUN_MODE_AUTO: return "<auto/>";
+		case BOINCDefs.RUN_MODE_NEVER: return "<never/>";
+		case BOINCDefs.RUN_MODE_RESTORE: return "<restore/>";
 		default: return "";
 		}
 	}

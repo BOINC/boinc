@@ -650,6 +650,10 @@ public class Monitor extends Service {
 		return rpc.setRunMode(mode, 0);
 	}
 	
+	public Boolean setNetworkMode(Integer mode) {
+		return rpc.setNetworkMode(mode, 0);
+	}
+	
 	// writes the given GlobalPreferences via RPC to the client
 	// after writing, the active preferences are read back and
 	// written to ClientStatus.

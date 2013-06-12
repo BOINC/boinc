@@ -128,7 +128,7 @@
     <string name="status_idle">Nothing to do</string>
     <string name="status_idle_long">Waiting for tasks&#8230;</string>
     <string name="status_computing_disabled">Suspended</string>
-    <string name="status_computing_disabled_long">Press play to resume computation.</string>
+    <string name="status_computing_disabled_long">Press play to resume network and computation.</string>
     <string name="status_launching">Starting&#8230;</string>
     <string name="status_noproject">Choose a project to participate in.</string>
     <string name="status_closing">Closing&#8230;</string>
