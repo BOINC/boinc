@@ -591,11 +591,14 @@ function join_page($type = null) {
   default:
     $output .= '<ol>';
     $output .= '  <li>' . t('Download the desktop software');
-    $output .= '    <p class="platforms">';
-    $output .= '      <a href="files/boinc_windows_intelx86.exe" class="platform windows">Windows</a>';
-    $output .= '      <a href="files/boinc_macOSX_universal.zip" class="platform mac">Mac</a>';
-    $output .= '      <a href="files/boinc_i686-pc-linux-gnu.sh" class="platform linux">Linux</a>';
+    $output .= '    <p>';
+    $output .= '      <a class="button" href="http://boinc.berkeley.edu/download.php">Download</a>';
     $output .= '    </p>';
+    //$output .= '    <p class="platforms">';
+    //$output .= '      <a href="files/boinc_windows_intelx86.exe" class="platform windows">Windows</a>';
+    //$output .= '      <a href="files/boinc_macOSX_universal.zip" class="platform mac">Mac</a>';
+    //$output .= '      <a href="files/boinc_i686-pc-linux-gnu.sh" class="platform linux">Linux</a>';
+    //$output .= '    </p>';
     $output .= '  </li>';
     $output .= '  <li>' . t('Run the installer') . '</li>';
     $output .= '  <li>' . t('When prompted enter @siteurl', array(
