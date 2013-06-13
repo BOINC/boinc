@@ -319,14 +319,15 @@
           
           <ul id="server-status" class="tab-list">
             
-            <li class="first tab">Server status</li>
+            <li class="first tab"><a href="/server_status.html">SERVER STATUS</a></li>
+            <!--<li class="first tab">Server status</li>
             <li class="tab">
               <ul id="server-status-highlights">
                 <li class="first good">Work available</li>
                 <li class="good">Website</li>
               </ul>
             </li>
-            <li class="last tab"><a href="status">More</a></li>
+            <li class="last tab"><a href="status">More</a></li>-->
             
           </ul>
           <div class="clearfix"></div>
