@@ -288,6 +288,7 @@ $mac = array(
 		$m72dev,
 		$m70,
 		$m70old,
+		$m72cdev,
 		$m70c,
 		$m70cold,
     )
