@@ -204,14 +204,14 @@
               global $user;
               global $base_path;
               if ($user->uid):
-                echo '<a href="' . $base_path . 'logout"><span class="tab">' . t('Logout') . '</span></a>';
+                echo '<a href="' . $base_path . 'logout"><span class="secondary-link tab">' . t('Logout') . '</span></a>';
               else:
-                echo '<a href="' . $base_path . 'user/login"><span class="tab">' . t('Login') . '</span></a>';
+                echo '<a href="' . $base_path . 'user/login"><span class="secondary-link tab">' . t('Login') . '</span></a>';
               endif;
             ?>
             </li>
-            <?php if (module_exists('global_search')): ?>
-              <li class="last"><a class="search" href="<?php print $base_path; ?>find"><span class="tab">Search</span></a></li>
+            <?php if (module_exists('global_search') OR module_exists('global_search_solr')): ?>
+              <li class="last"><a class="search" href="<?php print $base_path; ?>search/site"><span class="tab">Search</span></a></li>
             <?php endif; ?>
           </ul>
         </div>
@@ -230,17 +230,40 @@
 
       </div></div> <!-- /.section, /#navigation -->
     <?php endif; ?>
-
-    <?php if ($tabs): ?>
-      <div class="tabs"><?php print $tabs; ?></div>
-    <?php endif; ?>
     
     </div> <!-- /.shadow -->
     
     <div id="main-wrapper"><div id="main" class="clearfix<?php if ($primary_links || $navigation) { print ' with-navigation'; } ?>">
       
+    <?php if ($tabs): ?>
+      <?php
+        $active_menu_item = '';
+        $heading_overrides = array(
+          'join' => t('Join now')
+        );
+        if (isset($heading_overrides[arg(0)])) {
+          $active_menu_item = $heading_overrides[arg(0)];
+        }
+        else {
+          $target_menu = ($secondary_links) ? $secondary_links : $primary_links;
+          foreach ($target_menu as $key => $entry) {
+            if (strstr($key, 'active')) {
+              $active_menu_item = $target_menu[$key]['title'];
+              break;
+            }
+          }
+        }
+      ?>
+      <div class="tabs container shadow">
+      <?php if ($active_menu_item): ?>
+        <h1><?php print $active_menu_item; ?></h1>
+      <?php endif; ?>
+      <?php print $tabs; ?>
+      </div>
+    <?php endif; ?>
+      
       <?php $class_list = explode(' ', $classes); ?>
-      <div id="content" class="column"><div class="section<?php echo (!array_intersect(array('page-panels','section-users'), $class_list)) ? ' framing shadow' : ''; ?>">
+      <div id="content" class="column"><div class="section<?php echo (!array_intersect(array('page-panels','section-users'), $class_list)) ? ' framing container shadow' : ''; ?>">
         
         <?php if ($mission): ?>
           <div id="mission"><?php print $mission; ?></div>
