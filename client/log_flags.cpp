@@ -175,9 +175,13 @@ void CONFIG::show() {
         msg_printf(NULL, MSG_INFO, "Config: fetch minimal work");
     }
     if (max_event_log_lines != DEFAULT_MAX_EVENT_LOG_LINES) {
-        msg_printf(NULL, MSG_INFO,
-            "Config: event log limit %d lines", max_event_log_lines
-        );
+        if (max_event_log_lines) {
+            msg_printf(NULL, MSG_INFO,
+                "Config: event log limit %d lines", max_event_log_lines
+            );
+        } else {
+            msg_printf(NULL, MSG_INFO, "Config: event log limit disabled");
+        }
     }
     if (fetch_on_update) {
         msg_printf(NULL, MSG_INFO, "Config: fetch on update");
