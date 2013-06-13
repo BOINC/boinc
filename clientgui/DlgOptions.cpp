@@ -692,7 +692,7 @@ bool CDlgOptions::SaveSettings() {
         // %s is the application name
         //    i.e. 'BOINC Manager', 'GridRepublic Manager'
         strDialogMessage.Printf(
-            _("The %s's default language has been changed, in order for this change to take affect you must restart the %s."),
+            _("The %s's language has been changed.  In order for this change to take effect, you must restart the %s."),
             pSkinAdvanced->GetApplicationName().c_str(),
             pSkinAdvanced->GetApplicationName().c_str()
         );
