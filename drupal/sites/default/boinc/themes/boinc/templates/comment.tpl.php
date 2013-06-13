@@ -84,7 +84,7 @@
       if ($user_image['image']['filepath']) {
         print '<div class="picture">';
         //print theme('imagecache', 'thumbnail', $user_image['image']['filepath'], $user_image['alt'], $user_image['alt']);
-        print theme('imagefield_image', $user_image['image'], $user_image['alt'], $user_image['alt'], array('width' => '100', 'height' => '100'), false);
+        print theme('imagefield_image', $user_image['image'], $user_image['alt'], $user_image['alt'], array(), false);
         print '</div>';
       }
     ?>
