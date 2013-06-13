@@ -44,10 +44,10 @@ function linux_info() {
 }
 
 $w72dev = array(
-	"num"=>"7.1.10",
+	"num"=>"7.1.15",
 	"status"=>"Development version",
-	"file"=>"boinc_7.1.10_windows_intelx86.exe",
-	"date"=>"7 June 2013",
+	"file"=>"boinc_7.1.15_windows_intelx86.exe",
+	"date"=>"12 June 2013",
 	"type"=>"win_new",
 );
 
@@ -84,10 +84,10 @@ $w5816 = array(
 );
 
 $w72x64dev = array(
-	"num"=>"7.1.10",
+	"num"=>"7.1.15",
 	"status"=>"Development version",
-	"file"=>"boinc_7.1.10_windows_x86_64.exe",
-	"date"=>"7 June 2013",
+	"file"=>"boinc_7.1.15_windows_x86_64.exe",
+	"date"=>"12 June 2013",
 	"type"=>"win_new",
 );
 
@@ -204,10 +204,10 @@ $l66 = array(
 	);
 
 $l72ubuntudev = array(
-	"num"=>"7.1.10",
+	"num"=>"7.1.15",
 	"status"=>"Development version",
-	"file"=>"boinc_7.1.10_i686-pc-linux-gnu.sh",
-	"date"=>"7 June 2013",
+	"file"=>"boinc_7.1.15_i686-pc-linux-gnu.sh",
+	"date"=>"12 June 2013",
 	"type"=>"sea",
 );
 
@@ -228,10 +228,10 @@ $l70ubuntuold = array(
 );
 
 $l72ubuntux64dev = array(
-	"num"=>"7.1.10",
+	"num"=>"7.1.15",
 	"status"=>"Development version",
-	"file"=>"boinc_7.1.10_x86_64-pc-linux-gnu.sh",
-	"date"=>"7 June 2013",
+	"file"=>"boinc_7.1.15_x86_64-pc-linux-gnu.sh",
+	"date"=>"12 June 2013",
 	"type"=>"sea",
 );
 
