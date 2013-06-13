@@ -1,26 +1,36 @@
+///////////////////////////////////////////////////////////////////////////////
+// Original Name:        src/common/intl.cpp
+// Original Purpose:     Internationalization and localisation for wxWidgets
+// Original Author:      Vadim Zeitlin
+// Modified by: Charlie Fenton for BOINC  13 June, 2013
+// Created:     29/01/98
+// Copyright:   (c) 1998 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
+// Licence:     wxWindows licence
+/////////////////////////////////////////////////////////////////////////////
+//
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2013 University of California
 //
-// BOINC is free software; you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License
-// as published by the Free Software Foundation,
-// either version 3 of the License, or (at your option) any later version.
-//
-// BOINC is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-// See the GNU Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
-
-// Simplified string localization code adapted from
+// Simplified string localization code for use in BOINC adapted from
 // wxWidgets src/common/intl.cpp.
-// Assumes all catalogs are encoded UTF-8
 //
 // For sample code to get preferred system language, see
 // wxLocale::GetSystemLanguage() in wxWidgets src/common/intl.cpp
+//
+// Those portions of this code which are taken from wxWidgets are 
+// Copyright:   (c) 1998 Vadim Zeitlin 
+// and are covered by the wxWidgets license which can be found here: 
+// <http://www.wxwidgets.org/about/licence3.txt>
+//
+// This code assumes all catalogs are encoded UTF-8
+// (Note: wxstd.mo files are encoded ISO 8859-1 not UTF-8.)
+//
+// We recommended that you first call BOINCTranslationAddCatalog()
+// for the user's preferred language, then for the user's second
+// preferred language and (optionally) then for the user's third
+// preferred language.  This will make it more likley that a
+// translation will be found in some language useful to the user.
+//
 
 #include <stdint.h>
 #include <cstring>
@@ -34,7 +44,7 @@
 static static const uint32_t MSGCATALOG_MAGIC    = 0x950412de;
 const uint32_t MSGCATALOG_MAGIC_SW = 0xde120495;
 
-#define MAXCATALOGS 5
+#define MAXCATALOGS 20
 
 // an entry in the string table
 struct MsgTableEntry {
@@ -90,7 +100,7 @@ static uint32_t Swap(uint32_t ui, bool bSwapped) {
 //
 // Returns true if successful.
 //
-bool LoadCatalog(const char * catalogsDir,
+static bool LoadCatalog(const char * catalogsDir,
                 const char *languageCode,
                 const char *catalogName
                 ) {
@@ -171,6 +181,13 @@ bool LoadCatalog(const char * catalogsDir,
 
     // initialize
     NumStrings  = Swap(pHeader->numStrings, bSwapped);
+    if (NumStrings <= 1) {
+        // This file has no translations (is effectively 
+        // empty) so don't load it for better efficiency.
+        free(pData);
+        pData = NULL;
+        return true;    // Not an error
+    }
     pOrigTable  = (MsgTableEntry *)(pData +
                    Swap(pHeader->ofsOrigTable, bSwapped));
     pTransTable = (MsgTableEntry *)(pData +
@@ -181,10 +198,11 @@ bool LoadCatalog(const char * catalogsDir,
     uint32_t ofsString = Swap(pOrigTable->ofsString, bSwapped);
     // this check could fail for a corrupt message catalog
     if ( ofsString + Swap(pOrigTable->nLen, bSwapped) <= nSize) {
-        char *begin = strstr((char *)pTransTable,
+        char *begin = strstr((char *)(pData + Swap(pTransTable->ofsString, bSwapped)),
                             "Content-Type: text/plain; charset="
                             );
         if (begin != NULL) {
+            begin += 34; //strlen("Content-Type: text/plain; charset=")
             if (strncasecmp(begin, "utf-8", 5)) {
                 fprintf(stderr, "File %s is not utf-8!\n", searchPath);
                 free(pData);
@@ -227,7 +245,7 @@ uint8_t * _(char *src) {
         }
         
         if (pCatalog->pData == NULL) continue;    // Should never happen
-        for (i=0; i< pCatalog->NumStrings; ++i) {
+        for (i=0; i<pCatalog->NumStrings; ++i) {
             if (!strcmp((char *)pCatalog->pData + pCatalog->pOrigTable[i].ofsString, src)) {
                 return (pCatalog->pData + pCatalog->pTransTable[i].ofsString);
             }

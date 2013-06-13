@@ -1,26 +1,36 @@
+///////////////////////////////////////////////////////////////////////////////
+// Original Name:        src/common/intl.cpp
+// Original Purpose:     Internationalization and localisation for wxWidgets
+// Original Author:      Vadim Zeitlin
+// Modified by: Charlie Fenton for BOINC  13 June, 2013
+// Created:     29/01/98
+// Copyright:   (c) 1998 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
+// Licence:     wxWindows licence
+/////////////////////////////////////////////////////////////////////////////
+//
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2013 University of California
 //
-// BOINC is free software; you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License
-// as published by the Free Software Foundation,
-// either version 3 of the License, or (at your option) any later version.
-//
-// BOINC is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-// See the GNU Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
-
-// Simplified string localization code adapted from
+// Simplified string localization code for use in BOINC adapted from
 // wxWidgets src/common/intl.cpp.
-// Assumes all catalogs are encoded UTF-8
 //
 // For sample code to get preferred system language, see
 // wxLocale::GetSystemLanguage() in wxWidgets src/common/intl.cpp
+//
+// Those portions of this code which are taken from wxWidgets are 
+// Copyright:   (c) 1998 Vadim Zeitlin 
+// and are covered by the wxWidgets license which can be found here: 
+// <http://www.wxwidgets.org/about/licence3.txt>
+//
+// This code assumes all catalogs are encoded UTF-8
+// (Note: wxstd.mo files are encoded ISO 8859-1 not UTF-8.)
+//
+// We recommended that you first call BOINCTranslationAddCatalog()
+// for the user's preferred language, then for the user's second
+// preferred language and (optionally) then for the user's third
+// preferred language.  This will make it more likley that a
+// translation will be found in some language useful to the user.
+//
 
 #ifndef _BOINC_TRANSLATE_H
 #define _BOINC_TRANSLATE_H
