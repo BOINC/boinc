@@ -516,7 +516,7 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const {
         if (strCategory == wxT("client")) {
             strBuffer.Printf(
                 wxT("_(\"Notice from %s\")"),
-                pSkinAdvanced->GetApplicationShortName()
+                pSkinAdvanced->GetApplicationShortName().c_str()
             );
             if (strProjectName.size()) {
                 strTemp.Printf(wxT("%s: %s"), strProjectName.c_str(), strBuffer.c_str());
