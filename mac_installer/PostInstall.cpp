@@ -80,6 +80,7 @@ using std::string;
 #include "LoginItemAPI.h"
 
 #include "SetupSecurity.h"
+#include "translate.h"
 
 
 #define admin_group_name "admin"
@@ -102,6 +103,7 @@ void SetSkinInUserPrefs(char *userName, char *skinName);
 Boolean CheckDeleteFile(char *name);
 void SetEUIDBackToUser (void);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
+void LoadPreferredLanguages();
 static Boolean ShowMessage(Boolean allowCancel, const char *format, ...);
 Boolean IsUserMemberOfGroup(const char *userName, const char *groupName);
 int CountGroupMembershipEntries(const char *userName, const char *groupName);
@@ -125,17 +127,21 @@ extern int check_security(
 );
 
 /* BEGIN TEMPORARY ITEMS TO ALLOW TRANSLATORS TO START WORK */
-#define _(x) x
+//#define _(x) x
 
 void notused() {
-    ShowMessage(true, _("Yes"));
-    ShowMessage(true, _("No"));
+    ShowMessage(true, (char *)_("Yes"));
+    ShowMessage(true, (char *)_("No"));
     // Future feature
-    ShowMessage(true, _("Should BOINC run even when no user is logged in?"));
+    ShowMessage(true, (char *)_("Should BOINC run even when no user is logged in?"));
 }
 /* END TEMPORARY ITEMS TO ALLOW TRANSLATORS TO START WORK */
 
 #define NUMBRANDS 4
+#define MAX_LANGUAGES_TO_TRY 5
+
+static char * Catalog_Name = (char *)"BOINC-Setup";
+static char * Catalogs_Dir = (char *)"/Library/Application Support/BOINC Data/locale/";
 
 /* globals */
 static Boolean                  gCommandLineInstall = false;
@@ -1121,34 +1127,85 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
 }
 
 
+// Because language preferences are set on a per-user basis, we
+// must get the preferred languages while set to the current 
+// user, before the Apple Installer switches us to root.
+// So we get the preferred languages in our Installer.app which 
+// writes them to a temporary file which we retrieve here.
+void LoadPreferredLanguages(){
+    FILE *f;
+    int i;
+    char *p;
+    char language[32];
+
+    BOINCTranslationInit();
+
+    // Install.app wrote a list of our preferred languages to a temp file
+    f = fopen("/tmp/BOINC_preferred_languages", "r");
+    if (!f) return;
+    
+    for (i=0; i<MAX_LANGUAGES_TO_TRY; ++i) {
+        fgets(language, sizeof(language), f);
+        if (feof(f)) break;
+        language[sizeof(language)-1] = '\0';    // Guarantee a null terminator
+        p = strchr(language, '\n');
+        if (p) *p = '\0';           // Replace newline with null terminator 
+        if (language[0]) {
+            if (!BOINCTranslationAddCatalog(Catalogs_Dir, language, Catalog_Name)) {
+                printf("could not load catalog for langage %s\n", language);
+            }
+        }
+    }
+    fclose(f);
+}
+
+
 static Boolean ShowMessage(Boolean allowCancel, const char *format, ...) {
+  // CAUTION: vsprintf will produce undesirable results if the string
+  // contains a % character that is not a format specification!
+  // But CFString is OK!
+
     va_list                 args;
     char                    s[1024];
-    short                   itemHit;
-    AlertStdAlertParamRec   alertParams;
-    
+    CFOptionFlags           responseFlags;
     ProcessSerialNumber	ourProcess;
-
+    
+#if 1
     va_start(args, format);
-    s[0] = vsprintf(s+1, format, args);
+    vsprintf(s, format, args);
     va_end(args);
+#else
+    strcpy(s, format);
+#endif
 
-    alertParams.movable = true;
-    alertParams.helpButton = false;
-    alertParams.filterProc = NULL;
-    alertParams.defaultText = (StringPtr)"\pYes";
-    alertParams.cancelText = allowCancel ? (StringPtr)"\pNo" : NULL;
-    alertParams.otherText = NULL;
-    alertParams.defaultButton = kAlertStdAlertOKButton;
-    alertParams.cancelButton = allowCancel ? kAlertStdAlertCancelButton : 0;
-    alertParams.position = kWindowDefaultPosition;
+    // If defaultButton is nil or an empty string, a default localized
+    // button title (ÒOKÓ in English) is used.
+    
+#if 0
+    enum {
+   kCFUserNotificationDefaultResponse = 0,
+   kCFUserNotificationAlternateResponse = 1,
+   kCFUserNotificationOtherResponse = 2,
+   kCFUserNotificationCancelResponse = 3
+};
+#endif
+
+    CFStringRef myString = CFStringCreateWithCString(NULL, s, kCFStringEncodingUTF8);
+    CFStringRef yes = CFStringCreateWithCString(NULL, (char*)_((char*)"Yes"), kCFStringEncodingUTF8);
+    CFStringRef no = CFStringCreateWithCString(NULL, (char*)_((char*)"No"), kCFStringEncodingUTF8);
 
     ::GetCurrentProcess (&ourProcess);
     ::SetFrontProcess(&ourProcess);
-
-    StandardAlert (kAlertNoteAlert, (StringPtr)s, NULL, &alertParams, &itemHit);
+    SInt32 retval = CFUserNotificationDisplayAlert(0.0, kCFUserNotificationPlainAlertLevel,
+                NULL, NULL, NULL, CFSTR(" "), myString,
+                yes, allowCancel ? no : NULL, NULL,
+                &responseFlags);
     
-    return (itemHit == kAlertStdAlertOKButton);
+       
+    CFRelease(myString);
+
+    if (retval) return false;
+    return (responseFlags == kCFUserNotificationDefaultResponse);
 }
 
 
@@ -1394,6 +1451,8 @@ OSErr UpdateAllVisibleUsers(long brandID)
     
     ResynchSystem();
 
+    LoadPreferredLanguages();
+
     if (allNonAdminUsersAreSet) {
         puts("[2] All non-admin users are already members of group boinc_master\n");
         fflush(stdout);
@@ -1409,8 +1468,8 @@ OSErr UpdateAllVisibleUsers(long brandID)
                 saverAlreadySetForAll = false;
             }
         } else {
-            if (ShowMessage(true, 
-                _("Users who are permitted to administer this computer will automatically be allowed to "
+            if (ShowMessage(true,
+                (char *)_("Users who are permitted to administer this computer will automatically be allowed to "
                 "run and control %s.\n\n"
                 "Do you also want non-administrative users to be able to run and control %s on this Mac?"),
                 brandName[brandID], brandName[brandID])
@@ -1438,7 +1497,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
             }
         } else {
             setSaverForAllUsers = ShowMessage(true, 
-                    _("Do you want to set %s as the screensaver for all %s users on this Mac?"),
+                    (char *)_("Do you want to set %s as the screensaver for all %s users on this Mac?"),
                     brandName[brandID], brandName[brandID]);
         }
     }
@@ -1587,6 +1646,8 @@ OSErr UpdateAllVisibleUsers(long brandID)
     }   // End for (userIndex=0; userIndex< human_user_names.size(); ++userIndex)
 
     ResynchSystem();
+    
+    BOINCTranslationCleanup();
 
     return noErr;
 }

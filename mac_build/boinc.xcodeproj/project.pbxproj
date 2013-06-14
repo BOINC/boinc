@@ -464,6 +464,7 @@
 		DDE7A3B115C6739E002B3B96 /* ttfont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE7A3AF15C6739E002B3B96 /* ttfont.cpp */; };
 		DDF5F85A10DD05DB006A50CD /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
 		DDF5F85B10DD05E4006A50CD /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
+		DDF93511176B0D0C00A2793C /* translate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDF9350F176B0D0C00A2793C /* translate.cpp */; };
 		DDF9EC0A144EB2BB005D6144 /* boinc_opencl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDF9EC08144EB2BB005D6144 /* boinc_opencl.cpp */; };
 		DDF9EC0B144EB2BB005D6144 /* boinc_opencl.h in Headers */ = {isa = PBXBuildFile; fileRef = DDF9EC09144EB2BB005D6144 /* boinc_opencl.h */; };
 		DDFA60E20CB3391C0037B88C /* gfx_switcher in Resources */ = {isa = PBXBuildFile; fileRef = DDFA60D40CB337D40037B88C /* gfx_switcher */; };
@@ -1175,6 +1176,8 @@
 		DDF1F47A09822C3400482C89 /* preinstall */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.csh; name = preinstall; path = ../mac_installer/preinstall; sourceTree = SOURCE_ROOT; };
 		DDF1F4A409822F8A00482C89 /* GR-Branding */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = "GR-Branding"; path = "../mac_installer/GR-Branding"; sourceTree = SOURCE_ROOT; };
 		DDF3028907CCCE2C00701169 /* BOINCMgr.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = BOINCMgr.icns; path = ../clientgui/res/BOINCMgr.icns; sourceTree = SOURCE_ROOT; };
+		DDF9350F176B0D0C00A2793C /* translate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = translate.cpp; path = ../lib/translate.cpp; sourceTree = "<group>"; };
+		DDF93510176B0D0C00A2793C /* translate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = translate.h; path = ../lib/translate.h; sourceTree = "<group>"; };
 		DDF9385407E28906004DC076 /* checkin_notes */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = checkin_notes; path = ../checkin_notes; sourceTree = SOURCE_ROOT; };
 		DDF9EC03144EB14B005D6144 /* libboinc_opencl.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc_opencl.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDF9EC08144EB2BB005D6144 /* boinc_opencl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = boinc_opencl.cpp; sourceTree = "<group>"; };
@@ -1509,6 +1512,8 @@
 			children = (
 				DD1AFEE70A51301C00EE5B82 /* Installer.cpp */,
 				DD1277C0081F3E73007B5DE1 /* PostInstall.cpp */,
+				DDF9350F176B0D0C00A2793C /* translate.cpp */,
+				DDF93510176B0D0C00A2793C /* translate.h */,
 				DD4688590C1661970089F500 /* uninstall.cpp */,
 				DDF1F47A09822C3400482C89 /* preinstall */,
 				DDB8D5A5081FC8C700A5A1E8 /* postinstall */,
@@ -2836,6 +2841,7 @@
 				DD2FE5CB142DE94700A1E6F3 /* LoginItemAPI.c in Sources */,
 				DD728D45175DD3B900A1CE23 /* url.cpp in Sources */,
 				DD728D47175DD41B00A1CE23 /* str_util.cpp in Sources */,
+				DDF93511176B0D0C00A2793C /* translate.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

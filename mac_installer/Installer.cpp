@@ -41,14 +41,20 @@
 void Initialize(void);	/* function prototypes */
 Boolean IsUserMemberOfGroup(const char *userName, const char *groupName);
 Boolean IsRestartNeeded();
+void GetPreferredLanguages();
 OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN);
 static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
 void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
 
-/* BEGIN TEMPORARY ITEM TO ALLOW TRANSLATORS TO START WORK */
+// We can't use translation because the translation catalogs
+// have not yet been installed when this application is run.
 #define _(x) x
-/* END TEMPORARY ITEM TO ALLOW TRANSLATORS TO START WORK */
+
+#define MAX_LANGUAGES_TO_TRY 5
+
+static char * Catalog_Name = (char *)"BOINC-Setup";
+static char * Catalogs_Dir = (char *)"/Library/Application Support/BOINC Data/locale/";
 
 Boolean			gQuitFlag = false;	/* global */
 
@@ -162,6 +168,8 @@ int main(int argc, char *argv[])
         system(infoPlistPath);
     }
 
+    GetPreferredLanguages();
+    
     return err;
 }
 
@@ -262,6 +270,97 @@ void Initialize()	/* Initialize some managers */
     err = AEInstallEventHandler( kCoreEventClass, kAEQuitApplication, NewAEEventHandlerUPP((AEEventHandlerProcPtr)QuitAppleEventHandler), 0, false );
     if (err != noErr)
         ExitToShell();
+}
+
+
+// Because language preferences are set on a per-user basis, we
+// must get the preferred languages while set to the current 
+// user, before the Apple Installer switches us to root.
+// So we get the preferred languages here and write them to a
+// temporary file to be retrieved by our PostInstall app.
+void GetPreferredLanguages() {
+    DIR *dirp;
+    struct dirent *dp;
+    char searchPath[MAXPATHLEN];
+    struct stat sbuf;
+    CFMutableArrayRef supportedLanguages;
+    CFStringRef aLanguage;
+    CFArrayRef preferredLanguages;
+    int i, j, k;
+    char * language;
+    FILE *f;
+
+    // Create an array of all our supported languages
+    supportedLanguages = CFArrayCreateMutable(NULL, 100, NULL);
+    
+    aLanguage = CFStringCreateWithCString(NULL, "en", kCFStringEncodingMacRoman);
+    CFArrayAppendValue(supportedLanguages, aLanguage);
+    aLanguage = NULL;
+
+    dirp = opendir(Catalogs_Dir);
+    while (true) {
+        dp = readdir(dirp);
+        if (dp == NULL)
+            break;                  // End of list
+
+        if (dp->d_name[0] == '.')
+            continue;               // Ignore names beginning with '.'
+
+        strlcpy(searchPath, Catalogs_Dir, sizeof(searchPath));
+        strlcat(searchPath, dp->d_name, sizeof(searchPath));
+        strlcat(searchPath, "/", sizeof(searchPath));
+        strlcat(searchPath, Catalog_Name, sizeof(searchPath));
+        strlcat(searchPath, ".mo", sizeof(searchPath));
+        if (stat(searchPath, &sbuf) != 0) continue;
+//        printf("Adding %s to supportedLanguages array\n", dp->d_name);
+        aLanguage = CFStringCreateWithCString(NULL, dp->d_name, kCFStringEncodingMacRoman);
+        CFArrayAppendValue(supportedLanguages, aLanguage);
+        aLanguage = NULL;
+    }
+    
+    closedir(dirp);
+
+    // Write a temp file to tell our PostInstall.app our preferred languages
+    f = fopen("/tmp/BOINC_preferred_languages", "w");
+
+    for (i=0; i<MAX_LANGUAGES_TO_TRY; ++i) {
+    
+        preferredLanguages = CFBundleCopyLocalizationsForPreferences(supportedLanguages, NULL );
+        
+#if 0   // For testing
+        int c = CFArrayGetCount(preferredLanguages);
+        for (k=0; k<c; ++k) {
+        CFStringRef s = (CFStringRef)CFArrayGetValueAtIndex(preferredLanguages, k);
+            printf("Preferred language %u is %s\n", k, CFStringGetCStringPtr(s, kCFStringEncodingMacRoman));
+        }
+
+#endif
+
+        for (j=0; j<CFArrayGetCount(preferredLanguages); ++j) {
+            aLanguage = (CFStringRef)CFArrayGetValueAtIndex(preferredLanguages, j);
+            language = (char *)CFStringGetCStringPtr(aLanguage, kCFStringEncodingMacRoman);
+            if (f) {
+                fprintf(f, "%s\n", language);
+            }
+            
+            // Remove this language from our list of supported languages so
+            // we can get the next preferred language in order of priority
+            for (k=0; k<CFArrayGetCount(supportedLanguages); ++k) {
+                if (CFStringCompare(aLanguage, (CFStringRef)CFArrayGetValueAtIndex(supportedLanguages, k), 0) == kCFCompareEqualTo) {
+                    CFArrayRemoveValueAtIndex(supportedLanguages, k);
+                    break;
+                }
+            }
+
+            // Since the original strings are English, no 
+            // further translation is needed for language en.
+            if (!strcmp(language, "en")) {
+                fclose(f);
+                return;
+            }
+        }
+    }
+    fclose(f);
 }
 
 
