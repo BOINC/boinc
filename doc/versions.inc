@@ -257,7 +257,7 @@ $l70ubuntux64old = array(
 
 $windows = array(
     "name"=>"Windows",
-    "description"=>"2000/XP/Vista/7",
+    "description"=>"2000/XP/Vista/7/8",
     "dbname" => "windows_intelx86",
     "versions"=>array(
 		$w72dev,
@@ -270,7 +270,7 @@ $windows = array(
 
 $windowsx64 = array(
     "name"=>"Windows 64-bit",
-    "description"=>"XP/Vista/7",
+    "description"=>"XP/Vista/7/8",
     "dbname" => "windows_x86_64",
     "versions"=>array(
 		$w72x64dev,
