@@ -20,8 +20,18 @@
 #endif
 
 #include "stdwx.h"
+#include "diagnostics.h"
+#include "util.h"
+#include "mfile.h"
+#include "miofile.h"
+#include "parse.h"
+#include "error_numbers.h"
+#include "wizardex.h"
+#include "error_numbers.h"
+#include "browser.h"
 #include "Events.h"
 #include "BOINCGUIApp.h"
+#include "SkinManager.h"
 #include "MainDocument.h"
 #include "NoticeListCtrl.h"
 #include "BOINCInternetFSHandler.h"
@@ -475,47 +485,62 @@ void CNoticeListCtrl::OnLinkClicked( wxHtmlLinkEvent& event )
 
 wxString CNoticeListCtrl::OnGetItem(size_t i) const {
     CMainDocument* pDoc = wxGetApp().GetDocument();
+    CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString strTitle = wxEmptyString;
     wxString strDescription = wxEmptyString;
     wxString strProjectName = wxEmptyString;
     wxString strURL = wxEmptyString;
-    wxString create_time = wxEmptyString;
+    wxString strCreateTime = wxEmptyString;
+    wxString strCategory = wxEmptyString;
     wxString strBuffer = wxEmptyString;
     wxString strTemp = wxEmptyString;
     wxDateTime dtBuffer;
-    char buf[1024];
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
     if (pDoc->IsConnected()) {
         NOTICE* np = pDoc->notice((unsigned int)i);
 
+        strCategory = wxString(np->category, wxConvUTF8);
+
+        strProjectName = wxString(np->project_name, wxConvUTF8);
+
         strURL = wxString(np->link, wxConvUTF8);
 
-        if (!strcmp(np->category, "client")) {
-            if (strlen(np->project_name)) {
-                sprintf(buf, "%s: %s", np->project_name, "_(\"Notice from BOINC\")");
+        strTitle = wxString(np->title, wxConvUTF8);
+
+        // Fix-up title
+        if (strCategory == wxT("client")) {
+            strBuffer.Printf(
+                wxT("_(\"Notice from %s\")"),
+                pSkinAdvanced->GetApplicationShortName()
+            );
+            if (strProjectName.size()) {
+                strTemp.Printf(wxT("%s: %s"), strProjectName.c_str(), strBuffer.c_str());
             } else {
-                safe_strcpy(buf, "_(\"Notice from BOINC\")");
+                strTemp.Printf(wxT("%s"), strBuffer.c_str());
             }
-        } else if (!strcmp(np->category, "scheduler")) {
-            sprintf(buf, "%s: %s", np->project_name, "_(\"Notice from server\")");
+        } else if (strCategory == wxT("scheduler")) {
+            strTemp.Printf(wxT("%s: %s"), strProjectName.c_str(), wxT("_(\"Notice from server\")"));
         } else {
-            if (strlen(np->project_name)) {
-                sprintf(buf, "%s: %s", np->project_name, np->title);
+            if (strProjectName.size()) {
+                strTemp.Printf(wxT("%s: %s"), strProjectName.c_str(), strTitle.c_str());
             } else {
-                safe_strcpy(buf, np->title);
+                strTemp = strTitle;
             }
         }
-        strTitle = wxString(buf, wxConvUTF8);
+
+        strTitle = strTemp;
         pDoc->LocalizeNoticeText(strTitle, true);
 
         strDescription = wxString(np->description.c_str(), wxConvUTF8);
         pDoc->LocalizeNoticeText(strDescription, true);
 
         dtBuffer.Set((time_t)np->create_time);
-        create_time = dtBuffer.Format();
+        strCreateTime = dtBuffer.Format();
 
         strBuffer = wxT("<table border=0 cellpadding=5><tr><td>");
 
@@ -531,7 +556,7 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const {
 
         strBuffer += wxT("<br><font size=-2 color=#8f8f8f>");
 
-        strBuffer += create_time;
+        strBuffer += strCreateTime;
 
         if (!strURL.IsEmpty()) {
             strTemp.Printf(
