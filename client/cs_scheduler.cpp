@@ -484,26 +484,32 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         return true;
     }
 
-    // check if we should fetch work.
+    // check if we should fetch work (do this last)
     //
 
-    if (!tasks_suspended
-        && !(config.fetch_minimal_work && had_or_requested_work)
-    ) {
+    switch (suspend_reason) {
+    case 0:
+    case SUSPEND_REASON_CPU_THROTTLE:
+        break;
+    default:
+        return false;
+    }
+    if (config.fetch_minimal_work && had_or_requested_work) {
+        return false;
+    }
 
-        p = work_fetch.choose_project(true, NULL);
-        if (p) {
-            if (actively_uploading(p)) {
-                if (log_flags.work_fetch_debug) {
-                    msg_printf(p, MSG_INFO,
-                        "[work_fetch] deferring work fetch; upload active"
-                    );
-                }
-                return false;
+    p = work_fetch.choose_project(true, NULL);
+    if (p) {
+        if (actively_uploading(p)) {
+            if (log_flags.work_fetch_debug) {
+                msg_printf(p, MSG_INFO,
+                    "[work_fetch] deferring work fetch; upload active"
+                );
             }
-            scheduler_op->init_op_project(p, RPC_REASON_NEED_WORK);
-            return true;
+            return false;
         }
+        scheduler_op->init_op_project(p, RPC_REASON_NEED_WORK);
+        return true;
     }
     return false;
 }
