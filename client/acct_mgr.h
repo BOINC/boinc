@@ -65,6 +65,10 @@ struct ACCT_MGR_INFO : PROJ_AM {
         if (!strlen(password_hash)) return false;
         return true;
     }
+    inline bool get_no_project_notices() {
+        if (!using_am()) return false;
+        return no_project_notices;
+    }
 
     ACCT_MGR_INFO();
     int parse_login_file(FILE*);
