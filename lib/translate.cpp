@@ -41,8 +41,8 @@
 
 #include "translate.h"
 
-static static const uint32_t MSGCATALOG_MAGIC    = 0x950412de;
-const uint32_t MSGCATALOG_MAGIC_SW = 0xde120495;
+static const uint32_t MSGCATALOG_MAGIC    = 0x950412de;
+static const uint32_t MSGCATALOG_MAGIC_SW = 0xde120495;
 
 #define MAXCATALOGS 20
 
@@ -184,6 +184,7 @@ static bool LoadCatalog(const char * catalogsDir,
     if (NumStrings <= 1) {
         // This file has no translations (is effectively 
         // empty) so don't load it for better efficiency.
+        fprintf(stderr, "File %s contains no translated strings!\n", searchPath);
         free(pData);
         pData = NULL;
         return true;    // Not an error
@@ -232,7 +233,7 @@ static bool LoadCatalog(const char * catalogsDir,
 // was found.
 //
 uint8_t * _(char *src) {
-    int i, j;
+    unsigned int i, j;
     MsgCatalogData *pCatalog;
     
     for (j=0; j<numLoadedCatalogs; ++j) {
