@@ -755,6 +755,12 @@ static void get_cpu_info_maxosx(HOST_INFO& host) {
             *out++ = *in;
         }
     } while (*in++);
+
+    // This returns an Apple hardware model designation such as "MacPro3,1".
+    // One source for converting this to a common model name is:
+    // <http://www.everymac.com/systems/by_capability/mac-specs-by-machine-model-machine-id.html>
+    len = sizeof(host.product_name);
+    sysctlbyname("hw.model", host.product_name, &len, NULL, 0);
 }
 #endif
 
