@@ -84,14 +84,14 @@ void set_no_rsc_config() {
     }
 }
 
-// does the project have a job that's not ready to report?
+// does the (NCI) project have a job that's running or uploading?
 // (don't request another job from NCI project if so)
 //
-static bool has_a_job(PROJECT* p) {
+static bool has_a_job_in_progress(PROJECT* p) {
     for (unsigned int j=0; j<gstate.results.size(); j++) {
         RESULT* rp = gstate.results[j];
         if (rp->project != p) continue;
-        if (rp->state() <= RESULT_FILES_UPLOADED) {
+        if (rp->state() < RESULT_FILES_UPLOADED) {
             return true;
         }
     }
@@ -470,7 +470,7 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
     clear_request();
     if (config.fetch_minimal_work && gstate.had_or_requested_work) return;
     if (p->non_cpu_intensive) {
-        if (!has_a_job(p)) {
+        if (!has_a_job_in_progress(p)) {
             rsc_work_fetch[0].req_secs = 1;
         }
         return;
@@ -549,7 +549,7 @@ PROJECT* WORK_FETCH::non_cpu_intensive_project_needing_work() {
         if (!p->non_cpu_intensive) continue;
         if (!p->can_request_work()) continue;
         if (p->rsc_pwf[0].backoff_time > gstate.now) continue;
-        if (has_a_job(p)) continue;
+        if (has_a_job_in_progress(p)) continue;
         clear_request();
         rsc_work_fetch[0].req_secs = 1;
         return p;
