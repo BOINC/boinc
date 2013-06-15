@@ -1169,6 +1169,13 @@ static Boolean ShowMessage(Boolean allowCancel, const char *format, ...) {
     char                    s[1024];
     CFOptionFlags           responseFlags;
     ProcessSerialNumber	ourProcess;
+    CFURLRef                myIconURLRef = NULL;
+    CFBundleRef             myBundleRef;
+   
+    myBundleRef = CFBundleGetMainBundle();
+    if (myBundleRef) {
+        myIconURLRef = CFBundleCopyResourceURL(myBundleRef, CFSTR("MacInstaller.icns"), NULL, NULL);
+    }
     
 #if 1
     va_start(args, format);
@@ -1197,7 +1204,7 @@ static Boolean ShowMessage(Boolean allowCancel, const char *format, ...) {
     ::GetCurrentProcess (&ourProcess);
     ::SetFrontProcess(&ourProcess);
     SInt32 retval = CFUserNotificationDisplayAlert(0.0, kCFUserNotificationPlainAlertLevel,
-                NULL, NULL, NULL, CFSTR(" "), myString,
+                myIconURLRef, NULL, NULL, CFSTR(" "), myString,
                 yes, allowCancel ? no : NULL, NULL,
                 &responseFlags);
     
