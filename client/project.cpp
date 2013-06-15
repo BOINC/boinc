@@ -99,7 +99,6 @@ void PROJECT::init() {
     project_files_downloaded_time = 0;
     use_symlinks = false;
     possibly_backed_off = false;
-    last_upload_start = 0;
     nuploading_results = 0;
     too_many_uploading_results = false;
 
