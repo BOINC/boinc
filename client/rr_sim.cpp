@@ -97,6 +97,13 @@ struct RR_SIM {
                 p->rsc_pwf[rt].nused_total,
                 rsc_work_fetch[rt].sim_used_instances
             );
+#if 0
+            msg_printf(p, MSG_INFO, "%d non_excl %d used %d",
+                rt,
+                rp->app->non_excluded_instances[rt],
+                rsc_work_fetch[rt].sim_used_instances
+            );
+#endif
         }
     }
 

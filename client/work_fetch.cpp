@@ -247,10 +247,11 @@ void RSC_WORK_FETCH::set_request_excluded(PROJECT* p) {
     int inst_mask = sim_excluded_instances & pwf.non_excluded_instances;
     int n = 0;
     for (int i=0; i<ninstances; i++) {
-        if ((i<<i) & inst_mask) {
+        if ((1<<i) & inst_mask) {
             n++;
         }
     }
+    DEBUG(msg_printf(p, MSG_INFO, "set_request_excluded() %d %d %d", sim_excluded_instances, pwf.non_excluded_instances, n));
     req_instances = n;
     if (p->resource_share == 0 || config.fetch_minimal_work) {
         req_secs = 1;
@@ -763,8 +764,10 @@ PROJECT* WORK_FETCH::choose_project() {
                 }
                 if (buffer_low) {
                     rwf.set_request(p);
+                    DEBUG(msg_printf(p, MSG_INFO, "%s set_request: %f", rsc_name(i), rwf.req_secs);)
                 } else {
                     rwf.set_request_excluded(p);
+                    DEBUG(msg_printf(p, MSG_INFO, "%s set_request_excluded: %f", rsc_name(i), rwf.req_secs);)
                 }
                 if (rwf.req_secs > 0) {
                     any_request = true;
