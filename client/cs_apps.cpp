@@ -199,7 +199,6 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
         rp->set_state(RESULT_FILES_UPLOADING, "CS::app_finished");
         rp->append_log_record();
 #endif
-        rp->project->last_upload_start = gstate.now;
         rp->project->update_duration_correction_factor(&at);
     }
 

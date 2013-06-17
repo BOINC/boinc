@@ -226,11 +226,6 @@ struct PROJECT : PROJ_AM {
     bool some_download_stalled();
         // a download is backed off
     bool some_result_suspended();
-    double last_upload_start;
-        // the last time an upload was started.
-        // Used for "work fetch deferral" mechanism:
-        // don't request work from a project if an upload started
-        // in last X minutes and is still active
     bool uploading();
     bool has_results();
 
