@@ -162,7 +162,7 @@ class CSimpleTaskPanel : public CSimplePanelBase
 		wxButton*                   m_TaskCommandsButton;
         wxRect                      m_ProgressRect;
         int                         m_oldWorkCount;
-        int                         m_iPctDoneX10;
+        int                         m_ipctDoneX1000;
 		time_t                      error_time;
         bool                        m_bStableTaskInfoChanged;
         int                         m_CurrentTaskSelection;
