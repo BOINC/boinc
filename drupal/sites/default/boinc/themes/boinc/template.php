@@ -109,6 +109,13 @@ function boinc_preprocess(&$vars, $hook) {
  */
 ///* -- Delete this line if you want to use this function
 function boinc_preprocess_page(&$vars, $hook) {
+    
+    // Remove title from search page
+    if (arg(0) == 'search') {
+      unset($vars['title']);
+    }
+    
+    // Apply classes to tabs to allow for better styling options
     $tabs = explode("\n", $vars['tabs']);
     array_pop($tabs);
     end($tabs);
@@ -251,6 +258,38 @@ function boinc_preprocess_block(&$vars, $hook) {
   $vars['sample_variable'] = t('Lorem ipsum.');
 }
 // */ 
+
+
+/**
+* Override or insert PHPTemplate variables into the search_theme_form template.
+*
+* @param $vars
+*   A sequential array of variables to pass to the theme template.
+* @param $hook
+*   The name of the theme function being called (not used in this case.)
+*/
+function boinc_preprocess_search_theme_form(&$vars, $hook) {
+  // Rename the search entry label
+  $vars['form']['search_theme_form']['#title'] = t('Search');
+echo '<pre>' . print_r($vars, true) . '</pre>';
+  // Rebuild the rendered version (search form only, rest remains unchanged)
+  unset($vars['form']['search_theme_form']['#printed']);
+  $vars['search']['search_theme_form'] = drupal_render($vars['form']['search_theme_form']);
+  
+  // Collect all form elements to make it easier to print the whole form.
+  $vars['search_form'] = implode($vars['search']);
+$vars['search_form'] = "" . print_r( $vars['form'], true ) . "";
+}
+
+// Remove the mess of text under the search form and don't display "no results"
+// if a search hasn't even been submitted
+function boinc_apachesolr_search_noresults() {
+  $message = t('No results found...');
+  if (!arg(2)) {
+    $message = t('Enter terms to begin a search');
+  }
+  return '<p>' . $message . '</p>';
+}
 
 /**
  * Override the username theme function so that it returns a display name
