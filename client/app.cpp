@@ -985,29 +985,12 @@ void ACTIVE_TASK_SET::init() {
 
 #endif
 
-static const char* task_state_name(int val) {
-    switch (val) {
-    case PROCESS_UNINITIALIZED: return "UNINITIALIZED";
-    case PROCESS_EXECUTING: return "EXECUTING";
-    case PROCESS_SUSPENDED: return "SUSPENDED";
-    case PROCESS_ABORT_PENDING: return "ABORT_PENDING";
-    case PROCESS_EXITED: return "EXITED";
-    case PROCESS_WAS_SIGNALED: return "WAS_SIGNALED";
-    case PROCESS_EXIT_UNKNOWN: return "EXIT_UNKNOWN";
-    case PROCESS_ABORTED: return "ABORTED";
-    case PROCESS_COULDNT_START: return "COULDNT_START";
-    case PROCESS_QUIT_PENDING: return "QUIT_PENDING";
-    case PROCESS_COPY_PENDING: return "COPY_PENDING";
-    }
-    return "Unknown";
-}
-
 void ACTIVE_TASK::set_task_state(int val, const char* where) {
     _task_state = val;
     if (log_flags.task_debug) {
         msg_printf(result->project, MSG_INFO,
             "[task] task_state=%s for %s from %s",
-            task_state_name(val), result->name, where
+            active_task_state_string(val), result->name, where
         );
     }
 }

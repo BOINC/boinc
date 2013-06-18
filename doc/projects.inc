@@ -259,6 +259,14 @@ $astro_phys_chem = array(
             "einstein.jpg"
         ),
         array(
+            "Albert@home",
+            "http://albert.phys.uwm.edu/",
+            tra("Univ. of Wisconsin - Milwaukee, Max Planck Institute"),
+            tra("Astrophysics"),
+            "Test project for Einstein@home",
+            ""
+        ),
+        array(
             "LHC@home",
             "http://lhcathomeclassic.cern.ch/sixtrack/",
             tra("CERN (European Organization for Nuclear Research)"),
