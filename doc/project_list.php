@@ -40,7 +40,14 @@ foreach ($areas as $area) {
     }
 }
 
+$client_info = $_SERVER['HTTP_USER_AGENT'];
+$is_android = strstr($client_info, "android");
+
 foreach($proj_list as $p) {
+    if (!$is_android) {
+        if ($p->name == "Albert@home") continue;
+        if ($p->name == "WCG Beta Test") continue;
+    }
     echo "    <project>
         <name>$p->name</name>
         <url>$p->url</url>
