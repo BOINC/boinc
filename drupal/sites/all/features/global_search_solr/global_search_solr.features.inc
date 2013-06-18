@@ -11,4 +11,7 @@ function global_search_solr_ctools_plugin_api() {
   elseif ($module == "apachesolr_search" && $api == "apachesolr_search_defaults") {
     return array("version" => 3);
   }
+  elseif ($module == "facetapi" && $api == "facetapi_defaults") {
+    return array("version" => 1);
+  }
 }
