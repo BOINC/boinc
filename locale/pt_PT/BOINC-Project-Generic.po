@@ -6,15 +6,15 @@ msgstr ""
 "Project-Id-Version: 1.03\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2013-01-14 13:46+0200\n"
-"Last-Translator: Miguel Filipe Paulino de Sousa <Miguel.veig@gmail.com>\n"
+"PO-Revision-Date: 2013-06-17 16:13-0000\n"
+"Last-Translator: Miguel Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: Portuguese <LL@li.org>\n"
 "Language: pt_PT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Poedit 1.5.5\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 msgid "LANG_NAME_NATIVE"
@@ -59,8 +59,8 @@ msgstr "Inserir imagem: [img]http://image_url[/img]  (alt+p)"
 msgid ""
 "Insert URL: [url]http://url[/url] or [url=http://url]URL text[/url]  (alt+w)"
 msgstr ""
-"Inserir URL: [url]http://url[/url] ou [url=http://url]URL texto[/url]  "
-"(alt+w)"
+"Inserir URL: [url]http://url[/url] ou [url=http://url]URL texto[/url]  (alt"
+"+w)"
 
 #: ../inc/bbcode_html.inc:42
 msgid "Font color"
@@ -379,8 +379,8 @@ msgstr ""
 "              conteúdo que seja obsceno, conteudo sexual\n"
 "              explicito ou sugestivo.\n"
 "        <li> Publicidade.\n"
-"        <li> Links para websites envolvendo conteudo sexual,\n"
-"             jogos de azar, ou intolerância de outros tipos.\n"
+"        <li> Links para websites envolvendo conteúdo sexual,\n"
+"             jogos de azar, ou intolerâncias de outros tipos.\n"
 "         <li> Mensagens destinadas a importunar ou antoganizar outras "
 "pessoas,\n"
 "              ou para sequestrar um tópico.\n"
@@ -1005,7 +1005,8 @@ msgstr ""
 
 #: ../inc/prefs.inc:121
 msgid "Do work only between the hours of %1 No restriction if equal %2"
-msgstr "Executar trabalho apenas entre as horas %1 Sem restrições se igual a %2"
+msgstr ""
+"Executar trabalho apenas entre as horas %1 Sem restrições se igual a %2"
 
 #: ../inc/prefs.inc:129
 msgid ""
@@ -1088,6 +1089,7 @@ msgstr "Memória: quando o computador não está em utilização, usar no máxim
 #: ../inc/prefs.inc:217
 msgid "Maintain enough tasks to keep busy for at least%1(max 10 days).%2"
 msgstr ""
+"Manter tarefas suficiente para manter ocupado pelo menos%1(máx10 dias).%2"
 
 #: ../inc/prefs.inc:222 ../inc/prefs.inc:227 ../inc/prefs.inc:269
 #: ../inc/util.inc:264
@@ -1096,7 +1098,7 @@ msgstr "dias"
 
 #: ../inc/prefs.inc:225
 msgid "... and up to an additional"
-msgstr ""
+msgstr "... e um adicional"
 
 #: ../inc/prefs.inc:231
 msgid ""
@@ -1157,9 +1159,9 @@ msgid ""
 "resources and the second will get 2/3. %2"
 msgstr ""
 "Partilha de recursos %1 Determina a proporção dos recursos do seu computador "
-"dedicados a este projecto. Exemplo: se participa em dois projectos BOINC "
-"com recursos partilhados de 100 e 200, o primeiro obterá 1/3 dos recursos e "
-"o segundo obterá 2/3. %2"
+"dedicados a este projecto. Exemplo: se participa em dois projectos BOINC com "
+"recursos partilhados de 100 e 200, o primeiro obterá 1/3 dos recursos e o "
+"segundo obterá 2/3. %2"
 
 #: ../inc/prefs.inc:297
 msgid "Accelerate GPU tasks by dedicating a CPU to each one?"
@@ -1416,11 +1418,11 @@ msgstr "Em progresso"
 
 #: ../inc/result.inc:107
 msgid "Validation pending"
-msgstr ""
+msgstr "Validação pendente"
 
 #: ../inc/result.inc:108
 msgid "Validation inconclusive"
-msgstr ""
+msgstr "Validação inconclusiva"
 
 #: ../inc/result.inc:109 ../inc/result.inc:259
 msgid "Valid"
@@ -1480,7 +1482,7 @@ msgstr "Cancelado pelo servidor"
 
 #: ../inc/result.inc:190
 msgid "Not started by deadline - canceled"
-msgstr ""
+msgstr "Não começou devido ao prazo de entrega - cancelado"
 
 #: ../inc/result.inc:193
 msgid "Error while downloading"
@@ -2081,9 +2083,8 @@ msgstr "Usado nas funções da comunidade"
 
 # 91%
 #: ../inc/user.inc:217 ../user/weak_auth.php:25
-#, fuzzy
 msgid "Account keys"
-msgstr "Palavra chave da conta"
+msgstr "Chaves da conta"
 
 #: ../inc/user.inc:222
 msgid "Preferences"
@@ -2200,15 +2201,15 @@ msgstr "Adicionar como amigo"
 
 #: ../inc/user.inc:446
 msgid "user name cannot have leading or trailing white space"
-msgstr ""
+msgstr "o nome de utilizador não pode estar vazio ou conter espaços em branco"
 
 #: ../inc/user.inc:450
 msgid "user name must be nonempty"
-msgstr ""
+msgstr "o nome de utilizador tem de ser preenchido"
 
 #: ../inc/user.inc:454
 msgid "user name may not contain HTML tags"
-msgstr ""
+msgstr "o nome de utilizador não pode conter HTML tags"
 
 #: ../inc/util.inc:122
 msgid "log out"
@@ -2280,7 +2281,8 @@ msgstr ""
 
 #: ../inc/util.inc:791
 msgid "Unable to connect to database - please try again later"
-msgstr "Não foi possivel conectar à base de dados - por favor, tente mais tarde"
+msgstr ""
+"Não foi possivel conectar à base de dados - por favor, tente mais tarde"
 
 #: ../inc/util.inc:792
 msgid "Error:"
@@ -2472,8 +2474,7 @@ msgstr "Não é possivel criar conta"
 #: ../user/create_account_action.php:29
 msgid "Click your browser's <b>Back</b> button to try again."
 msgstr ""
-"Carregue no botão <b>Voltar atrás</b> do seu navegador para tentar outra "
-"vez."
+"Carregue no botão <b>Voltar atrás</b> do seu navegador para tentar outra vez."
 
 #: ../user/create_account_action.php:38 ../user/create_account_action.php:40
 #: ../user/create_account_form.php:43
@@ -2542,6 +2543,9 @@ msgid ""
 "NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
 "select Add Project, and enter an email address and password."
 msgstr ""
+"NOTA: Se usa o Gestor BOINC, não use este formulário. Apenas execute o "
+"BOINC, seleccione Adicionar Projecto e insira um endereço de email e palavra-"
+"passe."
 
 #: ../user/create_account_form.php:69
 msgid ""
@@ -2600,8 +2604,8 @@ msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
-"Para a substituir, carregue no botão \"Procurar em\" e seleccione um ficheiro "
-"JPEG ou PNG (%1 ou menos)."
+"Para a substituir, carregue no botão \"Procurar em\" e seleccione um "
+"ficheiro JPEG ou PNG (%1 ou menos)."
 
 #: ../user/create_profile.php:69
 msgid "To remove it from your profile, check this box:"
@@ -2688,7 +2692,8 @@ msgstr "Perfil salvo"
 #: ../user/create_profile.php:304
 msgid ""
 "Congratulations! Your profile was successfully entered into our database."
-msgstr "Parabéns! O seu perfil foi inserido com sucesso na nossa base de dados."
+msgstr ""
+"Parabéns! O seu perfil foi inserido com sucesso na nossa base de dados."
 
 #: ../user/create_profile.php:306
 msgid "%1View your profile%2"
@@ -2905,7 +2910,8 @@ msgstr ""
 
 #: ../user/donations.php:324
 msgid "To assign the donation with your user ID, please log in."
-msgstr "Para atribuir o donativo ao seu ID de utilizador, por favor faça login."
+msgstr ""
+"Para atribuir o donativo ao seu ID de utilizador, por favor faça login."
 
 #: ../user/donations.php:328
 msgid "Proceed"
@@ -2983,8 +2989,8 @@ msgid ""
 "We can't update your email address due to a database problem.  Please try "
 "again later."
 msgstr ""
-"Não foi possivel actualizar o seu endereço de email devido a um problema na "
-" base de dados. Por favor, tente mais tarde."
+"Não foi possivel actualizar o seu endereço de email devido a um problema na  "
+"base de dados. Por favor, tente mais tarde."
 
 #: ../user/edit_email_form.php:28 ../user/edit_email_form.php:52
 msgid "Change email address"
@@ -3154,7 +3160,7 @@ msgstr "Sublinhar utilizadores especiais"
 
 #: ../user/edit_forum_preferences_form.php:135
 msgid "Display this many messages per page"
-msgstr ""
+msgstr "Mostrar este número de mensagens por página"
 
 #: ../user/edit_forum_preferences_form.php:139
 msgid "How to sort"
@@ -3174,7 +3180,7 @@ msgstr "Saltar para os primeiros posts no tópico automaticamente"
 
 #: ../user/edit_forum_preferences_form.php:142
 msgid "Don't move sticky posts to top"
-msgstr ""
+msgstr "Não mover posts sticky para o topo"
 
 #: ../user/edit_forum_preferences_form.php:148
 msgid "Message filtering"
@@ -3538,8 +3544,7 @@ msgstr "Dizer aos seus amigos acerca de %1"
 #: ../user/ffmail_form.php:38
 msgid "Help us by telling your friends, family and coworkers about %1"
 msgstr ""
-"Ajude-nos dizendo aos seus amigos, familia e colegas de trabalho acerca de %"
-"1"
+"Ajude-nos dizendo aos seus amigos, familia e colegas de trabalho acerca de %1"
 
 #: ../user/ffmail_form.php:40
 msgid ""
@@ -4054,9 +4059,8 @@ msgstr "Report Registado"
 
 # 92%
 #: ../user/forum_report_post.php:66
-#, fuzzy
 msgid "Your report has been recorded. Thanks for your input."
-msgstr "O seu report foi gravado. Obrigado pela sua entrada."
+msgstr "O seu report foi gravado. Obrigado pela sua inserção."
 
 #: ../user/forum_report_post.php:67
 msgid ""
@@ -4962,9 +4966,9 @@ msgid ""
 "anyone to view and copy your posts."
 msgstr ""
 "Se usa o nosso fórum na web, tem que seguir as %2instruções para fazer posts"
-"%3. Mensagens postadas ao %1 fórum estão visíveis a todos, incluindo "
-"não-membros. Ao postar nos fóruns, está a garantir licença irrevogável para "
-"que qualquer pessoa possa ver e copiar os seus posts."
+"%3. Mensagens postadas ao %1 fórum estão visíveis a todos, incluindo não-"
+"membros. Ao postar nos fóruns, está a garantir licença irrevogável para que "
+"qualquer pessoa possa ver e copiar os seus posts."
 
 #: ../user/info.php:48
 msgid "Is it safe to run %1?"
@@ -4986,8 +4990,8 @@ msgstr ""
 "riscos. Testamos as nossas aplicações com todos o cuidado. os nossos "
 "servidores estão por trás de uma firewall e configurados para alta "
 "segurança. Para garantir a integridade dos downloads dos programas, todos os "
-"executáveis estão assinados digitalmente num computador seguro não "
-"conectado à Internet."
+"executáveis estão assinados digitalmente num computador seguro não conectado "
+"à Internet."
 
 #: ../user/info.php:50
 msgid ""
@@ -4995,8 +4999,8 @@ msgid ""
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
 msgstr ""
 "As aplicações executadas pelo %1 podem causar em alguns computadores "
-"sobreaquecimento. Se isto acontecer, pare de executar %1 ou use um %"
-"aplicativo%3 que limite o uso do CPU."
+"sobreaquecimento. Se isto acontecer, pare de executar %1 ou use um "
+"%aplicativo%3 que limite o uso do CPU."
 
 #: ../user/info.php:51
 msgid ""
@@ -5220,7 +5224,8 @@ msgstr ""
 "Tipos de mau comportamenteo adicionais (\"bugging\" posts para apanhar os\n"
 "endereços de IP de outros participantes, criação excessiva de posts para "
 "fazer spam\n"
-"nos fóruns, ect), enquanto não listados de acordo com as regras, podem ainda\n"
+"nos fóruns, ect), enquanto não listados de acordo com as regras, podem "
+"ainda\n"
 "levar a sanções similares.\n"
 "<p>\n"
 "Se acredita que um post viola alguma destas regras,\n"
@@ -5416,6 +5421,9 @@ msgid ""
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
+"As suas preferências foram redefinidas para as iniciais,\n"
+"           e terão efeito quando o seu computador comunicar com %1\n"
+"           ou executar o comando %2Actualizar%3 no Gestor BOINC."
 
 #: ../user/prefs_edit.php:65 ../user/prefs_edit.php:93
 msgid "%1 for %2"
@@ -5431,7 +5439,8 @@ msgstr "Confirmar apagar preferências"
 
 #: ../user/prefs_remove.php:51
 msgid "Are you sure you want to delete your separate %1 preferences for %2?"
-msgstr "Tem a certeza que quer apagar as suas %1preferências separadas para %2?"
+msgstr ""
+"Tem a certeza que quer apagar as suas %1preferências separadas para %2?"
 
 #: ../user/prefs_remove.php:55
 msgid "Remove preferences"
@@ -5779,8 +5788,7 @@ msgid ""
 "projects from several sites; see your %1home page%2."
 msgstr ""
 "Adicionalmente pode obter as suas estatísticas individuais resumidas através "
-"de todos os projectos BOINC de vários sites; veja a sua %1página principal%"
-"2."
+"de todos os projectos BOINC de vários sites; veja a sua %1página principal%2."
 
 #: ../user/team.php:25
 msgid "Teams"
@@ -5824,8 +5832,8 @@ msgstr "acabar com a equipa se esta não tiver membros"
 #: ../user/team.php:40
 msgid "To join a team, visit its team page and click %1Join this team%2."
 msgstr ""
-"Para se juntar a uma equipa, visite a página da equipa e carregue em %"
-"1Juntar-se a esta equipa%2."
+"Para se juntar a uma equipa, visite a página da equipa e carregue em "
+"%1Juntar-se a esta equipa%2."
 
 #: ../user/team.php:41 ../user/team_search.php:179
 msgid "Find a team"
@@ -5847,8 +5855,8 @@ msgstr "Criar uma nova equipa"
 msgid ""
 "If you cannot find a team that is right for you, you can %1create a team%2."
 msgstr ""
-"Se não encontrar uma equipa que seja adequada a si, pode %1criar uma equipa%"
-"2."
+"Se não encontrar uma equipa que seja adequada a si, pode %1criar uma equipa"
+"%2."
 
 #: ../user/team_admins.php:34
 msgid "Remove Team Admin status from this member"
@@ -6290,8 +6298,8 @@ msgid ""
 "The founder was notified of your request. If he/she does not respond by %1 "
 "you will be given an option to become founder."
 msgstr ""
-"O fundador foi notificado do seu pedido. Se ele/ela não responder por %1 "
-"ser-lhe-á dada a opção de se tornar fundador."
+"O fundador foi notificado do seu pedido. Se ele/ela não responder por %1 ser-"
+"lhe-á dada a opção de se tornar fundador."
 
 #: ../user/team_founder_transfer_form.php:60
 msgid ""
@@ -6385,8 +6393,7 @@ msgstr "Pode ver os membros, estatísticas e informações das equipas."
 #: ../user/team_lookup.php:98
 msgid "More than 100 teams match your search. The first 100 are shown."
 msgstr ""
-"Mais de 100 equipas correspondem à sua procura. Os primeiros serão "
-"mostrados."
+"Mais de 100 equipas correspondem à sua procura. Os primeiros serão mostrados."
 
 #: ../user/team_lookup.php:104
 msgid ""
@@ -6683,7 +6690,7 @@ msgstr "Numa equipa?"
 
 #: ../user/user_search.php:66
 msgid "Ordering"
-msgstr ""
+msgstr "Ordenando"
 
 #: ../user/user_search.php:67
 msgid "Decreasing sign-up time"
@@ -6800,14 +6807,17 @@ msgid ""
 "    or by using an assigned 'account key'.\n"
 "    Your account key is:"
 msgstr ""
+"Pode aceder à sua conta usando o endereço de email e palavra-passe,\n"
+"      ou então usando a 'chave da conta' assignada.\n"
+"      A sua chave da conta é:"
 
 #: ../user/weak_auth.php:57
 msgid "This key can be used to:"
-msgstr ""
+msgstr "esta chave pode ser usada para:"
 
 #: ../user/weak_auth.php:59
 msgid "log in to your account on the web"
-msgstr ""
+msgstr "faça login com a sua conta na web"
 
 #: ../user/weak_auth.php:61
 msgid ""
@@ -6816,6 +6826,10 @@ msgid ""
 "       create a file named %1 in the BOINC\n"
 "       data directory, and set its contents to:"
 msgstr ""
+"para adicionar um computador à sua conta sem ter de usar o Gestor BOINC.\n"
+"        Para o fazer, instale o BOINC,\n"
+"        crie um ficheiro chamado %1 na directoria de dados\n"
+"        do BOINC e, defina os seus conteúdos para:"
 
 #: ../user/weak_auth.php:73
 msgid "Weak account key"
@@ -6830,12 +6844,22 @@ msgid ""
 "    do so using your weak account key.\n"
 "    Your weak account key is:"
 msgstr ""
+"A sua 'chave de conta fraca' pode ser utilizada para adicionar computadores "
+"à sua conta\n"
+"    como descrito acima mas, não pode ser usada para se ligar à sua conta ou "
+"alterá-la de qualquer maneira.\n"
+"    Se quiser adicionar computadores inseguros ou que não sejam de "
+"confiança, à sua conta,\n"
+"    faça-o usando a sua chave de conta fraca.\n"
+"    A sua chave de conta fraca é:"
 
 #: ../user/weak_auth.php:81
 msgid ""
 "If you change your password, your weak account key changes, and your "
 "previous weak account key becomes invalid."
 msgstr ""
+"Se mudar a sua palavra passe, a sua chave fraca mudará e a sua chave fraca "
+"anterior torna-se inválida"
 
 #: ../user/workunit.php:32
 msgid "can't find workunit"
@@ -6949,8 +6973,8 @@ msgstr "(todas as aplicações)"
 
 #~ msgid ""
 #~ "Computer is connected to the Internet about every %1 Leave blank or 0 if "
-#~ "always connected. %2 BOINC will try to maintain at least this much work (max "
-#~ "10 days). %3"
+#~ "always connected. %2 BOINC will try to maintain at least this much work "
+#~ "(max 10 days). %3"
 #~ msgstr ""
 #~ "O computador conecta-se à Internet a cada %1 Deixar em branco ou 0 se "
 #~ "estiver sempre ligado. %2 O BOINC irá tentar manter no minímo esta "
@@ -6966,8 +6990,8 @@ msgstr "(todas as aplicações)"
 #~ msgstr "Providencia %1acesso limitado%2 à sua conta"
 
 #~ msgid ""
-#~ "Don't use this form. Just run BOINC, select Add Project, and enter an email "
-#~ "address and password."
+#~ "Don't use this form. Just run BOINC, select Add Project, and enter an "
+#~ "email address and password."
 #~ msgstr ""
 #~ "Não use este formulário. Execute apenas o BOINC, seleccione Adicionar "
 #~ "Projecto e, insira o endereço de email e palavra passe."
@@ -6992,10 +7016,12 @@ msgstr "(todas as aplicações)"
 
 #~ msgid ""
 #~ "Your 'weak account key' lets you link a computer to your account without "
-#~ "giving it the ability to log in to your account or to change it in any way."
+#~ "giving it the ability to log in to your account or to change it in any "
+#~ "way."
 #~ msgstr ""
-#~ "A sua 'chave fraca da conta' deixa-o linkar um computador à sua conta, sem "
-#~ "permitir que possa fazer login na sua conta ou mudá-la de alguma maneira."
+#~ "A sua 'chave fraca da conta' deixa-o linkar um computador à sua conta, "
+#~ "sem permitir que possa fazer login na sua conta ou mudá-la de alguma "
+#~ "maneira."
 
 #~ msgid ""
 #~ "This mechanism works only with projects that have upgraded their server "
@@ -7013,20 +7039,21 @@ msgstr "(todas as aplicações)"
 #~ "<b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
 #~ msgstr ""
 #~ "Para usar uma chave fraca de conta num determinado anfitrião, procure ou "
-#~ "crie o 'ficheiro conta' para este projecto. Este ficheiro tem o nome do form "
-#~ "<b>account_PROJECT:URL.xml</b>. O ficheiro da conta para %1 é <b>%2</b>."
+#~ "crie o 'ficheiro conta' para este projecto. Este ficheiro tem o nome do "
+#~ "form <b>account_PROJECT:URL.xml</b>. O ficheiro da conta para %1 é <b>%2</"
+#~ "b>."
 
 #~ msgid "Create this file if needed. Set its contents to:"
 #~ msgstr "Crie este ficheiro se necessário. Defina o seu conteúdo para:"
 
 #~ msgid ""
 #~ "Your weak account key is a function of your password. If you change your "
-#~ "password, your weak account key changes, and your previous weak account key "
-#~ "becomes invalid."
+#~ "password, your weak account key changes, and your previous weak account "
+#~ "key becomes invalid."
 #~ msgstr ""
-#~ "A sua palavra fraca da conta é uma função da sua palavra-passe. Se mudar a "
-#~ "palavra passe, a sua palavra fraca da conta muda e a sua palavra fraca da "
-#~ "conta torna-se inválida."
+#~ "A sua palavra fraca da conta é uma função da sua palavra-passe. Se mudar "
+#~ "a palavra passe, a sua palavra fraca da conta muda e a sua palavra fraca "
+#~ "da conta torna-se inválida."
 
 #~ msgid "Account key"
 #~ msgstr "Palavra chave da conta"

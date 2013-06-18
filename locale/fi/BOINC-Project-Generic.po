@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2013-01-21 18:34+0200\n"
+"PO-Revision-Date: 2013-06-09 18:11+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -1086,7 +1086,7 @@ msgstr "Muisti: koneen ollessa jouten, käytä enintään"
 
 #: ../inc/prefs.inc:217
 msgid "Maintain enough tasks to keep busy for at least%1(max 10 days).%2"
-msgstr ""
+msgstr "Pidä työtä vähintään%1(max 10 päivää).%2"
 
 #: ../inc/prefs.inc:222 ../inc/prefs.inc:227 ../inc/prefs.inc:269
 #: ../inc/util.inc:264
@@ -1095,7 +1095,7 @@ msgstr "päivää"
 
 #: ../inc/prefs.inc:225
 msgid "... and up to an additional"
-msgstr ""
+msgstr "... ja lisäksi"
 
 #: ../inc/prefs.inc:231
 msgid ""
@@ -1411,11 +1411,11 @@ msgstr "Laskennassa"
 
 #: ../inc/result.inc:107
 msgid "Validation pending"
-msgstr ""
+msgstr "Vahvistusta odottavat"
 
 #: ../inc/result.inc:108
 msgid "Validation inconclusive"
-msgstr ""
+msgstr "Vahvistus epäselvä"
 
 #: ../inc/result.inc:109 ../inc/result.inc:259
 msgid "Valid"
@@ -1475,7 +1475,7 @@ msgstr "Palvelimen peruuttama"
 
 #: ../inc/result.inc:190
 msgid "Not started by deadline - canceled"
-msgstr ""
+msgstr "Ei aloitettu takarajaan mennessä - peruutettu"
 
 #: ../inc/result.inc:193
 msgid "Error while downloading"
@@ -2076,7 +2076,7 @@ msgstr "Käytetään yhteisötoiminnoissa"
 
 #: ../inc/user.inc:217 ../user/weak_auth.php:25
 msgid "Account keys"
-msgstr ""
+msgstr "Tiliavaimet"
 
 #: ../inc/user.inc:222
 msgid "Preferences"
@@ -2193,15 +2193,15 @@ msgstr "Lisää ystäväksi"
 
 #: ../inc/user.inc:446
 msgid "user name cannot have leading or trailing white space"
-msgstr ""
+msgstr "käyttäjänimen alussa tai lopussa ei saa olla välilyöntiä"
 
 #: ../inc/user.inc:450
 msgid "user name must be nonempty"
-msgstr ""
+msgstr "käyttäjänimi ei saa olla tyhjä"
 
 #: ../inc/user.inc:454
 msgid "user name may not contain HTML tags"
-msgstr ""
+msgstr "käyttäjänimi ei saa sisältää HTML-tageja"
 
 #: ../inc/util.inc:122
 msgid "log out"
@@ -2526,6 +2526,8 @@ msgid ""
 "NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
 "select Add Project, and enter an email address and password."
 msgstr ""
+"HUOMAA: Jos käytät BOINC Manageria, älä käytä tätä lomaketta. Käynnistä "
+"BOINC, valitse Lisää projekti ja anna sähköpostiosoite ja salasana."
 
 #: ../user/create_account_form.php:69
 msgid ""
@@ -3129,7 +3131,7 @@ msgstr "Korosta erityiset käyttäjät"
 
 #: ../user/edit_forum_preferences_form.php:135
 msgid "Display this many messages per page"
-msgstr ""
+msgstr "Näytä näin monta viestiä sivua kohden"
 
 #: ../user/edit_forum_preferences_form.php:139
 msgid "How to sort"
@@ -3149,7 +3151,7 @@ msgstr "Mene ketjun ensimmäiseen viestiin automaattisesti"
 
 #: ../user/edit_forum_preferences_form.php:142
 msgid "Don't move sticky posts to top"
-msgstr ""
+msgstr "Älä siirrä pysyviä viestejä ylös"
 
 #: ../user/edit_forum_preferences_form.php:148
 msgid "Message filtering"
@@ -4022,9 +4024,8 @@ msgstr "Raportti rekisteröity"
 
 # 92%
 #: ../user/forum_report_post.php:66
-#, fuzzy
 msgid "Your report has been recorded. Thanks for your input."
-msgstr "Raporttisi on tallennettu. Kiitos."
+msgstr "Raporttisi on tallennettu. Kiitos palautteestasi."
 
 #: ../user/forum_report_post.php:67
 msgid ""
@@ -5361,6 +5362,9 @@ msgid ""
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
+"Asetukset on palautettu oletuksiinsa ja ne tulevat voimaan\n"
+"          kun tietokoneesi on yhteydessä %1 kanssa\n"
+"          tai kun napsautat %2Päivitä%3 BOINC Managerissa."
 
 #: ../user/prefs_edit.php:65 ../user/prefs_edit.php:93
 msgid "%1 for %2"
@@ -6615,7 +6619,7 @@ msgstr "Tiimissä?"
 
 #: ../user/user_search.php:66
 msgid "Ordering"
-msgstr ""
+msgstr "Järjestetään"
 
 #: ../user/user_search.php:67
 msgid "Decreasing sign-up time"
@@ -6731,14 +6735,17 @@ msgid ""
 "    or by using an assigned 'account key'.\n"
 "    Your account key is:"
 msgstr ""
+"Pääset tiliisi käyttämällä joko sähköpostiosoitettasi ja salasanaa,\n"
+"    tai käyttämällä \"tiliavainta\".\n"
+"    Tiliavaimesi on:"
 
 #: ../user/weak_auth.php:57
 msgid "This key can be used to:"
-msgstr ""
+msgstr "Tätä avainta voidaan käyttää:"
 
 #: ../user/weak_auth.php:59
 msgid "log in to your account on the web"
-msgstr ""
+msgstr "kirjautumiseen tiliisi netissä"
 
 #: ../user/weak_auth.php:61
 msgid ""
@@ -6747,6 +6754,10 @@ msgid ""
 "       create a file named %1 in the BOINC\n"
 "       data directory, and set its contents to:"
 msgstr ""
+"liittämään tietokone tiliisi ilman BOINC Manageria.\n"
+"       Toimi näin: asenna BOINC,\n"
+"       luo tiedosto nimeltään %1 BOINC\n"
+"       datahakemistoon ja laita sisällöksi:"
 
 #: ../user/weak_auth.php:73
 msgid "Weak account key"
@@ -6761,12 +6772,20 @@ msgid ""
 "    do so using your weak account key.\n"
 "    Your weak account key is:"
 msgstr ""
+"Heikkoa tiliavaintasi voidaan käyttää tietokoneitten littämiseen tiliisi\n"
+"    yllä kerrotulla tavalla, mutta sitä ei voi käyttää kirjautumiseen tai "
+"tilisi muuttamiseen.\n"
+"    Jos haluat liittää turvattoman tietokoneen tiliisi,\n"
+"    tee se käyttämällä heikkoa tiliavainta.\n"
+"    Heikko tiliavaimesi on:"
 
 #: ../user/weak_auth.php:81
 msgid ""
 "If you change your password, your weak account key changes, and your "
 "previous weak account key becomes invalid."
 msgstr ""
+"Jos vaihdat salasanasi, heikko tiliavaimesi muuttuu ja aiempi heikko "
+"tiliavain mitätöityy."
 
 #: ../user/workunit.php:32
 msgid "can't find workunit"

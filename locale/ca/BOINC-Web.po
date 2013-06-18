@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-06-05 10:25 PDT\n"
-"PO-Revision-Date: 2012-05-04 00:45+0200\n"
+"PO-Revision-Date: 2013-06-08 00:15+0200\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -24,17 +24,16 @@ msgstr ""
 
 #: projects.inc:14
 msgid "Distributed sensing"
-msgstr ""
+msgstr "Detecció distribuïda"
 
 # 78%
 #: projects.inc:19
-#, fuzzy
 msgid "Stanford University"
-msgstr "Universitat d'Oxford"
+msgstr "Universitat d'Stanford"
 
 #: projects.inc:20
 msgid "Seismology"
-msgstr ""
+msgstr "Sismologia"
 
 #: projects.inc:21
 msgid ""
@@ -42,14 +41,17 @@ msgid ""
 "using sensors attached to Internet-connected computers.  You must buy a "
 "sensor to participate."
 msgstr ""
+"Quake-Catcher Network està desenvolupant la xarxa de sísmica més gran del "
+"món a través de sensors connectats a ordinadors connectats a Internet.  Has "
+"ha de comprar un sensor per participar-hi."
 
 #: projects.inc:27
 msgid "BOINC Poland Foundation"
-msgstr ""
+msgstr "Fundació BOINC de Polònia"
 
 #: projects.inc:28
 msgid "Environmental research"
-msgstr ""
+msgstr "Recerca ambiental"
 
 #: projects.inc:29
 msgid ""
@@ -57,12 +59,17 @@ msgid ""
 "levels by using sensors connected to volunteers' computers.  You must buy a "
 "sensor to participate."
 msgstr ""
+"Aquest projecte crea un mapa lliure i en constant actualització dels nivells "
+"de radiació mitjançant l'ús de sensors connectats als ordinadors dels "
+"voluntaris.  Has ha de comprar un sensor per participar-hi."
 
 #: projects.inc:33
 msgid ""
 "To participate in these projects you must buy a sensor and attach it to your "
 "computer."
 msgstr ""
+"Per participar en aquests projectes has de comprar un sensor i connectar-lo "
+"al teu ordinador."
 
 #: projects.inc:37
 msgid "Cognitive science and artifical intelligence"
@@ -95,11 +102,11 @@ msgstr "Biologia i Medicina"
 
 #: projects.inc:71
 msgid "University College Dublin"
-msgstr ""
+msgstr "Col·legi Universitari de Dublin"
 
 #: projects.inc:72
 msgid "Antimalarial drug discovery"
-msgstr ""
+msgstr "Descobriment de fàrmacs contra la malària"
 
 #: projects.inc:73
 msgid ""
@@ -109,6 +116,11 @@ msgid ""
 "the parasite. The FightMalaria@Home project is aimed at finding these new "
 "targets."
 msgstr ""
+"El paràsit que causa la malària segueix fent-se resistent als medicaments "
+"disponibles. Per tant, necessitem urgentment descobrir nous medicaments per "
+"reemplaçar els ja existents. És important destacar que aquests nous "
+"medicaments han d'apuntar a NOVES proteïnes en el paràsit. El projecte "
+"FightMalaria@Home està dirigit a la recerca d'aquests nous objectius."
 
 #: projects.inc:79
 msgid "University of Karlsruhe (Germany)"
@@ -314,9 +326,8 @@ msgstr ""
 
 # 75%
 #: projects.inc:188
-#, fuzzy
 msgid "Astronomy, Physics, and Chemistry"
-msgstr "Astronomia/Física/Química"
+msgstr "Astronomia, Física i Química"
 
 #: projects.inc:209
 msgid "University of Texas at Austin"
@@ -351,9 +362,8 @@ msgstr ""
 
 # 95%
 #: projects.inc:224
-#, fuzzy
 msgid "University of Illinois at Urbana-Champaign"
-msgstr "Universitat d'Illinois a Urbana-Chamapign"
+msgstr "Universitat d'Illinois at Urbana-Champaign"
 
 #: projects.inc:225 projects.inc:233
 msgid "Astronomy"
@@ -453,6 +463,9 @@ msgid ""
 "LHC event physics simulation on volunteer computers.  Requires that you "
 "install VirtualBox on your computer"
 msgstr ""
+"Aquest projecte utilitza la màquina virtual desenvolupada al CERN per la "
+"simulació física de l'LHC en els equips de voluntaris.  Requereix la "
+"instal·lació de VirtualBox en el teu ordinador"
 
 #: projects.inc:280
 msgid "University of California, Berkeley"
@@ -589,15 +602,15 @@ msgstr "Matemàtiques, computació i jocs"
 
 #: projects.inc:355
 msgid "Computer Science"
-msgstr ""
+msgstr "Ciències de la Computació"
 
 #: projects.inc:363
 msgid "Mathematics, Physics, Artificial Intelligence"
-msgstr ""
+msgstr "Matemàtiques, Física, Intel·ligència Artificial"
 
 #: projects.inc:364
 msgid "Simulation of quantum computing; Goldbach's conjecture."
-msgstr ""
+msgstr "Simulació de la computació quàntica, conjectura de Goldbach."
 
 #: projects.inc:404 projects.inc:412 projects.inc:466
 msgid "Cryptography"
@@ -797,7 +810,7 @@ msgstr "Historial de versions"
 
 #: download.php:126
 msgid "GPU computing"
-msgstr ""
+msgstr "Computació amb la GPU"
 
 #: download.php:144
 msgid "BOINC: compute for science"
@@ -914,9 +927,8 @@ msgstr "promitg 24 hores:"
 
 # 80%
 #: index.php:55
-#, fuzzy
 msgid "PetaFLOPS."
-msgstr "TeraFLOPS."
+msgstr "PetaFLOPS."
 
 #: index.php:67
 msgid "News"
@@ -943,11 +955,11 @@ msgstr "Documentació"
 
 #: index.php:87
 msgid "Add-ons"
-msgstr ""
+msgstr "Complements"
 
 #: index.php:88
 msgid "Links"
-msgstr ""
+msgstr "Enllaços"
 
 #: index.php:94
 #, php-format

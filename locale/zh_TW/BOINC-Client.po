@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-05 10:24-0700\n"
-"PO-Revision-Date: 2013-04-06 01:20+0200\n"
+"PO-Revision-Date: 2013-06-07 11:51+0200\n"
 "Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: zh_TW\n"
@@ -60,7 +60,7 @@ msgstr "有新的 BOINC 版本。"
 
 #: current_version.cpp:94
 msgid "Download"
-msgstr ""
+msgstr "下載"
 
 #: log_flags.cpp:259 log_flags.cpp:436
 msgid "Unexpected text in cc_config.xml"
@@ -130,10 +130,9 @@ msgstr "當你使用 NVIDIA GPU 來進行運算的時候，請將 BOINC 升級�
 
 # 94%
 #: ../sched/sched_send.cpp:1146
-#, c-format
-#, c-format, fuzzy
+#, c-format, c-format
 msgid "An %s GPU is required to run tasks for this project"
-msgstr "該專案的工作需要 ATI 的 GPU 才可以執行"
+msgstr "該專案的工作需要%s 的 GPU 才可以執行"
 
 #: ../sched/sched_send.cpp:1262
 msgid "No tasks are available for the applications you have selected."
@@ -151,7 +150,7 @@ msgstr "請更新至最新版的 BOINC 軟體"
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
-msgstr ""
+msgstr "%s 目前有任務，但您的偏好設定為不允許"
 
 #: ../sched/sched_types.cpp:254
 msgid "Unknown app name in app_info.xml"

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-05 10:24-0700\n"
-"PO-Revision-Date: 2012-09-16 20:10+0200\n"
+"PO-Revision-Date: 2013-06-15 18:10+0200\n"
 "Last-Translator: aceman <acelists@atlas.sk>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sk\n"
@@ -64,7 +64,7 @@ msgstr "Je dostupná nová verzia BOINC."
 
 #: current_version.cpp:94
 msgid "Download"
-msgstr ""
+msgstr "Stiahnuť"
 
 #: log_flags.cpp:259 log_flags.cpp:436
 msgid "Unexpected text in cc_config.xml"
@@ -142,13 +142,12 @@ msgstr ""
 "Pre použitie NVIDIA GPU je potrebná novšia verzia BOINC; prosím aktualizujte "
 "na aktuálnu verziu"
 
-# 94%
 #: ../sched/sched_send.cpp:1146
 #, c-format
-#, c-format, fuzzy
 msgid "An %s GPU is required to run tasks for this project"
 msgstr ""
-"Pre spustenie úloh tohto projektu je požadovaný grafická karta (GPU) ATI"
+"Pre spustenie úloh tohto projektu je požadovaná grafická karta (GPU) značky "
+"%s"
 
 #: ../sched/sched_send.cpp:1262
 msgid "No tasks are available for the applications you have selected."
@@ -166,7 +165,7 @@ msgstr "Je vyžadovaná novšia verzia BOINC; prosím nainštalujte aktuálnu ve
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
-msgstr ""
+msgstr "Úlohy pre %s sú dostupné, avšak Vaše preferencie určujú ich neprijímať"
 
 #: ../sched/sched_types.cpp:254
 msgid "Unknown app name in app_info.xml"

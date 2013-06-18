@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-06-05 10:25 PDT\n"
-"PO-Revision-Date: 2013-06-05 22:37+0200\n"
+"PO-Revision-Date: 2013-06-18 12:03+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -37,10 +37,13 @@ msgid ""
 "using sensors attached to Internet-connected computers.  You must buy a "
 "sensor to participate."
 msgstr ""
+"Quake-Catcher Network kehittää maailman suurinta seismistä verkkoa "
+"käyttämällä internetiin kytkettyjä tietokoneita, joissa on anturi.  Sinun "
+"tulee ostaa anturi, jotta voit osallistua."
 
 #: projects.inc:27
 msgid "BOINC Poland Foundation"
-msgstr ""
+msgstr "BOINC Poland -laitos"
 
 #: projects.inc:28
 msgid "Environmental research"
@@ -94,11 +97,11 @@ msgstr "Biologia ja lääketiede"
 
 #: projects.inc:71
 msgid "University College Dublin"
-msgstr ""
+msgstr "University College Dublin"
 
 #: projects.inc:72
 msgid "Antimalarial drug discovery"
-msgstr ""
+msgstr "Malarialääkkeen löytäminen"
 
 #: projects.inc:73
 msgid ""
@@ -108,6 +111,10 @@ msgid ""
 "the parasite. The FightMalaria@Home project is aimed at finding these new "
 "targets."
 msgstr ""
+"Malariaa aiheuttavat loiset ovat yhä vastustuskykyisempiä nykyisille "
+"lääkkeille. Sen vuoksi on tarpeen löytää uusia lääkkeitä vanhojen tilalle. "
+"Uusien lääkkeiden tulisi kohdistua loisen UUSIIN proteiineihin. "
+"FightMalaria@Home -projekti tähtää näiden uusien kohteiden löytämiseen."
 
 #: projects.inc:79
 msgid "University of Karlsruhe (Germany)"
@@ -442,6 +449,9 @@ msgid ""
 "LHC event physics simulation on volunteer computers.  Requires that you "
 "install VirtualBox on your computer"
 msgstr ""
+"Projekti käyttää CERNissä kehitettyä virtuaaliteknologiaa valmiiden LHC-"
+"tapahtumien fysiikan simulointiin.  Tämä vaatii, että koneellesi on "
+"asennettu VirtualBox"
 
 #: projects.inc:280
 msgid "University of California, Berkeley"
@@ -585,7 +595,7 @@ msgstr "Matematiikka, fysiikka, keinoäly"
 
 #: projects.inc:364
 msgid "Simulation of quantum computing; Goldbach's conjecture."
-msgstr ""
+msgstr "Kvanttilaskennan simulointi; Goldbachin konjektuuri."
 
 #: projects.inc:404 projects.inc:412 projects.inc:466
 msgid "Cryptography"
@@ -907,7 +917,7 @@ msgstr "Dokumentaatio"
 
 #: index.php:87
 msgid "Add-ons"
-msgstr ""
+msgstr "Laajennokset"
 
 #: index.php:88
 msgid "Links"

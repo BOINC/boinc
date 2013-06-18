@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2013-05-31 22:23+0200\n"
+"PO-Revision-Date: 2013-06-08 22:29+0200\n"
 "Last-Translator: Олег <pukish_oleg@ukr.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: uk\n"
@@ -1109,6 +1109,8 @@ msgstr "Пам'ять: коли комп'ютер не використовує�
 #: ../inc/prefs.inc:217
 msgid "Maintain enough tasks to keep busy for at least%1(max 10 days).%2"
 msgstr ""
+"Підтримувати достатній запас завдань для забезпечення роботи щонайменше %"
+"1(макс. 10 днів).%2"
 
 #: ../inc/prefs.inc:222 ../inc/prefs.inc:227 ../inc/prefs.inc:269
 #: ../inc/util.inc:264
@@ -1117,7 +1119,7 @@ msgstr "днів"
 
 #: ../inc/prefs.inc:225
 msgid "... and up to an additional"
-msgstr ""
+msgstr "... і до додаткових"
 
 #: ../inc/prefs.inc:231
 msgid ""
@@ -1440,11 +1442,11 @@ msgstr "У процесі"
 
 #: ../inc/result.inc:107
 msgid "Validation pending"
-msgstr ""
+msgstr "В очікуванні перевірки"
 
 #: ../inc/result.inc:108
 msgid "Validation inconclusive"
-msgstr ""
+msgstr "Перевірка не дала результату"
 
 #: ../inc/result.inc:109 ../inc/result.inc:259
 msgid "Valid"
@@ -1504,7 +1506,7 @@ msgstr "Скасований сервером"
 
 #: ../inc/result.inc:190
 msgid "Not started by deadline - canceled"
-msgstr ""
+msgstr "Не запущене до дати завершення - скасоване"
 
 #: ../inc/result.inc:193
 msgid "Error while downloading"
@@ -2113,7 +2115,7 @@ msgstr "Використовується у функціях спільноти"
 
 #: ../inc/user.inc:217 ../user/weak_auth.php:25
 msgid "Account keys"
-msgstr ""
+msgstr "Ключі облікового запису"
 
 #: ../inc/user.inc:222
 msgid "Preferences"
@@ -2230,15 +2232,15 @@ msgstr "Додати друга"
 
 #: ../inc/user.inc:446
 msgid "user name cannot have leading or trailing white space"
-msgstr ""
+msgstr "ім’я користувача не може містити пробілів на початку або вкінці"
 
 #: ../inc/user.inc:450
 msgid "user name must be nonempty"
-msgstr ""
+msgstr "ім’я користувача не може бути порожнім"
 
 #: ../inc/user.inc:454
 msgid "user name may not contain HTML tags"
-msgstr ""
+msgstr "ім’я користувача не може містити тегів HTML"
 
 #: ../inc/util.inc:122
 msgid "log out"
@@ -2572,6 +2574,9 @@ msgid ""
 "NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
 "select Add Project, and enter an email address and password."
 msgstr ""
+"ПРИМІТКА: Якщо у Вас є Менеджер BOINC, не використовуйте цю форму. Просто "
+"запустіть BOINC, виберіть Додати проект, і введіть свою адресу електронної "
+"пошти і пароль."
 
 #: ../user/create_account_form.php:69
 msgid ""
@@ -3181,7 +3186,7 @@ msgstr "Підсвітити спеціальних користувачів"
 
 #: ../user/edit_forum_preferences_form.php:135
 msgid "Display this many messages per page"
-msgstr ""
+msgstr "Показати вказану кількість повідомлень на сторінці"
 
 #: ../user/edit_forum_preferences_form.php:139
 msgid "How to sort"
@@ -3205,7 +3210,7 @@ msgstr "Автоматично переміститися до першого н
 
 #: ../user/edit_forum_preferences_form.php:142
 msgid "Don't move sticky posts to top"
-msgstr ""
+msgstr "Не переміщувати закріплені повідомлення наверх"
 
 #: ../user/edit_forum_preferences_form.php:148
 msgid "Message filtering"
@@ -5470,6 +5475,9 @@ msgid ""
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
+"Ваші налаштування були скинені до значень за замовчуванням і\n"
+"          будуть задіяні, коли Ваш комп’ютер зв’яжеться з %1,\n"
+"          або Ви застосуєте команду %2Оновити%3 з Менеджера BOINC."
 
 #: ../user/prefs_edit.php:65 ../user/prefs_edit.php:93
 msgid "%1 for %2"
@@ -6752,7 +6760,7 @@ msgstr "У команді?"
 
 #: ../user/user_search.php:66
 msgid "Ordering"
-msgstr ""
+msgstr "Сортування"
 
 #: ../user/user_search.php:67
 msgid "Decreasing sign-up time"
@@ -6870,14 +6878,18 @@ msgid ""
 "    or by using an assigned 'account key'.\n"
 "    Your account key is:"
 msgstr ""
+"Ви можете отримати доступ до свого облікового запису або з використанням "
+"адреси електронної пошти і паролю,\n"
+"    або використовуючи призначений 'ключ облікового запису'.\n"
+"    Ваш ключ облікового запису:"
 
 #: ../user/weak_auth.php:57
 msgid "This key can be used to:"
-msgstr ""
+msgstr "Цей ключ можна застосувати до:"
 
 #: ../user/weak_auth.php:59
 msgid "log in to your account on the web"
-msgstr ""
+msgstr "вхід у свій обліковий запис на сайті"
 
 #: ../user/weak_auth.php:61
 msgid ""
@@ -6886,6 +6898,11 @@ msgid ""
 "       create a file named %1 in the BOINC\n"
 "       data directory, and set its contents to:"
 msgstr ""
+"підключення комп’ютера до Вашого облікового запису без використання "
+"Менеджера BOINC.\n"
+"       Для цього необхідно встановити BOINC,\n"
+"       створити файл із назвою %1 в каталозі даних BOINC,\n"
+"       і встановити його вміст наступним чином:"
 
 #: ../user/weak_auth.php:73
 msgid "Weak account key"
@@ -6900,12 +6917,22 @@ msgid ""
 "    do so using your weak account key.\n"
 "    Your weak account key is:"
 msgstr ""
+"Ваш 'слабкий ключ облікового запису' може бути використаний для підключення "
+"комп’ютерів до Вашого облікового запису,\n"
+"    як описано вище, але він не може використовуватися для входу в нього чи "
+"його зміни будь-яким чином.\n"
+"    Якщо Ви хочете підключити ненадійні або не надто безпечні комп’ютери до "
+"свого облікового запису,\n"
+"    зробіть це, використовуючи свій слабкий ключ облікового запису.\n"
+"    Ваш слабкий ключ облікового запису:"
 
 #: ../user/weak_auth.php:81
 msgid ""
 "If you change your password, your weak account key changes, and your "
 "previous weak account key becomes invalid."
 msgstr ""
+"Якщо Ви зміните свій пароль, Ваш слабкий ключ облікового запису зміниться, а "
+"попередній стане недійсним."
 
 #: ../user/workunit.php:32
 msgid "can't find workunit"

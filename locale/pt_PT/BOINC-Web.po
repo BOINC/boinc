@@ -7,34 +7,33 @@ msgstr ""
 "Project-Id-Version: 1.05\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-06-05 10:25 PDT\n"
-"PO-Revision-Date: 2013-01-14 13:46+0200\n"
-"Last-Translator: Miguel Filipe Paulino de Sousa <Miguel.veig@gmail.com>\n"
+"PO-Revision-Date: 2013-06-17 15:48-0000\n"
+"Last-Translator: Miguel Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_PT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Poedit 1.5.5\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-KeywordsList: tra\n"
+"X-Poedit-SearchPath-0: doc\n"
 
 #: projects.inc:14
 msgid "Distributed sensing"
-msgstr ""
+msgstr "Sensoriamente distribuido"
 
 # 78%
 #: projects.inc:19
-#, fuzzy
 msgid "Stanford University"
-msgstr "Universidade de Oxford"
+msgstr "Universidade de Stanford"
 
 #: projects.inc:20
 msgid "Seismology"
-msgstr ""
+msgstr "Sismologia"
 
 #: projects.inc:21
 msgid ""
@@ -42,14 +41,17 @@ msgid ""
 "using sensors attached to Internet-connected computers.  You must buy a "
 "sensor to participate."
 msgstr ""
+"A Quake-Catcher Network está a desenvolver a maior rede de detecção sismica "
+"do mundo, utilizando sensores ligados a computadores ligados à Internet. Tem "
+"de comprar um sensor para participar."
 
 #: projects.inc:27
 msgid "BOINC Poland Foundation"
-msgstr ""
+msgstr "Fundação BOINC da Polónia"
 
 #: projects.inc:28
 msgid "Environmental research"
-msgstr ""
+msgstr "Investigação ambiental"
 
 #: projects.inc:29
 msgid ""
@@ -57,12 +59,17 @@ msgid ""
 "levels by using sensors connected to volunteers' computers.  You must buy a "
 "sensor to participate."
 msgstr ""
+"Este projecto está a criar um mapa grátis e continuadamente actualizado "
+"sobre os niveis de radiação, usando sensores ligados aos computadores dos "
+"voluntários. Tem de comprar um sensor para participar."
 
 #: projects.inc:33
 msgid ""
 "To participate in these projects you must buy a sensor and attach it to your "
 "computer."
 msgstr ""
+"Para participar nestes projectos, terá de comprar um sensor e ligá-lo ao seu "
+"computador."
 
 #: projects.inc:37
 msgid "Cognitive science and artifical intelligence"
@@ -95,11 +102,11 @@ msgstr "Biologia e Medicina"
 
 #: projects.inc:71
 msgid "University College Dublin"
-msgstr ""
+msgstr "Colégio Universitário de Dublin"
 
 #: projects.inc:72
 msgid "Antimalarial drug discovery"
-msgstr ""
+msgstr "Descoberta de medicamentos para a Malária"
 
 #: projects.inc:73
 msgid ""
@@ -109,6 +116,11 @@ msgid ""
 "the parasite. The FightMalaria@Home project is aimed at finding these new "
 "targets."
 msgstr ""
+"O parasita que causa a malária continua a mostrar resistência aos "
+"medicamentos disponíveis. Por isso, precisamos urgentemente de descobrir "
+"novos medicamente que substituam os existentes. Mais importante, estes novos "
+"medicamente precisam de atacar NOVAS proteinas no parasita. O projecto "
+"FightMlaria@Home tem como objectico, descobrir estes novos alvos."
 
 #: projects.inc:79
 msgid "University of Karlsruhe (Germany)"
@@ -234,12 +246,12 @@ msgid ""
 msgstr ""
 "Modelos de simulação da dinâmica de transmissão e efeitos sobre a saúde da "
 "malária são uma importante ferramenta para o controle da malária. Eles podem "
-"ser usados para determinar estratégias para a entrega de redes "
-"mosquiteiras, quimioterapia ou novas vacinas que estão actualmente em "
-"desenvolvimento e em testes. Tais modelagem são extremamente intensivas em "
-"termos de computação, exigindo simulações de grandes populações humanas com "
-"um conjunto diversificado de parâmetros relacionados a factores biológicos e "
-"sociais que influenciam a distribuição da doença."
+"ser usados para determinar estratégias para a entrega de redes mosquiteiras, "
+"quimioterapia ou novas vacinas que estão actualmente em desenvolvimento e em "
+"testes. Tais modelagem são extremamente intensivas em termos de computação, "
+"exigindo simulações de grandes populações humanas com um conjunto "
+"diversificado de parâmetros relacionados a factores biológicos e sociais que "
+"influenciam a distribuição da doença."
 
 #: projects.inc:151
 msgid "University of Washington"
@@ -313,9 +325,8 @@ msgstr ""
 
 # 75%
 #: projects.inc:188
-#, fuzzy
 msgid "Astronomy, Physics, and Chemistry"
-msgstr "Astronomia/Fisícas/Quimíca"
+msgstr "Astronomia, Fisícas e Quimíca"
 
 #: projects.inc:209
 msgid "University of Texas at Austin"
@@ -350,9 +361,8 @@ msgstr ""
 
 # 95%
 #: projects.inc:224
-#, fuzzy
 msgid "University of Illinois at Urbana-Champaign"
-msgstr "Universidade de Ilinois em Urbana-Chamapign"
+msgstr "Universidade de Ilinois em Urbana-Champaign"
 
 #: projects.inc:225 projects.inc:233
 msgid "Astronomy"
@@ -452,6 +462,9 @@ msgid ""
 "LHC event physics simulation on volunteer computers.  Requires that you "
 "install VirtualBox on your computer"
 msgstr ""
+"Este projecto usa a tecnologia de máquinas virtuais, desenvolvida pelo CERN "
+"para as simulações da LHC de eventos fisícos que atingiram um estado de "
+"maturação. Requer que instale o VirtualBox no seu computador."
 
 #: projects.inc:280
 msgid "University of California, Berkeley"
@@ -531,7 +544,8 @@ msgstr ""
 
 #: projects.inc:325 projects.inc:481
 msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
-msgstr "Laboratório de Paralelismo e Sistemas Distribuidos MTA-SZTAKI (Hungria)"
+msgstr ""
+"Laboratório de Paralelismo e Sistemas Distribuidos MTA-SZTAKI (Hungria)"
 
 #: projects.inc:326
 msgid "European research projects"
@@ -587,15 +601,15 @@ msgstr "Matemáticas, computação e jogos"
 
 #: projects.inc:355
 msgid "Computer Science"
-msgstr ""
+msgstr "Ciência da Computação"
 
 #: projects.inc:363
 msgid "Mathematics, Physics, Artificial Intelligence"
-msgstr ""
+msgstr "Matemáticas, Fisícas, Inteligência Artificial"
 
 #: projects.inc:364
 msgid "Simulation of quantum computing; Goldbach's conjecture."
-msgstr ""
+msgstr "Simulação de computação quântica; conjectura de Goldbach."
 
 #: projects.inc:404 projects.inc:412 projects.inc:466
 msgid "Cryptography"
@@ -697,8 +711,8 @@ msgid ""
 "sup>-1"
 msgstr ""
 "A Primegrid está a gerar uma base de dados publica sequencial de números "
-"primos e, está a procurar pelos maiores números primos na forma "
-"k*2<sup>n</sup>+1 and k*2<sup>n</sup>-1"
+"primos e, está a procurar pelos maiores números primos na forma k*2<sup>n</"
+"sup>+1 and k*2<sup>n</sup>-1"
 
 #: projects.inc:473
 msgid "Hochschule RheinMain University of Applied Sciences"
@@ -784,7 +798,7 @@ msgstr "Histórico das versões"
 
 #: download.php:126
 msgid "GPU computing"
-msgstr ""
+msgstr "Computação GPU"
 
 #: download.php:144
 msgid "BOINC: compute for science"
@@ -902,9 +916,8 @@ msgstr "Média de 24-horas:"
 
 # 80%
 #: index.php:55
-#, fuzzy
 msgid "PetaFLOPS."
-msgstr "TeraFLOPS"
+msgstr "PetaFLOPS."
 
 #: index.php:67
 msgid "News"
@@ -924,11 +937,11 @@ msgstr "Documentação"
 
 #: index.php:87
 msgid "Add-ons"
-msgstr ""
+msgstr "Add-ons"
 
 #: index.php:88
 msgid "Links"
-msgstr ""
+msgstr "Links"
 
 #: index.php:94
 #, php-format
@@ -951,8 +964,8 @@ msgid ""
 "Or, if you run several projects, try an %saccount manager%s such as "
 "%sGridRepublic%s or %sBAM!%s. "
 msgstr ""
-"Ou, se corre vários projectos, experimente um %sgestor de conta%s como o %"
-"sGridRepublic%s ou o %sBAM!%s. "
+"Ou, se corre vários projectos, experimente um %sgestor de conta%s como o "
+"%sGridRepublic%s ou o %sBAM!%s. "
 
 #: index.php:121
 msgid "Compute with BOINC"
@@ -1105,8 +1118,8 @@ msgstr "O BOINC está sedeado na Universidade da California, Berkeley"
 #~ "Provide ecological guidelines on the design of prairies with the best "
 #~ "potential for water purification."
 #~ msgstr ""
-#~ "Fornecer orientações ecológicas sobre a concepção de pradarias com o melhor "
-#~ "potencial para a purificação de água."
+#~ "Fornecer orientações ecológicas sobre a concepção de pradarias com o "
+#~ "melhor potencial para a purificação de água."
 
 #~ msgid "Climateprediction.net"
 #~ msgstr "Climateprediction.net"
@@ -1150,15 +1163,15 @@ msgstr "O BOINC está sedeado na Universidade da California, Berkeley"
 #~ msgstr "Fisícas/Aeronauticas"
 
 #~ msgid ""
-#~ "The uFluids project simulates two-phase fluid behavior in microgravity and "
-#~ "microfluidics problems. Our goal is to design better satellite propellant "
-#~ "management devices and address two-phase flow in microchannel and MEMS "
-#~ "devices."
+#~ "The uFluids project simulates two-phase fluid behavior in microgravity "
+#~ "and microfluidics problems. Our goal is to design better satellite "
+#~ "propellant management devices and address two-phase flow in microchannel "
+#~ "and MEMS devices."
 #~ msgstr ""
 #~ "O projecto uFluids simula duas fases de comportamento dos fluidos em "
 #~ "problemas de microgravidade e microfluidica. O nosso objetivo é projectar "
-#~ "melhores aparelhos de gestão de satélites propulsores e endereçar duas fases "
-#~ "de fluxo em microcanais e dispositivos de MEMS."
+#~ "melhores aparelhos de gestão de satélites propulsores e endereçar duas "
+#~ "fases de fluxo em microcanais e dispositivos de MEMS."
 
 #~ msgid "Einstein@home"
 #~ msgstr "Einstein@home"
@@ -1229,10 +1242,11 @@ msgstr "O BOINC está sedeado na Universidade da California, Berkeley"
 #~ msgstr ""
 #~ "D-Wave's AQUA (Algoritmos Quânticos Adiabatico) é um projecto de pesquisa "
 #~ "cujo objectivo é prever o desempenho de computadores supercondutores "
-#~ "quânticos adiabáticos numa variedade de problemas decorrentes em áreas que "
-#~ "vão da ciência dos materiais à aprendizagem da máquina. AQUA@ home utiliza "
-#~ "computadores conectados à Internet para ajudar a projectar e analisar "
-#~ "algoritmos de computação quântica, usando técnicas de Quantum Monte Carlo."
+#~ "quânticos adiabáticos numa variedade de problemas decorrentes em áreas "
+#~ "que vão da ciência dos materiais à aprendizagem da máquina. AQUA@ home "
+#~ "utiliza computadores conectados à Internet para ajudar a projectar e "
+#~ "analisar algoritmos de computação quântica, usando técnicas de Quantum "
+#~ "Monte Carlo."
 
 #~ msgid "ABC@home"
 #~ msgstr "ABC@home"
@@ -1257,42 +1271,42 @@ msgstr "O BOINC está sedeado na Universidade da California, Berkeley"
 
 #~ msgid ""
 #~ "This project studies Chess 960, a variant of orthodox chess. In classical "
-#~ "chess the starting position of the game never changes.  In Chess 960, just "
-#~ "before the start of every game, the initial configuration of the chess "
-#~ "pieces is determined randomly."
+#~ "chess the starting position of the game never changes.  In Chess 960, "
+#~ "just before the start of every game, the initial configuration of the "
+#~ "chess pieces is determined randomly."
 #~ msgstr ""
 #~ "Este projecto estuda o Xadrez 960, uma variante do xadrez ortodoxo. No "
-#~ "xadrez clássico a posição inicial do jogo nunca muda. No xadrez 960, antes "
-#~ "do início de cada jogo, a configuração inicial das peças de xadrez é "
-#~ "determinada aleatóriamente."
+#~ "xadrez clássico a posição inicial do jogo nunca muda. No xadrez 960, "
+#~ "antes do início de cada jogo, a configuração inicial das peças de xadrez "
+#~ "é determinada aleatóriamente."
 
 #~ msgid "The current release is known to work with these Linux versions:"
-#~ msgstr "A versão actual é conhecida por trabalhar com estas versões de Linux:"
+#~ msgstr ""
+#~ "A versão actual é conhecida por trabalhar com estas versões de Linux:"
 
 #~ msgid ""
-#~ "For other Linux versions, check if a BOINC package is offered by your Linux "
-#~ "distribution."
+#~ "For other Linux versions, check if a BOINC package is offered by your "
+#~ "Linux distribution."
 #~ msgstr ""
-#~ "Para outras versões de Linux, verifique se pacote do BOINC é oferecido pela "
-#~ "sua distribuição de Linux."
+#~ "Para outras versões de Linux, verifique se pacote do BOINC é oferecido "
+#~ "pela sua distribuição de Linux."
 
 #~ msgid ""
-#~ "Alternatively, download the %1BOINC client for older Linux versions%2. This "
-#~ "doesn't have a graphical interface, but it should work on all Linux systems, "
-#~ "both x86 and x64."
+#~ "Alternatively, download the %1BOINC client for older Linux versions%2. "
+#~ "This doesn't have a graphical interface, but it should work on all Linux "
+#~ "systems, both x86 and x64."
 #~ msgstr ""
-#~ "Alternativamente, faça o download do %1BOINC para versões%2 mais antigas de "
-#~ "Linux. Este não suporta interface gráfico, mas deverá funcionar em todos os "
-#~ "sistemas Linux, tanto x86 como x64."
+#~ "Alternativamente, faça o download do %1BOINC para versões%2 mais antigas "
+#~ "de Linux. Este não suporta interface gráfico, mas deverá funcionar em "
+#~ "todos os sistemas Linux, tanto x86 como x64."
 
-#, php-format
 #~ msgid ""
-#~ "Note: if your computer is equipped with an Graphics Processing Unit (GPU), "
-#~ "you may be able to %suse it to compute faster%s"
+#~ "Note: if your computer is equipped with an Graphics Processing Unit "
+#~ "(GPU), you may be able to %suse it to compute faster%s"
 #~ msgstr ""
-#~ "Nota: se o seu computador estiver equipado com uma Unidade de Processamento "
-#~ "Gráfico (GPU), pode %susar o seu computador para realizar uma computação "
-#~ "mais rápida%s"
+#~ "Nota: se o seu computador estiver equipado com uma Unidade de "
+#~ "Processamento Gráfico (GPU), pode %susar o seu computador para realizar "
+#~ "uma computação mais rápida%s"
 
 #~ msgid "TeraFLOPS."
 #~ msgstr "TeraFLOPS"

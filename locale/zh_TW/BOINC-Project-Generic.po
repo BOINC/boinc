@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2013-04-06 01:20+0200\n"
+"PO-Revision-Date: 2013-06-08 02:34+0200\n"
 "Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: zh_TW\n"
@@ -1052,7 +1052,7 @@ msgstr "記憶體：如果電腦未使用，最多使用"
 
 #: ../inc/prefs.inc:217
 msgid "Maintain enough tasks to keep busy for at least%1(max 10 days).%2"
-msgstr ""
+msgstr "維持至少%1工作 (最大10天)。%2"
 
 #: ../inc/prefs.inc:222 ../inc/prefs.inc:227 ../inc/prefs.inc:269
 #: ../inc/util.inc:264
@@ -1061,7 +1061,7 @@ msgstr "天"
 
 #: ../inc/prefs.inc:225
 msgid "... and up to an additional"
-msgstr ""
+msgstr "...和額外最多"
 
 #: ../inc/prefs.inc:231
 msgid ""
@@ -1358,11 +1358,11 @@ msgstr "運算中"
 
 #: ../inc/result.inc:107
 msgid "Validation pending"
-msgstr ""
+msgstr "等待驗證中"
 
 #: ../inc/result.inc:108
 msgid "Validation inconclusive"
-msgstr ""
+msgstr "驗證尚無確定"
 
 #: ../inc/result.inc:109 ../inc/result.inc:259
 msgid "Valid"
@@ -1422,7 +1422,7 @@ msgstr "被伺服器取消"
 
 #: ../inc/result.inc:190
 msgid "Not started by deadline - canceled"
-msgstr ""
+msgstr "未開始前已達上傳期限 - 已取消"
 
 #: ../inc/result.inc:193
 msgid "Error while downloading"
@@ -2016,7 +2016,7 @@ msgstr "在社群功能中使用"
 
 #: ../inc/user.inc:217 ../user/weak_auth.php:25
 msgid "Account keys"
-msgstr ""
+msgstr "帳號鑰匙"
 
 #: ../inc/user.inc:222
 msgid "Preferences"
@@ -2133,15 +2133,15 @@ msgstr "新增為好友"
 
 #: ../inc/user.inc:446
 msgid "user name cannot have leading or trailing white space"
-msgstr ""
+msgstr "使用者名稱前後不能使用空白建"
 
 #: ../inc/user.inc:450
 msgid "user name must be nonempty"
-msgstr ""
+msgstr "使用者名稱不能留白"
 
 #: ../inc/user.inc:454
 msgid "user name may not contain HTML tags"
-msgstr ""
+msgstr "使用者名稱不能包含HTML標籤"
 
 #: ../inc/util.inc:122
 msgid "log out"
@@ -2452,7 +2452,7 @@ msgstr "帳號建立功能目前已暫停，請稍候再試。"
 msgid ""
 "NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
 "select Add Project, and enter an email address and password."
-msgstr ""
+msgstr "注意：如果您使用BOINC管理服務，不要使用此表格。只要運行BOINC，選擇“新增專案”，然後輸入電子郵件地址和密碼。"
 
 #: ../user/create_account_form.php:69
 msgid ""
@@ -3027,7 +3027,7 @@ msgstr "高亮指定用戶"
 
 #: ../user/edit_forum_preferences_form.php:135
 msgid "Display this many messages per page"
-msgstr ""
+msgstr "在每頁顯示更多留言"
 
 #: ../user/edit_forum_preferences_form.php:139
 msgid "How to sort"
@@ -3047,7 +3047,7 @@ msgstr "自動跳轉到第一篇未讀的文章"
 
 #: ../user/edit_forum_preferences_form.php:142
 msgid "Don't move sticky posts to top"
-msgstr ""
+msgstr "不要移動置頂文章到頂部"
 
 #: ../user/edit_forum_preferences_form.php:148
 msgid "Message filtering"
@@ -3868,9 +3868,8 @@ msgstr "舉報已記錄"
 
 # 92%
 #: ../user/forum_report_post.php:66
-#, fuzzy
 msgid "Your report has been recorded. Thanks for your input."
-msgstr "舉報已經被記錄下來，感謝您的參與。"
+msgstr "您的回報已經記錄，感謝您的幫忙。"
 
 #: ../user/forum_report_post.php:67
 msgid ""
@@ -5099,6 +5098,9 @@ msgid ""
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
+"您的偏好設定已還原為預設值\n"
+"將在你的電腦與%1進行通訊的時候生效\n"
+"或者你也可以直接執行 BOINC 客戶端裡的%2更新%3。"
 
 #: ../user/prefs_edit.php:65 ../user/prefs_edit.php:93
 msgid "%1 for %2"
@@ -6294,7 +6296,7 @@ msgstr "已加入團隊?"
 
 #: ../user/user_search.php:66
 msgid "Ordering"
-msgstr ""
+msgstr "排序"
 
 #: ../user/user_search.php:67
 msgid "Decreasing sign-up time"
@@ -6407,14 +6409,17 @@ msgid ""
 "    or by using an assigned 'account key'.\n"
 "    Your account key is:"
 msgstr ""
+"您現在可使用電子郵箱地址和密碼來登入您的帳號，\n"
+"或者也可以用一個指定的“帳號密鑰”。\n"
+"您的帳號密鑰是："
 
 #: ../user/weak_auth.php:57
 msgid "This key can be used to:"
-msgstr ""
+msgstr "這個密碼能用於："
 
 #: ../user/weak_auth.php:59
 msgid "log in to your account on the web"
-msgstr ""
+msgstr "在網站上登入您的帳號"
 
 #: ../user/weak_auth.php:61
 msgid ""
@@ -6423,6 +6428,10 @@ msgid ""
 "       create a file named %1 in the BOINC\n"
 "       data directory, and set its contents to:"
 msgstr ""
+"在不借助BOINC經理的情況下新增一台電腦到你的帳號，方法如下。\n"
+"先安裝BOINC，\n"
+"在BOINC的數據資料夾內建立名為％1的文件，\n"
+"而文件內容為："
 
 #: ../user/weak_auth.php:73
 msgid "Weak account key"
@@ -6437,12 +6446,17 @@ msgid ""
 "    do so using your weak account key.\n"
 "    Your weak account key is:"
 msgstr ""
+"您的“弱帳號密碼”能幫你的帳號新增電腦\n"
+"但不能用於登入在專案網站上的帳號或修改該帳號。\n"
+"如果您想在你的帳號新增不被信任的或不安全的電腦，\n"
+"您就應該使用弱帳號密碼\n"
+"你的弱帳號密碼是："
 
 #: ../user/weak_auth.php:81
 msgid ""
 "If you change your password, your weak account key changes, and your "
 "previous weak account key becomes invalid."
-msgstr ""
+msgstr "如果您變更了密碼，您的弱帳號密碼將會改變，而之前的弱帳號密碼也將失效。"
 
 #: ../user/workunit.php:32
 msgid "can't find workunit"

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-05 10:24-0700\n"
-"PO-Revision-Date: 2013-01-02 20:51+0200\n"
+"PO-Revision-Date: 2013-06-08 11:32+0200\n"
 "Last-Translator: Martin <martin.suchan@email.cz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: cs\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: acct_mgr.cpp:448 acct_mgr.cpp:457
 msgid "Message from account manager"
-msgstr "Zpráva ze správce účtu"
+msgstr "Zpráva od správce účtu"
 
 #: client_msgs.cpp:85
 msgid "Message from server"
@@ -30,8 +30,8 @@ msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr ""
-"Některé úlohy vyžadují více operační paměti, než máte povoleno. Zkontrolujte "
-"prosím vaše předvolby."
+"Některé úlohy vyžadují více operační paměti, než máte povoleno v "
+"předvolbách. Zkontrolujte prosím vaše předvolby."
 
 #: client_state.cpp:501
 msgid "Couldn't write state file; check directory permissions"
@@ -64,7 +64,7 @@ msgstr "Je dostupná nová verze BOINC."
 
 #: current_version.cpp:94
 msgid "Download"
-msgstr ""
+msgstr "Stáhnout"
 
 #: log_flags.cpp:259 log_flags.cpp:436
 msgid "Unexpected text in cc_config.xml"
@@ -146,10 +146,9 @@ msgstr ""
 
 # 94%
 #: ../sched/sched_send.cpp:1146
-#, c-format
-#, c-format, fuzzy
+#, c-format, c-format
 msgid "An %s GPU is required to run tasks for this project"
-msgstr "Pro počítání úkolů u tohoto projektu je zapotřebí AMD GPU"
+msgstr "Pro počítání úkolů u tohoto projektu je zapotřebí %s GPU."
 
 #: ../sched/sched_send.cpp:1262
 msgid "No tasks are available for the applications you have selected."
@@ -168,6 +167,7 @@ msgstr "Nainstalujte si prosím novou verzi BOINC, která je vyžadována."
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
 msgstr ""
+"Jsou dostupné úkoly pro %s, ale podle vašich předvoleb nebudou přijímány."
 
 #: ../sched/sched_types.cpp:254
 msgid "Unknown app name in app_info.xml"

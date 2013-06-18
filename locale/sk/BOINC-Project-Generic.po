@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2012-09-16 20:10+0200\n"
+"PO-Revision-Date: 2013-06-15 18:01+0200\n"
 "Last-Translator: aceman <acelists@atlas.sk>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sk\n"
@@ -237,6 +237,7 @@ msgid "Send&nbsp;message"
 msgstr "Odoslať&nbsp;správu"
 
 #: ../inc/forum.inc:580
+#, fuzzy
 msgid "Send %1 a private message"
 msgstr "Poslať %1 súkromnú správu"
 
@@ -245,6 +246,7 @@ msgid "Joined: %1"
 msgstr ""
 
 #: ../inc/forum.inc:590
+#, fuzzy
 msgid "Posts: %1"
 msgstr "Príspevkov: %1"
 
@@ -261,10 +263,12 @@ msgid "You haven't read this message yet"
 msgstr "Túto správu ste zatiaľ nečítali"
 
 #: ../inc/forum.inc:619
+#, fuzzy
 msgid "Unread"
 msgstr "Neprečítané"
 
 #: ../inc/forum.inc:622 ../inc/forum.inc:627 ../inc/forum.inc:726
+#, fuzzy
 msgid "Message %1"
 msgstr "Správa %1"
 
@@ -273,6 +277,7 @@ msgid "hidden"
 msgstr "skryté"
 
 #: ../inc/forum.inc:624
+#, fuzzy
 msgid "Posted: %1"
 msgstr "Uverejnené: %1"
 
@@ -351,6 +356,7 @@ msgid "Hidden by a moderator"
 msgstr ""
 
 #: ../inc/forum.inc:728
+#, fuzzy
 msgid "Posted %1 by %2"
 msgstr "Uverejnené %1 od %2"
 
@@ -490,6 +496,7 @@ msgid "Mark all threads as read"
 msgstr "Označiť všetky vlákna ako prečítané"
 
 #: ../inc/forum.inc:1251
+#, fuzzy
 msgid "Mark all threads in all message boards as read."
 msgstr "Označiť všetky vlákna na všetkých nástenkách ako prečítané."
 
@@ -835,6 +842,7 @@ msgid "Retired old computer %1"
 msgstr ""
 
 #: ../inc/host.inc:630 ../inc/host.inc:633
+#, fuzzy
 msgid "Show:"
 msgstr "Zobraziť:"
 
@@ -851,6 +859,7 @@ msgid "Computer ID"
 msgstr "ID počítača"
 
 #: ../inc/host.inc:655
+#, fuzzy
 msgid "BOINC<br>version"
 msgstr "BOINC<br>verzia"
 
@@ -3010,10 +3019,12 @@ msgid "How to sort"
 msgstr ""
 
 #: ../user/edit_forum_preferences_form.php:140
+#, fuzzy
 msgid "Threads:"
 msgstr "Vlákna:"
 
 #: ../user/edit_forum_preferences_form.php:140
+#, fuzzy
 msgid "Posts:"
 msgstr "Príspevkov:"
 
@@ -3658,10 +3669,12 @@ msgid "Ban duration"
 msgstr ""
 
 #: ../user/forum_moderate_post.php:81
+#, fuzzy
 msgid "4 hours"
 msgstr "4 hodiny"
 
 #: ../user/forum_moderate_post.php:82 ../user/forum_search.php:45
+#, fuzzy
 msgid "1 day"
 msgstr "1 deň"
 
@@ -3833,6 +3846,7 @@ msgid "Post to thread"
 msgstr ""
 
 #: ../user/forum_reply.php:137
+#, fuzzy
 msgid "Message:"
 msgstr "Správa:"
 
@@ -3941,6 +3955,7 @@ msgid "Search query"
 msgstr "Prehľadať fóra"
 
 #: ../user/forum_search.php:32
+#, fuzzy
 msgid "Search for keywords:"
 msgstr "Hľadať kľúčové slová:"
 
@@ -3953,6 +3968,7 @@ msgid "For example: \"screensaver freeze\""
 msgstr ""
 
 #: ../user/forum_search.php:36
+#, fuzzy
 msgid "Search for author ID:"
 msgstr "Hľadať ID autora:"
 
@@ -5377,6 +5393,7 @@ msgid "users in last 24h"
 msgstr ""
 
 #: ../user/show_host_detail.php:40
+#, fuzzy
 msgid "Computer %1"
 msgstr "Počítač %1"
 

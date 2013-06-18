@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2013-06-03 18:08+0200\n"
+"PO-Revision-Date: 2013-06-08 17:59+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -31,11 +31,11 @@ msgstr "German"
 
 #: ../inc/bbcode_html.inc:11
 msgid "Bold text: [b]text[/b]  (alt+b)"
-msgstr "Fetter Text: [b]text[/b] (alt+b)"
+msgstr "Fettgeschriebener Text: [b]text[/b] (alt+b)"
 
 #: ../inc/bbcode_html.inc:14
 msgid "Italic text: [i]text[/i]  (alt+i)"
-msgstr "Kursiver Text: [i]text[/i]  (alt+i)"
+msgstr "Kursivgeschriebener Text: [i]text[/i]  (alt+i)"
 
 #: ../inc/bbcode_html.inc:17
 msgid "Underline text: [u]text[/u]  (alt+u)"
@@ -43,7 +43,7 @@ msgstr "Unterstrichener Text: [u]text[/u]  (alt+u)"
 
 #: ../inc/bbcode_html.inc:20
 msgid "Quote text: [quote]text[/quote]  (alt+q)"
-msgstr "Zitierter Text: [quote]text[/quote]  (alt+q)"
+msgstr "Zitate: [quote]text[/quote]  (alt+q)"
 
 #: ../inc/bbcode_html.inc:23
 msgid "Code display: [code]code[/code]  (alt+c)"
@@ -55,17 +55,17 @@ msgstr "Listen: [list]text[/list] (alt+l)"
 
 #: ../inc/bbcode_html.inc:29
 msgid "Ordered list: [list=]text[/list]  (alt+o)"
-msgstr "nummerierte Listen: [list=]text[/list]  (alt+o)"
+msgstr "Nummerierte Listen: [list=]text[/list]  (alt+o)"
 
 #: ../inc/bbcode_html.inc:32
 msgid "Insert image: [img]http://image_url[/img]  (alt+p)"
-msgstr "ein Bild einfügen: [img]http://bild_url[/img]  (alt+p)"
+msgstr "Ein Bild einfügen: [img]http://bild_url[/img]  (alt+p)"
 
 #: ../inc/bbcode_html.inc:35
 msgid ""
 "Insert URL: [url]http://url[/url] or [url=http://url]URL text[/url]  (alt+w)"
 msgstr ""
-"einen Link einfügen: [url]http://linkadresse[/url] or "
+"Einen Link einfügen: [url]http://linkadresse[/url] oder "
 "[url=http://linkadresse]linktext[/url]  (alt+w)"
 
 #: ../inc/bbcode_html.inc:42
@@ -76,7 +76,7 @@ msgstr "Schriftfarbe"
 msgid ""
 "Font color: [color=red]text[/color]  Tip: you can also use color=#FF0000"
 msgstr ""
-"Schriftfarbe: [color=red]text[/color]  Tip: es funktioniert auch so: "
+"Schriftfarbe: [color=red]text[/color]  Tipp: es funktioniert auch so: "
 "color=#FF0000"
 
 #: ../inc/bbcode_html.inc:44 ../inc/bbcode_html.inc:59 ../inc/prefs.inc:624
@@ -113,7 +113,7 @@ msgstr "Olivgrün"
 
 #: ../inc/bbcode_html.inc:52
 msgid "Cyan"
-msgstr "Blaugrün"
+msgstr "Türkis"
 
 #: ../inc/bbcode_html.inc:53
 msgid "Blue"
@@ -125,7 +125,7 @@ msgstr "Dunkelblau"
 
 #: ../inc/bbcode_html.inc:55
 msgid "Indigo"
-msgstr "Indigofarben"
+msgstr "Indigo"
 
 #: ../inc/bbcode_html.inc:56
 msgid "Violet"
@@ -137,7 +137,7 @@ msgstr "Schriftgröße"
 
 #: ../inc/bbcode_html.inc:58
 msgid "Font size: [size=x-small]small text[/size]"
-msgstr "Schriftgröße: [size=x-small]kleiner text[/size]"
+msgstr "Schriftgröße: [size=x-small]kleiner Text[/size]"
 
 #: ../inc/bbcode_html.inc:60
 msgid "Small"
@@ -169,7 +169,7 @@ msgstr "Neueste zuerst"
 
 #: ../inc/forum.inc:39
 msgid "Highest rated posts first"
-msgstr "Höchst bewertete Beiträge zuerst"
+msgstr "Am besten bewertete Beiträge zuerst"
 
 #: ../inc/forum.inc:41
 msgid "Newest post first"
@@ -177,7 +177,7 @@ msgstr "Neuster Beitrag zuerst"
 
 #: ../inc/forum.inc:42
 msgid "Most views first"
-msgstr "Meist Angesehene zuerst"
+msgstr "Meist angesehene zuerst"
 
 #: ../inc/forum.inc:43
 msgid "Most posts first"
@@ -243,7 +243,7 @@ msgstr "Nachricht"
 
 #: ../inc/forum.inc:580
 msgid "Send&nbsp;message"
-msgstr "Nachricht&nbsp;senden"
+msgstr "Nachricht senden"
 
 #: ../inc/forum.inc:580
 msgid "Send %1 a private message"
@@ -282,7 +282,7 @@ msgstr "Nachricht %1"
 
 #: ../inc/forum.inc:623 ../inc/user.inc:329 ../user/forum_forum.php:174
 msgid "hidden"
-msgstr "versteckt"
+msgstr "verborgen"
 
 # ########################################
 # Forum
@@ -304,7 +304,7 @@ msgstr "Diese Nachricht bearbeiten"
 
 #: ../inc/forum.inc:636
 msgid "Last modified: %1"
-msgstr "Zuletzt verändert: %1"
+msgstr "Zuletzt geändert: %1"
 
 #: ../inc/forum.inc:639
 msgid ""
@@ -340,7 +340,7 @@ msgstr "positiv bewerten"
 
 #: ../inc/forum.inc:676
 msgid "Click if you don't like this message"
-msgstr "Hier klicken wenn Ihnen der Beitrag nicht gefällt."
+msgstr "Hier klicken wenn Ihnen dieser Beitrag nicht gefällt."
 
 #: ../inc/forum.inc:676
 msgid "Rate -"
@@ -352,7 +352,7 @@ msgstr "Antworten"
 
 #: ../inc/forum.inc:684
 msgid "Post a reply to this message"
-msgstr "Auf diesen Beitrag antworten"
+msgstr "Auf diesen Beitrag antworten."
 
 #: ../inc/forum.inc:686
 msgid "Quote"
@@ -1115,8 +1115,9 @@ msgid "Memory: when computer is not in use, use at most"
 msgstr "Arbeitsspeicher: wenn Computer nicht genutzt wird, nutze höchstens"
 
 #: ../inc/prefs.inc:217
+#, fuzzy
 msgid "Maintain enough tasks to keep busy for at least%1(max 10 days).%2"
-msgstr ""
+msgstr "Genug Aufgaben für mindestens X Tage vorhalten%1(max. 10 Tage)%2."
 
 #: ../inc/prefs.inc:222 ../inc/prefs.inc:227 ../inc/prefs.inc:269
 #: ../inc/util.inc:264
@@ -1125,7 +1126,7 @@ msgstr "Tage"
 
 #: ../inc/prefs.inc:225
 msgid "... and up to an additional"
-msgstr ""
+msgstr "... und zusätzlich für weitere"
 
 #: ../inc/prefs.inc:231
 msgid ""
@@ -1449,11 +1450,11 @@ msgstr "In Bearbeitung"
 
 #: ../inc/result.inc:107
 msgid "Validation pending"
-msgstr ""
+msgstr "Überprüfung ausstehend"
 
 #: ../inc/result.inc:108
 msgid "Validation inconclusive"
-msgstr ""
+msgstr "Überprüfung ohne Ergebnis"
 
 #: ../inc/result.inc:109 ../inc/result.inc:259
 msgid "Valid"
@@ -1513,7 +1514,7 @@ msgstr "Abgebrochen durch Server"
 
 #: ../inc/result.inc:190
 msgid "Not started by deadline - canceled"
-msgstr ""
+msgstr "Nicht vor Ablaufdatum gestartet - abgebrochen"
 
 #: ../inc/result.inc:193
 msgid "Error while downloading"
@@ -2234,15 +2235,15 @@ msgstr "als Freund hinzufügen"
 
 #: ../inc/user.inc:446
 msgid "user name cannot have leading or trailing white space"
-msgstr ""
+msgstr "Der Benutzername kann keine Leerzeichen am Anfang oder Ende beinhalten"
 
 #: ../inc/user.inc:450
 msgid "user name must be nonempty"
-msgstr ""
+msgstr "Der Benutzername darf nicht leer sein."
 
 #: ../inc/user.inc:454
 msgid "user name may not contain HTML tags"
-msgstr ""
+msgstr "Der Benutzername darf keine HTML-Tags beinhalten."
 
 #: ../inc/util.inc:122
 msgid "log out"
@@ -2588,6 +2589,9 @@ msgid ""
 "NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
 "select Add Project, and enter an email address and password."
 msgstr ""
+"Hinweis: Wenn Sie den BOINC Manager benutzen, dann benötigen Sie dieses "
+"Formular nicht. Starten Sie BOINC und wählen Sie Projekt hinzufügen und "
+"geben Sie dort Ihre E-Mail-Adresse und Passwort ein."
 
 #: ../user/create_account_form.php:69
 msgid ""
@@ -3206,7 +3210,7 @@ msgstr "Besondere Benutzer hervorheben"
 
 #: ../user/edit_forum_preferences_form.php:135
 msgid "Display this many messages per page"
-msgstr ""
+msgstr "Diese Anzahl Nachrichten pro Seite anzeigen."
 
 #: ../user/edit_forum_preferences_form.php:139
 msgid "How to sort"
@@ -3227,8 +3231,9 @@ msgid "Jump to first new post in thread automatically"
 msgstr "Automatisch zum ersten neuen Beitrag im Thema springen"
 
 #: ../user/edit_forum_preferences_form.php:142
+#, fuzzy
 msgid "Don't move sticky posts to top"
-msgstr ""
+msgstr "Angepinnte Beiträge nicht oben anzeigen"
 
 #: ../user/edit_forum_preferences_form.php:148
 msgid "Message filtering"
@@ -4128,9 +4133,8 @@ msgstr "Bericht registriert"
 
 # 92%
 #: ../user/forum_report_post.php:66
-#, fuzzy
 msgid "Your report has been recorded. Thanks for your input."
-msgstr "Ihre Meldung wurde gespeichert. Danke für ihre Eingabe."
+msgstr "Ihre Meldung wurde gespeichert. Danke für ihren Beitrag."
 
 #: ../user/forum_report_post.php:67
 msgid ""
@@ -5524,7 +5528,7 @@ msgid ""
 msgstr ""
 "Ihre Einstellungen wurden aktualisiert. Clienteinstellungen\n"
 "werden aktiviert wenn der Computer mit %1 kommuniziert\n"
-"oder durch %2Aktualisieren%3 im Manager ausgelöst wurde."
+"oder der %2Aktualisieren%3 Knopf im Manager geklickt wurde."
 
 #: ../user/prefs.php:44
 msgid ""
@@ -5532,6 +5536,10 @@ msgid ""
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
+"Ihre Einstellungen wurden auf den Standard zurückgesetzt. "
+"Clienteinstellungen\n"
+"werden aktiviert wenn der Computer mit %1 kommuniziert\n"
+"oder der %2Aktualisieren%3 Knopf im Manager geklickt wurde."
 
 #: ../user/prefs_edit.php:65 ../user/prefs_edit.php:93
 msgid "%1 for %2"
@@ -6814,7 +6822,7 @@ msgstr "In einem Team?"
 
 #: ../user/user_search.php:66
 msgid "Ordering"
-msgstr ""
+msgstr "Sortierung"
 
 #: ../user/user_search.php:67
 msgid "Decreasing sign-up time"
@@ -6935,11 +6943,11 @@ msgstr ""
 
 #: ../user/weak_auth.php:57
 msgid "This key can be used to:"
-msgstr ""
+msgstr "Dieser Schlüssel kann für folgendes verwendet werden:"
 
 #: ../user/weak_auth.php:59
 msgid "log in to your account on the web"
-msgstr ""
+msgstr "einloggen in das Benutzerkonto per Browser"
 
 #: ../user/weak_auth.php:61
 msgid ""
@@ -6968,6 +6976,8 @@ msgid ""
 "If you change your password, your weak account key changes, and your "
 "previous weak account key becomes invalid."
 msgstr ""
+"Wenn Sie Ihr Passwort ändern, ändert sich auch der schwache Kontoschlüssel "
+"und der vorherige wird ungültig."
 
 #: ../user/workunit.php:32
 msgid "can't find workunit"

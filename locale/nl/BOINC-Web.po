@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: $Id: nl.po 13216 2007-07-25 15:11:14Z davea $\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-06-05 10:25 PDT\n"
-"PO-Revision-Date: 2012-03-25 18:55+0200\n"
+"PO-Revision-Date: 2013-06-16 13:57+0200\n"
 "Last-Translator: Rene <oskamjr@ziggo.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -24,17 +24,16 @@ msgstr ""
 
 #: projects.inc:14
 msgid "Distributed sensing"
-msgstr ""
+msgstr "Gedistribueerde waarneming"
 
 # 78%
 #: projects.inc:19
-#, fuzzy
 msgid "Stanford University"
-msgstr "Universiteit van Oxford"
+msgstr "Universiteit van Stanford"
 
 #: projects.inc:20
 msgid "Seismology"
-msgstr ""
+msgstr "Seismologie"
 
 #: projects.inc:21
 msgid ""
@@ -42,14 +41,17 @@ msgid ""
 "using sensors attached to Internet-connected computers.  You must buy a "
 "sensor to participate."
 msgstr ""
+"Het Quake-Catcher netwerk is 's werelds grootse seismologische netwerk aan "
+"het ontwikkelen door middel van sensoren verbonden met het internet.  De "
+"aanschaf van een sensor is vereist."
 
 #: projects.inc:27
 msgid "BOINC Poland Foundation"
-msgstr ""
+msgstr "BOINC Poland Foundation"
 
 #: projects.inc:28
 msgid "Environmental research"
-msgstr ""
+msgstr "Milieu onderzoek"
 
 #: projects.inc:29
 msgid ""
@@ -57,16 +59,20 @@ msgid ""
 "levels by using sensors connected to volunteers' computers.  You must buy a "
 "sensor to participate."
 msgstr ""
+"Dit project creëert een gratis en constant bijgewerkte kaart met straling "
+"niveaus door middel van sensoren verbonden met het internet.  De aanschaf "
+"van een sensor is vereist."
 
 #: projects.inc:33
 msgid ""
 "To participate in these projects you must buy a sensor and attach it to your "
 "computer."
 msgstr ""
+"Om aan dit project mee te doen is de aanschaf van een sensor een voorwaarde."
 
 #: projects.inc:37
 msgid "Cognitive science and artifical intelligence"
-msgstr "cognitieve wetenschappen en kunstmatige intelligentie"
+msgstr "Cognitieve wetenschappen en kunstmatige intelligentie"
 
 #: projects.inc:50 projects.inc:318 projects.inc:362 projects.inc:411
 #: projects.inc:418 projects.inc:465
@@ -86,9 +92,8 @@ msgid ""
 msgstr ""
 "Analyseren en converteren van semantische netwerken ten behoeve van FreeHAL "
 "dat middels kunstmatige intelligentie gebruik maakt van semantische "
-"netwerken, vervoegingsgeneratoren (stemmers), part-of-speech databanken en "
-"part-of-speech tagging om menselijke eigenschappen in een gesprek te na te "
-"bootsen."
+"netwerken, vervoegingsgeneratoren, part-of-speech databanken en part-of-"
+"speech tagging om menselijke eigenschappen in een gesprek te na te bootsen."
 
 #: projects.inc:58
 msgid "Biology and Medicine"
@@ -96,11 +101,11 @@ msgstr "Biologie en geneeskunde"
 
 #: projects.inc:71
 msgid "University College Dublin"
-msgstr ""
+msgstr "University College Dublin"
 
 #: projects.inc:72
 msgid "Antimalarial drug discovery"
-msgstr ""
+msgstr "Onderzoek naar malaria medicijnen"
 
 #: projects.inc:73
 msgid ""
@@ -110,6 +115,11 @@ msgid ""
 "the parasite. The FightMalaria@Home project is aimed at finding these new "
 "targets."
 msgstr ""
+"De malaria veroorzakende parasiet blijft zich ontwikkelen en wordt daardoor "
+"resistent voor de huidige medicijnen. Onderzoek naar nieuwe medicijnen is "
+"daarom van belang en vooral gericht op de aanval van specifiek nieuwe "
+"proteïnen in de parasiet. Het FightMalaria@Home project is gericht op het "
+"vinden hiervan."
 
 #: projects.inc:79
 msgid "University of Karlsruhe (Germany)"
@@ -215,7 +225,7 @@ msgstr ""
 "van rekenkracht voor onderzoek naar op DNA-sequentieanalyse gebaseerde "
 "evolutionaire relaties, waaronder bacteriële, plasmide, en "
 "virusproteïnesequenties, evenals voor onderzoek naar biodiversiteit in "
-"natuurgebieden."
+"natuurgebieden. "
 
 #: projects.inc:127
 msgid "The Swiss Tropical Institute"
@@ -239,11 +249,11 @@ msgstr ""
 "voorspellen, zijn een belangrijk hulpmiddel bij de bestrijding ervan. Ze "
 "kunnen worden ingezet om de optimale strategie te bepalen voor de "
 "distributie van muskietennetten, chemotherapeutische behandeling of nieuwe, "
-"in ontwikkeling zijnde en in een testfase verkerende vaccins. De "
+"in ontwikkeling zijnde en in een testfase verkerende vaccins.  De "
 "ontwikkeling van dergelijke simulatiemodellen voor omvangrijke menselijke "
 "populaties is uiterst computerintensief omdat de benodigde variabelen "
 "gerelateerd moeten zijn aan biologische en sociale factoren die van invloed "
-"zijn op de verspreiding van de ziekte."
+"zijn op de verspreiding van de ziekte. "
 
 #: projects.inc:151
 msgid "University of Washington"
@@ -262,13 +272,13 @@ msgid ""
 "efforts at designing new proteins to fight diseases such as HIV, Malaria, "
 "Cancer, and Alzheimer's"
 msgstr ""
-"Bereken de driedimensionale proteïnestructuren t.b.v wetenschappelijk "
+"Bereken de 3-dimensionale proteïnestructuren t.b.v wetenschappelijk "
 "onderzoek dat mogelijk resulteert in de ontdekking van een remedie tegen "
 "enkele ernstige ziektes. Door uw deelname aan Rosetta@home kunnen wij het "
 "onderzoekingswerk sneller en uitgebreider uitvoeren dan ooit mogelijk zou "
 "zijn zonder uw hulp. U helpt eveneens bij ons streven om nieuwe proteïnen te "
 "ontwerpen ter bestrijding van hiv en ziektes zoals malaria, kanker en "
-"alzheimer."
+"alzheimer"
 
 #: projects.inc:159
 msgid "University of Vienna"
@@ -319,7 +329,6 @@ msgstr ""
 
 # 75%
 #: projects.inc:188
-#, fuzzy
 msgid "Astronomy, Physics, and Chemistry"
 msgstr "Astronomie/Fysica/Chemie"
 
@@ -350,13 +359,12 @@ msgstr ""
 "opmerkelijks (vele factoren 10 trager dan de frequentie van atoom "
 "trillingen), waardoor exacte simulaties van alle atoombewegingen met de "
 "meest geavanceerde computers, duizenden jaren aan rekentijd in beslag neemt "
-"voordat een opmerkelijke gebeurtenis verwacht mag worden. Ons onderzoeksteam "
-"houdt zich bezig met het analyseren van de langetermijndynamiek van "
-"tijdsvariabele systemen."
+"voordat een opmerkelijke gebeurtenis verwacht mag worden.  Ons "
+"onderzoeksteam houdt zich bezig met het analyseren van de "
+"langetermijndynamiek van tijdsvariabele systemen."
 
 # 95%
 #: projects.inc:224
-#, fuzzy
 msgid "University of Illinois at Urbana-Champaign"
 msgstr "Universiteit van Illinois te Urbana-Chamapign"
 
@@ -401,7 +409,7 @@ msgid ""
 "argon, or to test the validity of the ideal gas law by actually doing the "
 "simulations through the grid."
 msgstr ""
-"Voer wetenschappelijke berekeningen uit, gewijd aan klassieke dynamica. "
+"Voer wetenschappelijke berekeningen uit, gewijd aan klassieke dynamica.  "
 "Leiden Classical maakt het voor vrijwilligers, studenten en wetenschappers "
 "mogelijk om hun eigen berekeningen middels het computercluster uit te "
 "voeren. Elke deelnemer heeft zijn eigen reeks van specifieke taken die "
@@ -427,7 +435,7 @@ msgid ""
 "international organizations."
 msgstr ""
 "Ontdek roterende neutronensterren (ook wel pulsars genoemd) middels gegevens "
-"van de LIGO en GEO gravitatiegolf detectors en de Arecibo radiotelescoop. "
+"van de LIGO en GEO gravitatiegolf detectors en de Arecibo radiotelescoop.  "
 "Einstein@Home maakt deel uit van het 'World Year of Physics 2005' dat wordt "
 "gesponsord door 'the American Physical Society' (APS) en enkele "
 "internationale organisaties."
@@ -450,7 +458,7 @@ msgid ""
 msgstr ""
 "De Large Hadron Collider (LHC) is een deeltjesversneller bij CERN, de "
 "Europese organisatie voor kernonderzoek, 's werelds grootste laboratorium "
-"voor deeltjesfysica. Het is het krachtigste apparaat dat er bestaat voor "
+"voor deeltjesfysica.  Het is het krachtigste apparaat dat er bestaat voor "
 "onderzoek naar de eigenschappen van elementaire deeltjes. LHC@home voert "
 "simulaties uit ter verbetering van het ontwerp van de LHC en diens "
 "detectors."
@@ -461,6 +469,9 @@ msgid ""
 "LHC event physics simulation on volunteer computers.  Requires that you "
 "install VirtualBox on your computer"
 msgstr ""
+"Dit project gebruikt een door CERN ontwikkelde virtuele machine voor een "
+"volwaardige LHC natuurkundige simulatie op je computer.  Het is vereist om "
+"VirtualBox op je computer te installeren"
 
 #: projects.inc:280
 msgid "University of California, Berkeley"
@@ -481,9 +492,9 @@ msgstr ""
 "SETI (Search for Extraterrestrial Intelligence) is een wetenschappelijke "
 "project wiens doel het is om intelligent leven te detecteren buiten de "
 "aarde. Een van de manieren, bekend als radio SETI, gebruikt radiotelescopen "
-"om te luisteren naar  radiosignalen met een smalle bandbreedte komende uit "
-"de ruimte. Dergelijke signalen kunnen niet spontaan ontstaan, dus een "
-"detectie zou een mogelijk bewijs van buitenaardse technologie kunnen zijn."
+"om te luisteren naar radiosignalen met een smalle bandbreedte komende uit de "
+"ruimte. Dergelijke signalen kunnen niet spontaan ontstaan, dus een detectie "
+"zou een mogelijk bewijs van buitenaardse technologie kunnen zijn."
 
 #: projects.inc:296
 msgid "Bielefeld University of Applied Sciences"
@@ -501,7 +512,7 @@ msgid ""
 "biotechnology."
 msgstr ""
 "De studie naar moleculaire magneten en het op nanoschaal gereguleerd "
-"magnetisme. Deze magnetische moleculen kunnen worden gebruikt bij de "
+"magnetisme.  Deze magnetische moleculen kunnen worden gebruikt bij de "
 "ontwikkeling van minuscule magnetische schakelingen die een toegepassing "
 "vinden in de geneeskunde (zoals chemotherapeutische behandeling van een "
 "plaatselijke kanker) en biotechnologie."
@@ -589,8 +600,8 @@ msgstr ""
 "Om het verrichten van essentieel wetenschappelijk onderzoek naar enkele van "
 "de meest urgente problemen der mensheid belangeloos te stimuleren, door als "
 "vrijwilliger deel te nemen aan ’s werelds meest omvangrijke computercluster. "
-"Het onderzoek betreft hiv/aids, kanker, musculaire dystrofie, knokkelkoorts "
-"en vele andere ziektes."
+" Het onderzoek betreft HIV/AIDS, kanker, musculaire dystrofie, "
+"knokkelkoorts en vele andere ziektes."
 
 #: projects.inc:349
 msgid "Mathematics, computing, and games"
@@ -598,15 +609,15 @@ msgstr "Wiskunde, informatica en games"
 
 #: projects.inc:355
 msgid "Computer Science"
-msgstr ""
+msgstr "Computer wetenschap"
 
 #: projects.inc:363
 msgid "Mathematics, Physics, Artificial Intelligence"
-msgstr ""
+msgstr "Wiskunde, natuurkunde, kunstmatige intelligentie"
 
 #: projects.inc:364
 msgid "Simulation of quantum computing; Goldbach's conjecture."
-msgstr ""
+msgstr "Simulatie van een quantum computer; Goldbach's conjecture."
 
 #: projects.inc:404 projects.inc:412 projects.inc:466
 msgid "Cryptography"
@@ -678,7 +689,7 @@ msgstr ""
 "De doelstelling van dit project betreft de wetenschappers van de 'Vilnius "
 "Gediminas Technische Universiteit (VGTU) evenals andere Litouwse academische "
 "instituten te voorzien van een effectief platform voor gedistribueerde "
-"rekenkracht. De huidige applicaties zijn gewijd aan het onderzoek naar "
+"rekenkracht.  De huidige applicaties zijn gewijd aan het onderzoek naar "
 "software die op de Monte-Carlo simulatie is gebaseerd."
 
 #: projects.inc:457
@@ -798,7 +809,7 @@ msgstr "Vorige versies"
 
 #: download.php:126
 msgid "GPU computing"
-msgstr ""
+msgstr "GPU computing"
 
 #: download.php:144
 msgid "BOINC: compute for science"
@@ -916,9 +927,8 @@ msgstr "24 uurs gemiddelde:"
 
 # 80%
 #: index.php:55
-#, fuzzy
 msgid "PetaFLOPS."
-msgstr "TeraFLOPS."
+msgstr "PetaFLOPS."
 
 #: index.php:67
 msgid "News"
@@ -938,11 +948,11 @@ msgstr "Documentatie"
 
 #: index.php:87
 msgid "Add-ons"
-msgstr ""
+msgstr "Add-ons"
 
 #: index.php:88
 msgid "Links"
-msgstr ""
+msgstr "Links"
 
 #: index.php:94
 #, php-format
@@ -1032,7 +1042,7 @@ msgstr "en"
 
 #: index.php:169
 msgid "Help wanted"
-msgstr "Hulp gezocht!"
+msgstr "Hulp gezocht"
 
 #: index.php:171
 msgid "Programming"
