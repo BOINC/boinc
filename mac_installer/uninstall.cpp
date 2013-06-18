@@ -1280,9 +1280,9 @@ static void SleepTicks(UInt32 ticksToSleep) {
 
 // Because language preferences are set on a per-user basis, we
 // must get the preferred languages while set to the current 
-// user, before the Apple Installer switches us to root.
+// user, before we switch to root in our second pass.
 // So we get the preferred languages here and write them to a
-// temporary file to be retrieved by our PostInstall app.
+// temporary file to be retrieved by our second pass.
 static void GetPreferredLanguages() {
     DIR *dirp;
     struct dirent *dp;
