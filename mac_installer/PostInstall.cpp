@@ -1207,7 +1207,10 @@ static Boolean ShowMessage(Boolean allowCancel, const char *format, ...) {
                 &responseFlags);
     
        
-    CFRelease(myString);
+    if (myIconURLRef) CFRelease(myIconURLRef);
+    if (myString) CFRelease(myString);
+    if (yes) CFRelease(yes);
+    if (no) CFRelease(no);
 
     if (retval) return false;
     return (responseFlags == kCFUserNotificationDefaultResponse);

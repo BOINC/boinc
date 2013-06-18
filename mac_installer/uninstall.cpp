@@ -1439,8 +1439,11 @@ static Boolean ShowMessage(Boolean allowCancel, Boolean continueButton, const ch
                 continueButton? continueString : NULL, allowCancel ? cancelString : NULL, NULL,
                 &responseFlags);
     
-       
-    CFRelease(myString);
+    if (myIconURLRef) CFRelease(myIconURLRef);
+    if (myString) CFRelease(myString);
+    if (theTitle) CFRelease(theTitle);
+    if (cancelString) CFRelease(cancelString);
+    if (continueString) CFRelease(continueString);
 
     if (retval) return false;
     // Return TRUE if user clicked Continue or OK, FALSE if user clicked Cancel
