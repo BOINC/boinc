@@ -295,6 +295,7 @@ void GetPreferredLanguages() {
     
     aLanguage = CFStringCreateWithCString(NULL, "en", kCFStringEncodingMacRoman);
     CFArrayAppendValue(supportedLanguages, aLanguage);
+    CFRelease(aLanguage);
     aLanguage = NULL;
 
     dirp = opendir(Catalogs_Dir);
@@ -315,6 +316,7 @@ void GetPreferredLanguages() {
 //        printf("Adding %s to supportedLanguages array\n", dp->d_name);
         aLanguage = CFStringCreateWithCString(NULL, dp->d_name, kCFStringEncodingMacRoman);
         CFArrayAppendValue(supportedLanguages, aLanguage);
+        CFRelease(aLanguage);
         aLanguage = NULL;
     }
     
@@ -356,11 +358,25 @@ void GetPreferredLanguages() {
             // further translation is needed for language en.
             if (!strcmp(language, "en")) {
                 fclose(f);
+                CFRelease(preferredLanguages);
+                preferredLanguages = NULL;
+                CFArrayRemoveAllValues(supportedLanguages);
+                CFRelease(supportedLanguages);
+                supportedLanguages = NULL;
                 return;
             }
         }
+        
+        CFRelease(preferredLanguages);
+        preferredLanguages = NULL;
+
     }
+
     fclose(f);
+
+    CFArrayRemoveAllValues(supportedLanguages);
+    CFRelease(supportedLanguages);
+    supportedLanguages = NULL;
 }
 
 
