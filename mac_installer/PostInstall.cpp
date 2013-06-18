@@ -103,7 +103,7 @@ void SetSkinInUserPrefs(char *userName, char *skinName);
 Boolean CheckDeleteFile(char *name);
 void SetEUIDBackToUser (void);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
-void LoadPreferredLanguages();
+static void LoadPreferredLanguages();
 static Boolean ShowMessage(Boolean allowCancel, const char *format, ...);
 Boolean IsUserMemberOfGroup(const char *userName, const char *groupName);
 int CountGroupMembershipEntries(const char *userName, const char *groupName);
@@ -127,8 +127,6 @@ extern int check_security(
 );
 
 /* BEGIN TEMPORARY ITEMS TO ALLOW TRANSLATORS TO START WORK */
-//#define _(x) x
-
 void notused() {
     ShowMessage(true, (char *)_("Yes"));
     ShowMessage(true, (char *)_("No"));
@@ -1132,7 +1130,7 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
 // user, before the Apple Installer switches us to root.
 // So we get the preferred languages in our Installer.app which 
 // writes them to a temporary file which we retrieve here.
-void LoadPreferredLanguages(){
+static void LoadPreferredLanguages(){
     FILE *f;
     int i;
     char *p;
