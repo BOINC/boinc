@@ -168,6 +168,9 @@ int PROJECT::parse_state(XML_PARSER& xp) {
             if (cpid_time == 0) {
                 cpid_time = user_create_time;
             }
+            if (dont_use_dcf) {
+                duration_correction_factor = 1;
+            }
             return 0;
         }
         if (xp.parse_string("scheduler_url", sched_url)) {

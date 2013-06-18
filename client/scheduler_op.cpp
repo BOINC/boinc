@@ -626,6 +626,9 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             } else {
                 project->cpid_time = project->user_create_time;
             }
+            if (project->dont_use_dcf) {
+                project->duration_correction_factor = 1;
+            }
             return 0;
         }
         else if (xp.parse_str("project_name", project->project_name, sizeof(project->project_name))) {
