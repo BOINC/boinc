@@ -492,7 +492,7 @@ else
   ## add library-paths from LDFLAGS to beginning of lib-path
   ldflags_path=`echo $LDFLAGS | sed 's/-l[[^ ]]*//g' | sed 's/-L\([[^ ]]*\)/:\1/g' | sed 's/[[ ]]*//g'`
 
-  tmp_dir_list=`echo ${ldflags_path}:${tmp_libpath}:/lib:/usr/lib:/usr/lib/i386-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/ucb/lib:/usr/local/lib:/opt/misc/lib:${tmp_dir_list} | $AWK -F: '{for (i=1;i<(NF+1);i++) { print $[]i; }}'`
+  tmp_dir_list=`echo ${ldflags_path}:${tmp_libpath}:/lib:/usr/lib:/usr/ucb/lib:/usr/local/lib:/opt/misc/lib:${tmp_dir_list} | $AWK -F: '{for (i=1;i<(NF+1);i++) { print $[]i; }}'`
  
   tmp_lib_name=
   # now that we know where we are looking, find our library
