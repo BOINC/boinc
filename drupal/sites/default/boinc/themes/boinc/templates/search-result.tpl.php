@@ -74,7 +74,7 @@
   <div class="result user">
     <?php if ($user_image['image']['filepath']): ?>
       <div class="picture">
-        <?php print theme('imagefield_image', $user_image['image'], $user_image['alt'], $user_image['alt'], array('width' => '100', 'height' => '100'), false); ?>
+        <?php print theme('imagefield_image', $user_image['image'], $user_image['alt'], $user_image['alt'], array(), false); ?>
       </div>
     <?php endif; ?>
     <div class="name"><a href="<?php print $url; ?>"><?php print $title; ?></a></div>

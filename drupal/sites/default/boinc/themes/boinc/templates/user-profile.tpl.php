@@ -86,7 +86,7 @@ $link_index = 0;
     <?php 
       $user_image = boincuser_get_user_profile_image($account->uid, FALSE);
       print theme('imagefield_image', $user_image['image'], $user_image['alt'],
-        $user_image['alt'], array('width' => '100', 'height' => '100'), false);
+        $user_image['alt'], array(), false);
     ?>
   </div>
   <div class="general-info">
