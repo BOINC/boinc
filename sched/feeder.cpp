@@ -474,7 +474,7 @@ static bool scan_work_array(vector<DB_WORK_ITEM> &work_items) {
         case WR_STATE_PRESENT:
             if (purge_stale_time && wu_result.time_added_to_shared_memory < (time(0) - purge_stale_time)) {
                 log_messages.printf(MSG_NORMAL,
-                    "remove result [RESULT#%d] from slot %d because it is stale\n",
+                    "remove result [RESULT#%u] from slot %d because it is stale\n",
                     wu_result.resultid, i
                 );
                 purge_stale(wu_result);

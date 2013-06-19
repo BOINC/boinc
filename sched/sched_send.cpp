@@ -916,7 +916,7 @@ int add_result_to_reply(
 
         if (config.debug_send) {
             log_messages.printf(MSG_NORMAL,
-                "[send] [RESULT#%d] [HOST#%d] (resend lost work)\n",
+                "[send] [RESULT#%u] [HOST#%d] (resend lost work)\n",
                 result.id, g_reply->host.id
             );
         }
@@ -924,7 +924,7 @@ int add_result_to_reply(
     retval = result.mark_as_sent(old_server_state, config.report_grace_period);
     if (retval == ERR_DB_NOT_FOUND) {
         log_messages.printf(MSG_CRITICAL,
-            "[RESULT#%d] [HOST#%d]: CAN'T SEND, already sent to another host\n",
+            "[RESULT#%u] [HOST#%d]: CAN'T SEND, already sent to another host\n",
             result.id, g_reply->host.id
         );
     } else if (retval) {
@@ -952,7 +952,7 @@ int add_result_to_reply(
     double est_dur = estimate_duration(wu, *bavp);
     if (config.debug_send) {
         log_messages.printf(MSG_NORMAL,
-            "[send] [HOST#%d] sending [RESULT#%d %s] (est. dur. %.2f seconds)\n",
+            "[send] [HOST#%d] sending [RESULT#%u %s] (est. dur. %.2f seconds)\n",
             g_reply->host.id, result.id, result.name, est_dur
         );
     }
@@ -1031,7 +1031,7 @@ int add_result_to_reply(
         if (bavp->trusted) {
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] [WU#%d] using trusted app version, not replicating\n", wu.id
+                    "[send] [WU#%u] using trusted app version, not replicating\n", wu.id
                 );
             }
         } else {
@@ -1044,7 +1044,7 @@ int add_result_to_reply(
             dbwu.id = wu.id;
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] [WU#%d] sending to untrusted host, replicating\n", wu.id
+                    "[send] [WU#%u] sending to untrusted host, replicating\n", wu.id
                 );
             }
             retval = dbwu.update_field(buf);

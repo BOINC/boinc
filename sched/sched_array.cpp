@@ -68,7 +68,7 @@ static bool quick_check(
         }
         if (config.debug_send) {
             log_messages.printf(MSG_NORMAL,
-                "[send] [HOST#%d] beta work found: [RESULT#%d]\n",
+                "[send] [HOST#%d] beta work found: [RESULT#%u]\n",
                 g_reply->host.id, wu_result.resultid
             );
         }
@@ -168,7 +168,7 @@ static bool quick_check(
             g_wreq->no_allowed_apps_available = true;
             if (config.debug_array_detail) {
                 log_messages.printf(MSG_NORMAL,
-                    "[array_detail] [USER#%d] [WU#%d] user doesn't want work for app %s\n",
+                    "[array_detail] [USER#%d] [WU#%u] user doesn't want work for app %s\n",
                     g_reply->user.id, wu.id, app->name
                 );
             }
@@ -188,7 +188,7 @@ static bool quick_check(
     if (retval) {
         if (retval != last_retval && config.debug_send) {
             log_messages.printf(MSG_NORMAL,
-                "[send] [HOST#%d] [WU#%d %s] WU is infeasible: %s\n",
+                "[send] [HOST#%d] [WU#%u %s] WU is infeasible: %s\n",
                 g_reply->host.id, wu.id, wu.name, infeasible_string(retval)
             );
         }
@@ -259,7 +259,7 @@ recheck:
         app = ssp->lookup_app(wu_result.workunit.appid);
         if (app == NULL) {
             log_messages.printf(MSG_CRITICAL,
-                "[WU#%d] no app\n",
+                "[WU#%u] no app\n",
                 wu_result.workunit.id
             );
             continue; // this should never happen

@@ -148,23 +148,23 @@ int wu_delete_files(WORKUNIT& wu) {
                 );
                 if (retval == ERR_OPENDIR) {
                     log_messages.printf(MSG_CRITICAL,
-                        "[WU#%d] missing dir for %s\n",
+                        "[WU#%u] missing dir for %s\n",
                         wu.id, filename
                     );
                     mthd_retval = ERR_UNLINK;
                 } else if (retval) {
                     log_messages.printf(MSG_CRITICAL,
-                        "[WU#%d] get_file_path: %s: %s\n",
+                        "[WU#%u] get_file_path: %s: %s\n",
                         wu.id, filename, boincerror(retval)
                     );
                 } else {
                     log_messages.printf(MSG_NORMAL,
-                        "[WU#%d] deleting %s\n", wu.id, filename
+                        "[WU#%u] deleting %s\n", wu.id, filename
                     );
                     retval = unlink(pathname);
                     if (retval) {
                         log_messages.printf(MSG_CRITICAL,
-                            "[WU#%d] unlink %s failed: %s\n",
+                            "[WU#%u] unlink %s failed: %s\n",
                             wu.id, filename, boincerror(retval)
                         );
                         mthd_retval = ERR_UNLINK;
@@ -176,12 +176,12 @@ int wu_delete_files(WORKUNIT& wu) {
                     if (config.cache_md5_info) {
                         strcat(pathname,".md5");
                         log_messages.printf(MSG_NORMAL,
-                            "[WU#%d] deleting %s\n", wu.id, filename
+                            "[WU#%u] deleting %s\n", wu.id, filename
                         );
                         retval = unlink(pathname);
                         if (retval) {
                             log_messages.printf(MSG_CRITICAL,
-                                "[WU#%d] unlink %s failed: %s\n",
+                                "[WU#%u] unlink %s failed: %s\n",
                                 wu.id, filename, boincerror(retval)
                             );
                         }
@@ -192,7 +192,7 @@ int wu_delete_files(WORKUNIT& wu) {
         p = strtok(0, "\n");
     }
     log_messages.printf(MSG_DEBUG,
-        "[WU#%d] deleted %d file(s)\n", wu.id, count_deleted
+        "[WU#%u] deleted %d file(s)\n", wu.id, count_deleted
     );
     return mthd_retval;
 }
@@ -221,7 +221,7 @@ int result_delete_files(RESULT& result) {
                 if (retval == ERR_OPENDIR) {
                     mthd_retval = ERR_OPENDIR;
                     log_messages.printf(MSG_CRITICAL,
-                        "[RESULT#%d] missing dir for %s\n",
+                        "[RESULT#%u] missing dir for %s\n",
                         result.id, pathname
                     );
                 } else if (retval) {
@@ -237,7 +237,7 @@ int result_delete_files(RESULT& result) {
                         debug_or_crit=MSG_DEBUG;
                     }
                     log_messages.printf(debug_or_crit,
-                        "[RESULT#%d] outcome=%d client_state=%d No file %s to delete\n",
+                        "[RESULT#%u] outcome=%d client_state=%d No file %s to delete\n",
                         result.id, result.outcome, result.client_state, filename
                     );
                 } else {
@@ -245,14 +245,14 @@ int result_delete_files(RESULT& result) {
                     if (retval) {
                         mthd_retval = ERR_UNLINK;
                         log_messages.printf(MSG_CRITICAL,
-                            "[RESULT#%d] unlink %s error: %s %s\n",
+                            "[RESULT#%u] unlink %s error: %s %s\n",
                             result.id, pathname, boincerror(retval),
                             (retval && errno)?strerror(errno):""
                         );
                     } else {
                         count_deleted++;
                         log_messages.printf(MSG_NORMAL,
-                            "[RESULT#%d] unlinked %s\n", result.id, pathname
+                            "[RESULT#%u] unlinked %s\n", result.id, pathname
                         );
                     }
                 }
@@ -262,7 +262,7 @@ int result_delete_files(RESULT& result) {
     }
 
     log_messages.printf(MSG_DEBUG,
-        "[RESULT#%d] deleted %d file(s)\n", result.id, count_deleted
+        "[RESULT#%u] deleted %d file(s)\n", result.id, count_deleted
     );
     return mthd_retval;
 }
@@ -319,7 +319,7 @@ bool do_pass(bool retry_error) {
         if (retval) {
             new_state = FILE_DELETE_ERROR;
             log_messages.printf(MSG_CRITICAL,
-                "[WU#%d] file deletion failed: %s\n", wu.id, boincerror(retval)
+                "[WU#%u] file deletion failed: %s\n", wu.id, boincerror(retval)
             );
         } else {
             new_state = FILE_DELETE_DONE;
@@ -329,11 +329,11 @@ bool do_pass(bool retry_error) {
             retval = wu.update_field(buf);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
-                    "[WU#%d] update failed: %s\n", wu.id, boincerror(retval)
+                    "[WU#%u] update failed: %s\n", wu.id, boincerror(retval)
                 );
             } else {
                 log_messages.printf(MSG_DEBUG,
-                    "[WU#%d] file_delete_state updated\n", wu.id
+                    "[WU#%u] file_delete_state updated\n", wu.id
                 );
                 did_something = true;
             }
@@ -364,7 +364,7 @@ bool do_pass(bool retry_error) {
         if (retval) {
             new_state = FILE_DELETE_ERROR;
             log_messages.printf(MSG_CRITICAL,
-                "[RESULT#%d] file deletion failed: %s\n", result.id, boincerror(retval)
+                "[RESULT#%u] file deletion failed: %s\n", result.id, boincerror(retval)
             );
         } else {
             new_state = FILE_DELETE_DONE;
@@ -374,11 +374,11 @@ bool do_pass(bool retry_error) {
             retval = result.update_field(buf);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
-                    "[RESULT#%d] update failed: %s\n", result.id, boincerror(retval)
+                    "[RESULT#%u] update failed: %s\n", result.id, boincerror(retval)
                 );
             } else {
                 log_messages.printf(MSG_DEBUG,
-                    "[RESULT#%d] file_delete_state updated\n", result.id
+                    "[RESULT#%u] file_delete_state updated\n", result.id
                 );
                 did_something = true;
             }
