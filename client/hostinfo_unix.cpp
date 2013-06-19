@@ -161,10 +161,12 @@ mach_port_t gEventHandle = NULL;
 #endif
 
 #if HAVE_DPMS
+#include <X11/Xlib.h>
 #include <X11/extensions/dpms.h>
 #endif
 
 #if HAVE_XSS
+#include <X11/Xlib.h>
 #include <X11/extensions/scrnsaver.h>
 #endif
 
