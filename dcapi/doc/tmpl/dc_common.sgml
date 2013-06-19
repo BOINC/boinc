@@ -50,19 +50,11 @@ These flags define the capabilities of the underlying grid system.
 @DC_GC_SUBRESULT: subresults are supported.
 @DC_GC_MESSAGING: message sending is supported.
 
-<!-- ##### ENUM DC_FileMode ##### -->
+<!-- ##### TYPEDEF DC_FileMode ##### -->
 <para>
 Tells how should DC-API treat physical files passed to it.
 </para>
 
-@DC_FILE_REGULAR: the application wishes to continue using the file, so DC-API
-	must make an internal copy of it.
-@DC_FILE_PERSISTENT: the application guarantees that the file will not change
-	and will not be deleted during the lifetime of the application. This
-	lets DC-API use symbolic or hard links instead of copying to save space.
-@DC_FILE_VOLATILE: the application does not want to use the file in any way in
-	the future. DC-API will remove the file when it is no longer needed.
-@DC_FILE_REMOTE: the application uses a remote file not physically present.
 
 <!-- ##### MACRO DC_CONFIG_FILE ##### -->
 <para>
@@ -102,6 +94,7 @@ Describes a physical file.
 @mode: usage mode of the file.
 @physicalfilename: filename to be used in case of Attic files.
 @physicalfilehash: MD5 hash and size information of Attic files.
+@persistentonclient: 
 
 <!-- ##### STRUCT DC_RemoteFile ##### -->
 <para>
@@ -112,6 +105,7 @@ Describes a physical file.
 @url: the URL of the file.
 @remotefilehash: the MD5 hash of the file.
 @remotefilesize: the size of the file.
+@persistentonclient: 
 
 <!-- ##### FUNCTION DC_getCfgStr ##### -->
 <para>
