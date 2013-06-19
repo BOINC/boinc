@@ -8,32 +8,35 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-03 18:11-0700\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2013-06-16 09:29+0200\n"
+"Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.9.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.1.6\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 #: Installer.cpp:120
 #, c-format
 msgid "Sorry, this version of %s requires system 10.4 or higher."
-msgstr ""
+msgstr "%s -versio vaatii 10.4-järjestelmän tai uudemman."
 
 #: PostInstall.cpp:130
 msgid "Yes"
-msgstr ""
+msgstr "Kyllä"
 
 #: PostInstall.cpp:131
 msgid "No"
-msgstr ""
+msgstr "Ei"
 
 #: PostInstall.cpp:133
 msgid "Should BOINC run even when no user is logged in?"
 msgstr ""
+"Tulisiko BOINCin olla käynnissä myös silloin, kun käyttäjä ei ole "
+"kirjautunut sisään?"
 
 #: PostInstall.cpp:1433
 #, c-format
@@ -44,33 +47,40 @@ msgid ""
 "Do you also want non-administrative users to be able to run and control %s "
 "on this Mac?"
 msgstr ""
+"Käyttäjät, joilla on ylläpito-oikeudet, saavat automaattisesti ajaa ja "
+"hallinnoida %s.\n"
+"\n"
+"Haluatko myös muiden käyttäjien ajaa ja hallita %s tässä Macissa?"
 
 #: PostInstall.cpp:1461
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr ""
+"Haluatko asettaa %s näytönsäästäjäksi kaikille tämän Macin %s -käyttäjille?"
 
 #: uninstall.cpp:71
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: uninstall.cpp:72
 msgid "Cancel"
-msgstr ""
+msgstr "Peruuta"
 
 #: uninstall.cpp:73
 msgid "Continue..."
-msgstr ""
+msgstr "Jatka..."
 
 #: uninstall.cpp:89
 msgid "Permission error after relaunch"
-msgstr ""
+msgstr "Käyttöoikeusvirhe uudelleenkäynnistyksen jälkeen"
 
 #: uninstall.cpp:93
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
 msgstr ""
+"Poistaminen voi kestää useita minuutteja.\n"
+"Ole kärsivällinen."
 
 #: uninstall.cpp:133
 #, c-format
@@ -79,16 +89,19 @@ msgid ""
 "\n"
 "This will remove the executables but will not touch %s data files."
 msgstr ""
+"Haluatko varmasti poistaa %s tietokoneelta?\n"
+"\n"
+"Tämä poistaa ohjelmatiedostot mutta ei koske %s datatiedostoihin."
 
 #: uninstall.cpp:142
 #, c-format
 msgid "Canceled: %s has not been touched."
-msgstr ""
+msgstr "Peruttu: %s ei koskettu."
 
 #: uninstall.cpp:151
 #, c-format
 msgid "An error occurred: error code %d"
-msgstr ""
+msgstr "Tapahtui virhe: virhekoodi %d"
 
 #: uninstall.cpp:153
 msgid ""
@@ -100,6 +113,13 @@ msgid ""
 "for each user, the file\n"
 "\"/Users/[username]/Library/Preferences/BOINC Manager Preferences\"."
 msgstr ""
+"Poisto suoritettu.\n"
+"\n"
+" Nämä jäljellejääneet tiedot voit poistaa käyttämällä Finderia: \n"
+"\"/Library/Application Support/BOINC Data\" hakemisto\n"
+"\n"
+"jokaisen käyttäjän kohdalla tiedosto\n"
+"\"/Users/[käyttäjänimi]/Library/Preferences/BOINC Manager Preferences\"."
 
 #: uninstall.cpp:686
 #, c-format
@@ -108,3 +128,5 @@ msgid ""
 "computer.\n"
 "\n"
 msgstr ""
+"Anna ylläpitäjän salasana poistaaksesi %s kokonaan tietokoneesta.\n"
+"\n"

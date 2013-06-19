@@ -398,8 +398,16 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
 // the project is uploading, and it started recently
 //
 static inline bool actively_uploading(PROJECT* p) {
-    return p->last_upload_start
-        && (gstate.now - p->last_upload_start < WF_DEFER_INTERVAL);
+    for (unsigned int i=0; i<gstate.file_xfers->file_xfers.size(); i++) {
+        FILE_XFER* fxp = gstate.file_xfers->file_xfers[i];
+        if (fxp->fip->project != p) continue;
+        if (!fxp->is_upload) continue;
+        if (gstate.now - fxp->start_time > WF_DEFER_INTERVAL) continue;
+        //msg_printf(p, MSG_INFO, "actively uploading");
+        return true;
+    }
+    //msg_printf(p, MSG_INFO, "not actively uploading");
+    return false;
 }
 
 // Called once/sec.
@@ -442,6 +450,11 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     //
     p = next_project_sched_rpc_pending();
     if (p) {
+        if (log_flags.sched_op_debug) {
+            msg_printf(p, MSG_INFO, "sched RPC pending: %s",
+                rpc_reason_string(p->sched_rpc_pending)
+            );
+        }
         // if the user requested the RPC,
         // clear backoffs to allow work requests
         //
@@ -484,26 +497,33 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         return true;
     }
 
-    // check if we should fetch work.
+    // check if we should fetch work (do this last)
     //
 
-    if (!tasks_suspended
-        && !(config.fetch_minimal_work && had_or_requested_work)
-    ) {
+    switch (suspend_reason) {
+    case 0:
+    case SUSPEND_REASON_CPU_THROTTLE:
+        break;
+    default:
+        return false;
+    }
+    if (config.fetch_minimal_work && had_or_requested_work) {
+        return false;
+    }
 
-        p = work_fetch.choose_project();
-        if (p) {
-            if (actively_uploading(p)) {
-                if (log_flags.work_fetch_debug) {
-                    msg_printf(p, MSG_INFO,
-                        "[work_fetch] deferring work fetch; upload active"
-                    );
-                }
-                return false;
+    p = work_fetch.choose_project();
+    if (p) {
+        if (actively_uploading(p)) {
+            if (log_flags.work_fetch_debug) {
+                msg_printf(p, MSG_INFO,
+                    "[work_fetch] deferring work fetch; upload active"
+                );
             }
-            scheduler_op->init_op_project(p, RPC_REASON_NEED_WORK);
-            return true;
+            p->sched_rpc_pending = 0;
+            return false;
         }
+        scheduler_op->init_op_project(p, RPC_REASON_NEED_WORK);
+        return true;
     }
     return false;
 }
@@ -1143,12 +1163,6 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
             honor_backoff = false;
             honor_suspend = false;
             break;
-        case RPC_REASON_RESULTS_DUE:
-            break;
-        case RPC_REASON_NEED_WORK:
-            break;
-        case RPC_REASON_TRICKLE_UP:
-            break;
         case RPC_REASON_ACCT_MGR_REQ:
             // This is critical for acct mgrs, to propagate new host CPIDs
             honor_suspend = false;
@@ -1157,6 +1171,8 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
             break;
         case RPC_REASON_PROJECT_REQ:
             break;
+        default:
+            continue;
         }
         if (honor_backoff && p->waiting_until_min_rpc_time()) {
             continue;

@@ -1605,7 +1605,6 @@ bool CLIENT_STATE::update_results() {
             if (rp->is_upload_done()) {
                 rp->set_ready_to_report();
                 rp->completed_time = gstate.now;
-                rp->project->last_upload_start = 0;
                 rp->set_state(RESULT_FILES_UPLOADED, "CS::update_results");
 
                 // clear backoffs for app's resources;
@@ -1805,7 +1804,6 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
             i--;
         }
     }
-    project->last_upload_start = 0;
 
     // if we're in the middle of a scheduler op to the project, abort it
     //

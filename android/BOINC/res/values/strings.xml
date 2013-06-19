@@ -128,7 +128,7 @@
     <string name="status_idle">Nothing to do</string>
     <string name="status_idle_long">Waiting for tasks&#8230;</string>
     <string name="status_computing_disabled">Suspended</string>
-    <string name="status_computing_disabled_long">Press play to resume computation.</string>
+    <string name="status_computing_disabled_long">Press play to resume network and computation.</string>
     <string name="status_launching">Starting&#8230;</string>
     <string name="status_noproject">Choose a project to participate in.</string>
     <string name="status_closing">Closing&#8230;</string>
@@ -257,10 +257,11 @@
 	<string name="trans_active">active</string>
 	<string name="trans_pending">pending</string>
 	<string name="trans_projectbackoff">project backoff</string>
-									    
-	<string name="confirm_abort">Abort transfer: </string>
-	<string name="confirm_abort_confirm">Abort</string>
-	<string name="confirm_abort_cancel">Cancel</string>
+	<string name="trans_header_name">File:</string>
+										    
+	<string name="confirm_abort_trans_title">Abort transfer</string>
+	<string name="confirm_abort_trans_message">Abort File:</string>
+	<string name="confirm_abort_trans_confirm">Abort</string>
 	
 	<!-- eventlog tab strings -->
 	<string name="eventlog_loading">Loading log messages&#8230;</string>

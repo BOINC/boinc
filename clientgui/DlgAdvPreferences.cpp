@@ -254,7 +254,7 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
     buffer.Printf(wxT("%.2f"),prefs.cpu_scheduling_period_minutes);
     *m_txtProcSwitchEvery << buffer;
     // max cpus
-    buffer.Printf(wxT("%.2f"),prefs.max_ncpus_pct);
+    buffer.Printf(wxT("%.2f"), prefs.max_ncpus_pct == 0. ? 100.0 : prefs.max_ncpus_pct);
     *m_txtProcUseProcessors << buffer;
     //cpu limit
     buffer.Printf(wxT("%.2f"),prefs.cpu_usage_limit);

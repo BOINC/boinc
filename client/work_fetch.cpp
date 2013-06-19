@@ -84,14 +84,14 @@ void set_no_rsc_config() {
     }
 }
 
-// does the project have a job that's not ready to report?
+// does the (NCI) project have a job that's running or uploading?
 // (don't request another job from NCI project if so)
 //
-static bool has_a_job(PROJECT* p) {
+static bool has_a_job_in_progress(PROJECT* p) {
     for (unsigned int j=0; j<gstate.results.size(); j++) {
         RESULT* rp = gstate.results[j];
         if (rp->project != p) continue;
-        if (rp->state() <= RESULT_FILES_UPLOADED) {
+        if (rp->state() < RESULT_FILES_UPLOADED) {
             return true;
         }
     }
@@ -247,10 +247,11 @@ void RSC_WORK_FETCH::set_request_excluded(PROJECT* p) {
     int inst_mask = sim_excluded_instances & pwf.non_excluded_instances;
     int n = 0;
     for (int i=0; i<ninstances; i++) {
-        if ((i<<i) & inst_mask) {
+        if ((1<<i) & inst_mask) {
             n++;
         }
     }
+    DEBUG(msg_printf(p, MSG_INFO, "set_request_excluded() %d %d %d", sim_excluded_instances, pwf.non_excluded_instances, n));
     req_instances = n;
     if (p->resource_share == 0 || config.fetch_minimal_work) {
         req_secs = 1;
@@ -266,6 +267,7 @@ void RSC_WORK_FETCH::print_state(const char* name) {
         shortfall, nidle_now, saturated_time,
         busy_time_estimator.get_busy_time()
     );
+    //msg_printf(0, MSG_INFO, "[work_fetch] sim used inst %d sim excl inst %d", sim_used_instances, sim_excluded_instances);
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         char buf[256];
         PROJECT* p = gstate.projects[i];
@@ -469,7 +471,7 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
     clear_request();
     if (config.fetch_minimal_work && gstate.had_or_requested_work) return;
     if (p->non_cpu_intensive) {
-        if (!has_a_job(p)) {
+        if (!has_a_job_in_progress(p)) {
             rsc_work_fetch[0].req_secs = 1;
         }
         return;
@@ -548,7 +550,7 @@ PROJECT* WORK_FETCH::non_cpu_intensive_project_needing_work() {
         if (!p->non_cpu_intensive) continue;
         if (!p->can_request_work()) continue;
         if (p->rsc_pwf[0].backoff_time > gstate.now) continue;
-        if (has_a_job(p)) continue;
+        if (has_a_job_in_progress(p)) continue;
         clear_request();
         rsc_work_fetch[0].req_secs = 1;
         return p;
@@ -671,15 +673,14 @@ void WORK_FETCH::setup() {
 
 // Choose a project to fetch work from,
 // and set the request fields of resource objects.
-// If "strict_hyst" is set, require that some resource be below min buf;
-// otherwise require below max buf
-// (or
+// Set p->sched_rpc_pending; if you decide not to request work
+// from the project, you must clear this.
 //
 PROJECT* WORK_FETCH::choose_project() {
     PROJECT* p;
 
     if (log_flags.work_fetch_debug) {
-        msg_printf(0, MSG_INFO, "[work_fetch] work fetch start");
+        msg_printf(0, MSG_INFO, "[work_fetch] entering choose_project()");
     }
 
     p = non_cpu_intensive_project_needing_work();
@@ -763,8 +764,10 @@ PROJECT* WORK_FETCH::choose_project() {
                 }
                 if (buffer_low) {
                     rwf.set_request(p);
+                    DEBUG(msg_printf(p, MSG_INFO, "%s set_request: %f", rsc_name(i), rwf.req_secs);)
                 } else {
                     rwf.set_request_excluded(p);
+                    DEBUG(msg_printf(p, MSG_INFO, "%s set_request_excluded: %f", rsc_name(i), rwf.req_secs);)
                 }
                 if (rwf.req_secs > 0) {
                     any_request = true;

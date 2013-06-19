@@ -20,8 +20,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.berkeley.boinc"
     
-    android:versionCode="6"
-    android:versionName="7.1.11"
+    android:versionCode="13"
+    android:versionName="7.1.18"
     
     android:installLocation="internalOnly" > <!-- installation on SD card would break boot receiver -->
 
@@ -60,9 +60,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".AttachProjectListActivity"/>
-        <activity android:name=".AttachProjectLoginActivity"/>
+        <activity android:name=".AttachProjectLoginActivity"
+            android:configChanges="orientation"/>
         <activity android:name=".AttachProjectRegistrationActivity"/>
-        <activity android:name=".AttachProjectWorkingActivity"/>
+        <activity android:name=".AttachProjectWorkingActivity"
+            android:configChanges="orientation"/>
         <activity android:name=".StatusActivity" />
         <activity android:name=".TasksActivity" />
         <activity android:name=".TransActivity" />

@@ -37,11 +37,15 @@ import java.util.HashMap;
 import java.util.List;
 import android.app.NotificationManager;
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.util.Log;
 import edu.berkeley.boinc.AppPreferences;
 import edu.berkeley.boinc.R;
@@ -78,6 +82,9 @@ public class Monitor extends Service {
 	private Boolean started = false;
 	private Thread monitorThread = null;
 	private Boolean monitorRunning = true;
+	
+	// screen on/off updated by screenOnOffBroadcastReceiver
+	private boolean screenOn = false;
 	
 	//private Process clientProcess;
 	private RpcClient rpc = new RpcClient();
@@ -535,6 +542,17 @@ public class Monitor extends Service {
 		clientStatus = new ClientStatus(this);
 		getAppPrefs().readPrefs(this);
 		
+		// set current screen on/off status
+		PowerManager pm = (PowerManager)
+		getSystemService(Context.POWER_SERVICE);
+		screenOn = pm.isScreenOn();
+		
+		// register screen on/off receiver
+        IntentFilter onFilter = new IntentFilter (Intent.ACTION_SCREEN_ON); 
+        IntentFilter offFilter = new IntentFilter (Intent.ACTION_SCREEN_OFF); 
+        registerReceiver(screenOnOffReceiver, onFilter);
+        registerReceiver(screenOnOffReceiver, offFilter);
+		
 		if(!started) {
 			started = true;
 	        (new ClientMonitorAsync()).execute(new Integer[0]); //start monitor in new thread
@@ -550,6 +568,9 @@ public class Monitor extends Service {
     @Override
     public void onDestroy() {
     	if(Logging.DEBUG) Log.d(Logging.TAG,"Monitor onDestroy()");
+    	
+    	// remove screen on/off receiver
+    	unregisterReceiver(screenOnOffReceiver);
     	
         // Cancel the persistent notification.
     	((NotificationManager)getSystemService(Service.NOTIFICATION_SERVICE)).cancel(getResources().getInteger(R.integer.autostart_notification_id));
@@ -648,6 +669,10 @@ public class Monitor extends Service {
        
 	public Boolean setRunMode(Integer mode) {
 		return rpc.setRunMode(mode, 0);
+	}
+	
+	public Boolean setNetworkMode(Integer mode) {
+		return rpc.setNetworkMode(mode, 0);
 	}
 	
 	// writes the given GlobalPreferences via RPC to the client
@@ -840,6 +865,10 @@ public class Monitor extends Service {
 		return rpc.resultOp(operation, url, name);
 	}
 	
+	public Boolean transferOperation(String url, String name, int operation) {
+		return rpc.transferOp(operation, url, name);
+	}
+	
 	public AccountOut createAccount(String url, String email, String userName, String pwd, String teamName) {
 		AccountIn information = new AccountIn();
 		information.url = url;
@@ -915,13 +944,17 @@ public class Monitor extends Service {
 		return rpc.getMessages(seqNo);
 	}
 	
+	// this thread runs the whole time BOINC is running.
+	// it updates the ClientStatus data structure with the client
+	// status received from frequent RPC calls
+	// it also tell the client the current device status of properties
+	// that can only retrieved from Java, e.g. battery status
 	private final class ClientMonitorAsync extends AsyncTask<Integer, Void, Boolean> {
 		private final Boolean showRpcCommands = false;
 		
 		// Frequency of which the monitor updates client status via RPC, to often can cause reduced performance!
-		private Integer refreshFrequency = getResources().getInteger(R.integer.monitor_refresh_rate_ms);
-		private Integer minimumDeviceStatusFrequency = getResources().getInteger(R.integer.minimum_device_status_refresh_rate_in_monitor_loops);
-		private Integer deviceStatusOmitCounter = 0;
+		private Integer clientStatusInterval = getResources().getInteger(R.integer.client_status_refresh_rate_ms);
+		private Integer deviceStatusInterval = getResources().getInteger(R.integer.device_status_refresh_rate_screen_off_ms);
 		
 		// DeviceStatus wrapper class
 		private DeviceStatus deviceStatus = new DeviceStatus(getApplicationContext());
@@ -940,51 +973,55 @@ public class Monitor extends Service {
 					sleep = false;
 				} else {
 					// connection alive
+					sleep = true;
 					
 					// set devices status
 					try {
-						if(deviceStatus.update() || deviceStatusOmitCounter >= minimumDeviceStatusFrequency) {
-							if(showRpcCommands) if(Logging.DEBUG) Log.d(Logging.TAG, "reportDeviceStatus");
-							Boolean reportStatusSuccess = rpc.reportDeviceStatus(deviceStatus);
-							if(!reportStatusSuccess) if(Logging.DEBUG) Log.d(Logging.TAG,"reporting device status returned false.");
-							if(reportStatusSuccess) deviceStatusOmitCounter = 0;
-						}
+						deviceStatus.update(); // poll device status
+						Boolean reportStatusSuccess = rpc.reportDeviceStatus(deviceStatus); // transmit device status via rpc
+						if(!reportStatusSuccess) if(Logging.DEBUG) Log.d(Logging.TAG,"reporting device status returned false.");
 					} catch (Exception e) { if(Logging.WARNING) Log.w(Logging.TAG, "device status report failed: " + e.getLocalizedMessage()); }
-					deviceStatusOmitCounter++;
 					
-					// retrieve client status
-					if(showRpcCommands) if(Logging.DEBUG) Log.d(Logging.TAG, "getCcStatus");
-					CcStatus status = rpc.getCcStatus();
-					
-					if(showRpcCommands) if(Logging.DEBUG) Log.d(Logging.TAG, "getState"); 
-					CcState state = rpc.getState();
-					
-					if(showRpcCommands) if(Logging.DEBUG) Log.d(Logging.TAG, "getTransers");
-					ArrayList<Transfer>  transfers = rpc.getFileTransfers();
-					
-					if( (status != null) && (state != null) && (state.results != null) && (state.projects != null) && (transfers != null) && (state.host_info != null)) {
-						Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers, state.host_info);
-						// Update status bar notification
-						ClientNotification.getInstance(getApplicationContext()).update();
-					} else {
-						if(Logging.DEBUG) Log.d(Logging.TAG, "client status connection problem");
-					}
-					
-					// check whether monitor is still intended to update, if not, skip broadcast and exit...
-					if(monitorRunning) {
-				        Intent clientStatus = new Intent();
-				        clientStatus.setAction("edu.berkeley.boinc.clientstatus");
-				        getApplicationContext().sendBroadcast(clientStatus);
-				        
-				        sleep = true;
+					// update client status
+					// run only if screen is actually on
+					if(screenOn) {
+						// retrieve client status
+						if(showRpcCommands) if(Logging.DEBUG) Log.d(Logging.TAG, "getCcStatus");
+						CcStatus status = rpc.getCcStatus();
+						
+						if(showRpcCommands) if(Logging.DEBUG) Log.d(Logging.TAG, "getState"); 
+						CcState state = rpc.getState();
+						
+						if(showRpcCommands) if(Logging.DEBUG) Log.d(Logging.TAG, "getTransers");
+						ArrayList<Transfer>  transfers = rpc.getFileTransfers();
+						
+						if( (status != null) && (state != null) && (state.results != null) && (state.projects != null) && (transfers != null) && (state.host_info != null)) {
+							Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers, state.host_info);
+							// Update status bar notification
+							ClientNotification.getInstance(getApplicationContext()).update();
+						} else {
+							if(Logging.DEBUG) Log.d(Logging.TAG, "client status connection problem");
+						}
+						
+						// check whether monitor is still intended to update, if not, skip broadcast and exit...
+						if(monitorRunning) {
+					        Intent clientStatus = new Intent();
+					        clientStatus.setAction("edu.berkeley.boinc.clientstatus");
+					        getApplicationContext().sendBroadcast(clientStatus);
+						}
 					}
 				}
 				
 				if(sleep) {
 					sleep = false;
+					// determine sleep duration based on screen status
+					int sleepMs;
+					if (screenOn) sleepMs = clientStatusInterval;
+					else sleepMs = deviceStatusInterval;
+					if(Logging.VERBOSE) Log.v(Logging.TAG,"monitor sleep for " + sleepMs + " ms.");
 		    		try {
-		    			Thread.sleep(refreshFrequency);
-		    		} catch(InterruptedException e) {if(Logging.DEBUG) Log.d(Logging.TAG,"sleep interrupted");}
+		    			Thread.sleep(sleepMs);
+		    		} catch(InterruptedException e) {if(Logging.DEBUG) Log.d(Logging.TAG,"monitor thread sleep interrupted");}
 				}
 			}
 
@@ -1055,4 +1092,25 @@ public class Monitor extends Service {
 			if(Logging.DEBUG) Log.d(Logging.TAG, "onProgressUpdate - " + arg0[0]);
 		}
 	}
+	
+	// broadcast receiver to detect changes to screen on or off
+	// used to adapt ClientMonitorAsync bahavior
+	// e.g. avoid polling GUI status rpcs while screen is off to
+	// save battery
+	BroadcastReceiver screenOnOffReceiver = new BroadcastReceiver() { 
+		@Override 
+        public void onReceive(Context context, Intent intent) { 
+			String action = intent.getAction();
+			if(action.equals(Intent.ACTION_SCREEN_OFF)) {
+				screenOn = false;
+				if(Logging.DEBUG) Log.d(Logging.TAG, "screenOnOffReceiver: screen turned off");
+			}
+			if(action.equals(Intent.ACTION_SCREEN_ON)) {
+				screenOn = true;
+				if(Logging.DEBUG) Log.d(Logging.TAG, "screenOnOffReceiver: screen turned on, force data refresh...");
+				forceRefresh();
+			}
+        } 
+ }; 
+
 }

@@ -4,19 +4,18 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
-"Project-Id-Version: 2012/02/10\n"
+"Project-Id-Version: 2013/06/07\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-05 10:24-0700\n"
-"PO-Revision-Date: 2012-11-19 02:45+0200\n"
-"Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
-"Language-Team: BOINC@KOREA\n"
-"Language: ko\n"
+"PO-Revision-Date: 2013-06-07 09:55+0900\n"
+"Last-Translator: Lee Kangsan <treppolse@gmail.com>\n"
+"Language-Team: SETIKAH@KOREA\n"
+"Language: ko_KR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.1.6\n"
-"X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 
 #: acct_mgr.cpp:448 acct_mgr.cpp:457
 msgid "Message from account manager"
@@ -30,7 +29,9 @@ msgstr "서버에서 온 메세지"
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
-msgstr "어떤 태스크는 환경설정 허용치보다 더 많은 메모리를 필요로 합니다. 환경설정을 확인하세요."
+msgstr ""
+"어떤 태스크는 환경설정 허용치보다 더 많은 메모리를 필요로 합니다. 환경설정을 "
+"확인하세요."
 
 #: client_state.cpp:501
 msgid "Couldn't write state file; check directory permissions"
@@ -45,7 +46,9 @@ msgstr "HTTP_PROXY 환경 변수에는 HTTP 프록시를 지정해야 합니다"
 msgid ""
 "You used the wrong URL for this project.  When convenient, remove this "
 "project, then add %s"
-msgstr "잘못된 프로젝트 URL를 사용하고 있습니다.  이 프로젝트를 삭제하고 %s를 추가하세요"
+msgstr ""
+"잘못된 프로젝트 URL를 사용하고 있습니다.  이 프로젝트를 삭제하고 %s를 추가하"
+"세요"
 
 #: cs_statefile.cpp:829 ../sched/sched_types.cpp:259
 msgid "Syntax error in app_info.xml"
@@ -61,7 +64,7 @@ msgstr "BOINC 새 버전이 출시되었습니다."
 
 #: current_version.cpp:94
 msgid "Download"
-msgstr ""
+msgstr "다운로드"
 
 #: log_flags.cpp:259 log_flags.cpp:436
 msgid "Unexpected text in cc_config.xml"
@@ -85,11 +88,13 @@ msgstr "cc_config.xml에 마침 태그가 빠짐"
 
 #: ../sched/handle_request.cpp:307
 msgid "Invalid or missing account key.  To fix, remove and add this project."
-msgstr "계정 키가 틀렸거나 없습니다. 수정하려면 프로젝트를 삭제하고 다시 추가하세요."
+msgstr ""
+"계정 키가 틀렸거나 없습니다. 수정하려면 프로젝트를 삭제하고 다시 추가하세요."
 
 #: ../sched/handle_request.cpp:849
 msgid "Invalid code signing key.  To fix, remove and add this project."
-msgstr "암호 서명 키가 틀렸습니다. 수정하려면 프로젝트를 삭제하고 다시 추가하세요."
+msgstr ""
+"암호 서명 키가 틀렸습니다. 수정하려면 프로젝트를 삭제하고 다시 추가하세요."
 
 #: ../sched/handle_request.cpp:859
 msgid ""
@@ -116,25 +121,27 @@ msgstr "이 프로젝트는 해당 컴퓨터를 지원하지 않습니다"
 
 #: ../sched/sched_send.cpp:1092
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
-msgstr "해당 컴퓨터의 GPU로 태스크를 처리하려면 최신 드라이버로 업그레이드하세요"
+msgstr ""
+"해당 컴퓨터의 GPU로 태스크를 처리하려면 최신 드라이버로 업그레이드하세요"
 
 #: ../sched/sched_send.cpp:1099
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
-msgstr "이 프로젝트의 GPU 응용 프로그램을 사용하려면 최신 드라이버로 업그레이드하세요"
+msgstr ""
+"이 프로젝트의 GPU 응용 프로그램을 사용하려면 최신 드라이버로 업그레이드하세요"
 
 #: ../sched/sched_send.cpp:1118
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
 "the current version"
-msgstr "NVIDIA GPU를 사용하려면 더 높은 BOINC 버전이 필요합니다. 최신 버전으로 업그레이드하세요"
+msgstr ""
+"NVIDIA GPU를 사용하려면 더 높은 BOINC 버전이 필요합니다. 최신 버전으로 업그레"
+"이드하세요"
 
-# 94%
 #: ../sched/sched_send.cpp:1146
 #, c-format
-#, c-format, fuzzy
 msgid "An %s GPU is required to run tasks for this project"
-msgstr "이 프로젝트의 태스크를 실행하려면 ATI GPU가 필요합니다"
+msgstr "이 프로젝트의 태스크를 실행하려면 %s GPU가 필요합니다"
 
 #: ../sched/sched_send.cpp:1262
 msgid "No tasks are available for the applications you have selected."
@@ -153,6 +160,7 @@ msgstr "더 높은 BOINC 버전이 필요합니다. 최신 버전을 설치하�
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
 msgstr ""
+"%s용 태스크가 있습니다. 그러나 환경 설정에서 사용이 허가되지 않았습니다"
 
 #: ../sched/sched_types.cpp:254
 msgid "Unknown app name in app_info.xml"
@@ -162,28 +170,20 @@ msgstr "app_info.xml에서 미확인 어플 이름 발견"
 msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr "app_info.xml에 사용 가능한 버전이 없음 :"
 
-#~ msgid "Download it."
-#~ msgstr "다운로드하세요."
-
 #~ msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
 #~ msgstr "이 프로젝트의 태스크를 실행하려면 NVIDIA나 ATI GPU가 필요합니다"
 
 #~ msgid "An NVIDIA GPU is required to run tasks for this project"
 #~ msgstr "이 프로젝트의 태스크를 실행하려면 NVIDIA GPU가 필요합니다"
 
-#~ msgid "An ATI GPU is required to run tasks for this project"
-#~ msgstr "이 프로젝트의 태스크를 실행하려면 ATI GPU가 필요합니다"
-
 #~ msgid ""
 #~ "Tasks for NVIDIA GPU are available, but your preferences are set to not "
 #~ "accept them"
-#~ msgstr "NVIDIA GPU용 태스크가 있습니다. 그러나 환경 설정에서 승인되지 않았습니다"
+#~ msgstr ""
+#~ "NVIDIA GPU용 태스크가 있습니다. 그러나 환경 설정에서 승인되지 않았습니다"
 
 #~ msgid ""
-#~ "Tasks for ATI GPU are available, but your preferences are set to not accept "
-#~ "them"
-#~ msgstr "ATI GPU용 태스크가 있습니다. 그러나 환경 설정에서 승인되지 않았습니다"
-
-#~ msgid ""
-#~ "Tasks for CPU are available, but your preferences are set to not accept them"
-#~ msgstr "CPU용 태스크가 있습니다. 그러나 환경 설정에서 승인되지 않았습니다"
+#~ "Tasks for ATI GPU are available, but your preferences are set to not "
+#~ "accept them"
+#~ msgstr ""
+#~ "ATI GPU용 태스크가 있습니다. 그러나 환경 설정에서 승인되지 않았습니다"

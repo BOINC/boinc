@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-05 10:24-0700\n"
-"PO-Revision-Date: 2012-03-25 18:55+0200\n"
+"PO-Revision-Date: 2013-06-16 12:59+0200\n"
 "Last-Translator: Rene <oskamjr@ziggo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -35,7 +35,7 @@ msgstr ""
 
 #: client_state.cpp:501
 msgid "Couldn't write state file; check directory permissions"
-msgstr "Statusbestand aanmaken mislukt; controleer de maprechten."
+msgstr "Statusbestand aanmaken mislukt; controleer de maprechten"
 
 #: cs_cmdline.cpp:299
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
@@ -47,12 +47,12 @@ msgid ""
 "You used the wrong URL for this project.  When convenient, remove this "
 "project, then add %s"
 msgstr ""
-"Het door u gebruikte URL is voor dit project niet geldig. U wordt "
+"Het door u gebruikte URL is voor dit project niet geldig.  U wordt "
 "geadviseerd dit project te verwijderen en vervolgens %s toe te voegen"
 
 #: cs_statefile.cpp:829 ../sched/sched_types.cpp:259
 msgid "Syntax error in app_info.xml"
-msgstr "Syntaxisfout in bestand: app_info.xml"
+msgstr "Syntaxis fout in app_info.xml"
 
 #: cs_statefile.cpp:869
 msgid "File referenced in app_info.xml does not exist: "
@@ -64,27 +64,27 @@ msgstr "Er is een nieuwe BOINC versie beschikbaar."
 
 #: current_version.cpp:94
 msgid "Download"
-msgstr ""
+msgstr "Download"
 
 #: log_flags.cpp:259 log_flags.cpp:436
 msgid "Unexpected text in cc_config.xml"
-msgstr "Onverwachte tekst in bestand cc_config.xml"
+msgstr "Onverwachte tekst in cc_config.xml"
 
 #: log_flags.cpp:410 log_flags.cpp:462
 msgid "Unrecognized tag in cc_config.xml"
-msgstr "Niet herkende instructie in bestand cc_config.xml"
+msgstr "Niet herkende instructie in cc_config.xml"
 
 #: log_flags.cpp:427
 msgid "Missing start tag in cc_config.xml"
-msgstr "Ontbrekende start instructie in bestand cc_config.xml"
+msgstr "Ontbrekende start instructie in cc_config.xml"
 
 #: log_flags.cpp:452
 msgid "Error in cc_config.xml options"
-msgstr "Optie fout in bestand cc_config.xml"
+msgstr "Optie fout in cc_config.xml"
 
 #: log_flags.cpp:470
 msgid "Missing end tag in cc_config.xml"
-msgstr "Ontbrekende eind instructie in bestand cc_config.xml"
+msgstr "Ontbrekende eind instructie in cc_config.xml"
 
 #: ../sched/handle_request.cpp:307
 msgid "Invalid or missing account key.  To fix, remove and add this project."
@@ -103,7 +103,7 @@ msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
 msgstr ""
-"De beveiligingssleutel van het project is gewijzigd. Verwijder dit project "
+"De beveiligingssleutel van het project is gewijzigd.  Verwijder dit project "
 "en voeg het vervolgens opnieuw toe."
 
 #: ../sched/handle_request.cpp:943
@@ -117,7 +117,7 @@ msgstr "Dit project ondersteunt deze CPU niet"
 #: ../sched/handle_request.cpp:993
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
-msgstr "Nieuwere versie van BOINC vereist. Installeer a.u.b de meest recente."
+msgstr "Nieuwere versie van BOINC vereist.  Installeer a.u.b de meest recente."
 
 #: ../sched/handle_request.cpp:1259
 msgid "This project doesn't support computers of type"
@@ -146,10 +146,9 @@ msgstr ""
 
 # 94%
 #: ../sched/sched_send.cpp:1146
-#, c-format
-#, c-format, fuzzy
+#, c-format, c-format
 msgid "An %s GPU is required to run tasks for this project"
-msgstr "Dit project vereist een ATI GPU"
+msgstr "Dit project vereist een %s GPU om taken te verwerken"
 
 #: ../sched/sched_send.cpp:1262
 msgid "No tasks are available for the applications you have selected."
@@ -168,6 +167,8 @@ msgstr "Nieuwere versie van BOINC vereist; installeer a.u.b de meest recente"
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
 msgstr ""
+"Er zijn taken voor %s beschikbaar, maar deze zijn bij de instellingen "
+"uitgesloten"
 
 #: ../sched/sched_types.cpp:254
 msgid "Unknown app name in app_info.xml"

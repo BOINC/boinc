@@ -119,10 +119,10 @@ void APP_VERSION::print() {
 
 void WORKUNIT::print() {
     printf("   name: %s\n", name);
-    printf("   FP estimate: %f\n", rsc_fpops_est);
-    printf("   FP bound: %f\n", rsc_fpops_bound);
-    printf("   memory bound: %f\n", rsc_memory_bound);
-    printf("   disk bound: %f\n", rsc_disk_bound);
+    printf("   FP estimate: %e\n", rsc_fpops_est);
+    printf("   FP bound: %e\n", rsc_fpops_bound);
+    printf("   memory bound: %.2f MB\n", rsc_memory_bound/MEGA);
+    printf("   disk bound: %.2f MB\n", rsc_disk_bound/MEGA);
 }
 
 void RESULT::print() {
@@ -134,12 +134,12 @@ void RESULT::print() {
     printf("   ready to report: %s\n", ready_to_report?"yes":"no");
     printf("   got server ack: %s\n", got_server_ack?"yes":"no");
     printf("   final CPU time: %f\n", final_cpu_time);
-    printf("   state: %d\n", state);
-    printf("   scheduler state: %d\n", scheduler_state);
+    printf("   state: %s\n", result_client_state_string(state));
+    printf("   scheduler state: %s\n", result_scheduler_state_string(scheduler_state));
     printf("   exit_status: %d\n", exit_status);
     printf("   signal: %d\n", signal);
     printf("   suspended via GUI: %s\n", suspended_via_gui?"yes":"no");
-    printf("   active_task_state: %d\n", active_task_state);
+    printf("   active_task_state: %s\n", active_task_state_string(active_task_state));
     //printf("   stderr_out: %s\n", stderr_out.c_str());
     printf("   app version num: %d\n", app_version_num);
     printf("   checkpoint CPU time: %f\n", checkpoint_cpu_time);

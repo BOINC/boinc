@@ -5,35 +5,35 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: BOINC 7.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-03 18:11-0700\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2013-06-07 19:14+0900\n"
+"Last-Translator: Lee Kangsan <treppolse@gmail.com>\n"
+"Language-Team: SETIKAH@KOREA\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.9.0\n"
-"X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 
 #: Installer.cpp:120
 #, c-format
 msgid "Sorry, this version of %s requires system 10.4 or higher."
-msgstr ""
+msgstr "죄송합니다. 해단 버전의 %s는 시스템 10.4 이상을 필요로 합니다."
 
 #: PostInstall.cpp:130
 msgid "Yes"
-msgstr ""
+msgstr "네"
 
 #: PostInstall.cpp:131
 msgid "No"
-msgstr ""
+msgstr "아니오"
 
 #: PostInstall.cpp:133
 msgid "Should BOINC run even when no user is logged in?"
-msgstr ""
+msgstr "로그인한 사용자가 없을 때에도 BOINC를 실행하시겠습니까?"
 
 #: PostInstall.cpp:1433
 #, c-format
@@ -44,33 +44,40 @@ msgid ""
 "Do you also want non-administrative users to be able to run and control %s "
 "on this Mac?"
 msgstr ""
+"이 컴퓨터에서 관리하도록 허가받은 사용자들은 자동적으로 %s를(를) 실행하고 제"
+"어할 수 있도록 허용될 것입니다.\n"
+"\n"
+"이 Mac에서 비관리자 사용자들도 %s를(을) 실행하고 제어할 수 있게 하길 원하십니"
+"까?"
 
 #: PostInstall.cpp:1461
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
-msgstr ""
+msgstr "%s를(을) Mac상의 모든 %s 사용자용 화면 보호기로 지정하시겠습니까?"
 
 #: uninstall.cpp:71
 msgid "OK"
-msgstr ""
+msgstr "확인"
 
 #: uninstall.cpp:72
 msgid "Cancel"
-msgstr ""
+msgstr "취소"
 
 #: uninstall.cpp:73
 msgid "Continue..."
-msgstr ""
+msgstr "계속..."
 
 #: uninstall.cpp:89
 msgid "Permission error after relaunch"
-msgstr ""
+msgstr "권한 오류 나중에 재실행하세요"
 
 #: uninstall.cpp:93
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
 msgstr ""
+"제거에는 몇 분정도 걸릴 것입니다.\n"
+"잠시 기다려 주세요."
 
 #: uninstall.cpp:133
 #, c-format
@@ -79,16 +86,19 @@ msgid ""
 "\n"
 "This will remove the executables but will not touch %s data files."
 msgstr ""
+"정말로 이 컴퓨터에서 %s를(을) 완전히 제거하길 원하십니까?\n"
+"\n"
+"실행 파일은 제거되지만 %s 데이터 파일들은 건드리지 않습니다."
 
 #: uninstall.cpp:142
 #, c-format
 msgid "Canceled: %s has not been touched."
-msgstr ""
+msgstr "취소됨: %s가 터치되지 않았습니다."
 
 #: uninstall.cpp:151
 #, c-format
 msgid "An error occurred: error code %d"
-msgstr ""
+msgstr "오류가 발생했습니다: 오류 코드 %d"
 
 #: uninstall.cpp:153
 msgid ""
@@ -100,6 +110,13 @@ msgid ""
 "for each user, the file\n"
 "\"/Users/[username]/Library/Preferences/BOINC Manager Preferences\"."
 msgstr ""
+"제거가 완료되었습니다.\n"
+"\n"
+" 여러분은 탐색기를 사용해서 다음 잔존하는 항목을 삭제할 수 있습니다: \n"
+"\"/Library/Application Support/BOINC Data\" 디렉토리\n"
+"\n"
+"개별 사용자의 경우\n"
+"\"/Users/[username]/Library/Preferences/BOINC Manager Preferences\"."
 
 #: uninstall.cpp:686
 #, c-format
@@ -108,3 +125,6 @@ msgid ""
 "computer.\n"
 "\n"
 msgstr ""
+"여러분 컴퓨터에서 %s를(을) 완전히 제거하려면 관리자 비밀번호를 입력해 주세"
+"요.\n"
+"\n"

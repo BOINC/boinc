@@ -439,9 +439,9 @@ int get_os_information(
 
 			if ( osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 3 ) {
                 if( osvi.wProductType == VER_NT_WORKSTATION ) {
-                    strcat(os_name, "Windows Blue");
+                    strcat(os_name, "Windows 8.1");
                 } else {
-                    strcat(os_name, "Windows Blue Server");
+                    strcat(os_name, "Windows Server 2012 R2");
                 }
                 pGPI( 6, 3, 0, 0, &dwType);
             }

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-05 10:24-0700\n"
-"PO-Revision-Date: 2013-01-21 18:34+0200\n"
+"PO-Revision-Date: 2013-06-06 19:16+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -64,7 +64,7 @@ msgstr "Uusi versio BOINCista on saatavilla."
 
 #: current_version.cpp:94
 msgid "Download"
-msgstr ""
+msgstr "Lataa"
 
 #: log_flags.cpp:259 log_flags.cpp:436
 msgid "Unexpected text in cc_config.xml"
@@ -141,10 +141,9 @@ msgstr "NVIDIA GPUn käyttöön tarvitaan uudempi versio BOINCista, päivitä ve
 
 # 94%
 #: ../sched/sched_send.cpp:1146
-#, c-format
-#, c-format, fuzzy
+#, c-format, c-format
 msgid "An %s GPU is required to run tasks for this project"
-msgstr "Projektin tehtävät vaativat ATIn GPUn"
+msgstr "%s GPU tarvitaan tämän projektin pakettien suorittamiseen"
 
 #: ../sched/sched_send.cpp:1262
 msgid "No tasks are available for the applications you have selected."
@@ -162,7 +161,7 @@ msgstr "Uudempi BOINC-versio tarvitaan, asenna uusin versio"
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
-msgstr ""
+msgstr "%s -tehtäviä on saatavilla, mutta asetuksesi estävät niiden saannin"
 
 #: ../sched/sched_types.cpp:254
 msgid "Unknown app name in app_info.xml"

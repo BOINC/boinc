@@ -101,6 +101,7 @@ double gpu_active_time = 0;
 bool server_uses_workload = false;
 bool cpu_sched_rr_only = false;
 bool existing_jobs_only = false;
+bool include_empty_projects;
 
 RANDOM_PROCESS on_proc;
 RANDOM_PROCESS active_proc;
@@ -1040,10 +1041,12 @@ static void write_inputs() {
     fprintf(f,
         "Existing jobs only: %s\n"
         "Round-robin only: %s\n"
-        "scheduler EDF sim: %s\n",
+        "scheduler EDF sim: %s\n"
+        "Include empty projects: %s\n",
         existing_jobs_only?"yes":"no",
         cpu_sched_rr_only?"yes":"no",
-        server_uses_workload?"yes":"no"
+        server_uses_workload?"yes":"no",
+        include_empty_projects?"yes":"no"
     );
     fprintf(f,
         "REC half-life: %f\n", config.rec_half_life
@@ -1450,7 +1453,9 @@ void do_client_simulation() {
     process_gpu_exclusions();
 
     get_app_params();
-    cull_projects();
+    if (!include_empty_projects) {
+        cull_projects();
+    }
     fprintf(summary_file, "--------------------------\n");
 
     int j=0;
@@ -1536,6 +1541,8 @@ int main(int argc, char** argv) {
             server_uses_workload = true;
         } else if (!strcmp(opt, "--cpu_sched_rr_only")) {
             cpu_sched_rr_only = true;
+        } else if (!strcmp(opt, "--include_empty_projects")) {
+            include_empty_projects = true;
         } else if (!strcmp(opt, "--rec_half_life")) {
             config.rec_half_life = atof(argv[i++]);
         } else {

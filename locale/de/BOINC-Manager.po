@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-05 13:13-0500\n"
-"PO-Revision-Date: 2013-06-03 18:08+0200\n"
+"PO-Revision-Date: 2013-06-08 17:42+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -29,7 +29,7 @@ msgstr ""
 #, c-format
 #, c-format, fuzzy
 msgid "Identify your account at %s"
-msgstr "Kontoinformationen eingeben "
+msgstr "Ihr Benutzerkonto bei %s identifizieren"
 
 #: clientgui/AccountInfoPage.cpp:393
 msgid ""
@@ -37,7 +37,7 @@ msgid ""
 "(to create an account, visit the project's web site)"
 msgstr ""
 "Bitte geben Sie Ihre Kontoinformationen ein.\n"
-"(Zum Erstellen eines Accounts, Projektseite besuchen)"
+"(Zum Erstellen eines Benutzerkontos, Projektseite besuchen)"
 
 #: clientgui/AccountInfoPage.cpp:397
 msgid ""
@@ -145,18 +145,26 @@ msgstr "Kontoverwaltung benutzen"
 #: clientgui/AccountInfoPage.cpp:587
 msgid "The minimum username length for this project is 1. Please enter a different username."
 msgstr ""
+"Die Mindestlänge von Benutzernamen bei diesem Projekt ist 1. Bitte wählen "
+"Sie einen anderen Benutzernamen."
 
 #: clientgui/AccountInfoPage.cpp:592
 msgid "The minimum username length for this account manager is 1. Please enter a different username."
 msgstr ""
+"Die Mindestlänge von Benutzernamen bei diesem Kontomanager ist 1. Bitte "
+"wählen Sie einen anderen Benutzernamen."
 
 #: clientgui/AccountInfoPage.cpp:598
 msgid "The minimum email address length for this project is 1. Please enter a different email address."
 msgstr ""
+"Die Mindestlänge von E-Mail-Adressen bei diesem Projekt ist 1. Bitte geben "
+"Sie Ihre E-Mail-Adresse erneut ein."
 
 #: clientgui/AccountInfoPage.cpp:603
 msgid "The minimum email address length for this account manager is 1. Please enter a different email address."
 msgstr ""
+"Die Mindestlänge von E-Mail-Adressen bei diesem Kontomanager ist 1. Bitte "
+"geben Sie Ihre E-Mail-Adresse erneut ein."
 
 #: clientgui/AccountInfoPage.cpp:616
 #, c-format
@@ -458,13 +466,14 @@ msgstr "Ausstehende Netzwerk-Kommunikation ausführen."
 
 # 94%
 #: clientgui/AdvancedFrame.cpp:576
-#, fuzzy
 msgid "Read config files"
-msgstr "Konfigurationsdatei einlesen"
+msgstr "Konfigurationsdateien einlesen"
 
 #: clientgui/AdvancedFrame.cpp:577
 msgid "Read configuration info from cc_config.xml and any app_config.xml files"
 msgstr ""
+"Die Einstellungen der cc_config.xml Datei und etwaiger app_config.xml "
+"Dateien einlesen."
 
 #: clientgui/AdvancedFrame.cpp:581
 msgid "Read local prefs file"
@@ -1118,12 +1127,11 @@ msgstr "Copyright:"
 
 # 98%
 #: clientgui/DlgAbout.cpp:192
-#, fuzzy
 msgid ""
 "(C) 2003-2013 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2011 University of California, Berkeley.\n"
+"(C) 2003-2013 University of California, Berkeley.\n"
 "Alle Rechte vorbehalten."
 
 #: clientgui/DlgAbout.cpp:196
@@ -2475,9 +2483,8 @@ msgstr "Angehalten- "
 
 # 75%
 #: clientgui/MainDocument.cpp:2486
-#, fuzzy
 msgid "GPU suspended - "
-msgstr " (angehalten - "
+msgstr "GPU angehalten - "
 
 #: clientgui/MainDocument.cpp:2493
 msgid "Waiting for memory"
@@ -2546,15 +2553,15 @@ msgstr "Abgebrochen: kein Start vor Stichtag möglich."
 
 #: clientgui/MainDocument.cpp:2556
 msgid "Aborted: disk limit exceeded"
-msgstr ""
+msgstr "Abgebrochen: Festplattenlimit überschritten"
 
 #: clientgui/MainDocument.cpp:2559
 msgid "Aborted: run time limit exceeded"
-msgstr ""
+msgstr "Abgebrochen: Laufzeitlimit überschritten"
 
 #: clientgui/MainDocument.cpp:2562
 msgid "Aborted: memory limit exceeded"
-msgstr ""
+msgstr "Abgebrochen: Arbeitsspeicherlimit überschritten"
 
 #: clientgui/MainDocument.cpp:2565
 msgid "Aborted"
@@ -2936,8 +2943,9 @@ msgid "Unable to connect to the core client"
 msgstr "Verbindung mit dem Basisclient nicht möglich."
 
 #: clientgui/sg_DlgMessages.cpp:130
+#, fuzzy
 msgid "One or more items failed to load from the Internet."
-msgstr ""
+msgstr "Mindestens ein Element konnte nicht aus dem Internet geladen werden."
 
 # 88%
 #: clientgui/sg_DlgMessages.cpp:138
@@ -2951,7 +2959,7 @@ msgstr "Schließen"
 
 #: clientgui/sg_DlgMessages.cpp:171
 msgid "Fetching notices; please wait..."
-msgstr ""
+msgstr "Nachrichten werden abgerufen. Bitte warten..."
 
 #: clientgui/sg_DlgMessages.cpp:178
 msgid "There are no notices at this time."
@@ -3380,7 +3388,7 @@ msgstr ""
 
 #: clientgui/sg_TaskCommandPopup.cpp:67
 msgid "Suspend this task."
-msgstr ""
+msgstr "Diese Aufgabe anhalten."
 
 #: clientgui/sg_TaskCommandPopup.cpp:72
 msgid "Abort"
@@ -3388,7 +3396,7 @@ msgstr "Abbrechen"
 
 #: clientgui/sg_TaskCommandPopup.cpp:73
 msgid "Abandon this task. You will get no credit for it."
-msgstr ""
+msgstr "Diese Aufgabe abbrechen. Es werden keine Punkte angerechnet."
 
 #: clientgui/sg_TaskCommandPopup.cpp:79
 msgid "Show task details."
@@ -3973,7 +3981,7 @@ msgstr "Jetzt nochmal versuchen"
 
 #: clientgui/ViewTransfers.cpp:164
 msgid "Retry the file transfer now"
-msgstr ""
+msgstr "Den Dateitransfer jetzt erneut versuchen."
 
 #: clientgui/ViewTransfers.cpp:170
 msgid "Abort Transfer"
@@ -3982,6 +3990,8 @@ msgstr "Abbrechen"
 #: clientgui/ViewTransfers.cpp:171
 msgid "Abort this file transfer.  You won't get credit for the task."
 msgstr ""
+"Diese Dateiübertragung abbrechen. Es werden keine Punkte für diese Aufgabe "
+"angerechnet."
 
 #: clientgui/ViewTransfers.cpp:182
 msgid "File"
@@ -4160,9 +4170,8 @@ msgstr "Wollen Sie diese %d Aufgaben wirklich abbrechen?"
 
 # 75%
 #: clientgui/ViewWork.cpp:498
-#, fuzzy
 msgid "Aborting task..."
-msgstr "Übertragung wird abgebrochen..."
+msgstr "Aufgabe wird abgebrochen..."
 
 #: clientgui/ViewWork.cpp:760
 msgid "Show all tasks"
@@ -4178,7 +4187,7 @@ msgstr "Ein Projekt oder Kontomanager hinzufügen."
 
 #: clientgui/WelcomePage.cpp:288
 msgid "Add project or use BOINC Account Manager"
-msgstr ""
+msgstr "Projekt hinzufügen oder BOINC Kontomanager benutzen"
 
 #: clientgui/WelcomePage.cpp:297
 #, c-format
@@ -4226,7 +4235,7 @@ msgstr ""
 
 #: clientgui/WelcomePage.cpp:339
 msgid "Use a BOINC Account Manager"
-msgstr ""
+msgstr "Einen BOINC Kontomanager benutzen"
 
 #: clientgui/WelcomePage.cpp:352
 msgid "To continue, click Next."
@@ -4234,11 +4243,13 @@ msgstr "Um fortzufahren auf [Weiter >] klicken."
 
 #: clientgui/WelcomePage.cpp:358
 msgid "Add or change your World Community Grid projects"
-msgstr ""
+msgstr "Hinzufügen oder ändern Ihrer World Community Grid Projekte"
 
 #: clientgui/WelcomePage.cpp:361
 msgid "Add projects run by other researchers or organizations"
 msgstr ""
+"Projekte hinzufügen welche von anderen Wissenschaftlern oder Organisationen "
+"betrieben werden"
 
 #: clientgui/WizardAttach.cpp:634
 msgid "Do you really want to cancel?"

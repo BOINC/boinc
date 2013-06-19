@@ -99,7 +99,6 @@ void PROJECT::init() {
     project_files_downloaded_time = 0;
     use_symlinks = false;
     possibly_backed_off = false;
-    last_upload_start = 0;
     nuploading_results = 0;
     too_many_uploading_results = false;
 
@@ -168,6 +167,9 @@ int PROJECT::parse_state(XML_PARSER& xp) {
         if (xp.match_tag("/project")) {
             if (cpid_time == 0) {
                 cpid_time = user_create_time;
+            }
+            if (dont_use_dcf) {
+                duration_correction_factor = 1;
             }
             return 0;
         }

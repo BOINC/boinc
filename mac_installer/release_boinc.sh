@@ -30,7 +30,9 @@
 ## updated 1/6/12 by Charlie Fenton to also install VirtualBox
 ## updated 6/22/12 by Charlie Fenton to code sign the installer and uninstaller
 ## updated 7/5/12 by Charlie Fenton to avoid using PackageMaker
-## updated 7/31/12 by Charlie Fenton for Liberation font in boincscr 
+## updated 7/31/12 by Charlie Fenton for Liberation font in boincscr
+## updated 6/11/13 by Charlie Fenton for BOINC.mpkg, "BOINC + VirtualBox.mpkg"
+## updated 6/18/13 by Charlie Fenton for localizable uninstaller
 ##
 ## NOTE: This script requires Mac OS 10.6 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac 
@@ -228,8 +230,15 @@ sudo chown -R 501:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_m
 sudo chmod -R 644 ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/COPYRIGHT.txt
 
 cp -fpR $BUILDPATH/Uninstall\ BOINC.app ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras
+# Copy the localization files for the uninstaller into its bundle
+find locale -name 'BOINC-Setup.mo' | cut -d '/' -f 2 | awk '{print "\"../BOINC_Installer/locale/"$0"\""}' | xargs mkdir -p
+
+find locale -name 'BOINC-Setup.mo' | cut -d '/' -f 2,3 | awk '{print "cp \"locale/"$0"\" \"../BOINC_Installer/locale/"$0"\""}' | bash
+
+sudo cp -fpR ../BOINC_Installer/locale "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app/Contents/Resources"
+
 sudo chown -R root:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall\ BOINC.app
-sudo chmod -R 755 ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall\ BOINC.app
+sudo chmod -R u+r-w,g+r-w,o+r-w ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall\ BOINC.app
 
 # Copy the installer wrapper application "BOINC Installer.app"
 cp -fpR $BUILDPATH/BOINC\ Installer.app ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/
@@ -266,14 +275,24 @@ cp -fpR ../BOINC_Installer/Installer\ Scripts/ ../BOINC_Installer/New_Release_$1
 
 # End of our PackageMaker emulation
 
-# Allow the installer wrapper application to modify the package's Info.plist file
-sudo chmod a+rw ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Info.plist
-
 # add a more complete Description.plist file to display in Installer's Customize pane
 if [ ! -d ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources/en.lproj/ ]; then
     mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources/en.lproj
 fi
 cp -fp mac_installer/Description.plist ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources/en.lproj/
+
+# Build the "BOINC.mpkg" metapackage (used if installer.app determines
+# that we need user to restart OS X after installation)
+mkdir -p "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/BOINC.mpkg/Contents/Resources"
+cp -fp mac_build/Pkg_Restart-Info.plist ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.mpkg/Contents/Info.plist
+cp -fp mac_installer/License.rtf ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.mpkg/Contents/Resources/
+cp -fp ../BOINC_Installer/Installer\ Resources/ReadMe.rtf ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.mpkg/Contents/Resources/
+cat >> ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.mpkg/Contents/Resources/package_version << ENDOFFILE
+major: $1
+minor: $2
+ENDOFFILE
+echo "pmkrpkg1" > ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.mpkg/Contents/PkgInfo
+
 
 # Build the BOINC+VirtualBox.mpkg metapackage if VirtualBox.pkg exists
 
@@ -290,6 +309,13 @@ ENDOFFILE
     echo "pmkrpkg1" > ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC+VirtualBox.mpkg/Contents/PkgInfo
     
     cp -fpR mac_installer/${VirtualBoxPackageName} ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/
+
+    # Now create the "BOINC + VirtualBox.mpkg" metapackage (used if installer.app
+    # determines that we need user to restart OS X after installation)
+    # Note the name of this version has spaces around the "+"
+    cp -fpR "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/BOINC+VirtualBox.mpkg" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/BOINC + VirtualBox.mpkg"
+    # Change "NoRestart" to "RequiredRestart" in BOINC + VirtualBox.mpkg
+    sed -i "" s/"NoRestart"/"RequiredRestart"/g "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/BOINC + VirtualBox.mpkg/Contents/Info.plist"
 fi
 
 # Build the stand-alone client distribution

@@ -119,6 +119,19 @@ void max_concurrent_init() {
     }
 }
 
+// undo the effects of an app_config.xml that no longer exists
+// NOTE: all we can do here is to clear APP::max_concurrent;
+// we can't restore device usage info because we don't have it.
+// It will be restored on next scheduler RPC.
+//
+static void clear_app_config(PROJECT* p) {
+    for (unsigned int i=0; i<gstate.apps.size(); i++) {
+        APP* app = gstate.apps[i];
+        if (app->project != p) continue;
+        app->max_concurrent = 0;
+    }
+}
+
 void check_app_config() {
     char path[MAXPATHLEN];
     FILE* f;
@@ -127,7 +140,10 @@ void check_app_config() {
         PROJECT* p = gstate.projects[i];
         sprintf(path, "%s/%s", p->project_dir(), APP_CONFIG_FILE_NAME);
         f = boinc_fopen(path, "r");
-        if (!f) continue;
+        if (!f) {
+            clear_app_config(p);
+            continue;
+        }
         msg_printf(p, MSG_INFO,
             "Found %s", APP_CONFIG_FILE_NAME
         );

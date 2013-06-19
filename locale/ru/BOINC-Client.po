@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-05 10:24-0700\n"
-"PO-Revision-Date: 2013-06-05 20:54+0200\n"
+"PO-Revision-Date: 2013-06-08 13:30+0200\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ru\n"
@@ -31,7 +31,7 @@ msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr ""
-"Некоторые задания требуют больше памяти, чем разрешено вашими настройками. "
+"Некоторые задания требуют больше памяти, чем разрешено вашими настройками.  "
 "Пожалуйста, проверьте настройки."
 
 #: client_state.cpp:501
@@ -48,7 +48,7 @@ msgid ""
 "You used the wrong URL for this project.  When convenient, remove this "
 "project, then add %s"
 msgstr ""
-"Для этого проекта Вы использовали неправильный URL. Как только будет "
+"Для этого проекта Вы использовали неправильный URL.  Как только будет "
 "возможно, удалите этот проект, затем добавьте %s"
 
 #: cs_statefile.cpp:829 ../sched/sched_types.cpp:259
@@ -64,7 +64,6 @@ msgid "A new version of BOINC is available."
 msgstr "Доступна новая версия BOINC."
 
 #: current_version.cpp:94
-#, fuzzy
 msgid "Download"
 msgstr "Загрузить"
 
@@ -97,7 +96,7 @@ msgstr ""
 #: ../sched/handle_request.cpp:849
 msgid "Invalid code signing key.  To fix, remove and add this project."
 msgstr ""
-"Неправильный ключ подписания кода. Для исправления удалите и снова добавьте "
+"Неправильный ключ подписания кода.  Для исправления удалите и снова добавьте "
 "этот проект."
 
 #: ../sched/handle_request.cpp:859
@@ -105,7 +104,7 @@ msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
 msgstr ""
-"Проект изменил свой ключ безопасности. Пожалуйста, удалите и снова добавьте "
+"Проект изменил свой ключ безопасности.  Пожалуйста, удалите и снова добавьте "
 "этот проект."
 
 #: ../sched/handle_request.cpp:943
@@ -169,7 +168,7 @@ msgstr ""
 "Необходима более новая версия BOINC; пожалуйста, установите текущую версию"
 
 #: ../sched/sched_send.cpp:1305
-#, c-format, fuzzy
+#, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
 msgstr "Доступны задания для %s, но в ваших настройках указано не принимать их"

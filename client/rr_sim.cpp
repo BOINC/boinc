@@ -65,7 +65,7 @@ inline void rsc_string(RESULT* rp, char* buf) {
 static inline void set_bits(int src, double nused, int& dst) {
     // if all bits are already set, we're done
     //
-    if (src&dst == dst) return;
+    if ((src&dst) == src) return;
     int bit = 1;
     for (int i=0; i<32; i++) {
         if (nused <= 0) break;
@@ -94,9 +94,16 @@ struct RR_SIM {
             p->rsc_pwf[rt].sim_nused += rp->avp->gpu_usage.usage;
             set_bits(
                 rp->app->non_excluded_instances[rt],
-                p->rsc_pwf[rt].sim_nused,
+                p->rsc_pwf[rt].nused_total,
                 rsc_work_fetch[rt].sim_used_instances
             );
+#if 0
+            msg_printf(p, MSG_INFO, "%d non_excl %d used %d",
+                rt,
+                rp->app->non_excluded_instances[rt],
+                rsc_work_fetch[rt].sim_used_instances
+            );
+#endif
         }
     }
 

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-06-05 10:25 PDT\n"
-"PO-Revision-Date: 2013-04-06 01:20+0200\n"
+"PO-Revision-Date: 2013-06-11 09:43+0200\n"
 "Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
 "Language-Team: \n"
 "Language: zh_TW\n"
@@ -24,45 +24,44 @@ msgstr ""
 
 #: projects.inc:14
 msgid "Distributed sensing"
-msgstr ""
+msgstr "分散式傳感"
 
 # 78%
 #: projects.inc:19
-#, fuzzy
 msgid "Stanford University"
-msgstr "英國牛津大學"
+msgstr "史丹福大學"
 
 #: projects.inc:20
 msgid "Seismology"
-msgstr ""
+msgstr "地震"
 
 #: projects.inc:21
 msgid ""
 "The Quake-Catcher Network is developing the world's largest seismic network "
 "using sensors attached to Internet-connected computers.  You must buy a "
 "sensor to participate."
-msgstr ""
+msgstr "捕震網(QCN)正在開發世界上最大的地震網路，使用傳感器與網路連接。您必須購買一個傳感器才能參加。"
 
 #: projects.inc:27
 msgid "BOINC Poland Foundation"
-msgstr ""
+msgstr "BOINC波蘭基金會"
 
 #: projects.inc:28
 msgid "Environmental research"
-msgstr ""
+msgstr "環境研究"
 
 #: projects.inc:29
 msgid ""
 "This project is creating a free and continuously updated map of radiation "
 "levels by using sensors connected to volunteers' computers.  You must buy a "
 "sensor to participate."
-msgstr ""
+msgstr "此專案正在建立在一個免費和持續更新的輻射水平地圖，透過使用傳感器連接到使用者的電腦。您必須購買一個傳感器才能參加。"
 
 #: projects.inc:33
 msgid ""
 "To participate in these projects you must buy a sensor and attach it to your "
 "computer."
-msgstr ""
+msgstr "想參加這些專案，您必須購買一個傳感器且與電腦連接"
 
 #: projects.inc:37
 msgid "Cognitive science and artifical intelligence"
@@ -91,11 +90,11 @@ msgstr "生物和醫藥"
 
 #: projects.inc:71
 msgid "University College Dublin"
-msgstr ""
+msgstr "都柏林大學"
 
 #: projects.inc:72
 msgid "Antimalarial drug discovery"
-msgstr ""
+msgstr "發現抗瘧疾藥物"
 
 #: projects.inc:73
 msgid ""
@@ -105,6 +104,8 @@ msgid ""
 "the parasite. The FightMalaria@Home project is aimed at finding these new "
 "targets."
 msgstr ""
+"造成瘧疾的寄生蟲持續對於抵抗藥物治療進化中。我們因此急需發掘新藥以代替現存的藥物。重要的是，這些藥物需要能夠標定寄生蟲體內\"新的\"蛋白質。FightMa"
+"laria@Home專案就是以發現這些新的標靶為目標。"
 
 #: projects.inc:79
 msgid "University of Karlsruhe (Germany)"
@@ -272,9 +273,8 @@ msgstr ""
 
 # 75%
 #: projects.inc:188
-#, fuzzy
 msgid "Astronomy, Physics, and Chemistry"
-msgstr "天文/物理/化學"
+msgstr "天文,物理和化學"
 
 #: projects.inc:209
 msgid "University of Texas at Austin"
@@ -302,9 +302,8 @@ msgstr ""
 
 # 95%
 #: projects.inc:224
-#, fuzzy
 msgid "University of Illinois at Urbana-Champaign"
-msgstr "美國伊利諾伊大學厄巴納 - 香檳分校"
+msgstr "伊利諾伊大學厄巴納-香檳分校"
 
 #: projects.inc:225 projects.inc:233
 msgid "Astronomy"
@@ -387,7 +386,7 @@ msgid ""
 "This project uses CERN-developed virtual machine technology for full-fledged "
 "LHC event physics simulation on volunteer computers.  Requires that you "
 "install VirtualBox on your computer"
-msgstr ""
+msgstr "這專案在志願者的電腦中使用CERN為了完備的LHC物理模擬試驗而開發的虛擬機器技術。您的電腦需要安裝VirtualBox。"
 
 #: projects.inc:280
 msgid "University of California, Berkeley"
@@ -506,15 +505,15 @@ msgstr "數學，計算和遊戲"
 
 #: projects.inc:355
 msgid "Computer Science"
-msgstr ""
+msgstr "電腦科學"
 
 #: projects.inc:363
 msgid "Mathematics, Physics, Artificial Intelligence"
-msgstr ""
+msgstr "數學,物理,人工智慧"
 
 #: projects.inc:364
 msgid "Simulation of quantum computing; Goldbach's conjecture."
-msgstr ""
+msgstr "模擬量子計算;哥德巴赫猜想"
 
 #: projects.inc:404 projects.inc:412 projects.inc:466
 msgid "Cryptography"
@@ -681,7 +680,7 @@ msgstr "歷史版本"
 
 #: download.php:126
 msgid "GPU computing"
-msgstr ""
+msgstr "GPU運算"
 
 #: download.php:144
 msgid "BOINC: compute for science"
@@ -783,9 +782,8 @@ msgstr "24 小時平均："
 
 # 80%
 #: index.php:55
-#, fuzzy
 msgid "PetaFLOPS."
-msgstr "TFLOPS。"
+msgstr "PFLOPS。"
 
 #: index.php:67
 msgid "News"
@@ -805,11 +803,11 @@ msgstr "文件"
 
 #: index.php:87
 msgid "Add-ons"
-msgstr ""
+msgstr "附加組件"
 
 #: index.php:88
 msgid "Links"
-msgstr ""
+msgstr "連結"
 
 #: index.php:94
 #, php-format

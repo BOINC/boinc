@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-06-05 10:25 PDT\n"
-"PO-Revision-Date: 2013-05-29 17:58+0200\n"
+"PO-Revision-Date: 2013-06-08 13:45+0200\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ru\n"
@@ -21,17 +21,16 @@ msgstr ""
 
 #: projects.inc:14
 msgid "Distributed sensing"
-msgstr ""
+msgstr "Распределённая сеть датчиков"
 
 # 78%
 #: projects.inc:19
-#, fuzzy
 msgid "Stanford University"
-msgstr "Оксфордский Университет"
+msgstr "Стэнфордский Университет"
 
 #: projects.inc:20
 msgid "Seismology"
-msgstr ""
+msgstr "Сейсмология"
 
 #: projects.inc:21
 msgid ""
@@ -39,14 +38,17 @@ msgid ""
 "using sensors attached to Internet-connected computers.  You must buy a "
 "sensor to participate."
 msgstr ""
+"Quake-Catcher Network развивает крупнейшую в мире сейсмическую сеть, "
+"используя датчики, которые подключены к компьютерам, имеющим выход в "
+"интернет.  Вы должны купить датчик для участия в проекте."
 
 #: projects.inc:27
 msgid "BOINC Poland Foundation"
-msgstr ""
+msgstr "Польский Фонд BOINC"
 
 #: projects.inc:28
 msgid "Environmental research"
-msgstr ""
+msgstr "Исследования окружающей среды"
 
 #: projects.inc:29
 msgid ""
@@ -54,12 +56,17 @@ msgid ""
 "levels by using sensors connected to volunteers' computers.  You must buy a "
 "sensor to participate."
 msgstr ""
+"Этот проект создаёт бесплатную, постоянно обновляемую карту уровней "
+"радиации, используя датчики, подключенные к компьютерам добровольцев.  Вы "
+"должны купить датчик для участия в проекте."
 
 #: projects.inc:33
 msgid ""
 "To participate in these projects you must buy a sensor and attach it to your "
 "computer."
 msgstr ""
+"Для участия в этих проектах Вы должны купить датчик и подключить его к "
+"своему компьютеру."
 
 #: projects.inc:37
 msgid "Cognitive science and artifical intelligence"
@@ -93,11 +100,11 @@ msgstr "Биология и Медицина"
 
 #: projects.inc:71
 msgid "University College Dublin"
-msgstr ""
+msgstr "Университетский Колледж Дублина"
 
 #: projects.inc:72
 msgid "Antimalarial drug discovery"
-msgstr ""
+msgstr "Поиск лекарств против малярии"
 
 #: projects.inc:73
 msgid ""
@@ -107,6 +114,11 @@ msgid ""
 "the parasite. The FightMalaria@Home project is aimed at finding these new "
 "targets."
 msgstr ""
+"Паразит, вызывающий малярию, продолжает увеличивать сопротивление доступным "
+"лекарствам. Поэтому нам крайне необходимо обнаружить новые лекарства для "
+"замены существующих. Важно, что эти новые лекарства должны быть нацелены на "
+"НОВЫЕ белки в паразите. Проект FightMalaria@Home нацелен на открытие таких "
+"новых мишеней."
 
 #: projects.inc:79
 msgid "University of Karlsruhe (Germany)"
@@ -312,9 +324,8 @@ msgstr ""
 
 # 75%
 #: projects.inc:188
-#, fuzzy
 msgid "Astronomy, Physics, and Chemistry"
-msgstr "Астрономия/Физика/Химия"
+msgstr "Астрономия, Физика, и Химия"
 
 #: projects.inc:209
 msgid "University of Texas at Austin"
@@ -348,9 +359,8 @@ msgstr ""
 
 # 95%
 #: projects.inc:224
-#, fuzzy
 msgid "University of Illinois at Urbana-Champaign"
-msgstr "Университет штата Иллинойс в Urbana-Chamapign"
+msgstr "Университет штата Иллинойс в Urbana-Champаign"
 
 #: projects.inc:225 projects.inc:233
 msgid "Astronomy"
@@ -451,6 +461,9 @@ msgid ""
 "LHC event physics simulation on volunteer computers.  Requires that you "
 "install VirtualBox on your computer"
 msgstr ""
+"Этот проект использует технологию виртуальных машин, разработанных в CERN, "
+"для моделирования физики полноценных событий LHC на компьютерах "
+"добровольцев.  Требуется установка VirtualBox на вашем компьютере"
 
 #: projects.inc:280
 msgid "University of California, Berkeley"
@@ -491,7 +504,7 @@ msgid ""
 "biotechnology."
 msgstr ""
 "Исследование молекулярных магнитов и контролируемого наноразмерного "
-"магнетизма. Эти магнитные молекулы могут использоваться для разработки "
+"магнетизма.  Эти магнитные молекулы могут использоваться для разработки "
 "крошечных магнитных выключателей, с применением в медицине (типа местной "
 "химиотерапии опухолей) и в биотехнологии."
 
@@ -563,7 +576,7 @@ msgstr "Исследования в физике, материаловедени
 
 #: projects.inc:341
 msgid "IBM Corporate Community Relations"
-msgstr "IBM Corporate Community Relations"
+msgstr "Сообщество Корпоративных Отношений IBM"
 
 #: projects.inc:342
 msgid "Humanitarian research on disease, natural disasters and hunger."
@@ -577,7 +590,7 @@ msgid ""
 msgstr ""
 "Cоздание самой большой в мире сети добровольных вычислений для дальнейшего "
 "серьезного некоммерческого исследования относительно некоторых из самых "
-"неотложных проблем человечества. Исследования включают ВИЧ/СПИД, рак, "
+"неотложных проблем человечества.  Исследования включают ВИЧ/СПИД, рак, "
 "мускульную дистрофию, лихорадку и многие другие."
 
 #: projects.inc:349
@@ -586,15 +599,15 @@ msgstr "Математика, информатика, и игры"
 
 #: projects.inc:355
 msgid "Computer Science"
-msgstr ""
+msgstr "Наука о компьютерах"
 
 #: projects.inc:363
 msgid "Mathematics, Physics, Artificial Intelligence"
-msgstr ""
+msgstr "Математика, Физика, Искусственный Интеллект"
 
 #: projects.inc:364
 msgid "Simulation of quantum computing; Goldbach's conjecture."
-msgstr ""
+msgstr "Моделирование квантовых компьютеров; предположение Гольдбаха."
 
 #: projects.inc:404 projects.inc:412 projects.inc:466
 msgid "Cryptography"
@@ -663,7 +676,7 @@ msgid ""
 msgstr ""
 "Целью данного проекта является предоставление мощной распределенной "
 "вычислительной платформы для ученых из Вильнюсского технического "
-"университета (ВГТУ), а также других литовских научных учреждений. Текущие "
+"университета (ВГТУ), а также других литовских научных учреждений.  Текущие "
 "приложения включают изучение тестирования программного обеспечения, "
 "основанного на методе Монте-Карло."
 
@@ -787,7 +800,7 @@ msgstr "История версий"
 
 #: download.php:126
 msgid "GPU computing"
-msgstr ""
+msgstr "Вычисления на графических процессорах"
 
 #: download.php:144
 msgid "BOINC: compute for science"
@@ -867,7 +880,7 @@ msgid ""
 "BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
 "or the University of California."
 msgstr ""
-"Помощники BOINC - это добровольцы, не получающие оплату. BOINC или "
+"Помощники BOINC - это добровольцы, не получающие оплату.  BOINC или "
 "Университет Калифорнии не несут ответственности за их советы."
 
 #: help_funcs.php:110
@@ -906,9 +919,8 @@ msgstr "В среднем за 24 часа:"
 
 # 80%
 #: index.php:55
-#, fuzzy
 msgid "PetaFLOPS."
-msgstr "терафлопс."
+msgstr "петафлопс."
 
 #: index.php:67
 msgid "News"
@@ -930,11 +942,11 @@ msgstr "Документация"
 
 #: index.php:87
 msgid "Add-ons"
-msgstr ""
+msgstr "Дополнения"
 
 #: index.php:88
 msgid "Links"
-msgstr ""
+msgstr "Ссылки"
 
 #: index.php:94
 #, php-format

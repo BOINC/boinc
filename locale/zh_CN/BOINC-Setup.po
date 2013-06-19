@@ -8,69 +8,73 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-03 18:11-0700\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2013-06-11 13:13+0200\n"
+"Last-Translator: Gang <zenith.yin@gmail.com>\n"
+"Language-Team: Team China <zenith.yin@gmail.com>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.9.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 2.1.6\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 #: Installer.cpp:120
 #, c-format
 msgid "Sorry, this version of %s requires system 10.4 or higher."
-msgstr ""
+msgstr "对不起，%s 要求 10.4 或更高的操作系统版本。"
 
 #: PostInstall.cpp:130
 msgid "Yes"
-msgstr ""
+msgstr "是"
 
 #: PostInstall.cpp:131
 msgid "No"
-msgstr ""
+msgstr "否"
 
 #: PostInstall.cpp:133
 msgid "Should BOINC run even when no user is logged in?"
-msgstr ""
+msgstr "是否允许 BOINC 在登录前运行？"
 
 #: PostInstall.cpp:1433
 #, c-format
 msgid ""
-"Users who are permitted to administer this computer will automatically be "
-"allowed to run and control %s.\n"
+"Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
 "\n"
-"Do you also want non-administrative users to be able to run and control %s "
-"on this Mac?"
+"Do you also want non-administrative users to be able to run and control %s on this Mac?"
 msgstr ""
+"有管理员权限的用户可以直接运行和控制 %s。\n"
+"\n"
+"你希望这台 Mac 上的非管理员用户也能运行和控制 %s 吗？"
 
 #: PostInstall.cpp:1461
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
-msgstr ""
+msgstr "是否将 %s 设置为这台 Mac 上所有 %s 用户的屏保？"
 
 #: uninstall.cpp:71
 msgid "OK"
-msgstr ""
+msgstr "确定"
 
 #: uninstall.cpp:72
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: uninstall.cpp:73
 msgid "Continue..."
-msgstr ""
+msgstr "继续..."
 
 #: uninstall.cpp:89
 msgid "Permission error after relaunch"
-msgstr ""
+msgstr "重启后出现了权限错误"
 
 #: uninstall.cpp:93
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
 msgstr ""
+"卸载可能需要几分钟。\n"
+"请稍等。"
 
 #: uninstall.cpp:133
 #, c-format
@@ -79,16 +83,19 @@ msgid ""
 "\n"
 "This will remove the executables but will not touch %s data files."
 msgstr ""
+"你确定要从计算机上完全移除 %s 吗？\n"
+"\n"
+"本操作将移除所有可执行文件但不会处理 %s 的数据文件。"
 
 #: uninstall.cpp:142
 #, c-format
 msgid "Canceled: %s has not been touched."
-msgstr ""
+msgstr "已取消：未对%s进行任何操作。"
 
 #: uninstall.cpp:151
 #, c-format
 msgid "An error occurred: error code %d"
-msgstr ""
+msgstr "发生错误：错误代码为 %d"
 
 #: uninstall.cpp:153
 msgid ""
@@ -100,11 +107,19 @@ msgid ""
 "for each user, the file\n"
 "\"/Users/[username]/Library/Preferences/BOINC Manager Preferences\"."
 msgstr ""
+"移除操作已完成。\n"
+"\n"
+"你也许还想使用 Finder 将剩余的一些内容也移除：\n"
+"\"/Library/Application Support/BOINC Data\" 目录\n"
+"\n"
+"对于每一位用户，还有如下文件：\n"
+"\"/Users/[username]/Library/Preferences/BOINC Manager Preferences\"."
 
 #: uninstall.cpp:686
 #, c-format
 msgid ""
-"Enter your administrator password to completely remove %s from you "
-"computer.\n"
+"Enter your administrator password to completely remove %s from you computer.\n"
 "\n"
 msgstr ""
+"要从系统中完全移除 %s 需要输入你的管理员口令。\n"
+"\n"

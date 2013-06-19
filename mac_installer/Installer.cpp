@@ -40,26 +40,35 @@
 
 void Initialize(void);	/* function prototypes */
 Boolean IsUserMemberOfGroup(const char *userName, const char *groupName);
-OSStatus GetFinalAction(CFStringRef *restartValue);
+Boolean IsRestartNeeded();
+void GetPreferredLanguages();
 OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN);
 static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
 void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
 
-/* BEGIN TEMPORARY ITEM TO ALLOW TRANSLATORS TO START WORK */
+// We can't use translation because the translation catalogs
+// have not yet been installed when this application is run.
 #define _(x) x
-/* END TEMPORARY ITEM TO ALLOW TRANSLATORS TO START WORK */
+
+#define MAX_LANGUAGES_TO_TRY 5
+
+static char * Catalog_Name = (char *)"BOINC-Setup";
+static char * Catalogs_Dir = (char *)"/Library/Application Support/BOINC Data/locale/";
 
 Boolean			gQuitFlag = false;	/* global */
 
+#if 0
 CFStringRef     valueRestartRequired = CFSTR("RequiredRestart");
 CFStringRef     valueLogoutRequired = CFSTR("RequiredLogout");
 CFStringRef     valueNoRestart = CFSTR("NoRestart");
-
+#endif
 
 int main(int argc, char *argv[])
 {
-    char                    pkgPath[MAXPATHLEN], infoPlistPath[MAXPATHLEN], MetaPkgPath[MAXPATHLEN];
+    char                    pkgPath[MAXPATHLEN], pkgRestartPath[MAXPATHLEN];
+    char                    infoPlistPath[MAXPATHLEN];
+    char                    MetaPkgPath[MAXPATHLEN], MetaPkgRestartPath[MAXPATHLEN];
     char                    brand[64], s[256];
     char                    *p;
     ProcessSerialNumber     ourPSN, installerPSN;
@@ -67,17 +76,10 @@ int main(int argc, char *argv[])
     long                    response;
     short                   itemHit;
     pid_t                   installerPID = 0;
-    FSRef                   infoPlistFileRef;
-    Boolean                 isDirectory, result;
-    CFURLRef                xmlURL = NULL;
-    CFDataRef               xmlDataIn = NULL;
-    CFDataRef               xmlDataOut = NULL;
-    CFPropertyListRef       propertyListRef = NULL;
-    CFStringRef             restartKey = CFSTR("IFPkgFlagRestartAction");
-    CFStringRef             currentValue = NULL, desiredValue = NULL;
-    CFStringRef             errorString = NULL;
     OSStatus                err = noErr;
     struct stat             stat_buf;
+    Boolean                 restartNeeded = true;
+    FILE                    *restartNeededFile;
 
     Initialize();
 
@@ -109,6 +111,13 @@ int main(int argc, char *argv[])
 
     strlcpy(MetaPkgPath, pkgPath, sizeof(MetaPkgPath));
     strlcat(MetaPkgPath, "+VirtualBox.mpkg", sizeof(MetaPkgPath));
+    
+    strlcpy(MetaPkgRestartPath, pkgPath, sizeof(MetaPkgRestartPath));
+    strlcat(MetaPkgRestartPath, " + VirtualBox.mpkg", sizeof(MetaPkgRestartPath));
+    
+    strlcpy(pkgRestartPath, pkgPath, sizeof(MetaPkgPath));
+    strlcat(pkgRestartPath, ".mpkg", sizeof(pkgPath));
+    
     strlcat(pkgPath, ".pkg", sizeof(pkgPath));
     err = Gestalt(gestaltSystemVersion, &response);
     if (err != noErr)
@@ -132,82 +141,35 @@ int main(int argc, char *argv[])
     }
 
     // Remove previous installer package receipt so we can run installer again
+    // (affects only older versions of OS X and fixes a bug in those versions)
     // "rm -rf /Library/Receipts/GridRepublic.pkg"
     sprintf(s, "rm -rf \"/Library/Receipts/%s.pkg\"", brand);
     system (s);
 
+    restartNeeded = IsRestartNeeded();
+    
+    // Write a temp file to tell our PostInstall.app whether restart is needed
+    restartNeededFile = fopen("/tmp/BOINC_restart_flag", "w");
+    if (restartNeededFile) {
+        fputs(restartNeeded ? "1\n" : "0\n", restartNeededFile);
+        fclose(restartNeededFile);
+    }
+    
     err = Gestalt(gestaltSystemVersion, &response);
     if (err != noErr)
         return err;
     
-    err = GetFinalAction(&desiredValue);
-    
-    strlcpy(infoPlistPath, pkgPath, sizeof(infoPlistPath));
-    strlcat(infoPlistPath, "/Contents/Info.plist", sizeof(infoPlistPath));
-
-    err = FSPathMakeRef((UInt8*)infoPlistPath, &infoPlistFileRef, &isDirectory);
-    if (err)
-        return err;
-        
-    xmlURL = CFURLCreateFromFSRef(NULL, &infoPlistFileRef);
-    if (xmlURL == NULL)
-        return -1;
-
-    // Read XML Data from file
-    result = CFURLCreateDataAndPropertiesFromResource(NULL, xmlURL, &xmlDataIn, NULL, NULL, &err);
-    if (err == noErr)
-        if (!result)
-            err = coreFoundationUnknownErr;
-	
-    if (err == noErr) { // Convert XML Data to internal CFPropertyListRef / CFDictionaryRef format
-        propertyListRef = CFPropertyListCreateFromXMLData(NULL, xmlDataIn, kCFPropertyListMutableContainersAndLeaves, &errorString);
-        if (propertyListRef == NULL)
-            err = coreFoundationUnknownErr;
-    }
-    
-    if (err == noErr) { // Get current value for our key
-        currentValue = (CFStringRef)CFDictionaryGetValue((CFDictionaryRef)propertyListRef, restartKey);
-        if (currentValue == NULL)
-            err = coreFoundationUnknownErr;
-    }    
-    
-    if (err == noErr) {
-        if (CFStringCompare(currentValue, desiredValue, 0) != kCFCompareEqualTo) {  // If current value != desired value
-            // Replace value for key with desired value
-            CFDictionaryReplaceValue((CFMutableDictionaryRef)propertyListRef, restartKey, desiredValue);
-
-            // Convert internal CFPropertyListRef / CFDictionaryRef format to XML data
-            xmlDataOut = CFPropertyListCreateXMLData(NULL, propertyListRef);
-            if (xmlDataOut == NULL)
-                err = coreFoundationUnknownErr;
-
-            if (err == noErr) { // Write revised XML Data back to the file
-                result = CFURLWriteDataAndPropertiesToResource (xmlURL, xmlDataOut, NULL, &err);
-                if (err == noErr)
-                    if (!result)
-                        err = coreFoundationUnknownErr;
-            }
-        }
-    } 
-   
-    if (xmlURL)
-        CFRelease(xmlURL);
-    if (xmlDataIn)
-        CFRelease(xmlDataIn);
-    if (xmlDataOut)
-        CFRelease(xmlDataOut);
-    if (propertyListRef)
-        CFRelease(propertyListRef);
-
     if (err == noErr) {
         if ((response < 0x1050) || stat(MetaPkgPath, &stat_buf)) {  // stat() returns zero on success
-            sprintf(infoPlistPath, "open \"%s\" &", pkgPath);
+            sprintf(infoPlistPath, "open \"%s\" &", restartNeeded ? pkgRestartPath : pkgPath);
         } else {
-            sprintf(infoPlistPath, "open \"%s\" &", MetaPkgPath);
+            sprintf(infoPlistPath, "open \"%s\" &", restartNeeded ? MetaPkgRestartPath : MetaPkgPath);
         }
         system(infoPlistPath);
     }
 
+    GetPreferredLanguages();
+    
     return err;
 }
 
@@ -234,7 +196,7 @@ Boolean IsUserMemberOfGroup(const char *userName, const char *groupName) {
 }
 
 
-OSStatus GetFinalAction(CFStringRef *restartValue)
+Boolean IsRestartNeeded()
 {
     passwd          *pw = NULL;
     group           *grp = NULL;
@@ -244,61 +206,58 @@ OSStatus GetFinalAction(CFStringRef *restartValue)
     long            response;
     char            loginName[256];
     
-    *restartValue = valueRestartRequired;
-
     grp = getgrnam(boinc_master_group_name);
     if (grp == NULL)
-        return noErr;       // Group boinc_master does not exist
+        return true;       // Group boinc_master does not exist
 
     boinc_master_gid = grp->gr_gid;
         
     grp = getgrnam(boinc_project_group_name);
     if (grp == NULL)
-        return noErr;       // Group boinc_project does not exist
+        return true;       // Group boinc_project does not exist
 
     boinc_project_gid = grp->gr_gid;
 
     pw = getpwnam(boinc_master_user_name);
     if (pw == NULL)
-        return noErr;       // User boinc_master does not exist
+        return true;       // User boinc_master does not exist
 
     boinc_master_uid = pw->pw_uid;
 
     if (pw->pw_gid != boinc_master_gid)
-        return noErr;       // User boinc_master does not have group boinc_master as its primary group
+        return true;       // User boinc_master does not have group boinc_master as its primary group
     
     pw = getpwnam(boinc_project_user_name);
     if (pw == NULL)
-        return noErr;       // User boinc_project does not exist
+        return true;       // User boinc_project does not exist
 
     boinc_project_uid = pw->pw_uid;
         
     if (pw->pw_gid != boinc_project_gid)
-        return noErr;       // User boinc_project does not have group boinc_project as its primary group
+        return true;       // User boinc_project does not have group boinc_project as its primary group
 
     err = Gestalt(gestaltSystemVersion, &response);
     if ((err == noErr) && (response >= 0x1050)) {
         if (boinc_master_gid < 501)
-            return noErr;       // We will change boinc_master_gid to a value > 501
+            return true;       // We will change boinc_master_gid to a value > 501
         if (boinc_project_gid < 501)
-            return noErr;       // We will change boinc_project_gid to a value > 501
+            return true;       // We will change boinc_project_gid to a value > 501
         if (boinc_master_uid < 501)
-            return noErr;       // We will change boinc_master_uid to a value > 501
+            return true;       // We will change boinc_master_uid to a value > 501
         if (boinc_project_uid < 501)
-            return noErr;       // We will change boinc_project_uid to a value > 501
+            return true;       // We will change boinc_project_uid to a value > 501
 }
     
     #ifdef SANDBOX
     strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
     if (loginName[0]) {
         if (IsUserMemberOfGroup(loginName, boinc_master_group_name)) {
-            *restartValue = valueNoRestart;
-            return noErr;   // Logged in user is already a member of group boinc_master
+            return false;   // Logged in user is already a member of group boinc_master
         }
     }
 #endif  // SANDBOX
 
-    return noErr;
+    return true;
 }
 
 
@@ -311,6 +270,113 @@ void Initialize()	/* Initialize some managers */
     err = AEInstallEventHandler( kCoreEventClass, kAEQuitApplication, NewAEEventHandlerUPP((AEEventHandlerProcPtr)QuitAppleEventHandler), 0, false );
     if (err != noErr)
         ExitToShell();
+}
+
+
+// Because language preferences are set on a per-user basis, we
+// must get the preferred languages while set to the current 
+// user, before the Apple Installer switches us to root.
+// So we get the preferred languages here and write them to a
+// temporary file to be retrieved by our PostInstall app.
+void GetPreferredLanguages() {
+    DIR *dirp;
+    struct dirent *dp;
+    char searchPath[MAXPATHLEN];
+    struct stat sbuf;
+    CFMutableArrayRef supportedLanguages;
+    CFStringRef aLanguage;
+    CFArrayRef preferredLanguages;
+    int i, j, k;
+    char * language;
+    FILE *f;
+
+    // Create an array of all our supported languages
+    supportedLanguages = CFArrayCreateMutable(NULL, 100, NULL);
+    
+    aLanguage = CFStringCreateWithCString(NULL, "en", kCFStringEncodingMacRoman);
+    CFArrayAppendValue(supportedLanguages, aLanguage);
+    CFRelease(aLanguage);
+    aLanguage = NULL;
+
+    dirp = opendir(Catalogs_Dir);
+    while (true) {
+        dp = readdir(dirp);
+        if (dp == NULL)
+            break;                  // End of list
+
+        if (dp->d_name[0] == '.')
+            continue;               // Ignore names beginning with '.'
+
+        strlcpy(searchPath, Catalogs_Dir, sizeof(searchPath));
+        strlcat(searchPath, dp->d_name, sizeof(searchPath));
+        strlcat(searchPath, "/", sizeof(searchPath));
+        strlcat(searchPath, Catalog_Name, sizeof(searchPath));
+        strlcat(searchPath, ".mo", sizeof(searchPath));
+        if (stat(searchPath, &sbuf) != 0) continue;
+//        printf("Adding %s to supportedLanguages array\n", dp->d_name);
+        aLanguage = CFStringCreateWithCString(NULL, dp->d_name, kCFStringEncodingMacRoman);
+        CFArrayAppendValue(supportedLanguages, aLanguage);
+        CFRelease(aLanguage);
+        aLanguage = NULL;
+    }
+    
+    closedir(dirp);
+
+    // Write a temp file to tell our PostInstall.app our preferred languages
+    f = fopen("/tmp/BOINC_preferred_languages", "w");
+
+    for (i=0; i<MAX_LANGUAGES_TO_TRY; ++i) {
+    
+        preferredLanguages = CFBundleCopyLocalizationsForPreferences(supportedLanguages, NULL );
+        
+#if 0   // For testing
+        int c = CFArrayGetCount(preferredLanguages);
+        for (k=0; k<c; ++k) {
+        CFStringRef s = (CFStringRef)CFArrayGetValueAtIndex(preferredLanguages, k);
+            printf("Preferred language %u is %s\n", k, CFStringGetCStringPtr(s, kCFStringEncodingMacRoman));
+        }
+
+#endif
+
+        for (j=0; j<CFArrayGetCount(preferredLanguages); ++j) {
+            aLanguage = (CFStringRef)CFArrayGetValueAtIndex(preferredLanguages, j);
+            language = (char *)CFStringGetCStringPtr(aLanguage, kCFStringEncodingMacRoman);
+            if (f) {
+                fprintf(f, "%s\n", language);
+            }
+            
+            // Remove this language from our list of supported languages so
+            // we can get the next preferred language in order of priority
+            for (k=0; k<CFArrayGetCount(supportedLanguages); ++k) {
+                if (CFStringCompare(aLanguage, (CFStringRef)CFArrayGetValueAtIndex(supportedLanguages, k), 0) == kCFCompareEqualTo) {
+                    CFArrayRemoveValueAtIndex(supportedLanguages, k);
+                    break;
+                }
+            }
+
+            // Since the original strings are English, no 
+            // further translation is needed for language en.
+            if (!strcmp(language, "en")) {
+                fclose(f);
+                CFRelease(preferredLanguages);
+                preferredLanguages = NULL;
+                CFArrayRemoveAllValues(supportedLanguages);
+                CFRelease(supportedLanguages);
+                supportedLanguages = NULL;
+                return;
+            }
+        }
+        
+        CFRelease(preferredLanguages);
+        preferredLanguages = NULL;
+
+    }
+
+    fclose(f);
+
+    CFArrayRemoveAllValues(supportedLanguages);
+    CFRelease(supportedLanguages);
+    supportedLanguages = NULL;
 }
 
 

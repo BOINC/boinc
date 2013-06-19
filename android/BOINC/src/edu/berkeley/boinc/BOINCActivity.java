@@ -345,10 +345,10 @@ public class BOINCActivity extends TabActivity {
 			case R.id.run_mode:
 				if(item.getTitle().equals(getApplication().getString(R.string.menu_run_mode_disable))) {
 					if(Logging.DEBUG) Log.d(Logging.TAG,"run mode: disable");
-					new WriteClientRunModeAsync().execute(BOINCDefs.RUN_MODE_NEVER);
+					new WriteClientModeAsync().execute(BOINCDefs.RUN_MODE_NEVER);
 				} else if (item.getTitle().equals(getApplication().getString(R.string.menu_run_mode_enable))) {
 					if(Logging.DEBUG) Log.d(Logging.TAG,"run mode: enable");
-					new WriteClientRunModeAsync().execute(BOINCDefs.RUN_MODE_AUTO);
+					new WriteClientModeAsync().execute(BOINCDefs.RUN_MODE_AUTO);
 				} else if(Logging.DEBUG) Log.d(Logging.TAG,"run mode: unrecognized command");
 				return true;
 			case R.id.event_log:
@@ -370,17 +370,20 @@ public class BOINCActivity extends TabActivity {
 		}
 	}
 	
-	private final class WriteClientRunModeAsync extends AsyncTask<Integer, Void, Boolean> {
+	private final class WriteClientModeAsync extends AsyncTask<Integer, Void, Boolean> {
 		
 		@Override
 		protected Boolean doInBackground(Integer... params) {
-			return monitor.setRunMode(params[0]);
+			// setting provided mode for both, CPU computation and network.
+			Boolean runMode = monitor.setRunMode(params[0]);
+			Boolean networkMode = monitor.setNetworkMode(params[0]);
+			return runMode && networkMode;
 		}
 		
 		@Override
 		protected void onPostExecute(Boolean success) {
 			if(success) monitor.forceRefresh();
-			else if(Logging.WARNING) Log.w(Logging.TAG,"setting run mode failed");
+			else if(Logging.WARNING) Log.w(Logging.TAG,"setting run and network mode failed");
 		}
 	}
 }

@@ -524,7 +524,7 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
     // non-standard progress indicator on Mac?  See also optimizations in 
     // CSimpleGUIPanel::OnEraseBackground and CSimpleTaskPanel::OnEraseBackground.
     m_ProgressBar = new wxGauge( this, wxID_ANY, 100, wxDefaultPosition, wxDefaultSize, wxGA_HORIZONTAL );
-    m_iPctDoneX10 = 1000;
+    m_ipctDoneX1000 = 100000;
     m_ProgressBar->SetValue( 100 );
     GetTextExtent(wxT("0"), &w, &h);
     m_ProgressBar->SetMinSize(wxSize(245, h));
@@ -621,8 +621,8 @@ void CSimpleTaskPanel::UpdatePanel(bool delayShow) {
             m_SlideShowArea->Hide();
             m_ElapsedTimeValue->Hide();
             m_TimeRemainingValue->Hide();
-            if (m_iPctDoneX10 >= 0) {
-                m_iPctDoneX10 = -1;
+            if (m_ipctDoneX1000 >= 0) {
+                m_ipctDoneX1000 = -1;
                 m_ProgressBar->Hide();
             }
             m_ProgressValueText->Hide();
@@ -697,14 +697,16 @@ void CSimpleTaskPanel::UpdatePanel(bool delayShow) {
 //                f = result->final_elapsed_time;
                 UpdateStaticText(&m_ElapsedTimeValue, GetElapsedTimeString(f));
                 UpdateStaticText(&m_TimeRemainingValue, GetTimeRemainingString(result->estimated_cpu_time_remaining));
-                int pctDoneX10 = result->fraction_done * 1000.0;
-                if (m_iPctDoneX10 != pctDoneX10) {
-                    int pctDone = pctDoneX10 / 10;
-                    if (m_iPctDoneX10 != (pctDone * 10)) {
+                // fraction_done ranges from 0.0 to 1.0 so % done = fraction_done * 100.
+                int pctDoneX1000 = result->fraction_done * 100000.0;
+                // Update progress only if visible part has changed (xx.xxx)
+                if (m_ipctDoneX1000 != pctDoneX1000) {
+                    int pctDone = pctDoneX1000 / 1000;
+                    if (m_ipctDoneX1000 != (pctDone * 1000)) {
                         m_ProgressBar->SetValue(pctDone);
                     }
                     s.Printf(_("%.3f%%"), result->fraction_done*100);
-                    m_iPctDoneX10 = pctDoneX10;
+                    m_ipctDoneX1000 = pctDoneX1000;
                     UpdateStaticText(&m_ProgressValueText, s);
                 }
                 UpdateStaticText(&m_StatusValueText, GetStatusString(result));
@@ -715,8 +717,8 @@ void CSimpleTaskPanel::UpdatePanel(bool delayShow) {
 #endif  // SELECTBYRESULTNAME
                 UpdateStaticText(&m_ElapsedTimeValue, GetElapsedTimeString(-1.0));
                 UpdateStaticText(&m_TimeRemainingValue, GetTimeRemainingString(-1.0));
-                if (m_iPctDoneX10 >= 0) {
-                    m_iPctDoneX10 = -1;
+                if (m_ipctDoneX1000 >= 0) {
+                    m_ipctDoneX1000 = -1;
                     m_ProgressBar->Hide();
                 }
                 UpdateStaticText(&m_ProgressValueText, wxEmptyString);

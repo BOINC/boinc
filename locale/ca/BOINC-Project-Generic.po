@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2013-06-05 22:50+0200\n"
+"PO-Revision-Date: 2013-06-07 22:58+0200\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -1431,7 +1431,7 @@ msgstr "Validació pendent"
 
 #: ../inc/result.inc:108
 msgid "Validation inconclusive"
-msgstr ""
+msgstr "Validació no finalitzada"
 
 #: ../inc/result.inc:109 ../inc/result.inc:259
 msgid "Valid"
@@ -1491,7 +1491,7 @@ msgstr "Cancel·lat pel servidor"
 
 #: ../inc/result.inc:190
 msgid "Not started by deadline - canceled"
-msgstr ""
+msgstr "No s'ha iniciat per superar-se la data límit - cancel·lat"
 
 #: ../inc/result.inc:193
 msgid "Error while downloading"
@@ -2093,9 +2093,8 @@ msgstr "Utilitzat en funcions comunitàries"
 
 # 91%
 #: ../inc/user.inc:217 ../user/weak_auth.php:25
-#, fuzzy
 msgid "Account keys"
-msgstr "Clau del compte"
+msgstr "Claus del compte"
 
 #: ../inc/user.inc:222
 msgid "Preferences"
@@ -2212,15 +2211,15 @@ msgstr "Afegir com amic"
 
 #: ../inc/user.inc:446
 msgid "user name cannot have leading or trailing white space"
-msgstr ""
+msgstr "el nom d'usuari no pot tenir espais en blanc al principi o al final"
 
 #: ../inc/user.inc:450
 msgid "user name must be nonempty"
-msgstr ""
+msgstr "no es pot deixar en blanc el nom d'usuari"
 
 #: ../inc/user.inc:454
 msgid "user name may not contain HTML tags"
-msgstr ""
+msgstr "el nom d'usuari no pot contenir etiquetes HTML"
 
 #: ../inc/util.inc:122
 msgid "log out"
@@ -2545,6 +2544,9 @@ msgid ""
 "NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
 "select Add Project, and enter an email address and password."
 msgstr ""
+"NOTA: Si utilitzeu l'Administrador de BOINC, no utilitzeu aquest formulari. "
+"Executa BOINC, selecciona Afegir un projecte i escriviu una adreça de correu "
+"electrònic i contrasenya."
 
 #: ../user/create_account_form.php:69
 msgid ""
@@ -3160,7 +3162,7 @@ msgstr "Ressaltar usuaris especials"
 
 #: ../user/edit_forum_preferences_form.php:135
 msgid "Display this many messages per page"
-msgstr ""
+msgstr "Veure aquesta quantitat de missatges per pàgina"
 
 #: ../user/edit_forum_preferences_form.php:139
 msgid "How to sort"
@@ -3180,7 +3182,7 @@ msgstr "Anar al primer missatge nou en el fil de forma automàtica"
 
 #: ../user/edit_forum_preferences_form.php:142
 msgid "Don't move sticky posts to top"
-msgstr ""
+msgstr "No moure els missatges fixats amunt"
 
 #: ../user/edit_forum_preferences_form.php:148
 msgid "Message filtering"
@@ -4061,9 +4063,8 @@ msgstr "Informe Registrat"
 
 # 92%
 #: ../user/forum_report_post.php:66
-#, fuzzy
 msgid "Your report has been recorded. Thanks for your input."
-msgstr "El seu informe ha estat enregistrat. Mercés per la seva aportació."
+msgstr "El seu informe ha estat enregistrat. Mercès per la seva aportació."
 
 #: ../user/forum_report_post.php:67
 msgid ""
@@ -5431,6 +5432,10 @@ msgid ""
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
+"Les teves preferències s'ha restablert als valors predeterminats, i\n"
+"          es faran efectius quan l'equip es comuniqui amb %1\n"
+"          o executis el comando %2 Actualitzar%3 des de l'Administrador de "
+"BOINC."
 
 #: ../user/prefs_edit.php:65 ../user/prefs_edit.php:93
 msgid "%1 for %2"
@@ -6704,7 +6709,7 @@ msgstr "En un equip?"
 
 #: ../user/user_search.php:66
 msgid "Ordering"
-msgstr ""
+msgstr "Ordenar"
 
 #: ../user/user_search.php:67
 msgid "Decreasing sign-up time"
@@ -6822,14 +6827,18 @@ msgid ""
 "    or by using an assigned 'account key'.\n"
 "    Your account key is:"
 msgstr ""
+"Vostè pot accedir al seu compte, ja sigui per l'ús del seu correu electrònic "
+"i contrasenya,\n"
+"    o mitjançant l'ús de la 'clau de compte' assignada.\n"
+"    La seva clau de compte és:"
 
 #: ../user/weak_auth.php:57
 msgid "This key can be used to:"
-msgstr ""
+msgstr "Aquesta clau es pot utilitzar per:"
 
 #: ../user/weak_auth.php:59
 msgid "log in to your account on the web"
-msgstr ""
+msgstr "entra al teu compte a la web"
 
 #: ../user/weak_auth.php:61
 msgid ""
@@ -6838,6 +6847,11 @@ msgid ""
 "       create a file named %1 in the BOINC\n"
 "       data directory, and set its contents to:"
 msgstr ""
+"per connectar un ordinador al seu compte sense necessitat d'utilitzar "
+"l'Administrador de BOINC.\n"
+"       Per a això, instal·lar BOINC,\n"
+"       crear un arxiu anomenat %1 al BOINC\n"
+"       directori de dades, i establir el seu contingut a:"
 
 #: ../user/weak_auth.php:73
 msgid "Weak account key"
@@ -6852,12 +6866,22 @@ msgid ""
 "    do so using your weak account key.\n"
 "    Your weak account key is:"
 msgstr ""
+"La teva 'clau de compte feble' es pot utilitzar per connectar ordinadors al "
+"teu compte\n"
+"    com es descriu més amunt, però no es pot utilitzar per iniciar sessió al "
+"teu compte o canviar-lo de cap manera.\n"
+"    Si vols connectar ordinadors no són de confiança o insegurs al teu "
+"compte,\n"
+"    fes-ho amb la teva clau de compte feble.\n"
+"    La teva clau de compte feble és:"
 
 #: ../user/weak_auth.php:81
 msgid ""
 "If you change your password, your weak account key changes, and your "
 "previous weak account key becomes invalid."
 msgstr ""
+"Si canvies la contrasenya, la teva clau de compte febles canvia, i "
+"l'anterior deixarà de ser vàlida."
 
 #: ../user/workunit.php:32
 msgid "can't find workunit"

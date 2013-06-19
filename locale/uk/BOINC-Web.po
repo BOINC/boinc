@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-06-05 10:25 PDT\n"
-"PO-Revision-Date: 2013-05-31 22:23+0200\n"
+"PO-Revision-Date: 2013-06-09 22:05+0200\n"
 "Last-Translator: Олег <pukish_oleg@ukr.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: uk\n"
@@ -21,17 +21,16 @@ msgstr ""
 
 #: projects.inc:14
 msgid "Distributed sensing"
-msgstr ""
+msgstr "Розподілена мережа датчиків"
 
 # 78%
 #: projects.inc:19
-#, fuzzy
 msgid "Stanford University"
-msgstr "Оксфордський Університет"
+msgstr "Стенфордський університет"
 
 #: projects.inc:20
 msgid "Seismology"
-msgstr ""
+msgstr "Сейсмологія"
 
 #: projects.inc:21
 msgid ""
@@ -39,14 +38,17 @@ msgid ""
 "using sensors attached to Internet-connected computers.  You must buy a "
 "sensor to participate."
 msgstr ""
+"Quake-Catcher Network розвиває найбільшу у світі сейсмічну мережу, "
+"використовуючи датчики, які підключені до комп’ютерів з виходом в Інтернет. "
+" Ви повинні купити датчик для участі в проекті."
 
 #: projects.inc:27
 msgid "BOINC Poland Foundation"
-msgstr ""
+msgstr "Польський фонд BOINC"
 
 #: projects.inc:28
 msgid "Environmental research"
-msgstr ""
+msgstr "Дослідження навколишнього середовища"
 
 #: projects.inc:29
 msgid ""
@@ -54,12 +56,17 @@ msgid ""
 "levels by using sensors connected to volunteers' computers.  You must buy a "
 "sensor to participate."
 msgstr ""
+"Цей проект створює безкоштовну постійно оновлювану карту рівнів радіації, "
+"використовуючи датчики, підключені до комп’ютерів добровольців.  Ви повинні "
+"купити датчик для участі в проекті."
 
 #: projects.inc:33
 msgid ""
 "To participate in these projects you must buy a sensor and attach it to your "
 "computer."
 msgstr ""
+"Для участі в цих проектах Ви повинні купити датчик і підключити його до "
+"свого комп’ютера."
 
 #: projects.inc:37
 msgid "Cognitive science and artifical intelligence"
@@ -94,11 +101,11 @@ msgstr "Біологія та медицина"
 
 #: projects.inc:71
 msgid "University College Dublin"
-msgstr ""
+msgstr "Університетський коледж у Дубліні"
 
 #: projects.inc:72
 msgid "Antimalarial drug discovery"
-msgstr ""
+msgstr "Пошук ліків від малярії"
 
 #: projects.inc:73
 msgid ""
@@ -108,6 +115,10 @@ msgid ""
 "the parasite. The FightMalaria@Home project is aimed at finding these new "
 "targets."
 msgstr ""
+"Паразит, який викликає малярію, продовжує посилювати супротив доступним "
+"лікам. Тому нам вкрай необхідно виявити нові ліки для заміни існуючих. "
+"Важливо, що ці нові ліки повинні бути націленими на НОВІ білки в паразиті. "
+"Проект FightMalaria@Home має за мету відкриття таких нових мішеней."
 
 #: projects.inc:79
 msgid "University of Karlsruhe (Germany)"
@@ -309,9 +320,8 @@ msgstr ""
 
 # 75%
 #: projects.inc:188
-#, fuzzy
 msgid "Astronomy, Physics, and Chemistry"
-msgstr "Астрономія/Фізика/Хімія"
+msgstr "Астрономія, фізика і хімія"
 
 #: projects.inc:209
 msgid "University of Texas at Austin"
@@ -447,6 +457,9 @@ msgid ""
 "LHC event physics simulation on volunteer computers.  Requires that you "
 "install VirtualBox on your computer"
 msgstr ""
+"Цей проект використовує технологію віртуальних машин, розроблених у CERN, "
+"для моделювання фізики повноцінних подій ВАК на комп’ютерах добровольців.  "
+"Необхідне встановлення VirtualBox на Вашому комп’ютері"
 
 #: projects.inc:280
 msgid "University of California, Berkeley"
@@ -581,15 +594,15 @@ msgstr "Математика, програмування та ігри."
 
 #: projects.inc:355
 msgid "Computer Science"
-msgstr ""
+msgstr "Наука про комп’ютери"
 
 #: projects.inc:363
 msgid "Mathematics, Physics, Artificial Intelligence"
-msgstr ""
+msgstr "Математика, фізика, штучний інтелект"
 
 #: projects.inc:364
 msgid "Simulation of quantum computing; Goldbach's conjecture."
-msgstr ""
+msgstr "Моделювання квантових комп’ютерів; гіпотеза Гольдбаха."
 
 #: projects.inc:404 projects.inc:412 projects.inc:466
 msgid "Cryptography"
@@ -777,7 +790,7 @@ msgstr "Історія версій"
 
 #: download.php:126
 msgid "GPU computing"
-msgstr ""
+msgstr "Обчислення за допомогою графічних процесорів"
 
 #: download.php:144
 msgid "BOINC: compute for science"
@@ -895,9 +908,8 @@ msgstr "В середньому за 24 години:"
 
 # 80%
 #: index.php:55
-#, fuzzy
 msgid "PetaFLOPS."
-msgstr "терафлопс."
+msgstr "петафлопс."
 
 #: index.php:67
 msgid "News"
@@ -917,11 +929,11 @@ msgstr "Документація"
 
 #: index.php:87
 msgid "Add-ons"
-msgstr ""
+msgstr "Доповнення"
 
 #: index.php:88
 msgid "Links"
-msgstr ""
+msgstr "Посилання"
 
 #: index.php:94
 #, php-format

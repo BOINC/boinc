@@ -598,6 +598,46 @@ const char* battery_state_string(int state) {
     return "unknown";
 }
 
+const char* result_client_state_string(int state) {
+    switch (state) {
+    case RESULT_NEW: return "new";
+    case RESULT_FILES_DOWNLOADING: return "downloading";
+    case RESULT_FILES_DOWNLOADED: return "downloaded";
+    case RESULT_COMPUTE_ERROR: return "compute error";
+    case RESULT_FILES_UPLOADING: return "uploading";
+    case RESULT_FILES_UPLOADED: return "uploaded";
+    case RESULT_ABORTED: return "aborted";
+    case RESULT_UPLOAD_FAILED: return "upload failed";
+    }
+    return "unknown";
+}
+
+const char* result_scheduler_state_string(int state) {
+    switch (state) {
+    case CPU_SCHED_UNINITIALIZED: return "uninitialized";
+    case CPU_SCHED_PREEMPTED: return "preempted";
+    case CPU_SCHED_SCHEDULED: return "scheduled";
+    }
+    return "unknown";
+}
+
+const char* active_task_state_string(int state) {
+    switch (state) {
+    case PROCESS_UNINITIALIZED: return "UNINITIALIZED";
+    case PROCESS_EXECUTING: return "EXECUTING";
+    case PROCESS_SUSPENDED: return "SUSPENDED";
+    case PROCESS_ABORT_PENDING: return "ABORT_PENDING";
+    case PROCESS_EXITED: return "EXITED";
+    case PROCESS_WAS_SIGNALED: return "WAS_SIGNALED";
+    case PROCESS_EXIT_UNKNOWN: return "EXIT_UNKNOWN";
+    case PROCESS_ABORTED: return "ABORTED";
+    case PROCESS_COULDNT_START: return "COULDNT_START";
+    case PROCESS_QUIT_PENDING: return "QUIT_PENDING";
+    case PROCESS_COPY_PENDING: return "COPY_PENDING";
+    }
+    return "Unknown";
+}
+
 // string substitution:
 // haystack is the input string
 // out is the output buffer

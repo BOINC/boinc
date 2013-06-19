@@ -55,7 +55,7 @@ public class AttachProjectLoginActivity extends Activity{
 	private Monitor monitor;
 	private Boolean mIsBound = false;
 	
-	private String url;
+	private String url = "";
 	private ProjectInfo projectInfo;
 	private Boolean projectInfoPresent = false; // complete ProjectInfo available, if selection from list
 	private ProjectConfig projectConfig;
@@ -67,7 +67,7 @@ public class AttachProjectLoginActivity extends Activity{
 	        monitor = ((Monitor.LocalBinder)service).getService();
 		    mIsBound = true;
 		    
-		    (new GetProjectConfig()).execute((Void[]) null);
+		    (new GetProjectConfig()).execute(url);
 	    }
 
 	    public void onServiceDisconnected(ComponentName className) { // This should not happen
@@ -293,7 +293,7 @@ public class AttachProjectLoginActivity extends Activity{
 			Intent intent = new Intent(this, AttachProjectWorkingActivity.class);
 			intent.putExtra("registration", false);
 			intent.putExtra("usesName", projectConfig.userName);
-			intent.putExtra("projectUrl", url);
+			intent.putExtra("projectUrl", projectConfig.masterUrl);
 			intent.putExtra("projectName", projectConfig.name);
 			intent.putExtra("id", id);
 			intent.putExtra("pwd", pwd);
@@ -308,7 +308,7 @@ public class AttachProjectLoginActivity extends Activity{
 		if (clientCreation) {
 			// start intent to AttachProjectWorkingActivity
 			Intent intent = new Intent(this, AttachProjectRegistrationActivity.class);
-			intent.putExtra("projectUrl", url);
+			intent.putExtra("projectUrl", projectConfig.masterUrl);
 			intent.putExtra("projectName", projectConfig.name);
 			intent.putExtra("minPwdLength", projectConfig.minPwdLength);
 			intent.putExtra("usesName", projectConfig.userName);
@@ -316,7 +316,7 @@ public class AttachProjectLoginActivity extends Activity{
 		} else {
 			// start intent to project website
 			Intent i = new Intent(Intent.ACTION_VIEW);
-			i.setData(Uri.parse(url));
+			i.setData(Uri.parse(projectConfig.masterUrl));
 			startActivity(i);
 		}
 	}
@@ -325,7 +325,7 @@ public class AttachProjectLoginActivity extends Activity{
 	public void projectUrlClicked (View view) {
 		// start intent to project website
 		Intent i = new Intent(Intent.ACTION_VIEW);
-		i.setData(Uri.parse(url));
+		i.setData(Uri.parse(projectConfig.masterUrl));
 		startActivity(i);
 	}
 	
@@ -356,40 +356,48 @@ public class AttachProjectLoginActivity extends Activity{
 		return supported;
 	}
 	
-	private final class GetProjectConfig extends AsyncTask<Void, Void, Integer> {
+	private final class GetProjectConfig extends AsyncTask<String, Void, Integer> {
 		
 		@Override
-		protected Integer doInBackground(Void... params) {
+		protected Integer doInBackground(String... params) {
+			String url = params[0];
+			Integer attemptCounter = 0;
+			Integer maxAttempts = getResources().getInteger(R.integer.attach_get_project_config_retries);
 			try{
-				if(!projectInfoPresent) { // only url string is available
-					if(Logging.DEBUG) Log.d(Logging.TAG, "doInBackground() - GetProjectConfig for manual input url: " + url);
+				while(attemptCounter < maxAttempts) {
+					if(!projectInfoPresent) { // only url string is available
+						if(Logging.DEBUG) Log.d(Logging.TAG, "doInBackground() - GetProjectConfig for manual input url: " + url);
+						
+						if(checkProjectAlreadyAttached(url)) return R.string.attachproject_error_project_exists;
+						
+						//fetch ProjectConfig
+						projectConfig = monitor.getProjectConfig(url);
+					} else {
+						if(Logging.DEBUG) Log.d(Logging.TAG, "doInBackground() - GetProjectConfig for list selection url: " + projectInfo.url);
+						
+						if(checkProjectAlreadyAttached(projectInfo.url)) return R.string.attachproject_error_project_exists;
+						
+						//fetch ProjectConfig
+						projectConfig = monitor.getProjectConfig(projectInfo.url);
+						
+						// fetch project logo	
+						loadBitmap();
+					}
 					
-					if(checkProjectAlreadyAttached(url)) return R.string.attachproject_error_project_exists;
-					
-					//fetch ProjectConfig
-					projectConfig = monitor.getProjectConfig(url);
-				} else {
-					if(Logging.DEBUG) Log.d(Logging.TAG, "doInBackground() - GetProjectConfig for list selection url: " + projectInfo.url);
-					
-					if(checkProjectAlreadyAttached(projectInfo.url)) return R.string.attachproject_error_project_exists;
-					
-					//fetch ProjectConfig
-					projectConfig = monitor.getProjectConfig(projectInfo.url);
-					
-					// fetch project logo	
-					loadBitmap();
-				}
-				
-				if (projectConfig != null && projectConfig.error_num != null && projectConfig.error_num == 0) {
-					return 0;
-				} else { 
-					if(Logging.DEBUG) Log.d(Logging.TAG,"getProjectConfig returned error num:" + projectConfig.error_num);
-					return R.string.attachproject_login_error_toast;
+					if (projectConfig != null && projectConfig.error_num != null && projectConfig.error_num == 0) {
+						// success
+						return 0;
+					} else { 
+						if(Logging.DEBUG) if(projectConfig != null) Log.d(Logging.TAG,"getProjectConfig returned error num:" + projectConfig.error_num);
+						attemptCounter++;
+					}
 				}
 			} catch(Exception e) {
 				if(Logging.WARNING) Log.w(Logging.TAG,"error in doInBackround",e);
-				return R.string.attachproject_login_error_toast;
 			}
+			// if this code is reached, it failed, return
+			if(Logging.DEBUG) if(projectConfig != null) Log.d(Logging.TAG,"getProjectConfig returned error num:" + projectConfig.error_num);
+			return R.string.attachproject_login_error_toast;
 		}
 		
 		@Override
