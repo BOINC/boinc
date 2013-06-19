@@ -847,7 +847,7 @@ fi
 LIBS=$svlibs
 
 if (test "$enable_xss" == yes) && (test "$have_Xss" == yes); then
-    SAH_CHECK_LIB([xcb-dpms],[DPMSQueryExtension],[
+    SAH_CHECK_LIB([Xext],[DPMSQueryExtension],[
         AC_DEFINE([HAVE_DPMS],[1],[Define to 1 if you have xcb-dpms library])
         CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
     SAH_CHECK_LIB([Xss],[XScreenSaverAllocInfo],[
