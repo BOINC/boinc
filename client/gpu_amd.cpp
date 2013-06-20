@@ -345,13 +345,19 @@ void COPROC_ATI::get(
             gpu_name="AMD Radeon HD 7790 series (Bonaire)"; 
             break;
 		case 27:
+			gpu_name="AMD Radeon HD (Casper)";
+			break;
+		case 28:
+			gpu_name="AMD Radeon HD (Slimer)";
+			break;
+		case 29:
 			gpu_name="AMD Radeon HD 8200/8300/8400 series (Kalindi)";
 			// GPUs inside AMD Family 16h aka Kabini/Temash
 			break;
-		case 28:
+		case 30:
 			gpu_name="AMD Radeon HD 8600M (Hainan)";
 			break;
-		case 29:
+		case 31:
 			gpu_name="AMD Radeon HD (Curacao)";
 			break;
         default:
