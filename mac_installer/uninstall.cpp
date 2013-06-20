@@ -84,7 +84,7 @@ void notused() {
 
 int main(int argc, char *argv[])
 {
-    char                        pathToSelf[MAXPATHLEN], *p;
+    char                        pathToSelf[MAXPATHLEN], *p, *q;
     ProcessSerialNumber         ourPSN;
     FSRef                       ourFSRef;
     Boolean                     cancelled = false;
@@ -149,7 +149,6 @@ int main(int argc, char *argv[])
     cancelled = ! ShowMessage(true, true, (char *)_(
             "Are you sure you want to completely remove %s from your computer?\n\n"
             "This will remove the executables but will not touch %s data files."), p, p);
-
     if (! cancelled) {
         err = DoPrivilegedExec(p, pathToSelf, "--privileged", NULL, NULL, NULL, NULL);
     }
@@ -160,17 +159,110 @@ int main(int argc, char *argv[])
         return err;
     }
 
+
 #if TESTING
     ShowMessage(false, false, "DoPrivilegedExec returned %d", err);
 #endif
 
-    if (err)
+    if (err) {
         ShowMessage(false, false, (char *)_("An error occurred: error code %d"), err);
-    else
-        ShowMessage(false, false, (char *)_("Removal completed.\n\n You may want to remove the following remaining items using the Finder: \n"
-         "\"/Library/Application Support/BOINC Data\" directory\n\nfor each user, the file\n"
-         "\"/Users/[username]/Library/Preferences/BOINC Manager Preferences\"."));
+    }else {
+        FSRef BOINCDataRef, UserPrefsRef;
+        CFStringRef CFBOINCDataPath, CFUserPrefsPath;
+        char BOINCDataPath[MAXPATHLEN], temp[MAXPATHLEN], PathToPrefs[MAXPATHLEN];
+        Boolean success = false;
+        char * loginName = getlogin();
         
+        err = FSPathMakeRef((StringPtr)"/Library", &BOINCDataRef, NULL);
+        if (err == noErr) {
+            err = LSCopyDisplayNameForRef(&BOINCDataRef, &CFBOINCDataPath);
+        }
+        if (err == noErr) {
+            success = CFStringGetCString(CFBOINCDataPath, temp,
+                        sizeof(temp), kCFStringEncodingUTF8);
+        }
+        if (success) {
+            success = false;
+            strlcpy(BOINCDataPath, "/", sizeof(BOINCDataPath));
+            strlcat(BOINCDataPath, temp, sizeof(BOINCDataPath));
+            strlcat(BOINCDataPath, "/", sizeof(BOINCDataPath));
+            
+            err = FSPathMakeRef((StringPtr)"/Library/Application Support", &BOINCDataRef, NULL);
+            if (err == noErr) {
+                err = LSCopyDisplayNameForRef(&BOINCDataRef, &CFBOINCDataPath);
+            }
+            if (err == noErr) {
+                success = CFStringGetCString(CFBOINCDataPath, temp,
+                            sizeof(temp), kCFStringEncodingUTF8);
+            }
+        }
+        if (success) {
+            strlcat(BOINCDataPath, temp, sizeof(BOINCDataPath));
+            strlcat(BOINCDataPath, "/BOINC Data", sizeof(BOINCDataPath));
+        } else {
+            strlcpy(BOINCDataPath,
+                    "/Library/Application Support/BOINC Data",
+                    sizeof(BOINCDataPath));
+        }
+        
+        success = false;
+                
+//        err = FSPathMakeRef((StringPtr)"/Users", &UserPrefsRef, NULL);
+        err = FSPathMakeRef((StringPtr)"/Users", &UserPrefsRef, NULL);
+        if (err == noErr) {
+            err = LSCopyDisplayNameForRef(&UserPrefsRef, &CFUserPrefsPath);
+        }
+        if (err == noErr) {
+            success = CFStringGetCString(CFUserPrefsPath, temp,
+                        sizeof(temp), kCFStringEncodingUTF8);
+        }
+        if (success) {
+            success = false;
+            strlcpy(PathToPrefs, "/", sizeof(PathToPrefs));
+            strlcat(PathToPrefs, temp, sizeof(PathToPrefs));
+            strlcat(PathToPrefs, "/[", sizeof(PathToPrefs));
+            strlcat(PathToPrefs, (char *)_("name  of user"), sizeof(PathToPrefs));
+            strlcat(PathToPrefs, "]/", sizeof(PathToPrefs));
+            
+            sprintf(temp, "/Users/%s/Library", loginName);
+            err = FSPathMakeRef((StringPtr)temp, &UserPrefsRef, NULL);
+            if (err == noErr) {
+                err = LSCopyDisplayNameForRef(&UserPrefsRef, &CFUserPrefsPath);
+            }
+            if (err == noErr) {
+                success = CFStringGetCString(CFUserPrefsPath, temp,
+                            sizeof(temp), kCFStringEncodingUTF8);
+            }
+        }
+        if (success) {
+            success = false;
+            strlcat(PathToPrefs, temp, sizeof(PathToPrefs));
+            strlcat(PathToPrefs, "/", sizeof(PathToPrefs));
+            
+            sprintf(temp, "/Users/%s/Library/Preferences", loginName);
+            err = FSPathMakeRef((StringPtr)temp, &UserPrefsRef, NULL);
+            if (err == noErr) {
+                err = LSCopyDisplayNameForRef(&UserPrefsRef, &CFUserPrefsPath);
+            }
+            if (err == noErr) {
+                success = CFStringGetCString(CFUserPrefsPath, temp,
+                            sizeof(temp), kCFStringEncodingUTF8);
+            }
+        }
+        if (success) {
+            strlcat(PathToPrefs, temp, sizeof(PathToPrefs));
+            strlcat(PathToPrefs, "/BOINC Manager Preferences", sizeof(PathToPrefs));
+        } else {
+            strlcpy(PathToPrefs,
+                    "/Users/[username]/Library/Preferences/BOINC Manager Preferences",
+                    sizeof(PathToPrefs));
+        }
+
+        ShowMessage(false, false, (char *)_("Removal completed.\n\n You may want to remove the following remaining items using the Finder: \n"
+         "the directory \"%s\"\n\nfor each user, the file\n"
+         "\"%s\"."), BOINCDataPath, PathToPrefs);
+    }
+    
     BOINCTranslationCleanup();
     return err;
 }
