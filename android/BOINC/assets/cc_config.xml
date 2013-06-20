@@ -1,6 +1,6 @@
 <cc_config>
   <log_flags>
-      <http_debug/>
+      <task_debug/>
   </log_flags>
   <options>
   </options>
