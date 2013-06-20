@@ -282,14 +282,14 @@ int read_sendable_result(SCHED_DB_RESULT& result) {
     int retval = result.lookup_id(result.id);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "[RESULT#%d] result.lookup_id() failed %s\n",
+            "[RESULT#%u] result.lookup_id() failed %s\n",
             result.id, boincerror(retval)
         );
         return ERR_NOT_FOUND;
     }
     if (result.server_state != RESULT_SERVER_STATE_UNSENT) {
         log_messages.printf(MSG_NORMAL,
-            "[RESULT#%d] expected to be unsent; instead, state is %d\n",
+            "[RESULT#%u] expected to be unsent; instead, state is %d\n",
             result.id, result.server_state
         );
         return ERR_BAD_RESULT_STATE;
@@ -366,7 +366,7 @@ bool wu_is_infeasible_slow(
         if (already_sent_to_different_hr_class(wu, *app)) {
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] [HOST#%d] [WU#%d %s] WU is infeasible (assigned to different platform)\n",
+                    "[send] [HOST#%d] [WU#%u %s] WU is infeasible (assigned to different platform)\n",
                     g_reply->host.id, wu.id, wu.name
                 );
             }

@@ -218,7 +218,7 @@ static void mark_results_over(DB_HOST& host) {
         wu.update_field(buf2);
 
         log_messages.printf(MSG_CRITICAL,
-            "[HOST#%d] [RESULT#%d] [WU#%d] changed CPID: marking in-progress result %s as client error!\n",
+            "[HOST#%d] [RESULT#%u] [WU#%u] changed CPID: marking in-progress result %s as client error!\n",
             host.id, result.id, result.workunitid, result.name
         );
     }

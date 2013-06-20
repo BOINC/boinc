@@ -221,7 +221,7 @@ int decrement_disk_space_locality( WORKUNIT& wu) {
     //
     if (extract_filename(wu.name, filename, sizeof(filename))) {
         log_messages.printf(MSG_CRITICAL,
-            "No filename found in [WU#%d %s]\n", wu.id, wu.name
+            "No filename found in [WU#%u %s]\n", wu.id, wu.name
         );
         return -1;
     }
@@ -256,7 +256,7 @@ int decrement_disk_space_locality( WORKUNIT& wu) {
         g_wreq->disk_available -= (wu.rsc_disk_bound-filesize);
         if (config.debug_locality) {
             log_messages.printf(MSG_NORMAL,
-                "[locality] [HOST#%d] reducing disk needed for WU by %d bytes (length of %s)\n",
+                "[locality] [HOST#%d] reducing disk needed for WU by %u bytes (length of %s)\n",
                 g_reply->host.id, filesize, filename
             );
         }
@@ -264,7 +264,7 @@ int decrement_disk_space_locality( WORKUNIT& wu) {
     }
 
     log_messages.printf(MSG_CRITICAL,
-        "File %s size %d bytes > wu.rsc_disk_bound for WU#%d (%s)\n",
+        "File %s size %u bytes > wu.rsc_disk_bound for WU#%u (%s)\n",
         path, filesize, wu.id, wu.name
     );
     return -1;
@@ -731,7 +731,7 @@ static int send_results_for_file(
                 sleep_made_no_work=0;
             } else if (!config.one_result_per_user_per_wu) {
                 log_messages.printf(MSG_CRITICAL,
-                    "Database inconsistency?  possibly_send_result(%d) failed for [RESULT#%d], returning %d\n",
+                    "Database inconsistency?  possibly_send_result(%d) failed for [RESULT#%u], returning %d\n",
                     i, result.id, retval_send
                 );
             // If another scheduler instance 'snatched' the result
@@ -741,7 +741,7 @@ static int send_results_for_file(
             } else if (retval_send != ERR_DB_NOT_FOUND) {
                 if (config.debug_locality) {
                     log_messages.printf(MSG_NORMAL,
-                        "[locality] possibly_send_result [RESULT#%d]: %s\n",
+                        "[locality] possibly_send_result [RESULT#%u]: %s\n",
                         result.id, boincerror(retval_send)
                     );
                 }
@@ -1016,7 +1016,7 @@ static int send_old_work(int t_min, int t_max) {
             double age=(now-result.create_time)/3600.0;
             if (config.debug_locality) {
                 log_messages.printf(MSG_NORMAL,
-                    "[locality] send_old_work(%s) sent result created %.1f hours ago [RESULT#%d]\n",
+                    "[locality] send_old_work(%s) sent result created %.1f hours ago [RESULT#%u]\n",
                     result.name, age, result.id
                 );
             }

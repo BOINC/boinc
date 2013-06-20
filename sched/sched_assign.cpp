@@ -87,7 +87,7 @@ static int send_assigned_job(ASSIGNMENT& asg) {
     );
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "[WU#%d %s] create_result(): %s\n", wu.id, wu.name, boincerror(retval)
+            "[WU#%u %s] create_result(): %s\n", wu.id, wu.name, boincerror(retval)
         );
         return retval;
     }
@@ -98,7 +98,7 @@ static int send_assigned_job(ASSIGNMENT& asg) {
 
     if (config.debug_assignment) {
         log_messages.printf(MSG_NORMAL,
-            "[assign] [WU#%d] [RESULT#%d] [HOST#%d] send assignment %d\n",
+            "[assign] [WU#%u] [RESULT#%u] [HOST#%d] send assignment %d\n",
             wu.id, result_id, g_reply->host.id, asg.id
         );
     }

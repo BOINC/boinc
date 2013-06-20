@@ -124,19 +124,58 @@ bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
 #endif
 #if defined(SETIATHOME)
     bool infeasible=false;
+    static bool send_vlar_to_gpu=false;
+    static bool sah_config_checked=false;
+    char buff[256];
+
+    // check the projects app config whether to send vlar wus to gpus 
+    if (!sah_config_checked) {
+        MIOFILE mf;
+        XML_PARSER xp(&mf);
+#ifndef _USING_FCGI_
+        FILE *f=fopen(config.project_path("sah_config.xml"),"r");
+#else
+        FCGI_FILE *f=FCGI::fopen(config.project_path("sah_config.xml"),"r");
+#endif
+        if (f) {
+            mf.init_file(f);
+            if (xp.parse_start("sah") && xp.parse_start("config")) {
+                while (!xp.get_tag()) {
+                   if (!xp.is_tag) continue;
+                   if (xp.parse_bool("send_vlar_to_gpu",send_vlar_to_gpu)) continue;
+                   if (xp.match_tag("/config")) break;
+                   xp.skip_unexpected(false, "wu_is_infeasible_custom");
+                }
+            }
+            fclose(f);
+        }
+        sah_config_checked=true;
+    } 
     // example: if CUDA app and WU name contains ".vlar", don't send
     // to NVIDIA, INTEL or older ATI cards
     //
     if (bav.host_usage.uses_gpu() && strstr(wu.name, ".vlar")) {
-        if (bav.host_usage.proc_type == PROC_TYPE_AMD_GPU) {
-            // ATI GPUs older than HD7870
-            COPROC_ATI &cp = g_request->coprocs.ati;
-            if (cp.count && (cp.attribs.target < 19)) {
+        if (send_vlar_to_gpu) {
+            if (bav.host_usage.proc_type == PROC_TYPE_AMD_GPU) {
+                // ATI GPUs older than HD7870
+                COPROC_ATI &cp = g_request->coprocs.ati;
+                if (cp.count && (cp.attribs.target < 15)) {
+                  infeasible=true;
+                }
+            } else if (bav.host_usage.proc_type == PROC_TYPE_NVIDIA_GPU)  {
+                COPROC_NVIDIA &cp = g_request->coprocs.nvidia;
+                if (cp.count) {
+                    int v = (cp.prop.major)*100 + cp.prop.minor;
+                    if (v < 300) {
+                        infeasible=true;
+                    }
+                }
+            } else {   
+              // all other GPUS
               infeasible=true;
             }
-        } else {   
-          // all other GPUS
-          infeasible=true;
+        } else {
+            infeasible=true;
         }
     }
     if (infeasible && config.debug_version_select) {

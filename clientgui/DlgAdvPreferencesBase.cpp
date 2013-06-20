@@ -343,7 +343,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
     miscProcGridSizer->Add( m_txtProcUseProcessors, 0, wxALL, 1 );
 
     /*xgettext:no-c-format*/ 
-    m_staticText21 = new wxStaticText( processorTab, ID_DEFAULT, _("% of the processors"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_staticText21 = new wxStaticText( processorTab, ID_DEFAULT, _("% of the processors (0 means ignore this setting)"), wxDefaultPosition, wxDefaultSize, 0 );
     miscProcGridSizer->Add( m_staticText21, 0, wxALL, 5 );
 
     m_staticText22 = new wxStaticText( processorTab, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
