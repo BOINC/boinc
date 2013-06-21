@@ -96,6 +96,7 @@ struct RSC_PROJECT_WORK_FETCH {
         // determines how many instances this project deserves
     int n_runnable_jobs;
     double sim_nused;
+        // # of instances used at this point in the simulation
     double nused_total;     // sum of instances over all runnable jobs
     int ncoprocs_excluded;
         // number of excluded instances

@@ -37,6 +37,7 @@
 //
 struct GLOBAL_PREFS_MASK {
     bool battery_charge_min_pct;
+    bool battery_max_temperature;
     bool confirm_before_connecting;
     bool cpu_scheduling_period_minutes;
     bool cpu_usage_limit;
@@ -138,6 +139,7 @@ struct GLOBAL_PREFS {
     double mod_time;
 
     double battery_charge_min_pct;
+    double battery_max_temperature;
     bool confirm_before_connecting;
     double cpu_scheduling_period_minutes;
         // length of a time slice.

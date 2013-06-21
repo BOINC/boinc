@@ -115,6 +115,18 @@ function stage_file($file) {
         return $name;
     case "local_staged":
         return $file->source;
+    case "inline":
+        $md5 = md5($file->source);
+        if (!$md5) {
+            xml_error(-1, "BOINC server: Can't get MD5 of inline data");
+        }
+        $name = "jf_$md5";
+        $path = dir_hier_path($name, "../../download", $fanout);
+        if (file_exists($path)) return $name;
+        if (!file_put_contents($path, $file->source)) {
+            xml_error(-1, "BOINC server: can't write to file $path");
+        }
+        return $name;
     }
     xml_error(-1, "BOINC server: unsupported file mode: $file->mode");
 }
@@ -212,21 +224,29 @@ function submit_batch($r) {
 
     if ($batch_id) {
         $njobs = count($jobs);
-        $ret = $batch->update("njobs=$njobs, logical_end_time=$let, state= ".BATCH_STATE_IN_PROGRESS);
+        $ret = $batch->update("njobs=$njobs, logical_end_time=$let");
         if (!$ret) xml_error(-1, "BOINC server: batch->update() failed");
     } else {
         $batch_name = (string)($r->batch->batch_name);
         $batch_id = BoincBatch::insert(
-            "(user_id, create_time, njobs, name, app_id, logical_end_time, state) values ($user->id, $now, $njobs, '$batch_name', $app->id, $let, ".BATCH_STATE_IN_PROGRESS.")"
+            "(user_id, create_time, njobs, name, app_id, logical_end_time, state) values ($user->id, $now, $njobs, '$batch_name', $app->id, $let, ".BATCH_STATE_IN_INIT.")"
         );
         if (!$batch_id) {
             xml_error(-1, "BOINC server: Can't create batch: ".mysql_error());
         }
+        $batch = BoincBatch::lookup_id($batch_id);
     }
     $i = 0;
     foreach($jobs as $job) {
         submit_job($job, $template, $app, $batch_id, $i++, $let);
     }
+
+    // set state to IN_PROGRESS only after creating jobs;
+    // otherwise we might flag batch as COMPLETED
+    //
+    $ret = $batch->update("state= ".BATCH_STATE_IN_PROGRESS);
+    if (!$ret) xml_error(-1, "BOINC server: batch->update() failed");
+
     echo "<batch_id>$batch_id</batch_id>\n";
 }
 
@@ -309,7 +329,7 @@ function query_batch($r) {
         xml_error(-1, "BOINC server: not owner of batch");
     }
 
-    $wus = BoincWorkunit::enum("batch = $batch_id");
+    $wus = BoincWorkunit::enum("batch = $batch->id");
     $batch = get_batch_params($batch, $wus);
     echo "<batch>\n";
     print_batch_params($batch);

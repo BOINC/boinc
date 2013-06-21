@@ -275,7 +275,7 @@ int CLIENT_STATE::check_suspend_processing() {
     if (device_status.battery_state == BATTERY_STATE_OVERHEATED) {
         return SUSPEND_REASON_BATTERY_OVERHEATED;
     }
-    if (device_status.battery_temperature_celsius > 45) {
+    if (device_status.battery_temperature_celsius > global_prefs.battery_max_temperature) {
         return SUSPEND_REASON_BATTERY_OVERHEATED;
     }
 

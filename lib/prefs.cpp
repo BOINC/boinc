@@ -47,6 +47,7 @@ void GLOBAL_PREFS_MASK::clear() {
 
 void GLOBAL_PREFS_MASK::set_all() {
     battery_charge_min_pct = true;
+    battery_max_temperature = true;
     confirm_before_connecting = true;
     cpu_scheduling_period_minutes = true;
     cpu_usage_limit = true;
@@ -83,6 +84,7 @@ void GLOBAL_PREFS_MASK::set_all() {
 
 bool GLOBAL_PREFS_MASK::are_prefs_set() {
     if (battery_charge_min_pct) return true;
+    if (battery_max_temperature) return true;
     if (confirm_before_connecting) return true;
     if (cpu_scheduling_period_minutes) return true;
     if (cpu_usage_limit) return true;
@@ -208,6 +210,7 @@ void WEEK_PREFS::unset(int day) {
 //
 void GLOBAL_PREFS::defaults() {
     battery_charge_min_pct = 95;
+    battery_max_temperature = 45;
     confirm_before_connecting = true;
     cpu_scheduling_period_minutes = 60;
     cpu_times.clear();
@@ -391,6 +394,10 @@ int GLOBAL_PREFS::parse_override(
         }
         if (xp.parse_double("battery_charge_min_pct", battery_charge_min_pct)) {
             mask.battery_charge_min_pct = true;
+            continue;
+        }
+        if (xp.parse_double("battery_max_temperature", battery_max_temperature)) {
+            mask.battery_max_temperature = true;
             continue;
         }
         if (xp.parse_bool("run_on_batteries", run_on_batteries)) {
@@ -592,6 +599,7 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         "   <source_project>%s</source_project>\n"
         "   <mod_time>%f</mod_time>\n"
         "   <battery_charge_min_pct>%f</battery_charge_min_pct>\n"
+        "   <battery_max_temperature>%f</battery_max_temperature>\n"
         "   <run_on_batteries>%d</run_on_batteries>\n"
         "   <run_if_user_active>%d</run_if_user_active>\n"
         "   <run_gpu_if_user_active>%d</run_gpu_if_user_active>\n"
@@ -627,6 +635,7 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         source_project,
         mod_time,
         battery_charge_min_pct,
+        battery_max_temperature,
         run_on_batteries?1:0,
         run_if_user_active?1:0,
         run_gpu_if_user_active?1:0,
@@ -758,6 +767,11 @@ int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
     if (mask.battery_charge_min_pct) {
         f.printf("   <battery_charge_min_pct>%f</battery_charge_min_pct>\n",
             battery_charge_min_pct
+        );
+    }
+    if (mask.battery_max_temperature) {
+        f.printf("   <battery_max_temperature>%f</battery_max_temperature>\n",
+            battery_max_temperature
         );
     }
     if (mask.confirm_before_connecting) {

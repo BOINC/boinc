@@ -606,7 +606,6 @@ void process_gpu_exclusions() {
         for (int k=1; k<coprocs.n_rsc; k++) {
             COPROC& cp = coprocs.coprocs[k];
             int all_instances = (1<<cp.count)-1;  // bitmap of 1 for all inst
-            p->rsc_pwf[k].non_excluded_instances = all_instances;
             for (j=0; j<config.exclude_gpus.size(); j++) {
                 EXCLUDE_GPU& eg = config.exclude_gpus[j];
                 if (!eg.type.empty() && (eg.type != cp.type)) continue;
@@ -638,11 +637,19 @@ void process_gpu_exclusions() {
                 }
             }
 
+            bool found = false;
             p->rsc_pwf[k].non_excluded_instances = 0;
             for (a=0; a<gstate.apps.size(); a++) {
                 APP* app = gstate.apps[a];
                 if (app->project != p) continue;
+                found = true;
                 p->rsc_pwf[k].non_excluded_instances |= app->non_excluded_instances[k];
+            }
+            // if project has no apps yet (for some reason)
+            // assume it can use all instances
+            //
+            if (!found) {
+                p->rsc_pwf[k].non_excluded_instances = all_instances;
             }
 
             // compute ncoprocs_excluded as the number of instances

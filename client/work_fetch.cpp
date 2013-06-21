@@ -33,8 +33,11 @@
 
 #include "work_fetch.h"
 
-//#define DEBUG(x) x
+#if 0
+#define DEBUG(x) x
+#else
 #define DEBUG(X)
+#endif
 
 using std::vector;
 

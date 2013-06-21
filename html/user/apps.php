@@ -40,7 +40,8 @@ $apps = BoincApp::enum("deprecated=0");
 foreach ($apps as $app) {
     if ($xml) {
         echo "<application>\n";
-        echo "    <name>$app->user_friendly_name</name>\n";
+        echo "    <user_friendly_name>$app->user_friendly_name</user_friendly_name>\n";
+        echo "    <name>$app->name</name>\n";
         echo "    <id>$app->id</id>\n";
     } else {
         echo "

@@ -71,7 +71,7 @@ function get_batch_params($batch, $wus) {
     if ($fp_total) {
         $batch->fraction_done = $fp_done / $fp_total;
     }
-    if ($completed && $batch->state < BATCH_STATE_COMPLETE) {
+    if ($completed && $batch->state == BATCH_STATE_IN_PROGRESS) {
         $batch->state = BATCH_STATE_COMPLETE;
         $batch->completion_time = time();
     }
