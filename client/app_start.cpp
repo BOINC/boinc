@@ -138,7 +138,7 @@ static void coproc_cmdline(
     }
 }
 
-// Make a unique key for core/app shared memory segment.
+// Make a unique key for client/app shared memory segment.
 // Windows: also create and attach to the segment.
 //
 int ACTIVE_TASK::get_shmem_seg_name() {
@@ -780,7 +780,7 @@ int ACTIVE_TASK::start() {
     char* argv[100];
     char current_dir[_MAX_PATH];
 
-    // Set up core/app shared memory seg if needed
+    // Set up client/app shared memory seg if needed
     //
     if (!app_client_shm.shm) {
         retval = create_shmem(
@@ -861,10 +861,14 @@ int ACTIVE_TASK::start() {
         coproc_cmdline(rt, result, app_version->gpu_usage.usage, cmdline);
     }
 
-    // Set up core/app shared memory seg if needed
+    // Set up client/app shared memory seg if needed
     //
     if (!app_client_shm.shm) {
+#ifdef ANDROID
+        if (true) {
+#else
         if (app_version->api_major_version() >= 6) {
+#endif
             // Use mmap() shared memory
             sprintf(buf, "%s/%s", slot_dir, MMAPPED_FILE_NAME);
             if (g_use_sandbox) {
