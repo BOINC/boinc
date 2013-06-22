@@ -76,16 +76,16 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 		
 		// set up view elements that are independent of "active" and "expanded" state
 		ImageView ivIcon = (ImageView)v.findViewById(R.id.projectIcon);
-		Boolean iconLoaded = (Boolean)ivIcon.getTag();
-		if(iconLoaded == null || !iconLoaded) {
+		String finalIconId = (String)ivIcon.getTag();
+	    if(finalIconId == null || !finalIconId.equals(listItem.id)) {
 			Bitmap icon = getIcon(position);
 			// if available set icon, if not boinc logo
 			if(icon == null) { 
 				ivIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.boinc));
 			} else {
 				ivIcon.setImageBitmap(icon);
+				ivIcon.setTag(listItem.id);
 			}
-			ivIcon.setTag(true);
 		}
 		
 		String headerT = listItem.result.app.getName();
