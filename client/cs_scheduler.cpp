@@ -410,6 +410,22 @@ static inline bool actively_uploading(PROJECT* p) {
     return false;
 }
 
+// If there is a request for an idle instance, return true.
+// Clear other requests
+//
+static inline bool idle_request() {
+    bool found = false;
+    for (int i=0; i<coprocs.n_rsc; i++) {
+        RSC_WORK_FETCH &rwf = rsc_work_fetch[i];
+        if (rwf.req_instances) {
+            found = true;
+        } else {
+            rwf.req_secs = 0;
+        }
+    }
+    return found;
+}
+
 // Called once/sec.
 // Initiate scheduler RPC activity if needed and possible
 //
@@ -514,13 +530,15 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     p = work_fetch.choose_project();
     if (p) {
         if (actively_uploading(p)) {
-            if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO,
-                    "[work_fetch] deferring work fetch; upload active"
-                );
+            if (!idle_request()) {
+                if (log_flags.work_fetch_debug) {
+                    msg_printf(p, MSG_INFO,
+                        "[work_fetch] deferring work fetch; upload active"
+                    );
+                }
+                p->sched_rpc_pending = 0;
+                return false;
             }
-            p->sched_rpc_pending = 0;
-            return false;
         }
         scheduler_op->init_op_project(p, RPC_REASON_NEED_WORK);
         return true;
