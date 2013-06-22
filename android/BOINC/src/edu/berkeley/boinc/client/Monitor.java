@@ -262,9 +262,12 @@ public class Monitor extends Service {
     			installDir.setWritable(true); 
     		}
     		
-    		// Delete old target
-    		if(override && target.exists()) {
-    			target.delete();
+    		if(target.exists()) {
+    			if(override) target.delete();
+    			else {
+    				if(Logging.DEBUG) Log.d(Logging.TAG,"skipped file, exists and ovverride is false");
+    				return true;
+    			}
     		}
     		
     		// Copy file from the asset manager to clientPath

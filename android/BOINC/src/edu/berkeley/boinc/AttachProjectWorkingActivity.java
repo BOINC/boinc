@@ -149,7 +149,7 @@ public class AttachProjectWorkingActivity extends Activity{
 	    return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
 	}
 	
-	private int mapErrorNumToString(int code) {
+	private String mapErrorNumToString(int code) {
 		if(Logging.DEBUG) Log.d(Logging.TAG,"mapErrorNumToString for error: " + code);
 		int stringResource;
 		switch (code) {
@@ -183,7 +183,7 @@ public class AttachProjectWorkingActivity extends Activity{
 			stringResource = R.string.attachproject_error_unknown;
 			break;
 		}
-		return stringResource;
+		return getString(stringResource);
 	}
 	
 	// appends new element to layout
@@ -203,7 +203,8 @@ public class AttachProjectWorkingActivity extends Activity{
 			} else {
 				newElement = (LinearLayout)getLayoutInflater().inflate(R.layout.attach_project_failed_layout, anchor, false);
 				String desc = "";
-				if(update.result > 0) desc = getString(R.string.attachproject_working_description) + " " + getString(update.result);
+				if(!update.result.isEmpty()) desc = getString(R.string.attachproject_working_description) + " " + update.result;
+				if(update.result.equals(getString(R.string.attachproject_error_unknown))) desc = getString(R.string.attachproject_working_description) + " " + update.errorCode + " " + update.result;
 				text = getString(update.task) + desc;
 			}
 		} else {
@@ -235,13 +236,15 @@ public class AttachProjectWorkingActivity extends Activity{
 		public Boolean finalResult;
 		public Boolean success;
 		public int task;
-		public int result = 0;
+		public String result = "";
+		public int errorCode = -1;
 		
-		public Update(Boolean finalResult, Boolean success, int task, int result){
+		public Update(Boolean finalResult, Boolean success, int task, String result, int errorCode){
 			this.finalResult = finalResult;
 			this.success = success;
 			this.task = task;
 			this.result = result;
+			this.errorCode = errorCode;
 		}
 	}
 	
@@ -274,13 +277,13 @@ public class AttachProjectWorkingActivity extends Activity{
 			if(Logging.DEBUG) Log.d(Logging.TAG,"ProjectAccountAsync doInBackground");
 			
 			//check device online
-			publishProgress(new Update(false, false, R.string.attachproject_working_connect,0));
+			publishProgress(new Update(false, false, R.string.attachproject_working_connect,"",0));
 			try {Thread.sleep(timeInterval);} catch (Exception e){}
 			if(!checkDeviceOnline()) {
-				publishProgress(new Update(true, false, R.string.attachproject_working_connect,R.string.attachproject_error_no_internet));
+				publishProgress(new Update(true, false, R.string.attachproject_working_connect, getString(R.string.attachproject_error_no_internet),-1));
 				return false;
 			}
-			publishProgress(new Update(true, true, R.string.attachproject_working_connect,0));
+			publishProgress(new Update(true, true, R.string.attachproject_working_connect,"",0));
 			
 			// get authenticator
 			AccountOut account = null;
@@ -290,7 +293,7 @@ public class AttachProjectWorkingActivity extends Activity{
 			int err = -1;
 			if(registration) {
 				// register account
-				publishProgress(new Update(false, false, R.string.attachproject_working_register,0));
+				publishProgress(new Update(false, false, R.string.attachproject_working_register,"",0));
 				maxAttempts = getResources().getInteger(R.integer.attach_creation_retries);
 				if(Logging.DEBUG) Log.d(Logging.TAG,"registration with: " + url + email + userName + pwd.length() + teamName + maxAttempts);
 				// retry a defined number of times, if non deterministic failure occurs.
@@ -307,24 +310,24 @@ public class AttachProjectWorkingActivity extends Activity{
 							attemptCounter++;
 						} else {
 							// not worth a retry, return
-							publishProgress(new Update(true, false, R.string.attachproject_working_register, mapErrorNumToString(err)));
+							publishProgress(new Update(true, false, R.string.attachproject_working_register, mapErrorNumToString(err),err));
 							return false;
 						}
 					} else {
 						// successful
 						try {Thread.sleep(timeInterval);} catch (Exception e){}
-						publishProgress(new Update(true, true, R.string.attachproject_working_register,0));
+						publishProgress(new Update(true, true, R.string.attachproject_working_register,"",0));
 						success = true;
 					}
 				}
 				// reached end of loop, check if successful
 				if(!success) {
-					publishProgress(new Update(true, false, R.string.attachproject_working_register, mapErrorNumToString(err)));
+					publishProgress(new Update(true, false, R.string.attachproject_working_register, mapErrorNumToString(err),err));
 					return false;
 				}
 			} else {
 				// lookup authenticator
-				publishProgress(new Update(false, false, R.string.attachproject_working_verify,0));
+				publishProgress(new Update(false, false, R.string.attachproject_working_verify,"",0));
 				maxAttempts = getResources().getInteger(R.integer.attach_login_retries);
 				if(Logging.DEBUG) Log.d(Logging.TAG,"loging with: " + url + id + pwd.length() + usesName + maxAttempts);
 				// retry a defined number of times, if non deterministic failure occurs.
@@ -341,19 +344,19 @@ public class AttachProjectWorkingActivity extends Activity{
 							attemptCounter++;
 						} else {
 							// not worth a retry, return
-							publishProgress(new Update(true, false, R.string.attachproject_working_verify, mapErrorNumToString(err)));
+							publishProgress(new Update(true, false, R.string.attachproject_working_verify, mapErrorNumToString(err), err));
 							return false;
 						}
 					} else {
 						// successful
 						try {Thread.sleep(timeInterval);} catch (Exception e){}
-						publishProgress(new Update(true, true, R.string.attachproject_working_verify,0));
+						publishProgress(new Update(true, true, R.string.attachproject_working_verify,"",0));
 						success = true;
 					}
 				}
 				// reached end of loop, check if successful
 				if(!success) {
-					publishProgress(new Update(true, false, R.string.attachproject_working_verify, mapErrorNumToString(err)));
+					publishProgress(new Update(true, false, R.string.attachproject_working_verify, mapErrorNumToString(err), err));
 					return false;
 				}
 			}
@@ -362,14 +365,14 @@ public class AttachProjectWorkingActivity extends Activity{
 			attemptCounter = 0;
 			success = false;
 			maxAttempts = getResources().getInteger(R.integer.attach_attach_retries);
-			publishProgress(new Update(false, false, R.string.attachproject_working_login,0));
+			publishProgress(new Update(false, false, R.string.attachproject_working_login,"",0));
 			while(!success && attemptCounter < maxAttempts) {
 				Boolean attach = monitor.attachProject(url, projectName, account.authenticator);
 				if(attach) {
 					// successful
 					success = true;
 					try {Thread.sleep(timeInterval);} catch (Exception e){}
-					publishProgress(new Update(true, true, R.string.attachproject_working_login,0));
+					publishProgress(new Update(true, true, R.string.attachproject_working_login,"",0));
 				} else {
 					// failed
 					attemptCounter++;
@@ -377,7 +380,7 @@ public class AttachProjectWorkingActivity extends Activity{
 			}
 			if(!success) {
 				// still failed
-				publishProgress(new Update(true, false, R.string.attachproject_working_login,0));
+				publishProgress(new Update(true, false, R.string.attachproject_working_login,"",0));
 				return false;
 			}
 			

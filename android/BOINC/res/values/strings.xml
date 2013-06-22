@@ -86,7 +86,7 @@
     <string name="attachproject_error_no_email">Please enter eMail address.</string>
     <string name="attachproject_error_no_pwd">Please enter a password.</string>
     <string name="attachproject_error_no_name">Please enter user name.</string>
-    <string name="attachproject_error_unknown">Unknown failure.</string>
+    <string name="attachproject_error_unknown">failed.</string>
     <string name="attachproject_error_bad_username">User name refused.</string>
     <string name="attachproject_error_email_in_use">eMail is already in use.</string>
     <string name="attachproject_error_project_down">Project is offline.</string>
