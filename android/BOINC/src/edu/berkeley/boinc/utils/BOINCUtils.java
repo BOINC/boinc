@@ -2,6 +2,7 @@ package edu.berkeley.boinc.utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import edu.berkeley.boinc.R;
 
 public class BOINCUtils {
@@ -25,6 +26,17 @@ public class BOINCUtils {
 		    default:
 		    	return activity.getResources().getString(R.string.rpcreason_unknown);
 	    }
+	}
+	
+	public static String translateNetworkSuspendReason(Context ctx, int reason) {
+		switch(reason) {
+		case BOINCDefs.SUSPEND_REASON_USER_REQ:
+			return ctx.getString(R.string.suspend_network_user_req);
+		case BOINCDefs.SUSPEND_REASON_WIFI_STATE:
+			return ctx.getString(R.string.suspend_wifi);
+		default:
+			return "" + reason;
+		}
 	}
 	
 	@SuppressLint("DefaultLocale")

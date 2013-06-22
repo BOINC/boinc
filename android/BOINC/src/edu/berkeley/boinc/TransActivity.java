@@ -86,7 +86,7 @@ public class TransActivity extends FragmentActivity {
 	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if(Logging.DEBUG) Log.d(Logging.TAG, "TransActivity ClientStatusChange - onReceive()");
+			if(Logging.VERBOSE) Log.v(Logging.TAG, "TransActivity ClientStatusChange - onReceive()");
 			
 			populateLayout();
 		}

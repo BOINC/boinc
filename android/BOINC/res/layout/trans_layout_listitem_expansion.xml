@@ -38,17 +38,6 @@
             android:orientation="horizontal" >
             
             <ImageView
-                android:id="@+id/suspendResumeRetryTrans"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:contentDescription="@drawable/resumetask"
-                android:paddingLeft="5dip"
-                android:paddingRight="5dip"
-                android:src="@drawable/resumetask"
-                android:visibility="gone" />
-            
-            <ImageView
                 android:id="@+id/abortTrans"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
