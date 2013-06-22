@@ -28,6 +28,8 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Locale;
+
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 import android.util.Log;
@@ -781,9 +783,9 @@ public class RpcClient {
 			mRequest.append("<lookup_account>\n <url>");
 			mRequest.append(accountIn.url);
 			mRequest.append("</url>\n <email_addr>");
-			mRequest.append(id.toLowerCase());
+			mRequest.append(id.toLowerCase(Locale.US));
 			mRequest.append("</email_addr>\n <passwd_hash>");
-			mRequest.append(getPasswdHash(accountIn.passwd, id.toLowerCase()));
+			mRequest.append(getPasswdHash(accountIn.passwd, id.toLowerCase(Locale.US)));
 			mRequest.append("</passwd_hash>\n</lookup_account>\n");
 			sendRequest(mRequest.toString());
 			
@@ -944,7 +946,9 @@ public class RpcClient {
 			mRequest.append(globalPrefs.run_on_batteries ? 1 : 0);
 			mRequest.append("</run_on_batteries>\n  <battery_charge_min_pct>");
 			mRequest.append(globalPrefs.battery_charge_min_pct);
-			mRequest.append("</battery_charge_min_pct>\n  <run_gpu_if_user_active>");
+			mRequest.append("</battery_charge_min_pct>\n  <battery_max_temperature>");
+			mRequest.append(globalPrefs.battery_max_temperature);
+			mRequest.append("</battery_max_temperature>\n  <run_gpu_if_user_active>");
 			mRequest.append(globalPrefs.run_gpu_if_user_active ? 1 : 0);
 			mRequest.append("</run_gpu_if_user_active>\n  <run_if_user_active>");
 			mRequest.append(globalPrefs.run_if_user_active ? 1 : 0);

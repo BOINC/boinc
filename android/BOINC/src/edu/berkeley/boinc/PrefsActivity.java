@@ -150,6 +150,7 @@ public class PrefsActivity extends FragmentActivity {
 		data.add(new PrefsListItemWrapper(this,R.string.prefs_category_power,true));
 		data.add(new PrefsListItemWrapperBool(this,R.string.prefs_run_on_battery_header,R.string.prefs_category_power,clientPrefs.run_on_batteries));
 		data.add(new PrefsListItemWrapperValue(this,R.string.battery_charge_min_pct_header,R.string.prefs_category_power,clientPrefs.battery_charge_min_pct));
+		if(advanced) data.add(new PrefsListItemWrapperValue(this,R.string.battery_temperature_max_header,R.string.prefs_category_power,clientPrefs.battery_max_temperature));
 		// cpu
 		if(advanced) data.add(new PrefsListItemWrapper(this,R.string.prefs_category_cpu,true));
 		if(advanced && hostinfo.p_ncpus > 1) data.add(new PrefsListItemWrapperValue(this,R.string.prefs_cpu_number_cpus_header,R.string.prefs_category_cpu,pctCpuCoresToNumber(clientPrefs.max_ncpus_pct)));
@@ -183,7 +184,7 @@ public class PrefsActivity extends FragmentActivity {
 	// updates list item of value preference
 	// requires updateLayout to be called afterwards
 	private void updateValuePref(int ID, Double newValue) {
-		if(Logging.DEBUG) Log.d(Logging.TAG, "updateBoolPref for ID: " + ID + " value: " + newValue);
+		if(Logging.DEBUG) Log.d(Logging.TAG, "updateValuePref for ID: " + ID + " value: " + newValue);
 		for (PrefsListItemWrapper item: data) {
 			if(item.ID == ID){
 				((PrefsListItemWrapperValue) item).status = newValue;
@@ -353,6 +354,9 @@ public class PrefsActivity extends FragmentActivity {
 		case R.string.battery_charge_min_pct_header:
 			clientPrefs.battery_charge_min_pct = value;
 			break;
+		case R.string.battery_temperature_max_header:
+			clientPrefs.battery_max_temperature = value;
+			break;
 		case R.string.prefs_cpu_number_cpus_header:
 			clientPrefs.max_ncpus_pct = value;
 			//convert value back to number for layout update
@@ -416,6 +420,7 @@ public class PrefsActivity extends FragmentActivity {
 		
 		@Override
 		protected void onPostExecute(Boolean success) {
+			if(Logging.DEBUG) Log.d(Logging.TAG,"WriteClientPrefsAsync returned: " + success);
 			updateLayout();
 		}
 	}

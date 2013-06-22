@@ -46,6 +46,11 @@ public class PrefsListItemWrapperValue extends PrefsListItemWrapper {
 			description = ctx.getString(R.string.battery_charge_min_pct_description);
 			unit = ctx.getString(R.string.prefs_unit_pct);
 			break;
+		case R.string.battery_temperature_max_header:
+			header = ctx.getString(R.string.battery_temperature_max_header);
+			description = ctx.getString(R.string.battery_temperature_max_description);
+			unit = ctx.getString(R.string.prefs_unit_celcius);
+			break;
 		case R.string.prefs_disk_max_pct_header:
 			header = ctx.getString(R.string.prefs_disk_max_pct_header);
 			description = ctx.getString(R.string.prefs_disk_max_pct_description);

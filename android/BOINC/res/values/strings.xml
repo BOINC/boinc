@@ -150,6 +150,8 @@
 	<string name="prefs_run_on_battery_header">Compute on Battery</string>
 	<string name="battery_charge_min_pct_header">Min. battery level</string>
 	<string name="battery_charge_min_pct_description">BOINC suspends computation below defined battery charge level.</string>
+	<string name="battery_temperature_max_header">Max. battery temperature</string>
+	<string name="battery_temperature_max_description">BOINC suspends computation above defined battery temperature.</string>
 	<string name="prefs_disk_max_pct_header">Max. used storage space</string>
 	<string name="prefs_disk_max_pct_description">How many percent of your device\'s storage space is BOINC allowed to use?</string>
 	<string name="prefs_disk_min_free_gb_header">Min. spare storage</string>
@@ -173,6 +175,7 @@
 	<string name="prefs_unit_pct">%</string>
 	<string name="prefs_unit_cpu">CPU</string>
 	<string name="prefs_unit_cpus">CPUS</string>
+	<string name="prefs_unit_celcius">&#0176;C</string>
 	
 	<!-- projects tab strings -->
 	<string name="projects_loading">Reading projects&#8230;</string>

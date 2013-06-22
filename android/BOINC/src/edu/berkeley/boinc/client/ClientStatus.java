@@ -41,7 +41,6 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.util.Log;
 import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.TasksActivity.TaskData;
 import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.Project;
