@@ -200,7 +200,7 @@
 	<string name="projects_control_allownewtasks">Allow new tasks</string>
 	<string name="projects_control_reset">Reset</string>
 		<!-- project confirm dialog -->
-	<string name="projects_confirm_detach_title">Remove project</string>
+	<string name="projects_confirm_detach_title">Remove project?</string>
 	<string name="projects_confirm_detach_message">Are you sure you want to remove</string>
 	<string name="projects_confirm_detach_message2">from BOINC?</string>
 	<string name="projects_confirm_detach_confirm">Remove</string>
@@ -237,7 +237,7 @@
 	<string name="tasks_custom_ready_to_report">ready to report</string>
 
 	<!-- confirmation dialog -->
-	<string name="confirm_abort_task_title">Abort task</string>
+	<string name="confirm_abort_task_title">Abort task?</string>
 	<string name="confirm_abort_task_message">Abort task:</string>
 	<string name="confirm_abort_task_confirm">Abort</string>
 	<string name="confirm_cancel">Cancel</string>
@@ -259,7 +259,7 @@
 	<string name="trans_projectbackoff">project backoff</string>
 	<string name="trans_header_name">File:</string>
 										    
-	<string name="confirm_abort_trans_title">Abort transfer</string>
+	<string name="confirm_abort_trans_title">Abort transfer?</string>
 	<string name="confirm_abort_trans_message">Abort File:</string>
 	<string name="confirm_abort_trans_confirm">Abort</string>
 	

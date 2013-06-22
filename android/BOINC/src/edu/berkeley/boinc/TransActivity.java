@@ -29,11 +29,11 @@ import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.rpc.Transfer;
 import edu.berkeley.boinc.utils.BOINCErrors;
+import android.app.Dialog;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
@@ -43,7 +43,9 @@ import android.os.IBinder;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -56,6 +58,7 @@ public class TransActivity extends FragmentActivity {
 	private TransListAdapter listAdapter;
 	private ArrayList<TransferData> data = new ArrayList<TransferData>();
 	private CcStatus status;
+	private FragmentActivity activity = this;
 	
 	// Controls whether initialization of view elements of "projects_layout"
 	// is required. This is the case, every time the layout switched.
@@ -272,27 +275,34 @@ public class TransActivity extends FragmentActivity {
 						expectedState = TRANSFER_ONGOING;
 						new TransferOperationAsync().execute(transfer.project_url, transfer.name, operation.toString());
 						break;
-//					case 3: // TODO: RpcClient.TRANSFER_SUSPEND:
-//						expectedState = TRANSFER_SUSPENDED;
-//						new TransferOperationAsync().execute(transfer.project_url, transfer.name, operation.toString());
-//						break;
-//					case 4: // TODO: RpcClient.TRANSFER_RESUME:
-//						expectedState = TRANSFER_ONGOING;
-//						new TransferOperationAsync().execute(transfer.project_url, transfer.name, operation.toString());
-//						break; 
 					case RpcClient.TRANSFER_ABORT:
-						ConfirmationDialog cd = ConfirmationDialog.newInstance(
-								getString(R.string.confirm_abort_trans_title) + "?",
-								getString(R.string.confirm_abort_trans_message) + " " + transfer.name,
-								getString(R.string.confirm_abort_trans_confirm));
-						cd.setConfirmationClicklistener(new DialogInterface.OnClickListener() {
+						final Dialog dialog = new Dialog(activity);
+						dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+						dialog.setContentView(R.layout.dialog_confirm);
+						Button confirm = (Button) dialog.findViewById(R.id.confirm);
+						TextView tvTitle = (TextView)dialog.findViewById(R.id.title);
+						TextView tvMessage = (TextView)dialog.findViewById(R.id.message);
+						
+						tvTitle.setText(R.string.confirm_abort_trans_title);
+						tvMessage.setText(getString(R.string.confirm_abort_trans_message) + " "
+								+ transfer.name);
+						confirm.setText(R.string.confirm_abort_trans_confirm);
+						confirm.setOnClickListener(new OnClickListener() {
 							@Override
-							public void onClick(DialogInterface dialog, int which) {
+							public void onClick(View v) {
 								expectedState = TRANSFER_ABORTED;
 								new TransferOperationAsync().execute(transfer.project_url, transfer.name, operation.toString());
+								dialog.dismiss();
 							}
 						});
-						cd.show(getSupportFragmentManager(), "");
+						Button cancel = (Button) dialog.findViewById(R.id.cancel);
+						cancel.setOnClickListener(new OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								dialog.dismiss();
+							}
+						});
+						dialog.show();
 						break;
 					default:
 						if(Logging.WARNING) Log.w(Logging.TAG,"could not map operation tag");
