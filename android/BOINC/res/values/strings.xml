@@ -78,21 +78,21 @@
     <string name="attachproject_registration_header_pwd_confirm">&#8230; Retype:</string>
     <string name="attachproject_registration_button">Create</string>
     	<!-- error strings -->
-    <string name="attachproject_error_project_exists">Project is already attached!</string>
-    <string name="attachproject_error_wrong_name">User not found.</string>
-    <string name="attachproject_error_short_pwd">Password too short.</string>
-    <string name="attachproject_error_no_internet">Connection failure.</string>
-    <string name="attachproject_error_pwd_no_match">Passwords do not match.</string>
-    <string name="attachproject_error_no_email">Please enter eMail address.</string>
-    <string name="attachproject_error_no_pwd">Please enter a password.</string>
-    <string name="attachproject_error_no_name">Please enter user name.</string>
-    <string name="attachproject_error_unknown">failed.</string>
-    <string name="attachproject_error_bad_username">User name refused.</string>
-    <string name="attachproject_error_email_in_use">eMail is already in use.</string>
-    <string name="attachproject_error_project_down">Project is offline.</string>
-    <string name="attachproject_error_email_bad_syntax">eMail refused.</string>
-    <string name="attachproject_error_bad_pwd">Password refused.</string>
-    <string name="attachproject_error_creation_disabled">Account creation is disabled on this project!</string>
+    <string name="attachproject_error_project_exists">Project is already attached</string>
+    <string name="attachproject_error_wrong_name">User not found</string>
+    <string name="attachproject_error_short_pwd">Password too short</string>
+    <string name="attachproject_error_no_internet">Connection failure</string>
+    <string name="attachproject_error_pwd_no_match">Passwords do not match</string>
+    <string name="attachproject_error_no_email">Please enter eMail address</string>
+    <string name="attachproject_error_no_pwd">Please enter a password</string>
+    <string name="attachproject_error_no_name">Please enter user name</string>
+    <string name="attachproject_error_unknown">failed</string>
+    <string name="attachproject_error_bad_username">User name refused</string>
+    <string name="attachproject_error_email_in_use">eMail is already in use</string>
+    <string name="attachproject_error_project_down">Project is offline</string>
+    <string name="attachproject_error_email_bad_syntax">eMail refused</string>
+    <string name="attachproject_error_bad_pwd">Password refused</string>
+    <string name="attachproject_error_creation_disabled">Account creation is disabled on this project</string>
     	<!-- working activity -->
     <string name="attachproject_working_back_button">Back</string>
     <string name="attachproject_working_finish_button">Finish</string>
