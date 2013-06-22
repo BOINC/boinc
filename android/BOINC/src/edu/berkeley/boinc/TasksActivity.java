@@ -139,8 +139,8 @@ public class TasksActivity extends FragmentActivity {
 
 			if(!setup) { //first time we got proper results, setup adapter
 				lv = (ListView) findViewById(R.id.tasksList);
-			        listAdapter = new TasksListAdapter(TasksActivity.this,R.id.tasksList,data);
-		        	lv.setAdapter(listAdapter);
+			    listAdapter = new TasksListAdapter(TasksActivity.this,R.id.tasksList,data);
+		        lv.setAdapter(listAdapter);
 
 				setup = true;
 			}
@@ -291,6 +291,10 @@ public class TasksActivity extends FragmentActivity {
 			} else {
 				return result.state;
 			}
+		}
+		
+		public boolean isTaskActive() {
+			return result.active_task;
 		}
 	}
 	

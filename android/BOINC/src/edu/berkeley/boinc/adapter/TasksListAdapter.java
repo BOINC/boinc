@@ -110,8 +110,9 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 			((ImageView)v.findViewById(R.id.expandCollapse)).setImageResource(R.drawable.collapse);
 			expansionWrapper.setVisibility(View.GONE);
 
-			
-			if(listItem.determineState() == BOINCDefs.PROCESS_EXECUTING) {
+			// result and process state are overlapping, e.g. PROCESS_EXECUTING and RESULT_FILES_DOWNLOADING
+			// therefore check also whether task is active
+			if(listItem.isTaskActive() && listItem.determineState() == BOINCDefs.PROCESS_EXECUTING) {
 				// task is active
 				statusTextWrapper.setVisibility(View.GONE);
 				statusCollapsedActiveWrapper.setVisibility(View.VISIBLE);
