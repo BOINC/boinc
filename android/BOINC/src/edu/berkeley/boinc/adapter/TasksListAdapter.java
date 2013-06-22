@@ -57,14 +57,24 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 
+		TaskData listItem = entries.get(position);
+
 		View v = convertView;
-		if(v == null){
+		// setup new view, if:
+		// - view is null, has not been here before
+		// - view has different id
+		Boolean setup = false;
+		if(v == null) setup = true;
+		else {
+			String viewId = (String)v.getTag();
+			if(!listItem.id.equals(viewId)) setup = true;
+		}
+		
+		if(setup){
 			LayoutInflater vi = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			v = vi.inflate(R.layout.tasks_layout_listitem, null);
-			v.setOnClickListener(entries.get(position).taskClickListener);
+			v.setTag(listItem.id);
 		}
-
-		TaskData listItem = entries.get(position);
 		
 		ProgressBar epb = (ProgressBar) v.findViewById(R.id.progressBar);
 		ProgressBar cpb = (ProgressBar) v.findViewById(R.id.collapsedProgressBar);

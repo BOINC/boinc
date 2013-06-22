@@ -44,6 +44,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -141,6 +143,7 @@ public class TasksActivity extends FragmentActivity {
 				lv = (ListView) findViewById(R.id.tasksList);
 			    listAdapter = new TasksListAdapter(TasksActivity.this,R.id.tasksList,data);
 		        lv.setAdapter(listAdapter);
+		        lv.setOnItemClickListener(itemClickListener);
 
 				setup = true;
 			}
@@ -223,14 +226,6 @@ public class TasksActivity extends FragmentActivity {
 			}
 		}
 
-		public final OnClickListener taskClickListener = new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				expanded = !expanded;
-				listAdapter.notifyDataSetChanged(); //force list adapter to refresh
-			}
-		};
-
 		public final OnClickListener iconClickListener = new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -297,6 +292,15 @@ public class TasksActivity extends FragmentActivity {
 			return result.active_task;
 		}
 	}
+	
+	public final OnItemClickListener itemClickListener = new OnItemClickListener() {
+		@Override
+		public void onItemClick(AdapterView<?> arg0, View view, int position, long arg3) {
+			TaskData task = listAdapter.getItem(position);
+			task.expanded = !task.expanded;
+			listAdapter.notifyDataSetChanged();
+		}
+	};
 	
 	private final class ResultOperationAsync extends AsyncTask<String,Void,Boolean> {
 

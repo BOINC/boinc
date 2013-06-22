@@ -154,11 +154,26 @@ public class TransListAdapter extends ArrayAdapter<TransferData> implements OnIt
     
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-	    View v = convertView;
 
-	    LayoutInflater vi = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	    v = vi.inflate(R.layout.trans_layout_listitem, null);
-	    v.setOnClickListener(entries.get(position).transClickListener);
+		TransferData listItem = entries.get(position);
+
+		View v = convertView;
+		// setup new view, if:
+		// - view is null, has not been here before
+		// - view has different id
+		Boolean setup = false;
+		if(v == null) setup = true;
+		else {
+			String viewId = (String)v.getTag();
+			if(!listItem.id.equals(viewId)) setup = true;
+		}
+		
+		if(setup){
+		    LayoutInflater li = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		    v = li.inflate(R.layout.trans_layout_listitem, null);
+		    v.setOnClickListener(entries.get(position).transClickListener);
+		    v.setTag(listItem.id);
+		}
 	    
 	    ImageView ivIcon = (ImageView)v.findViewById(R.id.projectIcon);
 	    Bitmap icon = getIcon(position);
@@ -172,8 +187,6 @@ public class TransListAdapter extends ArrayAdapter<TransferData> implements OnIt
 	    TextView transferName = (TextView)v.findViewById(R.id.transName);
 	    ProgressBar progressBar = (ProgressBar)v.findViewById(R.id.progressBar);
 	    TextView statusText = (TextView)v.findViewById(R.id.transStatus);
-	    
-	    TransferData listItem = entries.get(position);
 	    
 	    progressBar.setIndeterminate(false);
 	    progressBar.setProgressDrawable(this.activity.getResources()

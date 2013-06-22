@@ -138,14 +138,28 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectData> {
 	
 	@Override
     public View getView(int position, View convertView, ViewGroup parent) {
-	    View vi = convertView;
-	    ProjectData data = entries.get(position);
-	    if(vi == null) {
+
+		ProjectData data = entries.get(position);
+
+		View vi = convertView;
+		// setup new view, if:
+		// - view is null, has not been here before
+		// - view has different id
+		Boolean setup = false;
+		if(vi == null) setup = true;
+		else {
+			String viewId = (String)vi.getTag();
+			if(!data.id.equals(viewId)) setup = true;
+		}
+		
+		if(setup){
 	    	// first time getView is called for this element
 	    	vi = ((LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.projects_layout_listitem, null);
 	    	//set onclicklistener for expansion
 			vi.setOnClickListener(entries.get(position).projectsListClickListener);
-	    }
+			vi.setTag(data.id);
+		}
+		
 	    // set data of standard elements
         TextView tvName = (TextView)vi.findViewById(R.id.project_name);
         tvName.setText(getName(position));
