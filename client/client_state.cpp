@@ -774,12 +774,16 @@ bool CLIENT_STATE::poll_slow_events() {
 #endif
 
     bool old_user_active = user_active;
+#ifdef ANDROID
+    user_active = device_status.user_active;
+#else
     user_active = !host_info.users_idle(
         check_all_logins, global_prefs.idle_time_to_run
 #ifdef __APPLE__
          , &idletime
 #endif
     );
+#endif
 
     if (user_active != old_user_active) {
         request_schedule_cpus("Idle state change");

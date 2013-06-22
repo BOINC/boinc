@@ -1170,10 +1170,11 @@ static void handle_report_device_status(GUI_RPC_CONN& grc) {
                         "Android device status:"
                     );
                     msg_printf(0, MSG_INFO,
-                        "On AC: %s; on USB: %s; on WiFi: %s",
+                        "On AC: %s; on USB: %s; on WiFi: %s; user active: %s",
                         d.on_ac_power?"yes":"no",
                         d.on_usb_power?"yes":"no",
-                        d.wifi_online?"yes":"no"
+                        d.wifi_online?"yes":"no",
+                        d.user_active?"yes":"no"
                     );
                     msg_printf(0, MSG_INFO,
                         "Battery: charge pct: %f; temp %f state %s",
@@ -1205,6 +1206,7 @@ int DEVICE_STATUS::parse(XML_PARSER& xp) {
         if (xp.parse_int("battery_state", battery_state)) continue;
         if (xp.parse_double("battery_temperature_celsius", battery_temperature_celsius)) continue;
         if (xp.parse_bool("wifi_online", wifi_online)) continue;
+        if (xp.parse_bool("user_active", user_active)) continue;
     }
     return ERR_XML_PARSE;
 }

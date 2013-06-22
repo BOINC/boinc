@@ -641,6 +641,11 @@ void CLIENT_STATE::read_global_prefs(
     }
     if (!global_prefs.run_if_user_active) {
         msg_printf(NULL, MSG_INFO, "   don't compute while active");
+#ifdef ANDROID
+    } else {
+        msg_printf(NULL, MSG_INFO, "   Android: don't compute while active");
+        global_prefs.run_if_user_active = false;
+#endif
     }
     if (!global_prefs.run_gpu_if_user_active) {
         msg_printf(NULL, MSG_INFO, "   don't use GPU while active");
