@@ -243,6 +243,7 @@ struct DEVICE_STATUS {
     int battery_state;      // see above
     double battery_temperature_celsius;
     bool wifi_online;
+    bool user_active;
 
     int parse(XML_PARSER&);
     DEVICE_STATUS() {
@@ -252,6 +253,7 @@ struct DEVICE_STATUS {
         battery_state =  BATTERY_STATE_UNKNOWN;
         battery_temperature_celsius = 0;
         wifi_online = false;
+        user_active = false;
     }
 };
 

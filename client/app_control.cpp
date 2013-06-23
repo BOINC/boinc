@@ -1048,15 +1048,32 @@ void ACTIVE_TASK_SET::suspend_all(int reason) {
     for (unsigned int i=0; i<active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks[i];
         if (atp->task_state() != PROCESS_EXECUTING) continue;
-        switch (reason) {
-        case SUSPEND_REASON_CPU_THROTTLE:
+
+        // handle CPU throttling separately
+        //
+        if (reason == SUSPEND_REASON_CPU_THROTTLE) {
             if (atp->result->dont_throttle()) continue;
             // if we're doing CPU throttling,
             // don't suspend CPU apps that use < 1 CPU
             //
             if (!atp->result->uses_coprocs() && atp->app_version->avg_ncpus < 1) continue;
             atp->preempt(REMOVE_NEVER);
-            break;
+            continue;;
+        }
+
+#ifdef ANDROID
+        // On Android, remove apps from memory if on batteries
+        // no matter what the reason for suspension.
+        // The message polling in the BOINC runtime system
+        // imposes an overhead which drains the battery
+        //
+        if (gstate.host_info.host_is_running_on_batteries()) {
+            atp->preempt(REMOVE_ALWAYS);
+            continue;
+        }
+#endif
+
+        switch (reason) {
         case SUSPEND_REASON_BENCHMARKS:
             atp->preempt(REMOVE_NEVER);
             break;
@@ -1076,14 +1093,6 @@ void ACTIVE_TASK_SET::suspend_all(int reason) {
             //
             atp->preempt(REMOVE_NEVER);
             break;
-#ifdef ANDROID
-        case SUSPEND_REASON_BATTERIES:
-            // On Android, remove apps from memory if on batteries.
-            // The message polling in the BOINC runtime system
-            // imposes an overhead which drains the battery a bit
-            atp->preempt(REMOVE_ALWAYS);
-            break;
-#endif
         default:
             atp->preempt(REMOVE_MAYBE_USER);
             break;
