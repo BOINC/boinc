@@ -600,7 +600,9 @@ public class RpcClient {
 		mRequest.append(deviceStatus.getBattery_temperature_celcius());
 		mRequest.append("</battery_temperature_celsius>\n  <wifi_online>");
 		mRequest.append(deviceStatus.isWifi_online() ? 1 : 0);
-		mRequest.append("</wifi_online>\n </device_status>\n</report_device_status>\n");
+		mRequest.append("</wifi_online>\n  <user_active>");
+		mRequest.append(deviceStatus.isUser_active() ? 1 : 0);
+		mRequest.append("</user_active>\n </device_status>\n</report_device_status>\n");
 		try {
 			sendRequest(mRequest.toString());
 			SimpleReplyParser parser = SimpleReplyParser.parse(receiveReply());

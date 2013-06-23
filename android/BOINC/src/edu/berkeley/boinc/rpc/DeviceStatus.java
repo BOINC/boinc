@@ -26,6 +26,7 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.BatteryManager;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 public class DeviceStatus{
@@ -43,16 +44,19 @@ public class DeviceStatus{
 	private int battery_state = -1; //not used
 	private int battery_temperature_celcius = 100;
 	private boolean wifi_online = false;
+	private boolean user_active = true;
 
 	// android specifics
 	private Context ctx;// context required for reading device status
 	private ConnectivityManager connManager; // connManager contains current wifi status
+	private TelephonyManager telManager; // telManager to retrieve call state
 	private Intent batteryStatus; // sticky intent, extras of Intent contain status, see BatteryManager.
 	
 	// constructor
 	public DeviceStatus(Context ctx) {
 		this.ctx = ctx;
 		this.connManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+		this.telManager = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
 		batteryStatus = ctx.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 	}
 	
@@ -123,8 +127,20 @@ public class DeviceStatus{
 			wifi_online = true;
 		}
 		
-		if(change) if(Logging.DEBUG) Log.d(Logging.TAG, "change: " + change + " - ac: " + on_ac_power + " ; usb: " + on_usb_power + " ; level: " + battery_charge_pct + " ; temperature: " + battery_temperature_celcius + " ; wifi: " + wifi_online);
-		if(Logging.VERBOSE) Log.v(Logging.TAG, "change: " + change + " - ac: " + on_ac_power + " ; usb: " + on_usb_power + " ; level: " + battery_charge_pct + " ; temperature: " + battery_temperature_celcius + " ; wifi: " + wifi_online);
+		// check telephone status
+		int telStatus = telManager.getCallState();
+		if(telStatus == TelephonyManager.CALL_STATE_IDLE) {
+			// phone is idle
+			if(user_active) change = true;
+			user_active = false;
+		} else {
+			// phone is busy, either ringing, or offhook
+			if(!user_active) change = true;
+			user_active = true;
+		}
+		
+		if(change) if(Logging.INFO) Log.i(Logging.TAG, "change: " + change + " - ac: " + on_ac_power + " ; usb: " + on_usb_power + " ; level: " + battery_charge_pct + " ; temperature: " + battery_temperature_celcius + " ; wifi: " + wifi_online + " ; user active: " + user_active);
+		if(Logging.DEBUG) Log.d(Logging.TAG, "change: " + change + " - ac: " + on_ac_power + " ; usb: " + on_usb_power + " ; level: " + battery_charge_pct + " ; temperature: " + battery_temperature_celcius + " ; wifi: " + wifi_online + " ; user active: " + user_active);
 		
 		valid = true; // end reached without exception
 		return change;
@@ -161,5 +177,10 @@ public class DeviceStatus{
 	public boolean isWifi_online() {
 		if(!valid) return false;
 		return wifi_online;
+	}
+	
+	public boolean isUser_active() {
+		if(!valid) return false;
+		return user_active;
 	}
 }
