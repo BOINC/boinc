@@ -833,6 +833,14 @@ public class Monitor extends Service {
     	} else if(Logging.DEBUG) Log.d(Logging.TAG, "rpc.lookupAccount failed.");
     	return auth;
     }
+	
+	// sets cc_config.xml for client and trigger is to re-read.
+	public void setCcConfig(String ccConfig) {
+		if(Logging.DEBUG) Log.d(Logging.TAG, "Monitor.setCcConfig: current cc_config: " + rpc.getCcConfig());
+		if(Logging.DEBUG) Log.d(Logging.TAG, "Monitor.setCcConfig: setting new cc_config: " + ccConfig);
+		rpc.setCcConfig(ccConfig);
+		rpc.readCcConfig();
+	}
     
 	public Boolean abortTransfer(String url, String name){
 		return rpc.transferOp(RpcClient.TRANSFER_ABORT, url, name);

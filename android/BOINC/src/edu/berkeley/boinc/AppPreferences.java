@@ -31,6 +31,7 @@ public class AppPreferences {
 	private Boolean autostart;
 	private Boolean showNotification;
 	private Boolean showAdvanced;
+	private Integer logLevel;
 	
 	public void readPrefs (Context ctx) {
 		if(prefs == null) {
@@ -40,8 +41,10 @@ public class AppPreferences {
 		autostart = prefs.getBoolean("autostart", ctx.getResources().getBoolean(R.bool.prefs_default_autostart));
 		showNotification = prefs.getBoolean("showNotification", ctx.getResources().getBoolean(R.bool.prefs_default_notifications));
 		showAdvanced = prefs.getBoolean("showAdvanced", ctx.getResources().getBoolean(R.bool.prefs_default_advanced));
+		logLevel = prefs.getInt("logLevel", ctx.getResources().getInteger(R.integer.prefs_default_loglevel));
+		Logging.setLogLevel(logLevel);
 		
-		if(Logging.DEBUG) Log.d(Logging.TAG, "appPrefs read successful." + autostart + showNotification + showAdvanced);
+		if(Logging.DEBUG) Log.d(Logging.TAG, "appPrefs read successful." + autostart + showNotification + showAdvanced + logLevel);
 	}
 	
 	public void setAutostart(Boolean as) {
@@ -75,5 +78,17 @@ public class AppPreferences {
 	
 	public Boolean getShowAdvanced () {
 		return this.showAdvanced;
+	}
+	
+	public void setLogLevel(Integer logLevel) {
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putInt("logLevel", logLevel);
+		editor.commit();
+		this.logLevel = logLevel;
+		Logging.setLogLevel(logLevel);
+	}
+	
+	public Integer getLogLevel () {
+		return this.logLevel;
 	}
 }

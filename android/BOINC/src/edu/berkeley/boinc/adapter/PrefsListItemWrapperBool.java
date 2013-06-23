@@ -24,13 +24,11 @@ public class PrefsListItemWrapperBool extends PrefsListItemWrapper {
 	
 	//private final String TAG = "PrefsListItemWrapperBool";
 
-	public String header = "";
 	private Boolean status;
 	
 	public PrefsListItemWrapperBool(Context ctx, Integer ID, Integer categoryID, Boolean status) {
 		super(ctx, ID, categoryID);
 		this.status = status;
-		this.header = ctx.getString(ID);
 	}
 	
 	public void setStatus(Boolean newStatus) {

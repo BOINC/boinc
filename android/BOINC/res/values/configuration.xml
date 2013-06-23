@@ -24,6 +24,7 @@
     	<bool name="prefs_default_autostart">true</bool>
         <bool name="prefs_default_notifications">true</bool>
         <bool name="prefs_default_advanced">false</bool>
+        <integer name="prefs_default_loglevel">2</integer>
     <!-- Monitor behavior -->
     	<integer name="client_status_refresh_rate_ms">1000</integer>
     	<integer name="monitor_setup_connection_retry_rate_ms">1000</integer>
@@ -59,4 +60,13 @@
     	<integer name="shutdown_graceful_os_check_attempts">30</integer>
     <!-- eventlog -->
     	<integer name="eventlog_gui_messages">100</integer>
+    <!-- preferences -->	
+    	<string-array name="prefs_client_log_flags">
+    	    <item>android_debug</item>
+    	    <item>http_debug</item>
+    	    <item>task_debug</item>
+    	    <item>gui_rpc_debug</item>
+    	    <item>cpu_sched_debug</item>
+    	    <item>work_fetch_debug</item>
+    	</string-array>
 </resources>

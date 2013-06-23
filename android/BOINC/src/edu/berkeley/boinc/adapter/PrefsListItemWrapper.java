@@ -26,11 +26,13 @@ public class PrefsListItemWrapper {
 	public Integer ID;
 	public Integer categoryID;
 	public Boolean isCategory;
+	public String header;
 	
 	// Constructor for elements
 	public PrefsListItemWrapper (Context ctx, Integer ID, Integer categoryID) {
 		this.ctx = ctx;
 		this.ID = ID;
+		this.header = ctx.getString(ID);
 		this.categoryID = categoryID;
 		this.isCategory = false;
 	}

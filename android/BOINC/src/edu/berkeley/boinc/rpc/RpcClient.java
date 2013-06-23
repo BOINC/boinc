@@ -1219,4 +1219,57 @@ public class RpcClient {
 			return false;
 		}
 	}
+	
+	public synchronized boolean setCcConfig(String ccConfig) {
+		final String request =
+				"<set_cc_config>\n" +
+						ccConfig + 
+				"\n</set_cc_config>\n";
+			try {
+				sendRequest(request);
+				SimpleReplyParser parser = SimpleReplyParser.parse(receiveReply());
+				if (parser == null)
+					return false;
+				mLastErrorMessage = parser.getErrorMessage();
+				return parser.result();
+			}
+			catch (IOException e) {
+				if(Logging.WARNING) Log.w(Logging.TAG, "error in setRunMode()", e);
+				return false;
+			}
+		
+	}
+	
+	public synchronized String getCcConfig() {
+		//TODO: needs proper parsing
+		try {
+			mRequest.setLength(0);
+			mRequest.append("<get_cc_config/>");
+			
+			sendRequest(mRequest.toString());
+			String reply = receiveReply();
+			Log.d(Logging.TAG, reply);
+			return reply;
+		} catch (IOException e) {
+			if(Logging.WARNING) Log.w(Logging.TAG, "error in getCcConfig()", e);
+			return "";
+		}
+	}
+	
+	public synchronized Boolean readCcConfig() {
+		try {
+			mRequest.setLength(0);
+			mRequest.append("<read_cc_config/>");
+
+			sendRequest(mRequest.toString());
+			SimpleReplyParser parser = SimpleReplyParser.parse(receiveReply());
+			if (parser == null)
+				return false;
+			mLastErrorMessage = parser.getErrorMessage();
+			return parser.result();
+		} catch (IOException e) {
+			if(Logging.WARNING) Log.w(Logging.TAG, "error in readCcConfig()", e);
+			return false;
+		}
+	}
 }

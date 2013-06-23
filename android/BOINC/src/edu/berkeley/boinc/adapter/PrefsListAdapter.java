@@ -77,6 +77,18 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
 	    		} 
 	    		TextView status = (TextView) v.findViewById(R.id.status);
 	    		status.setText(value + " " + item.unit);
+	    	} else {
+	    		// instance of PrefsListItemWrapper, e.g. client log flags
+	    		PrefsListItemWrapper item = listItem;
+	    		v = vi.inflate(R.layout.prefs_layout_listitem, null);
+	    		v.setTag(listItem); //set listItem as tag to view, since root layout defines onClick method
+	    		TextView header = (TextView) v.findViewById(R.id.header);
+	    		header.setText(item.header);
+	    		// hide unused views
+	    		TextView description = (TextView) v.findViewById(R.id.description);
+	    		description.setVisibility(View.GONE);
+	    		TextView status = (TextView) v.findViewById(R.id.status);
+	    		status.setVisibility(View.INVISIBLE);
 	    	}
     	}
     	

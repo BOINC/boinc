@@ -21,7 +21,7 @@ package edu.berkeley.boinc.utils;
 public class Logging {
 	static public String TAG = "BOINC_GUI";
 	
-	static public int LOGLEVEL = 4;
+	static public int LOGLEVEL = -1;
 	static public Boolean ERROR = LOGLEVEL > 0;
 	static public Boolean WARNING = LOGLEVEL > 1;
 	static public Boolean INFO = LOGLEVEL > 2;
@@ -30,4 +30,13 @@ public class Logging {
 
 	static public Boolean RPC_PERFORMANCE = false;
 	static public Boolean RPC_DATA = false; 
+	
+	static public void setLogLevel(Integer logLevel) {
+		LOGLEVEL = logLevel;
+		ERROR = LOGLEVEL > 0;
+		WARNING = LOGLEVEL > 1;
+		INFO = LOGLEVEL > 2;
+		DEBUG = LOGLEVEL > 3;
+		VERBOSE = LOGLEVEL > 4;
+	}
 }

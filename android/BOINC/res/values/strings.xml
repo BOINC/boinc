@@ -139,12 +139,14 @@
 	<string name="prefs_loading">Reading preferences&#8230;</string>
 	<string name="prefs_submit_button">Save</string>
 	<string name="prefs_dialog_title">Enter new value:</string>
+	<string name="prefs_dialog_title_selection">Select:</string>
 	<string name="prefs_category_general">General</string>
 	<string name="prefs_category_network">Network</string>
 	<string name="prefs_category_power">Power</string>
 	<string name="prefs_category_cpu">CPU</string>
 	<string name="prefs_category_storage">Storage</string>
 	<string name="prefs_category_memory">Memory</string>
+	<string name="prefs_category_debug">Debug</string>
 	
 	<string name="prefs_show_advanced_header">Show advanced preferences and controls&#8230;</string>
 	<string name="prefs_run_on_battery_header">Compute on Battery</string>
@@ -169,6 +171,10 @@
 	<string name="prefs_cpu_time_max_description">Limits the CPU time BOINC uses for computation.</string>
 	<string name="prefs_memory_max_idle_header">RAM limit</string>
 	<string name="prefs_memory_max_idle_description">Limits the amount of RAM tasks are allowed to occupy.</string>
+	<string name="prefs_client_log_flags_header">BOINC Client log flags</string>
+	<string name="prefs_client_log_flags_description">Enables log messages for specified categories.</string>
+	<string name="prefs_gui_log_level_header">GUI log level</string>
+	<string name="prefs_gui_log_level_description">Specifies verbosity of GUI log messages.</string>
 	
 	<string name="prefs_unit_mb">MB</string>
 	<string name="prefs_unit_gb">GB</string>

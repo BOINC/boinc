@@ -26,7 +26,6 @@ import android.util.Log;
 
 public class PrefsListItemWrapperValue extends PrefsListItemWrapper {
 
-	public String header = "";
 	public String description = "";
 	public String unit = "";
 	public Double status;
@@ -42,49 +41,44 @@ public class PrefsListItemWrapperValue extends PrefsListItemWrapper {
 	private void mapStrings(Integer id) {
 		switch (id) {
 		case R.string.battery_charge_min_pct_header:
-			header = ctx.getString(R.string.battery_charge_min_pct_header);
 			description = ctx.getString(R.string.battery_charge_min_pct_description);
 			unit = ctx.getString(R.string.prefs_unit_pct);
 			break;
 		case R.string.battery_temperature_max_header:
-			header = ctx.getString(R.string.battery_temperature_max_header);
 			description = ctx.getString(R.string.battery_temperature_max_description);
 			unit = ctx.getString(R.string.prefs_unit_celcius);
 			break;
 		case R.string.prefs_disk_max_pct_header:
-			header = ctx.getString(R.string.prefs_disk_max_pct_header);
 			description = ctx.getString(R.string.prefs_disk_max_pct_description);
 			unit = ctx.getString(R.string.prefs_unit_pct);
 			break;
 		case R.string.prefs_disk_min_free_gb_header:
-			header = ctx.getString(R.string.prefs_disk_min_free_gb_header);
 			description = ctx.getString(R.string.prefs_disk_min_free_gb_description);
 			unit = ctx.getString(R.string.prefs_unit_gb);
 			break;
 		case R.string.prefs_network_daily_xfer_limit_mb_header:
-			header = ctx.getString(R.string.prefs_network_daily_xfer_limit_mb_header);
 			description = ctx.getString(R.string.prefs_network_daily_xfer_limit_mb_description);
 			unit = ctx.getString(R.string.prefs_unit_mb);
 			break;
 		case R.string.prefs_cpu_number_cpus_header:
-			header = ctx.getString(R.string.prefs_cpu_number_cpus_header);
 			description = ctx.getString(R.string.prefs_cpu_number_cpus_description);
 			isNumber = true;
 			break;
 		case R.string.prefs_cpu_other_load_suspension_header:
-			header = ctx.getString(R.string.prefs_cpu_other_load_suspension_header);
 			description = ctx.getString(R.string.prefs_cpu_other_load_suspension_description);
 			unit = ctx.getString(R.string.prefs_unit_pct);
 			break;
 		case R.string.prefs_cpu_time_max_header:
-			header = ctx.getString(R.string.prefs_cpu_time_max_header);
 			description = ctx.getString(R.string.prefs_cpu_time_max_description);
 			unit = ctx.getString(R.string.prefs_unit_pct);
 			break;
 		case R.string.prefs_memory_max_idle_header:
-			header = ctx.getString(R.string.prefs_memory_max_idle_header);
 			description = ctx.getString(R.string.prefs_memory_max_idle_description);
 			unit = ctx.getString(R.string.prefs_unit_pct);
+			break;
+		case R.string.prefs_gui_log_level_header:
+			description = ctx.getString(R.string.prefs_gui_log_level_description);
+			isNumber = true;
 			break;
 		default:
 			if(Logging.DEBUG) Log.d(Logging.TAG, "PrefsListItemWrapperValue map failed!");
