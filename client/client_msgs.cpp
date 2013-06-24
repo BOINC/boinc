@@ -39,10 +39,6 @@ using std::deque;
 
 #include "client_msgs.h"
 
-#ifdef ANDROID
-#include "android/log.h"
-#endif
-
 MESSAGE_DESCS message_descs;
 
 #ifdef SIM
@@ -132,9 +128,6 @@ void show_message(
 #ifdef _WIN32      // print message to the debugger view port
     ::OutputDebugString(evt_message);  
 #endif
-#ifdef ANDROID     // print message to Logcat
-    __android_log_print(ANDROID_LOG_INFO, "BOINC", evt_message);
-#endif 
 
 #endif
 

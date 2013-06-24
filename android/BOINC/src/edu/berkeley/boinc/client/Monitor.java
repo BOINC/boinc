@@ -34,7 +34,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Iterator;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -921,32 +921,30 @@ public class Monitor extends Service {
     	return auth;
 	}
 	
-	// returns client messages to be shown in EventLog tab.
-	// start is counting from beginning, e.g. start=0 number=50
-	// needs lastIndexOfList as reference for consistency
-	// returns 50 most recent messages
-	public List<Message> getEventLogMessages(int startIndex, int number, int lastIndexOfList) {
-		//if(Logging.DEBUG) Log.d(Logging.TAG,"getEventLogMessage from start: " + startIndex + " amount: " + number + "lastIndexOfList: " + lastIndexOfList);
-		Integer requestedLastIndex = startIndex + number;
-		if(lastIndexOfList == 0) { // list is empty, initial start
-			lastIndexOfList = rpc.getMessageCount() - 1; // possible lastIndexOfList if all messages were read
-			//if(Logging.DEBUG) Log.d(Logging.TAG,"list ist empty, initial start, read message count: " + (lastIndexOfList+1));
+	// returns given number of client messages, older than provided seqNo
+	// if seqNo <= 0 initial data retrieval
+	public ArrayList<Message> getEventLogMessages(int seqNo, int number) {
+		// determine oldest message seqNo for data retrieval
+		int lowerBound = 0;
+		if(seqNo > 0) lowerBound = seqNo - number - 2;
+		else lowerBound = rpc.getMessageCount() - number - 1; // can result in >number results, if client writes message btwn. here and rpc.getMessages!
+		
+		// less than desired number of messsages available, adapt lower bound
+		if(lowerBound < 0) lowerBound = 0;
+		ArrayList<Message> msgs= rpc.getMessages(lowerBound); // returns ever messages with seqNo > lowerBound
+		
+		if(seqNo > 0) {
+			// remove messages that are >= seqNo
+			Iterator<Message> it = msgs.iterator();
+			while(it.hasNext()) {
+				Message tmp = it.next();
+				if (tmp.seqno >= seqNo) it.remove();
+			}
 		}
-		if(requestedLastIndex > lastIndexOfList + 1) { // requesting more messages than actually present
-			number = lastIndexOfList - startIndex + 1; 
-			//if(Logging.DEBUG) Log.d(Logging.TAG,"getEventLogMessage requesting more messages than left, number changed to " + number);
-		}
-		Integer param = lastIndexOfList + 1 - startIndex - number;
-		//if(Logging.DEBUG) Log.d(Logging.TAG,"getEventLogMessage calling RPC with: " + param);
-		try {
-			ArrayList<Message> tmpL = rpc.getMessages(param);
-			List<Message> msgs = tmpL.subList(0, tmpL.size() - startIndex); // tmp.size - start is amount of actually new values. Usually equals number, except for end of list
-			//if(Logging.DEBUG) Log.d(Logging.TAG,"getEventLogMessages returning " + msgs.size() + " messages with oldest element seq no: " + msgs.get(0).seqno + " and recent seq no: " + msgs.get(msgs.size()-1).seqno);
-			return msgs;
-		} catch (Exception e) {
-			//if(Logging.WARNING) Log.w(Logging.TAG,"error in retrieving sublist", e);
-			return null;
-		} 
+		
+		if(!msgs.isEmpty()) if(Logging.DEBUG) Log.d(Logging.TAG,"getEventLogMessages: returning array with " + msgs.size() + " entries. for lowerBound: " + lowerBound + " at 0: " + msgs.get(0).seqno + " at " + (msgs.size()-1) + ": " + msgs.get(msgs.size()-1).seqno);
+		else if(Logging.DEBUG) Log.d(Logging.TAG,"getEventLogMessages: returning empty array for lowerBound: " + lowerBound);
+		return msgs;
 	}
 	
 	// returns client messages that are more recent than given seqNo

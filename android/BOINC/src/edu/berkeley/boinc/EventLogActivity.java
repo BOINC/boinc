@@ -78,7 +78,7 @@ public class EventLogActivity extends FragmentActivity {
 
 	    super.onCreate(savedInstanceState);
 	}
-	
+
 	@Override
 	public void onResume() {
 		if(Logging.VERBOSE) Log.v(Logging.TAG, "EventLogActivity onResume()");
@@ -355,9 +355,7 @@ public class EventLogActivity extends FragmentActivity {
 		@Override
 		protected void onPreExecute() {
 			if(!mIsBound) cancel(true); // cancel execution if monitor is not bound yet
-			try {
-				mostRecentSeqNo = clientLogData.get(0).seqno;
-			} catch (Exception e) {} //IndexOutOfBoundException
+			if(!clientLogData.isEmpty()) mostRecentSeqNo = clientLogData.get(0).seqno;
 		}
 		
 		@Override
@@ -374,31 +372,26 @@ public class EventLogActivity extends FragmentActivity {
 	
 	private final class RetrievePastClientMsgs extends AsyncTask<Void,Void,List<Message>> {
 		
-		private Integer mostRecentSeqNo = null;
-		private Integer pastSeqNo = null;
+		//private int mostRecentSeqNo = 0; // most recent (highest) seqNo
+		private int pastSeqNo = -1; // oldest (lowest) seqNo currently loaded to GUI
+		//private int lastclientLogDataListIndex = 0; // index of last element (oldest message) in clientLogData
 
 		@Override
 		protected void onPreExecute() {
 			if(!mIsBound) cancel(true); // cancel execution if monitor is not bound yet
-			try {
-				mostRecentSeqNo = clientLogData.get(0).seqno;
-				pastSeqNo = clientLogData.get(clientLogData.size()-1).seqno;
-				if(Logging.DEBUG) Log.d("RetrievePastMsgs","mostRecentSeqNo: " + mostRecentSeqNo + " ; pastSeqNo: " + pastSeqNo);
+			if(!clientLogData.isEmpty()) {
+				pastSeqNo = clientLogData.get(clientLogData.size() - 1).seqno;
 				if(pastSeqNo==0) {
-					if(Logging.DEBUG) Log.d("RetrievePastMsgs", "cancel, all past messages are present");
+					if(Logging.DEBUG) Log.d("RetrievePastMsgs", "cancel, oldest messages already loaded");
 					cancel(true); // cancel if all past messages are present
 				}
-			} catch (Exception e) {} //IndexOutOfBoundException
+			}
 		}
 		
 		@Override
 		protected List<Message> doInBackground(Void... params) {
-			Integer startIndex = 0;
-			if(mostRecentSeqNo != null && pastSeqNo != null && mostRecentSeqNo != 0 && pastSeqNo != 0) startIndex = mostRecentSeqNo - pastSeqNo + 1;
-			Integer lastIndexOfList = 0;
-			if(mostRecentSeqNo != null) lastIndexOfList = mostRecentSeqNo - 1;
-			//if(Logging.DEBUG) Log.d("RetrievePastMsgs", "calling monitor with: " + startIndex + lastIndexOfList);
-			return monitor.getEventLogMessages(startIndex, pastMsgsLoadingRange, lastIndexOfList); 
+			if(Logging.DEBUG) Log.d("RetrievePastMsgs", "calling monitor with: " + pastSeqNo + " / " + pastMsgsLoadingRange);
+			return monitor.getEventLogMessages(pastSeqNo, pastMsgsLoadingRange); 
 		}
 
 		@Override

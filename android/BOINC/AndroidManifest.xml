@@ -50,7 +50,7 @@
         android:label="@string/app_name"
         android:theme="@style/Theme"
         android:allowBackup="true"
-        android:debuggable="true" >
+        android:debuggable="true"> <!-- android:largeHeap="true" , possible api level > 10. grants application larger dalvik vm heap. better performance when showing many slideshow pictures. -->
         
         <activity
             android:name="edu.berkeley.boinc.BOINCActivity"
