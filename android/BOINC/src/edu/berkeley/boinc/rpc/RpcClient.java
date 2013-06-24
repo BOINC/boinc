@@ -460,14 +460,16 @@ public class RpcClient {
 
 	/**
 	 * Performs get_message_count RPC towards BOINC client
-	 * 
+	 * Returns highest seqNo
 	 * @return result of RPC call in case of success, null otherwise
 	 */
 	public synchronized int getMessageCount() {
 		mLastErrorMessage = null;
 		try {
 			sendRequest("<get_message_count/>\n");
-			return MessageCountParser.getSeqno(receiveReply());
+			int seqNo = MessageCountParser.getSeqno(receiveReply());
+			if(Logging.DEBUG) Log.d(Logging.TAG,"RpcClient.getMessageCount returning: " + seqNo);
+			return seqNo;
 		}
 		catch (IOException e) {
 			if(Logging.WARNING) Log.w(Logging.TAG, "error in getMessageCount()", e);
@@ -477,7 +479,7 @@ public class RpcClient {
 
 	/**
 	 * Performs get_messages RPC towards BOINC client
-	 * 
+	 * Returns client messages that are more recent than seqNo param
 	 * @return result of RPC call in case of success, null otherwise
 	 */
 	public synchronized ArrayList<Message> getMessages(int seqNo) {
