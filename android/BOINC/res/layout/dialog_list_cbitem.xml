@@ -21,8 +21,6 @@
     android:id="@+id/checkbox"
  	android:layout_width="wrap_content"
  	android:layout_height="wrap_content"
-	android:padding="5dp"
 	android:singleLine="true"
 	android:textColor="@color/black"
-	android:background="@color/white_smoke"
- 	android:textAppearance="?android:attr/textAppearanceMedium" />
+	android:background="@color/white_smoke" />
