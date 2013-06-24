@@ -84,7 +84,7 @@ void notused() {
 
 int main(int argc, char *argv[])
 {
-    char                        pathToSelf[MAXPATHLEN], *p, *q;
+    char                        pathToSelf[MAXPATHLEN], *p;
     ProcessSerialNumber         ourPSN;
     FSRef                       ourFSRef;
     Boolean                     cancelled = false;
