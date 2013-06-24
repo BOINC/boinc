@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-18 11:32-0500\n"
-"PO-Revision-Date: 2013-06-06 19:18+0200\n"
+"PO-Revision-Date: 2013-06-19 09:43+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -1744,9 +1744,8 @@ msgstr "Älä näytä tätä uudelleen."
 
 #: clientgui/DlgItemProperties.cpp:163 clientgui/DlgItemProperties.cpp:166
 #: clientgui/DlgItemProperties.cpp:169 clientgui/DlgItemProperties.cpp:172
-#, fuzzy
 msgid "Don't fetch tasks for "
-msgstr "Älä lataa CPU-paketteja"
+msgstr "Älä lataa työtä prosessorille "
 
 #: clientgui/DlgItemProperties.cpp:163
 msgid "Project preference"
@@ -1757,9 +1756,8 @@ msgid "Account manager preference"
 msgstr "Tilihallitsijan asetukset"
 
 #: clientgui/DlgItemProperties.cpp:169
-#, fuzzy
 msgid "Project has no apps for "
-msgstr "Projektilla ei ole CPU-sovelluksia"
+msgstr "Projektilla ei ole sovelluksia prosessorille "
 
 #: clientgui/DlgItemProperties.cpp:172
 msgid "Client configuration excludes "
