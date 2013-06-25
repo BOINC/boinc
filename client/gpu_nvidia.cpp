@@ -146,9 +146,7 @@ int (*__cuMemGetInfo)(size_t*, size_t*);
 // http://developer.download.nvidia.com/compute/cuda/2_3/toolkit/docs/online/index.html
 
 void COPROC_NVIDIA::get(
-    bool use_all,    // if false, use only those equivalent to most capable
-    vector<string>& warnings,
-    vector<int>& ignore_devs
+    vector<string>& warnings
 ) {
     int cuda_ndevs, retval;
     char buf[256];
@@ -186,10 +184,6 @@ void COPROC_NVIDIA::get(
 
 #ifdef __APPLE__
     cudalib = dlopen("/usr/local/cuda/lib/libcuda.dylib", RTLD_NOW);
-    if (cudalib && isDualGPUMacBook()) {
-        msg_printf(0, MSG_INFO, "BOINC does not support CUDA on this computer.");
-        return;
-    }
 #else
     cudalib = dlopen("libcuda.so", RTLD_NOW);
 #endif
@@ -285,7 +279,6 @@ void COPROC_NVIDIA::get(
     warnings.push_back(buf);
 
     int j, itemp;
-    unsigned int i;
     size_t global_mem = 0;
     COPROC_NVIDIA cc;
     string s;
@@ -339,6 +332,7 @@ void COPROC_NVIDIA::get(
 #else
         cc.display_driver_version = 0;
 #endif
+        have_cuda = true;
         cc.have_cuda = true;
         cc.cuda_version = cuda_version;
         cc.device_num = j;
@@ -348,9 +342,18 @@ void COPROC_NVIDIA::get(
     }
     if (!nvidia_gpus.size()) {
         warnings.push_back("No CUDA-capable NVIDIA GPUs found");
-        return;
     }
+}
 
+
+void COPROC_NVIDIA::correlate(
+    bool use_all,    // if false, use only those equivalent to most capable
+    vector<int>& ignore_devs
+) {
+    unsigned int i;
+
+    if (!nvidia_gpus.size()) return;
+    
     // identify the most capable non-ignored instance
     //
     bool first = true;
