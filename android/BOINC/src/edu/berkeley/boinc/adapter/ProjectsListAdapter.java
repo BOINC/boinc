@@ -24,6 +24,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,9 +34,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import edu.berkeley.boinc.ProjectsActivity.ProjectData;
 import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.utils.BOINCUtils;
+import edu.berkeley.boinc.utils.Logging;
 
 public class ProjectsListAdapter extends ArrayAdapter<ProjectData> {
     //private final String TAG = "ProjectsListAdapter";
@@ -83,7 +86,15 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectData> {
 	}
 	
 	public Bitmap getIcon(int position) {
-		return Monitor.getClientStatus().getProjectIcon(entries.get(position).id);
+		// try to get current client status from monitor
+		ClientStatus status;
+		try{
+			status  = Monitor.getClientStatus();
+		} catch (Exception e){
+			if(Logging.WARNING) Log.w(Logging.TAG,"ProjectsListAdapter: Could not load data, clientStatus not initialized.");
+			return null;
+		}
+		return status.getProjectIcon(entries.get(position).id);
 	}
 
 	public String getStatus(int position) {

@@ -55,7 +55,7 @@ public class TasksActivity extends FragmentActivity {
 	private Monitor monitor;
 	private Boolean mIsBound = false;
 
-	private ClientStatus status; //client status, new information gets parsed by monitor, changes notified by "clientstatus" broadcast. read Result from here, to get information about tasks.
+	//private ClientStatus status; //client status, new information gets parsed by monitor, changes notified by "clientstatus" broadcast. read Result from here, to get information about tasks.
 	
 	private ListView lv;
 	private TasksListAdapter listAdapter;
@@ -97,9 +97,6 @@ public class TasksActivity extends FragmentActivity {
 		// (calling within Tab needs getApplicationContext() for bindService to work!)
 		getApplicationContext().bindService(new Intent(this, Monitor.class), mConnection, Service.START_STICKY_COMPATIBILITY);
 
-		//get singleton client status from monitor
-		status = Monitor.getClientStatus();
-
 		//load data model
 		loadData();
 	}
@@ -132,6 +129,14 @@ public class TasksActivity extends FragmentActivity {
 	}
 	
 	private void loadData() {
+		// try to get current client status from monitor
+		ClientStatus status;
+		try{
+			status  = Monitor.getClientStatus();
+		} catch (Exception e){
+			if(Logging.WARNING) Log.w(Logging.TAG,"TasksActivity: Could not load data, clientStatus not initialized.");
+			return;
+		}
 		//setup list and adapter
 		ArrayList<Result> tmpA = status.getTasks();
 		if(tmpA!=null) { //can be null before first monitor status cycle (e.g. when not logged in or during startup)

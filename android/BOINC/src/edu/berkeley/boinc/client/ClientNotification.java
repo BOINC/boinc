@@ -2,6 +2,7 @@ package edu.berkeley.boinc.client;
 
 import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.utils.Logging;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -9,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 public class ClientNotification {
 	//private static final String TAG = "ClientNotification";
@@ -54,9 +56,15 @@ public class ClientNotification {
 			clientNotification.mOldComputingStatus = -1;
 			return;
 		}
-		
-		// get current client status
-		ClientStatus updatedStatus = Monitor.getClientStatus();
+
+		// try to get current client status from monitor
+		ClientStatus updatedStatus;
+		try{
+			updatedStatus  = Monitor.getClientStatus();
+		} catch (Exception e){
+			if(Logging.WARNING) Log.w(Logging.TAG,"ClientNotification: Could not load data, clientStatus not initialized.");
+			return;
+		}
 		
 		// update notification
 		if (clientNotification.mOldComputingStatus == -1 
@@ -64,7 +72,7 @@ public class ClientNotification {
 				|| (updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_SUSPENDED
 				&& updatedStatus.computingSuspendReason != clientNotification.mOldSuspendReason)) {
 			
-			nm.notify(notificationId, buildNotification());
+			nm.notify(notificationId, buildNotification(updatedStatus));
 			
 			// save status for comparison next time
 			clientNotification.mOldComputingStatus = updatedStatus.computingStatus;
@@ -77,11 +85,11 @@ public class ClientNotification {
 		nm.cancel(notificationId);
 	}
 
-	private Notification buildNotification() {
+	private Notification buildNotification(ClientStatus status) {
 		// get current client computingstatus
-		Integer computingStatus = Monitor.getClientStatus().computingStatus;
+		Integer computingStatus = status.computingStatus;
 		// get status string from ClientStatus
-		String statusText = Monitor.getClientStatus().getCurrentStatusString();
+		String statusText = status.getCurrentStatusString();
 		
 		// build notification
 		Notification notification = new NotificationCompat.Builder(context)

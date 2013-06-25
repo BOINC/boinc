@@ -152,8 +152,14 @@ public class StatusActivity extends Activity implements OnClickListener{
 		//load layout, if service is available and ClientStatus can be accessed.
 		//if this is not the case, "onServiceConnected" will call "loadLayout" as soon as the service is bound
 		if(mIsBound) {
-			// get data
-			ClientStatus status = Monitor.getClientStatus();
+			// try to get current client status from monitor
+			ClientStatus status;
+			try{
+				status  = Monitor.getClientStatus();
+			} catch (Exception e){
+				if(Logging.WARNING) Log.w(Logging.TAG,"StatusActivity: Could not load data, clientStatus not initialized.");
+				return;
+			}
 			
 			// layout only if client RPC connection is established
 			// otherwise BOINCActivity does not start Tabs
@@ -340,8 +346,16 @@ public class StatusActivity extends Activity implements OnClickListener{
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			if(Logging.DEBUG) Log.d(Logging.TAG, "UpdateSlideshowImagesAsync updating images in new thread.");
+			// try to get current client status from monitor
+			ClientStatus status;
+			try{
+				status  = Monitor.getClientStatus();
+			} catch (Exception e){
+				if(Logging.WARNING) Log.w(Logging.TAG,"UpdateSlideshowImagesAsync: Could not load data, clientStatus not initialized.");
+				return false;
+			}
 			// load slideshow images
-			Monitor.getClientStatus().updateSlideshowImages(slideshowImages);
+			status.updateSlideshowImages(slideshowImages);
 			if(slideshowImages == null || slideshowImages.size() == 0) return false;
 			return true;
 		}

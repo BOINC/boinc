@@ -96,7 +96,15 @@ public class Monitor extends Service {
 	// used by ClientMonitorAsync if no connection is available
 	// includes network communication => don't call from UI thread!
 	private Boolean clientSetup() {
-		getClientStatus().setSetupStatus(ClientStatus.SETUP_STATUS_LAUNCHING,true);
+		// try to get current client status from monitor
+		ClientStatus status;
+		try{
+			status  = Monitor.getClientStatus();
+		} catch (Exception e){
+			if(Logging.WARNING) Log.w(Logging.TAG,"Monitor.clientSetup: Could not load data, clientStatus not initialized.");
+			return false;
+		}
+		status.setSetupStatus(ClientStatus.SETUP_STATUS_LAUNCHING,true);
 		String clientProcessName = clientPath + clientName;
 
 		String md5AssetClient = ComputeMD5Asset(clientName);
@@ -173,7 +181,7 @@ public class Monitor extends Service {
 			rpc.readGlobalPrefsOverride();
 			// read preferences for GUI to be able to display data
 			GlobalPreferences clientPrefs = rpc.getGlobalPrefsWorkingStruct();
-			Monitor.getClientStatus().setPrefs(clientPrefs);
+			status.setPrefs(clientPrefs);
 			// read supported projects
 			readAndroidProjectsList();
 			// set Android model as hostinfo
@@ -185,10 +193,10 @@ public class Monitor extends Service {
 		
 		if(connected) {
 			if(Logging.DEBUG) Log.d(Logging.TAG, "setup completed successfully"); 
-			getClientStatus().setSetupStatus(ClientStatus.SETUP_STATUS_AVAILABLE,false);
+			status.setSetupStatus(ClientStatus.SETUP_STATUS_AVAILABLE,false);
 		} else {
 			if(Logging.DEBUG) Log.d(Logging.TAG, "onPostExecute - setup experienced an error"); 
-			getClientStatus().setSetupStatus(ClientStatus.SETUP_STATUS_ERROR,true);
+			status.setSetupStatus(ClientStatus.SETUP_STATUS_ERROR,true);
 		}
 		
 		return connected;
@@ -476,6 +484,15 @@ public class Monitor extends Service {
     // during run-time. Called once during setup.
     // Stored in ClientStatus.
 	private void readAndroidProjectsList() {
+		// try to get current client status from monitor
+		ClientStatus status;
+		try{
+			status  = Monitor.getClientStatus();
+		} catch (Exception e){
+			if(Logging.WARNING) Log.w(Logging.TAG,"Monitor.readAndroidProjectList: Could not load data, clientStatus not initialized.");
+			return;
+		}
+		
 		ArrayList<ProjectInfo> allProjects = rpc.getAllProjectsList();
 		ArrayList<ProjectInfo> androidProjects = new ArrayList<ProjectInfo>();
 		
@@ -488,12 +505,15 @@ public class Monitor extends Service {
 		}
 		
 		// set list in ClientStatus
-		getClientStatus().supportedProjects = androidProjects;
+		status.supportedProjects = androidProjects;
 	}
 	
-	public static ClientStatus getClientStatus() { //singleton pattern
+	public static ClientStatus getClientStatus() throws Exception{ //singleton pattern
 		if (clientStatus == null) {
-			if(Logging.DEBUG) Log.d(Logging.TAG,"WARNING: clientStatus not yet initialized");
+			// client status needs application context, but context might not be available
+			// in static code. functions have to deal with Exception!
+			if(Logging.WARNING) Log.w(Logging.TAG,"getClientStatus: clientStatus not yet initialized");
+			throw new Exception("clientStatus not initialized");
 		}
 		return clientStatus;
 	}
@@ -623,6 +643,14 @@ public class Monitor extends Service {
     // exits both, UI and BOINC client. 
     // BLOCKING! call from AsyncTask!
     public void quitClient() {
+		// try to get current client status from monitor
+		ClientStatus status = null;
+		try{
+			status  = Monitor.getClientStatus();
+		} catch (Exception e){
+			if(Logging.WARNING) Log.w(Logging.TAG,"Monitor.quitClient: Could not load data, clientStatus not initialized.");
+			// do not return here, try to shut down without publishing status
+		}
     	String processName = clientPath + clientName;
     	
     	monitorRunning = false; // stops ClientMonitorAsync loop
@@ -630,7 +658,7 @@ public class Monitor extends Service {
     	// ClientMonitorAsync is not using RPC anymore
     	
     	// set client status to SETUP_STATUS_CLOSING to adapt layout accordingly
-		getClientStatus().setSetupStatus(ClientStatus.SETUP_STATUS_CLOSING,true);
+		if(status!=null)status.setSetupStatus(ClientStatus.SETUP_STATUS_CLOSING,true);
     	
     	// try graceful shutdown via RPC
     	rpc.quit();
@@ -664,7 +692,7 @@ public class Monitor extends Service {
 		ClientNotification.getInstance(getApplicationContext()).cancel();
     	
     	// set client status to SETUP_STATUS_CLOSED to adapt layout accordingly
-		getClientStatus().setSetupStatus(ClientStatus.SETUP_STATUS_CLOSED,true);
+		if(status!=null)status.setSetupStatus(ClientStatus.SETUP_STATUS_CLOSED,true);
 		
 		//stop service, triggers onDestroy
 		stopSelf();
@@ -683,6 +711,15 @@ public class Monitor extends Service {
 	// written to ClientStatus.
 	public Boolean setGlobalPreferences(GlobalPreferences prefs) {
 
+		// try to get current client status from monitor
+		ClientStatus status = null;
+		try{
+			status  = Monitor.getClientStatus();
+		} catch (Exception e){
+			if(Logging.WARNING) Log.w(Logging.TAG,"Monitor.setGlobalPreferences: Could not load data, clientStatus not initialized.");
+			return false;
+		}
+
 		Boolean retval1 = rpc.setGlobalPrefsOverrideStruct(prefs); //set new override settings
 		Boolean retval2 = rpc.readGlobalPrefsOverride(); //trigger reload of override settings
 		if(!retval1 || !retval2) {
@@ -690,7 +727,7 @@ public class Monitor extends Service {
 		}
 		GlobalPreferences workingPrefs = rpc.getGlobalPrefsWorkingStruct();
 		if(workingPrefs != null){
-			Monitor.getClientStatus().setPrefs(workingPrefs);
+			status.setPrefs(workingPrefs);
 			return true;
 		}
 		return false;
@@ -984,40 +1021,42 @@ public class Monitor extends Service {
 					// connection alive
 					sleep = true;
 					
-					// set devices status
-					try {
+					try{
+						// set devices status
 						deviceStatus.update(); // poll device status
 						Boolean reportStatusSuccess = rpc.reportDeviceStatus(deviceStatus); // transmit device status via rpc
 						if(!reportStatusSuccess) if(Logging.DEBUG) Log.d(Logging.TAG,"reporting device status returned false.");
-					} catch (Exception e) { if(Logging.WARNING) Log.w(Logging.TAG, "device status report failed: " + e.getLocalizedMessage()); }
-					
-					// update client status
-					// run only if screen is actually on
-					if(screenOn) {
-						// retrieve client status
-						if(showRpcCommands) if(Logging.DEBUG) Log.d(Logging.TAG, "getCcStatus");
-						CcStatus status = rpc.getCcStatus();
 						
-						if(showRpcCommands) if(Logging.DEBUG) Log.d(Logging.TAG, "getState"); 
-						CcState state = rpc.getState();
-						
-						if(showRpcCommands) if(Logging.DEBUG) Log.d(Logging.TAG, "getTransers");
-						ArrayList<Transfer>  transfers = rpc.getFileTransfers();
-						
-						if( (status != null) && (state != null) && (state.results != null) && (state.projects != null) && (transfers != null) && (state.host_info != null)) {
-							Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers, state.host_info);
-							// Update status bar notification
-							ClientNotification.getInstance(getApplicationContext()).update();
-						} else {
-							if(Logging.DEBUG) Log.d(Logging.TAG, "client status connection problem");
+						// update client status
+						// run only if screen is actually on
+						if(screenOn) {
+							// retrieve client status
+							if(showRpcCommands) if(Logging.DEBUG) Log.d(Logging.TAG, "getCcStatus");
+							CcStatus status = rpc.getCcStatus();
+							
+							if(showRpcCommands) if(Logging.DEBUG) Log.d(Logging.TAG, "getState"); 
+							CcState state = rpc.getState();
+							
+							if(showRpcCommands) if(Logging.DEBUG) Log.d(Logging.TAG, "getTransers");
+							ArrayList<Transfer>  transfers = rpc.getFileTransfers();
+							
+							if( (status != null) && (state != null) && (state.results != null) && (state.projects != null) && (transfers != null) && (state.host_info != null)) {
+								Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers, state.host_info);
+								// Update status bar notification
+								ClientNotification.getInstance(getApplicationContext()).update();
+							} else {
+								if(Logging.DEBUG) Log.d(Logging.TAG, "client status connection problem");
+							}
+							
+							// check whether monitor is still intended to update, if not, skip broadcast and exit...
+							if(monitorRunning) {
+						        Intent clientStatus = new Intent();
+						        clientStatus.setAction("edu.berkeley.boinc.clientstatus");
+						        getApplicationContext().sendBroadcast(clientStatus);
+							}
 						}
-						
-						// check whether monitor is still intended to update, if not, skip broadcast and exit...
-						if(monitorRunning) {
-					        Intent clientStatus = new Intent();
-					        clientStatus.setAction("edu.berkeley.boinc.clientstatus");
-					        getApplicationContext().sendBroadcast(clientStatus);
-						}
+					}catch(Exception e) {
+						if(Logging.WARNING) Log.w(Logging.TAG, "Monitor.ClientMonitorAsync excpetion: " + e.getMessage());
 					}
 				}
 				

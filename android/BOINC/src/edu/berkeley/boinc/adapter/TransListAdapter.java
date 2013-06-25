@@ -25,6 +25,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.TransActivity.TransferData;
+import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.RpcClient;
@@ -45,6 +47,7 @@ import edu.berkeley.boinc.rpc.Transfer;
 import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.utils.BOINCErrors;
 import edu.berkeley.boinc.utils.BOINCUtils;
+import edu.berkeley.boinc.utils.Logging;
 
 public class TransListAdapter extends ArrayAdapter<TransferData> implements OnItemClickListener {
 	
@@ -196,14 +199,20 @@ public class TransListAdapter extends ArrayAdapter<TransferData> implements OnIt
 	    TextView header = (TextView) v.findViewById(R.id.transHeader);
 	    String headerT = listItem.transfer.project_url;
 	    
-	    ArrayList<Project> projects = Monitor.getClientStatus().getProjects();
+	    // try to get readable project name from ClientStatus
+		try{
+			ClientStatus status  = Monitor.getClientStatus();
+		    ArrayList<Project> projects = status.getProjects();
 
-	    //Does a search for the real project name 
-	    int i = 0;
-		for(i = 0; i < projects.size(); i++) {
-			if(projects.get(i).master_url.equalsIgnoreCase(listItem.transfer.project_url)) {
-				headerT = projects.get(i).getName();
+		    //Does a search for the real project name 
+		    int i = 0;
+			for(i = 0; i < projects.size(); i++) {
+				if(projects.get(i).master_url.equalsIgnoreCase(listItem.transfer.project_url)) {
+					headerT = projects.get(i).getName();
+				}
 			}
+		} catch (Exception e){
+			if(Logging.WARNING) Log.w(Logging.TAG,"TransListAdapter: Could not load data, clientStatus not initialized.");
 		}
 		
 	    header.setText(headerT);
@@ -251,7 +260,15 @@ public class TransListAdapter extends ArrayAdapter<TransferData> implements OnIt
 	}
     
     public Bitmap getIcon(int position) {
-    	return Monitor.getClientStatus().getProjectIcon(entries.get(position).transfer.project_url);
+		// try to get current client status from monitor
+		ClientStatus status;
+		try{
+			status  = Monitor.getClientStatus();
+		} catch (Exception e){
+			if(Logging.WARNING) Log.w(Logging.TAG,"TasksListAdapter: Could not load data, clientStatus not initialized.");
+			return null;
+		}
+		return status.getProjectIcon(entries.get(position).transfer.project_url);
     }
     
     public void onItemClick(AdapterView<?> adapter, View view, int position, long id ) {
