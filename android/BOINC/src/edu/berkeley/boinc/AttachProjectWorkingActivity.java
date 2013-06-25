@@ -102,7 +102,7 @@ public class AttachProjectWorkingActivity extends Activity{
         	pwd = getIntent().getStringExtra("pwd");
         	id = getIntent().getStringExtra("id");
         			
-        	if(Logging.DEBUG) Log.d(Logging.TAG,"AttachProjectWorkingActivity intent extras: " + projectUrl + projectName + id + userName + teamName + eMail + pwd.length() + usesName);
+        	if(Logging.DEBUG) Log.d(Logging.TAG,"AttachProjectWorkingActivity intent extras: " + projectUrl + projectName + id + userName + teamName + eMail + usesName);
         } catch (Exception e) {
         	if(Logging.WARNING) Log.w(Logging.TAG, "AttachProjectWorkingActivity error while parsing extras", e);
         	finish(); // no point to continue without data
@@ -295,7 +295,7 @@ public class AttachProjectWorkingActivity extends Activity{
 				// register account
 				publishProgress(new Update(false, false, R.string.attachproject_working_register,"",0));
 				maxAttempts = getResources().getInteger(R.integer.attach_creation_retries);
-				if(Logging.DEBUG) Log.d(Logging.TAG,"registration with: " + url + email + userName + pwd.length() + teamName + maxAttempts);
+				if(Logging.DEBUG) Log.d(Logging.TAG,"registration with: " + url + email + userName + teamName + maxAttempts);
 				// retry a defined number of times, if non deterministic failure occurs.
 				// makes login more robust on bad network connections
 				while(!success && attemptCounter < maxAttempts) {
@@ -329,7 +329,7 @@ public class AttachProjectWorkingActivity extends Activity{
 				// lookup authenticator
 				publishProgress(new Update(false, false, R.string.attachproject_working_verify,"",0));
 				maxAttempts = getResources().getInteger(R.integer.attach_login_retries);
-				if(Logging.DEBUG) Log.d(Logging.TAG,"loging with: " + url + id + pwd.length() + usesName + maxAttempts);
+				if(Logging.DEBUG) Log.d(Logging.TAG,"loging with: " + url + id + usesName + maxAttempts);
 				// retry a defined number of times, if non deterministic failure occurs.
 				// makes login more robust on bad network connections
 				while(!success && attemptCounter < maxAttempts) {
