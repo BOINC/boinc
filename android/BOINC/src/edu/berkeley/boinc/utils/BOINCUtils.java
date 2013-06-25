@@ -1,11 +1,33 @@
 package edu.berkeley.boinc.utils;
 
+import java.io.IOException;
+import java.io.Reader;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import edu.berkeley.boinc.R;
 
 public class BOINCUtils {
+	
+	public static String readLineLimit(Reader reader, int limit) throws IOException {
+		StringBuilder sb = new StringBuilder();
+		
+		for(int i = 0; i < limit; i++) {
+			int c = reader.read(); //Read in single character
+			if(c == -1) {
+				return ((sb.length() > 0) ? sb.toString() : null);
+			}
+			
+			if(((char) c == '\n') || ((char) c == '\r')) { //Found end of line, break loop.
+				break;
+			}
+			
+			sb.append((char) c); // String is not over and end line not found
+		}
+		
+		return sb.toString(); //end of line was found.
+	}
 
 	public static String translateRPCReason(Activity activity, int reason) {
 	    switch (reason) {

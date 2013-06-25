@@ -309,7 +309,7 @@ public class EventLogActivity extends FragmentActivity {
 
 			String line = "";
 			int x = 0;
-			while ((line = bufferedReader.readLine()) != null) {
+			while ((line = BOINCUtils.readLineLimit(bufferedReader, 4096)) != null) {
 				if(x > 1) guiLogData.add(0,line); // cut off first two lines, prepend to array (most current on top)
 				x++;
 			}
