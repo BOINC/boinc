@@ -35,6 +35,8 @@
 #include "coproc.h"
 #include "file_names.h"
 #include "util.h"
+#include "util.h"
+#include "str_replace.h"
 
 using std::string;
 using std::vector;
@@ -382,7 +384,7 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
 }
 
 int COPROCS::launch_child_process_to_detect_gpus() {
-#ifdef __WXMSW__
+#ifdef _WIN32
     HANDLE prog;
 #else
     int prog;
