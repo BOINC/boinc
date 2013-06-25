@@ -365,6 +365,7 @@ int boinc_main_loop() {
 
 int main(int argc, char** argv) {
     int retval = 0;
+    coprocs.set_path_to_client(argv[0]);    // Used to launch the child process
 
     for (int index = 1; index < argc; index++) {
         if (strcmp(argv[index], "-daemon") == 0 || strcmp(argv[index], "--daemon") == 0) {
@@ -384,7 +385,6 @@ int main(int argc, char** argv) {
         // all applications which used them exit.  To save battery life, the client launches a 
         // second instance of the client as a child process to detect and get info about the GPUs.
         // The child process writes the info to a temp file which our main client then reads.
-        coprocs.set_path_to_client(argv[0]);    // Used to launch the child process
         if (strcmp(argv[index], "-detect_gpus") == 0 || strcmp(argv[index], "--detect_gpus") == 0) {
             std::vector<std::string> warnings;
             coprocs.detect_gpus(warnings);
