@@ -70,7 +70,6 @@
 
 #include "main.h"
 
-
 // Log informational messages to system specific places
 //
 void log_message_startup(const char* msg) {
@@ -366,6 +365,7 @@ int boinc_main_loop() {
 
 int main(int argc, char** argv) {
     int retval = 0;
+    coprocs.set_path_to_client(argv[0]);    // Used to launch the child process
 
     for (int index = 1; index < argc; index++) {
         if (strcmp(argv[index], "-daemon") == 0 || strcmp(argv[index], "--daemon") == 0) {
@@ -381,6 +381,19 @@ int main(int argc, char** argv) {
 #endif
         }
 
+        // Some dual-GPU laptops (e.g., Macbook Pro) don't power down the more powerful GPU until
+        // all applications which used them exit.  To save battery life, the client launches a 
+        // second instance of the client as a child process to detect and get info about the GPUs.
+        // The child process writes the info to a temp file which our main client then reads.
+        if (strcmp(argv[index], "-detect_gpus") == 0 || strcmp(argv[index], "--detect_gpus") == 0) {
+            std::vector<std::string> warnings;
+            coprocs.detect_gpus(warnings);
+            coprocs.write_coproc_info_file(warnings);
+            warnings.clear();
+            return 0;
+        }
+        
+        
 #ifdef _WIN32
         // This bit of silliness is required to properly detach when run from within a command
         // prompt under Win32.  The root cause of the problem is that CMD.EXE does not return

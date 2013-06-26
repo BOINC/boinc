@@ -23,6 +23,7 @@ import edu.berkeley.boinc.utils.*;
 
 import java.util.ArrayList;
 import edu.berkeley.boinc.adapter.AttachProjectListAdapter;
+import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.ProjectInfo;
 import android.app.Activity;
@@ -55,7 +56,16 @@ public class AttachProjectListActivity extends Activity implements android.view.
         if(Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectListActivity onCreate"); 
         
 		//get supported projects
-		ArrayList<ProjectInfo> data = Monitor.getClientStatus().supportedProjects;
+		// try to get current client status from monitor
+		ClientStatus status;
+		try{
+			status  = Monitor.getClientStatus();
+		} catch (Exception e){
+			if(Logging.WARNING) Log.w(Logging.TAG,"AttachProjectListActivity: Could not load supported projects, clientStatus not initialized.");
+			finish();
+			return;
+		}
+		ArrayList<ProjectInfo> data = status.supportedProjects;
 		if(Logging.DEBUG) Log.d(Logging.TAG,"monitor.getAndroidProjectsList returned with " + data.size() + " elements");
 		
 		// setup layout

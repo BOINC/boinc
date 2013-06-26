@@ -43,8 +43,12 @@ using std::string;
 #include "gpu_detect.h"
 
 void COPROC_INTEL::get(
+    vector<string>&
+) {
+}
+
+void COPROC_INTEL::correlate(
     bool,
-    vector<string>&,
     vector<int>&
 ) {
 }

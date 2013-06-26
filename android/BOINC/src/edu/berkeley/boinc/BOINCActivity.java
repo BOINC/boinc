@@ -259,8 +259,16 @@ public class BOINCActivity extends TabActivity {
     
     // set app title to status string of ClientStatus
     private void setAppTitle() {
-		TextView status = (TextView) findViewById(R.id.titleStatus);
-		status.setText(Monitor.getClientStatus().getCurrentStatusString());
+		// try to get current client status from monitor
+		ClientStatus status;
+		try{
+			status  = Monitor.getClientStatus();
+		} catch (Exception e){
+			if(Logging.WARNING) Log.w(Logging.TAG,"TasksActivity: Could not load data, clientStatus not initialized.");
+			return;
+		}
+		TextView statusTV = (TextView) findViewById(R.id.titleStatus);
+		statusTV.setText(status.getCurrentStatusString());
     }
 
 	// triggered by click on noproject_warning, starts login activity
@@ -290,9 +298,17 @@ public class BOINCActivity extends TabActivity {
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
+		// try to get current client status from monitor
+		ClientStatus status;
+		try{
+			status  = Monitor.getClientStatus();
+		} catch (Exception e){
+			if(Logging.WARNING) Log.w(Logging.TAG,"TasksActivity: Could not load data, clientStatus not initialized.");
+			return false;
+		}
 		// run mode, set title and icon based on status
 		MenuItem runMode = menu.findItem(R.id.run_mode);
-		if(Monitor.getClientStatus().computingStatus == ClientStatus.COMPUTING_STATUS_NEVER) {
+		if(status.computingStatus == ClientStatus.COMPUTING_STATUS_NEVER) {
 			// display play button
 			runMode.setTitle(R.string.menu_run_mode_enable);
 			runMode.setIcon(R.drawable.playw);

@@ -120,7 +120,7 @@ void COPROC::write_request(MIOFILE& f) {
     );
 }
 
-void OPENCL_DEVICE_PROP::write_xml(MIOFILE& f, const char* tag) {
+void OPENCL_DEVICE_PROP::write_xml(MIOFILE& f, const char* tag, bool temp_file) {
     f.printf(
         "   <%s>\n"
         "      <name>%s</name>\n"
@@ -139,8 +139,7 @@ void OPENCL_DEVICE_PROP::write_xml(MIOFILE& f, const char* tag) {
         "      <max_compute_units>%lu</max_compute_units>\n"
         "      <opencl_platform_version>%s</opencl_platform_version>\n"
         "      <opencl_device_version>%s</opencl_device_version>\n"
-        "      <opencl_driver_version>%s</opencl_driver_version>\n"
-        "   </%s>\n",
+        "      <opencl_driver_version>%s</opencl_driver_version>\n",
         tag,
         name,
         vendor,
@@ -158,9 +157,23 @@ void OPENCL_DEVICE_PROP::write_xml(MIOFILE& f, const char* tag) {
         max_compute_units,
         opencl_platform_version,
         opencl_device_version,
-        opencl_driver_version,
-        tag
+        opencl_driver_version
     );
+    if (temp_file) {
+        f.printf(
+            "      <is_used>%d</is_used>\n"
+            "      <device_num>%d</device_num>\n"
+            "      <peak_flops>%f</peak_flops>\n"
+            "      <opencl_available_ram>%f</opencl_available_ram>\n"
+            "      <opencl_device_index>%d</opencl_device_index>\n",
+            is_used,
+            device_num,
+            peak_flops,
+            opencl_available_ram,
+            opencl_device_index
+        );
+    }
+    f.printf("   </%s>\n", tag);
 }
 
 int COPROC::parse(XML_PARSER& xp) {
@@ -206,6 +219,10 @@ int OPENCL_DEVICE_PROP::parse(XML_PARSER& xp, const char* end_tag) {
         }
         if (xp.parse_str("name", name, sizeof(name))) continue;
         if (xp.parse_str("vendor", vendor, sizeof(vendor))) continue;
+        if (xp.parse_ulonglong("vendor_id", ull)) {
+            vendor_id = ull;
+            continue; 
+        }
         if (xp.parse_int("available", n)) {
             available = n;
             continue;
@@ -268,6 +285,23 @@ int OPENCL_DEVICE_PROP::parse(XML_PARSER& xp, const char* end_tag) {
             opencl_driver_version, 
             sizeof(opencl_driver_version)
         )) {
+            continue;
+        }
+        
+        // The following are used only in the
+        // COPROC_INFO_FILENAME temporary file
+        if (xp.parse_int("is_used", n)) {
+            is_used = (COPROC_USAGE)n;
+            continue;
+        }
+        if (xp.parse_int("device_num", n)) {
+            device_num = n;
+            continue;
+        }
+        if (xp.parse_double("peak_flops", peak_flops)) continue;
+        if (xp.parse_double("opencl_available_ram", opencl_available_ram)) continue;
+        if (xp.parse_int("opencl_device_index", n)) {
+            opencl_device_index = n;
             continue;
         }
     }

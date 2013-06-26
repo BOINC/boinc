@@ -105,9 +105,7 @@ int (*__calDeviceClose)(CALdevice);
 #endif
 
 void COPROC_ATI::get(
-    bool use_all,
-    vector<string>& warnings,
-    vector<int>& ignore_devs
+    vector<string>& warnings
 ) {
     CALuint numDevices, cal_major, cal_minor, cal_imp;
     char buf[256];
@@ -364,6 +362,7 @@ void COPROC_ATI::get(
             gpu_name="AMD Radeon HD (unknown)";
             break;
         }
+        have_cal = true;
         cc.have_cal = true;
         cc.attribs = attribs;
         cc.info = info;
@@ -383,8 +382,17 @@ void COPROC_ATI::get(
 
     if (!ati_gpus.size()) {
         warnings.push_back("No ATI GPUs found");
-        return;
     }
+}
+
+
+void COPROC_ATI::correlate(
+    bool use_all,
+    vector<int>& ignore_devs
+) {
+    char buf[256];
+
+    if (!ati_gpus.size()) return;
 
     // find the most capable non-ignored instance
     //

@@ -19,6 +19,7 @@
 package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.utils.*;
+
 import java.util.ArrayList;
 import edu.berkeley.boinc.adapter.PrefsListAdapter;
 import edu.berkeley.boinc.adapter.PrefsListItemWrapper;
@@ -26,6 +27,7 @@ import edu.berkeley.boinc.adapter.PrefsListItemWrapperBool;
 import edu.berkeley.boinc.adapter.PrefsListItemWrapperValue;
 import edu.berkeley.boinc.adapter.PrefsLogOptionsListAdapter;
 import edu.berkeley.boinc.client.ClientNotification;
+import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.HostInfo;
@@ -101,7 +103,15 @@ public class PrefsActivity extends FragmentActivity {
 	}
 	
 	private Boolean getPrefs() {
-		clientPrefs = Monitor.getClientStatus().getPrefs(); //read prefs from client via rpc
+		// try to get current client status from monitor
+		ClientStatus status;
+		try{
+			status  = Monitor.getClientStatus();
+		} catch (Exception e){
+			if(Logging.WARNING) Log.w(Logging.TAG,"PrefsActivity: Could not load data, clientStatus not initialized.");
+			return false;
+		}
+		clientPrefs = status.getPrefs(); //read prefs from client via rpc
 		if(clientPrefs == null) {
 			if(Logging.DEBUG) Log.d(Logging.TAG, "readPrefs: null, return false");
 			return false;
@@ -111,7 +121,15 @@ public class PrefsActivity extends FragmentActivity {
 	}
 	
 	private Boolean getHostInfo() {
-		hostinfo = Monitor.getClientStatus().getHostInfo(); //Get the hostinfo from client via rpc
+		// try to get current client status from monitor
+		ClientStatus status;
+		try{
+			status  = Monitor.getClientStatus();
+		} catch (Exception e){
+			if(Logging.WARNING) Log.w(Logging.TAG,"PrefsActivity: Could not load data, clientStatus not initialized.");
+			return false;
+		}
+		hostinfo = status.getHostInfo(); //Get the hostinfo from client via rpc
 		if(hostinfo == null) {
 			if(Logging.DEBUG) Log.d(Logging.TAG, "getHostInfo: null, return false");
 			return false;
