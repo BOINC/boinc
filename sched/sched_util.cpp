@@ -309,6 +309,9 @@ bool app_plan_uses_gpu(const char* plan_class) {
     if (strstr(plan_class, "ati")) {
         return true;
     }
+    if (strstr(plan_class, "intel_gpu")) {
+        return true;
+    }
     return false;
 }
 
