@@ -63,7 +63,8 @@ struct PLAN_CLASS_SPEC {
     // AMD/ATI apps
     //
     bool need_ati_libs;
-        // need DLLs w/ ati name (default: amd)
+    bool need_amd_libs;
+        // need DLLs w/ ATI or AMD name (default: neither)
     int min_cal_target;
     int max_cal_target;
     bool without_opencl; // restrict to CAL only GPUs

@@ -288,7 +288,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
                 return false;
             }
         } else {
-            if (!cp.amdrt_detected) {
+            if (need_amd_libs && !cp.amdrt_detected) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
                         "[version] plan_class_spec: AMD libraries not found\n"
@@ -425,7 +425,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
 
     // Intel GPU
     //
-    } else if (!strcmp(gpu_type, "intel")) {
+    } else if (strstr(gpu_type, "intel")==gpu_type) {
         COPROC& cp = sreq.coprocs.intel_gpu;
         cpp = &cp;
 
@@ -579,11 +579,17 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         } else if (!strcmp(gpu_type, "nvidia")) {
             hu.proc_type = PROC_TYPE_NVIDIA_GPU;
             hu.gpu_usage = gpu_usage;
-        } else if (!strcmp(gpu_type, "intel")) {
+        } else if (strstr(gpu_type, "intel")==gpu_type) {
             hu.proc_type = PROC_TYPE_INTEL_GPU;
             hu.gpu_usage = gpu_usage;
+        } else {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] plan_class_spec: unknown GPU supplied: %s\n",
+                    gpu_type
+                );
+            }
         }
-
     // CPU only
     //
     } else {
@@ -692,6 +698,7 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         if (xp.parse_str("gpu_utilization_tag", gpu_utilization_tag, sizeof(gpu_utilization_tag))) continue;
 
         if (xp.parse_bool("need_ati_libs", need_ati_libs)) continue;
+        if (xp.parse_bool("need_amd_libs", need_amd_libs)) continue;
         if (xp.parse_bool("without_opencl", without_opencl)) continue;
         if (xp.parse_int("min_cal_target", min_cal_target)) continue;
         if (xp.parse_int("max_cal_target", max_cal_target)) continue;
@@ -767,6 +774,7 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     strcpy(gpu_utilization_tag, "");
 
     need_ati_libs = false;
+    need_amd_libs = false;
     without_opencl = false;
 
     min_nvidia_compcap = 0;
