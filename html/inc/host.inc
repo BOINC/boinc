@@ -117,6 +117,9 @@ function show_host($host, $user, $ipprivate) {
         row2(tra("Coprocessors"), gpu_desc($host->serialnum));
     }
     row2(tra("Operating System"), "$host->os_name <br> $host->os_version");
+    if ($user && $host->product_name) {
+        row2(tra("Product name"), $host->product_name);
+    }
     $v = boinc_version($host->serialnum);
     if ($v) {
         row2(tra("BOINC version"), $v);
