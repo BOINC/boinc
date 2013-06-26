@@ -375,7 +375,7 @@ void COPROCS::get_opencl(
                         //
                         ++current_CAL_index;
                     }
-                    prop.device_num = current_CAL_index;
+                    prop.device_num = current_CAL_index++;
 
                     // Always use GPU model name from CAL if
                     // available for ATI / AMD  GPUs because
