@@ -332,7 +332,7 @@ struct COPROC_NVIDIA : public COPROC {
     void description(char* buf, int buflen);
     void clear();
     int parse(XML_PARSER&);
-    void get_available_ram();
+    void get_available_ram(std::vector<std::string>& warnings);
     void set_peak_flops();
     bool check_running_graphics_app();
     void fake(int driver_version, double ram, double avail_ram, int count);
@@ -371,7 +371,7 @@ struct COPROC_ATI : public COPROC {
     void description(char* buf, int buflen);
     void clear();
     int parse(XML_PARSER&);
-    void get_available_ram();
+    void get_available_ram(std::vector<std::string>& warnings);
     void set_peak_flops();
     void fake(double ram, double avail_ram, int);
 };

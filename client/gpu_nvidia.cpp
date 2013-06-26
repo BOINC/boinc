@@ -20,6 +20,9 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "nvapi.h"
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
 #else
 #ifdef __APPLE__
 // Suppress obsolete warning when building for OS 10.3.9
@@ -337,7 +340,7 @@ void COPROC_NVIDIA::get(
         cc.cuda_version = cuda_version;
         cc.device_num = j;
         cc.set_peak_flops();
-        cc.get_available_ram();
+        cc.get_available_ram(warnings);
         nvidia_gpus.push_back(cc);
     }
     if (!nvidia_gpus.size()) {
@@ -387,38 +390,36 @@ void COPROC_NVIDIA::correlate(
 
 // See how much RAM is available on this GPU.
 //
-void COPROC_NVIDIA::get_available_ram() {
+void COPROC_NVIDIA::get_available_ram(vector<string>& warnings) {
     int retval;
     size_t memfree = 0, memtotal = 0;
     int device;
     void* ctx;
+    char buf[256];
     
     available_ram = prop.totalGlobalMem;
     retval = (*__cuDeviceGet)(&device, device_num);
     if (retval) {
-        if (log_flags.coproc_debug) {
-            msg_printf(0, MSG_INFO,
-                "[coproc] cuDeviceGet(%d) returned %d", device_num, retval
-            );
-        }
+        snprintf(buf, sizeof(buf),
+            "[coproc] cuDeviceGet(%d) returned %d", device_num, retval
+        );
+        warnings.push_back(buf);
         return;
     }
     retval = (*__cuCtxCreate)(&ctx, 0, device);
     if (retval) {
-        if (log_flags.coproc_debug) {
-            msg_printf(0, MSG_INFO,
-                "[coproc] cuCtxCreate(%d) returned %d", device_num, retval
-            );
-        }
+        snprintf(buf, sizeof(buf),
+            "[coproc] cuCtxCreate(%d) returned %d", device_num, retval
+        );
+        warnings.push_back(buf);
         return;
     }
     retval = (*__cuMemGetInfo)(&memfree, &memtotal);
     if (retval) {
-        if (log_flags.coproc_debug) {
-            msg_printf(0, MSG_INFO,
-                "[coproc] cuMemGetInfo(%d) returned %d", device_num, retval
-            );
-        }
+        snprintf(buf, sizeof(buf),
+            "[coproc] cuMemGetInfo(%d) returned %d", device_num, retval
+        );
+        warnings.push_back(buf);
         (*__cuCtxDestroy)(ctx);
         return;
     }

@@ -23,6 +23,9 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
 #else
 #ifdef __APPLE__
 // Suppress obsolete warning when building for OS 10.3.9
@@ -372,7 +375,7 @@ void COPROC_ATI::get(
         cc.atirt_detected = atirt_detected;
         cc.device_num = i;
         cc.set_peak_flops();
-        cc.get_available_ram();
+        cc.get_available_ram(warnings);
         ati_gpus.push_back(cc);
     }
 
@@ -428,9 +431,10 @@ void COPROC_ATI::correlate(
 
 // get available RAM of ATI GPU
 //
-void COPROC_ATI::get_available_ram() {
+void COPROC_ATI::get_available_ram(vector<string>& warnings) {
     CALdevicestatus st;
     CALdevice dev;
+    char buf[256];
     int retval;
 
     available_ram = attribs.localRAM*MEGA;
@@ -439,21 +443,19 @@ void COPROC_ATI::get_available_ram() {
 
     retval = (*__calDeviceOpen)(&dev, device_num);
     if (retval) {
-        if (log_flags.coproc_debug) {
-            msg_printf(0, MSG_INFO,
-                "[coproc] calDeviceOpen(%d) returned %d", device_num, retval
-            );
-        }
+        snprintf(buf, sizeof(buf),
+            "[coproc] calDeviceOpen(%d) returned %d", device_num, retval
+        );
+        warnings.push_back(buf);
         return;
     }
     retval = (*__calDeviceGetStatus)(&st, dev);
     if (retval) {
-        if (log_flags.coproc_debug) {
-            msg_printf(0, MSG_INFO,
-                "[coproc] calDeviceGetStatus(%d) returned %d",
-                device_num, retval
-            );
-        }
+        snprintf(buf, sizeof(buf),
+            "[coproc] calDeviceGetStatus(%d) returned %d",
+            device_num, retval
+        );
+        warnings.push_back(buf);
         (*__calDeviceClose)(dev);
         return;
     }
