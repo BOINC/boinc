@@ -329,8 +329,11 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
     if (!f) return ERR_FOPEN;
     XML_PARSER xp(&mf);
     mf.init_file(f);
-    if (!xp.parse_start("coprocs")) return ERR_XML_PARSE;
-
+    if (!xp.parse_start("coprocs")) {
+        fclose(f);
+        return ERR_XML_PARSE;
+    }
+    
     while (!xp.get_tag()) {
         if (xp.match_tag("/coprocs")) {
             fclose(f);
