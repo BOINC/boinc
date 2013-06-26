@@ -365,6 +365,7 @@ int boinc_main_loop() {
 
 int main(int argc, char** argv) {
     int retval = 0;
+    
     coprocs.set_path_to_client(argv[0]);    // Used to launch the child process
 
     for (int index = 1; index < argc; index++) {

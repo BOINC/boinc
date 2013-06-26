@@ -168,7 +168,7 @@ struct OPENCL_DEVICE_PROP {
 
     void write_xml(MIOFILE&, const char* tag, bool temp_file=false);
     int parse(XML_PARSER&, const char* end_tag);
-    void description(char* buf, const char* type);
+    void description(char* buf, int buflen, const char* type);
 };
 
 
@@ -329,7 +329,7 @@ struct COPROC_NVIDIA : public COPROC {
         bool use_all,
         std::vector<int>& ignore_devs
     );
-    void description(char*);
+    void description(char* buf, int buflen);
     void clear();
     int parse(XML_PARSER&);
     void get_available_ram();
@@ -368,7 +368,7 @@ struct COPROC_ATI : public COPROC {
         bool use_all,
         std::vector<int>& ignore_devs
     );
-    void description(char*);
+    void description(char* buf, int buflen);
     void clear();
     int parse(XML_PARSER&);
     void get_available_ram();
@@ -447,7 +447,7 @@ struct COPROCS {
     int read_coproc_info_file(std::vector<std::string> &warnings);
     
 #ifdef __APPLE__
-    void opencl_get_ati_mem_size_from_opengl();
+    void opencl_get_ati_mem_size_from_opengl(std::vector<std::string> &warnings);
 #endif
     void summary_string(char* buf, int len);
 

@@ -32,6 +32,9 @@
 
 #ifdef _WIN32
 #include "win_util.h"
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
 #else
 #ifdef __APPLE__
 // Suppress obsolete warning when building for OS 10.3.9
@@ -343,27 +346,39 @@ int OPENCL_DEVICE_PROP::get_opencl_driver_revision() {
     return 0;
 }
 
-void OPENCL_DEVICE_PROP::description(char* buf, const char* type) {
+void OPENCL_DEVICE_PROP::description(char* buf, int buflen, const char* type) {
     char s1[256], s2[256];
     int n;
     // openCL_device_version may have a trailing space
     strlcpy(s1, opencl_device_version, sizeof(s1));
     n = (int)strlen(s1) - 1;
     if ((n > 0) && (s1[n] == ' ')) s1[n] = '\0';
-    sprintf(s2, "%s (driver version %s, device version %s, %.0fMB, %.0fMB available, %.0f GFLOPS peak)",
-        name, opencl_driver_version, s1, global_mem_size/MEGA, opencl_available_ram/MEGA, peak_flops/1.e9
+    snprintf(s2, sizeof(s2),
+        "%s (driver version %s, device version %s, %.0fMB, %.0fMB available, %.0f GFLOPS peak)",
+        name, opencl_driver_version,
+        s1, global_mem_size/MEGA,
+        opencl_available_ram/MEGA, peak_flops/1.e9
     );
 
     switch(is_used) {
     case COPROC_IGNORED:
-        sprintf(buf, "OpenCL: %s %d (ignored by config): %s", type, device_num, s2);
+        snprintf(buf, buflen,
+            "OpenCL: %s %d (ignored by config): %s",
+            type, device_num, s2
+        );
         break;
     case COPROC_USED:
-        sprintf(buf, "OpenCL: %s %d: %s", type, device_num, s2);
+        snprintf(buf, buflen,
+            "OpenCL: %s %d: %s",
+            type, device_num, s2
+        );
         break;
     case COPROC_UNUSED:
     default:
-        sprintf(buf, "OpenCL: %s %d (not used): %s", type, device_num, s2);
+        snprintf(buf, buflen,
+            "OpenCL: %s %d (not used): %s",
+            type, device_num, s2
+        );
         break;
     }
 }
@@ -374,21 +389,26 @@ void COPROCS::summary_string(char* buf, int len) {
     strcpy(buf, "");
     if (nvidia.count) {
         int mem = (int)(nvidia.prop.totalGlobalMem/MEGA);
-        sprintf(buf2, "[CUDA|%s|%d|%dMB|%d|%d]",
-            nvidia.prop.name, nvidia.count, mem, nvidia.display_driver_version,
+        snprintf(buf2, sizeof(buf2),
+            "[CUDA|%s|%d|%dMB|%d|%d]",
+            nvidia.prop.name, nvidia.count,
+            mem, nvidia.display_driver_version,
             nvidia.opencl_prop.opencl_device_version_int
         );
         strlcat(buf, buf2, len);
     }
     if (ati.count) {
-        sprintf(buf2,"[CAL|%s|%d|%dMB|%s|%d]",
-            ati.name, ati.count, ati.attribs.localRAM, ati.version,
+        snprintf(buf2, sizeof(buf2),
+            "[CAL|%s|%d|%dMB|%s|%d]",
+            ati.name, ati.count,
+            ati.attribs.localRAM, ati.version,
             ati.opencl_prop.opencl_device_version_int
         );
         strlcat(buf, buf2, len);
     }
     if (intel_gpu.count) {
-        sprintf(buf2,"[INTEL|%s|%d|%dMB|%s|%d]",
+        snprintf(buf2, sizeof(buf2),
+            "[INTEL|%s|%d|%dMB|%s|%d]",
             intel_gpu.name, intel_gpu.count,
             (int)(intel_gpu.opencl_prop.global_mem_size/MEGA),
             intel_gpu.version,
@@ -456,7 +476,7 @@ void COPROCS::write_xml(MIOFILE& mf, bool scheduler_rpc) {
 #endif
 }
 
-void COPROC_NVIDIA::description(char* buf) {
+void COPROC_NVIDIA::description(char* buf, int buflen) {
     char vers[256], cuda_vers[256];
     if (display_driver_version) {
 #ifdef __APPLE__
@@ -479,7 +499,8 @@ void COPROC_NVIDIA::description(char* buf) {
     } else {
         strcpy(cuda_vers, "unknown");
     }
-    sprintf(buf, "%s (driver version %s, CUDA version %s, compute capability %d.%d, %.0fMB, %.0fMB available, %.0f GFLOPS peak)",
+    snprintf(buf, buflen,
+        "%s (driver version %s, CUDA version %s, compute capability %d.%d, %.0fMB, %.0fMB available, %.0f GFLOPS peak)",
         prop.name, vers, cuda_vers, prop.major, prop.minor,
         prop.totalGlobalMem/MEGA, available_ram/MEGA, peak_flops/1e9
     );
@@ -933,9 +954,11 @@ int COPROC_ATI::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
-void COPROC_ATI::description(char* buf) {
-    sprintf(buf, "%s (CAL version %s, %dMB, %.0fMB available, %.0f GFLOPS peak)",
-        name, version, attribs.localRAM, available_ram/MEGA, peak_flops/1.e9
+void COPROC_ATI::description(char* buf, int buflen) {
+    snprintf(buf, buflen,
+        "%s (CAL version %s, %dMB, %.0fMB available, %.0f GFLOPS peak)",
+        name, version, attribs.localRAM,
+        available_ram/MEGA, peak_flops/1.e9
     );
 }
 

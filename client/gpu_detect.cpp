@@ -26,6 +26,9 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
 #else
 #include "config.h"
 #include <setjmp.h>
@@ -34,7 +37,6 @@
 
 #include "coproc.h"
 #include "file_names.h"
-#include "util.h"
 #include "util.h"
 #include "str_replace.h"
 
@@ -56,15 +58,32 @@ vector<OPENCL_DEVICE_PROP> ati_opencls;
 vector<OPENCL_DEVICE_PROP> nvidia_opencls;
 vector<OPENCL_DEVICE_PROP> intel_gpu_opencls;
 
-static char client_path[MAXPATHLEN];
+static char* client_path;
 
 void COPROCS::get(
     bool use_all, vector<string>&descs, vector<string>&warnings,
     IGNORE_GPU_INSTANCE& ignore_gpu_instance
 ) {
 #if USE_CHILD_PROCESS_TO_DETECT_GPUS
-    launch_child_process_to_detect_gpus();
-    read_coproc_info_file(warnings);
+    int retval = 0;
+    char buf[256];
+
+    retval = launch_child_process_to_detect_gpus();
+    if (retval) {
+        snprintf(buf, sizeof(buf),
+            "launch_child_process_to_detect_gpus() returned error %d",
+            retval
+        );
+        warnings.push_back(buf);
+    }
+    retval = read_coproc_info_file(warnings);
+    if (retval) {
+        snprintf(buf, sizeof(buf),
+            "read_coproc_info_file() returned error %d",
+            retval
+        );
+        warnings.push_back(buf);
+    }
 #else
     detect_gpus(warnings);
 #endif
@@ -146,17 +165,26 @@ void COPROCS::correlate_gpus(
 
     for (i=0; i<nvidia_gpus.size(); i++) {
         // This is really CUDA description
-        nvidia_gpus[i].description(buf);
+        nvidia_gpus[i].description(buf, sizeof(buf));
         switch(nvidia_gpus[i].is_used) {
         case COPROC_IGNORED:
-            sprintf(buf2, "CUDA: NVIDIA GPU %d (ignored by config): %s", nvidia_gpus[i].device_num, buf);
+            snprintf(buf2, sizeof(buf2),
+                "CUDA: NVIDIA GPU %d (ignored by config): %s",
+                nvidia_gpus[i].device_num, buf
+            );
             break;
         case COPROC_USED:
-            sprintf(buf2, "CUDA: NVIDIA GPU %d: %s", nvidia_gpus[i].device_num, buf);
+            snprintf(buf2, sizeof(buf2),
+                "CUDA: NVIDIA GPU %d: %s",
+                nvidia_gpus[i].device_num, buf
+            );
             break;
         case COPROC_UNUSED:
         default:
-            sprintf(buf2, "CUDA: NVIDIA GPU %d (not used): %s", nvidia_gpus[i].device_num, buf);
+            snprintf(buf2, sizeof(buf2),
+                "CUDA: NVIDIA GPU %d (not used): %s",
+                nvidia_gpus[i].device_num, buf
+            );
             break;
         }
         descs.push_back(string(buf2));
@@ -164,17 +192,26 @@ void COPROCS::correlate_gpus(
 
     for (i=0; i<ati_gpus.size(); i++) {
         // This is really CAL description
-        ati_gpus[i].description(buf);
+        ati_gpus[i].description(buf, sizeof(buf));
         switch(ati_gpus[i].is_used) {
         case COPROC_IGNORED:
-            sprintf(buf2, "CAL: ATI GPU %d (ignored by config): %s", ati_gpus[i].device_num, buf);
+            snprintf(buf2, sizeof(buf2),
+                "CAL: ATI GPU %d (ignored by config): %s",
+                ati_gpus[i].device_num, buf
+            );
             break;
         case COPROC_USED:
-            sprintf(buf2, "CAL: ATI GPU %d: %s", ati_gpus[i].device_num, buf);
+            snprintf(buf2, sizeof(buf2),
+                "CAL: ATI GPU %d: %s",
+                ati_gpus[i].device_num, buf
+            );
             break;
         case COPROC_UNUSED:
         default:
-            sprintf(buf2, "CAL: ATI GPU %d: (not used) %s", ati_gpus[i].device_num, buf);
+            snprintf(buf2, sizeof(buf2),
+                "CAL: ATI GPU %d: (not used) %s",
+                ati_gpus[i].device_num, buf
+            );
             break;
         }
         descs.push_back(string(buf2));
@@ -183,21 +220,21 @@ void COPROCS::correlate_gpus(
     // Create descriptions for OpenCL NVIDIA GPUs
     //
     for (i=0; i<nvidia_opencls.size(); i++) {
-        nvidia_opencls[i].description(buf, proc_type_name(PROC_TYPE_NVIDIA_GPU));
+        nvidia_opencls[i].description(buf, sizeof(buf), proc_type_name(PROC_TYPE_NVIDIA_GPU));
         descs.push_back(string(buf));
     }
 
     // Create descriptions for OpenCL ATI GPUs
     //
     for (i=0; i<ati_opencls.size(); i++) {
-        ati_opencls[i].description(buf, proc_type_name(PROC_TYPE_AMD_GPU));
+        ati_opencls[i].description(buf, sizeof(buf), proc_type_name(PROC_TYPE_AMD_GPU));
         descs.push_back(string(buf));
     }
 
     // Create descriptions for OpenCL Intel GPUs
     //
     for (i=0; i<intel_gpu_opencls.size(); i++) {
-        intel_gpu_opencls[i].description(buf, proc_type_name(PROC_TYPE_INTEL_GPU));
+        intel_gpu_opencls[i].description(buf, sizeof(buf), proc_type_name(PROC_TYPE_INTEL_GPU));
         descs.push_back(string(buf));
     }
 
@@ -219,7 +256,7 @@ void COPROCS::correlate_gpus(
 // file which our main client then reads.
 //
 void COPROCS::set_path_to_client(char *path) {
-    strlcpy(client_path, path, sizeof(client_path));
+    client_path = path;
 }
 
 int COPROCS::write_coproc_info_file(vector<string> &warnings) {
@@ -292,13 +329,12 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
     if (!f) return ERR_FOPEN;
     XML_PARSER xp(&mf);
     mf.init_file(f);
-    
+    if (!xp.parse_start("coprocs")) return ERR_XML_PARSE;
+
     while (!xp.get_tag()) {
-        if (xp.match_tag("coprocs")) {
-            if (xp.match_tag("/coprocs")) {
-                fclose(f);
-                return 0;
-            }
+        if (xp.match_tag("/coprocs")) {
+            fclose(f);
+            return 0;
         }
 
         if (xp.match_tag("coproc_ati")) {
@@ -415,15 +451,15 @@ int COPROCS::launch_child_process_to_detect_gpus() {
     if (retval) return retval;
     
     // Wait for child to run and exit
-    for (i=0; i<50; ++i) {
-        boinc_sleep(0.1);
+    for (i=0; i<300; ++i) {
         if (process_exists(prog)) break;
         if (boinc_file_exists(COPROC_INFO_FILENAME)) break;
+        boinc_sleep(0.01);
     }
     
-    for (i=0; i<50; ++i) {
-        boinc_sleep(0.1);
+    for (i=0; i<300; ++i) {
         if (!process_exists(prog)) break;
+        boinc_sleep(0.01);
     }
     
     return 0;

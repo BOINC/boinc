@@ -413,7 +413,7 @@ void COPROC_ATI::correlate(
     //
     count = 0;
     for (i=0; i<ati_gpus.size(); i++) {
-        ati_gpus[i].description(buf);
+        ati_gpus[i].description(buf, sizeof(buf));
         if (in_vector(ati_gpus[i].device_num, ignore_devs)) {
             ati_gpus[i].is_used = COPROC_IGNORED;
         } else if (use_all || !ati_compare(ati_gpus[i], *this, true)) {
