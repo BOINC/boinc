@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="boinccmd"
-	ProjectGUID="{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}"
-	RootNamespace="boinc_guirpctest"
+	Name="boinctray"
+	ProjectGUID="{4A2C5963-6A8D-4DA1-A312-C3D749B2EA81}"
+	RootNamespace="boinc_ss"
 	>
 	<Platforms>
 		<Platform
@@ -45,20 +45,19 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Build\Debug/boinc_guirpctest.tlb"
+				TypeLibraryName=".\Build\Debug/boinc_ss.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../lib/;../api/;../RSAEuro/source/;../client/win/;../client;..;../coprocs/OpenCL/include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_GRIDREPUBLIC"
+				AdditionalIncludeDirectories="../,../api/,../lib,../client/"
+				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS;_CONSOLE;_PROGRESSTHRUPROCESSORS"
 				ExceptionHandling="2"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				BufferSecurityCheck="true"
 				FloatingPointModel="2"
-				RuntimeTypeInfo="false"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="boinc_win.h"
 				PrecompiledHeaderFile="$(IntDir)\$(TargetName).pch"
@@ -66,9 +65,8 @@
 				ObjectFile="$(IntDir)\"
 				ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 				BrowseInformation="0"
-				WarningLevel="4"
+				WarningLevel="3"
 				SuppressStartupBanner="true"
-				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
 				CompileAs="2"
 				DisableSpecificWarnings="4127;4702;4244"
@@ -79,24 +77,27 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;_GRIDREPUBLIC"
+				PreprocessorDefinitions="_DEBUG;_PROGRESSTHRUPROCESSORS"
 				Culture="1033"
-				AdditionalIncludeDirectories=".."
+				AdditionalIncludeDirectories="../"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib oldnames.lib userenv.lib"
+				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib gdi32.lib advapi32.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;"
 				IgnoreAllDefaultLibraries="true"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
-				SubSystem="1"
+				SubSystem="2"
+				StackReserveSize="0"
+				StackCommitSize="0"
 				OptimizeReferences="0"
 				TargetMachine="1"
 			/>
@@ -154,20 +155,19 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="3"
-				TypeLibraryName=".\Build\Debug/boinc_guirpctest.tlb"
+				TypeLibraryName=".\Build\Debug/boinc_ss.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../lib/;../api/;../RSAEuro/source/;../client/win/;../client;..;../coprocs/OpenCL/include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_GRIDREPUBLIC"
+				AdditionalIncludeDirectories="../,../api/,../lib,../client/"
+				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS;_CONSOLE;_PROGRESSTHRUPROCESSORS"
 				ExceptionHandling="2"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				BufferSecurityCheck="true"
 				FloatingPointModel="2"
-				RuntimeTypeInfo="false"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="boinc_win.h"
 				PrecompiledHeaderFile="$(IntDir)\$(TargetName).pch"
@@ -188,24 +188,27 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;_GRIDREPUBLIC"
+				PreprocessorDefinitions="_DEBUG;_PROGRESSTHRUPROCESSORS"
 				Culture="1033"
-				AdditionalIncludeDirectories=".."
+				AdditionalIncludeDirectories="../"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib oldnames.lib"
+				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib gdi32.lib advapi32.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;"
 				IgnoreAllDefaultLibraries="true"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
-				SubSystem="1"
+				SubSystem="2"
+				StackReserveSize="0"
+				StackCommitSize="0"
 				OptimizeReferences="0"
 				TargetMachine="17"
 			/>
@@ -263,19 +266,18 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Build\Release/boinc_guirpctest.tlb"
+				TypeLibraryName=".\Build\Release/boinc_ss.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
-				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="../lib/;../api/;../RSAEuro/source/;../client/win/;../client;..;../coprocs/OpenCL/include"
-				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_GRIDREPUBLIC"
-				StringPooling="true"
+				Optimization="3"
+				AdditionalIncludeDirectories="../api/,../lib/,../client,.."
+				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_WINDOWS;_CONSOLE;_PROGRESSTHRUPROCESSORS"
+				StringPooling="false"
 				ExceptionHandling="2"
 				RuntimeLibrary="2"
-				EnableFunctionLevelLinking="true"
+				EnableFunctionLevelLinking="false"
 				FloatingPointModel="2"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="boinc_win.h"
@@ -284,9 +286,8 @@
 				ObjectFile="$(IntDir)\"
 				ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 				BrowseInformation="0"
-				WarningLevel="4"
+				WarningLevel="3"
 				SuppressStartupBanner="true"
-				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
 				CompileAs="2"
 				DisableSpecificWarnings="4127;4702;4244"
@@ -297,7 +298,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_GRIDREPUBLIC"
+				PreprocessorDefinitions="NDEBUG;_PROGRESSTHRUPROCESSORS"
 				Culture="1033"
 				AdditionalIncludeDirectories=".."
 			/>
@@ -306,16 +307,16 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="kernel32.lib user32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib MSVCRT.LIB MSVCPRT.LIB oldnames.lib userenv.lib"
+				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib advapi32.lib"
 				ShowProgress="0"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;"
 				IgnoreAllDefaultLibraries="true"
-				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
-				SubSystem="1"
+				SubSystem="2"
 				OptimizeReferences="2"
 				SetChecksum="true"
 				TargetMachine="1"
@@ -374,19 +375,18 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="3"
-				TypeLibraryName=".\Build\Release/boinc_guirpctest.tlb"
+				TypeLibraryName=".\Build\Release/boinc_ss.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
-				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="../lib/;../api/;../RSAEuro/source/;../client/win/;../client;..;../coprocs/OpenCL/include"
-				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_GRIDREPUBLIC"
-				StringPooling="true"
+				Optimization="3"
+				AdditionalIncludeDirectories="../api/,../lib/,../client,.."
+				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_WINDOWS;_CONSOLE;_PROGRESSTHRUPROCESSORS"
+				StringPooling="false"
 				ExceptionHandling="2"
 				RuntimeLibrary="2"
-				EnableFunctionLevelLinking="true"
+				EnableFunctionLevelLinking="false"
 				FloatingPointModel="2"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="boinc_win.h"
@@ -408,7 +408,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_GRIDREPUBLIC"
+				PreprocessorDefinitions="NDEBUG;_PROGRESSTHRUPROCESSORS"
 				Culture="1033"
 				AdditionalIncludeDirectories=".."
 			/>
@@ -417,16 +417,16 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="kernel32.lib user32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib MSVCRT.LIB MSVCPRT.LIB oldnames.lib"
+				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib advapi32.lib"
 				ShowProgress="0"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;"
 				IgnoreAllDefaultLibraries="true"
-				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
-				SubSystem="1"
+				SubSystem="2"
 				OptimizeReferences="2"
 				SetChecksum="true"
 				TargetMachine="17"
@@ -465,10 +465,6 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
-			<File
-				RelativePath="..\client\boinc_cmd.cpp"
-				>
-			</File>
 			<File
 				RelativePath="..\lib\boinc_win.cpp"
 				>
@@ -570,15 +566,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\lib\gui_rpc_client.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\lib\gui_rpc_client_ops.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\lib\gui_rpc_client_print.cpp"
+				RelativePath="..\clienttray\tray_win.cpp"
 				>
 			</File>
 		</Filter>
@@ -587,7 +575,7 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
-				RelativePath="..\client\win\boinc_cmd.h"
+				RelativePath="..\clienttray\boinc_tray.h"
 				>
 			</File>
 			<File
@@ -595,7 +583,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\lib\gui_rpc_client.h"
+				RelativePath="..\clienttray\tray_win.h"
 				>
 			</File>
 		</Filter>
@@ -604,7 +592,7 @@
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 			>
 			<File
-				RelativePath="..\client\win\boinc_cmd.rc"
+				RelativePath="..\clienttray\boinc_tray.rc"
 				>
 			</File>
 		</Filter>
