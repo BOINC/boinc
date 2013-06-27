@@ -474,7 +474,7 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
     clear_request();
     if (config.fetch_minimal_work && gstate.had_or_requested_work) return;
     if (p->non_cpu_intensive) {
-        if (!has_a_job_in_progress(p)) {
+        if (!has_a_job_in_progress(p) && !p->dont_request_more_work) {
             rsc_work_fetch[0].req_secs = 1;
         }
         return;
