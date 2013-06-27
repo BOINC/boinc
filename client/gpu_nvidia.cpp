@@ -45,6 +45,8 @@ using std::string;
 #include "client_msgs.h"
 #include "gpu_detect.h"
 
+static void get_available_nvidia_ram(COPROC_NVIDIA &cc, vector<string>& warnings);
+
 // return 1/-1/0 if device 1 is more/less/same capable than device 2.
 // factors (decreasing priority):
 // - compute capability
@@ -237,24 +239,12 @@ void COPROC_NVIDIA::get(
         warnings.push_back("cuDeviceComputeCapability() missing from NVIDIA library");
         return;
     }
-    if (!__cuCtxCreate) {
-        warnings.push_back("cuCtxCreate() missing from NVIDIA library");
-        return;
-    }
-    if (!__cuCtxDestroy) {
-        warnings.push_back("cuCtxDestroy() missing from NVIDIA library");
-        return;
-    }
     if (!__cuMemAlloc) {
         warnings.push_back("cuMemAlloc() missing from NVIDIA library");
         return;
     }
     if (!__cuMemFree) {
         warnings.push_back("cuMemFree() missing from NVIDIA library");
-        return;
-    }
-    if (!__cuMemGetInfo) {
-        warnings.push_back("cuMemGetInfo() missing from NVIDIA library");
         return;
     }
 
@@ -340,7 +330,7 @@ void COPROC_NVIDIA::get(
         cc.cuda_version = cuda_version;
         cc.device_num = j;
         cc.set_peak_flops();
-        cc.get_available_ram(warnings);
+        get_available_nvidia_ram(cc, warnings);
         nvidia_gpus.push_back(cc);
     }
     if (!nvidia_gpus.size()) {
@@ -390,18 +380,50 @@ void COPROC_NVIDIA::correlate(
 
 // See how much RAM is available on this GPU.
 //
-void COPROC_NVIDIA::get_available_ram(vector<string>& warnings) {
+// CAUTION: as currently written, this method should be
+// called only from COPROC_NVIDIA::get().  If in the 
+// future you wish to call it from additional places:
+// * It must be called from a separate child process on
+//   dual-GPU laptops (e.g., Macbook Pros) with the results
+//   communicated to the main client process via IPC or a
+//   temp file.  See the comments about dual-GPU laptops 
+//   in gpu_detect.cpp and main.cpp for more details.
+// * The CUDA library must be loaded and cuInit() called 
+//   first.
+// * See client/coproc_detect.cpp and cpu_sched.cpp in
+//   BOINC 6.12.36 for an earlier attempt to call this
+//   from the scheduler.  Note that it was abandoned
+//   due to repeated calls crashing the driver.
+//
+static void get_available_nvidia_ram(COPROC_NVIDIA &cc, vector<string>& warnings) {
     int retval;
     size_t memfree = 0, memtotal = 0;
     int device;
     void* ctx;
     char buf[256];
     
-    available_ram = prop.totalGlobalMem;
-    retval = (*__cuDeviceGet)(&device, device_num);
+    cc.available_ram = cc.prop.totalGlobalMem;
+    if (!__cuDeviceGet) {
+        warnings.push_back("cuDeviceGet() missing from NVIDIA library");
+        return;
+    }
+    if (!__cuCtxCreate) {
+        warnings.push_back("cuCtxCreate() missing from NVIDIA library");
+        return;
+    }
+    if (!__cuCtxDestroy) {
+        warnings.push_back("cuCtxDestroy() missing from NVIDIA library");
+        return;
+    }
+    if (!__cuMemGetInfo) {
+        warnings.push_back("cuMemGetInfo() missing from NVIDIA library");
+        return;
+    }
+
+    retval = (*__cuDeviceGet)(&device, cc.device_num);
     if (retval) {
         snprintf(buf, sizeof(buf),
-            "[coproc] cuDeviceGet(%d) returned %d", device_num, retval
+            "[coproc] cuDeviceGet(%d) returned %d", cc.device_num, retval
         );
         warnings.push_back(buf);
         return;
@@ -409,7 +431,7 @@ void COPROC_NVIDIA::get_available_ram(vector<string>& warnings) {
     retval = (*__cuCtxCreate)(&ctx, 0, device);
     if (retval) {
         snprintf(buf, sizeof(buf),
-            "[coproc] cuCtxCreate(%d) returned %d", device_num, retval
+            "[coproc] cuCtxCreate(%d) returned %d", cc.device_num, retval
         );
         warnings.push_back(buf);
         return;
@@ -417,22 +439,42 @@ void COPROC_NVIDIA::get_available_ram(vector<string>& warnings) {
     retval = (*__cuMemGetInfo)(&memfree, &memtotal);
     if (retval) {
         snprintf(buf, sizeof(buf),
-            "[coproc] cuMemGetInfo(%d) returned %d", device_num, retval
+            "[coproc] cuMemGetInfo(%d) returned %d", cc.device_num, retval
         );
         warnings.push_back(buf);
         (*__cuCtxDestroy)(ctx);
         return;
     }
     (*__cuCtxDestroy)(ctx);
-    available_ram = (double) memfree;
+    cc.available_ram = (double) memfree;
 }
 
 // check whether each GPU is running a graphics app (assume yes)
 // return true if there's been a change since last time
 //
+// CAUTION: this method is not currently used.  If you wish
+// to call it in the future:
+// * It must be called from a separate child process on
+//   dual-GPU laptops (e.g., Macbook Pros) with the results
+//   communicated to the main client process via IPC or a
+//   temp file.  See the comments about dual-GPU laptops 
+//   in gpu_detect.cpp and main.cpp for more details.
+// * The CUDA library must be loaded and cuInit() called 
+//   first.
+//
+#if 0
 bool COPROC_NVIDIA::check_running_graphics_app() {
     int retval, j;
     bool change = false;
+    if (!__cuDeviceGet) {
+        warnings.push_back("cuDeviceGet() missing from NVIDIA library");
+        return;
+    }
+    if (!__cuDeviceGetAttribute) {
+        warnings.push_back("cuDeviceGetAttribute() missing from NVIDIA library");
+        return;
+    }
+
     for (j=0; j<count; j++) {
         bool new_val = true;
         int device, kernel_timeout;
@@ -450,4 +492,4 @@ bool COPROC_NVIDIA::check_running_graphics_app() {
     }
     return change;
 }
-
+#endif
