@@ -104,6 +104,10 @@ public class Monitor extends Service {
 			if(Logging.WARNING) Log.w(Logging.TAG,"Monitor.clientSetup: Could not load data, clientStatus not initialized.");
 			return false;
 		}
+		// acquire CPU lock here to allow BOINC client to detect all available CPU cores
+		// if not acquired and device in power saving mode, client might detect fewer CPU
+		// cores than available.
+		status.setWakeLock(true);
 		status.setSetupStatus(ClientStatus.SETUP_STATUS_LAUNCHING,true);
 		String clientProcessName = clientPath + clientName;
 
@@ -144,7 +148,7 @@ public class Monitor extends Service {
 			// Install BOINC client software
 			//
 	        if(!installClient()) {
-	        	if(Logging.DEBUG) Log.d(Logging.TAG, "BOINC client installation failed!");
+	        	if(Logging.WARNING) Log.w(Logging.TAG, "BOINC client installation failed!");
 	        	return false;
 	        }
 		}
