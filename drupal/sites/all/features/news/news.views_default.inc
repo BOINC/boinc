@@ -360,7 +360,87 @@ echo t(\'No news is good news...\');
     'name' => 'navigation',
   ));
   $handler = $view->new_display('feed', 'Feed', 'feed_1');
-  $handler->override_option('title', 'News');
+  $handler->override_option('arguments', array(
+    'null' => array(
+      'default_action' => 'default',
+      'style_plugin' => 'default_summary',
+      'style_options' => array(),
+      'wildcard' => 'all',
+      'wildcard_substitution' => 'All',
+      'title' => '%1 | News',
+      'breadcrumb' => '',
+      'default_argument_type' => 'php',
+      'default_argument' => '',
+      'validate_type' => 'none',
+      'validate_fail' => 'not found',
+      'must_not_be' => 0,
+      'id' => 'null',
+      'table' => 'views',
+      'field' => 'null',
+      'validate_user_argument_type' => 'uid',
+      'validate_user_roles' => array(
+        2 => 0,
+        4 => 0,
+        7 => 0,
+        5 => 0,
+        3 => 0,
+        6 => 0,
+      ),
+      'me_redirect' => 0,
+      'me_validate_user_argument_type' => 'uid',
+      'me_validate_user_roles' => array(
+        2 => 0,
+        4 => 0,
+        7 => 0,
+        5 => 0,
+        3 => 0,
+        6 => 0,
+      ),
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
+      'default_options_div_prefix' => '',
+      'default_taxonomy_tid_term_page' => 0,
+      'default_taxonomy_tid_node' => 0,
+      'default_taxonomy_tid_limit' => 0,
+      'default_taxonomy_tid_vids' => array(
+        1 => 0,
+        2 => 0,
+      ),
+      'default_argument_user' => 0,
+      'default_argument_fixed' => '',
+      'default_argument_php' => '// Use this to set a custom feed title that works both in the feed and
+// in the auto discovery link in the page header
+return variable_get(\'site_name\', \'BOINC\');
+',
+      'validate_argument_node_type' => array(
+        'page' => 0,
+        'news' => 0,
+        'profile' => 0,
+        'forum' => 0,
+        'panel' => 0,
+        'story' => 0,
+      ),
+      'validate_argument_node_access' => 0,
+      'validate_argument_nid_type' => 'nid',
+      'validate_argument_vocabulary' => array(
+        1 => 0,
+        2 => 0,
+      ),
+      'validate_argument_type' => 'tid',
+      'validate_argument_transform' => 0,
+      'validate_user_restrict_roles' => 0,
+      'validate_argument_node_flag_name' => '*relationship*',
+      'validate_argument_node_flag_test' => 'flaggable',
+      'validate_argument_node_flag_id_type' => 'id',
+      'validate_argument_user_flag_name' => '*relationship*',
+      'validate_argument_user_flag_test' => 'flaggable',
+      'validate_argument_user_flag_id_type' => 'id',
+      'validate_argument_php' => '',
+      'me_validate_user_restrict_roles' => 0,
+    ),
+  ));
   $handler->override_option('style_plugin', 'rss');
   $handler->override_option('style_options', array(
     'mission_description' => FALSE,
@@ -390,7 +470,6 @@ echo t(\'No news is good news...\');
     'page_1' => 'page_1',
     'default' => 0,
   ));
-  $handler->override_option('sitename_title', FALSE);
 
   $views[$view->name] = $view;
 
