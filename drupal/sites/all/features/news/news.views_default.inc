@@ -360,6 +360,7 @@ echo t(\'No news is good news...\');
     'name' => 'navigation',
   ));
   $handler = $view->new_display('feed', 'Feed', 'feed_1');
+  $handler->override_option('title', 'News');
   $handler->override_option('style_plugin', 'rss');
   $handler->override_option('style_options', array(
     'mission_description' => FALSE,
