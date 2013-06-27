@@ -117,6 +117,9 @@ function show_host($host, $user, $ipprivate) {
         row2(tra("Coprocessors"), gpu_desc($host->serialnum));
     }
     row2(tra("Operating System"), "$host->os_name <br> $host->os_version");
+    if ($user && $host->product_name) {
+        row2(tra("Product name"), $host->product_name);
+    }
     $v = boinc_version($host->serialnum);
     if ($v) {
         row2(tra("BOINC version"), $v);
@@ -124,9 +127,11 @@ function show_host($host, $user, $ipprivate) {
     $x = $host->m_nbytes/(1024*1024);
     $y = round($x, 2);
     row2(tra("Memory"), tra("%1 MB", $y));
-    $x = $host->m_cache/1024;
-    $y = round($x, 2);
-    row2(tra("Cache"), tra("%1 KB", $y));
+    if ($host->m_cache > 0) {
+        $x = $host->m_cache/1024;
+        $y = round($x, 2);
+        row2(tra("Cache"), tra("%1 KB", $y));
+    }
 
     if ($user) {
         $x = $host->m_swap/(1024*1024);
