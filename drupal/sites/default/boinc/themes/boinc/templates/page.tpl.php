@@ -286,9 +286,9 @@
 
         <?php print $content_bottom; ?>
 
-        <?php if ($feed_icons): ?>
+        <?php /* if ($feed_icons): ?>
           <div class="feed-icons"><?php print $feed_icons; ?></div>
-        <?php endif; ?>
+        <?php endif; */ ?>
 
       </div></div> <!-- /.section, /#content -->
 
