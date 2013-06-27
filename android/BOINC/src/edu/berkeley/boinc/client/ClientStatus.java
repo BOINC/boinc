@@ -537,11 +537,14 @@ public class ClientStatus {
 	// and returns absolute path to an image file.
 	private String parseSoftLinkToAbsPath(String pathOfSoftLink, String projectDir){
 		//if(Logging.DEBUG) Log.d(Logging.TAG,"parseSoftLinkToAbsPath() for path: " + pathOfSoftLink);
+		// setup file
+		File softLink = new File(pathOfSoftLink);
+		if (!softLink.exists()) return null; // return if file does not exist
 		
 		// reading text of symbolic link
 		String softLinkContent = "";
 		try {
-			FileInputStream stream = new FileInputStream(new File(pathOfSoftLink));
+			FileInputStream stream = new FileInputStream(softLink);
 			try {
 				FileChannel fc = stream.getChannel();
 			    MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
@@ -564,7 +567,7 @@ public class ClientStatus {
 		Pattern statIconPattern = Pattern.compile("/(\\w+?\\.?\\w*?)</soft_link>");
 		Matcher m = statIconPattern.matcher(softLinkContent);
 		if(!m.find()) {
-			if(Logging.WARNING) Log.w(Logging.TAG,"parseSoftLinkToAbsPath() could not match pattern in soft link!");
+			if(Logging.WARNING) Log.w(Logging.TAG,"parseSoftLinkToAbsPath() could not match pattern in soft link: " + softLinkContent);
 			return null;
 		}
 		String fileName = m.group(1);
