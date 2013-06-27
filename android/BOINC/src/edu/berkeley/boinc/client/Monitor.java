@@ -979,8 +979,10 @@ public class Monitor extends Service {
 			}
 		}
 		
-		if(!msgs.isEmpty()) if(Logging.DEBUG) Log.d(Logging.TAG,"getEventLogMessages: returning array with " + msgs.size() + " entries. for lowerBound: " + lowerBound + " at 0: " + msgs.get(0).seqno + " at " + (msgs.size()-1) + ": " + msgs.get(msgs.size()-1).seqno);
-		else if(Logging.DEBUG) Log.d(Logging.TAG,"getEventLogMessages: returning empty array for lowerBound: " + lowerBound);
+		if(!msgs.isEmpty()) 
+			if(Logging.DEBUG) Log.d(Logging.TAG,"getEventLogMessages: returning array with " + msgs.size() + " entries. for lowerBound: " + lowerBound + " at 0: " + msgs.get(0).seqno + " at " + (msgs.size()-1) + ": " + msgs.get(msgs.size()-1).seqno);
+		else 
+			if(Logging.DEBUG) Log.d(Logging.TAG,"getEventLogMessages: returning empty array for lowerBound: " + lowerBound);
 		return msgs;
 	}
 	
