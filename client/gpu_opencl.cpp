@@ -113,7 +113,7 @@ static bool is_intel(char* vendor) {
 
 // If "loose", tolerate small diff
 //
-int opencl_compare(OPENCL_DEVICE_PROP& c1, OPENCL_DEVICE_PROP& c2, bool loose) {
+static int opencl_compare(OPENCL_DEVICE_PROP& c1, OPENCL_DEVICE_PROP& c2, bool loose) {
     if (c1.opencl_device_version_int > c2.opencl_device_version_int) return 1;
     if (c1.opencl_device_version_int < c2.opencl_device_version_int) return -1;
     if (loose) {
@@ -127,6 +127,18 @@ int opencl_compare(OPENCL_DEVICE_PROP& c1, OPENCL_DEVICE_PROP& c2, bool loose) {
     if (c1.peak_flops < c2.peak_flops) return -1;
     return 0;
 }
+
+#ifdef __APPLE__
+static bool compare_pci_slots(int NVIDIA_GPU_Index1, int NVIDIA_GPU_Index2) {
+    if (NVIDIA_GPU_Index1 >= (int)nvidia_gpus.size()) return false;  // Should never happen
+    if (NVIDIA_GPU_Index2 >= (int)nvidia_gpus.size()) return false;  // Should never happen
+    return (
+        nvidia_gpus[NVIDIA_GPU_Index1].pci_info.bus_id <
+                nvidia_gpus[NVIDIA_GPU_Index2].pci_info.bus_id
+    );
+}
+#endif
+
 
 // OpenCL interfaces are documented here:
 // http://www.khronos.org/registry/cl/sdk/1.0/docs/man/xhtml/ and
@@ -147,6 +159,8 @@ void COPROCS::get_opencl(
     int current_CAL_index;
     int min_CAL_target;
     int num_CAL_devices = (int)ati_gpus.size();
+    vector<int>devnums_pci_slot_sort;
+    vector<OPENCL_DEVICE_PROP>::iterator it;
 
 #ifdef _WIN32
     opencl_lib = LoadLibrary("OpenCL.dll");
@@ -197,6 +211,19 @@ void COPROCS::get_opencl(
     if ((ciErrNum != CL_SUCCESS) || (num_platforms == 0)) {
         warnings.push_back("clGetPlatformIDs() failed to return any OpenCL platforms");
         return;
+    }
+
+    if (nvidia_gpus.size()) {
+        for (int i=0; i<(int)nvidia_gpus.size(); ++i) {
+            devnums_pci_slot_sort.push_back(i);
+            
+        }
+#ifdef __APPLE__
+        std::stable_sort(devnums_pci_slot_sort.begin(),
+                        devnums_pci_slot_sort.end(),
+                        compare_pci_slots
+        );
+#endif
     }
 
     for (platform_index=0; platform_index<num_platforms; ++platform_index) {
@@ -308,8 +335,12 @@ void COPROCS::get_opencl(
             if (is_NVIDIA(prop.vendor)) {
                 if (nvidia.have_cuda) {
                     // Mac OpenCL does not recognize all NVIDIA GPUs returned by
-                    // CUDA but we assume that OpenCL and CUDA return devices in
-                    // the same order and with identical model name strings
+                    // CUDA but we assume that OpenCL and CUDA return devices 
+                    // with identical model name strings and that OpenCL returns
+                    // devices in order of acending PCI slot.
+                    //
+                    // On other systems, assume OpenCL and CUDA return devices 
+                    // in the same order.
                     //
                     while (1) {
                         if (current_CUDA_index >= (int)(nvidia_gpus.size())) {
@@ -320,7 +351,9 @@ void COPROCS::get_opencl(
                             warnings.push_back(buf);
                             return; // Should never happen
                         }
-                        if (!strcmp(prop.name, nvidia_gpus[current_CUDA_index].prop.name)) {
+                        if (!strcmp(prop.name,
+                            nvidia_gpus[devnums_pci_slot_sort[current_CUDA_index]].prop.name)
+                            ) {
                             break;  // We have a match
                         }
                         // This CUDA GPU is not recognized by OpenCL,
@@ -328,7 +361,7 @@ void COPROCS::get_opencl(
                         //
                         ++current_CUDA_index;
                     }
-                    prop.device_num = current_CUDA_index;
+                    prop.device_num = devnums_pci_slot_sort[current_CUDA_index];
                 } else {
                     prop.device_num = (int)(nvidia_opencls.size());
                 }
@@ -343,14 +376,19 @@ void COPROCS::get_opencl(
                     prop.peak_flops = c.peak_flops;
                 }
                 if (nvidia_gpus.size()) {
-                    // Assumes OpenCL and CUDA return the devices
-                    // in the same order
+                    // Assumes OpenCL device_num and CUDA device_num now match
                     //
                     prop.opencl_available_ram = nvidia_gpus[prop.device_num].available_ram;
                 } else {
                     prop.opencl_available_ram = prop.global_mem_size;
                 }
-                nvidia_opencls.push_back(prop);
+                
+                // Build nvidia_opencls vector in device_num order
+                for (it=nvidia_opencls.begin(); it<nvidia_opencls.end(); it++) {
+                    if (it->device_num > prop.device_num) break;
+                }
+                nvidia_opencls.insert(it, prop);
+                
                 ++current_CUDA_index;
             }
 
