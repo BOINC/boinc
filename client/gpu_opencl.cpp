@@ -391,6 +391,8 @@ void COPROCS::get_opencl(
                 
                 ++current_CUDA_index;
             }
+            
+            devnums_pci_slot_sort.clear();
 
             //////////// AMD / ATI //////////////
             if (is_AMD(prop.vendor)) {
