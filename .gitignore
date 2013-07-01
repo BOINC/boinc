@@ -25,3 +25,4 @@
 *.in
 /client/Makefile
 /win_build/installerv2/CharityEngine
+/win_build/installerv2/Progress
