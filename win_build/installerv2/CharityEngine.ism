@@ -4691,7 +4691,7 @@ VwBlAGIAAQBXAEUAQgB4ADgANgA=
 		<col def="S255">ISComments</col>
 		<col def="S255">ISShortcutName</col>
 		<col def="I4">ISAttributes</col>
-		<row><td>BOINCManagerShortcut</td><td>newfolder1</td><td>##IDS_FEATURE_BOINC_MANAGER_NAME##</td><td>_BOINCManagerStartMenu</td><td>[INSTALLDIR]boincmgr.exe</td><td/><td>##IDS_FEATURE_BOINC_MANAGER_DESCRIPTION##</td><td/><td>BOINCManagerShortc_0BAA9BD8160A49E59E019B1B2280ED45.exe</td><td>0</td><td>1</td><td>INSTALLDIR</td><td/><td/><td/><td/><td/><td/><td/></row>
+		<row><td>BOINCManagerShortcut</td><td>newfolder1</td><td>##IDS_FEATURE_BOINC_MANAGER_NAME##</td><td>_BOINCManagerStartMenu</td><td>[INSTALLDIR]charityengine.exe</td><td/><td>##IDS_FEATURE_BOINC_MANAGER_DESCRIPTION##</td><td/><td>BOINCManagerShortc_0BAA9BD8160A49E59E019B1B2280ED45.exe</td><td>0</td><td>1</td><td>INSTALLDIR</td><td/><td/><td/><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="Signature">
