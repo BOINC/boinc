@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc", "ce_boinc_cli.vcproj", "{C04F0FCC-BB5D-4627-8656-6173B28BD69E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc", "gr_boinc_cli.vcproj", "{C04F0FCC-BB5D-4627-8656-6173B28BD69E}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
@@ -9,13 +9,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc", "ce_boinc_cli.vcpro
 		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8} = {E8F6BD7E-461A-4733-B7D8-37B09A099ED8}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc_os_ss", "ce_boinc_os_ss.vcproj", "{4A2C5963-6A8D-4CA1-A312-C3D749B2EA81}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc_os_ss", "gr_boinc_os_ss.vcproj", "{4A2C5963-6A8D-4CA1-A312-C3D749B2EA81}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "charityengine", "ce_boincmgr.vcproj", "{06113715-AC51-4E91-8B9D-C987CABE0920}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gridrepublic", "gr_boincmgr.vcproj", "{06113715-AC51-4E91-8B9D-C987CABE0920}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
@@ -27,7 +27,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboinc", "libboinc.vcproj
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinctray", "ce_boinctray.vcproj", "{4A2C5963-6A8D-4DA1-A312-C3D749B2EA81}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinctray", "gr_boinctray.vcproj", "{4A2C5963-6A8D-4DA1-A312-C3D749B2EA81}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
@@ -72,7 +72,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboincapi_staticcrt", "li
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boincsvcctrl", "ce_boincsvcctrl.vcproj", "{9FC47E90-4E0D-4383-B446-A84314B00764}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boincsvcctrl", "gr_boincsvcctrl.vcproj", "{9FC47E90-4E0D-4383-B446-A84314B00764}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
@@ -81,7 +81,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boincsvcctrl", "ce_boincsvc
 		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8} = {E8F6BD7E-461A-4733-B7D8-37B09A099ED8}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc_ss", "ce_boinc_ss.vcproj", "{C3163ACA-C2E6-49D2-AA21-B8B953331EF7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc_ss", "gr_boinc_ss.vcproj", "{C3163ACA-C2E6-49D2-AA21-B8B953331EF7}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
