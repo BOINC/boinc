@@ -52,7 +52,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../lib/;../api/;../RSAEuro/source/;../client/win/;../client;..;../coprocs/OpenCL/include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_GRIDREPUBLIC"
+				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_PROGRESSTHRUPROCESSORS"
 				ExceptionHandling="2"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -79,7 +79,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;_GRIDREPUBLIC"
+				PreprocessorDefinitions="_DEBUG;_PROGRESSTHRUPROCESSORS"
 				Culture="1033"
 				AdditionalIncludeDirectories=".."
 			/>
@@ -161,7 +161,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../lib/;../api/;../RSAEuro/source/;../client/win/;../client;..;../coprocs/OpenCL/include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_GRIDREPUBLIC"
+				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_PROGRESSTHRUPROCESSORS"
 				ExceptionHandling="2"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -188,7 +188,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;_GRIDREPUBLIC"
+				PreprocessorDefinitions="_DEBUG;_PROGRESSTHRUPROCESSORS"
 				Culture="1033"
 				AdditionalIncludeDirectories=".."
 			/>
@@ -271,7 +271,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="../lib/;../api/;../RSAEuro/source/;../client/win/;../client;..;../coprocs/OpenCL/include"
-				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_GRIDREPUBLIC"
+				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_PROGRESSTHRUPROCESSORS"
 				StringPooling="true"
 				ExceptionHandling="2"
 				RuntimeLibrary="2"
@@ -297,7 +297,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_GRIDREPUBLIC"
+				PreprocessorDefinitions="NDEBUG;_PROGRESSTHRUPROCESSORS"
 				Culture="1033"
 				AdditionalIncludeDirectories=".."
 			/>
@@ -382,7 +382,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="../lib/;../api/;../RSAEuro/source/;../client/win/;../client;..;../coprocs/OpenCL/include"
-				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_GRIDREPUBLIC"
+				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_PROGRESSTHRUPROCESSORS"
 				StringPooling="true"
 				ExceptionHandling="2"
 				RuntimeLibrary="2"
@@ -408,7 +408,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_GRIDREPUBLIC"
+				PreprocessorDefinitions="NDEBUG;_PROGRESSTHRUPROCESSORS"
 				Culture="1033"
 				AdditionalIncludeDirectories=".."
 			/>
