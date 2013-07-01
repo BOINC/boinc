@@ -331,7 +331,10 @@ public class StatusActivity extends Activity implements OnClickListener{
 		
 		@Override
 		protected Boolean doInBackground(Integer... params) {
-			return monitor.setRunMode(params[0]);
+			// setting provided mode for both, CPU computation and network.
+			Boolean runMode = monitor.setRunMode(params[0]);
+			Boolean networkMode = monitor.setNetworkMode(params[0]);
+			return runMode && networkMode;
 		}
 		
 		@Override
