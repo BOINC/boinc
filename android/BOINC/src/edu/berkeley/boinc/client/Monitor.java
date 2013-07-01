@@ -487,7 +487,7 @@ public class Monitor extends Service {
  	// projects not supporting Android. List does not change
     // during run-time. Called once during setup.
     // Stored in ClientStatus.
-	private void readAndroidProjectsList() {
+	public void readAndroidProjectsList() {
 		// try to get current client status from monitor
 		ClientStatus status;
 		try{
@@ -499,6 +499,8 @@ public class Monitor extends Service {
 		
 		ArrayList<ProjectInfo> allProjects = rpc.getAllProjectsList();
 		ArrayList<ProjectInfo> androidProjects = new ArrayList<ProjectInfo>();
+		
+		if(allProjects == null) return;
 		
 		//filter projects that do not support Android
 		for (ProjectInfo project: allProjects) {
