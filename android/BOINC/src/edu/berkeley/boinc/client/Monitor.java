@@ -220,7 +220,7 @@ public class Monitor extends Service {
         	success = true;
     	} catch (IOException e) {
     		if(Logging.DEBUG) Log.d(Logging.TAG, "Starting BOINC client failed with exception: " + e.getMessage());
-    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(Logging.TAG, "IOException", e);
+    		if(Logging.ERROR) Log.e(Logging.TAG, "IOException", e);
     	}
     	return success;
     }
@@ -305,9 +305,7 @@ public class Monitor extends Service {
     		if(Logging.DEBUG) Log.d(Logging.TAG, "install of " + file + " successfull. executable: " + executable + "/" + isExecutable);
     		
     	} catch (IOException e) {  
-    		if(Logging.DEBUG) Log.d(Logging.TAG, "IOException: " + e.getMessage());
-    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(Logging.TAG, "IOException", e);
-    		
+    		if(Logging.ERROR) Log.e(Logging.TAG, "IOException: " + e.getMessage());
     		if(Logging.DEBUG) Log.d(Logging.TAG, "install of " + file + " failed.");
     	}
 		
@@ -353,11 +351,9 @@ public class Monitor extends Service {
     		
     		return sb.toString();
     	} catch (IOException e) {  
-    		if(Logging.DEBUG) Log.d(Logging.TAG, "IOException: " + e.getMessage());
-    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(Logging.TAG, "IOException", e);
+    		if(Logging.ERROR) Log.e(Logging.TAG, "IOException: " + e.getMessage());
     	} catch (NoSuchAlgorithmException e) {
-    		if(Logging.DEBUG) Log.d(Logging.TAG, "NoSuchAlgorithmException: " + e.getMessage());
-    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(Logging.TAG, "NoSuchAlgorithmException", e);
+    		if(Logging.ERROR) Log.e(Logging.TAG, "NoSuchAlgorithmException: " + e.getMessage());
 		}
 		
 		return "";
@@ -387,11 +383,9 @@ public class Monitor extends Service {
     		
     		return sb.toString();
     	} catch (IOException e) {  
-    		if(Logging.DEBUG) Log.d(Logging.TAG, "IOException: " + e.getMessage());
-    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(Logging.TAG, "IOException", e);
+    		if(Logging.ERROR) Log.e(Logging.TAG, "IOException: " + e.getMessage());
     	} catch (NoSuchAlgorithmException e) {
-    		if(Logging.DEBUG) Log.d(Logging.TAG, "NoSuchAlgorithmException: " + e.getMessage());
-    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(Logging.TAG, "NoSuchAlgorithmException", e);
+    		if(Logging.ERROR) Log.e(Logging.TAG, "NoSuchAlgorithmException: " + e.getMessage());
 		}
 		
 		return "";
@@ -414,8 +408,7 @@ public class Monitor extends Service {
 	    	    sb.append(buf, 0, count);
 	    	}
     	} catch (Exception e) {
-    		if(Logging.DEBUG) Log.d(Logging.TAG, "Exception: " + e.getMessage());
-    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(Logging.TAG, "Exception", e);
+    		if(Logging.ERROR) Log.e(Logging.TAG, "Exception: " + e.getMessage());
     	}
     	
     	//parse output into hashmap
@@ -754,10 +747,10 @@ public class Monitor extends Service {
     		br.close();
     	}
     	catch (FileNotFoundException fnfe) {
-    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(Logging.TAG, "auth file not found",fnfe);
+    		if(Logging.ERROR) Log.e(Logging.TAG, "auth file not found",fnfe);
     	}
     	catch (IOException ioe) {
-    		if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(Logging.TAG, "ioexception",ioe);
+    		if(Logging.ERROR) Log.e(Logging.TAG, "ioexception",ioe);
     	}
 
 		String authKey = fileData.toString();
