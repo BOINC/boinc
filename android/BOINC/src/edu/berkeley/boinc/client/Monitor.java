@@ -379,7 +379,6 @@ public class Monitor extends Service {
     // reports current device status to the client via rpc
     // client uses data to enforce preferences, e.g. suspend on battery
     private void reportDeviceStatus() {
-    	Log.d(Logging.TAG,"reportDeviceStatus"); //TODO
 		// check whether RPC client connection is alive
 		if(!rpc.connectionAlive()) clientSetup(); // start setup routine
 		
