@@ -104,6 +104,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
+				AdditionalManifestFiles="../client/boinc.xml"
 				EmbedManifest="true"
 			/>
 			<Tool
@@ -214,6 +215,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
+				AdditionalManifestFiles="../client/boinc.xml"
 				EmbedManifest="true"
 			/>
 			<Tool
@@ -325,6 +327,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
+				AdditionalManifestFiles="../client/boinc.xml"
 				EmbedManifest="true"
 			/>
 			<Tool
@@ -436,6 +439,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
+				AdditionalManifestFiles="../client/boinc.xml"
 				EmbedManifest="true"
 			/>
 			<Tool
