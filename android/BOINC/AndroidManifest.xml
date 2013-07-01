@@ -33,7 +33,7 @@
         android:largeScreens="true"
         android:xlargeScreens="true" />
 
-    <!-- CAUTION: increasing targetSDK to >10 changes AsyncTask's threadpool size!  -->
+    <!-- CAUTION: increasing targetSDK to >10 removes menu button on new devices  -->
     <uses-sdk
         android:minSdkVersion="9"
         android:targetSdkVersion="10" />

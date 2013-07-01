@@ -85,7 +85,7 @@ public class Monitor extends Service {
 	private Integer clientStatusInterval;
 	private Integer deviceStatusIntervalScreenOff;
 	
-	private Timer updateTimer = new Timer(true);
+	private Timer updateTimer = new Timer(true); // schedules frequent client status update
 	private TimerTask statusUpdateTask = new StatusUpdateTimerTask();
 	private boolean updateBroadcastEnabled = true;
 	private DeviceStatus deviceStatus = null;
@@ -336,6 +336,7 @@ public class Monitor extends Service {
 		return rpc.authorize(authKey); 
     }
 	
+    // updates ClientStatus data structure with values received from client via rpc calls.
     private void updateStatus(){
     	try{
 			if(screenOn) {
@@ -367,7 +368,7 @@ public class Monitor extends Service {
 				}
 			} else {
 				// screen is off
-				if(deviceStatusOmitCounter < deviceStatusIntervalScreenOff) deviceStatusOmitCounter++; // omit status reporting accoring to configuration
+				if(deviceStatusOmitCounter < deviceStatusIntervalScreenOff) deviceStatusOmitCounter++; // omit status reporting according to configuration
 				else reportDeviceStatus();
 			}
 		}catch(Exception e) {
@@ -375,6 +376,8 @@ public class Monitor extends Service {
 		}
     }
     
+    // reports current device status to the client via rpc
+    // client uses data to enforce preferences, e.g. suspend on battery
     private void reportDeviceStatus() {
     	Log.d(Logging.TAG,"reportDeviceStatus"); //TODO
 		// check whether RPC client connection is alive
@@ -1039,6 +1042,10 @@ public class Monitor extends Service {
 		return rpc.getMessages(seqNo);
 	}
 	
+	// updates the client status via rpc
+	// reports current device status to the client via rpc
+	//
+	// get executed in seperate thread
 	private final class StatusUpdateTimerTask extends TimerTask {
 		@Override
 		public void run() {
