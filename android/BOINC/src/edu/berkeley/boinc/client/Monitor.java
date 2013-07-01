@@ -49,6 +49,7 @@ import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 import android.util.Log;
 import edu.berkeley.boinc.AppPreferences;
 import edu.berkeley.boinc.R;
@@ -104,6 +105,8 @@ public class Monitor extends Service {
 	// used by ClientMonitorAsync if no connection is available
 	// includes network communication => don't call from UI thread!
 	private Boolean clientSetup() {
+		if(Logging.DEBUG) Log.d(Logging.TAG,"Monitor.clientSetup()");
+		
 		// try to get current client status from monitor
 		ClientStatus status;
 		try{
@@ -112,10 +115,14 @@ public class Monitor extends Service {
 			if(Logging.WARNING) Log.w(Logging.TAG,"Monitor.clientSetup: Could not load data, clientStatus not initialized.");
 			return false;
 		}
-		// acquire CPU lock here to allow BOINC client to detect all available CPU cores
-		// if not acquired and device in power saving mode, client might detect fewer CPU
-		// cores than available.
-		status.setWakeLock(true);
+		// wake up device and acquire full WakeLock here to allow BOINC client to detect
+		// all available CPU cores if not acquired and device in power saving mode, client
+		// might detect fewer CPU cores than available.
+		// Lock needs to be release, before return!
+		PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+		WakeLock setupWakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, Logging.TAG);
+		setupWakeLock.acquire();
+		
 		status.setSetupStatus(ClientStatus.SETUP_STATUS_LAUNCHING,true);
 		String clientProcessName = clientPath + clientName;
 
@@ -157,6 +164,7 @@ public class Monitor extends Service {
 			//
 	        if(!installClient()) {
 	        	if(Logging.WARNING) Log.w(Logging.TAG, "BOINC client installation failed!");
+	        	setupWakeLock.release();
 	        	return false;
 	        }
 		}
@@ -168,6 +176,7 @@ public class Monitor extends Service {
         	if(Logging.DEBUG) Log.d(Logging.TAG, "Starting the BOINC client");
 			if (!runClient()) {
 	        	if(Logging.DEBUG) Log.d(Logging.TAG, "BOINC client failed to start");
+	        	setupWakeLock.release();
 				return false;
 			}
 		}
@@ -211,6 +220,7 @@ public class Monitor extends Service {
 			status.setSetupStatus(ClientStatus.SETUP_STATUS_ERROR,true);
 		}
 		
+		setupWakeLock.release();
 		return connected;
 	}
 	
