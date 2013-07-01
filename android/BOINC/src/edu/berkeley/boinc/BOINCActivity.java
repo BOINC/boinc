@@ -276,15 +276,6 @@ public class BOINCActivity extends TabActivity {
 		if(Logging.DEBUG) Log.d(Logging.TAG, "noProjectClicked()");
 		startActivity(new Intent(this, AttachProjectListActivity.class));
 	}
-    
-	
-	//gets called when user clicks on retry of error_layout
-	//has to be public in order to get triggered by layout component
-	public void reinitClient(View view) {
-		if(!mIsBound) return;
-		if(Logging.DEBUG) Log.d(Logging.TAG, "reinitClient()");
-		monitor.restartMonitor(); //start over with setup of client
-	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

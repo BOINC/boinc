@@ -26,12 +26,13 @@
         <bool name="prefs_default_advanced">false</bool>
         <integer name="prefs_default_loglevel">2</integer>
     <!-- Monitor behavior -->
-    	<integer name="client_status_refresh_rate_ms">1000</integer>
+    	<integer name="status_update_interval_ms">1000</integer>
+    	<integer name="device_status_update_screen_off_every_X_loop">10</integer> <!-- every X status_update_interval_ms -->
     	<integer name="monitor_setup_connection_retry_rate_ms">1000</integer>
     	<integer name="monitor_setup_connection_retry_attempts">10</integer>
     	<integer name="autostart_notification_id">1</integer>
     <!-- Device status -->
-    	<integer name="device_status_refresh_rate_screen_off_ms">10000</integer>
+    	<integer name="device_status_refresh_interval_screen_off_ms">10000</integer>
     <!-- configuration project attach -->
     	<integer name="attach_step_interval_ms">1000</integer>
     	<integer name="attach_get_project_config_retries">3</integer>

@@ -18,9 +18,7 @@
 
 // client-specific GPU code.  Mostly GPU detection
 
-#ifdef __APPLE__
 #define USE_CHILD_PROCESS_TO_DETECT_GPUS 1
-#endif
 
 #include "cpp.h"
 
