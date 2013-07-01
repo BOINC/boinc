@@ -27,7 +27,7 @@
         <integer name="prefs_default_loglevel">2</integer>
     <!-- Monitor behavior -->
     	<integer name="status_update_interval_ms">1000</integer>
-    	<integer name="device_status_update_screen_off_every_X_loop">28</integer> <!-- every X status_update_interval_ms -->
+    	<integer name="device_status_update_screen_off_every_X_loop">10</integer> <!-- every X status_update_interval_ms -->
     	<integer name="monitor_setup_connection_retry_rate_ms">1000</integer>
     	<integer name="monitor_setup_connection_retry_attempts">10</integer>
     	<integer name="autostart_notification_id">1</integer>
