@@ -1375,6 +1375,11 @@ static void SleepTicks(UInt32 ticksToSleep) {
 // user, before we switch to root in our second pass.
 // So we get the preferred languages here and write them to a
 // temporary file to be retrieved by our second pass.
+// We must do it this way because, for unknown reasons, the
+// CFBundleCopyLocalizationsForPreferences() API does not work
+// correctly if we seteuid and setuid to the logged in user 
+// after running as root.
+
 static void GetPreferredLanguages() {
     DIR *dirp;
     struct dirent *dp;

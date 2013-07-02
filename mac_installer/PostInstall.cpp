@@ -1132,6 +1132,11 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
 // user, before the Apple Installer switches us to root.
 // So we get the preferred languages in our Installer.app which 
 // writes them to a temporary file which we retrieve here.
+// We must do it this way because, for unknown reasons, the
+// CFBundleCopyLocalizationsForPreferences() API does not work
+// correctly if we seteuid and setuid to the logged in user by
+// calling SetEUIDBackToUser() after running as root.
+//
 static void LoadPreferredLanguages(){
     FILE *f;
     int i;

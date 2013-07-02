@@ -45,7 +45,6 @@ Boolean IsRestartNeeded();
 static void GetPreferredLanguages(char * pkgPath);
 static void LoadPreferredLanguages();
 static void ShowMessage(const char *format, ...);
-OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN);
 static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
 void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
@@ -72,10 +71,9 @@ int main(int argc, char *argv[])
     char                    MetaPkgPath[MAXPATHLEN], MetaPkgRestartPath[MAXPATHLEN];
     char                    brand[64], s[256];
     char                    *p;
-    ProcessSerialNumber     ourPSN, installerPSN;
+    ProcessSerialNumber     ourPSN;
     FSRef                   ourFSRef;
     long                    response;
-    pid_t                   installerPID = 0;
     OSStatus                err = noErr;
     struct stat             stat_buf;
     Boolean                 restartNeeded = true;
@@ -133,42 +131,38 @@ int main(int argc, char *argv[])
             *p = '\0'; 
         ShowMessage((char *)_("Sorry, this version of %s requires system 10.4 or higher."), brand);
 
-        err = FindProcess ('APPL', 'xins', &installerPSN);
-        err = GetProcessPID(&installerPSN , &installerPID);
+    } else {
 
-        if (err == noErr)
-            err = kill(installerPID, SIGKILL);
+        // Remove previous installer package receipt so we can run installer again
+        // (affects only older versions of OS X and fixes a bug in those versions)
+        // "rm -rf /Library/Receipts/GridRepublic.pkg"
+        sprintf(s, "rm -rf \"/Library/Receipts/%s.pkg\"", brand);
+        system (s);
 
-	ExitToShell();
-    }
-
-    // Remove previous installer package receipt so we can run installer again
-    // (affects only older versions of OS X and fixes a bug in those versions)
-    // "rm -rf /Library/Receipts/GridRepublic.pkg"
-    sprintf(s, "rm -rf \"/Library/Receipts/%s.pkg\"", brand);
-    system (s);
-
-    restartNeeded = IsRestartNeeded();
-    
-    // Write a temp file to tell our PostInstall.app whether restart is needed
-    restartNeededFile = fopen("/tmp/BOINC_restart_flag", "w");
-    if (restartNeededFile) {
-        fputs(restartNeeded ? "1\n" : "0\n", restartNeededFile);
-        fclose(restartNeededFile);
-    }
-    
-    err = Gestalt(gestaltSystemVersion, &response);
-    if (err != noErr)
-        return err;
-    
-    if (err == noErr) {
-        if ((response < 0x1050) || stat(MetaPkgPath, &stat_buf)) {  // stat() returns zero on success
-            sprintf(infoPlistPath, "open \"%s\" &", restartNeeded ? pkgRestartPath : pkgPath);
-        } else {
-            sprintf(infoPlistPath, "open \"%s\" &", restartNeeded ? MetaPkgRestartPath : MetaPkgPath);
+        restartNeeded = IsRestartNeeded();
+        
+        // Write a temp file to tell our PostInstall.app whether restart is needed
+        restartNeededFile = fopen("/tmp/BOINC_restart_flag", "w");
+        if (restartNeededFile) {
+            fputs(restartNeeded ? "1\n" : "0\n", restartNeededFile);
+            fclose(restartNeededFile);
         }
-        system(infoPlistPath);
+        
+        err = Gestalt(gestaltSystemVersion, &response);
+        if (err != noErr)
+            return err;
+        
+        if (err == noErr) {
+            if ((response < 0x1050) || stat(MetaPkgPath, &stat_buf)) {  // stat() returns zero on success
+                sprintf(infoPlistPath, "open \"%s\" &", restartNeeded ? pkgRestartPath : pkgPath);
+            } else {
+                sprintf(infoPlistPath, "open \"%s\" &", restartNeeded ? MetaPkgRestartPath : MetaPkgPath);
+            }
+            system(infoPlistPath);
+        }
     }
+
+    system("rm -dfR /tmp/BOINC_PAX");
     
     return err;
 }
@@ -393,8 +387,6 @@ cleanup:
     CFArrayRemoveAllValues(supportedLanguages);
     CFRelease(supportedLanguages);
     supportedLanguages = NULL;
-
-    system("rm -dfR /tmp/BOINC_PAX");
 }
 
 
@@ -406,7 +398,7 @@ static void LoadPreferredLanguages(){
 
     BOINCTranslationInit();
 
-    // Install.app wrote a list of our preferred languages to a temp file
+    // GetPreferredLanguages() wrote a list of our preferred languages to a temp file
     f = fopen("/tmp/BOINC_preferred_languages", "r");
     if (!f) return;
     
@@ -457,37 +449,6 @@ static void ShowMessage(const char *format, ...) {
                 &responseFlags);
     
     if (myString) CFRelease(myString);
-}
-
-
-// ---------------------------------------------------------------------------
-/* This runs through the process list looking for the indicated application */
-/*  Searches for process by file type and signature (creator code)          */
-// ---------------------------------------------------------------------------
-OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN)
-{
-    ProcessInfoRec tempInfo;
-    FSSpec procSpec;
-    Str31 processName;
-    OSErr myErr = noErr;
-    /* null out the PSN so we're starting at the beginning of the list */
-    processSN->lowLongOfPSN = kNoProcess;
-    processSN->highLongOfPSN = kNoProcess;
-    /* initialize the process information record */
-    tempInfo.processInfoLength = sizeof(ProcessInfoRec);
-    tempInfo.processName = processName;
-    tempInfo.processAppSpec = &procSpec;
-    /* loop through all the processes until we */
-    /* 1) find the process we want */
-    /* 2) error out because of some reason (usually, no more processes) */
-    do {
-        myErr = GetNextProcess(processSN);
-        if (myErr == noErr)
-            GetProcessInformation(processSN, &tempInfo);
-    }
-            while ((tempInfo.processSignature != creatorToFind || tempInfo.processType != typeToFind) &&
-                   myErr == noErr);
-    return(myErr);
 }
 
 
