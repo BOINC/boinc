@@ -465,7 +465,7 @@ SAH_CHECK_LIB([cups], [md5_finish],
 LIBS=${SAVELIBS_AAF}
 
 dnl check for pthread
-ACX_PTHREAD(AC_DEFINE(HAVE_PTHREAD,1, [Have pthread]))
+AX_PTHREAD(AC_DEFINE(HAVE_PTHREAD,1, [Have pthread]))
 dnl There are better ways to do this.
 dnl CXXFLAGS="$CXXFLAGS $PTHREAD_CFLAGS"
 dnl CFLAGS="$CFLAGS $PTHREAD_CFLAGS"
