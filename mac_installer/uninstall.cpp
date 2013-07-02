@@ -1395,6 +1395,7 @@ static void GetPreferredLanguages() {
     aLanguage = NULL;
 
     dirp = opendir(gCatalogsDir);
+    if (!dirp) goto bail;
     while (true) {
         dp = readdir(dirp);
         if (dp == NULL)
@@ -1453,11 +1454,25 @@ static void GetPreferredLanguages() {
             // further translation is needed for language en.
             if (!strcmp(language, "en")) {
                 fclose(f);
+                CFRelease(preferredLanguages);
+                preferredLanguages = NULL;
+                CFArrayRemoveAllValues(supportedLanguages);
+                CFRelease(supportedLanguages);
+                supportedLanguages = NULL;
                 return;
             }
         }
+        
+        CFRelease(preferredLanguages);
+        preferredLanguages = NULL;
+
     }
     fclose(f);
+
+bail:
+    CFArrayRemoveAllValues(supportedLanguages);
+    CFRelease(supportedLanguages);
+    supportedLanguages = NULL;
 }
 
 
@@ -1521,7 +1536,7 @@ static Boolean ShowMessage(Boolean allowCancel, Boolean continueButton, const ch
     CFStringRef myString = CFStringCreateWithCString(NULL, s, kCFStringEncodingUTF8);
     CFStringRef theTitle = CFStringCreateWithCString(NULL, gAppName, kCFStringEncodingUTF8);
     CFStringRef cancelString = CFStringCreateWithCString(NULL, (char*)_("Cancel"), kCFStringEncodingUTF8);
-    CFStringRef continueString = CFStringCreateWithCString(NULL, (char*)_("Continue"), kCFStringEncodingUTF8);
+    CFStringRef continueString = CFStringCreateWithCString(NULL, (char*)_("Continue..."), kCFStringEncodingUTF8);
 
     ::GetCurrentProcess (&ourProcess);
     ::SetFrontProcess(&ourProcess);

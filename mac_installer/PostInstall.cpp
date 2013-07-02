@@ -267,6 +267,8 @@ int main(int argc, char *argv[])
         brandID = 0;
     }
     
+    LoadPreferredLanguages();
+
     if (OSVersion < 0x1040) {
         ::SetFrontProcess(&ourProcess);
         // Remove everything we've installed
@@ -1458,8 +1460,6 @@ OSErr UpdateAllVisibleUsers(long brandID)
     }           // End for (userIndex=0; userIndex< human_user_names.size(); ++userIndex)
     
     ResynchSystem();
-
-    LoadPreferredLanguages();
 
     if (allNonAdminUsersAreSet) {
         puts("[2] All non-admin users are already members of group boinc_master\n");
