@@ -309,9 +309,9 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
     FILE* f;
     string s;
 
-    COPROC_ATI ati_gpu;
-    COPROC_NVIDIA nvidia_gpu;
-    COPROC_INTEL intel_gpu;
+    COPROC_ATI my_ati_gpu;
+    COPROC_NVIDIA my_nvidia_gpu;
+    COPROC_INTEL my_intel_gpu;
     OPENCL_DEVICE_PROP ati_opencl;
     OPENCL_DEVICE_PROP nvidia_opencl;
     OPENCL_DEVICE_PROP intel_gpu_opencl;
@@ -339,34 +339,34 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
         }
 
         if (xp.match_tag("coproc_ati")) {
-            retval = ati_gpu.parse(xp);
+            retval = my_ati_gpu.parse(xp);
             if (retval) {
-                ati_gpu.clear();
+                my_ati_gpu.clear();
             } else {
-                ati_gpu.device_num = ati_gpus.size();
-                ati_gpus.push_back(ati_gpu);
+                my_ati_gpu.device_num = ati_gpus.size();
+                ati_gpus.push_back(my_ati_gpu);
             }
             continue;
         }
         if (xp.match_tag("coproc_cuda")) {
-            retval = nvidia_gpu.parse(xp);
+            retval = my_nvidia_gpu.parse(xp);
             if (retval) {
-                nvidia_gpu.clear();
+                my_nvidia_gpu.clear();
             } else {
-                nvidia_gpu.device_num = nvidia_gpus.size();
-                nvidia_gpu.pci_info = nvidia_gpu.pci_infos[0];
-                memset(&nvidia_gpu.pci_infos[0], 0, sizeof(struct PCI_INFO));
-                nvidia_gpus.push_back(nvidia_gpu);
+                my_nvidia_gpu.device_num = nvidia_gpus.size();
+                my_nvidia_gpu.pci_info = my_nvidia_gpu.pci_infos[0];
+                memset(&my_nvidia_gpu.pci_infos[0], 0, sizeof(struct PCI_INFO));
+                nvidia_gpus.push_back(my_nvidia_gpu);
             }
             continue;
         }
         if (xp.match_tag("coproc_intel_gpu")) {
-            retval = intel_gpu.parse(xp);
+            retval = my_intel_gpu.parse(xp);
             if (retval) {
-                intel_gpu.clear();
+                my_intel_gpu.clear();
             } else {
-                intel_gpu.device_num = nvidia_gpus.size();
-                intel_gpus.push_back(intel_gpu);
+                my_intel_gpu.device_num = intel_gpus.size();
+                intel_gpus.push_back(my_intel_gpu);
             }
             continue;
         }
