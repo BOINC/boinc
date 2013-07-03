@@ -1591,6 +1591,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
     // and prune those that can't be assigned
     //
     assign_coprocs(run_list);
+    bool scheduled_mt = false;
 
     // prune jobs that don't fit in RAM or that exceed CPU usage limits.
     // Mark the rest as SCHEDULED
@@ -1637,6 +1638,22 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
             }
         }
 
+        // Don't overcommit CPUs by > 1 if a MT job is scheduled.
+        // Skip this check for GPU jobs.
+        //
+        if (!rp->uses_coprocs()
+            && (scheduled_mt || (rp->avp->avg_ncpus > 1))
+            && (ncpus_used + rp->avp->avg_ncpus > ncpus + 1)
+        ) {
+            if (log_flags.cpu_sched_debug) {
+                msg_printf(rp->project, MSG_INFO,
+                    "[cpu_sched_debug] avoid MT overcommit: skipping %s",
+                    rp->name
+                );
+            }
+            continue;
+        }
+
         double wss = 0;
         if (atp) {
             atp->too_large = false;
@@ -1669,6 +1686,9 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
             atp = get_task(rp);
         }
 
+        if (rp->avp->avg_ncpus > 1) {
+            scheduled_mt = true;
+        }
         ncpus_used += rp->avp->avg_ncpus;
         atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
         ram_left -= wss;
