@@ -555,6 +555,11 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
 
     cleanup_task();
 
+    if (gstate.run_test_app) {
+        msg_printf(0, MSG_INFO, "test app finished - exiting");
+        exit(0);
+    }
+
     if (!will_restart) {
         copy_output_files();
         int retval = read_stderr_file();

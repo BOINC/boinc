@@ -104,7 +104,7 @@ void log_message_error(const char* msg) {
     snprintf(evt_msg, sizeof(evt_msg),
         "%s %s\n"
         "GLE: %s\n",
-        time_string, msg, 
+        time_string, msg,
         windows_format_error_string(GetLastError(), evt_msg, (sizeof(evt_msg)-((int)strlen(msg)+7)))
     );
 #else
@@ -365,7 +365,7 @@ int boinc_main_loop() {
 
 int main(int argc, char** argv) {
     int retval = 0;
-    
+
     coprocs.set_path_to_client(argv[0]);    // Used to launch the child process
 
     for (int index = 1; index < argc; index++) {
@@ -374,27 +374,36 @@ int main(int argc, char** argv) {
             log_message_startup("BOINC is initializing...");
 #if !defined(_WIN32) && !defined(__EMX__) && !defined(__APPLE__)
             // from <unistd.h>:
-            // Detach from the controlling terminal and run in the background as system daemon.
+            // Detach from the controlling terminal and run in the background
+            // as system daemon.
             // Don't change working directory to root ("/"), but redirect
             // standard input, standard output and standard error to /dev/null.
+            //
             retval = daemon(1, 0);
             break;
 #endif
         }
 
-        // Some dual-GPU laptops (e.g., Macbook Pro) don't power down the more powerful GPU until
-        // all applications which used them exit.  To save battery life, the client launches a 
-        // second instance of the client as a child process to detect and get info about the GPUs.
-        // The child process writes the info to a temp file which our main client then reads.
-        if (strcmp(argv[index], "-detect_gpus") == 0 || strcmp(argv[index], "--detect_gpus") == 0) {
-            std::vector<std::string> warnings;
+        // Some dual-GPU laptops (e.g., Macbook Pro) don't power down
+        // the more powerful GPU until all applications which used them exit.
+        // To save battery life, the client launches a second instance
+        // of the client as a child process to detect and get info
+        // about the GPUs.
+        // The child process writes the info to a temp file which our main
+        // client then reads.
+        //
+        if (!strcmp(argv[index], "--detect_gpus")) {
+            vector<string> warnings;
             coprocs.detect_gpus(warnings);
             coprocs.write_coproc_info_file(warnings);
             warnings.clear();
             return 0;
         }
-        
-        
+
+        if (!strcmp(argv[index], "--run_test_app")) {
+            run_test_app();
+        }
+
 #ifdef _WIN32
         // This bit of silliness is required to properly detach when run from within a command
         // prompt under Win32.  The root cause of the problem is that CMD.EXE does not return
