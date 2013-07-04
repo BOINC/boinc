@@ -33,10 +33,10 @@
         android:largeScreens="true"
         android:xlargeScreens="true" />
 
-    <!-- CAUTION: increasing targetSDK to >10 removes menu button on new devices  -->
+    <!-- CAUTION: increasing targetSDK to >9 removes menu button on new devices  -->
     <uses-sdk
         android:minSdkVersion="9"
-        android:targetSdkVersion="10" />
+        android:targetSdkVersion="9" />
     
     <!-- Required Permissions -->
     <uses-permission android:name="android.permission.INTERNET"/>
