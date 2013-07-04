@@ -153,7 +153,7 @@
 	<string name="battery_charge_min_pct_header">Min. battery level</string>
 	<string name="battery_charge_min_pct_description">BOINC suspends computation below defined battery charge level.</string>
 	<string name="battery_temperature_max_header">Max. battery temperature</string>
-	<string name="battery_temperature_max_description">BOINC suspends computation above defined battery temperature.</string>
+	<string name="battery_temperature_max_description">BOINC suspends computation above defined battery temperature. It is not recommended to change this value.</string>
 	<string name="prefs_disk_max_pct_header">Max. used storage space</string>
 	<string name="prefs_disk_max_pct_description">How many percent of your device\'s storage space is BOINC allowed to use?</string>
 	<string name="prefs_disk_min_free_gb_header">Min. spare storage</string>
