@@ -164,12 +164,13 @@ int app_min_checkpoint_period = 0;
     // min checkpoint period requested by app
 
 #define TIMER_PERIOD 0.1
-    // period of worker-thread timer interrupts.
-    // Determines rate of handling messages from client.
+    // Sleep interval for timer thread;
+    // determines max rate of handling messages from client.
+    // Unix: period of worker-thread timer interrupts.
 #define TIMERS_PER_SEC 10
+    // reciprocal of TIMER_PERIOD
     // This determines the resolution of fraction done and CPU time reporting
-    // to the core client, and of checkpoint enabling.
-    // It doesn't influence graphics, so 1 sec is enough.
+    // to the client, and of checkpoint enabling.
 #define HEARTBEAT_GIVEUP_SECS 30
 #define HEARTBEAT_GIVEUP_COUNT ((int)(HEARTBEAT_GIVEUP_SECS/TIMER_PERIOD))
     // quit if no heartbeat from core in this #interrupts
@@ -900,13 +901,16 @@ int boinc_wu_cpu_time(double& cpu_t) {
     return 0;
 }
 
-// suspend this job
+// Suspend this job.
+// Can be called from either timer or worker thread.
 //
 static int suspend_activities(bool called_from_worker) {
 #ifdef _WIN32
     static vector<int> pids;
     if (options.multi_thread) {
-        if (pids.size() == 0) pids.push_back(GetCurrentProcessId());
+        if (pids.size() == 0) {
+            pids.push_back(GetCurrentProcessId());
+        }
         suspend_or_resume_threads(pids, timer_thread_id, false, true);
     } else {
         SuspendThread(worker_thread_handle);
@@ -920,13 +924,9 @@ static int suspend_activities(bool called_from_worker) {
     // suspension is done by signal handler in worker thread
     //
     if (called_from_worker) {
-        // mutex is locked in this case
         while (boinc_status.suspended) {
-            release_mutex();
             sleep(1);
-            acquire_mutex();
         }
-        // return with mutex locked
     }
 #endif
     return 0;
@@ -1484,9 +1484,11 @@ void boinc_end_critical_section() {
         if (suspend_request) {
             suspend_request = false;
             boinc_status.suspended = true;
+            release_mutex();
             suspend_activities(true);
+        } else {
+            release_mutex();
         }
-        release_mutex();
     }
 }
 

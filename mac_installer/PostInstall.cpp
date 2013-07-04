@@ -267,6 +267,8 @@ int main(int argc, char *argv[])
         brandID = 0;
     }
     
+    LoadPreferredLanguages();
+
     if (OSVersion < 0x1040) {
         ::SetFrontProcess(&ourProcess);
         // Remove everything we've installed
@@ -1130,6 +1132,11 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
 // user, before the Apple Installer switches us to root.
 // So we get the preferred languages in our Installer.app which 
 // writes them to a temporary file which we retrieve here.
+// We must do it this way because, for unknown reasons, the
+// CFBundleCopyLocalizationsForPreferences() API does not work
+// correctly if we seteuid and setuid to the logged in user by
+// calling SetEUIDBackToUser() after running as root.
+//
 static void LoadPreferredLanguages(){
     FILE *f;
     int i;
@@ -1458,8 +1465,6 @@ OSErr UpdateAllVisibleUsers(long brandID)
     }           // End for (userIndex=0; userIndex< human_user_names.size(); ++userIndex)
     
     ResynchSystem();
-
-    LoadPreferredLanguages();
 
     if (allNonAdminUsersAreSet) {
         puts("[2] All non-admin users are already members of group boinc_master\n");

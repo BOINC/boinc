@@ -32,6 +32,7 @@
 
 #include "str_util.h"
 #include "str_replace.h"
+#include "translate.h"
 
 #define boinc_master_user_name "boinc_master"
 #define boinc_master_group_name "boinc_master"
@@ -41,20 +42,19 @@
 void Initialize(void);	/* function prototypes */
 Boolean IsUserMemberOfGroup(const char *userName, const char *groupName);
 Boolean IsRestartNeeded();
-void GetPreferredLanguages();
-OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN);
+static void GetPreferredLanguages(char * pkgPath);
+static void LoadPreferredLanguages();
+static void ShowMessage(const char *format, ...);
 static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
 void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
 
 // We can't use translation because the translation catalogs
 // have not yet been installed when this application is run.
-#define _(x) x
-
 #define MAX_LANGUAGES_TO_TRY 5
 
 static char * Catalog_Name = (char *)"BOINC-Setup";
-static char * Catalogs_Dir = (char *)"/Library/Application Support/BOINC Data/locale/";
+static char * Catalogs_Dir = (char *)"/tmp/BOINC_PAX/Library/Application Support/BOINC Data/locale/";
 
 Boolean			gQuitFlag = false;	/* global */
 
@@ -71,11 +71,9 @@ int main(int argc, char *argv[])
     char                    MetaPkgPath[MAXPATHLEN], MetaPkgRestartPath[MAXPATHLEN];
     char                    brand[64], s[256];
     char                    *p;
-    ProcessSerialNumber     ourPSN, installerPSN;
+    ProcessSerialNumber     ourPSN;
     FSRef                   ourFSRef;
     long                    response;
-    short                   itemHit;
-    pid_t                   installerPID = 0;
     OSStatus                err = noErr;
     struct stat             stat_buf;
     Boolean                 restartNeeded = true;
@@ -123,52 +121,48 @@ int main(int argc, char *argv[])
     if (err != noErr)
         return err;
 
+    GetPreferredLanguages(pkgPath);
+
     if (response < 0x1040) {
+        LoadPreferredLanguages();
         ::SetFrontProcess(&ourPSN);
         p = strrchr(brand, ' ');         // Strip off last space character and everything following
         if (p)
             *p = '\0'; 
-        s[0] = sprintf(s+1, _("Sorry, this version of %s requires system 10.4 or higher."), brand);
-        StandardAlert (kAlertStopAlert, (StringPtr)s, NULL, NULL, &itemHit);
+        ShowMessage((char *)_("Sorry, this version of %s requires system 10.4 or higher."), brand);
 
-        err = FindProcess ('APPL', 'xins', &installerPSN);
-        err = GetProcessPID(&installerPSN , &installerPID);
+    } else {
 
-        if (err == noErr)
-            err = kill(installerPID, SIGKILL);
+        // Remove previous installer package receipt so we can run installer again
+        // (affects only older versions of OS X and fixes a bug in those versions)
+        // "rm -rf /Library/Receipts/GridRepublic.pkg"
+        sprintf(s, "rm -rf \"/Library/Receipts/%s.pkg\"", brand);
+        system (s);
 
-	ExitToShell();
-    }
-
-    // Remove previous installer package receipt so we can run installer again
-    // (affects only older versions of OS X and fixes a bug in those versions)
-    // "rm -rf /Library/Receipts/GridRepublic.pkg"
-    sprintf(s, "rm -rf \"/Library/Receipts/%s.pkg\"", brand);
-    system (s);
-
-    restartNeeded = IsRestartNeeded();
-    
-    // Write a temp file to tell our PostInstall.app whether restart is needed
-    restartNeededFile = fopen("/tmp/BOINC_restart_flag", "w");
-    if (restartNeededFile) {
-        fputs(restartNeeded ? "1\n" : "0\n", restartNeededFile);
-        fclose(restartNeededFile);
-    }
-    
-    err = Gestalt(gestaltSystemVersion, &response);
-    if (err != noErr)
-        return err;
-    
-    if (err == noErr) {
-        if ((response < 0x1050) || stat(MetaPkgPath, &stat_buf)) {  // stat() returns zero on success
-            sprintf(infoPlistPath, "open \"%s\" &", restartNeeded ? pkgRestartPath : pkgPath);
-        } else {
-            sprintf(infoPlistPath, "open \"%s\" &", restartNeeded ? MetaPkgRestartPath : MetaPkgPath);
+        restartNeeded = IsRestartNeeded();
+        
+        // Write a temp file to tell our PostInstall.app whether restart is needed
+        restartNeededFile = fopen("/tmp/BOINC_restart_flag", "w");
+        if (restartNeededFile) {
+            fputs(restartNeeded ? "1\n" : "0\n", restartNeededFile);
+            fclose(restartNeededFile);
         }
-        system(infoPlistPath);
+        
+        err = Gestalt(gestaltSystemVersion, &response);
+        if (err != noErr)
+            return err;
+        
+        if (err == noErr) {
+            if ((response < 0x1050) || stat(MetaPkgPath, &stat_buf)) {  // stat() returns zero on success
+                sprintf(infoPlistPath, "open \"%s\" &", restartNeeded ? pkgRestartPath : pkgPath);
+            } else {
+                sprintf(infoPlistPath, "open \"%s\" &", restartNeeded ? MetaPkgRestartPath : MetaPkgPath);
+            }
+            system(infoPlistPath);
+        }
     }
 
-    GetPreferredLanguages();
+    system("rm -dfR /tmp/BOINC_PAX");
     
     return err;
 }
@@ -278,18 +272,35 @@ void Initialize()	/* Initialize some managers */
 // user, before the Apple Installer switches us to root.
 // So we get the preferred languages here and write them to a
 // temporary file to be retrieved by our PostInstall app.
-void GetPreferredLanguages() {
+static void GetPreferredLanguages(char * pkgPath) {
     DIR *dirp;
     struct dirent *dp;
     char searchPath[MAXPATHLEN];
+    char savedWD[MAXPATHLEN];
+    char cmd[MAXPATHLEN+64];
     struct stat sbuf;
     CFMutableArrayRef supportedLanguages;
     CFStringRef aLanguage;
     CFArrayRef preferredLanguages;
     int i, j, k;
+    int retval;
     char * language;
     FILE *f;
 
+    getcwd(savedWD, sizeof(savedWD));
+    system("rm -dfR /tmp/BOINC_PAX");
+    mkdir("/tmp/BOINC_PAX", 0777);
+    chdir("/tmp/BOINC_PAX");
+    strlcpy(searchPath, pkgPath, sizeof(searchPath));
+    strlcat(searchPath, "/Contents/Archive.pax.gz", sizeof(searchPath));
+    snprintf(cmd, sizeof(cmd), "pax -r -z -f \"%s\"", searchPath);
+    retval = system(cmd);
+    chdir(savedWD);
+    if (retval) {
+        system("rm -dfR /tmp/BOINC_PAX");
+        return;
+    }
+    
     // Create an array of all our supported languages
     supportedLanguages = CFArrayCreateMutable(NULL, 100, NULL);
     
@@ -299,6 +310,7 @@ void GetPreferredLanguages() {
     aLanguage = NULL;
 
     dirp = opendir(Catalogs_Dir);
+    if (!dirp) goto cleanup;
     while (true) {
         dp = readdir(dirp);
         if (dp == NULL)
@@ -360,10 +372,7 @@ void GetPreferredLanguages() {
                 fclose(f);
                 CFRelease(preferredLanguages);
                 preferredLanguages = NULL;
-                CFArrayRemoveAllValues(supportedLanguages);
-                CFRelease(supportedLanguages);
-                supportedLanguages = NULL;
-                return;
+                goto cleanup;
             }
         }
         
@@ -374,40 +383,72 @@ void GetPreferredLanguages() {
 
     fclose(f);
 
+cleanup:
     CFArrayRemoveAllValues(supportedLanguages);
     CFRelease(supportedLanguages);
     supportedLanguages = NULL;
 }
 
 
-// ---------------------------------------------------------------------------
-/* This runs through the process list looking for the indicated application */
-/*  Searches for process by file type and signature (creator code)          */
-// ---------------------------------------------------------------------------
-OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN)
-{
-    ProcessInfoRec tempInfo;
-    FSSpec procSpec;
-    Str31 processName;
-    OSErr myErr = noErr;
-    /* null out the PSN so we're starting at the beginning of the list */
-    processSN->lowLongOfPSN = kNoProcess;
-    processSN->highLongOfPSN = kNoProcess;
-    /* initialize the process information record */
-    tempInfo.processInfoLength = sizeof(ProcessInfoRec);
-    tempInfo.processName = processName;
-    tempInfo.processAppSpec = &procSpec;
-    /* loop through all the processes until we */
-    /* 1) find the process we want */
-    /* 2) error out because of some reason (usually, no more processes) */
-    do {
-        myErr = GetNextProcess(processSN);
-        if (myErr == noErr)
-            GetProcessInformation(processSN, &tempInfo);
+static void LoadPreferredLanguages(){
+    FILE *f;
+    int i;
+    char *p;
+    char language[32];
+
+    BOINCTranslationInit();
+
+    // GetPreferredLanguages() wrote a list of our preferred languages to a temp file
+    f = fopen("/tmp/BOINC_preferred_languages", "r");
+    if (!f) return;
+    
+    for (i=0; i<MAX_LANGUAGES_TO_TRY; ++i) {
+        fgets(language, sizeof(language), f);
+        if (feof(f)) break;
+        language[sizeof(language)-1] = '\0';    // Guarantee a null terminator
+        p = strchr(language, '\n');
+        if (p) *p = '\0';           // Replace newline with null terminator 
+        if (language[0]) {
+            if (!BOINCTranslationAddCatalog(Catalogs_Dir, language, Catalog_Name)) {
+                printf("could not load catalog for langage %s\n", language);
+            }
+        }
     }
-            while ((tempInfo.processSignature != creatorToFind || tempInfo.processType != typeToFind) &&
-                   myErr == noErr);
-    return(myErr);
+    fclose(f);
+}
+
+
+static void ShowMessage(const char *format, ...) {
+  // CAUTION: vsprintf will produce undesirable results if the string
+  // contains a % character that is not a format specification!
+  // But CFString is OK!
+
+    va_list                 args;
+    char                    s[1024];
+    CFOptionFlags           responseFlags;
+    ProcessSerialNumber     ourProcess;
+   
+#if 1
+    va_start(args, format);
+    vsprintf(s, format, args);
+    va_end(args);
+#else
+    strcpy(s, format);
+#endif
+
+    // If defaultButton is nil or an empty string, a default localized
+    // button title (ÒOKÓ in English) is used.
+    
+    CFStringRef myString = CFStringCreateWithCString(NULL, s, kCFStringEncodingUTF8);
+
+    ::GetCurrentProcess (&ourProcess);
+    ::SetFrontProcess(&ourProcess);
+    CFUserNotificationDisplayAlert(0.0, kCFUserNotificationPlainAlertLevel,
+                NULL, NULL, NULL, CFSTR(" "), myString,
+                NULL, NULL, NULL,
+                &responseFlags);
+    
+    if (myString) CFRelease(myString);
 }
 
 

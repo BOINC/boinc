@@ -191,6 +191,7 @@
 		DD531BC80C193D5200742E50 /* MacUninstaller.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD531BC70C193D5200742E50 /* MacUninstaller.icns */; };
 		DD5A3F17142877A5008148CA /* thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD5A3F15142877A5008148CA /* thread.cpp */; };
 		DD5BF77D0D4F3D0C00EDF980 /* mac_icon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6381450870DB78007A2F8E /* mac_icon.cpp */; };
+		DD5FE1B517828887003339DF /* translate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDF9350F176B0D0C00A2793C /* translate.cpp */; };
 		DD6381F90870DD83007A2F8E /* make_app_icon_h.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6381F80870DD83007A2F8E /* make_app_icon_h.cpp */; };
 		DD6617880A3FFD8C00FFEBEB /* check_security.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6617870A3FFD8C00FFEBEB /* check_security.cpp */; };
 		DD67F8140ADB9DD000B0015E /* wxPieCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD40E75D0ADB87BC00214518 /* wxPieCtrl.cpp */; };
@@ -2855,6 +2856,7 @@
 				DD1AFEAC0A512D8700EE5B82 /* SetupSecurity.cpp in Sources */,
 				DD1AFEAD0A512D8700EE5B82 /* check_security.cpp in Sources */,
 				DD1AFEE80A51301C00EE5B82 /* Installer.cpp in Sources */,
+				DD5FE1B517828887003339DF /* translate.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

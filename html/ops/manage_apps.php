@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2013 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,117 +16,63 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-//  Display and Manage BOINC Application Versions
-//
-// This page presents a form with information about application versions.
-// Some of the fields can be changed.
-//
-// Eric Myers <myers@spy-hill.net>  - 4 June 2006
-// @(#) $Id$
-
-// TODO - code cleanup and use new DB interface
+// web interface for managing apps
 
 require_once('../inc/util_ops.inc');
 
-db_init();
-
-$warnings = "";
-
-// process form input for changes
-//
 function do_updates() {
-    global $warnings;
+    $id = post_int("id");
+    $app = BoincApp::lookup_id($id);
+    if (!$app) error_page("no such app");
 
-    $apps = BoincApp::enum("");
+    $n = post_str("deprecated", true)?1:0;
+    $app->update("deprecated=$n");
 
-    foreach ($apps as $app) {
-        $id = $app->id;
+    $n = post_num("weight");
+    $app->update("weight=$n");
 
-        // Change deprecated status?
-        //
-        $field = "deprecated_".$id;
-        $new_v = (post_str($field, true)=='on') ? 1 : 0;
-        $old_v = $app->deprecated;
-        if ($new_v != $old_v ) {
-            $app->update("deprecated=$new_v");
-        }
+    $n = post_int("homogeneous_redundancy");
+    $app->update("homogeneous_redundancy=$n");
 
-        $field = "weight_".$id;
-        $new_v = post_num($field);
-        $old_v = $app->weight;
-        if ($new_v != $old_v ) {
-            $app->update("weight=$new_v");
-        }
+    $n = post_str("homogeneous_app_version", true)?1:0;
+    $app->update("homogeneous_app_version=$n");
 
-        $field = "homogeneous_redundancy_".$id;
-        $new_v = post_int($field);
-        $old_v = $app->homogeneous_redundancy;
-        if ($new_v != $old_v ) {
-            $app->update("homogeneous_redundancy=$new_v");
-        }
+    $n = post_str("cpu_intensive", true)?1:0;
+    $app->update("non_cpu_intensive=$n");
 
-        $field = "homogeneous_app_version_".$id;
-        $new_v = (post_str($field, true)=='on') ? 1 : 0;
-        $old_v = $app->homogeneous_app_version;
-        if ($new_v != $old_v ) {
-            $app->update("homogeneous_app_version=$new_v");
-        }
+    $n = post_str("beta", true)?1:0;
+    $app->update("beta=$n");
 
-        $field = "non_cpu_intensive_".$id;
-        $new_v = (post_str($field, true)=='on') ? 1 : 0;
-        $old_v = $app->non_cpu_intensive;
-        if ($new_v != $old_v ) {
-            $app->update("non_cpu_intensive=$new_v");
-        }
-
-        $field = "beta_".$id;
-        $new_v = (post_str($field, true)=='on') ? 1 : 0;
-        $old_v = $app->beta;
-        if ($new_v != $old_v ) {
-            $app->update("beta=$new_v");
-        }
-    }
-
-    // Adding a new application
-
-    if (post_str('add_app', true)) {
-        $name = mysql_real_escape_string(post_str('add_name'));
-        $user_friendly_name = mysql_real_escape_string(post_str('add_user_friendly_name'));
-        if (empty($name) || empty($user_friendly_name) ) {
-            $warnings .= "<p><font color='red'>
-                To add a new application please supply both a brief name and a
-                longer 'user-friendly' name.</font></p>
-            ";
-        } else {
-            $now = time();
-            $cmd =  "INSERT INTO app (name,user_friendly_name,create_time) ".
-                "VALUES ('$name', '$user_friendly_name',$now)";
-            $warnings .= "<P><pre>$cmd</pre>\n";
-            mysql_query($cmd);
-        }
-    }
+    echo "Application $id updated.
+        <p>
+        You must restart the project for this to take effect.
+    ";
 }
 
-
-function show_form($updated) {
-    global $warnings;
-    admin_page_head("Manage Applications");
-
-    echo $warnings;
-    if ($updated) {
-        echo "Updates were done.
-            <p>
-            <b>You must stop and restart the project
-            for these changes to take effect</b>.
-        ";
+function add_app() {
+    $name = mysql_real_escape_string(post_str('add_name'));
+    $user_friendly_name = mysql_real_escape_string(post_str('add_user_friendly_name'));
+    if (empty($name) || empty($user_friendly_name) ) {
+        error_page(
+            "To add a new application please supply both a brief name and a longer 'user-friendly' name.</font></p>"
+        );
     }
+    $now = time();
+    $id = BoincApp::insert(
+        "(name,user_friendly_name,create_time) VALUES ('$name', '$user_friendly_name', $now)"
+    );
+    if (!$id) {
+        error_page("insert failed");
+    }
+    echo "Application added.
+        <p>
+        You must restart the project for this to take effect.
+    ";
+}
 
-    $self=$_SERVER['PHP_SELF'];
+function show_form() {
     echo "
         <h2>Edit applications</h2>
-        <form action='$self' method='POST'>
     ";
 
     start_table();
@@ -143,86 +89,70 @@ function show_form($updated) {
         "Beta?"
     );
 
-    $total_weight = mysql_query('SELECT SUM(weight) AS total_weight FROM app WHERE deprecated=0');
-    $total_weight = mysql_fetch_assoc($total_weight);
-    $total_weight = $total_weight['total_weight'];
+    $total_weight = BoincApp::sum("weight");
     $swi = parse_config(get_config(), "<shmem_work_items>");
     if (!$swi) {
         $swi = 100;
     }
 
-    $q="SELECT * FROM app ORDER BY id";
-    $result = mysql_query($q);
-    $Nrow=mysql_num_rows($result);
-    for ($j=1; $j<=$Nrow; $j++){
-        $item = mysql_fetch_object($result);
-        $id = $item->id;
-
+    $apps = BoincApp::enum("");
+    foreach ($apps as $app) {
         // grey-out deprecated versions
         $f1=$f2='';
-        if($item->deprecated==1) {
+        if ($app->deprecated==1) {
             $f1 = "<font color='GREY'>";
             $f2 = "</font>";
         }
-        echo "<tr> ";
-        echo "  <TD align='center'>$f1 $id $f2</TD>\n";
+        echo "<tr><form action=manage_apps.php method=POST>";
+        echo "<input type=hidden name=id value=$app->id>";
+        echo "  <TD align='center'>$f1 $app->id $f2</TD>\n";
 
-        $name = $item->name;
-        $full_name = $item->user_friendly_name;
-        echo "  <TD align='left'>$f1<a href=app_details.php?appid=$id>$name</a><br> $full_name $f2</TD>\n";
+        echo "  <TD align='left'>$f1<a href=app_details.php?appid=$app->id>$app->name</a><br> $app->user_friendly_name $f2</TD>\n";
 
-        $time = $item->create_time;
-        echo "  <TD align='center'>$f1 " .date_str($time)."$f2</TD>\n";
+        echo "  <TD align='center'>$f1 " .date_str($app->create_time)."$f2</TD>\n";
 
-        $field = "weight_".$id;
-        $v = $item->weight;
+        $v = $app->weight;
         echo "  <TD align='center'>
-        <input type='text' size='4' name='$field' value='$v'></TD>\n";
+        <input type='text' size='4' name='weight' value='$v'></TD>\n";
         
-        if ($item->deprecated || ($total_weight == 0)) {
+        if ($app->deprecated || ($total_weight == 0)) {
             echo '<td></td>';
         } else {
-            echo '<td align="right">'.round($item->weight/$total_weight*$swi).'</td>';
+            echo '<td align="right">'.round($app->weight/$total_weight*$swi).'</td>';
         }
 
-        $field = "homogeneous_redundancy_".$id;
-        $v = $item->homogeneous_redundancy;
+        $v = $app->homogeneous_redundancy;
         echo "  <TD align='center'>
-            <input name='$field' value='$v'></TD>
+            <input name='homogeneous_redundancy' value='$v'></TD>
         ";
 
-        $field = "homogeneous_app_version_".$id;
         $v = '';
-        if ($item->homogeneous_app_version) $v=' CHECKED ';
+        if ($app->homogeneous_app_version) $v=' CHECKED ';
         echo "  <TD align='center'>
-            <input name='$field' type='checkbox' $v></TD>
+            <input name='homogeneous_app_version' type='checkbox' $v></TD>
         ";
 
-        $field = "deprecated_".$id;
         $v = '';
-        if ($item->deprecated) $v = ' CHECKED ';
+        if ($app->deprecated) $v = ' CHECKED ';
         echo "  <TD align='center'>
-            <input name='$field' type='checkbox' $v></TD>
+            <input name='deprecated' type='checkbox' $v></TD>
         ";
 
-        $field = "non_cpu_intensive_".$id;
         $v = '';
-        if ($item->non_cpu_intensive) $v = ' CHECKED ';
+        if ($app->non_cpu_intensive) $v = ' CHECKED ';
         echo "  <TD align='center'>
-            <input name='$field' type='checkbox' $v></TD>
+            <input name='non_cpu_intensive' type='checkbox' $v></TD>
         ";
 
-        $field = "beta_".$id;
         $v = '';
-        if ($item->beta) $v = ' CHECKED ';
+        if ($app->beta) $v = ' CHECKED ';
         echo "  <TD align='center'>
-            <input name='$field' type='checkbox' $v></TD>
+            <input name='beta' type='checkbox' $v></TD>
         ";
 
-        echo "</tr> ";
+        echo "<td><input type=submit name=submit value=Update>";
+        echo "</tr></form>";
     }
-    mysql_free_result($result);
-    echo "<tr><td colspan=7></td><td><input type='submit' name='update' value='Update'></td></tr>";
 
     end_table();
 
@@ -231,19 +161,17 @@ function show_form($updated) {
     //
 
     echo"<P>
-         <h2>Add an application</h2>
-      To add an application enter the short name and description
-      ('user friendly name') below.  You can then edit the
-      application when it appears in the table above.
-     </p>\n";
+        <h2>Add an application</h2>
+        To add an application enter the short name and description
+        ('user friendly name') below.  You can then edit the
+        application when it appears in the table above.
+        <p>
+        <form action=manage_apps.php method=POST>
+    ";
 
     start_table("align='center' ");
 
-    echo "<TR><TH>Name</TH>
-              <TH>Description</TH>
-              <TH> &nbsp;   </TH>
-          </TR>\n";
-
+    table_header("Name", "Description", "&nbsp;");
 
     echo "<TR>
             <TD> <input type='text' size='12' name='add_name' value=''></TD>
@@ -254,16 +182,16 @@ function show_form($updated) {
 
     end_table();
     echo "</form><p>\n";
-    admin_page_tail();
 }
 
-if( !empty($_POST) ) {
+admin_page_head("Manage applications");
+
+if (post_str('add_app', true)) {
+    add_app();
+} else if (post_str('submit', true)) {
     do_updates();
-    show_form(true);
-} else {
-    show_form(false);
 }
+show_form(false);
+admin_page_tail();
 
-//Generated automatically - do not edit
-$cvs_version_tracker[]="\$Id$";
 ?>

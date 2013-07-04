@@ -494,7 +494,7 @@ void COPROC_NVIDIA::description(char* buf, int buflen) {
     }
     if (cuda_version) {
         int maj = cuda_version/1000;
-        int min = cuda_version%1000;
+        int min = (cuda_version%1000)/10;
         sprintf(cuda_vers, "%d.%d", maj, min);
     } else {
         strcpy(cuda_vers, "unknown");
