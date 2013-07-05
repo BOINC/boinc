@@ -22,6 +22,7 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "win_util.h"
+#define unlink _unlink
 #ifdef _MSC_VER
 #define snprintf _snprintf
 #define strdup   _strdup
@@ -1276,9 +1277,9 @@ void run_test_app() {
         gstate.now = dtime();
         at.preempt(REMOVE_NEVER);
         ats.poll();
-        usleep(100000);
+        boinc_sleep(.1);
         at.unsuspend();
         ats.poll();
-        usleep(200000);
+        boinc_sleep(.2);
     }
 }
