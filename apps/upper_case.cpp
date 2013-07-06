@@ -235,7 +235,7 @@ int main(int argc, char **argv) {
             boinc_crash();
         }
         if (early_sleep && i>30) {
-            g_sleep = true;
+            boinc_disable_timer_thread = true;
             while (1) boinc_sleep(1);
         }
 
