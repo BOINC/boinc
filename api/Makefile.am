@@ -36,13 +36,13 @@ endif
 
 lib_LTLIBRARIES = libboinc_api.la
 libboinc_api_la_SOURCES = $(api_files)
-libboinc_api_la_LDFLAGS = -L$(libdir) -rpath $(libdir) -version-number $(LIBBOINC_VERSION)
+libboinc_api_la_LDFLAGS = -L$(libdir) -rpath $(libdir) -version-number $(LIBBOINC_VERSION) -lpthread
 
 if BUILD_GRAPHICS_API
 lib_LTLIBRARIES += libboinc_graphics2.la
 libboinc_graphics2_la_SOURCES = $(graphics2_files)
 # libboinc_graphics2_la_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/lib
-libboinc_graphics2_la_LDFLAGS = -L$(libdir) -rpath $(libdir) -version-number $(LIBBOINC_VERSION)
+libboinc_graphics2_la_LDFLAGS = -L$(libdir) -rpath $(libdir) -version-number $(LIBBOINC_VERSION) -ljpeg
 endif #BUILD_GRAPHICS_API
 
 lib_LTLIBRARIES += libboinc_opencl.la
