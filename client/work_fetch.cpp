@@ -664,6 +664,16 @@ void WORK_FETCH::setup() {
         PROJECT* p = rp->project;
         p->sched_priority -= rp->estimated_flops_remaining()/max_queued_flops;
     }
+
+    // don't request work from projects w/ > 1000 runnable jobs
+    //
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        if (p->pwf.n_runnable_jobs > 1000 && !p->pwf.cant_fetch_work_reason) {
+            p->pwf.cant_fetch_work_reason = CANT_FETCH_WORK_TOO_MANY_RUNNABLE;
+        }
+    }
+
     std::sort(
         gstate.projects.begin(),
         gstate.projects.end(),

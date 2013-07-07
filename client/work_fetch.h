@@ -39,6 +39,7 @@
 #define CANT_FETCH_WORK_TOO_MANY_UPLOADS            8
 #define CANT_FETCH_WORK_NOT_HIGHEST_PRIORITY        9
 #define CANT_FETCH_WORK_DONT_NEED                   10
+#define CANT_FETCH_WORK_TOO_MANY_RUNNABLE           11
 
 inline const char* cant_fetch_work_string(int reason) {
     switch (reason) {
@@ -62,6 +63,8 @@ inline const char* cant_fetch_work_string(int reason) {
         return "project is not highest priority";
     case CANT_FETCH_WORK_DONT_NEED:
         return "don't need";
+    case CANT_FETCH_WORK_TOO_MANY_RUNNABLE:
+        return "too many runnable tasks";
     }
     return "";
 }
