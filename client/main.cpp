@@ -410,6 +410,7 @@ int main(int argc, char** argv) {
         }
 
         if (!strcmp(argv[index], "--run_test_app")) {
+            read_config_file(true);
             run_test_app();
         }
 

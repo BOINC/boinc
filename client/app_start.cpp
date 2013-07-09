@@ -1266,8 +1266,6 @@ void run_test_app() {
 
     ats.active_tasks.push_back(&at);
 
-    log_flags.task_debug = true;
-
     unlink("boinc_finish_called");
     unlink("boinc_lockfile");
     unlink("boinc_temporary_exit");
@@ -1284,5 +1282,6 @@ void run_test_app() {
         at.unsuspend();
         ats.poll();
         boinc_sleep(.2);
+        at.request_reread_prefs();
     }
 }
