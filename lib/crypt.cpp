@@ -208,14 +208,17 @@ int scan_key_hex(FILE* f, KEY* key, int size) {
     }
     if (j != len) return ERR_NULL;
 #else
-    fscanf(f, "%d", &num_bits);
+    int fs = fscanf(f, "%d", &num_bits);
+    if (fs != 1) return ERR_NULL;
     key->bits = num_bits;
     len = size - sizeof(key->bits);
     for (i=0; i<len; i++) {
-        fscanf(f, "%2x", &n);
+        fs = fscanf(f, "%2x", &n);
+        if (fs != 1) return ERR_NULL;
         key->data[i] = n;
     }
-    fscanf(f, ".");
+    fs = fscanf(f, ".");
+    if (fs == EOF) return ERR_NULL;
 #endif
     return 0;
 }

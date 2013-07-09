@@ -608,7 +608,7 @@ void boinc_catch_signal(int signal) {
     size = backtrace (array, 64);
 //  Anything that calls malloc here (i.e *printf()) will probably fail
 //  so we'll do it the hard way.
-    write(fileno(stderr),"Stack trace (",strlen("Stack trace ("));
+    (void) write(fileno(stderr),"Stack trace (",strlen("Stack trace ("));
     char mbuf[10];
     char *p=mbuf+9;
     int i=size;
@@ -617,10 +617,10 @@ void boinc_catch_signal(int signal) {
       *(p--)=i%10+'0';
       i/=10;
     }
-    write(fileno(stderr),p+1,strlen(p+1));
-    write(fileno(stderr)," frames):",strlen(" frames):"));
+    (void) write(fileno(stderr),p+1,strlen(p+1));
+    (void) write(fileno(stderr)," frames):",strlen(" frames):"));
     mbuf[0]=10;
-    write(fileno(stderr),mbuf,1);
+    (void) write(fileno(stderr),mbuf,1);
     backtrace_symbols_fd(array, size, fileno(stderr));
 #endif
 

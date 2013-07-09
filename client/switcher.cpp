@@ -67,19 +67,25 @@ int main(int /*argc*/, char** argv) {
     pw = getpwuid(getuid());
     if (pw) strcpy(user_name, pw->pw_name);
     grp = getgrgid(getgid());
-    if (grp) strcpy(group_name, grp->gr_gid);
+    if (grp) {
+        strcpy(group_name, grp->gr_gid);
+    }
 
 #endif
 
     // We are running setuid root, so setgid() sets real group ID,
     // effective group ID and saved set_group-ID for this process
     grp = getgrnam(group_name);
-    if (grp) setgid(grp->gr_gid);
+    if (grp) {
+        (void) setgid(grp->gr_gid);
+    }
 
     // We are running setuid root, so setuid() sets real user ID,
     // effective user ID and saved set_user-ID for this process
     pw = getpwnam(user_name);
-    if (pw) setuid(pw->pw_uid);
+    if (pw) {
+        (void) setuid(pw->pw_uid);
+    }
 
     // For unknown reasons, the LD_LIBRARY_PATH and DYLD_LIBRARY_PATH
     // environment variables are not passed in to switcher, though all

@@ -1244,11 +1244,12 @@ int HOST_INFO::get_virtualbox_version() {
 #endif
         fd = popen(cmd, "r");
         if (fd) {
-            fgets(virtualbox_version, sizeof(virtualbox_version), fd);
-            newlinePtr = strchr(virtualbox_version, '\n');
-            if (newlinePtr) *newlinePtr = '\0';
-            newlinePtr = strchr(virtualbox_version, '\r');
-            if (newlinePtr) *newlinePtr = '\0';
+            if (fgets(virtualbox_version, sizeof(virtualbox_version), fd)) {
+                newlinePtr = strchr(virtualbox_version, '\n');
+                if (newlinePtr) *newlinePtr = '\0';
+                newlinePtr = strchr(virtualbox_version, '\r');
+                if (newlinePtr) *newlinePtr = '\0';
+            }
             pclose(fd);
         }
     }

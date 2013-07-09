@@ -142,7 +142,7 @@ void CLIENT_STATE::detect_platforms() {
         strlcat(cmdline," -m",256);
         if ((f=popen(cmdline,"r"))) {
             while (!std::feof(f)) {
-                fgets(cmdline,256,f);
+                if (!fgets(cmdline,256,f)) break;
                 if (strstr(cmdline,"x86_64")) support64=1;
             }
             pclose(f);
@@ -191,7 +191,7 @@ void CLIENT_STATE::detect_platforms() {
                         f = popen(cmdline, "r");
                         if (f) {
                             while (!std::feof(f)) {
-                                fgets(cmdline,256,f);
+                                if (!fgets(cmdline,256,f)) break;
                                 // If the library is 32-bit ELF, then we're
                                 // golden.
                                 if (strstr(cmdline, "ELF") && strstr(cmdline, "32-bit")) support32=1;

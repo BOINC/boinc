@@ -519,7 +519,12 @@ int read_config_file(bool init, const char* fname) {
 #ifdef _WIN32
             _chdir(config.data_dir);
 #else
-            chdir(config.data_dir);
+            if (chdir(config.data_dir)) {
+                msg_printf(NULL, MSG_INFO,
+                    "Couldn't change to config.data_dir"
+                );
+                return ERR_OPENDIR;
+            }
 #endif
         }
     } else {

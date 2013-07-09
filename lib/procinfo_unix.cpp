@@ -47,9 +47,10 @@
 #include <procfs.h>  // definitions for solaris /proc structs
 #endif
 
+#include "error_numbers.h"
+#include "filesys.h"
 #include "str_util.h"
 #include "str_replace.h"
-#include "filesys.h"
 
 #include "procinfo.h"
 
@@ -219,8 +220,11 @@ int procinfo_setup(PROC_MAP& pm) {
         sprintf(pidpath, "/proc/%s/stat", piddir->d_name);
         fd = fopen(pidpath, "r");
         if (fd) {
-            fgets(buf, sizeof(buf), fd);
-            retval = ps.parse(buf);
+            if (fgets(buf, sizeof(buf), fd) == NULL) {
+                retval = ERR_NULL;
+            } else {
+                retval = ps.parse(buf);
+            }
             fclose(fd);
 
             if (retval) {

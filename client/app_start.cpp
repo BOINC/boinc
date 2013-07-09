@@ -858,7 +858,10 @@ int ACTIVE_TASK::start(bool test) {
     char* argv[100];
     char current_dir[1024];
 
-    getcwd(current_dir, sizeof(current_dir));
+    if (getcwd(current_dir, sizeof(current_dir)) == NULL) {
+        sprintf(buf, "Can't get cwd");
+        goto error;
+    }
 
     sprintf(cmdline, "%s %s",
         wup->command_line.c_str(), app_version->cmdline
@@ -1005,7 +1008,7 @@ int ACTIVE_TASK::start(bool test) {
 
         // hook up stderr to a specially-named file
         //
-        freopen(STDERR_FILE, "a", stderr);
+        (void) freopen(STDERR_FILE, "a", stderr);
 
         if (!config.no_priority_change) {
 #if HAVE_SETPRIORITY

@@ -595,8 +595,8 @@ bool ACTIVE_TASK::temporary_exit_file_present(double& x, char* buf) {
     } else {
         x = y;
     }
-    fgets(buf, 256, f);     // read the \n
-    fgets(buf, 256, f);
+    (void) fgets(buf, 256, f);     // read the \n
+    (void) fgets(buf, 256, f);
     strip_whitespace(buf);
     fclose(f);
     return true;
@@ -1446,7 +1446,7 @@ void ACTIVE_TASK::read_task_state_file() {
     FILE* f = fopen(path, "r");
     if (!f) return;
     buf[0] = 0;
-    fread(buf, 1, 4096, f);
+    (void) fread(buf, 1, 4096, f);
     fclose(f);
     buf[4095] = 0;
     double x;
