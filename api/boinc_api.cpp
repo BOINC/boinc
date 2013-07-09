@@ -108,7 +108,7 @@
 
 using std::vector;
 
-#define DEBUG_BOINC_API
+//#define DEBUG_BOINC_API
 
 #ifdef __APPLE__
 #include "mac_backtrace.h"
