@@ -51,7 +51,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class StatusActivity extends Activity implements OnClickListener{
+public class StatusActivity extends Activity{
 	
 	private Monitor monitor;
 	private Boolean mIsBound = false;
@@ -184,10 +184,10 @@ public class StatusActivity extends Activity implements OnClickListener{
 					statusHeader.setText(R.string.status_computing_disabled);
 					statusImage.setImageResource(R.drawable.playb48);
 					statusImage.setContentDescription(getString(R.string.status_computing_disabled));
-					statusImage.setClickable(true);
-					statusImage.setOnClickListener(this);
 					statusDescriptor.setText(R.string.status_computing_disabled_long);
 					centerWrapper.setVisibility(View.VISIBLE);
+					centerWrapper.setClickable(true);
+					centerWrapper.setOnClickListener(runModeOnClickListener);
 					break;
 				case ClientStatus.COMPUTING_STATUS_SUSPENDED:
 					slideshowWrapper.setVisibility(View.GONE);
@@ -321,11 +321,13 @@ public class StatusActivity extends Activity implements OnClickListener{
 		statusImage.setContentDescription(getString(R.string.status_running));
 		statusDescriptor.setText(R.string.status_running_long);
 	}
-
-	@Override
-	public void onClick(View v) {
-		new WriteClientRunModeAsync().execute(BOINCDefs.RUN_MODE_AUTO);
-	}
+	
+	private OnClickListener runModeOnClickListener = new OnClickListener(){
+		@Override
+		public void onClick(View v) {
+			new WriteClientRunModeAsync().execute(BOINCDefs.RUN_MODE_AUTO);
+		}
+	};
 	
 	private final class WriteClientRunModeAsync extends AsyncTask<Integer, Void, Boolean> {
 		
