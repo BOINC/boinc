@@ -897,6 +897,8 @@ int ACTIVE_TASK::read_stderr_file() {
 // This is called when project prefs change,
 // or when a user file has finished downloading.
 //
+// TODO: get rid of this function
+//
 int ACTIVE_TASK::request_reread_prefs() {
     int retval;
     APP_INIT_DATA aid;
@@ -906,10 +908,12 @@ int ACTIVE_TASK::request_reread_prefs() {
     init_app_init_data(aid);
     retval = write_app_init_file(aid);
     if (retval) return retval;
+#if 0
     graphics_request_queue.msg_queue_send(
         xml_graphics_modes[MODE_REREAD_PREFS],
         app_client_shm.shm->graphics_request
     );
+#endif
     return 0;
 }
 
