@@ -120,7 +120,7 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
     int i;
     bool show_options = false;
 
-    // NOTE: if you change or add anything, make the same chane
+    // NOTE: if you change or add anything, make the same change
     // in show_options() (above) and in doc/client.php
 
     for (i=1; i<argc; i++) {
@@ -262,6 +262,10 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
         } else if (ARG(NSDocumentRevisionsDebugMode)) {
             ++i; 
 #endif
+        // detect_gpus is for internal use only - do not
+        // add it to show_options() or doc/client.php
+        // This statement just avoids Unknown option warning
+        } else if (ARG(detect_gpus)) {
         } else {
             printf("Unknown option: %s\n", argv[i]);
             show_options = true;
