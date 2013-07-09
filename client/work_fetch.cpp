@@ -665,10 +665,9 @@ void WORK_FETCH::setup() {
         p->sched_priority -= rp->estimated_flops_remaining()/max_queued_flops;
     }
 
-    // don't request work from projects w/ > 100 runnable jobs per CPU
+    // don't request work from projects w/ > 1000 runnable jobs
     //
-    int job_limit = 100 * gstate.ncpus;
-    if (job_limit > 2000) job_limit = 2000;
+    int job_limit = 1000;
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         if (p->pwf.n_runnable_jobs > job_limit && !p->pwf.cant_fetch_work_reason) {
