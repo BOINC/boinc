@@ -74,9 +74,6 @@
         <activity android:name=".ProjectsActivity" />
         <activity android:name=".EventLogActivity" />
         <service android:name=".client.Monitor"></service>
-        <service android:name="edu.berkeley.boinc.client.ClientRemoteService"
-            android:enabled="true"
-            android:exported="true"/>
         <receiver android:name=".receiver.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>

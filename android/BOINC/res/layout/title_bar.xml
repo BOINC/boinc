@@ -30,6 +30,7 @@
 		android:layout_height="wrap_content"
 		android:layout_alignParentLeft="true"
 		android:src="@drawable/boinc"
+		android:contentDescription="@string/main_title_icon_desc"
 		android:background="@android:color/transparent" />
 
 	<TextView android:id="@+id/titleText"

@@ -128,8 +128,7 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:text="@string/main_error"
-	        android:textAppearance="?android:attr/textAppearanceLarge"
-	        android:onClick="reinitClient" />
+	        android:textAppearance="?android:attr/textAppearanceLarge" />
 	
 	    <ImageView
 	        android:id="@+id/error_imageView1"
@@ -138,8 +137,7 @@
 	        android:layout_marginBottom="30dip"
 	        android:layout_marginTop="30dip"
 	        android:contentDescription="@string/main_error"
-	        android:src="@drawable/reloadw48"
-	        android:onClick="reinitClient" />
+	        android:src="@drawable/reloadb48" />
 	
 	    <TextView
 	        android:id="@+id/error_textView2"

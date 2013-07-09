@@ -18,6 +18,8 @@
  ******************************************************************************/
 package edu.berkeley.boinc.rpc;
 
+import java.util.Locale;
+
 public class TimePreferences {
 	public double start_hour, end_hour;
 	
@@ -25,7 +27,7 @@ public class TimePreferences {
 		int hour = (int)Math.floor(value);
 		int minute = (int)Math.round((value-(double)hour)*60.0);
 		minute = Math.min(59, minute);
-		return String.format("%02d:%02d",hour, minute);
+		return String.format(Locale.US, "%02d:%02d",hour, minute);
 	}
 	
 	public static final class TimeSpan {

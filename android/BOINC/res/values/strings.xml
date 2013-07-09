@@ -36,7 +36,6 @@
     
     <!-- attach project -->
     	<!-- project list -->
-    <string name="attachproject_list_loading">Loading supported projects&#8230;</string>
     <string name="attachproject_list_header">Choose a project:</string>
     <string name="attachproject_list_manual_button">Add project by URL</string>
     <string name="attachproject_list_manual_dialog_title">Enter project URL:</string>
@@ -46,7 +45,6 @@
     	<!-- project login -->
     <string name="attachproject_login_loading">Contacting project server&#8230;</string>
     <string name="attachproject_login_image_description">Project logo.</string>
-    <string name="attachproject_login_header_project_name">Project name:</string>
     <string name="attachproject_login_header_general_area">General area:</string>
     <string name="attachproject_login_header_specific_area">Specific area:</string>
     <string name="attachproject_login_header_description">Description:</string>
@@ -124,7 +122,6 @@
     <string name="status_running">Computing</string>
     <string name="status_running_long">Thank you for participating.</string>
     <string name="status_paused">Suspended</string>
-    <string name="status_paused_long">BOINC suspended computation.</string>
     <string name="status_idle">Nothing to do</string>
     <string name="status_idle_long">Waiting for tasks&#8230;</string>
     <string name="status_computing_disabled">Suspended</string>
@@ -172,15 +169,12 @@
 	<string name="prefs_memory_max_idle_header">RAM limit</string>
 	<string name="prefs_memory_max_idle_description">Limits the amount of RAM tasks are allowed to occupy.</string>
 	<string name="prefs_client_log_flags_header">BOINC Client log flags</string>
-	<string name="prefs_client_log_flags_description">Enables log messages for specified categories.</string>
 	<string name="prefs_gui_log_level_header">GUI log level</string>
 	<string name="prefs_gui_log_level_description">Specifies verbosity of GUI log messages.</string>
 	
 	<string name="prefs_unit_mb">MB</string>
 	<string name="prefs_unit_gb">GB</string>
 	<string name="prefs_unit_pct">%</string>
-	<string name="prefs_unit_cpu">CPU</string>
-	<string name="prefs_unit_cpus">CPUS</string>
 	<string name="prefs_unit_celcius">&#0176;C</string>
 	
 	<!-- projects tab strings -->
@@ -219,15 +213,10 @@
 	<string name="projects_confirm_reset_confirm">Reset</string>
 				
 	<!-- tasks tab strings -->
-	<string name="tasks_loading">Reading tasks&#8230;</string>
 	<string name="tasks_header_name">Task Name:</string>
 	<string name="tasks_header_elapsed_time">Elapsed time:</string>
-	<string name="tasks_header_project_name">Project:</string>
 	<string name="tasks_header_project_paused">(suspended)</string>
 	<string name="tasks_header_deadline">Deadline:</string>
-	<string name="tasks_button_resume">resume task</string>
-	<string name="tasks_button_pause">suspend task</string>
-	<string name="tasks_button_abort">abort task</string>
 	<string name="tasks_result_new">new</string>
 	<string name="tasks_result_files_downloading">waiting for download</string>
 	<string name="tasks_result_files_downloaded">download complete</string>
@@ -254,10 +243,6 @@
 	
 	<!-- transfers tab strings -->
 	<string name="trans_loading">Reading transfers&#8230;</string>
-	<string name="trans_waiting">waiting for connection&#8230;</string>
-	<string name="trans_abort">Abort transfer</string>
-	<string name="trans_retry">Retry transfer</string>
-	<string name="trans_downloading">downloading&#8230;</string>
 	<string name="trans_upload">Upload</string>
 	<string name="trans_download">Download</string>
 	<string name="trans_retryin">retry in</string>
@@ -278,12 +263,9 @@
 	<string name="eventlog_gui_header">GUI Messages</string>
 	<string name="eventlog_copy_toast">Log copied to clipboard.</string>
 	<string name="eventlog_email_subject">Event Log for BOINC on Android:</string>
-	<string name="eventlog_client_text_header">Contents of the Client Event Log:</string>
-	<string name="eventlog_gui_text_header">Contents of the GUI Event Log:</string>
 
     <!-- suspend reasons -->
     <string name="suspend_unknown">Computation suspended.</string>
-    <string name="suspend_idle">No BOINC tasks ready for computation.</string>
     <string name="suspend_batteries">Connect your device to a charger to continue computing.</string>
     <string name="suspend_useractive">User is active.</string>
     <string name="suspend_tod">Out of computation time-frame.</string>

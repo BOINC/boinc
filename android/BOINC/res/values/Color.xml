@@ -28,7 +28,6 @@
 		<color name="dark_grey">#4D4D4D</color>
 		<color name="red">#990033</color>
 		<color name="yellow">#FCEC3D</color>
-		<color name="dark_yellow">#E3D10E</color>
 		<color name="light_yellow">#FCF281</color>
 		<color name="light_green">#B1F5A4</color>
 		<color name="dark_green">#1FBD00</color>
@@ -36,13 +35,5 @@
 		<color name="dark_red">#DB0000</color>
     <!-- global colors -->
 		<color name="warning">#FCEC3D</color>
-    <!-- preferences tab colors -->
-		<color name="status">#11A800</color>
-    <!-- tasks tab colors -->
-		<color name="active">#11A800</color>
-		<color name="paused">#EDDA07</color>
-		<color name="error">#ED0202</color>
-		
-		
 		<color name="black">#000000</color>
 </resources>
