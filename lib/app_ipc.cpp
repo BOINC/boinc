@@ -41,20 +41,6 @@
 
 using std::string;
 
-const char* xml_graphics_modes[NGRAPHICS_MSGS] = {
-    "<mode_unsupported/>",
-    "<mode_hide_graphics/>",
-    "<mode_window/>",
-    "<mode_fullscreen/>",
-    "<mode_blankscreen/>",
-    "<reread_prefs/>",
-    "<mode_quit/>"
-};
-
-GRAPHICS_MSG::GRAPHICS_MSG() {
-    memset(this, 0, sizeof(GRAPHICS_MSG));
-}
-
 APP_INIT_DATA::APP_INIT_DATA() : project_preferences(NULL) {
 }
 
@@ -428,22 +414,6 @@ bool MSG_CHANNEL::send_msg(const char *msg) {
 void MSG_CHANNEL::send_msg_overwrite(const char* msg) {
     strlcpy(buf+1, msg, MSG_CHANNEL_SIZE-1);
     buf[0] = 1;
-}
-
-int APP_CLIENT_SHM::decode_graphics_msg(char* msg, GRAPHICS_MSG& m) {
-    int i;
-
-    parse_str(msg, "<window_station>", m.window_station, sizeof(m.window_station));
-    parse_str(msg, "<desktop>", m.desktop, sizeof(m.desktop));
-    parse_str(msg, "<display>", m.display, sizeof(m.display));
-
-    m.mode = 0;
-    for (i=0; i<NGRAPHICS_MSGS; i++) {
-        if (match_tag(msg, xml_graphics_modes[i])) {
-            m.mode = i;
-        }
-    }
-    return 0;
 }
 
 void APP_CLIENT_SHM::reset_msgs() {

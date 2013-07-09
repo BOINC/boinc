@@ -74,13 +74,11 @@ struct SHARED_MEM {
         // app->core
     MSG_CHANNEL graphics_request;
         // core->app
-        // request a graphics mode:
-        // <mode_hide_graphics/>
-        // ...
-        // <mode_blankscreen/>
+        // not currently used
     MSG_CHANNEL graphics_reply;
         // app->core
-        // same as above
+        // <web_graphics_url>
+        // <remote_desktop_addr>
     MSG_CHANNEL heartbeat;
         // core->app
         // <heartbeat/>         sent every second, even while app is suspended
@@ -120,20 +118,10 @@ struct MSG_QUEUE {
 #define SHM_PREFIX          "shm_"
 #define QUIT_PREFIX         "quit_"
 
-struct GRAPHICS_MSG {
-    int mode;
-    char window_station[256];
-    char desktop[256];
-    char display[256];
-
-    GRAPHICS_MSG();
-};
-
 class APP_CLIENT_SHM {
 public:
     SHARED_MEM *shm;
 
-    int decode_graphics_msg(char*, GRAPHICS_MSG&);
     void reset_msgs();        // resets all messages and clears their flags
 
     APP_CLIENT_SHM();
@@ -252,7 +240,6 @@ int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi);
 // other filenames
 #define PROJECT_DIR "projects"
 
-extern const char* xml_graphics_modes[NGRAPHICS_MSGS];
 extern int boinc_link(const char* phys_name, const char* logical_name);
 extern int boinc_resolve_filename_s(const char*, std::string&);
 extern void url_to_project_dir(char* url, char* dir);

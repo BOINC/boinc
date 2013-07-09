@@ -108,7 +108,7 @@
 
 using std::vector;
 
-//#define DEBUG_BOINC_API
+#define DEBUG_BOINC_API
 
 #ifdef __APPLE__
 #include "mac_backtrace.h"
@@ -206,7 +206,6 @@ struct UPLOAD_FILE_STATUS {
 static bool have_new_upload_file;
 static std::vector<UPLOAD_FILE_STATUS> upload_file_status;
 
-static void graphics_cleanup();
 static int resume_activities();
 static void boinc_exit(int);
 static void block_sigalrm();
@@ -712,8 +711,6 @@ void boinc_exit(int status) {
     int retval;
     char buf[256];
 
-    graphics_cleanup();
-    
     if (options.main_program && file_lock.locked) {
         retval = file_lock.unlock(LOCKFILE);
         if (retval) {
@@ -1084,122 +1081,6 @@ static void handle_process_control_msg() {
     }
 }
 
-// The following is used by V6 apps so that graphics
-// will work with pre-V6 clients.
-// If we get a graphics message, run/kill the (separate) graphics app
-//
-//
-struct GRAPHICS_APP {
-    bool fullscreen;
-#ifdef _WIN32
-    HANDLE pid;
-#else
-    int pid;
-#endif
-    GRAPHICS_APP(bool f) {fullscreen=f;}
-    void run(char* path) {
-        int argc;
-        char* argv[4];
-        char abspath[MAXPATHLEN];
-#ifdef _WIN32
-        GetFullPathName(path, MAXPATHLEN, abspath, NULL);
-#else
-        strlcpy(abspath, path, sizeof(abspath));
-#endif
-        argv[0] = const_cast<char*>(GRAPHICS_APP_FILENAME);
-        if (fullscreen) {
-            argv[1] = const_cast<char*>("--fullscreen");
-            argv[2] = 0;
-            argc = 2;
-        } else {
-            argv[1] = 0;
-            argc = 1;
-        }
-        int retval = run_program(0, abspath, argc, argv, 0, pid);
-        if (retval) {
-            pid = 0;
-        }
-    }
-    bool is_running() {
-        if (pid && process_exists(pid)) return true;
-        pid = 0;
-        return false;
-    }
-    void kill() {
-        if (pid) {
-            kill_program(pid);
-            pid = 0;
-        }
-    }
-};
-
-static GRAPHICS_APP ga_win(false), ga_full(true);
-static bool have_graphics_app;
-
-// The following is for backwards compatibility with version 5 clients.
-//
-static inline void handle_graphics_messages() {
-    static char graphics_app_path[MAXPATHLEN];
-    char buf[MSG_CHANNEL_SIZE];
-    GRAPHICS_MSG m;
-    static bool first=true;
-    if (first) {
-        first = false;
-        boinc_resolve_filename(
-            GRAPHICS_APP_FILENAME, graphics_app_path,
-            sizeof(graphics_app_path)
-        );
-        // if the above returns "graphics_app", there was no link file,
-        // so there's no graphics app
-        //
-        if (!strcmp(graphics_app_path, GRAPHICS_APP_FILENAME)) {
-            have_graphics_app = false;
-        } else {
-            have_graphics_app = true;
-            app_client_shm->shm->graphics_reply.send_msg(
-                xml_graphics_modes[MODE_HIDE_GRAPHICS]
-            );
-        }
-    }
-
-    if (!have_graphics_app) return;
-
-    if (app_client_shm->shm->graphics_request.get_msg(buf)) {
-        app_client_shm->decode_graphics_msg(buf, m);
-        switch (m.mode) {
-        case MODE_HIDE_GRAPHICS:
-            if (ga_full.is_running()) {
-                ga_full.kill();
-            } else if (ga_win.is_running()) {
-                ga_win.kill();
-            }
-            break;
-        case MODE_WINDOW:
-            if (!ga_win.is_running()) ga_win.run(graphics_app_path);
-            break;
-        case MODE_FULLSCREEN:
-            if (!ga_full.is_running()) ga_full.run(graphics_app_path);
-            break;
-        case MODE_BLANKSCREEN:
-            // we can't actually blank the screen; just kill the app
-            //
-            if (ga_full.is_running()) {
-                ga_full.kill();
-            }
-            break;
-        }
-        app_client_shm->shm->graphics_reply.send_msg(
-            xml_graphics_modes[m.mode]
-        );
-    }
-}
-
-static void graphics_cleanup() {
-    if (!have_graphics_app) return;
-    if (ga_full.is_running()) ga_full.kill();
-    if (ga_win.is_running()) ga_win.kill();
-}
-
 // timer handler; runs in the timer thread
 //
 static void timer_handler() {
@@ -1238,7 +1119,6 @@ static void timer_handler() {
         if (options.handle_process_control) {
             handle_process_control_msg();
         }
-        handle_graphics_messages();
     }
 
     if (interrupt_count % TIMERS_PER_SEC) return;
@@ -1276,17 +1156,6 @@ static void timer_handler() {
         double cur_cpu = boinc_worker_thread_cpu_time();
         last_wu_cpu_time = cur_cpu + initial_wu_cpu_time;
         update_app_progress(last_wu_cpu_time, last_checkpoint_cpu_time);
-    }
-    
-    // If running under V5 client, notify the client if the graphics app exits
-    // (e.g., if user clicked in the graphics window's close box.)
-    //
-    if (ga_win.pid) {
-        if (!ga_win.is_running()) {
-            app_client_shm->shm->graphics_reply.send_msg(
-                xml_graphics_modes[MODE_HIDE_GRAPHICS]
-            );
-        }
     }
     
     if (options.handle_trickle_ups) {
