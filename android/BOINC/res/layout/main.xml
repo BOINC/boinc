@@ -32,7 +32,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main_entry"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:orientation="horizontal" >
     
     <!-- tabbed layout, for normal manager operation -->
 	<TabHost 
@@ -148,8 +149,7 @@
 	        android:layout_marginRight="20dip"
 	        android:gravity="center"
 	        android:text="@string/main_error_long"
-	        android:textAppearance="?android:attr/textAppearanceMedium"
-	        android:onClick="reinitClient" />
+	        android:textAppearance="?android:attr/textAppearanceMedium"/>
 	
 	</LinearLayout>
 </LinearLayout>
