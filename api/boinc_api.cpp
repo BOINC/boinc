@@ -411,18 +411,12 @@ static bool client_dead() {
         //
         if (interrupt_count%(TIMERS_PER_SEC*10)) return false;
 #ifdef _WIN32
-        // Windows lacks an easy way to check for process existence :-(
-        //
-        DWORD pids[4096], nb;
-        BOOL r = EnumProcesses(pids, sizeof(pids), &nb);
-        if (!r) return false;
-        int n = nb/sizeof(DWORD);
-        dead = true;
-        for (int i=0; i<n; i++) {
-            if (pids[i] == aid.client_pid) {
-                dead = false;
-                break;
-            }
+        HANDLE h = OpenProcess(0, FALSE, aid.client_pid);
+        if (h == NULL) {
+            dead = true;
+        } else {
+            CloseHandle(h);
+            dead = false;
         }
 #else
         int retval = kill(aid.client_pid, 0);
