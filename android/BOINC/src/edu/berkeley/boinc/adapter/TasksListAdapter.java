@@ -218,7 +218,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 		} else { // fraction available
 			fraction =  data.result.fraction_done;
 			progress.setVisibility(View.VISIBLE);
-			progress.setText(Math.round(fraction * 100) + "%");
+			progress.setText(String.format("%.1f", fraction * 100) + "%");
 		}
 		pb.setProgress(Math.round(fraction * pb.getMax()));
 	}
