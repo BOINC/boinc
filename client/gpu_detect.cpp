@@ -26,6 +26,7 @@
 #include "boinc_win.h"
 #ifdef _MSC_VER
 #define snprintf _snprintf
+#define chdir _chdir
 #endif
 #else
 #include "config.h"
@@ -37,6 +38,7 @@
 #include "file_names.h"
 #include "util.h"
 #include "str_replace.h"
+#include "client_msgs.h"
 
 using std::string;
 using std::vector;
@@ -57,6 +59,7 @@ vector<OPENCL_DEVICE_PROP> nvidia_opencls;
 vector<OPENCL_DEVICE_PROP> intel_gpu_opencls;
 
 static char* client_path;
+static char client_dir[MAXPATHLEN];
 
 void COPROCS::get(
     bool use_all, vector<string>&descs, vector<string>&warnings,
@@ -255,6 +258,8 @@ void COPROCS::correlate_gpus(
 //
 void COPROCS::set_path_to_client(char *path) {
     client_path = path;
+    // The path may be relative to the current directory
+     boinc_getcwd(client_dir);
 }
 
 int COPROCS::write_coproc_info_file(vector<string> &warnings) {
@@ -426,30 +431,68 @@ int COPROCS::launch_child_process_to_detect_gpus() {
 #else
     int prog;
 #endif
-    char dir[MAXPATHLEN];
+    char quotedDataDir[MAXPATHLEN+2];
+    char dataDir[MAXPATHLEN];
     int i;
     int retval = 0;
     
     boinc_delete_file(COPROC_INFO_FILENAME);
-    boinc_getcwd(dir);
     
-    int argc = 3;
-    char* const argv[3] = { 
+    boinc_getcwd(dataDir);
+
+#ifdef _WIN32
+    strlcpy(quotedDataDir, "\"", sizeof(quotedDataDir));
+    strlcat(quotedDataDir, dataDir, sizeof(quotedDataDir));
+    strlcat(quotedDataDir, "\"", sizeof(quotedDataDir));
+#else
+    strlcpy(quotedDataDir, dataDir, sizeof(quotedDataDir));
+#endif
+
+    if (log_flags.coproc_debug) {
+        msg_printf(0, MSG_INFO,
+            "[coproc] launching child process at %s",
+            client_path
+        );
+        msg_printf(0, MSG_INFO,
+            "[coproc] relative to directory %s",
+            client_dir
+        );
+        msg_printf(0, MSG_INFO,
+            "[coproc] with data directory %s",
+            quotedDataDir
+        );
+    }
+            
+    int argc = 4;
+    char* const argv[5] = {
          const_cast<char *>("boinc"), 
          const_cast<char *>("--detect_gpus"), 
-         const_cast<char *>("") 
+         const_cast<char *>("--dir"), 
+         const_cast<char *>(quotedDataDir),
+         NULL
     }; 
 
+    chdir(client_dir);
+    
     retval = run_program(
-        dir,
+        client_dir,
         client_path,
         argc,
         argv, 
         0,
         prog
     );
+    chdir(dataDir);
     
-    if (retval) return retval;
+    if (retval) {
+        if (log_flags.coproc_debug) {
+            msg_printf(0, MSG_INFO,
+                "[coproc] run_program of child process returned error %d",
+                retval
+            );
+        }
+        return retval;
+    }
     
     // Wait for child to run and exit
     for (i=0; i<300; ++i) {

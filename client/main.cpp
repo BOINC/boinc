@@ -248,6 +248,27 @@ static void init_core_client(int argc, char** argv) {
 #endif
 }
 
+// Some dual-GPU laptops (e.g., Macbook Pro) don't power down
+// the more powerful GPU until all applications which used them exit.
+// To save battery life, the client launches a second instance
+// of the client as a child process to detect and get info
+// about the GPUs.
+// The child process writes the info to a temp file which our main
+// client then reads.
+//
+static void do_gpu_detection(int argc, char** argv) {
+    vector<string> warnings;
+    
+    boinc_install_signal_handlers();
+    read_config_file(true);
+
+    gstate.parse_cmdline(argc, argv);
+
+    coprocs.detect_gpus(warnings);
+    coprocs.write_coproc_info_file(warnings);
+    warnings.clear();
+}
+
 static int initialize() {
     int retval;
 
@@ -366,7 +387,7 @@ int boinc_main_loop() {
 int main(int argc, char** argv) {
     int retval = 0;
 
-    coprocs.set_path_to_client(argv[0]);    // Used to launch the child process
+    coprocs.set_path_to_client(argv[0]);    // Used to launch a child process for --detect_gpus
 
     for (int index = 1; index < argc; index++) {
         if (strcmp(argv[index], "-daemon") == 0 || strcmp(argv[index], "--daemon") == 0) {
@@ -384,19 +405,8 @@ int main(int argc, char** argv) {
 #endif
         }
 
-        // Some dual-GPU laptops (e.g., Macbook Pro) don't power down
-        // the more powerful GPU until all applications which used them exit.
-        // To save battery life, the client launches a second instance
-        // of the client as a child process to detect and get info
-        // about the GPUs.
-        // The child process writes the info to a temp file which our main
-        // client then reads.
-        //
         if (!strcmp(argv[index], "--detect_gpus")) {
-            vector<string> warnings;
-            coprocs.detect_gpus(warnings);
-            coprocs.write_coproc_info_file(warnings);
-            warnings.clear();
+            do_gpu_detection(argc, argv);
             return 0;
         }
 
