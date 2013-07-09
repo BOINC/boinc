@@ -32,6 +32,7 @@ import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -119,6 +120,7 @@ public class ClientStatus {
 	// call to acquire or release resources held by the WakeLock.
 	// acquisition: every time the Monitor loop calls setClientStatus and computingStatus == COMPUTING_STATUS_COMPUTING
 	// release: every time acquisition criteria is not met , and in Monitor.onDestroy()
+	@SuppressLint("Wakelock")
 	public void setWakeLock(Boolean acquire) {
 		try {
 			if(wakeLock.isHeld() == acquire) return; // wakeLock already in desired state
@@ -293,11 +295,11 @@ public class ClientStatus {
 				}
 				if(numberOfLoadedImages >= maxImagesPerProject) continue;
 				
-				// get file paths
+				// get file paths of soft link files
 				File dir = new File(project.project_dir);
 				File[] foundFiles = dir.listFiles(new FilenameFilter() {
 				    public boolean accept(File dir, String name) {
-				        return name.startsWith("slideshow_");
+				        return name.startsWith("slideshow_") && !name.endsWith(".png");
 				    }
 				});
 				if(foundFiles == null) continue; // prevent NPE
@@ -567,7 +569,7 @@ public class ClientStatus {
 		Pattern statIconPattern = Pattern.compile("/(\\w+?\\.?\\w*?)</soft_link>");
 		Matcher m = statIconPattern.matcher(softLinkContent);
 		if(!m.find()) {
-			if(Logging.WARNING) Log.w(Logging.TAG,"parseSoftLinkToAbsPath() could not match pattern in soft link: " + softLinkContent);
+			if(Logging.WARNING) Log.w(Logging.TAG,"parseSoftLinkToAbsPath() could not match pattern in soft link file: " + pathOfSoftLink);
 			return null;
 		}
 		String fileName = m.group(1);
