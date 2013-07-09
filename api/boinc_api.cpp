@@ -411,7 +411,7 @@ static bool client_dead() {
         //
         if (interrupt_count%(TIMERS_PER_SEC*10)) return false;
 #ifdef _WIN32
-        HANDLE h = OpenProcess(0, FALSE, aid.client_pid);
+        HANDLE h = OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, aid.client_pid);
         if (h == NULL) {
             dead = true;
         } else {
