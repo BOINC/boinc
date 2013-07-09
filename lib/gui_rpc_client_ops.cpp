@@ -271,7 +271,9 @@ int PROJECT::parse(XML_PARSER& xp) {
     char buf[256];
 
     while (!xp.get_tag()) {
-        if (xp.match_tag("/project")) return 0;
+        if (xp.match_tag("/project")) {
+            return 0;
+        }
         if (xp.parse_str("master_url", master_url, sizeof(master_url))) continue;
         if (xp.parse_double("resource_share", resource_share)) continue;
         if (xp.parse_string("project_name", project_name)) continue;
@@ -304,9 +306,9 @@ int PROJECT::parse(XML_PARSER& xp) {
         if (xp.parse_double("cuda_backoff_time", rsc_desc_nvidia.backoff_time)) continue;
         if (xp.parse_double("cuda_backoff_interval", rsc_desc_nvidia.backoff_interval)) continue;
         if (xp.parse_double("ati_backoff_time", rsc_desc_ati.backoff_time)) continue;
-        if (xp.parse_double("ati_backoff_interval", rsc_desc_intel_gpu.backoff_interval)) continue;
+        if (xp.parse_double("ati_backoff_interval", rsc_desc_ati.backoff_interval)) continue;
         if (xp.parse_double("intel_gpu_backoff_time", rsc_desc_intel_gpu.backoff_time)) continue;
-        if (xp.parse_double("intel_gpu_backoff_interval", rsc_desc_ati.backoff_interval)) continue;
+        if (xp.parse_double("intel_gpu_backoff_interval", rsc_desc_intel_gpu.backoff_interval)) continue;
         if (xp.parse_double("last_rpc_time", last_rpc_time)) continue;
 
         // deprecated elements
@@ -322,11 +324,11 @@ int PROJECT::parse(XML_PARSER& xp) {
                 if (xp.match_tag("/rsc_backoff_time")) {
                     if (!strcmp(buf, "CPU")) {
                         rsc_desc_cpu.backoff_time = value;
-                    } else if (!strcmp(buf, "NVIDIA")) {
+                    } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_NVIDIA_GPU))) {
                         rsc_desc_nvidia.backoff_time = value;
-                    } else if (!strcmp(buf, "ATI")) {
+                    } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_AMD_GPU))) {
                         rsc_desc_ati.backoff_time = value;
-                    } else if (!strcmp(buf, "INTEL_GPU")) {
+                    } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_INTEL_GPU))) {
                         rsc_desc_intel_gpu.backoff_time = value;
                     }
                     break;
@@ -342,11 +344,11 @@ int PROJECT::parse(XML_PARSER& xp) {
                 if (xp.match_tag("/rsc_backoff_interval")) {
                     if (!strcmp(buf, "CPU")) {
                         rsc_desc_cpu.backoff_interval = value;
-                    } else if (!strcmp(buf, "NVIDIA")) {
+                    } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_NVIDIA_GPU))) {
                         rsc_desc_nvidia.backoff_interval = value;
-                    } else if (!strcmp(buf, "ATI")) {
+                    } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_AMD_GPU))) {
                         rsc_desc_ati.backoff_interval = value;
-                    } else if (!strcmp(buf, "INTEL_GPU")) {
+                    } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_INTEL_GPU))) {
                         rsc_desc_intel_gpu.backoff_interval = value;
                     }
                     break;
