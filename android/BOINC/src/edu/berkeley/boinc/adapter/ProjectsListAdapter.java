@@ -124,15 +124,18 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectData> {
         	appendToStatus(sb, activity.getResources().getString(R.string.projects_status_trickleuppending));
         }
         
-        Calendar minRPCTime = Calendar.getInstance();
-        Calendar now = Calendar.getInstance();
-        minRPCTime.setTimeInMillis((long)project.min_rpc_time*1000);
-        if (minRPCTime.compareTo(now) > 0) {
-            appendToStatus(
-            	sb,
-            	activity.getResources().getString(R.string.projects_status_backoff) + " " +
-            	DateUtils.formatElapsedTime((minRPCTime.getTimeInMillis() - now.getTimeInMillis()) / 1000)
-            );
+        // show rpc backoff only in advanced mode
+        if(Monitor.getAppPrefs().getShowAdvanced()) {
+	        Calendar minRPCTime = Calendar.getInstance();
+	        Calendar now = Calendar.getInstance();
+	        minRPCTime.setTimeInMillis((long)project.min_rpc_time*1000);
+	        if (minRPCTime.compareTo(now) > 0) {
+	            appendToStatus(
+	            	sb,
+	            	activity.getResources().getString(R.string.projects_status_backoff) + " " +
+	            	DateUtils.formatElapsedTime((minRPCTime.getTimeInMillis() - now.getTimeInMillis()) / 1000)
+	            );
+	        }
         }
 		
 		return sb.toString();
