@@ -260,9 +260,8 @@ static void do_gpu_detection(int argc, char** argv) {
     vector<string> warnings;
     
     boinc_install_signal_handlers();
-    read_config_file(true);
-
     gstate.parse_cmdline(argc, argv);
+    read_config_file(true);
 
     coprocs.detect_gpus(warnings);
     coprocs.write_coproc_info_file(warnings);
