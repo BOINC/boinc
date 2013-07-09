@@ -32,7 +32,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 public class AttachProjectListAdapter extends ArrayAdapter<ProjectInfo>{
-	
+
 	//private final String TAG = "AttachProjectListAdapter";
 	private ArrayList<ProjectInfo> entries;
     private Activity activity;
@@ -60,4 +60,9 @@ public class AttachProjectListAdapter extends ArrayAdapter<ProjectInfo>{
 		
         return v;
     }
+	
+	@Override
+	public int getCount() {
+		return entries.size();
+	}
 }

@@ -581,7 +581,7 @@ public class Monitor extends Service {
 		}
 		
 		// set list in ClientStatus
-		status.supportedProjects = androidProjects;
+		status.setSupportedProjects(androidProjects);
 	}
 	
 	public static ClientStatus getClientStatus() throws Exception{ //singleton pattern

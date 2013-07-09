@@ -58,15 +58,16 @@ public class AttachProjectListActivity extends Activity implements android.view.
 		//get supported projects
 		// try to get current client status from monitor
 		ClientStatus status;
+		ArrayList<ProjectInfo> data = new ArrayList<ProjectInfo>();
 		try{
 			status  = Monitor.getClientStatus();
+			data = status.getSupportedProjects();
+			if(Logging.DEBUG) Log.d(Logging.TAG,"monitor.getAndroidProjectsList returned with " + data.size() + " elements");
 		} catch (Exception e){
 			if(Logging.WARNING) Log.w(Logging.TAG,"AttachProjectListActivity: Could not load supported projects, clientStatus not initialized.");
 			finish();
 			return;
 		}
-		ArrayList<ProjectInfo> data = status.supportedProjects;
-		if(Logging.DEBUG) Log.d(Logging.TAG,"monitor.getAndroidProjectsList returned with " + data.size() + " elements");
 		
 		// setup layout
         setContentView(R.layout.attach_project_list_layout);  

@@ -100,7 +100,7 @@ public class ClientStatus {
 	private Boolean networkParseError = false; //indicates that status could not be parsed and is therefore invalid
 	
 	// supported projects
-	public ArrayList<ProjectInfo> supportedProjects = new ArrayList<ProjectInfo>();
+	private ArrayList<ProjectInfo> supportedProjects = new ArrayList<ProjectInfo>();
 	
 	public ClientStatus(Context ctx) {
 		this.ctx = ctx;
@@ -201,7 +201,11 @@ public class ClientStatus {
 		this.prefs = prefs;
 	}
 	
-	public synchronized ArrayList<ProjectInfo> getSupprtedProjects () {
+	public synchronized void setSupportedProjects (ArrayList<ProjectInfo> projects) {
+		this.supportedProjects = projects;
+	}
+	
+	public synchronized ArrayList<ProjectInfo> getSupportedProjects () {
 		return supportedProjects;
 	}
 	
