@@ -187,7 +187,7 @@ struct ACTIVE_TASK {
     int current_disk_usage(double&);
         // disk used by output files and temp files of this task
     void get_free_slot(RESULT*);
-    int start();         // start a process
+    int start(bool test=false);         // start a process
 
     // Termination stuff.
     // Terminology:
@@ -314,5 +314,7 @@ extern double exclusive_app_running;    // last time an exclusive app was runnin
 extern double exclusive_gpu_app_running;
 extern int gpu_suspend_reason;
 extern double non_boinc_cpu_usage;
+
+extern void run_test_app();
 
 #endif

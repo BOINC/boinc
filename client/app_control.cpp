@@ -555,6 +555,11 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
 
     cleanup_task();
 
+    if (gstate.run_test_app) {
+        msg_printf(0, MSG_INFO, "test app finished - exiting");
+        exit(0);
+    }
+
     if (!will_restart) {
         copy_output_files();
         int retval = read_stderr_file();
@@ -1054,9 +1059,10 @@ void ACTIVE_TASK_SET::suspend_all(int reason) {
         if (reason == SUSPEND_REASON_CPU_THROTTLE) {
             if (atp->result->dont_throttle()) continue;
             // if we're doing CPU throttling,
-            // don't suspend CPU apps that use < 1 CPU
+            // don't suspend apps that use < .5 CPU (like GPU and NCI apps)
             //
-            if (!atp->result->uses_coprocs() && atp->app_version->avg_ncpus < 1) continue;
+            if (atp->app_version->avg_ncpus < .5) continue;
+
             atp->preempt(REMOVE_NEVER);
             continue;;
         }

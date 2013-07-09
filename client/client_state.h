@@ -141,6 +141,8 @@ struct CLIENT_STATE {
     char attach_project_auth[256];
     bool exit_before_upload;
         // exit when about to upload a file
+    bool run_test_app;
+        // API test mode
 #ifndef _WIN32
     gid_t boinc_project_gid;
 #endif

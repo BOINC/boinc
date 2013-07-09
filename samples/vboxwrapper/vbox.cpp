@@ -685,7 +685,10 @@ bool VBOX_VM::is_hdd_registered() {
     command = "showhdinfo \"" + virtual_machine_root_dir + "/" + image_filename + "\" ";
 
     if (vbm_popen(command, output, "hdd registration", false, false) == 0) {
-        if ((output.find("VBOX_E_FILE_ERROR") == string::npos) && (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos)) {
+        if ((output.find("VBOX_E_FILE_ERROR") == string::npos) && 
+            (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos) &&
+            (output.find("does not match the value") == string::npos)
+        ) {
             // Error message not found in text
             return true;
         }

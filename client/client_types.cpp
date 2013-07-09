@@ -725,11 +725,7 @@ int FILE_INFO::gunzip(char* md5_buf) {
     return 0;
 }
 
-int APP_VERSION::parse(XML_PARSER& xp) {
-    FILE_REF file_ref;
-    double dtemp;
-    int rt;
-
+void APP_VERSION::init() {
     strcpy(app_name, "");
     strcpy(api_version, "");
     version_num = 0;
@@ -749,7 +745,14 @@ int APP_VERSION::parse(XML_PARSER& xp) {
     strcpy(missing_coproc_name, "");
     dont_throttle = false;
     needs_network = false;
+}
 
+int APP_VERSION::parse(XML_PARSER& xp) {
+    FILE_REF file_ref;
+    double dtemp;
+    int rt;
+
+    init();
     while (!xp.get_tag()) {
         if (xp.match_tag("/app_version")) {
             rt = gpu_usage.rsc_type;

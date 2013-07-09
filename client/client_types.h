@@ -314,6 +314,7 @@ struct APP_VERSION {
 
     APP_VERSION(){}
     ~APP_VERSION(){}
+    void init();
     int parse(XML_PARSER&);
     int write(MIOFILE&, bool write_file_info = true);
     bool had_download_failure(int& failnum);

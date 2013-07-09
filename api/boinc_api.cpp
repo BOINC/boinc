@@ -149,11 +149,13 @@ static volatile int interrupt_count = 0;
 static volatile int running_interrupt_count = 0;
     // number of timer interrupts while not suspended.
     // Used to compute elapsed time
+static volatile bool finishing;
+    // used for worker/timer synch during boinc_finish();
 static int want_network = 0;
 static int have_network = 1;
 static double bytes_sent = 0;
 static double bytes_received = 0;
-bool g_sleep = false;
+bool boinc_disable_timer_thread = false;
     // simulate unresponsive app by setting to true (debugging)
 static FUNC_PTR timer_callback = 0;
 char web_graphics_url[256];
@@ -678,8 +680,9 @@ int boinc_finish(int status) {
         "%s called boinc_finish\n",
         boinc_msg_prefix(buf, sizeof(buf))
     );
+    finishing = true;
     boinc_sleep(2.0);   // let the timer thread send final messages
-    g_sleep = true;     // then disable it
+    boinc_disable_timer_thread = true;     // then disable it
 
     if (options.main_program && status==0) {
         FILE* f = fopen(BOINC_FINISH_CALLED_FILE, "w");
@@ -905,6 +908,13 @@ int boinc_wu_cpu_time(double& cpu_t) {
 // Can be called from either timer or worker thread.
 //
 static int suspend_activities(bool called_from_worker) {
+#ifdef DEBUG_BOINC_API
+    char log_buf[256];
+    fprintf(stderr, "%s suspend_activities() called from %s\n",
+        boinc_msg_prefix(log_buf, sizeof(log_buf)),
+        called_from_worker?"worker thread":"timer thread"
+    );
+#endif
 #ifdef _WIN32
     static vector<int> pids;
     if (options.multi_thread) {
@@ -933,6 +943,12 @@ static int suspend_activities(bool called_from_worker) {
 }
 
 int resume_activities() {
+#ifdef DEBUG_BOINC_API
+    char log_buf[256];
+    fprintf(stderr, "%s resume_activities()\n",
+        boinc_msg_prefix(log_buf, sizeof(log_buf))
+    );
+#endif
 #ifdef _WIN32
     static vector<int> pids;
     if (options.multi_thread) {
@@ -1011,7 +1027,7 @@ static void handle_process_control_msg() {
     if (app_client_shm->shm->process_control_request.get_msg(buf)) {
         acquire_mutex();
 #ifdef DEBUG_BOINC_API
-        char log_buf[256]
+        char log_buf[256];
         fprintf(stderr, "%s got process control msg %s\n",
             boinc_msg_prefix(log_buf, sizeof(log_buf)), buf
         );
@@ -1194,7 +1210,14 @@ static void graphics_cleanup() {
 //
 static void timer_handler() {
     char buf[512];
-    if (g_sleep) return;
+    if (boinc_disable_timer_thread) return;
+    if (finishing) {
+        double cur_cpu = boinc_worker_thread_cpu_time();
+        last_wu_cpu_time = cur_cpu + initial_wu_cpu_time;
+        update_app_progress(last_wu_cpu_time, last_checkpoint_cpu_time);
+        boinc_disable_timer_thread = true;
+        return;
+    }
     interrupt_count++;
     if (!boinc_status.suspended) {
         running_interrupt_count++;
@@ -1203,7 +1226,7 @@ static void timer_handler() {
 #ifdef DEBUG_BOINC_API
     if (in_critical_section) {
         fprintf(stderr,
-            "%s: timer_handler(): in critical section\n",
+            "%s timer_handler(): in critical section\n",
             boinc_msg_prefix(buf, sizeof(buf))
         );
     }
@@ -1458,10 +1481,24 @@ int boinc_checkpoint_completed() {
 }
 
 void boinc_begin_critical_section() {
+#ifdef DEBUG_BOINC_API
+    char buf[256];
+    fprintf(stderr,
+        "%s begin_critical_section\n",
+        boinc_msg_prefix(buf, sizeof(buf))
+    );
+#endif
     in_critical_section++;
 }
 
 void boinc_end_critical_section() {
+#ifdef DEBUG_BOINC_API
+    char buf[256];
+    fprintf(stderr,
+        "%s end_critical_section\n",
+        boinc_msg_prefix(buf, sizeof(buf))
+    );
+#endif
     in_critical_section--;
     if (in_critical_section < 0) {
         in_critical_section = 0;        // just in case

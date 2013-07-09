@@ -105,6 +105,7 @@ CLIENT_STATE::CLIENT_STATE()
     exit_after_app_start_secs = 0;
     app_started = 0;
     exit_before_upload = false;
+    run_test_app = false;
     show_projects = false;
     strcpy(detach_project_url, "");
     strcpy(main_host_venue, "");

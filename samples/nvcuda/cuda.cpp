@@ -41,7 +41,6 @@ using std::string;
 bool run_slow = false;
 bool early_exit = false;
 bool early_crash = false;
-bool early_sleep = false;
 double cpu_time = 20, comp_result;
 
 int main(int argc, char** argv) {
@@ -58,7 +57,6 @@ int main(int argc, char** argv) {
     for (i=0; i<argc; i++) {
         if (!strcmp(argv[i], "-early_exit")) early_exit = true;
         if (!strcmp(argv[i], "-early_crash")) early_crash = true;
-        if (!strcmp(argv[i], "-early_sleep")) early_sleep = true;
         if (!strcmp(argv[i], "-run_slow")) run_slow = true;
         if (!strcmp(argv[i], "-cpu_time")) {
             cpu_time = atof(argv[++i]);
@@ -166,10 +164,6 @@ int main(int argc, char** argv) {
         }
         if (early_crash && i>30) {
             boinc_crash();
-        }
-        if (early_sleep && i>30) {
-            g_sleep = true;
-            while (1) boinc_sleep(1);
         }
 
         if (boinc_time_to_checkpoint()) {

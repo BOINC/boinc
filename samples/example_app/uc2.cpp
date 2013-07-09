@@ -74,17 +74,18 @@ bool early_crash = false;
 bool early_sleep = false;
 bool trickle_up = false;
 bool trickle_down = false;
+bool critical_section = false;    // run most of the time in a critical section
 double cpu_time = 20, comp_result;
 
-// do a billion floating-point ops
+// do about .5 seconds of computing
 // (note: I needed to add an arg to this;
 // otherwise the MS C++ compiler optimizes away
 // all but the first call to it!)
 //
-static double do_a_giga_flop(int foo) {
+static double do_some_computing(int foo) {
     double x = 3.14159*foo;
     int i;
-    for (i=0; i<500000000; i++) {
+    for (i=0; i<50000000; i++) {
         x += 5.12313123;
         x *= 0.5398394834;
     }
@@ -147,12 +148,24 @@ int main(int argc, char **argv) {
         if (strstr(argv[i], "early_crash")) early_crash = true;
         if (strstr(argv[i], "early_sleep")) early_sleep = true;
         if (strstr(argv[i], "run_slow")) run_slow = true;
+        if (strstr(argv[i], "critical_section")) critical_section = true;
         if (strstr(argv[i], "cpu_time")) {
             cpu_time = atof(argv[++i]);
         }
         if (strstr(argv[i], "trickle_up")) trickle_up = true;
         if (strstr(argv[i], "trickle_down")) trickle_down = true;
     }
+    fprintf(stderr, "%s app started; CPU time %f, flags:%s%s%s%s%s%s%s\n",
+        boinc_msg_prefix(buf, sizeof(buf)),
+        cpu_time,
+        early_exit?" early_exit":"",
+        early_crash?" early_crash":"",
+        early_sleep?" early_sleep":"",
+        run_slow?" run_slow":"",
+        critical_section?" critical_section":"",
+        trickle_up?" trickle_up":"",
+        trickle_down?" trickle_down":""
+    );
 
     retval = boinc_init();
     if (retval) {
@@ -241,7 +254,7 @@ int main(int argc, char **argv) {
             boinc_crash();
         }
         if (early_sleep && i>30) {
-            g_sleep = true;
+            boinc_disable_timer_thread = true;
             while (1) boinc_sleep(1);
         }
 
@@ -304,7 +317,13 @@ int main(int argc, char **argv) {
                 }
                 boinc_checkpoint_completed();
             }
-            comp_result = do_a_giga_flop(i);
+            if (critical_section) {
+                boinc_begin_critical_section();
+            }
+            comp_result = do_some_computing(i);
+            if (critical_section) {
+                boinc_end_critical_section();
+            }
         }
     }
     boinc_fraction_done(1);
@@ -315,13 +334,15 @@ int main(int argc, char **argv) {
 }
 
 #ifdef _WIN32
-int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode) {
+int WINAPI WinMain(
+    HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode
+) {
     LPSTR command_line;
     char* argv[100];
     int argc;
 
     command_line = GetCommandLine();
-    argc = parse_command_line( command_line, argv );
+    argc = parse_command_line(command_line, argv);
     return main(argc, argv);
 }
 #endif
