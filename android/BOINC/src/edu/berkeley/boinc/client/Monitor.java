@@ -90,7 +90,7 @@ public class Monitor extends Service {
 	private TimerTask statusUpdateTask = new StatusUpdateTimerTask();
 	private boolean updateBroadcastEnabled = true;
 	private DeviceStatus deviceStatus = null;
-	private Integer deviceStatusOmitCounter = 0;
+	private Integer screenOffStatusOmitCounter = 0;
 	
 	// screen on/off updated by screenOnOffBroadcastReceiver
 	private boolean screenOn = false;
@@ -348,41 +348,43 @@ public class Monitor extends Service {
 	
     // updates ClientStatus data structure with values received from client via rpc calls.
     private void updateStatus(){
+    	if(!screenOn && screenOffStatusOmitCounter < deviceStatusIntervalScreenOff) screenOffStatusOmitCounter++; // omit status reporting according to configuration
+    	else {
+    		// screen is on, or omit counter reached limit
+    		reportDeviceStatus();
+    		readClientStatus(); // readClientStatus is also required when screen is off, otherwise no wakeLock acquisition.
+    	}
+    }
+    
+    // reads client status via rpc calls
+    private void readClientStatus() {
     	try{
-			if(screenOn) {
-				reportDeviceStatus();
-				
-				// retrieve client status
-				if(Logging.VERBOSE) if(Logging.DEBUG) Log.d(Logging.TAG, "getCcStatus");
-				CcStatus status = rpc.getCcStatus();
-				
-				if(Logging.VERBOSE) if(Logging.DEBUG) Log.d(Logging.TAG, "getState"); 
-				CcState state = rpc.getState();
-				
-				if(Logging.VERBOSE) if(Logging.DEBUG) Log.d(Logging.TAG, "getTransers");
-				ArrayList<Transfer>  transfers = rpc.getFileTransfers();
-				
-				if( (status != null) && (state != null) && (state.results != null) && (state.projects != null) && (transfers != null) && (state.host_info != null)) {
-					Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers, state.host_info);
-					// Update status bar notification
-					ClientNotification.getInstance(getApplicationContext()).update();
-				} else {
-					if(Logging.DEBUG) Log.d(Logging.TAG, "client status connection problem");
-				}
-				
-				// check whether monitor is still intended to update, if not, skip broadcast and exit...
-				if(updateBroadcastEnabled) {
-			        Intent clientStatus = new Intent();
-			        clientStatus.setAction("edu.berkeley.boinc.clientstatus");
-			        getApplicationContext().sendBroadcast(clientStatus);
-				}
+	    	// retrieve client status
+			if(Logging.VERBOSE) Log.d(Logging.TAG, "getCcStatus");
+			CcStatus status = rpc.getCcStatus();
+			
+			if(Logging.VERBOSE) Log.d(Logging.TAG, "getState"); 
+			CcState state = rpc.getState();
+			
+			if(Logging.VERBOSE) Log.d(Logging.TAG, "getTransers");
+			ArrayList<Transfer>  transfers = rpc.getFileTransfers();
+			
+			if( (status != null) && (state != null) && (state.results != null) && (state.projects != null) && (transfers != null) && (state.host_info != null)) {
+				Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers, state.host_info);
+				// Update status bar notification
+				ClientNotification.getInstance(getApplicationContext()).update();
 			} else {
-				// screen is off
-				if(deviceStatusOmitCounter < deviceStatusIntervalScreenOff) deviceStatusOmitCounter++; // omit status reporting according to configuration
-				else reportDeviceStatus();
+				if(Logging.DEBUG) Log.d(Logging.TAG, "client status connection problem");
+			}
+			
+			// check whether monitor is still intended to update, if not, skip broadcast and exit...
+			if(updateBroadcastEnabled) {
+		        Intent clientStatus = new Intent();
+		        clientStatus.setAction("edu.berkeley.boinc.clientstatus");
+		        getApplicationContext().sendBroadcast(clientStatus);
 			}
 		}catch(Exception e) {
-			if(Logging.ERROR) Log.e(Logging.TAG, "Monitor.updateStatus excpetion: " + e.getMessage(),e);
+			if(Logging.ERROR) Log.e(Logging.TAG, "Monitor.readClientStatus excpetion: " + e.getMessage(),e);
 		}
     }
     
@@ -397,7 +399,7 @@ public class Monitor extends Service {
 			if(deviceStatus != null) { // make sure deviceStatus is initialized
 				deviceStatus.update(); // poll device status
 				Boolean reportStatusSuccess = rpc.reportDeviceStatus(deviceStatus); // transmit device status via rpc
-				if(reportStatusSuccess) deviceStatusOmitCounter = 0;
+				if(reportStatusSuccess) screenOffStatusOmitCounter = 0;
 				else if(Logging.DEBUG) Log.d(Logging.TAG,"reporting device status returned false.");
 			} else if(Logging.WARNING) Log.w(Logging.TAG,"reporting device status failed, wrapper not initialized.");
 		}catch(Exception e) {
