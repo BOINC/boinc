@@ -108,7 +108,7 @@
 
 using std::vector;
 
-#define DEBUG_BOINC_API
+//#define DEBUG_BOINC_API
 
 #ifdef __APPLE__
 #include "mac_backtrace.h"
@@ -300,7 +300,7 @@ static int setup_shared_mem() {
 #ifdef _WIN32
 static HANDLE mutex;
 static void init_mutex() {
-    mutex = CreateMutex(NULL, TRUE, NULL);
+    mutex = CreateMutex(NULL, FALSE, NULL);
 }
 static inline void acquire_mutex() {
     WaitForSingleObject(mutex, INFINITE);
@@ -1068,6 +1068,7 @@ static void handle_process_control_msg() {
 #elif defined(__APPLE__)
                 PrintBacktrace();
 #endif
+                release_mutex();
                 exit_from_timer_thread(EXIT_ABORTED_BY_CLIENT);
             }
         }
@@ -1085,7 +1086,17 @@ static void handle_process_control_msg() {
 //
 static void timer_handler() {
     char buf[512];
-    if (boinc_disable_timer_thread) return;
+#ifdef DEBUG_BOINC_API
+    fprintf(stderr, "%s timer handler: disabled %s; in critical section %s; finishing %s\n",
+        boinc_msg_prefix(buf, sizeof(buf)),
+        boinc_disable_timer_thread?"yes":"no",
+        in_critical_section?"yes":"no",
+        finishing?"yes":"no"
+    );
+#endif
+    if (boinc_disable_timer_thread) {
+        return;
+    }
     if (finishing) {
         double cur_cpu = boinc_worker_thread_cpu_time();
         last_wu_cpu_time = cur_cpu + initial_wu_cpu_time;
@@ -1097,16 +1108,6 @@ static void timer_handler() {
     if (!boinc_status.suspended) {
         running_interrupt_count++;
     }
-
-#ifdef DEBUG_BOINC_API
-    if (in_critical_section) {
-        fprintf(stderr,
-            "%s timer_handler(): in critical section\n",
-            boinc_msg_prefix(buf, sizeof(buf))
-        );
-    }
-#endif
-
     // handle messages from the core client
     //
     if (app_client_shm) {
@@ -1120,11 +1121,10 @@ static void timer_handler() {
             handle_process_control_msg();
         }
     }
-
     if (interrupt_count % TIMERS_PER_SEC) return;
 
 #ifdef DEBUG_BOINC_API
-    fprintf(stderr, "%s 1 sec elapsed\n", boinc_msg_prefix(buf, sizeof(buf)));
+    fprintf(stderr, "%s 1 sec elapsed - doing slow actions\n", boinc_msg_prefix(buf, sizeof(buf)));
 #endif
 
     // here if we're at a one-second boundary; do slow stuff
@@ -1142,6 +1142,9 @@ static void timer_handler() {
     //
     if (in_critical_section==0 && options.check_heartbeat) {
         if (client_dead()) {
+            fprintf(stderr, "%s timer handler: client dead, exiting\n",
+                boinc_msg_prefix(buf, sizeof(buf))
+            );
             if (options.direct_process_action) {
                 exit_from_timer_thread(0);
             } else {
@@ -1149,7 +1152,6 @@ static void timer_handler() {
             }
         }
     }
-
     // don't bother reporting CPU time etc. if we're suspended
     //
     if (options.send_status_msgs && !boinc_status.suspended) {
