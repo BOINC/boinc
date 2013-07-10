@@ -572,6 +572,8 @@ function check_get_args($args) {
     }
 }
 
+// returns null if the arg is optional and missing
+//
 function get_int($name, $optional=false) {
     $x=null;
     if (isset($_GET[$name])) $x = $_GET[$name];
@@ -590,6 +592,8 @@ function get_int($name, $optional=false) {
     return (int)$x;
 }
 
+// returns null if the arg is optional and missing
+//
 function post_num($name, $optional=false) {
     $x = null;
     if (isset($_POST[$name])) $x = $_POST[$name];
@@ -603,8 +607,11 @@ function post_num($name, $optional=false) {
     return (double)$x;
 }
 
+// returns null if the arg is optional and missing
+//
 function post_int($name, $optional=false) {
     $x = post_num($name, $optional);
+    if (is_null($x)) return null;
     $y = (int)$x;
     if ($x != $y) {
         error_page("param $name must be an integer");
