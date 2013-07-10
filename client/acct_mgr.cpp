@@ -663,9 +663,11 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
             gstate.read_global_prefs();
         }
 
-        if (got_rss_feeds) {
-            handle_sr_feeds(rss_feeds, &gstate.acct_mgr_info);
-        }
+        handle_sr_feeds(rss_feeds, &gstate.acct_mgr_info);
+
+        // in case no_project_notices changed
+        //
+        ::rss_feeds.update_feed_list();
     }
 
     safe_strcpy(
