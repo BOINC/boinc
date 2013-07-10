@@ -1240,6 +1240,9 @@ void run_test_app() {
     ACTIVE_TASK_SET ats;
     RESULT result;
 
+    char buf[256];
+    _getcwd(buf, sizeof(buf));   // so we can see where we're running
+
     gstate.run_test_app = true;
 
     wu.project = &project;
@@ -1282,6 +1285,6 @@ void run_test_app() {
         at.unsuspend();
         ats.poll();
         boinc_sleep(.2);
-        at.request_reread_prefs();
+        //at.request_reread_prefs();
     }
 }
