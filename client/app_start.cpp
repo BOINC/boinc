@@ -26,6 +26,7 @@
 #ifdef _MSC_VER
 #define snprintf _snprintf
 #define strdup   _strdup
+#define getcwd  _getcwd
 #endif
 #else
 #include "config.h"
@@ -1241,7 +1242,7 @@ void run_test_app() {
     RESULT result;
 
     char buf[256];
-    _getcwd(buf, sizeof(buf));   // so we can see where we're running
+    getcwd(buf, sizeof(buf));   // so we can see where we're running
 
     gstate.run_test_app = true;
 
