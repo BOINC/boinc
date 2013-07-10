@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <?xml-stylesheet type="text/xsl" href="is.xsl" ?>
 <!DOCTYPE msi [
    <!ELEMENT msi   (summary,table*)>
@@ -2662,7 +2662,7 @@
 		<col def="S50">Language</col>
 		<col def="I2">Splash</col>
 		<col def="S0">Path</col>
-		<row><td>SetupFile1</td><td>CE_Splash.bmp</td><td/><td>0</td><td>1</td><td>&lt;ISProjectFolder&gt;\redist\CharityEngine\CE_Splash.bmp</td></row>
+		<row><td>SetupFile1</td><td>ptp_splash.bmp</td><td/><td>0</td><td>1</td><td>&lt;ISProjectFolder&gt;\redist\Progress\ptp_splash.bmp</td></row>
 	</table>
 
 	<table name="ISSetupPrerequisites">
