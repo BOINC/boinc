@@ -107,6 +107,13 @@ public class Monitor extends Service {
 	private Boolean clientSetup() {
 		if(Logging.DEBUG) Log.d(Logging.TAG,"Monitor.clientSetup()");
 		
+		// initialize full wakelock.
+		// gets used if client has to be started from scratch
+		PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+		WakeLock setupWakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, Logging.TAG);
+		// do not acquire here, otherwise screen turns on, every time rpc connection
+		// gets reconnected.
+		
 		// try to get current client status from monitor
 		ClientStatus status;
 		try{
@@ -115,13 +122,6 @@ public class Monitor extends Service {
 			if(Logging.WARNING) Log.w(Logging.TAG,"Monitor.clientSetup: Could not load data, clientStatus not initialized.");
 			return false;
 		}
-		// wake up device and acquire full WakeLock here to allow BOINC client to detect
-		// all available CPU cores if not acquired and device in power saving mode, client
-		// might detect fewer CPU cores than available.
-		// Lock needs to be release, before return!
-		PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-		WakeLock setupWakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, Logging.TAG);
-		setupWakeLock.acquire();
 		
 		status.setSetupStatus(ClientStatus.SETUP_STATUS_LAUNCHING,true);
 		String clientProcessName = clientPath + clientName;
@@ -160,11 +160,9 @@ public class Monitor extends Service {
 			// quit with OS signals
 			if(!success) quitProcessOsLevel(clientProcessName);
 
-			// Install BOINC client software
-			//
-	        if(!installClient()) {
+			// at this point client is definitely not running. install new binary...
+			if(!installClient()) {
 	        	if(Logging.WARNING) Log.w(Logging.TAG, "BOINC client installation failed!");
-	        	setupWakeLock.release();
 	        	return false;
 	        }
 		}
@@ -174,6 +172,11 @@ public class Monitor extends Service {
 		Integer clientPid = getPidForProcessName(clientProcessName);
 		if(clientPid == null) {
         	if(Logging.DEBUG) Log.d(Logging.TAG, "Starting the BOINC client");
+    		// wake up device and acquire full WakeLock here to allow BOINC client to detect
+    		// all available CPU cores if not acquired and device in power saving mode, client
+    		// might detect fewer CPU cores than available.
+    		// Lock needs to be release, before return!
+    		setupWakeLock.acquire();
 			if (!runClient()) {
 	        	if(Logging.DEBUG) Log.d(Logging.TAG, "BOINC client failed to start");
 	        	setupWakeLock.release();
@@ -220,7 +223,9 @@ public class Monitor extends Service {
 			status.setSetupStatus(ClientStatus.SETUP_STATUS_ERROR,true);
 		}
 		
-		setupWakeLock.release();
+		try{
+			setupWakeLock.release(); // throws exception if it has not been acquired before
+		} catch(Exception e){}
 		return connected;
 	}
 	
