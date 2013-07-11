@@ -318,7 +318,7 @@ public class PrefsActivity extends FragmentActivity {
 						public void onStopTrackingTouch(SeekBar seekBar) {}
 					});
 				} else if (valueWrapper.ID == R.string.prefs_gui_log_level_header){
-					slider.setMax(4);
+					slider.setMax(5);
 					slider.setProgress(valueWrapper.status.intValue());
 					slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 						public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){

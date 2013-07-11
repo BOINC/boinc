@@ -455,8 +455,6 @@ public class ClientStatus {
 				computingStatus = COMPUTING_STATUS_NEVER;
 				computingSuspendReason = status.task_suspend_reason; // = 4 - SUSPEND_REASON_USER_REQ????
 				computingParseError = false;
-				setWakeLock(false);
-				setWifiLock(false);
 				return;
 			}
 			if(status.task_mode == BOINCDefs.RUN_MODE_AUTO && status.task_suspend_reason == BOINCDefs.SUSPEND_REASON_CPU_THROTTLE) {
@@ -464,8 +462,6 @@ public class ClientStatus {
 				computingStatus = COMPUTING_STATUS_COMPUTING;
 				computingSuspendReason = status.task_suspend_reason; // = 64 - SUSPEND_REASON_CPU_THROTTLE
 				computingParseError = false;
-				setWakeLock(true);
-				setWifiLock(true);
 				return;
 				
 			}
@@ -473,8 +469,6 @@ public class ClientStatus {
 				computingStatus = COMPUTING_STATUS_SUSPENDED;
 				computingSuspendReason = status.task_suspend_reason;
 				computingParseError = false;
-				setWakeLock(false);
-				setWifiLock(false);
 				return;
 			}
 			if((status.task_mode == BOINCDefs.RUN_MODE_AUTO) && (status.task_suspend_reason == BOINCDefs.SUSPEND_NOT_SUSPENDED)) {
@@ -493,15 +487,11 @@ public class ClientStatus {
 					computingStatus = COMPUTING_STATUS_COMPUTING;
 					computingSuspendReason = status.task_suspend_reason; // = 0 - SUSPEND_NOT_SUSPENDED
 					computingParseError = false;
-					setWakeLock(true);
-					setWifiLock(true);
 					return;
 				} else { // client "is able but idle"
 					computingStatus = COMPUTING_STATUS_IDLE;
 					computingSuspendReason = status.task_suspend_reason; // = 0 - SUSPEND_NOT_SUSPENDED
 					computingParseError = false;
-					setWakeLock(false);
-					setWifiLock(true);
 					return;
 				}
 			}

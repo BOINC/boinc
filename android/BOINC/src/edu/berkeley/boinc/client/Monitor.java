@@ -348,6 +348,9 @@ public class Monitor extends Service {
 	
     // updates ClientStatus data structure with values received from client via rpc calls.
     private void updateStatus(){
+		// check whether RPC client connection is alive
+		if(!rpc.connectionAlive()) clientSetup(); // start setup routine
+		
     	if(!screenOn && screenOffStatusOmitCounter < deviceStatusIntervalScreenOff) screenOffStatusOmitCounter++; // omit status reporting according to configuration
     	else {
     		// screen is on, or omit counter reached limit
@@ -357,32 +360,40 @@ public class Monitor extends Service {
     }
     
     // reads client status via rpc calls
+    // if screen off, only computing status to adjust wakelocks
     private void readClientStatus() {
     	try{
-	    	// retrieve client status
-			if(Logging.VERBOSE) Log.d(Logging.TAG, "getCcStatus");
-			CcStatus status = rpc.getCcStatus();
-			
-			if(Logging.VERBOSE) Log.d(Logging.TAG, "getState"); 
-			CcState state = rpc.getState();
-			
-			if(Logging.VERBOSE) Log.d(Logging.TAG, "getTransers");
-			ArrayList<Transfer>  transfers = rpc.getFileTransfers();
-			
-			if( (status != null) && (state != null) && (state.results != null) && (state.projects != null) && (transfers != null) && (state.host_info != null)) {
-				Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers, state.host_info);
-				// Update status bar notification
-				ClientNotification.getInstance(getApplicationContext()).update();
-			} else {
-				if(Logging.DEBUG) Log.d(Logging.TAG, "client status connection problem");
-			}
-			
-			// check whether monitor is still intended to update, if not, skip broadcast and exit...
-			if(updateBroadcastEnabled) {
-		        Intent clientStatus = new Intent();
-		        clientStatus.setAction("edu.berkeley.boinc.clientstatus");
-		        getApplicationContext().sendBroadcast(clientStatus);
-			}
+    		// read ccStatus and adjust wakelocks independently of screen status
+    		CcStatus status = rpc.getCcStatus();
+    		Boolean computationEnabled = (status.task_suspend_reason == BOINCDefs.SUSPEND_NOT_SUSPENDED);
+    		if(Logging.VERBOSE) Log.d(Logging.TAG,"readClientStatus(): computation enabled: " + computationEnabled);
+			Monitor.getClientStatus().setWifiLock(computationEnabled);
+			Monitor.getClientStatus().setWakeLock(computationEnabled);
+    		
+			// complete status read, depending on screen status
+    		// screen off: only read computing status to adjust wakelock, do not send broadcast
+    		// screen on: read complete status, set ClientStatus, send broadcast
+	    	if(screenOn) {
+	    		// complete status read, with broadcast
+				if(Logging.VERBOSE) Log.d(Logging.TAG, "readClientStatus(): screen on, get complete status");
+				CcState state = rpc.getState();
+				ArrayList<Transfer>  transfers = rpc.getFileTransfers();
+				
+				if( (status != null) && (state != null) && (state.results != null) && (state.projects != null) && (transfers != null) && (state.host_info != null)) {
+					Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers, state.host_info);
+					// Update status bar notification
+					ClientNotification.getInstance(getApplicationContext()).update();
+				} else {
+					if(Logging.ERROR) Log.e(Logging.TAG, "readClientStatus(): connection problem");
+				}
+				
+				// check whether monitor is still intended to update, if not, skip broadcast and exit...
+				if(updateBroadcastEnabled) {
+			        Intent clientStatus = new Intent();
+			        clientStatus.setAction("edu.berkeley.boinc.clientstatus");
+			        getApplicationContext().sendBroadcast(clientStatus);
+				}
+	    	} 
 		}catch(Exception e) {
 			if(Logging.ERROR) Log.e(Logging.TAG, "Monitor.readClientStatus excpetion: " + e.getMessage(),e);
 		}
@@ -391,9 +402,7 @@ public class Monitor extends Service {
     // reports current device status to the client via rpc
     // client uses data to enforce preferences, e.g. suspend on battery
     private void reportDeviceStatus() {
-		// check whether RPC client connection is alive
-		if(!rpc.connectionAlive()) clientSetup(); // start setup routine
-		
+		if(Logging.VERBOSE) Log.d(Logging.TAG, "reportDeviceStatus()");
     	try{
 	    	// set devices status
 			if(deviceStatus != null) { // make sure deviceStatus is initialized
@@ -660,7 +669,9 @@ public class Monitor extends Service {
         registerReceiver(screenOnOffReceiver, offFilter);
 		
         // register and start update task
-        updateTimer.scheduleAtFixedRate(statusUpdateTask, 0, clientStatusInterval);
+        // using .scheduleAtFixedRate() can cause a series of bunched-up runs
+        // when previous executions are delayed (e.g. during clientSetup() )
+        updateTimer.schedule(statusUpdateTask, 0, clientStatusInterval);
 	}
 	
     @Override
