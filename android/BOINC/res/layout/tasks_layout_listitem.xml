@@ -17,12 +17,13 @@
   You should have received a copy of the GNU Lesser General Public License
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:padding="2dp" >
-
+    
+	<!-- left column -->
     <ImageView
         android:id="@+id/projectIcon"
         android:layout_width="60dp"
@@ -30,121 +31,202 @@
         android:background="@drawable/shape_blue_border"
         android:contentDescription="@drawable/shape_blue_border"
         android:padding="1dp"
-        android:scaleType="fitCenter" />
+        android:scaleType="fitCenter"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" />
 
+    <!-- center column -->
     <LinearLayout
+        android:id="@+id/centerColumnWrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="3dp"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:layout_toRightOf="@+id/projectIcon"
+        android:layout_toLeftOf="@+id/rightColumnWrapper"
+        android:layout_alignParentTop="true" >
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/taskHeader"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:singleLine="true" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/expandCollapse"
-                android:orientation="vertical" >
+        <TextView
+            android:id="@+id/projectName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/dark_grey"
+            android:singleLine="true"  />
 
-                <TextView
-                    android:id="@+id/taskHeader"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:singleLine="true" />
+         <LinearLayout
+             android:id="@+id/statusTextWrapper"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:orientation="horizontal" >
 
-                <TextView
-                    android:id="@+id/projectName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/dark_grey"
-                    android:singleLine="true"  />
+             <TextView
+                 android:id="@+id/taskStatus"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:singleLine="true"
+                 android:textAppearance="?android:attr/textAppearanceSmall"
+                 android:textColor="@color/dark_grey" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
+             <TextView
+                 android:id="@+id/taskStatusPercentage"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="10dip"
+                 android:singleLine="true"
+                 android:textAppearance="?android:attr/textAppearanceSmall"
+                 android:textColor="@color/dark_grey"
+                 android:textStyle="bold" />
+        </LinearLayout>
+        
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="20dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_marginTop="5dip"
+            android:layout_marginBottom="5dip"
+            android:progressDrawable="@drawable/progressbar" />
 
-                    <RelativeLayout
-                        android:id="@+id/statusCollapsedActiveWrapper"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dip" >
+        <LinearLayout 
+	        android:id="@+id/centerColumnExpandWrapper"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical"
+	        android:visibility="gone">
+             
+	        <LinearLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	        	android:orientation="horizontal" >
+	            
+	            <TextView
+	                android:id="@+id/taskTimeLabel"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:paddingRight="5dp"
+	                android:text="@string/tasks_header_elapsed_time"
+	                android:textColor="@color/dark_grey"
+	                android:textStyle="bold" />
+	            
+	            <TextView
+	                android:id="@+id/taskTime"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:paddingRight="10dp"
+	                android:textAppearance="?android:attr/textAppearanceSmall"
+	                android:textColor="@color/dark_grey"/>
+	        </LinearLayout>
+	        
+	        <LinearLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	        	android:orientation="horizontal" >
+	            
+	            <TextView
+	                android:id="@+id/taskNameLabel"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:paddingRight="5dp"
+	                android:text="@string/tasks_header_name"
+	                android:textColor="@color/dark_grey"
+	                android:textStyle="bold" />
+	            <TextView
+	                android:id="@+id/taskName"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:textAppearance="?android:attr/textAppearanceSmall"
+	                android:textColor="@color/dark_grey" />
+	        </LinearLayout>
+	        
+			<LinearLayout
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+	        	android:orientation="horizontal" >
+	            
+	            <TextView
+	                android:id="@+id/deadlineLabel"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:paddingRight="5dp"
+	                android:text="@string/tasks_header_deadline"
+	                android:textColor="@color/dark_grey"
+	                android:textStyle="bold" />
+	            
+	            <TextView
+	                android:id="@+id/deadline"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:textAppearance="?android:attr/textAppearanceSmall"
+	                android:textColor="@color/dark_grey" />
+			</LinearLayout>
+		
+		</LinearLayout>
 
-                        <TextView
-                            android:id="@+id/taskProgressCollapsedActive"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginLeft="10dip"
-                            android:singleLine="true"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="@color/dark_blue"
-                            android:textStyle="bold" />
-
-                        <RelativeLayout
-                            android:id="@+id/collapsedProgressBarWrapper"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:layout_centerVertical="true"
-                            android:layout_toLeftOf="@id/taskProgressCollapsedActive" >
-
-                            <ProgressBar
-                                android:id="@+id/collapsedProgressBar"
-                                style="?android:attr/progressBarStyleHorizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="20dip"
-                                android:layout_marginLeft="10dip"
-                                android:progressDrawable="@drawable/progressbar" />
-                        </RelativeLayout>
-                    </RelativeLayout>
-
-                    <LinearLayout
-                        android:id="@+id/statusTextWrapper"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:orientation="horizontal" >
-
-                        <TextView
-                            android:id="@+id/taskStatus"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:singleLine="true"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="@color/dark_grey" />
-
-                        <TextView
-                            android:id="@+id/taskStatusPercentage"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dip"
-                            android:singleLine="true"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="@color/dark_grey"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </RelativeLayout>
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/expandCollapse"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:contentDescription="@drawable/collapse"
-                android:src="@drawable/collapse" />
-        </RelativeLayout>
-
-        <include
-            android:id="@+id/expansion"
-            layout="@layout/tasks_layout_listitem_expansion" />
+    </LinearLayout>
+    
+    <!-- right column -->
+    <LinearLayout 
+        android:id="@+id/rightColumnWrapper"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true">
+         
+	    <ImageView
+	        android:id="@+id/expandCollapse"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:contentDescription="@drawable/collapse"
+	        android:src="@drawable/collapse" />
+	    
+	    <RelativeLayout 
+	        android:id="@+id/rightColumnExpandWrapper"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:visibility="gone">
+             
+		    <ImageView
+		        android:id="@+id/suspendResumeTask"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:clickable="true"
+		        android:contentDescription="@drawable/resumetask"
+		        android:src="@drawable/resumetask"
+		        android:layout_marginTop="5dp" />
+		    
+		    <ImageView
+		        android:id="@+id/abortTask"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:clickable="true"
+		        android:contentDescription="@drawable/aborttask"
+		        android:src="@drawable/aborttask"
+		        android:layout_marginTop="5dp"
+		        android:layout_below="@+id/suspendResumeTask"  />
+		    
+		    <ProgressBar
+		        android:id="@+id/request_progressBar"
+		        style="?android:attr/progressBarStyleSmall"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_centerInParent="true"
+		        android:layout_margin="5dp"
+		        android:visibility="gone" />
+	    </RelativeLayout>
+	    
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>
