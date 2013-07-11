@@ -97,7 +97,6 @@ static bool is_AMD(char *vendor) {
     if (strstr(vendor, "ATI")) return true;
     if (strstr(vendor, "AMD")) return true;
     if (strstr(vendor, "Advanced Micro Devices, Inc.")) return true;
-
     return false;
 }
 
@@ -216,12 +215,12 @@ void COPROCS::get_opencl(
     if (nvidia_gpus.size()) {
         for (int i=0; i<(int)nvidia_gpus.size(); ++i) {
             devnums_pci_slot_sort.push_back(i);
-            
         }
 #ifdef __APPLE__
-        std::stable_sort(devnums_pci_slot_sort.begin(),
-                        devnums_pci_slot_sort.end(),
-                        compare_pci_slots
+        std::stable_sort(
+            devnums_pci_slot_sort.begin(),
+            devnums_pci_slot_sort.end(),
+            compare_pci_slots
         );
 #endif
     }
@@ -392,8 +391,6 @@ void COPROCS::get_opencl(
                 ++current_CUDA_index;
             }
             
-            devnums_pci_slot_sort.clear();
-
             //////////// AMD / ATI //////////////
             if (is_AMD(prop.vendor)) {
                 prop.opencl_device_index = device_index;
