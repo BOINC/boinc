@@ -20,8 +20,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.berkeley.boinc"
     
-    android:versionCode="19"
-    android:versionName="7.2.2"
+    android:versionCode="20"
+    android:versionName="7.2.3"
     
     android:installLocation="internalOnly" > <!-- installation on SD card would break boot receiver -->
 
