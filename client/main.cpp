@@ -261,6 +261,17 @@ static void do_gpu_detection(int argc, char** argv) {
     
     boinc_install_signal_handlers();
     gstate.parse_cmdline(argc, argv);
+    gstate.now = dtime();
+
+    int flags =
+        BOINC_DIAG_DUMPCALLSTACKENABLED |
+        BOINC_DIAG_HEAPCHECKENABLED |
+        BOINC_DIAG_TRACETOSTDOUT |
+        BOINC_DIAG_REDIRECTSTDERR |
+        BOINC_DIAG_REDIRECTSTDOUT;
+
+    diagnostics_init(flags, "stdoutgpudetect", "stderrgpudetect");
+
     read_config_file(true);
 
     coprocs.detect_gpus(warnings);
