@@ -833,7 +833,8 @@ bool CLIENT_STATE::poll_slow_events() {
     if (tasks_restarted) {
         if (suspend_reason) {
             if (!tasks_suspended) {
-                suspend_tasks(suspend_reason);
+                show_suspend_tasks_message(suspend_reason);
+                active_tasks.suspend_all(suspend_reason);
             }
             last_suspend_reason = suspend_reason;
         } else {
@@ -846,10 +847,7 @@ bool CLIENT_STATE::poll_slow_events() {
         //
         first = false;
         if (suspend_reason) {
-            msg_printf(NULL, MSG_INFO,
-                "Suspending computation - %s",
-                suspend_reason_string(suspend_reason)
-            );
+            show_suspend_tasks_message(suspend_reason);
         }
     }
     tasks_suspended = (suspend_reason != 0);

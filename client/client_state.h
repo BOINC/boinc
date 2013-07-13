@@ -396,7 +396,7 @@ struct CLIENT_STATE {
     void get_disk_shares();
     double allowed_disk_usage(double boinc_total);
     int allowed_project_disk_usage(double&);
-    int suspend_tasks(int reason);
+    void show_suspend_tasks_message(int reason);
     int resume_tasks(int reason=0);
     void read_global_prefs(
         const char* fname = GLOBAL_PREFS_FILE_NAME,
