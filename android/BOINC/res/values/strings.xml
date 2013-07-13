@@ -66,6 +66,7 @@
     <string name="attachproject_login_button_registration">Register</string>
     <string name="attachproject_login_button_login">Sign in</string>
     <string name="attachproject_login_error_toast">Contacting project failed!</string>
+    <string name="attachproject_login_attached">Attached</string>
     	<!-- project registration -->
     <string name="attachproject_registration_header">Account registration for </string>
     <string name="attachproject_registration_header_url">Project:</string>
@@ -76,7 +77,6 @@
     <string name="attachproject_registration_header_pwd_confirm">&#8230; Retype:</string>
     <string name="attachproject_registration_button">Create</string>
     	<!-- error strings -->
-    <string name="attachproject_error_project_exists">Project is already attached</string>
     <string name="attachproject_error_wrong_name">User not found</string>
     <string name="attachproject_error_short_pwd">Password too short</string>
     <string name="attachproject_error_no_internet">Connection failure</string>

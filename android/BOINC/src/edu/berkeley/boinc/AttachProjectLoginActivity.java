@@ -165,8 +165,8 @@ public class AttachProjectLoginActivity extends Activity{
 	}
 	
 	// gets called by GetProjectConfig when ProjectConfig is available
-	private void populateLayout() {
-		if(Logging.DEBUG) Log.d(Logging.TAG, "populateLayout");
+	private void populateLayout(Boolean projectAlreadyAttached) {
+		if(Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectLoginActivity.populateLayout: projectAlreadyAttached: " + projectAlreadyAttached);
 		
 		setContentView(R.layout.attach_project_login_layout);
 		
@@ -253,31 +253,49 @@ public class AttachProjectLoginActivity extends Activity{
 		}
 		
 		// set account creation
-		TextView creationCategory = (TextView) findViewById(R.id.category_creation);
-		creationCategory.setText(getString(R.string.attachproject_login_category_creation) + " " + projectConfig.name + "?");
-		TextView creationText = (TextView) findViewById(R.id.creation_action);
-		Button creationSubmit = (Button) findViewById(R.id.registration_button);
-		if(projectConfig.accountCreationDisabled) {
-			creationText.setText(R.string.attachproject_login_header_creation_disabled);
-			creationSubmit.setVisibility(View.GONE);
-		} else if(projectConfig.clientAccountCreationDisabled) {
-			creationText.setText(R.string.attachproject_login_header_creation_client_disabled);
-			creationSubmit.setTag(false);
-		} else {
-			// creation in client supported
-			creationText.setText(R.string.attachproject_login_header_creation_enabled);
-			creationSubmit.setTag(true);
+		if(projectAlreadyAttached) {
+			LinearLayout creationWrapper = (LinearLayout) findViewById(R.id.creation_wrapper);
+			creationWrapper.setVisibility(View.GONE);
+		} else{
+			TextView creationCategory = (TextView) findViewById(R.id.category_creation);
+			creationCategory.setText(getString(R.string.attachproject_login_category_creation) + " " + projectConfig.name + "?");
+			TextView creationText = (TextView) findViewById(R.id.creation_action);
+			Button creationSubmit = (Button) findViewById(R.id.registration_button);
+			if(projectConfig.accountCreationDisabled) {
+				creationText.setText(R.string.attachproject_login_header_creation_disabled);
+				creationSubmit.setVisibility(View.GONE);
+			} else if(projectConfig.clientAccountCreationDisabled) {
+				creationText.setText(R.string.attachproject_login_header_creation_client_disabled);
+				creationSubmit.setTag(false);
+			} else {
+				// creation in client supported
+				creationText.setText(R.string.attachproject_login_header_creation_enabled);
+				creationSubmit.setTag(true);
+			}
 		}
 		
 		// set account login
-		TextView loginCategory = (TextView) findViewById(R.id.category_login);
-		loginCategory.setText(R.string.attachproject_login_category_login);
-		if(projectConfig.userName) { // user vs. email?
-			if(Logging.DEBUG) Log.d(Logging.TAG,"project is using user name instead of email for login");
-			TextView idHeader = (TextView) findViewById(R.id.header_id);
-			idHeader.setText(R.string.attachproject_login_header_id_name);
-			EditText idInput = (EditText) findViewById(R.id.id_input);
-			idInput.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+		if(projectAlreadyAttached) {
+			LinearLayout loginWrapper = (LinearLayout) findViewById(R.id.login_wrapper);
+			loginWrapper.setVisibility(View.GONE);
+		} else {
+			TextView loginCategory = (TextView) findViewById(R.id.category_login);
+			loginCategory.setText(R.string.attachproject_login_category_login);
+			if(projectConfig.userName) { // user vs. email?
+				if(Logging.DEBUG) Log.d(Logging.TAG,"project is using user name instead of email for login");
+				TextView idHeader = (TextView) findViewById(R.id.header_id);
+				idHeader.setText(R.string.attachproject_login_header_id_name);
+				EditText idInput = (EditText) findViewById(R.id.id_input);
+				idInput.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+			}
+		}
+		
+		// set project attached
+		if(projectAlreadyAttached) {
+			LinearLayout attachedWrapper = (LinearLayout) findViewById(R.id.attached_wrapper);
+			attachedWrapper.setVisibility(View.VISIBLE);
+			TextView header = (TextView) attachedWrapper.findViewById(R.id.header);
+			header.setText(R.string.attachproject_login_attached);
 		}
 	}
 	
@@ -358,6 +376,8 @@ public class AttachProjectLoginActivity extends Activity{
 	
 	private final class GetProjectConfig extends AsyncTask<String, Void, Integer> {
 		
+		private boolean projectAlreadyAttached = false;
+		
 		@Override
 		protected Integer doInBackground(String... params) {
 			String url = params[0];
@@ -368,14 +388,10 @@ public class AttachProjectLoginActivity extends Activity{
 					if(!projectInfoPresent) { // only url string is available
 						if(Logging.DEBUG) Log.d(Logging.TAG, "doInBackground() - GetProjectConfig for manual input url: " + url);
 						
-						if(checkProjectAlreadyAttached(url)) return R.string.attachproject_error_project_exists;
-						
 						//fetch ProjectConfig
 						projectConfig = monitor.getProjectConfig(url);
 					} else {
 						if(Logging.DEBUG) Log.d(Logging.TAG, "doInBackground() - GetProjectConfig for list selection url: " + projectInfo.url);
-						
-						if(checkProjectAlreadyAttached(projectInfo.url)) return R.string.attachproject_error_project_exists;
 						
 						//fetch ProjectConfig
 						projectConfig = monitor.getProjectConfig(projectInfo.url);
@@ -386,6 +402,7 @@ public class AttachProjectLoginActivity extends Activity{
 					
 					if (projectConfig != null && projectConfig.error_num != null && projectConfig.error_num == 0) {
 						// success
+						projectAlreadyAttached = checkProjectAlreadyAttached(projectInfo.url);
 						return 0;
 					} else { 
 						if(Logging.DEBUG) if(projectConfig != null) Log.d(Logging.TAG,"getProjectConfig returned error num:" + projectConfig.error_num);
@@ -404,7 +421,7 @@ public class AttachProjectLoginActivity extends Activity{
 		protected void onPostExecute(Integer toastStringId) {
 			if(toastStringId == 0) { // no error, no toast...
 				if(Logging.DEBUG) Log.d(Logging.TAG, "onPostExecute() - GetProjectConfig successful.");
-				populateLayout();
+				populateLayout(projectAlreadyAttached);
 			} else {
 				finish(toastStringId);
 			}

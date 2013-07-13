@@ -348,15 +348,13 @@
 			    android:text="@string/attachproject_login_button_login" />
 	    
         </LinearLayout>
-        
-        <ProgressBar
-	        android:id="@+id/login_pending"
-	        style="?android:attr/progressBarStyleLarge"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_gravity="center_horizontal"
-	        android:layout_marginTop="30dp"
-	        android:visibility="gone" />
+	    
+        <!-- attached -->
+        <include
+            android:id="@+id/attached_wrapper"
+            layout="@layout/attach_project_success_layout"
+            android:layout_marginTop="20dp"
+            android:visibility="gone" />
 	    
     </LinearLayout>
 
