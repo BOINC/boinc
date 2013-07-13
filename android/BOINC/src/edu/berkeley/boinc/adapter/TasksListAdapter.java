@@ -114,9 +114,18 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 		// status text
 		String statusT = determineStatusText(listItem);
 		status.setText(statusT);
-		if(listItem.result.state == BOINCDefs.RESULT_ABORTED || listItem.result.state == BOINCDefs.RESULT_COMPUTE_ERROR)
+		if(listItem.result.state == BOINCDefs.RESULT_ABORTED ||
+				listItem.result.state == BOINCDefs.RESULT_COMPUTE_ERROR ||
+				listItem.result.state == BOINCDefs.RESULT_FILES_DOWNLOADING ||
+				listItem.result.state == BOINCDefs.RESULT_FILES_UPLOADED ||
+				listItem.result.state == BOINCDefs.RESULT_FILES_UPLOADING ||
+				listItem.result.state == BOINCDefs.RESULT_READY_TO_REPORT ||
+				listItem.result.state == BOINCDefs.RESULT_UPLOAD_FAILED)
 			statusPercentage.setVisibility(View.GONE);
-		statusPercentage.setText(String.format("%.1f", listItem.result.fraction_done * 100) + "%");
+		else {
+			statusPercentage.setVisibility(View.VISIBLE);
+			statusPercentage.setText(String.format("%.1f", listItem.result.fraction_done * 100) + "%");
+		}
 		// --- end of independent view elements
 		
 		// progress bar: show when task active or expanded
