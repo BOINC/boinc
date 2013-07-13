@@ -1347,7 +1347,9 @@ int HOST_INFO::get_host_info() {
 ///////////// p_ncpus /////////////////
 
 // sysconf not working on OS2
-#if defined(_SC_NPROCESSORS_ONLN) && !defined(__EMX__) && !defined(__APPLE__)
+#if defined(ANDROID)
+    p_ncpus = sysconf(_SC_NPROCESSORS_CONF);
+#elif defined(_SC_NPROCESSORS_ONLN) && !defined(__EMX__) && !defined(__APPLE__)
     p_ncpus = sysconf(_SC_NPROCESSORS_ONLN);
 #elif defined(HAVE_SYS_SYSCTL_H) && defined(CTL_HW) && defined(HW_NCPU)
     // Get number of CPUs

@@ -49,7 +49,6 @@ import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
-import android.os.PowerManager.WakeLock;
 import android.util.Log;
 import edu.berkeley.boinc.AppPreferences;
 import edu.berkeley.boinc.R;
@@ -106,13 +105,6 @@ public class Monitor extends Service {
 	// includes network communication => don't call from UI thread!
 	private Boolean clientSetup() {
 		if(Logging.DEBUG) Log.d(Logging.TAG,"Monitor.clientSetup()");
-		
-		// initialize full wakelock.
-		// gets used if client has to be started from scratch
-		PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-		WakeLock setupWakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, Logging.TAG);
-		// do not acquire here, otherwise screen turns on, every time rpc connection
-		// gets reconnected.
 		
 		// try to get current client status from monitor
 		ClientStatus status;
@@ -172,14 +164,8 @@ public class Monitor extends Service {
 		Integer clientPid = getPidForProcessName(clientProcessName);
 		if(clientPid == null) {
         	if(Logging.DEBUG) Log.d(Logging.TAG, "Starting the BOINC client");
-    		// wake up device and acquire full WakeLock here to allow BOINC client to detect
-    		// all available CPU cores if not acquired and device in power saving mode, client
-    		// might detect fewer CPU cores than available.
-    		// Lock needs to be release, before return!
-    		setupWakeLock.acquire();
 			if (!runClient()) {
 	        	if(Logging.DEBUG) Log.d(Logging.TAG, "BOINC client failed to start");
-	        	setupWakeLock.release();
 				return false;
 			}
 		}
@@ -223,9 +209,6 @@ public class Monitor extends Service {
 			status.setSetupStatus(ClientStatus.SETUP_STATUS_ERROR,true);
 		}
 		
-		try{
-			setupWakeLock.release(); // throws exception if it has not been acquired before
-		} catch(Exception e){}
 		return connected;
 	}
 	
