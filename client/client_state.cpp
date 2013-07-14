@@ -271,6 +271,10 @@ void CLIENT_STATE::set_now() {
     clock_change = false;
     if (x < (now-60)) {
         clock_change = true;
+        msg_printf(NULL, MSG_INFO,
+            "New system time (%.0f) < old system time (%.0f); clearing timeouts",
+            x, now
+        );
         clear_absolute_times();
     }
 
@@ -2013,6 +2017,10 @@ int CLIENT_STATE::quit_activities() {
 void CLIENT_STATE::check_clock_reset() {
     if (!time_stats.last_update) return;
     if (time_stats.last_update <= now) return;
+    msg_printf(NULL, MSG_INFO,
+        "System clock (%.0f) < state file timestamp (%.0f); clearing timeouts",
+        now, time_stats.last_update
+    );
     clear_absolute_times();
 }
 
@@ -2024,10 +2032,6 @@ void CLIENT_STATE::check_clock_reset() {
 // that we could try to patch up, but it's not clear how.
 //
 void CLIENT_STATE::clear_absolute_times() {
-    msg_printf(NULL, MSG_INFO,
-        "System clock was turned backwards; clearing timeouts"
-    );
-
     exclusive_app_running = 0;
     exclusive_gpu_app_running = 0;
     new_version_check_time = now;
