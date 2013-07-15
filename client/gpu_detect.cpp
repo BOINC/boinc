@@ -437,7 +437,7 @@ int COPROCS::launch_child_process_to_detect_gpus() {
     int retval = 0;
     
     boinc_delete_file(COPROC_INFO_FILENAME);
-    for (i=0; i<300; ++i) {
+    for (;;) {
         if (!boinc_file_exists(COPROC_INFO_FILENAME)) break;
         boinc_sleep(0.01);
     }
@@ -501,15 +501,12 @@ int COPROCS::launch_child_process_to_detect_gpus() {
     // Wait for child to run and exit
     for (i=0; i<300; ++i) {
         if (process_exists(prog)) break;
-        if (boinc_file_exists(COPROC_INFO_FILENAME)) break;
+//        if (boinc_file_exists(COPROC_INFO_FILENAME)) break;
         boinc_sleep(0.01);
     }
     
-    for (i=0; i<300; ++i) {
-        if (boinc_file_exists(COPROC_INFO_FILENAME) &&
-            !process_exists(prog)) {
-            break;
-        }
+    for (;;) {
+        if (process_exists(prog)) break;
         boinc_sleep(0.01);
     }
     
