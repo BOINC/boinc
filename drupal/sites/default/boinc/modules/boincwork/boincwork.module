@@ -59,12 +59,12 @@ function boincwork_menu() {
     'type' => MENU_LOCAL_TASK,
     'weight' => 15
   );
-  /*$items['account/certs'] = array(
+  $items['account/certs'] = array(
     'title' => t('Account certificate'),
     'page callback' => 'boincwork_certificates',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK
-  );*/
+  );
   $items['admin/boinc/prefs/presets'] = array(
     'title' => 'Preferences: Presets',
     'description' => 'Set values for BOINC preference set presets.',

@@ -179,6 +179,9 @@ function boinc_get_scheduler_tags() {
  */
 function is_current_boinc_user($boinc_id) {
   global $user;
+  if (!$user->uid) {
+    return FALSE;
+  }
   // boincuser_id is not stored in the global user, so load a new instance
   $drupuser = user_load($user->uid);
   return ($boinc_id == $drupuser->boincuser_id);

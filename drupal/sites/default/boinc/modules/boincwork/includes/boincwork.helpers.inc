@@ -1395,6 +1395,21 @@ function boincwork_views_host_list_empty_text($context = null) {
 }
 
 /**
+  * Determine output for task list views when no tasks are found.
+  */
+function boincwork_views_task_list_empty_text($context = null) {
+  
+  // 
+  $output = '';
+  switch($context) {
+  default:
+    $output .=  '<h2>' . t('No @type tasks', array('@type' => $context)) . '</h2>';
+    $output .=  '<p>' . t('There are no tasks of this type on record') . '</p>';
+  }
+  return $output;
+}
+
+/**
   * Determine output for host last contact time
   */
 function boincwork_host_last_contact($timestamp, $context = null) {

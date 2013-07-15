@@ -752,7 +752,7 @@ function boincuser_get_projects_table($account = null) {
   $output .= '</tbody>' . "\n";
   $output .= '</table>' . "\n";
   $more_link = ($account) ? "user/{$account->uid}/stats" : 'account/stats';
-  $output .= "<div class=\"more-link\"><a href=\"{$more_link}\">More stats</a></div>" . "\n";
+  //$output .= "<div class=\"more-link\"><a href=\"{$more_link}\">More stats</a></div>" . "\n";
   return $output;
 }
 
