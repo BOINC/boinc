@@ -32,8 +32,11 @@ import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.HostInfo;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -64,6 +67,8 @@ public class PrefsActivity extends FragmentActivity {
 	private AppPreferences appPrefs = null; //Android specific preferences, singleton of monitor
 	private HostInfo hostinfo = null;
 	
+	private Boolean layoutLoading = true;
+	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		doBindService();
@@ -88,6 +93,31 @@ public class PrefsActivity extends FragmentActivity {
 	        mIsBound = false;
 	    }
 	};
+
+	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
+		
+		@Override
+		public void onReceive(Context context,Intent intent) {
+			if(layoutLoading) {
+				// layout was previously loading, i.e. data retrieval failed, retry!
+				if(Logging.DEBUG) Log.d(Logging.TAG,"PrefsActivity.onReceive: previous loading failed, re-try.");
+				populateLayout();
+			}
+		}
+	};
+	private IntentFilter ifcsc = new IntentFilter("edu.berkeley.boinc.clientstatuschange");
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		registerReceiver(mClientStatusChangeRec,ifcsc);
+	}
+
+	@Override
+	public void onPause() {
+		unregisterReceiver(mClientStatusChangeRec);
+		super.onPause();
+	}
 
 	private void doBindService() {
 		if(!mIsBound) {
@@ -142,6 +172,7 @@ public class PrefsActivity extends FragmentActivity {
 		if(!getPrefs() || appPrefs == null || !getHostInfo()) {
 			if(Logging.DEBUG) Log.d(Logging.TAG, "populateLayout returns, data is not present");
 			setLayoutLoading();
+			
 			return;
 		}
 		
@@ -150,6 +181,7 @@ public class PrefsActivity extends FragmentActivity {
 		lv = (ListView) findViewById(R.id.listview);
         listAdapter = new PrefsListAdapter(PrefsActivity.this,R.id.listview,data);
         lv.setAdapter(listAdapter);
+        layoutLoading = false;
 		
 		data.clear();
 		
@@ -220,6 +252,7 @@ public class PrefsActivity extends FragmentActivity {
         setContentView(R.layout.generic_layout_loading);
         TextView loadingHeader = (TextView)findViewById(R.id.loading_header);
         loadingHeader.setText(R.string.prefs_loading);
+        layoutLoading = true;
 	}
 	
 	// onClick of listview items with prefs_layout_listitem_bool
