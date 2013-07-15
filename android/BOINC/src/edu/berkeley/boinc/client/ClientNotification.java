@@ -76,11 +76,8 @@ public class ClientNotification {
 	}
 	
 	// called by Monitor to enable foreground with notification
-	public synchronized void setForeground(Boolean setForeground, ClientStatus status, Monitor service) {
-		// notification does not get updated if foreground state does not change!
-		// since foreground only while computing, it is not a problem.
-		if(foreground == setForeground) return;
-		else {
+	public synchronized void setForeground(Boolean setForeground, Boolean updated, ClientStatus status, Monitor service) {
+		if((foreground != setForeground) || updated) {
 			if(setForeground) {
 				// cancel suspend notification
 				cancel();

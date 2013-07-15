@@ -365,6 +365,7 @@ public class Monitor extends Service {
 			// complete status read, depending on screen status
     		// screen off: only read computing status to adjust wakelock, do not send broadcast
     		// screen on: read complete status, set ClientStatus, send broadcast
+			Boolean completeUpdate = false;
 	    	if(screenOn || forceCompleteUpdate) {
 	    		// complete status read, with broadcast
 				if(Logging.VERBOSE) Log.d(Logging.TAG, "readClientStatus(): screen on, get complete status");
@@ -375,6 +376,7 @@ public class Monitor extends Service {
 					Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers, state.host_info);
 					// Update status bar notification
 					ClientNotification.getInstance(getApplicationContext()).update(Monitor.getClientStatus());
+					completeUpdate = true;
 				} else {
 					if(Logging.ERROR) Log.e(Logging.TAG, "readClientStatus(): connection problem");
 				}
@@ -388,7 +390,7 @@ public class Monitor extends Service {
 	    	} 
 	    	
 	    	// set service foreground notification, after initial data retrieval in ClientStatus
-			ClientNotification.getInstance(getApplicationContext()).setForeground(computing, Monitor.getClientStatus(), this);
+			ClientNotification.getInstance(getApplicationContext()).setForeground(computing, completeUpdate, Monitor.getClientStatus(), this);
 			
 		}catch(Exception e) {
 			if(Logging.ERROR) Log.e(Logging.TAG, "Monitor.readClientStatus excpetion: " + e.getMessage(),e);
