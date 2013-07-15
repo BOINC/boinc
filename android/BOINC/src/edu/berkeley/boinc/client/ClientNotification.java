@@ -52,7 +52,13 @@ public class ClientNotification {
 	/**
 	 * Updates notification with client's current status
 	 */
-	public synchronized void update(ClientStatus updatedStatus, Monitor monitorService) {
+	public synchronized void update(ClientStatus updatedStatus) {
+		
+		// during computation, setForeground is in charge of the notification
+		if(foreground) return;
+		
+		// check whether notification is allowed in preferences	
+		if (!Monitor.getAppPrefs().getShowNotification()) return;
 		
 		// update notification, only after change in status
 		if (clientNotification.mOldComputingStatus == -1 
@@ -60,27 +66,8 @@ public class ClientNotification {
 				|| (updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_SUSPENDED
 				&& updatedStatus.computingSuspendReason != clientNotification.mOldSuspendReason)) {
 			
-			if(updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_COMPUTING) {
-				// computing! set service as foreground
-				monitorService.startForeground(notificationId, buildNotification(updatedStatus));
-				if(Logging.DEBUG) Log.d(Logging.TAG,"ClientNotification.update() start service as foreground.");
-				foreground = true;
-			} else {
-				// not computing, set service as background
-				if(foreground) {
-					foreground = false;
-					monitorService.stopForeground(true);
-					if(Logging.DEBUG) Log.d(Logging.TAG,"ClientNotification.update() stop service as foreground.");
-				}
-				// check whether notification is allowed in preferences	
-				if (!Monitor.getAppPrefs().getShowNotification()) {
-					enable(false);
-					return;
-				}
-
-				nm.notify(notificationId, buildNotification(updatedStatus));
-			}
-			
+			// update notification
+			nm.notify(notificationId, buildNotification(updatedStatus));
 			
 			// save status for comparison next time
 			clientNotification.mOldComputingStatus = updatedStatus.computingStatus;
@@ -88,33 +75,32 @@ public class ClientNotification {
 		}
 	}
 	
-	// called after change in notification preference
-	public synchronized void enable(Boolean enable) {
-		if(Logging.DEBUG) Log.d(Logging.TAG,"ClientNotification.enable() " + enable);
-		if(foreground) {
-			// foreground notification mandatory, do not change
-			if(Logging.DEBUG) Log.d(Logging.TAG,"ClientNotification.enable() service in foreground, do not change.");
-		} else {
-			// service in background, notification behavior configurable
-			if(enable){
-				try{
-					ClientStatus status = Monitor.getClientStatus();
-					nm.notify(notificationId, buildNotification(status));
-					// save status for comparison next time
-					clientNotification.mOldComputingStatus = status.computingStatus;
-					clientNotification.mOldSuspendReason = status.computingSuspendReason;
-				} catch (Exception e) {if(Logging.WARNING) Log.w(Logging.TAG,"ClientNotification.enable() failed!");}
-				
+	// called by Monitor to enable foreground with notification
+	public synchronized void setForeground(Boolean setForeground, ClientStatus status, Monitor service) {
+		// notification does not get updated if foreground state does not change!
+		// since foreground only while computing, it is not a problem.
+		if(foreground == setForeground) return;
+		else {
+			if(setForeground) {
+				// cancel suspend notification
+				cancel();
+				// set service foreground
+				service.startForeground(1337, buildNotification(status));
+				if(Logging.DEBUG) Log.d(Logging.TAG,"ClientNotification.setForeground() start service as foreground.");
+				foreground = true;
 			} else {
-				nm.cancel(notificationId);
-				clientNotification.mOldComputingStatus = -1;
+				// set service background
+				foreground = false;
+				service.stopForeground(true);
+				if(Logging.DEBUG) Log.d(Logging.TAG,"ClientNotification.setForeground() stop service as foreground.");
 			}
 		}
 	}
 	
-	// cancels notification, called during client shutdown
+	// cancels notification, called during client shutdown or when disabling preference
 	public synchronized void cancel() {
 		nm.cancel(notificationId);
+		clientNotification.mOldComputingStatus = -1;
 	}
 
 	private Notification buildNotification(ClientStatus status) {
@@ -124,7 +110,7 @@ public class ClientNotification {
 		String statusText = status.getCurrentStatusString();
 		
 		// build notification
-		Notification notification = new NotificationCompat.Builder(context)
+		Notification n = new NotificationCompat.Builder(context)
         	.setContentTitle(context.getString(R.string.app_name))
         	.setContentText(statusText)
         	.setSmallIcon(getIcon(computingStatus))
@@ -133,7 +119,7 @@ public class ClientNotification {
         	.setOngoing(true)
         	.build();
 		
-		return notification;
+		return n;
 	}
 
 	// returns resource id of icon
