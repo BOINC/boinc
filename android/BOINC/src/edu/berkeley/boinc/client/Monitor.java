@@ -370,7 +370,7 @@ public class Monitor extends Service {
 				if( (status != null) && (state != null) && (state.results != null) && (state.projects != null) && (transfers != null) && (state.host_info != null)) {
 					Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers, state.host_info);
 					// Update status bar notification
-					ClientNotification.getInstance(getApplicationContext()).update();
+					ClientNotification.getInstance(getApplicationContext()).update(Monitor.getClientStatus(), this);
 				} else {
 					if(Logging.ERROR) Log.e(Logging.TAG, "readClientStatus(): connection problem");
 				}

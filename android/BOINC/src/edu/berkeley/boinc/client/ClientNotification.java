@@ -21,9 +21,12 @@ public class ClientNotification {
 	private NotificationManager nm;
 	private Integer notificationId;
 	private PendingIntent contentIntent;
-
+	
 	private int mOldComputingStatus = -1;
 	private int mOldSuspendReason = -1;
+	// debug foreground state by running
+	// adb shell: dumpsys activity services edu.berkeley.boinc
+	private boolean foreground = false;
 
 	/**
 	 * Returns a reference to a singleton ClientNotification object.
@@ -49,34 +52,63 @@ public class ClientNotification {
 	/**
 	 * Updates notification with client's current status
 	 */
-	public synchronized void update() {
-		// check whether notification is allowed in preferences	
-		if (!Monitor.getAppPrefs().getShowNotification()) {
-			nm.cancel(notificationId);
-			clientNotification.mOldComputingStatus = -1;
-			return;
-		}
-
-		// try to get current client status from monitor
-		ClientStatus updatedStatus;
-		try{
-			updatedStatus  = Monitor.getClientStatus();
-		} catch (Exception e){
-			if(Logging.WARNING) Log.w(Logging.TAG,"ClientNotification: Could not load data, clientStatus not initialized.");
-			return;
-		}
+	public synchronized void update(ClientStatus updatedStatus, Monitor monitorService) {
 		
-		// update notification
+		// update notification, only after change in status
 		if (clientNotification.mOldComputingStatus == -1 
 				|| updatedStatus.computingStatus.intValue() != clientNotification.mOldComputingStatus
 				|| (updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_SUSPENDED
 				&& updatedStatus.computingSuspendReason != clientNotification.mOldSuspendReason)) {
 			
-			nm.notify(notificationId, buildNotification(updatedStatus));
+			if(updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_COMPUTING) {
+				// computing! set service as foreground
+				monitorService.startForeground(notificationId, buildNotification(updatedStatus));
+				if(Logging.DEBUG) Log.d(Logging.TAG,"ClientNotification.update() start service as foreground.");
+				foreground = true;
+			} else {
+				// not computing, set service as background
+				if(foreground) {
+					foreground = false;
+					monitorService.stopForeground(true);
+					if(Logging.DEBUG) Log.d(Logging.TAG,"ClientNotification.update() stop service as foreground.");
+				}
+				// check whether notification is allowed in preferences	
+				if (!Monitor.getAppPrefs().getShowNotification()) {
+					enable(false);
+					return;
+				}
+
+				nm.notify(notificationId, buildNotification(updatedStatus));
+			}
+			
 			
 			// save status for comparison next time
 			clientNotification.mOldComputingStatus = updatedStatus.computingStatus;
 			clientNotification.mOldSuspendReason = updatedStatus.computingSuspendReason;
+		}
+	}
+	
+	// called after change in notification preference
+	public synchronized void enable(Boolean enable) {
+		if(Logging.DEBUG) Log.d(Logging.TAG,"ClientNotification.enable() " + enable);
+		if(foreground) {
+			// foreground notification mandatory, do not change
+			if(Logging.DEBUG) Log.d(Logging.TAG,"ClientNotification.enable() service in foreground, do not change.");
+		} else {
+			// service in background, notification behavior configurable
+			if(enable){
+				try{
+					ClientStatus status = Monitor.getClientStatus();
+					nm.notify(notificationId, buildNotification(status));
+					// save status for comparison next time
+					clientNotification.mOldComputingStatus = status.computingStatus;
+					clientNotification.mOldSuspendReason = status.computingSuspendReason;
+				} catch (Exception e) {if(Logging.WARNING) Log.w(Logging.TAG,"ClientNotification.enable() failed!");}
+				
+			} else {
+				nm.cancel(notificationId);
+				clientNotification.mOldComputingStatus = -1;
+			}
 		}
 	}
 	

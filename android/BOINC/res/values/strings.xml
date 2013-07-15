@@ -159,7 +159,7 @@
 	<string name="prefs_network_daily_xfer_limit_mb_description">Limits the daily data traffic caused by BOINC.</string>
 	<string name="prefs_network_wifi_only_header">Transfer tasks on WiFi only</string>
 	<string name="prefs_autostart_header">Autostart</string>
-	<string name="prefs_show_notification_header">Show notifications</string>
+	<string name="prefs_show_notification_header">Show notification when suspended</string>
 	<string name="prefs_cpu_number_cpus_header">Used CPU cores</string>
 	<string name="prefs_cpu_number_cpus_description">Limits the number of CPU cores BOINC uses for computation.</string>
 	<string name="prefs_cpu_other_load_suspension_header">Pause at CPU usage above</string>
