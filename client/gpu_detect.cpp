@@ -18,7 +18,9 @@
 
 // client-specific GPU code.  Mostly GPU detection
 
+#ifndef _WIN32
 #define USE_CHILD_PROCESS_TO_DETECT_GPUS 1
+#endif
 
 #include "cpp.h"
 
