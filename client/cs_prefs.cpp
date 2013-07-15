@@ -331,7 +331,7 @@ int CLIENT_STATE::check_suspend_processing() {
     return 0;
 }
 
-int CLIENT_STATE::suspend_tasks(int reason) {
+void CLIENT_STATE::show_suspend_tasks_message(int reason) {
     if (reason == SUSPEND_REASON_CPU_THROTTLE) {
         if (log_flags.cpu_sched) {
             msg_printf(NULL, MSG_INFO, "[cpu_sched] Suspending - CPU throttle");
@@ -343,9 +343,27 @@ int CLIENT_STATE::suspend_tasks(int reason) {
                 suspend_reason_string(reason)
             );
         }
+        switch (reason) {
+        case SUSPEND_REASON_BATTERY_OVERHEATED:
+            if (log_flags.task) {
+                msg_printf(NULL, MSG_INFO,
+                    "(battery temperature %.1f > limit %.1f Celsius)",
+                    device_status.battery_temperature_celsius,
+                    global_prefs.battery_max_temperature
+                );
+            }
+            break;
+        case SUSPEND_REASON_BATTERY_CHARGING:
+            if (log_flags.task) {
+                msg_printf(NULL, MSG_INFO,
+                    "(battery charge level %.1f%% < threshold %.1f%%",
+                    device_status.battery_charge_pct,
+                    global_prefs.battery_charge_min_pct
+                );
+            }
+            break;
+        }
     }
-    active_tasks.suspend_all(reason);
-    return 0;
 }
 
 int CLIENT_STATE::resume_tasks(int reason) {

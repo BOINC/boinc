@@ -1050,7 +1050,6 @@ int ACTIVE_TASK_SET::abort_project(PROJECT* project) {
 }
 
 // suspend all currently running tasks
-// called only from CLIENT_STATE::suspend_tasks(),
 // e.g. because on batteries, time of day, benchmarking, CPU throttle, etc.
 //
 void ACTIVE_TASK_SET::suspend_all(int reason) {

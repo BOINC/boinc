@@ -285,6 +285,9 @@ int CONFIG::parse_options_client(XML_PARSER& xp) {
             downcase_string(client_download_url);
             continue;
         }
+        if (xp.parse_string("client_new_version_text", client_new_version_text)) {
+            continue;
+        }
         if (xp.parse_string("client_version_check_url", client_version_check_url)) {
             downcase_string(client_version_check_url);
             continue;

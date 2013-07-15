@@ -468,9 +468,10 @@ void RESULT::append_log_record() {
     job_log_filename(*project, filename, sizeof(filename));
     FILE* f = fopen(filename, "ab");
     if (!f) return;
-    fprintf(f, "%.0f ue %f ct %f fe %.0f nm %s et %f\n",
+    fprintf(f, "%.0f ue %f ct %f fe %.0f nm %s et %f es %d\n",
         gstate.now, estimated_runtime_uncorrected(), final_cpu_time,
-        wup->rsc_fpops_est, name, final_elapsed_time
+        wup->rsc_fpops_est, name, final_elapsed_time,
+        exit_status
     );
     fclose(f);
 }

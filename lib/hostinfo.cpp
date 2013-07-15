@@ -74,7 +74,7 @@ void HOST_INFO::clear_host_info() {
     have_cpu_opencl = false;
 }
 
-int HOST_INFO::parse(XML_PARSER& xp, bool benchmarks_only) {
+int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
     while (!xp.get_tag()) {
         if (xp.match_tag("/host_info")) return 0;
         if (xp.parse_double("p_fpops", p_fpops)) {
@@ -93,18 +93,19 @@ int HOST_INFO::parse(XML_PARSER& xp, bool benchmarks_only) {
         }
         if (xp.parse_double("p_calculated", p_calculated)) continue;
         if (xp.parse_bool("p_vm_extensions_disabled", p_vm_extensions_disabled)) continue;
+        if (xp.parse_str("host_cpid", host_cpid, sizeof(host_cpid))) continue;
 #ifdef ANDROID
         if (xp.parse_str("product_name", product_name, sizeof(product_name))) continue;
 #endif
 
-        if (benchmarks_only) continue;
+        if (static_items_only) continue;
 
-        // WARNING: NOTHING AFTER HERE IS READ FROM STATE FILE ON THE CLIENT
+        // Items after here are determined dynamically at startup,
+        // so don't parse them from the state file
 
         if (xp.parse_int("timezone", timezone)) continue;
         if (xp.parse_str("domain_name", domain_name, sizeof(domain_name))) continue;
         if (xp.parse_str("ip_addr", ip_addr, sizeof(ip_addr))) continue;
-        if (xp.parse_str("host_cpid", host_cpid, sizeof(host_cpid))) continue;
         if (xp.parse_int("p_ncpus", p_ncpus)) continue;
         if (xp.parse_str("p_vendor", p_vendor, sizeof(p_vendor))) continue;
         if (xp.parse_str("p_model", p_model, sizeof(p_model))) continue;
