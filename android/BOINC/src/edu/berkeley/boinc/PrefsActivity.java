@@ -270,10 +270,8 @@ public class PrefsActivity extends FragmentActivity {
 			break;
 		case R.string.prefs_show_notification_header: //app pref
 			appPrefs.setShowNotification(isSet);
-			try{
-				if(isSet) ClientNotification.getInstance(getApplicationContext()).update(Monitor.getClientStatus());
-				else ClientNotification.getInstance(getApplicationContext()).cancel();
-			} catch(Exception e) {if(Logging.WARNING) Log.d(Logging.TAG, "PrefsActivity: enabling notification failed");}
+			if(isSet) ClientNotification.getInstance(getApplicationContext()).update();
+			else ClientNotification.getInstance(getApplicationContext()).cancel();
 			updateBoolPref(ID, isSet);
 			updateLayout();
 			break;
