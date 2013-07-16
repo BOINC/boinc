@@ -65,6 +65,7 @@
     <string name="attachproject_login_header_creation_disabled">Project does currently now allow creation of new accounts!</string>
     <string name="attachproject_login_button_registration">Register</string>
     <string name="attachproject_login_button_login">Sign in</string>
+    <string name="attachproject_login_button_forgotpw">Forgot Password</string>
     <string name="attachproject_login_error_toast">Contacting project failed!</string>
     <string name="attachproject_login_attached">Attached</string>
     	<!-- project registration -->
