@@ -472,15 +472,8 @@ void kill_program(int pid) {
 #ifdef _WIN32
 int get_exit_status(HANDLE pid_handle) {
     unsigned long status=1;
-    while (1) {
-        if (GetExitCodeProcess(pid_handle, &status)) {
-            if (status == STILL_ACTIVE) {
-                boinc_sleep(1);
-            } else {
-                break;
-            }
-        }
-    }
+    WaitForSingleObject(pid_handle, INFINITE);
+    GetExitCodeProcess(pid_handle, &status);
     return (int) status;
 }
 bool process_exists(HANDLE h) {
@@ -490,7 +483,6 @@ bool process_exists(HANDLE h) {
     }
     return false;
 }
-
 #else
 int get_exit_status(int pid) {
     int status;
