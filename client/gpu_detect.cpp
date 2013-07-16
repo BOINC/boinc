@@ -439,7 +439,7 @@ int COPROCS::launch_child_process_to_detect_gpus() {
     int retval = 0;
     
     boinc_delete_file(COPROC_INFO_FILENAME);
-    for (i=0; i<300; ++i) {
+    for (;;) {
         if (!boinc_file_exists(COPROC_INFO_FILENAME)) break;
         boinc_sleep(0.01);
     }
@@ -488,6 +488,7 @@ int COPROCS::launch_child_process_to_detect_gpus() {
         0,
         prog
     );
+
     chdir(dataDir);
     
     if (retval) {
@@ -499,21 +500,14 @@ int COPROCS::launch_child_process_to_detect_gpus() {
         }
         return retval;
     }
-    
-    // Wait for child to run and exit
-    for (i=0; i<300; ++i) {
-        if (process_exists(prog)) break;
-        if (boinc_file_exists(COPROC_INFO_FILENAME)) break;
-        boinc_sleep(0.01);
+
+    retval = get_exit_status(prog);
+    if (retval) {
+        msg_printf(0, MSG_INFO,
+            "GPU detection failed. error code %d",
+            retval
+        );
     }
-    
-    for (i=0; i<300; ++i) {
-        if (boinc_file_exists(COPROC_INFO_FILENAME) &&
-            !process_exists(prog)) {
-            break;
-        }
-        boinc_sleep(0.01);
-    }
-    
+
     return 0;
 }
