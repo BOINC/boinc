@@ -52,6 +52,13 @@ int main(int argc, char** argv) {
     printf("%s\n", myPath);       // For debugging
 #endif
 
+    if (!file_exists("./English.lproj")) {
+        retval = mkdir("./English.lproj", 0755);
+        if (retval) {
+            printf("Error %d creating directory English.lproj\n", retval);
+        }
+    }
+    
     // BOINC Manager
     err = FixInfoPlist_Strings("./English.lproj/InfoPlist.strings", "BOINC Manager");
     if (err) retval = err;
@@ -149,7 +156,7 @@ int FixInfoPlist_Strings(char* myPath, char* name) {
         retval = fclose(f);
     }
     else {
-        puts("Error updating version number in file InfoPlist.strings\n");
+        printf("Error creating file %s\n", myPath);
         retval = -1;
     }
         
