@@ -356,15 +356,19 @@ public class Monitor extends Service {
     private void readClientStatus(Boolean forceCompleteUpdate) {
     	try{
     		// read ccStatus and adjust wakelocks and service state independently of screen status
+    		// wake locks and foreground enabled when Client is not suspended, therefore also during
+    		// idle.
     		CcStatus status = rpc.getCcStatus();
     		Boolean computing = (status.task_suspend_reason == BOINCDefs.SUSPEND_NOT_SUSPENDED);
     		if(Logging.VERBOSE) Log.d(Logging.TAG,"readClientStatus(): computation enabled: " + computing);
 			Monitor.getClientStatus().setWifiLock(computing);
 			Monitor.getClientStatus().setWakeLock(computing);
+			ClientNotification.getInstance(getApplicationContext()).setForeground(computing, this);
     		
 			// complete status read, depending on screen status
     		// screen off: only read computing status to adjust wakelock, do not send broadcast
     		// screen on: read complete status, set ClientStatus, send broadcast
+			// forceCompleteUpdate: read complete status, independently of screen setting
 	    	if(screenOn || forceCompleteUpdate) {
 	    		// complete status read, with broadcast
 				if(Logging.VERBOSE) Log.d(Logging.TAG, "readClientStatus(): screen on, get complete status");
@@ -374,7 +378,7 @@ public class Monitor extends Service {
 				if( (status != null) && (state != null) && (state.results != null) && (state.projects != null) && (transfers != null) && (state.host_info != null)) {
 					Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers, state.host_info);
 					// Update status bar notification
-					ClientNotification.getInstance(getApplicationContext()).update(Monitor.getClientStatus());
+					ClientNotification.getInstance(getApplicationContext()).update();
 				} else {
 					if(Logging.ERROR) Log.e(Logging.TAG, "readClientStatus(): connection problem");
 				}
@@ -386,9 +390,6 @@ public class Monitor extends Service {
 			        getApplicationContext().sendBroadcast(clientStatus);
 				}
 	    	} 
-	    	
-	    	// set service foreground notification, after initial data retrieval in ClientStatus
-			ClientNotification.getInstance(getApplicationContext()).setForeground(computing, Monitor.getClientStatus(), this);
 			
 		}catch(Exception e) {
 			if(Logging.ERROR) Log.e(Logging.TAG, "Monitor.readClientStatus excpetion: " + e.getMessage(),e);
