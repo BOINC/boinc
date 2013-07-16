@@ -57,7 +57,7 @@ function handle_main() {
     $req->project = $project;
     $req->authenticator = $auth;
     list($batches, $errmsg) = boinc_query_batches($req);
-    if ($errmsg) error_page($errmsg);
+    if ($errmsg) error_page(htmlentities($errmsg));
 
     page_head("Job submission and control");
 
@@ -270,7 +270,7 @@ function handle_create_action() {
     if ($get_estimate) {
         $req = form_to_request($project, $auth);
         list($e, $errmsg) = boinc_estimate_batch($req);
-        if ($errmsg) error_page($errmsg);
+        if ($errmsg) error_page(htmlentities($errmsg));
         page_head("Batch estimate");
         echo sprintf("Estimate: %.0f seconds", $e);
         echo "<p><a href=submit_example.php>Return to job control page</a>\n";
@@ -278,7 +278,7 @@ function handle_create_action() {
     } else {
         $req = form_to_request($project, $auth);
         list($id, $errmsg) = boinc_submit_batch($req);
-        if ($errmsg) error_page($errmsg);
+        if ($errmsg) error_page(htmlentities($errmsg));
         page_head("Batch submitted");
         echo "Batch created, ID: $id\n";
         echo "<p><a href=submit_example.php>Return to job control page</a>\n";
@@ -294,7 +294,7 @@ function handle_query_batch() {
     $req->authenticator = $auth;
     $req->batch_id = get_int('batch_id');
     list($batch, $errmsg) = boinc_query_batch($req);
-    if ($errmsg) error_page($errmsg);
+    if ($errmsg) error_page(htmlentities($errmsg));
 
     page_head("Batch $req->batch_id");
     start_table();
@@ -368,7 +368,7 @@ function handle_query_job() {
     $req->authenticator = $auth;
     $req->job_id = get_int('job_id');
     list($reply, $errmsg) = boinc_query_job($req);
-    if ($errmsg) error_page($errmsg);
+    if ($errmsg) error_page(htmlentities($errmsg));
 
     page_head("Job $req->job_id");
     echo "<a href=$project/workunit.php?wuid=$req->job_id>View workunit page on BOINC server</a>\n";
@@ -421,7 +421,7 @@ function handle_abort_batch() {
     $req->authenticator = $auth;
     $req->batch_id = get_int('batch_id');
     $errmsg = boinc_abort_batch($req);
-    if ($errmsg) error_page($errmsg);
+    if ($errmsg) error_page(htmlentities($errmsg));
     page_head("Batch aborted");
     echo "<p><a href=submit_example.php>Return to job control page</a>\n";
     page_tail();
@@ -449,7 +449,7 @@ function handle_retire_batch() {
     $req->authenticator = $auth;
     $req->batch_id = get_int('batch_id');
     $errmsg = boinc_retire_batch($req);
-    if ($errmsg) error_page($errmsg);
+    if ($errmsg) error_page(htmlentities($errmsg));
     page_head("Batch retired");
     echo "<p><a href=submit_example.php>Return to job control page</a>\n";
     page_tail();

@@ -97,8 +97,10 @@ function do_http_op($req, $xml, $op) {
     curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
     $reply = curl_exec($ch);
     if (!$reply) return array(null, "HTTP error");
-    $r = simplexml_load_string($reply);
-    if (!$r) return array(null, "Can't parse reply XML: <pre>".htmlentities($reply)."</pre>");
+    $r = @simplexml_load_string($reply);
+    if (!$r) {
+        return array(null, "Can't parse reply XML:\n$reply");
+    }
     $e = (string)$r->error_msg;
     if ($e) {
         return array(null, $e);
