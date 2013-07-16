@@ -328,7 +328,7 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
     nvidia_opencls.clear();
     intel_gpu_opencls.clear();
 
-    f = fopen(COPROC_INFO_FILENAME, "r");
+    f = boinc_fopen(COPROC_INFO_FILENAME, "r");
     if (!f) return ERR_FOPEN;
     XML_PARSER xp(&mf);
     mf.init_file(f);
@@ -433,13 +433,19 @@ int COPROCS::launch_child_process_to_detect_gpus() {
 #endif
     char quotedDataDir[MAXPATHLEN+2];
     char dataDir[MAXPATHLEN];
-    int i;
     int retval = 0;
     
-    boinc_delete_file(COPROC_INFO_FILENAME);
-    for (;;) {
-        if (!boinc_file_exists(COPROC_INFO_FILENAME)) break;
-        boinc_sleep(0.01);
+    retval = boinc_delete_file(COPROC_INFO_FILENAME);
+    if (retval) {
+        msg_printf(0, MSG_INFO,
+            "Failed to delete old %s. error code %d",
+            COPROC_INFO_FILENAME, retval
+        );
+    } else {
+        for (;;) {
+            if (!boinc_file_exists(COPROC_INFO_FILENAME)) break;
+            boinc_sleep(0.01);
+        }
     }
     
     boinc_getcwd(dataDir);
