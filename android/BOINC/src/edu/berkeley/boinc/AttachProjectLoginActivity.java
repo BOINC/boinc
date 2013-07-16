@@ -339,6 +339,14 @@ public class AttachProjectLoginActivity extends Activity{
 		}
 	}
 	
+	//project forgot password button onClick
+	public void forgotPasswd (View view) {
+		// Start intent to project website forgot password link
+		Intent i = new Intent(Intent.ACTION_VIEW);
+		i.setData(Uri.parse(projectConfig.masterUrl + "/get_passwd.php"));
+		startActivity(i);
+	}
+	
 	// project url textview's onClick
 	public void projectUrlClicked (View view) {
 		// start intent to project website
