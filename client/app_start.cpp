@@ -1240,6 +1240,7 @@ void run_test_app() {
     ACTIVE_TASK at;
     ACTIVE_TASK_SET ats;
     RESULT result;
+    int retval;
 
     char buf[256];
     getcwd(buf, sizeof(buf));   // so we can see where we're running
@@ -1268,13 +1269,31 @@ void run_test_app() {
     at.max_mem_usage = 1e14;
     strcpy(at.slot_dir, ".");
 
+#if 1
+    // test file copy
+    //
+    ASYNC_COPY* ac = new ASYNC_COPY;
+    FILE_INFO fi;
+    retval = ac->init(&at, &fi, "big_file", "./big_file_copy");
+    if (retval) {
+        exit(1);
+    }
+    while (1) {
+        do_async_file_ops();
+        if (at.async_copy == NULL) {
+            break;
+        }
+    }
+    fprintf(stderr, "done\n");
+    exit(0);
+#endif
     ats.active_tasks.push_back(&at);
 
     unlink("boinc_finish_called");
     unlink("boinc_lockfile");
     unlink("boinc_temporary_exit");
     unlink("stderr.txt");
-    int retval = at.start(true);
+    retval = at.start(true);
     if (retval) {
         fprintf(stderr, "start() failed: %s\n", boincerror(retval));
     }

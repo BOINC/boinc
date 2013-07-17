@@ -346,9 +346,9 @@ $mixed = array(
         array(
             "World Community Grid",
             "http://www.worldcommunitygrid.org/",
-            tra("IBM Corporate Community Relations"),
-            tra("Humanitarian research on disease, natural disasters and hunger."),
-            tra("To further critical non-profit research on some of humanity's most pressing problems by creating the world's largest volunteer computing grid.  Research includes HIV/AIDS, cancer, muscular dystrophy, dengue fever, and many more."),
+            tra("IBM Corporate Citizenship"),
+            tra("Medical, environmental and other humanitarian research"),
+            tra("To further critical non-profit research on some of humanity's most pressing problems by creating the world's largest volunteer computing grid.  Research includes HIV-AIDS, cancer, tropical and neglected diseases, solar energy, clean water and many more."),
             "wcg.jpg",
         ),
     ),
