@@ -27,10 +27,14 @@
 #endif
 #include <cstring>
 #include <cstdlib>
+#include <cmath>
 #endif
 
 #ifdef _WIN32
 #include "win_util.h"
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
 #else
 #ifdef __APPLE__
 // Suppress obsolete warning when building for OS 10.3.9
@@ -119,9 +123,9 @@ void COPROC::write_request(MIOFILE& f) {
     );
 }
 
-void OPENCL_DEVICE_PROP::write_xml(MIOFILE& f) {
+void OPENCL_DEVICE_PROP::write_xml(MIOFILE& f, const char* tag, bool temp_file) {
     f.printf(
-        "   <coproc_opencl>\n"
+        "   <%s>\n"
         "      <name>%s</name>\n"
         "      <vendor>%s</vendor>\n"
         "      <vendor_id>%lu</vendor_id>\n"
@@ -138,8 +142,8 @@ void OPENCL_DEVICE_PROP::write_xml(MIOFILE& f) {
         "      <max_compute_units>%lu</max_compute_units>\n"
         "      <opencl_platform_version>%s</opencl_platform_version>\n"
         "      <opencl_device_version>%s</opencl_device_version>\n"
-        "      <opencl_driver_version>%s</opencl_driver_version>\n"
-        "   </coproc_opencl>\n",
+        "      <opencl_driver_version>%s</opencl_driver_version>\n",
+        tag,
         name,
         vendor,
         vendor_id,
@@ -158,6 +162,21 @@ void OPENCL_DEVICE_PROP::write_xml(MIOFILE& f) {
         opencl_device_version,
         opencl_driver_version
     );
+    if (temp_file) {
+        f.printf(
+            "      <is_used>%d</is_used>\n"
+            "      <device_num>%d</device_num>\n"
+            "      <peak_flops>%f</peak_flops>\n"
+            "      <opencl_available_ram>%f</opencl_available_ram>\n"
+            "      <opencl_device_index>%d</opencl_device_index>\n",
+            is_used,
+            device_num,
+            peak_flops,
+            opencl_available_ram,
+            opencl_device_index
+        );
+    }
+    f.printf("   </%s>\n", tag);
 }
 
 int COPROC::parse(XML_PARSER& xp) {
@@ -191,17 +210,22 @@ int COPROC::parse(XML_PARSER& xp) {
 
 #endif
 
-int OPENCL_DEVICE_PROP::parse(XML_PARSER& xp) {
+int OPENCL_DEVICE_PROP::parse(XML_PARSER& xp, const char* end_tag) {
     int n;
     unsigned long long ull;
 
     while (!xp.get_tag()) {
-        if (xp.match_tag("/coproc_opencl")) {
+        if (xp.match_tag(end_tag)) {
             get_device_version_int();
+            get_opencl_driver_revision();
             return 0;
         }
         if (xp.parse_str("name", name, sizeof(name))) continue;
         if (xp.parse_str("vendor", vendor, sizeof(vendor))) continue;
+        if (xp.parse_ulonglong("vendor_id", ull)) {
+            vendor_id = ull;
+            continue; 
+        }
         if (xp.parse_int("available", n)) {
             available = n;
             continue;
@@ -266,6 +290,23 @@ int OPENCL_DEVICE_PROP::parse(XML_PARSER& xp) {
         )) {
             continue;
         }
+        
+        // The following are used only in the
+        // COPROC_INFO_FILENAME temporary file
+        if (xp.parse_int("is_used", n)) {
+            is_used = (COPROC_USAGE)n;
+            continue;
+        }
+        if (xp.parse_int("device_num", n)) {
+            device_num = n;
+            continue;
+        }
+        if (xp.parse_double("peak_flops", peak_flops)) continue;
+        if (xp.parse_double("opencl_available_ram", opencl_available_ram)) continue;
+        if (xp.parse_int("opencl_device_index", n)) {
+            opencl_device_index = n;
+            continue;
+        }
     }
     return ERR_XML_PARSE;
 }
@@ -282,27 +323,62 @@ int OPENCL_DEVICE_PROP::get_device_version_int() {
     return 0;
 }
 
-void OPENCL_DEVICE_PROP::description(char* buf, const char* type) {
+int OPENCL_DEVICE_PROP::get_opencl_driver_revision() {
+    // gets the OpenCL runtime revision
+    // Thus far this is only necessary for ATI/AMD because there are bad 
+    // driver sets only distinguisable by the runtime library version.  
+    // Fortunately this info is in the opencl_device_version string.
+    float rev=0;
+    char *p=opencl_device_version+sizeof(opencl_device_version)-1;
+    // find the last opening bracket
+    while ((p > opencl_device_version) && (*p!='(')) p--;
+    if (p!=opencl_device_version) {
+      int n=sscanf(
+          p, "(%f", &rev
+      );
+      // I don't care about errors because for non-ATI GPUs this should 
+      // be zero.
+      if (n!=1) {
+        rev=0;
+      }
+    }
+    opencl_driver_revision=floor(rev*100+0.5);
+    return 0;
+}
+
+void OPENCL_DEVICE_PROP::description(char* buf, int buflen, const char* type) {
     char s1[256], s2[256];
     int n;
     // openCL_device_version may have a trailing space
     strlcpy(s1, opencl_device_version, sizeof(s1));
     n = (int)strlen(s1) - 1;
     if ((n > 0) && (s1[n] == ' ')) s1[n] = '\0';
-    sprintf(s2, "%s (driver version %s, device version %s, %.0fMB, %.0fMB available, %.0f GFLOPS peak)",
-        name, opencl_driver_version, s1, global_mem_size/MEGA, opencl_available_ram/MEGA, peak_flops/1.e9
+    snprintf(s2, sizeof(s2),
+        "%s (driver version %s, device version %s, %.0fMB, %.0fMB available, %.0f GFLOPS peak)",
+        name, opencl_driver_version,
+        s1, global_mem_size/MEGA,
+        opencl_available_ram/MEGA, peak_flops/1.e9
     );
 
     switch(is_used) {
     case COPROC_IGNORED:
-        sprintf(buf, "OpenCL: %s %d (ignored by config): %s", type, device_num, s2);
+        snprintf(buf, buflen,
+            "OpenCL: %s %d (ignored by config): %s",
+            type, device_num, s2
+        );
         break;
     case COPROC_USED:
-        sprintf(buf, "OpenCL: %s %d: %s", type, device_num, s2);
+        snprintf(buf, buflen,
+            "OpenCL: %s %d: %s",
+            type, device_num, s2
+        );
         break;
     case COPROC_UNUSED:
     default:
-        sprintf(buf, "OpenCL: %s %d (not used): %s", type, device_num, s2);
+        snprintf(buf, buflen,
+            "OpenCL: %s %d (not used): %s",
+            type, device_num, s2
+        );
         break;
     }
 }
@@ -313,21 +389,26 @@ void COPROCS::summary_string(char* buf, int len) {
     strcpy(buf, "");
     if (nvidia.count) {
         int mem = (int)(nvidia.prop.totalGlobalMem/MEGA);
-        sprintf(buf2, "[CUDA|%s|%d|%dMB|%d|%d]",
-            nvidia.prop.name, nvidia.count, mem, nvidia.display_driver_version,
+        snprintf(buf2, sizeof(buf2),
+            "[CUDA|%s|%d|%dMB|%d|%d]",
+            nvidia.prop.name, nvidia.count,
+            mem, nvidia.display_driver_version,
             nvidia.opencl_prop.opencl_device_version_int
         );
         strlcat(buf, buf2, len);
     }
     if (ati.count) {
-        sprintf(buf2,"[CAL|%s|%d|%dMB|%s|%d]",
-            ati.name, ati.count, ati.attribs.localRAM, ati.version,
+        snprintf(buf2, sizeof(buf2),
+            "[CAL|%s|%d|%dMB|%s|%d]",
+            ati.name, ati.count,
+            ati.attribs.localRAM, ati.version,
             ati.opencl_prop.opencl_device_version_int
         );
         strlcat(buf, buf2, len);
     }
     if (intel_gpu.count) {
-        sprintf(buf2,"[INTEL|%s|%d|%dMB|%s|%d]",
+        snprintf(buf2, sizeof(buf2),
+            "[INTEL|%s|%d|%dMB|%s|%d]",
             intel_gpu.name, intel_gpu.count,
             (int)(intel_gpu.opencl_prop.global_mem_size/MEGA),
             intel_gpu.version,
@@ -395,7 +476,7 @@ void COPROCS::write_xml(MIOFILE& mf, bool scheduler_rpc) {
 #endif
 }
 
-void COPROC_NVIDIA::description(char* buf) {
+void COPROC_NVIDIA::description(char* buf, int buflen) {
     char vers[256], cuda_vers[256];
     if (display_driver_version) {
 #ifdef __APPLE__
@@ -413,12 +494,13 @@ void COPROC_NVIDIA::description(char* buf) {
     }
     if (cuda_version) {
         int maj = cuda_version/1000;
-        int min = cuda_version%1000;
+        int min = (cuda_version%1000)/10;
         sprintf(cuda_vers, "%d.%d", maj, min);
     } else {
         strcpy(cuda_vers, "unknown");
     }
-    sprintf(buf, "%s (driver version %s, CUDA version %s, compute capability %d.%d, %.0fMB, %.0fMB available, %.0f GFLOPS peak)",
+    snprintf(buf, buflen,
+        "%s (driver version %s, CUDA version %s, compute capability %d.%d, %.0fMB, %.0fMB available, %.0f GFLOPS peak)",
         prop.name, vers, cuda_vers, prop.major, prop.minor,
         prop.totalGlobalMem/MEGA, available_ram/MEGA, peak_flops/1e9
     );
@@ -482,7 +564,7 @@ void COPROC_NVIDIA::write_xml(MIOFILE& f, bool scheduler_rpc) {
     );
 
     if (have_opencl) {
-        opencl_prop.write_xml(f);
+        opencl_prop.write_xml(f, "coproc_opencl");
     }
 
     if (!scheduler_rpc) {
@@ -601,7 +683,7 @@ int COPROC_NVIDIA::parse(XML_PARSER& xp) {
             }
         }
         if (xp.match_tag("coproc_opencl")) {
-            retval = opencl_prop.parse(xp);
+            retval = opencl_prop.parse(xp, "/coproc_opencl");
             if (retval) return retval;
             continue;
         }
@@ -751,7 +833,7 @@ void COPROC_ATI::write_xml(MIOFILE& f, bool scheduler_rpc) {
     }
 
     if (have_opencl) {
-        opencl_prop.write_xml(f);
+        opencl_prop.write_xml(f, "coproc_opencl");
     }
         
     f.printf("</coproc_ati>\n");
@@ -864,7 +946,7 @@ int COPROC_ATI::parse(XML_PARSER& xp) {
             continue;
         }
         if (xp.match_tag("coproc_opencl")) {
-            retval = opencl_prop.parse(xp);
+            retval = opencl_prop.parse(xp, "/coproc_opencl");
             if (retval) return retval;
             continue;
         }
@@ -872,9 +954,11 @@ int COPROC_ATI::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
-void COPROC_ATI::description(char* buf) {
-    sprintf(buf, "%s (CAL version %s, %dMB, %.0fMB available, %.0f GFLOPS peak)",
-        name, version, attribs.localRAM, available_ram/MEGA, peak_flops/1.e9
+void COPROC_ATI::description(char* buf, int buflen) {
+    snprintf(buf, buflen,
+        "%s (CAL version %s, %dMB, %.0fMB available, %.0f GFLOPS peak)",
+        name, version, attribs.localRAM,
+        available_ram/MEGA, peak_flops/1.e9
     );
 }
 
@@ -941,7 +1025,7 @@ void COPROC_INTEL::write_xml(MIOFILE& f, bool scheduler_rpc) {
     );
 
     if (have_opencl) {
-        opencl_prop.write_xml(f);
+        opencl_prop.write_xml(f, "coproc_opencl");
     }
         
     f.printf("</coproc_intel_gpu>\n");
@@ -982,7 +1066,7 @@ int COPROC_INTEL::parse(XML_PARSER& xp) {
         if (xp.parse_str("version", version, sizeof(version))) continue;
 
         if (xp.match_tag("coproc_opencl")) {
-            retval = opencl_prop.parse(xp);
+            retval = opencl_prop.parse(xp, "/coproc_opencl");
             if (retval) return retval;
             continue;
         }

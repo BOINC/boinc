@@ -72,6 +72,7 @@
 #include "boinc_fcgi.h"
 #endif
 
+//#include "client_types.h"
 #include "miofile.h"
 #include "error_numbers.h"
 #include "parse.h"
@@ -156,6 +157,8 @@ struct OPENCL_DEVICE_PROP {
                                         // example: "OpenCL 1.1 beta"
     int opencl_device_version_int;      // same, encoded as e.g. 101
     int get_device_version_int();       // call this to encode
+    int opencl_driver_revision;         // OpenCL runtime revision is available
+    int get_opencl_driver_revision();   // call this to encode
     char opencl_driver_version[32];     // For example: "CLH 1.0"
     int device_num;                     // temp used in scan process
     double peak_flops;                  // temp used in scan process
@@ -163,11 +166,9 @@ struct OPENCL_DEVICE_PROP {
     double opencl_available_ram;        // temp used in scan process
     int opencl_device_index;            // temp used in scan process
 
-#ifndef _USING_FCGI_
-    void write_xml(MIOFILE&);
-#endif
-    int parse(XML_PARSER&);
-    void description(char* buf, const char* type);
+    void write_xml(MIOFILE&, const char* tag, bool temp_file=false);
+    int parse(XML_PARSER&, const char* end_tag);
+    void description(char* buf, int buflen, const char* type);
 };
 
 
@@ -323,17 +324,15 @@ struct COPROC_NVIDIA : public COPROC {
     COPROC_NVIDIA(): COPROC() {
         clear();
     }
-    void get(
+    void get(std::vector<std::string>& warnings);
+    void correlate(
         bool use_all,
-        std::vector<std::string>&,
         std::vector<int>& ignore_devs
     );
-    void description(char*);
+    void description(char* buf, int buflen);
     void clear();
     int parse(XML_PARSER&);
-    void get_available_ram();
     void set_peak_flops();
-    bool check_running_graphics_app();
     void fake(int driver_version, double ram, double avail_ram, int count);
 
 };
@@ -362,15 +361,14 @@ struct COPROC_ATI : public COPROC {
     COPROC_ATI(): COPROC() {
         clear();
     }
-    void get(
+    void get(std::vector<std::string>& warnings);
+    void correlate(
         bool use_all,
-        std::vector<std::string>&,
         std::vector<int>& ignore_devs
     );
-    void description(char*);
+    void description(char* buf, int buflen);
     void clear();
     int parse(XML_PARSER&);
-    void get_available_ram();
     void set_peak_flops();
     void fake(double ram, double avail_ram, int);
 };
@@ -387,9 +385,9 @@ struct COPROC_INTEL : public COPROC {
     COPROC_INTEL(): COPROC() {
         clear();
     }
-    void get(
+    void get(std::vector<std::string>& warnings);
+    void correlate(
         bool use_all,
-        std::vector<std::string>&,
         std::vector<int>& ignore_devs
     );
     void clear();
@@ -421,10 +419,19 @@ struct COPROCS {
         std::vector<std::string> &warnings,
         IGNORE_GPU_INSTANCE &ignore_gpu_instance
     );
-    void get_opencl(
+    void detect_gpus(std::vector<std::string> &warnings);
+    int launch_child_process_to_detect_gpus();
+    void correlate_gpus(
         bool use_all,
-        std::vector<std::string> &warnings,
+        std::vector<std::string> &descs,
         IGNORE_GPU_INSTANCE &ignore_gpu_instance
+    );
+    void get_opencl(
+        std::vector<std::string> &warnings
+    );
+    void correlate_opencl(
+        bool use_all,
+        IGNORE_GPU_INSTANCE& ignore_gpu_instance
     );
     cl_int get_opencl_info(
         OPENCL_DEVICE_PROP& prop,
@@ -432,8 +439,12 @@ struct COPROCS {
         std::vector<std::string>& warnings
     );
     int parse(XML_PARSER&);
+    void set_path_to_client(char *path);
+    int write_coproc_info_file(std::vector<std::string> &warnings);
+    int read_coproc_info_file(std::vector<std::string> &warnings);
+    
 #ifdef __APPLE__
-    void opencl_get_ati_mem_size_from_opengl();
+    void opencl_get_ati_mem_size_from_opengl(std::vector<std::string> &warnings);
 #endif
     void summary_string(char* buf, int len);
 

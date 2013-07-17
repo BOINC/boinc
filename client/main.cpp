@@ -70,17 +70,18 @@
 
 #include "main.h"
 
-
 // Log informational messages to system specific places
 //
 void log_message_startup(const char* msg) {
     char evt_msg[2048];
+    char* time_string = time_to_string(dtime());
+
     snprintf(evt_msg, sizeof(evt_msg),
-        "%s\n",
-        msg
+        "%s %s\n",
+        time_string, msg
     );
     if (!gstate.executing_as_daemon) {
-        fprintf(stdout, evt_msg);
+        fprintf(stdout, "%s", evt_msg);
     } else {
 #ifdef _WIN32
         LogEventInfoMessage(evt_msg);
@@ -89,7 +90,7 @@ void log_message_startup(const char* msg) {
 #elif defined (ANDROID)
         __android_log_print(ANDROID_LOG_INFO, "BOINC", evt_msg);
 #else
-        syslog(LOG_DAEMON|LOG_INFO, evt_msg);
+        syslog(LOG_DAEMON|LOG_INFO, "%s", evt_msg);
 #endif
     }
 }
@@ -98,21 +99,22 @@ void log_message_startup(const char* msg) {
 //
 void log_message_error(const char* msg) {
     char evt_msg[2048];
+    char* time_string = time_to_string(dtime());
 #ifdef _WIN32
     snprintf(evt_msg, sizeof(evt_msg),
-        "%s\n"
+        "%s %s\n"
         "GLE: %s\n",
-        msg, 
+        time_string, msg,
         windows_format_error_string(GetLastError(), evt_msg, (sizeof(evt_msg)-((int)strlen(msg)+7)))
     );
 #else
     snprintf(evt_msg, sizeof(evt_msg),
-        "%s\n",
-        msg
+        "%s %s\n",
+        time_string, msg
     );
 #endif
     if (!gstate.executing_as_daemon) {
-        fprintf(stderr, evt_msg);
+        fprintf(stderr, "%s", evt_msg);
     } else {
 #ifdef _WIN32
         LogEventErrorMessage(evt_msg);
@@ -121,20 +123,21 @@ void log_message_error(const char* msg) {
 #elif defined (ANDROID)
         __android_log_print(ANDROID_LOG_ERROR, "BOINC", evt_msg);
 #else
-        syslog(LOG_DAEMON|LOG_ERR, evt_msg);
+        syslog(LOG_DAEMON|LOG_ERR, "%s", evt_msg);
 #endif
     }
 }
 
 void log_message_error(const char* msg, int error_code) {
     char evt_msg[2048];
+    char* time_string = time_to_string(dtime());
     snprintf(evt_msg, sizeof(evt_msg),
-        "%s\n"
+        "%s %s\n"
         "Error Code: %d\n",
-        msg, error_code
+        time_string, msg, error_code
     );
     if (!gstate.executing_as_daemon) {
-        fprintf(stderr, evt_msg);
+        fprintf(stderr, "%s", evt_msg);
     } else {
 #ifdef _WIN32
         LogEventErrorMessage(evt_msg);
@@ -143,7 +146,7 @@ void log_message_error(const char* msg, int error_code) {
 #elif defined (ANDROID)
         __android_log_print(ANDROID_LOG_ERROR, "BOINC", evt_msg);
 #else
-        syslog(LOG_DAEMON|LOG_ERR, evt_msg);
+        syslog(LOG_DAEMON|LOG_ERR, "%s", evt_msg);
 #endif
     }
 }
@@ -243,6 +246,37 @@ static void init_core_client(int argc, char** argv) {
     boinc_set_signal_handler(SIGPWR, signal_handler);
 #endif
 #endif
+}
+
+// Some dual-GPU laptops (e.g., Macbook Pro) don't power down
+// the more powerful GPU until all applications which used them exit.
+// To save battery life, the client launches a second instance
+// of the client as a child process to detect and get info
+// about the GPUs.
+// The child process writes the info to a temp file which our main
+// client then reads.
+//
+static void do_gpu_detection(int argc, char** argv) {
+    vector<string> warnings;
+    
+    boinc_install_signal_handlers();
+    gstate.parse_cmdline(argc, argv);
+    gstate.now = dtime();
+
+    int flags =
+        BOINC_DIAG_DUMPCALLSTACKENABLED |
+        BOINC_DIAG_HEAPCHECKENABLED |
+        BOINC_DIAG_TRACETOSTDOUT |
+        BOINC_DIAG_REDIRECTSTDERR |
+        BOINC_DIAG_REDIRECTSTDOUT;
+
+    diagnostics_init(flags, "stdoutgpudetect", "stderrgpudetect");
+
+    read_config_file(true);
+
+    coprocs.detect_gpus(warnings);
+    coprocs.write_coproc_info_file(warnings);
+    warnings.clear();
 }
 
 static int initialize() {
@@ -363,18 +397,27 @@ int boinc_main_loop() {
 int main(int argc, char** argv) {
     int retval = 0;
 
+    coprocs.set_path_to_client(argv[0]);    // Used to launch a child process for --detect_gpus
+
     for (int index = 1; index < argc; index++) {
         if (strcmp(argv[index], "-daemon") == 0 || strcmp(argv[index], "--daemon") == 0) {
             gstate.executing_as_daemon = true;
             log_message_startup("BOINC is initializing...");
 #if !defined(_WIN32) && !defined(__EMX__) && !defined(__APPLE__)
             // from <unistd.h>:
-            // Detach from the controlling terminal and run in the background as system daemon.
+            // Detach from the controlling terminal and run in the background
+            // as system daemon.
             // Don't change working directory to root ("/"), but redirect
             // standard input, standard output and standard error to /dev/null.
+            //
             retval = daemon(1, 0);
             break;
 #endif
+        }
+
+        if (!strcmp(argv[index], "--detect_gpus")) {
+            do_gpu_detection(argc, argv);
+            return 0;
         }
 
 #ifdef _WIN32
