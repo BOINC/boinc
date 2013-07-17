@@ -51,6 +51,9 @@
   </thead>
   <tbody>
   <?php foreach ($topics as $topic): ?>
+    <?php
+      node_load($topic->id)
+    ?>
     <tr class="<?php print $topic->zebra;?>">
       <td class="icon"><?php //print $topic->icon; ?></td>
       <td class="title"><?php print $topic->title; ?></td>
@@ -69,8 +72,12 @@
       </td>
       <td class="created"><?php print $topic->created; ?></td>
       <td class="last-reply">
-        <?php if ($topic->sticky): ?>
-          <?php print t('Featured item'); ?>
+        <?php if ($topic->sticky AND $topic->comment_mode == COMMENT_NODE_READ_ONLY): ?>
+          <?php print t('Featured') . ' / ' . t('Locked'); ?>
+        <?php elseif ($topic->sticky): ?>
+          <?php print t('Featured'); ?>
+        <?php elseif ($topic->comment_mode == COMMENT_NODE_READ_ONLY): ?>
+          <?php print t('Locked'); ?>
         <?php else: ?>
           <?php print $topic->last_reply; ?>
         <?php endif; ?>
