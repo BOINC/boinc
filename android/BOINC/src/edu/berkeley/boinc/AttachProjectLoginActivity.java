@@ -410,7 +410,7 @@ public class AttachProjectLoginActivity extends Activity{
 					
 					if (projectConfig != null && projectConfig.error_num != null && projectConfig.error_num == 0) {
 						// success
-						projectAlreadyAttached = checkProjectAlreadyAttached(projectInfo.url);
+						projectAlreadyAttached = checkProjectAlreadyAttached(url);
 						return 0;
 					} else { 
 						if(Logging.DEBUG) if(projectConfig != null) Log.d(Logging.TAG,"getProjectConfig returned error num:" + projectConfig.error_num);
