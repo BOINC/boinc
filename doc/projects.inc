@@ -258,14 +258,14 @@ $astro_phys_chem = array(
             tra("Search for spinning neutron stars (also called pulsars) using data from the LIGO and GEO gravitational wave detectors, and from the Arecibo radio observatory.  Einstein@Home is a World Year of Physics 2005 project supported by the American Physical Society (APS) and by a number of international organizations."),
             "einstein.jpg"
         ),
-        array(
-            "Albert@home",
-            "http://albert.phys.uwm.edu/",
-            tra("Univ. of Wisconsin - Milwaukee, Max Planck Institute"),
-            tra("Astrophysics"),
-            "Test project for Einstein@home",
-            ""
-        ),
+//        array(
+//            "Albert@home",
+//            "http://albert.phys.uwm.edu/",
+//            tra("Univ. of Wisconsin - Milwaukee, Max Planck Institute"),
+//            tra("Astrophysics"),
+//            "Test project for Einstein@home",
+//            ""
+//        ),
         array(
             "LHC@home",
             "http://lhcathomeclassic.cern.ch/sixtrack/",
