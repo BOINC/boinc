@@ -80,6 +80,7 @@ using std::string;
 #include "LoginItemAPI.h"
 
 #include "SetupSecurity.h"
+#include "translate.h"
 
 
 #define admin_group_name "admin"
@@ -92,6 +93,7 @@ void Initialize(void);	/* function prototypes */
 Boolean myFilterProc(DialogRef theDialog, EventRecord *theEvent, DialogItemIndex *itemHit);
 int DeleteReceipt(void);
 OSStatus CheckLogoutRequirement(int *finalAction);
+Boolean IsRestartNeeded();
 void CheckUserAndGroupConflicts();
 Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userName);
 Boolean SetLoginItemAPI(long brandID, Boolean deleteLogInItem);
@@ -101,6 +103,8 @@ void SetSkinInUserPrefs(char *userName, char *skinName);
 Boolean CheckDeleteFile(char *name);
 void SetEUIDBackToUser (void);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
+static void LoadPreferredLanguages();
+static Boolean ShowMessage(Boolean allowCancel, const char *format, ...);
 Boolean IsUserMemberOfGroup(const char *userName, const char *groupName);
 int CountGroupMembershipEntries(const char *userName, const char *groupName);
 OSErr UpdateAllVisibleUsers(long brandID);
@@ -122,7 +126,20 @@ extern int check_security(
     char* path_to_error, int len
 );
 
+/* BEGIN TEMPORARY ITEMS TO ALLOW TRANSLATORS TO START WORK */
+void notused() {
+    ShowMessage(true, (char *)_("Yes"));
+    ShowMessage(true, (char *)_("No"));
+    // Future feature
+    ShowMessage(true, (char *)_("Should BOINC run even when no user is logged in?"));
+}
+/* END TEMPORARY ITEMS TO ALLOW TRANSLATORS TO START WORK */
+
 #define NUMBRANDS 4
+#define MAX_LANGUAGES_TO_TRY 5
+
+static char * Catalog_Name = (char *)"BOINC-Setup";
+static char * Catalogs_Dir = (char *)"/Library/Application Support/BOINC Data/locale/";
 
 /* globals */
 static Boolean                  gCommandLineInstall = false;
@@ -250,6 +267,8 @@ int main(int argc, char *argv[])
         brandID = 0;
     }
     
+    LoadPreferredLanguages();
+
     if (OSVersion < 0x1040) {
         ::SetFrontProcess(&ourProcess);
         // Remove everything we've installed
@@ -412,14 +431,14 @@ int main(int argc, char *argv[])
     pid_t                   waitPermissionsPID = 0;
     uid_t                   saved_euid, saved_uid, b_m_uid;
     passwd                  *pw;
-    int                     finalInstallAction;
+    Boolean                 restartNeeded;
     DialogRef               theWin;
 
-    err = CheckLogoutRequirement(&finalInstallAction);
-    printf("CheckLogoutRequirement returned %d\n", finalInstallAction);
+    restartNeeded = IsRestartNeeded();
+    printf("IsRestartNeeded() returned %d\n", (int)restartNeeded);
     fflush(stdout);
     
-    if (finalInstallAction == launchWhenDone) {
+    if (!restartNeeded) {
 
         // Wait for BOINC's RPC socket address to become available to user boinc_master, in
         // case we are upgrading from a version which did not run as user boinc_master.
@@ -524,7 +543,7 @@ int DeleteReceipt()
     int                     i;
     pid_t                   installerPID = 0;
     OSStatus                err;
-    int                     finalInstallAction;
+    Boolean                 restartNeeded = true;
     FSRef                   fileRef;
     char                    s[256];
     struct stat             sbuf;
@@ -532,8 +551,8 @@ int DeleteReceipt()
 
     Initialize();
 
-    err = CheckLogoutRequirement(&finalInstallAction);
-//    print_to_log_file("CheckLogoutRequirement returned %d\n", finalInstallAction);
+    restartNeeded = IsRestartNeeded();
+//    print_to_log_file("IsRestartNeeded() returned %d\n", (int)restartNeeded);
     
     brandID = GetBrandID();
 
@@ -544,7 +563,7 @@ int DeleteReceipt()
 
     // err_fsref = FSPathMakeRef((StringPtr)"/Applications/GridRepublic Desktop.app", &fileRef, NULL);
     err_fsref = FSPathMakeRef((StringPtr)appPath[brandID], &fileRef, NULL);
-    if (finalInstallAction == launchWhenDone) {
+    if (!restartNeeded) {
 
         err = FindProcess ('APPL', 'xins', &installerPSN);
         if (err == noErr) {
@@ -573,6 +592,21 @@ int DeleteReceipt()
     return 0;
 }
 
+
+// BOINC Installer.app wrote a file to tell us whether a restart is required
+Boolean IsRestartNeeded() {
+    FILE *restartNeededFile;
+    int value;
+
+    restartNeededFile = fopen("/tmp/BOINC_restart_flag", "r");
+    if (restartNeededFile) {
+        fscanf(restartNeededFile,"%d", &value);
+        fclose(restartNeededFile);
+        return (value != 0);
+    }
+    
+    return true;
+}
 
 OSStatus CheckLogoutRequirement(int *finalAction)
 {    
@@ -882,6 +916,8 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
     if (i >= 50) {
         fprintf(stdout, "Failed to launch System Events for user %s\n", userName);
         fflush(stdout);
+        err = noErr;
+        goto cleanupSystemEvents;
     }
     sleep(2);
     
@@ -1091,34 +1127,100 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
 }
 
 
+// Because language preferences are set on a per-user basis, we
+// must get the preferred languages while set to the current 
+// user, before the Apple Installer switches us to root.
+// So we get the preferred languages in our Installer.app which 
+// writes them to a temporary file which we retrieve here.
+// We must do it this way because, for unknown reasons, the
+// CFBundleCopyLocalizationsForPreferences() API does not work
+// correctly if we seteuid and setuid to the logged in user by
+// calling SetEUIDBackToUser() after running as root.
+//
+static void LoadPreferredLanguages(){
+    FILE *f;
+    int i;
+    char *p;
+    char language[32];
+
+    BOINCTranslationInit();
+
+    // Install.app wrote a list of our preferred languages to a temp file
+    f = fopen("/tmp/BOINC_preferred_languages", "r");
+    if (!f) return;
+    
+    for (i=0; i<MAX_LANGUAGES_TO_TRY; ++i) {
+        fgets(language, sizeof(language), f);
+        if (feof(f)) break;
+        language[sizeof(language)-1] = '\0';    // Guarantee a null terminator
+        p = strchr(language, '\n');
+        if (p) *p = '\0';           // Replace newline with null terminator 
+        if (language[0]) {
+            if (!BOINCTranslationAddCatalog(Catalogs_Dir, language, Catalog_Name)) {
+                printf("could not load catalog for langage %s\n", language);
+            }
+        }
+    }
+    fclose(f);
+}
+
+
 static Boolean ShowMessage(Boolean allowCancel, const char *format, ...) {
+  // CAUTION: vsprintf will produce undesirable results if the string
+  // contains a % character that is not a format specification!
+  // But CFString is OK!
+
     va_list                 args;
     char                    s[1024];
-    short                   itemHit;
-    AlertStdAlertParamRec   alertParams;
-    
+    CFOptionFlags           responseFlags;
     ProcessSerialNumber	ourProcess;
-
+    CFURLRef                myIconURLRef = NULL;
+    CFBundleRef             myBundleRef;
+   
+    myBundleRef = CFBundleGetMainBundle();
+    if (myBundleRef) {
+        myIconURLRef = CFBundleCopyResourceURL(myBundleRef, CFSTR("MacInstaller.icns"), NULL, NULL);
+    }
+    
+#if 1
     va_start(args, format);
-    s[0] = vsprintf(s+1, format, args);
+    vsprintf(s, format, args);
     va_end(args);
+#else
+    strcpy(s, format);
+#endif
 
-    alertParams.movable = true;
-    alertParams.helpButton = false;
-    alertParams.filterProc = NULL;
-    alertParams.defaultText = (StringPtr)"\pYes";
-    alertParams.cancelText = allowCancel ? (StringPtr)"\pNo" : NULL;
-    alertParams.otherText = NULL;
-    alertParams.defaultButton = kAlertStdAlertOKButton;
-    alertParams.cancelButton = allowCancel ? kAlertStdAlertCancelButton : 0;
-    alertParams.position = kWindowDefaultPosition;
+    // If defaultButton is nil or an empty string, a default localized
+    // button title (ÒOKÓ in English) is used.
+    
+#if 0
+    enum {
+   kCFUserNotificationDefaultResponse = 0,
+   kCFUserNotificationAlternateResponse = 1,
+   kCFUserNotificationOtherResponse = 2,
+   kCFUserNotificationCancelResponse = 3
+};
+#endif
+
+    CFStringRef myString = CFStringCreateWithCString(NULL, s, kCFStringEncodingUTF8);
+    CFStringRef yes = CFStringCreateWithCString(NULL, (char*)_((char*)"Yes"), kCFStringEncodingUTF8);
+    CFStringRef no = CFStringCreateWithCString(NULL, (char*)_((char*)"No"), kCFStringEncodingUTF8);
 
     ::GetCurrentProcess (&ourProcess);
     ::SetFrontProcess(&ourProcess);
-
-    StandardAlert (kAlertNoteAlert, (StringPtr)s, NULL, &alertParams, &itemHit);
+    SInt32 retval = CFUserNotificationDisplayAlert(0.0, kCFUserNotificationPlainAlertLevel,
+                myIconURLRef, NULL, NULL, CFSTR(" "), myString,
+                yes, allowCancel ? no : NULL, NULL,
+                &responseFlags);
     
-    return (itemHit == kAlertStdAlertOKButton);
+       
+    if (myIconURLRef) CFRelease(myIconURLRef);
+    if (myString) CFRelease(myString);
+    if (yes) CFRelease(yes);
+    if (no) CFRelease(no);
+
+    if (retval) return false;
+    return (responseFlags == kCFUserNotificationDefaultResponse);
 }
 
 
@@ -1379,10 +1481,10 @@ OSErr UpdateAllVisibleUsers(long brandID)
                 saverAlreadySetForAll = false;
             }
         } else {
-            if (ShowMessage(true, 
-                "Users who are permitted to administer this computer will automatically be allowed to "
+            if (ShowMessage(true,
+                (char *)_("Users who are permitted to administer this computer will automatically be allowed to "
                 "run and control %s.\n\n"
-                "Do you also want non-administrative users to be able to run and control %s on this Mac?",
+                "Do you also want non-administrative users to be able to run and control %s on this Mac?"),
                 brandName[brandID], brandName[brandID])
             ) {
                 allowNonAdminUsersToRunBOINC = true;
@@ -1408,7 +1510,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
             }
         } else {
             setSaverForAllUsers = ShowMessage(true, 
-                    "Do you want to set %s as the screensaver for all %s users on this Mac?", 
+                    (char *)_("Do you want to set %s as the screensaver for all %s users on this Mac?"),
                     brandName[brandID], brandName[brandID]);
         }
     }
@@ -1557,6 +1659,8 @@ OSErr UpdateAllVisibleUsers(long brandID)
     }   // End for (userIndex=0; userIndex< human_user_names.size(); ++userIndex)
 
     ResynchSystem();
+    
+    BOINCTranslationCleanup();
 
     return noErr;
 }

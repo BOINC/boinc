@@ -29,6 +29,7 @@
 #include <pwd.h>	// passwd, getpwnam
 #include <dirent.h>
 #include <sys/param.h>  // for MAXPATHLEN
+#include <sys/stat.h>   // For stat()
 #include <string.h>
 #include <vector>
 #include <string>
@@ -37,8 +38,10 @@ using std::vector;
 using std::string;
 
 #define SEARCHFORALLBOINCMANAGERS 0
+#define MAX_LANGUAGES_TO_TRY 5
 
 #include "LoginItemAPI.h"
+#include "translate.h"
 
 static OSStatus DoUninstall(void);
 static OSStatus CleanupAllVisibleUsers(void);
@@ -58,34 +61,35 @@ static OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerial
 static pid_t FindProcessPID(char* name, pid_t thePID);
 static OSStatus QuitOneProcess(OSType signature);
 static void SleepTicks(UInt32 ticksToSleep);
+static void GetPreferredLanguages();
+static void LoadPreferredLanguages();
 static Boolean ShowMessage(Boolean allowCancel, Boolean continueButton, const char *format, ...);
 #if SEARCHFORALLBOINCMANAGERS
 static OSStatus GetpathToBOINCManagerApp(char* path, int maxLen, FSRef *theFSRef);
 #endif
 
+static char gAppName[256];
+static char gBrandName[256];
+static char gCatalogsDir[MAXPATHLEN];
+static char * gCatalog_Name = (char *)"BOINC-Setup";
+static char * gTempFileName = "/tmp/BOINC_preferred_languages";
+
+
+/* BEGIN TEMPORARY ITEMS TO ALLOW TRANSLATORS TO START WORK */
+void notused() {
+    ShowMessage(true, false, (char *)_("OK"));
+}
+/* END TEMPORARY ITEMS TO ALLOW TRANSLATORS TO START WORK */
+
 
 int main(int argc, char *argv[])
 {
-    char                        pathToSelf[MAXPATHLEN], appName[256], *p;
+    char                        pathToSelf[MAXPATHLEN], *p;
     ProcessSerialNumber         ourPSN;
     FSRef                       ourFSRef;
     Boolean                     cancelled = false;
     OSStatus                    err = noErr;
 
-    // Determine whether this is the intial launch or the relaunch with privileges
-    if ( (argc == 2) && (strcmp(argv[1], "--privileged") == 0) ) {
-        if (geteuid() != 0) {        // Confirm that we are running as root
-            ShowMessage(false, false, "Permission error after relaunch");
-            return permErr;
-        }
-        
-        ShowMessage(false, true, "Removal may take several minutes.\nPlease be patient.");
-        
-        return DoUninstall();
-    }
-
-    // This is the initial launch.  Authenticate and relaunch ourselves with privileges.
-    
     // Get the full path to our executable inside this application's bundle
     err = GetCurrentProcess (&ourPSN);
     if (err == noErr) {
@@ -103,46 +107,163 @@ int main(int argc, char *argv[])
     p = strrchr(pathToSelf, '/');         // Assume name of executable inside bundle is same as name of bundle
     if (p == NULL)
         p = pathToSelf - 1;
-    strlcpy(appName, p+1, sizeof(appName));
-    p = strrchr(appName, '.');         // Strip off bundle extension (".app")
+    strlcpy(gAppName, p+1, sizeof(gAppName));
+    p = strrchr(gAppName, '.');         // Strip off bundle extension (".app")
     if (p)
         *p = '\0'; 
 
+    strlcpy(gCatalogsDir, pathToSelf, sizeof(gCatalogsDir));
+    strlcat(gCatalogsDir, "/Contents/Resources/locale/", sizeof(gCatalogsDir));
+    
     strlcat(pathToSelf, "/Contents/MacOS/", sizeof(pathToSelf));
-    strlcat(pathToSelf, appName, sizeof(pathToSelf));
+    strlcat(pathToSelf, gAppName, sizeof(pathToSelf));
 
-    p = strchr(appName, ' ');
+    p = strchr(gAppName, ' ');
     p += 1;         // Point to brand name following "Uninstall "
-
-    if (GetResource('ALRT', 128)) {
-        // BOINC uses custom dialog with custom PICT
-        cancelled = (Alert(128, NULL)  == cancel);
-    } else {
-        // Grid Republic uses generic dialog with Uninstall application's icon
-        cancelled = ! ShowMessage(true, false, "Are you sure you want to completely remove %s from your computer?\n\n"
-                                        "This will remove the executables but will not touch %s data files.", p, p);
+    strlcpy(gBrandName, p, sizeof(gBrandName));
+        
+    // Determine whether this is the intial launch or the relaunch with privileges
+    if ( (argc == 2) && (strcmp(argv[1], "--privileged") == 0) ) {
+        LoadPreferredLanguages();
+        
+        if (geteuid() != 0) {        // Confirm that we are running as root
+            ShowMessage(false, false, (char *)_("Permission error after relaunch"));
+            BOINCTranslationCleanup();
+            return permErr;
+        }
+        
+        ShowMessage(false, true, (char *)_("Removal may take several minutes.\nPlease be patient."));
+        
+        err = DoUninstall();
+        
+        BOINCTranslationCleanup();
+        return err;
     }
 
+    // This is the initial launch.  Authenticate and relaunch ourselves with privileges.
+
+    GetPreferredLanguages();    // We must do this before switching to root user
+    LoadPreferredLanguages();
+    
+    // Grid Republic uses generic dialog with Uninstall application's icon
+    cancelled = ! ShowMessage(true, true, (char *)_(
+            "Are you sure you want to completely remove %s from your computer?\n\n"
+            "This will remove the executables but will not touch %s data files."), p, p);
     if (! cancelled) {
         err = DoPrivilegedExec(p, pathToSelf, "--privileged", NULL, NULL, NULL, NULL);
     }
     
     if (cancelled || (err == errAuthorizationCanceled)) {
-        ShowMessage(false, false, "Canceled: %s has not been touched.", p);
+        ShowMessage(false, false, (char *)_("Canceled: %s has not been touched."), p);
+        BOINCTranslationCleanup();
         return err;
     }
+
 
 #if TESTING
     ShowMessage(false, false, "DoPrivilegedExec returned %d", err);
 #endif
 
-    if (err)
-        ShowMessage(false, false, "An error occurred: error code %d", err);
-    else
-        ShowMessage(false, false, "Removal completed.\n\n You may want to remove the following remaining items using the Finder: \n"
-         "\"/Library/Application Support/BOINC Data\" directory\n\nfor each user, the file\n"
-         "\"/Users/[username]/Library/Preferences/BOINC Manager Preferences\".");
+    if (err) {
+        ShowMessage(false, false, (char *)_("An error occurred: error code %d"), err);
+    }else {
+        FSRef BOINCDataRef, UserPrefsRef;
+        CFStringRef CFBOINCDataPath, CFUserPrefsPath;
+        char BOINCDataPath[MAXPATHLEN], temp[MAXPATHLEN], PathToPrefs[MAXPATHLEN];
+        Boolean success = false;
+        char * loginName = getlogin();
         
+        err = FSPathMakeRef((StringPtr)"/Library", &BOINCDataRef, NULL);
+        if (err == noErr) {
+            err = LSCopyDisplayNameForRef(&BOINCDataRef, &CFBOINCDataPath);
+        }
+        if (err == noErr) {
+            success = CFStringGetCString(CFBOINCDataPath, temp,
+                        sizeof(temp), kCFStringEncodingUTF8);
+        }
+        if (success) {
+            success = false;
+            strlcpy(BOINCDataPath, "/", sizeof(BOINCDataPath));
+            strlcat(BOINCDataPath, temp, sizeof(BOINCDataPath));
+            strlcat(BOINCDataPath, "/", sizeof(BOINCDataPath));
+            
+            err = FSPathMakeRef((StringPtr)"/Library/Application Support", &BOINCDataRef, NULL);
+            if (err == noErr) {
+                err = LSCopyDisplayNameForRef(&BOINCDataRef, &CFBOINCDataPath);
+            }
+            if (err == noErr) {
+                success = CFStringGetCString(CFBOINCDataPath, temp,
+                            sizeof(temp), kCFStringEncodingUTF8);
+            }
+        }
+        if (success) {
+            strlcat(BOINCDataPath, temp, sizeof(BOINCDataPath));
+            strlcat(BOINCDataPath, "/BOINC Data", sizeof(BOINCDataPath));
+        } else {
+            strlcpy(BOINCDataPath,
+                    "/Library/Application Support/BOINC Data",
+                    sizeof(BOINCDataPath));
+        }
+        
+        success = false;
+                
+//        err = FSPathMakeRef((StringPtr)"/Users", &UserPrefsRef, NULL);
+        err = FSPathMakeRef((StringPtr)"/Users", &UserPrefsRef, NULL);
+        if (err == noErr) {
+            err = LSCopyDisplayNameForRef(&UserPrefsRef, &CFUserPrefsPath);
+        }
+        if (err == noErr) {
+            success = CFStringGetCString(CFUserPrefsPath, temp,
+                        sizeof(temp), kCFStringEncodingUTF8);
+        }
+        if (success) {
+            success = false;
+            strlcpy(PathToPrefs, "/", sizeof(PathToPrefs));
+            strlcat(PathToPrefs, temp, sizeof(PathToPrefs));
+            strlcat(PathToPrefs, "/[", sizeof(PathToPrefs));
+            strlcat(PathToPrefs, (char *)_("name  of user"), sizeof(PathToPrefs));
+            strlcat(PathToPrefs, "]/", sizeof(PathToPrefs));
+            
+            sprintf(temp, "/Users/%s/Library", loginName);
+            err = FSPathMakeRef((StringPtr)temp, &UserPrefsRef, NULL);
+            if (err == noErr) {
+                err = LSCopyDisplayNameForRef(&UserPrefsRef, &CFUserPrefsPath);
+            }
+            if (err == noErr) {
+                success = CFStringGetCString(CFUserPrefsPath, temp,
+                            sizeof(temp), kCFStringEncodingUTF8);
+            }
+        }
+        if (success) {
+            success = false;
+            strlcat(PathToPrefs, temp, sizeof(PathToPrefs));
+            strlcat(PathToPrefs, "/", sizeof(PathToPrefs));
+            
+            sprintf(temp, "/Users/%s/Library/Preferences", loginName);
+            err = FSPathMakeRef((StringPtr)temp, &UserPrefsRef, NULL);
+            if (err == noErr) {
+                err = LSCopyDisplayNameForRef(&UserPrefsRef, &CFUserPrefsPath);
+            }
+            if (err == noErr) {
+                success = CFStringGetCString(CFUserPrefsPath, temp,
+                            sizeof(temp), kCFStringEncodingUTF8);
+            }
+        }
+        if (success) {
+            strlcat(PathToPrefs, temp, sizeof(PathToPrefs));
+            strlcat(PathToPrefs, "/BOINC Manager Preferences", sizeof(PathToPrefs));
+        } else {
+            strlcpy(PathToPrefs,
+                    "/Users/[username]/Library/Preferences/BOINC Manager Preferences",
+                    sizeof(PathToPrefs));
+        }
+
+        ShowMessage(false, false, (char *)_("Removal completed.\n\n You may want to remove the following remaining items using the Finder: \n"
+         "the directory \"%s\"\n\nfor each user, the file\n"
+         "\"%s\"."), BOINCDataPath, PathToPrefs);
+    }
+    
+    BOINCTranslationCleanup();
     return err;
 }
 
@@ -287,7 +408,7 @@ static OSStatus DeleteOurBundlesFromDirectory(CFStringRef bundleID, char *extens
 
     dirp = opendir(dirPath);
     if (dirp == NULL) {      // Should never happen
-        ShowMessage(false, false, "opendir(\"%s\") failed", dirPath);
+        ShowMessage(false, false, "Error: opendir(\"%s\") failed", dirPath);
         return -1;
     }
     
@@ -672,7 +793,7 @@ static OSStatus GetAuthorization(AuthorizationRef * authRef, const char *pathToT
     if (sIsAuthorized)
         return noErr;
     
-    sprintf(prompt, "Enter administrator password to completely remove %s from you computer.\n\n", brandName);
+    sprintf(prompt, (char *)_("Enter your administrator password to completely remove %s from you computer.\n\n"), brandName);
 
     ourAuthRights.count = 0;
     ourAuthRights.items = NULL;
@@ -1249,34 +1370,196 @@ static void SleepTicks(UInt32 ticksToSleep) {
 }
 
 
+// Because language preferences are set on a per-user basis, we
+// must get the preferred languages while set to the current 
+// user, before we switch to root in our second pass.
+// So we get the preferred languages here and write them to a
+// temporary file to be retrieved by our second pass.
+// We must do it this way because, for unknown reasons, the
+// CFBundleCopyLocalizationsForPreferences() API does not work
+// correctly if we seteuid and setuid to the logged in user 
+// after running as root.
+
+static void GetPreferredLanguages() {
+    DIR *dirp;
+    struct dirent *dp;
+    char searchPath[MAXPATHLEN];
+    struct stat sbuf;
+    CFMutableArrayRef supportedLanguages;
+    CFStringRef aLanguage;
+    CFArrayRef preferredLanguages;
+    int i, j, k;
+    char * language;
+    FILE *f;
+
+    // Create an array of all our supported languages
+    supportedLanguages = CFArrayCreateMutable(NULL, 100, NULL);
+    
+    aLanguage = CFStringCreateWithCString(NULL, "en", kCFStringEncodingMacRoman);
+    CFArrayAppendValue(supportedLanguages, aLanguage);
+    aLanguage = NULL;
+
+    dirp = opendir(gCatalogsDir);
+    if (!dirp) goto bail;
+    while (true) {
+        dp = readdir(dirp);
+        if (dp == NULL)
+            break;                  // End of list
+
+        if (dp->d_name[0] == '.')
+            continue;               // Ignore names beginning with '.'
+
+        strlcpy(searchPath, gCatalogsDir, sizeof(searchPath));
+        strlcat(searchPath, dp->d_name, sizeof(searchPath));
+        strlcat(searchPath, "/", sizeof(searchPath));
+        strlcat(searchPath, gCatalog_Name, sizeof(searchPath));
+        strlcat(searchPath, ".mo", sizeof(searchPath));
+        if (stat(searchPath, &sbuf) != 0) continue;
+//        printf("Adding %s to supportedLanguages array\n", dp->d_name);
+        aLanguage = CFStringCreateWithCString(NULL, dp->d_name, kCFStringEncodingMacRoman);
+        CFArrayAppendValue(supportedLanguages, aLanguage);
+        aLanguage = NULL;
+    }
+    
+    closedir(dirp);
+
+    // Write a temp file to tell our PostInstall.app our preferred languages
+    f = fopen(gTempFileName, "w");
+
+    for (i=0; i<MAX_LANGUAGES_TO_TRY; ++i) {
+    
+        preferredLanguages = CFBundleCopyLocalizationsForPreferences(supportedLanguages, NULL );
+        
+#if 0   // For testing
+        int c = CFArrayGetCount(preferredLanguages);
+        for (k=0; k<c; ++k) {
+        CFStringRef s = (CFStringRef)CFArrayGetValueAtIndex(preferredLanguages, k);
+            printf("Preferred language %u is %s\n", k, CFStringGetCStringPtr(s, kCFStringEncodingMacRoman));
+        }
+
+#endif
+
+        for (j=0; j<CFArrayGetCount(preferredLanguages); ++j) {
+            aLanguage = (CFStringRef)CFArrayGetValueAtIndex(preferredLanguages, j);
+            language = (char *)CFStringGetCStringPtr(aLanguage, kCFStringEncodingMacRoman);
+            if (f) {
+                fprintf(f, "%s\n", language);
+            }
+            
+            // Remove this language from our list of supported languages so
+            // we can get the next preferred language in order of priority
+            for (k=0; k<CFArrayGetCount(supportedLanguages); ++k) {
+                if (CFStringCompare(aLanguage, (CFStringRef)CFArrayGetValueAtIndex(supportedLanguages, k), 0) == kCFCompareEqualTo) {
+                    CFArrayRemoveValueAtIndex(supportedLanguages, k);
+                    break;
+                }
+            }
+
+            // Since the original strings are English, no 
+            // further translation is needed for language en.
+            if (!strcmp(language, "en")) {
+                fclose(f);
+                CFRelease(preferredLanguages);
+                preferredLanguages = NULL;
+                CFArrayRemoveAllValues(supportedLanguages);
+                CFRelease(supportedLanguages);
+                supportedLanguages = NULL;
+                return;
+            }
+        }
+        
+        CFRelease(preferredLanguages);
+        preferredLanguages = NULL;
+
+    }
+    fclose(f);
+
+bail:
+    CFArrayRemoveAllValues(supportedLanguages);
+    CFRelease(supportedLanguages);
+    supportedLanguages = NULL;
+}
+
+
+static void LoadPreferredLanguages(){
+    FILE *f;
+    int i;
+    char *p;
+    char language[32];
+
+    BOINCTranslationInit();
+
+    // First pass wrote a list of our preferred languages to a temp file
+    f = fopen(gTempFileName, "r");
+    if (!f) return;
+    
+    for (i=0; i<MAX_LANGUAGES_TO_TRY; ++i) {
+        fgets(language, sizeof(language), f);
+        if (feof(f)) break;
+        language[sizeof(language)-1] = '\0';    // Guarantee a null terminator
+        p = strchr(language, '\n');
+        if (p) *p = '\0';           // Replace newline with null terminator 
+        if (language[0]) {
+            if (!BOINCTranslationAddCatalog(gCatalogsDir, language, gCatalog_Name)) {
+                printf("could not load catalog for langage %s\n", language);
+            }
+        }
+    }
+    fclose(f);
+}
+
+
 static Boolean ShowMessage(Boolean allowCancel, Boolean continueButton, const char *format, ...) {
     va_list                 args;
     char                    s[1024];
-    short                   itemHit;
-    AlertStdAlertParamRec   alertParams;
-    
-    ProcessSerialNumber	ourProcess;
+    CFOptionFlags           responseFlags;
+    CFURLRef                myIconURLRef = NULL;
+    CFBundleRef             myBundleRef;
+    CFDictionaryRef         myInfoPlistData;
+    CFStringRef             appIconName;
+    ProcessSerialNumber     ourProcess;
+
+    myBundleRef = CFBundleGetMainBundle();
+    if (myBundleRef) {
+        if (!strcmp(gBrandName, "BOINC")) {
+            // For BOINC uninstaller use our special icon
+            myIconURLRef = CFBundleCopyResourceURL(myBundleRef, CFSTR("PutInTrash.icns"), NULL, NULL);
+        } else {
+            // For branded uninstaller (GR, CE, PtP) use uninstaller application icon
+            myInfoPlistData = CFBundleGetInfoDictionary(myBundleRef);
+            if (myInfoPlistData) {
+                appIconName = (CFStringRef)CFDictionaryGetValue(myInfoPlistData, CFSTR("CFBundleIconFile"));
+                myIconURLRef = CFBundleCopyResourceURL(myBundleRef, appIconName, NULL, NULL);
+            }
+        }
+    }
 
     va_start(args, format);
-    s[0] = vsprintf(s+1, format, args);
+    vsprintf(s, format, args);
     va_end(args);
 
-    alertParams.movable = true;
-    alertParams.helpButton = false;
-    alertParams.filterProc = NULL;
-    alertParams.defaultText = continueButton? "\pContinue..." : (StringPtr)-1;
-    alertParams.cancelText = allowCancel ? (StringPtr)-1 : NULL;
-    alertParams.otherText = NULL;
-    alertParams.defaultButton = kAlertStdAlertOKButton;
-    alertParams.cancelButton = allowCancel ? kAlertStdAlertCancelButton : 0;
-    alertParams.position = kWindowDefaultPosition;
+    CFStringRef myString = CFStringCreateWithCString(NULL, s, kCFStringEncodingUTF8);
+    CFStringRef theTitle = CFStringCreateWithCString(NULL, gAppName, kCFStringEncodingUTF8);
+    CFStringRef cancelString = CFStringCreateWithCString(NULL, (char*)_("Cancel"), kCFStringEncodingUTF8);
+    CFStringRef continueString = CFStringCreateWithCString(NULL, (char*)_("Continue..."), kCFStringEncodingUTF8);
 
     ::GetCurrentProcess (&ourProcess);
     ::SetFrontProcess(&ourProcess);
 
-    StandardAlert (kAlertNoteAlert, (StringPtr)s, NULL, &alertParams, &itemHit);
+    SInt32 retval = CFUserNotificationDisplayAlert(0.0, kCFUserNotificationPlainAlertLevel,
+                myIconURLRef, NULL, NULL, theTitle, myString,
+                continueButton? continueString : NULL, allowCancel ? cancelString : NULL, NULL,
+                &responseFlags);
     
-    return (itemHit == kAlertStdAlertOKButton);
+    if (myIconURLRef) CFRelease(myIconURLRef);
+    if (myString) CFRelease(myString);
+    if (theTitle) CFRelease(theTitle);
+    if (cancelString) CFRelease(cancelString);
+    if (continueString) CFRelease(continueString);
+
+    if (retval) return false;
+    // Return TRUE if user clicked Continue or OK, FALSE if user clicked Cancel
+    return (responseFlags == kCFUserNotificationDefaultResponse);
 }
 
 

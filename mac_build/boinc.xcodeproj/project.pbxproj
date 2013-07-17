@@ -84,6 +84,10 @@
 		DD2B6C8E131491B8005D6F3E /* procinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2B6C7E13149177005D6F3E /* procinfo.cpp */; };
 		DD2FE5C9142DE75A00A1E6F3 /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2370DF13F49DF3003149F9 /* LoginItemAPI.c */; };
 		DD2FE5CB142DE94700A1E6F3 /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2370DF13F49DF3003149F9 /* LoginItemAPI.c */; };
+		DD30B1A01796A1EB007FA6A6 /* translate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD30B19E1796A1EB007FA6A6 /* translate.cpp */; };
+		DD30B1A11796A1EB007FA6A6 /* translate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD30B19E1796A1EB007FA6A6 /* translate.cpp */; };
+		DD30B1A21796A1EB007FA6A6 /* translate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD30B19E1796A1EB007FA6A6 /* translate.cpp */; };
+		DD30B1A71796A926007FA6A6 /* PutInTrash.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD30B1A61796A926007FA6A6 /* PutInTrash.icns */; };
 		DD3157C316740D5300B6C909 /* gpu_intel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD3157C016740C9100B6C909 /* gpu_intel.cpp */; };
 		DD33C6F308B5BAF500768630 /* gui_http.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6F108B5BAF500768630 /* gui_http.cpp */; };
 		DD33C6F808B5BB4500768630 /* acct_setup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6F708B5BB4500768630 /* acct_setup.cpp */; };
@@ -192,7 +196,6 @@
 		DD531BC80C193D5200742E50 /* MacUninstaller.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD531BC70C193D5200742E50 /* MacUninstaller.icns */; };
 		DD5A3F17142877A5008148CA /* thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD5A3F15142877A5008148CA /* thread.cpp */; };
 		DD5BF77D0D4F3D0C00EDF980 /* mac_icon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6381450870DB78007A2F8E /* mac_icon.cpp */; };
-		DD5D7EBB0FE320F600ACF87B /* Uninstaller.r in Rez */ = {isa = PBXBuildFile; fileRef = DD5D7EBA0FE320F600ACF87B /* Uninstaller.r */; };
 		DD6381F90870DD83007A2F8E /* make_app_icon_h.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6381F80870DD83007A2F8E /* make_app_icon_h.cpp */; };
 		DD6617880A3FFD8C00FFEBEB /* check_security.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6617870A3FFD8C00FFEBEB /* check_security.cpp */; };
 		DD67F8140ADB9DD000B0015E /* wxPieCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD40E75D0ADB87BC00214518 /* wxPieCtrl.cpp */; };
@@ -795,6 +798,9 @@
 		DD2F32EF07F2A83E00645DDC /* MacSysMenu.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MacSysMenu.h; path = ../clientgui/mac/MacSysMenu.h; sourceTree = SOURCE_ROOT; };
 		DD2F32F707F2A88B00645DDC /* MacSysMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = MacSysMenu.cpp; path = ../clientgui/mac/MacSysMenu.cpp; sourceTree = SOURCE_ROOT; };
 		DD30446A0864332D00D73756 /* config.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = config.h; path = ../clientgui/mac/config.h; sourceTree = SOURCE_ROOT; };
+		DD30B19E1796A1EB007FA6A6 /* translate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = translate.cpp; sourceTree = "<group>"; };
+		DD30B19F1796A1EB007FA6A6 /* translate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = translate.h; sourceTree = "<group>"; };
+		DD30B1A61796A926007FA6A6 /* PutInTrash.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = PutInTrash.icns; path = ../clientgui/res/PutInTrash.icns; sourceTree = "<group>"; };
 		DD3157C016740C9100B6C909 /* gpu_intel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gpu_intel.cpp; sourceTree = "<group>"; };
 		DD33C6F108B5BAF500768630 /* gui_http.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = gui_http.cpp; sourceTree = "<group>"; };
 		DD33C6F208B5BAF500768630 /* gui_http.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = gui_http.h; path = ../client/gui_http.h; sourceTree = SOURCE_ROOT; };
@@ -911,7 +917,6 @@
 		DD58C46A08F334EA00C1DF66 /* wizardex.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wizardex.h; path = ../clientgui/wizardex.h; sourceTree = SOURCE_ROOT; };
 		DD5A3F15142877A5008148CA /* thread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = thread.cpp; sourceTree = "<group>"; };
 		DD5A3F16142877A5008148CA /* thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = thread.h; sourceTree = "<group>"; };
-		DD5D7EBA0FE320F600ACF87B /* Uninstaller.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; name = Uninstaller.r; path = ../mac_installer/Uninstaller.r; sourceTree = SOURCE_ROOT; };
 		DD5EF07007C5B329007CCE8D /* whetstone.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = whetstone.cpp; sourceTree = "<group>"; };
 		DD5EF08807C5B7C7007CCE8D /* version.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../version.h; sourceTree = SOURCE_ROOT; };
 		DD6381450870DB78007A2F8E /* mac_icon.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = mac_icon.cpp; sourceTree = "<group>"; };
@@ -1477,7 +1482,7 @@
 				DDF3028907CCCE2C00701169 /* BOINCMgr.icns */,
 				DD531BC50C193D3800742E50 /* MacInstaller.icns */,
 				DD531BC70C193D5200742E50 /* MacUninstaller.icns */,
-				DD5D7EBA0FE320F600ACF87B /* Uninstaller.r */,
+				DD30B1A61796A926007FA6A6 /* PutInTrash.icns */,
 				DD48091E081A66F100A174AA /* BOINCSaver.nib */,
 				DDEB3CA80981084A0087E200 /* gridrepublic.icns */,
 				DDF1F4A409822F8A00482C89 /* GR-Branding */,
@@ -1871,6 +1876,8 @@
 				DD407AEA07D2FE6500163EF5 /* synch.h */,
 				DD5A3F15142877A5008148CA /* thread.cpp */,
 				DD5A3F16142877A5008148CA /* thread.h */,
+				DD30B19E1796A1EB007FA6A6 /* translate.cpp */,
+				DD30B19F1796A1EB007FA6A6 /* translate.h */,
 				DDC06AB210A3E93F00C8D9A5 /* url.cpp */,
 				DDC06AB310A3E93F00C8D9A5 /* url.h */,
 				F5EAD479031AF001018E201A /* util.cpp */,
@@ -2516,6 +2523,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD531BC80C193D5200742E50 /* MacUninstaller.icns in Resources */,
+				DD30B1A71796A926007FA6A6 /* PutInTrash.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2544,7 +2552,6 @@
 			isa = PBXRezBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD5D7EBB0FE320F600ACF87B /* Uninstaller.r in Rez */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2836,6 +2843,7 @@
 				DD2FE5CB142DE94700A1E6F3 /* LoginItemAPI.c in Sources */,
 				DD0A685D175ED958001C9812 /* url.cpp in Sources */,
 				DD0A685F175ED95D001C9812 /* str_util.cpp in Sources */,
+				DD30B1A01796A1EB007FA6A6 /* translate.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2846,6 +2854,7 @@
 				DD1AFEAC0A512D8700EE5B82 /* SetupSecurity.cpp in Sources */,
 				DD1AFEAD0A512D8700EE5B82 /* check_security.cpp in Sources */,
 				DD1AFEE80A51301C00EE5B82 /* Installer.cpp in Sources */,
+				DD30B1A11796A1EB007FA6A6 /* translate.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3031,6 +3040,7 @@
 			files = (
 				DD2FE5C9142DE75A00A1E6F3 /* LoginItemAPI.c in Sources */,
 				DD46885A0C1661970089F500 /* uninstall.cpp in Sources */,
+				DD30B1A21796A1EB007FA6A6 /* translate.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
