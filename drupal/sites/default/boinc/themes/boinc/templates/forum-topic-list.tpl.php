@@ -42,6 +42,10 @@
     if ($forum_vocab = taxonomy_vocabulary_load($taxonomy->vid)) {
       drupal_set_title($forum_vocab->name);
     }
+    // Get the count of topics on this page
+    $topic_count = count($topics);
+    $topic_index = 0;
+    $first_non_sticky = FALSE;
   ?>
   
   <h2 class="title"><?php print $taxonomy->name; ?></h2>
@@ -52,9 +56,21 @@
   <tbody>
   <?php foreach ($topics as $topic): ?>
     <?php
-      node_load($topic->id)
+      node_load($topic->id);
+      $topic_index++;
+      $row_class = $topic->zebra;
+      if ($topic_index == 1) {
+        $row_class .= ' first';
+      }
+      if (!$first_non_sticky AND !$topic->sticky) {
+        $row_class .= ' first-non-sticky';
+        $first_non_sticky = TRUE;
+      }
+      if ($topic_index == $topic_count) {
+        $row_class .= ' last';
+      }
     ?>
-    <tr class="<?php print $topic->zebra;?>">
+    <tr class="<?php print $row_class;?>">
       <td class="icon"><?php //print $topic->icon; ?></td>
       <td class="title"><?php print $topic->title; ?></td>
     <?php if ($topic->moved): ?>
