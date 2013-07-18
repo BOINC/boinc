@@ -24,6 +24,7 @@ check_get_args(array("sort_by", "offset", "teamid"));
 
 if (isset($_GET["sort_by"])) {
     $sort_by = $_GET["sort_by"];
+    $sort_by = strip_tags($sort_by);    // remove XSS nonsense
 } else {
     $sort_by = "expavg_credit";
 }
