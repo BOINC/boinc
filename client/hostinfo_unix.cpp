@@ -1349,17 +1349,6 @@ int HOST_INFO::get_host_info() {
 // sysconf not working on OS2
 #if defined(ANDROID)
     p_ncpus = sysconf(_SC_NPROCESSORS_CONF);
-    int cpus_devices = 0;
-    char devicepath[32];
-    for(int x = 0; x < 8; x++) {
-        snprintf(devicepath,sizeof(devicepath),"/sys/devices/system/cpu/cpu%d",x);
-        if(access(devicepath,F_OK)) {
-            cpus_devices++;
-        }
-    }
-    if(cpus_devices > p_ncpus){
-        p_ncpus = cpus_devices;
-    }
 #elif defined(_SC_NPROCESSORS_ONLN) && !defined(__EMX__) && !defined(__APPLE__)
     p_ncpus = sysconf(_SC_NPROCESSORS_ONLN);
 #elif defined(HAVE_SYS_SYSCTL_H) && defined(CTL_HW) && defined(HW_NCPU)
