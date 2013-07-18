@@ -4061,6 +4061,7 @@
 				);
 				PREBINDING = NO;
 				SDKROOT = "";
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 				STRIP_INSTALLED_PRODUCT = YES;
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -4245,6 +4246,7 @@
 				);
 				PREBINDING = NO;
 				SDKROOT = "";
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 				STRIP_INSTALLED_PRODUCT = NO;
 				WARNING_CFLAGS = (
 					"-Wmost",

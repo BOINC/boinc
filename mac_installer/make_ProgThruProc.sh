@@ -22,6 +22,12 @@
 # updated 12/14/11 by Charlie Fenton for BOINC 6.8.34 / 6.12.44 / 7.0.3 and later
 ## updated 7/31/12 by Charlie Fenton to delete screensaver Liberation font 
 # updated 8/2/12 by Charlie Fenton to code sign the installer and uninstaller
+## updated 7/18/13 by Charlie Fenton for BOINC.mpkg
+##
+## Note 1: This script currently does not have support for "BOINC+VirtualBox.mpkg"
+## and "BOINC + VirtualBox.mpkg"
+##
+## Note 2: Set boinc.xcodeproj to use UTF-8 for "Strings file output encoding"
 ##
 
 ## Usage:
@@ -75,6 +81,7 @@ SAVER_LOGO="ProgThruProc_ss_logo.png"
 BRAND_NAME="Progress Thru Processors"
 MANAGER_NAME="Progress Thru Processors Desktop"
 LC_BRAND_NAME="Progress Thru Processors"
+SOURCE_RESOURCES_PATH="BOINC Installer.app/Contents/Resources"
 SOURCE_PKG_PATH="BOINC Installer.app/Contents/Resources/BOINC.pkg/Contents"
 ZIP_BRAND_NAME="ptp"
 
@@ -172,7 +179,7 @@ sudo sed -i "" s/BOINCManager/"${MANAGER_NAME}"/g "${PR_PATH}/Applications/${MAN
 sudo sed -i "" s/BOINCMgr.icns/"${ICNS_FILE}"/g "${PR_PATH}/Applications/${MANAGER_NAME}.app/Contents/Info.plist"
 
 sudo chmod a+w "${PR_PATH}/Applications/${MANAGER_NAME}.app/Contents/Resources/English.lproj/InfoPlist.strings"
-sudo sed -i "" s/BOINC/"${MANAGER_NAME}"/g "${PR_PATH}/Applications/${MANAGER_NAME}.app/Contents/Resources/English.lproj/InfoPlist.strings"
+sudo sed -i "" s/"BOINC Manager"/"${MANAGER_NAME}"/g "${PR_PATH}/Applications/${MANAGER_NAME}.app/Contents/Resources/English.lproj/InfoPlist.strings"
 
 # Replace the Manager's BOINCMgr.icns file
 sudo cp -fp "${ICNS_FILE}" "${PR_PATH}/Applications/${MANAGER_NAME}.app/Contents/Resources/${ICNS_FILE}"
@@ -231,7 +238,7 @@ sudo rm -f "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/extras/Uninsta
 sudo rm -f "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/extras/Uninstall ${BRAND_NAME}.app/Contents/Resources/Uninstall BOINC.rsrc"
 
 sudo chown -R root:admin "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/extras/Uninstall ${BRAND_NAME}.app"
-sudo chmod -R 755 "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/extras/Uninstall ${BRAND_NAME}.app"
+sudo chmod -R u+r-w,g+r-w,o+r-w "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/extras/Uninstall ${BRAND_NAME}.app"
 
 ## Fix up ownership and permissions
 sudo chown -R root:admin "${PR_PATH}"/*
@@ -287,14 +294,12 @@ sudo rm -dfR "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/${BRAND_NAME
 
 # Update the installer wrapper application's info.plist, InfoPlist.strings files
 sudo sed -i "" s/BOINC/"${BRAND_NAME}"/g "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/${BRAND_NAME} Installer.app/Contents/Info.plist"
-sudo sed -i "" s/MacInstaller.icns/"${INSTALLER_ICNS_FILE}"/g "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/${BRAND_NAME} Installer.app/Contents/Info.plist"
 
 sudo chmod a+w "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/${BRAND_NAME} Installer.app/Contents/Resources/English.lproj/InfoPlist.strings"
 sudo sed -i "" s/BOINC/"${MANAGER_NAME}"/g "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/${BRAND_NAME} Installer.app/Contents/Resources/English.lproj/InfoPlist.strings"
 
 # Replace the installer wrapper application's MacInstaller.icns file
-sudo cp -fp "${INSTALLER_ICNS_FILE}" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/${BRAND_NAME} Installer.app/Contents/Resources/${INSTALLER_ICNS_FILE}"
-sudo rm -f "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/${BRAND_NAME} Installer.app/Contents/Resources/MacInstaller.icns"
+sudo cp -fp "${INSTALLER_ICNS_FILE}" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/${BRAND_NAME} Installer.app/Contents/Resources/MacInstaller.icns"
 
 # Rename the installer wrapper application's executable inside the bundle
 sudo mv -f "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/${BRAND_NAME} Installer.app/Contents/MacOS/BOINC Installer" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/${BRAND_NAME} Installer.app/Contents/MacOS/${BRAND_NAME} Installer"
@@ -341,14 +346,25 @@ cp -fpR "${SCRIPTS_PATH}/" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i68
 ## echo ""
 ## fi
 
-# Allow the installer wrapper application to modify the package's Info.plist file
-sudo chmod u+w,g+w,o+w "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/${BRAND_NAME} Installer.app/Contents/Resources/${BRAND_NAME}.pkg/Contents/Info.plist"
-
 # add a more complete Description.plist file to display in Installer's Customize pane
 if [ ! -d "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/${BRAND_NAME} Installer.app/Contents/Resources/${BRAND_NAME}.pkg/Contents/Resources/en.lproj/" ]; then
     mkdir -p "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/${BRAND_NAME} Installer.app/Contents/Resources/${BRAND_NAME}.pkg/Contents/Resources/en.lproj"
 fi
 cp -fp "${NEW_DIR_PATH}/Description.plist" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/${BRAND_NAME} Installer.app/Contents/Resources/${BRAND_NAME}.pkg/Contents/Resources/en.lproj/"
+
+# Replace the PostInstall application's MacInstaller.icns file
+sudo cp -fp "${INSTALLER_ICNS_FILE}" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/${BRAND_NAME} Installer.app/Contents/Resources/${BRAND_NAME}.pkg/Contents/Resources/PostInstall.app/Contents/Resources/MacInstaller.icns"
+
+# Update the installer wrapper application's "BOINC.mpkg" metapackage (used if 
+# installer.app determines that we need user to restart OS X after installation)
+
+sudo mv "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/${BRAND_NAME} Installer.app/Contents/Resources/BOINC.mpkg" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/${BRAND_NAME} Installer.app/Contents/Resources/${BRAND_NAME}.mpkg"
+
+sudo sed -i "" s/"BOINC Manager"/"${MANAGER_NAME}"/g "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/${BRAND_NAME} Installer.app/Contents/Resources/${BRAND_NAME}.mpkg/Contents/Info.plist"
+
+sudo sed -i "" s/BOINC/"${BRAND_NAME}"/g "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/${BRAND_NAME} Installer.app/Contents/Resources/${BRAND_NAME}.mpkg/Contents/Info.plist"
+
+sudo cp -fp "${IR_PATH}/ReadMe.rtf" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/${BRAND_NAME} Installer.app/Contents/Resources/${BRAND_NAME}.mpkg/Contents/Resources/"
 
 # Update the installer wrapper application's creation date
 sudo touch "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/${BRAND_NAME} Installer.app"
