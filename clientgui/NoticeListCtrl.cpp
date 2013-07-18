@@ -542,7 +542,6 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const {
         strDescription = wxString(np->description.c_str(), wxConvUTF8);
         eol_to_br(strDescription);
         localize(strDescription);
-        https_to_http(strDescription);
 
         dtBuffer.Set((time_t)np->create_time);
         strCreateTime = dtBuffer.Format();
