@@ -114,7 +114,7 @@ static OSStatus ResynchSystem(void);
 OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN);
 pid_t FindProcessPID(char* name, pid_t thePID);
 static void SleepTicks(UInt32 ticksToSleep);
-int FindSkinName(char *name, size_t len);
+//int FindSkinName(char *name, size_t len);
 static OSErr QuitOneProcess(OSType signature);
 static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
 void print_to_log_file(const char *format, ...);
@@ -156,6 +156,7 @@ static char *appName[NUMBRANDS];
 static char *appPath[NUMBRANDS];
 static char *appPathEscaped[NUMBRANDS];
 static char *receiptNameEscaped[NUMBRANDS];
+static char *skinName[NUMBRANDS];
 
 enum { launchWhenDone,
         logoutRequired,
@@ -195,6 +196,7 @@ int main(int argc, char *argv[])
     saverName[0] = "BOINCSaver";
     saverNameEscaped[0] = "BOINCSaver";
     receiptNameEscaped[0] = "/Library/Receipts/BOINC\\ Installer.pkg";
+    skinName[0] = "Default";
 
     appName[1] = "GridRepublic Desktop";
     appPath[1] = "/Applications/GridRepublic Desktop.app";
@@ -203,6 +205,7 @@ int main(int argc, char *argv[])
     saverName[1] = "GridRepublic";
     saverNameEscaped[1] = "GridRepublic";
     receiptNameEscaped[1] = "/Library/Receipts/GridRepublic\\ Installer.pkg";
+    skinName[1] = "GridRepublic";
 
     appName[2] = "Progress Thru Processors Desktop";
     appPath[2] = "/Applications/Progress Thru Processors Desktop.app";
@@ -211,6 +214,7 @@ int main(int argc, char *argv[])
     saverName[2] = "Progress Thru Processors";
     saverNameEscaped[2] = "Progress\\ Thru\\ Processors";
     receiptNameEscaped[2] = "/Library/Receipts/Progress\\ Thru\\ Processors\\ Installer.pkg";
+    skinName[2] = "ProgressThruProcessors";
 
     appName[3] = "Charity Engine Desktop";
     appPath[3] = "/Applications/Charity Engine Desktop.app";
@@ -219,6 +223,7 @@ int main(int argc, char *argv[])
     saverName[3] = "Charity Engine";
     saverNameEscaped[3] = "Charity\\ Engine";
     receiptNameEscaped[3] = "/Library/Receipts/Charity\\ Engine\\ Installer.pkg";
+    skinName[3] = "Charity Engine";
 
     ::GetCurrentProcess (&ourProcess);
 
@@ -1303,7 +1308,6 @@ OSErr UpdateAllVisibleUsers(long brandID)
     uid_t               saved_uid;
     Boolean             deleteLoginItem;
     char                human_user_name[256];
-    char                skinName[256];
     char                s[256];
     Boolean             saverAlreadySetForAll = true;
     Boolean             setSaverForAllUsers = false;
@@ -1324,7 +1328,9 @@ OSErr UpdateAllVisibleUsers(long brandID)
     char                *p;
     int                 flag;
     
-    FindSkinName(skinName, sizeof(skinName));
+//    char                skinName[256];
+//    FindSkinName(skinName, sizeof(skinName));
+        
 
     // Step through all users
     puts("Beginning first pass through all users\n");
@@ -1639,7 +1645,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
                 fflush(stdout);
                 continue;
             }
-            SetSkinInUserPrefs(pw->pw_name, skinName);
+            SetSkinInUserPrefs(pw->pw_name, skinName[brandID]);
         
             if (setSaverForAllUsers) {
                 seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
@@ -1889,6 +1895,7 @@ static void SleepTicks(UInt32 ticksToSleep) {
 }
 
 
+#if 0
 int FindSkinName(char *name, size_t len)
 {
     FILE *f;
@@ -1921,7 +1928,7 @@ int FindSkinName(char *name, size_t len)
     pclose(f);
     return 0;
 }
-
+#endif
 
 
 pid_t FindProcessPID(char* name, pid_t thePID)
