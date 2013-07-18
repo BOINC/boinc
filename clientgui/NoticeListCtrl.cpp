@@ -67,7 +67,8 @@ wxAccStatus CNoticeListCtrlAccessible::GetName(int childId, wxString* name) {
 
         if (pDoc) {
             strBuffer = wxString(pDoc->notice(childId-1)->title, wxConvUTF8);
-            pDoc->LocalizeNoticeText(strBuffer, true);
+            eol_to_br(strBuffer);
+            localize(strBuffer);
             strBuffer = StripHTMLTags(strBuffer);
             *name = strBuffer.c_str();
         }
@@ -174,7 +175,8 @@ wxAccStatus CNoticeListCtrlAccessible::GetDescription(int childId, wxString* des
         strProjectName = wxString(pDoc->notice(childId-1)->project_name, wxConvUTF8);
 
         strDescription = wxString(pDoc->notice(childId-1)->description.c_str(), wxConvUTF8);
-        pDoc->LocalizeNoticeText(strDescription, true);
+        eol_to_br(strDescription);
+        localize(strDescription);
 
         dtBuffer.Set((time_t)pDoc->notice(childId-1)->arrival_time);
         strArrivalTime = dtBuffer.Format();
@@ -534,10 +536,13 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const {
         }
 
         strTitle = strTemp;
-        pDoc->LocalizeNoticeText(strTitle, true);
+        eol_to_br(strTitle);
+        localize(strTitle);
 
         strDescription = wxString(np->description.c_str(), wxConvUTF8);
-        pDoc->LocalizeNoticeText(strDescription, true);
+        eol_to_br(strDescription);
+        localize(strDescription);
+        https_to_http(strDescription);
 
         dtBuffer.Set((time_t)np->create_time);
         strCreateTime = dtBuffer.Format();
@@ -559,6 +564,7 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const {
         strBuffer += strCreateTime;
 
         if (!strURL.IsEmpty()) {
+            https_to_http(strURL);
             strTemp.Printf(
                 wxT(" &middot; <a target=_new href=%s>%s</a> "),
                 strURL.c_str(),
