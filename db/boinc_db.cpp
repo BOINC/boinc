@@ -942,7 +942,7 @@ void DB_RESULT::db_print(char* buf){
         "batch=%d, file_delete_state=%d, validate_state=%d, "
         "claimed_credit=%.15e, granted_credit=%.15e, opaque=%.15e, random=%d, "
         "app_version_num=%d, appid=%d, exit_status=%d, teamid=%d, "
-        "priority=%d, mod_time=null, elapsed_time=%.15e, flops_estimate=%.15e, "
+        "priority=%d, elapsed_time=%.15e, flops_estimate=%.15e, "
         "app_version_id=%d, runtime_outlier=%d, size_class=%d",
         create_time, workunitid,
         server_state, outcome, client_state,
@@ -977,7 +977,7 @@ void DB_RESULT::db_print_values(char* buf){
         "'%s', '%s', '%s', "
         "%d, %d, %d, "
         "%.15e, %.15e, %.15e, %d, "
-        "%d, %d, %d, %d, %d, null, 0, 0, 0, 0, %d)",
+        "%d, %d, %d, %d, %d, NOW(), 0, 0, 0, 0, %d)",
         create_time, workunitid,
         server_state, outcome, client_state,
         hostid, userid,

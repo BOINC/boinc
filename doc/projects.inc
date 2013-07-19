@@ -90,6 +90,14 @@ $biomed = array(
             "docking.png"
         ),
         array(
+            "Simulation One",
+            "http://mmgboinc.unimi.it/",
+            "Universita degli Studi, Milan, Italy",
+            "Molecular biology",
+            "The project studies osmoprotectants - small molecules that protect proteins, for example by thermal stress. Thanks to these molecules in nature we can find plants able to survive without water, or bacteria able to survive in extreme environmental conditions. And how is this possible? Answering this question could have a major impact in agriculture, e.g. developing plants that require less water intake.",
+            "SimOne_logo.png"
+        ),
+        array(
             "GPUGrid.net",
             "http://www.gpugrid.net/",
             tra("Barcelona Biomedical Research Park (PRBB)"),
@@ -187,6 +195,14 @@ $earth = array(
 $astro_phys_chem = array(
     tra("Astronomy, Physics, and Chemistry"),
     array(
+        array(
+            "theSkyNet POGS",
+            "http://pogs.theskynet.org/pogs/",
+            "The International Centre for Radio Astronomy Research (Perth, Australia)",
+            tra("Astronomy"),
+            tra("We will combine the spectral coverage of GALEX, Pan-STARRS1, and WISE to generate a multi-wavelength UV-optical-NIR galaxy atlas for the nearby Universe. We will measure physical parameters (such as stellar mass surface density, star formation rate surface density, attenuation, and first-order star formation history) on a resolved pixel-by-pixel basis using spectral energy distribution (SED) fitting techniques in a distributed computing mode."),
+            ""
+        ),
         array(
             "Asteroids@home",
             "http://asteroidsathome.net/boinc/",

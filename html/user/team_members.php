@@ -42,6 +42,7 @@ $cache_args = "teamid=$teamid";
 $team = unserialize(get_cached_data(TEAM_PAGE_TTL, $cache_args));
 if (!$team) {
     $team = BoincTeam::lookup_id($teamid);
+    if (!$team) error_page("no such team");
     set_cached_data(TEAM_PAGE_TTL, serialize($team), $cache_args);
 }
 
