@@ -1075,7 +1075,7 @@ int get_processor_features(char* vendor, char* features, int features_size) {
     FEATURE_TEST(std_supported, (std_ecx & (1 << 22)), "movebe ");	// removed from Intel only because AMD Family 16h support it too	
     FEATURE_TEST(std_supported, (std_ecx & (1 << 23)), "popcnt ");	// removed from Intel only because AMD Family 10h/11h/12h/14h/15h/16h support it too
     FEATURE_TEST(std_supported, (std_ecx & (1 << 25)), "aes ");		// removed from Intel only because AMD Family 15h & 16h support it too
-
+    FEATURE_TEST(std_supported, (std_ecx & (1 << 28)), "avx ");
 	
     FEATURE_TEST(ext_supported, (ext_edx & (1 << 11)), "syscall ");
     FEATURE_TEST(ext_supported, (ext_edx & (1 << 20)), "nx ");
