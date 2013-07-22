@@ -348,7 +348,7 @@ $linuxcompat = array(
 
 $android = array(
 	"name"=>"Android 2.3.3 or better",
-	"description"=>"BOINC client for use with all Android devices",
+	"description"=>"BOINC client for use with all ARM based Android devices",
 	"dbname" => "arm-android-linux-gnu",
 	"versions"=>array(
 		$a72,
