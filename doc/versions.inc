@@ -363,6 +363,7 @@ $platforms = array(
     "linux"=>$linux,
     "linuxx64"=>$linuxx64,
 	"linuxcompat"=>$linuxcompat,
+	"android"=>$android,
 );
 
 function is_dev($v) {
