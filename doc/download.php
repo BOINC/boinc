@@ -7,8 +7,6 @@ require_once("docutil.php");
 require_once("versions.inc");
 require_once("../html/inc/translation.inc");
 
-$client_info = $_SERVER['HTTP_USER_AGENT'];
-
 function latest_version($p) {
     foreach ($p['versions'] as $i=>$v) {
         if (!$dev && is_dev($v)) continue;
@@ -91,6 +89,14 @@ function show_download($pname) {
         .tra("You may run this software on a computer only if you own the computer or have the permission of its owner.").
         "<p>"
     ;
+    if ($pname == 'android') {
+        echo "<b>
+            We recommend that you download BOINC from
+            the Google Play Store or Amazon appstore,
+            not from here.
+            </b>
+        ";
+    }
     if ($pname) {
         download_link($pname, true);
     } else {
@@ -109,13 +115,17 @@ function show_download($pname) {
         download_link('linuxcompat');
         end_table();
     }
+    if ($pname != 'android') {
+        echo "
+            <p>
+            After downloading BOINC you must <b>install</b> it:
+            <ul>
+            <li> Save the file to disk.
+            <li> Double-click on the file icon.
+            </ul>
+        ";
+    }
     echo "
-        <p>
-        After downloading BOINC you must <b>install</b> it:
-        <ul>
-        <li> Save the file to disk.
-        <li> Double-click on the file icon.
-        </ul>
         <p>
         <center>
         <a href=\"wiki/System_requirements\"><span class=nobr>".tra("System requirements")."</span></a>
@@ -143,6 +153,8 @@ if (get_str2('xml')) {
 
 page_head(tra("BOINC: compute for science"));
 
+$client_info = $_SERVER['HTTP_USER_AGENT'];
+
 if (get_str2('all_platforms')) {
     show_download(null);
 } else if (strstr($client_info, 'Windows')) {
@@ -158,7 +170,8 @@ if (get_str2('all_platforms')) {
 		show_download('mac');
 	}
 } else if (strstr($client_info, 'Linux') && strstr($client_info, 'Android')) {
-	// Check for Android before Linux, since Android contains the Linux kernel and the
+	// Check for Android before Linux,
+    // since Android contains the Linux kernel and the
 	// web browser user agent string list Linux too.
 	show_download('android');
 } else if (strstr($client_info, 'Linux')) {
