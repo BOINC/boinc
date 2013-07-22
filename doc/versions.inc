@@ -251,6 +251,14 @@ $l70ubuntux64old = array(
 	"type"=>"sea",
 );
 
+$a72 = array(
+	"num"=>"7.2.7",
+	"status"=>"Recommended Version",
+	"file"=>"boinc_7.2.7_arm-android-linux-gnu.apk",
+	"date"=>"22 July 2013",
+	"type"=>"apk",
+);
+
 // platform descriptors.  For each one, "versions"
 // lists versions in reverse time order.
 // i.e. the first non-dev version is the current one
@@ -335,6 +343,15 @@ $linuxcompat = array(
 	"versions"=>array(
 		$l612,
 		$l66,
+	)
+);
+
+$android = array(
+	"name"=>"Android 2.3.3 or better",
+	"description"=>"BOINC client for use with all Android devices",
+	"dbname" => "arm-android-linux-gnu",
+	"versions"=>array(
+		$a72,
 	)
 );
 
