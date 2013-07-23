@@ -16,6 +16,7 @@
 #include <string.h>
 #include <limits.h>
 #include <stdio.h>
+#include <unistd.h>
 
 #ifndef _WIN32
 #include <dirent.h>
