@@ -33,7 +33,6 @@ import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -506,25 +505,49 @@ public class Monitor extends Service {
 	    	}
     	} catch (Exception e) {
     		if(Logging.ERROR) Log.e(Logging.TAG, "Exception: " + e.getMessage());
+    		return null;
+    	}
+
+    	String [] processLinesAr = sb.toString().split("\n");
+    	if (processLinesAr.length < 2) {
+    		if(Logging.ERROR) Log.e(Logging.TAG,"getPidForProcessName(): ps output has less than 2 lines, failure!");
+    		return null;
     	}
     	
-    	//parse output into hashmap
-    	HashMap<String,Integer> pMap = new HashMap<String, Integer>();
-    	String [] processLinesAr = sb.toString().split("\n");
-    	for(String line : processLinesAr)
-    	{
-    		Integer pid;
-    		String packageName;
-    	    String [] comps = line.split("[\\s]+");
-    	    if(comps.length != 9) {continue;}     
-    	    pid = Integer.parseInt(comps[1]);
-    	    packageName = comps[8];
-    	    pMap.put(packageName, pid);
-    	    //if(Logging.DEBUG) Log.d(Logging.TAG,"added: " + packageName + pid); 
+    	// figure out what index PID has
+    	String [] headers = processLinesAr[0].split("[\\s]+");
+    	Integer PidIndex = 1;
+    	for (int x = 0; x < headers.length; x++) {
+    		if(headers[x].equals("PID")) {
+    			PidIndex = x;
+    			continue;
+    		}
     	}
+		if(Logging.DEBUG) Log.d(Logging.TAG,"getPidForProcessName(): PID at index: " + PidIndex + " for output: " + processLinesAr[0]);
+    	
+		Integer pid = null;
+    	for(int y = 1; y < processLinesAr.length; y++) {
+    		Boolean found = false;
+    	    String [] comps = processLinesAr[y].split("[\\s]+");
+    	    for(String arg: comps) {
+    	    	if(arg.equals(processName)) {
+    	    		if(Logging.DEBUG) Log.d(Logging.TAG,"getPidForProcessName(): " + processName + " found in line: " + y);
+    	    		found = true;
+    	    	}
+    	    }
+    	    if(found) {
+	    	    try{
+	    	    	pid = Integer.parseInt(comps[PidIndex]);
+	        	    if(Logging.DEBUG) Log.d(Logging.TAG,"getPidForProcessName(): pid: " + pid); 
+	    	    }catch (NumberFormatException e) {if(Logging.ERROR) Log.e(Logging.TAG,"getPidForProcessName(): NumberFormatException for " + comps[PidIndex] + " at index: " + PidIndex);}
+	    	    continue;
+    	    }
+    	}
+    	// if not happen in ps output, not running?!
+		if(pid == null) if(Logging.DEBUG) Log.d(Logging.TAG,"getPidForProcessName(): " + processName + " not found in ps output!");
     	
     	// Find required pid
-    	return pMap.get(processName);
+    	return pid;
     }
     
     // Exit a process with OS signals SIGQUIT and SIGKILL
