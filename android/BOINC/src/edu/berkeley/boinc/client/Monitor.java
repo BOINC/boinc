@@ -741,7 +741,9 @@ public class Monitor extends Service {
     // will fire clientstatuschange Broadcast updon completion
     public void forceRefresh() {
     	if(Logging.DEBUG) Log.d(Logging.TAG,"forceRefresh()");
-        updateTimer.schedule(new StatusUpdateTimerTask(), 0);
+    	try{
+    		updateTimer.schedule(new StatusUpdateTimerTask(), 0);
+    	} catch (Exception e){} // throws IllegalStateException if called after timer got cancelled, i.e. after manual shutdown
     }
     
     // exits both, UI and BOINC client. 
