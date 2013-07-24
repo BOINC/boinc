@@ -102,6 +102,11 @@ public class DeviceStatus{
 					if(!on_ac_power) change = true; // if different from before, set flag
 					on_ac_power = true;
 					break;
+				case 4: // constant BATTERY_PLUGGED_WIRELESS, only defined in API Level 17
+					// treat like AC power
+					if(!on_ac_power) change = true; // if different from before, set flag
+					on_ac_power = true;
+					break;
 				case BatteryManager.BATTERY_PLUGGED_USB:
 					if(!on_usb_power) change = true; // if different from before, set flag
 					on_usb_power = true;
