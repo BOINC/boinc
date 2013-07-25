@@ -79,7 +79,7 @@ SAVER_SYSPREF_ICON="gridrepublic.tiff"
 SAVER_LOGO="gridrepublic_ss_logo.png"
 BRAND_NAME="GridRepublic"
 MANAGER_NAME="GridRepublic Desktop"
-LC_BRAND_NAME="gridrepublic"
+LC_BRAND_NAME="GridRepublic"
 SOURCE_RESOURCES_PATH="BOINC Installer.app/Contents/Resources"
 SOURCE_PKG_PATH="BOINC Installer.app/Contents/Resources/BOINC.pkg/Contents"
 
