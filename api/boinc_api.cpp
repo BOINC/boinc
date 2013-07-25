@@ -312,9 +312,21 @@ static inline void release_mutex() {
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 static void init_mutex() {}
 static inline void acquire_mutex() {
+#ifdef DEBUG_BOINC_API
+    char buf[256];
+    fprintf(stderr, "%s acquiring mutex\n",
+        boinc_msg_prefix(buf, sizeof(buf))
+    );
+#endif
     pthread_mutex_lock(&mutex);
 }
 static inline void release_mutex() {
+#ifdef DEBUG_BOINC_API
+    char buf[256];
+    fprintf(stderr, "%s releasing mutex\n",
+        boinc_msg_prefix(buf, sizeof(buf))
+    );
+#endif
     pthread_mutex_unlock(&mutex);
 }
 #endif
