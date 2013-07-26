@@ -187,7 +187,11 @@ public class Monitor extends Service {
 		}
 		
 		if(connected) { // connection established
-			
+			// make client read override settings from file
+			rpc.readGlobalPrefsOverride();
+			// read preferences for GUI to be able to display data
+			GlobalPreferences clientPrefs = rpc.getGlobalPrefsWorkingStruct();
+
 			// setting cpu_usage_limit to 100
 			// preference got remove from UI for two reasons:
 			// - science apps would crash (timeout)
@@ -195,12 +199,10 @@ public class Monitor extends Service {
 			// hard-wire to 100% in case user has changed this preference manually before
 			// it got removed from the UI
 			// TODO needs to be removed when migrating override prefs to common mechanism
-			rpc.setGlobalPrefsOverride("<cpu_usage_limit>100.0</cpu_usage_limit>");
+			clientPrefs.cpu_usage_limit = 100.0;
+			rpc.setGlobalPrefsOverrideStruct(clientPrefs);
+			// TODO -- end of stuff to be removed
 			
-			// make client read override settings from file
-			rpc.readGlobalPrefsOverride();
-			// read preferences for GUI to be able to display data
-			GlobalPreferences clientPrefs = rpc.getGlobalPrefsWorkingStruct();
 			status.setPrefs(clientPrefs);
 			// read supported projects
 			readAndroidProjectsList();
