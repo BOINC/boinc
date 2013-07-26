@@ -310,11 +310,6 @@ public class BOINCActivity extends TabActivity {
 			runMode.setIcon(R.drawable.pausew);
 		}
 		
-		// event log, show only in advanced mode
-		MenuItem eventLog = menu.findItem(R.id.event_log);
-		if(Monitor.getAppPrefs().getShowAdvanced()) eventLog.setVisible(true);
-		else eventLog.setVisible(false);
-		
 		return super.onPrepareOptionsMenu(menu);
 	}
 	
