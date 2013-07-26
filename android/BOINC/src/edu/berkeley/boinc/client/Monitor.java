@@ -187,6 +187,16 @@ public class Monitor extends Service {
 		}
 		
 		if(connected) { // connection established
+			
+			// setting cpu_usage_limit to 100
+			// preference got remove from UI for two reasons:
+			// - science apps would crash (timeout)
+			// - wakelock and foreground service would be frequently acquired / released
+			// hard-wire to 100% in case user has changed this preference manually before
+			// it got removed from the UI
+			// TODO needs to be removed when migrating override prefs to common mechanism
+			rpc.setGlobalPrefsOverride("<cpu_usage_limit>100.0</cpu_usage_limit>");
+			
 			// make client read override settings from file
 			rpc.readGlobalPrefsOverride();
 			// read preferences for GUI to be able to display data

@@ -204,7 +204,7 @@ public class PrefsActivity extends FragmentActivity {
 		// cpu
 		if(advanced) data.add(new PrefsListItemWrapper(this,R.string.prefs_category_cpu,true));
 		if(advanced && hostinfo.p_ncpus > 1) data.add(new PrefsListItemWrapperValue(this,R.string.prefs_cpu_number_cpus_header,R.string.prefs_category_cpu,pctCpuCoresToNumber(clientPrefs.max_ncpus_pct)));
-		if(advanced) data.add(new PrefsListItemWrapperValue(this,R.string.prefs_cpu_time_max_header,R.string.prefs_category_cpu,clientPrefs.cpu_usage_limit));
+		//if(advanced) data.add(new PrefsListItemWrapperValue(this,R.string.prefs_cpu_time_max_header,R.string.prefs_category_cpu,clientPrefs.cpu_usage_limit));
 		if(advanced) data.add(new PrefsListItemWrapperValue(this,R.string.prefs_cpu_other_load_suspension_header,R.string.prefs_category_cpu,clientPrefs.suspend_cpu_usage));
 		// storage
 		if(advanced) data.add(new PrefsListItemWrapper(this,R.string.prefs_category_storage,true));
@@ -482,9 +482,10 @@ public class PrefsActivity extends FragmentActivity {
 			//convert value back to number for layout update
 			value = pctCpuCoresToNumber(value);
 			break;
+			/*
 		case R.string.prefs_cpu_time_max_header:
 			clientPrefs.cpu_usage_limit = value;
-			break;
+			break;*/
 		case R.string.prefs_cpu_other_load_suspension_header:
 			clientPrefs.suspend_cpu_usage = value;
 			break;
