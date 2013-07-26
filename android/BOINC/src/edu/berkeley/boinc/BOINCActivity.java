@@ -62,6 +62,7 @@ public class BOINCActivity extends TabActivity {
 	private Boolean mIsBound = false;
 	
 	private TabHost tabHost;
+	private Resources res;
 	
 	// dummy jni to trigger PlayStore filter for CPU architecture
 	static{
@@ -109,6 +110,10 @@ public class BOINCActivity extends TabActivity {
         
         // adapt to custom title bar
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_bar);
+        
+        // get tab host and setup layout
+    	res = getResources();
+    	tabHost = getTabHost();
         setupTabLayout();
     }
     
@@ -221,10 +226,6 @@ public class BOINCActivity extends TabActivity {
      * which tabs should be set up is defined in resources file: /res/values/configuration.xml
      */
     private void setupTabLayout() {
-    	
-    	Resources res = getResources();
-    	tabHost = getTabHost();
-        
     	// set tabs
     	if(res.getBoolean(R.bool.tab_status))
     		setupTab(new TextView(this), getResources().getString(R.string.tab_status), R.drawable.icon_status_tab, StatusActivity.class);
