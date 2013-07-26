@@ -1348,17 +1348,30 @@ int HOST_INFO::get_host_info() {
 
 // sysconf not working on OS2
 #if defined(ANDROID)
+    // this should work on most devices
     p_ncpus = sysconf(_SC_NPROCESSORS_CONF);
-    int cpus_devices = 0;
-    char devicepath[32];
-    for(int x = 0; x < 8; x++) {
-        snprintf(devicepath,sizeof(devicepath),"/sys/devices/system/cpu/cpu%d",x);
-        if(access(devicepath,F_OK)) {
-            cpus_devices++;
+    
+    // work around for bug in Android's bionic
+    // format of /sys/devices/system/cpu/present:
+    // 0 : single core
+    // 0-j: j+1 cores (e.g. 0-3 quadcore)
+    FILE* fp;
+    int res, i=-1, j=-1, cpus_sys_path=0;
+    fp = fopen("/sys/devices/system/cpu/present", "r");
+    if(fp) {
+        res = fscanf(fp, "%d-%d", &i, &j);
+        fclose(fp);
+        if(res == 1 && i == 0) {
+            cpus_sys_path = 1;
+        }
+        if(res == 2 && i == 0) {
+            cpus_sys_path = j + 1;
         }
     }
-    if(cpus_devices > p_ncpus){
-        p_ncpus = cpus_devices;
+    
+    // return whatever number is greater
+    if(cpus_sys_path > p_ncpus){
+        p_ncpus = cpus_sys_path;
     }
 #elif defined(_SC_NPROCESSORS_ONLN) && !defined(__EMX__) && !defined(__APPLE__)
     p_ncpus = sysconf(_SC_NPROCESSORS_ONLN);
