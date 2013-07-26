@@ -44,10 +44,11 @@ function sched_log_link($x) {
 
 function location_form($host) {
     $none = "selected";
-    $h=$w=$s="";
+    $h=$w=$s=$m="";
     if ($host->venue == "home") $h = "selected";
     if ($host->venue == "work") $w = "selected";
     if ($host->venue == "school") $s = "selected";
+    if ($host->venue == "mobile") $m = "selected";
     $x = "<form action=host_venue_action.php>
         <input type=hidden name=hostid value=$host->id>
         <select name=venue>
@@ -55,6 +56,7 @@ function location_form($host) {
         <option value=home $h>".tra("Home")."
         <option value=work $w>".tra("Work")."
         <option value=school $s>".tra("School")."
+        <option value=mobile $m>".tra("Mobile")."
         </select>
         <input type=submit value=".tra("Update").">
         </form>
