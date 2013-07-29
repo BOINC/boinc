@@ -87,6 +87,7 @@ function show_version_xml($v, $p) {
 }
 
 function show_version($pname, $i, $v) {
+    if (!$v) return;
     $num = $v["num"];
     $file = $v["file"];
     $status = $v["status"];

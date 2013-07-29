@@ -284,7 +284,6 @@ $windowsx64 = array(
 		$w72x64dev,
 		$w70x64,
 		$w70x64old,
-		$w612x64,
     )
 );
 
