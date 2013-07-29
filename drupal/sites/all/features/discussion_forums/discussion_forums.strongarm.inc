@@ -17,7 +17,7 @@ function discussion_forums_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_controls_forum';
-  $strongarm->value = '3';
+  $strongarm->value = '1';
   $export['comment_controls_forum'] = $strongarm;
 
   $strongarm = new stdClass;
