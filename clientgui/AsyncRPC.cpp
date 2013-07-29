@@ -1186,19 +1186,19 @@ void CMainDocument::HandleCompletedRPC() {
 }
 
 
-int CMainDocument::CopyProjectsToStateBuffer(PROJECTS& p, CC_STATE& state) {
+int CMainDocument::CopyProjectsToStateBuffer(PROJECTS& p, CC_STATE& ccstate) {
     int retval = 0;
     unsigned int i;
     PROJECT* state_project = NULL;
 
     // flag for delete
-    for (i=0; i<state.projects.size(); i++) {
-        state_project = state.projects[i];
+    for (i=0; i<ccstate.projects.size(); i++) {
+        state_project = ccstate.projects[i];
         state_project->flag_for_delete = true;
     }
 
     for (i=0; i<p.projects.size(); i++) {
-        state_project = state.lookup_project(p.projects[i]->master_url);
+        state_project = ccstate.lookup_project(p.projects[i]->master_url);
         if (state_project && (!strcmp(p.projects[i]->master_url, state_project->master_url))) {
             // Because the CC_STATE contains several pointers to each element of the 
             // CC_STATE::projects vector, we must update these elements in place.
@@ -1212,8 +1212,8 @@ int CMainDocument::CopyProjectsToStateBuffer(PROJECTS& p, CC_STATE& state) {
 
     // Anything need to be deleted?
     if (!retval) {
-        for (i=0; i<state.projects.size(); i++) {
-            state_project = state.projects[i];
+        for (i=0; i<ccstate.projects.size(); i++) {
+            state_project = ccstate.projects[i];
             if (state_project->flag_for_delete) {
                 retval = ERR_FILE_MISSING;
             }

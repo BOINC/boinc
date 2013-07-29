@@ -1192,9 +1192,9 @@ int CBOINCGUIApp::IsAnotherInstanceRunning() {
     myName[0] = 0;
     PROC_MAP::iterator i;
     for (i=pm.begin(); i!=pm.end(); i++) {
-        PROCINFO& pi = i->second;
-        if (pi.id == myPid) {
-            strncpy(myName, pi.command, sizeof(myName));
+        PROCINFO& procinfo = i->second;
+        if (procinfo.id == myPid) {
+            strncpy(myName, procinfo.command, sizeof(myName));
             break;
         }
     }
@@ -1205,10 +1205,10 @@ int CBOINCGUIApp::IsAnotherInstanceRunning() {
     
     // Search process list for other applications with same name
     for (i=pm.begin(); i!=pm.end(); i++) {
-        PROCINFO& pi = i->second;
-        if (pi.id == myPid) continue;
-        if (!strcmp(pi.command, myName)) {
-            otherInstanceID = pi.id;
+        PROCINFO& procinfo = i->second;
+        if (procinfo.id == myPid) continue;
+        if (!strcmp(procinfo.command, myName)) {
+            otherInstanceID = procinfo.id;
             break;
         }
     }

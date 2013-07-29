@@ -443,7 +443,7 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
     int newFrequency = TEXTLOGOFREQUENCY;
     *coveredFreq = 0;
     pid_t myPid;
-    CC_STATE state;
+    CC_STATE ccstate;
     OSStatus err;
     
     if (ScreenIsBlanked) {
@@ -472,11 +472,11 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
             if (!rpc->init(NULL)) {     // Initialize communications with Core Client
                 m_bConnected = true;
                 if (IsDualGPUMacbook) {
-                    state.clear();
-                    state.global_prefs.clear_bools();
-                    int result = rpc->get_state(state);
+                    ccstate.clear();
+                    ccstate.global_prefs.clear_bools();
+                    int result = rpc->get_state(ccstate);
                     if (!result) {
-                        OKToRunOnBatteries = state.global_prefs.run_on_batteries;
+                        OKToRunOnBatteries = ccstate.global_prefs.run_on_batteries;
                     } else {
                         OKToRunOnBatteries = false;
                     }

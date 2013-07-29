@@ -813,12 +813,12 @@ void CPaintStatistics::DrawAxis(wxDC &dc, const double max_val_y, const double m
 	dc.DestroyClippingRegion();
 }
 //----Draw graph----
-void CPaintStatistics::DrawGraph(wxDC &dc, std::vector<PROJECT*>::const_iterator &i, const wxColour graphColour, const int typePoint, const int m_SelectedStatistic) {
+void CPaintStatistics::DrawGraph(wxDC &dc, std::vector<PROJECT*>::const_iterator &i, const wxColour graphColour, const int typePoint, const int selectedStatistic) {
     std::vector<DAILY_STATS> stats = (*i)->statistics;
-    DrawGraph2(dc, stats, graphColour, typePoint, m_SelectedStatistic);
+    DrawGraph2(dc, stats, graphColour, typePoint, selectedStatistic);
 }
 
-void CPaintStatistics::DrawGraph2(wxDC &dc, std::vector<DAILY_STATS> stats, const wxColour graphColour, const int typePoint, const int m_SelectedStatistic) {
+void CPaintStatistics::DrawGraph2(wxDC &dc, std::vector<DAILY_STATS> stats, const wxColour graphColour, const int typePoint, const int selectedStatistic) {
 	wxCoord x0 = wxCoord(m_Graph_X_start);
 	wxCoord y0 = wxCoord(m_Graph_Y_start);
 	wxCoord w0 = wxCoord(m_Graph_X_end - m_Graph_X_start);
@@ -870,7 +870,7 @@ void CPaintStatistics::DrawGraph2(wxDC &dc, std::vector<DAILY_STATS> stats, cons
 		b_point2 = false;
 
 		d_xpos = (m_Ax_ValToCoord * j->day + m_Bx_ValToCoord);// добавить округление
-		switch (m_SelectedStatistic){  // добавить округление
+		switch (selectedStatistic){  // добавить округление
 		case show_user_total:	d_ypos = (m_Ay_ValToCoord * j->user_total_credit + m_By_ValToCoord);	break;
 		case show_user_average:	d_ypos = (m_Ay_ValToCoord * j->user_expavg_credit + m_By_ValToCoord);	break;
 		case show_host_total:	d_ypos = (m_Ay_ValToCoord * j->host_total_credit + m_By_ValToCoord);	break;

@@ -1773,11 +1773,11 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
 }
 
 
-int CMainDocument::WorkShowVMConsole(RESULT* result) {
+int CMainDocument::WorkShowVMConsole(RESULT* res) {
     int iRetVal = 0;
     
-    if (strlen(result->remote_desktop_addr)) {
-        wxString strConnection(result->remote_desktop_addr, wxConvUTF8);
+    if (strlen(res->remote_desktop_addr)) {
+        wxString strConnection(res->remote_desktop_addr, wxConvUTF8);
         wxString strCommand;
 
 #if   defined(__WXMSW__)
@@ -1788,16 +1788,16 @@ int CMainDocument::WorkShowVMConsole(RESULT* result) {
         wxExecute(strCommand);
 #elif defined(__WXMAC__)
         FSRef theFSRef;
-        OSStatus status = noErr;
+        OSStatus err = noErr;
 
         // I have found no reliable way to pass the IP address and port to Microsoft's 
         // Remote Desktop Connection application for the Mac, so I'm using CoRD.  
         // Unfortunately, CoRD does not seem as reliable as I would like either.
         //
         // First try to find the CoRD application by Bundle ID and Creator Code
-        status = LSFindApplicationForInfo('RDC#', CFSTR("net.sf.cord"),   
+        err = LSFindApplicationForInfo('RDC#', CFSTR("net.sf.cord"),
                                         NULL, &theFSRef, NULL);
-        if (status != noErr) {
+        if (err != noErr) {
             CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
             if (pFrame) {
                 pFrame->ShowAlert(

@@ -511,9 +511,9 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     }
 
     if (pc.min_passwd_length) {
-        wxString str;
+        wxString str2;
         str.Printf(_("minimum length %d"), pc.min_passwd_length);
-        m_pAccountPasswordRequirmentsStaticCtrl->SetLabel( str );
+        m_pAccountPasswordRequirmentsStaticCtrl->SetLabel( str2 );
     }
 
 

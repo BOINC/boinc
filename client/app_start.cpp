@@ -1166,7 +1166,7 @@ union headeru {
 //
 int ACTIVE_TASK::is_native_i386_app(char* exec_path) {
     FILE *f;
-    int result = 0;
+    int retval = 0;
     
     headeru myHeader;
     fat_arch fatHeader;
@@ -1177,7 +1177,7 @@ int ACTIVE_TASK::is_native_i386_app(char* exec_path) {
     
     f = boinc_fopen(exec_path, "rb");
     if (!f) {
-        return result;          // Should never happen
+        return retval;          // Should never happen
     }
     
     myHeader.fat.magic = 0;
@@ -1195,7 +1195,7 @@ int ACTIVE_TASK::is_native_i386_app(char* exec_path) {
             theType = OSSwapInt32(theType);
         }
         if ((theType == CPU_TYPE_I386) || (theType == CPU_TYPE_X86_64)) {
-            result = 1;        // Single-architecture i386or x86_64 file
+            retval = 1;        // Single-architecture i386or x86_64 file
         }
         break;
     case FAT_MAGIC:
@@ -1215,7 +1215,7 @@ int ACTIVE_TASK::is_native_i386_app(char* exec_path) {
                 theType = OSSwapInt32(theType);
             }
             if ((theType == CPU_TYPE_I386) || (theType == CPU_TYPE_X86_64)) {
-                result = 1;
+                retval = 1;
                 break;
             }
         }
@@ -1225,7 +1225,7 @@ int ACTIVE_TASK::is_native_i386_app(char* exec_path) {
     }
 
     fclose (f);
-    return result;
+    return retval;
 }
 #endif
 

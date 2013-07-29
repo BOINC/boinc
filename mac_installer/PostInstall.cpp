@@ -99,7 +99,7 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
 Boolean SetLoginItemAPI(long brandID, Boolean deleteLogInItem);
 OSErr GetCurrentScreenSaverSelection(char *moduleName, size_t maxLen);
 OSErr SetScreenSaverSelection(char *moduleName, char *modulePath, int type);
-void SetSkinInUserPrefs(char *userName, char *skinName);
+void SetSkinInUserPrefs(char *userName, char *nameOfSkin);
 Boolean CheckDeleteFile(char *name);
 void SetEUIDBackToUser (void);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
@@ -1022,7 +1022,7 @@ Boolean SetLoginItemAPI(long brandID, Boolean deleteLogInItem)
 
 
 // Sets the skin selection in the specified user's preferences to the specified skin
-void SetSkinInUserPrefs(char *userName, char *skinName)
+void SetSkinInUserPrefs(char *userName, char *nameOfSkin)
 {
     passwd              *pw;
     FILE                *oldPrefs, *newPrefs;
@@ -1033,7 +1033,7 @@ void SetSkinInUserPrefs(char *userName, char *skinName)
     group               *grp;
     OSStatus            statErr;
 
-    if (skinName[0]) {
+    if (nameOfSkin[0]) {
         sprintf(oldFileName, "/Users/%s/Library/Preferences/BOINC Manager Preferences", userName);
         sprintf(tempFilename, "/Users/%s/Library/Preferences/BOINC Manager NewPrefs", userName);
         newPrefs = fopen(tempFilename, "w");
@@ -1045,7 +1045,7 @@ void SetSkinInUserPrefs(char *userName, char *skinName)
             if (oldPrefs) {
                 while (fgets(buf, sizeof(buf), oldPrefs)) {
                     if (strstr(buf, "Skin=")) {
-                        fprintf(newPrefs, "Skin=%s\n", skinName);
+                        fprintf(newPrefs, "Skin=%s\n", nameOfSkin);
                         wroteSkinName = 1;
                     } else {
                         fputs(buf, newPrefs);
@@ -1055,7 +1055,7 @@ void SetSkinInUserPrefs(char *userName, char *skinName)
             }
             
             if (! wroteSkinName)
-                fprintf(newPrefs, "Skin=%s\n", skinName);
+                fprintf(newPrefs, "Skin=%s\n", nameOfSkin);
                 
             fclose(newPrefs);
             rename(tempFilename, oldFileName);  // Deletes old file
@@ -1328,8 +1328,8 @@ OSErr UpdateAllVisibleUsers(long brandID)
     char                *p;
     int                 flag;
     
-//    char                skinName[256];
-//    FindSkinName(skinName, sizeof(skinName));
+//    char                nameOfSkin[256];
+//    FindSkinName(nameOfSkin, sizeof(nameOfSkin));
         
 
     // Step through all users

@@ -1913,7 +1913,7 @@ int RPC_CLIENT::run_benchmarks() {
     return rpc.parse_reply();
 }
 
-int RPC_CLIENT::set_proxy_settings(GR_PROXY_INFO& pi) {
+int RPC_CLIENT::set_proxy_settings(GR_PROXY_INFO& procinfo) {
     int retval;
     SET_LOCALE sl;
     char buf[1792];
@@ -1934,18 +1934,18 @@ int RPC_CLIENT::set_proxy_settings(GR_PROXY_INFO& pi) {
 		"        <no_proxy>%s</no_proxy>\n"
         "    </proxy_info>\n"
         "</set_proxy_settings>\n",
-        pi.use_http_proxy?"        <use_http_proxy/>\n":"",
-        pi.use_socks_proxy?"        <use_socks_proxy/>\n":"",
-        pi.use_http_authentication?"        <use_http_auth/>\n":"",
-        pi.http_server_name.c_str(),
-        pi.http_server_port,
-        pi.http_user_name.c_str(),
-        pi.http_user_passwd.c_str(),
-        pi.socks_server_name.c_str(),
-        pi.socks_server_port,
-        pi.socks5_user_name.c_str(),
-        pi.socks5_user_passwd.c_str(),
-		pi.noproxy_hosts.c_str()
+        procinfo.use_http_proxy?"        <use_http_proxy/>\n":"",
+        procinfo.use_socks_proxy?"        <use_socks_proxy/>\n":"",
+        procinfo.use_http_authentication?"        <use_http_auth/>\n":"",
+        procinfo.http_server_name.c_str(),
+        procinfo.http_server_port,
+        procinfo.http_user_name.c_str(),
+        procinfo.http_user_passwd.c_str(),
+        procinfo.socks_server_name.c_str(),
+        procinfo.socks_server_port,
+        procinfo.socks5_user_name.c_str(),
+        procinfo.socks5_user_passwd.c_str(),
+		procinfo.noproxy_hosts.c_str()
     );
     buf[sizeof(buf)-1] = 0;
     retval = rpc.do_rpc(buf);

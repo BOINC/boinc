@@ -446,9 +446,9 @@ void CBOINCClientManager::KillClient() {
     
     PROC_MAP::iterator i;
     for (i=pm.begin(); i!=pm.end(); i++) {
-        PROCINFO& pi = i->second;
-        if (!strcmp(pi.command, "boinc")) {
-            kill_program(pi.id);
+        PROCINFO& procinfo = i->second;
+        if (!strcmp(procinfo.command, "boinc")) {
+            kill_program(procinfo.id);
             break;
         }
     }
