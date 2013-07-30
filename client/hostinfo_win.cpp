@@ -344,6 +344,28 @@
 #ifndef PRODUCT_MOBILE_CORE
 #define PRODUCT_MOBILE_CORE                         0x00000068
 #endif
+// Windows NT 6.3
+#ifndef PRODUCT_EMBEDDED_INDUSTRY_EVAL
+#define PRODUCT_EMBEDDED_INDUSTRY_EVAL              0x00000069
+#endif
+#ifndef PRODUCT_EMBEDDED_INDUSTRY_E_EVAL
+#define PRODUCT_EMBEDDED_INDUSTRY_E_EVAL            0x0000006A
+#endif
+#ifndef PRODUCT_EMBEDDED_EVAL
+#define PRODUCT_EMBEDDED_EVAL                       0x0000006B
+#endif
+#ifndef PRODUCT_EMBEDDED_E_EVAL
+#define PRODUCT_EMBEDDED_E_EVAL                     0x0000006C
+#endif
+#ifndef PRODUCT_CORE_SERVER
+#define PRODUCT_CORE_SERVER                         0x0000006D
+#endif
+#ifndef PRODUCT_CLOUD_STORAGE_SERVER
+#define PRODUCT_CLOUD_STORAGE_SERVER                0x0000006E
+#endif
+
+
+
 // Newer suite types than what is currently defined in
 //   Visual Studio 2005
 #ifndef VER_SUITE_WH_SERVER
@@ -766,7 +788,11 @@ int get_os_information(
                     case PROCESSOR_ARCHITECTURE_AMD64:
                         strcat(szSKU, "x64 ");
                         break;
-                    case PROCESSOR_ARCHITECTURE_UNKNOWN:
+					// could be needed for Windows RT Boinc ?
+					case PROCESSOR_ARCHITECTURE_ARM:
+						strcat(szSKU, "ARM");
+						break;
+					case PROCESSOR_ARCHITECTURE_UNKNOWN:
                         strcat(szSKU, "Unknown ");
                         break;
                 }
@@ -1012,6 +1038,9 @@ int get_processor_features(char* vendor, char* features, int features_size) {
     unsigned int ext_eax = 0, ext_ebx = 0, ext_ecx = 0, ext_edx = 0;
     unsigned int std_supported = 0, ext_supported = 0, intel_supported = 0, amd_supported = 0;
 
+	unsigned int struc_ext_supported = 0; // CPUID 0000:0007 ECX=0;
+	unsigned int struc_eax = 0, struc_ebx = 0, struc_ecx = 0, struc_edx = 0;
+
     if (!vendor) return ERR_INVALID_PARAM;
     if (!features) return ERR_INVALID_PARAM;
     if (features_size < 250) return ERR_WRONG_SIZE;
@@ -1030,6 +1059,17 @@ int get_processor_features(char* vendor, char* features, int features_size) {
         std_supported = 1;
         get_cpuid(0x00000001, std_eax, std_ebx, std_ecx, std_edx);
     }
+
+	// Structured Ext. Feature Flags
+	//
+	// only using eax=7 ecx=0; could need an other option later for ecx=1...n //
+	get_cpuid(0x00000000, std_eax, std_ebx, std_ecx, std_edx);
+	if (std_eax >= 0x00000007) {
+		struc_ext_supported = 1;
+		get_cpuid(0x00000007, struc_eax, struc_ebx, struc_ecx, struc_edx);
+	}
+
+
 
     get_cpuid(0x80000000, ext_eax, ext_ebx, ext_ecx, ext_edx);
     if (ext_eax >= 0x80000001) {
@@ -1066,17 +1106,19 @@ int get_processor_features(char* vendor, char* features, int features_size) {
     FEATURE_TEST(std_supported, (std_edx & (1 << 28)), "htt ");
     FEATURE_TEST(std_supported, (std_edx & (1 << 29)), "tm ");
 
-    FEATURE_TEST(std_supported, (std_ecx & (1 << 0)), "pni ");		// should be named like it is definded - SSE3 and not PNI !
+    FEATURE_TEST(std_supported, (std_ecx & (1 << 0)), "pni ");
     FEATURE_TEST(std_supported, (std_ecx & (1 << 9)), "ssse3 ");
-	FEATURE_TEST(std_supported, (std_ecx & (1 << 12)), "fma ");		// removed from Intel only because AMD Family 15h & 16h support it too
+	FEATURE_TEST(std_supported, (std_ecx & (1 << 12)), "fma ");
 	FEATURE_TEST(std_supported, (std_ecx & (1 << 13)), "cx16 ");
     FEATURE_TEST(std_supported, (std_ecx & (1 << 19)), "sse4_1 ");
     FEATURE_TEST(std_supported, (std_ecx & (1 << 20)), "sse4_2 ");
-    FEATURE_TEST(std_supported, (std_ecx & (1 << 22)), "movebe ");	// removed from Intel only because AMD Family 16h support it too	
-    FEATURE_TEST(std_supported, (std_ecx & (1 << 23)), "popcnt ");	// removed from Intel only because AMD Family 10h/11h/12h/14h/15h/16h support it too
-    FEATURE_TEST(std_supported, (std_ecx & (1 << 25)), "aes ");		// removed from Intel only because AMD Family 15h & 16h support it too
+    FEATURE_TEST(std_supported, (std_ecx & (1 << 22)), "movebe ");
+    FEATURE_TEST(std_supported, (std_ecx & (1 << 23)), "popcnt ");
+    FEATURE_TEST(std_supported, (std_ecx & (1 << 25)), "aes ");
     FEATURE_TEST(std_supported, (std_ecx & (1 << 28)), "avx ");
-	
+	FEATURE_TEST(std_supported, (std_ecx & (1 << 29)), "f16c ");
+	FEATURE_TEST(std_supported, (std_ecx & (1 << 29)), "rdrand");
+
     FEATURE_TEST(ext_supported, (ext_edx & (1 << 11)), "syscall ");
     FEATURE_TEST(ext_supported, (ext_edx & (1 << 20)), "nx ");
     FEATURE_TEST(ext_supported, (ext_edx & (1 << 29)), "lm ");
@@ -1091,6 +1133,20 @@ int get_processor_features(char* vendor, char* features, int features_size) {
         FEATURE_TEST(std_supported, (std_edx & (1 << 31)), "pbe ");
     }
 
+
+	if (struc_ext_supported) {
+		// Structured Ext. Feature Flags
+		// used by newer Intel and newer AMD CPUs
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 0)), "fsgsbase");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 3)), "bmi1");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 4)), "hle");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 5)), "avx2");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 7)), "smep");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 8)), "bmi2");
+
+	}
+
+
     if (amd_supported) {
         // AMD only features
         FEATURE_TEST(ext_supported, (ext_ecx & (1 << 2)), "svm ");
@@ -1102,10 +1158,11 @@ int get_processor_features(char* vendor, char* features, int features_size) {
         FEATURE_TEST(ext_supported, (ext_ecx & (1 << 13)), "wdt ");
         FEATURE_TEST(ext_supported, (ext_ecx & (1 << 15)), "lwp ");
         FEATURE_TEST(ext_supported, (ext_ecx & (1 << 16)), "fma4 ");
-		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 17)), "tce ");		// new - translation cache extension
+		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 17)), "tce ");
 		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 18)), "cvt16 ");
-		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 21)), "tbm ");		// new - trailing bit manipulation instruction
-		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 22)), "topx ");	// new - topology extensions
+		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 21)), "tbm ");
+		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 22)), "topx ");
+
 
         FEATURE_TEST(ext_supported, (ext_edx & (1 << 26)), "page1gb ");
         FEATURE_TEST(ext_supported, (ext_edx & (1 << 27)), "rdtscp ");
