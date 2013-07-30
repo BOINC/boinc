@@ -1240,7 +1240,12 @@ static void worker_signal_handler(int) {
     }
     if (options.direct_process_action) {
         while (boinc_status.suspended && in_critical_section==0) {
+#ifdef ANDROID
+            // Suspicion that sleep() sleeps entire process
+            // on old versions of Android
+            //
             sched_yield();
+#endif
             sleep(1);   // don't use boinc_sleep() because it does FP math
         }
     }
