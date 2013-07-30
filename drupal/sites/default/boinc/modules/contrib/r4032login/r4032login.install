@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * Implementation of hook_enable().
+ */
+function r4032login_enable() {
+  variable_set('site_403', 'r4032login');
+}
+
+/**
+ * Implementation of hook_disable().
+ */
+function r4032login_disable() {
+  variable_del('site_403');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function r4032login_uninstall() {
+  variable_del('r4032login_display_denied_message');
+  variable_del('r4032login_user_register_message');
+  variable_del('r4032login_redirect_authenticated_users_to');
+}

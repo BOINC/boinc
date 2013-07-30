@@ -206,7 +206,7 @@
               if ($user->uid):
                 echo '<a href="' . $base_path . 'logout"><span class="secondary-link tab">' . t('Logout') . '</span></a>';
               else:
-                echo '<a href="' . $base_path . 'user/login"><span class="secondary-link tab">' . t('Login') . '</span></a>';
+                echo '<a href="' . $base_path . 'user/login?' . drupal_get_destination() . '"><span class="secondary-link tab">' . t('Login') . '</span></a>';
               endif;
             ?>
             </li>
