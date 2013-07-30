@@ -238,8 +238,11 @@ function test_mysql_query($msg) {
     return 1;
 }
 
-// for purposes of testing and seeing queries,
-// replace the two instances of mysql_query() below with test_mysql_query().
+// cancel WUs with IDs in a given range.
+// This means:
+//
+// - for any results w/ server state UNSENT, set server state to OVER
+// - set the CANCELLED bit in workunit.error_mask
 //
 function cancel_wu($wuid1, $wuid2) {
     $command1="update result set server_state=5, outcome=5 where server_state=2 and $wuid1<=workunitid and workunitid<=$wuid2";
@@ -260,6 +263,18 @@ function cancel_wu($wuid1, $wuid2) {
     mysql_query($query);
 
     return 0;
+}
+
+// like above, but if a workunit has a result that's already sent,
+// don't cancel it
+//
+function cancel_wu_if_unsent($id1, $id2) {
+    $wus = BoincWorkunit::enum("id >= $id1 and id <= $id2");
+    foreach ($wus as $wu) {
+        $results = BoincResult::enum("workunitid=$wu.id and server_state > 2");
+        if (count($results)) continue;
+
+    }
 }
 
 if (isset($cli_only)) {

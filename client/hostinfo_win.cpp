@@ -1117,7 +1117,7 @@ int get_processor_features(char* vendor, char* features, int features_size) {
     FEATURE_TEST(std_supported, (std_ecx & (1 << 25)), "aes ");
     FEATURE_TEST(std_supported, (std_ecx & (1 << 28)), "avx ");
 	FEATURE_TEST(std_supported, (std_ecx & (1 << 29)), "f16c ");
-	FEATURE_TEST(std_supported, (std_ecx & (1 << 29)), "rdrand");
+	FEATURE_TEST(std_supported, (std_ecx & (1 << 30)), "rdrand");
 
     FEATURE_TEST(ext_supported, (ext_edx & (1 << 11)), "syscall ");
     FEATURE_TEST(ext_supported, (ext_edx & (1 << 20)), "nx ");
