@@ -244,16 +244,14 @@ function test_mysql_query($msg) {
 // - for any results w/ server state UNSENT, set server state to OVER
 // - set the CANCELLED bit in workunit.error_mask
 //
-function cancel_wu($wuid1, $wuid2) {
-    $command1="update result set server_state=5, outcome=5 where server_state=2 and $wuid1<=workunitid and workunitid<=$wuid2";
-    $command2="update workunit set error_mask=error_mask|16 where $wuid1<=id and id<=$wuid2";
-
-    if (!mysql_query($command1)) {
-        echo "MySQL command $command1 failed:<br/>unable to cancel unsent results.<br/>";
-        return 1;
-    } else if (!mysql_query($command2)) {
-        echo "MySQL command $command2 failed:<br/>unable to cancel workunits.<br/>";
-        return 2;
+function cancel_wus($wuid1, $wuid2) {
+    $query="update result set server_state=5, outcome=5 where server_state=2 and $wuid1<=workunitid and workunitid<=$wuid2";
+    if (!mysql_query($query)) {
+        error_page("DB query $query failed");
+    }
+    $query="update workunit set error_mask=error_mask|16 where $wuid1<=id and id<=$wuid2";
+    if (!mysql_query($query)) {
+        error_page("DB query $query failed");
     }
 
     // trigger the transitioner (it will set file_delete_state)
@@ -261,20 +259,26 @@ function cancel_wu($wuid1, $wuid2) {
     $now = time();
     $query="update workunit set transition_time=$now where $wuid1<=id and id<=$wuid2";
     mysql_query($query);
-
     return 0;
 }
 
 // like above, but if a workunit has a result that's already sent,
-// don't cancel it
+// don't cancel the workunit
 //
-function cancel_wu_if_unsent($id1, $id2) {
+function cancel_wus_if_unsent($id1, $id2) {
     $wus = BoincWorkunit::enum("id >= $id1 and id <= $id2");
     foreach ($wus as $wu) {
         $results = BoincResult::enum("workunitid=$wu.id and server_state > 2");
         if (count($results)) continue;
-
+        $query="update result set server_state=5, outcome=5 where workunitid=$wu->id";
+        if (!mysql_query($query)) {
+            error_page("DB query $query failed");
+        }
+        if (!$wu->update("error_mask=error_mask|16")) {
+            error_page("WU update failed");
+        }
     }
+    return 0;
 }
 
 if (isset($cli_only)) {
