@@ -62,7 +62,10 @@
       if ($topic_index == 1) {
         $row_class .= ' first';
       }
-      if (!$first_non_sticky AND !$topic->sticky) {
+      if ($topic->sticky) {
+        $row_class .= ' sticky';
+      }
+      elseif (!$first_non_sticky AND !$topic->sticky) {
         $row_class .= ' first-non-sticky';
         $first_non_sticky = TRUE;
       }
