@@ -807,7 +807,7 @@ void CDlgAdvPreferences::OnAddExclusiveApp(wxCommandEvent&) {
 #else
 //TODO: fill in the default directory for Linux
         wxFileDialog picker(this, _("Applications to add"),
-            wxT("/"), wxT(""), wxT("*"),
+            wxT("/usr/bin"), wxT(""), wxT("*"),
             wxFD_OPEN|wxFD_FILE_MUST_EXIST|wxFD_CHANGE_DIR|wxFD_MULTIPLE|wxFD_CHANGE_DIR
         );
 #endif
