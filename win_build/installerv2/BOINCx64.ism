@@ -939,9 +939,11 @@
 		<row><td>CAGetAdministratorsGroupName</td><td>1</td><td>NewBinary6</td><td>GetAdministratorsGroupName</td><td/><td/></row>
 		<row><td>CAGetUsersGroupName</td><td>1</td><td>NewBinary6</td><td>GetUsersGroupName</td><td/><td/></row>
 		<row><td>CAGrantBOINCAdminsRights</td><td>1</td><td>NewBinary6</td><td>GrantBOINCAdminsRights</td><td/><td/></row>
+		<row><td>CAGrantBOINCAdminsVirtualBoxRights</td><td>1</td><td>NewBinary6</td><td>GrantBOINCAdminsVirtualBoxRights</td><td/><td/></row>
 		<row><td>CAGrantBOINCMasterRights</td><td>1</td><td>NewBinary6</td><td>GrantBOINCMasterRights</td><td/><td/></row>
 		<row><td>CAGrantBOINCProjectRights</td><td>1</td><td>NewBinary6</td><td>GrantBOINCProjectRights</td><td/><td/></row>
 		<row><td>CAGrantBOINCProjectsRights</td><td>1</td><td>NewBinary6</td><td>GrantBOINCProjectsRights</td><td/><td/></row>
+		<row><td>CAGrantBOINCProjectsVirtualBoxRights</td><td>1</td><td>NewBinary6</td><td>GrantBOINCProjectsVirtualBoxRights</td><td/><td/></row>
 		<row><td>CAGrantBOINCUsersRights</td><td>1</td><td>NewBinary6</td><td>GrantBOINCUsersRights</td><td/><td/></row>
 		<row><td>CALaunchBOINCManager</td><td>65</td><td>NewBinary6</td><td>LaunchBOINCManager</td><td/><td/></row>
 		<row><td>CALaunchBOINCTray</td><td>65</td><td>NewBinary6</td><td>LaunchBOINCTray</td><td/><td/></row>
@@ -4055,7 +4057,7 @@ Click Advanced to customize.</td><td>0</td><td/><td>1427879980</td></row>
 		<col def="I2">Sequence</col>
 		<col def="S255">ISComments</col>
 		<col def="I4">ISAttributes</col>
-		<row><td>AllocateRegistrySpace</td><td>NOT Installed</td><td>1554</td><td>AllocateRegistrySpace</td><td/></row>
+		<row><td>AllocateRegistrySpace</td><td>NOT Installed</td><td>1556</td><td>AllocateRegistrySpace</td><td/></row>
 		<row><td>AppSearch</td><td/><td>400</td><td>AppSearch</td><td/></row>
 		<row><td>BindImage</td><td/><td>4300</td><td>BindImage</td><td/></row>
 		<row><td>CACleanupOldBinaries</td><td>REMOVE &lt;&gt; "ALL"</td><td>796</td><td/><td/></row>
@@ -4067,11 +4069,13 @@ Click Advanced to customize.</td><td>0</td><td/><td>1427879980</td></row>
 		<row><td>CAGetAdministratorsGroupName</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>1537</td><td/><td/></row>
 		<row><td>CAGetUsersGroupName</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>1543</td><td/><td/></row>
 		<row><td>CAGrantBOINCAdminsRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1550</td><td/><td/></row>
+		<row><td>CAGrantBOINCAdminsVirtualBoxRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1551</td><td/><td/></row>
 		<row><td>CAGrantBOINCMasterRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1547</td><td/><td/></row>
 		<row><td>CAGrantBOINCProjectRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1548</td><td/><td/></row>
-		<row><td>CAGrantBOINCProjectsRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1552</td><td/><td/></row>
-		<row><td>CAGrantBOINCUsersRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1551</td><td/><td/></row>
-		<row><td>CAMigrateBOINCData</td><td/><td>1553</td><td/><td/></row>
+		<row><td>CAGrantBOINCProjectsRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1553</td><td/><td/></row>
+		<row><td>CAGrantBOINCProjectsVirtualBoxRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1554</td><td/><td/></row>
+		<row><td>CAGrantBOINCUsersRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1552</td><td/><td/></row>
+		<row><td>CAMigrateBOINCData</td><td/><td>1555</td><td/><td/></row>
 		<row><td>CAMigrateBOINCDataCleanup</td><td>REMOVE &lt;&gt; "ALL"</td><td>6612</td><td/><td/></row>
 		<row><td>CAMigrateBOINCDataInstall</td><td/><td>3950</td><td/><td/></row>
 		<row><td>CAMigrateBOINCDataRollback</td><td/><td>3900</td><td/><td/></row>
