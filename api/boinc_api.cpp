@@ -1241,10 +1241,15 @@ static void worker_signal_handler(int) {
     if (options.direct_process_action) {
         while (boinc_status.suspended && in_critical_section==0) {
 #ifdef ANDROID
-            // Suspicion that sleep() sleeps entire process
+            // Suspicion that per-thread signal masking doesn't work
             // on old versions of Android
             //
-            sched_yield();
+            if (pthread_self() == timer_thread_id) {
+                fprintf(stderr,
+                    "ERROR - signal handler called in timer thread\n"
+                );
+                exit(1);
+            }
 #endif
             sleep(1);   // don't use boinc_sleep() because it does FP math
         }
