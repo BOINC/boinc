@@ -359,10 +359,10 @@ bool CBOINCGUIApp::OnInit() {
             }
             strDialogMessage += _(")");
             
-            fprintf(stderr, "%ls ownership or permissions are not set properly; please reinstall %ls.\n(Error code %d at %s)", 
+            fprintf(stderr, "%ls ownership or permissions are not set properly; please reinstall %ls.  (Error code %d%s%s)\n", 
                     m_pSkinManager->GetAdvanced()->GetApplicationShortName().c_str(),
                     m_pSkinManager->GetAdvanced()->GetApplicationShortName().c_str(),
-                    iErrorCode, path_to_error
+                    iErrorCode, (path_to_error[0] ? " at " : ""), path_to_error
                 );
         }
         wxMessageDialog* pDlg = new wxMessageDialog(
