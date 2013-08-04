@@ -63,6 +63,8 @@ public:
     char os_version[256];
     char product_name[256];       // manufacturer and/or model of system
                                   // currently used for Android devices
+    char mac_address[256];      // MAC addr e.g. 00:00:00:00:00:00
+                                // currently populated for Android
 
     // the following is non-empty if VBox is installed
     //
