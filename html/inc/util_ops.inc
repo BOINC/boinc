@@ -268,7 +268,7 @@ function cancel_wus($wuid1, $wuid2) {
 function cancel_wus_if_unsent($id1, $id2) {
     $wus = BoincWorkunit::enum("id >= $id1 and id <= $id2");
     foreach ($wus as $wu) {
-        $results = BoincResult::enum("workunitid=$wu.id and server_state > 2");
+        $results = BoincResult::enum("workunitid=$wu->id and server_state > 2");
         if (count($results)) continue;
         $query="update result set server_state=5, outcome=5 where workunitid=$wu->id";
         if (!mysql_query($query)) {
