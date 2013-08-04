@@ -69,7 +69,7 @@ include_once("../project/project_specific_prefs.inc");
 
 $app_types = get_app_types();
 
-$venues = array("home", "school", "work", "mobile");
+$venues = array("home", "school", "work");
 
 $cpu_prefs = array(
     new PREF_BOOL(
@@ -442,7 +442,6 @@ function check_venue($x) {
     if ($x == "home") return;
     if ($x == "work") return;
     if ($x == "school") return;
-    if ($x == "mobile") return;
     error_page(tra("bad venue: %1", $x));
 }
 
@@ -640,7 +639,6 @@ function row_top($x, $ncols=6, $class="heading") {
         <td class=$class width=10%><b>".tra("Home")."</b></td>
         <td class=$class width=10%><b>".tra("School")."</b></td>
         <td class=$class width=10%><b>".tra("Work")."</b></td>
-        <td class=$class width=10%><b>".tra("Mobile")."</b></td>
     ";
     echo "<td width=15%><br></td></tr>\n";
 }
@@ -653,14 +651,12 @@ function row_defs($pre, $item, $post, $type, $prefs) {
     $hom  = (isset($prefs->home) && isset($prefs->home->$item)) ? $prefs->home->$item : "--";
     $schl = (isset($prefs->school) && isset($prefs->school->$item)) ? $prefs->school->$item : "--";
     $wrk  = (isset($prefs->work) && isset($prefs->work->$item)) ? $prefs->work->$item : "--";
-    $mob  = (isset($prefs->mobile) && isset($prefs->mobile->$item)) ? $prefs->mobile->$item : "--";
 
     echo "<tr><td class=fieldname>$pre</td>";
     row_field($gen,  $type);
     row_field($hom,  $type);
     row_field($schl, $type);
     row_field($wrk,  $type);
-    row_field($mob,  $type);
     echo "<td align=left>$post</td></tr>\n";
 }
 
@@ -713,27 +709,23 @@ function row_links($subset, $prefs) {
     $hom  = isset($prefs->home) ? $pre_edit."home".$post_edit : $pre_add."home".$post_add;
     $schl = isset($prefs->school) ? $pre_edit."school".$post_edit : $pre_add."school".$post_add;
     $wrk  = isset($prefs->work) ? $pre_edit."work".$post_edit : $pre_add."work".$post_add;
-    $mob  = isset($prefs->mobile) ? $pre_edit."mobile".$post_edit : $pre_add."mobile".$post_add;
 
     echo "<tr><td class=fieldname> </td>";
     echo "<td>$gen</td>";
     echo "<td>$hom</td>";
     echo "<td>$schl</td>";
     echo "<td>$wrk</td>";
-    echo "<td>$mob</td>";
     echo "<td><br></td></tr>\n";
 
     $hom  = isset($prefs->home) ? $pre_remove."home".$post_remove : "<br>";
     $schl = isset($prefs->school) ? $pre_remove."school".$post_remove : "<br>";
     $wrk  = isset($prefs->work) ? $pre_remove."work".$post_remove : "<br>";
-    $mob  = isset($prefs->mobile) ? $pre_remove."mobile".$post_remove : "<br>";
 
     echo "<tr><td class=fieldname> </td>";
     echo "<td> </td>";
     echo "<td>$hom</td>";
     echo "<td>$schl</td>";
     echo "<td>$wrk</td>";
-    echo "<td>$mob</td>";
     echo "<td><br></td></tr>\n";
 }
 
@@ -810,7 +802,6 @@ function prefs_show_project_specific($prefs, $columns=false) {
         $project_specific_prefs->home = isset($prefs->home) ? project_specific_prefs_parse($prefs->home->project_specific) : "";
         $project_specific_prefs->work = isset($prefs->work) ? project_specific_prefs_parse($prefs->work->project_specific) : "";
         $project_specific_prefs->school = isset($prefs->school) ? project_specific_prefs_parse($prefs->school->project_specific) : "";
-        $project_specific_prefs->mobile = isset($prefs->mobile) ? project_specific_prefs_parse($prefs->mobile->project_specific) : "";
     } else {
         $project_specific_prefs = project_specific_prefs_parse($prefs->project_specific);
     }
@@ -867,7 +858,7 @@ function print_prefs_display_project($user, $columns=false) {
         end_table();
         echo "</td></tr>\n";
     } else {
-        if (isset($project_prefs->home) || isset($project_prefs->work) || isset($project_prefs->school) || isset($project_prefs->mobile)) {
+        if (isset($project_prefs->home) || isset($project_prefs->work) || isset($project_prefs->school)) {
             row1(tra("Primary (default) preferences").$switch_link, 2, "heading");
         }
         echo "<tr><td colspan=2>";
@@ -883,7 +874,6 @@ function print_prefs_display_project($user, $columns=false) {
         prefs_display_venue($project_prefs, "home", "project");
         prefs_display_venue($project_prefs, "school", "project");
         prefs_display_venue($project_prefs, "work", "project");
-        prefs_display_venue($project_prefs, "mobile", "project");
     }
     end_table();
 }
@@ -891,10 +881,13 @@ function print_prefs_display_project($user, $columns=false) {
 function print_prefs_display_global($user, $columns=false) {
     $global_prefs = prefs_parse_global($user->global_prefs);
 
-    echo "<span class=note>".
-         tra("These apply to all BOINC projects in which you participate.<br>
-             On computers participating in multiple projects, the most recently modified preferences will be used.").
-         "</span><br><br>";
+    echo "<span class=note>"
+         .tra("These apply to all BOINC projects in which you participate.")
+         ."<br>"
+         .tra("On computers participating in multiple projects, the most recently modified preferences will be used.")
+         ."<br>"
+         .tra("These preferences do not apply to Android devices.")
+         ."</span><br><br>";
     if (isset($global_prefs->mod_time)) {
         echo tra("Preferences last modified:")." ".pretty_time_str($global_prefs->mod_time);
     }
@@ -910,7 +903,7 @@ function print_prefs_display_global($user, $columns=false) {
         echo "</td></tr>\n";
 
     } else {
-        if (isset($global_prefs->home) || isset($global_prefs->work) || isset($global_prefs->school) || isset($global_prefs->mobile)) {
+        if (isset($global_prefs->home) || isset($global_prefs->work) || isset($global_prefs->school)) {
             row1(tra("Primary (default) preferences").$switch_link, 2, "heading");
         }
         echo "<tr><td colspan=2>";
@@ -926,7 +919,6 @@ function print_prefs_display_global($user, $columns=false) {
         prefs_display_venue($global_prefs, "home", "global");
         prefs_display_venue($global_prefs, "school", "global");
         prefs_display_venue($global_prefs, "work", "global");
-        prefs_display_venue($global_prefs, "mobile", "global");
     }
     end_table();
 }
@@ -1050,14 +1042,12 @@ function venue_form($user) {
     if ($user->venue == 'home') $h = 'selected';
     if ($user->venue == 'work') $w = 'selected';
     if ($user->venue == 'school') $s = 'selected';
-    if ($user->venue == 'mobile') $m = 'selected';
     row2(tra("Default computer location"),
         "<select name=default_venue>
         <option value=\"\" $n>---
         <option value=home $h>".tra("Home")."
         <option value=work $w>".tra("Work")."
         <option value=school $s>".tra("School")."
-        <option value=mobile $s>".tra("Mobile")."
         </select>"
     );
 }
@@ -1157,9 +1147,6 @@ function global_prefs_make_xml($prefs, $primary=true) {
     if (isset($prefs->school)) {
         $xml = $xml."<venue name=\"school\">\n".global_prefs_make_xml($prefs->school, false)."</venue>\n";
     }
-    if (isset($prefs->mobile)) {
-        $xml = $xml."<venue name=\"mobile\">\n".global_prefs_make_xml($prefs->mobile, false)."</venue>\n";
-    }
     if ($primary) {
         $xml = $xml."</global_preferences>\n";
     }
@@ -1190,9 +1177,6 @@ function project_prefs_make_xml($prefs, $primary=true) {
     }
     if (isset($prefs->school)) {
         $xml = $xml."<venue name=\"school\">\n".project_prefs_make_xml($prefs->school, false)."</venue>\n";
-    }
-    if (isset($prefs->mobile)) {
-        $xml = $xml."<venue name=\"mobile\">\n".project_prefs_make_xml($prefs->mobile, false)."</venue>\n";
     }
     if ($primary) {
         $xml = $xml."</project_preferences>\n";
