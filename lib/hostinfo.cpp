@@ -69,6 +69,7 @@ void HOST_INFO::clear_host_info() {
     strcpy(os_name, "");
     strcpy(os_version, "");
     strcpy(product_name, "");
+    strcpy(mac_address, "");
 
     strcpy(virtualbox_version, "");
     have_cpu_opencl = false;
@@ -96,6 +97,7 @@ int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
         if (xp.parse_str("host_cpid", host_cpid, sizeof(host_cpid))) continue;
 #ifdef ANDROID
         if (xp.parse_str("product_name", product_name, sizeof(product_name))) continue;
+        if (xp.parse_str("mac_address", mac_address, sizeof(mac_address))) continue;
 #endif
 
         if (static_items_only) continue;
@@ -204,6 +206,12 @@ int HOST_INFO::write(
         out.printf(
             "    <product_name>%s</product_name>\n",
             pn
+        );
+    }
+    if (strlen(mac_address)) {
+        out.printf(
+            "    <mac_address>%s</mac_address>\n",
+            mac_address
         );
     }
     if (strlen(virtualbox_version)) {
