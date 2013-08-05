@@ -92,10 +92,12 @@ function show_host($host, $user, $ipprivate) {
             row2(tra("IP address"), "<a href=show_host_detail.php?hostid=$host->id&ipprivate=1>".tra("Show IP address")."</a>");
         }
         row2(tra("Domain name"), $host->domain_name);
+        if ($host->product_name) {
+            row2(tra("Product name"), $host->product_name);
+        }
         $x = $host->timezone/3600;
         if ($x >= 0) $x="+$x";
         row2(tra("Local Standard Time"), tra("UTC %1 hours", $x));
-        row2(tra("Name"), $host->domain_name);
     } else {
         $owner = lookup_user_id($host->userid);
         if ($owner && $owner->show_hosts) {
@@ -117,9 +119,6 @@ function show_host($host, $user, $ipprivate) {
         row2(tra("Coprocessors"), gpu_desc($host->serialnum));
     }
     row2(tra("Operating System"), "$host->os_name <br> $host->os_version");
-    if ($user && $host->product_name) {
-        row2(tra("Product name"), $host->product_name);
-    }
     $v = boinc_version($host->serialnum);
     if ($v) {
         row2(tra("BOINC version"), $v);
@@ -318,7 +317,7 @@ function cpu_desc($host) {
 // so it's OK to show the domain name etc.
 // If private is false, show the owner's name only if they've given permission
 //
-function show_host_row($host, $i, $private, $show_owner) {
+function show_host_row($host, $i, $private, $show_owner, $any_product_name) {
     $j = $i % 2;
     $anonymous = false;
     if (!$private) {
@@ -343,6 +342,9 @@ function show_host_row($host, $i, $private, $show_owner) {
     ";
     if ($private) {
         echo "<td>$host->domain_name</td>\n";
+        if ($any_product_name) {
+            echo "<td>$host->product_name</td>\n";
+        }
         echo "<td>$host->venue</td>\n";
     } else {
         echo "<td>$i</td>\n";
@@ -653,7 +655,9 @@ function more_or_less($sort, $rev, $show_all) {
     echo "<p>";
 }
 
-function user_host_table_start($private, $sort, $rev, $show_all) {
+function user_host_table_start(
+    $private, $sort, $rev, $show_all, $any_product_name
+) {
     start_table();
     echo "<tr>";
     $url = link_url_rev($sort, "id", $rev, $show_all);
@@ -662,6 +666,9 @@ function user_host_table_start($private, $sort, $rev, $show_all) {
         $url = link_url_rev($sort, "name", $rev, $show_all);
         echo "<th><a href=$url>".tra("Name")."</a></th>\n";
         $url = link_url_rev($sort, "venue", $rev, $show_all);
+        if ($any_product_name) {
+            echo "<th>Model</th>\n";
+        }
         echo "<th><a href=$url>".tra("Location")."</th>\n";
     } else {
         echo "<th>".tra("Rank")."</th>";
@@ -702,12 +709,19 @@ function show_user_hosts($userid, $private, $show_all, $sort, $rev) {
         $sort_clause .= " desc";
     }
     more_or_less($sort, $rev, $show_all);
-    user_host_table_start($private, $sort, $rev, $show_all);
 
     $now = time();
     $old_hosts=0;
     $i = 1;
     $hosts = BoincHost::enum("userid=$userid order by $sort_clause");
+    $any_product_name = false;
+    foreach ($hosts as $host) {
+        if ($host->product_name) {
+            $any_product_name = true;
+            break;
+        }
+    }
+    user_host_table_start($private, $sort, $rev, $show_all, $any_product_name);
     foreach ($hosts as $host) {
         $is_old=false;
         if (($now - $host->rpc_time) > 30*86400) {
@@ -715,7 +729,7 @@ function show_user_hosts($userid, $private, $show_all, $sort, $rev) {
             $old_hosts++;
         }
         if (!$show_all && $is_old) continue;
-        show_host_row($host, $i, $private, false);
+        show_host_row($host, $i, $private, false, $any_product_name);
         $i++;
     }
     echo "</table>\n";
