@@ -30,7 +30,6 @@
          android:icon="@drawable/infow"></item>
     <item android:id="@+id/event_log"
          android:enabled="true"
-         android:visible="false"
          android:title="@string/menu_eventlog"
          android:icon="@drawable/bugw"></item>
     <item android:id="@+id/run_mode"
