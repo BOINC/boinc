@@ -273,10 +273,10 @@
     <string name="suspend_bm">BOINC is benchmarking your device&#8230;</string>
     <string name="suspend_disksize">Out of disk space.</string>
     <string name="suspend_cputhrottle">Scheduled CPU throttle.</string>
-    <string name="suspend_noinput">No recent tasks available.</string>
+    <string name="suspend_noinput">No recent user activity.</string>
     <string name="suspend_delay">Initialization delay.</string>
     <string name="suspend_exclusiveapp">An exclusive app is running.</string>
-    <string name="suspend_cpu">Your device is busy with a different application.</string>
+    <string name="suspend_cpu">Your device is busy with other apps.</string>
     <string name="suspend_network_quota">BOINC reached network transfer limit.</string>
     <string name="suspend_os">Stopped by Android.</string>
     <string name="suspend_wifi">Not connected to WiFi.</string>
