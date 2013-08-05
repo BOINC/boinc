@@ -576,6 +576,7 @@ void CLIENT_STATE::read_global_prefs(
     FILE* f;
     string foo;
 
+#ifdef USE_NET_PREFS
     if (override_fname) {
         retval = read_file_string(override_fname, foo);
         if (!retval) {
@@ -615,6 +616,7 @@ void CLIENT_STATE::read_global_prefs(
         }
         show_global_prefs_source(found_venue);
     }
+#endif
 
     // read the override file
     //

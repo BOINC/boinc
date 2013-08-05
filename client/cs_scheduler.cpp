@@ -687,6 +687,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         }
     }
 
+#ifdef USE_NET_PREFS
     // see if we have a new venue from this project
     // (this must go AFTER the above, since otherwise
     // global_prefs_source_project() is meaningless)
@@ -704,6 +705,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (update_global_prefs) {
         read_global_prefs();
     }
+#endif
 
     // deal with project preferences (should always be there)
     // If they've changed, write to account file,

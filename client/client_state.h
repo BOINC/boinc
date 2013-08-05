@@ -602,4 +602,15 @@ extern double calculate_exponential_backoff(
     // min/max account manager RPC backoff
 
 #define ANDROID_KEEPALIVE_TIMEOUT   30
+    // Android: if don't get a report_device_status() RPC from the GUI
+    // in this interval, exit.
+    // We rely on the GUI to report battery status.
+
+#ifndef ANDROID
+#define USE_NET_PREFS
+    // use preferences obtained over the network
+    // (i.e. through scheduler replies)
+    // Don't do this on Android
+#endif
+
 #endif
