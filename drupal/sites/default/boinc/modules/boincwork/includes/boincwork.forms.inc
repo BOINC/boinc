@@ -164,23 +164,6 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
     '#attributes' => array('class' => 'no-js'),
   );
   
-  // Form control
-  $form['prefs']['form control tabs prefix'] = array(
-    '#value' => '<ul class="tab-list">'
-  );
-  $form['prefs']['submit'] = array(
-    '#prefix' => '<li class="first tab">',
-    '#type' => 'submit',
-    '#value' => t('Save changes'),
-    '#suffix' => '</li>'
-  );
-  $form['prefs']['form control tabs'] = array(
-    '#value' => '<li class="tab">' . l(t('Cancel'), $_GET['q']) . '</li>'
-  );
-  $form['prefs']['view control'] = array(
-    '#value' => '<li class="first alt tab">' . l('(' . t('Show comparison view') . ')', 'account/prefs/computing/combined') . '</li></ul>'
-  );
-  
   $form['prefs']['separator'] = array(
     '#value' => '<div class="separator"></div>'
   );
@@ -493,6 +476,24 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
     '#type' => 'hidden',
     '#value' => 1
   );
+  
+  // Form control
+  $form['prefs']['form control tabs prefix'] = array(
+    '#value' => '<ul class="form-control tab-list">'
+  );
+  $form['prefs']['submit'] = array(
+    '#prefix' => '<li class="first tab">',
+    '#type' => 'submit',
+    '#value' => t('Save changes'),
+    '#suffix' => '</li>'
+  );
+  $form['prefs']['form control tabs'] = array(
+    '#value' => '<li class="tab">' . l(t('Cancel'), $_GET['q']) . '</li>'
+  );
+  $form['prefs']['view control'] = array(
+    '#value' => '<li class="first alt tab">' . l('(' . t('Show comparison view') . ')', 'account/prefs/computing/combined') . '</li></ul>'
+  );
+  
   return $form;
 }
 
@@ -663,19 +664,6 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
     '#value' => $venue
   );
   
-  $form['form control tabs prefix'] = array(
-    '#value' => '<ul class="tab-list">'
-  );
-  $form['submit'] = array(
-    '#prefix' => '<li class="first tab">',
-    '#type' => 'submit',
-    '#value' => t('Save changes'),
-    '#suffix' => '</li>'
-  );
-  $form['form control tabs'] = array(
-    '#value' => '<li class="tab">' . l(t('Cancel'), $_GET['q']) . '</li></ul>'
-  );
-  
   // Common project preferences  
   $form['resource'] = array(
     '#title' => t('Resource settings'),
@@ -766,6 +754,24 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
   foreach ($xml['project_specific_preferences'] as $type => $element) {
     boincwork_generate_prefs_element($form, $type, $element, $prefs['project_specific']);
   }
+  
+  // Form control
+  $form['prefs']['form control tabs prefix'] = array(
+    '#value' => '<ul class="form-control tab-list">'
+  );
+  $form['prefs']['submit'] = array(
+    '#prefix' => '<li class="first tab">',
+    '#type' => 'submit',
+    '#value' => t('Save changes'),
+    '#suffix' => '</li>'
+  );
+  $form['prefs']['form control tabs'] = array(
+    '#value' => '<li class="tab">' . l(t('Cancel'), $_GET['q']) . '</li>'
+  );
+  $form['prefs']['view control'] = array(
+    '#value' => '<li class="first alt tab">' . l('(' . t('Show comparison view') . ')', 'account/prefs/project/combined') . '</li></ul>'
+  );
+  
   return $form;
 }
 
@@ -871,6 +877,121 @@ function boincwork_projectprefs_form_submit($form, &$form_state) {
 }
 
 /**
+ * The structure of the community preferences form
+ */
+function communityprefs_form(&$form_state) {
+  global $user;
+  $form = array();
+  
+  // Standard option sets
+  $form['boolean_options'] = array(
+    '#type' => 'value',
+    '#value' => array(1 => t('yes'), 0 => t('no'))
+  );
+  
+  $default = array(
+    'pm_send_notification' => '', // This is set already in pm_email_notify_user
+    'friend_notification' => isset($user->friend_notification) ? $user->friend_notification : 0,
+    'comments_per_page' => (isset($user->comments_per_page) AND $user->comments_per_page) ? $user->comments_per_page : variable_get('comment_default_per_page_forum', 50)
+  );
+  
+  // Notification options
+  $form['notifications'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Notification settings'),
+    '#weight' => 1,
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE
+  );
+  // Pull in private message notification handling and tweak the form
+  $pm_notify = pm_email_notify_user('form', $edit, $user, 'account');
+  $form['notifications']['pm_send_notifications'] = array_replace(
+    $pm_notify['enable_pm_mail']['pm_send_notifications'],
+    array(
+      '#type' => 'radios',
+      '#title' => t('Receive email notification for private messages?'),
+      '#description' => ' ',
+      '#options' => $form['boolean_options']['#value'],
+      '#attributes' => array('class' => 'fancy')
+    )
+  );
+  $form['notifications']['friend_notification'] = array(
+    '#type' => 'radios',
+    '#title' => t('Receive email notification for friend requests?'),
+    '#description' => ' ',
+    '#options' => array(0 => t('yes'), -1 => t('no')),
+    '#attributes' => array('class' => 'fancy'),
+    '#default_value' => $default['friend_notification']
+  ); 
+  
+  // Forum options
+  $form['forums'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Forum settings'),
+    '#weight' => 2,
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE
+  );
+  $form['forums']['comments_per_page'] = array(
+    '#type' => 'select',
+    '#title' => t('In discussion topics, show at most @comments_per_page', array('@comments_per_page' => '')),
+    '#options' => array(10 => 10, 20 => 20, 30 => 30, 50 => 50, 100 => 100),
+    '#default_value' => $default['comments_per_page']
+  );
+  // Can't have a typical Drupal form suffix on a select box?
+  $form['forums']['comments_per_page_suffix'] = array(
+    '#value' => '<span>' . t('comments per page') . '</span>'
+  ); 
+  // Signature (pulled from user_edit_form):
+  if (variable_get('user_signatures', 0) && module_exists('comment')) {
+    $form['forums']['signature'] = array(
+      '#type' => 'textarea',
+      '#title' => t('Signature'),
+      '#description' => t('Your signature will be publicly displayed at the end of your comments.'),
+      '#default_value' => $user->signature
+      );
+    // Prevent a "validation error" message when the user attempts to save with a default value they
+    // do not have access to.
+    if (!filter_access($user->signature_format) && empty($_POST)) {
+      drupal_set_message(t("The signature input format has been set to a format you don't have access to. It will be changed to a format you have access to when you save this page."));
+      $edit['signature_format'] = FILTER_FORMAT_DEFAULT;
+    }
+    $form['forums']['signature_format'] = filter_form($user->signature_format, NULL, array('signature_format'));
+  }
+  
+  // Form control
+  $form['prefs']['form control tabs prefix'] = array(
+    '#value' => '<ul class="form-control tab-list">'
+  );
+  $form['prefs']['submit'] = array(
+    '#prefix' => '<li class="first tab">',
+    '#type' => 'submit',
+    '#value' => t('Save changes'),
+    '#suffix' => '</li>'
+  );
+  $form['prefs']['form control tabs'] = array(
+    '#value' => '<li class="tab">' . l(t('Cancel'), $_GET['q']) . '</li></ul>'
+  );
+  
+  return $form;
+}
+
+/**
+  * Handle post-validation submission of community preferences form.
+  */
+function communityprefs_form_submit($form, &$form_state) {
+  global $user;
+  $edit= $form_state['values'];
+  pm_email_notify_user('submit', $edit, $user);
+  user_save($user, array(
+    'signature' => $edit['signature'],
+    'signature_format' => $edit['signature_format'],
+    'friend_notification' => $edit['friend_notification'],
+    'comments_per_page' => $edit['comments_per_page']
+  ));
+}
+
+/**
  * The structure of the privacy preferences form
  */
 function boincwork_privacyprefs_form(&$form_state) {
@@ -899,19 +1020,6 @@ function boincwork_privacyprefs_form(&$form_state) {
     '#value' => array(1 => t('yes'), 0 => t('no'))
   );
   
-  $form['form control tabs prefix'] = array(
-    '#value' => '<ul class="tab-list">'
-  );
-  $form['submit'] = array(
-    '#prefix' => '<li class="first tab">',
-    '#type' => 'submit',
-    '#value' => t('Save changes'),
-    '#suffix' => '</li>'
-  );
-  $form['form control tabs'] = array(
-    '#value' => '<li class="tab">' . l(t('Cancel'), $_GET['q']) . '</li></ul>'
-  );
-  
   $form['privacy'] = array(
     '#title' => t('Privacy settings'),
     '#type' => 'fieldset',
@@ -932,6 +1040,20 @@ function boincwork_privacyprefs_form(&$form_state) {
     '#options' => $form['boolean_options']['#value'],
     '#attributes' => array('class' => 'fancy'),
     '#default_value' => $default['privacy']['show_hosts']
+  );
+  
+  // Form control
+  $form['prefs']['form control tabs prefix'] = array(
+    '#value' => '<ul class="form-control tab-list">'
+  );
+  $form['prefs']['submit'] = array(
+    '#prefix' => '<li class="first tab">',
+    '#type' => 'submit',
+    '#value' => t('Save changes'),
+    '#suffix' => '</li>'
+  );
+  $form['prefs']['form control tabs'] = array(
+    '#value' => '<li class="tab">' . l(t('Cancel'), $_GET['q']) . '</li></ul>'
   );
   
   return $form;
