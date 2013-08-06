@@ -171,6 +171,12 @@ function boinc_preprocess_node(&$vars, $hook) {
 function boinc_preprocess_node_forum(&$vars, $hook) {
   //drupal_set_message('<pre>' . print_r(get_defined_vars(),TRUE) . '</pre>'); // print what variables are available
   //drupal_set_message('<pre>' . print_r($vars['node']->links, TRUE . '</pre>')); // print what links are available
+  
+  // Detach subscribe link from the Links list
+  $vars['subscribe_link'] = $vars['node']->links['flag-subscriptions']['title'];
+  unset($vars['node']->links['flag-subscriptions']);
+  
+  // Add topic moderator controls
   if (user_access('edit any forum topic')) {
     $node_control = "node_control/{$vars['node']->nid}";
     if ($vars['node']->status) {
@@ -227,6 +233,10 @@ function boinc_preprocess_node_forum(&$vars, $hook) {
         )
       );
     }
+  }
+  else {
+    // Hide these links for any other than moderators
+    $vars['node']->links = array();
   }
   $vars['links'] = theme_links($vars['node']->links, array('class' => 'links inline'));
 }

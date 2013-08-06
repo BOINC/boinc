@@ -65,6 +65,16 @@ function boinccore_menu_alter(&$items) {
   }
 }
 
+function boinccore_link_alter(&$links, $node, $comment = NULL) {
+//echo '<pre>' . print_r($links, true) . '</pre>';
+  foreach ($links as $module => $link) {
+    if (strstr($module, 'ignore_user')) {
+      // Remove the ignore user link
+      unset($links[$module]);
+    }
+  }
+}
+
 function boinccore_link($type, $object, $teaser = FALSE) {
   $links = array();
   if ($type == 'comment') {

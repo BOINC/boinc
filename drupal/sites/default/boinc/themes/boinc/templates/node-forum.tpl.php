@@ -74,20 +74,34 @@
  */
 ?>
 <?php $first_page = (!isset($_GET['page']) OR ($_GET['page'] < 1)); ?>
+
+<?php if ($subscribe_link): ?>
+  <div class="subscribe">
+    <?php print $subscribe_link; ?>
+  </div>
+<?php endif; ?>
+
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix<?php echo ($first_page) ? '' : ' not-first-page'; ?>">
   
   <?php 
     if ($page) {
-      // Get vocabulary name and use that as the title
+      // Set topic title as page title
+      drupal_set_title($title);
+      $subtitle = array();
+      // Get vocabulary name and taxonomy name for subtitle breadcrumbs
       $taxonomy = current($node->taxonomy);
       if ($forum_vocab = taxonomy_vocabulary_load($taxonomy->vid)) {
-        drupal_set_title($forum_vocab->name);
+        $subtitle[] = l($forum_vocab->name, 'forum');
       }
+      if (isset($taxonomy->name)) {
+        $subtitle[] = l($taxonomy->name, "forum/{$taxonomy->tid}");
+      }
+      $subtitle = implode(' &rsaquo; ', $subtitle);
     }
   ?>
   
-  <h2 class="title"><?php print $title; ?></h2>
-
+  <h2 class="title"><?php print $subtitle; ?></h2>
+  
   <?php if ($unpublished): ?>
     <div class="unpublished"><?php print t('Unpublished'); ?></div>
   <?php endif; ?>
@@ -102,9 +116,12 @@
         if ($user_image['image']['filepath']) {
           print '<div class="picture">';
           //print theme('imagecache', 'thumbnail', $user_image['image']['filepath'], $user_image['alt'], $user_image['alt']);
-          print theme('imagefield_image', $user_image['image'], $user_image['alt'], $user_image['alt'], array('width' => '100', 'height' => '100'), false);
+          print theme('imagefield_image', $user_image['image'], $user_image['alt'], $user_image['alt'], array(), false);
           print '</div>';
         }
+        // Generate ignore user link
+        $ignore_link = ignore_user_link('node', $node);
+        //echo '<pre>' . print_r($node->links, TRUE) . '</pre>';
       ?>
       <div class="name"><?php print $name; ?></div>
       <?php if ($account->uid): ?>
@@ -112,20 +129,25 @@
         <div class="post-count">Posts: <?php print $account->post_count; ?></div>
         <div class="credit">Credit: <?php print $account->boincuser_total_credit; ?></div>
         <div class="rac">RAC: <?php print $account->boincuser_expavg_credit; ?></div>
-        <?php if ($uid): ?>
+        
+        <div class="user-links">
+          <div class="ignore-link"><?php print l($ignore_link['ignore_user']['title'],
+            $ignore_link['ignore_user']['href'],
+            array('query' => $ignore_link['ignore_user']['query'])); ?>
+          </div>
           <div class="pm-link"><?php print l(t('Send message'),
             privatemsg_get_link(array($account)),
             array('query' => drupal_get_destination())); ?>
           </div>
-        <?php endif; ?>
+        </div>
       <?php endif; ?>
     </div>
     
     <div class="node-body">
       
-      <?php if ($terms): ?>
+      <?php /* if ($terms): ?>
         <div class="terms terms-inline"><?php print $terms; ?></div>
-      <?php endif; ?>
+      <?php endif; */ ?>
       
       <?php if ($display_submitted): ?>
         <div class="submitted">
@@ -135,12 +157,15 @@
       <div class="topic-id">
         Topic <?php print $node->nid; ?>
       </div>
+      <div class="node-actions">
+        <?php print $links; ?>
+      </div>
       
       <div class="content">
         <?php print $content; ?>
       </div>
 
-      <?php print $links; ?>
+      
     </div> <!-- /.node-body -->
     
   <?php endif; // first page ?>

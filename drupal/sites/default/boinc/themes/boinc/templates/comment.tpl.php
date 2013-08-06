@@ -86,6 +86,9 @@
         //print theme('imagecache', 'thumbnail', $user_image['image']['filepath'], $user_image['alt'], $user_image['alt']);
         print theme('imagefield_image', $user_image['image'], $user_image['alt'], $user_image['alt'], array(), false);
         print '</div>';
+        // Generate ignore user link
+        $ignore_link = ignore_user_link('comment', $comment);
+        //echo '<pre>' . print_r($links, TRUE) . '</pre>';
       }
     ?>
     <div class="name"><?php print $author; ?></div>
@@ -94,12 +97,17 @@
       <div class="post-count">Posts: <?php print $account->post_count; ?></div>
       <div class="credit">Credit: <?php print $account->boincuser_total_credit; ?></div>
       <div class="rac">RAC: <?php print $account->boincuser_expavg_credit; ?></div>
-      <?php if ($account->uid): ?>
+      
+      <div class="user-links">
+        <div class="ignore-link"><?php print l($ignore_link['ignore_user']['title'],
+          $ignore_link['ignore_user']['href'],
+          array('query' => $ignore_link['ignore_user']['query'])); ?>
+        </div>
         <div class="pm-link"><?php print l(t('Send message'),
           privatemsg_get_link(array($account)),
           array('query' => drupal_get_destination())); ?>
         </div>
-      <?php endif; ?>
+      </div>
     <?php endif; ?>
   </div>
   <div class="comment-body">
@@ -141,7 +149,9 @@
         endif;
       ?>
     </div>
-
+    <div class="comment-actions">
+      <?php print $links; ?>
+    </div>
     <div class="content">
       <?php print $content; ?>
       <?php if ($signature): ?>
@@ -150,7 +160,5 @@
         </div>
       <?php endif; ?>
     </div>
-
-    <?php print $links; ?>
   </div> <!-- /.comment-body -->
 </div> <!-- /.comment -->
