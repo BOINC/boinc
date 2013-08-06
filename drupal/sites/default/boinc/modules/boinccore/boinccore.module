@@ -66,7 +66,7 @@ function boinccore_menu_alter(&$items) {
 }
 
 function boinccore_link_alter(&$links, $node, $comment = NULL) {
-//echo '<pre>' . print_r($links, true) . '</pre>';
+  //echo '<pre>' . print_r($links, true) . '</pre>';
   foreach ($links as $module => $link) {
     if (strstr($module, 'ignore_user')) {
       // Remove the ignore user link
@@ -75,7 +75,9 @@ function boinccore_link_alter(&$links, $node, $comment = NULL) {
   }
 }
 
+/*
 function boinccore_link($type, $object, $teaser = FALSE) {
+  // Add custom links with this hook
   $links = array();
   if ($type == 'comment') {
     if (user_access('administer comments')) {
@@ -89,32 +91,11 @@ function boinccore_link($type, $object, $teaser = FALSE) {
           )
         );
       }
-      else {
-        $links['unhide'] = array(
-          'title' => t('Unhide'),
-          'href' => "{$comment_control}/unhide",
-          'attributes' => array(
-            'title' => t('Unhide this comment')
-          )
-        );
-      }
-      $reply_count = db_result(db_query('
-        SELECT COUNT(*) FROM comments WHERE pid = %d',
-        $object->cid
-      ));
-      if ($reply_count == 0) {
-        $links['convert'] = array(
-          'title' => t('Convert'),
-          'href' => "{$comment_control}/convert",
-          'attributes' => array(
-            'title' => t('Convert this comment to a new topic')
-          ) 
-        );
-      }
     }
   }
   return $links;
 }
+// */
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Page callbacks from hook_menu()

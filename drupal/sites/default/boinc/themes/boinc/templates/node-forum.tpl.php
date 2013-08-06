@@ -157,9 +157,16 @@
       <div class="topic-id">
         Topic <?php print $node->nid; ?>
       </div>
-      <div class="node-actions">
+      <div class="standard-links">
         <?php print $links; ?>
       </div>
+      <?php if ($moderator_links): ?>
+        <div class="moderator-links">
+          <span class="label">(<?php print t('moderation'); ?>:</span>
+          <?php print $moderator_links; ?>
+          <span class="label">)</span>
+        </div>
+      <?php endif; ?>
       
       <div class="content">
         <?php print $content; ?>

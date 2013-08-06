@@ -149,9 +149,14 @@
         endif;
       ?>
     </div>
-    <div class="comment-actions">
-      <?php print $links; ?>
-    </div>
+    <div class="standard-links"><?php print $links; ?></div>
+    <?php if ($moderator_links): ?>
+      <div class="moderator-links">
+        <span class="label">(<?php print t('moderation'); ?>:</span>
+        <?php print $moderator_links; ?>
+        <span class="label">)</span>
+      </div>
+    <?php endif; ?>
     <div class="content">
       <?php print $content; ?>
       <?php if ($signature): ?>

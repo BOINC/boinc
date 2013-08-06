@@ -178,9 +178,10 @@ function boinc_preprocess_node_forum(&$vars, $hook) {
   
   // Add topic moderator controls
   if (user_access('edit any forum topic')) {
+    $vars['moderator_links'] = array();
     $node_control = "node_control/{$vars['node']->nid}";
     if ($vars['node']->status) {
-      $vars['node']->links['hide'] = array(
+      $vars['moderator_links']['hide'] = array(
         'title' => t('Hide'),
         'href' => "{$node_control}/hide",
         'attributes' => array(
@@ -189,7 +190,7 @@ function boinc_preprocess_node_forum(&$vars, $hook) {
       );
     }
     else {
-      $vars['node']->links['unhide'] = array(
+      $vars['moderator_links']['unhide'] = array(
         'title' => t('Unhide'),
         'href' => "{$node_control}/unhide",
         'attributes' => array(
@@ -198,7 +199,7 @@ function boinc_preprocess_node_forum(&$vars, $hook) {
       );
     }
     if ($vars['node']->comment == 2) {
-      $vars['node']->links['lock'] = array(
+      $vars['moderator_links']['lock'] = array(
         'title' => t('Lock'),
         'href' => "{$node_control}/lock",
         'attributes' => array(
@@ -207,7 +208,7 @@ function boinc_preprocess_node_forum(&$vars, $hook) {
       );
     }
     else {
-      $vars['node']->links['unlock'] = array(
+      $vars['moderator_links']['unlock'] = array(
         'title' => t('Unlock'),
         'href' => "{$node_control}/unlock",
         'attributes' => array(
@@ -216,7 +217,7 @@ function boinc_preprocess_node_forum(&$vars, $hook) {
       );
     }
     if ($vars['node']->sticky) {
-      $vars['node']->links['make_unsticky'] = array(
+      $vars['moderator_links']['make_unsticky'] = array(
         'title' => t('Make unsticky'),
         'href' => "{$node_control}/unsticky",
         'attributes' => array(
@@ -225,7 +226,7 @@ function boinc_preprocess_node_forum(&$vars, $hook) {
       );
     }
     else {
-      $vars['node']->links['make_sticky'] = array(
+      $vars['moderator_links']['make_sticky'] = array(
         'title' => t('Make sticky'),
         'href' => "{$node_control}/sticky",
         'attributes' => array(
@@ -236,9 +237,10 @@ function boinc_preprocess_node_forum(&$vars, $hook) {
   }
   else {
     // Hide these links for any other than moderators
-    $vars['node']->links = array();
+    //$vars['node']->links = array();
   }
   $vars['links'] = theme_links($vars['node']->links, array('class' => 'links inline'));
+  $vars['moderator_links'] = theme_links($vars['moderator_links']);
 }
 
 /**
@@ -249,9 +251,79 @@ function boinc_preprocess_node_forum(&$vars, $hook) {
  * @param $hook
  *   The name of the template being rendered ("comment" in this case.)
  */
-/* -- Delete this line if you want to use this function
+///* -- Delete this line if you want to use this function
 function boinc_preprocess_comment(&$vars, $hook) {
-  $vars['sample_variable'] = t('Lorem ipsum.');
+  //$vars['sample_variable'] = t('Lorem ipsum.');
+  //drupal_set_message('debug: <pre>' . print_r($vars,true) . '</pre>');
+  $links = array();
+  $moderator_links = array();
+  $cid = $vars['comment']->cid;
+  $nid = $vars['comment']->nid;
+  if ($hook == 'comment') {
+    if (user_access('administer comments')) {
+      // Reorganize links for moderators
+      $vars['links'] = array();
+      $links['reply'] = array(
+        'title' => t('Reply'),
+        'href' => "comment/reply/{$nid}/{$cid}",
+        'attributes' => array(
+          'title' => t('Reply to this comment')
+        )
+      );
+      // Move edit and delete controls into moderator links
+      $moderator_links['edit'] = array(
+        'title' => t('Edit'),
+        'href' => "comment/edit/{$cid}",
+        'attributes' => array(
+          'title' => t('Edit this comment')
+        )
+      );
+      $moderator_links['delete'] = array(
+        'title' => t('Delete'),
+        'href' => "comment/delete/{$cid}",
+        'attributes' => array(
+          'title' => t('Delete this comment')
+        )
+      );
+      
+      // Add hide link
+      $comment_control = "comment_control/{$cid}";
+      if ($vars['comment']->status == 0) {
+        $moderator_links['hide'] = array(
+          'title' => t('Hide'),
+          'href' => "{$comment_control}/hide",
+          'attributes' => array(
+            'title' => t('Hide this comment')
+          )
+        );
+      }
+      else {
+        $moderator_links['unhide'] = array(
+          'title' => t('Unhide'),
+          'href' => "{$comment_control}/unhide",
+          'attributes' => array(
+            'title' => t('Unhide this comment')
+          )
+        );
+      }
+      
+      // Add link to convert comment into a new topic
+      $reply_count = db_result(db_query('
+        SELECT COUNT(*) FROM comments WHERE pid = %d', $cid
+      ));
+      if ($reply_count == 0) {
+        $moderator_links['convert'] = array(
+          'title' => t('Convert'),
+          'href' => "{$comment_control}/convert",
+          'attributes' => array(
+            'title' => t('Convert this comment to a new topic')
+          ) 
+        );
+      }
+      $vars['links'] = theme_links($links);
+      $vars['moderator_links'] = theme_links($moderator_links);
+    }
+  }
 }
 // */
 
