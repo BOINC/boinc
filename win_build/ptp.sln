@@ -93,6 +93,15 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboinczip_staticcrt", "li
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinccmd", "ptp_boinccmd.vcproj", "{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+	ProjectSection(ProjectDependencies) = postProject
+		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8} = {E8F6BD7E-461A-4733-B7D8-37B09A099ED8}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -327,6 +336,22 @@ Global
 		{753E897D-9ECE-42B1-9F0D-CD566775C77E}.Release|Win32.Build.0 = Release|Win32
 		{753E897D-9ECE-42B1-9F0D-CD566775C77E}.Release|x64.ActiveCfg = Release|x64
 		{753E897D-9ECE-42B1-9F0D-CD566775C77E}.Release|x64.Build.0 = Release|x64
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.Debug|Win32.Build.0 = Debug|Win32
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.Debug|x64.ActiveCfg = Debug|x64
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.Debug|x64.Build.0 = Debug|x64
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.EmuDebug|Win32.ActiveCfg = Debug|Win32
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.EmuDebug|Win32.Build.0 = Debug|Win32
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.EmuDebug|x64.ActiveCfg = Debug|x64
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.EmuDebug|x64.Build.0 = Debug|x64
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.EmuRelease|Win32.ActiveCfg = Release|Win32
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.EmuRelease|Win32.Build.0 = Release|Win32
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.EmuRelease|x64.ActiveCfg = Release|x64
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.EmuRelease|x64.Build.0 = Release|x64
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.Release|Win32.ActiveCfg = Release|Win32
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.Release|Win32.Build.0 = Release|Win32
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.Release|x64.ActiveCfg = Release|x64
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

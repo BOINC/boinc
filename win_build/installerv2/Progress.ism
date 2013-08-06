@@ -349,6 +349,7 @@
 		<col def="S0">ISDotNetInstallerArgsRollback</col>
 		<row><td>BOINCServiceConfig</td><td>{3BD51E4E-504D-43C2-AD8A-2FAD36A43488}</td><td>INSTALLDIR</td><td>0</td><td>VersionNT AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>boinc.exe1</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>_BOINC</td><td>{B2649E11-6320-4710-B5C8-1922588446E9}</td><td>INSTALLDIR</td><td>0</td><td/><td>boinc.exe</td><td>145</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>_BOINCCMD</td><td>{4443469A-435C-4E09-9AF9-5FA1F6291533}</td><td>INSTALLDIR</td><td>8</td><td/><td>boinccmd.exe</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>_BOINCData</td><td>{4E793828-A468-4366-892F-FC2F36EC99D9}</td><td>DATADIR</td><td>16</td><td/><td/><td>145</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>_BOINCDataProjects</td><td>{9C720438-35E8-4377-A105-AF3675664094}</td><td>PROJECTS</td><td>16</td><td/><td/><td>145</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>_BOINCDataSlots</td><td>{C9FE7A6E-2470-4666-949B-4DB2BB936E5F}</td><td>SLOTS</td><td>16</td><td/><td/><td>145</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
@@ -1705,6 +1706,7 @@
 		<col key="yes" def="s72">Component_</col>
 		<row><td>BOINC</td><td>BOINCServiceConfig</td></row>
 		<row><td>BOINC</td><td>_BOINC</td></row>
+		<row><td>BOINC</td><td>_BOINCCMD</td></row>
 		<row><td>BOINC</td><td>_BOINCData</td></row>
 		<row><td>BOINC</td><td>_BOINCDataProjects</td></row>
 		<row><td>BOINC</td><td>_BOINCDataSlots</td></row>
@@ -1741,6 +1743,7 @@
 		<row><td>boinc.exe</td><td>_BOINC</td><td>boinc.exe</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\boinc.exe</td><td>1</td><td/></row>
 		<row><td>boinc.exe1</td><td>BOINCServiceConfig</td><td>boinc.exe</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\boinc.exe</td><td>1</td><td/></row>
 		<row><td>boinc.scr</td><td>_Screensaver</td><td>boinc.scr</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\boinc.scr</td><td>1</td><td/></row>
+		<row><td>boinccmd.exe</td><td>_BOINCCMD</td><td>boinccmd.exe</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\boinccmd.exe</td><td>1</td><td/></row>
 		<row><td>boincscr.exe</td><td>_BOINCScreensaver</td><td>boincscr.exe</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientscr\progress\win\x86\boincscr.exe</td><td>1</td><td/></row>
 		<row><td>boincsvcctrl.exe</td><td>_BOINCSvcCtrl</td><td>BOINCS~1.EXE|boincsvcctrl.exe</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\boincsvcctrl.exe</td><td>1</td><td/></row>
 		<row><td>boinctray.exe</td><td>_BOINCTray</td><td>BOINCT~1.EXE|boinctray.exe</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\boinctray.exe</td><td>1</td><td/></row>
@@ -2037,6 +2040,7 @@
 		<col def="S0">Miscellaneous</col>
 		<row><td>BOINCServiceConfig</td><td/><td/><td>_23973580_DA7B_4A53_B5EB_5F1F61B97C11_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>_BOINC</td><td/><td/><td>_8A5DE506_FADD_485F_B712_2BFBE8D3B700_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>_BOINCCMD</td><td/><td/><td>_3E7DBF16_6CEF_4F4E_900D_266F7C943AC7_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>_BOINCData</td><td/><td/><td>_D8602107_1A7A_4322_BE7C_F9ED7C5178C6_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>_BOINCDataProjects</td><td/><td/><td>_AC29B530_D9EA_42C8_A23C_A0D32681F657_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>_BOINCDataSlots</td><td/><td/><td>_781B3F44_497A_4D36_A81A_CCE99D480B09_FILTER</td><td/><td/><td/><td/></row>

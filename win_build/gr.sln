@@ -87,11 +87,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc_ss", "gr_boinc_ss.vcp
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
-		{D3D21F11-A7E7-4EA2-8518-E24695133BFF} = {D3D21F11-A7E7-4EA2-8518-E24695133BFF}
-		{C4165626-F68F-4F66-A126-3B82DDBB7480} = {C4165626-F68F-4F66-A126-3B82DDBB7480}
-		{5F065EAC-B881-4E9A-9E34-7A21D7A01D98} = {5F065EAC-B881-4E9A-9E34-7A21D7A01D98}
-		{B00664BD-71EB-46C1-957E-CD851418D395} = {B00664BD-71EB-46C1-957E-CD851418D395}
 		{814EBFD3-3CE6-4933-A580-C1FE3147ACB4} = {814EBFD3-3CE6-4933-A580-C1FE3147ACB4}
+		{B00664BD-71EB-46C1-957E-CD851418D395} = {B00664BD-71EB-46C1-957E-CD851418D395}
+		{5F065EAC-B881-4E9A-9E34-7A21D7A01D98} = {5F065EAC-B881-4E9A-9E34-7A21D7A01D98}
+		{C4165626-F68F-4F66-A126-3B82DDBB7480} = {C4165626-F68F-4F66-A126-3B82DDBB7480}
+		{D3D21F11-A7E7-4EA2-8518-E24695133BFF} = {D3D21F11-A7E7-4EA2-8518-E24695133BFF}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboincopencl_staticcrt", "libboincopencl_staticcrt.vcproj", "{C0A2DEEE-2EC5-4F67-8048-53264B6BD14D}"
@@ -104,6 +104,15 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboinczip_staticcrt", "li
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinccmd", "gr_boinccmd.vcproj", "{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+	ProjectSection(ProjectDependencies) = postProject
+		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8} = {E8F6BD7E-461A-4733-B7D8-37B09A099ED8}
 	EndProjectSection
 EndProject
 Global
@@ -356,6 +365,22 @@ Global
 		{753E897D-9ECE-42B1-9F0D-CD566775C77E}.Release|Win32.Build.0 = Release|Win32
 		{753E897D-9ECE-42B1-9F0D-CD566775C77E}.Release|x64.ActiveCfg = Release|x64
 		{753E897D-9ECE-42B1-9F0D-CD566775C77E}.Release|x64.Build.0 = Release|x64
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.Debug|Win32.Build.0 = Debug|Win32
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.Debug|x64.ActiveCfg = Debug|x64
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.Debug|x64.Build.0 = Debug|x64
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.EmuDebug|Win32.ActiveCfg = Debug|Win32
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.EmuDebug|Win32.Build.0 = Debug|Win32
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.EmuDebug|x64.ActiveCfg = Debug|x64
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.EmuDebug|x64.Build.0 = Debug|x64
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.EmuRelease|Win32.ActiveCfg = Release|Win32
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.EmuRelease|Win32.Build.0 = Release|Win32
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.EmuRelease|x64.ActiveCfg = Release|x64
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.EmuRelease|x64.Build.0 = Release|x64
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.Release|Win32.ActiveCfg = Release|Win32
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.Release|Win32.Build.0 = Release|Win32
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.Release|x64.ActiveCfg = Release|x64
+		{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
