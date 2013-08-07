@@ -7,37 +7,37 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-03 18:11-0700\n"
-"PO-Revision-Date: 2013-06-07 21:06+0200\n"
+"POT-Creation-Date: 2013-08-06 16:50-0800\n"
+"PO-Revision-Date: 2013-06-25 15:01+0200\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.1.6\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: Installer.cpp:120
+#: mac_installer/Installer.cpp:132
 #, c-format
 msgid "Sorry, this version of %s requires system 10.4 or higher."
 msgstr "Извините, данная версия %s требует систему 10.4 или выше."
 
-#: PostInstall.cpp:130
+#: mac_installer/PostInstall.cpp:131 mac_installer/PostInstall.cpp:1211
 msgid "Yes"
 msgstr "Да"
 
-#: PostInstall.cpp:131
+#: mac_installer/PostInstall.cpp:132 mac_installer/PostInstall.cpp:1212
 msgid "No"
 msgstr "Нет"
 
-#: PostInstall.cpp:133
+#: mac_installer/PostInstall.cpp:134
 msgid "Should BOINC run even when no user is logged in?"
 msgstr "Должен ли BOINC работать, даже если пользователь не вошёл в систему?"
 
-#: PostInstall.cpp:1433
+#: mac_installer/PostInstall.cpp:1491
 #, c-format
 msgid ""
 "Users who are permitted to administer this computer will automatically be "
@@ -52,30 +52,22 @@ msgstr ""
 "Хотите ли вы, чтобы простые пользователи без административных прав также "
 "могли запускать и управлять %s на этом компьютере Mac?"
 
-#: PostInstall.cpp:1461
+#: mac_installer/PostInstall.cpp:1519
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr ""
 "Вы хотите установить %s как скринсейвер для всех пользователей %s на этом "
 "Mac?"
 
-#: uninstall.cpp:71
+#: mac_installer/uninstall.cpp:80
 msgid "OK"
 msgstr "ОК"
 
-#: uninstall.cpp:72
-msgid "Cancel"
-msgstr "Отмена"
-
-#: uninstall.cpp:73
-msgid "Continue..."
-msgstr "Продолжить..."
-
-#: uninstall.cpp:89
+#: mac_installer/uninstall.cpp:130
 msgid "Permission error after relaunch"
 msgstr "Ошибка доступа после перезапуска"
 
-#: uninstall.cpp:93
+#: mac_installer/uninstall.cpp:135
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
@@ -83,7 +75,7 @@ msgstr ""
 "Удаление может занять несколько минут.\n"
 "Пожалуйста, подождите."
 
-#: uninstall.cpp:133
+#: mac_installer/uninstall.cpp:150
 #, c-format
 msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
@@ -94,39 +86,64 @@ msgstr ""
 "\n"
 "Будут удалены исполняемые файлы, но файлы данных %s останутся."
 
-#: uninstall.cpp:142
+#: mac_installer/uninstall.cpp:157
 #, c-format
 msgid "Canceled: %s has not been touched."
 msgstr "Отменено: %s не был изменён."
 
-#: uninstall.cpp:151
+#: mac_installer/uninstall.cpp:168
 #, c-format
 msgid "An error occurred: error code %d"
 msgstr "Произошла ошибка: код ошибки %d"
 
-#: uninstall.cpp:153
+#: mac_installer/uninstall.cpp:224
+msgid "name  of user"
+msgstr ""
+
+#: mac_installer/uninstall.cpp:261
+#, c-format
 msgid ""
 "Removal completed.\n"
 "\n"
 " You may want to remove the following remaining items using the Finder: \n"
-"\"/Library/Application Support/BOINC Data\" directory\n"
+"the directory \"%s\"\n"
 "\n"
 "for each user, the file\n"
-"\"/Users/[username]/Library/Preferences/BOINC Manager Preferences\"."
+"\"%s\"."
 msgstr ""
-"Удаление завершено.\n"
-"\n"
-" Воспользуйтесь Поиском, если вы захотите удалить следующие оставшиеся "
-"элементы: \n"
-"каталог \"/Library/Application Support/BOINC Data\"\n"
-"\n"
-"для каждого пользователя, файл\n"
-"\"/Users/[username]/Library/Preferences/BOINC Manager Preferences\"."
 
-#: uninstall.cpp:686
+#: mac_installer/uninstall.cpp:796
 #, c-format
 msgid ""
 "Enter your administrator password to completely remove %s from you "
 "computer.\n"
 "\n"
-msgstr "Для полного удаления %s с вашего компьютера введите пароль администратора.\n"
+msgstr ""
+"Для полного удаления %s с вашего компьютера введите пароль администратора.\n"
+"\n"
+
+#: mac_installer/uninstall.cpp:1543
+msgid "Cancel"
+msgstr "Отмена"
+
+#: mac_installer/uninstall.cpp:1544
+msgid "Continue..."
+msgstr "Продолжить..."
+
+#~ msgid ""
+#~ "Removal completed.\n"
+#~ "\n"
+#~ " You may want to remove the following remaining items using the Finder: \n"
+#~ "\"/Library/Application Support/BOINC Data\" directory\n"
+#~ "\n"
+#~ "for each user, the file\n"
+#~ "\"/Users/[username]/Library/Preferences/BOINC Manager Preferences\"."
+#~ msgstr ""
+#~ "Удаление завершено.\n"
+#~ "\n"
+#~ "   Воспользуйтесь Поиском, если вы захотите удалить следующие оставшиеся "
+#~ "элементы: \n"
+#~ "каталог \"/Library/Application Support/BOINC Data\"\n"
+#~ "\n"
+#~ "для каждого пользователя, файл\n"
+#~ "\"/Users/[username]/Library/Preferences/BOINC Manager Preferences\"."
