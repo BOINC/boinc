@@ -1977,41 +1977,43 @@ int CMainDocument::ResetNoticeState() {
 }
 
 
-// parse out the _(...)'s, and translate them
+// Replace CRLFs and LFs with HTML breaks.
 //
-bool CMainDocument::LocalizeNoticeText(wxString& strMessage, bool bSanitize, bool bClean) {
+void eol_to_br(wxString& strMessage) {
+    strMessage.Replace(wxT("\r\n"), wxT("<BR>"));
+    strMessage.Replace(wxT("\n"), wxT("<BR>"));
+}
+
+// Remove CRLFs and LFs
+//
+void remove_eols(wxString& strMessage) {
+    strMessage.Replace(wxT("\r\n"), wxT(""));
+    strMessage.Replace(wxT("\n"), wxT(""));
+}
+
+// Replace https:// with http://
+//
+void https_to_http(wxString& strMessage) {
+    strMessage.Replace(wxT("https://"), wxT("http://"));
+}
+
+// replace substrings of the form _("X") with the translation of X
+//
+void localize(wxString& strMessage) {
     wxString strBuffer = wxEmptyString;
     wxString strStart = wxString(wxT("_(\""));
     wxString strEnd = wxString(wxT("\")"));
 
-    if (bSanitize) {
-        // Replace CRLFs with HTML breaks.
-        strMessage.Replace(wxT("\r\n"), wxT("<BR>"));
-        // Replace LFs with HTML breaks.
-        strMessage.Replace(wxT("\n"), wxT("<BR>"));
-    }
-    if (bClean) {
-        // Replace CRLFs with HTML breaks.
-        strMessage.Replace(wxT("\r\n"), wxT(""));
-        // Replace LFs with HTML breaks.
-        strMessage.Replace(wxT("\n"), wxT(""));
-    }
-
-    // Localize translatable text
     while (strMessage.Find(strStart.c_str()) != wxNOT_FOUND) {
-        strBuffer = 
-            strMessage.SubString(
-                strMessage.Find(strStart.c_str()) + strStart.Length(),
-                strMessage.Find(strEnd.c_str()) - (strEnd.Length() - 1)
-            );
-
+        strBuffer = strMessage.SubString(
+            strMessage.Find(strStart.c_str()) + strStart.Length(),
+            strMessage.Find(strEnd.c_str()) - (strEnd.Length() - 1)
+        );
         strMessage.Replace(
             wxString(strStart + strBuffer + strEnd).c_str(),
             wxGetTranslation(strBuffer.c_str())
         );
     }
-
-    return true;
 }
 
 
