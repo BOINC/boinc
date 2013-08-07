@@ -206,7 +206,7 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
 
 
 void CViewNotices::OnLinkClicked( NoticeListCtrlEvent& event ) {
-    if (event.GetURL().StartsWith(wxT("http://"))) {
+    if (event.GetURL().StartsWith(wxT("http://")) || event.GetURL().StartsWith(wxT("https://"))) {
 		wxLaunchDefaultBrowser(event.GetURL());
     }
 }
