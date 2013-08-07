@@ -1,0 +1,513 @@
+<?php
+
+/**
+ * @file
+ * Install file for privatemsg.module
+ */
+
+
+function privatemsg_schema() {
+  $schema = array();
+  $schema['pm_index'] = array(
+    'description'       => '{pm_index} holds indexing information about messages and recepients for fast retrieval',
+    'fields'        => array(
+      'mid'    => array(
+        'description'   => 'Private Message ID',
+        'type'          => 'int',
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+      'thread_id'     => array(
+        'description'   => 'Messages thread ID',
+        'type'          => 'int',
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+      'uid'     => array(
+        'description'   => 'UID of either the author or the recipient',
+        'type'          => 'int',
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+      'is_new'     => array(
+        'description'   => 'Whether the user has read this message',
+        'type'          => 'int',
+        'default'       => 1,
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+      'deleted' => array(
+        'description'   => 'Whether the user has deleted this message',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0
+      ),
+
+    ),
+    'indexes'      => array(
+      'list'         => array('uid', 'deleted', 'is_new'),
+      'messages'     => array('mid', 'uid'),
+      'participants' => array('thread_id', 'uid', 'deleted')
+    ),
+  );
+
+  $schema['pm_message'] = array(
+    'description'       => '{pm_messages} holds the message information',
+    'fields'        => array(
+      'mid'    => array(
+        'description'   => 'Private Message ID',
+        'type'          => 'serial',
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+      'author'     => array(
+        'description'   => 'UID of the author',
+        'type'          => 'int',
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+      'subject'     => array(
+        'description'   => 'Subject text of the message',
+        'type'          => 'varchar',
+        'length'        => 255,
+        'not null'      => TRUE,
+      ),
+      'body'     => array(
+        'description'   => 'Body of the message',
+        'type'          => 'text',
+        'not null'      => TRUE,
+        'size'          => 'big',
+      ),
+      'format'        => array(
+        'type'          => 'int',
+        'size'          => 'small',
+        'not null'      => TRUE,
+        'default'       => FILTER_FORMAT_DEFAULT,
+        'description'   => 'The {filter_formats}.format of the message text.',
+      ),
+      'timestamp'     => array(
+        'description'   => 'Time when the message was sent',
+        'type'          => 'int',
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+    ),
+    'primary key'     => array('mid'),
+  );
+
+
+  return $schema;
+}
+function privatemsg_install() {
+  drupal_install_schema('privatemsg');
+
+}
+
+function privatemsg_uninstall() {
+  variable_del('private_message_view_template');
+  variable_del('privatemsg_per_page');
+  variable_del('privatemsg_display_loginmessage');
+  variable_del('privatemsg_display_fields');
+  variable_del('privatemsg_view_default_amount');
+  variable_del('privatemsg_view_max_amount');
+  variable_del('privatemsg_view_use_max_as_default');
+  drupal_uninstall_schema('privatemsg');
+}
+
+function privatemsg_update_6000() {
+  // Give update unlimited time to complete.
+  set_time_limit(0);
+
+  // Update the database schema and transfer data to new tables.
+  $schema = array();
+  $schema['pm_index'] = array(
+    'description'       => '{pm_index} holds indexing information about messages and recepients for fast retrieval',
+    'fields'        => array(
+      'mid'    => array(
+        'description'   => 'Private Message ID',
+        'type'          => 'int',
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+      'thread_id'     => array(
+        'description'   => 'Messages thread ID',
+        'type'          => 'int',
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+      'uid'     => array(
+        'description'   => 'UID of either the author or the recipient',
+        'type'          => 'int',
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+      'is_new'     => array(
+        'description'   => 'Whether the user has read this message',
+        'type'          => 'int',
+        'default'       => 1,
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+      'deleted' => array(
+        'description'   => 'Whether the user has deleted this message',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0
+      ),
+
+    ),
+    'indexes'         => array(
+      'mid'               => array('mid'),
+      'thread_id'         => array('thread_id'),
+      'uid'         => array('uid'),
+      'is_new'              => array('mid', 'uid', 'is_new', ),
+    ),
+  );
+
+  $schema['temp_pm_index'] = array(
+    'description'       => '{pm_index} holds indexing information about messages and recepients for fast retrieval',
+    'fields'        => array(
+      'mid'    => array(
+        'description'   => 'Private Message ID',
+        'type'          => 'int',
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+      'folder'     => array(
+        'description'   => 'ID of drupal 5 folder',
+        'type'          => 'int',
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+      'thread'     => array(
+        'description'   => 'Messages old thread ID',
+        'type'          => 'int',
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+      'thread_id'     => array(
+        'description'   => 'Messages new thread ID',
+        'type'          => 'int',
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+      'uid'     => array(
+        'description'   => 'UID of either the author or the recipient',
+        'type'          => 'int',
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+      'is_new'     => array(
+        'description'   => 'Whether the user has read this message',
+        'type'          => 'int',
+        'default'       => 1,
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+      'deleted' => array(
+        'description'   => 'Whether the user has deleted this message',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0
+      ),
+    ),
+    'indexes'=> array(
+      'mid' => array('mid'),
+      'thread_id' => array('thread_id'),
+      'uid' => array('uid'),
+    ),
+  );
+
+  $schema['pm_message'] = array(
+    'description'       => '{pm_messages} holds the message information',
+    'fields'        => array(
+      'mid'    => array(
+        'description'   => 'Private Message ID',
+        'type'          => 'serial',
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+      'author'     => array(
+        'description'   => 'UID of the author',
+        'type'          => 'int',
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+      'subject'     => array(
+        'description'   => 'Subject text of the message',
+        'type'          => 'varchar',
+        'length'        => 255,
+        'not null'      => TRUE,
+      ),
+      'body'     => array(
+        'description'   => 'Body of the message',
+        'type'          => 'text',
+        'not null'      => TRUE,
+        'size'          => 'big',
+      ),
+      'timestamp'     => array(
+        'description'   => 'Time when the message was sent',
+        'type'          => 'int',
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+    ),
+    'primary key'     => array('mid'),
+    'indexes'         => array(
+      'author'            => array('author'),
+      'subject'           => array(array('subject', 20)),
+      'timestamp'         => array('timestamp'),
+    ),
+  );
+  $ret = array();
+
+  // Step 1: Preparation
+  // Create the privatemsg tables.
+  if (!(db_table_exists('pm_message'))) {
+    db_create_table($ret, 'pm_message', $schema['pm_message']);
+  }
+  if (!(db_table_exists('pm_index'))) {
+    db_create_table($ret, 'pm_index', $schema['pm_index']);
+  }
+  if (!(db_table_exists('temp_pm_index'))) {
+    db_create_table($ret, 'temp_pm_index', $schema['temp_pm_index']);
+  }
+  // Enable the privatemsg module as otherwise the enable box will be unclickable after update.
+  if (!module_exists('privatemsg')) {
+    module_enable('privatemsg');
+  }
+
+  // Install relevant submodules as we need theit tables to drop the data into.
+  $modules = array();
+  if (!(module_exists('privatemsg_filter'))) {
+    $modules[] = 'privatemsg_filter';
+  }
+  if (!(module_exists('pm_block_user'))) {
+    $modules[] = 'pm_block_user';
+  }
+  if (count($modules) > 0) {
+    drupal_install_modules($modules);
+  }
+
+  // Step 2: Get the data
+
+  // Step 2a: get the folder/tagging data first.
+  db_query('INSERT INTO {pm_tags} (tag) SELECT DISTINCT name FROM {privatemsg_folder}');
+
+  // Step 2b: Next, copy the user blocking data.
+  if (db_table_exists('privatemsg_block_user')) {
+    db_query('INSERT INTO {pm_block_user} (author, recipient) SELECT author, recipient FROM privatemsg_block_user');
+  }
+
+  // Step 2c: Copy data from the {privatemsg} and {privatemsg_archive} tables.
+  foreach (array("privatemsg_archive", "privatemsg") as $old_message_table) {
+    $recipient_del='recipient_del';
+    $author_del='author_del';
+    $newmsg = 'newmsg';
+    if ($old_message_table == 'privatemsg_archive') {
+      $recipient_del = 1;
+      $author_del = 1;
+      $newmsg = '0';
+    }
+
+    if (db_table_exists($old_message_table)) {
+      // Insert all message from old table.
+      db_query("INSERT INTO {pm_message} (mid, author, subject, body, timestamp)
+                SELECT id,author,subject,message,timestamp
+                FROM {$old_message_table} WHERE author <> recipient");
+
+      // Temporary index for the recipient of the message, with the proper
+      // deleted tag if the recipient deleted it. We do two queries, so we
+      // capture in the thread_id the id of the message if it was not threaded.
+      db_query("INSERT INTO {temp_pm_index} (mid, thread, folder, thread_id, uid,       is_new, deleted)
+                SELECT                        id, thread, folder, id,        recipient, $newmsg,      $recipient_del
+                FROM {$old_message_table} WHERE thread = 0");
+
+      db_query("INSERT INTO {temp_pm_index} (mid, thread, folder, thread_id, uid,       is_new, deleted)
+                SELECT                        id, thread, folder, 0,         recipient, $newmsg,      $recipient_del
+                FROM {$old_message_table} WHERE thread <> 0");
+
+
+      // Temporary index for the recipient of the message, with the proper
+      // deleted tag if the author deleted it. We do two queries, so we capture
+      // in the thread_id the id of the message if it was not threaded.
+      db_query("INSERT INTO {temp_pm_index}     (mid, thread, folder, thread_id, uid,    is_new, deleted)
+                SELECT                            id, thread, 0,      id,        author, 0,      $author_del
+                FROM {$old_message_table} WHERE thread = 0") ;
+
+      db_query("INSERT INTO {temp_pm_index} (mid, thread, folder, thread_id, uid,    is_new, deleted)
+                SELECT                        id, thread, 0,      0,         author, 0,      $author_del
+                FROM {$old_message_table} WHERE thread <> 0") ;
+    }
+  }
+
+  // Step 3: Process the Data.
+  // Step 3a: Fix the thread data.
+  $temptable = 'temp_pm_thread_min';
+  db_query_temporary('SELECT thread, min(mid) as mid FROM {temp_pm_index} WHERE thread_id = 0 GROUP BY thread', $temptable);
+  db_query("create index t2 on $temptable (thread)");
+  db_query("create index t1 on temp_pm_index (thread_id)");
+  db_query("create index t2 on temp_pm_index (thread)");
+
+  db_query("UPDATE temp_pm_index i, $temptable t SET i.thread_id = t.mid WHERE i.thread_id = 0 and i.thread = t.thread");
+
+  // Step 3b: Fix and import the tagging data.
+  db_query("INSERT INTO {pm_tags_index}
+            SELECT distinct pmf.uid, t.tag_id, thread_id
+            FROM {pm_tags} t INNER JOIN {privatemsg_folder} pmf ON t.tag = pmf.name, temp_pm_index tmp
+            WHERE pmf.fid = tmp.folder  and tmp.folder <> 0");
+
+  // Step 3c: Copy the index data.
+  db_query("INSERT INTO {pm_index} (mid, thread_id, uid, is_new, deleted) SELECT mid, thread_id, uid, is_new, deleted FROM {temp_pm_index}");
+
+  // Step 4: Clean up.
+  db_drop_table($ret, 'privatemsg');
+  db_drop_table($ret, 'privatemsg_archive');
+  db_drop_table($ret, 'privatemsg_folder');
+  if (db_table_exists('privatemsg_block_user')) {
+    db_drop_table($ret, 'privatemsg_block_user');
+  }
+  db_drop_table($ret, 'temp_pm_index');
+
+  // Set a variable to indicate that this is a direct upgrade from Drupal 5,
+  // this allows to skip the slow 6003() update function.
+  variable_set('privatemsg_update_6000', 1);
+
+  return $ret;
+}
+
+function privatemsg_update_6001() {
+  $ret = array();
+
+  if (!db_column_exists('pm_index', 'is_new')) {
+
+    if (db_column_exists('pm_index', 'new')) {
+      $old_column = 'new';
+    }
+    elseif (db_column_exists('pm_index', 'new_flag')) {
+      $old_column = 'new_flag';
+    }
+    else {
+      return $ret;
+    }
+
+    db_drop_index($ret, 'pm_index', $old_column);
+    db_change_field($ret, 'pm_index', $old_column, 'is_new', array(
+          'description'   => 'Whether the user has read this message',
+          'type'          => 'int',
+          'default'       => 1,
+          'not null'      => TRUE,
+          'unsigned'      => TRUE));
+    db_add_index($ret, 'pm_index', 'is_new', array('mid', 'uid', 'is_new'));
+  }
+
+  return $ret;
+}
+
+function privatemsg_update_6002() {
+  $ret = array();
+  // update_sql does not support parameters, we need to use db_query
+  $sql = "UPDATE {blocks} SET cache = %d WHERE module='privatemsg'";
+  $result = db_query($sql, BLOCK_NO_CACHE);
+  $ret[] = array('success' => $result !== FALSE, 'query' => check_plain($sql));
+  return $ret;
+}
+
+/**
+ * Update function to resolve "forever new" messages.
+ *
+ * As described in http://drupal.org/node/490650
+ */
+function privatemsg_update_6003() {
+
+  // Sites which are directly upgrading from Drupal 5 don't have this problem.
+  // Skip this update for them, as it can be very slow.
+  if (variable_get('privatemsg_update_6000', 0)) {
+    variable_del('privatemsg_update_6000');
+    return array();
+  }
+
+  $ret = array();
+  // Find messages that have aformentioned problem
+  $sql = "SELECT DISTINCT p1.mid, p1.uid FROM {pm_index} p1 INNER JOIN {pm_index} p2 ON p1.thread_id = p2.thread_id AND p1.mid = p2.mid INNER JOIN {pm_message} pm ON p1.uid = pm.author AND p2.uid = pm.author WHERE p1.is_new <> p2.is_new";
+  $result = db_query($sql);
+  while ($row = db_fetch_object($result)) {
+    privatemsg_message_change_status($row->mid, PRIVATEMSG_READ, $row);
+  }
+
+  $ret[] = array('success' => $result !== FALSE, 'query' => check_plain($sql));
+  return $ret;
+}
+
+/**
+ * Create a format column.
+ *
+ * Copied from system_update_6051
+ */
+function privatemsg_update_6004() {
+  $ret = array();
+  if (!db_column_exists('pm_message', 'format')) {
+    $schema = array(
+      'type' => 'int',
+      'size' => 'small',
+      'not null' => TRUE,
+      'default' => FILTER_FORMAT_DEFAULT,
+      'description' => 'The {filter_formats}.format of the message text.',
+    );
+
+    db_add_field($ret, 'pm_message', 'format', $schema);
+
+    // Set the format of existing signatures to the current default input format.
+    if ($current_default_filter = (int)variable_get('filter_default_format', 1)) {
+      $ret[] = update_sql("UPDATE {pm_message} SET format = ". $current_default_filter);
+    }
+  }
+  return $ret;
+}
+
+/**
+ * Enable delete permission for all users that are allowed to read them.
+ */
+function privatemsg_update_6005() {
+  $ret = array();
+  $ret[] = update_sql("UPDATE {permission} SET perm = REPLACE(perm, 'read privatemsg', 'read privatemsg, delete privatemsg') WHERE perm LIKE '%read privatemsg%'");
+  return $ret;
+}
+
+/**
+ * Set the deleted timestamp of all messages to now.
+ */
+function privatemsg_update_6006() {
+  $ret = array();
+
+  $sql = "UPDATE {pm_index} SET deleted = %d WHERE deleted = 1";
+  $result = db_query($sql, time());
+  $ret[] = array('success' => $result !== FALSE, 'query' => check_plain($sql));
+  return $ret;
+}
+
+/**
+ * Update indexes on {pm_index} and {pm_message}.
+ */
+function privatemsg_update_6007() {
+  $ret = array();
+
+  // Delete unecessary indexes.
+  db_drop_index($ret, 'pm_index', 'mid');
+  db_drop_index($ret, 'pm_index', 'thread_id');
+  db_drop_index($ret, 'pm_index', 'uid');
+
+  db_drop_index($ret, 'pm_message', 'author');
+  db_drop_index($ret, 'pm_message', 'subject');
+  db_drop_index($ret, 'pm_message', 'timestamp');
+
+  // Add new indexes.
+  db_add_index($ret, 'pm_index', 'list', array('uid', 'deleted', 'is_new'));
+  db_add_index($ret, 'pm_index', 'messages', array('mid', 'uid'));
+  db_add_index($ret, 'pm_index', 'participants', array('thread_id', 'uid', 'deleted'));
+
+  return $ret;
+}

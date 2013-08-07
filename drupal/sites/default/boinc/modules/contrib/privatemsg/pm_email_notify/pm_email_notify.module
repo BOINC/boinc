@@ -1,0 +1,192 @@
+<?php
+
+/**
+ * @file
+ * Notifies users about new Private Messages via Email.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function pm_email_notify_menu() {
+  $items['admin/settings/messages/notify'] = array(
+    'title'            => 'E-mail notify',
+    'description'      => 'E-mail notification settings',
+    'page callback'    => 'drupal_get_form',
+    'page arguments'   => array('pm_email_notify_admin_settings_form'),
+    'access arguments' => array('administer privatemsg settings'),
+    'type'             => MENU_LOCAL_TASK,
+    'weight'           => 10,
+  );
+  return $items;
+}
+
+/**
+ * Menu callback for administration settings.
+ */
+function pm_email_notify_admin_settings_form() {
+  $form['pm_email'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Privatemsg e-mail notification'),
+    '#collapsible' => FALSE,
+    '#collapsed' => FALSE,
+  );
+  $form['pm_email']['pm_email_notify_default'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Notify users of new private messages by default'),
+    '#default_value' => variable_get('pm_email_notify_default', TRUE),
+    '#weight' => 0,
+  );
+
+  $form['pm_email']['pm_email_notify_desc'] = array(
+    '#type' => 'item',
+    '#value' => t('Customize the email messages sent to users upon receipt of a new private message. <br />Available variables are: !author, !author_uid, !pm_subject, !pm_body, !thread, !site, !login_url, !uri, !uri_brief, !message (URL) and !settings (URL).'),
+    '#weight' => 1,
+  );
+
+  $form['pm_email']['pm_email_notify_subject'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Subject of notification messages'),
+    '#default_value' => variable_get('pm_email_notify_subject', 'New private message at !site.'),
+    '#weight' => 2,
+  );
+
+  $form['pm_email']['pm_email_notify_body'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Body of notification messages'),
+    '#default_value' => variable_get('pm_email_notify_body', _pm_email_notify_default_body()),
+    '#weight' => 3,
+  );
+  return system_settings_form($form);
+}
+
+/**
+ * Retrieve notification setting of a user.
+ *
+ * This function retrieves user's pm notification preference from database,
+ * if user preference doesn't exist - it uses default value instead
+ *
+ * @param $uid
+ *   User uid
+ */
+function _pm_email_notify_is_enabled($uid) {
+  static $notifications = array();
+  // Cache the result set in case this method is executed in batched operation which will perform many unnecessary repeated selects for the same user
+  if ( !isset($notifications[$uid]) ) {
+    $mail_notification = db_result(db_query('SELECT email_notify_is_enabled FROM {pm_email_notify} WHERE user_id = %d', $uid));
+    if ($mail_notification === FALSE) {
+      // db_result() returns FALSE if result was not found.
+      $mail_notification = variable_get('pm_email_notify_default', TRUE);
+    }
+    $notifications[$uid] = $mail_notification;
+  }
+  return $notifications[$uid];
+}
+
+/**
+ * Implements hook_privatemsg_message_insert().
+ */
+function pm_email_notify_privatemsg_message_insert($message) {
+  foreach ($message['recipients'] as $recipient) {
+    // check if recipient enabled email notifications
+    if (_pm_email_notify_is_enabled($recipient->uid)) {
+      // send them a new pm notification email if they did
+      $params['recipient'] = $recipient;
+      $params['message'] = $message;
+      drupal_mail('pm_email_notify', 'notice', $recipient->mail, user_preferred_language($recipient), $params);
+    }
+  }
+}
+
+/**
+ * Implements hook_mail().
+ */
+function pm_email_notify_mail($key, &$message, $params) {
+  $language = $message['language'];
+  $variables = user_mail_tokens($params['recipient'], $language);
+  $variables = array_merge($variables, _pm_email_notify_token($params['recipient'], $params['message'], $language));
+  switch ($key) {
+    case 'notice':
+      $message['subject'] = t(variable_get('pm_email_notify_subject', 'New private message at !site.'), $variables, $language->language);
+      $message['body'] = t(variable_get('pm_email_notify_body', _pm_email_notify_default_body()), $variables, $language->language);
+      break;
+  }
+}
+
+/**
+ * Return an array of token to value mappings for user e-mail messages.
+ *
+ * @param $message
+ *   The private message array being sent.  Must contain at
+ *   least the fields 'author', 'subject', 'thread_id' and 'body'.
+ * @return
+ *   Array of mappings from token names to values (for use with strtr()).
+ */
+function _pm_email_notify_token($recipient, $message, $language) {
+  $tokens = array(
+    '!author_uid' => $message['author']->uid,
+    '!author' => $message['author']->name,
+    '!pm_subject' => trim(drupal_html_to_text(check_plain($message['subject']))),
+    '!pm_body' => trim(drupal_html_to_text(check_markup($message['body'], $message['format'], FALSE))),
+    '!thread' => $message['thread_id'],
+    '!user_uid' => $recipient->uid,
+    '!message' => url('messages/view/' . $message['thread_id'], array('absolute' => TRUE, 'language' => $language)),
+    '!settings' => url('user/' . $recipient->uid . '/edit', array('absolute' => TRUE, 'language' => $language)),
+  );
+
+  return $tokens;
+}
+
+/**
+ * Returns default email notification body.
+ */
+function _pm_email_notify_default_body() {
+  return "Hi !username,\n\nThis is an automatic reminder from the site !site. You have received a new private message from !author.\n\nTo read your message, follow this link:\n!message\n\nIf you don't want to receive these emails again, change your preferences here:\n!settings";
+}
+
+/**
+ * Implements hook_user().
+ *
+ * Display settings form and store its information.
+ */
+function pm_email_notify_user($op, &$edit, &$account, $category = NULL) {
+  switch ($op) {
+    case 'form':
+      if ($category == 'account' && privatemsg_user_access('read privatemsg', $account)) {
+        $form['enable_pm_mail'] = array(
+          '#type' => 'fieldset',
+          '#title' => t('Privatemsg e-mail notification'),
+          '#collapsible' => TRUE,
+          '#collapsed' => FALSE,
+          '#weight' => 10,
+        );
+        $form['enable_pm_mail']['pm_send_notifications'] = array(
+          '#type' => 'checkbox',
+          '#title' => t('Receive email notification for incoming private messages'),
+          '#default_value' => _pm_email_notify_is_enabled($account->uid),
+        );
+      }
+      return $form;
+
+     case 'submit':
+      if (isset($edit['pm_send_notifications']) && privatemsg_user_access('read privatemsg', $account)) {
+        $pm_email_enabled = $edit['pm_send_notifications'];
+        unset($edit['pm_send_notifications']);
+        // Update database entry with user preference.
+        $exists = db_result(db_query("SELECT 1 FROM {pm_email_notify} WHERE user_id = %d", $account->uid));
+        if ($exists) {
+          // If there is an existing entry, update.
+          db_query("UPDATE {pm_email_notify} SET email_notify_is_enabled = %d WHERE user_id = %d", $pm_email_enabled, $account->uid);
+        }
+        else {
+          // If not, create a new one.
+          db_query("INSERT INTO {pm_email_notify} (email_notify_is_enabled, user_id) VALUES (%d, %d)", $pm_email_enabled, $account->uid);
+        }
+      }
+      break;
+
+     case 'delete':
+      db_query("DELETE FROM {pm_email_notify} WHERE user_id = %d", $account->uid);
+      break;
+  }
+}

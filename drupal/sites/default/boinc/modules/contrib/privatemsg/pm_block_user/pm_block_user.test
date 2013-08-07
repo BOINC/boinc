@@ -1,0 +1,174 @@
+<?php
+/**
+ * @file
+ * Test file for pm_block_user.module
+ */
+
+class PrivatemsgBlockUserCase extends DrupalWebTestCase {
+  /**
+   * Implements getInfo().
+   */
+  function getInfo() {
+    return array
+    (
+      'name' => t('User blocking functionality.'),
+      'description' => t('Test blocking and unblocking of users'),
+      'group' => t('Privatemsg'),
+    );
+  }
+
+  function setUp() {
+    parent::setUp('privatemsg', 'pm_block_user');
+  }
+
+  /**
+   * Test role blocking rules.
+   */
+  function testRoleBlockRecipient() {
+    // User id 3, Role id 3.
+    $author_user = $this->drupalCreateUser(array('write privatemsg', 'read privatemsg', 'access user profiles'));
+    // User id 4, Role id 4.
+    $blocked_user = $this->drupalCreateUser(array('write privatemsg', 'read privatemsg', 'access user profiles'));
+    // User id 5, Role id 5.
+    $admin_user = $this->drupalCreateUser(array('administer privatemsg settings'));
+
+    // Login the admin user and set up the role blocking rules.
+    $this->drupalLogin($admin_user);
+
+    $this->drupalPost('admin/settings/messages/block', array(), t('More'));
+    // If this fails we still have the default empty block user form.
+    $this->assertNoText(t('No rules have been added'), t('The block form now allows adding rules.'));
+
+    // If author role is 3 and recipent role is 4, disallow sending of messages.
+    $edit = array(
+      'block_actions[0][author]' => 3,
+      'block_actions[0][recipient]' => 4,
+      'block_actions[0][action]' => 1,
+      'block_actions[0][enabled]' => 1,
+    );
+    $this->drupalPost(NULL, $edit, t('Save configuration'));
+
+    // Verify that the user doesn't show up in the autocomplete.
+    // Login the user that will write a message to the user with the blocked role.
+    $this->drupalLogin($author_user);
+
+    $this->drupalGet('messages/new');
+    $this->assertText(t('Write new message'), t('Author user can write messages.'));
+
+    $this->drupalGet('messages/autocomplete/' . $blocked_user->name);
+    $this->assertNoText($blocked_user->name, t('User with blocked role does not appear in autocomplete results.'));
+
+    // Verify that link to send private message to blocked user is not shown on their profile page.
+    $this->drupalGet('user/' . $blocked_user->uid);
+    $this->assertNoText(t('Send this user a private message'), t("Author user cannot see link to send blocked user a message on blocked user's profile."));
+
+    // Verify that it is not possible to manually write a message to blocked user.
+    $this->drupalGet('messages/new');
+    $message = array(
+      'recipient'   => $blocked_user->name,
+      'subject'     => $this->randomName(20),
+      'body'        => $this->randomName(50),
+    );
+
+    $this->drupalPost('messages/new', $message, t('Send message'));
+    $this->assertText(t('You are not permitted to send messages to @recipient.' , array('@recipient' => $blocked_user->name)), t('Author user message to blocked user has been blocked.'));
+
+    // Verify that unblocked user can receive message from a multi-recipient message that includes blocked user.
+    $this->drupalGet('messages/new');
+    $message = array(
+      'recipient'   => $admin_user->name . ', ' . $blocked_user->name,
+      'subject'     => $this->randomName(20),
+      'body'        => $this->randomName(50),
+    );
+
+    $this->drupalPost('messages/new', $message, t('Send message'));
+    $this->assertText(t('You are not permitted to send messages to @recipient.' , array('@recipient' => $blocked_user->name)), t('Author user message to blocked user has been blocked.'));
+    $this->assertText(t('A message has been sent to @recipient.', array('@recipient' => $admin_user->name)), t('Author user message sent to admin user.'));
+
+  }
+
+
+  function testBlockAndUnblock() {
+    // Create needed users.
+    $user1 = $this->drupalCreateUser(array('write privatemsg', 'read privatemsg', 'access user profiles'));
+    $user2 = $this->drupalCreateUser(array('write privatemsg', 'read privatemsg', 'access user profiles'));
+    $user3 = $this->drupalCreateUser(array('write privatemsg', 'read privatemsg', 'access user profiles'));
+
+    // Set up a simple conversation.
+    $return = privatemsg_new_thread(array($user2, $user3), $subject = $this->randomName(10), $this->randomString(50), array('author' => $user1));
+    privatemsg_reply($return['message']['thread_id'], $this->randomString(50), array('author' => $user2));
+    privatemsg_reply($return['message']['thread_id'], $this->randomString(50), array('author' => $user3));
+
+    $this->drupalLogin($user1);
+    $this->drupalGet('messages');
+    $this->clickLink($subject);
+
+    // Block user2.
+    $this->clickLink(t('Block author'));
+    $this->drupalPost(NULL, array(), t('Block @user', array('@user' => $user2->name)));
+    $this->assertText(t('@user has been blocked from sending you any further messages.', array('@user' => $user2->name)), t('Confirmation message displayed'));
+
+    // Block user3.
+    $this->clickLink(t('Block author'));
+    $this->drupalPost(NULL, array(), t('Block @user', array('@user' => $user3->name)));
+    $this->assertText(t('@user has been blocked from sending you any further messages.', array('@user' => $user3->name)), t('Confirmation message displayed'));
+
+    $this->drupalGet('messages');
+    $this->clickLink($subject);
+
+    $this->assertNoText(t('Block user'), t('No "Block user" links displayed.'));
+
+    // Visit profile page of user 2 and verify that there is a link to write a
+    // message.
+    $this->drupalGet('user/' . $user2->uid);
+    $this->assertText(t('Send this user a message'));
+
+    // Log in as user2 and try to send messages to user1.
+    $this->drupalLogin($user2);
+
+    // Access profile to see if there is a write message link.
+    $this->drupalGet('user/' . $user1->uid);
+    $this->assertNoText(t('Send this user a message'));
+
+    $edit = array(
+      'recipient' => $user1->name,
+      'subject' => $subject2 = $this->randomName(20),
+      'body'    => $this->randomName(50),
+    );
+    $this->drupalPost('messages/new', $edit, t('Send message'));
+    $this->assertRaw(t('%user has chosen to not recieve any more messages from you.', array('%user' => $user1->name)), t('User 1 blocks user 2 message displayed'));
+    $this->assertText(t('Disallowed to send message because all recipients are blocked'), t('Disallowed to send message displayed'));
+
+    $edit = array(
+      'recipient' => $user1->name . ', ' . $user3->name,
+      'subject' => $subject3 = $this->randomName(20),
+      'body'    => $this->randomName(50),
+    );
+    $this->drupalPost('messages/new', $edit, t('Send message'));
+    $this->assertRaw(t('%user has chosen to not recieve any more messages from you.', array('%user' => $user1->name)), t('User 1 blocks user 2 message displayed'));
+    $this->assertText(t('A message has been sent to @user.', array('@user' => $user3->name)), t('Message sent to user 3'));
+  
+    
+    // Try to reply to an existing thread.
+    $this->drupalGet('messages');
+    $this->clickLink($subject);
+
+    $this->assertText(t('Recipients: @user', array('@user' => $user3->name)), t('User1 is not displayed as recipient'));
+    $edit = array('body' => $reply = $this->randomName(50));
+    $this->drupalPost(NULL, $edit, t('Send message'));
+    $this->assertRaw(t('%user has chosen to not recieve any more messages from you.', array('%user' => $user1->name)), t('User 1 blocks user 2 message displayed'));
+    $this->assertText(t('A message has been sent to @user.', array('@user' => $user3->name)), t('Message sent to user 3'));
+  
+    // Login as user1 again and check that we didn't recieve the messages.
+    $this->drupalLogin($user1);
+    $this->drupalGet('messages');
+
+    // Check that we didn't get the new messages.
+    $this->assertNoLink($subject2);
+    $this->assertNoLink($subject3);
+
+    // Check that we don't see the new messages.
+    $this->clickLink($subject);
+    $this->assertNoText($reply);
+  }
+}

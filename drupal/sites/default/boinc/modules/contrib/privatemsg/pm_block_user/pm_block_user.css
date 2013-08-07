@@ -1,0 +1,48 @@
+#pm-block-user-settings .sticky-header {
+  /* Stop the remove button overlapping the sticky header */
+  z-index: 10;
+}
+#pm-block-user-settings .throbber {
+  margin: 4px 0;
+}
+#add-rule-button, #remove-rule-button {
+  height: 45px;
+  /* Stop the remove button overlapping the sticky header */
+  z-index: 1;
+}
+#add-rule-button label {
+  line-height: 26px;
+  margin-left: 2px;
+}
+#remove-rule-button {
+  width: 100px;
+  position: relative;
+}
+#remove-rule-button label {
+  display: block;
+  clear: both;
+  text-align: center;
+}
+#add-rule-button input,
+#remove-rule-button input {
+  display: inline-block;
+  overflow: hidden;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  text-indent: -9999px;
+  cursor: pointer; /* Hand shaped cursor */
+  cursor: hand; /* for old versions of IE */
+}
+#add-rule-button input {
+  background: transparent url('add-rule-button.png') left top no-repeat;
+}
+#remove-rule-button input {
+  background: transparent url('remove-rule-button.png') left top no-repeat;
+  /* Only way to centre-align remove button without having AHAH throbber
+   * interfere with it */
+  margin-left: 36px;
+}
+
