@@ -1244,7 +1244,7 @@ static void worker_signal_handler(int) {
             // Suspicion that per-thread signal masking doesn't work
             // on old versions of Android
             //
-            if (pthread_self() == timer_thread_id) {
+            if (pthread_self() == timer_thread_handle) {
                 fprintf(stderr,
                     "ERROR - signal handler called in timer thread\n"
                 );
