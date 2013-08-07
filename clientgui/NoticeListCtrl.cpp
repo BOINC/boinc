@@ -563,7 +563,6 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const {
         strBuffer += strCreateTime;
 
         if (!strURL.IsEmpty()) {
-            https_to_http(strURL);
             strTemp.Printf(
                 wxT(" &middot; <a target=_new href=%s>%s</a> "),
                 strURL.c_str(),
