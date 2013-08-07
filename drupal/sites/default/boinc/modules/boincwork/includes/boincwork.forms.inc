@@ -164,7 +164,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
     '#attributes' => array('class' => 'no-js'),
   );
   
-  $form['prefs']['separator'] = array(
+  $form['prefs']['separator_top'] = array(
     '#value' => '<div class="separator"></div>'
   );
   
@@ -179,6 +179,11 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
   );
   
   // Processing preferences
+  
+  $form['prefs']['advanced']['separator_top'] = array(
+    '#value' => '<div class="separator"></div>'
+  );
+  
   $form['prefs']['advanced']['processor'] = array(
     '#title' => t('Processor usage'),
     '#type' => 'fieldset',
@@ -475,6 +480,10 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
   $form['prefs']['view advanced'] = array(
     '#type' => 'hidden',
     '#value' => 1
+  );
+  
+  $form['prefs']['separator_bottom'] = array(
+    '#value' => '<div class="separator"></div>'
   );
   
   // Form control
