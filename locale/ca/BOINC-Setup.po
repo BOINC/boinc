@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-03 18:11-0700\n"
+"POT-Creation-Date: 2013-08-06 16:50-0800\n"
 "PO-Revision-Date: 2013-06-07 23:36+0200\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,25 +19,25 @@ msgstr ""
 "X-Generator: Pootle 2.1.6\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: Installer.cpp:120
+#: mac_installer/Installer.cpp:132
 #, c-format
 msgid "Sorry, this version of %s requires system 10.4 or higher."
 msgstr "Ho sentim, aquesta versió de %s requereix el sistema 10.4 o superior."
 
-#: PostInstall.cpp:130
+#: mac_installer/PostInstall.cpp:131 mac_installer/PostInstall.cpp:1211
 msgid "Yes"
 msgstr "Si"
 
-#: PostInstall.cpp:131
+#: mac_installer/PostInstall.cpp:132 mac_installer/PostInstall.cpp:1212
 msgid "No"
 msgstr "No"
 
-#: PostInstall.cpp:133
+#: mac_installer/PostInstall.cpp:134
 msgid "Should BOINC run even when no user is logged in?"
 msgstr ""
 "BOINC s'ha de seguir executant fins i tot quan cap usuari ha iniciat sessió?"
 
-#: PostInstall.cpp:1433
+#: mac_installer/PostInstall.cpp:1491
 #, c-format
 msgid ""
 "Users who are permitted to administer this computer will automatically be "
@@ -52,30 +52,22 @@ msgstr ""
 "Vols que també els usuaris no administratius puguin executar i controlar %s "
 "en aquesta Mac?"
 
-#: PostInstall.cpp:1461
+#: mac_installer/PostInstall.cpp:1519
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr ""
 "Vols configurar %s com el protector de pantalla per a tots els %s usuaris de "
 "en aquesta Mac?"
 
-#: uninstall.cpp:71
+#: mac_installer/uninstall.cpp:80
 msgid "OK"
 msgstr "CORRECTE"
 
-#: uninstall.cpp:72
-msgid "Cancel"
-msgstr "Cancel·lar"
-
-#: uninstall.cpp:73
-msgid "Continue..."
-msgstr "Continuar..."
-
-#: uninstall.cpp:89
+#: mac_installer/uninstall.cpp:130
 msgid "Permission error after relaunch"
 msgstr "Error de permisos després del re inici"
 
-#: uninstall.cpp:93
+#: mac_installer/uninstall.cpp:135
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
@@ -83,7 +75,7 @@ msgstr ""
 "La eliminació pot trigar uns minuts.\n"
 "Si us plau, sigues pacient."
 
-#: uninstall.cpp:133
+#: mac_installer/uninstall.cpp:150
 #, c-format
 msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
@@ -94,35 +86,33 @@ msgstr ""
 "\n"
 "Això eliminarà els executables, però no tocarà els arxius de dades %s."
 
-#: uninstall.cpp:142
+#: mac_installer/uninstall.cpp:157
 #, c-format
 msgid "Canceled: %s has not been touched."
 msgstr "Cancel·lat: %s no s'ha tocat."
 
-#: uninstall.cpp:151
+#: mac_installer/uninstall.cpp:168
 #, c-format
 msgid "An error occurred: error code %d"
 msgstr "S'ha produït un error: codi d'error %d"
 
-#: uninstall.cpp:153
+#: mac_installer/uninstall.cpp:224
+msgid "name  of user"
+msgstr ""
+
+#: mac_installer/uninstall.cpp:261
+#, c-format
 msgid ""
 "Removal completed.\n"
 "\n"
 " You may want to remove the following remaining items using the Finder: \n"
-"\"/Library/Application Support/BOINC Data\" directory\n"
+"the directory \"%s\"\n"
 "\n"
 "for each user, the file\n"
-"\"/Users/[username]/Library/Preferences/BOINC Manager Preferences\"."
+"\"%s\"."
 msgstr ""
-"L'eliminació s'ha completat.\n"
-"\n"
-" Poder vols suprimir els elements restants fent servir l'Explorador:\n"
-"directori \"/Library/Application Support/BOINC data\"\n"
-"\n"
-"per a cada usuari, l'arxiu\n"
-"\"/Users/[nom d'usuari]/Library/Preferences/BOINC Manager Preferences\"."
 
-#: uninstall.cpp:686
+#: mac_installer/uninstall.cpp:796
 #, c-format
 msgid ""
 "Enter your administrator password to completely remove %s from you "
@@ -132,3 +122,28 @@ msgstr ""
 "Introdueix la teva contrasenya d'administrador per eliminar completament %s "
 "de l'ordinador.\n"
 "\n"
+
+#: mac_installer/uninstall.cpp:1543
+msgid "Cancel"
+msgstr "Cancel·lar"
+
+#: mac_installer/uninstall.cpp:1544
+msgid "Continue..."
+msgstr "Continuar..."
+
+#~ msgid ""
+#~ "Removal completed.\n"
+#~ "\n"
+#~ " You may want to remove the following remaining items using the Finder: \n"
+#~ "\"/Library/Application Support/BOINC Data\" directory\n"
+#~ "\n"
+#~ "for each user, the file\n"
+#~ "\"/Users/[username]/Library/Preferences/BOINC Manager Preferences\"."
+#~ msgstr ""
+#~ "L'eliminació s'ha completat.\n"
+#~ "\n"
+#~ " Poder vols suprimir els elements restants fent servir l'Explorador:\n"
+#~ "directori \"/Library/Application Support/BOINC data\"\n"
+#~ "\n"
+#~ "per a cada usuari, l'arxiu\n"
+#~ "\"/Users/[nom d'usuari]/Library/Preferences/BOINC Manager Preferences\"."

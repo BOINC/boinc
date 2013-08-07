@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2013-06-08 17:59+0200\n"
+"PO-Revision-Date: 2013-06-08 18:16+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -264,7 +264,6 @@ msgid "Credit: %1"
 msgstr "Punkte: %1"
 
 #: ../inc/forum.inc:597
-#, fuzzy
 msgid "RAC: %1"
 msgstr "Punktedurchschnitt pro Tag: %1"
 
@@ -2116,9 +2115,10 @@ msgstr "Benutzer ID"
 msgid "Used in community functions"
 msgstr "für Community Funktionen"
 
+# 91%
 #: ../inc/user.inc:217 ../user/weak_auth.php:25
 msgid "Account keys"
-msgstr ""
+msgstr "Kontoschlüssel"
 
 #: ../inc/user.inc:222
 msgid "Preferences"
