@@ -593,19 +593,25 @@ int get_pfc(
     double tmp_scale = (avp && (r.app_version_id>1) && avp->pfc_scale) ? (avp->pfc_scale) : 1.0;
 
     if (raw_pfc*tmp_scale > wu.rsc_fpops_bound) {
+        // This sanity check should be unnecessary becuase we have a maximum
+        // credit grant limit.  With anonymous GPU apps the sanity check often fails
+        // because anonymous GPU scales are often of order 0.01.  That prevents
+        // PFC averages from being updated.  So I've removed the return
+        // statement.
         char query[256], clause[256];
         pfc = wu_estimated_pfc(wu, app);
         if (config.debug_credit) {
             log_messages.printf(MSG_NORMAL,
-                "[credit] [RESULT#%u] sanity check failed: %.2f>%.2f, return %.2f\n",
+                "[credit] [RESULT#%u] WARNING: sanity check failed: %.2f>%.2f, return %.2f\n",
                 r.id, raw_pfc*tmp_scale*COBBLESTONE_SCALE,
                 wu.rsc_fpops_bound*COBBLESTONE_SCALE, pfc*COBBLESTONE_SCALE
             );
         }
-        sprintf(query, "consecutive_valid=0");
-        sprintf(clause, "host_id=%d and app_version_id=%d", r.hostid, gavid);
-        retval = hav.update_fields_noid(query, clause);
-        return retval;
+//        This was a bad idea because it prevents HAV.pfc from being updated.
+//        sprintf(query, "consecutive_valid=0");
+//        sprintf(clause, "host_id=%d and app_version_id=%d", r.hostid, gavid);
+//        retval = hav.update_fields_noid(query, clause);
+//        return retval;
     }
 
     if (r.app_version_id < 0) {
