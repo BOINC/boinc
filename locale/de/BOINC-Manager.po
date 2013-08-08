@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-05 13:13-0500\n"
-"PO-Revision-Date: 2013-06-08 17:42+0200\n"
+"PO-Revision-Date: 2013-06-08 18:16+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -2949,7 +2949,6 @@ msgstr "Mindestens ein Element konnte nicht aus dem Internet geladen werden."
 
 # 88%
 #: clientgui/sg_DlgMessages.cpp:138
-#, fuzzy
 msgid "Retry now"
 msgstr "Jetzt nochmal versuchen"
 

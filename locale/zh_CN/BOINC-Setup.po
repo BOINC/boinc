@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-03 18:11-0700\n"
+"POT-Creation-Date: 2013-08-06 16:50-0800\n"
 "PO-Revision-Date: 2013-06-11 13:13+0200\n"
 "Last-Translator: Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
@@ -19,56 +19,50 @@ msgstr ""
 "X-Generator: Pootle 2.1.6\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: Installer.cpp:120
+#: mac_installer/Installer.cpp:132
 #, c-format
 msgid "Sorry, this version of %s requires system 10.4 or higher."
 msgstr "对不起，%s 要求 10.4 或更高的操作系统版本。"
 
-#: PostInstall.cpp:130
+#: mac_installer/PostInstall.cpp:131 mac_installer/PostInstall.cpp:1211
 msgid "Yes"
 msgstr "是"
 
-#: PostInstall.cpp:131
+#: mac_installer/PostInstall.cpp:132 mac_installer/PostInstall.cpp:1212
 msgid "No"
 msgstr "否"
 
-#: PostInstall.cpp:133
+#: mac_installer/PostInstall.cpp:134
 msgid "Should BOINC run even when no user is logged in?"
 msgstr "是否允许 BOINC 在登录前运行？"
 
-#: PostInstall.cpp:1433
+#: mac_installer/PostInstall.cpp:1491
 #, c-format
 msgid ""
-"Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
+"Users who are permitted to administer this computer will automatically be "
+"allowed to run and control %s.\n"
 "\n"
-"Do you also want non-administrative users to be able to run and control %s on this Mac?"
+"Do you also want non-administrative users to be able to run and control %s "
+"on this Mac?"
 msgstr ""
 "有管理员权限的用户可以直接运行和控制 %s。\n"
 "\n"
 "你希望这台 Mac 上的非管理员用户也能运行和控制 %s 吗？"
 
-#: PostInstall.cpp:1461
+#: mac_installer/PostInstall.cpp:1519
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr "是否将 %s 设置为这台 Mac 上所有 %s 用户的屏保？"
 
-#: uninstall.cpp:71
+#: mac_installer/uninstall.cpp:80
 msgid "OK"
 msgstr "确定"
 
-#: uninstall.cpp:72
-msgid "Cancel"
-msgstr "取消"
-
-#: uninstall.cpp:73
-msgid "Continue..."
-msgstr "继续..."
-
-#: uninstall.cpp:89
+#: mac_installer/uninstall.cpp:130
 msgid "Permission error after relaunch"
 msgstr "重启后出现了权限错误"
 
-#: uninstall.cpp:93
+#: mac_installer/uninstall.cpp:135
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
@@ -76,7 +70,7 @@ msgstr ""
 "卸载可能需要几分钟。\n"
 "请稍等。"
 
-#: uninstall.cpp:133
+#: mac_installer/uninstall.cpp:150
 #, c-format
 msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
@@ -87,39 +81,63 @@ msgstr ""
 "\n"
 "本操作将移除所有可执行文件但不会处理 %s 的数据文件。"
 
-#: uninstall.cpp:142
+#: mac_installer/uninstall.cpp:157
 #, c-format
 msgid "Canceled: %s has not been touched."
 msgstr "已取消：未对%s进行任何操作。"
 
-#: uninstall.cpp:151
+#: mac_installer/uninstall.cpp:168
 #, c-format
 msgid "An error occurred: error code %d"
 msgstr "发生错误：错误代码为 %d"
 
-#: uninstall.cpp:153
+#: mac_installer/uninstall.cpp:224
+msgid "name  of user"
+msgstr ""
+
+#: mac_installer/uninstall.cpp:261
+#, c-format
 msgid ""
 "Removal completed.\n"
 "\n"
 " You may want to remove the following remaining items using the Finder: \n"
-"\"/Library/Application Support/BOINC Data\" directory\n"
+"the directory \"%s\"\n"
 "\n"
 "for each user, the file\n"
-"\"/Users/[username]/Library/Preferences/BOINC Manager Preferences\"."
+"\"%s\"."
 msgstr ""
-"移除操作已完成。\n"
-"\n"
-"你也许还想使用 Finder 将剩余的一些内容也移除：\n"
-"\"/Library/Application Support/BOINC Data\" 目录\n"
-"\n"
-"对于每一位用户，还有如下文件：\n"
-"\"/Users/[username]/Library/Preferences/BOINC Manager Preferences\"."
 
-#: uninstall.cpp:686
+#: mac_installer/uninstall.cpp:796
 #, c-format
 msgid ""
-"Enter your administrator password to completely remove %s from you computer.\n"
+"Enter your administrator password to completely remove %s from you "
+"computer.\n"
 "\n"
 msgstr ""
 "要从系统中完全移除 %s 需要输入你的管理员口令。\n"
 "\n"
+
+#: mac_installer/uninstall.cpp:1543
+msgid "Cancel"
+msgstr "取消"
+
+#: mac_installer/uninstall.cpp:1544
+msgid "Continue..."
+msgstr "继续..."
+
+#~ msgid ""
+#~ "Removal completed.\n"
+#~ "\n"
+#~ " You may want to remove the following remaining items using the Finder: \n"
+#~ "\"/Library/Application Support/BOINC Data\" directory\n"
+#~ "\n"
+#~ "for each user, the file\n"
+#~ "\"/Users/[username]/Library/Preferences/BOINC Manager Preferences\"."
+#~ msgstr ""
+#~ "移除操作已完成。\n"
+#~ "\n"
+#~ "你也许还想使用 Finder 将剩余的一些内容也移除：\n"
+#~ "\"/Library/Application Support/BOINC Data\" 目录\n"
+#~ "\n"
+#~ "对于每一位用户，还有如下文件：\n"
+#~ "\"/Users/[username]/Library/Preferences/BOINC Manager Preferences\"."

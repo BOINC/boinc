@@ -664,15 +664,16 @@ static inline bool app_plan_nci(SCHEDULER_REQUEST&, HOST_USAGE& hu) {
 
 // the following is for an app version that requires a processor with SSE3,
 // and will run 10% faster than the non-SSE3 version
+// NOTE: clients return "pni" instead of "sse3"
 //
 static inline bool app_plan_sse3(
     SCHEDULER_REQUEST& sreq, HOST_USAGE& hu
 ) {
     downcase_string(sreq.host.p_features);
-    if (!strstr(sreq.host.p_features, "sse3")) {
+    if (!strstr(sreq.host.p_features, "pni")) {
         // Pre-6.x clients report CPU features in p_model
         //
-        if (!strstr(sreq.host.p_model, "sse3")) {
+        if (!strstr(sreq.host.p_model, "pni")) {
             //add_no_work_message("Your CPU lacks SSE3");
             return false;
         }

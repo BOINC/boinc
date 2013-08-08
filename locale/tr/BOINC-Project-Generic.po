@@ -4686,9 +4686,12 @@ msgstr "Bu bilgisayarın kaydını sil"
 msgid "Record deleted."
 msgstr "Kayıt silindi."
 
+# 86%
+# 88%
 #: ../user/host_delete.php:42 ../user/host_edit_action.php:65
+#, fuzzy
 msgid "Return to list of your computers"
-msgstr ""
+msgstr "Bilgisayarlar sayfasına dön"
 
 #: ../user/host_edit_action.php:39
 msgid "Merge computer records"

@@ -812,7 +812,7 @@ int main() {
 
     HOST_USAGE hu;
 
-    strcpy(sreq.host.p_features, "sse3");
+    strcpy(sreq.host.p_features, "pni");
     sreq.host.p_fpops =5e9;
     g_wreq->effective_ncpus = 4;
     if (1) {

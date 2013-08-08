@@ -69,7 +69,7 @@
     </plan_class>
     <plan_class>
         <name>                  sse3        </name>
-        <cpu_feature>           sse3        </cpu_feature>
+        <cpu_feature>           pni         </cpu_feature>
         <projected_flops_scale> 1.1         </projected_flops_scale>
     </plan_class>
     <plan_class>
