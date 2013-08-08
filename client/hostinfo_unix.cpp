@@ -685,7 +685,7 @@ void use_cpuid(HOST_INFO& host) {
     capabilities[0] = '\0';
     if (hasSSE) strcat(capabilities, "sse ");
     if (hasSSE2) strcat(capabilities, "sse2 ");
-    if (hasSSE3) strcat(capabilities, "sse3 ");
+    if (hasSSE3) strcat(capabilities, "pni ");
     if (has3DNow) strcat(capabilities, "3dnow ");
     if (has3DNowExt) strcat(capabilities, "3dnowext ");
     if (hasMMX) strcat(capabilities, "mmx ");
