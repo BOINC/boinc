@@ -385,7 +385,11 @@ void handle_fetch_output(COMMAND& c) {
     // write stderr output to specified file
     //
     if (cjd.canonical_resultid || cjd.error_resultid) {
-        sprintf(path, "%s/%s", req.dir, req.stderr_filename.c_str());
+        if (req.stderr_filename[0] == '/') {
+            sprintf(path, "%s", req.stderr_filename.c_str());
+        } else {
+            sprintf(path, "%s/%s", req.dir, req.stderr_filename.c_str());
+        }
         FILE* f = fopen(path, "w");
         if (!f) {
             sprintf(buf, "can't\\ open\\ stderr\\ output\\ file\\ %s ", path);
@@ -620,9 +624,7 @@ int handle_command(char* p) {
             COMMAND *c2 = *i;
             if (c2->out) {
 	        printf("%s%d %s\n", response_prefix, c2->id, c2->out);
-                free(c2->out);
-                free(c2->in);
-                free(c2);
+                delete c2;
                 i = commands.erase(i);
             } else {
                 i++;
@@ -639,6 +641,7 @@ int handle_command(char* p) {
         // asynchronous commands go here
         //
         COMMAND *cp = new COMMAND(p);
+        p = NULL;
         int retval = cp->parse_command();
         if (retval) {
             printf("E\n");
@@ -665,6 +668,7 @@ int handle_command(char* p) {
             }
         }
     }
+    free(p);
     return 0;
 }
 
