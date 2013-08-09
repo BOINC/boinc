@@ -49,14 +49,11 @@ char response_prefix[256];
 // in which we send "R" when a command has completed.
 // Synchronization is needed in case 2 commands complete around the same time.
 //
-pthread_mutex_t io_lock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP;
 bool wrote_r = false;
 bool async_mode = false;
 
 #define BPRINTF(fmt, ...) \
-    pthread_mutex_lock(&io_lock); \
     printf( "%s" fmt, response_prefix, ##__VA_ARGS__ ); \
-    pthread_mutex_unlock(&io_lock);
 
 bool debug_mode = false;
     // if set, handle commands synchronously rather than
@@ -562,13 +559,13 @@ void* handle_command_aux(void* q) {
     } else {
         c.out = strdup("Unknown command");
     }
-    pthread_mutex_lock(&io_lock);
+    flockfile(stdout);
     if ( async_mode && !wrote_r ) {
         BPRINTF("R\n");
         fflush(stdout);
         wrote_r = true;
     }
-    pthread_mutex_unlock(&io_lock);
+    funlockfile(stdout);
     return NULL;
 }
 
@@ -629,24 +626,24 @@ int handle_command(char* p) {
     } else if (!strcasecmp(cmd, "COMMANDS")) {
         BPRINTF("S ASYNC_MODE_OFF ASYNC_MODE_ON BOINC_ABORT_JOBS BOINC_FETCH_OUTPUT BOINC_PING BOINC_QUERY_BATCHES BOINC_RETIRE_BATCH BOINC_SELECT_PROJECT BOINC_SUBMIT COMMANDS QUIT RESULTS VERSION\n");
     } else if (!strcasecmp(cmd, "RESPONSE_PREFIX")) {
-        pthread_mutex_lock(&io_lock);
+        flockfile(stdout);
         BPRINTF("S\n");
         strcpy(response_prefix, p+strlen("RESPONSE_PREFIX "));
-        pthread_mutex_unlock(&io_lock);
+        funlockfile(stdout);
     } else if (!strcasecmp(cmd, "ASYNC_MODE_ON")) {
-        pthread_mutex_lock(&io_lock);
+        flockfile(stdout);
         BPRINTF("S\n");
         async_mode = true;
-        pthread_mutex_unlock(&io_lock);
+        funlockfile(stdout);
     } else if (!strcasecmp(cmd, "ASYNC_MODE_OFF")) {
-        pthread_mutex_lock(&io_lock);
+        flockfile(stdout);
         BPRINTF("S\n");
         async_mode = false;
-        pthread_mutex_unlock(&io_lock);
+        funlockfile(stdout);
     } else if (!strcasecmp(cmd, "QUIT")) {
         exit(0);
     } else if (!strcasecmp(cmd, "RESULTS")) {
-        pthread_mutex_lock(&io_lock);
+        flockfile(stdout);
         BPRINTF("S %d\n", n_results());
         vector<COMMAND*>::iterator i = commands.begin();
         while (i != commands.end()) {
@@ -660,7 +657,7 @@ int handle_command(char* p) {
             }
         }
         wrote_r = false;
-        pthread_mutex_unlock(&io_lock);
+        funlockfile(stdout);
     } else if (!strcasecmp(cmd, "BOINC_SELECT_PROJECT")) {
         int n = sscanf(p, "%s %s %s", cmd, project_url, authenticator);
         if (n ==3) {
