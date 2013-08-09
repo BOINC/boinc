@@ -149,6 +149,12 @@ static void restore_others(int rt) {
 void send_work_score_type(int rt) {
     vector<JOB> jobs;
 
+    if (config.debug_send) {
+        log_messages.printf(MSG_NORMAL,
+            "[send] scanning for %s jobs\n", proc_type_name(rt)
+        );
+    }
+
     clear_others(rt);
 
     int nscan = config.mm_max_slots;
