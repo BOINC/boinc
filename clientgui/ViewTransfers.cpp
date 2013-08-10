@@ -109,9 +109,9 @@ static bool CompareViewTransferItems(int iRowIndex1, int iRowIndex2) {
         }
         break;
     case COLUMN_SIZE:
-        if (transfer1->m_fBytesXferred < transfer2->m_fBytesXferred) {
+        if (transfer1->m_fTotalBytes < transfer2->m_fTotalBytes) {
             result = -1;
-        } else if (transfer1->m_fBytesXferred > transfer2->m_fBytesXferred) {
+        } else if (transfer1->m_fTotalBytes > transfer2->m_fTotalBytes) {
             result = 1;
         }
         break;
