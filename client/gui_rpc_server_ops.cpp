@@ -1024,12 +1024,11 @@ static void handle_set_global_prefs_override(GUI_RPC_CONN& grc) {
             retval = boinc_delete_file(GLOBAL_PREFS_OVERRIDE_FILE);
         }
     }
-    grc.mfout.printf(
-        "<set_global_prefs_override_reply>\n"
-        "    <status>%d</status>\n"
-        "</set_global_prefs_override_reply>\n",
-        retval
-    );
+    if (retval) {
+        grc.mfout.printf("<status>%d</status>\n", retval);
+    } else {
+        grc.mfout.printf("<success/>\n");
+    }
 }
 
 static void handle_get_cc_config(GUI_RPC_CONN& grc) {
@@ -1074,12 +1073,11 @@ static void handle_set_cc_config(GUI_RPC_CONN& grc) {
             retval = boinc_delete_file(CONFIG_FILE);
         }
     }
-    grc.mfout.printf(
-        "<set_cc_config_reply>\n"
-        "    <status>%d</status>\n"
-        "</set_cc_config_reply>\n",
-        retval
-    );
+    if (retval) {
+        grc.mfout.printf("<status>%d</status>\n", retval);
+    } else {
+        grc.mfout.printf("<success/>\n");
+    }
 }
 
 static void handle_get_notices(GUI_RPC_CONN& grc) {
