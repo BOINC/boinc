@@ -877,6 +877,10 @@ void TASK::resume() {
 // so it shouldn't be called too frequently.
 //
 double TASK::cpu_time() {
+#ifndef ANDROID
+    // the Android GUI doesn't show CPU time,
+    // and process_tree_cpu_time() crashes sometimes
+    //
     double x = process_tree_cpu_time(pid);
     // if the process has exited, the above could return zero.
     // So update carefully.
@@ -884,6 +888,7 @@ double TASK::cpu_time() {
     if (x > current_cpu_time) {
         current_cpu_time = x;
     }
+#endif
     return current_cpu_time;
 }
 
