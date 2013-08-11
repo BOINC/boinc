@@ -343,18 +343,30 @@ int RPC::do_rpc(const char* req) {
     return 0;
 }
 
+// parse an RPC reply, of the form
+//
+// <success/>
+// or
+// <error>error message</error>
+// or
+// <status>N</status>
+//
 int RPC::parse_reply() {
     char buf[256], error_msg[256];
+    int n;
     while (fin.fgets(buf, 256)) {
+        if (strstr(buf, "<success")) return 0;
+        if (parse_int(buf, "<status>", n)) {
+            return n;
+        }
         if (parse_str(buf, "<error>", error_msg, sizeof(error_msg))) {
             fprintf(stderr, "RPC error: %s\n", error_msg);
-            continue;
+            if (strstr(error_msg, "unauthorized")) return ERR_AUTHENTICATOR;
+            if (strstr(error_msg, "Missing authenticator")) return ERR_AUTHENTICATOR;
+            if (strstr(error_msg, "Missing URL")) return ERR_INVALID_URL;
+            if (strstr(error_msg, "Already attached to project")) return ERR_ALREADY_ATTACHED;
+            return -1;
         }
-        if (strstr(buf, "unauthorized")) return ERR_AUTHENTICATOR;
-        if (strstr(buf, "Missing authenticator")) return ERR_AUTHENTICATOR;
-        if (strstr(buf, "Missing URL")) return ERR_INVALID_URL;
-        if (strstr(buf, "Already attached to project")) return ERR_ALREADY_ATTACHED;
-        if (strstr(buf, "success")) return 0;
     }
     return -1;
 }
