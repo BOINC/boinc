@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-05 10:24-0700\n"
-"PO-Revision-Date: 2013-06-10 15:41-0000\n"
+"PO-Revision-Date: 2013-08-09 09:17-0000\n"
 "Last-Translator: Miguel Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pt_PT\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 1.5.7\n"
 
 #: acct_mgr.cpp:448 acct_mgr.cpp:457
 msgid "Message from account manager"
@@ -148,7 +148,6 @@ msgstr ""
 "Uma versão mais actualizada do BOINC é necessária para usar a GPU da NVIDIA; "
 "por favor actualize para a versão mais recente"
 
-# 94%
 #: ../sched/sched_send.cpp:1146
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"

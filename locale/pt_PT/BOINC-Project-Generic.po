@@ -59,8 +59,8 @@ msgstr "Inserir imagem: [img]http://image_url[/img]  (alt+p)"
 msgid ""
 "Insert URL: [url]http://url[/url] or [url=http://url]URL text[/url]  (alt+w)"
 msgstr ""
-"Inserir URL: [url]http://url[/url] ou [url=http://url]URL texto[/url]  (alt"
-"+w)"
+"Inserir URL: [url]http://url[/url] ou [url=http://url]URL texto[/url]  "
+"(alt+w)"
 
 #: ../inc/bbcode_html.inc:42
 msgid "Font color"
@@ -1005,8 +1005,7 @@ msgstr ""
 
 #: ../inc/prefs.inc:121
 msgid "Do work only between the hours of %1 No restriction if equal %2"
-msgstr ""
-"Executar trabalho apenas entre as horas %1 Sem restrições se igual a %2"
+msgstr "Executar trabalho apenas entre as horas %1 Sem restrições se igual a %2"
 
 #: ../inc/prefs.inc:129
 msgid ""
@@ -1159,9 +1158,9 @@ msgid ""
 "resources and the second will get 2/3. %2"
 msgstr ""
 "Partilha de recursos %1 Determina a proporção dos recursos do seu computador "
-"dedicados a este projecto. Exemplo: se participa em dois projectos BOINC com "
-"recursos partilhados de 100 e 200, o primeiro obterá 1/3 dos recursos e o "
-"segundo obterá 2/3. %2"
+"dedicados a este projecto. Exemplo: se participa em dois projectos BOINC "
+"com recursos partilhados de 100 e 200, o primeiro obterá 1/3 dos recursos e "
+"o segundo obterá 2/3. %2"
 
 #: ../inc/prefs.inc:297
 msgid "Accelerate GPU tasks by dedicating a CPU to each one?"
@@ -2281,8 +2280,7 @@ msgstr ""
 
 #: ../inc/util.inc:791
 msgid "Unable to connect to database - please try again later"
-msgstr ""
-"Não foi possivel conectar à base de dados - por favor, tente mais tarde"
+msgstr "Não foi possivel conectar à base de dados - por favor, tente mais tarde"
 
 #: ../inc/util.inc:792
 msgid "Error:"
@@ -2474,7 +2472,8 @@ msgstr "Não é possivel criar conta"
 #: ../user/create_account_action.php:29
 msgid "Click your browser's <b>Back</b> button to try again."
 msgstr ""
-"Carregue no botão <b>Voltar atrás</b> do seu navegador para tentar outra vez."
+"Carregue no botão <b>Voltar atrás</b> do seu navegador para tentar outra "
+"vez."
 
 #: ../user/create_account_action.php:38 ../user/create_account_action.php:40
 #: ../user/create_account_form.php:43
@@ -2544,8 +2543,8 @@ msgid ""
 "select Add Project, and enter an email address and password."
 msgstr ""
 "NOTA: Se usa o Gestor BOINC, não use este formulário. Apenas execute o "
-"BOINC, seleccione Adicionar Projecto e insira um endereço de email e palavra-"
-"passe."
+"BOINC, seleccione Adicionar Projecto e insira um endereço de email e "
+"palavra-passe."
 
 #: ../user/create_account_form.php:69
 msgid ""
@@ -2604,8 +2603,8 @@ msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
-"Para a substituir, carregue no botão \"Procurar em\" e seleccione um "
-"ficheiro JPEG ou PNG (%1 ou menos)."
+"Para a substituir, carregue no botão \"Procurar em\" e seleccione um ficheiro "
+"JPEG ou PNG (%1 ou menos)."
 
 #: ../user/create_profile.php:69
 msgid "To remove it from your profile, check this box:"
@@ -2692,8 +2691,7 @@ msgstr "Perfil salvo"
 #: ../user/create_profile.php:304
 msgid ""
 "Congratulations! Your profile was successfully entered into our database."
-msgstr ""
-"Parabéns! O seu perfil foi inserido com sucesso na nossa base de dados."
+msgstr "Parabéns! O seu perfil foi inserido com sucesso na nossa base de dados."
 
 #: ../user/create_profile.php:306
 msgid "%1View your profile%2"
@@ -2910,8 +2908,7 @@ msgstr ""
 
 #: ../user/donations.php:324
 msgid "To assign the donation with your user ID, please log in."
-msgstr ""
-"Para atribuir o donativo ao seu ID de utilizador, por favor faça login."
+msgstr "Para atribuir o donativo ao seu ID de utilizador, por favor faça login."
 
 #: ../user/donations.php:328
 msgid "Proceed"
@@ -2989,8 +2986,8 @@ msgid ""
 "We can't update your email address due to a database problem.  Please try "
 "again later."
 msgstr ""
-"Não foi possivel actualizar o seu endereço de email devido a um problema na  "
-"base de dados. Por favor, tente mais tarde."
+"Não foi possivel actualizar o seu endereço de email devido a um problema na "
+" base de dados. Por favor, tente mais tarde."
 
 #: ../user/edit_email_form.php:28 ../user/edit_email_form.php:52
 msgid "Change email address"
@@ -3544,7 +3541,8 @@ msgstr "Dizer aos seus amigos acerca de %1"
 #: ../user/ffmail_form.php:38
 msgid "Help us by telling your friends, family and coworkers about %1"
 msgstr ""
-"Ajude-nos dizendo aos seus amigos, familia e colegas de trabalho acerca de %1"
+"Ajude-nos dizendo aos seus amigos, familia e colegas de trabalho acerca de %"
+"1"
 
 #: ../user/ffmail_form.php:40
 msgid ""
@@ -4966,9 +4964,9 @@ msgid ""
 "anyone to view and copy your posts."
 msgstr ""
 "Se usa o nosso fórum na web, tem que seguir as %2instruções para fazer posts"
-"%3. Mensagens postadas ao %1 fórum estão visíveis a todos, incluindo não-"
-"membros. Ao postar nos fóruns, está a garantir licença irrevogável para que "
-"qualquer pessoa possa ver e copiar os seus posts."
+"%3. Mensagens postadas ao %1 fórum estão visíveis a todos, incluindo "
+"não-membros. Ao postar nos fóruns, está a garantir licença irrevogável para "
+"que qualquer pessoa possa ver e copiar os seus posts."
 
 #: ../user/info.php:48
 msgid "Is it safe to run %1?"
@@ -4990,8 +4988,8 @@ msgstr ""
 "riscos. Testamos as nossas aplicações com todos o cuidado. os nossos "
 "servidores estão por trás de uma firewall e configurados para alta "
 "segurança. Para garantir a integridade dos downloads dos programas, todos os "
-"executáveis estão assinados digitalmente num computador seguro não conectado "
-"à Internet."
+"executáveis estão assinados digitalmente num computador seguro não "
+"conectado à Internet."
 
 #: ../user/info.php:50
 msgid ""
@@ -4999,8 +4997,8 @@ msgid ""
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
 msgstr ""
 "As aplicações executadas pelo %1 podem causar em alguns computadores "
-"sobreaquecimento. Se isto acontecer, pare de executar %1 ou use um "
-"%aplicativo%3 que limite o uso do CPU."
+"sobreaquecimento. Se isto acontecer, pare de executar %1 ou use um %"
+"aplicativo%3 que limite o uso do CPU."
 
 #: ../user/info.php:51
 msgid ""
@@ -5224,8 +5222,7 @@ msgstr ""
 "Tipos de mau comportamenteo adicionais (\"bugging\" posts para apanhar os\n"
 "endereços de IP de outros participantes, criação excessiva de posts para "
 "fazer spam\n"
-"nos fóruns, ect), enquanto não listados de acordo com as regras, podem "
-"ainda\n"
+"nos fóruns, ect), enquanto não listados de acordo com as regras, podem ainda\n"
 "levar a sanções similares.\n"
 "<p>\n"
 "Se acredita que um post viola alguma destas regras,\n"
@@ -5439,8 +5436,7 @@ msgstr "Confirmar apagar preferências"
 
 #: ../user/prefs_remove.php:51
 msgid "Are you sure you want to delete your separate %1 preferences for %2?"
-msgstr ""
-"Tem a certeza que quer apagar as suas %1preferências separadas para %2?"
+msgstr "Tem a certeza que quer apagar as suas %1preferências separadas para %2?"
 
 #: ../user/prefs_remove.php:55
 msgid "Remove preferences"
@@ -5788,7 +5784,8 @@ msgid ""
 "projects from several sites; see your %1home page%2."
 msgstr ""
 "Adicionalmente pode obter as suas estatísticas individuais resumidas através "
-"de todos os projectos BOINC de vários sites; veja a sua %1página principal%2."
+"de todos os projectos BOINC de vários sites; veja a sua %1página principal%"
+"2."
 
 #: ../user/team.php:25
 msgid "Teams"
@@ -5832,8 +5829,8 @@ msgstr "acabar com a equipa se esta não tiver membros"
 #: ../user/team.php:40
 msgid "To join a team, visit its team page and click %1Join this team%2."
 msgstr ""
-"Para se juntar a uma equipa, visite a página da equipa e carregue em "
-"%1Juntar-se a esta equipa%2."
+"Para se juntar a uma equipa, visite a página da equipa e carregue em %"
+"1Juntar-se a esta equipa%2."
 
 #: ../user/team.php:41 ../user/team_search.php:179
 msgid "Find a team"
@@ -5855,8 +5852,8 @@ msgstr "Criar uma nova equipa"
 msgid ""
 "If you cannot find a team that is right for you, you can %1create a team%2."
 msgstr ""
-"Se não encontrar uma equipa que seja adequada a si, pode %1criar uma equipa"
-"%2."
+"Se não encontrar uma equipa que seja adequada a si, pode %1criar uma equipa%"
+"2."
 
 #: ../user/team_admins.php:34
 msgid "Remove Team Admin status from this member"
@@ -6298,8 +6295,8 @@ msgid ""
 "The founder was notified of your request. If he/she does not respond by %1 "
 "you will be given an option to become founder."
 msgstr ""
-"O fundador foi notificado do seu pedido. Se ele/ela não responder por %1 ser-"
-"lhe-á dada a opção de se tornar fundador."
+"O fundador foi notificado do seu pedido. Se ele/ela não responder por %1 "
+"ser-lhe-á dada a opção de se tornar fundador."
 
 #: ../user/team_founder_transfer_form.php:60
 msgid ""
@@ -6393,7 +6390,8 @@ msgstr "Pode ver os membros, estatísticas e informações das equipas."
 #: ../user/team_lookup.php:98
 msgid "More than 100 teams match your search. The first 100 are shown."
 msgstr ""
-"Mais de 100 equipas correspondem à sua procura. Os primeiros serão mostrados."
+"Mais de 100 equipas correspondem à sua procura. Os primeiros serão "
+"mostrados."
 
 #: ../user/team_lookup.php:104
 msgid ""

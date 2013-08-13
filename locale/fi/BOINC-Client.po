@@ -141,6 +141,7 @@ msgstr "NVIDIA GPUn käyttöön tarvitaan uudempi versio BOINCista, päivitä ve
 
 # 94%
 #: ../sched/sched_send.cpp:1146
+#, c-format
 #, c-format, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "%s GPU tarvitaan tämän projektin pakettien suorittamiseen"

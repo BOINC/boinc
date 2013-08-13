@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-08-06 16:50-0800\n"
-"PO-Revision-Date: 2013-06-16 12:47+0200\n"
+"PO-Revision-Date: 2013-08-08 18:45+0200\n"
 "Last-Translator: Rene <oskamjr@ziggo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -16,7 +16,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.6\n"
-"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: _\n"
+"X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
+"X-Poedit-SearchPath-0: mac_installer\n"
 
 #: mac_installer/Installer.cpp:132
 #, c-format
@@ -95,7 +98,7 @@ msgstr "Er is een fout opgetreden: code %d"
 
 #: mac_installer/uninstall.cpp:224
 msgid "name  of user"
-msgstr ""
+msgstr "naam  van gebruiker"
 
 #: mac_installer/uninstall.cpp:261
 #, c-format
@@ -108,6 +111,14 @@ msgid ""
 "for each user, the file\n"
 "\"%s\"."
 msgstr ""
+"Verwijderen voltooid.\n"
+"\n"
+" Misschien wil je nog de volgende bestanden met behulp van de Finder "
+"verwijderen:\n"
+"de map \"%s\"\n"
+"\n"
+"voor elke gebruiker, het bestand\n"
+"\"%s\"."
 
 #: mac_installer/uninstall.cpp:796
 #, c-format

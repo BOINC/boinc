@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-05 10:24-0700\n"
-"PO-Revision-Date: 2013-06-05 21:21+0200\n"
+"PO-Revision-Date: 2013-08-08 23:19+0200\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ca\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: acct_mgr.cpp:448 acct_mgr.cpp:457
 msgid "Message from account manager"
-msgstr "Missatge de l'admistrador de comptes"
+msgstr "Missatge de l'administrador de comptes"
 
 #: client_msgs.cpp:85
 msgid "Message from server"
@@ -49,8 +49,8 @@ msgid ""
 "You used the wrong URL for this project.  When convenient, remove this "
 "project, then add %s"
 msgstr ""
-"Ha utilitzat una URL equivocada per a aquest projecte.  Quan sigui possible, "
-"elimini aquest projecte, a continuació afegeixi %s"
+"Heu utilitzat una URL equivocada per a aquest projecte.  Quan sigui "
+"possible, elimineu aquest projecte, a continuació afegiu %s"
 
 #: cs_statefile.cpp:829 ../sched/sched_types.cpp:259
 msgid "Syntax error in app_info.xml"
@@ -105,8 +105,8 @@ msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
 msgstr ""
-"El projecte ha canviat la clau de seguretat.  Per favor elimine y torne a "
-"agregar aquest projecte."
+"El projecte ha canviat la seva clau de seguretat.  Elimineu i torneu a "
+"afegir aquest projecte."
 
 #: ../sched/handle_request.cpp:943
 msgid "This project doesn't support operating system"
@@ -119,8 +119,7 @@ msgstr "Aquest projecte no és compatible amb el tipus de CPU"
 #: ../sched/handle_request.cpp:993
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
-msgstr ""
-"El teu programari BOINC és massa vell.  Si us plau, instal·la versió actual."
+msgstr "El vostre programari BOINC és massa antic.  Instal·leu versió actual."
 
 #: ../sched/handle_request.cpp:1259
 msgid "This project doesn't support computers of type"
@@ -129,14 +128,14 @@ msgstr "Aquest projecte no és compatible amb ordinadors del tipus"
 #: ../sched/sched_send.cpp:1092
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr ""
-"Actualitzaci a la darrera versió del controlador per processar tasques usant "
-"la GPU del seu equip"
+"Actualitzeu a la darrera versió del controlador per processar tasques usant "
+"la GPU del vostre equip"
 
 #: ../sched/sched_send.cpp:1099
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr ""
-"Actualitzaci a la darrera versió del controlador per usar totes les "
+"Actualitzeu a la darrera versió del controlador per usar totes les "
 "aplicacions GPU d'aquest projecte"
 
 #: ../sched/sched_send.cpp:1118
@@ -149,9 +148,10 @@ msgstr ""
 
 # 94%
 #: ../sched/sched_send.cpp:1146
+#, c-format
 #, c-format, c-format
 msgid "An %s GPU is required to run tasks for this project"
-msgstr "Una GPU %s és necessària per executar tasques d'aquest projecte"
+msgstr "Es necessita una GPU %s per a executar tasques d'aquest projecte"
 
 #: ../sched/sched_send.cpp:1262
 msgid "No tasks are available for the applications you have selected."

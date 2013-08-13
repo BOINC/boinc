@@ -2,13 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-08-06 16:50-0800\n"
-"PO-Revision-Date: 2013-06-07 23:36+0200\n"
+"PO-Revision-Date: 2013-08-08 23:24+0200\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ca\n"
@@ -17,7 +16,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.6\n"
-"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: _\n"
+"X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
+"X-Poedit-SearchPath-0: mac_installer\n"
 
 #: mac_installer/Installer.cpp:132
 #, c-format
@@ -98,7 +100,7 @@ msgstr "S'ha produït un error: codi d'error %d"
 
 #: mac_installer/uninstall.cpp:224
 msgid "name  of user"
-msgstr ""
+msgstr "nom  de l'usuari"
 
 #: mac_installer/uninstall.cpp:261
 #, c-format
@@ -111,6 +113,13 @@ msgid ""
 "for each user, the file\n"
 "\"%s\"."
 msgstr ""
+"Eliminació finalitzada.\n"
+"\n"
+" Poder també vol eliminar els següents elements utilitzant el cercador: \n"
+"en el directori \"%s\"\n"
+"\n"
+"per a cada usuari, el fitxer\n"
+"\"%s\"."
 
 #: mac_installer/uninstall.cpp:796
 #, c-format

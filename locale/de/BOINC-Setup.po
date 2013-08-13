@@ -2,13 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-08-06 16:50-0800\n"
-"PO-Revision-Date: 2013-06-08 18:15+0200\n"
+"PO-Revision-Date: 2013-08-09 09:16+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -17,13 +16,18 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.6\n"
-"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: _\n"
+"X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
+"X-Poedit-SearchPath-0: mac_installer\n"
 
 #: mac_installer/Installer.cpp:132
+#, c-format
 #, fuzzy, c-format
 msgid "Sorry, this version of %s requires system 10.4 or higher."
 msgstr ""
-"Entschuldigung, diese Version von %s benötigt die Version 10.4 oder höher."
+"Entschuldigung, diese Version von %s benötigt die Systemversion 10.4 oder "
+"höher."
 
 #: mac_installer/PostInstall.cpp:131 mac_installer/PostInstall.cpp:1211
 msgid "Yes"
@@ -38,7 +42,7 @@ msgid "Should BOINC run even when no user is logged in?"
 msgstr "Soll BOINC auch gestarten werden, wenn kein Benutzer angemeldet ist?"
 
 #: mac_installer/PostInstall.cpp:1491
-#, fuzzy, c-format
+#, c-format, c-format
 msgid ""
 "Users who are permitted to administer this computer will automatically be "
 "allowed to run and control %s.\n"
@@ -46,11 +50,11 @@ msgid ""
 "Do you also want non-administrative users to be able to run and control %s "
 "on this Mac?"
 msgstr ""
-"Administrative Benutzer dieses Mac werden automatisch bemächtigt %s zu "
+"Administrative Benutzer dieses Computers werden automatisch bemächtigt %s zu "
 "starten und zu kontrollieren.\n"
 "\n"
 "Möchten Sie es auch nicht-administrativen Benutzern gestatten %s auf diesem "
-"Mac zu starten und zu kontrollieren?"
+"Computer zu starten und zu kontrollieren?"
 
 #: mac_installer/PostInstall.cpp:1519
 #, c-format
@@ -100,7 +104,7 @@ msgstr "Ein Fehler ist aufgetreten: Fehlercode %d"
 
 #: mac_installer/uninstall.cpp:224
 msgid "name  of user"
-msgstr ""
+msgstr "Benutzername"
 
 #: mac_installer/uninstall.cpp:261
 #, c-format
@@ -113,6 +117,13 @@ msgid ""
 "for each user, the file\n"
 "\"%s\"."
 msgstr ""
+"Entfernung beendet.\n"
+"\n"
+"Die folgenden Ordner sollten mit dem Finder gelöscht werden: \n"
+"das Verzeichnis \"%s\"\n"
+"\n"
+"und für jeden Benutzer die Datei\n"
+"\"%s\"."
 
 #: mac_installer/uninstall.cpp:796
 #, c-format

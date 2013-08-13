@@ -5912,9 +5912,12 @@ msgstr "Присъединен: %1"
 msgid "You have joined %1."
 msgstr ""
 
+# 90%
+# 77%
 #: ../user/team_join_form.php:34
+#, fuzzy
 msgid "Join %1"
-msgstr ""
+msgstr "Присъединен: %1"
 
 #: ../user/team_join_form.php:35
 msgid "Please note:"

@@ -26,6 +26,7 @@ msgstr ""
 
 # 81%
 #: clientgui/AccountInfoPage.cpp:387
+#, c-format
 #, fuzzy, c-format
 msgid "Identify your account at %s"
 msgstr "Αναγνωρίστε τον λογαριασμό σας"
@@ -36,7 +37,8 @@ msgid ""
 "(to create an account, visit the project's web site)"
 msgstr ""
 "Παρακαλώ εισάγετε τις πληροφορίες του λογαριασμού σας\n"
-"(για να δημιουργήσετε έναν λογαριασμό, επισκεφτείτε την ιστοσελίδα του έργου)"
+"(για να δημιουργήσετε έναν λογαριασμό, επισκεφτείτε την ιστοσελίδα του "
+"έργου)"
 
 #: clientgui/AccountInfoPage.cpp:397
 msgid ""
@@ -80,11 +82,13 @@ msgstr ""
 msgid "Find login information"
 msgstr "Εύρεση πληροφοριών σύνδεσης"
 
-#: clientgui/AccountInfoPage.cpp:436 clientgui/AccountInfoPage.cpp:668
+#: clientgui/AccountInfoPage.cpp:436
+#: clientgui/AccountInfoPage.cpp:668
 msgid "&Password:"
 msgstr "&Κωδικός:"
 
-#: clientgui/AccountInfoPage.cpp:443 clientgui/AccountInfoPage.cpp:692
+#: clientgui/AccountInfoPage.cpp:443
+#: clientgui/AccountInfoPage.cpp:692
 msgid "Choose a &password:"
 msgstr "Επιλέξτε έναν &κωδικό:"
 
@@ -142,50 +146,37 @@ msgid "Use account manager"
 msgstr "Προσθήκη διαχειριστή λογαριασμού"
 
 #: clientgui/AccountInfoPage.cpp:587
-msgid ""
-"The minimum username length for this project is 1. Please enter a different "
-"username."
+msgid "The minimum username length for this project is 1. Please enter a different username."
 msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:592
-msgid ""
-"The minimum username length for this account manager is 1. Please enter a "
-"different username."
+msgid "The minimum username length for this account manager is 1. Please enter a different username."
 msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:598
-msgid ""
-"The minimum email address length for this project is 1. Please enter a "
-"different email address."
+msgid "The minimum email address length for this project is 1. Please enter a different email address."
 msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:603
-msgid ""
-"The minimum email address length for this account manager is 1. Please enter "
-"a different email address."
+msgid "The minimum email address length for this account manager is 1. Please enter a different email address."
 msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:616
 #, c-format
-msgid ""
-"The minimum password length for this project is %d. Please enter a different "
-"password."
+msgid "The minimum password length for this project is %d. Please enter a different password."
 msgstr ""
 "Το ελάχιστο μήκος κωδικού για αυτό το έργο είναι %d χαρακτήρες. Παρακαλούμε "
 "επιλέξτε άλλον κωδικό."
 
 #: clientgui/AccountInfoPage.cpp:622
 #, c-format
-msgid ""
-"The minimum password length for this account manager is %d. Please enter a "
-"different password."
+msgid "The minimum password length for this account manager is %d. Please enter a different password."
 msgstr ""
 "Το ελάχιστο μήκος κωδικού για αυτό το πρόγραμμα διαχείρισης λογαριασμού "
 "είναι %d χαρακτήρες. Παρακαλούμε επιλέξτε άλλον κωδικό."
 
 #: clientgui/AccountInfoPage.cpp:634
-msgid ""
-"The password and confirmation password do not match. Please type them again."
+msgid "The password and confirmation password do not match. Please type them again."
 msgstr ""
 "Ο κωδικός δεν συμφωνεί με τον κωδικό επιβεβαίωσης. Παρακαλούμε "
 "επαναπληκτρολογήστε τους."
@@ -244,7 +235,8 @@ msgstr "Κλείσιμο του παραθύρου %s"
 msgid "&Close Window"
 msgstr "&Κλείσιμο Παράθυρου"
 
-#: clientgui/AdvancedFrame.cpp:329 clientgui/AdvancedFrame.cpp:336
+#: clientgui/AdvancedFrame.cpp:329
+#: clientgui/AdvancedFrame.cpp:336
 #: clientgui/AdvancedFrame.cpp:343
 #, c-format
 msgid "Exit %s"
@@ -692,8 +684,7 @@ msgstr "%s - Σφάλμα Επικοινωνίας"
 #: clientgui/BOINCBaseFrame.cpp:514
 msgid ""
 "You currently are not authorized to manage the client.\n"
-"Please contact your administrator to add you to the 'boinc_users' local user "
-"group."
+"Please contact your administrator to add you to the 'boinc_users' local user group."
 msgstr ""
 "Αυτή τη στιγμή δεν έχετε δικαίωμα να διαχειριστείτε το πρόγραμμα.\n"
 "Παρακαλώ επικοινωνήστε με τον διαχειριστή σας για να σας προσθέσει στην "
@@ -736,8 +727,7 @@ msgstr "%s - Η εκκίνηση του Daemon απέτυχε"
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
-"Please launch the Control Panel->Administative Tools->Services applet and "
-"start the BOINC service."
+"Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
 msgstr ""
 
 #: clientgui/BOINCBaseFrame.cpp:638
@@ -756,8 +746,7 @@ msgstr "%s - Κατάσταση Σύνδεσης"
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
-"Please use the 'Advanced\\Select Computer...' menu option to connect up to a "
-"%s client.\n"
+"Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 
@@ -827,6 +816,7 @@ msgid "%s failed to disconnected from the Internet."
 msgstr "%s απέτυχε να αποσυνδεθεί από το διαδίκτυο."
 
 #: clientgui/BOINCGUIApp.cpp:345
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "You currently are not authorized to manage the client.\n"
@@ -938,12 +928,14 @@ msgstr "Άνοιγμα %s ιστού..."
 msgid "Open %s..."
 msgstr "Άνοιγμα %s..."
 
-#: clientgui/BOINCTaskBar.cpp:525 clientgui/BOINCTaskBar.cpp:621
+#: clientgui/BOINCTaskBar.cpp:525
+#: clientgui/BOINCTaskBar.cpp:621
 #: clientgui/BOINCTaskBar.cpp:629
 msgid "Snooze"
 msgstr "Αδρανοποίηση"
 
-#: clientgui/BOINCTaskBar.cpp:527 clientgui/BOINCTaskBar.cpp:648
+#: clientgui/BOINCTaskBar.cpp:527
+#: clientgui/BOINCTaskBar.cpp:648
 #: clientgui/BOINCTaskBar.cpp:656
 msgid "Snooze GPU"
 msgstr "Αδρανοποίηση μονάδας επεξεργασίας γραφικών"
@@ -1031,8 +1023,10 @@ msgstr ""
 "\n"
 "Πατήστε Τέλος για κλείσιμο."
 
-#: clientgui/CompletionErrorPage.cpp:225 clientgui/CompletionPage.cpp:222
-#: clientgui/CompletionPage.cpp:242 clientgui/CompletionPage.cpp:273
+#: clientgui/CompletionErrorPage.cpp:225
+#: clientgui/CompletionPage.cpp:222
+#: clientgui/CompletionPage.cpp:242
+#: clientgui/CompletionPage.cpp:273
 msgid "Click Finish to close."
 msgstr "Πατήστε Τέλος για να κλείσετε"
 
@@ -1116,8 +1110,10 @@ msgstr ""
 msgid "Berkeley Open Infrastructure for Network Computing"
 msgstr "Berkeley Open Infrastructure for Network Computing"
 
-#: clientgui/DlgAbout.cpp:208 clientgui/DlgExitMessage.cpp:173
-#: clientgui/DlgGenericMessage.cpp:120 clientgui/DlgOptions.cpp:396
+#: clientgui/DlgAbout.cpp:208
+#: clientgui/DlgExitMessage.cpp:173
+#: clientgui/DlgGenericMessage.cpp:120
+#: clientgui/DlgOptions.cpp:396
 #: clientgui/DlgSelectComputer.cpp:162
 msgid "&OK"
 msgstr "Εντάξει"
@@ -1142,7 +1138,8 @@ msgstr "εντοπίστηκε εσφαλμένη εισαγμένη τιμή"
 msgid "Validation Error"
 msgstr "Σφάλμα επικύρωσης"
 
-#: clientgui/DlgAdvPreferences.cpp:797 clientgui/DlgAdvPreferences.cpp:803
+#: clientgui/DlgAdvPreferences.cpp:797
+#: clientgui/DlgAdvPreferences.cpp:803
 #: clientgui/DlgAdvPreferences.cpp:809
 msgid "Applications to add"
 msgstr ""
@@ -1152,7 +1149,8 @@ msgstr ""
 msgid "'%s' is not an executable application."
 msgstr ""
 
-#: clientgui/DlgAdvPreferences.cpp:827 clientgui/DlgAdvPreferences.cpp:874
+#: clientgui/DlgAdvPreferences.cpp:827
+#: clientgui/DlgAdvPreferences.cpp:874
 #: clientgui/DlgAdvPreferences.cpp:898
 msgid "Add Exclusive App"
 msgstr ""
@@ -1254,8 +1252,7 @@ msgid "While computer is on batteries"
 msgstr "Ενώ ο υπολογιστής τροφοδοτείται απο μπαταρίες"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:142
-msgid ""
-"check this if you want this computer to do work while it runs on batteries"
+msgid "check this if you want this computer to do work while it runs on batteries"
 msgstr ""
 "επιλέξτε αυτό αν θέλετε ο υπολογιστής σας να εκτελεί εργασίες , ενώ "
 "τροφοδοτείται απο μπαταρίες"
@@ -1265,8 +1262,7 @@ msgid "While computer is in use"
 msgstr "Όταν ο υπολογιστης είναι σε χρήση"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:151
-msgid ""
-"check this if you want this computer to do work even when you're using it"
+msgid "check this if you want this computer to do work even when you're using it"
 msgstr ""
 "επιλέξτε αυτό αν θέλετε ο υπολογιστής σας να εκτελεί εργασίες ακόμη και αν "
 "τον χρησιμοποιείτε"
@@ -1277,9 +1273,7 @@ msgstr ""
 "Χρήση της μονάδας επεξεργασίας γραφικών ενώ ο υπολογιστής χρησιμοποιείται"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:160
-msgid ""
-"check this if you want your GPU to do work even when you're using the "
-"computer"
+msgid "check this if you want your GPU to do work even when you're using the computer"
 msgstr ""
 "επιλέξτε αυτό, αν θέλετε η μονάδα επεξεργασίας γραφικών να εκτελεί εργασίες "
 "ακόμη και αν χρησιμοποιείτε τον υπολογιστή σας"
@@ -1289,8 +1283,7 @@ msgid "Only after computer has been idle for"
 msgstr "Μόνο αν ο υπολογιστής ήταν αδρανής για"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:182
-msgid ""
-"do work only after you haven't used the computer for this number of minutes"
+msgid "do work only after you haven't used the computer for this number of minutes"
 msgstr ""
 "εκτέλεση εργασιών μόνο αν δεν έχετε χρησιμοποιήσει τον υπολογιστή σας για "
 "τον εξής αριθμό λεπτών"
@@ -1482,9 +1475,7 @@ msgid "Confirm before connecting to internet"
 msgstr "Επιβεβαιώστε πρωτού συνδεθείτε στο διαδίκτυο"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:479
-msgid ""
-"if checked, a confirmation dialog will be displayed before trying to connect "
-"to the Internet"
+msgid "if checked, a confirmation dialog will be displayed before trying to connect to the Internet"
 msgstr ""
 "εάν επιλεχθεί, ένα παράθυρο επιβεβαίωσης θα εμφανιστεί πρωτού προσπαθήσετε "
 "να συνδεθείτε στο διαδίκτυο"
@@ -1513,7 +1504,8 @@ msgstr "Ώρα εκκίνησης χρήσης δικτύου"
 msgid "network usage stop hour"
 msgstr "Ώρα σταματήματος χρήσης δικτύου"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:597 clientgui/DlgItemProperties.cpp:226
+#: clientgui/DlgAdvPreferencesBase.cpp:597
+#: clientgui/DlgItemProperties.cpp:226
 msgid "Disk usage"
 msgstr "Χρήση δίσκου"
 
@@ -1583,8 +1575,7 @@ msgid "if checked, suspended work units are left in memory"
 msgstr "εάν επιλεγεί, οι αναβληθείσες εργασίες παραμένουν στη μνήμη"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:712
-msgid ""
-"Suspend processor and network usage when these applications are running:"
+msgid "Suspend processor and network usage when these applications are running:"
 msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:721
@@ -1624,7 +1615,8 @@ msgstr "Χρόνος"
 msgid "Message"
 msgstr "Μήνυμα"
 
-#: clientgui/DlgEventLog.cpp:287 clientgui/DlgEventLog.cpp:351
+#: clientgui/DlgEventLog.cpp:287
+#: clientgui/DlgEventLog.cpp:351
 #, fuzzy
 msgid "&Show only this project"
 msgstr "Εμφάνιση μόνο αυτού του προγράμματος"
@@ -1634,7 +1626,8 @@ msgstr "Εμφάνιση μόνο αυτού του προγράμματος"
 msgid "Copy &All"
 msgstr "Αντιγραφή Όλων"
 
-#: clientgui/DlgEventLog.cpp:293 clientgui/DlgEventLog.cpp:297
+#: clientgui/DlgEventLog.cpp:293
+#: clientgui/DlgEventLog.cpp:297
 msgid "Copy all the messages to the clipboard."
 msgstr "Αντιγραφή όλων των μηνυμάτων στο πρόχειρο"
 
@@ -1643,25 +1636,24 @@ msgstr "Αντιγραφή όλων των μηνυμάτων στο πρόχε�
 msgid "Copy &Selected"
 msgstr "Αντιγραφή Επιλεγμένων"
 
-#: clientgui/DlgEventLog.cpp:305 clientgui/DlgEventLog.cpp:313
-msgid ""
-"Copy the selected messages to the clipboard. You can select multiple "
-"messages by holding down the shift or command key while clicking on messages."
+#: clientgui/DlgEventLog.cpp:305
+#: clientgui/DlgEventLog.cpp:313
+msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
 msgstr ""
 "Αντιγραφή των επιλεγμένων μηνυμάτων στο πρόχειρο. Μπορείτε να επιλέξετε "
 "πολλαπλά μηνύματα κρατώντας πατημένο το κουμπί shift ή control ενώ πατάτε "
 "στα μηνύματα."
 
-#: clientgui/DlgEventLog.cpp:307 clientgui/DlgEventLog.cpp:315
-msgid ""
-"Copy the selected messages to the clipboard. You can select multiple "
-"messages by holding down the shift or control key while clicking on messages."
+#: clientgui/DlgEventLog.cpp:307
+#: clientgui/DlgEventLog.cpp:315
+msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
 msgstr ""
 "Αντιγραφή επιλεγμένων μηνυμάτων στο clipboard. Μπορείτε να επιλέξετε "
 "πολλαπλά μηνύματα κρατώντας πατημένο το κουμπί shift ή control όταν κάνετε "
 "κλίκ στα μηνύματα."
 
-#: clientgui/DlgEventLog.cpp:322 clientgui/DlgItemProperties.cpp:66
+#: clientgui/DlgEventLog.cpp:322
+#: clientgui/DlgItemProperties.cpp:66
 msgid "&Close"
 msgstr "&Έξοδος"
 
@@ -1675,11 +1667,13 @@ msgstr ""
 msgid "Show all &messages"
 msgstr "Εμφάνιση όλων των μηνυμάτων"
 
-#: clientgui/DlgEventLog.cpp:346 clientgui/DlgEventLog.cpp:348
+#: clientgui/DlgEventLog.cpp:346
+#: clientgui/DlgEventLog.cpp:348
 msgid "Show messages for all projects"
 msgstr "Εμφάνιση μηνυμάτων για όλα τα έργα."
 
-#: clientgui/DlgEventLog.cpp:352 clientgui/DlgEventLog.cpp:354
+#: clientgui/DlgEventLog.cpp:352
+#: clientgui/DlgEventLog.cpp:354
 msgid "Show only the messages for the selected project"
 msgstr "Εμφάνιση μόνο των μηνυμάτων για το επιλεγμένο έργο"
 
@@ -1700,6 +1694,7 @@ msgid ""
 msgstr ""
 
 #: clientgui/DlgExitMessage.cpp:135
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "This will shut down %s and its tasks until either the\n"
@@ -1728,8 +1723,10 @@ msgid "Remember this decision and do not show this dialog."
 msgstr ""
 "Να απομνημονευτεί η απόφαση και να μην εμφανιστεί ξανά αυτό το παράθυρο."
 
-#: clientgui/DlgExitMessage.cpp:178 clientgui/DlgGenericMessage.cpp:125
-#: clientgui/DlgOptions.cpp:401 clientgui/DlgSelectComputer.cpp:167
+#: clientgui/DlgExitMessage.cpp:178
+#: clientgui/DlgGenericMessage.cpp:125
+#: clientgui/DlgOptions.cpp:401
+#: clientgui/DlgSelectComputer.cpp:167
 msgid "&Cancel"
 msgstr "Ακύρωση"
 
@@ -1737,8 +1734,10 @@ msgstr "Ακύρωση"
 msgid "Don't show this dialog again."
 msgstr "Μην ξαναεμφανίσεις αυτό το μήνυμα."
 
-#: clientgui/DlgItemProperties.cpp:163 clientgui/DlgItemProperties.cpp:166
-#: clientgui/DlgItemProperties.cpp:169 clientgui/DlgItemProperties.cpp:172
+#: clientgui/DlgItemProperties.cpp:163
+#: clientgui/DlgItemProperties.cpp:166
+#: clientgui/DlgItemProperties.cpp:169
+#: clientgui/DlgItemProperties.cpp:172
 #, fuzzy
 msgid "Don't fetch tasks for "
 msgstr "Δεν δέχεται νέες εργασίες"
@@ -1775,7 +1774,8 @@ msgstr ""
 msgid "Properties of project "
 msgstr "Ρυθμίσεις του προγράμματος"
 
-#: clientgui/DlgItemProperties.cpp:212 clientgui/DlgOptions.cpp:218
+#: clientgui/DlgItemProperties.cpp:212
+#: clientgui/DlgOptions.cpp:218
 msgid "General"
 msgstr "Γενικά"
 
@@ -1815,10 +1815,14 @@ msgstr "Ταυτότητα υπολογιστή"
 msgid "Non CPU intensive"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:229 clientgui/DlgItemProperties.cpp:231
-#: clientgui/DlgItemProperties.cpp:232 clientgui/DlgItemProperties.cpp:234
-#: clientgui/DlgItemProperties.cpp:237 clientgui/DlgItemProperties.cpp:246
-#: clientgui/DlgItemProperties.cpp:249 clientgui/DlgItemProperties.cpp:252
+#: clientgui/DlgItemProperties.cpp:229
+#: clientgui/DlgItemProperties.cpp:231
+#: clientgui/DlgItemProperties.cpp:232
+#: clientgui/DlgItemProperties.cpp:234
+#: clientgui/DlgItemProperties.cpp:237
+#: clientgui/DlgItemProperties.cpp:246
+#: clientgui/DlgItemProperties.cpp:249
+#: clientgui/DlgItemProperties.cpp:252
 msgid "yes"
 msgstr "ναί"
 
@@ -1826,7 +1830,8 @@ msgstr "ναί"
 msgid "Suspended via GUI"
 msgstr "Παύθηκε μέσω GUI"
 
-#: clientgui/DlgItemProperties.cpp:231 clientgui/DlgItemProperties.cpp:232
+#: clientgui/DlgItemProperties.cpp:231
+#: clientgui/DlgItemProperties.cpp:232
 msgid "no"
 msgstr "όχι"
 
@@ -1842,7 +1847,8 @@ msgstr "Κλήση χρονοδιαγράμματος σε εξέλιξη"
 msgid "Trickle-up pending"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:240 clientgui/DlgItemProperties.cpp:242
+#: clientgui/DlgItemProperties.cpp:240
+#: clientgui/DlgItemProperties.cpp:242
 #, fuzzy
 msgid "Host location"
 msgstr "Σύνολο Υπολογιστή"
@@ -1929,11 +1935,13 @@ msgid "CPU time at last checkpoint"
 msgstr ""
 "Χρόνος χρήσης κεντρικής μονάδας επεξεργασίας στο τελευταίο σημείο ελέγχου"
 
-#: clientgui/DlgItemProperties.cpp:340 clientgui/DlgItemProperties.cpp:355
+#: clientgui/DlgItemProperties.cpp:340
+#: clientgui/DlgItemProperties.cpp:355
 msgid "CPU time"
 msgstr "Χρόνος Επεξεργαστή"
 
-#: clientgui/DlgItemProperties.cpp:342 clientgui/DlgItemProperties.cpp:356
+#: clientgui/DlgItemProperties.cpp:342
+#: clientgui/DlgItemProperties.cpp:356
 msgid "Elapsed time"
 msgstr "Χρόνος που έχει περάσει"
 
@@ -1965,7 +1973,8 @@ msgstr "Ταυτότητα διαδικασίας"
 msgid "Local: "
 msgstr "Τοπικό:"
 
-#: clientgui/DlgOptions.cpp:129 clientgui/DlgOptions.cpp:135
+#: clientgui/DlgOptions.cpp:129
+#: clientgui/DlgOptions.cpp:135
 msgid "Options"
 msgstr "Επιλογές"
 
@@ -2029,27 +2038,33 @@ msgstr "Σύνδεση μέσω διακομιστή HTTP proxy"
 msgid "HTTP Proxy Server Configuration"
 msgstr "Ρυθμίσεις διακομιστή HTTP Proxy"
 
-#: clientgui/DlgOptions.cpp:280 clientgui/DlgOptions.cpp:344
+#: clientgui/DlgOptions.cpp:280
+#: clientgui/DlgOptions.cpp:344
 msgid "Address:"
 msgstr "Διεύθυνση:"
 
-#: clientgui/DlgOptions.cpp:288 clientgui/DlgOptions.cpp:352
+#: clientgui/DlgOptions.cpp:288
+#: clientgui/DlgOptions.cpp:352
 msgid "Port:"
 msgstr "Πόρτα:"
 
-#: clientgui/DlgOptions.cpp:296 clientgui/DlgOptions.cpp:360
+#: clientgui/DlgOptions.cpp:296
+#: clientgui/DlgOptions.cpp:360
 msgid "Don't use proxy for:"
 msgstr "Να μη χρησιμοποιείται η proy για:"
 
-#: clientgui/DlgOptions.cpp:303 clientgui/DlgOptions.cpp:367
+#: clientgui/DlgOptions.cpp:303
+#: clientgui/DlgOptions.cpp:367
 msgid "Leave these blank if not needed"
 msgstr "Αφήστε τα κενά εάν δεν χρειάζονται"
 
-#: clientgui/DlgOptions.cpp:309 clientgui/DlgOptions.cpp:373
+#: clientgui/DlgOptions.cpp:309
+#: clientgui/DlgOptions.cpp:373
 msgid "User Name:"
 msgstr "Όνομα Χρήστη"
 
-#: clientgui/DlgOptions.cpp:317 clientgui/DlgOptions.cpp:381
+#: clientgui/DlgOptions.cpp:317
+#: clientgui/DlgOptions.cpp:381
 #: clientgui/DlgSelectComputer.cpp:151
 msgid "Password:"
 msgstr "Κωδικός:"
@@ -2103,10 +2118,9 @@ msgid "%s - Language Selection"
 msgstr "%s- Επιλογή γλώσσας"
 
 #: clientgui/DlgOptions.cpp:695
+#, c-format
 #, fuzzy, c-format
-msgid ""
-"The %s's language has been changed.  In order for this change to take "
-"effect, you must restart the %s."
+msgid "The %s's language has been changed.  In order for this change to take effect, you must restart the %s."
 msgstr ""
 "Η εξ' ορισμού γλώσσα του %s έχει αλλάξει, για να τεθεί σε εφαρμογή αυτή η "
 "αλλαγή πρέπει να επανεκκινήσετε το %s."
@@ -2127,7 +2141,8 @@ msgstr ""
 msgid "Host name:"
 msgstr "Όνομα host:"
 
-#: clientgui/Localization.cpp:31 clientgui/Localization.cpp:69
+#: clientgui/Localization.cpp:31
+#: clientgui/Localization.cpp:69
 msgid "Message boards"
 msgstr "Ομάδες Συζητήσεων"
 
@@ -2139,12 +2154,15 @@ msgstr "Επικοινωνήστε με άλλους χρήστες στις ο�
 msgid "Ask questions and report problems"
 msgstr "Υποβάλετε ερωτήσεις να αναφέρετε προβλήματα"
 
-#: clientgui/Localization.cpp:39 clientgui/Localization.cpp:81
-#: clientgui/Localization.cpp:111 clientgui/Localization.cpp:129
+#: clientgui/Localization.cpp:39
+#: clientgui/Localization.cpp:81
+#: clientgui/Localization.cpp:111
+#: clientgui/Localization.cpp:129
 msgid "Your account"
 msgstr "Ο Λογαριασμός σας"
 
-#: clientgui/Localization.cpp:41 clientgui/Localization.cpp:87
+#: clientgui/Localization.cpp:41
+#: clientgui/Localization.cpp:87
 #: clientgui/Localization.cpp:113
 msgid "View your account information and credit totals"
 msgstr ""
@@ -2161,16 +2179,20 @@ msgstr ""
 "Εμφάνιση και επεξεργασία του προφίλ λογαριασμού σας στο SETI@Home και των "
 "προτιμήσεών σας."
 
-#: clientgui/Localization.cpp:47 clientgui/Localization.cpp:89
+#: clientgui/Localization.cpp:47
+#: clientgui/Localization.cpp:89
 msgid "Your results"
 msgstr "Τα Αποτελέσματά σας"
 
-#: clientgui/Localization.cpp:49 clientgui/Localization.cpp:91
+#: clientgui/Localization.cpp:49
+#: clientgui/Localization.cpp:91
 msgid "View your last week (or more) of computational results and work"
 msgstr ""
-"Εμφάνιση των αποτελεσμάτων και εργασιών της τελευταιας εβδομάδας (ή παραπάνω)"
+"Εμφάνιση των αποτελεσμάτων και εργασιών της τελευταιας εβδομάδας (ή "
+"παραπάνω)"
 
-#: clientgui/Localization.cpp:51 clientgui/Localization.cpp:93
+#: clientgui/Localization.cpp:51
+#: clientgui/Localization.cpp:93
 msgid "Your computers"
 msgstr "Οι Υπολογιστές σας"
 
@@ -2180,11 +2202,13 @@ msgstr ""
 "Εμφάνιση λίστας με όλους τους υπολογιστές στους οποίους εκτελείτε στο "
 "SETI@Home"
 
-#: clientgui/Localization.cpp:55 clientgui/Localization.cpp:97
+#: clientgui/Localization.cpp:55
+#: clientgui/Localization.cpp:97
 msgid "Your team"
 msgstr "Η Ομάδα σας"
 
-#: clientgui/Localization.cpp:57 clientgui/Localization.cpp:99
+#: clientgui/Localization.cpp:57
+#: clientgui/Localization.cpp:99
 msgid "View information about your team"
 msgstr "Πληροφορίες σχετικά με την ομάδα σας"
 
@@ -2202,12 +2226,10 @@ msgstr "Πληροφορίες προφύλαξης οθόνης"
 
 #: clientgui/Localization.cpp:67
 msgid "Read a detailed description of the Einstein@Home screensaver"
-msgstr ""
-"Διαβάστε τη λεπτομερή περιγραφή της προφύλαξης οθόνης του Einstein@Home"
+msgstr "Διαβάστε τη λεπτομερή περιγραφή της προφύλαξης οθόνης του Einstein@Home"
 
 #: clientgui/Localization.cpp:71
-msgid ""
-"Correspond with admins and other users on the Einstein@Home message boards"
+msgid "Correspond with admins and other users on the Einstein@Home message boards"
 msgstr ""
 
 #: clientgui/Localization.cpp:73
@@ -2237,8 +2259,7 @@ msgid "Account summary"
 msgstr "Σύνωψη λογαριασμού"
 
 #: clientgui/Localization.cpp:95
-msgid ""
-"View a listing of all the computers on which you are running Einstein@Home"
+msgid "View a listing of all the computers on which you are running Einstein@Home"
 msgstr ""
 "Εμφάνιση λίστας με όλους τους υπολογιστές στους οποίους εκτελείτε το "
 "Einstein@Home"
@@ -2248,9 +2269,7 @@ msgid "LIGO project"
 msgstr "Πρόγραμμα LIGO"
 
 #: clientgui/Localization.cpp:103
-msgid ""
-"The home page of the Laser Interferometer Gravitational-wave Observatory "
-"(LIGO) project"
+msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
 msgstr ""
 
 #: clientgui/Localization.cpp:105
@@ -2261,7 +2280,8 @@ msgstr "Έργο GEO-600"
 msgid "The home page of the GEO-600 project"
 msgstr "Η ιστοσελίδα του έργου GEO-600"
 
-#: clientgui/Localization.cpp:115 clientgui/Localization.cpp:133
+#: clientgui/Localization.cpp:115
+#: clientgui/Localization.cpp:133
 msgid "Team"
 msgstr "Ομάδα"
 
@@ -2344,9 +2364,7 @@ msgid "Missing application"
 msgstr "Εφαρμογή"
 
 #: clientgui/MainDocument.cpp:1805
-msgid ""
-"Please download and install the CoRD application from http://cord."
-"sourceforge.net"
+msgid "Please download and install the CoRD application from http://cord.sourceforge.net"
 msgstr ""
 
 #: clientgui/MainDocument.cpp:2418
@@ -2417,7 +2435,8 @@ msgstr "Αποτυχία κατεβάσματος"
 msgid "Downloading"
 msgstr "Κατέβασμα"
 
-#: clientgui/MainDocument.cpp:2468 clientgui/MainDocument.cpp:2538
+#: clientgui/MainDocument.cpp:2468
+#: clientgui/MainDocument.cpp:2538
 msgid " (suspended - "
 msgstr "(παύθηκε -"
 
@@ -2463,7 +2482,8 @@ msgstr ""
 msgid "Waiting to run"
 msgstr "Αναμένοντας για εκτέλεση"
 
-#: clientgui/MainDocument.cpp:2508 clientgui/MainDocument.cpp:2514
+#: clientgui/MainDocument.cpp:2508
+#: clientgui/MainDocument.cpp:2514
 msgid "Ready to start"
 msgstr "Έτοιμο για εκκίνηση"
 
@@ -2590,7 +2610,8 @@ msgstr "%s; λήφθηκαν στο %s"
 msgid "%s; received from %s; on %s"
 msgstr "%s; λήφθηκαν απο %s; στο %s"
 
-#: clientgui/NoticeListCtrl.cpp:282 clientgui/ProjectListCtrl.cpp:282
+#: clientgui/NoticeListCtrl.cpp:282
+#: clientgui/ProjectListCtrl.cpp:282
 msgid "Click"
 msgstr "Πατήστε"
 
@@ -2598,7 +2619,8 @@ msgstr "Πατήστε"
 msgid "more..."
 msgstr "περισσότερα..."
 
-#: clientgui/ProjectInfoPage.cpp:451 clientgui/ProjectInfoPage.cpp:739
+#: clientgui/ProjectInfoPage.cpp:451
+#: clientgui/ProjectInfoPage.cpp:739
 #: clientgui/ProjectInfoPage.cpp:743
 msgid "All"
 msgstr ""
@@ -2649,9 +2671,7 @@ msgid "Project URL:"
 msgstr "Έργο &URL:"
 
 #: clientgui/ProjectInfoPage.cpp:787
-msgid ""
-"This project may not have work for your type of computer.  Do you want to "
-"add it anyway?"
+msgid "This project may not have work for your type of computer.  Do you want to add it anyway?"
 msgstr ""
 
 #: clientgui/ProjectInfoPage.cpp:811
@@ -2741,7 +2761,8 @@ msgstr "Ρυθμίσεις proxy"
 msgid "HTTP proxy"
 msgstr "HTTP proxy"
 
-#: clientgui/ProxyPage.cpp:337 clientgui/ProxyPage.cpp:357
+#: clientgui/ProxyPage.cpp:337
+#: clientgui/ProxyPage.cpp:357
 msgid "Server:"
 msgstr "Διακομιστής:"
 
@@ -2753,7 +2774,8 @@ msgstr "Αυτόματος εντοπισμός"
 msgid "SOCKS proxy"
 msgstr "SOCKS proxy"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:136 clientgui/sg_BoincSimpleGUI.cpp:119
+#: clientgui/sg_BoincSimpleFrame.cpp:136
+#: clientgui/sg_BoincSimpleGUI.cpp:119
 msgid "Advanced View...\tCtrl+Shift+A"
 msgstr "Προηγμένη προβολή...\t Ctrl+Shift+A"
 
@@ -2770,7 +2792,8 @@ msgstr "Εμφάνιση"
 msgid "Select the appearance of the user interface."
 msgstr ""
 
-#: clientgui/sg_BoincSimpleFrame.cpp:193 clientgui/sg_BoincSimpleGUI.cpp:147
+#: clientgui/sg_BoincSimpleFrame.cpp:193
+#: clientgui/sg_BoincSimpleGUI.cpp:147
 #, c-format
 msgid "&%s"
 msgstr "&%s"
@@ -2881,6 +2904,7 @@ msgid "There are no notices at this time."
 msgstr "Δεν υπάρχουν ανακοινώσεις αυτή τη στιγμή."
 
 #: clientgui/sg_DlgMessages.cpp:463
+#, c-format
 #, fuzzy, c-format
 msgid "%s - Notices"
 msgstr "%s Ανακοινώσεις"
@@ -3021,7 +3045,8 @@ msgstr "Εκτέλεση εργασιών μόνο μεταξύ:"
 msgid "Connect to internet only between:"
 msgstr "Σύνδεση στο διαδίκτυο μόνο μεταξύ:"
 
-#: clientgui/sg_DlgPreferences.cpp:376 clientgui/sg_DlgPreferences.cpp:393
+#: clientgui/sg_DlgPreferences.cpp:376
+#: clientgui/sg_DlgPreferences.cpp:393
 msgid "Use no more than:"
 msgstr "Χρήση όχι περισσότερο απο:"
 
@@ -3041,10 +3066,14 @@ msgstr ""
 msgid "Do work after idle for:"
 msgstr "Εκτέλεση εργασίων ενώ είναι αδρανής για:"
 
-#: clientgui/sg_DlgPreferences.cpp:621 clientgui/sg_DlgPreferences.cpp:624
-#: clientgui/sg_DlgPreferences.cpp:683 clientgui/sg_DlgPreferences.cpp:687
-#: clientgui/sg_DlgPreferences.cpp:699 clientgui/sg_DlgPreferences.cpp:703
-#: clientgui/sg_DlgPreferences.cpp:846 clientgui/sg_DlgPreferences.cpp:857
+#: clientgui/sg_DlgPreferences.cpp:621
+#: clientgui/sg_DlgPreferences.cpp:624
+#: clientgui/sg_DlgPreferences.cpp:683
+#: clientgui/sg_DlgPreferences.cpp:687
+#: clientgui/sg_DlgPreferences.cpp:699
+#: clientgui/sg_DlgPreferences.cpp:703
+#: clientgui/sg_DlgPreferences.cpp:846
+#: clientgui/sg_DlgPreferences.cpp:857
 msgid "Anytime"
 msgstr "Οποιαδήποτε στιγμη"
 
@@ -3118,9 +3147,7 @@ msgid "Update"
 msgstr "Ενημέρωση"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:62
-msgid ""
-"Report all completed tasks, get latest credit, get latest preferences, and "
-"possibly get more tasks."
+msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
 msgstr ""
 "Αναφορά όλων των ολοκληρωμένων εργασιών, ανάκτηση βαθμολογίας, ανάκτηση "
 "προτιμήσεων και πιθανών νέων εργασιών."
@@ -3144,18 +3171,14 @@ msgid "Reset project"
 msgstr "Επανεκκίνηση προγράμματος"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:80
-msgid ""
-"Delete all files and tasks associated with this project, and get new tasks.  "
-"You can update the project first to report any completed tasks."
+msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
 msgstr ""
 "Διαγραφή όλων των αρχείων και των εργασιων που σχετίζονται με αυτό το έργο, "
 "και λήψη νέων εργασιών. Μπορείτε να κάνετε ενημέρωση του έργου πρώτα ώστε να "
 "αναφέρετε τυχόν ολοκληρωμένες εργασίες."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:86
-msgid ""
-"Remove this project.  Tasks in progress will be lost (use 'Update' first to "
-"report any completed tasks)."
+msgid "Remove this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
 msgstr ""
 "Αφαίρεση αυτού του έργου. Οι εργασίες που δεν έχουν ολοκληρωθεί θα χαθούν "
 "(χρησιμοποιήστε την 'Ενημέρωση' πρώτα για να αναφέρετε τυχών ολοκληρωμένες "
@@ -3202,7 +3225,8 @@ msgid "Are you sure you want to remove project '%s'?"
 msgstr "Είστε σίγουρος ότι θέλετε να αφαιρέσετε το έργο '%s';"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:257
-#: clientgui/sg_StatImageLoader.cpp:138 clientgui/sg_StatImageLoader.cpp:198
+#: clientgui/sg_StatImageLoader.cpp:138
+#: clientgui/sg_StatImageLoader.cpp:198
 msgid "Remove Project"
 msgstr "Αφαίρεση προγράμματος"
 
@@ -3219,7 +3243,8 @@ msgstr ""
 msgid "Work done for this project"
 msgstr ""
 
-#: clientgui/sg_ProjectPanel.cpp:77 clientgui/sg_ProjectsComponent.cpp:123
+#: clientgui/sg_ProjectPanel.cpp:77
+#: clientgui/sg_ProjectsComponent.cpp:123
 msgid "Synchronize projects with account manager system"
 msgstr ""
 
@@ -3276,7 +3301,8 @@ msgstr "Τα προγράμματά μου:"
 msgid "%s. Work done by %s: %0.2f"
 msgstr "%s. Εργασίες που έχουν γίνει απο %s: %0.2f"
 
-#: clientgui/sg_TaskCommandPopup.cpp:60 clientgui/sg_ViewTabPage.cpp:424
+#: clientgui/sg_TaskCommandPopup.cpp:60
+#: clientgui/sg_ViewTabPage.cpp:424
 msgid "Show graphics"
 msgstr "Εμφάνιση γραφικών"
 
@@ -3349,6 +3375,7 @@ msgid "Pop up a menu of commands to apply to this task"
 msgstr ""
 
 #: clientgui/sg_TaskPanel.cpp:685
+#, c-format
 #, fuzzy, c-format
 msgid "Application: %s"
 msgstr "Εφαρμογή:"
@@ -3373,6 +3400,7 @@ msgstr ""
 
 # 84%
 #: clientgui/sg_TaskPanel.cpp:845
+#, c-format
 #, fuzzy, c-format
 msgid "Remaining (estimated): %s"
 msgstr "Απομένει"
@@ -3382,7 +3410,8 @@ msgstr "Απομένει"
 msgid "Status: %s"
 msgstr ""
 
-#: clientgui/sg_ViewTabPage.cpp:140 clientgui/sg_ViewTabPage.cpp:280
+#: clientgui/sg_ViewTabPage.cpp:140
+#: clientgui/sg_ViewTabPage.cpp:280
 #, c-format
 msgid "%.1lf"
 msgstr "%.1lf"
@@ -3402,7 +3431,8 @@ msgstr ""
 msgid "Application: "
 msgstr "Εφαρμογή:"
 
-#: clientgui/sg_ViewTabPage.cpp:449 clientgui/sg_ViewTabPage.cpp:453
+#: clientgui/sg_ViewTabPage.cpp:449
+#: clientgui/sg_ViewTabPage.cpp:453
 msgid "Time Remaining: "
 msgstr "Χρόνος που απομένει:"
 
@@ -3464,7 +3494,8 @@ msgstr ""
 "Μη έγκυρο κλειδί λογαριασμού: Παρακαλούμε εισάγετε ένα έγκυρο κλειδί "
 "λογαριασμού"
 
-#: clientgui/ValidateAccountKey.cpp:82 clientgui/ValidateEmailAddress.cpp:86
+#: clientgui/ValidateAccountKey.cpp:82
+#: clientgui/ValidateEmailAddress.cpp:86
 msgid "Validation conflict"
 msgstr "Αντίθεση κατά την επικύρωση"
 
@@ -3490,13 +3521,17 @@ msgstr ""
 "Για παράδειγμα:\n"
 "http:///www.example.com/"
 
-#: clientgui/ValidateURL.cpp:83 clientgui/ValidateURL.cpp:87
-#: clientgui/ValidateURL.cpp:91 clientgui/ValidateURL.cpp:103
-#: clientgui/ValidateURL.cpp:107 clientgui/ValidateURL.cpp:110
+#: clientgui/ValidateURL.cpp:83
+#: clientgui/ValidateURL.cpp:87
+#: clientgui/ValidateURL.cpp:91
+#: clientgui/ValidateURL.cpp:103
+#: clientgui/ValidateURL.cpp:107
+#: clientgui/ValidateURL.cpp:110
 msgid "Invalid URL"
 msgstr "Μη έγκυση διεύθυνση"
 
-#: clientgui/ValidateURL.cpp:84 clientgui/ValidateURL.cpp:88
+#: clientgui/ValidateURL.cpp:84
+#: clientgui/ValidateURL.cpp:88
 #: clientgui/ValidateURL.cpp:92
 msgid ""
 "Please specify a valid URL.\n"
@@ -3507,7 +3542,8 @@ msgstr ""
 "Για παράδειγμα:\n"
 "http://boincproject.example.com"
 
-#: clientgui/ValidateURL.cpp:104 clientgui/ValidateURL.cpp:108
+#: clientgui/ValidateURL.cpp:104
+#: clientgui/ValidateURL.cpp:108
 #, c-format
 msgid "'%s' does not contain a valid host name."
 msgstr "Το '%s' δεν περιέχει ένα έκγυρο όνομα υπολογιστή"
@@ -3517,8 +3553,10 @@ msgstr "Το '%s' δεν περιέχει ένα έκγυρο όνομα υπο�
 msgid "'%s' does not contain a valid path."
 msgstr "Το '%s' δεν περιέχει μια έγκυρη διαδρομή."
 
-#: clientgui/ViewMessages.cpp:84 clientgui/ViewProjects.cpp:169
-#: clientgui/ViewStatistics.cpp:1965 clientgui/ViewTransfers.cpp:159
+#: clientgui/ViewMessages.cpp:84
+#: clientgui/ViewProjects.cpp:169
+#: clientgui/ViewStatistics.cpp:1965
+#: clientgui/ViewTransfers.cpp:159
 #: clientgui/ViewWork.cpp:182
 msgid "Commands"
 msgstr "Εντολές"
@@ -3531,11 +3569,13 @@ msgstr "Αντιγραφή όλων των μηνυμάτων"
 msgid "Copy selected messages"
 msgstr "Αντιγραφή επιλεγμένων μηνυμάτων"
 
-#: clientgui/ViewMessages.cpp:106 clientgui/ViewMessages.cpp:502
+#: clientgui/ViewMessages.cpp:106
+#: clientgui/ViewMessages.cpp:502
 msgid "Show only this project"
 msgstr "Εμφάνιση μόνο αυτού του προγράμματος"
 
-#: clientgui/ViewMessages.cpp:107 clientgui/ViewMessages.cpp:503
+#: clientgui/ViewMessages.cpp:107
+#: clientgui/ViewMessages.cpp:503
 msgid "Show only the messages for the selected project."
 msgstr "Εμφάνιση μηνυμάτων μόνο για το επιλεγμένο έργο."
 
@@ -3563,7 +3603,8 @@ msgstr "Εμφάνιση όλων των μηνυμάτων"
 msgid "Show messages for all projects."
 msgstr "Εμφάνιση μηνυμάτων για όλα τα προγράμματα."
 
-#: clientgui/ViewProjects.cpp:219 clientgui/ViewStatistics.cpp:442
+#: clientgui/ViewProjects.cpp:219
+#: clientgui/ViewStatistics.cpp:442
 msgid "Account"
 msgstr "Λογαριασμός"
 
@@ -3575,7 +3616,8 @@ msgstr "Ολοκληρωμένες εργασίες"
 msgid "Avg. work done"
 msgstr "Μέσος όρος ολοκληρωμένων εργασιών"
 
-#: clientgui/ViewProjects.cpp:224 clientgui/ViewTransfers.cpp:187
+#: clientgui/ViewProjects.cpp:224
+#: clientgui/ViewTransfers.cpp:187
 #: clientgui/ViewWork.cpp:233
 msgid "Status"
 msgstr "Κατάσταση"
@@ -3612,7 +3654,8 @@ msgstr "Επανεκκίνηση προγράμματος..."
 msgid "Removing project..."
 msgstr "Γίνεται αφαίρεση έργου..."
 
-#: clientgui/ViewProjects.cpp:542 clientgui/ViewWork.cpp:598
+#: clientgui/ViewProjects.cpp:542
+#: clientgui/ViewWork.cpp:598
 msgid "Launching browser..."
 msgstr "Άνοιγμα φυλλομετρητή..."
 
@@ -3793,11 +3836,13 @@ msgstr "&Επόμενο πρόγραμμα>"
 msgid "Show chart for next project"
 msgstr "Εμφάνιση γραφήματος για επόμενο πρόγραμμα"
 
-#: clientgui/ViewStatistics.cpp:2013 clientgui/ViewStatistics.cpp:2410
+#: clientgui/ViewStatistics.cpp:2013
+#: clientgui/ViewStatistics.cpp:2410
 msgid "Hide project list"
 msgstr "Απόκρυψη λίστας έργων"
 
-#: clientgui/ViewStatistics.cpp:2014 clientgui/ViewStatistics.cpp:2410
+#: clientgui/ViewStatistics.cpp:2014
+#: clientgui/ViewStatistics.cpp:2410
 msgid "Use entire area for graphs"
 msgstr "Χρήση ολόκληρου του χώρου για τα γραφικά"
 
@@ -3841,11 +3886,16 @@ msgstr "Εμφάνιση ενός γραφήματος με όλα τα έργα
 msgid "Statistics"
 msgstr "Στατιστικά"
 
-#: clientgui/ViewStatistics.cpp:2097 clientgui/ViewStatistics.cpp:2118
-#: clientgui/ViewStatistics.cpp:2139 clientgui/ViewStatistics.cpp:2161
-#: clientgui/ViewStatistics.cpp:2182 clientgui/ViewStatistics.cpp:2203
-#: clientgui/ViewStatistics.cpp:2224 clientgui/ViewStatistics.cpp:2245
-#: clientgui/ViewStatistics.cpp:2266 clientgui/ViewStatistics.cpp:2290
+#: clientgui/ViewStatistics.cpp:2097
+#: clientgui/ViewStatistics.cpp:2118
+#: clientgui/ViewStatistics.cpp:2139
+#: clientgui/ViewStatistics.cpp:2161
+#: clientgui/ViewStatistics.cpp:2182
+#: clientgui/ViewStatistics.cpp:2203
+#: clientgui/ViewStatistics.cpp:2224
+#: clientgui/ViewStatistics.cpp:2245
+#: clientgui/ViewStatistics.cpp:2266
+#: clientgui/ViewStatistics.cpp:2290
 msgid "Updating charts..."
 msgstr "Ανανέωση γραφημάτων..."
 
@@ -3877,7 +3927,8 @@ msgstr ""
 msgid "File"
 msgstr "Αρχείο"
 
-#: clientgui/ViewTransfers.cpp:183 clientgui/ViewWork.cpp:232
+#: clientgui/ViewTransfers.cpp:183
+#: clientgui/ViewWork.cpp:232
 msgid "Progress"
 msgstr "Πρόοδος"
 
@@ -3929,8 +3980,7 @@ msgid ""
 "will not receive credit for it."
 msgstr ""
 "Είστε σίγουροι οτι θέλετε να ακυρώσετε τη μεταφορά του αρχείου '%s';\n"
-"ΣΗΜΕΙΩΣΗ: Η Ακύρωση της μεταφοράς συνεπάγεται ακύρωση της εργασίας και "
-"εσείς\n"
+"ΣΗΜΕΙΩΣΗ: Η Ακύρωση της μεταφοράς συνεπάγεται ακύρωση της εργασίας και εσείς\n"
 "δε θα λάβετε πόντους για αυτήν."
 
 #: clientgui/ViewTransfers.cpp:348
@@ -3970,11 +4020,13 @@ msgstr ""
 msgid " (project backoff: "
 msgstr "(υπαναχώρηση έργου:"
 
-#: clientgui/ViewWork.cpp:186 clientgui/ViewWork.cpp:766
+#: clientgui/ViewWork.cpp:186
+#: clientgui/ViewWork.cpp:766
 msgid "Show active tasks"
 msgstr "Εμφάνιση ενεργών εργασίων"
 
-#: clientgui/ViewWork.cpp:187 clientgui/ViewWork.cpp:767
+#: clientgui/ViewWork.cpp:187
+#: clientgui/ViewWork.cpp:767
 msgid "Show only active tasks."
 msgstr "Εμφάνιση μόνο ενεργών εργασιών."
 
@@ -4090,18 +4142,14 @@ msgstr ""
 
 #: clientgui/WelcomePage.cpp:325
 msgid ""
-"You have chosen to add a new volunteer computing project or change which "
-"projects\n"
+"You have chosen to add a new volunteer computing project or change which projects\n"
 "you contribute to.\n"
 "\n"
-"Some of these projects are run and managed by World Community Grid, while "
-"others\n"
-"are run and managed by other researchers or organizations. The BOINC "
-"software\n"
+"Some of these projects are run and managed by World Community Grid, while others\n"
+"are run and managed by other researchers or organizations. The BOINC software\n"
 "can divide your spare processing power among any combination of projects.\n"
 "\n"
-"Alternatively, if you have registered with a BOINC Account Manager, you can "
-"use\n"
+"Alternatively, if you have registered with a BOINC Account Manager, you can use\n"
 "this to choose which projects to support.\n"
 "\n"
 "Please choose which type of change you would like to make:\n"
@@ -4131,7 +4179,8 @@ msgstr "Είστε σίγουρος ότι θέλετε να ακυρώστε;"
 msgid "Question"
 msgstr "Ερώτηση"
 
-#: clientgui/wizardex.cpp:377 clientgui/wizardex.cpp:553
+#: clientgui/wizardex.cpp:377
+#: clientgui/wizardex.cpp:553
 msgid "&Next >"
 msgstr "&Επόμενο >"
 
@@ -4168,9 +4217,7 @@ msgid "Pie Ctrl"
 msgstr ""
 
 #: clientgui/mac/MacAccessiblity.cpp:257
-msgid ""
-"for accessibility support, please select advanced from the view menu or type "
-"command shift a"
+msgid "for accessibility support, please select advanced from the view menu or type command shift a"
 msgstr ""
 
 #: clientgui/mac/MacAccessiblity.cpp:302
@@ -4220,7 +4267,8 @@ msgstr ""
 msgid "list is empty"
 msgstr "η λίστα είναι κενή"
 
-#: clientgui/mac/MacAccessiblity.cpp:858 clientgui/mac/MacAccessiblity.cpp:870
+#: clientgui/mac/MacAccessiblity.cpp:858
+#: clientgui/mac/MacAccessiblity.cpp:870
 #, c-format
 msgid "; row %d; "
 msgstr ""
@@ -4281,6 +4329,7 @@ msgid "Show All"
 msgstr ""
 
 #: clientgui/mac/Mac_GUI.cpp:185
+#, c-format
 #, fuzzy, c-format
 msgid "Quit %s"
 msgstr "&Έξοδος %s"

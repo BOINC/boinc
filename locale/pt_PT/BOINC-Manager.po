@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.05\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-05 13:13-0500\n"
-"PO-Revision-Date: 2013-06-17 15:34-0000\n"
+"POT-Creation-Date: 2013-06-18 11:32-0500\n"
+"PO-Revision-Date: 2013-08-09 11:19-0000\n"
 "Last-Translator: Miguel Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pt_PT\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 1.5.7\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
@@ -24,7 +24,6 @@ msgstr ""
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
 
-# 81%
 #: clientgui/AccountInfoPage.cpp:387
 #, c-format
 msgid "Identify your account at %s"
@@ -442,7 +441,6 @@ msgstr "Realizar comunicação com a rede"
 msgid "Do all pending network communication"
 msgstr "Realizar comunicação com a rede para todos os pendentes"
 
-# 94%
 #: clientgui/AdvancedFrame.cpp:576
 msgid "Read config files"
 msgstr "Ler ficheiros de configuração"
@@ -740,12 +738,12 @@ msgstr ""
 msgid "Project web pages"
 msgstr "Páginas web do projecto"
 
-#: clientgui/BOINCClientManager.cpp:570
+#: clientgui/BOINCClientManager.cpp:573
 #, c-format
 msgid "%s - Unexpected Exit"
 msgstr "%s - Saída inesperada"
 
-#: clientgui/BOINCClientManager.cpp:580
+#: clientgui/BOINCClientManager.cpp:583
 #, c-format
 msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
@@ -1086,7 +1084,6 @@ msgstr "Versão wxWidgets:"
 msgid "Copyright:"
 msgstr "Direitos de Autor:"
 
-# 98%
 #: clientgui/DlgAbout.cpp:192
 msgid ""
 "(C) 2003-2013 University of California, Berkeley.\n"
@@ -1724,15 +1721,13 @@ msgstr "O projecto não tem aplicações por"
 msgid "Client configuration excludes "
 msgstr "Configuração de cliente exclui"
 
-# 88%
 #: clientgui/DlgItemProperties.cpp:176
 msgid " work fetch deferred for"
-msgstr " obtenção de trabalho por"
+msgstr " obtenção de trabalho suspenso por"
 
-# 90%
 #: clientgui/DlgItemProperties.cpp:177
 msgid " work fetch deferral interval"
-msgstr " intervalo de obtenção de trabalho "
+msgstr " intervalo de suspensão de obtenção de trabalho"
 
 #: clientgui/DlgItemProperties.cpp:208
 msgid "Properties of project "
@@ -2077,8 +2072,8 @@ msgstr "%s  - Selecção de Linguagem"
 
 #: clientgui/DlgOptions.cpp:695
 #, c-format
-msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
-msgstr "A %s's linguagem padrão foi mudada, para que estas alterações tenham efeito, deve reiniciar o %s."
+msgid "The %s's language has been changed.  In order for this change to take effect, you must restart the %s."
+msgstr "A linguagem %s's foi alterada. Para que esta alteração tenha efeito, tem de reiniciar o %s."
 
 #: clientgui/DlgSelectComputer.cpp:90
 #, c-format
@@ -2395,7 +2390,6 @@ msgstr "Tarefa suspensa pelo utilizador"
 msgid "Suspended - "
 msgstr "Suspenso - "
 
-# 75%
 #: clientgui/MainDocument.cpp:2486
 msgid "GPU suspended - "
 msgstr "GPU suspensa - "
@@ -2429,7 +2423,6 @@ msgstr "Aguardando a execução"
 msgid "Ready to start"
 msgstr "Pronto para começar"
 
-# 88%
 #: clientgui/MainDocument.cpp:2518
 msgid " (Scheduler wait: "
 msgstr " (Agendador em espera:"
@@ -2544,26 +2537,26 @@ msgstr "Verifique o nome de utilizador e palavra passe e tente novamente."
 msgid "Check the email address and password, and try again."
 msgstr "Verifique o endereço de email e palavra passe e tente novamente."
 
-#: clientgui/NoticeListCtrl.cpp:53
+#: clientgui/NoticeListCtrl.cpp:63
 msgid "Notice List"
 msgstr "Lista de notícias"
 
-#: clientgui/NoticeListCtrl.cpp:173
+#: clientgui/NoticeListCtrl.cpp:183
 #, c-format
 msgid "%s; received on %s"
 msgstr "%s; recebido em %s"
 
-#: clientgui/NoticeListCtrl.cpp:175
+#: clientgui/NoticeListCtrl.cpp:185
 #, c-format
 msgid "%s; received from %s; on %s"
 msgstr "%s; recebido de %s; em %s"
 
-#: clientgui/NoticeListCtrl.cpp:272
+#: clientgui/NoticeListCtrl.cpp:282
 #: clientgui/ProjectListCtrl.cpp:282
 msgid "Click"
 msgstr "Carregue"
 
-#: clientgui/NoticeListCtrl.cpp:540
+#: clientgui/NoticeListCtrl.cpp:565
 msgid "more..."
 msgstr "mais..."
 
@@ -2851,7 +2844,6 @@ msgstr "Incapaz de se conectar ao cliente de core"
 msgid "One or more items failed to load from the Internet."
 msgstr "Um ou mais items, falharam ao serem carregados da Internet."
 
-# 88%
 #: clientgui/sg_DlgMessages.cpp:138
 msgid "Retry now"
 msgstr "Tente novamentente agora"
@@ -3333,30 +3325,30 @@ msgstr "Abrir um menu de comandos para aplicar a esta tarefa"
 msgid "Application: %s"
 msgstr "Aplicação: %s"
 
-#: clientgui/sg_TaskPanel.cpp:706
+#: clientgui/sg_TaskPanel.cpp:708
 #, c-format
 msgid "%.3f%%"
 msgstr "%.3f%%"
 
-#: clientgui/sg_TaskPanel.cpp:714
+#: clientgui/sg_TaskPanel.cpp:716
 msgid "Application: Not available"
 msgstr "Aplicação: Indisponivel"
 
-#: clientgui/sg_TaskPanel.cpp:814
+#: clientgui/sg_TaskPanel.cpp:816
 msgid "Not Available"
 msgstr "Indisponivel"
 
-#: clientgui/sg_TaskPanel.cpp:829
+#: clientgui/sg_TaskPanel.cpp:831
 #, c-format
 msgid "Elapsed: %s"
 msgstr "Decorrido: %s"
 
-#: clientgui/sg_TaskPanel.cpp:843
+#: clientgui/sg_TaskPanel.cpp:845
 #, c-format
 msgid "Remaining (estimated): %s"
 msgstr "Restante (estimado): %s"
 
-#: clientgui/sg_TaskPanel.cpp:858
+#: clientgui/sg_TaskPanel.cpp:860
 #, c-format
 msgid "Status: %s"
 msgstr "Estado: %s"
@@ -4034,7 +4026,6 @@ msgstr ""
 msgid "Are you sure you want to abort these %d tasks?"
 msgstr "Tem a certeza que quer cancelar estas %d tarefas?"
 
-# 75%
 #: clientgui/ViewWork.cpp:498
 msgid "Aborting task..."
 msgstr "Abortando a tarefa..."
@@ -4290,7 +4281,11 @@ msgstr "especifique as horas de começo e fim do trabalho no formato HH:MM-HH:MM
 
 #: clientgui/DlgAdvPreferences.h:31
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
-msgstr "especifique as horas de começo e fim do uso da rede no formato HH:MM-HH:MM "
+msgstr "especifique as horas iniciais e finais para o uso da rede, no formato HH:MM-HH:MM "
+
+#, c-format
+#~ msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
+#~ msgstr "A %s's linguagem padrão foi mudada, para que estas alterações tenham efeito, deve reiniciar o %s."
 
 #~ msgid "Identify your account "
 #~ msgstr "Identifique a sua conta"

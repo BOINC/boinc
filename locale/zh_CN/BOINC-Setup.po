@@ -2,13 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-08-06 16:50-0800\n"
-"PO-Revision-Date: 2013-06-11 13:13+0200\n"
+"PO-Revision-Date: 2013-08-09 15:14+0200\n"
 "Last-Translator: Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "Language: zh_CN\n"
@@ -17,7 +16,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.1.6\n"
-"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: _\n"
+"X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
+"X-Poedit-SearchPath-0: mac_installer\n"
 
 #: mac_installer/Installer.cpp:132
 #, c-format
@@ -93,7 +95,7 @@ msgstr "发生错误：错误代码为 %d"
 
 #: mac_installer/uninstall.cpp:224
 msgid "name  of user"
-msgstr ""
+msgstr "用户名"
 
 #: mac_installer/uninstall.cpp:261
 #, c-format
@@ -106,6 +108,13 @@ msgid ""
 "for each user, the file\n"
 "\"%s\"."
 msgstr ""
+"删除完成。\n"
+"\n"
+"你也许想要使用 Finder 删除下列项目： \n"
+"目录 \"%s\"\n"
+"\n"
+"对于每位用户，文件\n"
+"\"%s\"."
 
 #: mac_installer/uninstall.cpp:796
 #, c-format
