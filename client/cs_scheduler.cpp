@@ -640,10 +640,21 @@ int CLIENT_STATE::handle_scheduler_reply(
 
     // show messages from server
     //
+    bool got_notice = false;
     for (i=0; i<sr.messages.size(); i++) {
         USER_MESSAGE& um = sr.messages[i];
-        int prio = (!strcmp(um.priority.c_str(), "notice"))?MSG_SCHEDULER_ALERT:MSG_INFO;
+        int prio = MSG_INFO;
+        if (!strcmp(um.priority.c_str(), "notice")) {
+            prio = MSG_SCHEDULER_ALERT;
+            got_notice = true;
+        }
         msg_printf(project, prio, "%s", um.message.c_str());
+    }
+    // if we requested work and didn't get notices,
+    // clear scheduler notices from this project
+    //
+    if (work_fetch.requested_work() && !got_notice) {
+        notices.remove_scheduler_notices(project);
     }
 
     if (log_flags.sched_op_debug && sr.request_delay) {
