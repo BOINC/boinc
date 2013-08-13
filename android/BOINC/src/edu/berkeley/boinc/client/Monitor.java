@@ -198,11 +198,13 @@ public class Monitor extends Service {
 			// hard-wire to 100% in case user has changed this preference manually before
 			// it got removed from the UI
 			// TODO needs to be removed when migrating override prefs to common mechanism
-			clientPrefs.cpu_usage_limit = 100.0;
-			rpc.setGlobalPrefsOverrideStruct(clientPrefs);
+			if(clientPrefs != null) {
+				clientPrefs.cpu_usage_limit = 100.0;
+				rpc.setGlobalPrefsOverrideStruct(clientPrefs);
 			// TODO -- end of stuff to be removed
 			
-			status.setPrefs(clientPrefs);
+				status.setPrefs(clientPrefs);
+			}
 			// read supported projects
 			readAndroidProjectsList();
 			// set Android model as hostinfo
