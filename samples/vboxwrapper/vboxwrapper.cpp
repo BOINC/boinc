@@ -427,6 +427,19 @@ int main(int argc, char** argv) {
     //
     boinc_get_init_data_p(&aid);
 
+    // Check for architecture incompatibilities
+    // 
+#if defined(_WIN32) && defined(_M_IX86)
+    if (strstr(aid.host_info.os_version, "x64")) {
+        fprintf(
+            stderr,
+            "%s 64-bit version of BOINC is required, please upgrade, telling BOINC to reschedule execution for a later date.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+        boinc_temporary_exit(86400, "Architecture incompatibility detected.");
+    }
+#endif
+
     // Initialize VM Hypervisor
     //
     retval = vm.initialize();
