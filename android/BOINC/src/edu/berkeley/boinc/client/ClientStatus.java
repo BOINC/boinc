@@ -342,6 +342,7 @@ public class ClientStatus {
 					}
 				}
 			} catch(Exception e) {if(Logging.WARNING) Log.w(Logging.TAG,"exception for project " + project.master_url,e);}
+			catch (OutOfMemoryError oome) {if(Logging.WARNING) Log.w(Logging.TAG,"updateSlideshowImages, OutOfMemeryError");}
 		}
 		if(Logging.DEBUG) Log.d(Logging.TAG, "updateSlideshowImages() has added " + counter + " images.");
 		if(Logging.DEBUG) Log.d(Logging.TAG,"updateSlideshowImages() slideshow contains " + slideshowImages.size() + " bitmaps.");
