@@ -58,6 +58,7 @@ import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.DeviceStatus;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.Message;
+import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.ProjectAttachReply;
 import edu.berkeley.boinc.rpc.ProjectInfo;
@@ -1098,6 +1099,16 @@ public class Monitor extends Service {
 		return rpc.getMessages(seqNo);
 	}
 	
+	// returns notices sent by the project server / scheduler
+	// i.e. when scheduler request does not satisfy minimal requirements
+	public ArrayList<Notice> getServerNotices() {
+		ArrayList<Notice> allNotices = rpc.getNotices(0);
+		ArrayList<Notice> serverNotices = new ArrayList<Notice>();
+		for(Notice notice: allNotices) {
+			if(notice.isServerNotice) serverNotices.add(notice);
+		}
+		return serverNotices;
+	}
 	// updates the client status via rpc
 	// reports current device status to the client via rpc
 	//
