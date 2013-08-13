@@ -249,22 +249,6 @@ int CLIENT_STATE::check_suspend_processing() {
         }
     }
 
-    // CPU throttling
-    //
-    if (global_prefs.cpu_usage_limit < 99) {        // round-off?
-        static double last_time=0, debt=0;
-        double diff = now - last_time;
-        last_time = now;
-        if (diff >= POLL_INTERVAL/2. && diff < POLL_INTERVAL*10.) {
-            debt += diff*global_prefs.cpu_usage_limit/100;
-            if (debt < 0) {
-                return SUSPEND_REASON_CPU_THROTTLE;
-            } else {
-                debt -= diff;
-            }
-        }
-    }
-
 #ifdef ANDROID
     if (now > device_status_time + ANDROID_KEEPALIVE_TIMEOUT) {
         return SUSPEND_REASON_NO_GUI_KEEPALIVE;
@@ -290,6 +274,24 @@ int CLIENT_STATE::check_suspend_processing() {
         }
     }
 #endif
+
+    // CPU throttling.
+    // Do this check last; that way if suspend_reason is CPU_THROTTLE,
+    // the GUI knows there's no other source of suspension
+    //
+    if (global_prefs.cpu_usage_limit < 99) {        // round-off?
+        static double last_time=0, debt=0;
+        double diff = now - last_time;
+        last_time = now;
+        if (diff >= POLL_INTERVAL/2. && diff < POLL_INTERVAL*10.) {
+            debt += diff*global_prefs.cpu_usage_limit/100;
+            if (debt < 0) {
+                return SUSPEND_REASON_CPU_THROTTLE;
+            } else {
+                debt -= diff;
+            }
+        }
+    }
 
     // CPU is not suspended.  See if GPUs are
     //
