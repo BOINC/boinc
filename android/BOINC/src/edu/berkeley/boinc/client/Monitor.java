@@ -393,7 +393,16 @@ public class Monitor extends Service {
 					// Update status bar notification
 					ClientNotification.getInstance(getApplicationContext()).update();
 				} else {
-					if(Logging.ERROR) Log.e(Logging.TAG, "readClientStatus(): connection problem");
+					String nullValues = "";
+					try{
+						if(status == null) nullValues += "status,";
+						if(state == null) nullValues += "state,";
+						if(state.results == null) nullValues += "state.results,";
+						if(state.projects == null) nullValues += "state.projects,";
+						if(transfers == null) nullValues += "transfers,";
+						if(state.host_info == null) nullValues += "state.host_info,";
+					} catch (NullPointerException e) {};
+					if(Logging.ERROR) Log.e(Logging.TAG, "readClientStatus(): connection problem, null: " + nullValues);
 				}
 				
 				// check whether monitor is still intended to update, if not, skip broadcast and exit...
