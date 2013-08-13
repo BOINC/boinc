@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2013-06-08 18:16+0200\n"
+"PO-Revision-Date: 2013-08-09 09:27+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -3233,7 +3233,7 @@ msgstr "Automatisch zum ersten neuen Beitrag im Thema springen"
 #: ../user/edit_forum_preferences_form.php:142
 #, fuzzy
 msgid "Don't move sticky posts to top"
-msgstr "Angepinnte Beiträge nicht oben anzeigen"
+msgstr "Angepinnte Beiträge nicht nach oben bewegen"
 
 #: ../user/edit_forum_preferences_form.php:148
 msgid "Message filtering"
@@ -6940,6 +6940,9 @@ msgid ""
 "    or by using an assigned 'account key'.\n"
 "    Your account key is:"
 msgstr ""
+"Der Zugriff auf das Benutzerkonto kann per E-Mail-Adresse und Passwort,\n"
+"oder per 'Kontoschlüssel' erfolgen.\n"
+"Ihr Kontoschlüssel ist:"
 
 #: ../user/weak_auth.php:57
 msgid "This key can be used to:"
@@ -6950,18 +6953,25 @@ msgid "log in to your account on the web"
 msgstr "einloggen in das Benutzerkonto per Browser"
 
 #: ../user/weak_auth.php:61
+#, fuzzy
 msgid ""
 "to attach a computer to your account without using the BOINC Manager.\n"
 "       To do so, install BOINC,\n"
 "       create a file named %1 in the BOINC\n"
 "       data directory, and set its contents to:"
 msgstr ""
+"um einen Computer zu diesem Konto, ohne den BOINC-Manager zu verwenden, "
+"hinzuzufügen.\n"
+"Dazu installieren Sie BOINC,\n"
+"erstellen eine Datei '%1' im\n"
+"BOINC Datenverzeichnis, mit dem Inhalt:"
 
 #: ../user/weak_auth.php:73
 msgid "Weak account key"
 msgstr "schwacher Kontoschlüssel"
 
 #: ../user/weak_auth.php:74
+#, fuzzy
 msgid ""
 "Your 'weak account key' can be used to attach computers to your account\n"
 "    as described above, but cannot be used to log in to your account or "
@@ -6970,6 +6980,14 @@ msgid ""
 "    do so using your weak account key.\n"
 "    Your weak account key is:"
 msgstr ""
+"Der 'schwache Kontoschlüssel' kann wie oben beschrieben zum hinzufügen von "
+"Computern\n"
+"zu diesem Konto benutzt werden, jedoch können damit keine Änderungen am "
+"Benutzerkonto selber vorgenommen werden.\n"
+"Wenn Sie also unsichere oder nicht vertraute Computer Ihrem Benutzerkonto "
+"hinzufügen wollen,\n"
+"benutzen Sie bitte den schwachen Kontoschlüssel.\n"
+"Dieser lautet:"
 
 #: ../user/weak_auth.php:81
 msgid ""

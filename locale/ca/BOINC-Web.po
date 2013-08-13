@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-06-05 10:25 PDT\n"
-"PO-Revision-Date: 2013-06-08 00:15+0200\n"
+"PO-Revision-Date: 2013-08-08 23:22+0200\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -128,7 +128,7 @@ msgstr "Universitat de Karlsruhe (Alemanya)"
 
 #: projects.inc:80
 msgid "Protein structure prediction"
-msgstr "Predicció d' estructura de proteïnes"
+msgstr "Predicció d'estructura de proteïnes"
 
 #: projects.inc:81
 msgid ""

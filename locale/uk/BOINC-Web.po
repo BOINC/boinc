@@ -355,7 +355,6 @@ msgstr ""
 
 # 95%
 #: projects.inc:224
-#, fuzzy
 msgid "University of Illinois at Urbana-Champaign"
 msgstr "Іллінойський університет в Урбана-Шампейн"
 

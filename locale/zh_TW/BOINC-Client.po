@@ -130,6 +130,7 @@ msgstr "當你使用 NVIDIA GPU 來進行運算的時候，請將 BOINC 升級�
 
 # 94%
 #: ../sched/sched_send.cpp:1146
+#, c-format
 #, c-format, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "該專案的工作需要%s 的 GPU 才可以執行"

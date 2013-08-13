@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: 1.05\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-06-05 10:25 PDT\n"
-"PO-Revision-Date: 2013-06-17 15:48-0000\n"
+"PO-Revision-Date: 2013-08-09 11:20-0000\n"
 "Last-Translator: Miguel Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_PT\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 1.5.7\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
@@ -26,7 +26,6 @@ msgstr ""
 msgid "Distributed sensing"
 msgstr "Sensoriamente distribuido"
 
-# 78%
 #: projects.inc:19
 msgid "Stanford University"
 msgstr "Universidade de Stanford"
@@ -323,7 +322,6 @@ msgstr ""
 "enxofre. Isto irá permitir-nos explorar como o clima pode mudar no próximo "
 "século sob uma ampla gama de diferentes cenários."
 
-# 75%
 #: projects.inc:188
 msgid "Astronomy, Physics, and Chemistry"
 msgstr "Astronomia, Fisícas e Quimíca"
@@ -359,7 +357,6 @@ msgstr ""
 "grupo de pesquisa está interessado em calcular a dinâmica de sistemas de "
 "tempo."
 
-# 95%
 #: projects.inc:224
 msgid "University of Illinois at Urbana-Champaign"
 msgstr "Universidade de Ilinois em Urbana-Champaign"
@@ -914,7 +911,6 @@ msgstr "computadores.\n"
 msgid "24-hour average:"
 msgstr "Média de 24-horas:"
 
-# 80%
 #: index.php:55
 msgid "PetaFLOPS."
 msgstr "PetaFLOPS."

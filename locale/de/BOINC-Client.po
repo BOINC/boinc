@@ -149,6 +149,7 @@ msgstr ""
 
 # 94%
 #: ../sched/sched_send.cpp:1146
+#, c-format
 #, c-format, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "Für dieses Projekt wird eine %s GPU benötigt"

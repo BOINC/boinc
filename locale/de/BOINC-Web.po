@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-06-05 10:25 PDT\n"
-"PO-Revision-Date: 2013-06-08 17:17+0200\n"
+"PO-Revision-Date: 2013-08-09 09:51+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -17,17 +17,16 @@ msgstr ""
 
 #: projects.inc:14
 msgid "Distributed sensing"
-msgstr ""
+msgstr "Dezentrale Erfassung"
 
 # 78%
 #: projects.inc:19
-#, fuzzy
 msgid "Stanford University"
-msgstr "Universität Oxford"
+msgstr "Universität Stanford"
 
 #: projects.inc:20
 msgid "Seismology"
-msgstr ""
+msgstr "Erdbebenkunde"
 
 #: projects.inc:21
 msgid ""
@@ -35,14 +34,17 @@ msgid ""
 "using sensors attached to Internet-connected computers.  You must buy a "
 "sensor to participate."
 msgstr ""
+"Das Quake-Catcher Netzwerk entwickelt das weltweit größte seismische "
+"Netzwerk mittels Sensoren an über das Internet verbundenen Rechnern. Sie "
+"müssen eventuell einen Sensor kaufen um teilnehmen zu können."
 
 #: projects.inc:27
 msgid "BOINC Poland Foundation"
-msgstr ""
+msgstr "Stiftung BOINC Polen (Gemeinnützige Organisation)"
 
 #: projects.inc:28
 msgid "Environmental research"
-msgstr ""
+msgstr "Umweltforschung"
 
 #: projects.inc:29
 msgid ""
@@ -50,12 +52,17 @@ msgid ""
 "levels by using sensors connected to volunteers' computers.  You must buy a "
 "sensor to participate."
 msgstr ""
+"Dieses Projekt erstellt eine freie und aktuelle Strahlungskarte für "
+"Radioaktive Strahlung mittels an Computern angebrachten Sensoren. Sie müssen "
+"einen Sensor kaufen um teilnehmen zu können."
 
 #: projects.inc:33
 msgid ""
 "To participate in these projects you must buy a sensor and attach it to your "
 "computer."
 msgstr ""
+"Um bei diesem Projekt teilzunehmen müssen Sie einen Sensor kaufen und an "
+"Ihren Computer anschließen."
 
 #: projects.inc:37
 msgid "Cognitive science and artifical intelligence"
@@ -88,11 +95,11 @@ msgstr "Biologie und Medizin"
 
 #: projects.inc:71
 msgid "University College Dublin"
-msgstr ""
+msgstr "Universität Dublin"
 
 #: projects.inc:72
 msgid "Antimalarial drug discovery"
-msgstr ""
+msgstr "Antimalaria Medikamentensuche"
 
 #: projects.inc:73
 msgid ""
@@ -102,6 +109,11 @@ msgid ""
 "the parasite. The FightMalaria@Home project is aimed at finding these new "
 "targets."
 msgstr ""
+"Der für Malaria verantwortliche Parasit entwickelt zunehmend eine Resistenz "
+"gegen bekannte Medikamente. Daher müssen dringend neue Medikamente gefunden "
+"werden. Genauer müssen andere Proteine des Parasiten als Angriffspunkte "
+"identifiziert werden. Das FightMalaria@Home Projekt möchte diese neuen "
+"Angriffspunkte finden."
 
 #: projects.inc:79
 msgid "University of Karlsruhe (Germany)"
@@ -309,9 +321,8 @@ msgstr ""
 
 # 75%
 #: projects.inc:188
-#, fuzzy
 msgid "Astronomy, Physics, and Chemistry"
-msgstr "Astronomie/Physik/Chemie"
+msgstr "Astronomie, Physik und Chemie"
 
 #: projects.inc:209
 msgid "University of Texas at Austin"
@@ -450,6 +461,10 @@ msgid ""
 "LHC event physics simulation on volunteer computers.  Requires that you "
 "install VirtualBox on your computer"
 msgstr ""
+"Dieses Projekt nutzt eine vom CERN entwickelte Virtuelle-Maschinen "
+"Technologie zur Simulation von LHC Ereignissen auf den Computern von "
+"freiwilligen Unterstützern. Sie müssen VirtualBox auf Ihrem Computer "
+"installiert haben um teilzunehmen."
 
 #: projects.inc:280
 msgid "University of California, Berkeley"
@@ -591,15 +606,15 @@ msgstr "Mathematik, Berechnungen und Spiele"
 
 #: projects.inc:355
 msgid "Computer Science"
-msgstr ""
+msgstr "Informatik"
 
 #: projects.inc:363
 msgid "Mathematics, Physics, Artificial Intelligence"
-msgstr ""
+msgstr "Mathematik, Physik, künstliche Intelligenz"
 
 #: projects.inc:364
 msgid "Simulation of quantum computing; Goldbach's conjecture."
-msgstr ""
+msgstr "Simulation von Quanteneffekten, Goldbach's Vermutung"
 
 #: projects.inc:404 projects.inc:412 projects.inc:466
 msgid "Cryptography"
@@ -793,8 +808,9 @@ msgid "Version history"
 msgstr "Versionshistorie"
 
 #: download.php:126
+#, fuzzy
 msgid "GPU computing"
-msgstr ""
+msgstr "helfen mittels Grafikkarten (GPUs)"
 
 #: download.php:144
 msgid "BOINC: compute for science"
@@ -914,9 +930,8 @@ msgstr "24-Stunden-Durchschnitt:"
 
 # 80%
 #: index.php:55
-#, fuzzy
 msgid "PetaFLOPS."
-msgstr "TeraFLOPS."
+msgstr "PetaFLOPS."
 
 #: index.php:67
 msgid "News"
@@ -936,11 +951,11 @@ msgstr "Dokumentation"
 
 #: index.php:87
 msgid "Add-ons"
-msgstr ""
+msgstr "Erweiterungen"
 
 #: index.php:88
 msgid "Links"
-msgstr ""
+msgstr "Verweise"
 
 #: index.php:94
 #, php-format

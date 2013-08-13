@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-05 13:13-0500\n"
-"PO-Revision-Date: 2013-06-08 18:16+0200\n"
+"POT-Creation-Date: 2013-06-18 11:32-0500\n"
+"PO-Revision-Date: 2013-08-09 09:21+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -29,7 +29,7 @@ msgstr ""
 #, c-format
 #, c-format, fuzzy
 msgid "Identify your account at %s"
-msgstr "Ihr Benutzerkonto bei %s identifizieren"
+msgstr "Identifizieren Sie Ihr Benutzerkonto bei %s"
 
 #: clientgui/AccountInfoPage.cpp:393
 msgid ""
@@ -773,12 +773,12 @@ msgstr ""
 msgid "Project web pages"
 msgstr "Projekt-Webseite"
 
-#: clientgui/BOINCClientManager.cpp:570
+#: clientgui/BOINCClientManager.cpp:573
 #, c-format
 msgid "%s - Unexpected Exit"
 msgstr "%s - Unerwartetes Ende"
 
-#: clientgui/BOINCClientManager.cpp:580
+#: clientgui/BOINCClientManager.cpp:583
 #, c-format
 msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
@@ -2145,10 +2145,10 @@ msgstr "Sprachauswahl: %s"
 
 #: clientgui/DlgOptions.cpp:695
 #, c-format
-msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
+msgid "The %s's language has been changed.  In order for this change to take effect, you must restart the %s."
 msgstr ""
-"Die voreingestellte Sprache (%s) wurde geändert.\n"
-"Damit dies wirksam wird muss der %s neu gestartet werden."
+"Die %s Sprache wurde gewechselt. Bitte starten Sie %s erneut um die Änderung "
+"anzuwenden."
 
 #: clientgui/DlgSelectComputer.cpp:90
 #, c-format
@@ -2632,26 +2632,26 @@ msgstr ""
 "Bitte überprüfen Sie die E-Mail-Adresse und das Passwort und versuchen es "
 "dann erneut."
 
-#: clientgui/NoticeListCtrl.cpp:53
+#: clientgui/NoticeListCtrl.cpp:63
 msgid "Notice List"
 msgstr "Nachrichtenliste"
 
-#: clientgui/NoticeListCtrl.cpp:173
+#: clientgui/NoticeListCtrl.cpp:183
 #, c-format
 msgid "%s; received on %s"
 msgstr "%s; erhalten am %s"
 
-#: clientgui/NoticeListCtrl.cpp:175
+#: clientgui/NoticeListCtrl.cpp:185
 #, c-format
 msgid "%s; received from %s; on %s"
 msgstr "%s; empfangen von %s; am %s"
 
-#: clientgui/NoticeListCtrl.cpp:272
+#: clientgui/NoticeListCtrl.cpp:282
 #: clientgui/ProjectListCtrl.cpp:282
 msgid "Click"
 msgstr "Klick"
 
-#: clientgui/NoticeListCtrl.cpp:540
+#: clientgui/NoticeListCtrl.cpp:565
 msgid "more..."
 msgstr "weiterlesen..."
 
@@ -3457,30 +3457,30 @@ msgstr "Blende ein Menü ein für anwendbare Befehle für diese Aufgabe"
 msgid "Application: %s"
 msgstr "Anwendung: %s"
 
-#: clientgui/sg_TaskPanel.cpp:706
+#: clientgui/sg_TaskPanel.cpp:708
 #, c-format
 msgid "%.3f%%"
 msgstr "%.3f%%"
 
-#: clientgui/sg_TaskPanel.cpp:714
+#: clientgui/sg_TaskPanel.cpp:716
 msgid "Application: Not available"
 msgstr "Anwendung: Nicht Verfügbar"
 
-#: clientgui/sg_TaskPanel.cpp:814
+#: clientgui/sg_TaskPanel.cpp:816
 msgid "Not Available"
 msgstr "Nicht Verfügbar"
 
-#: clientgui/sg_TaskPanel.cpp:829
+#: clientgui/sg_TaskPanel.cpp:831
 #, c-format
 msgid "Elapsed: %s"
 msgstr "Vergangen: %s"
 
-#: clientgui/sg_TaskPanel.cpp:843
+#: clientgui/sg_TaskPanel.cpp:845
 #, c-format
 msgid "Remaining (estimated): %s"
 msgstr "Verbleibend (geschätzt): %s"
 
-#: clientgui/sg_TaskPanel.cpp:858
+#: clientgui/sg_TaskPanel.cpp:860
 #, c-format
 msgid "Status: %s"
 msgstr "Status: %s"
@@ -4231,6 +4231,21 @@ msgid ""
 "\n"
 "Please choose which type of change you would like to make:\n"
 msgstr ""
+"Sie haben sich dazu entschieden, ein neues Projekt für verteiltes Rechnen "
+"hinzuzufügen, oder die Einstellungen, zu welchen Projekten\n"
+"sie beitragen, zu verändern.\n"
+"\n"
+"Einige dieser Projekte werden vom World Community Grid betrieben und "
+"verwaltet, andere\n"
+"von anderen Forschern oder Organisationen. Die BOINC-Software\n"
+"kann Ihre ungenutze Rechenleistung beliebig zwischen verschiedenen Projekten "
+"aufteilen.\n"
+"\n"
+"Falls Sie sich bei einer BOINC-Accountverwaltung registriert haben, können "
+"Sie hier außerdem\n"
+"entscheiden, welche Projekte Sie unterstützen möchten.\n"
+"\n"
+"Bitte wählen Sie die Änderungen, die Sie vornehmen möchten:\n"
 
 #: clientgui/WelcomePage.cpp:339
 msgid "Use a BOINC Account Manager"
@@ -4419,6 +4434,12 @@ msgstr "gebe Anfangs- und Endzeit für das Rechnen im Format HH:MM-HH:MM ein"
 #: clientgui/DlgAdvPreferences.h:31
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr "gebe Anfangs- und Endzeit der Netzwerknutzung im Format HH:MM-HH:MM ein"
+
+#, c-format
+#~ msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
+#~ msgstr ""
+#~ "Die voreingestellte Sprache (%s) wurde geändert.\n"
+#~ "Damit dies wirksam wird muss der %s neu gestartet werden."
 
 #~ msgid "Identify your account "
 #~ msgstr "Kontoinformationen eingeben "
