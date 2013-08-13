@@ -471,8 +471,8 @@ $math = array(
             "PrimeGrid",
             "http://www.primegrid.com/",
             tra("Private"),
-            tra("Cryptography"),
-            tra("Primegrid is generating a public sequential prime number database, and is searching for large twin primes of the form k*2<sup>n</sup>+1 and k*2<sup>n</sup>-1"),
+            tra("Mathematics"),
+            tra("Primegrid has multiple projects searching for different forms of very large prime numbers, including searching for the largest known prime number."),
             "primegrid_logo.png"
         ),
         array(
