@@ -403,7 +403,7 @@ int ACCT_MGR_OP::parse(FILE* f) {
         }
         if (log_flags.unparsed_xml) {
             msg_printf(NULL, MSG_INFO,
-                "[unparsed_xml] ACCT_MGR_OP::parse: unrecognized %s",
+                "[unparsed_xml] ACCT_MGR_OP::parse: unrecognized tag <%s>",
                 xp.parsed_tag
             );
         }
