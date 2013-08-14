@@ -507,6 +507,36 @@ public class RpcClient {
 			return null;
 		}
 	}
+	
+	/**
+	 * Performs get_notices PRC towards BOINC client
+	 * Returns client messages that are more recent than seqNo param
+	 * @return List of Notices
+	 */
+	public synchronized ArrayList<Notice> getNotices(int seqNo) {
+		mLastErrorMessage = null;
+		try {
+			String request;
+			if (seqNo == 0) {
+				// get all notices
+				request = "<get_notices/>\n";
+			}
+			else {
+				request =
+					"<get_notices>\n" +
+					" <seqno>" + seqNo + "</seqno>\n" +
+					"</get_notices>\n";
+			}
+			sendRequest(request);
+			ArrayList<Notice> notices = NoticesParser.parse(receiveReply());
+			if(notices == null) notices = new ArrayList<Notice>(); // do not return null
+			return notices;
+		}
+		catch (IOException e) {
+			if(Logging.WARNING) Log.w(Logging.TAG, "error in getMessages()", e);
+			return new ArrayList<Notice>();
+		}
+	}
 
 	/**
 	 * Performs get_project_status RPC towards BOINC client

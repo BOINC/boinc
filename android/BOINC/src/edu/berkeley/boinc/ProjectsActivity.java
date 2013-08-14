@@ -48,6 +48,7 @@ import android.widget.TextView;
 import edu.berkeley.boinc.adapter.ProjectControlsListAdapter;
 import edu.berkeley.boinc.adapter.ProjectsListAdapter;
 import edu.berkeley.boinc.client.Monitor;
+import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.RpcClient;
 
@@ -151,9 +152,11 @@ public class ProjectsActivity extends FragmentActivity {
 				return;
 			}
 			
-			// limit layout update on when project number changes.
-			if(!force && tmpA.size() == numberProjects) return;
-
+			// get server / scheduler notices to display if device does not meet
+			// resource requirements
+			ArrayList<Notice> serverNotices = null;
+			if(mIsBound) serverNotices = monitor.getServerNotices();
+			
 			// Switch to a view that can actually display messages
 			if (initialSetupRequired) {
 				initialSetupRequired = false;
@@ -163,7 +166,7 @@ public class ProjectsActivity extends FragmentActivity {
 		    }
 			
 			// Update Project data
-			updateData(tmpA);
+			updateData(tmpA, serverNotices);
 			
 			// Force list adapter to refresh
 			listAdapter.notifyDataSetChanged(); 
@@ -174,7 +177,7 @@ public class ProjectsActivity extends FragmentActivity {
 		}
 	}
 	
-	private void updateData(ArrayList<Project> newData) {
+	private void updateData(ArrayList<Project> newData, ArrayList<Notice> serverNotices) {
 		//loop through all received Result items to add new results
 		for(Project rpcResult: newData) {
 			//check whether this Result is new
@@ -206,6 +209,24 @@ public class ProjectsActivity extends FragmentActivity {
 				}
 			}
 			if(!found) iData.remove();
+		}
+		
+		// loop through active projects to add/remove server notices
+		if(serverNotices != null) {
+			int mappedServerNotices = 0;
+			for(ProjectData project: data) {
+				boolean noticeFound = false;
+				for(Notice serverNotice: serverNotices) {
+					if(project.project.project_name.equals(serverNotice.project_name)) {
+						project.addServerNotice(serverNotice);
+						noticeFound = true;
+						mappedServerNotices++;
+						continue;
+					}
+				}
+				if(!noticeFound) project.addServerNotice(null);
+			}
+			if(mappedServerNotices != serverNotices.size()) if(Logging.WARNING) Log.w(Logging.TAG,"could not match notice: " + mappedServerNotices + "/" + serverNotices.size());
 		}
 	}
 	
@@ -250,6 +271,7 @@ public class ProjectsActivity extends FragmentActivity {
 	public class ProjectData {
 		public Project project = null;
 		public String id = "";
+		public Notice lastServerNotice = null;
 
 		public ProjectData(Project data) {
 			this.project = data;
@@ -258,6 +280,14 @@ public class ProjectsActivity extends FragmentActivity {
 		
 		public void updateProjectData(Project data) {
 			this.project = data;
+		}
+		
+		public void addServerNotice(Notice notice) {
+			this.lastServerNotice = notice;
+		}
+		
+		public Notice getLastServerNotice() {
+			return lastServerNotice;
 		}
 		
 		public final OnClickListener projectsListClickListener = new OnClickListener() {

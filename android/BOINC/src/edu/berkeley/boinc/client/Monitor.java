@@ -58,6 +58,7 @@ import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.DeviceStatus;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.Message;
+import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.ProjectAttachReply;
 import edu.berkeley.boinc.rpc.ProjectInfo;
@@ -199,11 +200,11 @@ public class Monitor extends Service {
 			// it got removed from the UI
 			// TODO needs to be removed when migrating override prefs to common mechanism
 			if(clientPrefs != null) {
-				clientPrefs.cpu_usage_limit = 100.0;
-				rpc.setGlobalPrefsOverrideStruct(clientPrefs);
+			clientPrefs.cpu_usage_limit = 100.0;
+			rpc.setGlobalPrefsOverrideStruct(clientPrefs);
 			// TODO -- end of stuff to be removed
 			
-				status.setPrefs(clientPrefs);
+			status.setPrefs(clientPrefs);
 			}
 			// read supported projects
 			readAndroidProjectsList();
@@ -402,7 +403,7 @@ public class Monitor extends Service {
 						if(transfers == null) nullValues += "transfers,";
 						if(state.host_info == null) nullValues += "state.host_info,";
 					} catch (NullPointerException e) {};
-					if(Logging.ERROR) Log.e(Logging.TAG, "readClientStatus(): connection problem, null: " + nullValues);
+					if(Logging.ERROR) Log.e(Logging.TAG, "readClientStatus(): connection problem");
 				}
 				
 				// check whether monitor is still intended to update, if not, skip broadcast and exit...
@@ -1107,6 +1108,17 @@ public class Monitor extends Service {
 	public ArrayList<Message> getEventLogMessages(int seqNo) {
 		//if(Logging.DEBUG) Log.d(Logging.TAG, "getEventLogMessage more recent than seqNo: " + seqNo);
 		return rpc.getMessages(seqNo);
+	}
+	
+	// returns notices sent by the project server / scheduler
+	// i.e. when scheduler request does not satisfy minimal requirements
+	public ArrayList<Notice> getServerNotices() {
+		ArrayList<Notice> allNotices = rpc.getNotices(0);
+		ArrayList<Notice> serverNotices = new ArrayList<Notice>();
+		for(Notice notice: allNotices) {
+			if(notice.isServerNotice) serverNotices.add(notice);
+		}
+		return serverNotices;
 	}
 	
 	// updates the client status via rpc
