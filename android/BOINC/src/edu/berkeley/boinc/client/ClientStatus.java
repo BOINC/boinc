@@ -458,21 +458,15 @@ public class ClientStatus {
 				computingParseError = false;
 				return;
 			}
-			if(status.task_mode == BOINCDefs.RUN_MODE_AUTO && status.task_suspend_reason == BOINCDefs.SUSPEND_REASON_CPU_THROTTLE) {
-				// suspended due to CPU throttling, treat as if was running!
-				computingStatus = COMPUTING_STATUS_COMPUTING;
-				computingSuspendReason = status.task_suspend_reason; // = 64 - SUSPEND_REASON_CPU_THROTTLE
-				computingParseError = false;
-				return;
-				
-			}
-			if((status.task_mode == BOINCDefs.RUN_MODE_AUTO) && (status.task_suspend_reason != BOINCDefs.SUSPEND_NOT_SUSPENDED)) {
+			if((status.task_mode == BOINCDefs.RUN_MODE_AUTO) && (status.task_suspend_reason != BOINCDefs.SUSPEND_NOT_SUSPENDED) && (status.task_suspend_reason != BOINCDefs.SUSPEND_REASON_CPU_THROTTLE)) {
+				// do not expose cpu throttling as suspension to UI
 				computingStatus = COMPUTING_STATUS_SUSPENDED;
 				computingSuspendReason = status.task_suspend_reason;
 				computingParseError = false;
 				return;
 			}
-			if((status.task_mode == BOINCDefs.RUN_MODE_AUTO) && (status.task_suspend_reason == BOINCDefs.SUSPEND_NOT_SUSPENDED)) {
+			if((status.task_mode == BOINCDefs.RUN_MODE_AUTO) && ((status.task_suspend_reason == BOINCDefs.SUSPEND_NOT_SUSPENDED) || (status.task_suspend_reason == BOINCDefs.SUSPEND_REASON_CPU_THROTTLE))) {
+				// treat cpu throttling as if client was active (either idle, or computing, depending on tasks)
 				//figure out whether we have an active task
 				Boolean activeTask = false;
 				if(results!=null) {

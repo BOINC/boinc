@@ -191,21 +191,7 @@ public class Monitor extends Service {
 			rpc.readGlobalPrefsOverride();
 			// read preferences for GUI to be able to display data
 			GlobalPreferences clientPrefs = rpc.getGlobalPrefsWorkingStruct();
-
-			// setting cpu_usage_limit to 100
-			// preference got remove from UI for two reasons:
-			// - science apps would crash (timeout)
-			// - wakelock and foreground service would be frequently acquired / released
-			// hard-wire to 100% in case user has changed this preference manually before
-			// it got removed from the UI
-			// TODO needs to be removed when migrating override prefs to common mechanism
-			if(clientPrefs != null) {
-				clientPrefs.cpu_usage_limit = 100.0;
-				rpc.setGlobalPrefsOverrideStruct(clientPrefs);
-			// TODO -- end of stuff to be removed
-			
-				status.setPrefs(clientPrefs);
-			}
+			status.setPrefs(clientPrefs);
 			// read supported projects
 			readAndroidProjectsList();
 			// set Android model as hostinfo
@@ -373,7 +359,8 @@ public class Monitor extends Service {
     		// wake locks and foreground enabled when Client is not suspended, therefore also during
     		// idle.
     		CcStatus status = rpc.getCcStatus();
-    		Boolean computing = (status.task_suspend_reason == BOINCDefs.SUSPEND_NOT_SUSPENDED);
+    		// treat cpu throttling as if it was computing
+    		Boolean computing = (status.task_suspend_reason == BOINCDefs.SUSPEND_NOT_SUSPENDED) || (status.task_suspend_reason == BOINCDefs.SUSPEND_REASON_CPU_THROTTLE);
     		if(Logging.VERBOSE) Log.d(Logging.TAG,"readClientStatus(): computation enabled: " + computing);
 			Monitor.getClientStatus().setWifiLock(computing);
 			Monitor.getClientStatus().setWakeLock(computing);
