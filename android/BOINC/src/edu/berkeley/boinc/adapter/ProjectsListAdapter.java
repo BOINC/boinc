@@ -36,6 +36,7 @@ import edu.berkeley.boinc.ProjectsActivity.ProjectData;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.Monitor;
+import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.utils.BOINCUtils;
 import edu.berkeley.boinc.utils.Logging;
@@ -124,18 +125,15 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectData> {
         	appendToStatus(sb, activity.getResources().getString(R.string.projects_status_trickleuppending));
         }
         
-        // show rpc backoff only in advanced mode
-        if(Monitor.getAppPrefs().getShowAdvanced()) {
-	        Calendar minRPCTime = Calendar.getInstance();
-	        Calendar now = Calendar.getInstance();
-	        minRPCTime.setTimeInMillis((long)project.min_rpc_time*1000);
-	        if (minRPCTime.compareTo(now) > 0) {
-	            appendToStatus(
-	            	sb,
-	            	activity.getResources().getString(R.string.projects_status_backoff) + " " +
-	            	DateUtils.formatElapsedTime((minRPCTime.getTimeInMillis() - now.getTimeInMillis()) / 1000)
-	            );
-	        }
+        Calendar minRPCTime = Calendar.getInstance();
+        Calendar now = Calendar.getInstance();
+        minRPCTime.setTimeInMillis((long)project.min_rpc_time*1000);
+        if (minRPCTime.compareTo(now) > 0) {
+            appendToStatus(
+            	sb,
+            	activity.getResources().getString(R.string.projects_status_backoff) + " " +
+            	DateUtils.formatElapsedTime((minRPCTime.getTimeInMillis() - now.getTimeInMillis()) / 1000)
+            );
         }
 		
 		return sb.toString();
@@ -219,6 +217,17 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectData> {
     		creditsText += " " + vi.getContext().getString(R.string.projects_credits_host_header) + " "
     					+ totalCredit + " " + vi.getContext().getString(R.string.projects_credits_user_header);
     	tvCredits.setText(creditsText);
+    	
+    	// notice
+    	Notice notice = data.getLastServerNotice();
+        TextView tvNotice = (TextView)vi.findViewById(R.id.project_notice);
+    	if(notice == null) {
+    		tvNotice.setVisibility(View.GONE);
+    	} else {
+    		tvNotice.setVisibility(View.VISIBLE);
+    		String noticeText = notice.description.trim();
+    		tvNotice.setText(noticeText);
+    	}
     	
         return vi;
     }
