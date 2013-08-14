@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Web Site\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-06-05 10:25 PDT\n"
-"PO-Revision-Date: 2012-11-03 13:52+0200\n"
+"PO-Revision-Date: 2013-08-14 16:42+0200\n"
 "Last-Translator: Aycan <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <bilgi@donanimhaber.com>\n"
 "Language: tr\n"
@@ -20,17 +20,16 @@ msgstr ""
 
 #: projects.inc:14
 msgid "Distributed sensing"
-msgstr ""
+msgstr "Dağınık algılama"
 
 # 78%
 #: projects.inc:19
-#, fuzzy
 msgid "Stanford University"
-msgstr "Oxford Üniversitesi"
+msgstr "Stanford Üniversitesi"
 
 #: projects.inc:20
 msgid "Seismology"
-msgstr ""
+msgstr "Deprem bilimi"
 
 #: projects.inc:21
 msgid ""
@@ -125,7 +124,7 @@ msgstr "Delaware Üniversitesi"
 
 #: projects.inc:88
 msgid "Study of protein - ligand interactions"
-msgstr "Protein araştırması - ligand etkileşimleri"
+msgstr "Protein - ligand etkileşimleri araştırması"
 
 #: projects.inc:89
 msgid ""
@@ -134,6 +133,10 @@ msgid ""
 "interactions and, by doing so, will search for insights into the discovery "
 "of novel pharmaceuticals."
 msgstr ""
+"Docking@Home projesinin hem biyoloji hemde bilgisayar bilimiyle ilgili "
+"hedefleri var. Proje protein-bağlaşma etkileşimlerinin atomik detaylarını "
+"hakkında daha fazla bilgi edinmeyi amaçlıyor ve bunu yaparak yeni "
+"farmakolojik buluşlara öncül bilgileri edinmeyi hedefliyor."
 
 #: projects.inc:95
 msgid "Barcelona Biomedical Research Park (PRBB)"
@@ -150,6 +153,9 @@ msgid ""
 "New biomedical applications suddenly become possible giving a new role to "
 "computational biology for biomedical research."
 msgstr ""
+"GPUGrid.net özellikle NVIDIA grafik işlem ünitelerinde (GPU) koşması için "
+"optimize edilmiş ilk tam-atom molekül dinamiği kodu (CellMD) sayesinde yeni "
+"hesaplamalı senaryolar açar."
 
 #: projects.inc:103
 msgid "Technion, Israel"
@@ -165,6 +171,9 @@ msgid ""
 "provoking genes causing some types of diabetes, hypertension (high blood "
 "pressure), cancer, schizophrenia and many others."
 msgstr ""
+"Superlink@Technion dünyaki tüm genetikçilere diyabet, hipertansiyon (yüksek "
+"kan basıncı), kanser, şizofreni ve diğer birçok hastalığa sebep olan "
+"hastalık-tetikleyici genlerin bulunmasını sağlayarak yardımcı olur."
 
 #: projects.inc:119
 msgid ""
@@ -182,6 +191,10 @@ msgid ""
 "bacterial, plasmid, and virus protein sequences; and biological diversity in "
 "nature reserves. "
 msgstr ""
+"Lattice Projesi, DNA dizileri verisi; bakteri, plazmit ve virüs protein "
+"dizileri; ve doğanın barındırdığı biyolojik farklılıklara dayalı evrimsel "
+"bağlantılar üzerinde çalışan Maryland Üniversitesi'ndeki bilim adamlarına "
+"hesaplama gücü sağlar. "
 
 #: projects.inc:127
 msgid "The Swiss Tropical Institute"
@@ -189,7 +202,7 @@ msgstr "İsviçre Tropikal Enstitüsü"
 
 #: projects.inc:128
 msgid "Epidemiology"
-msgstr "Epidemiyoloji"
+msgstr "Epidemiyoloji (Salgın hastalıklar bilimi)"
 
 #: projects.inc:129
 msgid ""
@@ -461,7 +474,7 @@ msgstr "IBM Şirketi Toplum İlişkileri"
 
 #: projects.inc:342
 msgid "Humanitarian research on disease, natural disasters and hunger."
-msgstr ""
+msgstr "Hastalıklar, doğal afetler ve açlık üzerine insancıl araştırmalar."
 
 #: projects.inc:343
 msgid ""
@@ -714,7 +727,7 @@ msgstr ""
 msgid ""
 "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
 msgstr ""
-"Zaten bir Yardım Günllüsüyseniz: Ayarlarınızı düzenlemek için, %sburaya "
+"Zaten bir Yardım Günüllüsüyseniz: Ayarlarınızı düzenlemek için, %sburaya "
 "tıklayın%s."
 
 #: help_funcs.php:107

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-08-06 16:50-0800\n"
-"PO-Revision-Date: 2013-08-09 18:12+0200\n"
+"PO-Revision-Date: 2013-08-09 18:20+0200\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ru\n"
@@ -103,7 +103,7 @@ msgid "name  of user"
 msgstr "имя  пользователя"
 
 #: mac_installer/uninstall.cpp:261
-#, c-format, fuzzy
+#, c-format
 msgid ""
 "Removal completed.\n"
 "\n"
