@@ -113,11 +113,16 @@ public class AttachProjectListActivity extends Activity implements android.view.
 		((TextView)manualUrlInputDialog.findViewById(R.id.title)).setText(R.string.attachproject_list_manual_dialog_title);
 		return manualUrlInputDialog;
 	}
+	
+	// gets called by account manager button click
+	public void onAcctMgrClick(View v) {
+		Intent intent = new Intent(this, AttachProjectAcctMgrActivity.class);
+		startActivity(intent);
+	}
 
 	// gets called by dialog button
 	@Override
 	public void onClick(View v) {
-		//if(Logging.DEBUG) Log.d(Logging.TAG,"buttonUrlSubmit clicked");
 		try {
 			String url = ((EditText)manualUrlInputDialog.findViewById(R.id.Input)).getText().toString();
 
@@ -140,7 +145,6 @@ public class AttachProjectListActivity extends Activity implements android.view.
 	
 	// gets called by project list item
 	public void onProjectClick(View view) {
-		//if(Logging.DEBUG) Log.d(Logging.TAG,"onProjectClick");
 		if(!checkDeviceOnline()) {
 			showErrorToast(R.string.attachproject_list_no_internet);
 			return;
@@ -155,7 +159,6 @@ public class AttachProjectListActivity extends Activity implements android.view.
 	}
 	
 	private void startAttachProjectLoginActivity(ProjectInfo project, String url) {
-		//if(Logging.DEBUG) Log.d(Logging.TAG,"startAttachProjectLoginActivity ");
 		Intent intent = new Intent(this, AttachProjectLoginActivity.class);
 		intent.putExtra("projectInfo", project);
 		intent.putExtra("url", url);

@@ -64,6 +64,8 @@ import edu.berkeley.boinc.rpc.ProjectInfo;
 import edu.berkeley.boinc.rpc.ProjectConfig;
 import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.rpc.Transfer;
+import edu.berkeley.boinc.rpc.AcctMgrRPCReply;
+import edu.berkeley.boinc.rpc.AcctMgrInfo;
 
 public class Monitor extends Service {
 	
@@ -1073,6 +1075,43 @@ public class Monitor extends Service {
     		}
     	} else {if(Logging.DEBUG) Log.d(Logging.TAG,"rpc.createAccount returned false.");}
     	return auth;
+	}
+	
+	public AcctMgrRPCReply addAcctMgr(String url, String userName, String pwd) {
+		AcctMgrRPCReply reply = null;
+    	Boolean success = rpc.acctMgrRPC(url, userName, pwd); //asynchronous call to attach project
+    	if(success) { //only continue if rpc command did not fail
+    		// verify success of acctMgrRPC with poll function
+    		Integer counter = 0;
+    		Integer sleepDuration = 500; //in milliseconds
+    		Integer maxLoops = maxDuration / sleepDuration;
+    		Boolean loop = true;
+    		while(loop && (counter < maxLoops)) {
+    			loop = false;
+    			try {
+    				Thread.sleep(sleepDuration);
+    			} catch (Exception e) {}
+    			counter ++;
+    			reply = rpc.acctMgrRPCPoll();
+    			if(reply == null) {
+    				if(Logging.DEBUG) Log.d(Logging.TAG,"error in rpc.addAcctMgr.");
+    				return null;
+    			}
+    			if (reply.error_num == -204) {
+    				loop = true; //no result yet, keep looping
+    			}
+    			else {
+    				//final result ready
+    				if(reply.error_num == 0) if(Logging.DEBUG) Log.d(Logging.TAG, "account manager attach successful.");
+    				else if(Logging.DEBUG) Log.d(Logging.TAG, "account manager attach failed, error: " + reply.error_num);
+    			}
+    		}
+    	} else {if(Logging.DEBUG) Log.d(Logging.TAG,"rpc.acctMgrRPC returned false.");}
+    	return reply;
+	}
+	
+	public AcctMgrInfo getAcctMgrInfo() {
+		return rpc.getAcctMgrInfo();
 	}
 	
 	// returns given number of client messages, older than provided seqNo

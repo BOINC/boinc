@@ -37,6 +37,7 @@ public class BOINCErrors {
 	public final static int ERR_DB_NOT_UNIQUE						= -137; // name not unique, i.e. email already in use
 	public final static int ERR_PROJECT_DOWN 						= -183; // i.e. project error
 	public final static int ERR_BAD_USER_NAME 						= -188; // i.e. user name required
+	public final static int ERR_INVALID_URL							= -189;
 	public final static int ERR_BAD_EMAIL_ADDR						= -205; // i.e. email has invalid syntax
 	public final static int ERR_BAD_PASSWD 							= -206;
 	public final static int ERR_NONUNIQUE_EMAIL 					= -207;

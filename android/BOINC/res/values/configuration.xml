@@ -37,6 +37,7 @@
     	<integer name="attach_login_retries">5</integer>
     	<integer name="attach_creation_retries">5</integer>
     	<integer name="attach_attach_retries">5</integer>
+    	<integer name="attach_acctmgr_retries">5</integer>
     <!-- configuration on tab layout -->
     	<bool name="tab_status">true</bool>
         <bool name="tab_projects">true</bool>

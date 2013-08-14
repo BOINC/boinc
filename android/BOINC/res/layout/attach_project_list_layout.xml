@@ -43,23 +43,50 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_below="@+id/headerWrapper"
-        android:layout_marginBottom="50dp" >
+        android:layout_marginBottom="70dp" >
     </ListView>
     
-    <Button
-		android:id="@+id/manualUrlButton"
-		android:layout_width="200dp"
-		android:layout_height="wrap_content"
-		android:padding="5dp"
-		android:layout_margin="10dp"
-		android:layout_gravity="center_horizontal"
-		android:layout_centerHorizontal="true"
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
 		android:layout_alignParentBottom="true"
-		android:clickable="true"
-		android:background="@drawable/shape_button_blue"
-		android:textColor="@color/white_smoke"
-		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:onClick="manualUrlItem"
-		android:text="@string/attachproject_list_manual_button" /> 
+		android:gravity="center_horizontal">
+        
+        <Button
+			android:id="@+id/accountManagerButton"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:maxWidth="200dp"
+			android:layout_weight="0.5"
+			android:padding="5dp"
+			android:layout_marginBottom="5dp"
+			android:layout_marginRight="10dp"
+			android:layout_marginLeft="10dp"
+			android:layout_gravity="center_horizontal"
+			android:clickable="true"
+			android:background="@drawable/shape_button_blue"
+			android:textColor="@color/white_smoke"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:onClick="onAcctMgrClick"
+			android:text="@string/attachproject_list_acctmgr_button" /> 
+    
+	    <Button
+			android:id="@+id/manualUrlButton"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:maxWidth="200dp"
+			android:layout_weight="0.5"
+			android:padding="5dp"
+			android:layout_marginBottom="5dp"
+			android:layout_marginRight="10dp"
+			android:layout_marginLeft="10dp"
+			android:layout_gravity="center_horizontal"
+			android:clickable="true"
+			android:background="@drawable/shape_button_blue"
+			android:textColor="@color/white_smoke"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:onClick="manualUrlItem"
+			android:text="@string/attachproject_list_manual_button" /> 
+    </LinearLayout>
 
 </RelativeLayout>
