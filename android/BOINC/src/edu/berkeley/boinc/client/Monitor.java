@@ -1109,6 +1109,7 @@ public class Monitor extends Service {
 		}
 		return serverNotices;
 	}
+	
 	// updates the client status via rpc
 	// reports current device status to the client via rpc
 	//

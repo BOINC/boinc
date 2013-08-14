@@ -534,7 +534,7 @@ public class RpcClient {
 		}
 		catch (IOException e) {
 			if(Logging.WARNING) Log.w(Logging.TAG, "error in getMessages()", e);
-			return null;
+			return new ArrayList<Notice>();
 		}
 	}
 

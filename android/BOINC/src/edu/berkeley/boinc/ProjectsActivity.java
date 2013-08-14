@@ -155,10 +155,6 @@ public class ProjectsActivity extends FragmentActivity {
 			// resource requirements
 			ArrayList<Notice> serverNotices = null;
 			if(mIsBound) serverNotices = monitor.getServerNotices();
-			if(serverNotices == null) {
-				setLayoutLoading();
-				return;
-			}
 			
 			// Switch to a view that can actually display messages
 			if (initialSetupRequired) {
@@ -215,20 +211,22 @@ public class ProjectsActivity extends FragmentActivity {
 		}
 		
 		// loop through active projects to add/remove server notices
-		int mappedServerNotices = 0;
-		for(ProjectData project: data) {
-			boolean noticeFound = false;
-			for(Notice serverNotice: serverNotices) {
-				if(project.project.project_name.equals(serverNotice.project_name)) {
-					project.addServerNotice(serverNotice);
-					noticeFound = true;
-					mappedServerNotices++;
-					continue;
+		if(serverNotices != null) {
+			int mappedServerNotices = 0;
+			for(ProjectData project: data) {
+				boolean noticeFound = false;
+				for(Notice serverNotice: serverNotices) {
+					if(project.project.project_name.equals(serverNotice.project_name)) {
+						project.addServerNotice(serverNotice);
+						noticeFound = true;
+						mappedServerNotices++;
+						continue;
+					}
 				}
+				if(!noticeFound) project.addServerNotice(null);
 			}
-			if(!noticeFound) project.addServerNotice(null);
+			if(mappedServerNotices != serverNotices.size()) if(Logging.WARNING) Log.w(Logging.TAG,"could not match notice: " + mappedServerNotices + "/" + serverNotices.size());
 		}
-		if(mappedServerNotices != serverNotices.size()) if(Logging.WARNING) Log.w(Logging.TAG,"could not match notice: " + mappedServerNotices + "/" + serverNotices.size());
 	}
 	
 	private void setLayoutLoading() {
