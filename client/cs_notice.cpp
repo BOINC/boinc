@@ -502,6 +502,30 @@ void NOTICES::remove_network_msg() {
     }
 }
 
+// Remove scheduler notices from the given project.
+// This is called if we did an RPC to the project requesting work,
+// and no notices were returned.
+//
+void NOTICES::remove_scheduler_notices(PROJECT* p) {
+    deque<NOTICE>::iterator i = notices.begin();
+    while (i != notices.end()) {
+        NOTICE& n = *i;
+        if (!strcmp(n.project_name, p->get_project_name())
+            && !strcmp(n.category, "scheduler")
+        ) {
+            i = notices.erase(i);
+#ifndef SIM
+            gstate.gui_rpcs.set_notice_refresh();
+#endif
+            if (log_flags.notice_debug) {
+                msg_printf(0, MSG_INFO, "REMOVING PROJECT MESSAGE");
+            }
+        } else {
+            ++i;
+        }
+    }
+}
+
 // write notices newer than seqno as XML (for GUI RPC).
 // Write them in order of increasing seqno
 //

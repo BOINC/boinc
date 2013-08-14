@@ -72,6 +72,7 @@ struct NOTICES {
     void write_archive(struct RSS_FEED*);
     bool remove_dups(NOTICE&);
     void remove_network_msg();
+    void remove_scheduler_notices(PROJECT*);
     void clear_keep();
         // prior to parsing an RSS feed, we mark all notices as "don't keep".
         // We clear this flag if the notice is present in the feed.
