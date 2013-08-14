@@ -90,7 +90,7 @@ public class AttachProjectRegistrationActivity extends Activity{
 		// verify and start AttachProjectWorkingActivity
 		if(verifyInput(email, user, team, pwd, pwdConfirm, usesName)){
 			Intent intent = new Intent(this, AttachProjectWorkingActivity.class);
-			intent.putExtra("registration", true);
+			intent.putExtra("action", AttachProjectWorkingActivity.ACTION_REGISTRATION);
 			intent.putExtra("usesName", false);
 			intent.putExtra("projectUrl", projectUrl);
 			intent.putExtra("projectName", projectName);

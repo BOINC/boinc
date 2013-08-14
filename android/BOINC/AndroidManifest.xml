@@ -62,6 +62,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".AttachProjectListActivity"/>
+        <activity android:name=".AttachProjectAcctMgrActivity"/>
         <activity android:name=".AttachProjectLoginActivity"
             android:configChanges="orientation"/>
         <activity android:name=".AttachProjectRegistrationActivity"/>

@@ -31,6 +31,7 @@
     <string name="attachproject_list_manual_dialog_title">Enter project URL:</string>
     <string name="attachproject_list_manual_dialog_button">Add project</string>
     <string name="attachproject_list_manual_no_url">Please enter project URL</string>
+    <string name="attachproject_list_acctmgr_button">Add account manager</string>
     <string name="attachproject_list_no_internet">No Internet connection</string>
     	<!-- project login -->
     <string name="attachproject_login_loading">Contacting project server&#8230;</string>
@@ -67,11 +68,19 @@
     <string name="attachproject_registration_header_pwd">Password:</string>
     <string name="attachproject_registration_header_pwd_confirm">&#8230; Retype:</string>
     <string name="attachproject_registration_button">Create</string>
+    	<!-- account manager -->
+    <string name="attachproject_acctmgr_header">Add account manager</string>
+    <string name="attachproject_acctmgr_header_url">URL</string>
+    <string name="attachproject_acctmgr_header_name">Name:</string>
+    <string name="attachproject_acctmgr_header_pwd">Password:</string>
+    <string name="attachproject_acctmgr_header_pwd_confirm">&#8230; Retype:</string>
+    <string name="attachproject_acctmgr_button">Add</string>
     	<!-- error strings -->
     <string name="attachproject_error_wrong_name">User not found</string>
     <string name="attachproject_error_short_pwd">Password too short</string>
     <string name="attachproject_error_no_internet">Connection failure</string>
     <string name="attachproject_error_pwd_no_match">Passwords do not match</string>
+    <string name="attachproject_error_no_url">Please enter URL</string>
     <string name="attachproject_error_no_email">Please enter eMail address</string>
     <string name="attachproject_error_no_pwd">Please enter a password</string>
     <string name="attachproject_error_no_name">Please enter user name</string>
@@ -82,6 +91,7 @@
     <string name="attachproject_error_email_bad_syntax">eMail refused</string>
     <string name="attachproject_error_bad_pwd">Password refused</string>
     <string name="attachproject_error_creation_disabled">Account creation is disabled on this project</string>
+    <string name="attachproject_error_invalid_url">Invalid URL</string>
     	<!-- working activity -->
     <string name="attachproject_working_back_button">Back</string>
     <string name="attachproject_working_finish_button">Finish</string>
@@ -94,6 +104,7 @@
     <string name="attachproject_working_verify">Verify account</string>
     <string name="attachproject_working_register">Register account</string>
     <string name="attachproject_working_login">Log in</string>
+    <string name="attachproject_working_acctmgr">Add account manager</string>
     
     <!-- main activity -->
     <string name="main_noproject_warning">Tab here to choose a project.</string>
