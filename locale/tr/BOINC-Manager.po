@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.8x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-18 11:32-0500\n"
-"PO-Revision-Date: 2012-11-03 13:52+0200\n"
+"PO-Revision-Date: 2013-08-14 16:23+0200\n"
 "Last-Translator: Aycan <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <bilgi@donanimhaber.com>\n"
 "Language: tr\n"
@@ -26,10 +26,9 @@ msgstr ""
 
 # 81%
 #: clientgui/AccountInfoPage.cpp:387
-#, c-format
-#, fuzzy, c-format
+#, c-format, c-format
 msgid "Identify your account at %s"
-msgstr "Hesap bilgilerinizi girin"
+msgstr "%s için hesap bilgilerinizi girin"
 
 #: clientgui/AccountInfoPage.cpp:393
 msgid ""
@@ -143,18 +142,26 @@ msgstr "Hesap yöneticisi kullan"
 #: clientgui/AccountInfoPage.cpp:587
 msgid "The minimum username length for this project is 1. Please enter a different username."
 msgstr ""
+"Bu proje için kullanıcı adı uzunluğu en az 1 karakter olmalı. Lütfen uygun "
+"bir kullanıcı adı girin."
 
 #: clientgui/AccountInfoPage.cpp:592
 msgid "The minimum username length for this account manager is 1. Please enter a different username."
 msgstr ""
+"Bu hesap yöneticisi için kullanıcı adı uzunluğu en az 1 karakter olmalı. "
+"Lütfen uygun bir kullanıcı adı girin."
 
 #: clientgui/AccountInfoPage.cpp:598
 msgid "The minimum email address length for this project is 1. Please enter a different email address."
 msgstr ""
+"Bu proje için e-posta adresi uzunluğu en az 1 karakter olmalı. Lütfen uygun "
+"bir e-posta adresi girin."
 
 #: clientgui/AccountInfoPage.cpp:603
 msgid "The minimum email address length for this account manager is 1. Please enter a different email address."
 msgstr ""
+"Bu hesap yöneticisi için e-posta adresi uzunluğu en az 1 karakter olmalı. "
+"Lütfen uygun bir e-posta adresi girin."
 
 #: clientgui/AccountInfoPage.cpp:616
 #, c-format
@@ -455,13 +462,13 @@ msgstr "Beklemedeki tüm ağ iletişimini hemen gerçekleştirir."
 
 # 94%
 #: clientgui/AdvancedFrame.cpp:576
-#, fuzzy
 msgid "Read config files"
-msgstr "Yapılandırma dosyasını oku"
+msgstr "Yapılandırma dosyalarını oku"
 
 #: clientgui/AdvancedFrame.cpp:577
 msgid "Read configuration info from cc_config.xml and any app_config.xml files"
 msgstr ""
+"Yapılandırma bilgisini cc_config.xml ve any app_config.xml dosyalarından oku"
 
 #: clientgui/AdvancedFrame.cpp:581
 msgid "Read local prefs file"
@@ -851,9 +858,8 @@ msgstr ""
 "(Hata kodu %d"
 
 #: clientgui/BOINCGUIApp.cpp:357
-#, fuzzy
 msgid " at "
-msgstr "at "
+msgstr " at "
 
 #: clientgui/BOINCGUIApp.cpp:360
 msgid ")"
@@ -1108,12 +1114,11 @@ msgstr "Telif hakkı:"
 
 # 98%
 #: clientgui/DlgAbout.cpp:192
-#, fuzzy
 msgid ""
 "(C) 2003-2013 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2011 Kaliforniya Üniversitesi, Berkeley.\n"
+"(C) 2003-2013 Kaliforniya Üniversitesi, Berkeley.\n"
 "Tüm hakları saklıdır."
 
 #: clientgui/DlgAbout.cpp:196
@@ -1773,9 +1778,8 @@ msgid "Project has no apps for "
 msgstr "Projenin bunun için uygulaması bulunmuyor: "
 
 #: clientgui/DlgItemProperties.cpp:172
-#, fuzzy
 msgid "Client configuration excludes "
-msgstr "İstemci yapılandırma ayrıcalığı"
+msgstr "İstemci yapılandırması bunu içermez: "
 
 #: clientgui/DlgItemProperties.cpp:176
 msgid " work fetch deferred for"
@@ -2133,12 +2137,11 @@ msgid "%s - Language Selection"
 msgstr "%s - Dil Seçimi"
 
 #: clientgui/DlgOptions.cpp:695
-#, c-format
-#, fuzzy, c-format
+#, c-format, c-format
 msgid "The %s's language has been changed.  In order for this change to take effect, you must restart the %s."
 msgstr ""
-"%s'ın varsayılan dili değişti.\n"
-"Değişikliğin etkili olması için %s yeniden başlatılmalı."
+"%s'ın varsayılan dili değişti.  Değişikliğin etkili olması için %s yeniden "
+"başlatılmalı."
 
 #: clientgui/DlgSelectComputer.cpp:90
 #, c-format
@@ -2466,9 +2469,8 @@ msgstr "Durakladı - "
 
 # 75%
 #: clientgui/MainDocument.cpp:2486
-#, fuzzy
 msgid "GPU suspended - "
-msgstr " (durakladı - "
+msgstr "GPU durakladı - "
 
 #: clientgui/MainDocument.cpp:2493
 msgid "Waiting for memory"
@@ -2537,15 +2539,15 @@ msgstr "İptal edildi: Son teslim zamanı nedeniyle başlamadı"
 
 #: clientgui/MainDocument.cpp:2556
 msgid "Aborted: disk limit exceeded"
-msgstr ""
+msgstr "İptal edildi: Disk limitine ulaşıldı"
 
 #: clientgui/MainDocument.cpp:2559
 msgid "Aborted: run time limit exceeded"
-msgstr ""
+msgstr "İptal edildi: Zaman limitine ulaşıldı"
 
 #: clientgui/MainDocument.cpp:2562
 msgid "Aborted: memory limit exceeded"
-msgstr ""
+msgstr "İptal edildi: Bellek limitine ulaşıldı"
 
 #: clientgui/MainDocument.cpp:2565
 msgid "Aborted"
@@ -2920,13 +2922,12 @@ msgstr "Çekirdek istemciyle bağlantı kurulamadı"
 
 #: clientgui/sg_DlgMessages.cpp:130
 msgid "One or more items failed to load from the Internet."
-msgstr ""
+msgstr "Bir ya da daha fazla öğe internetten yüklenirken başarısız olundu."
 
 # 88%
 #: clientgui/sg_DlgMessages.cpp:138
-#, fuzzy
 msgid "Retry now"
-msgstr "Şimdi dene"
+msgstr "Şimdi yeniden dene"
 
 #: clientgui/sg_DlgMessages.cpp:164
 msgid "Close"
@@ -2934,7 +2935,7 @@ msgstr "Kapat"
 
 #: clientgui/sg_DlgMessages.cpp:171
 msgid "Fetching notices; please wait..."
-msgstr ""
+msgstr "Bildirimler alınıyor; lütfen bekleyin..."
 
 #: clientgui/sg_DlgMessages.cpp:178
 msgid "There are no notices at this time."
@@ -3345,7 +3346,7 @@ msgstr "Uygulama grafiklerini bir pencerede gösterir."
 
 #: clientgui/sg_TaskCommandPopup.cpp:67
 msgid "Suspend this task."
-msgstr ""
+msgstr "Bu işi duraklat."
 
 #: clientgui/sg_TaskCommandPopup.cpp:72
 msgid "Abort"
@@ -3353,7 +3354,7 @@ msgstr "İptal"
 
 #: clientgui/sg_TaskCommandPopup.cpp:73
 msgid "Abandon this task. You will get no credit for it."
-msgstr ""
+msgstr "Bu işi iptal eder. Bu iş için kredi alamayacaksanız."
 
 #: clientgui/sg_TaskCommandPopup.cpp:79
 msgid "Show task details."
@@ -3935,7 +3936,7 @@ msgstr "Şimdi dene"
 
 #: clientgui/ViewTransfers.cpp:164
 msgid "Retry the file transfer now"
-msgstr ""
+msgstr "Dosya transferini şimdi yeniden dener"
 
 #: clientgui/ViewTransfers.cpp:170
 msgid "Abort Transfer"
@@ -3943,7 +3944,7 @@ msgstr "Aktarımı iptal et"
 
 #: clientgui/ViewTransfers.cpp:171
 msgid "Abort this file transfer.  You won't get credit for the task."
-msgstr ""
+msgstr "Bu dosya aktarımını iptal eder. Bu iş için kredi alamazsınız."
 
 #: clientgui/ViewTransfers.cpp:182
 msgid "File"
@@ -4120,9 +4121,8 @@ msgstr "Bu %d işi iptal etmek istediğinize emin miziniz?"
 
 # 75%
 #: clientgui/ViewWork.cpp:498
-#, fuzzy
 msgid "Aborting task..."
-msgstr "Aktarım iptal ediliyor..."
+msgstr "İş iptal ediliyor..."
 
 #: clientgui/ViewWork.cpp:760
 msgid "Show all tasks"
@@ -4138,7 +4138,7 @@ msgstr "Proje ya da hesap yöneticisi ekle"
 
 #: clientgui/WelcomePage.cpp:288
 msgid "Add project or use BOINC Account Manager"
-msgstr ""
+msgstr "Proje ekle ya da BOINC Hesap Yöneticisi kullan"
 
 #: clientgui/WelcomePage.cpp:297
 #, c-format

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-08-06 16:50-0800\n"
-"PO-Revision-Date: 2013-08-09 09:16+0200\n"
+"PO-Revision-Date: 2013-08-09 09:18+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -22,8 +22,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: mac_installer\n"
 
 #: mac_installer/Installer.cpp:132
-#, c-format
-#, fuzzy, c-format
+#, c-format, c-format
 msgid "Sorry, this version of %s requires system 10.4 or higher."
 msgstr ""
 "Entschuldigung, diese Version von %s benötigt die Systemversion 10.4 oder "
@@ -68,7 +67,6 @@ msgid "OK"
 msgstr "Bestätigen"
 
 #: mac_installer/uninstall.cpp:130
-#, fuzzy
 msgid "Permission error after relaunch"
 msgstr "Berechtigungsfehler nach Neustart"
 

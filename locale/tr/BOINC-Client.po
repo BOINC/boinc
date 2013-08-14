@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOICN Client Messages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-05 10:24-0700\n"
-"PO-Revision-Date: 2012-11-03 13:52+0200\n"
+"PO-Revision-Date: 2013-08-14 16:05+0200\n"
 "Last-Translator: Aycan <aycandemirel@hotmail.com>\n"
 "Language-Team: Turkish <weboglan@hotmail.com>\n"
 "Language: tr\n"
@@ -64,7 +64,7 @@ msgstr "BOINC'in yeni bir sürümü mevcut."
 
 #: current_version.cpp:94
 msgid "Download"
-msgstr ""
+msgstr "İndir"
 
 #: log_flags.cpp:259 log_flags.cpp:436
 msgid "Unexpected text in cc_config.xml"
@@ -121,39 +121,38 @@ msgstr "BOINC istemci yazılımınız çok eski.  Lütfen son sürümü kurun."
 
 #: ../sched/handle_request.cpp:1259
 msgid "This project doesn't support computers of type"
-msgstr "Bu proje bilgisayarınızın tipini desteklemiyor"
+msgstr "Bu proje bilgisayarınızın özelliklerini desteklemiyor"
 
 #: ../sched/sched_send.cpp:1092
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr ""
-"İşleri bilgisayarınızın GPU'sunu kullanarak hesaplatmak için, sürücüleri son "
-"sürüme yükseltin"
+"Bilgisayarınızın GPU'sunu kullanan projeleri hesaplatmak için ekran kartı "
+"sürücüsünü son sürüme yükseltin"
 
 #: ../sched/sched_send.cpp:1099
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr ""
-"Bu projenin tüm GPU uygulamalarını kullanabilmek için, sürücüleri son sürüme "
-"yükseltin"
+"Bu projenin tüm GPU uygulamalarını kullanabilmek için, ekran kartı "
+"sürücülerinizi son sürüme yükseltin"
 
 #: ../sched/sched_send.cpp:1118
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
 "the current version"
 msgstr ""
-"NVIDIA GPU'nuzu kullanabilmek için BOINC'in daha yeni bir sürümüne "
-"ihtiyacınız var; lütfen mevcut sürümü yükseltin"
+"NVIDIA GPU'nuzu kullanabilmek için BOINC'in yeni sürümü gerekli; lütfen "
+"mevcut sürümü yükseltin"
 
 # 94%
 #: ../sched/sched_send.cpp:1146
-#, c-format
-#, c-format, fuzzy
+#, c-format, c-format
 msgid "An %s GPU is required to run tasks for this project"
-msgstr "Bu projedeki işleri çalıştırabilmek için, bir ATI GPU gerekiyor"
+msgstr "Bu projedeki işleri çalıştırabilmek için, bir %s GPU gerekiyor"
 
 #: ../sched/sched_send.cpp:1262
 msgid "No tasks are available for the applications you have selected."
-msgstr "Seçtiğiniz uygulamalar için iş mevcut değil."
+msgstr "Seçtiğiniz uygulamalar için henüz mevcut bir iş yok."
 
 #: ../sched/sched_send.cpp:1288
 msgid "Your computer type is not supported by this project"
@@ -168,6 +167,8 @@ msgstr "Daha yeni bir BOINC sürümü gerekiyor; lütfen son sürümü kurun"
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
 msgstr ""
+"%s için işler mevcut, ancak, tercihleriniz bunları kabul etmek üzere "
+"ayarlanmamış"
 
 #: ../sched/sched_types.cpp:254
 msgid "Unknown app name in app_info.xml"
