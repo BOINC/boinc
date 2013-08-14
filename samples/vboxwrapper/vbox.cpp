@@ -828,10 +828,8 @@ int VBOX_VM::register_vm() {
     );
     command  = "modifyvm \"" + vm_name + "\" ";
     command += "--usb off ";
-    command += "--usbcardreader off ";
 
     retval = vbm_popen(command, output, "modifyusb", false, false);
-    if (retval) return retval;
 
     // Tweak the VM's COM Port Support
     //
@@ -845,7 +843,6 @@ int VBOX_VM::register_vm() {
     command += "--uart2 off ";
 
     retval = vbm_popen(command, output, "modifycom", false, false);
-    if (retval) return retval;
 
     // Tweak the VM's LPT Port Support
     //
@@ -859,7 +856,6 @@ int VBOX_VM::register_vm() {
     command += "--lpt2 off ";
 
     retval = vbm_popen(command, output, "modifylpt", false, false);
-    if (retval) return retval;
 
     // Tweak the VM's Audio Support
     //
@@ -872,7 +868,6 @@ int VBOX_VM::register_vm() {
     command += "--audio none ";
 
     retval = vbm_popen(command, output, "modifyaudio", false, false);
-    if (retval) return retval;
 
     // Tweak the VM's Clipboard Support
     //
@@ -885,7 +880,6 @@ int VBOX_VM::register_vm() {
     command += "--clipboard disabled ";
 
     retval = vbm_popen(command, output, "modifyclipboard", false, false);
-    if (retval) return retval;
 
     // Tweak the VM's Drag & Drop Support
     //
@@ -898,7 +892,6 @@ int VBOX_VM::register_vm() {
     command += "--draganddrop disabled ";
 
     retval = vbm_popen(command, output, "modifydragdrop", false, false);
-    if (retval) return retval;
 
     // Only perform hardware acceleration check on 32-bit VM types, 64-bit VM types require it.
     //
