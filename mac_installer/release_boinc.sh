@@ -33,6 +33,7 @@
 ## updated 7/31/12 by Charlie Fenton for Liberation font in boincscr
 ## updated 6/11/13 by Charlie Fenton for BOINC.mpkg, "BOINC + VirtualBox.mpkg"
 ## updated 6/18/13 by Charlie Fenton for localizable uninstaller
+## updated 8/15/13 by Charlie Fenton to fix bug in localizable uninstaller
 ##
 ## NOTE: This script requires Mac OS 10.6 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac 
@@ -122,6 +123,7 @@ fi
 sudo rm -dfR ../BOINC_Installer/Installer\ Resources/
 sudo rm -dfR ../BOINC_Installer/Installer\ Scripts/
 sudo rm -dfR ../BOINC_Installer/Pkg_Root
+sudo rm -dfR ../BOINC_Installer/locale
 
 mkdir -p ../BOINC_Installer/Installer\ Resources/
 mkdir -p ../BOINC_Installer/Installer\ Scripts/
