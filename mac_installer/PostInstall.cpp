@@ -1147,10 +1147,11 @@ static void LoadPreferredLanguages(){
     int i;
     char *p;
     char language[32];
+    Boolean success;
 
     BOINCTranslationInit();
 
-    // Install.app wrote a list of our preferred languages to a temp file
+    // GetPreferredLanguages() wrote a list of our preferred languages to a temp file
     f = fopen("/tmp/BOINC_preferred_languages", "r");
     if (!f) return;
     
@@ -1161,7 +1162,16 @@ static void LoadPreferredLanguages(){
         p = strchr(language, '\n');
         if (p) *p = '\0';           // Replace newline with null terminator 
         if (language[0]) {
-            if (!BOINCTranslationAddCatalog(Catalogs_Dir, language, Catalog_Name)) {
+            success = BOINCTranslationAddCatalog(Catalogs_Dir, language, Catalog_Name);
+            if (!success) {
+            // TODO: Find a more general solution
+            if (!strcasecmp(language, "it")) strlcpy(language, "it_IT", sizeof(language));
+            else if (!strcasecmp(language, "pt")) strlcpy(language, "pt_PT", sizeof(language));
+            else if (!strcasecmp(language, "sv")) strlcpy(language, "sv_SE", sizeof(language));
+            else if (!strcasecmp(language, "zh")) strlcpy(language, "zh_TW", sizeof(language));
+            success = BOINCTranslationAddCatalog(Catalogs_Dir, language, Catalog_Name);
+            }
+            if (!success) {
                 printf("could not load catalog for langage %s\n", language);
             }
         }
