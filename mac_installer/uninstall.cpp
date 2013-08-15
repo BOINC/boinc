@@ -1387,9 +1387,11 @@ static void GetPreferredLanguages() {
     struct stat sbuf;
     CFMutableArrayRef supportedLanguages;
     CFStringRef aLanguage;
+    char shortLanguage[32];
     CFArrayRef preferredLanguages;
     int i, j, k;
     char * language;
+    char *uscore;
     FILE *f;
 
     // Create an array of all our supported languages
@@ -1419,6 +1421,17 @@ static void GetPreferredLanguages() {
         aLanguage = CFStringCreateWithCString(NULL, dp->d_name, kCFStringEncodingMacRoman);
         CFArrayAppendValue(supportedLanguages, aLanguage);
         aLanguage = NULL;
+        
+        // If it has a region code ("it_IT") also try without region code ("it")
+        // TODO: Find a more general solution
+        strlcpy(shortLanguage, dp->d_name, sizeof(shortLanguage));
+        uscore = strchr(shortLanguage, '_');
+        if (uscore) {
+            *uscore = '\0';
+            aLanguage = CFStringCreateWithCString(NULL, shortLanguage, kCFStringEncodingMacRoman);
+            CFArrayAppendValue(supportedLanguages, aLanguage);
+            aLanguage = NULL;
+        }
     }
     
     closedir(dirp);
@@ -1486,6 +1499,7 @@ static void LoadPreferredLanguages(){
     int i;
     char *p;
     char language[32];
+    Boolean success;
 
     BOINCTranslationInit();
 
@@ -1500,7 +1514,16 @@ static void LoadPreferredLanguages(){
         p = strchr(language, '\n');
         if (p) *p = '\0';           // Replace newline with null terminator 
         if (language[0]) {
-            if (!BOINCTranslationAddCatalog(gCatalogsDir, language, gCatalog_Name)) {
+            success = BOINCTranslationAddCatalog(gCatalogsDir, language, gCatalog_Name);
+            if (!success) {
+            // TODO: Find a more general solution
+            if (!strcasecmp(language, "it")) strlcpy(language, "it_IT", sizeof(language));
+            else if (!strcasecmp(language, "pt")) strlcpy(language, "pt_PT", sizeof(language));
+            else if (!strcasecmp(language, "sv")) strlcpy(language, "sv_SE", sizeof(language));
+            else if (!strcasecmp(language, "zh")) strlcpy(language, "zh_TW", sizeof(language));
+            success = BOINCTranslationAddCatalog(gCatalogsDir, language, gCatalog_Name);
+            }
+            if (!success) {
                 printf("could not load catalog for langage %s\n", language);
             }
         }

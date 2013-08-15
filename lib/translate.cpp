@@ -278,10 +278,6 @@ bool BOINCTranslationAddCatalog(const char * catalogsDir,
     }
 
     if (!LoadCatalog(catalogsDir, languageCode, catalogName)) {
-        fprintf(stderr,
-                "could not load catalog %s for langage %s\n",
-                catalogName, languageCode
-                );
         return false;
     }
     
