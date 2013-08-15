@@ -83,6 +83,44 @@
 #   exception to the GPL to apply to your modified version as well.
 
 #serial 20
+#
+# AS_EXECUTABLE_P, AC_CHECK_PROGS, AC_CASE and AS_IF for 5.89
+# ---------------
+# Check whether a file is executable.
+m4_ifndef([AS_EXECUTABLE_P],
+[m4_defun([AS_EXECUTABLE_P],[
+test -f $1
+])])
+
+# AS_IF
+#----------------
+m4_ifndef([AS_IF],
+[m4_defun([AS_IF],[
+if $1 >/dev/null 2>&1; then
+  $2 
+  test
+else
+  $3 
+  test
+fi
+])]
+)
+
+# AC_CHECK_PROGS
+m4_ifndef([AC_CHECK_PROGS],
+AU_ALIAS([AC_CHECK_PROGS],[AC_PATH_PROGS])
+)
+
+# AS_CASE
+m4_ifndef([AS_CASE],
+[m4_defun([AS_CASE],[
+case $1 in
+   $2) $3 
+   ;;
+   *) $4 
+   ;;
+esac
+])])
 
 AU_ALIAS([ACX_PTHREAD], [AX_PTHREAD])
 AC_DEFUN([AX_PTHREAD], [
