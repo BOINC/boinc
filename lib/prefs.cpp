@@ -209,8 +209,8 @@ void WEEK_PREFS::unset(int day) {
 // so that the client can do the RPC and get the global prefs from the server
 //
 void GLOBAL_PREFS::defaults() {
-    battery_charge_min_pct = 95;
-    battery_max_temperature = 45;
+    battery_charge_min_pct = 90;
+    battery_max_temperature = 40;
     confirm_before_connecting = true;
     cpu_scheduling_period_minutes = 60;
     cpu_times.clear();
@@ -218,7 +218,7 @@ void GLOBAL_PREFS::defaults() {
     daily_xfer_limit_mb = 0;
     daily_xfer_period_days = 0;
     disk_interval = 60;
-    disk_max_used_gb = 1000;
+    disk_max_used_gb = 0;
     disk_max_used_pct = 90;
     disk_min_free_gb = 0.1;
     dont_verify_images = false;
@@ -228,15 +228,31 @@ void GLOBAL_PREFS::defaults() {
     max_bytes_sec_down = 0;
     max_bytes_sec_up = 0;
     max_ncpus = 0;
+#ifdef ANDROID
+    max_ncpus_pct = 50;
+#else
     max_ncpus_pct = 0;
+#endif
     net_times.clear();
+#ifdef ANDROID
+    network_wifi_only = true;
+#else
     network_wifi_only = false;
+#endif
     ram_max_used_busy_frac = 0.5;
+#ifdef ANDROID
+    ram_max_used_idle_frac = 0.5;
+#else
     ram_max_used_idle_frac = 0.9;
+#endif
     run_gpu_if_user_active = false;
     run_if_user_active = true;
     run_on_batteries = true;
+#ifdef ANDROID
+    suspend_cpu_usage = 50;
+#else
     suspend_cpu_usage = 25;
+#endif
     suspend_if_no_recent_input = 0;
     vm_max_used_frac = 0.75;
     work_buf_additional_days = 0.5;
