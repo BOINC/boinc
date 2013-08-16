@@ -67,9 +67,18 @@ table_header(
 while ($res = mysql_fetch_object($result)) {
     $exit_status_condition = "exit_status=$res->exit_status";
     $av = BoincAppVersion::lookup_id($res->app_version_id);
-    $p = BoincPlatform::lookup_id($av->platformid);
+    if ($av) {
+        $p = BoincPlatform::lookup_id($av->platformid);
+        if ($p) {
+            $x = sprintf("%.2f", $av->version_num/100)." $p->name [$av->plan_class]";
+        } else {
+            $x = sprintf("%.2f", $av->version_num/100)." MISSING PLATFORM $av->platformid [$av->plan_class]";
+        }
+    } else {
+        $x = "App version $res->app_version_id";
+    }
     table_row(
-        sprintf("%.2f", $av->version_num/100)." $p->name [$av->plan_class]",
+        $x,
         link_results(
             exit_status_string($res), $urlquery, "$exit_status_condition", ""
         ),
