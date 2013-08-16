@@ -619,14 +619,7 @@ function result_error_mask_str($x){
     }
 }
 
-function exit_status_string($result) {
-    $x = $result->exit_status;
-    if ($x == 0) {
-        $y = parse_element($result->stderr_out, "<exit_status>");
-        if ($y) {
-            $x = (int)$y;
-        }
-    }
+function exit_status_string($x) {
     return sprintf("%d (0x%x)", $x, $x). " ".result_error_mask_str($x);
 }
 
@@ -640,7 +633,7 @@ function show_result($result, $show_outfile_links=false) {
     row2(tra("Server state"), result_server_state_string($result));
     row2(tra("Outcome"), result_outcome_string($result));
     row2(tra("Client state"), result_client_state_string($result));
-    row2(tra("Exit status"), exit_status_string($result));
+    row2(tra("Exit status"), exit_status_string($result->exit_status));
     row2(tra("Computer ID"), host_link($result->hostid));
     row2(tra("Report deadline"), time_str($result->report_deadline));
     row2(tra("Run time"), number_format($result->elapsed_time, 2));

@@ -1000,7 +1000,7 @@ function show_result_ops($result) {
     row("Server state", result_server_state_string($result)." [$result->server_state]");
     row("Outcome", result_outcome_string($result)." [$result->outcome]");
     row("Client state", result_client_state_string($result)." [$result->client_state]");
-    row("Exit status", exit_status_string($result));
+    row("Exit status", exit_status_string($result->exit_status));
     row("Host ID", "<a href=\"db_action.php?table=host&id=$result->hostid\">" . host_name_by_id($result->hostid) . "</a> [$result->hostid]");
     row("User ID", "<a href=\"db_action.php?table=user&id=$result->userid\">" . user_name_by_id($result->userid) . "</a> [$result->userid]");
     row("CPU time", $result->cpu_time);
@@ -1102,7 +1102,7 @@ function show_result_short($result) {
         <td>$cs2</td>
         <td bgcolor=$validate_color>$vs</td>
         <td>$delete_state</td>
-        <td>", exit_status_string($result), "</td>
+        <td>", exit_status_string($result->exit_status), "</td>
         <td>$host_user</td>
         <td>$version</td>
         <td>$received</td>

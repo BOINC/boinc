@@ -281,7 +281,7 @@ function cancel_wus_if_unsent($id1, $id2) {
     return 0;
 }
 
-function app_version_name($avid) {
+function app_version_desc($avid) {
     switch ($avid) {
     case ANON_PLATFORM_UNKNOWN:
         return "Anonymous platform: unknown type";

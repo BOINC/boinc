@@ -69,7 +69,10 @@ while ($res = mysql_fetch_object($result)) {
     table_row(
         app_version_desc($res->app_version_id),
         link_results(
-            exit_status_string($res), $urlquery, "$exit_status_condition", ""
+            exit_status_string($res->exit_status),
+            $urlquery,
+            "$exit_status_condition",
+            ""
         ),
         $res->error_count
     );
