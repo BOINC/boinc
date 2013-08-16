@@ -281,10 +281,12 @@ static void GetPreferredLanguages(char * pkgPath) {
     struct stat sbuf;
     CFMutableArrayRef supportedLanguages;
     CFStringRef aLanguage;
+    char shortLanguage[32];
     CFArrayRef preferredLanguages;
     int i, j, k;
     int retval;
     char * language;
+    char *uscore;
     FILE *f;
 
     getcwd(savedWD, sizeof(savedWD));
@@ -300,7 +302,7 @@ static void GetPreferredLanguages(char * pkgPath) {
         system("rm -dfR /tmp/BOINC_PAX");
         return;
     }
-    
+
     // Create an array of all our supported languages
     supportedLanguages = CFArrayCreateMutable(NULL, 100, NULL);
     
@@ -330,6 +332,17 @@ static void GetPreferredLanguages(char * pkgPath) {
         CFArrayAppendValue(supportedLanguages, aLanguage);
         CFRelease(aLanguage);
         aLanguage = NULL;
+        
+        // If it has a region code ("it_IT") also try without region code ("it")
+        // TODO: Find a more general solution
+        strlcpy(shortLanguage, dp->d_name, sizeof(shortLanguage));
+        uscore = strchr(shortLanguage, '_');
+        if (uscore) {
+            *uscore = '\0';
+            aLanguage = CFStringCreateWithCString(NULL, shortLanguage, kCFStringEncodingMacRoman);
+            CFArrayAppendValue(supportedLanguages, aLanguage);
+            aLanguage = NULL;
+        }
     }
     
     closedir(dirp);
@@ -357,12 +370,11 @@ static void GetPreferredLanguages(char * pkgPath) {
                 fprintf(f, "%s\n", language);
             }
             
-            // Remove this language from our list of supported languages so
-            // we can get the next preferred language in order of priority
-            for (k=0; k<CFArrayGetCount(supportedLanguages); ++k) {
+            // Remove all copies of this language from our list of supported languages 
+            // so we can get the next preferred language in order of priority
+            for (k=CFArrayGetCount(supportedLanguages)-1; k>=0; --k) {
                 if (CFStringCompare(aLanguage, (CFStringRef)CFArrayGetValueAtIndex(supportedLanguages, k), 0) == kCFCompareEqualTo) {
                     CFArrayRemoveValueAtIndex(supportedLanguages, k);
-                    break;
                 }
             }
 

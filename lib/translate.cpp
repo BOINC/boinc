@@ -38,6 +38,7 @@
 #include <cstdlib>
 #include <sys/param.h>  // for MAXPATHLEN
 #include <sys/stat.h>   // For stat()
+#include <filesys.h>
 
 #include "translate.h"
 
@@ -65,13 +66,14 @@ struct MsgCatalogHeader {
 
 
 struct MsgCatalogData {
-    uint8_t         *pData;         // Pointer to catalog data
-    uint32_t        nSize;          // Amount of memory pointed to by pData.
-    uint32_t        NumStrings;     // number of strings in this domain
-    bool            bSwapped;       // wrong endianness?
-    MsgTableEntry   *pOrigTable;    // pointer to original strings
-    MsgTableEntry   *pTransTable;   // pointer to translated strings
-    bool            bIsEnglish;     // true if language code == "en"
+    uint8_t         *pData;             // Pointer to catalog data
+    uint32_t        nSize;              // Amount of memory pointed to by pData.
+    uint32_t        NumStrings;         // number of strings in this domain
+    bool            bSwapped;           // wrong endianness?
+    MsgTableEntry   *pOrigTable;        // pointer to original strings
+    MsgTableEntry   *pTransTable;       // pointer to translated strings
+    char            languageCode[32];   // language code (e.g., "it_IT")
+    char            catalogName[128];   // catalog name (e.g., "BOINC-Setup")
 };
 
 static struct MsgCatalogData theCatalogData[MAXCATALOGS];
@@ -100,10 +102,17 @@ static uint32_t Swap(uint32_t ui, bool bSwapped) {
 //
 // Returns true if successful.
 //
+// NOTE: This simplified logic requires that if you 
+// wish to search multiple catalogs for each language
+// code, you must load all catalogs for one language
+// code before loading anything for the next language
+// code.
+//
 static bool LoadCatalog(const char * catalogsDir,
                 const char *languageCode,
                 const char *catalogName
                 ) {
+    unsigned int j;
     char searchPath[MAXPATHLEN];
     struct stat sbuf;
     char temp[32];
@@ -117,8 +126,22 @@ static bool LoadCatalog(const char * catalogsDir,
     MsgTableEntry *pTransTable;
     MsgCatalogData *pCatalog;
 
+    // Avoid duplicating an already loaded catalog
+    for (j=0; j<numLoadedCatalogs; ++j) {
+        pCatalog = &(theCatalogData[j]);
+        if (!strcmp(pCatalog->languageCode, languageCode)) {
+            if (!strcmp(pCatalog->catalogName, catalogName)) {
+                return true;    // Already loaded
+            }
+        }
+    }
+    
+    // Since the original strings are English, no 
+    // translation is needed for language en.
     if (!strcmp("en", languageCode)) {
-        theCatalogData[numLoadedCatalogs++].bIsEnglish = true;
+        pCatalog = &(theCatalogData[numLoadedCatalogs++]);
+        strlcpy(pCatalog->languageCode, languageCode, sizeof(pCatalog->languageCode));
+        strlcpy(pCatalog->catalogName, catalogName, sizeof(pCatalog->catalogName));
         return true;
     }
   
@@ -220,7 +243,8 @@ static bool LoadCatalog(const char * catalogsDir,
     pCatalog->bSwapped = bSwapped;
     pCatalog->pOrigTable = pOrigTable;
     pCatalog->pTransTable = pTransTable;
-    pCatalog->bIsEnglish = false;
+    strlcpy(pCatalog->languageCode, languageCode, sizeof(pCatalog->languageCode));
+    strlcpy(pCatalog->catalogName, catalogName, sizeof(pCatalog->catalogName));
     
     return true;
 }
@@ -241,7 +265,7 @@ uint8_t * _(char *src) {
         
         // Since the original strings are English, no 
         // translation is needed for language en.
-        if (pCatalog->bIsEnglish) {
+        if (!strcmp("en", pCatalog->languageCode)) {
             return (uint8_t *)src;
         }
         
@@ -272,20 +296,37 @@ bool BOINCTranslationAddCatalog(const char * catalogsDir,
                                 const char *languageCode,
                                 const char * catalogName
                                 ) {
+    bool success = false;
+    DIRREF dirp;
+    char filename[64];
+    int retval;
+    
     if (numLoadedCatalogs >= (MAXCATALOGS)) {
         fprintf(stderr, "Trying to load too many catalogs\n");
         return false;
     }
 
-    if (!LoadCatalog(catalogsDir, languageCode, catalogName)) {
-        fprintf(stderr,
-                "could not load catalog %s for langage %s\n",
-                catalogName, languageCode
-                );
-        return false;
+    // Add a catalog for this exact language and region code
+    success = LoadCatalog(catalogsDir, languageCode, catalogName);
+    
+    // Add catalogs for the same language code but different region codes
+    dirp = dir_open(catalogsDir);
+    if (dirp) {
+        while (true) {
+            retval = dir_scan(filename, dirp, sizeof(filename));
+            if (retval) break;
+            if (!strcmp(languageCode, filename)) continue;  // Already added above
+            if (!strncmp(languageCode, filename, 2)) {  // First 2 characters match
+                if (LoadCatalog(catalogsDir, filename, catalogName)) {
+                    success = true;
+                }
+            }
+        }
+        
+        dir_close(dirp);
     }
     
-    return true;
+    return success;
 }
 
 
@@ -303,7 +344,9 @@ void BOINCTranslationInit() {
         pCatalog->bSwapped = false;
         pCatalog->pOrigTable = NULL;
         pCatalog->pTransTable = NULL;
-        pCatalog->bIsEnglish = false;
+        pCatalog->languageCode[0] = '\0';
+        pCatalog->catalogName[0] = '\0';
+        
     }
 }
 
@@ -321,7 +364,8 @@ void BOINCTranslationCleanup() {
         pCatalog->bSwapped = false;
         pCatalog->pOrigTable = NULL;
         pCatalog->pTransTable = NULL;
-        pCatalog->bIsEnglish = false;
+        pCatalog->languageCode[0] = '\0';
+        pCatalog->catalogName[0] = '\0';
     }
 
     numLoadedCatalogs = 0;

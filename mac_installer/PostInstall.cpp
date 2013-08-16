@@ -1150,7 +1150,7 @@ static void LoadPreferredLanguages(){
 
     BOINCTranslationInit();
 
-    // Install.app wrote a list of our preferred languages to a temp file
+    // GetPreferredLanguages() wrote a list of our preferred languages to a temp file
     f = fopen("/tmp/BOINC_preferred_languages", "r");
     if (!f) return;
     
