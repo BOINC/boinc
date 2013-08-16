@@ -281,6 +281,35 @@ function cancel_wus_if_unsent($id1, $id2) {
     return 0;
 }
 
+function app_version_name($avid) {
+    switch ($avid) {
+    case ANON_PLATFORM_UNKNOWN:
+        return "Anonymous platform: unknown type";
+    case ANON_PLATFORM_CPU:
+        return "Anonymous platform: CPU";
+    case ANON_PLATFORM_NVIDIA:
+        return "Anonymous platform: NVIDIA GPU";
+    case ANON_PLATFORM_ATI:
+        return "Anonymous platform: AMD GPU";
+    case ANON_PLATFORM_INTEL:
+        return "Anonymous platform: Intel GPU";
+    }
+    if ($avid <= 0) {
+        return "unknown: $avid";
+    }
+    $av = BoincAppVersion::lookup_id($avid);
+    if ($av) {
+        $p = BoincPlatform::lookup_id($av->platformid);
+        if ($p) {
+            return sprintf("%.2f", $av->version_num/100)." $p->name [$av->plan_class]";
+        } else {
+            return sprintf("%.2f", $av->version_num/100)." MISSING PLATFORM $av->platformid [$av->plan_class]";
+        }
+    } else {
+        return "App version missing ($avid)";
+    }
+}
+
 if (isset($cli_only)) {
     if (array_key_exists("SERVER_PORT", $_SERVER)) {
         die("This script is intended to be run from the command line,
