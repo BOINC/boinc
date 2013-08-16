@@ -44,7 +44,7 @@ function boincuser_login_validate($form, &$form_state) {
  */
 function boincuser_login_authenticate($form_values) {
   global $boincuser_authenticated;
-  $email_addr = $form_values['email'];       
+  $email_addr = strtolower($form_values['email']);
   $passwd = $form_values['pass'];
   $passwd_hash = md5($passwd.$email_addr);
   
