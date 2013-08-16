@@ -368,6 +368,12 @@
 		DDB873F40C850BC800E0DE1F /* gutil_text.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD64DF0409DCC5E000668B3A /* gutil_text.cpp */; };
 		DDB874470C850D3000E0DE1F /* graphics2_unix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB874450C850D3000E0DE1F /* graphics2_unix.cpp */; };
 		DDB874480C850D3000E0DE1F /* graphics2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB874460C850D3000E0DE1F /* graphics2.cpp */; };
+		DDB9EA9717BE2C0D00651B07 /* filesys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD475031AEFF8018E201A /* filesys.cpp */; };
+		DDB9EA9817BE2C1400651B07 /* filesys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD475031AEFF8018E201A /* filesys.cpp */; };
+		DDB9EA9917BE2C1E00651B07 /* filesys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD475031AEFF8018E201A /* filesys.cpp */; };
+		DDB9EA9A17BE2C6B00651B07 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD479031AF001018E201A /* util.cpp */; };
+		DDB9EA9B17BE2C6F00651B07 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD479031AF001018E201A /* util.cpp */; };
+		DDB9EA9C17BE2C7100651B07 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD479031AF001018E201A /* util.cpp */; };
 		DDBB7E7611D2BCD400598DC1 /* NoticeListCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDBB7E7511D2BCD400598DC1 /* NoticeListCtrl.cpp */; };
 		DDBC6CA50D5D458700564C49 /* boinc_ss_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = DDBC6CA40D5D458700564C49 /* boinc_ss_logo.png */; };
 		DDBE74390C03B1C600453BB8 /* cs_platforms.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDBE74380C03B1C600453BB8 /* cs_platforms.cpp */; };
@@ -2846,6 +2852,8 @@
 				DD728D45175DD3B900A1CE23 /* url.cpp in Sources */,
 				DD728D47175DD41B00A1CE23 /* str_util.cpp in Sources */,
 				DDF93511176B0D0C00A2793C /* translate.cpp in Sources */,
+				DDB9EA9817BE2C1400651B07 /* filesys.cpp in Sources */,
+				DDB9EA9A17BE2C6B00651B07 /* util.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2857,6 +2865,8 @@
 				DD1AFEAD0A512D8700EE5B82 /* check_security.cpp in Sources */,
 				DD1AFEE80A51301C00EE5B82 /* Installer.cpp in Sources */,
 				DD5FE1B517828887003339DF /* translate.cpp in Sources */,
+				DDB9EA9917BE2C1E00651B07 /* filesys.cpp in Sources */,
+				DDB9EA9B17BE2C6F00651B07 /* util.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3043,6 +3053,8 @@
 				DD2FE5C9142DE75A00A1E6F3 /* LoginItemAPI.c in Sources */,
 				DD46885A0C1661970089F500 /* uninstall.cpp in Sources */,
 				DDE813221770479C0068A770 /* translate.cpp in Sources */,
+				DDB9EA9717BE2C0D00651B07 /* filesys.cpp in Sources */,
+				DDB9EA9C17BE2C7100651B07 /* util.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

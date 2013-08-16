@@ -1459,12 +1459,11 @@ static void GetPreferredLanguages() {
                 fprintf(f, "%s\n", language);
             }
             
-            // Remove this language from our list of supported languages so
-            // we can get the next preferred language in order of priority
-            for (k=0; k<CFArrayGetCount(supportedLanguages); ++k) {
+            // Remove all copies of this language from our list of supported languages 
+            // so we can get the next preferred language in order of priority
+            for (k=CFArrayGetCount(supportedLanguages)-1; k>=0; --k) {
                 if (CFStringCompare(aLanguage, (CFStringRef)CFArrayGetValueAtIndex(supportedLanguages, k), 0) == kCFCompareEqualTo) {
                     CFArrayRemoveValueAtIndex(supportedLanguages, k);
-                    break;
                 }
             }
 
@@ -1499,7 +1498,6 @@ static void LoadPreferredLanguages(){
     int i;
     char *p;
     char language[32];
-    Boolean success;
 
     BOINCTranslationInit();
 
@@ -1514,16 +1512,7 @@ static void LoadPreferredLanguages(){
         p = strchr(language, '\n');
         if (p) *p = '\0';           // Replace newline with null terminator 
         if (language[0]) {
-            success = BOINCTranslationAddCatalog(gCatalogsDir, language, gCatalog_Name);
-            if (!success) {
-            // TODO: Find a more general solution
-            if (!strcasecmp(language, "it")) strlcpy(language, "it_IT", sizeof(language));
-            else if (!strcasecmp(language, "pt")) strlcpy(language, "pt_PT", sizeof(language));
-            else if (!strcasecmp(language, "sv")) strlcpy(language, "sv_SE", sizeof(language));
-            else if (!strcasecmp(language, "zh")) strlcpy(language, "zh_TW", sizeof(language));
-            success = BOINCTranslationAddCatalog(gCatalogsDir, language, gCatalog_Name);
-            }
-            if (!success) {
+            if (!BOINCTranslationAddCatalog(gCatalogsDir, language, gCatalog_Name)) {
                 printf("could not load catalog for langage %s\n", language);
             }
         }
