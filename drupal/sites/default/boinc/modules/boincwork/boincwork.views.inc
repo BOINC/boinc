@@ -724,9 +724,23 @@ function boincwork_views_data() {
   
   // Descriptions of result fields (alphabetized)
   
+  $data['result']['appid'] = array(
+    'title' => t('Application ID'),
+    'help' => t('The ID number of the application.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
   $data['result']['app_version_id'] = array(
     'title' => t('Application version'),
-    'help' => t('The ID of the application.'),
+    'help' => t('The version number of the application.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
       'click sortable' => TRUE
