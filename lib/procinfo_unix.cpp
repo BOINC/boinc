@@ -171,7 +171,6 @@ int procinfo_setup(PROC_MAP& pm) {
     dirent *piddir;
     FILE* fd;
     PROC_STAT ps;
-    PROCINFO p;
     char pidpath[MAXPATHLEN];
     char buf[1024];
     int pid = getpid();
@@ -189,68 +188,67 @@ int procinfo_setup(PROC_MAP& pm) {
         psinfo_t psinfo;
         sprintf(pidpath, "/proc/%s/psinfo", piddir->d_name);
         fd = fopen(pidpath, "r");
-        if (fd) {
-            p.clear();
-            if (fread(&psinfo, sizeof(psinfo_t), 1, fd) == 1) {
-                p.id = psinfo.pr_pid;
-                p.parentid = psinfo.pr_ppid;
-                p.swap_size = psinfo.pr_size*1024.;
-                p.working_set_size = psinfo.pr_rssize * 1024.;
-                strlcpy(p.command, psinfo.pr_fname, sizeof(p.command));
-            }
-            fclose(fd);
-            sprintf(pidpath, "/proc/%s/usage", piddir->d_name);
-            prusage_t prusage;
-            fd = fopen(pidpath, "r");
-            if (fd) {
-                if (fread(&prusage, sizeof(prusage_t), 1, fd) == 1) {
-                    p.user_time = (float)prusage.pr_utime.tv_sec +
-                        ((float)prusage.pr_utime.tv_nsec)/1e+9;
-                    p.kernel_time = (float)prusage.pr_stime.tv_sec +
-                        ((float)prusage.pr_utime.tv_nsec)/1e+9;
-                    // page faults: I/O + non I/O
-                    p.page_fault_count = prusage.pr_majf + prusage.pr_minf;
-                }
-                fclose(fd);
-                p.is_boinc_app = (p.id == pid || strcasestr(p.command, "boinc"));
-                pm.insert(std::pair(p.id, p));
-            }
+        if (!fd) continue;
+        PROCINFO p;
+        p.clear();
+        if (fread(&psinfo, sizeof(psinfo_t), 1, fd) == 1) {
+            p.id = psinfo.pr_pid;
+            p.parentid = psinfo.pr_ppid;
+            p.swap_size = psinfo.pr_size*1024.;
+            p.working_set_size = psinfo.pr_rssize * 1024.;
+            strlcpy(p.command, psinfo.pr_fname, sizeof(p.command));
         }
+        fclose(fd);
+        sprintf(pidpath, "/proc/%s/usage", piddir->d_name);
+        prusage_t prusage;
+        fd = fopen(pidpath, "r");
+        if (!fd) continue;
+        if (fread(&prusage, sizeof(prusage_t), 1, fd) == 1) {
+            p.user_time = (float)prusage.pr_utime.tv_sec +
+                ((float)prusage.pr_utime.tv_nsec)/1e+9;
+            p.kernel_time = (float)prusage.pr_stime.tv_sec +
+                ((float)prusage.pr_utime.tv_nsec)/1e+9;
+            // page faults: I/O + non I/O
+            p.page_fault_count = prusage.pr_majf + prusage.pr_minf;
+        }
+        fclose(fd);
+        p.is_boinc_app = (p.id == pid || strcasestr(p.command, "boinc"));
+        pm.insert(std::pair(p.id, p));
 #else  // linux
         sprintf(pidpath, "/proc/%s/stat", piddir->d_name);
         fd = fopen(pidpath, "r");
-        if (fd) {
-            if (fgets(buf, sizeof(buf), fd) == NULL) {
-                retval = ERR_NULL;
-            } else {
-                retval = ps.parse(buf);
-            }
-            fclose(fd);
-
-            if (retval) {
-                final_retval = retval;
-            } else {
-                p.clear();
-                p.id = ps.pid;
-                p.parentid = ps.ppid;
-                p.swap_size = ps.vsize;
-                // rss = pages, need bytes
-                // assumes page size = 4k
-                p.working_set_size = ps.rss * (float)getpagesize();
-                // page faults: I/O + non I/O
-                p.page_fault_count = ps.majflt + ps.minflt;
-                // times are in jiffies, need seconds
-                // assumes 100 jiffies per second
-                p.user_time = ps.utime / 100.;
-                p.kernel_time = ps.stime / 100.;
-                strlcpy(p.command, ps.comm, sizeof(p.command));
-                p.is_boinc_app = (p.id == pid || strcasestr(p.command, "boinc"));
-                p.is_low_priority = (ps.priority == 39);
-                    // Linux seems to add 20 here,
-                    // but this isn't documented anywhere
-                pm.insert(std::pair<int, PROCINFO>(p.id, p));
-            }
+        if (!fd) continue;
+        if (fgets(buf, sizeof(buf), fd) == NULL) {
+            retval = ERR_NULL;
+        } else {
+            retval = ps.parse(buf);
         }
+        fclose(fd);
+
+        if (retval) {
+            final_retval = retval;
+            continue;
+        }
+        PROCINFO p;
+        p.clear();
+        p.id = ps.pid;
+        p.parentid = ps.ppid;
+        p.swap_size = ps.vsize;
+        // rss = pages, need bytes
+        // assumes page size = 4k
+        p.working_set_size = ps.rss * (float)getpagesize();
+        // page faults: I/O + non I/O
+        p.page_fault_count = ps.majflt + ps.minflt;
+        // times are in jiffies, need seconds
+        // assumes 100 jiffies per second
+        p.user_time = ps.utime / 100.;
+        p.kernel_time = ps.stime / 100.;
+        strlcpy(p.command, ps.comm, sizeof(p.command));
+        p.is_boinc_app = (p.id == pid || strcasestr(p.command, "boinc"));
+        p.is_low_priority = (ps.priority == 39);
+            // Linux seems to add 20 here,
+            // but this isn't documented anywhere
+        pm.insert(std::pair<int, PROCINFO>(p.id, p));
 #endif
     }
     closedir(dir);
