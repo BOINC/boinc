@@ -26,10 +26,12 @@
 // (Note: wxstd.mo files are encoded ISO 8859-1 not UTF-8.)
 //
 // We recommended that you first call BOINCTranslationAddCatalog()
-// for the user's preferred language, then for the user's second
-// preferred language and (optionally) then for the user's third
-// preferred language.  This will make it more likley that a
-// translation will be found in some language useful to the user.
+// for each desired catalog (*.mo) file for the user's preferred
+// language, then for each desired catalog (*.mo) file for the
+// user's second preferred language and (optionally) then for each
+// desired catalog (*.mo) file for the user's third preferred
+// language.  This will make it more likley that a translation 
+// will be found in some language useful to the user.
 //
 
 #include <stdint.h>
@@ -46,6 +48,7 @@ static const uint32_t MSGCATALOG_MAGIC    = 0x950412de;
 static const uint32_t MSGCATALOG_MAGIC_SW = 0xde120495;
 
 #define MAXCATALOGS 20
+#define VERBOSE true
 
 // an entry in the string table
 struct MsgTableEntry {
@@ -102,12 +105,6 @@ static uint32_t Swap(uint32_t ui, bool bSwapped) {
 //
 // Returns true if successful.
 //
-// NOTE: This simplified logic requires that if you 
-// wish to search multiple catalogs for each language
-// code, you must load all catalogs for one language
-// code before loading anything for the next language
-// code.
-//
 static bool LoadCatalog(const char * catalogsDir,
                 const char *languageCode,
                 const char *catalogName
@@ -125,12 +122,29 @@ static bool LoadCatalog(const char * catalogsDir,
     MsgTableEntry *pOrigTable;
     MsgTableEntry *pTransTable;
     MsgCatalogData *pCatalog;
-
-    // Avoid duplicating an already loaded catalog
+    
+#if VERBOSE
+    fprintf(stderr, "Attempting to load catalog %s for language code %s\n",
+            catalogName, languageCode);
+#endif
     for (j=0; j<numLoadedCatalogs; ++j) {
         pCatalog = &(theCatalogData[j]);
-        if (!strcmp(pCatalog->languageCode, languageCode)) {
-            if (!strcmp(pCatalog->catalogName, catalogName)) {
+        if (!strcmp(pCatalog->catalogName, catalogName)) {
+            if (!strcmp(pCatalog->languageCode, languageCode)) {
+                // Don't load a catalog twice for the same language
+#if VERBOSE
+                fprintf(stderr, "Ignoring Catalog %s for language code %s; it was already loaded\n",
+                        catalogName, languageCode);
+#endif
+                return true;    // Already loaded
+            }
+            // Don't load more languages for this catalog
+            // if we've already "loaded" it for English
+            if (!strcmp(pCatalog->languageCode, "en")) {
+#if VERBOSE
+                fprintf(stderr, "Ignoring Catalog %s for language code %s; after English for same catalog\n",
+                        catalogName, languageCode);
+#endif
                 return true;    // Already loaded
             }
         }
@@ -207,7 +221,9 @@ static bool LoadCatalog(const char * catalogsDir,
     if (NumStrings <= 1) {
         // This file has no translations (is effectively 
         // empty) so don't load it for better efficiency.
+#if VERBOSE
         fprintf(stderr, "File %s contains no translated strings!\n", searchPath);
+#endif
         free(pData);
         pData = NULL;
         return true;    // Not an error
@@ -228,7 +244,9 @@ static bool LoadCatalog(const char * catalogsDir,
         if (begin != NULL) {
             begin += 34; //strlen("Content-Type: text/plain; charset=")
             if (strncasecmp(begin, "utf-8", 5)) {
+#if VERBOSE
                 fprintf(stderr, "File %s is not utf-8!\n", searchPath);
+#endif
                 free(pData);
                 pData = NULL;
                 return false;
@@ -245,7 +263,10 @@ static bool LoadCatalog(const char * catalogsDir,
     pCatalog->pTransTable = pTransTable;
     strlcpy(pCatalog->languageCode, languageCode, sizeof(pCatalog->languageCode));
     strlcpy(pCatalog->catalogName, catalogName, sizeof(pCatalog->catalogName));
-    
+#if VERBOSE
+    fprintf(stderr, "Successfully loaded catalog %s for language code %s\n",
+            catalogName, languageCode);
+#endif
     return true;
 }
 
@@ -266,7 +287,7 @@ uint8_t * _(char *src) {
         // Since the original strings are English, no 
         // translation is needed for language en.
         if (!strcmp("en", pCatalog->languageCode)) {
-            return (uint8_t *)src;
+            continue;   // Try next catalog
         }
         
         if (pCatalog->pData == NULL) continue;    // Should never happen
@@ -302,7 +323,9 @@ bool BOINCTranslationAddCatalog(const char * catalogsDir,
     int retval;
     
     if (numLoadedCatalogs >= (MAXCATALOGS)) {
+#if VERBOSE
         fprintf(stderr, "Trying to load too many catalogs\n");
+#endif
         return false;
     }
 
