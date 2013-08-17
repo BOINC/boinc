@@ -70,10 +70,8 @@ table_header(
 );
 
 while ($res = mysql_fetch_object($result)) {
-    $av = BoincAppVersion::lookup_id($res->app_version_id);
-    $p = BoincPlatform::lookup_id($av->platformid);
     table_row(
-        sprintf("%.2f", $res->app_version_num/100)." $p->name [$av->plan_class]",
+        app_version_desc($res->app_version_id),
         $res->Host_ID,
         $res->OS_Version, $res->Results_Today,
         "<a href=db_action.php?table=result&detail=low&hostid=$res->Host_ID&app_version_id=$res->app_version_id&server_state=5&outcome=3>$res->error_count</a>"

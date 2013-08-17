@@ -132,6 +132,9 @@ static void clear_app_config(PROJECT* p) {
     }
 }
 
+// check for app_config.xml files, and parse them.
+// Called at startup and on read_cc_config() RPC
+//
 void check_app_config() {
     char path[MAXPATHLEN];
     FILE* f;
@@ -144,9 +147,7 @@ void check_app_config() {
             clear_app_config(p);
             continue;
         }
-        msg_printf(p, MSG_INFO,
-            "Found %s", APP_CONFIG_FILE_NAME
-        );
+        msg_printf(p, MSG_INFO, "Found %s", APP_CONFIG_FILE_NAME);
         int retval = p->app_configs.parse_file(f, p);
         if (!retval) {
             p->app_configs.config_app_versions(p, true);
