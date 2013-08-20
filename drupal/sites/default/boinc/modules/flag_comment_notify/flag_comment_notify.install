@@ -1,0 +1,20 @@
+<?php
+// $Id$
+
+/**
+ * Implementation of hook_install()
+ */
+function flag_comment_notify_install() {
+}
+
+/**
+* Implementation of hook_uninstall().
+*/
+function flag_comment_notify_uninstall() {
+}
+
+/**
+* Implementation of hook_schema().
+*/
+function flag_comment_notify_schema() {
+}

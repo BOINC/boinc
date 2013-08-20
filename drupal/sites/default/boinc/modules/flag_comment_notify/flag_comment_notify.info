@@ -1,0 +1,9 @@
+; $Id$
+name = Flag Comment Notify
+description = Notify users of comments on flagged content
+core = 6.x
+package = Flags
+dependencies[] = user
+dependencies[] = node
+dependencies[] = flag
+dependencies[] = drupal_queue

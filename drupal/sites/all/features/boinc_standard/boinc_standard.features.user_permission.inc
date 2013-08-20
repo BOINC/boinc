@@ -80,6 +80,14 @@ function boinc_standard_user_default_permissions() {
     ),
   );
 
+  // Exported permission: administer elysia_cron
+  $permissions['administer elysia_cron'] = array(
+    'name' => 'administer elysia_cron',
+    'roles' => array(
+      '0' => 'administrator',
+    ),
+  );
+
   // Exported permission: administer features
   $permissions['administer features'] = array(
     'name' => 'administer features',
