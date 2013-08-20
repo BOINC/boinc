@@ -1077,9 +1077,9 @@ function work_and_host_stats_views_default_views() {
       ),
       'relationship' => 'none',
     ),
-    'views_or_begin' => array(
-      'id' => 'views_or_begin',
-      'table' => 'result',
+    'views_or_begin_2' => array(
+      'id' => 'views_or_begin_2',
+      'table' => 'views_or',
       'field' => 'views_or_begin',
     ),
     'outcome' => array(
@@ -1103,9 +1103,9 @@ function work_and_host_stats_views_default_views() {
       ),
       'relationship' => 'none',
     ),
-    'views_or_next' => array(
-      'id' => 'views_or_next',
-      'table' => 'result',
+    'views_or_next_5' => array(
+      'id' => 'views_or_next_5',
+      'table' => 'views_or',
       'field' => 'views_or_next',
     ),
     'outcome_1' => array(
@@ -1129,9 +1129,9 @@ function work_and_host_stats_views_default_views() {
       ),
       'relationship' => 'none',
     ),
-    'views_or_begin_1' => array(
-      'id' => 'views_or_begin_1',
-      'table' => 'result',
+    'views_or_begin_3' => array(
+      'id' => 'views_or_begin_3',
+      'table' => 'views_or',
       'field' => 'views_or_begin',
     ),
     'validate_state' => array(
@@ -1155,9 +1155,9 @@ function work_and_host_stats_views_default_views() {
       ),
       'relationship' => 'none',
     ),
-    'views_or_next_1' => array(
-      'id' => 'views_or_next_1',
-      'table' => 'result',
+    'views_or_next_3' => array(
+      'id' => 'views_or_next_3',
+      'table' => 'views_or',
       'field' => 'views_or_next',
     ),
     'validate_state_1' => array(
@@ -1181,9 +1181,9 @@ function work_and_host_stats_views_default_views() {
       ),
       'relationship' => 'none',
     ),
-    'views_or_next_2' => array(
-      'id' => 'views_or_next_2',
-      'table' => 'result',
+    'views_or_next_4' => array(
+      'id' => 'views_or_next_4',
+      'table' => 'views_or',
       'field' => 'views_or_next',
     ),
     'validate_state_2' => array(
@@ -1207,14 +1207,14 @@ function work_and_host_stats_views_default_views() {
       ),
       'relationship' => 'none',
     ),
-    'views_or_end_1' => array(
-      'id' => 'views_or_end_1',
-      'table' => 'result',
+    'views_or_end_3' => array(
+      'id' => 'views_or_end_3',
+      'table' => 'views_or',
       'field' => 'views_or_end',
     ),
-    'views_or_end' => array(
-      'id' => 'views_or_end',
-      'table' => 'result',
+    'views_or_end_2' => array(
+      'id' => 'views_or_end_2',
+      'table' => 'views_or',
       'field' => 'views_or_end',
     ),
   ));
