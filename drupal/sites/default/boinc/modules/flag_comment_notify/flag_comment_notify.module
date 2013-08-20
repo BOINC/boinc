@@ -28,10 +28,9 @@
 function flag_comment_notify_comment(&$a1, $op) {
   switch ($op) {
   case 'insert':
-  case 'update': 
     module_load_include('inc', 'drupal_queue', 'drupal_queue');
     $queue = DrupalQueue::get('flag_comment_notify');
-    $subscribed_users = array_keys(flag_get_content_flags('node', $a1['nid'], 'subscriptions'));
+    $subscribed_users = array_keys((array) flag_get_content_flags('node', $a1['nid'], 'subscriptions'));
     foreach ($subscribed_users as $uid) {
       $queue->createItem(array('uid' => $uid, 'cid' => (int) $a1['cid']));
     }
