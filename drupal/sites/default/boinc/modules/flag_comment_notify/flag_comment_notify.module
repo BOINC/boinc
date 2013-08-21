@@ -62,12 +62,15 @@ function flag_comment_notify_send_notification($data) {
   $node = node_load($comment->nid);
   $author = user_load($comment->uid);
   if ($account->mail AND $node->nid) {
-    $params['account'] = $account;
-    $params['comment'] = $comment;
-    $params['node'] = $node;
-    $params['author'] = $author;
-    drupal_mail('flag_comment_notify', 'comment_posted', $account->mail,
-      user_preferred_language($account), $params);
+    // Don't send notifications to the author of the comment
+    if ($account->uid != $author->uid) {
+      $params['account'] = $account;
+      $params['comment'] = $comment;
+      $params['node'] = $node;
+      $params['author'] = $author;
+      drupal_mail('flag_comment_notify', 'comment_posted', $account->mail,
+        user_preferred_language($account), $params);
+    }
   }
 }
 
@@ -86,11 +89,12 @@ function flag_comment_notify_mail($key, &$message, $params) {
   $variables['!author'] = $params['author']->name;
   switch($key) {
   case 'comment_posted':
-    $message['subject'] = t('Comment posted to "!topic_name"', $variables,
+    $message['subject'] = t('!site: comment posted to "!topic_name"', $variables,
       $language->language);
-    $message['body'][] = t("A reply has been posted to \"!topic_name\" by
-      !author. To view this comment at !site, click here: \n!comment_url", $variables,
-      $language->language);
+    $message['body'][] = t("!author has posted a reply to \"!topic_name\".",
+      $variables, $language->language);
+    $message['body'][] = t("To view this comment at !site, click here: \n!comment_url",
+      $variables, $language->language);
     break;
   default:
   }
