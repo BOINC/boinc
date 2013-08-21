@@ -673,6 +673,10 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
     '#value' => $venue
   );
   
+  $form['separator_top'] = array(
+    '#value' => '<div class="separator"></div>'
+  );
+  
   // Common project preferences  
   $form['resource'] = array(
     '#title' => t('Resource settings'),
@@ -763,6 +767,10 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
   foreach ($xml['project_specific_preferences'] as $type => $element) {
     boincwork_generate_prefs_element($form, $type, $element, $prefs['project_specific']);
   }
+  
+  $form['prefs']['separator_bottom'] = array(
+    '#value' => '<div class="separator"></div>'
+  );
   
   // Form control
   $form['prefs']['form control tabs prefix'] = array(

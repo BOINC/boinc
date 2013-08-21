@@ -123,7 +123,7 @@ function jump_block($op = 'list', $delta = 0, $edit = array()) {
  * @param integer $active
  * @return array
  */
-function jump_quickly($name = 'navigation', $type = 'menu', $active = -1) {
+function jump_quickly($name = 'navigation', $type = 'menu', $active = -1, $override = '') {
   // Reconstruct the $delta
   $delta = $type . '-' . $name;
   if ($active === -1) {
@@ -132,6 +132,7 @@ function jump_quickly($name = 'navigation', $type = 'menu', $active = -1) {
   $menu_state = array(
     'delta' => $delta,
     'active' => $active,
+    'override' => $override
   );
 
   if (is_array($name)) {
@@ -169,6 +170,9 @@ function jump_quickly_form(&$form_state, $options, $menu_state) {
     if (isset($options[$_GET['q']])) {
       $default = $_GET['q'];
     }
+  }
+  if ($menu_state['override']) {
+    $default = $menu_state['override'];
   }
 
   $form = array();

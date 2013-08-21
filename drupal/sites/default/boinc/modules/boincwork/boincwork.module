@@ -119,6 +119,9 @@ function boincwork_views_api() {
   */
 function generalprefs_page($action = null, $venue = null) {
   
+  // Keep the venue selected across preference pages
+  boincwork_select_venue($venue);
+  
   $pref_sets = array('default', 'home', 'school', 'work');
   $output = null;
   // Set the page title
@@ -254,7 +257,7 @@ function generalprefs_page($action = null, $venue = null) {
       $output .= '<div id="venue-selector" class="simple-form-controls">';
       $output .= '  <div class="form-item venue">';
       $output .= '    <label>Preference set:</label>';
-      $output .= jump_quickly($venues, 'venues');
+      $output .= jump_quickly($venues, 'venues', 1, "{$path}/{$venue}");
       $output .= '  </div>';
       $output .= '</div>';
     }
@@ -270,6 +273,9 @@ function generalprefs_page($action = null, $venue = null) {
   * Called when user goes to edit project preferences page.
   */
 function projectprefs_page($action = null, $venue = null) {
+  
+  // Keep the venue selected across preference pages
+  boincwork_select_venue($venue);
   
   require_boinc(array('util', 'prefs'));
   global $project_has_beta;
@@ -398,6 +404,25 @@ function projectprefs_page($action = null, $venue = null) {
   case 'edit':
   default:
     require_boinc('util');
+    // Venue selector
+    if (function_exists('jump_quickly')) {
+      $path = 'account/prefs/project/edit';
+      $venues = array(
+        "{$path}/default" => t('Default'),
+        "{$path}/home" => t('Home'),
+        "{$path}/work" => t('Work'),
+        "{$path}/school" => t('School')
+      );
+      variable_set('jump_use_js_venues-Array', 1);
+      drupal_add_js(drupal_get_path('module', 'jump') . '/jump.js');
+      drupal_add_js(drupal_get_path('theme', 'boinc') . '/js/prefs.js', 'theme');
+      $output .= '<div id="venue-selector" class="simple-form-controls">';
+      $output .= '  <div class="form-item venue">';
+      $output .= '    <label>Preference set:</label>';
+      $output .= jump_quickly($venues, 'venues', 1, "{$path}/{$venue}");
+      $output .= '  </div>';
+      $output .= '</div>';
+    }
     // Return the HTML generated from the $form data structure.
     $output .= drupal_get_form('boincwork_projectprefs_form', $venue);
     //$output .= '<p>' . l('(' . t('Show comparison view') . ')', 'account/prefs/project/combined') . '</p>';
@@ -677,3 +702,27 @@ function boincwork_view_page($nid) {
   $node = node_load($nid);
   return node_page_view($node);
 }
+
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Local supporting functions
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+ * Determine which venue should be selected
+ */
+function boincwork_select_venue(&$venue) {
+  if (!$venue) {
+    $active_venue = isset($_SESSION['prefs venue']) ? $_SESSION['prefs venue'] : NULL;
+    if ($active_venue) {
+      $venue = $active_venue;
+      //unset($_SESSION['prefs venue']);
+    }
+  }
+  else {
+    // Set the active venue to keep it selected between computing and project
+    // preference pages
+    $_SESSION['prefs venue'] = $venue;
+  }
+}
+  
