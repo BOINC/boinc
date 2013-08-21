@@ -251,10 +251,12 @@ function generalprefs_page($action = null, $venue = null) {
       variable_set('jump_use_js_venues-Array', 1);
       drupal_add_js(drupal_get_path('module', 'jump') . '/jump.js');
       drupal_add_js(drupal_get_path('theme', 'boinc') . '/js/prefs.js', 'theme');
-      $output .= '<div class="simple-form-controls"><div class="form-item venue">';
-      $output .= '<label>Preference sets:</label>';
+      $output .= '<div id="venue-selector" class="simple-form-controls">';
+      $output .= '  <div class="form-item venue">';
+      $output .= '    <label>Preference set:</label>';
       $output .= jump_quickly($venues, 'venues');
-      $output .= '</div></div>';
+      $output .= '  </div>';
+      $output .= '</div>';
     }
     $output .= drupal_get_form('boincwork_generalprefs_form', $venue);
     break;

@@ -135,6 +135,10 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
     '#value' => $venue
   );
   
+  $form['prefs']['separator_top'] = array(
+    '#value' => '<div class="separator"></div>'
+  );
+  
   // Simplified selectors
   $form['prefs']['preset'] = array(
     '#title' => t('Presets'),
@@ -162,10 +166,6 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
     '#submit' => array('ahah_helper_generic_submit'),
     // The 'no-js' class only displays this button if javascript is disabled
     '#attributes' => array('class' => 'no-js'),
-  );
-  
-  $form['prefs']['separator_top'] = array(
-    '#value' => '<div class="separator"></div>'
   );
   
   // Advanced preferences
