@@ -402,3 +402,51 @@ function phptemplate_username($object) {
 function boinc_filter_tips_more_info () {
   return '';
 }
+
+/**
+ * Edit action links
+ */
+function phptemplate_links($links, $attributes = array('class' => 'links')) {
+  if ($links){
+    // Reorder the links however you need them.
+    $links = reorder_links($links, array(), array('comment_reply', 'comment_edit'));
+    // Use the built-in theme_links() function to format the $links array.
+    return theme_links($links, $attributes);
+  }
+}
+
+/**
+ * Reorder links before passing them to default link theme function.
+ * @param $links
+ *   A keyed array of links to be themed.
+ * @param $first_keys
+ *   An array of keys which should be at the beginning of the $links array.
+ * @param $last_keys
+ *   An array of keys which should be at the end of the $links array.
+ * @return
+ *   A string containing an unordered list of links.
+ *
+ * Usage Note: The order in which you specify $first/last_keys is the order in
+ * which they will be sorted.
+ */
+function reorder_links($links, $first_keys = array(), $last_keys = array()) {
+    $first_links = array();
+    foreach ($first_keys as $key) {
+        if (isset($links[$key])) {
+            $first_links[$key] = $links[$key];
+            unset($links[$key]);
+        }
+    }
+    $links = array_merge($first_links, $links);
+
+    $last_links = array();
+    foreach ($last_keys as $key) {
+        if (isset($links[$key])) {
+            $last_links[$key] = $links[$key];
+            unset($links[$key]);
+        }
+    }
+    $links = array_merge($links, $last_links);
+   
+    return $links;
+}
