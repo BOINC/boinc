@@ -382,6 +382,7 @@ int main(int argc, char** argv) {
     unsigned long vm_exit_code = 0;
     string vm_log;
     string system_log;
+    string message;
     vector<string> copy_to_shared;
     char buf[256];
 
@@ -490,13 +491,13 @@ int main(int argc, char** argv) {
     // VirtualBox successfully.  Sometimes the system is in a wierd state after a
     // reboot and the system needs a little bit of time.
     //
-    if (!vm.is_system_ready()) {
+    if (!vm.is_system_ready(message)) {
         fprintf(
             stderr,
             "%s couldn't communicate with VM Hypervisor, telling BOINC to reschedule execution for a later date.\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
-        boinc_temporary_exit(300, "Communication with VM Hypervisor failed.");
+        boinc_temporary_exit(300, message.c_str());
     }
 
     // Record if anonymous platform was used.

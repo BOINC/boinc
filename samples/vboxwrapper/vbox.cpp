@@ -638,7 +638,7 @@ void VBOX_VM::poll(bool log_state) {
 // Luckly both of the above conditions can be detected by attempting to detect the host information
 // via vboxmanage and it is cross platform.
 //
-bool VBOX_VM::is_system_ready() {
+bool VBOX_VM::is_system_ready(std::string& message) {
     string command;
     string output;
     bool rc = true;
@@ -647,10 +647,12 @@ bool VBOX_VM::is_system_ready() {
     if (vbm_popen(command, output, "host info") == 0) {
 
         if (output.find("Processor count:") == string::npos) {
+            message = "Communication with VM Hypervisor failed.";
             rc = false;
         }
 
         if (output.find("WARNING: The vboxdrv kernel module is not loaded.") != string::npos) {
+            message = "Please update/recompile VirtualBox kernel drivers.";
             rc = false;
         }
 
