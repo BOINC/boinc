@@ -112,7 +112,16 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
     $account->boincuser_cpid = md5(db_result(db_query("SELECT cross_project_id FROM {user} WHERE id = %d", $account->boincuser_id)).$account->mail);
     db_set_active('default');
     // Set post count
-    $account->post_count = db_result(db_query("SELECT COUNT(cid) FROM {comments} WHERE uid = '%d'", $account->uid));
+    $account->post_count = db_result(db_query("
+      SELECT COUNT(*) +
+      (
+        SELECT COUNT(*) FROM {node}
+        WHERE uid = '%d'
+        AND type IN('page','story','forum','news')
+      ) AS total_posts
+      FROM {comments}
+      WHERE uid = '%d'", $account->uid, $account->uid
+    ));
     // If admin user, do some basic site functionality checks
     if (user_access('administer site configuration')) {
       // Ensure we have a configured BOINC environment
