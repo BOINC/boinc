@@ -1647,18 +1647,51 @@ void send_work() {
                 );
             }
             send_work_locality();
+
+            // save 'insufficient' flags from the first scheduler
+            bool disk_insufficient  = g_wreq->disk.insufficient;
+            bool speed_insufficient = g_wreq->speed.insufficient;
+            bool mem_insufficient   = g_wreq->mem.insufficient;
+            bool no_allowed_apps_available = g_wreq->no_allowed_apps_available;
+
+            // reset 'insufficient' flags for the second scheduler
+            g_wreq->disk.insufficient = false;
+            g_wreq->speed.insufficient = false;
+            g_wreq->mem.insufficient = false;
+            g_wreq->no_allowed_apps_available = false;
+
             if (config.debug_locality) {
                 log_messages.printf(MSG_NORMAL,
                     "[mixed] sending non-locality work second\n"
                 );
             }
             send_work_old();
+
+            // recombine the 'insufficient' flags from the two schedulers
+            g_wreq->disk.insufficient  = g_wreq->disk.insufficient && disk_insufficient;
+            g_wreq->speed.insufficient = g_wreq->speed.insufficient && speed_insufficient;
+            g_wreq->mem.insufficient   = g_wreq->mem.insufficient && mem_insufficient;
+            g_wreq->no_allowed_apps_available = g_wreq->no_allowed_apps_available && no_allowed_apps_available;
+
         } else {
             if (config.debug_locality) {
                 log_messages.printf(MSG_NORMAL,
                     "[mixed] sending non-locality work first\n"
                 );
             }
+
+            // save 'insufficient' flags from the first scheduler
+            bool disk_insufficient  = g_wreq->disk.insufficient;
+            bool speed_insufficient = g_wreq->speed.insufficient;
+            bool mem_insufficient   = g_wreq->mem.insufficient;
+            bool no_allowed_apps_available = g_wreq->no_allowed_apps_available;
+
+            // reset 'insufficient' flags for the second scheduler
+            g_wreq->disk.insufficient = false;
+            g_wreq->speed.insufficient = false;
+            g_wreq->mem.insufficient = false;
+            g_wreq->no_allowed_apps_available = false;
+
             send_work_old();
             if (config.debug_locality) {
                 log_messages.printf(MSG_NORMAL,
@@ -1666,6 +1699,13 @@ void send_work() {
                 );
             }
             send_work_locality();
+
+            // recombine the 'insufficient' flags from the two schedulers
+            g_wreq->disk.insufficient  = g_wreq->disk.insufficient && disk_insufficient;
+            g_wreq->speed.insufficient = g_wreq->speed.insufficient && speed_insufficient;
+            g_wreq->mem.insufficient   = g_wreq->mem.insufficient && mem_insufficient;
+            g_wreq->no_allowed_apps_available = g_wreq->no_allowed_apps_available && no_allowed_apps_available;
+
         }
     } else if (config.locality_scheduling) {
         send_work_locality();
