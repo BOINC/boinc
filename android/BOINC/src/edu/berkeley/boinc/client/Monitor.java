@@ -258,7 +258,6 @@ public class Monitor extends Service {
 		installFile(clientCABundle, true, false);
 		installFile(clientConfig, true, false);
 		installFile(allProjectsList, true, false);
-		installFile(globalOverridePreferences, false, false);
     	
     	return true; 
     }
