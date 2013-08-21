@@ -145,7 +145,7 @@
 
   <div id="page-wrapper"><div id="page">
     
-    <div class="shadow">
+    <div id="header-wrapper" class="shadow">
     
     <div id="header"><div class="section clearfix">
 
