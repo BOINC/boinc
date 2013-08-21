@@ -391,6 +391,10 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
   // User profile form
   case 'user_profile_form':
     
+    // Use the displaly name as the title, not the username
+    $account = user_load($form['#uid']);
+    drupal_set_title($account->boincuser_name);
+    
     // A bit hackish... but don't require the user to enter his password if
     // coming from the password reset function
     $reset_pass = (strpos($_SERVER['HTTP_REFERER'], "/user/reset/{$form['#uid']}") === FALSE) ? 0 : 1;
@@ -402,7 +406,6 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     $form['account']['mail']['#size'] = 40;
     
     // Add the BOINC user name (non-unique, user editable)
-    $account = user_load($form['#uid']);
     if (!$edit['boincuser_name']) $edit['boincuser_name'] = $account->boincuser_name;
     $form['account']['boincuser_name'] = array(
       '#type' => 'textfield',
@@ -413,7 +416,6 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       '#description' => t(''),
       '#size' => 40
     );
-    
     if (!$reset_pass AND ($user->uid == $account->uid OR !user_access('administer users'))) {
       // Add a password authenticator, required to change email or pw
       $form['account']['current_pass'] = array(
@@ -454,6 +456,10 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     break;
     
   case 'profile_node_form':
+    
+    // Use the displaly name as the title, not the username
+    $account = user_load($form['uid']['#value']);
+    drupal_set_title($account->boincuser_name);
     
     if (module_exists('captcha')) {
       // Add an optional captcha

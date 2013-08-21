@@ -359,15 +359,12 @@ function phptemplate_username($object) {
   
   if ($object->uid && $object->name) {
     
-    // Set the object name to use the profile name
-    $object->name = user_load($object->uid)->boincuser_name;
+    // Show the profile name in general, not the username
+    $name = user_load($object->uid)->boincuser_name;
     
     // Shorten the name when it is too long or it will break many tables.
-    if (drupal_strlen($object->name) > 20) {
-      $name = drupal_substr($object->name, 0, 15) . '...';
-    }
-    else {
-      $name = $object->name;
+    if (drupal_strlen($name) > 20) {
+      $name = drupal_substr($name, 0, 15) . '...';
     }
 
     if (user_access('access user profiles')) {
