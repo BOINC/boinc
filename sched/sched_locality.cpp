@@ -1240,6 +1240,11 @@ void send_work_locality() {
                    (   strlen(fi.name) == 21 &&
                        !strncmp("h1_", fi.name, 3) &&
                        !strncmp("_S6Directed", fi.name + 10, 11)
+                   ) ||
+                   /* files like h1_0000.00_S6Direct */
+                   (   strlen(fi.name) == 19 &&
+                       !strncmp("h1_", fi.name, 3) &&
+                       !strncmp("_S6Direct", fi.name + 10, 9)
                    )
                ) {
                 FILE_INFO fil;
