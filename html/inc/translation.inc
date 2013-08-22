@@ -49,10 +49,8 @@ function getSupportedLanguages(){
 // @param langdir The language base directory
 // @param transdir The location of the .po files to compile relative to langdir
 // @param compdir The output location relative to langdir
-// @param append If true the function will only append to rather than replace the compiled files
 //
 function buildLanguages($langdir,$transdir,$compdir){
-    global $lang_project_default;
 
     // Run through each language and compile their lookup arrays.
     if (is_dir($langdir.$transdir)) {
