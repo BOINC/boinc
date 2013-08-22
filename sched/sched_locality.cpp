@@ -1231,10 +1231,15 @@ void send_work_locality() {
             // For name matching patterns h1_
             // generate corresponding l1_ patterns and delete these also
             //
-            if ( /* files like h1_0340.30_S6GC1 */
+            if (   /* files like h1_0340.30_S6GC1 */
                    (   strlen(fi.name) == 16 &&
                        !strncmp("h1_", fi.name, 3) &&
                        !strncmp("_S6GC1", fi.name + 10, 6)
+                   ) ||
+                   /* files like h1_0000.00_S6Directed */
+                   (   strlen(fi.name) == 21 &&
+                       !strncmp("h1_", fi.name, 3) &&
+                       !strncmp("_S6Directed", fi.name + 10, 11)
                    )
                ) {
                 FILE_INFO fil;
