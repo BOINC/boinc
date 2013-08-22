@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <?xml-stylesheet type="text/xsl" href="is.xsl" ?>
 <!DOCTYPE msi [
    <!ELEMENT msi   (summary,table*)>
@@ -355,7 +355,7 @@
 		<row><td>_BOINCDepends</td><td>{69AF1C45-9D67-4F33-B97B-5DA096D77908}</td><td>INSTALLDIR</td><td>0</td><td/><td>msvcr80.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>_BOINCManager</td><td>{7EBB5E76-86BA-4EBA-98AA-DD908C215D72}</td><td>INSTALLDIR</td><td>0</td><td/><td>progressthruprocessors.exe</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>_BOINCManagerGlobalization</td><td>{F92B6595-2E79-45F0-BF41-4EDB52645FFC}</td><td>LOCALE</td><td>0</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>_BOINCManagerSkin</td><td>{AD6F1C10-1DF7-4EDE-8ED8-18A9BA07CECA}</td><td>DEFAULT</td><td>0</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>_BOINCManagerSkin</td><td>{AD6F1C10-1DF7-4EDE-8ED8-18A9BA07CECA}</td><td>PROGRESSTHRUPROCESSORS</td><td>0</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>_BOINCManagerStartMenu</td><td>{71A32D47-CA9B-4A6E-8811-2723938317C1}</td><td>INSTALLDIR</td><td>0</td><td>ENABLESTARTMENUITEMS = 1</td><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>_BOINCManagerStartup</td><td>{2BA019A7-8985-46BC-9309-FB8AD4C83906}</td><td>INSTALLDIR</td><td>0</td><td>ENABLEUSEBYALLUSERS &lt;&gt; 1</td><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>_BOINCManagerStartupAll</td><td>{175B1B4B-D4D7-4D21-968A-8EDF6F8C4BE3}</td><td>INSTALLDIR</td><td>0</td><td>ENABLEUSEBYALLUSERS = 1</td><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
@@ -990,6 +990,7 @@
 		<row><td>LOCALE</td><td>INSTALLDIR</td><td>locale</td><td/><td>0</td><td/></row>
 		<row><td>LocalAppDataFolder</td><td>TARGETDIR</td><td>.:LocalA~1|LocalAppData</td><td/><td>0</td><td/></row>
 		<row><td>MyPicturesFolder</td><td>TARGETDIR</td><td>.:MyPict~1|MyPictures</td><td/><td>0</td><td/></row>
+		<row><td>PROGRESSTHRUPROCESSORS</td><td>SKINS</td><td>PROGRE~1|ProgressThruProcessors</td><td/><td>0</td><td/></row>
 		<row><td>PROGRESS_THRU_PROCESSORS</td><td>ProgramFilesFolder</td><td>PROGRE~1|Progress Thru Processors</td><td/><td>0</td><td/></row>
 		<row><td>PROJECTS</td><td>DATADIR</td><td>projects</td><td/><td>0</td><td/></row>
 		<row><td>PersonalFolder</td><td>TARGETDIR</td><td>.:Personal</td><td/><td>0</td><td/></row>
