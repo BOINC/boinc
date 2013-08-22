@@ -73,7 +73,6 @@ public:
     COPROCS coprocs;
 
     int num_cpu_opencl_platforms;
-// TODO: There can be a cpu_opencl_prop for each of multiple OpenCL platforms
     OPENCL_CPU_PROP cpu_opencl_prop[MAX_OPENCL_CPU_PLATFORMS];
 
     HOST_INFO();
