@@ -160,6 +160,7 @@ void COPROCS::get_opencl(
     int min_CAL_target;
     int num_CAL_devices = (int)ati_gpus.size();
     vector<int>devnums_pci_slot_sort;
+    int gpu_device_index;
     vector<OPENCL_DEVICE_PROP>::iterator it;
 
 #ifdef _WIN32
@@ -315,6 +316,8 @@ void COPROCS::get_opencl(
             }
         }
 
+        gpu_device_index = 0;
+        
         for (device_index=0; device_index<num_devices; ++device_index) {
             memset(&prop, 0, sizeof(prop));
             prop.device_id = devices[device_index];
@@ -386,7 +389,7 @@ void COPROCS::get_opencl(
                 } else {
                     prop.device_num = (int)(nvidia_opencls.size());
                 }
-                prop.opencl_device_index = device_index;
+                prop.opencl_device_index = gpu_device_index++;
 
                 if (nvidia.have_cuda) {
                     prop.peak_flops = nvidia_gpus[prop.device_num].peak_flops;
@@ -415,7 +418,7 @@ void COPROCS::get_opencl(
             
             //////////// AMD / ATI //////////////
             if (is_AMD(prop.vendor)) {
-                prop.opencl_device_index = device_index;
+                prop.opencl_device_index = gpu_device_index++;
 
                 if (ati.have_cal) {
                     // AMD OpenCL does not recognize all AMD GPUs returned by
@@ -486,7 +489,7 @@ void COPROCS::get_opencl(
                 }
 
                 prop.device_num = (int)(intel_gpu_opencls.size());
-                prop.opencl_device_index = device_index;
+                prop.opencl_device_index = gpu_device_index++;
 
                 COPROC_INTEL c;
                 c.opencl_prop = prop;
