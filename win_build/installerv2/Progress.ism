@@ -2502,7 +2502,7 @@
 		<col key="yes" def="s72">Name</col>
 		<col def="s0">Value</col>
 		<row><td>Web</td><td>WEBx86</td><td>CabCompressionType</td><td>3</td></row>
-		<row><td>Web</td><td>WEBx86</td><td>SetupIcon</td><td>&lt;ISProjectFolder&gt;\redist\setup.ico,0</td></row>
+		<row><td>Web</td><td>WEBx86</td><td>SetupIcon</td><td>&lt;ISProjectFolder&gt;\redist\Progress\progress.ico,0</td></row>
 	</table>
 
 	<table name="ISReleasePublishInfo">
@@ -4528,7 +4528,7 @@ VwBlAGIAAQBXAEUAQgB4ADgANgA=
 		<row><td>PROGMSG_IIS_ROLLBACKAPPPOOLS</td><td>##IDS_PROGMSG_IIS_ROLLBACKAPPPOOLS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
 		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[#progressthruprocessors.exe]</td><td/></row>
-		<row><td>ProductCode</td><td>{8A3824ED-44C9-4628-A5F7-86DACFEC2A51}</td><td/></row>
+		<row><td>ProductCode</td><td>{33E589B9-D591-4EF7-A776-700F7B13981C}</td><td/></row>
 		<row><td>ProductID</td><td>none</td><td/></row>
 		<row><td>ProductLanguage</td><td>1033</td><td/></row>
 		<row><td>ProductName</td><td>Progress Thru Processors</td><td/></row>
