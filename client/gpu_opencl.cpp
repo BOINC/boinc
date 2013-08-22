@@ -154,13 +154,11 @@ void COPROCS::get_opencl(
     char platform_vendor[256];
     char buf[256];
     OPENCL_DEVICE_PROP prop;
-    cl_device_type device_type;
     int current_CUDA_index;
     int current_CAL_index;
     int min_CAL_target;
     int num_CAL_devices = (int)ati_gpus.size();
     vector<int>devnums_pci_slot_sort;
-    int gpu_device_index;
     vector<OPENCL_DEVICE_PROP>::iterator it;
 
 #ifdef _WIN32
@@ -253,8 +251,49 @@ void COPROCS::get_opencl(
             warnings.push_back(buf);
         }
 
+        //////////// CPU //////////////
+
         ciErrNum = (*__clGetDeviceIDs)(
-            platforms[platform_index], (CL_DEVICE_TYPE_GPU | CL_DEVICE_TYPE_CPU),
+            platforms[platform_index], (CL_DEVICE_TYPE_CPU),
+            MAX_COPROC_INSTANCES, devices, &num_devices
+        );
+
+        if (ciErrNum == CL_DEVICE_NOT_FOUND) continue;  // No devices
+        if (num_devices == 0) continue;                 // No devices
+
+        if (ciErrNum != CL_SUCCESS) {
+            snprintf(buf, sizeof(buf),
+                "Couldn't get CPU Device IDs for platform #%d: error %d",
+                platform_index, ciErrNum
+            );
+            warnings.push_back(buf);
+            continue;
+        }
+
+        for (device_index=0; device_index<num_devices; ++device_index) {
+            memset(&prop, 0, sizeof(prop));
+            prop.device_id = devices[device_index];
+            strncpy(
+                prop.opencl_platform_version, platform_version,
+                sizeof(prop.opencl_platform_version)-1
+            );
+
+            ciErrNum = get_opencl_info(prop, device_index, warnings);
+            if (ciErrNum != CL_SUCCESS) continue;
+
+            prop.is_used = COPROC_UNUSED;
+            prop.get_device_version_int();
+
+            OPENCL_CPU_PROP c;
+            strlcpy(c.platform_vendor, platform_vendor, sizeof(c.platform_vendor));
+            c.opencl_prop = prop;
+            cpu_opencls.push_back(c);
+        }
+
+        //////////// GPUs //////////////
+        
+        ciErrNum = (*__clGetDeviceIDs)(
+            platforms[platform_index], (CL_DEVICE_TYPE_GPU),
             MAX_COPROC_INSTANCES, devices, &num_devices
         );
 
@@ -316,8 +355,6 @@ void COPROCS::get_opencl(
             }
         }
 
-        gpu_device_index = 0;
-        
         for (device_index=0; device_index<num_devices; ++device_index) {
             memset(&prop, 0, sizeof(prop));
             prop.device_id = devices[device_index];
@@ -331,29 +368,8 @@ void COPROCS::get_opencl(
             ciErrNum = get_opencl_info(prop, device_index, warnings);
             if (ciErrNum != CL_SUCCESS) continue;
 
-            ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_TYPE, sizeof(device_type), &device_type, NULL);
-            if (ciErrNum != CL_SUCCESS) {
-                snprintf(buf, sizeof(buf),
-                    "clGetDeviceInfo failed to get device type (GPU or CPU)for device %d",
-                    (int)device_index
-                );
-                warnings.push_back(buf);
-                continue;
-            }
-
             prop.is_used = COPROC_UNUSED;
             prop.get_device_version_int();
-
-            //////////// CPU //////////////
-            if (device_type == CL_DEVICE_TYPE_CPU) {
-                
-                OPENCL_CPU_PROP c;
-                strlcpy(c.platform_vendor, platform_vendor, sizeof(c.platform_vendor));
-                c.opencl_prop = prop;
-                cpu_opencls.push_back(c);
-
-                continue;
-            }
 
             //////////// NVIDIA //////////////
             if (is_NVIDIA(prop.vendor)) {
@@ -389,7 +405,7 @@ void COPROCS::get_opencl(
                 } else {
                     prop.device_num = (int)(nvidia_opencls.size());
                 }
-                prop.opencl_device_index = gpu_device_index++;
+                prop.opencl_device_index = device_index;
 
                 if (nvidia.have_cuda) {
                     prop.peak_flops = nvidia_gpus[prop.device_num].peak_flops;
@@ -418,7 +434,7 @@ void COPROCS::get_opencl(
             
             //////////// AMD / ATI //////////////
             if (is_AMD(prop.vendor)) {
-                prop.opencl_device_index = gpu_device_index++;
+                prop.opencl_device_index = device_index;
 
                 if (ati.have_cal) {
                     // AMD OpenCL does not recognize all AMD GPUs returned by
@@ -477,19 +493,8 @@ void COPROCS::get_opencl(
             //////////// INTEL GPU //////////////
             //
             if (is_intel(prop.vendor)) {
-                cl_device_type device_type;
-
-                ciErrNum = (*__clGetDeviceInfo)(
-                    prop.device_id, CL_DEVICE_TYPE,
-                    sizeof(device_type), &device_type, NULL
-                );
-                if (ciErrNum != CL_SUCCESS) {
-                    warnings.push_back("clGetDeviceInfo failed to get device type for Intel device");
-                    continue;
-                }
-
                 prop.device_num = (int)(intel_gpu_opencls.size());
-                prop.opencl_device_index = gpu_device_index++;
+                prop.opencl_device_index = device_index;
 
                 COPROC_INTEL c;
                 c.opencl_prop = prop;
