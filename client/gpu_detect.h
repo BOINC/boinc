@@ -21,3 +21,5 @@ extern vector<COPROC_INTEL> intel_gpus;
 extern vector<OPENCL_DEVICE_PROP> nvidia_opencls;
 extern vector<OPENCL_DEVICE_PROP> ati_opencls;
 extern vector<OPENCL_DEVICE_PROP> intel_gpu_opencls;
+extern vector<OPENCL_CPU_PROP> cpu_opencls;
+

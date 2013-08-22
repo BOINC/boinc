@@ -86,6 +86,7 @@
     // max # of processing resources types
 
 #define MAX_OPENCL_PLATFORMS 16
+#define MAX_OPENCL_CPU_PLATFORMS 4
 
 // arguments to proc_type_name() and proc_type_name_xml().
 //
@@ -147,7 +148,7 @@ struct OPENCL_DEVICE_PROP {
     cl_bool endian_little;              // TRUE if little-endian
     cl_device_exec_capabilities execution_capabilities;
     char extensions[1024];              // List of device extensions
-    cl_ulong global_mem_size;           // in bytes
+    cl_ulong global_mem_size;           // in bytes (OpenCL can report 4GB Max)
     cl_ulong local_mem_size;
     cl_uint max_clock_frequency;        // in MHz
     cl_uint max_compute_units;
@@ -524,6 +525,22 @@ struct COPROCS {
         strcpy(c.type, "CPU");
         add(c);
     }
+};
+
+// NOTE: OpenCL has only 64 bits for global_mem_size, so
+// it can report a max of only 4GB.
+// Get the CPU RAM size from gstate.hostinfo.m_nbytes.
+struct OPENCL_CPU_PROP {
+    char platform_vendor[256];
+    OPENCL_DEVICE_PROP opencl_prop;
+    
+    OPENCL_CPU_PROP() {
+        clear();
+    }
+    void clear();
+    void write_xml(MIOFILE&);
+    int parse(XML_PARSER&);
+
 };
 
 #endif
