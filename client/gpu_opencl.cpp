@@ -258,16 +258,15 @@ void COPROCS::get_opencl(
             MAX_COPROC_INSTANCES, devices, &num_devices
         );
 
-        if (ciErrNum == CL_DEVICE_NOT_FOUND) continue;  // No devices
-        if (num_devices == 0) continue;                 // No devices
-
-        if (ciErrNum != CL_SUCCESS) {
-            snprintf(buf, sizeof(buf),
-                "Couldn't get CPU Device IDs for platform #%d: error %d",
-                platform_index, ciErrNum
-            );
-            warnings.push_back(buf);
-            continue;
+        if ((ciErrNum != CL_SUCCESS) && (num_devices != 0)) {
+            num_devices = 0;                 // No devices
+            if (ciErrNum != CL_DEVICE_NOT_FOUND) {
+                snprintf(buf, sizeof(buf),
+                    "Couldn't get CPU Device IDs for platform #%d: error %d",
+                    platform_index, ciErrNum
+                );
+                warnings.push_back(buf);
+            }
         }
 
         for (device_index=0; device_index<num_devices; ++device_index) {
