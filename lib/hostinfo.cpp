@@ -72,7 +72,7 @@ void HOST_INFO::clear_host_info() {
     strcpy(mac_address, "");
 
     strcpy(virtualbox_version, "");
-    have_cpu_opencl = false;
+    num_cpu_opencl_platforms = 0;
 }
 
 int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
@@ -127,9 +127,12 @@ int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
         if (xp.match_tag("coprocs")) {
             this->coprocs.parse(xp);
         }
+        
+        // The same CPU can have a different cpu_opencl_prop
+        // for each of multiple OpenCL platforms
         if (xp.match_tag("cpu_opencl_prop")) {
-            int retval = cpu_opencl_prop.parse(xp, "/cpu_opencl_prop");
-            if (!retval) have_cpu_opencl = true;
+            int retval = cpu_opencl_prop[num_cpu_opencl_platforms].parse(xp);
+            if (!retval) num_cpu_opencl_platforms++;
         }
     }
     return ERR_XML_PARSE;
@@ -226,8 +229,17 @@ int HOST_INFO::write(
     if (include_coprocs) {
         this->coprocs.write_xml(out, false);
     }
-    if (have_cpu_opencl) {
-        cpu_opencl_prop.write_xml(out, "cpu_opencl_prop");
+    
+    // The same CPU can have a different cpu_opencl_prop 
+    // for each of multiple OpenCL platforms.
+    // We send them all to the project server because:
+    // - Different OpenCL platforms report different values
+    //   for the same CPU
+    // - Some OpenCL CPU apps may work better with certain
+    //   OpenCL platforms
+    //
+    for (int i=0; i<num_cpu_opencl_platforms; i++) {
+        cpu_opencl_prop[i].write_xml(out);
     }
     out.printf(
         "</host_info>\n"

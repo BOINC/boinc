@@ -41,6 +41,7 @@
 #include "util.h"
 #include "str_replace.h"
 #include "client_msgs.h"
+#include "client_state.h"
 
 using std::string;
 using std::vector;
@@ -59,6 +60,7 @@ vector<COPROC_INTEL> intel_gpus;
 vector<OPENCL_DEVICE_PROP> ati_opencls;
 vector<OPENCL_DEVICE_PROP> nvidia_opencls;
 vector<OPENCL_DEVICE_PROP> intel_gpu_opencls;
+vector<OPENCL_CPU_PROP> cpu_opencls;
 
 static char* client_path;
 static char client_dir[MAXPATHLEN];
@@ -166,6 +168,13 @@ void COPROCS::correlate_gpus(
     intel_gpu.correlate(use_all, ignore_gpu_instance[PROC_TYPE_AMD_GPU]);
     correlate_opencl(use_all, ignore_gpu_instance);
 
+    // NOTE: OpenCL has only 64 bits for global_mem_size, 
+    // so it can report a max of only 4GB.  
+    // Get the CPU RAM size from gstate.hostinfo.m_nbytes.
+    for (i=0; i<cpu_opencls.size(); i++) {
+        gstate.host_info.cpu_opencl_prop[gstate.host_info.num_cpu_opencl_platforms++] = cpu_opencls[i];
+    }
+
     for (i=0; i<nvidia_gpus.size(); i++) {
         // This is really CUDA description
         nvidia_gpus[i].description(buf, sizeof(buf));
@@ -247,6 +256,8 @@ void COPROCS::correlate_gpus(
     ati_opencls.clear();
     nvidia_opencls.clear();
     intel_gpu_opencls.clear();
+    cpu_opencls.clear();
+
 }
 
 // Some dual-GPU laptops (e.g., Macbook Pro) don't 
@@ -297,13 +308,12 @@ int COPROCS::write_coproc_info_file(vector<string> &warnings) {
     for (i=0; i<intel_gpu_opencls.size(); ++i) {
         intel_gpu_opencls[i].write_xml(mf, "intel_gpu_opencl", true);
     }
+    for (i=0; i<cpu_opencls.size(); i++) {
+        cpu_opencls[i].write_xml(mf);
+    }
     for (i=0; i<warnings.size(); ++i) {
         mf.printf("<warning>%s</warning>\n", warnings[i].c_str());
     }
-
-// TODO: write OpenCL info for CPU when implemented:
-//  gstate.host_info.have_cpu_opencl
-//  gstate.host_info.cpu_opencl_prop
 
     mf.printf("    </coprocs>\n");
     fclose(f);
@@ -322,6 +332,7 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
     OPENCL_DEVICE_PROP ati_opencl;
     OPENCL_DEVICE_PROP nvidia_opencl;
     OPENCL_DEVICE_PROP intel_gpu_opencl;
+    OPENCL_CPU_PROP cpu_opencl;
 
     ati_gpus.clear();
     nvidia_gpus.clear();
@@ -329,6 +340,7 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
     ati_opencls.clear();
     nvidia_opencls.clear();
     intel_gpu_opencls.clear();
+    cpu_opencls.clear();
 
     f = boinc_fopen(COPROC_INFO_FILENAME, "r");
     if (!f) return ERR_FOPEN;
@@ -413,10 +425,25 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
             }
             continue;
         }
+
+        if (xp.match_tag("opencl_cpu_prop")) {
+            memset(&cpu_opencl, 0, sizeof(cpu_opencl));
+            retval = cpu_opencl.parse(xp);
+            if (retval) {
+                memset(&cpu_opencl, 0, sizeof(cpu_opencl));
+            } else {
+                cpu_opencl.opencl_prop.is_used = COPROC_IGNORED;
+                cpu_opencls.push_back(cpu_opencl);
+            }
+            continue;
+        }
+        
         if (xp.parse_string("warning", s)) {
             warnings.push_back(s);
             continue;
         }
+
+
 
     // TODO: parse OpenCL info for CPU when implemented:
     //  gstate.host_info.have_cpu_opencl

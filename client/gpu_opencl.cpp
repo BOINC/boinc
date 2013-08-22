@@ -154,6 +154,7 @@ void COPROCS::get_opencl(
     char platform_vendor[256];
     char buf[256];
     OPENCL_DEVICE_PROP prop;
+    cl_device_type device_type;
     int current_CUDA_index;
     int current_CAL_index;
     int min_CAL_target;
@@ -252,7 +253,7 @@ void COPROCS::get_opencl(
         }
 
         ciErrNum = (*__clGetDeviceIDs)(
-            platforms[platform_index], CL_DEVICE_TYPE_GPU,
+            platforms[platform_index], (CL_DEVICE_TYPE_GPU | CL_DEVICE_TYPE_CPU),
             MAX_COPROC_INSTANCES, devices, &num_devices
         );
 
@@ -327,8 +328,29 @@ void COPROCS::get_opencl(
             ciErrNum = get_opencl_info(prop, device_index, warnings);
             if (ciErrNum != CL_SUCCESS) continue;
 
+            ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_TYPE, sizeof(device_type), &device_type, NULL);
+            if (ciErrNum != CL_SUCCESS) {
+                snprintf(buf, sizeof(buf),
+                    "clGetDeviceInfo failed to get device type (GPU or CPU)for device %d",
+                    (int)device_index
+                );
+                warnings.push_back(buf);
+                continue;
+            }
+
             prop.is_used = COPROC_UNUSED;
             prop.get_device_version_int();
+
+            //////////// CPU //////////////
+            if (device_type == CL_DEVICE_TYPE_CPU) {
+                
+                OPENCL_CPU_PROP c;
+                strlcpy(c.platform_vendor, platform_vendor, sizeof(c.platform_vendor));
+                c.opencl_prop = prop;
+                cpu_opencls.push_back(c);
+
+                continue;
+            }
 
             //////////// NVIDIA //////////////
             if (is_NVIDIA(prop.vendor)) {
@@ -462,12 +484,6 @@ void COPROCS::get_opencl(
                     warnings.push_back("clGetDeviceInfo failed to get device type for Intel device");
                     continue;
                 }
-                // TODO: implement this
-                if (device_type == CL_DEVICE_TYPE_CPU) {
-                    gstate.host_info.have_cpu_opencl = true;
-                    gstate.host_info.cpu_opencl_prop = prop;
-                    continue;
-                }
 
                 prop.device_num = (int)(intel_gpu_opencls.size());
                 prop.opencl_device_index = device_index;
@@ -569,7 +585,7 @@ cl_int COPROCS::get_opencl_info(
     ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_NAME, sizeof(prop.name), prop.name, NULL);
     if ((ciErrNum != CL_SUCCESS) || (prop.name[0] == 0)) {
         snprintf(buf, sizeof(buf),
-            "clGetDeviceInfo failed to get name for GPU %d",
+            "clGetDeviceInfo failed to get name for device %d",
             (int)device_index
         );
         warnings.push_back(buf);
@@ -579,7 +595,7 @@ cl_int COPROCS::get_opencl_info(
     ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_VENDOR, sizeof(prop.vendor), prop.vendor, NULL);
     if ((ciErrNum != CL_SUCCESS) || (prop.vendor[0] == 0)) {
         snprintf(buf, sizeof(buf),
-            "clGetDeviceInfo failed to get vendor for GPU %d",
+            "clGetDeviceInfo failed to get vendor for device %d",
             (int)device_index
         );
         warnings.push_back(buf);
@@ -589,7 +605,7 @@ cl_int COPROCS::get_opencl_info(
     ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_VENDOR_ID, sizeof(prop.vendor_id), &prop.vendor_id, NULL);
     if (ciErrNum != CL_SUCCESS) {
         snprintf(buf, sizeof(buf),
-            "clGetDeviceInfo failed to get vendor ID for GPU %d",
+            "clGetDeviceInfo failed to get vendor ID for device %d",
             (int)device_index
         );
         warnings.push_back(buf);
@@ -599,7 +615,7 @@ cl_int COPROCS::get_opencl_info(
     ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_AVAILABLE, sizeof(prop.available), &prop.available, NULL);
     if (ciErrNum != CL_SUCCESS) {
         snprintf(buf, sizeof(buf),
-            "clGetDeviceInfo failed to get availability for GPU %d",
+            "clGetDeviceInfo failed to get availability for device %d",
             (int)device_index
         );
         warnings.push_back(buf);
@@ -615,7 +631,7 @@ cl_int COPROCS::get_opencl_info(
             prop.half_fp_config = 0;  // Not supported by OpenCL 1.0
         } else {
             snprintf(buf, sizeof(buf),
-                "clGetDeviceInfo failed to get half-precision floating point capabilities for GPU %d",
+                "clGetDeviceInfo failed to get half-precision floating point capabilities for device %d",
                 (int)device_index
             );
             warnings.push_back(buf);
@@ -629,7 +645,7 @@ cl_int COPROCS::get_opencl_info(
     );
     if (ciErrNum != CL_SUCCESS) {
         snprintf(buf, sizeof(buf),
-            "clGetDeviceInfo failed to get single-precision floating point capabilities for GPU %d",
+            "clGetDeviceInfo failed to get single-precision floating point capabilities for device %d",
             (int)device_index
         );
         warnings.push_back(buf);
@@ -645,7 +661,7 @@ cl_int COPROCS::get_opencl_info(
             prop.double_fp_config = 0;  // Not supported by OpenCL 1.0
         } else {
             snprintf(buf, sizeof(buf),
-                "clGetDeviceInfo failed to get double-precision floating point capabilities for GPU %d",
+                "clGetDeviceInfo failed to get double-precision floating point capabilities for device %d",
                 (int)device_index
             );
             warnings.push_back(buf);
@@ -659,7 +675,7 @@ cl_int COPROCS::get_opencl_info(
     );
     if (ciErrNum != CL_SUCCESS) {
         snprintf(buf, sizeof(buf),
-            "clGetDeviceInfo failed to get little or big endian for GPU %d",
+            "clGetDeviceInfo failed to get little or big endian for device %d",
             (int)device_index
         );
         warnings.push_back(buf);
@@ -672,7 +688,7 @@ cl_int COPROCS::get_opencl_info(
     );
     if (ciErrNum != CL_SUCCESS) {
         snprintf(buf, sizeof(buf),
-            "clGetDeviceInfo failed to get execution capabilities for GPU %d",
+            "clGetDeviceInfo failed to get execution capabilities for device %d",
             (int)device_index
         );
         warnings.push_back(buf);
@@ -685,7 +701,7 @@ cl_int COPROCS::get_opencl_info(
     );
     if (ciErrNum != CL_SUCCESS) {
         snprintf(buf, sizeof(buf),
-            "clGetDeviceInfo failed to get device extensions for GPU %d",
+            "clGetDeviceInfo failed to get device extensions for device %d",
             (int)device_index
         );
         warnings.push_back(buf);
@@ -698,7 +714,7 @@ cl_int COPROCS::get_opencl_info(
     );
     if (ciErrNum != CL_SUCCESS) {
         snprintf(buf, sizeof(buf),
-            "clGetDeviceInfo failed to get global memory size for GPU %d",
+            "clGetDeviceInfo failed to get global memory size for device %d",
             (int)device_index
         );
         warnings.push_back(buf);
@@ -711,7 +727,7 @@ cl_int COPROCS::get_opencl_info(
     );
     if (ciErrNum != CL_SUCCESS) {
         snprintf(buf, sizeof(buf),
-            "clGetDeviceInfo failed to get local memory size for GPU %d",
+            "clGetDeviceInfo failed to get local memory size for device %d",
             (int)device_index
         );
         warnings.push_back(buf);
@@ -724,7 +740,7 @@ cl_int COPROCS::get_opencl_info(
     );
     if (ciErrNum != CL_SUCCESS) {
         snprintf(buf, sizeof(buf),
-            "clGetDeviceInfo failed to get max clock frequency for GPU %d",
+            "clGetDeviceInfo failed to get max clock frequency for device %d",
             (int)device_index
         );
         warnings.push_back(buf);
@@ -737,7 +753,7 @@ cl_int COPROCS::get_opencl_info(
     );
     if (ciErrNum != CL_SUCCESS) {
         snprintf(buf, sizeof(buf),
-            "clGetDeviceInfo failed to get max compute units for GPU %d",
+            "clGetDeviceInfo failed to get max compute units for device %d",
             (int)device_index
         );
         warnings.push_back(buf);
@@ -747,7 +763,7 @@ cl_int COPROCS::get_opencl_info(
     ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_VERSION, sizeof(prop.opencl_device_version), prop.opencl_device_version, NULL);
     if (ciErrNum != CL_SUCCESS) {
         snprintf(buf, sizeof(buf),
-            "clGetDeviceInfo failed to get OpenCL version supported by GPU %d",
+            "clGetDeviceInfo failed to get OpenCL version supported by device %d",
             (int)device_index
         );
         warnings.push_back(buf);
@@ -757,7 +773,7 @@ cl_int COPROCS::get_opencl_info(
     ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DRIVER_VERSION, sizeof(prop.opencl_driver_version), prop.opencl_driver_version, NULL);
     if (ciErrNum != CL_SUCCESS) {
         snprintf(buf, sizeof(buf),
-            "clGetDeviceInfo failed to get OpenCL driver version for GPU %d",
+            "clGetDeviceInfo failed to get OpenCL driver version for device %d",
             (int)device_index
         );
         warnings.push_back(buf);

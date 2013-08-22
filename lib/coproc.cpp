@@ -1104,6 +1104,46 @@ void COPROC_INTEL::fake(double ram, double avail_ram, int n) {
     opencl_prop.global_mem_size = (cl_ulong)ram;
 }
 
+////////////////// OPENCL CPU STARTS HERE /////////////////
+
+
+// CPU OpenCL does not really describe a coprocessor but 
+// this is here to take advantage of the other OpenCL code.
+void OPENCL_CPU_PROP::clear() {
+    platform_vendor[0] = 0;
+    memset(&opencl_prop, 0, sizeof(opencl_prop));
+}
+
+void OPENCL_CPU_PROP::write_xml(MIOFILE& f) {
+    f.printf(
+        "<opencl_cpu_prop>\n"
+        "   <platform_vendor>%s</platform_vendor>\n",
+        platform_vendor
+    );
+    opencl_prop.write_xml(f, "opencl_cpu_info");
+    f.printf("</opencl_cpu_prop>\n");
+}
+
+int OPENCL_CPU_PROP::parse(XML_PARSER& xp) {
+    int retval;
+
+    clear();
+
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/opencl_cpu_prop")) {
+            if (!strlen(platform_vendor)) return ERR_XML_PARSE;
+            return 0;
+        }
+        if (xp.parse_str("platform_vendor", platform_vendor, sizeof(platform_vendor))) continue;
+        if (xp.match_tag("opencl_cpu_info")) {
+            retval = opencl_prop.parse(xp, "/opencl_cpu_info");
+            if (retval) return retval;
+            continue;
+        }
+    }
+    return ERR_XML_PARSE;
+}
+
 // used wherever a processor type is specified in XML, e.g.
 // <coproc>
 //    <type>xxx</type>
