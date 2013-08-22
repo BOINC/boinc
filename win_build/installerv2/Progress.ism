@@ -4597,10 +4597,10 @@ VwBlAGIAAQBXAEUAQgB4ADgANgA=
 		<col def="I4">ISAttributes</col>
 		<row><td>Registry1</td><td>1</td><td>Control Panel\Desktop</td><td>SCRNSAVE.EXE</td><td>boinc.scr</td><td>_ScreensaverEnableNT</td><td>0</td></row>
 		<row><td>Registry2</td><td>1</td><td>Control Panel\Desktop</td><td>ScreenSaveActive</td><td>1</td><td>_ScreensaverEnableNT</td><td>0</td></row>
-		<row><td>Registry3</td><td>1</td><td>SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>boincmgr</td><td>"[INSTALLDIR]progressthruprocessors.exe.exe" /a /s</td><td>_BOINCManagerStartup</td><td>0</td></row>
+		<row><td>Registry3</td><td>1</td><td>SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>boincmgr</td><td>"[INSTALLDIR]progressthruprocessors.exe" /a /s</td><td>_BOINCManagerStartup</td><td>0</td></row>
 		<row><td>Registry30</td><td>2</td><td>SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>boinctray</td><td>"[INSTALLDIR]boinctray.exe"</td><td>_BOINCTrayStartup</td><td>0</td></row>
 		<row><td>Registry4</td><td>1</td><td>Control Panel\Desktop</td><td>ScreenSaveTimeOut</td><td>300</td><td>_ScreensaverEnableNT</td><td>0</td></row>
-		<row><td>Registry5</td><td>2</td><td>SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>boincmgr</td><td>"[INSTALLDIR]boincmgr.exe" /a /s</td><td>_BOINCManagerStartupAll</td><td>0</td></row>
+		<row><td>Registry5</td><td>2</td><td>SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>boincmgr</td><td>"[INSTALLDIR]progressthruprocessors.exe" /a /s</td><td>_BOINCManagerStartupAll</td><td>0</td></row>
 		<row><td>Registry6</td><td>1</td><td>Software\Space Sciences Laboratory, U.C. Berkeley\BOINC Manager</td><td>Skin</td><td>ProgressThruProcessors</td><td>_BOINCManagerSkin</td><td>0</td></row>
 	</table>
 
