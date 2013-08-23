@@ -681,7 +681,7 @@ inline void remove_str(char* p, const char* str) {
     }
 }
 
-// remove _( and ") from string
+// remove _(" and ") from string
 //
 void strip_translation(char* p) {
     remove_str(p, "_(\"");
