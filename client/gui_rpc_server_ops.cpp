@@ -374,8 +374,7 @@ static void handle_set_gpu_mode(GUI_RPC_CONN& grc) {
     grc.mfout.printf("<success/>\n");
 }
 
-// used on Android - get product name from GUI,
-// and use MAC address as domain name
+// used on Android - get product name and MAC addr from GUI,
 //
 static void handle_set_host_info(GUI_RPC_CONN& grc) {
     while (!grc.xp.get_tag()) {
@@ -388,11 +387,6 @@ static void handle_set_host_info(GUI_RPC_CONN& grc) {
             }
             if (strlen(hi.product_name)) {
                 safe_strcpy(gstate.host_info.product_name, hi.product_name);
-            }
-            if (!strcmp(gstate.host_info.domain_name, "localhost")
-                && strlen(hi.mac_address)
-            ) {
-                strcpy(gstate.host_info.domain_name, hi.mac_address);
             }
             grc.mfout.printf("<success/>\n");
             gstate.set_client_state_dirty("set_host_info RPC");

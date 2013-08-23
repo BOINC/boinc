@@ -57,12 +57,22 @@
 #include "hostinfo.h"
 
 // get domain name and IP address of this host
+// Android: if domain_name is empty, set it to android_xxxxxxxx
 //
 int HOST_INFO::get_local_network_info() {
+    strcpy(ip_addr, "");
+
+#ifdef ANDROID
+    if (strlen(domain_name)) return;
+    char buf[256];
+    make_random_string("", buf);
+    buf[8] = 0;
+    sprintf(domain_name, "android_%s", buf);
+    return;
+#endif
     struct sockaddr_storage s;
     
     strcpy(domain_name, "");
-    strcpy(ip_addr, "");
 
     // it seems like we should use getdomainname() instead of gethostname(),
     // but on FC6 it returns "(none)".
