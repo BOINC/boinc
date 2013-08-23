@@ -239,7 +239,11 @@ void CONFIG::defaults() {
     os_random_only = false;
     proxy_info.clear();
     rec_half_life = 10*86400;
+#ifdef ANDROID
+    report_results_immediately = true;
+#else
     report_results_immediately = false;
+#endif
     run_apps_manually = false;
     save_stats_days = 30;
     simple_gui_only = false;
