@@ -98,6 +98,7 @@ int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
 #ifdef ANDROID
         if (xp.parse_str("product_name", product_name, sizeof(product_name))) continue;
         if (xp.parse_str("mac_address", mac_address, sizeof(mac_address))) continue;
+        if (xp.parse_str("domain_name", domain_name, sizeof(domain_name))) continue;
 #endif
 
         if (static_items_only) continue;
