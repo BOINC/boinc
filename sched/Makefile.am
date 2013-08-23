@@ -119,6 +119,7 @@ schedshare_PROGRAMS = \
 	size_regulator \
     transitioner \
     trickle_credit \
+    trickle_deadline \
     trickle_echo \
     update_stats
 
@@ -249,6 +250,9 @@ db_purge_LDADD = $(SERVERLIBS)
 
 trickle_credit_SOURCES = trickle_credit.cpp trickle_handler.cpp
 trickle_credit_LDADD = $(SERVERLIBS)
+
+trickle_deadline_SOURCES = trickle_deadline.cpp trickle_handler.cpp
+trickle_deadline_LDADD = $(SERVERLIBS)
 
 trickle_echo_SOURCES = trickle_echo.cpp trickle_handler.cpp
 trickle_echo_LDADD = $(SERVERLIBS)
