@@ -918,7 +918,78 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
   }
 }
 
+/**
+ * Generate a tabular structure out of preferences for use in comparison
+ * views of preference sets
+ */
+function boincwork_make_prefs_table($prefs, $top_level = TRUE) {
 
+  $prefs_table = array();
+  $uncategorized = array();
+  
+  // Parse the project preferences form
+  foreach ($prefs as $key => $element) {
+    
+    // Determine which type of element this is and act accordingly
+    $element_type = NULL;
+    if (is_array($element) AND isset($element['#type'])) {
+      $element_type = $element['#type'];
+    }
+    switch ($element_type) {
+    case 'fieldset':
+      $prefs_table[$key] = array(
+        'name' => $element['#title'],
+        'elements' => boincwork_make_prefs_table($element, FALSE),
+      );
+      break;
+    case 'textfield':
+    case 'radios':
+    case 'checkbox':
+    case 'select':
+      // Special hack for time range preferences...
+      if (in_array($key, array('start_hour', 'net_start_hour'))) {
+        switch ($key) {
+        case 'start_hour':
+          $element['#title'] = t('Do work only between the hours of:');
+          break;
+        case 'net_start_hour':
+          $element['#title'] = t('Use network only between the hours of:');
+          break;
+        default:
+        }
+      }
+      $prefs_element = array(
+        'name' => (isset($element['#title'])) ? $element['#title'] : '',
+        'description' => (isset($element['#description'])) ? $element['#description'] : '',
+      );
+      if ($top_level) {
+        $uncategorized[$key] = $prefs_element;
+      }
+      else {
+        $prefs_table[$key] = $prefs_element;
+      }
+      break;
+    default:
+    }
+  }
+  
+  if ($prefs_table AND $uncategorized) {
+    // Throw any settings that don't fit elsewhere into "other"
+    $prefs_table['other'] = array(
+      'name' => t('Other settings'),
+      'elements' => $uncategorized,
+    );
+  }
+  elseif ($uncategorized) {
+    // If nothing is categorized, output all prefs under a general "settings"
+    $prefs_table['settings'] = array(
+      'name' => t('Settings'),
+      'elements' => $uncategorized,
+    );
+  }
+  
+  return $prefs_table;
+}
  
 /**
  * Load general or project preferences from BOINC account

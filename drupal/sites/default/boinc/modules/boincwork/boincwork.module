@@ -117,7 +117,7 @@ function boincwork_views_api() {
   * General preferences menu callback.
   * Called when user goes to edit preferences page
   */
-function generalprefs_page($action = null, $venue = null) {
+function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
   
   // Keep the venue selected across preference pages
   boincwork_select_venue($venue);
@@ -133,56 +133,84 @@ function generalprefs_page($action = null, $venue = null) {
     
   case 'combined':
     // Compare preference sets; tabular view
+    
     foreach ($pref_sets as $pref_set) {
-      //$form_state['build_info']['args'] = array($pref_set);
       $form_state = array();
       $prefs[$pref_set] = drupal_retrieve_form('boincwork_generalprefs_form', $form_state, $pref_set);
       drupal_prepare_form('boincwork_generalprefs_form', $prefs[$pref_set], $form_state);
     }
-    //krumo($prefs);
+    
     $output .= '<p>' . t('These apply to all BOINC projects in which you participate.') . '<br/>';
     $output .= t('On computers attached to multiple projects, the most recently modified preferences will be used.') . '</p>';
     $output .= '<p>' . t('Preferences last modified: @mod_time', array('@mod_time' => pretty_time_str($prefs['default']['modified']['#value']))) . '</p>';
     $output .= '<h2>' . t('Combined preferences') . ' ' . l('(' . t('Switch View') . ')', 'account/prefs/computing') . '</h2>';
     
-    $output .= '<table>';
+    $output .= '<table class="preferences combined">';
     
-    $sections = array(
-      'processor',
-      'storage',
-      'network'
-    );
-    foreach ($sections as $section) {
+    $prefs_table = boincwork_make_prefs_table($prefs['default']['prefs']['advanced']);
+    
+    foreach ($prefs_table as $category => $section) {
       $output .= '<tr class="section-heading">';
-      $output .= "<td>{$prefs['default'][$section]['#title']}</td>";
-      foreach ($pref_sets as $pref_set) $output .= '<td>' . ucwords($pref_set) . '</td>';
+      $output .= "<td>{$section['name']}</td>";
+      foreach ($pref_sets as $pref_set) {
+        $output .= '<td>' . $pref_set . '</td>';
+      }
       $output .= '</tr>';
-      foreach ($prefs['default']['prefs']['advanced'][$section] as $name => $setting) {
-        if ($name{0} == '#') continue;
-        if (!isset($setting['#type'])) continue;
-        if (!isset($setting['#title'])) $setting['#title'] = '';
-        if (!isset($setting['#description'])) $setting['#description'] = '';
+      foreach ($section['elements'] as $name => $setting) {
+        // Output the setting name and description, with an ugly exception
+        // made for time range preferences
+        $special = in_array($name, array('start_hour', 'end_hour', 'net_start_hour', 'net_end_hour')) ? TRUE : FALSE;
+        $very_special = in_array($name, array('end_hour', 'net_end_hour')) ? TRUE : FALSE;
+        if ($very_special) {
+          continue;
+        }
         $output .= '<tr>';
-        $output .= "<td>{$setting['#title']}<br/>{$setting['#description']}</td>";
+        $output .= '<td>';
+        $output .= "<div class=\"title\">{$setting['name']}</div>";
+        $output .= "<div class=\"description\">{$setting['description']}</div>";
+        $output .= '</td>';
+        // Output values for each preference set, again with ugly hacks for
+        // time range preferences
         foreach ($pref_sets as $pref_set) {
-          if (($prefs[$pref_set]) AND isset($prefs[$pref_set]['prefs']['advanced'][$section])) {
-            $pref_setting = $prefs[$pref_set]['prefs']['advanced'][$section][$name];
+          if (($prefs[$pref_set]) AND isset($prefs[$pref_set]['prefs']['advanced'][$category])) {
+            $pref_setting = $prefs[$pref_set]['prefs']['advanced'][$category][$name];
             $value = isset($pref_setting['#options']) ? $pref_setting['#options'][$pref_setting['#default_value']] : $pref_setting['#default_value'];
-            if ($value == '') $value = '---';
-            if (!isset($pref_setting['#field_suffix'])) $pref_setting['#field_suffix'] = '';
-            $output .= "<td>{$value} {$pref_setting['#field_suffix']}</td>";
+            if ($value == '') {
+              $value = '---';
+            }
+            if (!isset($pref_setting['#field_suffix'])) {
+              $pref_setting['#field_suffix'] = '';
+            }
+            if (!$special) {
+              $output .= "<td>{$value} {$pref_setting['#field_suffix']}</td>";
+            }
+            else {
+              // The "very special" case where we merge two prefs
+              $second_pref = str_replace('start_', 'end_', $name);
+              $second_pref_setting = $prefs[$pref_set]['prefs']['advanced'][$category][$second_pref];
+              $output .= "<td>{$value} " . t('and') .
+                " {$second_pref_setting['#options'][$second_pref_setting['#default_value']]}</td>";
+            }
           }
-          else {
+          else  {
             $output .= '<td>---</td>';
           }
         }
         $output .= '</tr>';
       }
     }
+    
+    // Show Add / Edit links for each preference set
     $output .= '<tr>';
     $output .= '<td></td>';
-    foreach ($pref_sets as $pref_set) $output .= '<td>' . (($prefs[$pref_set]) ? l(t('Edit'), "account/prefs/computing/edit/{$pref_set}") : l(t('Add'), "account/prefs/computing/edit/{$pref_set}")) . '</td>';
+    foreach ($pref_sets as $pref_set) {
+      $action_text = ($prefs[$pref_set]) ? t('Edit') : t('Add');
+      $output .= '<td>';
+      $output .= l($action_text, "account/prefs/computing/edit/{$pref_set}");
+      $output .= '</td>';
+    }
     $output .= '</tr>';
+    
     $output .= '</table>';
     
     break;
@@ -261,7 +289,7 @@ function generalprefs_page($action = null, $venue = null) {
       $output .= '  </div>';
       $output .= '</div>';
     }
-    $output .= drupal_get_form('boincwork_generalprefs_form', $venue);
+    $output .= drupal_get_form('boincwork_generalprefs_form', $venue, NULL, $advanced);
     break;
   }
   
@@ -287,42 +315,41 @@ function projectprefs_page($action = null, $venue = null) {
   
   switch ($action) {
   case 'combined':
+  
     // Compare preference sets; tabular view
+    
+    global $user;
+    $account = user_load($user->uid);
+    $boincuser = BoincUser::lookup_id($account->boincuser_id);
+    
     foreach ($pref_sets as $pref_set) {
       $form_state = array();
       $prefs[$pref_set] = drupal_retrieve_form('boincwork_projectprefs_form', $form_state, $pref_set);
       drupal_prepare_form('boincwork_projectprefs_form', $prefs[$pref_set], $form_state);
     }
     
-    $output .= '<p>' . t('Combined preferences') . ' ' . l('(' . t('Switch View') . ')', 'account/prefs/project') . '</p>';
+    $output .= '<h2>' . t('Combined preferences') . ' ' . l('(' . t('Switch View') . ')', 'account/prefs/project') . '</h2>';
     
-    $output .= '<table>';
+    $output .= '<table class="preferences combined">';
     
-    $sections = array(
-      'resource',
-      'default_venue'
-    ); 
-    if (isset($prefs['default']['#project specific'])) {
-      foreach ($prefs['default']['#project specific'] as $project_specific) {
-        $sections[] = $project_specific;
-      }
-    }
-    if ($project_has_beta) $sections[] ='beta';
-    foreach ($sections as $section) {
+    $prefs_table = boincwork_make_prefs_table($prefs['default']);
+    
+    foreach ($prefs_table as $category => $section) {
       $output .= '<tr class="section-heading">';
-      $output .= "<td>{$prefs['default'][$section]['#title']}</td>";
-      foreach ($pref_sets as $pref_set) $output .= '<td>' . ucwords($pref_set) . '</td>';
+      $output .= "<td>{$section['name']}</td>";
+      foreach ($pref_sets as $pref_set) {
+        $output .= '<td>' . $pref_set . '</td>';
+      }
       $output .= '</tr>';
-      foreach ($prefs['default'][$section] as $name => $setting) {
-        if ($name{0} == '#') continue;
-        if (!isset($setting['#type'])) continue;
-        if (!isset($setting['#title'])) $setting['#title'] = '';
-        if (!isset($setting['#description'])) $setting['#description'] = '';
+      foreach ($section['elements'] as $name => $setting) {
         $output .= '<tr>';
-        $output .= "<td>{$setting['#title']}<br/>{$setting['#description']}</td>";
+        $output .= '<td>';
+        $output .= "<div class=\"title\">{$setting['name']}</div>";
+        $output .= "<div class=\"description\">{$setting['description']}</div>";
+        $output .= '</td>';
         foreach ($pref_sets as $pref_set) {
-          if (($prefs[$pref_set]) AND isset($prefs[$pref_set][$section])) {
-            $pref_setting = $prefs[$pref_set][$section][$name];
+          if (($prefs[$pref_set]) AND isset($prefs[$pref_set][$category])) {
+            $pref_setting = $prefs[$pref_set][$category][$name];
             $value = isset($pref_setting['#options']) ? $pref_setting['#options'][$pref_setting['#default_value']] : $pref_setting['#default_value'];
             if ($value == '') $value = '---';
             if (!isset($pref_setting['#field_suffix'])) $pref_setting['#field_suffix'] = '';
@@ -332,12 +359,51 @@ function projectprefs_page($action = null, $venue = null) {
         $output .= '</tr>';
       }
     }
+    
+    // Allow a preference set to be used by default for all new hosts
+    $output .= '<tr>';
+    $output .= '<td>' . t('Automatically use which preference set for all new
+      computers?') . '</td>';
+    $default_set = isset($boincuser->venue) ? $boincuser->venue : 'default';
+    foreach ($pref_sets as $pref_set) {
+      $output .= '<td>';
+      if ($pref_set == $default_set) {
+        $output .= ucfirst($pref_set);
+      }
+      else {
+        $output .= l(ucfirst($pref_set),
+          "account/prefs/project/set-default/{$pref_set}");
+      }
+      $output .= '</td>';
+    }
+    $output .= '</tr>';
+    
+    // Show Add / Edit links for each preference set
     $output .= '<tr>';
     $output .= '<td></td>';
-    foreach ($pref_sets as $pref_set) $output .= '<td>' . (($prefs[$pref_set]) ? l(t('Edit'), "account/prefs/project/edit/{$pref_set}") : l(t('Add'), "account/prefs/project/edit/{$pref_set}")) . '</td>';
+    foreach ($pref_sets as $pref_set) {
+      $action_text = ($prefs[$pref_set]) ? t('Edit') : t('Add');
+      $output .= '<td>';
+      $output .= l($action_text, "account/prefs/project/edit/{$pref_set}");
+      $output .= '</td>';
+    }
     $output .= '</tr>';
+    
     $output .= '</table>';
     
+    break;
+    
+  case 'set-default':
+    // Set this preference set as the one to use for any new hosts attached
+    // to the user account
+    global $user;
+    $account = user_load($user->uid);
+    $boincuser = BoincUser::lookup_id($account->boincuser_id);
+    $boincuser->venue = $venue;
+    venue_update($boincuser);
+    drupal_set_message(t('The primary preference set has been changed to "@set"',
+      array('@set' => ucfirst($boincuser->venue))));
+    drupal_goto('account/prefs/project/combined');
     break;
     
   case 'view':

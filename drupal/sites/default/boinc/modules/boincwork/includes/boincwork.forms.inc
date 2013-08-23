@@ -14,7 +14,7 @@
 /**
  * The structure of the general preferences form
  */
-function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null) {
+function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null, $advanced = FALSE) {
   $form = array();
   $prefs = null;
   
@@ -174,11 +174,15 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null)
     '#type' => 'fieldset',
     '#description' => '',
     '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
-    '#attributes' => array('class' => 'advanced-settings')
+    '#collapsed' => !$advanced,
+    '#attributes' => array('class' => 'advanced-settings'),
   );
   
   // Processing preferences
+  
+  $form['prefs']['advanced']['anchor'] = array(
+    '#value' => '<a name="advanced"></a>'
+  );
   
   $form['prefs']['advanced']['separator_top'] = array(
     '#value' => '<div class="separator"></div>'
@@ -646,7 +650,7 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
     'no_cpu' => 0,
     'no_cuda' => 0,
     'no_ati' => 0,
-    'default_venue' => isset($boincuser->venue) ? $boincuser->venue : '',
+    //'default_venue' => isset($boincuser->venue) ? $boincuser->venue : '',
   );
   foreach ($default as $name => $value) {
     if (isset($prefs[$name])) {
@@ -725,25 +729,7 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
     }
   }
   
-  $form['default_venue'] = array(
-    '#title' => t('Venue settings'),
-    '#type' => 'fieldset',
-    '#description' => null,
-    '#collapsible' => TRUE,
-    '#collapsed' => FALSE
-  );
-  $form['venue_options'] = array(
-    '#type' => 'value',
-    '#value' => array('' => '---', 'home' => t('Home'), 'work' => t('Work'), 'school' => t('School'))
-  );
-  $form['default_venue']['default_venue'] = array(
-    '#title' => t('Default computer location'),
-    '#type' => 'select',
-    '#options' => $form['venue_options']['#value'],
-    '#default_value' => $default['default_venue'],
-    '#description' => null
-  );
-  
+  /*
   if ($project_has_beta) {
     $form['beta'] = array(
       '#title' => t('Beta settings'),
@@ -761,6 +747,7 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
       '#description' => t('This helps us develop applications, but may cause jobs to fail on your computer')
     );
   }
+  */
   
   // Load project specific preferences from XML config
   $xml = boincwork_get_project_specific_config();
@@ -881,11 +868,6 @@ function boincwork_projectprefs_form_submit($form, &$form_state) {
   
   // Save preferences back to the BOINC account
   boincwork_save_prefs($prefs, 'project', $venue);
-  
-  if (!$venue) {
-    $boincuser->venue = $form_state['values']['default_venue'];
-    venue_update($boincuser);
-  }
   
   drupal_set_message(t('Your preferences have been updated.
       Client-related preferences will take effect when your computer 
