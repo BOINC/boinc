@@ -31,6 +31,7 @@ using std::vector;
 
 #include "boinc_db.h"
 #include "error_numbers.h"
+#include "filesys.h"
 
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"

@@ -107,14 +107,15 @@
 #include <vector>
 using std::vector;
 
-#include "version.h"
 #include "boinc_db.h"
-#include "shmem.h"
 #include "error_numbers.h"
-#include "synch.h"
-#include "util.h"
+#include "filesys.h"
+#include "shmem.h"
 #include "str_util.h"
 #include "svn_version.h"
+#include "synch.h"
+#include "util.h"
+#include "version.h"
 
 #include "credit.h"
 #include "sched_config.h"

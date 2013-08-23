@@ -32,9 +32,9 @@
 #include "str_replace.h"
 
 #include "sched_msgs.h"
-#include "validate_util.h"
 #include "sched_config.h"
 #include "sched_util.h"
+#include "validate_util.h"
 
 using std::vector;
 using std::string;

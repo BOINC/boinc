@@ -32,8 +32,8 @@
 
 #include "boinc_db.h"
 #include "error_numbers.h"
-#include "str_util.h"
 #include "filesys.h"
+#include "str_util.h"
 
 #include "sched_check.h"
 #include "sched_config.h"

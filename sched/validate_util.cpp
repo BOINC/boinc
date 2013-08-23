@@ -23,8 +23,6 @@
 #include <cstring>
 #include "config.h"
 
-
-
 #include "error_numbers.h"
 #include "filesys.h"
 #include "parse.h"

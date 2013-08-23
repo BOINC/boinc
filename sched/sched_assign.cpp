@@ -29,10 +29,11 @@
 #include <sys/param.h>
 #include <unistd.h>
 
+#include "backend_lib.h"
 #include "boinc_db.h"
 #include "crypt.h"
-#include "backend_lib.h"
 #include "error_numbers.h"
+#include "filesys.h"
 
 #include "sched_main.h"
 #include "sched_msgs.h"

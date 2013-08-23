@@ -38,18 +38,17 @@
 #endif
 
 #include "crypt.h"
-#include "parse.h"
-#include "util.h"
 #include "error_numbers.h"
+#include "filesys.h"
+#include "parse.h"
 #include "str_replace.h"
 #include "str_util.h"
-#include "filesys.h"
 #include "svn_version.h"
+#include "util.h"
 
 #include "sched_config.h"
-#include "sched_util.h"
-
 #include "sched_msgs.h"
+#include "sched_util.h"
 
 using std::string;
 

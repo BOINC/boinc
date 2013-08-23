@@ -41,17 +41,18 @@
 using std::vector;
 using std::string;
 
+#include "backend_lib.h"
 #include "boinc_db.h"
 #include "crypt.h"
-#include "util.h"
-#include "backend_lib.h"
-#include "sched_config.h"
+#include "filesys.h"
 #include "parse.h"
-#include "sched_util.h"
+#include "sched_config.h"
 #include "sched_msgs.h"
+#include "sched_util.h"
 #include "str_replace.h"
 #include "str_util.h"
 #include "svn_version.h"
+#include "util.h"
 
 #define LOCKFILE            "make_work.out"
 #define PIDFILE             "make_work.pid"

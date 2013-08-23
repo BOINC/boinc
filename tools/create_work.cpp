@@ -30,13 +30,15 @@
 #include <sys/param.h>
 #include <unistd.h>
 
-#include "backend_lib.h"
 #include "boinc_db.h"
 #include "common_defs.h"
 #include "crypt.h"
+#include "filesys.h"
 #include "sched_config.h"
 #include "str_replace.h"
 #include "util.h"
+
+#include "backend_lib.h"
 
 void usage() {
     fprintf(stderr,

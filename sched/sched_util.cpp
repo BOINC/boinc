@@ -26,14 +26,14 @@
 #include <sys/types.h>
 #include <fcntl.h>
 
+#include "error_numbers.h"
 #include "filesys.h"
 #include "md5_file.h"
-#include "error_numbers.h"
+#include "util.h"
 
+#include "sched_config.h"
 #include "sched_msgs.h"
 #include "sched_util.h"
-#include "sched_config.h"
-#include "util.h"
 
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"
