@@ -29,6 +29,7 @@
 #include <zlib.h>
 #endif
 
+#include "filesys.h"
 #include "md5.h"
 
 struct FILE_INFO;
