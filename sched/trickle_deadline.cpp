@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2011 University of California
+// Copyright (C) 2013 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,17 +18,16 @@
 // The following is a deadline trickle handler.
 // It extends the deadline of the task_id the app sends us.
 
-// A trickle handler that grants credit based on run time
 //
 // message format:
 //
+// <result_name>x</result_name>
 // <cpu_time>x</cpu_time>
-// <task_name>x</task_name>
 //
 // Required cmdline arg:
 //
 // --extension_period X     add X seconds to the current deadline
-// --extension_timeframe X  extend only if deadline is within the next X secs
+// --extension_timeframe X  extend only if deadline is within the next X seconds
 //
 
 #include "util.h"
@@ -70,6 +69,7 @@ int handle_trickle_init(int argc, char** argv) {
 
 int handle_trickle(MSG_FROM_HOST& mfh) {
     char task_name[256];
+    char buf[256];
     int cpu_time = 0; // not needed but parsed to limit unexpected tag warnings
 
     printf("got trickle-up \n%s\n\n", mfh.xml);
@@ -81,18 +81,19 @@ int handle_trickle(MSG_FROM_HOST& mfh) {
 
     while (!xp.get_tag()) {
         if (xp.parse_int("cpu_time", cpu_time)) break;
-        if (xp.parse_str("task_name", task_name, 256)) break;
+        if (xp.parse_str("result_name", task_name, 256)) break;
         log_messages.printf(MSG_NORMAL, "unexpected tag: %s\n", xp.parsed_tag);
     }
     if (strlen(task_name) == 0) {
         log_messages.printf(MSG_NORMAL,
-            "unexpected empty task_name attribute\n"
+            "unexpected empty result_name attribute\n"
         );
         return ERR_XML_PARSE;
     }
 
     DB_RESULT task;
-    int retval = task.lookup(task_name);
+    sprintf(buf, " where name='%s'", task_name);
+    int retval = task.lookup(buf);
     if (retval) return retval;
 
     // sanity checks - customize as needed
@@ -106,7 +107,7 @@ int handle_trickle(MSG_FROM_HOST& mfh) {
     }
     if ((task.report_deadline - extension_timeframe) > dtime()) {
         log_messages.printf(MSG_DEBUG,
-            "Report deadline is too far in the future: %d\n",
+            "Report deadline is too far in the future: %d\n", 
             task.report_deadline
         );
         // don't do anything
@@ -118,8 +119,8 @@ int handle_trickle(MSG_FROM_HOST& mfh) {
     retval = task.update();
     if (retval) return retval;
     log_messages.printf(MSG_DEBUG,
-        "Report deadline of result %d extended to %d\n",
-        task.id, task.report_deadline
+        "Report deadline of result %d extended to %d\n", 
+        task.get_id(), task.report_deadline
     );
     return 0;
 }
