@@ -28,10 +28,6 @@
 #pragma interface "BOINCGUIApp.cpp"
 #endif
 
-#ifdef __WXMAC__
-#include "mac/MacSysMenu.h"     // Must be included before MainDocument.h
-#endif
-
 ///
 /// Which view is on display
 ///

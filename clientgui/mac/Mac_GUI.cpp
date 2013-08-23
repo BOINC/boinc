@@ -80,6 +80,7 @@ void MacLocalizeBOINCMenu() {
     MenuItemIndex itemIndex;
     wxString originalText = wxEmptyString;
     char originalCharStr[1024];
+    char shortName[128];
     CFStringRef localizedText;
     CFStringRef menuItemString;
     OSStatus err;
@@ -87,8 +88,8 @@ void MacLocalizeBOINCMenu() {
     CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxASSERT(pSkinAdvanced);
     
-    const wxChar *shortName = pSkinAdvanced->GetApplicationShortName().c_str();
-    if (!shortName) return;     // Should never happen
+    strlcpy(shortName, pSkinAdvanced->GetApplicationShortName().utf8_str(), sizeof(shortName));
+    if (!shortName[0]) return;     // Should never happen
     
     err = GetIndMenuItemWithCommandID(NULL, kHICommandAbout, 1, &BOINCMenu, &itemIndex);
     if (!err) {
