@@ -23,10 +23,11 @@
 #include <vector>
 #endif
 
-#include "client_types.h"
-#include "common_defs.h"
 #include "app_ipc.h"
+#include "common_defs.h"
 #include "procinfo.h"
+
+#include "client_types.h"
 
 #define ABORT_TIMEOUT   15
     // if we send app <abort> request, wait this long before killing it.
