@@ -402,6 +402,7 @@ bool CWizardAttach::SyncToAccountManager() {
     pDoc->rpc.acct_mgr_info(ami);
 
     if (ami.acct_mgr_url.size()) {
+        m_strProjectName = wxString(ami.acct_mgr_name.c_str(), wxConvUTF8);
         m_AccountManagerInfoPage->SetProjectURL( 
             wxString(ami.acct_mgr_url.c_str(), wxConvUTF8)
         );
