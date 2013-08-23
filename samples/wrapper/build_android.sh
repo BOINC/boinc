@@ -1,4 +1,4 @@
-#/bin/sh
+#!/bin/sh
 #script to compile Wrapper for Android
 
 export ANDROIDTC="$HOME/android-tc"
