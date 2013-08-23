@@ -78,7 +78,7 @@ protected:
     CTaskBarIcon*       m_pTaskBarIcon;
     CDlgEventLog*       m_pEventLog;
 #ifdef __WXMAC__
-    CMacSystemMenu*     m_pMacSystemMenu;
+    CTaskBarIcon*       m_pMacDockIcon;
 #endif
 
     wxString            m_strBOINCMGRExecutableName;
@@ -137,8 +137,8 @@ public:
     bool                IsMgrMultipleInstance()     { return m_bMultipleInstancesOK; }
 
 #ifdef __WXMAC__
-    CMacSystemMenu*     GetMacSystemMenu()          { return m_pMacSystemMenu; }
-    void                DeleteMacSystemMenu();
+    CTaskBarIcon*       GetMacDockIcon()            { return m_pMacDockIcon; }
+    void                DeleteMacDockIcon();
     int                 ShouldShutdownCoreClient()  { return true; }
 #else
     int                 ShouldShutdownCoreClient()  { return m_iShutdownCoreClient; }

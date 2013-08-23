@@ -43,7 +43,7 @@
 #define USE_DEBUG_WXMAC 1
 
 #define wxDEBUG_LEVEL 0
-#define __WXOSX_CARBON__
+#define __WXOSX_COCOA__
 #define __WX__
 #define wxUSE_BASE 1
 #define MACOS_CLASSIC
@@ -64,7 +64,7 @@
 
 //#include <wx/version.h> // For wxCHECK_VERSION
 
-#define TARGET_CARBON 1
+#define TARGET_COCOA 1
 #define wxUSE_UNICODE 1
 #define HAVE_WCSLEN 1
 

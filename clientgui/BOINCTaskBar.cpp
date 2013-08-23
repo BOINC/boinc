@@ -82,9 +82,13 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
 END_EVENT_TABLE()
 
 
-CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnected, wxIcon* iconSnooze) : 
+CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnected, wxIcon* iconSnooze
 #ifdef __WXMAC__
-    wxTaskBarIcon()
+, wxTaskBarIconType iconType
+#endif
+) :
+#ifdef __WXMAC__
+    wxTaskBarIcon(iconType)
 #else 
     wxTaskBarIconEx(wxT("BOINCManagerSystray"), 1)
 #endif
@@ -101,6 +105,7 @@ CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnecte
     m_dtLastNotificationAlertExecuted = wxDateTime((time_t)0);
     m_iLastNotificationUnreadMessageCount = 0;
 #ifdef __WXMAC__
+    m_iconType = iconType;
     m_pNotificationRequest = NULL;
 #endif
 }
@@ -340,11 +345,6 @@ void CTaskBarIcon::OnReloadSkin(CTaskbarEvent& WXUNUSED(event)) {
     m_iconTaskBarNormal = *pSkinAdvanced->GetApplicationIcon();
     m_iconTaskBarDisconnected = *pSkinAdvanced->GetApplicationDisconnectedIcon();
     m_iconTaskBarSnooze = *pSkinAdvanced->GetApplicationSnoozeIcon();
-
-#ifdef __WXMAC__
-    // For unknown reasons, menus won't work if we call BuildMenu() here 
-    wxGetApp().GetMacSystemMenu()->SetNeedToRebuildMenu();
-#endif
 }
 
 
@@ -372,36 +372,26 @@ wxMenu *CTaskBarIcon::CreatePopupMenu() {
     return menu;
 }
 
-
 // Override the standard wxTaskBarIcon::SetIcon() because we are only providing a 
 // 16x16 icon for the menubar, while the Dock needs a 128x128 icon.
 // Rather than using an entire separate icon, overlay the Dock icon with a badge 
 // so we don't need additional Snooze and Disconnected icons for branding.
 bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& ) {
-    CTaskBarIcon* pTaskbar = wxGetApp().GetTaskBarIcon();
-    if (pTaskbar) {
-        return pTaskbar->SetMacTaskBarIcon(icon);
-    }
-    return false;
-}
-
-
-bool CTaskBarIcon::SetMacTaskBarIcon(const wxIcon& icon) {
     wxIcon macIcon;
     bool result;
     OSStatus err = noErr ;
     int w, h, x, y;
+
+    if (m_iconType != wxTBI_DOCK) {
+        result = wxGetApp().GetMacDockIcon()->SetIcon(icon);
+        return (result && wxTaskBarIcon::SetIcon(icon));
+    }
 
     if (icon.IsSameAs(m_iconCurrentIcon))
         return true;
     
     m_iconCurrentIcon = icon;
     
-    CMacSystemMenu* sysMenu = wxGetApp().GetMacSystemMenu();
-    if (sysMenu == NULL) return 0;
-    
-    result = sysMenu->SetMacMenuIcon(icon);
-
     RestoreApplicationDockTileImage();      // Remove any previous badge
 
     if (m_iconTaskBarDisconnected.IsSameAs(icon))
@@ -409,7 +399,7 @@ bool CTaskBarIcon::SetMacTaskBarIcon(const wxIcon& icon) {
     else if (m_iconTaskBarSnooze.IsSameAs(icon))
         macIcon = macsnoozebadge;
     else
-        return result;
+        return true;
     
     // Convert the wxIcon into a wxBitmap so we can perform some
     // wxBitmap operations with it
@@ -449,7 +439,7 @@ bool CTaskBarIcon::SetMacTaskBarIcon(const wxIcon& icon) {
     if (pImage != NULL)
         CGImageRelease(pImage);
 
-    return result;
+    return true;
 }
 
 
@@ -536,12 +526,14 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
 
     pMenu->Append(wxID_ABOUT, menuName, wxEmptyString);
 
-#ifndef __WXMAC__
+#ifdef __WXMAC__
     // These should be in Windows Task Bar Menu but not in Mac's Dock menu
-    pMenu->AppendSeparator();
-
-    pMenu->Append(wxID_EXIT, _("E&xit"), wxEmptyString);
+    if (m_iconType != wxTBI_DOCK)
 #endif
+    {
+        pMenu->AppendSeparator();
+        pMenu->Append(wxID_EXIT, _("E&xit"), wxEmptyString);
+    }
 
     AdjustMenuItems(pMenu);
 

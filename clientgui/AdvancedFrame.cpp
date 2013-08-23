@@ -1400,7 +1400,6 @@ void CAdvancedFrame::OnClientShutdown(wxCommandEvent& WXUNUSED(event)) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
-
     // Stop all timers
     StopTimers();
 
@@ -1783,9 +1782,6 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     // Update the menus
     DeleteMenu();
     CreateMenu();
-#ifdef __WXMAC__
-    wxGetApp().GetMacSystemMenu()->BuildMenu();
-#endif
 
     // Restart timers to continue normal operations.
     StartTimers();

@@ -36,7 +36,11 @@ class CTaskbarEvent;
 
 class CTaskBarIcon : public wxTaskBarIconEx {
 public:
-    CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnected, wxIcon* iconSnooze);
+    CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnected, wxIcon* iconSnooze
+#ifdef __WXMAC__
+                , wxTaskBarIconType iconType
+#endif
+                );
     ~CTaskBarIcon();
 
     void OnOpenWebsite(wxCommandEvent& event);
@@ -67,7 +71,7 @@ public:
 #ifdef __WXMAC__
 private:
     NMRecPtr   m_pNotificationRequest;
-
+    wxTaskBarIconType m_iconType;
     void MacRequestUserAttention();
     void MacCancelUserAttentionRequest();
     bool SetMacTaskBarIcon(const wxIcon& icon);

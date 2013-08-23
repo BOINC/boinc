@@ -129,7 +129,7 @@ bool CBOINCGUIApp::OnInit() {
     m_pTaskBarIcon = NULL;
     m_pEventLog = NULL;
 #ifdef __WXMAC__
-    m_pMacSystemMenu = NULL;
+    m_pMacDockIcon = NULL;
 #endif
     m_strBOINCMGRExecutableName = wxEmptyString;
     m_strBOINCMGRRootDirectory = wxEmptyString;
@@ -423,18 +423,21 @@ bool CBOINCGUIApp::OnInit() {
         m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
         m_pSkinManager->GetAdvanced()->GetApplicationDisconnectedIcon(),
         m_pSkinManager->GetAdvanced()->GetApplicationSnoozeIcon()
-    );
-    wxASSERT(m_pTaskBarIcon);
 #ifdef __WXMAC__
-    m_pMacSystemMenu = new CMacSystemMenu(
+        , wxTBI_CUSTOM_STATUSITEM
+#endif
+    );
+#ifdef __WXMAC__
+    m_pMacDockIcon = new CTaskBarIcon(
         m_pSkinManager->GetAdvanced()->GetApplicationName(), 
         m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
         m_pSkinManager->GetAdvanced()->GetApplicationDisconnectedIcon(),
         m_pSkinManager->GetAdvanced()->GetApplicationSnoozeIcon()
+        , wxTBI_DOCK
     );
-    wxASSERT(m_pMacSystemMenu);
+    wxASSERT(m_pMacDockIcon);
 #endif
-
+    wxASSERT(m_pTaskBarIcon);
 
     // Startup the System Idle Detection code
     IdleTrackerAttach();
@@ -801,6 +804,9 @@ void CBOINCGUIApp::OnActivateApp(wxActivateEvent& event) {
             m_pEventLog->Raise();
         }
         m_pFrame->Raise();
+#ifdef __WXMAC__
+        ShowInterface();
+#endif
     }
     event.Skip();
 }
@@ -1253,11 +1259,11 @@ void CBOINCGUIApp::DeleteTaskBarIcon() {
 }
 
 #ifdef __WXMAC__
-void CBOINCGUIApp::DeleteMacSystemMenu() {
-    if (m_pMacSystemMenu) {
-        delete m_pMacSystemMenu;
+void CBOINCGUIApp::DeleteMacDockIcon() {
+    if (m_pMacDockIcon) {
+        delete m_pMacDockIcon;
     }
-    m_pMacSystemMenu = NULL;
+    m_pMacDockIcon = NULL;
 }
 #endif
 
