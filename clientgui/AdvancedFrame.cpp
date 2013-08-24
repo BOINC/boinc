@@ -195,9 +195,7 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_SIZE(CAdvancedFrame::OnSize)
     EVT_MOVE(CAdvancedFrame::OnMove)
 #ifdef __WXMAC__
-// Work around an apparent bug in wxCarbon 2.9.4
-// TODO: remove this when the wxCarbon bug is fixed
-    EVT_SHOW( CAdvancedFrame::OnShow )
+	EVT_MENU(wxID_PREFERENCES, CAdvancedFrame::OnPreferences)
 #endif
 END_EVENT_TABLE ()
 
@@ -354,6 +352,12 @@ bool CAdvancedFrame::CreateMenu() {
         strMenuName,
         strMenuDescription
     );
+
+#ifdef __WXMAC__
+    menuFile->Append(
+        wxID_PREFERENCES
+    );
+#endif
 
     // View menu
     wxMenu *menuView = new wxMenu;
@@ -1039,31 +1043,6 @@ void CAdvancedFrame::OnMove(wxMoveEvent& event) {
     event.Skip();
 }
     
-
-#ifdef __WXMAC__
-// Work around an apparent bug in wxCarbon 2.9.4
-// TODO: remove this when the wxCarbon bug is fixed
-void CAdvancedFrame::OnShow(wxShowEvent& event) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnShow - Function Begin"));
-
-    wxWindow*       pwndNotebookPage = NULL;
-    wxASSERT(m_pNotebook);
-
-    if (m_pNotebook) {
-        pwndNotebookPage = m_pNotebook->GetPage(m_pNotebook->GetSelection());
-        wxASSERT(pwndNotebookPage);
-        
-        if (pwndNotebookPage) {
-            pwndNotebookPage->Show();
-        }
-    }
-    
-    event.Skip();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnShow - Function End"));
-}
-#endif
-
 
 int CAdvancedFrame::_GetCurrentViewPage() {
 

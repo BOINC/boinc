@@ -74,6 +74,9 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_MENU(ID_HELPBOINCMANAGER, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCWEBSITE, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(wxID_ABOUT, CSimpleFrame::OnHelpAbout)
+#ifdef __WXMAC__
+	EVT_MENU(wxID_PREFERENCES, CSimpleFrame::OnPreferences)
+#endif
 END_EVENT_TABLE()
 
 
@@ -117,6 +120,12 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
         strMenuName,
         strMenuDescription
     );
+
+#ifdef __WXMAC__
+    menuFile->Append(
+        wxID_PREFERENCES
+    );
+#endif
 
     // Skins submenu
     m_pSubmenuSkins = new wxMenu;
