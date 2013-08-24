@@ -158,9 +158,19 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
       $output .= '</tr>';
       foreach ($section['elements'] as $name => $setting) {
         // Output the setting name and description, with an ugly exception
-        // made for time range preferences
-        $special = in_array($name, array('start_hour', 'end_hour', 'net_start_hour', 'net_end_hour')) ? TRUE : FALSE;
-        $very_special = in_array($name, array('end_hour', 'net_end_hour')) ? TRUE : FALSE;
+        // made for preferences with special formatting
+        $special_map = array(
+          'start_hour' => 'end_hour',
+          'net_start_hour'=> 'net_end_hour',
+          'daily_xfer_limit_mb' => 'daily_xfer_period_days',
+        );
+        $special_delimiter = array(
+          'start_hour' => t('and'),
+          'net_start_hour'=> t('and'),
+          'daily_xfer_limit_mb' => t('every'),
+        );
+        $special = isset($special_map[$name]);
+        $very_special = in_array($name, $special_map);
         if ($very_special) {
           continue;
         }
@@ -172,7 +182,9 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
         // Output values for each preference set, again with ugly hacks for
         // time range preferences
         foreach ($pref_sets as $pref_set) {
-          if (($prefs[$pref_set]) AND isset($prefs[$pref_set]['prefs']['advanced'][$category])) {
+          if (($prefs[$pref_set]) AND 
+              $prefs[$pref_set]['#established'] AND
+              isset($prefs[$pref_set]['prefs']['advanced'][$category])) {
             $pref_setting = $prefs[$pref_set]['prefs']['advanced'][$category][$name];
             $value = isset($pref_setting['#options']) ? $pref_setting['#options'][$pref_setting['#default_value']] : $pref_setting['#default_value'];
             if ($value == '') {
@@ -186,10 +198,11 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
             }
             else {
               // The "very special" case where we merge two prefs
-              $second_pref = str_replace('start_', 'end_', $name);
+              $second_pref = $special_map[$name];
               $second_pref_setting = $prefs[$pref_set]['prefs']['advanced'][$category][$second_pref];
-              $output .= "<td>{$value} " . t('and') .
-                " {$second_pref_setting['#options'][$second_pref_setting['#default_value']]}</td>";
+              $second_value = isset($second_pref_setting['#options']) ? $second_pref_setting['#options'][$second_pref_setting['#default_value']] : $second_pref_setting['#default_value'];
+              $output .= "<td>{$value} {$pref_setting['#field_suffix']} {$special_delimiter[$name]}" .
+                " {$second_value} {$second_pref_setting['#field_suffix']} </td>";
             }
           }
           else  {
@@ -204,9 +217,11 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
     $output .= '<tr>';
     $output .= '<td></td>';
     foreach ($pref_sets as $pref_set) {
-      $action_text = ($prefs[$pref_set]) ? t('Edit') : t('Add');
+      $action_text = ($prefs[$pref_set]['#established']) ? t('Edit') : t('Add');
       $output .= '<td>';
-      $output .= l($action_text, "account/prefs/computing/edit/{$pref_set}");
+      $output .= l($action_text, "account/prefs/computing/edit/{$pref_set}/1",
+        array('fragment' => "advanced")
+      );
       $output .= '</td>';
     }
     $output .= '</tr>';

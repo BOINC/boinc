@@ -17,6 +17,7 @@
 function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null, $advanced = FALSE) {
   $form = array();
   $prefs = null;
+  $established = TRUE;
   
   // Enable AHAH form support for dynamically updating content based on preset
   ahah_helper_register($form, $form_state);
@@ -28,6 +29,11 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     
     // Load preferences from BOINC account
     $prefs = boincwork_load_prefs('general', $venue);
+    
+    // Take note if this is not an established preference set on the account
+    if (isset($prefs['@attributes']['cleared'])) {
+      $established = FALSE;
+    }
     
     // Determine if a preset is selected or if these are custom settings
     if (!isset($prefs['@attributes']['preset'])) $prefs['@attributes']['preset'] = 'custom';
@@ -115,6 +121,10 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
       t('18:00'), t('19:00'), t('20:00'), t('21:00'), t('22:00'), t('23:00'))
   );
   
+  // Identify preference sets that are established to distinguish what has been
+  // saved to the database from what is just showing default values
+  $form['#established'] = $established;
+   
   // Set up the preference container for AHAH
   $form['prefs'] = array(
     '#title' => '',
