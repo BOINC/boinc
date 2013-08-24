@@ -31,7 +31,9 @@ dist_tools_SCRIPTS = \
     manage_privileges \
     run_in_ops \
     stage_file \
-    watch_tcp \
+    watch_tcp
+
+dist_tools_DATA = \
     project.xml
 
 AM_CXXFLAGS += $(MYSQL_CFLAGS)
