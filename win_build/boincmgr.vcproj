@@ -974,6 +974,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\opencl_boinc.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\parse.cpp"
 				>
 			</File>
