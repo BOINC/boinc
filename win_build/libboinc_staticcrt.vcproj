@@ -721,6 +721,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\opencl_boinc.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\parse.cpp"
 				>
 				<FileConfiguration
@@ -1076,6 +1080,10 @@
 			</File>
 			<File
 				RelativePath="..\lib\notice.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\opencl_boinc.h"
 				>
 			</File>
 			<File
