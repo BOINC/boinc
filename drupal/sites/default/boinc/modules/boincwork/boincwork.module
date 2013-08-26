@@ -130,6 +130,16 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
   drupal_set_title($title);
   
   switch ($action) {
+  
+  case 'clear':
+    // Remove settings from this preference set
+    if ($venue AND $venue != 'default') {
+      boincwork_save_prefs(NULL, 'general', $venue);
+      drupal_set_message(t('Settings for the "@name" preference set have been
+        cleared', array('@name' => ucfirst($venue))));
+    }
+    drupal_goto();
+    break;
     
   case 'combined':
     // Compare preference sets; tabular view
@@ -222,6 +232,18 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
       $output .= l($action_text, "account/prefs/computing/edit/{$pref_set}/1",
         array('fragment' => "advanced")
       );
+      // Show Clear links for established preference sets
+      if ($pref_set != 'default' AND $prefs[$pref_set]['#established']) {
+        $output .= ' | ' . l(t('Clear'), "account/prefs/computing/clear/{$venue}",
+          array(
+            'query' => drupal_get_destination(),
+            'attributes' => array(
+              'onclick' => 'return confirm(\'' . t('This will remove all of your settings from the \"@name\" preference set. Are you sure?',
+                array('@name' => ucfirst($venue))) . '\')'
+            )
+          )
+        );
+      }
       $output .= '</td>';
     }
     $output .= '</tr>';
@@ -329,6 +351,17 @@ function projectprefs_page($action = null, $venue = null) {
   drupal_set_title($title);
   
   switch ($action) {
+  
+  case 'clear':
+    // Remove settings from this preference set
+    if ($venue AND $venue != 'default') {
+      boincwork_save_prefs(NULL, 'project', $venue);
+      drupal_set_message(t('Settings for the "@name" preference set have been
+        cleared', array('@name' => ucfirst($venue))));
+    }
+    drupal_goto();
+    break;
+    
   case 'combined':
   
     // Compare preference sets; tabular view
@@ -363,7 +396,9 @@ function projectprefs_page($action = null, $venue = null) {
         $output .= "<div class=\"description\">{$setting['description']}</div>";
         $output .= '</td>';
         foreach ($pref_sets as $pref_set) {
-          if (($prefs[$pref_set]) AND isset($prefs[$pref_set][$category])) {
+          if (($prefs[$pref_set]) AND
+              $prefs[$pref_set]['#established'] AND
+              isset($prefs[$pref_set][$category])) {
             $pref_setting = $prefs[$pref_set][$category][$name];
             $value = isset($pref_setting['#options']) ? $pref_setting['#options'][$pref_setting['#default_value']] : $pref_setting['#default_value'];
             if ($value == '') $value = '---';
@@ -397,12 +432,23 @@ function projectprefs_page($action = null, $venue = null) {
     $output .= '<tr>';
     $output .= '<td></td>';
     foreach ($pref_sets as $pref_set) {
-      $action_text = ($prefs[$pref_set]) ? t('Edit') : t('Add');
+      $action_text = ($prefs[$pref_set]['#established']) ? t('Edit') : t('Add');
       $output .= '<td>';
       $output .= l($action_text, "account/prefs/project/edit/{$pref_set}");
+      // Show Clear links for established preference sets
+      if ($pref_set != 'default' AND $prefs[$pref_set]['#established']) {
+        $output .= ' | ' . l(t('Clear'), "account/prefs/project/clear/{$venue}",
+          array(
+            'query' => drupal_get_destination(),
+            'attributes' => array(
+              'onclick' => 'return confirm(\'' . t('This will remove all of your settings from the \"@name\" preference set. Are you sure?',
+                array('@name' => ucfirst($venue))) . '\')'
+            )
+          )
+        );
+      }
       $output .= '</td>';
     }
-    $output .= '</tr>';
     
     $output .= '</table>';
     

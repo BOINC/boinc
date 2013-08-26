@@ -513,9 +513,22 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
   $form['prefs']['form control tabs'] = array(
     '#value' => '<li class="tab">' . l(t('Cancel'), $_GET['q']) . '</li>'
   );
+  if ($established AND $venue != 'default') {
+    $form['prefs']['form control tabs']['#value'] .= '<li class="tab">' . 
+      l(t('Clear'), "account/prefs/computing/clear/{$venue}",
+        array(
+          'query' => drupal_get_destination(),
+          'attributes' => array(
+            'onclick' => 'return confirm(\'' . t('This will remove all of your settings from the @name preference set. Are you sure?',
+              array('@name' => $venue)) . '\')'
+          )
+        )
+      ) . '</li>';
+  }
   $form['prefs']['view control'] = array(
     '#value' => '<li class="first alt tab">' . l('(' . t('Show comparison view') . ')', 'account/prefs/computing/combined') . '</li></ul>'
   );
+  $form['#submit'][] = 'boincwork_generalprefs_form_submit';
   
   return $form;
 }
@@ -622,6 +635,11 @@ function boincwork_generalprefs_form_submit($form, &$form_state) {
     $prefs['@attributes']['preset'] = $preset;
   }
   
+  // If this is a new preference set, be sure to unset the "cleared" attribute
+  if (isset($prefs['@attributes']['cleared'])) {
+    unset($prefs['@attributes']['cleared']);
+  }
+  
   // Update database
   $result = boincwork_save_prefs($prefs, 'general', $venue);
   
@@ -646,6 +664,8 @@ function boincwork_generalprefs_form_submit($form, &$form_state) {
  * The structure of the project preferences form
  */
 function boincwork_projectprefs_form(&$form_state, $venue) {
+
+  $established = TRUE;
   
   // Get availability of special BOINC preferences
   require_boinc(array('prefs'));
@@ -653,6 +673,11 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
   
   // Load any existing preferences from BOINC account
   $prefs = boincwork_load_prefs('project', $venue);
+  
+  // Take note if this is not an established preference set on the account
+  if (isset($prefs['@attributes']['cleared'])) {
+    $established = FALSE;
+  }
   
   // Define form defaults
   $default = array(
@@ -680,6 +705,10 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
     '#type' => 'value',
     '#value' => array(1 => t('yes'), 0 => t('no'))
   );
+  
+  // Identify preference sets that are established to distinguish what has been
+  // saved to the database from what is just showing default values
+  $form['#established'] = $established;
   
   // Hidden elements
   $form['venue'] = array(
@@ -782,6 +811,18 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
   $form['prefs']['form control tabs'] = array(
     '#value' => '<li class="tab">' . l(t('Cancel'), $_GET['q']) . '</li>'
   );
+  if ($established AND $venue != 'default') {
+    $form['prefs']['form control tabs']['#value'] .= '<li class="tab">' . 
+      l(t('Clear'), "account/prefs/project/clear/{$venue}",
+        array(
+          'query' => drupal_get_destination(),
+          'attributes' => array(
+            'onclick' => 'return confirm(\'' . t('This will remove all of your settings from the @name preference set. Are you sure?',
+              array('@name' => $venue)) . '\')'
+          )
+        )
+      ) . '</li>';
+  }
   $form['prefs']['view control'] = array(
     '#value' => '<li class="first alt tab">' . l('(' . t('Show comparison view') . ')', 'account/prefs/project/combined') . '</li></ul>'
   );
@@ -874,6 +915,11 @@ function boincwork_projectprefs_form_submit($form, &$form_state) {
   if (isset($form_state['storage']['all apps selected'])) {
     unset($prefs['project_specific']['app_id']);
     unset($form_state['storage']['all apps selected']);
+  }
+  
+  // If this is a new preference set, be sure to unset the "cleared" attribute
+  if (isset($prefs['@attributes']['cleared'])) {
+    unset($prefs['@attributes']['cleared']);
   }
   
   // Save preferences back to the BOINC account
