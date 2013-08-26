@@ -1077,7 +1077,7 @@ function user_account_host_list_views_default_views() {
   $handler->override_option('title', 'Computers');
   $handler->override_option('items_per_page', 7);
   $handler->override_option('use_pager', FALSE);
-  $handler->override_option('use_more', 1);
+  $handler->override_option('use_more', 0);
   $handler->override_option('use_more_always', 1);
   $handler->override_option('style_options', array(
     'grouping' => '',
