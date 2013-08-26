@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2013-01-02 20:51+0200\n"
+"PO-Revision-Date: 2013-08-22 22:52+0200\n"
 "Last-Translator: Martin <martin.suchan@email.cz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: cs\n"
@@ -1083,11 +1083,11 @@ msgstr "Paměť: je-li počítač používán, použít nejvýše"
 
 #: ../inc/prefs.inc:208
 msgid "Memory: when computer is not in use, use at most"
-msgstr "Paměť: ení-li počítač používán, použít nejvýše"
+msgstr "Paměť: není-li počítač používán, použít nejvýše"
 
 #: ../inc/prefs.inc:217
 msgid "Maintain enough tasks to keep busy for at least%1(max 10 days).%2"
-msgstr ""
+msgstr "Zajistit dostatek práce aspoň na %1(max 10 dní).%2"
 
 #: ../inc/prefs.inc:222 ../inc/prefs.inc:227 ../inc/prefs.inc:269
 #: ../inc/util.inc:264
@@ -1096,7 +1096,7 @@ msgstr "dní"
 
 #: ../inc/prefs.inc:225
 msgid "... and up to an additional"
-msgstr ""
+msgstr "... a až na dalších"
 
 #: ../inc/prefs.inc:231
 msgid ""
@@ -1416,11 +1416,11 @@ msgstr "Zpracováváno"
 
 #: ../inc/result.inc:107
 msgid "Validation pending"
-msgstr ""
+msgstr "Čeká na validaci"
 
 #: ../inc/result.inc:108
 msgid "Validation inconclusive"
-msgstr ""
+msgstr "Neprůkazná validace"
 
 #: ../inc/result.inc:109 ../inc/result.inc:259
 msgid "Valid"
@@ -1480,7 +1480,7 @@ msgstr "Zrušeno serverem"
 
 #: ../inc/result.inc:190
 msgid "Not started by deadline - canceled"
-msgstr ""
+msgstr "Nezapočato před uplynutím lhůty - zrušeno"
 
 #: ../inc/result.inc:193
 msgid "Error while downloading"
@@ -2081,9 +2081,8 @@ msgstr "Použito u komunitních funkcí"
 
 # 91%
 #: ../inc/user.inc:217 ../user/weak_auth.php:25
-#, fuzzy
 msgid "Account keys"
-msgstr "Klíč k účtu"
+msgstr "Klíče k účtu"
 
 #: ../inc/user.inc:222
 msgid "Preferences"
@@ -2200,15 +2199,15 @@ msgstr "Přidat mezi přátele"
 
 #: ../inc/user.inc:446
 msgid "user name cannot have leading or trailing white space"
-msgstr ""
+msgstr "uživatelské jméno nemůže začínat nebo končit mezerou"
 
 #: ../inc/user.inc:450
 msgid "user name must be nonempty"
-msgstr ""
+msgstr "uživatelské jméno nemůže být prázdné"
 
 #: ../inc/user.inc:454
 msgid "user name may not contain HTML tags"
-msgstr ""
+msgstr "uživatelské jméno nemůže obsahovat HTML tagy"
 
 #: ../inc/util.inc:122
 msgid "log out"
@@ -2529,6 +2528,8 @@ msgid ""
 "NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
 "select Add Project, and enter an email address and password."
 msgstr ""
+"Poznámka: Pokud používáte BOINC Manager, tak namísto tohoto formuláře jen "
+"pusťte BOINC, zvolte Přidat projekt a zadejte emailovou adresu a heslo."
 
 #: ../user/create_account_form.php:69
 msgid ""
@@ -3129,7 +3130,7 @@ msgstr "Zvýraznit speciální uživatele"
 
 #: ../user/edit_forum_preferences_form.php:135
 msgid "Display this many messages per page"
-msgstr ""
+msgstr "Zobrazit tolik zpráv na stránce"
 
 #: ../user/edit_forum_preferences_form.php:139
 msgid "How to sort"
@@ -3149,7 +3150,7 @@ msgstr "Automaticky přeskoč na první příspěvek v diskuzi"
 
 #: ../user/edit_forum_preferences_form.php:142
 msgid "Don't move sticky posts to top"
-msgstr ""
+msgstr "Nepřesouvat přišpendlené příspěvky na počátek"
 
 #: ../user/edit_forum_preferences_form.php:148
 msgid "Message filtering"
@@ -4024,7 +4025,6 @@ msgstr "Nahlášení provedeno"
 
 # 92%
 #: ../user/forum_report_post.php:66
-#, fuzzy
 msgid "Your report has been recorded. Thanks for your input."
 msgstr "Vaše nahlášení bylo uloženo. Děkujeme za vaší pomoc."
 
@@ -5372,6 +5372,9 @@ msgid ""
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
+"Vaše předvolby byly vráceny na výchozí hodnoty,\n"
+"změny se projeví až po komunikaci vašeho počítače s %1\n"
+"nebo při vykonání požadavku %2Aktualizovat%3 ze Správce BOINC."
 
 #: ../user/prefs_edit.php:65 ../user/prefs_edit.php:93
 msgid "%1 for %2"
@@ -6625,7 +6628,7 @@ msgstr "V týmu?"
 
 #: ../user/user_search.php:66
 msgid "Ordering"
-msgstr ""
+msgstr "Řazení"
 
 #: ../user/user_search.php:67
 msgid "Decreasing sign-up time"
@@ -6741,14 +6744,17 @@ msgid ""
 "    or by using an assigned 'account key'.\n"
 "    Your account key is:"
 msgstr ""
+"K účtu můžete přistupovat buď pomocí vaší emailové adresy a hesla,\n"
+"nebo pomocí přiděleného \"klíče k účtu\".\n"
+"Váš klíč k účtu je:"
 
 #: ../user/weak_auth.php:57
 msgid "This key can be used to:"
-msgstr ""
+msgstr "Tento klíč může být použít k:"
 
 #: ../user/weak_auth.php:59
 msgid "log in to your account on the web"
-msgstr ""
+msgstr "přihlášení k účtu na webu"
 
 #: ../user/weak_auth.php:61
 msgid ""
@@ -6757,6 +6763,10 @@ msgid ""
 "       create a file named %1 in the BOINC\n"
 "       data directory, and set its contents to:"
 msgstr ""
+"pro přídání počítače k vašemu účtu bez Správce BOINC.\n"
+"K tomu je třeba nainstalovat BOINC,\n"
+"vytvořit soubor s názvem %1 ve složce, kde má BOINC data,\n"
+"a obsah tohoto souboru nastavit na:"
 
 #: ../user/weak_auth.php:73
 msgid "Weak account key"
@@ -6771,12 +6781,20 @@ msgid ""
 "    do so using your weak account key.\n"
 "    Your weak account key is:"
 msgstr ""
+"Váš slabý klíč k účtu může být použit pro připojení počítačů k účtu\n"
+"tak, jak je popsáno výše, ale nemůže být nijak použit pro přihlášení k "
+"vašemu účtu či změně údajů.\n"
+"Pokud chcete připojit k vašemu účtu nezabezpečené počítače,\n"
+"použijte k tomu váš slabý klíč k účtu.\n"
+"Váš slabý klíč k účtu je:"
 
 #: ../user/weak_auth.php:81
 msgid ""
 "If you change your password, your weak account key changes, and your "
 "previous weak account key becomes invalid."
 msgstr ""
+"Při změně hesla dojde též ke změně vašeho slabého klíče k účtu a váš "
+"předchozí slabý klíč se tak stane neplatným."
 
 #: ../user/workunit.php:32
 msgid "can't find workunit"

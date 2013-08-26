@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2013-08-09 09:27+0200\n"
+"PO-Revision-Date: 2013-08-09 09:31+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -1114,7 +1114,6 @@ msgid "Memory: when computer is not in use, use at most"
 msgstr "Arbeitsspeicher: wenn Computer nicht genutzt wird, nutze höchstens"
 
 #: ../inc/prefs.inc:217
-#, fuzzy
 msgid "Maintain enough tasks to keep busy for at least%1(max 10 days).%2"
 msgstr "Genug Aufgaben für mindestens X Tage vorhalten%1(max. 10 Tage)%2."
 
@@ -3231,7 +3230,6 @@ msgid "Jump to first new post in thread automatically"
 msgstr "Automatisch zum ersten neuen Beitrag im Thema springen"
 
 #: ../user/edit_forum_preferences_form.php:142
-#, fuzzy
 msgid "Don't move sticky posts to top"
 msgstr "Angepinnte Beiträge nicht nach oben bewegen"
 

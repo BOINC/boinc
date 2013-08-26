@@ -18,11 +18,11 @@ msgstr ""
 "X-Generator: Poedit 1.5.7\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
 #: clientgui/AccountInfoPage.cpp:387
 #, c-format
@@ -141,33 +141,47 @@ msgstr "Usar gestor de conta"
 
 #: clientgui/AccountInfoPage.cpp:587
 msgid "The minimum username length for this project is 1. Please enter a different username."
-msgstr "O tamanho minimo do nome de utilizador para este projecto é 1. Por favor insira um nome de utilizador diferente."
+msgstr ""
+"O tamanho minimo do nome de utilizador para este projecto é 1. Por favor "
+"insira um nome de utilizador diferente."
 
 #: clientgui/AccountInfoPage.cpp:592
 msgid "The minimum username length for this account manager is 1. Please enter a different username."
-msgstr "O tamanho minimo do nome de utilizador para este gestor de conta é 1. Por favor insira um nome de utilizador diferente."
+msgstr ""
+"O tamanho minimo do nome de utilizador para este gestor de conta é 1. Por "
+"favor insira um nome de utilizador diferente."
 
 #: clientgui/AccountInfoPage.cpp:598
 msgid "The minimum email address length for this project is 1. Please enter a different email address."
-msgstr "O tamanho minimo do endereço de email para este projecto é 1. Por favor insira um email diferente."
+msgstr ""
+"O tamanho minimo do endereço de email para este projecto é 1. Por favor "
+"insira um email diferente."
 
 #: clientgui/AccountInfoPage.cpp:603
 msgid "The minimum email address length for this account manager is 1. Please enter a different email address."
-msgstr "O tamanho minimo do endereço de email para este gestor de conta é 1. Por favor insira um endereço de email diferente."
+msgstr ""
+"O tamanho minimo do endereço de email para este gestor de conta é 1. Por "
+"favor insira um endereço de email diferente."
 
 #: clientgui/AccountInfoPage.cpp:616
 #, c-format
 msgid "The minimum password length for this project is %d. Please enter a different password."
-msgstr "O comprimento minimo da palavra passe para este projecto é de %d. Por favor, insira uma palavra passe diferente."
+msgstr ""
+"O comprimento minimo da palavra passe para este projecto é de %d. Por favor, "
+"insira uma palavra passe diferente."
 
 #: clientgui/AccountInfoPage.cpp:622
 #, c-format
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
-msgstr "O comprimento minimo da palavra passe para este gestor de conta é de %d. Por favor, insira uma palavra-passe diferente."
+msgstr ""
+"O comprimento minimo da palavra passe para este gestor de conta é de %d. Por "
+"favor, insira uma palavra-passe diferente."
 
 #: clientgui/AccountInfoPage.cpp:634
 msgid "The password and confirmation password do not match. Please type them again."
-msgstr "A palavra passe original e a palavra passe de confirmação não condizem. Por favor escreva-as novamente."
+msgstr ""
+"A palavra passe original e a palavra passe de confirmação não condizem. Por "
+"favor escreva-as novamente."
 
 #: clientgui/AccountManagerInfoPage.cpp:248
 msgid "Choose an account manager"
@@ -291,7 +305,9 @@ msgstr "&Adicionar projecto ou gestor de conta..."
 
 #: clientgui/AdvancedFrame.cpp:412
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
-msgstr "Voluntarie-se para algum, ou todos os mais de 30 projectos em várias áreas da ciência"
+msgstr ""
+"Voluntarie-se para algum, ou todos os mais de 30 projectos em várias áreas "
+"da ciência"
 
 #: clientgui/AdvancedFrame.cpp:416
 #, c-format
@@ -447,7 +463,9 @@ msgstr "Ler ficheiros de configuração"
 
 #: clientgui/AdvancedFrame.cpp:577
 msgid "Read configuration info from cc_config.xml and any app_config.xml files"
-msgstr "Ler informações de configuração de cc_config.mxl e quaisquer ficheiros app_config.xml"
+msgstr ""
+"Ler informações de configuração de cc_config.mxl e quaisquer ficheiros "
+"app_config.xml"
 
 #: clientgui/AdvancedFrame.cpp:581
 msgid "Read local prefs file"
@@ -663,7 +681,8 @@ msgid ""
 "Please contact your administrator to add you to the 'boinc_users' local user group."
 msgstr ""
 "Não está autorizado actualmente para gerir o cliente.\n"
-"Por favor contacte o administrador para que o adicione ao grupo local 'boinc_users'."
+"Por favor contacte o administrador para que o adicione ao grupo local "
+"'boinc_users'."
 
 #: clientgui/BOINCBaseFrame.cpp:523
 msgid ""
@@ -707,7 +726,8 @@ msgid ""
 "Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
 msgstr ""
 "%s não é capaz de iniciar o %s cliente.\n"
-"Por favor vá a Painel de Controlo->Ferramentas Administrativas->Serviços e inicie o serviço BOINC."
+"Por favor vá a Painel de Controlo->Ferramentas Administrativas->Serviços e "
+"inicie o serviço BOINC."
 
 #: clientgui/BOINCBaseFrame.cpp:638
 #, c-format
@@ -731,8 +751,10 @@ msgid ""
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 "%s não está actualmente conectado ao %s cliente.\n"
-"Por favor vá ao menu 'Avançado\\Escolher Computador...' para se conectar ao %s cliente.\n"
-"Para se conectar ao seu computador local, use 'localhost' como o nome de anfitrião."
+"Por favor vá ao menu 'Avançado\\Escolher Computador...' para se conectar ao %"
+"s cliente.\n"
+"Para se conectar ao seu computador local, use 'localhost' como o nome de "
+"anfitrião."
 
 #: clientgui/BOINCBaseView.cpp:774
 msgid "Project web pages"
@@ -788,7 +810,8 @@ msgid ""
 "Updating all projects and retrying all transfers."
 msgstr ""
 "%s detectou que está agora conectado à Internet.\n"
-"Actualizando todos os projectos e tentando novamente todas as transferências."
+"Actualizando todos os projectos e tentando novamente todas as "
+"transferências."
 
 #: clientgui/BOINCDialupManager.cpp:417
 #, c-format
@@ -827,7 +850,8 @@ msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
 msgstr ""
-"%s direitos ou permissões não definidos correctamente; por favor re-instale %s.\n"
+"%s direitos ou permissões não definidos correctamente; por favor re-instale "
+"%s.\n"
 "(Código de erro %d"
 
 #: clientgui/BOINCGUIApp.cpp:357
@@ -843,7 +867,8 @@ msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
 msgstr ""
-"Um reinício do computador é necessário para que o BOINC execute correctamente.\n"
+"Um reinício do computador é necessário para que o BOINC execute "
+"correctamente.\n"
 "Por favor reinicie o seu computador e tente novamente."
 
 #: clientgui/BOINCGUIApp.cpp:394
@@ -884,7 +909,8 @@ msgstr "Inicie o BOINC com estes argumentos opcionais"
 
 #: clientgui/BOINCGUIApp.cpp:572
 msgid "disable BOINC security users and permissions"
-msgstr "desabilite os utilizadores de gestão de segurança e as permissões do BOINC"
+msgstr ""
+"desabilite os utilizadores de gestão de segurança e as permissões do BOINC"
 
 #: clientgui/BOINCGUIApp.cpp:573
 msgid "set skin debugging mode to enable skin manager error messages"
@@ -1037,7 +1063,8 @@ msgid ""
 "When you click Finish, your web browser will go to a page where\n"
 "you can set your account name and preferences."
 msgstr ""
-"Quando carregar no Terminar, o seu navegador de internet irá para uma página onde\n"
+"Quando carregar no Terminar, o seu navegador de internet irá para uma página "
+"onde\n"
 "pode definir o seu nome de conta e preferências."
 
 #: clientgui/CompletionPage.cpp:232
@@ -1184,7 +1211,8 @@ msgid ""
 msgstr ""
 "Esta janela controla as preferências para este computador apenas.\n"
 "Carregue em OK para definir as preferências.\n"
-"Carregue em Limpar para restaurar as definições web (excepto aplicações exclusivas)."
+"Carregue em Limpar para restaurar as definições web (excepto aplicações "
+"exclusivas)."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:65
 msgid "Clear"
@@ -1240,7 +1268,9 @@ msgstr "Enquanto o computador está ligado à bateria"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:142
 msgid "check this if you want this computer to do work while it runs on batteries"
-msgstr "assinale se quiser que o seu computador execute trabalho enquanto está ligado à bateria"
+msgstr ""
+"assinale se quiser que o seu computador execute trabalho enquanto está "
+"ligado à bateria"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:148
 msgid "While computer is in use"
@@ -1248,7 +1278,9 @@ msgstr "Enquanto o computador está em uso"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:151
 msgid "check this if you want this computer to do work even when you're using it"
-msgstr "assinale aqui se quiser que o seu computador execute trabalho enquanto está a ser usado"
+msgstr ""
+"assinale aqui se quiser que o seu computador execute trabalho enquanto está "
+"a ser usado"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:157
 msgid "Use GPU while computer is in use"
@@ -1256,7 +1288,9 @@ msgstr "Utilizar GPU enquanto o computador está em uso"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:160
 msgid "check this if you want your GPU to do work even when you're using the computer"
-msgstr "assinale aqui se quiser que o seu GPU execute trabalho enquanto o computador está a ser usado"
+msgstr ""
+"assinale aqui se quiser que o seu GPU execute trabalho enquanto o computador "
+"está a ser usado"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:172
 msgid "Only after computer has been idle for"
@@ -1264,7 +1298,9 @@ msgstr "Apenas depois do computador estar inactivo por"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:182
 msgid "do work only after you haven't used the computer for this number of minutes"
-msgstr "executar trabalho só depois do computador não estar em uso por este número de minutos"
+msgstr ""
+"executar trabalho só depois do computador não estar em uso por este número "
+"de minutos"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:187
 #: clientgui/DlgAdvPreferencesBase.cpp:336
@@ -1439,7 +1475,8 @@ msgstr "Saltar verificação do ficheiro de imagem"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:467
 msgid "check this if your Internet provider modifies image files"
-msgstr "assinale aqui se o seu provedor de Internet modifica os ficheiros de imagem"
+msgstr ""
+"assinale aqui se o seu provedor de Internet modifica os ficheiros de imagem"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:475
 msgid "Connect options"
@@ -1451,7 +1488,9 @@ msgstr "Confirme antes de se conectar à internet"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:479
 msgid "if checked, a confirmation dialog will be displayed before trying to connect to the Internet"
-msgstr "se assinalado, um diálogo de confirmação aparecerá antes de se tentar conectar à Internet"
+msgstr ""
+"se assinalado, um diálogo de confirmação aparecerá antes de se tentar "
+"conectar à Internet"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:483
 msgid "Disconnect when done"
@@ -1496,7 +1535,9 @@ msgstr "Deixar pelo menos"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:619
 msgid "BOINC leaves at least this amount of disk space free (in Gigabytes)"
-msgstr "O BOINC deixa pelo menos este montante de espaço em disco livre (em Gigabytes)"
+msgstr ""
+"O BOINC deixa pelo menos este montante de espaço em disco livre (em "
+"Gigabytes)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:623
 msgid "Gigabytes disk space free"
@@ -1548,7 +1589,9 @@ msgstr "se assinalado, unidades de trabalho suspensas são deixadas em memória"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:712
 msgid "Suspend processor and network usage when these applications are running:"
-msgstr "Suspender processador e uso da rede quando estas aplicações estiverem a correr:"
+msgstr ""
+"Suspender processador e uso da rede quando estas aplicações estiverem a "
+"correr:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:721
 msgid "Add..."
@@ -1608,12 +1651,17 @@ msgstr "Copiar &Seleccionado"
 #: clientgui/DlgEventLog.cpp:305
 #: clientgui/DlgEventLog.cpp:313
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
-msgstr "Copiar as mensagens seleccionadas para o clipboard. Pode seleccionar múltiplas mensagens pressionando o shift enquanto carrega nas mensagens."
+msgstr ""
+"Copiar as mensagens seleccionadas para o clipboard. Pode seleccionar "
+"múltiplas mensagens pressionando o shift enquanto carrega nas mensagens."
 
 #: clientgui/DlgEventLog.cpp:307
 #: clientgui/DlgEventLog.cpp:315
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr "Copiar as mensagens seleccionadas para o clipboard. Pode seleccionar múltiplas mensagens pressionando o shift ou o control enquanto carrega nas mensagens."
+msgstr ""
+"Copiar as mensagens seleccionadas para o clipboard. Pode seleccionar "
+"múltiplas mensagens pressionando o shift ou o control enquanto carrega nas "
+"mensagens."
 
 #: clientgui/DlgEventLog.cpp:322
 #: clientgui/DlgItemProperties.cpp:66
@@ -2073,7 +2121,9 @@ msgstr "%s  - Selecção de Linguagem"
 #: clientgui/DlgOptions.cpp:695
 #, c-format
 msgid "The %s's language has been changed.  In order for this change to take effect, you must restart the %s."
-msgstr "A linguagem %s's foi alterada. Para que esta alteração tenha efeito, tem de reiniciar o %s."
+msgstr ""
+"A linguagem %s's foi alterada. Para que esta alteração tenha efeito, tem de "
+"reiniciar o %s."
 
 #: clientgui/DlgSelectComputer.cpp:90
 #, c-format
@@ -2174,7 +2224,9 @@ msgstr "Ler uma descrição detalhada da protecção de ecrã no Einstein@Home"
 
 #: clientgui/Localization.cpp:71
 msgid "Correspond with admins and other users on the Einstein@Home message boards"
-msgstr "Corresponder-se com administradores e outros utilizadores nos fóruns do Einstein@Home"
+msgstr ""
+"Corresponder-se com administradores e outros utilizadores nos fóruns do "
+"Einstein@Home"
 
 #: clientgui/Localization.cpp:73
 msgid "Einstein status"
@@ -2202,7 +2254,8 @@ msgstr "Resumo da conta"
 
 #: clientgui/Localization.cpp:95
 msgid "View a listing of all the computers on which you are running Einstein@Home"
-msgstr "Ver uma lista de todos os computadores onde está a executar o Einstein@Home"
+msgstr ""
+"Ver uma lista de todos os computadores onde está a executar o Einstein@Home"
 
 #: clientgui/Localization.cpp:101
 msgid "LIGO project"
@@ -2210,7 +2263,9 @@ msgstr "Projecto LIGO"
 
 #: clientgui/Localization.cpp:103
 msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
-msgstr "A página principal do projecto LASER Interferometer Gravitational-wave Observatory (LIGO)"
+msgstr ""
+"A página principal do projecto LASER Interferometer Gravitational-wave "
+"Observatory (LIGO)"
 
 #: clientgui/Localization.cpp:105
 msgid "GEO-600 project"
@@ -2303,7 +2358,9 @@ msgstr "Aplicação em falta"
 
 #: clientgui/MainDocument.cpp:1805
 msgid "Please download and install the CoRD application from http://cord.sourceforge.net"
-msgstr "Por favor faça o download e instale a aplicação CoRD de http://cord.sourceforge.net"
+msgstr ""
+"Por favor faça o download e instale a aplicação CoRD de "
+"http://cord.sourceforge.net"
 
 #: clientgui/MainDocument.cpp:2418
 msgid "on batteries"
@@ -2572,7 +2629,8 @@ msgstr "Escolha um projecto"
 
 #: clientgui/ProjectInfoPage.cpp:586
 msgid "To choose a project, click its name or type its URL below."
-msgstr "Para escolher um projecto, carregue no seu nome ou escreva o URL em baixo."
+msgstr ""
+"Para escolher um projecto, carregue no seu nome ou escreva o URL em baixo."
 
 #: clientgui/ProjectInfoPage.cpp:590
 msgid "Categories:"
@@ -2608,7 +2666,9 @@ msgstr "URL do Projecto:"
 
 #: clientgui/ProjectInfoPage.cpp:787
 msgid "This project may not have work for your type of computer.  Do you want to add it anyway?"
-msgstr "Este projecto pode não ter trabalho para o seu tipo de computador. Tem a certeza que o quer adicionar?"
+msgstr ""
+"Este projecto pode não ter trabalho para o seu tipo de computador. Tem a "
+"certeza que o quer adicionar?"
 
 #: clientgui/ProjectInfoPage.cpp:811
 msgid "You already added this project. Please choose a different project."
@@ -3103,7 +3163,9 @@ msgstr "Actualizar"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:62
 msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
-msgstr "Reportar todas as tarefas completas, obter os ultimos créditos, obter as ultimas preferências e possivelmente mais tarefas."
+msgstr ""
+"Reportar todas as tarefas completas, obter os ultimos créditos, obter as "
+"ultimas preferências e possivelmente mais tarefas."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:68
 #: clientgui/sg_ProjectCommandPopup.cpp:114
@@ -3125,11 +3187,16 @@ msgstr "Fazer reset ao projecto"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:80
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr "Apaga todos os ficheiros e tarefas associadas a este projecto e obtém novas tarefas. Pode actualizar o projecto primeiro para reportar tarefas concluidas."
+msgstr ""
+"Apaga todos os ficheiros e tarefas associadas a este projecto e obtém novas "
+"tarefas. Pode actualizar o projecto primeiro para reportar tarefas "
+"concluidas."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:86
 msgid "Remove this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
-msgstr "Remover este projecto. Tarefas em progresso serão perdidas (use 'Actualizar' primeiro para reportar tarefas concluidas)."
+msgstr ""
+"Remover este projecto. Tarefas em progresso serão perdidas (use 'Actualizar' "
+"primeiro para reportar tarefas concluidas)."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:91
 #: clientgui/sg_TaskCommandPopup.cpp:78
@@ -3444,7 +3511,8 @@ msgstr "Por favor especifique um endereço de email"
 
 #: clientgui/ValidateEmailAddress.cpp:75
 msgid "Invalid email address; please enter a valid email address"
-msgstr "Endereço de email inválido; por favor insira um endereço de email válido"
+msgstr ""
+"Endereço de email inválido; por favor insira um endereço de email válido"
 
 #: clientgui/ValidateURL.cpp:69
 msgid "Missing URL"
@@ -3852,7 +3920,9 @@ msgstr "Cancelar Transferência"
 
 #: clientgui/ViewTransfers.cpp:171
 msgid "Abort this file transfer.  You won't get credit for the task."
-msgstr "Cancelar a transferência deste ficheiro.  Não obterá créditos por esta tarefa"
+msgstr ""
+"Cancelar a transferência deste ficheiro.  Não obterá créditos por esta "
+"tarefa"
 
 #: clientgui/ViewTransfers.cpp:182
 msgid "File"
@@ -4089,12 +4159,16 @@ msgid ""
 "\n"
 "Please choose which type of change you would like to make:\n"
 msgstr ""
-"Escolher adicionar um novo projecto de computação voluntária ou alterar os projectos\n"
+"Escolher adicionar um novo projecto de computação voluntária ou alterar os "
+"projectos\n"
 "para os quais contribui.\n"
 "\n"
-"Alguns destes projectos são executados e geridos pela World Community Grid, enquanto outros\n"
-"são executados e geridos por outras equipas de pesquisa ou organizações. O software BOINC\n"
-"pode dividir o  seu poder de processamento livre, entre qualquer combinação de projectos.\n"
+"Alguns destes projectos são executados e geridos pela World Community Grid, "
+"enquanto outros\n"
+"são executados e geridos por outras equipas de pesquisa ou organizações. O "
+"software BOINC\n"
+"pode dividir o  seu poder de processamento livre, entre qualquer combinação "
+"de projectos.\n"
 "\n"
 "Alternativamente, se fez o registo num Gestor de Conta BOINC, pode usar\n"
 "isto para escolher que projectos quer dar suporte.\n"
@@ -4163,11 +4237,15 @@ msgstr "Pie Ctrl"
 
 #: clientgui/mac/MacAccessiblity.cpp:257
 msgid "for accessibility support, please select advanced from the view menu or type command shift a"
-msgstr "para suporte de acessibilidade, por favor seleccione a vista de menu avançada ou escreva o comando shift a"
+msgstr ""
+"para suporte de acessibilidade, por favor seleccione a vista de menu "
+"avançada ou escreva o comando shift a"
 
 #: clientgui/mac/MacAccessiblity.cpp:302
 msgid "This panel contains graphs showing user totals for projects"
-msgstr "Este painel contém gráficos mostrando os totais do utilizador para os projectos"
+msgstr ""
+"Este painel contém gráficos mostrando os totais do utilizador para os "
+"projectos"
 
 #: clientgui/mac/MacAccessiblity.cpp:726
 msgid "list headers"
@@ -4281,7 +4359,9 @@ msgstr "especifique as horas de começo e fim do trabalho no formato HH:MM-HH:MM
 
 #: clientgui/DlgAdvPreferences.h:31
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
-msgstr "especifique as horas iniciais e finais para o uso da rede, no formato HH:MM-HH:MM "
+msgstr ""
+"especifique as horas iniciais e finais para o uso da rede, no formato HH:MM-"
+"HH:MM "
 
 #, c-format
 #~ msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."

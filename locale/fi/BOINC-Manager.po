@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-18 11:32-0500\n"
-"PO-Revision-Date: 2013-06-19 09:43+0200\n"
-"Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
+"PO-Revision-Date: 2013-08-07 19:19+0200\n"
+"Last-Translator: Charlie <charlief@ssl.berkeley.edu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
@@ -2510,9 +2510,11 @@ msgstr "Hylätty: ei ehditty aloittaa ennen takarajaa"
 msgid "Aborted: disk limit exceeded"
 msgstr "Hylätty: levyraja saavutettu"
 
+# 78%
 #: clientgui/MainDocument.cpp:2559
+#, fuzzy
 msgid "Aborted: run time limit exceeded"
-msgstr ""
+msgstr "Hylätty: levyraja saavutettu"
 
 #: clientgui/MainDocument.cpp:2562
 msgid "Aborted: memory limit exceeded"
