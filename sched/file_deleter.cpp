@@ -115,7 +115,9 @@ void usage(char *name) {
 int get_file_path(
     const char *filename, char* upload_dir, int fanout, char* path
 ) {
-    dir_hier_path(filename, upload_dir, fanout, path, true);
+    if (dir_hier_path(filename, upload_dir, fanout, path, false)) {
+        return ERR_OPENDIR;
+    }
     if (boinc_file_exists(path)) {
         return 0;
     }
