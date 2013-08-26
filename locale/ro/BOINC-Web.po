@@ -6,15 +6,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2013-06-05 10:25 PDT\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-08-22 16:22 PDT\n"
+"PO-Revision-Date: 2013-08-23 15:01+0200\n"
+"Last-Translator: mcsjohn <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2);;\n"
+"X-Generator: Pootle 2.1.6\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
@@ -23,15 +25,15 @@ msgstr ""
 
 #: projects.inc:14
 msgid "Distributed sensing"
-msgstr ""
+msgstr "Detectare distribuită"
 
 #: projects.inc:19
 msgid "Stanford University"
-msgstr ""
+msgstr "Universitatea Stanford"
 
 #: projects.inc:20
 msgid "Seismology"
-msgstr ""
+msgstr "Seismologie"
 
 #: projects.inc:21
 msgid ""
@@ -39,14 +41,17 @@ msgid ""
 "using sensors attached to Internet-connected computers.  You must buy a "
 "sensor to participate."
 msgstr ""
+"Reţeaua Quake-Catcher dezvoltă cea mai mare reţea seismică mondială folosind "
+"senzori ataşaţi la calculatoare conectate la Internet.  Trebuie să "
+"cumpăraţi un senzor pentru a participa."
 
 #: projects.inc:27
 msgid "BOINC Poland Foundation"
-msgstr ""
+msgstr "Fundaţia BOINC Polonia"
 
 #: projects.inc:28
 msgid "Environmental research"
-msgstr ""
+msgstr "Cercetări de mediu"
 
 #: projects.inc:29
 msgid ""
@@ -54,25 +59,30 @@ msgid ""
 "levels by using sensors connected to volunteers' computers.  You must buy a "
 "sensor to participate."
 msgstr ""
+"Acest proiect crează continuu o harta a nivelului radiaţiei, disponibilă "
+"gratuit prin folosirea unor senzori conectaţi la calculatoarele "
+"voluntarilor.  Trebuie să cumpăraţi un senzor pentru a participa."
 
 #: projects.inc:33
 msgid ""
 "To participate in these projects you must buy a sensor and attach it to your "
 "computer."
 msgstr ""
+"Pentru a participa la aceste proiecte trebuie să cumpăraţi un senzor şi să "
+"îl ataşaţi la calculatorul dumneavoastră."
 
 #: projects.inc:37
 msgid "Cognitive science and artifical intelligence"
-msgstr ""
+msgstr "Ştiinţe cognitive şi inteligenţă artificială"
 
-#: projects.inc:50 projects.inc:318 projects.inc:362 projects.inc:411
-#: projects.inc:418 projects.inc:465
+#: projects.inc:50 projects.inc:342 projects.inc:386 projects.inc:435
+#: projects.inc:442 projects.inc:489
 msgid "Private"
-msgstr ""
+msgstr "Privat"
 
 #: projects.inc:51
 msgid "Artificial intelligence"
-msgstr ""
+msgstr "Inteligenţă artificială"
 
 #: projects.inc:52
 msgid ""
@@ -81,18 +91,22 @@ msgid ""
 "databases, and part of speech taggers in order to imitate human behavior in "
 "conversations."
 msgstr ""
+"Analizează şi converteşte reţele semantice pentru a fi folosite în FreeHAL, "
+"o inteligenţă artificială care foloseşte reţele semantice, stemmere, părţi "
+"din baze de date de vorbire şi părţi de etichetatoare de vorbire pentru a "
+"imita comportamentul uman în conversaţii."
 
 #: projects.inc:58
 msgid "Biology and Medicine"
-msgstr ""
+msgstr "Biologie şi Medicină"
 
 #: projects.inc:71
 msgid "University College Dublin"
-msgstr ""
+msgstr "Colegiul Universitar Dublin"
 
 #: projects.inc:72
 msgid "Antimalarial drug discovery"
-msgstr ""
+msgstr "Descoperirea medicamentului antimalarie"
 
 #: projects.inc:73
 msgid ""
@@ -102,14 +116,20 @@ msgid ""
 "the parasite. The FightMalaria@Home project is aimed at finding these new "
 "targets."
 msgstr ""
+"Prazitul care cauzează malaria continuă să dezvolte rezistenţă la "
+"medicamentele disponibile. Din această cauză avem nevoie să descoperim "
+"urgent noi medicamente pentru a le înlocui pe cele existente. Foarte "
+"important, aceste noi medicamente trebuie să ţintească NOILE proteine din "
+"parazit. Proiectul FightMalaria@Home este orientat pentru găsirea acestor "
+"noi ţinte."
 
 #: projects.inc:79
 msgid "University of Karlsruhe (Germany)"
-msgstr ""
+msgstr "Universitatea Karlsruhe (Germania)"
 
 #: projects.inc:80
 msgid "Protein structure prediction"
-msgstr ""
+msgstr "Predicţia structurii proteinelor"
 
 #: projects.inc:81
 msgid ""
@@ -119,14 +139,20 @@ msgid ""
 "protein malfunction or aggregation, and to develop new drugs on the basis of "
 "the three-dimensions structure of biologically important proteins."
 msgstr ""
+"POEM@HOME foloeşte o abordare computaţională pentru a prezice structura "
+"activă biologic a proteinelor, pentru a înţelege mecanismele de procesare a "
+"semnalelor atunci când proteinele interacţionează una cu cealaltă, pentru a "
+"înţelege bolile datorate funcţionării eronate sau agregărilor proteinelor şi "
+"pentru a dezvolta noi medicamente pe baza structurii tridimensionale a "
+"proteinelor importante biologic."
 
 #: projects.inc:87
 msgid "University of Delaware"
-msgstr ""
+msgstr "Universitatea Delaware"
 
 #: projects.inc:88
 msgid "Study of protein - ligand interactions"
-msgstr ""
+msgstr "Studiul proteinelor - interacţiuni ligand"
 
 #: projects.inc:89
 msgid ""
@@ -135,48 +161,61 @@ msgid ""
 "interactions and, by doing so, will search for insights into the discovery "
 "of novel pharmaceuticals."
 msgstr ""
+"Docking@Home are obiective atât de bioştiinţă cât şi de informatică. "
+"Proiectul ţinteşte îmbunătăţirea cunoştinţelor despre detaliile atomice ale "
+"lianţilor proteinelor şi astfel capătă o mai bună cunoaştere pentru "
+"descoperirea unor farmaceutice inovatoare."
 
-#: projects.inc:95
+#: projects.inc:103
 msgid "Barcelona Biomedical Research Park (PRBB)"
-msgstr ""
+msgstr "Parcul de Cercetare Biomedicala Barcelona (PRBB)"
 
-#: projects.inc:96
+#: projects.inc:104
 msgid "Molecular simulations of proteins"
-msgstr ""
+msgstr "Simulări moleculare ale proteinelor"
 
-#: projects.inc:97
+#: projects.inc:105
 msgid ""
 "GPUGrid.net opens novel computational scenarios by the first full-atom "
 "molecular dynamics code (CellMD) specially optimized to run on NVIDIA GPUs. "
 "New biomedical applications suddenly become possible giving a new role to "
 "computational biology for biomedical research."
 msgstr ""
+"GPUGrid.net deschide noi scenarii computaţionale prin primul cod dinamic "
+"molecular full-atom (CellMD) special optimizat pentru a rula pe GPU-uri "
+"NVIDIA. Noi aplicaţii biomedicale au devenit dintr-o dată posibile dând un "
+"nou rol biologiei computaţionale în cercetarea biomedicală."
 
-#: projects.inc:103
+#: projects.inc:111
 msgid "Technion, Israel"
-msgstr ""
+msgstr "Technion, Israel"
 
-#: projects.inc:104
+#: projects.inc:112
 msgid "Genetic linkage analysis"
-msgstr ""
+msgstr "Analiza legăturilor genetice"
 
-#: projects.inc:105
+#: projects.inc:113
 msgid ""
 "Superlink@Technion helps geneticists all over the world find disease-"
 "provoking genes causing some types of diabetes, hypertension (high blood "
 "pressure), cancer, schizophrenia and many others."
 msgstr ""
+"Superlink@Technion ajută geneticieni din întreaga lume în căutarea genelor "
+"provocatoare de boli care cauzează anumite tipuri de diabet, hipertensiune "
+"(tensiune mare), cancer, schizofrenie şi multe altele."
 
-#: projects.inc:119
+#: projects.inc:127
 msgid ""
 "University of Maryland Center for Bioinformatics and Computational Biology"
 msgstr ""
+"Universitatea Maryland Centrul pentru Bioinformatica şi Biologie "
+"Computaţională"
 
-#: projects.inc:120
+#: projects.inc:128
 msgid "Life science research"
-msgstr ""
+msgstr "Cercetări ştiinţa vieţii"
 
-#: projects.inc:121
+#: projects.inc:129
 msgid ""
 "The Lattice Project supplies computing power to scientists at the University "
 "of Maryland studying evolutionary relationships based on DNA sequence data; "
@@ -184,15 +223,15 @@ msgid ""
 "nature reserves. "
 msgstr ""
 
-#: projects.inc:127
+#: projects.inc:135
 msgid "The Swiss Tropical Institute"
-msgstr ""
+msgstr "Institutul Tropical Elveţian"
 
-#: projects.inc:128
+#: projects.inc:136
 msgid "Epidemiology"
-msgstr ""
+msgstr "Epidemiologie"
 
-#: projects.inc:129
+#: projects.inc:137
 msgid ""
 "Simulation models of the transmission dynamics and health effects of malaria "
 "are an important tool for malaria control. They can be used to determine "
@@ -203,15 +242,15 @@ msgid ""
 "social factors that influence the distribution of the disease. "
 msgstr ""
 
-#: projects.inc:151
+#: projects.inc:159
 msgid "University of Washington"
-msgstr ""
+msgstr "Universitatea Washington"
 
-#: projects.inc:152 projects.inc:160
+#: projects.inc:160 projects.inc:168
 msgid "Biology"
-msgstr ""
+msgstr "Biologie"
 
-#: projects.inc:153
+#: projects.inc:161
 msgid ""
 "Determine the 3-dimensional shapes of proteins in research that may "
 "ultimately lead to finding cures for some major human diseases. By running "
@@ -221,30 +260,33 @@ msgid ""
 "Cancer, and Alzheimer's"
 msgstr ""
 
-#: projects.inc:159
+#: projects.inc:167
 msgid "University of Vienna"
-msgstr ""
+msgstr "Universitatea Viena"
 
-#: projects.inc:161
+#: projects.inc:169
 msgid ""
 "Calculate similarities between proteins. SIMAP provides a public database of "
 "the resulting data, which plays a key role in many bioinformatics research "
 "projects."
 msgstr ""
+"Calculează similarităţile între proteine. SIMAP oferă o bază de date publică "
+"cu datele rezultate, care joacă un rol cheie în multe proiecte de cercetare "
+"bioinformatică."
 
-#: projects.inc:167
+#: projects.inc:175
 msgid "Earth Sciences"
 msgstr ""
 
-#: projects.inc:179
+#: projects.inc:187
 msgid "Oxford University"
-msgstr ""
+msgstr "Universitatea Oxford"
 
-#: projects.inc:180
+#: projects.inc:188
 msgid "Climate study"
-msgstr ""
+msgstr "Studiu climatologic"
 
-#: projects.inc:181
+#: projects.inc:189
 msgid ""
 "Investigate the approximations that have to be made in state-of-the-art "
 "climate models. By running the model thousands of times we hope to find out "
@@ -256,19 +298,33 @@ msgid ""
 "century under a wide range of different scenarios."
 msgstr ""
 
-#: projects.inc:188
+#: projects.inc:196
 msgid "Astronomy, Physics, and Chemistry"
+msgstr "Astronomie, Fizică şi Chimie"
+
+#: projects.inc:202 projects.inc:241 projects.inc:249
+msgid "Astronomy"
+msgstr "Astronomie"
+
+#: projects.inc:203
+msgid ""
+"We will combine the spectral coverage of GALEX, Pan-STARRS1, and WISE to "
+"generate a multi-wavelength UV-optical-NIR galaxy atlas for the nearby "
+"Universe. We will measure physical parameters (such as stellar mass surface "
+"density, star formation rate surface density, attenuation, and first-order "
+"star formation history) on a resolved pixel-by-pixel basis using spectral "
+"energy distribution (SED) fitting techniques in a distributed computing mode."
 msgstr ""
 
-#: projects.inc:209
+#: projects.inc:225
 msgid "University of Texas at Austin"
-msgstr ""
+msgstr "Universitatea Texas din Austin"
 
-#: projects.inc:210 projects.inc:241
+#: projects.inc:226 projects.inc:257
 msgid "Chemistry"
-msgstr ""
+msgstr "Chimie"
 
-#: projects.inc:211
+#: projects.inc:227
 msgid ""
 "A common problem in theoretical chemistry, condensed matter physics and "
 "materials science is the calculation of the time evolution of an atomic "
@@ -281,37 +337,39 @@ msgid ""
 "interested in calculating the long time dynamics of systems."
 msgstr ""
 
-#: projects.inc:224
+#: projects.inc:240
 msgid "University of Illinois at Urbana-Champaign"
-msgstr ""
+msgstr "Universitatea Illinois din Urbana-Champaign"
 
-#: projects.inc:225 projects.inc:233
-msgid "Astronomy"
-msgstr ""
-
-#: projects.inc:226
+#: projects.inc:242
 msgid ""
 "The goal of Cosmology@Home is to search for the model that best describes "
 "our Universe and to find the range of models that agree with the available "
 "astronomical particle physics data."
 msgstr ""
+"Obiectivul Cosmology@Home este să caute modelul care descrie cel mai bine "
+"Universul nostru şi de a găsi o gamă de modele în concordanţă cu datele "
+"disponibile cu privire la fizica particulelor astronomice."
 
-#: projects.inc:232
+#: projects.inc:248
 msgid "Rensselaer Polytechnic Institute"
-msgstr ""
+msgstr "Institutul Politehnic Rensselaer"
 
-#: projects.inc:234
+#: projects.inc:250
 msgid ""
 "The goal of Milkyway@Home is to create a highly accurate three dimensional "
 "model of the Milky Way galaxy using data gathered by the Sloan Digital Sky "
 "Survey."
 msgstr ""
+"Obiectivul Milkyway@Home este de a crea un model tridimensional de mare "
+"acurateţe al galaxiei Calea Lactee folosind date colectate de Sloan Digital "
+"Sky Survey."
 
-#: projects.inc:240
+#: projects.inc:256
 msgid "Leiden University, The Netherlands"
-msgstr ""
+msgstr "Universitatea Leiden, Olanda"
 
-#: projects.inc:242
+#: projects.inc:258
 msgid ""
 "Surface science calculations using Classical Dynamics.  Leiden Classical "
 "allows volunteers, students and other scientist to submit their personal "
@@ -321,15 +379,15 @@ msgid ""
 "simulations through the grid."
 msgstr ""
 
-#: projects.inc:256
+#: projects.inc:272
 msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
-msgstr ""
+msgstr "Universitatea Wisconsin - Milwaukee, Institutul Max Planck"
 
-#: projects.inc:257
+#: projects.inc:273
 msgid "Astrophysics"
-msgstr ""
+msgstr "Astrofizică"
 
-#: projects.inc:258
+#: projects.inc:274
 msgid ""
 "Search for spinning neutron stars (also called pulsars) using data from the "
 "LIGO and GEO gravitational wave detectors, and from the Arecibo radio "
@@ -338,15 +396,15 @@ msgid ""
 "international organizations."
 msgstr ""
 
-#: projects.inc:264 projects.inc:272
+#: projects.inc:288 projects.inc:296
 msgid "CERN (European Organization for Nuclear Research)"
-msgstr ""
+msgstr "CERN (Organizaţia Europeană pentru Cercetări Nucleare)"
 
-#: projects.inc:265 projects.inc:273
+#: projects.inc:289 projects.inc:297
 msgid "Physics"
-msgstr ""
+msgstr "Fizică"
 
-#: projects.inc:266
+#: projects.inc:290
 msgid ""
 "The Large Hadron Collider (LHC) is a particle accelerator at CERN, the "
 "European Organization for Nuclear Research, the world's largest particle "
@@ -355,22 +413,22 @@ msgid ""
 "the design of LHC and its detectors."
 msgstr ""
 
-#: projects.inc:274
+#: projects.inc:298
 msgid ""
 "This project uses CERN-developed virtual machine technology for full-fledged "
 "LHC event physics simulation on volunteer computers.  Requires that you "
 "install VirtualBox on your computer"
 msgstr ""
 
-#: projects.inc:280
+#: projects.inc:304
 msgid "University of California, Berkeley"
-msgstr ""
+msgstr "Universitatea California, Berkeley"
 
-#: projects.inc:281
+#: projects.inc:305
 msgid "Astrophysics, astrobiology"
-msgstr ""
+msgstr "Astrofizică, astrobiologie"
 
-#: projects.inc:282
+#: projects.inc:306
 msgid ""
 "SETI (Search for Extraterrestrial Intelligence) is a scientific area whose "
 "goal is to detect intelligent life outside Earth. One approach, known as "
@@ -378,61 +436,71 @@ msgid ""
 "signals from space. Such signals are not known to occur naturally, so a "
 "detection would provide evidence of extraterrestrial technology."
 msgstr ""
+"SETI (Căutarea Inteligenţei Extraterestre) este o zonă ştiinţifică al cărei "
+"obiectiv este detectarea vieţii inteligente în afara Pământului. Una din "
+"abordări, cunoscută ca SETI prin radio, foloseşte telescoape radio pentru a "
+"asculta semnale radio de bandă îngustă din spaţiu. Astfel de semnale sunt "
+"cunsoscute că nu pot apare natural, deci detecţia ar însemna dovada că "
+"există tehnologie extraterestră."
 
-#: projects.inc:296
+#: projects.inc:320
 msgid "Bielefeld University of Applied Sciences"
-msgstr ""
+msgstr "Universitatea de Ştiinţe Aplicate Bielefeld"
 
-#: projects.inc:297
+#: projects.inc:321
 msgid "Chemical engineering and nanotechnology"
-msgstr ""
+msgstr "Inginerie chimică şi nanotehnologie"
 
-#: projects.inc:298
+#: projects.inc:322
 msgid ""
 "The study of molecular magnets and controlled nanoscale magnetism.  These "
 "magnetic molecules may be used to develop tiny magnetic switches, with "
 "applications in medicine (such as local tumor chemotherapy) and "
 "biotechnology."
 msgstr ""
+"Studiul magneţilor moleculari şi a magnetismului controlat la nanoscară.  "
+"Aceste molecule magnetice pot fi folosite pentru a dezvolta mici comutatoare "
+"magnetice cu aplicabilitate în medicină (cum ar fi chemoterapie locală a "
+"tumorilor) şi biotehnologie."
 
-#: projects.inc:305
+#: projects.inc:329
 msgid "Multiple applications"
-msgstr ""
+msgstr "Aplicaţii multiple"
 
-#: projects.inc:310
+#: projects.inc:334
 msgid "Chinese Academy of Sciences"
-msgstr ""
+msgstr "Academia de Ştiinţe Chineză"
 
-#: projects.inc:311
+#: projects.inc:335
 msgid "Physics, biochemistry, and others"
-msgstr ""
+msgstr "Fizică, biochimie şi altele"
 
-#: projects.inc:312
+#: projects.inc:336
 msgid ""
 "The objective of CAS@home is to encourage and assist scientists in China to "
 "adopt the technologies of volunteer computing and volunteer thinking for "
 "their research."
 msgstr ""
 
-#: projects.inc:319
+#: projects.inc:343
 msgid "Mathematics, physics, evolution"
-msgstr ""
+msgstr "Matematică, fizică, evoluţie"
 
-#: projects.inc:320
+#: projects.inc:344
 msgid ""
 "Yoyo@home is an adapter between BOINC and several existing volunteer "
 "computing projects: ECM, Muon, Evolution@home, and distributed.net"
 msgstr ""
 
-#: projects.inc:325 projects.inc:481
+#: projects.inc:349 projects.inc:505
 msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
-msgstr ""
+msgstr "Laboratorul de Sisteme Paralele şi Distribuite MTA-SZTAKI (Ungaria)"
 
-#: projects.inc:326
+#: projects.inc:350
 msgid "European research projects"
-msgstr ""
+msgstr "Proiecte de cercetare Europene"
 
-#: projects.inc:327
+#: projects.inc:351
 msgid ""
 "The EDGeS@Home Beta project integrates volunteer computing into the service "
 "grid network of Europe by allowing service grids to send workunits to be "
@@ -440,77 +508,80 @@ msgid ""
 "by the project include math, physics, biology, etc."
 msgstr ""
 
-#: projects.inc:333
+#: projects.inc:357
 msgid "Spanish universities and research centers"
-msgstr ""
+msgstr "Universităţi şi centre de cercetare Spaniole"
 
-#: projects.inc:334
+#: projects.inc:358
 msgid "Various Spanish research projects"
-msgstr ""
+msgstr "Diverse proiecte de cercetare Spaniole"
 
-#: projects.inc:335
+#: projects.inc:359
 msgid "Research in physics, material science, and biomedicine"
+msgstr "Cercetări în fizică, ştiinţa materialelor şi biomedicină"
+
+#: projects.inc:365
+msgid "IBM Corporate Citizenship"
 msgstr ""
 
-#: projects.inc:341
-msgid "IBM Corporate Community Relations"
+#: projects.inc:366
+msgid "Medical, environmental and other humanitarian research"
 msgstr ""
 
-#: projects.inc:342
-msgid "Humanitarian research on disease, natural disasters and hunger."
-msgstr ""
-
-#: projects.inc:343
+#: projects.inc:367
 msgid ""
 "To further critical non-profit research on some of humanity's most pressing "
 "problems by creating the world's largest volunteer computing grid.  Research "
-"includes HIV/AIDS, cancer, muscular dystrophy, dengue fever, and many more."
+"includes HIV-AIDS, cancer, tropical and neglected diseases, solar energy, "
+"clean water and many more."
 msgstr ""
 
-#: projects.inc:349
+#: projects.inc:373
 msgid "Mathematics, computing, and games"
-msgstr ""
+msgstr "Matematică, calcule şi jocuri"
 
-#: projects.inc:355
+#: projects.inc:379
 msgid "Computer Science"
-msgstr ""
+msgstr "Informatică"
 
-#: projects.inc:363
+#: projects.inc:387
 msgid "Mathematics, Physics, Artificial Intelligence"
-msgstr ""
+msgstr "Matematică, Fizica, Inteligenţă Artificială"
 
-#: projects.inc:364
+#: projects.inc:388
 msgid "Simulation of quantum computing; Goldbach's conjecture."
-msgstr ""
+msgstr "Simularea calculelor cuantice; presupunerea lui Goldbach."
 
-#: projects.inc:404 projects.inc:412 projects.inc:466
+#: projects.inc:428 projects.inc:436
 msgid "Cryptography"
-msgstr ""
+msgstr "Criptografie"
 
-#: projects.inc:413
+#: projects.inc:437
 msgid ""
 "Attempt to decode 3 original Enigma messages. The signals were intercepted "
 "in the North Atlantic in 1942 and are believed to be unbroken."
 msgstr ""
+"Încearcă sa decodeze 3 mesaje originale Enigma. Semnalele au fost "
+"interceptate în Atlanticul de Nord în 1942 şi se presupune că sunt nesparte."
 
-#: projects.inc:419 projects.inc:458 projects.inc:474 projects.inc:482
-#: projects.inc:522
+#: projects.inc:443 projects.inc:482 projects.inc:490 projects.inc:498
+#: projects.inc:506 projects.inc:546
 msgid "Mathematics"
-msgstr ""
+msgstr "Matematică"
 
-#: projects.inc:420
+#: projects.inc:444
 msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
-msgstr ""
+msgstr "Studiul Presupunerii Collatz , o presupunere nerezolvată în matematică"
 
-#: projects.inc:425
+#: projects.inc:449
 msgid "California State University Fullerton"
-msgstr ""
+msgstr "Universitatea de Stat California Fullerton"
 
-#: projects.inc:426
+#: projects.inc:450
 msgid "Factorization of large integers"
-msgstr ""
+msgstr "Factorizarea întregilor mari"
 
-#: projects.inc:427
+#: projects.inc:451
 msgid ""
 "NFS@Home is a research project that uses Internet-connected computers to do "
 "the lattice sieving step in the Number Field Sieve factorization of large "
@@ -520,17 +591,19 @@ msgid ""
 "hundreds of digits long."
 msgstr ""
 
-#: projects.inc:433
+#: projects.inc:457
 msgid ""
 "Vilnius Gediminas Technical University and Kaunas University of Technology "
 "(Lithuania)"
 msgstr ""
+"Universitatea Tehnică Vilnius Gediminas şi Universitatea Tehnologică Kaunas "
+"(Lituania)"
 
-#: projects.inc:434
+#: projects.inc:458
 msgid "Software testing"
-msgstr ""
+msgstr "Testare programe"
 
-#: projects.inc:435
+#: projects.inc:459
 msgid ""
 "The aim of this project is to provide a powerful distributed computing "
 "platform for scientists of Vilnius Gediminas Technical University (VGTU) as "
@@ -538,11 +611,11 @@ msgid ""
 "involve the study of Monte-Carlo based software testing."
 msgstr ""
 
-#: projects.inc:457
+#: projects.inc:481
 msgid "Mathematical Institute of Leiden University / Kennislink"
-msgstr ""
+msgstr "Institutul de Matematică al Universităţii Leiden / Kennislink"
 
-#: projects.inc:459
+#: projects.inc:483
 msgid ""
 "Search for 'abc-triples': positive integers a,b,c such that a+b=c, a &lt; b "
 "&lt; c, a,b,c have no common divisors and c > rad(abc), where rad(n) is the "
@@ -552,93 +625,110 @@ msgid ""
 "problems in mathematics. If it is proven to be true, a lot of other open "
 "problems can be answered directly from it."
 msgstr ""
+"Caută 'triple-abc': întregi pozitivi a,b,c astfel încât a+b=c, a &lt; b &lt; "
+"c, a,b,c nu au nici un divizor comun şi > rad(abc), unde rad(n) este "
+"produsul factorilor primi distincţi ai lui n. Presupunerea ABC spune că "
+"există doar un număr finit de a, b, c astfel încât log(c)/log(rad(abc)) > h "
+"pentru orice real h > 1. Presupunerea ABC este în prezent una din cele mai "
+"mari probleme din matematică. Dacă se dovedeşte adevărată, o mulţime de alte "
+"probleme deschise pot fi rezolvate direct din ea."
 
-#: projects.inc:467
+#: projects.inc:491
 msgid ""
-"Primegrid is generating a public sequential prime number database, and is "
-"searching for large twin primes of the form k*2<sup>n</sup>+1 and k*2<sup>n</"
-"sup>-1"
+"Primegrid has multiple projects searching for different forms of very large "
+"prime numbers, including searching for the largest known prime number."
 msgstr ""
 
-#: projects.inc:473
+#: projects.inc:497
 msgid "Hochschule RheinMain University of Applied Sciences"
-msgstr ""
+msgstr "Universitatea de Ştiinţe Aplicate Hochschule RheinMain"
 
-#: projects.inc:475
+#: projects.inc:499
 msgid ""
 "Search for counterexamples to two conjectures related to the identification "
 "of prime numbers"
 msgstr ""
+"Căutarea unor contraexemple a două presupuneri legate de identificarea "
+"numerelor prime"
 
-#: projects.inc:483
+#: projects.inc:507
 msgid ""
 "Find all the generalized binary number systems (in which bases are matrices "
 "and digits are vectors) up to dimension 11."
 msgstr ""
+"Găsirea tuturor sistemelor numerale binare (în care baza sunt matrici şi "
+"cifrele sunt vectori) până la dimensiunea 11."
 
 #: docutil.php:21
 msgid "Search"
-msgstr ""
+msgstr "Caută"
 
 #: docutil.php:103
 msgid "Return to BOINC main page"
-msgstr ""
+msgstr "Înapoi la pagina principală BOINC"
 
 #: docutil.php:114
 #, php-format
 msgid "This page is %stranslatable%s."
-msgstr ""
+msgstr "Această pagină este %stranslatable%s."
+
+#: download.php:38
+msgid "Download BOINC"
+msgstr "Descarcă BOINC"
 
 #: download.php:40
-msgid "Download BOINC"
-msgstr ""
-
-#: download.php:42
 #, php-format
 msgid "%s for %s (%s MB)"
-msgstr ""
+msgstr "%s pentru %s (%s MB)"
 
-#: download.php:89
+#: download.php:87
 msgid ""
 "BOINC is a program that lets you donate your idle computer time to science "
 "projects like SETI@home, Climateprediction.net, Rosetta@home, World "
 "Community Grid, and many others. <p> After installing BOINC on your "
 "computer, you can connect it to as many of these projects as you like."
 msgstr ""
+"BOINC este un program care vă permite să donaţi timpul liber al "
+"calculatorului dumneavoastră unor proiecte ştiinţifice cum ar fi SETI@home, "
+"Climateprediction.net, Rosetta@home, World Community Grid şi multe altele. "
+"<p> După ce instalaţi BOINC pe calculatorul dumneavoastră, puteţi să vă "
+"conectatţi la câte proiecte doriţi."
 
-#: download.php:91
+#: download.php:89
 msgid ""
 "You may run this software on a computer only if you own the computer or have "
 "the permission of its owner."
 msgstr ""
+"Puteţi rula acest program pe un calculator doar dacă este proprietatea "
+"dumneavoastră sau aveţi permisiunea proprietarului calculatorului."
 
-#: download.php:121
+#: download.php:131
 msgid "System requirements"
-msgstr ""
+msgstr "Cerinţe sistem"
 
-#: download.php:122
+#: download.php:132
 msgid "Release notes"
-msgstr ""
+msgstr "Note de lansare"
 
-#: download.php:123 index.php:85
+#: download.php:133 index.php:85
 msgid "Help"
-msgstr ""
+msgstr "Ajutor"
 
-#: download.php:124
+#: download.php:134
 msgid "All versions"
-msgstr ""
+msgstr "Toate versiunile"
 
-#: download.php:125
+#: download.php:135
 msgid "Version history"
-msgstr ""
+msgstr "Istoric versiuni"
 
-#: download.php:126
+#: download.php:136
 msgid "GPU computing"
-msgstr ""
+msgstr "Calcule GPU"
 
-#: download.php:144
+#: download.php:154
 msgid "BOINC: compute for science"
-msgstr ""
+msgstr "BOINC: calculaţi pentru ştiinţă"
 
 #: help.php:12
 #, php-format
@@ -671,6 +761,8 @@ msgid ""
 "Volunteers speaking several languages are available. Please select a "
 "language:"
 msgstr ""
+"Voluntari vorbind mai multe limbi sunt disponibili. Vă rugăm selectaţi o "
+"limbă:"
 
 #: help.php:47
 msgid "Be a Help Volunteer"
@@ -702,59 +794,59 @@ msgstr ""
 
 #: index.php:23
 msgid "Computing power"
-msgstr ""
+msgstr "Putere de calcul"
 
 #: index.php:25
 msgid "Top 100 volunteers"
-msgstr ""
+msgstr "Top 100 voluntari"
 
 #: index.php:26
 msgid "Statistics"
-msgstr ""
+msgstr "Statistici"
 
 #: index.php:54
 msgid "Active:"
-msgstr ""
+msgstr "Activ:"
 
 #: index.php:54
 msgid "volunteers,"
-msgstr ""
+msgstr "voluntari,"
 
 #: index.php:54
 msgid "computers.\n"
-msgstr ""
+msgstr "calculatoare.\n"
 
 #: index.php:55
 msgid "24-hour average:"
-msgstr ""
+msgstr "medie 24 de ore:"
 
 #: index.php:55
 msgid "PetaFLOPS."
-msgstr ""
+msgstr "PetaFLOPS."
 
 #: index.php:67
 msgid "News"
-msgstr ""
+msgstr "Ştiri"
 
 #: index.php:82
 msgid "Volunteer"
-msgstr ""
+msgstr "Voluntar"
 
 #: index.php:84
 msgid "Download"
-msgstr ""
+msgstr "Descarcă"
 
 #: index.php:86 index.php:123 index.php:174
 msgid "Documentation"
-msgstr ""
+msgstr "Documentaţie"
 
 #: index.php:87
 msgid "Add-ons"
-msgstr ""
+msgstr "Add-on-uri"
 
 #: index.php:88
 msgid "Links"
-msgstr ""
+msgstr "Legături"
 
 #: index.php:94
 #, php-format
@@ -772,14 +864,16 @@ msgid ""
 "Or, if you run several projects, try an %saccount manager%s such as "
 "%sGridRepublic%s or %sBAM!%s. "
 msgstr ""
+"Sau, daca rulaţi mai multe proiecte, încercaţi un %smanager de cont%s cum ar "
+"fi %sGridRepublic%s sau %sBAM!%s. "
 
 #: index.php:121
 msgid "Compute with BOINC"
-msgstr ""
+msgstr "Calculează cu BOINC"
 
 #: index.php:124
 msgid "Software updates"
-msgstr ""
+msgstr "Actualizări program"
 
 #: index.php:131
 msgid ""
@@ -799,7 +893,7 @@ msgstr ""
 
 #: index.php:152
 msgid "The BOINC project"
-msgstr ""
+msgstr "Proiectul BOINC"
 
 #: index.php:158
 msgid "Message boards"
@@ -807,63 +901,63 @@ msgstr ""
 
 #: index.php:159
 msgid "Email lists"
-msgstr ""
+msgstr "Liste email"
 
 #: index.php:160
 msgid "Personnel and contributors"
-msgstr ""
+msgstr "Personal şi colaboratori"
 
 #: index.php:161
 msgid "Events"
-msgstr ""
+msgstr "Evenimente"
 
 #: index.php:162
 msgid "Papers and talks"
-msgstr ""
+msgstr "Publicaţii şi discuţii"
 
 #: index.php:163
 msgid "Research projects"
-msgstr ""
+msgstr "Proiecte cercetare"
 
 #: index.php:164
 msgid "Logos and graphics"
-msgstr ""
+msgstr "Logo şi grafice"
 
 #: index.php:165
 msgid "and"
-msgstr ""
+msgstr "şi"
 
 #: index.php:169
 msgid "Help wanted"
-msgstr ""
+msgstr "Căutăam ajutor"
 
 #: index.php:171
 msgid "Programming"
-msgstr ""
+msgstr "Programare"
 
 #: index.php:172
 msgid "Translation"
-msgstr ""
+msgstr "Traducere"
 
 #: index.php:173
 msgid "Testing"
-msgstr ""
+msgstr "Testare"
 
 #: index.php:175
 msgid "Publicity"
-msgstr ""
+msgstr "Publicitate"
 
 #: index.php:177
 msgid "Software development"
-msgstr ""
+msgstr "Dezvoltare programe"
 
 #: index.php:178
 msgid "APIs for add-on software"
-msgstr ""
+msgstr "API pentru programe add-on"
 
 #: index.php:212
 msgid "Browser default"
-msgstr ""
+msgstr "Setări implicite browser"
 
 #: index.php:265
 #, php-format
@@ -873,7 +967,28 @@ msgstr ""
 
 #: index.php:278
 msgid "BOINC is based at The University of California, Berkeley"
+msgstr "BOINC se află la Universitatea California, Berkeley"
+
+#: ../html/inc/news.inc:40
+msgid "Comment"
 msgstr ""
+
+#: ../html/inc/news.inc:111
+#, php-format
+msgid "News is available as an %sRSS feed%s"
+msgstr ""
+
+#~ msgid "Humanitarian research on disease, natural disasters and hunger."
+#~ msgstr "Cercetări umanitare despre boli, dezastre naturale şi foame."
+
+#~ msgid ""
+#~ "Primegrid is generating a public sequential prime number database, and is "
+#~ "searching for large twin primes of the form k*2<sup>n</sup>+1 and "
+#~ "k*2<sup>n</sup>-1"
+#~ msgstr ""
+#~ "Primegrid generează o bază de date publică de numere prime secvenţiale şi "
+#~ "caută numere prime mari gemene de forma k*2<sup>n</sup>+1 şi k*2<sup>n</"
+#~ "sup>-1"
 
 #, fuzzy
 #~ msgid "POEM@HOME"

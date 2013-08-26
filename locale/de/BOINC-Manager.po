@@ -27,7 +27,7 @@ msgstr ""
 # 81%
 #: clientgui/AccountInfoPage.cpp:387
 #, c-format
-#, c-format, fuzzy
+#, c-format, c-format
 msgid "Identify your account at %s"
 msgstr "Identifizieren Sie Ihr Benutzerkonto bei %s"
 
@@ -2943,7 +2943,6 @@ msgid "Unable to connect to the core client"
 msgstr "Verbindung mit dem Basisclient nicht möglich."
 
 #: clientgui/sg_DlgMessages.cpp:130
-#, fuzzy
 msgid "One or more items failed to load from the Internet."
 msgstr "Mindestens ein Element konnte nicht aus dem Internet geladen werden."
 

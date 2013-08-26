@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOICN Client Messages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-05 10:24-0700\n"
-"PO-Revision-Date: 2013-08-14 16:05+0200\n"
+"PO-Revision-Date: 2013-08-15 15:36+0200\n"
 "Last-Translator: Aycan <aycandemirel@hotmail.com>\n"
 "Language-Team: Turkish <weboglan@hotmail.com>\n"
 "Language: tr\n"
@@ -48,7 +48,7 @@ msgid ""
 "project, then add %s"
 msgstr ""
 "Bu proje için yanlış bir internet adresi kullandınız.  Uygun olduğunda, bu "
-"projeyi kalrırıp, ardından bunu ekleyin: %s"
+"projeyi kaldırıp, ardından bunu ekleyin: %s"
 
 #: cs_statefile.cpp:829 ../sched/sched_types.cpp:259
 msgid "Syntax error in app_info.xml"
@@ -146,6 +146,7 @@ msgstr ""
 
 # 94%
 #: ../sched/sched_send.cpp:1146
+#, c-format
 #, c-format, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "Bu projedeki işleri çalıştırabilmek için, bir %s GPU gerekiyor"

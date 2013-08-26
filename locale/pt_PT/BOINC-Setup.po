@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Poedit 1.5.5\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: _\n"
 "X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
@@ -24,7 +24,8 @@ msgstr ""
 #: mac_installer/Installer.cpp:132
 #, c-format
 msgid "Sorry, this version of %s requires system 10.4 or higher."
-msgstr "Pedimos desculpa mas esta versão do %s requer o sistema 10.4 ou superior."
+msgstr ""
+"Pedimos desculpa mas esta versão do %s requer o sistema 10.4 ou superior."
 
 #: mac_installer/PostInstall.cpp:131 mac_installer/PostInstall.cpp:1211
 msgid "Yes"
@@ -41,18 +42,24 @@ msgstr "Deve o BOINC correr se nenhum utilizador estiver logado?"
 #: mac_installer/PostInstall.cpp:1491
 #, c-format
 msgid ""
-"Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
+"Users who are permitted to administer this computer will automatically be "
+"allowed to run and control %s.\n"
 "\n"
-"Do you also want non-administrative users to be able to run and control %s on this Mac?"
+"Do you also want non-administrative users to be able to run and control %s "
+"on this Mac?"
 msgstr ""
-"Utilizadores com permissões de administração neste computador, terão permissão automática para correr e controlar o %s.\n"
+"Utilizadores com permissões de administração neste computador, terão "
+"permissão automática para correr e controlar o %s.\n"
 "\n"
-"Quer também que utilizadores com permissões não administrativas sejam capazes de correr e controlar o %s neste Mac?"
+"Quer também que utilizadores com permissões não administrativas sejam "
+"capazes de correr e controlar o %s neste Mac?"
 
 #: mac_installer/PostInstall.cpp:1519
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
-msgstr "Quer definir o %s como protecção de ecrã para todos os %s utilizadores neste Mac?"
+msgstr ""
+"Quer definir o %s como protecção de ecrã para todos os %s utilizadores neste "
+"Mac?"
 
 #: mac_installer/uninstall.cpp:80
 msgid "OK"
@@ -117,10 +124,12 @@ msgstr ""
 #: mac_installer/uninstall.cpp:796
 #, c-format
 msgid ""
-"Enter your administrator password to completely remove %s from you computer.\n"
+"Enter your administrator password to completely remove %s from you "
+"computer.\n"
 "\n"
 msgstr ""
-"Insira a sua palavra-passe de  administrador para remover o %s por completo do seu computador.\n"
+"Insira a sua palavra-passe de  administrador para remover o %s por completo "
+"do seu computador.\n"
 "\n"
 
 #: mac_installer/uninstall.cpp:1543

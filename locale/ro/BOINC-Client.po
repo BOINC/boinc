@@ -7,36 +7,41 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-05 10:24-0700\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2013-08-21 08:12+0200\n"
+"Last-Translator: mcsjohn <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2);;\n"
+"X-Generator: Pootle 2.1.6\n"
 
 #: acct_mgr.cpp:448 acct_mgr.cpp:457
 msgid "Message from account manager"
-msgstr ""
+msgstr "Mesaj de la managerul de cont"
 
 #: client_msgs.cpp:85
 msgid "Message from server"
-msgstr ""
+msgstr "Mesaj de la server"
 
 #: client_state.cpp:246
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr ""
+"Unele task-uri au nevoie de mai multă memorie decât este permis de "
+"preferinţele dumneavoastră.  Vă rugăm să verificaţi preferinţele."
 
 #: client_state.cpp:501
 msgid "Couldn't write state file; check directory permissions"
 msgstr ""
+"Nu s-a putut scrie fişierul de stare; verificaţi permisiunile directorului"
 
 #: cs_cmdline.cpp:299
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
-msgstr ""
+msgstr "Varibila de sistem HTTP_PROXY trebuie să specifice un proxy HTTP"
 
 #: cs_scheduler.cpp:575
 #, c-format
@@ -44,116 +49,137 @@ msgid ""
 "You used the wrong URL for this project.  When convenient, remove this "
 "project, then add %s"
 msgstr ""
+"Aţi folosit un URL greşit pentru acest proect.  Când puteţi, ştergeţi acest "
+"proiect, apoi adăugaţi %s"
 
 #: cs_statefile.cpp:829 ../sched/sched_types.cpp:259
 msgid "Syntax error in app_info.xml"
-msgstr ""
+msgstr "Eroare de sintaxă în app_info.xml"
 
 #: cs_statefile.cpp:869
 msgid "File referenced in app_info.xml does not exist: "
-msgstr ""
+msgstr "Fişierul menţionat în app_info.xml nu există: "
 
 #: current_version.cpp:90
 msgid "A new version of BOINC is available."
-msgstr ""
+msgstr "O nouă versiune a BOINC este disponibilă."
 
 #: current_version.cpp:94
 msgid "Download"
-msgstr ""
+msgstr "Descarcă"
 
 #: log_flags.cpp:259 log_flags.cpp:436
 msgid "Unexpected text in cc_config.xml"
-msgstr ""
+msgstr "Text neaşteptat în cc_config.xml"
 
 #: log_flags.cpp:410 log_flags.cpp:462
 msgid "Unrecognized tag in cc_config.xml"
-msgstr ""
+msgstr "Tag nerecunoscut în cc_config.xml"
 
 #: log_flags.cpp:427
 msgid "Missing start tag in cc_config.xml"
-msgstr ""
+msgstr "Lipsă tag început în cc_config.xml"
 
 #: log_flags.cpp:452
 msgid "Error in cc_config.xml options"
-msgstr ""
+msgstr "Eroare în opţiunile cc_config.xml"
 
 #: log_flags.cpp:470
 msgid "Missing end tag in cc_config.xml"
-msgstr ""
+msgstr "Lipsă tag final în cc_config.xml"
 
 #: ../sched/handle_request.cpp:307
 msgid "Invalid or missing account key.  To fix, remove and add this project."
 msgstr ""
+"Cheie cont greşită sau lipsă.  Pentru rezolvare, ştergeţi şi adăugaţi acest "
+"proiect."
 
 #: ../sched/handle_request.cpp:849
 msgid "Invalid code signing key.  To fix, remove and add this project."
 msgstr ""
+"Cheie semnătură greşită.  Pentru rezolvare, ştergeţi şi adăugaţi acest "
+"proiect."
 
 #: ../sched/handle_request.cpp:859
 msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
 msgstr ""
+"Proiectul a modificat cheia de securitate.  Că rugăm ştergeţi şi adăugaţi "
+"acest proiect."
 
 #: ../sched/handle_request.cpp:943
 msgid "This project doesn't support operating system"
-msgstr ""
+msgstr "Acest proiect nu suportă sistemul de operare"
 
 #: ../sched/handle_request.cpp:969
 msgid "This project doesn't support CPU type"
-msgstr ""
+msgstr "Acest proiect nu suportă tipul de CPU"
 
 #: ../sched/handle_request.cpp:993
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
 msgstr ""
+"Clientul dumneavoastră BOINC este prea vechi.  Vă rugăm instalaţi versiunea "
+"curentă."
 
 #: ../sched/handle_request.cpp:1259
 msgid "This project doesn't support computers of type"
-msgstr ""
+msgstr "Acest proiect nu suportă calculatoare de tipul"
 
 #: ../sched/sched_send.cpp:1092
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr ""
+"Upgradaţi la ultima versiune de driver pentru a procesa task-uri folosind "
+"GPU-ul calculatorului"
 
 #: ../sched/sched_send.cpp:1099
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr ""
+"Upgradaţi la ultima versiune de driver pentru a folosi toate aplicaţiile GPU "
+"ale acestui proiect"
 
 #: ../sched/sched_send.cpp:1118
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
 "the current version"
 msgstr ""
+"O nouă versiune BOINC este necesară pentru a folosi GPU-ul dumneavoastră "
+"NVIDIA; vă rugăm upgradaţi la versiunea curentă"
 
 #: ../sched/sched_send.cpp:1146
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
-msgstr ""
+msgstr "Un GPU %s este necesar pentru a rula task-uri pentru acest proiect"
 
 #: ../sched/sched_send.cpp:1262
 msgid "No tasks are available for the applications you have selected."
 msgstr ""
+"Nu există task-uri disponibile pentru aplicaţiile pe care le-aţi selectat."
 
 #: ../sched/sched_send.cpp:1288
 msgid "Your computer type is not supported by this project"
-msgstr ""
+msgstr "Tipul dumneavoastră de calculator nu este suportat de acest proiect"
 
 #: ../sched/sched_send.cpp:1294
 msgid "Newer BOINC version required; please install current version"
 msgstr ""
+"Este necesară o versiune mai nouă a BOINC; vă rugam instalaţi versiunea "
+"curentă"
 
 #: ../sched/sched_send.cpp:1305
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
 msgstr ""
+"Task-uri pentru %s sunt disponibile, dar preferinţele dumneavoastră sunt "
+"setate să nu le accepte"
 
 #: ../sched/sched_types.cpp:254
 msgid "Unknown app name in app_info.xml"
-msgstr ""
+msgstr "Nume aplicaţie necunoscut în app_info.xml"
 
 #: ../sched/sched_version.cpp:214
 msgid "Your app_info.xml file doesn't have a usable version of"
-msgstr ""
+msgstr "Fişierul dumneavoastră app_info.xml nu are o versiune utilizabilă de"

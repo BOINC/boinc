@@ -2191,6 +2191,7 @@ msgid "%s - Language Selection"
 msgstr "%s - изменение языка"
 
 #: clientgui/DlgOptions.cpp:695
+#, c-format
 #, c-format, c-format
 msgid "The %s's language has been changed.  In order for this change to take effect, you must restart the %s."
 msgstr ""

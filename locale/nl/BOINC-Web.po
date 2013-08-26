@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: $Id: nl.po 13216 2007-07-25 15:11:14Z davea $\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2013-06-05 10:25 PDT\n"
-"PO-Revision-Date: 2013-06-16 13:57+0200\n"
+"POT-Creation-Date: 2013-08-22 16:22 PDT\n"
+"PO-Revision-Date: 2013-08-07 20:01+0200\n"
 "Last-Translator: Rene <oskamjr@ziggo.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -74,8 +74,8 @@ msgstr ""
 msgid "Cognitive science and artifical intelligence"
 msgstr "Cognitieve wetenschappen en kunstmatige intelligentie"
 
-#: projects.inc:50 projects.inc:318 projects.inc:362 projects.inc:411
-#: projects.inc:418 projects.inc:465
+#: projects.inc:50 projects.inc:342 projects.inc:386 projects.inc:435
+#: projects.inc:442 projects.inc:489
 msgid "Private"
 msgstr "Particulier project"
 
@@ -164,15 +164,15 @@ msgstr ""
 "kennis over atomische proteïne-ligand interacties, om aldus inzicht te "
 "verschaffen omtrent de ontwikkeling van nieuwe geneesmiddelen."
 
-#: projects.inc:95
+#: projects.inc:103
 msgid "Barcelona Biomedical Research Park (PRBB)"
 msgstr "Barcelona Biomedical Research Park (PRBB)"
 
-#: projects.inc:96
+#: projects.inc:104
 msgid "Molecular simulations of proteins"
 msgstr "Moleculaire simulatie van proteïnen"
 
-#: projects.inc:97
+#: projects.inc:105
 msgid ""
 "GPUGrid.net opens novel computational scenarios by the first full-atom "
 "molecular dynamics code (CellMD) specially optimized to run on NVIDIA GPUs. "
@@ -185,15 +185,15 @@ msgstr ""
 "biomedisch onderzoek opeens mogelijk worden en computationele biologie een "
 "nieuwe taak krijgt toebedeeld."
 
-#: projects.inc:103
+#: projects.inc:111
 msgid "Technion, Israel"
 msgstr "Technion, Israël"
 
-#: projects.inc:104
+#: projects.inc:112
 msgid "Genetic linkage analysis"
 msgstr "Genetische koppelingsanalyse"
 
-#: projects.inc:105
+#: projects.inc:113
 msgid ""
 "Superlink@Technion helps geneticists all over the world find disease-"
 "provoking genes causing some types of diabetes, hypertension (high blood "
@@ -203,18 +203,18 @@ msgstr ""
 "veroorzakende genen die betrokken zijn bij sommige soorten diabetes, "
 "hypertensie (hoge bloeddruk), kanker, schizofrenie, en vele andere ziektes."
 
-#: projects.inc:119
+#: projects.inc:127
 msgid ""
 "University of Maryland Center for Bioinformatics and Computational Biology"
 msgstr ""
 "Universiteit van Maryland Centrum voor bio-informatica en computationele "
 "biologie"
 
-#: projects.inc:120
+#: projects.inc:128
 msgid "Life science research"
 msgstr "Wetenschappelijk onderzoek inzake Life science"
 
-#: projects.inc:121
+#: projects.inc:129
 msgid ""
 "The Lattice Project supplies computing power to scientists at the University "
 "of Maryland studying evolutionary relationships based on DNA sequence data; "
@@ -227,15 +227,15 @@ msgstr ""
 "virusproteïnesequenties, evenals voor onderzoek naar biodiversiteit in "
 "natuurgebieden. "
 
-#: projects.inc:127
+#: projects.inc:135
 msgid "The Swiss Tropical Institute"
 msgstr "Het Zwitserse Tropen Instituut"
 
-#: projects.inc:128
+#: projects.inc:136
 msgid "Epidemiology"
 msgstr "Epidemiologie"
 
-#: projects.inc:129
+#: projects.inc:137
 msgid ""
 "Simulation models of the transmission dynamics and health effects of malaria "
 "are an important tool for malaria control. They can be used to determine "
@@ -255,15 +255,15 @@ msgstr ""
 "gerelateerd moeten zijn aan biologische en sociale factoren die van invloed "
 "zijn op de verspreiding van de ziekte. "
 
-#: projects.inc:151
+#: projects.inc:159
 msgid "University of Washington"
 msgstr "Universiteit van Washington"
 
-#: projects.inc:152 projects.inc:160
+#: projects.inc:160 projects.inc:168
 msgid "Biology"
 msgstr "Biologie"
 
-#: projects.inc:153
+#: projects.inc:161
 msgid ""
 "Determine the 3-dimensional shapes of proteins in research that may "
 "ultimately lead to finding cures for some major human diseases. By running "
@@ -280,11 +280,11 @@ msgstr ""
 "ontwerpen ter bestrijding van hiv en ziektes zoals malaria, kanker en "
 "alzheimer"
 
-#: projects.inc:159
+#: projects.inc:167
 msgid "University of Vienna"
 msgstr "Universiteit van Wenen"
 
-#: projects.inc:161
+#: projects.inc:169
 msgid ""
 "Calculate similarities between proteins. SIMAP provides a public database of "
 "the resulting data, which plays a key role in many bioinformatics research "
@@ -294,19 +294,19 @@ msgstr ""
 "databank van gegevens die een sleutelrol spelen bij menig onderzoeksproject "
 "inzake bio-informatica."
 
-#: projects.inc:167
+#: projects.inc:175
 msgid "Earth Sciences"
 msgstr "Aardkunde"
 
-#: projects.inc:179
+#: projects.inc:187
 msgid "Oxford University"
 msgstr "Universiteit van Oxford"
 
-#: projects.inc:180
+#: projects.inc:188
 msgid "Climate study"
 msgstr "Klimaat studie"
 
-#: projects.inc:181
+#: projects.inc:189
 msgid ""
 "Investigate the approximations that have to be made in state-of-the-art "
 "climate models. By running the model thousands of times we hope to find out "
@@ -328,19 +328,33 @@ msgstr ""
 "scala aan scenario's te bestuderen."
 
 # 75%
-#: projects.inc:188
+#: projects.inc:196
 msgid "Astronomy, Physics, and Chemistry"
 msgstr "Astronomie/Fysica/Chemie"
 
-#: projects.inc:209
+#: projects.inc:202 projects.inc:241 projects.inc:249
+msgid "Astronomy"
+msgstr "Astronomie"
+
+#: projects.inc:203
+msgid ""
+"We will combine the spectral coverage of GALEX, Pan-STARRS1, and WISE to "
+"generate a multi-wavelength UV-optical-NIR galaxy atlas for the nearby "
+"Universe. We will measure physical parameters (such as stellar mass surface "
+"density, star formation rate surface density, attenuation, and first-order "
+"star formation history) on a resolved pixel-by-pixel basis using spectral "
+"energy distribution (SED) fitting techniques in a distributed computing mode."
+msgstr ""
+
+#: projects.inc:225
 msgid "University of Texas at Austin"
 msgstr "Universiteit van Texas te Austin"
 
-#: projects.inc:210 projects.inc:241
+#: projects.inc:226 projects.inc:257
 msgid "Chemistry"
 msgstr "Chemie"
 
-#: projects.inc:211
+#: projects.inc:227
 msgid ""
 "A common problem in theoretical chemistry, condensed matter physics and "
 "materials science is the calculation of the time evolution of an atomic "
@@ -364,15 +378,11 @@ msgstr ""
 "langetermijndynamiek van tijdsvariabele systemen."
 
 # 95%
-#: projects.inc:224
+#: projects.inc:240
 msgid "University of Illinois at Urbana-Champaign"
 msgstr "Universiteit van Illinois te Urbana-Chamapign"
 
-#: projects.inc:225 projects.inc:233
-msgid "Astronomy"
-msgstr "Astronomie"
-
-#: projects.inc:226
+#: projects.inc:242
 msgid ""
 "The goal of Cosmology@Home is to search for the model that best describes "
 "our Universe and to find the range of models that agree with the available "
@@ -382,11 +392,11 @@ msgstr ""
 "universum het best omschrijft, alsmede het spectrum van modellen die met de "
 "beschikbare data inzake deeltjes astrofysica overweg kunnen."
 
-#: projects.inc:232
+#: projects.inc:248
 msgid "Rensselaer Polytechnic Institute"
 msgstr "Rensselaer Polytechnisch Instituut"
 
-#: projects.inc:234
+#: projects.inc:250
 msgid ""
 "The goal of Milkyway@Home is to create a highly accurate three dimensional "
 "model of the Milky Way galaxy using data gathered by the Sloan Digital Sky "
@@ -396,11 +406,11 @@ msgstr ""
 "accuraat drie-dimensionaal model van het melkwegstelsel middels de gegevens "
 "van het Sloan Digital Sky Survey."
 
-#: projects.inc:240
+#: projects.inc:256
 msgid "Leiden University, The Netherlands"
 msgstr "Universiteit Leiden, Nederland"
 
-#: projects.inc:242
+#: projects.inc:258
 msgid ""
 "Surface science calculations using Classical Dynamics.  Leiden Classical "
 "allows volunteers, students and other scientist to submit their personal "
@@ -418,15 +428,15 @@ msgstr ""
 "van de algemene gaswet te testen en aldus de simulaties daadwerkelijk uit te "
 "voeren via het computercluster."
 
-#: projects.inc:256
+#: projects.inc:272
 msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
 msgstr "Universiteit van Wisconsin - Milwaukee, Max Planck Instituut"
 
-#: projects.inc:257
+#: projects.inc:273
 msgid "Astrophysics"
 msgstr "Astrofysica"
 
-#: projects.inc:258
+#: projects.inc:274
 msgid ""
 "Search for spinning neutron stars (also called pulsars) using data from the "
 "LIGO and GEO gravitational wave detectors, and from the Arecibo radio "
@@ -440,15 +450,15 @@ msgstr ""
 "gesponsord door 'the American Physical Society' (APS) en enkele "
 "internationale organisaties."
 
-#: projects.inc:264 projects.inc:272
+#: projects.inc:288 projects.inc:296
 msgid "CERN (European Organization for Nuclear Research)"
 msgstr "CERN (Europese organisatie voor nucleair onderzoek)"
 
-#: projects.inc:265 projects.inc:273
+#: projects.inc:289 projects.inc:297
 msgid "Physics"
 msgstr "Natuurkunde"
 
-#: projects.inc:266
+#: projects.inc:290
 msgid ""
 "The Large Hadron Collider (LHC) is a particle accelerator at CERN, the "
 "European Organization for Nuclear Research, the world's largest particle "
@@ -463,7 +473,7 @@ msgstr ""
 "simulaties uit ter verbetering van het ontwerp van de LHC en diens "
 "detectors."
 
-#: projects.inc:274
+#: projects.inc:298
 msgid ""
 "This project uses CERN-developed virtual machine technology for full-fledged "
 "LHC event physics simulation on volunteer computers.  Requires that you "
@@ -473,15 +483,15 @@ msgstr ""
 "volwaardige LHC natuurkundige simulatie op je computer.  Het is vereist om "
 "VirtualBox op je computer te installeren"
 
-#: projects.inc:280
+#: projects.inc:304
 msgid "University of California, Berkeley"
 msgstr "University van Californië, Berkeley"
 
-#: projects.inc:281
+#: projects.inc:305
 msgid "Astrophysics, astrobiology"
 msgstr "Astrofysica, astrobiologie"
 
-#: projects.inc:282
+#: projects.inc:306
 msgid ""
 "SETI (Search for Extraterrestrial Intelligence) is a scientific area whose "
 "goal is to detect intelligent life outside Earth. One approach, known as "
@@ -496,15 +506,15 @@ msgstr ""
 "ruimte. Dergelijke signalen kunnen niet spontaan ontstaan, dus een detectie "
 "zou een mogelijk bewijs van buitenaardse technologie kunnen zijn."
 
-#: projects.inc:296
+#: projects.inc:320
 msgid "Bielefeld University of Applied Sciences"
 msgstr "Bielefeld Universiteit voor toegepaste wetenschappen"
 
-#: projects.inc:297
+#: projects.inc:321
 msgid "Chemical engineering and nanotechnology"
 msgstr "Chemische technologie en nanotechnologie"
 
-#: projects.inc:298
+#: projects.inc:322
 msgid ""
 "The study of molecular magnets and controlled nanoscale magnetism.  These "
 "magnetic molecules may be used to develop tiny magnetic switches, with "
@@ -517,19 +527,19 @@ msgstr ""
 "vinden in de geneeskunde (zoals chemotherapeutische behandeling van een "
 "plaatselijke kanker) en biotechnologie."
 
-#: projects.inc:305
+#: projects.inc:329
 msgid "Multiple applications"
 msgstr "Diverse applicaties"
 
-#: projects.inc:310
+#: projects.inc:334
 msgid "Chinese Academy of Sciences"
 msgstr "Chinese Academie voor wetenschappen"
 
-#: projects.inc:311
+#: projects.inc:335
 msgid "Physics, biochemistry, and others"
 msgstr "Natuurkunde, biochemie en diverse andere wetenschappen"
 
-#: projects.inc:312
+#: projects.inc:336
 msgid ""
 "The objective of CAS@home is to encourage and assist scientists in China to "
 "adopt the technologies of volunteer computing and volunteer thinking for "
@@ -539,11 +549,11 @@ msgstr ""
 "wetenschappers in China om technologieën als volunteer computing en "
 "volunteer thinking in te zetten bij hun wetenschappelijk onderzoek."
 
-#: projects.inc:319
+#: projects.inc:343
 msgid "Mathematics, physics, evolution"
 msgstr "Wiskunde, natuurkunde en evolutie studie"
 
-#: projects.inc:320
+#: projects.inc:344
 msgid ""
 "Yoyo@home is an adapter between BOINC and several existing volunteer "
 "computing projects: ECM, Muon, Evolution@home, and distributed.net"
@@ -551,15 +561,15 @@ msgstr ""
 "Yoyo@home is een verbinding tussen BOINC en diverse bestaande volunteer "
 "computing projecten: ECM, Muon, Evolution@home, en distributed.net"
 
-#: projects.inc:325 projects.inc:481
+#: projects.inc:349 projects.inc:505
 msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
 msgstr "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
 
-#: projects.inc:326
+#: projects.inc:350
 msgid "European research projects"
 msgstr "Europees wetenschappelijk onderzoek"
 
-#: projects.inc:327
+#: projects.inc:351
 msgid ""
 "The EDGeS@Home Beta project integrates volunteer computing into the service "
 "grid network of Europe by allowing service grids to send workunits to be "
@@ -571,59 +581,55 @@ msgstr ""
 "en te laten verwerken door de vrijwilligers bij dit project. De "
 "wetenschappelijke projecten omvatten o.a. wiskunde, natuurkunde en biologie."
 
-#: projects.inc:333
+#: projects.inc:357
 msgid "Spanish universities and research centers"
 msgstr "Spaanse universiteiten en centra voor wetenschappelijk onderzoek"
 
-#: projects.inc:334
+#: projects.inc:358
 msgid "Various Spanish research projects"
 msgstr "Diverse Spaanse projecten voor wetenschappelijk onderzoek"
 
-#: projects.inc:335
+#: projects.inc:359
 msgid "Research in physics, material science, and biomedicine"
 msgstr "Onderzoek inzake fysica, materiaalkunde, en bio-geneeskunde"
 
-#: projects.inc:341
-msgid "IBM Corporate Community Relations"
-msgstr "IBM & de maatschappij"
+#: projects.inc:365
+msgid "IBM Corporate Citizenship"
+msgstr ""
 
-#: projects.inc:342
-msgid "Humanitarian research on disease, natural disasters and hunger."
-msgstr "Humanitair onderzoek naar ziektes, natuurrampen en hongersnood."
+#: projects.inc:366
+msgid "Medical, environmental and other humanitarian research"
+msgstr ""
 
-#: projects.inc:343
+#: projects.inc:367
 msgid ""
 "To further critical non-profit research on some of humanity's most pressing "
 "problems by creating the world's largest volunteer computing grid.  Research "
-"includes HIV/AIDS, cancer, muscular dystrophy, dengue fever, and many more."
+"includes HIV-AIDS, cancer, tropical and neglected diseases, solar energy, "
+"clean water and many more."
 msgstr ""
-"Om het verrichten van essentieel wetenschappelijk onderzoek naar enkele van "
-"de meest urgente problemen der mensheid belangeloos te stimuleren, door als "
-"vrijwilliger deel te nemen aan ’s werelds meest omvangrijke computercluster. "
-" Het onderzoek betreft HIV/AIDS, kanker, musculaire dystrofie, "
-"knokkelkoorts en vele andere ziektes."
 
-#: projects.inc:349
+#: projects.inc:373
 msgid "Mathematics, computing, and games"
 msgstr "Wiskunde, informatica en games"
 
-#: projects.inc:355
+#: projects.inc:379
 msgid "Computer Science"
 msgstr "Computer wetenschap"
 
-#: projects.inc:363
+#: projects.inc:387
 msgid "Mathematics, Physics, Artificial Intelligence"
 msgstr "Wiskunde, natuurkunde, kunstmatige intelligentie"
 
-#: projects.inc:364
+#: projects.inc:388
 msgid "Simulation of quantum computing; Goldbach's conjecture."
 msgstr "Simulatie van een quantum computer; Goldbach's conjecture."
 
-#: projects.inc:404 projects.inc:412 projects.inc:466
+#: projects.inc:428 projects.inc:436
 msgid "Cryptography"
 msgstr "Cryptografie"
 
-#: projects.inc:413
+#: projects.inc:437
 msgid ""
 "Attempt to decode 3 original Enigma messages. The signals were intercepted "
 "in the North Atlantic in 1942 and are believed to be unbroken."
@@ -632,25 +638,25 @@ msgstr ""
 "Deze werden in 1942 op de Noord-Atlantische Oceaan onderschept en er wordt "
 "aangenomen dat de codering nog niet is gekraakt."
 
-#: projects.inc:419 projects.inc:458 projects.inc:474 projects.inc:482
-#: projects.inc:522
+#: projects.inc:443 projects.inc:482 projects.inc:490 projects.inc:498
+#: projects.inc:506 projects.inc:546
 msgid "Mathematics"
 msgstr "Wiskunde"
 
-#: projects.inc:420
+#: projects.inc:444
 msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
 msgstr ""
 "Bestudeer het Vermoeden van Collatz, een onopgelost vraagstuk in de wiskunde"
 
-#: projects.inc:425
+#: projects.inc:449
 msgid "California State University Fullerton"
 msgstr "California State University Fullerton"
 
-#: projects.inc:426
+#: projects.inc:450
 msgid "Factorization of large integers"
 msgstr "Factorisatie van grote getallen"
 
-#: projects.inc:427
+#: projects.inc:451
 msgid ""
 "NFS@Home is a research project that uses Internet-connected computers to do "
 "the lattice sieving step in the Number Field Sieve factorization of large "
@@ -667,7 +673,7 @@ msgstr ""
 "35 = 5 * 7. NFS@Home zet dit principe voort, echter met getallen die uit "
 "honderden cijfers bestaan."
 
-#: projects.inc:433
+#: projects.inc:457
 msgid ""
 "Vilnius Gediminas Technical University and Kaunas University of Technology "
 "(Lithuania)"
@@ -675,11 +681,11 @@ msgstr ""
 "Vilnius Gediminas Technische Universiteit en Kaunas Technische Universiteit "
 "(Litouwen)"
 
-#: projects.inc:434
+#: projects.inc:458
 msgid "Software testing"
 msgstr "Software testen"
 
-#: projects.inc:435
+#: projects.inc:459
 msgid ""
 "The aim of this project is to provide a powerful distributed computing "
 "platform for scientists of Vilnius Gediminas Technical University (VGTU) as "
@@ -692,11 +698,11 @@ msgstr ""
 "rekenkracht.  De huidige applicaties zijn gewijd aan het onderzoek naar "
 "software die op de Monte-Carlo simulatie is gebaseerd."
 
-#: projects.inc:457
+#: projects.inc:481
 msgid "Mathematical Institute of Leiden University / Kennislink"
 msgstr "Mathematisch Instituut Universiteit Leiden / Kennislink"
 
-#: projects.inc:459
+#: projects.inc:483
 msgid ""
 "Search for 'abc-triples': positive integers a,b,c such that a+b=c, a &lt; b "
 "&lt; c, a,b,c have no common divisors and c > rad(abc), where rad(n) is the "
@@ -715,21 +721,17 @@ msgstr ""
 "in de wiskunde. Als dit vermoeden wordt bewezen als waarheid, kunnen "
 "vervolgens vele andere vraagstukken worden opgelost."
 
-#: projects.inc:467
+#: projects.inc:491
 msgid ""
-"Primegrid is generating a public sequential prime number database, and is "
-"searching for large twin primes of the form k*2<sup>n</sup>+1 and k*2<sup>n</"
-"sup>-1"
+"Primegrid has multiple projects searching for different forms of very large "
+"prime numbers, including searching for the largest known prime number."
 msgstr ""
-"Primegrid genereert een openbare databank van een reeks opeenvolgende "
-"priemgetallen, en is op zoek naar grote priemtweelingen van de vorm "
-"k*2<sup>n</sup>+1 en k*2<sup>n</sup>-1"
 
-#: projects.inc:473
+#: projects.inc:497
 msgid "Hochschule RheinMain University of Applied Sciences"
 msgstr "Hogeschool RheinMain Universiteit voor toegepaste wetenschappen"
 
-#: projects.inc:475
+#: projects.inc:499
 msgid ""
 "Search for counterexamples to two conjectures related to the identification "
 "of prime numbers"
@@ -737,7 +739,7 @@ msgstr ""
 "Ga op zoek naar tegenvoorbeelden van twee vermoedens omtrent de "
 "identificatie van priemgetallen"
 
-#: projects.inc:483
+#: projects.inc:507
 msgid ""
 "Find all the generalized binary number systems (in which bases are matrices "
 "and digits are vectors) up to dimension 11."
@@ -758,16 +760,16 @@ msgstr "Terug naar de BOINC hoofd pagina"
 msgid "This page is %stranslatable%s."
 msgstr "Deze pagina is %svertaalbaar%s."
 
-#: download.php:40
+#: download.php:38
 msgid "Download BOINC"
 msgstr "Download BOINC"
 
-#: download.php:42
+#: download.php:40
 #, php-format
 msgid "%s for %s (%s MB)"
 msgstr "%s voor %s (%s MB)"
 
-#: download.php:89
+#: download.php:87
 msgid ""
 "BOINC is a program that lets you donate your idle computer time to science "
 "projects like SETI@home, Climateprediction.net, Rosetta@home, World "
@@ -779,7 +781,7 @@ msgstr ""
 "Rosetta@home, World Community Grid en vele andere projecten. <p> Als u BOINC "
 "op uw computer installeert, kunt u aan elk van deze projecten deelnemen."
 
-#: download.php:91
+#: download.php:89
 msgid ""
 "You may run this software on a computer only if you own the computer or have "
 "the permission of its owner."
@@ -787,31 +789,31 @@ msgstr ""
 "Je mag deze software alleen gebruiken op een computer van jezelf, of als de "
 "eigenaar toestemming heeft gegeven."
 
-#: download.php:121
+#: download.php:131
 msgid "System requirements"
 msgstr "Systeemvereisten"
 
-#: download.php:122
+#: download.php:132
 msgid "Release notes"
 msgstr "Versie opmerkingen"
 
-#: download.php:123 index.php:85
+#: download.php:133 index.php:85
 msgid "Help"
 msgstr "Help"
 
-#: download.php:124
+#: download.php:134
 msgid "All versions"
 msgstr "Alle versies"
 
-#: download.php:125
+#: download.php:135
 msgid "Version history"
 msgstr "Vorige versies"
 
-#: download.php:126
+#: download.php:136
 msgid "GPU computing"
 msgstr "GPU computing"
 
-#: download.php:144
+#: download.php:154
 msgid "BOINC: compute for science"
 msgstr "BOINC: voor wetenschappelijke berekeningen"
 
@@ -1083,6 +1085,42 @@ msgstr ""
 msgid "BOINC is based at The University of California, Berkeley"
 msgstr "BOINC is gevestigd op de Universiteit van Californië, Berkeley"
 
+#: ../html/inc/news.inc:40
+msgid "Comment"
+msgstr ""
+
+#: ../html/inc/news.inc:111
+#, php-format
+msgid "News is available as an %sRSS feed%s"
+msgstr "Het nieuws is beschikbaar als %sRSS feed%s"
+
+#~ msgid "IBM Corporate Community Relations"
+#~ msgstr "IBM & de maatschappij"
+
+#~ msgid "Humanitarian research on disease, natural disasters and hunger."
+#~ msgstr "Humanitair onderzoek naar ziektes, natuurrampen en hongersnood."
+
+#~ msgid ""
+#~ "To further critical non-profit research on some of humanity's most "
+#~ "pressing problems by creating the world's largest volunteer computing "
+#~ "grid.  Research includes HIV/AIDS, cancer, muscular dystrophy, dengue "
+#~ "fever, and many more."
+#~ msgstr ""
+#~ "Om het verrichten van essentieel wetenschappelijk onderzoek naar enkele "
+#~ "van de meest urgente problemen der mensheid belangeloos te stimuleren, "
+#~ "door als vrijwilliger deel te nemen aan ’s werelds meest omvangrijke "
+#~ "computercluster.  Het onderzoek betreft HIV/AIDS, kanker, musculaire "
+#~ "dystrofie, knokkelkoorts en vele andere ziektes."
+
+#~ msgid ""
+#~ "Primegrid is generating a public sequential prime number database, and is "
+#~ "searching for large twin primes of the form k*2<sup>n</sup>+1 and "
+#~ "k*2<sup>n</sup>-1"
+#~ msgstr ""
+#~ "Primegrid genereert een openbare databank van een reeks opeenvolgende "
+#~ "priemgetallen, en is op zoek naar grote priemtweelingen van de vorm "
+#~ "k*2<sup>n</sup>+1 en k*2<sup>n</sup>-1"
+
 #~ msgid "FreeHAL"
 #~ msgstr "FreeHAL"
 
@@ -1126,8 +1164,8 @@ msgstr "BOINC is gevestigd op de Universiteit van Californië, Berkeley"
 #~ "Provide ecological guidelines on the design of prairies with the best "
 #~ "potential for water purification."
 #~ msgstr ""
-#~ "Bepaal de ecologische richtlijnen die een optimale waterzuivering opleveren "
-#~ "voor de ontwikkeling van prairielandschappen."
+#~ "Bepaal de ecologische richtlijnen die een optimale waterzuivering "
+#~ "opleveren voor de ontwikkeling van prairielandschappen."
 
 #~ msgid "Climateprediction.net"
 #~ msgstr "Climateprediction.net"
@@ -1146,8 +1184,8 @@ msgstr "BOINC is gevestigd op de Universiteit van Californië, Berkeley"
 
 #~ msgid "Monitor and study the hazard posed by near-Earth asteroids"
 #~ msgstr ""
-#~ "Controleer en bestudeer de dreiging van meteorieten in de directe omgeving "
-#~ "van de aarde"
+#~ "Controleer en bestudeer de dreiging van meteorieten in de directe "
+#~ "omgeving van de aarde"
 
 #~ msgid "Cosmology@Home"
 #~ msgstr "Cosmology@Home"
@@ -1171,17 +1209,17 @@ msgstr "BOINC is gevestigd op de Universiteit van Californië, Berkeley"
 #~ msgstr "Fysica/Luchtvaartkunde"
 
 #~ msgid ""
-#~ "The uFluids project simulates two-phase fluid behavior in microgravity and "
-#~ "microfluidics problems. Our goal is to design better satellite propellant "
-#~ "management devices and address two-phase flow in microchannel and MEMS "
-#~ "devices."
+#~ "The uFluids project simulates two-phase fluid behavior in microgravity "
+#~ "and microfluidics problems. Our goal is to design better satellite "
+#~ "propellant management devices and address two-phase flow in microchannel "
+#~ "and MEMS devices."
 #~ msgstr ""
 #~ "Het uFluids project simuleert het tweefasen vloeistofgedrag inzake de "
 #~ "problematiek die zich voordoet bij micrograviteit en microfluïdische "
 #~ "systemen. Onze doelstelling betreft de ontwikkeling van betere "
 #~ "stuwstofmanagementsystemen voor satelieten en richt zich op "
-#~ "tweefasenstroming in microchannel- en micro-elektromechanische "
-#~ "systemen(MEMS)."
+#~ "tweefasenstroming in microchannel- en micro-elektromechanische systemen"
+#~ "(MEMS)."
 
 #~ msgid "Einstein@home"
 #~ msgstr "Einstein@home"
@@ -1282,41 +1320,41 @@ msgstr "BOINC is gevestigd op de Universiteit van Californië, Berkeley"
 
 #~ msgid ""
 #~ "This project studies Chess 960, a variant of orthodox chess. In classical "
-#~ "chess the starting position of the game never changes.  In Chess 960, just "
-#~ "before the start of every game, the initial configuration of the chess "
-#~ "pieces is determined randomly."
+#~ "chess the starting position of the game never changes.  In Chess 960, "
+#~ "just before the start of every game, the initial configuration of the "
+#~ "chess pieces is determined randomly."
 #~ msgstr ""
-#~ "Dit project onderzoekt Chess 960; een variant op het gewone schaakspel. Bij "
-#~ "het conventionele schaakspel is de beginsituatie bij elk spel identiek. Bij "
-#~ "Chess 960 wordt bij aanvang van elk spel de opstelling van de schaakstukken "
-#~ "willekeurig bepaald."
+#~ "Dit project onderzoekt Chess 960; een variant op het gewone schaakspel. "
+#~ "Bij het conventionele schaakspel is de beginsituatie bij elk spel "
+#~ "identiek. Bij Chess 960 wordt bij aanvang van elk spel de opstelling van "
+#~ "de schaakstukken willekeurig bepaald."
 
 #~ msgid "The current release is known to work with these Linux versions:"
 #~ msgstr "De huidige versie werkt met de volgende Linux versie:"
 
 #~ msgid ""
-#~ "For other Linux versions, check if a BOINC package is offered by your Linux "
-#~ "distribution."
+#~ "For other Linux versions, check if a BOINC package is offered by your "
+#~ "Linux distribution."
 #~ msgstr ""
 #~ "Voor andere Linux versies; controleer of er een BOINC versie aangeboden "
 #~ "wordt door de distributie zelf."
 
 #~ msgid ""
-#~ "Alternatively, download the %1BOINC client for older Linux versions%2. This "
-#~ "doesn't have a graphical interface, but it should work on all Linux systems, "
-#~ "both x86 and x64."
+#~ "Alternatively, download the %1BOINC client for older Linux versions%2. "
+#~ "This doesn't have a graphical interface, but it should work on all Linux "
+#~ "systems, both x86 and x64."
 #~ msgstr ""
 #~ "Alternatief; download de %1BOINC client voor oudere Linux versies%2. Deze "
-#~ "heeft geen grafische interface, maar zou moeten werken met alle x86 en x64 "
-#~ "Linux systemen."
+#~ "heeft geen grafische interface, maar zou moeten werken met alle x86 en "
+#~ "x64 Linux systemen."
 
-#, php-format
 #~ msgid ""
-#~ "Note: if your computer is equipped with an Graphics Processing Unit (GPU), "
-#~ "you may be able to %suse it to compute faster%s"
+#~ "Note: if your computer is equipped with an Graphics Processing Unit "
+#~ "(GPU), you may be able to %suse it to compute faster%s"
 #~ msgstr ""
-#~ "Opmerking: Indien je computer over een grafische processor (GPU) beschikt, "
-#~ "kan deze misschien worden ingezet om %s taken sneller uit te voeren%s"
+#~ "Opmerking: Indien je computer over een grafische processor (GPU) "
+#~ "beschikt, kan deze misschien worden ingezet om %s taken sneller uit te "
+#~ "voeren%s"
 
 #~ msgid "TeraFLOPS."
 #~ msgstr "TeraFLOPS."
@@ -1546,9 +1584,6 @@ msgstr "BOINC is gevestigd op de Universiteit van Californië, Berkeley"
 
 #~ msgid "... more"
 #~ msgstr "... meer"
-
-#~ msgid "News is available as an %sRSS feed%s"
-#~ msgstr "Het nieuws is beschikbaar als %sRSS feed%s"
 
 #~ msgid "BOINC user survey"
 #~ msgstr "BOINC gebruikers enquête"

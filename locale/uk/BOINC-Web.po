@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2013-06-05 10:25 PDT\n"
+"POT-Creation-Date: 2013-08-22 16:22 PDT\n"
 "PO-Revision-Date: 2013-06-09 22:05+0200\n"
 "Last-Translator: Олег <pukish_oleg@ukr.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -73,8 +73,8 @@ msgid "Cognitive science and artifical intelligence"
 msgstr "Когнітивна наука та штучний інтелект"
 
 # 85%
-#: projects.inc:50 projects.inc:318 projects.inc:362 projects.inc:411
-#: projects.inc:418 projects.inc:465
+#: projects.inc:50 projects.inc:342 projects.inc:386 projects.inc:435
+#: projects.inc:442 projects.inc:489
 msgid "Private"
 msgstr "Приватний"
 
@@ -161,15 +161,15 @@ msgstr ""
 "отримання знань про взаємодію білок-ліганд на атомарному рівні та, як "
 "результат, буде шукати ідеї для відкриття нових медичних препаратів."
 
-#: projects.inc:95
+#: projects.inc:103
 msgid "Barcelona Biomedical Research Park (PRBB)"
 msgstr "Barcelona Biomedical Research Park (PRBB)"
 
-#: projects.inc:96
+#: projects.inc:104
 msgid "Molecular simulations of proteins"
 msgstr "Молекулярне моделювання білків"
 
-#: projects.inc:97
+#: projects.inc:105
 msgid ""
 "GPUGrid.net opens novel computational scenarios by the first full-atom "
 "molecular dynamics code (CellMD) specially optimized to run on NVIDIA GPUs. "
@@ -182,15 +182,15 @@ msgstr ""
 "засоби несподівано надали можливість досягнути нових висот у обчислювальній "
 "біології для біомедичних наукових досліджень."
 
-#: projects.inc:103
+#: projects.inc:111
 msgid "Technion, Israel"
 msgstr "Техніон, АиИгЖ"
 
-#: projects.inc:104
+#: projects.inc:112
 msgid "Genetic linkage analysis"
 msgstr "Аналіз генетичних зв’язків"
 
-#: projects.inc:105
+#: projects.inc:113
 msgid ""
 "Superlink@Technion helps geneticists all over the world find disease-"
 "provoking genes causing some types of diabetes, hypertension (high blood "
@@ -200,16 +200,16 @@ msgstr ""
 "провокують деякі типи діабету, гіпертонії (високого кров'яного тиску), раку, "
 "шизофренії та інших захворювань."
 
-#: projects.inc:119
+#: projects.inc:127
 msgid ""
 "University of Maryland Center for Bioinformatics and Computational Biology"
 msgstr "Центр біоінформатики та обчислювальної біології університету Меріленду."
 
-#: projects.inc:120
+#: projects.inc:128
 msgid "Life science research"
 msgstr "Дослідження в науці про життя"
 
-#: projects.inc:121
+#: projects.inc:129
 msgid ""
 "The Lattice Project supplies computing power to scientists at the University "
 "of Maryland studying evolutionary relationships based on DNA sequence data; "
@@ -221,15 +221,15 @@ msgstr ""
 "послідовності ДНК; бактеріальні, плазмідні та вірусні білкові послідовності; "
 "а також біологічну різноманітність у заповідниках. "
 
-#: projects.inc:127
+#: projects.inc:135
 msgid "The Swiss Tropical Institute"
 msgstr "Швейцарський Тропічний Інститут"
 
-#: projects.inc:128
+#: projects.inc:136
 msgid "Epidemiology"
 msgstr "Епідеміологія"
 
-#: projects.inc:129
+#: projects.inc:137
 msgid ""
 "Simulation models of the transmission dynamics and health effects of malaria "
 "are an important tool for malaria control. They can be used to determine "
@@ -248,15 +248,15 @@ msgstr ""
 "параметрів, пов`язаних з біологічними та соціальними факторами, що впливають "
 "на розповсюдження хвороби. "
 
-#: projects.inc:151
+#: projects.inc:159
 msgid "University of Washington"
 msgstr "Університет Вашингтону"
 
-#: projects.inc:152 projects.inc:160
+#: projects.inc:160 projects.inc:168
 msgid "Biology"
 msgstr "Біологія"
 
-#: projects.inc:153
+#: projects.inc:161
 msgid ""
 "Determine the 3-dimensional shapes of proteins in research that may "
 "ultimately lead to finding cures for some major human diseases. By running "
@@ -272,11 +272,11 @@ msgstr ""
 "допоможете нам при проектуванні нових білків для боротьби з хворобами типу "
 "ВІЛ, малярія, рак і хвороба Альцгеймера."
 
-#: projects.inc:159
+#: projects.inc:167
 msgid "University of Vienna"
 msgstr "Університет Відня"
 
-#: projects.inc:161
+#: projects.inc:169
 msgid ""
 "Calculate similarities between proteins. SIMAP provides a public database of "
 "the resulting data, which plays a key role in many bioinformatics research "
@@ -286,19 +286,19 @@ msgstr ""
 "результатів, які відіграють ключову роль у багатьох біоінформаційних "
 "науково-дослідницьких проектах."
 
-#: projects.inc:167
+#: projects.inc:175
 msgid "Earth Sciences"
 msgstr "Науки про Землю"
 
-#: projects.inc:179
+#: projects.inc:187
 msgid "Oxford University"
 msgstr "Оксфордський Університет"
 
-#: projects.inc:180
+#: projects.inc:188
 msgid "Climate study"
 msgstr "Вивчення клімату"
 
-#: projects.inc:181
+#: projects.inc:189
 msgid ""
 "Investigate the approximations that have to be made in state-of-the-art "
 "climate models. By running the model thousands of times we hope to find out "
@@ -319,19 +319,33 @@ msgstr ""
 "столітті при широкому діапазоні різних сценаріїв."
 
 # 75%
-#: projects.inc:188
+#: projects.inc:196
 msgid "Astronomy, Physics, and Chemistry"
 msgstr "Астрономія, фізика і хімія"
 
-#: projects.inc:209
+#: projects.inc:202 projects.inc:241 projects.inc:249
+msgid "Astronomy"
+msgstr "Астрономія"
+
+#: projects.inc:203
+msgid ""
+"We will combine the spectral coverage of GALEX, Pan-STARRS1, and WISE to "
+"generate a multi-wavelength UV-optical-NIR galaxy atlas for the nearby "
+"Universe. We will measure physical parameters (such as stellar mass surface "
+"density, star formation rate surface density, attenuation, and first-order "
+"star formation history) on a resolved pixel-by-pixel basis using spectral "
+"energy distribution (SED) fitting techniques in a distributed computing mode."
+msgstr ""
+
+#: projects.inc:225
 msgid "University of Texas at Austin"
 msgstr "Університет Техасу в Остіні"
 
-#: projects.inc:210 projects.inc:241
+#: projects.inc:226 projects.inc:257
 msgid "Chemistry"
 msgstr "Хімія"
 
-#: projects.inc:211
+#: projects.inc:227
 msgid ""
 "A common problem in theoretical chemistry, condensed matter physics and "
 "materials science is the calculation of the time evolution of an atomic "
@@ -354,15 +368,11 @@ msgstr ""
 "систем."
 
 # 95%
-#: projects.inc:224
+#: projects.inc:240
 msgid "University of Illinois at Urbana-Champaign"
 msgstr "Іллінойський університет в Урбана-Шампейн"
 
-#: projects.inc:225 projects.inc:233
-msgid "Astronomy"
-msgstr "Астрономія"
-
-#: projects.inc:226
+#: projects.inc:242
 msgid ""
 "The goal of Cosmology@Home is to search for the model that best describes "
 "our Universe and to find the range of models that agree with the available "
@@ -372,11 +382,11 @@ msgstr ""
 "описувала наш Всесвіт, і пошуку діапазону моделей, узгоджених із наявними "
 "астрономічними даними фізики елементарних частинок."
 
-#: projects.inc:232
+#: projects.inc:248
 msgid "Rensselaer Polytechnic Institute"
 msgstr "Політехнічний інститут Ренсселера"
 
-#: projects.inc:234
+#: projects.inc:250
 msgid ""
 "The goal of Milkyway@Home is to create a highly accurate three dimensional "
 "model of the Milky Way galaxy using data gathered by the Sloan Digital Sky "
@@ -386,11 +396,11 @@ msgstr ""
 "Чумацького Шляху з використанням даних, зібраних Слоанівським цифровим "
 "оглядом неба."
 
-#: projects.inc:240
+#: projects.inc:256
 msgid "Leiden University, The Netherlands"
 msgstr "Лейденський університет, Нідерланди"
 
-#: projects.inc:242
+#: projects.inc:258
 msgid ""
 "Surface science calculations using Classical Dynamics.  Leiden Classical "
 "allows volunteers, students and other scientist to submit their personal "
@@ -406,15 +416,15 @@ msgstr ""
 "того, щоб змоделювати рідкий аргон або перевірити обґрунтованість закону "
 "ідеального газу, фактично проводячи моделювання за посередництва мережі."
 
-#: projects.inc:256
+#: projects.inc:272
 msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
 msgstr "Університет Вісконсина - Мілуокі, Інститут Макса Планка"
 
-#: projects.inc:257
+#: projects.inc:273
 msgid "Astrophysics"
 msgstr "Астрофізика"
 
-#: projects.inc:258
+#: projects.inc:274
 msgid ""
 "Search for spinning neutron stars (also called pulsars) using data from the "
 "LIGO and GEO gravitational wave detectors, and from the Arecibo radio "
@@ -428,15 +438,15 @@ msgstr ""
 "2005, підтриманий Американським фізичним товариством і багатьма міжнародними "
 "організаціями."
 
-#: projects.inc:264 projects.inc:272
+#: projects.inc:288 projects.inc:296
 msgid "CERN (European Organization for Nuclear Research)"
 msgstr "ЦЕРН (Європейська рада з ядерних досліджень)"
 
-#: projects.inc:265 projects.inc:273
+#: projects.inc:289 projects.inc:297
 msgid "Physics"
 msgstr "Фізика"
 
-#: projects.inc:266
+#: projects.inc:290
 msgid ""
 "The Large Hadron Collider (LHC) is a particle accelerator at CERN, the "
 "European Organization for Nuclear Research, the world's largest particle "
@@ -450,7 +460,7 @@ msgstr ""
 "інструментів для дослідження поведінки елементарних частинок. LHC@home "
 "виконує моделювання для покращення проекту ВАК і його датчиків."
 
-#: projects.inc:274
+#: projects.inc:298
 msgid ""
 "This project uses CERN-developed virtual machine technology for full-fledged "
 "LHC event physics simulation on volunteer computers.  Requires that you "
@@ -460,15 +470,15 @@ msgstr ""
 "для моделювання фізики повноцінних подій ВАК на комп’ютерах добровольців.  "
 "Необхідне встановлення VirtualBox на Вашому комп’ютері"
 
-#: projects.inc:280
+#: projects.inc:304
 msgid "University of California, Berkeley"
 msgstr "Каліфорнійський університет, Берклі"
 
-#: projects.inc:281
+#: projects.inc:305
 msgid "Astrophysics, astrobiology"
 msgstr "Астрофізика, астробіологія"
 
-#: projects.inc:282
+#: projects.inc:306
 msgid ""
 "SETI (Search for Extraterrestrial Intelligence) is a scientific area whose "
 "goal is to detect intelligent life outside Earth. One approach, known as "
@@ -483,15 +493,15 @@ msgstr ""
 "Природні джерела таких сигналів невідомі, тому їх виявлення може надати "
 "підтвердження про існування позаземної технології."
 
-#: projects.inc:296
+#: projects.inc:320
 msgid "Bielefeld University of Applied Sciences"
 msgstr "Університет прикладних наук Бельфелда"
 
-#: projects.inc:297
+#: projects.inc:321
 msgid "Chemical engineering and nanotechnology"
 msgstr "Хімічна технологія і нанотехнологія"
 
-#: projects.inc:298
+#: projects.inc:322
 msgid ""
 "The study of molecular magnets and controlled nanoscale magnetism.  These "
 "magnetic molecules may be used to develop tiny magnetic switches, with "
@@ -503,19 +513,19 @@ msgstr ""
 "вимикачів, які використовуватимуться у медицині (наприклад місцева "
 "хіміотерапія пухлин) і в біотехнології."
 
-#: projects.inc:305
+#: projects.inc:329
 msgid "Multiple applications"
 msgstr "Різні додатки"
 
-#: projects.inc:310
+#: projects.inc:334
 msgid "Chinese Academy of Sciences"
 msgstr "Китайська академія Наук"
 
-#: projects.inc:311
+#: projects.inc:335
 msgid "Physics, biochemistry, and others"
 msgstr "Фізика, біохімія та інші"
 
-#: projects.inc:312
+#: projects.inc:336
 msgid ""
 "The objective of CAS@home is to encourage and assist scientists in China to "
 "adopt the technologies of volunteer computing and volunteer thinking for "
@@ -524,11 +534,11 @@ msgstr ""
 "Метою CAS@home є рекомендування і допомога вченим Китаю прийняти технології "
 "волонтерських обчислень і мислення у їхні дослідження."
 
-#: projects.inc:319
+#: projects.inc:343
 msgid "Mathematics, physics, evolution"
 msgstr "Математика, фізика, еволюція"
 
-#: projects.inc:320
+#: projects.inc:344
 msgid ""
 "Yoyo@home is an adapter between BOINC and several existing volunteer "
 "computing projects: ECM, Muon, Evolution@home, and distributed.net"
@@ -536,15 +546,15 @@ msgstr ""
 "Yoyo@home - адаптер між BOINC і декількома існуючими волонтерськими "
 "обчислювальними проектами: ECM, Muon, Evolution@home і distributed.net"
 
-#: projects.inc:325 projects.inc:481
+#: projects.inc:349 projects.inc:505
 msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
 msgstr "Лабораторія паралельних і розподілених систем MTA-SZTAKI (Угорщина)"
 
-#: projects.inc:326
+#: projects.inc:350
 msgid "European research projects"
 msgstr "Європейські дослідницькі проекти"
 
-#: projects.inc:327
+#: projects.inc:351
 msgid ""
 "The EDGeS@Home Beta project integrates volunteer computing into the service "
 "grid network of Europe by allowing service grids to send workunits to be "
@@ -556,58 +566,55 @@ msgstr ""
 "волонтерами цього проекту. Наукові дослідження, що підтримуються даним "
 "проектом, включають в себе математику, фізику, біологію і т.д."
 
-#: projects.inc:333
+#: projects.inc:357
 msgid "Spanish universities and research centers"
 msgstr "Іспанські університети та дослідницькі центри"
 
-#: projects.inc:334
+#: projects.inc:358
 msgid "Various Spanish research projects"
 msgstr "Різноманітні Іспанські дослідницькі проекти"
 
-#: projects.inc:335
+#: projects.inc:359
 msgid "Research in physics, material science, and biomedicine"
 msgstr "Дослідження у галузях фізики, матеріалознавства і біомедицини"
 
-#: projects.inc:341
-msgid "IBM Corporate Community Relations"
-msgstr "IBM Corporate Community Relations"
+#: projects.inc:365
+msgid "IBM Corporate Citizenship"
+msgstr ""
 
-#: projects.inc:342
-msgid "Humanitarian research on disease, natural disasters and hunger."
-msgstr "Гуманітарні дослідження хвороб, стихійних лих і голоду."
+#: projects.inc:366
+msgid "Medical, environmental and other humanitarian research"
+msgstr ""
 
-#: projects.inc:343
+#: projects.inc:367
 msgid ""
 "To further critical non-profit research on some of humanity's most pressing "
 "problems by creating the world's largest volunteer computing grid.  Research "
-"includes HIV/AIDS, cancer, muscular dystrophy, dengue fever, and many more."
+"includes HIV-AIDS, cancer, tropical and neglected diseases, solar energy, "
+"clean water and many more."
 msgstr ""
-"Створення найбільшої у світі мережі волонтерських обчислень для подальшого "
-"серйозного некомерційного дослідження деяких найбільш нагальних проблем "
-"людства.  Дослідження охоплюють ВІЛ/СНІД, рак, дистрофію м'язів, лихоманку "
-"денге та чимало інших."
 
-#: projects.inc:349
+#: projects.inc:373
 msgid "Mathematics, computing, and games"
 msgstr "Математика, програмування та ігри."
 
-#: projects.inc:355
+#: projects.inc:379
 msgid "Computer Science"
 msgstr "Наука про комп’ютери"
 
-#: projects.inc:363
+#: projects.inc:387
 msgid "Mathematics, Physics, Artificial Intelligence"
 msgstr "Математика, фізика, штучний інтелект"
 
-#: projects.inc:364
+#: projects.inc:388
 msgid "Simulation of quantum computing; Goldbach's conjecture."
 msgstr "Моделювання квантових комп’ютерів; гіпотеза Гольдбаха."
 
-#: projects.inc:404 projects.inc:412 projects.inc:466
+#: projects.inc:428 projects.inc:436
 msgid "Cryptography"
 msgstr "Криптографія"
 
-#: projects.inc:413
+#: projects.inc:437
 msgid ""
 "Attempt to decode 3 original Enigma messages. The signals were intercepted "
 "in the North Atlantic in 1942 and are believed to be unbroken."
@@ -616,24 +623,24 @@ msgstr ""
 "перехоплені у Північноатлантичному океані у 1942 році і вважалось, що їх "
 "неможливо зламати."
 
-#: projects.inc:419 projects.inc:458 projects.inc:474 projects.inc:482
-#: projects.inc:522
+#: projects.inc:443 projects.inc:482 projects.inc:490 projects.inc:498
+#: projects.inc:506 projects.inc:546
 msgid "Mathematics"
 msgstr "Математика"
 
-#: projects.inc:420
+#: projects.inc:444
 msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
 msgstr "Вивчення гіпотези Коллатца - нерозв'язаної задачі в математиці."
 
-#: projects.inc:425
+#: projects.inc:449
 msgid "California State University Fullerton"
 msgstr "Каліфорнійський державний університет, Фуллертон"
 
-#: projects.inc:426
+#: projects.inc:450
 msgid "Factorization of large integers"
 msgstr "Розклад великих цілих чисел на множники"
 
-#: projects.inc:427
+#: projects.inc:451
 msgid ""
 "NFS@Home is a research project that uses Internet-connected computers to do "
 "the lattice sieving step in the Number Field Sieve factorization of large "
@@ -649,7 +656,7 @@ msgstr ""
 "= 3 * 5 або 35 = 5 * 7. NFS@Home є продовженням цього досвіду, тільки з "
 "цілими числами, які складаються із сотень цифр."
 
-#: projects.inc:433
+#: projects.inc:457
 msgid ""
 "Vilnius Gediminas Technical University and Kaunas University of Technology "
 "(Lithuania)"
@@ -657,11 +664,11 @@ msgstr ""
 "Вільнюський технічний університет і Каунаський університет технологій "
 "(Литва)"
 
-#: projects.inc:434
+#: projects.inc:458
 msgid "Software testing"
 msgstr "Тестування програмного забезпечення"
 
-#: projects.inc:435
+#: projects.inc:459
 msgid ""
 "The aim of this project is to provide a powerful distributed computing "
 "platform for scientists of Vilnius Gediminas Technical University (VGTU) as "
@@ -673,11 +680,11 @@ msgstr ""
 "литовських наукових закладів.  Поточні додатки включають вивчення тестування "
 "програмного забезпечення, заснованого на методі Монте-Карло."
 
-#: projects.inc:457
+#: projects.inc:481
 msgid "Mathematical Institute of Leiden University / Kennislink"
 msgstr "Математичний інститут Лейденського університету/Кенніслінк"
 
-#: projects.inc:459
+#: projects.inc:483
 msgid ""
 "Search for 'abc-triples': positive integers a,b,c such that a+b=c, a &lt; b "
 "&lt; c, a,b,c have no common divisors and c > rad(abc), where rad(n) is the "
@@ -695,20 +702,17 @@ msgstr ""
 "математиці в даний час. Якщо вона буде доведена, безпосередньо через неї "
 "може бути вирішено багато інших відкритих проблем."
 
-#: projects.inc:467
+#: projects.inc:491
 msgid ""
-"Primegrid is generating a public sequential prime number database, and is "
-"searching for large twin primes of the form k*2<sup>n</sup>+1 and k*2<sup>n</"
-"sup>-1"
+"Primegrid has multiple projects searching for different forms of very large "
+"prime numbers, including searching for the largest known prime number."
 msgstr ""
-"Primegrid формує загальнодоступну послідовну базу даних простих чисел і "
-"шукає великі парні прості числа виду k*2<sup>n</sup>+1 і k*2<sup>n</sup>-1"
 
-#: projects.inc:473
+#: projects.inc:497
 msgid "Hochschule RheinMain University of Applied Sciences"
 msgstr "Університет Прикладних Наук РейнМейн"
 
-#: projects.inc:475
+#: projects.inc:499
 msgid ""
 "Search for counterexamples to two conjectures related to the identification "
 "of prime numbers"
@@ -716,7 +720,7 @@ msgstr ""
 "Пошук контрприкладів до двох теорем, пов’язаних з ідентифікацією головних "
 "чисел"
 
-#: projects.inc:483
+#: projects.inc:507
 msgid ""
 "Find all the generalized binary number systems (in which bases are matrices "
 "and digits are vectors) up to dimension 11."
@@ -737,16 +741,16 @@ msgstr "Повернутися на головну сторінку BOINC"
 msgid "This page is %stranslatable%s."
 msgstr "Цю сторінку можна %sперекласти%s."
 
-#: download.php:40
+#: download.php:38
 msgid "Download BOINC"
 msgstr "Завантажити BOINC"
 
-#: download.php:42
+#: download.php:40
 #, php-format
 msgid "%s for %s (%s MB)"
 msgstr "%s для %s (%s МБайт)"
 
-#: download.php:89
+#: download.php:87
 msgid ""
 "BOINC is a program that lets you donate your idle computer time to science "
 "projects like SETI@home, Climateprediction.net, Rosetta@home, World "
@@ -759,7 +763,7 @@ msgstr ""
 "інших. <p> Після встановлення BOINC на свій комп'ютер, Ви зможете взяти "
 "участь у всіх проектах, які Вам подобаються."
 
-#: download.php:91
+#: download.php:89
 msgid ""
 "You may run this software on a computer only if you own the computer or have "
 "the permission of its owner."
@@ -767,31 +771,31 @@ msgstr ""
 "Ви можете запустити це програмне забезпечення тільки, якщо це Ваш комп'ютер "
 "або якщо Ви маєте дозвіл від власника."
 
-#: download.php:121
+#: download.php:131
 msgid "System requirements"
 msgstr "Системні вимоги"
 
-#: download.php:122
+#: download.php:132
 msgid "Release notes"
 msgstr "Опис останньої версії"
 
-#: download.php:123 index.php:85
+#: download.php:133 index.php:85
 msgid "Help"
 msgstr "Довідка"
 
-#: download.php:124
+#: download.php:134
 msgid "All versions"
 msgstr "Всі версії"
 
-#: download.php:125
+#: download.php:135
 msgid "Version history"
 msgstr "Історія версій"
 
-#: download.php:126
+#: download.php:136
 msgid "GPU computing"
 msgstr "Обчислення за допомогою графічних процесорів"
 
-#: download.php:144
+#: download.php:154
 msgid "BOINC: compute for science"
 msgstr "BOINC: обчислення для науки"
 
@@ -1072,6 +1076,40 @@ msgstr ""
 msgid "BOINC is based at The University of California, Berkeley"
 msgstr "BOINC створено в Університеті Каліфорнії, Берклі"
 
+#: ../html/inc/news.inc:40
+msgid "Comment"
+msgstr ""
+
+#: ../html/inc/news.inc:111
+#, php-format
+msgid "News is available as an %sRSS feed%s"
+msgstr ""
+
+#~ msgid "IBM Corporate Community Relations"
+#~ msgstr "IBM Corporate Community Relations"
+
+#~ msgid "Humanitarian research on disease, natural disasters and hunger."
+#~ msgstr "Гуманітарні дослідження хвороб, стихійних лих і голоду."
+
+#~ msgid ""
+#~ "To further critical non-profit research on some of humanity's most "
+#~ "pressing problems by creating the world's largest volunteer computing "
+#~ "grid.  Research includes HIV/AIDS, cancer, muscular dystrophy, dengue "
+#~ "fever, and many more."
+#~ msgstr ""
+#~ "Створення найбільшої у світі мережі волонтерських обчислень для "
+#~ "подальшого серйозного некомерційного дослідження деяких найбільш "
+#~ "нагальних проблем людства.  Дослідження охоплюють ВІЛ/СНІД, рак, "
+#~ "дистрофію м'язів, лихоманку денге та чимало інших."
+
+#~ msgid ""
+#~ "Primegrid is generating a public sequential prime number database, and is "
+#~ "searching for large twin primes of the form k*2<sup>n</sup>+1 and "
+#~ "k*2<sup>n</sup>-1"
+#~ msgstr ""
+#~ "Primegrid формує загальнодоступну послідовну базу даних простих чисел і "
+#~ "шукає великі парні прості числа виду k*2<sup>n</sup>+1 і k*2<sup>n</sup>-1"
+
 #~ msgid "FreeHAL"
 #~ msgstr "FreeHAL"
 
@@ -1158,15 +1196,15 @@ msgstr "BOINC створено в Університеті Каліфорнії,
 #~ msgstr "Фізика/Повітроплавання"
 
 #~ msgid ""
-#~ "The uFluids project simulates two-phase fluid behavior in microgravity and "
-#~ "microfluidics problems. Our goal is to design better satellite propellant "
-#~ "management devices and address two-phase flow in microchannel and MEMS "
-#~ "devices."
+#~ "The uFluids project simulates two-phase fluid behavior in microgravity "
+#~ "and microfluidics problems. Our goal is to design better satellite "
+#~ "propellant management devices and address two-phase flow in microchannel "
+#~ "and MEMS devices."
 #~ msgstr ""
 #~ "Проект uFluids моделює двофазну поведінку рідини у мікрогравітаційній і "
-#~ "мікрорідинній проблемах. Наша мета полягає у тому, щоб запроектувати кращі "
-#~ "пристрої управління двигунами супутників і застосувати двофазний потік у "
-#~ "мікроканалі і MEMS-пристроях."
+#~ "мікрорідинній проблемах. Наша мета полягає у тому, щоб запроектувати "
+#~ "кращі пристрої управління двигунами супутників і застосувати двофазний "
+#~ "потік у мікроканалі і MEMS-пристроях."
 
 #~ msgid "Einstein@home"
 #~ msgstr "Einstein@home"
@@ -1186,7 +1224,8 @@ msgstr "BOINC створено в Університеті Каліфорнії,
 
 #~ msgid ""
 #~ "Study the structure and reactivity of molecules using Quantum Chemistry."
-#~ msgstr "Вивчення будови та реактивності молекул за допомогою квантової хімії."
+#~ msgstr ""
+#~ "Вивчення будови та реактивності молекул за допомогою квантової хімії."
 
 #~ msgid "Spinhenge@home"
 #~ msgstr "Spinhenge@home"
@@ -1235,13 +1274,13 @@ msgstr "BOINC створено в Університеті Каліфорнії,
 #~ "computers to help design and analyze quantum computing algorithms, using "
 #~ "Quantum Monte Carlo techniques."
 #~ msgstr ""
-#~ "D-Wave AQUA (адіабатні квантові алгоритми) - науково-дослідницький проект, "
-#~ "метою якого є передбачити продуктивність супер-управління адіабатними "
-#~ "квантовими комп’ютерами на великій кількості складних проблем, що виникають "
-#~ "у різних напрямках - від матеріалознавства до навчання машин. AQUA@home "
-#~ "використовує підключені до Інтернету комп’ютери для того, щоб допомогти у "
-#~ "проектуванні і аналізі квантових обчислювальних алгоритмів, використовуючи "
-#~ "квантові методи Монте-Карло."
+#~ "D-Wave AQUA (адіабатні квантові алгоритми) - науково-дослідницький "
+#~ "проект, метою якого є передбачити продуктивність супер-управління "
+#~ "адіабатними квантовими комп’ютерами на великій кількості складних "
+#~ "проблем, що виникають у різних напрямках - від матеріалознавства до "
+#~ "навчання машин. AQUA@home використовує підключені до Інтернету комп’ютери "
+#~ "для того, щоб допомогти у проектуванні і аналізі квантових обчислювальних "
+#~ "алгоритмів, використовуючи квантові методи Монте-Карло."
 
 #~ msgid "ABC@home"
 #~ msgstr "ABC@home"
@@ -1266,40 +1305,39 @@ msgstr "BOINC створено в Університеті Каліфорнії,
 
 #~ msgid ""
 #~ "This project studies Chess 960, a variant of orthodox chess. In classical "
-#~ "chess the starting position of the game never changes.  In Chess 960, just "
-#~ "before the start of every game, the initial configuration of the chess "
-#~ "pieces is determined randomly."
+#~ "chess the starting position of the game never changes.  In Chess 960, "
+#~ "just before the start of every game, the initial configuration of the "
+#~ "chess pieces is determined randomly."
 #~ msgstr ""
-#~ "Цей проект вивчає Шахи-960 - варіант ортодоксальних шахів. В класичних шаха "
-#~ "вихідне положення гри ніколи не змінюється.  У Шахах-960 початкова "
+#~ "Цей проект вивчає Шахи-960 - варіант ортодоксальних шахів. В класичних "
+#~ "шаха вихідне положення гри ніколи не змінюється.  У Шахах-960 початкова "
 #~ "розстановка фігур вибирається випадковим чином окремо для кожної партії."
 
 #~ msgid "The current release is known to work with these Linux versions:"
 #~ msgstr "Поточний випуск, як відомо, працює з такими версіями Linux:"
 
 #~ msgid ""
-#~ "For other Linux versions, check if a BOINC package is offered by your Linux "
-#~ "distribution."
+#~ "For other Linux versions, check if a BOINC package is offered by your "
+#~ "Linux distribution."
 #~ msgstr ""
-#~ "Для інших версій Linux перевірте, чи входить пакет BOINC у Ваш дистрибутив "
-#~ "Linux."
+#~ "Для інших версій Linux перевірте, чи входить пакет BOINC у Ваш "
+#~ "дистрибутив Linux."
 
 #~ msgid ""
-#~ "Alternatively, download the %1BOINC client for older Linux versions%2. This "
-#~ "doesn't have a graphical interface, but it should work on all Linux systems, "
-#~ "both x86 and x64."
+#~ "Alternatively, download the %1BOINC client for older Linux versions%2. "
+#~ "This doesn't have a graphical interface, but it should work on all Linux "
+#~ "systems, both x86 and x64."
 #~ msgstr ""
-#~ "У іншому випадку, завантажте %1BOINC клієнт для попередніх версій Linux%2. У "
-#~ "ньому немає графічного інтерфейсу, але він повинен працювати на всіх "
-#~ "системах із Linux, як на х86, так і на х64."
+#~ "У іншому випадку, завантажте %1BOINC клієнт для попередніх версій Linux"
+#~ "%2. У ньому немає графічного інтерфейсу, але він повинен працювати на "
+#~ "всіх системах із Linux, як на х86, так і на х64."
 
-#, php-format
 #~ msgid ""
-#~ "Note: if your computer is equipped with an Graphics Processing Unit (GPU), "
-#~ "you may be able to %suse it to compute faster%s"
+#~ "Note: if your computer is equipped with an Graphics Processing Unit "
+#~ "(GPU), you may be able to %suse it to compute faster%s"
 #~ msgstr ""
-#~ "Примітка: якщо Ваш комп'ютер обладнаний графічним процесором (ГП), у вас є "
-#~ "можливість %sвикористовувати його для прискорення обчислень%s"
+#~ "Примітка: якщо Ваш комп'ютер обладнаний графічним процесором (ГП), у вас "
+#~ "є можливість %sвикористовувати його для прискорення обчислень%s"
 
 #~ msgid "TeraFLOPS."
 #~ msgstr "терафлопс."

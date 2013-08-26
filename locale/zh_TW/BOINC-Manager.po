@@ -2059,6 +2059,7 @@ msgid "%s - Language Selection"
 msgstr "%s - 語言選擇"
 
 #: clientgui/DlgOptions.cpp:695
+#, c-format
 #, c-format, c-format
 msgid "The %s's language has been changed.  In order for this change to take effect, you must restart the %s."
 msgstr "%s 的語言已變更 。為了使其生效， 您必須重新啟動 %s。"

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-18 11:32-0500\n"
-"PO-Revision-Date: 2013-08-08 23:26+0200\n"
+"PO-Revision-Date: 2013-08-08 23:28+0200\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -2125,6 +2125,7 @@ msgid "%s - Language Selection"
 msgstr "%s - Selecció d'idioma"
 
 #: clientgui/DlgOptions.cpp:695
+#, c-format
 #, c-format, c-format
 msgid "The %s's language has been changed.  In order for this change to take effect, you must restart the %s."
 msgstr ""
@@ -3743,7 +3744,7 @@ msgstr "Petició programada en execució"
 
 #: clientgui/ViewProjects.cpp:1090
 msgid "Trickle up message pending"
-msgstr "Degoteig de missatges pendent"
+msgstr "Degoteig de dades pendent"
 
 #: clientgui/ViewProjects.cpp:1096
 msgid "Communication deferred "
