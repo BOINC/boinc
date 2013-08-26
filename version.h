@@ -10,10 +10,10 @@
 #define BOINC_MINOR_VERSION 2
 
 /* Release part of BOINC version number */
-#define BOINC_RELEASE 12
+#define BOINC_RELEASE 13
 
 /* String representation of BOINC version number */
-#define BOINC_VERSION_STRING "7.2.12"
+#define BOINC_VERSION_STRING "7.2.13"
 
 /* Package is a pre-release (Alpha/Beta) package */
 /* #define BOINC_PRERELEASE 1 */
