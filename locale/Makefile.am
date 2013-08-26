@@ -21,7 +21,7 @@ locale_dirs = \
 	gl \
 	hr \
 	hu \
-	it \
+	it_IT \
 	ja \
 	ko \
 	lt \

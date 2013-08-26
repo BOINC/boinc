@@ -623,6 +623,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\opencl_boinc.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\parse.cpp"
 				>
 			</File>
@@ -684,6 +688,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\coproc.h"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\diagnostics.h"
 				>
 			</File>
@@ -721,6 +729,10 @@
 			</File>
 			<File
 				RelativePath="..\lib\notice.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\opencl_boinc.h"
 				>
 			</File>
 			<File

@@ -10,4 +10,6 @@ endif
 
 ## other stuff to go into the distribution
 extradir = $(prefix)/share/boinc-server-maker/db
-dist_extra_DATA = constraints.sql schema.sql init_db
+dist_extra_DATA = constraints.sql schema.sql
+
+dist_extra_SCRIPTS = init_db
