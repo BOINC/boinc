@@ -580,8 +580,8 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event ) {
  
         // Verify minimum username length
         if (!m_pAccountUseExistingCtrl->GetValue()) {
-            if (!(m_pAccountPasswordCtrl->GetValue().Length() > 0)) {
-                if (pc.uses_username) {
+            if (pc.uses_username) {
+                if (!(m_pAccountUsernameCtrl->GetValue().Length() > 0)) {
                     if (IS_ATTACHTOPROJECTWIZARD()) {
                         strMessage.Printf(
                             _("The minimum username length for this project is 1. Please enter a different username.")
@@ -592,7 +592,9 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event ) {
                             _("The minimum username length for this account manager is 1. Please enter a different username.")
                         );
                     }
-                } else {
+                }
+            } else {
+                if (!(m_pAccountEmailAddressCtrl->GetValue().Length() > 0)) {
                     if (IS_ATTACHTOPROJECTWIZARD()) {
                         strMessage.Printf(
                             _("The minimum email address length for this project is 1. Please enter a different email address.")
@@ -604,8 +606,8 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event ) {
                         );
                     }
                 }
-                bDisplayError = true;
             }
+            bDisplayError = true;
         }
 
         // Verify minimum password length
