@@ -511,9 +511,9 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     }
 
     if (pc.min_passwd_length) {
-        wxString str;
+        wxString str2;
         str.Printf(_("minimum length %d"), pc.min_passwd_length);
-        m_pAccountPasswordRequirmentsStaticCtrl->SetLabel( str );
+        m_pAccountPasswordRequirmentsStaticCtrl->SetLabel( str2 );
     }
 
 
@@ -580,51 +580,23 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event ) {
  
         // Verify minimum username length
         if (!m_pAccountUseExistingCtrl->GetValue()) {
-            if (pc.uses_username) {
-                if (!(m_pAccountUsernameCtrl->GetValue().Length() > 0)) {
-                    if (IS_ATTACHTOPROJECTWIZARD()) {
-                        strMessage.Printf(
-                            _("The minimum username length for this project is 1. Please enter a different username.")
-                        );
-                    }
-                    if (IS_ACCOUNTMANAGERWIZARD()) {
-                        strMessage.Printf(
-                            _("The minimum username length for this account manager is 1. Please enter a different username.")
-                        );
-                    }
+            if (!(m_pAccountPasswordCtrl->GetValue().Length() > 0)) {
+                if (pc.uses_username) {
+                    strMessage.Printf(_("Please enter a user name."));
+                } else {
+                    strMessage.Printf(_("Please enter an email address."));
                 }
-            } else {
-                if (!(m_pAccountEmailAddressCtrl->GetValue().Length() > 0)) {
-                    if (IS_ATTACHTOPROJECTWIZARD()) {
-                        strMessage.Printf(
-                            _("The minimum email address length for this project is 1. Please enter a different email address.")
-                        );
-                    }
-                    if (IS_ACCOUNTMANAGERWIZARD()) {
-                        strMessage.Printf(
-                            _("The minimum email address length for this account manager is 1. Please enter a different email address.")
-                        );
-                    }
-                }
+                bDisplayError = true;
             }
-            bDisplayError = true;
         }
 
         // Verify minimum password length
         if (!m_pAccountUseExistingCtrl->GetValue()) {
             if (m_pAccountPasswordCtrl->GetValue().Length() < (size_t)pc.min_passwd_length) {
-                if (IS_ATTACHTOPROJECTWIZARD()) {
-                    strMessage.Printf(
-                        _("The minimum password length for this project is %d. Please enter a different password."),
-                        pc.min_passwd_length
-                    );
-                }
-                if (IS_ACCOUNTMANAGERWIZARD()) {
-                    strMessage.Printf(
-                        _("The minimum password length for this account manager is %d. Please enter a different password."),
-                        pc.min_passwd_length
-                    );
-                }
+                strMessage.Printf(
+                    _("Please enter a password of at least %d characters."),
+                    pc.min_passwd_length
+                );
 
                 bDisplayError = true;
             }
