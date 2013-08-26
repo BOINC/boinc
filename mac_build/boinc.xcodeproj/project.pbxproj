@@ -211,6 +211,13 @@
 		DD7475510D86273300860636 /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
 		DD7475520D86273300860636 /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
 		DD74B686177074AF005CF7DC /* PutInTrash.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD74B685177074AF005CF7DC /* PutInTrash.icns */; };
+		DD76BF9317CB45A20075936D /* opencl_boinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD76BF9117CB45870075936D /* opencl_boinc.cpp */; };
+		DD76BF9517CB45D20075936D /* opencl_boinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD76BF9117CB45870075936D /* opencl_boinc.cpp */; };
+		DD76BF9617CB465A0075936D /* opencl_boinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD76BF9117CB45870075936D /* opencl_boinc.cpp */; };
+		DD76BF9717CB465C0075936D /* opencl_boinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD76BF9117CB45870075936D /* opencl_boinc.cpp */; };
+		DD76BF9817CB465E0075936D /* opencl_boinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD76BF9117CB45870075936D /* opencl_boinc.cpp */; };
+		DD76BF9917CB46610075936D /* opencl_boinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD76BF9117CB45870075936D /* opencl_boinc.cpp */; };
+		DD76BF9A17CB46830075936D /* opencl_boinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD76BF9117CB45870075936D /* opencl_boinc.cpp */; };
 		DD7748B50A356D6C0025D05E /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DD7749680A3596380025D05E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DD77A71812F2D1C9006B82E9 /* MacBitmapComboBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD77A71612F2D1C9006B82E9 /* MacBitmapComboBox.cpp */; };
@@ -944,6 +951,8 @@
 		DD73E36208A06ED400656EB1 /* gui_rpc_server_ops.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = gui_rpc_server_ops.cpp; sourceTree = "<group>"; };
 		DD7475500D86273300860636 /* coproc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = coproc.cpp; sourceTree = "<group>"; };
 		DD74B685177074AF005CF7DC /* PutInTrash.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = PutInTrash.icns; path = ../clientgui/res/PutInTrash.icns; sourceTree = "<group>"; };
+		DD76BF9117CB45870075936D /* opencl_boinc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = opencl_boinc.cpp; sourceTree = "<group>"; };
+		DD76BF9217CB45870075936D /* opencl_boinc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = opencl_boinc.h; sourceTree = "<group>"; };
 		DD7748980A356C880025D05E /* SetUpSecurity */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SetUpSecurity; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SetupSecurity.cpp; path = ../clientgui/mac/SetupSecurity.cpp; sourceTree = SOURCE_ROOT; };
 		DD77A71612F2D1C9006B82E9 /* MacBitmapComboBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MacBitmapComboBox.cpp; path = ../clientgui/mac/MacBitmapComboBox.cpp; sourceTree = "<group>"; };
@@ -1862,6 +1871,8 @@
 				DD344BDB07C5B11E0043025C /* msg_log.h */,
 				DD6D0A8507E9A61B007F882B /* network.cpp */,
 				DD6D0A8607E9A61B007F882B /* network.h */,
+				DD76BF9117CB45870075936D /* opencl_boinc.cpp */,
+				DD76BF9217CB45870075936D /* opencl_boinc.h */,
 				F54B901602AC0A2201FB7237 /* parse.cpp */,
 				DDE1372D10DC5E8D00161D6B /* notice.cpp */,
 				DDE1372E10DC5E8D00161D6B /* notice.h */,
@@ -2991,6 +3002,7 @@
 				DD806336131FAD9A00DC8971 /* sg_CustomControls.cpp in Sources */,
 				DD806339131FADE700DC8971 /* sg_DlgMessages.cpp in Sources */,
 				DD262C781366D2A200C9A187 /* cc_config.cpp in Sources */,
+				DD76BF9817CB465E0075936D /* opencl_boinc.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3035,6 +3047,7 @@
 				DDA6BD1F0BD4551F008F7921 /* QTaskMemory.c in Sources */,
 				DDB4A91F1411840800032E5D /* proc_control.cpp in Sources */,
 				DD5A3F17142877A5008148CA /* thread.cpp in Sources */,
+				DD76BF9317CB45A20075936D /* opencl_boinc.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3193,6 +3206,7 @@
 				DD262C811366D35A00C9A187 /* cc_config.cpp in Sources */,
 				DDB4A9201411871200032E5D /* proc_control.cpp in Sources */,
 				DDE7A3B115C6739E002B3B96 /* ttfont.cpp in Sources */,
+				DD76BF9917CB46610075936D /* opencl_boinc.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3222,6 +3236,7 @@
 				DD262C821366D35D00C9A187 /* cc_config.cpp in Sources */,
 				DD262C871366D4D200C9A187 /* proxy_info.cpp in Sources */,
 				DDA165E513B49B0D00CB4DD5 /* url.cpp in Sources */,
+				DD76BF9A17CB46830075936D /* opencl_boinc.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3272,6 +3287,7 @@
 				DDE586B310FC8E9B00DFA887 /* mfile.cpp in Sources */,
 				DD3741D610FC948C001257EB /* filesys.cpp in Sources */,
 				DD3741D910FC94BA001257EB /* url.cpp in Sources */,
+				DD76BF9717CB465C0075936D /* opencl_boinc.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3375,6 +3391,7 @@
 				DD25F72B15914F8C007845B5 /* gpu_detect.cpp in Sources */,
 				DDE17420166746F70059083A /* app_config.cpp in Sources */,
 				DD3157C316740D5300B6C909 /* gpu_intel.cpp in Sources */,
+				DD76BF9517CB45D20075936D /* opencl_boinc.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3405,6 +3422,7 @@
 				DDFA61940CB349160037B88C /* prefs.cpp in Sources */,
 				DDFE4E3D10AB778100919319 /* url.cpp in Sources */,
 				DDD9C5AA10CCF6A000A1E4CD /* coproc.cpp in Sources */,
+				DD76BF9617CB465A0075936D /* opencl_boinc.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
