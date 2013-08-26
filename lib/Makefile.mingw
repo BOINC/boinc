@@ -59,6 +59,7 @@ LIB_OBJ = app_ipc.o \
 	mem_usage.o \
 	mfile.o \
 	miofile.o \
+	opencl_boinc.o \
 	procinfo_win.o \
 	procinfo.o \
 	proc_control.o \
