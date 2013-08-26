@@ -30,3 +30,11 @@
   <?php endforeach; ?>
 </tbody>
 </table>
+<ul class="more-link tab-list">
+  <li class="first tab">
+    <?php print l(t('More'), 'account/computers/all'); ?>
+  </li>
+  <li class="first alt tab">
+    <?php print l(t('Tasks'), 'account/tasks/active'); ?>
+  </li>
+</ul>
