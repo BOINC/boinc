@@ -272,7 +272,7 @@ void COPROC_ATI::get(
             gpu_name="ATI Radeon HD 5800/5900 series (Cypress/Hemlock)";
             break;
         case 9:
-            gpu_name="ATI Radeon HD 5700 series (Juniper)";
+            gpu_name="ATI Radeon HD 5700/6750/6770 series (Juniper)";
             break;
         case 10:
             gpu_name="ATI Radeon HD 5500/5600 series (Redwood)";
