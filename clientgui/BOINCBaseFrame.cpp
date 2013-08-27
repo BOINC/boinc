@@ -886,11 +886,7 @@ bool CBOINCBaseFrame::Show(bool bShow) {
     }
 
     retval = wxFrame::Show(bShow);
-#ifndef __WXMAC__
-    // Calling wxFrame::Raise() under wxCocoa 2.9.5 causes a
-    // "ghost" image of the frame to appear briefly
-    wxFrame::Raise();
-#endif
+    if (bShow) wxFrame::Raise();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::Show - Function End"));
     return retval;

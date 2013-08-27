@@ -228,7 +228,11 @@ void CProjectInfoPage::CreateControls()
     itemBoxSizer7->Add(m_pProjectCategoriesStaticCtrl, 0, wxALIGN_LEFT|wxRIGHT|wxBOTTOM, 5);
 
     wxArrayString m_pProjectCategoriesCtrlStrings;
-    m_pProjectCategoriesCtrl = new wxComboBox( itemWizardPage23, ID_CATEGORIES, wxT(""), wxDefaultPosition, wxSize(LISTBOXWIDTH, -1), m_pProjectCategoriesCtrlStrings, wxCB_READONLY|wxCB_SORT );
+    m_pProjectCategoriesCtrl = new wxComboBox( itemWizardPage23, ID_CATEGORIES, wxT(""), wxDefaultPosition, wxSize(LISTBOXWIDTH, -1), m_pProjectCategoriesCtrlStrings, wxCB_READONLY
+#ifndef __WXMAC__   // wxCB_SORT is not available in wxCocoa 2.9.5
+    |wxCB_SORT
+#endif
+     );
     itemBoxSizer7->Add(m_pProjectCategoriesCtrl, 0, wxGROW|wxLEFT|wxRIGHT, 5);
 
     m_pProjectsStaticCtrl = new wxStaticText( itemWizardPage23, wxID_STATIC, wxT(""), wxDefaultPosition, wxDefaultSize, 0 );

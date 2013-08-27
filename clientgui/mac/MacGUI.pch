@@ -22,25 +22,16 @@
  *  BOINCManager precompiled headers file for Mac
  */
 
-// To use the Development (Debug) build of wxMac (allows stepping into wxMac 
+// To use the Development (Debug) build of wxCocoa (allows stepping into wxCocoa 
 //   source code, enables debug, trace, Asserts, etc.):
-// (1) Set USE_DEBUG_WXMAC to 1 in this source file
-// (2) In the Project menu, set the Active Build Configuration to "Development"
-// (3) In the Project menu, set the Active Target to "mgr_boinc"
-// (4) In Xcode's main project window, control-click on the title "Groups & Files" at the 
-//      top of the left-hand pane and select "Target Membership" from the contextual menu.
-// (5) In the XCode project's Groups and Files column:
-//      uncheck "External Frameworks and Libraries/libwx_mac_static.a"
-// (6) In the XCode project's Groups and Files column:
-//      check "External Frameworks and Libraries/wxMac-BOINC.xcodeproj/libwx_mac_static.a"
-//
-// This will have no effect on the BOINC Manager Deployment build, which will still 
-//  use the wxMac Deployment build.
-//
-// To use the wxMac Deployment build even in BOINC Manager Development builds, reverse 
-// the above steps (setting USE_DEBUG_WXMAC to 0, etc.)
+// (1) Set USE_DEBUG_WXMAC as desired in this source file.
+//      Setting USE_DEBUG_WXMAC false (0), disables wxLogTrace, wxAssert, etc.
+//      Setting USE_DEBUG_WXMAC true (1), enables wxLogTrace, wxAssert, etc.
+// (2) In the Product menu, select "Build" or "Build For Running", or click on the
+//      "Run" icon at top left of the Xcode toolbar.
+// (3) In the Project menu, set the Active Target to "mgr_boinc".
 
-#define USE_DEBUG_WXMAC 1
+#define USE_DEBUG_WXMAC 0
 
 #define wxDEBUG_LEVEL 0
 #define __WXOSX_COCOA__
@@ -82,7 +73,7 @@
 
 #define __WXDEBUG__ 1
 
-#if 0 //(defined(_DEBUG) && (! USE_DEBUG_WXMAC))
+#if (defined(_DEBUG) && (! USE_DEBUG_WXMAC))
 
 #undef _DEBUG       // so we can link with Deployment Wx libs
 #undef __WXDEBUG__

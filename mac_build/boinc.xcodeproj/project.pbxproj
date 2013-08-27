@@ -2376,7 +2376,7 @@
 			attributes = {
 				LastUpgradeCheck = 0420;
 			};
-			buildConfigurationList = DD9E2381091CBDAE0048316E /* Build configuration list for PBXProject "boinc_wx295Cocoa" */;
+			buildConfigurationList = DD9E2381091CBDAE0048316E /* Build configuration list for PBXProject "boinc" */;
 			compatibilityVersion = "Xcode 3.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
@@ -4437,7 +4437,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
 		};
-		DD9E2381091CBDAE0048316E /* Build configuration list for PBXProject "boinc_wx295Cocoa" */ = {
+		DD9E2381091CBDAE0048316E /* Build configuration list for PBXProject "boinc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD9E2382091CBDAE0048316E /* Development */,

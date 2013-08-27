@@ -441,7 +441,7 @@ bool CBOINCGUIApp::OnInit() {
 
     // Startup the System Idle Detection code
     IdleTrackerAttach();
-
+    
 #ifdef __WXMAC__
     ProcessSerialNumber psn;
     ProcessInfoRec pInfo;
@@ -466,18 +466,35 @@ bool CBOINCGUIApp::OnInit() {
     }
 #endif
 
-
     // Show the UI
-    SetActiveGUI(m_iGUISelected, false);
-    if (m_bGUIVisible) {
-        SetActiveGUI(m_iGUISelected);
-    } else {
+    SetActiveGUI(m_iGUISelected, m_bGUIVisible);
+
+    if (!m_bGUIVisible) {
+#ifdef __WXMAC__
+        // We don't call Hide() or Show(false) for the main frame
+        // under wxCocoa 2.9.5 because it bounces the Dock icon
+        // (as in notification.)  We work around this by moving
+        // the main window/frame off screen here.
+        // The position will be restored in one of these methods:
+        // CBOINCGUIApp::OnActivateApp(), CSimpleFrame::SaveState()
+        // or CAdvancedFrame::SaveWindowDimensions().
+        if (m_pFrame) {
+            wxPoint pos = m_pFrame->GetPosition();
+            if ((pos.x < 20000) && (pos.y < 20000)) {
+                pos.x += 20000;
+                m_pFrame->SetPosition(pos);
+            }
+            m_pFrame->Show();
+        }
+#endif
         ShowApplication(false);
 	}
-    
-    if(bOpenEventLog) {
+
+    if (bOpenEventLog) {
         DisplayEventLog(m_bGUIVisible);
-        m_pFrame->Raise();
+        if (m_bGUIVisible && m_pFrame) {
+            m_pFrame->Raise();
+        }
     }
     
     return true;
@@ -792,8 +809,8 @@ int CBOINCGUIApp::IdleTrackerDetach() {
 
 void CBOINCGUIApp::OnActivateApp(wxActivateEvent& event) {
 #ifdef __WXMAC__
-    static wxPoint pos;
-
+    static wxPoint pos = wxPoint(0, 0);
+    
     // We don't call Hide() or Show(false) for the main frame
     // under wxCocoa 2.9.5 because it bounces the Dock icon
     // (as in notification.)  We work around this by moving
@@ -803,6 +820,15 @@ void CBOINCGUIApp::OnActivateApp(wxActivateEvent& event) {
     if (m_pFrame) {
         if (event.GetActive()) {
             if (!IsModalDialogDisplayed()) {
+                if (pos == wxPoint(0, 0)) {
+                    pos = m_pFrame->GetPosition();
+                }
+                wxSize sz = m_pFrame->GetSize();
+                if (pos.x >= 20000) pos.x -= 20000;
+                if (pos.y >= 20000) pos.y -= 20000;
+                if (!IsWindowOnScreen(pos.x, pos.y, sz.x, sz.y)) {
+                    pos.x = pos.y = 30;
+                }
                 m_pFrame->SetPosition(pos);
             }
         } else {
