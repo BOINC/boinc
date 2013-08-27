@@ -73,12 +73,6 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
     EVT_TASKBAR_APPRESTORE(CTaskBarIcon::OnAppRestore)
 #endif
 
-#ifdef __WXMAC__
-    // wxMac-2.6.3 "helpfully" converts wxID_ABOUT to kHICommandAbout, wxID_EXIT to kHICommandQuit, 
-    //  wxID_PREFERENCES to kHICommandPreferences
-    EVT_MENU(kHICommandAbout, CTaskBarIcon::OnAbout)
-#endif
-
 END_EVENT_TABLE()
 
 
@@ -262,6 +256,23 @@ void CTaskBarIcon::OnAbout(wxCommandEvent& WXUNUSED(event)) {
         bEventLogWasShown = eventLog->IsShown();
         if (bEventLogWasShown && !bWasVisible) eventLog->Show(false);
     }
+    
+    // We don't call Hide() or Show(false) for the main frame
+    // under wxCocoa 2.9.5 because it bounces the Dock icon
+    // (as in notification.)  We work around this by moving
+    // the main window/frame off screen when displaying the
+    // CDlgAbout modal dialog while the main window is hidden.
+    // The position will be restored in one of these methods:
+    // CBOINCGUIApp::OnActivateApp(), CSimpleFrame::SaveState()
+    // or CAdvancedFrame::SaveWindowDimensions().
+    wxPoint pos;
+    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+    if (pFrame) {
+        pos = pFrame->GetPosition();
+        if ((!bWasVisible) && (pos.x < 20000) && (pos.y < 20000)) {
+            pFrame->SetPosition(wxPoint(pos.x + 20000, pos.y));
+        }
+    }
 #endif
     
     wxGetApp().ShowApplication(true);
@@ -274,10 +285,6 @@ void CTaskBarIcon::OnAbout(wxCommandEvent& WXUNUSED(event)) {
     if (!bWasVisible) {
         wxGetApp().ShowApplication(false);
     }
-    
-#ifdef __WXMAC__
-    if (bEventLogWasShown) eventLog->Show(true);
-#endif
 }
 
 

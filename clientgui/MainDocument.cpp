@@ -1016,7 +1016,10 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
     
     // Don't do periodic RPC calls when hidden / minimized
     if (!pFrame->IsShown()) return;
-   
+#ifdef __WXMAC__
+    if (!wxGetApp().IsApplicationVisible()) return;
+#endif
+
     m_dtLastFrameViewRefreshRPCTime = dtNow;
    
     // *********** RPC_GET_PROJECT_STATUS1 **************

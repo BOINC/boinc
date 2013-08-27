@@ -792,6 +792,27 @@ int CBOINCGUIApp::IdleTrackerDetach() {
 
 void CBOINCGUIApp::OnActivateApp(wxActivateEvent& event) {
 #ifdef __WXMAC__
+    static wxPoint pos;
+
+    // We don't call Hide() or Show(false) for the main frame
+    // under wxCocoa 2.9.5 because it bounces the Dock icon
+    // (as in notification.)  We work around this by moving
+    // the main window/frame off screen when displaying the
+    // CDlgAbout modal dialog while the main window is hidden
+    // by CTaskBarIcon::OnAbout().
+    if (m_pFrame) {
+        if (event.GetActive()) {
+            if (!IsModalDialogDisplayed()) {
+                m_pFrame->SetPosition(pos);
+            }
+        } else {
+            wxPoint newPos = m_pFrame->GetPosition();
+            if ((newPos.x < 20000) && (newPos.y < 20000)) {
+                pos = newPos;
+            }
+        }
+    }
+
     // Make sure any modal dialog (such as Attach Wizard) ends up in front.
     if (IsModalDialogDisplayed()) {
         event.Skip();
@@ -803,7 +824,9 @@ void CBOINCGUIApp::OnActivateApp(wxActivateEvent& event) {
         if (m_pEventLog && !m_pEventLog->IsIconized()) {
             m_pEventLog->Raise();
         }
-        m_pFrame->Raise();
+        if (m_pFrame) {
+            m_pFrame->Raise();
+        }
 #ifdef __WXMAC__
         ShowInterface();
 #endif
@@ -921,7 +944,7 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
     // Create the new window
     if ((iGUISelection != m_iGUISelected) || !m_pFrame) {
 
-        // Reterieve the desired window state before creating the
+        // Retrieve the desired window state before creating the
         //   desired frames
         if (BOINC_ADVANCEDGUI == iGUISelection) {
             m_pConfig->SetPath(wxT("/"));
@@ -1217,6 +1240,7 @@ void CBOINCGUIApp::ShowApplication(bool) {
 
 
 bool CBOINCGUIApp::ShowInterface() {
+    ShowApplication(true);
     return SetActiveGUI(m_iGUISelected, true);
 }
 

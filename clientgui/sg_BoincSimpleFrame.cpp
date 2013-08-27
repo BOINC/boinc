@@ -274,9 +274,6 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
 #ifdef __WXMAC__
     m_pMenubar->MacInstallMenuBar();
     MacLocalizeBOINCMenu();
-
-    // Enable Mac OS X's standard Preferences menu item (handled in MacSysMenu.cpp)
-    EnableMenuCommand(NULL, kHICommandPreferences);
 #endif
 
     m_Shortcuts[0].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
@@ -307,6 +304,7 @@ bool CSimpleFrame::SaveState() {
 	CBOINCBaseFrame::SaveState();
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
 	wxString        strBaseConfigLocation = wxString(wxT("/Simple"));
+    wxPoint         pos = GetPosition();
 
     wxASSERT(pConfig);
 
@@ -316,13 +314,24 @@ bool CSimpleFrame::SaveState() {
     //   pointer, return false.
     if (!pConfig) return false;
 
+#ifdef __WXMAC__
+    // We don't call Hide() or Show(false) for the main frame
+    // under wxCocoa 2.9.5 because it bounces the Dock icon
+    // (as in notification.)  We work around this by moving
+    // the main window/frame off screen when displaying the
+    // CDlgAbout modal dialog while the main window is hidden
+    // by CTaskBarIcon::OnAbout().
+    if (pos.x >= 20000) pos.x -= 20000;
+    if (pos.y >= 20000) pos.y -= 20000;
+#endif
+
     //
     // Save Frame State
     //
     pConfig->SetPath(strBaseConfigLocation);
 
-    pConfig->Write(wxT("XPos"), GetPosition().x);
-    pConfig->Write(wxT("YPos"), GetPosition().y);
+    pConfig->Write(wxT("XPos"), pos.x);
+    pConfig->Write(wxT("YPos"), pos.y);
 
     return true;
 }

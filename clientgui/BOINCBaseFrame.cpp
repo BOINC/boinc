@@ -314,6 +314,10 @@ void CBOINCBaseFrame::OnClose(wxCloseEvent& event) {
         // Apparently aborting a close event just causes the main window to be displayed
         // again.  Just minimize the window instead.
         Iconize();
+#elif defined(__WXMAC__)
+        // Don't call Hide() or Show(false) under wxCocoa 2.9.5 
+        // because it bounces the Dock icon (as in notification)
+        wxGetApp().ShowApplication(false);
 #else
         Hide();
 #endif
@@ -882,7 +886,11 @@ bool CBOINCBaseFrame::Show(bool bShow) {
     }
 
     retval = wxFrame::Show(bShow);
+#ifndef __WXMAC__
+    // Calling wxFrame::Raise() under wxCocoa 2.9.5 causes a
+    // "ghost" image of the frame to appear briefly
     wxFrame::Raise();
+#endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::Show - Function End"));
     return retval;

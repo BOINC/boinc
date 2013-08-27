@@ -723,9 +723,6 @@ bool CAdvancedFrame::CreateMenu() {
     }
     
 #ifdef __WXMAC__
-    // Enable Mac OS X's standard Preferences menu item (handled in MacSysMenu.cpp)
-    EnableMenuCommand(NULL, kHICommandPreferences);
-    
     // Set HELP key as keyboard shortcut
     m_Shortcuts[0].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
     m_pAccelTable = new wxAcceleratorTable(1, m_Shortcuts);
@@ -1013,8 +1010,20 @@ void CAdvancedFrame::SaveWindowDimensions() {
 
     wxString        strBaseConfigLocation = wxString(wxT("/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
+    wxPoint         pos = GetPosition();
 
     wxASSERT(pConfig);
+
+#ifdef __WXMAC__
+    // We don't call Hide() or Show(false) for the main frame
+    // under wxCocoa 2.9.5 because it bounces the Dock icon
+    // (as in notification.)  We work around this by moving
+    // the main window/frame off screen when displaying the
+    // CDlgAbout modal dialog while the main window is hidden
+    // by CTaskBarIcon::OnAbout().
+    if (pos.x >= 20000) pos.x -= 20000;
+    if (pos.y >= 20000) pos.y -= 20000;
+#endif
 
     pConfig->SetPath(strBaseConfigLocation);
 
@@ -1024,8 +1033,8 @@ void CAdvancedFrame::SaveWindowDimensions() {
     if (!iconized) {
         pConfig->Write(wxT("Width"), GetSize().GetWidth());
         pConfig->Write(wxT("Height"), GetSize().GetHeight());
-        pConfig->Write(wxT("XPos"), GetPosition().x);
-        pConfig->Write(wxT("YPos"), GetPosition().y);
+        pConfig->Write(wxT("XPos"), pos.x);
+        pConfig->Write(wxT("YPos"), pos.y);
     }
     
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::SaveWindowDimensions - Function End"));
