@@ -358,10 +358,6 @@ int CLIENT_STATE::init() {
     parse_account_files();
     parse_statistics_files();
 
-    host_info.get_host_info();
-    set_ncpus();
-    show_host_info();
-
     // check for GPUs.
     //
     for (int j=1; j<coprocs.n_rsc; j++) {
@@ -434,7 +430,7 @@ int CLIENT_STATE::init() {
     // check for app_info.xml file in project dirs.
     // If find, read app info from there, set project.anonymous_platform
     // - this must follow coproc.get() (need to know if GPUs are present)
-    // - this is being done before CPU speed has been read,
+    // - this is being done before CPU speed has been read from state file,
     // so we'll need to patch up avp->flops later;
     //
     check_anonymous();
@@ -449,11 +445,18 @@ int CLIENT_STATE::init() {
     //
     parse_state_file();
 
+    // this follows parse_state_file() since we need to have read
+    // domain_name for Android
+    //
+    host_info.get_host_info();
+    set_ncpus();
+    show_host_info();
+
     // check for app_config.xml files in project dirs
     //
     check_app_config();
 
-    // this needs to go after parse_state_file because
+    // this needs to go after parse_state_file() because
     // GPU exclusions refer to projects
     //
     config.show();
