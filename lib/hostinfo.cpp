@@ -130,6 +130,7 @@ int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
         
         // The same CPU can have a different cpu_opencl_prop
         // for each of multiple OpenCL platforms
+        //
         if (xp.match_tag("cpu_opencl_prop")) {
             int retval = cpu_opencl_prop[num_cpu_opencl_platforms].parse(xp);
             if (!retval) num_cpu_opencl_platforms++;
@@ -285,4 +286,3 @@ int HOST_INFO::write_cpu_benchmarks(FILE* out) {
     );
     return 0;
 }
-

@@ -446,7 +446,6 @@ int get_pfc(
     int &mode                                   // out
 ){
     DB_APP_VERSION *avp=0;
-    int retval;
 
     mode = PFC_MODE_APPROX;
 
@@ -489,7 +488,7 @@ int get_pfc(
         return 0;
     }
 
-    int gavid = generalized_app_version_id(r.app_version_id, r.appid);
+    //int gavid = generalized_app_version_id(r.app_version_id, r.appid);
 
     // transition case: there's no host_app_version record
     //
@@ -598,7 +597,7 @@ int get_pfc(
         // because anonymous GPU scales are often of order 0.01.  That prevents
         // PFC averages from being updated.  So I've removed the return
         // statement.
-        char query[256], clause[256];
+        //char query[256], clause[256];
         pfc = wu_estimated_pfc(wu, app);
         if (config.debug_credit) {
             log_messages.printf(MSG_NORMAL,

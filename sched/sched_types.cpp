@@ -1217,6 +1217,10 @@ int HOST::parse(XML_PARSER& xp) {
         if (xp.parse_str("p_features", p_features, sizeof(p_features))) continue;
         if (xp.parse_str("virtualbox_version", virtualbox_version, sizeof(virtualbox_version))) continue;
         if (xp.parse_bool("p_vm_extensions_disabled", p_vm_extensions_disabled)) continue;
+        if (xp.match_tag("cpu_opencl_prop")) {
+            int retval = cpu_opencl_prop[num_cpu_opencl_platforms].parse(xp);
+            if (!retval) num_cpu_opencl_platforms++;
+        }
 
         // parse deprecated fields to avoid error messages
         //
@@ -1231,7 +1235,7 @@ int HOST::parse(XML_PARSER& xp) {
         if (xp.parse_string("accelerators", stemp)) continue;
 
 #if 1
-        // not sure where these fields belong in the above categories
+        // deprecated items
         //
         if (xp.parse_string("cpu_caps", stemp)) continue;
         if (xp.parse_string("cache_l1", stemp)) continue;
@@ -1458,6 +1462,16 @@ double capped_host_fpops() {
         return ssp->perf_info.host_fpops_95_percentile*1.1;
     }
     return x;
+}
+
+bool HOST::get_cpu_opencl_prop(const char* platform, OPENCL_CPU_PROP& ocp) {
+    for (int i=0; i<num_cpu_opencl_platforms; i++) {
+        OPENCL_CPU_PROP& p = cpu_opencl_prop[i];
+        if (strcmp(p.platform_vendor, platform)) continue;
+        ocp = p;
+        return true;
+    }
+    return false;
 }
 
 const char *BOINC_RCSID_ea659117b3 = "$Id$";

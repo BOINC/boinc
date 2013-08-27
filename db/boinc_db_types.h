@@ -21,6 +21,7 @@
 #include <vector>
 
 #include "average.h"
+#include "opencl_boinc.h"
 #include "parse.h"
 
 // Sizes of text buffers in memory, corresponding to database BLOBs.
@@ -335,10 +336,16 @@ struct HOST {
         // DEPRECATED
     char product_name[256];
 
-    // the following not in DB
+    // the following items are passed in scheduler requests,
+    // and used in the scheduler,
+    // but not stored in the DB
+    //
     char p_features[1024];
     char virtualbox_version[256];
     bool p_vm_extensions_disabled;
+    int num_cpu_opencl_platforms;
+    OPENCL_CPU_PROP cpu_opencl_prop[MAX_OPENCL_CPU_PLATFORMS];
+
     // stuff from time_stats
     double gpu_active_frac;
     double cpu_and_network_available_frac;
@@ -353,6 +360,7 @@ struct HOST {
 
     void fix_nans();
     void clear();
+    bool get_cpu_opencl_prop(const char* platform, OPENCL_CPU_PROP&);
 };
 
 // values for file_delete state

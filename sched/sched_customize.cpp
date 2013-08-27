@@ -220,6 +220,14 @@ static inline bool app_plan_mt(SCHEDULER_REQUEST&, HOST_USAGE& hu) {
     return true;
 }
 
+bool app_plan_opencl_cpu_intel(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
+    OPENCL_CPU_PROP ocp;
+    if (!sreq.host.get_cpu_opencl_prop("intel", ocp)) {
+        return false;
+    }
+    return app_plan_mt(sreq, hu);
+}
+
 static bool ati_check(COPROC_ATI& c, HOST_USAGE& hu,
     int min_driver_version,
     bool need_amd_libs,
@@ -1011,118 +1019,14 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         return app_plan_sse3(sreq, hu);
     } else if (strstr(plan_class, "vbox")) {
         return app_plan_vbox(sreq, plan_class, hu);
+    } else if (strstr(plan_class, "opencl_cpu_intel")) {
+        return app_plan_opencl_cpu_intel(sreq, hu);
     }
     log_messages.printf(MSG_CRITICAL,
         "Unknown plan class: %s\n", plan_class
     );
     return false;
 }
-
-#ifndef NEW_SCORE
-// compute a "score" for sending this job to this host.
-// Return false if the WU is infeasible.
-// Otherwise set est_time and disk_usage.
-//
-bool JOB::get_score() {
-    WORKUNIT wu;
-    int retval;
-
-    WU_RESULT& wu_result = ssp->wu_results[index];
-    wu = wu_result.workunit;
-    app = ssp->lookup_app(wu.appid);
-    if (app->non_cpu_intensive) return false;
-
-    score = 0;
-
-    // Find the best app version to use.
-    //
-    bavp = get_app_version(wu, true, false);
-    if (!bavp) return false;
-
-    retval = wu_is_infeasible_fast(
-        wu, wu_result.res_server_state, wu_result.res_priority,
-        wu_result.res_report_deadline,
-        *app, *bavp
-    );
-    if (retval) {
-        if (config.debug_send) {
-            log_messages.printf(MSG_NORMAL,
-                "[send] [HOST#%d] [WU#%d %s] WU is infeasible: %s\n",
-                g_reply->host.id, wu.id, wu.name, infeasible_string(retval)
-            );
-        }
-        return false;
-    }
-
-    score = 1;
-
-#if 0
-    // example: for CUDA app, wu.batch is the minimum number of processors.
-    // add min/actual to score
-    // (this favors sending jobs that need lots of procs to GPUs that have them)
-    // IF YOU USE THIS, USE THE PART IN wu_is_infeasible_custom() ALSO
-    //
-    if (!strcmp(app->name, "foobar") && bavp->host_usage.ncudas) {
-        int n = g_request->coproc_cuda->prop.multiProcessorCount;
-        score += ((double)wu.batch)/n;
-    }
-#endif
-
-    // check if user has selected apps,
-    // and send beta work to beta users
-    //
-    if (app->beta && !config.distinct_beta_apps) {
-        if (g_wreq->allow_beta_work) {
-            score += 1;
-        } else {
-            return false;
-        }
-    } else {
-        if (app_not_selected(wu)) {
-            if (!g_wreq->allow_non_preferred_apps) {
-                return false;
-            } else {
-            // Allow work to be sent, but it will not get a bump in its score
-            }
-        } else {
-            score += 1;
-        }
-    }
-            
-    // if job needs to get done fast, send to fast/reliable host
-    //
-    if (bavp->reliable && (wu_result.need_reliable)) {
-        score += 1;
-    }
-    
-    // if job already committed to an HR class,
-    // try to send to host in that class
-    //
-    if (wu_result.infeasible_count) {
-        score += 1;
-    }
-
-    // Favor jobs that will run fast
-    //
-    score += bavp->host_usage.projected_flops/1e9;
-
-    // match large jobs to fast hosts
-    //
-    if (config.job_size_matching) {
-        double host_stdev = (capped_host_fpops() - ssp->perf_info.host_fpops_mean)/ ssp->perf_info.host_fpops_stddev;
-        double diff = host_stdev - wu_result.fpops_size;
-        score -= diff*diff;
-    }
-
-    // TODO: If user has selected some apps but will accept jobs from others,
-    // try to send them jobs from the selected apps
-    //
-
-    est_time = estimate_duration(wu, *bavp);
-    disk_usage = wu.rsc_disk_bound;
-    return true;
-}
-#endif
 
 void handle_file_xfer_results() {
     for (unsigned int i=0; i<g_request->file_xfer_results.size(); i++) {
