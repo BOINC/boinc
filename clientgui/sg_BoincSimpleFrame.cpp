@@ -653,19 +653,21 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     pDoc->rpc.get_project_init_status(pis);
     pDoc->rpc.acct_mgr_info(ami);
     if (ami.acct_mgr_url.size() && !ami.have_credentials) {
-        if (!IsShown()) {
-            Show();
-        }
+        Show();
+        MoveFrameOnScreen();
+        wxGetApp().ShowApplication(true);
 
         pWizard = new CWizardAttach(this);
         if (pWizard->SyncToAccountManager()) {
             // If successful, hide the main window
+            wxGetApp().ShowApplication(false);
+            MoveFrameOffScreen();
             Hide();
         }
     } else if ((pis.url.size() || (0 >= pDoc->GetSimpleProjectCount())) && !status.disallow_attach) {
-        if (!IsShown()) {
-            Show();
-        }
+        Show();
+        MoveFrameOnScreen();
+        wxGetApp().ShowApplication(true);
 
         strName = wxString(pis.name.c_str(), wxConvUTF8);
         strURL = wxString(pis.url.c_str(), wxConvUTF8);
