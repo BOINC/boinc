@@ -34,10 +34,6 @@
 #endif
 
 #include "util.h"
-// CMC android
-#ifdef ANDROID
-#include "whetstone.h"
-#endif
 #include "cpu_benchmark.h"
 
 #ifndef SPDP
