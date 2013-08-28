@@ -95,6 +95,16 @@ boinc_client_LDADD = $(LIBBOINC) $(LIBBOINC_CRYPT) $(BOINC_EXTRA_LIBS) $(PTHREAD
 
 boinc_clientdir = $(bindir)
 
+if OS_ARM_LINUX
+boinc_client_LDADD += libwhetneon.a libwhetvfp.a
+noinst_LIBRARIES = libwhetneon.a libwhetvfp.a
+libwhetneon_a_SOURCES = whetstone.cpp whetstone.h
+libwhetneon_a_CXXFLAGS = $(boinc_client_CXXFLAGS) -DANDROID_NEON -mfloat-abi=softfp -mfpu=neon
+
+libwhetvfp_a_SOURCES = whetstone.cpp whetstone.h
+libwhetvfp_a_CXXFLAGS = $(boinc_client_CXXFLAGS) -DANDROID_VFP -mfloat-abi=softfp -mfpu=vfp
+endif
+
 switcher_SOURCES = switcher.cpp
 switcher_LDFLAGS = $(AM_LDFLAGS) -L../lib
 switcher_LDADD = $(LIBBOINC)
