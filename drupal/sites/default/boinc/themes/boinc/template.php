@@ -450,3 +450,19 @@ function reorder_links($links, $first_keys = array(), $last_keys = array()) {
    
     return $links;
 }
+
+/*
+ * Override the style of table sort arrows to make it managable by CSS.
+ * That is to say, get rid of it and use the views-view-table.tpl.php template.
+ */
+function boinc_tablesort_indicator($style) {
+  return '';
+  /*
+  if ($style == "asc") {
+    return theme('image', 'misc/arrow-asc.png', t('sort icon'), t('sort ascending'));
+  }
+  else {
+    return theme('image', 'misc/arrow-desc.png', t('sort icon'), t('sort descending'));
+  }
+  */
+}
