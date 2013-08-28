@@ -7,13 +7,14 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-08-06 16:50-0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2013-08-22 22:51+0200\n"
+"Last-Translator: Martin <martin.suchan@email.cz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Poedit 1.5.5\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: _\n"
@@ -23,19 +24,19 @@ msgstr ""
 #: mac_installer/Installer.cpp:132
 #, c-format
 msgid "Sorry, this version of %s requires system 10.4 or higher."
-msgstr ""
+msgstr "Promiňte, tato verze %s vyžaduje systém verze 10.4 a novější."
 
 #: mac_installer/PostInstall.cpp:131 mac_installer/PostInstall.cpp:1211
 msgid "Yes"
-msgstr ""
+msgstr "Ano"
 
 #: mac_installer/PostInstall.cpp:132 mac_installer/PostInstall.cpp:1212
 msgid "No"
-msgstr ""
+msgstr "Ne"
 
 #: mac_installer/PostInstall.cpp:134
 msgid "Should BOINC run even when no user is logged in?"
-msgstr ""
+msgstr "Má BOINC běžet i tehdy, když není přihlášen žádný uživatel?"
 
 #: mac_installer/PostInstall.cpp:1491
 #, c-format
@@ -46,25 +47,34 @@ msgid ""
 "Do you also want non-administrative users to be able to run and control %s "
 "on this Mac?"
 msgstr ""
+"Uživatelé s administrátorskými právy na tomto počítači budou mít automaticky "
+"právo spouštět a kontrolovat %s.\n"
+"\n"
+"Přejete si, aby mohli i ne-administrátoři spouštět a kontrolovat %s na tomto "
+"Macu?"
 
 #: mac_installer/PostInstall.cpp:1519
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr ""
+"Přejete si nastavit %s jako spořič obrazovky pro všechny %s uživatele na "
+"tomto Macu?"
 
 #: mac_installer/uninstall.cpp:80
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: mac_installer/uninstall.cpp:130
 msgid "Permission error after relaunch"
-msgstr ""
+msgstr "Chyba v přístupových právech po novém spuštění"
 
 #: mac_installer/uninstall.cpp:135
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
 msgstr ""
+"Odebírání může trvat několik minut.\n"
+"Strpení prosím."
 
 #: mac_installer/uninstall.cpp:150
 #, c-format
@@ -73,20 +83,23 @@ msgid ""
 "\n"
 "This will remove the executables but will not touch %s data files."
 msgstr ""
+"Jste si jistí, že chcete zcela odebrat %s z tohoto počítače?\n"
+"\n"
+"Tímto se odstraní aplikace, ale zachovají se %s uživatelské soubory."
 
 #: mac_installer/uninstall.cpp:157
 #, c-format
 msgid "Canceled: %s has not been touched."
-msgstr ""
+msgstr "Zrušeno: %s nebylo změněno."
 
 #: mac_installer/uninstall.cpp:168
 #, c-format
 msgid "An error occurred: error code %d"
-msgstr ""
+msgstr "Nastala chyba: kód chyby %d"
 
 #: mac_installer/uninstall.cpp:224
 msgid "name  of user"
-msgstr ""
+msgstr "jméno uživatele"
 
 #: mac_installer/uninstall.cpp:261
 #, c-format
@@ -99,6 +112,13 @@ msgid ""
 "for each user, the file\n"
 "\"%s\"."
 msgstr ""
+"Odebrání dokončeno.\n"
+"\n"
+"Volitelně můžete ještě odebrat tyto zbývající položky pomocí Finderu:\n"
+"složka \"%s\"\n"
+"\n"
+"pro každého uživatele, soubor\n"
+"\"%s\"."
 
 #: mac_installer/uninstall.cpp:796
 #, c-format
@@ -107,11 +127,13 @@ msgid ""
 "computer.\n"
 "\n"
 msgstr ""
+"Zadejte vaše administrátorské heslo pro úplné odebrání %s z vašeho počítače.\n"
+"\n"
 
 #: mac_installer/uninstall.cpp:1543
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušit"
 
 #: mac_installer/uninstall.cpp:1544
 msgid "Continue..."
-msgstr ""
+msgstr "Pokračovat..."

@@ -15,8 +15,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifndef OPENCL_BOINC_H
+#define OPENCL_BOINC_H
 
 #include "cl_boinc.h"
+#include "miofile.h"
+#include "parse.h"
 
 #define MAX_OPENCL_PLATFORMS 16
 #define MAX_OPENCL_CPU_PLATFORMS 4
@@ -82,3 +86,5 @@ struct OPENCL_CPU_PROP {
     int parse(XML_PARSER&);
 
 };
+
+#endif

@@ -63,7 +63,7 @@ int HOST_INFO::get_local_network_info() {
     strcpy(ip_addr, "");
 
 #ifdef ANDROID
-    if (strlen(domain_name)) return 0;
+    if (strlen(domain_name) && strcmp(domain_name, "localhost")) return 0;
     char buf[256];
     make_random_string("", buf);
     buf[8] = 0;

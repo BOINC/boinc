@@ -15,13 +15,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Poedit 1.5.5\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: _\n"
 "X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
 "X-Poedit-SearchPath-0: mac_installer\n"
 
 #: mac_installer/Installer.cpp:132
+#, c-format
 #, c-format, c-format
 msgid "Sorry, this version of %s requires system 10.4 or higher."
 msgstr ""
@@ -41,6 +42,7 @@ msgid "Should BOINC run even when no user is logged in?"
 msgstr "Soll BOINC auch gestarten werden, wenn kein Benutzer angemeldet ist?"
 
 #: mac_installer/PostInstall.cpp:1491
+#, c-format
 #, c-format, c-format
 msgid ""
 "Users who are permitted to administer this computer will automatically be "

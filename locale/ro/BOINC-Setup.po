@@ -7,32 +7,39 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-08-06 16:50-0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2013-08-21 07:19+0200\n"
+"Last-Translator: mcsjohn <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.9.0\n"
-"X-Poedit-SourceCharset: utf-8\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2);;\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: _\n"
+"X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
+"X-Poedit-SearchPath-0: mac_installer\n"
 
 #: mac_installer/Installer.cpp:132
 #, c-format
 msgid "Sorry, this version of %s requires system 10.4 or higher."
 msgstr ""
+"Ne pare rău, această versiune de %s necesită versiune de sistem 10.4 sau mai "
+"mare."
 
 #: mac_installer/PostInstall.cpp:131 mac_installer/PostInstall.cpp:1211
 msgid "Yes"
-msgstr ""
+msgstr "Da"
 
 #: mac_installer/PostInstall.cpp:132 mac_installer/PostInstall.cpp:1212
 msgid "No"
-msgstr ""
+msgstr "Nu"
 
 #: mac_installer/PostInstall.cpp:134
 msgid "Should BOINC run even when no user is logged in?"
-msgstr ""
+msgstr "BOINC trebuie să ruleze chiar dacă nu este nici un utilizator logat?"
 
 #: mac_installer/PostInstall.cpp:1491
 #, c-format
@@ -43,25 +50,34 @@ msgid ""
 "Do you also want non-administrative users to be able to run and control %s "
 "on this Mac?"
 msgstr ""
+"Utilizatorii cu permisiuni de administrare ale acestui calculator vor avea "
+"automat permisiunea de a rula si controla %s.\n"
+"\n"
+"Doriţi să permiteţi şi utilizatorilor fără drepturi de administrare să "
+"ruleze şi să controleze %s pe acest Mac?"
 
 #: mac_installer/PostInstall.cpp:1519
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr ""
+"Doriţi să setaţi %s ca screensaver pentru toţi %s utilizatorii de pe acest "
+"Mac?"
 
 #: mac_installer/uninstall.cpp:80
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: mac_installer/uninstall.cpp:130
 msgid "Permission error after relaunch"
-msgstr ""
+msgstr "Eroare permisiuni după relansare"
 
 #: mac_installer/uninstall.cpp:135
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
 msgstr ""
+"Ştergerea poate dura câteva minute.\n"
+"Vă rugăm aşteptaţi."
 
 #: mac_installer/uninstall.cpp:150
 #, c-format
@@ -70,20 +86,24 @@ msgid ""
 "\n"
 "This will remove the executables but will not touch %s data files."
 msgstr ""
+"Sunteţi sigur că doriţi să ştergeţi complet %s de pe calculatorul "
+"dumneavoastră?\n"
+"\n"
+"Vor fi şterse executabilele dar nu vor fi atinse fişierele de date %s."
 
 #: mac_installer/uninstall.cpp:157
 #, c-format
 msgid "Canceled: %s has not been touched."
-msgstr ""
+msgstr "Anulat: %s nu a fost atins."
 
 #: mac_installer/uninstall.cpp:168
 #, c-format
 msgid "An error occurred: error code %d"
-msgstr ""
+msgstr "A apărut o eroare: cod eroare %d"
 
 #: mac_installer/uninstall.cpp:224
 msgid "name  of user"
-msgstr ""
+msgstr "nume  al utilizatorului"
 
 #: mac_installer/uninstall.cpp:261
 #, c-format
@@ -96,6 +116,13 @@ msgid ""
 "for each user, the file\n"
 "\"%s\"."
 msgstr ""
+"Ştergere încheiată.\n"
+"\n"
+"Dacă doriţi puteţi să ştergeţi elementele rămase folosind Finder: \n"
+"directorul \"%s\"\n"
+"\n"
+"pentru fiecare utilizator, fişierul\n"
+"\"%s\"."
 
 #: mac_installer/uninstall.cpp:796
 #, c-format
@@ -104,11 +131,14 @@ msgid ""
 "computer.\n"
 "\n"
 msgstr ""
+"Introduceţi parola administrativă pentru a elimina complet %s de pe "
+"calculatorul dumneavoastră.\n"
+"\n"
 
 #: mac_installer/uninstall.cpp:1543
 msgid "Cancel"
-msgstr ""
+msgstr "Anulează"
 
 #: mac_installer/uninstall.cpp:1544
 msgid "Continue..."
-msgstr ""
+msgstr "Continuă..."

@@ -28,6 +28,7 @@
 #include <string.h>
 
 #include "parse.h"
+#include "url.h"
 
 #include "remote_submit.h"
 
@@ -551,9 +552,10 @@ int get_output_file(
     const char* dst_path,
     string &error_msg
 ) {
-    char url[1024];
+    char url[1024], job_name_esc[1024];
+    escape_url(job_name, job_name_esc, sizeof(job_name_esc));
     sprintf(url, "%sget_output.php?cmd=workunit_file&auth_str=%s&wu_name=%s&file_num=%d",
-        project_url, authenticator, job_name, file_num
+        project_url, authenticator, job_name_esc, file_num
     );
     //printf("fetching %s to %s\n", url, dst_path);
     int retval = do_http_get(url, dst_path);

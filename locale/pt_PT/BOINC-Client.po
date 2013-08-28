@@ -41,8 +41,7 @@ msgstr ""
 
 #: cs_cmdline.cpp:299
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
-msgstr ""
-"A variável de ambiente HTTP_PROXY tem que especificar uma proxy de HTTP"
+msgstr "A variável de ambiente HTTP_PROXY tem que especificar uma proxy de HTTP"
 
 #: cs_scheduler.cpp:575
 #, c-format

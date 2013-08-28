@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.8x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-18 11:32-0500\n"
-"PO-Revision-Date: 2013-08-14 16:23+0200\n"
+"PO-Revision-Date: 2013-08-15 15:27+0200\n"
 "Last-Translator: Aycan <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <bilgi@donanimhaber.com>\n"
 "Language: tr\n"
@@ -26,6 +26,7 @@ msgstr ""
 
 # 81%
 #: clientgui/AccountInfoPage.cpp:387
+#, c-format
 #, c-format, c-format
 msgid "Identify your account at %s"
 msgstr "%s için hesap bilgilerinizi girin"
@@ -2137,6 +2138,7 @@ msgid "%s - Language Selection"
 msgstr "%s - Dil Seçimi"
 
 #: clientgui/DlgOptions.cpp:695
+#, c-format
 #, c-format, c-format
 msgid "The %s's language has been changed.  In order for this change to take effect, you must restart the %s."
 msgstr ""
@@ -4184,10 +4186,27 @@ msgid ""
 "\n"
 "Please choose which type of change you would like to make:\n"
 msgstr ""
+"Yeni bir gönüllü hesaplama projesi eklemeyi ya da katkıda bulunduğunuz "
+"projeleri\n"
+"değiştirmeyi seçtiniz.\n"
+"\n"
+"Bu projelerden bazıları, World Community Grid tarafından işletilir ve "
+"yönetilirken,\n"
+"diğerleri ise başka araştırmacılar ya da organizasyonlar tarafından "
+"işletilir ve\n"
+"yönetilir. BOINC yazılımı ile boş işlemci gücünüzü, bu projelerin herhangi "
+"bir\n"
+"kombinasyonu arasında paylaştırabilirsiniz.\n"
+"\n"
+"Alternatif olarak, bir BOINC Hesap Yöneticisi kullanıyorsanız, desteklemek "
+"istediğiniz\n"
+"projeleri onun aracılığıyla da seçebilirsiniz.\n"
+"\n"
+"Lütfen yapmak istediğiniz değişiklik türünü seçin:\n"
 
 #: clientgui/WelcomePage.cpp:339
 msgid "Use a BOINC Account Manager"
-msgstr ""
+msgstr "Bir BOINC Hesap Yöneticisi kullan"
 
 #: clientgui/WelcomePage.cpp:352
 msgid "To continue, click Next."
@@ -4195,11 +4214,11 @@ msgstr "Devam etmek için, İleri'yi tıklayın."
 
 #: clientgui/WelcomePage.cpp:358
 msgid "Add or change your World Community Grid projects"
-msgstr ""
+msgstr "World Community Grid projeleri ekle ya da değiştir"
 
 #: clientgui/WelcomePage.cpp:361
 msgid "Add projects run by other researchers or organizations"
-msgstr ""
+msgstr "Başka araştırmacı ya da organizasyonların projelerini ekle"
 
 #: clientgui/WizardAttach.cpp:634
 msgid "Do you really want to cancel?"
