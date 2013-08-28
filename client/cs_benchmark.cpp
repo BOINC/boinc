@@ -60,6 +60,12 @@
 #include "filesys.h"
 #include "util.h"
 #include "cpu_benchmark.h"
+
+// CMC HERE - header file for whetstone namespaces (neon & vfp)
+#ifdef ANDROID
+#include "whetstone.h"
+#endif
+
 #include "client_msgs.h"
 #include "log_flags.h"
 #include "client_state.h"
@@ -171,7 +177,25 @@ int cpu_benchmarks(BENCHMARK_DESC* bdp) {
 
     bdp->error_str[0] = '\0';
     host_info.clear_host_info();
+// CMC here
+#ifdef ANDROID
+  // check for vfp or neon process or no special fp process
+  // namespaces separate the different compilations of the same whetstone.cpp file
+    if ( strstr(gstate.host_info.p_features, " neon ") != NULL ) { 
+      // have ARM neon FP capabilities
+      retval = android_neon::whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
+    }
+    else if ( strstr(gstate.host_info.p_features, " vfp ") != NULL ) { 
+      // have ARM vfp FP capabilities
+      retval = android_vfp::whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
+    }
+    else { // just run normal test
+      retval = whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
+    }
+#else
     retval = whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
+#endif
+// CMC end
     if (retval) {
         bdp->error = true;
         sprintf(bdp->error_str, "FP benchmark ran only %f sec; ignoring", fp_time);
