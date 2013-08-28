@@ -46,7 +46,6 @@
 #endif
 #include <signal.h>
 #if HAVE_SYS_SIGNAL_H
-#include <sys/signal.h>
 #endif
 #include <unistd.h>
 
@@ -60,11 +59,6 @@
 #include "filesys.h"
 #include "util.h"
 #include "cpu_benchmark.h"
-
-// CMC HERE - header file for whetstone namespaces (neon & vfp)
-#ifdef ANDROID
-#include "whetstone.h"
-#endif
 
 #include "client_msgs.h"
 #include "log_flags.h"
