@@ -265,12 +265,10 @@ void CTaskBarIcon::OnAbout(wxCommandEvent& WXUNUSED(event)) {
     // The position will be restored in one of these methods:
     // CBOINCGUIApp::OnActivateApp(), CSimpleFrame::SaveState()
     // or CAdvancedFrame::SaveWindowDimensions().
-    wxPoint pos;
     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     if (pFrame) {
-        pos = pFrame->GetPosition();
-        if ((!bWasVisible) && (pos.x < 20000) && (pos.y < 20000)) {
-            pFrame->SetPosition(wxPoint(pos.x + 20000, pos.y));
+        if (!bWasVisible) {
+            pFrame->MoveFrameOffScreen();
         }
     }
 #endif
@@ -280,7 +278,9 @@ void CTaskBarIcon::OnAbout(wxCommandEvent& WXUNUSED(event)) {
     ResetTaskBar();
 
     CDlgAbout dlg(NULL);
+    wxGetApp().SetAboutDialogIsOpen(true);
     dlg.ShowModal();
+    wxGetApp().SetAboutDialogIsOpen(false);
 
     if (!bWasVisible) {
         wxGetApp().ShowApplication(false);

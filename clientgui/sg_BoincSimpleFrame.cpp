@@ -321,8 +321,7 @@ bool CSimpleFrame::SaveState() {
     // the main window/frame off screen when displaying the
     // CDlgAbout modal dialog while the main window is hidden
     // by CTaskBarIcon::OnAbout().
-    if (pos.x >= 20000) pos.x -= 20000;
-    if (pos.y >= 20000) pos.y -= 20000;
+    pos = GetOnScreenFramePosition();
 #endif
 
     //
@@ -516,7 +515,9 @@ void CSimpleFrame::OnHelpAbout(wxCommandEvent& /*event*/) {
 	m_pBackgroundPanel->SetDlgOpen(true);
 
     CDlgAbout dlg(this);
+    wxGetApp().SetAboutDialogIsOpen(true);
     dlg.ShowModal();
+    wxGetApp().SetAboutDialogIsOpen(false);
 
     m_pBackgroundPanel->SetDlgOpen(false);
 

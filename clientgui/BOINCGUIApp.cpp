@@ -120,6 +120,7 @@ bool CBOINCGUIApp::OnInit() {
 
     s_bSkipExitConfirmation = false;
     m_bFilterEvents = false;
+    m_bAboutDialogIsOpen = false;
 
     // Initialize class variables
     m_pLocale = NULL;
@@ -479,11 +480,7 @@ bool CBOINCGUIApp::OnInit() {
         // CBOINCGUIApp::OnActivateApp(), CSimpleFrame::SaveState()
         // or CAdvancedFrame::SaveWindowDimensions().
         if (m_pFrame) {
-            wxPoint pos = m_pFrame->GetPosition();
-            if ((pos.x < 20000) && (pos.y < 20000)) {
-                pos.x += 20000;
-                m_pFrame->SetPosition(pos);
-            }
+            m_pFrame->MoveFrameOffScreen();
             m_pFrame->Show();
         }
 #endif
@@ -809,8 +806,6 @@ int CBOINCGUIApp::IdleTrackerDetach() {
 
 void CBOINCGUIApp::OnActivateApp(wxActivateEvent& event) {
 #ifdef __WXMAC__
-    static wxPoint pos = wxPoint(0, 0);
-    
     // We don't call Hide() or Show(false) for the main frame
     // under wxCocoa 2.9.5 because it bounces the Dock icon
     // (as in notification.)  We work around this by moving
@@ -819,23 +814,11 @@ void CBOINCGUIApp::OnActivateApp(wxActivateEvent& event) {
     // by CTaskBarIcon::OnAbout().
     if (m_pFrame) {
         if (event.GetActive()) {
-            if (!IsModalDialogDisplayed()) {
-                if (pos == wxPoint(0, 0)) {
-                    pos = m_pFrame->GetPosition();
-                }
-                wxSize sz = m_pFrame->GetSize();
-                if (pos.x >= 20000) pos.x -= 20000;
-                if (pos.y >= 20000) pos.y -= 20000;
-                if (!IsWindowOnScreen(pos.x, pos.y, sz.x, sz.y)) {
-                    pos.x = pos.y = 30;
-                }
-                m_pFrame->SetPosition(pos);
+            if (!m_bAboutDialogIsOpen) {
+                m_pFrame->MoveFrameOnScreen();
             }
         } else {
-            wxPoint newPos = m_pFrame->GetPosition();
-            if ((newPos.x < 20000) && (newPos.y < 20000)) {
-                pos = newPos;
-            }
+            m_pFrame->SaveFramePosition();
         }
     }
 

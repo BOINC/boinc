@@ -96,6 +96,7 @@ protected:
     bool                m_bDebugSkins;
     bool                m_bMultipleInstancesOK;
     bool                m_bFilterEvents;
+    bool                m_bAboutDialogIsOpen;
 
 #ifdef __WXMSW__
     HINSTANCE           m_hClientLibraryDll;
@@ -193,6 +194,9 @@ public:
     int                 UpdateSystemIdleDetection();
     
     void                SetEventFiltering(bool set) { m_bFilterEvents = set; }
+    
+    void                SetAboutDialogIsOpen(bool set) { m_bAboutDialogIsOpen = set; }
+    bool                GetAboutDialogIsOpen() { return m_bAboutDialogIsOpen; }
 
 DECLARE_EVENT_TABLE()
 };

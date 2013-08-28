@@ -1021,8 +1021,7 @@ void CAdvancedFrame::SaveWindowDimensions() {
     // the main window/frame off screen when displaying the
     // CDlgAbout modal dialog while the main window is hidden
     // by CTaskBarIcon::OnAbout().
-    if (pos.x >= 20000) pos.x -= 20000;
-    if (pos.y >= 20000) pos.y -= 20000;
+    pos = GetOnScreenFramePosition();
 #endif
 
     pConfig->SetPath(strBaseConfigLocation);
@@ -1589,7 +1588,9 @@ void CAdvancedFrame::OnHelpAbout(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpAbout - Function Begin"));
 
     CDlgAbout dlg(this);
+    wxGetApp().SetAboutDialogIsOpen(true);
     dlg.ShowModal();
+    wxGetApp().SetAboutDialogIsOpen(false);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpAbout - Function End"));
 }
@@ -1656,6 +1657,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     CBOINCBaseView* pView = NULL;
     int iItemCount = 0, iIndex;
     int wasShown = 0;
+    int wasVisible = 0;
 
     wxASSERT(m_pNotebook);
     wxASSERT(pDoc);
@@ -1704,17 +1706,23 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     pDoc->rpc.get_project_init_status(pis);
     pDoc->rpc.acct_mgr_info(ami);
     if (ami.acct_mgr_url.size() && !ami.have_credentials) {
-        if (IsShown()) {
-            wasShown = 1;
-        } else {
-            Show();
+        wasShown = IsShown();
+        Show();
+        wasVisible = wxGetApp().IsApplicationVisible();
+        if (!wasVisible) {
+            MoveFrameOnScreen();
+            wxGetApp().ShowApplication(true);
         }
-
+        
         pWizard = new CWizardAttach(this);
         if (pWizard->SyncToAccountManager()) {
 
 #if defined(__WXMSW__) || defined(__WXMAC__)
             // If successful, hide the main window if we showed it
+            if (!wasVisible) {
+                wxGetApp().ShowApplication(false);
+                MoveFrameOffScreen();
+            }
             if (!wasShown) {
                 Hide();
             }
@@ -1748,10 +1756,10 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             m_pNotebook->SetSelection(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE);
         }
     } else if ((pis.url.size() || (0 >= pDoc->GetProjectCount())) && !status.disallow_attach) {
-        if (!IsShown()) {
-            Show();
-        }
-
+        Show();
+        MoveFrameOnScreen();
+        wxGetApp().ShowApplication(true);
+        
         pWizard = new CWizardAttach(this);
         strName = wxString(pis.name.c_str(), wxConvUTF8);
         strURL = wxString(pis.url.c_str(), wxConvUTF8);
