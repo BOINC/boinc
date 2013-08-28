@@ -94,5 +94,6 @@
   <?php
     // Inject the task list for this workunit 
     //$view = views_get_view('boinc_workunit_tasks_all');
+    print '<div class="separator"></div>';
     print views_embed_view('boinc_workunit_tasks_all', $display_id = 'page_1', arg(1));
   ?>
