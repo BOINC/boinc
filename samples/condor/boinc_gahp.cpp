@@ -686,7 +686,7 @@ int handle_command(char* p) {
             pthread_t thread_handle;
             pthread_attr_t thread_attrs;
             pthread_attr_init(&thread_attrs);
-            pthread_attr_setstacksize(&thread_attrs, 32768);
+            pthread_attr_setstacksize(&thread_attrs, 256*1024);
             int retval = pthread_create(
                 &thread_handle, &thread_attrs, &handle_command_aux, cp
             );
