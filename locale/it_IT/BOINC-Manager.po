@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-18 11:32-0500\n"
-"PO-Revision-Date: 2013-08-08 14:33+0200\n"
-"Last-Translator: Charlie <charlief@ssl.berkeley.edu>\n"
+"PO-Revision-Date: 2013-08-26 16:45+0200\n"
+"Last-Translator: Gianfranco <costamagnagianfranco@yahoo.it>\n"
 "Language-Team: BOINC.Italy team <contact@boincitaly.org>\n"
 "Language: it_IT\n"
 "MIME-Version: 1.0\n"
@@ -24,10 +24,11 @@ msgstr ""
 "X-Poedit-SearchPath-3: clientgui/mac\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
+# 81%
 #: clientgui/AccountInfoPage.cpp:387
 #, c-format
 msgid "Identify your account at %s"
-msgstr ""
+msgstr "Identifica il tuo account su %s"
 
 #: clientgui/AccountInfoPage.cpp:393
 msgid ""
@@ -142,18 +143,26 @@ msgstr "Usa l'account manager"
 #: clientgui/AccountInfoPage.cpp:587
 msgid "The minimum username length for this project is 1. Please enter a different username."
 msgstr ""
+"La lunghezza minima dello username per questo progetto è 1. Per favore "
+"inserisci uno username diverso."
 
 #: clientgui/AccountInfoPage.cpp:592
 msgid "The minimum username length for this account manager is 1. Please enter a different username."
 msgstr ""
+"La lunghezza minima dello username per questo account manager è 1. Per "
+"favore inserisci uno username diverso."
 
 #: clientgui/AccountInfoPage.cpp:598
 msgid "The minimum email address length for this project is 1. Please enter a different email address."
 msgstr ""
+"La lunghezza minima dell'indirizzo email per questo progetto è 1. Per favore "
+"inserisci una email diversa."
 
 #: clientgui/AccountInfoPage.cpp:603
 msgid "The minimum email address length for this account manager is 1. Please enter a different email address."
 msgstr ""
+"La lunghezza minima dell'indirizzo email per questo account manager è 1. Per "
+"favore inserisci una email diversa."
 
 #: clientgui/AccountInfoPage.cpp:616
 #, c-format
@@ -452,13 +461,15 @@ msgstr "Ritenta le &comunicazioni di rete"
 msgid "Do all pending network communication"
 msgstr "Ritenta tutte le comunicazioni di rete rinviate"
 
+# 94%
 #: clientgui/AdvancedFrame.cpp:576
 msgid "Read config files"
-msgstr ""
+msgstr "Leggi i file di configurazione"
 
 #: clientgui/AdvancedFrame.cpp:577
 msgid "Read configuration info from cc_config.xml and any app_config.xml files"
 msgstr ""
+"Leggi la configurazione dal file cc_config.xml e dai file app_config.xml"
 
 #: clientgui/AdvancedFrame.cpp:581
 msgid "Read local prefs file"
@@ -1106,11 +1117,14 @@ msgstr "Versione dei wxWidget:"
 msgid "Copyright:"
 msgstr "Copyright"
 
+# 98%
 #: clientgui/DlgAbout.cpp:192
 msgid ""
 "(C) 2003-2013 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
+"(C) 2003-2013 Università della California, Berkeley.\n"
+"Tutti i diritti riservati."
 
 #: clientgui/DlgAbout.cpp:196
 msgid "Berkeley Open Infrastructure for Network Computing"
@@ -2122,6 +2136,8 @@ msgstr "%s - Selezione della lingua"
 #, c-format
 msgid "The %s's language has been changed.  In order for this change to take effect, you must restart the %s."
 msgstr ""
+"La lingua di %s è stata cambiata.  Per rendere effettive le modifiche, devi "
+"riavviare %s."
 
 #: clientgui/DlgSelectComputer.cpp:90
 #, c-format
@@ -2453,9 +2469,10 @@ msgstr "Elaborazione sospesa dall'utente"
 msgid "Suspended - "
 msgstr "Sospesa -"
 
+# 75%
 #: clientgui/MainDocument.cpp:2486
 msgid "GPU suspended - "
-msgstr ""
+msgstr "GPU sospesa - "
 
 #: clientgui/MainDocument.cpp:2493
 msgid "Waiting for memory"
@@ -2524,15 +2541,15 @@ msgstr "Annullato: non è partito a causa della scadenza"
 
 #: clientgui/MainDocument.cpp:2556
 msgid "Aborted: disk limit exceeded"
-msgstr ""
+msgstr "Annullato: limite disco superato"
 
 #: clientgui/MainDocument.cpp:2559
 msgid "Aborted: run time limit exceeded"
-msgstr ""
+msgstr "Annullato: limite di elaborazione superato"
 
 #: clientgui/MainDocument.cpp:2562
 msgid "Aborted: memory limit exceeded"
-msgstr ""
+msgstr "Annullato: limite di memoria superato"
 
 #: clientgui/MainDocument.cpp:2565
 msgid "Aborted"
@@ -2909,11 +2926,12 @@ msgstr "Impossibile connettersi al client BOINC"
 
 #: clientgui/sg_DlgMessages.cpp:130
 msgid "One or more items failed to load from the Internet."
-msgstr ""
+msgstr "Lo scaricamento di uno o più elementi da Internet è fallito."
 
+# 88%
 #: clientgui/sg_DlgMessages.cpp:138
 msgid "Retry now"
-msgstr ""
+msgstr "Ritenta ora"
 
 #: clientgui/sg_DlgMessages.cpp:164
 msgid "Close"
@@ -2921,7 +2939,7 @@ msgstr "Chiudi"
 
 #: clientgui/sg_DlgMessages.cpp:171
 msgid "Fetching notices; please wait..."
-msgstr ""
+msgstr "Scaricamento notizie; attendere prego..."
 
 #: clientgui/sg_DlgMessages.cpp:178
 msgid "There are no notices at this time."
@@ -3332,7 +3350,7 @@ msgstr "Mostra la grafica dell'applicazione in una finestra."
 
 #: clientgui/sg_TaskCommandPopup.cpp:67
 msgid "Suspend this task."
-msgstr ""
+msgstr "Sospendi questo lavoro."
 
 #: clientgui/sg_TaskCommandPopup.cpp:72
 msgid "Abort"
@@ -3340,7 +3358,7 @@ msgstr "Annulla"
 
 #: clientgui/sg_TaskCommandPopup.cpp:73
 msgid "Abandon this task. You will get no credit for it."
-msgstr ""
+msgstr "Abbandona questo lavoro. Non otterrai crediti per esso."
 
 #: clientgui/sg_TaskCommandPopup.cpp:79
 msgid "Show task details."
@@ -3922,7 +3940,7 @@ msgstr "Ritenta il trasferimento"
 
 #: clientgui/ViewTransfers.cpp:164
 msgid "Retry the file transfer now"
-msgstr ""
+msgstr "Riprova il trasferimento del file ora"
 
 #: clientgui/ViewTransfers.cpp:170
 msgid "Abort Transfer"
@@ -3931,6 +3949,8 @@ msgstr "Annulla il trasferimento"
 #: clientgui/ViewTransfers.cpp:171
 msgid "Abort this file transfer.  You won't get credit for the task."
 msgstr ""
+"Annulla il trasferimento di questo file.  Non otterrai crediti per il "
+"lavoro."
 
 #: clientgui/ViewTransfers.cpp:182
 msgid "File"
@@ -4105,9 +4125,10 @@ msgstr ""
 msgid "Are you sure you want to abort these %d tasks?"
 msgstr "Sei sicuro di voler annullare queste %d elaborazioni?"
 
+# 75%
 #: clientgui/ViewWork.cpp:498
 msgid "Aborting task..."
-msgstr ""
+msgstr "Interruzione del lavoro in corso..."
 
 #: clientgui/ViewWork.cpp:760
 msgid "Show all tasks"
@@ -4123,7 +4144,7 @@ msgstr "Connessione ad un progetto o ad un account manager"
 
 #: clientgui/WelcomePage.cpp:288
 msgid "Add project or use BOINC Account Manager"
-msgstr ""
+msgstr "Aggiungi un progetto oppure utilizza l'Account Manager di BOINC"
 
 #: clientgui/WelcomePage.cpp:297
 #, c-format
@@ -4168,10 +4189,27 @@ msgid ""
 "\n"
 "Please choose which type of change you would like to make:\n"
 msgstr ""
+"Hai scelto di aggiungere un nuovo progetto di calcolo volontario o di "
+"cambiare i progetti\n"
+"sui quali contribuire.\n"
+"\n"
+"Alcuni di questi progetti sono fatti girare e gestiti dalla World Community "
+"Grid, mentre altri\n"
+"sono fatti girare e gestiti da altri istituti di ricerca o organizzazioni. "
+"Il software BOINC\n"
+"può dividere il tuo tempo di elaborazione libero su una combinazione "
+"qualunque dei progetti.\n"
+"\n"
+"Alternativamente, se ti sei registrato con un BOINC Account Manager, puoi "
+"usare\n"
+"questo per scegliere quali progetti supportare.\n"
+"\n"
+"Per favore scegli quale tipo di cambiamento vuoi effettuare:\n"
+"s"
 
 #: clientgui/WelcomePage.cpp:339
 msgid "Use a BOINC Account Manager"
-msgstr ""
+msgstr "Usa un BOINC Account Manager"
 
 #: clientgui/WelcomePage.cpp:352
 msgid "To continue, click Next."
@@ -4179,11 +4217,11 @@ msgstr "Per continuare, cliccare su Avanti."
 
 #: clientgui/WelcomePage.cpp:358
 msgid "Add or change your World Community Grid projects"
-msgstr ""
+msgstr "Aggiungi o cambia i tuoi progetti World Community Grid"
 
 #: clientgui/WelcomePage.cpp:361
 msgid "Add projects run by other researchers or organizations"
-msgstr ""
+msgstr "Aggiungi progetti gestiti da altri istituti di ricerca o organizzazioni"
 
 #: clientgui/WizardAttach.cpp:634
 msgid "Do you really want to cancel?"
