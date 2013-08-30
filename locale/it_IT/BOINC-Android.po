@@ -2,19 +2,20 @@
 # Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-08-29 15:37-0700\n"
-"PO-Revision-Date: 2013-08-30 12:39+0100\n"
-"Last-Translator: Gianfranco Costamagna <costamagnagianfranco@yahoo.it>\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: it_IT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Translate Toolkit 1.10.0\n"
 "Generated-By: Babel 1.0dev\n"
 
 #. app global
@@ -468,8 +469,7 @@ msgid "Max. used storage space"
 msgstr "Massimo spazio di salvataggio"
 
 msgctxt "prefs_disk_max_pct_description"
-msgid ""
-"How many percent of your device's storage space is BOINC allowed to use?"
+msgid "How many percent of your device's storage space is BOINC allowed to use?"
 msgstr "Quanta percentuale dello spazio di salvataggio può usare BOINC?"
 
 msgctxt "prefs_disk_min_free_gb_header"
