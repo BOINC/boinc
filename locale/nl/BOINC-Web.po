@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: $Id: nl.po 13216 2007-07-25 15:11:14Z davea $\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-08-22 16:22 PDT\n"
-"PO-Revision-Date: 2013-08-07 20:01+0200\n"
+"PO-Revision-Date: 2013-08-29 18:05+0000\n"
 "Last-Translator: Rene <oskamjr@ziggo.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -15,11 +15,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-POOTLE-MTIME: 1377799543.0\n"
 "X-Poedit-KeywordsList: tra\n"
 
 #: projects.inc:14
@@ -345,6 +346,14 @@ msgid ""
 "star formation history) on a resolved pixel-by-pixel basis using spectral "
 "energy distribution (SED) fitting techniques in a distributed computing mode."
 msgstr ""
+"Door het spectraal bereik van GALEX, Pan-STARRS1, en WISE te combineren, "
+"gaan wij een multi-frequentieel, uv-optische-NIR sterrenstelsel-atlas voor "
+"het nabije universum genereren. Wij meten fysische waarden (zoals de "
+"stermassa-afhankelijke oppervlaktedichtheid, "
+"stervormingsnelheidsafhankelijke oppervlaktedichtheid, attenuatie, en het "
+"verloop van stervorming in het vroege heelal) met een resolutie van 1 pixel "
+"x 1 pixel middels specifieke spectrale energie-distributietechnieken (SED) "
+"in een gedistribueerde rekenmodus.              "
 
 #: projects.inc:225
 msgid "University of Texas at Austin"
@@ -595,19 +604,24 @@ msgstr "Onderzoek inzake fysica, materiaalkunde, en bio-geneeskunde"
 
 #: projects.inc:365
 msgid "IBM Corporate Citizenship"
-msgstr ""
+msgstr "IBM Corporate Citizenship"
 
 #: projects.inc:366
 msgid "Medical, environmental and other humanitarian research"
-msgstr ""
+msgstr "Medisch, omgeving en ander menselijk onderzoek"
 
 #: projects.inc:367
+#, fuzzy
 msgid ""
 "To further critical non-profit research on some of humanity's most pressing "
 "problems by creating the world's largest volunteer computing grid.  Research "
 "includes HIV-AIDS, cancer, tropical and neglected diseases, solar energy, "
 "clean water and many more."
 msgstr ""
+"To further critical non-profit research on some of humanity's most pressing "
+"problems by creating the world's largest volunteer computing grid.  Research "
+"includes HIV-AIDS, cancer, tropical and neglected diseases, solar energy, "
+"clean water and many more."
 
 #: projects.inc:373
 msgid "Mathematics, computing, and games"
@@ -726,6 +740,8 @@ msgid ""
 "Primegrid has multiple projects searching for different forms of very large "
 "prime numbers, including searching for the largest known prime number."
 msgstr ""
+"Primegrid heeft diverse projecten die onderzoek doen naar grote "
+"priemgetallen, inclusief een zoektocht naar het grootste priemgetal."
 
 #: projects.inc:497
 msgid "Hochschule RheinMain University of Applied Sciences"
@@ -1087,7 +1103,7 @@ msgstr "BOINC is gevestigd op de Universiteit van Californië, Berkeley"
 
 #: ../html/inc/news.inc:40
 msgid "Comment"
-msgstr ""
+msgstr "Opmerking"
 
 #: ../html/inc/news.inc:111
 #, php-format
