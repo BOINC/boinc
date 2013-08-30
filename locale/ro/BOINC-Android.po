@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-08-29 15:37-0700\n"
-"PO-Revision-Date: 2013-08-30 05:32+0000\n"
+"PO-Revision-Date: 2013-08-30 05:37+0000\n"
 "Last-Translator: Marius <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
@@ -19,7 +19,7 @@ msgstr ""
 "20)) ? 1 : 2);;\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1377840755.0\n"
+"X-POOTLE-MTIME: 1377841036.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -160,7 +160,7 @@ msgstr ""
 
 msgctxt "attachproject_login_attached"
 msgid "Attached"
-msgstr ""
+msgstr "Atașat"
 
 #. project registration
 msgctxt "attachproject_registration_header"
@@ -193,7 +193,7 @@ msgstr ""
 
 msgctxt "attachproject_registration_button"
 msgid "Create"
-msgstr ""
+msgstr "Creează"
 
 #. error strings
 msgctxt "attachproject_error_wrong_name"
@@ -202,31 +202,31 @@ msgstr ""
 
 msgctxt "attachproject_error_short_pwd"
 msgid "Password too short"
-msgstr ""
+msgstr "Parola este prea scurtă"
 
 msgctxt "attachproject_error_no_internet"
 msgid "Connection failure"
-msgstr ""
+msgstr "Conexiunea a eșuat"
 
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
-msgstr ""
+msgstr "Parolele nu sunt identice"
 
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
-msgstr ""
+msgstr "Vă rugăm introduceţi adresa dumneavoastră de email"
 
 msgctxt "attachproject_error_no_pwd"
 msgid "Please enter a password"
-msgstr ""
+msgstr "Vă rugăm introduceţi o parolă"
 
 msgctxt "attachproject_error_no_name"
 msgid "Please enter user name"
-msgstr ""
+msgstr "Vă rugăm introduceţi numele de utilizator"
 
 msgctxt "attachproject_error_unknown"
 msgid "failed"
-msgstr ""
+msgstr "eșuat"
 
 msgctxt "attachproject_error_bad_username"
 msgid "User name refused"
@@ -255,19 +255,19 @@ msgstr ""
 #. working activity
 msgctxt "attachproject_working_back_button"
 msgid "Back"
-msgstr ""
+msgstr "Înapoi"
 
 msgctxt "attachproject_working_finish_button"
 msgid "Finish"
-msgstr ""
+msgstr "Finalizare"
 
 msgctxt "attachproject_working_check_desc"
 msgid "Successful"
-msgstr ""
+msgstr "Sucess"
 
 msgctxt "attachproject_working_failed_desc"
 msgid "Failed"
-msgstr ""
+msgstr "Eșuat"
 
 msgctxt "attachproject_working_ongoing"
 msgid "…"
@@ -283,19 +283,19 @@ msgstr ":"
 
 msgctxt "attachproject_working_connect"
 msgid "Connect"
-msgstr ""
+msgstr "Conectează"
 
 msgctxt "attachproject_working_verify"
 msgid "Verify account"
-msgstr ""
+msgstr "Verificare cont"
 
 msgctxt "attachproject_working_register"
 msgid "Register account"
-msgstr ""
+msgstr "Înregistrează cont"
 
 msgctxt "attachproject_working_login"
 msgid "Log in"
-msgstr ""
+msgstr "Autentificare"
 
 #. main activity
 msgctxt "main_noproject_warning"
@@ -401,7 +401,7 @@ msgstr "Salvează"
 
 msgctxt "prefs_dialog_title"
 msgid "Enter new value:"
-msgstr ""
+msgstr "Introduceți noua valoare:"
 
 msgctxt "prefs_dialog_title_selection"
 msgid "Select:"
