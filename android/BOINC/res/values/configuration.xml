@@ -18,6 +18,15 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
+    <!-- path and file configuration -->
+        <string name="client_path">/data/data/edu.berkeley.boinc/client/</string>
+        <string name="client_name">boinc</string>
+        <string name="client_cli">boinccmd</string>
+        <string name="client_cabundle">ca-bundle.crt</string>
+        <string name="client_config">cc_config.xml</string>
+        <string name="auth_file_name">gui_rpc_auth.cfg</string>
+        <string name="all_projects_list">all_projects_list.xml</string>
+        <string name="global_prefs_override">global_prefs_override.xml</string>
     <!-- BOINC platform -->
     	<string name="boinc_platform_name">arm-android-linux-gnu</string>
     <!-- Default preferences of Android app, for BOINC client see assets/global_prefs_override.xml -->
