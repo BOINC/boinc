@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-08-29 15:37-0700\n"
-"PO-Revision-Date: 2013-08-30 05:37+0000\n"
+"PO-Revision-Date: 2013-08-30 07:11+0000\n"
 "Last-Translator: Marius <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
@@ -19,7 +19,7 @@ msgstr ""
 "20)) ? 1 : 2);;\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1377841036.0\n"
+"X-POOTLE-MTIME: 1377846673.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -112,7 +112,7 @@ msgstr ""
 
 msgctxt "attachproject_login_category_login"
 msgid "Sign in with existing account"
-msgstr ""
+msgstr "Conectaţi-vă cu un cont existent"
 
 msgctxt "attachproject_login_header_id_email"
 msgid "eMail:"
@@ -132,31 +132,31 @@ msgstr ""
 
 msgctxt "attachproject_login_header_creation_enabled"
 msgid "Register an account to participate:"
-msgstr ""
+msgstr "Înregistraţi un cont pentru a participa:"
 
 msgctxt "attachproject_login_header_creation_client_disabled"
 msgid "Visit project website to create an account:"
-msgstr ""
+msgstr "Vizitaţi website-ul proiectului pentru a crea un cont:"
 
 msgctxt "attachproject_login_header_creation_disabled"
 msgid "Project does currently now allow creation of new accounts!"
-msgstr ""
+msgstr "Proiectul nu permite momentan crearea de noi conturi!"
 
 msgctxt "attachproject_login_button_registration"
 msgid "Register"
-msgstr ""
+msgstr "Înregistrează"
 
 msgctxt "attachproject_login_button_login"
 msgid "Sign in"
-msgstr ""
+msgstr "Autentificare"
 
 msgctxt "attachproject_login_button_forgotpw"
 msgid "Forgot Password"
-msgstr ""
+msgstr "Aţi Uitat Parola"
 
 msgctxt "attachproject_login_error_toast"
 msgid "Contacting project failed!"
-msgstr ""
+msgstr "Nu s-a putut contacta proiectul!"
 
 msgctxt "attachproject_login_attached"
 msgid "Attached"
@@ -165,7 +165,7 @@ msgstr "Atașat"
 #. project registration
 msgctxt "attachproject_registration_header"
 msgid "Account registration for"
-msgstr ""
+msgstr "Înregistrare cont pentru"
 
 msgctxt "attachproject_registration_header_url"
 msgid "Project:"
@@ -189,7 +189,7 @@ msgstr "Parolă:"
 
 msgctxt "attachproject_registration_header_pwd_confirm"
 msgid "… Retype:"
-msgstr ""
+msgstr "... Reintroduceţi:"
 
 msgctxt "attachproject_registration_button"
 msgid "Create"
@@ -198,7 +198,7 @@ msgstr "Creează"
 #. error strings
 msgctxt "attachproject_error_wrong_name"
 msgid "User not found"
-msgstr ""
+msgstr "Utilizatorul nu a fost găsit"
 
 msgctxt "attachproject_error_short_pwd"
 msgid "Password too short"
@@ -230,27 +230,27 @@ msgstr "eșuat"
 
 msgctxt "attachproject_error_bad_username"
 msgid "User name refused"
-msgstr ""
+msgstr "Nume utilizator refuzat"
 
 msgctxt "attachproject_error_email_in_use"
 msgid "eMail is already in use"
-msgstr ""
+msgstr "Adresa de email este deja utilizată"
 
 msgctxt "attachproject_error_project_down"
 msgid "Project is offline"
-msgstr ""
+msgstr "Proiectul este offline"
 
 msgctxt "attachproject_error_email_bad_syntax"
 msgid "eMail refused"
-msgstr ""
+msgstr "Adresa de email refuzată"
 
 msgctxt "attachproject_error_bad_pwd"
 msgid "Password refused"
-msgstr ""
+msgstr "Parola refuzată"
 
 msgctxt "attachproject_error_creation_disabled"
 msgid "Account creation is disabled on this project"
-msgstr ""
+msgstr "Crearea de conturi este dezactivată la acest proiect"
 
 #. working activity
 msgctxt "attachproject_working_back_button"
@@ -327,7 +327,7 @@ msgstr "Proiecte"
 
 msgctxt "tab_tasks"
 msgid "Tasks"
-msgstr ""
+msgstr "Task-uri"
 
 msgctxt "tab_transfers"
 msgid "Transfers"
@@ -352,19 +352,19 @@ msgstr "Mulţumim pentru participare."
 
 msgctxt "status_paused"
 msgid "Suspended"
-msgstr ""
+msgstr "Suspendat"
 
 msgctxt "status_idle"
 msgid "Nothing to do"
-msgstr ""
+msgstr "Nimic de făcut"
 
 msgctxt "status_idle_long"
 msgid "Waiting for tasks…"
-msgstr ""
+msgstr "Se aşteaptă task-uri..."
 
 msgctxt "status_computing_disabled"
 msgid "Suspended"
-msgstr ""
+msgstr "Suspendat"
 
 msgctxt "status_computing_disabled_long"
 msgid "Press play to resume network and computation."
@@ -372,15 +372,15 @@ msgstr ""
 
 msgctxt "status_launching"
 msgid "Starting…"
-msgstr ""
+msgstr "Se pornește..."
 
 msgctxt "status_noproject"
 msgid "Choose a project to participate in."
-msgstr ""
+msgstr "Alegeţi un proiect în care să participaţi."
 
 msgctxt "status_closing"
 msgid "Closing…"
-msgstr ""
+msgstr "Se închide..."
 
 msgctxt "status_benchmarking"
 msgid "Benchmarking…"
@@ -393,7 +393,7 @@ msgstr "imagine proiect"
 #. preferences tab strings
 msgctxt "prefs_loading"
 msgid "Reading preferences…"
-msgstr ""
+msgstr "Se citest preferinţele..."
 
 msgctxt "prefs_submit_button"
 msgid "Save"
@@ -437,37 +437,41 @@ msgstr "Depanare"
 
 msgctxt "prefs_show_advanced_header"
 msgid "Show advanced preferences and controls…"
-msgstr ""
+msgstr "Arată preferinţe şi control avansat..."
 
 msgctxt "prefs_run_on_battery_header"
 msgid "Compute on Battery"
-msgstr ""
+msgstr "Calculează pe Baterie"
 
 msgctxt "battery_charge_min_pct_header"
 msgid "Min. battery level"
-msgstr ""
+msgstr "Nivel minim baterie"
 
 msgctxt "battery_charge_min_pct_description"
 msgid "BOINC suspends computation below defined battery charge level."
-msgstr ""
+msgstr "BOINC suspendă calculele când nivelul bateriei este sub cel definit."
 
 msgctxt "battery_temperature_max_header"
 msgid "Max. battery temperature"
-msgstr ""
+msgstr "Temperatură maximă baterie"
 
 msgctxt "battery_temperature_max_description"
 msgid ""
 "BOINC suspends computation above defined battery temperature. It is not "
 "recommended to change this value."
 msgstr ""
+"BOINC suspendă calculele când temperatura bateriei depăşeşte nivelul "
+"definit. Nu este recomandat să modificaţi această valoare."
 
 msgctxt "prefs_disk_max_pct_header"
 msgid "Max. used storage space"
-msgstr ""
+msgstr "Spaţiu de stocare maxim utilizat"
 
 msgctxt "prefs_disk_max_pct_description"
 msgid "How many percent of your device's storage space is BOINC allowed to use?"
 msgstr ""
+"Ce procent din spaţiul de stocare al dispozitivului dumneavoastră are voie "
+"să fie utilizat de BOINC?"
 
 msgctxt "prefs_disk_min_free_gb_header"
 msgid "Min. spare storage"
@@ -483,19 +487,19 @@ msgstr ""
 
 msgctxt "prefs_network_daily_xfer_limit_mb_description"
 msgid "Limits the daily data traffic caused by BOINC."
-msgstr ""
+msgstr "Limitează traficul zilnic realizat de BOINC."
 
 msgctxt "prefs_network_wifi_only_header"
 msgid "Transfer tasks on WiFi only"
-msgstr ""
+msgstr "Transferă task-uri doar pe WiFi"
 
 msgctxt "prefs_autostart_header"
 msgid "Autostart"
-msgstr ""
+msgstr "Autostart"
 
 msgctxt "prefs_show_notification_header"
 msgid "Show notification when suspended"
-msgstr ""
+msgstr "Arată notificare când este suspendat"
 
 msgctxt "prefs_cpu_number_cpus_header"
 msgid "Used CPU cores"
@@ -507,27 +511,29 @@ msgstr ""
 
 msgctxt "prefs_cpu_other_load_suspension_header"
 msgid "Pause at CPU usage above"
-msgstr ""
+msgstr "Pauză la utilizare CPU peste"
 
 msgctxt "prefs_cpu_other_load_suspension_description"
 msgid "Determines when BOINC pauses computation due to other app's CPU usage."
 msgstr ""
+"Determină când BOINC întrerupe calculele din cauza utilizării CPU a altor "
+"aplicaţii."
 
 msgctxt "prefs_cpu_time_max_header"
 msgid "CPU limit"
-msgstr ""
+msgstr "limită CPU"
 
 msgctxt "prefs_cpu_time_max_description"
 msgid "Limits the CPU time BOINC uses for computation."
-msgstr ""
+msgstr "Limitează timpul CPU pe care îl foloseşte BOINC pentru calcule."
 
 msgctxt "prefs_memory_max_idle_header"
 msgid "RAM limit"
-msgstr ""
+msgstr "Limită RAM"
 
 msgctxt "prefs_memory_max_idle_description"
 msgid "Limits the amount of RAM tasks are allowed to occupy."
-msgstr ""
+msgstr "Limitează cantitatea de RAM pe care task-urile au voie să o ocupe."
 
 msgctxt "prefs_client_log_flags_header"
 msgid "BOINC Client log flags"
@@ -565,44 +571,44 @@ msgstr ""
 
 msgctxt "projects_add"
 msgid "Add project"
-msgstr ""
+msgstr "Adaugă proiect"
 
 msgctxt "projects_icon"
 msgid "Project icon"
-msgstr ""
+msgstr "Icoană proiect"
 
 msgctxt "projects_credits_header"
 msgid "Credit:"
-msgstr ""
+msgstr "Credit:"
 
 msgctxt "projects_credits_host_header"
 msgid "(on this device)"
-msgstr ""
+msgstr "(pe acest dispozitiv)"
 
 msgctxt "projects_credits_user_header"
 msgid "(total)"
-msgstr ""
+msgstr "(total)"
 
 #. project status strings
 msgctxt "projects_status_suspendedviagui"
 msgid "Suspended by user"
-msgstr ""
+msgstr "Suspendat de utilizator"
 
 msgctxt "projects_status_dontrequestmorework"
 msgid "Won't get new tasks"
-msgstr ""
+msgstr "Nu se preiau noi task-uri"
 
 msgctxt "projects_status_ended"
 msgid "Project ended - OK to remove"
-msgstr ""
+msgstr "Proiect finalizat - OK pentru ştergere"
 
 msgctxt "projects_status_detachwhendone"
 msgid "Will remove when tasks done"
-msgstr ""
+msgstr "Se va şterge când se finalizează task-urile"
 
 msgctxt "projects_status_schedrpcpending"
 msgid "Scheduler request pending"
-msgstr ""
+msgstr "Cerere planificator în aşteptare"
 
 msgctxt "projects_status_schedrpcinprogress"
 msgid "Scheduler request in progress"
@@ -639,44 +645,44 @@ msgstr ""
 
 msgctxt "projects_control_nonewtasks"
 msgid "No new tasks"
-msgstr ""
+msgstr "Nu sunt task-uri noi"
 
 msgctxt "projects_control_allownewtasks"
 msgid "Allow new tasks"
-msgstr ""
+msgstr "Permite noi task-uri"
 
 msgctxt "projects_control_reset"
 msgid "Reset"
-msgstr ""
+msgstr "Resetează"
 
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
 msgid "Remove project?"
-msgstr ""
+msgstr "Şterge proiect?"
 
 msgctxt "projects_confirm_detach_message"
 msgid "Are you sure you want to remove"
-msgstr ""
+msgstr "Sunteţi sigur că doriţi să ştergeţi"
 
 msgctxt "projects_confirm_detach_message2"
 msgid "from BOINC?"
-msgstr ""
+msgstr "din BOINC?"
 
 msgctxt "projects_confirm_detach_confirm"
 msgid "Remove"
-msgstr ""
+msgstr "Șterge"
 
 msgctxt "projects_confirm_reset_title"
 msgid "Reset project"
-msgstr ""
+msgstr "Resetează proiect"
 
 msgctxt "projects_confirm_reset_message"
 msgid "Are you sure you want to reset"
-msgstr ""
+msgstr "Sunteţi sigur că doriţi să resetaţi"
 
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
-msgstr ""
+msgstr "Resetează"
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
@@ -721,43 +727,43 @@ msgstr ""
 
 msgctxt "tasks_result_aborted"
 msgid "aborted"
-msgstr ""
+msgstr "abandonat"
 
 msgctxt "tasks_result_upload_failed"
 msgid "upload failed"
-msgstr ""
+msgstr "încărcarea a eșuat"
 
 msgctxt "tasks_active_uninitialized"
 msgid "ready"
-msgstr ""
+msgstr "gata"
 
 msgctxt "tasks_active_executing"
 msgid "running"
-msgstr ""
+msgstr "rulează"
 
 msgctxt "tasks_active_suspended"
 msgid "suspended"
-msgstr ""
+msgstr "suspendat"
 
 msgctxt "tasks_active_abort_pending"
 msgid "suspending"
-msgstr ""
+msgstr "se suspendă"
 
 msgctxt "tasks_active_quit_pending"
 msgid "suspending"
-msgstr ""
+msgstr "se suspendă"
 
 msgctxt "tasks_custom_suspended_via_gui"
 msgid "suspended"
-msgstr ""
+msgstr "suspendat"
 
 msgctxt "tasks_custom_project_suspended_via_gui"
 msgid "project suspended"
-msgstr ""
+msgstr "proiect suspendat"
 
 msgctxt "tasks_custom_ready_to_report"
 msgid "ready to report"
-msgstr ""
+msgstr "gata de raportare"
 
 #. confirmation dialog
 msgctxt "confirm_abort_task_title"
@@ -803,15 +809,15 @@ msgstr ""
 
 msgctxt "trans_suspended"
 msgid "suspended"
-msgstr ""
+msgstr "suspendat"
 
 msgctxt "trans_active"
 msgid "active"
-msgstr ""
+msgstr "activ"
 
 msgctxt "trans_pending"
 msgid "pending"
-msgstr ""
+msgstr "în așteptare"
 
 msgctxt "trans_projectbackoff"
 msgid "project backoff"
@@ -819,28 +825,28 @@ msgstr ""
 
 msgctxt "trans_header_name"
 msgid "File:"
-msgstr ""
+msgstr "Fişier:"
 
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
-msgstr ""
+msgstr "Abandonează transfer?"
 
 msgctxt "confirm_abort_trans_message"
 msgid "Abort File:"
-msgstr ""
+msgstr "Abandonează Fişier:"
 
 msgctxt "confirm_abort_trans_confirm"
 msgid "Abort"
-msgstr ""
+msgstr "Abandonează"
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"
 msgid "Loading log messages…"
-msgstr ""
+msgstr "Se încarcă mesajele din jurnal..."
 
 msgctxt "eventlog_client_header"
 msgid "Client Messages"
-msgstr ""
+msgstr "Mesaje Client"
 
 msgctxt "eventlog_gui_header"
 msgid "GUI Messages"
