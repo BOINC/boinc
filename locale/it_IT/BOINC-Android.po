@@ -7,17 +7,15 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-08-29 15:37-0700\n"
-"PO-Revision-Date: 2013-08-30 10:40+0000\n"
-"Last-Translator: Gianfranco <costamagnagianfranco@yahoo.it>\n"
+"PO-Revision-Date: 2013-08-30 12:39+0100\n"
+"Last-Translator: Gianfranco Costamagna <costamagnagianfranco@yahoo.it>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: it_IT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.5.0\n"
+"X-Generator: Poedit 1.5.4\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1377859230.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -27,7 +25,7 @@ msgstr "BOINC"
 #. generic. used by multiple Activities/tabs
 msgctxt "generic_loading"
 msgid "Loading! Please wait…"
-msgstr "Caricamento in corso! Attendere prego..."
+msgstr "Caricamento in corso! Attendere prego…"
 
 #. attach project
 #. project list
@@ -53,12 +51,12 @@ msgstr "Aggiungi l'URL del progetto"
 
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
-msgstr "Connessione Internet assent"
+msgstr "Connessione Internet assente"
 
 #. project login
 msgctxt "attachproject_login_loading"
 msgid "Contacting project server…"
-msgstr "Comunicazione con il server progetto in corso..."
+msgstr "Comunicazione con il server progetto in corso…"
 
 msgctxt "attachproject_login_image_description"
 msgid "Project logo."
@@ -187,7 +185,7 @@ msgstr "Password:"
 
 msgctxt "attachproject_registration_header_pwd_confirm"
 msgid "… Retype:"
-msgstr "... Ripeti:"
+msgstr "… Ripeti:"
 
 msgctxt "attachproject_registration_button"
 msgid "Create"
@@ -269,7 +267,7 @@ msgstr "Fallito"
 
 msgctxt "attachproject_working_ongoing"
 msgid "…"
-msgstr "..."
+msgstr "…"
 
 msgctxt "attachproject_working_finished"
 msgid "."
@@ -309,7 +307,7 @@ msgid ""
 "…this should not happen!\n"
 "Click on the icon to try again."
 msgstr ""
-"...questo non deve succedere!\n"
+"…questo non deve succedere!\n"
 "Clicca sull'icona per riprovare."
 
 msgctxt "main_title_icon_desc"
@@ -360,7 +358,7 @@ msgstr "Nulla da fare"
 
 msgctxt "status_idle_long"
 msgid "Waiting for tasks…"
-msgstr "In attesa di nuovi lavori..."
+msgstr "In attesa di nuovi lavori…"
 
 msgctxt "status_computing_disabled"
 msgid "Suspended"
@@ -372,7 +370,7 @@ msgstr "Premi play per far ripartire la rete e l'elaborazione"
 
 msgctxt "status_launching"
 msgid "Starting…"
-msgstr "Avvio in corso..."
+msgstr "Avvio in corso…"
 
 msgctxt "status_noproject"
 msgid "Choose a project to participate in."
@@ -380,11 +378,11 @@ msgstr "Scegli un progetto per partecipare."
 
 msgctxt "status_closing"
 msgid "Closing…"
-msgstr "Chiusura in corso..."
+msgstr "Chiusura in corso…"
 
 msgctxt "status_benchmarking"
 msgid "Benchmarking…"
-msgstr "Benchmark in corso..."
+msgstr "Benchmark in corso…"
 
 msgctxt "status_image_description"
 msgid "project image"
@@ -393,7 +391,7 @@ msgstr "immagine progetto"
 #. preferences tab strings
 msgctxt "prefs_loading"
 msgid "Reading preferences…"
-msgstr "Lettura preferenze in corso..."
+msgstr "Lettura preferenze in corso…"
 
 msgctxt "prefs_submit_button"
 msgid "Save"
@@ -417,7 +415,7 @@ msgstr "Rete"
 
 msgctxt "prefs_category_power"
 msgid "Power"
-msgstr "Power"
+msgstr "Energia"
 
 msgctxt "prefs_category_cpu"
 msgid "CPU"
@@ -437,7 +435,7 @@ msgstr "Debug"
 
 msgctxt "prefs_show_advanced_header"
 msgid "Show advanced preferences and controls…"
-msgstr "Visualizza preferenze avanzate e controlli..."
+msgstr "Visualizza preferenze avanzate e controlli…"
 
 msgctxt "prefs_run_on_battery_header"
 msgid "Compute on Battery"
@@ -470,7 +468,8 @@ msgid "Max. used storage space"
 msgstr "Massimo spazio di salvataggio"
 
 msgctxt "prefs_disk_max_pct_description"
-msgid "How many percent of your device's storage space is BOINC allowed to use?"
+msgid ""
+"How many percent of your device's storage space is BOINC allowed to use?"
 msgstr "Quanta percentuale dello spazio di salvataggio può usare BOINC?"
 
 msgctxt "prefs_disk_min_free_gb_header"
@@ -568,7 +567,7 @@ msgstr "°C"
 #. projects tab strings
 msgctxt "projects_loading"
 msgid "Reading projects…"
-msgstr "Lettura progetti..."
+msgstr "Lettura progetti…"
 
 msgctxt "projects_add"
 msgid "Add project"
@@ -654,7 +653,7 @@ msgstr "Permetti nuovi lavori"
 
 msgctxt "projects_control_reset"
 msgid "Reset"
-msgstr "Resetta"
+msgstr "Reset"
 
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
@@ -790,7 +789,7 @@ msgstr "Finestra di conferma"
 #. transfers tab strings
 msgctxt "trans_loading"
 msgid "Reading transfers…"
-msgstr "Lettura trasferimenti..."
+msgstr "Lettura trasferimenti…"
 
 msgctxt "trans_upload"
 msgid "Upload"
@@ -843,7 +842,7 @@ msgstr "Annulla"
 #. eventlog tab strings
 msgctxt "eventlog_loading"
 msgid "Loading log messages…"
-msgstr "Caricamento messaggi di log..."
+msgstr "Caricamento messaggi di log…"
 
 msgctxt "eventlog_client_header"
 msgid "Client Messages"
@@ -882,7 +881,7 @@ msgstr "Fuori tempo massimo di computazione."
 
 msgctxt "suspend_bm"
 msgid "BOINC is benchmarking your device…"
-msgstr "BOINC sta facendo il benchmark del tuo dispositivo..."
+msgstr "BOINC sta facendo il benchmark del tuo dispositivo…"
 
 msgctxt "suspend_disksize"
 msgid "Out of disk space."
@@ -942,7 +941,7 @@ msgstr "In attesa che la batteria si raffreddi"
 
 msgctxt "suspend_user_req"
 msgid "Resuming computation…"
-msgstr "Ripresa elaborazione..."
+msgstr "Ripresa elaborazione…"
 
 msgctxt "suspend_network_user_req"
 msgid "manually."
