@@ -7,35 +7,38 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-08-06 16:50-0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2013-08-29 12:31+0000\n"
+"Last-Translator: Gabor <csega@mailbox.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n !=1);\n"
 "X-Generator: Poedit 1.5.5\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: _\n"
 "X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
 "X-Poedit-SearchPath-0: mac_installer\n"
+"X-POOTLE-MTIME: 1377779517.0\n"
 
 #: mac_installer/Installer.cpp:132
 #, c-format
+#, c-format, fuzzy
 msgid "Sorry, this version of %s requires system 10.4 or higher."
-msgstr ""
+msgstr "Sajnos a(z) %s ezen verziója 10.4 vagy nagyobb rendszerverziót igényel."
 
 #: mac_installer/PostInstall.cpp:131 mac_installer/PostInstall.cpp:1211
 msgid "Yes"
-msgstr ""
+msgstr "Igen"
 
 #: mac_installer/PostInstall.cpp:132 mac_installer/PostInstall.cpp:1212
 msgid "No"
-msgstr ""
+msgstr "Nem"
 
 #: mac_installer/PostInstall.cpp:134
 msgid "Should BOINC run even when no user is logged in?"
-msgstr ""
+msgstr "Akkor is fusson a BOINC, ha mindenki kijelentkezett?"
 
 #: mac_installer/PostInstall.cpp:1491
 #, c-format
