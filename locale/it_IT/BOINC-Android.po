@@ -2,53 +2,54 @@
 # Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-08-29 15:37-0700\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2013-08-30 09:22+0000\n"
+"Last-Translator: Gianfranco <costamagnagianfranco@yahoo.it>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: it_IT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.10.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
+"X-POOTLE-MTIME: 1377854535.0\n"
 
 #. app global
 msgctxt "app_name"
 msgid "BOINC"
-msgstr ""
+msgstr "BOINC"
 
 #. generic. used by multiple Activities/tabs
 msgctxt "generic_loading"
 msgid "Loading! Please wait…"
-msgstr ""
+msgstr "Caricamento in corso! Attendere prego..."
 
 #. attach project
 #. project list
 msgctxt "attachproject_list_header"
 msgid "Choose a project:"
-msgstr ""
+msgstr "Scegli un progetto:"
 
 msgctxt "attachproject_list_manual_button"
 msgid "Add project by URL"
-msgstr ""
+msgstr "Aggiungi un progetto dall'URL"
 
 msgctxt "attachproject_list_manual_dialog_title"
 msgid "Enter project URL:"
-msgstr ""
+msgstr "Inserisci l'URL del progetto:"
 
 msgctxt "attachproject_list_manual_dialog_button"
 msgid "Add project"
-msgstr ""
+msgstr "Aggiungi progetto"
 
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
-msgstr ""
+msgstr "Aggiungi l'URL del progetto"
 
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
@@ -794,7 +795,7 @@ msgstr ""
 
 msgctxt "trans_failed"
 msgid "failed"
-msgstr ""
+msgstr "fallito"
 
 msgctxt "trans_suspended"
 msgid "suspended"
@@ -810,53 +811,55 @@ msgstr ""
 
 msgctxt "trans_projectbackoff"
 msgid "project backoff"
-msgstr ""
+msgstr "backoff del progetto"
 
 msgctxt "trans_header_name"
 msgid "File:"
-msgstr ""
+msgstr "File:"
 
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
-msgstr ""
+msgstr "Annullare trasferimento?"
 
 msgctxt "confirm_abort_trans_message"
 msgid "Abort File:"
-msgstr ""
+msgstr "Annulla File:"
 
 msgctxt "confirm_abort_trans_confirm"
 msgid "Abort"
-msgstr ""
+msgstr "Annulla"
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"
 msgid "Loading log messages…"
-msgstr ""
+msgstr "Caricamento messaggi di log..."
 
 msgctxt "eventlog_client_header"
 msgid "Client Messages"
-msgstr ""
+msgstr "Messaggi del Client"
 
 msgctxt "eventlog_gui_header"
 msgid "GUI Messages"
-msgstr ""
+msgstr "Messaggi della GUI"
 
 msgctxt "eventlog_copy_toast"
 msgid "Log copied to clipboard."
-msgstr ""
+msgstr "Log copiato nella clipboard."
 
 msgctxt "eventlog_email_subject"
 msgid "Event Log for BOINC on Android:"
-msgstr ""
+msgstr "Log eventi per BOINC su Android:"
 
 #. suspend reasons
 msgctxt "suspend_unknown"
 msgid "Computation suspended."
-msgstr ""
+msgstr "Elaborazione sospesa."
 
 msgctxt "suspend_batteries"
 msgid "Connect your device to a charger to continue computing."
 msgstr ""
+"Connetti il tuo dispositivo ad un caricabatterie per continuare "
+"l'eleborazione."
 
 msgctxt "suspend_useractive"
 msgid "User is active."
@@ -892,23 +895,25 @@ msgstr ""
 
 msgctxt "suspend_cpu"
 msgid "Your device is busy with other apps."
-msgstr ""
+msgstr "Il tuo dispositivo è occupato con altre applicazioni."
 
 msgctxt "suspend_network_quota"
 msgid "BOINC reached network transfer limit."
-msgstr ""
+msgstr "BOINC ha raggiunto il limite di trasferimento dalla rete."
 
 msgctxt "suspend_os"
 msgid "Stopped by Android."
-msgstr ""
+msgstr "Fermato da Android."
 
 msgctxt "suspend_wifi"
 msgid "Not connected to WiFi."
-msgstr ""
+msgstr "Non connesso al WiFi"
 
 msgctxt "suspend_battery_charging"
 msgid "Battery needs to charge before resuming computation."
 msgstr ""
+"La batteria necessita di essere ricaricata prima di riprendere "
+"l'elaborazione."
 
 msgctxt "suspend_battery_charging_long"
 msgid "Computing will resume when battery charge reaches"
@@ -916,24 +921,24 @@ msgstr ""
 
 msgctxt "suspend_battery_charging_current"
 msgid "currently"
-msgstr ""
+msgstr "attualmente"
 
 msgctxt "suspend_battery_overheating"
 msgid "Waiting for battery to cool down"
-msgstr ""
+msgstr "In attesa che la batteria si raffreddi"
 
 msgctxt "suspend_user_req"
 msgid "Resuming computation…"
-msgstr ""
+msgstr "Ripresa elaborazione..."
 
 msgctxt "suspend_network_user_req"
 msgid "manually."
-msgstr ""
+msgstr "manualmente."
 
 #. rpc reasons
 msgctxt "rpcreason_userreq"
 msgid "Requested by user"
-msgstr ""
+msgstr "Richiesta dall'utente"
 
 msgctxt "rpcreason_needwork"
 msgid "To fetch work"
@@ -1015,14 +1020,16 @@ msgstr ""
 
 msgctxt "about_version"
 msgid "Version"
-msgstr ""
+msgstr "Versione"
 
 msgctxt "about_name_long"
 msgid "Berkeley Open Infrastructure for Network Computing"
-msgstr ""
+msgstr "Berkeley Open Infrastructure for Network Computing"
 
 msgctxt "about_copyright"
 msgid ""
 "© 2003–2013 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
+"© 2003–2013 University of California, Berkeley.\n"
+"Tutti i diritti riservati."
