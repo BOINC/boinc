@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-08-22 16:22 PDT\n"
-"PO-Revision-Date: 2013-06-18 12:04+0200\n"
+"PO-Revision-Date: 2013-08-26 07:46+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -574,11 +574,12 @@ msgstr "Tutkimusta fysiikassa, materiaalitekniikassa ja biolääketieteessä"
 
 #: projects.inc:365
 msgid "IBM Corporate Citizenship"
-msgstr ""
+msgstr "IBM Corporate Citizenship"
 
 #: projects.inc:366
 msgid "Medical, environmental and other humanitarian research"
 msgstr ""
+"Lääketieteellistä, ympäristöntutkimusta ja muita humanitaarisia tutkimuksia"
 
 #: projects.inc:367
 msgid ""
@@ -587,6 +588,10 @@ msgid ""
 "includes HIV-AIDS, cancer, tropical and neglected diseases, solar energy, "
 "clean water and many more."
 msgstr ""
+"Ei-kaupallista tutkimusta tärkeimmistä ongelmista luomalla maailman "
+"suurimman tietokoneverkon.  Tutkimus käsittää mm. HIV-AIDSia, syöpää, "
+"trooppisia ja muita tutkimattomia tauteja, aurinkoenergiaa ja puhdasta "
+"vettä."
 
 #: projects.inc:373
 msgid "Mathematics, computing, and games"
@@ -700,6 +705,8 @@ msgid ""
 "Primegrid has multiple projects searching for different forms of very large "
 "prime numbers, including searching for the largest known prime number."
 msgstr ""
+"Primegridillä on useita projekteja, joilla etsitään suurten alkulukujen eri "
+"muotoja sekä suurimman tunnetun alkuluvun etsintä."
 
 #: projects.inc:497
 msgid "Hochschule RheinMain University of Applied Sciences"
@@ -963,7 +970,7 @@ msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
 "you the computing power of thousands of CPUs."
 msgstr ""
-"%1Tutkijat%2: voivat käyttää BOINCia %3julkisen laskennan projekteihin%4 "
+"%1Tutkijat%2 voivat käyttää BOINCia %3julkisen laskennan projekteihin%4 "
 "saaden tuhansien tietokoneiden laskentatehon."
 
 #: index.php:135
@@ -971,12 +978,12 @@ msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
 msgstr ""
-"%1Yliopistot%2: voivat käyttää BOINCia tehdäkseen %3virtuaalisen "
+"%1Yliopistot%2 voivat käyttää BOINCia tehdäkseen %3virtuaalisen "
 "supertietokoneen%4."
 
 #: index.php:140
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
-msgstr "%1Yritykset%2: voivat käyttää BOINCia %3sisäiseen laskentaan%4."
+msgstr "%1Yritykset%2 voivat käyttää BOINCia %3sisäiseen laskentaan%4."
 
 #: index.php:152
 msgid "The BOINC project"
@@ -1060,12 +1067,12 @@ msgstr "BOINC sijaitsee Kalifornian yliopistolla, Berkeleyssä"
 
 #: ../html/inc/news.inc:40
 msgid "Comment"
-msgstr ""
+msgstr "Kommentti"
 
 #: ../html/inc/news.inc:111
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr ""
+msgstr "Uutiset saatavana %sRSS-syötteenä%s"
 
 #~ msgid "IBM Corporate Community Relations"
 #~ msgstr "IBM Corporate Community Relations"

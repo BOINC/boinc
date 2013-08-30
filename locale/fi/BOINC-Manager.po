@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-18 11:32-0500\n"
-"PO-Revision-Date: 2013-08-07 19:19+0200\n"
-"Last-Translator: Charlie <charlief@ssl.berkeley.edu>\n"
+"PO-Revision-Date: 2013-08-28 08:01+0200\n"
+"Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
@@ -456,13 +456,14 @@ msgstr "Suorittaa kaikki odottavat verkkoyhteystoiminnot"
 
 # 94%
 #: clientgui/AdvancedFrame.cpp:576
-#, fuzzy
 msgid "Read config files"
-msgstr "Lue asetustiedosto"
+msgstr "Lue kokoonpanotiedosto"
 
 #: clientgui/AdvancedFrame.cpp:577
 msgid "Read configuration info from cc_config.xml and any app_config.xml files"
 msgstr ""
+"Lue kokoonpanotiedot cc_config.xml -tiedostosta ja kaikista app_config.xml "
+"-tiedostoista"
 
 #: clientgui/AdvancedFrame.cpp:581
 msgid "Read local prefs file"
@@ -2109,11 +2110,11 @@ msgstr "%s - Kielen valinta"
 
 #: clientgui/DlgOptions.cpp:695
 #, c-format
-#, fuzzy, c-format
+#, c-format, c-format
 msgid "The %s's language has been changed.  In order for this change to take effect, you must restart the %s."
 msgstr ""
-"%s:n oletuskieli on vaihdettu. Jotta muutos tulee voimaan, %s pitää "
-"käynnistää uudelleen."
+"%s:n kieli on vaihdettu.  Jotta muutos tulee voimaan, %s pitää käynnistää "
+"uudelleen."
 
 #: clientgui/DlgSelectComputer.cpp:90
 #, c-format
