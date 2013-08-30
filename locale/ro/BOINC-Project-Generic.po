@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2013-08-24 10:41+0200\n"
+"PO-Revision-Date: 2013-08-29 05:19+0000\n"
 "Last-Translator: mcsjohn <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
@@ -16,8 +16,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2);;\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-POOTLE-MTIME: 1377753575.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Română"
@@ -156,31 +157,31 @@ msgstr "Închide Tag-uri"
 
 #: ../inc/forum.inc:37
 msgid "Oldest first"
-msgstr ""
+msgstr "Cel mai vechi primul"
 
 #: ../inc/forum.inc:38 ../inc/forum.inc:44
 msgid "Newest first"
-msgstr ""
+msgstr "Cel mai nou primul"
 
 #: ../inc/forum.inc:39
 msgid "Highest rated posts first"
-msgstr ""
+msgstr "Cele mai evaluate postări întâi"
 
 #: ../inc/forum.inc:41
 msgid "Newest post first"
-msgstr ""
+msgstr "Cele mai noi postări întâi"
 
 #: ../inc/forum.inc:42
 msgid "Most views first"
-msgstr ""
+msgstr "Cele mai vizualizate întâi"
 
 #: ../inc/forum.inc:43
 msgid "Most posts first"
-msgstr ""
+msgstr "Cele mai multe postări întâi"
 
 #: ../inc/forum.inc:125
 msgid "Search for words in forum messages"
-msgstr ""
+msgstr "Caută cuvine în mesajele de pe forum"
 
 #: ../inc/forum.inc:125
 msgid "Search forums"
@@ -240,15 +241,15 @@ msgstr "Trimite %1 un mesaj privat"
 
 #: ../inc/forum.inc:581
 msgid "Joined: %1"
-msgstr ""
+msgstr "Înscris: %1"
 
 #: ../inc/forum.inc:590
 msgid "Posts: %1"
-msgstr ""
+msgstr "Postări: %1"
 
 #: ../inc/forum.inc:596
 msgid "Credit: %1"
-msgstr ""
+msgstr "Credit: %1"
 
 #: ../inc/forum.inc:597
 msgid "RAC: %1"
@@ -272,7 +273,7 @@ msgstr "ascuns"
 
 #: ../inc/forum.inc:624
 msgid "Posted: %1"
-msgstr ""
+msgstr "Postat: %1"
 
 #: ../inc/forum.inc:627
 msgid " - in response to "
@@ -280,81 +281,84 @@ msgstr " - în răspuns la "
 
 #: ../inc/forum.inc:630 ../inc/prefs.inc:690 ../inc/prefs.inc:692
 msgid "Edit"
-msgstr ""
+msgstr "Editare"
 
 #: ../inc/forum.inc:630
 msgid "Edit this message"
-msgstr ""
+msgstr "Editează acest mesaj"
 
 #: ../inc/forum.inc:636
 msgid "Last modified: %1"
-msgstr ""
+msgstr "Ultima modificare: %1"
 
 #: ../inc/forum.inc:639
 msgid ""
 "This post is not shown because the sender is on your 'ignore' list.  Click "
 "%1here%2 to view this post"
 msgstr ""
+"Această postare nu este afişată deoarece expeditorul este în lista "
+"dumneavoastră 'ignoră'.  Selectaţi %1aici%2 pentru a vizualiza această "
+"postare"
 
 #: ../inc/forum.inc:667 ../inc/forum.inc:678
 msgid "Report this post as offensive"
-msgstr ""
+msgstr "Raportează această postare ca ofensivă"
 
 #: ../inc/forum.inc:667 ../inc/forum.inc:678
 msgid "Report as offensive"
-msgstr ""
+msgstr "Raportează ca ofensivă"
 
 #: ../inc/forum.inc:671
 msgid "Rating: %1"
-msgstr ""
+msgstr "Evaluare: %1"
 
 #: ../inc/forum.inc:671
 msgid "rate: "
-msgstr ""
+msgstr "evaluează: "
 
 #: ../inc/forum.inc:674
 msgid "Click if you like this message"
-msgstr ""
+msgstr "Selectaţi dacă vă place acest mesaj"
 
 #: ../inc/forum.inc:674
 msgid "Rate +"
-msgstr ""
+msgstr "Evaluează +"
 
 #: ../inc/forum.inc:676
 msgid "Click if you don't like this message"
-msgstr ""
+msgstr "Apăsaţi dacă nu vă place acest mesaj"
 
 #: ../inc/forum.inc:676
 msgid "Rate -"
-msgstr ""
+msgstr "Evaluează -"
 
 #: ../inc/forum.inc:684 ../user/pm.php:106 ../user/pm.php:146
 msgid "Reply"
-msgstr ""
+msgstr "Răspunde"
 
 #: ../inc/forum.inc:684
 msgid "Post a reply to this message"
-msgstr ""
+msgstr "Răspunde acestui mesaj"
 
 #: ../inc/forum.inc:686
 msgid "Quote"
-msgstr ""
+msgstr "Citează"
 
 #: ../inc/forum.inc:686
 msgid "Post a reply by quoting this message"
-msgstr ""
+msgstr "Răspunde citând acest mesaj"
 
 #: ../inc/forum.inc:707
 msgid "Hidden by a moderator"
-msgstr ""
+msgstr "Ascuns de un moderator"
 
 #: ../inc/forum.inc:728
 msgid "Posted %1 by %2"
-msgstr ""
+msgstr "Postat %1 de %2"
 
 #: ../inc/forum.inc:746
 msgid "You may not post or rate messages until %1"
-msgstr ""
+msgstr "Nu puteţi posta sau evalua mesaje până la %1"
 
 #: ../inc/forum.inc:757
 msgid ""
@@ -380,15 +384,15 @@ msgstr "Reguli:"
 
 #: ../inc/forum.inc:780
 msgid "More info"
-msgstr ""
+msgstr "Mai multe informaţii"
 
 #: ../inc/forum.inc:1054 ../user/forum_thread.php:187
 msgid "Unhide"
-msgstr ""
+msgstr "Dezascunde"
 
 #: ../inc/forum.inc:1054
 msgid "Unhide this post"
-msgstr ""
+msgstr "Dezascunde această postare"
 
 #: ../inc/forum.inc:1056 ../user/forum_thread.php:193
 msgid "Hide"
@@ -396,7 +400,7 @@ msgstr "Ascunde"
 
 #: ../inc/forum.inc:1056
 msgid "Hide this post"
-msgstr ""
+msgstr "Ascunde această postare"
 
 #: ../inc/forum.inc:1061 ../user/forum_thread.php:226
 msgid "Move"
@@ -456,7 +460,7 @@ msgstr ""
 #: ../inc/forum.inc:1173 ../inc/team.inc:120 ../user/forum_forum.php:136
 #: ../user/forum_index.php:94
 msgid "Posts"
-msgstr ""
+msgstr "Postări"
 
 #: ../inc/forum.inc:1175 ../user/forum_forum.php:138
 msgid "Views"
@@ -465,7 +469,7 @@ msgstr "Vizualizări"
 #: ../inc/forum.inc:1176 ../inc/team.inc:120 ../user/forum_forum.php:139
 #: ../user/forum_help_desk.php:46 ../user/forum_index.php:95
 msgid "Last post"
-msgstr ""
+msgstr "Ultima postare"
 
 #: ../inc/forum.inc:1234
 msgid "New posts in the thread %1"
@@ -489,11 +493,11 @@ msgstr ""
 
 #: ../inc/host.inc:24
 msgid "No host"
-msgstr ""
+msgstr "Nici o gazdă"
 
 #: ../inc/host.inc:26
 msgid "Unavailable"
-msgstr ""
+msgstr "Indisponibil"
 
 #: ../inc/host.inc:55 ../inc/prefs.inc:625 ../inc/prefs.inc:1030
 msgid "Home"
@@ -523,7 +527,7 @@ msgstr "Adresă IP"
 
 #: ../inc/host.inc:87
 msgid "(same the last %1 times)"
-msgstr ""
+msgstr "(aceeaşi ultimel %1 dăţi)"
 
 #: ../inc/host.inc:89
 msgid "External IP address"
@@ -584,7 +588,7 @@ msgstr "Credit mediu"
 
 #: ../inc/host.inc:112
 msgid "Cross project credit"
-msgstr ""
+msgstr "Credit multi proiect"
 
 #: ../inc/host.inc:114
 msgid "CPU type"
@@ -616,7 +620,7 @@ msgstr "%1 MB"
 
 #: ../inc/host.inc:129
 msgid "Cache"
-msgstr ""
+msgstr "Cache"
 
 #: ../inc/host.inc:129
 msgid "%1 KB"
@@ -640,19 +644,19 @@ msgstr "Spaţiu Disc Disponibil"
 
 #: ../inc/host.inc:144
 msgid "Measured floating point speed"
-msgstr ""
+msgstr "Viteză virgulă mobilă măsurată"
 
 #: ../inc/host.inc:144 ../inc/host.inc:147
 msgid "%1 million ops/sec"
-msgstr ""
+msgstr "%1 milioane operaţii/secundă"
 
 #: ../inc/host.inc:147
 msgid "Measured integer speed"
-msgstr ""
+msgstr "Viteză întregi măsurată"
 
 #: ../inc/host.inc:151 ../inc/host.inc:153
 msgid "Average upload rate"
-msgstr ""
+msgstr "Viteza medie încărcare"
 
 #: ../inc/host.inc:151 ../inc/host.inc:158
 msgid "%1 KB/sec"
@@ -667,7 +671,7 @@ msgstr "Necunoscut"
 
 #: ../inc/host.inc:158 ../inc/host.inc:160
 msgid "Average download rate"
-msgstr ""
+msgstr "Viteză medie descărcare"
 
 #: ../inc/host.inc:163 ../user/host_app_versions.php:64
 msgid "Average turnaround time"
@@ -684,42 +688,42 @@ msgstr "Detalii aplicaţie"
 
 #: ../inc/host.inc:165
 msgid "Show"
-msgstr ""
+msgstr "Afişează"
 
 #: ../inc/host.inc:175 ../inc/host.inc:317 ../inc/user.inc:153
 msgid "Tasks"
-msgstr ""
+msgstr "Task-uri"
 
 #: ../inc/host.inc:179 ../inc/host.inc:200
 msgid "Number of times client has contacted server"
-msgstr ""
+msgstr "De câte ori clientul a contactat serverul"
 
 #: ../inc/host.inc:180
 msgid "Last time contacted server"
-msgstr ""
+msgstr "Ultima dată contact cu serverul"
 
 #: ../inc/host.inc:181
 #, php-format
 msgid "% of time BOINC is running"
-msgstr ""
+msgstr "% timp BOINC rulează"
 
 #: ../inc/host.inc:183
 #, php-format
 msgid "While BOINC running, % of time host has an Internet connection"
-msgstr ""
+msgstr "Când BOINC rulează, % din timp gazda are conexiune la Internet"
 
 #: ../inc/host.inc:185
 #, php-format
 msgid "While BOINC running, % of time work is allowed"
-msgstr ""
+msgstr "Când BOINC rulează, % din timp lucrul este permis"
 
 #: ../inc/host.inc:187
 msgid "Average CPU efficiency"
-msgstr ""
+msgstr "Eficienţă medie CPU"
 
 #: ../inc/host.inc:190
 msgid "Task duration correction factor"
-msgstr ""
+msgstr "Factor corecţie durată task"
 
 #: ../inc/host.inc:192 ../inc/host.inc:647
 msgid "Location"
@@ -727,23 +731,23 @@ msgstr "Locaţie"
 
 #: ../inc/host.inc:194
 msgid "Delete this computer"
-msgstr ""
+msgstr "Şterge acest calculator"
 
 #: ../inc/host.inc:198
 msgid "Merge duplicate records of this computer"
-msgstr ""
+msgstr "Unifică înregistrări duplicate ale acestui calculator"
 
 #: ../inc/host.inc:198
 msgid "Merge"
-msgstr ""
+msgstr "Unifică"
 
 #: ../inc/host.inc:201 ../inc/host.inc:662
 msgid "Last contact"
-msgstr ""
+msgstr "Ultimul contact"
 
 #: ../inc/host.inc:214
 msgid "Computer info"
-msgstr ""
+msgstr "Informaţii calculator"
 
 #: ../inc/host.inc:215 ../inc/host.inc:649 ../inc/team.inc:349
 #: ../user/top_users.php:48
@@ -778,7 +782,7 @@ msgstr "Sistem operare"
 
 #: ../inc/host.inc:296
 msgid "(%1 processors)"
-msgstr ""
+msgstr "(%1 procesoare)"
 
 #: ../inc/host.inc:316
 msgid "Details"
@@ -786,7 +790,7 @@ msgstr "Detalii"
 
 #: ../inc/host.inc:321
 msgid "Cross-project stats:"
-msgstr ""
+msgstr "Statistici multi proiect:"
 
 #: ../inc/host.inc:493
 msgid "Host %1 has overlapping lifetime:"
@@ -794,11 +798,11 @@ msgstr ""
 
 #: ../inc/host.inc:500
 msgid "Host %1 has an incompatible OS:"
-msgstr ""
+msgstr "Gazda %1 are un SO incompatibil:"
 
 #: ../inc/host.inc:506
 msgid "Host %1 has an incompatible CPU:"
-msgstr ""
+msgstr "Gazda %1 are un CPU incompatibil:"
 
 #: ../inc/host.inc:573
 msgid "same host"
@@ -814,23 +818,23 @@ msgstr ""
 
 #: ../inc/host.inc:596
 msgid "Couldn't update credit of new computer"
-msgstr ""
+msgstr "Nu s-a putut actualiza creditul noului calculator"
 
 #: ../inc/host.inc:600
 msgid "Couldn't update results"
-msgstr ""
+msgstr "Nu s-au putut actualiza rezultatele"
 
 #: ../inc/host.inc:605
 msgid "Couldn't retire old computer"
-msgstr ""
+msgstr "Nu s-a putut retrage calculatorul vechi"
 
 #: ../inc/host.inc:607
 msgid "Retired old computer %1"
-msgstr ""
+msgstr "Calculator vechi retras %1"
 
 #: ../inc/host.inc:630 ../inc/host.inc:633
 msgid "Show:"
-msgstr ""
+msgstr "Afişează:"
 
 #: ../inc/host.inc:630 ../inc/host.inc:633
 msgid "All computers"
@@ -850,7 +854,7 @@ msgstr "Versiune<br>BOINC"
 
 #: ../inc/host.inc:711 ../user/merge_by_name.php:67
 msgid "Merge computers by name"
-msgstr ""
+msgstr "Unifică după nume calculatoarele"
 
 #: ../inc/news.inc:40
 msgid "Comment"
@@ -869,9 +873,10 @@ msgstr ""
 msgid "Write"
 msgstr "Scrie"
 
+# 80%
 #: ../inc/pm.inc:33 ../inc/user.inc:378
 msgid "Send private message"
-msgstr ""
+msgstr "Trimite mesaj privat"
 
 #: ../inc/pm.inc:35 ../inc/pm.inc:37 ../inc/pm.inc:89
 #: ../user/ffmail_form.php:59 ../user/forum_edit.php:99
@@ -881,19 +886,19 @@ msgstr ""
 #: ../user/forum_reply.php:74 ../user/forum_reply.php:107
 #: ../user/forum_reply.php:109 ../user/forum_reply.php:165 ../user/pm.php:181
 msgid "Preview"
-msgstr ""
+msgstr "Previzualizare"
 
 #: ../inc/pm.inc:48 ../user/pm.php:131
 msgid "no such message"
-msgstr ""
+msgstr "nici un astfel de mesaj"
 
 #: ../inc/pm.inc:82
 msgid "To"
-msgstr ""
+msgstr "Către"
 
 #: ../inc/pm.inc:82
 msgid "User IDs or unique usernames, separated with commas"
-msgstr ""
+msgstr "ID-uri utilizator sau nume utilizatori unice, separate cu virgule"
 
 #: ../inc/pm.inc:85 ../user/pm.php:90 ../user/pm.php:139
 msgid "Subject"
@@ -905,21 +910,23 @@ msgstr "Trimite mesaj"
 
 #: ../inc/pm.inc:121
 msgid "sent you a private message; subject:"
-msgstr ""
+msgstr "ţi-a trimis un mesaj privat; subiect:"
 
 #: ../inc/pm.inc:127
 msgid "Private message%1 from %2, subject:"
-msgstr ""
+msgstr "Mesaje privat %1 de la %2, subiect:"
 
 #: ../inc/pm.inc:135
 msgid "Couldn't create message"
-msgstr ""
+msgstr "Nu s-a putut crea mesajul"
 
 #: ../inc/pm.inc:166
 msgid ""
 "You are not allowed to send privates messages so often. Please wait some "
 "time before sending more messages."
 msgstr ""
+"Nu avetţi voie să trimiteţi mesaje private atât de des. Vă rugăm aşteptaţi "
+"înainte de a trimite alte mesaje."
 
 #: ../inc/pm.inc:176 ../user/forum_forum.php:186
 msgid "unread"
@@ -938,10 +945,12 @@ msgid ""
 "Suspend work while computer is on battery power? %1 Matters only for "
 "portable computers %2"
 msgstr ""
+"Suspendă lucrul când calculatorul este alimentat pe baterii? %1 Contează "
+"doar pentru calculatoarele portabile %2"
 
 #: ../inc/prefs.inc:84
 msgid "Suspend work while computer is in use?"
-msgstr ""
+msgstr "Suspendă lucrul când calculatorul este folosit?"
 
 #: ../inc/prefs.inc:90
 msgid ""
@@ -951,6 +960,7 @@ msgstr ""
 #: ../inc/prefs.inc:98
 msgid "'In use' means mouse/keyboard activity in last"
 msgstr ""
+"'Folosit' înseamnă că nu există activitate cu mouse/tastatura în ultimele"
 
 #: ../inc/prefs.inc:100 ../inc/prefs.inc:109 ../inc/prefs.inc:143
 msgid "minutes"
@@ -980,11 +990,11 @@ msgstr ""
 
 #: ../inc/prefs.inc:138
 msgid "Switch between tasks every %1 Recommended: 60 minutes %2"
-msgstr ""
+msgstr "Comută între task-uri la fiecare %1 Recomandat: 60 de minute %2"
 
 #: ../inc/prefs.inc:146
 msgid "On multiprocessors, use at most"
-msgstr ""
+msgstr "Pe multiprocesor, foloseşte cel mult"
 
 #: ../inc/prefs.inc:148
 msgid "processors"
@@ -997,7 +1007,7 @@ msgstr ""
 #: ../inc/prefs.inc:157
 #, php-format
 msgid "% of the processors"
-msgstr ""
+msgstr "% din procesoare"
 
 #: ../inc/prefs.inc:161
 msgid "Use at most %1 Can be used to reduce CPU heat %2"
@@ -1006,11 +1016,11 @@ msgstr ""
 #: ../inc/prefs.inc:166
 #, php-format
 msgid "% of CPU time"
-msgstr ""
+msgstr "% din timp CPU"
 
 #: ../inc/prefs.inc:174 ../inc/prefs.inc:188
 msgid "Disk: use at most"
-msgstr ""
+msgstr "Disc: utilizează cel mult"
 
 #: ../inc/prefs.inc:176 ../inc/prefs.inc:185
 msgid "GB"
@@ -1019,6 +1029,8 @@ msgstr "GB"
 #: ../inc/prefs.inc:179
 msgid "Disk: leave free at least %1 Values smaller than %2 are ignored %3"
 msgstr ""
+"Disc: păstrează liber cel puţin %1 Valorile mai mici decât %2 sunt ignorate "
+"%3"
 
 #: ../inc/prefs.inc:190 ../inc/prefs.inc:200 ../inc/prefs.inc:205
 #: ../inc/prefs.inc:210
@@ -1040,11 +1052,11 @@ msgstr ""
 
 #: ../inc/prefs.inc:203
 msgid "Memory: when computer is in use, use at most"
-msgstr ""
+msgstr "Memorie: când calculatorul este folosit, foloseşte cel mult"
 
 #: ../inc/prefs.inc:208
 msgid "Memory: when computer is not in use, use at most"
-msgstr ""
+msgstr "Memorie: când calculatorul nu este folosit, foloseşte cel mult"
 
 #: ../inc/prefs.inc:217
 msgid "Maintain enough tasks to keep busy for at least%1(max 10 days).%2"
@@ -1057,23 +1069,27 @@ msgstr "zile"
 
 #: ../inc/prefs.inc:225
 msgid "... and up to an additional"
-msgstr ""
+msgstr "... şi cel mult pentru încă"
 
 #: ../inc/prefs.inc:231
 msgid ""
 "Confirm before connecting to Internet? %1 Matters only if you have a modem, "
 "ISDN or VPN connection %2"
 msgstr ""
+"Confirmare înainte de conectarea la Internet? %1 Contează doar dacă aveţi o "
+"conexiune prin modem, ISDN sau VPN %2"
 
 #: ../inc/prefs.inc:240
 msgid ""
 "Disconnect when done? %1 Matters only if you have a modem, ISDN or VPN "
 "connection %2"
 msgstr ""
+"Deconectare la finalizare? %1 Contează doar dacă aveţi o conexiune prin "
+"modem, ISDN sau VPN %2"
 
 #: ../inc/prefs.inc:248
 msgid "Maximum download rate:"
-msgstr ""
+msgstr "Viteză maximă descărcare:"
 
 #: ../inc/prefs.inc:250 ../inc/prefs.inc:255
 msgid "Kbytes/sec"
@@ -1081,19 +1097,19 @@ msgstr "Kbytes/sec"
 
 #: ../inc/prefs.inc:253
 msgid "Maximum upload rate:"
-msgstr ""
+msgstr "Viteză maximă încărcare:"
 
 #: ../inc/prefs.inc:258
 msgid "Use network only between the hours of"
-msgstr ""
+msgstr "Foloseşte reţeaua doar între orele"
 
 #: ../inc/prefs.inc:262
 msgid "Transfer at most %1 Enforced by version 6.10.46+ %2"
-msgstr ""
+msgstr "Transferă cel mult %1 Impus din versiunea 6.10.46+ %2"
 
 #: ../inc/prefs.inc:268
 msgid "Mbytes every"
-msgstr ""
+msgstr "Mbytes la fiecare"
 
 #: ../inc/prefs.inc:273
 msgid ""
@@ -1112,34 +1128,40 @@ msgstr ""
 
 #: ../inc/prefs.inc:297
 msgid "Accelerate GPU tasks by dedicating a CPU to each one?"
-msgstr ""
+msgstr "Accelerează task-urile GPU prin dedicare a câte unui CPU fiecăreia?"
 
 #: ../inc/prefs.inc:307
 msgid "Use CPU %1 Enforced by version 6.10+ %2"
-msgstr ""
+msgstr "Foloseşte CPU %1 Impus de versiunea 6.10+ %2"
 
 #: ../inc/prefs.inc:319
 msgid "Use ATI GPU %1 Enforced by version 6.10+ %2"
-msgstr ""
+msgstr "Foloseşte GPU ATI %1 Impus de versiunea 6.10+ %2"
 
 #: ../inc/prefs.inc:331
 msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
-msgstr ""
+msgstr "Foloseşte GPU NVIDIA %1 Impus de versiunea 6.10+ %2"
 
 #: ../inc/prefs.inc:345
 msgid ""
 "Run test applications? %1 This helps us develop applications, but may cause "
 "jobs to fail on your computer %2"
 msgstr ""
+"Rulează aplicaţii de test? %1 Acest lucru ajută la dezvoltarea aplicaţiilor, "
+"dar poate cauza ca unele sarcini să eşueze pe calculatorul dumneavoastră %2"
 
 #: ../inc/prefs.inc:354
 msgid ""
 "Emails will be sent from %1; make sure your spam filter accepts this address."
 msgstr ""
+"Emailurile vor fi trimise de la %1; asiguraţi-vă că filtrul spam acceptă "
+"această adresă."
 
 #: ../inc/prefs.inc:361
 msgid "Is it OK for %1 and your team (if any) to email you?"
 msgstr ""
+"Este OK pentru %1 şi echipa dumneavoastră (dacă aveţi) să vă trimită "
+"emailuri?"
 
 #: ../inc/prefs.inc:367
 msgid "Should %1 show your computers on its web site?"
@@ -1147,7 +1169,7 @@ msgstr ""
 
 #: ../inc/prefs.inc:374
 msgid "Disk and memory usage"
-msgstr ""
+msgstr "Utilizare disc şi memorie"
 
 #: ../inc/prefs.inc:375
 msgid "Processor usage"
@@ -1161,6 +1183,7 @@ msgstr "Utilizare reţea"
 msgid ""
 "These preferences apply to all the BOINC projects in which you participate."
 msgstr ""
+"Aceste preferinţe se aplică la toate proiectele BOINC în care participaţi."
 
 #: ../inc/prefs.inc:382
 msgid ""
@@ -1205,15 +1228,15 @@ msgstr ""
 
 #: ../inc/prefs.inc:808
 msgid "Separate preferences for %1"
-msgstr ""
+msgstr "Preferinţe separate pentru %1"
 
 #: ../inc/prefs.inc:818 ../inc/prefs.inc:896
 msgid "Edit preferences"
-msgstr ""
+msgstr "Editează preferinţe"
 
 #: ../inc/prefs.inc:824
 msgid "Add separate preferences for %1"
-msgstr ""
+msgstr "Adaugă preferinţe separate pentru %1"
 
 #: ../inc/prefs.inc:832 ../inc/prefs.inc:877
 msgid "(Switch View)"
@@ -1221,21 +1244,21 @@ msgstr ""
 
 #: ../inc/prefs.inc:834 ../inc/prefs.inc:880
 msgid "Combined preferences"
-msgstr ""
+msgstr "Preferinţe combinate"
 
 #: ../inc/prefs.inc:839
 msgid "Project specific settings"
-msgstr ""
+msgstr "Setări specifice proiectului"
 
 #: ../inc/prefs.inc:847 ../inc/prefs.inc:889
 msgid "Primary (default) preferences"
-msgstr ""
+msgstr "Preferinţe primare (implicite)"
 
 #: ../inc/prefs.inc:856 ../user/add_venue.php:43 ../user/add_venue.php:67
 #: ../user/prefs_edit.php:40 ../user/prefs_edit.php:64
 #: ../user/prefs_edit.php:92
 msgid "Edit %1 preferences"
-msgstr ""
+msgstr "Editează preferinţele %1"
 
 #: ../inc/prefs.inc:870
 msgid ""
@@ -1246,19 +1269,19 @@ msgstr ""
 
 #: ../inc/prefs.inc:874
 msgid "Preferences last modified:"
-msgstr ""
+msgstr "Ultima modificare a preferinţelor:"
 
 #: ../inc/prefs.inc:926
 msgid "Add preferences"
-msgstr ""
+msgstr "Adaugă preferinţe"
 
 #: ../inc/prefs.inc:930
 msgid "Update preferences"
-msgstr ""
+msgstr "Actualizează preferinţe"
 
 #: ../inc/prefs.inc:1018 ../inc/prefs.inc:1027
 msgid "Default computer location"
-msgstr ""
+msgstr "Şterge locaţia implicită a calculatorului"
 
 #: ../inc/prefs_util.inc:305 ../inc/prefs_util.inc:315
 msgid "and"
@@ -1296,7 +1319,7 @@ msgstr ""
 
 #: ../inc/profile.inc:218 ../user/create_profile.php:313
 msgid "Edit your profile"
-msgstr ""
+msgstr "Modificaţi-vă profilul"
 
 #: ../inc/profile.inc:261
 msgid "Your feedback on this profile"
@@ -1320,15 +1343,15 @@ msgstr ""
 
 #: ../inc/result.inc:34
 msgid "Anonymous platform"
-msgstr ""
+msgstr "Platformă anonimă"
 
 #: ../inc/result.inc:48
 msgid "NVIDIA GPU"
-msgstr ""
+msgstr "GPU NVIDIA"
 
 #: ../inc/result.inc:49 ../user/host_app_versions.php:27
 msgid "ATI GPU"
-msgstr ""
+msgstr "GPU ATI"
 
 #: ../inc/result.inc:56
 msgid "Not in DB"
@@ -1336,7 +1359,7 @@ msgstr ""
 
 #: ../inc/result.inc:82
 msgid "pending"
-msgstr ""
+msgstr "în aşteptare"
 
 #: ../inc/result.inc:105 ../user/forum_search.php:60
 msgid "All"
@@ -1344,115 +1367,116 @@ msgstr "Toate"
 
 #: ../inc/result.inc:106 ../inc/result.inc:167 ../inc/result.inc:214
 msgid "In progress"
-msgstr ""
+msgstr "În curs"
 
 #: ../inc/result.inc:107
 msgid "Validation pending"
-msgstr ""
+msgstr "Validare în aşteptare"
 
 #: ../inc/result.inc:108
 msgid "Validation inconclusive"
-msgstr ""
+msgstr "Validare neconcludentă"
 
 #: ../inc/result.inc:109 ../inc/result.inc:259
 msgid "Valid"
-msgstr ""
+msgstr "Valid"
 
 #: ../inc/result.inc:110 ../inc/result.inc:262
 msgid "Invalid"
-msgstr ""
+msgstr "Invalid"
 
+# 83%
 #: ../inc/result.inc:111 ../inc/result.inc:200
 msgid "Error"
-msgstr ""
+msgstr "Eroare"
 
 #: ../inc/result.inc:165 ../inc/result.inc:212 ../user/explain_state.php:34
 msgid "Inactive"
-msgstr ""
+msgstr "Inactiv"
 
 #: ../inc/result.inc:166 ../inc/result.inc:213 ../user/explain_state.php:37
 msgid "Unsent"
-msgstr ""
+msgstr "Netrimise"
 
 #: ../inc/result.inc:172
 msgid "Completed, waiting for validation"
-msgstr ""
+msgstr "Finalizat, aşteaptă validare"
 
 #: ../inc/result.inc:173
 msgid "Completed and validated"
-msgstr ""
+msgstr "Finalizat şi validat"
 
 #: ../inc/result.inc:174
 msgid "Completed, marked as invalid"
-msgstr ""
+msgstr "Finalizat, marcat ca invalid"
 
 #: ../inc/result.inc:175
 msgid "Completed, can't validate"
-msgstr ""
+msgstr "Finalizat, nu se poate valida"
 
 #: ../inc/result.inc:176
 msgid "Completed, validation inconclusive"
-msgstr ""
+msgstr "Finalizat, validare neconcludentă"
 
 #: ../inc/result.inc:177
 msgid "Completed, too late to validate"
-msgstr ""
+msgstr "Finalizat, prea târziu pentru validare"
 
 #: ../inc/result.inc:179
 msgid "Completed"
-msgstr ""
+msgstr "Finalizat"
 
 #: ../inc/result.inc:180 ../inc/result.inc:224 ../user/explain_state.php:62
 msgid "Couldn't send"
-msgstr ""
+msgstr "Nu s-a putut trimite"
 
 #: ../inc/result.inc:185 ../inc/result.inc:248
 msgid "Cancelled by server"
-msgstr ""
+msgstr "Anulat de server"
 
 #: ../inc/result.inc:190
 msgid "Not started by deadline - canceled"
-msgstr ""
+msgstr "Nu s-a pornit până la termenul limită - anulat"
 
 #: ../inc/result.inc:193
 msgid "Error while downloading"
-msgstr ""
+msgstr "Eroare la descărcare"
 
 #: ../inc/result.inc:195
 msgid "Error while computing"
-msgstr ""
+msgstr "Eroare de calcul"
 
 #: ../inc/result.inc:196
 msgid "Error while uploading"
-msgstr ""
+msgstr "Eroare la încărcare"
 
 #: ../inc/result.inc:197 ../inc/result.inc:250
 msgid "Aborted by user"
-msgstr ""
+msgstr "Abandonat de utilizator"
 
 #: ../inc/result.inc:198 ../inc/result.inc:251
 msgid "Upload failed"
-msgstr ""
+msgstr "Încărcare nereuşită"
 
 #: ../inc/result.inc:201
 msgid "Timed out - no response"
-msgstr ""
+msgstr "Prea târziu - fără răspuns"
 
 #: ../inc/result.inc:202 ../inc/result.inc:231 ../user/explain_state.php:71
 msgid "Didn't need"
-msgstr ""
+msgstr "Nu a fost nevoie"
 
 #: ../inc/result.inc:203 ../inc/result.inc:232 ../user/explain_state.php:74
 msgid "Validate error"
-msgstr ""
+msgstr "Eroare de validare"
 
 #: ../inc/result.inc:204 ../inc/result.inc:233
 msgid "Abandoned"
-msgstr ""
+msgstr "Abandonat"
 
 #: ../inc/result.inc:215 ../user/explain_state.php:43
 msgid "Over"
-msgstr ""
+msgstr "Peste"
 
 #: ../inc/result.inc:223 ../user/explain_state.php:59
 msgid "Success"
@@ -1468,19 +1492,19 @@ msgstr "Rezultat redundant"
 
 #: ../inc/result.inc:230 ../user/explain_state.php:68
 msgid "No reply"
-msgstr ""
+msgstr "Fără răspuns"
 
 #: ../inc/result.inc:240 ../user/explain_state.php:85
 msgid "New"
-msgstr ""
+msgstr "Nou"
 
 #: ../inc/result.inc:241 ../user/explain_state.php:91
 msgid "Downloading"
-msgstr ""
+msgstr "Se descărcă"
 
 #: ../inc/result.inc:242
 msgid "Processing"
-msgstr ""
+msgstr "Se procesează"
 
 #: ../inc/result.inc:243
 msgid "Compute error"
@@ -1488,19 +1512,19 @@ msgstr "Eroare calcul"
 
 #: ../inc/result.inc:244 ../user/explain_state.php:97
 msgid "Uploading"
-msgstr ""
+msgstr "Se încarcă"
 
 #: ../inc/result.inc:245 ../user/explain_state.php:88
 msgid "Done"
-msgstr ""
+msgstr "Finalizat"
 
 #: ../inc/result.inc:258
 msgid "Initial"
-msgstr ""
+msgstr "Initial"
 
 #: ../inc/result.inc:264
 msgid "Not necessary"
-msgstr ""
+msgstr "Nu este necesar"
 
 #: ../inc/result.inc:265
 msgid "Workunit error - check skipped"
@@ -1516,7 +1540,7 @@ msgstr ""
 
 #: ../inc/result.inc:293
 msgid "Couldn't send result"
-msgstr ""
+msgstr "Nu s-a putut trimite rezultatul"
 
 #: ../inc/result.inc:297
 msgid "Too many errors (may have bug)"
@@ -1528,7 +1552,7 @@ msgstr ""
 
 #: ../inc/result.inc:305
 msgid "Too many total results"
-msgstr ""
+msgstr "Prea multe rezultate în total"
 
 #: ../inc/result.inc:309
 msgid "WU cancelled"
@@ -1540,12 +1564,12 @@ msgstr ""
 
 #: ../inc/result.inc:340
 msgid "Task name"
-msgstr ""
+msgstr "Nume task"
 
 #: ../inc/result.inc:340 ../inc/result.inc:345 ../inc/result.inc:348
 #: ../inc/result.inc:351
 msgid "click for details"
-msgstr ""
+msgstr "apasă pentru detalii"
 
 #: ../inc/result.inc:340
 msgid "Show IDs"
@@ -1553,23 +1577,23 @@ msgstr ""
 
 #: ../inc/result.inc:345
 msgid "Show names"
-msgstr ""
+msgstr "Arată nume"
 
 #: ../inc/result.inc:348
 msgid "Task"
-msgstr ""
+msgstr "Task"
 
 #: ../inc/result.inc:351
 msgid "Work unit"
-msgstr ""
+msgstr "Unitate de lucru"
 
 #: ../inc/result.inc:354
 msgid "Computer"
-msgstr ""
+msgstr "Calculator"
 
 #: ../inc/result.inc:357 ../inc/result.inc:617
 msgid "Sent"
-msgstr ""
+msgstr "Trimis"
 
 #: ../inc/result.inc:358
 msgid "Time reported<br />or deadline"
@@ -1577,23 +1601,23 @@ msgstr ""
 
 #: ../inc/result.inc:359
 msgid "explain"
-msgstr ""
+msgstr "explică"
 
 #: ../inc/result.inc:361 ../user/server_status.php:246
 msgid "Status"
-msgstr ""
+msgstr "Stare"
 
 #: ../inc/result.inc:362
 msgid "Run time<br />(sec)"
-msgstr ""
+msgstr "Timp rulare<br />(sec)"
 
 #: ../inc/result.inc:363
 msgid "CPU time<br />(sec)"
-msgstr ""
+msgstr "Timp CPU<br />(sec)"
 
 #: ../inc/result.inc:364 ../inc/result.inc:628
 msgid "Credit"
-msgstr ""
+msgstr "Credit"
 
 #: ../inc/result.inc:365 ../inc/result.inc:710
 msgid "Application"
@@ -1605,19 +1629,19 @@ msgstr "Unitate de lucru"
 
 #: ../inc/result.inc:618
 msgid "Received"
-msgstr ""
+msgstr "Primit"
 
 #: ../inc/result.inc:619
 msgid "Server state"
-msgstr ""
+msgstr "Stare server"
 
 #: ../inc/result.inc:620
 msgid "Outcome"
-msgstr ""
+msgstr "Rezultat"
 
 #: ../inc/result.inc:621
 msgid "Client state"
-msgstr ""
+msgstr "Stare client"
 
 #: ../inc/result.inc:622
 msgid "Exit status"
@@ -1629,7 +1653,7 @@ msgstr ""
 
 #: ../inc/result.inc:625
 msgid "Run time"
-msgstr ""
+msgstr "Timp rulare"
 
 #: ../inc/result.inc:626
 msgid "CPU time"
@@ -1637,7 +1661,7 @@ msgstr "Timp CPU"
 
 #: ../inc/result.inc:627
 msgid "Validate state"
-msgstr ""
+msgstr "Stare validare"
 
 #: ../inc/result.inc:629
 msgid "Application version"
@@ -1653,7 +1677,7 @@ msgstr ""
 
 #: ../inc/result.inc:692
 msgid "State"
-msgstr ""
+msgstr "Stare"
 
 #: ../inc/team.inc:33
 msgid "Search criteria (use one or more)"
@@ -1661,7 +1685,7 @@ msgstr ""
 
 #: ../inc/team.inc:34
 msgid "Key words"
-msgstr ""
+msgstr "Cuvinte cheie"
 
 #: ../inc/team.inc:34
 msgid "Find teams with these words in their names or descriptions"
@@ -1683,7 +1707,7 @@ msgstr "Tip echipă"
 
 #: ../inc/team.inc:44
 msgid "Show only active teams"
-msgstr ""
+msgstr "Arată numai echipele active"
 
 #: ../inc/team.inc:45 ../user/profile_menu.php:77 ../user/user_search.php:70
 msgid "Search"
@@ -1720,7 +1744,7 @@ msgstr ""
 
 #: ../inc/team.inc:80
 msgid "Team info"
-msgstr ""
+msgstr "Informaţii echipă"
 
 #: ../inc/team.inc:82 ../user/team_forum.php:70 ../user/team_search.php:69
 msgid "Description"
@@ -1732,7 +1756,7 @@ msgstr ""
 
 #: ../inc/team.inc:112
 msgid "Cross-project stats"
-msgstr ""
+msgstr "Statistici multi-proiect"
 
 #: ../inc/team.inc:115 ../inc/team.inc:366 ../user/team_search.php:71
 msgid "Type"
@@ -1758,7 +1782,7 @@ msgstr ""
 
 #: ../inc/team.inc:132
 msgid "Not accepting new members"
-msgstr ""
+msgstr "Nu acceptă noi membri"
 
 #: ../inc/team.inc:139
 msgid "Foundership change requested"
@@ -1794,7 +1818,7 @@ msgstr "Număr total membrii"
 
 #: ../inc/team.inc:177 ../inc/team.inc:178 ../inc/team.inc:179
 msgid "view"
-msgstr ""
+msgstr "vizualizare"
 
 #: ../inc/team.inc:178
 msgid "Active members"
@@ -1822,7 +1846,7 @@ msgstr "Următorii %1"
 
 #: ../inc/team.inc:281
 msgid "No such team."
-msgstr ""
+msgstr "Nu există echipa."
 
 #: ../inc/team.inc:294
 msgid "This operation requires foundership."
@@ -1854,7 +1878,7 @@ msgstr ""
 
 #: ../inc/team.inc:430
 msgid "Team name, HTML version"
-msgstr ""
+msgstr "Nume echipă, versiune HTML"
 
 #: ../inc/team.inc:432 ../inc/team.inc:442
 msgid "You may use %1limited HTML tags%2."
@@ -1862,7 +1886,7 @@ msgstr ""
 
 #: ../inc/team.inc:433
 msgid "If you don't know HTML, leave this box blank."
-msgstr ""
+msgstr "Dacă nu ştiţi HTML, lăsaţi această căsuţă liberă."
 
 #: ../inc/team.inc:436
 msgid "URL of team web page, if any"
@@ -1914,25 +1938,25 @@ msgstr ""
 
 #: ../inc/user.inc:150 ../user/pending.php:64
 msgid "Pending credit"
-msgstr ""
+msgstr "Credit în aşteptare"
 
 #: ../inc/user.inc:150 ../inc/user.inc:152 ../inc/user.inc:153
 #: ../inc/user.inc:218 ../inc/user.inc:243 ../inc/user.inc:327
 #: ../inc/user.inc:402 ../user/view_profile.php:64
 msgid "View"
-msgstr ""
+msgstr "Vizualizări"
 
 #: ../inc/user.inc:152
 msgid "Computers on this account"
-msgstr ""
+msgstr "Calculatoare în acest cont"
 
 #: ../inc/user.inc:162
 msgid "Cross-project ID"
-msgstr ""
+msgstr "ID multi-proiect"
 
 #: ../inc/user.inc:163
 msgid "Cross-project statistics"
-msgstr ""
+msgstr "Statistici multi-proiect"
 
 #: ../inc/user.inc:164
 msgid "Account"
@@ -1945,7 +1969,7 @@ msgstr "Echipă"
 
 #: ../inc/user.inc:168
 msgid "Cross-project"
-msgstr ""
+msgstr "Multi-proiect"
 
 #: ../inc/user.inc:169
 msgid "Certificate"
@@ -2006,7 +2030,7 @@ msgstr ""
 
 #: ../inc/user.inc:217 ../user/weak_auth.php:25
 msgid "Account keys"
-msgstr ""
+msgstr "Chei cont"
 
 #: ../inc/user.inc:222
 msgid "Preferences"
@@ -2014,11 +2038,11 @@ msgstr "Preferinţe"
 
 #: ../inc/user.inc:225
 msgid "When and how BOINC uses your computer"
-msgstr ""
+msgstr "Când şi cum foloseşte BOINC calculatorul dumneavoastră"
 
 #: ../inc/user.inc:226
 msgid "Computing preferences"
-msgstr ""
+msgstr "Preferinţe calcul"
 
 #: ../inc/user.inc:229
 msgid "Message boards and private messages"
@@ -2026,15 +2050,15 @@ msgstr ""
 
 #: ../inc/user.inc:230 ../user/edit_forum_preferences_form.php:31
 msgid "Community preferences"
-msgstr ""
+msgstr "Preferinţe comunitate"
 
 #: ../inc/user.inc:233
 msgid "Preferences for this project"
-msgstr ""
+msgstr "Preferinţe pentru acest proiect"
 
 #: ../inc/user.inc:234 ../user/prefs.php:32
 msgid "%1 preferences"
-msgstr ""
+msgstr "Preferinţe %1"
 
 #: ../inc/user.inc:240 ../user/sample_index.php:114
 msgid "Community"
@@ -2058,15 +2082,15 @@ msgstr ""
 
 #: ../inc/user.inc:262 ../user/edit_forum_preferences_form.php:51
 msgid "Notifications"
-msgstr ""
+msgstr "Anunţuri"
 
 #: ../inc/user.inc:269
 msgid "Quit team"
-msgstr ""
+msgstr "Părăseşte echipa"
 
 #: ../inc/user.inc:271 ../inc/user.inc:288
 msgid "Administer"
-msgstr ""
+msgstr "Administrează"
 
 #: ../inc/user.inc:277 ../inc/user.inc:290
 msgid "(foundership change request pending)"
@@ -2074,7 +2098,7 @@ msgstr ""
 
 #: ../inc/user.inc:279
 msgid "Member of team"
-msgstr ""
+msgstr "Membru al echipei"
 
 #: ../inc/user.inc:281
 msgid "find a team"
@@ -2082,7 +2106,7 @@ msgstr "găseşte o echipă"
 
 #: ../inc/user.inc:292
 msgid "Founder but not member of"
-msgstr ""
+msgstr "Fondator dar nu membru al"
 
 #: ../inc/user.inc:298
 msgid "Find friends"
@@ -2115,11 +2139,11 @@ msgstr ""
 
 #: ../inc/user.inc:385 ../user/friend.php:37
 msgid "Request pending"
-msgstr ""
+msgstr "Cerere în aşteptare"
 
 #: ../inc/user.inc:387
 msgid "Add as friend"
-msgstr ""
+msgstr "Adaugă prieten"
 
 #: ../inc/user.inc:446
 msgid "user name cannot have leading or trailing white space"
@@ -2127,7 +2151,7 @@ msgstr ""
 
 #: ../inc/user.inc:450
 msgid "user name must be nonempty"
-msgstr ""
+msgstr "numele de utilizator nu trebuie să fie gol"
 
 #: ../inc/user.inc:454
 msgid "user name may not contain HTML tags"
@@ -2181,7 +2205,7 @@ msgstr ""
 
 #: ../inc/util.inc:503
 msgid "View the profile of %1"
-msgstr ""
+msgstr "Vizualizaţi profilul lui %1"
 
 #: ../inc/util.inc:559
 msgid "Use BBCode tags to format your text"
@@ -2197,7 +2221,7 @@ msgstr ""
 
 #: ../inc/util.inc:791
 msgid "Unable to connect to database - please try again later"
-msgstr ""
+msgstr "Nu s-a putut conecta la baza de date - vă rugăm încercaţi mai târziu"
 
 #: ../inc/util.inc:792
 msgid "Error:"
@@ -2205,7 +2229,7 @@ msgstr "Eroare:"
 
 #: ../inc/util.inc:796
 msgid "Unable to select database - please try again later"
-msgstr ""
+msgstr "Nu s-a putut selecta baza de date - vă rugăm încercaţi mai târziu"
 
 #: ../inc/util_ops.inc:129 ../user/get_passwd.php:72
 msgid "Stay logged in on this computer"
@@ -2233,11 +2257,11 @@ msgstr "Opţional"
 
 #: ../user/account_finish_action.php:27
 msgid "You must supply a name for your account"
-msgstr ""
+msgstr "Trebuie să furnizaţi un nume pentru cont"
 
 #: ../user/account_finish_action.php:30
 msgid "HTML tags not allowed in name"
-msgstr ""
+msgstr "Tag-urile HTML nu sunt permise în nume"
 
 #: ../user/add_venue.php:85
 msgid "Add %1 preferences for %2"
@@ -2450,7 +2474,7 @@ msgstr "Cod Invitaţie"
 
 #: ../user/create_account_form.php:81
 msgid "A valid invitation code is required to create an account."
-msgstr ""
+msgstr "Un cod valid de invitaţie este necesar pentru a crea un cont."
 
 #: ../user/create_account_form.php:91
 msgid "Email Address"
@@ -2458,7 +2482,7 @@ msgstr "Adresă Email"
 
 #: ../user/create_account_form.php:91
 msgid "Must be a valid address of the form 'name@domain'."
-msgstr ""
+msgstr "Trebuie să fie o adresă validă de forma 'nume@domeniu'."
 
 #: ../user/create_account_form.php:100 ../user/edit_email_form.php:48
 msgid "Password"
@@ -2518,7 +2542,7 @@ msgstr ""
 
 #: ../user/create_profile.php:110
 msgid "Please enter the words shown in the image."
-msgstr ""
+msgstr "Vă rugăm introduceţi cuvintele din imagine."
 
 #: ../user/create_profile.php:115
 msgid "Create/edit profile"
@@ -2556,20 +2580,22 @@ msgstr ""
 
 #: ../user/create_profile.php:285
 msgid "Could not update the profile: database error"
-msgstr ""
+msgstr "Nu s-a putut actualiza profilul: eroare bază de date"
 
 #: ../user/create_profile.php:297
 msgid "Could not create the profile: database error"
-msgstr ""
+msgstr "Nu s-a putut crea profilul: eroare bază de date"
 
 #: ../user/create_profile.php:302
 msgid "Profile saved"
-msgstr ""
+msgstr "Profil salvat"
 
 #: ../user/create_profile.php:304
 msgid ""
 "Congratulations! Your profile was successfully entered into our database."
 msgstr ""
+"Felicitări ! Profilul dumneavoastră a fost înregistrat cu succes în baza "
+"noastră de date."
 
 #: ../user/create_profile.php:306
 msgid "%1View your profile%2"
@@ -2577,7 +2603,7 @@ msgstr ""
 
 #: ../user/create_profile.php:315
 msgid "Create a profile"
-msgstr ""
+msgstr "Crează un profil"
 
 #: ../user/create_profile.php:343
 msgid ""
@@ -2587,19 +2613,19 @@ msgstr ""
 
 #: ../user/delete_account.php:57
 msgid "Couldn't delete account"
-msgstr ""
+msgstr "Nu s-a putut şterge contul"
 
 #: ../user/delete_account.php:59
 msgid "Account deleted"
-msgstr ""
+msgstr "Cont şters"
 
 #: ../user/delete_account.php:60
 msgid "Your account has been deleted."
-msgstr ""
+msgstr "Contul dumneavoastră a fost şters."
 
 #: ../user/delete_account.php:64
 msgid "Confirm delete account"
-msgstr ""
+msgstr "Confirmaţi ştergere cont"
 
 #: ../user/delete_account.php:67
 msgid ""
@@ -2684,15 +2710,15 @@ msgstr ""
 
 #: ../user/donated.php:25
 msgid "PayPal - Transaction Completed"
-msgstr ""
+msgstr "PayPal - Trabzacţie Finalizată"
 
 #: ../user/donated.php:28
 msgid "Thank you for donating!"
-msgstr ""
+msgstr "Vă mulţumim pentru donaţie!"
 
 #: ../user/donated.php:29
 msgid "Your donation for has been completed."
-msgstr ""
+msgstr "Donaţie dumneavoastră a fost finalizată."
 
 #: ../user/donated.php:30
 msgid ""
@@ -2709,7 +2735,7 @@ msgstr ""
 
 #: ../user/donations.php:34
 msgid "%1 donations"
-msgstr ""
+msgstr "%1 donaţii"
 
 #: ../user/donations.php:39
 msgid ""
@@ -2742,7 +2768,7 @@ msgstr "Valoare estimată în"
 
 #: ../user/donations.php:320 ../user/donations.php:324
 msgid "Anonymous donation"
-msgstr ""
+msgstr "Donaţie anonimă"
 
 #: ../user/donations.php:320
 msgid ""
@@ -2768,7 +2794,7 @@ msgstr ""
 
 #: ../user/download_network.php:28
 msgid "You can download applications in several categories."
-msgstr ""
+msgstr "Puteţi descărca aplicaţii în mai multe categorii."
 
 #: ../user/download_network.php:31
 msgid ""
@@ -2797,15 +2823,17 @@ msgstr ""
 
 #: ../user/edit_email_action.php:34 ../user/edit_email_action.php:36
 msgid "New email address '%1' is invalid."
-msgstr ""
+msgstr "Noua adresă de email '%1' este invalidă."
 
 #: ../user/edit_email_action.php:38
 msgid "New email address is same as existing address. Nothing is changed."
 msgstr ""
+"Noua adresă de email este aceeaşi cu adresa existentă. Nu s-a schimbat "
+"nimic."
 
 #: ../user/edit_email_action.php:42
 msgid "There's already an account with that email address"
-msgstr ""
+msgstr "Există deja un cont cu această adresă de email"
 
 #: ../user/edit_email_action.php:54
 msgid "Invalid password."
@@ -2813,41 +2841,43 @@ msgstr "Parolă greşită."
 
 #: ../user/edit_email_action.php:62
 msgid "The email address of your account is now %1."
-msgstr ""
+msgstr "Adresa de email a contului dumneavoastră este acum %1."
 
 #: ../user/edit_email_action.php:64
 msgid "Please %1validate this email address%2."
-msgstr ""
+msgstr "Vă rugăm %1validaţi adresa de email%2."
 
 #: ../user/edit_email_action.php:67
 msgid ""
 "We can't update your email address due to a database problem.  Please try "
 "again later."
 msgstr ""
+"Nu putem actualiza adresa dumneavoastră de email din cauza unei probleme a "
+"bazei de date.  Vă rugăm încercaţi mai târziu."
 
 #: ../user/edit_email_form.php:28 ../user/edit_email_form.php:52
 msgid "Change email address"
-msgstr ""
+msgstr "Modifică adresă email"
 
 #: ../user/edit_email_form.php:37
 msgid "Change the email address of your account"
-msgstr ""
+msgstr "Modifică adresa de email a contului dumneavoastră"
 
 #: ../user/edit_email_form.php:38
 msgid "New email address"
-msgstr ""
+msgstr "Adresă email nouă"
 
 #: ../user/edit_email_form.php:39
 msgid "Must be a valid address of the form 'name@domain'"
-msgstr ""
+msgstr "Trebuie să fie o adresă validă de forma 'nume@domeniu'"
 
 #: ../user/edit_email_form.php:49
 msgid "No password?"
-msgstr ""
+msgstr "Fără parolă?"
 
 #: ../user/edit_forum_preferences_action.php:33
 msgid "Confirm reset"
-msgstr ""
+msgstr "Confirmaţi resetare"
 
 #: ../user/edit_forum_preferences_action.php:34
 msgid ""
@@ -2857,7 +2887,7 @@ msgstr ""
 
 #: ../user/edit_forum_preferences_action.php:38
 msgid "Reset preferences"
-msgstr ""
+msgstr "Şterge preferinţe"
 
 #: ../user/edit_forum_preferences_action.php:88
 msgid "Error: Not the right kind of file, only PNG and JPEG are supported."
@@ -2870,7 +2900,7 @@ msgstr ""
 #: ../user/edit_forum_preferences_action.php:132
 #: ../user/edit_forum_preferences_action.php:146
 msgid "No such user: %1"
-msgstr ""
+msgstr "Nu există utilizatorul: %1"
 
 #: ../user/edit_forum_preferences_form.php:56
 msgid ""
@@ -2884,11 +2914,11 @@ msgstr ""
 
 #: ../user/edit_forum_preferences_form.php:58
 msgid "Immediately, by email"
-msgstr ""
+msgstr "Imediat, pe email"
 
 #: ../user/edit_forum_preferences_form.php:59
 msgid "In a single daily email"
-msgstr ""
+msgstr "Într-un singur mail zilnic"
 
 #: ../user/edit_forum_preferences_form.php:75
 msgid "Message-board identity"
@@ -2904,11 +2934,11 @@ msgstr ""
 
 #: ../user/edit_forum_preferences_form.php:78
 msgid "Format: JPG or PNG. Size: at most 4 KB, 100x100 pixels"
-msgstr ""
+msgstr "Format: JPG sau PNG. Dimensiunea: cel mult 4 KB, 100x100 pixeli"
 
 #: ../user/edit_forum_preferences_form.php:80
 msgid "Don't use an avatar"
-msgstr ""
+msgstr "Nu folosi avatar"
 
 #: ../user/edit_forum_preferences_form.php:82
 msgid "Use a Globally Recognized Avatar provided by %1"
@@ -3007,11 +3037,11 @@ msgstr ""
 
 #: ../user/edit_forum_preferences_form.php:148
 msgid "Message filtering"
-msgstr ""
+msgstr "Filtrare mesaje"
 
 #: ../user/edit_forum_preferences_form.php:164
 msgid "Filtered users"
-msgstr ""
+msgstr "Utilizatori filtraţi"
 
 #: ../user/edit_forum_preferences_form.php:165
 msgid "Ignore message board posts and private messages from these users."
@@ -3032,7 +3062,7 @@ msgstr ""
 #: ../user/edit_forum_preferences_form.php:175
 #: ../user/edit_forum_preferences_form.php:177
 msgid "Reset"
-msgstr ""
+msgstr "Resetează"
 
 #: ../user/edit_forum_preferences_form.php:176
 msgid "Or click here to reset preferences to the defaults"
@@ -3048,7 +3078,7 @@ msgstr ""
 
 #: ../user/edit_passwd_action.php:59
 msgid "Invalid password"
-msgstr ""
+msgstr "Parolă greşită"
 
 #: ../user/edit_passwd_action.php:63 ../user/edit_passwd_form.php:28
 #: ../user/edit_passwd_form.php:58
@@ -3111,7 +3141,7 @@ msgstr ""
 
 #: ../user/edit_user_info_form.php:29
 msgid "Edit account information"
-msgstr ""
+msgstr "Editează informaţii cont"
 
 #: ../user/edit_user_info_form.php:34
 msgid "Name %1 real name or nickname%2"
@@ -3131,7 +3161,7 @@ msgstr "Actualizează informaţii"
 
 #: ../user/explain_state.php:27
 msgid "Server states"
-msgstr ""
+msgstr "Stare server"
 
 #: ../user/explain_state.php:30
 msgid ""
@@ -3152,7 +3182,7 @@ msgstr ""
 
 #: ../user/explain_state.php:40
 msgid "In Progress"
-msgstr ""
+msgstr "În curs"
 
 #: ../user/explain_state.php:41
 msgid "The task has been sent; waiting for completion."
@@ -3192,7 +3222,7 @@ msgstr ""
 
 #: ../user/explain_state.php:65
 msgid "Client error"
-msgstr ""
+msgstr "Eroare client"
 
 #: ../user/explain_state.php:66
 msgid "The task was sent to a computer and an error occurred."
@@ -3240,7 +3270,7 @@ msgstr ""
 
 #: ../user/explain_state.php:95
 msgid "An error occurred during computation."
-msgstr ""
+msgstr "A apărut o eroare în timpul calculelor."
 
 #: ../user/explain_state.php:98
 msgid "The computer couldn't upload the output files."
@@ -3282,7 +3312,7 @@ msgstr ""
 
 #: ../user/explain_state.php:120
 msgid "Unknown field"
-msgstr ""
+msgstr "Câmp necunscout"
 
 #: ../user/ffmail_action.php:47
 msgid "Email preview"
@@ -3294,7 +3324,7 @@ msgstr ""
 
 #: ../user/ffmail_action.php:57
 msgid "Send email"
-msgstr ""
+msgstr "Trimite email"
 
 #: ../user/ffmail_action.php:59
 msgid "Use your browser's back button to return to message form"
@@ -3302,7 +3332,7 @@ msgstr ""
 
 #: ../user/ffmail_action.php:63
 msgid "Sending emails"
-msgstr ""
+msgstr "Se trimite email"
 
 #: ../user/ffmail_action.php:84
 msgid "email sent successfully to %1"
@@ -3345,11 +3375,11 @@ msgstr ""
 
 #: ../user/ffmail_form.php:43
 msgid "Your name:"
-msgstr ""
+msgstr "Numele dumneavoastră:"
 
 #: ../user/ffmail_form.php:43
 msgid "Your email address:"
-msgstr ""
+msgstr "Adresa dumneavoastră de email:"
 
 #: ../user/ffmail_form.php:49
 msgid "Friend's name:"
@@ -3365,7 +3395,7 @@ msgstr ""
 
 #: ../user/ffmail_form.php:60
 msgid "Send"
-msgstr ""
+msgstr "Trimite"
 
 #: ../user/forum_banishment_vote.php:35
 #: ../user/forum_banishment_vote_action.php:33
@@ -3399,13 +3429,13 @@ msgstr ""
 
 #: ../user/forum_banishment_vote.php:62 ../user/forum_moderate_thread.php:50
 msgid "Category"
-msgstr ""
+msgstr "Categorie"
 
 #: ../user/forum_banishment_vote.php:64
 #: ../user/forum_banishment_vote_action.php:57
 #: ../user/forum_moderate_post.php:55 ../user/forum_moderate_thread.php:52
 msgid "Obscene"
-msgstr ""
+msgstr "Obscen"
 
 #: ../user/forum_banishment_vote.php:65
 #: ../user/forum_banishment_vote_action.php:59
@@ -3423,12 +3453,12 @@ msgstr ""
 #: ../user/forum_banishment_vote_action.php:63
 #: ../user/forum_moderate_post.php:60 ../user/forum_moderate_thread.php:55
 msgid "Other"
-msgstr ""
+msgstr "Altele"
 
 #: ../user/forum_banishment_vote.php:69 ../user/forum_moderate_post.php:53
 #: ../user/forum_moderate_thread.php:85
 msgid "Reason"
-msgstr ""
+msgstr "Motiv"
 
 #: ../user/forum_banishment_vote.php:69 ../user/forum_moderate_thread.php:85
 msgid "Mailed if nonempty"
@@ -3459,13 +3489,13 @@ msgstr "Forum"
 
 #: ../user/forum_edit.php:110
 msgid "Edit your message"
-msgstr ""
+msgstr "Editează acest mesaj"
 
 #: ../user/forum_edit.php:115 ../user/forum_edit.php:120
 #: ../user/forum_post.php:109 ../user/forum_post.php:111
 #: ../user/team_forum.php:69
 msgid "Title"
-msgstr ""
+msgstr "Titlu"
 
 #: ../user/forum_edit.php:144 ../user/forum_post.php:129
 msgid "Add my signature to this post"
@@ -3519,9 +3549,11 @@ msgstr ""
 msgid "unread/locked"
 msgstr ""
 
+# 81%
 #: ../user/forum_forum.php:186
+#, fuzzy
 msgid "You haven't read this thread yet"
-msgstr ""
+msgstr "Nu aţi citit acest mesaj încă"
 
 #: ../user/forum_forum.php:192
 msgid "This thread is sticky and locked"
@@ -3557,7 +3589,7 @@ msgstr ""
 
 #: ../user/forum_help_desk.php:27
 msgid "Questions and answers"
-msgstr ""
+msgstr "Întrebări şi răspunsuri"
 
 #: ../user/forum_help_desk.php:30
 msgid ""
@@ -3571,7 +3603,7 @@ msgstr ""
 
 #: ../user/forum_help_desk.php:45
 msgid "Questions"
-msgstr ""
+msgstr "Întrebări"
 
 #: ../user/forum_index.php:53 ../user/team_forum.php:68
 msgid "Discussion among members of %1"
@@ -3645,7 +3677,7 @@ msgstr "1 lună"
 
 #: ../user/forum_moderate_post.php:86
 msgid "Forever"
-msgstr ""
+msgstr "Pentru totdeauna"
 
 #: ../user/forum_moderate_post.php:96
 msgid "Optional explanation %1 This is included in email to user.%2"
@@ -3688,7 +3720,7 @@ msgstr ""
 
 #: ../user/forum_moderate_thread.php:33
 msgid "not authorized"
-msgstr ""
+msgstr "neautorizat"
 
 #: ../user/forum_moderate_thread.php:36
 msgid "Moderate thread '%1'"
@@ -3728,9 +3760,11 @@ msgstr ""
 msgid "Create new thread"
 msgstr ""
 
+# 84%
 #: ../user/forum_post.php:100
+#, fuzzy
 msgid "Create a new thread"
-msgstr ""
+msgstr "Crează o nouă echipă"
 
 #: ../user/forum_post.php:105
 msgid "Remember to add a title"
@@ -3905,7 +3939,7 @@ msgstr ""
 
 #: ../user/forum_search.php:32
 msgid "Search for keywords:"
-msgstr ""
+msgstr "Caută cuvinte cheie:"
 
 #: ../user/forum_search.php:33
 msgid "Posts that contain all the specified words will be displayed"
@@ -3925,19 +3959,19 @@ msgstr ""
 
 #: ../user/forum_search.php:39
 msgid "For example: \"43214\""
-msgstr ""
+msgstr "De exemplu: \"43214\""
 
 #: ../user/forum_search.php:41
 msgid "Search options"
-msgstr ""
+msgstr "Opţiuni căutare"
 
 #: ../user/forum_search.php:42
 msgid "Search limits"
-msgstr ""
+msgstr "Limite căutare"
 
 #: ../user/forum_search.php:43
 msgid "Search at most this many days back in time"
-msgstr ""
+msgstr "Caută cel mult acest număr de zile înapoi în timp"
 
 #: ../user/forum_search.php:50 ../user/forum_search.php:51
 msgid "%1 months"
@@ -3953,7 +3987,7 @@ msgstr ""
 
 #: ../user/forum_search.php:84
 msgid "Sort by"
-msgstr ""
+msgstr "Sortează dupa"
 
 #: ../user/forum_search.php:88
 msgid "Start the search"
@@ -4343,7 +4377,7 @@ msgstr ""
 
 #: ../user/gpu_list.php:182 ../user/stats.php:33
 msgid "Top GPU models"
-msgstr ""
+msgstr "Top modele GPU"
 
 #: ../user/gpu_list.php:183
 msgid ""
@@ -4377,7 +4411,7 @@ msgstr ""
 
 #: ../user/host_app_versions.php:39
 msgid "anonymous platform"
-msgstr ""
+msgstr "platformă anonimă"
 
 #: ../user/host_app_versions.php:42
 msgid "Missing app version"
@@ -4413,7 +4447,7 @@ msgstr ""
 
 #: ../user/host_app_versions.php:71
 msgid "Application details for host %1"
-msgstr ""
+msgstr "Detalii aplicaţie pentru gazda %1"
 
 #: ../user/host_delete.php:31
 msgid "We have no record of that computer."
@@ -4432,7 +4466,7 @@ msgstr ""
 
 #: ../user/host_delete.php:41
 msgid "Record deleted."
-msgstr ""
+msgstr "Înregistrare ştearsă."
 
 #: ../user/host_delete.php:42 ../user/host_edit_action.php:65
 msgid "Return to list of your computers"
@@ -4550,7 +4584,7 @@ msgstr ""
 
 #: ../user/html.php:30
 msgid "paragraph"
-msgstr ""
+msgstr "paragraf"
 
 #: ../user/html.php:31
 msgid "break"
@@ -4568,11 +4602,11 @@ msgstr ""
 
 #: ../user/html.php:35
 msgid "You can also use ampersand notation for special characters."
-msgstr ""
+msgstr "Puteţi folosi şi notaţia cu ampersand pentru caractere speciale."
 
 #: ../user/info.php:24 ../user/sample_index.php:74
 msgid "Read our rules and policies"
-msgstr ""
+msgstr "Citiţi regulile şi politicile noastre"
 
 #: ../user/info.php:35
 msgid "Run %1 only on authorized computers"
@@ -4584,6 +4618,9 @@ msgid ""
 "owner's permission. Some companies and schools have policies that prohibit "
 "using their computers for projects such as %1."
 msgstr ""
+"Rulaţi %1 doar pe calculatoare pe care le deţineţi sau pentru care aţi "
+"obţinut permisiunea proprietarului. Unele companii şi şcoli au proceduri "
+"care interzic folosirea calculatoarelor lor pentru proiecte ca %1."
 
 #: ../user/info.php:38
 msgid "How %1 will use your computer"
@@ -4604,7 +4641,7 @@ msgstr ""
 
 #: ../user/info.php:42
 msgid "Privacy policy"
-msgstr ""
+msgstr "Politică de confidenţialitate"
 
 #: ../user/info.php:43
 msgid ""
@@ -4667,11 +4704,16 @@ msgid ""
 "The applications run by %1 may cause some computers to overheat. If this "
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
 msgstr ""
+"Aplicaţiile rulate de %1 pot cauza ca unele calculatoare să se "
+"supraîncălzească. Dacă se întamplă acest lucru, nu mai rulaţi %1 sau "
+"folosiţi %2un program utilitar%3 care limitează utilizarea CPU."
 
 #: ../user/info.php:51
 msgid ""
 "%1 was developed by %2. BOINC was developed at the University of California."
 msgstr ""
+"%1 a fost dezvoltat de %2. BOINC a fost dezvoltat la Universitatea din "
+"California."
 
 #: ../user/info.php:53
 msgid "Liability"
@@ -4739,13 +4781,15 @@ msgstr ""
 
 #: ../user/language_select.php:94
 msgid "Use browser language setting"
-msgstr ""
+msgstr "Foloseşte setările de limba ale broswer-ului"
 
 #: ../user/language_select.php:110
 msgid ""
 "Translations are done by volunteers.  If your native language is not here, "
 "%1you can provide a translation%2."
 msgstr ""
+"Traducerile sunt efectuate de voluntari.  Dacă limba dumneavoastră nu este "
+"aici, %1puteţi furniza o traducere%2."
 
 #: ../user/login_form.php:52
 msgid "Email address:"
@@ -4781,7 +4825,7 @@ msgstr ""
 
 #: ../user/merge_by_name.php:74
 msgid "Return to the list of your computers"
-msgstr ""
+msgstr "Înapoi la lista calculatoarelor dumneavoastră"
 
 #: ../user/merge_by_name.php:78
 msgid ""
@@ -4854,7 +4898,7 @@ msgstr "ID Rezultat"
 
 #: ../user/pending.php:66
 msgid "Workunit ID"
-msgstr ""
+msgstr "ID Unitate de lucru"
 
 #: ../user/pending.php:66
 msgid "Host ID"
@@ -4882,11 +4926,11 @@ msgstr ""
 
 #: ../user/pm.php:83
 msgid "You have no private messages."
-msgstr ""
+msgstr "Nu aveţi nici un mesaj privat."
 
 #: ../user/pm.php:90
 msgid "Sender and date"
-msgstr ""
+msgstr "Expeditor şi data"
 
 #: ../user/pm.php:106
 msgid "Reply to this message"
@@ -4906,11 +4950,11 @@ msgstr "Deselectează tot"
 
 #: ../user/pm.php:117
 msgid "Delete selected messages"
-msgstr ""
+msgstr "Şterge mesajele selectate"
 
 #: ../user/pm.php:140
 msgid "Sender"
-msgstr ""
+msgstr "Expeditor"
 
 #: ../user/pm.php:143
 msgid "Date"
@@ -4946,7 +4990,7 @@ msgstr ""
 
 #: ../user/pm.php:240 ../user/view_profile.php:26
 msgid "No such user"
-msgstr ""
+msgstr "Nu există utilizatorul"
 
 #: ../user/pm.php:242
 msgid "Really block %1?"
@@ -4974,7 +5018,7 @@ msgstr ""
 
 #: ../user/pm.php:260 ../user/team_admins.php:97
 msgid "no such user"
-msgstr ""
+msgstr "nu există utilizatorul"
 
 #: ../user/pm.php:263
 msgid "User %1 blocked"
@@ -5096,7 +5140,7 @@ msgstr ""
 
 #: ../user/profile_rate.php:34
 msgid "Vote Recorded"
-msgstr ""
+msgstr "Vot Înregistrat"
 
 #: ../user/profile_rate.php:38
 msgid "Thank you"
@@ -5128,7 +5172,7 @@ msgstr ""
 
 #: ../user/profile_search_action.php:44
 msgid "Recent credit"
-msgstr ""
+msgstr "Credit recent"
 
 #: ../user/profile_search_action.php:54
 msgid "No profiles found containing '%1'"
@@ -5136,7 +5180,7 @@ msgstr ""
 
 #: ../user/result.php:30
 msgid "No such task"
-msgstr ""
+msgstr "Nu există task-ul"
 
 #: ../user/result.php:32
 msgid "Task %1"
@@ -5152,7 +5196,7 @@ msgstr ""
 
 #: ../user/results.php:63
 msgid "No access"
-msgstr ""
+msgstr "Fără acces"
 
 #: ../user/results.php:69
 msgid "Missing user ID or host ID"
@@ -5244,27 +5288,27 @@ msgstr "Serverul de baze de date nu este accesibil"
 
 #: ../user/server_status.php:331
 msgid "Tasks ready to send"
-msgstr ""
+msgstr "Task-uri gata de trimis"
 
 #: ../user/server_status.php:336 ../user/workunit.php:55
 msgid "Tasks in progress"
-msgstr ""
+msgstr "Task-uri în curs"
 
 #: ../user/server_status.php:341
 msgid "Workunits waiting for validation"
-msgstr ""
+msgstr "Unităţi de lucru aşteptând validarea"
 
 #: ../user/server_status.php:346
 msgid "Workunits waiting for assimilation"
-msgstr ""
+msgstr "Unităţi de lucru aşteptând asimilarea"
 
 #: ../user/server_status.php:351
 msgid "Workunits waiting for file deletion"
-msgstr ""
+msgstr "Unităţi de lucru aşteptând ştergerea"
 
 #: ../user/server_status.php:356
 msgid "Tasks waiting for file deletion"
-msgstr ""
+msgstr "Task-uri aşteptând ştergerea"
 
 #: ../user/server_status.php:373
 msgid "Transitioner backlog (hours)"
@@ -5276,23 +5320,23 @@ msgstr "Utilizatori"
 
 #: ../user/server_status.php:382 ../user/server_status.php:398
 msgid "with recent credit"
-msgstr ""
+msgstr "cu credit recent"
 
 #: ../user/server_status.php:387 ../user/server_status.php:403
 msgid "with credit"
-msgstr ""
+msgstr "cu credit"
 
 #: ../user/server_status.php:392 ../user/server_status.php:408
 msgid "registered in past 24 hours"
-msgstr ""
+msgstr "înregistraţi în ultimele 24 de ore"
 
 #: ../user/server_status.php:414
 msgid "current GigaFLOPs"
-msgstr ""
+msgstr "GigaFLOP curent"
 
 #: ../user/server_status.php:423
 msgid "Tasks by application"
-msgstr ""
+msgstr "Task-uri după aplicaţie"
 
 #: ../user/server_status.php:426 ../user/workunit.php:40
 msgid "application"
@@ -5387,7 +5431,7 @@ msgstr ""
 
 #: ../user/team.php:36
 msgid "remove members from the team"
-msgstr ""
+msgstr "elimină membri din echipă"
 
 #: ../user/team.php:37
 msgid "disband a team if it has no members"
@@ -5424,7 +5468,7 @@ msgstr ""
 
 #: ../user/team_admins.php:40 ../user/team_admins.php:51
 msgid "Add or remove Team Admins"
-msgstr ""
+msgstr "Adaugă sau şterge Administratori Echipă"
 
 #: ../user/team_admins.php:41
 msgid "You can select team members as 'Team Admins'. Team Admins can:"
@@ -5450,7 +5494,7 @@ msgstr ""
 
 #: ../user/team_admins.php:49
 msgid "Change the team founder"
-msgstr ""
+msgstr "Schimbă fondator echipă"
 
 #: ../user/team_admins.php:50 ../user/team_manage.php:54
 msgid "Remove members"
@@ -5468,11 +5512,11 @@ msgstr ""
 
 #: ../user/team_admins.php:59
 msgid "There are currently no Team Admins"
-msgstr ""
+msgstr "Nu există momentan Administratori Echipă"
 
 #: ../user/team_admins.php:61
 msgid "Current Team Admins"
-msgstr ""
+msgstr "Administratori Echipă Curenţi"
 
 #: ../user/team_admins.php:62
 msgid "Became Team Admin on"
@@ -5582,11 +5626,11 @@ msgstr ""
 
 #: ../user/team_create_action.php:54
 msgid "Could not create team - please try later."
-msgstr ""
+msgstr "Nu s-a putut crea echipa - vă rugăm încercaţi mai târziu."
 
 #: ../user/team_create_form.php:27 ../user/team_create_form.php:32
 msgid "Create a team"
-msgstr ""
+msgstr "Crează o nouă echipă"
 
 #: ../user/team_create_form.php:30
 msgid ""
@@ -5599,7 +5643,7 @@ msgstr ""
 
 #: ../user/team_delta.php:72
 msgid "Team history for %1"
-msgstr ""
+msgstr "Istoric echipă pentru %1"
 
 #: ../user/team_delta.php:75
 msgid "When"
@@ -5735,19 +5779,19 @@ msgstr ""
 
 #: ../user/team_forum.php:144
 msgid "Update successful"
-msgstr ""
+msgstr "Actualizare reuşită"
 
 #: ../user/team_forum.php:147
 msgid "Update failed"
-msgstr ""
+msgstr "Actualizare eşuată"
 
 #: ../user/team_forum.php:154
 msgid "Team has no forum"
-msgstr ""
+msgstr "Echipa nu are forum"
 
 #: ../user/team_founder_transfer_action.php:36
 msgid "You must be a member of a team to access this page."
-msgstr ""
+msgstr "Trebuie să fi membru al unei echipe pentru accesa această pagină."
 
 #: ../user/team_founder_transfer_action.php:90
 msgid "Requesting foundership of %1"
@@ -5864,7 +5908,7 @@ msgstr ""
 
 #: ../user/team_join.php:36 ../user/team_join_action.php:36
 msgid "You are already a member of %1."
-msgstr ""
+msgstr "Sunteţi deja membru al %1."
 
 #: ../user/team_join.php:42 ../user/team_join_action.php:43
 msgid "Couldn't join team - please try again later."
@@ -5900,11 +5944,11 @@ msgstr ""
 
 #: ../user/team_lookup.php:84
 msgid "Search Results"
-msgstr ""
+msgstr "Rezultate Căutare"
 
 #: ../user/team_lookup.php:86
 msgid "Search results for '%1'"
-msgstr ""
+msgstr "Rezultate căutare pentru '%1'"
 
 #: ../user/team_lookup.php:88
 msgid "You may view these teams' members, statistics, and information."
@@ -5922,7 +5966,7 @@ msgstr ""
 
 #: ../user/team_manage.php:26
 msgid "Team administration for %1"
-msgstr ""
+msgstr "Administrare echipă pentru %1"
 
 #: ../user/team_manage.php:29
 msgid "Edit team info"
@@ -5930,11 +5974,11 @@ msgstr ""
 
 #: ../user/team_manage.php:30
 msgid "Change team name, URL, description, type, or country"
-msgstr ""
+msgstr "Modifică nume echipă, URL, descriere, tip sau ţara"
 
 #: ../user/team_manage.php:32
 msgid "Member list:"
-msgstr ""
+msgstr "Listă membri:"
 
 #: ../user/team_manage.php:33 ../user/team_manage.php:37
 msgid "HTML"
@@ -5946,7 +5990,7 @@ msgstr "text"
 
 #: ../user/team_manage.php:35
 msgid "View member names and email addresses"
-msgstr ""
+msgstr "Vizualizare nume membri şi adrese de email"
 
 #: ../user/team_manage.php:36
 msgid "View change history:"
@@ -5970,7 +6014,7 @@ msgstr ""
 
 #: ../user/team_manage.php:55
 msgid "Remove inactive or unwanted members from this team"
-msgstr ""
+msgstr "Şterge membri inactivi sau nedoriţi ai echipei"
 
 #: ../user/team_manage.php:57
 msgid "Transfer foundership to another member"
@@ -5978,7 +6022,7 @@ msgstr ""
 
 #: ../user/team_manage.php:58
 msgid "Add/remove Team Admins"
-msgstr ""
+msgstr "Adaugă/Şterge Administratori Echipă"
 
 #: ../user/team_manage.php:59
 msgid "Give selected team members Team Admin privileges"
@@ -5986,11 +6030,11 @@ msgstr ""
 
 #: ../user/team_manage.php:61
 msgid "Remove team"
-msgstr ""
+msgstr "Şterge echipa"
 
 #: ../user/team_manage.php:62
 msgid "Allowed only if team has no members"
-msgstr ""
+msgstr "Permis doar dacă echipa nu are membri"
 
 #: ../user/team_manage.php:64
 msgid "Create or manage a team message board"
@@ -6016,11 +6060,11 @@ msgstr ""
 
 #: ../user/team_manage.php:91
 msgid "Can't delete non-empty team"
-msgstr ""
+msgstr "Nu se poate şterge o echipă care nu e goală"
 
 #: ../user/team_manage.php:95
 msgid "Team %1 deleted"
-msgstr ""
+msgstr "Echipa %1 ştearsă"
 
 #: ../user/team_members.php:35
 msgid "Limit exceeded:  Can only display the first 1000 members."
@@ -6028,15 +6072,15 @@ msgstr ""
 
 #: ../user/team_members.php:47
 msgid "Members of %1"
-msgstr ""
+msgstr "Membrii ai %1"
 
 #: ../user/team_quit_action.php:34
 msgid "Unable to quit team"
-msgstr ""
+msgstr "Nu s-a putut părăsi echipa"
 
 #: ../user/team_quit_action.php:35
 msgid "Team doesn't exist, or you don't belong to it."
-msgstr ""
+msgstr "Echipa nu există sau nu faceţi parte din ea."
 
 #: ../user/team_quit_form.php:33
 msgid "Quit %1"
@@ -6055,27 +6099,28 @@ msgstr ""
 
 #: ../user/team_quit_form.php:42
 msgid "Quit Team"
-msgstr ""
+msgstr "Părăseşte Echipa"
 
 #: ../user/team_remove_inactive_action.php:31
 msgid "Removing users from %1"
-msgstr ""
+msgstr "Ştergere utilizatori din %1"
 
 #: ../user/team_remove_inactive_action.php:39
 msgid "%1 is not a member of %2"
-msgstr ""
+msgstr "%1 nu este membru al %2"
 
 #: ../user/team_remove_inactive_action.php:42
 msgid "%1 has been removed"
-msgstr ""
+msgstr "%1 a fost şters"
 
 #: ../user/team_remove_inactive_form.php:32
 msgid "Remove members from %1"
-msgstr ""
+msgstr "Şterge membrii din %1"
 
+# 85%
 #: ../user/team_remove_inactive_form.php:39
 msgid "Remove?"
-msgstr ""
+msgstr "Şterge?"
 
 #: ../user/team_remove_inactive_form.php:40
 msgid "Name (ID)"
@@ -6087,15 +6132,15 @@ msgstr ""
 
 #: ../user/team_remove_inactive_form.php:68
 msgid "Remove users"
-msgstr ""
+msgstr "Şterge utilizatori"
 
 #: ../user/team_search.php:68
 msgid "Team name"
-msgstr ""
+msgstr "Nume echipă"
 
 #: ../user/team_search.php:92
 msgid "Team search results"
-msgstr ""
+msgstr "Reultate căutare echipă"
 
 #: ../user/team_search.php:94
 msgid "No teams were found matching your criteria. Try another search."
@@ -6137,11 +6182,12 @@ msgstr ""
 
 #: ../user/top_hosts.php:82
 msgid "Top hosts"
-msgstr ""
+msgstr "Top gazde"
 
+# 75%
 #: ../user/top_teams.php:105
 msgid "Top %1 teams"
-msgstr ""
+msgstr "Top %1 echipe"
 
 #: ../user/top_teams.php:108
 msgid "There are no %1 teams"
@@ -6161,7 +6207,7 @@ msgstr ""
 
 #: ../user/user_search.php:51
 msgid "Filters"
-msgstr ""
+msgstr "Filtre"
 
 #: ../user/user_search.php:52
 msgid "User name starts with"
@@ -6217,7 +6263,7 @@ msgstr ""
 
 #: ../user/userw.php:35
 msgid "User not found!"
-msgstr ""
+msgstr "Utilizatorul nu a fost găsit!"
 
 #: ../user/userw.php:44
 msgid "Account Data<br/>for %1<br/>Time:"
@@ -6237,7 +6283,7 @@ msgstr ""
 
 #: ../user/userw.php:51
 msgid "Team: None"
-msgstr ""
+msgstr "Echipa: Nici una"
 
 #: ../user/validate_email_addr.php:30
 msgid "Validate BOINC email address"
@@ -6248,16 +6294,20 @@ msgid ""
 "Please visit the following link to validate the email address of your %1 "
 "account:"
 msgstr ""
+"Vă rugăm accesaţi următorul link pentru a valida adresa de mail a contului %"
+"1:"
 
 #: ../user/validate_email_addr.php:34
 msgid "Validate email sent"
-msgstr ""
+msgstr "Email validare trimis"
 
 #: ../user/validate_email_addr.php:35
 msgid ""
 "An email has been sent to %1. Visit the link it contains to validate your "
 "email address."
 msgstr ""
+"Un email a fostr trimis către %1. Vizitaţi link-ul din conţinut pentru a "
+"valida adresa de mail."
 
 #: ../user/validate_email_addr.php:44
 msgid "No such user."
@@ -6273,23 +6323,23 @@ msgstr ""
 
 #: ../user/validate_email_addr.php:57
 msgid "Validate email address"
-msgstr ""
+msgstr "Validaţi adresa de mail"
 
 #: ../user/validate_email_addr.php:58
 msgid "The email address of your account has been validated."
-msgstr ""
+msgstr "Adresa de mail a contului dumneavoastră a fost validată."
 
 #: ../user/view_profile.php:36
 msgid "This user has no profile"
-msgstr ""
+msgstr "Utilizatorul nu are un profil"
 
 #: ../user/view_profile.php:54
 msgid "Profile: %1"
-msgstr ""
+msgstr "Profil: %1"
 
 #: ../user/view_profile.php:63
 msgid "Account data"
-msgstr ""
+msgstr "Date cont"
 
 #: ../user/weak_auth.php:52
 msgid ""
@@ -6301,7 +6351,7 @@ msgstr ""
 
 #: ../user/weak_auth.php:57
 msgid "This key can be used to:"
-msgstr ""
+msgstr "Cheia poate fi folosită pentru:"
 
 #: ../user/weak_auth.php:59
 msgid "log in to your account on the web"
@@ -6341,7 +6391,7 @@ msgstr ""
 
 #: ../user/workunit.php:35
 msgid "Workunit %1"
-msgstr ""
+msgstr "Unitate de lucru %1"
 
 #: ../user/workunit.php:43
 msgid "canonical result"
@@ -6373,23 +6423,23 @@ msgstr "erori"
 
 #: ../user/workunit.php:67
 msgid "validation"
-msgstr ""
+msgstr "validare"
 
 #: ../user/workunit.php:67
 msgid "Pending"
-msgstr ""
+msgstr "În aşteptare"
 
 #: ../project.sample/project.inc:47
 msgid "Main page"
-msgstr ""
+msgstr "Pagina principală"
 
 #: ../project.sample/project.inc:49
 msgid "Copyright"
-msgstr ""
+msgstr "Drepturi de autor"
 
 #: ../project.sample/project.inc:52
 msgid "Generated"
-msgstr ""
+msgstr "Generat"
 
 #: ../project.sample/project.inc:83
 msgid "Your personal background."
@@ -6420,18 +6470,20 @@ msgstr ""
 
 #: ../project.sample/project_specific_prefs.inc:48
 msgid "Maximum CPU % for graphics%10 ... 100%2"
-msgstr ""
+msgstr "Utilizare CPU maxim % pentru grafică%10 ... 100%2"
 
 #: ../project.sample/project_specific_prefs.inc:49
 msgid "Run only the selected applications"
-msgstr ""
+msgstr "Rulează doar aplicaţiile selectate"
 
 #: ../project.sample/project_specific_prefs.inc:50
 msgid ""
 "If no work for selected applications is available, accept work from other "
 "applications?"
 msgstr ""
+"Dacă nu există de lucru pentru aplicaţiile selectate, acceptă lucru pentru "
+"alte aplicaţii?"
 
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
-msgstr ""
+msgstr "(toate aplicaţiile)"

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-08-22 16:22 PDT\n"
-"PO-Revision-Date: 2013-08-23 15:01+0200\n"
+"PO-Revision-Date: 2013-08-26 09:24+0200\n"
 "Last-Translator: mcsjohn <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
@@ -222,6 +222,10 @@ msgid ""
 "bacterial, plasmid, and virus protein sequences; and biological diversity in "
 "nature reserves. "
 msgstr ""
+"Proiectul Lattice furnizează putere de calcul cercetătorilor de la "
+"Universitatea din Maryland care studiază relaţii evoluţionare bazate pe date "
+"din secvenţa ADN; secvenţe proteice bacteriene, plasmid şi viruşi; şi "
+"diversitatea biologică în rezervele naturale. "
 
 #: projects.inc:135
 msgid "The Swiss Tropical Institute"
@@ -526,7 +530,7 @@ msgstr ""
 
 #: projects.inc:366
 msgid "Medical, environmental and other humanitarian research"
-msgstr ""
+msgstr "Cercetări medicale, de mediu şi alte cercetări umanitare"
 
 #: projects.inc:367
 msgid ""
@@ -638,6 +642,8 @@ msgid ""
 "Primegrid has multiple projects searching for different forms of very large "
 "prime numbers, including searching for the largest known prime number."
 msgstr ""
+"Primegrid are mai multe proiecte care caută diferite forme a unor numere "
+"prime foarte mari, inclusiv căutarea celui mai mare număr prim cunoscut."
 
 #: projects.inc:497
 msgid "Hochschule RheinMain University of Applied Sciences"
@@ -971,7 +977,7 @@ msgstr "BOINC se află la Universitatea California, Berkeley"
 
 #: ../html/inc/news.inc:40
 msgid "Comment"
-msgstr ""
+msgstr "Comentariu"
 
 #: ../html/inc/news.inc:111
 #, php-format
