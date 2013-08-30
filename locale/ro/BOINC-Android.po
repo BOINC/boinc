@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-08-29 15:37-0700\n"
-"PO-Revision-Date: 2013-08-30 04:41+0000\n"
-"Last-Translator: mcsjohn <marius.sirbu@outlook.com>\n"
+"PO-Revision-Date: 2013-08-30 05:32+0000\n"
+"Last-Translator: Marius <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 "20)) ? 1 : 2);;\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1377837683.0\n"
+"X-POOTLE-MTIME: 1377840755.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -35,36 +35,36 @@ msgstr "Se încarcă! Vă rugăm aşteptaţi..."
 #. project list
 msgctxt "attachproject_list_header"
 msgid "Choose a project:"
-msgstr ""
+msgstr "Alegeţi un proiect:"
 
 msgctxt "attachproject_list_manual_button"
 msgid "Add project by URL"
-msgstr ""
+msgstr "Adăugaţi proiect prin URL"
 
 msgctxt "attachproject_list_manual_dialog_title"
 msgid "Enter project URL:"
-msgstr ""
+msgstr "Introduceţi URL proiect:"
 
 msgctxt "attachproject_list_manual_dialog_button"
 msgid "Add project"
-msgstr ""
+msgstr "Adaugă proiect"
 
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
-msgstr ""
+msgstr "Vă rugăm introduceţi URL proiect"
 
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
-msgstr ""
+msgstr "Nu există conexiune la Internet"
 
 #. project login
 msgctxt "attachproject_login_loading"
 msgid "Contacting project server…"
-msgstr ""
+msgstr "Se contactează serverul proiectului..."
 
 msgctxt "attachproject_login_image_description"
 msgid "Project logo."
-msgstr ""
+msgstr "Logo proiect."
 
 msgctxt "attachproject_login_header_general_area"
 msgid "General area:"
@@ -76,37 +76,39 @@ msgstr ""
 
 msgctxt "attachproject_login_header_description"
 msgid "Description:"
-msgstr ""
+msgstr "Descriere:"
 
 msgctxt "attachproject_login_header_home"
 msgid "Home:"
-msgstr ""
+msgstr "Acasă:"
 
 msgctxt "attachproject_login_header_url"
 msgid "Website:"
-msgstr ""
+msgstr "Site web:"
 
 msgctxt "attachproject_login_header_platform"
 msgid "Android:"
-msgstr ""
+msgstr "Android:"
 
 msgctxt "attachproject_login_platform_supported"
 msgid "This project supports Android devices"
-msgstr ""
+msgstr "Acest proiect suportă dispozitive Android"
 
 msgctxt "attachproject_login_platform_not_supported"
 msgid "This project does not support Android devices"
-msgstr ""
+msgstr "Acest proiect nu suportă dispozitive Android"
 
 msgctxt "attachproject_login_category_terms_of_use"
 msgid "Terms of use for"
-msgstr ""
+msgstr "Condiţii de utilizare pentru"
 
 msgctxt "attachproject_login_accept_terms_of_use"
 msgid ""
 "By creating an account with this project, you accept the terms of use as "
 "shown above."
 msgstr ""
+"Prin crearea unui cont la acest proiect, acceptaţi condiţiile de utilizare "
+"aşa cum sunt prezentate mai sus."
 
 msgctxt "attachproject_login_category_login"
 msgid "Sign in with existing account"
@@ -114,15 +116,15 @@ msgstr ""
 
 msgctxt "attachproject_login_header_id_email"
 msgid "eMail:"
-msgstr ""
+msgstr "email:"
 
 msgctxt "attachproject_login_header_id_name"
 msgid "Name:"
-msgstr ""
+msgstr "Nume:"
 
 msgctxt "attachproject_login_header_pwd"
 msgid "Password:"
-msgstr ""
+msgstr "Parolă:"
 
 msgctxt "attachproject_login_category_creation"
 msgid "New to"
@@ -167,23 +169,23 @@ msgstr ""
 
 msgctxt "attachproject_registration_header_url"
 msgid "Project:"
-msgstr ""
+msgstr "Proiect:"
 
 msgctxt "attachproject_registration_header_email"
 msgid "eMail:"
-msgstr ""
+msgstr "email:"
 
 msgctxt "attachproject_registration_header_username"
 msgid "Name:"
-msgstr ""
+msgstr "Nume:"
 
 msgctxt "attachproject_registration_header_teamname"
 msgid "Team:"
-msgstr ""
+msgstr "Echipă:"
 
 msgctxt "attachproject_registration_header_pwd"
 msgid "Password:"
-msgstr ""
+msgstr "Parolă:"
 
 msgctxt "attachproject_registration_header_pwd_confirm"
 msgid "… Retype:"
@@ -269,15 +271,15 @@ msgstr ""
 
 msgctxt "attachproject_working_ongoing"
 msgid "…"
-msgstr ""
+msgstr "…"
 
 msgctxt "attachproject_working_finished"
 msgid "."
-msgstr ""
+msgstr "."
 
 msgctxt "attachproject_working_description"
 msgid ":"
-msgstr ""
+msgstr ":"
 
 msgctxt "attachproject_working_connect"
 msgid "Connect"
@@ -317,11 +319,11 @@ msgstr ""
 #. tab names
 msgctxt "tab_status"
 msgid "Status"
-msgstr ""
+msgstr "Stare"
 
 msgctxt "tab_projects"
 msgid "Projects"
-msgstr ""
+msgstr "Proiecte"
 
 msgctxt "tab_tasks"
 msgid "Tasks"
@@ -329,15 +331,15 @@ msgstr ""
 
 msgctxt "tab_transfers"
 msgid "Transfers"
-msgstr ""
+msgstr "Transferuri"
 
 msgctxt "tab_preferences"
 msgid "Preferences"
-msgstr ""
+msgstr "Preferințe"
 
 msgctxt "tab_desc"
 msgid "Navigation"
-msgstr ""
+msgstr "Navigare"
 
 #. status strings
 msgctxt "status_running"
@@ -346,7 +348,7 @@ msgstr ""
 
 msgctxt "status_running_long"
 msgid "Thank you for participating."
-msgstr ""
+msgstr "Mulţumim pentru participare."
 
 msgctxt "status_paused"
 msgid "Suspended"
@@ -386,7 +388,7 @@ msgstr ""
 
 msgctxt "status_image_description"
 msgid "project image"
-msgstr ""
+msgstr "imagine proiect"
 
 #. preferences tab strings
 msgctxt "prefs_loading"
@@ -395,7 +397,7 @@ msgstr ""
 
 msgctxt "prefs_submit_button"
 msgid "Save"
-msgstr ""
+msgstr "Salvează"
 
 msgctxt "prefs_dialog_title"
 msgid "Enter new value:"
@@ -403,35 +405,35 @@ msgstr ""
 
 msgctxt "prefs_dialog_title_selection"
 msgid "Select:"
-msgstr ""
+msgstr "Selectați:"
 
 msgctxt "prefs_category_general"
 msgid "General"
-msgstr ""
+msgstr "General"
 
 msgctxt "prefs_category_network"
 msgid "Network"
-msgstr ""
+msgstr "Reţea"
 
 msgctxt "prefs_category_power"
 msgid "Power"
-msgstr ""
+msgstr "Energie"
 
 msgctxt "prefs_category_cpu"
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 msgctxt "prefs_category_storage"
 msgid "Storage"
-msgstr ""
+msgstr "Stocare"
 
 msgctxt "prefs_category_memory"
 msgid "Memory"
-msgstr ""
+msgstr "Memorie"
 
 msgctxt "prefs_category_debug"
 msgid "Debug"
-msgstr ""
+msgstr "Depanare"
 
 msgctxt "prefs_show_advanced_header"
 msgid "Show advanced preferences and controls…"
