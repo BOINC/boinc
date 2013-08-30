@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2013-08-29 05:19+0000\n"
-"Last-Translator: mcsjohn <marius.sirbu@outlook.com>\n"
+"PO-Revision-Date: 2013-08-30 08:28+0000\n"
+"Last-Translator: Marius <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "20)) ? 1 : 2);;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1377753575.0\n"
+"X-POOTLE-MTIME: 1377851283.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Română"
@@ -205,11 +205,11 @@ msgstr "Întrebări şi Răspunsuri"
 #: ../inc/user.inc:375 ../user/forum_forum.php:73 ../user/sample_index.php:118
 #: ../project.sample/project.inc:47
 msgid "Message boards"
-msgstr ""
+msgstr "Panouri de mesaje"
 
 #: ../inc/forum.inc:187 ../inc/forum.inc:195
 msgid "%1 message board"
-msgstr ""
+msgstr "Panou de mesaje %1"
 
 #: ../inc/forum.inc:245 ../inc/result.inc:681
 msgid "Previous"
@@ -253,7 +253,7 @@ msgstr "Credit: %1"
 
 #: ../inc/forum.inc:597
 msgid "RAC: %1"
-msgstr ""
+msgstr "RAC: %1"
 
 #: ../inc/forum.inc:619
 msgid "You haven't read this message yet"
@@ -408,7 +408,7 @@ msgstr "Mută"
 
 #: ../inc/forum.inc:1061
 msgid "Move post to a different thread"
-msgstr ""
+msgstr "Mută postarea într-un alt fir"
 
 #: ../inc/forum.inc:1066
 msgid "Banish author"
@@ -428,7 +428,7 @@ msgstr ""
 
 #: ../inc/forum.inc:1115
 msgid "Only team members can post to the team message board"
-msgstr ""
+msgstr "Doar membri echipei pot posta în panoul de mesaje al echipei"
 
 #: ../inc/forum.inc:1125
 msgid ""
@@ -451,11 +451,11 @@ msgstr ""
 
 #: ../inc/forum.inc:1144
 msgid "Can't post to a hidden thread."
-msgstr ""
+msgstr "Nu se poate posta într-un fir ascuns."
 
 #: ../inc/forum.inc:1172
 msgid "Thread"
-msgstr ""
+msgstr "Fir"
 
 #: ../inc/forum.inc:1173 ../inc/team.inc:120 ../user/forum_forum.php:136
 #: ../user/forum_index.php:94
@@ -473,23 +473,23 @@ msgstr "Ultima postare"
 
 #: ../inc/forum.inc:1234
 msgid "New posts in the thread %1"
-msgstr ""
+msgstr "Postări noi în firul %1"
 
 #: ../inc/forum.inc:1239
 msgid "New posts in subscribed thread"
-msgstr ""
+msgstr "Postări noi în firul subscris"
 
 #: ../inc/forum.inc:1240
 msgid "There are new posts in the thread '%1'"
-msgstr ""
+msgstr "Există postări noi în firul '%1'"
 
 #: ../inc/forum.inc:1250
 msgid "Mark all threads as read"
-msgstr ""
+msgstr "Marchează toate firele ca fiind citite"
 
 #: ../inc/forum.inc:1251
 msgid "Mark all threads in all message boards as read."
-msgstr ""
+msgstr "Marchează toate firele în toate panourile de mesaje ca fiind citite."
 
 #: ../inc/host.inc:24
 msgid "No host"
