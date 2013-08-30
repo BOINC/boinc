@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project Generic\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2012-11-03 13:52+0200\n"
+"PO-Revision-Date: 2013-08-29 21:41+0000\n"
 "Last-Translator: Aycan <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber\n"
 "Language: tr\n"
@@ -14,8 +14,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-POOTLE-MTIME: 1377812478.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Türkçe"
@@ -427,19 +428,19 @@ msgstr "Bu gönderiyi başka bir foruma taşır"
 
 #: ../inc/forum.inc:1066
 msgid "Banish author"
-msgstr ""
+msgstr "Yazarı yasakla"
 
 #: ../inc/forum.inc:1073
 msgid "Vote to banish author"
-msgstr ""
+msgstr "Yazarın yasaklanması için oy ver"
 
 #: ../inc/forum.inc:1077
 msgid "Vote not to banish author"
-msgstr ""
+msgstr "Yazarın kalması için oy ver"
 
 #: ../inc/forum.inc:1082
 msgid "Start vote to banish author"
-msgstr ""
+msgstr "Yazarın yasaklanması için oylama başlat"
 
 #: ../inc/forum.inc:1115
 msgid "Only team members can post to the team message board"
@@ -1173,7 +1174,7 @@ msgstr ""
 
 #: ../inc/prefs.inc:297
 msgid "Accelerate GPU tasks by dedicating a CPU to each one?"
-msgstr ""
+msgstr "GPU işleri, işlerin her birine birer CPU atanarak hızlandırılsın mı?"
 
 #: ../inc/prefs.inc:307
 msgid "Use CPU %1 Enforced by version 6.10+ %2"
@@ -2311,7 +2312,7 @@ msgstr "Bu bilgisayarda oturumumu açık tut"
 
 #: ../user/account_finish.php:34
 msgid "Finish account setup"
-msgstr "Hesap kurulumunu bitir"
+msgstr "Hesap yapılandırmasını bitir"
 
 #: ../user/account_finish.php:41 ../user/create_account_form.php:87
 msgid "Identifies you on our web site. Use your real name or a nickname."
@@ -2384,8 +2385,8 @@ msgid ""
 "HTML)."
 msgstr ""
 "BBCode etiketleri, profilinizdeki ve mesaj panolarındaki metinleri "
-"şekillendirmenizi sağlar.\n"
-"HTML'e benzer, fakat daha basittir. Etiketler bir [ ile başlar (HTML'de "
+"biçimlendirmenizi sağlar.\n"
+"HTML gibidir, fakat daha basittir. Etiketler bir [ ile başlar (HTML'de "
 "kullanılan\n"
 "%1 gibi) ve bir ] ile biter (HTML'de kullanılan %2 gibi)."
 
@@ -2423,15 +2424,15 @@ msgstr "internet sitesine bağlantı"
 
 #: ../user/bbcode.php:39
 msgid "Quoted text"
-msgstr "Alıntı yapılmış metin"
+msgstr "Alıntı metin"
 
 #: ../user/bbcode.php:39
 msgid "use for quoted blocks of text"
-msgstr "metinden alıntı bloğu yapmak için"
+msgstr "metinden alıntı blokları yapmak için kullanın"
 
 #: ../user/bbcode.php:40
 msgid "use to display an image"
-msgstr "bir resmi görüntülemek için"
+msgstr "resim göstermek için kullanın"
 
 #: ../user/bbcode.php:41
 msgid "Code snippet here"
@@ -3574,11 +3575,11 @@ msgstr "Yolla"
 #: ../user/forum_banishment_vote.php:35
 #: ../user/forum_banishment_vote_action.php:33
 msgid "You are not authorized to banish users."
-msgstr ""
+msgstr "Kullanıcıları yasaklamak için yetkili değilsiniz."
 
 #: ../user/forum_banishment_vote.php:41 ../user/forum_banishment_vote.php:46
 msgid "Banishment Vote"
-msgstr ""
+msgstr "Yasaklama Oylaması"
 
 #: ../user/forum_banishment_vote.php:50
 msgid "No user with this ID found."
@@ -3586,7 +3587,7 @@ msgstr "Bu NO'ya sahip kullanıcı bulunamadı."
 
 #: ../user/forum_banishment_vote.php:54 ../user/forum_moderate_post.php:76
 msgid "User is already banished"
-msgstr ""
+msgstr "Kullanıcı zaten yasaklanmış"
 
 #: ../user/forum_banishment_vote.php:59 ../user/forum_moderate_post.php:79
 msgid ""
@@ -3594,28 +3595,33 @@ msgid ""
 "for chosen time period.<br/>It should be done only if %1 has consistently "
 "exhibited trollish behavior."
 msgstr ""
+"%1 kullanıcısını yasaklamak istediğine emin misin?<br/>Bu, %1 kullanıcısının "
+"seçilen zaman aralığında gönderim yapmasını engelleyecektir.<br/>Yasaklama, "
+"%1 gerçekten uygunsuz davranışlarda bulunduysa yapılmalıdır."
 
 #: ../user/forum_banishment_vote.php:61
 msgid ""
 "Select the reason category, optionally write a longer description of why the "
 "user should be banished."
 msgstr ""
+"Gerekçe kategorisini seçin, tercihen kullanıcının neden yasaklanması "
+"gerektiğini belirten daha uzun bir açıklama yazın."
 
 #: ../user/forum_banishment_vote.php:62 ../user/forum_moderate_thread.php:50
 msgid "Category"
-msgstr ""
+msgstr "Kategori"
 
 #: ../user/forum_banishment_vote.php:64
 #: ../user/forum_banishment_vote_action.php:57
 #: ../user/forum_moderate_post.php:55 ../user/forum_moderate_thread.php:52
 msgid "Obscene"
-msgstr ""
+msgstr "Müstehcen"
 
 #: ../user/forum_banishment_vote.php:65
 #: ../user/forum_banishment_vote_action.php:59
 #: ../user/forum_moderate_post.php:56 ../user/forum_moderate_thread.php:53
 msgid "Flame/Hate mail"
-msgstr ""
+msgstr "Öfke/Nefret söylemi"
 
 #: ../user/forum_banishment_vote.php:66
 #: ../user/forum_banishment_vote_action.php:61
@@ -3636,11 +3642,11 @@ msgstr "Sebep"
 
 #: ../user/forum_banishment_vote.php:69 ../user/forum_moderate_thread.php:85
 msgid "Mailed if nonempty"
-msgstr ""
+msgstr "Boş değilse postalanır"
 
 #: ../user/forum_banishment_vote.php:74
 msgid "Proceed with vote"
-msgstr ""
+msgstr "Oy ile devam et"
 
 #: ../user/forum_banishment_vote_action.php:39
 #: ../user/forum_moderate_post_action.php:63
@@ -3963,7 +3969,7 @@ msgstr "Sadece, tüm gönüllüleri ilgilendirmesi muhtemel öğeler için bunu 
 
 #: ../user/forum_rate.php:26
 msgid "Rating offline"
-msgstr ""
+msgstr "Değerlendirme devredışı"
 
 #: ../user/forum_rate.php:27
 msgid "This function is turned off by the project"
@@ -3977,7 +3983,7 @@ msgstr ""
 
 #: ../user/forum_rate.php:62
 msgid "You have already rated this post."
-msgstr ""
+msgstr "Bu gönderiyi zaten değerlendirmişsiniz."
 
 #: ../user/forum_rate.php:62 ../user/forum_rate.php:78
 #: ../user/forum_rate.php:83 ../user/forum_report_post.php:69
@@ -3993,9 +3999,8 @@ msgstr "Girdi Kaydedildi"
 
 # 77%
 #: ../user/forum_rate.php:73
-#, fuzzy
 msgid "Your input has been recorded. Thanks for your help."
-msgstr "Raporunuz kaydedildi. Çabanız için teşekkürler."
+msgstr "Raporunuz kaydedildi. Yardımlarınız için teşekkürler."
 
 #: ../user/forum_rate.php:75
 #, fuzzy
@@ -4004,13 +4009,12 @@ msgstr "Oy Kaydedildi"
 
 # 84%
 #: ../user/forum_rate.php:76
-#, fuzzy
 msgid "Your rating has been recorded. Thanks for your input."
-msgstr "Raporunuz kaydedildi. Çabanız için teşekkürler."
+msgstr "Değerlendirmeniz kaydedildi. Bildiriminiz için teşekkürler."
 
 #: ../user/forum_rate.php:80
 msgid "Vote Submission Problem"
-msgstr ""
+msgstr "Oy Gönderme Problemi"
 
 #: ../user/forum_reply.php:73
 msgid ""

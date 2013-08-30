@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOICN Client Messages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-05 10:24-0700\n"
-"PO-Revision-Date: 2013-08-15 15:36+0200\n"
+"PO-Revision-Date: 2013-08-29 22:03+0000\n"
 "Last-Translator: Aycan <aycandemirel@hotmail.com>\n"
 "Language-Team: Turkish <weboglan@hotmail.com>\n"
 "Language: tr\n"
@@ -15,7 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
+"X-POOTLE-MTIME: 1377813804.0\n"
 
 #: acct_mgr.cpp:448 acct_mgr.cpp:457
 msgid "Message from account manager"
@@ -76,11 +77,11 @@ msgstr "cc_config.xml dosyasında tanınmayan etiket"
 
 #: log_flags.cpp:427
 msgid "Missing start tag in cc_config.xml"
-msgstr "cc_config.xml dosyasında başlangıç etiketi kayıp"
+msgstr "cc_config.xml dosyasında başlangıç etiketi bulunamadı"
 
 #: log_flags.cpp:452
 msgid "Error in cc_config.xml options"
-msgstr "cc_config.xml dosyası seçeneklerinde hata"
+msgstr "cc_config.xml dosyasında tanınmayan ayarlar"
 
 #: log_flags.cpp:470
 msgid "Missing end tag in cc_config.xml"
