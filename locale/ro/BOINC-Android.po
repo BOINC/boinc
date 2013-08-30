@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-08-29 15:37-0700\n"
-"PO-Revision-Date: 2013-08-30 07:11+0000\n"
+"PO-Revision-Date: 2013-08-30 08:02+0000\n"
 "Last-Translator: Marius <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
@@ -19,7 +19,7 @@ msgstr ""
 "20)) ? 1 : 2);;\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1377846673.0\n"
+"X-POOTLE-MTIME: 1377849720.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -68,11 +68,11 @@ msgstr "Logo proiect."
 
 msgctxt "attachproject_login_header_general_area"
 msgid "General area:"
-msgstr ""
+msgstr "Zona generală:"
 
 msgctxt "attachproject_login_header_specific_area"
 msgid "Specific area:"
-msgstr ""
+msgstr "Zona specifică:"
 
 msgctxt "attachproject_login_header_description"
 msgid "Description:"
@@ -128,7 +128,7 @@ msgstr "Parolă:"
 
 msgctxt "attachproject_login_category_creation"
 msgid "New to"
-msgstr ""
+msgstr "Nou pentru"
 
 msgctxt "attachproject_login_header_creation_enabled"
 msgid "Register an account to participate:"
@@ -300,21 +300,23 @@ msgstr "Autentificare"
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
-msgstr ""
+msgstr "Apăsaţi aici pentru a alege un proiect."
 
 msgctxt "main_error"
 msgid "Whooops"
-msgstr ""
+msgstr "Whooops"
 
 msgctxt "main_error_long"
 msgid ""
 "…this should not happen!\n"
 "Click on the icon to try again."
 msgstr ""
+"...asta nu ar trebui să se întâmple!\n"
+"Apăsaţi pe icoană pentru a încerca din nou."
 
 msgctxt "main_title_icon_desc"
 msgid "BOINC icon"
-msgstr ""
+msgstr "Icoană BOINC"
 
 #. tab names
 msgctxt "tab_status"
@@ -344,7 +346,7 @@ msgstr "Navigare"
 #. status strings
 msgctxt "status_running"
 msgid "Computing"
-msgstr ""
+msgstr "Se calculează"
 
 msgctxt "status_running_long"
 msgid "Thank you for participating."
@@ -368,7 +370,7 @@ msgstr "Suspendat"
 
 msgctxt "status_computing_disabled_long"
 msgid "Press play to resume network and computation."
-msgstr ""
+msgstr "Apăsaţi play pentru a relua calculele şi comunicarea în reţea."
 
 msgctxt "status_launching"
 msgid "Starting…"
@@ -384,7 +386,7 @@ msgstr "Se închide..."
 
 msgctxt "status_benchmarking"
 msgid "Benchmarking…"
-msgstr ""
+msgstr "Se măsoară performanţa..."
 
 msgctxt "status_image_description"
 msgid "project image"
@@ -475,15 +477,15 @@ msgstr ""
 
 msgctxt "prefs_disk_min_free_gb_header"
 msgid "Min. spare storage"
-msgstr ""
+msgstr "Spaţiu stocare minim liber"
 
 msgctxt "prefs_disk_min_free_gb_description"
 msgid "How much of your device's storage space shall stay free?"
-msgstr ""
+msgstr "Cât din spaţiul de stocare al dispozitivului trebuie să rămână liber?"
 
 msgctxt "prefs_network_daily_xfer_limit_mb_header"
 msgid "Daily transfer limit"
-msgstr ""
+msgstr "Limită zilnică transfer"
 
 msgctxt "prefs_network_daily_xfer_limit_mb_description"
 msgid "Limits the daily data traffic caused by BOINC."
@@ -503,11 +505,11 @@ msgstr "Arată notificare când este suspendat"
 
 msgctxt "prefs_cpu_number_cpus_header"
 msgid "Used CPU cores"
-msgstr ""
+msgstr "Nuclee CPU folosite"
 
 msgctxt "prefs_cpu_number_cpus_description"
 msgid "Limits the number of CPU cores BOINC uses for computation."
-msgstr ""
+msgstr "Limitează numărul de nuclee CPU folosite de BOINC pentru calcule."
 
 msgctxt "prefs_cpu_other_load_suspension_header"
 msgid "Pause at CPU usage above"
@@ -537,37 +539,37 @@ msgstr "Limitează cantitatea de RAM pe care task-urile au voie să o ocupe."
 
 msgctxt "prefs_client_log_flags_header"
 msgid "BOINC Client log flags"
-msgstr ""
+msgstr "Flag-uri jurnal client BOINC"
 
 msgctxt "prefs_gui_log_level_header"
 msgid "GUI log level"
-msgstr ""
+msgstr "Nivel jurnal GUI"
 
 msgctxt "prefs_gui_log_level_description"
 msgid "Specifies verbosity of GUI log messages."
-msgstr ""
+msgstr "Specificaţi nivelul mesajelor jurnal GUI."
 
 msgctxt "prefs_unit_mb"
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 msgctxt "prefs_unit_gb"
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #, c-format
 msgctxt "prefs_unit_pct"
 msgid "%"
-msgstr ""
+msgstr "%"
 
 msgctxt "prefs_unit_celcius"
 msgid "°C"
-msgstr ""
+msgstr "°C"
 
 #. projects tab strings
 msgctxt "projects_loading"
 msgid "Reading projects…"
-msgstr ""
+msgstr "Se citesc proiectele..."
 
 msgctxt "projects_add"
 msgid "Add project"
@@ -612,36 +614,36 @@ msgstr "Cerere planificator în aşteptare"
 
 msgctxt "projects_status_schedrpcinprogress"
 msgid "Scheduler request in progress"
-msgstr ""
+msgstr "Cerere planificator în curs"
 
 msgctxt "projects_status_trickleuppending"
 msgid "Trickle up message pending"
-msgstr ""
+msgstr "Mesaj trickle up în aşteptare"
 
 msgctxt "projects_status_backoff"
 msgid "Communication scheduled in:"
-msgstr ""
+msgstr "Comunicaţie planificată în:"
 
 #. project controls
 msgctxt "projects_control_dialog_title"
 msgid "Project commands:"
-msgstr ""
+msgstr "Comenzi proiect:"
 
 msgctxt "projects_control_update"
 msgid "Update"
-msgstr ""
+msgstr "Actualizează"
 
 msgctxt "projects_control_remove"
 msgid "Remove"
-msgstr ""
+msgstr "Șterge"
 
 msgctxt "projects_control_suspend"
 msgid "Suspend"
-msgstr ""
+msgstr "Suspendă"
 
 msgctxt "projects_control_resume"
 msgid "Resume"
-msgstr ""
+msgstr "Reia"
 
 msgctxt "projects_control_nonewtasks"
 msgid "No new tasks"
@@ -687,43 +689,43 @@ msgstr "Resetează"
 #. tasks tab strings
 msgctxt "tasks_header_name"
 msgid "Task Name:"
-msgstr ""
+msgstr "Nume Task:"
 
 msgctxt "tasks_header_elapsed_time"
 msgid "Elapsed time:"
-msgstr ""
+msgstr "Timp scurs:"
 
 msgctxt "tasks_header_project_paused"
 msgid "(suspended)"
-msgstr ""
+msgstr "(suspendat)"
 
 msgctxt "tasks_header_deadline"
 msgid "Deadline:"
-msgstr ""
+msgstr "Termen limită:"
 
 msgctxt "tasks_result_new"
 msgid "new"
-msgstr ""
+msgstr "nou"
 
 msgctxt "tasks_result_files_downloading"
 msgid "waiting for download"
-msgstr ""
+msgstr "se aşteaptă descărcarea"
 
 msgctxt "tasks_result_files_downloaded"
 msgid "download complete"
-msgstr ""
+msgstr "descărcare completă"
 
 msgctxt "tasks_result_compute_error"
 msgid "computation error"
-msgstr ""
+msgstr "eroare calcul"
 
 msgctxt "tasks_result_files_uploading"
 msgid "uploading"
-msgstr ""
+msgstr "se încarcă"
 
 msgctxt "tasks_result_files_uploaded"
 msgid "upload complete"
-msgstr ""
+msgstr "încărcare completă"
 
 msgctxt "tasks_result_aborted"
 msgid "aborted"
@@ -768,44 +770,44 @@ msgstr "gata de raportare"
 #. confirmation dialog
 msgctxt "confirm_abort_task_title"
 msgid "Abort task?"
-msgstr ""
+msgstr "Abandonează task?"
 
 msgctxt "confirm_abort_task_message"
 msgid "Abort task:"
-msgstr ""
+msgstr "Abandonează task:"
 
 msgctxt "confirm_abort_task_confirm"
 msgid "Abort"
-msgstr ""
+msgstr "Abandonează"
 
 msgctxt "confirm_cancel"
 msgid "Cancel"
-msgstr ""
+msgstr "Anulează"
 
 msgctxt "confirm_image_desc"
 msgid "Confirmation dialog"
-msgstr ""
+msgstr "Dialog de confirmare"
 
 #. transfers tab strings
 msgctxt "trans_loading"
 msgid "Reading transfers…"
-msgstr ""
+msgstr "Se citesc transferurile..."
 
 msgctxt "trans_upload"
 msgid "Upload"
-msgstr ""
+msgstr "Încarcă"
 
 msgctxt "trans_download"
 msgid "Download"
-msgstr ""
+msgstr "Descarcă"
 
 msgctxt "trans_retryin"
 msgid "retry in"
-msgstr ""
+msgstr "reîncearcă în"
 
 msgctxt "trans_failed"
 msgid "failed"
-msgstr ""
+msgstr "eşuat"
 
 msgctxt "trans_suspended"
 msgid "suspended"
@@ -821,7 +823,7 @@ msgstr "în așteptare"
 
 msgctxt "trans_projectbackoff"
 msgid "project backoff"
-msgstr ""
+msgstr "revenire proiect"
 
 msgctxt "trans_header_name"
 msgid "File:"
@@ -850,190 +852,194 @@ msgstr "Mesaje Client"
 
 msgctxt "eventlog_gui_header"
 msgid "GUI Messages"
-msgstr ""
+msgstr "Mesaje GUI"
 
 msgctxt "eventlog_copy_toast"
 msgid "Log copied to clipboard."
-msgstr ""
+msgstr "Jurnal copiat în clipboard."
 
 msgctxt "eventlog_email_subject"
 msgid "Event Log for BOINC on Android:"
-msgstr ""
+msgstr "Jurnal Evenimente pentru BOINC pe Android:"
 
 #. suspend reasons
 msgctxt "suspend_unknown"
 msgid "Computation suspended."
-msgstr ""
+msgstr "Calcule suspendate."
 
 msgctxt "suspend_batteries"
 msgid "Connect your device to a charger to continue computing."
 msgstr ""
+"Conectaţi dispozitivul dumneavoastră la un încărcător pentru a continua "
+"calculele."
 
 msgctxt "suspend_useractive"
 msgid "User is active."
-msgstr ""
+msgstr "Utilizatorul este activ."
 
 msgctxt "suspend_tod"
 msgid "Out of computation time-frame."
-msgstr ""
+msgstr "În afara intervalului de timp pentru calcule."
 
 msgctxt "suspend_bm"
 msgid "BOINC is benchmarking your device…"
-msgstr ""
+msgstr "BOINC evaluează performanţa dispozitivului dumneavoastră..."
 
 msgctxt "suspend_disksize"
 msgid "Out of disk space."
-msgstr ""
+msgstr "Nu mai există spaţiu pe disc."
 
 msgctxt "suspend_cputhrottle"
 msgid "Scheduled CPU throttle."
-msgstr ""
+msgstr "CPU throttle planificat."
 
 msgctxt "suspend_noinput"
 msgid "No recent user activity."
-msgstr ""
+msgstr "Fără activitate recentă a utilizatorului."
 
 msgctxt "suspend_delay"
 msgid "Initialization delay."
-msgstr ""
+msgstr "Întârziere iniţializare."
 
 msgctxt "suspend_exclusiveapp"
 msgid "An exclusive app is running."
-msgstr ""
+msgstr "Rulează o aplicaţie exclusivă."
 
 msgctxt "suspend_cpu"
 msgid "Your device is busy with other apps."
-msgstr ""
+msgstr "Dispozitivul dumneavoastră este ocupat cu alte aplicaţii."
 
 msgctxt "suspend_network_quota"
 msgid "BOINC reached network transfer limit."
-msgstr ""
+msgstr "BOINC a atins limita de transfer prin reţea."
 
 msgctxt "suspend_os"
 msgid "Stopped by Android."
-msgstr ""
+msgstr "Oprit de Android."
 
 msgctxt "suspend_wifi"
 msgid "Not connected to WiFi."
-msgstr ""
+msgstr "Nu este conectat la WiFi."
 
 msgctxt "suspend_battery_charging"
 msgid "Battery needs to charge before resuming computation."
-msgstr ""
+msgstr "Bateria trebuie să se încarce înainte de a relua calculele."
 
 msgctxt "suspend_battery_charging_long"
 msgid "Computing will resume when battery charge reaches"
-msgstr ""
+msgstr "Calculele vor fi reluate când bateria va fi încărcata"
 
 msgctxt "suspend_battery_charging_current"
 msgid "currently"
-msgstr ""
+msgstr "curent"
 
 msgctxt "suspend_battery_overheating"
 msgid "Waiting for battery to cool down"
-msgstr ""
+msgstr "Se aşteaptă să se răcească bateria"
 
 msgctxt "suspend_user_req"
 msgid "Resuming computation…"
-msgstr ""
+msgstr "Se reiau calculele..."
 
 msgctxt "suspend_network_user_req"
 msgid "manually."
-msgstr ""
+msgstr "manual:"
 
 #. rpc reasons
 msgctxt "rpcreason_userreq"
 msgid "Requested by user"
-msgstr ""
+msgstr "Cerut de utilizator"
 
 msgctxt "rpcreason_needwork"
 msgid "To fetch work"
-msgstr ""
+msgstr "Pentru a primi de lucru"
 
 msgctxt "rpcreason_resultsdue"
 msgid "To report completed tasks"
-msgstr ""
+msgstr "Pentru a raporta task-urile finalizate"
 
 msgctxt "rpcreason_trickleup"
 msgid "To send trickle-up message"
-msgstr ""
+msgstr "Pentru a trimite mesaj trickle up"
 
 msgctxt "rpcreason_acctmgrreq"
 msgid "Requested by account manager"
-msgstr ""
+msgstr "Cerut de managerul de cont"
 
 msgctxt "rpcreason_init"
 msgid "Project initialization"
-msgstr ""
+msgstr "Iniţializare proiect"
 
 msgctxt "rpcreason_projectreq"
 msgid "Requested by project"
-msgstr ""
+msgstr "Cerut de proiect"
 
 msgctxt "rpcreason_unknown"
 msgid "Unknown reason"
-msgstr ""
+msgstr "Motiv necunoscut"
 
 #. menu
 msgctxt "menu_refresh"
 msgid "Refresh"
-msgstr ""
+msgstr "Reîncarcă"
 
 msgctxt "menu_emailto"
 msgid "Send as Email"
-msgstr ""
+msgstr "Trimite ca Email"
 
 msgctxt "menu_copy"
 msgid "Copy to Clipboard"
-msgstr ""
+msgstr "Copiază în Clipboard"
 
 msgctxt "menu_eventlog"
 msgid "Event Log"
-msgstr ""
+msgstr "Jurnal Evenimente"
 
 msgctxt "menu_exit"
 msgid "Exit BOINC"
-msgstr ""
+msgstr "Închide BOINC"
 
 msgctxt "menu_run_mode_disable"
 msgid "Suspend"
-msgstr ""
+msgstr "Suspendă"
 
 msgctxt "menu_run_mode_enable"
 msgid "Resume"
-msgstr ""
+msgstr "Reia"
 
 msgctxt "menu_about"
 msgid "About"
-msgstr ""
+msgstr "Despre"
 
 msgctxt "menu_help"
 msgid "Help"
-msgstr ""
+msgstr "Ajutor"
 
 #. about dialog
 msgctxt "about_button"
 msgid "Return"
-msgstr ""
+msgstr "Înapoi"
 
 msgctxt "about_title"
 msgid "About"
-msgstr ""
+msgstr "Despre"
 
 msgctxt "about_name"
 msgid "BOINC"
-msgstr ""
+msgstr "BOINC"
 
 msgctxt "about_version"
 msgid "Version"
-msgstr ""
+msgstr "Versiune"
 
 msgctxt "about_name_long"
 msgid "Berkeley Open Infrastructure for Network Computing"
-msgstr ""
+msgstr "Berkeley Open Infrastructure for Network Computing"
 
 msgctxt "about_copyright"
 msgid ""
 "© 2003–2013 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
+"© 2003–2013 Universitatea din California, Berkeley.\n"
+"Toate Drepturile Rezervate."
