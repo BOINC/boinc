@@ -1102,6 +1102,7 @@ msgid "Comment"
 msgstr ""
 
 #: ../html/inc/news.inc:111
+#, php-format
 #, php-format, php-format
 msgid "News is available as an %sRSS feed%s"
 msgstr "Les notícies estan disponiles en format %sRSS%s"
