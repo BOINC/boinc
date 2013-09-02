@@ -1427,7 +1427,7 @@ function boincwork_validate_datatype($data, $datatype = NULL) {
 /**
   * Determine output for host list views when no hosts are found.
   */
-function boincwork_views_host_list_empty_text($context = null) {
+function boincwork_views_host_list_empty_text($context = NULL) {
   
   // Pull the BOINC user ID from the view arguments to get show_hosts 
   // preference for that user
@@ -1470,7 +1470,7 @@ function boincwork_views_host_list_empty_text($context = null) {
 /**
   * Determine output for task list views when no tasks are found.
   */
-function boincwork_views_task_list_empty_text($context = null) {
+function boincwork_views_task_list_empty_text($context = NULL) {
   
   // 
   $output = '';
@@ -1485,7 +1485,7 @@ function boincwork_views_task_list_empty_text($context = null) {
 /**
   * Determine output for host last contact time
   */
-function boincwork_host_last_contact($timestamp, $context = null) {
+function boincwork_host_last_contact($timestamp, $context = NULL) {
   $output = '---';
   $log_name = 'NO_SUCH_LOG';
   if ($timestamp) {
@@ -1494,6 +1494,27 @@ function boincwork_host_last_contact($timestamp, $context = null) {
   }
   if (file_exists(boinc_get_path() . '/html/sched_logs')) {
     $output = "<a href=\"/sched_logs/{$log_name}\">{$output}</a>";
+  }
+  return $output;
+}
+
+/**
+  * Determine output for task reported time / deadline
+  */
+function boincwork_task_time_reported($received_time = NULL, $deadline = NULL, $context = NULL) {
+  $output = '---';
+  if ($received_time OR $deadline) {
+    $timestamp = ($received_time) ? $received_time : $deadline;
+    $output = gmdate('j M Y, G:i:s', $timestamp) . ' UTC';
+    // Add a wrapper to deadline text
+    if (!$received_time) {
+      if (time() < $deadline) {
+        $output = '<span class="on-time">' . $output . '</span>';
+      }
+      else {
+        $output = '<span class="past-due">' . $output . '</span>';
+      }
+    }
   }
   return $output;
 }

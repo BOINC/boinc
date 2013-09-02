@@ -224,14 +224,16 @@ function work_and_host_stats_views_default_views() {
       'relationship' => 'none',
     ),
     'phpcode' => array(
-      'label' => 'Time reported or deadline [use CSS!]',
+      'label' => 'Time reported or deadline',
       'alter' => array(
         'alter_text' => 0,
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -246,21 +248,8 @@ function work_and_host_stats_views_default_views() {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
-      'value' => '<?php
-  require_boinc(\'util\');
-  if ($data->result_received_time) {
-    $r = time_str($data->result_received_time);
-  } else if ($data->result_report_deadline) {
-    if ($data->result_report_deadline>time()) {
-      $r = "<font color=\'#33cc33\'>" . time_str($data->result_report_deadline) . "</font>";
-    } else {
-      $r = "<font color=\'#ff3333\'>" . time_str($data->result_report_deadline) . "</font>";
-    }
-  } else {
-    $r = "---";
-  }
-  return $r;
-?>',
+      'hide_alter_empty' => 1,
+      'value' => '<?php return boincwork_task_time_reported($data->result_received_time, $data->result_report_deadline); ?>',
       'exclude' => 0,
       'id' => 'phpcode',
       'table' => 'customfield',
@@ -5558,14 +5547,16 @@ else {
       'relationship' => 'none',
     ),
     'phpcode' => array(
-      'label' => 'Time reported or deadline [use CSS!]',
+      'label' => 'Time reported or deadline',
       'alter' => array(
         'alter_text' => 0,
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -5580,21 +5571,8 @@ else {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
-      'value' => '<?php
-  require_boinc(\'util\');
-  if ($data->result_received_time) {
-    $r = time_str($data->result_received_time);
-  } else if ($data->result_report_deadline) {
-    if ($data->result_report_deadline>time()) {
-      $r = "<font color=\'#33cc33\'>" . time_str($data->result_report_deadline) . "</font>";
-    } else {
-      $r = "<font color=\'#ff3333\'>" . time_str($data->result_report_deadline) . "</font>";
-    }
-  } else {
-    $r = "---";
-  }
-  return $r;
-?>',
+      'hide_alter_empty' => 1,
+      'value' => '<?php return boincwork_task_time_reported($data->result_received_time, $data->result_report_deadline); ?>',
       'exclude' => 0,
       'id' => 'phpcode',
       'table' => 'customfield',
@@ -8799,14 +8777,16 @@ else {
       'relationship' => 'none',
     ),
     'phpcode' => array(
-      'label' => 'Time reported or deadline [use CSS!]',
+      'label' => 'Time reported or deadline',
       'alter' => array(
         'alter_text' => 0,
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -8821,21 +8801,8 @@ else {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
-      'value' => '<?php
-  require_boinc(\'util\');
-  if ($data->result_received_time) {
-    $r = time_str($data->result_received_time);
-  } else if ($data->result_report_deadline) {
-    if ($data->result_report_deadline>time()) {
-      $r = "<font color=\'#33cc33\'>" . time_str($data->result_report_deadline) . "</font>";
-    } else {
-      $r = "<font color=\'#ff3333\'>" . time_str($data->result_report_deadline) . "</font>";
-    }
-  } else {
-    $r = "---";
-  }
-  return $r;
-?>',
+      'hide_alter_empty' => 1,
+      'value' => '<?php return boincwork_task_time_reported($data->result_received_time, $data->result_report_deadline); ?>',
       'exclude' => 0,
       'id' => 'phpcode',
       'table' => 'customfield',
