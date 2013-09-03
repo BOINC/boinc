@@ -1208,7 +1208,7 @@ function boincwork_validate_datatype($data, $datatype = NULL) {
       if (is_array($value)) {
         if (is_numeric(key($value))) {
           foreach ($value as $item) {
-            if (isset($item['@position'])) {
+            if (is_array($item) AND isset($item['@position'])) {
               $ordered_array[$item['@position']] = array(
                 $name => $item
               );
