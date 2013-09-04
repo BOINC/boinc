@@ -7,15 +7,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-05 10:24-0700\n"
-"PO-Revision-Date: 2013-06-08 11:32+0200\n"
-"Last-Translator: Martin <martin.suchan@email.cz>\n"
+"PO-Revision-Date: 2013-08-30 20:59+0000\n"
+"Last-Translator: Lycan <santdel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
+"X-POOTLE-MTIME: 1377896370.0\n"
 
 #: acct_mgr.cpp:448 acct_mgr.cpp:457
 msgid "Message from account manager"
@@ -108,11 +109,11 @@ msgstr ""
 
 #: ../sched/handle_request.cpp:943
 msgid "This project doesn't support operating system"
-msgstr "Tento projekt nepodporuje operační systém"
+msgstr "Tento projekt nepodporuje Váš operační systém"
 
 #: ../sched/handle_request.cpp:969
 msgid "This project doesn't support CPU type"
-msgstr "Tento projekt nepodporuje typ CPU"
+msgstr "Tento projekt nepodporuje CPU výpočty"
 
 #: ../sched/handle_request.cpp:993
 msgid ""
