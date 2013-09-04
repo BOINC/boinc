@@ -6,16 +6,17 @@ msgstr ""
 "Project-Id-Version: 1.03\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2013-06-17 16:13-0000\n"
-"Last-Translator: Miguel Veiga <Miguel.veig@gmail.com>\n"
+"PO-Revision-Date: 2013-09-03 11:07+0000\n"
+"Last-Translator: Alfredo <alfredo.silva@sky.com>\n"
 "Language-Team: Portuguese <LL@li.org>\n"
 "Language: pt_PT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-POOTLE-MTIME: 1378206465.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Português"
@@ -1145,10 +1146,9 @@ msgid ""
 "modifies image files (UMTS does this, for example). %2 Skipping verification "
 "reduces the security of BOINC. %3"
 msgstr ""
-"Saltar verificação do ficheiro da imagem? %1 Assinale esta opção APENAS se o "
-"seu provedor de Internet modificar o ficheiro da imagem (O UMTS faz isto, "
-"por exemplo). %2 Passando à frente a verificação, reduz a segurança do "
-"BOINC. %3"
+"Saltar verificação da imagem do ficheiro? %1 Assinale esta opção APENAS se o "
+"seu provedor de Internet modificar o ficheiro da imagem (o UMTS faz isto, "
+"por exemplo). %2 Saltar a verificação reduz a segurança do BOINC. %3"
 
 #: ../inc/prefs.inc:286
 msgid ""
@@ -1401,7 +1401,7 @@ msgstr "GPU ATI"
 
 #: ../inc/result.inc:56
 msgid "Not in DB"
-msgstr "Não existente na Base de Dados"
+msgstr "Não existe na Base de Dados"
 
 #: ../inc/result.inc:82
 msgid "pending"
@@ -1485,7 +1485,7 @@ msgstr "Não começou devido ao prazo de entrega - cancelado"
 
 #: ../inc/result.inc:193
 msgid "Error while downloading"
-msgstr "Erro enquanto realizava o download "
+msgstr "Erro enquanto realizava a transferência"
 
 #: ../inc/result.inc:195
 msgid "Error while computing"
@@ -1642,7 +1642,7 @@ msgstr "Enviado"
 
 #: ../inc/result.inc:358
 msgid "Time reported<br />or deadline"
-msgstr "Tempo reportado<br/>ou tempo limite "
+msgstr "Tempo reportado<br />ou tempo limite "
 
 #: ../inc/result.inc:359
 msgid "explain"
@@ -1654,11 +1654,11 @@ msgstr "Estado"
 
 #: ../inc/result.inc:362
 msgid "Run time<br />(sec)"
-msgstr "Tempo decorrido<br/>(seg)"
+msgstr "Tempo decorrido<br />(seg)"
 
 #: ../inc/result.inc:363
 msgid "CPU time<br />(sec)"
-msgstr "Tempo de CPU<br/>(seg)"
+msgstr "Tempo de CPU<br />(seg)"
 
 #: ../inc/result.inc:364 ../inc/result.inc:628
 msgid "Credit"
@@ -1917,8 +1917,8 @@ msgid ""
 "%1Privacy note%2: if you create a team, your project preferences (resource "
 "share, graphics preferences) will be visible to the public."
 msgstr ""
-"%1Nota privada%2: se criar uma equipa, as preferênciass do projecto "
-"(partilha de recursos, preferências gráficas) ficarão visíveis ao publico."
+"%1Nota privada%2: se criar uma equipa, as preferências do projecto (partilha "
+"de recursos, preferências gráficas) ficarão visíveis ao público."
 
 #: ../inc/team.inc:426
 msgid "Team name, text version"
@@ -1934,7 +1934,7 @@ msgstr "Nome da equipa, versão de HTML"
 
 #: ../inc/team.inc:432 ../inc/team.inc:442
 msgid "You may use %1limited HTML tags%2."
-msgstr "Pode usar %1tags HTLM limitadas%2."
+msgstr "Pode usar %1tags HTML limitadas%2."
 
 #: ../inc/team.inc:433
 msgid "If you don't know HTML, leave this box blank."
@@ -2447,7 +2447,7 @@ msgstr "Item 2"
 
 #: ../user/bbcode.php:45
 msgid "use to link to Trac ticket on BOINC website"
-msgstr "use para linkar o Ticket Trac no website do BOINC"
+msgstr "Usar a hiperligação para seguir o bilhete no site da Web do BOINC"
 
 #: ../user/bbcode.php:47
 msgid "use to link to Trac Wiki on BOINC website"
@@ -2455,7 +2455,7 @@ msgstr "use para linkar a Trac Wiki no website do BOINC"
 
 #: ../user/bbcode.php:49
 msgid "use to link to SVN changeset on BOINC website"
-msgstr "use para linkar  o SVN de alterações no website do BOINC"
+msgstr "use para linkar ao SVN de alterações no website do BOINC"
 
 #: ../user/bbcode.php:53
 msgid ""
@@ -2500,7 +2500,7 @@ msgstr "Tem que fornecer um código de convite para criar uma conta."
 
 #: ../user/create_account_action.php:80
 msgid "The invitation code you gave is not valid."
-msgstr "O código de convite que inseriu não é válido"
+msgstr "O código de convite que inseriu não é válido."
 
 #: ../user/create_account_action.php:91
 msgid ""
@@ -2560,7 +2560,7 @@ msgstr "Código de Convite"
 
 #: ../user/create_account_form.php:81
 msgid "A valid invitation code is required to create an account."
-msgstr "Um  código de convite válido é necessário para criar uma conta."
+msgstr "Um código de convite válido é necessário para criar uma conta."
 
 #: ../user/create_account_form.php:91
 msgid "Email Address"
@@ -2661,7 +2661,7 @@ msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
-"A sua primeira resposta foi definida como spam pelo sistema Akismet anti-"
+"A sua primeira resposta foi indicada como spam pelo sistema Akismet anti-"
 "spam. Por favor, modifique o texto e tente novamente."
 
 #: ../user/create_profile.php:230
@@ -2669,7 +2669,7 @@ msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
-"A sua segunda resposta foi definida como spam pelo sistema Akismet anti-"
+"A sua segunda resposta foi indicada como spam pelo sistema Akismet anti-"
 "spam. Por favor, modifique o texto e tente novamente."
 
 #: ../user/create_profile.php:246
@@ -2706,7 +2706,7 @@ msgid ""
 "To prevent spam, an average credit of %1 or greater is required to create or "
 "edit a profile.  We apologize for this inconvenience."
 msgstr ""
-"Para prevenir spam, uma média de créditos de %1 ou superior é necessária "
+"Para prevenir spam, uma média de créditos de %1 ou superior é necessário "
 "para criar ou editar um perfil. Pedimos desculpa pela incoveniência."
 
 #: ../user/delete_account.php:57
@@ -3299,7 +3299,7 @@ msgstr "URL %1 da sua página web; opcional%2"
 
 #: ../user/edit_user_info_form.php:45
 msgid "Postal (ZIP) code %1 Optional%2"
-msgstr "Código postal %1 Opcional%2"
+msgstr "Código Postal %1 Opcional%2"
 
 #: ../user/edit_user_info_form.php:49
 msgid "Update info"
@@ -3315,9 +3315,9 @@ msgid ""
 "computer, and if so whether the computer has finished it. Possible values "
 "are:"
 msgstr ""
-"O <b>estado do servidor</b> relativamente à/s tarefa/s indica se a tarefa "
-"foir enviada para um computador, e, se esse computador a acabou. Possiveis "
-"valores são:"
+"As tarefas do <b> estado do servidor (Server State) </ b> indica se a tarefa "
+"tiver sido enviada para um computador, e caso afirmativo, se o computador "
+"tiver terminado. Os valores possíveis são:"
 
 #: ../user/explain_state.php:35
 msgid ""
@@ -3420,8 +3420,8 @@ msgid ""
 "A result's <b>client state</b> indicates the stage of processing at which an "
 "error occurred."
 msgstr ""
-"O resultado/s do <b>estado cliente</b> indica  a fase de processamento em "
-"que o erro ocorreu."
+"Um resultado <b>estado do cliente</b> indica o estado do processamento "
+"quando ocorreu um erro."
 
 #: ../user/explain_state.php:86
 msgid "The computer has not yet completed the task."
@@ -4951,9 +4951,9 @@ msgid ""
 "public or private messages from that user."
 msgstr ""
 "Mensagens privadas enviadas no %1 website estão visíveis apenas ao remetente "
-"bem como o conteúdo. %1 não examina ou controla o conteúdo das mensagens "
-"privadas. Se receber mensagens privadas indesejáveis de outro %1 utilizador, "
-"pode adicioná-lo ao seu %2filtro de mensagens%3. Isto irá prevenir de ver "
+"e receptor. %1 não examina ou controla o conteúdo das mensagens privadas. "
+"Se receber mensagens privadas indesejáveis de outro %1 utilizador, pode "
+"adicioná-lo ao seu %2filtro de mensagens%3. Isto irá prevenir que veja "
 "mensagens públicas ou privadas desse mesmo utilizador."
 
 #: ../user/info.php:47
@@ -4996,7 +4996,7 @@ msgid ""
 "The applications run by %1 may cause some computers to overheat. If this "
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
 msgstr ""
-"As aplicações executadas pelo %1 podem causar em alguns computadores "
+"As aplicações executadas pelo %1 podem causar, em alguns computadores, "
 "sobreaquecimento. Se isto acontecer, pare de executar %1 ou use um %"
 "aplicativo%3 que limite o uso do CPU."
 
@@ -5043,7 +5043,7 @@ msgid ""
 msgstr ""
 "Estes projectos não estão associados com %1, e não podemos garantir a "
 "natureza de práticas seguras nas suas pesquisas. Junte-se a eles por sua "
-"conta e risco. "
+"conta e risco."
 
 #: ../user/language_select.php:44
 msgid "Language selection"
@@ -5062,8 +5062,8 @@ msgid ""
 "Normally the choice of language is determined by your browser's language "
 "setting, which is: %1.  You can change this setting using:"
 msgstr ""
-"Normalmente a escolha da linguagem é determinada pela definição de linguagem "
-"do seu navegador, que é: %1. Pode alterar esta definição usando:"
+"Normalmente a escolha do idioma é determinada pela definição de idioma do "
+"seu navegador web, que é: %1. Pode alterar esta definição usando:"
 
 #: ../user/language_select.php:80
 msgid "Firefox: Tools/Options/General"
@@ -5079,9 +5079,9 @@ msgid ""
 "send your browser a cookie; make sure your browser accepts cookies from our "
 "domain."
 msgstr ""
-"Ou pode seleccionar a linguagem carregando num destes links. Isto irá enviar "
-"um cookie para o seu navegador; confirme que o seu navegador aceita cookies "
-"do nosso domínio."
+"Ou pode seleccionar o idioma carregando numa destas ligações. Isto irá "
+"enviar um cookie para o seu navegador; confirme que o seu navegador aceita "
+"cookies do nosso domínio."
 
 #: ../user/language_select.php:92
 msgid "Language name (click to select)"
@@ -5096,7 +5096,7 @@ msgid ""
 "Translations are done by volunteers.  If your native language is not here, "
 "%1you can provide a translation%2."
 msgstr ""
-"As traduções são feitas por voluntários. Se a sua lingua não está aqui, %1 "
+"As traduções são feitas por voluntários. Se o seu idioma não está aqui, %1 "
 "pode providenciar a tradução%2."
 
 #: ../user/login_form.php:52
@@ -5144,14 +5144,12 @@ msgid ""
 "        Incompatible computers will not be merged.\n"
 "        <p>"
 msgstr ""
-"Esta operação funde os computadores com base no nome de domínio.\n"
-"        <p>\n"
-"        Por cada nome de domínio, irão ser fundidos todos os computadores "
-"mais velhos\n"
-"        que tenham esse nome com os computadores mais recentes que tenham "
-"esse nome.\n"
-"        Computadores incompativeis não serão fundidos.\n"
-"        <p>"
+"Esta operação liga os computadores baseados no seu nome de domínio.\n"
+"<p>\n"
+"Para cada nome de domínio, este ligará todos os computadores antigos\n"
+"tendo esse nome no computador mais recente.\n"
+"Os computador incompatíveis não serão ligados entre si.\n"
+"<p>"
 
 #: ../user/merge_by_name.php:84
 msgid "Go ahead and do this"
@@ -5676,11 +5674,11 @@ msgstr "Tarefas em progresso"
 
 #: ../user/server_status.php:341
 msgid "Workunits waiting for validation"
-msgstr "Unidades de trabalho à espera de validação"
+msgstr "Unidades de trabalho à espera de serem validadas"
 
 #: ../user/server_status.php:346
 msgid "Workunits waiting for assimilation"
-msgstr "Unidades de trabalho à espera de assimilação"
+msgstr "Unidades de trabalho à espera de serem assimiladas"
 
 #: ../user/server_status.php:351
 msgid "Workunits waiting for file deletion"
@@ -6003,7 +6001,7 @@ msgid ""
 "                  To accept the request, assign foundership to %3 using the "
 "form below."
 msgstr ""
-"Se não declinar o pedido por %1, 2% terá a opção de assimir a liderança da "
+"Se não declinar o pedido por %1, 2% terá a opção de assumir a liderança da "
 "equipa.<br/><br/>\n"
 "                  Para aceitar o pedido, atribua a liderança a %3 usando o "
 "formulário abaixo."
@@ -6341,7 +6339,7 @@ msgstr "Já é membro"
 
 #: ../user/team_join.php:36 ../user/team_join_action.php:36
 msgid "You are already a member of %1."
-msgstr "Já é membro de %1"
+msgstr "Já é membro de %1."
 
 #: ../user/team_join.php:42 ../user/team_join_action.php:43
 msgid "Couldn't join team - please try again later."
@@ -6353,7 +6351,7 @@ msgstr "Juntou-se a %1"
 
 #: ../user/team_join_action.php:41
 msgid "You have joined %1."
-msgstr "Juntou-se a %1"
+msgstr "Juntou-se a %1."
 
 #: ../user/team_join_form.php:34
 msgid "Join %1"
@@ -6390,8 +6388,8 @@ msgstr "Pode ver os membros, estatísticas e informações das equipas."
 #: ../user/team_lookup.php:98
 msgid "More than 100 teams match your search. The first 100 are shown."
 msgstr ""
-"Mais de 100 equipas correspondem à sua procura. Os primeiros serão "
-"mostrados."
+"Mais de 100 equipas correspondem à sua procura. As primeiras 100 serão "
+"mostradas."
 
 #: ../user/team_lookup.php:104
 msgid ""
@@ -6511,7 +6509,7 @@ msgstr "Equipa %1 apagada"
 
 #: ../user/team_members.php:35
 msgid "Limit exceeded:  Can only display the first 1000 members."
-msgstr "Limite excedido: Só possivel mostrar os primeiros 1000 membros."
+msgstr "Limite excedido: Só é possivel mostrar os primeiros 1000 membros."
 
 #: ../user/team_members.php:47
 msgid "Members of %1"
@@ -6716,7 +6714,7 @@ msgstr "Juntou-se"
 
 #: ../user/user_search.php:148
 msgid "No users match your search criteria."
-msgstr "Nenhum utilizador com o critéria da pesquisa"
+msgstr "Nenhum utilizador encontrado com os critérios especificados."
 
 #: ../user/userw.php:35
 msgid "User not found!"

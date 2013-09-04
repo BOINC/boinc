@@ -1,124 +1,127 @@
-# Portuguese (Portugal) translations for PACKAGE.
+# Translations template for PROJECT.
 # Copyright (C) 2013 ORGANIZATION
-# This file is distributed under the same license as the PACKAGE project.
+# This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-30 11:43-0700\n"
-"PO-Revision-Date: 2013-08-30 11:43-0700\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: pt_PT <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=((n == 1) ? 0 : 1)\n"
+"POT-Creation-Date: 2013-08-29 15:37-0700\n"
+"PO-Revision-Date: 2013-09-03 15:52-0000\n"
+"Last-Translator: Miguel Veiga <Miguel.veig@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: pt_PT\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
 "Generated-By: Babel 1.0dev\n"
 
 #. app global
 msgctxt "app_name"
 msgid "BOINC"
-msgstr ""
+msgstr "BOINC"
 
 #. generic. used by multiple Activities/tabs
 msgctxt "generic_loading"
 msgid "Loading! Please wait…"
-msgstr ""
+msgstr "A carregar! Por favor aguarde..."
 
 #. attach project
 #. project list
 msgctxt "attachproject_list_header"
 msgid "Choose a project:"
-msgstr ""
+msgstr "Escolha um projecto:"
 
 msgctxt "attachproject_list_manual_button"
 msgid "Add project by URL"
-msgstr ""
+msgstr "Adicionar projecto por URL"
 
 msgctxt "attachproject_list_manual_dialog_title"
 msgid "Enter project URL:"
-msgstr ""
+msgstr "Insira URL do projecto:"
 
 msgctxt "attachproject_list_manual_dialog_button"
 msgid "Add project"
-msgstr ""
+msgstr "Adicionar projecto"
 
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
-msgstr ""
+msgstr "Por favor insira o URL do projecto"
 
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
-msgstr ""
+msgstr "Sem conexão de internet"
 
 #. project login
 msgctxt "attachproject_login_loading"
 msgid "Contacting project server…"
-msgstr ""
+msgstr "Contactando o servidor do projecto..."
 
 msgctxt "attachproject_login_image_description"
 msgid "Project logo."
-msgstr ""
+msgstr "Logotipo do projecto."
 
 msgctxt "attachproject_login_header_general_area"
 msgid "General area:"
-msgstr ""
+msgstr "Área geral:"
 
 msgctxt "attachproject_login_header_specific_area"
 msgid "Specific area:"
-msgstr ""
+msgstr "Área especifica:"
 
 msgctxt "attachproject_login_header_description"
 msgid "Description:"
-msgstr ""
+msgstr "Descrição:"
 
 msgctxt "attachproject_login_header_home"
 msgid "Home:"
-msgstr ""
+msgstr "Página principal:"
 
 msgctxt "attachproject_login_header_url"
 msgid "Website:"
-msgstr ""
+msgstr "Website:"
 
 msgctxt "attachproject_login_header_platform"
 msgid "Android:"
-msgstr ""
+msgstr "Android:"
 
 msgctxt "attachproject_login_platform_supported"
 msgid "This project supports Android devices"
-msgstr ""
+msgstr "Este projecto suporta dispositivos com Android"
 
 msgctxt "attachproject_login_platform_not_supported"
 msgid "This project does not support Android devices"
-msgstr ""
+msgstr "Este projecto não suporta dispositivos com Android"
 
 msgctxt "attachproject_login_category_terms_of_use"
 msgid "Terms of use for"
-msgstr ""
+msgstr "Termos de uso para"
 
 msgctxt "attachproject_login_accept_terms_of_use"
 msgid ""
 "By creating an account with this project, you accept the terms of use as "
 "shown above."
 msgstr ""
+"Ao criar uma conta neste projecto, aceita os termos de uso como acima "
+"descritos."
 
 msgctxt "attachproject_login_category_login"
 msgid "Sign in with existing account"
-msgstr ""
+msgstr "Entrar com uma conta já existente"
 
 msgctxt "attachproject_login_header_id_email"
 msgid "eMail:"
-msgstr ""
+msgstr "eMail:"
 
 msgctxt "attachproject_login_header_id_name"
 msgid "Name:"
-msgstr ""
+msgstr "Nome:"
 
 msgctxt "attachproject_login_header_pwd"
 msgid "Password:"
-msgstr ""
+msgstr "Palavra-passe:"
 
 msgctxt "attachproject_login_category_creation"
 msgid "New to"
@@ -138,15 +141,15 @@ msgstr ""
 
 msgctxt "attachproject_login_button_registration"
 msgid "Register"
-msgstr ""
+msgstr "Registar"
 
 msgctxt "attachproject_login_button_login"
 msgid "Sign in"
-msgstr ""
+msgstr "Entrar"
 
 msgctxt "attachproject_login_button_forgotpw"
 msgid "Forgot Password"
-msgstr ""
+msgstr "Esqueceu a palavra-passe"
 
 msgctxt "attachproject_login_error_toast"
 msgid "Contacting project failed!"
@@ -154,7 +157,7 @@ msgstr ""
 
 msgctxt "attachproject_login_attached"
 msgid "Attached"
-msgstr ""
+msgstr "Anexado"
 
 #. project registration
 msgctxt "attachproject_registration_header"
@@ -163,23 +166,23 @@ msgstr ""
 
 msgctxt "attachproject_registration_header_url"
 msgid "Project:"
-msgstr ""
+msgstr "Projecto:"
 
 msgctxt "attachproject_registration_header_email"
 msgid "eMail:"
-msgstr ""
+msgstr "eMail:"
 
 msgctxt "attachproject_registration_header_username"
 msgid "Name:"
-msgstr ""
+msgstr "Nome:"
 
 msgctxt "attachproject_registration_header_teamname"
 msgid "Team:"
-msgstr ""
+msgstr "Equipa:"
 
 msgctxt "attachproject_registration_header_pwd"
 msgid "Password:"
-msgstr ""
+msgstr "Palavra-passe"
 
 msgctxt "attachproject_registration_header_pwd_confirm"
 msgid "… Retype:"
@@ -187,73 +190,73 @@ msgstr ""
 
 msgctxt "attachproject_registration_button"
 msgid "Create"
-msgstr ""
+msgstr "Criar"
 
 #. error strings
 msgctxt "attachproject_error_wrong_name"
 msgid "User not found"
-msgstr ""
+msgstr "Utilizador não encontrado"
 
 msgctxt "attachproject_error_short_pwd"
 msgid "Password too short"
-msgstr ""
+msgstr "Palavra-passe demasiado curta"
 
 msgctxt "attachproject_error_no_internet"
 msgid "Connection failure"
-msgstr ""
+msgstr "Falha de conexão"
 
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
-msgstr ""
+msgstr "As palavras-passe não coincidem"
 
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
-msgstr ""
+msgstr "Por favor insira o endereço de eMail"
 
 msgctxt "attachproject_error_no_pwd"
 msgid "Please enter a password"
-msgstr ""
+msgstr "Por favor insira a palavra-passe"
 
 msgctxt "attachproject_error_no_name"
 msgid "Please enter user name"
-msgstr ""
+msgstr "Por favor insira o nome de utilizador"
 
 msgctxt "attachproject_error_unknown"
 msgid "failed"
-msgstr ""
+msgstr "falhou"
 
 msgctxt "attachproject_error_bad_username"
 msgid "User name refused"
-msgstr ""
+msgstr "Nome de utilizador não aceite"
 
 msgctxt "attachproject_error_email_in_use"
 msgid "eMail is already in use"
-msgstr ""
+msgstr "Endereço de eMail já em uso"
 
 msgctxt "attachproject_error_project_down"
 msgid "Project is offline"
-msgstr ""
+msgstr "O projecto está offline"
 
 msgctxt "attachproject_error_email_bad_syntax"
 msgid "eMail refused"
-msgstr ""
+msgstr "Endereço de eMail não aceite"
 
 msgctxt "attachproject_error_bad_pwd"
 msgid "Password refused"
-msgstr ""
+msgstr "Palavra-passe não aceite"
 
 msgctxt "attachproject_error_creation_disabled"
 msgid "Account creation is disabled on this project"
-msgstr ""
+msgstr "A criação de conta está desabilitada para este projecto"
 
 #. working activity
 msgctxt "attachproject_working_back_button"
 msgid "Back"
-msgstr ""
+msgstr "Voltar atrás"
 
 msgctxt "attachproject_working_finish_button"
 msgid "Finish"
-msgstr ""
+msgstr "Terminar"
 
 msgctxt "attachproject_working_check_desc"
 msgid "Successful"
@@ -261,35 +264,35 @@ msgstr ""
 
 msgctxt "attachproject_working_failed_desc"
 msgid "Failed"
-msgstr ""
+msgstr "Falhou"
 
 msgctxt "attachproject_working_ongoing"
 msgid "…"
-msgstr ""
+msgstr "..."
 
 msgctxt "attachproject_working_finished"
 msgid "."
-msgstr ""
+msgstr "."
 
 msgctxt "attachproject_working_description"
 msgid ":"
-msgstr ""
+msgstr ":"
 
 msgctxt "attachproject_working_connect"
 msgid "Connect"
-msgstr ""
+msgstr "Conectar"
 
 msgctxt "attachproject_working_verify"
 msgid "Verify account"
-msgstr ""
+msgstr "Verificar conta"
 
 msgctxt "attachproject_working_register"
 msgid "Register account"
-msgstr ""
+msgstr "Registar conta"
 
 msgctxt "attachproject_working_login"
 msgid "Log in"
-msgstr ""
+msgstr "Log in"
 
 #. main activity
 msgctxt "main_noproject_warning"
@@ -298,7 +301,7 @@ msgstr ""
 
 msgctxt "main_error"
 msgid "Whooops"
-msgstr ""
+msgstr "Whooops"
 
 msgctxt "main_error_long"
 msgid ""
@@ -308,57 +311,57 @@ msgstr ""
 
 msgctxt "main_title_icon_desc"
 msgid "BOINC icon"
-msgstr ""
+msgstr "Icone do BOINC"
 
 #. tab names
 msgctxt "tab_status"
 msgid "Status"
-msgstr ""
+msgstr "Estado"
 
 msgctxt "tab_projects"
 msgid "Projects"
-msgstr ""
+msgstr "Projectos"
 
 msgctxt "tab_tasks"
 msgid "Tasks"
-msgstr ""
+msgstr "Tarefas"
 
 msgctxt "tab_transfers"
 msgid "Transfers"
-msgstr ""
+msgstr "Transferências"
 
 msgctxt "tab_preferences"
 msgid "Preferences"
-msgstr ""
+msgstr "Preferências"
 
 msgctxt "tab_desc"
 msgid "Navigation"
-msgstr ""
+msgstr "Navegação"
 
 #. status strings
 msgctxt "status_running"
 msgid "Computing"
-msgstr ""
+msgstr "A computar"
 
 msgctxt "status_running_long"
 msgid "Thank you for participating."
-msgstr ""
+msgstr "Obrigado por participar."
 
 msgctxt "status_paused"
 msgid "Suspended"
-msgstr ""
+msgstr "Suspenso"
 
 msgctxt "status_idle"
 msgid "Nothing to do"
-msgstr ""
+msgstr "Nada para fazer"
 
 msgctxt "status_idle_long"
 msgid "Waiting for tasks…"
-msgstr ""
+msgstr "A aguardar tarefas..."
 
 msgctxt "status_computing_disabled"
 msgid "Suspended"
-msgstr ""
+msgstr "Suspenso"
 
 msgctxt "status_computing_disabled_long"
 msgid "Press play to resume network and computation."
@@ -366,7 +369,7 @@ msgstr ""
 
 msgctxt "status_launching"
 msgid "Starting…"
-msgstr ""
+msgstr "A começar..."
 
 msgctxt "status_noproject"
 msgid "Choose a project to participate in."
@@ -399,7 +402,7 @@ msgstr ""
 
 msgctxt "prefs_dialog_title_selection"
 msgid "Select:"
-msgstr ""
+msgstr "Seleccione:"
 
 msgctxt "prefs_category_general"
 msgid "General"
@@ -460,7 +463,8 @@ msgid "Max. used storage space"
 msgstr ""
 
 msgctxt "prefs_disk_max_pct_description"
-msgid "How many percent of your device's storage space is BOINC allowed to use?"
+msgid ""
+"How many percent of your device's storage space is BOINC allowed to use?"
 msgstr ""
 
 msgctxt "prefs_disk_min_free_gb_header"
@@ -537,20 +541,20 @@ msgstr ""
 
 msgctxt "prefs_unit_mb"
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 msgctxt "prefs_unit_gb"
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #, c-format
 msgctxt "prefs_unit_pct"
 msgid "%"
-msgstr ""
+msgstr "%"
 
 msgctxt "prefs_unit_celcius"
 msgid "°C"
-msgstr ""
+msgstr "ºC"
 
 #. projects tab strings
 msgctxt "projects_loading"
@@ -559,28 +563,28 @@ msgstr ""
 
 msgctxt "projects_add"
 msgid "Add project"
-msgstr ""
+msgstr "Adicionar projecto"
 
 msgctxt "projects_icon"
 msgid "Project icon"
-msgstr ""
+msgstr "Icone do projecto"
 
 msgctxt "projects_credits_header"
 msgid "Credit:"
-msgstr ""
+msgstr "Créditos:"
 
 msgctxt "projects_credits_host_header"
 msgid "(on this device)"
-msgstr ""
+msgstr "(neste dispositivo)"
 
 msgctxt "projects_credits_user_header"
 msgid "(total)"
-msgstr ""
+msgstr "(total)"
 
 #. project status strings
 msgctxt "projects_status_suspendedviagui"
 msgid "Suspended by user"
-msgstr ""
+msgstr "Supenso pelo utilizador"
 
 msgctxt "projects_status_dontrequestmorework"
 msgid "Won't get new tasks"
@@ -617,19 +621,19 @@ msgstr ""
 
 msgctxt "projects_control_update"
 msgid "Update"
-msgstr ""
+msgstr "Actualizar"
 
 msgctxt "projects_control_remove"
 msgid "Remove"
-msgstr ""
+msgstr "Remover"
 
 msgctxt "projects_control_suspend"
 msgid "Suspend"
-msgstr ""
+msgstr "Suspender"
 
 msgctxt "projects_control_resume"
 msgid "Resume"
-msgstr ""
+msgstr "Resumir"
 
 msgctxt "projects_control_nonewtasks"
 msgid "No new tasks"
@@ -637,7 +641,7 @@ msgstr ""
 
 msgctxt "projects_control_allownewtasks"
 msgid "Allow new tasks"
-msgstr ""
+msgstr "Permitir novas tarefas"
 
 msgctxt "projects_control_reset"
 msgid "Reset"
@@ -646,19 +650,19 @@ msgstr ""
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
 msgid "Remove project?"
-msgstr ""
+msgstr "Remover projecto?"
 
 msgctxt "projects_confirm_detach_message"
 msgid "Are you sure you want to remove"
-msgstr ""
+msgstr "Tem a certeza que quer remover"
 
 msgctxt "projects_confirm_detach_message2"
 msgid "from BOINC?"
-msgstr ""
+msgstr "do BOINC?"
 
 msgctxt "projects_confirm_detach_confirm"
 msgid "Remove"
-msgstr ""
+msgstr "Remover"
 
 msgctxt "projects_confirm_reset_title"
 msgid "Reset project"
@@ -675,7 +679,7 @@ msgstr ""
 #. tasks tab strings
 msgctxt "tasks_header_name"
 msgid "Task Name:"
-msgstr ""
+msgstr "Nome da Tarefa:"
 
 msgctxt "tasks_header_elapsed_time"
 msgid "Elapsed time:"
@@ -691,7 +695,7 @@ msgstr ""
 
 msgctxt "tasks_result_new"
 msgid "new"
-msgstr ""
+msgstr "novo"
 
 msgctxt "tasks_result_files_downloading"
 msgid "waiting for download"
@@ -723,7 +727,7 @@ msgstr ""
 
 msgctxt "tasks_active_uninitialized"
 msgid "ready"
-msgstr ""
+msgstr "pronto"
 
 msgctxt "tasks_active_executing"
 msgid "running"
@@ -731,44 +735,44 @@ msgstr ""
 
 msgctxt "tasks_active_suspended"
 msgid "suspended"
-msgstr ""
+msgstr "suspenso"
 
 msgctxt "tasks_active_abort_pending"
 msgid "suspending"
-msgstr ""
+msgstr "a suspender"
 
 msgctxt "tasks_active_quit_pending"
 msgid "suspending"
-msgstr ""
+msgstr "a suspender"
 
 msgctxt "tasks_custom_suspended_via_gui"
 msgid "suspended"
-msgstr ""
+msgstr "suspenso"
 
 msgctxt "tasks_custom_project_suspended_via_gui"
 msgid "project suspended"
-msgstr ""
+msgstr "projecto suspenso"
 
 msgctxt "tasks_custom_ready_to_report"
 msgid "ready to report"
-msgstr ""
+msgstr "pronto para reportar"
 
 #. confirmation dialog
 msgctxt "confirm_abort_task_title"
 msgid "Abort task?"
-msgstr ""
+msgstr "Abortar tarefa?"
 
 msgctxt "confirm_abort_task_message"
 msgid "Abort task:"
-msgstr ""
+msgstr "Abortar tarefa:"
 
 msgctxt "confirm_abort_task_confirm"
 msgid "Abort"
-msgstr ""
+msgstr "Abortar"
 
 msgctxt "confirm_cancel"
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 msgctxt "confirm_image_desc"
 msgid "Confirmation dialog"
@@ -789,23 +793,23 @@ msgstr ""
 
 msgctxt "trans_retryin"
 msgid "retry in"
-msgstr ""
+msgstr "tentar novamente em"
 
 msgctxt "trans_failed"
 msgid "failed"
-msgstr ""
+msgstr "falhou"
 
 msgctxt "trans_suspended"
 msgid "suspended"
-msgstr ""
+msgstr "suspenso"
 
 msgctxt "trans_active"
 msgid "active"
-msgstr ""
+msgstr "activo"
 
 msgctxt "trans_pending"
 msgid "pending"
-msgstr ""
+msgstr "pendente"
 
 msgctxt "trans_projectbackoff"
 msgid "project backoff"
@@ -813,11 +817,11 @@ msgstr ""
 
 msgctxt "trans_header_name"
 msgid "File:"
-msgstr ""
+msgstr "Ficheiro:"
 
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
-msgstr ""
+msgstr "Abortar transferência?"
 
 msgctxt "confirm_abort_trans_message"
 msgid "Abort File:"
@@ -851,7 +855,7 @@ msgstr ""
 #. suspend reasons
 msgctxt "suspend_unknown"
 msgid "Computation suspended."
-msgstr ""
+msgstr "Computação suspensa."
 
 msgctxt "suspend_batteries"
 msgid "Connect your device to a charger to continue computing."
@@ -859,7 +863,7 @@ msgstr ""
 
 msgctxt "suspend_useractive"
 msgid "User is active."
-msgstr ""
+msgstr "O utilizador está activo"
 
 msgctxt "suspend_tod"
 msgid "Out of computation time-frame."
@@ -891,7 +895,7 @@ msgstr ""
 
 msgctxt "suspend_cpu"
 msgid "Your device is busy with other apps."
-msgstr ""
+msgstr "O seu dispositivo está ocupado com outras aplicações"
 
 msgctxt "suspend_network_quota"
 msgid "BOINC reached network transfer limit."
@@ -969,11 +973,11 @@ msgstr ""
 
 msgctxt "menu_emailto"
 msgid "Send as Email"
-msgstr ""
+msgstr "Enviar como e-mail"
 
 msgctxt "menu_copy"
 msgid "Copy to Clipboard"
-msgstr ""
+msgstr "Copiar para o Clipboard"
 
 msgctxt "menu_eventlog"
 msgid "Event Log"
@@ -981,23 +985,23 @@ msgstr ""
 
 msgctxt "menu_exit"
 msgid "Exit BOINC"
-msgstr ""
+msgstr "Sair do BOINC"
 
 msgctxt "menu_run_mode_disable"
 msgid "Suspend"
-msgstr ""
+msgstr "Suspender"
 
 msgctxt "menu_run_mode_enable"
 msgid "Resume"
-msgstr ""
+msgstr "Resumir"
 
 msgctxt "menu_about"
 msgid "About"
-msgstr ""
+msgstr "Acerca de"
 
 msgctxt "menu_help"
 msgid "Help"
-msgstr ""
+msgstr "Ajuda"
 
 #. about dialog
 msgctxt "about_button"
@@ -1006,15 +1010,15 @@ msgstr ""
 
 msgctxt "about_title"
 msgid "About"
-msgstr ""
+msgstr "Acerca de"
 
 msgctxt "about_name"
 msgid "BOINC"
-msgstr ""
+msgstr "BOINC"
 
 msgctxt "about_version"
 msgid "Version"
-msgstr ""
+msgstr "Versão"
 
 msgctxt "about_name_long"
 msgid "Berkeley Open Infrastructure for Network Computing"
@@ -1025,4 +1029,5 @@ msgid ""
 "© 2003–2013 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-
+"© 2003-2013 Universidade da Califórnia, Berkeley. \n"
+"Todos os Direitos Reservados."
