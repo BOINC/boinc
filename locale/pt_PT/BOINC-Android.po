@@ -2,7 +2,6 @@
 # Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
@@ -463,8 +462,7 @@ msgid "Max. used storage space"
 msgstr ""
 
 msgctxt "prefs_disk_max_pct_description"
-msgid ""
-"How many percent of your device's storage space is BOINC allowed to use?"
+msgid "How many percent of your device's storage space is BOINC allowed to use?"
 msgstr ""
 
 msgctxt "prefs_disk_min_free_gb_header"
