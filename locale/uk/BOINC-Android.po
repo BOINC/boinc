@@ -1,101 +1,102 @@
-# Ukrainian translations for PACKAGE.
+# Translations template for PROJECT.
 # Copyright (C) 2013 ORGANIZATION
-# This file is distributed under the same license as the PACKAGE project.
+# This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-30 11:43-0700\n"
-"PO-Revision-Date: 2013-08-30 11:43-0700\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: uk <LL@li.org>\n"
-"Plural-Forms: nplurals=4; plural=((((n % 10) == 1) && ((n % 100) != 11)) "
-"? 0 : (((n % 10) >= 2 && (n % 10) <= 4) && (!((n % 100) >= 12 && (n % "
-"100) <= 14))) ? 1 : ((((n % 10) == 0) || ((n % 10) >= 5 && (n % 10) <= "
-"9)) || ((n % 100) >= 11 && (n % 100) <= 14)) ? 2 : 3)\n"
+"POT-Creation-Date: 2013-08-29 15:37-0700\n"
+"PO-Revision-Date: 2013-08-31 19:26+0000\n"
+"Last-Translator: Олег <pukish_oleg@ukr.net>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
+"X-POOTLE-MTIME: 1377977213.0\n"
 
 #. app global
 msgctxt "app_name"
 msgid "BOINC"
-msgstr ""
+msgstr "BOINC"
 
 #. generic. used by multiple Activities/tabs
 msgctxt "generic_loading"
 msgid "Loading! Please wait…"
-msgstr ""
+msgstr "Завантаження! Зачекайте, будь-ласка..."
 
 #. attach project
 #. project list
 msgctxt "attachproject_list_header"
 msgid "Choose a project:"
-msgstr ""
+msgstr "Оберіть проект:"
 
 msgctxt "attachproject_list_manual_button"
 msgid "Add project by URL"
-msgstr ""
+msgstr "Додати проект за адресою (URL)"
 
 msgctxt "attachproject_list_manual_dialog_title"
 msgid "Enter project URL:"
-msgstr ""
+msgstr "Введіть адресу (URL) проекту:"
 
 msgctxt "attachproject_list_manual_dialog_button"
 msgid "Add project"
-msgstr ""
+msgstr "Додати проект"
 
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
-msgstr ""
+msgstr "Будь-ласка, введіть адресу (URL) проекту"
 
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
-msgstr ""
+msgstr "Відсутнє з’єднання з Інтернетом"
 
 #. project login
 msgctxt "attachproject_login_loading"
 msgid "Contacting project server…"
-msgstr ""
+msgstr "Встановлення з’єднання із сервером проекту"
 
 msgctxt "attachproject_login_image_description"
 msgid "Project logo."
-msgstr ""
+msgstr "Логотип проекту."
 
 msgctxt "attachproject_login_header_general_area"
 msgid "General area:"
-msgstr ""
+msgstr "Загальна область:"
 
 msgctxt "attachproject_login_header_specific_area"
 msgid "Specific area:"
-msgstr ""
+msgstr "Спеціальна область:"
 
 msgctxt "attachproject_login_header_description"
 msgid "Description:"
-msgstr ""
+msgstr "Опис:"
 
 msgctxt "attachproject_login_header_home"
 msgid "Home:"
-msgstr ""
+msgstr "Домівка:"
 
 msgctxt "attachproject_login_header_url"
 msgid "Website:"
-msgstr ""
+msgstr "Веб-сайт:"
 
 msgctxt "attachproject_login_header_platform"
 msgid "Android:"
-msgstr ""
+msgstr "Android:"
 
 msgctxt "attachproject_login_platform_supported"
 msgid "This project supports Android devices"
-msgstr ""
+msgstr "Цей проект підтримує пристрої, на базі Android"
 
 msgctxt "attachproject_login_platform_not_supported"
 msgid "This project does not support Android devices"
-msgstr ""
+msgstr "Цей проект не підтримує пристрої, на базі Android"
 
 msgctxt "attachproject_login_category_terms_of_use"
 msgid "Terms of use for"
@@ -141,40 +142,40 @@ msgstr ""
 
 msgctxt "attachproject_login_button_registration"
 msgid "Register"
-msgstr ""
+msgstr "Зареєструватися"
 
 msgctxt "attachproject_login_button_login"
 msgid "Sign in"
-msgstr ""
+msgstr "Увійти"
 
 msgctxt "attachproject_login_button_forgotpw"
 msgid "Forgot Password"
-msgstr ""
+msgstr "Забули пароль?"
 
 msgctxt "attachproject_login_error_toast"
 msgid "Contacting project failed!"
-msgstr ""
+msgstr "Не вдалося з’єднатися з проектом!"
 
 msgctxt "attachproject_login_attached"
 msgid "Attached"
-msgstr ""
+msgstr "Додано"
 
 #. project registration
 msgctxt "attachproject_registration_header"
 msgid "Account registration for"
-msgstr ""
+msgstr "Реєстрація облікового запису для"
 
 msgctxt "attachproject_registration_header_url"
 msgid "Project:"
-msgstr ""
+msgstr "Проект:"
 
 msgctxt "attachproject_registration_header_email"
 msgid "eMail:"
-msgstr ""
+msgstr "Електронна пошта:"
 
 msgctxt "attachproject_registration_header_username"
 msgid "Name:"
-msgstr ""
+msgstr "Ім'я:"
 
 msgctxt "attachproject_registration_header_teamname"
 msgid "Team:"
@@ -215,39 +216,39 @@ msgstr ""
 
 msgctxt "attachproject_error_no_pwd"
 msgid "Please enter a password"
-msgstr ""
+msgstr "Будь-ласка, введіть пароль"
 
 msgctxt "attachproject_error_no_name"
 msgid "Please enter user name"
-msgstr ""
+msgstr "Будь-ласка, введіть ім'я користувача"
 
 msgctxt "attachproject_error_unknown"
 msgid "failed"
-msgstr ""
+msgstr "невдало"
 
 msgctxt "attachproject_error_bad_username"
 msgid "User name refused"
-msgstr ""
+msgstr "Ім'я користувача відхилене"
 
 msgctxt "attachproject_error_email_in_use"
 msgid "eMail is already in use"
-msgstr ""
+msgstr "Електронна адреса вже використовується"
 
 msgctxt "attachproject_error_project_down"
 msgid "Project is offline"
-msgstr ""
+msgstr "Проект поза мережею"
 
 msgctxt "attachproject_error_email_bad_syntax"
 msgid "eMail refused"
-msgstr ""
+msgstr "Адресу електронної пошти відхилено"
 
 msgctxt "attachproject_error_bad_pwd"
 msgid "Password refused"
-msgstr ""
+msgstr "Пароль відхилено"
 
 msgctxt "attachproject_error_creation_disabled"
 msgid "Account creation is disabled on this project"
-msgstr ""
+msgstr "Можливість створення облікових записів в даному проекті відключена"
 
 #. working activity
 msgctxt "attachproject_working_back_button"
@@ -288,43 +289,45 @@ msgstr ""
 
 msgctxt "attachproject_working_register"
 msgid "Register account"
-msgstr ""
+msgstr "Зареєструвати обліковий запис"
 
 msgctxt "attachproject_working_login"
 msgid "Log in"
-msgstr ""
+msgstr "Увійти"
 
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
-msgstr ""
+msgstr "Для обрання проекту натисніть тут."
 
 msgctxt "main_error"
 msgid "Whooops"
-msgstr ""
+msgstr "Ой!"
 
 msgctxt "main_error_long"
 msgid ""
 "…this should not happen!\n"
 "Click on the icon to try again."
 msgstr ""
+"…цього не повинно траплятися!\n"
+"Натисніть на іконці для повторної спроби."
 
 msgctxt "main_title_icon_desc"
 msgid "BOINC icon"
-msgstr ""
+msgstr "Іконка BOINC"
 
 #. tab names
 msgctxt "tab_status"
 msgid "Status"
-msgstr ""
+msgstr "Статус"
 
 msgctxt "tab_projects"
 msgid "Projects"
-msgstr ""
+msgstr "Проекти"
 
 msgctxt "tab_tasks"
 msgid "Tasks"
-msgstr ""
+msgstr "Завдання"
 
 msgctxt "tab_transfers"
 msgid "Transfers"
@@ -365,27 +368,27 @@ msgstr ""
 
 msgctxt "status_computing_disabled_long"
 msgid "Press play to resume network and computation."
-msgstr ""
+msgstr "Натисніть кнопку Грати для відновлення мережі і обчислень."
 
 msgctxt "status_launching"
 msgid "Starting…"
-msgstr ""
+msgstr "Запуск…"
 
 msgctxt "status_noproject"
 msgid "Choose a project to participate in."
-msgstr ""
+msgstr "Оберіть проект для прийняття участі в ньому."
 
 msgctxt "status_closing"
 msgid "Closing…"
-msgstr ""
+msgstr "Закриття..."
 
 msgctxt "status_benchmarking"
 msgid "Benchmarking…"
-msgstr ""
+msgstr "Тестування..."
 
 msgctxt "status_image_description"
 msgid "project image"
-msgstr ""
+msgstr "зображення проекту"
 
 #. preferences tab strings
 msgctxt "prefs_loading"
@@ -1028,4 +1031,3 @@ msgid ""
 "© 2003–2013 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-

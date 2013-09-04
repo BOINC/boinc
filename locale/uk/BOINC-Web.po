@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-08-22 16:22 PDT\n"
-"PO-Revision-Date: 2013-06-09 22:05+0200\n"
+"PO-Revision-Date: 2013-08-31 17:35+0000\n"
 "Last-Translator: Олег <pukish_oleg@ukr.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: uk\n"
@@ -16,8 +16,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-POOTLE-MTIME: 1377970503.0\n"
 
 #: projects.inc:14
 msgid "Distributed sensing"
@@ -148,7 +149,7 @@ msgstr "Університет Делавера"
 
 #: projects.inc:88
 msgid "Study of protein - ligand interactions"
-msgstr "Дослідження білків - взаємодії ліганду"
+msgstr "Дослідження білків - взаємодії лігандів"
 
 #: projects.inc:89
 msgid ""
@@ -163,7 +164,7 @@ msgstr ""
 
 #: projects.inc:103
 msgid "Barcelona Biomedical Research Park (PRBB)"
-msgstr "Barcelona Biomedical Research Park (PRBB)"
+msgstr "Барселонський парк біомедичних досліджень (PRBB)"
 
 #: projects.inc:104
 msgid "Molecular simulations of proteins"
@@ -184,7 +185,7 @@ msgstr ""
 
 #: projects.inc:111
 msgid "Technion, Israel"
-msgstr "Техніон, АиИгЖ"
+msgstr "Техніон, Ізраїль"
 
 #: projects.inc:112
 msgid "Genetic linkage analysis"
@@ -580,11 +581,11 @@ msgstr "Дослідження у галузях фізики, матеріал�
 
 #: projects.inc:365
 msgid "IBM Corporate Citizenship"
-msgstr ""
+msgstr "Корпоративне громадянство IBM"
 
 #: projects.inc:366
 msgid "Medical, environmental and other humanitarian research"
-msgstr ""
+msgstr "Медичні, екологічні та інші гуманітарні дослідження"
 
 #: projects.inc:367
 msgid ""
@@ -707,6 +708,8 @@ msgid ""
 "Primegrid has multiple projects searching for different forms of very large "
 "prime numbers, including searching for the largest known prime number."
 msgstr ""
+"Primegri підтримує багато проектів, які шукають різні форми дуже великих "
+"простих чисел, включаючи пошук найбільшого відомого простого числа."
 
 #: projects.inc:497
 msgid "Hochschule RheinMain University of Applied Sciences"
@@ -1078,12 +1081,12 @@ msgstr "BOINC створено в Університеті Каліфорнії,
 
 #: ../html/inc/news.inc:40
 msgid "Comment"
-msgstr ""
+msgstr "Коментар"
 
 #: ../html/inc/news.inc:111
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr ""
+msgstr "Новини доступні у форматі %sстрічки RSS%s"
 
 #~ msgid "IBM Corporate Community Relations"
 #~ msgstr "IBM Corporate Community Relations"
