@@ -6,15 +6,15 @@ msgstr ""
 "Project-Id-Version: BOINC Project Generic\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2013-08-29 21:41+0000\n"
-"Last-Translator: Aycan <aycandemirel@hotmail.com>\n"
+"PO-Revision-Date: 2013-09-04 20:19+0200\n"
+"Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.5.0\n"
+"X-Generator: Poedit 1.5.7\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-POOTLE-MTIME: 1377812478.0\n"
 
@@ -314,7 +314,6 @@ msgstr "Oy: %1"
 msgid "rate: "
 msgstr "oyla:"
 
-# 83%
 #: ../inc/forum.inc:674
 msgid "Click if you like this message"
 msgstr "Bu mesajdan hoşlandıysanız tıklayın"
@@ -1100,6 +1099,7 @@ msgstr "Bellek: Bilgisayar boştayken en fazla kullanım"
 #: ../inc/prefs.inc:217
 msgid "Maintain enough tasks to keep busy for at least%1(max 10 days).%2"
 msgstr ""
+"En az bu süre kadar meşgul tutacak miktarda iş indir%1(en fazla 10 gün).%2"
 
 #: ../inc/prefs.inc:222 ../inc/prefs.inc:227 ../inc/prefs.inc:269
 #: ../inc/util.inc:264
@@ -1108,7 +1108,7 @@ msgstr "gün"
 
 #: ../inc/prefs.inc:225
 msgid "... and up to an additional"
-msgstr ""
+msgstr "... ve ek olarak da depoda bu kadar iş bulunsun"
 
 #: ../inc/prefs.inc:231
 msgid ""
@@ -1432,11 +1432,11 @@ msgstr "Sürmekte"
 
 #: ../inc/result.inc:107
 msgid "Validation pending"
-msgstr ""
+msgstr "Doğrulama kuyruğunda"
 
 #: ../inc/result.inc:108
 msgid "Validation inconclusive"
-msgstr ""
+msgstr "Doğrulama sonuçsuz"
 
 #: ../inc/result.inc:109 ../inc/result.inc:259
 msgid "Valid"
@@ -1496,7 +1496,7 @@ msgstr "Sunucu tarafından iptal edildi"
 
 #: ../inc/result.inc:190
 msgid "Not started by deadline - canceled"
-msgstr ""
+msgstr "Son teslim tarihine kadar başlatılmadı - iptal edildi"
 
 #: ../inc/result.inc:193
 msgid "Error while downloading"
@@ -2095,11 +2095,9 @@ msgstr "Kullanıcı NO"
 msgid "Used in community functions"
 msgstr "Topluluk işlevlerinde kullanılır (özel mesaj için vs.)"
 
-# 91%
 #: ../inc/user.inc:217 ../user/weak_auth.php:25
-#, fuzzy
 msgid "Account keys"
-msgstr "Hesap anahtarı"
+msgstr "Hesap anahtarları"
 
 #: ../inc/user.inc:222
 msgid "Preferences"
@@ -2216,15 +2214,15 @@ msgstr "Arkadaş olarak ekle"
 
 #: ../inc/user.inc:446
 msgid "user name cannot have leading or trailing white space"
-msgstr ""
+msgstr "kullanıcı adı başında veya sonda boşluk karakteri olamaz"
 
 #: ../inc/user.inc:450
 msgid "user name must be nonempty"
-msgstr ""
+msgstr "kullanıcı adı boş olamaz"
 
 #: ../inc/user.inc:454
 msgid "user name may not contain HTML tags"
-msgstr ""
+msgstr "kullanıcı adı HTML etiketleri içeremez"
 
 #: ../inc/util.inc:122
 msgid "log out"
@@ -2519,8 +2517,7 @@ msgstr "Sahip olduğunuz davet kodu geçersiz."
 msgid ""
 "Invalid email address: you must enter a valid address of the form name@domain"
 msgstr ""
-"Geçersiz e-posta adresi: 'isim@site' biçiminde geçerli bir adres "
-"girmelisiniz"
+"Geçersiz e-posta adresi: 'isim@site' biçiminde geçerli bir adres girmelisiniz"
 
 #: ../user/create_account_action.php:95
 msgid "There's already an account with that email address."
@@ -2553,6 +2550,8 @@ msgid ""
 "NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
 "select Add Project, and enter an email address and password."
 msgstr ""
+"Not: BOINC Manager kullanıyorsanız, bu formu kullanmayın. Sadece BOINC'i "
+"çalıştırın, Proje Ekle'yi seçin ve bir e-posta adresi ve şifre girin."
 
 #: ../user/create_account_form.php:69
 msgid ""
@@ -3081,7 +3080,8 @@ msgstr "Bir avatar kullanma"
 
 #: ../user/edit_forum_preferences_form.php:82
 msgid "Use a Globally Recognized Avatar provided by %1"
-msgstr "%1 tarafından sağlanan bir Globally Recognized Avatar (Gravatar) kullan"
+msgstr ""
+"%1 tarafından sağlanan bir Globally Recognized Avatar (Gravatar) kullan"
 
 #: ../user/edit_forum_preferences_form.php:84
 msgid "Use this uploaded avatar:"
@@ -3155,7 +3155,7 @@ msgstr "Özel kullanıcıları vurgula"
 
 #: ../user/edit_forum_preferences_form.php:135
 msgid "Display this many messages per page"
-msgstr ""
+msgstr "Her sayfada bu miktarda mesaj görüntüle"
 
 #: ../user/edit_forum_preferences_form.php:139
 msgid "How to sort"
@@ -3175,7 +3175,7 @@ msgstr "Konu başlığındaki ilk yeni gönderiye otomatik olarak atla"
 
 #: ../user/edit_forum_preferences_form.php:142
 msgid "Don't move sticky posts to top"
-msgstr ""
+msgstr "Yapışkan mesajları en üste taşıma"
 
 #: ../user/edit_forum_preferences_form.php:148
 msgid "Message filtering"
@@ -3944,8 +3944,8 @@ msgid ""
 "Your message was flagged as spam by the Akismet anti-spam system. Please "
 "modify your text and try again."
 msgstr ""
-"Mesajınız Akismet anti-spam sistemi tarafından bir saldırı olarak algılandı. "
-" Lütfen yazdığınızı değiştirip, tekrar deneyin."
+"Mesajınız Akismet anti-spam sistemi tarafından bir saldırı olarak "
+"algılandı.  Lütfen yazdığınızı değiştirip, tekrar deneyin."
 
 #: ../user/forum_post.php:70
 msgid "Create new thread"
@@ -3965,7 +3965,8 @@ msgstr "Bunu Bildirim olarak BOINC Manager'da görüntüle"
 
 #: ../user/forum_post.php:127
 msgid "Do so only for items likely to be of interest to all volunteers."
-msgstr "Sadece, tüm gönüllüleri ilgilendirmesi muhtemel öğeler için bunu yapın."
+msgstr ""
+"Sadece, tüm gönüllüleri ilgilendirmesi muhtemel öğeler için bunu yapın."
 
 #: ../user/forum_rate.php:26
 msgid "Rating offline"
@@ -3978,8 +3979,7 @@ msgstr "Bu özellik proje tarafından kapatıldı"
 #: ../user/forum_rate.php:58
 msgid "You need more average or total credit to rate a post."
 msgstr ""
-"Oylayabilmek için daha fazla ortalama ya da toplam krediye sahip "
-"olmalısınız."
+"Oylayabilmek için daha fazla ortalama ya da toplam krediye sahip olmalısınız."
 
 #: ../user/forum_rate.php:62
 msgid "You have already rated this post."
@@ -3993,21 +3993,17 @@ msgid "Return to thread"
 msgstr "Konu başlığına dön"
 
 #: ../user/forum_rate.php:72
-#, fuzzy
 msgid "Input Recorded"
-msgstr "Girdi Kaydedildi"
+msgstr "Rapor Kaydedildi"
 
-# 77%
 #: ../user/forum_rate.php:73
 msgid "Your input has been recorded. Thanks for your help."
 msgstr "Raporunuz kaydedildi. Yardımlarınız için teşekkürler."
 
 #: ../user/forum_rate.php:75
-#, fuzzy
 msgid "Vote Registered"
 msgstr "Oy Kaydedildi"
 
-# 84%
 #: ../user/forum_rate.php:76
 msgid "Your rating has been recorded. Thanks for your input."
 msgstr "Değerlendirmeniz kaydedildi. Bildiriminiz için teşekkürler."
@@ -4055,9 +4051,7 @@ msgstr ""
 msgid "Report Registered"
 msgstr "Raporlama kaydedildi"
 
-# 92%
 #: ../user/forum_report_post.php:66
-#, fuzzy
 msgid "Your report has been recorded. Thanks for your input."
 msgstr "Raporunuz kaydedildi. Çabanız için teşekkürler."
 
@@ -4126,18 +4120,20 @@ msgstr "Seçenekler:"
 #: ../user/forum_rss.php:47
 msgid "Include only posts by user ID %1 (default: all users)."
 msgstr ""
+"Yalnızca kullanıcı NO %1 olan mesajları içer (varsayılan: tüm kullanıcılar)."
 
 #: ../user/forum_rss.php:49
 msgid "Include only posts from the last %1 days (default: 30)."
-msgstr ""
+msgstr "Yalnızca son %1 günlük mesajları içer (varsayılan: 30)."
 
 #: ../user/forum_rss.php:51
 msgid "Truncate posts: %1 (Include only first 265 characters of each post)"
 msgstr ""
+"Mesajları kısalt: %1 (her gönderinin sadece ilk 265 karakterlerini içerir)"
 
 #: ../user/forum_rss.php:53
 msgid "Threads only: %1 (Include only the first post of every thread)"
-msgstr ""
+msgstr "Yalnızca konular: %1 (her konunun sadece ilk mesajını içerir)"
 
 #: ../user/forum_search.php:27
 msgid "Forum search"
@@ -4145,43 +4141,43 @@ msgstr "Forum ara"
 
 #: ../user/forum_search.php:31
 msgid "Search query"
-msgstr ""
+msgstr "Arama sorgusu"
 
 #: ../user/forum_search.php:32
 msgid "Search for keywords:"
-msgstr ""
+msgstr "Anahtar kelimeler için ara:"
 
 #: ../user/forum_search.php:33
 msgid "Posts that contain all the specified words will be displayed"
-msgstr ""
+msgstr "Belirtilen tüm kelimeleri içeren mesajlar görüntülenir."
 
 #: ../user/forum_search.php:35
 msgid "For example: \"screensaver freeze\""
-msgstr ""
+msgstr "Örneğin: \"ekran koruyucu dondu\""
 
 #: ../user/forum_search.php:36
 msgid "Search for author ID:"
-msgstr ""
+msgstr "Yazar NO için ara:"
 
 #: ../user/forum_search.php:37
 msgid "Only posts by this author will be displayed"
-msgstr ""
+msgstr "Sadece bu yazarın mesajları görüntülenir"
 
 #: ../user/forum_search.php:39
 msgid "For example: \"43214\""
-msgstr ""
+msgstr "Örneğin: \"43214\""
 
 #: ../user/forum_search.php:41
 msgid "Search options"
-msgstr "seçenekler"
+msgstr "Arama seçenekleri"
 
 #: ../user/forum_search.php:42
 msgid "Search limits"
-msgstr ""
+msgstr "Arama sınırlamaları"
 
 #: ../user/forum_search.php:43
 msgid "Search at most this many days back in time"
-msgstr ""
+msgstr "En fazla bu kadar gün geriye doğru ara."
 
 #: ../user/forum_search.php:50 ../user/forum_search.php:51
 msgid "%1 months"
@@ -4189,19 +4185,19 @@ msgstr "%1 ay"
 
 #: ../user/forum_search.php:52
 msgid "1 year"
-msgstr ""
+msgstr "1 yıl"
 
 #: ../user/forum_search.php:73
 msgid "Only display posts from this forum"
-msgstr ""
+msgstr "Sadece bu forumdan mesajları görüntüle"
 
 #: ../user/forum_search.php:84
 msgid "Sort by"
-msgstr ""
+msgstr "Sırala:"
 
 #: ../user/forum_search.php:88
 msgid "Start the search"
-msgstr ""
+msgstr "Aramayı başlat"
 
 #: ../user/forum_search_action.php:141
 msgid "Forum search results"
@@ -4220,10 +4216,12 @@ msgid ""
 "Sorry, couldn't find anything matching your search query. You can try to "
 "broaden your search by using less words (or less specific words)."
 msgstr ""
+"Üzgüm, arama sorgunuza uyan bir şey bulamadı. Daha az kelime (veya daha az "
+"özgün kelimeler) kullanarak aramanızı genişletmeyi deneyebilirsiniz."
 
 #: ../user/forum_search_action.php:219
 msgid "You can also %1try the same search on Google.%2"
-msgstr ""
+msgstr "Ayrıca, %1aynı aramayı Google kullanarak da yapabilirsiniz.%2"
 
 #: ../user/forum_search_action.php:224
 msgid "Perform another search"
@@ -4237,7 +4235,7 @@ msgstr "Abonelik başarılı"
 msgid ""
 "You are now subscribed to %1. You will be notified whenever there is a new "
 "post."
-msgstr ""
+msgstr "Artık %1 abonesisiniz. Yeni bir gönderim olduğunda size bildirilecek."
 
 #: ../user/forum_subscribe.php:51
 msgid "Subscription failed"
@@ -4248,23 +4246,20 @@ msgid ""
 "We are currently unable to subscribe you to %1. Please try again later.."
 msgstr "Sizi %1 konusuna abone yapamadık. Lütfen daha sonra tekrar deneyin."
 
-# 88%
 #: ../user/forum_subscribe.php:61
-#, fuzzy
 msgid "Unsubscription successful"
-msgstr "Abonelik başarılı"
+msgstr "Abonelik iptali başarılı"
 
 #: ../user/forum_subscribe.php:64
 msgid ""
 "You are no longer subscribed to %1. You will no longer receive notifications "
 "for this thread."
 msgstr ""
+"Artık %1 abonesi değilsiniz. Artık bu konu için bildirimler almayacaksınız."
 
-# 85%
 #: ../user/forum_subscribe.php:66
-#, fuzzy
 msgid "Unsubscription failed"
-msgstr "Abonelik başarısız"
+msgstr "Abonelik iptali başarısız oldu"
 
 #: ../user/forum_subscribe.php:67
 msgid ""
@@ -4289,11 +4284,8 @@ msgid "My question was answered"
 msgstr "Sorum yanıtlandı"
 
 #: ../user/forum_thread.php:128
-#, fuzzy
 msgid "Click here if your question has been adequately answered"
-msgstr ""
-"Eğer sorunuz yeterli şekilde yanıtlandıysa, kapatmak için lütfen buraya "
-"tıklayın."
+msgstr "Eğer sorunuz yeterli şekilde yanıtlandıysa, lütfen buraya tıklayın."
 
 #: ../user/forum_thread.php:136
 msgid "I've also got this question"
@@ -4374,19 +4366,19 @@ msgstr "Konu başlığını düzenler"
 
 #: ../user/forum_thread.php:243
 msgid "Export as Notice"
-msgstr ""
+msgstr "Bildirim olarak dışa aktar"
 
 #: ../user/forum_thread.php:244
 msgid "Export this news item as a Notice"
-msgstr ""
+msgstr "Bu haber öğesini bir Bildirim olarak dışa aktar"
 
 #: ../user/forum_thread.php:249
 msgid "Don't export"
-msgstr ""
+msgstr "Dışa aktarma"
 
 #: ../user/forum_thread.php:250
 msgid "Don't export this news item as a Notice"
-msgstr ""
+msgstr "Bu haber öğesini bir Bildirim olarak dışa aktarmaz"
 
 #: ../user/forum_thread.php:258 ../user/forum_thread.php:260
 msgid "Sort"
@@ -4402,7 +4394,7 @@ msgstr "Durum bilgisi güncellendi."
 
 #: ../user/forum_user_posts.php:73
 msgid "Posts by %1"
-msgstr ""
+msgstr "%1 kullanıcısının gönderileri"
 
 #: ../user/friend.php:33
 msgid "Already friends"
@@ -4450,11 +4442,11 @@ msgstr "%1 kullanıcısını isteğiniz konusunda uyardık."
 
 #: ../user/friend.php:126
 msgid "Please log in as %1"
-msgstr ""
+msgstr "Lütfen %1 olarak giriş yapın"
 
 #: ../user/friend.php:127
 msgid "You must log in as %1 to view this friend request"
-msgstr ""
+msgstr "Bu arkadaşlık isteğini görebilmek için %1 olarak giriş yapmanız gerek"
 
 #: ../user/friend.php:138
 msgid "Friend request"
@@ -4534,30 +4526,38 @@ msgstr "%1 ile arkadaşlığınız bitti."
 
 #: ../user/get_passwd.php:25
 msgid "Forgot your account info?"
-msgstr ""
+msgstr "Hesap bilginizi mi unuttunuz?"
 
 #: ../user/get_passwd.php:28
 msgid ""
 "1) If you know your account's email address, and you can receive email there:"
 msgstr ""
+"1) Hesabınızın e-posta adresini biliyorsanız, buradan bir e-posta "
+"alabilirsiniz:"
 
 #: ../user/get_passwd.php:29
 msgid ""
 "Enter the email address below, and click OK. You will be sent email "
 "instructions for resetting your password."
 msgstr ""
+"Aşağıya e-posta adresini girin ve Tamam'ı tıklatın. Parolanızı sıfırlamak "
+"için e-posta talimatları gönderilecektir."
 
 #: ../user/get_passwd.php:46
 msgid ""
 "2) If you forgot your account's email address, or you can't receive email "
 "there:"
 msgstr ""
+"2) Hesabınızın e-posta adresini unuttuysanız, veya buradan e-posta "
+"alamıyorsanız:"
 
 #: ../user/get_passwd.php:47
 msgid ""
 "If you have run BOINC under this account, you can still access it. Here's "
 "how:"
 msgstr ""
+"Bu hesap altında BOINC çalıştırıyorsanız, yine de erişebilirsiniz. İşte "
+"nasıl olacağı:"
 
 #: ../user/get_passwd.php:50
 msgid ""
@@ -4565,46 +4565,57 @@ msgid ""
 "<b>C:\\Documents and Settings\\All Users\\Application Data\\BOINC</b> or "
 "<b>C:\\Program Files\\BOINC</b>."
 msgstr ""
+"Bilgisayarınızdaki BOINC veri klasörüne gidin (bu Windows'ta genellikle <b>C:"
+"\\Documents and Settings\\All Users\\Application Data\\BOINC</b> ya da <b>C:"
+"\\Program Files\\BOINC</b> klasörüdür."
 
 #: ../user/get_passwd.php:51
 msgid "Find your account file for this project; it will be named <b>%1</b>."
-msgstr ""
+msgstr "Bu proje için hesap dosyanızı bulun; ismi <b>%1</b> olacaktır."
 
 #: ../user/get_passwd.php:52
 msgid "Open the file in a text editor like Notepad. You'll see something like"
 msgstr ""
+"Not Defteri gibi bir metin düzenleyicisinde dosyayı açın. Şunun gibi bir şey "
+"göreceksiniz"
 
 #: ../user/get_passwd.php:62
 msgid "Select and Copy the string between %1 and %2 (%3 in the above example)."
 msgstr ""
+"%1 ve %2 arasında kalan kısımdaki metin dizisini seçip kopyalayın "
+"(yukarıdaki örnekte %3)."
 
 #: ../user/get_passwd.php:64
 msgid "Paste the string into the field below, and click OK."
-msgstr ""
+msgstr "Metin dizisini aşağıdaki bölüme yapıştırın ve ardından Tamam'a basın."
 
 #: ../user/get_passwd.php:65
 msgid ""
 "You will now be logged in to your account; update the email and password of "
 "your account."
 msgstr ""
+"Artık hesabınıza giriş yapmış olacaksınız; hesabınızın e-posta ve şifresini "
+"güncelleyin."
 
 #: ../user/get_passwd.php:71
 msgid "Log in with authenticator"
-msgstr ""
+msgstr "Kimlik doğrulayıcı ile giriş"
 
 #: ../user/gpu_list.php:126 ../user/gpu_list.php:152
 msgid "No GPU tasks reported"
-msgstr ""
+msgstr "GPU işleri raporlanmadı"
 
 #: ../user/gpu_list.php:182 ../user/stats.php:33
 msgid "Top GPU models"
-msgstr ""
+msgstr "En iyi GPU modelleri"
 
 #: ../user/gpu_list.php:183
 msgid ""
 "The following lists show the most productive GPU models on different "
 "platforms.  Relative speeds are shown in parentheses."
 msgstr ""
+"Aşağıdaki listeler farklı platformlardaki en verimli GPU modellerini "
+"göstermektedir. Göreceli hızları parantez içinde gösterilmiştir."
 
 #: ../user/home.php:42
 msgid "Welcome to %1"
@@ -4617,7 +4628,7 @@ msgstr ""
 
 #: ../user/home.php:46
 msgid "If you have not already done so, %1download BOINC client software%2."
-msgstr ""
+msgstr "Şimdiye kadar yapmadıysanız, %1BOINC istemci yazılımını indirin%2."
 
 #: ../user/home.php:49 ../project.sample/project.inc:47
 msgid "Your account"
@@ -4653,15 +4664,15 @@ msgstr "Tamamlanan iş sayısı"
 
 #: ../user/host_app_versions.php:56
 msgid "Max tasks per day"
-msgstr ""
+msgstr "Günlük ortalama en fazla iş"
 
 #: ../user/host_app_versions.php:57
 msgid "Number of tasks today"
-msgstr ""
+msgstr "Bugünkü iş sayısı"
 
 #: ../user/host_app_versions.php:58
 msgid "Consecutive valid tasks"
-msgstr ""
+msgstr "Ardarda gelen doğrulanmış işler"
 
 #: ../user/host_app_versions.php:62
 msgid "Average processing rate"
@@ -4673,7 +4684,7 @@ msgstr "%1 istemcisi için uygulama detayları"
 
 #: ../user/host_delete.php:31
 msgid "We have no record of that computer."
-msgstr "Bi bilgisayar hakkında kayda sahip değiliz."
+msgstr "Bu bilgisayar hakkında kayda sahip değiliz."
 
 #: ../user/host_delete.php:38
 msgid ""
@@ -4681,6 +4692,9 @@ msgid ""
 "contains work for it. You must wait a few days until the work for this "
 "computer has been deleted from the project database."
 msgstr ""
+"Veritabanımızda halen bu bilgisayara gönderilen bir iş bulunduğundan, onu "
+"kayıtlarımızdan silemezsiniz. Bu bilgisayara gönderilen iş proje "
+"veritabanından silinene kadar, birkaç gün beklemeniz gerekir."
 
 #: ../user/host_delete.php:40
 msgid "Delete record of computer"
@@ -4690,12 +4704,9 @@ msgstr "Bu bilgisayarın kaydını sil"
 msgid "Record deleted."
 msgstr "Kayıt silindi."
 
-# 86%
-# 88%
 #: ../user/host_delete.php:42 ../user/host_edit_action.php:65
-#, fuzzy
 msgid "Return to list of your computers"
-msgstr "Bilgisayarlar sayfasına dön"
+msgstr "Bilgisayarlarınız listesine dön"
 
 #: ../user/host_edit_action.php:39
 msgid "Merge computer records"
@@ -4710,19 +4721,23 @@ msgid ""
 "Sometimes BOINC assigns separate identities to the same computer by mistake. "
 "You can correct this by merging old identities with the newest one."
 msgstr ""
+"Bazen BOINC yanlışlıkla aynı bilgisayara farklı kimlikler atar. En yenisiyle "
+"eski kimlikleri birleştirerek, bunu düzeltebilirsiniz."
 
 #: ../user/host_edit_form.php:56
 msgid "No hosts are eligible for merging with this one."
-msgstr ""
+msgstr "Hiçbir bilgisayar bununla birleştirme için uygun değil."
 
 #: ../user/host_edit_form.php:58 ../user/host_edit_form.php:114
 msgid "Show details"
-msgstr "Detaylarını görüntüle"
+msgstr "Detayları görüntüle"
 
 #: ../user/host_edit_form.php:66
 msgid ""
 "Check the computers that are the same as %1 (created %2, computer ID %3):"
 msgstr ""
+"%1 ile aynı olan bilgisayarları gözden geçirin (oluşturulma %2, bilgisayar "
+"NO %3)"
 
 #: ../user/host_edit_form.php:70 ../user/workunit.php:39
 msgid "name"
@@ -4746,12 +4761,11 @@ msgstr "Sunucuları birleştir"
 
 #: ../user/host_update_credit.php:28
 msgid "Updating computer credit"
-msgstr "Blgisayar kredisini güncelle"
+msgstr "Bilgisayar kredisi güncelleniyor"
 
 #: ../user/host_venue_action.php:41
-#, fuzzy
 msgid "Host venue updated"
-msgstr "Bilgisayar toplamı güncellendi"
+msgstr "Bilgisayar konumu güncellendi"
 
 #: ../user/host_venue_action.php:43
 msgid "none"
@@ -4759,13 +4773,15 @@ msgstr "yok"
 
 #: ../user/host_venue_action.php:46
 msgid "The venue of this host has been set to %1."
-msgstr ""
+msgstr "Bu bilgisayarın konumu %1 olarak ayarlandı."
 
 #: ../user/host_venue_action.php:48
 msgid ""
 "This change will take effect the next time the host communicates with this "
 "project."
 msgstr ""
+"Bu değişiklik, bilgisayarın bu proje ile bir sonraki iletişim kurmasından "
+"itibaren geçerli olacak."
 
 #: ../user/host_venue_action.php:50
 msgid "Return to host page"
@@ -4795,43 +4811,45 @@ msgstr "İzin verilen HTML etiketleri"
 
 #: ../user/html.php:25
 msgid "The following HTML tags are allowed in team descriptions:"
-msgstr ""
+msgstr "Takım açıklamalarında aşağıdaki HTML etiketlerine izin verilir:"
 
-# 75%
 #: ../user/html.php:27
-#, fuzzy
 msgid "bold"
-msgstr "Kalın"
+msgstr "kalın"
 
 #: ../user/html.php:28
 msgid "italics"
-msgstr ""
+msgstr "italik"
 
 #: ../user/html.php:29
 msgid "hyperlink"
-msgstr ""
+msgstr "köprü"
 
 #: ../user/html.php:30
 msgid "paragraph"
-msgstr ""
+msgstr "paragraf"
 
 #: ../user/html.php:31
 msgid "break"
-msgstr ""
+msgstr "ara"
 
 #: ../user/html.php:32
 msgid "preformatted"
-msgstr ""
+msgstr "önceden biçimlendirilmiş"
 
 #: ../user/html.php:33
 msgid ""
 "image; height cannot exceed 450 pixels. Please do not link to images without "
 "permission of the web site where the image is hosted."
 msgstr ""
+"resim; yüksekliği 450 pikseli geçemez. Lütfen resmi barındıran web sitesinin "
+"izni olmadan, resme bağlantı vermeyin."
 
 #: ../user/html.php:35
 msgid "You can also use ampersand notation for special characters."
 msgstr ""
+"Ayrıca özel karakterler için 've işareti' (ampersand) gösterimi "
+"kullanabilirsiniz."
 
 #: ../user/info.php:24 ../user/sample_index.php:74
 msgid "Read our rules and policies"
@@ -4848,8 +4866,8 @@ msgid ""
 "using their computers for projects such as %1."
 msgstr ""
 "%1 projesini yalnızca kendi bilgisayarınızda ya da sahibinin izin verdiği "
-"bilgisayarlarda çalıştırın. Bazı okul ya da şirketlerin, bilgisayarlarının %"
-"1 gibi projeler için kullanılmaması yönünde politikaları bulunabilir."
+"bilgisayarlarda çalıştırın. Bazı okul ya da şirketlerin, bilgisayarlarının "
+"%1 gibi projeler için kullanılmaması yönünde politikaları bulunabilir."
 
 #: ../user/info.php:38
 msgid "How %1 will use your computer"
@@ -5016,8 +5034,8 @@ msgid ""
 "own risk."
 msgstr ""
 "Bu diğer projeler, %1 ile ortak değildir ve onların güvenlik yöntemlerine ya "
-"da araştırmalarının doğasına kefil olmayız. Diğer projelere, riski "
-"kendinize ait olmak üzere katılın."
+"da araştırmalarının doğasına kefil olmayız. Diğer projelere, riski kendinize "
+"ait olmak üzere katılın."
 
 #: ../user/language_select.php:44
 msgid "Language selection"
@@ -5101,15 +5119,12 @@ msgid "Processing %1"
 msgstr "Sürüyor %1"
 
 #: ../user/merge_by_name.php:45
-#, fuzzy
 msgid "Merged %1 into %2"
-msgstr "Sunucu %1, %2 ile birleştiriliyor"
+msgstr "%1, %2 ile birleştiriliyor"
 
-# 86%
 #: ../user/merge_by_name.php:74
-#, fuzzy
 msgid "Return to the list of your computers"
-msgstr "Bilgisayarlar sayfasına dön"
+msgstr "Bilgisayarlarınız listesine dön"
 
 #: ../user/merge_by_name.php:78
 msgid ""
@@ -5120,10 +5135,16 @@ msgid ""
 "        Incompatible computers will not be merged.\n"
 "        <p>"
 msgstr ""
+"Bu işlem, bilgisayarları etki alanı adına göre birleştirir.\n"
+"        <p>\n"
+"        Her etki alanı adı için, bu adı taşıyan yeni bilgisayar ile\n"
+"        bu adı taşıyan tüm eski bilgisayarlar birleştirilecek.\n"
+"        Uyumsuz bilgisayar birleştirilmiş olmayacak.\n"
+"        <p>"
 
 #: ../user/merge_by_name.php:84
 msgid "Go ahead and do this"
-msgstr ""
+msgstr "Devam et ve bunu yap"
 
 #: ../user/merge_by_name.php:85
 msgid "Return to the list of computers"
@@ -5136,6 +5157,10 @@ msgid ""
 "our message boards are moderated.\n"
 "Message board postings are subject to the following posting rules:\n"
 msgstr ""
+"\n"
+"Bilgi tartışmasını ve akışını maksimize etmek için,\n"
+"mesaj panolarımız yönetilmektedir.\n"
+"Mesaj panosu gönderimleri aşağıdaki kurallara tabidir:\n"
 
 #: ../user/moderation.php:30
 msgid ""
@@ -5175,6 +5200,41 @@ msgid ""
 "If you have comments about the policy, email %2.\n"
 "\n"
 msgstr ""
+"\n"
+"<p>\n"
+"Moderatörler bu kuralların herhangi birini ihlal eden mesajları silebilir.\n"
+"Silinen mesajların yazarları e-posta yoluyla bildirilecektir.\n"
+"Saldırgan suçlular, gönderileri geçici olarak iptal yetkisine sahip "
+"olabilir\n"
+"(istismarı önlemek için, sadece proje yöneticileri bunu yapma yetkisine "
+"sahiptir).\n"
+"Kötü davranışın ilave çeşitleri (diğer katılımcıların IP adreslerini "
+"yakalamak için\n"
+"\"gizli dinleme\" mesajları, forumu spamlamak için aşırı miktarda konu açma, "
+"vb.),\n"
+"resmi kurallarda yer almamakla birlikte, yine benzer cezalara yol açabilir.\n"
+"<p>\n"
+"Bir mesajın gönderim kurallarından herhangi birini ihlal ettiğini\n"
+"düşünüyorsanız, yazı üzerindeki kırmızı X işaretini tıklayın ve formu\n"
+"doldurun; moderatörler şikayetinizden haberdar edilecek. Bu butonu\n"
+"sadece açık ihlaller için kullanın - kişisel anlaşmazlıklar için değil.\n"
+"<p>\n"
+"Moderasyon yaparken olabildiğince adil olmaya çalışıyoruz, ama\n"
+"büyük bir kullanıcı topluluğunda, birçok farklı bakış açısı bulunurken,\n"
+"her zaman bazı kişiler ölçülü kararlardan dahi memnun olmayacaktır.\n"
+"Bu gerçekleşirse üzülürüz, ancak lütfen şuna dikkat edin; her zaman\n"
+"herkesi memnun edemeyiz, elimizdeki imkanlarla kararlar alıyoruz ve\n"
+"forumun geneli için en iyisini yapmaya çalışıyoruz.\n"
+"Lütfen forumlarda bizim moderasyon politikalarımızı tartışmayın.\n"
+"Biz ne bir sosyal mühendislik projesiyiz, ne de mükemmel derecede adil\n"
+"bir sistem yaratmak peşindeyiz. Bu yüzden, bu tür tartışmalar verimsiz ve\n"
+"potansiyel olarak kışkırtıcı olma eğilimindedir. Eğer meşru bir iddianız "
+"varsa,\n"
+"aşağıdaki adrese e-posta gönderin.\n"
+"<p>\n"
+"Bu moderasyon politikası %1 tarafından belirlenir.\n"
+"Eğer politika hakkında yorumlarınız varsa, %2 adresine\n"
+"e-posta gönderin.\n"
 
 #: ../user/pending.php:66
 msgid "Result ID"
@@ -5198,11 +5258,11 @@ msgstr "Beklenen kredi: %1"
 
 #: ../user/pm.php:32
 msgid "Block messages from this user"
-msgstr ""
+msgstr "Bu kullanıcıdan gelen mesajları engelle"
 
 #: ../user/pm.php:32
 msgid "Block user"
-msgstr ""
+msgstr "Kullanıcıyı engelle"
 
 #: ../user/pm.php:73
 msgid "Your message has been sent."
@@ -5345,6 +5405,9 @@ msgid ""
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
+"Tercihleriniz varsayılan değerlerine sıfırlandı ve bilgisayarınız\n"
+"          %1 ile iletişim kurduğunda ya da BOINC Manager'dan\n"
+"          %2Güncelle%3 komutu kullanıldığında yürürlüğe girecek."
 
 #: ../user/prefs_edit.php:65 ../user/prefs_edit.php:93
 msgid "%1 for %2"
@@ -5714,9 +5777,8 @@ msgid "Teams"
 msgstr "Takımlar"
 
 #: ../user/team.php:27
-#, fuzzy
 msgid "%1 participants may form %2teams%3."
-msgstr "%1 katılımcıları %2takımlara%3 katılabilir."
+msgstr "%1 katılımcıları %2takımlar%3 oluşturabilir."
 
 #: ../user/team.php:29
 msgid ""
@@ -5738,7 +5800,6 @@ msgid "edit the team's name and description"
 msgstr "Takımın ismini ve tanıtımını düzenleme"
 
 #: ../user/team.php:35
-#, fuzzy
 msgid "add or remove team admins"
 msgstr "Takım Yöneticileri ekleme ya da çıkarma"
 
@@ -5753,8 +5814,8 @@ msgstr "Üyesi yoksa takımı kaldırma."
 #: ../user/team.php:40
 msgid "To join a team, visit its team page and click %1Join this team%2."
 msgstr ""
-"Bir takıma katılmak için, takımın sayfasını ziyaret edin ve %1Bu takıma "
-"katıl%2 bağlantısına tıklayın."
+"Bir takıma katılmak için, takımın sayfasını ziyaret edin ve %1Bu takıma katıl"
+"%2 bağlantısına tıklayın."
 
 #: ../user/team.php:41 ../user/team_search.php:179
 msgid "Find a team"
@@ -5969,8 +6030,8 @@ msgstr "Takım oluştur"
 msgid ""
 "You belong to %1. You must %2quit this team%3 before creating a new one."
 msgstr ""
-"%1 üyesisiniz. Yeni bir tane oluşturmadan önce %2bu takımdan ayrılmalısınız%"
-"3."
+"%1 üyesisiniz. Yeni bir tane oluşturmadan önce %2bu takımdan ayrılmalısınız"
+"%3."
 
 #: ../user/team_delta.php:65
 msgid "Not founder or admin"
@@ -6110,8 +6171,8 @@ msgstr "Mesaj panosu kaldırıldı"
 msgid ""
 "Your team's message board has been removed. You may now %1create a new one%2."
 msgstr ""
-"Takımınızın mesaj panosu kaldırıldı. Şimdi yeni bir tane %"
-"1oluşturabilirsiniz%2."
+"Takımınızın mesaj panosu kaldırıldı. Şimdi yeni bir tane %1oluşturabilirsiniz"
+"%2."
 
 #: ../user/team_forum.php:143
 msgid "Team Message Board Updated"
@@ -6144,8 +6205,8 @@ msgid ""
 "                       If the founder does not respond within 60 days you "
 "will be allowed to become the founder."
 msgstr ""
-"Mevcut kurucu, talebiniz hakkında e-posta ve özel mesaj yollarıyla "
-"uyarıldı.<br /><br />\n"
+"Mevcut kurucu, talebiniz hakkında e-posta ve özel mesaj yollarıyla uyarıldı."
+"<br /><br />\n"
 "                       Kurucu 60 gün içerisinde yanıt vermezse, yeni kurucu "
 "olabileceksiniz."
 
@@ -6233,8 +6294,8 @@ msgid ""
 "                       Are you sure you want to request foundership?"
 msgstr ""
 "Eğer takım kurucusu aktif değilse ve kuruculuğu üstlenmek istiyorsanız, "
-"aşağıdaki butona tıklayın. Mevcut kurucuya isteğinizle ilgili detaylı bir "
-"e-posta gönderilecek ve kuruculuğu size devretme ya da talebi reddetme "
+"aşağıdaki butona tıklayın. Mevcut kurucuya isteğinizle ilgili detaylı bir e-"
+"posta gönderilecek ve kuruculuğu size devretme ya da talebi reddetme "
 "seçenekleri olacak. Kurucu 60 gün içerisinde bir yanıt vermezse, kurucu "
 "olabileceksiniz.<br /><br />\n"
 "                       Kurucu olma talebi göndermek istediğinize emin "
@@ -6425,8 +6486,8 @@ msgid ""
 "Other resources for BOINC team admins are available from a third-party site, "
 "%1www.boincteams.com%2."
 msgstr ""
-"BOINC takım yöneticileri için diğer kaynaklar, üçüncü parti bir sitededir: %"
-"1www.boincteams.com%2."
+"BOINC takım yöneticileri için diğer kaynaklar, üçüncü parti bir sitededir: "
+"%1www.boincteams.com%2."
 
 #: ../user/team_manage.php:91
 msgid "Can't delete non-empty team"
@@ -6614,7 +6675,7 @@ msgstr "Bir takımda yer alanlar?"
 
 #: ../user/user_search.php:66
 msgid "Ordering"
-msgstr ""
+msgstr "Sıralama"
 
 #: ../user/user_search.php:67
 msgid "Decreasing sign-up time"
@@ -6731,14 +6792,18 @@ msgid ""
 "    or by using an assigned 'account key'.\n"
 "    Your account key is:"
 msgstr ""
+"Hesabınıza e-posta adresinizi ve şifrenizi ya da atanan 'hesap anahtarı'nı "
+"kullanarak\n"
+"    erişebilirsiniz.\n"
+"    Hesap Anahtarınız şudur:"
 
 #: ../user/weak_auth.php:57
 msgid "This key can be used to:"
-msgstr ""
+msgstr "Bu anahtar şunlar için de kullanılabilir:"
 
 #: ../user/weak_auth.php:59
 msgid "log in to your account on the web"
-msgstr ""
+msgstr "Web üzerinden hesabınıza girmek ve"
 
 #: ../user/weak_auth.php:61
 msgid ""
@@ -6747,6 +6812,10 @@ msgid ""
 "       create a file named %1 in the BOINC\n"
 "       data directory, and set its contents to:"
 msgstr ""
+"BOINC Manager kullanmadan hesabınıza bir bilgisayar eklemek için.\n"
+"       Bunu yapmak için, BOINC'i kurun,\n"
+"       BOINC veri klasöründe %1 adlı\n"
+"       bir dosya oluşturun ve içeriğini şöyle ayarlayın:"
 
 #: ../user/weak_auth.php:73
 msgid "Weak account key"
@@ -6761,12 +6830,23 @@ msgid ""
 "    do so using your weak account key.\n"
 "    Your weak account key is:"
 msgstr ""
+"'Zayıf hesabınız anahtarınız' da hesabınıza bilgisayar eklemek için "
+"kullanılabilir.\n"
+"    Yukarıda tarif edildiği gibi yapılır. Ancak hesabınızda oturum açılamaz "
+"veya\n"
+"    herhangi bir şekilde değiştirmek için kullanılamaz.\n"
+"    Hesabınıza güvenilir olmayan veya güveliksiz bir bilgisayar eklemek "
+"istiyorsanız,\n"
+"    bunu zayıf hesap anahtarınızı kullanarak yapabilirsiniz.\n"
+"    Zayıf hesap anahtarınız şudur:"
 
 #: ../user/weak_auth.php:81
 msgid ""
 "If you change your password, your weak account key changes, and your "
 "previous weak account key becomes invalid."
 msgstr ""
+"Şifrenizi değiştirirseniz, zayıf hesap anahtarınız da değişir ve önceki "
+"zayıf hesap anahtarınız geçersiz hale gelir."
 
 #: ../user/workunit.php:32
 msgid "can't find workunit"
@@ -6880,8 +6960,8 @@ msgstr "(tüm uygulamalar)"
 
 #~ msgid ""
 #~ "Computer is connected to the Internet about every %1 Leave blank or 0 if "
-#~ "always connected. %2 BOINC will try to maintain at least this much work (max "
-#~ "10 days). %3"
+#~ "always connected. %2 BOINC will try to maintain at least this much work "
+#~ "(max 10 days). %3"
 #~ msgstr ""
 #~ "Bilgisayar internete bu kadar sürede bir bağlanır %1 Sürekli bağlıysa 0 "
 #~ "yazın. %2 BOINC, bu süre kadar yeterli olacak iş indirmeyi deneyecek (en "
@@ -6897,8 +6977,8 @@ msgstr "(tüm uygulamalar)"
 #~ msgstr "Hesabınıza %1sınırlı erişimi%2 sağlar"
 
 #~ msgid ""
-#~ "Don't use this form. Just run BOINC, select Add Project, and enter an email "
-#~ "address and password."
+#~ "Don't use this form. Just run BOINC, select Add Project, and enter an "
+#~ "email address and password."
 #~ msgstr ""
 #~ "Bu formu kullanmayın. Yalnızca BOINC'i çalıştırın, Proje ekle'yi seçin ve "
 #~ "bir e-posta adresi ile parola girin."
@@ -6923,18 +7003,19 @@ msgstr "(tüm uygulamalar)"
 
 #~ msgid ""
 #~ "Your 'weak account key' lets you link a computer to your account without "
-#~ "giving it the ability to log in to your account or to change it in any way."
+#~ "giving it the ability to log in to your account or to change it in any "
+#~ "way."
 #~ msgstr ""
-#~ "'Zayıf hesap anahtarınız',  bir bilgisayarı hesabınıza bağlamanızı sağlar, "
-#~ "ancak, söz konusu bilgisayarlardan hesabınıza giriş yapılamaz ve hesabınız "
-#~ "değiştirilemez."
+#~ "'Zayıf hesap anahtarınız',  bir bilgisayarı hesabınıza bağlamanızı "
+#~ "sağlar, ancak, söz konusu bilgisayarlardan hesabınıza giriş yapılamaz ve "
+#~ "hesabınız değiştirilemez."
 
 #~ msgid ""
 #~ "This mechanism works only with projects that have upgraded their server "
 #~ "software 7 Dec 2007 or later."
 #~ msgstr ""
-#~ "Bu mekanizma, sunucu yazılımlarını 7 Aralık 2007 ya da daha sonraki tarihli "
-#~ "sürüme yükseltmiş projelerde çalışır."
+#~ "Bu mekanizma, sunucu yazılımlarını 7 Aralık 2007 ya da daha sonraki "
+#~ "tarihli sürüme yükseltmiş projelerde çalışır."
 
 #~ msgid "Your weak account key for this project is:"
 #~ msgstr "Bu proje için zayıf hesap anahtarınız:"
@@ -6946,16 +7027,16 @@ msgstr "(tüm uygulamalar)"
 #~ msgstr ""
 #~ "Bir bilgisayarda zayıf hesap anahtarınızı kullanmak için, bu proje için "
 #~ "'hesap dosyası'nı bulun ya da oluşturun. Söz konusu dosya, "
-#~ "<b>account_PROJE_URL'si.xml</b> biçiminde bir isme sahiptir. %1 için hesap "
-#~ "dosyasının ismi <b>%2</b> biçimindedir."
+#~ "<b>account_PROJE_URL'si.xml</b> biçiminde bir isme sahiptir. %1 için "
+#~ "hesap dosyasının ismi <b>%2</b> biçimindedir."
 
 #~ msgid "Create this file if needed. Set its contents to:"
 #~ msgstr "Mevcut değilse bu dosyayı oluşturun. İçeriğini şu şekilde yapın:"
 
 #~ msgid ""
 #~ "Your weak account key is a function of your password. If you change your "
-#~ "password, your weak account key changes, and your previous weak account key "
-#~ "becomes invalid."
+#~ "password, your weak account key changes, and your previous weak account "
+#~ "key becomes invalid."
 #~ msgstr ""
 #~ "Zayıf hesap anahtarınız, parolanıza bağlı bir işlevdir. Parolanızı "
 #~ "değiştirirseniz, zayıf hesap anahtarınız da değişir ve önceki zayıf hesap "
