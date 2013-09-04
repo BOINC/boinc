@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2013-08-30 13:05+0000\n"
+"PO-Revision-Date: 2013-09-04 16:09+0000\n"
 "Last-Translator: Marius <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
@@ -18,7 +18,7 @@ msgstr ""
 "20)) ? 1 : 2);;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1377867907.0\n"
+"X-POOTLE-MTIME: 1378310989.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Română"
@@ -412,19 +412,19 @@ msgstr "Mută postarea într-un alt fir"
 
 #: ../inc/forum.inc:1066
 msgid "Banish author"
-msgstr ""
+msgstr "Blochează autor"
 
 #: ../inc/forum.inc:1073
 msgid "Vote to banish author"
-msgstr ""
+msgstr "Votează pentru a bloca autorul"
 
 #: ../inc/forum.inc:1077
 msgid "Vote not to banish author"
-msgstr ""
+msgstr "Votează pentru a nu bloca autorul"
 
 #: ../inc/forum.inc:1082
 msgid "Start vote to banish author"
-msgstr ""
+msgstr "Începe vot pentru a bloca autorul"
 
 #: ../inc/forum.inc:1115
 msgid "Only team members can post to the team message board"
@@ -767,7 +767,7 @@ msgstr "Credit mediu"
 #: ../user/team_remove_inactive_form.php:42 ../user/top_users.php:53
 #: ../user/top_users.php:58
 msgid "Recent average credit"
-msgstr "Credit mediu recent (RAC)"
+msgstr "Credit mediu recent"
 
 #: ../inc/host.inc:230 ../inc/host.inc:657 ../inc/result.inc:47
 #: ../user/host_app_versions.php:25
@@ -975,7 +975,7 @@ msgid ""
 "Suspend work if no mouse/keyboard activity in last %1 Needed to enter low-"
 "power mode on some computers %2"
 msgstr ""
-"Suspendă lucrul dacă nu este activitate cu mouse/tastatura în ultimele %1. "
+"Suspendă lucrul dacă nu este activitate cu mouse/tastatura în ultimele %1 "
 "Necesar pentru ca unele calculatoare să intre în modul de consum economic %2"
 
 #: ../inc/prefs.inc:113
@@ -1237,7 +1237,7 @@ msgstr "Şterge"
 
 #: ../inc/prefs.inc:797 ../user/explain_state.php:94
 msgid "Computing"
-msgstr ""
+msgstr "Se calculează"
 
 #: ../inc/prefs.inc:808
 msgid "Separate preferences for %1"
@@ -1328,9 +1328,9 @@ msgid ""
 "To prevent spam, profiles of users with an average credit of less than %1 "
 "are displayed only to logged-in users. We apologize for this inconvenience."
 msgstr ""
-"Pentru prevenirea mesajelor nesolicitate (spam), profilele utilizatorilor cu "
-"un credit mediu mai micr de %1 sunt afişate numai utilizatorulor "
-"autentificaţi. Ne cerem scuze pentru inconvenient."
+"Pentru prevenirea mesajelor nesolicitate, profilele utilizatorilor cu un "
+"credit mediu mai mici de %1 sunt afişate numai utilizatorulor autentificaţi. "
+"Ne cerem scuze pentru inconvenient."
 
 #: ../inc/profile.inc:196
 msgid "User is banished"
@@ -1338,7 +1338,7 @@ msgstr ""
 
 #: ../inc/profile.inc:210
 msgid "No profile exists for that user ID."
-msgstr ""
+msgstr "Nu există un profil pentru acel ID utilizator."
 
 #: ../inc/profile.inc:218 ../user/create_profile.php:313
 msgid "Edit your profile"
@@ -1378,7 +1378,7 @@ msgstr "GPU ATI"
 
 #: ../inc/result.inc:56
 msgid "Not in DB"
-msgstr ""
+msgstr "Nu este în BD"
 
 #: ../inc/result.inc:82
 msgid "pending"
@@ -1551,7 +1551,7 @@ msgstr "Nu este necesar"
 
 #: ../inc/result.inc:265
 msgid "Workunit error - check skipped"
-msgstr ""
+msgstr "Eroare unitate de lucru - se sare peste verificare"
 
 #: ../inc/result.inc:266
 msgid "Checked, but no consensus yet"
@@ -1692,11 +1692,11 @@ msgstr "Versiune aplicaţie"
 
 #: ../inc/result.inc:642
 msgid "Output files"
-msgstr ""
+msgstr "Fişiere ieşire"
 
 #: ../inc/result.inc:645
 msgid "Stderr output"
-msgstr ""
+msgstr "Ieşire stderr"
 
 #: ../inc/result.inc:692
 msgid "State"
@@ -1704,7 +1704,7 @@ msgstr "Stare"
 
 #: ../inc/team.inc:33
 msgid "Search criteria (use one or more)"
-msgstr ""
+msgstr "Criteriu căutare (folosiţi unul sau mai multe)"
 
 #: ../inc/team.inc:34
 msgid "Key words"
@@ -1712,7 +1712,7 @@ msgstr "Cuvinte cheie"
 
 #: ../inc/team.inc:34
 msgid "Find teams with these words in their names or descriptions"
-msgstr ""
+msgstr "Caută echipe cu aceste cuvinte în nume sau descriere"
 
 #: ../inc/team.inc:36 ../inc/team.inc:114 ../inc/team.inc:225
 #: ../inc/team.inc:365 ../inc/team.inc:449 ../inc/user.inc:206
@@ -1746,7 +1746,7 @@ msgstr ""
 
 #: ../inc/team.inc:60
 msgid "Requested by you"
-msgstr ""
+msgstr "Solicitat de dumneavoastră"
 
 #: ../inc/team.inc:60
 msgid "founder response deadline is %1"
@@ -1813,7 +1813,7 @@ msgstr ""
 
 #: ../inc/team.inc:140
 msgid "Respond by %1"
-msgstr ""
+msgstr "Răspunde până la %1"
 
 #: ../inc/team.inc:144
 msgid "Team foundership change"
@@ -1877,7 +1877,7 @@ msgstr ""
 
 #: ../inc/team.inc:318
 msgid "This operation requires team admin privileges"
-msgstr ""
+msgstr "Această operaţiune necesită privilegii de administrator echipă"
 
 #: ../inc/team.inc:415
 msgid ""
@@ -1897,7 +1897,7 @@ msgstr "Nume echipă, versiune text"
 
 #: ../inc/team.inc:427
 msgid "Don't use HTML tags."
-msgstr ""
+msgstr "Nu folosiţi tag-uri HTML."
 
 #: ../inc/team.inc:430
 msgid "Team name, HTML version"
@@ -1905,7 +1905,7 @@ msgstr "Nume echipă, versiune HTML"
 
 #: ../inc/team.inc:432 ../inc/team.inc:442
 msgid "You may use %1limited HTML tags%2."
-msgstr ""
+msgstr "Puteţi folosi %1un număr limitat de tag-uri HTML%2."
 
 #: ../inc/team.inc:433
 msgid "If you don't know HTML, leave this box blank."
@@ -1913,7 +1913,7 @@ msgstr "Dacă nu ştiţi HTML, lăsaţi această căsuţă liberă."
 
 #: ../inc/team.inc:436
 msgid "URL of team web page, if any"
-msgstr ""
+msgstr "URL al paginii web a echipei, dacă există"
 
 #: ../inc/team.inc:436
 msgid "without \"http://\""
@@ -2004,7 +2004,7 @@ msgstr "Statistici pe telefonul mobil"
 
 #: ../inc/user.inc:184
 msgid "Unknown notification type: %1"
-msgstr ""
+msgstr "Tip notificare necunoscut: %1"
 
 #: ../inc/user.inc:199
 msgid "Account information"
@@ -2101,7 +2101,7 @@ msgstr "Profil"
 
 #: ../inc/user.inc:250 ../inc/user.inc:375
 msgid "%1 posts"
-msgstr ""
+msgstr "%1 postări"
 
 #: ../inc/user.inc:262 ../user/edit_forum_preferences_form.php:51
 msgid "Notifications"
@@ -2133,7 +2133,7 @@ msgstr "Fondator dar nu membru al"
 
 #: ../inc/user.inc:298
 msgid "Find friends"
-msgstr ""
+msgstr "Caută prieteni"
 
 #: ../inc/user.inc:305 ../inc/user.inc:307 ../inc/user.inc:385
 #: ../inc/user.inc:387 ../inc/user.inc:396
@@ -2158,7 +2158,7 @@ msgstr "Această persoană este un prieten"
 
 #: ../inc/user.inc:382 ../user/friend.php:238
 msgid "Cancel friendship"
-msgstr ""
+msgstr "Anulează prietenie"
 
 #: ../inc/user.inc:385 ../user/friend.php:37
 msgid "Request pending"
@@ -2170,7 +2170,7 @@ msgstr "Adaugă prieten"
 
 #: ../inc/user.inc:446
 msgid "user name cannot have leading or trailing white space"
-msgstr ""
+msgstr "numele de utilizator nu poate avea spaţii la început sau la sfârşit"
 
 #: ../inc/user.inc:450
 msgid "user name must be nonempty"
@@ -2178,7 +2178,7 @@ msgstr "numele de utilizator nu trebuie să fie gol"
 
 #: ../inc/user.inc:454
 msgid "user name may not contain HTML tags"
-msgstr ""
+msgstr "numele de utilizator nu poate conţine tag-uri HTML"
 
 #: ../inc/util.inc:122
 msgid "log out"
@@ -2205,6 +2205,8 @@ msgid ""
 "A database error occurred while handling your request; please try again "
 "later."
 msgstr ""
+"O eroare de bază de date a apărut în timp ce se procesa solicitarea "
+"dumneavoastră; vă rugăm încercaţi mai târziu"
 
 #: ../inc/util.inc:247
 msgid "Unable to handle request"
@@ -2256,15 +2258,15 @@ msgstr "Nu s-a putut selecta baza de date - vă rugăm încercaţi mai târziu"
 
 #: ../inc/util_ops.inc:129 ../user/get_passwd.php:72
 msgid "Stay logged in on this computer"
-msgstr ""
+msgstr "Rămâneţi autentificat pe acest calculator"
 
 #: ../user/account_finish.php:34
 msgid "Finish account setup"
-msgstr ""
+msgstr "Finalizare setare cont"
 
 #: ../user/account_finish.php:41 ../user/create_account_form.php:87
 msgid "Identifies you on our web site. Use your real name or a nickname."
-msgstr ""
+msgstr "Vă identifică pe site-ul nostru. Folosiţi numele real sau o poreclă."
 
 #: ../user/account_finish.php:45 ../user/create_account_form.php:106
 msgid "Select the country you want to represent, if any."
@@ -2288,7 +2290,7 @@ msgstr "Tag-urile HTML nu sunt permise în nume"
 
 #: ../user/add_venue.php:85
 msgid "Add %1 preferences for %2"
-msgstr ""
+msgstr "Adaugă %1 preferinţe pentru %2"
 
 #: ../user/apps.php:32 ../user/sample_index.php:109
 msgid "Applications"
@@ -2356,7 +2358,7 @@ msgstr "Text roşu"
 
 #: ../user/bbcode.php:38
 msgid "link to website"
-msgstr ""
+msgstr "link la site web"
 
 #: ../user/bbcode.php:39
 msgid "Quoted text"
@@ -2368,7 +2370,7 @@ msgstr ""
 
 #: ../user/bbcode.php:40
 msgid "use to display an image"
-msgstr ""
+msgstr "folosiţi pentru a afişa o imagine"
 
 #: ../user/bbcode.php:41
 msgid "Code snippet here"
@@ -2438,23 +2440,27 @@ msgstr ""
 #: ../user/create_account_action.php:53
 msgid "Your reCAPTCHA response was not correct. Please try again."
 msgstr ""
+"Răspunsul dumneavoastră reCAPTCHA nu a fost corect. Vă rugăm încercaţi din "
+"nou."
 
 #: ../user/create_account_action.php:77
 msgid "You must supply an invitation code to create an account."
-msgstr ""
+msgstr "Trebuie să furnizaţi un cod de invitaţie pentru a crea un cont."
 
 #: ../user/create_account_action.php:80
 msgid "The invitation code you gave is not valid."
-msgstr ""
+msgstr "Codul de invitaţie furnizat nu este valid."
 
 #: ../user/create_account_action.php:91
 msgid ""
 "Invalid email address: you must enter a valid address of the form name@domain"
 msgstr ""
+"Adresă de email invalidă: trebuie să introduceţi o adresă validă de forma "
+"nume@domeniu"
 
 #: ../user/create_account_action.php:95
 msgid "There's already an account with that email address."
-msgstr ""
+msgstr "Există deja un cont cu acea adresă de email"
 
 #: ../user/create_account_action.php:101 ../user/edit_passwd_action.php:33
 msgid "New passwords are different"
@@ -2557,7 +2563,7 @@ msgstr "Limbă"
 
 #: ../user/create_profile.php:92
 msgid "Select the language in which your profile is written:"
-msgstr ""
+msgstr "Selectaţi limba în care este scris profilul dumneavoastră:"
 
 #: ../user/create_profile.php:104
 msgid "Submit profile"
@@ -2573,7 +2579,7 @@ msgstr ""
 
 #: ../user/create_profile.php:137
 msgid "The format of your uploaded image is not supported."
-msgstr ""
+msgstr "Formatul imaginii încărcate nu este suportat."
 
 #: ../user/create_profile.php:166
 msgid ""
@@ -2584,6 +2590,8 @@ msgstr ""
 #: ../user/create_profile.php:213
 msgid "Your ReCaptcha response was not correct.  Please try again."
 msgstr ""
+"Răspunsul dumneavoastră ReCaptcha nu a fost corect.  Vă rugăm încercaţi din "
+"nou."
 
 #: ../user/create_profile.php:222
 msgid ""
@@ -2667,28 +2675,28 @@ msgstr ""
 
 #: ../user/delete_account.php:76
 msgid "Are you sure you want to delete your account?"
-msgstr ""
+msgstr "Sigur doriți să ștergeți acest cont?"
 
 #: ../user/delete_account.php:79 ../user/delete_profile.php:52
 #: ../user/donations.php:322 ../user/donations.php:326 ../user/friend.php:238
 #: ../user/prefs_remove.php:55 ../user/user_search.php:59
 #: ../user/user_search.php:64
 msgid "Yes"
-msgstr ""
+msgstr "Da"
 
 #: ../user/delete_account.php:79
 msgid "Delete this account"
-msgstr ""
+msgstr "Ştergeţi acest cont"
 
 #: ../user/delete_account.php:80 ../user/delete_profile.php:53
 #: ../user/friend.php:239 ../user/user_search.php:58
 #: ../user/user_search.php:63
 msgid "No"
-msgstr ""
+msgstr "Nu"
 
 #: ../user/delete_account.php:80
 msgid "Do not delete this account"
-msgstr ""
+msgstr "Nu ştergeţi acest cont"
 
 #: ../user/delete_profile.php:30
 msgid "couldn't delete profile - please try again later"
@@ -2696,19 +2704,19 @@ msgstr ""
 
 #: ../user/delete_profile.php:33
 msgid "Delete Confirmation"
-msgstr ""
+msgstr "Confirmare Ştergere"
 
 #: ../user/delete_profile.php:35
 msgid "Your profile has been deleted."
-msgstr ""
+msgstr "Profilul dumneavoastră a fost şters."
 
 #: ../user/delete_profile.php:40
 msgid "Profile delete confirmation"
-msgstr ""
+msgstr "Confirmare ştergere profil"
 
 #: ../user/delete_profile.php:43
 msgid "Are you sure?"
-msgstr ""
+msgstr "Sunteți sigur?"
 
 #: ../user/delete_profile.php:44
 msgid ""
@@ -2725,11 +2733,11 @@ msgstr ""
 
 #: ../user/delete_profile.php:52
 msgid "Delete my profile"
-msgstr ""
+msgstr "Șterge profilul meu"
 
 #: ../user/delete_profile.php:53
 msgid "Do not delete my profile"
-msgstr ""
+msgstr "Nu ştergeţi profilul"
 
 #: ../user/donated.php:25
 msgid "PayPal - Transaction Completed"
@@ -2754,7 +2762,7 @@ msgstr ""
 
 #: ../user/donations.php:24
 msgid "This project is not accepting donations."
-msgstr ""
+msgstr "Acest proiect nu acceptă donaţii."
 
 #: ../user/donations.php:34
 msgid "%1 donations"
@@ -2765,6 +2773,8 @@ msgid ""
 "This project is accepting donations via\n"
 "%1."
 msgstr ""
+"Acest proiect acceptă donaţii prin\n"
+"%1."
 
 #: ../user/donations.php:42
 msgid ""
@@ -2805,11 +2815,11 @@ msgstr ""
 
 #: ../user/donations.php:328
 msgid "Proceed"
-msgstr ""
+msgstr "Continuaţi"
 
 #: ../user/donations.php:329
 msgid "Donations are accepted through"
-msgstr ""
+msgstr "Donaţiile sunt acceptate prin"
 
 #: ../user/download_network.php:25
 msgid "Download BOINC add-on software"
@@ -2842,7 +2852,7 @@ msgstr ""
 
 #: ../user/edit_email_action.php:31
 msgid "Change email address of account"
-msgstr ""
+msgstr "Schimbă adresa de email a contului"
 
 #: ../user/edit_email_action.php:34 ../user/edit_email_action.php:36
 msgid "New email address '%1' is invalid."
@@ -2919,6 +2929,8 @@ msgstr ""
 #: ../user/edit_forum_preferences_action.php:114
 msgid "Your signature was too long, please keep it less than 250 characters."
 msgstr ""
+"Semnătura dumneavoastră a fost prea lungă, vă rugăm să nu depăşiţi 250 de "
+"caractere."
 
 #: ../user/edit_forum_preferences_action.php:132
 #: ../user/edit_forum_preferences_action.php:146
@@ -2992,11 +3004,11 @@ msgstr ""
 
 #: ../user/edit_forum_preferences_form.php:104
 msgid "characters remaining"
-msgstr ""
+msgstr "caractere rămase"
 
 #: ../user/edit_forum_preferences_form.php:105
 msgid "Attach signature by default"
-msgstr ""
+msgstr "Adaugă semnătura implicit"
 
 #: ../user/edit_forum_preferences_form.php:108
 msgid "Signature preview"
@@ -3004,7 +3016,7 @@ msgstr "Vizualizare semnătură"
 
 #: ../user/edit_forum_preferences_form.php:109
 msgid "This is how your signature will look in the forums"
-msgstr ""
+msgstr "Aşa va arăta semnătura dumneavoastră în forumuri"
 
 #: ../user/edit_forum_preferences_form.php:127
 msgid "Message display"
@@ -3020,11 +3032,11 @@ msgstr ""
 
 #: ../user/edit_forum_preferences_form.php:131
 msgid "Hide signatures"
-msgstr ""
+msgstr "Ascunde semnături"
 
 #: ../user/edit_forum_preferences_form.php:132
 msgid "Show images as links"
-msgstr ""
+msgstr "Arată imagini ca legături"
 
 #: ../user/edit_forum_preferences_form.php:133
 msgid "Open links in new window/tab"
@@ -3044,11 +3056,11 @@ msgstr ""
 
 #: ../user/edit_forum_preferences_form.php:140
 msgid "Threads:"
-msgstr ""
+msgstr "Fire:"
 
 #: ../user/edit_forum_preferences_form.php:140
 msgid "Posts:"
-msgstr ""
+msgstr "Postări:"
 
 #: ../user/edit_forum_preferences_form.php:141
 msgid "Jump to first new post in thread automatically"
@@ -3574,7 +3586,6 @@ msgstr ""
 
 # 81%
 #: ../user/forum_forum.php:186
-#, fuzzy
 msgid "You haven't read this thread yet"
 msgstr "Nu aţi citit acest mesaj încă"
 
@@ -3785,9 +3796,8 @@ msgstr ""
 
 # 84%
 #: ../user/forum_post.php:100
-#, fuzzy
 msgid "Create a new thread"
-msgstr "Crează o nouă echipă"
+msgstr "Crează un nou fir"
 
 #: ../user/forum_post.php:105
 msgid "Remember to add a title"
