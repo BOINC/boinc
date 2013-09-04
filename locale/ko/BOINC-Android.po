@@ -2,7 +2,6 @@
 # Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC 7.2.x\n"
@@ -104,9 +103,7 @@ msgctxt "attachproject_login_accept_terms_of_use"
 msgid ""
 "By creating an account with this project, you accept the terms of use as "
 "shown above."
-msgstr ""
-"이 프로젝트에 계정을 생성할 경우, 상기된 사용자 약관에 동의하는 것으로 처리됩"
-"니다."
+msgstr "이 프로젝트에 계정을 생성할 경우, 상기된 사용자 약관에 동의하는 것으로 처리됩니다."
 
 msgctxt "attachproject_login_category_login"
 msgid "Sign in with existing account"
@@ -459,17 +456,14 @@ msgctxt "battery_temperature_max_description"
 msgid ""
 "BOINC suspends computation above defined battery temperature. It is not "
 "recommended to change this value."
-msgstr ""
-"위에 지정된 배터리 온도가 되면 BOINC는 연산을 일시 정지합니다. 이 값을 바꾸"
-"지 않길 권장합니다."
+msgstr "위에 지정된 배터리 온도가 되면 BOINC는 연산을 일시 정지합니다. 이 값을 바꾸지 않길 권장합니다."
 
 msgctxt "prefs_disk_max_pct_header"
 msgid "Max. used storage space"
 msgstr "최대 사용할 저장소 공간"
 
 msgctxt "prefs_disk_max_pct_description"
-msgid ""
-"How many percent of your device's storage space is BOINC allowed to use?"
+msgid "How many percent of your device's storage space is BOINC allowed to use?"
 msgstr "저장소 공간 중 몇 %를 BOINC가 사용하길 원하십니까?"
 
 msgctxt "prefs_disk_min_free_gb_header"
