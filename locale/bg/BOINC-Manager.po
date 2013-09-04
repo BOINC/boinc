@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-18 11:32-0500\n"
-"PO-Revision-Date: 2013-09-04 14:20+0000\n"
+"PO-Revision-Date: 2013-09-04 19:39+0000\n"
 "Last-Translator: Dimitar <mexicoman@abv.bg>\n"
 "Language-Team: AMD Powered @ Home Team <timeros@gmail.com>\n"
 "Language: bg\n"
@@ -22,11 +22,12 @@ msgstr ""
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
+"X-POOTLE-MTIME: 1378323596.0\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-POOTLE-MTIME: 1378304410.0\n"
 
-# 81%
+# 100%
 #: clientgui/AccountInfoPage.cpp:387
+#, c-format
 #, c-format, c-format
 msgid "Identify your account at %s"
 msgstr "Идентифицирайте Вашия акаунт в %s"
@@ -2122,6 +2123,7 @@ msgid "%s - Language Selection"
 msgstr "%s - Избор на Език"
 
 #: clientgui/DlgOptions.cpp:695
+#, c-format
 #, c-format, c-format
 msgid "The %s's language has been changed.  In order for this change to take effect, you must restart the %s."
 msgstr ""
@@ -2529,8 +2531,9 @@ msgid "Aborted: run time limit exceeded"
 msgstr "Прекратена: надхвърлен работен лимит от време"
 
 #: clientgui/MainDocument.cpp:2562
+#, fuzzy
 msgid "Aborted: memory limit exceeded"
-msgstr ""
+msgstr "Прекратена: надхвърлен лимит на диска"
 
 #: clientgui/MainDocument.cpp:2565
 msgid "Aborted"
@@ -3245,6 +3248,7 @@ msgstr "Нулирай Проекта"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:251
 #: clientgui/sg_StatImageLoader.cpp:192
+#, c-format
 #, c-format, c-format
 msgid "Are you sure you want to remove project '%s'?"
 msgstr "Сигурни ли сте, че искате да премахнете проект '%s'?"
@@ -3361,6 +3365,7 @@ msgid "Suspend work for this task."
 msgstr "Временно прекрати работа по тази задача."
 
 #: clientgui/sg_TaskCommandPopup.cpp:251
+#, c-format
 #, c-format, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
@@ -3402,6 +3407,7 @@ msgid "Pop up a menu of commands to apply to this task"
 msgstr "Появява се меню с команди, които да прилагате върху тази задача"
 
 #: clientgui/sg_TaskPanel.cpp:685
+#, c-format
 #, c-format, c-format
 msgid "Application: %s"
 msgstr "Приложение: %s"
