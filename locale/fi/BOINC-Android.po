@@ -1,21 +1,24 @@
-# Finnish translations for PACKAGE.
+# Translations template for PROJECT.
 # Copyright (C) 2013 ORGANIZATION
-# This file is distributed under the same license as the PACKAGE project.
+# This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-30 11:43-0700\n"
-"PO-Revision-Date: 2013-08-30 10:09+0000\n"
+"POT-Creation-Date: 2013-08-29 15:37-0700\n"
+"PO-Revision-Date: 2013-08-30 18:28+0000\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
-"Language-Team: fi <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=((n == 1) ? 0 : 1)\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
+"X-POOTLE-MTIME: 1377887293.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -249,11 +252,11 @@ msgstr "Tilin luonti on poistettu käytöstä tässä projektissa"
 #. working activity
 msgctxt "attachproject_working_back_button"
 msgid "Back"
-msgstr ""
+msgstr "Takaisin"
 
 msgctxt "attachproject_working_finish_button"
 msgid "Finish"
-msgstr ""
+msgstr "Valmis"
 
 msgctxt "attachproject_working_check_desc"
 msgid "Successful"
@@ -421,7 +424,7 @@ msgstr "CPU"
 
 msgctxt "prefs_category_storage"
 msgid "Storage"
-msgstr ""
+msgstr "Tilankäyttö"
 
 msgctxt "prefs_category_memory"
 msgid "Memory"
@@ -446,8 +449,7 @@ msgstr "Pienin varaustaso"
 msgctxt "battery_charge_min_pct_description"
 msgid "BOINC suspends computation below defined battery charge level."
 msgstr ""
-"BOINC hyllyttää laskennan kun asetettu akun varaustason alaraja "
-"saavutetaan."
+"BOINC hyllyttää laskennan kun asetettu akun varaustason alaraja saavutetaan."
 
 msgctxt "battery_temperature_max_header"
 msgid "Max. battery temperature"
@@ -458,8 +460,8 @@ msgid ""
 "BOINC suspends computation above defined battery temperature. It is not "
 "recommended to change this value."
 msgstr ""
-"BOINC hyllyttää laskennan kun asetettu akun lämpötilaraja saavutetaan. "
-"Tätä arvoa ei suositella muutettavaksi."
+"BOINC hyllyttää laskennan kun asetettu akun lämpötilaraja saavutetaan. Tätä "
+"arvoa ei suositella muutettavaksi."
 
 msgctxt "prefs_disk_max_pct_header"
 msgid "Max. used storage space"
@@ -741,7 +743,7 @@ msgstr "hyllytetty"
 
 msgctxt "tasks_active_abort_pending"
 msgid "suspending"
-msgstr ""
+msgstr "hyllytetään"
 
 msgctxt "tasks_active_quit_pending"
 msgid "suspending"
@@ -815,7 +817,7 @@ msgstr "odottaa"
 
 msgctxt "trans_projectbackoff"
 msgid "project backoff"
-msgstr ""
+msgstr "projektin viivyttämä"
 
 msgctxt "trans_header_name"
 msgid "File:"
@@ -925,7 +927,7 @@ msgstr ""
 
 msgctxt "suspend_battery_overheating"
 msgid "Waiting for battery to cool down"
-msgstr ""
+msgstr "Odotetaan akun jäähtymistä"
 
 msgctxt "suspend_user_req"
 msgid "Resuming computation…"
@@ -933,7 +935,7 @@ msgstr "Jatketaan laskentaa…"
 
 msgctxt "suspend_network_user_req"
 msgid "manually."
-msgstr ""
+msgstr "manuaalisesti."
 
 #. rpc reasons
 msgctxt "rpcreason_userreq"
@@ -958,7 +960,7 @@ msgstr "Tilihallitsijan pyytämä"
 
 msgctxt "rpcreason_init"
 msgid "Project initialization"
-msgstr ""
+msgstr "Projektin alustus"
 
 msgctxt "rpcreason_projectreq"
 msgid "Requested by project"
@@ -1033,4 +1035,3 @@ msgid ""
 msgstr ""
 "© 2003–2013 Kalifornian yliopisto, Berkeley.\n"
 "Kaikki oikeudet pidätetään."
-

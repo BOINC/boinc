@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-18 11:32-0500\n"
-"PO-Revision-Date: 2013-08-28 08:01+0200\n"
+"PO-Revision-Date: 2013-09-02 19:41+0000\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
 "X-Poedit-SearchPath-0: clientgui\n"
@@ -23,6 +23,7 @@ msgstr ""
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-POOTLE-MTIME: 1378150911.0\n"
 
 # 81%
 #: clientgui/AccountInfoPage.cpp:387
@@ -1548,7 +1549,7 @@ msgstr "Paketin tarkistuspiste levylle joka"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:644
 msgid "seconds"
-msgstr "sekuntti"
+msgstr "sekunti"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:654
 #, no-c-format
@@ -2513,9 +2514,8 @@ msgstr "Hylätty: levyraja saavutettu"
 
 # 78%
 #: clientgui/MainDocument.cpp:2559
-#, fuzzy
 msgid "Aborted: run time limit exceeded"
-msgstr "Hylätty: levyraja saavutettu"
+msgstr "Hylätty: suoritusajan raja saavutettu"
 
 #: clientgui/MainDocument.cpp:2562
 msgid "Aborted: memory limit exceeded"
