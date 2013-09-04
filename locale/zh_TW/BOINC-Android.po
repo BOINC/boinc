@@ -1,21 +1,24 @@
-# Chinese (Taiwan) translations for PACKAGE.
+# Translations template for PROJECT.
 # Copyright (C) 2013 ORGANIZATION
-# This file is distributed under the same license as the PACKAGE project.
+# This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-30 11:43-0700\n"
-"PO-Revision-Date: 2013-08-30 11:27+0000\n"
-"Last-Translator: Anonymous Pootle User\n"
-"Language-Team: zh_TW <LL@li.org>\n"
-"Plural-Forms: nplurals=1; plural=(0)\n"
+"POT-Creation-Date: 2013-08-29 15:37-0700\n"
+"PO-Revision-Date: 2013-08-30 23:52+0000\n"
+"Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
+"X-POOTLE-MTIME: 1377906720.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -110,15 +113,15 @@ msgstr ""
 
 msgctxt "attachproject_login_header_id_email"
 msgid "eMail:"
-msgstr ""
+msgstr "電子郵件:"
 
 msgctxt "attachproject_login_header_id_name"
 msgid "Name:"
-msgstr ""
+msgstr "名稱:"
 
 msgctxt "attachproject_login_header_pwd"
 msgid "Password:"
-msgstr ""
+msgstr "密碼:"
 
 msgctxt "attachproject_login_category_creation"
 msgid "New to"
@@ -126,11 +129,11 @@ msgstr ""
 
 msgctxt "attachproject_login_header_creation_enabled"
 msgid "Register an account to participate:"
-msgstr ""
+msgstr "註冊一個帳號來參加:"
 
 msgctxt "attachproject_login_header_creation_client_disabled"
 msgid "Visit project website to create an account:"
-msgstr ""
+msgstr "進入專案官網來建立一個帳號:"
 
 msgctxt "attachproject_login_header_creation_disabled"
 msgid "Project does currently now allow creation of new accounts!"
@@ -167,15 +170,15 @@ msgstr "專案:"
 
 msgctxt "attachproject_registration_header_email"
 msgid "eMail:"
-msgstr ""
+msgstr "電子郵件:"
 
 msgctxt "attachproject_registration_header_username"
 msgid "Name:"
-msgstr ""
+msgstr "名稱:"
 
 msgctxt "attachproject_registration_header_teamname"
 msgid "Team:"
-msgstr ""
+msgstr "團隊:"
 
 msgctxt "attachproject_registration_header_pwd"
 msgid "Password:"
@@ -249,31 +252,31 @@ msgstr "此專案已停用註冊功能"
 #. working activity
 msgctxt "attachproject_working_back_button"
 msgid "Back"
-msgstr ""
+msgstr "返回"
 
 msgctxt "attachproject_working_finish_button"
 msgid "Finish"
-msgstr ""
+msgstr "結束"
 
 msgctxt "attachproject_working_check_desc"
 msgid "Successful"
-msgstr ""
+msgstr "成功"
 
 msgctxt "attachproject_working_failed_desc"
 msgid "Failed"
-msgstr ""
+msgstr "失敗"
 
 msgctxt "attachproject_working_ongoing"
 msgid "…"
-msgstr ""
+msgstr "…"
 
 msgctxt "attachproject_working_finished"
 msgid "."
-msgstr ""
+msgstr "."
 
 msgctxt "attachproject_working_description"
 msgid ":"
-msgstr ""
+msgstr ":"
 
 msgctxt "attachproject_working_connect"
 msgid "Connect"
@@ -340,15 +343,15 @@ msgstr ""
 #. status strings
 msgctxt "status_running"
 msgid "Computing"
-msgstr ""
+msgstr "運算中"
 
 msgctxt "status_running_long"
 msgid "Thank you for participating."
-msgstr ""
+msgstr "感謝您的參加。"
 
 msgctxt "status_paused"
 msgid "Suspended"
-msgstr ""
+msgstr "已暫停"
 
 msgctxt "status_idle"
 msgid "Nothing to do"
@@ -389,19 +392,19 @@ msgstr "專案圖片"
 #. preferences tab strings
 msgctxt "prefs_loading"
 msgid "Reading preferences…"
-msgstr ""
+msgstr "正在讀取偏好設定..."
 
 msgctxt "prefs_submit_button"
 msgid "Save"
-msgstr ""
+msgstr "存檔"
 
 msgctxt "prefs_dialog_title"
 msgid "Enter new value:"
-msgstr ""
+msgstr "輸入新參數:"
 
 msgctxt "prefs_dialog_title_selection"
 msgid "Select:"
-msgstr ""
+msgstr "選擇:"
 
 msgctxt "prefs_category_general"
 msgid "General"
@@ -409,7 +412,7 @@ msgstr ""
 
 msgctxt "prefs_category_network"
 msgid "Network"
-msgstr ""
+msgstr "網路"
 
 msgctxt "prefs_category_power"
 msgid "Power"
@@ -419,10 +422,9 @@ msgctxt "prefs_category_cpu"
 msgid "CPU"
 msgstr "CPU"
 
-#, fuzzy
 msgctxt "prefs_category_storage"
 msgid "Storage"
-msgstr "容量"
+msgstr ""
 
 msgctxt "prefs_category_memory"
 msgid "Memory"
@@ -484,11 +486,11 @@ msgstr ""
 
 msgctxt "prefs_network_wifi_only_header"
 msgid "Transfer tasks on WiFi only"
-msgstr ""
+msgstr "只用 WiFi 傳輸"
 
 msgctxt "prefs_autostart_header"
 msgid "Autostart"
-msgstr ""
+msgstr "自動執行"
 
 msgctxt "prefs_show_notification_header"
 msgid "Show notification when suspended"
@@ -544,21 +546,21 @@ msgstr ""
 
 msgctxt "prefs_unit_gb"
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #, c-format
 msgctxt "prefs_unit_pct"
 msgid "%"
-msgstr ""
+msgstr "%"
 
 msgctxt "prefs_unit_celcius"
 msgid "°C"
-msgstr ""
+msgstr "°C"
 
 #. projects tab strings
 msgctxt "projects_loading"
 msgid "Reading projects…"
-msgstr ""
+msgstr "正在讀取專案…"
 
 msgctxt "projects_add"
 msgid "Add project"
@@ -620,7 +622,7 @@ msgstr ""
 
 msgctxt "projects_control_update"
 msgid "Update"
-msgstr ""
+msgstr "更新"
 
 msgctxt "projects_control_remove"
 msgid "Remove"
@@ -661,11 +663,11 @@ msgstr "從BOINC?"
 
 msgctxt "projects_confirm_detach_confirm"
 msgid "Remove"
-msgstr ""
+msgstr "移除"
 
 msgctxt "projects_confirm_reset_title"
 msgid "Reset project"
-msgstr ""
+msgstr "重置專案"
 
 msgctxt "projects_confirm_reset_message"
 msgid "Are you sure you want to reset"
@@ -678,19 +680,19 @@ msgstr ""
 #. tasks tab strings
 msgctxt "tasks_header_name"
 msgid "Task Name:"
-msgstr ""
+msgstr "任務名稱:"
 
 msgctxt "tasks_header_elapsed_time"
 msgid "Elapsed time:"
-msgstr ""
+msgstr "執行時間:"
 
 msgctxt "tasks_header_project_paused"
 msgid "(suspended)"
-msgstr ""
+msgstr "(已暫停)"
 
 msgctxt "tasks_header_deadline"
 msgid "Deadline:"
-msgstr ""
+msgstr "上傳期限:"
 
 msgctxt "tasks_result_new"
 msgid "new"
@@ -734,40 +736,40 @@ msgstr "運算中"
 
 msgctxt "tasks_active_suspended"
 msgid "suspended"
-msgstr ""
+msgstr "已暫停"
 
 msgctxt "tasks_active_abort_pending"
 msgid "suspending"
-msgstr ""
+msgstr "暫停中"
 
 msgctxt "tasks_active_quit_pending"
 msgid "suspending"
-msgstr ""
+msgstr "暫停中"
 
 msgctxt "tasks_custom_suspended_via_gui"
 msgid "suspended"
-msgstr ""
+msgstr "已暫停"
 
 msgctxt "tasks_custom_project_suspended_via_gui"
 msgid "project suspended"
-msgstr ""
+msgstr "專案已暫停"
 
 msgctxt "tasks_custom_ready_to_report"
 msgid "ready to report"
-msgstr ""
+msgstr "準備回報"
 
 #. confirmation dialog
 msgctxt "confirm_abort_task_title"
 msgid "Abort task?"
-msgstr ""
+msgstr "放棄任務?"
 
 msgctxt "confirm_abort_task_message"
 msgid "Abort task:"
-msgstr ""
+msgstr "停止任務:"
 
 msgctxt "confirm_abort_task_confirm"
 msgid "Abort"
-msgstr ""
+msgstr "停止"
 
 msgctxt "confirm_cancel"
 msgid "Cancel"
@@ -984,11 +986,11 @@ msgstr "事件日誌"
 
 msgctxt "menu_exit"
 msgid "Exit BOINC"
-msgstr ""
+msgstr "離開BOINC"
 
 msgctxt "menu_run_mode_disable"
 msgid "Suspend"
-msgstr ""
+msgstr "暫停"
 
 msgctxt "menu_run_mode_enable"
 msgid "Resume"
@@ -1030,4 +1032,3 @@ msgid ""
 msgstr ""
 "© 2003–2013 University of California, Berkeley.\n"
 "All Rights Reserved."
-
