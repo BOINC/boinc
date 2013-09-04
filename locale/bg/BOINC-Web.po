@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Web 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-08-22 16:22 PDT\n"
-"PO-Revision-Date: 2013-05-19 22:11+0200\n"
+"PO-Revision-Date: 2013-09-04 14:27+0000\n"
 "Last-Translator: Dimitar <mexicoman@abv.bg>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: bg\n"
@@ -15,12 +15,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-KeywordsList: tra\n"
+"X-POOTLE-MTIME: 1378304829.0\n"
 
 #: projects.inc:14
 msgid "Distributed sensing"
@@ -28,9 +29,8 @@ msgstr ""
 
 # 78%
 #: projects.inc:19
-#, fuzzy
 msgid "Stanford University"
-msgstr "Университет Оксфорд"
+msgstr "Университет Станфорд"
 
 #: projects.inc:20
 msgid "Seismology"
@@ -308,9 +308,8 @@ msgstr ""
 
 # 75%
 #: projects.inc:196
-#, fuzzy
 msgid "Astronomy, Physics, and Chemistry"
-msgstr "Астрономия/Физика/Химия"
+msgstr "Астрономия, Физика и Химия"
 
 #: projects.inc:202 projects.inc:241 projects.inc:249
 msgid "Astronomy"
@@ -359,7 +358,6 @@ msgstr ""
 
 # 95%
 #: projects.inc:240
-#, fuzzy
 msgid "University of Illinois at Urbana-Champaign"
 msgstr "Университет Илинойс в Урбана-Шампейн"
 
@@ -902,9 +900,8 @@ msgstr "средно аритметично за 24 часа:"
 
 # 80%
 #: index.php:55
-#, fuzzy
 msgid "PetaFLOPS."
-msgstr "TeraFLOPS."
+msgstr "PetaFLOPS."
 
 #: index.php:67
 msgid "News"

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2013-05-19 22:11+0200\n"
+"PO-Revision-Date: 2013-09-04 14:24+0000\n"
 "Last-Translator: Dimitar <mexicoman@abv.bg>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: bg\n"
@@ -15,14 +15,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-POOTLE-MTIME: 1378304669.0\n"
 
 msgid "LANG_NAME_NATIVE"
-msgstr "English"
+msgstr "Български"
 
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "English"
+msgstr "Bulgarian"
 
 #: ../inc/bbcode_html.inc:11
 msgid "Bold text: [b]text[/b]  (alt+b)"
@@ -781,7 +782,7 @@ msgstr ""
 #: ../user/team_remove_inactive_form.php:42 ../user/top_users.php:53
 #: ../user/top_users.php:58
 msgid "Recent average credit"
-msgstr ""
+msgstr "Средно аритметичен скорошен кредит"
 
 #: ../inc/host.inc:230 ../inc/host.inc:657 ../inc/result.inc:47
 #: ../user/host_app_versions.php:25
@@ -891,9 +892,8 @@ msgstr ""
 
 # 80%
 #: ../inc/pm.inc:33 ../inc/user.inc:378
-#, fuzzy
 msgid "Send private message"
-msgstr "Изпрати %1 лично съобщение"
+msgstr "Изпрати лично съобщение"
 
 #: ../inc/pm.inc:35 ../inc/pm.inc:37 ../inc/pm.inc:89
 #: ../user/ffmail_form.php:59 ../user/forum_edit.php:99
@@ -945,9 +945,8 @@ msgstr ""
 
 # 83%
 #: ../inc/pm.inc:176 ../user/forum_forum.php:186
-#, fuzzy
 msgid "unread"
-msgstr "Непрочетен"
+msgstr "непрочетен"
 
 #: ../inc/pm.inc:186
 msgid "For email notification, %1edit community prefs%2"
@@ -955,9 +954,8 @@ msgstr ""
 
 # 93%
 #: ../inc/pm.inc:198
-#, fuzzy
 msgid "Private message"
-msgstr "Лични съобщения"
+msgstr "Лично съобщение"
 
 #: ../inc/prefs.inc:76
 msgid ""
@@ -1766,9 +1764,8 @@ msgstr ""
 
 # 92%
 #: ../inc/team.inc:119 ../user/team_manage.php:63
-#, fuzzy
 msgid "Message board"
-msgstr "Форуми"
+msgstr "Форум"
 
 #: ../inc/team.inc:120 ../user/forum_forum.php:135 ../user/forum_index.php:93
 msgid "Threads"
@@ -1840,7 +1837,7 @@ msgstr ""
 #: ../user/top_hosts.php:93 ../user/top_teams.php:121
 #: ../user/top_users.php:127
 msgid "Previous %1"
-msgstr ""
+msgstr "Предходен %1"
 
 #: ../inc/team.inc:273 ../user/forum_user_posts.php:131
 #: ../user/profile_search_action.php:61 ../user/top_hosts.php:98
@@ -3484,9 +3481,8 @@ msgstr ""
 
 # 76%
 #: ../user/forum_edit.php:110
-#, fuzzy
 msgid "Edit your message"
-msgstr "Редактирайте това съобщение"
+msgstr "Редактирайте вашето съобщение"
 
 #: ../user/forum_edit.php:115 ../user/forum_edit.php:120
 #: ../user/forum_post.php:109 ../user/forum_post.php:111
@@ -3548,9 +3544,8 @@ msgstr ""
 
 # 81%
 #: ../user/forum_forum.php:186
-#, fuzzy
 msgid "You haven't read this thread yet"
-msgstr "Не сте прочели това съобщение все още"
+msgstr "Не сте прочели това заглавие още"
 
 #: ../user/forum_forum.php:192
 msgid "This thread is sticky and locked"
@@ -3586,9 +3581,8 @@ msgstr ""
 
 # 95%
 #: ../user/forum_help_desk.php:27
-#, fuzzy
 msgid "Questions and answers"
-msgstr "Въпроси и Отговори"
+msgstr "Въпроси и отговори"
 
 #: ../user/forum_help_desk.php:30
 msgid ""
@@ -4841,6 +4835,10 @@ msgid ""
 "our message boards are moderated.\n"
 "Message board postings are subject to the following posting rules:\n"
 msgstr ""
+"\n"
+"За да максимизираме дискусиите и потока от информация,\n"
+"нашите форуми се модерират.\n"
+"Публикациите във форумите са обект на следните правила за публикуване:\n"
 
 #: ../user/moderation.php:30
 msgid ""
@@ -5904,9 +5902,8 @@ msgstr ""
 
 # 90%
 #: ../user/team_join_action.php:40
-#, fuzzy
 msgid "Joined %1"
-msgstr "Присъединен: %1"
+msgstr "Присъединен %1"
 
 #: ../user/team_join_action.php:41
 msgid "You have joined %1."
@@ -5915,9 +5912,8 @@ msgstr ""
 # 90%
 # 77%
 #: ../user/team_join_form.php:34
-#, fuzzy
 msgid "Join %1"
-msgstr "Присъединен: %1"
+msgstr "Присъедини се %1"
 
 #: ../user/team_join_form.php:35
 msgid "Please note:"
@@ -5979,9 +5975,8 @@ msgstr ""
 
 # 75%
 #: ../user/team_manage.php:34
-#, fuzzy
 msgid "text"
-msgstr "Следващ"
+msgstr "текст"
 
 #: ../user/team_manage.php:35
 msgid "View member names and email addresses"
