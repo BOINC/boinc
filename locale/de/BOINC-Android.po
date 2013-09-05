@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-08-29 15:37-0700\n"
-"PO-Revision-Date: 2013-09-02 19:20+0000\n"
+"PO-Revision-Date: 2013-09-05 03:13+0000\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1378149643.0\n"
+"X-POOTLE-MTIME: 1378350803.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -62,7 +62,7 @@ msgstr "kontaktiere Projektserver…"
 
 msgctxt "attachproject_login_image_description"
 msgid "Project logo."
-msgstr "Projektlogo"
+msgstr "Projektlogo."
 
 msgctxt "attachproject_login_header_general_area"
 msgid "General area:"
@@ -190,7 +190,7 @@ msgstr "Passwort:"
 
 msgctxt "attachproject_registration_header_pwd_confirm"
 msgid "… Retype:"
-msgstr "…Bestätigung:"
+msgstr "… Bestätigung:"
 
 msgctxt "attachproject_registration_button"
 msgid "Create"
@@ -389,10 +389,9 @@ msgctxt "status_closing"
 msgid "Closing…"
 msgstr "Beenden…"
 
-#, fuzzy
 msgctxt "status_benchmarking"
 msgid "Benchmarking…"
-msgstr "Benchmarking…"
+msgstr "Leistungsüberprüfung…"
 
 msgctxt "status_image_description"
 msgid "project image"
@@ -405,7 +404,7 @@ msgstr "lese Einstellungen…"
 
 msgctxt "prefs_submit_button"
 msgid "Save"
-msgstr ""
+msgstr "Speichern"
 
 msgctxt "prefs_dialog_title"
 msgid "Enter new value:"
@@ -432,10 +431,9 @@ msgctxt "prefs_category_cpu"
 msgid "CPU"
 msgstr "Prozessor"
 
-#, fuzzy
 msgctxt "prefs_category_storage"
 msgid "Storage"
-msgstr "Speicherbelegung"
+msgstr "Speicherplatz"
 
 msgctxt "prefs_category_memory"
 msgid "Memory"
@@ -456,7 +454,7 @@ msgstr "Berechne im Batteriebetrieb"
 
 msgctxt "battery_charge_min_pct_header"
 msgid "Min. battery level"
-msgstr "min. Akku-Ladestand"
+msgstr "Min. Akku-Ladestand"
 
 msgctxt "battery_charge_min_pct_description"
 msgid "BOINC suspends computation below defined battery charge level."
@@ -466,7 +464,7 @@ msgstr ""
 
 msgctxt "battery_temperature_max_header"
 msgid "Max. battery temperature"
-msgstr ""
+msgstr "Max. Akkutemperatur"
 
 msgctxt "battery_temperature_max_description"
 msgid ""
@@ -535,11 +533,12 @@ msgstr ""
 
 msgctxt "prefs_cpu_time_max_header"
 msgid "CPU limit"
-msgstr ""
+msgstr "Prozessorbegrenzung"
 
+#, fuzzy
 msgctxt "prefs_cpu_time_max_description"
 msgid "Limits the CPU time BOINC uses for computation."
-msgstr ""
+msgstr "Limitiert die Anzahl der Prozessoren welche BOINC nutzen darf."
 
 msgctxt "prefs_memory_max_idle_header"
 msgid "RAM limit"
@@ -578,12 +577,13 @@ msgstr "%"
 
 msgctxt "prefs_unit_celcius"
 msgid "°C"
-msgstr ""
+msgstr "°C"
 
 #. projects tab strings
+#, fuzzy
 msgctxt "projects_loading"
 msgid "Reading projects…"
-msgstr ""
+msgstr "Lade Projekte…"
 
 msgctxt "projects_add"
 msgid "Add project"
@@ -608,11 +608,11 @@ msgstr "(gesamt)"
 #. project status strings
 msgctxt "projects_status_suspendedviagui"
 msgid "Suspended by user"
-msgstr ""
+msgstr "Angehalten durch Benutzer"
 
 msgctxt "projects_status_dontrequestmorework"
 msgid "Won't get new tasks"
-msgstr ""
+msgstr "Keine neuen Arbeitspakete"
 
 msgctxt "projects_status_ended"
 msgid "Project ended - OK to remove"
@@ -624,7 +624,7 @@ msgstr "wird entfernt wenn Aufgaben erledigt"
 
 msgctxt "projects_status_schedrpcpending"
 msgid "Scheduler request pending"
-msgstr ""
+msgstr "Serveranfrage ausstehend"
 
 msgctxt "projects_status_schedrpcinprogress"
 msgid "Scheduler request in progress"
@@ -645,15 +645,15 @@ msgstr "Projektbefehle:"
 
 msgctxt "projects_control_update"
 msgid "Update"
-msgstr ""
+msgstr "Aktualisieren"
 
 msgctxt "projects_control_remove"
 msgid "Remove"
-msgstr ""
+msgstr "Entfernen"
 
 msgctxt "projects_control_suspend"
 msgid "Suspend"
-msgstr ""
+msgstr "Anhalten"
 
 msgctxt "projects_control_resume"
 msgid "Resume"
@@ -678,23 +678,24 @@ msgstr "Projekt entfernen?"
 
 msgctxt "projects_confirm_detach_message"
 msgid "Are you sure you want to remove"
-msgstr ""
+msgstr "Wollen Sie wirklich zurücksetzen"
 
 msgctxt "projects_confirm_detach_message2"
 msgid "from BOINC?"
-msgstr ""
+msgstr "von BOINC?"
 
 msgctxt "projects_confirm_detach_confirm"
 msgid "Remove"
-msgstr ""
+msgstr "Entfernen"
 
 msgctxt "projects_confirm_reset_title"
 msgid "Reset project"
-msgstr ""
+msgstr "Projekt zurücksetzen"
 
+#, fuzzy
 msgctxt "projects_confirm_reset_message"
 msgid "Are you sure you want to reset"
-msgstr "Wollen Sie wirklich zurücksetzen?"
+msgstr "Wollen Sie wirklich zurücksetzen"
 
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
@@ -715,23 +716,23 @@ msgstr "(angehalten)"
 
 msgctxt "tasks_header_deadline"
 msgid "Deadline:"
-msgstr ""
+msgstr "Ablaufdatum:"
 
 msgctxt "tasks_result_new"
 msgid "new"
-msgstr ""
+msgstr "neu"
 
 msgctxt "tasks_result_files_downloading"
 msgid "waiting for download"
-msgstr ""
+msgstr "herunterladen läuft"
 
 msgctxt "tasks_result_files_downloaded"
 msgid "download complete"
-msgstr ""
+msgstr "herunterladen abgeschlossen"
 
 msgctxt "tasks_result_compute_error"
 msgid "computation error"
-msgstr ""
+msgstr "Berechnungsfehler"
 
 msgctxt "tasks_result_files_uploading"
 msgid "uploading"
@@ -755,23 +756,23 @@ msgstr "bereit"
 
 msgctxt "tasks_active_executing"
 msgid "running"
-msgstr ""
+msgstr "wird ausgeführt"
 
 msgctxt "tasks_active_suspended"
 msgid "suspended"
-msgstr ""
+msgstr "angehalten"
 
 msgctxt "tasks_active_abort_pending"
 msgid "suspending"
-msgstr ""
+msgstr "wird angehalten"
 
 msgctxt "tasks_active_quit_pending"
 msgid "suspending"
-msgstr ""
+msgstr "wird angehalten"
 
 msgctxt "tasks_custom_suspended_via_gui"
 msgid "suspended"
-msgstr ""
+msgstr "angehalten"
 
 msgctxt "tasks_custom_project_suspended_via_gui"
 msgid "project suspended"
@@ -797,24 +798,24 @@ msgstr "Abbrechen"
 
 msgctxt "confirm_cancel"
 msgid "Cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 msgctxt "confirm_image_desc"
 msgid "Confirmation dialog"
-msgstr ""
+msgstr "Bestätigungsdialog"
 
 #. transfers tab strings
 msgctxt "trans_loading"
 msgid "Reading transfers…"
-msgstr ""
+msgstr "Lade Übertragungen…"
 
 msgctxt "trans_upload"
 msgid "Upload"
-msgstr ""
+msgstr "Hochladen"
 
 msgctxt "trans_download"
 msgid "Download"
-msgstr ""
+msgstr "Herunterladen"
 
 msgctxt "trans_retryin"
 msgid "retry in"
@@ -836,21 +837,23 @@ msgctxt "trans_pending"
 msgid "pending"
 msgstr "ausstehend"
 
+#, fuzzy
 msgctxt "trans_projectbackoff"
 msgid "project backoff"
-msgstr ""
+msgstr "Projektwartezeit"
 
 msgctxt "trans_header_name"
 msgid "File:"
-msgstr ""
+msgstr "Datei:"
 
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
-msgstr ""
+msgstr "Übertragung abbrechen?"
 
+#, fuzzy
 msgctxt "confirm_abort_trans_message"
 msgid "Abort File:"
-msgstr ""
+msgstr "Datei:"
 
 msgctxt "confirm_abort_trans_confirm"
 msgid "Abort"
@@ -875,24 +878,25 @@ msgstr "Protokoll in die Zwischenablage kopiert."
 
 msgctxt "eventlog_email_subject"
 msgid "Event Log for BOINC on Android:"
-msgstr ""
+msgstr "Ereignisprotokoll für BOINC auf Android:"
 
 #. suspend reasons
 msgctxt "suspend_unknown"
 msgid "Computation suspended."
-msgstr ""
+msgstr "Berechnung angehalten."
 
 msgctxt "suspend_batteries"
 msgid "Connect your device to a charger to continue computing."
-msgstr ""
+msgstr "Schließen Sie Ihr Gerät an eine Stromquelle an um weiterzurechnen."
 
 msgctxt "suspend_useractive"
 msgid "User is active."
-msgstr ""
+msgstr "Benutzer ist aktiv."
 
+#, fuzzy
 msgctxt "suspend_tod"
 msgid "Out of computation time-frame."
-msgstr ""
+msgstr "Außerhalb der Zeiteinschränkungen."
 
 msgctxt "suspend_bm"
 msgid "BOINC is benchmarking your device…"
@@ -909,149 +913,152 @@ msgstr "Planmäßige Prozessordrosselung."
 
 msgctxt "suspend_noinput"
 msgid "No recent user activity."
-msgstr ""
+msgstr "Keine Benutzeraktivität."
 
 msgctxt "suspend_delay"
 msgid "Initialization delay."
-msgstr ""
+msgstr "Startverzögerung"
 
 msgctxt "suspend_exclusiveapp"
 msgid "An exclusive app is running."
-msgstr ""
+msgstr "Eine exklusive Anwendung läuft."
 
 msgctxt "suspend_cpu"
 msgid "Your device is busy with other apps."
-msgstr ""
+msgstr "Ihr Gerät ist mit anderen Apps ausgelastet."
 
 msgctxt "suspend_network_quota"
 msgid "BOINC reached network transfer limit."
-msgstr ""
+msgstr "Netzwerkübertragungslimit erreicht."
 
 msgctxt "suspend_os"
 msgid "Stopped by Android."
-msgstr ""
+msgstr "Gestoppt von Android."
 
 msgctxt "suspend_wifi"
 msgid "Not connected to WiFi."
-msgstr ""
+msgstr "Nicht per WLAN verbunden."
 
 msgctxt "suspend_battery_charging"
 msgid "Battery needs to charge before resuming computation."
 msgstr ""
+"Der Akku muss geladen werden bevor die Berechnung fortgesetzt werden kann."
 
 msgctxt "suspend_battery_charging_long"
 msgid "Computing will resume when battery charge reaches"
-msgstr ""
+msgstr "Berechnung wird fortgesetzt wenn der Ladezustand erreicht"
 
 msgctxt "suspend_battery_charging_current"
 msgid "currently"
-msgstr ""
+msgstr "aktuell"
 
 msgctxt "suspend_battery_overheating"
 msgid "Waiting for battery to cool down"
-msgstr ""
+msgstr "Warten bis der Akku abgekühlt ist"
 
 msgctxt "suspend_user_req"
 msgid "Resuming computation…"
-msgstr ""
+msgstr "Berechnung wird fortgesetzt…"
 
 msgctxt "suspend_network_user_req"
 msgid "manually."
-msgstr ""
+msgstr "manuell."
 
 #. rpc reasons
 msgctxt "rpcreason_userreq"
 msgid "Requested by user"
-msgstr ""
+msgstr "Vom Nutzer gefordert"
 
 msgctxt "rpcreason_needwork"
 msgid "To fetch work"
-msgstr ""
+msgstr "Um Arbeit zu holen"
 
 msgctxt "rpcreason_resultsdue"
 msgid "To report completed tasks"
-msgstr ""
+msgstr "Um Aufgaben abzuliefern"
 
 msgctxt "rpcreason_trickleup"
 msgid "To send trickle-up message"
-msgstr ""
+msgstr "Um Trickle-Up Nachricht zu senden"
 
 msgctxt "rpcreason_acctmgrreq"
 msgid "Requested by account manager"
-msgstr ""
+msgstr "Angefordert vom Kontomanager"
 
 msgctxt "rpcreason_init"
 msgid "Project initialization"
-msgstr ""
+msgstr "Projektinitialisierung"
 
 msgctxt "rpcreason_projectreq"
 msgid "Requested by project"
-msgstr ""
+msgstr "Vom Projekt angefordert"
 
 msgctxt "rpcreason_unknown"
 msgid "Unknown reason"
-msgstr ""
+msgstr "Unbekannter Grund"
 
 #. menu
 msgctxt "menu_refresh"
 msgid "Refresh"
-msgstr ""
+msgstr "Neu laden"
 
 msgctxt "menu_emailto"
 msgid "Send as Email"
-msgstr ""
+msgstr "Als E-Mail versenden"
 
 msgctxt "menu_copy"
 msgid "Copy to Clipboard"
-msgstr ""
+msgstr "In Zwischenablage kopieren"
 
 msgctxt "menu_eventlog"
 msgid "Event Log"
-msgstr ""
+msgstr "Statusprotokoll"
 
 msgctxt "menu_exit"
 msgid "Exit BOINC"
-msgstr ""
+msgstr "BOINC beenden"
 
 msgctxt "menu_run_mode_disable"
 msgid "Suspend"
-msgstr ""
+msgstr "Anhalten"
 
 msgctxt "menu_run_mode_enable"
 msgid "Resume"
-msgstr ""
+msgstr "Fortsetzen"
 
 msgctxt "menu_about"
 msgid "About"
-msgstr ""
+msgstr "Über"
 
 msgctxt "menu_help"
 msgid "Help"
-msgstr ""
+msgstr "Hilfe"
 
 #. about dialog
 msgctxt "about_button"
 msgid "Return"
-msgstr ""
+msgstr "Zurück"
 
 msgctxt "about_title"
 msgid "About"
-msgstr ""
+msgstr "Über"
 
 msgctxt "about_name"
 msgid "BOINC"
-msgstr ""
+msgstr "BOINC"
 
 msgctxt "about_version"
 msgid "Version"
-msgstr ""
+msgstr "Version"
 
 msgctxt "about_name_long"
 msgid "Berkeley Open Infrastructure for Network Computing"
-msgstr ""
+msgstr "Berkeley Open Infrastructure for Network Computing"
 
 msgctxt "about_copyright"
 msgid ""
 "© 2003–2013 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
+"© 2003–2013 Universität von Kalifornien, Berkeley.\n"
+"Alle Rechte vorbehalten."

@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-08-22 16:22 PDT\n"
-"PO-Revision-Date: 2013-08-29 12:25+0000\n"
+"PO-Revision-Date: 2013-09-05 03:29+0000\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1377779146.0\n"
+"X-POOTLE-MTIME: 1378351796.0\n"
 
 #: projects.inc:14
 msgid "Distributed sensing"
@@ -588,11 +588,11 @@ msgstr "Forschung im Bereich der Physik, Materialforschung und Biomedizin"
 
 #: projects.inc:365
 msgid "IBM Corporate Citizenship"
-msgstr ""
+msgstr "IBM Öffentlichkeitsarbeit"
 
 #: projects.inc:366
 msgid "Medical, environmental and other humanitarian research"
-msgstr ""
+msgstr "Medizin, Ökologie und andere Philanthropische Forschungen"
 
 #: projects.inc:367
 msgid ""
@@ -601,6 +601,11 @@ msgid ""
 "includes HIV-AIDS, cancer, tropical and neglected diseases, solar energy, "
 "clean water and many more."
 msgstr ""
+"Erstellt das weltweit größte Netzwerk des Verteilten Rechnens um "
+"entscheidende gemeinnützige Forschung in den dringendsten Problemen der "
+"Menschheit zu fördern.  Dies betrifft unter anderem HIV-Aids, Krebs, "
+"tropische und vernachlässigte Krankheiten, Solarenergie, sauberes Wasser und "
+"vieles mehr."
 
 #: projects.inc:373
 msgid "Mathematics, computing, and games"
@@ -718,6 +723,8 @@ msgid ""
 "Primegrid has multiple projects searching for different forms of very large "
 "prime numbers, including searching for the largest known prime number."
 msgstr ""
+"Primegrid bietet mehrere Projekte für die unterschiedlichen Formen von sehr "
+"großen Primzahlen, inklusive der Suche nach der größten bekannten Primzahl."
 
 #: projects.inc:497
 msgid "Hochschule RheinMain University of Applied Sciences"
@@ -1093,7 +1100,7 @@ msgstr "BOINC wird an der Universität von Kalifornien in Berkeley entwickelt."
 
 #: ../html/inc/news.inc:40
 msgid "Comment"
-msgstr ""
+msgstr "Kommentieren"
 
 #: ../html/inc/news.inc:111
 #, php-format
