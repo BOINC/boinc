@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project Generic\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2013-09-04 20:19+0200\n"
+"PO-Revision-Date: 2013-09-05 02:34+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber\n"
 "Language: tr\n"
@@ -38,7 +38,7 @@ msgstr "Altı çizili metin: [u]metin[/u]  (alt+u)"
 
 #: ../inc/bbcode_html.inc:20
 msgid "Quote text: [quote]text[/quote]  (alt+q)"
-msgstr "Alıntı yapılmış metin: [quote]metin[/quote]  (alt+q)"
+msgstr "Alıntılanmış metin: [quote]metin[/quote]  (alt+q)"
 
 #: ../inc/bbcode_html.inc:23
 msgid "Code display: [code]code[/code]  (alt+c)"
@@ -50,7 +50,7 @@ msgstr "Liste: [list]metin[/list] (alt+l)"
 
 #: ../inc/bbcode_html.inc:29
 msgid "Ordered list: [list=]text[/list]  (alt+o)"
-msgstr "Numaralanmış liste: [list=]metin[/list]  (alt+o)"
+msgstr "Sıralı liste: [list=]metin[/list]  (alt+o)"
 
 #: ../inc/bbcode_html.inc:32
 msgid "Insert image: [img]http://image_url[/img]  (alt+p)"
@@ -240,7 +240,7 @@ msgstr "%1 kişisine özel mesaj gönder"
 
 #: ../inc/forum.inc:581
 msgid "Joined: %1"
-msgstr "Katılım: %1"
+msgstr "Üyelik: %1"
 
 #: ../inc/forum.inc:590
 msgid "Posts: %1"
@@ -276,7 +276,7 @@ msgstr "Gönderildi: %1"
 
 #: ../inc/forum.inc:627
 msgid " - in response to "
-msgstr "şu mesaja yanıt olarak: "
+msgstr " - Şuna yanıt olarak: "
 
 #: ../inc/forum.inc:630 ../inc/prefs.inc:690 ../inc/prefs.inc:692
 msgid "Edit"
@@ -478,12 +478,12 @@ msgstr "Gizli bir konu başlığına gönderi yapılamaz."
 
 #: ../inc/forum.inc:1172
 msgid "Thread"
-msgstr "Konu Başlığı"
+msgstr "Yeni konu"
 
 #: ../inc/forum.inc:1173 ../inc/team.inc:120 ../user/forum_forum.php:136
 #: ../user/forum_index.php:94
 msgid "Posts"
-msgstr "Cevaplar"
+msgstr "Yanıtlar"
 
 #: ../inc/forum.inc:1175 ../user/forum_forum.php:138
 msgid "Views"
@@ -931,7 +931,7 @@ msgstr "Konu"
 
 #: ../inc/pm.inc:89
 msgid "Send message"
-msgstr "Mesajı yolla"
+msgstr "Mesaj gönder"
 
 #: ../inc/pm.inc:121
 msgid "sent you a private message; subject:"
@@ -943,7 +943,7 @@ msgstr "Özel mesaj %1, %2 kişisinden, konu:"
 
 #: ../inc/pm.inc:135
 msgid "Couldn't create message"
-msgstr "mesaj yaratılamadı"
+msgstr "mesaj oluşturulamadı"
 
 #: ../inc/pm.inc:166
 msgid ""
@@ -1099,7 +1099,7 @@ msgstr "Bellek: Bilgisayar boştayken en fazla kullanım"
 #: ../inc/prefs.inc:217
 msgid "Maintain enough tasks to keep busy for at least%1(max 10 days).%2"
 msgstr ""
-"En az bu süre kadar meşgul tutacak miktarda iş indir%1(en fazla 10 gün).%2"
+"En az bu süre kadar meşgul tutacak miktarda iş bulundur%1(en fazla 10 gün).%2"
 
 #: ../inc/prefs.inc:222 ../inc/prefs.inc:227 ../inc/prefs.inc:269
 #: ../inc/util.inc:264
@@ -1828,7 +1828,7 @@ msgstr "Mesaj panosu"
 
 #: ../inc/team.inc:120 ../user/forum_forum.php:135 ../user/forum_index.php:93
 msgid "Threads"
-msgstr "Konu Başlıkları"
+msgstr "Konu başlıkları"
 
 #: ../inc/team.inc:128
 msgid "Join this team"
@@ -2517,8 +2517,7 @@ msgstr "Sahip olduğunuz davet kodu geçersiz."
 msgid ""
 "Invalid email address: you must enter a valid address of the form name@domain"
 msgstr ""
-"Geçersiz e-posta adresi: 'isim@site' biçiminde geçerli bir adres "
-"girmelisiniz"
+"Geçersiz e-posta adresi: 'isim@site' biçiminde geçerli bir adres girmelisiniz"
 
 #: ../user/create_account_action.php:95
 msgid "There's already an account with that email address."
@@ -3081,7 +3080,8 @@ msgstr "Bir avatar kullanma"
 
 #: ../user/edit_forum_preferences_form.php:82
 msgid "Use a Globally Recognized Avatar provided by %1"
-msgstr "%1 tarafından sağlanan bir Globally Recognized Avatar (Gravatar) kullan"
+msgstr ""
+"%1 tarafından sağlanan bir Globally Recognized Avatar (Gravatar) kullan"
 
 #: ../user/edit_forum_preferences_form.php:84
 msgid "Use this uploaded avatar:"
@@ -3944,8 +3944,8 @@ msgid ""
 "Your message was flagged as spam by the Akismet anti-spam system. Please "
 "modify your text and try again."
 msgstr ""
-"Mesajınız Akismet anti-spam sistemi tarafından bir saldırı olarak algılandı. "
-" Lütfen yazdığınızı değiştirip, tekrar deneyin."
+"Mesajınız Akismet anti-spam sistemi tarafından bir saldırı olarak "
+"algılandı.  Lütfen yazdığınızı değiştirip, tekrar deneyin."
 
 #: ../user/forum_post.php:70
 msgid "Create new thread"
@@ -3965,7 +3965,8 @@ msgstr "Bunu Bildirim olarak BOINC Manager'da görüntüle"
 
 #: ../user/forum_post.php:127
 msgid "Do so only for items likely to be of interest to all volunteers."
-msgstr "Sadece, tüm gönüllüleri ilgilendirmesi muhtemel öğeler için bunu yapın."
+msgstr ""
+"Sadece, tüm gönüllüleri ilgilendirmesi muhtemel öğeler için bunu yapın."
 
 #: ../user/forum_rate.php:26
 msgid "Rating offline"
@@ -3978,8 +3979,7 @@ msgstr "Bu özellik proje tarafından kapatıldı"
 #: ../user/forum_rate.php:58
 msgid "You need more average or total credit to rate a post."
 msgstr ""
-"Oylayabilmek için daha fazla ortalama ya da toplam krediye sahip "
-"olmalısınız."
+"Oylayabilmek için daha fazla ortalama ya da toplam krediye sahip olmalısınız."
 
 #: ../user/forum_rate.php:62
 msgid "You have already rated this post."
@@ -4565,9 +4565,9 @@ msgid ""
 "<b>C:\\Documents and Settings\\All Users\\Application Data\\BOINC</b> or "
 "<b>C:\\Program Files\\BOINC</b>."
 msgstr ""
-"Bilgisayarınızdaki BOINC veri klasörüne gidin (bu Windows'ta genellikle "
-"<b>C:\\Documents and Settings\\All Users\\Application Data\\BOINC</b> ya da "
-"<b>C:\\Program Files\\BOINC</b> klasörüdür."
+"Bilgisayarınızdaki BOINC veri klasörüne gidin (bu Windows'ta genellikle <b>C:"
+"\\Documents and Settings\\All Users\\Application Data\\BOINC</b> ya da <b>C:"
+"\\Program Files\\BOINC</b> klasörüdür."
 
 #: ../user/get_passwd.php:51
 msgid "Find your account file for this project; it will be named <b>%1</b>."
@@ -4866,8 +4866,8 @@ msgid ""
 "using their computers for projects such as %1."
 msgstr ""
 "%1 projesini yalnızca kendi bilgisayarınızda ya da sahibinin izin verdiği "
-"bilgisayarlarda çalıştırın. Bazı okul ya da şirketlerin, bilgisayarlarının %"
-"1 gibi projeler için kullanılmaması yönünde politikaları bulunabilir."
+"bilgisayarlarda çalıştırın. Bazı okul ya da şirketlerin, bilgisayarlarının "
+"%1 gibi projeler için kullanılmaması yönünde politikaları bulunabilir."
 
 #: ../user/info.php:38
 msgid "How %1 will use your computer"
@@ -5034,8 +5034,8 @@ msgid ""
 "own risk."
 msgstr ""
 "Bu diğer projeler, %1 ile ortak değildir ve onların güvenlik yöntemlerine ya "
-"da araştırmalarının doğasına kefil olmayız. Diğer projelere, riski "
-"kendinize ait olmak üzere katılın."
+"da araştırmalarının doğasına kefil olmayız. Diğer projelere, riski kendinize "
+"ait olmak üzere katılın."
 
 #: ../user/language_select.php:44
 msgid "Language selection"
@@ -5204,7 +5204,8 @@ msgstr ""
 "<p>\n"
 "Moderatörler bu kuralların herhangi birini ihlal eden mesajları silebilir.\n"
 "Silinen mesajların yazarları e-posta yoluyla bildirilecektir.\n"
-"Saldırgan suçlular, gönderileri geçici olarak iptal yetkisine sahip olabilir\n"
+"Saldırgan suçlular, gönderileri geçici olarak iptal yetkisine sahip "
+"olabilir\n"
 "(istismarı önlemek için, sadece proje yöneticileri bunu yapma yetkisine "
 "sahiptir).\n"
 "Kötü davranışın ilave çeşitleri (diğer katılımcıların IP adreslerini "
@@ -5813,8 +5814,8 @@ msgstr "Üyesi yoksa takımı kaldırma."
 #: ../user/team.php:40
 msgid "To join a team, visit its team page and click %1Join this team%2."
 msgstr ""
-"Bir takıma katılmak için, takımın sayfasını ziyaret edin ve %1Bu takıma "
-"katıl%2 bağlantısına tıklayın."
+"Bir takıma katılmak için, takımın sayfasını ziyaret edin ve %1Bu takıma katıl"
+"%2 bağlantısına tıklayın."
 
 #: ../user/team.php:41 ../user/team_search.php:179
 msgid "Find a team"
@@ -6029,8 +6030,8 @@ msgstr "Takım oluştur"
 msgid ""
 "You belong to %1. You must %2quit this team%3 before creating a new one."
 msgstr ""
-"%1 üyesisiniz. Yeni bir tane oluşturmadan önce %2bu takımdan ayrılmalısınız%"
-"3."
+"%1 üyesisiniz. Yeni bir tane oluşturmadan önce %2bu takımdan ayrılmalısınız"
+"%3."
 
 #: ../user/team_delta.php:65
 msgid "Not founder or admin"
@@ -6170,8 +6171,8 @@ msgstr "Mesaj panosu kaldırıldı"
 msgid ""
 "Your team's message board has been removed. You may now %1create a new one%2."
 msgstr ""
-"Takımınızın mesaj panosu kaldırıldı. Şimdi yeni bir tane %"
-"1oluşturabilirsiniz%2."
+"Takımınızın mesaj panosu kaldırıldı. Şimdi yeni bir tane %1oluşturabilirsiniz"
+"%2."
 
 #: ../user/team_forum.php:143
 msgid "Team Message Board Updated"
@@ -6204,8 +6205,8 @@ msgid ""
 "                       If the founder does not respond within 60 days you "
 "will be allowed to become the founder."
 msgstr ""
-"Mevcut kurucu, talebiniz hakkında e-posta ve özel mesaj yollarıyla "
-"uyarıldı.<br /><br />\n"
+"Mevcut kurucu, talebiniz hakkında e-posta ve özel mesaj yollarıyla uyarıldı."
+"<br /><br />\n"
 "                       Kurucu 60 gün içerisinde yanıt vermezse, yeni kurucu "
 "olabileceksiniz."
 
@@ -6293,8 +6294,8 @@ msgid ""
 "                       Are you sure you want to request foundership?"
 msgstr ""
 "Eğer takım kurucusu aktif değilse ve kuruculuğu üstlenmek istiyorsanız, "
-"aşağıdaki butona tıklayın. Mevcut kurucuya isteğinizle ilgili detaylı bir "
-"e-posta gönderilecek ve kuruculuğu size devretme ya da talebi reddetme "
+"aşağıdaki butona tıklayın. Mevcut kurucuya isteğinizle ilgili detaylı bir e-"
+"posta gönderilecek ve kuruculuğu size devretme ya da talebi reddetme "
 "seçenekleri olacak. Kurucu 60 gün içerisinde bir yanıt vermezse, kurucu "
 "olabileceksiniz.<br /><br />\n"
 "                       Kurucu olma talebi göndermek istediğinize emin "
@@ -6335,7 +6336,7 @@ msgstr "Takıma katılamadınız - lütfen daha sonra tekrar deneyin."
 
 #: ../user/team_join_action.php:40
 msgid "Joined %1"
-msgstr "%1 takımına katılım"
+msgstr "Üyelik %1"
 
 #: ../user/team_join_action.php:41
 msgid "You have joined %1."
@@ -6485,8 +6486,8 @@ msgid ""
 "Other resources for BOINC team admins are available from a third-party site, "
 "%1www.boincteams.com%2."
 msgstr ""
-"BOINC takım yöneticileri için diğer kaynaklar, üçüncü parti bir sitededir: %"
-"1www.boincteams.com%2."
+"BOINC takım yöneticileri için diğer kaynaklar, üçüncü parti bir sitededir: "
+"%1www.boincteams.com%2."
 
 #: ../user/team_manage.php:91
 msgid "Can't delete non-empty team"
@@ -6698,7 +6699,7 @@ msgstr "Kullanıcı arama sonuçları"
 
 #: ../user/user_search.php:140
 msgid "Joined"
-msgstr "Giriş"
+msgstr "Üyelik"
 
 #: ../user/user_search.php:148
 msgid "No users match your search criteria."
