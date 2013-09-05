@@ -91,7 +91,7 @@ function show_participate() {
         <tr><td>
         <p>
         ".sprintf(
-            tra(" Use the idle time on your computer (Windows, Mac, or Linux) to cure diseases, study global warming, discover pulsars, and do many other types of scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %sDownload%s and run BOINC software  %sEnter%s an email address and password. "),
+            tra(" Use the idle time on your computer (Windows, Mac, Linux, or Android) to cure diseases, study global warming, discover pulsars, and do many other types of scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %sDownload%s and run BOINC software  %sEnter%s an email address and password. "),
             "<ol> <li> <a href=projects.php><b>",
             "</b></a>",
             "<li> <a href=download.php><b>",
