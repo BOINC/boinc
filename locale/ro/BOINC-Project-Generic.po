@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2013-09-04 16:09+0000\n"
+"PO-Revision-Date: 2013-09-05 05:48+0000\n"
 "Last-Translator: Marius <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
@@ -18,7 +18,7 @@ msgstr ""
 "20)) ? 1 : 2);;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1378310989.0\n"
+"X-POOTLE-MTIME: 1378360091.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Română"
@@ -1358,7 +1358,7 @@ msgstr "Îmi %1place%2 acest profil"
 
 #: ../inc/profile.inc:267
 msgid "Alert administrators to an offensive profile:"
-msgstr "Alertează adminnistratorii pentru un profil ofensiv"
+msgstr "Alertează administratorii pentru un profil ofensiv:"
 
 #: ../inc/profile.inc:268
 msgid "I %1do not like%2 this profile"
@@ -2206,11 +2206,11 @@ msgid ""
 "later."
 msgstr ""
 "O eroare de bază de date a apărut în timp ce se procesa solicitarea "
-"dumneavoastră; vă rugăm încercaţi mai târziu"
+"dumneavoastră; vă rugăm încercaţi mai târziu."
 
 #: ../inc/util.inc:247
 msgid "Unable to handle request"
-msgstr ""
+msgstr "Nu s-a putut onora cererea"
 
 #: ../inc/util.inc:267
 msgid "hours"
@@ -2318,7 +2318,7 @@ msgstr "Timp instalare"
 
 #: ../user/bbcode.php:23
 msgid "BBCode tags"
-msgstr ""
+msgstr "Etichete BBCode"
 
 #: ../user/bbcode.php:25
 msgid ""
@@ -2374,15 +2374,15 @@ msgstr "folosiţi pentru a afişa o imagine"
 
 #: ../user/bbcode.php:41
 msgid "Code snippet here"
-msgstr ""
+msgstr "Fragment cod aici"
 
 #: ../user/bbcode.php:41
 msgid "use to display some code"
-msgstr ""
+msgstr "folosit pentru a afişa cod"
 
 #: ../user/bbcode.php:42
 msgid "Pre-formatted text"
-msgstr ""
+msgstr "Text preformatat"
 
 #: ../user/bbcode.php:42
 msgid "use to display pre-formatted (usually monospaced) text"
@@ -2390,15 +2390,15 @@ msgstr ""
 
 #: ../user/bbcode.php:43
 msgid "Item 1"
-msgstr ""
+msgstr "Element 1"
 
 #: ../user/bbcode.php:43
 msgid "Item2"
-msgstr ""
+msgstr "Element 2"
 
 #: ../user/bbcode.php:43
 msgid "Item 2"
-msgstr ""
+msgstr "Element 2"
 
 #: ../user/bbcode.php:45
 msgid "use to link to Trac ticket on BOINC website"
@@ -2460,7 +2460,7 @@ msgstr ""
 
 #: ../user/create_account_action.php:95
 msgid "There's already an account with that email address."
-msgstr "Există deja un cont cu acea adresă de email"
+msgstr "Există deja un cont cu acea adresă de email."
 
 #: ../user/create_account_action.php:101 ../user/edit_passwd_action.php:33
 msgid "New passwords are different"
@@ -2549,7 +2549,7 @@ msgstr ""
 
 #: ../user/create_profile.php:69
 msgid "To remove it from your profile, check this box:"
-msgstr ""
+msgstr "Pentru a şterge din profilul dumneavoastră, selectaţi această căsuţă:"
 
 #: ../user/create_profile.php:77
 msgid ""
@@ -2575,7 +2575,7 @@ msgstr "Vă rugăm introduceţi cuvintele din imagine."
 
 #: ../user/create_profile.php:115
 msgid "Create/edit profile"
-msgstr ""
+msgstr "Crează/modifică profil"
 
 #: ../user/create_profile.php:137
 msgid "The format of your uploaded image is not supported."
@@ -2630,7 +2630,7 @@ msgstr ""
 
 #: ../user/create_profile.php:306
 msgid "%1View your profile%2"
-msgstr ""
+msgstr "%1Vizualizaţi profilul dumneavoastră%2"
 
 #: ../user/create_profile.php:315
 msgid "Create a profile"
@@ -2758,7 +2758,7 @@ msgstr ""
 
 #: ../user/donated.php:32
 msgid "You have canceled your donation."
-msgstr ""
+msgstr "Aţi anulat donaţia dumneavoastră."
 
 #: ../user/donations.php:24
 msgid "This project is not accepting donations."
@@ -2812,6 +2812,8 @@ msgstr ""
 #: ../user/donations.php:324
 msgid "To assign the donation with your user ID, please log in."
 msgstr ""
+"Pentru a asocia donaţia cu ID-ul dumneavoastră de utilizator, vă rugăm să vă "
+"autentificaţi."
 
 #: ../user/donations.php:328
 msgid "Proceed"
@@ -2848,7 +2850,7 @@ msgstr ""
 
 #: ../user/download_network.php:38
 msgid "This list is managed centrally at %1the BOINC website%2."
-msgstr ""
+msgstr "Această listă este gestionată central pe %1siteul web BOINC%2."
 
 #: ../user/edit_email_action.php:31
 msgid "Change email address of account"
@@ -3052,7 +3054,7 @@ msgstr ""
 
 #: ../user/edit_forum_preferences_form.php:139
 msgid "How to sort"
-msgstr ""
+msgstr "Cum să se sorteze"
 
 #: ../user/edit_forum_preferences_form.php:140
 msgid "Threads:"
@@ -3088,11 +3090,11 @@ msgstr "ID utilizator (De exemplu: 123456789)"
 
 #: ../user/edit_forum_preferences_form.php:168 ../user/pm.php:251
 msgid "Add user to filter"
-msgstr ""
+msgstr "Adaugă utilizator la filtru"
 
 #: ../user/edit_forum_preferences_form.php:173
 msgid "Click here to update preferences"
-msgstr ""
+msgstr "Apăsaţi aici pentru a actualiza preferinţele"
 
 #: ../user/edit_forum_preferences_form.php:175
 #: ../user/edit_forum_preferences_form.php:177
@@ -3101,7 +3103,7 @@ msgstr "Resetează"
 
 #: ../user/edit_forum_preferences_form.php:176
 msgid "Or click here to reset preferences to the defaults"
-msgstr ""
+msgstr "Sau apăsaţi aici pentru a reseta preferinţele la implicit"
 
 #: ../user/edit_passwd_action.php:50
 msgid "Invalid account key"
@@ -3109,7 +3111,7 @@ msgstr ""
 
 #: ../user/edit_passwd_action.php:55
 msgid "No account with that email address was found"
-msgstr ""
+msgstr "Nici un cont cu acea adresă de email nu a fost găsit"
 
 #: ../user/edit_passwd_action.php:59
 msgid "Invalid password"
@@ -3140,7 +3142,7 @@ msgstr ""
 
 #: ../user/edit_passwd_form.php:45
 msgid "your account key"
-msgstr ""
+msgstr "cheia contului dumneavoastră"
 
 #: ../user/edit_passwd_form.php:49
 msgid "Current password"
@@ -3168,11 +3170,11 @@ msgstr ""
 
 #: ../user/edit_user_info_action.php:34
 msgid "You must supply a name for your account."
-msgstr ""
+msgstr "Trebuie să furnizaţi un nume pentru contul dumneavoastră."
 
 #: ../user/edit_user_info_action.php:58
 msgid "Couldn't update user info."
-msgstr ""
+msgstr "Nu s-a putut actualiza informaţia utilizator."
 
 #: ../user/edit_user_info_form.php:29
 msgid "Edit account information"
@@ -3231,7 +3233,7 @@ msgstr ""
 
 #: ../user/explain_state.php:49
 msgid "Outcomes"
-msgstr ""
+msgstr "Rezultate"
 
 #: ../user/explain_state.php:52
 msgid ""
@@ -3283,7 +3285,7 @@ msgstr ""
 
 #: ../user/explain_state.php:80
 msgid "Client states"
-msgstr ""
+msgstr "Stare client"
 
 #: ../user/explain_state.php:81
 msgid ""
@@ -3313,7 +3315,7 @@ msgstr ""
 
 #: ../user/explain_state.php:103
 msgid "Time reported and deadline"
-msgstr ""
+msgstr "Timp raportat sau timp limită"
 
 #: ../user/explain_state.php:106
 msgid ""
@@ -3534,7 +3536,7 @@ msgstr "Titlu"
 
 #: ../user/forum_edit.php:144 ../user/forum_post.php:129
 msgid "Add my signature to this post"
-msgstr ""
+msgstr "Adaugă semnătura mea la acest răspuns"
 
 #: ../user/forum_forum.php:41
 msgid "Not visible to you"
@@ -3645,7 +3647,7 @@ msgstr ""
 
 #: ../user/forum_index.php:69
 msgid "%1 Message boards"
-msgstr ""
+msgstr "Panou de mesaje %1"
 
 #: ../user/forum_index.php:78
 msgid ""
@@ -3790,9 +3792,10 @@ msgid ""
 "modify your text and try again."
 msgstr ""
 
+# 84%
 #: ../user/forum_post.php:70
 msgid "Create new thread"
-msgstr ""
+msgstr "Crează un nou fir"
 
 # 84%
 #: ../user/forum_post.php:100
@@ -4028,7 +4031,7 @@ msgstr ""
 
 #: ../user/forum_search_action.php:141
 msgid "Forum search results"
-msgstr ""
+msgstr "Reultate căutare forum"
 
 #: ../user/forum_search_action.php:174
 msgid "Thread titles matching your query:"
@@ -4326,7 +4329,7 @@ msgstr ""
 
 #: ../user/friend.php:232
 msgid "Cancel friendship?"
-msgstr ""
+msgstr "Anulează prietenie?"
 
 #: ../user/friend.php:234
 msgid "Are you sure you want to cancel your friendship with %1?"
@@ -4562,7 +4565,7 @@ msgstr ""
 
 #: ../user/host_venue_action.php:43
 msgid "none"
-msgstr ""
+msgstr "nimic"
 
 #: ../user/host_venue_action.php:46
 msgid "The venue of this host has been set to %1."
@@ -4850,7 +4853,7 @@ msgstr ""
 
 #: ../user/merge_by_name.php:33
 msgid "Processing %1"
-msgstr ""
+msgstr "Se procesează %1"
 
 #: ../user/merge_by_name.php:45
 msgid "Merged %1 into %2"
@@ -4943,7 +4946,7 @@ msgstr ""
 
 #: ../user/pending.php:79
 msgid "Pending credit: %1"
-msgstr ""
+msgstr "Credit în aşteptare: %1"
 
 #: ../user/pm.php:32
 msgid "Block messages from this user"
@@ -5460,7 +5463,7 @@ msgstr ""
 
 #: ../user/team.php:35
 msgid "add or remove team admins"
-msgstr ""
+msgstr "adaugă sau şterge administratori echipă"
 
 #: ../user/team.php:36
 msgid "remove members from the team"
@@ -5708,7 +5711,7 @@ msgstr ""
 
 #: ../user/team_edit_action.php:90
 msgid "Could not update team - please try again later."
-msgstr ""
+msgstr "Nu s-a putut actualiza echipa - vă rugăm încercaţi mai târziu."
 
 #: ../user/team_edit_form.php:33
 msgid "Edit %1"
@@ -5724,7 +5727,7 @@ msgstr ""
 
 #: ../user/team_email_list.php:63
 msgid "Member list of %1"
-msgstr ""
+msgstr "Listă membrii ai %1"
 
 #: ../user/team_email_list.php:78
 msgid "Show as plain text"
@@ -5876,7 +5879,7 @@ msgstr ""
 
 #: ../user/team_founder_transfer_form.php:28
 msgid "You need to be a member of a team to access this page."
-msgstr ""
+msgstr "Trebuie să fi membru al unei echipe pentru accesa această pagină."
 
 #: ../user/team_founder_transfer_form.php:31
 msgid "Request foundership of %1"
@@ -5949,7 +5952,7 @@ msgstr ""
 
 #: ../user/team_join_action.php:40
 msgid "Joined %1"
-msgstr ""
+msgstr "Înscris: %1"
 
 #: ../user/team_join_action.php:41
 msgid "You have joined %1."
@@ -6272,7 +6275,7 @@ msgstr ""
 
 #: ../user/user_search.php:68
 msgid "Decreasing average credit"
-msgstr ""
+msgstr "Credit mediu în scădere"
 
 #: ../user/user_search.php:69
 msgid "Decreasing total credit"
@@ -6284,7 +6287,7 @@ msgstr ""
 
 #: ../user/user_search.php:133
 msgid "User search results"
-msgstr ""
+msgstr "Reultate căutare utilizator"
 
 #: ../user/user_search.php:140
 msgid "Joined"
@@ -6344,7 +6347,7 @@ msgstr ""
 
 #: ../user/validate_email_addr.php:44
 msgid "No such user."
-msgstr ""
+msgstr "Nu exista acest utilizator."
 
 #: ../user/validate_email_addr.php:49
 msgid "Error in URL data - can't validate email address"
