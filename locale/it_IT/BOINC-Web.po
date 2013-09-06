@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-08-22 16:22 PDT\n"
-"PO-Revision-Date: 2013-08-08 14:23+0200\n"
-"Last-Translator: Charlie <charlief@ssl.berkeley.edu>\n"
+"PO-Revision-Date: 2013-08-26 18:45+0200\n"
+"Last-Translator: Gianfranco <costamagnagianfranco@yahoo.it>\n"
 "Language-Team: \n"
 "Language: it_IT\n"
 "MIME-Version: 1.0\n"
@@ -24,15 +24,16 @@ msgstr ""
 
 #: projects.inc:14
 msgid "Distributed sensing"
-msgstr ""
+msgstr "Rilevamento distribuito"
 
+# 78%
 #: projects.inc:19
 msgid "Stanford University"
-msgstr ""
+msgstr "Università di Stanford"
 
 #: projects.inc:20
 msgid "Seismology"
-msgstr ""
+msgstr "Sismologia"
 
 #: projects.inc:21
 msgid ""
@@ -40,14 +41,17 @@ msgid ""
 "using sensors attached to Internet-connected computers.  You must buy a "
 "sensor to participate."
 msgstr ""
+"La Rete Quake-Catcher sviluppa la più grande rete di rilevazione sismica "
+"mondiale utilizzando sensori attaccati ai computer collegati ad internet.  "
+"Devi comprare un sensore per partecipare."
 
 #: projects.inc:27
 msgid "BOINC Poland Foundation"
-msgstr ""
+msgstr "Fondazione BOINC Polacca"
 
 #: projects.inc:28
 msgid "Environmental research"
-msgstr ""
+msgstr "Ricerca ambientale"
 
 #: projects.inc:29
 msgid ""
@@ -55,12 +59,17 @@ msgid ""
 "levels by using sensors connected to volunteers' computers.  You must buy a "
 "sensor to participate."
 msgstr ""
+"Questo progetto crea una mappa gratuita e continuamente aggiornata dei "
+"livelli di radiazione utilizzando sensori collegati ai computer dei "
+"volontari.  Devi comprare un sensore per partecipare."
 
 #: projects.inc:33
 msgid ""
 "To participate in these projects you must buy a sensor and attach it to your "
 "computer."
 msgstr ""
+"Per partecipare a questi progetti devi comprare un sensore e connetterlo al "
+"tuo computer."
 
 #: projects.inc:37
 msgid "Cognitive science and artifical intelligence"
@@ -93,11 +102,11 @@ msgstr "Biologia e Medicina"
 
 #: projects.inc:71
 msgid "University College Dublin"
-msgstr ""
+msgstr "College Universitario di Dublino"
 
 #: projects.inc:72
 msgid "Antimalarial drug discovery"
-msgstr ""
+msgstr "Scoperta di cure contro la malaria"
 
 #: projects.inc:73
 msgid ""
@@ -107,6 +116,11 @@ msgid ""
 "the parasite. The FightMalaria@Home project is aimed at finding these new "
 "targets."
 msgstr ""
+"Il parassita che causa la malaria continua a sviluppare resistenza alle cure "
+"disponibili. Abbiamo quindi urgenza di scoprire nuove cure che rimpiazzino "
+"quelle esistenti. Cosa importante, queste cure devono avere come "
+"destinazione le NUOVE proteine del parassita. Il progetto FightMalaria@Home "
+"serve a trovare queste nuove destinazioni."
 
 #: projects.inc:79
 msgid "University of Karlsruhe (Germany)"
@@ -312,9 +326,10 @@ msgstr ""
 "potrà cambiare nel prossimo secolo, sotto un ampio ventaglio di scenari "
 "diversi."
 
+# 75%
 #: projects.inc:196
 msgid "Astronomy, Physics, and Chemistry"
-msgstr ""
+msgstr "Astronomia, Fisica e Chimica"
 
 #: projects.inc:202 projects.inc:241 projects.inc:249
 msgid "Astronomy"
@@ -329,6 +344,13 @@ msgid ""
 "star formation history) on a resolved pixel-by-pixel basis using spectral "
 "energy distribution (SED) fitting techniques in a distributed computing mode."
 msgstr ""
+"Combineremo la copertura di spettro di GALEX, Pan-STARRS1, e WISE per "
+"generare un atlante dell'universo grazie ad un raggio ottico UV-NIR multi "
+"lunghezza. Misureremo i parametri fisici (come la densità della superficie "
+"della massa stellare, il tasso di formazione della densità di una stella, "
+"l'attenuazione, e il primo ordine di stelle formate nella storia) su una "
+"base risolta pixel per pixel utilizzando la distribuzione di energia "
+"spettrale (SED) con tecniche di calcolo distribuito."
 
 #: projects.inc:225
 msgid "University of Texas at Austin"
@@ -361,9 +383,10 @@ msgstr ""
 "singolo evento di interesse. Il nostro gruppo di ricerca è interessato al "
 "calcolo della dinamica a lungo termine dei sistemi."
 
+# 95%
 #: projects.inc:240
 msgid "University of Illinois at Urbana-Champaign"
-msgstr ""
+msgstr "Università dell'Illinois di Urbana-Champaign"
 
 #: projects.inc:242
 msgid ""
@@ -460,6 +483,9 @@ msgid ""
 "LHC event physics simulation on volunteer computers.  Requires that you "
 "install VirtualBox on your computer"
 msgstr ""
+"Questo progetto usa la macchina virtual sviluppata dal CERN per simulare gli "
+"eventi fisici dell'LHC sui computer dei volontari.  Richiede che venga "
+"installato VirtualBox sul tuo computer"
 
 #: projects.inc:304
 msgid "University of California, Berkeley"
@@ -573,11 +599,11 @@ msgstr "Ricerca in fisica, scienza dei materiali e biomedicina"
 
 #: projects.inc:365
 msgid "IBM Corporate Citizenship"
-msgstr ""
+msgstr "Cittadinanza IBM Corporate"
 
 #: projects.inc:366
 msgid "Medical, environmental and other humanitarian research"
-msgstr ""
+msgstr "Medica, dell'ambiente e altre ricerche umanitarie"
 
 #: projects.inc:367
 msgid ""
@@ -586,6 +612,10 @@ msgid ""
 "includes HIV-AIDS, cancer, tropical and neglected diseases, solar energy, "
 "clean water and many more."
 msgstr ""
+"Per ulteriori ricerche critiche non profit su alcuni dei problemi importanti "
+"dell'umanità creando la più grande rete mondiale di calcolo distribuito.  "
+"Le ricerche includono HIV-AIDS, cancro, malattie tropicali e dimenticate, "
+"energia solare, acqua pulita e molte altre."
 
 #: projects.inc:373
 msgid "Mathematics, computing, and games"
@@ -593,15 +623,15 @@ msgstr "Matematica, calcolo computazionale, e giochi"
 
 #: projects.inc:379
 msgid "Computer Science"
-msgstr ""
+msgstr "Informatica"
 
 #: projects.inc:387
 msgid "Mathematics, Physics, Artificial Intelligence"
-msgstr ""
+msgstr "Matematica, Fisica, Intelligenza Artificiale"
 
 #: projects.inc:388
 msgid "Simulation of quantum computing; Goldbach's conjecture."
-msgstr ""
+msgstr "Simulazione dell'elaborazione quantica; congettura di Goldbach."
 
 #: projects.inc:428 projects.inc:436
 msgid "Cryptography"
@@ -700,6 +730,8 @@ msgid ""
 "Primegrid has multiple projects searching for different forms of very large "
 "prime numbers, including searching for the largest known prime number."
 msgstr ""
+"Primegrid ha progetti multipli che cercano differenti forme di grandi numeri "
+"primi, inclusa la ricerca del più grande numero primo conosciuto."
 
 #: projects.inc:497
 msgid "Hochschule RheinMain University of Applied Sciences"
@@ -790,7 +822,7 @@ msgstr "Storia delle versioni"
 
 #: download.php:136
 msgid "GPU computing"
-msgstr ""
+msgstr "elaborazione GPU"
 
 #: download.php:154
 msgid "BOINC: compute for science"
@@ -907,9 +939,10 @@ msgstr "computer.\n"
 msgid "24-hour average:"
 msgstr "Media su 24 ore:"
 
+# 80%
 #: index.php:55
 msgid "PetaFLOPS."
-msgstr ""
+msgstr "PetaFLOPS."
 
 #: index.php:67
 msgid "News"
@@ -929,11 +962,11 @@ msgstr "Documentazione"
 
 #: index.php:87
 msgid "Add-ons"
-msgstr ""
+msgstr "Add-ons"
 
 #: index.php:88
 msgid "Links"
-msgstr ""
+msgstr "Links"
 
 #: index.php:94
 #, php-format
@@ -1067,9 +1100,10 @@ msgstr ""
 msgid "BOINC is based at The University of California, Berkeley"
 msgstr "BOINC è basato sul lavoro dell'università di Berkeley in California"
 
+# 87%
 #: ../html/inc/news.inc:40
 msgid "Comment"
-msgstr ""
+msgstr "Commenta"
 
 #: ../html/inc/news.inc:111
 #, php-format

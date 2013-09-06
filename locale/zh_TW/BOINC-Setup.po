@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-08-06 16:50-0800\n"
-"PO-Revision-Date: 2013-08-18 06:57+0200\n"
-"Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
+"PO-Revision-Date: 2013-08-30 11:11+0000\n"
+"Last-Translator: Paul <aphroteus@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
@@ -20,6 +20,7 @@ msgstr ""
 "X-Poedit-KeywordsList: _\n"
 "X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
 "X-Poedit-SearchPath-0: mac_installer\n"
+"X-POOTLE-MTIME: 1377861069.0\n"
 
 #: mac_installer/Installer.cpp:132
 #, c-format
@@ -36,7 +37,7 @@ msgstr "否"
 
 #: mac_installer/PostInstall.cpp:134
 msgid "Should BOINC run even when no user is logged in?"
-msgstr "讓BOINC在無使用者登入時持續運行?"
+msgstr "讓BOINC在無使用者登入時持續執行?"
 
 #: mac_installer/PostInstall.cpp:1491
 #, c-format
@@ -47,7 +48,8 @@ msgid ""
 "Do you also want non-administrative users to be able to run and control %s "
 "on this Mac?"
 msgstr ""
-"有管理員權限的使用者可以直接運行和控制 %s。 \n"
+"有管理員權限的使用者可以直接運行和控制 %s。\n"
+"\n"
 "\n"
 "你希望這台 Mac 上的非管理員也能運行和控制 %s 嗎？"
 
@@ -79,7 +81,7 @@ msgid ""
 "\n"
 "This will remove the executables but will not touch %s data files."
 msgstr ""
-"你確定要完全從您的電腦中移除 %s？\n"
+"您確定要完全從您的電腦中移除 %s？\n"
 "\n"
 "這將移除執行檔案，但不會影響 %s 的數據文件。"
 
@@ -123,7 +125,7 @@ msgid ""
 "computer.\n"
 "\n"
 msgstr ""
-"輸入您的管理員密碼來從您的電腦中移除%s。\n"
+"為了從您的電腦中完全移除 %s ，請輸入您的管理員密碼。\n"
 "\n"
 
 #: mac_installer/uninstall.cpp:1543

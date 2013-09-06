@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2013-08-08 15:43+0200\n"
+"PO-Revision-Date: 2013-08-29 12:01+0000\n"
 "Last-Translator: Gianfranco <costamagnagianfranco@yahoo.it>\n"
 "Language-Team: \n"
 "Language: it_IT\n"
@@ -15,11 +15,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-POOTLE-MTIME: 1377777679.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Italiano"
@@ -310,8 +311,8 @@ msgid ""
 "This post is not shown because the sender is on your 'ignore' list.  Click "
 "%1here%2 to view this post"
 msgstr ""
-"Questo messaggio non è mostrato perchè l'autore è nella tua lista degli "
-"ignorati. Clicca %1qui%2 per vedere questo messaggio"
+"Questo messaggio non è mostrato perché l'autore è nella tua lista "
+"'ignorati'.  Clicca %1qui%2 per vedere questo messaggio"
 
 #: ../inc/forum.inc:667 ../inc/forum.inc:678
 msgid "Report this post as offensive"
@@ -1005,7 +1006,7 @@ msgstr "Sospendere l'elaborazione mentre il computer è in uso?"
 msgid ""
 "Suspend GPU work while computer is in use? %1 Enforced by version 6.6.21+ %2"
 msgstr ""
-"Sospendere l'elaborazione della GPU mentre il computer è in uso? %1Si "
+"Sospendere l'elaborazione della GPU mentre il computer è in uso? %1 Si "
 "applica dalla versione 6.6.21+ %2"
 
 #: ../inc/prefs.inc:98
@@ -1022,7 +1023,7 @@ msgid ""
 "power mode on some computers %2"
 msgstr ""
 "Sospende l'elaborazione se non c'è attività di mouse/tastiera negli ultimi %"
-"1(Necessario per entrare in modalità risparmio energetico in certi computer)"
+"1 Necessario per entrare in modalità risparmio energetico in certi computer "
 "%2"
 
 #: ../inc/prefs.inc:113
@@ -1042,8 +1043,8 @@ msgid ""
 "Leave tasks in memory while suspended? %1 Suspended tasks will consume swap "
 "space if 'yes' %2"
 msgstr ""
-"Lasciare le attività in memoria mentre sono sospese? %1(se \"sì\" le attività "
-"sospese consumano memoria di swap)%2"
+"Lasciare le attività in memoria mentre sono sospese? %1 Se 'sì' le attività "
+"sospese consumeranno memoria di swap %2"
 
 #: ../inc/prefs.inc:138
 msgid "Switch between tasks every %1 Recommended: 60 minutes %2"
@@ -1120,6 +1121,8 @@ msgstr "Memoria: quando il computer non è in uso, utilizza al massimo "
 #: ../inc/prefs.inc:217
 msgid "Maintain enough tasks to keep busy for at least%1(max 10 days).%2"
 msgstr ""
+"Mantieni lavori sufficienti per rimanere occupato per almeno%1(massimo 10 "
+"giorni).%2"
 
 #: ../inc/prefs.inc:222 ../inc/prefs.inc:227 ../inc/prefs.inc:269
 #: ../inc/util.inc:264
@@ -1128,7 +1131,7 @@ msgstr "giorni"
 
 #: ../inc/prefs.inc:225
 msgid "... and up to an additional"
-msgstr ""
+msgstr "... e per almeno"
 
 #: ../inc/prefs.inc:231
 msgid ""
@@ -1449,11 +1452,11 @@ msgstr "In corso"
 
 #: ../inc/result.inc:107
 msgid "Validation pending"
-msgstr ""
+msgstr "Validazione in attesa"
 
 #: ../inc/result.inc:108
 msgid "Validation inconclusive"
-msgstr ""
+msgstr "Validazione inconclusiva"
 
 #: ../inc/result.inc:109 ../inc/result.inc:259
 msgid "Valid"
@@ -1513,7 +1516,7 @@ msgstr "Cancellato dal server"
 
 #: ../inc/result.inc:190
 msgid "Not started by deadline - canceled"
-msgstr ""
+msgstr "Non partito a causa della scadenza - cancellato"
 
 #: ../inc/result.inc:193
 msgid "Error while downloading"
@@ -2118,9 +2121,10 @@ msgstr "ID dell'utente"
 msgid "Used in community functions"
 msgstr "Usato nel forum"
 
+# 91%
 #: ../inc/user.inc:217 ../user/weak_auth.php:25
 msgid "Account keys"
-msgstr ""
+msgstr "Chiave di accesso"
 
 #: ../inc/user.inc:222
 msgid "Preferences"
@@ -2241,15 +2245,15 @@ msgstr "Aggiungi come amico"
 
 #: ../inc/user.inc:446
 msgid "user name cannot have leading or trailing white space"
-msgstr ""
+msgstr "lo username non può iniziare o terminare con uno spazio"
 
 #: ../inc/user.inc:450
 msgid "user name must be nonempty"
-msgstr ""
+msgstr "lo username non può essere vuoto"
 
 #: ../inc/user.inc:454
 msgid "user name may not contain HTML tags"
-msgstr ""
+msgstr "lo username non può contenere tag HTML"
 
 #: ../inc/util.inc:122
 msgid "log out"
@@ -2585,6 +2589,8 @@ msgid ""
 "NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
 "select Add Project, and enter an email address and password."
 msgstr ""
+"NOTA: Se utilizzi il BOINC Manager, non usare questo form. Avvia BOINC, "
+"seleziona Aggiungi Progetto, e inserisci una email e una password."
 
 #: ../user/create_account_form.php:69
 msgid ""
@@ -3206,7 +3212,7 @@ msgstr "Evidenzia utenti speciali"
 
 #: ../user/edit_forum_preferences_form.php:135
 msgid "Display this many messages per page"
-msgstr ""
+msgstr "Virualizza questo numero di messaggi per pagina"
 
 #: ../user/edit_forum_preferences_form.php:139
 msgid "How to sort"
@@ -3228,7 +3234,7 @@ msgstr "Vai automaticamente al primo nuovo messaggio della discussione"
 
 #: ../user/edit_forum_preferences_form.php:142
 msgid "Don't move sticky posts to top"
-msgstr ""
+msgstr "Non muovere i post offensivi al top"
 
 #: ../user/edit_forum_preferences_form.php:148
 msgid "Message filtering"
@@ -4114,9 +4120,10 @@ msgstr "Ti serve più credito medio o totale per segnalare un post."
 msgid "Report Registered"
 msgstr "Segnalazione Registrata"
 
+# 92%
 #: ../user/forum_report_post.php:66
 msgid "Your report has been recorded. Thanks for your input."
-msgstr ""
+msgstr "La tua segnalazione è stata registrata. Grazie per il tuo aiuto."
 
 #: ../user/forum_report_post.php:67
 msgid ""
@@ -4411,7 +4418,7 @@ msgstr "Non evidenziare"
 
 #: ../user/forum_thread.php:201
 msgid "Make this thread not sticky"
-msgstr "Fai in modo che questo argomento non sia in evidenza"
+msgstr "Fai in modo che questo thread non sia in evidenza"
 
 #: ../user/forum_thread.php:206
 msgid "Make sticky"
@@ -4419,7 +4426,7 @@ msgstr "Evidenzia"
 
 #: ../user/forum_thread.php:207
 msgid "Make this thread sticky"
-msgstr "Fai in modo che questo argomento sia in evidenza"
+msgstr "Fai in modo che questo thread sia in evidenza"
 
 #: ../user/forum_thread.php:213
 msgid "Unlock"
@@ -5499,6 +5506,9 @@ msgid ""
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
+"Le tue preferenze sono state resettate al default, e\n"
+"          avranno effetto quando il tuo computer comunicherà con %1\n"
+"          oppure cliccherai sul comando %2Aggiorna%3 dal BOINC Manager"
 
 #: ../user/prefs_edit.php:65 ../user/prefs_edit.php:93
 msgid "%1 for %2"
@@ -6071,7 +6081,7 @@ msgid ""
 "you left the team or haven't had contact with the team for a long time."
 msgstr ""
 "Il membro %1 ha richiesto di essere il fondatore di questo team. Potrebbe "
-"essere perchè hai abbandonato il team oppure non hai avuto contatti con il "
+"essere perché hai abbandonato il team oppure non hai avuto contatti con il "
 "team per un lungo periodo."
 
 #: ../user/team_change_founder_form.php:55
@@ -6771,7 +6781,7 @@ msgstr "In un team?"
 
 #: ../user/user_search.php:66
 msgid "Ordering"
-msgstr ""
+msgstr "Ordinamento"
 
 #: ../user/user_search.php:67
 msgid "Decreasing sign-up time"
@@ -6888,14 +6898,17 @@ msgid ""
 "    or by using an assigned 'account key'.\n"
 "    Your account key is:"
 msgstr ""
+"Puoi accedere al tuoi account sia utilizzando il tuo email e password,\n"
+"    oppure usando una 'chiave account' assegnata.\n"
+"    La tua chiave account è:"
 
 #: ../user/weak_auth.php:57
 msgid "This key can be used to:"
-msgstr ""
+msgstr "Questa chiave può essere usata per:"
 
 #: ../user/weak_auth.php:59
 msgid "log in to your account on the web"
-msgstr ""
+msgstr "fai il login al tuo account sul web"
 
 #: ../user/weak_auth.php:61
 msgid ""
@@ -6904,6 +6917,10 @@ msgid ""
 "       create a file named %1 in the BOINC\n"
 "       data directory, and set its contents to:"
 msgstr ""
+"per aggiungere un computer al tuo account senza usare il BOINC Manager.\n"
+"       Per farlo, installa BOINC,\n"
+"       crea un file chiamato %1 nella cartella dati\n"
+"       di BOINC, e scrivi come contenuto:"
 
 #: ../user/weak_auth.php:73
 msgid "Weak account key"
@@ -6918,12 +6935,21 @@ msgid ""
 "    do so using your weak account key.\n"
 "    Your weak account key is:"
 msgstr ""
+"La tua 'chiave di accesso debole' può essere usata per aggiungere computer "
+"al tuo account\n"
+"    come descritto sopra, ma non può essere usata per fare il login al tuo "
+"account o per cambiarlo in nessun modo.\n"
+"    Se vuoi aggiungere computer non fidati o non sicuri al tuo account,\n"
+"    fallo usando la tua chiave di accesso debole.\n"
+"    La tua chiave di accesso debole è:"
 
 #: ../user/weak_auth.php:81
 msgid ""
 "If you change your password, your weak account key changes, and your "
 "previous weak account key becomes invalid."
 msgstr ""
+"Se cambi la tua password, la tua chiave di accesso debole cambia, e quella "
+"precedente diventa non valida."
 
 #: ../user/workunit.php:32
 msgid "can't find workunit"
@@ -7006,7 +7032,7 @@ msgid ""
 "    </ol>"
 msgstr ""
 "Dicci i tuoi pensieri riguardo %1<ol>\n"
-"    <li>Perchè utilizzi %1?\n"
+"    <li>Perché utilizzi %1?\n"
 "    <li>Quali sono i tuoi punti di vista sul progetto?\n"
 "    <li>Suggerimenti?\n"
 "    </ol>"

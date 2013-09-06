@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-08-22 16:22 PDT\n"
-"PO-Revision-Date: 2013-07-08 08:32+0200\n"
+"PO-Revision-Date: 2013-08-29 18:47+0000\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -15,11 +15,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-POOTLE-MTIME: 1377802038.0\n"
 "X-Poedit-KeywordsList: tra\n"
 
 #: projects.inc:14
@@ -28,9 +29,8 @@ msgstr ""
 
 # 78%
 #: projects.inc:19
-#, fuzzy
 msgid "Stanford University"
-msgstr "Universidad de Oxford"
+msgstr "Universidad de Stanford"
 
 #: projects.inc:20
 msgid "Seismology"
@@ -1028,8 +1028,9 @@ msgid "BOINC is based at The University of California, Berkeley"
 msgstr "BOINC está emplazado en la Universidad de California, Berkeley"
 
 #: ../html/inc/news.inc:40
+#, fuzzy
 msgid "Comment"
-msgstr ""
+msgstr "Comentarios"
 
 #: ../html/inc/news.inc:111
 #, php-format

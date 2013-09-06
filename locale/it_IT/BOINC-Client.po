@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-05 10:24-0700\n"
-"PO-Revision-Date: 2013-08-08 14:23+0200\n"
-"Last-Translator: Charlie <charlief@ssl.berkeley.edu>\n"
+"PO-Revision-Date: 2013-08-26 14:47+0200\n"
+"Last-Translator: Gianfranco <costamagnagianfranco@yahoo.it>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: it_IT\n"
 "MIME-Version: 1.0\n"
@@ -65,7 +65,7 @@ msgstr "Una nuova versione di BOINC è disponibile."
 
 #: current_version.cpp:94
 msgid "Download"
-msgstr ""
+msgstr "Scarica"
 
 #: log_flags.cpp:259 log_flags.cpp:436
 msgid "Unexpected text in cc_config.xml"
@@ -147,10 +147,11 @@ msgstr ""
 "Una nuova versione di BOINC è necessaria per usare la tua GPU NVIDIA; per "
 "favore aggiorna alla versione corrente"
 
+# 94%
 #: ../sched/sched_send.cpp:1146
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
-msgstr ""
+msgstr "Una GPU %s è richiesta per eseguire i lavori di questo progetto"
 
 #: ../sched/sched_send.cpp:1262
 msgid "No tasks are available for the applications you have selected."
@@ -171,6 +172,8 @@ msgstr ""
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
 msgstr ""
+"Lavori per %s sono disponibili, ma le tue preferenze sono impostate per non "
+"accettarli"
 
 #: ../sched/sched_types.cpp:254
 msgid "Unknown app name in app_info.xml"

@@ -7,16 +7,17 @@ msgstr ""
 "Project-Id-Version: BOINC Web Site\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-08-22 16:22 PDT\n"
-"PO-Revision-Date: 2013-08-15 15:12+0200\n"
-"Last-Translator: Aycan <aycandemirel@hotmail.com>\n"
+"PO-Revision-Date: 2013-09-05 03:02+0200\n"
+"Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <bilgi@donanimhaber.com>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Poedit 1.5.7\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-POOTLE-MTIME: 1377813804.0\n"
 
 #: projects.inc:14
 msgid "Distributed sensing"
@@ -36,6 +37,9 @@ msgid ""
 "using sensors attached to Internet-connected computers.  You must buy a "
 "sensor to participate."
 msgstr ""
+"Quake-Catcher Network, internet bağlantısı olan bilgisayarlara takılı "
+"sensörleri kullanarak dünyanın en büyük sismik ağını geliştirmektedir. "
+"Katılmak için bir sensör satın almalısınız."
 
 #: projects.inc:27
 msgid "BOINC Poland Foundation"
@@ -51,12 +55,17 @@ msgid ""
 "levels by using sensors connected to volunteers' computers.  You must buy a "
 "sensor to participate."
 msgstr ""
+"Bu proje, gönüllülerin bilgisayarlarına bağlı sensörleri kullanarak "
+"radyasyon seviyelerinin ücretsiz ve sürekli olarak güncellenen haritasını "
+"oluşturmaktadır. Katılmak için bir sensör satın almalısınız."
 
 #: projects.inc:33
 msgid ""
 "To participate in these projects you must buy a sensor and attach it to your "
 "computer."
 msgstr ""
+"Bu projelere katılmak için bir sensör satın alıp bilgisayarınıza takmanız "
+"gerekir."
 
 #: projects.inc:37
 msgid "Cognitive science and artifical intelligence"
@@ -78,6 +87,10 @@ msgid ""
 "databases, and part of speech taggers in order to imitate human behavior in "
 "conversations."
 msgstr ""
+"Konuşmalardaki insan davranışını taklit etmek için anlamsal ağları "
+"FreeHAL'de (FreeHAL yapay bir zekadır ve anlamsal ağları, sözcük köklerini, "
+"sözcük veritabanlarının parçalarını ve sözcük etiketlerinin parçalarını "
+"kullanır) çözümle ve dönüştür.  "
 
 #: projects.inc:58
 msgid "Biology and Medicine"
@@ -99,6 +112,11 @@ msgid ""
 "the parasite. The FightMalaria@Home project is aimed at finding these new "
 "targets."
 msgstr ""
+"Sıtmaya neden olan parazit, mevcut ilaçlara direnç geliştirmeye devam "
+"ediyor. Bu sebeple mevcut ilaçların yerine yeni ilaçlar keşfetmek "
+"gerekmekte. En önemlisi, bu yeni ilaçların parazitteki YENİ proteinleri "
+"hedeflemesi gerekli. FightMalaria@Home projesi, bu yeni hedefleri bulmaya "
+"yöneliktir."
 
 #: projects.inc:79
 msgid "University of Karlsruhe (Germany)"
@@ -116,6 +134,11 @@ msgid ""
 "protein malfunction or aggregation, and to develop new drugs on the basis of "
 "the three-dimensions structure of biologically important proteins."
 msgstr ""
+"POEM@HOME  Proteinlerin biyoaktif yapısını belirleyebilmek,  proteinler "
+"birbirleriyle etkileştiğinde oluşan sinyalleşme mekanizmasını ve "
+"proteinlerde işlev bozukluğu olmasıyla bağlantılı hastalıkları  anlayabilmek "
+"ve önemli proteinlerin 3 boyutlu yapısının oluşturulmasıyla yeni ilaçların "
+"geliştirilebilmesi için işlemsel bir yöntem kullanır."
 
 #: projects.inc:87
 msgid "University of Delaware"
@@ -170,9 +193,9 @@ msgid ""
 "provoking genes causing some types of diabetes, hypertension (high blood "
 "pressure), cancer, schizophrenia and many others."
 msgstr ""
-"Superlink@Technion dünyaki tüm genetikçilere diyabet, hipertansiyon (yüksek "
-"kan basıncı), kanser, şizofreni ve diğer birçok hastalığa sebep olan "
-"hastalık-tetikleyici genlerin bulunmasını sağlayarak yardımcı olur."
+"Superlink@Technion dünyaki tüm genetik bilimcilere genlerin diyabet, hiper-"
+"tansiyon, kanser, şizofreni ve diğer bir sürü hastalığa çare bulmalarına "
+"yardım eder."
 
 #: projects.inc:127
 msgid ""
@@ -375,6 +398,11 @@ msgid ""
 "investigate on particles proprieties. LHC@home runs simulations to improve "
 "the design of LHC and its detectors."
 msgstr ""
+"Büyük Hadron Çarpıştırıcısı (LHC), Avrupa Nükleer Araştırma Merkezi "
+"CERN'deki dünyanın en büyük  parçacık hızlandırıcısıdır. Bu, şimdiye kadar "
+"parçacık davranışlarını araştırmak için yapılmış en güçlü araçtır. LHC@home, "
+" LHC'nin tasarımını ve detektörlerini geliştirmek amacıyla simülasyonlar "
+"yürütür."
 
 #: projects.inc:298
 msgid ""
@@ -475,11 +503,11 @@ msgstr "Fizik, malzeme bilimi ve biyomedikal araştırmaları"
 
 #: projects.inc:365
 msgid "IBM Corporate Citizenship"
-msgstr ""
+msgstr "IBM Kurumsal Sosyal Sorumluluk"
 
 #: projects.inc:366
 msgid "Medical, environmental and other humanitarian research"
-msgstr ""
+msgstr "Tıbbi, çevresel ve diğer insani araştırmalar"
 
 #: projects.inc:367
 msgid ""
@@ -488,6 +516,10 @@ msgid ""
 "includes HIV-AIDS, cancer, tropical and neglected diseases, solar energy, "
 "clean water and many more."
 msgstr ""
+"Dünyanın en büyük gönüllü bilgisayar şebekesini oluşturarak, insanlığın en "
+"acil sorunlardan bazıları hakkında, kar amacı gütmeyen daha fazla kritik "
+"araştırma yapmayı hedefler. Araştırma, HIV-AIDS, kanser, tropikal ve ihmal "
+"edilen hastalıklar, güneş enerjisi, temiz su ve daha birçoğunu içerir."
 
 #: projects.inc:373
 msgid "Mathematics, computing, and games"
@@ -938,12 +970,12 @@ msgstr "BOINC, Kalifornia Üniversitesi, Berkeley merkezlidir."
 
 #: ../html/inc/news.inc:40
 msgid "Comment"
-msgstr ""
+msgstr "Yorum"
 
 #: ../html/inc/news.inc:111
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr ""
+msgstr "Haberler bir %sRSS beslemesi%s olarak da sunulmaktadır"
 
 #~ msgid "IBM Corporate Community Relations"
 #~ msgstr "IBM Şirketi Toplum İlişkileri"

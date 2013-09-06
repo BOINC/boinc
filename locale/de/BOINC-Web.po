@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-08-22 16:22 PDT\n"
-"PO-Revision-Date: 2013-08-09 09:51+0200\n"
+"PO-Revision-Date: 2013-09-05 03:29+0000\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -12,8 +12,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-POOTLE-MTIME: 1378351796.0\n"
 
 #: projects.inc:14
 msgid "Distributed sensing"
@@ -85,9 +86,9 @@ msgid ""
 "conversations."
 msgstr ""
 "Analysiere und konvertiere semantische Netze für die Nutzung mit FreeHAL, "
-"einer künstlichen Intelligenz, die semantische Netzwerke, Stemming "
-"Verfahren, Teile von Sprachdatenbanken und Part-of-speech Tagging verwendet "
-"um menschliches Verhalten in Konversationen zu imitieren."
+"einer Künstlichen Intelligenz, die semantische Netzwerke, Stemming-"
+"Verfahren, Wortklassen-Datenbanken und Wortklassen-Tagging verwendet, um "
+"menschliches Konversationsverhaltenzu  emulieren."
 
 #: projects.inc:58
 msgid "Biology and Medicine"
@@ -99,7 +100,7 @@ msgstr "Universität Dublin"
 
 #: projects.inc:72
 msgid "Antimalarial drug discovery"
-msgstr "Antimalaria Medikamentensuche"
+msgstr "Antimalaria Medikamentenentwicklung"
 
 #: projects.inc:73
 msgid ""
@@ -110,10 +111,10 @@ msgid ""
 "targets."
 msgstr ""
 "Der für Malaria verantwortliche Parasit entwickelt zunehmend eine Resistenz "
-"gegen bekannte Medikamente. Daher müssen dringend neue Medikamente gefunden "
-"werden. Genauer müssen andere Proteine des Parasiten als Angriffspunkte "
-"identifiziert werden. Das FightMalaria@Home Projekt möchte diese neuen "
-"Angriffspunkte finden."
+"gegen bekannte Medikamente. Daher müssen dringend neue Medikamente "
+"entwickelt werden. Vor allem müssen weitere Proteine des Parasiten als "
+"Angriffspunkte identifiziert werden. Ziel des FightMalaria@Home Projekts ist "
+"es, diese neuen Angriffspunkte zu identifizieren."
 
 #: projects.inc:79
 msgid "University of Karlsruhe (Germany)"
@@ -131,12 +132,12 @@ msgid ""
 "protein malfunction or aggregation, and to develop new drugs on the basis of "
 "the three-dimensions structure of biologically important proteins."
 msgstr ""
-"POEM@HOME verwendet einen rechenbetonten Ansatz für die Vorhersage der "
-"biologisch aktiven Struktur von Proteinen, um die "
-"Signalverarbeitungsmechanismen bei der Interaktion mehrerer Proteine, "
-"Krankheiten mit Ursache von Proteinfehlern oder Ansammlung zu verstehen und "
-"um neue Medikamente auf Basis der Dreidimensionalen Struktur von, biologisch "
-"wichtigen, Proteinen zu entwickeln."
+"POEM@HOME verwendet einen computergestützten Ansatz zur Vorhersage der "
+"biologisch aktiven Struktur von Proteinen, zur Erweiterung des "
+"Verständnisses der Signalverarbeitungsmechanismen bei der Interaktion "
+"mehrerer Proteine, von Krankheiten mit Proteindysfunktion oder "
+"-Agglomeration sowie um neue Medikamente auf Basis der dreidimensionalen "
+"Struktur biologisch bedeutsamer Proteinen zu entwickeln."
 
 #: projects.inc:87
 msgid "University of Delaware"
@@ -144,7 +145,7 @@ msgstr "Universität von Delaware"
 
 #: projects.inc:88
 msgid "Study of protein - ligand interactions"
-msgstr "Untersuchen der Protein - Ligand Interaktionen"
+msgstr "Untersuchen der Protein-Ligand-Interaktionen"
 
 #: projects.inc:89
 msgid ""
@@ -153,10 +154,10 @@ msgid ""
 "interactions and, by doing so, will search for insights into the discovery "
 "of novel pharmaceuticals."
 msgstr ""
-"Docking@Home hat Bio- und Computerwissenschaftliche Ziele. Das Projekt zielt "
-"auf weiteres Wissen über die atomaren Details von Protein-Ligand "
-"Interaktionen und damit wird nach einblicken in die Entdeckung von neuen "
-"Arzneimitteln gesucht."
+"Docking@Home verfolgt biowissenschatliche und informatikrelevante Ziele. Das "
+"Projekt zielt auf die Erweiterung des Wissen über die atomaren Einzelheiten "
+"von Protein-Ligand-Interaktionen und strebt in diesem Zuge Einblicke an, "
+"die der Entwicklung neuer Arzneimittel dienen können."
 
 #: projects.inc:103
 msgid "Barcelona Biomedical Research Park (PRBB)"
@@ -587,11 +588,11 @@ msgstr "Forschung im Bereich der Physik, Materialforschung und Biomedizin"
 
 #: projects.inc:365
 msgid "IBM Corporate Citizenship"
-msgstr ""
+msgstr "IBM Öffentlichkeitsarbeit"
 
 #: projects.inc:366
 msgid "Medical, environmental and other humanitarian research"
-msgstr ""
+msgstr "Medizin, Ökologie und andere Philanthropische Forschungen"
 
 #: projects.inc:367
 msgid ""
@@ -600,6 +601,11 @@ msgid ""
 "includes HIV-AIDS, cancer, tropical and neglected diseases, solar energy, "
 "clean water and many more."
 msgstr ""
+"Erstellt das weltweit größte Netzwerk des Verteilten Rechnens um "
+"entscheidende gemeinnützige Forschung in den dringendsten Problemen der "
+"Menschheit zu fördern.  Dies betrifft unter anderem HIV-Aids, Krebs, "
+"tropische und vernachlässigte Krankheiten, Solarenergie, sauberes Wasser und "
+"vieles mehr."
 
 #: projects.inc:373
 msgid "Mathematics, computing, and games"
@@ -717,6 +723,8 @@ msgid ""
 "Primegrid has multiple projects searching for different forms of very large "
 "prime numbers, including searching for the largest known prime number."
 msgstr ""
+"Primegrid bietet mehrere Projekte für die unterschiedlichen Formen von sehr "
+"großen Primzahlen, inklusive der Suche nach der größten bekannten Primzahl."
 
 #: projects.inc:497
 msgid "Hochschule RheinMain University of Applied Sciences"
@@ -1052,11 +1060,11 @@ msgstr "Helfer gesucht!"
 
 #: index.php:171
 msgid "Programming"
-msgstr "Programmieren"
+msgstr "Programmierung"
 
 #: index.php:172
 msgid "Translation"
-msgstr "Übersetzen"
+msgstr "Übersetzung"
 
 #: index.php:173
 msgid "Testing"
@@ -1092,7 +1100,7 @@ msgstr "BOINC wird an der Universität von Kalifornien in Berkeley entwickelt."
 
 #: ../html/inc/news.inc:40
 msgid "Comment"
-msgstr ""
+msgstr "Kommentieren"
 
 #: ../html/inc/news.inc:111
 #, php-format

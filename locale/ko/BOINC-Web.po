@@ -1,10 +1,7 @@
 # BOINC web translation
 # Copyright (C) 2008-2009 University of California
-#
 # This file is distributed under the same license as BOINC.
-#
 # FileID  : $Id$
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC web 2013/08/24\n"

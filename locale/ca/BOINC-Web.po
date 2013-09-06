@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-08-22 16:22 PDT\n"
-"PO-Revision-Date: 2013-08-20 21:16+0200\n"
+"PO-Revision-Date: 2013-08-30 20:20+0000\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -15,11 +15,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-POOTLE-MTIME: 1377894017.0\n"
 "X-Poedit-KeywordsList: tra\n"
 
 #: projects.inc:14
@@ -342,6 +343,14 @@ msgid ""
 "star formation history) on a resolved pixel-by-pixel basis using spectral "
 "energy distribution (SED) fitting techniques in a distributed computing mode."
 msgstr ""
+"Combinarem la cobertura espectral de GALEX, Pan-STARRS1 i WISE per generar "
+"un atles multi-longitud d'ona UV-òptic-NIR de les galàxies a l'univers "
+"proper. Mesurarem els paràmetres físics (com la densitat de massa "
+"superficial estel.lar, taxa de densitat superficial en la formació "
+"estel.lar, atenuació, i història dels estadis inicials de la formació "
+"estel.lar) resolt sobre una base píxel-a-píxel mitjançant tècniques d'ajust "
+"d'una distribució espectral d'energia (SED) en un entorn de computació "
+"distribuïda."
 
 #: projects.inc:225
 msgid "University of Texas at Austin"
@@ -588,11 +597,11 @@ msgstr "Investigació en física, ciència dels materials i biomedicina"
 
 #: projects.inc:365
 msgid "IBM Corporate Citizenship"
-msgstr ""
+msgstr "IBM Corporate Citizenship"
 
 #: projects.inc:366
 msgid "Medical, environmental and other humanitarian research"
-msgstr ""
+msgstr "Recerca mèdica, ambiental i d'altres tipus de recerca humanitària"
 
 #: projects.inc:367
 msgid ""
@@ -601,6 +610,11 @@ msgid ""
 "includes HIV-AIDS, cancer, tropical and neglected diseases, solar energy, "
 "clean water and many more."
 msgstr ""
+"Per a la investigació sense fins de lucre aprofundir més sobre alguns dels "
+"problemes més urgents de la humanitat mitjançant la creació de la xarxa de "
+"computació de voluntaris més gran del món. La investigació inclou el VIH-"
+"SIDA, el càncer, les malalties tropicals i oblidades, l'energia solar, "
+"l'aigua potable i moltes més."
 
 #: projects.inc:373
 msgid "Mathematics, computing, and games"
@@ -720,6 +734,8 @@ msgid ""
 "Primegrid has multiple projects searching for different forms of very large "
 "prime numbers, including searching for the largest known prime number."
 msgstr ""
+"PrimeGrid té diversos projectes que busquen nombres primers molt grans de "
+"diferents formes, incloent la recerca del nombre primer més gran conegut."
 
 #: projects.inc:497
 msgid "Hochschule RheinMain University of Applied Sciences"
@@ -1099,9 +1115,10 @@ msgstr "BOINC és troba a la Universitat de Califòrnia, Berkeley"
 
 #: ../html/inc/news.inc:40
 msgid "Comment"
-msgstr ""
+msgstr "Comentari"
 
 #: ../html/inc/news.inc:111
+#, php-format
 #, php-format, php-format
 msgid "News is available as an %sRSS feed%s"
 msgstr "Les notícies estan disponiles en format %sRSS%s"

@@ -1,0 +1,1044 @@
+# Translations template for PROJECT.
+# Copyright (C) 2013 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2013-08-29 15:37-0700\n"
+"PO-Revision-Date: 2013-08-30 08:02+0000\n"
+"Last-Translator: Marius <marius.sirbu@outlook.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2);;\n"
+"X-Generator: Pootle 2.5.0\n"
+"Generated-By: Babel 1.0dev\n"
+"X-POOTLE-MTIME: 1377849720.0\n"
+
+#. app global
+msgctxt "app_name"
+msgid "BOINC"
+msgstr "BOINC"
+
+#. generic. used by multiple Activities/tabs
+msgctxt "generic_loading"
+msgid "Loading! Please wait…"
+msgstr "Se încarcă! Vă rugăm aşteptaţi..."
+
+#. attach project
+#. project list
+msgctxt "attachproject_list_header"
+msgid "Choose a project:"
+msgstr "Alegeţi un proiect:"
+
+msgctxt "attachproject_list_manual_button"
+msgid "Add project by URL"
+msgstr "Adăugaţi proiect prin URL"
+
+msgctxt "attachproject_list_manual_dialog_title"
+msgid "Enter project URL:"
+msgstr "Introduceţi URL proiect:"
+
+msgctxt "attachproject_list_manual_dialog_button"
+msgid "Add project"
+msgstr "Adaugă proiect"
+
+msgctxt "attachproject_list_manual_no_url"
+msgid "Please enter project URL"
+msgstr "Vă rugăm introduceţi URL proiect"
+
+msgctxt "attachproject_list_no_internet"
+msgid "No Internet connection"
+msgstr "Nu există conexiune la Internet"
+
+#. project login
+msgctxt "attachproject_login_loading"
+msgid "Contacting project server…"
+msgstr "Se contactează serverul proiectului..."
+
+msgctxt "attachproject_login_image_description"
+msgid "Project logo."
+msgstr "Logo proiect."
+
+msgctxt "attachproject_login_header_general_area"
+msgid "General area:"
+msgstr "Zona generală:"
+
+msgctxt "attachproject_login_header_specific_area"
+msgid "Specific area:"
+msgstr "Zona specifică:"
+
+msgctxt "attachproject_login_header_description"
+msgid "Description:"
+msgstr "Descriere:"
+
+msgctxt "attachproject_login_header_home"
+msgid "Home:"
+msgstr "Acasă:"
+
+msgctxt "attachproject_login_header_url"
+msgid "Website:"
+msgstr "Site web:"
+
+msgctxt "attachproject_login_header_platform"
+msgid "Android:"
+msgstr "Android:"
+
+msgctxt "attachproject_login_platform_supported"
+msgid "This project supports Android devices"
+msgstr "Acest proiect suportă dispozitive Android"
+
+msgctxt "attachproject_login_platform_not_supported"
+msgid "This project does not support Android devices"
+msgstr "Acest proiect nu suportă dispozitive Android"
+
+msgctxt "attachproject_login_category_terms_of_use"
+msgid "Terms of use for"
+msgstr "Condiţii de utilizare pentru"
+
+msgctxt "attachproject_login_accept_terms_of_use"
+msgid ""
+"By creating an account with this project, you accept the terms of use as "
+"shown above."
+msgstr ""
+"Prin crearea unui cont la acest proiect, acceptaţi condiţiile de utilizare "
+"aşa cum sunt prezentate mai sus."
+
+msgctxt "attachproject_login_category_login"
+msgid "Sign in with existing account"
+msgstr "Conectaţi-vă cu un cont existent"
+
+msgctxt "attachproject_login_header_id_email"
+msgid "eMail:"
+msgstr "email:"
+
+msgctxt "attachproject_login_header_id_name"
+msgid "Name:"
+msgstr "Nume:"
+
+msgctxt "attachproject_login_header_pwd"
+msgid "Password:"
+msgstr "Parolă:"
+
+msgctxt "attachproject_login_category_creation"
+msgid "New to"
+msgstr "Nou pentru"
+
+msgctxt "attachproject_login_header_creation_enabled"
+msgid "Register an account to participate:"
+msgstr "Înregistraţi un cont pentru a participa:"
+
+msgctxt "attachproject_login_header_creation_client_disabled"
+msgid "Visit project website to create an account:"
+msgstr "Vizitaţi website-ul proiectului pentru a crea un cont:"
+
+msgctxt "attachproject_login_header_creation_disabled"
+msgid "Project does currently now allow creation of new accounts!"
+msgstr "Proiectul nu permite momentan crearea de noi conturi!"
+
+msgctxt "attachproject_login_button_registration"
+msgid "Register"
+msgstr "Înregistrează"
+
+msgctxt "attachproject_login_button_login"
+msgid "Sign in"
+msgstr "Autentificare"
+
+msgctxt "attachproject_login_button_forgotpw"
+msgid "Forgot Password"
+msgstr "Aţi Uitat Parola"
+
+msgctxt "attachproject_login_error_toast"
+msgid "Contacting project failed!"
+msgstr "Nu s-a putut contacta proiectul!"
+
+msgctxt "attachproject_login_attached"
+msgid "Attached"
+msgstr "Atașat"
+
+#. project registration
+msgctxt "attachproject_registration_header"
+msgid "Account registration for"
+msgstr "Înregistrare cont pentru"
+
+msgctxt "attachproject_registration_header_url"
+msgid "Project:"
+msgstr "Proiect:"
+
+msgctxt "attachproject_registration_header_email"
+msgid "eMail:"
+msgstr "email:"
+
+msgctxt "attachproject_registration_header_username"
+msgid "Name:"
+msgstr "Nume:"
+
+msgctxt "attachproject_registration_header_teamname"
+msgid "Team:"
+msgstr "Echipă:"
+
+msgctxt "attachproject_registration_header_pwd"
+msgid "Password:"
+msgstr "Parolă:"
+
+msgctxt "attachproject_registration_header_pwd_confirm"
+msgid "… Retype:"
+msgstr "... Reintroduceţi:"
+
+msgctxt "attachproject_registration_button"
+msgid "Create"
+msgstr "Creează"
+
+#. error strings
+msgctxt "attachproject_error_wrong_name"
+msgid "User not found"
+msgstr "Utilizatorul nu a fost găsit"
+
+msgctxt "attachproject_error_short_pwd"
+msgid "Password too short"
+msgstr "Parola este prea scurtă"
+
+msgctxt "attachproject_error_no_internet"
+msgid "Connection failure"
+msgstr "Conexiunea a eșuat"
+
+msgctxt "attachproject_error_pwd_no_match"
+msgid "Passwords do not match"
+msgstr "Parolele nu sunt identice"
+
+msgctxt "attachproject_error_no_email"
+msgid "Please enter eMail address"
+msgstr "Vă rugăm introduceţi adresa dumneavoastră de email"
+
+msgctxt "attachproject_error_no_pwd"
+msgid "Please enter a password"
+msgstr "Vă rugăm introduceţi o parolă"
+
+msgctxt "attachproject_error_no_name"
+msgid "Please enter user name"
+msgstr "Vă rugăm introduceţi numele de utilizator"
+
+msgctxt "attachproject_error_unknown"
+msgid "failed"
+msgstr "eșuat"
+
+msgctxt "attachproject_error_bad_username"
+msgid "User name refused"
+msgstr "Nume utilizator refuzat"
+
+msgctxt "attachproject_error_email_in_use"
+msgid "eMail is already in use"
+msgstr "Adresa de email este deja utilizată"
+
+msgctxt "attachproject_error_project_down"
+msgid "Project is offline"
+msgstr "Proiectul este offline"
+
+msgctxt "attachproject_error_email_bad_syntax"
+msgid "eMail refused"
+msgstr "Adresa de email refuzată"
+
+msgctxt "attachproject_error_bad_pwd"
+msgid "Password refused"
+msgstr "Parola refuzată"
+
+msgctxt "attachproject_error_creation_disabled"
+msgid "Account creation is disabled on this project"
+msgstr "Crearea de conturi este dezactivată la acest proiect"
+
+#. working activity
+msgctxt "attachproject_working_back_button"
+msgid "Back"
+msgstr "Înapoi"
+
+msgctxt "attachproject_working_finish_button"
+msgid "Finish"
+msgstr "Finalizare"
+
+msgctxt "attachproject_working_check_desc"
+msgid "Successful"
+msgstr "Sucess"
+
+msgctxt "attachproject_working_failed_desc"
+msgid "Failed"
+msgstr "Eșuat"
+
+msgctxt "attachproject_working_ongoing"
+msgid "…"
+msgstr "…"
+
+msgctxt "attachproject_working_finished"
+msgid "."
+msgstr "."
+
+msgctxt "attachproject_working_description"
+msgid ":"
+msgstr ":"
+
+msgctxt "attachproject_working_connect"
+msgid "Connect"
+msgstr "Conectează"
+
+msgctxt "attachproject_working_verify"
+msgid "Verify account"
+msgstr "Verificare cont"
+
+msgctxt "attachproject_working_register"
+msgid "Register account"
+msgstr "Înregistrează cont"
+
+msgctxt "attachproject_working_login"
+msgid "Log in"
+msgstr "Autentificare"
+
+#. main activity
+msgctxt "main_noproject_warning"
+msgid "Tab here to choose a project."
+msgstr "Apăsaţi aici pentru a alege un proiect."
+
+msgctxt "main_error"
+msgid "Whooops"
+msgstr "Whooops"
+
+msgctxt "main_error_long"
+msgid ""
+"…this should not happen!\n"
+"Click on the icon to try again."
+msgstr ""
+"...asta nu ar trebui să se întâmple!\n"
+"Apăsaţi pe icoană pentru a încerca din nou."
+
+msgctxt "main_title_icon_desc"
+msgid "BOINC icon"
+msgstr "Icoană BOINC"
+
+#. tab names
+msgctxt "tab_status"
+msgid "Status"
+msgstr "Stare"
+
+msgctxt "tab_projects"
+msgid "Projects"
+msgstr "Proiecte"
+
+msgctxt "tab_tasks"
+msgid "Tasks"
+msgstr "Task-uri"
+
+msgctxt "tab_transfers"
+msgid "Transfers"
+msgstr "Transferuri"
+
+msgctxt "tab_preferences"
+msgid "Preferences"
+msgstr "Preferințe"
+
+msgctxt "tab_desc"
+msgid "Navigation"
+msgstr "Navigare"
+
+#. status strings
+msgctxt "status_running"
+msgid "Computing"
+msgstr "Se calculează"
+
+msgctxt "status_running_long"
+msgid "Thank you for participating."
+msgstr "Mulţumim pentru participare."
+
+msgctxt "status_paused"
+msgid "Suspended"
+msgstr "Suspendat"
+
+msgctxt "status_idle"
+msgid "Nothing to do"
+msgstr "Nimic de făcut"
+
+msgctxt "status_idle_long"
+msgid "Waiting for tasks…"
+msgstr "Se aşteaptă task-uri..."
+
+msgctxt "status_computing_disabled"
+msgid "Suspended"
+msgstr "Suspendat"
+
+msgctxt "status_computing_disabled_long"
+msgid "Press play to resume network and computation."
+msgstr "Apăsaţi play pentru a relua calculele şi comunicarea în reţea."
+
+msgctxt "status_launching"
+msgid "Starting…"
+msgstr "Se pornește..."
+
+msgctxt "status_noproject"
+msgid "Choose a project to participate in."
+msgstr "Alegeţi un proiect în care să participaţi."
+
+msgctxt "status_closing"
+msgid "Closing…"
+msgstr "Se închide..."
+
+msgctxt "status_benchmarking"
+msgid "Benchmarking…"
+msgstr "Se măsoară performanţa..."
+
+msgctxt "status_image_description"
+msgid "project image"
+msgstr "imagine proiect"
+
+#. preferences tab strings
+msgctxt "prefs_loading"
+msgid "Reading preferences…"
+msgstr "Se citest preferinţele..."
+
+msgctxt "prefs_submit_button"
+msgid "Save"
+msgstr "Salvează"
+
+msgctxt "prefs_dialog_title"
+msgid "Enter new value:"
+msgstr "Introduceți noua valoare:"
+
+msgctxt "prefs_dialog_title_selection"
+msgid "Select:"
+msgstr "Selectați:"
+
+msgctxt "prefs_category_general"
+msgid "General"
+msgstr "General"
+
+msgctxt "prefs_category_network"
+msgid "Network"
+msgstr "Reţea"
+
+msgctxt "prefs_category_power"
+msgid "Power"
+msgstr "Energie"
+
+msgctxt "prefs_category_cpu"
+msgid "CPU"
+msgstr "CPU"
+
+msgctxt "prefs_category_storage"
+msgid "Storage"
+msgstr "Stocare"
+
+msgctxt "prefs_category_memory"
+msgid "Memory"
+msgstr "Memorie"
+
+msgctxt "prefs_category_debug"
+msgid "Debug"
+msgstr "Depanare"
+
+msgctxt "prefs_show_advanced_header"
+msgid "Show advanced preferences and controls…"
+msgstr "Arată preferinţe şi control avansat..."
+
+msgctxt "prefs_run_on_battery_header"
+msgid "Compute on Battery"
+msgstr "Calculează pe Baterie"
+
+msgctxt "battery_charge_min_pct_header"
+msgid "Min. battery level"
+msgstr "Nivel minim baterie"
+
+msgctxt "battery_charge_min_pct_description"
+msgid "BOINC suspends computation below defined battery charge level."
+msgstr "BOINC suspendă calculele când nivelul bateriei este sub cel definit."
+
+msgctxt "battery_temperature_max_header"
+msgid "Max. battery temperature"
+msgstr "Temperatură maximă baterie"
+
+msgctxt "battery_temperature_max_description"
+msgid ""
+"BOINC suspends computation above defined battery temperature. It is not "
+"recommended to change this value."
+msgstr ""
+"BOINC suspendă calculele când temperatura bateriei depăşeşte nivelul "
+"definit. Nu este recomandat să modificaţi această valoare."
+
+msgctxt "prefs_disk_max_pct_header"
+msgid "Max. used storage space"
+msgstr "Spaţiu de stocare maxim utilizat"
+
+msgctxt "prefs_disk_max_pct_description"
+msgid "How many percent of your device's storage space is BOINC allowed to use?"
+msgstr ""
+"Ce procent din spaţiul de stocare al dispozitivului dumneavoastră are voie "
+"să fie utilizat de BOINC?"
+
+msgctxt "prefs_disk_min_free_gb_header"
+msgid "Min. spare storage"
+msgstr "Spaţiu stocare minim liber"
+
+msgctxt "prefs_disk_min_free_gb_description"
+msgid "How much of your device's storage space shall stay free?"
+msgstr "Cât din spaţiul de stocare al dispozitivului trebuie să rămână liber?"
+
+msgctxt "prefs_network_daily_xfer_limit_mb_header"
+msgid "Daily transfer limit"
+msgstr "Limită zilnică transfer"
+
+msgctxt "prefs_network_daily_xfer_limit_mb_description"
+msgid "Limits the daily data traffic caused by BOINC."
+msgstr "Limitează traficul zilnic realizat de BOINC."
+
+msgctxt "prefs_network_wifi_only_header"
+msgid "Transfer tasks on WiFi only"
+msgstr "Transferă task-uri doar pe WiFi"
+
+msgctxt "prefs_autostart_header"
+msgid "Autostart"
+msgstr "Autostart"
+
+msgctxt "prefs_show_notification_header"
+msgid "Show notification when suspended"
+msgstr "Arată notificare când este suspendat"
+
+msgctxt "prefs_cpu_number_cpus_header"
+msgid "Used CPU cores"
+msgstr "Nuclee CPU folosite"
+
+msgctxt "prefs_cpu_number_cpus_description"
+msgid "Limits the number of CPU cores BOINC uses for computation."
+msgstr "Limitează numărul de nuclee CPU folosite de BOINC pentru calcule."
+
+msgctxt "prefs_cpu_other_load_suspension_header"
+msgid "Pause at CPU usage above"
+msgstr "Pauză la utilizare CPU peste"
+
+msgctxt "prefs_cpu_other_load_suspension_description"
+msgid "Determines when BOINC pauses computation due to other app's CPU usage."
+msgstr ""
+"Determină când BOINC întrerupe calculele din cauza utilizării CPU a altor "
+"aplicaţii."
+
+msgctxt "prefs_cpu_time_max_header"
+msgid "CPU limit"
+msgstr "limită CPU"
+
+msgctxt "prefs_cpu_time_max_description"
+msgid "Limits the CPU time BOINC uses for computation."
+msgstr "Limitează timpul CPU pe care îl foloseşte BOINC pentru calcule."
+
+msgctxt "prefs_memory_max_idle_header"
+msgid "RAM limit"
+msgstr "Limită RAM"
+
+msgctxt "prefs_memory_max_idle_description"
+msgid "Limits the amount of RAM tasks are allowed to occupy."
+msgstr "Limitează cantitatea de RAM pe care task-urile au voie să o ocupe."
+
+msgctxt "prefs_client_log_flags_header"
+msgid "BOINC Client log flags"
+msgstr "Flag-uri jurnal client BOINC"
+
+msgctxt "prefs_gui_log_level_header"
+msgid "GUI log level"
+msgstr "Nivel jurnal GUI"
+
+msgctxt "prefs_gui_log_level_description"
+msgid "Specifies verbosity of GUI log messages."
+msgstr "Specificaţi nivelul mesajelor jurnal GUI."
+
+msgctxt "prefs_unit_mb"
+msgid "MB"
+msgstr "MB"
+
+msgctxt "prefs_unit_gb"
+msgid "GB"
+msgstr "GB"
+
+#, c-format
+msgctxt "prefs_unit_pct"
+msgid "%"
+msgstr "%"
+
+msgctxt "prefs_unit_celcius"
+msgid "°C"
+msgstr "°C"
+
+#. projects tab strings
+msgctxt "projects_loading"
+msgid "Reading projects…"
+msgstr "Se citesc proiectele..."
+
+msgctxt "projects_add"
+msgid "Add project"
+msgstr "Adaugă proiect"
+
+msgctxt "projects_icon"
+msgid "Project icon"
+msgstr "Icoană proiect"
+
+msgctxt "projects_credits_header"
+msgid "Credit:"
+msgstr "Credit:"
+
+msgctxt "projects_credits_host_header"
+msgid "(on this device)"
+msgstr "(pe acest dispozitiv)"
+
+msgctxt "projects_credits_user_header"
+msgid "(total)"
+msgstr "(total)"
+
+#. project status strings
+msgctxt "projects_status_suspendedviagui"
+msgid "Suspended by user"
+msgstr "Suspendat de utilizator"
+
+msgctxt "projects_status_dontrequestmorework"
+msgid "Won't get new tasks"
+msgstr "Nu se preiau noi task-uri"
+
+msgctxt "projects_status_ended"
+msgid "Project ended - OK to remove"
+msgstr "Proiect finalizat - OK pentru ştergere"
+
+msgctxt "projects_status_detachwhendone"
+msgid "Will remove when tasks done"
+msgstr "Se va şterge când se finalizează task-urile"
+
+msgctxt "projects_status_schedrpcpending"
+msgid "Scheduler request pending"
+msgstr "Cerere planificator în aşteptare"
+
+msgctxt "projects_status_schedrpcinprogress"
+msgid "Scheduler request in progress"
+msgstr "Cerere planificator în curs"
+
+msgctxt "projects_status_trickleuppending"
+msgid "Trickle up message pending"
+msgstr "Mesaj trickle up în aşteptare"
+
+msgctxt "projects_status_backoff"
+msgid "Communication scheduled in:"
+msgstr "Comunicaţie planificată în:"
+
+#. project controls
+msgctxt "projects_control_dialog_title"
+msgid "Project commands:"
+msgstr "Comenzi proiect:"
+
+msgctxt "projects_control_update"
+msgid "Update"
+msgstr "Actualizează"
+
+msgctxt "projects_control_remove"
+msgid "Remove"
+msgstr "Șterge"
+
+msgctxt "projects_control_suspend"
+msgid "Suspend"
+msgstr "Suspendă"
+
+msgctxt "projects_control_resume"
+msgid "Resume"
+msgstr "Reia"
+
+msgctxt "projects_control_nonewtasks"
+msgid "No new tasks"
+msgstr "Nu sunt task-uri noi"
+
+msgctxt "projects_control_allownewtasks"
+msgid "Allow new tasks"
+msgstr "Permite noi task-uri"
+
+msgctxt "projects_control_reset"
+msgid "Reset"
+msgstr "Resetează"
+
+#. project confirm dialog
+msgctxt "projects_confirm_detach_title"
+msgid "Remove project?"
+msgstr "Şterge proiect?"
+
+msgctxt "projects_confirm_detach_message"
+msgid "Are you sure you want to remove"
+msgstr "Sunteţi sigur că doriţi să ştergeţi"
+
+msgctxt "projects_confirm_detach_message2"
+msgid "from BOINC?"
+msgstr "din BOINC?"
+
+msgctxt "projects_confirm_detach_confirm"
+msgid "Remove"
+msgstr "Șterge"
+
+msgctxt "projects_confirm_reset_title"
+msgid "Reset project"
+msgstr "Resetează proiect"
+
+msgctxt "projects_confirm_reset_message"
+msgid "Are you sure you want to reset"
+msgstr "Sunteţi sigur că doriţi să resetaţi"
+
+msgctxt "projects_confirm_reset_confirm"
+msgid "Reset"
+msgstr "Resetează"
+
+#. tasks tab strings
+msgctxt "tasks_header_name"
+msgid "Task Name:"
+msgstr "Nume Task:"
+
+msgctxt "tasks_header_elapsed_time"
+msgid "Elapsed time:"
+msgstr "Timp scurs:"
+
+msgctxt "tasks_header_project_paused"
+msgid "(suspended)"
+msgstr "(suspendat)"
+
+msgctxt "tasks_header_deadline"
+msgid "Deadline:"
+msgstr "Termen limită:"
+
+msgctxt "tasks_result_new"
+msgid "new"
+msgstr "nou"
+
+msgctxt "tasks_result_files_downloading"
+msgid "waiting for download"
+msgstr "se aşteaptă descărcarea"
+
+msgctxt "tasks_result_files_downloaded"
+msgid "download complete"
+msgstr "descărcare completă"
+
+msgctxt "tasks_result_compute_error"
+msgid "computation error"
+msgstr "eroare calcul"
+
+msgctxt "tasks_result_files_uploading"
+msgid "uploading"
+msgstr "se încarcă"
+
+msgctxt "tasks_result_files_uploaded"
+msgid "upload complete"
+msgstr "încărcare completă"
+
+msgctxt "tasks_result_aborted"
+msgid "aborted"
+msgstr "abandonat"
+
+msgctxt "tasks_result_upload_failed"
+msgid "upload failed"
+msgstr "încărcarea a eșuat"
+
+msgctxt "tasks_active_uninitialized"
+msgid "ready"
+msgstr "gata"
+
+msgctxt "tasks_active_executing"
+msgid "running"
+msgstr "rulează"
+
+msgctxt "tasks_active_suspended"
+msgid "suspended"
+msgstr "suspendat"
+
+msgctxt "tasks_active_abort_pending"
+msgid "suspending"
+msgstr "se suspendă"
+
+msgctxt "tasks_active_quit_pending"
+msgid "suspending"
+msgstr "se suspendă"
+
+msgctxt "tasks_custom_suspended_via_gui"
+msgid "suspended"
+msgstr "suspendat"
+
+msgctxt "tasks_custom_project_suspended_via_gui"
+msgid "project suspended"
+msgstr "proiect suspendat"
+
+msgctxt "tasks_custom_ready_to_report"
+msgid "ready to report"
+msgstr "gata de raportare"
+
+#. confirmation dialog
+msgctxt "confirm_abort_task_title"
+msgid "Abort task?"
+msgstr "Abandonează task?"
+
+msgctxt "confirm_abort_task_message"
+msgid "Abort task:"
+msgstr "Abandonează task:"
+
+msgctxt "confirm_abort_task_confirm"
+msgid "Abort"
+msgstr "Abandonează"
+
+msgctxt "confirm_cancel"
+msgid "Cancel"
+msgstr "Anulează"
+
+msgctxt "confirm_image_desc"
+msgid "Confirmation dialog"
+msgstr "Dialog de confirmare"
+
+#. transfers tab strings
+msgctxt "trans_loading"
+msgid "Reading transfers…"
+msgstr "Se citesc transferurile..."
+
+msgctxt "trans_upload"
+msgid "Upload"
+msgstr "Încarcă"
+
+msgctxt "trans_download"
+msgid "Download"
+msgstr "Descarcă"
+
+msgctxt "trans_retryin"
+msgid "retry in"
+msgstr "reîncearcă în"
+
+msgctxt "trans_failed"
+msgid "failed"
+msgstr "eşuat"
+
+msgctxt "trans_suspended"
+msgid "suspended"
+msgstr "suspendat"
+
+msgctxt "trans_active"
+msgid "active"
+msgstr "activ"
+
+msgctxt "trans_pending"
+msgid "pending"
+msgstr "în așteptare"
+
+msgctxt "trans_projectbackoff"
+msgid "project backoff"
+msgstr "revenire proiect"
+
+msgctxt "trans_header_name"
+msgid "File:"
+msgstr "Fişier:"
+
+msgctxt "confirm_abort_trans_title"
+msgid "Abort transfer?"
+msgstr "Abandonează transfer?"
+
+msgctxt "confirm_abort_trans_message"
+msgid "Abort File:"
+msgstr "Abandonează Fişier:"
+
+msgctxt "confirm_abort_trans_confirm"
+msgid "Abort"
+msgstr "Abandonează"
+
+#. eventlog tab strings
+msgctxt "eventlog_loading"
+msgid "Loading log messages…"
+msgstr "Se încarcă mesajele din jurnal..."
+
+msgctxt "eventlog_client_header"
+msgid "Client Messages"
+msgstr "Mesaje Client"
+
+msgctxt "eventlog_gui_header"
+msgid "GUI Messages"
+msgstr "Mesaje GUI"
+
+msgctxt "eventlog_copy_toast"
+msgid "Log copied to clipboard."
+msgstr "Jurnal copiat în clipboard."
+
+msgctxt "eventlog_email_subject"
+msgid "Event Log for BOINC on Android:"
+msgstr "Jurnal Evenimente pentru BOINC pe Android:"
+
+#. suspend reasons
+msgctxt "suspend_unknown"
+msgid "Computation suspended."
+msgstr "Calcule suspendate."
+
+msgctxt "suspend_batteries"
+msgid "Connect your device to a charger to continue computing."
+msgstr ""
+"Conectaţi dispozitivul dumneavoastră la un încărcător pentru a continua "
+"calculele."
+
+msgctxt "suspend_useractive"
+msgid "User is active."
+msgstr "Utilizatorul este activ."
+
+msgctxt "suspend_tod"
+msgid "Out of computation time-frame."
+msgstr "În afara intervalului de timp pentru calcule."
+
+msgctxt "suspend_bm"
+msgid "BOINC is benchmarking your device…"
+msgstr "BOINC evaluează performanţa dispozitivului dumneavoastră..."
+
+msgctxt "suspend_disksize"
+msgid "Out of disk space."
+msgstr "Nu mai există spaţiu pe disc."
+
+msgctxt "suspend_cputhrottle"
+msgid "Scheduled CPU throttle."
+msgstr "CPU throttle planificat."
+
+msgctxt "suspend_noinput"
+msgid "No recent user activity."
+msgstr "Fără activitate recentă a utilizatorului."
+
+msgctxt "suspend_delay"
+msgid "Initialization delay."
+msgstr "Întârziere iniţializare."
+
+msgctxt "suspend_exclusiveapp"
+msgid "An exclusive app is running."
+msgstr "Rulează o aplicaţie exclusivă."
+
+msgctxt "suspend_cpu"
+msgid "Your device is busy with other apps."
+msgstr "Dispozitivul dumneavoastră este ocupat cu alte aplicaţii."
+
+msgctxt "suspend_network_quota"
+msgid "BOINC reached network transfer limit."
+msgstr "BOINC a atins limita de transfer prin reţea."
+
+msgctxt "suspend_os"
+msgid "Stopped by Android."
+msgstr "Oprit de Android."
+
+msgctxt "suspend_wifi"
+msgid "Not connected to WiFi."
+msgstr "Nu este conectat la WiFi."
+
+msgctxt "suspend_battery_charging"
+msgid "Battery needs to charge before resuming computation."
+msgstr "Bateria trebuie să se încarce înainte de a relua calculele."
+
+msgctxt "suspend_battery_charging_long"
+msgid "Computing will resume when battery charge reaches"
+msgstr "Calculele vor fi reluate când bateria va fi încărcata"
+
+msgctxt "suspend_battery_charging_current"
+msgid "currently"
+msgstr "curent"
+
+msgctxt "suspend_battery_overheating"
+msgid "Waiting for battery to cool down"
+msgstr "Se aşteaptă să se răcească bateria"
+
+msgctxt "suspend_user_req"
+msgid "Resuming computation…"
+msgstr "Se reiau calculele..."
+
+msgctxt "suspend_network_user_req"
+msgid "manually."
+msgstr "manual:"
+
+#. rpc reasons
+msgctxt "rpcreason_userreq"
+msgid "Requested by user"
+msgstr "Cerut de utilizator"
+
+msgctxt "rpcreason_needwork"
+msgid "To fetch work"
+msgstr "Pentru a primi de lucru"
+
+msgctxt "rpcreason_resultsdue"
+msgid "To report completed tasks"
+msgstr "Pentru a raporta task-urile finalizate"
+
+msgctxt "rpcreason_trickleup"
+msgid "To send trickle-up message"
+msgstr "Pentru a trimite mesaj trickle up"
+
+msgctxt "rpcreason_acctmgrreq"
+msgid "Requested by account manager"
+msgstr "Cerut de managerul de cont"
+
+msgctxt "rpcreason_init"
+msgid "Project initialization"
+msgstr "Iniţializare proiect"
+
+msgctxt "rpcreason_projectreq"
+msgid "Requested by project"
+msgstr "Cerut de proiect"
+
+msgctxt "rpcreason_unknown"
+msgid "Unknown reason"
+msgstr "Motiv necunoscut"
+
+#. menu
+msgctxt "menu_refresh"
+msgid "Refresh"
+msgstr "Reîncarcă"
+
+msgctxt "menu_emailto"
+msgid "Send as Email"
+msgstr "Trimite ca Email"
+
+msgctxt "menu_copy"
+msgid "Copy to Clipboard"
+msgstr "Copiază în Clipboard"
+
+msgctxt "menu_eventlog"
+msgid "Event Log"
+msgstr "Jurnal Evenimente"
+
+msgctxt "menu_exit"
+msgid "Exit BOINC"
+msgstr "Închide BOINC"
+
+msgctxt "menu_run_mode_disable"
+msgid "Suspend"
+msgstr "Suspendă"
+
+msgctxt "menu_run_mode_enable"
+msgid "Resume"
+msgstr "Reia"
+
+msgctxt "menu_about"
+msgid "About"
+msgstr "Despre"
+
+msgctxt "menu_help"
+msgid "Help"
+msgstr "Ajutor"
+
+#. about dialog
+msgctxt "about_button"
+msgid "Return"
+msgstr "Înapoi"
+
+msgctxt "about_title"
+msgid "About"
+msgstr "Despre"
+
+msgctxt "about_name"
+msgid "BOINC"
+msgstr "BOINC"
+
+msgctxt "about_version"
+msgid "Version"
+msgstr "Versiune"
+
+msgctxt "about_name_long"
+msgid "Berkeley Open Infrastructure for Network Computing"
+msgstr "Berkeley Open Infrastructure for Network Computing"
+
+msgctxt "about_copyright"
+msgid ""
+"© 2003–2013 University of California, Berkeley.\n"
+"All Rights Reserved."
+msgstr ""
+"© 2003–2013 Universitatea din California, Berkeley.\n"
+"Toate Drepturile Rezervate."

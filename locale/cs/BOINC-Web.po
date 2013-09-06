@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-08-22 16:22 PDT\n"
-"PO-Revision-Date: 2013-08-22 22:53+0200\n"
+"PO-Revision-Date: 2013-08-26 22:06+0200\n"
 "Last-Translator: Martin <martin.suchan@email.cz>\n"
 "Language-Team: \n"
 "Language: cs\n"
@@ -38,14 +38,17 @@ msgid ""
 "using sensors attached to Internet-connected computers.  You must buy a "
 "sensor to participate."
 msgstr ""
+"\"The Quake-Catcher Network\" vyvíjí světově nejrozsáhlejší seismickou síť za "
+"pomocí senzorů připojených k počítačům na Internetu. Pro připojení do tohoto "
+"projektu je třeba vlastnit senzor."
 
 #: projects.inc:27
 msgid "BOINC Poland Foundation"
-msgstr ""
+msgstr "Polská nadace BOINC"
 
 #: projects.inc:28
 msgid "Environmental research"
-msgstr ""
+msgstr "Výzkum životního prostředí"
 
 #: projects.inc:29
 msgid ""
@@ -53,12 +56,17 @@ msgid ""
 "levels by using sensors connected to volunteers' computers.  You must buy a "
 "sensor to participate."
 msgstr ""
+"Tento projekt vytváří volně přístupnou a pravidelně aktualizovanou mapu "
+"radiace pomocí sensorů připojených k počítačům na Internetu. Pro připojení k "
+"projektu je nutné vlastnit senzor."
 
 #: projects.inc:33
 msgid ""
 "To participate in these projects you must buy a sensor and attach it to your "
 "computer."
 msgstr ""
+"Pro připojení k těmto projektům je třeba vlastnit senzor a mít ho připojený "
+"k počítači."
 
 #: projects.inc:37
 msgid "Cognitive science and artifical intelligence"
@@ -90,11 +98,11 @@ msgstr "Biologie a medicína"
 
 #: projects.inc:71
 msgid "University College Dublin"
-msgstr ""
+msgstr "Univerzita v Dublinu"
 
 #: projects.inc:72
 msgid "Antimalarial drug discovery"
-msgstr ""
+msgstr "Výzkum léků proti malárii"
 
 #: projects.inc:73
 msgid ""
@@ -104,6 +112,11 @@ msgid ""
 "the parasite. The FightMalaria@Home project is aimed at finding these new "
 "targets."
 msgstr ""
+"Paraziti, kteří způsobují malárii, se stávají stále odolnějsí proti "
+"dostupným lékům. Je proto třeba stále hledat nové léky, kterými bude možné "
+"nahradit ty stávající. Je také důležité, aby tyto nové léky byly zaměřeny "
+"zejména na nové proteiny v těle parazita. Projekt FightMalaria@Home si dává "
+"za cíl najít tyto nové léky proti malárii."
 
 #: projects.inc:79
 msgid "University of Karlsruhe (Germany)"
@@ -302,9 +315,8 @@ msgstr ""
 
 # 75%
 #: projects.inc:196
-#, fuzzy
 msgid "Astronomy, Physics, and Chemistry"
-msgstr "Astronomie/Fyzika/Chemie"
+msgstr "Astronomie, Fyzika a Chemie"
 
 #: projects.inc:202 projects.inc:241 projects.inc:249
 msgid "Astronomy"
@@ -319,6 +331,12 @@ msgid ""
 "star formation history) on a resolved pixel-by-pixel basis using spectral "
 "energy distribution (SED) fitting techniques in a distributed computing mode."
 msgstr ""
+"V tomto projektu kombinujeme spektrální pokrytí z GALEX, Pan-STARRS1 a WISE "
+"pro vytvoření atlasu galaxie blízkého vesmíru ve více vlnových délkách - UV-"
+"optical-NIR. Měříme pomocí fyzikálních parametrů (jako je povrchová hustota "
+"hvězdné masy, povrchová hustota rychlosti formování hvězd, útlum a historie "
+"prvního řádu formování hvězd) na podkladech v řádu pixelů pomocí technik "
+"\"speciální distribuce energie - SED\" a pomocí distribuovaných výpočtů."
 
 #: projects.inc:225
 msgid "University of Texas at Austin"
@@ -351,9 +369,8 @@ msgstr ""
 
 # 95%
 #: projects.inc:240
-#, fuzzy
 msgid "University of Illinois at Urbana-Champaign"
-msgstr "Illinoiská univerzita v Urbana-Chamapign"
+msgstr "Illinoiská univerzita v Urbana-Champaign"
 
 #: projects.inc:242
 msgid ""
@@ -449,6 +466,9 @@ msgid ""
 "LHC event physics simulation on volunteer computers.  Requires that you "
 "install VirtualBox on your computer"
 msgstr ""
+"Tento projekt využívá virtuálních strojů vyvinutých v CERNu pro plnohodnotné "
+"simulace událostí v LHC na počítačích dobrovolníků. Tento projekt vyžaduje "
+"instalaci VirtualBoxu na vašem počítači."
 
 #: projects.inc:304
 msgid "University of California, Berkeley"
@@ -560,11 +580,11 @@ msgstr "Fyzikální výzkum, materiálové vědy a biomedicína"
 
 #: projects.inc:365
 msgid "IBM Corporate Citizenship"
-msgstr ""
+msgstr "IBM Corporate Citizenship"
 
 #: projects.inc:366
 msgid "Medical, environmental and other humanitarian research"
-msgstr ""
+msgstr "Medicína, životní prostředí a jiný humanitární výzkum"
 
 #: projects.inc:367
 msgid ""
@@ -573,6 +593,10 @@ msgid ""
 "includes HIV-AIDS, cancer, tropical and neglected diseases, solar energy, "
 "clean water and many more."
 msgstr ""
+"Neziskový výzkum v mnoha kritických oblastech lidských problémů pomocí "
+"světově největší dobrovolnické výpočetní sítě. Výzkum zahrnuje HIV-AIDS, "
+"rakovinu. tropické a zanedbané nemoci, solární energii, čistou voda a mnohé "
+"další."
 
 #: projects.inc:373
 msgid "Mathematics, computing, and games"
@@ -580,15 +604,15 @@ msgstr "Matematika, výpočty a hry"
 
 #: projects.inc:379
 msgid "Computer Science"
-msgstr ""
+msgstr "Počítačová věda"
 
 #: projects.inc:387
 msgid "Mathematics, Physics, Artificial Intelligence"
-msgstr ""
+msgstr "Matematika, fyzika a umělá inteligence"
 
 #: projects.inc:388
 msgid "Simulation of quantum computing; Goldbach's conjecture."
-msgstr ""
+msgstr "Simulace kvantových výpočtů, Goldbachovy hypotézy."
 
 #: projects.inc:428 projects.inc:436
 msgid "Cryptography"
@@ -686,6 +710,8 @@ msgid ""
 "Primegrid has multiple projects searching for different forms of very large "
 "prime numbers, including searching for the largest known prime number."
 msgstr ""
+"Primegrid zkoumá v několika projektech různé fruhy velmi velkých prvočísel, "
+"včetně hledání nových největších známých prvočísel."
 
 #: projects.inc:497
 msgid "Hochschule RheinMain University of Applied Sciences"
@@ -703,7 +729,7 @@ msgid ""
 "Find all the generalized binary number systems (in which bases are matrices "
 "and digits are vectors) up to dimension 11."
 msgstr ""
-"Nalezení všdech zobecněných binárních číselných systémů (kde jsou kořeny "
+"Nalezení všech zobecněných binárních číselných systémů (kde jsou kořeny "
 "maticemi a čísla vektory) až do dimenze 11."
 
 #: docutil.php:21
@@ -774,7 +800,7 @@ msgstr "Historie verzí"
 
 #: download.php:136
 msgid "GPU computing"
-msgstr ""
+msgstr "GPU výpočty"
 
 #: download.php:154
 msgid "BOINC: compute for science"
@@ -891,9 +917,8 @@ msgstr "24 hodinový průměr:"
 
 # 80%
 #: index.php:55
-#, fuzzy
 msgid "PetaFLOPS."
-msgstr "TeraFLOPů."
+msgstr "PetaFLOPů."
 
 #: index.php:67
 msgid "News"
@@ -913,11 +938,11 @@ msgstr "Dokumentace"
 
 #: index.php:87
 msgid "Add-ons"
-msgstr ""
+msgstr "Doplňky"
 
 #: index.php:88
 msgid "Links"
-msgstr ""
+msgstr "Odkazy"
 
 #: index.php:94
 #, php-format
@@ -929,7 +954,7 @@ msgid ""
 "password. "
 msgstr ""
 "Využívejte volný čas vašeho počítače (Windows, Mac, Linux) k hledání léků "
-"proti nemocem, studování globální oteplování, k objevení pulsarů nebo k "
+"proti nemocem, studování globálního oteplování, k objevení pulsarů nebo k "
 "mnohému dalšímu vědeckému výzkumu. Je to bezpečné a jednoduché: %sVyberte si"
 "%s projekty %sStáhněte si%s a nainstalujte program BOINC %sVložte%s vaší "
 "emailovou adresu a heslo k projektu."
@@ -1052,7 +1077,7 @@ msgstr "BOINC má sídlo v The University of California, Berkeley"
 
 #: ../html/inc/news.inc:40
 msgid "Comment"
-msgstr ""
+msgstr "Komentáře"
 
 #: ../html/inc/news.inc:111
 #, php-format

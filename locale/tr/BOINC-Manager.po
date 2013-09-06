@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.8x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-18 11:32-0500\n"
-"PO-Revision-Date: 2013-08-15 15:27+0200\n"
+"PO-Revision-Date: 2013-09-01 19:40+0000\n"
 "Last-Translator: Aycan <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <bilgi@donanimhaber.com>\n"
 "Language: tr\n"
@@ -15,13 +15,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
+"X-POOTLE-MTIME: 1378064441.0\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
 # 81%
@@ -1144,11 +1145,11 @@ msgstr "geçersiz değer"
 
 #: clientgui/DlgAdvPreferences.cpp:543
 msgid "invalid time, format is HH:MM"
-msgstr "geçersiz saat, format SS:DD şeklinde olmalı"
+msgstr "geçersiz saat, biçim SS:DD şeklinde olmalı"
 
 #: clientgui/DlgAdvPreferences.cpp:544
 msgid "invalid time interval, format is HH:MM-HH:MM"
-msgstr "geçersiz saat aralığı, format SS:DD-SS:DD şeklinde olmalı"
+msgstr "geçersiz saat aralığı, biçim SS:DD-SS:DD şeklinde olmalı"
 
 #: clientgui/DlgAdvPreferences.cpp:664
 msgid "invalid input value detected"

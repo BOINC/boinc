@@ -1,0 +1,1064 @@
+# Translations template for PROJECT.
+# Copyright (C) 2013 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2013-08-29 15:37-0700\n"
+"PO-Revision-Date: 2013-09-05 03:13+0000\n"
+"Last-Translator: Christian <djangofett@gmx.net>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.5.0\n"
+"Generated-By: Babel 1.0dev\n"
+"X-POOTLE-MTIME: 1378350803.0\n"
+
+#. app global
+msgctxt "app_name"
+msgid "BOINC"
+msgstr "BOINC"
+
+#. generic. used by multiple Activities/tabs
+msgctxt "generic_loading"
+msgid "Loading! Please wait…"
+msgstr "Es wird geladen. Bitte warten…"
+
+#. attach project
+#. project list
+msgctxt "attachproject_list_header"
+msgid "Choose a project:"
+msgstr "Projekt auswählen:"
+
+msgctxt "attachproject_list_manual_button"
+msgid "Add project by URL"
+msgstr "Projekt mittels URL hinzufügen"
+
+msgctxt "attachproject_list_manual_dialog_title"
+msgid "Enter project URL:"
+msgstr "Projekt-URL eingeben:"
+
+msgctxt "attachproject_list_manual_dialog_button"
+msgid "Add project"
+msgstr "Projekt hinzufügen"
+
+msgctxt "attachproject_list_manual_no_url"
+msgid "Please enter project URL"
+msgstr "Bitte die Projekt-URL eingeben"
+
+msgctxt "attachproject_list_no_internet"
+msgid "No Internet connection"
+msgstr "Keine Internetverbindung"
+
+#. project login
+msgctxt "attachproject_login_loading"
+msgid "Contacting project server…"
+msgstr "kontaktiere Projektserver…"
+
+msgctxt "attachproject_login_image_description"
+msgid "Project logo."
+msgstr "Projektlogo."
+
+msgctxt "attachproject_login_header_general_area"
+msgid "General area:"
+msgstr "Bereich:"
+
+msgctxt "attachproject_login_header_specific_area"
+msgid "Specific area:"
+msgstr "Fachbereich:"
+
+msgctxt "attachproject_login_header_description"
+msgid "Description:"
+msgstr "Beschreibung:"
+
+msgctxt "attachproject_login_header_home"
+msgid "Home:"
+msgstr "Betreiber:"
+
+msgctxt "attachproject_login_header_url"
+msgid "Website:"
+msgstr "Webseite:"
+
+msgctxt "attachproject_login_header_platform"
+msgid "Android:"
+msgstr "Android:"
+
+msgctxt "attachproject_login_platform_supported"
+msgid "This project supports Android devices"
+msgstr "Dieses Projekt unterstützt Android-Geräte"
+
+msgctxt "attachproject_login_platform_not_supported"
+msgid "This project does not support Android devices"
+msgstr "Dieses Projekt unterstützt keine Android-Geräte"
+
+msgctxt "attachproject_login_category_terms_of_use"
+msgid "Terms of use for"
+msgstr "Nutzungsbedingungen für"
+
+msgctxt "attachproject_login_accept_terms_of_use"
+msgid ""
+"By creating an account with this project, you accept the terms of use as "
+"shown above."
+msgstr ""
+"Wenn Sie bei diesem Projekt ein Konto anlegen, akzeptieren Sie die oben "
+"gezeigten Nutzungsbedingungen."
+
+msgctxt "attachproject_login_category_login"
+msgid "Sign in with existing account"
+msgstr "Mit bestehendem Konto anmelden"
+
+msgctxt "attachproject_login_header_id_email"
+msgid "eMail:"
+msgstr "E-Mail:"
+
+msgctxt "attachproject_login_header_id_name"
+msgid "Name:"
+msgstr "Name:"
+
+msgctxt "attachproject_login_header_pwd"
+msgid "Password:"
+msgstr "Passwort:"
+
+# Kompletter Satz: "Neu bei {Projekt}?"
+msgctxt "attachproject_login_category_creation"
+msgid "New to"
+msgstr "Neu bei"
+
+msgctxt "attachproject_login_header_creation_enabled"
+msgid "Register an account to participate:"
+msgstr "Ein Konto erstellen um teilzunehmen:"
+
+msgctxt "attachproject_login_header_creation_client_disabled"
+msgid "Visit project website to create an account:"
+msgstr "Die Projektwebseite besuchen um ein Konto zu erstellen:"
+
+msgctxt "attachproject_login_header_creation_disabled"
+msgid "Project does currently now allow creation of new accounts!"
+msgstr "Das Projekt erlaubt zur Zeit keine neuen Konten!"
+
+#, fuzzy
+msgctxt "attachproject_login_button_registration"
+msgid "Register"
+msgstr "Registrieren"
+
+#, fuzzy
+msgctxt "attachproject_login_button_login"
+msgid "Sign in"
+msgstr "Anmelden"
+
+msgctxt "attachproject_login_button_forgotpw"
+msgid "Forgot Password"
+msgstr "Passwort vergessen"
+
+msgctxt "attachproject_login_error_toast"
+msgid "Contacting project failed!"
+msgstr "Verbindung zum Projekt fehlgeschlagen!"
+
+msgctxt "attachproject_login_attached"
+msgid "Attached"
+msgstr "Verbunden"
+
+#. project registration
+msgctxt "attachproject_registration_header"
+msgid "Account registration for"
+msgstr "Konto-Registrierung für"
+
+msgctxt "attachproject_registration_header_url"
+msgid "Project:"
+msgstr "Projekt:"
+
+msgctxt "attachproject_registration_header_email"
+msgid "eMail:"
+msgstr "E-Mail:"
+
+msgctxt "attachproject_registration_header_username"
+msgid "Name:"
+msgstr "Name:"
+
+msgctxt "attachproject_registration_header_teamname"
+msgid "Team:"
+msgstr "Team:"
+
+msgctxt "attachproject_registration_header_pwd"
+msgid "Password:"
+msgstr "Passwort:"
+
+msgctxt "attachproject_registration_header_pwd_confirm"
+msgid "… Retype:"
+msgstr "… Bestätigung:"
+
+msgctxt "attachproject_registration_button"
+msgid "Create"
+msgstr "Erstellen"
+
+#. error strings
+msgctxt "attachproject_error_wrong_name"
+msgid "User not found"
+msgstr "Benutzer nicht gefunden"
+
+msgctxt "attachproject_error_short_pwd"
+msgid "Password too short"
+msgstr "Passwort ist zu kurz"
+
+msgctxt "attachproject_error_no_internet"
+msgid "Connection failure"
+msgstr "Verbindungsfehler"
+
+msgctxt "attachproject_error_pwd_no_match"
+msgid "Passwords do not match"
+msgstr "Passwörter stimmen nicht überein"
+
+msgctxt "attachproject_error_no_email"
+msgid "Please enter eMail address"
+msgstr "Bitte geben Sie Ihre E-Mail-Adresse ein"
+
+msgctxt "attachproject_error_no_pwd"
+msgid "Please enter a password"
+msgstr "Bitte Passwort eingeben"
+
+msgctxt "attachproject_error_no_name"
+msgid "Please enter user name"
+msgstr "Bitte einen Benutzernamen eingeben"
+
+msgctxt "attachproject_error_unknown"
+msgid "failed"
+msgstr "fehlgeschlagen"
+
+msgctxt "attachproject_error_bad_username"
+msgid "User name refused"
+msgstr "Benutzername nicht erlaubt"
+
+msgctxt "attachproject_error_email_in_use"
+msgid "eMail is already in use"
+msgstr "E-Mail-Adresse ist bereits registriert"
+
+#, fuzzy
+msgctxt "attachproject_error_project_down"
+msgid "Project is offline"
+msgstr "Projekt ist offline"
+
+msgctxt "attachproject_error_email_bad_syntax"
+msgid "eMail refused"
+msgstr "E-Mail nicht akzeptiert"
+
+msgctxt "attachproject_error_bad_pwd"
+msgid "Password refused"
+msgstr "Passwort zu kurz"
+
+msgctxt "attachproject_error_creation_disabled"
+msgid "Account creation is disabled on this project"
+msgstr "Die Kontoerstellung ist bei diesem Projekt deaktiviert"
+
+#. working activity
+msgctxt "attachproject_working_back_button"
+msgid "Back"
+msgstr "Zurück"
+
+msgctxt "attachproject_working_finish_button"
+msgid "Finish"
+msgstr "Beenden"
+
+msgctxt "attachproject_working_check_desc"
+msgid "Successful"
+msgstr "Erfolgreich"
+
+msgctxt "attachproject_working_failed_desc"
+msgid "Failed"
+msgstr "Fehlgeschlagen"
+
+msgctxt "attachproject_working_ongoing"
+msgid "…"
+msgstr "…"
+
+#, fuzzy
+msgctxt "attachproject_working_finished"
+msgid "."
+msgstr "."
+
+msgctxt "attachproject_working_description"
+msgid ":"
+msgstr ":"
+
+msgctxt "attachproject_working_connect"
+msgid "Connect"
+msgstr "Verbinden"
+
+msgctxt "attachproject_working_verify"
+msgid "Verify account"
+msgstr "Konto überprüfen"
+
+#, fuzzy
+msgctxt "attachproject_working_register"
+msgid "Register account"
+msgstr "Konto registrieren"
+
+msgctxt "attachproject_working_login"
+msgid "Log in"
+msgstr "Anmelden"
+
+#. main activity
+msgctxt "main_noproject_warning"
+msgid "Tab here to choose a project."
+msgstr "Hier tippen um ein Projekt auszuwählen."
+
+msgctxt "main_error"
+msgid "Whooops"
+msgstr "Whooops"
+
+msgctxt "main_error_long"
+msgid ""
+"…this should not happen!\n"
+"Click on the icon to try again."
+msgstr ""
+"…das sollte eigentlich nicht passieren!\n"
+"Auf das Symbol klicken um es erneut zu probieren."
+
+msgctxt "main_title_icon_desc"
+msgid "BOINC icon"
+msgstr "BOINC Logo"
+
+#. tab names
+msgctxt "tab_status"
+msgid "Status"
+msgstr "Status"
+
+msgctxt "tab_projects"
+msgid "Projects"
+msgstr "Projekte"
+
+msgctxt "tab_tasks"
+msgid "Tasks"
+msgstr "Aufgaben"
+
+msgctxt "tab_transfers"
+msgid "Transfers"
+msgstr "Übertragungen"
+
+msgctxt "tab_preferences"
+msgid "Preferences"
+msgstr "Einstellungen"
+
+msgctxt "tab_desc"
+msgid "Navigation"
+msgstr "Navigation"
+
+#. status strings
+msgctxt "status_running"
+msgid "Computing"
+msgstr "Berechnung läuft"
+
+msgctxt "status_running_long"
+msgid "Thank you for participating."
+msgstr "Vielen Dank für Ihre Beteiligung."
+
+msgctxt "status_paused"
+msgid "Suspended"
+msgstr "angehalten"
+
+msgctxt "status_idle"
+msgid "Nothing to do"
+msgstr "Nichts zu tun"
+
+msgctxt "status_idle_long"
+msgid "Waiting for tasks…"
+msgstr "Warten auf Aufgaben…"
+
+msgctxt "status_computing_disabled"
+msgid "Suspended"
+msgstr "angehalten"
+
+#, fuzzy
+msgctxt "status_computing_disabled_long"
+msgid "Press play to resume network and computation."
+msgstr "Play drücken um Netzwerkaktivität und die Berechnung fortzusetzen."
+
+msgctxt "status_launching"
+msgid "Starting…"
+msgstr "Startet…"
+
+msgctxt "status_noproject"
+msgid "Choose a project to participate in."
+msgstr "Wählen Sie ein Projekt zur Teilnahme aus."
+
+msgctxt "status_closing"
+msgid "Closing…"
+msgstr "Beenden…"
+
+msgctxt "status_benchmarking"
+msgid "Benchmarking…"
+msgstr "Leistungsüberprüfung…"
+
+msgctxt "status_image_description"
+msgid "project image"
+msgstr "Projektbild"
+
+#. preferences tab strings
+msgctxt "prefs_loading"
+msgid "Reading preferences…"
+msgstr "lese Einstellungen…"
+
+msgctxt "prefs_submit_button"
+msgid "Save"
+msgstr "Speichern"
+
+msgctxt "prefs_dialog_title"
+msgid "Enter new value:"
+msgstr "Neuen Wert eingeben:"
+
+#, fuzzy
+msgctxt "prefs_dialog_title_selection"
+msgid "Select:"
+msgstr "Auswahl:"
+
+msgctxt "prefs_category_general"
+msgid "General"
+msgstr "Allgemeines"
+
+msgctxt "prefs_category_network"
+msgid "Network"
+msgstr "Netzwerk"
+
+msgctxt "prefs_category_power"
+msgid "Power"
+msgstr "Energie"
+
+msgctxt "prefs_category_cpu"
+msgid "CPU"
+msgstr "Prozessor"
+
+msgctxt "prefs_category_storage"
+msgid "Storage"
+msgstr "Speicherplatz"
+
+msgctxt "prefs_category_memory"
+msgid "Memory"
+msgstr "Fehlerdiagnose"
+
+msgctxt "prefs_category_debug"
+msgid "Debug"
+msgstr "Fehlerdiagnose"
+
+msgctxt "prefs_show_advanced_header"
+msgid "Show advanced preferences and controls…"
+msgstr "Zeige erweiterte Einstellungen und Steuerungen…"
+
+#, fuzzy
+msgctxt "prefs_run_on_battery_header"
+msgid "Compute on Battery"
+msgstr "Berechne im Batteriebetrieb"
+
+msgctxt "battery_charge_min_pct_header"
+msgid "Min. battery level"
+msgstr "Min. Akku-Ladestand"
+
+msgctxt "battery_charge_min_pct_description"
+msgid "BOINC suspends computation below defined battery charge level."
+msgstr ""
+"BOINC hält die Berechnung an, wenn der Akkuladestand unter den gewählten "
+"Wert sinkt."
+
+msgctxt "battery_temperature_max_header"
+msgid "Max. battery temperature"
+msgstr "Max. Akkutemperatur"
+
+msgctxt "battery_temperature_max_description"
+msgid ""
+"BOINC suspends computation above defined battery temperature. It is not "
+"recommended to change this value."
+msgstr ""
+"BOINC hält die Berechnung an, sobald diese Temperatur überschritten wird. Es "
+"wird nicht empfohlen diesen Wert zu ändern."
+
+#, fuzzy
+msgctxt "prefs_disk_max_pct_header"
+msgid "Max. used storage space"
+msgstr "max. zu nutzender Speicher"
+
+msgctxt "prefs_disk_max_pct_description"
+msgid "How many percent of your device's storage space is BOINC allowed to use?"
+msgstr "Wie viel Prozent Ihres Speichers darf BOINC maximal verwenden?"
+
+msgctxt "prefs_disk_min_free_gb_header"
+msgid "Min. spare storage"
+msgstr "min. freizuhaltender Speicher"
+
+#, fuzzy
+msgctxt "prefs_disk_min_free_gb_description"
+msgid "How much of your device's storage space shall stay free?"
+msgstr "Wie viel Ihres Speichers soll mindestens ungenutzt bleiben?"
+
+msgctxt "prefs_network_daily_xfer_limit_mb_header"
+msgid "Daily transfer limit"
+msgstr "tägliche Transferbegrenzung"
+
+msgctxt "prefs_network_daily_xfer_limit_mb_description"
+msgid "Limits the daily data traffic caused by BOINC."
+msgstr "Begrenzt die Datenmenge welche täglich durch BOINC übertragen wird."
+
+msgctxt "prefs_network_wifi_only_header"
+msgid "Transfer tasks on WiFi only"
+msgstr "Übertrage Aufgaben nur per WLAN"
+
+msgctxt "prefs_autostart_header"
+msgid "Autostart"
+msgstr "Automatisch starten"
+
+msgctxt "prefs_show_notification_header"
+msgid "Show notification when suspended"
+msgstr "Zeige Nachrichten wenn angehalten"
+
+msgctxt "prefs_cpu_number_cpus_header"
+msgid "Used CPU cores"
+msgstr "Benutzte Prozessoren"
+
+msgctxt "prefs_cpu_number_cpus_description"
+msgid "Limits the number of CPU cores BOINC uses for computation."
+msgstr "Limitiert die Anzahl der Prozessoren welche BOINC nutzen darf."
+
+msgctxt "prefs_cpu_other_load_suspension_header"
+msgid "Pause at CPU usage above"
+msgstr "Anhalten wenn Prozessornutzung über"
+
+#, fuzzy
+msgctxt "prefs_cpu_other_load_suspension_description"
+msgid "Determines when BOINC pauses computation due to other app's CPU usage."
+msgstr ""
+"Bestimmt wann BOINC angehalten wird, anhand der Prozessornutzung anderer "
+"Apps."
+
+msgctxt "prefs_cpu_time_max_header"
+msgid "CPU limit"
+msgstr "Prozessorbegrenzung"
+
+#, fuzzy
+msgctxt "prefs_cpu_time_max_description"
+msgid "Limits the CPU time BOINC uses for computation."
+msgstr "Limitiert die Anzahl der Prozessoren welche BOINC nutzen darf."
+
+msgctxt "prefs_memory_max_idle_header"
+msgid "RAM limit"
+msgstr "Arbeitsspeicherlimit"
+
+msgctxt "prefs_memory_max_idle_description"
+msgid "Limits the amount of RAM tasks are allowed to occupy."
+msgstr "Limitiert den Arbeitsspeicher welcher für Aufgaben zur Verfügung steht."
+
+msgctxt "prefs_client_log_flags_header"
+msgid "BOINC Client log flags"
+msgstr "BOINC Client Protokolleinstellungen"
+
+#, fuzzy
+msgctxt "prefs_gui_log_level_header"
+msgid "GUI log level"
+msgstr "GUI Protokolllevel"
+
+#, fuzzy
+msgctxt "prefs_gui_log_level_description"
+msgid "Specifies verbosity of GUI log messages."
+msgstr "Einstellung der Detailiertheit der GUI Protokollnachrichten."
+
+msgctxt "prefs_unit_mb"
+msgid "MB"
+msgstr "MB"
+
+msgctxt "prefs_unit_gb"
+msgid "GB"
+msgstr "GB"
+
+#, c-format
+msgctxt "prefs_unit_pct"
+msgid "%"
+msgstr "%"
+
+msgctxt "prefs_unit_celcius"
+msgid "°C"
+msgstr "°C"
+
+#. projects tab strings
+#, fuzzy
+msgctxt "projects_loading"
+msgid "Reading projects…"
+msgstr "Lade Projekte…"
+
+msgctxt "projects_add"
+msgid "Add project"
+msgstr "Projekt hinzufügen"
+
+msgctxt "projects_icon"
+msgid "Project icon"
+msgstr "Projektsymbol"
+
+msgctxt "projects_credits_header"
+msgid "Credit:"
+msgstr "Punkte:"
+
+msgctxt "projects_credits_host_header"
+msgid "(on this device)"
+msgstr "(auf diesem Gerät)"
+
+msgctxt "projects_credits_user_header"
+msgid "(total)"
+msgstr "(gesamt)"
+
+#. project status strings
+msgctxt "projects_status_suspendedviagui"
+msgid "Suspended by user"
+msgstr "Angehalten durch Benutzer"
+
+msgctxt "projects_status_dontrequestmorework"
+msgid "Won't get new tasks"
+msgstr "Keine neuen Arbeitspakete"
+
+msgctxt "projects_status_ended"
+msgid "Project ended - OK to remove"
+msgstr "Projekt wurde beendet - kann jetzt entfernt werden"
+
+msgctxt "projects_status_detachwhendone"
+msgid "Will remove when tasks done"
+msgstr "wird entfernt wenn Aufgaben erledigt"
+
+msgctxt "projects_status_schedrpcpending"
+msgid "Scheduler request pending"
+msgstr "Serveranfrage ausstehend"
+
+msgctxt "projects_status_schedrpcinprogress"
+msgid "Scheduler request in progress"
+msgstr "Serveranfrage läuft"
+
+msgctxt "projects_status_trickleuppending"
+msgid "Trickle up message pending"
+msgstr "Trickle-Up Nachricht ausstehend"
+
+msgctxt "projects_status_backoff"
+msgid "Communication scheduled in:"
+msgstr "nächste Kommunikation in:"
+
+#. project controls
+msgctxt "projects_control_dialog_title"
+msgid "Project commands:"
+msgstr "Projektbefehle:"
+
+msgctxt "projects_control_update"
+msgid "Update"
+msgstr "Aktualisieren"
+
+msgctxt "projects_control_remove"
+msgid "Remove"
+msgstr "Entfernen"
+
+msgctxt "projects_control_suspend"
+msgid "Suspend"
+msgstr "Anhalten"
+
+msgctxt "projects_control_resume"
+msgid "Resume"
+msgstr "Fortsetzen"
+
+msgctxt "projects_control_nonewtasks"
+msgid "No new tasks"
+msgstr "Keine neuen Aufgaben"
+
+msgctxt "projects_control_allownewtasks"
+msgid "Allow new tasks"
+msgstr "Neue Aufgaben zulassen"
+
+msgctxt "projects_control_reset"
+msgid "Reset"
+msgstr "Zurücksetzen"
+
+#. project confirm dialog
+msgctxt "projects_confirm_detach_title"
+msgid "Remove project?"
+msgstr "Projekt entfernen?"
+
+msgctxt "projects_confirm_detach_message"
+msgid "Are you sure you want to remove"
+msgstr "Wollen Sie wirklich zurücksetzen"
+
+msgctxt "projects_confirm_detach_message2"
+msgid "from BOINC?"
+msgstr "von BOINC?"
+
+msgctxt "projects_confirm_detach_confirm"
+msgid "Remove"
+msgstr "Entfernen"
+
+msgctxt "projects_confirm_reset_title"
+msgid "Reset project"
+msgstr "Projekt zurücksetzen"
+
+#, fuzzy
+msgctxt "projects_confirm_reset_message"
+msgid "Are you sure you want to reset"
+msgstr "Wollen Sie wirklich zurücksetzen"
+
+msgctxt "projects_confirm_reset_confirm"
+msgid "Reset"
+msgstr "Zurücksetzen"
+
+#. tasks tab strings
+msgctxt "tasks_header_name"
+msgid "Task Name:"
+msgstr "Aufgabenname:"
+
+msgctxt "tasks_header_elapsed_time"
+msgid "Elapsed time:"
+msgstr "Abgelaufene Zeit:"
+
+msgctxt "tasks_header_project_paused"
+msgid "(suspended)"
+msgstr "(angehalten)"
+
+msgctxt "tasks_header_deadline"
+msgid "Deadline:"
+msgstr "Ablaufdatum:"
+
+msgctxt "tasks_result_new"
+msgid "new"
+msgstr "neu"
+
+msgctxt "tasks_result_files_downloading"
+msgid "waiting for download"
+msgstr "herunterladen läuft"
+
+msgctxt "tasks_result_files_downloaded"
+msgid "download complete"
+msgstr "herunterladen abgeschlossen"
+
+msgctxt "tasks_result_compute_error"
+msgid "computation error"
+msgstr "Berechnungsfehler"
+
+msgctxt "tasks_result_files_uploading"
+msgid "uploading"
+msgstr "hochladen"
+
+msgctxt "tasks_result_files_uploaded"
+msgid "upload complete"
+msgstr "hochladen abgeschlossen"
+
+msgctxt "tasks_result_aborted"
+msgid "aborted"
+msgstr "abgebrochen"
+
+msgctxt "tasks_result_upload_failed"
+msgid "upload failed"
+msgstr "hochladen fehlgeschlagen"
+
+msgctxt "tasks_active_uninitialized"
+msgid "ready"
+msgstr "bereit"
+
+msgctxt "tasks_active_executing"
+msgid "running"
+msgstr "wird ausgeführt"
+
+msgctxt "tasks_active_suspended"
+msgid "suspended"
+msgstr "angehalten"
+
+msgctxt "tasks_active_abort_pending"
+msgid "suspending"
+msgstr "wird angehalten"
+
+msgctxt "tasks_active_quit_pending"
+msgid "suspending"
+msgstr "wird angehalten"
+
+msgctxt "tasks_custom_suspended_via_gui"
+msgid "suspended"
+msgstr "angehalten"
+
+msgctxt "tasks_custom_project_suspended_via_gui"
+msgid "project suspended"
+msgstr "Projekt angehalten"
+
+msgctxt "tasks_custom_ready_to_report"
+msgid "ready to report"
+msgstr "meldebereit"
+
+#. confirmation dialog
+msgctxt "confirm_abort_task_title"
+msgid "Abort task?"
+msgstr "Aufgabe abbrechen?"
+
+#, fuzzy
+msgctxt "confirm_abort_task_message"
+msgid "Abort task:"
+msgstr "Aufgabe abbrechen:"
+
+msgctxt "confirm_abort_task_confirm"
+msgid "Abort"
+msgstr "Abbrechen"
+
+msgctxt "confirm_cancel"
+msgid "Cancel"
+msgstr "Abbrechen"
+
+msgctxt "confirm_image_desc"
+msgid "Confirmation dialog"
+msgstr "Bestätigungsdialog"
+
+#. transfers tab strings
+msgctxt "trans_loading"
+msgid "Reading transfers…"
+msgstr "Lade Übertragungen…"
+
+msgctxt "trans_upload"
+msgid "Upload"
+msgstr "Hochladen"
+
+msgctxt "trans_download"
+msgid "Download"
+msgstr "Herunterladen"
+
+msgctxt "trans_retryin"
+msgid "retry in"
+msgstr "erneut versuchen in"
+
+msgctxt "trans_failed"
+msgid "failed"
+msgstr "fehlgeschlagen"
+
+msgctxt "trans_suspended"
+msgid "suspended"
+msgstr "angehalten"
+
+msgctxt "trans_active"
+msgid "active"
+msgstr "aktiv"
+
+msgctxt "trans_pending"
+msgid "pending"
+msgstr "ausstehend"
+
+#, fuzzy
+msgctxt "trans_projectbackoff"
+msgid "project backoff"
+msgstr "Projektwartezeit"
+
+msgctxt "trans_header_name"
+msgid "File:"
+msgstr "Datei:"
+
+msgctxt "confirm_abort_trans_title"
+msgid "Abort transfer?"
+msgstr "Übertragung abbrechen?"
+
+#, fuzzy
+msgctxt "confirm_abort_trans_message"
+msgid "Abort File:"
+msgstr "Datei:"
+
+msgctxt "confirm_abort_trans_confirm"
+msgid "Abort"
+msgstr "Abbrechen"
+
+#. eventlog tab strings
+msgctxt "eventlog_loading"
+msgid "Loading log messages…"
+msgstr "Lade Protokollnachrichten…"
+
+msgctxt "eventlog_client_header"
+msgid "Client Messages"
+msgstr "Client Meldungen"
+
+msgctxt "eventlog_gui_header"
+msgid "GUI Messages"
+msgstr "GUI Meldungen"
+
+msgctxt "eventlog_copy_toast"
+msgid "Log copied to clipboard."
+msgstr "Protokoll in die Zwischenablage kopiert."
+
+msgctxt "eventlog_email_subject"
+msgid "Event Log for BOINC on Android:"
+msgstr "Ereignisprotokoll für BOINC auf Android:"
+
+#. suspend reasons
+msgctxt "suspend_unknown"
+msgid "Computation suspended."
+msgstr "Berechnung angehalten."
+
+msgctxt "suspend_batteries"
+msgid "Connect your device to a charger to continue computing."
+msgstr "Schließen Sie Ihr Gerät an eine Stromquelle an um weiterzurechnen."
+
+msgctxt "suspend_useractive"
+msgid "User is active."
+msgstr "Benutzer ist aktiv."
+
+#, fuzzy
+msgctxt "suspend_tod"
+msgid "Out of computation time-frame."
+msgstr "Außerhalb der Zeiteinschränkungen."
+
+msgctxt "suspend_bm"
+msgid "BOINC is benchmarking your device…"
+msgstr "BOINC ermittelt die Leistungsfähigkeit ihres Gerätes…"
+
+msgctxt "suspend_disksize"
+msgid "Out of disk space."
+msgstr "Kein Speicherplatz mehr verfügbar."
+
+#, fuzzy
+msgctxt "suspend_cputhrottle"
+msgid "Scheduled CPU throttle."
+msgstr "Planmäßige Prozessordrosselung."
+
+msgctxt "suspend_noinput"
+msgid "No recent user activity."
+msgstr "Keine Benutzeraktivität."
+
+msgctxt "suspend_delay"
+msgid "Initialization delay."
+msgstr "Startverzögerung"
+
+msgctxt "suspend_exclusiveapp"
+msgid "An exclusive app is running."
+msgstr "Eine exklusive Anwendung läuft."
+
+msgctxt "suspend_cpu"
+msgid "Your device is busy with other apps."
+msgstr "Ihr Gerät ist mit anderen Apps ausgelastet."
+
+msgctxt "suspend_network_quota"
+msgid "BOINC reached network transfer limit."
+msgstr "Netzwerkübertragungslimit erreicht."
+
+msgctxt "suspend_os"
+msgid "Stopped by Android."
+msgstr "Gestoppt von Android."
+
+msgctxt "suspend_wifi"
+msgid "Not connected to WiFi."
+msgstr "Nicht per WLAN verbunden."
+
+msgctxt "suspend_battery_charging"
+msgid "Battery needs to charge before resuming computation."
+msgstr ""
+"Der Akku muss geladen werden bevor die Berechnung fortgesetzt werden kann."
+
+msgctxt "suspend_battery_charging_long"
+msgid "Computing will resume when battery charge reaches"
+msgstr "Berechnung wird fortgesetzt wenn der Ladezustand erreicht"
+
+msgctxt "suspend_battery_charging_current"
+msgid "currently"
+msgstr "aktuell"
+
+msgctxt "suspend_battery_overheating"
+msgid "Waiting for battery to cool down"
+msgstr "Warten bis der Akku abgekühlt ist"
+
+msgctxt "suspend_user_req"
+msgid "Resuming computation…"
+msgstr "Berechnung wird fortgesetzt…"
+
+msgctxt "suspend_network_user_req"
+msgid "manually."
+msgstr "manuell."
+
+#. rpc reasons
+msgctxt "rpcreason_userreq"
+msgid "Requested by user"
+msgstr "Vom Nutzer gefordert"
+
+msgctxt "rpcreason_needwork"
+msgid "To fetch work"
+msgstr "Um Arbeit zu holen"
+
+msgctxt "rpcreason_resultsdue"
+msgid "To report completed tasks"
+msgstr "Um Aufgaben abzuliefern"
+
+msgctxt "rpcreason_trickleup"
+msgid "To send trickle-up message"
+msgstr "Um Trickle-Up Nachricht zu senden"
+
+msgctxt "rpcreason_acctmgrreq"
+msgid "Requested by account manager"
+msgstr "Angefordert vom Kontomanager"
+
+msgctxt "rpcreason_init"
+msgid "Project initialization"
+msgstr "Projektinitialisierung"
+
+msgctxt "rpcreason_projectreq"
+msgid "Requested by project"
+msgstr "Vom Projekt angefordert"
+
+msgctxt "rpcreason_unknown"
+msgid "Unknown reason"
+msgstr "Unbekannter Grund"
+
+#. menu
+msgctxt "menu_refresh"
+msgid "Refresh"
+msgstr "Neu laden"
+
+msgctxt "menu_emailto"
+msgid "Send as Email"
+msgstr "Als E-Mail versenden"
+
+msgctxt "menu_copy"
+msgid "Copy to Clipboard"
+msgstr "In Zwischenablage kopieren"
+
+msgctxt "menu_eventlog"
+msgid "Event Log"
+msgstr "Statusprotokoll"
+
+msgctxt "menu_exit"
+msgid "Exit BOINC"
+msgstr "BOINC beenden"
+
+msgctxt "menu_run_mode_disable"
+msgid "Suspend"
+msgstr "Anhalten"
+
+msgctxt "menu_run_mode_enable"
+msgid "Resume"
+msgstr "Fortsetzen"
+
+msgctxt "menu_about"
+msgid "About"
+msgstr "Über"
+
+msgctxt "menu_help"
+msgid "Help"
+msgstr "Hilfe"
+
+#. about dialog
+msgctxt "about_button"
+msgid "Return"
+msgstr "Zurück"
+
+msgctxt "about_title"
+msgid "About"
+msgstr "Über"
+
+msgctxt "about_name"
+msgid "BOINC"
+msgstr "BOINC"
+
+msgctxt "about_version"
+msgid "Version"
+msgstr "Version"
+
+msgctxt "about_name_long"
+msgid "Berkeley Open Infrastructure for Network Computing"
+msgstr "Berkeley Open Infrastructure for Network Computing"
+
+msgctxt "about_copyright"
+msgid ""
+"© 2003–2013 University of California, Berkeley.\n"
+"All Rights Reserved."
+msgstr ""
+"© 2003–2013 Universität von Kalifornien, Berkeley.\n"
+"Alle Rechte vorbehalten."

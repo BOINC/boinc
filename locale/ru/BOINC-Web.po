@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-08-22 16:22 PDT\n"
-"PO-Revision-Date: 2013-08-07 20:07+0200\n"
+"PO-Revision-Date: 2013-08-30 18:25+0000\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ru\n"
@@ -16,8 +16,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-POOTLE-MTIME: 1377887109.0\n"
 
 #: projects.inc:14
 msgid "Distributed sensing"
@@ -332,6 +333,7 @@ msgid "Astronomy"
 msgstr "Астрономия"
 
 #: projects.inc:203
+#, fuzzy
 msgid ""
 "We will combine the spectral coverage of GALEX, Pan-STARRS1, and WISE to "
 "generate a multi-wavelength UV-optical-NIR galaxy atlas for the nearby "
@@ -340,6 +342,14 @@ msgid ""
 "star formation history) on a resolved pixel-by-pixel basis using spectral "
 "energy distribution (SED) fitting techniques in a distributed computing mode."
 msgstr ""
+"Мы объединим спектральный охват телескопов GALEX, Pan-STARRS1 и WISE для "
+"создания мультиволнового атласа галактик ближайшей Вселенной в "
+"ультрафиолетовом/оптическом/инфракрасном диапазонах спектра. Мы измерим "
+"физические параметры (такие как поверхностная плотность звёздной массы, "
+"поверхностная плотность скорости формирования звезды, затухание и история "
+"формирования звезды первого порядка) на основе попиксельного решения с "
+"помощью распределения спектральной энергии (SED), приспособив технологии в "
+"режиме распределенных вычислений."
 
 #: projects.inc:225
 msgid "University of Texas at Austin"
@@ -586,19 +596,25 @@ msgstr "Исследования в физике, материаловедени
 
 #: projects.inc:365
 msgid "IBM Corporate Citizenship"
-msgstr ""
+msgstr "Корпоративное Гражданство IBM"
 
 #: projects.inc:366
 msgid "Medical, environmental and other humanitarian research"
-msgstr ""
+msgstr "Медицинские, экологические и другие гуманитарные исследования"
 
 #: projects.inc:367
+#, fuzzy
 msgid ""
 "To further critical non-profit research on some of humanity's most pressing "
 "problems by creating the world's largest volunteer computing grid.  Research "
 "includes HIV-AIDS, cancer, tropical and neglected diseases, solar energy, "
 "clean water and many more."
 msgstr ""
+"Для дальнейших критических некоммерческих исследований некоторых из наиболее "
+"актуальных проблем человечества, создав крупнейшую в мире добровольную "
+"вычислительную сеть.  Исследования включают в себя ВИЧ-СПИД, рак, "
+"тропические и забытые болезни, солнечную энергию, чистую воду и многое "
+"другое."
 
 #: projects.inc:373
 msgid "Mathematics, computing, and games"
@@ -714,6 +730,8 @@ msgid ""
 "Primegrid has multiple projects searching for different forms of very large "
 "prime numbers, including searching for the largest known prime number."
 msgstr ""
+"Primegrid поддерживает множество проектов, ищущих различные формы очень "
+"больших простых чисел, включая поиск крупнейшего известного простого числа."
 
 #: projects.inc:497
 msgid "Hochschule RheinMain University of Applied Sciences"
@@ -1093,12 +1111,12 @@ msgstr "BOINC находится в Университете Калифорни�
 
 #: ../html/inc/news.inc:40
 msgid "Comment"
-msgstr ""
+msgstr "Комментарий"
 
 #: ../html/inc/news.inc:111
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr ""
+msgstr "Новости доступны в формате %sленты RSS%s"
 
 #~ msgid "IBM Corporate Community Relations"
 #~ msgstr "Сообщество Корпоративных Отношений IBM"

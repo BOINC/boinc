@@ -7,28 +7,29 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-18 11:32-0500\n"
-"PO-Revision-Date: 2013-06-12 01:46+0200\n"
-"Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
+"PO-Revision-Date: 2013-08-30 11:26+0000\n"
+"Last-Translator: Paul <aphroteus@gmail.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
+"X-POOTLE-MTIME: 1377861985.0\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
 # 81%
 #: clientgui/AccountInfoPage.cpp:387
 #, c-format
 msgid "Identify your account at %s"
-msgstr "確認您的帳於 %s"
+msgstr "確認您的帳號於 %s"
 
 #: clientgui/AccountInfoPage.cpp:393
 msgid ""
@@ -84,11 +85,11 @@ msgstr "密碼 (&P)："
 #: clientgui/AccountInfoPage.cpp:443
 #: clientgui/AccountInfoPage.cpp:692
 msgid "Choose a &password:"
-msgstr "選擇密碼 (&O)："
+msgstr "選擇密碼 (&P)："
 
 #: clientgui/AccountInfoPage.cpp:446
 msgid "C&onfirm password:"
-msgstr "密碼確認 (&O)："
+msgstr "確認密碼 (&O)："
 
 #: clientgui/AccountInfoPage.cpp:453
 #, c-format
@@ -287,7 +288,7 @@ msgstr "加入帳號管理服務(&A)..."
 
 #: clientgui/AdvancedFrame.cpp:412
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
-msgstr "志願加入到一個或多個分佈在許多不同科學領域內的研究專案"
+msgstr "志願加入到任何或所有高達30+個分佈在許多不同科學領域內的專案"
 
 #: clientgui/AdvancedFrame.cpp:416
 #, c-format
@@ -322,15 +323,15 @@ msgstr "選項 (&O)"
 
 #: clientgui/AdvancedFrame.cpp:446
 msgid "Configure display options and proxy settings"
-msgstr "GUI 組態選項和 Proxy 設定"
+msgstr "配置顯示選項和 Proxy 設定"
 
 #: clientgui/AdvancedFrame.cpp:450
 msgid "Computing &preferences..."
-msgstr "偏好設定(&P)..."
+msgstr "運算偏好(&P)..."
 
 #: clientgui/AdvancedFrame.cpp:451
 msgid "Configure computing preferences"
-msgstr "設定本機偏好設定"
+msgstr "配置運算偏好"
 
 #: clientgui/AdvancedFrame.cpp:459
 msgid "&Run always"
@@ -342,11 +343,11 @@ msgstr "不管偏好設定運行工作"
 
 #: clientgui/AdvancedFrame.cpp:464
 msgid "Run based on &preferences"
-msgstr "以偏好設定執行(&P)"
+msgstr "依照偏好設定執行(&P)"
 
 #: clientgui/AdvancedFrame.cpp:465
 msgid "Allow work according to preferences"
-msgstr "依照您的偏好設定運行工作"
+msgstr "依照您的偏好設定執行工作"
 
 #: clientgui/AdvancedFrame.cpp:469
 msgid "&Suspend"
@@ -366,7 +367,7 @@ msgstr "不管偏好設定運行工作"
 
 #: clientgui/AdvancedFrame.cpp:500
 msgid "Use GPU based on preferences"
-msgstr "以偏好設定執行(&P)"
+msgstr "依照偏好設定使用GPU(&P)"
 
 #: clientgui/AdvancedFrame.cpp:501
 msgid "Allow GPU work according to preferences"
@@ -382,7 +383,7 @@ msgstr "不管偏好設定停止GPU工作"
 
 #: clientgui/AdvancedFrame.cpp:530
 msgid "Network activity always available"
-msgstr "持續進行網路活動(&N)"
+msgstr "持續進行網路活動"
 
 #: clientgui/AdvancedFrame.cpp:531
 msgid "Allow network activity regardless of preferences"
@@ -390,7 +391,7 @@ msgstr "不管偏好設定進行網路活動"
 
 #: clientgui/AdvancedFrame.cpp:535
 msgid "Network activity based on preferences"
-msgstr "以偏好設定連線網路(&P)"
+msgstr "依照偏好設定連線網路(&P)"
 
 #: clientgui/AdvancedFrame.cpp:536
 msgid "Allow network activity according to preferences"
@@ -398,7 +399,7 @@ msgstr "依照您的偏好設定進行網路活動"
 
 #: clientgui/AdvancedFrame.cpp:540
 msgid "Network activity suspended"
-msgstr "暫止網路活動(&N)"
+msgstr "暫止網路活動"
 
 #: clientgui/AdvancedFrame.cpp:541
 msgid "Stop BOINC network activity"
@@ -411,15 +412,15 @@ msgstr "連線到另一台運行 %s 的電腦"
 
 #: clientgui/AdvancedFrame.cpp:556
 msgid "Select computer..."
-msgstr "選擇電腦"
+msgstr "選擇電腦..."
 
 #: clientgui/AdvancedFrame.cpp:561
 msgid "Shut down connected client..."
-msgstr "關閉已連線用戶端..."
+msgstr "關閉已連線的客戶端..."
 
 #: clientgui/AdvancedFrame.cpp:562
 msgid "Shut down the currently connected client"
-msgstr "關閉目前連線的核心用戶端"
+msgstr "關閉目前連線的客戶端"
 
 #: clientgui/AdvancedFrame.cpp:566
 msgid "Run CPU &benchmarks"
@@ -431,7 +432,7 @@ msgstr "執行 BONIC 的 CPU 效能測試"
 
 #: clientgui/AdvancedFrame.cpp:571
 msgid "Do network communication"
-msgstr "開始網路通訊(&C)"
+msgstr "開始網路通訊"
 
 #: clientgui/AdvancedFrame.cpp:572
 msgid "Do all pending network communication"
@@ -444,7 +445,7 @@ msgstr "讀取設定資料檔"
 
 #: clientgui/AdvancedFrame.cpp:577
 msgid "Read configuration info from cc_config.xml and any app_config.xml files"
-msgstr "讀取cc_config.xml和所有app_config.xml的設定文件"
+msgstr "從cc_config.xml和任何app_config.xml檔案讀取配置資訊"
 
 #: clientgui/AdvancedFrame.cpp:581
 msgid "Read local prefs file"
@@ -466,11 +467,11 @@ msgstr "開啟新的 %s"
 
 #: clientgui/AdvancedFrame.cpp:601
 msgid "Event Log...\tCtrl+Shift+E"
-msgstr "訊息記錄 \tCtrl+Shift+E"
+msgstr "事件記錄...\tCtrl+Shift+E"
 
 #: clientgui/AdvancedFrame.cpp:602
 msgid "Display diagnostic messages."
-msgstr "顯示詳細的執行訊息。"
+msgstr "顯示診斷訊息。"
 
 #: clientgui/AdvancedFrame.cpp:612
 #, c-format
@@ -557,7 +558,7 @@ msgstr ""
 #: clientgui/AdvancedFrame.cpp:1381
 #, c-format
 msgid "%s - Shut down the current client..."
-msgstr "%s - 關閉目前用戶端..."
+msgstr "%s - 關閉目前客戶端..."
 
 #: clientgui/AdvancedFrame.cpp:1390
 #, c-format
@@ -565,8 +566,8 @@ msgid ""
 "%s will shut down the current client\n"
 "and prompt you for another host to connect to."
 msgstr ""
-"%s 將會關閉目前連線中的用戶端\n"
-"然後提示您輸入想要連結的用戶端。"
+"%s 將會關閉目前的客戶端\n"
+"然後提示您輸入想要連結的客戶端。"
 
 #: clientgui/AdvancedFrame.cpp:1709
 #, c-format
@@ -637,7 +638,7 @@ msgstr "離開 %s (&Q)"
 #: clientgui/AsyncRPC.cpp:1243
 #, c-format
 msgid "E&xit %s"
-msgstr "離開 %s (&X)"
+msgstr "結束 %s (&X)"
 
 #: clientgui/AsyncRPC.cpp:1247
 #, c-format
@@ -659,15 +660,15 @@ msgid ""
 "Please contact your administrator to add you to the 'boinc_users' local user group."
 msgstr ""
 "您尚未被授權管理本客戶端。\n"
-"請聯繫系統管理員將您添加到名稱為boinc_users 的用戶組。"
+"請聯繫系統管理員將您添加到名稱為 'boinc_users' 的用戶群組。"
 
 #: clientgui/BOINCBaseFrame.cpp:523
 msgid ""
 "Authorization failed connecting to running client.\n"
 "Make sure you start this program in the same directory as the client."
 msgstr ""
-"連線到執行中的用戶端認證失敗。\n"
-"請確定您於相同的用戶端目錄啟動了本程式。"
+"連線到執行中的客戶端認證失敗。\n"
+"請確定您於相同的客戶端目錄啟動了本程式。"
 
 #: clientgui/BOINCBaseFrame.cpp:525
 msgid "Authorization failed connecting to running client."
@@ -688,7 +689,7 @@ msgid ""
 "%s is not able to connect to a %s client.\n"
 "Would you like to try to connect again?"
 msgstr ""
-"%s 無法連線到 %s 用戶端。\n"
+"%s 無法連線到 %s 客戶端。\n"
 "您要再試一次嗎？"
 
 #: clientgui/BOINCBaseFrame.cpp:622
@@ -745,8 +746,8 @@ msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
 "Would you like to restart it again?"
 msgstr ""
-"%s 無法連線到 %s 用戶端。\n"
-"您要再試一次嗎？"
+"%s 客戶端在 %d 分鐘內已異常結束3次。\n"
+"您要重試一次嗎？"
 
 #: clientgui/BOINCDialupManager.cpp:61
 #, c-format
@@ -839,11 +840,11 @@ msgstr ""
 
 #: clientgui/BOINCGUIApp.cpp:394
 msgid "BOINC Manager"
-msgstr "BOINC 管理員"
+msgstr "BOINC Manager"
 
 #: clientgui/BOINCGUIApp.cpp:561
 msgid "BOINC Manager was started by the operating system automatically"
-msgstr "BOINC Manager 已經由作業系統自動運作"
+msgstr "BOINC Manager 已經由作業系統啟動"
 
 #: clientgui/BOINCGUIApp.cpp:563
 msgid "Startup BOINC so only the system tray icon is visible"
@@ -883,7 +884,7 @@ msgstr "設置介面調試模式已啟用介面管理器的錯誤消息記錄"
 
 #: clientgui/BOINCGUIApp.cpp:574
 msgid "multiple instances of BOINC Manager allowed"
-msgstr "允許執行多個 BOINC Manager 的案例"
+msgstr "允許執行多個 BOINC Manager"
 
 #: clientgui/BOINCGUIApp.cpp:576
 msgid "Not used: workaround for bug in XCode 4.2"
@@ -925,47 +926,47 @@ msgstr "暫停執行 GPU"
 
 #: clientgui/BOINCTaskBar.cpp:543
 msgid "E&xit"
-msgstr "離開 (&X)"
+msgstr "結束 (&X)"
 
 #: clientgui/BOINCTaskBar.cpp:614
 msgid "Resume"
-msgstr "繼續執行"
+msgstr "恢復"
 
 #: clientgui/BOINCTaskBar.cpp:641
 msgid "Resume GPU"
-msgstr "繼續 GPU"
+msgstr "恢復 GPU"
 
 #: clientgui/BOINCTaskBar.cpp:715
 msgid "Computing is enabled"
-msgstr "允許運算"
+msgstr "運算已啟用"
 
 #: clientgui/BOINCTaskBar.cpp:718
 msgid "Computing is suspended - "
-msgstr "運算已暫止 -"
+msgstr "運算已暫止 - "
 
 #: clientgui/BOINCTaskBar.cpp:728
 msgid "GPU computing is enabled"
-msgstr "允許 GPU 運算"
+msgstr "GPU 運算已啟用"
 
 #: clientgui/BOINCTaskBar.cpp:731
 msgid "GPU computing is suspended - "
-msgstr "GPU 運算已暫止 -"
+msgstr "GPU 運算已暫止 - "
 
 #: clientgui/BOINCTaskBar.cpp:740
 msgid "Network is enabled"
-msgstr "允許使用網路"
+msgstr "網路已啟用"
 
 #: clientgui/BOINCTaskBar.cpp:743
 msgid "Network is suspended - "
-msgstr "暫止網路活動 -"
+msgstr "網路已暫止 - "
 
 #: clientgui/BOINCTaskBar.cpp:751
 msgid "Reconnecting to client."
-msgstr "重新連線用戶端中。"
+msgstr "重新連線到客戶端。"
 
 #: clientgui/BOINCTaskBar.cpp:753
 msgid "Not connected to a client."
-msgstr "未連線到用戶端。"
+msgstr "未連線到客戶端。"
 
 #: clientgui/BOINCTaskBar.cpp:806
 #, c-format
@@ -1063,7 +1064,7 @@ msgstr "關於 %s"
 
 #: clientgui/DlgAbout.cpp:172
 msgid "Version:"
-msgstr "客戶端版本："
+msgstr "版本："
 
 #: clientgui/DlgAbout.cpp:180
 msgid "wxWidgets Version:"
@@ -1079,7 +1080,7 @@ msgid ""
 "(C) 2003-2013 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2013 美國加州大學伯克利分校\n"
+"(C) 2003-2013 美國加州大學柏克萊分校\n"
 "保留所有權利。"
 
 #: clientgui/DlgAbout.cpp:196
@@ -1096,19 +1097,19 @@ msgstr "確定 (&O)"
 
 #: clientgui/DlgAdvPreferences.cpp:542
 msgid "invalid float"
-msgstr "浮點數無效"
+msgstr "無效的浮點數"
 
 #: clientgui/DlgAdvPreferences.cpp:543
 msgid "invalid time, format is HH:MM"
-msgstr "時間無效，格式為 HH:MM"
+msgstr "無效的時間，格式為 HH:MM"
 
 #: clientgui/DlgAdvPreferences.cpp:544
 msgid "invalid time interval, format is HH:MM-HH:MM"
-msgstr "時間區間無效，格式為 HH:MM-HH:MM"
+msgstr "無效的時間間隔，格式為 HH:MM-HH:MM"
 
 #: clientgui/DlgAdvPreferences.cpp:664
 msgid "invalid input value detected"
-msgstr "偵測到輸入值無效"
+msgstr "偵測到無效的輸入值"
 
 #: clientgui/DlgAdvPreferences.cpp:666
 msgid "Validation Error"
@@ -1186,15 +1187,15 @@ msgstr "清除所有本機偏好設定並關閉此視窗"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:81
 msgid "processor usage"
-msgstr "處理器用量"
+msgstr "處理器使用量"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:84
 msgid "network usage"
-msgstr "網路用量"
+msgstr "網路使用量"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:87
 msgid "disk and memory usage"
-msgstr "硬碟及記憶體用量"
+msgstr "硬碟及記憶體使用量"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:90
 msgid "exclusive applications"
@@ -1226,35 +1227,35 @@ msgstr "選擇允許運算的情況"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:139
 msgid "While computer is on batteries"
-msgstr "電池供電時"
+msgstr "當電腦使用電池電源時"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:142
 msgid "check this if you want this computer to do work while it runs on batteries"
-msgstr "若您想讓電腦以電池供電時也要運行工作就打勾"
+msgstr "若您想讓電腦使用電池電源時執行工作，請打勾"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:148
 msgid "While computer is in use"
-msgstr "電腦使用時"
+msgstr "當電腦正被使用時"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:151
 msgid "check this if you want this computer to do work even when you're using it"
-msgstr "若您想在使用電腦的同時一起運行工作就打勾"
+msgstr "若您想在使用電腦時執行工作，請打勾"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:157
 msgid "Use GPU while computer is in use"
-msgstr "電腦使用時運行 GPU 計算"
+msgstr "電腦被使用時，啟用 GPU 運算"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:160
 msgid "check this if you want your GPU to do work even when you're using the computer"
-msgstr "若您想在使用電腦的同時一起運行 GPU 工作就打勾"
+msgstr "若您想在使用電腦時執行 GPU 運算，請打勾"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:172
 msgid "Only after computer has been idle for"
-msgstr "電腦閒置幾分鐘後才運行工作: "
+msgstr "電腦閒置幾分鐘後才執行工作: "
 
 #: clientgui/DlgAdvPreferencesBase.cpp:182
 msgid "do work only after you haven't used the computer for this number of minutes"
-msgstr "設定您不使用電腦幾分鐘後才運行工作"
+msgstr "設定您不使用電腦幾分鐘後才執行工作"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:187
 #: clientgui/DlgAdvPreferencesBase.cpp:336
@@ -1263,7 +1264,7 @@ msgstr "分鐘"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:206
 msgid "While processor usage is less than"
-msgstr "處理器用量低於"
+msgstr "當處理器使用率低於"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:216
 msgid "suspend work if processor usage exceeds this level"
@@ -1276,11 +1277,11 @@ msgstr "% (0 代表不限制 )"
 #: clientgui/DlgAdvPreferencesBase.cpp:235
 #: clientgui/DlgAdvPreferencesBase.cpp:495
 msgid "Every day between hours of"
-msgstr "每天運行工作的時間："
+msgstr "每天執行工作的時間區間："
 
 #: clientgui/DlgAdvPreferencesBase.cpp:239
 msgid "start work at this time"
-msgstr "開始運行工作的時間"
+msgstr "開始執行工作的時間"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:243
 #: clientgui/DlgAdvPreferencesBase.cpp:503
@@ -1289,7 +1290,7 @@ msgstr "到"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:247
 msgid "stop work at this time"
-msgstr "停止運行工作的時間"
+msgstr "停止執行工作的時間"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:251
 #: clientgui/DlgAdvPreferencesBase.cpp:511
@@ -1343,7 +1344,7 @@ msgstr "星期日"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:323
 msgid "Other options"
-msgstr "其他選項"
+msgstr "其它選項"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:330
 msgid "Switch between applications every"
@@ -1356,7 +1357,7 @@ msgstr "多核心系統中最多只使用"
 #: clientgui/DlgAdvPreferencesBase.cpp:346
 #, no-c-format
 msgid "% of the processors"
-msgstr "% CPU 核心數"
+msgstr "% 的 CPU 核心數量"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:349
 #: clientgui/DlgAdvPreferencesBase.cpp:604
@@ -1711,11 +1712,11 @@ msgstr "用戶端帳號建立已停止"
 
 #: clientgui/DlgItemProperties.cpp:176
 msgid " work fetch deferred for"
-msgstr "閒置多久後執行工作"
+msgstr " 閒置多久後執行工作"
 
 #: clientgui/DlgItemProperties.cpp:177
 msgid " work fetch deferral interval"
-msgstr "工作的延遲間隔"
+msgstr " 工作的延遲間隔"
 
 #: clientgui/DlgItemProperties.cpp:208
 msgid "Properties of project "
@@ -1887,7 +1888,7 @@ msgstr "CPU 時間"
 #: clientgui/DlgItemProperties.cpp:342
 #: clientgui/DlgItemProperties.cpp:356
 msgid "Elapsed time"
-msgstr "剩餘時間"
+msgstr "執行時間"
 
 #: clientgui/DlgItemProperties.cpp:344
 msgid "Estimated time remaining"
@@ -2051,7 +2052,7 @@ msgstr "1 週"
 
 #: clientgui/DlgOptions.cpp:591
 msgid "never"
-msgstr "從不提醒"
+msgstr "永不"
 
 #: clientgui/DlgOptions.cpp:688
 #, c-format
@@ -2112,7 +2113,7 @@ msgstr "您的偏好設定"
 
 #: clientgui/Localization.cpp:45
 msgid "View and modify your SETI@home account profile and preferences"
-msgstr "檢視並修改您的 SETI@Home 個人資訊與偏好設定"
+msgstr "檢視並修改您的 SETI@home 個人資訊與偏好設定"
 
 #: clientgui/Localization.cpp:47
 #: clientgui/Localization.cpp:89
@@ -2363,7 +2364,7 @@ msgstr "下載中"
 #: clientgui/MainDocument.cpp:2468
 #: clientgui/MainDocument.cpp:2538
 msgid " (suspended - "
-msgstr "(已暫止 -"
+msgstr " (已暫止 - "
 
 #: clientgui/MainDocument.cpp:2476
 msgid "Project suspended by user"
@@ -2413,15 +2414,15 @@ msgstr "準備開始"
 
 #: clientgui/MainDocument.cpp:2518
 msgid " (Scheduler wait: "
-msgstr "（調度等待："
+msgstr " （排程器等待： "
 
 #: clientgui/MainDocument.cpp:2522
 msgid " (Scheduler wait)"
-msgstr "（調度等待）"
+msgstr " （排程器等待）"
 
 #: clientgui/MainDocument.cpp:2526
 msgid " (Waiting for network access)"
-msgstr "(正等待網路回應)"
+msgstr " (正等待網存取)"
 
 #: clientgui/MainDocument.cpp:2530
 msgid "Computation error"
@@ -2627,7 +2628,7 @@ msgstr "請求的檔案並不存在於伺服器中。"
 #: clientgui/ProjectProcessingPage.cpp:510
 #: clientgui/ProjectProcessingPage.cpp:572
 msgid "An internal server error has occurred."
-msgstr "內部伺服器發生錯誤。\n"
+msgstr "內部伺服器發生錯誤。"
 
 #: clientgui/ProjectPropertiesPage.cpp:334
 msgid ""
@@ -2666,7 +2667,7 @@ msgstr ""
 "請設定您的防火牆讓 BOINC 能存取 port 80。\n"
 "然後按「上一步」重試。\n"
 "3) 你正使用 Proxy 伺服器。\n"
-"按「下一步」設置 Proxy 設定。"
+"請按「下一步」設置 BOINC 的 Proxy 設定。"
 
 #: clientgui/ProxyInfoPage.cpp:203
 msgid ""
@@ -2693,7 +2694,7 @@ msgstr ""
 "請設定您的防火牆讓 BOINC 能存取 port 80。\n"
 "然後按「上一步」重試。\n"
 "3) 你正使用 Proxy 伺服器。\n"
-"按「下一步」設置 Proxy 設定。"
+"請按「下一步」設置 BOINC 的 Proxy 設定。"
 
 #: clientgui/ProxyPage.cpp:331
 msgid "Proxy configuration"
@@ -2993,7 +2994,7 @@ msgstr "硬碟空間"
 
 #: clientgui/sg_DlgPreferences.cpp:406
 msgid "of the processor"
-msgstr " CPU 使用率"
+msgstr "CPU 使用率"
 
 #: clientgui/sg_DlgPreferences.cpp:410
 msgid "Do work while on battery?"
@@ -3611,7 +3612,7 @@ msgstr "專案的請求"
 
 #: clientgui/ViewProjects.cpp:1055
 msgid "Unknown reason"
-msgstr "(未知的原因)"
+msgstr "未知原因"
 
 #: clientgui/ViewProjects.cpp:1069
 msgid "Suspended by user"
@@ -3930,7 +3931,7 @@ msgstr "等待中"
 
 #: clientgui/ViewTransfers.cpp:792
 msgid " (project backoff: "
-msgstr "（專案延後："
+msgstr " （專案延後： "
 
 #: clientgui/ViewWork.cpp:186
 #: clientgui/ViewWork.cpp:766
@@ -4094,7 +4095,7 @@ msgstr "新增或修改 World Community Grid 專案"
 
 #: clientgui/WelcomePage.cpp:361
 msgid "Add projects run by other researchers or organizations"
-msgstr "新增其他研究組織的專案"
+msgstr "新增其它研究組織的專案"
 
 #: clientgui/WizardAttach.cpp:634
 msgid "Do you really want to cancel?"
@@ -4244,7 +4245,7 @@ msgstr "隱藏 %s"
 
 #: clientgui/mac/Mac_GUI.cpp:157
 msgid "Hide Others"
-msgstr "隱藏其他"
+msgstr "隱藏其它"
 
 #: clientgui/mac/Mac_GUI.cpp:171
 msgid "Show All"

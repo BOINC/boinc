@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-08-06 16:50-0800\n"
-"PO-Revision-Date: 2013-08-14 02:19+0200\n"
-"Last-Translator: Charlie <charlief@ssl.berkeley.edu>\n"
+"PO-Revision-Date: 2013-08-26 07:53+0200\n"
+"Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
@@ -99,7 +99,7 @@ msgstr "Tapahtui virhe: virhekoodi %d"
 
 #: mac_installer/uninstall.cpp:224
 msgid "name  of user"
-msgstr "Käyttäjän nimi"
+msgstr "käyttäjän  nimi"
 
 #: mac_installer/uninstall.cpp:261
 #, c-format

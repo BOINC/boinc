@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2013-06-16 13:43+0200\n"
+"PO-Revision-Date: 2013-08-29 12:59+0000\n"
 "Last-Translator: Gabor <csega@mailbox.hu>\n"
 "Language-Team: \n"
 "Language: hu\n"
@@ -15,12 +15,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n !=1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Bookmarks: 7,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-POOTLE-MTIME: 1377781152.0\n"
 
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
@@ -4530,59 +4531,60 @@ msgstr "Kérjük jelentkezzen be %1-ként"
 
 #: ../user/friend.php:127
 msgid "You must log in as %1 to view this friend request"
-msgstr ""
+msgstr "%1-ként kell bejelentkeznie a barátnak jelölés megtekintéséhez"
 
 #: ../user/friend.php:138
 msgid "Friend request"
-msgstr ""
+msgstr "Barátnak jelölés"
 
 #: ../user/friend.php:141
 msgid "%1 has requested friendship with you."
-msgstr ""
+msgstr "%1 barátnak jelölte"
 
 #: ../user/friend.php:143
 msgid "%1 says: %2"
-msgstr ""
+msgstr "%1 üzenete: %2"
 
 #: ../user/friend.php:146
 msgid "Accept friendship"
-msgstr ""
+msgstr "Barátnak jelölés elfogadása"
 
 #: ../user/friend.php:146
 msgid "Click accept if %1 is in fact a friend"
-msgstr ""
+msgstr "Ha %1 valóban a barátja, kattintson ide az elfogadáshoz"
 
 #: ../user/friend.php:147
 msgid "Decline"
-msgstr ""
+msgstr "Visszautasítás"
 
 #: ../user/friend.php:147
 msgid "Click decline if %1 is not a friend"
-msgstr ""
+msgstr "Ha %1 nem a barátja, kattintson ide a visszautasításhoz"
 
 #: ../user/friend.php:186
 msgid "Friendship confirmed"
-msgstr ""
+msgstr "Barátság megerősítve"
 
 #: ../user/friend.php:187
 msgid "Your friendship with %1 has been confirmed."
-msgstr ""
+msgstr "%1 és az Ön barátsága megerősítve."
 
 #: ../user/friend.php:205
 msgid "Friendship declined"
-msgstr ""
+msgstr "Barátság visszautasítva"
 
 #: ../user/friend.php:206
 msgid "You have declined friendship with %1"
-msgstr ""
+msgstr "Visszautasította %1 barátnak jelölését"
 
 #: ../user/friend.php:221
 msgid "Notification not found"
-msgstr ""
+msgstr "Nem található értesítés"
 
 #: ../user/friend.php:223
+#, fuzzy
 msgid "Friend confirmed"
-msgstr ""
+msgstr "Barátság megerősítve"
 
 #: ../user/friend.php:224
 msgid "You are now friends with %1."
@@ -4603,12 +4605,14 @@ msgid "Stay friends"
 msgstr ""
 
 #: ../user/friend.php:249
+#, fuzzy
 msgid "Friendship cancelled"
-msgstr ""
+msgstr "Barátság megerősítve"
 
 #: ../user/friend.php:250
+#, fuzzy
 msgid "Your friendship with %1 has been cancelled."
-msgstr ""
+msgstr "%1 és az Ön barátsága megerősítve."
 
 #: ../user/get_passwd.php:25
 #, fuzzy

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2013-06-08 02:34+0200\n"
+"PO-Revision-Date: 2013-08-30 23:53+0000\n"
 "Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: zh_TW\n"
@@ -15,8 +15,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-POOTLE-MTIME: 1377906805.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "繁體中文（台灣）"
@@ -272,7 +273,7 @@ msgstr "發表於：%1"
 
 #: ../inc/forum.inc:627
 msgid " - in response to "
-msgstr "- 回覆"
+msgstr " - 回應於 "
 
 #: ../inc/forum.inc:630 ../inc/prefs.inc:690 ../inc/prefs.inc:692
 msgid "Edit"
@@ -370,13 +371,19 @@ msgid ""
 "        "
 msgstr ""
 "\n"
-"<ul>\n"
-"<li> 文章內容健康，不包含猥褻、仇恨或者與性有關的內容。 \n"
-"<li> 禁止商業廣告。 \n"
-"<li> 禁止連接到與性、賭博等內容有關的網站。 \n"
-"<li> 禁止打擾、敵對其他用戶的文章，禁止破壞主題。 \n"
-"<li> 禁止有敵意或侮辱性的文章。 \n"
-"<li> 禁止與種族、宗教、國籍、性別、階層或性相關的辱罵評論。 \n"
+"        <ul>\n"
+"        <li> 文章內容必須兒童適宜:它們必須不包含\n"
+"            內容有關猥褻或仇恨相關，\n"
+"            色情或性暗示。\n"
+"        <li> 禁止商業廣告。\n"
+"        <li> 禁止連結到網站包含色情內容，\n"
+"            賭博, 或使他人感到不適的內容。\n"
+"        <li> 禁止打擾、挑釁其它用戶，\n"
+"            或破壞主題。\n"
+"        <li> 禁止有敵意或侮辱性的訊息。\n"
+"        <li> 禁止濫用評論涉及種族、宗教、\n"
+"            國籍、性別、階級或性。\n"
+"        "
 
 #: ../inc/forum.inc:779
 msgid "Rules:"
@@ -434,7 +441,7 @@ msgstr "只有團隊成員才能在團隊的留言板中發文"
 msgid ""
 "In order to create a new thread in %1 you must have a certain amount of "
 "credit. This is to prevent and protect against abuse of the system."
-msgstr "%1 中製作新的線程需要一定額度的積分,這是為了預防及保護對於系統的濫用"
+msgstr "你必須在已經獲得了一定的積分後才能在 %1 發表一個新主題。這是為了防止對論壇系統的濫用。"
 
 #: ../inc/forum.inc:1132
 msgid ""
@@ -1028,7 +1035,7 @@ msgstr "硬碟：至少保留%1小於%2 的設定值將被忽略%3"
 #: ../inc/prefs.inc:210
 #, php-format
 msgid "% of total"
-msgstr "% "
+msgstr "%"
 
 #: ../inc/prefs.inc:193
 msgid "Tasks checkpoint to disk at most every"
@@ -2786,7 +2793,7 @@ msgid ""
 "donator lists.<br>If not checked, you will be recorded as user ID %1"
 msgstr ""
 "如果您不希望將您的名稱和帳號顯示在捐贈者列表中，請選擇此項。 \n"
-"如果不選擇的話，你將被記錄為 “ 用戶 ID %1 ”"
+"如果不選擇的話，您將被記錄為 用戶 ID %1"
 
 #: ../user/donations.php:324
 msgid "To assign the donation with your user ID, please log in."
@@ -3127,7 +3134,7 @@ msgstr "目前的密碼"
 
 #: ../user/edit_passwd_form.php:51
 msgid "<b>OR</b>: Account key"
-msgstr "<B>或者</ B>：帳號密碼"
+msgstr "<b>或者</ b>：帳號金鑰"
 
 #: ../user/edit_passwd_form.php:52
 msgid "Get account key by email"
@@ -3433,7 +3440,7 @@ msgid ""
 "Are you sure you want to banish %1?<br/>This will prevent %1 from posting "
 "for chosen time period.<br/>It should be done only if %1 has consistently "
 "exhibited trollish behavior."
-msgstr "您確定要封鎖 %1 嗎？ <br />該操作將在設定的時間期限內禁止%1 發帖。 <br />該操作只用在%1 有連續的違規行為時被使用。"
+msgstr "您確定要封鎖 %1 嗎？<br/>該操作將在設定的時間期限內禁止 %1 發帖。 <br/>該操作只用在 %1 有連續的違規行為時被使用。"
 
 #: ../user/forum_banishment_vote.php:61
 msgid ""
@@ -5088,9 +5095,9 @@ msgid ""
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
-"你的偏好設定已經更新\n"
-"\t 將在你的電腦與%1進行通訊的時候生效\n"
-"\t 或者你也可以直接執行 BOINC 客戶端裡的%2更新%3命令。"
+"您的偏好設定已經更新\n"
+"          將在您的電腦與 %1 進行通訊的時候生效\n"
+"          或者您也可以直接執行 BOINC Manager裡的%2更新%3命令。"
 
 #: ../user/prefs.php:44
 msgid ""

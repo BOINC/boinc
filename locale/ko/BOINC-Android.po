@@ -1,0 +1,1032 @@
+# Translations template for PROJECT.
+# Copyright (C) 2013 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: BOINC 7.2.x\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2013-08-29 15:37-0700\n"
+"PO-Revision-Date: 2013-09-01 09:08+0900\n"
+"Last-Translator: Lee Kangsan <treppolse@gmail.com>\n"
+"Language-Team: SETIKAH@HOME\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+"Generated-By: Babel 1.0dev\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#. app global
+msgctxt "app_name"
+msgid "BOINC"
+msgstr "BOINC"
+
+#. generic. used by multiple Activities/tabs
+msgctxt "generic_loading"
+msgid "Loading! Please wait…"
+msgstr "로딩 중! 잠시 기다려 주세요…"
+
+#. attach project
+#. project list
+msgctxt "attachproject_list_header"
+msgid "Choose a project:"
+msgstr "프로젝트를 선택:"
+
+msgctxt "attachproject_list_manual_button"
+msgid "Add project by URL"
+msgstr "URL로 프로젝트 추가"
+
+msgctxt "attachproject_list_manual_dialog_title"
+msgid "Enter project URL:"
+msgstr "프로젝트 URL 입력:"
+
+msgctxt "attachproject_list_manual_dialog_button"
+msgid "Add project"
+msgstr "프로젝트 추가"
+
+msgctxt "attachproject_list_manual_no_url"
+msgid "Please enter project URL"
+msgstr "프로젝트 URL를 입력하세요"
+
+msgctxt "attachproject_list_no_internet"
+msgid "No Internet connection"
+msgstr "인터넷 연결이 되지 않았습니다"
+
+#. project login
+msgctxt "attachproject_login_loading"
+msgid "Contacting project server…"
+msgstr "프로젝트 서버 연결 중…"
+
+msgctxt "attachproject_login_image_description"
+msgid "Project logo."
+msgstr "프로젝트 로고"
+
+msgctxt "attachproject_login_header_general_area"
+msgid "General area:"
+msgstr "대분류:"
+
+msgctxt "attachproject_login_header_specific_area"
+msgid "Specific area:"
+msgstr "소분류:"
+
+msgctxt "attachproject_login_header_description"
+msgid "Description:"
+msgstr "개요:"
+
+msgctxt "attachproject_login_header_home"
+msgid "Home:"
+msgstr "거점:"
+
+msgctxt "attachproject_login_header_url"
+msgid "Website:"
+msgstr "웹 사이트:"
+
+msgctxt "attachproject_login_header_platform"
+msgid "Android:"
+msgstr "Android:"
+
+msgctxt "attachproject_login_platform_supported"
+msgid "This project supports Android devices"
+msgstr "이 프로젝트는 안드로이드 장치를 지원합니다"
+
+msgctxt "attachproject_login_platform_not_supported"
+msgid "This project does not support Android devices"
+msgstr "이 프로젝트는 안드로이드 장치를 지원하지 않습니다"
+
+msgctxt "attachproject_login_category_terms_of_use"
+msgid "Terms of use for"
+msgstr "사용자 약관"
+
+msgctxt "attachproject_login_accept_terms_of_use"
+msgid ""
+"By creating an account with this project, you accept the terms of use as "
+"shown above."
+msgstr "이 프로젝트에 계정을 생성할 경우, 상기된 사용자 약관에 동의하는 것으로 처리됩니다."
+
+msgctxt "attachproject_login_category_login"
+msgid "Sign in with existing account"
+msgstr "기존 계정으로 로그인"
+
+msgctxt "attachproject_login_header_id_email"
+msgid "eMail:"
+msgstr "이메일:"
+
+msgctxt "attachproject_login_header_id_name"
+msgid "Name:"
+msgstr "이름:"
+
+msgctxt "attachproject_login_header_pwd"
+msgid "Password:"
+msgstr "비밀번호:"
+
+msgctxt "attachproject_login_category_creation"
+msgid "New to"
+msgstr "신규"
+
+msgctxt "attachproject_login_header_creation_enabled"
+msgid "Register an account to participate:"
+msgstr "참여하기 위해 계정 등록:"
+
+msgctxt "attachproject_login_header_creation_client_disabled"
+msgid "Visit project website to create an account:"
+msgstr "계정 생성을 위해 프로젝트 웹사이트 방문하기:"
+
+msgctxt "attachproject_login_header_creation_disabled"
+msgid "Project does currently now allow creation of new accounts!"
+msgstr "현재 프로젝트에서 신규 계정 생성을 허용하지 않았습니다!"
+
+msgctxt "attachproject_login_button_registration"
+msgid "Register"
+msgstr "등록"
+
+msgctxt "attachproject_login_button_login"
+msgid "Sign in"
+msgstr "로그인"
+
+msgctxt "attachproject_login_button_forgotpw"
+msgid "Forgot Password"
+msgstr "비밀번호 분실"
+
+msgctxt "attachproject_login_error_toast"
+msgid "Contacting project failed!"
+msgstr "프로젝트 접속에 실패했습니다!"
+
+msgctxt "attachproject_login_attached"
+msgid "Attached"
+msgstr "연결됨"
+
+#. project registration
+msgctxt "attachproject_registration_header"
+msgid "Account registration for"
+msgstr "계정 등록"
+
+msgctxt "attachproject_registration_header_url"
+msgid "Project:"
+msgstr "프로젝트:"
+
+msgctxt "attachproject_registration_header_email"
+msgid "eMail:"
+msgstr "이메일:"
+
+msgctxt "attachproject_registration_header_username"
+msgid "Name:"
+msgstr "이름:"
+
+msgctxt "attachproject_registration_header_teamname"
+msgid "Team:"
+msgstr "팀:"
+
+msgctxt "attachproject_registration_header_pwd"
+msgid "Password:"
+msgstr "비밀번호:"
+
+msgctxt "attachproject_registration_header_pwd_confirm"
+msgid "… Retype:"
+msgstr "… 재입력:"
+
+msgctxt "attachproject_registration_button"
+msgid "Create"
+msgstr "생성"
+
+#. error strings
+msgctxt "attachproject_error_wrong_name"
+msgid "User not found"
+msgstr "사용자를 찾지 못했습니다"
+
+msgctxt "attachproject_error_short_pwd"
+msgid "Password too short"
+msgstr "비밀번호가 너무 짧습니다"
+
+msgctxt "attachproject_error_no_internet"
+msgid "Connection failure"
+msgstr "연결 실패"
+
+msgctxt "attachproject_error_pwd_no_match"
+msgid "Passwords do not match"
+msgstr "비밀번호가 일치하지 않습니다"
+
+msgctxt "attachproject_error_no_email"
+msgid "Please enter eMail address"
+msgstr "이메일 주소를 입력해 주세요"
+
+msgctxt "attachproject_error_no_pwd"
+msgid "Please enter a password"
+msgstr "비밀번호를 입력해 주세요"
+
+msgctxt "attachproject_error_no_name"
+msgid "Please enter user name"
+msgstr "사용자 이름을 입력해 주세요"
+
+msgctxt "attachproject_error_unknown"
+msgid "failed"
+msgstr "실패"
+
+msgctxt "attachproject_error_bad_username"
+msgid "User name refused"
+msgstr "사용자 이름이 거부됨"
+
+msgctxt "attachproject_error_email_in_use"
+msgid "eMail is already in use"
+msgstr "이메일 주소가 이미 사용중"
+
+msgctxt "attachproject_error_project_down"
+msgid "Project is offline"
+msgstr "프로젝트가 오프라인 상태"
+
+msgctxt "attachproject_error_email_bad_syntax"
+msgid "eMail refused"
+msgstr "이메일 주소가 없거나 틀립니다"
+
+msgctxt "attachproject_error_bad_pwd"
+msgid "Password refused"
+msgstr "비밀번호가 틀립니다"
+
+msgctxt "attachproject_error_creation_disabled"
+msgid "Account creation is disabled on this project"
+msgstr "이 프로젝트는 계정 생성을 할 수 없습니다"
+
+#. working activity
+msgctxt "attachproject_working_back_button"
+msgid "Back"
+msgstr "뒤로"
+
+msgctxt "attachproject_working_finish_button"
+msgid "Finish"
+msgstr "완료"
+
+msgctxt "attachproject_working_check_desc"
+msgid "Successful"
+msgstr "성공"
+
+msgctxt "attachproject_working_failed_desc"
+msgid "Failed"
+msgstr "실패"
+
+msgctxt "attachproject_working_ongoing"
+msgid "…"
+msgstr "…"
+
+msgctxt "attachproject_working_finished"
+msgid "."
+msgstr "."
+
+msgctxt "attachproject_working_description"
+msgid ":"
+msgstr ":"
+
+msgctxt "attachproject_working_connect"
+msgid "Connect"
+msgstr "연결"
+
+msgctxt "attachproject_working_verify"
+msgid "Verify account"
+msgstr "계정 확인"
+
+msgctxt "attachproject_working_register"
+msgid "Register account"
+msgstr "계정 등록"
+
+msgctxt "attachproject_working_login"
+msgid "Log in"
+msgstr "로그인"
+
+#. main activity
+msgctxt "main_noproject_warning"
+msgid "Tab here to choose a project."
+msgstr "프로젝트를 선택하려면 여기를 누르세요."
+
+msgctxt "main_error"
+msgid "Whooops"
+msgstr "어이쿠"
+
+msgctxt "main_error_long"
+msgid ""
+"…this should not happen!\n"
+"Click on the icon to try again."
+msgstr ""
+"…이 작업이 수행되지 못했어요!\n"
+"다시 시도하려면 아이콘을 클릭하세요."
+
+msgctxt "main_title_icon_desc"
+msgid "BOINC icon"
+msgstr "BOINC 아이콘"
+
+#. tab names
+msgctxt "tab_status"
+msgid "Status"
+msgstr "상태"
+
+msgctxt "tab_projects"
+msgid "Projects"
+msgstr "프로젝트"
+
+msgctxt "tab_tasks"
+msgid "Tasks"
+msgstr "태스크"
+
+msgctxt "tab_transfers"
+msgid "Transfers"
+msgstr "전송"
+
+msgctxt "tab_preferences"
+msgid "Preferences"
+msgstr "환경 설정"
+
+msgctxt "tab_desc"
+msgid "Navigation"
+msgstr "안내"
+
+#. status strings
+msgctxt "status_running"
+msgid "Computing"
+msgstr "연산중"
+
+msgctxt "status_running_long"
+msgid "Thank you for participating."
+msgstr "참여해 주셔서 감사합니다."
+
+msgctxt "status_paused"
+msgid "Suspended"
+msgstr "일시 정지됨"
+
+msgctxt "status_idle"
+msgid "Nothing to do"
+msgstr "아무 것도 안 함"
+
+msgctxt "status_idle_long"
+msgid "Waiting for tasks…"
+msgstr "태스크 대기 중…"
+
+msgctxt "status_computing_disabled"
+msgid "Suspended"
+msgstr "일시 정지됨"
+
+msgctxt "status_computing_disabled_long"
+msgid "Press play to resume network and computation."
+msgstr "네트워크 및 연산을 재개하려면 실행 버튼을 누르세요."
+
+msgctxt "status_launching"
+msgid "Starting…"
+msgstr "시작중…"
+
+msgctxt "status_noproject"
+msgid "Choose a project to participate in."
+msgstr "참여할 프로젝트를 선택하세요."
+
+msgctxt "status_closing"
+msgid "Closing…"
+msgstr "닫는 중…"
+
+msgctxt "status_benchmarking"
+msgid "Benchmarking…"
+msgstr "벤치마크 실행 중…"
+
+msgctxt "status_image_description"
+msgid "project image"
+msgstr "프로젝트 이미지"
+
+#. preferences tab strings
+msgctxt "prefs_loading"
+msgid "Reading preferences…"
+msgstr "환경 설정을 읽는 중…"
+
+msgctxt "prefs_submit_button"
+msgid "Save"
+msgstr "저장"
+
+msgctxt "prefs_dialog_title"
+msgid "Enter new value:"
+msgstr "새로운 값을 입력:"
+
+msgctxt "prefs_dialog_title_selection"
+msgid "Select:"
+msgstr "선택:"
+
+msgctxt "prefs_category_general"
+msgid "General"
+msgstr "일반"
+
+msgctxt "prefs_category_network"
+msgid "Network"
+msgstr "네트워크"
+
+msgctxt "prefs_category_power"
+msgid "Power"
+msgstr "전원"
+
+msgctxt "prefs_category_cpu"
+msgid "CPU"
+msgstr "CPU"
+
+msgctxt "prefs_category_storage"
+msgid "Storage"
+msgstr "저장소"
+
+msgctxt "prefs_category_memory"
+msgid "Memory"
+msgstr "메모리"
+
+msgctxt "prefs_category_debug"
+msgid "Debug"
+msgstr "디버그"
+
+msgctxt "prefs_show_advanced_header"
+msgid "Show advanced preferences and controls…"
+msgstr "고급 환경 설정과 제어판을 보여주기…"
+
+msgctxt "prefs_run_on_battery_header"
+msgid "Compute on Battery"
+msgstr "배터리로 가동 중에도 연산"
+
+msgctxt "battery_charge_min_pct_header"
+msgid "Min. battery level"
+msgstr "최소 배터리 량"
+
+msgctxt "battery_charge_min_pct_description"
+msgid "BOINC suspends computation below defined battery charge level."
+msgstr "아래 지정된 배터리 충전량이 되면 BOINC는 연산을 일시 정지합니다."
+
+msgctxt "battery_temperature_max_header"
+msgid "Max. battery temperature"
+msgstr "최고 배터리 온도"
+
+msgctxt "battery_temperature_max_description"
+msgid ""
+"BOINC suspends computation above defined battery temperature. It is not "
+"recommended to change this value."
+msgstr "위에 지정된 배터리 온도가 되면 BOINC는 연산을 일시 정지합니다. 이 값을 바꾸지 않길 권장합니다."
+
+msgctxt "prefs_disk_max_pct_header"
+msgid "Max. used storage space"
+msgstr "최대 사용할 저장소 공간"
+
+msgctxt "prefs_disk_max_pct_description"
+msgid "How many percent of your device's storage space is BOINC allowed to use?"
+msgstr "저장소 공간 중 몇 %를 BOINC가 사용하길 원하십니까?"
+
+msgctxt "prefs_disk_min_free_gb_header"
+msgid "Min. spare storage"
+msgstr "최소로 남겨 둘 용량"
+
+msgctxt "prefs_disk_min_free_gb_description"
+msgid "How much of your device's storage space shall stay free?"
+msgstr "저장소 공간 중 얼만큼 여유 공간으로 남겨두길 원하십니까?"
+
+msgctxt "prefs_network_daily_xfer_limit_mb_header"
+msgid "Daily transfer limit"
+msgstr "하루 전송 제한량"
+
+msgctxt "prefs_network_daily_xfer_limit_mb_description"
+msgid "Limits the daily data traffic caused by BOINC."
+msgstr "하루에 BOINC가 전송할 데이터 제한량"
+
+msgctxt "prefs_network_wifi_only_header"
+msgid "Transfer tasks on WiFi only"
+msgstr "WiFi에서만 태스크 전송"
+
+msgctxt "prefs_autostart_header"
+msgid "Autostart"
+msgstr "자동 시작"
+
+msgctxt "prefs_show_notification_header"
+msgid "Show notification when suspended"
+msgstr "일시 정지시 알림 표시"
+
+msgctxt "prefs_cpu_number_cpus_header"
+msgid "Used CPU cores"
+msgstr "사용할 CPU 코어 수"
+
+msgctxt "prefs_cpu_number_cpus_description"
+msgid "Limits the number of CPU cores BOINC uses for computation."
+msgstr "BOINC가 연산에 사용할 CPU 코어 수 제한"
+
+msgctxt "prefs_cpu_other_load_suspension_header"
+msgid "Pause at CPU usage above"
+msgstr "CPU 사용량 제한 도달시 정지"
+
+msgctxt "prefs_cpu_other_load_suspension_description"
+msgid "Determines when BOINC pauses computation due to other app's CPU usage."
+msgstr "다른 앱의 CPU 사용량이 설정치에 도달시 BOINC 연산을 정지합니다."
+
+msgctxt "prefs_cpu_time_max_header"
+msgid "CPU limit"
+msgstr "CPU 제한"
+
+msgctxt "prefs_cpu_time_max_description"
+msgid "Limits the CPU time BOINC uses for computation."
+msgstr "BOINC가 연산에 사용할 CPU 시간을 제한합니다."
+
+msgctxt "prefs_memory_max_idle_header"
+msgid "RAM limit"
+msgstr "RAM 제한"
+
+msgctxt "prefs_memory_max_idle_description"
+msgid "Limits the amount of RAM tasks are allowed to occupy."
+msgstr "태스크의 RAM 점유량을 제한합니다."
+
+msgctxt "prefs_client_log_flags_header"
+msgid "BOINC Client log flags"
+msgstr "BOINC 클라이언트 로그 flags"
+
+msgctxt "prefs_gui_log_level_header"
+msgid "GUI log level"
+msgstr "GUI 로그 레벨"
+
+msgctxt "prefs_gui_log_level_description"
+msgid "Specifies verbosity of GUI log messages."
+msgstr "GUI 로그 메세지의 상세 정도를 결정해 주세요."
+
+msgctxt "prefs_unit_mb"
+msgid "MB"
+msgstr "MB"
+
+msgctxt "prefs_unit_gb"
+msgid "GB"
+msgstr "GB"
+
+#, c-format
+msgctxt "prefs_unit_pct"
+msgid "%"
+msgstr "%"
+
+msgctxt "prefs_unit_celcius"
+msgid "°C"
+msgstr "°C"
+
+#. projects tab strings
+msgctxt "projects_loading"
+msgid "Reading projects…"
+msgstr "프로젝트를 불러오는 중…"
+
+msgctxt "projects_add"
+msgid "Add project"
+msgstr "프로젝트 추가"
+
+msgctxt "projects_icon"
+msgid "Project icon"
+msgstr "프로젝트 아이콘"
+
+msgctxt "projects_credits_header"
+msgid "Credit:"
+msgstr "크레딧:"
+
+msgctxt "projects_credits_host_header"
+msgid "(on this device)"
+msgstr "(해당 장치)"
+
+msgctxt "projects_credits_user_header"
+msgid "(total)"
+msgstr "(전체)"
+
+#. project status strings
+msgctxt "projects_status_suspendedviagui"
+msgid "Suspended by user"
+msgstr "사용자에 의해 일시 정지됨"
+
+msgctxt "projects_status_dontrequestmorework"
+msgid "Won't get new tasks"
+msgstr "새 태스크를 원하지 않음"
+
+msgctxt "projects_status_ended"
+msgid "Project ended - OK to remove"
+msgstr "프로젝트 종료 - 제거하려면 OK를 누르세요"
+
+msgctxt "projects_status_detachwhendone"
+msgid "Will remove when tasks done"
+msgstr "태스크 완료시 제거될 것입니다"
+
+msgctxt "projects_status_schedrpcpending"
+msgid "Scheduler request pending"
+msgstr "스케줄러 요청 대기중"
+
+msgctxt "projects_status_schedrpcinprogress"
+msgid "Scheduler request in progress"
+msgstr "스케줄러 요청 처리중"
+
+msgctxt "projects_status_trickleuppending"
+msgid "Trickle up message pending"
+msgstr "Trickle up 메세지 대기중"
+
+msgctxt "projects_status_backoff"
+msgid "Communication scheduled in:"
+msgstr "예약된 통신 시각:"
+
+#. project controls
+msgctxt "projects_control_dialog_title"
+msgid "Project commands:"
+msgstr "프로젝트 명령:"
+
+msgctxt "projects_control_update"
+msgid "Update"
+msgstr "업데이트"
+
+msgctxt "projects_control_remove"
+msgid "Remove"
+msgstr "제거"
+
+msgctxt "projects_control_suspend"
+msgid "Suspend"
+msgstr "일시 정지됨"
+
+msgctxt "projects_control_resume"
+msgid "Resume"
+msgstr "재개"
+
+msgctxt "projects_control_nonewtasks"
+msgid "No new tasks"
+msgstr "새 태스크 금지"
+
+msgctxt "projects_control_allownewtasks"
+msgid "Allow new tasks"
+msgstr "새 태스크 허용"
+
+msgctxt "projects_control_reset"
+msgid "Reset"
+msgstr "재설정"
+
+#. project confirm dialog
+msgctxt "projects_confirm_detach_title"
+msgid "Remove project?"
+msgstr "프로젝트를 제거할까요?"
+
+msgctxt "projects_confirm_detach_message"
+msgid "Are you sure you want to remove"
+msgstr "BOINC상에서 정말로 프로젝트명: "
+
+msgctxt "projects_confirm_detach_message2"
+msgid "from BOINC?"
+msgstr "를 제거하시겠습니까?"
+
+msgctxt "projects_confirm_detach_confirm"
+msgid "Remove"
+msgstr "제거"
+
+msgctxt "projects_confirm_reset_title"
+msgid "Reset project"
+msgstr "프로젝트 재설정"
+
+msgctxt "projects_confirm_reset_message"
+msgid "Are you sure you want to reset"
+msgstr "다음 프로젝트가 재설정됩니다 괘찮습니까: "
+
+msgctxt "projects_confirm_reset_confirm"
+msgid "Reset"
+msgstr "재설정"
+
+#. tasks tab strings
+msgctxt "tasks_header_name"
+msgid "Task Name:"
+msgstr "태스크 이름:"
+
+msgctxt "tasks_header_elapsed_time"
+msgid "Elapsed time:"
+msgstr "진행 시간:"
+
+msgctxt "tasks_header_project_paused"
+msgid "(suspended)"
+msgstr "(일시 정지됨)"
+
+msgctxt "tasks_header_deadline"
+msgid "Deadline:"
+msgstr "마감 시각:"
+
+msgctxt "tasks_result_new"
+msgid "new"
+msgstr "신규"
+
+msgctxt "tasks_result_files_downloading"
+msgid "waiting for download"
+msgstr "다운로드 대기중"
+
+msgctxt "tasks_result_files_downloaded"
+msgid "download complete"
+msgstr "다운로드 완료"
+
+msgctxt "tasks_result_compute_error"
+msgid "computation error"
+msgstr "연산 오류"
+
+msgctxt "tasks_result_files_uploading"
+msgid "uploading"
+msgstr "업로드 중"
+
+msgctxt "tasks_result_files_uploaded"
+msgid "upload complete"
+msgstr "업로드 완료"
+
+msgctxt "tasks_result_aborted"
+msgid "aborted"
+msgstr "중단됨"
+
+msgctxt "tasks_result_upload_failed"
+msgid "upload failed"
+msgstr "업로드 실패"
+
+msgctxt "tasks_active_uninitialized"
+msgid "ready"
+msgstr "준비됨"
+
+msgctxt "tasks_active_executing"
+msgid "running"
+msgstr "실행 중"
+
+msgctxt "tasks_active_suspended"
+msgid "suspended"
+msgstr "일시 정지됨"
+
+msgctxt "tasks_active_abort_pending"
+msgid "suspending"
+msgstr "일시 정지 중"
+
+msgctxt "tasks_active_quit_pending"
+msgid "suspending"
+msgstr "일시 정지 중"
+
+msgctxt "tasks_custom_suspended_via_gui"
+msgid "suspended"
+msgstr "일시 정지됨"
+
+msgctxt "tasks_custom_project_suspended_via_gui"
+msgid "project suspended"
+msgstr "프로젝트가 일시 정지됨"
+
+msgctxt "tasks_custom_ready_to_report"
+msgid "ready to report"
+msgstr "보고 준비 완료"
+
+#. confirmation dialog
+msgctxt "confirm_abort_task_title"
+msgid "Abort task?"
+msgstr "태스크를 중단할까요?"
+
+msgctxt "confirm_abort_task_message"
+msgid "Abort task:"
+msgstr "중단할 태스크:"
+
+msgctxt "confirm_abort_task_confirm"
+msgid "Abort"
+msgstr "중단"
+
+msgctxt "confirm_cancel"
+msgid "Cancel"
+msgstr "취소"
+
+msgctxt "confirm_image_desc"
+msgid "Confirmation dialog"
+msgstr "확인 대화상자"
+
+#. transfers tab strings
+msgctxt "trans_loading"
+msgid "Reading transfers…"
+msgstr "전송 목록 읽는 중…"
+
+msgctxt "trans_upload"
+msgid "Upload"
+msgstr "업로드"
+
+msgctxt "trans_download"
+msgid "Download"
+msgstr "다운로드"
+
+msgctxt "trans_retryin"
+msgid "retry in"
+msgstr "재시도"
+
+msgctxt "trans_failed"
+msgid "failed"
+msgstr "실패"
+
+msgctxt "trans_suspended"
+msgid "suspended"
+msgstr "일시 정지됨"
+
+msgctxt "trans_active"
+msgid "active"
+msgstr "활성"
+
+msgctxt "trans_pending"
+msgid "pending"
+msgstr "보류"
+
+msgctxt "trans_projectbackoff"
+msgid "project backoff"
+msgstr "프로젝트 재연결"
+
+msgctxt "trans_header_name"
+msgid "File:"
+msgstr "파일:"
+
+msgctxt "confirm_abort_trans_title"
+msgid "Abort transfer?"
+msgstr "전송을 중단할까요?"
+
+msgctxt "confirm_abort_trans_message"
+msgid "Abort File:"
+msgstr "중단할 파일:"
+
+msgctxt "confirm_abort_trans_confirm"
+msgid "Abort"
+msgstr "중단"
+
+#. eventlog tab strings
+msgctxt "eventlog_loading"
+msgid "Loading log messages…"
+msgstr "로그 메세지 읽는 중…"
+
+msgctxt "eventlog_client_header"
+msgid "Client Messages"
+msgstr "클라이언트 메세지"
+
+msgctxt "eventlog_gui_header"
+msgid "GUI Messages"
+msgstr "GUI 메세지"
+
+msgctxt "eventlog_copy_toast"
+msgid "Log copied to clipboard."
+msgstr "로그가 클립보드에 복사되었습니다."
+
+msgctxt "eventlog_email_subject"
+msgid "Event Log for BOINC on Android:"
+msgstr "안드로이드 상의 BOINC 이벤트 기록:"
+
+#. suspend reasons
+msgctxt "suspend_unknown"
+msgid "Computation suspended."
+msgstr "연산이 일시 정지되었습니다."
+
+msgctxt "suspend_batteries"
+msgid "Connect your device to a charger to continue computing."
+msgstr "연산을 계속하려면 기기를 충전기에 연결하세요."
+
+msgctxt "suspend_useractive"
+msgid "User is active."
+msgstr "사용자가 활동을 시작합니다."
+
+msgctxt "suspend_tod"
+msgid "Out of computation time-frame."
+msgstr "연산 시간 제한을 넘었습니다."
+
+msgctxt "suspend_bm"
+msgid "BOINC is benchmarking your device…"
+msgstr "BOINC에서 벤치마크 실행 중…"
+
+msgctxt "suspend_disksize"
+msgid "Out of disk space."
+msgstr "저장소 공간을 초과했습니다."
+
+msgctxt "suspend_cputhrottle"
+msgid "Scheduled CPU throttle."
+msgstr "예약된 CPU 사용량 제한에 도달했습니다."
+
+msgctxt "suspend_noinput"
+msgid "No recent user activity."
+msgstr "최근 사용자 활동이 없습니다."
+
+msgctxt "suspend_delay"
+msgid "Initialization delay."
+msgstr "초기화 지연됨."
+
+msgctxt "suspend_exclusiveapp"
+msgid "An exclusive app is running."
+msgstr "독점 앱이 실행 중입니다."
+
+msgctxt "suspend_cpu"
+msgid "Your device is busy with other apps."
+msgstr "다른 앱으로 인해 기기가 바쁩니다."
+
+msgctxt "suspend_network_quota"
+msgid "BOINC reached network transfer limit."
+msgstr "BOINC가 네트워크 전송 제한량에 도달했습니다."
+
+msgctxt "suspend_os"
+msgid "Stopped by Android."
+msgstr "안드로이드에서 정지시킴."
+
+msgctxt "suspend_wifi"
+msgid "Not connected to WiFi."
+msgstr "WiFi에 연결되지 않았습니다."
+
+msgctxt "suspend_battery_charging"
+msgid "Battery needs to charge before resuming computation."
+msgstr "연산을 재개시키기 전에 배터리를 충전해야 합니다."
+
+msgctxt "suspend_battery_charging_long"
+msgid "Computing will resume when battery charge reaches"
+msgstr "배터리가 설정량만큼 충전되면 연산이 재개됩니다"
+
+msgctxt "suspend_battery_charging_current"
+msgid "currently"
+msgstr "현재"
+
+msgctxt "suspend_battery_overheating"
+msgid "Waiting for battery to cool down"
+msgstr "배터리가 식길 기다리는 중"
+
+msgctxt "suspend_user_req"
+msgid "Resuming computation…"
+msgstr "연산 재개 중…"
+
+msgctxt "suspend_network_user_req"
+msgid "manually."
+msgstr "수동"
+
+#. rpc reasons
+msgctxt "rpcreason_userreq"
+msgid "Requested by user"
+msgstr "사용자가 요청함"
+
+msgctxt "rpcreason_needwork"
+msgid "To fetch work"
+msgstr "작업 반입"
+
+msgctxt "rpcreason_resultsdue"
+msgid "To report completed tasks"
+msgstr "완료된 태스크 보고"
+
+msgctxt "rpcreason_trickleup"
+msgid "To send trickle-up message"
+msgstr "trickle-up 메세지 전송"
+
+msgctxt "rpcreason_acctmgrreq"
+msgid "Requested by account manager"
+msgstr "계정 관리자에서 요청함"
+
+msgctxt "rpcreason_init"
+msgid "Project initialization"
+msgstr "프로젝트 초기화"
+
+msgctxt "rpcreason_projectreq"
+msgid "Requested by project"
+msgstr "프로젝트에서 요청함"
+
+msgctxt "rpcreason_unknown"
+msgid "Unknown reason"
+msgstr "알 수 없는 이유"
+
+#. menu
+msgctxt "menu_refresh"
+msgid "Refresh"
+msgstr "새로 고침"
+
+msgctxt "menu_emailto"
+msgid "Send as Email"
+msgstr "이메일로 보내기"
+
+msgctxt "menu_copy"
+msgid "Copy to Clipboard"
+msgstr "클립보드에 복사"
+
+msgctxt "menu_eventlog"
+msgid "Event Log"
+msgstr "이벤트 기록"
+
+msgctxt "menu_exit"
+msgid "Exit BOINC"
+msgstr "BOINC 종료"
+
+msgctxt "menu_run_mode_disable"
+msgid "Suspend"
+msgstr "일시 정지됨"
+
+msgctxt "menu_run_mode_enable"
+msgid "Resume"
+msgstr "재개"
+
+msgctxt "menu_about"
+msgid "About"
+msgstr "정보"
+
+msgctxt "menu_help"
+msgid "Help"
+msgstr "도움말"
+
+#. about dialog
+msgctxt "about_button"
+msgid "Return"
+msgstr "뒤로"
+
+msgctxt "about_title"
+msgid "About"
+msgstr "정보"
+
+msgctxt "about_name"
+msgid "BOINC"
+msgstr "BOINC"
+
+msgctxt "about_version"
+msgid "Version"
+msgstr "버전"
+
+msgctxt "about_name_long"
+msgid "Berkeley Open Infrastructure for Network Computing"
+msgstr "네트워크 컴퓨팅을 위한 Berkeley 개방형 하부구조체"
+
+msgctxt "about_copyright"
+msgid ""
+"© 2003–2013 University of California, Berkeley.\n"
+"All Rights Reserved."
+msgstr ""
+"© 2003–2013 University of California, Berkeley.\n"
+"All Rights Reserved."
