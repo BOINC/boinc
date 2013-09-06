@@ -599,7 +599,7 @@ msgstr ""
 
 msgctxt "projects_add"
 msgid "Add project"
-msgstr ""
+msgstr "Добавить проект"
 
 msgctxt "projects_icon"
 msgid "Project icon"
@@ -663,9 +663,10 @@ msgctxt "projects_control_remove"
 msgid "Remove"
 msgstr ""
 
+#, fuzzy
 msgctxt "projects_control_suspend"
 msgid "Suspend"
-msgstr ""
+msgstr "Приостановлено"
 
 msgctxt "projects_control_resume"
 msgid "Resume"
@@ -769,9 +770,10 @@ msgctxt "tasks_active_executing"
 msgid "running"
 msgstr ""
 
+#, fuzzy
 msgctxt "tasks_active_suspended"
 msgid "suspended"
-msgstr ""
+msgstr "Приостановлено"
 
 msgctxt "tasks_active_abort_pending"
 msgid "suspending"
@@ -781,9 +783,10 @@ msgctxt "tasks_active_quit_pending"
 msgid "suspending"
 msgstr ""
 
+#, fuzzy
 msgctxt "tasks_custom_suspended_via_gui"
 msgid "suspended"
-msgstr ""
+msgstr "Приостановлено"
 
 msgctxt "tasks_custom_project_suspended_via_gui"
 msgid "project suspended"
@@ -831,13 +834,15 @@ msgctxt "trans_retryin"
 msgid "retry in"
 msgstr ""
 
+#, fuzzy
 msgctxt "trans_failed"
 msgid "failed"
-msgstr ""
+msgstr "неудача"
 
+#, fuzzy
 msgctxt "trans_suspended"
 msgid "suspended"
-msgstr ""
+msgstr "Приостановлено"
 
 msgctxt "trans_active"
 msgid "active"
@@ -1023,9 +1028,10 @@ msgctxt "menu_exit"
 msgid "Exit BOINC"
 msgstr ""
 
+#, fuzzy
 msgctxt "menu_run_mode_disable"
 msgid "Suspend"
-msgstr ""
+msgstr "Приостановлено"
 
 msgctxt "menu_run_mode_enable"
 msgid "Resume"
@@ -1050,7 +1056,7 @@ msgstr ""
 
 msgctxt "about_name"
 msgid "BOINC"
-msgstr ""
+msgstr "BOINC"
 
 msgctxt "about_version"
 msgid "Version"
