@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-08-29 15:37-0700\n"
-"PO-Revision-Date: 2013-08-30 23:52+0000\n"
+"PO-Revision-Date: 2013-09-07 00:29+0000\n"
 "Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: zh_TW\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1377906720.0\n"
+"X-POOTLE-MTIME: 1378513777.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -329,11 +329,11 @@ msgstr "任務"
 
 msgctxt "tab_transfers"
 msgid "Transfers"
-msgstr ""
+msgstr "傳輸"
 
 msgctxt "tab_preferences"
 msgid "Preferences"
-msgstr ""
+msgstr "偏好設定"
 
 msgctxt "tab_desc"
 msgid "Navigation"
@@ -457,15 +457,15 @@ msgctxt "battery_temperature_max_description"
 msgid ""
 "BOINC suspends computation above defined battery temperature. It is not "
 "recommended to change this value."
-msgstr ""
+msgstr "BOINC 當電池溫度高於預設值時暫停運算。不建議變更此設定值。"
 
 msgctxt "prefs_disk_max_pct_header"
 msgid "Max. used storage space"
-msgstr ""
+msgstr "最多能使用儲存空間"
 
 msgctxt "prefs_disk_max_pct_description"
 msgid "How many percent of your device's storage space is BOINC allowed to use?"
-msgstr ""
+msgstr "BOINC 能使用多少比例的儲存空間?"
 
 msgctxt "prefs_disk_min_free_gb_header"
 msgid "Min. spare storage"
@@ -505,7 +505,7 @@ msgstr "限制 BOINC 運算時使用的核心數。"
 
 msgctxt "prefs_cpu_other_load_suspension_header"
 msgid "Pause at CPU usage above"
-msgstr ""
+msgstr "暫停，當CPU使用率高於"
 
 msgctxt "prefs_cpu_other_load_suspension_description"
 msgid "Determines when BOINC pauses computation due to other app's CPU usage."
@@ -517,7 +517,7 @@ msgstr "限制CPU"
 
 msgctxt "prefs_cpu_time_max_description"
 msgid "Limits the CPU time BOINC uses for computation."
-msgstr ""
+msgstr "限制 BOINC 運算時使用的核心數。"
 
 msgctxt "prefs_memory_max_idle_header"
 msgid "RAM limit"
@@ -541,7 +541,7 @@ msgstr ""
 
 msgctxt "prefs_unit_mb"
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 msgctxt "prefs_unit_gb"
 msgid "GB"
@@ -604,7 +604,7 @@ msgstr ""
 
 msgctxt "projects_status_schedrpcinprogress"
 msgid "Scheduler request in progress"
-msgstr ""
+msgstr "排程器請求處理中"
 
 msgctxt "projects_status_trickleuppending"
 msgid "Trickle up message pending"
@@ -668,13 +668,14 @@ msgctxt "projects_confirm_reset_title"
 msgid "Reset project"
 msgstr "重置專案"
 
+#, fuzzy
 msgctxt "projects_confirm_reset_message"
 msgid "Are you sure you want to reset"
-msgstr ""
+msgstr "您確定要移除"
 
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
-msgstr ""
+msgstr "重置"
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
@@ -695,7 +696,7 @@ msgstr "上傳期限:"
 
 msgctxt "tasks_result_new"
 msgid "new"
-msgstr ""
+msgstr "新"
 
 msgctxt "tasks_result_files_downloading"
 msgid "waiting for download"
@@ -973,11 +974,11 @@ msgstr "重新整理"
 
 msgctxt "menu_emailto"
 msgid "Send as Email"
-msgstr ""
+msgstr "用電子郵件傳送"
 
 msgctxt "menu_copy"
 msgid "Copy to Clipboard"
-msgstr ""
+msgstr "複製到剪貼簿"
 
 msgctxt "menu_eventlog"
 msgid "Event Log"
