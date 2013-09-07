@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-08-29 15:37-0700\n"
-"PO-Revision-Date: 2013-09-02 20:24+0000\n"
+"PO-Revision-Date: 2013-09-07 18:58+0000\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ru\n"
@@ -18,7 +18,7 @@ msgstr ""
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1378153459.0\n"
+"X-POOTLE-MTIME: 1378580336.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -475,29 +475,34 @@ msgstr "Показать дополнительные настройки и эл
 
 msgctxt "prefs_run_on_battery_header"
 msgid "Compute on Battery"
-msgstr ""
+msgstr "Выполнять расчёты при работе от батареи"
 
 msgctxt "battery_charge_min_pct_header"
 msgid "Min. battery level"
-msgstr ""
+msgstr "Мин. уровень заряда батареи"
 
 msgctxt "battery_charge_min_pct_description"
 msgid "BOINC suspends computation below defined battery charge level."
 msgstr ""
+"BOINC приостановит расчёты, когда заряд батареи будет ниже указанного "
+"уровня."
 
 msgctxt "battery_temperature_max_header"
 msgid "Max. battery temperature"
-msgstr ""
+msgstr "Макс. температура батареи"
 
 msgctxt "battery_temperature_max_description"
 msgid ""
 "BOINC suspends computation above defined battery temperature. It is not "
 "recommended to change this value."
 msgstr ""
+"BOINC приостановит расчёты, когда температура батареи превысит указанный "
+"уровень. Не рекомендуется менять это значение."
 
+#, fuzzy
 msgctxt "prefs_disk_max_pct_header"
 msgid "Max. used storage space"
-msgstr ""
+msgstr "Макс. используемое пространство памяти"
 
 msgctxt "prefs_disk_max_pct_description"
 msgid "How many percent of your device's storage space is BOINC allowed to use?"
@@ -722,9 +727,10 @@ msgctxt "tasks_header_elapsed_time"
 msgid "Elapsed time:"
 msgstr ""
 
+#, fuzzy
 msgctxt "tasks_header_project_paused"
 msgid "(suspended)"
-msgstr ""
+msgstr "Приостановлено"
 
 msgctxt "tasks_header_deadline"
 msgid "Deadline:"
