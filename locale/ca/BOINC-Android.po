@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-08-29 15:37-0700\n"
-"PO-Revision-Date: 2013-09-04 18:59+0000\n"
+"PO-Revision-Date: 2013-09-06 20:01+0000\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ca\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1378321165.0\n"
+"X-POOTLE-MTIME: 1378497691.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -477,15 +477,17 @@ msgstr ""
 
 msgctxt "prefs_disk_min_free_gb_header"
 msgid "Min. spare storage"
-msgstr ""
+msgstr "Espai mínim d'emmagatzematge"
 
 msgctxt "prefs_disk_min_free_gb_description"
 msgid "How much of your device's storage space shall stay free?"
 msgstr ""
+"Quina quantitat d'espai d'emmagatzematge del dispositiu s'ha de mantenir "
+"lliure?"
 
 msgctxt "prefs_network_daily_xfer_limit_mb_header"
 msgid "Daily transfer limit"
-msgstr ""
+msgstr "Límit de transferència diària"
 
 msgctxt "prefs_network_daily_xfer_limit_mb_description"
 msgid "Limits the daily data traffic caused by BOINC."
@@ -518,81 +520,84 @@ msgstr "Pausa en l'ús de la CPU per sobre de"
 msgctxt "prefs_cpu_other_load_suspension_description"
 msgid "Determines when BOINC pauses computation due to other app's CPU usage."
 msgstr ""
+"Determina quan BOINC pausa el còmput degut a la utilització de la CPU per un "
+"altra aplicació."
 
 msgctxt "prefs_cpu_time_max_header"
 msgid "CPU limit"
-msgstr ""
+msgstr "Límit de CPU"
 
+#, fuzzy
 msgctxt "prefs_cpu_time_max_description"
 msgid "Limits the CPU time BOINC uses for computation."
-msgstr ""
+msgstr "Limita el nombre de nuclis de CPU que BOINC utilitza per la computació."
 
 msgctxt "prefs_memory_max_idle_header"
 msgid "RAM limit"
-msgstr ""
+msgstr "RAM límit"
 
 msgctxt "prefs_memory_max_idle_description"
 msgid "Limits the amount of RAM tasks are allowed to occupy."
-msgstr ""
+msgstr "Limita la quantitat de RAM que les tasques poden utilitzar."
 
 msgctxt "prefs_client_log_flags_header"
 msgid "BOINC Client log flags"
-msgstr ""
+msgstr "Marques de registre del client de BOINC"
 
 msgctxt "prefs_gui_log_level_header"
 msgid "GUI log level"
-msgstr ""
+msgstr "Nivell de registre GUI"
 
 msgctxt "prefs_gui_log_level_description"
 msgid "Specifies verbosity of GUI log messages."
-msgstr ""
+msgstr "Especifica el nivell de detall dels missatges de registre GUI."
 
 msgctxt "prefs_unit_mb"
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 msgctxt "prefs_unit_gb"
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #, c-format
 msgctxt "prefs_unit_pct"
 msgid "%"
-msgstr ""
+msgstr "%"
 
 msgctxt "prefs_unit_celcius"
 msgid "°C"
-msgstr ""
+msgstr "°C"
 
 #. projects tab strings
 msgctxt "projects_loading"
 msgid "Reading projects…"
-msgstr ""
+msgstr "S'estan carregant els projectes..."
 
 msgctxt "projects_add"
 msgid "Add project"
-msgstr ""
+msgstr "Afegeix el projecte"
 
 msgctxt "projects_icon"
 msgid "Project icon"
-msgstr ""
+msgstr "Icona delprojecte"
 
 msgctxt "projects_credits_header"
 msgid "Credit:"
-msgstr ""
+msgstr "Crèdit:"
 
 msgctxt "projects_credits_host_header"
 msgid "(on this device)"
-msgstr ""
+msgstr "(en aquest dispositiu)"
 
 msgctxt "projects_credits_user_header"
 msgid "(total)"
-msgstr ""
+msgstr "(total)"
 
 #. project status strings
 msgctxt "projects_status_suspendedviagui"
 msgid "Suspended by user"
-msgstr ""
+msgstr "Suspès per l'usuari"
 
 msgctxt "projects_status_dontrequestmorework"
 msgid "Won't get new tasks"
@@ -635,9 +640,10 @@ msgctxt "projects_control_remove"
 msgid "Remove"
 msgstr ""
 
+#, fuzzy
 msgctxt "projects_control_suspend"
 msgid "Suspend"
-msgstr ""
+msgstr "Suspès"
 
 msgctxt "projects_control_resume"
 msgid "Resume"
@@ -741,9 +747,10 @@ msgctxt "tasks_active_executing"
 msgid "running"
 msgstr ""
 
+#, fuzzy
 msgctxt "tasks_active_suspended"
 msgid "suspended"
-msgstr ""
+msgstr "Suspès"
 
 msgctxt "tasks_active_abort_pending"
 msgid "suspending"
@@ -753,9 +760,10 @@ msgctxt "tasks_active_quit_pending"
 msgid "suspending"
 msgstr ""
 
+#, fuzzy
 msgctxt "tasks_custom_suspended_via_gui"
 msgid "suspended"
-msgstr ""
+msgstr "Suspès"
 
 msgctxt "tasks_custom_project_suspended_via_gui"
 msgid "project suspended"
@@ -805,11 +813,12 @@ msgstr ""
 
 msgctxt "trans_failed"
 msgid "failed"
-msgstr ""
+msgstr "ha fallat"
 
+#, fuzzy
 msgctxt "trans_suspended"
 msgid "suspended"
-msgstr ""
+msgstr "Suspès"
 
 msgctxt "trans_active"
 msgid "active"
@@ -995,9 +1004,10 @@ msgctxt "menu_exit"
 msgid "Exit BOINC"
 msgstr ""
 
+#, fuzzy
 msgctxt "menu_run_mode_disable"
 msgid "Suspend"
-msgstr ""
+msgstr "Suspès"
 
 msgctxt "menu_run_mode_enable"
 msgid "Resume"
@@ -1022,7 +1032,7 @@ msgstr ""
 
 msgctxt "about_name"
 msgid "BOINC"
-msgstr ""
+msgstr "BOINC"
 
 msgctxt "about_version"
 msgid "Version"
