@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2013-04-28 20:13+0200\n"
+"PO-Revision-Date: 2013-08-29 18:47+0000\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -15,11 +15,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-POOTLE-MTIME: 1377802038.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Español"
@@ -2116,8 +2117,9 @@ msgid "Used in community functions"
 msgstr "Usado para funciones comunitarias"
 
 #: ../inc/user.inc:217 ../user/weak_auth.php:25
+#, fuzzy
 msgid "Account keys"
-msgstr ""
+msgstr "Clave de cuenta"
 
 #: ../inc/user.inc:222
 msgid "Preferences"
