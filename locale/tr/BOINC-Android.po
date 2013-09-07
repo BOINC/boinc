@@ -2,12 +2,13 @@
 # Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: OINC Android 7.2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-08-29 15:37-0700\n"
-"PO-Revision-Date: 2013-09-03 22:27+0200\n"
+"PO-Revision-Date: 2013-09-07 15:47+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Türkçe <LL@li.org>\n"
 "Language: tr\n"
@@ -228,7 +229,7 @@ msgstr "başarısız"
 
 msgctxt "attachproject_error_bad_username"
 msgid "User name refused"
-msgstr "Kullanıcı adı reddedildi"
+msgstr "Kullanıcı adı kabul edilmedi"
 
 msgctxt "attachproject_error_email_in_use"
 msgid "eMail is already in use"
@@ -240,15 +241,15 @@ msgstr "Proje çevrimdışı"
 
 msgctxt "attachproject_error_email_bad_syntax"
 msgid "eMail refused"
-msgstr "ePosta reddedildi"
+msgstr "ePosta kabul edilmedi"
 
 msgctxt "attachproject_error_bad_pwd"
 msgid "Password refused"
-msgstr "Parola reddedildi"
+msgstr "Parola kabul edilmedi"
 
 msgctxt "attachproject_error_creation_disabled"
 msgid "Account creation is disabled on this project"
-msgstr "Bu projede yeni hesap oluşturulamıyor"
+msgstr "Hesap oluşturma bu projede devre dışı"
 
 #. working activity
 msgctxt "attachproject_working_back_button"
@@ -468,7 +469,8 @@ msgid "Max. used storage space"
 msgstr "En çok depolama alanı kullanımı"
 
 msgctxt "prefs_disk_max_pct_description"
-msgid "How many percent of your device's storage space is BOINC allowed to use?"
+msgid ""
+"How many percent of your device's storage space is BOINC allowed to use?"
 msgstr ""
 "BOINC, cihazınızın yüzde olarak en fazla ne kadar depolama alanını "
 "kullanabilecek?"
@@ -507,7 +509,8 @@ msgstr "Kullanılacak CPU çekirdekleri"
 
 msgctxt "prefs_cpu_number_cpus_description"
 msgid "Limits the number of CPU cores BOINC uses for computation."
-msgstr "BOINC'in hesaplama için kullanabileceği işlemci (CPU) çekirdeği sayısı."
+msgstr ""
+"BOINC'in hesaplama için kullanabileceği işlemci (CPU) çekirdeği sayısı."
 
 msgctxt "prefs_cpu_other_load_suspension_header"
 msgid "Pause at CPU usage above"
@@ -596,7 +599,7 @@ msgstr "Kullanıcı tarafından duraklatıldı"
 
 msgctxt "projects_status_dontrequestmorework"
 msgid "Won't get new tasks"
-msgstr "Yeni işler alınmayacak"
+msgstr "Yeni işler indirilmeyecek"
 
 msgctxt "projects_status_ended"
 msgid "Project ended - OK to remove"
@@ -645,11 +648,11 @@ msgstr "Sürdür"
 
 msgctxt "projects_control_nonewtasks"
 msgid "No new tasks"
-msgstr "Yeni işler alma"
+msgstr "Yeni işler indirme"
 
 msgctxt "projects_control_allownewtasks"
 msgid "Allow new tasks"
-msgstr "Yeni işler al"
+msgstr "Yeni işler indir"
 
 msgctxt "projects_control_reset"
 msgid "Reset"
@@ -666,7 +669,7 @@ msgstr "Bu proje BOINC'ten kaldırılsın mı:"
 
 msgctxt "projects_confirm_detach_message2"
 msgid "from BOINC?"
-msgstr "?"
+msgstr "? "
 
 msgctxt "projects_confirm_detach_confirm"
 msgid "Remove"
@@ -772,15 +775,15 @@ msgstr "İş iptal edilsin mi?"
 
 msgctxt "confirm_abort_task_message"
 msgid "Abort task:"
-msgstr "İşi iptal et:"
+msgstr "Bu iş iptal edilsin mi:"
 
 msgctxt "confirm_abort_task_confirm"
 msgid "Abort"
-msgstr "İptal et"
+msgstr "Evet"
 
 msgctxt "confirm_cancel"
 msgid "Cancel"
-msgstr "Vazgeç"
+msgstr "İptal"
 
 msgctxt "confirm_image_desc"
 msgid "Confirmation dialog"
@@ -833,11 +836,11 @@ msgstr "Aktarım iptal edilsin mi?"
 
 msgctxt "confirm_abort_trans_message"
 msgid "Abort File:"
-msgstr "Dosya aktarımını iptal et:"
+msgstr "Bu dosyanın aktarımı iptal edilsin mi:"
 
 msgctxt "confirm_abort_trans_confirm"
 msgid "Abort"
-msgstr "İptal et"
+msgstr "Evet"
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"
@@ -1030,15 +1033,14 @@ msgstr "Sürüm"
 
 msgctxt "about_name_long"
 msgid "Berkeley Open Infrastructure for Network Computing"
-msgstr ""
-"Türkçe çeviri: Aycan Demirel\n"
-"\n"
-"Berkeley Open Infrastructure for Network Computing"
+msgstr "Berkeley Open Infrastructure for Network Computing"
 
 msgctxt "about_copyright"
 msgid ""
 "© 2003–2013 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
+"Türkçe çeviri: Aycan Demirel\n"
+"\n"
 "© 2003-2013 Kaliforniya Üniversitesi, Berkeley.\n"
 "Tüm hakları saklıdır."
