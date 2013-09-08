@@ -601,29 +601,29 @@ void RESULT::set_state(int val, const char* where) {
 
 void add_old_result(RESULT& r) {
     while (!old_results.empty()) {
-        OLD_RESULT& or = *old_results.begin();
-        if (or.create_time < gstate.now - 86400) {
+        OLD_RESULT& oldr = *old_results.begin();
+        if (oldr.create_time < gstate.now - 86400) {
             old_results.pop_front();
         } else {
             break;
         }
     }
-    OLD_RESULT or;
-    strcpy(or.project_url, r.project->master_url);
-    strcpy(or.result_name, r.name);
-    strcpy(or.app_name, r.app->name);
-    or.elapsed_time = r.final_elapsed_time;
-    or.completed_time = r.completed_time;
-    or.create_time = gstate.now;
-    or.exit_status = r.exit_status;
-    old_results.push_back(or);
+    OLD_RESULT oldr;
+    strcpy(oldr.project_url, r.project->master_url);
+    strcpy(oldr.result_name, r.name);
+    strcpy(oldr.app_name, r.app->name);
+    oldr.elapsed_time = r.final_elapsed_time;
+    oldr.completed_time = r.completed_time;
+    oldr.create_time = gstate.now;
+    oldr.exit_status = r.exit_status;
+    old_results.push_back(oldr);
 }
 
 void print_old_results(MIOFILE& mf) {
     mf.printf("<old_results>\n");
     deque<OLD_RESULT>::iterator i = old_results.begin();
     while (i != old_results.end()) {
-        OLD_RESULT& or = *i;
+        OLD_RESULT& oldr = *i;
         mf.printf(
             "    <old_result>\n"
             "         <project_url>%s</project_url>\n"
@@ -634,13 +634,13 @@ void print_old_results(MIOFILE& mf) {
             "         <completed_time>%f</completed_time>\n"
             "         <create_time>%f</create_time>\n"
             "    </old_result>\n",
-            or.project_url,
-            or.result_name,
-            or.app_name,
-            or.exit_status,
-            or.elapsed_time,
-            or.completed_time,
-            or.create_time
+            oldr.project_url,
+            oldr.result_name,
+            oldr.app_name,
+            oldr.exit_status,
+            oldr.elapsed_time,
+            oldr.completed_time,
+            oldr.create_time
         );
         i++;
     }
