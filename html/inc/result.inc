@@ -744,6 +744,7 @@ function result_navigation($info, $where_clause) {
         }
     }
 
+    $x .= "<form action=result.php>".tra("Task name:")."<input size=40 name=result_name><input type=submit value='OK'></form>";
     $x .= "</center><br>";
 	return $x;
 }
