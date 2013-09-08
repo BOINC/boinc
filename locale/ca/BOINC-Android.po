@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-08-29 15:37-0700\n"
-"PO-Revision-Date: 2013-09-06 20:01+0000\n"
+"PO-Revision-Date: 2013-09-08 17:37+0000\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ca\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1378497691.0\n"
+"X-POOTLE-MTIME: 1378661843.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -527,10 +527,9 @@ msgctxt "prefs_cpu_time_max_header"
 msgid "CPU limit"
 msgstr "Límit de CPU"
 
-#, fuzzy
 msgctxt "prefs_cpu_time_max_description"
 msgid "Limits the CPU time BOINC uses for computation."
-msgstr "Limita el nombre de nuclis de CPU que BOINC utilitza per la computació."
+msgstr "Limita el temps de CPU que BOINC utilitza per la computació."
 
 msgctxt "prefs_memory_max_idle_header"
 msgid "RAM limit"
@@ -601,169 +600,166 @@ msgstr "Suspès per l'usuari"
 
 msgctxt "projects_status_dontrequestmorework"
 msgid "Won't get new tasks"
-msgstr ""
+msgstr "No descarregar tasques noves"
 
 msgctxt "projects_status_ended"
 msgid "Project ended - OK to remove"
-msgstr ""
+msgstr "Projecte finalitzat - CORRECTE per eliminar-lo"
 
 msgctxt "projects_status_detachwhendone"
 msgid "Will remove when tasks done"
-msgstr ""
+msgstr "S'eliminarà quan finalitzi la tasca"
 
 msgctxt "projects_status_schedrpcpending"
 msgid "Scheduler request pending"
-msgstr ""
+msgstr "Petició al gestor pendent"
 
 msgctxt "projects_status_schedrpcinprogress"
 msgid "Scheduler request in progress"
-msgstr ""
+msgstr "Petició al gestor en curs"
 
 msgctxt "projects_status_trickleuppending"
 msgid "Trickle up message pending"
-msgstr ""
+msgstr "Missatge de degoteig en espera"
 
 msgctxt "projects_status_backoff"
 msgid "Communication scheduled in:"
-msgstr ""
+msgstr "Comunicació del gestor a:"
 
 #. project controls
 msgctxt "projects_control_dialog_title"
 msgid "Project commands:"
-msgstr ""
+msgstr "Ordres del projecte:"
 
 msgctxt "projects_control_update"
 msgid "Update"
-msgstr ""
+msgstr "Actualitza"
 
 msgctxt "projects_control_remove"
 msgid "Remove"
-msgstr ""
+msgstr "Elimina"
 
-#, fuzzy
 msgctxt "projects_control_suspend"
 msgid "Suspend"
-msgstr "Suspès"
+msgstr "Suspèn"
 
 msgctxt "projects_control_resume"
 msgid "Resume"
-msgstr ""
+msgstr "Reprèn"
 
 msgctxt "projects_control_nonewtasks"
 msgid "No new tasks"
-msgstr ""
+msgstr "No hi han tasques noves"
 
 msgctxt "projects_control_allownewtasks"
 msgid "Allow new tasks"
-msgstr ""
+msgstr "Permetre noves tasques"
 
 msgctxt "projects_control_reset"
 msgid "Reset"
-msgstr ""
+msgstr "Reinicia"
 
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
 msgid "Remove project?"
-msgstr ""
+msgstr "Eliminar el projecte?"
 
 msgctxt "projects_confirm_detach_message"
 msgid "Are you sure you want to remove"
-msgstr ""
+msgstr "Estàs segur que voleu eliminar"
 
 msgctxt "projects_confirm_detach_message2"
 msgid "from BOINC?"
-msgstr ""
+msgstr "de BOINC?"
 
 msgctxt "projects_confirm_detach_confirm"
 msgid "Remove"
-msgstr ""
+msgstr "Elimina"
 
 msgctxt "projects_confirm_reset_title"
 msgid "Reset project"
-msgstr ""
+msgstr "Reinicia el projecte"
 
 msgctxt "projects_confirm_reset_message"
 msgid "Are you sure you want to reset"
-msgstr ""
+msgstr "Estàs segur que vols reiniciar"
 
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
-msgstr ""
+msgstr "Reinicia"
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
 msgid "Task Name:"
-msgstr ""
+msgstr "Nom de la tasca:"
 
 msgctxt "tasks_header_elapsed_time"
 msgid "Elapsed time:"
-msgstr ""
+msgstr "Temps transcorregut:"
 
 msgctxt "tasks_header_project_paused"
 msgid "(suspended)"
-msgstr ""
+msgstr "(suspès)"
 
 msgctxt "tasks_header_deadline"
 msgid "Deadline:"
-msgstr ""
+msgstr "Data límit:"
 
 msgctxt "tasks_result_new"
 msgid "new"
-msgstr ""
+msgstr "nou"
 
 msgctxt "tasks_result_files_downloading"
 msgid "waiting for download"
-msgstr ""
+msgstr "esperant per descarregar"
 
 msgctxt "tasks_result_files_downloaded"
 msgid "download complete"
-msgstr ""
+msgstr "Descàrrega completa"
 
 msgctxt "tasks_result_compute_error"
 msgid "computation error"
-msgstr ""
+msgstr "error de computació"
 
 msgctxt "tasks_result_files_uploading"
 msgid "uploading"
-msgstr ""
+msgstr "s'està lliurant"
 
 msgctxt "tasks_result_files_uploaded"
 msgid "upload complete"
-msgstr ""
+msgstr "lliurament finalitzat"
 
 msgctxt "tasks_result_aborted"
 msgid "aborted"
-msgstr ""
+msgstr "avortat"
 
 msgctxt "tasks_result_upload_failed"
 msgid "upload failed"
-msgstr ""
+msgstr "ha fallat el lliurament"
 
 msgctxt "tasks_active_uninitialized"
 msgid "ready"
-msgstr ""
+msgstr "preparat"
 
 msgctxt "tasks_active_executing"
 msgid "running"
-msgstr ""
+msgstr "executant"
 
-#, fuzzy
 msgctxt "tasks_active_suspended"
 msgid "suspended"
-msgstr "Suspès"
+msgstr "suspès"
 
 msgctxt "tasks_active_abort_pending"
 msgid "suspending"
-msgstr ""
+msgstr "s'està suspenent"
 
 msgctxt "tasks_active_quit_pending"
 msgid "suspending"
-msgstr ""
+msgstr "s'està suspenent"
 
-#, fuzzy
 msgctxt "tasks_custom_suspended_via_gui"
 msgid "suspended"
-msgstr "Suspès"
+msgstr "suspès"
 
 msgctxt "tasks_custom_project_suspended_via_gui"
 msgid "project suspended"
@@ -859,56 +855,56 @@ msgstr ""
 
 msgctxt "eventlog_gui_header"
 msgid "GUI Messages"
-msgstr ""
+msgstr "Missatges GUI"
 
 msgctxt "eventlog_copy_toast"
 msgid "Log copied to clipboard."
-msgstr ""
+msgstr "Registre copiat al porta-retalls"
 
 msgctxt "eventlog_email_subject"
 msgid "Event Log for BOINC on Android:"
-msgstr ""
+msgstr "Registre d'esdeveniments de BOINC en Android:"
 
 #. suspend reasons
 msgctxt "suspend_unknown"
 msgid "Computation suspended."
-msgstr ""
+msgstr "Computació suspesa."
 
 msgctxt "suspend_batteries"
 msgid "Connect your device to a charger to continue computing."
-msgstr ""
+msgstr "Connecta el dispositiu a un carregador per continuar el còmput."
 
 msgctxt "suspend_useractive"
 msgid "User is active."
-msgstr ""
+msgstr "L'usuari està actiu."
 
 msgctxt "suspend_tod"
 msgid "Out of computation time-frame."
-msgstr ""
+msgstr "Fora del termini especificat per el còmput."
 
 msgctxt "suspend_bm"
 msgid "BOINC is benchmarking your device…"
-msgstr ""
+msgstr "BOINC està avaluant el teu dispositiu..."
 
 msgctxt "suspend_disksize"
 msgid "Out of disk space."
-msgstr ""
+msgstr "S'ha exhaurit l'espai lliure del disc"
 
 msgctxt "suspend_cputhrottle"
 msgid "Scheduled CPU throttle."
-msgstr ""
+msgstr "Programada acceleració CPU."
 
 msgctxt "suspend_noinput"
 msgid "No recent user activity."
-msgstr ""
+msgstr "No hi ha hagut activitat recent de l'usuari."
 
 msgctxt "suspend_delay"
 msgid "Initialization delay."
-msgstr ""
+msgstr "Temps d'espera per reiniciar."
 
 msgctxt "suspend_exclusiveapp"
 msgid "An exclusive app is running."
-msgstr ""
+msgstr "S'està executant una aplicació amb ús exclusiu."
 
 msgctxt "suspend_cpu"
 msgid "Your device is busy with other apps."
