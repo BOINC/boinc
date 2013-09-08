@@ -599,3 +599,51 @@ void RESULT::set_state(int val, const char* where) {
     }
 }
 
+void add_old_result(RESULT& r) {
+    while (!old_results.empty()) {
+        OLD_RESULT& oldr = *old_results.begin();
+        if (oldr.create_time < gstate.now - 86400) {
+            old_results.pop_front();
+        } else {
+            break;
+        }
+    }
+    OLD_RESULT oldr;
+    strcpy(oldr.project_url, r.project->master_url);
+    strcpy(oldr.result_name, r.name);
+    strcpy(oldr.app_name, r.app->name);
+    oldr.elapsed_time = r.final_elapsed_time;
+    oldr.completed_time = r.completed_time;
+    oldr.create_time = gstate.now;
+    oldr.exit_status = r.exit_status;
+    old_results.push_back(oldr);
+}
+
+void print_old_results(MIOFILE& mf) {
+    mf.printf("<old_results>\n");
+    deque<OLD_RESULT>::iterator i = old_results.begin();
+    while (i != old_results.end()) {
+        OLD_RESULT& oldr = *i;
+        mf.printf(
+            "    <old_result>\n"
+            "         <project_url>%s</project_url>\n"
+            "         <result_name>%s</result_name>\n"
+            "         <app_name>%s</app_name>\n"
+            "         <exit_status>%d</exit_status>\n"
+            "         <elapsed_time>%f</elapsed_time>\n"
+            "         <completed_time>%f</completed_time>\n"
+            "         <create_time>%f</create_time>\n"
+            "    </old_result>\n",
+            oldr.project_url,
+            oldr.result_name,
+            oldr.app_name,
+            oldr.exit_status,
+            oldr.elapsed_time,
+            oldr.completed_time,
+            oldr.create_time
+        );
+        i++;
+    }
+}
+
+std::deque<OLD_RESULT> old_results;
