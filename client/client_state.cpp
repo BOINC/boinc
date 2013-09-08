@@ -1389,6 +1389,7 @@ bool CLIENT_STATE::garbage_collect_always() {
                         rp->name
                     );
                 }
+                add_old_result(*rp);
                 delete rp;
                 result_iter = results.erase(result_iter);
                 action = true;

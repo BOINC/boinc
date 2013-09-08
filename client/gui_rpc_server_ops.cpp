@@ -1098,6 +1098,10 @@ static void handle_get_notices_public(GUI_RPC_CONN& grc) {
     notices.write(seqno, grc, true);
 }
 
+static void handle_get_old_results(GUI_RPC_CONN& grc) {
+    print_old_results(grc.mfout);
+}
+
 static void handle_get_results(GUI_RPC_CONN& grc) {
     bool active_only = false;
     while (!grc.xp.get_tag()) {
@@ -1262,6 +1266,7 @@ GUI_RPC gui_rpcs[] = {
     GUI_RPC("get_message_count", handle_get_message_count,          false,  false,  true),
     GUI_RPC("get_newer_version", handle_get_newer_version,          false,  false,  true),
     GUI_RPC("get_notices_public", handle_get_notices_public,        false,  false,  true),
+    GUI_RPC("get_old_results", handle_get_old_results,              false,  false,  true),
     GUI_RPC("get_project_status", handle_get_project_status,        false,  false,  true),
     GUI_RPC("get_results", handle_get_results,                      false,  false,  true),
     GUI_RPC("get_screensaver_tasks", handle_get_screensaver_tasks,  false,  false,  true),

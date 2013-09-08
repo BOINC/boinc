@@ -194,4 +194,22 @@ inline void max_concurrent_inc(RESULT* rp) {
     rp->app->n_concurrent++;
 }
 
+// a completed result, for which the RESULT record no longer exists.
+// We keep an in-memory log of these.
+//
+struct OLD_RESULT {
+    char project_url[256];
+    char result_name[256];
+    char app_name[256];
+    int exit_status;
+    double elapsed_time;
+    double completed_time;
+    double create_time;     // when this record was created
+};
+
+extern std::deque<OLD_RESULT> old_results;
+
+void add_old_result(RESULT&);
+extern void print_old_results(MIOFILE&);
+
 #endif
