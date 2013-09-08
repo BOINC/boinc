@@ -425,9 +425,9 @@ msgid ""
 msgstr ""
 "Büyük Hadron Çarpıştırıcısı (LHC), Avrupa Nükleer Araştırma Merkezi "
 "CERN'deki dünyanın en büyük  parçacık hızlandırıcısıdır. Bu, şimdiye kadar "
-"parçacık davranışlarını araştırmak için yapılmış en güçlü araçtır. "
-"LHC@home,  LHC'nin tasarımını ve detektörlerini geliştirmek amacıyla "
-"simülasyonlar yürütür."
+"parçacık davranışlarını araştırmak için yapılmış en güçlü araçtır. LHC@home, "
+" LHC'nin tasarımını ve detektörlerini geliştirmek amacıyla simülasyonlar "
+"yürütür."
 
 #: projects.inc:298
 msgid ""
@@ -986,7 +986,8 @@ msgstr "Tarayıcı varsayılanı"
 msgid ""
 "Open-source software for %svolunteer computing%s and %sgrid computing%s."
 msgstr ""
-"Açık kaynaklı %sgönüllü hesaplama%s ve %sdağınık (grid) hesaplama%s yazılımı."
+"Açık kaynaklı %sgönüllü hesaplama%s ve %sdağınık (grid) hesaplama%s "
+"yazılımı."
 
 #: index.php:278
 msgid "BOINC is based at The University of California, Berkeley"
