@@ -602,7 +602,7 @@ void RESULT::set_state(int val, const char* where) {
 void add_old_result(RESULT& r) {
     while (!old_results.empty()) {
         OLD_RESULT& ores = *old_results.begin();
-        if (ores.create_time < gstate.now - 86400) {
+        if (ores.create_time < gstate.now - 3600) {
             old_results.pop_front();
         } else {
             break;
