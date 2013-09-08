@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-08-29 15:37-0700\n"
-"PO-Revision-Date: 2013-09-07 18:58+0000\n"
+"PO-Revision-Date: 2013-09-07 19:45+0000\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ru\n"
@@ -18,7 +18,7 @@ msgstr ""
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1378580336.0\n"
+"X-POOTLE-MTIME: 1378583104.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -504,61 +504,80 @@ msgctxt "prefs_disk_max_pct_header"
 msgid "Max. used storage space"
 msgstr "Макс. используемое пространство памяти"
 
+#, fuzzy
 msgctxt "prefs_disk_max_pct_description"
 msgid "How many percent of your device's storage space is BOINC allowed to use?"
 msgstr ""
+"Сколько процентов от общего объёма памяти вашего устройства BOINC может "
+"использовать?"
 
+#, fuzzy
 msgctxt "prefs_disk_min_free_gb_header"
 msgid "Min. spare storage"
-msgstr ""
+msgstr "Мин. свободное пространство"
 
+#, fuzzy
 msgctxt "prefs_disk_min_free_gb_description"
 msgid "How much of your device's storage space shall stay free?"
-msgstr ""
+msgstr "Какой объём памяти вашего устройства должен оставаться свободным?"
 
+#, fuzzy
 msgctxt "prefs_network_daily_xfer_limit_mb_header"
 msgid "Daily transfer limit"
-msgstr ""
+msgstr "Ежедневный предел передачи"
 
+#, fuzzy
 msgctxt "prefs_network_daily_xfer_limit_mb_description"
 msgid "Limits the daily data traffic caused by BOINC."
-msgstr ""
+msgstr "Ограничивает ежедневный трафик данных, вызванный BOINC."
 
+#, fuzzy
 msgctxt "prefs_network_wifi_only_header"
 msgid "Transfer tasks on WiFi only"
-msgstr ""
+msgstr "Передавать задания только по WiFi"
 
 msgctxt "prefs_autostart_header"
 msgid "Autostart"
-msgstr ""
+msgstr "Автозапуск"
 
+#, fuzzy
 msgctxt "prefs_show_notification_header"
 msgid "Show notification when suspended"
-msgstr ""
+msgstr "Показывать уведомление, когда приостановлен"
 
+#, fuzzy
 msgctxt "prefs_cpu_number_cpus_header"
 msgid "Used CPU cores"
-msgstr ""
+msgstr "Используемые ядра процессора"
 
+#, fuzzy
 msgctxt "prefs_cpu_number_cpus_description"
 msgid "Limits the number of CPU cores BOINC uses for computation."
 msgstr ""
+"Ограничивает количество ядер процессора, которые использует BOINC для "
+"расчётов."
 
+#, fuzzy
 msgctxt "prefs_cpu_other_load_suspension_header"
 msgid "Pause at CPU usage above"
-msgstr ""
+msgstr "Пауза при использовании процессора выше"
 
+#, fuzzy
 msgctxt "prefs_cpu_other_load_suspension_description"
 msgid "Determines when BOINC pauses computation due to other app's CPU usage."
 msgstr ""
+"Определяет, когда BOINC останавливает расчёты из-за использования процессора "
+"другими приложениями."
 
+#, fuzzy
 msgctxt "prefs_cpu_time_max_header"
 msgid "CPU limit"
-msgstr ""
+msgstr "Предельное время процессора"
 
+#, fuzzy
 msgctxt "prefs_cpu_time_max_description"
 msgid "Limits the CPU time BOINC uses for computation."
-msgstr ""
+msgstr "Ограничивает время процессора, которое использует BOINC для расчётов."
 
 msgctxt "prefs_memory_max_idle_header"
 msgid "RAM limit"
@@ -595,12 +614,13 @@ msgstr ""
 
 msgctxt "prefs_unit_celcius"
 msgid "°C"
-msgstr ""
+msgstr "°C"
 
 #. projects tab strings
+#, fuzzy
 msgctxt "projects_loading"
 msgid "Reading projects…"
-msgstr ""
+msgstr "Чтение проектов ..."
 
 msgctxt "projects_add"
 msgid "Add project"
@@ -608,24 +628,27 @@ msgstr "Добавить проект"
 
 msgctxt "projects_icon"
 msgid "Project icon"
-msgstr ""
+msgstr "Значок проекта"
 
+#, fuzzy
 msgctxt "projects_credits_header"
 msgid "Credit:"
-msgstr ""
+msgstr "Очки:"
 
+#, fuzzy
 msgctxt "projects_credits_host_header"
 msgid "(on this device)"
-msgstr ""
+msgstr "(на этом устройстве)"
 
+#, fuzzy
 msgctxt "projects_credits_user_header"
 msgid "(total)"
-msgstr ""
+msgstr "(всего)"
 
 #. project status strings
 msgctxt "projects_status_suspendedviagui"
 msgid "Suspended by user"
-msgstr ""
+msgstr "Приостановлен пользователем"
 
 msgctxt "projects_status_dontrequestmorework"
 msgid "Won't get new tasks"
@@ -656,17 +679,18 @@ msgid "Communication scheduled in:"
 msgstr ""
 
 #. project controls
+#, fuzzy
 msgctxt "projects_control_dialog_title"
 msgid "Project commands:"
-msgstr ""
+msgstr "Команды проекта:"
 
 msgctxt "projects_control_update"
 msgid "Update"
-msgstr ""
+msgstr "Обновить"
 
 msgctxt "projects_control_remove"
 msgid "Remove"
-msgstr ""
+msgstr "Удалить"
 
 #, fuzzy
 msgctxt "projects_control_suspend"
@@ -675,19 +699,20 @@ msgstr "Приостановлено"
 
 msgctxt "projects_control_resume"
 msgid "Resume"
-msgstr ""
+msgstr "Возобновить"
 
 msgctxt "projects_control_nonewtasks"
 msgid "No new tasks"
-msgstr ""
+msgstr "Не запрашивать задания"
 
 msgctxt "projects_control_allownewtasks"
 msgid "Allow new tasks"
-msgstr ""
+msgstr "Получать новые задания"
 
+#, fuzzy
 msgctxt "projects_control_reset"
 msgid "Reset"
-msgstr ""
+msgstr "Сбросить"
 
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
@@ -721,11 +746,11 @@ msgstr ""
 #. tasks tab strings
 msgctxt "tasks_header_name"
 msgid "Task Name:"
-msgstr ""
+msgstr "Название задания:"
 
 msgctxt "tasks_header_elapsed_time"
 msgid "Elapsed time:"
-msgstr ""
+msgstr "Затрачено времени:"
 
 #, fuzzy
 msgctxt "tasks_header_project_paused"
@@ -734,7 +759,7 @@ msgstr "Приостановлено"
 
 msgctxt "tasks_header_deadline"
 msgid "Deadline:"
-msgstr ""
+msgstr "Крайний срок:"
 
 msgctxt "tasks_result_new"
 msgid "new"
