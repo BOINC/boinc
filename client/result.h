@@ -196,6 +196,7 @@ inline void max_concurrent_inc(RESULT* rp) {
 
 // a completed result, for which the RESULT record no longer exists.
 // We keep an in-memory log of these.
+// Keep this consistent with lib/gui_rpc_client.h
 //
 struct OLD_RESULT {
     char project_url[256];

@@ -362,3 +362,21 @@ void ACCOUNT_OUT::print() {
     }
 }
 
+void OLD_RESULT::print() {
+    printf(
+        "task %s:\n"
+        "   project URL: %s\n"
+        "   app name: %s\n"
+        "   exit status: %d\n"
+        "   elapsed time: %f sec\n"
+        "   completed time: %s\n"
+        "   reported time: %s\n",
+        result_name,
+        project_url,
+        app_name,
+        exit_status,
+        elapsed_time,
+        time_to_string(completed_time),
+        time_to_string(create_time)
+    );
+}
