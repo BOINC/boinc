@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2013-09-05 05:48+0000\n"
+"PO-Revision-Date: 2013-09-09 15:21+0000\n"
 "Last-Translator: Marius <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
@@ -18,7 +18,7 @@ msgstr ""
 "20)) ? 1 : 2);;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1378360091.0\n"
+"X-POOTLE-MTIME: 1378740076.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Română"
@@ -5948,7 +5948,7 @@ msgstr "Sunteţi deja membru al %1."
 
 #: ../user/team_join.php:42 ../user/team_join_action.php:43
 msgid "Couldn't join team - please try again later."
-msgstr ""
+msgstr "Nu s-a putut intra în echipă - vă rugăm încercaţi mai târziu."
 
 #: ../user/team_join_action.php:40
 msgid "Joined %1"
@@ -5960,7 +5960,7 @@ msgstr ""
 
 #: ../user/team_join_form.php:34
 msgid "Join %1"
-msgstr ""
+msgstr "Înscris: %1"
 
 #: ../user/team_join_form.php:35
 msgid "Please note:"
@@ -6279,7 +6279,7 @@ msgstr "Credit mediu în scădere"
 
 #: ../user/user_search.php:69
 msgid "Decreasing total credit"
-msgstr ""
+msgstr "Credit total în scădere"
 
 #: ../user/user_search.php:100
 msgid "search string must be at least 3 characters"
@@ -6403,7 +6403,7 @@ msgstr ""
 
 #: ../user/weak_auth.php:73
 msgid "Weak account key"
-msgstr ""
+msgstr "Cheia slabă a contului"
 
 #: ../user/weak_auth.php:74
 msgid ""
