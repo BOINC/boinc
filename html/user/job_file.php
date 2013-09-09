@@ -102,9 +102,9 @@ function query_files($r) {
         //
         $job_file = BoincJobFile::lookup_md5($md5);
         if ($job_file && $job_file->delete_time < $delete_time) {
-            $retval = $job_file::update("delete_time=$delete_time");
+            $retval = $job_file->update("delete_time=$delete_time");
             if ($retval) {
-                xml_error(-1, "job_file::update() failed: ".mysql_error());
+                xml_error(-1, "job_file->update() failed: ".mysql_error());
             }
         }
         if (file_exists($path)) {
