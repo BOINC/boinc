@@ -16,6 +16,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// TODO: most of this code shouldn't exist.
+
 error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
@@ -578,7 +580,7 @@ function server_state_select() {
         <select name=\"server_state\">
         <option value=\"CHOOSE_ALL\" selected=\"selected\"> Any </option>
     ";
-    for($i=1; $i<6; $i++) {
+    for ($i=1; $i<6; $i++) {
         $res = new StdClass;
         $res->server_state=$i;
         echo "<option value=\"$i\"> "."[$i]&nbsp;&nbsp;".'   '.result_server_state_string($res)."</option>\n";
@@ -591,7 +593,7 @@ function outcome_select() {
         <select name=\"outcome\">
         <option value=\"CHOOSE_ALL\" selected=\"selected\"> Any </option>
     ";
-    for($i=0; $i<8; $i++) {
+    for ($i=0; $i<8; $i++) {
         $res = new StdClass;
         $res->outcome = $i;
         $res->exit_status = 0;
@@ -605,11 +607,11 @@ function validate_state_select() {
         <select name=\"validate_state\">
         <option value=\"CHOOSE_ALL\" selected=\"selected\"> Any </option>
         ";
-    for($i=0; $i<NVALIDATE_STATES; $i++) {
+    for ($vs=0; $vs<NVALIDATE_STATES; $vs++) {
         $res = new StdClass;
         $res->validate_state = $vs;
         $res->exit_status = 0;
-        echo "<option value=\"$i\"> "."[$i]&nbsp;&nbsp;".'   '.validate_state_str($res)."</option>\n";
+        echo "<option value=\"$vs\"> "."[$vs]&nbsp;&nbsp;".'   '.validate_state_str($res)."</option>\n";
     }
     echo "</select>\n";
 }
@@ -619,7 +621,7 @@ function client_state_select() {
         <select name=\"client_state\">
         <option value=\"CHOOSE_ALL\" selected=\"selected\"> Any </option>
     ";
-    for($i=0; $i<7; $i++) {
+    for ($i=0; $i<7; $i++) {
         $res = new StdClass;
         $res->client_state = $i;
         $res->exit_status = 0;
@@ -651,7 +653,8 @@ function sort_order_select() {
         <select name=\"sort_by_order\">
         <option value=\"asc\">Ascending
         <option value=\"desc\" selected>Descending
-        </select>\n";
+        </select>
+    ";
 }
 
 function table_title($table) {
@@ -750,9 +753,10 @@ function show_host_short($host) {
         <tr>
         <td><a href=\"db_action.php?table=host&id=$host->id\">$host->id</a></td>
         <td>$host->last_ip_addr</td>
-        <td>$host->domain_name</td>";
-       printf("<td>%.2f</td>", $host->expavg_credit);
-       printf("<td>%.1f</td>", $host->total_credit);
+        <td>$host->domain_name</td>
+    ";
+    printf("<td>%.2f</td>", $host->expavg_credit);
+    printf("<td>%.1f</td>", $host->total_credit);
     echo "<td>$host->p_vendor $host->p_model</td>
         <td>$host->os_name $host->os_version</td>
         </tr>
@@ -960,8 +964,8 @@ function host_user_link($hostid) {
 
 function validate_color($validate_state) {
     switch ($validate_state) {
-       case 1: return '33cc33'; // valid, green
-       case 2: return 'ffa500'; // invalid result, orange
+   case 1: return '33cc33'; // valid, green
+   case 2: return 'ffa500'; // invalid result, orange
     }
     return '';
 }
@@ -1063,9 +1067,9 @@ function show_result_short($result) {
         $cs = result_client_state_string($result);
         $oc = "$oc ($cs)";
     }
-    if ($result->received_time)
+    if ($result->received_time) {
         $received = time_str($result->received_time);
-    else {
+    } else {
         // result has not been received yet, so show report deadline either
         // in green if in the future or in red if in the past.
         $timenow=time();
@@ -1167,10 +1171,12 @@ function show_user_summary($maxuser) {
             <td><h2>top10 Poster</h2></td>
             <td><h2>top$maxuser Countries</h2></td>
             <td><h2>top$maxuser Languages</h2></td>
-          </tr>";
+          </tr>
+    ";
     echo "<tr valign=\"top\">";
     echo "<td><table border=\"1\">
-          <tr><th>&nbsp;</th><th>&nbsp;</th></tr>";
+          <tr><th>&nbsp;</th><th>&nbsp;</th></tr>
+    ";
     row2_plain("Users:", $stats['maxuser']);
     row2_plain("Profiles:", $stats['profuser']);
     row2_plain("Team members:", $stats['teamuser']);
@@ -1178,8 +1184,7 @@ function show_user_summary($maxuser) {
     echo "<td><table border=\"2\">\n";
     echo "<tr><th>User</th><th># posts</th></tr>\n";
     for ($p=1; $p<=10; $p++) {
-        row2_plain(user_links_ops($top10poster[$p]),
-             $top10poster[$p]->posts);
+        row2_plain(user_links_ops($top10poster[$p]), $top10poster[$p]->posts);
     }
     echo "</table></td>";
     echo "<td><table border=\"2\">\n";
@@ -1236,6 +1241,7 @@ function team_name_by_id($teamid) {
 function user_name_by_id($user_id) {
     $result = mysql_query("select * from user where id = $user_id");
     $user = mysql_fetch_object($result);
+    if (!$user) return "No user";
     return $user->name;
 }
 
@@ -1248,6 +1254,7 @@ function app_name_by_id($appid) {
 function wu_name_by_id($workunitid) {
     $result = mysql_query("select * from workunit where id = $workunitid");
     $wu = mysql_fetch_object($result);
+    if (!$wu) return "Missing workunit";
     return $wu->name;
 }
 
@@ -1260,6 +1267,7 @@ function platform_name_by_id($platformid) {
 function host_name_by_id($hostid) {
     $result = mysql_query("select * from host where id = $hostid");
     $host = mysql_fetch_object($result);
+    if (!$host) return "No host";
     if (!strlen($host->domain_name) && !strlen($host->last_ip_addr)) {
         return "(blank)";
     } else {

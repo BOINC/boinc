@@ -158,7 +158,7 @@ class BoincUser {
         $db->delete_aux('profile', "userid=$this->id");
         return $db->delete($this, 'user');
     }
-    function sum($field) {
+    static function sum($field) {
         $db = BoincDb::get();
         return $db->sum('user', $field);
     }
@@ -321,7 +321,7 @@ class BoincApp {
         $db = BoincDb::get();
         return $db->update($this, 'app', $clause);
     }
-    function sum($field) {
+    static function sum($field) {
         $db = BoincDb::get();
         return $db->sum('app', $field);
     }

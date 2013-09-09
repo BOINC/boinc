@@ -73,6 +73,7 @@ Commands:\n\
  --get_simple_gui_info              show status of projects and active tasks\n\
  --get_state                        show entire state\n\
  --get_tasks                        show tasks\n\
+ --get_old_tasks                    show reported tasks from last 24 hours\n\
  --join_acct_mgr URL name passwd    attach account manager\n\
  --lookup_account URL email passwd\n\
  --network_available                retry deferred network communication\n\
@@ -205,6 +206,15 @@ int main(int argc, char** argv) {
         RESULTS results;
         retval = rpc.get_results(results);
         if (!retval) results.print();
+    } else if (!strcmp(cmd, "--get_old_tasks")) {
+        vector<OLD_RESULT> ors;
+        retval = rpc.get_old_results(ors);
+        if (!retval) {
+            for (unsigned int j=0; j<ors.size(); j++) {
+                OLD_RESULT& o = ors[j];
+                o.print();
+            }
+        }
     } else if (!strcmp(cmd, "--get_file_transfers")) {
         FILE_TRANSFERS ft;
         retval = rpc.get_file_transfers(ft);
