@@ -610,6 +610,7 @@ msgctxt "prefs_unit_gb"
 msgid "GB"
 msgstr "ГБ"
 
+#, c-format
 #, c-format, fuzzy
 msgctxt "prefs_unit_pct"
 msgid "%"
