@@ -106,6 +106,7 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook, wxWindowID iTaskWindowID, 
 #if USE_NATIVE_LISTCONTROL
     m_pListPane->PushEventHandler(new MyEvtHandler(m_pListPane));
 #else
+    m_pListPane->SaveEventHandler((m_pListPane->GetMainWin())->GetEventHandler());
     (m_pListPane->GetMainWin())->PushEventHandler(new MyEvtHandler(m_pListPane));
 #endif
 

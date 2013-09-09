@@ -25,7 +25,7 @@
 #include "Events.h"
 
 
-#if 1 // USE_NATIVE_LISTCONTROL
+#if USE_NATIVE_LISTCONTROL
 DEFINE_EVENT_TYPE(wxEVT_DRAW_PROGRESSBAR)
 
 BEGIN_EVENT_TABLE(CBOINCListCtrl, LISTCTRL_BASE)
@@ -53,8 +53,9 @@ CBOINCListCtrl::CBOINCListCtrl(
 
     m_bIsSingleSelection = (iListWindowFlags & wxLC_SINGLE_SEL) ? true : false ;
     
+#if USE_NATIVE_LISTCONTROL
     m_bProgressBarEventPending = false;
-#if ! USE_NATIVE_LISTCONTROL
+#else
 #ifdef __WXMAC__
     SetupMacAccessibilitySupport();
 #endif
@@ -72,7 +73,7 @@ CBOINCListCtrl::~CBOINCListCtrl()
 {
     m_iRowsNeedingProgressBars.Clear();
 #ifdef __WXMAC__
-#if ! USE_NATIVE_LISTCONTROL
+#if !USE_NATIVE_LISTCONTROL
     RemoveMacAccessibilitySupport();
 #endif
 #endif
@@ -266,14 +267,14 @@ wxListItemAttr* CBOINCListCtrl::OnGetItemAttr(long item) const {
 
 void CBOINCListCtrl::DrawProgressBars()
 {
-    long topItem, numItems, numVisibleItems, i, row;
+    long topItem, numItems, numVisibleItems, row;
     wxRect r, rr;
     int w = 0, x = 0, xx, yy, ww;
     int progressColumn = m_pParentView->GetProgressColumn();
     
-    m_bProgressBarEventPending = false;
 #if USE_NATIVE_LISTCONTROL
     wxClientDC dc(this);
+    m_bProgressBarEventPending = false;
 #else
     wxClientDC dc(GetMainWin());   // Available only in wxGenericListCtrl
 #endif
@@ -299,15 +300,15 @@ void CBOINCListCtrl::DrawProgressBars()
         if (numItems <= (topItem + numVisibleItems)) numVisibleItems = numItems - topItem;
 
         x = 0;
-        for (i=0; i< progressColumn; i++) {
+        for (int i=0; i< progressColumn; i++) {
             x += GetColumnWidth(i);
         }
         w = GetColumnWidth(progressColumn);
         
-#if 1 //USE_NATIVE_LISTCONTROL
+#if USE_NATIVE_LISTCONTROL
         x -= GetScrollPos(wxHORIZONTAL);
 #else
-        GetMainWin()->CalcScrolledPosition(x, 0, &x, &yy);
+        CalcScrolledPosition(x, 0, &x, &yy);
 #endif
         wxFont theFont = GetFont();
         dc.SetFont(theFont);
@@ -384,7 +385,7 @@ void CBOINCListCtrl::DrawProgressBars()
     m_iRowsNeedingProgressBars.Clear();
 }
 
-#if 1 //USE_NATIVE_LISTCONTROL
+#if USE_NATIVE_LISTCONTROL
 
 void MyEvtHandler::OnPaint(wxPaintEvent & event)
 {
@@ -398,7 +399,7 @@ void CBOINCListCtrl::PostDrawProgressBarEvent() {
     if (m_bProgressBarEventPending) return;
     
     CDrawProgressBarEvent newEvent(wxEVT_DRAW_PROGRESSBAR, this);
-    GetEventHandler()->AddPendingEvent(newEvent);
+    AddPendingEvent(newEvent);
     m_bProgressBarEventPending = true;
 }
 
@@ -412,23 +413,13 @@ void CBOINCListCtrl::OnDrawProgressBar(CDrawProgressBarEvent& event) {
 void MyEvtHandler::OnPaint(wxPaintEvent & event)
 {
     if (m_listCtrl) {
-        (m_listCtrl->GetMainWin())->ProcessEvent(event);
+        m_listCtrl->savedHandler->ProcessEvent(event);
         m_listCtrl->DrawProgressBars();
     } else {
         event.Skip();
     }
 }
 
-#endif
-
-
-#if ! USE_NATIVE_LISTCONTROL
-wxCoord CBOINCListCtrl::GetHeaderHeight(void) {
-    if (m_headerWin) {
-        return ((wxWindow*)m_headerWin)->GetSize().y;
-    }
-    return 0;
-}
 #endif
 
 
