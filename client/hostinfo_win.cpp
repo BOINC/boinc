@@ -1025,6 +1025,45 @@ int get_processor_cache(int& cache) {
 }
 
 
+// Returns true if the AVX instruction set is supported with the current
+// combination of OS and CPU.
+// see: http://insufficientlycomplicated.wordpress.com/2011/11/07/detecting-intel-advanced-vector-extensions-avx-in-visual-studio/
+bool is_avx_supported() {
+
+    bool supported = false;
+ 
+    // If Visual Studio 2010 SP1 or later
+#if (_MSC_FULL_VER >= 160040219)
+    // Checking for AVX requires 3 things:
+    // 1) CPUID indicates that the OS uses XSAVE and XRSTORE
+    //     instructions (allowing saving YMM registers on context
+    //     switch)
+    // 2) CPUID indicates support for AVX
+    // 3) XGETBV indicates the AVX registers will be saved and
+    //     restored on context switch
+    //
+    // Note that XGETBV is only available on 686 or later CPUs, so
+    // the instruction needs to be conditionally run.
+    int cpuInfo[4];
+    __cpuid(cpuInfo, 1);
+ 
+    bool osUsesXSAVE_XRSTORE = cpuInfo[2] & (1 << 27) || false;
+    bool cpuAVXSuport = cpuInfo[2] & (1 << 28) || false;
+ 
+    if (osUsesXSAVE_XRSTORE && cpuAVXSuport)
+    {
+        // Check if the OS will save the YMM registers
+        unsigned long long xcrFeatureMask = _xgetbv(_XCR_XFEATURE_ENABLED_MASK);
+        supported = (xcrFeatureMask & 0x6) || false;
+    }
+#endif
+ 
+    return supported;
+}
+
+
+
+
 // Returns the features supported by the processor, use the
 // Linux CPU processor feature mnemonics.
 // see: http://msdn.microsoft.com/en-us/library/hskdteyh.aspx
@@ -1115,13 +1154,33 @@ int get_processor_features(char* vendor, char* features, int features_size) {
     FEATURE_TEST(std_supported, (std_ecx & (1 << 22)), "movebe ");
     FEATURE_TEST(std_supported, (std_ecx & (1 << 23)), "popcnt ");
     FEATURE_TEST(std_supported, (std_ecx & (1 << 25)), "aes ");
-    FEATURE_TEST(std_supported, (std_ecx & (1 << 28)), "avx ");
 	FEATURE_TEST(std_supported, (std_ecx & (1 << 29)), "f16c ");
 	FEATURE_TEST(std_supported, (std_ecx & (1 << 30)), "rdrand");
 
     FEATURE_TEST(ext_supported, (ext_edx & (1 << 11)), "syscall ");
     FEATURE_TEST(ext_supported, (ext_edx & (1 << 20)), "nx ");
     FEATURE_TEST(ext_supported, (ext_edx & (1 << 29)), "lm ");
+
+
+    if (is_avx_supported()) {
+        FEATURE_TEST(std_supported, (std_ecx & (1 << 28)), "avx ");
+    }
+
+    if (is_avx_supported() && struc_ext_supported) {
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 5)), "avx2 ");
+    }
+
+
+	if (struc_ext_supported) {
+		// Structured Ext. Feature Flags
+		// used by newer Intel and newer AMD CPUs
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 0)), "fsgsbase ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 3)), "bmi1 ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 4)), "hle ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 7)), "smep ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 8)), "bmi2 ");
+	}
+
 
     if (intel_supported) {
         // Intel only features
@@ -1132,19 +1191,6 @@ int get_processor_features(char* vendor, char* features, int features_size) {
 
         FEATURE_TEST(std_supported, (std_edx & (1 << 31)), "pbe ");
     }
-
-
-	if (struc_ext_supported) {
-		// Structured Ext. Feature Flags
-		// used by newer Intel and newer AMD CPUs
-		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 0)), "fsgsbase");
-		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 3)), "bmi1");
-		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 4)), "hle");
-		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 5)), "avx2");
-		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 7)), "smep");
-		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 8)), "bmi2");
-
-	}
 
 
     if (amd_supported) {
