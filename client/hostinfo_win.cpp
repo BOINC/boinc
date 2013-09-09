@@ -1166,17 +1166,19 @@ int get_processor_features(char* vendor, char* features, int features_size) {
         FEATURE_TEST(std_supported, (std_ecx & (1 << 28)), "avx ");
     }
 
+    if (is_avx_supported() && struc_ext_supported) {
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 5)), "avx2 ");
+    }
+
 
 	if (struc_ext_supported) {
 		// Structured Ext. Feature Flags
 		// used by newer Intel and newer AMD CPUs
-		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 0)), "fsgsbase");
-		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 3)), "bmi1");
-		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 4)), "hle");
-		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 5)), "avx2");
-		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 7)), "smep");
-		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 8)), "bmi2");
-
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 0)), "fsgsbase ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 3)), "bmi1 ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 4)), "hle ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 7)), "smep ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 8)), "bmi2 ");
 	}
 
 
