@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-18 11:32-0500\n"
-"PO-Revision-Date: 2013-09-04 19:39+0000\n"
+"PO-Revision-Date: 2013-09-09 15:37+0000\n"
 "Last-Translator: Dimitar <mexicoman@abv.bg>\n"
 "Language-Team: AMD Powered @ Home Team <timeros@gmail.com>\n"
 "Language: bg\n"
@@ -22,7 +22,7 @@ msgstr ""
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
-"X-POOTLE-MTIME: 1378323596.0\n"
+"X-POOTLE-MTIME: 1378741069.0\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
 # 100%
@@ -1728,7 +1728,7 @@ msgstr ""
 "\n"
 "В повечето случаи, е по-добре само да затворите %s прозореца\n"
 "отколкото да излезете от приложението; това ще позволи на %s да стартира\n"
-"задачите според часовите диапазони избрани от Вас в предпочитанията."
+"задачите според часовите диапазони избрани във вашите предпочитания."
 
 #: clientgui/DlgExitMessage.cpp:153
 #, c-format
@@ -1877,7 +1877,7 @@ msgstr "Премахни когато задачите приключат"
 
 #: clientgui/DlgItemProperties.cpp:252
 msgid "Ended"
-msgstr "Приключи"
+msgstr "Приключен"
 
 #: clientgui/DlgItemProperties.cpp:254
 msgid "Credit"
