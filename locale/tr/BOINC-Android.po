@@ -2,6 +2,7 @@
 # Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: OINC Android 7.2\n"
@@ -468,7 +469,8 @@ msgid "Max. used storage space"
 msgstr "En çok depolama alanı kullanımı"
 
 msgctxt "prefs_disk_max_pct_description"
-msgid "How many percent of your device's storage space is BOINC allowed to use?"
+msgid ""
+"How many percent of your device's storage space is BOINC allowed to use?"
 msgstr ""
 "BOINC, cihazınızın yüzde olarak en fazla ne kadar depolama alanını "
 "kullanabilecek?"
@@ -507,7 +509,8 @@ msgstr "Kullanılacak CPU çekirdekleri"
 
 msgctxt "prefs_cpu_number_cpus_description"
 msgid "Limits the number of CPU cores BOINC uses for computation."
-msgstr "BOINC'in hesaplama için kullanabileceği işlemci (CPU) çekirdeği sayısı."
+msgstr ""
+"BOINC'in hesaplama için kullanabileceği işlemci (CPU) çekirdeği sayısı."
 
 msgctxt "prefs_cpu_other_load_suspension_header"
 msgid "Pause at CPU usage above"
