@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-18 11:32-0500\n"
-"PO-Revision-Date: 2013-09-09 19:45+0000\n"
+"PO-Revision-Date: 2013-09-10 11:32+0000\n"
 "Last-Translator: Dimitar <mexicoman@abv.bg>\n"
 "Language-Team: AMD Powered @ Home Team <timeros@gmail.com>\n"
 "Language: bg\n"
@@ -22,7 +22,7 @@ msgstr ""
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
-"X-POOTLE-MTIME: 1378755928.0\n"
+"X-POOTLE-MTIME: 1378812727.0\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
 # 100%
@@ -2680,7 +2680,7 @@ msgstr ""
 
 #: clientgui/ProjectInfoPage.cpp:811
 msgid "You already added this project. Please choose a different project."
-msgstr "Вече сте добавили този проект. Моля изберете друг проект."
+msgstr "Вече сте добавили този проект. Моля изберете различен проект."
 
 #: clientgui/ProjectListCtrl.cpp:66
 msgid "Project List"
@@ -2775,7 +2775,7 @@ msgstr ""
 "1) Проблем със свързването.  Проверете вашата мрежова\n"
 "или модемна връзка и тогава натиснете Назад за да опитате отново.\n"
 "\n"
-"2) Личен защите антивирусен софтуер блокира BOINC.\n"
+"2) Личен защитен антивирусен софтуер блокира BOINC.\n"
 "Настройте вашата лична защитна стена да позволява на BOINC и на\n"
 "BOINC Мениджър да комуникират на порт 80,\n"
 "тогава натиснете Назад за да опитате отново.\n"
@@ -2811,7 +2811,7 @@ msgstr "Разширен Изглед...\t Ctrl+Shift+A"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:137
 msgid "Display the advanced graphical interface."
-msgstr "Показване на разширения графически интерфейс."
+msgstr "Показване на разширения графичен интерфейс."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:144
 msgid "Skin"
@@ -2853,7 +2853,7 @@ msgstr "Отворете прозорец за да прегледате изв�
 
 #: clientgui/sg_BoincSimpleGUI.cpp:120
 msgid "Display the advanced (accessible) graphical interface."
-msgstr "Покажи разширения (достъпен) графически интерфейс."
+msgstr "Покажи разширения (достъпен) графичен интерфейс."
 
 #: clientgui/sg_ClientStateIndicator.cpp:288
 msgid "Retrieving current status."
@@ -3865,7 +3865,7 @@ msgstr "Използвай цялата област за графики"
 
 #: clientgui/ViewStatistics.cpp:2019
 msgid "Mode view"
-msgstr "Вид изглед"
+msgstr "Режим изглед"
 
 #: clientgui/ViewStatistics.cpp:2023
 msgid "One project"
@@ -3988,7 +3988,7 @@ msgstr "Повторен опит за трансфер сега..."
 
 #: clientgui/ViewTransfers.cpp:329
 msgid "Aborting transfer..."
-msgstr "Прекъсване на прехвърлянето..."
+msgstr "Прекъсване на трансфера..."
 
 #: clientgui/ViewTransfers.cpp:342
 #, c-format
