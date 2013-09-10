@@ -714,7 +714,7 @@ char* get_cmd() {
         if (c == EOF) {
             return NULL;
         }
-        if (c == '\n') {
+        if (c == '\n' || c == '\r') {
             p[len] = 0;
             return p;
         }
