@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-08-29 15:37-0700\n"
-"PO-Revision-Date: 2013-09-08 17:37+0000\n"
+"PO-Revision-Date: 2013-09-09 23:12+0000\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ca\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1378661843.0\n"
+"X-POOTLE-MTIME: 1378768352.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -763,95 +763,94 @@ msgstr "suspès"
 
 msgctxt "tasks_custom_project_suspended_via_gui"
 msgid "project suspended"
-msgstr ""
+msgstr "projecte suspès"
 
 msgctxt "tasks_custom_ready_to_report"
 msgid "ready to report"
-msgstr ""
+msgstr "a punt per informar"
 
 #. confirmation dialog
 msgctxt "confirm_abort_task_title"
 msgid "Abort task?"
-msgstr ""
+msgstr "Avortar la tasca?"
 
 msgctxt "confirm_abort_task_message"
 msgid "Abort task:"
-msgstr ""
+msgstr "Avortar la tasca:"
 
 msgctxt "confirm_abort_task_confirm"
 msgid "Abort"
-msgstr ""
+msgstr "Avorta"
 
 msgctxt "confirm_cancel"
 msgid "Cancel"
-msgstr ""
+msgstr "Cancel·la"
 
 msgctxt "confirm_image_desc"
 msgid "Confirmation dialog"
-msgstr ""
+msgstr "Diàleg de confirmació"
 
 #. transfers tab strings
 msgctxt "trans_loading"
 msgid "Reading transfers…"
-msgstr ""
+msgstr "Llegint transferències..."
 
 msgctxt "trans_upload"
 msgid "Upload"
-msgstr ""
+msgstr "Puja"
 
 msgctxt "trans_download"
 msgid "Download"
-msgstr ""
+msgstr "Descarrega"
 
 msgctxt "trans_retryin"
 msgid "retry in"
-msgstr ""
+msgstr "re intentar en"
 
 msgctxt "trans_failed"
 msgid "failed"
 msgstr "ha fallat"
 
-#, fuzzy
 msgctxt "trans_suspended"
 msgid "suspended"
-msgstr "Suspès"
+msgstr "suspès"
 
 msgctxt "trans_active"
 msgid "active"
-msgstr ""
+msgstr "activa"
 
 msgctxt "trans_pending"
 msgid "pending"
-msgstr ""
+msgstr "pendent"
 
 msgctxt "trans_projectbackoff"
 msgid "project backoff"
-msgstr ""
+msgstr "desentendre's del projecte"
 
 msgctxt "trans_header_name"
 msgid "File:"
-msgstr ""
+msgstr "Fitxer:"
 
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
-msgstr ""
+msgstr "Avortar la transferència?"
 
 msgctxt "confirm_abort_trans_message"
 msgid "Abort File:"
-msgstr ""
+msgstr "Avortar arxiu:"
 
 msgctxt "confirm_abort_trans_confirm"
 msgid "Abort"
-msgstr ""
+msgstr "Avorta"
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"
 msgid "Loading log messages…"
-msgstr ""
+msgstr "Carregant missatges de registre..."
 
 msgctxt "eventlog_client_header"
 msgid "Client Messages"
-msgstr ""
+msgstr "Missatges del client"
 
 msgctxt "eventlog_gui_header"
 msgid "GUI Messages"
@@ -908,123 +907,122 @@ msgstr "S'està executant una aplicació amb ús exclusiu."
 
 msgctxt "suspend_cpu"
 msgid "Your device is busy with other apps."
-msgstr ""
+msgstr "El teu dispositiu està ocupat per altres aplicacions."
 
 msgctxt "suspend_network_quota"
 msgid "BOINC reached network transfer limit."
-msgstr ""
+msgstr "BOINC ha assolit el límit de transferència per xarxa."
 
 msgctxt "suspend_os"
 msgid "Stopped by Android."
-msgstr ""
+msgstr "Suspès per Android."
 
 msgctxt "suspend_wifi"
 msgid "Not connected to WiFi."
-msgstr ""
+msgstr "No hi ha connexió Wifi."
 
 msgctxt "suspend_battery_charging"
 msgid "Battery needs to charge before resuming computation."
-msgstr ""
+msgstr "La bateria necessita carregar-se abans de continuar la computació."
 
 msgctxt "suspend_battery_charging_long"
 msgid "Computing will resume when battery charge reaches"
-msgstr ""
+msgstr "La computació continuarà quan la bateria tingui una carregada del"
 
 msgctxt "suspend_battery_charging_current"
 msgid "currently"
-msgstr ""
+msgstr "actual"
 
 msgctxt "suspend_battery_overheating"
 msgid "Waiting for battery to cool down"
-msgstr ""
+msgstr "Esperant que es refredi la bateria"
 
 msgctxt "suspend_user_req"
 msgid "Resuming computation…"
-msgstr ""
+msgstr "Continuant la computació..."
 
 msgctxt "suspend_network_user_req"
 msgid "manually."
-msgstr ""
+msgstr "manualment."
 
 #. rpc reasons
 msgctxt "rpcreason_userreq"
 msgid "Requested by user"
-msgstr ""
+msgstr "Sol·licitat per l'usuari"
 
 msgctxt "rpcreason_needwork"
 msgid "To fetch work"
-msgstr ""
+msgstr "Per obtenir feina"
 
 msgctxt "rpcreason_resultsdue"
 msgid "To report completed tasks"
-msgstr ""
+msgstr "Per informar tasques finalitzades"
 
 msgctxt "rpcreason_trickleup"
 msgid "To send trickle-up message"
-msgstr ""
+msgstr "Per lliurar un missatge de degoteig"
 
 msgctxt "rpcreason_acctmgrreq"
 msgid "Requested by account manager"
-msgstr ""
+msgstr "Sol·licitat per l'administrador de comptes"
 
 msgctxt "rpcreason_init"
 msgid "Project initialization"
-msgstr ""
+msgstr "Inicialització del projecte"
 
 msgctxt "rpcreason_projectreq"
 msgid "Requested by project"
-msgstr ""
+msgstr "Sol·licitat per el projecte"
 
 msgctxt "rpcreason_unknown"
 msgid "Unknown reason"
-msgstr ""
+msgstr "Motiu desconegut"
 
 #. menu
 msgctxt "menu_refresh"
 msgid "Refresh"
-msgstr ""
+msgstr "Actualitza"
 
 msgctxt "menu_emailto"
 msgid "Send as Email"
-msgstr ""
+msgstr "Envia per correu electrònic"
 
 msgctxt "menu_copy"
 msgid "Copy to Clipboard"
-msgstr ""
+msgstr "Copia al porta-retalls"
 
 msgctxt "menu_eventlog"
 msgid "Event Log"
-msgstr ""
+msgstr "Registre d'esdeveniments"
 
 msgctxt "menu_exit"
 msgid "Exit BOINC"
-msgstr ""
+msgstr "Surt de BOINC"
 
-#, fuzzy
 msgctxt "menu_run_mode_disable"
 msgid "Suspend"
-msgstr "Suspès"
+msgstr "Suspèn"
 
 msgctxt "menu_run_mode_enable"
 msgid "Resume"
-msgstr ""
+msgstr "Reprèn"
 
 msgctxt "menu_about"
 msgid "About"
-msgstr ""
+msgstr "Sobre"
 
 msgctxt "menu_help"
 msgid "Help"
-msgstr ""
+msgstr "Ajuda"
 
 #. about dialog
 msgctxt "about_button"
 msgid "Return"
-msgstr ""
+msgstr "Retorna"
 
 msgctxt "about_title"
 msgid "About"
-msgstr ""
+msgstr "Sobre"
 
 msgctxt "about_name"
 msgid "BOINC"
@@ -1032,14 +1030,16 @@ msgstr "BOINC"
 
 msgctxt "about_version"
 msgid "Version"
-msgstr ""
+msgstr "Versió"
 
 msgctxt "about_name_long"
 msgid "Berkeley Open Infrastructure for Network Computing"
-msgstr ""
+msgstr "Berkeley Open Infrastructure for Network Computing"
 
 msgctxt "about_copyright"
 msgid ""
 "© 2003–2013 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
+"© 2003–2013 Universitat de Califòrnia, Berkeley.\n"
+"Tots els Drets Reservats."
