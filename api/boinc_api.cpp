@@ -189,6 +189,7 @@ static volatile bool worker_thread_exit_flag = false;
 static volatile int worker_thread_exit_status;
     // the above are used by the timer thread to tell
     // the worker thread to exit
+static pthread_t worker_thread_handle;
 static pthread_t timer_thread_handle;
 #ifndef GETRUSAGE_IN_TIMER_THREAD
 static struct rusage worker_thread_ru;
@@ -1241,14 +1242,14 @@ static void worker_signal_handler(int) {
     if (options.direct_process_action) {
         while (boinc_status.suspended && in_critical_section==0) {
 #ifdef ANDROID
-            // Suspicion that per-thread signal masking doesn't work
-            // on old versions of Android
+            // per-thread signal masking doesn't work
+            // on old (pre-4.1) versions of Android.
+            // If we're handling this signal in the timer thread,
+            // send signal explicitly to worker thread.
             //
             if (pthread_self() == timer_thread_handle) {
-                fprintf(stderr,
-                    "ERROR - signal handler called in timer thread\n"
-                );
-                exit(1);
+                pthread_kill(worker_thread_handle, SIGALRM);
+                return;
             }
 #endif
             sleep(1);   // don't use boinc_sleep() because it does FP math
@@ -1294,6 +1295,7 @@ int start_timer_thread() {
         SetThreadPriority(worker_thread_handle, THREAD_PRIORITY_IDLE);
     }
 #else
+    worker_thread_handle = pthread_self();
     pthread_attr_t thread_attrs;
     pthread_attr_init(&thread_attrs);
     pthread_attr_setstacksize(&thread_attrs, 32768);
