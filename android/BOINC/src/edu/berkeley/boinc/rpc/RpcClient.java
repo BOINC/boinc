@@ -900,6 +900,89 @@ public class RpcClient {
 		}
 	}
 	
+	/**
+	 * performs acct_mgr_rpc towards client
+	 * attaches account manager to client
+	 * requires polling of status
+	 * @param url
+	 * @param name
+	 * @param passwd
+	 * @return success
+	 */
+	public synchronized boolean acctMgrRPC(String url, String name, String passwd) {
+		try {
+			mRequest.setLength(0);
+			mRequest.append("<acct_mgr_rpc>\n   <url>");
+			mRequest.append(url);
+			mRequest.append("</url>\n   <name>");
+			mRequest.append(name);
+			mRequest.append("</name>\n   <password>");
+			mRequest.append(passwd);
+			mRequest.append("</password>\n</acct_mgr_rpc>\n");
+
+			sendRequest(mRequest.toString());
+			SimpleReplyParser parser = SimpleReplyParser.parse(receiveReply());
+			mLastErrorMessage = parser.getErrorMessage();
+			return parser.result();
+		} catch (IOException e) {
+			if(Logging.WARNING) Log.w(Logging.TAG, "error in acctMgrRPC()", e);
+			return false;
+		}
+	}
+	
+	/**
+	 * performs acct_mgr_rpc with <use_config_file/> instead of login information
+	 * @return success
+	 */
+	public synchronized boolean acctMgrRPC() {
+		try {
+			mRequest.setLength(0);
+			mRequest.append("<acct_mgr_rpc>\n<use_config_file/>\n</acct_mgr_rpc>\n");
+
+			sendRequest(mRequest.toString());
+			SimpleReplyParser parser = SimpleReplyParser.parse(receiveReply());
+			mLastErrorMessage = parser.getErrorMessage();
+			return parser.result();
+		} catch (IOException e) {
+			if(Logging.WARNING) Log.w(Logging.TAG, "error in acctMgrRPC()", e);
+			return false;
+		}
+	}
+
+	/**
+	 * performs acct_mgr_rpc_poll towards client
+	 * polls status of acct_mgr_rpc
+	 * @return status class AcctMgrRPCReply
+	 */
+	public synchronized AcctMgrRPCReply acctMgrRPCPoll() {
+		try {
+			mRequest.setLength(0);
+			mRequest.append("<acct_mgr_rpc_poll/>");
+
+			sendRequest(mRequest.toString());
+			return AcctMgrRPCReplyParser.parse(receiveReply());
+		} catch (IOException e) {
+			if(Logging.WARNING) Log.w(Logging.TAG, "error in acctMgrRPCPoll()", e);
+			return null;
+		}
+	}
+	
+	/**
+	 * performs acct_mgr_info towards client
+	 * @return status class AcctMgrInfo
+	 */
+	public synchronized AcctMgrInfo getAcctMgrInfo() {
+		mLastErrorMessage = null;
+		try {
+			sendRequest("<acct_mgr_info/>\n");
+			return AcctMgrInfoParser.parse(receiveReply());
+		}
+		catch (IOException e) {
+			if(Logging.WARNING) Log.w(Logging.TAG, "error in getAcctMgrInfo()", e);
+			return null;
+		}
+	}
+	
 	public synchronized boolean getProjectConfig(String url) {
 		try {
 			mRequest.setLength(0);

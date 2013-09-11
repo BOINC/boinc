@@ -153,7 +153,7 @@
   <string name="projects_control_reset">Sıfırla</string>
   <string name="projects_confirm_detach_title">Proje kaldırılsın mı?</string>
   <string name="projects_confirm_detach_message">Bu proje BOINC\'ten kaldırılsın mı:</string>
-  <string name="projects_confirm_detach_message2">?</string>
+  <string name="projects_confirm_detach_message2">\?</string>
   <string name="projects_confirm_detach_confirm">Kaldır</string>
   <string name="projects_confirm_reset_title">Projeyi sıfırla</string>
   <string name="projects_confirm_reset_message">Bu proje sıfırlansın mı:</string>

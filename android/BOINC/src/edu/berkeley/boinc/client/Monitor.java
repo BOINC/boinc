@@ -65,6 +65,8 @@ import edu.berkeley.boinc.rpc.ProjectInfo;
 import edu.berkeley.boinc.rpc.ProjectConfig;
 import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.rpc.Transfer;
+import edu.berkeley.boinc.rpc.AcctMgrRPCReply;
+import edu.berkeley.boinc.rpc.AcctMgrInfo;
 
 public class Monitor extends Service {
 	
@@ -374,9 +376,10 @@ public class Monitor extends Service {
 				if(Logging.VERBOSE) Log.d(Logging.TAG, "readClientStatus(): screen on, get complete status");
 				CcState state = rpc.getState();
 				ArrayList<Transfer>  transfers = rpc.getFileTransfers();
+				AcctMgrInfo acctMgrInfo = rpc.getAcctMgrInfo();
 				
-				if( (status != null) && (state != null) && (state.results != null) && (state.projects != null) && (transfers != null) && (state.host_info != null)) {
-					Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers, state.host_info);
+				if( (status != null) && (state != null) && (state.results != null) && (state.projects != null) && (transfers != null) && (state.host_info != null) && (acctMgrInfo != null)) {
+					Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers, state.host_info, acctMgrInfo);
 					// Update status bar notification
 					ClientNotification.getInstance(getApplicationContext()).update();
 				} else {
@@ -388,6 +391,7 @@ public class Monitor extends Service {
 						if(state.projects == null) nullValues += "state.projects,";
 						if(transfers == null) nullValues += "transfers,";
 						if(state.host_info == null) nullValues += "state.host_info,";
+						if(acctMgrInfo == null) nullValues += "acctMgrInfo,";
 					} catch (NullPointerException e) {};
 					if(Logging.ERROR) Log.e(Logging.TAG, "readClientStatus(): connection problem, null: " + nullValues);
 				}
@@ -1060,6 +1064,119 @@ public class Monitor extends Service {
     		}
     	} else {if(Logging.DEBUG) Log.d(Logging.TAG,"rpc.createAccount returned false.");}
     	return auth;
+	}
+	
+	public AcctMgrRPCReply addAcctMgr(String url, String userName, String pwd) {
+		AcctMgrRPCReply reply = null;
+    	Boolean success = rpc.acctMgrRPC(url, userName, pwd); //asynchronous call to attach account manager
+    	if(success) { //only continue if rpc command did not fail
+    		// verify success of acctMgrRPC with poll function
+    		Integer counter = 0;
+    		Integer sleepDuration = 500; //in milliseconds
+    		Integer maxLoops = maxDuration / sleepDuration;
+    		Boolean loop = true;
+    		while(loop && (counter < maxLoops)) {
+    			loop = false;
+    			try {
+    				Thread.sleep(sleepDuration);
+    			} catch (Exception e) {}
+    			counter ++;
+    			reply = rpc.acctMgrRPCPoll();
+    			if(reply == null) {
+    				if(Logging.DEBUG) Log.d(Logging.TAG,"error in rpc.addAcctMgr.");
+    				return null;
+    			}
+    			if (reply.error_num == -204) {
+    				loop = true; //no result yet, keep looping
+    			}
+    			else {
+    				//final result ready
+    				if(reply.error_num == 0) if(Logging.DEBUG) Log.d(Logging.TAG, "account manager attach successful.");
+    				else if(Logging.DEBUG) Log.d(Logging.TAG, "account manager attach failed, error: " + reply.error_num);
+    			}
+    		}
+    	} else {if(Logging.DEBUG) Log.d(Logging.TAG,"rpc.acctMgrRPC returned false.");}
+    	return reply;
+	}
+	
+	// RPC sequence copied by implementation of MAC manager
+	public Boolean synchronizeAcctMgr(String url) {
+
+	// 1st get_project_config for account manager url
+		Boolean success = false;
+		ProjectConfig reply = null;
+		success = rpc.getProjectConfig(url);
+    	if(success) { //only continue if rpc command did not fail
+    		// verify success of getProjectConfig with poll function
+    		Integer counter = 0;
+    		Integer sleepDuration = 500; //in milliseconds
+    		Integer maxLoops = maxDuration / sleepDuration;
+    		Boolean loop = true;
+    		while(loop && (counter < maxLoops)) {
+    			loop = false;
+    			try {
+    				Thread.sleep(sleepDuration);
+    			} catch (Exception e) {}
+    			counter ++;
+    			reply = rpc.getProjectConfigPoll();
+    			if(reply == null) {
+    				if(Logging.DEBUG) Log.d(Logging.TAG,"error in rpc.getProjectConfig.");
+    				return false;
+    			}
+    			if (reply.error_num == -204) {
+    				loop = true; //no result yet, keep looping
+    			}
+    			else {
+    				//final result ready
+    				if(reply.error_num == 0) if(Logging.DEBUG) Log.d(Logging.TAG, "getting project config for account manager synchronization successful.");
+    				else  {
+    					if(Logging.DEBUG) Log.d(Logging.TAG, "getting project config for account manager synchronization failed, error: " + reply.error_num);
+    					return false;
+    				}
+    			}
+    		}
+    	} else {if(Logging.DEBUG) Log.d(Logging.TAG,"rpc.getProjectConfig returned false.");}
+		
+    // 2nd acct_mgr_rpc with <use_config_file/>
+		success = false;
+		AcctMgrRPCReply reply2 = null;
+    	success = rpc.acctMgrRPC(); //asynchronous call to synchronize account manager
+    	if(success) { //only continue if rpc command did not fail
+    		// verify success of acctMgrRPC with poll function
+    		Integer counter = 0;
+    		Integer sleepDuration = 500; //in milliseconds
+    		Integer maxLoops = maxDuration / sleepDuration;
+    		Boolean loop = true;
+    		while(loop && (counter < maxLoops)) {
+    			loop = false;
+    			try {
+    				Thread.sleep(sleepDuration);
+    			} catch (Exception e) {}
+    			counter ++;
+    			reply2 = rpc.acctMgrRPCPoll();
+    			if(reply2 == null) {
+    				if(Logging.DEBUG) Log.d(Logging.TAG,"error in rpc.addAcctMgr.");
+    				return false;
+    			}
+    			if (reply2.error_num == -204) {
+    				loop = true; //no result yet, keep looping
+    			}
+    			else {
+    				//final result ready
+    				if(reply2.error_num == 0) if(Logging.DEBUG) Log.d(Logging.TAG, "account manager synchronization successful.");
+    				else {
+    					if(Logging.DEBUG) Log.d(Logging.TAG, "account manager synchronization failed, error: " + reply2.error_num);
+    					return false;
+    				}
+    			}
+    		}
+    	} else {if(Logging.DEBUG) Log.d(Logging.TAG,"rpc.acctMgrRPC returned false.");}
+		
+		return false;
+	}
+	
+	public AcctMgrInfo getAcctMgrInfo() {
+		return rpc.getAcctMgrInfo();
 	}
 	
 	// returns given number of client messages, older than provided seqNo
