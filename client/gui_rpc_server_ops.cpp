@@ -1191,6 +1191,14 @@ static void handle_report_device_status(GUI_RPC_CONN& grc) {
                 }
             }
             if (!retval) {
+                // if the GUI reported a device name, use it
+                //
+                if (strlen(d.device_name)) {
+                    if (strcmp(d.device_name, gstate.host_info.domain_name)) {
+                        strcpy(gstate.host_info.domain_name, d.device_name);
+                        gstate.set_client_state_dirty("Device name changed");
+                    }
+                }
                 gstate.device_status = d;
                 gstate.device_status_time = gstate.now;
                 grc.mfout.printf("<success/>\n");
@@ -1213,6 +1221,7 @@ int DEVICE_STATUS::parse(XML_PARSER& xp) {
         if (xp.parse_double("battery_temperature_celsius", battery_temperature_celsius)) continue;
         if (xp.parse_bool("wifi_online", wifi_online)) continue;
         if (xp.parse_bool("user_active", user_active)) continue;
+        if (xp.parse_str("device_name", device_name, sizeof(device_name))) continue;
     }
     return ERR_XML_PARSE;
 }
