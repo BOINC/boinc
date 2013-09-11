@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.8x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-18 11:32-0500\n"
-"PO-Revision-Date: 2013-09-07 15:40+0200\n"
+"PO-Revision-Date: 2013-09-07 18:50+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <bilgi@donanimhaber.com>\n"
 "Language: tr\n"
@@ -1299,7 +1299,7 @@ msgid "check this if you want your GPU to do work even when you're using the com
 msgstr ""
 "BOINC normalde bilgisayar boştayken çalışır. Bilgisayarınızı kullandığınız "
 "sırada da ekran kartınızla (GPU) hesaplamanın çalışmasını istiyorsanız bunu "
-"işaretleyin (bazı ekran kartlarıyla yavaşlama yaratabilir)"
+"işaretleyin (bazı ekran kartlarıyla sistemde yavaşlama yaratabilir)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:172
 msgid "Only after computer has been idle for"
@@ -1993,7 +1993,7 @@ msgstr "Yerel:"
 #: clientgui/DlgOptions.cpp:129
 #: clientgui/DlgOptions.cpp:135
 msgid "Options"
-msgstr "Tercihler"
+msgstr "Seçenekler"
 
 #: clientgui/DlgOptions.cpp:175
 msgid "Language:"
