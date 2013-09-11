@@ -244,6 +244,10 @@ struct DEVICE_STATUS {
     double battery_temperature_celsius;
     bool wifi_online;
     bool user_active;
+    char device_name[256];
+        // if present, a user-selected name for the device.
+        // This will be stored by the client as hostinfo.domain_name,
+        // and reported to schedulers.
 
     int parse(XML_PARSER&);
     DEVICE_STATUS() {
@@ -254,6 +258,7 @@ struct DEVICE_STATUS {
         battery_temperature_celsius = 0;
         wifi_online = false;
         user_active = false;
+        strcpy(device_name, "");
     }
 };
 
