@@ -146,7 +146,11 @@ public class ProjectsActivity extends FragmentActivity {
 			AcctMgrInfo tmpB = Monitor.getClientStatus().getAcctMgrInfo();
 			
 			if(tmpA == null || tmpB == null) {
+				Boolean aNull = tmpA == null;
+				Boolean bNull = tmpB == null;
+				if(Logging.ERROR) Log.d(Logging.TAG,"ProjectsActiviy data retrieval failed: tmpA null: " + aNull + " ; tmpB null: " + bNull);
 				setLayoutLoading();
+				
 				return;
 			}
 			
@@ -172,6 +176,7 @@ public class ProjectsActivity extends FragmentActivity {
 		} catch (Exception e) {
 			// data retrieval failed, set layout to loading...
 			setLayoutLoading();
+			if(Logging.ERROR) Log.d(Logging.TAG,"ProjectsActiviy data retrieval failed.");
 		}
 	}
 	
@@ -240,6 +245,7 @@ public class ProjectsActivity extends FragmentActivity {
 		if(serverNotices != null) {
 			int mappedServerNotices = 0;
 			for(ProjectsListData project: data) {
+				if(project.isMgr) continue; // do not seek notices in manager entries (crashes)
 				boolean noticeFound = false;
 				for(Notice serverNotice: serverNotices) {
 					if(project.project.project_name.equals(serverNotice.project_name)) {
