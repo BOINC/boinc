@@ -42,6 +42,7 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.util.Log;
 import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.rpc.AcctMgrInfo;
 import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.Project;
@@ -71,6 +72,7 @@ public class ClientStatus {
 	private ArrayList<Transfer> transfers;
 	private GlobalPreferences prefs;
 	private HostInfo hostinfo;
+	private AcctMgrInfo acctMgrInfo;
 	
 	// setup status
 	public Integer setupStatus = 0;
@@ -168,12 +170,13 @@ public class ClientStatus {
 	/*
 	 * called frequently by Monitor to set the RPC data. These objects are used to determine the client status and parse it in the data model of this class.
 	 */
-	public synchronized void setClientStatus(CcStatus status,ArrayList<Result> results,ArrayList<Project> projects, ArrayList<Transfer> transfers, HostInfo hostinfo) {
+	public synchronized void setClientStatus(CcStatus status,ArrayList<Result> results,ArrayList<Project> projects, ArrayList<Transfer> transfers, HostInfo hostinfo, AcctMgrInfo acctMgrInfo) {
 		this.status = status;
 		this.results = results;
 		this.projects = projects;
 		this.transfers = transfers;
 		this.hostinfo = hostinfo;
+		this.acctMgrInfo = acctMgrInfo;
 		parseClientStatus();
 		if(Logging.VERBOSE) Log.v(Logging.TAG,"setClientStatus: #results:" + results.size() + " #projects:" + projects.size() + " #transfers:" + transfers.size() + " // computing: " + computingParseError + computingStatus + computingSuspendReason + " - network: " + networkParseError + networkStatus + networkSuspendReason);
 		if(!computingParseError && !networkParseError && !setupStatusParseError) {
@@ -255,6 +258,10 @@ public class ClientStatus {
 			return null;
 		}
 		return hostinfo;
+	}
+	
+	public synchronized AcctMgrInfo getAcctMgrInfo() {
+		return acctMgrInfo; // can be null
 	}
 
 	// updates list of slideshow images of all projects

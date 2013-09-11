@@ -43,9 +43,15 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import edu.berkeley.boinc.rpc.AccountOut;
+import edu.berkeley.boinc.rpc.AcctMgrRPCReply;
+import edu.berkeley.boinc.rpc.AcctMgrInfo;
 import edu.berkeley.boinc.utils.BOINCErrors;
 
 public class AttachProjectWorkingActivity extends Activity{
+	
+	public static final int ACTION_ATTACH = 1;
+	public static final int ACTION_REGISTRATION = 2;
+	public static final int ACTION_ACCTMGR = 3;
 	
 	private Monitor monitor;
 	private Boolean mIsBound = false;
@@ -55,7 +61,7 @@ public class AttachProjectWorkingActivity extends Activity{
 	private ArrayList<View> views = new ArrayList<View>();
 	private ViewGroup anchor;
 	
-	private Boolean registration; // if false, login attempt
+	private int action;
 	private String projectUrl;
 	private String projectName;
 	private String id;
@@ -73,7 +79,7 @@ public class AttachProjectWorkingActivity extends Activity{
 		    mIsBound = true;        
 		    
 		    // do desired action
-		    new ProjectAccountAsync(registration, projectUrl, id, eMail, userName, teamName, pwd, usesName, projectName).execute();
+		    new ProjectAccountAsync(action, projectUrl, id, eMail, userName, teamName, pwd, usesName, projectName).execute();
 	    }
 
 	    public void onServiceDisconnected(ComponentName className) { // This should not happen
@@ -92,7 +98,7 @@ public class AttachProjectWorkingActivity extends Activity{
 
     	//parse information from intent extras
         try {
-        	registration = getIntent().getBooleanExtra("registration", false);
+        	action = getIntent().getIntExtra("action", 0);
         	usesName = getIntent().getBooleanExtra("usesName", false);
         	projectUrl = getIntent().getStringExtra("projectUrl");
         	projectName = getIntent().getStringExtra("projectName");
@@ -102,7 +108,7 @@ public class AttachProjectWorkingActivity extends Activity{
         	pwd = getIntent().getStringExtra("pwd");
         	id = getIntent().getStringExtra("id");
         			
-        	if(Logging.DEBUG) Log.d(Logging.TAG,"AttachProjectWorkingActivity intent extras: " + projectUrl + projectName + id + userName + teamName + eMail + usesName);
+        	if(Logging.DEBUG) Log.d(Logging.TAG,"AttachProjectWorkingActivity intent extras: " + action + projectUrl + projectName + id + userName + teamName + eMail + usesName);
         } catch (Exception e) {
         	if(Logging.WARNING) Log.w(Logging.TAG, "AttachProjectWorkingActivity error while parsing extras", e);
         	finish(); // no point to continue without data
@@ -179,6 +185,9 @@ public class AttachProjectWorkingActivity extends Activity{
 		case BOINCErrors.ERR_ACCT_CREATION_DISABLED:
 			stringResource = R.string.attachproject_error_creation_disabled;
 			break;
+		case BOINCErrors.ERR_INVALID_URL:
+			stringResource = R.string.attachproject_error_invalid_url;
+			break;
 		default:
 			stringResource = R.string.attachproject_error_unknown;
 			break;
@@ -250,7 +259,7 @@ public class AttachProjectWorkingActivity extends Activity{
 	
 	private final class ProjectAccountAsync extends AsyncTask<Void, Update, Boolean> {
 		
-		private Boolean registration;
+		private Integer action;
 		private String url;
 		private String id; // used for login can be either email or user, depending on usesName
 		private String email;
@@ -260,8 +269,8 @@ public class AttachProjectWorkingActivity extends Activity{
 		private Boolean usesName;
 		private String projectName;
 		
-		public ProjectAccountAsync(Boolean registration, String url, String id, String email, String userName, String teamName, String pwd, Boolean usesName, String projectName) {
-			this.registration = registration;
+		public ProjectAccountAsync(Integer action, String url, String id, String email, String userName, String teamName, String pwd, Boolean usesName, String projectName) {
+			this.action = action;
 			this.url = url;
 			this.id = id; // used for login
 			this.email = email;
@@ -274,7 +283,7 @@ public class AttachProjectWorkingActivity extends Activity{
 		
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			if(Logging.DEBUG) Log.d(Logging.TAG,"ProjectAccountAsync doInBackground");
+			if(Logging.DEBUG) Log.d(Logging.TAG,"ProjectAccountAsync doInBackground, action: " + action);
 			
 			//check device online
 			publishProgress(new Update(false, false, R.string.attachproject_working_connect,"",0));
@@ -285,103 +294,173 @@ public class AttachProjectWorkingActivity extends Activity{
 			}
 			publishProgress(new Update(true, true, R.string.attachproject_working_connect,"",0));
 			
-			// get authenticator
-			AccountOut account = null;
-			Integer attemptCounter = 0;
-			Integer maxAttempts = 0;
-			Boolean success = false;
-			int err = -1;
-			if(registration) {
-				// register account
-				publishProgress(new Update(false, false, R.string.attachproject_working_register,"",0));
-				maxAttempts = getResources().getInteger(R.integer.attach_creation_retries);
-				if(Logging.DEBUG) Log.d(Logging.TAG,"registration with: " + url + email + userName + teamName + maxAttempts);
+			if(action == ACTION_ACCTMGR) {
+			// 1st: add account manager	
+				AcctMgrRPCReply reply = null;
+				publishProgress(new Update(false, false, R.string.attachproject_working_acctmgr,"",0));
+				Integer maxAttempts = getResources().getInteger(R.integer.attach_acctmgr_retries);
+				Integer attemptCounter = 0;
+				Boolean success = false;
+				Integer err = 0;
+				if(Logging.DEBUG) Log.d(Logging.TAG,"account manager with: " + url + userName + maxAttempts);
 				// retry a defined number of times, if non deterministic failure occurs.
 				// makes login more robust on bad network connections
 				while(!success && attemptCounter < maxAttempts) {
-					account = monitor.createAccount(url, email, userName, pwd, teamName);
+					reply = monitor.addAcctMgr(url, userName, pwd);
 					
-					if(account == null || account.error_num != BOINCErrors.ERR_OK) {
+					if(reply == null || reply.error_num != BOINCErrors.ERR_OK) {
 						// failed
-						if(account != null) err = account.error_num;
-						if(Logging.DEBUG) Log.d(Logging.TAG,"registration failed, error code: " + err);
+						if(reply != null) err = reply.error_num;
+						if(Logging.DEBUG) Log.d(Logging.TAG,"adding account manager failed, error code: " + err);
 						if(err == -1 || err == BOINCErrors.ERR_GETHOSTBYNAME){
 							// worth a retry
 							attemptCounter++;
 						} else {
 							// not worth a retry, return
-							publishProgress(new Update(true, false, R.string.attachproject_working_register, mapErrorNumToString(err),err));
+							publishProgress(new Update(true, false, R.string.attachproject_working_acctmgr, mapErrorNumToString(err),err));
 							return false;
 						}
 					} else {
 						// successful
 						try {Thread.sleep(timeInterval);} catch (Exception e){}
-						publishProgress(new Update(true, true, R.string.attachproject_working_register,"",0));
+						publishProgress(new Update(true, true, R.string.attachproject_working_acctmgr,"",0));
 						success = true;
 					}
 				}
 				// reached end of loop, check if successful
 				if(!success) {
-					publishProgress(new Update(true, false, R.string.attachproject_working_register, mapErrorNumToString(err),err));
+					publishProgress(new Update(true, false, R.string.attachproject_working_acctmgr, mapErrorNumToString(err),err));
 					return false;
 				}
-			} else {
-				// lookup authenticator
-				publishProgress(new Update(false, false, R.string.attachproject_working_verify,"",0));
-				maxAttempts = getResources().getInteger(R.integer.attach_login_retries);
-				if(Logging.DEBUG) Log.d(Logging.TAG,"loging with: " + url + id + usesName + maxAttempts);
-				// retry a defined number of times, if non deterministic failure occurs.
-				// makes login more robust on bad network connections
-				while(!success && attemptCounter < maxAttempts) {
-					account = monitor.lookupCredentials(url, id, pwd, usesName);
-					
-					if(account == null || account.error_num != BOINCErrors.ERR_OK) {
-						// failed
-						if(account != null) err = account.error_num;
-						if(Logging.DEBUG) Log.d(Logging.TAG,"registration failed, error code: " + err);
-						if(err == -1 || err == BOINCErrors.ERR_GETHOSTBYNAME){
-							// worth a retry
-							attemptCounter++;
-						} else {
-							// not worth a retry, return
-							publishProgress(new Update(true, false, R.string.attachproject_working_verify, mapErrorNumToString(err), err));
-							return false;
-						}
-					} else {
-						// successful
-						try {Thread.sleep(timeInterval);} catch (Exception e){}
-						publishProgress(new Update(true, true, R.string.attachproject_working_verify,"",0));
-						success = true;
-					}
-				}
-				// reached end of loop, check if successful
-				if(!success) {
-					publishProgress(new Update(true, false, R.string.attachproject_working_verify, mapErrorNumToString(err), err));
-					return false;
-				}
-			}
 			
-			// attach project
-			attemptCounter = 0;
-			success = false;
-			maxAttempts = getResources().getInteger(R.integer.attach_attach_retries);
-			publishProgress(new Update(false, false, R.string.attachproject_working_login,"",0));
-			while(!success && attemptCounter < maxAttempts) {
-				Boolean attach = monitor.attachProject(url, projectName, account.authenticator);
-				if(attach) {
-					// successful
-					success = true;
+			// 2nd: verify success by getting account manager info	
+				attemptCounter = 0;
+				success = false;
+				publishProgress(new Update(false, false, R.string.attachproject_working_acctmgr_sync,"",0));
+				// retry a defined number of times, if non deterministic failure occurs.
+				// makes login more robust on bad network connections
+				while(!success && attemptCounter < maxAttempts) {
+					AcctMgrInfo info = monitor.getAcctMgrInfo();
+					if(Logging.DEBUG) Log.d(Logging.TAG,"acctMgrInfo: " + info.acct_mgr_url + info.acct_mgr_name + info.have_credentials);
+					
+
 					try {Thread.sleep(timeInterval);} catch (Exception e){}
-					publishProgress(new Update(true, true, R.string.attachproject_working_login,"",0));
-				} else {
-					// failed
-					attemptCounter++;
+					
+					if(info == null) {
+						// failed
+						attemptCounter++;
+					} else {
+						// successful
+						publishProgress(new Update(true, true, R.string.attachproject_working_acctmgr_sync,"",0));
+						success = true;
+					}
 				}
-			}
-			if(!success) {
-				// still failed
-				publishProgress(new Update(true, false, R.string.attachproject_working_login,"",0));
-				return false;
+				// reached end of loop, check if successful
+				if(!success) {
+					publishProgress(new Update(true, false, R.string.attachproject_working_acctmgr_sync, mapErrorNumToString(err),err));
+					return false;
+				}
+				
+			} else {
+				// not adding account manager, either registration or attach
+				// 1. get authenticator
+				AccountOut account = null;
+				Integer attemptCounter = 0;
+				Integer maxAttempts = 0;
+				Boolean success = false;
+				int err = -1;
+				if(action == ACTION_REGISTRATION) {
+					// register account
+					publishProgress(new Update(false, false, R.string.attachproject_working_register,"",0));
+					maxAttempts = getResources().getInteger(R.integer.attach_creation_retries);
+					if(Logging.DEBUG) Log.d(Logging.TAG,"registration with: " + url + email + userName + teamName + maxAttempts);
+					// retry a defined number of times, if non deterministic failure occurs.
+					// makes login more robust on bad network connections
+					while(!success && attemptCounter < maxAttempts) {
+						account = monitor.createAccount(url, email, userName, pwd, teamName);
+						
+						if(account == null || account.error_num != BOINCErrors.ERR_OK) {
+							// failed
+							if(account != null) err = account.error_num;
+							if(Logging.DEBUG) Log.d(Logging.TAG,"registration failed, error code: " + err);
+							if(err == -1 || err == BOINCErrors.ERR_GETHOSTBYNAME){
+								// worth a retry
+								attemptCounter++;
+							} else {
+								// not worth a retry, return
+								publishProgress(new Update(true, false, R.string.attachproject_working_register, mapErrorNumToString(err),err));
+								return false;
+							}
+						} else {
+							// successful
+							try {Thread.sleep(timeInterval);} catch (Exception e){}
+							publishProgress(new Update(true, true, R.string.attachproject_working_register,"",0));
+							success = true;
+						}
+					}
+					// reached end of loop, check if successful
+					if(!success) {
+						publishProgress(new Update(true, false, R.string.attachproject_working_register, mapErrorNumToString(err),err));
+						return false;
+					}
+				} else if (action == ACTION_ATTACH){
+					// lookup authenticator
+					publishProgress(new Update(false, false, R.string.attachproject_working_verify,"",0));
+					maxAttempts = getResources().getInteger(R.integer.attach_login_retries);
+					if(Logging.DEBUG) Log.d(Logging.TAG,"loging with: " + url + id + usesName + maxAttempts);
+					// retry a defined number of times, if non deterministic failure occurs.
+					// makes login more robust on bad network connections
+					while(!success && attemptCounter < maxAttempts) {
+						account = monitor.lookupCredentials(url, id, pwd, usesName);
+						
+						if(account == null || account.error_num != BOINCErrors.ERR_OK) {
+							// failed
+							if(account != null) err = account.error_num;
+							if(Logging.DEBUG) Log.d(Logging.TAG,"registration failed, error code: " + err);
+							if(err == -1 || err == BOINCErrors.ERR_GETHOSTBYNAME){
+								// worth a retry
+								attemptCounter++;
+							} else {
+								// not worth a retry, return
+								publishProgress(new Update(true, false, R.string.attachproject_working_verify, mapErrorNumToString(err), err));
+								return false;
+							}
+						} else {
+							// successful
+							try {Thread.sleep(timeInterval);} catch (Exception e){}
+							publishProgress(new Update(true, true, R.string.attachproject_working_verify,"",0));
+							success = true;
+						}
+					}
+					// reached end of loop, check if successful
+					if(!success) {
+						publishProgress(new Update(true, false, R.string.attachproject_working_verify, mapErrorNumToString(err), err));
+						return false;
+					}
+				}
+				
+				// 2. attach project
+				attemptCounter = 0;
+				success = false;
+				maxAttempts = getResources().getInteger(R.integer.attach_attach_retries);
+				publishProgress(new Update(false, false, R.string.attachproject_working_login,"",0));
+				while(!success && attemptCounter < maxAttempts) {
+					Boolean attach = monitor.attachProject(url, projectName, account.authenticator);
+					if(attach) {
+						// successful
+						success = true;
+						try {Thread.sleep(timeInterval);} catch (Exception e){}
+						publishProgress(new Update(true, true, R.string.attachproject_working_login,"",0));
+					} else {
+						// failed
+						attemptCounter++;
+					}
+				}
+				if(!success) {
+					// still failed
+					publishProgress(new Update(true, false, R.string.attachproject_working_login,"",0));
+					return false;
+				}
 			}
 			
 			return true;

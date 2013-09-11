@@ -309,7 +309,7 @@ public class AttachProjectLoginActivity extends Activity{
 		// verify input and start AttachProjectWorkingActivity
 		if(verifyInput(id, pwd)){
 			Intent intent = new Intent(this, AttachProjectWorkingActivity.class);
-			intent.putExtra("registration", false);
+			intent.putExtra("action", AttachProjectWorkingActivity.ACTION_ATTACH);
 			intent.putExtra("usesName", projectConfig.userName);
 			intent.putExtra("projectUrl", projectConfig.masterUrl);
 			intent.putExtra("projectName", projectConfig.name);
