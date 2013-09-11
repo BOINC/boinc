@@ -853,6 +853,11 @@ function update_5_23_2013() {
     do_query("alter table host add product_name varchar(254) not null");
 }
 
+function update_9_10_2013() {
+    do_query("alter table workunit change mod_time mod_time timestamp default current_timestamp on update current_timestamp");
+    do_query("alter table result change mod_time mod_time timestamp default current_timestamp on update current_timestamp");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -887,6 +892,7 @@ $db_updates = array (
     array(27000, "update_11_25_2012"),
     array(27001, "update_4_26_2013"),
     array(27002, "update_5_23_2013"),
+    array(27003, "update_9_10_2013"),
 );
 
 ?>
