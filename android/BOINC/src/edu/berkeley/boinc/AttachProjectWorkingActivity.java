@@ -295,6 +295,7 @@ public class AttachProjectWorkingActivity extends Activity{
 			publishProgress(new Update(true, true, R.string.attachproject_working_connect,"",0));
 			
 			if(action == ACTION_ACCTMGR) {
+			// 1st: add account manager	
 				AcctMgrRPCReply reply = null;
 				publishProgress(new Update(false, false, R.string.attachproject_working_acctmgr,"",0));
 				Integer maxAttempts = getResources().getInteger(R.integer.attach_acctmgr_retries);
@@ -331,10 +332,11 @@ public class AttachProjectWorkingActivity extends Activity{
 					publishProgress(new Update(true, false, R.string.attachproject_working_acctmgr, mapErrorNumToString(err),err));
 					return false;
 				}
-				
-
+			
+			// 2nd: verify success by getting account manager info	
 				attemptCounter = 0;
 				success = false;
+				publishProgress(new Update(false, false, R.string.attachproject_working_acctmgr_sync,"",0));
 				// retry a defined number of times, if non deterministic failure occurs.
 				// makes login more robust on bad network connections
 				while(!success && attemptCounter < maxAttempts) {
@@ -344,18 +346,18 @@ public class AttachProjectWorkingActivity extends Activity{
 
 					try {Thread.sleep(timeInterval);} catch (Exception e){}
 					
-					if(info == null || !info.have_credentials) {
+					if(info == null) {
 						// failed
 						attemptCounter++;
 					} else {
 						// successful
-						publishProgress(new Update(true, true, R.string.attachproject_working_acctmgr,"",0));
+						publishProgress(new Update(true, true, R.string.attachproject_working_acctmgr_sync,"",0));
 						success = true;
 					}
 				}
 				// reached end of loop, check if successful
 				if(!success) {
-					publishProgress(new Update(true, false, R.string.attachproject_working_acctmgr, mapErrorNumToString(err),err));
+					publishProgress(new Update(true, false, R.string.attachproject_working_acctmgr_sync, mapErrorNumToString(err),err));
 					return false;
 				}
 				

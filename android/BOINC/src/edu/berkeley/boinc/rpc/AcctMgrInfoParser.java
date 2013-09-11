@@ -38,8 +38,6 @@ public class AcctMgrInfoParser extends BaseParser{
 	public static AcctMgrInfo parse(String rpcResult) {
 		try {
 			AcctMgrInfoParser parser = new AcctMgrInfoParser();
-			//TODO
-			Log.d("AcctMgrInfoParser", rpcResult);
 			Xml.parse(rpcResult, parser);
 			return parser.getAccountMgrInfo();
 		} catch (SAXException e) {
@@ -67,6 +65,8 @@ public class AcctMgrInfoParser extends BaseParser{
 				// inside <acct_mgr_info>
 				if (localName.equalsIgnoreCase("acct_mgr_info")) {
 					// closing tag
+					if (!mAcctMgrInfo.acct_mgr_name.isEmpty() && !mAcctMgrInfo.acct_mgr_url.isEmpty() && mAcctMgrInfo.have_credentials)
+						mAcctMgrInfo.present = true;
 				}
 				else {
 					// decode inner tags
@@ -75,9 +75,9 @@ public class AcctMgrInfoParser extends BaseParser{
 					} else if (localName.equalsIgnoreCase("acct_mgr_url")) {
 						mAcctMgrInfo.acct_mgr_url = mCurrentElement.toString();
 					} else if (localName.equalsIgnoreCase("have_credentials")) {
-						mAcctMgrInfo.have_credentials = mCurrentElement.toString().equals("1");
+						mAcctMgrInfo.have_credentials = true;
 					} else if (localName.equalsIgnoreCase("cookie_required")) {
-						mAcctMgrInfo.cookie_required = mCurrentElement.toString().equals("1");
+						mAcctMgrInfo.cookie_required = true;
 					} else if (localName.equalsIgnoreCase("cookie_failure_url"))
 						mAcctMgrInfo.cookie_failure_url = mCurrentElement.toString();
 				}

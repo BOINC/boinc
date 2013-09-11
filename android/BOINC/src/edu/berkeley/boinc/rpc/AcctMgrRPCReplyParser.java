@@ -36,8 +36,6 @@ public class AcctMgrRPCReplyParser extends BaseParser{
 	public static AcctMgrRPCReply parse(String rpcResult) {
 		try {
 			AcctMgrRPCReplyParser parser = new AcctMgrRPCReplyParser();
-			//TODO
-			Log.d("AcctMgrRPCReplyParser", rpcResult);
 			Xml.parse(rpcResult.replace("<success/>", "<success>1</success>"), parser);
 			return parser.getAccountMgrRPCReply();
 		} catch (SAXException e) {

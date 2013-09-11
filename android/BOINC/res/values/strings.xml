@@ -81,7 +81,7 @@
     	<!-- account manager -->
     <string name="attachproject_acctmgr_header">Add account manager</string>
     <string name="attachproject_acctmgr_header_url">URL</string>
-    <string name="attachproject_acctmgr_header_name">Name:</string>
+    <string name="attachproject_acctmgr_header_name">User:</string>
     <string name="attachproject_acctmgr_header_pwd">Password:</string>
     <string name="attachproject_acctmgr_header_pwd_confirm">&#8230; Retype:</string>
     <string name="attachproject_acctmgr_button">Add</string>
@@ -115,6 +115,7 @@
     <string name="attachproject_working_register">Register account</string>
     <string name="attachproject_working_login">Log in</string>
     <string name="attachproject_working_acctmgr">Add account manager</string>
+    <string name="attachproject_working_acctmgr_sync">Synchronize</string>
     
     <!-- main activity -->
     <string name="main_noproject_warning">Tab here to choose a project.</string>
@@ -214,6 +215,9 @@
 	<string name="projects_control_nonewtasks">No new tasks</string>
 	<string name="projects_control_allownewtasks">Allow new tasks</string>
 	<string name="projects_control_reset">Reset</string>
+	<string name="projects_control_dialog_title_acctmgr">Account manager commands:</string>
+	<string name="projects_control_sync_acctmgr">Synchronize</string>
+	<string name="projects_control_remove_acctmgr">Disable</string>
 		<!-- project confirm dialog -->
 	<string name="projects_confirm_detach_title">Remove project?</string>
 	<string name="projects_confirm_detach_message">Are you sure you want to remove</string>
@@ -223,6 +227,10 @@
 	<string name="projects_confirm_reset_message">Are you sure you want to reset</string>
 	<string name="projects_confirm_reset_message2">\?</string>
 	<string name="projects_confirm_reset_confirm">Reset</string>
+	<string name="projects_confirm_remove_acctmgr_title">Disable account manager</string>
+	<string name="projects_confirm_remove_acctmgr_message">Are you sure you want to stop using</string>
+	<string name="projects_confirm_remove_acctmgr_message2">\?</string>
+	<string name="projects_confirm_remove_acctmgr_confirm">Disable</string>
 				
 	<!-- tasks tab strings -->
 	<string name="tasks_header_name">Task Name:</string>

@@ -75,6 +75,12 @@ public class AttachProjectListActivity extends Activity implements android.view.
         listAdapter = new AttachProjectListAdapter(AttachProjectListActivity.this,R.id.listview,data);
         lv.setAdapter(listAdapter);
         
+        // disable "add account manager" button, if account manager already present
+        if(status.getAcctMgrInfo().present) {
+        	Button addAcctMgrButton = (Button) findViewById(R.id.accountManagerButton);
+        	addAcctMgrButton.setVisibility(View.GONE);
+        }
+        
         // set title bar
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_bar);
     }
