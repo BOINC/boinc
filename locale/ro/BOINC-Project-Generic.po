@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2013-09-10 15:30+0000\n"
+"PO-Revision-Date: 2013-09-12 10:56+0000\n"
 "Last-Translator: Marius <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
@@ -18,7 +18,7 @@ msgstr ""
 "20)) ? 1 : 2);;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1378827013.0\n"
+"X-POOTLE-MTIME: 1378983391.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Română"
@@ -3847,7 +3847,7 @@ msgstr ""
 
 #: ../user/forum_rate.php:75
 msgid "Vote Registered"
-msgstr ""
+msgstr "Vot Înregistrat"
 
 #: ../user/forum_rate.php:76
 msgid "Your rating has been recorded. Thanks for your input."
@@ -4388,6 +4388,8 @@ msgstr ""
 #: ../user/get_passwd.php:52
 msgid "Open the file in a text editor like Notepad. You'll see something like"
 msgstr ""
+"Deschideţi fişierul într-un editor text ca Notepad. Veţi vedea ceva de "
+"similar"
 
 #: ../user/get_passwd.php:62
 msgid "Select and Copy the string between %1 and %2 (%3 in the above example)."
@@ -4451,31 +4453,31 @@ msgstr "platformă anonimă"
 
 #: ../user/host_app_versions.php:42
 msgid "Missing app version"
-msgstr ""
+msgstr "Versiune aplicaţie lipsă"
 
 #: ../user/host_app_versions.php:44
 msgid "Missing app"
-msgstr ""
+msgstr "Aplicaţie lipsă"
 
 #: ../user/host_app_versions.php:46
 msgid "Missing platform"
-msgstr ""
+msgstr "Platformă lipsă"
 
 #: ../user/host_app_versions.php:55
 msgid "Number of tasks completed"
-msgstr ""
+msgstr "Număr task-uri finalizate"
 
 #: ../user/host_app_versions.php:56
 msgid "Max tasks per day"
-msgstr ""
+msgstr "Număr maxim task-uri pe zi"
 
 #: ../user/host_app_versions.php:57
 msgid "Number of tasks today"
-msgstr ""
+msgstr "Număr de task-uri azi"
 
 #: ../user/host_app_versions.php:58
 msgid "Consecutive valid tasks"
-msgstr ""
+msgstr "Task-uri valide consecutive"
 
 #: ../user/host_app_versions.php:62
 msgid "Average processing rate"
@@ -4498,7 +4500,7 @@ msgstr ""
 
 #: ../user/host_delete.php:40
 msgid "Delete record of computer"
-msgstr ""
+msgstr "Şterge înregistrarea calculatorului"
 
 #: ../user/host_delete.php:41
 msgid "Record deleted."
@@ -4510,11 +4512,11 @@ msgstr "Înapoi la lista calculatoarelor dumneavoastră"
 
 #: ../user/host_edit_action.php:39
 msgid "Merge computer records"
-msgstr ""
+msgstr "Unifică înregistrări calculator"
 
 #: ../user/host_edit_form.php:35
 msgid "Merge computers"
-msgstr ""
+msgstr "Unifică calculatoare"
 
 #: ../user/host_edit_form.php:38
 msgid ""
@@ -4549,15 +4551,15 @@ msgstr "ID calculator"
 
 #: ../user/host_edit_form.php:77
 msgid "no hostname"
-msgstr ""
+msgstr "fără nume gazdă"
 
 #: ../user/host_edit_form.php:109
 msgid "Merge hosts"
-msgstr ""
+msgstr "Unifică gazde"
 
 #: ../user/host_update_credit.php:28
 msgid "Updating computer credit"
-msgstr ""
+msgstr "Se actualizează creditul calculatorului"
 
 #: ../user/host_venue_action.php:41
 msgid "Host venue updated"
@@ -5288,7 +5290,7 @@ msgstr ""
 
 #: ../user/server_status.php:266
 msgid "scheduler"
-msgstr ""
+msgstr "planificator"
 
 #: ../user/server_status.php:299
 msgid "Running:"
@@ -5388,7 +5390,7 @@ msgstr "în curs"
 
 #: ../user/server_status.php:429
 msgid "avg runtime of last 100 results in h (min-max)"
-msgstr ""
+msgstr "timp mediu de rulare al utimelor 100 de rezultate în ore (min-max)"
 
 #: ../user/server_status.php:430
 msgid "users in last 24h"
@@ -5423,6 +5425,8 @@ msgid ""
 "More detailed statistics for %1 and other BOINC-based projects are available "
 "at several web sites:"
 msgstr ""
+"Statistici mai detaliate pentru %1 şi alte proiecte bazate pe BOINC sunt "
+"disponibile pe mai multe situri web:"
 
 #: ../user/stats.php:40
 msgid ""
@@ -5451,7 +5455,7 @@ msgstr ""
 
 #: ../user/team.php:31
 msgid "Each team has a %1founder%2 who may:"
-msgstr ""
+msgstr "Fiecare echipă are un %1fondator%2 care poate:"
 
 #: ../user/team.php:33
 msgid "access team members' email addresses"
@@ -5459,7 +5463,7 @@ msgstr ""
 
 #: ../user/team.php:34
 msgid "edit the team's name and description"
-msgstr ""
+msgstr "modifică numele şi descrierea echipei"
 
 #: ../user/team.php:35
 msgid "add or remove team admins"
@@ -5471,11 +5475,13 @@ msgstr "elimină membri din echipă"
 
 #: ../user/team.php:37
 msgid "disband a team if it has no members"
-msgstr ""
+msgstr "şterge o echipă dacă nu are membri"
 
 #: ../user/team.php:40
 msgid "To join a team, visit its team page and click %1Join this team%2."
 msgstr ""
+"Pentru a vă alătura unei echipe, vizitaţi pagina echipei şi selectatţi %"
+"1Alătură-te echipei%2."
 
 #: ../user/team.php:41 ../user/team_search.php:179
 msgid "Find a team"
@@ -5526,7 +5532,7 @@ msgstr ""
 
 #: ../user/team_admins.php:47
 msgid "Team Admins cannot:"
-msgstr ""
+msgstr "Administratorii Echipei nu pot:"
 
 #: ../user/team_admins.php:49
 msgid "Change the team founder"
@@ -5539,12 +5545,16 @@ msgstr "Elimină membrii"
 #: ../user/team_admins.php:53
 msgid "If a Team Admin quits the team, they cease to be a Team Admin."
 msgstr ""
+"Atunci când un Administrator de Echipă parăseşte echipa, încetează să mai "
+"fie Administrator de Echipă."
 
 #: ../user/team_admins.php:54
 msgid ""
 "We recommend that you select only people you know and trust very well as "
 "Team Admins."
 msgstr ""
+"Vă recomandăm să selectaţi doar persoane pe care le cunoaşteţi foarte bine "
+"şi în care aveţi încredere ca Administratori de Echipă."
 
 #: ../user/team_admins.php:59
 msgid "There are currently no Team Admins"
@@ -5654,11 +5664,11 @@ msgstr "Schimbă fondator"
 
 #: ../user/team_create_action.php:29
 msgid "You must choose a non-blank team name"
-msgstr ""
+msgstr "Trebuie să alegeţi un nume de echipă care să nu fie gol"
 
 #: ../user/team_create_action.php:34
 msgid "A team named %1 already exists - try another name"
-msgstr ""
+msgstr "O echipă numită %1 există deja - încercaţi un alt nume"
 
 #: ../user/team_create_action.php:54
 msgid "Could not create team - please try later."
@@ -5707,7 +5717,7 @@ msgstr "Numele '%1' este folosit de o altă echipă."
 
 #: ../user/team_edit_action.php:62
 msgid "Must specify team name"
-msgstr ""
+msgstr "Trebuie specificat numele echipei"
 
 #: ../user/team_edit_action.php:90
 msgid "Could not update team - please try again later."
@@ -5715,11 +5725,11 @@ msgstr "Nu s-a putut actualiza echipa - vă rugăm încercaţi mai târziu."
 
 #: ../user/team_edit_form.php:33
 msgid "Edit %1"
-msgstr ""
+msgstr "Editează %1"
 
 #: ../user/team_edit_form.php:34
 msgid "Update team info"
-msgstr ""
+msgstr "Actualizează informaţii echipă"
 
 #: ../user/team_email_list.php:61
 msgid "%1 Email List"
