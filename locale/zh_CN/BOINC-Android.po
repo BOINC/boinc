@@ -7,126 +7,128 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-08-29 15:37-0700\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2013-09-12 00:54+0000\n"
+"Last-Translator: Arthur200000_equn <arthur200000@chemistrict.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.10.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
+"X-POOTLE-MTIME: 1378947286.0\n"
 
 #. app global
 msgctxt "app_name"
 msgid "BOINC"
-msgstr ""
+msgstr "BOINC"
 
 #. generic. used by multiple Activities/tabs
 msgctxt "generic_loading"
 msgid "Loading! Please wait…"
-msgstr ""
+msgstr "正在载入，请稍候。"
 
 #. attach project
 #. project list
 msgctxt "attachproject_list_header"
 msgid "Choose a project:"
-msgstr ""
+msgstr "选择一个项目："
 
 msgctxt "attachproject_list_manual_button"
 msgid "Add project by URL"
-msgstr ""
+msgstr "通过网址（URL）添加项目："
 
 msgctxt "attachproject_list_manual_dialog_title"
 msgid "Enter project URL:"
-msgstr ""
+msgstr "输入项目网址（URL）："
 
 msgctxt "attachproject_list_manual_dialog_button"
 msgid "Add project"
-msgstr ""
+msgstr "添加项目"
 
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
-msgstr ""
+msgstr "请输入项目网址（URL）"
 
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
-msgstr ""
+msgstr "无可用网络连接"
 
 #. project login
 msgctxt "attachproject_login_loading"
 msgid "Contacting project server…"
-msgstr ""
+msgstr "正在联系项目服务器..."
 
 msgctxt "attachproject_login_image_description"
 msgid "Project logo."
-msgstr ""
+msgstr "项目标志。"
 
 msgctxt "attachproject_login_header_general_area"
 msgid "General area:"
-msgstr ""
+msgstr "研究领域"
 
 msgctxt "attachproject_login_header_specific_area"
 msgid "Specific area:"
-msgstr ""
+msgstr "细分领域："
 
 msgctxt "attachproject_login_header_description"
 msgid "Description:"
-msgstr ""
+msgstr "描述："
 
 msgctxt "attachproject_login_header_home"
 msgid "Home:"
-msgstr ""
+msgstr "项目 方："
 
 msgctxt "attachproject_login_header_url"
 msgid "Website:"
-msgstr ""
+msgstr "网站："
 
 msgctxt "attachproject_login_header_platform"
 msgid "Android:"
-msgstr ""
+msgstr "Android："
 
 msgctxt "attachproject_login_platform_supported"
 msgid "This project supports Android devices"
-msgstr ""
+msgstr "这个项目支持 Android 设备"
 
 msgctxt "attachproject_login_platform_not_supported"
 msgid "This project does not support Android devices"
-msgstr ""
+msgstr "这个项目不支持 Android 设备"
 
 msgctxt "attachproject_login_category_terms_of_use"
 msgid "Terms of use for"
-msgstr ""
+msgstr "使用条款："
 
 msgctxt "attachproject_login_accept_terms_of_use"
 msgid ""
 "By creating an account with this project, you accept the terms of use as "
 "shown above."
-msgstr ""
+msgstr "一旦你在这个项目创建账号，则视为你同意上述使用条款。"
 
 msgctxt "attachproject_login_category_login"
 msgid "Sign in with existing account"
-msgstr ""
+msgstr "使用已有账号登陆"
 
 msgctxt "attachproject_login_header_id_email"
 msgid "eMail:"
-msgstr ""
+msgstr "电子邮件地址："
 
 msgctxt "attachproject_login_header_id_name"
 msgid "Name:"
-msgstr ""
+msgstr "名称："
 
 msgctxt "attachproject_login_header_pwd"
 msgid "Password:"
-msgstr ""
+msgstr "密码："
 
 msgctxt "attachproject_login_category_creation"
 msgid "New to"
-msgstr ""
+msgstr "新来"
 
 msgctxt "attachproject_login_header_creation_enabled"
 msgid "Register an account to participate:"
-msgstr ""
+msgstr "注册一个账号以参与："
 
 msgctxt "attachproject_login_header_creation_client_disabled"
 msgid "Visit project website to create an account:"
@@ -146,15 +148,15 @@ msgstr ""
 
 msgctxt "attachproject_login_button_forgotpw"
 msgid "Forgot Password"
-msgstr ""
+msgstr "忘记密码"
 
 msgctxt "attachproject_login_error_toast"
 msgid "Contacting project failed!"
-msgstr ""
+msgstr "无法连接项目！"
 
 msgctxt "attachproject_login_attached"
 msgid "Attached"
-msgstr ""
+msgstr "已添加"
 
 #. project registration
 msgctxt "attachproject_registration_header"
@@ -163,23 +165,23 @@ msgstr ""
 
 msgctxt "attachproject_registration_header_url"
 msgid "Project:"
-msgstr ""
+msgstr "项目："
 
 msgctxt "attachproject_registration_header_email"
 msgid "eMail:"
-msgstr ""
+msgstr "电子邮件："
 
 msgctxt "attachproject_registration_header_username"
 msgid "Name:"
-msgstr ""
+msgstr "名称："
 
 msgctxt "attachproject_registration_header_teamname"
 msgid "Team:"
-msgstr ""
+msgstr "团队："
 
 msgctxt "attachproject_registration_header_pwd"
 msgid "Password:"
-msgstr ""
+msgstr "密码："
 
 msgctxt "attachproject_registration_header_pwd_confirm"
 msgid "… Retype:"
