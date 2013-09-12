@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Web 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-08-22 16:22 PDT\n"
-"PO-Revision-Date: 2013-09-11 15:21+0000\n"
+"PO-Revision-Date: 2013-09-12 11:36+0000\n"
 "Last-Translator: Dimitar <mexicoman@abv.bg>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: bg\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-POOTLE-MTIME: 1378912905.0\n"
+"X-POOTLE-MTIME: 1378985776.0\n"
 "X-Poedit-KeywordsList: tra\n"
 
 #: projects.inc:14
@@ -42,14 +42,17 @@ msgid ""
 "using sensors attached to Internet-connected computers.  You must buy a "
 "sensor to participate."
 msgstr ""
+"Мрежата за Хващане на Земетресения разработва най-голямата сеизмична мрежа с "
+"помощта на сензори прикрепени към Интернет-свързани компютри.  Трябва да си "
+"купите сензор за да участвате."
 
 #: projects.inc:27
 msgid "BOINC Poland Foundation"
-msgstr ""
+msgstr "Фондация BOINC Полша"
 
 #: projects.inc:28
 msgid "Environmental research"
-msgstr ""
+msgstr "Проучване за околната среда"
 
 #: projects.inc:29
 msgid ""
@@ -57,12 +60,17 @@ msgid ""
 "levels by using sensors connected to volunteers' computers.  You must buy a "
 "sensor to participate."
 msgstr ""
+"Този проект създава свободна и периодично обновяваща се карта на "
+"радиационните нива, като използва сензори свързани с компютри на доброволци. "
+" Трябва да си купите сензор за да участвате."
 
 #: projects.inc:33
 msgid ""
 "To participate in these projects you must buy a sensor and attach it to your "
 "computer."
 msgstr ""
+"За да участвате в тези проекти трябва да си купите сензор и да го прикрепите "
+"към вашия компютър."
 
 #: projects.inc:37
 msgid "Cognitive science and artifical intelligence"
@@ -95,11 +103,11 @@ msgstr "Биология и Медицина"
 
 #: projects.inc:71
 msgid "University College Dublin"
-msgstr ""
+msgstr "Университетски Колеж в Дъблин"
 
 #: projects.inc:72
 msgid "Antimalarial drug discovery"
-msgstr ""
+msgstr "Търсене на лекарство против малария"
 
 #: projects.inc:73
 msgid ""
@@ -109,6 +117,12 @@ msgid ""
 "the parasite. The FightMalaria@Home project is aimed at finding these new "
 "targets."
 msgstr ""
+"Паразитът, който причинява малария, продължава да увеличава своята "
+"устойчивост към наличните лекарства. За това ние спешно се нуждаем да "
+"открием нови лекарства, които да заместят съществуващите такива. Най-важното "
+"е, че тези нови лекарства трябва да бъдат насочени към НОВИ протеини в "
+"паразита. Проектът FightMalaria@Home се цели в откриването на тези нови "
+"мишени."
 
 #: projects.inc:79
 msgid "University of Karlsruhe (Germany)"
@@ -324,6 +338,14 @@ msgid ""
 "star formation history) on a resolved pixel-by-pixel basis using spectral "
 "energy distribution (SED) fitting techniques in a distributed computing mode."
 msgstr ""
+"Ние ще комбинираме спектралното покритие от GALEX, Pan-STARRS1 и WISE за да "
+"генерираме много-честотен UV-оптически-NIR галактически атлас на близко "
+"разположената до нас Вселена. Ще измерваме физически параметри (като "
+"например плътността на повърхността на звздната маса, плътността на "
+"повърхността на темпото на образуване на звезди, разреждането и историята на "
+"образуването на първородните звезди) на базата на непоколебима пиксел по "
+"пиксел основа като използваме напасващи техники за спектрално енергийно "
+"разпределение (SED) в режим на разпределени компютърни изчисления."
 
 #: projects.inc:225
 msgid "University of Texas at Austin"
@@ -456,6 +478,10 @@ msgid ""
 "LHC event physics simulation on volunteer computers.  Requires that you "
 "install VirtualBox on your computer"
 msgstr ""
+"Този проект използва разработена от CERN технология на виртуална машина за "
+"напълно развита в Големия Адронен Колайдер LHC симулация на физически "
+"събития за изчисляване на компютри на доброволци.  Изисква инсталация на "
+"ВиртуалнаКутия на вашия компютър"
 
 #: projects.inc:304
 msgid "University of California, Berkeley"
@@ -568,11 +594,11 @@ msgstr "Изследвания във физиката, материалозна
 
 #: projects.inc:365
 msgid "IBM Corporate Citizenship"
-msgstr ""
+msgstr "IBM Корпоративно Гражданство"
 
 #: projects.inc:366
 msgid "Medical, environmental and other humanitarian research"
-msgstr ""
+msgstr "Медицинско, насочено към околната среда и друго хуманитарно изследване"
 
 #: projects.inc:367
 msgid ""
@@ -581,6 +607,11 @@ msgid ""
 "includes HIV-AIDS, cancer, tropical and neglected diseases, solar energy, "
 "clean water and many more."
 msgstr ""
+"За последващо критично проучване с нестопанска цел на някои от "
+"най-належащите човешки проблеми, като се създаде най-голямата в света мрежа "
+"за споделени изчисления.  Проучването включва ХИВ-СПИН, рак, тропически и "
+"други пренебрегвани болести, слънчевата енергия, питейната вода и много "
+"други."
 
 #: projects.inc:373
 msgid "Mathematics, computing, and games"
@@ -588,15 +619,15 @@ msgstr "Математика, изчисления и игри"
 
 #: projects.inc:379
 msgid "Computer Science"
-msgstr ""
+msgstr "Компютърна Наука"
 
 #: projects.inc:387
 msgid "Mathematics, Physics, Artificial Intelligence"
-msgstr ""
+msgstr "Математика, Физика, Изкуствен Интелект"
 
 #: projects.inc:388
 msgid "Simulation of quantum computing; Goldbach's conjecture."
-msgstr ""
+msgstr "Симулация на квантови изчисления; Предположение на Goldbach."
 
 #: projects.inc:428 projects.inc:436
 msgid "Cryptography"
@@ -695,6 +726,9 @@ msgid ""
 "Primegrid has multiple projects searching for different forms of very large "
 "prime numbers, including searching for the largest known prime number."
 msgstr ""
+"Primegrid управлява множество проекти, които търсят много големи прости "
+"числа под различни форми, включително и търсенето на най-голямото известно "
+"просто число."
 
 #: projects.inc:497
 msgid "Hochschule RheinMain University of Applied Sciences"
@@ -781,7 +815,7 @@ msgstr "История на версията"
 
 #: download.php:136
 msgid "GPU computing"
-msgstr ""
+msgstr "GPU изчисление"
 
 #: download.php:154
 msgid "BOINC: compute for science"
@@ -921,11 +955,11 @@ msgstr "Документация"
 
 #: index.php:87
 msgid "Add-ons"
-msgstr ""
+msgstr "Добавки"
 
 #: index.php:88
 msgid "Links"
-msgstr ""
+msgstr "Връзки"
 
 #: index.php:94
 #, php-format
@@ -1061,12 +1095,12 @@ msgstr "BOINC е базиран в Калифорнийския Универси
 
 #: ../html/inc/news.inc:40
 msgid "Comment"
-msgstr ""
+msgstr "Коментар"
 
 #: ../html/inc/news.inc:111
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr ""
+msgstr "Новини са налични и под формата на %sRSS feed%s"
 
 #~ msgid "IBM Corporate Community Relations"
 #~ msgstr "IBM Corporate Community Relations"
