@@ -497,7 +497,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
   );
   
   $form['prefs']['separator_bottom'] = array(
-    '#value' => '<div class="separator"></div>'
+    '#value' => '<div class="separator buttons"></div>'
   );
   
   // Form control
@@ -513,11 +513,12 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
   $form['prefs']['form control tabs'] = array(
     '#value' => '<li class="tab">' . l(t('Cancel'), $_GET['q']) . '</li>'
   );
-  if ($established AND $venue != 'default') {
+  if ($venue != 'generic') {
+    global $base_path;
     $form['prefs']['form control tabs']['#value'] .= '<li class="tab">' . 
       l(t('Clear'), "account/prefs/computing/clear/{$venue}",
         array(
-          'query' => drupal_get_destination(),
+          'query' => 'destination=' . urlencode(drupal_get_path_alias('account/prefs/computing/combined')),
           'attributes' => array(
             'onclick' => 'return confirm(\'' . t('This will remove all of your settings from the @name preference set. Are you sure?',
               array('@name' => $venue)) . '\')'
@@ -647,7 +648,9 @@ function boincwork_generalprefs_form_submit($form, &$form_state) {
     watchdog('boincwork', 'Error updating global prefs for user @id: @message', array('@id' => $account->id, '@message' => mysql_error()), WATCHDOG_ERROR);
     drupal_set_message(t('Your changes could not be saved. Please contact support!'), 'error');
   }
-  else {
+  elseif (!drupal_get_messages('status', FALSE)) {
+    // Show this message if the set wasn't created automatically (in which case
+    // there is a message tailored to that) {
     drupal_set_message(t('Your preferences have been updated.
       Client-related preferences will take effect when your computer 
       communicates with @project or you issue the "Update"
@@ -664,7 +667,10 @@ function boincwork_generalprefs_form_submit($form, &$form_state) {
  * The structure of the project preferences form
  */
 function boincwork_projectprefs_form(&$form_state, $venue) {
-
+  
+  global $user;
+  $account = user_load($user->uid);
+  
   $established = TRUE;
   
   // Get availability of special BOINC preferences
@@ -679,13 +685,26 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
     $established = FALSE;
   }
   
+  $venue_is_default = FALSE;
+  if ($account->boincuser_default_pref_set) {
+    if ($account->boincuser_default_pref_set == $venue) {
+      $venue_is_default = TRUE;
+    }
+  }
+  elseif (!$venue OR $venue == 'generic') {
+    $venue_is_default = TRUE;
+  }
+  else {
+    $venue_is_default = FALSE;
+  }
+  
   // Define form defaults
   $default = array(
     'resource_share' => 100,
     'no_cpu' => 0,
     'no_cuda' => 0,
     'no_ati' => 0,
-    //'default_venue' => isset($boincuser->venue) ? $boincuser->venue : '',
+    'default_venue' => $venue_is_default,
   );
   foreach ($default as $name => $value) {
     if (isset($prefs[$name])) {
@@ -790,12 +809,57 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
   
   // Load project specific preferences from XML config
   $xml = boincwork_get_project_specific_config();
+  
+  // Respect the order of the top level elements
+  $ordered_array = array();
+  $unordered_array = array();
   foreach ($xml['project_specific_preferences'] as $type => $element) {
+    if (is_array($element) AND is_numeric(key($element))) {
+      foreach ($element as $ordered_element) {
+        if (isset($ordered_element['@position'])) {
+          $ordered_array[$ordered_element['@position']] = array($type => $ordered_element);
+        }
+        else {
+          $unordered_array[] = array($type => $ordered_element);
+        }
+      }
+    }
+    elseif (isset($element['@position'])) {
+      $ordered_array[$element['@position']] = array($type => $element);
+    }
+    else {
+      $unordered_array[] = array($type => $element);
+    }
+  }
+  ksort($ordered_array);
+  $primed_array = array_merge($ordered_array, $unordered_array);
+  $xml = array('project_specific_preferences' => $primed_array);
+    
+  foreach ($xml['project_specific_preferences'] as $wrapped_element) {
+    $type = key($wrapped_element);
+    $element= reset($wrapped_element);
     boincwork_generate_prefs_element($form, $type, $element, $prefs['project_specific']);
   }
   
+  // Set whether to use this preference set by default for new computers
+  $form['default_set'] = array(
+    '#title' => t('Default set'),
+    '#type' => 'fieldset',
+    '#description' => null,
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE
+  );
+  $form['default_set']['default_venue'] = array(
+    '#title' => t('Set used for new computers'),
+    '#type' => 'radios',
+    '#options' => $form['boolean_options']['#value'],
+    '#attributes' => array('class' => 'fancy'),
+    '#default_value' => $default['default_venue'] ? 1 : 0,
+    '#description' => ''
+  );
+  
   $form['prefs']['separator_bottom'] = array(
-    '#value' => '<div class="separator"></div>'
+    '#value' => '<div class="separator buttons"></div>'
   );
   
   // Form control
@@ -811,11 +875,12 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
   $form['prefs']['form control tabs'] = array(
     '#value' => '<li class="tab">' . l(t('Cancel'), $_GET['q']) . '</li>'
   );
-  if ($established AND $venue != 'default') {
+  if ($venue != 'generic') {
+    global $base_path;
     $form['prefs']['form control tabs']['#value'] .= '<li class="tab">' . 
       l(t('Clear'), "account/prefs/project/clear/{$venue}",
         array(
-          'query' => drupal_get_destination(),
+          'query' => 'destination=' . urlencode(drupal_get_path_alias('account/prefs/project/combined')),
           'attributes' => array(
             'onclick' => 'return confirm(\'' . t('This will remove all of your settings from the @name preference set. Are you sure?',
               array('@name' => $venue)) . '\')'
@@ -886,6 +951,9 @@ function boincwork_projectprefs_form_validate($form, &$form_state) {
 function boincwork_projectprefs_form_submit($form, &$form_state) {
   require_boinc(array('user', 'prefs'));
   
+  global $user;
+  $boinc_user = lookup_user_email_addr($user->mail);
+  
   global $site_name, $app_types, $app_array;
   
   $venue = $form_state['values']['venue'];
@@ -923,12 +991,32 @@ function boincwork_projectprefs_form_submit($form, &$form_state) {
   }
   
   // Save preferences back to the BOINC account
-  boincwork_save_prefs($prefs, 'project', $venue);
+  $result = boincwork_save_prefs($prefs, 'project', $venue);
   
-  drupal_set_message(t('Your preferences have been updated.
-      Client-related preferences will take effect when your computer 
-      communicates with @project or you issue the "Update"
-      command from the BOINC client.', array('@project' => $site_name)));
+  // Update the user's default preference set
+  if ($form_state['values']['default_venue']) {
+    $boinc_user->venue = $venue;
+    venue_update($boinc_user);
+  }
+  elseif ($venue == $boinc_user->venue) {
+    // User has cleared out the default venue setting
+    $boinc_user->venue = '';
+    venue_update($boinc_user);
+  }
+  
+  if (!$result) {
+    watchdog('boincwork', 'Error updating project prefs for user @id: @message', array('@id' => $user->id, '@message' => mysql_error()), WATCHDOG_ERROR);
+    drupal_set_message(t('Your changes could not be saved. Please contact support!'), 'error');
+  }
+  elseif (!drupal_get_messages('status', FALSE)) {
+    // Show this message if the set wasn't created automatically (in which case
+    // there is a message tailored to that)
+    drupal_set_message(t('Your preferences have been updated.
+        Client-related preferences will take effect when your computer 
+        communicates with @project or you issue the "Update"
+        command from the BOINC client.', 
+        array('@project' => $site_name)));
+  }
 }
 
 /**

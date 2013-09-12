@@ -122,7 +122,7 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
   // Keep the venue selected across preference pages
   boincwork_select_venue($venue);
   
-  $pref_sets = array('default', 'home', 'school', 'work');
+  $pref_sets = array('generic', 'home', 'school', 'work');
   $output = null;
   // Set the page title
   //$title = t('Edit computing preferences @for-venue', array('@for-venue' => ($venue ? "for {$venue}" : '')));
@@ -133,10 +133,12 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
   
   case 'clear':
     // Remove settings from this preference set
-    if ($venue AND $venue != 'default') {
+    if ($venue AND $venue != 'generic') {
       boincwork_save_prefs(NULL, 'general', $venue);
       drupal_set_message(t('Settings for the "@name" preference set have been
         cleared', array('@name' => ucfirst($venue))));
+      // Set the generic preference set as active
+      $_SESSION['prefs venue'] = 'generic';
     }
     drupal_goto();
     break;
@@ -152,12 +154,12 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
     
     $output .= '<p>' . t('These apply to all BOINC projects in which you participate.') . '<br/>';
     $output .= t('On computers attached to multiple projects, the most recently modified preferences will be used.') . '</p>';
-    $output .= '<p>' . t('Preferences last modified: @mod_time', array('@mod_time' => pretty_time_str($prefs['default']['modified']['#value']))) . '</p>';
+    $output .= '<p>' . t('Preferences last modified: @mod_time', array('@mod_time' => pretty_time_str($prefs['generic']['modified']['#value']))) . '</p>';
     $output .= '<h2>' . t('Combined preferences') . ' ' . l('(' . t('Switch View') . ')', 'account/prefs/computing') . '</h2>';
     
     $output .= '<table class="preferences combined">';
     
-    $prefs_table = boincwork_make_prefs_table($prefs['default']['prefs']['advanced']);
+    $prefs_table = boincwork_make_prefs_table($prefs['generic']['prefs']['advanced']);
     
     foreach ($prefs_table as $category => $section) {
       $output .= '<tr class="section-heading">';
@@ -223,28 +225,37 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
       }
     }
     
+    // Empty line above action links... :/
+    $output .= '<tr>';
+    $output .= '<td>&nbsp;</td>';
+    $output .= '<td></td>';
+    $output .= '<td></td>';
+    $output .= '<td></td>';
+    $output .= '<td></td>';
+    $output .= '</td>';
+    
     // Show Add / Edit links for each preference set
     $output .= '<tr>';
     $output .= '<td></td>';
     foreach ($pref_sets as $pref_set) {
       $action_text = ($prefs[$pref_set]['#established']) ? t('Edit') : t('Add');
-      $output .= '<td>';
+      $output .= '<td><ul class="tab-list"><li class="first tab">';
       $output .= l($action_text, "account/prefs/computing/edit/{$pref_set}/1",
-        array('fragment' => "advanced")
+        array('fragment' => "")
       );
       // Show Clear links for established preference sets
-      if ($pref_set != 'default' AND $prefs[$pref_set]['#established']) {
-        $output .= ' | ' . l(t('Clear'), "account/prefs/computing/clear/{$venue}",
+      if ($pref_set != 'generic' AND $prefs[$pref_set]['#established']) {
+        $output .= ' </li><li class="tab"> ' . l(t('Clear'), "account/prefs/computing/clear/{$pref_set}",
           array(
             'query' => drupal_get_destination(),
             'attributes' => array(
               'onclick' => 'return confirm(\'' . t('This will remove all of your settings from the \"@name\" preference set. Are you sure?',
-                array('@name' => ucfirst($venue))) . '\')'
+                array('@name' => ucfirst($pref_set))) . '\')'
             )
           )
         );
       }
-      $output .= '</td>';
+      $output .= '</li></ul></td>';
     }
     $output .= '</tr>';
     
@@ -264,10 +275,10 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
       $prefs = drupal_retrieve_form('boincwork_generalprefs_form', $form_state, $pref_set);
       drupal_prepare_form('boincwork_generalprefs_form', $prefs, $form_state);
       if (isset($prefs['venue'])) {
-        if ($pref_set == 'default') {
+        if ($pref_set == 'generic') {
           // Global preferences
           $output .= '<p>' . t('Preferences last modified: @mod_time', array('@mod_time' => pretty_time_str($prefs['modified']['#value']))) . '</p>';
-          $output .= '<h2>' . t('Primary (default) preferences') . ' ' . l('(' . t('Switch View') . ')', 'account/prefs/computing/combined') . '</h2>';
+          $output .= '<h2>' . t('Primary (generic) preferences') . ' ' . l('(' . t('Switch View') . ')', 'account/prefs/computing/combined') . '</h2>';
         } else {
           // Venue specific preferences
           $output .= '<h2>' . t('Separate preferences for @venue', array('@venue' => $pref_set)) . '</h2>';
@@ -311,7 +322,7 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
     if (function_exists('jump_quickly')) {
       $path = 'account/prefs/computing/edit';
       $venues = array(
-        "{$path}/default" => t('Default'),
+        "{$path}/generic" => t('Generic'),
         "{$path}/home" => t('Home'),
         "{$path}/work" => t('Work'),
         "{$path}/school" => t('School')
@@ -319,6 +330,7 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
       variable_set('jump_use_js_venues-Array', 1);
       drupal_add_js(drupal_get_path('module', 'jump') . '/jump.js');
       drupal_add_js(drupal_get_path('theme', 'boinc') . '/js/prefs.js', 'theme');
+      
       $output .= '<div id="venue-selector" class="simple-form-controls">';
       $output .= '  <div class="form-item venue">';
       $output .= '    <label>Preference set:</label>';
@@ -327,6 +339,20 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
       $output .= '</div>';
     }
     $output .= drupal_get_form('boincwork_generalprefs_form', $venue, NULL, $advanced);
+    
+    // If viewing the edit page for a preference set that doesn't exist, create
+    // it in the database with default values
+    $form_state = array();
+    $current_set = drupal_retrieve_form('boincwork_generalprefs_form', $form_state, $venue);
+    drupal_prepare_form('boincwork_generalprefs_form', $current_set, $form_state);
+    
+    if (!$current_set['#established']) {
+      drupal_process_form('boincwork_generalprefs_form', $current_set, $form_state);
+      drupal_set_message(t('A preference set has been created for "@setname"
+        with default settings', array('@setname' => ucfirst($venue))));
+      drupal_execute('boincwork_generalprefs_form', $form_state, $venue);
+    }
+    
     break;
   }
   
@@ -344,7 +370,7 @@ function projectprefs_page($action = null, $venue = null) {
   
   require_boinc(array('util', 'prefs'));
   global $project_has_beta;
-  $pref_sets = array('default', 'home', 'school', 'work');
+  $pref_sets = array('generic', 'home', 'school', 'work');
   $output = null;
   
   $title = 'Project';
@@ -354,10 +380,22 @@ function projectprefs_page($action = null, $venue = null) {
   
   case 'clear':
     // Remove settings from this preference set
-    if ($venue AND $venue != 'default') {
+    if ($venue AND $venue != 'generic') {
       boincwork_save_prefs(NULL, 'project', $venue);
       drupal_set_message(t('Settings for the "@name" preference set have been
         cleared', array('@name' => ucfirst($venue))));
+      
+      // Set the generic preference set as active
+      $_SESSION['prefs venue'] = 'generic';
+      
+      // If the user has removed their default preference set, make it generic
+      require_boinc('user');
+      global $user;
+      $boinc_user = lookup_user_email_addr($user->mail);
+      if ($boinc_user->venue == $venue) {
+        $boinc_user->venue = '';
+        venue_update($boinc_user);
+      }
     }
     drupal_goto();
     break;
@@ -380,7 +418,7 @@ function projectprefs_page($action = null, $venue = null) {
     
     $output .= '<table class="preferences combined">';
     
-    $prefs_table = boincwork_make_prefs_table($prefs['default']);
+    $prefs_table = boincwork_make_prefs_table($prefs['generic']);
     
     foreach ($prefs_table as $category => $section) {
       $output .= '<tr class="section-heading">';
@@ -410,44 +448,35 @@ function projectprefs_page($action = null, $venue = null) {
       }
     }
     
-    // Allow a preference set to be used by default for all new hosts
+    // Empty line above action links... :/
     $output .= '<tr>';
-    $output .= '<td>' . t('Automatically use which preference set for all new
-      computers?') . '</td>';
-    $default_set = isset($boincuser->venue) ? $boincuser->venue : 'default';
-    foreach ($pref_sets as $pref_set) {
-      $output .= '<td>';
-      if ($pref_set == $default_set) {
-        $output .= ucfirst($pref_set);
-      }
-      else {
-        $output .= l(ucfirst($pref_set),
-          "account/prefs/project/set-default/{$pref_set}");
-      }
-      $output .= '</td>';
-    }
-    $output .= '</tr>';
+    $output .= '<td>&nbsp;</td>';
+    $output .= '<td></td>';
+    $output .= '<td></td>';
+    $output .= '<td></td>';
+    $output .= '<td></td>';
+    $output .= '</td>';
     
     // Show Add / Edit links for each preference set
     $output .= '<tr>';
     $output .= '<td></td>';
     foreach ($pref_sets as $pref_set) {
       $action_text = ($prefs[$pref_set]['#established']) ? t('Edit') : t('Add');
-      $output .= '<td>';
+      $output .= '<td><ul class="tab-list"><li class="first tab">';
       $output .= l($action_text, "account/prefs/project/edit/{$pref_set}");
       // Show Clear links for established preference sets
-      if ($pref_set != 'default' AND $prefs[$pref_set]['#established']) {
-        $output .= ' | ' . l(t('Clear'), "account/prefs/project/clear/{$venue}",
+      if ($pref_set != 'generic' AND $prefs[$pref_set]['#established']) {
+        $output .= ' </li><li class="tab"> ' . l(t('Clear'), "account/prefs/project/clear/{$pref_set}",
           array(
             'query' => drupal_get_destination(),
             'attributes' => array(
               'onclick' => 'return confirm(\'' . t('This will remove all of your settings from the \"@name\" preference set. Are you sure?',
-                array('@name' => ucfirst($venue))) . '\')'
+                array('@name' => ucfirst($pref_set))) . '\')'
             )
           )
         );
       }
-      $output .= '</td>';
+      $output .= '</li></ul></td>';
     }
     
     $output .= '</table>';
@@ -474,9 +503,9 @@ function projectprefs_page($action = null, $venue = null) {
       $prefs = drupal_retrieve_form('boincwork_projectprefs_form', $form_state, $pref_set);
       drupal_prepare_form('boincwork_projectprefs_form', $prefs, $form_state);
       if (isset($prefs['venue'])) {
-        if ($pref_set == 'default') {
+        if ($pref_set == 'generic') {
           // Global preferences
-          $output .= '<h2>' . t('Primary (default) preferences') . ' ' . l('(' . t('Switch View') . ')', 'account/prefs/project/combined') . '</h2>';
+          $output .= '<h2>' . t('Primary (generic) preferences') . ' ' . l('(' . t('Switch View') . ')', 'account/prefs/project/combined') . '</h2>';
         } else {
           // Venue specific preferences
           $output .= '<h2>' . t('Separate preferences for @venue', array('@venue' => $pref_set)) . '</h2>';
@@ -530,12 +559,14 @@ function projectprefs_page($action = null, $venue = null) {
     
   case 'edit':
   default:
+    
+    // Return the HTML generated from the $form data structure.
     require_boinc('util');
-    // Venue selector
+    
     if (function_exists('jump_quickly')) {
       $path = 'account/prefs/project/edit';
       $venues = array(
-        "{$path}/default" => t('Default'),
+        "{$path}/generic" => t('Generic'),
         "{$path}/home" => t('Home'),
         "{$path}/work" => t('Work'),
         "{$path}/school" => t('School')
@@ -543,6 +574,7 @@ function projectprefs_page($action = null, $venue = null) {
       variable_set('jump_use_js_venues-Array', 1);
       drupal_add_js(drupal_get_path('module', 'jump') . '/jump.js');
       drupal_add_js(drupal_get_path('theme', 'boinc') . '/js/prefs.js', 'theme');
+      
       $output .= '<div id="venue-selector" class="simple-form-controls">';
       $output .= '  <div class="form-item venue">';
       $output .= '    <label>Preference set:</label>';
@@ -550,9 +582,21 @@ function projectprefs_page($action = null, $venue = null) {
       $output .= '  </div>';
       $output .= '</div>';
     }
-    // Return the HTML generated from the $form data structure.
     $output .= drupal_get_form('boincwork_projectprefs_form', $venue);
-    //$output .= '<p>' . l('(' . t('Show comparison view') . ')', 'account/prefs/project/combined') . '</p>';
+    
+    // If viewing the edit page for a preference set that doesn't exist, create
+    // it in the database with default values
+    $form_state = array();
+    $current_set = drupal_retrieve_form('boincwork_projectprefs_form', $form_state, $venue);
+    drupal_prepare_form('boincwork_projectprefs_form', $current_set, $form_state);
+    
+    if (!$current_set['#established']) {
+      drupal_process_form('boincwork_projectprefs_form', $current_set, $form_state);
+      drupal_set_message(t('A preference set has been created for "@setname"
+        with default settings', array('@setname' => ucfirst($venue))));
+      drupal_execute('boincwork_projectprefs_form', $form_state, $venue);
+    }
+    
     break;
     
   }

@@ -110,6 +110,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
     $account->boincuser_total_credit = round(db_result(db_query("SELECT total_credit FROM {user} WHERE id = %d", $account->boincuser_id)));
     $account->boincuser_expavg_credit = round(db_result(db_query("SELECT expavg_credit FROM {user} WHERE id = %d", $account->boincuser_id)));
     $account->boincuser_cpid = md5(db_result(db_query("SELECT cross_project_id FROM {user} WHERE id = %d", $account->boincuser_id)).$account->mail);
+    $account->boincuser_default_pref_set = db_result(db_query("SELECT venue FROM {user} WHERE id = %d", $account->boincuser_id));
     db_set_active('default');
     // Set post count
     $account->post_count = db_result(db_query("

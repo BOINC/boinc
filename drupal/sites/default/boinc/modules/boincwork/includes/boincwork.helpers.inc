@@ -961,6 +961,7 @@ function boincwork_make_prefs_table($prefs, $top_level = TRUE) {
       $prefs_element = array(
         'name' => (isset($element['#title'])) ? $element['#title'] : '',
         'description' => (isset($element['#description'])) ? $element['#description'] : '',
+        'default_value' => (isset($element['#default_value'])) ? $element['#default_value'] : NULL,
       );
       if ($top_level) {
         $uncategorized[$key] = $prefs_element;
@@ -1022,7 +1023,7 @@ function boincwork_load_prefs($type = 'general', $venue = null, $account = null)
   }
   
   // Return general preferences or a subset based on venue
-  if (!$venue OR $venue == 'default') {
+  if (!$venue OR $venue == 'generic') {
     unset($main_prefs['venue']);
     return $main_prefs;
   }
@@ -1076,7 +1077,7 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
   // Save all preferences or a subset based on venue
   //drupal_set_message('<pre>' . print_r($main_prefs, true) . '</pre>');
   $new_venue = true;
-  if (!$venue OR $venue == 'default') {
+  if (!$venue OR $venue == 'generic') {
     //$main_prefs = $prefs;
     $main_prefs = $prefs + $main_prefs;
   }
@@ -1087,7 +1088,13 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
       }
       foreach ($main_prefs['venue'] as $key => $prefs_venue) {
         if (isset($prefs_venue['@attributes']['name']) AND $prefs_venue['@attributes']['name'] == $venue) {
-          $main_prefs['venue'][$key] = $prefs;
+          if ($prefs) {
+            $main_prefs['venue'][$key] = $prefs;
+          }
+          else {
+            // If prefs is null, clear out this preference set
+            unset($main_prefs['venue'][$key]);
+          }
           $new_venue = false;
           break;
         }
