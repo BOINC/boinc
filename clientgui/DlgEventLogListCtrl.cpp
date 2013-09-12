@@ -37,6 +37,9 @@ IMPLEMENT_DYNAMIC_CLASS(CDlgEventLogListCtrl, DLG_LISTCTRL_BASE)
 
 BEGIN_EVENT_TABLE(CDlgEventLogListCtrl, DLG_LISTCTRL_BASE)
     EVT_LEFT_UP(CDlgEventLogListCtrl::OnMouseUp)
+#ifdef __WXMAC__
+	EVT_SIZE(CDlgEventLogListCtrl::OnSize)
+#endif
 END_EVENT_TABLE()
 
 
@@ -48,9 +51,13 @@ CDlgEventLogListCtrl::CDlgEventLogListCtrl(CDlgEventLog* pView, wxWindowID iList
     m_pParentView = pView;
 
     m_bIsSingleSelection = (iListWindowFlags & wxLC_SINGLE_SEL) ? true : false ;
-
+    
+#ifdef __WXMAC__
+    m_fauxHeaderView = NULL;
+    m_fauxBodyView = NULL;
 #ifdef __WXMAC__
     SetupMacAccessibilitySupport();
+#endif
 #endif
 }
 
@@ -93,3 +100,4 @@ void CDlgEventLogListCtrl::OnMouseUp(wxMouseEvent& event) {
     m_pParentView->UpdateButtons();
     event.Skip();
 }
+

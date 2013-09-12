@@ -97,10 +97,12 @@ pascal OSStatus PieCtrlAccessibilityEventHandler( EventHandlerCallRef inHandlerC
 
 
 
+#if 0  // Removed for wxCocoa 9.5
 #if !USE_NATIVE_LISTCONTROL
 
 pascal OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,
                                     EventRef inEvent, void* pData);
+
 void CBOINCListCtrl::SetupMacAccessibilitySupport() {
     HIViewRef                       listControlView;
     HIViewRef                       headerView;
@@ -201,6 +203,7 @@ void CDlgEventLogListCtrl::RemoveMacAccessibilitySupport() {
 #endif  // !USE_NATIVE_LISTCONTROL
 }
 
+#endif  // Removed for wxCocoa 9.5
 
 typedef struct {
     CProjectListCtrlAccessible* pProjectListCtrlAccessible;
@@ -240,6 +243,7 @@ void CProjectListCtrlAccessible::RemoveMacAccessibilitySupport() {
 
 
 void CNoticeListCtrlAccessible::SetupMacAccessibilitySupport() {
+#if 0  // Removed for wxCocoa 9.5
     static      HTMLListAccessibilityHandlerData userData;
     OSErr       err;
 
@@ -258,15 +262,18 @@ void CNoticeListCtrlAccessible::SetupMacAccessibilitySupport() {
                                                         &userData, &m_plistAccessibilityEventHandlerRef);
     } else {
         m_plistAccessibilityEventHandlerRef =  NULL;
-    }
+   }
+#endif  // Removed for wxCocoa 9.5
 }
 
 
 void CNoticeListCtrlAccessible::RemoveMacAccessibilitySupport() {
+#if 0  // Removed for wxCocoa 9.5
     if (m_plistAccessibilityEventHandlerRef) {
         ::RemoveEventHandler(m_plistAccessibilityEventHandlerRef);
         m_plistAccessibilityEventHandlerRef = NULL;
    }
+#endif  // Removed for wxCocoa 9.5
 }
 
 
@@ -315,6 +322,7 @@ void CTaskItemGroup::RemoveMacAccessibilitySupport() {
 
 
 void CViewStatistics::SetupMacAccessibilitySupport() {
+#if 0  // Removed for wxCocoa 9.5
     OSStatus        err;
     HIViewRef       paintPanelView = (HIViewRef)m_PaintStatistics->GetHandle();
     wxString        str = _("This panel contains graphs showing user totals for projects");
@@ -327,11 +335,14 @@ void CViewStatistics::SetupMacAccessibilitySupport() {
     err = InstallHIObjectEventHandler((HIObjectRef)paintPanelView, NewEventHandlerUPP(SimpleAccessibilityEventHandler), 
                                 sizeof(Simple_AccessibilityEvents) / sizeof(EventTypeSpec), Simple_AccessibilityEvents, 
                                                         this, &m_pStatisticsAccessibilityEventHandlerRef);
+#endif  // Removed for wxCocoa 9.5
 }
 
 
 void CViewStatistics::RemoveMacAccessibilitySupport() {
+#if 0  // Removed for wxCocoa 9.5
     ::RemoveEventHandler(m_pStatisticsAccessibilityEventHandlerRef);
+#endif  // Removed for wxCocoa 9.5
 }
 
 
@@ -354,6 +365,8 @@ void wxPieCtrl::RemoveMacAccessibilitySupport() {
    }
 }
 
+
+#if 0  // Removed for wxCocoa 9.5
 
 #if !USE_NATIVE_LISTCONTROL
 
@@ -1309,6 +1322,9 @@ pascal OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandle
 }
 
 #endif  // !USE_NATIVE_LISTCONTROL
+
+#endif  // Removed for wxCocoa 9.5
+
 
 
 pascal OSStatus HTMLListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,

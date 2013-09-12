@@ -93,8 +93,6 @@ private:
     void                    DrawProgressBars(void);
     
     bool                    m_bProgressBarEventPending;
-
-    DECLARE_EVENT_TABLE()
 #else
  public:
     void                    SaveEventHandler(wxEvtHandler *stdHandler) { savedHandler = stdHandler; }
@@ -110,8 +108,15 @@ private:
     
     EventHandlerRef         m_pHeaderAccessibilityEventHandlerRef;
     EventHandlerRef         m_pBodyAccessibilityEventHandlerRef;
+
+    void OnSize( wxSizeEvent &event );
+
+    void*                   m_fauxHeaderView;
+    void*                   m_fauxBodyView;
 #endif
 #endif
+
+    DECLARE_EVENT_TABLE()
 };
 
 class CDrawProgressBarEvent : public wxEvent
