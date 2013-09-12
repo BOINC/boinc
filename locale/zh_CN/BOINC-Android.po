@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-08-29 15:37-0700\n"
-"PO-Revision-Date: 2013-09-12 00:54+0000\n"
+"PO-Revision-Date: 2013-09-12 00:56+0000\n"
 "Last-Translator: Arthur200000_equn <arthur200000@chemistrict.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: zh_CN\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1378947286.0\n"
+"X-POOTLE-MTIME: 1378947361.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -317,9 +317,10 @@ msgctxt "tab_status"
 msgid "Status"
 msgstr ""
 
+#, fuzzy
 msgctxt "tab_projects"
 msgid "Projects"
-msgstr ""
+msgstr "项目："
 
 msgctxt "tab_tasks"
 msgid "Tasks"
@@ -561,7 +562,7 @@ msgstr ""
 
 msgctxt "projects_add"
 msgid "Add project"
-msgstr ""
+msgstr "添加项目"
 
 msgctxt "projects_icon"
 msgid "Project icon"
@@ -1012,7 +1013,7 @@ msgstr ""
 
 msgctxt "about_name"
 msgid "BOINC"
-msgstr ""
+msgstr "BOINC"
 
 msgctxt "about_version"
 msgid "Version"
