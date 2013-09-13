@@ -49,12 +49,12 @@
   <string name="attachproject_error_no_pwd">Lütfen bir parola yazın</string>
   <string name="attachproject_error_no_name">Lütfen kullanıcı adınızı yazın</string>
   <string name="attachproject_error_unknown">başarısız</string>
-  <string name="attachproject_error_bad_username">Kullanıcı adı reddedildi</string>
+  <string name="attachproject_error_bad_username">Kullanıcı adı kabul edilmedi</string>
   <string name="attachproject_error_email_in_use">ePosta zaten kullanımda</string>
   <string name="attachproject_error_project_down">Proje çevrimdışı</string>
-  <string name="attachproject_error_email_bad_syntax">ePosta reddedildi</string>
-  <string name="attachproject_error_bad_pwd">Parola reddedildi</string>
-  <string name="attachproject_error_creation_disabled">Bu projede yeni hesap oluşturulamıyor</string>
+  <string name="attachproject_error_email_bad_syntax">ePosta kabul edilmedi</string>
+  <string name="attachproject_error_bad_pwd">Parola kabul edilmedi</string>
+  <string name="attachproject_error_creation_disabled">Hesap oluşturma bu projede devre dışı</string>
   <string name="attachproject_working_back_button">Geri</string>
   <string name="attachproject_working_finish_button">Tamamla</string>
   <string name="attachproject_working_check_desc">Başarılı</string>
@@ -136,7 +136,7 @@
   <string name="projects_credits_host_header">(bu cihazda)</string>
   <string name="projects_credits_user_header">(toplam)</string>
   <string name="projects_status_suspendedviagui">Kullanıcı tarafından duraklatıldı</string>
-  <string name="projects_status_dontrequestmorework">Yeni işler alınmayacak</string>
+  <string name="projects_status_dontrequestmorework">Yeni işler indirilmeyecek</string>
   <string name="projects_status_ended">Proje sona erdi - Kaldırmak için Tamam\'a dokunun</string>
   <string name="projects_status_detachwhendone">İşler tamamlandığında kaldırılacak</string>
   <string name="projects_status_schedrpcpending">Zamanlanmış istek kuyrukta</string>
@@ -148,12 +148,12 @@
   <string name="projects_control_remove">Kaldır</string>
   <string name="projects_control_suspend">Duraklat</string>
   <string name="projects_control_resume">Sürdür</string>
-  <string name="projects_control_nonewtasks">Yeni işler alma</string>
-  <string name="projects_control_allownewtasks">Yeni işler al</string>
+  <string name="projects_control_nonewtasks">Yeni işler indirme</string>
+  <string name="projects_control_allownewtasks">Yeni işler indir</string>
   <string name="projects_control_reset">Sıfırla</string>
   <string name="projects_confirm_detach_title">Proje kaldırılsın mı?</string>
   <string name="projects_confirm_detach_message">Bu proje BOINC\'ten kaldırılsın mı:</string>
-  <string name="projects_confirm_detach_message2">\?</string>
+  <string name="projects_confirm_detach_message2">"? "</string>
   <string name="projects_confirm_detach_confirm">Kaldır</string>
   <string name="projects_confirm_reset_title">Projeyi sıfırla</string>
   <string name="projects_confirm_reset_message">Bu proje sıfırlansın mı:</string>
@@ -179,9 +179,9 @@
   <string name="tasks_custom_project_suspended_via_gui">proje duraklatıldı</string>
   <string name="tasks_custom_ready_to_report">raporlanmaya hazır</string>
   <string name="confirm_abort_task_title">İş iptal edilsin mi?</string>
-  <string name="confirm_abort_task_message">İşi iptal et:</string>
-  <string name="confirm_abort_task_confirm">İptal et</string>
-  <string name="confirm_cancel">Vazgeç</string>
+  <string name="confirm_abort_task_message">Bu iş iptal edilsin mi:</string>
+  <string name="confirm_abort_task_confirm">Evet</string>
+  <string name="confirm_cancel">İptal</string>
   <string name="confirm_image_desc">Onaylama sorusu</string>
   <string name="trans_loading">Aktarımlar okunuyor...</string>
   <string name="trans_upload">Gönderme</string>
@@ -194,8 +194,8 @@
   <string name="trans_projectbackoff">proje ertelendi</string>
   <string name="trans_header_name">Dosya:</string>
   <string name="confirm_abort_trans_title">Aktarım iptal edilsin mi?</string>
-  <string name="confirm_abort_trans_message">Dosya aktarımını iptal et:</string>
-  <string name="confirm_abort_trans_confirm">İptal et</string>
+  <string name="confirm_abort_trans_message">Bu dosyanın aktarımı iptal edilsin mi:</string>
+  <string name="confirm_abort_trans_confirm">Evet</string>
   <string name="eventlog_loading">Günlük mesajları yükleniyor...</string>
   <string name="eventlog_client_header">İstemci Mesajları</string>
   <string name="eventlog_gui_header">GUI Mesajları</string>
@@ -242,6 +242,6 @@
   <string name="about_title">Hakkında</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Sürüm</string>
-  <string name="about_name_long">Türkçe çeviri: Aycan Demirel\n\nBerkeley Open Infrastructure for Network Computing</string>
-  <string name="about_copyright">© 2003-2013 Kaliforniya Üniversitesi, Berkeley.\nTüm hakları saklıdır.</string>
+  <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
+  <string name="about_copyright">Türkçe çeviri: Aycan Demirel\n\n© 2003-2013 Kaliforniya Üniversitesi, Berkeley.\nTüm hakları saklıdır.</string>
 </resources>
