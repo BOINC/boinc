@@ -122,11 +122,26 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
     // User loading; insert BOINC data into the user object
     $account->boincuser_id = db_result(db_query("SELECT boinc_id FROM {boincuser} WHERE uid = %d", $account->uid));
     db_set_active('boinc');
-    $account->boincuser_name = db_result(db_query("SELECT name FROM {user} WHERE id = %d", $account->boincuser_id));
-    $account->boincuser_total_credit = round(db_result(db_query("SELECT total_credit FROM {user} WHERE id = %d", $account->boincuser_id)));
-    $account->boincuser_expavg_credit = round(db_result(db_query("SELECT expavg_credit FROM {user} WHERE id = %d", $account->boincuser_id)));
-    $account->boincuser_cpid = md5(db_result(db_query("SELECT cross_project_id FROM {user} WHERE id = %d", $account->boincuser_id)).$account->mail);
-    $account->boincuser_default_pref_set = db_result(db_query("SELECT venue FROM {user} WHERE id = %d", $account->boincuser_id));
+    $boinc_user = db_fetch_object(db_query("
+      SELECT
+        name,
+        authenticator,
+        passwd_hash,
+        total_credit, 
+        expavg_credit,
+        cross_project_id,
+        venue
+      FROM {user}
+      WHERE id = %d",
+      $account->boincuser_id
+    ));
+    $account->boincuser_name = $boinc_user->name;
+    $account->boincuser_account_key = $boinc_user->authenticator;
+    $account->boincuser_weak_auth = md5($boinc_user->authenticator . $boinc_user->passwd_hash);
+    $account->boincuser_total_credit = round($boinc_user->total_credit);
+    $account->boincuser_expavg_credit = round($boinc_user->expavg_credit);
+    $account->boincuser_cpid = md5($boinc_user->cross_project_id . $account->mail);
+    $account->boincuser_default_pref_set = $boinc_user->venue;
     db_set_active('default');
     // Set post count
     $account->post_count = db_result(db_query("
@@ -444,10 +459,45 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       );
     }
     
+    // Add account keys, CPID, etc
+    $form['account']['user_id'] = array(
+      '#value' => '
+        <div class="form-item">
+          <label>User ID</label>
+          <span>' . $account->uid . '</span>
+        </div>',
+    );
+    $form['account']['account_key'] = array(
+      '#value' => '
+        <div class="form-item">
+          <label>Account Key</label>
+          <span>' . $account->boincuser_account_key . '</span>
+        </div>',
+    );
+    $form['account']['weak_account_key'] = array(
+      '#value' => '
+        <div class="form-item">
+          <label>Weak Account Key</label>
+          <span>' . $account->boincuser_weak_auth . '</span>
+        </div>',
+    );
+    $form['account']['cpid'] = array(
+      '#value' => '
+        <div class="form-item">
+          <label>Cross-Project ID</label>
+          <span>' . $account->boincuser_cpid . '</span>
+        </div>',
+    );
+    
+    // Rearrange form elements
     $form['account']['boincuser_name']['#weight'] = 0;
     $form['account']['mail']['#weight'] = 5;
     $form['account']['current_pass']['#weight'] = 10;
     $form['account']['pass']['#weight'] = 15;
+    $form['account']['user_id']['#weight'] = 50;
+    $form['account']['account_key']['#weight'] = 55;
+    $form['account']['weak_account_key']['#weight'] = 60;
+    $form['account']['cpid']['#weight'] = 65;
     
     // Remove redundant / unnecessary form elements
     //echo '<pre>' . print_r($form, true) . '</pre>';
