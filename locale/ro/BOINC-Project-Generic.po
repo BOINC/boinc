@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2013-09-12 10:56+0000\n"
+"PO-Revision-Date: 2013-09-16 18:07+0000\n"
 "Last-Translator: Marius <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
@@ -18,7 +18,7 @@ msgstr ""
 "20)) ? 1 : 2);;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1378983391.0\n"
+"X-POOTLE-MTIME: 1379354840.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Română"
@@ -6016,7 +6016,7 @@ msgstr "Administrare echipă pentru %1"
 
 #: ../user/team_manage.php:29
 msgid "Edit team info"
-msgstr ""
+msgstr "Modifică informaţii echipă"
 
 #: ../user/team_manage.php:30
 msgid "Change team name, URL, description, type, or country"
