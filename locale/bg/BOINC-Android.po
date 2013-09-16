@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-08-29 15:37-0700\n"
-"PO-Revision-Date: 2013-09-12 16:52+0000\n"
+"PO-Revision-Date: 2013-09-16 18:27+0000\n"
 "Last-Translator: Dimitar <mexicoman@abv.bg>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: bg\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1379004769.0\n"
+"X-POOTLE-MTIME: 1379356049.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -154,11 +154,11 @@ msgstr "Забравили сте Парола"
 
 msgctxt "attachproject_login_error_toast"
 msgid "Contacting project failed!"
-msgstr ""
+msgstr "Свързването с проекта се провали!"
 
 msgctxt "attachproject_login_attached"
 msgid "Attached"
-msgstr ""
+msgstr "Прикрепен"
 
 #. project registration
 msgctxt "attachproject_registration_header"
@@ -171,11 +171,11 @@ msgstr ""
 
 msgctxt "attachproject_registration_header_email"
 msgid "eMail:"
-msgstr ""
+msgstr "Имейл:"
 
 msgctxt "attachproject_registration_header_username"
 msgid "Name:"
-msgstr ""
+msgstr "Име:"
 
 msgctxt "attachproject_registration_header_teamname"
 msgid "Team:"
@@ -183,7 +183,7 @@ msgstr ""
 
 msgctxt "attachproject_registration_header_pwd"
 msgid "Password:"
-msgstr ""
+msgstr "Парола:"
 
 msgctxt "attachproject_registration_header_pwd_confirm"
 msgid "… Retype:"
@@ -228,64 +228,64 @@ msgstr ""
 
 msgctxt "attachproject_error_bad_username"
 msgid "User name refused"
-msgstr ""
+msgstr "Името на потребителя е отказано"
 
 msgctxt "attachproject_error_email_in_use"
 msgid "eMail is already in use"
-msgstr ""
+msgstr "Имейла вече е използван"
 
 msgctxt "attachproject_error_project_down"
 msgid "Project is offline"
-msgstr ""
+msgstr "Проекта е неактивен"
 
 msgctxt "attachproject_error_email_bad_syntax"
 msgid "eMail refused"
-msgstr ""
+msgstr "Имейла е отказан"
 
 msgctxt "attachproject_error_bad_pwd"
 msgid "Password refused"
-msgstr ""
+msgstr "Паролата е отказана"
 
 msgctxt "attachproject_error_creation_disabled"
 msgid "Account creation is disabled on this project"
-msgstr ""
+msgstr "Създаването на акаунт е деактивирано за този проект"
 
 #. working activity
 msgctxt "attachproject_working_back_button"
 msgid "Back"
-msgstr ""
+msgstr "Назад"
 
 msgctxt "attachproject_working_finish_button"
 msgid "Finish"
-msgstr ""
+msgstr "Приключи"
 
 msgctxt "attachproject_working_check_desc"
 msgid "Successful"
-msgstr ""
+msgstr "Успешен"
 
 msgctxt "attachproject_working_failed_desc"
 msgid "Failed"
-msgstr ""
+msgstr "Неуспешен"
 
 msgctxt "attachproject_working_ongoing"
 msgid "…"
-msgstr ""
+msgstr "…"
 
 msgctxt "attachproject_working_finished"
 msgid "."
-msgstr ""
+msgstr "."
 
 msgctxt "attachproject_working_description"
 msgid ":"
-msgstr ""
+msgstr ":"
 
 msgctxt "attachproject_working_connect"
 msgid "Connect"
-msgstr ""
+msgstr "Свържи се"
 
 msgctxt "attachproject_working_verify"
 msgid "Verify account"
-msgstr ""
+msgstr "Удостовери акаунт"
 
 msgctxt "attachproject_working_register"
 msgid "Register account"
@@ -342,27 +342,27 @@ msgstr ""
 #. status strings
 msgctxt "status_running"
 msgid "Computing"
-msgstr ""
+msgstr "Изчисляване"
 
 msgctxt "status_running_long"
 msgid "Thank you for participating."
-msgstr ""
+msgstr "Благодаря Ви за участието."
 
 msgctxt "status_paused"
 msgid "Suspended"
-msgstr ""
+msgstr "Временно прекратено"
 
 msgctxt "status_idle"
 msgid "Nothing to do"
-msgstr ""
+msgstr "Няма нищо за вършене"
 
 msgctxt "status_idle_long"
 msgid "Waiting for tasks…"
-msgstr ""
+msgstr "Изчакване на задачи…"
 
 msgctxt "status_computing_disabled"
 msgid "Suspended"
-msgstr ""
+msgstr "Временно прекратено"
 
 msgctxt "status_computing_disabled_long"
 msgid "Press play to resume network and computation."
@@ -423,65 +423,73 @@ msgstr ""
 
 msgctxt "prefs_category_storage"
 msgid "Storage"
-msgstr ""
+msgstr "Съхранение"
 
 msgctxt "prefs_category_memory"
 msgid "Memory"
-msgstr ""
+msgstr "Памет"
 
 msgctxt "prefs_category_debug"
 msgid "Debug"
-msgstr ""
+msgstr "Отстраняване на грешки"
 
 msgctxt "prefs_show_advanced_header"
 msgid "Show advanced preferences and controls…"
-msgstr ""
+msgstr "Покажи разширените предпочитания и контролери…"
 
 msgctxt "prefs_run_on_battery_header"
 msgid "Compute on Battery"
-msgstr ""
+msgstr "Изчислявай на Батерия"
 
 msgctxt "battery_charge_min_pct_header"
 msgid "Min. battery level"
-msgstr ""
+msgstr "Мин. ниво на батерия"
 
 msgctxt "battery_charge_min_pct_description"
 msgid "BOINC suspends computation below defined battery charge level."
 msgstr ""
+"BOINC временно прекратява изчисленията под определено ниво на зареждане на "
+"батерията."
 
 msgctxt "battery_temperature_max_header"
 msgid "Max. battery temperature"
-msgstr ""
+msgstr "Макс. температура на батерия"
 
 msgctxt "battery_temperature_max_description"
 msgid ""
 "BOINC suspends computation above defined battery temperature. It is not "
 "recommended to change this value."
 msgstr ""
+"BOINC временно прекратява изчисленията над определена температура на "
+"батерията. Не е препоръчително да променяте тази стойност."
 
 msgctxt "prefs_disk_max_pct_header"
 msgid "Max. used storage space"
-msgstr ""
+msgstr "Макс. използвано пространство за съхранение"
 
 msgctxt "prefs_disk_max_pct_description"
 msgid "How many percent of your device's storage space is BOINC allowed to use?"
 msgstr ""
+"Колко процента от пространството за съхранение на вашето устройство е "
+"позволено на BOINC да използва?"
 
 msgctxt "prefs_disk_min_free_gb_header"
 msgid "Min. spare storage"
-msgstr ""
+msgstr "Мин. неизползвано пространство"
 
 msgctxt "prefs_disk_min_free_gb_description"
 msgid "How much of your device's storage space shall stay free?"
 msgstr ""
+"Колко от пространството за съхранение на вашето устройство да остане "
+"свободно?"
 
 msgctxt "prefs_network_daily_xfer_limit_mb_header"
 msgid "Daily transfer limit"
-msgstr ""
+msgstr "Дневен лимит на трансфер"
 
 msgctxt "prefs_network_daily_xfer_limit_mb_description"
 msgid "Limits the daily data traffic caused by BOINC."
-msgstr ""
+msgstr "Ограничава дневния трафик на данни породен от BOINC."
 
 msgctxt "prefs_network_wifi_only_header"
 msgid "Transfer tasks on WiFi only"
@@ -513,69 +521,69 @@ msgstr ""
 
 msgctxt "prefs_cpu_time_max_header"
 msgid "CPU limit"
-msgstr ""
+msgstr "CPU лимит"
 
 msgctxt "prefs_cpu_time_max_description"
 msgid "Limits the CPU time BOINC uses for computation."
-msgstr ""
+msgstr "Ограничава CPU време, което BOINC използва за изчисления."
 
 msgctxt "prefs_memory_max_idle_header"
 msgid "RAM limit"
-msgstr ""
+msgstr "RAM лимит"
 
 msgctxt "prefs_memory_max_idle_description"
 msgid "Limits the amount of RAM tasks are allowed to occupy."
-msgstr ""
+msgstr "Ограничава количеството RAM, което е позволено на задачите да заемат."
 
 msgctxt "prefs_client_log_flags_header"
 msgid "BOINC Client log flags"
-msgstr ""
+msgstr "Регистър от флагове на BOINC Клиента"
 
 msgctxt "prefs_gui_log_level_header"
 msgid "GUI log level"
-msgstr ""
+msgstr "Ниво на регистъра на GUI"
 
 msgctxt "prefs_gui_log_level_description"
 msgid "Specifies verbosity of GUI log messages."
-msgstr ""
+msgstr "Дефинира многословието на регистъра за съобщения от GUI."
 
 msgctxt "prefs_unit_mb"
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 msgctxt "prefs_unit_gb"
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #, c-format
 msgctxt "prefs_unit_pct"
 msgid "%"
-msgstr ""
+msgstr "%"
 
 msgctxt "prefs_unit_celcius"
 msgid "°C"
-msgstr ""
+msgstr "°C"
 
 #. projects tab strings
 msgctxt "projects_loading"
 msgid "Reading projects…"
-msgstr ""
+msgstr "Прочитане на проекти…"
 
 msgctxt "projects_add"
 msgid "Add project"
-msgstr ""
+msgstr "Добавете проект"
 
 msgctxt "projects_icon"
 msgid "Project icon"
-msgstr ""
+msgstr "Икона на проекта"
 
 msgctxt "projects_credits_header"
 msgid "Credit:"
-msgstr ""
+msgstr "Кредит:"
 
 msgctxt "projects_credits_host_header"
 msgid "(on this device)"
-msgstr ""
+msgstr "(на това устройство)"
 
 msgctxt "projects_credits_user_header"
 msgid "(total)"
@@ -641,65 +649,65 @@ msgstr ""
 
 msgctxt "projects_control_allownewtasks"
 msgid "Allow new tasks"
-msgstr ""
+msgstr "Позволи нови задачи"
 
 msgctxt "projects_control_reset"
 msgid "Reset"
-msgstr ""
+msgstr "Нулиране"
 
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
 msgid "Remove project?"
-msgstr ""
+msgstr "Премахване на проект?"
 
 msgctxt "projects_confirm_detach_message"
 msgid "Are you sure you want to remove"
-msgstr ""
+msgstr "Сигурни ли сте, че искате да премахнете"
 
 msgctxt "projects_confirm_detach_message2"
 msgid "from BOINC?"
-msgstr ""
+msgstr "от BOINC?"
 
 msgctxt "projects_confirm_detach_confirm"
 msgid "Remove"
-msgstr ""
+msgstr "Премахни"
 
 msgctxt "projects_confirm_reset_title"
 msgid "Reset project"
-msgstr ""
+msgstr "Нулиране на проект"
 
 msgctxt "projects_confirm_reset_message"
 msgid "Are you sure you want to reset"
-msgstr ""
+msgstr "Сигурни ли сте, че искате да нулирате"
 
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
-msgstr ""
+msgstr "Нулиране"
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
 msgid "Task Name:"
-msgstr ""
+msgstr "Име на Задача:"
 
 msgctxt "tasks_header_elapsed_time"
 msgid "Elapsed time:"
-msgstr ""
+msgstr "Изминало време:"
 
 msgctxt "tasks_header_project_paused"
 msgid "(suspended)"
-msgstr ""
+msgstr "(временно прекратена)"
 
 msgctxt "tasks_header_deadline"
 msgid "Deadline:"
-msgstr ""
+msgstr "Краен срок:"
 
 msgctxt "tasks_result_new"
 msgid "new"
-msgstr ""
+msgstr "нов"
 
 msgctxt "tasks_result_files_downloading"
 msgid "waiting for download"
-msgstr ""
+msgstr "изчаква за изтегляне"
 
 msgctxt "tasks_result_files_downloaded"
 msgid "download complete"
