@@ -48,7 +48,10 @@
     $first_non_sticky = FALSE;
   ?>
   
-  <h2 class="title"><?php print $taxonomy->name; ?></h2>
+  <h2 class="title">
+    <?php print l($forum_vocab->name, 'forum') . ' &rsaquo; '; ?>
+    <?php print $taxonomy->name; ?>
+  </h2>
   
   <thead>
     <tr><?php print $header; ?></tr>
