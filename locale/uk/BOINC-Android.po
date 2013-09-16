@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-08-29 15:37-0700\n"
-"PO-Revision-Date: 2013-09-07 15:32+0000\n"
+"PO-Revision-Date: 2013-09-16 19:00+0000\n"
 "Last-Translator: Олег <pukish_oleg@ukr.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: uk\n"
@@ -18,7 +18,7 @@ msgstr ""
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1378567950.0\n"
+"X-POOTLE-MTIME: 1379358014.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -258,28 +258,27 @@ msgstr "Назад"
 
 msgctxt "attachproject_working_finish_button"
 msgid "Finish"
-msgstr ""
+msgstr "Готово"
 
 msgctxt "attachproject_working_check_desc"
 msgid "Successful"
-msgstr ""
+msgstr "Успішно"
 
-#, fuzzy
 msgctxt "attachproject_working_failed_desc"
 msgid "Failed"
-msgstr "невдало"
+msgstr "Невдало"
 
 msgctxt "attachproject_working_ongoing"
 msgid "…"
-msgstr ""
+msgstr "..."
 
 msgctxt "attachproject_working_finished"
 msgid "."
-msgstr ""
+msgstr "."
 
 msgctxt "attachproject_working_description"
 msgid ":"
-msgstr ""
+msgstr ":"
 
 msgctxt "attachproject_working_connect"
 msgid "Connect"
@@ -287,7 +286,7 @@ msgstr ""
 
 msgctxt "attachproject_working_verify"
 msgid "Verify account"
-msgstr ""
+msgstr "Перевірити обліковий запис"
 
 msgctxt "attachproject_working_register"
 msgid "Register account"
@@ -333,11 +332,11 @@ msgstr "Завдання"
 
 msgctxt "tab_transfers"
 msgid "Transfers"
-msgstr ""
+msgstr "Передачі"
 
 msgctxt "tab_preferences"
 msgid "Preferences"
-msgstr ""
+msgstr "Налаштування"
 
 msgctxt "tab_desc"
 msgid "Navigation"
@@ -403,35 +402,35 @@ msgstr "Зберегти"
 
 msgctxt "prefs_dialog_title"
 msgid "Enter new value:"
-msgstr ""
+msgstr "Ввести нове значення:"
 
 msgctxt "prefs_dialog_title_selection"
 msgid "Select:"
-msgstr ""
+msgstr "Вибрати:"
 
 msgctxt "prefs_category_general"
 msgid "General"
-msgstr ""
+msgstr "Основні"
 
 msgctxt "prefs_category_network"
 msgid "Network"
-msgstr ""
+msgstr "Мережа"
 
 msgctxt "prefs_category_power"
 msgid "Power"
-msgstr ""
+msgstr "Живлення"
 
 msgctxt "prefs_category_cpu"
 msgid "CPU"
-msgstr ""
+msgstr "Процесор"
 
 msgctxt "prefs_category_storage"
 msgid "Storage"
-msgstr ""
+msgstr "Диск"
 
 msgctxt "prefs_category_memory"
 msgid "Memory"
-msgstr ""
+msgstr "Пам`ять"
 
 msgctxt "prefs_category_debug"
 msgid "Debug"
@@ -485,39 +484,41 @@ msgstr ""
 
 msgctxt "prefs_network_daily_xfer_limit_mb_description"
 msgid "Limits the daily data traffic caused by BOINC."
-msgstr ""
+msgstr "Обмеження щоденної передачі даних, що здійснює BOINC."
 
 msgctxt "prefs_network_wifi_only_header"
 msgid "Transfer tasks on WiFi only"
-msgstr ""
+msgstr "Передавати завдання тільки через WiFi"
 
 msgctxt "prefs_autostart_header"
 msgid "Autostart"
-msgstr ""
+msgstr "Автозапуск"
 
 msgctxt "prefs_show_notification_header"
 msgid "Show notification when suspended"
-msgstr ""
+msgstr "Показати повідомлення коли призупинено"
 
 msgctxt "prefs_cpu_number_cpus_header"
 msgid "Used CPU cores"
-msgstr ""
+msgstr "Використано ядер ЦП"
 
 msgctxt "prefs_cpu_number_cpus_description"
 msgid "Limits the number of CPU cores BOINC uses for computation."
-msgstr ""
+msgstr "Обмежує кількість ядер ЦП, які BOINC використовує для обчислень."
 
 msgctxt "prefs_cpu_other_load_suspension_header"
 msgid "Pause at CPU usage above"
-msgstr ""
+msgstr "Використання ЦП призупинене"
 
 msgctxt "prefs_cpu_other_load_suspension_description"
 msgid "Determines when BOINC pauses computation due to other app's CPU usage."
 msgstr ""
+"Визначає коли призупиняти обчислення BOINC через використання ЦП іншими "
+"додатками."
 
 msgctxt "prefs_cpu_time_max_header"
 msgid "CPU limit"
-msgstr ""
+msgstr "Обмеження ЦП"
 
 msgctxt "prefs_cpu_time_max_description"
 msgid "Limits the CPU time BOINC uses for computation."
@@ -558,12 +559,12 @@ msgstr ""
 
 msgctxt "prefs_unit_celcius"
 msgid "°C"
-msgstr ""
+msgstr "°C"
 
 #. projects tab strings
 msgctxt "projects_loading"
 msgid "Reading projects…"
-msgstr ""
+msgstr "Читання проектів..."
 
 msgctxt "projects_add"
 msgid "Add project"
@@ -571,32 +572,32 @@ msgstr "Додати проект"
 
 msgctxt "projects_icon"
 msgid "Project icon"
-msgstr ""
+msgstr "Значок проекту"
 
 msgctxt "projects_credits_header"
 msgid "Credit:"
-msgstr ""
+msgstr "Бали:"
 
 msgctxt "projects_credits_host_header"
 msgid "(on this device)"
-msgstr ""
+msgstr "(на цьому пристрої)"
 
 msgctxt "projects_credits_user_header"
 msgid "(total)"
-msgstr ""
+msgstr "(загалом)"
 
 #. project status strings
 msgctxt "projects_status_suspendedviagui"
 msgid "Suspended by user"
-msgstr ""
+msgstr "Призупинено користувачем"
 
 msgctxt "projects_status_dontrequestmorework"
 msgid "Won't get new tasks"
-msgstr ""
+msgstr "Не приймає нові завдання"
 
 msgctxt "projects_status_ended"
 msgid "Project ended - OK to remove"
-msgstr ""
+msgstr "Проект завершений - Гаразд для видалення"
 
 msgctxt "projects_status_detachwhendone"
 msgid "Will remove when tasks done"
@@ -625,41 +626,40 @@ msgstr ""
 
 msgctxt "projects_control_update"
 msgid "Update"
-msgstr ""
+msgstr "Оновити"
 
 msgctxt "projects_control_remove"
 msgid "Remove"
-msgstr ""
+msgstr "Видалити"
 
-#, fuzzy
 msgctxt "projects_control_suspend"
 msgid "Suspend"
 msgstr "Призупинено"
 
 msgctxt "projects_control_resume"
 msgid "Resume"
-msgstr ""
+msgstr "Відновити"
 
 msgctxt "projects_control_nonewtasks"
 msgid "No new tasks"
-msgstr ""
+msgstr "Не завантажувати нові завдання"
 
 msgctxt "projects_control_allownewtasks"
 msgid "Allow new tasks"
-msgstr ""
+msgstr "Отримувати нові завдання"
 
 msgctxt "projects_control_reset"
 msgid "Reset"
-msgstr ""
+msgstr "Скинути"
 
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
 msgid "Remove project?"
-msgstr ""
+msgstr "Видалити проект?"
 
 msgctxt "projects_confirm_detach_message"
 msgid "Are you sure you want to remove"
-msgstr ""
+msgstr "Ви справді хочете видалити"
 
 msgctxt "projects_confirm_detach_message2"
 msgid "from BOINC?"
@@ -690,9 +690,10 @@ msgctxt "tasks_header_elapsed_time"
 msgid "Elapsed time:"
 msgstr ""
 
+#, fuzzy
 msgctxt "tasks_header_project_paused"
 msgid "(suspended)"
-msgstr ""
+msgstr "Призупинено"
 
 msgctxt "tasks_header_deadline"
 msgid "Deadline:"
@@ -712,40 +713,39 @@ msgstr ""
 
 msgctxt "tasks_result_compute_error"
 msgid "computation error"
-msgstr ""
+msgstr "помилка обчислень"
 
 msgctxt "tasks_result_files_uploading"
 msgid "uploading"
-msgstr ""
+msgstr "Відправлення"
 
 msgctxt "tasks_result_files_uploaded"
 msgid "upload complete"
-msgstr ""
+msgstr "відправлення завершене"
 
 msgctxt "tasks_result_aborted"
 msgid "aborted"
-msgstr ""
+msgstr "перервано"
 
 msgctxt "tasks_result_upload_failed"
 msgid "upload failed"
-msgstr ""
+msgstr "невдала спроба відправлення"
 
 msgctxt "tasks_active_uninitialized"
 msgid "ready"
-msgstr ""
+msgstr "готово"
 
 msgctxt "tasks_active_executing"
 msgid "running"
-msgstr ""
+msgstr "працює"
 
-#, fuzzy
 msgctxt "tasks_active_suspended"
 msgid "suspended"
-msgstr "Призупинено"
+msgstr "призупинено"
 
 msgctxt "tasks_active_abort_pending"
 msgid "suspending"
-msgstr ""
+msgstr "призупинення"
 
 msgctxt "tasks_active_quit_pending"
 msgid "suspending"
@@ -788,44 +788,43 @@ msgstr ""
 #. transfers tab strings
 msgctxt "trans_loading"
 msgid "Reading transfers…"
-msgstr ""
+msgstr "Читання передач..."
 
 msgctxt "trans_upload"
 msgid "Upload"
-msgstr ""
+msgstr "Відправлення"
 
 msgctxt "trans_download"
 msgid "Download"
-msgstr ""
+msgstr "Завантаження"
 
 msgctxt "trans_retryin"
 msgid "retry in"
-msgstr ""
+msgstr "повтор через"
 
 msgctxt "trans_failed"
 msgid "failed"
 msgstr "невдало"
 
-#, fuzzy
 msgctxt "trans_suspended"
 msgid "suspended"
-msgstr "Призупинено"
+msgstr "призупинено"
 
 msgctxt "trans_active"
 msgid "active"
-msgstr ""
+msgstr "активна"
 
 msgctxt "trans_pending"
 msgid "pending"
-msgstr ""
+msgstr "в очікуванні"
 
 msgctxt "trans_projectbackoff"
 msgid "project backoff"
-msgstr ""
+msgstr "запит до проекту відкладено на"
 
 msgctxt "trans_header_name"
 msgid "File:"
-msgstr ""
+msgstr "Файл:"
 
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
