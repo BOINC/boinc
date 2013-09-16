@@ -268,7 +268,9 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
     
   case 'update':
     if (isset($edit['update_source'])) {
-      if ($edit['update_source'] == 'user_account') {
+      $boinc_user = lookup_user_id($account->boincuser_id);
+      switch ($edit['update_source']) {
+      case 'user_account':
         // Ensure that BOINC data is altered
         $boinc_user = lookup_user_id($account->boincuser_id);
         $changing_email = ($edit['mail'] AND $edit['mail'] != $boinc_user->email_addr) ? true : false;
@@ -283,14 +285,19 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
               "email_addr='{$email_addr}', passwd_hash='{$passwd_hash}'"
           );
         }
+        break;
+      case 'user_profile':
         if ($edit['boincuser_name'] != $boinc_user->name) {
           $boincuser_name = $edit['boincuser_name'];
           $result = $boinc_user->update(
               "name='{$boincuser_name}'"
           );
         }
+        break;
+      default:
       }
-      // We don't want to save update source or custom fields, so remove them
+      // We don't want to save update source or duplicate custom fields, so
+      // remove them before continuing to core Drupal routines
       $edit['update_source'] = null;
       $edit['boincuser_name'] = null;
     }
@@ -491,8 +498,8 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     $form['account']['account_key']['#weight'] = 55;
     $form['account']['weak_account_key']['#weight'] = 60;
     $form['account']['cpid']['#weight'] = 65;
-    $form['account']['separator_bottom']['#weight'] = 999;
-    $form['account']['current_pass']['#weight'] = 1000;
+    $form['account']['separator_bottom']['#weight'] = 1000;
+    $form['account']['current_pass']['#weight'] = 1001;
     
     // Remove redundant / unnecessary form elements
     unset($form['theme_select']);
@@ -523,17 +530,51 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     $account = user_load($form['uid']['#value']);
     drupal_set_title($account->boincuser_name);
     
+    $form['separator_bottom'] = array(
+      '#value' => '<div class="separator buttons"></div>',
+      '#weight' => 999,
+    );
+    
     if (module_exists('captcha')) {
       // Add an optional captcha
       $form['profile_captcha'] = array(
         '#type' => 'captcha',
-        '#weight' => 999,
+        '#weight' => 1000,
       );
     }
+    
+    // Wrap action buttons for styling consistency
+    $form['buttons']['form control tabs prefix'] = array(
+      '#value' => '<ul class="form-control tab-list">',
+      '#weight' => 1001,
+    );
+    $form['buttons']['submit']['#prefix'] = '<li class="first tab">';
+    $form['buttons']['submit']['#value'] = t('Save changes');
+    $form['buttons']['submit']['#suffix'] = '</li>';
+    $form['buttons']['submit']['#weight'] = 1002;
+    $form['buttons']['preview']['#prefix'] = '<li class="tab">';
+    $form['buttons']['preview']['#suffix'] = '</li>';
+    $form['buttons']['preview']['#weight'] = 1003;
+    $form['buttons']['form control tabs suffix'] = array(
+      '#value' => '</ul>',
+      '#weight' => 1010,
+    );
     
     unset($form['title']);
     unset($form['body_field']);
     $form['#redirect'] = 'account/profile';
+    
+    // Internal fields to indicate where these user changes are taking place
+    array_unshift($form, array(
+      'validation_source' => array(
+        '#type' => 'hidden',
+        '#value' => 'user_profile'
+      ),
+      'update_source' => array(
+        '#type' => 'hidden',
+        '#value' => 'user_profile'
+      )
+    ));
     break;
   
   // Registration form
