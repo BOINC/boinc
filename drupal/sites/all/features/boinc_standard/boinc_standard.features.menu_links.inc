@@ -66,7 +66,7 @@ function boinc_standard_menu_default_menu_links() {
     'menu_name' => 'primary-links',
     'link_path' => 'user/me/edit',
     'router_path' => 'user/%/edit',
-    'link_title' => 'Account Info',
+    'link_title' => 'Credentials',
     'options' => array(
       'attributes' => array(
         'title' => '',
@@ -82,7 +82,7 @@ function boinc_standard_menu_default_menu_links() {
   );
   // Translatables
   // Included for use with string extractors like potx.
-  t('Account Info');
+  t('Credentials');
   t('BOINC');
   t('Dashboard');
   t('Home');

@@ -436,26 +436,16 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     
     $form['account']['name']['#size'] = 40;
     $form['account']['mail']['#size'] = 40;
+    $form['account']['pass']['#size'] = 17;
     
-    // Add the BOINC user name (non-unique, user editable)
-    if (!$edit['boincuser_name']) $edit['boincuser_name'] = $account->boincuser_name;
-    $form['account']['boincuser_name'] = array(
-      '#type' => 'textfield',
-      '#title' => t('Name'),
-      '#default_value' => $edit['boincuser_name'],
-      '#maxlength' => USERNAME_MAX_LENGTH,
-      '#required' => TRUE,
-      '#description' => t(''),
-      '#size' => 40
-    );
     if (!$reset_pass AND ($user->uid == $account->uid OR !user_access('administer users'))) {
       // Add a password authenticator, required to change email or pw
       $form['account']['current_pass'] = array(
         '#type' => 'password',
-        '#title' => t('Current password'),
+        '#title' => t('Enter your password to save changes'),
         '#description' => t('Enter your current password if changing your email
           address or password.'),
-        '#size' => 25
+        '#size' => 17
       );
     }
     
@@ -489,24 +479,29 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
         </div>',
     );
     
+    $form['account']['separator_bottom'] = array(
+      '#value' => '<div class="separator buttons"></div>'
+    );
+    $form['submit']['#value'] = t('Save changes');
+    
     // Rearrange form elements
-    $form['account']['boincuser_name']['#weight'] = 0;
     $form['account']['mail']['#weight'] = 5;
-    $form['account']['current_pass']['#weight'] = 10;
     $form['account']['pass']['#weight'] = 15;
     $form['account']['user_id']['#weight'] = 50;
     $form['account']['account_key']['#weight'] = 55;
     $form['account']['weak_account_key']['#weight'] = 60;
     $form['account']['cpid']['#weight'] = 65;
+    $form['account']['separator_bottom']['#weight'] = 999;
+    $form['account']['current_pass']['#weight'] = 1000;
     
     // Remove redundant / unnecessary form elements
-    //echo '<pre>' . print_r($form, true) . '</pre>';
     unset($form['theme_select']);
     
     // These are on the Community preferences form (boincwork module)
-    unset($form['signature_settings']);
     unset($form['enable_pm_mail']);
     unset($form['friend_notification']);
+    unset($form['signature_settings']);
+    unset($form['timezone']);
     
     // Internal fields to indicate where these user changes are taking place
     array_unshift($form, array(
@@ -599,6 +594,27 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     $form['submit']['#value'] = t('Search');
     break;
   }
+}
+
+/**
+ * Implementation of hook_elements()
+ * @see http://api.drupal.org/api/drupal/developer--hooks--core.php/function/hook_elements/6
+ */
+function boincuser_elements() {
+  $type['password_confirm']['#process'][] = 'boincuser_process_password_confirm';
+  return $type;
+}
+
+/**
+ * This madness is required to change the password field label on the user
+ * profile form
+ */
+function boincuser_process_password_confirm($element) {
+  // Check if parent element is "account".
+  if ($element['#array_parents'][0] == 'account') {
+    $element['pass1']['#title'] = t('Change password');
+  }
+  return $element;
 }
 
 /**

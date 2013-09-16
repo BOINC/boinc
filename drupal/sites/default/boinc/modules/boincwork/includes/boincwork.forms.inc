@@ -513,7 +513,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
   $form['prefs']['form control tabs'] = array(
     '#value' => '<li class="tab">' . l(t('Cancel'), $_GET['q']) . '</li>'
   );
-  if ($venue != 'generic') {
+  if ($venue AND $venue != 'generic') {
     global $base_path;
     $form['prefs']['form control tabs']['#value'] .= '<li class="tab">' . 
       l(t('Clear'), "account/prefs/computing/clear/{$venue}",
@@ -527,7 +527,10 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
       ) . '</li>';
   }
   $form['prefs']['view control'] = array(
-    '#value' => '<li class="first alt tab">' . l('(' . t('Show comparison view') . ')', 'account/prefs/computing/combined') . '</li></ul>'
+    '#value' => '<li class="first alt tab">' . l('(' . t('Show comparison view') . ')', 'account/prefs/computing/combined') . '</li>'
+  );
+  $form['prefs']['form control tabs suffix'] = array(
+    '#value' => '</ul>'
   );
   $form['#submit'][] = 'boincwork_generalprefs_form_submit';
   
@@ -875,7 +878,7 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
   $form['prefs']['form control tabs'] = array(
     '#value' => '<li class="tab">' . l(t('Cancel'), $_GET['q']) . '</li>'
   );
-  if ($venue != 'generic') {
+  if ($venue AND $venue != 'generic') {
     global $base_path;
     $form['prefs']['form control tabs']['#value'] .= '<li class="tab">' . 
       l(t('Clear'), "account/prefs/project/clear/{$venue}",
@@ -889,7 +892,10 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
       ) . '</li>';
   }
   $form['prefs']['view control'] = array(
-    '#value' => '<li class="first alt tab">' . l('(' . t('Show comparison view') . ')', 'account/prefs/project/combined') . '</li></ul>'
+    '#value' => '<li class="first alt tab">' . l('(' . t('Show comparison view') . ')', 'account/prefs/project/combined') . '</li>'
+  );
+  $form['prefs']['form control tabs suffix'] = array(
+    '#value' => '</ul>'
   );
   
   return $form;
@@ -1024,6 +1030,7 @@ function boincwork_projectprefs_form_submit($form, &$form_state) {
  */
 function communityprefs_form(&$form_state) {
   global $user;
+  $account = user_load($user->uid);
   $form = array();
   
   // Standard option sets
@@ -1034,9 +1041,39 @@ function communityprefs_form(&$form_state) {
   
   $default = array(
     'pm_send_notification' => '', // This is set already in pm_email_notify_user
-    'friend_notification' => isset($user->friend_notification) ? $user->friend_notification : 0,
-    'comments_per_page' => (isset($user->comments_per_page) AND $user->comments_per_page) ? $user->comments_per_page : variable_get('comment_default_per_page_forum', 50)
+    'friend_notification' => isset($account->friend_notification) ? $account->friend_notification : 0,
+    'comments_per_page' => (isset($account->comments_per_page) AND $account->comments_per_page) ? $account->comments_per_page : variable_get('comment_default_per_page_forum', 50)
   );
+  
+  // General options
+  $form['general'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('General settings'),
+    '#weight' => 0,
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE
+  );
+  // Add the BOINC user name (non-unique, user editable)
+  $form['general']['boincuser_name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Name'),
+    '#default_value' => $account->boincuser_name,
+    '#maxlength' => USERNAME_MAX_LENGTH,
+    '#required' => TRUE,
+    '#description' => t(''),
+    '#size' => 40
+  );
+  // Time zone
+  if (variable_get('configurable_timezones', 1)) {
+    $zones = _system_zonelist();
+    $form['general']['timezone'] = array(
+      '#type' => 'select',
+      '#title' => t('Time zone'),
+      '#default_value' => ($account->timezone !== NULL) ? $account->timezone : variable_get('date_default_timezone', 0),
+      '#options' => $zones,
+      '#description' => '',
+    );
+  }
   
   // Notification options
   $form['notifications'] = array(
@@ -1047,7 +1084,7 @@ function communityprefs_form(&$form_state) {
     '#collapsed' => FALSE
   );
   // Pull in private message notification handling and tweak the form
-  $pm_notify = pm_email_notify_user('form', $edit, $user, 'account');
+  $pm_notify = pm_email_notify_user('form', $edit, $account, 'account');
   $form['notifications']['pm_send_notifications'] = array_replace(
     $pm_notify['enable_pm_mail']['pm_send_notifications'],
     array(
@@ -1091,29 +1128,37 @@ function communityprefs_form(&$form_state) {
       '#type' => 'textarea',
       '#title' => t('Signature'),
       '#description' => t('Your signature will be publicly displayed at the end of your comments.'),
-      '#default_value' => $user->signature
+      '#default_value' => $account->signature
       );
     // Prevent a "validation error" message when the user attempts to save with a default value they
     // do not have access to.
-    if (!filter_access($user->signature_format) && empty($_POST)) {
+    if (!filter_access($account->signature_format) && empty($_POST)) {
       drupal_set_message(t("The signature input format has been set to a format you don't have access to. It will be changed to a format you have access to when you save this page."));
       $edit['signature_format'] = FILTER_FORMAT_DEFAULT;
     }
-    $form['forums']['signature_format'] = filter_form($user->signature_format, NULL, array('signature_format'));
+    $form['forums']['signature_format'] = filter_form($account->signature_format, NULL, array('signature_format'));
   }
   
+  $form['separator_bottom'] = array(
+    '#value' => '<div class="separator buttons"></div>',
+    '#weight' => 999,
+  );
+  
   // Form control
-  $form['prefs']['form control tabs prefix'] = array(
+  $form['form control tabs prefix'] = array(
     '#value' => '<ul class="form-control tab-list">'
   );
-  $form['prefs']['submit'] = array(
+  $form['submit'] = array(
     '#prefix' => '<li class="first tab">',
     '#type' => 'submit',
     '#value' => t('Save changes'),
     '#suffix' => '</li>'
   );
-  $form['prefs']['form control tabs'] = array(
-    '#value' => '<li class="tab">' . l(t('Cancel'), $_GET['q']) . '</li></ul>'
+  $form['form control tabs'] = array(
+    '#value' => '<li class="tab">' . l(t('Cancel'), $_GET['q']) . '</li>'
+  );
+  $form['form control tabs suffix'] = array(
+    '#value' => '</ul>'
   );
   
   return $form;
@@ -1123,12 +1168,25 @@ function communityprefs_form(&$form_state) {
   * Handle post-validation submission of community preferences form.
   */
 function communityprefs_form_submit($form, &$form_state) {
+  require_boinc('db');
   global $user;
+  $account = user_load($user->uid);
+  $boinc_user = lookup_user_id($account->boincuser_id);
   $edit= $form_state['values'];
+  // Display name
+  if ($edit['boincuser_name'] != $boinc_user->name) {
+    $boincuser_name = $edit['boincuser_name'];
+    $result = $boinc_user->update(
+        "name='{$boincuser_name}'"
+    );
+  }
+  // Private message settings
   pm_email_notify_user('submit', $edit, $user);
+  // All other settings
   user_save($user, array(
     'signature' => $edit['signature'],
     'signature_format' => $edit['signature_format'],
+    'timezone' => $edit['timezone'],
     'friend_notification' => $edit['friend_notification'],
     'comments_per_page' => $edit['comments_per_page']
   ));
@@ -1185,6 +1243,10 @@ function boincwork_privacyprefs_form(&$form_state) {
     '#default_value' => $default['privacy']['show_hosts']
   );
   
+  $form['prefs']['separator_bottom'] = array(
+    '#value' => '<div class="separator buttons"></div>'
+  );
+  
   // Form control
   $form['prefs']['form control tabs prefix'] = array(
     '#value' => '<ul class="form-control tab-list">'
@@ -1196,7 +1258,10 @@ function boincwork_privacyprefs_form(&$form_state) {
     '#suffix' => '</li>'
   );
   $form['prefs']['form control tabs'] = array(
-    '#value' => '<li class="tab">' . l(t('Cancel'), $_GET['q']) . '</li></ul>'
+    '#value' => '<li class="tab">' . l(t('Cancel'), $_GET['q']) . '</li>'
+  );
+  $form['prefs']['form control tabs suffix'] = array(
+    '#value' => '</ul>'
   );
   
   return $form;
