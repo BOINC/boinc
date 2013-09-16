@@ -530,7 +530,7 @@ function boinc_standard_strongarm() {
     ),
     'user/%/edit/profile' => array(
       'weight' => '1',
-      'action' => 'enabled',
+      'action' => 'hidden',
       'tabtamer_original_path' => 'user/%user_category/edit/profile',
       'tabtamer_title' => '',
     ),

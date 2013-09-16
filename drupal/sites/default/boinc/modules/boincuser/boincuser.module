@@ -28,11 +28,27 @@ require_once('includes/boincuser.helpers.inc');
  */
 function boincuser_menu() {
   $items['account/profile'] = array(
-    'title' => 'Profile',
+    'title' => '',
+    'description' => '',
+    'page callback' => 'boincuser_view_profile',
+    'access arguments' => array('access content'),
+    'type' => MENU_NORMAL_ITEM
+  );
+  $items['account/profile/view'] = array(
+    'title' => 'View',
     'description' => 'Show a user profile',
     'page callback' => 'boincuser_view_profile',
     'access arguments' => array('access content'),
-    'type' => MENU_CALLBACK
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => 0
+  );
+  $items['account/profile/edit'] = array(
+    'title' => 'Edit',
+    'description' => 'Edit a user profile',
+    'page callback' => 'boincuser_edit_profile',
+    'access arguments' => array('access content'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 5
   );
   $items['join'] = array(
     'title' => '',
@@ -586,6 +602,20 @@ function boincuser_view_profile($account = null) {
   // For now, just call the user module profile view function
   user_build_content($account);
   return theme('user_profile', $account);
+}
+
+/**
+ * Page callback for editing a user profile
+ */
+function boincuser_edit_profile($account = null) {
+  // Create the user profile form
+  if (!$account) {
+    global $user;
+    $account = $user;
+  }
+  // Render the form
+  module_load_include('pages.inc', 'node', 'node');
+  return content_profile_page_edit('profile', $account);
 }
 
 /**
