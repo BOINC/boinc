@@ -489,7 +489,25 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     $form['account']['separator_bottom'] = array(
       '#value' => '<div class="separator buttons"></div>'
     );
+    
+    // Wrap action buttons for styling consistency
+    $form['form control tabs prefix'] = array(
+      '#value' => '<ul class="form-control tab-list">',
+      '#weight' => 1001,
+    );
+    $form['submit']['#prefix'] = '<li class="first tab">';
     $form['submit']['#value'] = t('Save changes');
+    $form['submit']['#suffix'] = '</li>';
+    $form['submit']['#weight'] = 1002;
+    if (isset($form['delete']) AND is_array($form['delete'])) {
+      $form['delete']['#prefix'] = '<li class="tab">';
+      $form['delete']['#suffix'] = '</li>';
+      $form['delete']['#weight'] = 1003;
+    }
+    $form['form control tabs suffix'] = array(
+      '#value' => '</ul>',
+      '#weight' => 1010,
+    );
     
     // Rearrange form elements
     $form['account']['mail']['#weight'] = 5;
