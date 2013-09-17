@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-08-29 15:37-0700\n"
-"PO-Revision-Date: 2013-09-16 18:27+0000\n"
+"PO-Revision-Date: 2013-09-16 19:19+0000\n"
 "Last-Translator: Dimitar <mexicoman@abv.bg>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: bg\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1379356049.0\n"
+"X-POOTLE-MTIME: 1379359156.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -163,11 +163,11 @@ msgstr "Прикрепен"
 #. project registration
 msgctxt "attachproject_registration_header"
 msgid "Account registration for"
-msgstr ""
+msgstr "Регистрация на акаунта за"
 
 msgctxt "attachproject_registration_header_url"
 msgid "Project:"
-msgstr ""
+msgstr "Проект:"
 
 msgctxt "attachproject_registration_header_email"
 msgid "eMail:"
@@ -179,7 +179,7 @@ msgstr "Име:"
 
 msgctxt "attachproject_registration_header_teamname"
 msgid "Team:"
-msgstr ""
+msgstr "Отбор:"
 
 msgctxt "attachproject_registration_header_pwd"
 msgid "Password:"
@@ -187,44 +187,45 @@ msgstr "Парола:"
 
 msgctxt "attachproject_registration_header_pwd_confirm"
 msgid "… Retype:"
-msgstr ""
+msgstr "… Напишете отново:"
 
 msgctxt "attachproject_registration_button"
 msgid "Create"
-msgstr ""
+msgstr "Създай"
 
 #. error strings
 msgctxt "attachproject_error_wrong_name"
 msgid "User not found"
-msgstr ""
+msgstr "Не е намерен потребител"
 
 msgctxt "attachproject_error_short_pwd"
 msgid "Password too short"
-msgstr ""
+msgstr "Паролата е твърде къса"
 
 msgctxt "attachproject_error_no_internet"
 msgid "Connection failure"
-msgstr ""
+msgstr "Връзката не е успешна"
 
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
-msgstr ""
+msgstr "Паролите не съвпадат"
 
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
-msgstr ""
+msgstr "Моля въведете Имейл адрес"
 
 msgctxt "attachproject_error_no_pwd"
 msgid "Please enter a password"
-msgstr ""
+msgstr "Моля въведете парола"
 
 msgctxt "attachproject_error_no_name"
 msgid "Please enter user name"
-msgstr ""
+msgstr "Моля въведете потребителско име"
 
+#, fuzzy
 msgctxt "attachproject_error_unknown"
 msgid "failed"
-msgstr ""
+msgstr "Неуспешен"
 
 msgctxt "attachproject_error_bad_username"
 msgid "User name refused"
@@ -302,42 +303,44 @@ msgstr ""
 
 msgctxt "main_error"
 msgid "Whooops"
-msgstr ""
+msgstr "Уууупсс"
 
 msgctxt "main_error_long"
 msgid ""
 "…this should not happen!\n"
 "Click on the icon to try again."
 msgstr ""
+"…това не трябва да се случва!\n"
+"Натиснете на иконата за да опитате отново."
 
 msgctxt "main_title_icon_desc"
 msgid "BOINC icon"
-msgstr ""
+msgstr "BOINC икона"
 
 #. tab names
 msgctxt "tab_status"
 msgid "Status"
-msgstr ""
+msgstr "Статус"
 
 msgctxt "tab_projects"
 msgid "Projects"
-msgstr ""
+msgstr "Проекти"
 
 msgctxt "tab_tasks"
 msgid "Tasks"
-msgstr ""
+msgstr "Задачи"
 
 msgctxt "tab_transfers"
 msgid "Transfers"
-msgstr ""
+msgstr "Трансфери"
 
 msgctxt "tab_preferences"
 msgid "Preferences"
-msgstr ""
+msgstr "Предпочитания"
 
 msgctxt "tab_desc"
 msgid "Navigation"
-msgstr ""
+msgstr "Навигация"
 
 #. status strings
 msgctxt "status_running"
@@ -366,36 +369,36 @@ msgstr "Временно прекратено"
 
 msgctxt "status_computing_disabled_long"
 msgid "Press play to resume network and computation."
-msgstr ""
+msgstr "Натиснете play за да подновите връзката по интернет и изчисленията."
 
 msgctxt "status_launching"
 msgid "Starting…"
-msgstr ""
+msgstr "Стартиране…"
 
 msgctxt "status_noproject"
 msgid "Choose a project to participate in."
-msgstr ""
+msgstr "Изберете проект за да участвате в него."
 
 msgctxt "status_closing"
 msgid "Closing…"
-msgstr ""
+msgstr "Затваряне…"
 
 msgctxt "status_benchmarking"
 msgid "Benchmarking…"
-msgstr ""
+msgstr "Изчисляване на референтните CPU показатели…"
 
 msgctxt "status_image_description"
 msgid "project image"
-msgstr ""
+msgstr "изображение на проекта"
 
 #. preferences tab strings
 msgctxt "prefs_loading"
 msgid "Reading preferences…"
-msgstr ""
+msgstr "Четене на предпочитанията…"
 
 msgctxt "prefs_submit_button"
 msgid "Save"
-msgstr ""
+msgstr "Запази"
 
 msgctxt "prefs_dialog_title"
 msgid "Enter new value:"
@@ -507,9 +510,10 @@ msgctxt "prefs_cpu_number_cpus_header"
 msgid "Used CPU cores"
 msgstr ""
 
+#, fuzzy
 msgctxt "prefs_cpu_number_cpus_description"
 msgid "Limits the number of CPU cores BOINC uses for computation."
-msgstr ""
+msgstr "Ограничава CPU време, което BOINC използва за изчисления."
 
 msgctxt "prefs_cpu_other_load_suspension_header"
 msgid "Pause at CPU usage above"
@@ -592,60 +596,61 @@ msgstr ""
 #. project status strings
 msgctxt "projects_status_suspendedviagui"
 msgid "Suspended by user"
-msgstr ""
+msgstr "Временно прекратено от потребител"
 
 msgctxt "projects_status_dontrequestmorework"
 msgid "Won't get new tasks"
-msgstr ""
+msgstr "Няма да взима нови задачи"
 
 msgctxt "projects_status_ended"
 msgid "Project ended - OK to remove"
-msgstr ""
+msgstr "Проекта приключи - OK да се премахне"
 
 msgctxt "projects_status_detachwhendone"
 msgid "Will remove when tasks done"
-msgstr ""
+msgstr "Ще бъде премахнато като приключи задачите"
 
 msgctxt "projects_status_schedrpcpending"
 msgid "Scheduler request pending"
-msgstr ""
+msgstr "Заявка на Планировчика в процес на изчакване"
 
 msgctxt "projects_status_schedrpcinprogress"
 msgid "Scheduler request in progress"
-msgstr ""
+msgstr "Заявка на Планировчика в процес на извършване"
 
 msgctxt "projects_status_trickleuppending"
 msgid "Trickle up message pending"
-msgstr ""
+msgstr "Изходящо съобщение в процес на изчакване"
 
 msgctxt "projects_status_backoff"
 msgid "Communication scheduled in:"
-msgstr ""
+msgstr "Връзка е планирана след:"
 
 #. project controls
 msgctxt "projects_control_dialog_title"
 msgid "Project commands:"
-msgstr ""
+msgstr "Команди на проекта:"
 
 msgctxt "projects_control_update"
 msgid "Update"
-msgstr ""
+msgstr "Обнови"
 
 msgctxt "projects_control_remove"
 msgid "Remove"
-msgstr ""
+msgstr "Премахни"
 
+#, fuzzy
 msgctxt "projects_control_suspend"
 msgid "Suspend"
-msgstr ""
+msgstr "Временно прекратено"
 
 msgctxt "projects_control_resume"
 msgid "Resume"
-msgstr ""
+msgstr "Поднови"
 
 msgctxt "projects_control_nonewtasks"
 msgid "No new tasks"
-msgstr ""
+msgstr "Без нови задачи"
 
 msgctxt "projects_control_allownewtasks"
 msgid "Allow new tasks"
@@ -711,7 +716,7 @@ msgstr "изчаква за изтегляне"
 
 msgctxt "tasks_result_files_downloaded"
 msgid "download complete"
-msgstr ""
+msgstr "изтеглянето е завършено"
 
 msgctxt "tasks_result_compute_error"
 msgid "computation error"
@@ -741,9 +746,10 @@ msgctxt "tasks_active_executing"
 msgid "running"
 msgstr ""
 
+#, fuzzy
 msgctxt "tasks_active_suspended"
 msgid "suspended"
-msgstr ""
+msgstr "Временно прекратено"
 
 msgctxt "tasks_active_abort_pending"
 msgid "suspending"
@@ -753,9 +759,10 @@ msgctxt "tasks_active_quit_pending"
 msgid "suspending"
 msgstr ""
 
+#, fuzzy
 msgctxt "tasks_custom_suspended_via_gui"
 msgid "suspended"
-msgstr ""
+msgstr "Временно прекратено"
 
 msgctxt "tasks_custom_project_suspended_via_gui"
 msgid "project suspended"
@@ -797,39 +804,39 @@ msgstr ""
 
 msgctxt "trans_download"
 msgid "Download"
-msgstr ""
+msgstr "Изтегляне"
 
 msgctxt "trans_retryin"
 msgid "retry in"
-msgstr ""
+msgstr "нов опит след"
 
 msgctxt "trans_failed"
 msgid "failed"
-msgstr ""
+msgstr "неуспешен"
 
 msgctxt "trans_suspended"
 msgid "suspended"
-msgstr ""
+msgstr "временно прекратен"
 
 msgctxt "trans_active"
 msgid "active"
-msgstr ""
+msgstr "активен"
 
 msgctxt "trans_pending"
 msgid "pending"
-msgstr ""
+msgstr "в режим на изчакване"
 
 msgctxt "trans_projectbackoff"
 msgid "project backoff"
-msgstr ""
+msgstr "отстъп от проекта"
 
 msgctxt "trans_header_name"
 msgid "File:"
-msgstr ""
+msgstr "Файл:"
 
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
-msgstr ""
+msgstr "Прекратяване на трансфер?"
 
 msgctxt "confirm_abort_trans_message"
 msgid "Abort File:"
@@ -891,7 +898,7 @@ msgstr ""
 
 msgctxt "suspend_noinput"
 msgid "No recent user activity."
-msgstr ""
+msgstr "Няма скорошна активност на потребител."
 
 msgctxt "suspend_delay"
 msgid "Initialization delay."
@@ -995,9 +1002,10 @@ msgctxt "menu_exit"
 msgid "Exit BOINC"
 msgstr ""
 
+#, fuzzy
 msgctxt "menu_run_mode_disable"
 msgid "Suspend"
-msgstr ""
+msgstr "Временно прекратено"
 
 msgctxt "menu_run_mode_enable"
 msgid "Resume"
