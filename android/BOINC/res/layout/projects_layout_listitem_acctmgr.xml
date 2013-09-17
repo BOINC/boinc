@@ -22,58 +22,48 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:clickable="true">
-
+    android:clickable="true"
+    android:background="@drawable/shape_light_blue_background_wo_stroke">
+    
     <RelativeLayout 
-        android:id="@+id/icon_background"
     	android:layout_width="60dp"
-    	android:layout_height="match_parent"
+    	android:layout_height="wrap_content"
     	android:minHeight="60dp"
-        android:background="@android:color/transparent">    
-	    <ImageView 
-	        android:id="@+id/project_icon"
-	        android:layout_width="48dp"
-	        android:layout_height="48dp"
-	        android:scaleType="fitCenter"
-		    android:contentDescription="@string/projects_icon"
-	    	android:layout_centerInParent="true" />
+        android:background="@android:color/transparent">
+        <ImageView 
+        	android:id="@+id/icon"
+        	android:layout_width="32dp"
+        	android:layout_height="32dp"
+        	android:scaleType="fitCenter"
+	    	android:contentDescription="@string/projects_icon"
+	    	android:src="@drawable/acctmgrb"
+	    	android:layout_centerInParent="true"/>
     </RelativeLayout>
+    
+    
         
     <LinearLayout 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_margin="3dp">
+        android:layout_margin="3dp"
+        android:background="@android:color/transparent">
         
 	    <TextView
-	        android:id="@+id/project_name"
+	        android:id="@+id/name"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:textStyle="bold"
 	        android:singleLine="true"
-	        android:textAppearance="?android:attr/textAppearanceLarge" />
+	        android:textAppearance="?android:attr/textAppearanceLarge" 
+        	android:background="@android:color/transparent"/>
         
 	    <TextView
-	        android:id="@+id/project_user"
+	        android:id="@+id/url"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:textColor="@color/dark_grey"
 	        android:textAppearance="?android:attr/textAppearanceMedium"
-	        android:layout_marginBottom="5dp" />
-        
-	    <TextView
-	        android:id="@+id/project_status"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:textColor="@color/dark_grey"
-	        android:textAppearance="?android:attr/textAppearanceSmall" />
-	    
-	    <TextView 
-	   		android:layout_width="wrap_content"
-		    android:id="@+id/project_credits"
-	   		android:layout_height="wrap_content"
-	   		android:text="@string/projects_credits_header"
-	   		android:textAppearance="?android:attr/textAppearanceSmall"
-	   		android:textColor="@color/dark_grey"/>
+        	android:background="@android:color/transparent"/>
     </LinearLayout>
 </LinearLayout>

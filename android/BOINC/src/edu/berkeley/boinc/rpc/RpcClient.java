@@ -909,7 +909,7 @@ public class RpcClient {
 	 * @param passwd
 	 * @return success
 	 */
-	public boolean acctMgrRPC(String url, String name, String passwd) {
+	public synchronized boolean acctMgrRPC(String url, String name, String passwd) {
 		try {
 			mRequest.setLength(0);
 			mRequest.append("<acct_mgr_rpc>\n   <url>");
@@ -929,13 +929,32 @@ public class RpcClient {
 			return false;
 		}
 	}
+	
+	/**
+	 * performs acct_mgr_rpc with <use_config_file/> instead of login information
+	 * @return success
+	 */
+	public synchronized boolean acctMgrRPC() {
+		try {
+			mRequest.setLength(0);
+			mRequest.append("<acct_mgr_rpc>\n<use_config_file/>\n</acct_mgr_rpc>\n");
+
+			sendRequest(mRequest.toString());
+			SimpleReplyParser parser = SimpleReplyParser.parse(receiveReply());
+			mLastErrorMessage = parser.getErrorMessage();
+			return parser.result();
+		} catch (IOException e) {
+			if(Logging.WARNING) Log.w(Logging.TAG, "error in acctMgrRPC()", e);
+			return false;
+		}
+	}
 
 	/**
 	 * performs acct_mgr_rpc_poll towards client
 	 * polls status of acct_mgr_rpc
 	 * @return status class AcctMgrRPCReply
 	 */
-	public AcctMgrRPCReply acctMgrRPCPoll() {
+	public synchronized AcctMgrRPCReply acctMgrRPCPoll() {
 		try {
 			mRequest.setLength(0);
 			mRequest.append("<acct_mgr_rpc_poll/>");
@@ -952,7 +971,7 @@ public class RpcClient {
 	 * performs acct_mgr_info towards client
 	 * @return status class AcctMgrInfo
 	 */
-	public AcctMgrInfo getAcctMgrInfo() {
+	public synchronized AcctMgrInfo getAcctMgrInfo() {
 		mLastErrorMessage = null;
 		try {
 			sendRequest("<acct_mgr_info/>\n");

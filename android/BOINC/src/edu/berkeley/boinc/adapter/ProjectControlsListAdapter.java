@@ -92,6 +92,13 @@ public class ProjectControlsListAdapter extends ArrayAdapter<ProjectControl> {
         	tvText.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.shape_light_red_background));
         	text = activity.getResources().getString(R.string.projects_control_remove);
     		break;
+    	case ProjectControl.MGR_SYNC:
+        	text = activity.getResources().getString(R.string.projects_control_sync_acctmgr);
+    		break;
+    	case ProjectControl.MGR_DETACH:
+        	tvText.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.shape_light_red_background));
+        	text = activity.getResources().getString(R.string.projects_control_remove_acctmgr);
+    		break;
     	}
     	
     	//set onclicklistener for expansion

@@ -25,4 +25,6 @@ public class AcctMgrInfo {
 	public boolean have_credentials;
 	public boolean cookie_required;
 	public String cookie_failure_url;
+	
+	public boolean present;
 }

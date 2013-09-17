@@ -31,8 +31,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import edu.berkeley.boinc.ProjectsActivity.ProjectData;
+import edu.berkeley.boinc.ProjectsActivity.ProjectsListData;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.Monitor;
@@ -40,13 +41,13 @@ import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.utils.BOINCUtils;
 import edu.berkeley.boinc.utils.Logging;
 
-public class ProjectsListAdapter extends ArrayAdapter<ProjectData> {
+public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
     //private final String TAG = "ProjectsListAdapter";
 	
-	private ArrayList<ProjectData> entries;
+	private ArrayList<ProjectsListData> entries;
     private Activity activity;
     
-    public ProjectsListAdapter(Activity activity, ListView listView, int textViewResourceId, ArrayList<ProjectData> entries) {
+    public ProjectsListAdapter(Activity activity, ListView listView, int textViewResourceId, ArrayList<ProjectsListData> entries) {
         super(activity, textViewResourceId, entries);
         this.entries = entries;
         this.activity = activity;
@@ -60,7 +61,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectData> {
 	}
 
 	@Override
-	public ProjectData getItem(int position) {
+	public ProjectsListData getItem(int position) {
 		return entries.get(position);
 	}
 
@@ -79,6 +80,10 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectData> {
 		String userString = user;
 		if(!team.isEmpty()) user = user + " (" + team + ")";
 		return userString;
+	}
+	
+	public Boolean getIsAcctMgr(int position) {
+		return entries.get(position).isMgr;
 	}
 
 	public String getURL(int position) {
@@ -150,7 +155,8 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectData> {
 	@Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-		ProjectData data = entries.get(position);
+		ProjectsListData data = entries.get(position);
+		Boolean isAcctMgr = data.isMgr;
 
 		View vi = convertView;
 		// setup new view, if:
@@ -165,58 +171,82 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectData> {
 		
 		if(setup){
 	    	// first time getView is called for this element
-	    	vi = ((LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.projects_layout_listitem, null);
+			if(isAcctMgr) vi = ((LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.projects_layout_listitem_acctmgr, null);
+			else vi = ((LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.projects_layout_listitem, null);
 	    	//set onclicklistener for expansion
 			vi.setOnClickListener(entries.get(position).projectsListClickListener);
 			vi.setTag(data.id);
 		}
 		
-	    // set data of standard elements
-        TextView tvName = (TextView)vi.findViewById(R.id.project_name);
-        tvName.setText(getName(position));
-        
-        TextView tvUser = (TextView)vi.findViewById(R.id.project_user);
-        String userText = getUser(position);
-        if(userText.isEmpty()) tvUser.setVisibility(View.GONE);
-        else {
-        	tvUser.setVisibility(View.VISIBLE);
-        	tvUser.setText(userText);
-        }
-        
-	    String statusText = getStatus(position);
-        TextView tvStatus = (TextView)vi.findViewById(R.id.project_status);
-	    if(statusText.isEmpty()) tvStatus.setVisibility(View.GONE);
-	    else {
-	    	tvStatus.setVisibility(View.VISIBLE);
-	    	tvStatus.setText(statusText);
-	    }
-	    
-	    ImageView ivIcon = (ImageView)vi.findViewById(R.id.project_icon);
-	    String finalIconId = (String)ivIcon.getTag();
-	    if(finalIconId == null || !finalIconId.equals(data.id)) {
-		    Bitmap icon = getIcon(position);
-		    // if available set icon, if not boinc logo
-		    if (icon == null) {
-		    	// boinc logo
-		    	ivIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.boinc));
-		    } else {
-		    	// project icon
-		    	ivIcon.setImageBitmap(icon);
-		    	// mark as final
-		    	ivIcon.setTag(data.id);
+		if(isAcctMgr) {
+			// element is account manager
+			
+			// populate name
+	        TextView tvName = (TextView)vi.findViewById(R.id.name);
+	        tvName.setText(data.acctMgrInfo.acct_mgr_name);
+	        
+	        // populate url
+	        TextView tvUrl = (TextView)vi.findViewById(R.id.url);
+	        tvUrl.setText(data.acctMgrInfo.acct_mgr_url);
+			
+		} else {
+			// element is project
+			
+			// set data of standard elements
+	        TextView tvName = (TextView)vi.findViewById(R.id.project_name);
+	        tvName.setText(getName(position));
+	        
+	        TextView tvUser = (TextView)vi.findViewById(R.id.project_user);
+	        String userText = getUser(position);
+	        if(userText.isEmpty()) tvUser.setVisibility(View.GONE);
+	        else {
+	        	tvUser.setVisibility(View.VISIBLE);
+	        	tvUser.setText(userText);
+	        }
+	        
+		    String statusText = getStatus(position);
+	        TextView tvStatus = (TextView)vi.findViewById(R.id.project_status);
+		    if(statusText.isEmpty()) tvStatus.setVisibility(View.GONE);
+		    else {
+		    	tvStatus.setVisibility(View.VISIBLE);
+		    	tvStatus.setText(statusText);
 		    }
-	    }
-	    
-    	// credits
-    	Integer totalCredit = Double.valueOf(data.project.user_total_credit).intValue();
-    	Integer hostCredit = Double.valueOf(data.project.host_total_credit).intValue();
-    	String creditsText = vi.getContext().getString(R.string.projects_credits_header) + " " + hostCredit;
-		TextView tvCredits = (TextView)vi.findViewById(R.id.project_credits);
-    	if(!hostCredit.equals(totalCredit)) // show host credit only if not like user credit
-    		creditsText += " " + vi.getContext().getString(R.string.projects_credits_host_header) + " "
-    					+ totalCredit + " " + vi.getContext().getString(R.string.projects_credits_user_header);
-    	tvCredits.setText(creditsText);
-    	
+		    
+		    ImageView ivIcon = (ImageView)vi.findViewById(R.id.project_icon);
+		    String finalIconId = (String)ivIcon.getTag();
+		    if(finalIconId == null || !finalIconId.equals(data.id)) {
+			    Bitmap icon = getIcon(position);
+			    // if available set icon, if not boinc logo
+			    if (icon == null) {
+			    	// boinc logo
+			    	ivIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.boinc));
+			    } else {
+			    	// project icon
+			    	ivIcon.setImageBitmap(icon);
+			    	// mark as final
+			    	ivIcon.setTag(data.id);
+			    }
+		    }
+		    
+	    	// credits
+	    	Integer totalCredit = Double.valueOf(data.project.user_total_credit).intValue();
+	    	Integer hostCredit = Double.valueOf(data.project.host_total_credit).intValue();
+	    	String creditsText = vi.getContext().getString(R.string.projects_credits_header) + " " + hostCredit;
+			TextView tvCredits = (TextView)vi.findViewById(R.id.project_credits);
+	    	if(!hostCredit.equals(totalCredit)) // show host credit only if not like user credit
+	    		creditsText += " " + vi.getContext().getString(R.string.projects_credits_host_header) + " "
+	    					+ totalCredit + " " + vi.getContext().getString(R.string.projects_credits_user_header);
+	    	tvCredits.setText(creditsText);
+	    	
+	    	// icon background
+    		RelativeLayout iconBackground = (RelativeLayout)vi.findViewById(R.id.icon_background);
+	    	if(data.project.attached_via_acct_mgr) {
+	    		iconBackground.setBackgroundDrawable(activity.getApplicationContext().getResources().getDrawable(R.drawable.shape_light_blue_background_wo_stroke));
+	    	} else {
+	    		iconBackground.setBackgroundColor(activity.getApplicationContext().getResources().getColor(android.R.color.transparent));
+	    	}
+		}
+		
         return vi;
     }
 }
