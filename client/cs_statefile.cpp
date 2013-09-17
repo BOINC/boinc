@@ -90,20 +90,18 @@ int CLIENT_STATE::parse_state_file() {
     const char *fname;
 
     // Look for a valid state file:
-    // First the regular one, then the "next" one.
+    // First "next", then regular, then "prev"
     //
     if (valid_state_file(STATE_FILE_NEXT)) {
         fname = STATE_FILE_NEXT;
+        msg_printf(0, MSG_INFO, "Using state file %s", STATE_FILE_NEXT);
     } else if (valid_state_file(STATE_FILE_NAME)) {
         fname = STATE_FILE_NAME;
     } else if (valid_state_file(STATE_FILE_PREV)) {
+        msg_printf(0, MSG_INFO, "Using state file %s", STATE_FILE_PREV);
         fname = STATE_FILE_PREV;
     } else {
-        if (log_flags.statefile_debug) {
-            msg_printf(0, MSG_INFO,
-                "[statefile] CLIENT_STATE::parse_state_file(): No state file; will create one"
-            );
-        }
+        msg_printf(0, MSG_INFO, "Creating new client state file");
 
         // avoid warning messages about version
         //
