@@ -674,7 +674,7 @@ void CLIENT_STATE::read_global_prefs(
     }
     if (global_prefs.suspend_cpu_usage) {
         msg_printf(NULL, MSG_INFO,
-            "   suspend work if non-BOINC CPU load exceeds %.0f %%",
+            "   suspend work if non-BOINC CPU load exceeds %.0f%%",
             global_prefs.suspend_cpu_usage
         );
     }
