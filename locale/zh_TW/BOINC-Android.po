@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-08-29 15:37-0700\n"
-"PO-Revision-Date: 2013-09-07 00:29+0000\n"
+"PO-Revision-Date: 2013-09-17 15:02+0000\n"
 "Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: zh_TW\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1378513777.0\n"
+"X-POOTLE-MTIME: 1379430136.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -66,11 +66,11 @@ msgstr "專案標誌"
 
 msgctxt "attachproject_login_header_general_area"
 msgid "General area:"
-msgstr ""
+msgstr "研究領域:"
 
 msgctxt "attachproject_login_header_specific_area"
 msgid "Specific area:"
-msgstr ""
+msgstr "細分領域:"
 
 msgctxt "attachproject_login_header_description"
 msgid "Description:"
@@ -98,17 +98,17 @@ msgstr "此專案不支援Android裝置"
 
 msgctxt "attachproject_login_category_terms_of_use"
 msgid "Terms of use for"
-msgstr ""
+msgstr "使用條款:"
 
 msgctxt "attachproject_login_accept_terms_of_use"
 msgid ""
 "By creating an account with this project, you accept the terms of use as "
 "shown above."
-msgstr ""
+msgstr "當您在這個專案建立帳號，表示您同意上述使用條款。"
 
 msgctxt "attachproject_login_category_login"
 msgid "Sign in with existing account"
-msgstr ""
+msgstr "用現有的帳號登入"
 
 msgctxt "attachproject_login_header_id_email"
 msgid "eMail:"
@@ -124,7 +124,7 @@ msgstr "密碼:"
 
 msgctxt "attachproject_login_category_creation"
 msgid "New to"
-msgstr ""
+msgstr "新來"
 
 msgctxt "attachproject_login_header_creation_enabled"
 msgid "Register an account to participate:"
@@ -136,7 +136,7 @@ msgstr "進入專案官網來建立一個帳號:"
 
 msgctxt "attachproject_login_header_creation_disabled"
 msgid "Project does currently now allow creation of new accounts!"
-msgstr ""
+msgstr "專案目前允許建立新帳號!"
 
 msgctxt "attachproject_login_button_registration"
 msgid "Register"
@@ -156,12 +156,12 @@ msgstr "與專案連線失敗!"
 
 msgctxt "attachproject_login_attached"
 msgid "Attached"
-msgstr ""
+msgstr "已加入"
 
 #. project registration
 msgctxt "attachproject_registration_header"
 msgid "Account registration for"
-msgstr ""
+msgstr "註冊帳號"
 
 msgctxt "attachproject_registration_header_url"
 msgid "Project:"
@@ -226,7 +226,7 @@ msgstr "失敗"
 
 msgctxt "attachproject_error_bad_username"
 msgid "User name refused"
-msgstr ""
+msgstr "使用者名稱無效"
 
 msgctxt "attachproject_error_email_in_use"
 msgid "eMail is already in use"
@@ -238,11 +238,11 @@ msgstr "專案已離線"
 
 msgctxt "attachproject_error_email_bad_syntax"
 msgid "eMail refused"
-msgstr ""
+msgstr "電子郵件無效"
 
 msgctxt "attachproject_error_bad_pwd"
 msgid "Password refused"
-msgstr ""
+msgstr "密碼無效"
 
 msgctxt "attachproject_error_creation_disabled"
 msgid "Account creation is disabled on this project"
@@ -279,11 +279,11 @@ msgstr ":"
 
 msgctxt "attachproject_working_connect"
 msgid "Connect"
-msgstr ""
+msgstr "聯繫"
 
 msgctxt "attachproject_working_verify"
 msgid "Verify account"
-msgstr ""
+msgstr "確認帳號"
 
 msgctxt "attachproject_working_register"
 msgid "Register account"
@@ -296,7 +296,7 @@ msgstr "登入"
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
-msgstr ""
+msgstr "點此選擇一個專案。"
 
 msgctxt "main_error"
 msgid "Whooops"
@@ -337,7 +337,7 @@ msgstr "偏好設定"
 
 msgctxt "tab_desc"
 msgid "Navigation"
-msgstr ""
+msgstr "導航"
 
 #. status strings
 msgctxt "status_running"
@@ -354,7 +354,7 @@ msgstr "已暫停"
 
 msgctxt "status_idle"
 msgid "Nothing to do"
-msgstr ""
+msgstr "閒置中"
 
 msgctxt "status_idle_long"
 msgid "Waiting for tasks…"
@@ -407,7 +407,7 @@ msgstr "選擇:"
 
 msgctxt "prefs_category_general"
 msgid "General"
-msgstr ""
+msgstr "一般"
 
 msgctxt "prefs_category_network"
 msgid "Network"
@@ -415,7 +415,7 @@ msgstr "網路"
 
 msgctxt "prefs_category_power"
 msgid "Power"
-msgstr ""
+msgstr "電源"
 
 msgctxt "prefs_category_cpu"
 msgid "CPU"
@@ -423,7 +423,7 @@ msgstr "CPU"
 
 msgctxt "prefs_category_storage"
 msgid "Storage"
-msgstr ""
+msgstr "容量"
 
 msgctxt "prefs_category_memory"
 msgid "Memory"
@@ -469,19 +469,19 @@ msgstr "BOINC 能使用多少比例的儲存空間?"
 
 msgctxt "prefs_disk_min_free_gb_header"
 msgid "Min. spare storage"
-msgstr ""
+msgstr "最小備用空間"
 
 msgctxt "prefs_disk_min_free_gb_description"
 msgid "How much of your device's storage space shall stay free?"
-msgstr ""
+msgstr "您的裝置有多少閒置空間可以使用?"
 
 msgctxt "prefs_network_daily_xfer_limit_mb_header"
 msgid "Daily transfer limit"
-msgstr ""
+msgstr "每日傳輸限制"
 
 msgctxt "prefs_network_daily_xfer_limit_mb_description"
 msgid "Limits the daily data traffic caused by BOINC."
-msgstr ""
+msgstr "限制 BOINC 的每日數據流量。"
 
 msgctxt "prefs_network_wifi_only_header"
 msgid "Transfer tasks on WiFi only"
@@ -525,19 +525,19 @@ msgstr "限制RAM"
 
 msgctxt "prefs_memory_max_idle_description"
 msgid "Limits the amount of RAM tasks are allowed to occupy."
-msgstr ""
+msgstr "限制任務佔用 RAM 容量。"
 
 msgctxt "prefs_client_log_flags_header"
 msgid "BOINC Client log flags"
-msgstr ""
+msgstr "BOINC 客戶端紀錄檔"
 
 msgctxt "prefs_gui_log_level_header"
 msgid "GUI log level"
-msgstr ""
+msgstr "GUI 日誌等級"
 
 msgctxt "prefs_gui_log_level_description"
 msgid "Specifies verbosity of GUI log messages."
-msgstr ""
+msgstr "指定 GUI 紀錄的詳細程度。"
 
 msgctxt "prefs_unit_mb"
 msgid "MB"
@@ -600,7 +600,7 @@ msgstr "當任務完成將會移除"
 
 msgctxt "projects_status_schedrpcpending"
 msgid "Scheduler request pending"
-msgstr ""
+msgstr "排程器請求等待中"
 
 msgctxt "projects_status_schedrpcinprogress"
 msgid "Scheduler request in progress"
@@ -608,16 +608,16 @@ msgstr "排程器請求處理中"
 
 msgctxt "projects_status_trickleuppending"
 msgid "Trickle up message pending"
-msgstr ""
+msgstr "Trickle up 訊息處理中"
 
 msgctxt "projects_status_backoff"
 msgid "Communication scheduled in:"
-msgstr ""
+msgstr "排定通訊:"
 
 #. project controls
 msgctxt "projects_control_dialog_title"
 msgid "Project commands:"
-msgstr ""
+msgstr "專案指令:"
 
 msgctxt "projects_control_update"
 msgid "Update"
@@ -668,10 +668,9 @@ msgctxt "projects_confirm_reset_title"
 msgid "Reset project"
 msgstr "重置專案"
 
-#, fuzzy
 msgctxt "projects_confirm_reset_message"
 msgid "Are you sure you want to reset"
-msgstr "您確定要移除"
+msgstr "您確定要重置"
 
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
@@ -782,7 +781,7 @@ msgstr "確認對話框"
 #. transfers tab strings
 msgctxt "trans_loading"
 msgid "Reading transfers…"
-msgstr ""
+msgstr "讀取傳輸中..."
 
 msgctxt "trans_upload"
 msgid "Upload"
@@ -806,7 +805,7 @@ msgstr "暫停"
 
 msgctxt "trans_active"
 msgid "active"
-msgstr ""
+msgstr "活躍的"
 
 msgctxt "trans_pending"
 msgid "pending"
@@ -814,7 +813,7 @@ msgstr "等待中"
 
 msgctxt "trans_projectbackoff"
 msgid "project backoff"
-msgstr ""
+msgstr "重新連接至專案"
 
 msgctxt "trans_header_name"
 msgid "File:"
@@ -864,11 +863,11 @@ msgstr "將裝置連接到充電器來繼續運算。"
 
 msgctxt "suspend_useractive"
 msgid "User is active."
-msgstr ""
+msgstr "使用者處於活躍狀態。"
 
 msgctxt "suspend_tod"
 msgid "Out of computation time-frame."
-msgstr ""
+msgstr "超出運算期限。"
 
 msgctxt "suspend_bm"
 msgid "BOINC is benchmarking your device…"
@@ -880,11 +879,11 @@ msgstr "硬碟空間不足。"
 
 msgctxt "suspend_cputhrottle"
 msgid "Scheduled CPU throttle."
-msgstr ""
+msgstr "安排 CPU 的使用。"
 
 msgctxt "suspend_noinput"
 msgid "No recent user activity."
-msgstr ""
+msgstr "最近沒有使用者活動。"
 
 msgctxt "suspend_delay"
 msgid "Initialization delay."
@@ -892,7 +891,7 @@ msgstr "初始化延遲。"
 
 msgctxt "suspend_exclusiveapp"
 msgid "An exclusive app is running."
-msgstr ""
+msgstr "有一個獨占應用程式執行中。"
 
 msgctxt "suspend_cpu"
 msgid "Your device is busy with other apps."
@@ -900,7 +899,7 @@ msgstr "您的裝置忙於其他應用程式。"
 
 msgctxt "suspend_network_quota"
 msgid "BOINC reached network transfer limit."
-msgstr ""
+msgstr "BOINC 已達到網路傳輸限制量。"
 
 msgctxt "suspend_os"
 msgid "Stopped by Android."
@@ -916,11 +915,11 @@ msgstr "繼續運算前電池需要充電。"
 
 msgctxt "suspend_battery_charging_long"
 msgid "Computing will resume when battery charge reaches"
-msgstr ""
+msgstr "充電時將會繼續運算"
 
 msgctxt "suspend_battery_charging_current"
 msgid "currently"
-msgstr ""
+msgstr "目前"
 
 msgctxt "suspend_battery_overheating"
 msgid "Waiting for battery to cool down"
@@ -932,7 +931,7 @@ msgstr "繼續運算..."
 
 msgctxt "suspend_network_user_req"
 msgid "manually."
-msgstr ""
+msgstr "手動操作。"
 
 #. rpc reasons
 msgctxt "rpcreason_userreq"
@@ -949,7 +948,7 @@ msgstr "回報完成的任務"
 
 msgctxt "rpcreason_trickleup"
 msgid "To send trickle-up message"
-msgstr ""
+msgstr "傳送 trickle-up 訊息"
 
 msgctxt "rpcreason_acctmgrreq"
 msgid "Requested by account manager"
