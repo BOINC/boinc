@@ -504,7 +504,7 @@ int read_config_file(bool init, const char* fname) {
     }
     FILE* f = boinc_fopen(fname, "r");
     if (!f) {
-        msg_printf(NULL, MSG_INFO, "No config file found - using defaults");
+        msg_printf(NULL, MSG_INFO, "cc_config.xml not found - using defaults");
         return ERR_FOPEN;
     }
     config.parse_client(f);
@@ -524,7 +524,8 @@ int read_config_file(bool init, const char* fname) {
 #else
             if (chdir(config.data_dir)) {
                 msg_printf(NULL, MSG_INFO,
-                    "Couldn't change to config.data_dir"
+                    "Couldn't change to directory specified in cc_config.xml: %s",
+                    config.data_dir
                 );
                 return ERR_OPENDIR;
             }
