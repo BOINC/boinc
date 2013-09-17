@@ -504,6 +504,10 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       $form['delete']['#suffix'] = '</li>';
       $form['delete']['#weight'] = 1003;
     }
+    $form['cancel'] = array(
+      '#value' => '<li class="tab">' . l(t('Cancel'), $_GET['q']) . '</li>',
+      '#weight' => 1004,
+    );
     $form['form control tabs suffix'] = array(
       '#value' => '</ul>',
       '#weight' => 1010,
@@ -573,10 +577,17 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     $form['buttons']['preview']['#prefix'] = '<li class="tab">';
     $form['buttons']['preview']['#suffix'] = '</li>';
     $form['buttons']['preview']['#weight'] = 1003;
+    $form['buttons']['cancel'] = array(
+      '#value' => '<li class="tab">' . l(t('Cancel'), $_GET['q']) . '</li>',
+      '#weight' => 1004,
+    );
     $form['buttons']['form control tabs suffix'] = array(
       '#value' => '</ul>',
       '#weight' => 1010,
     );
+    
+    // Preview is ugly, unset until it works
+    unset($form['buttons']['preview']);
     
     unset($form['title']);
     unset($form['body_field']);
