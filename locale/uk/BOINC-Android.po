@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-08-29 15:37-0700\n"
-"PO-Revision-Date: 2013-09-16 19:00+0000\n"
+"PO-Revision-Date: 2013-09-16 19:01+0000\n"
 "Last-Translator: Олег <pukish_oleg@ukr.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: uk\n"
@@ -18,7 +18,7 @@ msgstr ""
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1379358014.0\n"
+"X-POOTLE-MTIME: 1379358068.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -520,9 +520,10 @@ msgctxt "prefs_cpu_time_max_header"
 msgid "CPU limit"
 msgstr "Обмеження ЦП"
 
+#, fuzzy
 msgctxt "prefs_cpu_time_max_description"
 msgid "Limits the CPU time BOINC uses for computation."
-msgstr ""
+msgstr "Обмежує кількість ядер ЦП, які BOINC використовує для обчислень."
 
 msgctxt "prefs_memory_max_idle_header"
 msgid "RAM limit"
@@ -667,19 +668,20 @@ msgstr ""
 
 msgctxt "projects_confirm_detach_confirm"
 msgid "Remove"
-msgstr ""
+msgstr "Видалити"
 
 msgctxt "projects_confirm_reset_title"
 msgid "Reset project"
 msgstr ""
 
+#, fuzzy
 msgctxt "projects_confirm_reset_message"
 msgid "Are you sure you want to reset"
-msgstr ""
+msgstr "Ви справді хочете видалити"
 
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
-msgstr ""
+msgstr "Скинути"
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
@@ -707,9 +709,10 @@ msgctxt "tasks_result_files_downloading"
 msgid "waiting for download"
 msgstr ""
 
+#, fuzzy
 msgctxt "tasks_result_files_downloaded"
 msgid "download complete"
-msgstr ""
+msgstr "відправлення завершене"
 
 msgctxt "tasks_result_compute_error"
 msgid "computation error"
@@ -749,7 +752,7 @@ msgstr "призупинення"
 
 msgctxt "tasks_active_quit_pending"
 msgid "suspending"
-msgstr ""
+msgstr "призупинення"
 
 #, fuzzy
 msgctxt "tasks_custom_suspended_via_gui"
@@ -866,11 +869,11 @@ msgstr ""
 
 msgctxt "suspend_batteries"
 msgid "Connect your device to a charger to continue computing."
-msgstr ""
+msgstr "Підключіть свій пристрій до зарядного для продовження розрахунків."
 
 msgctxt "suspend_useractive"
 msgid "User is active."
-msgstr ""
+msgstr "Працює користувач."
 
 msgctxt "suspend_tod"
 msgid "Out of computation time-frame."
@@ -1001,7 +1004,7 @@ msgstr "Призупинено"
 
 msgctxt "menu_run_mode_enable"
 msgid "Resume"
-msgstr ""
+msgstr "Відновити"
 
 msgctxt "menu_about"
 msgid "About"
