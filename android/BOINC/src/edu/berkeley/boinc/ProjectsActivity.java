@@ -19,10 +19,8 @@
 package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.utils.*;
-
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import android.app.Dialog;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -48,10 +46,10 @@ import android.widget.TextView;
 import edu.berkeley.boinc.adapter.ProjectControlsListAdapter;
 import edu.berkeley.boinc.adapter.ProjectsListAdapter;
 import edu.berkeley.boinc.client.Monitor;
+import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.AcctMgrInfo;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.RpcClient;
-
 
 public class ProjectsActivity extends FragmentActivity {
 	
@@ -148,10 +146,19 @@ public class ProjectsActivity extends FragmentActivity {
 			AcctMgrInfo tmpB = Monitor.getClientStatus().getAcctMgrInfo();
 			
 			if(tmpA == null || tmpB == null) {
+				Boolean aNull = tmpA == null;
+				Boolean bNull = tmpB == null;
+				if(Logging.ERROR) Log.d(Logging.TAG,"ProjectsActiviy data retrieval failed: tmpA null: " + aNull + " ; tmpB null: " + bNull);
 				setLayoutLoading();
+				
 				return;
 			}
-
+			
+			// get server / scheduler notices to display if device does not meet
+			// resource requirements
+			ArrayList<Notice> serverNotices = null;
+			if(mIsBound) serverNotices = monitor.getServerNotices();
+			
 			// Switch to a view that can actually display messages
 			if (initialSetupRequired) {
 				initialSetupRequired = false;
@@ -161,7 +168,7 @@ public class ProjectsActivity extends FragmentActivity {
 		    }
 			
 			// Update Project data
-			updateData(tmpA, tmpB);
+			updateData(tmpA, tmpB, serverNotices);
 			
 			// Force list adapter to refresh
 			listAdapter.notifyDataSetChanged(); 
@@ -169,10 +176,11 @@ public class ProjectsActivity extends FragmentActivity {
 		} catch (Exception e) {
 			// data retrieval failed, set layout to loading...
 			setLayoutLoading();
+			if(Logging.ERROR) Log.d(Logging.TAG,"ProjectsActiviy data retrieval failed.");
 		}
 	}
 	
-	private void updateData(ArrayList<Project> latestRpcProjectsList, AcctMgrInfo acctMgrInfo) {
+	private void updateData(ArrayList<Project> latestRpcProjectsList, AcctMgrInfo acctMgrInfo, ArrayList<Notice> serverNotices) {
 		
 		//loop through list adapter array to find index of account manager entry (0 || 1 manager possible)
 		int mgrIndex = -1;
@@ -233,6 +241,24 @@ public class ProjectsActivity extends FragmentActivity {
 			if(!found) iData.remove();
 		}
 		
+		// loop through active projects to add/remove server notices
+		if(serverNotices != null) {
+			int mappedServerNotices = 0;
+			for(ProjectsListData project: data) {
+				if(project.isMgr) continue; // do not seek notices in manager entries (crashes)
+				boolean noticeFound = false;
+				for(Notice serverNotice: serverNotices) {
+					if(project.project.project_name.equals(serverNotice.project_name)) {
+						project.addServerNotice(serverNotice);
+						noticeFound = true;
+						mappedServerNotices++;
+						continue;
+					}
+				}
+				if(!noticeFound) project.addServerNotice(null);
+			}
+			if(mappedServerNotices != serverNotices.size()) if(Logging.WARNING) Log.w(Logging.TAG,"could not match notice: " + mappedServerNotices + "/" + serverNotices.size());
+		}
 	}
 	
 	private void setLayoutLoading() {
@@ -277,6 +303,7 @@ public class ProjectsActivity extends FragmentActivity {
 	public class ProjectsListData {
 		// can be either project or account manager
 		public Project project = null;
+		public Notice lastServerNotice = null;
 		public AcctMgrInfo acctMgrInfo = null;
 		public String id = ""; // == url
 		public boolean isMgr;
@@ -299,6 +326,14 @@ public class ProjectsActivity extends FragmentActivity {
 			} else {
 				this.project = data;
 			}
+		}
+		
+		public void addServerNotice(Notice notice) {
+			this.lastServerNotice = notice;
+		}
+		
+		public Notice getLastServerNotice() {
+			return lastServerNotice;
 		}
 		
 		public final OnClickListener projectsListClickListener = new OnClickListener() {
