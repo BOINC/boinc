@@ -75,6 +75,7 @@ struct COMMAND {
     vector<string> abort_job_names;
     vector<string> batch_names;
     char batch_name[256];
+    double lease_end_time;
 
     COMMAND(char* _in) {
         in = _in;
@@ -90,6 +91,7 @@ struct COMMAND {
     int parse_fetch_output(char*);
     int parse_abort_jobs(char*);
     int parse_retire_batch(char*);
+    int parse_set_lease(char*);
 };
 
 vector<COMMAND*> commands;
@@ -239,8 +241,10 @@ void handle_submit(COMMAND& c) {
         c.out = strdup(s.c_str());
         return;
     }
+    double expire_time = time(0) + 3600;
     retval = create_batch(
-        project_url, authenticator, req.batch_name, req.app_name, req.batch_id, error_msg
+        project_url, authenticator, req.batch_name, req.app_name, expire_time,
+        req.batch_id, error_msg
     );
     if (retval) {
         sprintf(buf, "error\\ creating\\ batch:\\ %d\\ ", retval);
@@ -529,6 +533,28 @@ void handle_retire_batch(COMMAND& c) {
     c.out = strdup(s.c_str());
 }
 
+int COMMAND::parse_set_lease(char* p) {
+    strcpy(batch_name, strtok_r(NULL, " ", &p));
+    lease_end_time = atof(strtok_r(NULL, " ", &p));
+    return 0;
+}
+
+void handle_set_lease(COMMAND& c) {
+    string error_msg;
+    int retval = set_expire_time(
+        project_url, authenticator, c.batch_name, c.lease_end_time, error_msg
+    );
+    string s;
+    char buf[256];
+    if (retval) {
+        sprintf(buf, "set_lease()\\ returned\\ %d\\ ", retval);
+        s = string(buf) + escape_str(error_msg);
+    } else {
+        s = "NULL";
+    }
+    c.out = strdup(s.c_str());
+}
+
 void handle_ping(COMMAND& c) {
     string error_msg, s;
     char buf[256];
@@ -554,6 +580,8 @@ void* handle_command_aux(void* q) {
         handle_abort_jobs(c);
     } else if (!strcasecmp(c.cmd, "BOINC_RETIRE_BATCH")) {
         handle_retire_batch(c);
+    } else if (!strcasecmp(c.cmd, "BOINC_SET_LEASE")) {
+        handle_set_lease(c);
     } else if (!strcasecmp(c.cmd, "BOINC_PING")) {
         handle_ping(c);
     } else {
@@ -589,6 +617,8 @@ int COMMAND::parse_command() {
         retval = parse_abort_jobs(p);
     } else if (!strcasecmp(cmd, "BOINC_RETIRE_BATCH")) {
         retval = parse_retire_batch(p);
+    } else if (!strcasecmp(cmd, "BOINC_SET_LEASE")) {
+        retval = parse_set_lease(p);
     } else if (!strcasecmp(cmd, "BOINC_PING")) {
         retval = 0;
     } else {
@@ -624,7 +654,7 @@ int handle_command(char* p) {
     if (!strcasecmp(cmd, "VERSION")) {
         print_version(false);
     } else if (!strcasecmp(cmd, "COMMANDS")) {
-        BPRINTF("S ASYNC_MODE_OFF ASYNC_MODE_ON BOINC_ABORT_JOBS BOINC_FETCH_OUTPUT BOINC_PING BOINC_QUERY_BATCHES BOINC_RETIRE_BATCH BOINC_SELECT_PROJECT BOINC_SUBMIT COMMANDS QUIT RESULTS VERSION\n");
+        BPRINTF("S ASYNC_MODE_OFF ASYNC_MODE_ON BOINC_ABORT_JOBS BOINC_FETCH_OUTPUT BOINC_PING BOINC_QUERY_BATCHES BOINC_RETIRE_BATCH BOINC_SELECT_PROJECT BOINC_SET_LEASE BOINC_SUBMIT COMMANDS QUIT RESULTS VERSION\n");
     } else if (!strcasecmp(cmd, "RESPONSE_PREFIX")) {
         flockfile(stdout);
         BPRINTF("S\n");

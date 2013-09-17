@@ -30,8 +30,11 @@ define("TABLE2", "<table width=\"580\">");
 function admin_page_head($title) {
     $stylesheet = URL_BASE.STYLESHEET;
 
+    echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">";
     echo "<html><head><title>$title</title>
-        <link rel=stylesheet type=\"text/css\" href=\"".URL_BASE."main.css\" media=\"all\" />";
+        <meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />
+        <link rel=stylesheet type=\"text/css\" href=\"".URL_BASE."main.css\" media=\"all\" />
+    ";
     if (defined('ADMIN_STYLESHEET')) {
         echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".URL_BASE.ADMIN_STYLESHEET."\" media=\"all\" />";
     }

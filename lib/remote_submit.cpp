@@ -226,6 +226,7 @@ int create_batch(
     const char* authenticator,
     const char* batch_name,
     const char* app_name,
+    double expire_time,
     int& batch_id,
     string& error_msg
 ) {
@@ -237,11 +238,13 @@ int create_batch(
         "      <batch>\n"
         "         <batch_name>%s</batch_name>\n"
         "         <app_name>%s</app_name>\n"
+        "         <expire_time>%f</expire_time>\n"
         "      </batch>\n"
         "</create_batch>\n",
         authenticator,
         batch_name,
-        app_name
+        app_name,
+        expire_time
     );
     sprintf(url, "%ssubmit_rpc_handler.php", project_url);
     FILE* reply = tmpfile();
@@ -639,6 +642,48 @@ int retire_batch(
     while (fgets(buf, 256, reply)) {
 #ifdef SHOW_REPLY
         printf("retire_batch reply: %s", buf);
+#endif
+        if (parse_int(buf, "<error_num>", retval)) continue;
+        if (parse_str(buf, "<error_msg>", error_msg)) continue;
+        if (strstr(buf, "success")) {
+            retval = 0;
+            continue;
+        }
+    }
+    fclose(reply);
+    return retval;
+}
+
+int set_expire_time(
+    const char* project_url,
+    const char* authenticator,
+    const char* batch_name,
+    double expire_time,
+    string &error_msg
+) {
+    string request;
+    char url[1024], buf[256];
+    request = "<set_expire_time>\n";
+    sprintf(buf, "<authenticator>%s</authenticator>\n", authenticator);
+    request += string(buf);
+    sprintf(buf, "<batch_name>%s</batch_name>\n", batch_name);
+    request += string(buf);
+    sprintf(buf, "<expire_time>%f</expire_time>\n", expire_time);
+    request += "</set_expire_time>\n";
+    sprintf(url, "%ssubmit_rpc_handler.php", project_url);
+    FILE* reply = tmpfile();
+    vector<string> x;
+    int retval = do_http_post(url, request.c_str(), reply, x);
+    if (retval) {
+        fclose(reply);
+        return retval;
+    }
+    retval = -1;
+    error_msg = "";
+    fseek(reply, 0, SEEK_SET);
+    while (fgets(buf, 256, reply)) {
+#ifdef SHOW_REPLY
+        printf("set_expire_time reply: %s", buf);
 #endif
         if (parse_int(buf, "<error_num>", retval)) continue;
         if (parse_str(buf, "<error_msg>", error_msg)) continue;

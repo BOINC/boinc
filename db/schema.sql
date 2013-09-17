@@ -290,7 +290,6 @@ create table result (
     primary key (id)
 ) engine=InnoDB;
 
--- see boinc_db.h for doc
 create table batch (
     id                      serial          primary key,
     user_id                 integer         not null,
@@ -309,7 +308,8 @@ create table batch (
     name                    varchar(255)    not null,
     app_id                  integer         not null,
     project_state           integer         not null,
-    description             varchar(255)    not null
+    description             varchar(255)    not null,
+    expire_time             double          not null
 ) engine = InnoDB;
 
 -- permissions for job submission

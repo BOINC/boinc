@@ -255,8 +255,9 @@ function create_batch($r) {
     list($user, $user_submit) = authenticate_user($r, $app);
     $now = time();
     $batch_name = (string)($r->batch->batch_name);
+    $expire_time = (double)($r->expire_time);
     $batch_id = BoincBatch::insert(
-        "(user_id, create_time, name, app_id, state) values ($user->id, $now, '$batch_name', $app->id, ".BATCH_STATE_INIT.")"
+        "(user_id, create_time, name, app_id, state, expire_time) values ($user->id, $now, '$batch_name', $app->id, ".BATCH_STATE_INIT.", $expire_time)"
     );
     if (!$batch_id) {
         xml_error(-1, "BOINC server: Can't create batch: ".mysql_error());
@@ -270,6 +271,7 @@ function print_batch_params($batch) {
     echo "
         <id>$batch->id</id>
         <create_time>$batch->create_time</create_time>
+        <expire_time>$batch->expire_time</expire_time>
         <est_completion_time>$batch->est_completion_time</est_completion_time>
         <njobs>$batch->njobs</njobs>
         <fraction_done>$batch->fraction_done</fraction_done>
@@ -513,6 +515,20 @@ function handle_retire_batch($r) {
     }
     retire_batch($batch);
     echo "<success>1</success>";
+}
+
+function handle_set_expire_time($r) {
+    list($user, $user_submit) = authenticate_user($r, null);
+    $batch = get_batch($r);
+    if ($batch->user_id != $user->id) {
+        xml_error(-1, "not owner");
+    }
+    $expire_time = (double)($r->expire_time);
+    if ($batch->update("expire_time=$expire_time")) {
+        echo "<success>1</success>";
+    } else {
+        xml_error(-1, "update failed");
+    }
 }
 
 function get_templates($r) {

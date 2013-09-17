@@ -52,6 +52,22 @@ define('VALIDATE_STATE_NO_CHECK',    3);
 define('VALIDATE_STATE_INCONCLUSIVE',4);
 define('VALIDATE_STATE_TOO_LATE',    5);
 
+define('WU_ERROR_COULDNT_SEND_RESULT',           1);
+define('WU_ERROR_TOO_MANY_ERROR_RESULTS',        2);
+define('WU_ERROR_TOO_MANY_SUCCESS_RESULTS',      4);
+define('WU_ERROR_TOO_MANY_TOTAL_RESULTS',        8);
+define('WU_ERROR_CANCELLED',                     16);
+define('WU_ERROR_NO_CANONICAL_RESULT',           32);
+
+define('FILE_DELETE_INIT',       0);
+define('FILE_DELETE_READY',      1);
+define('FILE_DELETE_DONE',       2);
+define('FILE_DELETE_ERROR',      3);
+
+define('ASSIMILATE_INIT',       0);
+define('ASSIMILATE_READY',      1);
+define('ASSIMILATE_DONE',       2);
+
 // from lib/common_defs.h
 //
 define('RESULT_NEW',                 0);

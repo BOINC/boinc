@@ -633,6 +633,9 @@ struct BATCH {
         // project-assigned
     char description[256];
         // project-assigned
+    double expire_time;
+        // if nonzero, retire the batch after this time
+        // Condor calls this the batch's "lease".
 };
 
 // values of batch.state

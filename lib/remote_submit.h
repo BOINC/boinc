@@ -127,6 +127,7 @@ extern int create_batch(
     const char* authenticator,
     const char* batch_name,
     const char* app_name,
+    double expire_time,
     int &batch_id,
     string& error_msg
 );
@@ -183,6 +184,14 @@ extern int retire_batch(
     const char* project_url,
     const char* authenticator,
     const char* batch_name,
+    string& error_msg
+);
+
+extern int set_expire_time(
+    const char* project_url,
+    const char* authenticator,
+    const char* batch_name,
+    double expire_time,
     string& error_msg
 );
 

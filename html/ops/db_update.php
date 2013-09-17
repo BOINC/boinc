@@ -858,6 +858,10 @@ function update_9_10_2013() {
     do_query("alter table result change mod_time mod_time timestamp default current_timestamp on update current_timestamp");
 }
 
+function update_9_17_2013() {
+    do_query("alter table batch add expire_time double not null");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -893,6 +897,7 @@ $db_updates = array (
     array(27001, "update_4_26_2013"),
     array(27002, "update_5_23_2013"),
     array(27003, "update_9_10_2013"),
+    array(27004, "update_9_17_2013"),
 );
 
 ?>

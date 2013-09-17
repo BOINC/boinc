@@ -137,6 +137,12 @@ class BoincBatchFileAssoc {
             "job_file_id=$this->job_file_id and batch_id=$this->batch_id"
         );
     }
+    static function delete_batch($batch_id) {
+        $db = BoincDb::get();
+        $db->delete_aux('batch_file_assoc',
+            "batch_id=$batch_id"
+        );
+    }
 }
 
 ?>
