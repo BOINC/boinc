@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-08-29 15:37-0700\n"
-"PO-Revision-Date: 2013-09-16 19:19+0000\n"
+"PO-Revision-Date: 2013-09-18 13:54+0000\n"
 "Last-Translator: Dimitar <mexicoman@abv.bg>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: bg\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1379359156.0\n"
+"X-POOTLE-MTIME: 1379512450.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -222,10 +222,9 @@ msgctxt "attachproject_error_no_name"
 msgid "Please enter user name"
 msgstr "Моля въведете потребителско име"
 
-#, fuzzy
 msgctxt "attachproject_error_unknown"
 msgid "failed"
-msgstr "Неуспешен"
+msgstr "се провали"
 
 msgctxt "attachproject_error_bad_username"
 msgid "User name refused"
@@ -290,16 +289,16 @@ msgstr "Удостовери акаунт"
 
 msgctxt "attachproject_working_register"
 msgid "Register account"
-msgstr ""
+msgstr "Регистрирайте акаунт"
 
 msgctxt "attachproject_working_login"
 msgid "Log in"
-msgstr ""
+msgstr "Впишете се"
 
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
-msgstr ""
+msgstr "Етикирайте тук за да изберете проект."
 
 msgctxt "main_error"
 msgid "Whooops"
@@ -402,27 +401,27 @@ msgstr "Запази"
 
 msgctxt "prefs_dialog_title"
 msgid "Enter new value:"
-msgstr ""
+msgstr "Въведете нова стойност:"
 
 msgctxt "prefs_dialog_title_selection"
 msgid "Select:"
-msgstr ""
+msgstr "Изберете:"
 
 msgctxt "prefs_category_general"
 msgid "General"
-msgstr ""
+msgstr "Основен"
 
 msgctxt "prefs_category_network"
 msgid "Network"
-msgstr ""
+msgstr "Мрежа"
 
 msgctxt "prefs_category_power"
 msgid "Power"
-msgstr ""
+msgstr "Мощност"
 
 msgctxt "prefs_category_cpu"
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 msgctxt "prefs_category_storage"
 msgid "Storage"
@@ -496,32 +495,33 @@ msgstr "Ограничава дневния трафик на данни пор�
 
 msgctxt "prefs_network_wifi_only_header"
 msgid "Transfer tasks on WiFi only"
-msgstr ""
+msgstr "Прехвърляй задачи само през WiFi"
 
 msgctxt "prefs_autostart_header"
 msgid "Autostart"
-msgstr ""
+msgstr "Автоматично стартиране"
 
 msgctxt "prefs_show_notification_header"
 msgid "Show notification when suspended"
-msgstr ""
+msgstr "Покажи уведомления когато е временно прекратен"
 
 msgctxt "prefs_cpu_number_cpus_header"
 msgid "Used CPU cores"
-msgstr ""
+msgstr "Използвани CPU ядра"
 
-#, fuzzy
 msgctxt "prefs_cpu_number_cpus_description"
 msgid "Limits the number of CPU cores BOINC uses for computation."
-msgstr "Ограничава CPU време, което BOINC използва за изчисления."
+msgstr "Ограничава броя CPU ядра които BOINC използва за изчисления."
 
 msgctxt "prefs_cpu_other_load_suspension_header"
 msgid "Pause at CPU usage above"
-msgstr ""
+msgstr "Пауза при CPU употреба над"
 
 msgctxt "prefs_cpu_other_load_suspension_description"
 msgid "Determines when BOINC pauses computation due to other app's CPU usage."
 msgstr ""
+"Определя кога BOINC прекъсва изчисленията за пауза поради употреба на CPU от "
+"други приложения."
 
 msgctxt "prefs_cpu_time_max_header"
 msgid "CPU limit"
@@ -591,7 +591,7 @@ msgstr "(на това устройство)"
 
 msgctxt "projects_credits_user_header"
 msgid "(total)"
-msgstr ""
+msgstr "(общо)"
 
 #. project status strings
 msgctxt "projects_status_suspendedviagui"
@@ -639,10 +639,9 @@ msgctxt "projects_control_remove"
 msgid "Remove"
 msgstr "Премахни"
 
-#, fuzzy
 msgctxt "projects_control_suspend"
 msgid "Suspend"
-msgstr "Временно прекратено"
+msgstr "Временно прекратяване"
 
 msgctxt "projects_control_resume"
 msgid "Resume"
@@ -720,87 +719,85 @@ msgstr "изтеглянето е завършено"
 
 msgctxt "tasks_result_compute_error"
 msgid "computation error"
-msgstr ""
+msgstr "изчислителна грешка"
 
 msgctxt "tasks_result_files_uploading"
 msgid "uploading"
-msgstr ""
+msgstr "в процес на ъплоуд"
 
 msgctxt "tasks_result_files_uploaded"
 msgid "upload complete"
-msgstr ""
+msgstr "ъплоуда завърши"
 
 msgctxt "tasks_result_aborted"
 msgid "aborted"
-msgstr ""
+msgstr "прекратена"
 
 msgctxt "tasks_result_upload_failed"
 msgid "upload failed"
-msgstr ""
+msgstr "ъплоуда е неуспешен"
 
 msgctxt "tasks_active_uninitialized"
 msgid "ready"
-msgstr ""
+msgstr "готов"
 
 msgctxt "tasks_active_executing"
 msgid "running"
-msgstr ""
+msgstr "работи"
 
-#, fuzzy
 msgctxt "tasks_active_suspended"
 msgid "suspended"
-msgstr "Временно прекратено"
+msgstr "временно прекратен"
 
 msgctxt "tasks_active_abort_pending"
 msgid "suspending"
-msgstr ""
+msgstr "в момента прекратявам временно"
 
 msgctxt "tasks_active_quit_pending"
 msgid "suspending"
-msgstr ""
+msgstr "в момента прекратявам временно"
 
-#, fuzzy
 msgctxt "tasks_custom_suspended_via_gui"
 msgid "suspended"
-msgstr "Временно прекратено"
+msgstr "временно прекратен"
 
 msgctxt "tasks_custom_project_suspended_via_gui"
 msgid "project suspended"
-msgstr ""
+msgstr "проекта е временно прекратен"
 
 msgctxt "tasks_custom_ready_to_report"
 msgid "ready to report"
-msgstr ""
+msgstr "готов за докладване"
 
 #. confirmation dialog
 msgctxt "confirm_abort_task_title"
 msgid "Abort task?"
-msgstr ""
+msgstr "Прекратяване на задача?"
 
 msgctxt "confirm_abort_task_message"
 msgid "Abort task:"
-msgstr ""
+msgstr "Прекратяване на задача:"
 
 msgctxt "confirm_abort_task_confirm"
 msgid "Abort"
-msgstr ""
+msgstr "Прекрати"
 
 msgctxt "confirm_cancel"
 msgid "Cancel"
-msgstr ""
+msgstr "Откажи"
 
 msgctxt "confirm_image_desc"
 msgid "Confirmation dialog"
-msgstr ""
+msgstr "Диалог за потвърждение"
 
 #. transfers tab strings
 msgctxt "trans_loading"
 msgid "Reading transfers…"
-msgstr ""
+msgstr "Четене на трансфери…"
 
 msgctxt "trans_upload"
 msgid "Upload"
-msgstr ""
+msgstr "Качване"
 
 msgctxt "trans_download"
 msgid "Download"
@@ -840,61 +837,61 @@ msgstr "Прекратяване на трансфер?"
 
 msgctxt "confirm_abort_trans_message"
 msgid "Abort File:"
-msgstr ""
+msgstr "Прекрати Файл:"
 
 msgctxt "confirm_abort_trans_confirm"
 msgid "Abort"
-msgstr ""
+msgstr "Прекрати"
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"
 msgid "Loading log messages…"
-msgstr ""
+msgstr "Зареждане на съобщения от регистъра…"
 
 msgctxt "eventlog_client_header"
 msgid "Client Messages"
-msgstr ""
+msgstr "Съобщения от Клиента"
 
 msgctxt "eventlog_gui_header"
 msgid "GUI Messages"
-msgstr ""
+msgstr "Съобщения от GUI"
 
 msgctxt "eventlog_copy_toast"
 msgid "Log copied to clipboard."
-msgstr ""
+msgstr "Регистъра е копиран в клип-борда."
 
 msgctxt "eventlog_email_subject"
 msgid "Event Log for BOINC on Android:"
-msgstr ""
+msgstr "Регистър на Събития на BOINC за Андроид:"
 
 #. suspend reasons
 msgctxt "suspend_unknown"
 msgid "Computation suspended."
-msgstr ""
+msgstr "Изчисленията са временно прекратени."
 
 msgctxt "suspend_batteries"
 msgid "Connect your device to a charger to continue computing."
-msgstr ""
+msgstr "Свържете вашето устройство към зарядно за да продължите изчисленията."
 
 msgctxt "suspend_useractive"
 msgid "User is active."
-msgstr ""
+msgstr "Потребителя е активен."
 
 msgctxt "suspend_tod"
 msgid "Out of computation time-frame."
-msgstr ""
+msgstr "Извън рамката за изчислително време."
 
 msgctxt "suspend_bm"
 msgid "BOINC is benchmarking your device…"
-msgstr ""
+msgstr "BOINC изчислява референтните CPU показатели за вашето устройство…"
 
 msgctxt "suspend_disksize"
 msgid "Out of disk space."
-msgstr ""
+msgstr "Недостатъчно дисково пространство."
 
 msgctxt "suspend_cputhrottle"
 msgid "Scheduled CPU throttle."
-msgstr ""
+msgstr "Планирано подтискане на CPU."
 
 msgctxt "suspend_noinput"
 msgid "No recent user activity."
@@ -902,131 +899,130 @@ msgstr "Няма скорошна активност на потребител."
 
 msgctxt "suspend_delay"
 msgid "Initialization delay."
-msgstr ""
+msgstr "Закъснение при инициализация."
 
 msgctxt "suspend_exclusiveapp"
 msgid "An exclusive app is running."
-msgstr ""
+msgstr "Работи ексклузивно приложение."
 
 msgctxt "suspend_cpu"
 msgid "Your device is busy with other apps."
-msgstr ""
+msgstr "Вашето устройство е заето с други приложения."
 
 msgctxt "suspend_network_quota"
 msgid "BOINC reached network transfer limit."
-msgstr ""
+msgstr "BOINC достигна лимита за трансфер по мрежата."
 
 msgctxt "suspend_os"
 msgid "Stopped by Android."
-msgstr ""
+msgstr "Спряно от Андроид."
 
 msgctxt "suspend_wifi"
 msgid "Not connected to WiFi."
-msgstr ""
+msgstr "Не е свързан към WiFi."
 
 msgctxt "suspend_battery_charging"
 msgid "Battery needs to charge before resuming computation."
-msgstr ""
+msgstr "Батерията трябва да се зареди преди да се подновят изчисленията."
 
 msgctxt "suspend_battery_charging_long"
 msgid "Computing will resume when battery charge reaches"
-msgstr ""
+msgstr "Изчисленията ще се подновят когато заряда на батерията достигне"
 
 msgctxt "suspend_battery_charging_current"
 msgid "currently"
-msgstr ""
+msgstr "в момента"
 
 msgctxt "suspend_battery_overheating"
 msgid "Waiting for battery to cool down"
-msgstr ""
+msgstr "Изчакване на батерията да се охлади"
 
 msgctxt "suspend_user_req"
 msgid "Resuming computation…"
-msgstr ""
+msgstr "Подновяване на изчисленията…"
 
 msgctxt "suspend_network_user_req"
 msgid "manually."
-msgstr ""
+msgstr "ръчно."
 
 #. rpc reasons
 msgctxt "rpcreason_userreq"
 msgid "Requested by user"
-msgstr ""
+msgstr "По заявка на потребителя"
 
 msgctxt "rpcreason_needwork"
 msgid "To fetch work"
-msgstr ""
+msgstr "За да вземе работа"
 
 msgctxt "rpcreason_resultsdue"
 msgid "To report completed tasks"
-msgstr ""
+msgstr "За да докладва завършените задачи"
 
 msgctxt "rpcreason_trickleup"
 msgid "To send trickle-up message"
-msgstr ""
+msgstr "За да изпрати изходящо съобщение"
 
 msgctxt "rpcreason_acctmgrreq"
 msgid "Requested by account manager"
-msgstr ""
+msgstr "По заявка на акаунт мениджъра"
 
 msgctxt "rpcreason_init"
 msgid "Project initialization"
-msgstr ""
+msgstr "Инициализация на проект"
 
 msgctxt "rpcreason_projectreq"
 msgid "Requested by project"
-msgstr ""
+msgstr "По заявка на проекта"
 
 msgctxt "rpcreason_unknown"
 msgid "Unknown reason"
-msgstr ""
+msgstr "Неизвестна причина"
 
 #. menu
 msgctxt "menu_refresh"
 msgid "Refresh"
-msgstr ""
+msgstr "Опресни"
 
 msgctxt "menu_emailto"
 msgid "Send as Email"
-msgstr ""
+msgstr "Изпрати като Имейл"
 
 msgctxt "menu_copy"
 msgid "Copy to Clipboard"
-msgstr ""
+msgstr "Копирай в Клип-борда"
 
 msgctxt "menu_eventlog"
 msgid "Event Log"
-msgstr ""
+msgstr "Регистър на Събития"
 
 msgctxt "menu_exit"
 msgid "Exit BOINC"
-msgstr ""
+msgstr "Изход от BOINC"
 
-#, fuzzy
 msgctxt "menu_run_mode_disable"
 msgid "Suspend"
-msgstr "Временно прекратено"
+msgstr "Временно прекрати"
 
 msgctxt "menu_run_mode_enable"
 msgid "Resume"
-msgstr ""
+msgstr "Поднови"
 
 msgctxt "menu_about"
 msgid "About"
-msgstr ""
+msgstr "Относно"
 
 msgctxt "menu_help"
 msgid "Help"
-msgstr ""
+msgstr "Помощ"
 
 #. about dialog
 msgctxt "about_button"
 msgid "Return"
-msgstr ""
+msgstr "Връщане"
 
 msgctxt "about_title"
 msgid "About"
-msgstr ""
+msgstr "Относно"
 
 msgctxt "about_name"
 msgid "BOINC"
@@ -1034,14 +1030,16 @@ msgstr "BOINC"
 
 msgctxt "about_version"
 msgid "Version"
-msgstr ""
+msgstr "Версия"
 
 msgctxt "about_name_long"
 msgid "Berkeley Open Infrastructure for Network Computing"
-msgstr ""
+msgstr "Бъркли Отворена Инфраструктура за Споделени Изчисления"
 
 msgctxt "about_copyright"
 msgid ""
 "© 2003–2013 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
+"© 2003–2013 Калифорнийски Университет, Бъркли.\n"
+"Всички Права Запазени."
