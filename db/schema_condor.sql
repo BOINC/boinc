@@ -5,3 +5,6 @@ create table batch_file_assoc (
 
 alter table batch_file_assoc
     add unique(job_file_id, batch_id);
+
+alter table workunit
+    add index wu_batch(batch);

@@ -310,7 +310,8 @@ function handle_query_batch($user) {
     row2("state", batch_state_string($batch->state));
     row2("# jobs", $batch->njobs);
     row2("# error jobs", $batch->nerror_jobs);
-    row2("logical end time", time_str($batch->logical_end_time));
+    //row2("logical end time", time_str($batch->logical_end_time));
+    row2("expiration time", time_str($batch->expire_time));
     row2("progress", sprintf("%.0f%%", $batch->fraction_done*100));
     if ($batch->completion_time) {
         row2("completed", local_time_str($batch->completion_time));

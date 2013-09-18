@@ -669,6 +669,7 @@ int set_expire_time(
     sprintf(buf, "<batch_name>%s</batch_name>\n", batch_name);
     request += string(buf);
     sprintf(buf, "<expire_time>%f</expire_time>\n", expire_time);
+    request += string(buf);
     request += "</set_expire_time>\n";
     sprintf(url, "%ssubmit_rpc_handler.php", project_url);
     FILE* reply = tmpfile();

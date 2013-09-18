@@ -619,6 +619,7 @@ switch ($r->getName()) {
     case 'query_job': query_job($r); break;
     case 'query_completed_job': query_completed_job($r); break;
     case 'retire_batch': handle_retire_batch($r); break;
+    case 'set_expire_time': handle_set_expire_time($r); break;
     case 'submit_batch': submit_batch($r); break;
     default: xml_error(-1, "bad command: ".$r->getName());
 }
