@@ -636,6 +636,11 @@ int TASK::run(int argct, char** argvt) {
         if (!startup_info.hStdOutput) {
             fprintf(stderr, "Error: startup_info.hStdOutput is NULL\n");
         }
+    } else {
+        startup_info.hStdOutput = (HANDLE)_get_osfhandle(stderr);
+        if (startup_info.hStdOutput == INVALID_HANDLE_VALUE) {
+            fprintf(stderr, "Error: startup_info.hStdOutput is NULL\n");
+        }
     }
     if (stdin_filename != "") {
         boinc_resolve_filename_s(stdin_filename.c_str(), stdin_path);
@@ -651,7 +656,10 @@ int TASK::run(int argct, char** argvt) {
             fprintf(stderr, "Error: startup_info.hStdError is NULL\n");
         }
     } else {
-        startup_info.hStdError = win_fopen(STDERR_FILE, "a");
+        startup_info.hStdError = (HANDLE)_get_osfhandle(stderr);
+        if (startup_info.hStdError == INVALID_HANDLE_VALUE) {
+            fprintf(stderr, "Error: startup_info.hStdError is NULL\n");
+        }
     }
 
     // setup environment vars if needed
@@ -1128,4 +1136,5 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode
     argc = parse_command_line(command_line, argv);
     return main(argc, argv);
 }
+
 #endif
