@@ -658,9 +658,9 @@ int TASK::run(int argct, char** argvt) {
     }
 
     BOOL success;
-    if (ends_with((string)app_path, ".bat")) {
+    if (ends_with((string)app_path, ".bat") || ends_with((string)app_path, ".cmd")) {
         char cmd[1024];
-        sprintf(cmd, "cmd.exe /c %s", command.c_str());
+        sprintf(cmd, "/c \"%s\"", command.c_str());
         success = CreateProcess(
             "cmd.exe",
             (LPSTR)cmd,
