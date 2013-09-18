@@ -61,6 +61,7 @@ VBOX_VM::VBOX_VM() {
     virtualbox_version.clear();
     pFloppy = NULL;
     vm_master_name.clear();
+    vm_master_description.clear();
     vm_name.clear();
     vm_cpu_count.clear();
     vm_disk_controller_type.clear();
@@ -747,6 +748,13 @@ int VBOX_VM::register_vm() {
     
     retval = vbm_popen(command, output, "register");
     if (retval) return retval;
+
+    // Tweak the VM's Description
+    //
+    command  = "modifyvm \"" + vm_name + "\" ";
+    command += "--description \"" + vm_master_description + "\" ";
+
+    vbm_popen(command, output, "modifydescription", false, false);
 
     // Tweak the VM's CPU Count
     //

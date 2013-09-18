@@ -576,12 +576,15 @@ int main(int argc, char** argv) {
     vm.image_filename = IMAGE_FILENAME_COMPLETE;
     if (boinc_is_standalone()) {
         vm.vm_master_name += "standalone";
+        vm.vm_master_description = "standalone";
         if (vm.enable_floppyio) {
             sprintf(buf, "%s.%s", FLOPPY_IMAGE_FILENAME, FLOPPY_IMAGE_FILENAME_EXTENSION);
             vm.floppy_image_filename = buf;
         }
     } else {
-        vm.vm_master_name += aid.result_name;
+        sprintf(buf, "_slot_%d", aid.slot);
+        vm.vm_master_name += buf;
+        vm.vm_master_description = aid.result_name;
         if (vm.enable_floppyio) {
             sprintf(buf, "%s_%d.%s", FLOPPY_IMAGE_FILENAME, aid.slot, FLOPPY_IMAGE_FILENAME_EXTENSION);
             vm.floppy_image_filename = buf;
