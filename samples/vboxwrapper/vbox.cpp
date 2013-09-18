@@ -593,31 +593,50 @@ void VBOX_VM::poll(bool log_state) {
             if (vmstate == "running") {
                 online = true;
                 suspended = false;
+                crashed = false;
             } else if (vmstate == "paused") {
                 online = true;
                 suspended = true;
+                crashed = false;
             } else if (vmstate == "starting") {
                 online = true;
+                suspended = false;
+                crashed = false;
             } else if (vmstate == "stopping") {
                 online = true;
+                suspended = false;
+                crashed = false;
             } else if (vmstate == "saving") {
                 online = true;
+                suspended = false;
+                crashed = false;
             } else if (vmstate == "restoring") {
                 online = true;
+                suspended = false;
+                crashed = false;
             } else if (vmstate == "livesnapshotting") {
                 online = true;
+                suspended = false;
+                crashed = false;
             } else if (vmstate == "deletingsnapshotlive") {
                 online = true;
+                suspended = false;
+                crashed = false;
             } else if (vmstate == "deletingsnapshotlivepaused") {
                 online = true;
+                suspended = false;
+                crashed = false;
             } else if (vmstate == "aborted") {
                 online = false;
+                suspended = false;
                 crashed = true;
             } else if (vmstate == "gurumeditation") {
                 online = false;
+                suspended = false;
                 crashed = true;
             } else {
                 online = false;
+                suspended = false;
                 crashed = false;
                 if (log_state) {
                     fprintf(
