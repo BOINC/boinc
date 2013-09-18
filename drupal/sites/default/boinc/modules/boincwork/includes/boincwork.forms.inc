@@ -130,6 +130,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     '#title' => '',
     '#type' => 'fieldset',
     '#prefix' => '<div id="prefs-wrapper">', // This is our wrapper div.
+    '#attributes' => array('class' => 'ahah-container'),
     '#suffix' => '</div>',
     '#tree'   => TRUE
   );
@@ -1146,19 +1147,23 @@ function communityprefs_form(&$form_state) {
   
   // Form control
   $form['form control tabs prefix'] = array(
-    '#value' => '<ul class="form-control tab-list">'
+    '#value' => '<ul class="form-control tab-list">',
+    '#weight' => 1001,
   );
   $form['submit'] = array(
     '#prefix' => '<li class="first tab">',
     '#type' => 'submit',
     '#value' => t('Save changes'),
-    '#suffix' => '</li>'
+    '#suffix' => '</li>',
+    '#weight' => 1002,
   );
   $form['form control tabs'] = array(
-    '#value' => '<li class="tab">' . l(t('Cancel'), $_GET['q']) . '</li>'
+    '#value' => '<li class="tab">' . l(t('Cancel'), $_GET['q']) . '</li>',
+    '#weight' => 1003,
   );
   $form['form control tabs suffix'] = array(
-    '#value' => '</ul>'
+    '#value' => '</ul>',
+    '#weight' => 1004,
   );
   
   return $form;
