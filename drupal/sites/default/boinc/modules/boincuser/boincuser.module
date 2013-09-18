@@ -548,7 +548,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     
   case 'profile_node_form':
     
-    // Use the displaly name as the title, not the username
+    // Use the display name as the title, not the username
     $account = user_load($form['uid']['#value']);
     drupal_set_title($account->boincuser_name);
     
@@ -577,10 +577,16 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     $form['buttons']['preview']['#prefix'] = '<li class="tab">';
     $form['buttons']['preview']['#suffix'] = '</li>';
     $form['buttons']['preview']['#weight'] = 1003;
+    $form['buttons']['preview_changes']['#prefix'] = '<li class="tab">';
+    $form['buttons']['preview_changes']['#suffix'] = '</li>';
+    $form['buttons']['preview_changes']['#weight'] = 1004;
     $form['buttons']['cancel'] = array(
       '#value' => '<li class="tab">' . l(t('Cancel'), $_GET['q']) . '</li>',
-      '#weight' => 1004,
+      '#weight' => 1005,
     );
+    $form['buttons']['delete']['#prefix'] = '<li class="tab">';
+    $form['buttons']['delete']['#suffix'] = '</li>';
+    $form['buttons']['delete']['#weight'] = 1006;
     $form['buttons']['form control tabs suffix'] = array(
       '#value' => '</ul>',
       '#weight' => 1010,
