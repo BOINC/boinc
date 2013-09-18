@@ -618,6 +618,7 @@ void VBOX_VM::poll(bool log_state) {
                 crashed = true;
             } else {
                 online = false;
+                crashed = false;
                 if (log_state) {
                     fprintf(
                         stderr,
