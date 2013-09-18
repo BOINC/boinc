@@ -74,7 +74,7 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
   switch ($form_id) {
   // Comment form
   case 'comment_form':
-    $user_image = boincuser_get_user_profile_image($uid);
+    $user_image = boincuser_get_user_profile_image($user->uid);
     $user_info = '<div class="user">';
     if ($user_image['image']['filepath']) {
       $user_info .= '  <div class="picture">';
