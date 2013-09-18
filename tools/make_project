@@ -321,7 +321,6 @@ print >>open(httpd_conf_template_filename,'w'), '''
     <Directory "%(proot)s/html">
         Options Indexes FollowSymlinks MultiViews
         AllowOverride AuthConfig
-        Require all granted
         Order allow,deny
         Allow from all
     </Directory>
@@ -329,7 +328,6 @@ print >>open(httpd_conf_template_filename,'w'), '''
     <Directory "%(proot)s/cgi-bin">
         Options ExecCGI
         AllowOverride AuthConfig
-        Require all granted
         Order allow,deny
         Allow from all
     </Directory>
