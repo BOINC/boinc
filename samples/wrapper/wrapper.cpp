@@ -633,14 +633,8 @@ int TASK::run(int argct, char** argvt) {
     if (stdout_filename != "") {
         boinc_resolve_filename_s(stdout_filename.c_str(), stdout_path);
         startup_info.hStdOutput = win_fopen(stdout_path.c_str(), "a");
-        if (!startup_info.hStdOutput) {
-            fprintf(stderr, "Error: startup_info.hStdOutput is NULL\n");
-        }
     } else {
         startup_info.hStdOutput = (HANDLE)_get_osfhandle(_fileno(stderr));
-        if (startup_info.hStdOutput == INVALID_HANDLE_VALUE) {
-            fprintf(stderr, "Error: startup_info.hStdOutput is NULL\n");
-        }
     }
     if (stdin_filename != "") {
         boinc_resolve_filename_s(stdin_filename.c_str(), stdin_path);
@@ -652,14 +646,15 @@ int TASK::run(int argct, char** argvt) {
     if (stderr_filename != "") {
         boinc_resolve_filename_s(stderr_filename.c_str(), stderr_path);
         startup_info.hStdError = win_fopen(stderr_path.c_str(), "a");
-        if (!startup_info.hStdError) {
-            fprintf(stderr, "Error: startup_info.hStdError is NULL\n");
-        }
     } else {
         startup_info.hStdError = (HANDLE)_get_osfhandle(_fileno(stderr));
-        if (startup_info.hStdError == INVALID_HANDLE_VALUE) {
-            fprintf(stderr, "Error: startup_info.hStdError is NULL\n");
-        }
+    }
+
+    if (startup_info.hStdOutput == INVALID_HANDLE_VALUE) {
+        fprintf(stderr, "Error: startup_info.hStdOutput is invalid\n");
+    }
+    if (startup_info.hStdError == INVALID_HANDLE_VALUE) {
+        fprintf(stderr, "Error: startup_info.hStdError is invalid\n");
     }
 
     // setup environment vars if needed
