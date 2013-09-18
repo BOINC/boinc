@@ -35,8 +35,10 @@ struct VBOX_VM {
     // Floppy IO abstraction
     FloppyIO* pFloppy;
 
-    // unique master name for the VM
+    // unique name for the VM
     std::string vm_master_name;
+    // unique description for the VM
+    std::string vm_master_description;
     // unique name for the VM or UUID of a stale VM if deregistering a stale VM
     std::string vm_name;
     // required CPU core count

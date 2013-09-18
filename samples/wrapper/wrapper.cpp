@@ -620,7 +620,12 @@ int TASK::run(int argct, char** argvt) {
     slash_to_backslash(app_path);
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
-    command = string("\"") + app_path + string("\" ") + command_line;
+
+    if (ends_with((string)app_path, ".bat") || ends_with((string)app_path, ".cmd")) {
+        command = string("cmd.exe /c \"") + app_path + string("\" ") + command_line;
+    } else {
+        command = string("\"") + app_path + string("\" ") + command_line;
+    }
 
     // pass std handles to app
     //
@@ -658,41 +663,23 @@ int TASK::run(int argct, char** argvt) {
     }
 
     BOOL success;
-    if (ends_with((string)app_path, ".bat")) {
-        char cmd[1024];
-        sprintf(cmd, "cmd.exe /c %s", command.c_str());
-        success = CreateProcess(
-            "cmd.exe",
-            (LPSTR)cmd,
-            NULL,
-            NULL,
-            TRUE,        // bInheritHandles
-            CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
-            (LPVOID) env_vars,
-            exec_dir.empty()?NULL:exec_dir.c_str(),
-            &startup_info,
-            &process_info
-        );
-    } else {
-        success = CreateProcess(
-            app_path,
-            (LPSTR)command.c_str(),
-            NULL,
-            NULL,
-            TRUE,        // bInheritHandles
-            CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
-            (LPVOID) env_vars,
-            exec_dir.empty()?NULL:exec_dir.c_str(),
-            &startup_info,
-            &process_info
-        );
-    }
+    success = CreateProcess(
+        NULL,
+        (LPSTR)command.c_str(),
+        NULL,
+        NULL,
+        TRUE,        // bInheritHandles
+        CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
+        (LPVOID) env_vars,
+        exec_dir.empty()?NULL:exec_dir.c_str(),
+        &startup_info,
+        &process_info
+    );
     if (!success) {
         char error_msg[1024];
         windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
         fprintf(stderr, "can't run app: %s\n", error_msg);
 
-        fprintf(stderr, "Error: app_path is '%s'\n", app_path);
         fprintf(stderr, "Error: command is '%s'\n", command.c_str());
         fprintf(stderr, "Error: exec_dir is '%s'\n", exec_dir.c_str());
 
