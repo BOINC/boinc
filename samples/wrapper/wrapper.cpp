@@ -639,9 +639,6 @@ int TASK::run(int argct, char** argvt) {
     if (stdin_filename != "") {
         boinc_resolve_filename_s(stdin_filename.c_str(), stdin_path);
         startup_info.hStdInput = win_fopen(stdin_path.c_str(), "r");
-        if (!startup_info.hStdInput) {
-            fprintf(stderr, "Error: startup_info.hStdInput is NULL\n");
-        }
     }
     if (stderr_filename != "") {
         boinc_resolve_filename_s(stderr_filename.c_str(), stderr_path);
@@ -652,6 +649,9 @@ int TASK::run(int argct, char** argvt) {
 
     if (startup_info.hStdOutput == INVALID_HANDLE_VALUE) {
         fprintf(stderr, "Error: startup_info.hStdOutput is invalid\n");
+    }
+    if ((stdin_filename != "") && (startup_info.hStdInput == INVALID_HANDLE_VALUE)) {
+        fprintf(stderr, "Error: startup_info.hStdInput is invalid\n");
     }
     if (startup_info.hStdError == INVALID_HANDLE_VALUE) {
         fprintf(stderr, "Error: startup_info.hStdError is invalid\n");
