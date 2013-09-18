@@ -7,11 +7,13 @@
 function boincuser_install() {
   // Use schema API to create database table
   drupal_install_schema('boincuser');
-  // Add aliases for account pages
-  path_set_alias('dashboard', 'account');
-  path_set_alias('dashboard', 'account/dashboard');
-  path_set_alias('user/me/edit', 'account/info/edit');
-  path_set_alias('user/me/edit/profile', 'account/info/edit/profile');
+  // Add aliases for account pages 
+  if (module_exists('path')) {
+    path_set_alias('dashboard', 'account');
+    path_set_alias('dashboard', 'account/dashboard');
+    path_set_alias('user/me/edit', 'account/info/edit');
+    path_set_alias('user/me/edit/profile', 'account/info/edit/profile');
+  }
 }
 
 /**
@@ -23,10 +25,12 @@ function boincuser_uninstall() {
   // Delete our module's variable from the variables table.
   variable_del('boincuser_integration');
   // Remove relevant aliases
-  path_set_alias(NULL, 'account');
-  path_set_alias(NULL, 'account/dashboard');
-  path_set_alias(NULL, 'account/info/edit');
-  path_set_alias(NULL, 'account/info/edit/profile');
+  if (module_exists('path')) {
+    path_set_alias(NULL, 'account');
+    path_set_alias(NULL, 'account/dashboard');
+    path_set_alias(NULL, 'account/info/edit');
+    path_set_alias(NULL, 'account/info/edit/profile');
+  }
 }
 
 /**
