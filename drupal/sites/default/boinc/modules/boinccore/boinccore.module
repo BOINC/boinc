@@ -65,6 +65,74 @@ function boinccore_menu_alter(&$items) {
   }
 }
 
+/**
+ * Implementation of hook_form_alter()
+ */
+function boinccore_form_alter(&$form, $form_state, $form_id) {
+  global $user;
+  $account = user_load($user->uid);
+  switch ($form_id) {
+  // Comment form
+  case 'comment_form':
+    $user_image = boincuser_get_user_profile_image($uid);
+    $user_info = '<div class="user">';
+    if ($user_image['image']['filepath']) {
+      $user_info .= '  <div class="picture">';
+      $user_info .= theme('imagefield_image', $user_image['image'], $user_image['alt'], $user_image['alt'], array(), false);
+      $user_info .= '  </div>';
+    }
+    $user_info .= '  <div class="name">' . theme('username', $account) . '</div>';
+    if ($account->uid) {
+      //$user_info .= '  <div class="join-date">Joined: ' . date('j M y', $account->created) . '</div>';
+      //$user_info .= '  <div class="post-count">Posts: ' . $account->post_count . '</div>';
+      //$user_info .= '  <div class="credit">Credit: ' . $account->boincuser_total_credit . '</div>';
+      //$user_info .= '  <div class="rac">RAC: ' . $account->boincuser_expavg_credit . '</div>';
+    }
+    $user_info .= '</div>';
+    array_unshift($form, array(
+      'user_info' => array(
+        '#value' => $user_info,
+      ),
+      'comment_form_prefix' => array(
+        '#value' => '<div class="form-body">',
+      ),
+    ));
+    $form['comment_form_suffix'] = array(
+      '#value' => '</div>',
+    );
+    
+    // Wrap action buttons for styling consistency
+    $form['form control tabs prefix'] = array(
+      '#value' => '<ul class="form-control tab-list">',
+      '#weight' => 1001,
+    );
+    $form['submit']['#prefix'] = '<li class="first tab">';
+    $form['submit']['#value'] = t('Post comment');
+    $form['submit']['#suffix'] = '</li>';
+    $form['submit']['#weight'] = 1002;
+    $form['preview']['#prefix'] = '<li class="tab">';
+    $form['preview']['#suffix'] = '</li>';
+    $form['preview']['#weight'] = 1003;
+    $form['cancel'] = array(
+      '#value' => '<li class="tab">' . l(t('Cancel'), $_GET['q']) . '</li>',
+      '#weight' => 1004,
+    );
+    $form['form control tabs suffix'] = array(
+      '#value' => '</ul>',
+      '#weight' => 1010,
+    );
+    
+    // Preview is ugly, unset until it works
+    unset($form['preview']);
+    
+    // Remove redundant name field
+    unset($form['_author']);
+    
+    break;
+  default:
+  }
+}
+
 function boinccore_link_alter(&$links, $node, $comment = NULL) {
   //echo '<pre>' . print_r($links, true) . '</pre>';
   foreach ($links as $module => $link) {

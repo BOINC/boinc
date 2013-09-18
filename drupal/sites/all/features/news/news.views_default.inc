@@ -470,6 +470,7 @@ return variable_get(\'site_name\', \'BOINC\');
     'page_1' => 'page_1',
     'default' => 0,
   ));
+  $handler->override_option('sitename_title', FALSE);
 
   $views[$view->name] = $view;
 

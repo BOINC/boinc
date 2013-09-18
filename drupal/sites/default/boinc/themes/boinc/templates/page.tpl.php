@@ -263,35 +263,44 @@
     <?php endif; ?>
       
       <?php $class_list = explode(' ', $classes); ?>
-      <div id="content" class="column"><div class="section<?php echo (!array_intersect(array('page-panels','section-users'), $class_list)) ? ' framing container shadow' : ''; ?>">
+      <div id="content" class="column">
+      
+        <div class="section<?php echo (!array_intersect(array('page-panels','section-users'), $class_list)) ? ' framing container shadow' : ''; ?>">
+          
+          <?php if ($mission): ?>
+            <div id="mission"><?php print $mission; ?></div>
+          <?php endif; ?>
+
+          <?php print $highlight; ?>
+
+          <?php //print $breadcrumb; ?>
+          <?php if ($title): ?>
+            <h1 class="title"><?php print $title; ?></h1>
+          <?php endif; ?>
+          <?php print $messages; ?>
+          <?php print $help; ?>
+
+          <?php print $content_top; ?>
+
+          <div id="content-area">
+            <?php print $content; ?>
+          </div>
+
+        </div> <!-- /.section -->
         
-        <?php if ($mission): ?>
-          <div id="mission"><?php print $mission; ?></div>
+        <?php if ($content_bottom): ?>
+          <div class="section bottom<?php echo (!array_intersect(array('page-panels','section-users'), $class_list)) ? ' framing container shadow' : ''; ?>">
+            
+            <?php print $content_bottom; ?>
+
+            <?php if ($feed_icons AND !$is_front): ?>
+              <div class="feed-icons"><?php print $feed_icons; ?></div>
+            <?php endif; ?>
+
+          </div> <!-- /.section.bottom -->
         <?php endif; ?>
-
-        <?php print $highlight; ?>
-
-        <?php //print $breadcrumb; ?>
-        <?php if ($title): ?>
-          <h1 class="title"><?php print $title; ?></h1>
-        <?php endif; ?>
-        <?php print $messages; ?>
-        <?php print $help; ?>
-
-        <?php print $content_top; ?>
-
-        <div id="content-area">
-          <?php print $content; ?>
-        </div>
-
-        <?php print $content_bottom; ?>
-
-        <?php if ($feed_icons AND !$is_front): ?>
-          <div class="feed-icons"><?php print $feed_icons; ?></div>
-        <?php endif; ?>
-
-      </div></div> <!-- /.section, /#content -->
-
+        
+      </div> <!-- /#content -->
 
       <?php print $sidebar_first; ?>
 
