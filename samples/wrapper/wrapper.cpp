@@ -637,7 +637,7 @@ int TASK::run(int argct, char** argvt) {
             fprintf(stderr, "Error: startup_info.hStdOutput is NULL\n");
         }
     } else {
-        startup_info.hStdOutput = (HANDLE)_get_osfhandle(stderr);
+        startup_info.hStdOutput = (HANDLE)_get_osfhandle(_fileno(stderr));
         if (startup_info.hStdOutput == INVALID_HANDLE_VALUE) {
             fprintf(stderr, "Error: startup_info.hStdOutput is NULL\n");
         }
@@ -656,7 +656,7 @@ int TASK::run(int argct, char** argvt) {
             fprintf(stderr, "Error: startup_info.hStdError is NULL\n");
         }
     } else {
-        startup_info.hStdError = (HANDLE)_get_osfhandle(stderr);
+        startup_info.hStdError = (HANDLE)_get_osfhandle(_fileno(stderr));
         if (startup_info.hStdError == INVALID_HANDLE_VALUE) {
             fprintf(stderr, "Error: startup_info.hStdError is NULL\n");
         }
