@@ -28,10 +28,7 @@ function create_account(
 ) {
     $url = $project_url."/create_account.php?email_addr=".urlencode($email_addr)."&passwd_hash=$passwd_hash&user_name=".urlencode($user_name);
 
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    $reply = curl_exec($ch);
-    curl_close($ch);
+    $reply = file_get_contents($url);
     if (!$reply) return array(null, "HTTP error");
     $r = @simplexml_load_string($reply);
     if (!$r) {
