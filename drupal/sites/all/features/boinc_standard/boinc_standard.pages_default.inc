@@ -462,7 +462,7 @@ function boinc_standard_default_page_manager_pages() {
     $pane->configuration = array(
       'admin_title' => 'BOINC overview',
       'title' => 'What is Einstein@Home?',
-      'body' => '<div class="boinc-overview">
+      'body' => '<div class="boinc-overview balance-height">
   <div>Einstein@Home is a program that uses your computer\'s idle time to run a screensaver to search for gravitational waves from spinning neutron stars (also called pulsars) using data from the LIGO gravitational wave detector. <a href="about">Learn more.</a></div>
   <div><a class="join button" href="join">Join now</a></div>
 </div>
@@ -519,7 +519,7 @@ function boinc_standard_default_page_manager_pages() {
     $pane->configuration = array(
       'admin_title' => 'BOINC user home',
       'title' => 'Welcome back!',
-      'body' => '<div class="boinc-overview">
+      'body' => '<div class="boinc-overview balance-height">
   <div>Einstein@Home is a program that uses your computer\'s idle time to run a screensaver to search for gravitational waves from spinning neutron stars (also called pulsars) using data from the LIGO gravitational wave detector. <a href="about">Learn more.</a></div>
   <div><a class="join button" href="dashboard">View account</a></div>
 </div>
@@ -595,7 +595,7 @@ function boinc_standard_default_page_manager_pages() {
       'link_to_view' => 0,
       'args' => '',
       'url' => '',
-      'display' => 'page_1',
+      'display' => 'page_2',
       'override_title' => 1,
       'override_title_text' => '',
     );
@@ -605,7 +605,7 @@ function boinc_standard_default_page_manager_pages() {
     );
     $pane->css = array(
       'css_id' => '',
-      'css_class' => 'panel-secondary container shadow',
+      'css_class' => 'panel-secondary container shadow balance-height',
     );
     $pane->extras = array();
     $pane->position = 1;
