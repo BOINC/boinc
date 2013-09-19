@@ -89,8 +89,13 @@
       <?php if ($display_submitted): ?>
         <span class="submitted">
           <?php
-            print t('Submitted by !username on !datetime',
-              array('!username' => $name, '!datetime' => $date));
+            if ($type == 'news') {
+              print t('Submitted on !datetime', array('!datetime' => $date));
+            }
+            else {
+              print t('Submitted by !username on !datetime',
+                array('!username' => $name, '!datetime' => $date));
+            }
           ?>
         </span>
       <?php endif; ?>
@@ -105,5 +110,5 @@
     <?php print $content; ?>
   </div>
 
-  <?php print $links; ?>
+  <?php //print $links; ?>
 </div> <!-- /.node -->
