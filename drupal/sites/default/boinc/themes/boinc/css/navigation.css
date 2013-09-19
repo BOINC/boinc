@@ -34,6 +34,7 @@ ul#secondary-menu {
   line-height: 33px;
   margin: 0 0 0 -1px;
   float: left;
+  clear: both;
 }
 #secondary-menu li {
   padding: 0;
