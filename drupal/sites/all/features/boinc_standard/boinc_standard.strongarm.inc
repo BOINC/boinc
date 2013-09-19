@@ -760,8 +760,10 @@ function boinc_standard_strongarm() {
     'zen_breadcrumb_title' => 0,
     'zen_rebuild_registry' => 1,
     'zen_wireframes' => 0,
+    'boinc_stats_chart_color' => '#FAA341',
+    'boinc_stats_chart_bcolor' => '#FFFFFF',
     'toggle_logo' => 1,
-    'toggle_name' => 0,
+    'toggle_name' => 1,
     'toggle_slogan' => 0,
     'toggle_mission' => 1,
     'toggle_node_user_picture' => 0,
@@ -815,6 +817,8 @@ function boinc_standard_strongarm() {
     'default_favicon' => 1,
     'favicon_path' => '',
     'favicon_upload' => '',
+    'boinc_stats_chart_color' => '#009CDB',
+    'boinc_stats_chart_bcolor' => '#EEEEEE',
   );
   $export['theme_einstein_settings'] = $strongarm;
 

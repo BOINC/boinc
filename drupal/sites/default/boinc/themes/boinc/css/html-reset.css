@@ -112,6 +112,8 @@ h1 {
                            (relative to the base font), we have to divide that
                            length by the element's font-size:
                            1em / 2em = 0.5em */
+  border-bottom: 2px dotted #aaa;
+  padding-bottom: 7px;
 }
 
 h2 {
@@ -314,4 +316,17 @@ fieldset {
   margin: 1em 0;
   padding: 0.5em;
   border: none;
+}
+
+input[type=text],
+input[type=password],
+select {
+	background: #fff;
+	border: 1px solid #aaa;
+	margin: 0;
+	padding: 3px 0 1px 5px;
+}
+
+textarea {
+	clear: left;
 }

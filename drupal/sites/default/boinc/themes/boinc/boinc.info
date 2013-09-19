@@ -99,3 +99,6 @@ settings[zen_breadcrumb_trailing]  = 1
 settings[zen_breadcrumb_title]     = 0
 settings[zen_rebuild_registry]     = 1
 settings[zen_wireframes]           = 0
+
+settings[boinc_stats_chart_color]  = '#FAA341'
+settings[boinc_stats_chart_bcolor] = '#FFFFFF'

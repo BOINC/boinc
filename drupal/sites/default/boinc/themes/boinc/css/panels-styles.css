@@ -15,17 +15,20 @@
   margin-left: 12px;
 }
 .panel-primary {
-  padding: 25px 25px 40px;
+  padding: 25px
 }
 .front .panel-primary {
-  padding: 30px 36px 45px;
+  padding: 30px 36px;
 }
 
 .panel-secondary {
   padding: 15px;
+}
+.panel-region-separator {
   margin-bottom: 16px;
 }
-
+.panel-pane {
+}
 .pane-title {
   margin-top: 0;
 }
@@ -53,7 +56,7 @@
 }
 
 .boinc-overview-details {
-  height: 200px;
+  height: 75px;
   position: relative;
 }
 .boinc-overview-details .detail-container {
@@ -79,12 +82,14 @@
   padding: 1px 0;
 }
 .boinc-overview-details .platform {
+  float: left;
+}
+.platform {
   font-size: 12px;
   font-weight: bold;
   color: #faa341;
   text-transform: uppercase;
   letter-spacing: 1px;
-  float: left;
   padding: 5px 16px 5px 30px;
 }
 .platform.linux {
@@ -97,10 +102,44 @@
   background: url(../images/icon-windows.png) no-repeat top left;
 }
 
+.panel-secondary h2.pane-title,
+.panel-secondary .views-field-title {
+  margin-bottom: 1px;
+  padding: 0;
+}
+
+.pane-project-stats-overview {
+}
+.pane-project-stats-overview .overlay span {
+  color: #808080;
+  font-size: 11px;
+}
+.pane-project-stats-overview .chart img {
+  height: 80px;
+  width: 266px;
+}
+
 .panel-secondary.pane-news {
   padding-left: 10px;
   padding-right: 10px;
+  position: relative;
+}
+.panel-secondary.pane-news .views-field-view-node {
+  border-left: 1px solid #808080;
+  margin-left: 1em;
+  padding-left: 1em;
+  clear: none;
 }
 .panel-secondary.pane-news .more-link {
   padding-top: 16px;
+}
+.panel-secondary.pane-news .feed {
+  position: absolute;
+  bottom: 8px;
+  right: 10px;
+}
+
+.pane-user-mail-summary h2.pane-title,
+.pane-boinc-friends h2.pane-title {
+  margin-bottom: 10px;
 }

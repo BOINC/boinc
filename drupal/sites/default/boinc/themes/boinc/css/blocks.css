@@ -28,9 +28,11 @@
 .count-1 /* Incremental count independent of each region */ {
 }
 
+.block #comments {
+  margin: 0;
+}
+
 .block h2.title /* Block title */ {
-  font-size: 12px;
-  text-transform: capitalize;
 }
 
 .block .content /* Block's content wrapper */ {

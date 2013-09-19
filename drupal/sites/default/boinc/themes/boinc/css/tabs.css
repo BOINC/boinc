@@ -12,10 +12,17 @@
 
 
 div.tabs {
-  margin: 0 0 5px 0;
+  margin: 0 0 10px 0;
 }
 div.tabs .tab {
   font-size: 11px;
+}
+div.tabs h1 {
+  float: left;
+  line-height: 56px;
+  margin: 0 20px 0 25px;
+  padding: 0;
+  border: none;
 }
 
 .tab {
@@ -26,7 +33,8 @@ div.tabs .tab {
   padding-left: 14px;
   padding-right: 14px;
 }
-.first .tab, .first.tab {
+.first.tab,
+ul.tabs li.first span.tab {
   border: none;
   padding-left: 0;
 }
@@ -80,9 +88,8 @@ ul.primary li a, ul.secondary li a {
 
 ul.primary li a .tab, ul.secondary li a .tab {
   display: block;
-  height: 18px; /* 33px (parent) - 4px (padding) */
-  line-height: 20px;
-  margin: 7px 0 0 0;
+  line-height: 24px;
+  margin: 16px 0;
   padding: 0 12px;
   /*background: url(../images/tab-right.png) no-repeat right -38px;*/
 }

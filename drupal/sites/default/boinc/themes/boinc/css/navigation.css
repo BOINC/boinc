@@ -49,10 +49,10 @@ ul#secondary-menu {
 #secondary-menu li a {
   color: gray;
   font-size: 11px;
-  text-transform: uppercase;
   letter-spacing: 1px;
   height: 18px;
   line-height: 20px;
+  text-transform: uppercase;
 }
 #secondary-menu li a.active,
 #secondary-menu li a:hover {

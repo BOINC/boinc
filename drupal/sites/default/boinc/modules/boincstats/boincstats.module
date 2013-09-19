@@ -61,6 +61,9 @@ function boincstats_get_user_stats_chart($cpid = null, $chart_size = 'medium') {
   module_load_include('php', 'boincstats', 'includes/pchart/class/pImage.class');
   module_load_include('php', 'boincstats', 'includes/pchart/class/pCache.class');
   
+  global $theme_key;
+  $cache_name = "{$theme_key}_";
+  
   // Determine the stats environment
   boincstats_check_configuration();
   $stats_server = variable_get('boinc_stats_server', '');
@@ -71,25 +74,31 @@ function boincstats_get_user_stats_chart($cpid = null, $chart_size = 'medium') {
   $dataset_size = 0;
   $chart_height = 0;
   $chart_width = 0;
-  $backdrop_color = array();
   $draw_x_lines = FALSE;
   $label_x_axis = FALSE;
   
   $stats_xml = NULL;
+  $color_keys = array('R', 'G', 'B');
+  
+  // Get color configuration
+  $palette_color_hex = theme_get_setting('boinc_stats_chart_color');
+  $palette_color = array_combine($color_keys, sscanf($pallete_color_hex, "#%02x%02x%02x"));
+  $backdrop_color_hex = theme_get_setting('boinc_stats_chart_bcolor');
+  $backdrop_color = array_combine($color_keys, sscanf($backdrop_color_hex, "#%02x%02x%02x"));
   
   switch($chart_size) {
   case 'small':
-    $cache_name = "{$cpid}_small";
+    $cache_name .= "{$cpid}_small";
     $dataset_size = 30;
     $chart_height = 80;
     $chart_width = 266;
-    $backdrop_color = array('R'=>238,'G'=>238,'B'=>238);
+    //$backdrop_color = array('R'=>238,'G'=>238,'B'=>238);
     $draw_x_lines = FALSE;
     $label_x_axis = FALSE;
     break;
   case 'medium':
   default:
-    $cache_name = $cpid;
+    $cache_name .= $cpid;
     $dataset_size = 60;
     $chart_height = 155;
     $chart_width = 589;
@@ -143,7 +152,7 @@ function boincstats_get_user_stats_chart($cpid = null, $chart_size = 'medium') {
     }
     
     $MyData->addPoints($dataset, 'series1');
-    $MyData->setPalette('series1',array('R' => 0,'G' => 156,'B' => 219));
+    $MyData->setPalette('series1', $palette_color);
     $MyData->setAxisPosition(0,AXIS_POSITION_RIGHT);
     
     // Create the pChart object
@@ -216,8 +225,19 @@ function boincstats_get_project_stats_chart() {
   module_load_include('php', 'boincstats', 'includes/pchart/class/pImage.class');
   module_load_include('php', 'boincstats', 'includes/pchart/class/pCache.class');
   
-  $stats_xml = boincstats_get_project_stats();
+  init_theme();
+  global $theme_key;
+  $cache_name = "{$theme_key}_project_chart";
   
+  $stats_xml = boincstats_get_project_stats();
+  $color_keys = array('R', 'G', 'B');
+  
+  // Get color configuration
+  $palette_color_hex = theme_get_setting('boinc_stats_chart_color');
+  $palette_color = array_combine($color_keys, sscanf($palette_color_hex, "#%02x%02x%02x"));
+  $backdrop_color_hex = theme_get_setting('boinc_stats_chart_bcolor');
+  $backdrop_color = array_combine($color_keys, sscanf($backdrop_color_hex, "#%02x%02x%02x"));
+   
   // Create and populate the pData object
   $MyData = new pData();
   
@@ -230,8 +250,8 @@ function boincstats_get_project_stats_chart() {
   $myCache = new pCache(array('CacheFolder' => realpath('.') . '/' . conf_path(). '/files/cache'));
   $myCache->removeOlderThan(60*60*24);
   
-  if ($myCache->isInCache('project chart')) {
-    $myCache->strokeFromCache('project chart');
+  if ($myCache->isInCache($cache_name)) {
+    $myCache->strokeFromCache($cache_name);
   }
   else {
     // Initialize dataset
@@ -249,7 +269,7 @@ function boincstats_get_project_stats_chart() {
     }
     
     $MyData->addPoints($dataset, 'series1');
-    $MyData->setPalette('series1',array('R' => 0,'G' => 156,'B' => 219));
+    $MyData->setPalette('series1', $palette_color);
     $MyData->setAxisPosition(0,AXIS_POSITION_RIGHT);
 
     // Create the pChart object
@@ -263,7 +283,7 @@ function boincstats_get_project_stats_chart() {
 
     // Define the chart area
     $myPicture->setGraphArea(0,0,266,80);
-    $myPicture->drawFilledRectangle(0,0,266,80,array('R'=>238,'G'=>238,'B'=>238));
+    $myPicture->drawFilledRectangle(0,0,266,80,$backdrop_color);
 
     // Draw the scale
     $scaleSettings = array(
@@ -299,7 +319,7 @@ function boincstats_get_project_stats_chart() {
     $myPicture->drawAreaChart(array('ForceTransparency' => 100));
     
     // Write the chart to the cache
-    $myCache->writeToCache('project chart', $myPicture);
+    $myCache->writeToCache($cache_name, $myPicture);
 
     // Render the picture (choose the best way)
     //$myPicture->autoOutput('pictures/example.drawAreaChart.simple.png');

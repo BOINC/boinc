@@ -104,6 +104,10 @@ body {
   /*padding: 0;*/
 }
 
+#content .section.bottom {
+  margin-top: 16px;
+}
+
 /*
  * Navigation
  */
@@ -156,13 +160,21 @@ body {
 #navigation li a:hover {
   text-decoration: none;
 }
-#navigation li a.active, #navigation li.active-trail a {
-  background: #FFF;
+#navigation #main-menu li.active,
+#navigation #main-menu li.active-trail {
+  background: #fafafa;
+  -webkit-box-shadow: 0 0 16px #ebebeb;
+  -moz-box-shadow: 0 0 16px #ebebeb;
+  box-shadow: 0 0 16px #ebebeb;
+}
+#navigation li a.active,
+#navigation li.active-trail a {
+  color: #000;
 }
 #navigation li a, 
 #navigation li a.visited,
 #action-links a {
-  color: #000;
+  color: #222;
 }
 
 #action-links {
@@ -179,6 +191,11 @@ body {
   color: #808080;
   padding-left: 28px;
   background: url(../images/search.png) no-repeat 12px 2px;
+}
+#action-links .secondary-link {
+}
+#action-links li.first .tab {
+  border-left: none;
 }
 #action-links li.last .tab {
   padding-right: 10px;
@@ -205,15 +222,15 @@ body {
  */
 .region-sidebar-second {
   float: left; /* LTR */
-  width: 200px;
-  margin-left: 760px; /* LTR */ /* Width of content + sidebar-first. */
+  width: 310px;
+  margin-left: 650px; /* LTR */ /* Width of content + sidebar-first. */
   margin-right: -960px; /* LTR */ /* Negative value of .region-sidebar-second's width + left margin. */
   padding: 0; /* DO NOT CHANGE. Add padding or margin to .region-sidebar-second .section. */
 }
 
 .region-sidebar-second .section {
-  margin: 0 0 0 20px; /* LTR */
-  padding: 0;
+  margin: 0 0 0 12px; /* LTR */
+  padding: 15px 18px;
 }
 
 /*

@@ -25,14 +25,25 @@ function boinc_settings($saved_settings) {
    * Create the form using Forms API: http://api.drupal.org/api/6
    */
   $form = array();
-  /* -- Delete this line if you want to use this setting
-  $form['boinc_example'] = array(
-    '#type'          => 'checkbox',
-    '#title'         => t('Use this sample setting'),
-    '#default_value' => $settings['boinc_example'],
-    '#description'   => t("This option doesn't do anything; it's just an example."),
+  $form['boinc_stats_charts'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Chart settings'),
+    '#attributes' => array(
+      'class' => 'zen-settings',
+    ),
   );
-  // */
+  $form['boinc_stats_charts']['boinc_stats_chart_color'] = array(
+    '#type'          => 'textfield',
+    '#title'         => t('Chart color'),
+    '#default_value' => $settings['boinc_stats_chart_color'],
+    '#description'   => t('The primary color of the stats chart in hex format (e.g. #FAA341).'),
+  );
+  $form['boinc_stats_charts']['boinc_stats_chart_bcolor'] = array(
+    '#type'          => 'textfield',
+    '#title'         => t('Chart background color'),
+    '#default_value' => $settings['boinc_stats_chart_bcolor'],
+    '#description'   => t('The background color of the stats chart in hex format (e.g. #FFFFFF).'),
+  );
 
   // Add the base theme's settings.
   $form += zen_settings($saved_settings, $defaults);

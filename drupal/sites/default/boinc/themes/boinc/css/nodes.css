@@ -56,6 +56,12 @@
 }
 
 .node .picture /* The picture of the node author */ {
+  max-height: 100px;
+  overflow: hidden;
+}
+.node .user .picture img {
+  margin: 0;
+  width: 100px;
 }
 
 .node.node-unpublished .picture,

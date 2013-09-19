@@ -114,6 +114,7 @@ div#site-name /* The name of the website */ {
 }
 
 #content .section {
+  position: relative;
 }
 
 #mission /* The mission statement of the site (displayed on homepage) */ {
@@ -141,6 +142,9 @@ h3.title /* Comment title */ {
   margin-left: 0;
   margin-right: 0;
 }
+h2.title a {
+  color: #5A5758;
+}
 
 thead th {
   /*background: #fff url(../images/heading-bg.png) repeat-x bottom;
@@ -156,6 +160,19 @@ td, th {
 td {
   padding: 7px 5px;
   border-bottom: 1px dotted #aaa;
+  vertical-align: top;
+}
+tr.heading {
+  font-weight: bold;
+}
+tr.heading > td {
+  padding-top: 38px;
+}
+th.primary, td.primary {
+  font-size: 1.5em;
+}
+th.active img {
+  margin: 0 0 0 5px;
 }
 tr.even, tr.odd {
   background-color: transparent;
@@ -174,7 +191,10 @@ tr.odd td.active {
   background-color: transparent;
 }
 tbody tr:hover {
-  background-color: #f0f0f0;
+  background-color: #fbfbfa;
+}
+table.sticky-header {
+  background-color: #d1d1d1;
 }
 
 div.messages /* Important messages (status, warning, and error) for the user. See also the declarations in messages.css. */ {
@@ -202,20 +222,23 @@ tr.error /* High priority messages. See also the .error declaration below. */ {
 }
 
 div.tabs /* See also the tabs.css file. */ {
-  height: 34px;
+}
+
+.fine-print {
+  color: #bbb;
 }
 
 .framing {
-  padding: 25px 25px 40px;
-}
-.framing .view {
-  padding-top: 20px;
+  padding: 25px;
 }
 
 .shadow {
   -webkit-box-shadow:0 0 16px #ebebeb;
   -moz-box-shadow:0 0 16px #ebebeb;
   box-shadow: 0 0 16px #ebebeb;
+}
+.container {
+  background-color: #fff;
 }
 
 .help /* Help text on a page */ {
@@ -233,6 +256,8 @@ div.tabs /* See also the tabs.css file. */ {
 ul.links /* List of links */ {
   margin: 1em 0;
   padding: 0;
+  display: inline;
+  font-weight: bold;
 }
 
 ul.links.inline {
@@ -244,6 +269,29 @@ ul.links li {
   display: inline;
   list-style-type: none;
   padding: 0 0.5em;
+}
+ul.links li.first {
+  border: none;
+  padding-left: 0;
+}
+ul.links li a {
+  color: #5A5758;
+  text-transform: uppercase;
+}
+
+.subscribe {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  z-index: 10;
+}
+.subscribe a {
+  color: #5A5758;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  line-height: 2.35em;
+  text-transform: uppercase;
 }
 
 .toc {
@@ -315,6 +363,26 @@ ul.links li {
   text-transform: uppercase;
   letter-spacing: 1px;
 }
+.tab-list.more-link {
+  margin: 10px 5px 0;
+}
+.tab-list.more-link li.first.alt.tab {
+  padding-right: 0;
+}
+.tab-list .tab a,
+.tab-list .first.alt.tab a {
+  color: #525758;
+}
+.tab-list .first.tab a{
+  color: #faa341;
+}
+
+.on-time {
+  color: #33cc33;
+}
+.past-due {
+  color: #ff3333;
+}
 
 .region-content-bottom /* Wrapper for any blocks placed in the "content bottom" region */ {
 }
@@ -341,6 +409,16 @@ ul.links li {
 }
 
 .region-sidebar-second .section {
+}
+
+/*
+ * Two column stacked panels
+ */
+.panel-2col-stacked .panel-col-first .inside {
+  margin: 0 1em 1em 0;
+}
+.panel-2col-stacked .panel-col-last .inside {
+  margin: 0 0 1em 1em;
 }
 
 /*
@@ -454,6 +532,16 @@ ul.links li {
   clear: both;
   visibility: hidden;
 }
+.separator {
+  height: 1px;
+  border-width: 2px 0 0;
+  border-style: dotted;
+  border-color: #aaa;
+  margin: 2em 0;
+}
+.separator.buttons {
+  border-top-width: 1px;
+}
 
 /**
  * Hide elements from all users.
@@ -506,13 +594,14 @@ a.button:hover {
  * Home page elements
  */
 a.join.button {
-  margin: 60px 0 0;
+  margin: 40px 0 0;
 }
 
 a.help.button {
   margin: 60px 0;
 }
 
+.tab-list .tab,
 .stats, .stats .tab {
   text-transform: uppercase;
   font-size: 13px;
@@ -528,16 +617,35 @@ a.help.button {
 .stats .last .tab, .stats .last.tab {
   padding-right: 0;
 }
+.tab-list .tab,
 .stats label, .stats a,
 .stats .tab label, .stats .tab a {
   font-weight: bold;
   font-size: 10px;
   letter-spacing: 1px;
 }
+.tab.alt {
+  float: right;
+}
+.chart img {
+  margin: 0;
+  padding-top: 5px;
+}
+.page-account-dashboard .chart img {
+  height: 155px;
+  width: 589px;
+}
 
-
+table tr.link:hover {
+  background-color: #e8e8e8;
+  cursor: pointer;
+}
 table tr.inactive {
   color: #d0d0d0;
+}
+.page-account-dashboard table {
+  width: 100%;
+  margin: 0;
 }
 table.user-projects {
   margin: 0;
@@ -563,6 +671,12 @@ table.user-projects {
   text-transform: uppercase;
   letter-spacing: 1px; 
 }
+.node-type-forum .item-list .pager {
+  border-top: 1px dotted #aaa;
+  margin-top: 0;
+  padding-top: 16px;
+}
+
 .item-list .pager-item a,
 .item-list .pager-first a,
 .item-list .pager-previous a,
@@ -578,7 +692,126 @@ table.user-projects {
   color: #000;
 }
 
+/**
+ * User profiles
+ */
+.user-profile .picture {
+  float: left;
+  max-height: 100px;
+  overflow: hidden;
+}
+.user-profile .picture img {
+  width: 100px;
+  margin: 0;
+}
+.user-profile .general-info {
+  margin: 0 0 5px 0;
+  padding: 0 0 14px 120px;
+  border-bottom: 1px dotted #AAA;
+  font-size: 10px;
+  line-height: 20px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  position: relative;
+}
+.user-profile .general-info ul.tab-list {
+  margin-top: 10px;
+}
+.user-profile .bio {
+  clear: both;
+  margin: 5px 0;
+  border-top: 1px dotted #AAA;
+}
+.user-profile .bio .background,
+.user-profile .bio .opinions {
+  padding-top: 14px;
+}
+.user-profile .general-info .name,
+.user-profile .bio .background .label,
+.user-profile .bio .opinions .label {
+  display: block;
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin: 10px 0;
+}
+.user-profile .general-info .name {
+  margin-top: 0;
+}
+.user-profile .bio .background .value,
+.user-profile .bio .opinions .value {
+  display: block;
+}
+
 /* Forums */
+#forum-0 {
+  margin-top: -32px; /* [TODO] Add search box and remove this! */
+  margin-bottom: 64px;
+}
+#forum h2.title {
+  margin: 14px 3px 16px;
+}
+#forum .heading .primary .name {
+  text-transform: uppercase;
+}
+#forum .description {
+  font-size: inherit;
+  margin: 0;
+}
+#forum th {
+  border: none;
+}
+#forum td {
+  border-top: 1px dotted #aaa;
+  border-bottom: none;
+}
+#forum tr.heading td {
+  border-top: none;
+}
+#forum tr.sticky {
+  background-color: #f8f8f4;
+}
+#forum tr.sticky:hover {
+  background-color: #f6f6f2;
+}
+#forum tr.first td {
+  /* border-color: #333; */
+}
+#forum tr.first-non-sticky td {
+  /* border-color: #333; */
+}
+#forum tr.last td {
+  border-bottom: 1px dotted #aaa;
+}
+#forum td.created, #forum td.posts, #forum td.topics, #forum td.last-reply, #forum td.replies, #forum td.pager {
+  white-space: nowrap;
+}
+#forum td.posts, #forum td.topics, #forum td.replies, #forum td.pager {
+  text-align: center;
+}
+#forum tr td.forum {
+  padding-left: 5px;
+  background-image: none;
+}
+#forum tr.new-topics td.forum {
+  background-image: none;
+}
+#forum div.indent {
+  margin-left: 0;
+}
+#forum > table {
+  width: 100%;
+}
+#forum > .item-list { /* pager */
+  float: right;
+}
+#forum > ul.links {
+  float: left;
+  font-size: 10px;
+}
+#forum > ul.links li {
+  margin: 1em 0;
+}
 .forum-topic-navigation {
   padding: 1em 0 0 3em; /* LTR */
   border-top: 1px solid #aaa;
@@ -605,4 +838,87 @@ table.user-projects {
   text-transform: uppercase;
   color: #808080;
   letter-spacing: 1px; 
+}
+
+/* Join */
+.join {
+  font-size: 14px;
+}
+.join li {
+  margin: 1em 0;
+}
+
+/* Search */
+.page-search-site #content {
+  width: 650px;
+}
+.page-search-site .framing {
+  padding-bottom: 13px;
+}
+.page-search-site h1.title {
+  display: none;
+}
+#search-form {
+  margin-bottom: 1em;
+}
+#search-form #edit-keys-wrapper {
+  margin-top: 0;
+}
+#search-form .form-item label {
+  float: none;
+}
+#search-form .form-item label[for=edit-keys] {
+  width: 120px;
+  text-transform: uppercase;
+  font-size: 2em;
+  font-weight: bold;
+  line-height: 1.3em;
+  margin-bottom: 0.5em;
+  padding-bottom: 7px;
+  float: left;
+}
+#search-form .form-item input#edit-keys {
+  margin-top: 3px;
+}
+#search-form .form-submit {
+  padding: 0;
+}
+.spelling-suggestions {
+  border-top: 1px dotted #ccc;
+}
+.spelling-suggestions dt {
+  float: left;
+  margin-right: 5px;
+}
+.spelling-suggestions dt:after {
+  content: ':';
+}
+.search-results {
+  border-top: 2px dotted #aaa;
+}
+.search-results .result,
+.search-results dt {
+  border-top: 1px dotted #ccc;
+  padding: 1em 0;
+  clear: both;
+}
+.search-results .result:first-child,
+.search-results dt:first-child {
+  border: none;
+}
+.search-results .result.user .picture {
+  width: 120px;
+  margin-bottom: 30px;
+  float: left;
+  max-height: 100px;
+  overflow: hidden;
+}
+.search-results .result.user .picture img {
+  width: 100px;
+  margin: 0;
+}
+.search-results .result.user .details,
+.search-results .result.user .search-snippet {
+  padding-top: 7px;
+  margin: 0 0 0 120px;
 }
