@@ -13,6 +13,14 @@ function news_context_default_contexts() {
   $context->description = '';
   $context->tag = 'news';
   $context->conditions = array(
+    'node' => array(
+      'values' => array(
+        'news' => 'news',
+      ),
+      'options' => array(
+        'node_form' => '1',
+      ),
+    ),
     'path' => array(
       'values' => array(
         'news/*' => 'news/*',
