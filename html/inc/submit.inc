@@ -96,6 +96,7 @@ function do_http_op($req, $xml, $op) {
     }
     curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
     $reply = curl_exec($ch);
+    curl_close($ch);
     if (!$reply) return array(null, "HTTP error");
     $r = @simplexml_load_string($reply);
     if (!$r) {
