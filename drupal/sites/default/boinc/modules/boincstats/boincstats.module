@@ -71,7 +71,6 @@ function boincstats_get_user_stats_chart($cpid = null, $chart_size = 'medium') {
   $stats_rpc = variable_get('boinc_stats_user_credit_history_rpc', '');
   $project_id = variable_get('boinc_stats_remote_project_id', '');
   
-  $cache_name = NULL;
   $dataset_size = 0;
   $chart_height = 0;
   $chart_width = 0;
