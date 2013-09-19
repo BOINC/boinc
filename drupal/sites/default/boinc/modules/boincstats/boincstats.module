@@ -61,6 +61,7 @@ function boincstats_get_user_stats_chart($cpid = null, $chart_size = 'medium') {
   module_load_include('php', 'boincstats', 'includes/pchart/class/pImage.class');
   module_load_include('php', 'boincstats', 'includes/pchart/class/pCache.class');
   
+  init_theme();
   global $theme_key;
   $cache_name = "{$theme_key}_";
   
@@ -82,7 +83,7 @@ function boincstats_get_user_stats_chart($cpid = null, $chart_size = 'medium') {
   
   // Get color configuration
   $palette_color_hex = theme_get_setting('boinc_stats_chart_color');
-  $palette_color = array_combine($color_keys, sscanf($pallete_color_hex, "#%02x%02x%02x"));
+  $palette_color = array_combine($color_keys, sscanf($palette_color_hex, "#%02x%02x%02x"));
   $backdrop_color_hex = theme_get_setting('boinc_stats_chart_bcolor');
   $backdrop_color = array_combine($color_keys, sscanf($backdrop_color_hex, "#%02x%02x%02x"));
   
