@@ -427,7 +427,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     }
     break;
     
-  // User profile form
+  // User credentials form
   case 'user_profile_form':
     
     // Use the displaly name as the title, not the username
@@ -525,6 +525,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     
     // Remove redundant / unnecessary form elements
     unset($form['theme_select']);
+    unset($form['delete']);
     
     // These are on the Community preferences form (boincwork module)
     unset($form['enable_pm_mail']);
