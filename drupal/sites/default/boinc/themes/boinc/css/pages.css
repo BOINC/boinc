@@ -275,7 +275,7 @@ ul.links li.first {
   padding-left: 0;
 }
 ul.links li a {
-  color: #5A5758;
+  color: #faa341;
   text-transform: uppercase;
 }
 
@@ -782,6 +782,9 @@ table.user-projects {
 }
 #forum tr.last td {
   border-bottom: 1px dotted #aaa;
+}
+#forum td.title a {
+  color: #5A5758;
 }
 #forum td.created, #forum td.posts, #forum td.topics, #forum td.last-reply, #forum td.replies, #forum td.pager {
   white-space: nowrap;
