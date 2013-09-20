@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-18 11:32-0500\n"
-"PO-Revision-Date: 2012-03-10 18:30+0200\n"
-"Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
+"PO-Revision-Date: 2013-09-20 10:48+0000\n"
+"Last-Translator: Anonymous Pootle User\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%"
 "100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
 "X-Poedit-SearchPath-0: clientgui\n"
@@ -24,6 +24,7 @@ msgstr ""
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-POOTLE-MTIME: 1379674127.0\n"
 
 # 81%
 #: clientgui/AccountInfoPage.cpp:387
@@ -286,7 +287,7 @@ msgstr "Rodyti supaprastintą vartotojo sąsają."
 
 #: clientgui/AdvancedFrame.cpp:411
 msgid "&Add project or account manager..."
-msgstr "&Prisijungti prie projekto ar abonemento valdiklio..."
+msgstr "&Prisijungti prie projekto ar paskyros valdytojo..."
 
 #: clientgui/AdvancedFrame.cpp:412
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
@@ -302,7 +303,7 @@ msgstr "&Sinchronizuoti su %s"
 #: clientgui/AdvancedFrame.cpp:420
 #, c-format
 msgid "Get current settings from %s"
-msgstr "Gauti naujausius nustatymus iš %s"
+msgstr "Gauti dabartinius nustatymus iš %s"
 
 #: clientgui/AdvancedFrame.cpp:430
 msgid "&Add project..."
@@ -363,7 +364,7 @@ msgstr "Darbas sustabdomas nepaisant nustatymų"
 
 #: clientgui/AdvancedFrame.cpp:495
 msgid "Use GPU always"
-msgstr ""
+msgstr "Visada naudoti grafikos procesorių"
 
 #: clientgui/AdvancedFrame.cpp:496
 msgid "Allow GPU work regardless of preferences"
@@ -468,11 +469,11 @@ msgstr ""
 #: clientgui/AdvancedFrame.cpp:591
 #, c-format
 msgid "Launch another %s"
-msgstr ""
+msgstr "Vykdyti kitą %s"
 
 #: clientgui/AdvancedFrame.cpp:601
 msgid "Event Log...\tCtrl+Shift+E"
-msgstr ""
+msgstr "Įvykių žurnalas...\tCtrl+Shift+E"
 
 #: clientgui/AdvancedFrame.cpp:602
 msgid "Display diagnostic messages."
@@ -523,7 +524,7 @@ msgstr "&Byla"
 
 #: clientgui/AdvancedFrame.cpp:683
 msgid "&View"
-msgstr "&Režimas"
+msgstr "&Peržiūra"
 
 #: clientgui/AdvancedFrame.cpp:687
 msgid "&Tools"
@@ -544,7 +545,7 @@ msgstr "&Pagalba"
 #: clientgui/AdvancedFrame.cpp:1178
 #, c-format
 msgid "%s - Stop using %s"
-msgstr ""
+msgstr "%s - Sustabdyti %s"
 
 #: clientgui/AdvancedFrame.cpp:1183
 #, c-format
@@ -565,7 +566,7 @@ msgstr ""
 #: clientgui/AdvancedFrame.cpp:1381
 #, c-format
 msgid "%s - Shut down the current client..."
-msgstr "%s - išjungti prisijungusį klientą..."
+msgstr "%s - Išjungti dabartinį klientą..."
 
 #: clientgui/AdvancedFrame.cpp:1390
 #, c-format
@@ -604,7 +605,7 @@ msgstr "Prisijungta prie %s (%s)"
 
 #: clientgui/AlreadyExistsPage.cpp:184
 msgid "Username already in use"
-msgstr "Šis vartotojo vardas jau yra naudojamas"
+msgstr "Šis vartotojo vardas jau naudojamas"
 
 #: clientgui/AlreadyExistsPage.cpp:187
 msgid ""
@@ -1531,7 +1532,7 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:644
 msgid "seconds"
-msgstr ""
+msgstr "sekundžių"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:654
 #, no-c-format
@@ -1760,7 +1761,7 @@ msgstr "Vartotojo vardas"
 
 #: clientgui/DlgItemProperties.cpp:215
 msgid "Team name"
-msgstr ""
+msgstr "Komanda"
 
 #: clientgui/DlgItemProperties.cpp:216
 msgid "Resource share"
@@ -1795,7 +1796,7 @@ msgstr ""
 #: clientgui/DlgItemProperties.cpp:249
 #: clientgui/DlgItemProperties.cpp:252
 msgid "yes"
-msgstr ""
+msgstr "taip"
 
 #: clientgui/DlgItemProperties.cpp:231
 msgid "Suspended via GUI"
@@ -1804,7 +1805,7 @@ msgstr ""
 #: clientgui/DlgItemProperties.cpp:231
 #: clientgui/DlgItemProperties.cpp:232
 msgid "no"
-msgstr ""
+msgstr "ne"
 
 #: clientgui/DlgItemProperties.cpp:232
 msgid "Don't request more work"
@@ -1883,11 +1884,11 @@ msgstr ""
 
 #: clientgui/DlgItemProperties.cpp:325
 msgid "State"
-msgstr ""
+msgstr "Būsena"
 
 #: clientgui/DlgItemProperties.cpp:328
 msgid "Received"
-msgstr ""
+msgstr "Gauta"
 
 #: clientgui/DlgItemProperties.cpp:331
 msgid "Report deadline"
@@ -1950,11 +1951,11 @@ msgstr ""
 
 #: clientgui/DlgOptions.cpp:175
 msgid "Language:"
-msgstr ""
+msgstr "Kalba:"
 
 #: clientgui/DlgOptions.cpp:182
 msgid "What language should BOINC use?"
-msgstr ""
+msgstr "Kokią kalbą turėtų naudoti BOINC?"
 
 #: clientgui/DlgOptions.cpp:186
 msgid "Notice reminder interval:"
@@ -2909,11 +2910,11 @@ msgstr ""
 
 #: clientgui/sg_DlgPreferences.cpp:94
 msgid "100 MB"
-msgstr ""
+msgstr "100 MB"
 
 #: clientgui/sg_DlgPreferences.cpp:95
 msgid "200 MB"
-msgstr ""
+msgstr "200 MB"
 
 #: clientgui/sg_DlgPreferences.cpp:96
 msgid "500 MB"
@@ -2949,39 +2950,39 @@ msgstr ""
 
 #: clientgui/sg_DlgPreferences.cpp:134
 msgid "10%"
-msgstr ""
+msgstr "10%"
 
 #: clientgui/sg_DlgPreferences.cpp:135
 msgid "20%"
-msgstr ""
+msgstr "20%"
 
 #: clientgui/sg_DlgPreferences.cpp:136
 msgid "30%"
-msgstr ""
+msgstr "30%"
 
 #: clientgui/sg_DlgPreferences.cpp:137
 msgid "40%"
-msgstr ""
+msgstr "40%"
 
 #: clientgui/sg_DlgPreferences.cpp:138
 msgid "50%"
-msgstr ""
+msgstr "50%"
 
 #: clientgui/sg_DlgPreferences.cpp:139
 msgid "60%"
-msgstr ""
+msgstr "60%"
 
 #: clientgui/sg_DlgPreferences.cpp:140
 msgid "70%"
-msgstr ""
+msgstr "70%"
 
 #: clientgui/sg_DlgPreferences.cpp:141
 msgid "80%"
-msgstr ""
+msgstr "80%"
 
 #: clientgui/sg_DlgPreferences.cpp:142
 msgid "90%"
-msgstr ""
+msgstr "90%"
 
 #: clientgui/sg_DlgPreferences.cpp:143
 msgid "100%"
@@ -2989,31 +2990,31 @@ msgstr ""
 
 #: clientgui/sg_DlgPreferences.cpp:168
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: clientgui/sg_DlgPreferences.cpp:169
 msgid "3"
-msgstr ""
+msgstr "3"
 
 #: clientgui/sg_DlgPreferences.cpp:170
 msgid "5"
-msgstr ""
+msgstr "5"
 
 #: clientgui/sg_DlgPreferences.cpp:171
 msgid "10"
-msgstr ""
+msgstr "10"
 
 #: clientgui/sg_DlgPreferences.cpp:172
 msgid "15"
-msgstr ""
+msgstr "15"
 
 #: clientgui/sg_DlgPreferences.cpp:173
 msgid "30"
-msgstr ""
+msgstr "30"
 
 #: clientgui/sg_DlgPreferences.cpp:174
 msgid "60"
-msgstr ""
+msgstr "60"
 
 #: clientgui/sg_DlgPreferences.cpp:282
 msgid "This dialog controls preferences for this computer only."
