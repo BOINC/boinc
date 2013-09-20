@@ -64,6 +64,7 @@
 #include "boinc_api.h"
 #include "diagnostics.h"
 #include "filesys.h"
+#include "md5_file.h"
 #include "parse.h"
 #include "str_util.h"
 #include "str_replace.h"
@@ -585,8 +586,7 @@ int main(int argc, char** argv) {
             vm.floppy_image_filename = buf;
         }
     } else {
-        sprintf(buf, "_slot_%d", aid.slot);
-        vm.vm_master_name += buf;
+        vm.vm_master_name += md5_string(std::string(aid.result_name)).substr(0, 16);
         vm.vm_master_description = aid.result_name;
         if (vm.enable_floppyio) {
             sprintf(buf, "%s_%d.%s", FLOPPY_IMAGE_FILENAME, aid.slot, FLOPPY_IMAGE_FILENAME_EXTENSION);
