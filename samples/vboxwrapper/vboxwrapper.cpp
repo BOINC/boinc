@@ -399,12 +399,26 @@ int main(int argc, char** argv) {
         }
     }
 
+    memset(&boinc_options, 0, sizeof(boinc_options));
+    boinc_options.main_program = true;
+    boinc_options.check_heartbeat = true;
+    boinc_options.handle_process_control = true;
+    boinc_init_options(&boinc_options);
+
+    // Prepare environment for detecting system conditions
+    //
+    boinc_get_init_data_p(&aid);
+
+    // Log banner
+    //
     fprintf(
         stderr,
         "%s vboxwrapper: starting\n",
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
 
+    // Log important information
+    //
 #if defined(_WIN32) && defined(USE_WINSOCK)
     WSADATA wsdata;
     retval = WSAStartup( MAKEWORD( 1, 1 ), &wsdata);
@@ -419,11 +433,6 @@ int main(int argc, char** argv) {
     }
 #endif
 
-    memset(&boinc_options, 0, sizeof(boinc_options));
-    boinc_options.main_program = true;
-    boinc_options.check_heartbeat = true;
-    boinc_options.handle_process_control = true;
-
     if (trickle_period > 0.0) {
         fprintf(
             stderr,
@@ -432,12 +441,6 @@ int main(int argc, char** argv) {
         );
         boinc_options.handle_trickle_ups = true;
     }
-
-    boinc_init_options(&boinc_options);
-
-    // Prepare environment for detecting system conditions
-    //
-    boinc_get_init_data_p(&aid);
 
     // Check for architecture incompatibilities
     // 
