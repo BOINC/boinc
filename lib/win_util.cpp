@@ -750,7 +750,7 @@ GetAccountSid(
 void chdir_to_data_dir() {
     LONG    lReturnValue;
     HKEY    hkSetupHive;
-    LPTSTR  lpszRegistryValue = NULL;
+    LPSTR  lpszRegistryValue = NULL;
     char    szPath[MAX_PATH];
     DWORD   dwSize = 0;
 
@@ -774,7 +774,7 @@ void chdir_to_data_dir() {
         );
         if (lReturnValue != ERROR_FILE_NOT_FOUND) {
             // Allocate the buffer space.
-            lpszRegistryValue = (LPTSTR) malloc(dwSize);
+            lpszRegistryValue = (LPSTR) malloc(dwSize);
             (*lpszRegistryValue) = NULL;
 
             // Now get the data
