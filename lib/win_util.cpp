@@ -26,6 +26,8 @@
 #endif
 
 #include "diagnostics.h"
+#include "util.h"
+#include "filesys.h"
 #include "win_util.h"
 
 /**
@@ -748,22 +750,23 @@ GetAccountSid(
 void chdir_to_data_dir() {
     LONG    lReturnValue;
     HKEY    hkSetupHive;
-    LPTSTR  lpszRegistryValue = NULL;
+    LPSTR  lpszRegistryValue = NULL;
+    char    szPath[MAX_PATH];
     DWORD   dwSize = 0;
 
     // change the current directory to the boinc data directory if it exists
-    lReturnValue = RegOpenKeyEx(
+    lReturnValue = RegOpenKeyExA(
         HKEY_LOCAL_MACHINE, 
-        _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup"),  
+        "SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup",  
         0, 
         KEY_READ,
         &hkSetupHive
     );
     if (lReturnValue == ERROR_SUCCESS) {
         // How large does our buffer need to be?
-        lReturnValue = RegQueryValueEx(
+        lReturnValue = RegQueryValueExA(
             hkSetupHive,
-            _T("DATADIR"),
+            "DATADIR",
             NULL,
             NULL,
             NULL,
@@ -771,20 +774,27 @@ void chdir_to_data_dir() {
         );
         if (lReturnValue != ERROR_FILE_NOT_FOUND) {
             // Allocate the buffer space.
-            lpszRegistryValue = (LPTSTR) malloc(dwSize);
+            lpszRegistryValue = (LPSTR) malloc(dwSize);
             (*lpszRegistryValue) = NULL;
 
             // Now get the data
-            lReturnValue = RegQueryValueEx( 
+            lReturnValue = RegQueryValueExA( 
                 hkSetupHive,
-                _T("DATADIR"),
+                "DATADIR",
                 NULL,
                 NULL,
                 (LPBYTE)lpszRegistryValue,
                 &dwSize
             );
 
-            SetCurrentDirectory(lpszRegistryValue);
+            SetCurrentDirectoryA(lpszRegistryValue);
+        }
+    } else {
+        if (SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_COMMON_APPDATA|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szPath))) {
+            strncat(szPath, "\\boinc", (sizeof(szPath) - strlen(szPath)));
+            if (boinc_file_exists(szPath)) {
+                SetCurrentDirectoryA(szPath);
+            }
         }
     }
 
