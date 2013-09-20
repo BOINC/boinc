@@ -275,6 +275,7 @@ int CLIENT_STATE::check_suspend_processing() {
     }
 #endif
 
+#ifndef NEW_CPU_THROTTLE
     // CPU throttling.
     // Do this check last; that way if suspend_reason is CPU_THROTTLE,
     // the GUI knows there's no other source of suspension
@@ -292,6 +293,7 @@ int CLIENT_STATE::check_suspend_processing() {
             }
         }
     }
+#endif
 
     // CPU is not suspended.  See if GPUs are
     //

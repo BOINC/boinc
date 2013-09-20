@@ -318,4 +318,5 @@ extern double non_boinc_cpu_usage;
 
 extern void run_test_app();
 
+extern void* throttler(void*);
 #endif

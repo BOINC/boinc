@@ -55,6 +55,6 @@ void THREAD_LOCK::unlock() {
 #ifdef _WIN32
     LeaveCriticalSection(&mutex);
 #else
-    pthread_mutex_lock(&mutex);
+    pthread_mutex_unlock(&mutex);
 #endif
 }
