@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-05 10:24-0700\n"
-"PO-Revision-Date: 2012-03-10 18:30+0200\n"
-"Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
+"PO-Revision-Date: 2013-09-20 10:38+0000\n"
+"Last-Translator: RytisSt <rytis.st@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
@@ -16,12 +16,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%"
 "100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
+"X-POOTLE-MTIME: 1379673498.0\n"
 
 #: acct_mgr.cpp:448 acct_mgr.cpp:457
-#, fuzzy
 msgid "Message from account manager"
-msgstr "Žinutė iš serverio"
+msgstr "Žinutė iš paskyros valdytojo"
 
 #: client_msgs.cpp:85
 msgid "Message from server"
@@ -70,24 +70,23 @@ msgstr ""
 
 #: log_flags.cpp:259 log_flags.cpp:436
 msgid "Unexpected text in cc_config.xml"
-msgstr "Neatpažintas tekstas faile cc_config.xml"
+msgstr "Netikėtas tekstas faile cc_config.xml"
 
 #: log_flags.cpp:410 log_flags.cpp:462
 msgid "Unrecognized tag in cc_config.xml"
-msgstr "Neatpažinta žymė byloje cc_config.xml"
+msgstr "Neatpažinta žymė cc_config.xml faile"
 
 #: log_flags.cpp:427
 msgid "Missing start tag in cc_config.xml"
-msgstr "Byloje cc_config.xml trūksta pradžios žymės"
+msgstr "cc_config.xml faile trūksta pradžios žymės"
 
 #: log_flags.cpp:452
-#, fuzzy
 msgid "Error in cc_config.xml options"
-msgstr "Neatpažinta žymė byloje cc_config.xml"
+msgstr "Klaida cc_config.xml failo parinktyse"
 
 #: log_flags.cpp:470
 msgid "Missing end tag in cc_config.xml"
-msgstr "Byloje cc_config.xml trūksta pabaigos žymės"
+msgstr "cc_config.xml faile trūksta pabaigos žymės"
 
 #: ../sched/handle_request.cpp:307
 msgid "Invalid or missing account key.  To fix, remove and add this project."
@@ -155,11 +154,8 @@ msgstr ""
 "užduotis"
 
 #: ../sched/sched_send.cpp:1262
-#, fuzzy
 msgid "No tasks are available for the applications you have selected."
-msgstr ""
-"Nėra užduočių jūsų pasirinktoms programoms. Patikrinkite projekto nustatymus "
-"tinklapyje."
+msgstr "Nėra užduočių jūsų pasirinktoms programoms."
 
 #: ../sched/sched_send.cpp:1288
 msgid "Your computer type is not supported by this project"
