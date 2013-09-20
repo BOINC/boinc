@@ -1018,3 +1018,26 @@ void ACTIVE_TASK::set_task_state(int val, const char* where) {
     }
 }
 
+void* throttler(void*) {
+    while (1) {
+        client_mutex.lock();
+        if (gstate.tasks_suspended || gstate.global_prefs.cpu_usage_limit > 99) {
+            client_mutex.unlock();
+            boinc_sleep(10);
+            continue;
+        }
+        double on = gstate.global_prefs.cpu_usage_limit / 100;
+        double off = 1 - on;
+        gstate.tasks_suspended = true;
+        gstate.active_tasks.suspend_all(SUSPEND_REASON_CPU_THROTTLE);
+        client_mutex.unlock();
+        boinc_sleep(off);
+        client_mutex.lock();
+        if (gstate.tasks_suspended && !gstate.suspend_reason) {
+            gstate.resume_tasks(SUSPEND_REASON_CPU_THROTTLE);
+        }
+        client_mutex.unlock();
+        boinc_sleep(on);
+    }
+    return 0;
+}

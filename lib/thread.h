@@ -15,6 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifndef _THREAD_H_
+#define _THREAD_H_
+
 #ifdef _WIN32
 #else
 #include <pthread.h>
@@ -42,3 +45,5 @@ struct THREAD_LOCK {
 
     THREAD_LOCK();
 };
+
+#endif

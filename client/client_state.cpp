@@ -70,6 +70,11 @@ using std::max;
 CLIENT_STATE gstate;
 COPROCS coprocs;
 
+#ifdef NEW_CPU_THROTTLE
+THREAD_LOCK client_mutex;
+THREAD throttle_thread;
+#endif
+
 CLIENT_STATE::CLIENT_STATE()
     : lookup_website_op(&gui_http),
     get_current_version_op(&gui_http),
@@ -666,6 +671,10 @@ int CLIENT_STATE::init() {
     //
     project_priority_init(false);
 
+#ifdef NEW_CPU_THROTTLE
+    client_mutex.lock();
+    throttle_thread.run(throttler, NULL);
+#endif
     initialized = true;
     return 0;
 }
@@ -697,12 +706,18 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
         all_fds = curl_fds;
         gui_rpcs.get_fdset(gui_rpc_fds, all_fds);
         double_to_timeval(action?0:x, tv);
+#ifdef NEW_CPU_THROTTLE
+        client_mutex.unlock();
+#endif
         n = select(
             all_fds.max_fd+1,
             &all_fds.read_fds, &all_fds.write_fds, &all_fds.exc_fds,
             &tv
         );
         //printf("select in %d out %d\n", all_fds.max_fd, n);
+#ifdef NEW_CPU_THROTTLE
+        client_mutex.lock();
+#endif
 
         // Note: curl apparently likes to have curl_multi_perform()
         // (called from net_xfers->got_select())

@@ -63,6 +63,7 @@ generic_sources = \
     shmem.cpp \
     str_util.cpp \
     synch.cpp \
+	thread.cpp \
     unix_util.cpp \
     url.cpp \
     util.cpp
@@ -130,6 +131,7 @@ pkginclude_HEADERS = \
     stackwalker_imports.h \
     stackwalker_win.h \
     str_util.h \
+	thread.h \
     url.h \
     util.h \
     win_util.h \
