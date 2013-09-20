@@ -88,7 +88,7 @@ div.node-type-forum.not-first-page {
 .comment .user,
 .node-type-forum .user,
 #comment-form .user {
-  padding: 8px 3px 8px 16px;
+  padding: 24px 3px 24px 16px;
   position: absolute;
   right: 0;
   width: 130px;
