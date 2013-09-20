@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-08-29 15:37-0700\n"
-"PO-Revision-Date: 2013-09-16 19:46+0000\n"
+"PO-Revision-Date: 2013-09-20 18:44+0000\n"
 "Last-Translator: Rene <oskamjr@ziggo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1379360810.0\n"
+"X-POOTLE-MTIME: 1379702649.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -298,7 +298,7 @@ msgstr "Aanmelden"
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
-msgstr ""
+msgstr "Tik hier om een project te kiezen."
 
 msgctxt "main_error"
 msgid "Whooops"
@@ -384,7 +384,7 @@ msgstr "Bezig met afsluiten…"
 
 msgctxt "status_benchmarking"
 msgid "Benchmarking…"
-msgstr ""
+msgstr "Bezig met benchmark..."
 
 msgctxt "status_image_description"
 msgid "project image"
@@ -393,7 +393,7 @@ msgstr "project afbeelding"
 #. preferences tab strings
 msgctxt "prefs_loading"
 msgid "Reading preferences…"
-msgstr ""
+msgstr "Voorkeuren inlezen..."
 
 msgctxt "prefs_submit_button"
 msgid "Save"
@@ -421,7 +421,7 @@ msgstr ""
 
 msgctxt "prefs_category_cpu"
 msgid "CPU"
-msgstr ""
+msgstr "Processor"
 
 msgctxt "prefs_category_storage"
 msgid "Storage"
@@ -445,7 +445,7 @@ msgstr ""
 
 msgctxt "battery_charge_min_pct_header"
 msgid "Min. battery level"
-msgstr ""
+msgstr "Min. batterijniveau"
 
 msgctxt "battery_charge_min_pct_description"
 msgid "BOINC suspends computation below defined battery charge level."
@@ -453,7 +453,7 @@ msgstr ""
 
 msgctxt "battery_temperature_max_header"
 msgid "Max. battery temperature"
-msgstr ""
+msgstr "Max. batterij temperatuur"
 
 msgctxt "battery_temperature_max_description"
 msgid ""
@@ -523,7 +523,7 @@ msgstr ""
 
 msgctxt "prefs_memory_max_idle_header"
 msgid "RAM limit"
-msgstr ""
+msgstr "Geheugen limiet"
 
 msgctxt "prefs_memory_max_idle_description"
 msgid "Limits the amount of RAM tasks are allowed to occupy."
@@ -561,7 +561,7 @@ msgstr "°C"
 #. projects tab strings
 msgctxt "projects_loading"
 msgid "Reading projects…"
-msgstr ""
+msgstr "Projecten inlezen..."
 
 msgctxt "projects_add"
 msgid "Add project"
@@ -586,7 +586,7 @@ msgstr "(totaal)"
 #. project status strings
 msgctxt "projects_status_suspendedviagui"
 msgid "Suspended by user"
-msgstr ""
+msgstr "Onderbroken door gebruiker"
 
 msgctxt "projects_status_dontrequestmorework"
 msgid "Won't get new tasks"
@@ -639,11 +639,11 @@ msgstr "Hervatten"
 
 msgctxt "projects_control_nonewtasks"
 msgid "No new tasks"
-msgstr ""
+msgstr "Geen nieuwe taken"
 
 msgctxt "projects_control_allownewtasks"
 msgid "Allow new tasks"
-msgstr ""
+msgstr "Nieuwe taken toestaan"
 
 msgctxt "projects_control_reset"
 msgid "Reset"
@@ -681,7 +681,7 @@ msgstr ""
 #. tasks tab strings
 msgctxt "tasks_header_name"
 msgid "Task Name:"
-msgstr ""
+msgstr "Taaknaam:"
 
 msgctxt "tasks_header_elapsed_time"
 msgid "Elapsed time:"
@@ -693,7 +693,7 @@ msgstr "(onderbroken)"
 
 msgctxt "tasks_header_deadline"
 msgid "Deadline:"
-msgstr ""
+msgstr "Deadline:"
 
 msgctxt "tasks_result_new"
 msgid "new"
@@ -996,11 +996,12 @@ msgstr "Onderbroken"
 
 msgctxt "menu_run_mode_enable"
 msgid "Resume"
-msgstr ""
+msgstr "Hervatten"
 
+#, fuzzy
 msgctxt "menu_about"
 msgid "About"
-msgstr ""
+msgstr "Afbreken"
 
 msgctxt "menu_help"
 msgid "Help"
@@ -1011,9 +1012,10 @@ msgctxt "about_button"
 msgid "Return"
 msgstr ""
 
+#, fuzzy
 msgctxt "about_title"
 msgid "About"
-msgstr ""
+msgstr "Afbreken"
 
 msgctxt "about_name"
 msgid "BOINC"
