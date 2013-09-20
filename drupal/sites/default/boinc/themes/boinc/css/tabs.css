@@ -125,7 +125,6 @@ ul.primary li.active a:hover .tab {
 }
 
 ul.secondary {
-  padding-left: 0;
 }
 
 ul.secondary li {
@@ -136,8 +135,6 @@ ul.secondary a {
 }
 
 ul.secondary a .tab {
-  border: none;
-  border-right: 1px solid #5a5758;
 }
 ul.secondary .last .tab, ul.secondary .last.tab {
   border-right: none;
