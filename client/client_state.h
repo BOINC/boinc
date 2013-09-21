@@ -18,7 +18,7 @@
 #ifndef _CLIENT_STATE_
 #define _CLIENT_STATE_
 
-//#define NEW_CPU_THROTTLE
+#define NEW_CPU_THROTTLE
 
 #ifndef _WIN32
 #include <string>
@@ -179,8 +179,10 @@ struct CLIENT_STATE {
     int pers_giveup;
 
     bool tasks_suspended;
-        // Don't run apps.
+        // Computing suspended for reason other than throttling
     int suspend_reason;
+    bool tasks_throttled;
+        // Computing suspended because of throttling
 
     bool network_suspended;
         // Don't use network.

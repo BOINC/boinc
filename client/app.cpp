@@ -1018,7 +1018,13 @@ void ACTIVE_TASK::set_task_state(int val, const char* where) {
     }
 }
 
+#ifdef NEW_CPU_THROTTLE
+#define THROTTLE_PERIOD 1.
+#ifdef _WIN32
+DWORD WINAPI throttler(LPVOID) {
+#else
 void* throttler(void*) {
+#endif
     while (1) {
         client_mutex.lock();
         if (gstate.tasks_suspended || gstate.global_prefs.cpu_usage_limit > 99) {
@@ -1026,18 +1032,20 @@ void* throttler(void*) {
             boinc_sleep(10);
             continue;
         }
-        double on = gstate.global_prefs.cpu_usage_limit / 100;
-        double off = 1 - on;
-        gstate.tasks_suspended = true;
+        double on = THROTTLE_PERIOD * gstate.global_prefs.cpu_usage_limit / 100;
+        double off = THROTTLE_PERIOD - on;
+        gstate.tasks_throttled = true;
         gstate.active_tasks.suspend_all(SUSPEND_REASON_CPU_THROTTLE);
         client_mutex.unlock();
         boinc_sleep(off);
         client_mutex.lock();
-        if (gstate.tasks_suspended && !gstate.suspend_reason) {
+        if (!gstate.tasks_suspended) {
             gstate.resume_tasks(SUSPEND_REASON_CPU_THROTTLE);
         }
+        gstate.tasks_throttled = false;
         client_mutex.unlock();
         boinc_sleep(on);
     }
     return 0;
 }
+#endif

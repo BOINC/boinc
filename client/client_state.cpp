@@ -95,6 +95,7 @@ CLIENT_STATE::CLIENT_STATE()
     file_xfer_giveup_period = PERS_GIVEUP;
     had_or_requested_work = false;
     tasks_suspended = false;
+    tasks_throttled = false;
     network_suspended = false;
     suspend_reason = 0;
     network_suspend_reason = 0;
@@ -860,11 +861,13 @@ bool CLIENT_STATE::poll_slow_events() {
         if (suspend_reason) {
             if (!tasks_suspended) {
                 show_suspend_tasks_message(suspend_reason);
-                active_tasks.suspend_all(suspend_reason);
+                if (!tasks_throttled) {
+                    active_tasks.suspend_all(suspend_reason);
+                }
             }
             last_suspend_reason = suspend_reason;
         } else {
-            if (tasks_suspended) {
+            if (tasks_suspended && !tasks_throttled) {
                 resume_tasks(last_suspend_reason);
             }
         }
