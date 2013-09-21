@@ -318,4 +318,10 @@ extern double non_boinc_cpu_usage;
 
 extern void run_test_app();
 
+#ifdef _WIN32
+extern DWORD WINAPI throttler(void*);
+#else
+extern void* throttler(void*);
+#endif
+
 #endif

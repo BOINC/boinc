@@ -18,6 +18,8 @@
 #ifndef _CLIENT_STATE_
 #define _CLIENT_STATE_
 
+#define NEW_CPU_THROTTLE
+
 #ifndef _WIN32
 #include <string>
 #include <vector>
@@ -29,6 +31,9 @@ using std::vector;
 
 #include "coproc.h"
 #include "util.h"
+#ifdef NEW_CPU_THROTTLE
+#include "thread.h"
+#endif
 
 #include "acct_mgr.h"
 #include "acct_setup.h"
@@ -174,8 +179,10 @@ struct CLIENT_STATE {
     int pers_giveup;
 
     bool tasks_suspended;
-        // Don't run apps.
+        // Computing suspended for reason other than throttling
     int suspend_reason;
+    bool tasks_throttled;
+        // Computing suspended because of throttling
 
     bool network_suspended;
         // Don't use network.
@@ -507,6 +514,11 @@ extern bool gpus_usable;
 extern double calculate_exponential_backoff(
     int n, double MIN, double MAX
 );
+
+#ifdef NEW_CPU_THROTTLE
+extern THREAD_LOCK client_mutex;
+extern THREAD throttle_thread;
+#endif
 
 //////// TIME-RELATED CONSTANTS ////////////
 
