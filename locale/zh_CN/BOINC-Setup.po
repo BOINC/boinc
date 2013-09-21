@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-08-06 16:50-0800\n"
-"PO-Revision-Date: 2013-08-09 15:14+0200\n"
+"PO-Revision-Date: 2013-09-21 07:55+0000\n"
 "Last-Translator: Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "Language: zh_CN\n"
@@ -15,11 +15,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: _\n"
 "X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
 "X-Poedit-SearchPath-0: mac_installer\n"
+"X-POOTLE-MTIME: 1379750103.0\n"
 
 #: mac_installer/Installer.cpp:132
 #, c-format
@@ -54,7 +55,7 @@ msgstr ""
 #: mac_installer/PostInstall.cpp:1519
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
-msgstr "是否将 %s 设置为这台 Mac 上所有 %s 用户的屏保？"
+msgstr "是否将 %s 设置为这台 Mac 上所有 %s 用户的屏幕保护程序？"
 
 #: mac_installer/uninstall.cpp:80
 msgid "OK"
@@ -81,7 +82,7 @@ msgid ""
 msgstr ""
 "你确定要从计算机上完全移除 %s 吗？\n"
 "\n"
-"本操作将移除所有可执行文件但不会处理 %s 的数据文件。"
+"本操作将移除所有可执行文件，但不会处理 %s 的数据文件。"
 
 #: mac_installer/uninstall.cpp:157
 #, c-format
@@ -123,7 +124,7 @@ msgid ""
 "computer.\n"
 "\n"
 msgstr ""
-"要从系统中完全移除 %s 需要输入你的管理员口令。\n"
+"输入你的管理员密码来从你的电脑中移除%s。\n"
 "\n"
 
 #: mac_installer/uninstall.cpp:1543

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-08-29 15:37-0700\n"
-"PO-Revision-Date: 2013-09-21 04:42+0000\n"
+"PO-Revision-Date: 2013-09-21 09:50+0000\n"
 "Last-Translator: Gang <zenith.yin@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: zh_CN\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1379738529.0\n"
+"X-POOTLE-MTIME: 1379757051.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -189,81 +189,81 @@ msgstr ""
 
 msgctxt "attachproject_registration_button"
 msgid "Create"
-msgstr ""
+msgstr "创建"
 
 #. error strings
 msgctxt "attachproject_error_wrong_name"
 msgid "User not found"
-msgstr ""
+msgstr "未找到用户"
 
 msgctxt "attachproject_error_short_pwd"
 msgid "Password too short"
-msgstr ""
+msgstr "密码太短"
 
 msgctxt "attachproject_error_no_internet"
 msgid "Connection failure"
-msgstr ""
+msgstr "连接失败"
 
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
-msgstr ""
+msgstr "密码不匹配"
 
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
-msgstr ""
+msgstr "请输入您的电子邮件地址"
 
 msgctxt "attachproject_error_no_pwd"
 msgid "Please enter a password"
-msgstr ""
+msgstr "请输入您的密码"
 
 msgctxt "attachproject_error_no_name"
 msgid "Please enter user name"
-msgstr ""
+msgstr "请输入一个用户名"
 
 msgctxt "attachproject_error_unknown"
 msgid "failed"
-msgstr ""
+msgstr "失败"
 
 msgctxt "attachproject_error_bad_username"
 msgid "User name refused"
-msgstr ""
+msgstr "用户名不符合要求"
 
 msgctxt "attachproject_error_email_in_use"
 msgid "eMail is already in use"
-msgstr ""
+msgstr "电子邮件地址已经被使用"
 
 msgctxt "attachproject_error_project_down"
 msgid "Project is offline"
-msgstr ""
+msgstr "项目离线"
 
 msgctxt "attachproject_error_email_bad_syntax"
 msgid "eMail refused"
-msgstr ""
+msgstr "电子邮件地址不符合要求"
 
 msgctxt "attachproject_error_bad_pwd"
 msgid "Password refused"
-msgstr ""
+msgstr "密码不符合要求"
 
 msgctxt "attachproject_error_creation_disabled"
 msgid "Account creation is disabled on this project"
-msgstr ""
+msgstr "该项目当前不允许创建新账户"
 
 #. working activity
 msgctxt "attachproject_working_back_button"
 msgid "Back"
-msgstr ""
+msgstr "返回"
 
 msgctxt "attachproject_working_finish_button"
 msgid "Finish"
-msgstr ""
+msgstr "完成"
 
 msgctxt "attachproject_working_check_desc"
 msgid "Successful"
-msgstr ""
+msgstr "成功"
 
 msgctxt "attachproject_working_failed_desc"
 msgid "Failed"
-msgstr ""
+msgstr "失败"
 
 msgctxt "attachproject_working_ongoing"
 msgid "…"
@@ -279,28 +279,28 @@ msgstr ""
 
 msgctxt "attachproject_working_connect"
 msgid "Connect"
-msgstr ""
+msgstr "连接"
 
 msgctxt "attachproject_working_verify"
 msgid "Verify account"
-msgstr ""
+msgstr "账户验证"
 
 msgctxt "attachproject_working_register"
 msgid "Register account"
-msgstr ""
+msgstr "注册账户"
 
 msgctxt "attachproject_working_login"
 msgid "Log in"
-msgstr ""
+msgstr "登录"
 
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
-msgstr ""
+msgstr "点击此处来选择项目。"
 
 msgctxt "main_error"
 msgid "Whooops"
-msgstr ""
+msgstr "出错咯"
 
 msgctxt "main_error_long"
 msgid ""
@@ -310,38 +310,37 @@ msgstr ""
 
 msgctxt "main_title_icon_desc"
 msgid "BOINC icon"
-msgstr ""
+msgstr "BOINC 图标"
 
 #. tab names
 msgctxt "tab_status"
 msgid "Status"
-msgstr ""
+msgstr "状态"
 
-#, fuzzy
 msgctxt "tab_projects"
 msgid "Projects"
-msgstr "项目："
+msgstr "项目"
 
 msgctxt "tab_tasks"
 msgid "Tasks"
-msgstr ""
+msgstr "任务"
 
 msgctxt "tab_transfers"
 msgid "Transfers"
-msgstr ""
+msgstr "传输"
 
 msgctxt "tab_preferences"
 msgid "Preferences"
-msgstr ""
+msgstr "偏好设定"
 
 msgctxt "tab_desc"
 msgid "Navigation"
-msgstr ""
+msgstr "导航"
 
 #. status strings
 msgctxt "status_running"
 msgid "Computing"
-msgstr ""
+msgstr "计算中"
 
 msgctxt "status_running_long"
 msgid "Thank you for participating."
@@ -369,44 +368,44 @@ msgstr ""
 
 msgctxt "status_launching"
 msgid "Starting…"
-msgstr ""
+msgstr "正在启动"
 
 msgctxt "status_noproject"
 msgid "Choose a project to participate in."
-msgstr ""
+msgstr "选择一个要参加的项目。"
 
 msgctxt "status_closing"
 msgid "Closing…"
-msgstr ""
+msgstr "正在关闭..."
 
 msgctxt "status_benchmarking"
 msgid "Benchmarking…"
-msgstr ""
+msgstr "正在运行基准测试..."
 
 msgctxt "status_image_description"
 msgid "project image"
-msgstr ""
+msgstr "项目图像"
 
 #. preferences tab strings
 msgctxt "prefs_loading"
 msgid "Reading preferences…"
-msgstr ""
+msgstr "正在读取偏好设置..."
 
 msgctxt "prefs_submit_button"
 msgid "Save"
-msgstr ""
+msgstr "保存"
 
 msgctxt "prefs_dialog_title"
 msgid "Enter new value:"
-msgstr ""
+msgstr "输入新值："
 
 msgctxt "prefs_dialog_title_selection"
 msgid "Select:"
-msgstr ""
+msgstr "选择："
 
 msgctxt "prefs_category_general"
 msgid "General"
-msgstr ""
+msgstr "常规"
 
 msgctxt "prefs_category_network"
 msgid "Network"
