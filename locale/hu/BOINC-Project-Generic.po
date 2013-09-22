@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2013-08-29 12:59+0000\n"
-"Last-Translator: Gabor <csega@mailbox.hu>\n"
+"PO-Revision-Date: 2013-09-22 17:33+0000\n"
+"Last-Translator: ZT <vdonksgula@gmail.com>\n"
 "Language-Team: \n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-POOTLE-MTIME: 1377781152.0\n"
+"X-POOTLE-MTIME: 1379871206.0\n"
 
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
@@ -2124,8 +2124,9 @@ msgid "Used in community functions"
 msgstr "Közösségi funkciókhoz használt"
 
 #: ../inc/user.inc:217 ../user/weak_auth.php:25
+#, fuzzy
 msgid "Account keys"
-msgstr ""
+msgstr "Fiókkulcs"
 
 #: ../inc/user.inc:222
 msgid "Preferences"
@@ -4582,32 +4583,29 @@ msgid "Notification not found"
 msgstr "Nem található értesítés"
 
 #: ../user/friend.php:223
-#, fuzzy
 msgid "Friend confirmed"
 msgstr "Barátság megerősítve"
 
 #: ../user/friend.php:224
 msgid "You are now friends with %1."
-msgstr ""
+msgstr "%1 az Ön barátja"
 
 # 94%
 #: ../user/friend.php:232
-#, fuzzy
 msgid "Cancel friendship?"
-msgstr "Barátság megszüntetése"
+msgstr "Törli a barátságot?"
 
 #: ../user/friend.php:234
 msgid "Are you sure you want to cancel your friendship with %1?"
-msgstr ""
+msgstr "Biztos benne, hogy törli a barátságot vele: %1?"
 
 #: ../user/friend.php:239
 msgid "Stay friends"
-msgstr ""
+msgstr "Barátság megtartása"
 
 #: ../user/friend.php:249
-#, fuzzy
 msgid "Friendship cancelled"
-msgstr "Barátság megerősítve"
+msgstr "Barátság törölve"
 
 #: ../user/friend.php:250
 #, fuzzy
