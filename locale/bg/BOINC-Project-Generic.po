@@ -6231,8 +6231,9 @@ msgid "Decreasing average credit"
 msgstr "Средно аритметичен скорошен кредит"
 
 #: ../user/user_search.php:69
+#, fuzzy
 msgid "Decreasing total credit"
-msgstr ""
+msgstr "Средно аритметичен скорошен кредит"
 
 #: ../user/user_search.php:100
 msgid "search string must be at least 3 characters"
