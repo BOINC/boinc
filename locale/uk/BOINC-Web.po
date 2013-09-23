@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-08-22 16:22 PDT\n"
-"PO-Revision-Date: 2013-09-16 18:40+0000\n"
+"PO-Revision-Date: 2013-09-23 10:29+0000\n"
 "Last-Translator: Олег <pukish_oleg@ukr.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: uk\n"
@@ -18,7 +18,7 @@ msgstr ""
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1379356810.0\n"
+"X-POOTLE-MTIME: 1379932174.0\n"
 
 #: projects.inc:14
 msgid "Distributed sensing"
@@ -149,7 +149,7 @@ msgstr "Університет Делавера"
 
 #: projects.inc:88
 msgid "Study of protein - ligand interactions"
-msgstr "Дослідження білків - взаємодії лігандів"
+msgstr "Дослідження білково-лігандних взаємодій"
 
 #: projects.inc:89
 msgid ""
@@ -902,7 +902,7 @@ msgstr "Обчислювальні потужності"
 
 #: index.php:25
 msgid "Top 100 volunteers"
-msgstr "100 кращих учасників"
+msgstr "100 найкращих учасників"
 
 #: index.php:26
 msgid "Statistics"

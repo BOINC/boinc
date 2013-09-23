@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-18 11:32-0500\n"
-"PO-Revision-Date: 2013-08-08 19:05+0200\n"
+"PO-Revision-Date: 2013-09-23 17:59+0000\n"
 "Last-Translator: Олег <pukish_oleg@ukr.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: uk\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
 "X-Poedit-SearchPath-0: clientgui\n"
@@ -24,6 +24,7 @@ msgstr ""
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-POOTLE-MTIME: 1379959161.0\n"
 
 # 81%
 #: clientgui/AccountInfoPage.cpp:387
@@ -882,7 +883,7 @@ msgstr "BOINC менеджер був автоматично запущений 
 
 #: clientgui/BOINCGUIApp.cpp:563
 msgid "Startup BOINC so only the system tray icon is visible"
-msgstr "згортати BOINC менеджер в значок на панелі завдань під час запуску"
+msgstr "Згортати BOINC менеджер в значок на панелі завдань під час запуску"
 
 #: clientgui/BOINCGUIApp.cpp:565
 msgid "Directory containing the BOINC Client executable"
@@ -1476,12 +1477,12 @@ msgstr "Додатково, підтримувати достатньо завд
 
 #: clientgui/DlgAdvPreferencesBase.cpp:465
 msgid "Skip image file verification"
-msgstr "Пропустити перевірку файлів зображень"
+msgstr "Не перевіряти завантажувані файли"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:467
 msgid "check this if your Internet provider modifies image files"
 msgstr ""
-"виберіть цей пункт,якщо Ваш інтернет провайдер змінює файли, що "
+"виберіть цей пункт, якщо Ваш інтернет провайдер змінює файли, що "
 "завантажуються"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:475
@@ -1507,7 +1508,7 @@ msgid ""
 "if checked, BOINC hangs up when network usage is done\n"
 "(only relevant for dialup-connection)"
 msgstr ""
-"Якщо відмічено, після завершення мережевих передач BOINC розірве з’єднання\n"
+"якщо відмічено, після завершення мережевих передач BOINC розірве з’єднання\n"
 "(стосується лише dialup-з’єднання)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:491
@@ -1516,7 +1517,7 @@ msgstr "Дозволене використання мережі"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:499
 msgid "network usage start hour"
-msgstr "Дозволити використання мережі, починаючи з"
+msgstr "дозволити використання мережі, починаючи з"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:507
 msgid "network usage stop hour"
@@ -1675,7 +1676,7 @@ msgstr "&Закрити"
 #: clientgui/DlgEventLog.cpp:331
 #, c-format
 msgid "Get help with %s"
-msgstr "Отримати довідку щодо S%"
+msgstr "Отримати довідку щодо %s"
 
 #: clientgui/DlgEventLog.cpp:345
 msgid "Show all &messages"
@@ -1783,7 +1784,7 @@ msgstr " інтервал затримки запиту завдань"
 
 #: clientgui/DlgItemProperties.cpp:208
 msgid "Properties of project "
-msgstr "Інформація про проект "
+msgstr "Властивості проекту "
 
 #: clientgui/DlgItemProperties.cpp:212
 #: clientgui/DlgOptions.cpp:218
@@ -1800,7 +1801,7 @@ msgstr "Ім'я користувача"
 
 #: clientgui/DlgItemProperties.cpp:215
 msgid "Team name"
-msgstr "Команда"
+msgstr "Назва команди"
 
 #: clientgui/DlgItemProperties.cpp:216
 msgid "Resource share"
@@ -1861,7 +1862,7 @@ msgstr "Очікування проміжного відправлення"
 #: clientgui/DlgItemProperties.cpp:240
 #: clientgui/DlgItemProperties.cpp:242
 msgid "Host location"
-msgstr "Місцезнаходження комп’ютера"
+msgstr "Розміщення комп’ютера"
 
 #: clientgui/DlgItemProperties.cpp:242
 msgid "default"
@@ -2036,7 +2037,7 @@ msgstr "Підключення за замовчуванням:"
 
 #: clientgui/DlgOptions.cpp:259
 msgid "Connections"
-msgstr "Параметри з'єднання"
+msgstr "З'єднання"
 
 #: clientgui/DlgOptions.cpp:268
 msgid "Connect via HTTP proxy server"
@@ -2127,8 +2128,8 @@ msgstr "%s - зміна мови"
 #, c-format, c-format
 msgid "The %s's language has been changed.  In order for this change to take effect, you must restart the %s."
 msgstr ""
-"Мову інтерфейсу програми %s було змінено,\n"
-"для вступу в силу змін потрібно перезапустити програму %s."
+"Мову інтерфейсу програми %s було змінено, для вступу в силу змін потрібно "
+"перезапустити %s."
 
 #: clientgui/DlgSelectComputer.cpp:90
 #, c-format
@@ -2142,7 +2143,7 @@ msgid ""
 "on this computer.  Please select a client to monitor."
 msgstr ""
 "Інший примірник %s вже працює \n"
-"на даному комп'ютері. Будь ласка, виберіть клієнт для моніторингу."
+"на даному комп'ютері.  Будь-ласка, виберіть клієнт для моніторингу."
 
 #: clientgui/DlgSelectComputer.cpp:142
 msgid "Host name:"
@@ -2645,8 +2646,8 @@ msgstr "Вибір проекту"
 #: clientgui/ProjectInfoPage.cpp:586
 msgid "To choose a project, click its name or type its URL below."
 msgstr ""
-"Оберіть проект, яктй Вам сподобався, натиснувши на його\n"
-"назві або введіть його адресу URL в полі ниже."
+"Оберіть проект, який Вам сподобався, натиснувши на його\n"
+"назву або введіть його адресу URL в полі ниже."
 
 #: clientgui/ProjectInfoPage.cpp:590
 msgid "Categories:"
@@ -4345,7 +4346,7 @@ msgstr "список проектів або менеджерів проекті
 #: clientgui/mac/MacAccessiblity.cpp:1575
 #, c-format
 msgid "selected row %d of %d; "
-msgstr "вибраний рядок %d of %d; "
+msgstr "вибраний рядок %d із %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:1577
 #, c-format
