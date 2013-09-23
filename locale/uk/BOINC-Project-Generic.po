@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2013-06-08 22:30+0200\n"
-"Last-Translator: Олег <pukish_oleg@ukr.net>\n"
+"PO-Revision-Date: 2013-09-23 16:43+0000\n"
+"Last-Translator: Dead J. Dona <deadjdona@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
@@ -16,14 +16,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-POOTLE-MTIME: 1379954636.0\n"
 
 msgid "LANG_NAME_NATIVE"
-msgstr "English"
+msgstr "Українська"
 
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "English"
+msgstr "Ukrainian"
 
 #: ../inc/bbcode_html.inc:11
 msgid "Bold text: [b]text[/b]  (alt+b)"
@@ -194,22 +195,22 @@ msgstr "Розширений пошук"
 #: ../inc/forum.inc:132 ../inc/user.inc:253 ../user/pm.php:69
 #: ../user/pm.php:133
 msgid "Private messages"
-msgstr "Особисті повідомлення"
+msgstr "Приватні повідомлення"
 
 #: ../inc/forum.inc:151 ../user/forum_forum.php:71
 #: ../user/sample_index.php:119
 msgid "Questions and Answers"
-msgstr "Питання та Відповіді"
+msgstr "Питання та відповіді"
 
 #: ../inc/forum.inc:151 ../inc/forum.inc:183 ../inc/user.inc:250
 #: ../inc/user.inc:375 ../user/forum_forum.php:73 ../user/sample_index.php:118
 #: ../project.sample/project.inc:47
 msgid "Message boards"
-msgstr "Дошка оголошень"
+msgstr "Форум"
 
 #: ../inc/forum.inc:187 ../inc/forum.inc:195
 msgid "%1 message board"
-msgstr "Дошка оголошень %1"
+msgstr "Форум %1"
 
 #: ../inc/forum.inc:245 ../inc/result.inc:681
 msgid "Previous"
@@ -2403,7 +2404,7 @@ msgstr ""
 "Теги BBCode дозволяють Вам форматувати текст у своєму профілі\n"
 "і у повідомленнях форуму. Вони схожі на HTML, тільки простіші. Теги "
 "починаються\n"
-"із символу [ (замість %1у HTML) і закінчуються символом ] (замість %2 у "
+"із символу [ (замість %1 у HTML) і закінчуються символом ] (замість %2 у "
 "HTML)."
 
 #: ../user/bbcode.php:31
@@ -3566,7 +3567,7 @@ msgid ""
 "administrators"
 msgstr ""
 "Цей проект не створив електронного листа - будь-ласка, повідомте про це "
-"адміністраторам"
+"адміністраторів."
 
 #: ../user/ffmail_form.php:34
 msgid "Tell your friends about %1"
