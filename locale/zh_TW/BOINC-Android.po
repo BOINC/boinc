@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-08-29 15:37-0700\n"
-"PO-Revision-Date: 2013-09-17 15:02+0000\n"
+"PO-Revision-Date: 2013-09-24 11:21+0000\n"
 "Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: zh_TW\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1379430136.0\n"
+"X-POOTLE-MTIME: 1380021716.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -62,7 +62,7 @@ msgstr "正連線到專案伺服器..."
 
 msgctxt "attachproject_login_image_description"
 msgid "Project logo."
-msgstr "專案標誌"
+msgstr "專案標誌。"
 
 msgctxt "attachproject_login_header_general_area"
 msgid "General area:"
@@ -185,7 +185,7 @@ msgstr "密碼:"
 
 msgctxt "attachproject_registration_header_pwd_confirm"
 msgid "… Retype:"
-msgstr "…再次輸入:"
+msgstr "… 再次輸入:"
 
 msgctxt "attachproject_registration_button"
 msgid "Create"
@@ -206,7 +206,7 @@ msgstr "連線失敗"
 
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
-msgstr "密碼不符"
+msgstr "與密碼不符"
 
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
@@ -255,7 +255,7 @@ msgstr "返回"
 
 msgctxt "attachproject_working_finish_button"
 msgid "Finish"
-msgstr "結束"
+msgstr "完成"
 
 msgctxt "attachproject_working_check_desc"
 msgid "Successful"
@@ -283,7 +283,7 @@ msgstr "聯繫"
 
 msgctxt "attachproject_working_verify"
 msgid "Verify account"
-msgstr "確認帳號"
+msgstr "驗證帳號"
 
 msgctxt "attachproject_working_register"
 msgid "Register account"
@@ -395,7 +395,7 @@ msgstr "正在讀取偏好設定..."
 
 msgctxt "prefs_submit_button"
 msgid "Save"
-msgstr "存檔"
+msgstr "儲存"
 
 msgctxt "prefs_dialog_title"
 msgid "Enter new value:"
@@ -435,11 +435,11 @@ msgstr "偵錯"
 
 msgctxt "prefs_show_advanced_header"
 msgid "Show advanced preferences and controls…"
-msgstr "顯示進階的偏好及設定..."
+msgstr "顯示進階的偏好設定..."
 
 msgctxt "prefs_run_on_battery_header"
 msgid "Compute on Battery"
-msgstr "用電池來運算"
+msgstr "使用電池運算"
 
 msgctxt "battery_charge_min_pct_header"
 msgid "Min. battery level"
@@ -461,7 +461,7 @@ msgstr "BOINC 當電池溫度高於預設值時暫停運算。不建議變更此
 
 msgctxt "prefs_disk_max_pct_header"
 msgid "Max. used storage space"
-msgstr "最多能使用儲存空間"
+msgstr "最多使用容量"
 
 msgctxt "prefs_disk_max_pct_description"
 msgid "How many percent of your device's storage space is BOINC allowed to use?"
@@ -469,7 +469,7 @@ msgstr "BOINC 能使用多少比例的儲存空間?"
 
 msgctxt "prefs_disk_min_free_gb_header"
 msgid "Min. spare storage"
-msgstr "最小備用空間"
+msgstr "最小備用容量"
 
 msgctxt "prefs_disk_min_free_gb_description"
 msgid "How much of your device's storage space shall stay free?"
@@ -687,7 +687,7 @@ msgstr "執行時間:"
 
 msgctxt "tasks_header_project_paused"
 msgid "(suspended)"
-msgstr "(已暫停)"
+msgstr "(暫停)"
 
 msgctxt "tasks_header_deadline"
 msgid "Deadline:"
@@ -764,7 +764,7 @@ msgstr "放棄任務?"
 
 msgctxt "confirm_abort_task_message"
 msgid "Abort task:"
-msgstr "停止任務:"
+msgstr "放棄任務:"
 
 msgctxt "confirm_abort_task_confirm"
 msgid "Abort"
