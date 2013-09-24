@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1379757051.0\n"
+"X-POOTLE-MTIME: 1379954381.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -25,990 +25,1079 @@ msgid "BOINC"
 msgstr "BOINC"
 
 #. generic. used by multiple Activities/tabs
+#, fuzzy
 msgctxt "generic_loading"
 msgid "Loading! Please wait…"
-msgstr "正在载入，请稍候。"
+msgstr "Завантаження! Зачекайте, будь-ласка..."
 
 #. attach project
 #. project list
+#, fuzzy
 msgctxt "attachproject_list_header"
 msgid "Choose a project:"
-msgstr "选择一个项目："
+msgstr "Оберіть проект:"
 
+#, fuzzy
 msgctxt "attachproject_list_manual_button"
 msgid "Add project by URL"
-msgstr "通过网址（URL）添加项目："
+msgstr "Додати проект за адресою (URL)"
 
+#, fuzzy
 msgctxt "attachproject_list_manual_dialog_title"
 msgid "Enter project URL:"
-msgstr "输入项目网址（URL）："
+msgstr "Введіть адресу (URL) проекту:"
 
+#, fuzzy
 msgctxt "attachproject_list_manual_dialog_button"
 msgid "Add project"
-msgstr "添加项目"
+msgstr "Додати проект"
 
+#, fuzzy
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
-msgstr "请输入项目网址（URL）"
+msgstr "Будь-ласка, введіть адресу (URL) проекту"
 
+#, fuzzy
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
-msgstr "无可用网络连接"
+msgstr "Відсутнє з’єднання з Інтернетом"
 
 #. project login
+#, fuzzy
 msgctxt "attachproject_login_loading"
 msgid "Contacting project server…"
-msgstr "正在联系项目服务器..."
+msgstr "Встановлення з’єднання із сервером проекту"
 
+#, fuzzy
 msgctxt "attachproject_login_image_description"
 msgid "Project logo."
-msgstr "项目标志。"
+msgstr "Логотип проекту."
 
+#, fuzzy
 msgctxt "attachproject_login_header_general_area"
 msgid "General area:"
-msgstr "研究领域"
+msgstr "Загальна область:"
 
+#, fuzzy
 msgctxt "attachproject_login_header_specific_area"
 msgid "Specific area:"
-msgstr "细分领域："
+msgstr "Спеціальна область:"
 
+#, fuzzy
 msgctxt "attachproject_login_header_description"
 msgid "Description:"
-msgstr "描述："
+msgstr "Опис:"
 
+#, fuzzy
 msgctxt "attachproject_login_header_home"
 msgid "Home:"
-msgstr "项目 方："
+msgstr "Домівка:"
 
+#, fuzzy
 msgctxt "attachproject_login_header_url"
 msgid "Website:"
-msgstr "网站："
+msgstr "Веб-сайт:"
 
+#, fuzzy
 msgctxt "attachproject_login_header_platform"
 msgid "Android:"
-msgstr "Android："
+msgstr "Android:"
 
+#, fuzzy
 msgctxt "attachproject_login_platform_supported"
 msgid "This project supports Android devices"
-msgstr "这个项目支持 Android 设备"
+msgstr "Цей проект підтримує пристрої, на базі Android"
 
+#, fuzzy
 msgctxt "attachproject_login_platform_not_supported"
 msgid "This project does not support Android devices"
-msgstr "这个项目不支持 Android 设备"
+msgstr "Цей проект не підтримує пристрої, на базі Android"
 
+#, fuzzy
 msgctxt "attachproject_login_category_terms_of_use"
 msgid "Terms of use for"
-msgstr "使用条款："
+msgstr "Умови використання для"
 
+#, fuzzy
 msgctxt "attachproject_login_accept_terms_of_use"
 msgid ""
 "By creating an account with this project, you accept the terms of use as "
 "shown above."
-msgstr "一旦你在这个项目创建账号，则视为你同意上述使用条款。"
+msgstr ""
+"Створюючи обліковий запис у цьому проекті, Ви приймаєте умови використання, "
+"що викладені вище."
 
+#, fuzzy
 msgctxt "attachproject_login_category_login"
 msgid "Sign in with existing account"
-msgstr "使用已有账号登陆"
+msgstr "Увійти з існуючим обліковим записом"
 
+#, fuzzy
 msgctxt "attachproject_login_header_id_email"
 msgid "eMail:"
-msgstr "电子邮件地址："
+msgstr "Електронна пошта:"
 
+#, fuzzy
 msgctxt "attachproject_login_header_id_name"
 msgid "Name:"
-msgstr "名称："
+msgstr "Ім'я:"
 
+#, fuzzy
 msgctxt "attachproject_login_header_pwd"
 msgid "Password:"
-msgstr "密码："
+msgstr "Пароль:"
 
+#, fuzzy
 msgctxt "attachproject_login_category_creation"
 msgid "New to"
-msgstr "新来"
+msgstr "Новий"
 
+#, fuzzy
 msgctxt "attachproject_login_header_creation_enabled"
 msgid "Register an account to participate:"
-msgstr "注册一个账号以参与："
+msgstr "Зареєструвати обліковий запис для участі:"
 
+#, fuzzy
 msgctxt "attachproject_login_header_creation_client_disabled"
 msgid "Visit project website to create an account:"
-msgstr "访问项目网站来创建一个计算账户："
+msgstr "Відвідати інтернет сторінку проекту для створення облікового запису:"
 
+#, fuzzy
 msgctxt "attachproject_login_header_creation_disabled"
 msgid "Project does currently now allow creation of new accounts!"
-msgstr "该项目当前不允许创建新的账户！"
+msgstr "Зараз у проекті можна створювати нові облікові записи!"
 
+#, fuzzy
 msgctxt "attachproject_login_button_registration"
 msgid "Register"
-msgstr "注册"
+msgstr "Зареєструватися"
 
+#, fuzzy
 msgctxt "attachproject_login_button_login"
 msgid "Sign in"
-msgstr "登录"
+msgstr "Увійти"
 
+#, fuzzy
 msgctxt "attachproject_login_button_forgotpw"
 msgid "Forgot Password"
-msgstr "忘记密码"
+msgstr "Забули пароль?"
 
+#, fuzzy
 msgctxt "attachproject_login_error_toast"
 msgid "Contacting project failed!"
-msgstr "无法连接项目！"
+msgstr "Не вдалося з’єднатися з проектом!"
 
+#, fuzzy
 msgctxt "attachproject_login_attached"
 msgid "Attached"
-msgstr "已添加"
+msgstr "Додано"
 
 #. project registration
 msgctxt "attachproject_registration_header"
 msgid "Account registration for"
-msgstr ""
+msgstr "Реєстрація облікового запису для"
 
+#, fuzzy
 msgctxt "attachproject_registration_header_url"
 msgid "Project:"
-msgstr "项目："
+msgstr "Проект:"
 
+#, fuzzy
 msgctxt "attachproject_registration_header_email"
 msgid "eMail:"
-msgstr "电子邮件："
+msgstr "Електронна пошта:"
 
+#, fuzzy
 msgctxt "attachproject_registration_header_username"
 msgid "Name:"
-msgstr "名称："
+msgstr "Ім'я:"
 
+#, fuzzy
 msgctxt "attachproject_registration_header_teamname"
 msgid "Team:"
-msgstr "团队："
+msgstr "Команда:"
 
+#, fuzzy
 msgctxt "attachproject_registration_header_pwd"
 msgid "Password:"
-msgstr "密码："
+msgstr "Пароль:"
 
 msgctxt "attachproject_registration_header_pwd_confirm"
 msgid "… Retype:"
-msgstr ""
+msgstr "… Повторити:"
 
+#, fuzzy
 msgctxt "attachproject_registration_button"
 msgid "Create"
-msgstr "创建"
+msgstr "Створити"
 
 #. error strings
+#, fuzzy
 msgctxt "attachproject_error_wrong_name"
 msgid "User not found"
-msgstr "未找到用户"
+msgstr "Користувача не знайдено"
 
+#, fuzzy
 msgctxt "attachproject_error_short_pwd"
 msgid "Password too short"
-msgstr "密码太短"
+msgstr "Пароль надто короткий"
 
+#, fuzzy
 msgctxt "attachproject_error_no_internet"
 msgid "Connection failure"
-msgstr "连接失败"
+msgstr "Невдала спроба зв’язку"
 
+#, fuzzy
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
-msgstr "密码不匹配"
+msgstr "Паролі не збігаються"
 
+#, fuzzy
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
-msgstr "请输入您的电子邮件地址"
+msgstr "Будь ласка, вкажіть адресу електронної пошти"
 
+#, fuzzy
 msgctxt "attachproject_error_no_pwd"
 msgid "Please enter a password"
-msgstr "请输入您的密码"
+msgstr "Будь-ласка, введіть пароль"
 
+#, fuzzy
 msgctxt "attachproject_error_no_name"
 msgid "Please enter user name"
-msgstr "请输入一个用户名"
+msgstr "Будь-ласка, введіть ім'я користувача"
 
+#, fuzzy
 msgctxt "attachproject_error_unknown"
 msgid "failed"
-msgstr "失败"
+msgstr "невдало"
 
+#, fuzzy
 msgctxt "attachproject_error_bad_username"
 msgid "User name refused"
-msgstr "用户名不符合要求"
+msgstr "Ім'я користувача відхилене"
 
+#, fuzzy
 msgctxt "attachproject_error_email_in_use"
 msgid "eMail is already in use"
-msgstr "电子邮件地址已经被使用"
+msgstr "Електронна адреса вже використовується"
 
+#, fuzzy
 msgctxt "attachproject_error_project_down"
 msgid "Project is offline"
-msgstr "项目离线"
+msgstr "Проект поза мережею"
 
+#, fuzzy
 msgctxt "attachproject_error_email_bad_syntax"
 msgid "eMail refused"
-msgstr "电子邮件地址不符合要求"
+msgstr "Адресу електронної пошти відхилено"
 
+#, fuzzy
 msgctxt "attachproject_error_bad_pwd"
 msgid "Password refused"
-msgstr "密码不符合要求"
+msgstr "Пароль відхилено"
 
+#, fuzzy
 msgctxt "attachproject_error_creation_disabled"
 msgid "Account creation is disabled on this project"
-msgstr "该项目当前不允许创建新账户"
+msgstr "Можливість створення облікових записів в даному проекті відключена"
 
 #. working activity
+#, fuzzy
 msgctxt "attachproject_working_back_button"
 msgid "Back"
-msgstr "返回"
+msgstr "Назад"
 
+#, fuzzy
 msgctxt "attachproject_working_finish_button"
 msgid "Finish"
-msgstr "完成"
+msgstr "Готово"
 
+#, fuzzy
 msgctxt "attachproject_working_check_desc"
 msgid "Successful"
-msgstr "成功"
+msgstr "Успішно"
 
+#, fuzzy
 msgctxt "attachproject_working_failed_desc"
 msgid "Failed"
-msgstr "失败"
+msgstr "Невдало"
 
 msgctxt "attachproject_working_ongoing"
 msgid "…"
-msgstr ""
+msgstr "..."
 
 msgctxt "attachproject_working_finished"
 msgid "."
-msgstr ""
+msgstr "."
 
 msgctxt "attachproject_working_description"
 msgid ":"
-msgstr ""
+msgstr ":"
 
+#, fuzzy
 msgctxt "attachproject_working_connect"
 msgid "Connect"
-msgstr "连接"
+msgstr "Підключитися"
 
+#, fuzzy
 msgctxt "attachproject_working_verify"
 msgid "Verify account"
-msgstr "账户验证"
+msgstr "Перевірити обліковий запис"
 
+#, fuzzy
 msgctxt "attachproject_working_register"
 msgid "Register account"
-msgstr "注册账户"
+msgstr "Зареєструвати обліковий запис"
 
+#, fuzzy
 msgctxt "attachproject_working_login"
 msgid "Log in"
-msgstr "登录"
+msgstr "Увійти"
 
 #. main activity
+#, fuzzy
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
-msgstr "点击此处来选择项目。"
+msgstr "Для обрання проекту натисніть тут."
 
+#, fuzzy
 msgctxt "main_error"
 msgid "Whooops"
-msgstr "出错咯"
+msgstr "Ой!"
 
 msgctxt "main_error_long"
 msgid ""
 "…this should not happen!\n"
 "Click on the icon to try again."
 msgstr ""
+"…цього не повинно траплятися!\n"
+"Натисніть на іконці для повторної спроби."
 
+#, fuzzy
 msgctxt "main_title_icon_desc"
 msgid "BOINC icon"
-msgstr "BOINC 图标"
+msgstr "Іконка BOINC"
 
 #. tab names
+#, fuzzy
 msgctxt "tab_status"
 msgid "Status"
-msgstr "状态"
+msgstr "Статус"
 
+#, fuzzy
 msgctxt "tab_projects"
 msgid "Projects"
-msgstr "项目"
+msgstr "Проекти"
 
+#, fuzzy
 msgctxt "tab_tasks"
 msgid "Tasks"
-msgstr "任务"
+msgstr "Завдання"
 
+#, fuzzy
 msgctxt "tab_transfers"
 msgid "Transfers"
-msgstr "传输"
+msgstr "Передачі"
 
+#, fuzzy
 msgctxt "tab_preferences"
 msgid "Preferences"
-msgstr "偏好设定"
+msgstr "Налаштування"
 
+#, fuzzy
 msgctxt "tab_desc"
 msgid "Navigation"
-msgstr "导航"
+msgstr "Навігація"
 
 #. status strings
+#, fuzzy
 msgctxt "status_running"
 msgid "Computing"
-msgstr "计算中"
+msgstr "Обчислення"
 
 msgctxt "status_running_long"
 msgid "Thank you for participating."
-msgstr ""
+msgstr "Дякуємо за участь."
 
 msgctxt "status_paused"
 msgid "Suspended"
-msgstr ""
+msgstr "Призупинено"
 
 msgctxt "status_idle"
 msgid "Nothing to do"
-msgstr ""
+msgstr "Нема роботи"
 
 msgctxt "status_idle_long"
 msgid "Waiting for tasks…"
-msgstr ""
+msgstr "Очікування завдань…"
 
 msgctxt "status_computing_disabled"
 msgid "Suspended"
-msgstr ""
+msgstr "Призупинено"
 
 msgctxt "status_computing_disabled_long"
 msgid "Press play to resume network and computation."
-msgstr ""
+msgstr "Натисніть кнопку Грати для відновлення мережі і обчислень."
 
+#, fuzzy
 msgctxt "status_launching"
 msgid "Starting…"
-msgstr "正在启动"
+msgstr "Запуск…"
 
+#, fuzzy
 msgctxt "status_noproject"
 msgid "Choose a project to participate in."
-msgstr "选择一个要参加的项目。"
+msgstr "Оберіть проект для прийняття участі в ньому."
 
+#, fuzzy
 msgctxt "status_closing"
 msgid "Closing…"
-msgstr "正在关闭..."
+msgstr "Закриття..."
 
+#, fuzzy
 msgctxt "status_benchmarking"
 msgid "Benchmarking…"
-msgstr "正在运行基准测试..."
+msgstr "Тестування..."
 
+#, fuzzy
 msgctxt "status_image_description"
 msgid "project image"
-msgstr "项目图像"
+msgstr "зображення проекту"
 
 #. preferences tab strings
+#, fuzzy
 msgctxt "prefs_loading"
 msgid "Reading preferences…"
-msgstr "正在读取偏好设置..."
+msgstr "Читання налаштувань..."
 
+#, fuzzy
 msgctxt "prefs_submit_button"
 msgid "Save"
-msgstr "保存"
+msgstr "Зберегти"
 
+#, fuzzy
 msgctxt "prefs_dialog_title"
 msgid "Enter new value:"
-msgstr "输入新值："
+msgstr "Ввести нове значення:"
 
+#, fuzzy
 msgctxt "prefs_dialog_title_selection"
 msgid "Select:"
-msgstr "选择："
+msgstr "Вибрати:"
 
+#, fuzzy
 msgctxt "prefs_category_general"
 msgid "General"
-msgstr "常规"
+msgstr "Основні"
 
 msgctxt "prefs_category_network"
 msgid "Network"
-msgstr ""
+msgstr "Мережа"
 
 msgctxt "prefs_category_power"
 msgid "Power"
-msgstr ""
+msgstr "Живлення"
 
 msgctxt "prefs_category_cpu"
 msgid "CPU"
-msgstr ""
+msgstr "ЦП"
 
 msgctxt "prefs_category_storage"
 msgid "Storage"
-msgstr ""
+msgstr "Диск"
 
 msgctxt "prefs_category_memory"
 msgid "Memory"
-msgstr ""
+msgstr "Пам`ять"
 
 msgctxt "prefs_category_debug"
 msgid "Debug"
-msgstr ""
+msgstr "Діагностика"
 
 msgctxt "prefs_show_advanced_header"
 msgid "Show advanced preferences and controls…"
-msgstr ""
+msgstr "Показати додаткові налаштування і елементи керування..."
 
 msgctxt "prefs_run_on_battery_header"
 msgid "Compute on Battery"
-msgstr ""
+msgstr "Обчислювати на батареї"
 
 msgctxt "battery_charge_min_pct_header"
 msgid "Min. battery level"
-msgstr ""
+msgstr "Низький заряд батареї"
 
 msgctxt "battery_charge_min_pct_description"
 msgid "BOINC suspends computation below defined battery charge level."
-msgstr ""
+msgstr "BOINC призупиняє обчислення нижче визначеного рівня заряду акумулятора."
 
 msgctxt "battery_temperature_max_header"
 msgid "Max. battery temperature"
-msgstr ""
+msgstr "Макс. температура батареї"
 
 msgctxt "battery_temperature_max_description"
 msgid ""
 "BOINC suspends computation above defined battery temperature. It is not "
 "recommended to change this value."
 msgstr ""
+"BOINC призупинить розрахунки, коли температура батареї перевищить вказаний "
+"рівень. Не рекомендовано змінювати це значення."
 
 msgctxt "prefs_disk_max_pct_header"
 msgid "Max. used storage space"
-msgstr ""
+msgstr "Макс. використаний об’єм диска"
 
 msgctxt "prefs_disk_max_pct_description"
 msgid "How many percent of your device's storage space is BOINC allowed to use?"
-msgstr ""
+msgstr "Скільки відсотків дискового простору може використовувати BOINC?"
 
 msgctxt "prefs_disk_min_free_gb_header"
 msgid "Min. spare storage"
-msgstr ""
+msgstr "Мін. запас дискового простору"
 
 msgctxt "prefs_disk_min_free_gb_description"
 msgid "How much of your device's storage space shall stay free?"
-msgstr ""
+msgstr "Скільки вашого дискового простору повинно залишитися вільним?"
 
 msgctxt "prefs_network_daily_xfer_limit_mb_header"
 msgid "Daily transfer limit"
-msgstr ""
+msgstr "Денний ліміт передачі"
 
 msgctxt "prefs_network_daily_xfer_limit_mb_description"
 msgid "Limits the daily data traffic caused by BOINC."
-msgstr ""
+msgstr "Обмеження щоденної передачі даних, що здійснює BOINC."
 
 msgctxt "prefs_network_wifi_only_header"
 msgid "Transfer tasks on WiFi only"
-msgstr ""
+msgstr "Передавати завдання тільки через WiFi"
 
 msgctxt "prefs_autostart_header"
 msgid "Autostart"
-msgstr ""
+msgstr "Автозапуск"
 
 msgctxt "prefs_show_notification_header"
 msgid "Show notification when suspended"
-msgstr ""
+msgstr "Показати повідомлення коли призупинено"
 
 msgctxt "prefs_cpu_number_cpus_header"
 msgid "Used CPU cores"
-msgstr ""
+msgstr "Використано ядер ЦП"
 
 msgctxt "prefs_cpu_number_cpus_description"
 msgid "Limits the number of CPU cores BOINC uses for computation."
-msgstr ""
+msgstr "Обмежує кількість ядер ЦП, які BOINC використовує для обчислень."
 
 msgctxt "prefs_cpu_other_load_suspension_header"
 msgid "Pause at CPU usage above"
-msgstr ""
+msgstr "Використання ЦП призупинене"
 
 msgctxt "prefs_cpu_other_load_suspension_description"
 msgid "Determines when BOINC pauses computation due to other app's CPU usage."
 msgstr ""
+"Визначає коли призупиняти обчислення BOINC через використання ЦП іншими "
+"додатками."
 
 msgctxt "prefs_cpu_time_max_header"
 msgid "CPU limit"
-msgstr ""
+msgstr "Обмеження ЦП"
 
 msgctxt "prefs_cpu_time_max_description"
 msgid "Limits the CPU time BOINC uses for computation."
-msgstr ""
+msgstr "Обмежує процесорний час роботи, який BOINC використовує для обчислень."
 
 msgctxt "prefs_memory_max_idle_header"
 msgid "RAM limit"
-msgstr ""
+msgstr "обмеження RAM"
 
 msgctxt "prefs_memory_max_idle_description"
 msgid "Limits the amount of RAM tasks are allowed to occupy."
-msgstr ""
+msgstr "Обмеження кількості RAM, доступної для використання."
 
 msgctxt "prefs_client_log_flags_header"
 msgid "BOINC Client log flags"
-msgstr ""
+msgstr "Прапорці журналу клієнта BOINC"
 
 msgctxt "prefs_gui_log_level_header"
 msgid "GUI log level"
-msgstr ""
+msgstr "Рівень журналу GUI"
 
 msgctxt "prefs_gui_log_level_description"
 msgid "Specifies verbosity of GUI log messages."
-msgstr ""
+msgstr "Задає рівень деталізації повідомлень журналу GUI."
 
 msgctxt "prefs_unit_mb"
 msgid "MB"
-msgstr ""
+msgstr "Мб"
 
 msgctxt "prefs_unit_gb"
 msgid "GB"
-msgstr ""
+msgstr "Гб"
 
 #, c-format
 msgctxt "prefs_unit_pct"
 msgid "%"
-msgstr ""
+msgstr "%"
 
 msgctxt "prefs_unit_celcius"
 msgid "°C"
-msgstr ""
+msgstr "°C"
 
 #. projects tab strings
 msgctxt "projects_loading"
 msgid "Reading projects…"
-msgstr ""
+msgstr "Читання проектів..."
 
+#, fuzzy
 msgctxt "projects_add"
 msgid "Add project"
-msgstr "添加项目"
+msgstr "Додати проект"
 
 msgctxt "projects_icon"
 msgid "Project icon"
-msgstr ""
+msgstr "Значок проекту"
 
 msgctxt "projects_credits_header"
 msgid "Credit:"
-msgstr ""
+msgstr "Бали:"
 
 msgctxt "projects_credits_host_header"
 msgid "(on this device)"
-msgstr ""
+msgstr "(на цьому пристрої)"
 
 msgctxt "projects_credits_user_header"
 msgid "(total)"
-msgstr ""
+msgstr "(загалом)"
 
 #. project status strings
 msgctxt "projects_status_suspendedviagui"
 msgid "Suspended by user"
-msgstr ""
+msgstr "Призупинено користувачем"
 
 msgctxt "projects_status_dontrequestmorework"
 msgid "Won't get new tasks"
-msgstr ""
+msgstr "Не приймає нові завдання"
 
 msgctxt "projects_status_ended"
 msgid "Project ended - OK to remove"
-msgstr ""
+msgstr "Проект завершений - Гаразд для видалення"
 
 msgctxt "projects_status_detachwhendone"
 msgid "Will remove when tasks done"
-msgstr ""
+msgstr "Буде видалено після завершення завдань"
 
 msgctxt "projects_status_schedrpcpending"
 msgid "Scheduler request pending"
-msgstr ""
+msgstr "Запит інформації у планувальника"
 
 msgctxt "projects_status_schedrpcinprogress"
 msgid "Scheduler request in progress"
-msgstr ""
+msgstr "Відбувається запит інформації у планувальника"
 
 msgctxt "projects_status_trickleuppending"
 msgid "Trickle up message pending"
-msgstr ""
+msgstr "Очікування проміжного відправлення"
 
 msgctxt "projects_status_backoff"
 msgid "Communication scheduled in:"
-msgstr ""
+msgstr "Зв’язок за розкладом:"
 
 #. project controls
 msgctxt "projects_control_dialog_title"
 msgid "Project commands:"
-msgstr ""
+msgstr "Команди проекту:"
 
 msgctxt "projects_control_update"
 msgid "Update"
-msgstr ""
+msgstr "Оновити"
 
 msgctxt "projects_control_remove"
 msgid "Remove"
-msgstr ""
+msgstr "Видалити"
 
 msgctxt "projects_control_suspend"
 msgid "Suspend"
-msgstr ""
+msgstr "Призупинено"
 
 msgctxt "projects_control_resume"
 msgid "Resume"
-msgstr ""
+msgstr "Відновити"
 
 msgctxt "projects_control_nonewtasks"
 msgid "No new tasks"
-msgstr ""
+msgstr "Не завантажувати нові завдання"
 
 msgctxt "projects_control_allownewtasks"
 msgid "Allow new tasks"
-msgstr ""
+msgstr "Отримувати нові завдання"
 
 msgctxt "projects_control_reset"
 msgid "Reset"
-msgstr ""
+msgstr "Скинути"
 
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
 msgid "Remove project?"
-msgstr ""
+msgstr "Видалити проект?"
 
 msgctxt "projects_confirm_detach_message"
 msgid "Are you sure you want to remove"
-msgstr ""
+msgstr "Ви справді хочете видалити"
 
 msgctxt "projects_confirm_detach_message2"
 msgid "from BOINC?"
-msgstr ""
+msgstr "із BOINC?"
 
 msgctxt "projects_confirm_detach_confirm"
 msgid "Remove"
-msgstr ""
+msgstr "Видалити"
 
 msgctxt "projects_confirm_reset_title"
 msgid "Reset project"
-msgstr ""
+msgstr "Перезапустити проект"
 
 msgctxt "projects_confirm_reset_message"
 msgid "Are you sure you want to reset"
-msgstr ""
+msgstr "Ви справді хочете перезапустити"
 
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
-msgstr ""
+msgstr "Скинути"
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
 msgid "Task Name:"
-msgstr ""
+msgstr "Назва завдання:"
 
 msgctxt "tasks_header_elapsed_time"
 msgid "Elapsed time:"
-msgstr ""
+msgstr "Витрачено часу:"
 
 msgctxt "tasks_header_project_paused"
 msgid "(suspended)"
-msgstr ""
+msgstr "(призупинено)"
 
 msgctxt "tasks_header_deadline"
 msgid "Deadline:"
-msgstr ""
+msgstr "Кінцевий термін:"
 
 msgctxt "tasks_result_new"
 msgid "new"
-msgstr ""
+msgstr "новий"
 
 msgctxt "tasks_result_files_downloading"
 msgid "waiting for download"
-msgstr ""
+msgstr "очікування завантаження"
 
 msgctxt "tasks_result_files_downloaded"
 msgid "download complete"
-msgstr ""
+msgstr "звантаження завершене"
 
 msgctxt "tasks_result_compute_error"
 msgid "computation error"
-msgstr ""
+msgstr "помилка обчислень"
 
 msgctxt "tasks_result_files_uploading"
 msgid "uploading"
-msgstr ""
+msgstr "Відправлення"
 
 msgctxt "tasks_result_files_uploaded"
 msgid "upload complete"
-msgstr ""
+msgstr "відправлення завершене"
 
 msgctxt "tasks_result_aborted"
 msgid "aborted"
-msgstr ""
+msgstr "перервано"
 
 msgctxt "tasks_result_upload_failed"
 msgid "upload failed"
-msgstr ""
+msgstr "невдала спроба відправлення"
 
 msgctxt "tasks_active_uninitialized"
 msgid "ready"
-msgstr ""
+msgstr "готово"
 
 msgctxt "tasks_active_executing"
 msgid "running"
-msgstr ""
+msgstr "працює"
 
 msgctxt "tasks_active_suspended"
 msgid "suspended"
-msgstr ""
+msgstr "призупинено"
 
 msgctxt "tasks_active_abort_pending"
 msgid "suspending"
-msgstr ""
+msgstr "призупинення"
 
 msgctxt "tasks_active_quit_pending"
 msgid "suspending"
-msgstr ""
+msgstr "призупинення"
 
 msgctxt "tasks_custom_suspended_via_gui"
 msgid "suspended"
-msgstr ""
+msgstr "призупинено"
 
 msgctxt "tasks_custom_project_suspended_via_gui"
 msgid "project suspended"
-msgstr ""
+msgstr "проект призупинено"
 
 msgctxt "tasks_custom_ready_to_report"
 msgid "ready to report"
-msgstr ""
+msgstr "готовий до звітування"
 
 #. confirmation dialog
 msgctxt "confirm_abort_task_title"
 msgid "Abort task?"
-msgstr ""
+msgstr "Перервати завдання?"
 
 msgctxt "confirm_abort_task_message"
 msgid "Abort task:"
-msgstr ""
+msgstr "Перервати завдання:"
 
 msgctxt "confirm_abort_task_confirm"
 msgid "Abort"
-msgstr ""
+msgstr "Перервати"
 
 msgctxt "confirm_cancel"
 msgid "Cancel"
-msgstr ""
+msgstr "Скасувати"
 
 msgctxt "confirm_image_desc"
 msgid "Confirmation dialog"
-msgstr ""
+msgstr "Діалог підтвердження"
 
 #. transfers tab strings
 msgctxt "trans_loading"
 msgid "Reading transfers…"
-msgstr ""
+msgstr "Читання передач..."
 
 msgctxt "trans_upload"
 msgid "Upload"
-msgstr ""
+msgstr "Відправлення"
 
 msgctxt "trans_download"
 msgid "Download"
-msgstr ""
+msgstr "Завантаження"
 
 msgctxt "trans_retryin"
 msgid "retry in"
-msgstr ""
+msgstr "повтор через"
 
 msgctxt "trans_failed"
 msgid "failed"
-msgstr ""
+msgstr "невдало"
 
 msgctxt "trans_suspended"
 msgid "suspended"
-msgstr ""
+msgstr "призупинено"
 
 msgctxt "trans_active"
 msgid "active"
-msgstr ""
+msgstr "активна"
 
 msgctxt "trans_pending"
 msgid "pending"
-msgstr ""
+msgstr "в очікуванні"
 
 msgctxt "trans_projectbackoff"
 msgid "project backoff"
-msgstr ""
+msgstr "запит до проекту відкладено на"
 
 msgctxt "trans_header_name"
 msgid "File:"
-msgstr ""
+msgstr "Файл:"
 
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
-msgstr ""
+msgstr "Перервати передачу?"
 
 msgctxt "confirm_abort_trans_message"
 msgid "Abort File:"
-msgstr ""
+msgstr "Перервати файл:"
 
 msgctxt "confirm_abort_trans_confirm"
 msgid "Abort"
-msgstr ""
+msgstr "Перервати"
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"
 msgid "Loading log messages…"
-msgstr ""
+msgstr "Завантаження повідомлень журналу..."
 
 msgctxt "eventlog_client_header"
 msgid "Client Messages"
-msgstr ""
+msgstr "Повідомлення клієнта"
 
 msgctxt "eventlog_gui_header"
 msgid "GUI Messages"
-msgstr ""
+msgstr "Повідомлення GUI"
 
 msgctxt "eventlog_copy_toast"
 msgid "Log copied to clipboard."
-msgstr ""
+msgstr "Журнал скопійований в буфер обміну."
 
 msgctxt "eventlog_email_subject"
 msgid "Event Log for BOINC on Android:"
-msgstr ""
+msgstr "Журнал подій для BOINC на Android:"
 
 #. suspend reasons
 msgctxt "suspend_unknown"
 msgid "Computation suspended."
-msgstr ""
+msgstr "Обчислення призупинене."
 
 msgctxt "suspend_batteries"
 msgid "Connect your device to a charger to continue computing."
-msgstr ""
+msgstr "Підключіть свій пристрій до зарядного для продовження розрахунків."
 
 msgctxt "suspend_useractive"
 msgid "User is active."
-msgstr ""
+msgstr "Працює користувач."
 
 msgctxt "suspend_tod"
 msgid "Out of computation time-frame."
-msgstr ""
+msgstr "Закінчився час, виділений для обчислень."
 
 msgctxt "suspend_bm"
 msgid "BOINC is benchmarking your device…"
-msgstr ""
+msgstr "BOINC визначає продуктивність вашого пристрою..."
 
 msgctxt "suspend_disksize"
 msgid "Out of disk space."
-msgstr ""
+msgstr "Недостатньо місця на диску."
 
 msgctxt "suspend_cputhrottle"
 msgid "Scheduled CPU throttle."
-msgstr ""
+msgstr "Заплановане обмеження навантаження процесора."
 
 msgctxt "suspend_noinput"
 msgid "No recent user activity."
-msgstr ""
+msgstr "Останнім часом користувач неактивний."
 
 msgctxt "suspend_delay"
 msgid "Initialization delay."
-msgstr ""
+msgstr "Ініціалізація відкладена."
 
 msgctxt "suspend_exclusiveapp"
 msgid "An exclusive app is running."
-msgstr ""
+msgstr "Виконується привілейований додаток."
 
 msgctxt "suspend_cpu"
 msgid "Your device is busy with other apps."
-msgstr ""
+msgstr "Ваш пристрій зайнятий іншими додатками."
 
 msgctxt "suspend_network_quota"
 msgid "BOINC reached network transfer limit."
-msgstr ""
+msgstr "BOINC досяг межі передачі даних мережею."
 
 msgctxt "suspend_os"
 msgid "Stopped by Android."
-msgstr ""
+msgstr "Зупинено Android-ом."
 
 msgctxt "suspend_wifi"
 msgid "Not connected to WiFi."
-msgstr ""
+msgstr "Відсутнє підключення до WiFi."
 
 msgctxt "suspend_battery_charging"
 msgid "Battery needs to charge before resuming computation."
-msgstr ""
+msgstr "Необхідно зарядити батарею для продовження розрахунків."
 
 msgctxt "suspend_battery_charging_long"
 msgid "Computing will resume when battery charge reaches"
-msgstr ""
+msgstr "Розрахунки продовжаться, коли заряд батареї досягне"
 
 msgctxt "suspend_battery_charging_current"
 msgid "currently"
-msgstr ""
+msgstr "зараз"
 
 msgctxt "suspend_battery_overheating"
 msgid "Waiting for battery to cool down"
-msgstr ""
+msgstr "Очікування охолодження батареї"
 
 msgctxt "suspend_user_req"
 msgid "Resuming computation…"
-msgstr ""
+msgstr "Поновлення розрахунків..."
 
 msgctxt "suspend_network_user_req"
 msgid "manually."
-msgstr ""
+msgstr "вручну."
 
 #. rpc reasons
 msgctxt "rpcreason_userreq"
 msgid "Requested by user"
-msgstr ""
+msgstr "На вимогу користувача"
 
 msgctxt "rpcreason_needwork"
 msgid "To fetch work"
-msgstr ""
+msgstr "Надіслати запит на завдання"
 
 msgctxt "rpcreason_resultsdue"
 msgid "To report completed tasks"
-msgstr ""
+msgstr "Повідомити про виконані завдання"
 
 msgctxt "rpcreason_trickleup"
 msgid "To send trickle-up message"
-msgstr ""
+msgstr "Надіслати проміжне повідомлення"
 
 msgctxt "rpcreason_acctmgrreq"
 msgid "Requested by account manager"
-msgstr ""
+msgstr "На запит менеджера проектів"
 
 msgctxt "rpcreason_init"
 msgid "Project initialization"
-msgstr ""
+msgstr "Ініціалізація проекту"
 
 msgctxt "rpcreason_projectreq"
 msgid "Requested by project"
-msgstr ""
+msgstr "На запит проекту"
 
 msgctxt "rpcreason_unknown"
 msgid "Unknown reason"
-msgstr ""
+msgstr "Невідома причина"
 
 #. menu
 msgctxt "menu_refresh"
 msgid "Refresh"
-msgstr ""
+msgstr "Оновити"
 
 msgctxt "menu_emailto"
 msgid "Send as Email"
-msgstr ""
+msgstr "Надіслати електронною поштою"
 
 msgctxt "menu_copy"
 msgid "Copy to Clipboard"
-msgstr ""
+msgstr "Копіювати в буфер обміну"
 
 msgctxt "menu_eventlog"
 msgid "Event Log"
-msgstr ""
+msgstr "Журнал подій"
 
 msgctxt "menu_exit"
 msgid "Exit BOINC"
-msgstr ""
+msgstr "Вийти з BOINC"
 
 msgctxt "menu_run_mode_disable"
 msgid "Suspend"
-msgstr ""
+msgstr "Призупинити"
 
 msgctxt "menu_run_mode_enable"
 msgid "Resume"
-msgstr ""
+msgstr "Відновити"
 
 msgctxt "menu_about"
 msgid "About"
-msgstr ""
+msgstr "Про"
 
 msgctxt "menu_help"
 msgid "Help"
-msgstr ""
+msgstr "Довідка"
 
 #. about dialog
 msgctxt "about_button"
 msgid "Return"
-msgstr ""
+msgstr "Повернутися"
 
 msgctxt "about_title"
 msgid "About"
-msgstr ""
+msgstr "Про"
 
 msgctxt "about_name"
 msgid "BOINC"
@@ -1016,14 +1105,16 @@ msgstr "BOINC"
 
 msgctxt "about_version"
 msgid "Version"
-msgstr ""
+msgstr "Версія"
 
 msgctxt "about_name_long"
 msgid "Berkeley Open Infrastructure for Network Computing"
-msgstr ""
+msgstr "Відкрита інфраструктура для розподілених обчислень університету Берклі"
 
 msgctxt "about_copyright"
 msgid ""
 "© 2003–2013 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
+"© 2003-2013 Університет Каліфорнії, Берклі.\n"
+"Всі права захищено."
