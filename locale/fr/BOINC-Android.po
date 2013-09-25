@@ -176,7 +176,7 @@ msgstr "e-mail :"
 
 msgctxt "attachproject_registration_header_username"
 msgid "Name:"
-msgstr ""
+msgstr "Nom :"
 
 msgctxt "attachproject_registration_header_teamname"
 msgid "Team:"
@@ -184,7 +184,7 @@ msgstr ""
 
 msgctxt "attachproject_registration_header_pwd"
 msgid "Password:"
-msgstr ""
+msgstr "Mot de passe :"
 
 msgctxt "attachproject_registration_header_pwd_confirm"
 msgid "… Retype:"
@@ -320,9 +320,10 @@ msgctxt "tab_status"
 msgid "Status"
 msgstr ""
 
+#, fuzzy
 msgctxt "tab_projects"
 msgid "Projects"
-msgstr ""
+msgstr "Projet :"
 
 msgctxt "tab_tasks"
 msgid "Tasks"
@@ -564,7 +565,7 @@ msgstr ""
 
 msgctxt "projects_add"
 msgid "Add project"
-msgstr ""
+msgstr "Ajouter le projet"
 
 msgctxt "projects_icon"
 msgid "Project icon"
@@ -1013,9 +1014,10 @@ msgctxt "about_title"
 msgid "About"
 msgstr ""
 
+#, fuzzy
 msgctxt "about_name"
 msgid "BOINC"
-msgstr ""
+msgstr "BOINC"
 
 msgctxt "about_version"
 msgid "Version"
