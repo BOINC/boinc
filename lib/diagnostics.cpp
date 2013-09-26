@@ -64,6 +64,20 @@
 
 #include "diagnostics.h"
 
+#ifdef ANDROID
+// for signal handler backtrace
+unwind_backtrace_signal_arch_t unwind_backtrace_signal_arch;
+acquire_my_map_info_list_t acquire_my_map_info_list;
+release_my_map_info_list_t release_my_map_info_list;
+get_backtrace_symbols_t get_backtrace_symbols;
+free_backtrace_symbols_t free_backtrace_symbols;
+load_symbol_table_t load_symbol_table;
+free_symbol_table_t free_symbol_table;
+find_symbol_t find_symbol;
+format_backtrace_line_t format_backtrace_line;
+#endif
+
+
 #if defined(_WIN32) && defined(_MSC_VER)
 
 static _CrtMemState start_snapshot; 
@@ -92,6 +106,9 @@ static double      max_stderr_file_size = 2048*1024;
 static double      stdout_file_size = 0;
 static double      max_stdout_file_size = 2048*1024;
 
+#ifdef ANDROID
+static void *libhandle;
+#endif
 
 #if defined(_WIN32) && defined(_DEBUG)
 
@@ -224,7 +241,6 @@ int diagnostics_init(
         boinc_copy(stdout_log, stdout_archive);
     }
 
-
     // Redirect stderr and/or stdout, if requested
     //
     if (flags & BOINC_DIAG_REDIRECTSTDERR) {
@@ -297,6 +313,28 @@ int diagnostics_init(
 
 #endif // defined(_WIN32)
 
+#ifdef ANDROID
+#define resolve_func(l,x) \
+  x=(x##_t)dlsym(l,#x); \
+  if (!x) {\
+    fprintf(stderr,"Unable to resolve function %s\n",#x); \
+    unwind_backtrace_signal_arch=NULL; \
+  }
+
+    if ((libhandle=dlopen("libcorkscrew.so",RTLD_NOW|RTLD_GLOBAL))) {
+        resolve_func(libhandle,unwind_backtrace_signal_arch);
+        resolve_func(libhandle,acquire_my_map_info_list);
+        resolve_func(libhandle,release_my_map_info_list);
+        resolve_func(libhandle,get_backtrace_symbols);
+        resolve_func(libhandle,free_backtrace_symbols);
+        resolve_func(libhandle,format_backtrace_line);
+        resolve_func(libhandle,load_symbol_table);
+        resolve_func(libhandle,free_symbol_table);
+        resolve_func(libhandle,find_symbol);
+    } else {
+        fprintf(stderr,"stackdumps unavailable\n");
+    }
+#endif // ANDROID
 
     // Install unhandled exception filters and signal traps.
     if (BOINC_SUCCESS != boinc_install_signal_handlers()) {
@@ -433,6 +471,12 @@ int diagnostics_finish() {
 #endif // defined(_DEBUG)
 #endif // defined(_WIN32)
 
+#ifdef ANDROID
+    if (libhandle) {
+      dlclose(libhandle);
+    }
+#endif
+
     // Set initalization flag to false.
     diagnostics_initialized = false;
 
@@ -550,12 +594,12 @@ int diagnostics_cycle_logs() {
 
 // Set a signal handler only if it is not currently ignored
 //
-extern "C" void boinc_set_signal_handler(int sig, void(*handler)(int)) {
+extern "C" void boinc_set_signal_handler(int sig, handler_t handler) {
 #if HAVE_SIGACTION
     struct sigaction temp;
     sigaction(sig, NULL, &temp);
     if (temp.sa_handler != SIG_IGN) {
-        temp.sa_handler = handler;
+        temp.sa_handler = (sighandler_t)handler;
     //        sigemptyset(&temp.sa_mask);
         sigaction(sig, &temp, NULL);
     }
@@ -592,7 +636,33 @@ void set_signal_exit_code(int x) {
     signal_exit_code = x;
 }
 
+#ifdef ANDROID
+extern pthread_t timer_thread_handle;
+extern pthread_t worker_thread_handle;
+const char *argv0;
+
+static char *xtoa(size_t x) {
+    static char buf[20];
+    static char hex[]="0123456789abcdef";
+    int n;
+    buf[19]=0;
+    n=18;
+    while (x) {
+      buf[n--]=hex[x&0xf];
+      x/=0x10;
+    }
+    buf[n--]='x';
+    buf[n]='0';
+    return buf+n;
+}
+
+#endif
+
+#ifdef HAVE_SIGACTION
+void boinc_catch_signal(int signal, struct siginfo *siginfo, void *sigcontext) {
+#else
 void boinc_catch_signal(int signal) {
+#endif
     switch(signal) {
     case SIGHUP: fprintf(stderr, "SIGHUP: terminal line hangup\n");
          return;
@@ -609,6 +679,24 @@ void boinc_catch_signal(int signal) {
         return;
     default: fprintf(stderr, "unknown signal %d\n", signal); break;
     }
+#ifdef ANDROID
+    // per-thread signal masking doesn't work
+    // on old (pre-4.1) versions of Android.
+    // If we're handling this signal in the timer thread,
+    // send signal explicitly to worker thread.
+    //
+    if (pthread_self() == timer_thread_handle) {
+        fprintf(stderr,"for worker thread sent to timer thread.  Reflecting.\n");
+        pthread_kill(worker_thread_handle, signal);
+#if defined(HAVE_SIGACTION)
+        sigset_t unblock;
+        sigemptyset(&unblock);
+        sigaddset(&unblock,signal);
+        sigprocmask(SIG_UNBLOCK,&unblock,NULL);
+#endif
+        return;
+    }
+#endif
 
 #ifdef __GLIBC__
     void *array[64];
@@ -635,6 +723,62 @@ void boinc_catch_signal(int signal) {
 #ifdef __APPLE__
     PrintBacktrace();
 #endif
+
+#ifdef ANDROID
+    // this is some dark undocumented Android voodoo that uses libcorkscrew.so
+    // minimal use of library functions because they may not work in an signal
+    // handler.
+#define DUMP_LINE_LEN 256
+    static backtrace_frame_t backtrace[64];
+    static backtrace_symbol_t backtrace_symbols[64]; 
+    if (unwind_backtrace_signal_arch != NULL) {
+        map_info_t *map_info=acquire_my_map_info_list();
+        ssize_t size=unwind_backtrace_signal_arch(siginfo,sigcontext,map_info,backtrace,0,64);
+        get_backtrace_symbols(backtrace,size,backtrace_symbols);
+        char line[DUMP_LINE_LEN];
+        for (int i=0;i<size;i++) {
+            format_backtrace_line(i,&backtrace[i],&backtrace_symbols[i],line,DUMP_LINE_LEN);
+            line[DUMP_LINE_LEN-1]=0;
+            if (backtrace_symbols[i].symbol_name) {
+                strlcat(line," ",DUMP_LINE_LEN);
+                if (backtrace_symbols[i].demangled_name) {
+                   strlcat(line,backtrace_symbols[i].demangled_name,DUMP_LINE_LEN);
+                }
+            } else {
+                symbol_table_t* symbols = NULL;
+                if (backtrace_symbols[i].map_name) {
+                    symbols = load_symbol_table(backtrace_symbols[i].map_name);
+                } else {
+                    symbols = load_symbol_table(argv0);
+                }
+                symbol_t* symbol = NULL;
+                if (symbols) {
+                    symbol = find_symbol(symbols, backtrace[i].absolute_pc);
+                }
+                if (symbol) {
+                    int offset = backtrace[i].absolute_pc - symbol->start;
+                    strlcat(line," (",DUMP_LINE_LEN);
+                    strlcat(line,symbol->name,DUMP_LINE_LEN);
+                    strlcat(line,"+",DUMP_LINE_LEN);
+                    strlcat(line,xtoa(offset),DUMP_LINE_LEN);
+                    strlcat(line,")",DUMP_LINE_LEN);
+                    line[DUMP_LINE_LEN-1]=0;
+                } else {
+                    strlcat(line, " (\?\?\?)",DUMP_LINE_LEN);
+                }
+                if (symbols) free_symbol_table(symbols);
+            }
+            if (backtrace[i].absolute_pc) {
+              strlcat(line," [",DUMP_LINE_LEN);
+              strlcat(line,xtoa(*reinterpret_cast<unsigned int *>(backtrace[i].absolute_pc)),DUMP_LINE_LEN);
+              strlcat(line,"]",DUMP_LINE_LEN);
+            }
+            strlcat(line,"\n",DUMP_LINE_LEN);
+            write(fileno(stderr),line,strlen(line));
+            fflush(stderr);
+        }
+    }
+#endif // ANDROID
 
     fprintf(stderr, "\nExiting...\n");
     _exit(signal_exit_code);
