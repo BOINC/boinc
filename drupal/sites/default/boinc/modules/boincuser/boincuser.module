@@ -385,6 +385,72 @@ function boincuser_views_api() {
 function boincuser_form_alter(&$form, $form_state, $form_id) {
   global $user;
   switch ($form_id) {
+  // General node edit form
+  case 'news_node_form':
+    $form['separator_bottom'] = array(
+      '#value' => '<div class="separator buttons"></div>',
+      '#weight' => 999,
+    );
+    
+    // Wrap action buttons for styling consistency
+    $form['buttons']['form control tabs prefix'] = array(
+      '#value' => '<ul class="form-control tab-list">',
+      '#weight' => 1001,
+    );
+    $form['buttons']['submit']['#prefix'] = '<li class="first tab">';
+    $form['buttons']['submit']['#value'] = t('Save changes');
+    $form['buttons']['submit']['#suffix'] = '</li>';
+    $form['buttons']['submit']['#weight'] = 1002;
+    $form['buttons']['preview']['#prefix'] = '<li class="tab">';
+    $form['buttons']['preview']['#suffix'] = '</li>';
+    $form['buttons']['preview']['#weight'] = 1003;
+    $form['buttons']['preview_changes']['#prefix'] = '<li class="tab">';
+    $form['buttons']['preview_changes']['#suffix'] = '</li>';
+    $form['buttons']['preview_changes']['#weight'] = 1004;
+    $form['buttons']['cancel'] = array(
+      '#value' => '<li class="tab">' . l(t('Cancel'), "node/{$form['nid']['#value']}") . '</li>',
+      '#weight' => 1005,
+    );
+    $form['buttons']['delete']['#prefix'] = '<li class="tab">';
+    $form['buttons']['delete']['#suffix'] = '</li>';
+    $form['buttons']['delete']['#weight'] = 1006;
+    $form['buttons']['form control tabs suffix'] = array(
+      '#value' => '</ul>',
+      '#weight' => 1010,
+    );
+    
+    // Preview is ugly, unset until it works
+    unset($form['buttons']['preview']);
+
+    break;
+  
+  case 'node_delete_confirm':
+    drupal_set_message('<pre>'. print_r($form, true). '</pre>');
+    $form['separator_bottom'] = array(
+      '#value' => '<div class="separator buttons"></div>',
+      '#weight' => 999,
+    );
+    
+    // Wrap action buttons for styling consistency
+    $form['actions']['form control tabs prefix'] = array(
+      '#value' => '<ul class="form-control tab-list">',
+      '#weight' => 1001,
+    );
+    $form['actions']['submit']['#prefix'] = '<li class="first tab">';
+    $form['actions']['submit']['#value'] = t('Delete');
+    $form['actions']['submit']['#suffix'] = '</li>';
+    $form['actions']['submit']['#weight'] = 1002;
+    $form['actions']['cancel'] = array(
+      '#value' => '<li class="tab">' . l(t('Cancel'), "node/{$form['nid']['#value']}") . '</li>',
+      '#weight' => 1005,
+    );
+    $form['actions']['form control tabs suffix'] = array(
+      '#value' => '</ul>',
+      '#weight' => 1010,
+    );
+    $form['#redirect'] = 'account/profile';
+    break;
+    
   // Login form
   case 'user_login':
   case 'user_login_block':
