@@ -599,7 +599,7 @@ extern "C" void boinc_set_signal_handler(int sig, handler_t handler) {
     struct sigaction temp;
     sigaction(sig, NULL, &temp);
     if (temp.sa_handler != SIG_IGN) {
-        temp.sa_handler = (sighandler_t)handler;
+        temp.sa_handler = (void (*)(int))handler;
     //        sigemptyset(&temp.sa_mask);
         sigaction(sig, &temp, NULL);
     }
