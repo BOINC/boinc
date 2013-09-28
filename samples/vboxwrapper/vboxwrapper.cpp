@@ -380,6 +380,7 @@ int main(int argc, char** argv) {
     bool report_vm_pid = false;
     bool report_net_usage = false;
     int vm_pid = 0;
+	int vm_image = 0;
     unsigned long vm_exit_code = 0;
     string vm_log;
     string system_log;
@@ -394,6 +395,9 @@ int main(int argc, char** argv) {
         }
         if (!strcmp(argv[i], "--nthreads")) {
             ncpus = atof(argv[++i]);
+        }
+        if (!strcmp(argv[i], "--vmimage")) {
+            vm_image = atoi(argv[++i]);
         }
         if (!strcmp(argv[i], "--register_only")) {
             vm.register_only = true;
@@ -588,6 +592,10 @@ int main(int argc, char** argv) {
     } else {
         vm.vm_master_name += md5_string(std::string(aid.result_name)).substr(0, 16);
         vm.vm_master_description = aid.result_name;
+		if (vm_image) {
+            sprintf(buf, "%s_%d.%s", IMAGE_FILENAME, vm_image, IMAGE_FILENAME_EXTENSION);
+            vm.image_filename = buf;
+		}
         if (vm.enable_floppyio) {
             sprintf(buf, "%s_%d.%s", FLOPPY_IMAGE_FILENAME, aid.slot, FLOPPY_IMAGE_FILENAME_EXTENSION);
             vm.floppy_image_filename = buf;
