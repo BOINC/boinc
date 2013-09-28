@@ -238,12 +238,12 @@ static void init_core_client(int argc, char** argv) {
     // Unix: install signal handlers
 #ifndef _WIN32
     // Handle quit signals gracefully
-    boinc_set_signal_handler(SIGHUP, signal_handler);
-    boinc_set_signal_handler(SIGINT, signal_handler);
-    boinc_set_signal_handler(SIGQUIT, signal_handler);
-    boinc_set_signal_handler(SIGTERM, signal_handler);
+    boinc_set_signal_handler(SIGHUP, (handler_t)signal_handler);
+    boinc_set_signal_handler(SIGINT, (handler_t)signal_handler);
+    boinc_set_signal_handler(SIGQUIT, (handler_t)signal_handler);
+    boinc_set_signal_handler(SIGTERM, (handler_t)signal_handler);
 #ifdef SIGPWR
-    boinc_set_signal_handler(SIGPWR, signal_handler);
+    boinc_set_signal_handler(SIGPWR, (handler_t)signal_handler);
 #endif
 #endif
 }
