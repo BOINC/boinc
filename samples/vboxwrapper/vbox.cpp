@@ -975,8 +975,9 @@ int VBOX_VM::register_vm() {
     //
     fprintf(
         stderr,
-        "%s Adding virtual disk drive to VM.\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf))
+        "%s Adding virtual disk drive to VM. (%s)\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+		image_filename.c_str()
     );
     command  = "storageattach \"" + vm_name + "\" ";
     command += "--storagectl \"Hard Disk Controller\" ";
