@@ -41,7 +41,7 @@ a partial summary is <a href=http://boincfaq.mundayweb.com/index.php?view=67>her
 <p>
 If your computer is equipped with a Graphics Processing Unit
 (GPU), you may be able to
-<a href=http://boinc.berkeley.edu/wiki/GPU_computing>use it to compute faster</a>.
+<a href=\"http://boinc.berkeley.edu/wiki/GPU_computing\">use it to compute faster</a>.
 ";
 
 // Display projects grouped by area.
@@ -155,7 +155,7 @@ function ordered_display($areas, $sort) {
 
 //grouped_display($areas);
 
-$sort = $_GET['sort'];
+$sort = @$_GET['sort'];
 ordered_display($areas, $sort);
 echo "
 </ul>

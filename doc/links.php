@@ -19,6 +19,11 @@ function site($url, $name) {
 
 $info_sites = array(
     array(
+        "http://www.overclock.net/f/365/overclock-net-boinc-team",
+        "Overclock.net",
+        "(in English)"
+    ),
+    array(
         "http://projekty.czechnationalteam.cz/",
         "BOINC projects",
         "(in Czech)"
@@ -223,6 +228,7 @@ language("Dutch", array(
     site("http://www.boinc.be", "www.boinc.be"),
 ));
 language("English", array(
+    site("http://www.overclock.net/f/365/overclock-net-boinc-team", "Overclock.net"),
     site("http://z15.invisionfree.com/The_Boinc_Bar/index.php?act=idx", "The BOINC Bar"),
     site("http://www.s15.invisionfree.com/Crunchers_Inc/index.php?act=idx", "Crunchers Inc."),
     site("http://www.calmchaosonline.com/", "Calm Chaos"),

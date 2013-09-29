@@ -148,9 +148,6 @@ function show_user_stats_private($user) {
     row1(tra("Computing and credit"));
     show_credit($user);
     $config = get_config();
-    if (parse_bool($config, "show_results")) {
-        row2(tra("Pending credit"), "<a href=\"pending.php\">".tra("View")."</a>");
-    }
     row2(tra("Computers on this account"), "<a href=\"hosts_user.php\">".tra("View")."</a>");
     row2(tra("Tasks"), "<a href=\"results.php?userid=$user->id\">".tra("View")."</a>");
     $cpid = md5($user->cross_project_id . $user->email_addr);
