@@ -1213,6 +1213,12 @@ public class Monitor extends Service {
 		return rpc.getMessages(seqNo);
 	}
 	
+	// returns notices
+	public ArrayList<Notice> getNotices() {
+		return rpc.getNotices(0);
+	}
+	
+	
 	// returns notices sent by the project server / scheduler
 	// i.e. when scheduler request does not satisfy minimal requirements
 	public ArrayList<Notice> getServerNotices() {

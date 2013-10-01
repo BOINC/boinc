@@ -229,12 +229,12 @@ public class BOINCActivity extends TabActivity {
     	// set tabs
     	if(res.getBoolean(R.bool.tab_status))
     		setupTab(new TextView(this), getResources().getString(R.string.tab_status), R.drawable.icon_status_tab, StatusActivity.class);
+    	if(res.getBoolean(R.bool.tab_notices))
+    		setupTab(new TextView(this), getResources().getString(R.string.tab_notices), R.drawable.icon_notices_tab, NoticesActivity.class);
     	if(res.getBoolean(R.bool.tab_projects))
     		setupTab(new TextView(this), getResources().getString(R.string.tab_projects), R.drawable.icon_projects_tab, ProjectsActivity.class);
     	if(res.getBoolean(R.bool.tab_tasks))
     		setupTab(new TextView(this), getResources().getString(R.string.tab_tasks), R.drawable.icon_tasks_tab, TasksActivity.class);
-    	if(res.getBoolean(R.bool.tab_transfers))
-    		//setupTab(new TextView(this), getResources().getString(R.string.tab_transfers), R.drawable.icon_trans_tab, TransActivity.class);
     	if(res.getBoolean(R.bool.tab_preferences))
     		setupTab(new TextView(this), getResources().getString(R.string.tab_preferences), R.drawable.icon_prefs_tab, PrefsActivity.class);
 

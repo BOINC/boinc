@@ -70,7 +70,7 @@
             android:configChanges="orientation"/>
         <activity android:name=".StatusActivity" />
         <activity android:name=".TasksActivity" />
-        <activity android:name=".TransActivity" />
+        <activity android:name=".NoticesActivity" />
         <activity android:name=".PrefsActivity" />
         <activity android:name=".ProjectsActivity" />
         <activity android:name=".EventLogActivity" />

@@ -119,6 +119,7 @@
     <string name="tab_tasks">Tasks</string>
     <string name="tab_transfers">Transfers</string>
     <string name="tab_preferences">Preferences</string>
+    <string name="tab_notices">Notices</string>
     <string name="tab_desc">Navigation</string>
    
     <!-- status strings -->
@@ -266,6 +267,9 @@
 	<string name="confirm_abort_trans_title">Abort transfer?</string>
 	<string name="confirm_abort_trans_message">Abort File:</string>
 	<string name="confirm_abort_trans_confirm">Abort</string>
+	
+	<!-- notices tab strings -->
+	<string name="notices_loading">Reading notices&#8230;</string>
 	
 	<!-- eventlog tab strings -->
 	<string name="eventlog_loading">Loading log messages&#8230;</string>
