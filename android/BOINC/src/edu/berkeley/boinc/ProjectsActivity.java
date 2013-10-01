@@ -50,6 +50,7 @@ import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.AcctMgrInfo;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.RpcClient;
+import edu.berkeley.boinc.rpc.Transfer;
 
 public class ProjectsActivity extends FragmentActivity {
 	
@@ -142,13 +143,15 @@ public class ProjectsActivity extends FragmentActivity {
 	private void populateLayout() {
 		try {
 			// read projects from state saved in ClientStatus
-			ArrayList<Project> tmpA = Monitor.getClientStatus().getProjects();
-			AcctMgrInfo tmpB = Monitor.getClientStatus().getAcctMgrInfo();
+			ArrayList<Project> statusProjects = Monitor.getClientStatus().getProjects();
+			AcctMgrInfo statusAcctMgr = Monitor.getClientStatus().getAcctMgrInfo();
+			ArrayList<Transfer> statusTransfers = Monitor.getClientStatus().getTransfers();
 			
-			if(tmpA == null || tmpB == null) {
-				Boolean aNull = tmpA == null;
-				Boolean bNull = tmpB == null;
-				if(Logging.ERROR) Log.d(Logging.TAG,"ProjectsActiviy data retrieval failed: tmpA null: " + aNull + " ; tmpB null: " + bNull);
+			if(statusProjects == null || statusAcctMgr == null || statusTransfers == null) {
+				Boolean statusProjectsNull = statusProjects == null;
+				Boolean statusAcctMgrNull = statusAcctMgr == null;
+				Boolean statusTransfersNull = statusTransfers == null;
+				if(Logging.ERROR) Log.d(Logging.TAG,"ProjectsActiviy data retrieval failed: statusProjectsNull: " + statusProjectsNull + " ; statusAcctMgrNull: " + statusAcctMgrNull + " ; statusTransfersNull: " + statusTransfersNull);
 				setLayoutLoading();
 				
 				return;
@@ -159,7 +162,7 @@ public class ProjectsActivity extends FragmentActivity {
 			ArrayList<Notice> serverNotices = null;
 			if(mIsBound) serverNotices = monitor.getServerNotices();
 			
-			// Switch to a view that can actually display messages
+			// reading data successful. switch to standard layout, if first time.
 			if (initialSetupRequired) {
 				initialSetupRequired = false;
 				setContentView(R.layout.projects_layout); 
@@ -168,7 +171,7 @@ public class ProjectsActivity extends FragmentActivity {
 		    }
 			
 			// Update Project data
-			updateData(tmpA, tmpB, serverNotices);
+			updateData(statusProjects, statusAcctMgr, serverNotices, statusTransfers);
 			
 			// Force list adapter to refresh
 			listAdapter.notifyDataSetChanged(); 
@@ -180,8 +183,9 @@ public class ProjectsActivity extends FragmentActivity {
 		}
 	}
 	
-	private void updateData(ArrayList<Project> latestRpcProjectsList, AcctMgrInfo acctMgrInfo, ArrayList<Notice> serverNotices) {
-		
+	private void updateData(ArrayList<Project> latestRpcProjectsList, AcctMgrInfo acctMgrInfo, ArrayList<Notice> serverNotices, ArrayList<Transfer> ongoingTransfers) {
+	
+	// ACCOUNT MANAGER
 		//loop through list adapter array to find index of account manager entry (0 || 1 manager possible)
 		int mgrIndex = -1;
 		for(int x = 0; x < data.size(); x++) {
@@ -194,7 +198,7 @@ public class ProjectsActivity extends FragmentActivity {
 			if(Logging.VERBOSE) Log.d(Logging.TAG,"no manager found in layout list. new entry available: " + acctMgrInfo.present);
 			if(acctMgrInfo.present) {
 				// add new manager entry, at top of the list
-				data.add(new ProjectsListData(null,acctMgrInfo));
+				data.add(new ProjectsListData(null,acctMgrInfo,null));
 				if(Logging.DEBUG) Log.d(Logging.TAG,"new acct mgr found: " + acctMgrInfo.acct_mgr_name);
 			}
 		} else { // manager found in existing list
@@ -206,6 +210,7 @@ public class ProjectsActivity extends FragmentActivity {
 			}
 		}
 		
+	// ATTACHED PROJECTS	
 		//loop through all received Result items to add new results
 		for(Project rpcResult: latestRpcProjectsList) {
 			//check whether this Result is new
@@ -218,10 +223,10 @@ public class ProjectsActivity extends FragmentActivity {
 			}
 			if(index == null) { // result is new, add
 				if(Logging.DEBUG) Log.d(Logging.TAG,"new result found, id: " + rpcResult.master_url + ", managed: " + rpcResult.attached_via_acct_mgr);
-				if(rpcResult.attached_via_acct_mgr) data.add(new ProjectsListData(rpcResult,null)); // append to end of list (after manager)
-				else data.add(0, new ProjectsListData(rpcResult,null)); // put at top of list (before manager)
+				if(rpcResult.attached_via_acct_mgr) data.add(new ProjectsListData(rpcResult,null, mapTransfersToProject(rpcResult.master_url, ongoingTransfers))); // append to end of list (after manager)
+				else data.add(0, new ProjectsListData(rpcResult,null, mapTransfersToProject(rpcResult.master_url, ongoingTransfers))); // put at top of list (before manager)
 			} else { // result was present before, update its data
-				data.get(index).updateProjectData(rpcResult,null);
+				data.get(index).updateProjectData(rpcResult,null,mapTransfersToProject(rpcResult.master_url, ongoingTransfers));
 			}
 		}
 		
@@ -241,6 +246,7 @@ public class ProjectsActivity extends FragmentActivity {
 			if(!found) iData.remove();
 		}
 		
+	// SERVER NOTICES
 		// loop through active projects to add/remove server notices
 		if(serverNotices != null) {
 			int mappedServerNotices = 0;
@@ -259,6 +265,19 @@ public class ProjectsActivity extends FragmentActivity {
 			}
 			if(mappedServerNotices != serverNotices.size()) if(Logging.WARNING) Log.w(Logging.TAG,"could not match notice: " + mappedServerNotices + "/" + serverNotices.size());
 		}
+	}
+	
+	// takes list of all ongoing transfers and a project id (url) and returns transfer that belong to given project
+	private ArrayList<Transfer> mapTransfersToProject(String id, ArrayList<Transfer> allTransfers) {
+		ArrayList<Transfer> projectTransfers = new ArrayList<Transfer>();
+		for(Transfer trans: allTransfers) {
+			if(trans.project_url.equals(id)) {
+				// project id matches url in transfer, add to list
+				projectTransfers.add(trans);
+			}
+		}
+	    if(Logging.VERBOSE) Log.d(Logging.TAG, "ProjectsActivity mapTransfersToProject() mapped " + projectTransfers.size() + " transfers to project " + id);
+		return projectTransfers;
 	}
 	
 	private void setLayoutLoading() {
@@ -305,13 +324,15 @@ public class ProjectsActivity extends FragmentActivity {
 		public Project project = null;
 		public Notice lastServerNotice = null;
 		public AcctMgrInfo acctMgrInfo = null;
+		public ArrayList<Transfer> projectTransfers = null;
 		public String id = ""; // == url
 		public boolean isMgr;
 		public ProjectsListData listEntry = this;
 
-		public ProjectsListData(Project data, AcctMgrInfo acctMgrInfo) {
+		public ProjectsListData(Project data, AcctMgrInfo acctMgrInfo, ArrayList<Transfer> projectTransfers) {
 			this.project = data;
 			this.acctMgrInfo = acctMgrInfo;
+			this.projectTransfers = projectTransfers;
 			if (this.project == null && this.acctMgrInfo != null) isMgr = true;
 			if(isMgr) {
 				this.id = acctMgrInfo.acct_mgr_url;
@@ -320,11 +341,12 @@ public class ProjectsActivity extends FragmentActivity {
 			}
 		}
 		
-		public void updateProjectData(Project data, AcctMgrInfo acctMgrInfo) {
+		public void updateProjectData(Project data, AcctMgrInfo acctMgrInfo, ArrayList<Transfer> projectTransfers) {
 			if(isMgr){
 				this.acctMgrInfo = acctMgrInfo;
 			} else {
 				this.project = data;
+				this.projectTransfers = projectTransfers;
 			}
 		}
 		
