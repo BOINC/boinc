@@ -136,9 +136,9 @@ public class NoticesActivity extends FragmentActivity {
 
 		@Override
 		protected void onPreExecute() {
-			if(Logging.DEBUG) Log.d(Logging.TAG,"NoticesRetrievalAsync onPreExecute");
-			super.onPreExecute();
+			if(Logging.DEBUG) Log.d(Logging.TAG,"NoticesRetrievalAsync onPreExecute, mIsBound: " + mIsBound);
 			if(!mIsBound) cancel(false);
+			super.onPreExecute();
 		}
 
 		@Override
