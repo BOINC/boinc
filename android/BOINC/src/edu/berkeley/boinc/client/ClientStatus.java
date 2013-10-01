@@ -382,6 +382,32 @@ public class ClientStatus {
 		return null;
 	}
 	
+	// returns project icon for given project name
+	// bitmap: 40 * 40 pixel, symbolic link in /projects/PNAME/stat_icon
+	public synchronized Bitmap getProjectIconByName (String projectName) {
+		if(Logging.VERBOSE) Log.v(Logging.TAG, "getProjectIconByName for: " + projectName);
+		try{
+			// loop through all projects
+			for (Project project: projects) {
+				if(project.project_name.equals(projectName)) {
+					// read file name of icon
+					String iconAbsPath = parseSoftLinkToAbsPath(project.project_dir + "/stat_icon", project.project_dir);
+					if (iconAbsPath == null) {
+						if(Logging.VERBOSE) Log.v(Logging.TAG, "getProjectIconByName could not parse sym link for project: " + projectName);
+						return null;
+					}
+					//if(Logging.DEBUG) Log.d(Logging.TAG, "getProjectIcons() absolute path to icon: " + iconAbsPath);
+					Bitmap icon = BitmapFactory.decodeFile(iconAbsPath);
+					return icon;
+				}
+			}
+		} catch (Exception e) {
+			if(Logging.WARNING) Log.w(Logging.TAG, "getProjectIconByName failed", e);
+		}
+		if(Logging.WARNING) Log.w(Logging.TAG, "getProjectIconByName: project not found.");
+		return null;
+	}
+	
 	// returns a string describing the current client status.
 	// use this method, to harmonize UI text, e.g. in Notification, Status Tab, App Title.
 	public String getCurrentStatusString() {

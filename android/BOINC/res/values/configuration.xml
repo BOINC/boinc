@@ -51,7 +51,7 @@
     	<bool name="tab_status">true</bool>
         <bool name="tab_projects">true</bool>
         <bool name="tab_tasks">true</bool>
-    	<bool name="tab_transfers">true</bool>
+    	<bool name="tab_notices">true</bool>
     	<bool name="tab_preferences">true</bool>
     <!-- configuration on status layout -->
     	<integer name="status_min_screen_height_for_slideshow_px">400</integer>

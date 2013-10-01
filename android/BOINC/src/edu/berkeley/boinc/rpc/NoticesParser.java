@@ -81,11 +81,7 @@ public class NoticesParser extends BaseParser {
 					} else if (localName.equalsIgnoreCase("title")) {
 						mNotice.title = mCurrentElement.toString();
 					} else if (localName.equalsIgnoreCase("description")) {
-						String current = mCurrentElement.toString();
-						if (current.startsWith("<![CDATA["))
-							mNotice.description = current.substring(8, current.length()-3);
-						else
-							mNotice.description = current;
+						mNotice.description = mCurrentElement.toString();
 					} else if (localName.equalsIgnoreCase("create_time")) {
 						mNotice.create_time = Double.parseDouble(mCurrentElement.toString());
 					} else if (localName.equalsIgnoreCase("arrival_time")) {
