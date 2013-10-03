@@ -38,6 +38,7 @@
 #define EXIT_ABORTED_BY_PROJECT     202
 #define EXIT_ABORTED_VIA_GUI        203
 #define EXIT_UNKNOWN                204
+#define EXIT_OUT_OF_MEMORY          205
 
 // Function return values.
 // NOTE:  add new errors to the end of the list and don't change

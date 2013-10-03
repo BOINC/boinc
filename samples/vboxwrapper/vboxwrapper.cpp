@@ -719,6 +719,7 @@ int main(int argc, char** argv) {
 
         // Discover the VM's current state
         vm.poll();
+        vm.get_vm_log(vm_log);
 
         if (boinc_status.no_heartbeat || boinc_status.quit_request) {
             vm.reset_vm_process_priority();
@@ -733,7 +734,6 @@ int main(int argc, char** argv) {
         if (!vm.online) {
             if (vm.crashed || (elapsed_time < vm.job_duration)) {
                 vm.get_system_log(system_log);
-                vm.get_vm_log(vm_log);
                 vm.get_vm_exit_code(vm_exit_code);
             }
 
@@ -778,6 +778,22 @@ int main(int argc, char** argv) {
                     );
                     boinc_finish(0);
                 }
+            }
+        } else {
+            // Check to see if the guest VM has any log messages that indicate that we need need
+            // to take action.
+            if (vm_log.find("EXIT_OUT_OF_MEMORY") != std::string::npos) {
+                fprintf(
+                    stderr,
+                    "%s ERROR: VM reports there is not enough memory to finish the task.\n\n",
+                    "    VM Execution Log:\n\n"
+                    "%s\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                    vm_log.c_str()
+                );
+                vm.reset_vm_process_priority();
+                vm.poweroff();
+                boinc_finish(EXIT_OUT_OF_MEMORY);
             }
         }
         if (boinc_status.suspended) {
