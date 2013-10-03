@@ -46,16 +46,25 @@ int main() {
     std::cin >> buffer;
 
     // root access required
-    iopl(3);
+    if (EPERM == iopl(3)) {
+        printf("vboxmonitor: this application requires root permissions.\n");
+        printf("vboxmonitor: NOTE: Use setuid to enable use by non-root accounts.\n\n");
+        return 1;
+    }
 
     // Write output to stdout as well as VirtualBox's Guest VM Log
-    for (int i = 0; i < buffer.size(); ++i) {
+    for (size_t i = 0; i < buffer.size(); ++i) {
         // Virtualbox
         guestlog((int)buffer[i]);
 
         // Console
         putc((int)buffer[i], stdout);
     }
+
+    // Force newlines so that the text looks good on the console and causes
+    // the guest additions to actually log the data
+    guestlog('\n');
+    putc('\n', stdout);
 
     return 0;
 }
