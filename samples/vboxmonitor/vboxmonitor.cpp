@@ -30,6 +30,7 @@
 //
 //
 
+#include <stdio.h>
 #include <sys/io.h>
 #include <errno.h>
 #include <iostream>
@@ -43,9 +44,6 @@ void guestlog(int c)
 int main() {
     std::string buffer;
 
-    // Dump input stream to string buffer
-    std::cin >> buffer;
-
     // root access required
     if (iopl(3)) {
         if (EPERM == errno) {
@@ -55,19 +53,23 @@ int main() {
         return 1;
     }
 
-    // Write output to stdout as well as VirtualBox's Guest VM Log
-    for (size_t i = 0; i < buffer.size(); ++i) {
-        // Virtualbox
-        guestlog((int)buffer[i]);
+    while (getline(std::cin,buffer)) {
 
-        // Console
-        putc((int)buffer[i], stdout);
+        // Write output to stdout as well as VirtualBox's Guest VM Log
+        for (size_t i = 0; i < buffer.size(); ++i) {
+            // Virtualbox
+            guestlog((int)buffer[i]);
+
+            // Console
+            putc((int)buffer[i], stdout);
+        }
+
+        // Force newlines so that the text looks good on the console and causes
+        // the guest additions to actually log the data
+        guestlog('\n');
+        putc('\n', stdout);
+
     }
-
-    // Force newlines so that the text looks good on the console and causes
-    // the guest additions to actually log the data
-    guestlog('\n');
-    putc('\n', stdout);
-
+    
     return 0;
 }
