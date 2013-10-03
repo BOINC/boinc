@@ -31,6 +31,7 @@
 //
 
 #include <sys/io.h>
+#include <errno.h>
 #include <iostream>
 #include <string>
 
@@ -46,9 +47,11 @@ int main() {
     std::cin >> buffer;
 
     // root access required
-    if (EPERM == iopl(3)) {
-        printf("vboxmonitor: this application requires root permissions.\n");
-        printf("vboxmonitor: NOTE: Use setuid to enable use by non-root accounts.\n\n");
+    if (iopl(3)) {
+        if (EPERM == errno) {
+            printf("vboxmonitor: this application requires root permissions.\n");
+            printf("vboxmonitor: NOTE: Use setuid to enable use by non-root accounts.\n\n");
+        }
         return 1;
     }
 
