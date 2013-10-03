@@ -485,8 +485,10 @@ int main(int argc, char** argv) {
 
     // Check against known incompatible versions of VirtualBox.  
     // NOTE: Incompatible in this case means that VirtualBox 4.2.6 crashes during snapshot operations
+    //       and 4.2.18 fails to restore from snapshots properly.
     //
-    if (vm.virtualbox_version.find("4.2.6") != std::string::npos) {
+    if ((vm.virtualbox_version.find("4.2.6") != std::string::npos) || 
+        (vm.virtualbox_version.find("4.2.18") != std::string::npos)) {
         fprintf(
             stderr,
             "%s Incompatible version of VirtualBox detected. Please upgrade to a later version.\n",
