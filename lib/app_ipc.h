@@ -170,6 +170,9 @@ struct APP_INIT_DATA {
     GLOBAL_PREFS global_prefs;
     double starting_elapsed_time;   // elapsed time, counting previous episodes
     bool using_sandbox;         // client is using account-based sandboxing
+    bool vm_extensions_disabled;
+        // client has already been notified that the VM extensions of
+        // the processor have been disabled
 
     // info about the WU
     double rsc_fpops_est;

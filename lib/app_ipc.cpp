@@ -97,6 +97,7 @@ void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
     global_prefs                  = a.global_prefs;
     starting_elapsed_time         = a.starting_elapsed_time;
     using_sandbox                 = a.using_sandbox;
+    vm_extensions_disabled        = a.vm_extensions_disabled;
     rsc_fpops_est                 = a.rsc_fpops_est;
     rsc_fpops_bound               = a.rsc_fpops_bound;
     rsc_memory_bound              = a.rsc_memory_bound;
@@ -185,6 +186,7 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         "<wu_cpu_time>%f</wu_cpu_time>\n"
         "<starting_elapsed_time>%f</starting_elapsed_time>\n"
         "<using_sandbox>%d</using_sandbox>\n"
+        "<vm_extensions_disabled>%d</vm_extensions_disabled>"
         "<user_total_credit>%f</user_total_credit>\n"
         "<user_expavg_credit>%f</user_expavg_credit>\n"
         "<host_total_credit>%f</host_total_credit>\n"
@@ -209,6 +211,7 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         ai.wu_cpu_time,
         ai.starting_elapsed_time,
         ai.using_sandbox?1:0,
+        ai.vm_extensions_disabled?1:0,
         ai.user_total_credit,
         ai.user_expavg_credit,
         ai.host_total_credit,
@@ -269,6 +272,7 @@ void APP_INIT_DATA::clear() {
     global_prefs.defaults();
     starting_elapsed_time = 0;
     using_sandbox = false;
+    vm_extensions_disabled = false;
     rsc_fpops_est = 0;
     rsc_fpops_bound = 0;
     rsc_memory_bound = 0;
@@ -379,6 +383,7 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         if (xp.parse_double("wu_cpu_time", ai.wu_cpu_time)) continue;
         if (xp.parse_double("starting_elapsed_time", ai.starting_elapsed_time)) continue;
         if (xp.parse_bool("using_sandbox", ai.using_sandbox)) continue;
+        if (xp.parse_bool("vm_extensions_disabled", ai.vm_extensions_disabled)) continue;
         if (xp.parse_double("checkpoint_period", ai.checkpoint_period)) continue;
         if (xp.parse_str("gpu_type", ai.gpu_type, sizeof(ai.gpu_type))) continue;
         if (xp.parse_int("gpu_device_num", ai.gpu_device_num)) continue;
