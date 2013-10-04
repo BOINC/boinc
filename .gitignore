@@ -25,3 +25,5 @@
 *.in
 /client/Makefile
 /win_build/installerv2/Progress
+BOINC_vbox
+BOINCx64_vbox
