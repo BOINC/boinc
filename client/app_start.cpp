@@ -244,6 +244,7 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
     aid.global_prefs = gstate.global_prefs;
     aid.starting_elapsed_time = checkpoint_elapsed_time;
     aid.using_sandbox = g_use_sandbox;
+    aid.vm_extensions_disabled = gstate.host_info.p_vm_extensions_disabled;
     aid.rsc_fpops_est = wup->rsc_fpops_est;
     aid.rsc_fpops_bound = wup->rsc_fpops_bound;
     aid.rsc_memory_bound = wup->rsc_memory_bound;

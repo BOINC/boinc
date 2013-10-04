@@ -137,37 +137,42 @@ public:
 // If you add anything here, update copy()
 //
 struct APP_INIT_DATA {
-    int major_version;
+    int major_version;          // BOINC client version info
     int minor_version;
     int release;
     int app_version;
     char app_name[256];
-    char symstore[256];
+    char symstore[256];         // symstore URL (Windows)
     char acct_mgr_url[256];
+        // if client is using account manager, its URL
     char* project_preferences;
+        // project prefs XML
     int userid;
+        // project's DB ID for this user/team/host
     int teamid;
     int hostid;
-        // project's DB ID for this host (NOT host CPID)
     char user_name[256];
     char team_name[256];
-    char project_dir[256];
-    char boinc_dir[256];
-    char wu_name[256];
+    char project_dir[256];      // where project files are stored on host
+    char boinc_dir[256];        // BOINC data directory
+    char wu_name[256];          // workunit name
     char result_name[256];
-    char authenticator[256];
-    int slot;
-    int client_pid;
+    char authenticator[256];    // user's authenticator
+    int slot;                   // the slot this job is running in (0, 1, ...)
+    int client_pid;             // process ID of BOINC client
     double user_total_credit;
     double user_expavg_credit;
     double host_total_credit;
     double host_expavg_credit;
-    double resource_share_fraction;
+    double resource_share_fraction;     // this project's resource share frac
     HOST_INFO host_info;
-    PROXY_INFO proxy_info;  // in case app wants to use network
+    PROXY_INFO proxy_info;      // in case app wants to use network
     GLOBAL_PREFS global_prefs;
     double starting_elapsed_time;   // elapsed time, counting previous episodes
-    bool using_sandbox;     // client is using account-based sandboxing
+    bool using_sandbox;         // client is using account-based sandboxing
+    bool vm_extensions_disabled;
+        // client has already been notified that the VM extensions of
+        // the processor have been disabled
 
     // info about the WU
     double rsc_fpops_est;
@@ -195,10 +200,9 @@ struct APP_INIT_DATA {
 
     // client configuration info
     //
-    bool vbox_window;
+    bool vbox_window;       // whether to open a console window for VM apps
 
-    // Items below here are for BOINC runtime system,
-    // and should not be directly accessed by apps
+    // Items used by the BOINC runtime system
     //
     double checkpoint_period;     // recommended checkpoint period
     SHMEM_SEG_NAME shmem_seg_name;
