@@ -57,6 +57,15 @@ using std::string;
 #include "vboxwrapper.h"
 #include "vbox.h"
 
+static bool is_client_version_newer(APP_INIT_DATA& aid, int maj, int min, int rel) {
+    if (maj > aid.major_version) return true;
+    if (maj < aid.major_version) return false;
+    if (min > aid.minor_version) return true;
+    if (min < aid.minor_version) return false;
+    if (rel > aid.release) return true;
+    return false;
+}
+
 VBOX_VM::VBOX_VM() {
     virtualbox_version.clear();
     pFloppy = NULL;
@@ -926,12 +935,29 @@ int VBOX_VM::register_vm() {
     // Only perform hardware acceleration check on 32-bit VM types, 64-bit VM types require it.
     //
     if (os_name.find("_64") == std::string::npos) {
+
         // Check to see if the processor supports hardware acceleration for virtualization
         // If it doesn't, disable the use of it in VirtualBox. Multi-core jobs require hardware
         // acceleration and actually override this setting.
         //
-        if ((vm_cpu_count == "1") ||
-            (!strstr(aid.host_info.p_features, "vmx") && !strstr(aid.host_info.p_features, "svm"))) {
+        bool disable_acceleration = false;
+
+        if (!strstr(aid.host_info.p_features, "vmx") && !strstr(aid.host_info.p_features, "svm")) {
+            disable_acceleration = true;
+        }
+        if (is_client_version_newer(aid, 7, 2, 16)) {
+            if (aid.vm_extensions_disabled) {
+                disable_acceleration = true;
+            }
+        } else {
+            if (vm_cpu_count == "1") {
+                // Keep this around for older clients.  Removing this for older clients might
+                // lead to a machine that will only return crashed VM reports.
+                disable_acceleration = true;
+            }
+        }
+
+        if (disable_acceleration) {
             fprintf(
                 stderr,
                 "%s Disabling hardware acceleration support for virtualization.\n",
@@ -943,6 +969,7 @@ int VBOX_VM::register_vm() {
             retval = vbm_popen(command, output, "VT-x/AMD-V support");
             if (retval) return retval;
         }
+
     }
 
     // Add storage controller to VM
