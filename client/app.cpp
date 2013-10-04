@@ -1002,6 +1002,11 @@ DWORD WINAPI throttler(LPVOID) {
 #else
 void* throttler(void*) {
 #endif
+    
+    // Initialize diagnostics framework for this thread
+    //
+    diagnostics_thread_init(BOINC_DIAG_DEFAULTS);
+
     while (1) {
         client_mutex.lock();
         if (gstate.tasks_suspended || gstate.global_prefs.cpu_usage_limit > 99) {
