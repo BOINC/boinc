@@ -37,7 +37,9 @@ import edu.berkeley.boinc.ProjectsActivity.ProjectsListData;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.Monitor;
+import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.Project;
+import edu.berkeley.boinc.rpc.Transfer;
 import edu.berkeley.boinc.utils.BOINCUtils;
 import edu.berkeley.boinc.utils.Logging;
 
@@ -228,6 +230,53 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 			    }
 		    }
 		    
+		    // transfers
+		    Integer numberTransfers = data.projectTransfers.size();
+		    TextView tvTransfers = (TextView)vi.findViewById(R.id.project_transfers);
+		    String transfersString = "";
+		    if (numberTransfers > 0) { // ongoing transfers
+		    	// summarize information for compact representation
+		    	Integer numberTransfersUpload = 0;
+		    	Boolean uploadsPresent = false;
+		    	Integer numberTransfersDownload = 0;
+		    	Boolean downloadsPresent = false;
+		    	Boolean transfersActive = false; // true if at least one transfer is active
+		    	long nextRetryS = 0;
+			    for (Transfer trans: data.projectTransfers) {
+			    	if (trans.is_upload) {numberTransfersUpload++; uploadsPresent = true;}
+			    	else {numberTransfersDownload++; downloadsPresent = true;}
+			    	if(trans.xfer_active) transfersActive = true;
+			    	else if(trans.next_request_time < nextRetryS || nextRetryS == 0) nextRetryS = trans.next_request_time;
+			    }
+			    
+		    	String numberTransfersString = "("; // will never be empty
+		    	if(downloadsPresent) numberTransfersString += numberTransfersDownload + " " + activity.getResources().getString(R.string.trans_download);
+		    	if(downloadsPresent && uploadsPresent) numberTransfersString += " / ";
+		    	if(uploadsPresent) numberTransfersString += numberTransfersUpload + " " + activity.getResources().getString(R.string.trans_upload);
+		    	numberTransfersString += ")";
+		    	
+		    	String activityStatus = ""; // will never be empty
+			    String activityExplanation = "";
+			    if(!transfersActive) { // no transfers active, give reason
+			    	activityStatus += activity.getResources().getString(R.string.trans_pending);
+			    	
+			    	if(nextRetryS > 0) { // next try at defined time
+			    		long retryInMs = nextRetryS * 1000;
+			    		activityExplanation += activity.getResources().getString(R.string.trans_retryin) + " " +
+			    			DateUtils.formatElapsedTime((retryInMs - Calendar.getInstance().getTimeInMillis()) / 1000);
+			    	}
+			    } else { // transfers active
+			    	activityStatus +=  activity.getResources().getString(R.string.trans_active);
+			    }
+			    
+			    transfersString += activity.getResources().getString(R.string.tab_transfers) + " " + activityStatus  + " " + numberTransfersString + " " + activityExplanation;
+			    tvTransfers.setVisibility(View.VISIBLE);
+			    tvTransfers.setText(transfersString);
+		    	
+		    } else { // no ongoing transfers
+		    	tvTransfers.setVisibility(View.GONE);
+		    }
+		    
 	    	// credits
 	    	Integer totalCredit = Double.valueOf(data.project.user_total_credit).intValue();
 	    	Integer hostCredit = Double.valueOf(data.project.host_total_credit).intValue();
@@ -237,6 +286,17 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 	    		creditsText += " " + vi.getContext().getString(R.string.projects_credits_host_header) + " "
 	    					+ totalCredit + " " + vi.getContext().getString(R.string.projects_credits_user_header);
 	    	tvCredits.setText(creditsText);
+	    	
+	    	// server notice
+	    	Notice notice = data.getLastServerNotice();
+	        TextView tvNotice = (TextView)vi.findViewById(R.id.project_notice);
+	    	if(notice == null) {
+	    		tvNotice.setVisibility(View.GONE);
+	    	} else {
+	    		tvNotice.setVisibility(View.VISIBLE);
+	    		String noticeText = notice.description.trim();
+	    		tvNotice.setText(noticeText);
+	    	}
 	    	
 	    	// icon background
     		RelativeLayout iconBackground = (RelativeLayout)vi.findViewById(R.id.icon_background);
