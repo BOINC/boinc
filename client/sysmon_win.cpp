@@ -186,6 +186,10 @@ static DWORD WINAPI WindowsMonitorSystemPowerThread( LPVOID  ) {
     WNDCLASS wc;
     MSG msg;
 
+    // Initialize diagnostics framework for this thread
+    //
+    diagnostics_thread_init(BOINC_DIAG_DEFAULTS);
+
     wc.style         = CS_GLOBALCLASS;
     wc.lpfnWndProc   = (WNDPROC)WindowsMonitorSystemPowerWndProc;
     wc.cbClsExtra    = 0;
@@ -359,7 +363,11 @@ static void windows_detect_autoproxy_settings() {
 }
 
 static DWORD WINAPI WindowsMonitorSystemProxyThread( LPVOID  ) {
-    
+
+    // Initialize diagnostics framework for this thread
+    //
+    diagnostics_thread_init(BOINC_DIAG_DEFAULTS);
+
     // notify the main client thread that detecting proxies is
     // supported.
     working_proxy_info.autodetect_proxy_supported = true;
