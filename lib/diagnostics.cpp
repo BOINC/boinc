@@ -419,6 +419,14 @@ int diagnostics_init(
     return BOINC_SUCCESS;
 }
 
+int diagnostics_thread_init( int _flags ) {
+    // Install unhandled exception filters and signal traps.
+    if (BOINC_SUCCESS != boinc_install_signal_handlers()) {
+        return ERR_SIGNAL_OP;
+    }
+
+    return BOINC_SUCCESS;
+}
 
 // Cleanup the diagnostic framework before dumping any memory leaks.
 //
