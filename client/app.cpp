@@ -68,6 +68,7 @@
 #include "procinfo.h"
 #include "result.h"
 #include "sandbox.h"
+#include "diagnostics.h"
 
 #include "app.h"
 
