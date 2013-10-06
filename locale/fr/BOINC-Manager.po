@@ -4,15 +4,15 @@ msgstr ""
 "Project-Id-Version: BOINC Manager\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-18 11:32-0500\n"
-"PO-Revision-Date: 2013-08-06 11:01+0200\n"
-"Last-Translator: Charlie <charlief@ssl.berkeley.edu>\n"
+"PO-Revision-Date: 2013-10-06 12:21+0000\n"
+"Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
 "X-Poedit-SearchPath-0: clientgui\n"
@@ -20,13 +20,13 @@ msgstr ""
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-POOTLE-MTIME: 1381062112.0\n"
 
 # 81%
 #: clientgui/AccountInfoPage.cpp:387
-#, c-format
-#, fuzzy, c-format
+#, c-format, c-format
 msgid "Identify your account at %s"
-msgstr "Identifiez votre compte "
+msgstr "Identifiez votre compte à %s"
 
 #: clientgui/AccountInfoPage.cpp:393
 msgid ""
@@ -41,7 +41,7 @@ msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can add it only if you already have an account."
 msgstr ""
-"Actuellement, ce projet n'accepte pas de nouveaux comptes.\n"
+"Ce projet n'accepte plus de nouveaux comptes pour le moment.\n"
 "Vous pouvez l'ajouter seulement si vous avez déjà un compte."
 
 #: clientgui/AccountInfoPage.cpp:401
@@ -65,11 +65,12 @@ msgid ""
 "below to find out what to put in the email address and\n"
 "password fields."
 msgstr ""
-"Nous n'avons pas été en mesure de mettre en place vos informations de compte "
+"Nous n'avons pas été en mesure de mettre en place vos informations de compte\n"
 "automatiquement.\n"
-"Veuillez cliquer sur le lien 'Rechercher les informations de connexion ' ci-"
-"dessous pour savoir quoi mettre\n"
-"dans l'adresse e-mail et mot de passe."
+"\n"
+"Veuillez cliquer sur le lien 'Rechercher les informations de connexion' \n"
+"ci-dessous pour savoir quoi mettre dans les champs adresse e-mail et\n"
+"mot de passe."
 
 #: clientgui/AccountInfoPage.cpp:416
 msgid "Find login information"
@@ -87,7 +88,7 @@ msgstr "Choisissez un &mot de passe:"
 
 #: clientgui/AccountInfoPage.cpp:446
 msgid "C&onfirm password:"
-msgstr "&Confirmez le mot de passe:"
+msgstr "C&onfirmez le mot de passe:"
 
 #: clientgui/AccountInfoPage.cpp:453
 #, c-format
@@ -100,12 +101,12 @@ msgstr "&Nom d'utilisateur:"
 
 #: clientgui/AccountInfoPage.cpp:508
 msgid "&Email address:"
-msgstr "&Adresse email:"
+msgstr "&Adresse de courriel:"
 
 #: clientgui/AccountInfoPage.cpp:515
 #, c-format
 msgid "minimum length %d"
-msgstr "longueur minimum: %d caractères"
+msgstr "longueur minimum %d"
 
 #: clientgui/AccountInfoPage.cpp:522
 msgid "Forgot your password?"
@@ -142,25 +143,34 @@ msgstr "Utiliser le gestionnaire de compte"
 #: clientgui/AccountInfoPage.cpp:587
 msgid "The minimum username length for this project is 1. Please enter a different username."
 msgstr ""
+"La longueur minimale du nom d'utilisateur pour ce projet est de 1 "
+"caractères. S'il-vous-plaît, entrez un nom d'utilisateur différent."
 
 #: clientgui/AccountInfoPage.cpp:592
 msgid "The minimum username length for this account manager is 1. Please enter a different username."
 msgstr ""
+"La longueur minimale du nom d'utilisateur pour ce gestionnaire de compte est "
+"de 1. S'il-vous-plaît, entrez un nom d'utilisateur différent."
 
 #: clientgui/AccountInfoPage.cpp:598
 msgid "The minimum email address length for this project is 1. Please enter a different email address."
 msgstr ""
+"La longueur minimale de l'adresse e-mail pour ce projet est 1. S'il-vous-"
+"plaît, entrez une adresse e-mail différente."
 
 #: clientgui/AccountInfoPage.cpp:603
 msgid "The minimum email address length for this account manager is 1. Please enter a different email address."
 msgstr ""
+"La longueur minimale de votre adresse de courrier électronique pour ce "
+"gestionnaire de compte est 1. S'il-vous-plaît, entrez une adresse de "
+"courrier électronique différente."
 
 #: clientgui/AccountInfoPage.cpp:616
 #, c-format
 msgid "The minimum password length for this project is %d. Please enter a different password."
 msgstr ""
-"La longueur minimum du mot de passe pour ce gestionnaire de compte est de %d "
-"caractères. Entrez un mot de passe différent, svp."
+"La longueur minimum du mot de passe pour ce projet est de %d caractères. "
+"Entrez un mot de passe différent, svp."
 
 #: clientgui/AccountInfoPage.cpp:622
 #, c-format
@@ -184,7 +194,7 @@ msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
 msgstr ""
-"Pour choisir un gestionnaire de projet, cliquez sur son nom ou tapez son URL "
+"Pour choisir un gestionnaire de compte, cliquez sur son nom ou tapez son URL "
 "ci-dessous."
 
 #: clientgui/AccountManagerInfoPage.cpp:254
@@ -233,7 +243,7 @@ msgstr "&Fermer la fenêtre"
 #: clientgui/AdvancedFrame.cpp:343
 #, c-format
 msgid "Exit %s"
-msgstr "Quitte %s"
+msgstr "Quitter %s"
 
 #: clientgui/AdvancedFrame.cpp:358
 msgid "&Notices\tCtrl+Shift+N"
@@ -304,7 +314,7 @@ msgstr ""
 #: clientgui/AdvancedFrame.cpp:416
 #, c-format
 msgid "&Synchronize with %s"
-msgstr "&Synchronisation avec %s "
+msgstr "&Synchronisation avec %s"
 
 #: clientgui/AdvancedFrame.cpp:420
 #, c-format
@@ -337,7 +347,7 @@ msgstr "&Options..."
 
 #: clientgui/AdvancedFrame.cpp:446
 msgid "Configure display options and proxy settings"
-msgstr "Configuration des paramètres d'affichage et de proxy"
+msgstr "Configuration des options d'affichage et des paramètres de proxy"
 
 #: clientgui/AdvancedFrame.cpp:450
 msgid "Computing &preferences..."
@@ -461,6 +471,8 @@ msgstr "Lire le fichier de configuration"
 #: clientgui/AdvancedFrame.cpp:577
 msgid "Read configuration info from cc_config.xml and any app_config.xml files"
 msgstr ""
+"Lire les informations de configuration du fichier cc_config.xml et de tout "
+"fichier app_config.xml"
 
 #: clientgui/AdvancedFrame.cpp:581
 msgid "Read local prefs file"
@@ -517,7 +529,7 @@ msgstr "&Site web de %s"
 #: clientgui/AdvancedFrame.cpp:654
 #, c-format
 msgid "Show information about BOINC and %s"
-msgstr "Affiche les informations à propos de BOINC et du %s"
+msgstr "Affiche les informations à propos de BOINC et %s"
 
 #: clientgui/AdvancedFrame.cpp:666
 #, c-format
@@ -526,7 +538,7 @@ msgstr "&A propos de %s..."
 
 #: clientgui/AdvancedFrame.cpp:672
 msgid "Licensing and copyright information."
-msgstr "Informations sur le copyright et la licence."
+msgstr "Informations sur les droits d'auteur et la licence."
 
 #: clientgui/AdvancedFrame.cpp:679
 msgid "&File"
@@ -566,9 +578,8 @@ msgid ""
 "\n"
 "Do you want to stop using %s?"
 msgstr ""
-"Si vous cessez d'utiliser %s,vous conserverez tous vos projets,mais vous "
-"devrez les gérer\n"
-" manuellement.Voulez-vous cesser d'utiliser %s ?"
+"Si vous cessez d'utiliser %s, vous conserverez tous vos projets mais vous "
+"devrez les gérer manuellement.Voulez-vous cesser d'utiliser %s ?"
 
 #: clientgui/AdvancedFrame.cpp:1381
 #, c-format
@@ -581,7 +592,7 @@ msgid ""
 "%s will shut down the current client\n"
 "and prompt you for another host to connect to."
 msgstr ""
-"%s arrêtera le client connecté,et invitera à se connecter à un autre "
+"%s arrêtera le client connecté,et vous invitera à vous connecter à un autre "
 "ordinateur."
 
 #: clientgui/AdvancedFrame.cpp:1709
@@ -627,7 +638,7 @@ msgstr ""
 
 #: clientgui/AlreadyExistsPage.cpp:191
 msgid "Email address already in use"
-msgstr "Adresse Email déjà utilisée"
+msgstr "Adresse de courriel déjà utilisée"
 
 #: clientgui/AlreadyExistsPage.cpp:194
 msgid ""
@@ -636,14 +647,14 @@ msgid ""
 "\n"
 "Please visit the project's web site and follow the instructions there."
 msgstr ""
-"Un compte avec cette adresse email existe déjà et a\n"
+"Un compte avec cette adresse de courriel existe déjà et a\n"
 "un mot de passe différent de celui que vous avez entré.\n"
 "\n"
 "Visitez le site web du projet et suivez ses instructions, svp"
 
 #: clientgui/AsyncRPC.cpp:1238
 msgid "Communicating with BOINC client.  Please wait ..."
-msgstr "Communication avec le client BOINC en cours._ _Veuillez patienter ..."
+msgstr "Communication avec le client BOINC en cours. Veuillez patienter ..."
 
 #: clientgui/AsyncRPC.cpp:1241
 #, c-format
@@ -675,8 +686,7 @@ msgid ""
 "Please contact your administrator to add you to the 'boinc_users' local user group."
 msgstr ""
 "Vous n'êtes actuellement pas autorisé à gérer le client. Demandez à votre "
-"administrateur système de vous ajouter au groupe \"boinc_users\" des "
-"utilisateurs locaux."
+"administrateur système de vous ajouter au groupe local \"boinc_users\"."
 
 #: clientgui/BOINCBaseFrame.cpp:523
 msgid ""
@@ -694,7 +704,8 @@ msgstr "Autorisation de se connecter au client en cours d'exécution refusée."
 #: clientgui/BOINCBaseFrame.cpp:533
 msgid "The password you have provided is incorrect, please try again."
 msgstr ""
-"Le mot de passe que vous avez fourni est incorrect. Essayez à nouveau, svp."
+"Le mot de passe que vous avez fourni est incorrect, merci d'essayer à "
+"nouveau."
 
 #: clientgui/BOINCBaseFrame.cpp:577
 #, c-format
@@ -707,8 +718,8 @@ msgid ""
 "%s is not able to connect to a %s client.\n"
 "Would you like to try to connect again?"
 msgstr ""
-"LE %s n'a pas réussi à se connecter à un client %s.\n"
-"Voulez-vous tenter d'établir la connexion à nouveau ?"
+"%s n'a pas réussi à se connecter à un client %s.\n"
+"Voulez-vous tenter d'établir la connexion à nouveau?"
 
 #: clientgui/BOINCBaseFrame.cpp:622
 #, c-format
@@ -731,13 +742,13 @@ msgid ""
 "%s is not able to start a %s client.\n"
 "Please start the daemon and try again."
 msgstr ""
-"%s est incapable de lancer un client %s.Veuillez démarrer le service et "
-"réessayer."
+"%s ne peut pas démarrer un client %s\n"
+"Merci de démarrer le service et de réessayer."
 
 #: clientgui/BOINCBaseFrame.cpp:689
 #, c-format
 msgid "%s - Connection Status"
-msgstr "%s - Etat de la Connexion"
+msgstr "%s - État de la Connexion"
 
 #: clientgui/BOINCBaseFrame.cpp:700
 #, c-format
@@ -746,10 +757,9 @@ msgid ""
 "Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
-"Le %s n'est actuellement pas connecté à un client %s.\n"
-"Veuillez utiliser l'option du menu "
-"'Avancé\\SÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©lectionner un ordinateur...' pour "
-"vous connecter à un client %s.\n"
+"%s n'est actuellement pas connecté à un client %s.\n"
+"Veuillez utiliser l'option du menu 'Avancé\\Sélectionner un ordinateur...' "
+"pour vous connecter à un client %s.\n"
 "Pour vous connecter à votre ordinateur local, veuillez utiliser 'localhost' "
 "comme nom d'hôte."
 
@@ -760,7 +770,7 @@ msgstr "Pages Web du projet"
 #: clientgui/BOINCClientManager.cpp:573
 #, c-format
 msgid "%s - Unexpected Exit"
-msgstr "%s - Terminaison inattendue"
+msgstr "%s - Fermeture inattendue"
 
 #: clientgui/BOINCClientManager.cpp:583
 #, c-format
