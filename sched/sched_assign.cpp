@@ -73,6 +73,13 @@ static int send_assigned_job(ASSIGNMENT& asg) {
         return retval;
     }
 
+    if (app_not_selected(wu)) {
+        log_messages.printf(MSG_CRITICAL,
+            "Assigned WU %s is for app not selected by user\n", wu.name
+        );
+        return -1;
+    }
+
     bavp = get_app_version(wu, false, false);
     if (!bavp) {
         log_messages.printf(MSG_CRITICAL,
@@ -109,7 +116,7 @@ static int send_assigned_job(ASSIGNMENT& asg) {
 // Send this host any "multi" assigned jobs.
 // Return true iff we sent anything
 //
-bool send_assigned_jobs_multi() {
+bool send_broadcast_jobs() {
     DB_RESULT result;
     int retval;
     char buf[256];
@@ -162,9 +169,9 @@ bool send_assigned_jobs_multi() {
     return sent_something;
 }
 
-// send non-multi assigned jobs
+// send targeted jobs
 //
-bool send_assigned_jobs() {
+bool send_targeted_jobs() {
     DB_ASSIGNMENT asg;
     DB_RESULT result;
     DB_WORKUNIT wu;
