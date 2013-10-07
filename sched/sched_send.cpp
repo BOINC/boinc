@@ -1573,7 +1573,7 @@ void send_work() {
     }
 
     if (config.enable_assignment) {
-        if (send_assigned_jobs()) {
+        if (send_targeted_jobs()) {
             if (config.debug_assignment) {
                 log_messages.printf(MSG_NORMAL,
                     "[assign] [HOST#%d] sent assigned jobs\n", g_reply->host.id
@@ -1584,7 +1584,7 @@ void send_work() {
     }
 
     if (config.enable_assignment_multi) {
-        if (send_assigned_jobs_multi()) {
+        if (send_broadcast_jobs()) {
             if (config.debug_assignment) {
                 log_messages.printf(MSG_NORMAL,
                     "[assign] [HOST#%d] sent assigned jobs\n", g_reply->host.id
