@@ -60,6 +60,18 @@
 	        android:textColor="@color/dark_grey"
 	        android:textAppearance="?android:attr/textAppearanceMedium"
 	        android:layout_marginBottom="5dp" />
+	    
+	    <TextView 
+	   		android:layout_width="wrap_content"
+		    android:id="@+id/project_notice"
+	   		android:layout_height="wrap_content"
+	   		android:textAppearance="?android:attr/textAppearanceSmall"
+	   		android:background="@drawable/shape_yellow_background"
+	   		android:textColor="@color/black"
+	   		android:textStyle="bold"
+	   		android:padding="3dip"
+	   		android:layout_marginBottom="5dip"
+	   		android:visibility="gone"/>
         
 	    <TextView
 	        android:id="@+id/project_status"
