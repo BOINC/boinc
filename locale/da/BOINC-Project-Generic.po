@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2012-03-05 18:02+0200\n"
+"PO-Revision-Date: 2013-10-07 19:58+0000\n"
 "Last-Translator: Anonymous Pootle User\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: da\n"
@@ -15,11 +15,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-POOTLE-MTIME: 1381175920.0\n"
 
 #, fuzzy
 msgid "LANG_NAME_NATIVE"
@@ -532,7 +533,7 @@ msgstr ""
 
 #: ../inc/host.inc:57 ../inc/prefs.inc:626 ../inc/prefs.inc:1032
 msgid "School"
-msgstr ""
+msgstr "Skole"
 
 #: ../inc/host.inc:59 ../user/edit_forum_preferences_form.php:172
 #: ../user/edit_forum_preferences_form.php:173
@@ -2063,8 +2064,9 @@ msgid "Used in community functions"
 msgstr ""
 
 #: ../inc/user.inc:217 ../user/weak_auth.php:25
+#, fuzzy
 msgid "Account keys"
-msgstr ""
+msgstr "Konton&oslash;gle"
 
 #: ../inc/user.inc:222
 msgid "Preferences"

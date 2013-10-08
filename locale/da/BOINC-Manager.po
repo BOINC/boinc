@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-18 11:32-0500\n"
-"PO-Revision-Date: 2013-06-05 19:44+0200\n"
+"PO-Revision-Date: 2013-10-07 19:59+0000\n"
 "Last-Translator: Anonymous Pootle User\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: da\n"
@@ -15,13 +15,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
+"X-POOTLE-MTIME: 1381175966.0\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
 #: clientgui/AccountInfoPage.cpp:387
@@ -70,7 +71,7 @@ msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:416
 msgid "Find login information"
-msgstr ""
+msgstr "Find loginoplysninger"
 
 #: clientgui/AccountInfoPage.cpp:436
 #: clientgui/AccountInfoPage.cpp:668
@@ -106,7 +107,7 @@ msgstr "Minimal længde %d"
 
 #: clientgui/AccountInfoPage.cpp:522
 msgid "Forgot your password?"
-msgstr "Har du glemt dit password?"
+msgstr "Har du glemt din adgangskode?"
 
 #: clientgui/AccountInfoPage.cpp:529
 msgid ""
@@ -114,15 +115,17 @@ msgid ""
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
 msgstr ""
+"Hvis du ikke har registreret denne kontomanager,\n"
+"bedes du gøre det, før du fortsætter. Klik på nedenstående link\n"
+"for at registrere eller hente en glemt adgangskode."
 
 #: clientgui/AccountInfoPage.cpp:532
 msgid "Account manager website"
-msgstr ""
+msgstr "Hjemmeside for kontomanager"
 
 #: clientgui/AccountInfoPage.cpp:574
-#, fuzzy
 msgid "Add project"
-msgstr "Alle projekter"
+msgstr "Tilføj projekt"
 
 #: clientgui/AccountInfoPage.cpp:576
 msgid "Update account manager"
@@ -378,12 +381,11 @@ msgstr ""
 #: clientgui/AdvancedFrame.cpp:496
 #, fuzzy
 msgid "Allow GPU work regardless of preferences"
-msgstr "Tillad arbejde uanset indstillinger"
+msgstr "Tillad GPU-arbejde uanset indstillinger"
 
 #: clientgui/AdvancedFrame.cpp:500
-#, fuzzy
 msgid "Use GPU based on preferences"
-msgstr "Kør efter &indstillinger"
+msgstr "Brug GPU efter indstillinger"
 
 #: clientgui/AdvancedFrame.cpp:501
 #, fuzzy
