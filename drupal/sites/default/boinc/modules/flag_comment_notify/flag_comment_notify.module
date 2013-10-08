@@ -79,7 +79,7 @@ function flag_comment_notify_mail($key, &$message, $params) {
   $language = $message['language'];
   $variables = user_mail_tokens($params['account'], $language);
   $variables['!comment_url'] = url(
-    "goto/comment/{$params['comment']->cid}"
+    "goto/comment/{$params['comment']->cid}",
     array(
       'absolute' => TRUE,
     )
