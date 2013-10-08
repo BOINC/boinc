@@ -42,6 +42,11 @@ function boinccore_menu() {
     'access arguments' => array('access user profiles'),
     'type' => MENU_CALLBACK
   );
+  $items['goto'] = array(
+    'page callback' => 'boinccore_url_pagination_handler',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK
+  );
   return $items;
 }
 
@@ -296,4 +301,53 @@ function boinccore_user_control($uid = NULL, $action = NULL) {
   default:
   }
   drupal_goto("user/{$account->uid}");
+}
+
+/**
+ * Controller for handling direct linking to paginated content.
+ * Because pagination settings are user configurable, it is impossible to know
+ * in advance on which page a given comment will appear. Link instead to this
+ * controller function, which can compute the page based on the user's settings
+ */
+function boinccore_url_pagination_handler($type, $object_id) {
+  global $user;
+  $path = NULL;
+  $params = array();
+  switch ($type) {
+  case 'comment':
+    $object = _comment_load($object_id);
+    if ($object) {
+      $path = "node/{$object->nid}";
+      // See how many comments there are before this comment...
+      $comment_offset = db_result(db_query('
+        SELECT COUNT(*) FROM {comments}
+        WHERE nid = %d AND status = 0 AND timestamp < %d',
+        $object->nid, $object->timestamp));
+      if ($comment_offset) {
+        // Get the number of comments per page
+        if ($user->comments_per_page) {
+          $comments_per_page = $user->comments_per_page;
+        }
+        else {
+          $node = node_load($comment->nid);
+          $comments_per_page = variable_get(
+            "comment_default_per_page_{$node->type}", 50
+          );
+        }
+        // Determine which page to display in order to show the given comment
+        $page = floor($comment_offset / $comments_per_page);
+        if ($page) {
+          $params = array('page' => $page);
+        }
+      }
+    }
+    break;
+  default:
+  }
+  if ($path) {
+    drupal_goto($path, $params, "comment-{$object->cid}");
+  }
+  else {
+    drupal_not_found();
+  }
 }

@@ -79,14 +79,9 @@ function flag_comment_notify_mail($key, &$message, $params) {
   $language = $message['language'];
   $variables = user_mail_tokens($params['account'], $language);
   $variables['!comment_url'] = url(
-    // TODO:
-    // There are complications involved with linking directly to a comment.
-    // We need to determine on which page the comment will appear, which
-    // depends on user preferences. For now, just link to the topic.
-    drupal_get_path_alias("node/{$params['node']->nid}"),
+    "goto/comment/{$params['comment']->cid}"
     array(
       'absolute' => TRUE,
-      //'fragment' => "comment-{$params['comment']->cid}"
     )
   );
   $variables['!topic_name'] = $params['node']->title;
