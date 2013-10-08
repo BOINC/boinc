@@ -9,7 +9,7 @@ function type_text($type) {
         case "win_new":
             return "Windows installer";
         case "bare_core":
-            return "Core client only (command-line)";
+            return "Command-line client (no GUI)";
         case "sea":
             return "Self-extracting archive";
 		case "mac_advanced":
@@ -24,7 +24,7 @@ function type_text($type) {
         case "win_new":
             return "<a href=win_install.php>Windows installer</a>";
         case "bare_core":
-            return "<a href=bare_core.php>Core client only (command-line)</a>";
+            return "<a href=bare_core.php>Command-line client (no GUI)</a>";
         case "sea":
             return "<a href=sea.php>Self-extracting archive</a>";
 		case "mac_advanced":

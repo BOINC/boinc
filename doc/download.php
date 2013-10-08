@@ -25,6 +25,7 @@ function download_link($pname, $button=false) {
     $p = $platforms[$pname];
     $v = latest_version($p);
     $file = $v['file'];
+    $vbox_file = $v['vbox_file'];
     $long_name = $p['name'];
     $num = $v['num'];
     $path = "dl/$file";
@@ -33,13 +34,32 @@ function download_link($pname, $button=false) {
     $s = number_format(filesize($path)/1000000, 2);
 
     if ($button) {
+        if ($vbox_file) {
+            echo "<table><td><td>\n";
+            $vbox_url = $url_base.$vbox_file;
+            $vbox_path = "dl/$vbox_file";
+            $vbox_size = number_format(filesize($vbox_path)/1000000, 2);
+            echo "
+                <table cellpadding=10><tr><td class=heading>
+                <a href=\"$vbox_url\"><font size=4><u>".tra("Download BOINC + Virtualbox")."</u></font></a>
+                <br>".
+                sprintf(tra("%s for %s (%s MB)"), $num, $long_name, $vbox_size )."
+                </td></tr>
+                </table>
+            ";
+            echo "</td><td>\n";
+        }
         echo "
             <table cellpadding=10><tr><td class=heading>
             <a href=\"$url\"><font size=4><u>".tra("Download BOINC")."</u></font></a>
             <br>".
             sprintf(tra("%s for %s (%s MB)"), $num, $long_name, $s )."
-            </td></tr> </table>
+            </td></tr>
+            </table>
         ";
+        if ($vbox_file) {
+            echo "</td></tr></table>\n";
+        }
         if ($pname == 'linux'||$pname == 'linuxx64') {
             echo "<p>", linux_info();
         }
