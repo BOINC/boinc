@@ -23,7 +23,7 @@
 require_once("../inc/submit_db.inc");
 
 $now = time();
-$batches = BoincBatch:enum("expire_time>0 and expire_time<$now");
+$batches = BoincBatch::enum("expire_time>0 and expire_time<$now");
 foreach ($batches as $batch) {
     expire_batch($batch);
 }
