@@ -110,7 +110,7 @@ function db_init_cli() {
         $host = "localhost";
     }
     $in = fopen("php://stdin","r");
-    print "Database username (if not current user): ";
+    print "Database username (default: owner of mysqld process): ";
     $user = rtrim(fgets($in, 80));
     print "Database password (if any): ";
     $pass = rtrim(fgets($in, 80));
