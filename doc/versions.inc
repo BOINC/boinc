@@ -44,10 +44,11 @@ function linux_info() {
 }
 
 $w72dev = array(
-	"num"=>"7.2.5",
+	"num"=>"7.2.18",
 	"status"=>"Development version",
-	"file"=>"boinc_7.2.5_windows_intelx86.exe",
-	"date"=>"17 July 2013",
+	"file"=>"boinc_7.2.18_windows_intelx86.exe",
+	"vbox_file"=>"boinc_7.2.18_windows_intelx86_vbox.exe",
+	"date"=>"9 Oct 2013",
 	"type"=>"win_new",
 );
 
@@ -84,10 +85,11 @@ $w5816 = array(
 );
 
 $w72x64dev = array(
-	"num"=>"7.2.5",
+	"num"=>"7.2.18",
 	"status"=>"Development version",
-	"file"=>"boinc_7.2.5_windows_x86_64.exe",
-	"date"=>"17 July 2013",
+	"file"=>"boinc_7.2.18_windows_x86_64.exe",
+	"vbox_file"=>"boinc_7.2.18_windows_x86_64_vbox.exe",
+	"date"=>"9 Oct 2013",
 	"type"=>"win_new",
 );
 
@@ -108,10 +110,10 @@ $w70x64old = array(
 );
 
 $m72dev = array(
-	"num"=>"7.2.5",
+	"num"=>"7.2.18",
 	"status"=>"Development version (standard GUI)",
-	"file"=>"boinc_7.2.5_macOSX_i686.zip",
-	"date"=>"17 July 2013",
+	"file"=>"boinc_7.2.18_macOSX_i686.zip",
+	"date"=>"9 Oct 2013",
 	"type"=>"mac_advanced",
 );
 
@@ -148,10 +150,10 @@ $m66 = array(
 );
 
 $m72cdev = array(
-	"num"=>"7.2.5",
+	"num"=>"7.2.18",
 	"status"=>"Development version (Unix command-line version)",
-	"file"=>"boinc_7.2.5_i686-apple-darwin.zip",
-	"date"=>"17 July 2013",
+	"file"=>"boinc_7.2.18_i686-apple-darwin.zip",
+	"date"=>"9 Oct 2013",
 	"type"=>"bare_core",
 );
 
