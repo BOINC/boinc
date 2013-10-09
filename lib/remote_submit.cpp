@@ -122,7 +122,6 @@ static int do_http_post(
 int query_files(
     const char* project_url,
     const char* authenticator,
-    vector<string> &paths,
     vector<string> &md5s,
     int batch_id,
     vector<int> &absent_files,
@@ -145,7 +144,8 @@ int query_files(
     FILE* reply = tmpfile();
     char url[256];
     sprintf(url, "%sjob_file.php", project_url);
-    int retval = do_http_post(url, req_msg.c_str(), reply, paths);
+    vector<string> xx;
+    int retval = do_http_post(url, req_msg.c_str(), reply, xx);
     if (retval) {
         fclose(reply);
         return retval;
@@ -275,7 +275,9 @@ int create_batch(
 int submit_jobs(
     const char* project_url,
     const char* authenticator,
-    SUBMIT_REQ &req,
+    char app_name[256],
+    int batch_id,
+    vector<JOB> jobs,
     string& error_msg
 ) {
     char buf[1024], url[1024];
@@ -286,12 +288,12 @@ int submit_jobs(
         "   <batch_id>%d</batch_id>\n"
         "   <app_name>%s</app_name>\n",
         authenticator,
-        req.batch_id,
-        req.app_name
+        batch_id,
+        app_name
     );
     string request = buf;
-    for (unsigned int i=0; i<req.jobs.size(); i++) {
-        JOB job = req.jobs[i];
+    for (unsigned int i=0; i<jobs.size(); i++) {
+        JOB job = jobs[i];
         request += "<job>\n";
         sprintf(buf, "  <name>%s</name>\n", job.job_name);
         request += buf;
@@ -300,18 +302,12 @@ int submit_jobs(
         }
         for (unsigned int j=0; j<job.infiles.size(); j++) {
             INFILE infile = job.infiles[j];
-            map<string, LOCAL_FILE>::iterator iter = req.local_files.find(infile.src_path);
-            if (iter == req.local_files.end()) {
-                fprintf(stderr, "file %s not in map\n", infile.src_path);
-                exit(1);
-            }
-            LOCAL_FILE& lf = iter->second;
             sprintf(buf,
                 "<input_file>\n"
                 "<mode>local_staged</mode>\n"
-                "<source>jf_%s</source>\n"
+                "<source>%s</source>\n"
                 "</input_file>\n",
-                lf.md5
+                infile.physical_name
             );
             request += buf;
         }
