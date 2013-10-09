@@ -59,6 +59,13 @@ bool debug_mode = false;
     // if set, handle commands synchronously rather than
     // handling them in separate threads
 
+struct SUBMIT_REQ {
+    char batch_name[256];
+    char app_name[256];
+    vector<JOB> jobs;
+    int batch_id;
+};
+
 // represents a command.
 //
 struct COMMAND {
@@ -126,6 +133,9 @@ int process_input_files(SUBMIT_REQ& req, string& error_msg) {
     unsigned int i, j;
     int retval;
     char buf[1024];
+    map<string, LOCAL_FILE> local_files;
+        // maps local path to info about file
+
 
     // get the set of unique source paths
     //
@@ -147,17 +157,17 @@ int process_input_files(SUBMIT_REQ& req, string& error_msg) {
         LOCAL_FILE lf;
         retval = compute_md5(s, lf);
         if (retval) return retval;
-        req.local_files.insert(std::pair<string, LOCAL_FILE>(s, lf));
+        local_files.insert(std::pair<string, LOCAL_FILE>(s, lf));
         iter++;
     }
 
     // ask the server which files it doesn't already have.
     //
     map<string, LOCAL_FILE>::iterator map_iter;
-    map_iter = req.local_files.begin();
+    map_iter = local_files.begin();
     vector<string> md5s, paths;
     vector<int> absent_files;
-    while (map_iter != req.local_files.end()) {
+    while (map_iter != local_files.end()) {
         LOCAL_FILE lf = map_iter->second;
         paths.push_back(map_iter->first);
         md5s.push_back(lf.md5);
@@ -166,7 +176,6 @@ int process_input_files(SUBMIT_REQ& req, string& error_msg) {
     retval = query_files(
         project_url,
         authenticator,
-        paths,
         md5s,
         req.batch_id,
         absent_files,
@@ -191,6 +200,19 @@ int process_input_files(SUBMIT_REQ& req, string& error_msg) {
         error_msg
     );
     if (retval) return retval;
+
+    // fill in the physical file names in the submit request
+    //
+    for (unsigned int i=0; i<req.jobs.size(); i++) {
+        JOB job = req.jobs[i];
+        for (unsigned int j=0; j<job.infiles.size(); j++) {
+            INFILE infile = job.infiles[j];
+            map<string, LOCAL_FILE>::iterator iter = local_files.find(infile.src_path);
+            LOCAL_FILE& lf = iter->second;
+            sprintf(infile.physical_name, "jf_%s", lf.md5);
+        }
+    }
+
     return 0;
 }
 
@@ -212,7 +234,7 @@ int COMMAND::parse_submit(char* p) {
         for (int j=0; j<ninfiles; j++) {
             INFILE infile;
             strcpy(infile.src_path, strtok_r(NULL, " ", &p));
-            strcpy(infile.dst_filename, strtok_r(NULL, " ", &p));
+            strcpy(infile.logical_name, strtok_r(NULL, " ", &p));
             job.infiles.push_back(infile);
         }
         submit_req.jobs.push_back(job);
@@ -259,7 +281,10 @@ void handle_submit(COMMAND& c) {
         c.out = strdup(s.c_str());
         return;
     }
-    retval = submit_jobs(project_url, authenticator, req, error_msg);
+    retval = submit_jobs(
+        project_url, authenticator,
+        req.app_name, req.batch_id, req.jobs, error_msg
+    );
     if (retval) {
         sprintf(buf, "error\\ submitting\\ jobs:\\ %d\\ ", retval);
         s = string(buf) + escape_str(error_msg);

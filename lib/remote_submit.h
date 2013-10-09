@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// C++ interfaces to remote job submissions and file management RPCs
+// C++ interfaces to remote job submission and file management RPCs
 
 #include <stdio.h>
 #include <string>
@@ -27,10 +27,11 @@ using std::vector;
 using std::map;
 
 struct INFILE {
+    char physical_name[256];    // BOINC physical name
     char src_path[256];         // path on submit machine
-    char dst_filename[256];
+    char logical_name[256];
         // filename on execution machine.
-        // must agree with the app's input template
+        // not used; could be used to check consistency w/ input template
 };
 
 struct JOB {
@@ -42,15 +43,6 @@ struct JOB {
 struct LOCAL_FILE {
     char md5[64];
     double nbytes;
-};
-
-struct SUBMIT_REQ {
-    char batch_name[256];
-    char app_name[256];
-    vector<JOB> jobs;
-    map<string, LOCAL_FILE> local_files;
-        // maps local path to info about file
-    int batch_id;
 };
 
 struct QUERY_BATCH_JOB {
@@ -106,7 +98,6 @@ struct COMPLETED_JOB_DESC {
 extern int query_files(
     const char* project_url,
     const char* authenticator,
-    vector<string> &paths,
     vector<string> &md5s,
     int batch_id,
     vector<int> &absent_files,
@@ -135,7 +126,9 @@ extern int create_batch(
 extern int submit_jobs(
     const char* project_url,
     const char* authenticator,
-    SUBMIT_REQ &req,
+    char app_name[256],
+    int batch_id,
+    vector<JOB> jobs,
     string& error_msg
 );
 
