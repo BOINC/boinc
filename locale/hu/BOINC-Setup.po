@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n !=1);\n"
-"X-Generator: Pootle 2.5.0\n"
+"X-Generator: Poedit 1.5.5\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: _\n"
 "X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
@@ -23,6 +23,7 @@ msgstr ""
 "X-POOTLE-MTIME: 1381311478.0\n"
 
 #: mac_installer/Installer.cpp:132
+#, c-format
 #, c-format, c-format
 msgid "Sorry, this version of %s requires system 10.4 or higher."
 msgstr "Sajnos a(z) %s ezen verziója 10.4 vagy nagyobb rendszerverziót igényel."
