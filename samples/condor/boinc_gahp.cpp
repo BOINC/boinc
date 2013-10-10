@@ -675,6 +675,7 @@ int handle_command(char* p) {
     char cmd[256];
     int id;
 
+    cmd[0] = '\0';
     sscanf(p, "%s", cmd);
     if (!strcasecmp(cmd, "VERSION")) {
         print_version(false);
@@ -769,8 +770,11 @@ char* get_cmd() {
         if (c == EOF) {
             return NULL;
         }
-        if (c == '\n' || c == '\r') {
+        if (c == '\n') {
             p[len] = 0;
+            if ( len > 0 && p[len-1] == '\r' ) {
+                p[len-1] = 0;
+            }
             return p;
         }
         p[len++] = c;
