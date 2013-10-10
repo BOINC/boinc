@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-08-06 16:50-0800\n"
-"PO-Revision-Date: 2013-08-29 12:31+0000\n"
+"PO-Revision-Date: 2013-10-09 09:37+0000\n"
 "Last-Translator: Gabor <csega@mailbox.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hu\n"
@@ -20,11 +20,11 @@ msgstr ""
 "X-Poedit-KeywordsList: _\n"
 "X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
 "X-Poedit-SearchPath-0: mac_installer\n"
-"X-POOTLE-MTIME: 1377779517.0\n"
+"X-POOTLE-MTIME: 1381311478.0\n"
 
 #: mac_installer/Installer.cpp:132
 #, c-format
-#, c-format, fuzzy
+#, c-format, c-format
 msgid "Sorry, this version of %s requires system 10.4 or higher."
 msgstr "Sajnos a(z) %s ezen verziója 10.4 vagy nagyobb rendszerverziót igényel."
 

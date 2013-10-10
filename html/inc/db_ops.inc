@@ -25,7 +25,7 @@ ini_set('display_startup_errors', true);
 require_once("../inc/result.inc");
 
 class BoincAssignment {
-    static function enum($where_clause) {
+    static function enum($where_clause = null) {
         $db = BoincDb::get();
         return $db->enum('assignment', 'BoincAssignment', $where_clause);
     }

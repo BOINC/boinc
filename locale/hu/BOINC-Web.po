@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-08-22 16:22 PDT\n"
-"PO-Revision-Date: 2013-06-05 19:50+0200\n"
+"PO-Revision-Date: 2013-10-09 09:40+0000\n"
 "Last-Translator: Gabor <csega@mailbox.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hu\n"
@@ -15,11 +15,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n !=1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-POOTLE-MTIME: 1381311614.0\n"
 "X-Poedit-KeywordsList: tra\n"
 
 #: projects.inc:14
@@ -34,7 +35,7 @@ msgstr "Oxfordi Egyetem"
 
 #: projects.inc:20
 msgid "Seismology"
-msgstr ""
+msgstr "Szeizmológia"
 
 #: projects.inc:21
 msgid ""
@@ -49,7 +50,7 @@ msgstr ""
 
 #: projects.inc:28
 msgid "Environmental research"
-msgstr ""
+msgstr "Környezeti kutatás"
 
 #: projects.inc:29
 msgid ""
@@ -314,9 +315,8 @@ msgstr ""
 
 # 75%
 #: projects.inc:196
-#, fuzzy
 msgid "Astronomy, Physics, and Chemistry"
-msgstr "Csillagászat/Fizika/Kémia"
+msgstr "Csillagászat, fizika és kémia"
 
 #: projects.inc:202 projects.inc:241 projects.inc:249
 msgid "Astronomy"
@@ -364,7 +364,6 @@ msgstr ""
 
 # 95%
 #: projects.inc:240
-#, fuzzy
 msgid "University of Illinois at Urbana-Champaign"
 msgstr "Illinois-i Egyetem, Urbana-Champaign"
 
@@ -790,7 +789,7 @@ msgstr "Verziótörténet"
 
 #: download.php:136
 msgid "GPU computing"
-msgstr ""
+msgstr "GPU számítás"
 
 #: download.php:154
 msgid "BOINC: compute for science"
@@ -908,9 +907,8 @@ msgstr "24 órás átlag:"
 
 # 80%
 #: index.php:55
-#, fuzzy
 msgid "PetaFLOPS."
-msgstr "TeraFLOPS."
+msgstr "PetaFLOPS."
 
 #: index.php:67
 msgid "News"
@@ -934,7 +932,7 @@ msgstr ""
 
 #: index.php:88
 msgid "Links"
-msgstr ""
+msgstr "Linkek"
 
 #: index.php:94
 #, php-format

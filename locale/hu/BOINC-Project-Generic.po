@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2013-09-22 17:33+0000\n"
-"Last-Translator: ZT <vdonksgula@gmail.com>\n"
+"PO-Revision-Date: 2013-10-09 09:36+0000\n"
+"Last-Translator: Gabor <csega@mailbox.hu>\n"
 "Language-Team: \n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-POOTLE-MTIME: 1379871206.0\n"
+"X-POOTLE-MTIME: 1381311419.0\n"
 
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
@@ -4608,14 +4608,12 @@ msgid "Friendship cancelled"
 msgstr "Barátság törölve"
 
 #: ../user/friend.php:250
-#, fuzzy
 msgid "Your friendship with %1 has been cancelled."
-msgstr "%1 és az Ön barátsága megerősítve."
+msgstr "%1 és az Ön barátsága törölve."
 
 #: ../user/get_passwd.php:25
-#, fuzzy
 msgid "Forgot your account info?"
-msgstr "egyéb fiókinformáció"
+msgstr "Elfelejtette fiókinformációit?"
 
 #: ../user/get_passwd.php:28
 msgid ""
@@ -4627,6 +4625,8 @@ msgid ""
 "Enter the email address below, and click OK. You will be sent email "
 "instructions for resetting your password."
 msgstr ""
+"Adja meg e-mail címét lejjebb és kattintson az OK gombra! A jelszó "
+"visszaállításához e-mailben küldünk segítséget."
 
 #: ../user/get_passwd.php:46
 msgid ""

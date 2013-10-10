@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-05 10:24-0700\n"
-"PO-Revision-Date: 2013-08-29 12:31+0000\n"
+"PO-Revision-Date: 2013-10-09 09:28+0000\n"
 "Last-Translator: Gabor <csega@mailbox.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hu\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n !=1);\n"
 "X-Generator: Pootle 2.5.0\n"
-"X-POOTLE-MTIME: 1377779517.0\n"
+"X-POOTLE-MTIME: 1381310913.0\n"
 
 #: acct_mgr.cpp:448 acct_mgr.cpp:457
 msgid "Message from account manager"
@@ -151,9 +151,9 @@ msgstr ""
 # 94%
 #: ../sched/sched_send.cpp:1146
 #, c-format
-#, c-format, fuzzy
+#, c-format, c-format
 msgid "An %s GPU is required to run tasks for this project"
-msgstr "Ezen projekt feladatainak futtatásához ATI GPU szükséges"
+msgstr "%s GPU szükséges a projekt feladatainak futtatásához"
 
 #: ../sched/sched_send.cpp:1262
 msgid "No tasks are available for the applications you have selected."
@@ -172,6 +172,7 @@ msgstr "Újabb BOINC verzió szükséges, töltse le a legfrissebbet"
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
 msgstr ""
+"%s számára elérhetőek feladatok, de az Ön beállításai miatt nem futtathatók"
 
 #: ../sched/sched_types.cpp:254
 msgid "Unknown app name in app_info.xml"
