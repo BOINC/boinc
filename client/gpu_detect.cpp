@@ -18,7 +18,7 @@
 
 // client-specific GPU code.  Mostly GPU detection
 
-#ifdef _DEBUG
+#ifndef _DEBUG
 #define USE_CHILD_PROCESS_TO_DETECT_GPUS 1
 #endif
 
