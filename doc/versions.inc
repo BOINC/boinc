@@ -253,11 +253,19 @@ $l70ubuntux64old = array(
 	"type"=>"sea",
 );
 
+$a72dev = array(
+	"num"=>"7.2.20",
+	"status"=>"Development Version",
+	"file"=>"boinc_7.2.20_arm-android-linux-gnu.apk",
+	"date"=>"10 Oct 2013",
+	"type"=>"apk",
+);
+
 $a72 = array(
-	"num"=>"7.2.7",
+	"num"=>"7.2.15",
 	"status"=>"Recommended Version",
-	"file"=>"boinc_7.2.7_arm-android-linux-gnu.apk",
-	"date"=>"22 July 2013",
+	"file"=>"boinc_7.2.15_arm-android-linux-gnu.apk",
+	"date"=>"10 Oct 2013",
 	"type"=>"apk",
 );
 
@@ -352,6 +360,7 @@ $android = array(
 	"description"=>"Android version 2.3 and later<br>We recommend that, rather than downloading BOINC from here,</br>you get it from the Google Play Store or the Amazon app store (for Kindle Fire)",
 	"dbname" => "arm-android-linux-gnu",
 	"versions"=>array(
+		$a72dev,
 		$a72,
 	)
 );
