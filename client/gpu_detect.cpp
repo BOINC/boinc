@@ -250,6 +250,13 @@ void COPROCS::correlate_gpus(
         descs.push_back(string(buf));
     }
 
+    // Create descriptions for OpenCL CPUs
+    //
+    for (i=0; i<cpu_opencls.size(); i++) {
+        cpu_opencls[i].description(buf, sizeof(buf), proc_type_name(PROC_TYPE_CPU));
+        descs.push_back(string(buf));
+    }
+
     ati_gpus.clear();
     nvidia_gpus.clear();
     intel_gpus.clear();

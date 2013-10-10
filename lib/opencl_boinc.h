@@ -80,5 +80,5 @@ struct OPENCL_CPU_PROP {
     void clear();
     void write_xml(MIOFILE&);
     int parse(XML_PARSER&);
-
+    void description(char* buf, int buflen, const char* type);
 };
