@@ -1,23 +1,20 @@
-# Translations template for PROJECT.
+# Catalan translations for PACKAGE.
 # Copyright (C) 2013 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
+# This file is distributed under the same license as the PACKAGE project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-29 15:37-0700\n"
+"POT-Creation-Date: 2013-10-10 12:00-0700\n"
 "PO-Revision-Date: 2013-09-09 23:12+0000\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: ca\n"
+"Language-Team: ca <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=((n == 1) ? 0 : 1)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1378768352.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -50,6 +47,11 @@ msgstr "Afegeix el projecte"
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
 msgstr "Si us plau introdueix la URL del projecte"
+
+#, fuzzy
+msgctxt "attachproject_list_acctmgr_button"
+msgid "Add account manager"
+msgstr "Sol·licitat per l'administrador de comptes"
 
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
@@ -193,6 +195,34 @@ msgctxt "attachproject_registration_button"
 msgid "Create"
 msgstr "Crear"
 
+#. account manager
+#, fuzzy
+msgctxt "attachproject_acctmgr_header"
+msgid "Add account manager"
+msgstr "Sol·licitat per l'administrador de comptes"
+
+msgctxt "attachproject_acctmgr_header_url"
+msgid "URL"
+msgstr ""
+
+msgctxt "attachproject_acctmgr_header_name"
+msgid "User:"
+msgstr ""
+
+#, fuzzy
+msgctxt "attachproject_acctmgr_header_pwd"
+msgid "Password:"
+msgstr "Contrasenya:"
+
+#, fuzzy
+msgctxt "attachproject_acctmgr_header_pwd_confirm"
+msgid "… Retype:"
+msgstr "... Torna a entrar-ho:"
+
+msgctxt "attachproject_acctmgr_button"
+msgid "Add"
+msgstr ""
+
 #. error strings
 msgctxt "attachproject_error_wrong_name"
 msgid "User not found"
@@ -209,6 +239,11 @@ msgstr "Ha fallat la connexió"
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
 msgstr "Les contrasenyes no coincideixen"
+
+#, fuzzy
+msgctxt "attachproject_error_no_url"
+msgid "Please enter URL"
+msgstr "Si us plau, introdueïx el nom d'usuari"
 
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
@@ -249,6 +284,10 @@ msgstr "Contrasenya rebutjada"
 msgctxt "attachproject_error_creation_disabled"
 msgid "Account creation is disabled on this project"
 msgstr "La creació de comptes està desactivada en aquest projecte"
+
+msgctxt "attachproject_error_invalid_url"
+msgid "Invalid URL"
+msgstr ""
 
 #. working activity
 msgctxt "attachproject_working_back_button"
@@ -295,6 +334,15 @@ msgctxt "attachproject_working_login"
 msgid "Log in"
 msgstr "Registret"
 
+#, fuzzy
+msgctxt "attachproject_working_acctmgr"
+msgid "Add account manager"
+msgstr "Sol·licitat per l'administrador de comptes"
+
+msgctxt "attachproject_working_acctmgr_sync"
+msgid "Synchronize"
+msgstr ""
+
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
@@ -336,6 +384,10 @@ msgstr "Transferències"
 msgctxt "tab_preferences"
 msgid "Preferences"
 msgstr "Preferències"
+
+msgctxt "tab_notices"
+msgid "Notices"
+msgstr ""
 
 msgctxt "tab_desc"
 msgid "Navigation"
@@ -450,8 +502,8 @@ msgstr "Nivell mínim de la bateria"
 msgctxt "battery_charge_min_pct_description"
 msgid "BOINC suspends computation below defined battery charge level."
 msgstr ""
-"BOINC atura la computació si el nivell de càrrega de la bateria per sota del "
-"definit."
+"BOINC atura la computació si el nivell de càrrega de la bateria per sota "
+"del definit."
 
 msgctxt "battery_temperature_max_header"
 msgid "Max. battery temperature"
@@ -462,8 +514,8 @@ msgid ""
 "BOINC suspends computation above defined battery temperature. It is not "
 "recommended to change this value."
 msgstr ""
-"BOINC atura la computació si la temperatura de la bateria està per sobre del "
-"valor definit. No es recomanable canviar aquest valor."
+"BOINC atura la computació si la temperatura de la bateria està per sobre "
+"del valor definit. No es recomanable canviar aquest valor."
 
 msgctxt "prefs_disk_max_pct_header"
 msgid "Max. used storage space"
@@ -472,8 +524,8 @@ msgstr "Màxim espai d'emmagatzematge utilitzat"
 msgctxt "prefs_disk_max_pct_description"
 msgid "How many percent of your device's storage space is BOINC allowed to use?"
 msgstr ""
-"Quin percentatge d'espai d'emmagatzematge del seu dispositiu pot utilitzar "
-"BOINC?"
+"Quin percentatge d'espai d'emmagatzematge del seu dispositiu pot "
+"utilitzar BOINC?"
 
 msgctxt "prefs_disk_min_free_gb_header"
 msgid "Min. spare storage"
@@ -520,8 +572,8 @@ msgstr "Pausa en l'ús de la CPU per sobre de"
 msgctxt "prefs_cpu_other_load_suspension_description"
 msgid "Determines when BOINC pauses computation due to other app's CPU usage."
 msgstr ""
-"Determina quan BOINC pausa el còmput degut a la utilització de la CPU per un "
-"altra aplicació."
+"Determina quan BOINC pausa el còmput degut a la utilització de la CPU per"
+" un altra aplicació."
 
 msgctxt "prefs_cpu_time_max_header"
 msgid "CPU limit"
@@ -659,6 +711,18 @@ msgctxt "projects_control_reset"
 msgid "Reset"
 msgstr "Reinicia"
 
+msgctxt "projects_control_dialog_title_acctmgr"
+msgid "Account manager commands:"
+msgstr ""
+
+msgctxt "projects_control_sync_acctmgr"
+msgid "Synchronize"
+msgstr ""
+
+msgctxt "projects_control_remove_acctmgr"
+msgid "Disable"
+msgstr ""
+
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
 msgid "Remove project?"
@@ -687,6 +751,20 @@ msgstr "Estàs segur que vols reiniciar"
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
 msgstr "Reinicia"
+
+#, fuzzy
+msgctxt "projects_confirm_remove_acctmgr_title"
+msgid "Disable account manager"
+msgstr "Sol·licitat per l'administrador de comptes"
+
+#, fuzzy
+msgctxt "projects_confirm_remove_acctmgr_message"
+msgid "Are you sure you want to stop using"
+msgstr "Estàs segur que vols reiniciar"
+
+msgctxt "projects_confirm_remove_acctmgr_confirm"
+msgid "Disable"
+msgstr ""
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
@@ -842,6 +920,12 @@ msgstr "Avortar arxiu:"
 msgctxt "confirm_abort_trans_confirm"
 msgid "Abort"
 msgstr "Avorta"
+
+#. notices tab strings
+#, fuzzy
+msgctxt "notices_loading"
+msgid "Reading notices…"
+msgstr "S'estan carregant els projectes..."
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"
@@ -1043,3 +1127,4 @@ msgid ""
 msgstr ""
 "© 2003–2013 Universitat de Califòrnia, Berkeley.\n"
 "Tots els Drets Reservats."
+

@@ -1,22 +1,20 @@
-# Translations template for PROJECT.
+# Korean translations for BOINC.
 # Copyright (C) 2013 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
+# This file is distributed under the same license as the BOINC project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC 7.2.x\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-29 15:37-0700\n"
+"POT-Creation-Date: 2013-10-10 12:00-0700\n"
 "PO-Revision-Date: 2013-09-01 09:08+0900\n"
 "Last-Translator: Lee Kangsan <treppolse@gmail.com>\n"
 "Language-Team: SETIKAH@HOME\n"
-"Language: ko\n"
+"Plural-Forms: nplurals=1; plural=(0)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.7\n"
 "Generated-By: Babel 1.0dev\n"
-"X-Poedit-SourceCharset: UTF-8\n"
 
 #. app global
 msgctxt "app_name"
@@ -49,6 +47,11 @@ msgstr "프로젝트 추가"
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
 msgstr "프로젝트 URL를 입력하세요"
+
+#, fuzzy
+msgctxt "attachproject_list_acctmgr_button"
+msgid "Add account manager"
+msgstr "계정 관리자에서 요청함"
 
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
@@ -190,6 +193,34 @@ msgctxt "attachproject_registration_button"
 msgid "Create"
 msgstr "생성"
 
+#. account manager
+#, fuzzy
+msgctxt "attachproject_acctmgr_header"
+msgid "Add account manager"
+msgstr "계정 관리자에서 요청함"
+
+msgctxt "attachproject_acctmgr_header_url"
+msgid "URL"
+msgstr ""
+
+msgctxt "attachproject_acctmgr_header_name"
+msgid "User:"
+msgstr ""
+
+#, fuzzy
+msgctxt "attachproject_acctmgr_header_pwd"
+msgid "Password:"
+msgstr "비밀번호:"
+
+#, fuzzy
+msgctxt "attachproject_acctmgr_header_pwd_confirm"
+msgid "… Retype:"
+msgstr "… 재입력:"
+
+msgctxt "attachproject_acctmgr_button"
+msgid "Add"
+msgstr ""
+
 #. error strings
 msgctxt "attachproject_error_wrong_name"
 msgid "User not found"
@@ -206,6 +237,11 @@ msgstr "연결 실패"
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
 msgstr "비밀번호가 일치하지 않습니다"
+
+#, fuzzy
+msgctxt "attachproject_error_no_url"
+msgid "Please enter URL"
+msgstr "사용자 이름을 입력해 주세요"
 
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
@@ -246,6 +282,10 @@ msgstr "비밀번호가 틀립니다"
 msgctxt "attachproject_error_creation_disabled"
 msgid "Account creation is disabled on this project"
 msgstr "이 프로젝트는 계정 생성을 할 수 없습니다"
+
+msgctxt "attachproject_error_invalid_url"
+msgid "Invalid URL"
+msgstr ""
 
 #. working activity
 msgctxt "attachproject_working_back_button"
@@ -292,6 +332,15 @@ msgctxt "attachproject_working_login"
 msgid "Log in"
 msgstr "로그인"
 
+#, fuzzy
+msgctxt "attachproject_working_acctmgr"
+msgid "Add account manager"
+msgstr "계정 관리자에서 요청함"
+
+msgctxt "attachproject_working_acctmgr_sync"
+msgid "Synchronize"
+msgstr ""
+
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
@@ -333,6 +382,10 @@ msgstr "전송"
 msgctxt "tab_preferences"
 msgid "Preferences"
 msgstr "환경 설정"
+
+msgctxt "tab_notices"
+msgid "Notices"
+msgstr ""
 
 msgctxt "tab_desc"
 msgid "Navigation"
@@ -646,6 +699,18 @@ msgctxt "projects_control_reset"
 msgid "Reset"
 msgstr "재설정"
 
+msgctxt "projects_control_dialog_title_acctmgr"
+msgid "Account manager commands:"
+msgstr ""
+
+msgctxt "projects_control_sync_acctmgr"
+msgid "Synchronize"
+msgstr ""
+
+msgctxt "projects_control_remove_acctmgr"
+msgid "Disable"
+msgstr ""
+
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
 msgid "Remove project?"
@@ -674,6 +739,20 @@ msgstr "다음 프로젝트가 재설정됩니다 괘찮습니까: "
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
 msgstr "재설정"
+
+#, fuzzy
+msgctxt "projects_confirm_remove_acctmgr_title"
+msgid "Disable account manager"
+msgstr "계정 관리자에서 요청함"
+
+#, fuzzy
+msgctxt "projects_confirm_remove_acctmgr_message"
+msgid "Are you sure you want to stop using"
+msgstr "다음 프로젝트가 재설정됩니다 괘찮습니까: "
+
+msgctxt "projects_confirm_remove_acctmgr_confirm"
+msgid "Disable"
+msgstr ""
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
@@ -829,6 +908,12 @@ msgstr "중단할 파일:"
 msgctxt "confirm_abort_trans_confirm"
 msgid "Abort"
 msgstr "중단"
+
+#. notices tab strings
+#, fuzzy
+msgctxt "notices_loading"
+msgid "Reading notices…"
+msgstr "프로젝트를 불러오는 중…"
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"
@@ -1030,3 +1115,4 @@ msgid ""
 msgstr ""
 "© 2003–2013 University of California, Berkeley.\n"
 "All Rights Reserved."
+

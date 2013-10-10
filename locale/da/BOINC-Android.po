@@ -1,23 +1,20 @@
-# Translations template for PROJECT.
+# Danish translations for PACKAGE.
 # Copyright (C) 2013 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
+# This file is distributed under the same license as the PACKAGE project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-29 15:37-0700\n"
+"POT-Creation-Date: 2013-10-10 12:00-0700\n"
 "PO-Revision-Date: 2013-10-08 18:14+0000\n"
 "Last-Translator: pryds <thomas@pryds.eu>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: da\n"
+"Language-Team: da <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=((n == 1) ? 0 : 1)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1381256043.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -50,6 +47,11 @@ msgstr "Tilføj projekt"
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
 msgstr "Indtast venligst projekt-URL"
+
+#, fuzzy
+msgctxt "attachproject_list_acctmgr_button"
+msgid "Add account manager"
+msgstr "Forespurgt af kontohåndtering"
 
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
@@ -105,8 +107,8 @@ msgid ""
 "By creating an account with this project, you accept the terms of use as "
 "shown above."
 msgstr ""
-"Ved at oprette en konto hos dette projekt, accepterer du brugervilkårene, "
-"som vises herover."
+"Ved at oprette en konto hos dette projekt, accepterer du brugervilkårene,"
+" som vises herover."
 
 msgctxt "attachproject_login_category_login"
 msgid "Sign in with existing account"
@@ -193,6 +195,34 @@ msgctxt "attachproject_registration_button"
 msgid "Create"
 msgstr "Opret"
 
+#. account manager
+#, fuzzy
+msgctxt "attachproject_acctmgr_header"
+msgid "Add account manager"
+msgstr "Forespurgt af kontohåndtering"
+
+msgctxt "attachproject_acctmgr_header_url"
+msgid "URL"
+msgstr ""
+
+msgctxt "attachproject_acctmgr_header_name"
+msgid "User:"
+msgstr ""
+
+#, fuzzy
+msgctxt "attachproject_acctmgr_header_pwd"
+msgid "Password:"
+msgstr "Kodeord:"
+
+#, fuzzy
+msgctxt "attachproject_acctmgr_header_pwd_confirm"
+msgid "… Retype:"
+msgstr "… Tast igen:"
+
+msgctxt "attachproject_acctmgr_button"
+msgid "Add"
+msgstr ""
+
 #. error strings
 msgctxt "attachproject_error_wrong_name"
 msgid "User not found"
@@ -209,6 +239,11 @@ msgstr "Forbindelsesfejl"
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
 msgstr "Kodeord passer ikke sammen"
+
+#, fuzzy
+msgctxt "attachproject_error_no_url"
+msgid "Please enter URL"
+msgstr "Indtast venligst brugernavn"
 
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
@@ -249,6 +284,10 @@ msgstr "Kodeord afvist"
 msgctxt "attachproject_error_creation_disabled"
 msgid "Account creation is disabled on this project"
 msgstr "Oprettelse af konti er slået fra for dette projekt"
+
+msgctxt "attachproject_error_invalid_url"
+msgid "Invalid URL"
+msgstr ""
 
 #. working activity
 msgctxt "attachproject_working_back_button"
@@ -295,6 +334,15 @@ msgctxt "attachproject_working_login"
 msgid "Log in"
 msgstr "Log ind"
 
+#, fuzzy
+msgctxt "attachproject_working_acctmgr"
+msgid "Add account manager"
+msgstr "Forespurgt af kontohåndtering"
+
+msgctxt "attachproject_working_acctmgr_sync"
+msgid "Synchronize"
+msgstr ""
+
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
@@ -336,6 +384,10 @@ msgstr "Overførsler"
 msgctxt "tab_preferences"
 msgid "Preferences"
 msgstr "Indstillinger"
+
+msgctxt "tab_notices"
+msgid "Notices"
+msgstr ""
 
 msgctxt "tab_desc"
 msgid "Navigation"
@@ -460,8 +512,8 @@ msgid ""
 "BOINC suspends computation above defined battery temperature. It is not "
 "recommended to change this value."
 msgstr ""
-"BOINC stopper beregninger over defineret batteritemperatur. Det anbefales "
-"ikke at ændre denne værdi."
+"BOINC stopper beregninger over defineret batteritemperatur. Det anbefales"
+" ikke at ændre denne værdi."
 
 msgctxt "prefs_disk_max_pct_header"
 msgid "Max. used storage space"
@@ -653,6 +705,18 @@ msgctxt "projects_control_reset"
 msgid "Reset"
 msgstr "Nulstil"
 
+msgctxt "projects_control_dialog_title_acctmgr"
+msgid "Account manager commands:"
+msgstr ""
+
+msgctxt "projects_control_sync_acctmgr"
+msgid "Synchronize"
+msgstr ""
+
+msgctxt "projects_control_remove_acctmgr"
+msgid "Disable"
+msgstr ""
+
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
 msgid "Remove project?"
@@ -681,6 +745,20 @@ msgstr "Er du sikker på, at du vil nulstille"
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
 msgstr "Nulstil"
+
+#, fuzzy
+msgctxt "projects_confirm_remove_acctmgr_title"
+msgid "Disable account manager"
+msgstr "Forespurgt af kontohåndtering"
+
+#, fuzzy
+msgctxt "projects_confirm_remove_acctmgr_message"
+msgid "Are you sure you want to stop using"
+msgstr "Er du sikker på, at du vil nulstille"
+
+msgctxt "projects_confirm_remove_acctmgr_confirm"
+msgid "Disable"
+msgstr ""
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
@@ -836,6 +914,12 @@ msgstr "Afbryd fil:"
 msgctxt "confirm_abort_trans_confirm"
 msgid "Abort"
 msgstr "Afbryd"
+
+#. notices tab strings
+#, fuzzy
+msgctxt "notices_loading"
+msgid "Reading notices…"
+msgstr "Indlæser projekter…"
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"
@@ -1037,3 +1121,4 @@ msgid ""
 msgstr ""
 "© 2003–2013 University of California, Berkeley.\n"
 "Alle rettigheder forbeholdes."
+

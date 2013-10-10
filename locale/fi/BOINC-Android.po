@@ -1,23 +1,20 @@
-# Translations template for PROJECT.
+# Finnish translations for PACKAGE.
 # Copyright (C) 2013 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
+# This file is distributed under the same license as the PACKAGE project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-29 15:37-0700\n"
+"POT-Creation-Date: 2013-10-10 12:00-0700\n"
 "PO-Revision-Date: 2013-08-30 18:28+0000\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: fi\n"
+"Language-Team: fi <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=((n == 1) ? 0 : 1)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1377887293.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -50,6 +47,11 @@ msgstr "Lisää projekti"
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
 msgstr "Anna projektin URL"
+
+#, fuzzy
+msgctxt "attachproject_list_acctmgr_button"
+msgid "Add account manager"
+msgstr "Tilihallitsijan pyytämä"
 
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
@@ -191,6 +193,34 @@ msgctxt "attachproject_registration_button"
 msgid "Create"
 msgstr "Luo"
 
+#. account manager
+#, fuzzy
+msgctxt "attachproject_acctmgr_header"
+msgid "Add account manager"
+msgstr "Tilihallitsijan pyytämä"
+
+msgctxt "attachproject_acctmgr_header_url"
+msgid "URL"
+msgstr ""
+
+msgctxt "attachproject_acctmgr_header_name"
+msgid "User:"
+msgstr ""
+
+#, fuzzy
+msgctxt "attachproject_acctmgr_header_pwd"
+msgid "Password:"
+msgstr "Salasana:"
+
+#, fuzzy
+msgctxt "attachproject_acctmgr_header_pwd_confirm"
+msgid "… Retype:"
+msgstr "… Kirjoita uudelleen:"
+
+msgctxt "attachproject_acctmgr_button"
+msgid "Add"
+msgstr ""
+
 #. error strings
 msgctxt "attachproject_error_wrong_name"
 msgid "User not found"
@@ -207,6 +237,11 @@ msgstr "Yhteysvirhe"
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
 msgstr "Salasanat eivät täsmää"
+
+#, fuzzy
+msgctxt "attachproject_error_no_url"
+msgid "Please enter URL"
+msgstr "Anna käyttäjänimi"
 
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
@@ -247,6 +282,10 @@ msgstr "Salasana hylätty"
 msgctxt "attachproject_error_creation_disabled"
 msgid "Account creation is disabled on this project"
 msgstr "Tilin luonti on poistettu käytöstä tässä projektissa"
+
+msgctxt "attachproject_error_invalid_url"
+msgid "Invalid URL"
+msgstr ""
 
 #. working activity
 msgctxt "attachproject_working_back_button"
@@ -293,6 +332,15 @@ msgctxt "attachproject_working_login"
 msgid "Log in"
 msgstr "Kirjaudu"
 
+#, fuzzy
+msgctxt "attachproject_working_acctmgr"
+msgid "Add account manager"
+msgstr "Tilihallitsijan pyytämä"
+
+msgctxt "attachproject_working_acctmgr_sync"
+msgid "Synchronize"
+msgstr ""
+
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
@@ -334,6 +382,10 @@ msgstr "Siirrot"
 msgctxt "tab_preferences"
 msgid "Preferences"
 msgstr "Asetukset"
+
+msgctxt "tab_notices"
+msgid "Notices"
+msgstr ""
 
 msgctxt "tab_desc"
 msgid "Navigation"
@@ -448,7 +500,8 @@ msgstr "Pienin varaustaso"
 msgctxt "battery_charge_min_pct_description"
 msgid "BOINC suspends computation below defined battery charge level."
 msgstr ""
-"BOINC hyllyttää laskennan kun asetettu akun varaustason alaraja saavutetaan."
+"BOINC hyllyttää laskennan kun asetettu akun varaustason alaraja "
+"saavutetaan."
 
 msgctxt "battery_temperature_max_header"
 msgid "Max. battery temperature"
@@ -459,8 +512,8 @@ msgid ""
 "BOINC suspends computation above defined battery temperature. It is not "
 "recommended to change this value."
 msgstr ""
-"BOINC hyllyttää laskennan kun asetettu akun lämpötilaraja saavutetaan. Tätä "
-"arvoa ei suositella muutettavaksi."
+"BOINC hyllyttää laskennan kun asetettu akun lämpötilaraja saavutetaan. "
+"Tätä arvoa ei suositella muutettavaksi."
 
 msgctxt "prefs_disk_max_pct_header"
 msgid "Max. used storage space"
@@ -650,6 +703,18 @@ msgctxt "projects_control_reset"
 msgid "Reset"
 msgstr "Nollaa"
 
+msgctxt "projects_control_dialog_title_acctmgr"
+msgid "Account manager commands:"
+msgstr ""
+
+msgctxt "projects_control_sync_acctmgr"
+msgid "Synchronize"
+msgstr ""
+
+msgctxt "projects_control_remove_acctmgr"
+msgid "Disable"
+msgstr ""
+
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
 msgid "Remove project?"
@@ -678,6 +743,20 @@ msgstr "Haluatko varmasti nollata"
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
 msgstr "Nollaa"
+
+#, fuzzy
+msgctxt "projects_confirm_remove_acctmgr_title"
+msgid "Disable account manager"
+msgstr "Tilihallitsijan pyytämä"
+
+#, fuzzy
+msgctxt "projects_confirm_remove_acctmgr_message"
+msgid "Are you sure you want to stop using"
+msgstr "Haluatko varmasti nollata"
+
+msgctxt "projects_confirm_remove_acctmgr_confirm"
+msgid "Disable"
+msgstr ""
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
@@ -833,6 +912,12 @@ msgstr "Hylkää tiedosto:"
 msgctxt "confirm_abort_trans_confirm"
 msgid "Abort"
 msgstr "Hylkää"
+
+#. notices tab strings
+#, fuzzy
+msgctxt "notices_loading"
+msgid "Reading notices…"
+msgstr "Luetaan projekteja…"
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"
@@ -1034,3 +1119,4 @@ msgid ""
 msgstr ""
 "© 2003–2013 Kalifornian yliopisto, Berkeley.\n"
 "Kaikki oikeudet pidätetään."
+

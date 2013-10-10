@@ -1,23 +1,21 @@
-# Translations template for PROJECT.
+# Turkish translations for OINC Android.
 # Copyright (C) 2013 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
+# This file is distributed under the same license as the OINC Android
+# project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: OINC Android 7.2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-29 15:37-0700\n"
+"POT-Creation-Date: 2013-10-10 12:00-0700\n"
 "PO-Revision-Date: 2013-09-07 15:47+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Türkçe <LL@li.org>\n"
-"Language: tr\n"
+"Plural-Forms: nplurals=1; plural=(0)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.5.7\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1378149251.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -50,6 +48,11 @@ msgstr "Proje ekle"
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
 msgstr "Lütfen proje adresini girin"
+
+#, fuzzy
+msgctxt "attachproject_list_acctmgr_button"
+msgid "Add account manager"
+msgstr "Hesap yöneticisi tarafından istendi"
 
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
@@ -193,6 +196,34 @@ msgctxt "attachproject_registration_button"
 msgid "Create"
 msgstr "Oluştur"
 
+#. account manager
+#, fuzzy
+msgctxt "attachproject_acctmgr_header"
+msgid "Add account manager"
+msgstr "Hesap yöneticisi tarafından istendi"
+
+msgctxt "attachproject_acctmgr_header_url"
+msgid "URL"
+msgstr ""
+
+msgctxt "attachproject_acctmgr_header_name"
+msgid "User:"
+msgstr ""
+
+#, fuzzy
+msgctxt "attachproject_acctmgr_header_pwd"
+msgid "Password:"
+msgstr "Parola:"
+
+#, fuzzy
+msgctxt "attachproject_acctmgr_header_pwd_confirm"
+msgid "… Retype:"
+msgstr "Yeniden yazın:"
+
+msgctxt "attachproject_acctmgr_button"
+msgid "Add"
+msgstr ""
+
 #. error strings
 msgctxt "attachproject_error_wrong_name"
 msgid "User not found"
@@ -209,6 +240,11 @@ msgstr "Bağlantı başarısız"
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
 msgstr "Yazdığınız parolalar aynı değil"
+
+#, fuzzy
+msgctxt "attachproject_error_no_url"
+msgid "Please enter URL"
+msgstr "Lütfen kullanıcı adınızı yazın"
 
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
@@ -249,6 +285,10 @@ msgstr "Parola kabul edilmedi"
 msgctxt "attachproject_error_creation_disabled"
 msgid "Account creation is disabled on this project"
 msgstr "Hesap oluşturma bu projede devre dışı"
+
+msgctxt "attachproject_error_invalid_url"
+msgid "Invalid URL"
+msgstr ""
 
 #. working activity
 msgctxt "attachproject_working_back_button"
@@ -295,6 +335,15 @@ msgctxt "attachproject_working_login"
 msgid "Log in"
 msgstr "Giriş yap"
 
+#, fuzzy
+msgctxt "attachproject_working_acctmgr"
+msgid "Add account manager"
+msgstr "Hesap yöneticisi tarafından istendi"
+
+msgctxt "attachproject_working_acctmgr_sync"
+msgid "Synchronize"
+msgstr ""
+
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
@@ -336,6 +385,10 @@ msgstr "Aktarımlar"
 msgctxt "tab_preferences"
 msgid "Preferences"
 msgstr "Tercihler"
+
+msgctxt "tab_notices"
+msgid "Notices"
+msgstr ""
 
 msgctxt "tab_desc"
 msgid "Navigation"
@@ -460,8 +513,8 @@ msgid ""
 "BOINC suspends computation above defined battery temperature. It is not "
 "recommended to change this value."
 msgstr ""
-"BOINC, pil sıcaklığı bu değerin üzerine çıkarsa hesaplamayı duraklatır. Bu "
-"değeri değiştirmeniz önerilmez."
+"BOINC, pil sıcaklığı bu değerin üzerine çıkarsa hesaplamayı duraklatır. "
+"Bu değeri değiştirmeniz önerilmez."
 
 msgctxt "prefs_disk_max_pct_header"
 msgid "Max. used storage space"
@@ -516,8 +569,8 @@ msgstr "CPU kullanımı fazlaysa duraklat"
 msgctxt "prefs_cpu_other_load_suspension_description"
 msgid "Determines when BOINC pauses computation due to other app's CPU usage."
 msgstr ""
-"BOINC, diğer uygulamaların işlemci kullanımı bu seviyeyi aşarsa, hesaplamayı "
-"duraklatır."
+"BOINC, diğer uygulamaların işlemci kullanımı bu seviyeyi aşarsa, "
+"hesaplamayı duraklatır."
 
 msgctxt "prefs_cpu_time_max_header"
 msgid "CPU limit"
@@ -655,6 +708,18 @@ msgctxt "projects_control_reset"
 msgid "Reset"
 msgstr "Sıfırla"
 
+msgctxt "projects_control_dialog_title_acctmgr"
+msgid "Account manager commands:"
+msgstr ""
+
+msgctxt "projects_control_sync_acctmgr"
+msgid "Synchronize"
+msgstr ""
+
+msgctxt "projects_control_remove_acctmgr"
+msgid "Disable"
+msgstr ""
+
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
 msgid "Remove project?"
@@ -683,6 +748,20 @@ msgstr "Bu proje sıfırlansın mı:"
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
 msgstr "Sıfırla"
+
+#, fuzzy
+msgctxt "projects_confirm_remove_acctmgr_title"
+msgid "Disable account manager"
+msgstr "Hesap yöneticisi tarafından istendi"
+
+#, fuzzy
+msgctxt "projects_confirm_remove_acctmgr_message"
+msgid "Are you sure you want to stop using"
+msgstr "Bu proje sıfırlansın mı:"
+
+msgctxt "projects_confirm_remove_acctmgr_confirm"
+msgid "Disable"
+msgstr ""
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
@@ -838,6 +917,12 @@ msgstr "Bu dosyanın aktarımı iptal edilsin mi:"
 msgctxt "confirm_abort_trans_confirm"
 msgid "Abort"
 msgstr "Evet"
+
+#. notices tab strings
+#, fuzzy
+msgctxt "notices_loading"
+msgid "Reading notices…"
+msgstr "Projeler okunuyor..."
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"
@@ -1041,3 +1126,4 @@ msgstr ""
 "\n"
 "© 2003-2013 Kaliforniya Üniversitesi, Berkeley.\n"
 "Tüm hakları saklıdır."
+
