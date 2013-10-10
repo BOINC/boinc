@@ -1,24 +1,21 @@
-# Translations template for PROJECT.
+# Romanian translations for PACKAGE.
 # Copyright (C) 2013 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
+# This file is distributed under the same license as the PACKAGE project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-29 15:37-0700\n"
+"POT-Creation-Date: 2013-10-10 12:00-0700\n"
 "PO-Revision-Date: 2013-08-30 08:02+0000\n"
 "Last-Translator: Marius <marius.sirbu@outlook.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: ro\n"
+"Language-Team: ro <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=((n == 1) ? 0 : ((n == 0) || ((n != 1) "
+"&& ((n % 100) >= 1 && (n % 100) <= 19))) ? 1 : 2)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
-"20)) ? 1 : 2);;\n"
-"X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1377849720.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -51,6 +48,11 @@ msgstr "Adaugă proiect"
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
 msgstr "Vă rugăm introduceţi URL proiect"
+
+#, fuzzy
+msgctxt "attachproject_list_acctmgr_button"
+msgid "Add account manager"
+msgstr "Cerut de managerul de cont"
 
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
@@ -106,8 +108,8 @@ msgid ""
 "By creating an account with this project, you accept the terms of use as "
 "shown above."
 msgstr ""
-"Prin crearea unui cont la acest proiect, acceptaţi condiţiile de utilizare "
-"aşa cum sunt prezentate mai sus."
+"Prin crearea unui cont la acest proiect, acceptaţi condiţiile de "
+"utilizare aşa cum sunt prezentate mai sus."
 
 msgctxt "attachproject_login_category_login"
 msgid "Sign in with existing account"
@@ -194,6 +196,34 @@ msgctxt "attachproject_registration_button"
 msgid "Create"
 msgstr "Creează"
 
+#. account manager
+#, fuzzy
+msgctxt "attachproject_acctmgr_header"
+msgid "Add account manager"
+msgstr "Cerut de managerul de cont"
+
+msgctxt "attachproject_acctmgr_header_url"
+msgid "URL"
+msgstr ""
+
+msgctxt "attachproject_acctmgr_header_name"
+msgid "User:"
+msgstr ""
+
+#, fuzzy
+msgctxt "attachproject_acctmgr_header_pwd"
+msgid "Password:"
+msgstr "Parolă:"
+
+#, fuzzy
+msgctxt "attachproject_acctmgr_header_pwd_confirm"
+msgid "… Retype:"
+msgstr "... Reintroduceţi:"
+
+msgctxt "attachproject_acctmgr_button"
+msgid "Add"
+msgstr ""
+
 #. error strings
 msgctxt "attachproject_error_wrong_name"
 msgid "User not found"
@@ -210,6 +240,11 @@ msgstr "Conexiunea a eșuat"
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
 msgstr "Parolele nu sunt identice"
+
+#, fuzzy
+msgctxt "attachproject_error_no_url"
+msgid "Please enter URL"
+msgstr "Vă rugăm introduceţi numele de utilizator"
 
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
@@ -250,6 +285,10 @@ msgstr "Parola refuzată"
 msgctxt "attachproject_error_creation_disabled"
 msgid "Account creation is disabled on this project"
 msgstr "Crearea de conturi este dezactivată la acest proiect"
+
+msgctxt "attachproject_error_invalid_url"
+msgid "Invalid URL"
+msgstr ""
 
 #. working activity
 msgctxt "attachproject_working_back_button"
@@ -296,6 +335,15 @@ msgctxt "attachproject_working_login"
 msgid "Log in"
 msgstr "Autentificare"
 
+#, fuzzy
+msgctxt "attachproject_working_acctmgr"
+msgid "Add account manager"
+msgstr "Cerut de managerul de cont"
+
+msgctxt "attachproject_working_acctmgr_sync"
+msgid "Synchronize"
+msgstr ""
+
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
@@ -337,6 +385,10 @@ msgstr "Transferuri"
 msgctxt "tab_preferences"
 msgid "Preferences"
 msgstr "Preferințe"
+
+msgctxt "tab_notices"
+msgid "Notices"
+msgstr ""
 
 msgctxt "tab_desc"
 msgid "Navigation"
@@ -471,8 +523,8 @@ msgstr "Spaţiu de stocare maxim utilizat"
 msgctxt "prefs_disk_max_pct_description"
 msgid "How many percent of your device's storage space is BOINC allowed to use?"
 msgstr ""
-"Ce procent din spaţiul de stocare al dispozitivului dumneavoastră are voie "
-"să fie utilizat de BOINC?"
+"Ce procent din spaţiul de stocare al dispozitivului dumneavoastră are "
+"voie să fie utilizat de BOINC?"
 
 msgctxt "prefs_disk_min_free_gb_header"
 msgid "Min. spare storage"
@@ -517,8 +569,8 @@ msgstr "Pauză la utilizare CPU peste"
 msgctxt "prefs_cpu_other_load_suspension_description"
 msgid "Determines when BOINC pauses computation due to other app's CPU usage."
 msgstr ""
-"Determină când BOINC întrerupe calculele din cauza utilizării CPU a altor "
-"aplicaţii."
+"Determină când BOINC întrerupe calculele din cauza utilizării CPU a altor"
+" aplicaţii."
 
 msgctxt "prefs_cpu_time_max_header"
 msgid "CPU limit"
@@ -656,6 +708,18 @@ msgctxt "projects_control_reset"
 msgid "Reset"
 msgstr "Resetează"
 
+msgctxt "projects_control_dialog_title_acctmgr"
+msgid "Account manager commands:"
+msgstr ""
+
+msgctxt "projects_control_sync_acctmgr"
+msgid "Synchronize"
+msgstr ""
+
+msgctxt "projects_control_remove_acctmgr"
+msgid "Disable"
+msgstr ""
+
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
 msgid "Remove project?"
@@ -684,6 +748,20 @@ msgstr "Sunteţi sigur că doriţi să resetaţi"
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
 msgstr "Resetează"
+
+#, fuzzy
+msgctxt "projects_confirm_remove_acctmgr_title"
+msgid "Disable account manager"
+msgstr "Cerut de managerul de cont"
+
+#, fuzzy
+msgctxt "projects_confirm_remove_acctmgr_message"
+msgid "Are you sure you want to stop using"
+msgstr "Sunteţi sigur că doriţi să resetaţi"
+
+msgctxt "projects_confirm_remove_acctmgr_confirm"
+msgid "Disable"
+msgstr ""
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
@@ -839,6 +917,12 @@ msgstr "Abandonează Fişier:"
 msgctxt "confirm_abort_trans_confirm"
 msgid "Abort"
 msgstr "Abandonează"
+
+#. notices tab strings
+#, fuzzy
+msgctxt "notices_loading"
+msgid "Reading notices…"
+msgstr "Se citesc proiectele..."
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"
@@ -1042,3 +1126,4 @@ msgid ""
 msgstr ""
 "© 2003–2013 Universitatea din California, Berkeley.\n"
 "Toate Drepturile Rezervate."
+
