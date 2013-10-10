@@ -312,3 +312,6 @@ int OPENCL_CPU_PROP::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
+void OPENCL_CPU_PROP::description(char* buf, int buflen, const char* type) {
+    opencl_prop.description(buf, buflen, type);
+}

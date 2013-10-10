@@ -18,7 +18,7 @@
 
 // client-specific GPU code.  Mostly GPU detection
 
-#define USE_CHILD_PROCESS_TO_DETECT_GPUS 1
+//#define USE_CHILD_PROCESS_TO_DETECT_GPUS 1
 
 #include "cpp.h"
 
@@ -243,6 +243,13 @@ void COPROCS::correlate_gpus(
     //
     for (i=0; i<intel_gpu_opencls.size(); i++) {
         intel_gpu_opencls[i].description(buf, sizeof(buf), proc_type_name(PROC_TYPE_INTEL_GPU));
+        descs.push_back(string(buf));
+    }
+
+    // Create descriptions for OpenCL CPUs
+    //
+    for (i=0; i<cpu_opencls.size(); i++) {
+        cpu_opencls[i].description(buf, sizeof(buf), proc_type_name(PROC_TYPE_CPU));
         descs.push_back(string(buf));
     }
 
