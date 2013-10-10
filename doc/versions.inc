@@ -206,10 +206,10 @@ $l66 = array(
 	);
 
 $l72ubuntudev = array(
-	"num"=>"7.2.5",
+	"num"=>"7.2.20",
 	"status"=>"Development version",
-	"file"=>"boinc_7.2.5_i686-pc-linux-gnu.sh",
-	"date"=>"17 July 2013",
+	"file"=>"boinc_7.2.20_i686-pc-linux-gnu.sh",
+	"date"=>"10 Oct 2013",
 	"type"=>"sea",
 );
 
@@ -230,10 +230,10 @@ $l70ubuntuold = array(
 );
 
 $l72ubuntux64dev = array(
-	"num"=>"7.2.5",
+	"num"=>"7.2.20",
 	"status"=>"Development version",
-	"file"=>"boinc_7.2.5_x86_64-pc-linux-gnu.sh",
-	"date"=>"17 July 2013",
+	"file"=>"boinc_7.2.20_x86_64-pc-linux-gnu.sh",
+	"date"=>"10 Oct 2013",
 	"type"=>"sea",
 );
 
