@@ -1,23 +1,24 @@
-# Ukrainian translations for PACKAGE.
+# Translations template for PROJECT.
 # Copyright (C) 2013 ORGANIZATION
-# This file is distributed under the same license as the PACKAGE project.
+# This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-10-10 12:00-0700\n"
+"POT-Creation-Date: 2013-08-29 15:37-0700\n"
 "PO-Revision-Date: 2013-09-23 16:39+0000\n"
 "Last-Translator: Dead J. Dona <deadjdona@gmail.com>\n"
-"Language-Team: uk <LL@li.org>\n"
-"Plural-Forms: nplurals=4; plural=((((n % 10) == 1) && ((n % 100) != 11)) "
-"? 0 : (((n % 10) >= 2 && (n % 10) <= 4) && (!((n % 100) >= 12 && (n % "
-"100) <= 14))) ? 1 : ((((n % 10) == 0) || ((n % 10) >= 5 && (n % 10) <= "
-"9)) || ((n % 100) >= 11 && (n % 100) <= 14)) ? 2 : 3)\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
+"X-POOTLE-MTIME: 1379954381.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -50,11 +51,6 @@ msgstr "Додати проект"
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
 msgstr "Будь-ласка, введіть адресу (URL) проекту"
-
-#, fuzzy
-msgctxt "attachproject_list_acctmgr_button"
-msgid "Add account manager"
-msgstr "На запит менеджера проектів"
 
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
@@ -110,8 +106,8 @@ msgid ""
 "By creating an account with this project, you accept the terms of use as "
 "shown above."
 msgstr ""
-"Створюючи обліковий запис у цьому проекті, Ви приймаєте умови "
-"використання, що викладені вище."
+"Створюючи обліковий запис у цьому проекті, Ви приймаєте умови використання, "
+"що викладені вище."
 
 msgctxt "attachproject_login_category_login"
 msgid "Sign in with existing account"
@@ -198,34 +194,6 @@ msgctxt "attachproject_registration_button"
 msgid "Create"
 msgstr "Створити"
 
-#. account manager
-#, fuzzy
-msgctxt "attachproject_acctmgr_header"
-msgid "Add account manager"
-msgstr "На запит менеджера проектів"
-
-msgctxt "attachproject_acctmgr_header_url"
-msgid "URL"
-msgstr ""
-
-msgctxt "attachproject_acctmgr_header_name"
-msgid "User:"
-msgstr ""
-
-#, fuzzy
-msgctxt "attachproject_acctmgr_header_pwd"
-msgid "Password:"
-msgstr "Пароль:"
-
-#, fuzzy
-msgctxt "attachproject_acctmgr_header_pwd_confirm"
-msgid "… Retype:"
-msgstr "… Повторити:"
-
-msgctxt "attachproject_acctmgr_button"
-msgid "Add"
-msgstr ""
-
 #. error strings
 msgctxt "attachproject_error_wrong_name"
 msgid "User not found"
@@ -242,11 +210,6 @@ msgstr "Невдала спроба зв’язку"
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
 msgstr "Паролі не збігаються"
-
-#, fuzzy
-msgctxt "attachproject_error_no_url"
-msgid "Please enter URL"
-msgstr "Будь-ласка, введіть ім'я користувача"
 
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
@@ -287,10 +250,6 @@ msgstr "Пароль відхилено"
 msgctxt "attachproject_error_creation_disabled"
 msgid "Account creation is disabled on this project"
 msgstr "Можливість створення облікових записів в даному проекті відключена"
-
-msgctxt "attachproject_error_invalid_url"
-msgid "Invalid URL"
-msgstr ""
 
 #. working activity
 msgctxt "attachproject_working_back_button"
@@ -337,15 +296,6 @@ msgctxt "attachproject_working_login"
 msgid "Log in"
 msgstr "Увійти"
 
-#, fuzzy
-msgctxt "attachproject_working_acctmgr"
-msgid "Add account manager"
-msgstr "На запит менеджера проектів"
-
-msgctxt "attachproject_working_acctmgr_sync"
-msgid "Synchronize"
-msgstr ""
-
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
@@ -387,10 +337,6 @@ msgstr "Передачі"
 msgctxt "tab_preferences"
 msgid "Preferences"
 msgstr "Налаштування"
-
-msgctxt "tab_notices"
-msgid "Notices"
-msgstr ""
 
 msgctxt "tab_desc"
 msgid "Navigation"
@@ -515,8 +461,8 @@ msgid ""
 "BOINC suspends computation above defined battery temperature. It is not "
 "recommended to change this value."
 msgstr ""
-"BOINC призупинить розрахунки, коли температура батареї перевищить "
-"вказаний рівень. Не рекомендовано змінювати це значення."
+"BOINC призупинить розрахунки, коли температура батареї перевищить вказаний "
+"рівень. Не рекомендовано змінювати це значення."
 
 msgctxt "prefs_disk_max_pct_header"
 msgid "Max. used storage space"
@@ -708,18 +654,6 @@ msgctxt "projects_control_reset"
 msgid "Reset"
 msgstr "Скинути"
 
-msgctxt "projects_control_dialog_title_acctmgr"
-msgid "Account manager commands:"
-msgstr ""
-
-msgctxt "projects_control_sync_acctmgr"
-msgid "Synchronize"
-msgstr ""
-
-msgctxt "projects_control_remove_acctmgr"
-msgid "Disable"
-msgstr ""
-
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
 msgid "Remove project?"
@@ -748,20 +682,6 @@ msgstr "Ви справді хочете перезапустити"
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
 msgstr "Скинути"
-
-#, fuzzy
-msgctxt "projects_confirm_remove_acctmgr_title"
-msgid "Disable account manager"
-msgstr "На запит менеджера проектів"
-
-#, fuzzy
-msgctxt "projects_confirm_remove_acctmgr_message"
-msgid "Are you sure you want to stop using"
-msgstr "Ви справді хочете перезапустити"
-
-msgctxt "projects_confirm_remove_acctmgr_confirm"
-msgid "Disable"
-msgstr ""
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
@@ -917,12 +837,6 @@ msgstr "Перервати файл:"
 msgctxt "confirm_abort_trans_confirm"
 msgid "Abort"
 msgstr "Перервати"
-
-#. notices tab strings
-#, fuzzy
-msgctxt "notices_loading"
-msgid "Reading notices…"
-msgstr "Читання проектів..."
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"
@@ -1124,4 +1038,3 @@ msgid ""
 msgstr ""
 "© 2003-2013 Університет Каліфорнії, Берклі.\n"
 "Всі права захищено."
-
