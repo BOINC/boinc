@@ -312,6 +312,15 @@ int OPENCL_CPU_PROP::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
-void OPENCL_CPU_PROP::description(char* buf, int buflen, const char* type) {
-    opencl_prop.description(buf, buflen, type);
+void OPENCL_CPU_PROP::description(char* buf, int buflen) {
+    char s1[256];
+    int n;
+    // openCL_device_version may have a trailing space
+    strlcpy(s1, opencl_prop.opencl_device_version, sizeof(s1));
+    n = (int)strlen(s1) - 1;
+    if ((n > 0) && (s1[n] == ' ')) s1[n] = '\0';
+    snprintf(buf, buflen,
+        "OpenCL CPU: %s (OpenCL driver vendor: %s, driver version %s, device version %s)",
+        opencl_prop.name, platform_vendor, opencl_prop.opencl_driver_version, s1
+    );
 }
