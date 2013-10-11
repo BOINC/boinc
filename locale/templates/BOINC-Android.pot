@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-10-10 12:00-0700\n"
+"POT-Creation-Date: 2013-08-29 15:37-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,10 +47,6 @@ msgstr ""
 
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
-msgstr ""
-
-msgctxt "attachproject_list_acctmgr_button"
-msgid "Add account manager"
 msgstr ""
 
 msgctxt "attachproject_list_no_internet"
@@ -193,31 +189,6 @@ msgctxt "attachproject_registration_button"
 msgid "Create"
 msgstr ""
 
-#. account manager
-msgctxt "attachproject_acctmgr_header"
-msgid "Add account manager"
-msgstr ""
-
-msgctxt "attachproject_acctmgr_header_url"
-msgid "URL"
-msgstr ""
-
-msgctxt "attachproject_acctmgr_header_name"
-msgid "User:"
-msgstr ""
-
-msgctxt "attachproject_acctmgr_header_pwd"
-msgid "Password:"
-msgstr ""
-
-msgctxt "attachproject_acctmgr_header_pwd_confirm"
-msgid "… Retype:"
-msgstr ""
-
-msgctxt "attachproject_acctmgr_button"
-msgid "Add"
-msgstr ""
-
 #. error strings
 msgctxt "attachproject_error_wrong_name"
 msgid "User not found"
@@ -233,10 +204,6 @@ msgstr ""
 
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
-msgstr ""
-
-msgctxt "attachproject_error_no_url"
-msgid "Please enter URL"
 msgstr ""
 
 msgctxt "attachproject_error_no_email"
@@ -277,10 +244,6 @@ msgstr ""
 
 msgctxt "attachproject_error_creation_disabled"
 msgid "Account creation is disabled on this project"
-msgstr ""
-
-msgctxt "attachproject_error_invalid_url"
-msgid "Invalid URL"
 msgstr ""
 
 #. working activity
@@ -328,14 +291,6 @@ msgctxt "attachproject_working_login"
 msgid "Log in"
 msgstr ""
 
-msgctxt "attachproject_working_acctmgr"
-msgid "Add account manager"
-msgstr ""
-
-msgctxt "attachproject_working_acctmgr_sync"
-msgid "Synchronize"
-msgstr ""
-
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
@@ -374,10 +329,6 @@ msgstr ""
 
 msgctxt "tab_preferences"
 msgid "Preferences"
-msgstr ""
-
-msgctxt "tab_notices"
-msgid "Notices"
 msgstr ""
 
 msgctxt "tab_desc"
@@ -692,18 +643,6 @@ msgctxt "projects_control_reset"
 msgid "Reset"
 msgstr ""
 
-msgctxt "projects_control_dialog_title_acctmgr"
-msgid "Account manager commands:"
-msgstr ""
-
-msgctxt "projects_control_sync_acctmgr"
-msgid "Synchronize"
-msgstr ""
-
-msgctxt "projects_control_remove_acctmgr"
-msgid "Disable"
-msgstr ""
-
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
 msgid "Remove project?"
@@ -731,18 +670,6 @@ msgstr ""
 
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
-msgstr ""
-
-msgctxt "projects_confirm_remove_acctmgr_title"
-msgid "Disable account manager"
-msgstr ""
-
-msgctxt "projects_confirm_remove_acctmgr_message"
-msgid "Are you sure you want to stop using"
-msgstr ""
-
-msgctxt "projects_confirm_remove_acctmgr_confirm"
-msgid "Disable"
 msgstr ""
 
 #. tasks tab strings
@@ -898,11 +825,6 @@ msgstr ""
 
 msgctxt "confirm_abort_trans_confirm"
 msgid "Abort"
-msgstr ""
-
-#. notices tab strings
-msgctxt "notices_loading"
-msgid "Reading notices…"
 msgstr ""
 
 #. eventlog tab strings
