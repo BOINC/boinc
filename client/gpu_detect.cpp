@@ -18,7 +18,7 @@
 
 // client-specific GPU code.  Mostly GPU detection
 
-#ifndef _WIN32
+#ifndef _DEBUG
 #define USE_CHILD_PROCESS_TO_DETECT_GPUS 1
 #endif
 
@@ -168,9 +168,7 @@ void COPROCS::correlate_gpus(
     intel_gpu.correlate(use_all, ignore_gpu_instance[PROC_TYPE_AMD_GPU]);
     correlate_opencl(use_all, ignore_gpu_instance);
 
-    // NOTE: OpenCL has only 64 bits for global_mem_size, 
-    // so it can report a max of only 4GB.  
-    // Get the CPU RAM size from gstate.hostinfo.m_nbytes.
+    // NOTE: OpenCL can report a max of only 4GB.  
     for (i=0; i<cpu_opencls.size(); i++) {
         gstate.host_info.cpu_opencl_prop[gstate.host_info.num_cpu_opencl_platforms++] = cpu_opencls[i];
     }
@@ -253,7 +251,7 @@ void COPROCS::correlate_gpus(
     // Create descriptions for OpenCL CPUs
     //
     for (i=0; i<cpu_opencls.size(); i++) {
-        cpu_opencls[i].description(buf, sizeof(buf), proc_type_name(PROC_TYPE_CPU));
+        cpu_opencls[i].description(buf, sizeof(buf));
         descs.push_back(string(buf));
     }
 
