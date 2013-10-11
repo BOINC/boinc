@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-08-29 15:37-0700\n"
-"PO-Revision-Date: 2013-09-05 03:13+0000\n"
-"Last-Translator: Christian <djangofett@gmx.net>\n"
+"PO-Revision-Date: 2013-10-11 13:45+0000\n"
+"Last-Translator: Anonymous Pootle User\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1378350803.0\n"
+"X-POOTLE-MTIME: 1381499116.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -292,10 +292,9 @@ msgctxt "attachproject_working_verify"
 msgid "Verify account"
 msgstr "Konto überprüfen"
 
-#, fuzzy
 msgctxt "attachproject_working_register"
 msgid "Register account"
-msgstr "Konto registrieren"
+msgstr "Konto anlegen"
 
 msgctxt "attachproject_working_login"
 msgid "Log in"
@@ -372,10 +371,9 @@ msgctxt "status_computing_disabled"
 msgid "Suspended"
 msgstr "angehalten"
 
-#, fuzzy
 msgctxt "status_computing_disabled_long"
 msgid "Press play to resume network and computation."
-msgstr "Play drücken um Netzwerkaktivität und die Berechnung fortzusetzen."
+msgstr "Play drücken um Netzwerkaktivität und Berechnung fortzusetzen."
 
 msgctxt "status_launching"
 msgid "Starting…"
@@ -447,10 +445,9 @@ msgctxt "prefs_show_advanced_header"
 msgid "Show advanced preferences and controls…"
 msgstr "Zeige erweiterte Einstellungen und Steuerungen…"
 
-#, fuzzy
 msgctxt "prefs_run_on_battery_header"
 msgid "Compute on Battery"
-msgstr "Berechne im Batteriebetrieb"
+msgstr "Berechnen im Batteriebetrieb"
 
 msgctxt "battery_charge_min_pct_header"
 msgid "Min. battery level"
@@ -474,10 +471,9 @@ msgstr ""
 "BOINC hält die Berechnung an, sobald diese Temperatur überschritten wird. Es "
 "wird nicht empfohlen diesen Wert zu ändern."
 
-#, fuzzy
 msgctxt "prefs_disk_max_pct_header"
 msgid "Max. used storage space"
-msgstr "max. zu nutzender Speicher"
+msgstr "Max. zu nutzender Speicher"
 
 msgctxt "prefs_disk_max_pct_description"
 msgid "How many percent of your device's storage space is BOINC allowed to use?"
@@ -487,10 +483,9 @@ msgctxt "prefs_disk_min_free_gb_header"
 msgid "Min. spare storage"
 msgstr "min. freizuhaltender Speicher"
 
-#, fuzzy
 msgctxt "prefs_disk_min_free_gb_description"
 msgid "How much of your device's storage space shall stay free?"
-msgstr "Wie viel Ihres Speichers soll mindestens ungenutzt bleiben?"
+msgstr "Wie viel Speicher soll mindestens frei bleiben?"
 
 msgctxt "prefs_network_daily_xfer_limit_mb_header"
 msgid "Daily transfer limit"
@@ -535,10 +530,9 @@ msgctxt "prefs_cpu_time_max_header"
 msgid "CPU limit"
 msgstr "Prozessorbegrenzung"
 
-#, fuzzy
 msgctxt "prefs_cpu_time_max_description"
 msgid "Limits the CPU time BOINC uses for computation."
-msgstr "Limitiert die Anzahl der Prozessoren welche BOINC nutzen darf."
+msgstr "Limitiert die Prozessorzeit, die BOINC nutzen darf."
 
 msgctxt "prefs_memory_max_idle_header"
 msgid "RAM limit"
@@ -692,10 +686,9 @@ msgctxt "projects_confirm_reset_title"
 msgid "Reset project"
 msgstr "Projekt zurücksetzen"
 
-#, fuzzy
 msgctxt "projects_confirm_reset_message"
 msgid "Are you sure you want to reset"
-msgstr "Wollen Sie wirklich zurücksetzen"
+msgstr "Sind Sie sicher, dass Sie auf Standard zurücksetzen wollen?"
 
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
