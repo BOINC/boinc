@@ -251,7 +251,7 @@ void COPROCS::correlate_gpus(
     // Create descriptions for OpenCL CPUs
     //
     for (i=0; i<cpu_opencls.size(); i++) {
-        cpu_opencls[i].description(buf, sizeof(buf), proc_type_name(PROC_TYPE_CPU));
+        cpu_opencls[i].description(buf, sizeof(buf));
         descs.push_back(string(buf));
     }
 
