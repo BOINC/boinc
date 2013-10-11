@@ -973,6 +973,8 @@ int VBOX_VM::register_vm() {
     }
 
     // Add storage controller to VM
+    // See: http://www.virtualbox.org/manual/ch08.html#vboxmanage-storagectl
+    // See: http://www.virtualbox.org/manual/ch05.html#iocaching
     //
     fprintf(
         stderr,
@@ -983,6 +985,10 @@ int VBOX_VM::register_vm() {
     command += "--name \"Hard Disk Controller\" ";
     command += "--add \"" + vm_disk_controller_type + "\" ";
     command += "--controller \"" + vm_disk_controller_model + "\" ";
+    command += "--hostiocache off ";
+    if ((vm_disk_controller_type == "sata") || (vm_disk_controller_type == "SATA") {
+        command += "--sataportcount 1 ";
+    }
 
     retval = vbm_popen(command, output, "add storage controller (fixed disk)");
     if (retval) return retval;
