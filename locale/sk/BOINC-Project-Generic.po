@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2013-06-15 18:01+0200\n"
+"PO-Revision-Date: 2013-10-11 22:20+0000\n"
 "Last-Translator: aceman <acelists@atlas.sk>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sk\n"
@@ -15,8 +15,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-POOTLE-MTIME: 1381530014.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Slovenčina"
@@ -26,9 +27,8 @@ msgstr "Slovak"
 
 # 75%
 #: ../inc/bbcode_html.inc:11
-#, fuzzy
 msgid "Bold text: [b]text[/b]  (alt+b)"
-msgstr "Kurzíva: [i]text[/i]  (alt+i)"
+msgstr "Tučný text: [b]text[/b] (alt+b)"
 
 #: ../inc/bbcode_html.inc:14
 msgid "Italic text: [i]text[/i]  (alt+i)"
@@ -228,16 +228,14 @@ msgstr "Autor"
 #: ../user/forum_edit.php:133 ../user/forum_post.php:116
 #: ../user/forum_reply.php:120 ../user/forum_report_post.php:76
 #: ../user/pm.php:90 ../user/pm.php:144
-#, fuzzy
 msgid "Message"
-msgstr "Nástenky"
+msgstr "Správa"
 
 #: ../inc/forum.inc:580
 msgid "Send&nbsp;message"
 msgstr "Odoslať&nbsp;správu"
 
 #: ../inc/forum.inc:580
-#, fuzzy
 msgid "Send %1 a private message"
 msgstr "Poslať %1 súkromnú správu"
 
@@ -246,9 +244,8 @@ msgid "Joined: %1"
 msgstr ""
 
 #: ../inc/forum.inc:590
-#, fuzzy
 msgid "Posts: %1"
-msgstr "Príspevkov: %1"
+msgstr "Príspevky: %1"
 
 #: ../inc/forum.inc:596
 msgid "Credit: %1"
@@ -263,12 +260,10 @@ msgid "You haven't read this message yet"
 msgstr "Túto správu ste zatiaľ nečítali"
 
 #: ../inc/forum.inc:619
-#, fuzzy
 msgid "Unread"
 msgstr "Neprečítané"
 
 #: ../inc/forum.inc:622 ../inc/forum.inc:627 ../inc/forum.inc:726
-#, fuzzy
 msgid "Message %1"
 msgstr "Správa %1"
 
@@ -277,7 +272,6 @@ msgid "hidden"
 msgstr "skryté"
 
 #: ../inc/forum.inc:624
-#, fuzzy
 msgid "Posted: %1"
 msgstr "Uverejnené: %1"
 
@@ -356,7 +350,6 @@ msgid "Hidden by a moderator"
 msgstr ""
 
 #: ../inc/forum.inc:728
-#, fuzzy
 msgid "Posted %1 by %2"
 msgstr "Uverejnené %1 od %2"
 
@@ -496,7 +489,6 @@ msgid "Mark all threads as read"
 msgstr "Označiť všetky vlákna ako prečítané"
 
 #: ../inc/forum.inc:1251
-#, fuzzy
 msgid "Mark all threads in all message boards as read."
 msgstr "Označiť všetky vlákna na všetkých nástenkách ako prečítané."
 
@@ -842,7 +834,6 @@ msgid "Retired old computer %1"
 msgstr ""
 
 #: ../inc/host.inc:630 ../inc/host.inc:633
-#, fuzzy
 msgid "Show:"
 msgstr "Zobraziť:"
 
@@ -859,7 +850,6 @@ msgid "Computer ID"
 msgstr "ID počítača"
 
 #: ../inc/host.inc:655
-#, fuzzy
 msgid "BOINC<br>version"
 msgstr "BOINC<br>verzia"
 
@@ -886,9 +876,8 @@ msgstr ""
 
 # 80%
 #: ../inc/pm.inc:33 ../inc/user.inc:378
-#, fuzzy
 msgid "Send private message"
-msgstr "Súkromné správy"
+msgstr "Poslať súkromnú správu"
 
 #: ../inc/pm.inc:35 ../inc/pm.inc:37 ../inc/pm.inc:89
 #: ../user/ffmail_form.php:59 ../user/forum_edit.php:99
@@ -901,9 +890,8 @@ msgid "Preview"
 msgstr ""
 
 #: ../inc/pm.inc:48 ../user/pm.php:131
-#, fuzzy
 msgid "no such message"
-msgstr "Súkromné správy"
+msgstr "nenašla sa správa"
 
 #: ../inc/pm.inc:82
 msgid "To"
@@ -1650,9 +1638,8 @@ msgid "Run time"
 msgstr ""
 
 #: ../inc/result.inc:626
-#, fuzzy
 msgid "CPU time"
-msgstr "Typ procesora"
+msgstr "Procesorový čas"
 
 #: ../inc/result.inc:627
 msgid "Validate state"
@@ -1758,14 +1745,12 @@ msgid "Type"
 msgstr ""
 
 #: ../inc/team.inc:119 ../user/team_manage.php:63
-#, fuzzy
 msgid "Message board"
-msgstr "Nástenky"
+msgstr "Diskusné fórum"
 
 #: ../inc/team.inc:120 ../user/forum_forum.php:135 ../user/forum_index.php:93
-#, fuzzy
 msgid "Threads"
-msgstr "Vlákno"
+msgstr "Vlákna"
 
 #: ../inc/team.inc:128
 msgid "Join this team"
@@ -1814,9 +1799,8 @@ msgid "Total members"
 msgstr ""
 
 #: ../inc/team.inc:177 ../inc/team.inc:178 ../inc/team.inc:179
-#, fuzzy
 msgid "view"
-msgstr "Zobrazenia"
+msgstr "zobraziť"
 
 #: ../inc/team.inc:178
 msgid "Active members"
@@ -1941,9 +1925,8 @@ msgstr ""
 #: ../inc/user.inc:150 ../inc/user.inc:152 ../inc/user.inc:153
 #: ../inc/user.inc:218 ../inc/user.inc:243 ../inc/user.inc:327
 #: ../inc/user.inc:402 ../user/view_profile.php:64
-#, fuzzy
 msgid "View"
-msgstr "Zobrazenia"
+msgstr "Zobraziť"
 
 #: ../inc/user.inc:152
 msgid "Computers on this account"
@@ -1963,9 +1946,8 @@ msgstr ""
 
 #: ../inc/user.inc:166 ../inc/user.inc:281 ../inc/user.inc:369
 #: ../inc/user.inc:371 ../user/user_search.php:139
-#, fuzzy
 msgid "Team"
-msgstr "Úlohy"
+msgstr "Tím"
 
 #: ../inc/user.inc:168
 msgid "Cross-project"
@@ -2069,9 +2051,8 @@ msgid "Delete"
 msgstr ""
 
 #: ../inc/user.inc:245
-#, fuzzy
 msgid "Create"
-msgstr "Vytvorený"
+msgstr "Vytvoriť"
 
 #: ../inc/user.inc:247 ../inc/user.inc:402 ../inc/util.inc:504
 msgid "Profile"
@@ -2650,9 +2631,8 @@ msgid "Yes"
 msgstr ""
 
 #: ../user/delete_account.php:79
-#, fuzzy
 msgid "Delete this account"
-msgstr "Zmazať tento počítač"
+msgstr "Zmazať tento účet"
 
 #: ../user/delete_account.php:80 ../user/delete_profile.php:53
 #: ../user/friend.php:239 ../user/user_search.php:58
@@ -2661,18 +2641,16 @@ msgid "No"
 msgstr ""
 
 #: ../user/delete_account.php:80
-#, fuzzy
 msgid "Do not delete this account"
-msgstr "Zmazať tento počítač"
+msgstr "Zachovať tento účet"
 
 #: ../user/delete_profile.php:30
 msgid "couldn't delete profile - please try again later"
 msgstr ""
 
 #: ../user/delete_profile.php:33
-#, fuzzy
 msgid "Delete Confirmation"
-msgstr "Informácie o počítači"
+msgstr "Potvrdenie zmazania"
 
 #: ../user/delete_profile.php:35
 msgid "Your profile has been deleted."
@@ -2733,9 +2711,8 @@ msgid "This project is not accepting donations."
 msgstr ""
 
 #: ../user/donations.php:34
-#, fuzzy
 msgid "%1 donations"
-msgstr "%1 dní"
+msgstr "%1 darov"
 
 #: ../user/donations.php:39
 msgid ""
@@ -2767,9 +2744,8 @@ msgid "Estimated value in"
 msgstr ""
 
 #: ../user/donations.php:320 ../user/donations.php:324
-#, fuzzy
 msgid "Anonymous donation"
-msgstr "Anonymný"
+msgstr "Anonymný dar"
 
 #: ../user/donations.php:320
 msgid ""
@@ -2918,9 +2894,8 @@ msgid "In a single daily email"
 msgstr ""
 
 #: ../user/edit_forum_preferences_form.php:75
-#, fuzzy
 msgid "Message-board identity"
-msgstr "Nástenky"
+msgstr "Identita na nástenka"
 
 #: ../user/edit_forum_preferences_form.php:76
 msgid "Avatar"
@@ -2982,9 +2957,8 @@ msgid "This is how your signature will look in the forums"
 msgstr ""
 
 #: ../user/edit_forum_preferences_form.php:127
-#, fuzzy
 msgid "Message display"
-msgstr "Nástenky"
+msgstr "Zobrazenie správy"
 
 #: ../user/edit_forum_preferences_form.php:129
 msgid "What to display"
@@ -3019,14 +2993,12 @@ msgid "How to sort"
 msgstr ""
 
 #: ../user/edit_forum_preferences_form.php:140
-#, fuzzy
 msgid "Threads:"
 msgstr "Vlákna:"
 
 #: ../user/edit_forum_preferences_form.php:140
-#, fuzzy
 msgid "Posts:"
-msgstr "Príspevkov:"
+msgstr "Príspevky:"
 
 #: ../user/edit_forum_preferences_form.php:141
 msgid "Jump to first new post in thread automatically"
@@ -3312,9 +3284,8 @@ msgid "Deadline, shown in red."
 msgstr ""
 
 #: ../user/explain_state.php:120
-#, fuzzy
 msgid "Unknown field"
-msgstr "Neznámy"
+msgstr "Neznáme pole"
 
 #: ../user/ffmail_action.php:47
 msgid "Email preview"
@@ -3454,15 +3425,13 @@ msgstr ""
 #: ../user/forum_banishment_vote.php:67
 #: ../user/forum_banishment_vote_action.php:63
 #: ../user/forum_moderate_post.php:60 ../user/forum_moderate_thread.php:55
-#, fuzzy
 msgid "Other"
-msgstr "Vlastník"
+msgstr "Ostatné"
 
 #: ../user/forum_banishment_vote.php:69 ../user/forum_moderate_post.php:53
 #: ../user/forum_moderate_thread.php:85
-#, fuzzy
 msgid "Reason"
-msgstr "Úroveň"
+msgstr "Dôvod"
 
 #: ../user/forum_banishment_vote.php:69 ../user/forum_moderate_thread.php:85
 msgid "Mailed if nonempty"
@@ -3492,9 +3461,8 @@ msgid "Forum"
 msgstr ""
 
 #: ../user/forum_edit.php:110
-#, fuzzy
 msgid "Edit your message"
-msgstr "Súkromné správy"
+msgstr "Upraviť Vašu správu"
 
 #: ../user/forum_edit.php:115 ../user/forum_edit.php:120
 #: ../user/forum_post.php:109 ../user/forum_post.php:111
@@ -3511,14 +3479,12 @@ msgid "Not visible to you"
 msgstr ""
 
 #: ../user/forum_forum.php:80
-#, fuzzy
 msgid "Team message board for %1"
-msgstr "nástenka %1"
+msgstr "Tímové diskusné fórum pre %1"
 
 #: ../user/forum_forum.php:96
-#, fuzzy
 msgid "New thread"
-msgstr "Vlákno"
+msgstr "Nové vlákno"
 
 #: ../user/forum_forum.php:96
 msgid "Add a new thread to this forum"
@@ -3558,9 +3524,8 @@ msgstr ""
 
 # 81%
 #: ../user/forum_forum.php:186
-#, fuzzy
 msgid "You haven't read this thread yet"
-msgstr "Túto správu ste zatiaľ nečítali"
+msgstr "Toto vlákno ste zatiaľ nečítali"
 
 #: ../user/forum_forum.php:192
 msgid "This thread is sticky and locked"
@@ -3591,14 +3556,12 @@ msgid "You read this thread"
 msgstr ""
 
 #: ../user/forum_forum.php:200
-#, fuzzy
 msgid "read"
-msgstr "Vlákno"
+msgstr "prečítané"
 
 #: ../user/forum_help_desk.php:27
-#, fuzzy
 msgid "Questions and answers"
-msgstr "Otázky a Odpovede"
+msgstr "Otázky a odpovede"
 
 #: ../user/forum_help_desk.php:30
 msgid ""
@@ -3611,18 +3574,16 @@ msgid "Topic"
 msgstr ""
 
 #: ../user/forum_help_desk.php:45
-#, fuzzy
 msgid "Questions"
-msgstr "Otázky a Odpovede"
+msgstr "Otázky"
 
 #: ../user/forum_index.php:53 ../user/team_forum.php:68
 msgid "Discussion among members of %1"
 msgstr ""
 
 #: ../user/forum_index.php:69
-#, fuzzy
 msgid "%1 Message boards"
-msgstr "nástenka %1"
+msgstr "%1 Diskusné fóra"
 
 #: ../user/forum_index.php:78
 msgid ""
@@ -3635,9 +3596,8 @@ msgid "Subscribed threads"
 msgstr ""
 
 #: ../user/forum_moderate_post.php:43
-#, fuzzy
 msgid "Moderate post"
-msgstr "Posledný príspevok"
+msgstr "Moderovať príspevok"
 
 #: ../user/forum_moderate_post.php:52
 msgid "Hide post"
@@ -3652,9 +3612,8 @@ msgid "Doublepost"
 msgstr ""
 
 #: ../user/forum_moderate_post.php:63
-#, fuzzy
 msgid "Move post"
-msgstr "Žiaden počítač"
+msgstr "Presunúť príspevok"
 
 #: ../user/forum_moderate_post.php:65
 msgid "Destination thread ID:"
@@ -3669,12 +3628,10 @@ msgid "Ban duration"
 msgstr ""
 
 #: ../user/forum_moderate_post.php:81
-#, fuzzy
 msgid "4 hours"
 msgstr "4 hodiny"
 
 #: ../user/forum_moderate_post.php:82 ../user/forum_search.php:45
-#, fuzzy
 msgid "1 day"
 msgstr "1 deň"
 
@@ -3846,7 +3803,6 @@ msgid "Post to thread"
 msgstr ""
 
 #: ../user/forum_reply.php:137
-#, fuzzy
 msgid "Message:"
 msgstr "Správa:"
 
@@ -3881,9 +3837,8 @@ msgid ""
 msgstr ""
 
 #: ../user/forum_report_post.php:71
-#, fuzzy
 msgid "Report a forum post"
-msgstr "Posledný príspevok"
+msgstr "Nahlásiť príspevok"
 
 #: ../user/forum_report_post.php:73
 msgid ""
@@ -3893,9 +3848,8 @@ msgid ""
 msgstr ""
 
 #: ../user/forum_report_post.php:80
-#, fuzzy
 msgid "Report post"
-msgstr "Posledný príspevok"
+msgstr "Nahlásiť príspevok"
 
 #: ../user/forum_report_post.php:81
 msgid ""
@@ -3950,12 +3904,10 @@ msgid "Forum search"
 msgstr ""
 
 #: ../user/forum_search.php:31
-#, fuzzy
 msgid "Search query"
 msgstr "Prehľadať fóra"
 
 #: ../user/forum_search.php:32
-#, fuzzy
 msgid "Search for keywords:"
 msgstr "Hľadať kľúčové slová:"
 
@@ -3968,7 +3920,6 @@ msgid "For example: \"screensaver freeze\""
 msgstr ""
 
 #: ../user/forum_search.php:36
-#, fuzzy
 msgid "Search for author ID:"
 msgstr "Hľadať ID autora:"
 
@@ -3981,14 +3932,12 @@ msgid "For example: \"43214\""
 msgstr ""
 
 #: ../user/forum_search.php:41
-#, fuzzy
 msgid "Search options"
-msgstr "Prehľadať fóra"
+msgstr "Možnosti vyhľadávania"
 
 #: ../user/forum_search.php:42
-#, fuzzy
 msgid "Search limits"
-msgstr "Prehľadať fóra"
+msgstr "Limity vyhľadávania"
 
 #: ../user/forum_search.php:43
 msgid "Search at most this many days back in time"
@@ -4455,18 +4404,16 @@ msgid "Max tasks per day"
 msgstr ""
 
 #: ../user/host_app_versions.php:57
-#, fuzzy
 msgid "Number of tasks today"
-msgstr "Počet procesorov"
+msgstr "Počet úloh za dnes"
 
 #: ../user/host_app_versions.php:58
 msgid "Consecutive valid tasks"
 msgstr ""
 
 #: ../user/host_app_versions.php:62
-#, fuzzy
 msgid "Average processing rate"
-msgstr "Priemerná rýchlosť odosielania"
+msgstr "Priemerná rýchlosť spracovania"
 
 #: ../user/host_app_versions.php:71
 msgid "Application details for host %1"
@@ -4484,9 +4431,8 @@ msgid ""
 msgstr ""
 
 #: ../user/host_delete.php:40
-#, fuzzy
 msgid "Delete record of computer"
-msgstr "Zmazať tento počítač"
+msgstr "Zmazať záznam o počítači"
 
 #: ../user/host_delete.php:41
 msgid "Record deleted."
@@ -4495,18 +4441,16 @@ msgstr ""
 # 86%
 # 88%
 #: ../user/host_delete.php:42 ../user/host_edit_action.php:65
-#, fuzzy
 msgid "Return to list of your computers"
-msgstr "Zmazať tento počítač"
+msgstr "Vrátiť sa na zoznam Vašich počítačov"
 
 #: ../user/host_edit_action.php:39
 msgid "Merge computer records"
 msgstr ""
 
 #: ../user/host_edit_form.php:35
-#, fuzzy
 msgid "Merge computers"
-msgstr "Zmazať tento počítač"
+msgstr "Spojiť počítače"
 
 #: ../user/host_edit_form.php:38
 msgid ""
@@ -4519,9 +4463,8 @@ msgid "No hosts are eligible for merging with this one."
 msgstr ""
 
 #: ../user/host_edit_form.php:58 ../user/host_edit_form.php:114
-#, fuzzy
 msgid "Show details"
-msgstr "Detaily"
+msgstr "Zobraziť detaily"
 
 #: ../user/host_edit_form.php:66
 msgid ""
@@ -4529,29 +4472,24 @@ msgid ""
 msgstr ""
 
 #: ../user/host_edit_form.php:70 ../user/workunit.php:39
-#, fuzzy
 msgid "name"
-msgstr "Názov"
+msgstr "názov"
 
 #: ../user/host_edit_form.php:70 ../user/workunit.php:41
-#, fuzzy
 msgid "created"
-msgstr "Vytvorený"
+msgstr "vytvorený"
 
 #: ../user/host_edit_form.php:70
-#, fuzzy
 msgid "computer ID"
-msgstr "Informácie o počítači"
+msgstr "ID počítača"
 
 #: ../user/host_edit_form.php:77
-#, fuzzy
 msgid "no hostname"
-msgstr "Žiaden počítač"
+msgstr "žiaden názov počítača"
 
 #: ../user/host_edit_form.php:109
-#, fuzzy
 msgid "Merge hosts"
-msgstr "Spojiť"
+msgstr "Spojiť počítače"
 
 #: ../user/host_update_credit.php:28
 msgid "Updating computer credit"
@@ -4584,9 +4522,8 @@ msgid "Computers belonging to %1"
 msgstr ""
 
 #: ../user/hosts_user.php:55
-#, fuzzy
 msgid "Computers hidden"
-msgstr "Informácie o počítači"
+msgstr "Počítače skryté"
 
 #: ../user/hosts_user.php:56
 msgid ""
@@ -4626,9 +4563,8 @@ msgid "break"
 msgstr ""
 
 #: ../user/html.php:32
-#, fuzzy
 msgid "preformatted"
-msgstr "Vytvorený"
+msgstr "predformátované"
 
 #: ../user/html.php:33
 msgid ""
@@ -4851,9 +4787,8 @@ msgstr ""
 
 # 86%
 #: ../user/merge_by_name.php:74
-#, fuzzy
 msgid "Return to the list of your computers"
-msgstr "Zmazať tento počítač"
+msgstr "Vrátiť sa na zoznam Vašich počítačov"
 
 #: ../user/merge_by_name.php:78
 msgid ""
@@ -4870,9 +4805,8 @@ msgid "Go ahead and do this"
 msgstr ""
 
 #: ../user/merge_by_name.php:85
-#, fuzzy
 msgid "Return to the list of computers"
-msgstr "Zmazať tento počítač"
+msgstr "Vrátiť sa na zoznam počítačov"
 
 #: ../user/moderation.php:26
 msgid ""
@@ -4934,9 +4868,8 @@ msgid "Host ID"
 msgstr ""
 
 #: ../user/pending.php:66
-#, fuzzy
 msgid "Claimed credit"
-msgstr "Priemerný kredit"
+msgstr "Získaný kredit"
 
 #: ../user/pending.php:79
 msgid "Pending credit: %1"
@@ -4964,14 +4897,12 @@ msgstr ""
 
 # 76%
 #: ../user/pm.php:106
-#, fuzzy
 msgid "Reply to this message"
-msgstr "Zmazať tento počítač"
+msgstr "Odpovedať na túto správu"
 
 #: ../user/pm.php:107
-#, fuzzy
 msgid "Delete this message"
-msgstr "Zmazať tento počítač"
+msgstr "Zmazať túto správu"
 
 #: ../user/pm.php:112
 msgid "Select all"
@@ -5065,9 +4996,8 @@ msgid "To unblock, visit %1message board preferences%2"
 msgstr ""
 
 #: ../user/pm.php:302
-#, fuzzy
 msgid "Unknown action"
-msgstr "Neznámy"
+msgstr "Neznáma činnosť"
 
 #: ../user/prefs.php:35
 msgid ""
@@ -5204,9 +5134,8 @@ msgid "Joined project"
 msgstr ""
 
 #: ../user/profile_search_action.php:44
-#, fuzzy
 msgid "Recent credit"
-msgstr "Súčasný priemerný kredit"
+msgstr "Nedávny kredit"
 
 #: ../user/profile_search_action.php:54
 msgid "No profiles found containing '%1'"
@@ -5393,7 +5322,6 @@ msgid "users in last 24h"
 msgstr ""
 
 #: ../user/show_host_detail.php:40
-#, fuzzy
 msgid "Computer %1"
 msgstr "Počítač %1"
 
@@ -5436,9 +5364,8 @@ msgid ""
 msgstr ""
 
 #: ../user/team.php:25
-#, fuzzy
 msgid "Teams"
-msgstr "Úlohy"
+msgstr "Tímy"
 
 #: ../user/team.php:27
 msgid "%1 participants may form %2teams%3."
@@ -5754,9 +5681,8 @@ msgid "You and your Team Admins will have moderator privileges."
 msgstr ""
 
 #: ../user/team_forum.php:40
-#, fuzzy
 msgid "Create a message board for %1"
-msgstr "nástenka %1"
+msgstr "Vytvoriť diskusné fórum pre %1"
 
 #: ../user/team_forum.php:48
 msgid "Team already has a message board"
@@ -5823,9 +5749,8 @@ msgid "Update failed"
 msgstr ""
 
 #: ../user/team_forum.php:154
-#, fuzzy
 msgid "Team has no forum"
-msgstr "Prehľadať fóra"
+msgstr "Tím nemá vlastné fórum"
 
 #: ../user/team_founder_transfer_action.php:36
 msgid "You must be a member of a team to access this page."
@@ -6024,9 +5949,8 @@ msgstr ""
 
 # 75%
 #: ../user/team_manage.php:34
-#, fuzzy
 msgid "text"
-msgstr "Nasledujúci"
+msgstr "text"
 
 #: ../user/team_manage.php:35
 msgid "View member names and email addresses"
@@ -6276,14 +6200,12 @@ msgid "Decreasing sign-up time"
 msgstr ""
 
 #: ../user/user_search.php:68
-#, fuzzy
 msgid "Decreasing average credit"
-msgstr "Súčasný priemerný kredit"
+msgstr "Zostupne podľa priemerného kreditu"
 
 #: ../user/user_search.php:69
-#, fuzzy
 msgid "Decreasing total credit"
-msgstr "Súčasný priemerný kredit"
+msgstr "Zostupne podľa celkového kreditu"
 
 #: ../user/user_search.php:100
 msgid "search string must be at least 3 characters"
@@ -6310,9 +6232,8 @@ msgid "Account Data<br/>for %1<br/>Time:"
 msgstr ""
 
 #: ../user/userw.php:47
-#, fuzzy
 msgid "Team:"
-msgstr "Tým:"
+msgstr "Tím:"
 
 #: ../user/userw.php:48
 msgid "Team TotCred:"
