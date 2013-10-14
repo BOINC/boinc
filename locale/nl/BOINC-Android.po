@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-08-29 15:37-0700\n"
-"PO-Revision-Date: 2013-09-20 18:44+0000\n"
+"PO-Revision-Date: 2013-10-14 18:34+0000\n"
 "Last-Translator: Rene <oskamjr@ziggo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1379702649.0\n"
+"X-POOTLE-MTIME: 1381775663.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -138,7 +138,7 @@ msgstr "Bezoek projectspecifieke website om een account aan te maken:"
 
 msgctxt "attachproject_login_header_creation_disabled"
 msgid "Project does currently now allow creation of new accounts!"
-msgstr ""
+msgstr "Het aanmaken van een account is op dit moment niet mogelijk!"
 
 msgctxt "attachproject_login_button_registration"
 msgid "Register"
@@ -741,11 +741,11 @@ msgstr "onderbroken"
 
 msgctxt "tasks_active_abort_pending"
 msgid "suspending"
-msgstr ""
+msgstr "onderbreken..."
 
 msgctxt "tasks_active_quit_pending"
 msgid "suspending"
-msgstr ""
+msgstr "onderbreken..."
 
 msgctxt "tasks_custom_suspended_via_gui"
 msgid "suspended"
@@ -753,16 +753,16 @@ msgstr "onderbroken"
 
 msgctxt "tasks_custom_project_suspended_via_gui"
 msgid "project suspended"
-msgstr ""
+msgstr "project onderbroken"
 
 msgctxt "tasks_custom_ready_to_report"
 msgid "ready to report"
-msgstr ""
+msgstr "klaar om te rapporteren"
 
 #. confirmation dialog
 msgctxt "confirm_abort_task_title"
 msgid "Abort task?"
-msgstr ""
+msgstr "Taak afbreken?"
 
 msgctxt "confirm_abort_task_message"
 msgid "Abort task:"
