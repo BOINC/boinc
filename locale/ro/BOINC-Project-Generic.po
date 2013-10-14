@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2013-09-16 18:07+0000\n"
+"PO-Revision-Date: 2013-10-14 11:41+0000\n"
 "Last-Translator: Marius <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
@@ -18,7 +18,7 @@ msgstr ""
 "20)) ? 1 : 2);;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1379354840.0\n"
+"X-POOTLE-MTIME: 1381750912.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Română"
@@ -1949,11 +1949,11 @@ msgstr "Proiect"
 
 #: ../inc/user.inc:122
 msgid "Click for user page"
-msgstr ""
+msgstr "Selectaţi pentru pagina utilizatorului"
 
 #: ../inc/user.inc:122
 msgid "Since"
-msgstr ""
+msgstr "Începând cu"
 
 #: ../inc/user.inc:146
 msgid "Computing and credit"
@@ -2182,15 +2182,15 @@ msgstr "numele de utilizator nu poate conţine tag-uri HTML"
 
 #: ../inc/util.inc:122
 msgid "log out"
-msgstr ""
+msgstr "ieşire"
 
 #: ../inc/util.inc:124
 msgid "log in"
-msgstr ""
+msgstr "autentificare"
 
 #: ../inc/util.inc:194 ../user/login_form.php:37 ../user/login_form.php:62
 msgid "Log in"
-msgstr ""
+msgstr "Autentificare"
 
 #: ../inc/util.inc:195 ../user/create_account_form.php:38
 msgid "Create an account"
@@ -2243,6 +2243,7 @@ msgstr "Proiectul este oprit pentru mentenanţă"
 #: ../inc/util.inc:773
 msgid "%1 is temporarily shut down for maintenance.  Please try again later."
 msgstr ""
+"%1 este temporar oprit pentru mentenanţă.  Vă rugăm încercaţi mai târziu."
 
 #: ../inc/util.inc:791
 msgid "Unable to connect to database - please try again later"
@@ -2362,7 +2363,7 @@ msgstr "link la site web"
 
 #: ../user/bbcode.php:39
 msgid "Quoted text"
-msgstr ""
+msgstr "Text citat"
 
 #: ../user/bbcode.php:39
 msgid "use for quoted blocks of text"
@@ -2424,7 +2425,7 @@ msgstr "Nu se poate crea contul"
 
 #: ../user/create_account_action.php:29
 msgid "Click your browser's <b>Back</b> button to try again."
-msgstr ""
+msgstr "Apăsaţi butonul <b>Înapoi</b> în navigator pentru a încerca din nou."
 
 #: ../user/create_account_action.php:38 ../user/create_account_action.php:40
 #: ../user/create_account_form.php:43
@@ -2436,6 +2437,9 @@ msgid ""
 "Sorry, this project has disabled the creation of new accounts.\n"
 "Please try again later."
 msgstr ""
+"Ne pare rău, acest proiect are crearea de noi conturi de utilizator "
+"dezactivată.\n"
+"Vă rugăm încercaţi mai târziu."
 
 #: ../user/create_account_action.php:53
 msgid "Your reCAPTCHA response was not correct. Please try again."
@@ -2496,6 +2500,8 @@ msgid ""
 "This account will belong to the team %1 and will have the project "
 "preferences of its founder."
 msgstr ""
+"Acest cont va aparţine echipei %1 şi va avea preferinţele de proiect ale "
+"fondatorului."
 
 #: ../user/create_account_form.php:81
 msgid "Invitation Code"
@@ -2730,6 +2736,8 @@ msgid ""
 "If you're sure, click 'Yes'\n"
 "to remove your profile from our database."
 msgstr ""
+"Daca sunteţi sigur, apăsaţi 'Da'\n"
+"pentru a vă şterge profilul din baza noastră de date."
 
 #: ../user/delete_profile.php:52
 msgid "Delete my profile"
@@ -2825,7 +2833,7 @@ msgstr "Donaţiile sunt acceptate prin"
 
 #: ../user/download_network.php:25
 msgid "Download BOINC add-on software"
-msgstr ""
+msgstr "Descarcă programe adiţionale BOINC"
 
 #: ../user/download_network.php:28
 msgid "You can download applications in several categories."
@@ -2919,6 +2927,8 @@ msgid ""
 "This action will erase any changes you have made in your community "
 "preferences. To cancel, click your browser's Back button."
 msgstr ""
+"Această acţiune va şterge orice modificări aşi făcut în preferinţele "
+"comunităţii. Pentru anulare, apăsaţi butonul Înapoi al navigatorului."
 
 #: ../user/edit_forum_preferences_action.php:38
 msgid "Reset preferences"
@@ -2926,7 +2936,7 @@ msgstr "Şterge preferinţe"
 
 #: ../user/edit_forum_preferences_action.php:88
 msgid "Error: Not the right kind of file, only PNG and JPEG are supported."
-msgstr ""
+msgstr "Eroare: Tip de fişier nepotrivit, sunt suportate doar doar PNG şi JPEG."
 
 #: ../user/edit_forum_preferences_action.php:114
 msgid "Your signature was too long, please keep it less than 250 characters."
@@ -3249,7 +3259,7 @@ msgstr ""
 
 #: ../user/explain_state.php:60
 msgid "A computer completed and reported the task successfully."
-msgstr ""
+msgstr "Un calculator a finalizat şi raportat task-ul cu succes."
 
 #: ../user/explain_state.php:63
 msgid ""
@@ -3263,19 +3273,23 @@ msgstr "Eroare client"
 
 #: ../user/explain_state.php:66
 msgid "The task was sent to a computer and an error occurred."
-msgstr ""
+msgstr "Task-ul a fost trimis unui calculator şi a apărut o eroare."
 
 #: ../user/explain_state.php:69
 msgid ""
 "The task was sent to a computer and no reply was received within the time "
 "limit."
 msgstr ""
+"Task-ul a fost trimis unui calculator şi nu s-a primit nici un răspuns până "
+"la termenul limită."
 
 #: ../user/explain_state.php:72
 msgid ""
 "The task wasn't sent to a computer because enough other tasks were completed "
 "for this workunit."
 msgstr ""
+"Task-ul nu a fost trimis unui calculator deoarece s-au finalizat un număr "
+"suficient de task-uri pentru această unitate de lucru."
 
 #: ../user/explain_state.php:75
 msgid ""
@@ -3299,7 +3313,7 @@ msgstr ""
 
 #: ../user/explain_state.php:89
 msgid "The computer completed the task successfully."
-msgstr ""
+msgstr "Calculatorul a finalizat acest task cu succes."
 
 #: ../user/explain_state.php:92
 msgid "The computer couldn't download the application or input files."
@@ -3325,23 +3339,23 @@ msgstr ""
 
 #: ../user/explain_state.php:110
 msgid "Already reported"
-msgstr ""
+msgstr "Deja raportat"
 
 #: ../user/explain_state.php:110
 msgid "The date/time it was reported"
-msgstr ""
+msgstr "Data/ora când a fost raportat"
 
 #: ../user/explain_state.php:111
 msgid "Not reported yet, deadline in the future"
-msgstr ""
+msgstr "Nu s-a raportat încă, termenul limită în viitor"
 
 #: ../user/explain_state.php:112
 msgid "Deadline, shown in green."
-msgstr ""
+msgstr "Termenul limită, arătat în verde."
 
 #: ../user/explain_state.php:114
 msgid "Not reported yet, deadline in the past"
-msgstr ""
+msgstr "Nu s-a raportat încă, termenul limită în trecut"
 
 #: ../user/explain_state.php:115
 msgid "Deadline, shown in red."
@@ -3548,7 +3562,7 @@ msgstr ""
 
 #: ../user/forum_forum.php:96
 msgid "New thread"
-msgstr ""
+msgstr "Fir nou"
 
 #: ../user/forum_forum.php:96
 msgid "Add a new thread to this forum"
@@ -5566,7 +5580,7 @@ msgstr "Administratori Echipă Curenţi"
 
 #: ../user/team_admins.php:62
 msgid "Became Team Admin on"
-msgstr ""
+msgstr "Deveniţi Administrator Echipă la"
 
 #: ../user/team_admins.php:77
 msgid "Add Team Admin"
@@ -5646,7 +5660,7 @@ msgstr ""
 
 #: ../user/team_change_founder_form.php:66
 msgid "No transfer request is pending."
-msgstr ""
+msgstr "Nici o cerere de transfer în aşteptare."
 
 #: ../user/team_change_founder_form.php:69
 msgid ""
@@ -5733,7 +5747,7 @@ msgstr "Actualizează informaţii echipă"
 
 #: ../user/team_email_list.php:61
 msgid "%1 Email List"
-msgstr ""
+msgstr "Listă Email %1"
 
 #: ../user/team_email_list.php:63
 msgid "Member list of %1"
@@ -5741,7 +5755,7 @@ msgstr "Listă membrii ai %1"
 
 #: ../user/team_email_list.php:78
 msgid "Show as plain text"
-msgstr ""
+msgstr "Arată ca text simplu"
 
 #: ../user/team_forum.php:28 ../user/team_forum.php:39
 msgid "Create Message Board"
@@ -5757,7 +5771,7 @@ msgstr ""
 
 #: ../user/team_forum.php:32
 msgid "At your option, only members will be able to read."
-msgstr ""
+msgstr "La opţiunea dumneavoastră, doar membri vor putea să citească."
 
 #: ../user/team_forum.php:33
 msgid "You and your Team Admins will have moderator privileges."
@@ -5785,11 +5799,11 @@ msgstr ""
 
 #: ../user/team_forum.php:77
 msgid "Minimum average credit to post"
-msgstr ""
+msgstr "Credit mediu minim pentru a posta"
 
 #: ../user/team_forum.php:80
 msgid "Submit"
-msgstr ""
+msgstr "Trimite"
 
 #: ../user/team_forum.php:89
 msgid "Remove your team's message board."
