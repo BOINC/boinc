@@ -513,7 +513,11 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
             continue;
         }
         bool buffer_low = (rwf.saturated_time < gstate.work_buf_total());
-        if (!buffer_low && !rwf.uses_starved_excluded_instances(p)) {
+        bool need_work = buffer_low;
+        if (rwf.has_exclusions && rwf.uses_starved_excluded_instances(p)) {
+            need_work = true;
+        }
+        if (!need_work) {
             DEBUG(msg_printf(p, MSG_INFO, "piggyback: don't need %s", rsc_name(i));)
             continue;
         }
@@ -737,9 +741,13 @@ PROJECT* WORK_FETCH::choose_project() {
                 DEBUG(msg_printf(p, MSG_INFO, "can't fetch %s", rsc_name(i));)
                 continue;
             }
-            bool buffer_low = (rwf.saturated_time < gstate.work_buf_min());
-            if (buffer_low || rwf.uses_starved_excluded_instances(p)) {
-                DEBUG(msg_printf(p, MSG_INFO, "%s needs work", rsc_name(i));)
+            if (rwf.saturated_time < gstate.work_buf_min()) {
+                DEBUG(msg_printf(p, MSG_INFO, "%s needs work - buffer low", rsc_name(i));)
+                rsc_index = i;
+                break;
+            }
+            if (rwf.has_exclusions && rwf.uses_starved_excluded_instances(p)) {
+                DEBUG(msg_printf(p, MSG_INFO, "%s needs work - excluded instance starved", rsc_name(i));)
                 rsc_index = i;
                 break;
             }
@@ -767,7 +775,11 @@ PROJECT* WORK_FETCH::choose_project() {
                         continue;
                     }
                     buffer_low = (rwf.saturated_time < gstate.work_buf_total());
-                    if (!buffer_low && !rwf.uses_starved_excluded_instances(p)) {
+                    bool need_work = buffer_low;
+                    if (rwf.has_exclusions && rwf.uses_starved_excluded_instances(p)) {
+                        need_work = true;
+                    }
+                    if (!need_work) {
                         DEBUG(msg_printf(p, MSG_INFO, "%s don't need", rsc_name(i));)
                         continue;
                     }
