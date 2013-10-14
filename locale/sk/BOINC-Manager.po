@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-18 11:32-0500\n"
-"PO-Revision-Date: 2013-06-16 01:25+0200\n"
+"PO-Revision-Date: 2013-10-11 21:59+0000\n"
 "Last-Translator: aceman <acelists@atlas.sk>\n"
 "Language-Team: BOINC SK\n"
 "Language: sk\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
 "X-Poedit-SearchPath-0: clientgui\n"
@@ -23,6 +23,7 @@ msgstr ""
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-POOTLE-MTIME: 1381528764.0\n"
 
 #: clientgui/AccountInfoPage.cpp:387
 #, c-format
@@ -2108,12 +2109,11 @@ msgid "%s - Language Selection"
 msgstr "%s - Výber jazyka"
 
 #: clientgui/DlgOptions.cpp:695
-#, c-format
-#, fuzzy, c-format
+#, c-format, c-format
 msgid "The %s's language has been changed.  In order for this change to take effect, you must restart the %s."
 msgstr ""
-"Predvolený jazyk pre %s bol zmenený. Aby sa táto zmena prejavila, musíte "
-"reštartovať %s."
+"Jazyk pre %s bol zmenený.  Aby sa táto zmena prejavila, musíte reštartovať %"
+"s."
 
 #: clientgui/DlgSelectComputer.cpp:90
 #, c-format
