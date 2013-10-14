@@ -92,18 +92,20 @@ struct RR_SIM {
         if (rt) {
             rsc_work_fetch[rt].sim_nused += rp->avp->gpu_usage.usage;
             p->rsc_pwf[rt].sim_nused += rp->avp->gpu_usage.usage;
-            set_bits(
-                rp->app->non_excluded_instances[rt],
-                p->rsc_pwf[rt].nused_total,
-                rsc_work_fetch[rt].sim_used_instances
-            );
+            if (rsc_work_fetch[rt].has_exclusions) {
+                set_bits(
+                    rp->app->non_excluded_instances[rt],
+                    p->rsc_pwf[rt].nused_total,
+                    rsc_work_fetch[rt].sim_used_instances
+                );
 #if 0
-            msg_printf(p, MSG_INFO, "%d non_excl %d used %d",
-                rt,
-                rp->app->non_excluded_instances[rt],
-                rsc_work_fetch[rt].sim_used_instances
-            );
+                msg_printf(p, MSG_INFO, "%d non_excl %d used %d",
+                    rt,
+                    rp->app->non_excluded_instances[rt],
+                    rsc_work_fetch[rt].sim_used_instances
+                );
 #endif
+            }
         }
     }
 
@@ -522,6 +524,7 @@ void RR_SIM::simulate() {
     //
     for (int i=1; i<coprocs.n_rsc; i++) {
         RSC_WORK_FETCH& rwf = rsc_work_fetch[i];
+        if (!rwf.has_exclusions) continue;
         COPROC& cp = coprocs.coprocs[i];
         int mask = (1<<cp.count)-1;
         rwf.sim_excluded_instances = ~(rwf.sim_used_instances) & mask;
