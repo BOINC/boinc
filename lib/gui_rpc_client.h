@@ -633,6 +633,21 @@ struct DAILY_XFER_HISTORY {
     void print();
 };
 
+// Keep this consistent with client/result.h
+//
+struct OLD_RESULT {
+    char project_url[256];
+    char result_name[256];
+    char app_name[256];
+    int exit_status;
+    double elapsed_time;
+    double completed_time;
+    double create_time;
+
+    int parse(XML_PARSER&);
+    void print();
+};
+
 struct RPC_CLIENT {
     int sock;
     double start_time;
@@ -664,6 +679,7 @@ struct RPC_CLIENT {
     int exchange_versions(VERSION_INFO&);
     int get_state(CC_STATE&);
     int get_results(RESULTS&, bool active_only = false);
+    int get_old_results(std::vector<OLD_RESULT>&);
     int get_file_transfers(FILE_TRANSFERS&);
     int get_simple_gui_info(SIMPLE_GUI_INFO&);
     int get_project_status(PROJECTS&);

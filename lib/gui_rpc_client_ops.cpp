@@ -81,6 +81,21 @@ using std::string;
 using std::vector;
 using std::sort;
 
+int OLD_RESULT::parse(XML_PARSER& xp) {
+    memset(this, 0, sizeof(OLD_RESULT));
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/old_result")) return 0;
+        if (xp.parse_str("project_url", project_url, sizeof(project_url))) continue;
+        if (xp.parse_str("result_name", result_name, sizeof(result_name))) continue;
+        if (xp.parse_str("app_name", app_name, sizeof(app_name))) continue;
+        if (xp.parse_int("exit_status", exit_status)) continue;
+        if (xp.parse_double("elapsed_time", elapsed_time)) continue;
+        if (xp.parse_double("completed_time", completed_time)) continue;
+        if (xp.parse_double("create_time", create_time)) continue;
+    }
+    return ERR_XML_PARSE;
+}
+
 int TIME_STATS::parse(XML_PARSER& xp) {
     memset(this, 0, sizeof(TIME_STATS));
     while (!xp.get_tag()) {
@@ -1493,6 +1508,30 @@ int RPC_CLIENT::get_results(RESULTS& t, bool active_only) {
         }
     }
     return retval;
+}
+
+int RPC_CLIENT::get_old_results(vector<OLD_RESULT>& r) {
+    int retval;
+    SET_LOCALE sl;
+    char buf[256];
+    RPC rpc(this);
+
+    r.clear();
+
+    retval = rpc.do_rpc("<get_old_results/>\n");
+    if (retval) return retval;
+    while (rpc.fin.fgets(buf, 256)) {
+        if (match_tag(buf, "</old_results>")) break;
+        if (match_tag(buf, "<old_result>")) {
+            OLD_RESULT ores;
+            retval = ores.parse(rpc.xp);
+            if (!retval) {
+                r.push_back(ores);
+            }
+            continue;
+        }
+    }
+    return 0;
 }
 
 int RPC_CLIENT::get_file_transfers(FILE_TRANSFERS& t) {
