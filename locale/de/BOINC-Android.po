@@ -1,20 +1,23 @@
-# German translations for PACKAGE.
+# Translations template for PROJECT.
 # Copyright (C) 2013 ORGANIZATION
-# This file is distributed under the same license as the PACKAGE project.
+# This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-10-10 12:00-0700\n"
-"PO-Revision-Date: 2013-09-05 03:13+0000\n"
-"Last-Translator: Christian <djangofett@gmx.net>\n"
-"Language-Team: de <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=((n == 1) ? 0 : 1)\n"
+"POT-Creation-Date: 2013-08-29 15:37-0700\n"
+"PO-Revision-Date: 2013-10-11 13:45+0000\n"
+"Last-Translator: Anonymous Pootle User\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
+"X-POOTLE-MTIME: 1381499116.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -47,11 +50,6 @@ msgstr "Projekt hinzufügen"
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
 msgstr "Bitte die Projekt-URL eingeben"
-
-#, fuzzy
-msgctxt "attachproject_list_acctmgr_button"
-msgid "Add account manager"
-msgstr "Angefordert vom Kontomanager"
 
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
@@ -126,6 +124,7 @@ msgctxt "attachproject_login_header_pwd"
 msgid "Password:"
 msgstr "Passwort:"
 
+# Kompletter Satz: "Neu bei {Projekt}?"
 msgctxt "attachproject_login_category_creation"
 msgid "New to"
 msgstr "Neu bei"
@@ -197,34 +196,6 @@ msgctxt "attachproject_registration_button"
 msgid "Create"
 msgstr "Erstellen"
 
-#. account manager
-#, fuzzy
-msgctxt "attachproject_acctmgr_header"
-msgid "Add account manager"
-msgstr "Angefordert vom Kontomanager"
-
-msgctxt "attachproject_acctmgr_header_url"
-msgid "URL"
-msgstr ""
-
-msgctxt "attachproject_acctmgr_header_name"
-msgid "User:"
-msgstr ""
-
-#, fuzzy
-msgctxt "attachproject_acctmgr_header_pwd"
-msgid "Password:"
-msgstr "Passwort:"
-
-#, fuzzy
-msgctxt "attachproject_acctmgr_header_pwd_confirm"
-msgid "… Retype:"
-msgstr "… Bestätigung:"
-
-msgctxt "attachproject_acctmgr_button"
-msgid "Add"
-msgstr ""
-
 #. error strings
 msgctxt "attachproject_error_wrong_name"
 msgid "User not found"
@@ -241,11 +212,6 @@ msgstr "Verbindungsfehler"
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
 msgstr "Passwörter stimmen nicht überein"
-
-#, fuzzy
-msgctxt "attachproject_error_no_url"
-msgid "Please enter URL"
-msgstr "Bitte einen Benutzernamen eingeben"
 
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
@@ -288,10 +254,6 @@ msgctxt "attachproject_error_creation_disabled"
 msgid "Account creation is disabled on this project"
 msgstr "Die Kontoerstellung ist bei diesem Projekt deaktiviert"
 
-msgctxt "attachproject_error_invalid_url"
-msgid "Invalid URL"
-msgstr ""
-
 #. working activity
 msgctxt "attachproject_working_back_button"
 msgid "Back"
@@ -330,23 +292,13 @@ msgctxt "attachproject_working_verify"
 msgid "Verify account"
 msgstr "Konto überprüfen"
 
-#, fuzzy
 msgctxt "attachproject_working_register"
 msgid "Register account"
-msgstr "Konto registrieren"
+msgstr "Konto anlegen"
 
 msgctxt "attachproject_working_login"
 msgid "Log in"
 msgstr "Anmelden"
-
-#, fuzzy
-msgctxt "attachproject_working_acctmgr"
-msgid "Add account manager"
-msgstr "Angefordert vom Kontomanager"
-
-msgctxt "attachproject_working_acctmgr_sync"
-msgid "Synchronize"
-msgstr ""
 
 #. main activity
 msgctxt "main_noproject_warning"
@@ -390,10 +342,6 @@ msgctxt "tab_preferences"
 msgid "Preferences"
 msgstr "Einstellungen"
 
-msgctxt "tab_notices"
-msgid "Notices"
-msgstr ""
-
 msgctxt "tab_desc"
 msgid "Navigation"
 msgstr "Navigation"
@@ -423,10 +371,9 @@ msgctxt "status_computing_disabled"
 msgid "Suspended"
 msgstr "angehalten"
 
-#, fuzzy
 msgctxt "status_computing_disabled_long"
 msgid "Press play to resume network and computation."
-msgstr "Play drücken um Netzwerkaktivität und die Berechnung fortzusetzen."
+msgstr "Play drücken um Netzwerkaktivität und Berechnung fortzusetzen."
 
 msgctxt "status_launching"
 msgid "Starting…"
@@ -498,10 +445,9 @@ msgctxt "prefs_show_advanced_header"
 msgid "Show advanced preferences and controls…"
 msgstr "Zeige erweiterte Einstellungen und Steuerungen…"
 
-#, fuzzy
 msgctxt "prefs_run_on_battery_header"
 msgid "Compute on Battery"
-msgstr "Berechne im Batteriebetrieb"
+msgstr "Berechnen im Batteriebetrieb"
 
 msgctxt "battery_charge_min_pct_header"
 msgid "Min. battery level"
@@ -522,13 +468,12 @@ msgid ""
 "BOINC suspends computation above defined battery temperature. It is not "
 "recommended to change this value."
 msgstr ""
-"BOINC hält die Berechnung an, sobald diese Temperatur überschritten wird."
-" Es wird nicht empfohlen diesen Wert zu ändern."
+"BOINC hält die Berechnung an, sobald diese Temperatur überschritten wird. Es "
+"wird nicht empfohlen diesen Wert zu ändern."
 
-#, fuzzy
 msgctxt "prefs_disk_max_pct_header"
 msgid "Max. used storage space"
-msgstr "max. zu nutzender Speicher"
+msgstr "Max. zu nutzender Speicher"
 
 msgctxt "prefs_disk_max_pct_description"
 msgid "How many percent of your device's storage space is BOINC allowed to use?"
@@ -538,10 +483,9 @@ msgctxt "prefs_disk_min_free_gb_header"
 msgid "Min. spare storage"
 msgstr "min. freizuhaltender Speicher"
 
-#, fuzzy
 msgctxt "prefs_disk_min_free_gb_description"
 msgid "How much of your device's storage space shall stay free?"
-msgstr "Wie viel Ihres Speichers soll mindestens ungenutzt bleiben?"
+msgstr "Wie viel Speicher soll mindestens frei bleiben?"
 
 msgctxt "prefs_network_daily_xfer_limit_mb_header"
 msgid "Daily transfer limit"
@@ -586,10 +530,9 @@ msgctxt "prefs_cpu_time_max_header"
 msgid "CPU limit"
 msgstr "Prozessorbegrenzung"
 
-#, fuzzy
 msgctxt "prefs_cpu_time_max_description"
 msgid "Limits the CPU time BOINC uses for computation."
-msgstr "Limitiert die Anzahl der Prozessoren welche BOINC nutzen darf."
+msgstr "Limitiert die Prozessorzeit, die BOINC nutzen darf."
 
 msgctxt "prefs_memory_max_idle_header"
 msgid "RAM limit"
@@ -722,18 +665,6 @@ msgctxt "projects_control_reset"
 msgid "Reset"
 msgstr "Zurücksetzen"
 
-msgctxt "projects_control_dialog_title_acctmgr"
-msgid "Account manager commands:"
-msgstr ""
-
-msgctxt "projects_control_sync_acctmgr"
-msgid "Synchronize"
-msgstr ""
-
-msgctxt "projects_control_remove_acctmgr"
-msgid "Disable"
-msgstr ""
-
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
 msgid "Remove project?"
@@ -755,28 +686,13 @@ msgctxt "projects_confirm_reset_title"
 msgid "Reset project"
 msgstr "Projekt zurücksetzen"
 
-#, fuzzy
 msgctxt "projects_confirm_reset_message"
 msgid "Are you sure you want to reset"
-msgstr "Wollen Sie wirklich zurücksetzen"
+msgstr "Sind Sie sicher, dass Sie auf Standard zurücksetzen wollen?"
 
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
 msgstr "Zurücksetzen"
-
-#, fuzzy
-msgctxt "projects_confirm_remove_acctmgr_title"
-msgid "Disable account manager"
-msgstr "Angefordert vom Kontomanager"
-
-#, fuzzy
-msgctxt "projects_confirm_remove_acctmgr_message"
-msgid "Are you sure you want to stop using"
-msgstr "Wollen Sie wirklich zurücksetzen"
-
-msgctxt "projects_confirm_remove_acctmgr_confirm"
-msgid "Disable"
-msgstr ""
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
@@ -936,12 +852,6 @@ msgctxt "confirm_abort_trans_confirm"
 msgid "Abort"
 msgstr "Abbrechen"
 
-#. notices tab strings
-#, fuzzy
-msgctxt "notices_loading"
-msgid "Reading notices…"
-msgstr "Lade Projekte…"
-
 #. eventlog tab strings
 msgctxt "eventlog_loading"
 msgid "Loading log messages…"
@@ -1024,7 +934,8 @@ msgstr "Nicht per WLAN verbunden."
 
 msgctxt "suspend_battery_charging"
 msgid "Battery needs to charge before resuming computation."
-msgstr "Der Akku muss geladen werden bevor die Berechnung fortgesetzt werden kann."
+msgstr ""
+"Der Akku muss geladen werden bevor die Berechnung fortgesetzt werden kann."
 
 msgctxt "suspend_battery_charging_long"
 msgid "Computing will resume when battery charge reaches"
@@ -1144,4 +1055,3 @@ msgid ""
 msgstr ""
 "© 2003–2013 Universität von Kalifornien, Berkeley.\n"
 "Alle Rechte vorbehalten."
-
