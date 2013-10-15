@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-05 10:24-0700\n"
-"PO-Revision-Date: 2013-09-20 10:38+0000\n"
-"Last-Translator: RytisSt <rytis.st@gmail.com>\n"
+"PO-Revision-Date: 2013-10-15 14:05+0000\n"
+"Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%"
 "100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.5.0\n"
-"X-POOTLE-MTIME: 1379673498.0\n"
+"X-POOTLE-MTIME: 1381845922.0\n"
 
 #: acct_mgr.cpp:448 acct_mgr.cpp:457
 msgid "Message from account manager"
@@ -146,11 +146,10 @@ msgstr ""
 
 # 94%
 #: ../sched/sched_send.cpp:1146
-#, c-format
-#, c-format, fuzzy
+#, c-format, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr ""
-"Reikalingas ATI vaizdo procesorius, kad būtų galima vykdyti šio projekto "
+"Reikalingas %s vaizdo procesorius, kad būtų galima vykdyti šio projekto "
 "užduotis"
 
 #: ../sched/sched_send.cpp:1262
