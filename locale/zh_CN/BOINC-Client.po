@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-05 10:24-0700\n"
+"POT-Creation-Date: 2013-10-15 22:25-0700\n"
 "PO-Revision-Date: 2013-06-11 13:07+0200\n"
 "Last-Translator: Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
@@ -18,68 +18,68 @@ msgstr ""
 "X-Generator: Pootle 2.1.6\n"
 "X-Poedit-Basepath: D:\\Work\\boinc_src\\locale\n"
 
-#: acct_mgr.cpp:448 acct_mgr.cpp:457
+#: acct_mgr.cpp:450 acct_mgr.cpp:459
 msgid "Message from account manager"
 msgstr "来自账户管理器的消息"
 
-#: client_msgs.cpp:85
+#: client_msgs.cpp:81
 msgid "Message from server"
 msgstr "来自服务器的消息"
 
-#: client_state.cpp:246
+#: client_state.cpp:258
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr "部分计算任务所需要的内存超出了你的设定值，请检查参数设置中的相关选项。"
 
-#: client_state.cpp:501
+#: client_state.cpp:520
 msgid "Couldn't write state file; check directory permissions"
 msgstr "无法写入状态文件，请检查目录权限"
 
-#: cs_cmdline.cpp:299
+#: cs_cmdline.cpp:303
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "必须在环境变量 HTTP_PROXY 中指定一个 HTTP 代理服务器"
 
-#: cs_scheduler.cpp:575
+#: cs_scheduler.cpp:613
 #, c-format
 msgid ""
 "You used the wrong URL for this project.  When convenient, remove this "
 "project, then add %s"
 msgstr "你当前使用了错误的项目网址，方便的时候，请移除该项目，然后重新添加 %s"
 
-#: cs_statefile.cpp:829 ../sched/sched_types.cpp:259
+#: cs_statefile.cpp:828 ../sched/sched_types.cpp:259
 msgid "Syntax error in app_info.xml"
 msgstr "app_info.xml 语法错误"
 
-#: cs_statefile.cpp:869
+#: cs_statefile.cpp:868
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "app_info.xml 中引用的文件不存在："
 
-#: current_version.cpp:90
+#: current_version.cpp:91
 msgid "A new version of BOINC is available."
 msgstr "检测到新版本的 BOINC。"
 
-#: current_version.cpp:94
+#: current_version.cpp:94 current_version.cpp:102
 msgid "Download"
 msgstr "下载"
 
-#: log_flags.cpp:259 log_flags.cpp:436
+#: log_flags.cpp:269 log_flags.cpp:449
 msgid "Unexpected text in cc_config.xml"
 msgstr "cc_config.xml 中有异常文本"
 
-#: log_flags.cpp:410 log_flags.cpp:462
+#: log_flags.cpp:423 log_flags.cpp:475
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "cc_config.xml 中有无法识别的标签"
 
-#: log_flags.cpp:427
+#: log_flags.cpp:440
 msgid "Missing start tag in cc_config.xml"
 msgstr "cc_config.xml 中有起始标签丢失"
 
-#: log_flags.cpp:452
+#: log_flags.cpp:465
 msgid "Error in cc_config.xml options"
 msgstr "cc_config.xml 中有错误的选项"
 
-#: log_flags.cpp:470
+#: log_flags.cpp:483
 msgid "Missing end tag in cc_config.xml"
 msgstr "cc_config.xml 中有结束标签丢失"
 
