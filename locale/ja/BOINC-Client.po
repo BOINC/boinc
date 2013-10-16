@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Client 0.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-05 10:24-0700\n"
+"POT-Creation-Date: 2013-10-15 22:25-0700\n"
 "PO-Revision-Date: 2013-03-16 11:43+0200\n"
 "Last-Translator: Kai <www.carrotsoft@gmail.com>\n"
 "Language-Team: \n"
@@ -17,70 +17,70 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.1.6\n"
 
-#: acct_mgr.cpp:448 acct_mgr.cpp:457
+#: acct_mgr.cpp:450 acct_mgr.cpp:459
 #, fuzzy
 msgid "Message from account manager"
 msgstr "プロジェクト・サーバからのメッセージ："
 
-#: client_msgs.cpp:85
+#: client_msgs.cpp:81
 msgid "Message from server"
 msgstr "プロジェクト・サーバからのメッセージ："
 
-#: client_state.cpp:246
+#: client_state.cpp:258
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr "あなたの設定したプレファレンス(好みの設定)を越えるメモリ量を必要とするタスクがあります。プレファレンスの内容を確認してください。"
 
-#: client_state.cpp:501
+#: client_state.cpp:520
 msgid "Couldn't write state file; check directory permissions"
 msgstr "状態ファイルを書くことができませんでした。ディレクトリの許可属性を確かめてください。"
 
-#: cs_cmdline.cpp:299
+#: cs_cmdline.cpp:303
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "環境変数 HTTP_PROXY で HTTP プロキシを指定する必要があります。"
 
-#: cs_scheduler.cpp:575
+#: cs_scheduler.cpp:613
 #, c-format
 msgid ""
 "You used the wrong URL for this project.  When convenient, remove this "
 "project, then add %s"
 msgstr "このプロジェクトに対して誤った URL を使っています。都合の良いときに、このプロジェクトを削除し、その後 %s を追加してください。"
 
-#: cs_statefile.cpp:829 ../sched/sched_types.cpp:259
+#: cs_statefile.cpp:828 ../sched/sched_types.cpp:259
 msgid "Syntax error in app_info.xml"
 msgstr "app_info.xml の中に構文誤りがあります。"
 
-#: cs_statefile.cpp:869
+#: cs_statefile.cpp:868
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "app_info.xml の中で参照されている次のファイルが存在しません: "
 
-#: current_version.cpp:90
+#: current_version.cpp:91
 msgid "A new version of BOINC is available."
 msgstr "新しい版の BOINC が利用できます。"
 
-#: current_version.cpp:94
+#: current_version.cpp:94 current_version.cpp:102
 msgid "Download"
 msgstr ""
 
-#: log_flags.cpp:259 log_flags.cpp:436
+#: log_flags.cpp:269 log_flags.cpp:449
 msgid "Unexpected text in cc_config.xml"
 msgstr "cc_config.xml の中に予期しないテキストがみつかりました"
 
-#: log_flags.cpp:410 log_flags.cpp:462
+#: log_flags.cpp:423 log_flags.cpp:475
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "cc_config.xml の中に見知らぬタグが見つかりました"
 
-#: log_flags.cpp:427
+#: log_flags.cpp:440
 msgid "Missing start tag in cc_config.xml"
 msgstr "cc_config.xml の中で開始タグが不足しています。"
 
-#: log_flags.cpp:452
+#: log_flags.cpp:465
 #, fuzzy
 msgid "Error in cc_config.xml options"
 msgstr "cc_config.xml の中に見知らぬタグが見つかりました"
 
-#: log_flags.cpp:470
+#: log_flags.cpp:483
 msgid "Missing end tag in cc_config.xml"
 msgstr "cc_config.xml の中で終了タグが不足しています。"
 
