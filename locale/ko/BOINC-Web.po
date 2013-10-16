@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC web 2013/08/24\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2013-08-22 16:22 PDT\n"
+"POT-Creation-Date: 2013-10-15 22:21 PDT\n"
 "PO-Revision-Date: 2013-08-24 13:43+0900\n"
 "Last-Translator: Lee Kangsan <treppolse@gmail.com>\n"
 "Language-Team: SETIKAH@KOREA\n"
@@ -692,18 +692,22 @@ msgstr "BOINC 메인 페이지로 돌아가기"
 msgid "This page is %stranslatable%s."
 msgstr "이 페이지는 %s번역이 가능합니다%s."
 
-# #######################################
-# download.php
-#: download.php:38
-msgid "Download BOINC"
-msgstr "BOINC 다운로드"
+#: download.php:44
+msgid "Download BOINC + Virtualbox"
+msgstr ""
 
-#: download.php:40
+#: download.php:46 download.php:56
 #, php-format
 msgid "%s for %s (%s MB)"
 msgstr "%s버전 %s용 (%s MB)"
 
-#: download.php:87
+# #######################################
+# download.php
+#: download.php:54
+msgid "Download BOINC"
+msgstr "BOINC 다운로드"
+
+#: download.php:107
 msgid ""
 "BOINC is a program that lets you donate your idle computer time to science "
 "projects like SETI@home, Climateprediction.net, Rosetta@home, World "
@@ -714,37 +718,37 @@ msgstr ""
 "그리고 다른 많은 과학 프로젝트들에게 여러분의 컴퓨터 대기 시간을 기여하도록 하는 프로그램입니다. <p> BOINC를 여러분 컴퓨터에 "
 "설치한 후 여러분의 취향에 따라서 이런 다양한 프로젝트에 접속하실 수 있습니다."
 
-#: download.php:89
+#: download.php:109
 msgid ""
 "You may run this software on a computer only if you own the computer or have "
 "the permission of its owner."
 msgstr "여러분은 이 소프트웨어를 여러분이 소유한 컴퓨터 혹은 소유자로부터 권한을 부여받은 컴퓨터에서만 실행해야 합니다."
 
-#: download.php:131
+#: download.php:151
 msgid "System requirements"
 msgstr "시스템 요구 사항"
 
-#: download.php:132
+#: download.php:152
 msgid "Release notes"
 msgstr "릴리즈 노트"
 
-#: download.php:133 index.php:85
+#: download.php:153 index.php:85 index2.php:85
 msgid "Help"
 msgstr "도움말"
 
-#: download.php:134
+#: download.php:154
 msgid "All versions"
 msgstr "모든 버전"
 
-#: download.php:135
+#: download.php:155
 msgid "Version history"
 msgstr "버전 업데이트 정보"
 
-#: download.php:136
+#: download.php:156
 msgid "GPU computing"
 msgstr "GPU 컴퓨팅"
 
-#: download.php:154
+#: download.php:174
 msgid "BOINC: compute for science"
 msgstr "BOINC: 과학을 위한 컴퓨팅"
 
@@ -817,184 +821,182 @@ msgstr "BOINC 도우미는 자원봉사자들입니다.  그들의 조언은 BOI
 msgid "%1Never%2 give email address or password information to BOINC helpers."
 msgstr "%1절대로%2 이메일 주소나 비밀번호 정보를 BOINC 도우미에게 제공하지 마세요."
 
-#: index.php:23
+#: index.php:23 index2.php:23
 msgid "Computing power"
 msgstr "컴퓨터 연산 능력"
 
-#: index.php:25
+#: index.php:25 index2.php:25
 msgid "Top 100 volunteers"
 msgstr "최고 순위 100인의 기여자들"
 
-#: index.php:26
+#: index.php:26 index2.php:26
 msgid "Statistics"
 msgstr "통계"
 
-#: index.php:54
+#: index.php:54 index2.php:54
 msgid "Active:"
 msgstr "활동:"
 
-#: index.php:54
+#: index.php:54 index2.php:54
 msgid "volunteers,"
 msgstr "기여자,"
 
-#: index.php:54
+#: index.php:54 index2.php:54
 msgid "computers.\n"
 msgstr "컴퓨터\n"
 
-#: index.php:55
+#: index.php:55 index2.php:55
 msgid "24-hour average:"
 msgstr "24 시간 평균:"
 
-#: index.php:55
+#: index.php:55 index2.php:55
 msgid "PetaFLOPS."
 msgstr "PFLOPS"
 
-#: index.php:67
+#: index.php:67 index2.php:67
 msgid "News"
 msgstr "뉴스"
 
-#: index.php:82
+#: index.php:82 index2.php:82
 msgid "Volunteer"
 msgstr "기여자"
 
 # #######################################
 # download.php
-#: index.php:84
+#: index.php:84 index2.php:84
 msgid "Download"
 msgstr "다운로드"
 
-#: index.php:86 index.php:123 index.php:174
+#: index.php:86 index.php:123 index.php:174 index2.php:86 index2.php:123
+#: index2.php:174
 msgid "Documentation"
 msgstr "문서"
 
-#: index.php:87
+#: index.php:87 index2.php:87
 msgid "Add-ons"
 msgstr "애드온"
 
-#: index.php:88
+#: index.php:88 index2.php:88
 msgid "Links"
 msgstr "링크"
 
-#: index.php:94
+#: index.php:94 index2.php:94
 #, php-format
 msgid ""
-" Use the idle time on your computer (Windows, Mac, or Linux) to cure "
-"diseases, study global warming, discover pulsars, and do many other types of "
-"scientific research.  It's safe, secure, and easy:  %sChoose%s projects  "
-"%sDownload%s and run BOINC software  %sEnter%s an email address and "
-"password. "
+" Use the idle time on your computer (Windows, Mac, Linux, or Android) to "
+"cure diseases, study global warming, discover pulsars, and do many other "
+"types of scientific research.  It's safe, secure, and easy:  %sChoose%s "
+"projects  %sDownload%s and run BOINC software  %sEnter%s an email address "
+"and password. "
 msgstr ""
-"질병 치료, 지구 온난화 연구, 펄서 발견 그리고 또 다른 종류의 과학연구를 위해 여러분 컴퓨터(윈도우, 맥, 리눅스)의 대기 시간을 "
-"사용하십시오. 이 것은 안전하고 보안이 철저하며 쉽습니다:  %s프로젝트%s를 선택하십시오  %sBOINC 소프트웨어%s를 다운로드받고 "
-"실행하십시오  %semail 주소와 비밀번호%s를 입력하십시오."
 
-#: index.php:105
+#: index.php:105 index2.php:105
 #, php-format
 msgid ""
-"Or, if you run several projects, try an %saccount manager%s such as "
-"%sGridRepublic%s or %sBAM!%s. "
+"Or, if you run several projects, try an %saccount manager%s such as %"
+"sGridRepublic%s or %sBAM!%s. "
 msgstr ""
 "혹시 여러 개의 프로젝트를 수행하고 계시다면 %s계정 관리자%s(%sGridRepublic%s이나 %sBAM!%s등)를 사용해 보십시오."
 
-#: index.php:121
+#: index.php:121 index2.php:121
 msgid "Compute with BOINC"
 msgstr "BOINC를 이용한 컴퓨터 연산"
 
-#: index.php:124
+#: index.php:124 index2.php:124
 msgid "Software updates"
 msgstr "소프트웨어 업데이트"
 
-#: index.php:131
+#: index.php:131 index2.php:131
 msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
 "you the computing power of thousands of CPUs."
 msgstr "%1과학자%2: BOINC를 이용해서 %3기여자 컴퓨팅 프로젝트%4를 생성하고 CPU 수천 개분의 연산 능력을 제공받으세요."
 
-#: index.php:135
+#: index.php:135 index2.php:135
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
 msgstr "%1대학%2: %3가상 캠퍼스 슈퍼컴퓨터 센터%4를 생성해서 BOINC를 이용하세요."
 
-#: index.php:140
+#: index.php:140 index2.php:140
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
 msgstr "%1기업체%2: %3데스크탑 그리드 컴퓨팅%4을 위해 BOINC를 이용하세요."
 
-#: index.php:152
+#: index.php:152 index2.php:152
 msgid "The BOINC project"
 msgstr "BOINC 프로젝트"
 
-#: index.php:158
+#: index.php:158 index2.php:158
 msgid "Message boards"
 msgstr "게시판"
 
-#: index.php:159
+#: index.php:159 index2.php:159
 msgid "Email lists"
 msgstr "메일링 리스트"
 
-#: index.php:160
+#: index.php:160 index2.php:160
 msgid "Personnel and contributors"
 msgstr "스텝과 공헌자들"
 
-#: index.php:161
+#: index.php:161 index2.php:161
 msgid "Events"
 msgstr "이벤트"
 
-#: index.php:162
+#: index.php:162 index2.php:162
 msgid "Papers and talks"
 msgstr "논문과 담화"
 
-#: index.php:163
+#: index.php:163 index2.php:163
 msgid "Research projects"
 msgstr "연구 프로젝트들"
 
-#: index.php:164
+#: index.php:164 index2.php:164
 msgid "Logos and graphics"
 msgstr "로고와 그래픽"
 
-#: index.php:165
+#: index.php:165 index2.php:165
 msgid "and"
 msgstr "와"
 
-#: index.php:169
+#: index.php:169 index2.php:169
 msgid "Help wanted"
 msgstr "지원자 모집!"
 
-#: index.php:171
+#: index.php:171 index2.php:171
 msgid "Programming"
 msgstr "프로그램밍"
 
-#: index.php:172
+#: index.php:172 index2.php:172
 msgid "Translation"
 msgstr "번역"
 
-#: index.php:173
+#: index.php:173 index2.php:173
 msgid "Testing"
 msgstr "테스트"
 
-#: index.php:175
+#: index.php:175 index2.php:175
 msgid "Publicity"
 msgstr "홍보"
 
-#: index.php:177
+#: index.php:177 index2.php:177
 msgid "Software development"
 msgstr "소프트웨어 개발"
 
-#: index.php:178
+#: index.php:178 index2.php:178
 msgid "APIs for add-on software"
 msgstr "add-on 소프트웨어를 위한 API"
 
-#: index.php:212
+#: index.php:212 index2.php:212
 msgid "Browser default"
 msgstr "브라우저 기본 설정"
 
-#: index.php:265
+#: index.php:265 index2.php:266
 #, php-format
 msgid ""
 "Open-source software for %svolunteer computing%s and %sgrid computing%s."
 msgstr "%s기여자 컴퓨팅%s과 %s그리드 컴퓨팅%s을 위한 오픈 소스 소프트웨어"
 
-#: index.php:278
+#: index.php:278 index2.php:279
 msgid "BOINC is based at The University of California, Berkeley"
 msgstr ""
 "BOINC는 캘리포니아 대학교 버클리 캠퍼스(The University of California, Berkeley)에 기반을 두고 "
@@ -1008,6 +1010,18 @@ msgstr "코멘트"
 #, php-format
 msgid "News is available as an %sRSS feed%s"
 msgstr "공지 사항은 %sRSS 피드%s로도 제공됩니다"
+
+#, php-format
+#~ msgid ""
+#~ " Use the idle time on your computer (Windows, Mac, or Linux) to cure "
+#~ "diseases, study global warming, discover pulsars, and do many other types of "
+#~ "scientific research.  It's safe, secure, and easy:  %sChoose%s projects  "
+#~ "%sDownload%s and run BOINC software  %sEnter%s an email address and "
+#~ "password. "
+#~ msgstr ""
+#~ "질병 치료, 지구 온난화 연구, 펄서 발견 그리고 또 다른 종류의 과학연구를 위해 여러분 컴퓨터(윈도우, 맥, 리눅스)의 대기 시간을 "
+#~ "사용하십시오. 이 것은 안전하고 보안이 철저하며 쉽습니다:  %s프로젝트%s를 선택하십시오  %sBOINC 소프트웨어%s를 다운로드받고 "
+#~ "실행하십시오  %semail 주소와 비밀번호%s를 입력하십시오."
 
 #~ msgid "Humanitarian research on disease, natural disasters and hunger."
 #~ msgstr "질병, 자연 재해, 기아에 대한 인도주의적 연구"
