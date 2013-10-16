@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-05 10:24-0700\n"
+"POT-Creation-Date: 2013-10-15 22:25-0700\n"
 "PO-Revision-Date: 2013-08-30 20:59+0000\n"
 "Last-Translator: Lycan <santdel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,15 +18,15 @@ msgstr ""
 "X-Generator: Pootle 2.5.0\n"
 "X-POOTLE-MTIME: 1377896370.0\n"
 
-#: acct_mgr.cpp:448 acct_mgr.cpp:457
+#: acct_mgr.cpp:450 acct_mgr.cpp:459
 msgid "Message from account manager"
 msgstr "Zpráva od správce účtu"
 
-#: client_msgs.cpp:85
+#: client_msgs.cpp:81
 msgid "Message from server"
 msgstr "Zpráva ze serveru"
 
-#: client_state.cpp:246
+#: client_state.cpp:258
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
@@ -34,15 +34,15 @@ msgstr ""
 "Některé úlohy vyžadují více operační paměti, než máte povoleno v "
 "předvolbách. Zkontrolujte prosím vaše předvolby."
 
-#: client_state.cpp:501
+#: client_state.cpp:520
 msgid "Couldn't write state file; check directory permissions"
 msgstr "Nelze zapsat stavový soubor, zkontrolujte práva zápisu v cílové složce."
 
-#: cs_cmdline.cpp:299
+#: cs_cmdline.cpp:303
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "Proměnná prostředí HTTP_PROXY musí obsahovat HTTP proxy adresu."
 
-#: cs_scheduler.cpp:575
+#: cs_scheduler.cpp:613
 #, c-format
 msgid ""
 "You used the wrong URL for this project.  When convenient, remove this "
@@ -51,39 +51,39 @@ msgstr ""
 "Použili jste neplatnou URL adresu pro tento projekt. Až to bude vhodné, "
 "odeberte tento projekt a poté přidejte %s"
 
-#: cs_statefile.cpp:829 ../sched/sched_types.cpp:259
+#: cs_statefile.cpp:828 ../sched/sched_types.cpp:259
 msgid "Syntax error in app_info.xml"
 msgstr "Chyba syntaxe v app_info.xml"
 
-#: cs_statefile.cpp:869
+#: cs_statefile.cpp:868
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "Soubor odkazovaný v 'app_info.xml' neexistuje:"
 
-#: current_version.cpp:90
+#: current_version.cpp:91
 msgid "A new version of BOINC is available."
 msgstr "Je dostupná nová verze BOINC."
 
-#: current_version.cpp:94
+#: current_version.cpp:94 current_version.cpp:102
 msgid "Download"
 msgstr "Stáhnout"
 
-#: log_flags.cpp:259 log_flags.cpp:436
+#: log_flags.cpp:269 log_flags.cpp:449
 msgid "Unexpected text in cc_config.xml"
 msgstr "Nečekaný text v cc_config.xml"
 
-#: log_flags.cpp:410 log_flags.cpp:462
+#: log_flags.cpp:423 log_flags.cpp:475
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Nečekaný tag v cc_config.xml"
 
-#: log_flags.cpp:427
+#: log_flags.cpp:440
 msgid "Missing start tag in cc_config.xml"
 msgstr "Chybějící startovní tag v cc_config.xml"
 
-#: log_flags.cpp:452
+#: log_flags.cpp:465
 msgid "Error in cc_config.xml options"
 msgstr "Chyba v nastavení cc_config.xml"
 
-#: log_flags.cpp:470
+#: log_flags.cpp:483
 msgid "Missing end tag in cc_config.xml"
 msgstr "Chybějící koncový tag v cc_config.xml"
 
