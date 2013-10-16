@@ -1,8 +1,8 @@
 --android BOINC/res
---gettext ../locale
+--gettext .
 --groups strings
 --domain BOINC-Android
---template ../locale/templates/%(domain)s.pot
+--template ./%(domain)s.pot
 --layout %(locale)s/%(domain)s.po
 --ignore-fuzzy
 --require-min-complete 0.9

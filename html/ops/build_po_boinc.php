@@ -38,7 +38,7 @@ msgstr ""
 
 HDR;
 
-$out = fopen("en.po", "w");
+$out = fopen("BOINC-Project-Generic.pot", "w");
 
 fwrite($out, $header);
 
@@ -50,8 +50,6 @@ stream_copy_to_stream($pipe, $out);
 
 fclose($pipe);
 fclose($out);
-
-system("mv en.po ../../locale/templates/BOINC-Project-Generic.pot\n");
 
 echo "Done\n";
 
