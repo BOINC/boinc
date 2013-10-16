@@ -1,5 +1,5 @@
 --android BOINC/res
---gettext ../locale
+--gettext .
 --groups strings
 --domain BOINC-Android
 --template ./%(domain)s.pot

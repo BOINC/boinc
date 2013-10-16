@@ -12,7 +12,7 @@ $tdir = "locale/templates";
 system("cd doc; build_po.php");
 system("tools/compare_pot doc/BOINC-Web.pot $tdir/BOINC-Web.pot $emails");
 
-system("cd html/user; build_po_boinc.php");
+system("cd html/ops; build_po_boinc.php");
 system("tools/compare_pot html/ops/BOINC-Project-Generic.pot $tdir/BOINC-Project-Generic.pot $emails");
 
 system("cd client; build_po");
@@ -27,4 +27,6 @@ system("tools/compare_pot mac_installer/BOINC-Setup.pot $tdir/BOINC-Setup.pot $e
 system("cd android; a2po export -v");
 system("tools/compare_pot android/BOINC-Android.pot $tdir/BOINC-Android.pot $emails");
 
+// as long as we're at it, generate translations for BOINC web site
+system("cd doc; update_translations.php");
 ?>

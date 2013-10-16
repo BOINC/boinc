@@ -3,13 +3,15 @@
 
 // compare_pot file1 file2 [--email email_addr ...]
 //
-// compare two .pot files, ignoring comments.
+// compare two .pot files, ignoring comments and creation time.
 // If they differ, send email to the given addresses
 
 function strip_comments($x) {
     $y = "";
     foreach ($x as $l) {
-        if (substr($l, 0, 1) != '#') $y .= $l;
+        if (substr($l, 0, 1) == '#') continue;
+        if (strstr($l, "POT-Creation-Date")) continue;
+        $y .= $l;
     }
     return $y;
 }
