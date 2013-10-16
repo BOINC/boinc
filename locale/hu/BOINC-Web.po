@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2013-08-22 16:22 PDT\n"
+"POT-Creation-Date: 2013-10-15 22:21 PDT\n"
 "PO-Revision-Date: 2013-10-09 09:40+0000\n"
 "Last-Translator: Gabor <csega@mailbox.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -737,16 +737,20 @@ msgstr "Vissza a BOINC főoldalára"
 msgid "This page is %stranslatable%s."
 msgstr "Ez az oldal %slefordítható%s."
 
-#: download.php:38
-msgid "Download BOINC"
-msgstr "A BOINC letöltése"
+#: download.php:44
+msgid "Download BOINC + Virtualbox"
+msgstr ""
 
-#: download.php:40
+#: download.php:46 download.php:56
 #, php-format
 msgid "%s for %s (%s MB)"
 msgstr "%s %s verzió (%s MB)"
 
-#: download.php:87
+#: download.php:54
+msgid "Download BOINC"
+msgstr "A BOINC letöltése"
+
+#: download.php:107
 msgid ""
 "BOINC is a program that lets you donate your idle computer time to science "
 "projects like SETI@home, Climateprediction.net, Rosetta@home, World "
@@ -759,7 +763,7 @@ msgstr ""
 "<p> Számítógépre telepítés után a BOINC tetszőleges számú projekthez "
 "csalakoztatható."
 
-#: download.php:89
+#: download.php:109
 msgid ""
 "You may run this software on a computer only if you own the computer or have "
 "the permission of its owner."
@@ -767,31 +771,31 @@ msgstr ""
 "Csak olyan számítógépeken futtassa ezt a szoftvert, ahol ön a tulajdonos, "
 "vagy rendelkezik a tulajdonos engedélyével."
 
-#: download.php:131
+#: download.php:151
 msgid "System requirements"
 msgstr "Rendszerigény"
 
-#: download.php:132
+#: download.php:152
 msgid "Release notes"
 msgstr "Verzióinformáció"
 
-#: download.php:133 index.php:85
+#: download.php:153 index.php:85 index2.php:85
 msgid "Help"
 msgstr "Segítség"
 
-#: download.php:134
+#: download.php:154
 msgid "All versions"
 msgstr "Összes verzió"
 
-#: download.php:135
+#: download.php:155
 msgid "Version history"
 msgstr "Verziótörténet"
 
-#: download.php:136
+#: download.php:156
 msgid "GPU computing"
 msgstr "GPU számítás"
 
-#: download.php:154
+#: download.php:174
 msgid "BOINC: compute for science"
 msgstr "BOINC: számítás a tudományért"
 
@@ -877,97 +881,92 @@ msgid "%1Never%2 give email address or password information to BOINC helpers."
 msgstr ""
 "%1Soha%2 ne adja ki emailcímét vagy jelszó információit a BOINC segítőknek."
 
-#: index.php:23
+#: index.php:23 index2.php:23
 msgid "Computing power"
 msgstr "Számítási teljesítmény"
 
-#: index.php:25
+#: index.php:25 index2.php:25
 msgid "Top 100 volunteers"
 msgstr "100 legjobb önkéntes"
 
-#: index.php:26
+#: index.php:26 index2.php:26
 msgid "Statistics"
 msgstr "Statisztika"
 
-#: index.php:54
+#: index.php:54 index2.php:54
 msgid "Active:"
 msgstr "Aktív:"
 
-#: index.php:54
+#: index.php:54 index2.php:54
 msgid "volunteers,"
 msgstr "önkéntes,"
 
-#: index.php:54
+#: index.php:54 index2.php:54
 msgid "computers.\n"
 msgstr "számítógép.\n"
 
-#: index.php:55
+#: index.php:55 index2.php:55
 msgid "24-hour average:"
 msgstr "24 órás átlag:"
 
 # 80%
-#: index.php:55
+#: index.php:55 index2.php:55
 msgid "PetaFLOPS."
 msgstr "PetaFLOPS."
 
-#: index.php:67
+#: index.php:67 index2.php:67
 msgid "News"
 msgstr "Hírek"
 
-#: index.php:82
+#: index.php:82 index2.php:82
 msgid "Volunteer"
 msgstr "Részvétel"
 
-#: index.php:84
+#: index.php:84 index2.php:84
 msgid "Download"
 msgstr "Letöltés"
 
-#: index.php:86 index.php:123 index.php:174
+#: index.php:86 index.php:123 index.php:174 index2.php:86 index2.php:123
+#: index2.php:174
 msgid "Documentation"
 msgstr "Dokumentáció"
 
-#: index.php:87
+#: index.php:87 index2.php:87
 msgid "Add-ons"
 msgstr ""
 
-#: index.php:88
+#: index.php:88 index2.php:88
 msgid "Links"
 msgstr "Linkek"
 
-#: index.php:94
+#: index.php:94 index2.php:94
 #, php-format
 msgid ""
-" Use the idle time on your computer (Windows, Mac, or Linux) to cure "
-"diseases, study global warming, discover pulsars, and do many other types of "
-"scientific research.  It's safe, secure, and easy:  %sChoose%s projects  "
-"%sDownload%s and run BOINC software  %sEnter%s an email address and "
-"password. "
+" Use the idle time on your computer (Windows, Mac, Linux, or Android) to "
+"cure diseases, study global warming, discover pulsars, and do many other "
+"types of scientific research.  It's safe, secure, and easy:  %sChoose%s "
+"projects  %sDownload%s and run BOINC software  %sEnter%s an email address "
+"and password. "
 msgstr ""
-"Használja számítógépe (Windows, Linux, Mac) üresjárati processzoridejét "
-"arra, hogy betegségeket gyógyítson, tanulmányozza a globális felmelegedést, "
-"pulzárokat fedezzen fel, vagy számos különböző tudományos kutatásban vegyen "
-"részt. Mindezt egyszerűen és biztonságosan: %sVálasszon%s projekteket %"
-"sTöltse le%s és futtassa a BOINC szoftvert %sAdjon meg%s egy email címet és "
-"jelszót."
 
-#: index.php:105
+#: index.php:105 index2.php:105
 #, php-format
 msgid ""
-"Or, if you run several projects, try an %saccount manager%s such as "
-"%sGridRepublic%s or %sBAM!%s. "
+"Or, if you run several projects, try an %saccount manager%s such as %"
+"sGridRepublic%s or %sBAM!%s. "
 msgstr ""
 "Ha több projektben is részt vesz, próbáljon ki egy %sfiókkezelőt%s, mint "
 "például a %sGridRepublic%s vagy a %sBAM!%s."
 
-#: index.php:121
+#: index.php:121 index2.php:121
 msgid "Compute with BOINC"
 msgstr "Számítás a BOINC segítségével"
 
-#: index.php:124
+#: index.php:124 index2.php:124
 msgid "Software updates"
 msgstr "Szoftverfrissítések"
 
-#: index.php:131
+#: index.php:131 index2.php:131
 msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
 "you the computing power of thousands of CPUs."
@@ -976,7 +975,7 @@ msgstr ""
 "létrehozásához, amellyel több ezer processzor számítási teljesítményét "
 "használhatja fel."
 
-#: index.php:135
+#: index.php:135 index2.php:135
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
@@ -984,81 +983,81 @@ msgstr ""
 "%1Egyetemek%2: Használjanak BOINC-ot egy %3Virtuális Campus "
 "Szuperszámítóközpont%4 létrehozásához."
 
-#: index.php:140
+#: index.php:140 index2.php:140
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
 msgstr ""
 "%1Vállalatok%2: Használjanak BOINC-ot %3asztali Grid számítások%4 "
 "létrehozásához."
 
-#: index.php:152
+#: index.php:152 index2.php:152
 msgid "The BOINC project"
 msgstr "A BOINC projekt"
 
-#: index.php:158
+#: index.php:158 index2.php:158
 msgid "Message boards"
 msgstr "Üzenőfalak"
 
-#: index.php:159
+#: index.php:159 index2.php:159
 msgid "Email lists"
 msgstr "Levelezőlisták"
 
-#: index.php:160
+#: index.php:160 index2.php:160
 msgid "Personnel and contributors"
 msgstr "Munkatársak és közreműködők"
 
-#: index.php:161
+#: index.php:161 index2.php:161
 msgid "Events"
 msgstr "Események"
 
-#: index.php:162
+#: index.php:162 index2.php:162
 msgid "Papers and talks"
 msgstr "Cikkek és előadások"
 
-#: index.php:163
+#: index.php:163 index2.php:163
 msgid "Research projects"
 msgstr "Kutatási projektek"
 
-#: index.php:164
+#: index.php:164 index2.php:164
 msgid "Logos and graphics"
 msgstr "Logók és grafikák"
 
-#: index.php:165
+#: index.php:165 index2.php:165
 msgid "and"
 msgstr "és"
 
-#: index.php:169
+#: index.php:169 index2.php:169
 msgid "Help wanted"
 msgstr "Segítőket keresünk"
 
-#: index.php:171
+#: index.php:171 index2.php:171
 msgid "Programming"
 msgstr "Programozás"
 
-#: index.php:172
+#: index.php:172 index2.php:172
 msgid "Translation"
 msgstr "Fordítás"
 
-#: index.php:173
+#: index.php:173 index2.php:173
 msgid "Testing"
 msgstr "Tesztelés"
 
-#: index.php:175
+#: index.php:175 index2.php:175
 msgid "Publicity"
 msgstr "Nyilvánosság"
 
-#: index.php:177
+#: index.php:177 index2.php:177
 msgid "Software development"
 msgstr "Szoftverfejlesztés"
 
-#: index.php:178
+#: index.php:178 index2.php:178
 msgid "APIs for add-on software"
 msgstr "API-k kiegészítő szoftverekhez"
 
-#: index.php:212
+#: index.php:212 index2.php:212
 msgid "Browser default"
 msgstr "Böngésző alapértelmezés"
 
-#: index.php:265
+#: index.php:265 index2.php:266
 #, php-format
 msgid ""
 "Open-source software for %svolunteer computing%s and %sgrid computing%s."
@@ -1066,7 +1065,7 @@ msgstr ""
 "Nyílt forráskódú szoftver %sönkéntes%s, illetve %sgriden végzett "
 "számításokhoz%s."
 
-#: index.php:278
+#: index.php:278 index2.php:279
 msgid "BOINC is based at The University of California, Berkeley"
 msgstr "A BOINC központja a California egyetemen, Berkeley-ben található"
 
@@ -1078,6 +1077,21 @@ msgstr ""
 #, php-format
 msgid "News is available as an %sRSS feed%s"
 msgstr ""
+
+#, php-format
+#~ msgid ""
+#~ " Use the idle time on your computer (Windows, Mac, or Linux) to cure "
+#~ "diseases, study global warming, discover pulsars, and do many other types of "
+#~ "scientific research.  It's safe, secure, and easy:  %sChoose%s projects  "
+#~ "%sDownload%s and run BOINC software  %sEnter%s an email address and "
+#~ "password. "
+#~ msgstr ""
+#~ "Használja számítógépe (Windows, Linux, Mac) üresjárati processzoridejét "
+#~ "arra, hogy betegségeket gyógyítson, tanulmányozza a globális felmelegedést, "
+#~ "pulzárokat fedezzen fel, vagy számos különböző tudományos kutatásban vegyen "
+#~ "részt. Mindezt egyszerűen és biztonságosan: %sVálasszon%s projekteket %"
+#~ "sTöltse le%s és futtassa a BOINC szoftvert %sAdjon meg%s egy email címet és "
+#~ "jelszót."
 
 #~ msgid "IBM Corporate Community Relations"
 #~ msgstr "IBM Vállalati Közösségi Kapcsolatok"
