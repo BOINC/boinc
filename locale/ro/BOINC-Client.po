@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-05 10:24-0700\n"
+"POT-Creation-Date: 2013-10-15 22:25-0700\n"
 "PO-Revision-Date: 2013-08-21 08:12+0200\n"
 "Last-Translator: mcsjohn <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,15 +18,15 @@ msgstr ""
 "20)) ? 1 : 2);;\n"
 "X-Generator: Pootle 2.1.6\n"
 
-#: acct_mgr.cpp:448 acct_mgr.cpp:457
+#: acct_mgr.cpp:450 acct_mgr.cpp:459
 msgid "Message from account manager"
 msgstr "Mesaj de la managerul de cont"
 
-#: client_msgs.cpp:85
+#: client_msgs.cpp:81
 msgid "Message from server"
 msgstr "Mesaj de la server"
 
-#: client_state.cpp:246
+#: client_state.cpp:258
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
@@ -34,16 +34,16 @@ msgstr ""
 "Unele task-uri au nevoie de mai multă memorie decât este permis de "
 "preferinţele dumneavoastră.  Vă rugăm să verificaţi preferinţele."
 
-#: client_state.cpp:501
+#: client_state.cpp:520
 msgid "Couldn't write state file; check directory permissions"
 msgstr ""
 "Nu s-a putut scrie fişierul de stare; verificaţi permisiunile directorului"
 
-#: cs_cmdline.cpp:299
+#: cs_cmdline.cpp:303
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "Varibila de sistem HTTP_PROXY trebuie să specifice un proxy HTTP"
 
-#: cs_scheduler.cpp:575
+#: cs_scheduler.cpp:613
 #, c-format
 msgid ""
 "You used the wrong URL for this project.  When convenient, remove this "
@@ -52,39 +52,39 @@ msgstr ""
 "Aţi folosit un URL greşit pentru acest proect.  Când puteţi, ştergeţi acest "
 "proiect, apoi adăugaţi %s"
 
-#: cs_statefile.cpp:829 ../sched/sched_types.cpp:259
+#: cs_statefile.cpp:828 ../sched/sched_types.cpp:259
 msgid "Syntax error in app_info.xml"
 msgstr "Eroare de sintaxă în app_info.xml"
 
-#: cs_statefile.cpp:869
+#: cs_statefile.cpp:868
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "Fişierul menţionat în app_info.xml nu există: "
 
-#: current_version.cpp:90
+#: current_version.cpp:91
 msgid "A new version of BOINC is available."
 msgstr "O nouă versiune a BOINC este disponibilă."
 
-#: current_version.cpp:94
+#: current_version.cpp:94 current_version.cpp:102
 msgid "Download"
 msgstr "Descarcă"
 
-#: log_flags.cpp:259 log_flags.cpp:436
+#: log_flags.cpp:269 log_flags.cpp:449
 msgid "Unexpected text in cc_config.xml"
 msgstr "Text neaşteptat în cc_config.xml"
 
-#: log_flags.cpp:410 log_flags.cpp:462
+#: log_flags.cpp:423 log_flags.cpp:475
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Tag nerecunoscut în cc_config.xml"
 
-#: log_flags.cpp:427
+#: log_flags.cpp:440
 msgid "Missing start tag in cc_config.xml"
 msgstr "Lipsă tag început în cc_config.xml"
 
-#: log_flags.cpp:452
+#: log_flags.cpp:465
 msgid "Error in cc_config.xml options"
 msgstr "Eroare în opţiunile cc_config.xml"
 
-#: log_flags.cpp:470
+#: log_flags.cpp:483
 msgid "Missing end tag in cc_config.xml"
 msgstr "Lipsă tag final în cc_config.xml"
 
