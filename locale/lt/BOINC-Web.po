@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2013-08-22 16:22 PDT\n"
+"POT-Creation-Date: 2013-10-15 22:21 PDT\n"
 "PO-Revision-Date: 2012-03-10 18:30+0200\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -605,16 +605,20 @@ msgstr "Grįžti į pagrindinį BOINC puslapį"
 msgid "This page is %stranslatable%s."
 msgstr "Šis puslapis %sgali būti išverstas%s."
 
-#: download.php:38
-msgid "Download BOINC"
-msgstr "Parsisiųsti BOINC"
+#: download.php:44
+msgid "Download BOINC + Virtualbox"
+msgstr ""
 
-#: download.php:40
+#: download.php:46 download.php:56
 #, php-format
 msgid "%s for %s (%s MB)"
 msgstr "%s, skirta %s (%s MB)"
 
-#: download.php:87
+#: download.php:54
+msgid "Download BOINC"
+msgstr "Parsisiųsti BOINC"
+
+#: download.php:107
 msgid ""
 "BOINC is a program that lets you donate your idle computer time to science "
 "projects like SETI@home, Climateprediction.net, Rosetta@home, World "
@@ -626,7 +630,7 @@ msgstr ""
 "World Community Grid ir kitiems. <p> Įdiegę BOINC į savo kompiuterį, galite "
 "prisijungti prie tiek projektų, kiek tik panorėsite."
 
-#: download.php:89
+#: download.php:109
 msgid ""
 "You may run this software on a computer only if you own the computer or have "
 "the permission of its owner."
@@ -634,31 +638,31 @@ msgstr ""
 "Galite naudoti šią programinę įrangą tik jei esate kompiuterio savininkas ar "
 "turite leidimą iš jo savininko."
 
-#: download.php:131
+#: download.php:151
 msgid "System requirements"
 msgstr "Reikalavimai sistemai"
 
-#: download.php:132
+#: download.php:152
 msgid "Release notes"
 msgstr "Išleidimo pastabos"
 
-#: download.php:133 index.php:85
+#: download.php:153 index.php:85 index2.php:85
 msgid "Help"
 msgstr "Pagalba"
 
-#: download.php:134
+#: download.php:154
 msgid "All versions"
 msgstr "Visos versijos"
 
-#: download.php:135
+#: download.php:155
 msgid "Version history"
 msgstr "Versijų istorija"
 
-#: download.php:136
+#: download.php:156
 msgid "GPU computing"
 msgstr ""
 
-#: download.php:154
+#: download.php:174
 msgid "BOINC: compute for science"
 msgstr "BOINC: skaičiavimai mokslui"
 
@@ -742,97 +746,93 @@ msgstr ""
 "%1Niekada%2 neatskleiskite elektroninio pašto adreso ar slaptažodžių "
 "informacijos BOINC pagalbininkams."
 
-#: index.php:23
+#: index.php:23 index2.php:23
 msgid "Computing power"
 msgstr "Skaičiavimai"
 
-#: index.php:25
+#: index.php:25 index2.php:25
 msgid "Top 100 volunteers"
 msgstr "100 geriausių dalyvių"
 
-#: index.php:26
+#: index.php:26 index2.php:26
 msgid "Statistics"
 msgstr "Statistika"
 
-#: index.php:54
+#: index.php:54 index2.php:54
 msgid "Active:"
 msgstr "Aktyvūs:"
 
-#: index.php:54
+#: index.php:54 index2.php:54
 msgid "volunteers,"
 msgstr "dalyviai,"
 
-#: index.php:54
+#: index.php:54 index2.php:54
 msgid "computers.\n"
 msgstr "kompiuteriai."
 
-#: index.php:55
+#: index.php:55 index2.php:55
 msgid "24-hour average:"
 msgstr "24 valandų vidurkis:"
 
 # 80%
-#: index.php:55
+#: index.php:55 index2.php:55
 #, fuzzy
 msgid "PetaFLOPS."
 msgstr "TeraFLOPS."
 
-#: index.php:67
+#: index.php:67 index2.php:67
 msgid "News"
 msgstr "Naujienos"
 
-#: index.php:82
+#: index.php:82 index2.php:82
 msgid "Volunteer"
 msgstr "Tapkite dalyviu"
 
-#: index.php:84
+#: index.php:84 index2.php:84
 msgid "Download"
 msgstr "Parsisiuntimas"
 
-#: index.php:86 index.php:123 index.php:174
+#: index.php:86 index.php:123 index.php:174 index2.php:86 index2.php:123
+#: index2.php:174
 msgid "Documentation"
 msgstr "Dokumentacija"
 
-#: index.php:87
+#: index.php:87 index2.php:87
 msgid "Add-ons"
 msgstr ""
 
-#: index.php:88
+#: index.php:88 index2.php:88
 msgid "Links"
 msgstr ""
 
-#: index.php:94
+#: index.php:94 index2.php:94
 #, php-format
 msgid ""
-" Use the idle time on your computer (Windows, Mac, or Linux) to cure "
-"diseases, study global warming, discover pulsars, and do many other types of "
-"scientific research.  It's safe, secure, and easy:  %sChoose%s projects  "
-"%sDownload%s and run BOINC software  %sEnter%s an email address and "
-"password. "
+" Use the idle time on your computer (Windows, Mac, Linux, or Android) to "
+"cure diseases, study global warming, discover pulsars, and do many other "
+"types of scientific research.  It's safe, secure, and easy:  %sChoose%s "
+"projects  %sDownload%s and run BOINC software  %sEnter%s an email address "
+"and password. "
 msgstr ""
-"Panaudokite laisvus kompiuterio resursus (Windows, Mac ar Linux) vaistų "
-"paieškai, globalinio atšilimo studijavimui, pulsarų paieškai ir daugeliui "
-"kitų mokslinių tyrimų sričių. Tai saugu ir paprasta: %sPasirinkite%s "
-"projektus %sParsisiųskite%s ir vykdykite BOINC programinę įrangą %sĮveskite%"
-"s elektroninio pašto adresą ir slaptažodį."
 
-#: index.php:105
+#: index.php:105 index2.php:105
 #, php-format
 msgid ""
-"Or, if you run several projects, try an %saccount manager%s such as "
-"%sGridRepublic%s or %sBAM!%s. "
+"Or, if you run several projects, try an %saccount manager%s such as %"
+"sGridRepublic%s or %sBAM!%s. "
 msgstr ""
 "Arba, jei dalyvaujate kelete projektų, išbandykite %sabonemento valdiklį%s, "
 "tokį kaip %sGridRepublic%s arba %sBAM!%s."
 
-#: index.php:121
+#: index.php:121 index2.php:121
 msgid "Compute with BOINC"
 msgstr "Skaičiuokite su BOINC"
 
-#: index.php:124
+#: index.php:124 index2.php:124
 msgid "Software updates"
 msgstr "Programinės įrangos atnaujinimai"
 
-#: index.php:131
+#: index.php:131 index2.php:131
 msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
 "you the computing power of thousands of CPUs."
@@ -840,7 +840,7 @@ msgstr ""
 "%1Mokslininkai%2: naudokite BOINC %3skaičiavimų projekto%4 sukūrimui, kuris "
 "suteiks jums tūkstančių procesorių resursus."
 
-#: index.php:135
+#: index.php:135 index2.php:135
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
@@ -848,79 +848,79 @@ msgstr ""
 "%1Universitetai%2: naudokite BOINC %3virtualaus universiteto "
 "superkompiuterių centro%4 sukūrimui."
 
-#: index.php:140
+#: index.php:140 index2.php:140
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
 msgstr "%1Kompanijos%2: naudokite BOINC %3skaičiavimams vietiniame tinkle%4."
 
-#: index.php:152
+#: index.php:152 index2.php:152
 msgid "The BOINC project"
 msgstr "BOINC projektas"
 
-#: index.php:158
+#: index.php:158 index2.php:158
 msgid "Message boards"
 msgstr "Forumai"
 
-#: index.php:159
+#: index.php:159 index2.php:159
 msgid "Email lists"
 msgstr "Diskusijos elektroniniu paštu"
 
-#: index.php:160
+#: index.php:160 index2.php:160
 msgid "Personnel and contributors"
 msgstr "Personalas ir prisidėję asmenys"
 
-#: index.php:161
+#: index.php:161 index2.php:161
 msgid "Events"
 msgstr "Renginiai"
 
-#: index.php:162
+#: index.php:162 index2.php:162
 msgid "Papers and talks"
 msgstr "Moksliniai darbai ir pristatymai"
 
-#: index.php:163
+#: index.php:163 index2.php:163
 msgid "Research projects"
 msgstr "Tyrimų projektai"
 
-#: index.php:164
+#: index.php:164 index2.php:164
 msgid "Logos and graphics"
 msgstr "Logotipai ir grafika"
 
-#: index.php:165
+#: index.php:165 index2.php:165
 msgid "and"
 msgstr "ir"
 
-#: index.php:169
+#: index.php:169 index2.php:169
 msgid "Help wanted"
 msgstr "Reikia pagalbos"
 
-#: index.php:171
+#: index.php:171 index2.php:171
 msgid "Programming"
 msgstr "Programavimas"
 
-#: index.php:172
+#: index.php:172 index2.php:172
 msgid "Translation"
 msgstr "Vertimas"
 
-#: index.php:173
+#: index.php:173 index2.php:173
 msgid "Testing"
 msgstr "Testavimas"
 
-#: index.php:175
+#: index.php:175 index2.php:175
 msgid "Publicity"
 msgstr "Viešinimas"
 
-#: index.php:177
+#: index.php:177 index2.php:177
 msgid "Software development"
 msgstr "Programinės įrangos kūrimas"
 
-#: index.php:178
+#: index.php:178 index2.php:178
 msgid "APIs for add-on software"
 msgstr "API papildomai programinei įrangai"
 
-#: index.php:212
+#: index.php:212 index2.php:212
 msgid "Browser default"
 msgstr "Standartinė naršyklės"
 
-#: index.php:265
+#: index.php:265 index2.php:266
 #, php-format
 msgid ""
 "Open-source software for %svolunteer computing%s and %sgrid computing%s."
@@ -928,7 +928,7 @@ msgstr ""
 "Atviro kodo programinė įranga %ssavanoriškiems skaičiavimams%s ir %"
 "sskaičiavimams tinkle%s."
 
-#: index.php:278
+#: index.php:278 index2.php:279
 msgid "BOINC is based at The University of California, Berkeley"
 msgstr "BOINC įsikūręs The University of California, Berkeley"
 
@@ -940,6 +940,20 @@ msgstr ""
 #, php-format
 msgid "News is available as an %sRSS feed%s"
 msgstr ""
+
+#, php-format
+#~ msgid ""
+#~ " Use the idle time on your computer (Windows, Mac, or Linux) to cure "
+#~ "diseases, study global warming, discover pulsars, and do many other types of "
+#~ "scientific research.  It's safe, secure, and easy:  %sChoose%s projects  "
+#~ "%sDownload%s and run BOINC software  %sEnter%s an email address and "
+#~ "password. "
+#~ msgstr ""
+#~ "Panaudokite laisvus kompiuterio resursus (Windows, Mac ar Linux) vaistų "
+#~ "paieškai, globalinio atšilimo studijavimui, pulsarų paieškai ir daugeliui "
+#~ "kitų mokslinių tyrimų sričių. Tai saugu ir paprasta: %sPasirinkite%s "
+#~ "projektus %sParsisiųskite%s ir vykdykite BOINC programinę įrangą %sĮveskite%"
+#~ "s elektroninio pašto adresą ir slaptažodį."
 
 #~ msgid "FreeHAL"
 #~ msgstr "FreeHAL"
