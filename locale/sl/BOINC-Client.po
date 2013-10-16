@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-05 10:24-0700\n"
+"POT-Creation-Date: 2013-10-15 22:25-0700\n"
 "PO-Revision-Date: 2013-06-05 20:02+0200\n"
 "Last-Translator: Anonymous Pootle User\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,71 +18,71 @@ msgstr ""
 "n%100==4 ? 2 : 3);\n"
 "X-Generator: Pootle 2.1.6\n"
 
-#: acct_mgr.cpp:448 acct_mgr.cpp:457
+#: acct_mgr.cpp:450 acct_mgr.cpp:459
 #, fuzzy
 msgid "Message from account manager"
 msgstr "Sporočilo strežnika projekta:"
 
-#: client_msgs.cpp:85
+#: client_msgs.cpp:81
 #, fuzzy
 msgid "Message from server"
 msgstr "Sporočilo strežnika projekta:"
 
-#: client_state.cpp:246
+#: client_state.cpp:258
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr ""
 
-#: client_state.cpp:501
+#: client_state.cpp:520
 msgid "Couldn't write state file; check directory permissions"
 msgstr "Zapisovanje datoteke stanja ni bilo možno; preverite pravice imenika"
 
-#: cs_cmdline.cpp:299
+#: cs_cmdline.cpp:303
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "HTTP_PROXY spremenljivka okolja mora določati HTTP posrednika"
 
-#: cs_scheduler.cpp:575
+#: cs_scheduler.cpp:613
 #, c-format
 msgid ""
 "You used the wrong URL for this project.  When convenient, remove this "
 "project, then add %s"
 msgstr ""
 
-#: cs_statefile.cpp:829 ../sched/sched_types.cpp:259
+#: cs_statefile.cpp:828 ../sched/sched_types.cpp:259
 msgid "Syntax error in app_info.xml"
 msgstr "Sintaktična napaka v app_info.xml"
 
-#: cs_statefile.cpp:869
+#: cs_statefile.cpp:868
 msgid "File referenced in app_info.xml does not exist: "
 msgstr ""
 
-#: current_version.cpp:90
+#: current_version.cpp:91
 msgid "A new version of BOINC is available."
 msgstr "Na voljo je nova različica BOINC."
 
-#: current_version.cpp:94
+#: current_version.cpp:94 current_version.cpp:102
 msgid "Download"
 msgstr ""
 
-#: log_flags.cpp:259 log_flags.cpp:436
+#: log_flags.cpp:269 log_flags.cpp:449
 msgid "Unexpected text in cc_config.xml"
 msgstr "Nepričakovano besedilo v cc_config.xml"
 
-#: log_flags.cpp:410 log_flags.cpp:462
+#: log_flags.cpp:423 log_flags.cpp:475
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Neprepoznana značka v cc_config.xml"
 
-#: log_flags.cpp:427
+#: log_flags.cpp:440
 msgid "Missing start tag in cc_config.xml"
 msgstr "Manjkajoča začetna značka v cc_config.xml"
 
-#: log_flags.cpp:452
+#: log_flags.cpp:465
 #, fuzzy
 msgid "Error in cc_config.xml options"
 msgstr "Neprepoznana značka v cc_config.xml"
 
-#: log_flags.cpp:470
+#: log_flags.cpp:483
 msgid "Missing end tag in cc_config.xml"
 msgstr "Manjkajoča končna značka v cc_config.xml"
 
