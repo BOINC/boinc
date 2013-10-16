@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC 7.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-06 16:50-0800\n"
+"POT-Creation-Date: 2013-10-15 22:27-0700\n"
 "PO-Revision-Date: 2013-08-09 12:27+0200\n"
 "Last-Translator: Miguel Filipe Paulino de Sousa <Miguel.veig@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,30 +16,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.5.5\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: _\n"
-"X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
 "X-Poedit-SearchPath-0: mac_installer\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
+"X-Poedit-KeywordsList: _\n"
 
-#: mac_installer/Installer.cpp:132
+#: Installer.cpp:132
 #, c-format
 msgid "Sorry, this version of %s requires system 10.4 or higher."
 msgstr ""
 "Pedimos desculpa mas esta versão do %s requer o sistema 10.4 ou superior."
 
-#: mac_installer/PostInstall.cpp:131 mac_installer/PostInstall.cpp:1211
+#: PostInstall.cpp:131 PostInstall.cpp:1211
 msgid "Yes"
 msgstr "Sim"
 
-#: mac_installer/PostInstall.cpp:132 mac_installer/PostInstall.cpp:1212
+#: PostInstall.cpp:132 PostInstall.cpp:1212
 msgid "No"
 msgstr "Não"
 
-#: mac_installer/PostInstall.cpp:134
+#: PostInstall.cpp:134
 msgid "Should BOINC run even when no user is logged in?"
 msgstr "Deve o BOINC correr se nenhum utilizador estiver logado?"
 
-#: mac_installer/PostInstall.cpp:1491
+#: PostInstall.cpp:1491
 #, c-format
 msgid ""
 "Users who are permitted to administer this computer will automatically be "
@@ -54,22 +54,22 @@ msgstr ""
 "Quer também que utilizadores com permissões não administrativas sejam "
 "capazes de correr e controlar o %s neste Mac?"
 
-#: mac_installer/PostInstall.cpp:1519
+#: PostInstall.cpp:1519
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr ""
 "Quer definir o %s como protecção de ecrã para todos os %s utilizadores neste "
 "Mac?"
 
-#: mac_installer/uninstall.cpp:80
+#: uninstall.cpp:80
 msgid "OK"
 msgstr "OK"
 
-#: mac_installer/uninstall.cpp:130
+#: uninstall.cpp:130
 msgid "Permission error after relaunch"
 msgstr "Erro de permissão depois do relançamento"
 
-#: mac_installer/uninstall.cpp:135
+#: uninstall.cpp:135
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
@@ -77,7 +77,7 @@ msgstr ""
 "A remoção pode levar vários minutos.\n"
 "Por favor aguarde."
 
-#: mac_installer/uninstall.cpp:150
+#: uninstall.cpp:150
 #, c-format
 msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
@@ -88,21 +88,21 @@ msgstr ""
 "\n"
 "Isto irá remover os ficheiros executáveis mas não os %s ficheiros de dados."
 
-#: mac_installer/uninstall.cpp:157
+#: uninstall.cpp:157
 #, c-format
 msgid "Canceled: %s has not been touched."
 msgstr "Cancelado: %s não foi alterado. "
 
-#: mac_installer/uninstall.cpp:168
+#: uninstall.cpp:168
 #, c-format
 msgid "An error occurred: error code %d"
 msgstr "Ocorreu um erro: código do erro %d"
 
-#: mac_installer/uninstall.cpp:224
+#: uninstall.cpp:224
 msgid "name  of user"
 msgstr "nome do utilizador"
 
-#: mac_installer/uninstall.cpp:261
+#: uninstall.cpp:261
 #, c-format
 msgid ""
 "Removal completed.\n"
@@ -121,7 +121,7 @@ msgstr ""
 "para cada utilizador, o ficheiro\n"
 "\"%s\"."
 
-#: mac_installer/uninstall.cpp:796
+#: uninstall.cpp:796
 #, c-format
 msgid ""
 "Enter your administrator password to completely remove %s from you "
@@ -132,10 +132,10 @@ msgstr ""
 "do seu computador.\n"
 "\n"
 
-#: mac_installer/uninstall.cpp:1543
+#: uninstall.cpp:1555
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: mac_installer/uninstall.cpp:1544
+#: uninstall.cpp:1556
 msgid "Continue..."
 msgstr "Continuar..."
